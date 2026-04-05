@@ -1,6 +1,6 @@
 // WOE: SPELLBLADE DODGE EXPERT POLEARM BUILD UPON YE.
 /datum/advclass/wretch/pariah
-	name = "Black Oak's Pariah"
+	name = "Black Oaken Pariah"
 	tutorial = "Carrying extreme beliefs not even befit of the Black Oaks, you have decided to secede yourself from the group and everyone else. This land was once great...and now, wave after wave of monsters and outsiders trample your home. Your people were the ones that settled these lands, and the foreign-backed Crown, deceitful and arrogant, has denied your people the rewards they deserve! Your extensive training in the Black Oaks has given you skill in both blades and magycks. A bounty from the crown follows you, as you had already done enough to be officially condemned by the group that was not committed to the cause due to the lure of coin."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = list(
@@ -45,7 +45,7 @@
 	subclass_stashed_items = list(
         "Sewing Kit" =  /obj/item/repair_kit,
     )
-	extra_context = "This subclass is race-limited to: Half-Elves, Elves, Dark Elves."
+	extra_context = "This class is restricted to the Elf, Half-Elf, and Dark Elf species."
 
 
 /datum/outfit/job/roguetown/wretch/pariah
@@ -127,7 +127,7 @@
 	switch(subclass_selected)
 		if("blade")
 			var/weapons = list("Elvish Longsword", "Elvish Saber", "Elvish Curveblade", "Steel Dagger")
-			var/weapon_choice = input(H, "Choose your weapon.", "FOR THE OAKS AND THE PEAKS") as anything in weapons
+			var/weapon_choice = input(H, "Choose your WEAPON.", "FOR THE OAKS AND THE PEAKS.") as anything in weapons
 			switch(weapon_choice)
 				if("Elvish Longsword")
 					r_hand = /obj/item/rogueweapon/sword/long/elvish
@@ -154,7 +154,7 @@
 		if("macebearer")
 			backr = /obj/item/rogueweapon/shield/wood
 			var/mace_weapons = list("Steel Mace", "Steel Warhammer")
-			var/mace_choice = input(H, "Choose your weapon.", "FOR THE OAKS AND THE PEAKS") as anything in mace_weapons
+			var/mace_choice = input(H, "Choose your WEAPON.", "FOR THE OAKS AND THE PEAKS.") as anything in mace_weapons
 			switch(mace_choice)
 				if("Steel Mace")
 					r_hand = /obj/item/rogueweapon/mace/steel
@@ -163,7 +163,7 @@
 			H.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_EXPERT, TRUE)
 
 	var/helmets = list("Elven Barbute", "Winged Elven Barbute")
-	var/helmet_choice = input(H, "Choose your helmet.", "LEAVES OVER STEEL") as anything in helmets
+	var/helmet_choice = input(H, "Choose your HELMET.", "LEAVES OVER STEEL.") as anything in helmets
 	switch(helmet_choice)
 		if("Elven Barbute")
 			H.equip_to_slot_or_del(new /obj/item/clothing/head/roguetown/helmet/elvenbarbute/blackoak, SLOT_HEAD, TRUE)

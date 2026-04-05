@@ -1,0 +1,4 @@
+author: "ToasterStrudes"
+delete-after: True
+changes:
+  - bugfix: "Re-adds explosion visual effects to spitfire."

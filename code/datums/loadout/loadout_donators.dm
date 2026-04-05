@@ -27,7 +27,7 @@
 	ckeywhitelist = list("eekasqueak")
 	sort_category = "Donator"
 
-/datum/loadout_item/donator_strudel1
+/datum/loadout_item/donator/strudel1
 	name = "Donator Kit - Grenzelhoftian Mage Vest"
 	path = /obj/item/enchantingkit/strudel1
 	ckeywhitelist = list("toasterstrudes")
@@ -35,6 +35,16 @@
 /datum/loadout_item/donator/strudel2
 	name = "Donator Kit - Xylixian Fasching Leotard"
 	path = /obj/item/enchantingkit/strudel2
+	ckeywhitelist = list("toasterstrudes")
+
+/datum/loadout_item/donator/strudel3
+	name = "Donator Kit - Etruscan Design Cloak"
+	path = /obj/item/enchantingkit/strudel3
+	ckeywhitelist = list("toasterstrudes")
+
+/datum/loadout_item/donator/strudel4
+	name = "Donator Kit - Form-fitting Padded Gambeson"
+	path = /obj/item/enchantingkit/strudel4
 	ckeywhitelist = list("toasterstrudes")
 
 /datum/loadout_item/donator/bat
@@ -97,9 +107,24 @@
 	path = /obj/item/clothing/suit/roguetown/armor/longcoat/eiren
 	ckeywhitelist = list("eirenxiv")
 
+/datum/loadout_item/donator/eiren5
+	name = "Donator Kit - Glintstone Longsword"
+	path = /obj/item/enchantingkit/weapon/eiren_m
+	ckeywhitelist = list("eirenxiv", "magicalbard")
+
+/datum/loadout_item/donator/eiren6
+	name = "Donator Kit - Stygian Longsword"
+	path = /obj/item/enchantingkit/weapon/eirensword
+	ckeywhitelist = list("eirenxiv", "muhsollini")
+
+/datum/loadout_item/donator/eiren7
+	name = "Donator Kit - Strigidae Armet"
+	path = /obj/item/enchantingkit/eiren_helmet
+	ckeywhitelist = list("eirenxiv") 
+
 /datum/loadout_item/donator/waff
 	name = "Donator Kit - Weeper's Lathe"
-	path = /obj/item/enchantingkit/waff
+	path = /obj/item/enchantingkit/weapon/waff
 	ckeywhitelist = list("waffai")
 
 /datum/loadout_item/donator/waff2
@@ -160,7 +185,7 @@
 	path = /obj/item/enchantingkit/ryan_psyhelm
 
 /datum/loadout_item/donator/koruu
-	name = "Donator Kit - Well-Worn Bamboo Hat"
+	name = "Donator Item - Well-Worn Bamboo Hat"
 	path = /obj/item/clothing/head/roguetown/mentorhat/koruu
 	ckeywhitelist = list("koruu", "painfeeler", "poots13", "vakiova", "maesune")
 
@@ -197,10 +222,18 @@
 	path = /obj/item/enchantingkit/stinketh_pike
 	ckeywhitelist = list("stinkethstonketh")
 
-/datum/loadout_item/donator/drd/lsword
+/datum/loadout_item/donator/drd
 	name = "Donator Kit - Ornate Longsword"
 	path = /obj/item/enchantingkit/drd_lsword
 	ckeywhitelist = list("drd2021")
+
+/datum/loadout_item/donator/drd/caparison
+	name = "Donator Item - House Woerden Caparison"
+	path = /obj/item/caparison/drd
+
+/datum/loadout_item/donator/drd/shield
+	name = "Donator Kit - House Woerden Shield"
+	path = /obj/item/enchantingkit/weapon/drd_shield
 
 /datum/loadout_item/donator/lmwevil/brassbeak
 	name = "Donator Item - Brass Beak Mask"
@@ -224,3 +257,23 @@
 /datum/loadout_item/donator/maesune/sabre
 	name = "Donator Kit - Decorated Sabre"
 	path = /obj/item/enchantingkit/weapon/maesune_sabre
+
+/datum/loadout_item/donator/nerocavalier
+	name = "Donator Kit - Blacksteel Longsword"
+	path = /obj/item/enchantingkit/weapon/noire_flsword
+	ckeywhitelist = list("nerocavalier")
+
+/datum/loadout_item/donator/walkthewaste
+	name = "Donator Item - Worn Bamboo Hat"
+	path = /obj/item/clothing/head/roguetown/mentorhat/walkthewaste
+	ckeywhitelist = list("walkthewaste")
+
+/datum/loadout_item/donator/sci_flamesword
+	name = "Donator Item - Flametongue"
+	path = /obj/item/enchantingkit/sci_flame
+	ckeywhitelist = list("scidragon")
+
+/datum/loadout_item/donator/sci_sandsword
+	name = "Donator Item - Sandlash"
+	path = /obj/item/enchantingkit/sci_sand
+	ckeywhitelist = list("scidragon")

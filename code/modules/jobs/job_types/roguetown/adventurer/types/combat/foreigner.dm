@@ -299,7 +299,7 @@
 
 /datum/outfit/job/roguetown/adventurer/freishepherd/pre_equip(mob/living/carbon/human/H)
 	..()
-	mask = /obj/item/clothing/head/roguetown/armingcap
+	mask = /obj/item/clothing/head/roguetown/armingcap/padded
 	head = /obj/item/clothing/head/roguetown/chaperon/greyscale/shepherd
 	neck = /obj/item/clothing/neck/roguetown/psicross/reform
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/shepherd
@@ -308,7 +308,7 @@
 	beltl = /obj/item/rogueweapon/stoneaxe/battle/steppesman/chupa
 	beltr = /obj/item/rogueweapon/huntingknife/idagger/navaja/freifechter
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/otavan/shepherd
-	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced/short
+	shoes = /obj/item/clothing/shoes/roguetown/grenzelhoft/freifechter
 	backl = /obj/item/storage/backpack/rogue/backpack
 	backpack_contents = list(
 						/obj/item/flashlight/flare/torch = 1,
@@ -344,14 +344,15 @@
 	to_chat(H, span_warning("You're an itinerant weapons expert that was trained in a Grenzelhoftian fencing school, carrying with you your weapon, your skillset, and your pride."))
 	H.set_blindness(0)
 	if(H.mind)
-		var/weapons = list("Balanced Longsword","Spear & Punch Dagger","Sabre")
+		var/weapons = list("Balanced Longsword & Seax","Spear & Punch Dagger","Sabre")
 		var/weapon_choice = input(H, "Choose your expertise.", "TAKE UP ARMS") as anything in weapons
 		switch(weapon_choice)
-			if("Balanced Longsword")
+			if("Balanced Longsword & Seax")
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
 				l_hand = /obj/item/rogueweapon/sword/long/fencerguy
-				r_hand = /obj/item/rogueweapon/huntingknife/combat
+				r_hand = /obj/item/rogueweapon/huntingknife/combat/fencerguy
 				backr = /obj/item/rogueweapon/scabbard/sword
+				beltr = /obj/item/rogueweapon/scabbard/sheath
 			if("Spear & Punch Dagger")
 				H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_EXPERT, TRUE)
 				H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_JOURNEYMAN, TRUE)
@@ -368,7 +369,7 @@
 	gloves = /obj/item/clothing/gloves/roguetown/angle/grenzelgloves
 	neck = /obj/item/clothing/neck/roguetown/fencerguard/generic
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
-	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/otavan
+	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants
 	shoes = /obj/item/clothing/shoes/roguetown/grenzelhoft
 	backl = /obj/item/storage/backpack/rogue/satchel
 	belt = /obj/item/storage/belt/rogue/leather

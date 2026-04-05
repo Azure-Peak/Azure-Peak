@@ -44,7 +44,7 @@
 	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
 	sleeved = 'icons/clothing/onmob/donor_sleeves_armor.dmi'
 
-//Strudles donator item - mage vest (same as robes) and xylix tabard
+//Strudles donator item - mage vest, xylix tabard, etruscan cloak, and formfitted gambeson
 /obj/item/clothing/suit/roguetown/shirt/robe/sofiavest
 	name = "grenzelhoftian mages vest"
 	desc = "A vest often worn by those of the Grenzelhoftian mages college."
@@ -74,6 +74,33 @@
 	color = CLOTHING_DARK_GREY
 	detail_tag = "_detail"
 	detail_color = CLOTHING_WHITE
+
+/obj/item/clothing/cloak/poncho/dittocloak
+	name = "etruscan design cloak"
+	desc = "A overly fancy and nicely designed Cloak with what appears to be Etruscan silks. Looks expensive."
+	detail_tag = "_detail"
+	altdetail_tag = "_detailalt"
+	adjustable = CAN_CADJUST
+	alternate_worn_layer = 9.9 // okay look this is weird but its to cover hair :)
+	color = CLOTHING_WHITE
+	detail_color = CLOTHING_WHITE
+	altdetail_color = CLOTHING_WHITE
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+	sleeved = 'icons/clothing/onmob/donor_sleeves_armor.dmi'
+	icon_state = "dittocloak"
+	item_state = "dittocloak"
+	sleevetype = "dittocloak"
+	nodismemsleeves = TRUE
+
+/obj/item/clothing/suit/roguetown/armor/gambeson/heavy/strudels
+	name = "form-fitting padded gambeson"
+	desc = "A normal looking padded gambeson that seems to have been custom fitted to a specific body for more comfort."
+	icon_state = "formfit"
+	item_state = "formfit"
+	color = "#ffffff"
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
 
 //Bat's donator item - custom harp sprite
 /obj/item/rogue/instrument/harp/handcarved
@@ -180,6 +207,44 @@
 			pic.color = get_detail_color()
 		add_overlay(pic)
 
+/obj/item/rogueweapon/eirenxiv/eiren_m
+	name = "glintstone longsword"
+	desc = "A glimmering blade, forged from a blue-white ore found rarely within the duchy of Azuria. Identical to steel in its properties, the tempering process to preserve the blue sheen is extensive and time consuming."
+	icon_state = "eiren_m"
+	icon = 'icons/obj/items/donor_weapons_64.dmi'
+	sheathe_icon = "eiren_m"
+	bigboy = TRUE
+
+/obj/item/rogueweapon/eirenxiv/eirensword
+	name = "stygian longsword"
+	desc = "A finely crafted steel longsword, its design perfectly combining elegance and practicality. Quenched in white oil, refined by the dwarves of Hammerhold, the blade holds a darker hue than usual."
+	icon_state = "eirensword"
+	icon = 'icons/obj/items/donor_weapons_64.dmi'
+	sheathe_icon = "eirensword"
+	bigboy = TRUE
+
+/obj/item/clothing/head/roguetown/helmet/heavy/knight/armet/eiren_helmet
+	name = "strigidae armet"
+	desc = "An armet of distinct bird like design with a pronounced beak. \
+		Close to the teachings of Noc himself, it shields the curious gaze of the one wearing it. \
+		This one has seen some use and may be fitted with a great plume atop, to bear heraldic colors."
+	icon_state = "armetowl"
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+
+/obj/item/clothing/head/roguetown/helmet/heavy/knight/armet/eiren_helmet/attackby(obj/item/W, mob/living/user, params)
+	..()
+	if(!(istype(W, /obj/item/natural/feather) && !detail_tag))
+		return
+	var/choice = input(user, "Choose a color.", "Plume") as anything in COLOR_MAP
+	user.visible_message(span_warning("[user] adds [W] to [src]."))
+	user.transferItemToLoc(W, src, FALSE, FALSE)
+	detail_color = COLOR_MAP[choice]
+	detail_tag = "_detail"
+	update_icon()
+	if(loc == user && ishuman(user))
+		var/mob/living/carbon/H = user
+		H.update_inv_head()
 
 /obj/item/clothing/head/roguetown/duelhat/pretzel
 	name = "rethrifted gravedigger's hat" 
@@ -403,6 +468,21 @@
 	icon_state = "drd_lsword"
 	icon = 'icons/obj/items/donor_weapons_64.dmi'
 
+/obj/item/caparison/drd
+	name = "\improper House Woerden caparison"
+	desc = "The livery of House Woerden: Pale blue, and white. A deer's head marks the flanks of the caparison."
+	icon = 'icons/clothing/donor_clothes.dmi'
+	icon_state = "drd_caparison"
+	caparison_icon = 'icons/clothing/onmob/donor_caparisons.dmi'
+	caparison_state = "drd_caparison"
+	female_caparison_state = "drd_caparison-f"
+
+/obj/item/rogueweapon/drd/shield
+	name = "kite shield"
+	desc = "The heraldry of the near-fallen House Woerden: Argent and celestial-azure, per bend, in fess point a deer head erased affronty gray."
+	icon_state = "drd_shield"
+	icon = 'icons/obj/items/donor_weapons.dmi'
+
 //LMWEVIL
 /obj/item/clothing/mask/rogue/courtphysician/brassbeak
 	name = "\improper Society of the Brass Beak mask"
@@ -447,3 +527,36 @@
 	Borne upon it, a freshly carved inscription reads, \"But The Darkness Comprehended It Not\"."
 	icon_state = "maesune_shield"
 	icon = 'icons/obj/items/donor_weapons.dmi'
+
+//NEROCAVALIER
+/obj/item/rogueweapon/nerocavalier/flsword
+	name = "blacksteel longsword"
+	desc = "A sleek blade of a dark, and burnished hue. A handle carved from a rosawood branch. A pairing that should sing a melody sweeter than any harp as it parts the air.. and yet, beautiful it may be, it is not worthy of song."
+	icon_state = "flsword"
+	icon = 'icons/obj/items/donor_weapons_64.dmi'
+	bigboy = TRUE
+
+//WALKTHEWASTE
+/obj/item/clothing/head/roguetown/mentorhat/walkthewaste
+	armor = ARMOR_CLOTHING
+
+//SCIDRAGON
+/obj/item/rogueweapon/sword/sabre/shamshir/dono_scidragon_flame
+	name = "flametongue"
+	desc = "An eternal flame dances and flickers across the blade of this shamshir, fueled by the passion of its wielder, promising to bring the heat of the long-away desert to its victims."
+	icon = 'icons/obj/items/donor_weapons_64.dmi'
+	icon_state = "sci_firetongue"
+
+/obj/item/rogueweapon/sword/sabre/shamshir/dono_scidragon_flame/ComponentInitialize()
+	. = ..()
+	AddComponent(/datum/component/ignitable/fluff/sci_flame)
+
+/obj/item/rogueweapon/sword/sabre/shamshir/dono_scidragon_sand
+	name = "sandlash"
+	desc = "Fury of an untamable desert sandstorm, conjured along the steel of this shamshir, destined to bite and lash at the target of its owner's ire. Or perhaps just business."
+	icon = 'icons/obj/items/donor_weapons_64.dmi'
+	icon_state = "sci_sandlash"
+
+/obj/item/rogueweapon/sword/sabre/shamshir/dono_scidragon_sand/ComponentInitialize()
+	. = ..()
+	AddComponent(/datum/component/ignitable/fluff/sci_sand)

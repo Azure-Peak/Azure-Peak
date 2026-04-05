@@ -261,6 +261,9 @@
 			var/datum/component/arousal/CAR = user.GetComponent(/datum/component/arousal)
 			if(CAR)
 				CAR.adjust_arousal_special(src, 2)
+
+		user.changeMaxDodge(2)
+		user.dodgetime = clamp(user.dodgetime - 2, 0, CLICK_CD_DODGE)
 				
 	log_combat(user, M, "attacked", src.name, "(INTENT: [uppertext(user.used_intent.name)]) (DAMTYPE: [uppertext(damtype)])")
 

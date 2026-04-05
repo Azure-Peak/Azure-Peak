@@ -224,7 +224,8 @@
 /obj/item/rogueweapon/stoneaxe/woodcut/bronze
 	name = "bronze axe"
 	icon_state = "bronzeaxe"
-	desc = "An antiquital handstaff, fitted with a bronze axhead. Such a tool once allowed humenity to carve civilization out of Psydonia's wildernesses; now, it's a rare sight beyond the Deadland's nomadic barbarian-tribes."
+	desc = "An antiquital handstaff, fitted with a bronze axhead. Such a tool once allowed humenity to carve civilization out of Psydonia's wildernesses; now, it's a rare \
+	sight beyond the Deadland's nomadic barbarian-tribes."
 	force = 23 //Basic balance idea. Damage's between iron and steel, but with a sharper edge than steel. Probably not historically accurate, but we're here to have fun.
 	force_wielded = 27
 	max_blade_int = 550
@@ -238,7 +239,8 @@
 /obj/item/rogueweapon/stoneaxe/woodcut/bronzebattleaxe
 	name = "bronze war axe"
 	icon_state = "bronzebattleaxe"
-	desc = "An antiquital handstaff, fitted with a thrice-wedged bronze axhead. The unique design of its edge, similar to the khopesh, ensures that each swing properly ferries all of its wielder's strength into its destination."
+	desc = "An antiquital handstaff, fitted with a thrice-wedged bronze axhead. The unique design of its edge, similar to the khopesh, ensures that each \
+	swing properly ferries all of its wielder's strength into its destination."
 	force = 23 // Similar presentation to a battle axe, albeit without the durability or full damage.
 	possible_item_intents = list(/datum/intent/axe/cut, /datum/intent/axe/chop, /datum/intent/axe/bash)
 	gripped_intents = list(/datum/intent/axe/cut, /datum/intent/axe/chop, /datum/intent/axe/bash/battle)
@@ -264,9 +266,20 @@
 	smeltresult = /obj/item/ingot/steel
 	wdefense = 3
 
+/obj/item/rogueweapon/stoneaxe/woodcut/steel/decorated
+	name = "decorated axe"
+	icon_state = "nsapo"
+	desc = "Traditionally referred to as a 'nsapo', this beautifully decorated axe traces its roots back to the earliest daes of Psydonian \
+	civilization. Such makes it a favorite amongst the nobility of both Naledi and Ranenshen."
+	max_integrity = 300
+	smeltresult = /obj/item/ingot/gold
+	sellprice = 100
+	wdefense = 5
+
 /obj/item/rogueweapon/stoneaxe/woodcut/steel/paaxe
 	name = "ancient alloy axe"
-	desc = "A hatchet of polished gilbranze. Vheslyn molested the hearts of Man with sin - of greed towards the better offerings, and of lust for His divinity. With a single blow, blood gouted from bone and seeped into the soil; the first murder."
+	desc = "A hatchet of polished gilbranze. Vheslyn molested the hearts of Man with sin - of greed towards the better offerings, and of lust for His divinity. With \
+	a single blow, blood gouted from bone and seeped into the soil; the first murder."
 	icon_state = "ahandaxe"
 	smeltresult = /obj/item/ingot/aaslag
 
@@ -377,7 +390,8 @@
 
 /obj/item/rogueweapon/stoneaxe/battle/steppesman
 	name = "aavnic valaška"
-	desc = "A steel axe of Aavnic make that combines a deadly weapon with a walking stick - hence its pointed end. It has a flat head that fits the hand comfortably, and it's usable for chopping and smashing. You could probably stab someone if you tried really hard."
+	desc = "A steel axe of Aavnic make that combines a deadly weapon with a walking stick - hence its pointed end. It has a flat head that \
+	fits the hand comfortably, and it's usable for chopping and smashing. You could probably stab someone if you tried really hard."
 	possible_item_intents = list(/datum/intent/axe/cut, /datum/intent/axe/chop, /datum/intent/mace/smash)
 	gripped_intents = list(/datum/intent/axe/cut, /datum/intent/axe/chop, /datum/intent/mace/smash, /datum/intent/axe/bash/battle)
 	force_wielded = 25	//No damage changes for wielded/unwielded
@@ -386,7 +400,8 @@
 
 /obj/item/rogueweapon/stoneaxe/battle/steppesman/chupa
 	name = "aavnic ćiupaga"
-	desc = "A steel axe of Aavnic make that combines a deadly weapon with a walking stick - hence its pointed end. It has a flat head that fits the hand comfortably, and it's usable for chopping and smashing. It can hook an opponent's weapon in a pinch. It carries the colours of Szöréndnížina."
+	desc = "A steel axe of Aavnic make that combines a deadly weapon with a walking stick - hence its pointed end. It has a flat head that \
+	fits the hand comfortably, and it's usable for chopping and smashing. It can hook an opponent's weapon in a pinch. It carries the colours of Szöréndnížina."
 	possible_item_intents = list(/datum/intent/axe/cut, /datum/intent/axe/cut/lunge, /datum/intent/sword/disarm)
 	gripped_intents = list(/datum/intent/axe/cut ,/datum/intent/axe/chop, /datum/intent/mace/smash)
 	force = 22
@@ -501,7 +516,8 @@
 	possible_item_intents = list(/datum/intent/axe/cut, /datum/intent/axe/chop, /datum/intent/mace/strike)
 	gripped_intents = list(/datum/intent/axe/cut/long, /datum/intent/axe/chop/long, /datum/intent/mace/strike, /datum/intent/mace/rangedthrust)
 	name = "poleaxe"
-	desc = "A poleaxe, fitted with a reinforced shaft and a beaked axhead of steel. It is the ultimate weapon for a well-seasoned knight, capable of humbling any foe that may assail their presence. </br>'Away with you, vile beggar!'"
+	desc = "A poleaxe, fitted with a reinforced shaft and a beaked axhead of steel. It is the ultimate weapon for a well-seasoned knight, capable of \
+	humbling any foe that may assail their presence. </br>'Away with you, vile beggar!'"
 	icon_state = "steelpoleaxe"
 	max_blade_int = 300
 
@@ -511,7 +527,10 @@
 	possible_item_intents = list(/datum/intent/axe/cut, /datum/intent/axe/chop, /datum/intent/mace/strike) //When possible, add the longsword's 'alternate grip' mechanic to let people flip this around into a Mace-scaling weapon with swapped damage.
 	gripped_intents = list(/datum/intent/axe/cut/long, /datum/intent/axe/chop/long, /datum/intent/mace/strike, /datum/intent/mace/rangedthrust) //Axe-equivalent to the Godendag or Grand Mace.
 	name = "silver poleaxe"
-	desc = "A poleaxe, fitted with a reinforced shaft and a beaked axhead of pure silver. It may not stop the darkness; but it will halt its march, long enough, to shepherd away the defenseless. </br>'O'er the Horizon, the stars and spirals I see; and below it, the horrors that've been felled by me. Through the darkness, I see my home and its beautiful light; and it will continue to shimmer, as long as I fight. Forever I stand, forever I'll hold - 'til the Horizon grows still, and my spirit trails home..'"
+	desc = "A poleaxe, fitted with a reinforced shaft and a beaked axhead of pure silver. It may not stop the darkness; but it will halt \
+	its march, long enough, to shepherd away the defenseless. </br>'O'er the Horizon, the stars and spirals I see; and below it, the horrors \
+	that've been felled by me. Through the darkness, I see my home and its beautiful light; and it will continue to shimmer, as long as I \
+	fight. Forever I stand, forever I'll hold - 'til the Horizon grows still, and my spirit trails home..'"
 	icon_state = "silverpolearm"
 	minstr = 11
 	max_blade_int = 350
@@ -536,7 +555,9 @@
 	possible_item_intents = list(/datum/intent/axe/cut, /datum/intent/axe/chop, /datum/intent/mace/strike) //When possible, add the longsword's 'alternate grip' mechanic to let people flip this around into a Mace-scaling weapon with swapped damage.
 	gripped_intents = list(/datum/intent/axe/cut/long, /datum/intent/axe/chop/long, /datum/intent/mace/rangedthrust, /datum/intent/mace/strike) //Axe-equivalent to the Godendag or Grand Mace.
 	name = "psydonic poleaxe"
-	desc = "A poleaxe, fitted with a reinforced shaft and a beaked axhead of alloyed silver. As the fragility of swords've become more apparent, the Psydonic Orders - following the disastrous Massacre of Blastenghyll - have shifted their focus towards arming their paladins with longer-lasting greatweapons."
+	desc = "A poleaxe, fitted with a reinforced shaft and a beaked axhead of alloyed silver. As the fragility of swords've \
+	become more apparent, the Psydonic Orders - following the disastrous Massacre of Blastenghyll - have shifted their focus \
+	towards arming their paladins with longer-lasting greatweapons."
 	icon_state = "silverpolearm"
 	minstr = 11
 	max_blade_int = 350
@@ -572,7 +593,8 @@
 	possible_item_intents = list(/datum/intent/axe/cut, /datum/intent/axe/chop, SPEAR_BASH) //bash is for nonlethal takedowns, only targets limbs
 	gripped_intents = list(/datum/intent/axe/cut/long, /datum/intent/axe/chop/long, /datum/intent/axe/sweep)
 	name = "double-headed steel greataxe"
-	desc = "A large axe with a twinned axhead of steel, requiring both hands to properly swing. It carves, chops, and cleaves from afar. </br>'Crush your enemies, see them driven before you, and hear the lamentations of the women..'"
+	desc = "A large axe with a twinned axhead of steel, requiring both hands to properly swing. It carves, chops, and cleaves from \
+	afar. </br>'Crush your enemies, see them driven before you, and hear the lamentations of the women..'"
 	icon_state = "doublegreataxe"
 	max_blade_int = 175
 	minstr = 13
@@ -580,7 +602,8 @@
 
 /obj/item/rogueweapon/greataxe/steel/doublehead/graggar
 	name = "vicious greataxe"
-	desc = "Crystalline violence, jagged and cruel - fit for only those of anointed strength. Though the edge thrums with unspeakable power, it is only your hands that can determine whether it will defy fate.. ..or fufill it."
+	desc = "Crystalline violence, jagged and cruel - fit for only those of anointed strength. Though the edge thrums with unspeakable \
+	power, it is only your hands that can determine whether it will defy fate.. ..or fufill it."
 	icon_state = "graggargaxe"
 	minstr = 12
 	minstr_req = FALSE //Retains same performance as before, as a precaution.
@@ -599,7 +622,8 @@
 
 /obj/item/rogueweapon/greataxe/steel/doublehead/minotaur
 	name = "minotaur greataxe"
-	desc = "An incredibly heavy greataxe, pried from the cold-and-dead hands of Dendor's most wicked beaste. It commands the strength of a true champion to wield. </br>'Grant me one request; grant me REVENGE! And if you do not listen, then to HELL with you!'"
+	desc = "An incredibly heavy greataxe, pried from the cold-and-dead hands of Dendor's most wicked beaste. It commands the strength \
+	of a true champion to wield. </br>'Grant me one request; grant me REVENGE! And if you do not listen, then to HELL with you!'"
 	icon_state = "minotaurgreataxe"
 	max_blade_int = 333
 	minstr = 14 //Double-headed greataxe with extra durability. Rare dungeon loot in minotaur dungeons; no longer drops from every single minotaur.
@@ -607,7 +631,8 @@
 
 /obj/item/rogueweapon/stoneaxe/woodcut/troll
 	name = "crude heavy axe"
-	desc = "An axe clearly made for some large creecher. Though crude and imbalanced, the massive stone axhead is more-than-capable of splitting steel in twain. </br>'Ah, the great communicator! Allow me to communicate my desire to have your mammons!'"
+	desc = "An axe clearly made for some large creecher. Though crude and imbalanced, the massive stone axhead is more-than-capable of splitting \
+	steel in twain. </br>'Ah, the great communicator! Allow me to communicate my desire to have your mammons!'"
 	icon_state = "trollaxe"
 	wbalance = WBALANCE_HEAVY
 	possible_item_intents = list(/datum/intent/axe/cut, /datum/intent/axe/chop, /datum/intent/axe/bash)

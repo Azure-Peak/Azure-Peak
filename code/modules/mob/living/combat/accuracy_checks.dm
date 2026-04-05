@@ -45,6 +45,16 @@
 	if(HAS_TRAIT(user, TRAIT_CURSE_RAVOX))
 		chance2hit -= 40
 
+	if(HAS_TRAIT(user, TRAIT_GUIDANCE))
+		chance2hit += FULL_GUIDANCE_ACCURACY
+	else if(HAS_TRAIT(user, TRAIT_LESSER_GUIDANCE))
+		chance2hit += LESSER_GUIDANCE_ACCURACY
+
+	if(HAS_TRAIT(user, TRAIT_REVERSE_GUIDANCE))
+		chance2hit -= FULL_GUIDANCE_ACCURACY
+	else if(HAS_TRAIT(user, TRAIT_LESSER_REVERSE_GUIDANCE))
+		chance2hit -= LESSER_GUIDANCE_ACCURACY
+
 	chance2hit += accuracy_bonus
 
 	chance2hit = CLAMP(chance2hit, 5, 93)
@@ -77,8 +87,8 @@
 	if(used_intent)
 		if(used_intent.blade_class == BCLASS_STAB)
 			bonus += 10
-		if(used_intent.blade_class == BCLASS_HALFSWORD)
-			bonus += 20	//Double that of stab
+		if(used_intent.blade_class == BCLASS_PICK)
+			bonus += 15
 		if(used_intent.blade_class == BCLASS_CUT)
 			bonus += 6
 		if((used_intent.blade_class == BCLASS_BLUNT || used_intent.blade_class == BCLASS_SMASH) && check_zone(zone) != zone)	//A mace can't hit the eyes very well

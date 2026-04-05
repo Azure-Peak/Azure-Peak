@@ -250,7 +250,7 @@
 /atom/movable/screen/alert/status_effect/buff/darkvision
 	name = "Darkvision"
 	desc = "I can see in the dark somewhat."
-	icon_state = "buff"
+	icon_state = "darkvision"
 
 /datum/status_effect/buff/darkvision
 	id = "darkvision"

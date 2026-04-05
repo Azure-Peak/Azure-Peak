@@ -101,7 +101,7 @@
 	/// This determines what type of antimagic is needed to block the spell.
 	/// If SPELL_REQUIRES_NO_ANTIMAGIC is set in Spell requirements,
 	/// The spell cannot be cast if the caster has any of the antimagic flags set.
-	var/antimagic_flags = MAGIC_RESISTANCE
+	var/antimagic_flags = MAGIC_RESISTANCE_HOLY
 
 	/// If set to a positive number, the spell will produce sparks when casted.
 	var/sparks_amt = 0
@@ -711,6 +711,16 @@
 				to_chat(owner, span_warning("Holding a weapon interferes with my arcyne conduits! This spell is more exhausting than usual."))
 			else
 				to_chat(owner, span_warning("My hands still tingle from holding a weapon - my arcyne conduits are disrupted! This spell is more exhausting than usual."))
+
+	// Break invisibility on spell cast, same as proc_holder spells
+	if(owner.mob_timers[MT_INVISIBILITY] > world.time)
+		owner.mob_timers[MT_INVISIBILITY] = world.time
+		owner.update_sneak_invis(reset = TRUE)
+	if(isliving(owner))
+		var/mob/living/L = owner
+		if(L.rogue_sneaking)
+			L.mob_timers[MT_FOUNDSNEAK] = world.time
+			L.update_sneak_invis(reset = TRUE)
 
 	// Actually cast the spell. Main effects go here
 	var/cast_result = cast(target)

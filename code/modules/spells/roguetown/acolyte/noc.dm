@@ -8,6 +8,8 @@ to still keep this unavailable to mages... for the moment, at least.
 /obj/effect/proc_holder/spell/invoked/blindness
 	name = "Blindness"
 	desc = "Direct a mote of living darkness to temporarily blind another. \n(-3 PERCEPTION, REDUCED VISION CONE)"
+	action_icon = 'icons/mob/actions/nocmiracles.dmi'
+	overlay_icon = 'icons/mob/actions/nocmiracles.dmi'
 	overlay_state = "blindness"
 	clothes_req = FALSE
 	releasedrain = 30
@@ -79,6 +81,8 @@ about the wind-pipe or whatever. So itj ust. Its in my mind. Ok? Redoing the ENT
 */
 
 /obj/effect/proc_holder/spell/invoked/silence/miracle
+	action_icon = 'icons/mob/actions/nocmiracles.dmi'
+	overlay_icon = 'icons/mob/actions/nocmiracles.dmi'
 	miracle = TRUE
 	devotion_cost = 40 // "worse" than blindness in most practical cases so its a little less. we'll see.
 	chargetime = 0
@@ -96,6 +100,9 @@ Somewhat fitting, considering the broadness of their domains. I also just think 
 /obj/effect/proc_holder/spell/self/blindnessorsilence
 	name = "Blindness/Silence"
 	desc = "Choose to blind the enemy's eyes (-3 PER, REDUCED VISION CONE) or bind their throat (MUTES, DOES NOT WORK ON FULL-FLEDGED MAGES)."
+	action_icon = 'icons/mob/actions/nocmiracles.dmi'
+	overlay_icon = 'icons/mob/actions/nocmiracles.dmi'
+	overlay_state = "blind_silence"
 	miracle = TRUE
 	chargetime = 0
 	chargedrain = 0
@@ -138,8 +145,9 @@ Somewhat fitting, considering the broadness of their domains. I also just think 
 /obj/effect/proc_holder/spell/invoked/old_blindness
 	name = "Blindness"
 	desc = "Direct a mote of living darkness to temporarily blind another."
+	action_icon = 'icons/mob/actions/nocmiracles.dmi'
+	overlay_icon = 'icons/mob/actions/nocmiracles.dmi'
 	overlay_state = "blindness"
-	base_icon_state = "wisescroll"
 	clothes_req = FALSE
 	releasedrain = 30
 	chargedrain = 0
@@ -172,8 +180,9 @@ Somewhat fitting, considering the broadness of their domains. I also just think 
 
 /obj/effect/proc_holder/spell/invoked/invisibility
 	name = "Invisibility"
+	action_icon = 'icons/mob/actions/nocmiracles.dmi'
+	overlay_icon = 'icons/mob/actions/nocmiracles.dmi'
 	overlay_state = "invisibility"
-	base_icon_state = "wisescroll"
 	desc = "Make another (or yourself) invisible for some time. Duration scales with intelligence. Casting, attacking or being attacked will cancel the duration."
 	releasedrain = 30
 	chargedrain = 5
@@ -225,7 +234,9 @@ Somewhat fitting, considering the broadness of their domains. I also just think 
 /obj/effect/proc_holder/spell/self/noc_spell_bundle
 	name = "Arcyne Affinity"
 	desc = "Allows you to learn a set of empowering, utility or combat spells."
-	base_icon_state = "wisescroll"
+	action_icon = 'icons/mob/actions/nocmiracles.dmi'
+	overlay_icon = 'icons/mob/actions/nocmiracles.dmi'
+	overlay_state = "spellpack"
 	miracle = TRUE
 	devotion_cost = 200
 	recharge_time = 25 MINUTES
@@ -303,8 +314,9 @@ Somewhat fitting, considering the broadness of their domains. I also just think 
 //15 PER peer-ahead.
 /obj/effect/proc_holder/spell/invoked/noc_sight
 	name = "Noc's Gaze"
+	action_icon = 'icons/mob/actions/nocmiracles.dmi'
+	overlay_icon = 'icons/mob/actions/nocmiracles.dmi'
 	overlay_state = "noc_sight"
-	base_icon_state = "wisescroll"
 	desc = "Peer ahead. (Use MMB to project your vision as if you had a very high perception.)"
 	chargetime = 0
 	chargedrain = 0
@@ -355,7 +367,8 @@ Somewhat fitting, considering the broadness of their domains. I also just think 
 	name = "Enlightenment"
 	desc = "Invoke a lesser form of the Moonlight Dance, temporarily increasing your intelligence. \
 	Scales with holy skill and grows much more effective at nite."
-	base_icon_state = "wisescroll"
+	action_icon = 'icons/mob/actions/nocmiracles.dmi'
+	overlay_icon = 'icons/mob/actions/nocmiracles.dmi'
 	overlay_state = "noc_gaze"
 	releasedrain = 10
 	chargedrain = 0
@@ -414,8 +427,9 @@ Somewhat fitting, considering the broadness of their domains. I also just think 
 	name = "Hypnagognian Inspiration"
 	desc = "Touch a target. Their next dream will be inspired, granting more dream-points to the target and a few to yourself. \
 	This spell will fail if it's dae or dawn. Points granted scales with holy skill."
+	action_icon = 'icons/mob/actions/nocmiracles.dmi'
+	overlay_icon = 'icons/mob/actions/nocmiracles.dmi'
 	overlay_state = "moondream"
-	base_icon_state = "wisescroll"
 	releasedrain = 15
 	chargedrain = 0
 	chargetime = 1 SECONDS
@@ -465,8 +479,9 @@ Somewhat fitting, considering the broadness of their domains. I also just think 
 	clothes_req = FALSE
 	drawmessage = "I prepare to perform a divine incantation."
 	dropmessage = "I release my divine focus."
+	action_icon = 'icons/mob/actions/nocmiracles.dmi'
+	overlay_icon = 'icons/mob/actions/nocmiracles.dmi'
 	overlay_state = "nocgrasp"
-	base_icon_state = "wisescroll"
 	chargedrain = 0
 	chargetime = 0
 	releasedrain = 5 // this influences -every- cost involved in the spell's functionality, if you want to edit specific features, do so in handle_cost
@@ -565,7 +580,8 @@ Somewhat fitting, considering the broadness of their domains. I also just think 
 	invocations = list("ALL WILL BE REVEALED!!", "DARKNESS, AWAY!!") // this is a LOUD yell bc it can FUUUUCK shit up. and rogues.
 	invocation_type = "shout"
 	sound = 'sound/magic/churn.ogg'
-	base_icon_state = "wisescroll"
+	action_icon = 'icons/mob/actions/nocmiracles.dmi'
+	overlay_icon = 'icons/mob/actions/nocmiracles.dmi'
 	overlay_state = "moon_light"
 	associated_skill = /datum/skill/magic/holy
 	antimagic_allowed = FALSE

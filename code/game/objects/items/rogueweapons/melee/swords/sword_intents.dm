@@ -27,17 +27,17 @@
 	clickcd = 9
 	damfactor = 1
 
-/datum/intent/sword/cut/broadsword
-	name = "cut with half-sworded technique"
-	damfactor = 0.8 //Allows for utility-based carving with the broadswords. Technically combat viable, though you should probably take a Longsword if you're strictly using a Broadsword for cuts.
-	clickcd = CLICK_CD_QUICK //On par with an Arming Sword.
-
 /datum/intent/sword/chop/militia
 	penfactor = PEN_MEDIUM
 	clickcd = CLICK_CD_CHARGED
 	swingdelay = 0
 	damfactor = 1.0
 	no_early_release = TRUE
+
+/datum/intent/sword/chop/heavy
+	penfactor = PEN_MEDIUM
+	swingdelay = 6
+	damfactor = 1.3
 
 /datum/intent/sword/thrust
 	name = "stab"
@@ -60,9 +60,27 @@
 	clickcd = CLICK_CD_QUICK // Less than rapier
 	penfactor = PEN_MEDIUM // Arming sword thrust — penetrates light armor.
 
+/datum/intent/sword/thrust/heavy
+	penfactor = PEN_MEDIUM
+	damfactor = 1.3
+	swingdelay = 6
+
 /datum/intent/sword/thrust/long
 	penfactor = PEN_MEDIUM // Longsword thrust — same pen tier, higher base damage
 	// Their cut is actually pretty decent when 2handed and should be inferior to zwei.
+
+/datum/intent/sword/thrust/long/halfsword
+	icon_state = "inpick"
+	damfactor = 1.2
+	clickcd = CLICK_CD_CHARGED
+	swingdelay = 0.5 SECONDS
+
+/datum/intent/sword/thrust/long/halfsword/jab
+	name = "jab"
+	attack_verb = list("jabs")
+	damfactor = 0.8
+	clickcd = CLICK_CD_QUICK
+	swingdelay = 0
 
 /datum/intent/sword/thrust/krieg
 	damfactor = 0.9
@@ -129,17 +147,17 @@
 	candodge = FALSE
 	intent_effect = /datum/status_effect/debuff/dazed/swipe
 
-/datum/intent/sword/thrust/long/halfsword
+/datum/intent/sword/thrust/long/halfsword/frei
 	name = "mezza spada"
 	icon_state = "inimpale"
 	desc = "Grip the dull portion of your longsword with either hand and use it as leverage to deliver precise, powerful strikes that can dig into gaps in plate and push past maille."
-	attack_verb = list("goes into a half-sword stance and skewers", "enters a half-sword stance and impales")
+	attack_verb = list("skewers", "impales")
 	hitsound = list('sound/combat/hits/bladed/genstab (1).ogg', 'sound/combat/hits/bladed/genstab (2).ogg', 'sound/combat/hits/bladed/genstab (3).ogg')
-	penfactor = PEN_BSTEEL // Halfsword — penetrates plate fully, blacksteel at 20%
-	clickcd = 12
-	swingdelay = 16
-	damfactor = 0.86
-	blade_class = BCLASS_HALFSWORD
+	penfactor = PEN_HEAVY
+	clickcd = CLICK_CD_MELEE
+	swingdelay = 1.2 SECONDS
+	damfactor = 1
+	blade_class = BCLASS_PICK
 	max_intent_damage = 30
 
 /datum/intent/sword/thrust/long/halfsword/lesser
@@ -164,13 +182,12 @@
 	target_parts = list(BODY_ZONE_PRECISE_R_EYE, BODY_ZONE_PRECISE_L_EYE)
 	blade_class = BCLASS_STAB
 	damfactor = 1.1 //Same as master stab
-	clickcd = 14
+	clickcd = CLICK_CD_CHARGED
 	swingdelay = 7
 
 // A weaker strike for sword with high damage so that it don't end up becoming better than mace
 /datum/intent/sword/strike/bad
 	damfactor = 0.7 
-
 
 /datum/intent/sword/chop
 	name = "chop"
@@ -190,6 +207,9 @@
 /datum/intent/sword/chop/long
 	reach = 2
 
+/datum/intent/sword/cut/light
+	damfactor = 0.9
+
 /datum/intent/sword/cut/long
 	clickcd = CLICK_CD_QUICK // Longsword 2H cut — faster than default, no extra damage
 
@@ -204,41 +224,30 @@
 	damfactor = 1.2
 	clickcd = CLICK_CD_QUICK
 
-/datum/intent/sword/chop/broadsword
-	name = "heavy swing" //Standard penetration, but with a higher damage modifier.
-	penfactor = PEN_LIGHT
-	damfactor = 1.15
-
 /datum/intent/sword/chop/sabre
 	damfactor = 1.15
 	penfactor = PEN_MEDIUM
 
-/datum/intent/sword/thrust/long/broadsword
-	name = "heavy thrust" //Ditto.
-	penfactor = PEN_LIGHT
-	damfactor = 1.15
-	swingdelay = 4 //Halved swingdelay compared to chopping.
-
-/datum/intent/sword/chop/broadsword/heavy
-	name = "efforted swing" //Standard penetration, but with a higher damage modifier. Exclusive to the Executioner Sword series, when two-handed - or the Berserker's Sword, when one-handed.
-	penfactor = PEN_LIGHT
-	damfactor = 1.2
-	swingdelay = 10
-	clickcd = CLICK_CD_CHARGED
-
-/datum/intent/sword/thrust/long/broadsword/heavy
-	name = "impale" //Stabbing variant of the Chop intent. Higher damage, but slower and evadable. Exclusive to two-handed broadswords.
-	icon_state = "inimpale"
-	attack_verb = list("impales", "thrusts into")
-	penfactor = PEN_LIGHT
-	damfactor = 1.2
-	swingdelay = 8
-
 /datum/intent/rend/krieg
 	intent_intdamage_factor = 0.2
 
-/datum/intent/rend/broadsword
-	intent_intdamage_factor = 0.1
+/datum/intent/sword/cut/rend
+	name = "rend"
+	icon_state = "inrend"
+	attack_verb = list("rends", "cleaves")
+	animname = "chop"
+	blade_class = BCLASS_CHOP
+	hitsound = list('sound/combat/hits/bladed/genchop (1).ogg', 'sound/combat/hits/bladed/genchop (2).ogg', 'sound/combat/hits/bladed/genchop (3).ogg')
+	reach = 1
+	swingdelay = 15
+	penfactor = PEN_NONE
+	damfactor = 2.5
+	clickcd = CLICK_CD_CHARGED
+	no_early_release = TRUE
+	item_d_type = "slash"
+	misscost = 10
+	intent_intdamage_factor = 0.05
+	demolition_mod = 0.05
 
 /datum/intent/sword/chop/cleave
 	name = "cleave"
@@ -247,7 +256,7 @@
 	chargedrain = 1.8
 	chargetime = 12
 	swingdelay = 0
-	damfactor = 1.3
+	damfactor = 1.5
 	intent_intdamage_factor = 1.3
 	desc = "A powerful blow that delivers Strength-scaling knockback and slowdown to the target. The amount of inflicted knockback scales off your Strength, ranging from X (1 tile) to XIII (3 tiles). </br>Cannot inflict any knockback or slowdown if your Strength is below X. </br>Cannot be used consecutively more than every 5 seconds on the same target. </br>Prone targets halve the knockback distance. </br>Not fully charging the attack limits knockback to 1 tile."
 	var/maxrange = 3
@@ -279,6 +288,10 @@
 /datum/intent/sword/chop/cleave/prewarning()
 	if(mastermob)
 		playsound(mastermob, pick('sound/combat/rend_start.ogg'), 100, FALSE)
+
+/datum/intent/sword/chop/cleave/super
+	name = "unstoppable cleave"
+	penfactor = PEN_BSTEEL
 
 /datum/intent/sword/bash
 	name = "pommel bash"

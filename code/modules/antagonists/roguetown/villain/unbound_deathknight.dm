@@ -113,6 +113,7 @@
 	H.adjust_skillrank(/datum/skill/misc/athletics, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/climbing, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/shields, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/reading, 4, TRUE)
 	H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/bonemend)
 
 	beltl = /obj/item/rogueweapon/scabbard/sword

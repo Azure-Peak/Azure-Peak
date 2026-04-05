@@ -1,0 +1,9 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Bardic Inspiration's songs reworked to be something you can actively switch between and refund. Redone some of those songs"
+  - rscadd: "Fablefield Roles gain T2 Bardic Inspiration instead of none."
+  - rscadd: "All Bardic classes gain Rhythm, which is an on hit buff you can apply to your weapon"
+  - rscadd: "Full Bard (Bard, Minstrel, Jester, Psyalmist) get Crescendo which is an AOE attack or buff they can unleash after building up 3 Rhythm on hits"
+  - rscadd: "Jester & Minstrel get Vicious Mockery"
+  - rscadd: "Vicious Mockery redone to be a projectile debuff that can stack up to two times with theoretical 100% uptime if it hits instead of an autohit stat nuke."

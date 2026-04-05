@@ -1,5 +1,0 @@
-author: "Aisu9"
-delete-after: True
-changes:
-  - balance: "Resilient Soul Loses Fortitude spell in favor for Bestow Ward."
-  - rscadd: "Change the class name from Resilient Soul to Sage and some of the class description."

@@ -507,6 +507,8 @@
 			var/signal_result = SEND_SIGNAL(target, COMSIG_LIVING_GRAB_SELF_ATTEMPT, target, used_limb)
 			if(signal_result & COMPONENT_CANCEL_GRAB_ATTACK)
 				return FALSE
+			if(C.mind && C != src)
+				changeNext_move(CLICK_CD_WRESTLING)
 		else
 			var/obj/item/grabbing/O = new()
 			O.name = "[target.name]"
@@ -665,6 +667,13 @@
 				var/obj/item/grabbing/I = get_inactive_held_item()
 				if(I.grabbed == pulling)
 					dropItemToGround(I, silent = FALSE)
+	else if(forced)
+		if(istype(get_active_held_item(), /obj/item/grabbing))
+			var/obj/item/grabbing/I = get_active_held_item()
+			dropItemToGround(I, silent = FALSE)
+		if(istype(get_inactive_held_item(), /obj/item/grabbing))
+			var/obj/item/grabbing/I = get_inactive_held_item()
+			dropItemToGround(I, silent = FALSE)
 	reset_offsets("pulledby")
 	reset_pull_offsets(src)
 	. = ..()
@@ -2176,7 +2185,7 @@
 
 	if(m_intent != MOVE_INTENT_SNEAK)
 		if(water_view)
-			visible_message(span_info("[src] peers into the thickness of the water above his head."))
+			visible_message(span_info("[src] peers into the thickness of the water above [src.p_their()] head."))
 		else
 			visible_message(span_info("[src] looks up."))
 

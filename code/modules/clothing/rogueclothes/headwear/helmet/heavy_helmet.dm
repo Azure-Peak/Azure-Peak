@@ -26,7 +26,7 @@
 	item_state = "bronzebarbute"
 	flags_inv = HIDEEARS|HIDEFACE|HIDESNOUT
 	flags_cover = HEADCOVERSEYES | HEADCOVERSMOUTH
-	armor = ARMOR_PLATE
+	armor = ARMOR_BRONZE
 	block2add = FOV_BEHIND
 	smeltresult = /obj/item/ingot/bronze
 	max_integrity = ARMOR_INT_HELMET_HEAVY_BRONZE
@@ -1216,8 +1216,6 @@
 	chunkcolor = "#363030"
 	material_category = ARMOR_MAT_PLATE
 	toggle_icon_state = TRUE
-	var/swap_type = /obj/item/clothing/head/roguetown/helmet/heavy/zizo/frogge
-	var/swap_tag = "Froggemund"
 
 /obj/item/clothing/head/roguetown/helmet/heavy/zizo/frogge
 	icon_state = "zizofrogmouth"
@@ -1226,18 +1224,12 @@
 	flags_inv = HIDEFACE|HIDESNOUT|HIDEEARS
 	body_parts_covered = HEAD|EARS|HAIR
 	adjustable = CANT_CADJUST
-	swap_type = /obj/item/clothing/head/roguetown/helmet/heavy/zizo
-	swap_tag = "Barbute"
 
-/obj/item/clothing/head/roguetown/helmet/heavy/zizo/attack_self(mob/user)
-	if(obj_integrity != max_integrity)
-		to_chat(user, span_warning("I must repair this fully, first."))
-		return
-	var/choice = alert(user, "Do you wish to alter this helm to look like the [swap_tag]?", "A NEW LOOK", "Yes", "No")
-	if(choice == "Yes")
-		var/turf/T = get_turf(user)
-		new swap_type(T)
-		qdel(src)
+/obj/item/clothing/head/roguetown/helmet/heavy/zizo/volfhelm
+	name = "avantyne volf-face bascinet"
+	desc = "An unholy combination of a bastardised volf-face bascinet, along with avantyne reinforcements. Progress is an agonising process."
+	icon_state = "volfplate_avantyne"
+	item_state = "volfplate_avantyne"
 
 /obj/item/clothing/head/roguetown/helmet/heavy/zizo/Initialize()
 	. = ..()

@@ -1,0 +1,7 @@
+author: "Ollanius"
+delete-after: True
+changes:
+  - balance: "Broadswords (and affiliated variants) have been touched to better function as intended, before the armor penetration rework. They hit hard, but swing slow.. without the risk of punching straight through plate armor."
+  - balance: "Slightly increased the damage of the Berserker Sword's unique intent, and gave total armor penetration to its ultra-rare variant."
+  - code_imp: "Cutting is now allocated to the main intent line, for Broadswords. It's been removed from the mordhau'd intent line."
+  - code_imp: "Broadswords now experimentally use a variant of rending that forks off '/cut', which should allow for menial tasks like slicing and tearing."

@@ -1377,3 +1377,66 @@
       by silver.
   eirenxiv:
   - bugfix: fixed massage not working while mute
+2026-03-31:
+  Aisu9:
+  - balance: Resilient Soul Loses Fortitude spell in favor for Bestow Ward.
+  - rscadd: Change the class name from Resilient Soul to Sage and some of the class
+      description.
+  Antoonij:
+  - bugfix: you can't spawn campfire on water
+  FreeStylaLT:
+  - refactor: Remade how the Zizo barbute swaps its 'skin'.
+  - bugfix: Fixed Zizo Barbute / Froggemund not having a hair toggle via MMB.
+  KatTheFox:
+  - bugfix: mechanical marriage now actually works
+  - qol: eoran clergy (including heretics!) can now perform marriages, not just bishops
+  - rscadd: if your character is meant to already be married, you can set your spouse
+      by offering weddingbands to each other. for if you were married in a past round
+      or your backstory; church weddings are still a thing for new couples.
+  Lamasmaster:
+  - balance: Face wounds being unhealable.
+  Ryan180602:
+  - bugfix: fix donor item
+  - rscadd: donor item
+  WeNeedMorePhoron:
+  - rscadd: Elemental arrow types of Thunder, Splinter and Kinetic arrow, made by
+      coating a quiver with a Runic Flask you can acquire with 2x Fire Dust and 2x
+      Water Dust and 2x Hide from a role that knows alchemy. pyroclastic arrow nerfed
+      slightly and moved to this new system
+  - rscadd: New Heavy Sling Bullet and Fire pot for sling. Existing recipes unified
+      at x20 per ingot / recipe.
+  - rscdel: Steel Sling bullets has been removed. Replaced by Steel Scattershot that
+      fires 3 bullets. Each recipe makes 20 each.
+  - rscadd: Artificer now starts off with Battlewardry as a locked Major Aspect
+  - rscadd: Emergence's rock now properly disappear after 12 seconds
+  - rscadd: Replaces Mass Gravity with Gravity Anchor on Kinesis.
+  - balance: Prestidigitation scaling adjusted to scale up to 20 and no longer be
+      as ridiculous on the lower end
+  - balance: Light Steps no longer make you immune to rune wards.
+  - balance: You can no longer guard cheese (Cast while defending) with new spells
+      without consequences
+  - balance: Darkvision is now 15 minutes flat in duration.
+  - balance: Tithebound no longer suffers from 15% penalty to their CD on their unique
+      spells from wearing medium armor.
+  - bugfix: Kazengunese and Lingyuese (Ranesheni + Celestial) are mutually intelligible
+      again (after being broken for 1 month)
+  bearrrrrrrr:
+  - bugfix: afterimage no longer stops movement
+  hazelrat:
+  - rscadd: Implemented a remap restyling the roads around Azure Peak's city centre.
+  kittysmooch:
+  - rscadd: reverted the estoc sprite changes
+  - rscadd: added the azurean tuck
+  rivercadaver:
+  - code_imp: 'added volfskulle 2 heretic
+
+      :cl:
+
+      <!-- Both :cl:''s are required for the changelog to work! You can put your name
+      to the right of the first :cl: if you want to overwrite your GitHub username
+      as author ingame. -->
+
+      <!-- You can use multiple of the same prefix (they''re only used for the icon
+      ingame) and delete the unneeded ones. Despite some of the tags, changelogs should
+      generally represent how a player might be affected by the changes rather than
+      a summary of the PR''s contents. -->'

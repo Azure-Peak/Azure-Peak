@@ -140,6 +140,16 @@
 	target_items = list(/obj/item/clothing/cloak/templar/xylixian/)
 	result_item = /obj/item/clothing/cloak/templar/xylixian/faux
 
+/obj/item/enchantingkit/strudel3
+	name = "'Etruscan Design Cloak' morphing elixir"
+	target_items = list(/obj/item/clothing/cloak/poncho)
+	result_item = /obj/item/clothing/cloak/poncho/dittocloak
+
+/obj/item/enchantingkit/strudel4
+	name = "'Form-fitting Padded Gambeson' morphing elixir"
+	target_items = list(/obj/item/clothing/suit/roguetown/armor/gambeson/heavy)
+	result_item = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/strudels
+
 //Bat - Custom harp type
 /obj/item/enchantingkit/bat
 	name = "'Handcrafted Harp' morphing elixir"
@@ -200,8 +210,27 @@
 	target_items = list(/obj/item/rogueweapon/sword/saber)
 	result_item = /obj/item/rogueweapon/example/eiren_sabre_alt
 
+/obj/item/enchantingkit/weapon/eiren_m
+	name = "'glintstone longsword' morphing elixir"
+	target_items = list(
+		/obj/item/rogueweapon/sword/long
+	)
+	result_item = /obj/item/rogueweapon/eirenxiv/eiren_m
+
+/obj/item/enchantingkit/weapon/eirensword
+	name = "'stygian longsword' morphing elixir"
+	target_items = list(
+		/obj/item/rogueweapon/sword/long
+	)
+	result_item = /obj/item/rogueweapon/eirenxiv/eirensword
+
+/obj/item/enchantingkit/eiren_helmet
+	name = "'strigidae armet' morphing elixir"
+	target_items = list(/obj/item/clothing/head/roguetown/helmet/heavy/knight/armet)
+	result_item = /obj/item/clothing/head/roguetown/helmet/heavy/knight/armet/eiren_helmet
+
 //pretzel - custom steel greatsword. PSYDON LYVES. PSYDON ENDVRES.
-/obj/item/enchantingkit/waff
+/obj/item/enchantingkit/weapon/waff
 	name = "'Weeper's Lathe' morphing elixir"
 	target_items = list(/obj/item/rogueweapon/greatsword)
 	result_item = /obj/item/rogueweapon/example/waffai_greatsword
@@ -319,6 +348,14 @@
 	)
 	result_item = /obj/item/rogueweapon/sword/long/drd
 
+//DRD21 - Shield
+/obj/item/enchantingkit/weapon/drd_shield
+	name = "'House Woerden shield' morphing elixir"
+	target_items = list(
+		/obj/item/rogueweapon/shield/tower/metal
+	)
+	result_item = /obj/item/rogueweapon/drd/shield
+
 //Lmwevil - Beak Mask
 /obj/item/enchantingkit/lmwevil_brassbeak
 	name = "brass beak mask morphing elixir"
@@ -355,3 +392,11 @@
 		/obj/item/rogueweapon/sword/long/kriegmesser
 	)
 	result_item = /obj/item/rogueweapon/maesune/sabre
+
+//NeroCavalier - Sword
+/obj/item/enchantingkit/weapon/noire_flsword
+	name = "'Blacksteel Longsword' morphing elixir"
+	target_items = list(
+		/obj/item/rogueweapon/sword/long
+	)
+	result_item = /obj/item/rogueweapon/nerocavalier/flsword
