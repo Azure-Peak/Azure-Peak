@@ -13,7 +13,11 @@ SUBSYSTEM_DEF(mobs)
 
 
 /datum/controller/subsystem/mobs/stat_entry()
-	..("P:[GLOB.mob_living_list.len]")
+	var/active = LAZYLEN(GLOB.ai_controllers_by_status[AI_STATUS_ON])
+	var/idle = LAZYLEN(GLOB.ai_controllers_by_status[AI_STATUS_IDLE])
+	var/off = LAZYLEN(GLOB.ai_controllers_by_status[AI_STATUS_OFF])
+	var/no_ai = GLOB.mob_living_list.len - active - idle - off
+	..("T:[GLOB.mob_living_list.len] A:[active] I:[idle] O:[off] N:[no_ai]")
 
 /datum/controller/subsystem/mobs/proc/MaxZChanged()
 	if (!islist(clients_by_zlevel))

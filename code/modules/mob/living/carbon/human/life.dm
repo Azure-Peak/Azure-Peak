@@ -26,6 +26,9 @@
 	if (notransform)
 		return
 
+	if(!client && ai_controller?.ai_status != AI_STATUS_ON)
+		return
+
 	. = ..()
 
 	if (QDELETED(src))
