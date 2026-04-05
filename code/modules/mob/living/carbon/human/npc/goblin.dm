@@ -338,8 +338,9 @@ GLOBAL_LIST_INIT(goblin_aggro, world.file2list("strings/rt/goblinaggrolines.txt"
 	if(prob(chance_treeclimber))
 		H.tree_climber = TRUE
 		H.find_targets_above = TRUE // so they can taunt
-	H.STACON = 6
-	H.STAWIL = 15
+	H.STACON = 4
+	H.STAWIL = 4
+	H.STAPER = 8
 	if(is_species(H, /datum/species/goblin/moon))
 		H.STAINT = 8
 	else

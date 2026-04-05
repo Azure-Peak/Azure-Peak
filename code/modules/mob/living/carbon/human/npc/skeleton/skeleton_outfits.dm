@@ -76,7 +76,7 @@
 	H.STASTR = 10
 	H.STASPD = 8
 	H.STACON = 4
-	H.STAWIL = 10
+	H.STAWIL = 4
 	H.STAINT = 1
 	name = "Skeleton"
 	if(prob(50))
@@ -112,8 +112,8 @@
 	..()
 	H.STASTR = 9
 	H.STASPD = 8
-	H.STACON = 4 // Same statblock as before easily killed
-	H.STAWIL = 12
+	H.STACON = 4
+	H.STAWIL = 6
 	H.STAINT = 1
 	name = "Skeleton Footsoldier"
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/aalloy
@@ -144,8 +144,8 @@
 	..()
 	H.STASTR = 9
 	H.STASPD = 8
-	H.STACON = 4 // Same statblock as before easily killed
-	H.STAWIL = 12
+	H.STACON = 4
+	H.STAWIL = 6
 	H.STAINT = 1
 	name = "Skeleton Pirate"
 	head =  /obj/item/clothing/head/roguetown/helmet/tricorn
@@ -173,8 +173,8 @@
 	..()
 	H.STASTR = 11
 	H.STASPD = 8
-	H.STACON = 6 // Slightly tougher now!
-	H.STAWIL = 10
+	H.STACON = 6
+	H.STAWIL = 8
 	H.STAINT = 1
 	name = "Skeleton Soldier"
 	cloak = /obj/item/clothing/cloak/tabard/stabard/surcoat/guard // Ooo Spooky Old Dead MAA
@@ -211,8 +211,8 @@
 /datum/outfit/job/roguetown/skeleton/npc/hard/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.STASTR = 12
-	H.STACON = 8 // Woe, actual limb health.
-	H.STAWIL = 12
+	H.STACON = 8
+	H.STAWIL = 10
 	H.STAINT = 1
 	name = "Skeleton Dreadnought"
 	// This combines the khopesh  and withered dreadknight
@@ -264,7 +264,7 @@
 	H.STASTR = 10
 	H.STASPD = 10
 	H.STACON = 6
-	H.STAWIL = 10
+	H.STAWIL = 8
 	H.STAINT = 1
 	name = "Skeleton Archer"
 	head = /obj/item/clothing/head/roguetown/helmet/heavy/aalloy
@@ -292,8 +292,8 @@
 /datum/outfit/job/roguetown/skeleton/npc/vile_doctor/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.STASTR = 12
-	H.STACON = 11 // Woe, actual limb health.
-	H.STAWIL = 12
+	H.STACON = 8
+	H.STAWIL = 10
 	H.STASPD = 14 // that dagger WILL get thru ur parry.
 	H.STAINT = 1
 	name = "Vile Doctor"
@@ -321,8 +321,8 @@
 /datum/outfit/job/roguetown/skeleton/npc/disgraced_noble/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.STASTR = 12 // stabs quick, stabs strong.
-	H.STACON = 11
-	H.STAWIL = 12
+	H.STACON = 8
+	H.STAWIL = 10
 	H.STASPD = 12
 	H.STAINT = 1
 	name = "Disgraced Ancient Noble"

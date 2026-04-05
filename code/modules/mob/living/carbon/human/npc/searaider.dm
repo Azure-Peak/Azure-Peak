@@ -159,8 +159,8 @@ GLOBAL_LIST_INIT(searaider_aggro, world.file2list("strings/rt/searaideraggroline
 
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
 	H.STASPD = 9
-	H.STACON = rand(10,12) //so their limbs no longer pop off like a skeleton
-	H.STAWIL = 15
+	H.STACON = 8
+	H.STAWIL = 8
 	H.STAPER = 10
 	H.STAINT = 1
 	H.STASTR = 14

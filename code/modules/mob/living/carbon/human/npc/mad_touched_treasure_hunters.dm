@@ -89,8 +89,8 @@
 	//carbon ai is still pretty dumb so making them a threat to players requires pretty crazy looking stats. don't think too hard about it.
 	H.STASTR = 15
 	H.STASPD = 15
-	H.STACON = 15
-	H.STAWIL = 15
+	H.STACON = 12
+	H.STAWIL = 12
 	H.STAPER = 15
 	H.STAINT = 12
 	H.eye_color = "27becc"

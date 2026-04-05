@@ -221,8 +221,8 @@
 	ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)
 	H.STASTR = rand(12,14)
 	H.STASPD = rand(12,14)
-	H.STACON = rand(11,12)
-	H.STAWIL = rand(11,12)
+	H.STACON = 8
+	H.STAWIL = 8
 	H.STAPER = rand(10,11)
 	H.STAINT = rand(9,10)
 	//Chest Gear
@@ -333,8 +333,8 @@
 	ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)
 	H.STASTR = rand(12,13)
 	H.STASPD = rand(12,13)
-	H.STACON = rand(10,11)
-	H.STAWIL = rand(10,11)
+	H.STACON = 8
+	H.STAWIL = 8
 	H.STAPER = rand(9,10)
 	H.STAINT = rand(8,9)
 	//Chest Gear
@@ -430,8 +430,8 @@
 	ADD_TRAIT(H, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
 	H.STASTR = rand(13,14)
 	H.STASPD = rand(13,14)
-	H.STACON = rand(12,13)
-	H.STAWIL = rand(12,13)
+	H.STACON = 10
+	H.STAWIL = 10
 	H.STAPER = rand(11,12)
 	H.STAINT = rand(10,11)
 	//Chest Gear

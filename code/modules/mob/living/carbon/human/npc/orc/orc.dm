@@ -102,10 +102,10 @@
 	r_hand = /obj/item/rogueweapon/stoneaxe/boneaxe
 	l_hand = /obj/item/rogueweapon/shield/wood
 
-	H.STASTR = 16
+	H.STASTR = 12
 	H.STASPD = 8
-	H.STACON = 15
-	H.STAWIL = 15
+	H.STACON = 8
+	H.STAWIL = 8
 	H.STAINT = 6
 
 	//light labor skills for armor repairs and such, equipment is so-so, with good stats

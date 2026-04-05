@@ -130,8 +130,8 @@
 		l_hand = /obj/item/rogueweapon/huntingknife/copper
 	H.STASTR = 11
 	H.STASPD = 16
-	H.STACON = 11
-	H.STAWIL = 11
+	H.STACON = 5
+	H.STAWIL = 5
 	H.STAPER = 11
 	H.STAINT = 1
 	H.adjust_skillrank(/datum/skill/combat/knives, 3, TRUE)
