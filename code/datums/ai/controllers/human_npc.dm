@@ -36,7 +36,7 @@
 		/datum/ai_planning_subtree/archer_base,
 		/datum/ai_planning_subtree/ranged_attack_subtree,
 		/datum/ai_planning_subtree/aggro_find_target,
-		// /datum/ai_planning_subtree/squad_flank,
+		/datum/ai_planning_subtree/squad_flank,
 		/datum/ai_planning_subtree/kick_attack,
 		/datum/ai_planning_subtree/basic_melee_attack_subtree/human_npc,
 		/datum/ai_planning_subtree/find_weapon,

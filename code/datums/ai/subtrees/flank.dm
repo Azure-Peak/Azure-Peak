@@ -1,7 +1,7 @@
-#define FLANK_RADIUS             3    // tiles away from target to orbit
+#define FLANK_RADIUS             1    // tiles away from target — adjacent for melee
 #define FLANK_MIN_SEPARATION     60   // degrees between us and nearest ally
-#define FLANK_ENGAGE_DIST        2    // tiles - "close enough" to our flank spot
-#define FLANK_ATTACK_CHANCE      25   // % chance to commit a real attack while flanking
+#define FLANK_ENGAGE_DIST        1    // tiles - "close enough" to our flank spot
+#define FLANK_ATTACK_CHANCE      75   // % chance to commit a real attack while flanking
 #define FLANK_RECHECK_INTERVAL   (3 SECONDS)
 
 /datum/ai_planning_subtree/squad_flank
@@ -81,13 +81,9 @@
 		controller.set_blackboard_key(BB_HUMAN_NPC_FLANK_TARGET, flank_turf)
 
 	if(get_dist(pawn, flank_turf) <= FLANK_ENGAGE_DIST)
-		// We're in position. Occasionally fire an attack, otherwise just hold.
-		if(prob(FLANK_ATTACK_CHANCE))
-			controller.clear_blackboard_key(BB_HUMAN_NPC_FLANK_TARGET)
-			return
-		// Hold position, face target, look threatening
-		pawn.face_atom(target)
-		return SUBTREE_RETURN_FINISH_PLANNING
+		// We're in position — clear flank target and let melee subtree handle attacking
+		controller.clear_blackboard_key(BB_HUMAN_NPC_FLANK_TARGET)
+		return // don't block planning — melee attack subtree runs next
 	controller.queue_behavior(/datum/ai_behavior/human_npc_move_to_flank, BB_HUMAN_NPC_FLANK_TARGET, BB_BASIC_MOB_CURRENT_TARGET)
 	return SUBTREE_RETURN_FINISH_PLANNING
 
