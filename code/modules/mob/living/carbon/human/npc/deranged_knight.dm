@@ -108,6 +108,19 @@ GLOBAL_LIST_INIT(hedgeknight_aggro, world.file2list("strings/rt/hedgeknightaggro
 				outfit_dk(new /datum/outfit/job/roguetown/quest_miniboss/blacksteel)
 			// No special trait for hedgeknight, he's just a generic tough guy.
 
+	var/list/aggro_lines
+	switch(preset)
+		if("graggar")
+			aggro_lines = GLOB.graggar_aggro
+		if("matthios")
+			aggro_lines = GLOB.matthios_aggro
+		if("zizo")
+			aggro_lines = GLOB.zizo_aggro
+		if("hedgeknight")
+			aggro_lines = GLOB.hedgeknight_aggro
+	if(aggro_lines)
+		SEND_SIGNAL(src, COMSIG_MOB_MODIFY_AGGRO_LINES, aggro_lines, TRUE)
+
 	gender = pick(MALE,FEMALE)
 	regenerate_icons()
 
