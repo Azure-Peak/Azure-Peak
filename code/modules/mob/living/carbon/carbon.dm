@@ -758,9 +758,7 @@
 	if(total_burn > 0)
 		var/obj/item/bodypart/chest/C = get_bodypart(BODY_ZONE_CHEST)
 		var/burn_threshold = C ? C.max_damage : FIRE_HARDCRIT_BASE
-		if(!mind && !HAS_TRAIT(src, TRAIT_CRIT_THRESHOLD))
-			burn_threshold *= FIRE_HARDCRIT_MINDLESS_MULT
-		else if(HAS_TRAIT(src, TRAIT_NOPAIN) || HAS_TRAIT(src, TRAIT_NOPAINSTUN))
+		if(HAS_TRAIT(src, TRAIT_NOPAIN) || HAS_TRAIT(src, TRAIT_NOPAINSTUN))
 			burn_threshold *= FIRE_HARDCRIT_NOPAIN_MULT
 		var/burn_ratio = total_burn / burn_threshold
 		if(!burn_warning_shown)
@@ -1087,11 +1085,8 @@
 						span_userdanger("I cannot breathe... the world grows dark."))
 				else if(health <= HEALTH_THRESHOLD_FULLCRIT)
 					if(getFireLoss() >= getBruteLoss())
-						if(!mind && !HAS_TRAIT(src, TRAIT_CRIT_THRESHOLD))
-							visible_message(span_danger("<b>[src] collapses - [src.p_their()] will is too weak to endure the burns!</b>"))
-						else
-							visible_message(span_danger("<b>[src] collapses, [src.p_their()] flesh charred and smoking!</b>"), \
-								span_userdanger("My body is too burnt to go on!"))
+						visible_message(span_danger("<b>[src] collapses, [src.p_their()] flesh charred and smoking!</b>"), \
+							span_userdanger("My body is too burnt to go on!"))
 						balloon_alert_to_viewers("<font color='#bb2b2b'>burnt down!</font>")
 						playsound(src, 'sound/health/burning.ogg', 60, TRUE)
 					else
