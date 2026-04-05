@@ -6,9 +6,16 @@
 	if(!controller.blackboard[BB_BASIC_MOB_CURRENT_TARGET])
 		return
 
+	// Don't scan for allies every tick — check at most every 5 seconds
+	var/next_call = controller.blackboard["bb_call_for_help_cooldown"]
+	if(next_call && world.time < next_call)
+		return
+
 	var/mob/living/living_pawn = controller.pawn
 	if(living_pawn.getBruteLoss() < 40 && living_pawn.getFireLoss() < 40)
 		return
+
+	controller.set_blackboard_key("bb_call_for_help_cooldown", world.time + 5 SECONDS)
 
 	var/allowed = FALSE
 	for(var/mob/living/carbon/human/ally in range(controller.max_target_distance - 1, living_pawn))
