@@ -91,8 +91,12 @@
 	var/old_cmode = pawn.cmode
 	if(INT_SCALE_PROB(pawn, HUMAN_NPC_RMB_ATTEMPT_CHANCE))
 		pawn.cmode = TRUE
+		AI_THINK(pawn, "RMB: intent=[pawn.rmb_intent?.type] stam=[pawn.stamina]/[pawn.max_stamina]")
 		if(pawn.stamina < pawn.max_stamina * 0.7 && istype(pawn.rmb_intent, /datum/rmb_intent/feint))
+			AI_THINK(pawn, "FEINT: attempting feint on [target]!")
 			modifiers = list(RIGHT_CLICK = TRUE)
+		else if(istype(pawn.rmb_intent, /datum/rmb_intent/feint))
+			AI_THINK(pawn, "FEINT: too exhausted to feint (stam [pawn.stamina] >= [pawn.max_stamina * 0.7])")
 
 	if(hiding_target)
 		controller.ai_interact(hiding_target, TRUE, TRUE, modifiers)
@@ -173,6 +177,7 @@
 	var/datum/rmb_intent/chosen = locate(chosen_type) in pawn.possible_rmb_intents
 	if(chosen)
 		pawn.rmb_intent = chosen
+		AI_THINK(pawn, "INTENT: picked [chosen.type]")
 
 	controller.set_blackboard_key(BB_HUMAN_NPC_CURRENT_INTENT_ATTACKS_LEFT, rand(3, 6))
 
