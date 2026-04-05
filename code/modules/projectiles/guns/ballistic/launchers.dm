@@ -14,6 +14,9 @@
 	var/accfactor = 1 // Multiplier for projectile accuracy. Used by bows and crossbows.
 	var/penfactor = 0 // Additive modifier for projectile PEN tier. Slurbow uses -1 to reduce bolt pen by one tier.
 
+/obj/item/gun/ballistic/revolver/grenadelauncher/proc/get_npc_chargetime(mob/living/user)
+	return ARCHER_NPC_SIMULATED_CHARGETIME * ARCHER_NPC_ROF_PENALTY
+
 /obj/item/gun/ballistic/revolver/grenadelauncher/attackby(obj/item/A, mob/user, params)
 	. = ..()
 	if(istype(A, /obj/item/ammo_box) || istype(A, /obj/item/ammo_casing))

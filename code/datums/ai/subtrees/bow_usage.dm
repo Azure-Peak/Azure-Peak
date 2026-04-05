@@ -51,7 +51,22 @@
 	if(!target)
 		return FALSE
 
-	// Stash held melee weapon if needed so both hands are free for the bow
+	// Find ranged weapon first (to check if sling — slings are one-handed)
+	var/obj/item/gun/ballistic/revolver/grenadelauncher/bow = null
+	var/obj/item/active = pawn.get_active_held_item()
+	if(istype(active, /obj/item/gun/ballistic/revolver/grenadelauncher))
+		bow = active
+	if(!bow)
+		for(var/obj/item/worn in pawn.get_equipped_items())
+			if(istype(worn, /obj/item/gun/ballistic/revolver/grenadelauncher))
+				bow = worn
+				break
+	if(!bow)
+		return FALSE
+
+	var/is_sling = istype(bow, /obj/item/gun/ballistic/revolver/grenadelauncher/sling)
+
+	// Stash held melee weapon if needed
 	var/obj/item/held_weapon = pawn.get_active_held_item()
 	if(held_weapon && !istype(held_weapon, /obj/item/gun/ballistic/revolver/grenadelauncher))
 		var/stashed = FALSE
@@ -65,24 +80,22 @@
 			pawn.dropItemToGround(held_weapon, TRUE, TRUE)
 			controller.set_blackboard_key(BB_ARCHER_NPC_STASHED_WEAPON, held_weapon)
 
-	// Also clear inactive hand
-	var/obj/item/offhand = pawn.get_inactive_held_item()
-	if(offhand && !istype(offhand, /obj/item/gun/ballistic/revolver/grenadelauncher))
-		pawn.dropItemToGround(offhand, TRUE, TRUE)
+	// Clear inactive hand for two-handed weapons (not slings)
+	if(!is_sling)
+		var/obj/item/offhand = pawn.get_inactive_held_item()
+		if(offhand && !istype(offhand, /obj/item/gun/ballistic/revolver/grenadelauncher))
+			pawn.dropItemToGround(offhand, TRUE, TRUE)
 
-	// Now find and draw bow
-	var/obj/item/gun/ballistic/revolver/grenadelauncher/bow = null
-	var/obj/item/active = pawn.get_active_held_item()
-	if(istype(active, /obj/item/gun/ballistic/revolver/grenadelauncher))
-		bow = active
-	if(!bow)
-		for(var/obj/item/worn in pawn.get_equipped_items())
-			if(istype(worn, /obj/item/gun/ballistic/revolver/grenadelauncher))
-				pawn.put_in_active_hand(worn)
-				bow = worn
-				break
-	if(!bow)
-		return FALSE
+	// Draw weapon to hand if not already held
+	if(bow.loc != pawn || !(pawn.get_active_held_item() == bow))
+		pawn.put_in_active_hand(bow)
+
+	// Cock crossbow if needed
+	if(istype(bow, /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow))
+		var/obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/xbow = bow
+		if(!xbow.cocked)
+			xbow.cocked = TRUE
+			xbow.update_icon()
 
 	if(!bow.chambered)
 		var/ammo_check = bow.magazine.ammo_type
@@ -93,7 +106,6 @@
 				if(ispath(arrow.type, ammo_check))
 					Q.arrows -= arrow
 					arrow.forceMove(bow)
-					// Mirror what attackby does for loading
 					bow.attackby(arrow, pawn, null)
 					break
 			break
@@ -138,11 +150,9 @@
 		finish_action(controller, FALSE, target_key)
 		return
 
-	var/chargetime = ARCHER_NPC_SIMULATED_CHARGETIME
-	if(pawn.used_intent && pawn.used_intent.chargetime)
-		chargetime = pawn.used_intent.get_chargetime()
+	var/chargetime = bow.get_npc_chargetime(pawn)
 
-	if(!do_after(pawn, min(chargetime, 1 SECONDS), pawn))
+	if(!do_after(pawn, chargetime, pawn))
 		finish_action(controller, FALSE, target_key)
 		return
 

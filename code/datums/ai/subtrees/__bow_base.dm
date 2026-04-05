@@ -14,7 +14,8 @@
 		return FALSE
 
 	var/mob/living/living_pawn = controller.pawn
-	var/obj/item/gun/ballistic/revolver/grenadelauncher = inv.get_item(AI_ITEM_GUN)
+	var/obj/item/gun/ballistic/revolver/grenadelauncher/bow = inv.get_item(AI_ITEM_GUN)
+	// Note: bow variable typed as /grenadelauncher (base) - matches bows, crossbows, and slings
 	if(!bow)
 		if(istype(living_pawn.get_active_held_item(), /obj/item/gun/ballistic/revolver/grenadelauncher))
 			bow = living_pawn.get_active_held_item()

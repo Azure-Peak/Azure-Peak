@@ -138,7 +138,11 @@
 #define ARCHER_NPC_EQUIPMENT_CACHE_TIME (40 SECONDS)
 #define ARCHER_NPC_MIN_RANGE            3   // tiles - closer than this, prefer melee
 #define ARCHER_NPC_ARROW_SEARCH_RANGE   9
-#define ARCHER_NPC_SIMULATED_CHARGETIME 1.5 SECONDS // fallback charge wait in deciseconds
+#define ARCHER_NPC_SIMULATED_CHARGETIME 1.5 SECONDS // fallback bow charge time
+#define ARCHER_NPC_CROSSBOW_CHARGETIME  2.5 SECONDS // crossbows are slower to fire
+#define ARCHER_NPC_SLING_CHARGETIME     0.8 SECONDS // slings are fast
+#define ARCHER_NPC_ROF_PENALTY          1.3   // NPC charge time multiplier (1.3 = 30% slower than calculated)
+#define ARCHER_NPC_SPREAD_PER_POINT     7     // spread per PER point below 15
 
 // Keys used by one and only one behavior
 // Used to hold state without making bigass lists
@@ -177,7 +181,7 @@ GLOBAL_LIST_INIT(ai_item_flags, list(
 ))
 
 #define AI_INVENTORY_WATCHED_SLOTS (ITEM_SLOT_BELT | ITEM_SLOT_BACK_L | ITEM_SLOT_BACK_R | \
-    ITEM_SLOT_BELT | ITEM_SLOT_ARMOR | ITEM_SLOT_PANTS | \
-    ITEM_SLOT_SHIRT | ITEM_SLOT_CLOAK | ITEM_SLOT_BACK | ITEM_SLOT_NECK)
+    ITEM_SLOT_HIP | ITEM_SLOT_ARMOR | ITEM_SLOT_PANTS | \
+    ITEM_SLOT_SHIRT | ITEM_SLOT_CLOAK | ITEM_SLOT_BACK | ITEM_SLOT_NECK | ITEM_SLOT_WRISTS)
 
 
