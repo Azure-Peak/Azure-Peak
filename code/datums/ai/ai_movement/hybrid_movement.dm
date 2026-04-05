@@ -1,24 +1,42 @@
 ///Uses Byond's basic obstacle avoidance movement unless the target is on a z-level different to ours
+/datum/ai_movement/hybrid_pathing/gnome
+	max_path_distance = 100 //gnomes are psydon's smartest genetic freak
+	max_basic_failures = 2
+	always_advanced = TRUE
+
 /datum/ai_movement/hybrid_pathing
 	requires_processing = TRUE
 	max_pathing_attempts = 12
 	max_path_distance = 30
-	var/fallbacking = FALSE
-	var/fallback_fail = 0
+
+	var/list/fallback_fail = list()
+	var/list/falling_back = list()
 
 	// Variables for asynchronous path generation
 	var/repath_anticipation_distance = 5 // Start generating new path when this close to the end
 	var/future_path_blackboard_key = BB_FUTURE_MOVEMENT_PATH
 
+	var/next_resolve = 0
+	var/max_basic_failures = 3 // How many consecutive basic movement failures before switching to A*
+	var/always_advanced = FALSE
+
 /datum/ai_movement/hybrid_pathing/process(delta_time)
+	if(world.time < next_resolve)
+		next_resolve = world.time + 5 MINUTES
+
+		for(var/datum/weakref/weakref in falling_back)
+			if(!weakref.resolve())
+				fallback_fail -= weakref
+				falling_back -= weakref
+
 	for(var/datum/ai_controller/controller as anything in moving_controllers)
-		if(QDELETED(controller) || !controller.blackboard || QDELETED(controller.pawn))
-			continue
 		if(!(future_path_blackboard_key in controller.blackboard))
 			controller.add_blackboard_key(future_path_blackboard_key, null)
 		if(!COOLDOWN_FINISHED(controller, movement_cooldown))
 			continue
-		COOLDOWN_START(controller, movement_cooldown, controller.movement_delay)
+		// AP: In combat, step rapidly (1-2 deciseconds). Out of combat, use normal movement_delay.
+		var/combat_move = controller.blackboard[BB_BASIC_MOB_CURRENT_TARGET]
+		COOLDOWN_START(controller, movement_cooldown, combat_move ? 1 : controller.movement_delay)
 
 		if(!controller.can_move())
 			continue
@@ -43,7 +61,7 @@
 			// verify that there are stairs at our current position leading up
 			if(next_step.z > current_turf.z)
 				// Check if there's a valid stair to go up
-				var/turf/above = get_step_multiz(current_turf, UP)
+				var/turf/above = GET_TURF_ABOVE(current_turf)
 				var/can_go_up = FALSE
 
 				if(above && !above.density)
@@ -59,12 +77,15 @@
 				if(!can_go_up)
 					controller.movement_path = null
 					controller.clear_blackboard_key(future_path_blackboard_key)
-					fallbacking = FALSE
-					fallback_fail = 0
+					var/datum/weakref/weak = WEAKREF(controller)
+					if(weak in falling_back)
+						falling_back[weak] = FALSE
+					if(weak in fallback_fail)
+						fallback_fail[weak] = FALSE
 					continue
 
 		// Basic movement for targets on the same z-level with no existing path
-		if(end_turf?.z == movable_pawn?.z && !length(controller.movement_path) && !cliented)
+		if(end_turf?.z == movable_pawn?.z && !length(controller.movement_path) && !cliented && !always_advanced)
 			advanced = FALSE
 			var/can_move = controller.can_move()
 
@@ -73,16 +94,30 @@
 			if(!is_type_in_typecache(target_turf, GLOB.dangerous_turfs) && can_move)
 				step_to(movable_pawn, target_turf, controller.blackboard[BB_CURRENT_MIN_MOVE_DISTANCE], controller.movement_delay)
 
-				if(current_loc == get_turf(movable_pawn))
-					advanced = TRUE
-					controller.movement_path = null
-					controller.clear_blackboard_key(future_path_blackboard_key)
-					fallbacking = TRUE
-					SEND_SIGNAL(movable_pawn, COMSIG_AI_GENERAL_CHANGE, "Unable to Basic Move swapping to AStar.")
-
-			if(!advanced)
-				if(current_loc == get_turf(movable_pawn)) // Did we even move after trying to move?
+				// Check if movement was successful
+				if(current_loc != get_turf(movable_pawn))
+					// Successful basic movement - reset failure counter and clear fallback state
+					controller.pathing_attempts = 0
+					var/datum/weakref/weak = WEAKREF(controller)
+					falling_back -= weak
+					fallback_fail -= weak
+				else
+					// Movement failed - increment failure counter
 					controller.pathing_attempts++
+
+					// Only switch to A* after multiple consecutive failures
+					if(controller.pathing_attempts >= max_basic_failures)
+						advanced = TRUE
+						controller.movement_path = null
+						controller.clear_blackboard_key(future_path_blackboard_key)
+						var/datum/weakref/weak = WEAKREF(controller)
+						if(!(weak in falling_back))
+							falling_back |= weak
+							falling_back[weak] = FALSE
+						falling_back[weak] = TRUE
+						SEND_SIGNAL(movable_pawn, COMSIG_AI_GENERAL_CHANGE, "Unable to Basic Move after [max_basic_failures] attempts, swapping to AStar.")
+
+					// Check if we've exceeded maximum pathing attempts
 					if(controller.pathing_attempts >= max_pathing_attempts)
 						controller.CancelActions()
 						SEND_SIGNAL(movable_pawn, COMSIG_AI_GENERAL_CHANGE, "Failed pathfinding cancelling.")
@@ -114,7 +149,7 @@
 					// Check for stairs going up
 					if(next_step.z > movable_pawn.z)
 						for(var/obj/structure/stairs/S in current_turf.contents)
-							var/turf/above = get_step_multiz(current_turf, UP)
+							var/turf/above = GET_TURF_ABOVE(current_turf)
 							if(above)
 								var/turf/dest = get_step(above, S.dir)
 								if(dest == next_step)
@@ -123,7 +158,7 @@
 
 					// Check for stairs going down or falling
 					else if(next_step.z < movable_pawn.z)
-						var/turf/below = get_step_multiz(current_turf, DOWN)
+						var/turf/below = GET_TURF_BELOW(current_turf)
 						if(below == next_step)
 							can_transition = TRUE
 						else
@@ -156,7 +191,11 @@
 						controller.clear_blackboard_key(future_path_blackboard_key)
 
 				// Update current path - remove steps we've completed
-				if(get_turf(movable_pawn) == next_step || (istype(next_step, /turf/open/transparent) && get_turf(movable_pawn) == GET_TURF_BELOW(next_step)))
+				var/datum/weakref/used_ref = WEAKREF(controller)
+				if(!(used_ref in falling_back))
+					falling_back |= used_ref
+					falling_back[used_ref] = TRUE
+				if(get_turf(movable_pawn) == next_step || (istransparentturf(next_step) && get_turf(movable_pawn) == get_step_multiz(next_step, DOWN)))
 					controller.movement_path.Cut(1,2)
 					if(length(controller.movement_path))
 						var/turf/double_checked = controller.movement_path[1]
@@ -164,17 +203,23 @@
 						if(get_turf(movable_pawn) == double_checked) // Handle z-level stack issues
 							controller.movement_path.Cut(1,2)
 
-					if(!length(controller.movement_path) && fallbacking)
-						fallbacking = FALSE
+					if(!length(controller.movement_path) && falling_back[used_ref])
+						falling_back[used_ref] = FALSE
+						// Successfully completed A* path - allow basic movement again on next iteration
+						controller.pathing_attempts = 0
 				else
-					if(!fallbacking)
+					if(!falling_back[used_ref])
 						generate_path = TRUE
 						controller.clear_blackboard_key(future_path_blackboard_key)
 					else
-						fallback_fail++
-						if(fallback_fail >= 2)
+						fallback_fail[used_ref]++
+						if(fallback_fail[used_ref] >= 2)
+							fallback_fail[used_ref] = 0
 							generate_path = TRUE
-							fallbacking = FALSE
+							if(!(used_ref in falling_back))
+								falling_back |= used_ref
+								falling_back[used_ref] = FALSE
+							falling_back[used_ref] = FALSE
 							controller.clear_blackboard_key(future_path_blackboard_key)
 
 				// If we're nearing the end of our path, preemptively generate the next path
@@ -183,10 +228,10 @@
 					// Target doesnt exist anymore or we picked it up already
 					if(QDELETED(controller.current_movement_target) || controller.current_movement_target.loc == movable_pawn)
 						continue
-					COOLDOWN_START(controller, repath_cooldown, 1 SECONDS) // Shorter cooldown for anticipatory pathing
+					COOLDOWN_START(controller, repath_cooldown, 0.3 SECONDS) // AP: aggressive anticipatory repath
 					// Generate the future path and store it in the controller's blackboard
 					var/list/new_future_path = get_path_to(movable_pawn, controller.current_movement_target, TYPE_PROC_REF(/turf, Heuristic_cardinal_3d),
-						max_path_distance + 1, 250, minimum_distance, id=controller.get_access())
+						max_path_distance + 1, max_path_distance + 1, minimum_distance, id=controller.get_access())
 					controller.set_blackboard_key(future_path_blackboard_key, new_future_path)
 					SEND_SIGNAL(controller.pawn, COMSIG_AI_FUTURE_PATH_GENERATED, new_future_path)
 			else
@@ -203,8 +248,8 @@
 				// Target doesnt exist anymore or we picked it up already
 				if(QDELETED(controller.current_movement_target) || controller.current_movement_target.loc == movable_pawn)
 					continue
-				COOLDOWN_START(controller, repath_cooldown, 1.5 SECONDS) // Reduced from 2 seconds
+				COOLDOWN_START(controller, repath_cooldown, 0.5 SECONDS) // AP: aggressive repath
 				controller.movement_path = get_path_to(movable_pawn, controller.current_movement_target, TYPE_PROC_REF(/turf, Heuristic_cardinal_3d),
-					max_path_distance + 1, 250, minimum_distance, id=controller.get_access())
+					max_path_distance + 1, max_path_distance + 1, minimum_distance, id=controller.get_access())
 				controller.clear_blackboard_key(future_path_blackboard_key) // Clear any future path as we have a fresh main path
 				SEND_SIGNAL(controller.pawn, COMSIG_AI_PATH_GENERATED, controller.movement_path)
