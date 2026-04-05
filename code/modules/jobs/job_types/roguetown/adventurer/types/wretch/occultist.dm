@@ -148,6 +148,15 @@
 			"Great Barbute"		= /obj/item/clothing/head/roguetown/helmet/heavy/barbute/great,
 	)
 
+	H.equip_to_slot_or_del(new /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk, SLOT_SHIRT, TRUE)
+	H.equip_to_slot_or_del(new /obj/item/clothing/gloves/roguetown/chain, SLOT_GLOVES, TRUE)
+	H.equip_to_slot_or_del(new /obj/item/clothing/wrists/roguetown/bracers/leather, SLOT_WRISTS, TRUE)
+	H.equip_to_slot_or_del(new /obj/item/clothing/shoes/roguetown/boots/leather/reinforced, SLOT_SHOES, TRUE)
+	// This (almost) invariably uses the generic overvestments. They look sufficiently monastic, and
+	// it spares the class from being too hard to distinguish from heretic. If you want to be fully
+	// decked out with unique patron gear, heretic is the shinier class of the two, play that.
+	H.equip_to_slot_or_del(new /obj/item/clothing/cloak/tabard/stabard/crusader/heavy, SLOT_CLOAK, TRUE)
+
 	switch(H.patron?.type)
 		if(/datum/patron/inhumen/zizo)
 			H.cmode_music = 'sound/music/combat_heretic.ogg'
@@ -260,30 +269,21 @@
 			H.equip_to_slot_or_del(new /obj/item/clothing/neck/roguetown/psicross/undivided, SLOT_RING, TRUE)
 			H.adjust_skillrank(/datum/skill/magic/holy, 1, TRUE)
 
-	H.equip_to_slot_or_del(new /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk, SLOT_SHIRT, TRUE)
-	H.equip_to_slot_or_del(new /obj/item/clothing/gloves/roguetown/chain, SLOT_GLOVES, TRUE)
-	H.equip_to_slot_or_del(new /obj/item/clothing/wrists/roguetown/bracers/leather, SLOT_WRISTS, TRUE)
-	H.equip_to_slot_or_del(new /obj/item/clothing/shoes/roguetown/boots/leather/reinforced, SLOT_SHOES, TRUE)
-	// This (almost) invariably uses the generic overvestments. They look sufficiently monastic, and
-	// it spares the class from being too hard to distinguish from heretic. If you want to be fully
-	// decked out with unique class gear, heretic is the shinier class of the two, play that.
-	H.equip_to_slot_or_del(new /obj/item/clothing/cloak/tabard/stabard/crusader/heavy, SLOT_CLOAK, TRUE)
-
-		// Psydon gets +1 weight, up to 9 total, by light of not having traditional miracles.
-		if(/datum/patron/old_god)
-			H.change_stat(STATKEY_WIL, 2)
-			H.change_stat(STATKEY_CON, 1)
-			H.equip_to_slot_or_del(new /obj/item/clothing/neck/roguetown/psicross/silver, SLOT_RING, TRUE)
-			H.equip_to_slot_or_del(new /obj/item/clothing/suit/roguetown/armor/brigandine, SLOT_ARMOR, TRUE)
-			H.equip_to_slot_or_del(new /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/inq, SLOT_SHIRT, TRUE)
-			H.equip_to_slot_or_del(new /obj/item/clothing/gloves/roguetown/chain/psydon, SLOT_GLOVES, TRUE)
-			H.equip_to_slot_or_del(new /obj/item/clothing/shoes/roguetown/boots/psydonboots, SLOT_SHOES, TRUE)
-			// The Psydonite tabard looks nearly identical to the generic overvestments anyway.
-			H.equip_to_slot_or_del(new /obj/item/clothing/cloak/tabard/psydontabard, SLOT_CLOAK, TRUE)
-			helmets += list("Psydonic Barbute" = /obj/item/clothing/head/roguetown/helmet/heavy/psydonbarbute,
-				"Psydonic Sallet" = /obj/item/clothing/head/roguetown/helmet/heavy/psysallet,
-				"Psydonic Armet" = /obj/item/clothing/head/roguetown/helmet/heavy/psydonhelm,
-				"Psydonic Bucket Helm" = /obj/item/clothing/head/roguetown/helmet/heavy/psybucket)
+			// Psydon gets +1 weight, up to 9 total, by light of not having traditional miracles.
+			if(/datum/patron/old_god)
+				H.change_stat(STATKEY_WIL, 2)
+				H.change_stat(STATKEY_CON, 1)
+				H.equip_to_slot_or_del(new /obj/item/clothing/neck/roguetown/psicross/silver, SLOT_RING, TRUE)
+				H.equip_to_slot_or_del(new /obj/item/clothing/suit/roguetown/armor/brigandine, SLOT_ARMOR, TRUE)
+				H.equip_to_slot_or_del(new /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/inq, SLOT_SHIRT, TRUE)
+				H.equip_to_slot_or_del(new /obj/item/clothing/gloves/roguetown/chain/psydon, SLOT_GLOVES, TRUE)
+				H.equip_to_slot_or_del(new /obj/item/clothing/shoes/roguetown/boots/psydonboots, SLOT_SHOES, TRUE)
+				// The Psydonite tabard looks nearly identical to the generic overvestments anyway.
+				H.equip_to_slot_or_del(new /obj/item/clothing/cloak/tabard/psydontabard, SLOT_CLOAK, TRUE)
+				helmets += list("Psydonic Barbute" = /obj/item/clothing/head/roguetown/helmet/heavy/psydonbarbute,
+					"Psydonic Sallet" = /obj/item/clothing/head/roguetown/helmet/heavy/psysallet,
+					"Psydonic Armet" = /obj/item/clothing/head/roguetown/helmet/heavy/psydonhelm,
+					"Psydonic Bucket Helm" = /obj/item/clothing/head/roguetown/helmet/heavy/psybucket)
 
 	if(H.mind)
 		var/helmchoice = input(H, "Choose your Helm.", "TAKE UP HELMS") as anything in helmets
