@@ -26,6 +26,9 @@
 	wander = FALSE
 	cmode_music = FALSE
 
+/mob/living/carbon/human/species/orc/npc/archer
+	orc_outfit = /datum/outfit/job/roguetown/orc/npc/archer
+
 /mob/living/carbon/human/species/orc/npc/Initialize()
 	. = ..()
 	set_species(/datum/species/orc)

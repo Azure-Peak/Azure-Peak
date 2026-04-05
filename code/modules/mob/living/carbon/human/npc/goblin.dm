@@ -35,6 +35,12 @@ GLOBAL_LIST_INIT(goblin_aggro, world.file2list("strings/rt/goblinaggrolines.txt"
 	wander = TRUE
 	attack_speed = 2
 
+/mob/living/carbon/human/species/goblin/npc/archer
+	gob_outfit = /datum/outfit/job/roguetown/npc/goblin/archer
+
+/mob/living/carbon/human/species/goblin/npc/slinger
+	gob_outfit = /datum/outfit/job/roguetown/npc/goblin/slinger
+
 /mob/living/carbon/human/species/goblin/hell
 	name = "hell goblin"
 	race = /datum/species/goblin/hell
@@ -406,6 +412,24 @@ GLOBAL_LIST_INIT(goblin_aggro, world.file2list("strings/rt/goblinaggrolines.txt"
 	H.adjust_skillrank(/datum/skill/combat/wrestling, 2, TRUE) // Trash mob
 	H.adjust_skillrank(/datum/skill/misc/swimming, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/climbing, 2, TRUE)
+
+/datum/outfit/job/roguetown/npc/goblin/archer/pre_equip(mob/living/carbon/human/H)
+	..()
+	r_hand = /obj/item/rogueweapon/huntingknife/stoneknife
+	l_hand = null
+	backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow
+	backl = /obj/item/quiver/arrows/stone
+	armor = /obj/item/clothing/suit/roguetown/armor/leather/hide/goblin
+	H.adjust_skillrank(/datum/skill/combat/bows, 2, TRUE)
+
+/datum/outfit/job/roguetown/npc/goblin/slinger/pre_equip(mob/living/carbon/human/H)
+	..()
+	r_hand = /obj/item/rogueweapon/huntingknife/stoneknife
+	l_hand = null
+	wrists = /obj/item/gun/ballistic/revolver/grenadelauncher/sling
+	neck = /obj/item/quiver/sling/stone
+	armor = /obj/item/clothing/suit/roguetown/armor/leather/hide/goblin
+	H.adjust_skillrank(/datum/skill/combat/slings, 2, TRUE)
 
 //////////////////   INVADER ZIM	//////////////////
 

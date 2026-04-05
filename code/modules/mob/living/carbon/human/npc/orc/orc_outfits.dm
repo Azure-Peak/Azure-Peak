@@ -1,3 +1,11 @@
+/datum/outfit/job/roguetown/orc/npc/archer/pre_equip(mob/living/carbon/human/H)
+	..()
+	backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow
+	backl = /obj/item/quiver/arrows
+	l_hand = /obj/item/rogueweapon/stoneaxe/boneaxe
+	r_hand = null
+	H.adjust_skillrank(/datum/skill/combat/bows, 3, TRUE)
+
 /mob/living/carbon/human/species/orc/npc/footsoldier
 	threat_point = THREAT_HIGH
 	ambush_faction = "orcs"
