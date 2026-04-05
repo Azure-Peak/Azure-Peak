@@ -146,3 +146,49 @@
   gatorceres:
   - rscadd: loadout options for plaguebearer (now "malpractitioner")
   - balance: a bit more skill and a cheele for all malpractitioners
+2026-04-05:
+  FreeStylaLT:
+  - balance: Wrestling ClickCDs now account for the actions being done to oneself
+      or to mindless mobs. Those CDs are shorter.
+  - balance: Added a missing ClickCD to the initiation of a grab.
+  - rscadd: Dealing direct bodypart damage now carries a chance of the target dropping
+      all grabs. Targeting the limb that is holding the grab increases this chance.
+  - code_imp: Added virtue & vice limits to subclasses.
+  - rscadd: Added Dual Wielder virtue limit to Freifechters.
+  - bugfix: Fixed simple mobs not interacting with dodge correctly.
+  - balance: Being outnumbered (having Tempo) will reduce the frequency of dodge loss
+      for dodge experts, or remove it entirely, depending on the situation.
+  Ollanius:
+  - rscdel: Removed unused variants of the Golden Sword, Mace, and Shield.
+  - rscadd: Added a plethora of new Triumph-purchasable reskins, sprited by 7erracotta
+      (and - for the whips - Vanderlin.)
+  - rscadd: Adds three new decorated weapons that can be crafted through gilding.
+  - rscadd: Dadao skins can now be applied onto a Falchion.
+  - rscdel: Finally removed Zerobrine.
+  Ryan180602:
+  - refactor: altgrips, to make it easier to make more
+  - rscadd: altgripping's default keybind is now B
+  - rscadd: can cycle through altgrips (if there's multiple)
+  - rscadd: examining a weapon tells you what altgrips it has.
+  - rscadd: halfswording for longswords. halfsword + roofguard for freiswords
+  - bugfix: disables certain weapons from having altgrips
+  - bugfix: guard keybind needs cmode
+  Teragenic:
+  - balance: Envoys given more role stuff
+  - bugfix: Envoy priest and advisor fixed to actually spawn properly
+  ToasterStrudes:
+  - bugfix: fixes the east and west sprite for the gladiatorial sandals on female
+      characters.
+  WeNeedMorePhoron:
+  - bugfix: Point blanking a simple creature with ice burst / fireball should no longer
+      mutates its damage and nuke yourself and everyone in the radius
+  - rscadd: Permanent Rune wards have increased durability (100 -> 300)
+  - rscadd: Spitfire is no longer a fireball subtype that does structural damage around
+      it. Oops.
+  - rscadd: All ritual runes, instead of only summoning runes, are indestructible.
+  eirenxiv:
+  - rscadd: Beak donor helmet
+  - bugfix: fixed donor swords, various
+  - code_imp: changed rage stages to work off a trait, made said trait
+  mumblemancer:
+  - qol: mechanized ore bags now automatically pick up ore you walk over
