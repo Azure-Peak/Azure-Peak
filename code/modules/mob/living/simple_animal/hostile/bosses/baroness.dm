@@ -245,7 +245,6 @@
 	item_d_type = "stab"
 
 /mob/living/carbon/human/species/dwarfskeleton/ambush/knight/summoned
-		del_on_deaggro = TRUE // deletes so consecutive failures dont doom stack dorf knights, can be abused but we're HRP at the end of the day
 
 /obj/effect/oneway
 	name = "one way effect"

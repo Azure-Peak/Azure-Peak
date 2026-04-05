@@ -1,43 +1,23 @@
 GLOBAL_LIST_INIT(drowraider_aggro, world.file2list("strings/rt/drowaggrolines.txt"))
 
 /mob/living/carbon/human/species/elf/dark/drowraider
-	aggressive=1
-	rude = TRUE
 	ai_controller = /datum/ai_controller/human_npc
-	mode = NPC_AI_OFF
 	faction = list("drow")
 	ambushable = FALSE
 	dodgetime = 30
-	flee_in_pain = TRUE
 	d_intent = INTENT_DODGE
 	possible_rmb_intents = list()
 
 /mob/living/carbon/human/species/elf/dark/drowraider/ambush
 	threat_point = THREAT_TOUGH
 	ambush_faction = "underdark"
-	aggressive=1
-	wander = TRUE
 
-/mob/living/carbon/human/species/elf/dark/drowraider/retaliate(mob/living/L)
-	var/newtarg = target
-	.=..()
-	if(target)
-		aggressive=1
-		wander = TRUE
-	if(target != newtarg)
-		if(npc_combat_dialogue(GLOB.drowraider_aggro, prob_chance = 50, cooldown = 0))
-			pointed(target)
 
-/mob/living/carbon/human/species/elf/dark/drowraider/should_target(mob/living/L)
-	if(L.stat != CONSCIOUS)
-		return FALSE
-	. = ..()
 
 /mob/living/carbon/human/species/elf/dark/drowraider/Initialize()
 	. = ..()
 	set_species(/datum/species/elf/dark/raider)
 	addtimer(CALLBACK(src, PROC_REF(after_creation)), 1 SECONDS)
-	is_silent = TRUE
 
 
 /mob/living/carbon/human/species/elf/dark/drowraider/after_creation()
@@ -107,26 +87,6 @@ GLOBAL_LIST_INIT(drowraider_aggro, world.file2list("strings/rt/drowaggrolines.tx
 	update_hair()
 	update_body()
 
-/mob/living/carbon/human/species/elf/dark/drowraider/npc_idle()
-	if(m_intent == MOVE_INTENT_SNEAK)
-		return
-	if(world.time < next_idle)
-		return
-	next_idle = world.time + rand(30, 70)
-	if((mobility_flags & MOBILITY_MOVE) && isturf(loc) && wander)
-		if(prob(20))
-			var/turf/T = get_step(loc,pick(GLOB.cardinals))
-			if(!istype(T, /turf/open/transparent/openspace))
-				Move(T)
-		else
-			face_atom(get_step(src,pick(GLOB.cardinals)))
-	if(!wander && prob(10))
-		face_atom(get_step(src,pick(GLOB.cardinals)))
-
-/mob/living/carbon/human/species/elf/dark/drowraider/handle_combat()
-	if(mode == NPC_AI_HUNT)
-		npc_combat_dialogue(GLOB.drowraider_aggro, list("laugh", "cackle", "giggle"), prob_chance = 5, say_chance = 60)
-	. = ..()
 
 /datum/outfit/job/roguetown/human/species/elf/dark/drowraider/pre_equip(mob/living/carbon/human/H)
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced

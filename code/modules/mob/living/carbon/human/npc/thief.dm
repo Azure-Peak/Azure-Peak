@@ -1,27 +1,13 @@
 /mob/living/carbon/human/species/human/northern/thief //I'm a thief, give me your shit
 	ai_controller = /datum/ai_controller/human_npc
-	mode = NPC_AI_OFF
 	faction = list("thieves")
 	ambushable = FALSE
 	dodgetime = 30
-	flee_in_pain = TRUE
 	a_intent = INTENT_HELP
 	m_intent = MOVE_INTENT_SNEAK
 	d_intent = INTENT_DODGE
-	aggressive= TRUE
-	wander = TRUE
 
-/mob/living/carbon/human/species/human/northern/thief/retaliate(mob/living/L)
-	.=..()
-	if(m_intent == MOVE_INTENT_SNEAK)
-		m_intent = MOVE_INTENT_WALK
-		update_move_intent_slowdown(src)
-		return
 
-/mob/living/carbon/human/species/human/northern/thief/should_target(mob/living/L)
-	if(L.stat != CONSCIOUS)
-		return FALSE
-	. = ..()
 
 /mob/living/carbon/human/species/human/northern/thief/Initialize()
 	. = ..()
@@ -90,23 +76,6 @@
 	update_body()
 	head.sellprice = 30
 
-/mob/living/carbon/human/species/human/northern/thief/npc_idle()
-	if(m_intent == MOVE_INTENT_WALK)
-		m_intent = MOVE_INTENT_SNEAK
-		update_move_intent_slowdown()
-		return
-	if(world.time < next_idle)
-		return
-	next_idle = world.time + rand(30, 70)
-	if((mobility_flags & MOBILITY_MOVE) && isturf(loc) && wander)
-		if(prob(20))
-			var/turf/T = get_step(loc,pick(GLOB.cardinals))
-			if(!istype(T, /turf/open/transparent/openspace))
-				Move(T)
-		else
-			face_atom(get_step(src,pick(GLOB.cardinals)))
-	if(!wander && prob(10))
-		face_atom(get_step(src,pick(GLOB.cardinals)))
 
 /datum/outfit/job/roguetown/human/species/human/northern/thief/pre_equip(mob/living/carbon/human/H)
 	cloak = /obj/item/clothing/cloak/raincloak/mortus

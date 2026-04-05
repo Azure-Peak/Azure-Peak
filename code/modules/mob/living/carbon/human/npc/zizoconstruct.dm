@@ -9,8 +9,6 @@ GLOBAL_LIST_INIT(zizoconstruct_aggro, world.file2list("strings/rt/zconstructaggr
 	var/zc_outfit = /datum/outfit/job/roguetown/human/species/construct/metal/zizoconstruct
 	ambushable = FALSE
 	ai_controller = /datum/ai_controller/human_npc
-	mode = NPC_AI_OFF
-	wander = FALSE
 	cmode = 1
 	setparrytime = 30
 	a_intent = INTENT_HELP
@@ -20,18 +18,8 @@ GLOBAL_LIST_INIT(zizoconstruct_aggro, world.file2list("strings/rt/zconstructaggr
 	resize = 1.2
 
 /mob/living/carbon/human/species/construct/metal/zizoconstruct/ambush
-	aggressive=1
-	wander = TRUE
 
-/mob/living/carbon/human/species/construct/metal/zizoconstruct/retaliate(mob/living/L)
-	.=..()
-	if(npc_combat_dialogue(GLOB.zizoconstruct_aggro, prob_chance = 5, cooldown = 0))
-		pointed(target)
 
-/mob/living/carbon/human/species/construct/metal/zizoconstruct/should_target(mob/living/L)
-	if(L.stat != CONSCIOUS)
-		return FALSE
-	. = ..()
 
 /mob/living/carbon/human/species/construct/metal/zizoconstruct/Initialize()
 	. = ..()

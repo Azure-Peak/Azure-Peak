@@ -15,7 +15,7 @@
 	if(!isturf(target.loc))
 		finish_action(controller, FALSE, target_key)
 		return
-	if(pawn.equip_item(target))
+	if(pawn.put_in_hands(target))
 		finish_action(controller, TRUE, target_key)
 		return
 	finish_action(controller, FALSE, target_key)

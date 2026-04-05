@@ -26,18 +26,12 @@
 	if (notransform)
 		return
 
-	if(!client && mode == NPC_AI_SLEEP)
-		return
-
 	. = ..()
 
 	if (QDELETED(src))
 		return 0
 
 	SEND_SIGNAL(src, COMSIG_HUMAN_LIFE)
-
-	if(. && (mode != NPC_AI_OFF))
-		handle_ai()
 
 	if(advsetup)
 		Stun(50)
@@ -76,7 +70,7 @@
 			cf.flaw_on_life(src)
 	if(health <= 0)
 		adjustOxyLoss(0.5)
-	if(mode == NPC_AI_OFF && !client && !ai_controller && !HAS_TRAIT(src, TRAIT_NOSLEEP))
+	if(!client && !ai_controller && !HAS_TRAIT(src, TRAIT_NOSLEEP))
 		if(mob_timers["slo"])
 			if(world.time > mob_timers["slo"] + 90 SECONDS)
 				Sleeping(100)

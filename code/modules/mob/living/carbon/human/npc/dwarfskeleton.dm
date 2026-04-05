@@ -8,8 +8,6 @@ GLOBAL_LIST_INIT(dwarfskeleton_aggro, world.file2list("strings/rt/dskeletonaggro
 	var/skel_outfit = /datum/outfit/job/roguetown/dwarfskeleton
 	ambushable = FALSE
 	ai_controller = /datum/ai_controller/human_npc
-	mode = NPC_AI_OFF
-	wander = FALSE
 	cmode = 1
 	setparrytime = 30
 	a_intent = INTENT_HELP
@@ -21,13 +19,7 @@ GLOBAL_LIST_INIT(dwarfskeleton_aggro, world.file2list("strings/rt/dskeletonaggro
 /mob/living/carbon/human/species/dwarfskeleton/ambush
 	threat_point = THREAT_ELITE
 	ambush_faction = "undead"
-	aggressive=1
-	wander = TRUE
 
-/mob/living/carbon/human/species/dwarfskeleton/retaliate(mob/living/L)
-	.=..()
-	if(npc_combat_dialogue(GLOB.dwarfskeleton_aggro, prob_chance = 5, cooldown = 0))
-		pointed(target)
 
 /mob/living/carbon/human/species/dwarfskeleton/Initialize()
 	. = ..()

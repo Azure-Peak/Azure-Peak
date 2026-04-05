@@ -17,18 +17,12 @@
 	cmode_music = 'sound/music/combat_weird.ogg'
 
 /mob/living/carbon/human/species/skeleton/npc
-	aggressive = 1
 	ambush_faction = "undead"
 	ai_controller = /datum/ai_controller/human_npc
-	mode = NPC_AI_OFF
-	wander = FALSE
 	skel_fragile = TRUE
-	npc_jump_chance = 0 // no jumping skeletons
-	rude = TRUE
 
 /mob/living/carbon/human/species/skeleton/npc/ambush
 	threat_point = THREAT_MODERATE
-	wander = TRUE
 
 /mob/living/carbon/human/species/skeleton/Initialize()
 	. = ..()

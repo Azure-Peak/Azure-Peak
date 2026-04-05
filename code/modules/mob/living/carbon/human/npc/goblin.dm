@@ -16,24 +16,14 @@ GLOBAL_LIST_INIT(goblin_aggro, world.file2list("strings/rt/goblinaggrolines.txt"
 	a_intent = INTENT_HELP
 	possible_mmb_intents = list(INTENT_SPECIAL, INTENT_JUMP, INTENT_KICK, INTENT_BITE)
 	possible_rmb_intents = list(/datum/rmb_intent/feint, /datum/rmb_intent/swift, /datum/rmb_intent/riposte, /datum/rmb_intent/weak)
-	flee_in_pain = TRUE
 
 /mob/living/carbon/human/species/goblin/npc
-	aggressive=1
 	ai_controller = /datum/ai_controller/human_npc
-	mode = NPC_AI_OFF
 	dodgetime = 30 //they can dodge easily, but have a cooldown on it
-	flee_in_pain = TRUE
-	npc_jump_chance = 60
-	npc_jump_distance = 3 // this might make them concheck more often, but it'll also mean it's easier to kick their legs out from under them
-	rude = TRUE
-	wander = FALSE
 
 /mob/living/carbon/human/species/goblin/npc/ambush
 	threat_point = THREAT_LOW
 	ambush_faction = "goblins"
-	wander = TRUE
-	attack_speed = 2
 
 /mob/living/carbon/human/species/goblin/npc/archer
 	gob_outfit = /datum/outfit/job/roguetown/npc/goblin/archer
@@ -225,17 +215,7 @@ GLOBAL_LIST_INIT(goblin_aggro, world.file2list("strings/rt/goblinaggrolines.txt"
 	. = ..()
 	addtimer(CALLBACK(src, PROC_REF(after_creation)), 1 SECONDS)
 
-/mob/living/carbon/human/species/goblin/retaliate(mob/living/L)
-	var/newtarg = target
-	. = ..()
-	if(target != newtarg && npc_combat_dialogue(GLOB.goblin_aggro, list("laugh", "giggle", "chuckle", "cackle", "screech", "hiss", "growl"), prob_chance = 10))
-		pointed(target)
 
-
-/mob/living/carbon/human/species/goblin/handle_combat()
-	if(mode == NPC_AI_HUNT)
-		npc_combat_dialogue(GLOB.goblin_aggro, list("laugh", "giggle", "chuckle", "cackle", "screech", "hiss", "growl"), prob_chance = 10)
-	. = ..()
 
 /mob/living/carbon/human/species/goblin/after_creation()
 	..()
@@ -324,20 +304,10 @@ GLOBAL_LIST_INIT(goblin_aggro, world.file2list("strings/rt/goblinaggrolines.txt"
 /datum/outfit/job/roguetown/npc/goblin/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.STASTR = 8
-	var/chance_zjumper = 5
-	var/chance_treeclimber = 30
 	if(is_species(H, /datum/species/goblin/moon))
 		H.STASPD = 16
-		chance_zjumper = 20
-		chance_treeclimber = 70
 	else
 		H.STASPD = 14
-	if(prob(chance_zjumper))
-		ADD_TRAIT(H, TRAIT_ZJUMP, TRAIT_GENERIC)
-		H.find_targets_above = TRUE
-	if(prob(chance_treeclimber))
-		H.tree_climber = TRUE
-		H.find_targets_above = TRUE // so they can taunt
 	H.STACON = 4
 	H.STAWIL = 4
 	H.STAPER = 8

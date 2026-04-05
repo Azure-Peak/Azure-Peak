@@ -19,11 +19,7 @@
 
 /mob/living/carbon/human/species/orc/npc
 	faction = list("orcs", "station")
-	aggressive = 1
-	rude = TRUE
 	ai_controller = /datum/ai_controller/human_npc
-	mode = NPC_AI_OFF
-	wander = FALSE
 	cmode_music = FALSE
 
 /mob/living/carbon/human/species/orc/npc/archer
