@@ -21,6 +21,7 @@
 
 /mob/living/carbon/human/species/human/northern/mad_touched_treasure_hunter/after_creation()
 	..()
+	AddComponent(/datum/component/ai_aggro_system)
 	job = "Mad-touched Treasure Hunter"
 	ADD_TRAIT(src, TRAIT_NOMOOD, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NOHUNGER, TRAIT_GENERIC)

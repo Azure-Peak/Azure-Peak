@@ -32,6 +32,7 @@
 
 /mob/living/carbon/human/species/orc/npc/after_creation()
 	..()
+	AddComponent(/datum/component/ai_aggro_system)
 	job = "Savage Orc"
 	equipOutfit(new orc_outfit)
 	gender = pick(MALE, FEMALE)

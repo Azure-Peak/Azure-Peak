@@ -32,6 +32,7 @@
 
 /mob/living/carbon/human/species/lizardfolk/psy_vault_guard/after_creation()
 	..()
+	AddComponent(/datum/component/ai_aggro_system)
 	SEND_SIGNAL(src, COMSIG_MOB_MODIFY_AGGRO_LINES, GLOB.highwayman_aggro, TRUE)
 	//This Stuff handles their parts
 	var/obj/item/organ/tail/lizard/tail = src.getorganslot(ORGAN_SLOT_TAIL)

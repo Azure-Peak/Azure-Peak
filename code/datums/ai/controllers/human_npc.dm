@@ -51,7 +51,6 @@
 	RegisterSignal(new_pawn, COMSIG_MOB_MOVESPEED_UPDATED, PROC_REF(update_movespeed))
 	movement_delay = living_pawn.cached_multiplicative_slowdown
 	new_pawn.AddComponent(/datum/component/ai_inventory_manager)
-	new_pawn.AddComponent(/datum/component/ai_aggro_system)
 	new_pawn.AddElement(/datum/element/interrupt_on_damage)
 	new_pawn.AddComponent(/datum/component/combat_vocalizer)
 

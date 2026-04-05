@@ -43,6 +43,7 @@ GLOBAL_LIST_INIT(hedgeknight_aggro, world.file2list("strings/rt/hedgeknightaggro
 
 /mob/living/carbon/human/species/human/northern/deranged_knight/after_creation()
 	..()
+	AddComponent(/datum/component/ai_aggro_system)
 	job = "Ascendant Knight"
 	ADD_TRAIT(src, TRAIT_NOMOOD, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NOHUNGER, TRAIT_GENERIC)

@@ -16,6 +16,7 @@
 
 /mob/living/carbon/human/species/human/northern/thief/after_creation()
 	..()
+	AddComponent(/datum/component/ai_aggro_system)
 	job = "Thief"
 	ADD_TRAIT(src, TRAIT_NOMOOD, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NOHUNGER, TRAIT_GENERIC)

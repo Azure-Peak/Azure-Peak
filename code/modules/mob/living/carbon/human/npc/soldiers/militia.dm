@@ -17,6 +17,7 @@
 
 /mob/living/carbon/human/species/human/northern/militia/after_creation()
 	..()
+	AddComponent(/datum/component/ai_aggro_system)
 	SEND_SIGNAL(src, COMSIG_MOB_MODIFY_AGGRO_LINES, GLOB.highwayman_aggro, TRUE)
 	job = "Militia"
 	ADD_TRAIT(src, TRAIT_NOMOOD, TRAIT_GENERIC)
@@ -126,5 +127,6 @@
 
 /mob/living/carbon/human/species/human/northern/militia/after_creation()
 	..()
+	AddComponent(/datum/component/ai_aggro_system)
 	var/obj/item/bodypart/head/head = get_bodypart(BODY_ZONE_HEAD)
 	head.sellprice = 20 // Gobbo sellprice

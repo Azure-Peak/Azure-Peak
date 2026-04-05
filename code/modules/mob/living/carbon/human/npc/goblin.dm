@@ -219,6 +219,7 @@ GLOBAL_LIST_INIT(goblin_aggro, world.file2list("strings/rt/goblinaggrolines.txt"
 
 /mob/living/carbon/human/species/goblin/after_creation()
 	..()
+	AddComponent(/datum/component/ai_aggro_system)
 	SEND_SIGNAL(src, COMSIG_MOB_MODIFY_AGGRO_LINES, GLOB.goblin_aggro, TRUE)
 	gender = MALE
 	if(src.dna && src.dna.species)

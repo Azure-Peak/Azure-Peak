@@ -29,6 +29,7 @@ GLOBAL_LIST_INIT(zizoconstruct_aggro, world.file2list("strings/rt/zconstructaggr
 
 /mob/living/carbon/human/species/construct/metal/zizoconstruct/after_creation()
 	..()
+	AddComponent(/datum/component/ai_aggro_system)
 	SEND_SIGNAL(src, COMSIG_MOB_MODIFY_AGGRO_LINES, GLOB.zizoconstruct_aggro, TRUE)
 	job = "Zizo Construct"
 	ADD_TRAIT(src, TRAIT_NOMOOD, TRAIT_GENERIC)

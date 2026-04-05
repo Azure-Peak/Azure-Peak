@@ -115,6 +115,7 @@
 
 /mob/living/carbon/human/species/human/northern/bog_deserters/after_creation()
 	..()
+	AddComponent(/datum/component/ai_aggro_system)
 	SEND_SIGNAL(src, COMSIG_MOB_MODIFY_AGGRO_LINES, GLOB.highwayman_aggro, TRUE)
 	job = "Garrison Deserter"
 	ADD_TRAIT(src, TRAIT_NOMOOD, TRAIT_GENERIC)
@@ -208,6 +209,7 @@
 	threat_point = THREAT_DANGEROUS
 
 /mob/living/carbon/human/species/human/northern/bog_deserters/better_gear/after_creation()
+	AddComponent(/datum/component/ai_aggro_system)
 	job = "Garrison Deserter"
 	ADD_TRAIT(src, TRAIT_NOMOOD, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NOHUNGER, TRAIT_GENERIC)
