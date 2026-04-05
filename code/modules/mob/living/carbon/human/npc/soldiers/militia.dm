@@ -3,7 +3,8 @@
 /mob/living/carbon/human/species/human/northern/militia //weak peasant infantry. Neutral but can be given factions for events. doesn't attack players.
 	aggressive=1 //they attack things. INCLUDING SAIGAS (THIS MEANS THEY WILL AGGRO ON PEOPLES MOUNTS)
 	rude = TRUE
-	mode = NPC_AI_IDLE
+	ai_controller = /datum/ai_controller/human_npc
+	mode = NPC_AI_OFF
 	faction = list("neutral")
 	ambushable = FALSE
 	dodgetime = 30

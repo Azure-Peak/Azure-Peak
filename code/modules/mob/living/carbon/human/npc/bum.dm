@@ -4,7 +4,8 @@ GLOBAL_LIST_INIT(bum_aggro, world.file2list("strings/rt/bumaggrolines.txt"))
 /mob/living/carbon/human/species/human/northern/bum
 	aggressive=0
 	rude = TRUE
-	mode = NPC_AI_IDLE
+	ai_controller = /datum/ai_controller/human_npc
+	mode = NPC_AI_OFF
 	faction = list("bums", "station")
 	ambushable = FALSE
 	dodgetime = 30

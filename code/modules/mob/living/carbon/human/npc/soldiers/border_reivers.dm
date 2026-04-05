@@ -1,7 +1,8 @@
 /mob/living/carbon/human/species/human/northern/border_reiver/
 	aggressive=1
 	rude = TRUE
-	mode = NPC_AI_IDLE
+	ai_controller = /datum/ai_controller/human_npc
+	mode = NPC_AI_OFF
 	faction = list("reiver")
 	ambushable = FALSE
 	cmode = 1
@@ -166,7 +167,8 @@
 /mob/living/carbon/human/species/human/northern/border_reiver/midgear
 	aggressive=1
 	rude = TRUE
-	mode = NPC_AI_IDLE
+	ai_controller = /datum/ai_controller/human_npc
+	mode = NPC_AI_OFF
 	faction = list("reiver")
 	ambushable = FALSE
 	cmode = 1
@@ -276,7 +278,8 @@
 /mob/living/carbon/human/species/human/northern/border_reiver/lowgear
 	aggressive=1
 	rude = TRUE
-	mode = NPC_AI_IDLE
+	ai_controller = /datum/ai_controller/human_npc
+	mode = NPC_AI_OFF
 	faction = list("reiver")
 	ambushable = FALSE
 	cmode = 1
@@ -370,7 +373,8 @@
 /mob/living/carbon/human/species/human/northern/border_reiver/highgear
 	aggressive=1
 	rude = TRUE
-	mode = NPC_AI_IDLE
+	ai_controller = /datum/ai_controller/human_npc
+	mode = NPC_AI_OFF
 	faction = list("reiver")
 	ambushable = FALSE
 	cmode = 1

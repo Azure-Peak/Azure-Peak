@@ -7,7 +7,8 @@ GLOBAL_LIST_INIT(dwarfskeleton_aggro, world.file2list("strings/rt/dskeletonaggro
 	faction = list("dundead")
 	var/skel_outfit = /datum/outfit/job/roguetown/dwarfskeleton
 	ambushable = FALSE
-	mode = NPC_AI_IDLE
+	ai_controller = /datum/ai_controller/human_npc
+	mode = NPC_AI_OFF
 	wander = FALSE
 	cmode = 1
 	setparrytime = 30

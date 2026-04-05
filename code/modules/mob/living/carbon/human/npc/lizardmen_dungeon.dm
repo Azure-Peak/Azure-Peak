@@ -4,7 +4,8 @@
 	race = /datum/species/lizardfolk
 	aggressive=1
 	rude = TRUE
-	mode = NPC_AI_IDLE
+	ai_controller = /datum/ai_controller/human_npc
+	mode = NPC_AI_OFF
 	faction = list("psy_vault_guard")
 	ambushable = FALSE
 	cmode = 1

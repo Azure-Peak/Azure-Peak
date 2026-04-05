@@ -3,7 +3,8 @@ GLOBAL_LIST_INIT(drowraider_aggro, world.file2list("strings/rt/drowaggrolines.tx
 /mob/living/carbon/human/species/elf/dark/drowraider
 	aggressive=1
 	rude = TRUE
-	mode = NPC_AI_IDLE
+	ai_controller = /datum/ai_controller/human_npc
+	mode = NPC_AI_OFF
 	faction = list("drow")
 	ambushable = FALSE
 	dodgetime = 30

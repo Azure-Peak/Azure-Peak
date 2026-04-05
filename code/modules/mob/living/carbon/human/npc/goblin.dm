@@ -20,7 +20,8 @@ GLOBAL_LIST_INIT(goblin_aggro, world.file2list("strings/rt/goblinaggrolines.txt"
 
 /mob/living/carbon/human/species/goblin/npc
 	aggressive=1
-	mode = NPC_AI_IDLE
+	ai_controller = /datum/ai_controller/human_npc
+	mode = NPC_AI_OFF
 	dodgetime = 30 //they can dodge easily, but have a cooldown on it
 	flee_in_pain = TRUE
 	npc_jump_chance = 60

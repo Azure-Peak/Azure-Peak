@@ -1,6 +1,7 @@
 /mob/living/carbon/human/species/npc/deadite
 	aggressive = TRUE
-	mode = NPC_AI_IDLE
+	ai_controller = /datum/ai_controller/human_npc
+	mode = NPC_AI_OFF
 	npc_jump_chance = 0
 	rude = FALSE // don't taunt people as a deadite
 	tree_climber = FALSE // or climb trees

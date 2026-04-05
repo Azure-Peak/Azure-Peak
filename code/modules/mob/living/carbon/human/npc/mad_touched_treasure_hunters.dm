@@ -5,7 +5,8 @@
 
 /mob/living/carbon/human/species/human/northern/mad_touched_treasure_hunter
 	aggressive=1
-	mode = AI_IDLE
+	ai_controller = /datum/ai_controller/human_npc
+	mode = NPC_AI_OFF
 	faction = list("viking", "station")
 	ambushable = FALSE
 	dodgetime = 15

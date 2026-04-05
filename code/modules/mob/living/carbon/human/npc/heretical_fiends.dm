@@ -1,7 +1,8 @@
 /mob/living/carbon/human/species/human/northern/heretical_fiend_no_gear
 	aggressive=1
 	rude = TRUE
-	mode = NPC_AI_IDLE
+	ai_controller = /datum/ai_controller/human_npc
+	mode = NPC_AI_OFF
 	faction = list("Heretical_Fiend", "dundead")
 	ambushable = FALSE
 	cmode = 1
@@ -99,7 +100,8 @@
 /mob/living/carbon/human/species/human/northern/heretical_fiend_no_gear/zizo_cultist
 	aggressive=1
 	rude = TRUE
-	mode = NPC_AI_IDLE
+	ai_controller = /datum/ai_controller/human_npc
+	mode = NPC_AI_OFF
 	faction = list("Heretical Fiend", "dundead")
 	ambushable = FALSE
 	cmode = 1

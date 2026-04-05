@@ -19,7 +19,8 @@
 /mob/living/carbon/human/species/skeleton/npc
 	aggressive = 1
 	ambush_faction = "undead"
-	mode = NPC_AI_IDLE
+	ai_controller = /datum/ai_controller/human_npc
+	mode = NPC_AI_OFF
 	wander = FALSE
 	skel_fragile = TRUE
 	npc_jump_chance = 0 // no jumping skeletons

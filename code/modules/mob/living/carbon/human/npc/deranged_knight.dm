@@ -12,7 +12,8 @@ GLOBAL_LIST_INIT(hedgeknight_aggro, world.file2list("strings/rt/hedgeknightaggro
 /mob/living/carbon/human/species/human/northern/deranged_knight
 	aggressive = TRUE
 	rude = TRUE
-	mode = NPC_AI_IDLE
+	ai_controller = /datum/ai_controller/human_npc
+	mode = NPC_AI_OFF
 	faction = list("dundead")
 	ambushable = FALSE
 	dodgetime = 30

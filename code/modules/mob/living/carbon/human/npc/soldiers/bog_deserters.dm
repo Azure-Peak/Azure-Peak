@@ -86,7 +86,8 @@
 /mob/living/carbon/human/species/human/northern/bog_deserters
 	aggressive=1
 	rude = TRUE
-	mode = NPC_AI_IDLE
+	ai_controller = /datum/ai_controller/human_npc
+	mode = NPC_AI_OFF
 	faction = list("viking", "station")
 	ambushable = FALSE
 	cmode = 1
@@ -223,7 +224,8 @@
 /mob/living/carbon/human/species/human/northern/bog_deserters/better_gear
 	aggressive=1
 	rude = TRUE
-	mode = NPC_AI_IDLE
+	ai_controller = /datum/ai_controller/human_npc
+	mode = NPC_AI_OFF
 	faction = list("viking", "station")
 	ambushable = FALSE
 	cmode = 1
