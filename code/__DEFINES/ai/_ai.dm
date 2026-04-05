@@ -4,6 +4,11 @@
 #define AI_STATUS_OFF		2
 #define AI_STATUS_IDLE		3
 
+/// INT baseline at which NPC tactical chances are at 100%. Below scales down, above stays capped.
+#define AI_INT_BASELINE 10
+/// Scales a probability by the pawn's INT relative to baseline. INT 4 = 40%, INT 10 = 100%. Capped at 100%.
+#define AI_INT_SCALE_PROB(pawn, chance) prob(min(chance, chance * pawn.STAINT / AI_INT_BASELINE))
+
 ///Carbon checks
 #define SHOULD_RESIST(source) (source.on_fire || source.buckled || HAS_TRAIT(source, TRAIT_RESTRAINED) || (source.pulledby && source.pulledby.grab_state > GRAB_PASSIVE))
 #define SHOULD_STAND(source) (source.resting)

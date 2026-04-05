@@ -42,7 +42,7 @@
 			if(S.density)
 				walled = TRUE
 				break
-	if(walled && prob(KICK_WALLED_CHANCE))
+	if(walled && AI_INT_SCALE_PROB(pawn, KICK_WALLED_CHANCE))
 		should_kick = TRUE
 
 	// Situation 2: Chokepoint - target has dense neighbors (doorways, corridors)
@@ -57,7 +57,7 @@
 				if(S.density)
 					dense_neighbors++
 					break
-		if(dense_neighbors >= KICK_CHOKEPOINT_THRESHOLD && prob(KICK_CHOKEPOINT_CHANCE))
+		if(dense_neighbors >= KICK_CHOKEPOINT_THRESHOLD && AI_INT_SCALE_PROB(pawn, KICK_CHOKEPOINT_CHANCE))
 			should_kick = TRUE
 
 	// Situation 3: Two non-allied enemies stacked - kick one into the other
@@ -67,20 +67,20 @@
 				continue
 			if(pawn.faction_check_mob(M))
 				continue // Don't kick target into an ally
-			if(prob(KICK_STACKED_ENEMY_CHANCE))
+			if(AI_INT_SCALE_PROB(pawn, KICK_STACKED_ENEMY_CHANCE))
 				should_kick = TRUE
 				break
 
 	// Situation 4: Opportunistic - target is vulnerable (off-balanced, prone, stunned)
 	if(!should_kick)
 		if(target.IsOffBalanced() || !(target.mobility_flags & MOBILITY_STAND) || target.IsStun())
-			if(prob(KICK_OPPORTUNISTIC_CHANCE))
+			if(AI_INT_SCALE_PROB(pawn, KICK_OPPORTUNISTIC_CHANCE))
 				should_kick = TRUE
 
 	// Situation 5: Target is exhausted - kick guarantees knockdown per species.dm
 	if(!should_kick)
 		if(target.stamina >= target.max_stamina * KICK_EXHAUSTED_THRESHOLD)
-			if(prob(KICK_EXHAUSTED_CHANCE))
+			if(AI_INT_SCALE_PROB(pawn, KICK_EXHAUSTED_CHANCE))
 				should_kick = TRUE
 
 	if(!should_kick)
