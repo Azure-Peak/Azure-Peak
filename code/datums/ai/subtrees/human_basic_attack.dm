@@ -88,12 +88,16 @@
 	var/old_cmode = pawn.cmode
 	if(AI_INT_SCALE_PROB(pawn, HUMAN_NPC_RMB_ATTEMPT_CHANCE))
 		pawn.cmode = TRUE
+		#ifdef NPC_THINK_DEBUG
 		AI_THINK(pawn, "RMB: intent=[pawn.rmb_intent?.type] stam=[pawn.stamina]/[pawn.max_stamina]")
+		#endif
 		if(pawn.stamina < pawn.max_stamina * 0.7 && istype(pawn.rmb_intent, /datum/rmb_intent/feint))
 			AI_THINK(pawn, "FEINT: attempting feint on [target]!")
 			modifiers = list(RIGHT_CLICK = TRUE)
+		#ifdef NPC_THINK_DEBUG
 		else if(istype(pawn.rmb_intent, /datum/rmb_intent/feint))
-			AI_THINK(pawn, "FEINT: too exhausted to feint (stam [pawn.stamina] >= [pawn.max_stamina * 0.7])")
+			AI_THINK(pawn, "FEINT: too exhausted ([pawn.stamina] >= [pawn.max_stamina * 0.7])")
+		#endif
 
 	if(hiding_target)
 		controller.ai_interact(hiding_target, TRUE, TRUE, modifiers)
