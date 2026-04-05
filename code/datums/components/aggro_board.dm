@@ -82,6 +82,7 @@
 	if(damage)
 		threat_to_add += damage * 0.5
 
+	AI_THINK(victim, "AGGRO: +[threat_to_add] from [attacker]")
 	add_threat(victim, attacker, threat_to_add)
 
 /// Clears the aggro table when the mob dies

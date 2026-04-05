@@ -60,9 +60,11 @@
 			break
 
 	if(!td.can_attack(pawn, target))
+		AI_THINK(pawn, "ATTACK: can't attack [target] - td rejected")
 		finish_action(controller, FALSE, target_key)
 		return
 	if(ismob(target) && target:stat == DEAD)
+		AI_THINK(pawn, "ATTACK: target [target] is dead")
 		finish_action(controller, FALSE, target_key)
 		return
 
@@ -74,6 +76,7 @@
 	_choose_attack_zone(controller, pawn, target)
 
 	if(!pawn.CanReach(target))
+		AI_THINK(pawn, "ATTACK: can't reach [target]")
 		finish_action(controller, FALSE, target_key)
 		return
 

@@ -46,6 +46,7 @@
 		if(current_target == controller.blackboard[target_key])
 			finish_action(controller, succeeded = FALSE)
 			return
+		AI_THINK(living_mob, "SCAN: locking [current_target]")
 		controller.set_blackboard_key(target_key, current_target)
 
 		// Check if target is hiding in something
@@ -95,6 +96,7 @@
 		filtered_targets += pot_target
 
 	if(!filtered_targets.len)
+		AI_THINK(living_mob, "SCAN: nobody in range [aggro_range]")
 		failed_to_find_anyone(controller, target_key, targetting_datum_key, hiding_location_key)
 		finish_action(controller, succeeded = FALSE)
 		return
