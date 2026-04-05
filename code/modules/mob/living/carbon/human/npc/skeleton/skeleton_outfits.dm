@@ -24,9 +24,14 @@
 	threat_point = THREAT_TOUGH
 	skel_outfit = /datum/outfit/job/roguetown/skeleton/npc/hard
 
+// Medium tier skeleton archer, bow skill 3.
+/mob/living/carbon/human/species/skeleton/npc/archer
+	threat_point = THREAT_LOW
+	skel_outfit = /datum/outfit/job/roguetown/skeleton/npc/archer
+
 // For Duke Manor & Zizo Manor - Ground based spread, so no pirate in pool!
 /mob/living/carbon/human/species/skeleton/npc/mediumspread/Initialize()
-	var/outfit = rand(1, 4)
+	var/outfit = rand(1, 5)
 	switch(outfit)
 		if(1)
 			skel_outfit = /datum/outfit/job/roguetown/skeleton/npc/supereasy
@@ -36,6 +41,8 @@
 			skel_outfit = /datum/outfit/job/roguetown/skeleton/npc/medium
 		if(4)
 			skel_outfit = /datum/outfit/job/roguetown/skeleton/npc/hard
+		if(5)
+			skel_outfit = /datum/outfit/job/roguetown/skeleton/npc/archer
 	..()
 
 /mob/living/carbon/human/species/skeleton/npc/mediumspread/lich
@@ -43,7 +50,7 @@
 
 // for Lich Dungeon
 /mob/living/carbon/human/species/skeleton/npc/hardspread/Initialize()
-	var/outfit = rand(1,4)
+	var/outfit = rand(1,5)
 	switch(outfit)
 		if(1)
 			skel_outfit = /datum/outfit/job/roguetown/skeleton/npc/hard
@@ -53,6 +60,8 @@
 			skel_outfit = /datum/outfit/job/roguetown/skeleton/npc/pirate
 		if(4)
 			skel_outfit = /datum/outfit/job/roguetown/skeleton/npc/hard
+		if(5)
+			skel_outfit = /datum/outfit/job/roguetown/skeleton/npc/archer
 	..()
 
 // For Tomb of Matthios/Tomb of Alothesos Supreme Difficulty:TM: encounters.
@@ -249,6 +258,36 @@
 	H.adjust_skillrank(/datum/skill/combat/wrestling, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/swimming, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/climbing, 4, TRUE)
+
+/datum/outfit/job/roguetown/skeleton/npc/archer/pre_equip(mob/living/carbon/human/H)
+	..()
+	H.STASTR = 10
+	H.STASPD = 10
+	H.STACON = 6
+	H.STAWIL = 10
+	H.STAINT = 1
+	name = "Skeleton Archer"
+	head = /obj/item/clothing/head/roguetown/helmet/heavy/aalloy
+	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/aalloy
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/aalloy
+	pants = /obj/item/clothing/under/roguetown/chainlegs/kilt/aalloy
+	shoes = /obj/item/clothing/shoes/roguetown/boots/aalloy
+	neck = /obj/item/clothing/neck/roguetown/chaincoif/iron/aalloy
+	gloves = /obj/item/clothing/gloves/roguetown/chain/aalloy
+	backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow
+	backl = /obj/item/quiver/arrows
+	r_hand = /obj/item/rogueweapon/mace/alloy
+	H.adjust_skillrank(/datum/skill/combat/bows, 3, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/polearms, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/maces, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/axes, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/swords, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/knives, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/shields, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/unarmed, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/wrestling, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/swimming, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/climbing, 2, TRUE)
 
 /datum/outfit/job/roguetown/skeleton/npc/vile_doctor/pre_equip(mob/living/carbon/human/H)
 	..()

@@ -27,7 +27,7 @@
 	if(prob(50))
 		head = /obj/item/clothing/head/roguetown/helmet/leather
 	shoes = /obj/item/clothing/shoes/roguetown/gladiator
-	var/wepchoice = rand(1, 3)
+	var/wepchoice = rand(1, 4)
 	switch(wepchoice)
 		if(1)
 			l_hand = /obj/item/rogueweapon/stoneaxe/boneaxe
@@ -36,6 +36,11 @@
 			r_hand = /obj/item/rogueweapon/shield/wood // Help preserve integrity
 		if(3)
 			l_hand = /obj/item/rogueweapon/mace/cudgel/copper
+		if(4) // Ranged - bow with iron broadhead arrows
+			backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow
+			backl = /obj/item/quiver/arrows
+			l_hand = /obj/item/rogueweapon/stoneaxe/boneaxe
+			H.adjust_skillrank(/datum/skill/combat/bows, 3, TRUE)
 	H.STASTR = 11
 	H.STASPD = 8
 	H.STACON = 11

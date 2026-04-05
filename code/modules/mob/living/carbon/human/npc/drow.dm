@@ -137,11 +137,17 @@ GLOBAL_LIST_INIT(drowraider_aggro, world.file2list("strings/rt/drowaggrolines.tx
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather/heavy
 	mask = /obj/item/clothing/mask/rogue/facemask
 	neck = /obj/item/clothing/neck/roguetown/coif/heavypadding
-	r_hand = /obj/item/rogueweapon/whip
-	if(prob(45))
+	if(prob(20)) // archer
+		backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow
+		backl = /obj/item/quiver/arrows
+		r_hand = /obj/item/rogueweapon/huntingknife/idagger/steel/corroded/dirk
+		H.adjust_skillrank(/datum/skill/combat/bows, 4, TRUE)
+	else if(prob(45)) // whip
+		r_hand = /obj/item/rogueweapon/whip
+	else if(prob(50)) // dual falx
 		r_hand = /obj/item/rogueweapon/sword/falx/stalker
 		l_hand = /obj/item/rogueweapon/sword/falx/stalker
-	else if(prob(15))
+	else // dual dirk
 		r_hand = /obj/item/rogueweapon/huntingknife/idagger/steel/corroded/dirk
 		l_hand = /obj/item/rogueweapon/huntingknife/idagger/steel/corroded/dirk
 

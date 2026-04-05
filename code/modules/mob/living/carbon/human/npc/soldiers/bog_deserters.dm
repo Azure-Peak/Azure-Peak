@@ -218,7 +218,13 @@
 	pants = /obj/item/clothing/under/roguetown/chainlegs/iron
 	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/iron
 	//Weapons
-	add_random_deserter_weapon(H)
+	if(prob(30)) // ranged
+		backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow
+		backl = /obj/item/quiver/arrows
+		r_hand = /obj/item/rogueweapon/sword/iron
+		H.adjust_skillrank(/datum/skill/combat/bows, 3, TRUE)
+	else
+		add_random_deserter_weapon(H)
 	add_random_deserter_beltl_stuff(H)
 	add_random_deserter_beltr_stuff(H)
 
@@ -308,6 +314,12 @@
 	pants = /obj/item/clothing/under/roguetown/chainlegs/iron
 	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/iron
 	//Weapons
-	add_random_deserter_weapon_hard(H)
+	if(prob(30)) // ranged
+		backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow
+		backl = /obj/item/quiver/arrows
+		r_hand = /obj/item/rogueweapon/sword/iron
+		H.adjust_skillrank(/datum/skill/combat/bows, 3, TRUE)
+	else
+		add_random_deserter_weapon_hard(H)
 	add_random_deserter_beltl_stuff(H)
 	add_random_deserter_beltr_stuff(H)

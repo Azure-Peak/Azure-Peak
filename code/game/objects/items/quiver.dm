@@ -271,6 +271,13 @@
 		arrows += A
 	update_icon()
 
+/obj/item/quiver/arrows/stone/Initialize()
+	..()
+	for(var/i in 1 to max_storage)
+		var/obj/item/ammo_casing/caseless/rogue/arrow/stone/A = new()
+		arrows += A
+	update_icon()
+
 /obj/item/quiver/bluntarrows/Initialize()
 	..()
 	for(var/i in 1 to max_storage)

@@ -338,7 +338,7 @@ GLOBAL_LIST_INIT(goblin_aggro, world.file2list("strings/rt/goblinaggrolines.txt"
 		H.STAINT = 8
 	else
 		H.STAINT = 4
-	var/loadout = rand(1,5)
+	var/loadout = rand(1,8)
 	switch(loadout)
 		if(1) //tribal spear
 			r_hand = /obj/item/rogueweapon/spear/stone
@@ -380,6 +380,23 @@ GLOBAL_LIST_INIT(goblin_aggro, world.file2list("strings/rt/goblinaggrolines.txt"
 			if(prob(20))
 				r_hand = /obj/item/rogueweapon/flail
 				l_hand = /obj/item/rogueweapon/shield/wood
+		if(6) // bow archer
+			r_hand = /obj/item/rogueweapon/huntingknife/stoneknife
+			backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow
+			backl = /obj/item/quiver/arrows/stone
+			armor = /obj/item/clothing/suit/roguetown/armor/leather/hide/goblin
+			H.adjust_skillrank(/datum/skill/combat/bows, 2, TRUE)
+		if(7) // slinger
+			r_hand = /obj/item/rogueweapon/huntingknife/stoneknife
+			wrists = /obj/item/gun/ballistic/revolver/grenadelauncher/sling
+			neck = /obj/item/quiver/sling/stone
+			armor = /obj/item/clothing/suit/roguetown/armor/leather/hide/goblin
+			H.adjust_skillrank(/datum/skill/combat/slings, 2, TRUE)
+		if(8) // bow archer variant 2 (no armor, faster)
+			r_hand = /obj/item/rogueweapon/huntingknife/stoneknife
+			backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow
+			backl = /obj/item/quiver/arrows/stone
+			H.adjust_skillrank(/datum/skill/combat/bows, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/polearms, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/maces, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/axes, 2, TRUE)
