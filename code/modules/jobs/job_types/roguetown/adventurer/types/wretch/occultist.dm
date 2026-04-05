@@ -42,7 +42,8 @@
 		/datum/skill/craft/tanning = SKILL_LEVEL_APPRENTICE, // Enough to make some basic leather goods.
 		/datum/skill/craft/crafting = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/craft/sewing = SKILL_LEVEL_APPRENTICE, // Good at repairing clothes.
-		/datum/skill/craft/blacksmithing = SKILL_LEVEL_APPRENTICE, // Good at repairing metal, too!
+		/datum/skill/craft/armorsmithing = SKILL_LEVEL_APPRENTICE, // Good at repairing metal, too!
+		/datum/skill/craft/weaponsmithing = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/labor/lumberjacking = SKILL_LEVEL_NOVICE, // To go with their hatchet.
 		/datum/skill/labor/farming = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/craft/carpentry = SKILL_LEVEL_APPRENTICE,
