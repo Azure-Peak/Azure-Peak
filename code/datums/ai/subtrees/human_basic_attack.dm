@@ -228,6 +228,7 @@
 		return FALSE
 	if(!special.apply_cost(pawn))
 		return FALSE
+	SEND_SIGNAL(pawn, COMSIG_MOB_TRY_BARK, 100)
 	special.deploy(pawn, weapon, target)
 	return TRUE
 
