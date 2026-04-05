@@ -29,6 +29,10 @@
 			blade_weapons = "Longsword / Rapier / Sabre / Steel Greatsword / Steel Dagger & Shield"
 			phalanx_weapons = "Halberd / Bardiche / Boar Spear / Dory & Shield / Naginata"
 			mace_weapons = "Steel Mace / Steel Warhammer & Shield / Grand Mace"
+		if("almah")
+			blade_weapons = "Dual Shamshirs / Shalal Saber & Shield"
+			phalanx_weapons = "Spear / Dory & Shield"
+			mace_weapons = "Steel Mace / Steel Warhammer & Shield"
 		if("undead")
 			blade_weapons = "Ancient Khopesh / Sabre / Corroded Dagger & Shield"
 			phalanx_weapons = "Ancient Spear / Ancient Bardiche / Dory & Shield"
@@ -83,6 +87,13 @@
 			col_gradient = "#102a18";   col_em = "#b0e0c0"
 			col_li = "#80b090";         col_btn_bg = "#153a20"
 			col_btn_hover = "#204a30";  col_glow_r = "85"; col_glow_g = "139"; col_glow_b = "101"
+		if("almah")
+			col_bg = "#1a150a";         col_text = "#d4c090"
+			col_header = "#e0b050";     col_subheader = "#c09840"
+			col_border = "#a08030";     col_divider = "#6a5520"
+			col_gradient = "#2a2010";   col_em = "#f0d080"
+			col_li = "#c0a860";         col_btn_bg = "#3a2a10"
+			col_btn_hover = "#4a3a18";  col_glow_r = "200"; col_glow_g = "160"; col_glow_b = "60"
 		else // conventional — default warm brown/gold
 			col_bg = "#1a1410";         col_text = "#d4c4a0"
 			col_header = "#c9a96e";     col_subheader = "#a08050"
@@ -299,10 +310,10 @@ a.choose-btn:hover {
 <div class="abilities">
 <h4>Abilities</h4>
 <ul>
-<li><b>Azurean Phalanx</b> — 3-tile line thrust that pushes enemies back 1 tile. Empowered: doubles damage.</li>
-<li><b>Azurean Javelin</b> — Hurl an armor-piercing phantom spear that slows. No slowdown while charging.</li>
+<li><b>Azurean Phalanx</b> — Prime your next melee strike with arcyne force. On hit, pierces through enemies in a line behind the target. Empowered (3 momentum): deeper, more damaging pierce.</li>
+<li><b>Azurean Pilum</b> — Hurl an icy phantom pilum that applies 2 frost stacks on hit. Empowered: applies 3 stacks, guaranteeing a freeze on any frosted target. No slowdown while charging.</li>
 <li><b>Advance!</b> — Leap forward up to 4 tiles, passing through enemies, then stab ahead on landing. Brief chargeup before leaping. Empowered: doubles damage.</li>
-<li><b>Gate of Reckoning</b> — Conjure a portal above a target, raining phantom spears down, then blink to their position and sweep everyone around you.</li>
+<li><b>Gate of Reckoning</b> — Summon two phantom spears that flank you in formation. For 12 seconds, each melee hit sends the spears thrusting in a 3-wide line ahead of you. Shield-blockable. Overcharged: 6 charges instead of 3.</li>
 </ul>
 </div>
 <p class="weapon-info">[phalanx_weapons]</p>
@@ -331,7 +342,7 @@ a.choose-btn:hover {
 </div>
 <div class="shared-info">
 <h4>Shared Abilities</h4>
-<p>Bind Weapon · Recall Weapon · Empower Weapon · Mending · Enchant Weapon · 4 Utility Spell Points</p>
+<p>Bind Weapon · Recall Weapon · Empower Weapon · Mending · 4 Utility Spell Points</p>
 </div>
 <div class="shared-info" style="text-align: left;">
 <h4 style="text-align: center;">Shared Mechanics</h4>
@@ -387,6 +398,13 @@ a.choose-btn:hover {
 <p><em>With a dozen cuts I shall hew ignorance.</em></p>
 <p><em>My blade sharp, and my mind sharper!</em></p>
 <p><em>His word is wisdom, and I am his chosen.</em></p>"}
+		if("almah")
+			return {"<p><em>I am a blade of Raneshen.</em></p>
+<p><em>The sword my needle, my foes my tapestry.</em></p>
+<p><em>Swift are my moves and sharp is my blade.</em></p>
+<p><em>With a hundred cuts I shall unravel my foes.</em></p>
+<p><em>Unfazed! Unstopped! Unmatched!</em></p>
+<p><em>By sword and sorcery! My will be done!</em></p>"}
 		if("undead")
 			return {"<p><em>Some speak of Kazengun! And others of Etrusca!</em></p>
 <p><em>But there are none that can compare to the blades of Tarichea!</em></p>
@@ -425,6 +443,13 @@ a.choose-btn:hover {
 <p><em>With a dozen thrusts I shall pierce ignorance.</em></p>
 <p><em>My spear fast, and my wits quicker!</em></p>
 <p><em>His word is wisdom, and I am his chosen.</em></p>"}
+		if("almah")
+			return {"<p><em>I am a spear of Raneshen.</em></p>
+<p><em>The spear my thread, the battlefield my loom.</em></p>
+<p><em>Swift are my moves and sharp is my spear.</em></p>
+<p><em>With a hundred thrusts my foes will be laid low.</em></p>
+<p><em>Unfazed! Unstopped! Unmatched!</em></p>
+<p><em>By spear and sorcery! My will be done!</em></p>"}
 		if("undead")
 			return {"<p><em>Some speak of Chorodiaki! And others of Vrdaqnan!</em></p>
 <p><em>But there are none that can compare to the phalanx of Tarichea!</em></p>
@@ -463,6 +488,13 @@ a.choose-btn:hover {
 <p><em>With a dozen blows I shall crush ignorance.</em></p>
 <p><em>My hammer strong, and my will stronger!</em></p>
 <p><em>His word is wisdom, and I am his chosen.</em></p>"}
+		if("almah")
+			return {"<p><em>I am a mace of Raneshen.</em></p>
+<p><em>The mace my chisel, my foes my monument.</em></p>
+<p><em>Sure are my moves and heavy is my mace.</em></p>
+<p><em>With a hundred strikes my foes will be laid low.</em></p>
+<p><em>Unfazed! Unstopped! Unmatched!</em></p>
+<p><em>By mace and sorcery! My will be done!</em></p>"}
 		if("undead")
 			return {"<p><em>Some speak of Hammerhold! And others of Gronn!</em></p>
 <p><em>But there are none that can compare to the warriors of Tarichea!</em></p>
@@ -486,6 +518,8 @@ a.choose-btn:hover {
 			return "Hone the knowledge of your patron! With her ascension, the ignorant cling to the old way, your goddess lies imprisoned. Her teachings are all that remains. Her followers — corrupted, seeking undeath and bones, forgetting that she, too, is the mistress of progress. With your very blade, you shall cut open the wound of the world, cauterize it, and let her light shine through! You are her herald."
 		if("noccite")
 			return "Hone the wisdom of your patron! With his gift, you have glimpsed the truth of the world. The old city is gone, his teachings are not. Noc has granted you the power to seize destiny into your own hands - miracles to heal the wounded, sight to see the unseen, and magicks to strike down your foes. With your blade, you shall carve a new path forward, and let his light guide the way! You are his chosen."
+		if("almah")
+			return "Hone the art of your people! Show the locals the fearsome reputation of the Almah. Wield your blade for coins or mastery. The end goals need not matter, only that you enjoy every bit of your dance and your foes lay dead in the end."
 		if("undead")
 			return "You were a blade of Tarichea. You awaken to... what? There is no archdevil, no Celestial Empire. What do you fight for? Why do you wield the blade? Every move, every cut, every thrust. Ingrained into those old bones of yours. Hands that once wielded weapons, now naught but bare bone. Why do you fight? Have you been awakened by an ancient evyl, or did you just wake up, lost, dead, yet somehow retaining your will? Why do you fight? Why do you fight? Why do you fight?"
 	return "Hone the tradition of five centuries! Let not the art die with the fall of the old city! Wield your blade for justice, for profit, or for mastery! There is no wrong path, except to stray into heresy!"

@@ -23,6 +23,11 @@
 /datum/round_event/antagonist/solo/bandits
 	var/leader = FALSE
 
+/datum/round_event_control/antagonist/solo/bandits/preRunEvent()
+	if(is_storyteller_villain_blocked())
+		return EVENT_CANT_RUN
+	return ..()
+
 /datum/round_event/antagonist/solo/bandits/start()
 	var/datum/job/bandit_job = SSjob.GetJob("Bandit")
 	bandit_job.total_positions = length(setup_minds)

@@ -277,7 +277,7 @@
 		L.look_around()
 
 /datum/keybinding/living/alt_grip
-	hotkey_keys = list("5")
+	hotkey_keys = list("B")
 	name = "alt_grip"
 	full_name = "Alt Grip"
 	description = "Switch to an alternate grip on the held weapon, such as mordhau."

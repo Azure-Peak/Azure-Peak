@@ -64,13 +64,11 @@
 					/obj/item/roguekey/mercenary = 1,
 					/obj/item/rogueweapon/scabbard/sheath = 1
 					)
-	var/datum/inspiration/I = new /datum/inspiration(H)
-	I.grant_inspiration(H, bard_tier = BARD_T2)
 	if(H.mind)
-		var/weapons = list("Harp","Lute","Accordion","Guitar","Hurdy-Gurdy","Viola","Vocal Talisman","Flute", "Psyaltery")
-		var/weapon_choice = input(H, "Choose your instrument.", "TAKE UP ARMS") as anything in weapons
+		var/instrument = list("Harp","Lute","Accordion","Guitar","Hurdy-Gurdy","Viola","Vocal Talisman","Flute", "Psyaltery")
+		var/instrument_choice = input(H, "Choose your instrument.", "TAKE UP SONGS") as anything in instrument
 		H.set_blindness(0)
-		switch(weapon_choice)
+		switch(instrument_choice)
 			if("Harp")
 				backr = /obj/item/rogue/instrument/harp
 			if("Lute")
@@ -89,4 +87,12 @@
 				backr = /obj/item/rogue/instrument/flute
 			if("Psyaltery")
 				backr = /obj/item/rogue/instrument/psyaltery
+		var/weapons = list("Maille Training","Bardic Inspiration")
+		var/weapon_choice = input(H, "Choose your discipline.", "TAKE A PATH") as anything in weapons
+		switch(weapon_choice)
+			if("Maille Training")
+				ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
+			if("Bardic Inspiration")
+				var/datum/inspiration/I = new /datum/inspiration(H)
+				I.grant_inspiration(H, bard_tier = BARD_T2)
 	H.merctype = 13

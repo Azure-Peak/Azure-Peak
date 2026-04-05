@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Onmobprop Editor</title>
+  <link rel="stylesheet" href="styles.css?v=5">
+</head>
+<body>
+  <main class="app-shell">
+    <section class="toolbar card">
+      <div>
+        <h1>Onmobprop Editor</h1>
+        <p>Load a DMI, type an iconstate, and tune onmobprop values with live preview.</p>
+      </div>
+      <div class="toolbar-actions">
+        <label class="buttonlike secondary">
+          <span>Load DMI</span>
+          <input id="dmi-file" type="file" accept=".dmi,image/png" hidden>
+        </label>
+        <button id="reset-editor" class="secondary" type="button">Reset</button>
+      </div>
+    </section>
+
+    <section class="workspace">
+      <section class="left-column">
+        <article class="card metadata-card">
+          <h2>Sprite Source</h2>
+          <div class="meta-grid">
+            <label>
+              <span>Iconstate</span>
+              <input id="icon-state-input" type="text" list="icon-state-list" placeholder="Type an iconstate exactly">
+              <datalist id="icon-state-list"></datalist>
+            </label>
+            <label>
+              <span>Sprite Size</span>
+              <select id="sprite-size">
+                <option value="32">32x32</option>
+                <option value="64">64x64</option>
+              </select>
+            </label>
+            <label>
+              <span>Frame / Tile</span>
+              <input id="icon-frame" type="number" min="1" step="1">
+            </label>
+            <label>
+              <span>Type Preset</span>
+              <select id="prop-preset">
+                <option value="custom">Custom</option>
+                <option value="item">Item</option>
+                <option value="sword">Sword / Shortsword</option>
+                <option value="longsword">Longsword</option>
+                <option value="greatsword">Greatsword</option>
+                <option value="woodstaff">Woodstaff</option>
+                <option value="polearm">Spear / Halberd</option>
+                <option value="axe">Axe</option>
+                <option value="dagger">Dagger / Knife</option>
+                <option value="blunt">Mace / Blunt</option>
+                <option value="shield">Shield</option>
+              </select>
+            </label>
+            <label class="toggle">
+              <input id="wielded-toggle" type="checkbox">
+              <span>Wielded</span>
+            </label>
+          </div>
+          <p id="sprite-source-status">No DMI loaded yet.</p>
+        </article>
+
+        <article class="card controls-card">
+          <div class="section-header">
+            <h2>Prop Controls</h2>
+            <div class="toolbar-actions compact">
+              <label>
+                <span>Input Mode</span>
+                <select id="prop-input-mode">
+                  <option value="delta">Delta</option>
+                  <option value="actual">Actual</option>
+                </select>
+              </label>
+            </div>
+          </div>
+          <div id="prop-controls" class="prop-controls"></div>
+        </article>
+      </section>
+
+      <section class="right-column">
+        <article class="card preview-card">
+          <div class="section-header">
+            <h2>Preview</h2>
+            <div class="toolbar-actions compact">
+              <label class="toggle">
+                <input id="behind-toggle" type="checkbox">
+                <span>Behind Layer</span>
+              </label>
+              <label class="toggle">
+                <input id="mirrored-toggle" type="checkbox">
+                <span>Mirrored Side</span>
+              </label>
+            </div>
+          </div>
+          <div id="preview-grid" class="preview-grid"></div>
+        </article>
+
+        <article class="card output-card">
+          <div class="section-header">
+            <h2>DM Output</h2>
+            <div class="toolbar-actions compact">
+              <button id="copy-list" type="button">Copy list(...)</button>
+            </div>
+          </div>
+          <label>
+            <span>list(...)</span>
+            <textarea id="dm-list-output" spellcheck="false" rows="12"></textarea>
+          </label>
+          <p id="dm-output-status">Paste a DM `list(...)` block here to import prop values.</p>
+        </article>
+      </section>
+    </section>
+  </main>
+
+  <template id="preview-tile-template">
+    <figure class="preview-tile">
+      <figcaption></figcaption>
+      <canvas width="220" height="220"></canvas>
+      <div class="preview-meta"></div>
+    </figure>
+  </template>
+
+  <script src="app.js?v=5"></script>
+</body>
+</html>

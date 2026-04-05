@@ -1,38 +1,4 @@
-/obj/effect/proc_holder/spell/invoked/meteor_storm
-	name = "Meteor Storm"
-	desc = "Summons forth dangerous meteors from the sky to scatter and smash foes."
-	overlay_state = "meteor_storm"
-	cost = 9
-	spell_tier = 4 // Highest tier AOE
-	releasedrain = SPELLCOST_ULTIMATE
-	chargedrain = 1
-	chargetime = 50
-	recharge_time = 300 SECONDS
-	warnie = "spellwarning"
-	no_early_release = TRUE
-	movement_interrupt = TRUE
-	gesture_required = TRUE // Offensive spell
-	human_req = TRUE // Combat spell
-	charging_slowdown = 2
-	chargedloop = /datum/looping_sound/invokegen
-	associated_skill = /datum/skill/magic/arcane
-
-/obj/effect/proc_holder/spell/invoked/meteor_storm/cast(list/targets, mob/user = usr)
-	var/turf/T = get_turf(targets[1])
-//	var/list/affected_turfs = list()
-	playsound(T,'sound/magic/meteorstorm.ogg', 80, TRUE)
-	T.visible_message(span_boldwarning("Fire rains from the sky!"))
-	sleep(30)
-	create_meteors(T)
-
-//meteor storm and lightstorm.
-/obj/effect/proc_holder/spell/invoked/meteor_storm/proc/create_meteors(atom/target)
-	if(!target)
-		return
-	var/turf/targetturf = get_turf(target)
-	for(var/turf/turf as anything in RANGE_TURFS(6,targetturf))
-		if(prob(20))
-			new /obj/effect/temp_visual/target(turf)
+// Shared meteor visual effects used by NPC spells (fiend, voiddragon, sundering lightning)
 
 /obj/effect/temp_visual/fireball
 	icon = 'icons/obj/projectiles.dmi'
@@ -91,11 +57,13 @@
 					L.adjust_fire_stacks(8)
 					L.ignite_mob()
 					to_chat(L, span_userdanger("You're hit by a meteor!"))
+					new /obj/effect/temp_visual/spell_impact(get_turf(L), GLOW_COLOR_FIRE, SPELL_IMPACT_HIGH)
 				if(1) // Very close
 					L.adjustFireLoss(20)
 					L.adjust_fire_stacks(4)
 					L.ignite_mob()
 					to_chat(L, span_danger("Heat from the meteor sears you!"))
+					new /obj/effect/temp_visual/spell_impact(get_turf(L), GLOW_COLOR_FIRE, SPELL_IMPACT_MEDIUM)
 				if(2) // Nearby
 					L.adjustFireLoss(10)
 					L.adjust_fire_stacks(2)

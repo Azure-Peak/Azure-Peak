@@ -146,8 +146,14 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	var/bigboy = FALSE //used to center screen_loc when in hand
 	var/wielded = FALSE
 	var/altgripped = FALSE
-	var/mordhau = FALSE //This weapon can mordhau, therefore we treat it as wielded in alt-grip.
-	var/list/alt_intents //these replace main intents
+	/// Ordered alternate grip states cycled by right-click while the item is held.
+	var/list/alt_grips
+	/// Currently applied alternate grip state datum.
+	var/datum/alt_grip/current_alt_grip
+	/// 1-based index into alt_grips for the currently applied state.
+	var/current_alt_grip_index = 0
+	/// Original values for vars overridden by the active alt grip state.
+	var/list/alt_grip_restore_vars
 	///intents while gripped, replacing main intents. if list != null, will allow the weapon to be wielded. set to null to remove wielding.
 	var/list/gripped_intents 
 	var/force_wielded = 0
@@ -373,7 +379,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 				getmoboverlay(i,prop,behind=FALSE,mirrored=TRUE)
 				getmoboverlay(i,prop,behind=TRUE,mirrored=TRUE)
 
-	wdefense_dynamic = wdefense
+	update_wdefense_dynamic()
 	update_force_dynamic()
 
 	. = ..()
@@ -568,10 +574,15 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 			output = examine_block(output)
 		to_chat(usr, output)
 
+	if(href_list["showaltgrip"])
+		if(!usr.canUseTopic(src, be_close=TRUE))
+			return
+		show_altgrip(usr, href_list["showaltgrip"])
+
 	if(href_list["inspect"])
 		if(!usr.canUseTopic(src, be_close=TRUE))
 			return
-		var/list/inspec = list(span_notice("Properties of [src.name]"))
+		var/list/inspec = list(span_notice("Properties of [name]"))
 		if(minstr)
 			inspec += "\n<b>MIN.STR:</b> [minstr]"
 		if(minstr_req)
@@ -602,8 +613,12 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 					inspec += "Great"
 			inspec += " <span class='info'><a href='?src=[REF(src)];explainlength=1'>{?}</a></span>"
 
-		if(alt_intents)
-			inspec += "\n<b>ALT-GRIP (RIGHT CLICK WHILE IN HAND)</b>"
+		if(has_altgrip_modes())
+			inspec += "\n<b>ALT-GRIP (RCLICK/HOTKEY(B)/CTRL+SCRLWHL)</b>"
+			var/list/alt_grip_lines = get_altgrip_lines(src, usr)
+			if(length(alt_grip_lines))
+				for(var/alt_grip_line in alt_grip_lines)
+					inspec += "\n[alt_grip_line]"
 
 		var/shafttext = get_blade_dulling_text(src, verbose = TRUE)
 		if(shafttext)
@@ -777,7 +792,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 
 	//If the item is in a storage item, take it out
 	if(inv_storage_delay && SEND_SIGNAL(loc, COMSIG_CONTAINS_STORAGE))
-		if(!move_after(user, inv_storage_delay, target = iscarbon(loc) ? src : src.loc, progress = TRUE))
+		if(!move_after(user, inv_storage_delay, target = iscarbon(loc) ? src : loc, progress = TRUE))
 			return
 	SEND_SIGNAL(loc, COMSIG_TRY_STORAGE_TAKE, src, user.loc, TRUE)
 	if(QDELETED(src)) //moving it out of the storage to the floor destroyed it.
@@ -798,11 +813,11 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 			wield(user)
 
 /atom/proc/ontable()
-	if(!isturf(src.loc))
+	if(!isturf(loc))
 		return FALSE
-	for(var/obj/structure/table/T in src.loc)
+	for(var/obj/structure/table/T in loc)
 		return TRUE
-	for(var/obj/machinery/anvil/A in src.loc)
+	for(var/obj/machinery/anvil/A in loc)
 		return TRUE
 	return FALSE
 
@@ -964,7 +979,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 		return 0
 	if(!M)
 		return FALSE
-	if(HAS_TRAIT(M, TRAIT_CHUNKYFINGERS) && (!equipper || equipper == M) && src.type != /obj/item/grabbing/bite) //If a zombie's trying to put something on without assistance that's not a bite
+	if(HAS_TRAIT(M, TRAIT_CHUNKYFINGERS) && (!equipper || equipper == M) && type != /obj/item/grabbing/bite) //If a zombie's trying to put something on without assistance that's not a bite
 		to_chat(M, span_warning("...What?"))
 		return FALSE
 
@@ -1013,9 +1028,9 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 		to_chat(user, span_warning("I cannot locate any organic eyes on this brain!"))
 		return
 
-	src.add_fingerprint(user)
+	add_fingerprint(user)
 
-	playsound(loc, src.hitsound, 30, TRUE, -1)
+	playsound(loc, hitsound, 30, TRUE, -1)
 
 	user.do_attack_animation(M)
 
@@ -1034,7 +1049,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	else
 		M.take_bodypart_damage(7)
 
-	log_combat(user, M, "attacked", "[src.name]", "(INTENT: [uppertext(user.used_intent)])")
+	log_combat(user, M, "attacked", "[name]", "(INTENT: [uppertext(user.used_intent)])")
 
 	var/obj/item/organ/eyes/eyes = M.getorganslot(ORGAN_SLOT_EYES)
 	if (!eyes)
@@ -1439,72 +1454,123 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	. = ..()
 	update_transform()
 
-/obj/item/proc/ungrip(mob/living/carbon/user, show_message = TRUE)
-	if(!user)
-		return
-	if(twohands_required)
-		if(!wielded)
-			return
-		if(show_message)
-			to_chat(user, span_notice("I drop [src]."))
-		show_message = FALSE
+/obj/item/proc/clear_grip_state()
+	if(!wielded && !altgripped)
+		return FALSE
 	if(wielded)
 		wielded = FALSE
 		if(force_wielded)
 			update_force_dynamic()
-		wdefense_dynamic = wdefense
+		update_wdefense_dynamic()
 	if(altgripped)
+		clear_altgrip_state()
 		altgripped = FALSE
 	update_transform()
+	icon_angle = initial(icon_angle)
+	return TRUE
+
+/obj/item/proc/can_wield_two_handed(mob/living/carbon/user)
+	if(user.get_inactive_held_item())
+		to_chat(user, span_warning("I need a free hand first."))
+		return FALSE
+	if(user.get_num_arms() < 2)
+		to_chat(user, span_warning("I don't have enough hands."))
+		return FALSE
+	if (obj_broken)
+		to_chat(user, span_warning("It's completely broken."))
+		return FALSE
+	if (istype(src, /obj/item/contraption))
+		var/obj/item/contraption/i = src
+		if (i.current_charge <= 0)
+			to_chat(user, span_warning("Not charged."))
+			return FALSE
+	return TRUE
+
+/obj/item/proc/ungrip(mob/living/carbon/user, show_message = TRUE, show_balloon = FALSE)
+	if(twohands_required)
+		if(!wielded)
+			return
+		if(user && show_message)
+			to_chat(user, span_notice("I drop [src]."))
+		show_message = FALSE
+	if(!clear_grip_state())
+		return
+	if(!user)
+		return
 	if(user.get_item_by_slot(SLOT_BACK) == src)
 		user.update_inv_back()
 	else
 		user.update_inv_hands()
 	if(show_message)
 		to_chat(user, "<span class='notice'>I wield [src] normally.</span>")
+	if(show_balloon)
+		show_altgrip_balloon(user, "normal grip")
 	if(user.get_active_held_item() == src)
 		user.update_a_intents()
-	icon_angle = initial(icon_angle)
 	return
 
-/obj/item/proc/altgrip(mob/living/carbon/user)
+/obj/item/proc/cycle_altgrip(mob/living/carbon/user, direction = 1)
+	if(!length(alt_grips) || !direction)
+		return FALSE
+
+	var/message
+	var/next_index
+	var/datum/alt_grip/next_state
+	var/index_step = 1
+	if(direction < 0)
+		index_step = -1
 	if(altgripped)
-		return
+		next_index = current_alt_grip_index + index_step
+	else
+		if(direction > 0)
+			next_index = 1
+		else
+			next_index = length(alt_grips)
+
+	while(next_index >= 1 && next_index <= length(alt_grips))
+		next_state = get_altgrip_state(next_index)
+		if(next_state && next_state.usable_by(src, user))
+			break
+		next_state = null
+		next_index += index_step
+
+	if(!next_state)
+		if(altgripped)
+			ungrip(user, TRUE, TRUE)
+			user.changeNext_move(CLICK_CD_QUICK)
+			return TRUE
+		return FALSE
+	if(next_state.is_two_handed(src) && !can_wield_two_handed(user))
+		return FALSE
+	if(!set_altgrip_state(next_index))
+		return FALSE
 	altgripped = TRUE
 	update_transform()
-	to_chat(user, span_notice("I wield [src] with an alternate grip"))
+	user.update_inv_hands()
+	message = get_altgrip_message(user)
+	to_chat(user, span_notice(message))
+	show_altgrip_balloon(user)
 	if(user.get_active_held_item() == src)
-		if(alt_intents)
-			user.update_a_intents()
-			if(mordhau)
-				if(user.get_inactive_held_item())
-					to_chat(user, span_warning("I need a free hand first."))
-					return
-				src.wielded = TRUE
-				update_force_dynamic()
-				wdefense_dynamic = (wdefense + wdefense_wbonus)
+		user.update_a_intents()
+	user.changeNext_move(CLICK_CD_RAPID)
+	return TRUE
+
+/obj/item/proc/altgrip(mob/living/carbon/user)
+	return cycle_altgrip(user, 1)
+
 
 /obj/item/proc/wield(mob/living/carbon/user, show_message = TRUE)
-	if(wielded)
+	if(wielded && !altgripped)
 		return
-	if(user.get_inactive_held_item())
-		to_chat(user, span_warning("I need a free hand first."))
+	if(!gripped_intents)
 		return
-	if(user.get_num_arms() < 2)
-		to_chat(user, span_warning("I don't have enough hands."))
+	if(!can_wield_two_handed(user))
 		return
-	if (obj_broken)
-		to_chat(user, span_warning("It's completely broken."))
-		return
-	if (istype(src, /obj/item/contraption))
-		var/obj/item/contraption/i = src
-		if (i.current_charge <= 0)
-			to_chat(user, span_warning("Not charged."))
-			return
+	clear_grip_state()
 	wielded = TRUE
 	if(force_wielded)
 		update_force_dynamic()
-	wdefense_dynamic = (wdefense + wdefense_wbonus)
+	update_wdefense_dynamic()
 	update_transform()
 	if(show_message)
 		to_chat(user, span_notice("I wield [src] with both hands."))
@@ -1525,10 +1591,12 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	if(altgripped || wielded) //Trying to unwield it
 		ungrip(user)
 		return
-	if(alt_intents && !gripped_intents)
+	if(has_altgrip_modes() && !gripped_intents)
 		altgrip(user)
+		return
 	if(gripped_intents)
 		wield(user)
+		return
 
 /obj/item/equip_to_best_slot(mob/M)
 	if(..())
@@ -1591,8 +1659,8 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 		return FALSE
 
 	obj_destroyed = TRUE
-	if(src.anvilrepair)
-		if(src.smeltresult == /obj/item/ingot/iron)
+	if(anvilrepair)
+		if(smeltresult == /obj/item/ingot/iron)
 			new /obj/item/scrap(get_turf(src))
 			if(prob(20))
 				new /obj/item/scrap(get_turf(src))
@@ -1638,3 +1706,6 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 
 /obj/item/proc/update_force_dynamic()
 	force_dynamic = (wielded ? force_wielded : force)
+
+/obj/item/proc/update_wdefense_dynamic()
+	wdefense_dynamic = (wielded ? (wdefense + wdefense_wbonus) : wdefense)

@@ -2,7 +2,7 @@
 These mirror the species.dm melee attack flow (armor check -> apply_damage -> bodypart_attacked_by)
 without going through the click pipeline, so spells can deliver weapon-style strikes. */
 
-/proc/arcyne_strike(mob/living/carbon/human/user, mob/living/target, obj/item/weapon, damage, def_zone, blade_class_override, armor_penetration = 0, spell_name = "Arcyne Strike", skip_animation = FALSE, skip_message = FALSE, allow_shield_check = FALSE, damage_type = BRUTE, npc_simple_damage_mult = 1)
+/proc/arcyne_strike(mob/living/carbon/human/user, mob/living/target, obj/item/weapon, damage, def_zone, blade_class_override, armor_penetration = 0, spell_name = "Arcyne Strike", skip_animation = FALSE, skip_message = FALSE, allow_shield_check = FALSE, damage_type = BRUTE, npc_simple_damage_mult = 1, intdamage_factor)
 	if(!user || !target || QDELETED(user) || QDELETED(target))
 		return FALSE
 
@@ -24,7 +24,7 @@ without going through the click pipeline, so spells can deliver weapon-style str
 			blade_class = BCLASS_STAB
 			attack_flag = "stab"
 		if(BCLASS_BURN)
-			attack_flag = "magic"
+			attack_flag = "fire"
 		else
 			blade_class = BCLASS_CUT
 			attack_flag = "slash"
@@ -76,7 +76,10 @@ without going through the click pipeline, so spells can deliver weapon-style str
 	if(npc_simple_damage_mult != 1 && istype(target, /mob/living/simple_animal))
 		damage = round(damage * npc_simple_damage_mult)
 
-	var/armor_block = target.run_armor_check(def_zone, attack_flag, blade_dulling = blade_class, armor_penetration = armor_penetration, damage = damage)
+	// Default intdamage factor: blunt gets 1.6x (same as melee blunt), others get 1.0
+	if(isnull(intdamage_factor))
+		intdamage_factor = (blade_class == BCLASS_BLUNT) ? BLUNT_DEFAULT_INT_DAMAGEFACTOR : 1
+	var/armor_block = target.run_armor_check(def_zone, attack_flag, blade_dulling = blade_class, armor_penetration = armor_penetration, damage = damage, intdamfactor = intdamage_factor)
 	var/damage_dealt = target.apply_damage(damage, damage_type, def_zone, armor_block)
 
 	// Match standard melee flow: only apply wounds if damage actually got through armor
@@ -109,7 +112,7 @@ without going through the click pipeline, so spells can deliver weapon-style str
 
 	playsound(get_turf(target), hit_sound, 100, TRUE)
 	if(!skip_message)
-		var/weapon_name = weapon ? weapon.name : "arcyne force"
+		var/weapon_name = weapon ? weapon.name : lowertext(spell_name)
 		var/armor_msg = ""
 		if(!damage_dealt)
 			armor_msg += VISMSG_ARMOR_BLOCKED
@@ -121,7 +124,7 @@ without going through the click pipeline, so spells can deliver weapon-style str
 				if(extra_msg)
 					armor_msg += extra_msg
 		target.visible_message(
-			span_danger("[user] [attack_verb] [target] with [weapon_name] in the [parse_zone(def_zone)]![armor_msg]"),
+			span_danger("[user] [attack_verb] \the [target] with [weapon_name] in the [parse_zone(def_zone)]![armor_msg]"),
 			span_danger("[user] [attack_verb] me in the [span_userdanger(parse_zone(def_zone))]![armor_msg]"),
 			null, COMBAT_MESSAGE_RANGE)
 

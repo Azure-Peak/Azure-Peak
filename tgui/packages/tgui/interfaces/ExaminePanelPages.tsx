@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Box, Button, Image, Section, Stack } from 'tgui-core/components';
 
 import { resolveAsset } from '../assets';
@@ -17,6 +17,13 @@ export const FlavorTextPage = (props) => {
   } = data;
   const [oocNotesIndex, setOocNotesIndex] = useState('SFW');
   const [flavorTextIndex, setFlavorTextIndex] = useState('SFW');
+  const canViewNsfwFlavorText = is_naked && !!flavor_text_nsfw;
+
+  useEffect(() => {
+    if (flavorTextIndex === 'NSFW' && !canViewNsfwFlavorText) {
+      setFlavorTextIndex('SFW');
+    }
+  }, [canViewNsfwFlavorText, flavorTextIndex]);
 
   const flavorHTML = useMemo(() => ({
     __html: `<span className='Chat'>${flavor_text}</span>`,
@@ -110,7 +117,7 @@ export const FlavorTextPage = (props) => {
                   </Button>
                   <Button
                     selected={flavorTextIndex === 'NSFW'}
-                    disabled={!flavor_text_nsfw|| !is_naked}
+                    disabled={!canViewNsfwFlavorText}
                     bold={flavorTextIndex === 'NSFW'}
                     onClick={() => setFlavorTextIndex('NSFW')}
                     textAlign="center"
@@ -142,11 +149,53 @@ export const ImageGalleryPage = (props) => {
   const { data } = useBackend<ExaminePanelData>();
   const {
     img_gallery,
+    nsfw_img_gallery,
+    is_naked,
   } = data;
+  const [galleryIndex, setGalleryIndex] = useState('SFW');
+  const canViewNsfwGallery = is_naked && nsfw_img_gallery.length > 0;
+
+  useEffect(() => {
+    if (galleryIndex === 'NSFW' && !canViewNsfwGallery) {
+      setGalleryIndex('SFW');
+    }
+  }, [canViewNsfwGallery, galleryIndex]);
+
+  const activeGallery = galleryIndex === 'NSFW' && canViewNsfwGallery
+    ? nsfw_img_gallery
+    : img_gallery;
   
   return (
+        <Section
+          fill
+          scrollable
+          title="Image Gallery"
+          buttons={
+            <>
+              <Button
+                selected={galleryIndex === 'SFW'}
+                bold={galleryIndex === 'SFW'}
+                onClick={() => setGalleryIndex('SFW')}
+                textAlign="center"
+                width="60px"
+              >
+                SFW
+              </Button>
+              <Button
+                selected={galleryIndex === 'NSFW'}
+                disabled={!canViewNsfwGallery}
+                bold={galleryIndex === 'NSFW'}
+                onClick={() => setGalleryIndex('NSFW')}
+                textAlign="center"
+                width="60px"
+              >
+                NSFW
+              </Button>
+            </>
+          }
+        >
         <Stack fill justify="space-evenly">
-            {img_gallery.map((val) => (
+            {activeGallery.map((val) => (
               <Stack.Item grow key={val}>
                   <Section align="center">
                   <Image
@@ -158,5 +207,6 @@ export const ImageGalleryPage = (props) => {
               </Stack.Item>
             ))}
         </Stack>
+        </Section>
   );
 };

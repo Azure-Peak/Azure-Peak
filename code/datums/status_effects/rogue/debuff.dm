@@ -134,6 +134,18 @@
 	duration = -1
 	needs_processing = FALSE
 
+/datum/status_effect/debuff/bleeding/on_apply() //mistwalker shitcode, scaling buff as they bleed out
+	if (!HAS_TRAIT(owner, TRAIT_JOURNEYS_END))
+		return ..()
+	owner.apply_status_effect(/datum/status_effect/buff/journey_ending)
+	return ..()
+
+/datum/status_effect/debuff/bleeding/on_remove()
+	if (!HAS_TRAIT(owner, TRAIT_JOURNEYS_END))
+		return ..()
+	owner.remove_status_effect(/datum/status_effect/buff/journey_ending)
+	return ..()
+
 /atom/movable/screen/alert/status_effect/debuff/bleedingt1
 	name = "Dizzy"
 	desc = ""
@@ -146,6 +158,18 @@
 	duration = -1
 	needs_processing = FALSE
 
+/datum/status_effect/debuff/bleedingworse/on_apply()
+	if (!HAS_TRAIT(owner, TRAIT_JOURNEYS_END))
+		return ..()
+	owner.apply_status_effect(/datum/status_effect/buff/journey_end)
+	return ..()
+
+/datum/status_effect/debuff/bleedingworse/on_remove()
+	if (!HAS_TRAIT(owner, TRAIT_JOURNEYS_END))
+		return ..()
+	owner.remove_status_effect(/datum/status_effect/buff/journey_end)
+	return ..()
+
 /atom/movable/screen/alert/status_effect/debuff/bleedingt2
 	name = "Faint"
 	desc = ""
@@ -157,6 +181,18 @@
 	effectedstats = list(STATKEY_STR = -3, STATKEY_SPD = -4)
 	duration = -1
 	needs_processing = FALSE
+
+/datum/status_effect/debuff/bleedingworst/on_apply()
+	if (!HAS_TRAIT(owner, TRAIT_JOURNEYS_END))
+		return ..()
+	owner.apply_status_effect(/datum/status_effect/buff/journey_end_final)
+	return ..()
+
+/datum/status_effect/debuff/bleedingworst/on_remove()
+	if (!HAS_TRAIT(owner, TRAIT_JOURNEYS_END))
+		return ..()
+	owner.remove_status_effect(/datum/status_effect/buff/journey_end_final)
+	return ..()
 
 /atom/movable/screen/alert/status_effect/debuff/bleedingt3
 	name = "Drained"
@@ -433,6 +469,10 @@
 	effectedstats = list(STATKEY_PER = -1, STATKEY_INT = -1, STATKEY_SPD = -1)
 	duration = -1
 
+/datum/status_effect/debuff/dazed/smite
+	effectedstats = list(STATKEY_PER = -1, STATKEY_INT = -2, STATKEY_SPD = -1)
+	duration = 1 MINUTES
+
 /atom/movable/screen/alert/status_effect/debuff/dazed
 	name = "Dazed"
 	desc = "You've been smacked on the head very hard. Which way is left, again?"
@@ -467,6 +507,14 @@
 	name = "Frozen"
 	desc = "An intense cold has seized my body! I can barely move."
 	icon_state = "muscles"
+
+/// wrestler verison of daze////
+/datum/status_effect/debuff/dazed/stunner
+	id = "discombobulated"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/dazed
+	effectedstats = list(STATKEY_CON = -2, STATKEY_INT = -2)
+	duration = 15 SECONDS
+	status_type = STATUS_EFFECT_REFRESH
 
 ///// Freifechter Daze Variants /////
 /datum/status_effect/debuff/dazed/longsword
@@ -549,6 +597,9 @@
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/excomm
 	effectedstats = list(STATKEY_LCK = -2, STATKEY_INT = -2, STATKEY_SPD = -1, STATKEY_WIL = -1, STATKEY_CON = -1)
 	duration = -1
+
+
+
 
 /atom/movable/screen/alert/status_effect/debuff/excomm
 	name = "Excommunicated!"

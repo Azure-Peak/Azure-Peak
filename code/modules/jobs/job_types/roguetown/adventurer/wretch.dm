@@ -4,8 +4,8 @@
 	flag = WRETCH
 	department_flag = ANTAGONIST
 	faction = "Station"
-	total_positions = 5
-	spawn_positions = 5
+	total_positions = 0
+	spawn_positions = 0
 	allowed_races = RACES_ALL_KINDS
 	tutorial = "Somewhere in your lyfe, you fell to the wrong side of civilization. Hounded by the consequences of your actions, you spend your daes prowling the roads for easy marks and loose purses, scraping to get by."
 	outfit = null
@@ -42,14 +42,26 @@
 		/datum/advclass/wretch/outlaw,
 		/datum/advclass/wretch/poacher,
 		/datum/advclass/wretch/plaguebearer,
+		/datum/advclass/wretch/mistwalker,
 		/datum/advclass/wretch/pyromaniac,
 		/datum/advclass/wretch/vigilante,
 		/datum/advclass/wretch/munitioneer,
 		/datum/advclass/wretch/pariah,
 		/datum/advclass/wretch/heretic_spellblade,
 		/datum/advclass/wretch/ancient_spellblade,
-		/datum/advclass/wretch/ancient_deathknight
+		/datum/advclass/wretch/ancient_deathknight,
+		/datum/advclass/wretch/slasher
 	)
+
+/datum/job/roguetown/wretch/special_job_check(mob/dead/new_player/player)
+	if(is_storyteller_soft_antag_blocked())
+		return FALSE
+	return ..()
+
+/datum/job/roguetown/wretch/special_check_latejoin(client/C)
+	if(is_storyteller_soft_antag_blocked())
+		return FALSE
+	return ..()
 
 /datum/job/roguetown/wretch/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
 	..()
@@ -135,6 +147,16 @@
 	var/list/result = list()
 	var/player_count = override_player_count || length(GLOB.joined_player_list)
 	result["player_count"] = player_count
+	if(is_storyteller_soft_antag_blocked())
+		result["tier1_slots"] = 0
+		result["major_antag_active"] = FALSE
+		result["garrison"] = SSgamemode.garrison
+		result["holy_warrior"] = SSgamemode.holy_warrior
+		result["acolyte"] = SSgamemode.half_combatant
+		result["combat_total"] = SSgamemode.garrison + SSgamemode.holy_warrior + FLOOR(SSgamemode.half_combatant * 0.5, 1)
+		result["tier2_extra"] = 0
+		result["final_slots"] = 0
+		return result
 
 	// Tier 1: Population scaling, +1 per 10 players above 40, max 10
 	var/slots = 5
@@ -168,7 +190,7 @@
 		tier2_max = min(max(0, combat_count - 10), 5)
 		slots += tier2_max
 	result["tier2_extra"] = tier2_max
-	result["final_slots"] = slots
+	result["final_slots"] = max(0, slots)
 
 	return result
 
@@ -177,7 +199,7 @@
 	if(!wretch_job)
 		return
 	var/list/scaling = calculate_wretch_scaling(override_player_count)
-	var/slots = scaling["final_slots"]
+	var/slots = max(0, scaling["final_slots"])
 	// Never reduce below current occupancy
 	wretch_job.total_positions = max(wretch_job.current_positions, slots)
 	wretch_job.spawn_positions = max(wretch_job.current_positions, slots)

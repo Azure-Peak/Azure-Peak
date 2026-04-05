@@ -145,6 +145,7 @@
 		/datum/sprite_accessory/hair/head/lowbraid,
 		/datum/sprite_accessory/hair/head/shortbraid,
 		/datum/sprite_accessory/hair/head/braided,
+	    /datum/sprite_accessory/hair/head/braided_sidetail,
 		/datum/sprite_accessory/hair/head/braidtail,
 		/datum/sprite_accessory/hair/head/bun,
 		/datum/sprite_accessory/hair/head/bun2,

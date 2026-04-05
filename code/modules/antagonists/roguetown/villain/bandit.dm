@@ -11,6 +11,7 @@
 		"I WILL NOT FOLLOW YOUR RULES!",
 	)
 	rogue_enabled = TRUE
+	has_tempo = TRUE
 	var/favor = 150
 	var/totaldonated = 0
 

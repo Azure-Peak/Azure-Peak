@@ -268,6 +268,20 @@
 		if(!SEND_SIGNAL(src, COMSIG_TRY_STORAGE_INSERT, H, null, TRUE, TRUE))
 			SSwardrobe.recycle_object(H)
 
+/obj/item/storage/belt/rogue/pouch/coins/aalloy
+
+/obj/item/storage/belt/rogue/pouch/coins/aalloy/get_types_to_preload()
+	var/list/to_preload = list() 
+	to_preload += /obj/item/roguecoin/aalloy/pile
+	return to_preload
+
+/obj/item/storage/belt/rogue/pouch/coins/aalloy/PopulateContents()
+	. = ..()
+	var/obj/item/roguecoin/aalloy/pile/A = SSwardrobe.provide_type(/obj/item/roguecoin/aalloy/pile, loc)
+	if(istype(A))
+		if(!SEND_SIGNAL(src, COMSIG_TRY_STORAGE_INSERT, A, null, TRUE, TRUE))
+			SSwardrobe.recycle_object(A)
+
 /obj/item/storage/belt/rogue/pouch/food/PopulateContents()
 	new /obj/item/reagent_containers/food/snacks/rogue/crackerscooked(src)
 

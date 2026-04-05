@@ -512,39 +512,39 @@
 		if(!check_rights(R_BAN))
 			return
 		var/target_key = href_list["addmessage"]
-		create_message("message", target_key, secret = 0)
+		create_message(type = "message", target_key = target_key)
 
 	else if(href_list["addnote"])
 		if(!check_rights(R_BAN))
 			return
 		var/target_key = href_list["addnote"]
-		create_message("note", target_key)
+		create_message(type = "note", target_key = target_key)
 
 	else if(href_list["addwatch"])
 		if(!check_rights(R_BAN))
 			return
 		var/target_key = href_list["addwatch"]
-		create_message("watchlist entry", target_key, secret = 1)
+		create_message(type = "watchlist entry", target_key = target_key)
 
 	else if(href_list["addmemo"])
 		if(!check_rights(R_BAN))
 			return
-		create_message("memo", secret = 0, browse = 1)
+		create_message(type = "memo", browse = TRUE)
 
 	else if(href_list["addmessageempty"])
 		if(!check_rights(R_BAN))
 			return
-		create_message("message", secret = 0)
+		create_message(type = "message")
 
 	else if(href_list["addnoteempty"])
 		if(!check_rights(R_BAN))
 			return
-		create_message("note")
+		create_message(type = "note")
 
 	else if(href_list["addwatchempty"])
 		if(!check_rights(R_BAN))
 			return
-		create_message("watchlist entry", secret = 1)
+		create_message(type = "watchlist entry")
 
 	else if(href_list["deletemessage"])
 		if(!check_rights(R_BAN))
@@ -572,7 +572,7 @@
 		if(!check_rights(R_BAN))
 			return
 		var/message_id = href_list["editmessageempty"]
-		edit_message(message_id, browse = 1)
+		edit_message(message_id, browse = TRUE)
 
 	else if(href_list["editmessageexpiry"])
 		if(!check_rights(R_BAN))
@@ -584,7 +584,7 @@
 		if(!check_rights(R_BAN))
 			return
 		var/message_id = href_list["editmessageexpiryempty"]
-		edit_message_expiry(message_id, browse = 1)
+		edit_message_expiry(message_id, browse = TRUE)
 
 	else if(href_list["editmessageseverity"])
 		if(!check_rights(R_BAN))
@@ -630,7 +630,7 @@
 	else if(href_list["showwatchfilter"])
 		if(!check_rights(R_BAN))
 			return
-		browse_messages("watchlist entry", filter = 1)
+		browse_messages("watchlist entry", filter = TRUE)
 
 	else if(href_list["showmessageckey"])
 		if(!check_rights(R_BAN))
@@ -643,7 +643,7 @@
 
 	else if(href_list["showmessageckeylinkless"])
 		var/target = href_list["showmessageckeylinkless"]
-		browse_messages(target_ckey = target, linkless = 1)
+		browse_messages(target_ckey = target, linkless = TRUE)
 
 	else if(href_list["messageedits"])
 		if(!check_rights(R_BAN))

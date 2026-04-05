@@ -1408,10 +1408,6 @@ GLOBAL_VAR_INIT(mobids, 1)
 	if(!canon_client)
 		return
 
-	if(canon_client?.movingmob)
-		LAZYREMOVE(canon_client.movingmob.client_mobs_in_contents, src)
-		canon_client.movingmob = null
-
 	clear_important_client_contents()
 	canon_client = null
 

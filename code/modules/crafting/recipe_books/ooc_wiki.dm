@@ -14,16 +14,24 @@ GLOBAL_DATUM(recipe_wiki, /datum/recipe_wiki)
 	. = ..()
 	for(var/book_type in subtypesof(/obj/item/recipe_book))
 		var/obj/item/recipe_book/book = new book_type()
-		if(!length(book.types))
+		if(!length(book.types) && !book.wiki_only)
 			qdel(book)
 			continue
-		book_entries += list(list(
-			"name" = book.name,
-			"wiki_name" = book.wiki_name || book.name,
-			"types" = book.types.Copy(),
-			"path" = book_type,
-			"wiki_section" = book.wiki_section
-		))
+		var/book_key = "[book_type]"
+		if(book.can_spawn || book.wiki_only)
+			book_entries += list(list(
+				"name" = book.name,
+				"wiki_name" = book.wiki_name || book.name,
+				"types" = book.types.Copy(),
+				"path" = book_type,
+				"wiki_section" = book.wiki_section
+			))
+		// Cache recipe data for all books, even those hidden from the library
+		if(!cached_book_recipes[book_key])
+			if(book_type == /obj/item/recipe_book/miracle_compendium)
+				cached_book_recipes[book_key] = build_miracle_list(book.types)
+			else
+				cached_book_recipes[book_key] = build_recipe_list(book.types)
 		qdel(book)
 	book_entries = sortTim(book_entries, GLOBAL_PROC_REF(cmp_book_entries))
 
@@ -36,7 +44,7 @@ GLOBAL_DATUM(recipe_wiki, /datum/recipe_wiki)
 	return GLOB.recipe_wiki
 
 /// Open the recipe viewer for a specific book's types. Used by physical recipe book items.
-/datum/recipe_wiki/proc/show_to_user(mob/user, list/type_filter, title = "Recipe Book")
+/datum/recipe_wiki/proc/show_to_user(mob/user, list/type_filter, title = "Recipe Book", book_type_path)
 	if(!user?.client)
 		return
 	var/ckey = user.client.ckey
@@ -48,7 +56,7 @@ GLOBAL_DATUM(recipe_wiki, /datum/recipe_wiki)
 	state["filter"] = type_filter
 	state["title"] = title
 	state["page"] = "book"
-	state["book_path"] = null
+	state["book_path"] = book_type_path ? "[book_type_path]" : null
 	ui_interact(user)
 
 /// Open the OOC wiki library landing page.
@@ -90,17 +98,7 @@ GLOBAL_DATUM(recipe_wiki, /datum/recipe_wiki)
 		))
 	data["books"] = books
 
-	var/list/book_recipes = list()
-	for(var/list/entry in book_entries)
-		var/epath = entry["path"]
-		var/book_key = "[epath]"
-		if(!cached_book_recipes[book_key])
-			if(entry["path"] == /obj/item/recipe_book/miracle_compendium)
-				cached_book_recipes[book_key] = build_miracle_list(entry["types"])
-			else
-				cached_book_recipes[book_key] = build_recipe_list(entry["types"])
-		book_recipes[book_key] = cached_book_recipes[book_key]
-	data["book_recipes"] = book_recipes
+	data["book_recipes"] = cached_book_recipes
 
 	return data
 
@@ -147,6 +145,11 @@ GLOBAL_DATUM(recipe_wiki, /datum/recipe_wiki)
 			var/book_path = text2path(params["path"])
 			if(!book_path)
 				return
+			var/obj/item/recipe_book/temp_book = new book_path()
+			if(temp_book.open_wiki_entry(user))
+				qdel(temp_book)
+				return FALSE
+			qdel(temp_book)
 			for(var/list/entry in book_entries)
 				if(entry["path"] == book_path)
 					ustate["recipe"] = null

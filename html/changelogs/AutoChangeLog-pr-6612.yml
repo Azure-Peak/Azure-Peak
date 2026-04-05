@@ -1,0 +1,8 @@
+author: "Ollanius"
+delete-after: True
+changes:
+  - rscdel: "Removed unused variants of the Golden Sword, Mace, and Shield."
+  - rscadd: "Added a plethora of new Triumph-purchasable reskins, sprited by 7erracotta (and - for the whips - Vanderlin.)"
+  - rscadd: "Adds three new decorated weapons that can be crafted through gilding."
+  - rscadd: "Dadao skins can now be applied onto a Falchion."
+  - rscdel: "Finally removed Zerobrine."

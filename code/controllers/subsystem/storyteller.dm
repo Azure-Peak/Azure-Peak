@@ -3,6 +3,8 @@
 #define DEFAULT_STORYTELLER_VOTE_OPTIONS 4
 ///amount of players we can have before no longer running votes for storyteller
 #define MAX_POP_FOR_STORYTELLER_VOTE 25
+#define LAST_ROUND_STATS_FILE "data/last_round/storyteller_vote.json"
+#define LAST_ROUND_STATS_STORYTELLER_VOTE "storyteller_vote"
 ///the duration into the round for which roundstart events are still valid to run
 #define ROUNDSTART_VALID_TIMEFRAME 3 MINUTES
 /// Width of a popup window that opens when user presses (?) and contains storyteller description
@@ -13,6 +15,36 @@
 #define TOWN_COMBATANT_ADDITIONAL_WEIGHT 2
 /// A half combatant (acolyte) counts as 1 + this value towards effective population
 #define HALF_COMBATANT_ADDITIONAL_WEIGHT 1
+
+/proc/is_storyteller_pending_or_roundstart(storyteller_type)
+	if(!ispath(storyteller_type, /datum/storyteller))
+		return FALSE
+	if(SSticker && SSticker.current_state != GAME_STATE_PLAYING && SSticker.current_state != GAME_STATE_FINISHED)
+		return SSgamemode.selected_storyteller == storyteller_type
+	if(ispath(SSgamemode.roundstart_storyteller, /datum/storyteller))
+		return SSgamemode.roundstart_storyteller == storyteller_type
+	return istype(SSgamemode.current_storyteller, storyteller_type)
+
+
+/proc/is_storyteller_villain_blocked()
+	return is_storyteller_pending_or_roundstart(/datum/storyteller/eora) || is_storyteller_pending_or_roundstart(/datum/storyteller/psydon)
+
+/proc/is_storyteller_soft_antag_blocked()
+	return is_storyteller_pending_or_roundstart(/datum/storyteller/psydon)
+
+/proc/enforce_storyteller_soft_antag_slots()
+	if(!is_storyteller_soft_antag_blocked())
+		return
+	for(var/job_title in list("Wretch", "Gnoll", "Assassin"))
+		var/datum/job/blocked_job = SSjob.GetJob(job_title)
+		if(!blocked_job)
+			continue
+		var/allowed_slots = max(0, blocked_job.current_positions)
+		blocked_job.total_positions = allowed_slots
+		blocked_job.spawn_positions = allowed_slots
+
+/proc/is_roundstart_roles_blocked_storyteller()
+	return is_storyteller_villain_blocked()
 
 SUBSYSTEM_DEF(gamemode)
 	name = "Gamemode"
@@ -32,8 +64,12 @@ SUBSYSTEM_DEF(gamemode)
 	var/datum/storyteller/current_storyteller
 	/// Result of the storyteller vote/pick. Defaults to Astrata.
 	var/selected_storyteller = /datum/storyteller/astrata
+	/// Storyteller that won the roundstart vote/pick for this round. Remains fixed after the round begins.
+	var/roundstart_storyteller
 	/// List of all the storytellers. Populated at init. Associative from type
 	var/list/storytellers = list()
+	/// Cached storyteller type that won the previous round's storyteller vote.
+	var/last_storyteller_vote
 	/// Next process for our storyteller. The wait time is STORYTELLER_WAIT_TIME
 	var/next_storyteller_process = 0
 	/// Associative list of even track points.
@@ -436,9 +472,11 @@ SUBSYSTEM_DEF(gamemode)
 		calc_value *= current_storyteller?.starting_point_multipliers[track]
 		calc_value *= (rand(100 - current_storyteller?.roundstart_points_variance,100 + current_storyteller?.roundstart_points_variance)/100)
 		event_track_points[track] = min(round(calc_value), round(point_thresholds[track] * 1.25))
+		if(track == EVENT_TRACK_CHARACTER_INJECTION && is_roundstart_roles_blocked_storyteller())
+			event_track_points[track] = 0
 
 	/// If the storyteller guarantees an antagonist roll, add points to make it so.
-	if(current_storyteller?.guarantees_roundstart_roleset && event_track_points[EVENT_TRACK_CHARACTER_INJECTION] < point_thresholds[EVENT_TRACK_CHARACTER_INJECTION])
+	if(!is_roundstart_roles_blocked_storyteller() && current_storyteller?.guarantees_roundstart_roleset && event_track_points[EVENT_TRACK_CHARACTER_INJECTION] < point_thresholds[EVENT_TRACK_CHARACTER_INJECTION])
 		event_track_points[EVENT_TRACK_CHARACTER_INJECTION] = point_thresholds[EVENT_TRACK_CHARACTER_INJECTION]
 
 	/// If we have any forced events, ensure we get enough points for them
@@ -560,7 +598,10 @@ SUBSYSTEM_DEF(gamemode)
 			to_chat(world, span_reallybig("[initialized_storyteller.name] is ascendant!"))
 			to_chat(world, "<br>")
 
-	pick_most_influential(TRUE)
+	if(!current_storyteller || current_storyteller.type != selected_storyteller)
+		init_storyteller()
+	if(!ispath(roundstart_storyteller, /datum/storyteller))
+		roundstart_storyteller = selected_storyteller
 	calculate_ready_players()
 	roll_pre_setup_points()
 	//handle_pre_setup_roundstart_events()
@@ -583,6 +624,7 @@ SUBSYSTEM_DEF(gamemode)
 	refresh_alive_stats()
 	handle_post_setup_roundstart_events()
 	handle_post_setup_points()
+	enforce_storyteller_soft_antag_slots()
 	roundstart_event_view = FALSE
 	return TRUE
 
@@ -710,7 +752,12 @@ SUBSYSTEM_DEF(gamemode)
 /datum/controller/subsystem/gamemode/proc/storyteller_vote_choices()
 	var/list/final_choices = list()
 	var/list/pick_from = list()
-	for(var/datum/storyteller/storyboy in get_valid_storytellers())
+	var/list/valid_storytellers = get_valid_storytellers()
+	var/previous_storyteller = get_last_storyteller_vote()
+	var/can_exclude_previous = length(valid_storytellers) > 1
+	for(var/datum/storyteller/storyboy in valid_storytellers)
+		if(can_exclude_previous && previous_storyteller == storyboy.type)
+			continue
 		if(storyboy.always_votable)
 			final_choices["<b>[storyboy.name]</b><a href='?src=[REF(src)];storyboy_details=[storyboy.type]'>(?)</a>"] = 0
 		else
@@ -733,16 +780,54 @@ SUBSYSTEM_DEF(gamemode)
 
 
 /datum/controller/subsystem/gamemode/proc/storyteller_vote_result(html_contaminated)
+	var/matched_storyteller = FALSE
 	for(var/storyteller_type in storytellers)
 		var/datum/storyteller/storyboy = storytellers[storyteller_type]
 		if(findtext(html_contaminated, storyboy.name))
 			selected_storyteller = storyboy.type
+			matched_storyteller = TRUE
 			SSgnoll_scaling.get_gnoll_scaling() // Calling this here as to make sure scaling holds true as per the roundstart vote, not a latejoin hunted character joining.
 			break
+	if(matched_storyteller)
+		save_last_storyteller_vote(selected_storyteller)
 
 	var/datum/storyteller/storytypecasted = selected_storyteller
 	to_chat(world, span_notice("<b>Storyteller is [initial(storytypecasted.name)]!</b>"))
 	to_chat(world, span_notice("[initial(storytypecasted.vote_desc)]"))
+
+/datum/controller/subsystem/gamemode/proc/get_last_storyteller_vote()
+	if(last_storyteller_vote)
+		return last_storyteller_vote
+	var/json_file = file(LAST_ROUND_STATS_FILE)
+	if(!fexists(json_file))
+		return null
+	var/list/last_round_stats = safe_json_decode(file2text(json_file))
+	if(!islist(last_round_stats))
+		return null
+	if(last_round_stats["state"] != "completed")
+		return null
+	var/loaded_path = text2path(trim(last_round_stats[LAST_ROUND_STATS_STORYTELLER_VOTE]))
+	if(!ispath(loaded_path, /datum/storyteller))
+		return null
+	last_storyteller_vote = loaded_path
+	return last_storyteller_vote
+
+/datum/controller/subsystem/gamemode/proc/save_last_storyteller_vote(storyteller_type)
+	if(!ispath(storyteller_type, /datum/storyteller))
+		return
+	last_storyteller_vote = storyteller_type
+	var/json_file = file(LAST_ROUND_STATS_FILE)
+	var/list/last_round_stats = list()
+	if(!fexists(json_file))
+		WRITE_FILE(json_file, "{}")
+	else
+		last_round_stats = safe_json_decode(file2text(json_file))
+	if(!islist(last_round_stats))
+		last_round_stats = list()
+	last_round_stats[LAST_ROUND_STATS_STORYTELLER_VOTE] = "[storyteller_type]"
+	fdel(json_file)
+	WRITE_FILE(json_file, json_encode(last_round_stats))
+	message_admins("Storyteller vote was saved as [storyteller_type]")
 
 ///return a weighted list of all storytellers that are currently valid to roll, if return_types is set then we will return types instead of instances
 /datum/controller/subsystem/gamemode/proc/get_valid_storytellers(return_types = FALSE)
@@ -767,7 +852,12 @@ SUBSYSTEM_DEF(gamemode)
 	var/datum/storyteller/chosen_storyteller = storytellers[passed_type]
 	chosen_storyteller.times_chosen++
 	GLOB.featured_stats[FEATURED_STATS_STORYTELLERS]["entries"][initial(chosen_storyteller.name)] = chosen_storyteller.times_chosen
+	selected_storyteller = passed_type
 	current_storyteller = chosen_storyteller
+	if(SSjob?.occupations?.len)
+		gnollslot_update()
+		update_scaling_slots()
+		enforce_storyteller_soft_antag_slots()
 	if(!secret_storyteller)
 		send_to_playing_players(span_notice("<b>Storyteller is [current_storyteller.name]!</b>"))
 		send_to_playing_players(span_notice("[current_storyteller.welcome_text]"))
@@ -829,7 +919,7 @@ SUBSYSTEM_DEF(gamemode)
 		if(GAMEMODE_PANEL_MAIN)
 			var/even = TRUE
 			dat += "<h2>Event Tracks:</h2>"
-			dat += "<font color='#888888'><i>Every track represents progression towards scheduling an event of it's severity</i></font>"
+			dat += "<font color='#888888'><i>Every track represents progression towards scheduling an event of its severity</i></font>"
 			dat += "<table align='center'; width='100%'; height='100%'; style='background-color:#13171C'>"
 			dat += "<tr style='vertical-align:top'>"
 			dat += "<td width=25%><b>Track</b></td>"
@@ -1477,6 +1567,8 @@ SUBSYSTEM_DEF(gamemode)
 
 #undef DEFAULT_STORYTELLER_VOTE_OPTIONS
 #undef MAX_POP_FOR_STORYTELLER_VOTE
+#undef LAST_ROUND_STATS_FILE
+#undef LAST_ROUND_STATS_STORYTELLER_VOTE
 #undef ROUNDSTART_VALID_TIMEFRAME
 #undef DESC_POPUP_WIDTH
 #undef DESC_POPUP_HEIGHT

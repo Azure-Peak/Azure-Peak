@@ -28,6 +28,7 @@
 		TRAIT_NOHUNGER,
 		TRAIT_BLOODLOSS_IMMUNE,
 		TRAIT_NOBREATH,
+		TRAIT_DEATHLESS,
 		TRAIT_ZOMBIE_IMMUNE
 		)
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_MAGIC | MIRROR_PRIDE | RACE_SWAP | SLIME_EXTRACT
@@ -95,7 +96,7 @@
 		/datum/body_marking/construct_psyclops_eye,
 	)
 
-	restricted_virtues = list(/datum/virtue/utility/noble, /datum/virtue/utility/deathless)
+	restricted_virtues = list(/datum/virtue/utility/noble, /datum/virtue/utility/hollow)
 
 /datum/species/construct/metal/check_roundstart_eligible()
 	return TRUE

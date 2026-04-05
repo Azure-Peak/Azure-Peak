@@ -103,6 +103,8 @@
 	slot_flags = ITEM_SLOT_HEAD|ITEM_SLOT_MASK
 	armor_class = ARMOR_CLASS_NONE
 	block2add = FOV_DEFAULT
+	flags_cover = null
+	flags_inv = null
 
 /obj/item/clothing/head/roguetown/helmet/blacksteel/psythorns/attack_self(mob/living/user)
 	. = ..()

@@ -272,43 +272,6 @@
 	reqs = list(/obj/item/magic/artifact = 1,
 				/datum/reagent/medicine/manapot = 45)
 
-// ========== Gem Extraction (remove gem from staff) ==========
-
-/datum/crafting_recipe/roguetown/arcana/extract_toper
-	name = "extract toper from staff"
-	result = list(/obj/item/rogueweapon/woodstaff, /obj/item/roguegem/yellow)
-	reqs = list(/obj/item/rogueweapon/woodstaff/toper = 1)
-
-/datum/crafting_recipe/roguetown/arcana/extract_amethyst
-	name = "extract amythortz from staff"
-	result = list(/obj/item/rogueweapon/woodstaff, /obj/item/roguegem/amethyst)
-	reqs = list(/obj/item/rogueweapon/woodstaff/amethyst = 1)
-
-/datum/crafting_recipe/roguetown/arcana/extract_emerald
-	name = "extract gemerald from staff"
-	result = list(/obj/item/rogueweapon/woodstaff, /obj/item/roguegem/green)
-	reqs = list(/obj/item/rogueweapon/woodstaff/emerald = 1)
-
-/datum/crafting_recipe/roguetown/arcana/extract_sapphire
-	name = "extract saffira from staff"
-	result = list(/obj/item/rogueweapon/woodstaff, /obj/item/roguegem/violet)
-	reqs = list(/obj/item/rogueweapon/woodstaff/sapphire = 1)
-
-/datum/crafting_recipe/roguetown/arcana/extract_quartz
-	name = "extract blortz from staff"
-	result = list(/obj/item/rogueweapon/woodstaff, /obj/item/roguegem/blue)
-	reqs = list(/obj/item/rogueweapon/woodstaff/quartz = 1)
-
-/datum/crafting_recipe/roguetown/arcana/extract_ruby
-	name = "extract ronts from staff"
-	result = list(/obj/item/rogueweapon/woodstaff, /obj/item/roguegem/ruby)
-	reqs = list(/obj/item/rogueweapon/woodstaff/ruby = 1)
-
-/datum/crafting_recipe/roguetown/arcana/extract_diamond
-	name = "extract dorpel from staff"
-	result = list(/obj/item/rogueweapon/woodstaff, /obj/item/roguegem/diamond)
-	reqs = list(/obj/item/rogueweapon/woodstaff/diamond = 1)
-
 /datum/crafting_recipe/roguetown/arcana/arcyne_dagger
 	name = "arcyne silver dagger"
 	result = /obj/item/rogueweapon/huntingknife/idagger/silver/arcyne

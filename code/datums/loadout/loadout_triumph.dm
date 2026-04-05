@@ -2,13 +2,17 @@
 //  TRIUMPHS !  //
 //////////////////
 
-//Everything in this section costs TRI. Very rudimentary, but it should help us gradually realign some sense of value to this otherwise-neglected system.
-//When it comes to equipment, avoid adding anything that an Adventurer - or non-combative Noble - couldn't spawn with, or otherwise acquire within the first dae of the week.
-//If adding more items, ensure they're a Triumph-exclusive child. If they can be smelted down, reduce the sum to one ingot. If they can be sold, blacklist it from the Stockpile.
+// Dongwaiver / Ollanius, here.
+// For those checking this spot out, hello! As for more particular notes..
 
-// -3 TRI Minisection.
-// Nearly all characters can comfortably earn +3-5 TRI per week, assuming they sleep ever-so-often.
+// When it comes to equipment, try to avoid adding anything that an Adventurer - or non-combative Noble - couldn't spawn with, or otherwise acquire within the first dae of the week.
+// Alive characters automatically gain +1 TRI at the start of each day, and can comfortably maintain a passive increase of +6 TRI. That is to say, players have a 'soft' safety-spending net of 6 TRI at any given time.
+// If an item's value exceeds thirty mammons, make sure to add it to the STOCKPILE's blastlist in 'bounties.dm'. This helps to curtail people solely taking these trinkets to wordlessly pawn off for extra coinage.
 
+// Remember that these costs are done on a 'per-round' basis, that all items can still be permenantly lost when withdrawn, and that they should - above all else - encourage people to roll with TRI-rewarding mechanics.
+// Above all else? Have fun! If you have any questions, let me know.
+
+// -3 TRI
 /datum/loadout_item/triumph_knife
 	name = "Laborer's Knife"
 	path = /obj/item/rogueweapon/huntingknife/throwingknife/triumph
@@ -45,8 +49,7 @@
 	triumph_cost = 3
 	sort_category = "Triumphs"
 
-// -5 TRI Minisection.
-
+// -5 TRI
 /datum/loadout_item/triumph_shortsatchel
 	name = "Short Satchel"
 	path = /obj/item/storage/backpack/rogue/satchel/short
@@ -149,30 +152,29 @@
 	triumph_cost = 5
 	sort_category = "Triumphs"
 
-// -7 TRI Minisection.
+/datum/loadout_item/triumph_grenzhat
+	name = "Grenzelhoftian Beret"
+	path = /obj/item/clothing/head/roguetown/grenzelhofthat/triumph
+	triumph_cost = 5
+	sort_category = "Triumphs"
 
+// -9 TRI
 /datum/loadout_item/triumph_buttpack
 	name = "Belted Satchel"
 	path = /obj/item/storage/backpack/rogue/satchel/beltpack
-	triumph_cost = 7
+	triumph_cost = 9
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_lunchpouch
 	name = "Pouch of Luncheons"
 	path = /obj/item/storage/belt/rogue/pouch/triumphlunch
-	triumph_cost = 7
-	sort_category = "Triumphs"
-
-/datum/loadout_item/triumph_grenzhat
-	name = "Grenzelhoftian Beret"
-	path = /obj/item/clothing/head/roguetown/grenzelhofthat/triumph
-	triumph_cost = 7
+	triumph_cost = 9
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_lordcloak
 	name = "Lordly Cloak"
 	path = /obj/item/clothing/cloak/lordcloak
-	triumph_cost = 7
+	triumph_cost = 9
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_ladycloak
@@ -184,48 +186,36 @@
 /datum/loadout_item/triumph_scabbardroyal
 	name = "Decorated Scabbard, Golden"
 	path = /obj/item/rogueweapon/scabbard/sword/royal
-	triumph_cost = 7
+	triumph_cost = 9
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_sheathroyal
 	name = "Decorated Sheath, Golden"
 	path = /obj/item/rogueweapon/scabbard/sheath/royal
-	triumph_cost = 7
+	triumph_cost = 9
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_gdorpelring
 	name = "Golden Dorpel Ring, Ornate"
 	path = /obj/item/clothing/ring/diamond/triumph
-	triumph_cost = 7
+	triumph_cost = 9
 	sort_category = "Triumphs"
 
-// Beyond.
+//////////////////
+//  UNIQUES  !  //
+//////////////////
+//Anything that doesn't fall within the standard pricing bracket, or is sufficently unique to warrant being categorized differently.
 
 /datum/loadout_item/triumph_buffpot
 	name = "Vial of Distilled Triumphance"
 	path = /obj/item/reagent_containers/glass/bottle/alchemical/tripot
-	triumph_cost = 70
+	triumph_cost = 99
 	sort_category = "Triumphs"
 
-// Reskinners.
-
-/datum/loadout_item/triumph_weaponkitaxealt
-	name = "Morphing Elixir, 'Doubleheaded Axe'"
-	path = /obj/item/enchantingkit/triumph_weaponkit_axedouble
-	triumph_cost = 3
-	sort_category = "Triumphs"
-
-/datum/loadout_item/triumph_weaponkitaxe
-	name = "Morphing Elixir, 'Valorian Axe'"
-	path = /obj/item/enchantingkit/triumph_weaponkit_axe
-	triumph_cost = 3
-	sort_category = "Triumphs"
-
-/datum/loadout_item/triumph_weaponkitsword
-	name = "Morphing Elixir, 'Valorian Sword'"
-	path = /obj/item/enchantingkit/triumph_weaponkit_sword
-	triumph_cost = 3
-	sort_category = "Triumphs"
+//////////////////
+//  RESKINS  !  //
+//////////////////
+//Variants of the Donator Reskin item, specifically unlocked through Triumphs.
 
 /datum/loadout_item/triumph_armorkit
 	name = "Morphing Elixir, 'Valorian Steel Armor'"
@@ -239,32 +229,140 @@
 	triumph_cost = 3
 	sort_category = "Triumphs"
 
-/datum/loadout_item/triumph_weaponkittri
+/datum/loadout_item/triumph_weaponkit_axealt
+	name = "Morphing Elixir, 'Doubleheaded Axe'"
+	path = /obj/item/enchantingkit/triumph_weaponkit_axedouble
+	triumph_cost = 3
+	sort_category = "Triumphs"
+
+/datum/loadout_item/triumph_weaponkit_axe
+	name = "Morphing Elixir, 'Valorian Axe'"
+	path = /obj/item/enchantingkit/triumph_weaponkit_axe
+	triumph_cost = 3
+	sort_category = "Triumphs"
+
+/datum/loadout_item/triumph_weaponkit_sword
+	name = "Morphing Elixir, 'Valorian Sword'"
+	path = /obj/item/enchantingkit/weapon/triumph_weaponkit_sword
+	triumph_cost = 3
+	sort_category = "Triumphs"
+
+/datum/loadout_item/triumph_weaponkit_tri
 	name = "Morphing Elixir, 'Valorian Longsword'"
 	path = /obj/item/enchantingkit/triumph_weaponkit_tri
 	triumph_cost = 3
 	sort_category = "Triumphs"
 
-/datum/loadout_item/triumph_weaponkitwide
+/datum/loadout_item/triumph_weaponkit_greatval
+	name = "Morphing Elixir, 'Valorian Greatsword'"
+	path = /obj/item/enchantingkit/weapon/triumph_weaponkit_greatval
+	triumph_cost = 3
+	sort_category = "Triumphs"
+
+/datum/loadout_item/triumph_weaponkit_rock
+	name = "Morphing Elixir, 'Rockhillian Broadsword'"
+	path = /obj/item/enchantingkit/weapon/triumph_weaponkit_rock
+	triumph_cost = 3
+	sort_category = "Triumphs"
+
+/datum/loadout_item/triumph_weaponkit_wide
 	name = "Morphing Elixir, 'Wideguard Longsword'"
 	path = /obj/item/enchantingkit/triumph_weaponkit_wide
 	triumph_cost = 3
 	sort_category = "Triumphs"
 
-/datum/loadout_item/triumph_weaponkitrock
-	name = "Morphing Elixir, 'Rockhillian Longsword'"
-	path = /obj/item/enchantingkit/triumph_weaponkit_rock
-	triumph_cost = 3
-	sort_category = "Triumphs"
-
-/datum/loadout_item/triumph_weaponkitsabre
+/datum/loadout_item/triumph_weaponkit_sabre
 	name = "Morphing Elixir, 'Sabreguard Longsword'"
 	path = /obj/item/enchantingkit/triumph_weaponkit_sabre
 	triumph_cost = 3
 	sort_category = "Triumphs"
 
-/datum/loadout_item/triumph_weaponkitpsy
+/datum/loadout_item/triumph_weaponkit_psy
 	name = "Morphing Elixir, 'Psycrucifix Longsword'"
 	path = /obj/item/enchantingkit/triumph_weaponkit_psy
+	triumph_cost = 3
+	sort_category = "Triumphs"
+
+/datum/loadout_item/triumph_weaponkit_wodao
+	name = "Morphing Elixir, 'Wodao'"
+	path = /obj/item/enchantingkit/weapon/triumph_weaponkit_wodao
+	triumph_cost = 3
+	sort_category = "Triumphs"
+
+/datum/loadout_item/triumph_weaponkit_dadao
+	name = "Morphing Elixir, 'Dadao'"
+	path = /obj/item/enchantingkit/weapon/triumph_weaponkit_dadao
+	triumph_cost = 3
+	sort_category = "Triumphs"
+
+/datum/loadout_item/triumph_weaponkit_gdadao
+	name = "Morphing Elixir, 'Greatdadao'"
+	path = /obj/item/enchantingkit/weapon/triumph_weaponkit_gdadao
+	triumph_cost = 3
+	sort_category = "Triumphs"
+
+/datum/loadout_item/triumph_weaponkit_estoc
+	name = "Morphing Elixir, 'Azurian Estoc'"
+	path = /obj/item/enchantingkit/triumph_weaponkit_estoc
+	triumph_cost = 3
+	sort_category = "Triumphs"
+
+/datum/loadout_item/triumph_weaponkit_fancymace
+	name = "Morphing Elixir, 'Rungu-Shishpar Mace'"
+	path = /obj/item/enchantingkit/triumph_weaponkit_fancymace
+	triumph_cost = 3
+	sort_category = "Triumphs"
+
+/datum/loadout_item/triumph_weaponkit_krisdagger
+	name = "Morphing Elixir, 'Kris'"
+	path = /obj/item/enchantingkit/triumph_weaponkit_kris
+	triumph_cost = 3
+	sort_category = "Triumphs"
+
+/datum/loadout_item/triumph_weaponkit_njoradagger
+	name = "Morphing Elixir, 'Njora'"
+	path = /obj/item/enchantingkit/triumph_weaponkit_njora
+	triumph_cost = 3
+	sort_category = "Triumphs"
+
+/datum/loadout_item/triumph_weaponkit_alloywhip
+	name = "Morphing Elixir, 'Alloytip Whip'"
+	path = /obj/item/enchantingkit/triumph_weaponkit_whip
+	triumph_cost = 3
+	sort_category = "Triumphs"
+
+/datum/loadout_item/triumph_weaponkit_kaskara
+	name = "Morphing Elixir, 'Kaskara'"
+	path = /obj/item/enchantingkit/weapon/triumph_weaponkit_kaskara
+	triumph_cost = 3
+	sort_category = "Triumphs"
+
+/datum/loadout_item/triumph_weaponkit_ida
+	name = "Morphing Elixir, 'Ida'"
+	path = /obj/item/enchantingkit/weapon/triumph_weaponkit_ida
+	triumph_cost = 3
+	sort_category = "Triumphs"
+
+/datum/loadout_item/triumph_weaponkit_hwi
+	name = "Morphing Elixir, 'Hwi'"
+	path = /obj/item/enchantingkit/weapon/triumph_weaponkit_hwi
+	triumph_cost = 3
+	sort_category = "Triumphs"
+
+/datum/loadout_item/triumph_weaponkit_ngombe
+	name = "Morphing Elixir, 'Ngombe'"
+	path = /obj/item/enchantingkit/weapon/triumph_weaponkit_ngombe
+	triumph_cost = 3
+	sort_category = "Triumphs"
+
+/datum/loadout_item/triumph_weaponkit_ada
+	name = "Morphing Elixir, 'Ada'"
+	path = /obj/item/enchantingkit/weapon/triumph_weaponkit_ada
+	triumph_cost = 3
+	sort_category = "Triumphs"
+
+/datum/loadout_item/triumph_weaponkit_sengese
+	name = "Morphing Elixir, 'Sengese'"
+	path = /obj/item/enchantingkit/weapon/triumph_weaponkit_sengese
 	triumph_cost = 3
 	sort_category = "Triumphs"

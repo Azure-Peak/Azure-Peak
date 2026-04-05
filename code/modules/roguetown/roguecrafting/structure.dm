@@ -1522,3 +1522,14 @@
 	verbage_simple = "weave"
 	verbage = "weaves"
 	craftdiff = 0
+
+/datum/crafting_recipe/roguetown/structure/pillory
+	name = "pillory"
+	category = "Misc"
+	result = /obj/structure/pillory/crafted
+	reqs = list(/obj/item/grown/log/tree/small = 2,
+				/obj/item/natural/stone = 2)
+	verbage_simple = "construct"
+	verbage = "constructs"
+	skillcraft = /datum/skill/craft/carpentry
+	craftdiff = 2

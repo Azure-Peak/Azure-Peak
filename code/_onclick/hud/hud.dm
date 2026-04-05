@@ -235,7 +235,6 @@ GLOBAL_LIST_INIT(available_ui_styles, sortList(list(
 	screenmob.update_action_buttons(1)
 	reorganize_alerts()
 	screenmob.reload_fullscreen()
-	update_parallax_pref(screenmob)
 
 	// ensure observers get an accurate and up-to-date view
 	if (!viewmob)
@@ -320,7 +319,7 @@ GLOBAL_LIST_INIT(available_ui_styles, sortList(list(
 		hand_slots["[i]"] = hand_box
 		hand_box.hud = src
 		static_inventory += hand_box
-		hand_box.update_icon()
+		hand_box.update_hand_vis()
 
 	var/i = 1
 	for(var/atom/movable/screen/swap_hand/SH in static_inventory)
