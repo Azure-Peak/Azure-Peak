@@ -39,7 +39,7 @@
 		/datum/skill/misc/medicine = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/craft/alchemy = SKILL_LEVEL_APPRENTICE, // Enough to make thin red tier potions. More with Pestra!
 		/datum/skill/craft/cooking = SKILL_LEVEL_JOURNEYMAN, // They're good cooks! Goes with their mess kit + stove.
-		/datum/skill/craft/tanning = SKILL_LEVEL_APPRENTICE // Enough to make some basic leather goods.
+		/datum/skill/craft/tanning = SKILL_LEVEL_APPRENTICE, // Enough to make some basic leather goods.
 		/datum/skill/craft/crafting = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/craft/sewing = SKILL_LEVEL_APPRENTICE, // Good at repairing clothes.
 		/datum/skill/craft/blacksmithing = SKILL_LEVEL_APPRENTICE, // Good at repairing metal, too!
