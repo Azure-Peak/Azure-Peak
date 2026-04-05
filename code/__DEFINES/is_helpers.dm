@@ -163,8 +163,6 @@ GLOBAL_LIST_INIT(our_forest_sex, typecacheof(list(
 
 #define isreagentcontainer(A) (istype(A, /obj/item/reagent_containers))
 
-#define isitem(A) (istype(A, /obj/item))
-
 #define isidcard(I) (istype(I, /obj/item/card/id))
 
 #define isstructure(A) (istype(A, /obj/structure))

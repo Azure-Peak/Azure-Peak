@@ -22,8 +22,8 @@
 		return
 
 	if(living_pawn.handcuffed)
-		living_pawn.cuff_resist(living_pawn.handcuffed, instant = TRUE)
+		living_pawn.cuff_resist(living_pawn.handcuffed)
 	else if(living_pawn.legcuffed)
-		living_pawn.cuff_resist(living_pawn.legcuffed, instant = TRUE)
+		living_pawn.cuff_resist(living_pawn.legcuffed)
 
 	finish_action(controller, TRUE)
