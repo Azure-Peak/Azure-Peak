@@ -270,21 +270,21 @@
 			H.equip_to_slot_or_del(new /obj/item/clothing/neck/roguetown/psicross/undivided, SLOT_RING, TRUE)
 			H.adjust_skillrank(/datum/skill/magic/holy, 1, TRUE)
 
-			// Psydon gets +1 weight, up to 9 total, by light of not having traditional miracles.
-			if(/datum/patron/old_god)
-				H.change_stat(STATKEY_WIL, 2)
-				H.change_stat(STATKEY_CON, 1)
-				H.equip_to_slot_or_del(new /obj/item/clothing/neck/roguetown/psicross/silver, SLOT_RING, TRUE)
-				H.equip_to_slot_or_del(new /obj/item/clothing/suit/roguetown/armor/brigandine, SLOT_ARMOR, TRUE)
-				H.equip_to_slot_or_del(new /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/inq, SLOT_SHIRT, TRUE)
-				H.equip_to_slot_or_del(new /obj/item/clothing/gloves/roguetown/chain/psydon, SLOT_GLOVES, TRUE)
-				H.equip_to_slot_or_del(new /obj/item/clothing/shoes/roguetown/boots/psydonboots, SLOT_SHOES, TRUE)
-				// The Psydonite tabard looks nearly identical to the generic overvestments anyway.
-				H.equip_to_slot_or_del(new /obj/item/clothing/cloak/tabard/psydontabard, SLOT_CLOAK, TRUE)
-				helmets += list("Psydonic Barbute" = /obj/item/clothing/head/roguetown/helmet/heavy/psydonbarbute,
-					"Psydonic Sallet" = /obj/item/clothing/head/roguetown/helmet/heavy/psysallet,
-					"Psydonic Armet" = /obj/item/clothing/head/roguetown/helmet/heavy/psydonhelm,
-					"Psydonic Bucket Helm" = /obj/item/clothing/head/roguetown/helmet/heavy/psybucket)
+		// Psydon gets +1 weight, up to 9 total, by light of not having traditional miracles.
+		if(/datum/patron/old_god)
+			H.change_stat(STATKEY_WIL, 2)
+			H.change_stat(STATKEY_CON, 1)
+			H.equip_to_slot_or_del(new /obj/item/clothing/neck/roguetown/psicross/silver, SLOT_RING, TRUE)
+			H.equip_to_slot_or_del(new /obj/item/clothing/suit/roguetown/armor/brigandine, SLOT_ARMOR, TRUE)
+			H.equip_to_slot_or_del(new /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/inq, SLOT_SHIRT, TRUE)
+			H.equip_to_slot_or_del(new /obj/item/clothing/gloves/roguetown/chain/psydon, SLOT_GLOVES, TRUE)
+			H.equip_to_slot_or_del(new /obj/item/clothing/shoes/roguetown/boots/psydonboots, SLOT_SHOES, TRUE)
+			// The Psydonite tabard looks nearly identical to the generic overvestments anyway.
+			H.equip_to_slot_or_del(new /obj/item/clothing/cloak/tabard/psydontabard, SLOT_CLOAK, TRUE)
+			helmets += list("Psydonic Barbute" = /obj/item/clothing/head/roguetown/helmet/heavy/psydonbarbute,
+				"Psydonic Sallet" = /obj/item/clothing/head/roguetown/helmet/heavy/psysallet,
+				"Psydonic Armet" = /obj/item/clothing/head/roguetown/helmet/heavy/psydonhelm,
+				"Psydonic Bucket Helm" = /obj/item/clothing/head/roguetown/helmet/heavy/psybucket)
 
 	if(H.mind)
 		var/helmchoice = input(H, "Choose your Helm.", "TAKE UP HELMS") as anything in helmets
