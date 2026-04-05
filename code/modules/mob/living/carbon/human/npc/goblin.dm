@@ -390,7 +390,7 @@ GLOBAL_LIST_INIT(goblin_aggro, world.file2list("strings/rt/goblinaggrolines.txt"
 		if(6) // bow archer
 			r_hand = /obj/item/rogueweapon/huntingknife/stoneknife
 			backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow
-			backl = /obj/item/quiver/arrows/stone
+			backl = /obj/item/quiver/stonearrows
 			armor = /obj/item/clothing/suit/roguetown/armor/leather/hide/goblin
 			H.adjust_skillrank(/datum/skill/combat/bows, 2, TRUE)
 		if(7) // slinger
@@ -402,7 +402,7 @@ GLOBAL_LIST_INIT(goblin_aggro, world.file2list("strings/rt/goblinaggrolines.txt"
 		if(8) // bow archer variant 2 (no armor, faster)
 			r_hand = /obj/item/rogueweapon/huntingknife/stoneknife
 			backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow
-			backl = /obj/item/quiver/arrows/stone
+			backl = /obj/item/quiver/stonearrows
 			H.adjust_skillrank(/datum/skill/combat/bows, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/polearms, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/maces, 2, TRUE)
@@ -419,7 +419,7 @@ GLOBAL_LIST_INIT(goblin_aggro, world.file2list("strings/rt/goblinaggrolines.txt"
 	r_hand = /obj/item/rogueweapon/huntingknife/stoneknife
 	l_hand = null
 	backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow
-	backl = /obj/item/quiver/arrows/stone
+	backl = /obj/item/quiver/stonearrows
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/hide/goblin
 	H.adjust_skillrank(/datum/skill/combat/bows, 2, TRUE)
 
