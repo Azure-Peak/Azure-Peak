@@ -900,6 +900,24 @@
 	additional_items = list(/obj/item/rogueweapon/mace/warhammer/bronze)
 	created_item = /obj/item/rogueweapon/mace/warhammer/bronze/decorated
 
+/datum/anvil_recipe/weapons/decorated/axe
+	name = "Axe, Decorated (+1 Steel Axe)"
+	req_bar = /obj/item/ingot/gold
+	additional_items = list(/obj/item/rogueweapon/stoneaxe/woodcut/steel)
+	created_item = /obj/item/rogueweapon/stoneaxe/woodcut/steel/decorated
+
+/datum/anvil_recipe/weapons/decorated/swordsil
+	name = "Elegant Axesword, Silvered (+1 Silver Sword)"
+	req_bar = /obj/item/ingot/gold
+	additional_items = list(/obj/item/rogueweapon/sword/silver)
+	created_item = /obj/item/rogueweapon/sword/silver/decorated
+
+/datum/anvil_recipe/weapons/decorated/macesil
+	name = "Elegant Mace, Silvered (+1 Silver Mace)"
+	req_bar = /obj/item/ingot/gold
+	additional_items = list(/obj/item/rogueweapon/mace/steel/silver)
+	created_item = /obj/item/rogueweapon/mace/steel/silver/decorated
+
 /datum/anvil_recipe/weapons/decorated/elfsaber
 	name = "Elegant Sabre, Elvish (+3 Silver)"
 	req_bar = /obj/item/ingot/gold

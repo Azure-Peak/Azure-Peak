@@ -433,3 +433,13 @@
 				return TRUE
 			if(has_status_effect(/datum/status_effect/buff/tempo_three))
 				return TRUE
+		//Whether we lose max dodge and increase our dodge delay after a dodge.
+		if(TEMPO_TAG_DODGE_LOSS)
+			if(has_status_effect(/datum/status_effect/buff/tempo_one))
+				return TEMPO_DODGE_LOSS_LESS
+			if(has_status_effect(/datum/status_effect/buff/tempo_two))
+				return TEMPO_DODGE_LOSS_NONE
+			if(has_status_effect(/datum/status_effect/buff/tempo_three))
+				return TEMPO_DODGE_LOSS_NONE
+			else
+				return TEMPO_DODGE_LOSS_NORMAL

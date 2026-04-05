@@ -401,6 +401,15 @@
 	max_integrity = 130 //Less integrity as well.
 	smeltresult = /obj/item/ingot/bronze
 
+/obj/item/rogueweapon/huntingknife/combat/fencerguy
+	name = "grenzelhoftian seax"
+	desc = "A fine traditional Grenzelhoftian seax built to favor precision over brute force. Though modest in reach, it excels in the hands of a disciplined duelist."
+	possible_item_intents = list(/datum/intent/dagger/cut/heavy, /datum/intent/dagger/chop/cleaver, /datum/intent/dagger/sucker_punch, /datum/intent/dagger/thrust/weak)
+	icon_state = "germancombat"
+	icon = 'icons/roguetown/weapons/daggers32.dmi'
+	max_integrity = 170
+	minstr = 7 //Less strength requirement than the regular combat knife, to reflect the fact that it's a little easier to handle.
+
 /datum/intent/dagger/thrust/combat
 	name = "wedged thrust"
 	icon_state = "instab"

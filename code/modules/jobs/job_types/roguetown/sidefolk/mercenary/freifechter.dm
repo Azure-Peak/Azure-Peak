@@ -33,34 +33,30 @@
 	..()
 	to_chat(H, span_warning("You are a master in the arts of the longsword. Wielder of Psydonia's most versatile and noble weapon, you needn't anything else. Your professionally made longsword facilitates moves from fechtbuchs the likes of The Etruscan Flower and Grenzelhoft's Wiedenhauer."))
 	l_hand = /obj/item/rogueweapon/scabbard/sword
-	var/weapons = list("Etruscan Longsword", "Reformist Longsword")
 	if(H.mind)
+		var/weapons = list("Etruscan Longsword", "Reformist Longsword")
 		var/weapon_choice = input(H, "Draw a sword.", "As presented to me by Master Oktawiusz...") as anything in weapons
 		switch(weapon_choice)
-			if("Etruscan Longsword")		//A longsword with a compound ricasso. Accompanied by a traditional flip knife.
+			if("Etruscan Longsword") //A longsword with a compound ricasso. Accompanied by a traditional flip knife.
 				r_hand = /obj/item/rogueweapon/sword/long/etruscan
 				beltr = /obj/item/rogueweapon/huntingknife/idagger/navaja/freifechter
 			if("Reformist Longsword")
 				r_hand = /obj/item/rogueweapon/sword/long/etruscan/freifechter
 				beltr = /obj/item/rogueweapon/huntingknife/idagger/navaja/freifechter
-
-		if(H.mind)
-			var/armors = list(
-				"Fencing Jacket"	= /obj/item/clothing/suit/roguetown/armor/leather/heavy/freifechter,
-				"Fencing Cuirass"	= /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fencer
-			)
-			var/armorchoice = input(H, "Don your armour.", "Security or Flexibility?") as anything in armors
-			armor = armors[armorchoice]
-
+		var/armors = list(
+			"Fencing Jacket" = /obj/item/clothing/suit/roguetown/armor/leather/heavy/freifechter,
+			"Fencing Cuirass" = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fencer
+		)
+		var/armorchoice = input(H, "Don your armour.", "Security or Flexibility?") as anything in armors
+		armor = armors[armorchoice]
 	belt = /obj/item/storage/belt/rogue/leather/sash
 	beltl = /obj/item/flashlight/flare/torch/lantern
 	shirt = /obj/item/clothing/suit/roguetown/shirt/freifechter
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/otavan/generic
-	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced/short
+	shoes = /obj/item/clothing/shoes/roguetown/grenzelhoft/freifechter
 	gloves = /obj/item/clothing/gloves/roguetown/angle/grenzelgloves/freifechter
 	backr = /obj/item/storage/backpack/rogue/satchel/short
 	neck = /obj/item/clothing/neck/roguetown/psicross/reform
-
 	backpack_contents = list(
 		/obj/item/roguekey/mercenary = 1,
 		/obj/item/natural/bundle/cloth/bandage/full = 1
@@ -98,8 +94,8 @@
 	to_chat(H, span_warning("You put complete trust in your polearm, the most effective weapon the world has seen. Why wear armour when you cannot be hit? You can choose to display the banners of the Reformist Order or your own State."))
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/freifechter
 	backl = /obj/item/rogueweapon/scabbard/gwstrap
-	var/weapons = list("Graduate's Spear", "Banner of Szöréndnížina", "Banner of Psydonic Reformism")
 	if(H.mind)
+		var/weapons = list("Graduate's Spear", "Banner of Szöréndnížina", "Banner of Psydonic Reformism")
 		var/weapon_choice = input(H, "Spear or Pike-Banner?", "As presented to me by Lance-Master Szörénsław...") as anything in weapons
 		switch(weapon_choice)
 			if("Graduate's Spear")		//A steel spear with a cool-looking stick & a banner sticking out of it.
@@ -111,16 +107,14 @@
 			if("Banner of Psydonic Reformism")
 				r_hand = /obj/item/rogueweapon/spear/boar/frei/pike/reformist
 				wrists = /obj/item/rogueweapon/katar/punchdagger/frei
-
 	belt = /obj/item/storage/belt/rogue/leather/sash
 	beltl = /obj/item/flashlight/flare/torch/lantern
 	shirt = /obj/item/clothing/suit/roguetown/shirt/freifechter
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/otavan/generic
-	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced/short
+	shoes = /obj/item/clothing/shoes/roguetown/grenzelhoft/freifechter
 	gloves = /obj/item/clothing/gloves/roguetown/angle/grenzelgloves/freifechter
 	backr = /obj/item/storage/backpack/rogue/satchel/short
 	neck = /obj/item/clothing/neck/roguetown/psicross/reform
-
 	backpack_contents = list(
 		/obj/item/roguekey/mercenary = 1,
 		/obj/item/natural/bundle/cloth/bandage/full = 1
@@ -174,12 +168,11 @@
 	beltl = /obj/item/flashlight/flare/torch/lantern
 	shirt = /obj/item/clothing/suit/roguetown/shirt/freifechter
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/otavan/generic
-	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced/short
+	shoes = /obj/item/clothing/shoes/roguetown/grenzelhoft/freifechter
 	gloves = /obj/item/clothing/gloves/roguetown/angle/grenzelgloves/freifechter
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/jackchain	//Obsessed with arms-hands. Keeping them protected on-spawn.
 	backr = /obj/item/storage/backpack/rogue/satchel/short
 	neck = /obj/item/clothing/neck/roguetown/psicross/reform
-
 	backpack_contents = list(
 		/obj/item/roguekey/mercenary = 1,
 		/obj/item/natural/bundle/cloth/bandage/full = 1

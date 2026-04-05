@@ -367,8 +367,8 @@
 	update_icon()
 
 /obj/item/clothing/neck/roguetown/fencerguard/generic
-	color = "#503630"
-	detail_color = "#503630"
+	color = "#FFFFFF"
+	detail_color = "#5E4440"
 
 /obj/item/clothing/neck/roguetown/gorget/forlorncollar
 	name = "forlorn collar"
