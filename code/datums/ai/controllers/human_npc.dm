@@ -22,7 +22,7 @@
 	)
 	planning_subtrees = list(
 		// /datum/ai_planning_subtree/pet_planning, - TEMP COMMENT OUT
-		// /datum/ai_planning_subtree/call_for_help,  - TEMP COMMENT OUT
+		/datum/ai_planning_subtree/call_for_help,
 		/datum/ai_planning_subtree/generic_break_restraints,
 		/datum/ai_planning_subtree/use_powder,
 		/datum/ai_planning_subtree/use_bandage,
@@ -36,7 +36,7 @@
 		/datum/ai_planning_subtree/archer_base,
 		/datum/ai_planning_subtree/ranged_attack_subtree,
 		/datum/ai_planning_subtree/aggro_find_target,
-		/datum/ai_planning_subtree/squad_flank,
+		// /datum/ai_planning_subtree/squad_flank,
 		/datum/ai_planning_subtree/basic_melee_attack_subtree/human_npc,
 		/datum/ai_planning_subtree/find_weapon,
 		/datum/ai_planning_subtree/equip_item,
