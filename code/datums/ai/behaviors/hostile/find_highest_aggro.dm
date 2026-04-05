@@ -72,7 +72,7 @@
 /// Scans for new potential targets
 /datum/ai_behavior/find_aggro_targets/proc/scan_for_new_targets(datum/ai_controller/controller, mob/living/living_mob, target_key, datum/targetting_datum/targetting_datum, hiding_location_key, targetting_datum_key)
 	var/aggro_range = controller.blackboard[BB_AGGRO_RANGE] || 9
-	var/list/potential_targets = hearers(aggro_range, living_mob) - living_mob
+	var/list/potential_targets = viewers(aggro_range, living_mob) - living_mob
 
 	if(!potential_targets.len)
 		failed_to_find_anyone(controller, target_key, targetting_datum_key, hiding_location_key)
