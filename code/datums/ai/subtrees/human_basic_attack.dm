@@ -6,6 +6,9 @@
 #define HUMAN_NPC_WEAPON_SPECIAL_CHANCE         35
 #define HUMAN_NPC_INTENT_SWITCH_CHANCE          25  // chance per attack to start a new intent sequence
 #define HUMAN_NPC_RMB_ATTEMPT_CHANCE			25
+#define HUMAN_NPC_INT_BASELINE                  10  // INT at which chances are 100%. Below = scaled down, above = scaled up.
+/// Scales a probability by the pawn's INT relative to baseline. INT 4 = 40%, INT 10 = 100%. Capped at 100%.
+#define INT_SCALE_PROB(pawn, chance) prob(min(chance, chance * pawn.STAINT / HUMAN_NPC_INT_BASELINE))
 
 
 //Note alot of this is just adapted from old code so its probably not the best
@@ -86,7 +89,7 @@
 	_update_combat_intent(controller, pawn, target)
 	var/list/modifiers = list()
 	var/old_cmode = pawn.cmode
-	if(prob(HUMAN_NPC_RMB_ATTEMPT_CHANCE))
+	if(INT_SCALE_PROB(pawn, HUMAN_NPC_RMB_ATTEMPT_CHANCE))
 		pawn.cmode = TRUE
 		if(pawn.stamina < pawn.max_stamina * 0.7 && istype(pawn.rmb_intent, /datum/rmb_intent/feint))
 			modifiers = list(RIGHT_CLICK = TRUE)
@@ -119,7 +122,7 @@
 		controller.set_blackboard_key(BB_HUMAN_NPC_CURRENT_INTENT_ATTACKS_LEFT, attacks_left - 1)
 		return
 
-	if(!prob(HUMAN_NPC_INTENT_SWITCH_CHANCE))
+	if(!INT_SCALE_PROB(pawn, HUMAN_NPC_INTENT_SWITCH_CHANCE))
 		return
 
 	var/skill_level = SKILL_LEVEL_NONE
@@ -212,7 +215,7 @@
 	if(!istype(held_weapon, /obj/item/rogueweapon) || !held_weapon:special)
 		return FALSE
 
-	if(!prob(HUMAN_NPC_WEAPON_SPECIAL_CHANCE))
+	if(!INT_SCALE_PROB(pawn, HUMAN_NPC_WEAPON_SPECIAL_CHANCE))
 		return FALSE
 
 	var/datum/special_intent/special = held_weapon:special
@@ -420,3 +423,5 @@
 #undef HUMAN_NPC_WEAPON_SPECIAL_CHANCE
 #undef HUMAN_NPC_INTENT_SWITCH_CHANCE
 #undef HUMAN_NPC_RMB_ATTEMPT_CHANCE
+#undef HUMAN_NPC_INT_BASELINE
+#undef INT_SCALE_PROB
