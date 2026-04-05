@@ -6,7 +6,7 @@ GLOBAL_LIST_INIT(drowraider_aggro, world.file2list("strings/rt/drowaggrolines.tx
 	ambushable = FALSE
 	dodgetime = 30
 	d_intent = INTENT_DODGE
-	possible_rmb_intents = list()
+
 
 /mob/living/carbon/human/species/elf/dark/drowraider/ambush
 	threat_point = THREAT_TOUGH

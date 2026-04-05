@@ -8,7 +8,6 @@
 	faction = list("viking", "station")
 	ambushable = FALSE
 	dodgetime = 15
-	possible_rmb_intents = list()
 
 /mob/living/carbon/human/species/human/northern/mad_touched_treasure_hunter/ambush
 	threat_point = THREAT_ELITE

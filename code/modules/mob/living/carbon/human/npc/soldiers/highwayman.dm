@@ -6,7 +6,6 @@ GLOBAL_LIST_INIT(highwayman_aggro, world.file2list("strings/rt/highwaymanaggroli
 	ambushable = FALSE
 	dodgetime = 30
 	d_intent = INTENT_PARRY
-	possible_rmb_intents = list()
 
 /mob/living/carbon/human/species/human/northern/highwayman/ambush
 	threat_point = THREAT_MODERATE

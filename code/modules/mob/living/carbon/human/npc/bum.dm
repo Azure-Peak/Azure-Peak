@@ -6,7 +6,6 @@ GLOBAL_LIST_INIT(bum_aggro, world.file2list("strings/rt/bumaggrolines.txt"))
 	faction = list("bums", "station")
 	ambushable = FALSE
 	dodgetime = 30
-	possible_rmb_intents = list()
 
 /mob/living/carbon/human/species/human/northern/bum/ambush
 

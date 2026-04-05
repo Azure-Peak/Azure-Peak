@@ -5,7 +5,7 @@ GLOBAL_LIST_INIT(searaider_aggro, world.file2list("strings/rt/searaideraggroline
 	faction = list("viking", "station")
 	ambushable = FALSE
 	dodgetime = 30
-	possible_rmb_intents = list()
+
 
 /mob/living/carbon/human/species/human/northern/searaider/ambush
 	threat_point = THREAT_MODERATE

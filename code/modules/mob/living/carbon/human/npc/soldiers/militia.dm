@@ -5,7 +5,6 @@
 	faction = list("neutral")
 	ambushable = FALSE
 	dodgetime = 30
-	possible_rmb_intents = list()
 
 
 
