@@ -28,5 +28,6 @@ GLOBAL_LIST_INIT(bum_aggro, world.file2list("strings/rt/bumaggrolines.txt"))
 	equipOutfit(new /datum/outfit/job/roguetown/vagabond)
 	STACON = 4
 	STAWIL = 4
+	STAINT = 6
 
 

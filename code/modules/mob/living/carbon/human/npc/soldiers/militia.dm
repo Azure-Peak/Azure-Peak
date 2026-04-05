@@ -69,7 +69,7 @@
 	H.STACON = 6
 	H.STAWIL = 6
 	H.STAPER = 10
-	H.STAINT = 10
+	H.STAINT = 8
 	switch(rand(1, 11))
 		// Militia Weapon. Of course they spawn with it
 		if(1)
