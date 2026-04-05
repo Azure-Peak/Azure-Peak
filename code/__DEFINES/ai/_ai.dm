@@ -143,6 +143,7 @@
 #define ARCHER_NPC_SLING_CHARGETIME     0.8 SECONDS // slings are fast
 #define ARCHER_NPC_ROF_PENALTY          1.3   // NPC charge time multiplier (1.3 = 30% slower than calculated)
 #define ARCHER_NPC_SPREAD_PER_POINT     7     // spread per PER point below 15
+#define ARCHER_NPC_ARC_SPREAD_PENALTY   20    // extra spread when arcing over allies
 
 // Keys used by one and only one behavior
 // Used to hold state without making bigass lists

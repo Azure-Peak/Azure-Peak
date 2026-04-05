@@ -159,7 +159,32 @@
 	pawn.face_atom(target)
 	var/obj/item/gun/ballistic/revolver/grenadelauncher/firing_bow = pawn.get_active_held_item()
 	if(istype(firing_bow) && firing_bow.chambered)
+		// Check if we should arc over allies
+		var/should_arc = FALSE
+		if(controller.blackboard["npc_force_arc"])
+			should_arc = TRUE
+		else
+			var/turf/pt = get_turf(pawn)
+			var/turf/tt = get_turf(target)
+			if(pt && tt)
+				for(var/turf/T in getline(pt, tt))
+					if(T == pt || T == tt)
+						continue
+					for(var/mob/living/M in T)
+						if(M == pawn || M == target || M.stat == DEAD)
+							continue
+						if(pawn.faction_check_mob(M))
+							should_arc = TRUE
+							break
+					if(should_arc)
+						break
+		firing_bow.npc_force_arc = should_arc
+		var/old_spread = firing_bow.spread
+		if(should_arc)
+			firing_bow.spread += ARCHER_NPC_ARC_SPREAD_PENALTY
 		firing_bow.process_fire(target, pawn, TRUE)
+		firing_bow.spread = old_spread
+		firing_bow.npc_force_arc = FALSE
 	else
 		finish_action(controller, FALSE, target_key)
 		return
