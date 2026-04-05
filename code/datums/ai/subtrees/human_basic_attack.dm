@@ -85,7 +85,7 @@
 	var/old_cmode = pawn.cmode
 	if(prob(HUMAN_NPC_RMB_ATTEMPT_CHANCE))
 		pawn.cmode = TRUE
-		if(pawn.stamina > pawn.max_stamina * 0.3 && istype(pawn.rmb_intent, /datum/rmb_intent/feint))
+		if(pawn.stamina < pawn.max_stamina * 0.7 && istype(pawn.rmb_intent, /datum/rmb_intent/feint))
 			modifiers = list(RIGHT_CLICK = TRUE)
 
 	if(hiding_target)
@@ -124,24 +124,44 @@
 	if(held?.associated_skill)
 		skill_level = pawn.get_skill_level(held.associated_skill)
 
-	var/list/weighted = list(
-		/datum/rmb_intent/feint  = 50,
-		/datum/rmb_intent/strong = 30,
-		/datum/rmb_intent/swift  = 15,
-		/datum/rmb_intent/aimed  = 5,
-	)
+	var/list/weighted = list()
+	for(var/datum/rmb_intent/available in pawn.possible_rmb_intents)
+		if(istype(available, /datum/rmb_intent/feint))
+			weighted[available.type] = 50
+		else if(istype(available, /datum/rmb_intent/strong))
+			weighted[available.type] = 30
+		else if(istype(available, /datum/rmb_intent/swift))
+			weighted[available.type] = 15
+		else if(istype(available, /datum/rmb_intent/aimed))
+			weighted[available.type] = 5
+		else if(istype(available, /datum/rmb_intent/weak))
+			weighted[available.type] = 20
+		else if(istype(available, /datum/rmb_intent/riposte))
+			weighted[available.type] = 0
+
+	if(!length(weighted))
+		return
 
 	if(skill_level >= SKILL_LEVEL_EXPERT)
-		weighted[/datum/rmb_intent/aimed] += 20
-		weighted[/datum/rmb_intent/swift] += 10
+		if(weighted[/datum/rmb_intent/aimed])
+			weighted[/datum/rmb_intent/aimed] += 20
+		if(weighted[/datum/rmb_intent/swift])
+			weighted[/datum/rmb_intent/swift] += 10
+		if(weighted[/datum/rmb_intent/riposte])
+			weighted[/datum/rmb_intent/riposte] += 10
 	else if(skill_level >= SKILL_LEVEL_JOURNEYMAN)
-		weighted[/datum/rmb_intent/aimed] += 10
-		weighted[/datum/rmb_intent/strong] += 10
+		if(weighted[/datum/rmb_intent/aimed])
+			weighted[/datum/rmb_intent/aimed] += 10
+		if(weighted[/datum/rmb_intent/strong])
+			weighted[/datum/rmb_intent/strong] += 10
+		if(weighted[/datum/rmb_intent/riposte])
+			weighted[/datum/rmb_intent/riposte] += 5
 
 	if(isliving(target))
 		var/mob/living/carbon/human/htarget = target
 		if(istype(htarget?.rmb_intent, /datum/rmb_intent/riposte) || istype(htarget?.rmb_intent, /datum/rmb_intent/guard))
-			weighted[/datum/rmb_intent/feint] += 30
+			if(weighted[/datum/rmb_intent/feint])
+				weighted[/datum/rmb_intent/feint] += 30
 
 	var/chosen_type = pickweight(weighted)
 	var/datum/rmb_intent/chosen = locate(chosen_type) in pawn.possible_rmb_intents
@@ -198,16 +218,18 @@
 		if(pawn.stamina + cost > pawn.max_stamina)
 			return FALSE
 
-	var/datum/rmb_intent/strong/strong_intent = locate(/datum/rmb_intent/strong) in pawn.possible_rmb_intents
-	if(!strong_intent)
-		return FALSE
-
-	var/prev_intent = pawn.rmb_intent.type
-	pawn.swap_rmb_intent(strong_intent)
 	var/atom/target = controller.blackboard[BB_BASIC_MOB_CURRENT_TARGET]
-	var/success = pawn.rmb_intent.special_attack(pawn, target)
-	pawn.swap_rmb_intent(prev_intent)
-	return success
+	if(!target)
+		return FALSE
+	var/obj/item/weapon = pawn.get_active_held_item()
+	if(!weapon)
+		return FALSE
+	if(!special.check_reqs(pawn, weapon))
+		return FALSE
+	if(!special.apply_cost(pawn))
+		return FALSE
+	special.deploy(pawn, weapon, target)
+	return TRUE
 
 /// Scan target bodyparts for wounded (brute/burn > 20) or unarmored zones.
 /// Caches as list(zone, expiry_time, target_ref).
