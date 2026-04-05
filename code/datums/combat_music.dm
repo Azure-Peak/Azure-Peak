@@ -5,7 +5,7 @@
 	As of writing they are never directly applied to mobs themselves, only the name and musicpath are.
 	Deleting these datums or renaming subtypes will not break preferences; invalid saves get redirected to /default.
 	When adding new songs, add a shortname around ~12 characters for the game preferences menu.
-	
+
 	IMPORTANT! Be careful about adding songs to this list that aren't used anywhere else, lest you needlessly inflate the RSC.
 */
 
@@ -19,7 +19,7 @@ GLOBAL_LIST_EMPTY(cmode_tracks_by_name)
 		return
 	if(!track.name)
 		LAZYREMOVE(GLOB.cmode_tracks_by_type, track.type)
-		CRASH("CMODE MUSIC: type [track.type] has no name!") 
+		CRASH("CMODE MUSIC: type [track.type] has no name!")
 	if(GLOB.cmode_tracks_by_name[track.name])
 		LAZYREMOVE(GLOB.cmode_tracks_by_type, track.type)
 		CRASH("CMODE MUSIC: type [track.type] has duplicate name \"[track.name]\"!")
@@ -73,14 +73,14 @@ GLOBAL_LIST_EMPTY(cmode_tracks_by_name)
 	desc = ""
 	shortname = "Adv. 3"
 	credits = "T-87 SULFURHEAD - MORTEM OBIRE (https://www.youtube.com/@T87-Sulfurhead)"
-	musicpath = list('sound/music/cmode/adventurer/combat_outlander3.ogg') 
+	musicpath = list('sound/music/cmode/adventurer/combat_outlander3.ogg')
 
 /datum/combat_music/adventurer_4
 	name = "Adventurer 4"
 	desc = ""
 	shortname = "Adv. 4"
 	credits = "T-87 SULFURHEAD - Snicker Snacker (https://www.youtube.com/@T87-Sulfurhead)"
-	musicpath = list('sound/music/cmode/adventurer/combat_outlander4.ogg') 
+	musicpath = list('sound/music/cmode/adventurer/combat_outlander4.ogg')
 
 /datum/combat_music/ascended
 	name = "Ascended"
@@ -290,6 +290,24 @@ GLOBAL_LIST_EMPTY(cmode_tracks_by_name)
 	desc = ""
 	shortname = "Kazengite"
 	musicpath = list('sound/music/combat_kazengite.ogg')
+
+/datum/combat_music/firestorm
+	name = "Firestorm (Kazengun)"
+	desc = ""
+	shortname = "Firestorm"
+	musicpath = list('sound/music/combat_Kazengun_Firestorm.ogg')
+
+/datum/combat_music/overlord
+	name = "Overlord (Kazengun)"
+	desc = ""
+	shortname = "Overlord"
+	musicpath = list('sound/music/combat_Kazengun_Overlord.ogg')
+
+/datum/combat_music/runaway_chariot
+	name = "Runaway Chariot (Kazengun)"
+	desc = ""
+	shortname = "Runaway Chariot"
+	musicpath = list('sound/music/combat_Kazengun_Runaway_Chariot.ogg')
 
 /datum/combat_music/knight
 	name = "Knight (Noble)"

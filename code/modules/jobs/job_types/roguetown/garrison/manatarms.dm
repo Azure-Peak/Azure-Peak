@@ -254,7 +254,7 @@
 	tutorial = "You are a professional soldier of the realm, specializing in the steady beat of hoof falls. Lighter and more expendable then the knights, you charge with lance in hand."
 	outfit = /datum/outfit/job/roguetown/manorguard/cavalry
 	subclass_stashed_items = list("Ducal Caparison" = /obj/item/caparison/azure)
-	extra_context = "This subclass recieves Azurean Caparison in it's stash."
+	extra_context = "This subclass recieves Azurean Caparison in its stash."
 
 	category_tags = list(CTAG_MENATARMS)
 	traits_applied = list(TRAIT_MEDIUMARMOR)
@@ -404,45 +404,46 @@
 		SStreasury.give_money_account(ECONOMIC_LOWER_MIDDLE_CLASS, H, "Savings.")
 
 // Carries the ducal standard.
-// When carrying it, he's granted a few unique traits.
-// Bonuses, relaying location, etc.
-// The stats are middling, as a result. Really bad, honestly.
-// No armour trait, but gets crit resist. STAY STANDING!!!
+// When carrying it, they're granted a few unique traits;
+// +fortune, +perception, mood spell
 /datum/advclass/manorguard/standard_bearer
 	name = "Standard Bearer"
 	tutorial = "You are one of the Man at Arms entrusted with the keep's standard when you sally out into battle. \
 	Your fellow soldiers know to rally around you, should you keep it safe."
 	outfit = /datum/outfit/job/roguetown/manorguard/standard_bearer
 	category_tags = list(CTAG_MENATARMS)
-	traits_applied = list(TRAIT_STANDARD_BEARER)
-	// on-par with footman, with one less CON and INT swapped out for PER
+	traits_applied = list(TRAIT_STANDARD_BEARER, TRAIT_MEDIUMARMOR)
 	subclass_stats = list(
-		STATKEY_STR = 2, // seems kinda lame but remember guardsman bonus!!
-		STATKEY_PER = 1,
+		STATKEY_STR = 2, // Wielding the banner gives +3 fortune and +2 Perception, as seen in special.dm
 		STATKEY_CON = 2,
-		STATKEY_WIL = 1
+		STATKEY_WIL = 3 // Flag must never fall.
 	)
 	subclass_skills = list(
 		/datum/skill/combat/polearms = SKILL_LEVEL_EXPERT, // SWING THAT THING.
-		/datum/skill/combat/wrestling = SKILL_LEVEL_EXPERT, // OR THOSE ARMS, I GUESS.
-		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN, 
+		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN, // On par with Footman, but journeyman.
 		/datum/skill/combat/knives = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/swords = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/maces = SKILL_LEVEL_EXPERT, // Although they still have a cudgel for cop duties.
+		/datum/skill/combat/axes = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/knives = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/whipsflails = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/combat/slings = SKILL_LEVEL_NOVICE,
+		/datum/skill/combat/shields = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/sneaking = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
+		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/riding = SKILL_LEVEL_NOVICE,
+		/datum/skill/misc/tracking = SKILL_LEVEL_NOVICE,
 	)
 	maximum_possible_slots = 1 // Haha... no... unless...?
 
 /datum/outfit/job/roguetown/manorguard/standard_bearer/pre_equip(mob/living/carbon/human/H)
 	..()
-	H.adjust_blindness(-3)
 	neck = /obj/item/clothing/neck/roguetown/gorget
 	gloves = /obj/item/clothing/gloves/roguetown/chain/iron
-	head = /obj/item/clothing/head/roguetown/helmet/kettle
-	armor = /obj/item/clothing/suit/roguetown/armor/brigandine/light/retinue
-	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
-	wrists = /obj/item/clothing/wrists/roguetown/bracers/brigandine
-	pants = /obj/item/clothing/under/roguetown/brigandinelegs
 	r_hand = /obj/item/rogueweapon/spear/keep_standard
 	backl = /obj/item/rogueweapon/scabbard/gwstrap
 	backpack_contents = list(
@@ -453,6 +454,39 @@
 		/obj/item/reagent_containers/glass/bottle/rogue/healthpot = 1,
 	)
 	H.verbs |= /mob/proc/haltyell
+
+	H.adjust_blindness(-3)
+	if(H.mind)
+		var/armor_options = list("Light Brigandine Set", "Maille Set")
+		var/armor_choice = input(H, "Choose your armor.", "TAKE UP ARMS") as anything in armor_options
+
+		switch(armor_choice)
+			if("Light Brigandine Set")
+				armor = /obj/item/clothing/suit/roguetown/armor/brigandine/light/retinue
+				shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
+				wrists = /obj/item/clothing/wrists/roguetown/bracers/brigandine
+				pants = /obj/item/clothing/under/roguetown/brigandinelegs
+
+			if("Maille Set")
+				armor = /obj/item/clothing/suit/roguetown/armor/plate/scale
+				shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/iron
+				wrists = /obj/item/clothing/wrists/roguetown/bracers
+				pants = /obj/item/clothing/under/roguetown/chainlegs
+
+		var/helmets = list(
+		"Simple Helmet" 	= /obj/item/clothing/head/roguetown/helmet,
+		"Kettle Helmet" 	= /obj/item/clothing/head/roguetown/helmet/kettle,
+		"Bascinet Helmet"	= /obj/item/clothing/head/roguetown/helmet/bascinet,
+		"Sallet Helmet"		= /obj/item/clothing/head/roguetown/helmet/sallet,
+		"Winged Helmet" 	= /obj/item/clothing/head/roguetown/helmet/winged,
+		"Skull Cap"			= /obj/item/clothing/head/roguetown/helmet/skullcap,
+		"None"
+		)
+		var/helmchoice = input(H, "Choose your Helm.", "TAKE UP HELMS") as anything in helmets
+		if(helmchoice != "None")
+			head = helmets[helmchoice]
+	if(H.mind)
+		SStreasury.give_money_account(ECONOMIC_LOWER_MIDDLE_CLASS, H, "Savings.") // It'd be soulful to give them a level up, but that's sergeant's already.
 
 // These are really hacky, but it works.
 // One proc to moodbuff.
@@ -470,7 +504,7 @@
 
 /datum/emote/living/standard_position/run_emote(mob/user, params, type_override, intentional)
 	. = ..()
-	if(do_after(user, 8 SECONDS)) // SCORE SOME GOALS!!!
+	if(do_after(user, 6 SECONDS)) // SCORE SOME GOALS!!!
 		playsound(user.loc, 'sound/combat/shieldraise.ogg', 100, FALSE, -1)
 		if(.)
 			for(var/mob/living/carbon/human/L in viewers(7, user))

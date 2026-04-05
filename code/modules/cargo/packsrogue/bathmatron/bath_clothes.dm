@@ -4,25 +4,25 @@
 	crate_name = "bathmatron's crate"
 	crate_type = /obj/structure/closet/crate/chest/merchant
 
-/datum/supply_pack/rogue/bath_clothes/exoticsilkbra
-	name = "Exotic Silk Bra"
+/datum/supply_pack/rogue/bath_clothes/silkbra
+	name = "Giltsilk Bra"
 	cost = 30
-	contains = list(/obj/item/clothing/suit/roguetown/shirt/exoticsilkbra)
+	contains = list(/obj/item/clothing/suit/roguetown/shirt/silkbra)
 
 /datum/supply_pack/rogue/bath_clothes/anklets
-	name = "Exotic Silk Anklets"
+	name = "Giltsilk Anklets"
 	cost = 30
 	contains = list(/obj/item/clothing/shoes/roguetown/anklets)
 
-/datum/supply_pack/rogue/bath_clothes/exoticsilkbelt
-	name = "Exotic Silk Belt"
+/datum/supply_pack/rogue/bath_clothes/silkbelt
+	name = "Giltsilk Belt"
 	cost = 30
-	contains = list(/obj/item/storage/belt/rogue/leather/exoticsilkbelt)
+	contains = list(/obj/item/storage/belt/rogue/leather/silkbelt)
 
-/datum/supply_pack/rogue/bath_clothes/exoticsilkmask
-	name = "Exotic Silk Mask"
+/datum/supply_pack/rogue/bath_clothes/silkmask
+	name = "Giltsilk Mask"
 	cost = 30
-	contains = list(/obj/item/clothing/mask/rogue/exoticsilkmask)
+	contains = list(/obj/item/clothing/mask/rogue/silkmask)
 
 /datum/supply_pack/rogue/bath_clothes/silkstockings
 	name = "Stockings, Silk"

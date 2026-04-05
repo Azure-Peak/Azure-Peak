@@ -42,6 +42,15 @@
 			M.emote(pick("twitch_s","giggle"))
 		else
 			M.emote(pick("twitch_s","chuckle"))
+	if(M.reagents.has_reagent(/datum/reagent/starsugar) || M.reagents.has_reagent(/datum/reagent/herozium) || M.reagents.has_reagent(/datum/reagent/moondust_purest))
+		if(HAS_TRAIT(M, TRAIT_CRACKHEAD))
+			M.reagents.remove_reagent(/datum/reagent/starsugar, 3) // lets Baothans stack it less effectively, but they still can. starsugar + herozium is very, very OP - if it's only available in short bursts it's not as bad. this gives you a short bit of time with it in exchange for a lot of devotion or mammon, so you can use it to reposition quickly but not really in combat.
+			M.reagents.remove_reagent(/datum/reagent/herozium, 3)
+			M.reagents.remove_reagent(/datum/reagent/moondust_purest, 3)
+		else
+			M.reagents.remove_reagent(/datum/reagent/starsugar, 6)
+			M.reagents.remove_reagent(/datum/reagent/herozium, 6)
+			M.reagents.remove_reagent(/datum/reagent/moondust_purest, 6)
 	M.sate_addiction(/datum/charflaw/addiction/junkie)
 	M.apply_status_effect(/datum/status_effect/buff/druqks)
 	..()
@@ -59,7 +68,6 @@
 /datum/reagent/druqks/on_mob_metabolize(mob/living/M)
 	M.overlay_fullscreen("druqk", /atom/movable/screen/fullscreen/druqks)
 	M.set_drugginess(30)
-	M.update_body_parts_head_only()
 	if(M.client)
 		ADD_TRAIT(M, TRAIT_DRUQK, "based")
 		SSdroning.area_entered(get_area(M), M.client)
@@ -74,7 +82,6 @@
 	if(M.client)
 		REMOVE_TRAIT(M, TRAIT_DRUQK, "based")
 		SSdroning.play_area_sound(get_area(M), M.client)
-	M.update_body_parts_head_only()
 //		if(M.client.screen && M.client.screen.len)
 ///			var/atom/movable/screen/plane_master/game_world/PM = locate(/atom/movable/screen/plane_master/game_world) in M.client.screen
 //			PM.backdrop(M.client.mob)
@@ -232,7 +239,7 @@
 	color = "#a5606f" // rgb: 96, 165, 132
 	overdose_threshold = 16
 	metabolization_rate = 0.2
-	taste_description = "a bitter numbess"
+	taste_description = "a bitter numbness"
 
 /datum/reagent/ozium/overdose_process(mob/living/M)
 	M.adjustToxLoss(3, 0)
@@ -248,6 +255,18 @@
 /datum/reagent/ozium/overdose_start(mob/living/M)
 	M.playsound_local(M, 'sound/misc/heroin_rush.ogg', 100, FALSE)
 	M.visible_message(span_warning("Blood runs from [M]'s nose."))
+
+/datum/reagent/allspice
+	name = "allspice"
+	description = "A blend of toasted spices, temptingly aromatic to the senses." 
+	color = "#CE8C33"
+	overdose_threshold = 0
+	metabolization_rate = 1
+	taste_description = "fragrant spiciness"
+
+/datum/reagent/allspice/on_mob_life(mob/living/carbon/M)
+	M.apply_status_effect(/datum/status_effect/buff/greatmealbuff)
+	return ..()
 
 /obj/item/reagent_containers/powder/moondust
 	name = "moondust"
@@ -332,6 +351,15 @@
 	if(M.reagents.has_reagent(/datum/reagent/moondust))
 		if(!HAS_TRAIT(M, TRAIT_CRACKHEAD))
 			M.Sleeping(40, 0)
+	if(M.reagents.has_reagent(/datum/reagent/herozium) || M.reagents.has_reagent(/datum/reagent/druqks) || M.reagents.has_reagent(/datum/reagent/starsugar))
+		if(HAS_TRAIT(M, TRAIT_CRACKHEAD))
+			M.reagents.remove_reagent(/datum/reagent/starsugar, 3) // lets Baothans stack it less effectively, but they still can. starsugar + herozium is very, very OP - if it's only available in short bursts it's not as bad. this gives you a short bit of time with it in exchange for a lot of devotion or mammon, so you can use it to reposition quickly but not really in combat.
+			M.reagents.remove_reagent(/datum/reagent/druqks, 3)
+			M.reagents.remove_reagent(/datum/reagent/herozium, 3)
+		else
+			M.reagents.remove_reagent(/datum/reagent/starsugar, 6)
+			M.reagents.remove_reagent(/datum/reagent/druqks, 6)
+			M.reagents.remove_reagent(/datum/reagent/herozium, 6)
 	M.sate_addiction(/datum/charflaw/addiction/junkie)
 	M.apply_status_effect(/datum/status_effect/buff/moondust_purest)
 	if(prob(20))
@@ -364,7 +392,6 @@
 
 /datum/reagent/starsugar/on_mob_metabolize(mob/living/L)
 	..()
-	L.add_movespeed_modifier(type, update=TRUE, priority=100, multiplicative_slowdown=-2, blacklisted_movetypes=(FLYING|FLOATING))
 	L.playsound_local(L, 'sound/ravein/small/hello_my_friend.ogg', 100, FALSE)
 	L.flash_fullscreen("whiteflash")
 	animate(L.client, pixel_y = 1, time = 1, loop = -1, flags = ANIMATION_RELATIVE)
@@ -387,9 +414,15 @@
 	M.AdjustImmobilized(-40, FALSE)
 	M.adjustStaminaLoss(-2, 0)
 	M.Jitter(2)
-	if(M.reagents.has_reagent(/datum/reagent/herozium))
-		if(!HAS_TRAIT(M, TRAIT_CRACKHEAD))
-			M.Sleeping(40, 0)
+	if(M.reagents.has_reagent(/datum/reagent/herozium) || M.reagents.has_reagent(/datum/reagent/druqks) || M.reagents.has_reagent(/datum/reagent/moondust_purest))
+		if(HAS_TRAIT(M, TRAIT_CRACKHEAD))
+			M.reagents.remove_reagent(/datum/reagent/herozium, 3) // lets Baothans stack it less effectively, but they still can. starsugar + herozium is very, very OP - if it's only available in short bursts it's not as bad. this gives you a short bit of time with it in exchange for a lot of devotion or, so you can use it to reposition quickly but not really in combat.
+			M.reagents.remove_reagent(/datum/reagent/druqks, 3)
+			M.reagents.remove_reagent(/datum/reagent/moondust_purest, 3)
+		else
+			M.reagents.remove_reagent(/datum/reagent/herozium, 6)
+			M.reagents.remove_reagent(/datum/reagent/druqks, 6)
+			M.reagents.remove_reagent(/datum/reagent/moondust_purest, 6)
 	if(prob(5))
 		M.emote(pick("twitch", "shiver", "sniff"))
 	narcolepsy_drug_up(M)
@@ -455,9 +488,15 @@
 	if(M.reagents.has_reagent(/datum/reagent/ozium))
 		if(!HAS_TRAIT(M, TRAIT_CRACKHEAD))
 			M.Sleeping(80, 0)
-	if(M.reagents.has_reagent(/datum/reagent/starsugar))
-		if(!HAS_TRAIT(M, TRAIT_CRACKHEAD))
-			M.Sleeping(80, 0)
+	if(M.reagents.has_reagent(/datum/reagent/starsugar) || M.reagents.has_reagent(/datum/reagent/druqks) || M.reagents.has_reagent(/datum/reagent/moondust_purest))
+		if(HAS_TRAIT(M, TRAIT_CRACKHEAD))
+			M.reagents.remove_reagent(/datum/reagent/starsugar, 3) // lets Baothans stack it less effectively, but they still can. starsugar + herozium is very, very OP - if it's only available in short bursts it's not as bad. this gives you a short bit of time with it in exchange for a lot of devotion or mammon, so you can use it to reposition quickly but not really in combat.
+			M.reagents.remove_reagent(/datum/reagent/druqks, 3)
+			M.reagents.remove_reagent(/datum/reagent/moondust_purest, 3)
+		else
+			M.reagents.remove_reagent(/datum/reagent/starsugar, 6)
+			M.reagents.remove_reagent(/datum/reagent/druqks, 6)
+			M.reagents.remove_reagent(/datum/reagent/moondust_purest, 6)
 	if(prob(15))
 		M.playsound_local(M, 'sound/misc/heroin_rush.ogg', 100, FALSE)
 	M.sate_addiction(/datum/charflaw/addiction/junkie)
@@ -471,7 +510,6 @@
 	M.remove_status_effect(/datum/status_effect/buff/herozium)
 	if(M.client)
 		SSdroning.play_area_sound(get_area(M), M.client)
-	M.update_body_parts_head_only()
 
 /datum/reagent/herozium/overdose_process(mob/living/M)
 	if(prob(30))
@@ -479,12 +517,13 @@
 		switch(reaction)
 			if(1)
 				M.emote("gag")
+				M.adjustToxLoss(2, 50)
 			if(2)
 				M.emote("snore")
 				M.Dizzy(25)
 			if(3)
 				M.emote("yawn")
-	M.Sleeping(40, 0)
+				M.adjustToxLoss(4, 30)
 	M.adjustOxyLoss(4, 0)
 	..()
 	. = 1

@@ -50,6 +50,10 @@
 			affected.owner.add_movespeed_modifier(MOVESPEED_ID_FRACTURE_RIGHT_LEG, multiplicative_slowdown = FRACTURED_ADD_SLOWDOWN)
 		if(BODY_ZONE_L_LEG)
 			affected.owner.add_movespeed_modifier(MOVESPEED_ID_FRACTURE_LEFT_LEG, multiplicative_slowdown = FRACTURED_ADD_SLOWDOWN)
+		if(BODY_ZONE_HEAD)
+			affected.owner.add_movespeed_modifier(MOVESPEED_ID_FRACTURE_SKULL, multiplicative_slowdown = FRACTURED_ADD_SLOWDOWN)
+		if(BODY_ZONE_PRECISE_NECK)
+			affected.owner.add_movespeed_modifier(MOVESPEED_ID_FRACTURE_SPINE, multiplicative_slowdown = FRACTURED_ADD_SLOWDOWN)
 
 /datum/wound/fracture/on_bodypart_loss(obj/item/bodypart/affected)
 	. = ..()
@@ -62,6 +66,10 @@
 			affected.owner.remove_movespeed_modifier(MOVESPEED_ID_FRACTURE_RIGHT_LEG)
 		if(BODY_ZONE_L_LEG)
 			affected.owner.remove_movespeed_modifier(MOVESPEED_ID_FRACTURE_LEFT_LEG)
+		if(BODY_ZONE_HEAD)
+			affected.owner.remove_movespeed_modifier(MOVESPEED_ID_FRACTURE_SKULL)
+		if(BODY_ZONE_PRECISE_NECK)
+			affected.owner.remove_movespeed_modifier(MOVESPEED_ID_FRACTURE_SPINE)
 
 /datum/wound/fracture/on_mob_gain(mob/living/affected)
 	. = ..()
@@ -82,25 +90,26 @@
 /datum/wound/fracture/head
 	name = "cranial fracture"
 	check_name = span_bone("<B>SKULLCRACK</B>")
+	severity = WOUND_SEVERITY_FATAL
 	crit_message = list(
-		"The skull shatters in a gruesome way!",
+		"The skull cracks!",
 		"The head is smashed!",
 		"The skull is broken!",
-		"The skull caves in!",
 	)
 	sound_effect = "headcrush"
 	whp = 150
 	sleep_healing = 0
 	/// Most head fractures are serious enough to cause paralysis.
-	var/paralysis = TRUE
+	var/paralysis = FALSE
 	/// Some head fractures instantly kill you if you have critical weakness. Others won't.
 	mortal = TRUE
 	/// Some head fractures will knock your lights out, if not flat-out paralyze you.
-	var/knockout = 10	//10 tick knockout (1 sec)
+	var/knockout = 2 SECONDS
 
 /datum/wound/fracture/head/on_mob_gain(mob/living/affected)
 	. = ..()
 	ADD_TRAIT(affected, TRAIT_DISFIGURED, "[type]")
+	affected.apply_status_effect(/datum/status_effect/debuff/dazed/skullshatter)
 	if(knockout)
 		affected.Unconscious(knockout)
 	if(paralysis)
@@ -114,6 +123,7 @@
 /datum/wound/fracture/head/on_mob_loss(mob/living/affected)
 	. = ..()
 	REMOVE_TRAIT(affected, TRAIT_DISFIGURED, "[type]")
+	affected.remove_status_effect(/datum/status_effect/debuff/dazed/skullshatter)
 	if(paralysis)
 		REMOVE_TRAIT(affected, TRAIT_NO_BITE, "[type]")
 		REMOVE_TRAIT(affected, TRAIT_PARALYSIS, "[type]")
@@ -126,9 +136,18 @@
 	. = ..()
 	owner?.stuttering = max(owner.stuttering, 5)
 
+/datum/wound/fracture/head/shatter
+	name = "shattered skull"
+	check_name = span_bone("<B>SKULLSHATTER</B>")
+	crit_message = list(
+		"THE SKULL SHATTERS!",
+		"THE HEAD IS PULVERIZED!",
+		"THE SKULL IS MINCED INTO DUST!",
+	)
+	paralysis = TRUE
+
 /datum/wound/fracture/head/brain
 	name = "depressed cranial fracture"
-	severity = WOUND_SEVERITY_FATAL
 	crit_message = list(
 		"The cranium is punctured!",
 		"The cranium is pierced!",
@@ -136,7 +155,17 @@
 	)
 	embed_chance = 100	// Didn't we remove embeding..?
 	bleed_rate = 10		// Aooouuugh.. my brain..
-	knockout = 20
+	knockout = 4 SECONDS //We did hit the brain after all
+	paralysis = FALSE
+
+/datum/wound/fracture/head/brain/shatter
+	name = "shattered cranium"
+	check_name = span_bone("<B>SKULLSHATTER</B>")
+	crit_message = list(
+		"THE CRANIUM IS UNSEWN!",
+		"THE CRANIUM COMES APART IN A GRUESOME WAY!",
+		"THE CRANIUM CAVES IN!",
+	)
 	paralysis = TRUE
 
 /datum/wound/fracture/head/eyes
@@ -241,14 +270,22 @@
 	name = "cervical fracture"
 	check_name = span_bone("<B>NECK</B>")
 	crit_message = list(
-		"The spine shatters in a spectacular way!",
 		"The spine snaps!",
 		"The spine cracks!",
-		"The spine is broken!",
+		"The spine pops!",
+	)
+
+/datum/wound/fracture/neck/shatter
+	name = "shattered spine"
+	check_name = span_bone("<B>NECKSHATTER</B>")
+	crit_message = list(
+		"THE SPINE SHATTERS!", //Me when I use APDS against 89 degree slope instead of 90
+		"THE SPINE SNAPS IN SPECTACULAR WAY!",
+		"THE SPINE POPS WITH A SICKENING NOISE!",
 	)
 	whp = 100
 
-/datum/wound/fracture/neck/on_mob_gain(mob/living/affected)
+/datum/wound/fracture/neck/shatter/on_mob_gain(mob/living/affected)
 	. = ..()
 	ADD_TRAIT(affected, TRAIT_PARALYSIS, "[type]")
 	ADD_TRAIT(affected, TRAIT_NOPAIN, "[type]")
@@ -258,7 +295,7 @@
 	if(HAS_TRAIT(affected, TRAIT_CRITICAL_WEAKNESS))
 		affected.death()
 
-/datum/wound/fracture/neck/on_mob_loss(mob/living/affected)
+/datum/wound/fracture/neck/shatter/on_mob_loss(mob/living/affected)
 	. = ..()
 	REMOVE_TRAIT(affected, TRAIT_PARALYSIS, "[type]")
 	REMOVE_TRAIT(affected, TRAIT_NOPAIN, "[type]")

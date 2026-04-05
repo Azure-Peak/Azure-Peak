@@ -49,6 +49,24 @@
 		next_rmove = world.time + ((num + adj)*mod)
 		hud_used?.cdright?.mark_dirty()
 
+/mob/living/proc/changeNext_def(num, override = FALSE)
+	switch(d_intent)
+		if(INTENT_DODGE)
+			dodgetime = num
+		if(INTENT_PARRY)
+			parrydelay = num
+	hud_used?.defdelay?.mark_dirty()
+
+/mob/living/proc/changeMaxDodge(num)
+	if(num < 0)
+		if(max_dodge <= MAX_DODGE_FLOOR)
+			return
+		max_dodge = CLAMP((max_dodge + num), MAX_DODGE_FLOOR, MAX_DODGE_CEIL)
+	if(num > 0)
+		if(max_dodge >= MAX_DODGE_CEIL)
+			return
+		max_dodge = CLAMP((max_dodge + num), MAX_DODGE_FLOOR, MAX_DODGE_CEIL)
+
 /*
 	Before anything else, defer these calls to a per-mobtype handler.  This allows us to
 	remove istype() spaghetti code, but requires the addition of other handler procs to simplify it.
@@ -246,7 +264,10 @@
 				var/turf/target_turf = get_turf(A)
 				if(get_dist(my_turf, target_turf) <= used_intent.reach)
 					if(!used_intent.noaa)
-						do_attack_animation(target_turf, used_intent.animname, W, used_intent = src.used_intent)
+						if(used_intent.cleave)
+							used_intent.cleave.show_cleave_visuals(src, target_turf)
+						else
+							do_attack_animation(target_turf, used_intent.animname, W, used_intent = src.used_intent)
 				resolveAdjacentClick(A,W,params)
 				return
 
@@ -304,7 +325,10 @@
 						break
 					if(target)
 						if(target.Adjacent(src) || (CanReach(target, W) && used_intent.effective_range_type))
-							do_attack_animation(T, used_intent.animname, used_intent.masteritem, used_intent = src.used_intent)
+							if(used_intent.cleave)
+								used_intent.cleave.show_cleave_visuals(src, T)
+							else
+								do_attack_animation(T, used_intent.animname, used_intent.masteritem, used_intent = src.used_intent)
 							resolveAdjacentClick(target,W,params,used_hand)
 							atkswinging = null
 							//update_warning()
@@ -314,7 +338,10 @@
 					if(!used_intent.noaa)
 						changeNext_move(CLICK_CD_RAPID)
 						if(get_dist(my_turf, T) <= used_intent.reach)
-							do_attack_animation(T, used_intent.animname, used_intent.masteritem, used_intent = src.used_intent)
+							if(used_intent.cleave)
+								used_intent.cleave.show_cleave_visuals(src, T)
+							else
+								do_attack_animation(T, used_intent.animname, used_intent.masteritem, used_intent = src.used_intent)
 						var/adf = used_intent.clickcd
 						if(istype(rmb_intent, /datum/rmb_intent/aimed))
 							adf = round(adf * CLICK_CD_MOD_AIMED)
@@ -852,6 +879,11 @@ GLOBAL_LIST_EMPTY(reach_dummy_pool)
 
 /mob/living/MouseWheelOn(atom/A, delta_x, delta_y, params)
 	var/list/modifiers = params2list(params)
+	if(modifiers["ctrl"])
+		var/obj/item/active_item = get_active_held_item()
+		if(active_item?.has_altgrip_modes())
+			active_item.cycle_altgrip(src, delta_y > 0 ? 1 : -1)
+			return
 	if(modifiers["shift"])
 		if(delta_y > 0)
 			aimheight_change("up")

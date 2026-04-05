@@ -75,7 +75,8 @@
 		/obj/item/recipe_book/survival,
 		/obj/item/bottle_kit,
 		/obj/item/storage/keyring/innkeep_rooms,
-		/obj/item/reagent_containers/glass/bucket/pot/kettle/tankard/silver
+		/obj/item/reagent_containers/glass/bucket/pot/kettle/tankard/silver,
+		/obj/item/mini_flagpole/innkeeper
 	)
 	if(H.mind)
 		SStreasury.give_money_account(ECONOMIC_UPPER_CLASS, H, "Savings.")

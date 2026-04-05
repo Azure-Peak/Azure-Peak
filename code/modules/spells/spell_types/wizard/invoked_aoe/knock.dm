@@ -5,7 +5,7 @@
 	cost = 3
 	xp_gain = TRUE
 	school = "transmutation"
-	releasedrain = 60
+	releasedrain = SPELLCOST_ULTIMATE
 	chargedrain = 0
 	chargetime = 5 SECONDS
 	recharge_time = 10 SECONDS
@@ -14,6 +14,7 @@
 	movement_interrupt = TRUE
 	charging_slowdown = 2
 	spell_tier = 4 // CM / Antag / Lich exclusive
+	spell_impact_intensity = SPELL_IMPACT_NONE
 	invocations = list("Pulso!")
 	invocation_type = "shout"
 	chargedloop = /datum/looping_sound/invokegen

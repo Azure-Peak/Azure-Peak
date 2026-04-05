@@ -32,12 +32,12 @@
 /datum/supply_pack/rogue/merc_weapons/naledistaff
 	name = "Naledi Warstaff"
 	cost = 140
-	contains = list(/obj/item/rogueweapon/woodstaff/naledi)
+	contains = list(/obj/item/rogueweapon/woodstaff/implement/grand/naledi)
 
 /datum/supply_pack/rogue/merc_weapons/grenzelstaff
 	name = "Grenzelhoftian Blacksteel Staff"
 	cost = 140
-	contains = list(/obj/item/rogueweapon/woodstaff/emerald/blacksteelstaff)
+	contains = list(/obj/item/rogueweapon/woodstaff/implement/greater/blacksteel)
 
 /datum/supply_pack/rogue/merc_weapons/glaive
 	name = "Glaive"
@@ -68,6 +68,16 @@
 	name = "Kazengun Hook Sword"
 	cost = 150
 	contains = list(/obj/item/rogueweapon/sword/sabre/hook)
+
+/datum/supply_pack/rogue/merc_weapons/kazengunkodachi
+	name = "Kazengun Kodachi"
+	cost = 120
+	contains = list(/obj/item/rogueweapon/sword/short/kazengun)
+
+/datum/supply_pack/rogue/merc_weapons/kazenguntanto
+	name = "Kazengun Tanto"
+	cost = 80
+	contains = list(/obj/item/rogueweapon/huntingknife/idagger/steel/kazengun)
 
 /datum/supply_pack/rogue/merc_weapons/kazengunscabbard
 	name = "Kazengun Scabbard"

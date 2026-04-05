@@ -18,13 +18,14 @@ GLOBAL_LIST_INIT(dwarfskeleton_aggro, world.file2list("strings/rt/dskeletonaggro
 	possible_rmb_intents = list(/datum/rmb_intent/feint, /datum/rmb_intent/aimed, /datum/rmb_intent/strong, /datum/rmb_intent/weak)
 
 /mob/living/carbon/human/species/dwarfskeleton/ambush
+	threat_point = THREAT_ELITE
+	ambush_faction = "undead"
 	aggressive=1
 	wander = TRUE
 
 /mob/living/carbon/human/species/dwarfskeleton/retaliate(mob/living/L)
 	.=..()
-	if(prob(5))
-		say(pick(GLOB.dwarfskeleton_aggro))
+	if(npc_combat_dialogue(GLOB.dwarfskeleton_aggro, prob_chance = 5, cooldown = 0))
 		pointed(target)
 
 /mob/living/carbon/human/species/dwarfskeleton/Initialize()
@@ -101,7 +102,7 @@ GLOBAL_LIST_INIT(dwarfskeleton_aggro, world.file2list("strings/rt/dskeletonaggro
 		l_hand = /obj/item/rogueweapon/sword/short/gladius
 		r_hand = /obj/item/rogueweapon/shield/wood
 		if(prob(20))
-			l_hand = /obj/item/rogueweapon/knuckles/bronzeknuckles
+			gloves = /obj/item/clothing/gloves/roguetown/knuckles/bronze
 
 	H.STASTR = 12
 	H.STASPD = 11

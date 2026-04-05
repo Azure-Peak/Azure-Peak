@@ -177,6 +177,7 @@ GLOBAL_LIST_INIT(antagonist_positions, list( //Mostly lesser antagonists
 	"Bandit",
 	"Wretch",
 	"Gnoll",
+	"Hag",
 ))
 
 GLOBAL_LIST_INIT(inquisition_positions, list( //Self explanatory
@@ -185,25 +186,7 @@ GLOBAL_LIST_INIT(inquisition_positions, list( //Self explanatory
 	"Orthodoxist",
 ))
 
-GLOBAL_LIST_INIT(rogueoverthrow_positions, list( //Used for Aspirant / Peasant Rebellion
-	"Grand Duke",
-	"Consort",
-	"Suitor",
-	"Prince",
-	"Hand",
-	"Steward",
-	"Councillor",
-	"Suitor",
-	"Marshal",
-	"Knight",
-	"Inquisitor",
-	"Absolver",
-	"Orthodoxist",
-	"Assassin",
-	"Bandit",
-	"Wretch",
-	"Gnoll"
-))
+GLOBAL_LIST_INIT(aspirant_eligible_positions, list(ASPIRANT_ELIGIBLE_POSITIONS))
 
 GLOBAL_LIST_INIT(roguewar_positions, list(
 	"Adventurer",

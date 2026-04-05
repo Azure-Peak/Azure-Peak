@@ -44,7 +44,7 @@
 	name = "Steel Knuckle"
 	cost = 40 // 1 Steel Ingot
 	contains = list(
-					/obj/item/rogueweapon/knuckles
+					/obj/item/clothing/gloves/roguetown/knuckles
 				)
 
 /datum/supply_pack/rogue/steel_weapons/rapier
@@ -171,6 +171,13 @@
 	cost = 70 // 2 Steel Ingot
 	contains = list(
 					/obj/item/rogueweapon/estoc,
+				)
+
+/datum/supply_pack/rogue/steel_weapons/aplongsword
+	name = "Stecher"
+	cost = 75 // 2 Steel Ingot, 1 Small Log
+	contains = list(
+					/obj/item/rogueweapon/sword/long/ap,
 				)
 
 /datum/supply_pack/rogue/steel_weapons/greataxe

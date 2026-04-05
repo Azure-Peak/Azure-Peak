@@ -3,13 +3,19 @@
 	typepath = /datum/round_event/migrant_wave/gnolls
 	wave_type = /datum/migrant_wave/gnolls
 	max_occurrences = 2
-	weight = 5
+	// Disabled for now, handled by bandit wave!
+	weight = 0
 	earliest_start = 30 MINUTES
 	min_players = 25
 	tags = list(
 		TAG_COMBAT,
 		TAG_VILLIAN,
 	)
+
+/datum/round_event_control/antagonist/migrant_wave/gnolls/preRunEvent()
+	if(is_storyteller_soft_antag_blocked())
+		return EVENT_CANT_RUN
+	return ..()
 
 /datum/round_event/migrant_wave/gnolls/start()
 	var/datum/job/gnoll_job = SSjob.GetJob("Gnoll")

@@ -303,7 +303,7 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 
 /obj/structure/englauncher
 	name = "Engineer's Launcher" 
-	desc = "A engineering contraption made to launch various objects in the direction its pointed."
+	desc = "A engineering contraption made to launch various objects in the direction it's pointed."
 	icon = 'icons/roguetown/misc/engineering_structure.dmi'
 	icon_state = "activator"
 	max_integrity = 45 // so it gets destroyed when used to explode a bomb
@@ -328,6 +328,7 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 	var/unlocksound = 'sound/foley/doors/woodlock.ogg'
 	var/rattlesound = 'sound/foley/doors/lockrattle.ogg'
 	var/masterkey = TRUE //if masterkey can open this regardless
+	debris = list(/obj/item/roguegear = 1, /obj/item/natural/wood/plank = 1, /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow = 1)
 	
 /obj/structure/englauncher/Initialize()
 	. = ..()

@@ -141,6 +141,8 @@
 	var/last_ps = 0
 
 	var/ambushable = 0
+	var/threat_point = 0 // Threat Point cost for the ambush budget system. Set on NPC subtypes.
+	var/ambush_faction = "" // Faction tag for ambush same/wrong-faction purchasing. Separate from mob faction list.
 
 	// Tracks whether mob is in surrendering state (right-click combat button)
 	var/surrendering = 0
@@ -209,3 +211,10 @@
 	var/toggle_delay = 1 SECONDS
 	/// Toggle timer for Specials, or really anything else that you don't want input spam to instantly cycle through.
 	var/toggle_timer
+	var/is_swimming = FALSE
+	var/is_underwater = FALSE
+	var/drowning_drowniness = 0
+	var/breath_remaining = 100
+	var/max_breath = 100
+	var/last_breath_spent = 0
+	var/client/swimming_filter_client = null

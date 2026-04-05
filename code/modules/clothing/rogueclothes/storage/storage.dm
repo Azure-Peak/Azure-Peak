@@ -90,12 +90,18 @@
 /obj/item/storage/belt/rogue/leather/battleskirt/barbarian
 	color = "#48443b"
 
+/obj/item/storage/belt/rogue/leather/battleskirt/red
+	color = CLOTHING_RED
+
 /obj/item/storage/belt/rogue/leather/battleskirt/faulds
 	name = "belt with faulds"
 	desc = "A fine leather strap notched with holes for a buckle to secure itself, notched above a halved military skirt."
 	icon_state = "faulds"
 	sewrepair = FALSE
 	detail_tag = "_belt"
+
+/obj/item/storage/belt/rogue/leather/battleskirt/faulds/red
+	color = CLOTHING_RED
 
 /obj/item/storage/belt/rogue/leather/battleskirt/breechcloth
 	name = "belt with breechcloth"
@@ -112,6 +118,9 @@
 	flags_inv = HIDECROTCH
 	sewrepair = FALSE
 	detail_tag = "_belt"
+
+/obj/item/storage/belt/rogue/leather/battleskirt/breechcloth/red
+	color = CLOTHING_RED
 
 /obj/item/storage/belt/rogue/leather/steel
 	name = "steel belt"
@@ -428,10 +437,10 @@
 		knives += K
 	update_icon()
 
-/obj/item/storage/belt/rogue/leather/exoticsilkbelt
-	name = "exotic silk belt"
+/obj/item/storage/belt/rogue/leather/silkbelt
+	name = "giltsilk belt"
 	desc = "A gold adorned belt with the softest of silks barely concealing one's bits."
-	icon_state = "exoticsilkbelt"
+	icon_state = "silkbelt"
 	var/max_storage = 5
 	sewrepair = TRUE
 
@@ -526,6 +535,38 @@
 	smeltresult = /obj/item/ingot/bronze
 	component_type = /datum/component/storage/concrete/grid/orestore/bronze
 
+// I Do Not 100% understand how this works. This is probably buggy as fuck.
+/obj/item/storage/hip/orestore/bronze/equipped(mob/user, slot)
+	. = ..()
+	// i set override to true bc it kept producing a runtime unless i did. assuming this is fine. idfk.
+	RegisterSignal(user, COMSIG_MOVABLE_MOVED, PROC_REF(on_user_moved), TRUE)
+
+/obj/item/storage/hip/orestore/bronze/dropped(mob/user)
+	. = ..()
+	UnregisterSignal(user, COMSIG_MOVABLE_MOVED)
+
+/obj/item/storage/hip/orestore/bronze/proc/on_user_moved(mob/living/user)
+	SIGNAL_HANDLER
+	var/picked_up = FALSE
+	// sanity check
+	if(user.incapacitated() || !user.canUseStorage())
+		return
+	// ensure the turf is a turf. idk how this would happen but after turf fuckery im scared now.
+	var/turf/T = get_turf(user)
+	if(!T)
+		return
+	// nab the components of the storage device
+	var/datum/component/storage/S = GetComponent(/datum/component/storage)
+	if(!S)
+		return
+
+	for(var/obj/item/I in T)
+		if(S.can_be_inserted(I, TRUE, user))
+			S.handle_item_insertion(I, TRUE, user)
+			picked_up = TRUE
+	if(picked_up)
+		user.visible_message(span_info("[user] picks up the ore beneath them, placing it into the ore bag..."))
+
 /obj/item/storage/belt/rogue/leather/zig_bandolier
 	name = "zig bandolier"
 	desc = "For when your addiction gets a hold on you."
@@ -551,3 +592,15 @@
 	alternate_worn_layer = UNDER_CLOAK_LAYER
 	strip_delay = 20
 	component_type = /datum/component/storage/concrete/roguetown/zig_bandolier
+
+/obj/item/storage/belt/rogue/leather/suspenders
+	name = "suspenders"
+	desc = "A pair of suspenders which go over the shoulders. Used for keeping one's pants in place in an admittably fashionable style."
+	icon_state = "suspenders"
+	alternate_worn_layer = ARMOR_LAYER
+
+/obj/item/storage/belt/rogue/leather/cloth_belt
+	name = "cloth belt"
+	desc = "This belt has been sewn out of cloth, as opposed to tied. Which makes it superior. Obviously."
+	icon_state = "clothsash"
+	salvage_result = /obj/item/natural/cloth

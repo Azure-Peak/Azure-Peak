@@ -40,7 +40,7 @@
 	blade_class = BCLASS_CUT
 	hitsound = "smallslash"
 	chargetime = 0
-	penfactor = 0
+	penfactor = PEN_NONE
 	candodge = TRUE
 	canparry = TRUE
 	miss_text = "slash the air"
@@ -89,7 +89,7 @@
 	environment_smash = ENVIRONMENT_SMASH_NONE
 	retreat_distance = 0
 	minimum_distance = 0
-	projectiletype = /obj/projectile/magic/aoe/fireball/spitfire	//if we ever get ranged toggling working
+	projectiletype = /obj/projectile/magic/spitfire	//if we ever get ranged toggling working
 	projectilesound = 'sound/magic/whiteflame.ogg'
 	next_ability_use
 	STACON = 10
@@ -104,7 +104,7 @@
 
 /mob/living/simple_animal/hostile/retaliate/rogue/primordial/fire/ability(turf/target_location, mob/living/user)
 	if(world.time < src.next_ability_use)
-		to_chat(user, "[src] is not yet ready to use it's special ability.")
+		to_chat(user, "[src] is not yet ready to use its special ability.")
 		return FALSE
 	if(!do_after(src,1 SECONDS, src))
 		return
@@ -186,7 +186,7 @@
 
 /mob/living/simple_animal/hostile/retaliate/rogue/primordial/water/ability(turf/target_location, mob/living/user)
 	if(world.time < src.next_ability_use)
-		to_chat(user, "[src] is not yet ready to use it's special ability.")
+		to_chat(user, "[src] is not yet ready to use its special ability.")
 		return FALSE
 	if(!do_after(src,1 SECONDS, src))
 		return
@@ -297,7 +297,7 @@
 
 /mob/living/simple_animal/hostile/retaliate/rogue/primordial/air/ability(turf/target_location, mob/living/user)
 	if(world.time < src.next_ability_use)
-		to_chat(user, "[src] is not yet ready to use it's special ability.")
+		to_chat(user, "[src] is not yet ready to use its special ability.")
 		return FALSE
 	if(!do_after(src,1 SECONDS, src))
 		return

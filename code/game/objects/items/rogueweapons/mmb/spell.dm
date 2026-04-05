@@ -16,5 +16,3 @@
 /datum/intent/spell/on_mmb(atom/target, mob/living/user, params)
 	if(user.ranged_ability?.InterceptClickOn(user, params, target))
 		user.changeNext_move(clickcd)
-		if(releasedrain)
-			user.stamina_add(releasedrain)

@@ -133,6 +133,23 @@ window "outputwindow"
 		border = sunken
 		saved-params = ""
 		command = "say"
+	elem "saybutton"
+		type = BUTTON
+		pos = 590,445
+		size = 50x25
+		anchor1 = 100,100
+		anchor2 = 100,100
+		font-family = "Arial"
+		font-size = 9
+		font-style = "bold"
+		text-color = #ad9eb4
+		background-color = #1a1a1a
+		border = raised
+		saved-params = "is-checked"
+		text = "Say"
+		command = "toggle-command-bar-button"
+		is-visible = false
+		button-type = pushbox
 
 window "output_legacy"
 	elem "output_legacy"
@@ -223,7 +240,7 @@ window "preferencess_window"
 	elem "preferencess_window"
 		type = MAIN
 		pos = 280,80
-		size = 820x850
+		size = 820x900
 		anchor1 = -1,-1
 		anchor2 = -1,-1
 		is-visible = false
@@ -234,7 +251,7 @@ window "preferencess_window"
 	elem "preferences_browser"
 		type = BROWSER
 		pos = 0,0
-		size = 820x850
+		size = 820x900
 		anchor1 = 0,0
 		anchor2 = 75,100
 		saved-params = ""

@@ -282,6 +282,11 @@
 	. = ..()
 	set_quantity(rand(8,12))
 
+/obj/item/roguecoin/gold/aspirantpile/Initialize()
+	. = ..()
+	set_quantity(20) // Fixed 200 mammons for aspirants which is a good psychological number to buy 1 merc's service
+
+
 #undef CTYPE_GOLD
 #undef CTYPE_SILV
 #undef CTYPE_COPP

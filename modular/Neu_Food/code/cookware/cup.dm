@@ -22,7 +22,7 @@
 	force = 5
 	throwforce = 10
 
-/obj/item/reagent_containers/glass/cup/examine()
+/obj/item/reagent_containers/glass/cup/get_mechanics_examine(mob/user)
 	. = ..()
 	. += span_info("Left-click an appropriate source of liquids while the 'FILL' intent is selected to fill the cup.")
 	. += span_info("Some containers have to be manually poured into the cup, instead. This can be done by left-clicking the cup while the container's 'FEED' intent is selected.")

@@ -2,9 +2,25 @@
 /obj/effect/proc_holder/spell/invoked/lesser_heal
 	name = "Miracle"
 	desc = "Blesses the target with minor health regeneration. If casted in conjunction with the 'Fortify' blessing, its healing power is greatly \
-	increased. <br>Depending on your patron, a Miracle's potency can be further amplified under certain conditions; an Abyssorite heals more when \
-	standing in water, a Pestran heals more when their target's laying down, a Malumite heals more when their target's on fire, and so-on. </br>Most \
-	healing Miracles cannot affect devoted Psydonians."
+	increased. Most healing Miracles cannot affect devoted Psydonians.\
+	<br><br><b>Patron Conditions:</b>\
+	<ul>\
+	<li><b>Abyssor:</b> +60% healing when the target is standing in water.</li>\
+	<li><b>Astrata:</b> +80% healing during daytime. Up to +100% if the target has the Noble trait (does not stack with daytime).</li>\
+	<li><b>Dendor:</b> Up to +80% from nearby natural objects (grass, trees, mushrooms, soil). Each wise tree grants an additional +60%.</li>\
+	<li><b>Eora:</b> +100% if the target is a pacifist. +60% if the caster is also a pacifist. Up to +160% total.</li>\
+	<li><b>Malum:</b> Up to +100% scaling with nearby fire sources (torches, campfires, hearths, candles, forges).</li>\
+	<li><b>Necra:</b> +100% when the target is below 25% health. +50% if the caster has Necran Mists active. Up to +150% total.</li>\
+	<li><b>Noc:</b> +40% healing during nighttime.</li>\
+	<li><b>Pestra:</b> +40% when the target is laying down (not buckled). Also restores blood and heals toxin damage.</li>\
+	<li><b>Ravox:</b> +40% if the target is using a strong attack intent. +20% if holding a weapon. +80% with blood restoration if cast on self while at low blood (30s cooldown). Up to +140% total.</li>\
+	<li><b>Xylix:</b> 50% chance of a random +40% to +100% bonus.</li>\
+	<li><b>Undivided:</b> Always +80% with no conditions.</li>\
+	<li><b>Baotha:</b> +20% if the target is drunk or on drugs. +20% if experiencing withdrawal. Up to +80% additional from wound pain and bleeding. Up to +120% total.</li>\
+	<li><b>Graggar:</b> Up to +100% scaling with nearby blood decals.</li>\
+	<li><b>Matthios:</b> +100% if the target has the Freeman trait.</li>\
+	<li><b>Zizo:</b> Up to +200% scaling with nearby bones and bone bundles.</li>\
+	</ul>"
 	overlay_state = "lesserheal"
 	releasedrain = 3 SECONDS
 	chargedrain = 0
@@ -155,192 +171,6 @@
 
 /obj/effect/proc_holder/spell/invoked/heal/astrata
 	base_icon_state = "regalyscroll"
-
-/obj/effect/proc_holder/spell/invoked/regression
-	name = "Regression"
-	desc = "Blesses the target with minor health regeneration, through manipulating the temporal nature of thier wounds. If \
-	If casted in conjunction with the 'Convergence' blessing, its healing power is greatly increased."
-	overlay_state = "regression"
-	releasedrain = 30
-	chargedrain = 0
-	chargetime = 0
-	range = 3
-	warnie = "sydwarning"
-	movement_interrupt = FALSE
-	sound = list('sound/magic/regression1.ogg','sound/magic/regression2.ogg','sound/magic/regression3.ogg','sound/magic/regression4.ogg')
-	invocation_type = "none"
-	associated_skill = /datum/skill/magic/holy
-	antimagic_allowed = TRUE
-	recharge_time = 10 SECONDS
-	miracle = TRUE
-	devotion_cost = 10
-	ignore_los = FALSE
-
-/obj/effect/proc_holder/spell/invoked/regression/cast(list/targets, mob/living/user)
-	. = ..()
-	if(!isliving(targets[1]))
-		revert_cast()
-		return FALSE
-
-	var/mob/living/target = targets[1]
-	target.visible_message(span_info("Order filled magic rewind [target]'s wounds!"), span_notice("My wounds, undone!"))
-	var/healing = 2.5
-	user.Beam(target,icon_state="lichbeam",time=1 SECONDS)
-	target.apply_status_effect(/datum/status_effect/buff/healing, healing)
-	return TRUE
-
-/obj/effect/proc_holder/spell/invoked/convergence
-	name = "Convergence"
-	desc = "Amplifies all incoming sources of healing for the chosen target, via temporarily linking their temporal past-and-present selves \
-	together. Combining this with the 'Miracle' blessing allows for the mending of more extreme injuries."
-	overlay_state = "convergence"
-	releasedrain = 30
-	chargedrain = 0
-	chargetime = 0
-	range = 3
-	warnie = "sydwarning"
-	movement_interrupt = FALSE
-//	chargedloop = /datum/looping_sound/invokeholy
-	chargedloop = null
-	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
-	sound = list('sound/magic/convergence1.ogg','sound/magic/convergence2.ogg','sound/magic/convergence3.ogg','sound/magic/convergence4.ogg')
-	invocation_type = "none"
-	associated_skill = /datum/skill/magic/holy
-	antimagic_allowed = TRUE
-	recharge_time = 20 SECONDS
-	miracle = TRUE
-	devotion_cost = 20
-	ignore_los = FALSE
-
-/obj/effect/proc_holder/spell/invoked/convergence/cast(list/targets, mob/living/user)
-	. = ..()
-	if(!isliving(targets[1]))
-		revert_cast()
-		return FALSE
-
-	var/mob/living/target = targets[1]
-	target.visible_message(span_info("A convergence of fates surrounds [target]!"), span_notice("My past and present converge as one!"))
-	user.Beam(target,icon_state="lichbeam",time=1 SECONDS)
-	if(iscarbon(target))
-		var/mob/living/carbon/C = target
-		C.apply_status_effect(/datum/status_effect/buff/convergence)
-		C.apply_status_effect(/datum/status_effect/buff/fortify)
-	else
-		target.adjustBruteLoss(-50)
-		target.adjustFireLoss(-50)
-	return TRUE
-
-
-/obj/effect/proc_holder/spell/invoked/stasis
-	name = "Stasis"
-	desc = "Preserve the chosen target's health for several seconds, before 'reversing' their condition to whatever was present upon the initial blessing. </br> If \
-	used in conjunction with the 'Convergence' blessing, the target will keep any received healing upon the 'reversal'."
-	releasedrain = 35
-	chargedrain = 1
-	chargetime = 30
-	recharge_time = 60 SECONDS
-	warnie = "spellwarning"
-	no_early_release = TRUE
-	movement_interrupt = FALSE
-	charging_slowdown = 3
-	sound = 'sound/magic/timeforward.ogg'
-	chargedloop = /datum/looping_sound/invokegen
-	associated_skill = /datum/skill/magic/holy
-	overlay_state = "sands_of_time"
-	var/brute = 0
-	var/burn = 0
-	var/oxy = 0
-	var/toxin = 0
-	var/turf/origin
-	var/firestacks = 0
-	var/divinefirestacks = 0
-	var/sunderfirestacks = 0
-	var/blood = 0
-	miracle = TRUE
-	devotion_cost = 30
-	ignore_los = FALSE
-
-/obj/effect/proc_holder/spell/invoked/stasis/cast(list/targets, mob/user = usr)
-	if(!isliving(targets[1]))
-		revert_cast()
-		return FALSE
-
-	var/mob/living/carbon/target = targets[1]
-	var/mob/living/carbon/C = target
-	C.apply_status_effect(/datum/status_effect/buff/stasis)
-	brute = target.getBruteLoss()
-	burn = target.getFireLoss()
-	oxy = target.getOxyLoss()
-	toxin = target.getToxLoss()
-	origin = get_turf(target)
-	blood = target.blood_volume
-	var/datum/status_effect/fire_handler/fire_stacks/fire_status = target.has_status_effect(/datum/status_effect/fire_handler/fire_stacks)
-	firestacks = fire_status?.stacks
-	var/datum/status_effect/fire_handler/fire_stacks/sunder/sunder_status = target.has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder)
-	sunderfirestacks = sunder_status?.stacks
-	var/datum/status_effect/fire_handler/fire_stacks/divine/divine_status = target.has_status_effect(/datum/status_effect/fire_handler/fire_stacks/divine)
-	divinefirestacks = divine_status?.stacks
-	to_chat(target, span_warning("I feel a part of me was left behind..."))
-	play_indicator(target,'icons/mob/overhead_effects.dmi', "timestop", 100, OBJ_LAYER)
-	addtimer(CALLBACK(src, PROC_REF(remove_buff), target), wait = 10 SECONDS)
-
-	return TRUE
-
-/obj/effect/proc_holder/spell/invoked/stasis/proc/remove_buff(mob/living/carbon/target)
-	do_teleport(target, origin, no_effects=TRUE)
-	var/brutenew = target.getBruteLoss()
-	var/burnnew = target.getFireLoss()
-	var/oxynew = target.getOxyLoss()
-	var/toxinnew = target.getToxLoss()
-	target.adjust_fire_stacks(firestacks)
-	target.adjust_fire_stacks(sunderfirestacks, /datum/status_effect/fire_handler/fire_stacks/sunder)
-	target.adjust_fire_stacks(divinefirestacks, /datum/status_effect/fire_handler/fire_stacks/divine)
-	if(target.has_status_effect(/datum/status_effect/buff/convergence))
-		if(brutenew>brute)
-			target.adjustBruteLoss(brutenew*-1 + brute)
-		if(burnnew>burn)
-			target.adjustFireLoss(burnnew*-1 + burn)
-		if(oxynew>oxy)
-			target.adjustOxyLoss(oxynew*-1 + oxy)
-		if(toxinnew>toxin)
-			target.adjustToxLoss(target.getToxLoss()*-1 + toxin)
-		if(target.blood_volume<blood)
-			target.blood_volume = blood
-	else
-		target.adjustBruteLoss(brutenew*-1 + brute)
-		target.adjustFireLoss(burnnew*-1 + burn)
-		target.adjustOxyLoss(oxynew*-1 + oxy)
-		target.adjustToxLoss(target.getToxLoss()*-1 + toxin)
-		target.blood_volume = blood
-	playsound(target.loc, 'sound/magic/timereverse.ogg', 100, FALSE)
-
-/obj/effect/proc_holder/spell/invoked/stasis/proc/play_indicator(mob/living/carbon/target, icon_path, overlay_name, clear_time, overlay_layer)
-	if(!ishuman(target))
-		return
-	if(target.stat != DEAD)
-		var/mob/living/carbon/humie = target
-		var/datum/species/species =	humie.dna.species
-		var/list/offset_list
-		if(humie.gender == FEMALE)
-			offset_list = species.offset_features[OFFSET_HEAD_F]
-		else
-			offset_list = species.offset_features[OFFSET_HEAD]
-			var/mutable_appearance/appearance = mutable_appearance(icon_path, overlay_name, overlay_layer)
-			if(offset_list)
-				appearance.pixel_x += (offset_list[1])
-				appearance.pixel_y += (offset_list[2]+12)
-			appearance.appearance_flags = RESET_COLOR
-			target.overlays_standing[OBJ_LAYER] = appearance
-			target.apply_overlay(OBJ_LAYER)
-			update_icon()
-			addtimer(CALLBACK(humie, PROC_REF(clear_overhead_indicator), appearance, target), clear_time)
-
-/obj/effect/proc_holder/spell/invoked/stasis/proc/clear_overhead_indicator(appearance,mob/living/carbon/target)
-	target.remove_overlay(OBJ_LAYER)
-	cut_overlay(appearance, TRUE)
-	qdel(appearance)
-	update_icon()
-	return
 
 // Bishop only miracle - This used to be T3 only but is too powerful and ate into apothecary's niche.
 // Instantly heals all wounds & damage on a selected limb.

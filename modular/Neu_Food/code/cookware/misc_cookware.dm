@@ -15,6 +15,7 @@
 	grid_height = 64
 	experimental_onhip = TRUE
 	experimental_inhand = TRUE
+	associated_skill = /datum/skill/craft/cooking //Same deal as the frypan!
 
 /obj/item/kitchen/rollingpin/getonmobprop(tag)
 	. = ..()

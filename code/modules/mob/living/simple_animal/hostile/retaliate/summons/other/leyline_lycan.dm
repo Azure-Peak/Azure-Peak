@@ -23,6 +23,7 @@
 	aggro_vision_range = 9
 
 	butcher_results = list()
+	death_loot = list(/obj/item/magic/leyline = 1)
 
 	health = 240
 	maxHealth = 240
@@ -42,7 +43,7 @@
 	minimum_distance = 0
 	deaggroprob = 0
 	defprob = 35
-	retreat_health = 0.4
+	retreat_health = 0
 	food = 0
 	dodgetime = 30
 	aggressive = 1
@@ -91,9 +92,8 @@
 
 /mob/living/simple_animal/hostile/retaliate/rogue/leylinelycan/death(gibbed)
 	..()
-	source.guardian = null
-	var/turf/deathspot = get_turf(src)
-	new /obj/item/magic/leyline(deathspot)
+	if(source)
+		source.guardian = null
 	spill_embedded_objects()
 	update_icon()
 	qdel(src)
@@ -124,4 +124,4 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/leylinelycan/proc/leyline_teleport_3(turf/T)
 	forceMove(T)
 	animate(src, alpha = 255, time = 2, easing = EASE_IN) //fade IN
-	visible_message(span_warning("[src] tears it's way out of the leyline rift!"))
+	visible_message(span_warning("[src] tears its way out of the leyline rift!"))

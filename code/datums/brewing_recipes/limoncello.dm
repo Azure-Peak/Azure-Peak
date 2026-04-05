@@ -8,5 +8,5 @@
 	needed_items = list(/obj/item/reagent_containers/food/snacks/grown/fruit/lemon = 2, /obj/item/reagent_containers/food/snacks/sugar = 1)
 	brewed_amount = 4
 	brew_time = 4 MINUTES
-	sell_value = 90
+	sell_value = 100
 	heat_required = 360

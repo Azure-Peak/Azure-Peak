@@ -1,3 +1,5 @@
+GLOBAL_LIST_INIT(goblin_aggro, world.file2list("strings/rt/goblinaggrolines.txt"))
+
 /mob/living/carbon/human/species/goblin
 	name = "goblin"
 
@@ -27,6 +29,8 @@
 	wander = FALSE
 
 /mob/living/carbon/human/species/goblin/npc/ambush
+	threat_point = THREAT_LOW
+	ambush_faction = "goblins"
 	wander = TRUE
 	attack_speed = 2
 
@@ -57,6 +61,7 @@
 	race = /datum/species/goblin/cave
 
 /mob/living/carbon/human/species/goblin/npc/ambush/cave
+	threat_point = THREAT_LOW
 	race = /datum/species/goblin/cave
 
 /datum/species/goblin/cave
@@ -67,8 +72,11 @@
 	name = "sea goblin"
 	race = /datum/species/goblin/sea
 /mob/living/carbon/human/species/goblin/npc/sea
+	threat_point = THREAT_LOW
+	ambush_faction = "goblins"
 	race = /datum/species/goblin/sea
 /mob/living/carbon/human/species/goblin/npc/ambush/sea
+	threat_point = THREAT_LOW
 	race = /datum/species/goblin/sea
 /datum/species/goblin/sea
 	raceicon = "goblin_sea"
@@ -80,6 +88,7 @@
 /mob/living/carbon/human/species/goblin/npc/moon
 	race = /datum/species/goblin/moon
 /mob/living/carbon/human/species/goblin/npc/ambush/moon
+	threat_point = THREAT_LOW
 	race = /datum/species/goblin/moon
 /datum/species/goblin/moon
 	id = "goblin_moon"
@@ -147,9 +156,6 @@
 	H.update_transform()
 	return TRUE
 
-/mob/living/carbon/human/species/goblin/update_body_parts(redraw)
-	update_body()
-
 /mob/living/carbon/human/species/goblin/update_body()
 	remove_overlay(BODY_LAYER)
 	if(!dna || !dna.species)
@@ -212,10 +218,16 @@
 	. = ..()
 	addtimer(CALLBACK(src, PROC_REF(after_creation)), 1 SECONDS)
 
+/mob/living/carbon/human/species/goblin/retaliate(mob/living/L)
+	var/newtarg = target
+	. = ..()
+	if(target != newtarg && npc_combat_dialogue(GLOB.goblin_aggro, list("laugh", "giggle", "chuckle", "cackle", "screech", "hiss", "growl"), prob_chance = 10))
+		pointed(target)
+
+
 /mob/living/carbon/human/species/goblin/handle_combat()
 	if(mode == NPC_AI_HUNT)
-		if(prob(2))
-			emote("laugh")
+		npc_combat_dialogue(GLOB.goblin_aggro, list("laugh", "giggle", "chuckle", "cackle", "screech", "hiss", "growl"), prob_chance = 10)
 	. = ..()
 
 /mob/living/carbon/human/species/goblin/after_creation()

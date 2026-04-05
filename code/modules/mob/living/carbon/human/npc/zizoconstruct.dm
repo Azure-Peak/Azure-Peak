@@ -24,8 +24,7 @@ GLOBAL_LIST_INIT(zizoconstruct_aggro, world.file2list("strings/rt/zconstructaggr
 
 /mob/living/carbon/human/species/construct/metal/zizoconstruct/retaliate(mob/living/L)
 	.=..()
-	if(prob(5))
-		say(pick(GLOB.zizoconstruct_aggro))
+	if(npc_combat_dialogue(GLOB.zizoconstruct_aggro, prob_chance = 5, cooldown = 0))
 		pointed(target)
 
 /mob/living/carbon/human/species/construct/metal/zizoconstruct/should_target(mob/living/L)
@@ -67,7 +66,7 @@ GLOBAL_LIST_INIT(zizoconstruct_aggro, world.file2list("strings/rt/zconstructaggr
 /datum/outfit/job/roguetown/human/species/construct/metal/zizoconstruct/pre_equip(mob/living/carbon/human/H)
 	..()
 	shirt = /obj/item/clothing/suit/roguetown/armor/skin_armor/zizoconstructarmor
-	l_hand = /obj/item/rogueweapon/knuckles/bronzeknuckles/zizoconstruct
+	gloves = /obj/item/clothing/gloves/roguetown/knuckles/bronze/zizoconstruct
 
 	H.STASTR = 20
 	H.STASPD = 8
@@ -80,15 +79,15 @@ GLOBAL_LIST_INIT(zizoconstruct_aggro, world.file2list("strings/rt/zconstructaggr
 	H.adjust_skillrank(/datum/skill/misc/swimming, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/climbing, 2, TRUE)
 
-/obj/item/rogueweapon/knuckles/bronzeknuckles/zizoconstruct //I have no unarmed and I must parry. More interesting than defprob and gives construct PC a fun item to loot and use
+/obj/item/clothing/gloves/roguetown/knuckles/bronze/zizoconstruct //Gives construct NPC a lootable knuckle item
 	name = "construct knuckles"
 	desc = "A vicous pair of bronze knuckles designed specifically for constructs. There is a terrifying, hollow spike in the center of the grip. There doesn't seem to be a way to wield it without impaling yourself."
-	wdefense = 11
 	color = "#5f1414"
 	max_integrity = 500
 	anvilrepair = /datum/skill/craft/engineering
+	unarmed_bonus = 8
 
-/obj/item/rogueweapon/knuckles/bronzeknuckles/zizoconstruct/pickup(mob/living/user)
+/obj/item/clothing/gloves/roguetown/knuckles/bronze/zizoconstruct/pickup(mob/living/user)
 	if(!HAS_TRAIT(user, TRAIT_BLOODLOSS_IMMUNE))
 		to_chat(user, "<font color='purple'> You attempt to wield the knuckles. The spike sinks deeply into your hand, piercing it and drinking deep of your vital energies!</font>")
 		user.adjustBruteLoss(15)
@@ -102,7 +101,7 @@ GLOBAL_LIST_INIT(zizoconstruct_aggro, world.file2list("strings/rt/zconstructaggr
 	desc = ""
 	icon_state = null
 	body_parts_covered = FULL_BODY
-	armor = ARMOR_ZIZOCONCSTRUCT
+	armor = ARMOR_PADDED
 	blocksound = PLATEHIT
 	blade_dulling = DULLING_BASHCHOP
 	sewrepair = FALSE

@@ -38,8 +38,10 @@
 	if(!target)
 		to_chat(user, span_warning("The tube rumbles but nothing happens. It doesn't seem connected to anything."))
 		return FALSE
+	var/recipient_name = I?.mailedto || target.name
 	I.forceMove(target)
 	playsound(target, 'sound/misc/hiss.ogg', 100, FALSE, -1)
+	log_mail_send(user, sender_name, recipient_name)
 	visible_message(span_warning("[user] sends something."))
 	playsound(loc, 'sound/misc/disposalflush.ogg', 100, FALSE, -1)
 	if(target.notify_bathhouse)

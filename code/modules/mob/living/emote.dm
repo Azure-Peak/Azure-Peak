@@ -811,7 +811,7 @@
 
 /datum/emote/living/scream/strain
 	key = "strain"
-	message = "strains themselves!"
+	message = "strains themself!"
 	emote_type = EMOTE_AUDIBLE
 	only_forced_audio = TRUE
 	show_runechat = FALSE
@@ -1853,7 +1853,7 @@
 	attempt_message_list = list(
 		"tries to maintain their composure...",
 		"attempts to appear impressive...",
-		"contemplating their next move...",
+		"starts contemplating their next move...",
 	)
 
 	success_message_list = list(
@@ -1873,3 +1873,57 @@
 	set category = "Emotes"
 
 	emote("charisma", intentional = TRUE)
+
+/mob/living/carbon/human/verb/dive()
+	set name = "Dive"
+	set category = "Swimming"
+	
+	var/turf/T = get_turf(src)
+	if(!istype(T, /turf/open/water/transparent))
+		to_chat(src, span_warning("You must be in deep water to dive!"))
+		return
+	
+	var/turf/below = GET_TURF_BELOW(T)
+	if(!below || !istype(below, /turf/open/water/transparent))
+		to_chat(src, span_warning("It's not deep enough here to dive."))
+		return
+
+	src.swim_z(DOWN)
+
+/mob/living/carbon/human/verb/surface()
+	set name = "Surface"
+	set category = "Swimming"
+	
+	var/turf/T = get_turf(src)
+	
+	if(!istype(T, /turf/open/water/transparent/inner))
+		to_chat(src, span_warning("You are already at the surface!"))
+		return
+
+	var/turf/above = GET_TURF_ABOVE(T)
+	if(!above || !istype(above, /turf/open/water/transparent))
+		to_chat(src, span_warning("Something is blocking you from surfacing here."))
+		return
+
+	src.swim_z(UP)
+
+/mob/living/carbon/human/proc/swim_z(direction)
+	if(stat || IsKnockdown() || IsParalyzed()) 
+		to_chat(src, span_warning("You are too incapacitated to move!"))
+		return FALSE
+	
+	var/turf/current_T = get_turf(src)
+	var/target_z = (direction == UP) ? (z + 1) : (z - 1)
+	var/turf/target_T = locate(current_T.x, current_T.y, target_z)
+
+	if(istype(target_T, /turf/open/water))
+		if(!stamina_add(direction == DOWN ? 20 : 10)) 
+			to_chat(src, span_warning("You are too exhausted to [direction == UP ? "surface" : "dive"]!"))
+			return FALSE
+
+		visible_message(span_notice("[src] [direction == UP ? "emerges to the surface" : "dives into the depths"]."))
+		forceMove(target_T)
+		return TRUE
+		
+	to_chat(src, span_warning("You can't [direction == UP ? "emerge" : "dive"] here."))
+	return FALSE

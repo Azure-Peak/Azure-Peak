@@ -38,29 +38,11 @@
 	sellprice = 42
 	desc = "Glints with verdant brilliance."
 
-/obj/item/roguegem/green/Initialize()
-	. = ..()
-	var/static/list/slapcraft_recipe_list = list(/datum/crafting_recipe/gemstaff/emerald_staff,)
-
-	AddElement(
-		/datum/element/slapcrafting,\
-		slapcraft_recipes = slapcraft_recipe_list,\
-	)
-
 /obj/item/roguegem/blue
 	name = "blortz"
 	icon_state = "quartz_cut"
 	sellprice = 88
 	desc = "Pale blue, like a frozen tear."
-
-/obj/item/roguegem/blue/Initialize()
-	. = ..()
-	var/static/list/slapcraft_recipe_list = list(/datum/crafting_recipe/gemstaff/quartz_staff,)
-
-	AddElement(
-		/datum/element/slapcrafting,\
-		slapcraft_recipes = slapcraft_recipe_list,\
-	)
 
 /obj/item/roguegem/yellow
 	name = "toper"
@@ -68,44 +50,17 @@
 	sellprice = 34
 	desc = "Its amber hues remind you of the sunset."
 
-/obj/item/roguegem/yellow/Initialize()
-	. = ..()
-	var/static/list/slapcraft_recipe_list = list(/datum/crafting_recipe/gemstaff/toper_staff,)
-
-	AddElement(
-		/datum/element/slapcrafting,\
-		slapcraft_recipes = slapcraft_recipe_list,\
-	)
-
 /obj/item/roguegem/violet
 	name = "saffira"
 	icon_state = "sapphire_cut"
 	sellprice = 56
 	desc = "This gem is admired by many wizards."
 
-/obj/item/roguegem/violet/Initialize()
-	. = ..()
-	var/static/list/slapcraft_recipe_list = list(/datum/crafting_recipe/gemstaff/sapphire_staff,)
-
-	AddElement(
-		/datum/element/slapcrafting,\
-		slapcraft_recipes = slapcraft_recipe_list,\
-	)
-
 /obj/item/roguegem/ruby
 	name = "rontz"
 	icon_state = "ruby_cut"
 	sellprice = 100
 	desc = "Its facets shine so brightly..."
-
-/obj/item/roguegem/ruby/Initialize()
-	. = ..()
-	var/static/list/slapcraft_recipe_list = list(/datum/crafting_recipe/gemstaff/ruby_staff,)
-
-	AddElement(
-		/datum/element/slapcrafting,\
-		slapcraft_recipes = slapcraft_recipe_list,\
-	)
 
 /obj/item/roguegem/diamond
 	name = "dorpel"
@@ -162,15 +117,6 @@
 	icon_state = "raw_opal"
 	sellprice = 80
 
-/obj/item/roguegem/diamond/Initialize()
-	. = ..()
-	var/static/list/slapcraft_recipe_list = list(/datum/crafting_recipe/gemstaff/diamond_staff,)
-
-	AddElement(
-		/datum/element/slapcrafting,\
-		slapcraft_recipes = slapcraft_recipe_list,\
-	)
-
 // Do NOT add these to the stockpile treasures list, they have other uses.
 /obj/item/roguegem/blood_diamond
 	name = "glut"
@@ -194,16 +140,7 @@
 /obj/item/roguegem/amethyst
 	name = "amythortz"
 	icon_state = "amethyst"
-	desc = "A deep lavender crystal, it surges with magical energy, yet it's artificial nature means it is worth little."
-
-/obj/item/roguegem/amethyst/Initialize()
-	. = ..()
-	var/static/list/slapcraft_recipe_list = list(/datum/crafting_recipe/gemstaff/amethyst_staff,)
-
-	AddElement(
-		/datum/element/slapcrafting,\
-		slapcraft_recipes = slapcraft_recipe_list,\
-	)
+	desc = "A deep lavender crystal, it surges with magical energy, yet its artificial nature means it is worth little."
 
 /obj/item/roguegem/amethyst/naledi
 	name = "naledic amythortz"
@@ -278,13 +215,6 @@
 /obj/item/riddleofsteel/Initialize()
 	. = ..()
 	set_light(2, 2, 1, l_color = "#ff0d0d")
-
-	var/static/list/slapcraft_recipe_list = list(/datum/crafting_recipe/gemstaff/quartz_staff,)
-
-	AddElement(
-		/datum/element/slapcrafting,\
-		slapcraft_recipes = slapcraft_recipe_list,\
-	)
 
 /obj/item/pearl
 	name = "pearl"

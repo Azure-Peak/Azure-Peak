@@ -23,6 +23,7 @@
 		"Instruments",
 		"Cosmetics",
 		"Roguery",
+		"Smokes",
 		)
 
 /obj/structure/roguemachine/bathvend/Initialize()
@@ -179,7 +180,8 @@
 
 /obj/structure/roguemachine/bathvend/obj_break(damage_flag)
 	..()
-	budget2change(budget)
+	var/turf/T = get_turf(src)
+	budget2change(budget, custom_turf = T)
 	set_light(0)
 	update_icon()
 	icon_state = "goldvendor0"

@@ -6,6 +6,9 @@
 		return
 	var/mob/living/carbon/human/H = user
 	if(!IU)	//The opponent is trying to rawdog us with their bare hands while we have Guard up. We get a free attack on their active hand.
+		if(!IM)	//We are also unarmed -- no clash or riposte without a weapon on the guarder's side.
+			remove_status_effect(/datum/status_effect/buff/clash)
+			return
 		var/obj/item/bodypart/affecting = H.get_bodypart("[(user.active_hand_index % 2 == 0) ? "r" : "l" ]_arm")
 		var/force = get_complex_damage(IM, src)
 		var/armor_block = H.run_armor_check(BODY_ZONE_PRECISE_L_HAND, used_intent.item_d_type, armor_penetration = used_intent.penfactor, damage = force, used_weapon = IM)
@@ -16,6 +19,19 @@
 			visible_message(span_suicide("[src] clashes into [user]'s hands with \the [IM]!"))
 		playsound(src, pick(used_intent.hitsound), 80)
 		remove_status_effect(/datum/status_effect/buff/clash)
+		apply_status_effect(/datum/status_effect/buff/adrenaline_rush)
+		return
+	if(!IM)	//We are guarding unarmed but they have a weapon -- no clash, just consume the guard to block the hit.
+		visible_message(span_warning("[src] deflects [H]'s strike with [p_their()] bare hands!"))
+		playsound(src, 'sound/combat/clash_struck.ogg', 100)
+		H.apply_status_effect(/datum/status_effect/debuff/exposed, 3 SECONDS)
+		H.apply_status_effect(/datum/status_effect/debuff/clickcd, 3 SECONDS)
+		if(H.mind)
+			H.dodgetime = clamp(H.dodgetime + 5, 0, CLICK_CD_HEAVY)
+		H.Slowdown(3)
+		to_chat(src, span_notice("[capitalize(H.p_theyre())] exposed!"))
+		remove_status_effect(/datum/status_effect/buff/clash)
+		apply_status_effect(/datum/status_effect/buff/adrenaline_rush)
 		return
 	if(H.has_status_effect(/datum/status_effect/buff/clash))	//They also have Riposte active. It'll trigger the special event.
 		clash(user, IM, IU)
@@ -34,11 +50,13 @@
 		playsound(src, 'sound/combat/clash_struck.ogg', 100)
 		H.apply_status_effect(/datum/status_effect/debuff/exposed, 3 SECONDS)
 		H.apply_status_effect(/datum/status_effect/debuff/clickcd, 3 SECONDS)
+		if(H.mind)
+			H.dodgetime = clamp(H.dodgetime + 5, 0, CLICK_CD_HEAVY)
+		dodgetime = clamp(dodgetime - 5, 0, CLICK_CD_DODGE)
 		H.Slowdown(3)
 		to_chat(src, span_notice("[capitalize(H.p_theyre())] exposed!"))
 		remove_status_effect(/datum/status_effect/buff/clash)
 		apply_status_effect(/datum/status_effect/buff/adrenaline_rush)
-		purge_peel(GUARD_PEEL_REDUCTION)
 		H.reset_desert_rider_momentum_tier()
 
 //This is a gargantuan, clunky proc that is meant to tally stats and weapon properties for the potential disarm.
@@ -161,7 +179,9 @@
 	if(has_status_effect(/datum/status_effect/buff/clash) || has_status_effect(/datum/status_effect/debuff/clashcd) || has_status_effect(/datum/status_effect/buff/clash/limbguard))
 		return FALSE
 	if(!get_active_held_item())
-		return FALSE
+		if(get_skill_level(/datum/skill/combat/unarmed) < 3)
+			to_chat(src, span_warning("I'm not skilled enough in the art of unarmed combat to guard without a weapon!"))
+			return FALSE
 	if(r_grab || l_grab || length(grabbedby))
 		return FALSE
 	if(IsImmobilized() || IsOffBalanced())
@@ -169,10 +189,6 @@
 	if(m_intent == MOVE_INTENT_RUN)
 		to_chat(src, span_warning("I can't focus on this while running."))
 		return FALSE
-	if(magearmor == 0 && HAS_TRAIT(src, TRAIT_MAGEARMOR))
-		magearmor = 1
-		apply_status_effect(/datum/status_effect/buff/magearmor)
-		to_chat(src, span_warning("I drop my Mage Armor to protect myself!"))
 	apply_status_effect(/datum/status_effect/buff/clash)
 	return TRUE
 
@@ -188,18 +204,6 @@
 	remove_status_effect(/datum/status_effect/buff/clash)
 	remove_status_effect(/datum/status_effect/buff/clash/limbguard)
 
-///Reduces Peel by some amount. Usually called after waiting out of combat for a while or by other effects (riposte / bait)
-/mob/living/carbon/human/proc/purge_peel(amt)
-	//Equipment slots manually picked out cus we don't have a proc for this apparently
-	var/list/slots = list(wear_armor, wear_pants, wear_wrists, wear_shirt, gloves, head, shoes, wear_neck, wear_mask, wear_ring)
-	for(var/slot in slots)
-		if(isnull(slot) || !istype(slot, /obj/item/clothing))
-			slots.Remove(slot)
-
-	for(var/obj/item/clothing/C in slots)
-		if(C.peel_count > 0)
-			C.reduce_peel(amt)
-
 ///Purges the singular possible bait stack after waiting for a bit out of combat.
 /mob/living/carbon/human/proc/purge_bait()
 	if(!cmode)
@@ -207,10 +211,10 @@
 			bait_stacks = 0
 			to_chat(src, span_info("My focus and balance returns. I won't lose my footing if I am baited again."))
 
-///Called by a timer after toggling cmode off.
-/mob/living/carbon/human/proc/expire_peel()
-	if(!cmode)
-		purge_peel(99)
+/mob/living/carbon/human/proc/reset_dodgetime()
+	if(!cmode && mind)
+		dodgetime = 0
+		max_dodge = MAX_DODGE_CEIL
 
 ///A Unique Stat comparison between src and HT.
 ///It takes the highest stats up to 14 and lowest stats 'up to' 14.
@@ -337,6 +341,8 @@
 			LAZYCLEARLIST(tempo_attackers)
 			if(tempo_amt >= TEMPO_ONE)
 				to_chat(src, span_info("My muscles relax. My tempo is gone."))
+			if(tempo_amt >= TEMPO_MAX)
+				playsound_local(src, 'sound/combat/tempo_loss.ogg', 85, TRUE)
 			manage_tempo()
 
 /mob/living/proc/get_tempo_bonus(id)
@@ -357,6 +363,8 @@
 				return 0.4 SECONDS
 			if(has_status_effect(/datum/status_effect/buff/tempo_three))
 				return 0.6 SECONDS
+			else
+				return 0
 		//Modifier for how much integ damage the weapon we parry with takes. Multiplier.
 		if(TEMPO_TAG_DEF_INTEGFACTOR)
 			if(has_status_effect(/datum/status_effect/buff/tempo_one))
@@ -383,6 +391,16 @@
 				return TRUE
 			else
 				return FALSE
+		//Whether we care about our attacker being in our FOV when dodging.
+		if(TEMPO_TAG_NOLOS_DODGE)
+			if(has_status_effect(/datum/status_effect/buff/tempo_one))
+				return FALSE
+			if(has_status_effect(/datum/status_effect/buff/tempo_two))
+				return TRUE
+			if(has_status_effect(/datum/status_effect/buff/tempo_three))
+				return TRUE
+			else
+				return FALSE
 		//How much less armor integ we lose on hit. Multiplier. (0 to 1)
 		if(TEMPO_TAG_ARMOR_INTEGFACTOR)
 			if(has_status_effect(/datum/status_effect/buff/tempo_one))
@@ -394,11 +412,11 @@
 		//How much stamloss we take away from dodging. Flat number.
 		if(TEMPO_TAG_STAMLOSS_DODGE)
 			if(has_status_effect(/datum/status_effect/buff/tempo_one))
-				return 2
+				return 3
 			if(has_status_effect(/datum/status_effect/buff/tempo_two))
-				return 4
+				return 5
 			if(has_status_effect(/datum/status_effect/buff/tempo_three))
-				return 6
+				return 7
 		//How much stamloss we take away from parrying. Flat number.
 		if(TEMPO_TAG_STAMLOSS_PARRY)
 			if(has_status_effect(/datum/status_effect/buff/tempo_one))
@@ -415,3 +433,13 @@
 				return TRUE
 			if(has_status_effect(/datum/status_effect/buff/tempo_three))
 				return TRUE
+		//Whether we lose max dodge and increase our dodge delay after a dodge.
+		if(TEMPO_TAG_DODGE_LOSS)
+			if(has_status_effect(/datum/status_effect/buff/tempo_one))
+				return TEMPO_DODGE_LOSS_LESS
+			if(has_status_effect(/datum/status_effect/buff/tempo_two))
+				return TEMPO_DODGE_LOSS_NONE
+			if(has_status_effect(/datum/status_effect/buff/tempo_three))
+				return TEMPO_DODGE_LOSS_NONE
+			else
+				return TEMPO_DODGE_LOSS_NORMAL

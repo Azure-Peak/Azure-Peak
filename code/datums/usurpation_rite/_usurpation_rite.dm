@@ -174,10 +174,21 @@
 /datum/usurpation_rite/proc/transfer_power()
 	var/old_rulertype = SSticker.rulertype || "Duke"
 
+	// Spells that belong to the Grand Duke role — strip from old holders, grant to new one
+	var/static/list/lord_spells = list(
+		/obj/effect/proc_holder/spell/self/grant_title,
+		/obj/effect/proc_holder/spell/self/grant_nobility,
+		/obj/effect/proc_holder/spell/self/convertrole/servant,
+		/obj/effect/proc_holder/spell/self/convertrole/guard,
+		/obj/effect/proc_holder/spell/self/convertrole/bog,
+	)
+
 	var/emeritus_title = "[old_rulertype] Emeritus"
 	for(var/mob/living/carbon/human/HL in GLOB.human_list)
 		if(HL.mind?.assigned_role == "Grand Duke")
 			HL.mind.assigned_role = "Towner"
+			for(var/spell_type in lord_spells)
+				HL.mind.RemoveSpell(spell_type)
 		if(HL.job == "Grand Duke")
 			HL.job = "Towner"
 			HL.advjob = emeritus_title
@@ -195,6 +206,9 @@
 
 	invoker.mind.assigned_role = "Grand Duke"
 	invoker.job = "Grand Duke"
+	// Grant the Grand Duke's governance spells to the new ruler
+	for(var/spell_type in lord_spells)
+		invoker.mind.AddSpell(new spell_type)
 	SSticker.set_ruler_mob(invoker)
 	SSticker.regentmob = null
 	SSticker.usurpation_day = GLOB.dayspassed

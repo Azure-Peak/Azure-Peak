@@ -7,7 +7,7 @@
 	key = "u"
 	space_chance = 60
 	default_priority = 90
-	icon_state = "lizard"
+	icon_state = "etrusco"
 	spans = list(SPAN_ETRUSCAN)
 	syllables = list(
 		"que", "ent", "ante", "con", "est", "ado", "para", "los", "era", "ien", "men",

@@ -474,6 +474,11 @@
 /datum/stressevent/something_stirs/telescope
 	desc = span_boldred("That THING'S red eyes are still burning in my mind...")
 
+/datum/stressevent/orb_madness
+	stressadd = 4
+	timer = 15 MINUTES
+	desc = span_boldred("I gazed into the orb AND IT LOOKED BACK IT LOOKED BACK IT LOOKED BACK")
+
 /datum/stressevent/see_zuranus
 	timer = 5 MINUTES
 	stressadd = 4
@@ -488,3 +493,18 @@
 	timer = 10 MINUTES
 	stressadd = 3
 	desc = span_boldred("I had terrible nightmares... there's a lingering buzzing in my mind.") + span_gamedeadsay("\nIn gi rum imus Noc te et con sumi...")
+
+/datum/stressevent/shitstew
+	timer = 3 MINUTES
+	stressadd = 3
+	desc = list(span_red("Yuck! What the hell was in that brew!?"), span_red("Augh! That brew tastes absolutely horrible!"))
+
+/datum/stressevent/mehstew
+	timer = 3 MINUTES
+	stressadd = 1
+	desc = list(span_red("Eugh, this brew just doesn't sit right with me.."), span_red("Something about that brew tastes a little funky.."))
+
+/datum/stressevent/pallid_outdoors
+	timer = 2 MINUTES
+	stressadd = 3
+	desc = span_red("I long for the shelter of wall and roofs. The sun and moon are too bright for me to bear!")

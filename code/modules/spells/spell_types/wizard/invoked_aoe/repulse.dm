@@ -3,7 +3,7 @@
 	desc = "Conjure forth a wave of energy, repelling anyone around you."
 	cost = 3
 	xp_gain = TRUE
-	releasedrain = 50
+	releasedrain = SPELLCOST_MAJOR_AOE
 	chargedrain = 1
 	chargetime = 5
 	recharge_time = 25 SECONDS

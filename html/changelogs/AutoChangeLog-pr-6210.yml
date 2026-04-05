@@ -1,0 +1,5 @@
+author: "Teragenic"
+delete-after: True
+changes:
+  - balance: "Envoys given more role stuff"
+  - bugfix: "Envoy priest and advisor fixed to actually spawn properly"

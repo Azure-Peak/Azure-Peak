@@ -13,6 +13,13 @@
 	desc = "A bottle fashioned from clay. Still needs to be glazed to be useful."
 	cooked_type = /obj/item/reagent_containers/glass/bottle/claybottle
 
+/obj/item/natural/clay/claybottleclassic
+	name = "unglazed clay bottle"
+	icon = 'icons/roguetown/items/cooking.dmi'
+	icon_state = "claybottleraw"
+	desc = "A bottle fashioned from clay. Still needs to be glazed to be useful."
+	cooked_type = /obj/item/reagent_containers/glass/bottle/claybottleclassic
+
 /obj/item/reagent_containers/glass/bottle/claybottle
 	name = "clay vessel"
 	desc = "A ceramic bottle." //The sprite was anything but small
@@ -22,6 +29,19 @@
 	sellprice = 6
 	reagent_flags = OPENCONTAINER	//So it doesn't appear through
 
+/obj/item/reagent_containers/glass/bottle/claybottleclassic
+	name = "clay vessel"
+	desc = "A ceramic bottle. Tyme caresses its curves and cracks with a faint, ethereal glimmer."
+	icon = 'icons/roguetown/items/cooking.dmi'
+	icon_state = "claybottlebaked"
+	volume = 75 // Larger than glass bottle
+	sellprice = 6
+	reagent_flags = OPENCONTAINER	//So it doesn't appear through
+
+/obj/item/reagent_containers/glass/bottle/claybottle/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Clay pottery, unlike its alloyed counterparts, can be stained in a dyebin.")
+
 //Vase - bigger bottle
 /obj/item/natural/clay/clayvase
 	name = "unglazed clay vase"
@@ -29,6 +49,13 @@
 	icon_state = "clayvaseraw"
 	desc = "A vase fashioned from clay. Still needs to be glazed to be useful."
 	cooked_type = /obj/item/reagent_containers/glass/bottle/clayvase
+
+/obj/item/natural/clay/clayvaseclassic
+	name = "unglazed clay vase"
+	icon = 'icons/roguetown/items/cooking.dmi'
+	icon_state = "clayvaseraw"
+	desc = "A vase fashioned from clay. Still needs to be glazed to be useful."
+	cooked_type = /obj/item/reagent_containers/glass/bottle/clayvaseclassic
 
 /obj/item/reagent_containers/glass/bottle/clayvase
 	name = "ceramic vase"
@@ -39,6 +66,19 @@
 	sellprice = 9
 	reagent_flags = OPENCONTAINER	//So it doesn't appear through
 
+/obj/item/reagent_containers/glass/bottle/clayvaseclassic
+	name = "ceramic vase"
+	desc = "A large sized ceramic vase. Tyme caresses its curves and cracks with a faint, ethereal glimmer."
+	icon = 'icons/roguetown/items/cooking.dmi'
+	icon_state = "clayvasebaked"
+	volume = 65 // Larger than glass bottle
+	sellprice = 9
+	reagent_flags = OPENCONTAINER	//So it doesn't appear through
+
+/obj/item/reagent_containers/glass/bottle/clayvase/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Clay pottery, unlike its alloyed counterparts, can be stained in a dyebin.")
+
 //Fancy vase - bigger bottle + fancy
 /obj/item/natural/clay/clayfancyvase
 	name = "unglazed fancy clay vase"
@@ -47,14 +87,34 @@
 	desc = "A fancy vase fashioned from clay. Still needs to be glazed to be useful."
 	cooked_type = /obj/item/reagent_containers/glass/bottle/clayfancyvase
 
+/obj/item/natural/clay/clayfancyvaseclassic
+	name = "unglazed fancy clay vase"
+	icon = 'icons/roguetown/items/cooking.dmi'
+	icon_state = "clayfancyvaseraw"
+	desc = "A fancy vase fashioned from clay. Still needs to be glazed to be useful."
+	cooked_type = /obj/item/reagent_containers/glass/bottle/clayfancyvaseclassic
+
 /obj/item/reagent_containers/glass/bottle/clayfancyvase
 	name = "fancy ceramic vase"
 	desc = "A large sized fancy ceramic vase."
 	icon = 'icons/roguetown/items/cooking.dmi'
 	icon_state = "clayfancyvasecook"
 	volume = 65 // Larger than glass bottle
-	sellprice = 14
+	sellprice = 20
 	reagent_flags = OPENCONTAINER	//So it doesn't appear through
+
+/obj/item/reagent_containers/glass/bottle/clayfancyvaseclassic
+	name = "fancy ceramic vase"
+	desc = "A large sized fancy ceramic vase. Tyme caresses its curves and cracks with a faint, ethereal glimmer."
+	icon = 'icons/roguetown/items/cooking.dmi'
+	icon_state = "clayfancyvasebaked"
+	volume = 65 // Larger than glass bottle
+	sellprice = 20
+	reagent_flags = OPENCONTAINER	//So it doesn't appear through
+
+/obj/item/reagent_containers/glass/bottle/clayfancyvase/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Clay pottery, unlike its alloyed counterparts, can be stained in a dyebin.")
 
 //Flask (was a cup) - subtype of regular cup but can shatter.
 /obj/item/natural/clay/claycup
@@ -64,6 +124,13 @@
 	desc = "A small flask fashioned from clay. Still needs to be glazed to be useful."
 	cooked_type = /obj/item/reagent_containers/glass/cup/claycup
 
+/obj/item/natural/clay/claycupclassic
+	name = "unglazed clay flask"
+	icon = 'icons/roguetown/items/cooking.dmi'
+	icon_state = "claycupraw"
+	desc = "A small flask fashioned from clay. Still needs to be glazed to be useful."
+	cooked_type = /obj/item/reagent_containers/glass/cup/claycupclassic
+
 /obj/item/reagent_containers/glass/cup/claycup
 	name = "clay flask"
 	desc = "A small ceramic flask."
@@ -71,6 +138,18 @@
 	icon_state = "claycupcook"
 	sellprice = 3
 	reagent_flags = OPENCONTAINER	//So it doesn't appear through
+
+/obj/item/reagent_containers/glass/cup/claycupclassic
+	name = "clay flask"
+	desc = "A small ceramic flask. Tyme caresses its curves and cracks with a faint, ethereal glimmer."
+	icon = 'icons/roguetown/items/cooking.dmi'
+	icon_state = "claycupbaked"
+	sellprice = 3
+	reagent_flags = OPENCONTAINER	//So it doesn't appear through
+
+/obj/item/reagent_containers/glass/cup/claycup/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Clay pottery, unlike its alloyed counterparts, can be stained in a dyebin.")
 
 // Raw teapot
 /obj/item/natural/clay/rawteapot
@@ -110,11 +189,15 @@
 	icon = 'icons/roguetown/items/cooking.dmi'
 	icon_state = "claystatuecooked1"
 	smeltresult = null	//No resource return
-	sellprice = 15		//Iron is worth 20, so these gotta be a little cheaper
+	sellprice = 35 //Expert-tier Clay recipe. Skillgated to Towners, or those that take the 'Homesteader Expert' virtue. Let 'em cook.
 
 /obj/item/roguestatue/clay/Initialize()
 	. = ..()
-	icon_state = "claystatuecooked[pick(1,2)]"
+	icon_state = "claystatuecooked[pick(1,2,3,4,5)]"
+
+/obj/item/roguestatue/clay/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Clay pottery, unlike its alloyed counterparts, can be stained in a dyebin.")
 
 /obj/item/roguestatue/glass
 	name = "glass statue"
@@ -126,4 +209,8 @@
 
 /obj/item/roguestatue/glass/Initialize()
 	. = ..()
-	icon_state = "statueglass[pick(1,2)]"
+	icon_state = "statueglass[pick(1,2,3,4,5)]"
+
+/obj/item/roguestatue/clay/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Glassed pottery, unlike its alloyed counterparts, can be stained in a dyebin.")

@@ -49,13 +49,16 @@
 	if(world.time < last_scry + 30 SECONDS)
 		to_chat(user, span_warning("I look into the ball but only see inky smoke. Maybe I should wait."))
 		return
-	var/input = input(user, "Who are you looking for?", "Scrying Orb")
+	if(!length(user.mind.known_people))
+		to_chat(user, span_warning("I don't know anyone to scry upon."))
+		return
+	var/list/people_names = list()
+	for(var/person_name in user.mind.known_people)
+		people_names += person_name
+	var/input = tgui_input_list(user, "Who are you looking for?", "Scrying Orb", people_names)
 	if(!input)
 		return
 	if(!user.key)
-		return
-	if(!user.mind || !user.mind.do_i_know(name=input))
-		to_chat(user, span_warning("I don't know anyone by that name."))
 		return
 	var/arcane_skill = user.get_skill_level(/datum/skill/magic/arcane)
 	if(on_cooldown())
@@ -215,11 +218,12 @@
 	return
 
 /obj/item/scrying/proc/failure_break(mob/living/user)
-	visible_message("\The [src] shatters!")
+	visible_message(span_warning("\The [src] flickers with a sickly light!"))
 	user.flash_fullscreen("redflash1")
-	new /obj/item/magic/obsidian(get_turf(src))
-	playsound(src, "shatter", 70, TRUE)
-	qdel(src)
+	playsound(src, 'sound/magic/whiteflame.ogg', 70, TRUE)
+	if(iscarbon(user))
+		var/mob/living/carbon/C = user
+		C.add_stress(/datum/stressevent/orb_madness)
 
 /obj/item/scrying/proc/on_failure(mob/living/user, mob/living/carbon/human/target, severity)
 	var/chance = rand(0, 99) // (chance < n) has n% probability, but we only need to calculate once here

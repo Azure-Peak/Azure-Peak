@@ -112,7 +112,9 @@
 	var/nodamage = FALSE //Determines if the projectile will skip any damage inflictions
 	var/flag = "piercing" //Defines what armor to use when it hits things. Setting this to "blunt" might result in unexpected behavior (i.e. knockout on hit, figure out the root causes and excise it)
 	///How much armor this projectile pierces.
-	var/armor_penetration = 0
+	var/armor_penetration = PEN_NONE
+	/// Multiplier for integrity damage dealt to armor. 1 is default. Higher = harder on armor.
+	var/intdamfactor = 1
 	var/projectile_type = /obj/projectile
 	var/range = 50 //This will de-increment every step. When 0, it will deletze the projectile.
 	var/decayedRange			//stores original range
@@ -163,8 +165,6 @@
 	var/max_range = 0
 	/// Falloff factor for damage. Multiplicative.
 	var/dam_falloff_factor = 1
-	/// Falloff factor for AP. Multiplicative.
-	var/ap_falloff_factor = 1
 
 /obj/projectile/proc/handle_drop()
 	return
@@ -247,6 +247,7 @@
 /obj/projectile/proc/on_hit(atom/target, blocked = FALSE)
 	if(fired_from)
 		SEND_SIGNAL(fired_from, COMSIG_PROJECTILE_ON_HIT, firer, target, Angle)
+	SEND_SIGNAL(src, COMSIG_PROJECTILE_SELF_ON_HIT, firer, target, Angle)
 	var/turf/target_loca = get_turf(target)
 
 	var/hitx
@@ -278,10 +279,6 @@
 
 	var/mob/living/L = target
 
-	if (!L.mind && istype(L, /mob/living/simple_animal))
-		var/datum/component/saddleborn = L.GetComponent(/datum/component/precious_creature) // Check for Saddleborn status, lets not nuke five billion damage into something that causes a -10 mood debuff
-		if(!saddleborn)
-			damage *= npc_simple_damage_mult // bonus damage against simple.
 	if(blocked != 100) // not completely blocked
 		if(damage && L.blood_volume && damage_type == BRUTE)
 			var/splatter_dir = dir
@@ -306,6 +303,10 @@
 		log_combat(firer, L, "shot", src, reagent_note)
 	else
 		L.log_message("has been shot by [firer] with [src]", LOG_ATTACK, color="orange")
+
+	if((min_range || max_range) && !check_range(target_loca) && isliving(target))
+		var/obj/effect/temp_visual/dir_setting/attack_effect/atk_effrange = new(target_loca, target.dir)
+		atk_effrange.icon_state = "effrange"
 
 	return BULLET_ACT_HIT
 
@@ -431,8 +432,6 @@
 	if(check_range(T))
 		if(damage)
 			damage = round(damage * dam_falloff_factor)
-		if(armor_penetration)
-			armor_penetration = round(armor_penetration * ap_falloff_factor)
 
 	if(QDELETED(src) || !T || !target)		//We're done, nothing's left.
 		if((qdel_self == FORCE_QDEL) || ((qdel_self == QDEL_SELF) && !temporary_unstoppable_movement && !CHECK_BITFIELD(movement_type, UNSTOPPABLE)))

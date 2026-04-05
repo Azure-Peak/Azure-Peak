@@ -3,7 +3,7 @@
 	desc = "Quiet the target's tongue. Does not work against full-fledged mages."
 	cost = 3
 	xp_gain = TRUE
-	releasedrain = 60
+	releasedrain = SPELLCOST_SINGLE_CC
 	chargedrain = 1
 	chargetime = 15
 	recharge_time = 100 SECONDS
@@ -13,6 +13,7 @@
 	no_early_release = TRUE
 	movement_interrupt = FALSE
 	spell_tier = 1
+	spell_impact_intensity = SPELL_IMPACT_NONE
 	invocations = list("Silentium!")
 	invocation_type = "whisper"
 	glow_color = GLOW_COLOR_BUFF

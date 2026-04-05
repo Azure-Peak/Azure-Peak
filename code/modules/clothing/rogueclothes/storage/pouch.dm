@@ -218,6 +218,32 @@
 			if(!SEND_SIGNAL(src, COMSIG_TRY_STORAGE_INSERT, H, null, TRUE, TRUE))
 				SSwardrobe.recycle_object(H)
 
+/obj/item/storage/belt/rogue/pouch/coins/aspirantpouch/get_types_to_preload()
+	var/list/to_preload = list() 
+	to_preload += /obj/item/roguecoin/gold/aspirantpile
+	return to_preload
+
+/obj/item/storage/belt/rogue/pouch/coins/aspirantpouch/PopulateContents()
+	. = ..()
+	var/obj/item/roguecoin/gold/aspirantpile/H = SSwardrobe.provide_type(/obj/item/roguecoin/gold/aspirantpile, loc)
+	if(istype(H))
+		if(!SEND_SIGNAL(src, COMSIG_TRY_STORAGE_INSERT, H, null, TRUE, TRUE))
+			SSwardrobe.recycle_object(H)
+
+/obj/item/storage/belt/rogue/pouch/coins/bigandfat/get_types_to_preload()
+	var/list/to_preload = list() 
+	to_preload += /obj/item/roguecoin/gold/aspirantpile
+	return to_preload
+
+/obj/item/storage/belt/rogue/pouch/coins/bigandfat/PopulateContents()
+	. = ..()
+	for(var/i in 1 to 4)
+		var/obj/item/roguecoin/gold/aspirantpile/H = SSwardrobe.provide_type(/obj/item/roguecoin/gold/aspirantpile, loc)
+		if(istype(H))
+			if(!SEND_SIGNAL(src, COMSIG_TRY_STORAGE_INSERT, H, null, TRUE, TRUE))
+				SSwardrobe.recycle_object(H)
+				break
+
 /obj/item/storage/belt/rogue/pouch/coins/virtuepouch/get_types_to_preload()
 	var/list/to_preload = list() 
 	to_preload += /obj/item/roguecoin/gold/virtuepile
@@ -241,6 +267,20 @@
 	if(istype(H))
 		if(!SEND_SIGNAL(src, COMSIG_TRY_STORAGE_INSERT, H, null, TRUE, TRUE))
 			SSwardrobe.recycle_object(H)
+
+/obj/item/storage/belt/rogue/pouch/coins/aalloy
+
+/obj/item/storage/belt/rogue/pouch/coins/aalloy/get_types_to_preload()
+	var/list/to_preload = list() 
+	to_preload += /obj/item/roguecoin/aalloy/pile
+	return to_preload
+
+/obj/item/storage/belt/rogue/pouch/coins/aalloy/PopulateContents()
+	. = ..()
+	var/obj/item/roguecoin/aalloy/pile/A = SSwardrobe.provide_type(/obj/item/roguecoin/aalloy/pile, loc)
+	if(istype(A))
+		if(!SEND_SIGNAL(src, COMSIG_TRY_STORAGE_INSERT, A, null, TRUE, TRUE))
+			SSwardrobe.recycle_object(A)
 
 /obj/item/storage/belt/rogue/pouch/food/PopulateContents()
 	new /obj/item/reagent_containers/food/snacks/rogue/crackerscooked(src)
@@ -298,4 +338,14 @@
 	/obj/item/reagent_containers/food/snacks/rogue/cheddarwedge,
 	/obj/item/reagent_containers/food/snacks/rogue/handpie/meat,
 	/obj/item/reagent_containers/glass/bottle/rogue/triumphbeer,
+	)
+
+/obj/item/storage/belt/rogue/pouch/tailorscrap
+	name = "pouch of tailorscrap"
+	desc = "A pouch of iron scrap pieces, perfect for reinforcing leather equipment. Now, where'd you place that hammer.. ?"
+	populate_contents = list(
+	/obj/item/scrap,
+	/obj/item/scrap,
+	/obj/item/scrap,
+	/obj/item/scrap,
 	)

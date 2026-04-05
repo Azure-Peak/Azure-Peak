@@ -64,16 +64,6 @@
 #define TOGGLES_DEFAULT_CHAT (CHAT_OOC|CHAT_DSAY|CHAT_PRAYER|CHAT_RADIO|CHAT_PULLR|CHAT_GHOSTPDA|CHAT_BANKCARD|CHAT_MOODMESSAGES)
 #define TOGGLES_DEFAULT_CHAT_ADMIN (CHAT_ADMINSPAWN|CHAT_ADMINLOOC)
 
-#define PARALLAX_INSANE -1 //for show offs
-#define PARALLAX_HIGH    0 //default.
-#define PARALLAX_MED     1
-#define PARALLAX_LOW     2
-#define PARALLAX_DISABLE 3 //this option must be the highest number
-
-#define PARALLAX_DELAY_DEFAULT world.tick_lag
-#define PARALLAX_DELAY_MED     1
-#define PARALLAX_DELAY_LOW     2
-
 #define SEC_DEPT_NONE "None"
 #define SEC_DEPT_RANDOM "Random"
 #define SEC_DEPT_ENGINEERING "Engineering"
@@ -151,12 +141,8 @@ GLOBAL_LIST_INIT(pronouns_list, list(HE_HIM, SHE_HER, THEY_THEM, IT_ITS))
 #define TITLES_M	"Lord / Ser"
 #define TITLES_F	"Lady / Dame"
 
-GLOBAL_LIST_INIT(titles_list, list(TITLES_M, TITLES_F))
-
 #define CLOTHES_M "Masculine"
 #define CLOTHES_F "Feminine"
-
-GLOBAL_LIST_INIT(clothespref_list, list(CLOTHES_M, CLOTHES_F))
 
 // Voice types (LETHALSTONE)
 

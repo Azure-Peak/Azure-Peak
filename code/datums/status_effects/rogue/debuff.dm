@@ -134,6 +134,18 @@
 	duration = -1
 	needs_processing = FALSE
 
+/datum/status_effect/debuff/bleeding/on_apply() //mistwalker shitcode, scaling buff as they bleed out
+	if (!HAS_TRAIT(owner, TRAIT_JOURNEYS_END))
+		return ..()
+	owner.apply_status_effect(/datum/status_effect/buff/journey_ending)
+	return ..()
+
+/datum/status_effect/debuff/bleeding/on_remove()
+	if (!HAS_TRAIT(owner, TRAIT_JOURNEYS_END))
+		return ..()
+	owner.remove_status_effect(/datum/status_effect/buff/journey_ending)
+	return ..()
+
 /atom/movable/screen/alert/status_effect/debuff/bleedingt1
 	name = "Dizzy"
 	desc = ""
@@ -146,6 +158,18 @@
 	duration = -1
 	needs_processing = FALSE
 
+/datum/status_effect/debuff/bleedingworse/on_apply()
+	if (!HAS_TRAIT(owner, TRAIT_JOURNEYS_END))
+		return ..()
+	owner.apply_status_effect(/datum/status_effect/buff/journey_end)
+	return ..()
+
+/datum/status_effect/debuff/bleedingworse/on_remove()
+	if (!HAS_TRAIT(owner, TRAIT_JOURNEYS_END))
+		return ..()
+	owner.remove_status_effect(/datum/status_effect/buff/journey_end)
+	return ..()
+
 /atom/movable/screen/alert/status_effect/debuff/bleedingt2
 	name = "Faint"
 	desc = ""
@@ -157,6 +181,18 @@
 	effectedstats = list(STATKEY_STR = -3, STATKEY_SPD = -4)
 	duration = -1
 	needs_processing = FALSE
+
+/datum/status_effect/debuff/bleedingworst/on_apply()
+	if (!HAS_TRAIT(owner, TRAIT_JOURNEYS_END))
+		return ..()
+	owner.apply_status_effect(/datum/status_effect/buff/journey_end_final)
+	return ..()
+
+/datum/status_effect/debuff/bleedingworst/on_remove()
+	if (!HAS_TRAIT(owner, TRAIT_JOURNEYS_END))
+		return ..()
+	owner.remove_status_effect(/datum/status_effect/buff/journey_end_final)
+	return ..()
 
 /atom/movable/screen/alert/status_effect/debuff/bleedingt3
 	name = "Drained"
@@ -177,7 +213,11 @@
 	id = "net"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/netted
 	effectedstats = list(STATKEY_SPD = -5, STATKEY_WIL = -2)
-//	duration = 3 MINUTES // WHY?????
+
+/datum/status_effect/debuff/netted/on_creation(mob/living/new_owner, newdur)
+	if(newdur)
+		duration = newdur
+	. = ..()
 
 /datum/status_effect/debuff/netted/on_apply()
 		. = ..()
@@ -425,28 +465,56 @@
 	effectedstats = list(STATKEY_PER = -3, STATKEY_LCK = -1)
 	duration = 8 SECONDS
 
+/datum/status_effect/debuff/dazed/skullshatter
+	effectedstats = list(STATKEY_PER = -1, STATKEY_INT = -1, STATKEY_SPD = -1)
+	duration = -1
+
+/datum/status_effect/debuff/dazed/smite
+	effectedstats = list(STATKEY_PER = -1, STATKEY_INT = -2, STATKEY_SPD = -1)
+	duration = 1 MINUTES
+
 /atom/movable/screen/alert/status_effect/debuff/dazed
 	name = "Dazed"
 	desc = "You've been smacked on the head very hard. Which way is left, again?"
 	icon_state = "dazed"
 
 /datum/status_effect/debuff/cold
-	id = "Frostveiled"
-	alert_type =  /atom/movable/screen/alert/status_effect/debuff/cold
+	id = "Chilled"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/cold
 	effectedstats = list(STATKEY_SPD = -2)
-	duration = 12 SECONDS
+	duration = 10 SECONDS
+	var/cold_color = "#88BFFF"
 
 /datum/status_effect/debuff/cold/on_apply()
 	. = ..()
 	var/mob/living/target = owner
-	var/newcolor = rgb(136, 191, 255)
-	target.add_atom_colour(newcolor, TEMPORARY_COLOUR_PRIORITY)
-	addtimer(CALLBACK(target, TYPE_PROC_REF(/atom, remove_atom_colour), TEMPORARY_COLOUR_PRIORITY, newcolor), 12 SECONDS)
+	target.add_atom_colour(cold_color, TEMPORARY_COLOUR_PRIORITY)
+	addtimer(CALLBACK(target, TYPE_PROC_REF(/atom, remove_atom_colour), TEMPORARY_COLOUR_PRIORITY, cold_color), duration)
 
 /atom/movable/screen/alert/status_effect/debuff/cold
-	name = "Cold"
+	name = "Chilled"
 	desc = "Something has chilled me to the bone! It's hard to move."
 	icon_state = "muscles"
+
+/datum/status_effect/debuff/cold/greater
+	id = "Frozen"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/cold/greater
+	effectedstats = list(STATKEY_SPD = -3)
+	duration = 20 SECONDS
+	cold_color = "#64A0FF"
+
+/atom/movable/screen/alert/status_effect/debuff/cold/greater
+	name = "Frozen"
+	desc = "An intense cold has seized my body! I can barely move."
+	icon_state = "muscles"
+
+/// wrestler verison of daze////
+/datum/status_effect/debuff/dazed/stunner
+	id = "discombobulated"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/dazed
+	effectedstats = list(STATKEY_CON = -2, STATKEY_INT = -2)
+	duration = 15 SECONDS
+	status_type = STATUS_EFFECT_REFRESH
 
 ///// Freifechter Daze Variants /////
 /datum/status_effect/debuff/dazed/longsword
@@ -529,6 +597,9 @@
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/excomm
 	effectedstats = list(STATKEY_LCK = -2, STATKEY_INT = -2, STATKEY_SPD = -1, STATKEY_WIL = -1, STATKEY_CON = -1)
 	duration = -1
+
+
+
 
 /atom/movable/screen/alert/status_effect/debuff/excomm
 	name = "Excommunicated!"
@@ -813,7 +884,8 @@
 		SSdroning.play_area_sound(get_area(owner), owner.client)
 
 /datum/status_effect/debuff/joybringer_druqks/tick()
-	owner.hallucination += 3
+	if(owner.hallucination < 30) // this can stack up INFINITELY if you dont cap it like this
+		owner.hallucination += 3 // and it doesnt decay *that* fast.
 	owner.Jitter(1)
 
 	if(!prob(10))

@@ -73,7 +73,7 @@
 	icon_state = "inbash"
 	hitsound = list('sound/combat/shieldbash_wood.ogg')
 	chargetime = 0
-	penfactor = BLUNT_DEFAULT_PENFACTOR
+	penfactor = PEN_NONE
 	item_d_type = "blunt"
 	intent_intdamage_factor = BLUNT_DEFAULT_INT_DAMAGEFACTOR
 
@@ -118,7 +118,8 @@
 	icon_state = "woodsh"
 	dropshrink = 0.8
 	anvilrepair = /datum/skill/craft/carpentry
-	coverage = 30
+	coverage = 60
+	max_integrity = 120
 	heraldry_x_offset = 1
 	heraldry_y_offset = -1 // 1px right and down to make it look centered
 
@@ -126,7 +127,7 @@
 	name = "ghastly shield"
 	desc = "A frail looking amalgamation of planks. Yet somehow, the very wood itself seem to be filling you with resolve."
 	icon_state = "deprived"
-	coverage = 40
+	coverage = 60
 	max_integrity = 200
 
 /// Returns list of heraldry names native to this shield type (stripped of prefix)
@@ -344,9 +345,9 @@
 	resistance_flags = FLAMMABLE
 	var/swapped = FALSE
 	wdefense = 10
-	coverage = 40
+	coverage = 70
 	parrysound = list('sound/combat/parry/shield/towershield (1).ogg','sound/combat/parry/shield/towershield (2).ogg','sound/combat/parry/shield/towershield (3).ogg')
-	max_integrity = 300
+	max_integrity = 280
 	anvilrepair = /datum/skill/craft/weaponsmithing
 
 /obj/item/rogueweapon/shield/tower/holysee
@@ -403,11 +404,11 @@
 	resistance_flags = null
 	flags_1 = CONDUCT_1
 	wdefense = 12
-	coverage = 60
+	coverage = 70
 	heraldry_x_offset = 1
 	attacked_sound = list('sound/combat/parry/shield/metalshield (1).ogg','sound/combat/parry/shield/metalshield (2).ogg','sound/combat/parry/shield/metalshield (3).ogg')
 	parrysound = list('sound/combat/parry/shield/metalshield (1).ogg','sound/combat/parry/shield/metalshield (2).ogg','sound/combat/parry/shield/metalshield (3).ogg')
-	max_integrity = 300
+	max_integrity = 280
 	sellprice = 30
 	anvilrepair = /datum/skill/craft/weaponsmithing
 
@@ -598,7 +599,7 @@
 	force = 15
 	throwforce = 10
 	dropshrink = 0.8
-	coverage = 30
+	coverage = 50
 	attacked_sound = list('sound/combat/parry/shield/towershield (1).ogg','sound/combat/parry/shield/towershield (2).ogg','sound/combat/parry/shield/towershield (3).ogg')
 	parrysound = list('sound/combat/parry/shield/towershield (1).ogg','sound/combat/parry/shield/towershield (2).ogg','sound/combat/parry/shield/towershield (3).ogg')
 	max_integrity = 220
@@ -620,7 +621,7 @@
 	force = 20
 	throwforce = 25 // "I can do this all day."
 	dropshrink = 0.8
-	coverage = 30
+	coverage = 50
 	resistance_flags = null
 	flags_1 = CONDUCT_1
 	attacked_sound = list('sound/combat/parry/shield/metalshield (1).ogg','sound/combat/parry/shield/metalshield (2).ogg','sound/combat/parry/shield/metalshield (3).ogg')
@@ -653,7 +654,7 @@
 	force = 25
 	throwforce = 30 // DO NOT GIVE ANYTHING; BUT TAKE FROM THEM.. EVERYTHING!
 	dropshrink = 0.8 // Free free to add actual designs to this shield, too, if-or-whenever.
-	coverage = 30
+	coverage = 60
 	resistance_flags = null
 	flags_1 = CONDUCT_1
 	minstr = 11 //Particularly heavy to use as a melee weapon.
@@ -671,6 +672,23 @@
 				return list("shrink" = 0.6,"sx" = -5,"sy" = -1,"nx" = 6,"ny" = -1,"wx" = 0,"wy" = -2,"ex" = 0,"ey" = -2,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0)
 			if("onback")
 				return list("shrink" = 0.6,"sx" = 1,"sy" = 4,"nx" = 1,"ny" = 2,"wx" = 3,"wy" = 3,"ex" = 0,"ey" = 2,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 8,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 1,"southabove" = 0,"eastabove" = 0,"westabove" = 0)
+
+/obj/item/rogueweapon/shield/bronze/great
+	name = "hoplon greatshield"
+	desc = "A heavy shield, taller and thicker than most of their contemporaries. It has survived the Calamity, endured the Apotheosis, and blunted the Sundering; and for one final time, it shall ward this dying world from a crueler fate."
+	icon_state = "bronzegreatshield"
+	item_state = "bronzegreatshield"
+	max_integrity = 360 //Highest integrity and passive projectile-blocking chance of most non-unique shields.
+	possible_item_intents = list(/datum/intent/shield/block, /datum/intent/mace/smash/shield/metal/great, /datum/intent/effect/daze) // No SHIELD_BASH. Able to inflict Daze due to its weight.
+	force = 28
+	coverage = 75 
+	wdefense = 10
+	minstr = 12 //Requires a natural +STR modifier or statpack to double as a melee weapon, for its given class. Note that it has a heavier charge time and active stamina drain, too, as.. well, it's quite heavy.
+
+/obj/item/rogueweapon/shield/bronze/great/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("This greatshield has a uniquely high chance to block incoming projectiles, without requiring the active use of the 'BLOCK' intent.")
+
 
 /obj/item/rogueweapon/shield/iron/steppesman
 	name = "steppesman shield"
@@ -759,60 +777,3 @@
 				return list("shrink" = 0.6,"sx" = -5,"sy" = -1,"nx" = 6,"ny" = -1,"wx" = 0,"wy" = -2,"ex" = 0,"ey" = -2,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0)
 			if("onback")
 				return list("shrink" = 0.6,"sx" = 1,"sy" = 4,"nx" = 1,"ny" = 2,"wx" = 3,"wy" = 3,"ex" = 0,"ey" = 2,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 8,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 1,"southabove" = 0,"eastabove" = 0,"westabove" = 0)
-
-
-/obj/item/rogueweapon/shield/tower/metal/gold/king
-	name = "\"Bulwarke\""
-	desc = "A resplendant kite shield, assembled from six golden plates that've been hooked together by a glimmering holy sigil. Mounted in its core is a shard of Astrata's divinity authority, crackling with the strength to violently repulse man-and-monster alike. ‎</br>‎‎ </br>'Tyranny and honor! Glory to thine kingdome-come! Let thine will be done!'"
-	icon_state = "goldshieldking"
-	max_integrity = 350
-	var/smoke_path = /obj/effect/particle_effect/smoke/transparent
-	var/cooldowny
-	var/cdtime = 30 SECONDS
-	unenchantable = TRUE
-
-/obj/item/rogueweapon/shield/tower/metal/gold/king/attack_self(mob/user)
-	if(cooldowny)
-		if(world.time < cooldowny + cdtime)
-			to_chat(user, span_warning("[src] weakly crackles, yet to be ready for another repulsation!"))
-			return
-	if(prob(25))
-		smoke_path = /obj/effect/particle_effect/smoke
-	else
-		smoke_path = /obj/effect/particle_effect/smoke/transparent
-	var/list/thrownatoms = list()
-	var/atom/throwtarget
-	var/distfromcaster
-	user.visible_message(span_notice("The dorpel mounted upon [src] crackles, crackling with restored power!"))
-	to_chat(user, span_warning("[user] invokes the power within [src], releasing a powerful shockwave!"))
-	sleep(15)
-	playsound(user, 'sound/items/steamrelease.ogg', 100, FALSE, -1)
-	cooldowny = world.time
-	addtimer(CALLBACK(src,PROC_REF(steamready), user), cdtime)
-	for(var/atom/movable/AM in view(1, user))
-		thrownatoms += AM
-	for(var/turf/T in oview(2, user))
-		new smoke_path(T) //smoke everywhere!
-
-	for(var/atom/movable/AM as anything in thrownatoms)
-		if(AM == user || AM.anchored)
-			continue
-		throwtarget = get_edge_target_turf(user, get_dir(user, get_step_away(AM, user)))
-		distfromcaster = get_dist(user, AM)
-
-		if(distfromcaster == 0)
-			if(isliving(AM))
-				var/mob/living/M = AM
-				M.Paralyze(10)
-				M.adjustFireLoss(25)
-				to_chat(M, span_danger("You're slammed into the floor by [user]!"))
-		else
-			if(isliving(AM))
-				var/mob/living/M = AM
-				M.adjustFireLoss(25)
-				to_chat(M, span_danger( "You're thrown back by [user]!"))
-			AM.safe_throw_at(throwtarget, 4, 2, user, TRUE, force = MOVE_FORCE_OVERPOWERING)
-
-/obj/item/rogueweapon/shield/tower/metal/gold/king/proc/steamready(mob/user)
-	playsound(user, 'sound/items/steamcreation.ogg', 100, FALSE, -1)
-	to_chat(user, span_warning("[src] is ready to be used again!"))

@@ -18,8 +18,8 @@
 	var/budget = 0
 	var/wgain = 0
 	var/is_crafted = FALSE
-	var/keycontrol = "physician" // Yep I am defaulting it to Physician to avoid confusion with default key being merchant
-	var/max_storage_amount = 1000
+	var/keycontrol = "apothecary" // Yep I am defaulting it to Apothecary to avoid confusion with default key being merchant
+	var/max_storage_amount = 5000
 	var/vials_held = 10
 	var/bottles_held = 5
 	var/dispensing_bottle_type = POTION_VIAL
@@ -55,7 +55,8 @@
 		qdel(reagents)
 		reagents = null
 	if(budget > 0)
-		budget2change(budget)
+		var/turf/T = get_turf(src)
+		budget2change(budget, custom_turf = T)
 		budget = 0
 	set_light(0)
 	return ..()
@@ -408,7 +409,8 @@
 	held_items = list()
 	reagents.clear_reagents()
 	if(budget > 0)
-		budget2change(budget)
+		var/turf/T = get_turf(src)
+		budget2change(budget, custom_turf = T)
 		budget = 0
 	set_light(0)
 	update_icon()

@@ -10,10 +10,10 @@ GLOBAL_LIST_INIT(highwayman_aggro, world.file2list("strings/rt/highwaymanaggroli
 	flee_in_pain = TRUE
 	d_intent = INTENT_PARRY
 	possible_rmb_intents = list()
-	var/is_silent = FALSE /// Determines whether or not we will scream our funny lines at people.
-
 
 /mob/living/carbon/human/species/human/northern/highwayman/ambush
+	threat_point = THREAT_MODERATE
+	ambush_faction = "bandits"
 	aggressive=1
 
 	wander = TRUE
@@ -24,9 +24,9 @@ GLOBAL_LIST_INIT(highwayman_aggro, world.file2list("strings/rt/highwaymanaggroli
 	if(target)
 		aggressive=1
 		wander = TRUE
-		if(!is_silent && target != newtarg)
-			say(pick(GLOB.highwayman_aggro))
-			pointed(target)
+		if(target != newtarg)
+			if(npc_combat_dialogue(GLOB.highwayman_aggro, prob_chance = 50, cooldown = 0))
+				pointed(target)
 
 /mob/living/carbon/human/species/human/northern/highwayman/should_target(mob/living/L)
 	if(L.stat != CONSCIOUS)
@@ -75,8 +75,7 @@ GLOBAL_LIST_INIT(highwayman_aggro, world.file2list("strings/rt/highwaymanaggroli
 
 /mob/living/carbon/human/species/human/northern/highwayman/handle_combat()
 	if(mode == NPC_AI_HUNT)
-		if(prob(2)) // do not make this big or else they NEVER SHUT UP
-			emote("laugh")
+		npc_combat_dialogue(GLOB.highwayman_aggro, list("laugh", "warcry", "rage"), prob_chance = 5, say_chance = 60)
 	. = ..()
 
 /datum/outfit/job/roguetown/human/species/human/northern/highwayman/pre_equip(mob/living/carbon/human/H)

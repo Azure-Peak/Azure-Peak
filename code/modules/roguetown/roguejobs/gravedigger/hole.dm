@@ -70,30 +70,35 @@
 
 /obj/structure/closet/dirthole/closed/loot/Initialize()
 	. = ..()
-	lootroll = rand(1,4)
+	lootroll = rand(1,6)
 
 /obj/structure/closet/dirthole/closed/loot/open()
 	if(!looted)
 		looted = TRUE
 		switch(lootroll)
 			if(1)
-				new /mob/living/carbon/human/species/skeleton/npc(mastert) //Let's go gambling
+				new /mob/living/carbon/human/species/skeleton/npc/easy(mastert) //Let's go gambling
 			if(2)
 				new /obj/structure/closet/crate/chest/coffinlootbox(mastert) //How it be
 			if(3)
-				new /obj/structure/closet/crate/chest/coffinlootbox_middle(mastert) //Starts locked
+				new /mob/living/carbon/human/species/skeleton/npc/medium(mastert) //How it be
 			if(4)
-				new /mob/living/carbon/human/species/skeleton/npc(mastert) //Starts locked & has a skeleton guard
+				new /mob/living/carbon/human/species/skeleton/npc/medium(mastert)
+				new /obj/structure/closet/crate/chest/coffinlootbox_middle(mastert) //Starts locked
+			if(5)
+				new /mob/living/carbon/human/species/skeleton/npc/hard(mastert)
+			if(6)
+				new /mob/living/carbon/human/species/skeleton/npc/hard(mastert) //Starts locked & has a skeleton guard
 				new /obj/structure/closet/crate/chest/coffinlootbox_high(mastert)
 	..()
 
 /obj/structure/closet/dirthole/closed/loot/examine(mob/user)
 	. = ..()
 	if(HAS_TRAIT(user, TRAIT_SOUL_EXAMINE))
-		if(lootroll == 1)
+		if(lootroll % 2)
 			. += span_warning("Better let this one sleep.")
 	if(HAS_TRAIT(user, TRAIT_GRAVEROBBER))
-		if(lootroll != 1)
+		if(!(lootroll % 2))
 			. += span_warning("There seem to be some loot for me here.")	
 
 /obj/structure/closet/dirthole/insertion_allowed(atom/movable/AM)
@@ -112,26 +117,96 @@
 
 /obj/structure/closet/dirthole/attack_hand(mob/living/user)
 	. = ..()
-	if(HAS_TRAIT(user, TRAIT_SOUL_EXAMINE))
-		var/atom/movable/coffin = src
-		for(var/mob/living/corpse in coffin)
-			if(!corpse.stat == DEAD)
-				to_chat(user, "That one hasn't truly passed on yet?!")
-				return
-			if(corpse.burialrited)
-				to_chat(user, "This grave has already been consecrated...")
-				return
-			else
-				to_chat(user, "I begin my burial rites...")
-				if(do_after(user, 50))
-					user.say("#Rest thy soul for all aeon within Necra's embrace!")
-					to_chat(user, "I have extracted a strand of luxthread, proof of passing.")
-					playsound(user, 'sound/misc/bellold.ogg', 20)
-					new /obj/item/soulthread((get_turf(user)))
-					SEND_SIGNAL(user, COMSIG_GRAVE_CONSECRATED, src)
-					record_round_statistic(STATS_GRAVES_CONSECRATED)
-					corpse.burialrited = TRUE
+	if(!HAS_TRAIT(user, TRAIT_SOUL_EXAMINE))
+		return
 
+	var/atom/movable/coffin = src
+	var/list/valid_corpses = list()
+	var/has_consecrated = FALSE
+
+	// --- scan + classify ---
+	for(var/mob/living/corpse in coffin)
+		if(!corpse || QDELETED(corpse))
+			continue
+
+		if(corpse.stat != DEAD)
+			to_chat(user, "This grave is restless with lyfe, as if its denizen is not dead.")
+			return
+
+		if(corpse.burialrited)
+			has_consecrated = TRUE
+			continue
+
+		valid_corpses += corpse
+
+	// --- nothing to do ---
+	if(!length(valid_corpses))
+		if(has_consecrated)
+			to_chat(user, "You feel a comforting stillness. All within are already consecrated.")
+		else
+			to_chat(user, "There is nothing here to consecrate.")
+		return
+
+	// --- ritual start ---
+	if(has_consecrated)
+		to_chat(user, "Some within already rest. I shall tend to the remaining souls.")
+	else
+		to_chat(user, "I begin my burial rites...")
+
+	if(!do_after(user, 50))
+		return
+
+	// --- prayer (once) ---
+	var/list/necra_prayers = list(
+		"#Rest thy soul for all aeon within Necra's embrace!",
+		"#May the Undermaiden cradle thee beyond the veil.",
+		"#Let thy weary spirit find stillness in Necra's grasp.",
+		"#From flesh to silence, may she guide thee gently.",
+		"#Sleep now, for the Undermaiden has come.",
+		"#Thy wandering ends; be gathered into her quiet.",
+		"#May thy sins and sorrows fade in her shadow.",
+		"#Be unburdened, child of ash, and pass on.",
+		"#The veil parts for thee—walk without fear.",
+		"#Necra calls, and thou shalt answer in peace.",
+		"#Lay down thy struggle; her hand awaits thee.",
+		"#From dust thou came, to her thou return.",
+		"#Let silence take thee, and be made whole.",
+		"#No longer lost, no longer bound—go softly.",
+		"#Her embrace is cold, yet kinder than the world.",
+		"#Rest now beneath her watchful stillness.",
+		"#Thy echo fades, thy journey ends.",
+		"#Be freed from pain, and carried beyond.",
+		"#The Undermaiden weeps thee into slumber.",
+		"#All things end—may thine end be gentle.",
+		"#Cast off thy burden; Necra gathers thee.",
+		"#Drift now into the hush beyond breath.",
+		"#Thy final step is guided by her hand.",
+		"#Be still, and know the end of suffering.",
+		"#No shadow follows where she leads.",
+		"#The long night welcomes thee home.",
+		"#Fade now, as all must fade, in her grace.",
+		"#Thy name is whispered, then laid to rest.",
+		"#Be neither fearful nor alone—she is with thee.",
+		"#In her silence, thou art made eternal."
+	)
+
+	user.say(pick(necra_prayers))
+
+	var/count = length(valid_corpses)
+
+	to_chat(user, "I have extracted [count] strand\s of luxthread, proof of passing.")
+	playsound(user, 'sound/misc/bellold.ogg', 20)
+
+	// --- apply burial rites ---
+	for(var/mob/living/corpse in valid_corpses)
+		corpse.burialrited = TRUE
+
+	// --- spawn rewards ---
+	for(var/i = 1 to count)
+		new /obj/item/soulthread(get_turf(user))
+
+	SEND_SIGNAL(user, COMSIG_GRAVE_CONSECRATED, src)
+	record_round_statistic(STATS_GRAVES_CONSECRATED)
 
 /obj/structure/closet/dirthole/attackby(obj/item/attacking_item, mob/user, params)
 	if(!istype(attacking_item, /obj/item/rogueweapon/shovel))

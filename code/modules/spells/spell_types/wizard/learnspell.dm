@@ -1,120 +1,50 @@
-/obj/effect/proc_holder/spell/self/learnspell
+/datum/action/cooldown/spell/learnspell
 	name = "Attempt to learn a new spell"
 	desc = "Weave a new spell"
-	school = "transmutation"
-	overlay_state = "book1"
-	chargedrain = 0
-	chargetime = 0
-	skipcharge = TRUE
+	button_icon_state = "book1"
 
-/obj/effect/proc_holder/spell/self/learnspell/cast(list/targets, mob/user = usr)
+	click_to_activate = FALSE
+	self_cast_possible = TRUE
+
+	charge_required = FALSE
+	cooldown_time = 1 SECONDS
+
+	primary_resource_type = SPELL_COST_NONE
+
+	spell_requirements = SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
+	spell_impact_intensity = SPELL_IMPACT_NONE
+
+/datum/action/cooldown/spell/learnspell/cast(atom/cast_on)
 	. = ..()
-	if(!user.mind)
-		return
-	// Pool-based system always takes priority to prevent unexpected spell point sources from bypassing pool restrictions
-	if(LAZYLEN(user.mind.spell_point_pools))
-		return class_based_spells(user)
-	return legacy_pointbuy_spells(user)
-
-/obj/effect/proc_holder/spell/self/learnspell/proc/legacy_pointbuy_spells(mob/user)
-	var/list/choices = list()
-	var/user_spell_tier = get_user_spell_tier(user)
-	var/user_evil = get_user_evilness(user)
-	var/list/spell_choices = GLOB.learnable_spells
-
-	for(var/i = 1, i <= spell_choices.len, i++)
-		var/obj/effect/proc_holder/spell/spell_item = spell_choices[i]
-		if(spell_item.spell_tier > user_spell_tier)
-			continue
-		if(spell_item.zizo_spell > user_evil)
-			continue
-		choices["[spell_item.name]: [spell_item.cost]"] = spell_item
-
-	choices = sortList(choices)
-
-	var/choice = tgui_input_list(user, "Choose a spell. Points left: [user.mind.spell_points - user.mind.used_spell_points]", "Learn Spell", choices)
-	var/obj/effect/proc_holder/spell/item = choices[choice]
-
-	if(!item)
-		return
-	if(tgui_alert(user, "[item.desc]", "[item.name]", list("Cancel", "Learn")) == "Cancel")
-		return
-	for(var/obj/effect/proc_holder/spell/knownspell in user.mind.spell_list)
-		if(knownspell.type == item.type)
-			to_chat(user, span_warning("You already know this one!"))
-			return
-	if(item.cost > user.mind.spell_points - user.mind.used_spell_points)
-		to_chat(user, span_warning("You do not have enough experience to create a new spell."))
-		return
-	user.mind.used_spell_points += item.cost
-	var/obj/effect/proc_holder/spell/new_spell = new item
-	new_spell.refundable = TRUE
-	user.mind.AddSpell(new_spell)
-	addtimer(CALLBACK(user.mind, TYPE_PROC_REF(/datum/mind, check_learnspell)), 2 SECONDS)
-	return TRUE
-
-/obj/effect/proc_holder/spell/self/learnspell/proc/class_based_spells(mob/user)
-	var/list/available_pools = list()
-	for(var/pool_name in user.mind.spell_point_pools)
-		var/max_pts = user.mind.spell_point_pools[pool_name]
-		var/used_pts = user.mind.spell_points_used_by_pool?[pool_name] || 0
-		if(used_pts < max_pts)
-			available_pools["[capitalize(pool_name)] ([max_pts - used_pts] pts)"] = pool_name
-
-	if(!length(available_pools))
-		to_chat(user, span_warning("No spell points remaining."))
-		return
-
-	var/chosen_pool_display
-	if(length(available_pools) == 1)
-		chosen_pool_display = available_pools[1]
-	else
-		chosen_pool_display = tgui_input_list(user, "Choose a spell school.", "Learn Spell", available_pools)
-	if(!chosen_pool_display)
-		return
-
-	var/pool_name = available_pools[chosen_pool_display]
-	var/max_pts = user.mind.spell_point_pools[pool_name]
-	var/used_pts = user.mind.spell_points_used_by_pool?[pool_name] || 0
-	var/remaining = max_pts - used_pts
-
-	var/list/pool_spells = get_spell_pool_list(pool_name)
-	var/user_spell_tier = get_user_spell_tier(user)
-	var/list/choices = list()
-
-	for(var/i = 1, i <= pool_spells.len, i++)
-		var/obj/effect/proc_holder/spell/spell_item = pool_spells[i]
-		if(spell_item.spell_tier > user_spell_tier)
-			continue
-		if(spell_item.cost > remaining)
-			continue
-		var/already_known = FALSE
-		for(var/obj/effect/proc_holder/spell/knownspell in user.mind.spell_list)
-			if(knownspell.type == spell_item.type)
-				already_known = TRUE
-				break
-		if(already_known)
-			continue
-		choices["[spell_item.name]: [spell_item.cost]"] = spell_item
-
-	if(!length(choices))
-		to_chat(user, span_warning("No spells available to learn."))
-		return
-
-	choices = sortList(choices)
-
-	var/choice = tgui_input_list(user, "[capitalize(pool_name)] spells. Points left: [remaining]", "Learn Spell", choices)
-	var/obj/effect/proc_holder/spell/item = choices[choice]
-
-	if(!item)
-		return
-	if(tgui_alert(user, "[item.desc]", "[item.name]", list("Cancel", "Learn")) == "Cancel")
-		return
-
-	user.mind.spell_points_used_by_pool[pool_name] += item.cost
-	var/obj/effect/proc_holder/spell/new_spell = new item
-	new_spell.refundable = TRUE
-	new_spell.learned_from_pool = pool_name
-	user.mind.AddSpell(new_spell)
-	addtimer(CALLBACK(user.mind, TYPE_PROC_REF(/datum/mind, check_learnspell)), 2 SECONDS)
-	return TRUE
+	var/mob/living/user = owner
+	if(!istype(user) || !user.mind)
+		return FALSE
+	if(!LAZYLEN(user.mind.mage_aspect_config))
+		return FALSE
+	var/list/config = user.mind.mage_aspect_config
+	var/max_maj = config["major"] || 0
+	var/max_min = config["minor"] || 0
+	var/max_util = config["utilities"] || 0
+	var/current_majors = LAZYLEN(user.mind.major_aspects)
+	var/current_minors = LAZYLEN(user.mind.minor_aspects)
+	var/util_points_spent = 0
+	for(var/path in GLOB.utility_spells)
+		if(user.mind.has_spell(path))
+			var/is_picked = FALSE
+			for(var/datum/action/cooldown/spell/S in user.mind.spell_list)
+				if(S.type == path && S.utility_learned)
+					is_picked = TRUE
+					break
+			if(!is_picked)
+				continue
+			if(ispath(path, /datum/action/cooldown/spell))
+				var/datum/action/cooldown/spell/S = path
+				util_points_spent += initial(S.point_cost)
+			else
+				var/obj/effect/proc_holder/spell/S = path
+				util_points_spent += initial(S.cost)
+	if(current_majors < max_maj || current_minors < max_min || util_points_spent < max_util)
+		var/datum/aspect_picker/picker = new(user, TRUE, config)
+		picker.ui_interact(user)
+		return TRUE
+	return FALSE

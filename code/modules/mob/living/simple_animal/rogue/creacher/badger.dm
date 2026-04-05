@@ -2,11 +2,12 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/wolf/badger
 	icon = 'icons/roguetown/mob/monster/badger.dmi'
 	name = "bauson"
-	desc = "A hostile little thing, it can put some volfs to shame with it's aggression."
+	desc = "A hostile little thing, it can put some volfs to shame with its aggression."
 	icon_state = "badger"
 	icon_living = "badger"
 	icon_dead = "badger_dead"
 	aggressive = 1
+	threat_point = THREAT_LOW
 	botched_butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/steak = 1, /obj/item/natural/bone = 2, /obj/item/alch/viscera = 1)
 	butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/steak = 2,
 						/obj/item/natural/hide = 1,

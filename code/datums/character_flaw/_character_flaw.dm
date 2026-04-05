@@ -53,6 +53,7 @@ GLOBAL_LIST_INIT(averse_factions, list(
 	var/name
 	var/desc
 	var/ephemeral = FALSE // This flaw is currently disabled and will not process
+	var/needs_extra_vice = FALSE
 	/// For voyeur vice examines only. Format is "[name] is " + this + "...", leave blank to use the flaw's name.
 	/// Intended for addiction types only.
 	var/voyeur_descriptor	
@@ -97,24 +98,12 @@ GLOBAL_LIST_INIT(averse_factions, list(
 	return null
 
 /datum/charflaw/eznoflaw
-	name = "No Flaw"
-	desc = "I'm a normal person, how rare!"
+	name = "Flawless"
+	desc = "I'm untempted by even the simplest vices. Am I riding the high of my latest TRIUMPH, or am I simply a rarity amongst rarities?" //Originally 'No Flaw', with "I'm a normal person, how rare!" as the desc.
 
 /datum/charflaw/noflaw
-	name = "No Flaw (-3 TRI)"
-	desc = "I'm a normal person, how rare! (Consumes 3 triumphs or gives a random flaw.)"
-
-/datum/charflaw/noflaw/apply_post_equipment(mob/user)
-	var/mob/living/carbon/human/H = user
-	if(H.get_triumphs() < 3)
-		var/flawz = GLOB.character_flaws.Copy()
-		var/charflaw = pick_n_take(flawz)
-		charflaw = GLOB.character_flaws[charflaw]
-		var/datum/charflaw/new_flaw = new charflaw()
-		H.charflaws.Add(new_flaw)
-		new_flaw.on_mob_creation(H)
-	else
-		H.adjust_triumphs(-3)
+	name = "Flawless (No Passive TRI Gain)"
+	desc = "I'm untempted by even the simplest vices. Am I riding the high of my latest TRIUMPH, or am I simply a rarity amongst rarities?"
 
 /datum/charflaw/randflaw
 	name = "Random"
@@ -160,11 +149,15 @@ GLOBAL_LIST_INIT(averse_factions, list(
 	if(!ishuman(user))
 		return
 	var/mob/living/carbon/human/H = user
-	if(H.wear_mask)
-		if(isclothing(H.wear_mask))
+	if(H.wear_mask || H.head)
+		if(isclothing(H.wear_mask) || isclothing(H.head))
 			if(istype(H.wear_mask, /obj/item/clothing/mask/rogue/spectacles))
 				var/obj/item/I = H.wear_mask
 				if(!I.obj_broken)
+					return
+			if(istype(H.head, /obj/item/clothing/mask/rogue/spectacles))
+				var/obj/item/G = H.head
+				if(!G.obj_broken)
 					return
 	H.blur_eyes(2)
 	H.apply_status_effect(/datum/status_effect/debuff/badvision)
@@ -410,11 +403,16 @@ GLOBAL_LIST_INIT(averse_factions, list(
 	user.add_client_colour(/datum/client_colour/monochrome)
 
 /datum/charflaw/hunted
-	name = "Hunted"
+	name = "Hunted (+2 TRI)"
 	desc = "Something in my past has made me a target. I'm always looking over my shoulder.	\
 	\nTHIS IS A DIFFICULT FLAW, YOU WILL BE HUNTED BY ASSASSINS AND HAVE ASSASINATION ATTEMPTS MADE AGAINST YOU WITHOUT ANY ESCALATION. \
-	EXPECT A MORE DIFFICULT EXPERIENCE. PLAY AT YOUR OWN RISK."
+	EXPECT A MORE DIFFICULT EXPERIENCE. PLAY AT YOUR OWN RISK. IT REQUIRES AN EXTRA VICE."
+	needs_extra_vice = TRUE
 	var/logged = FALSE
+
+/datum/charflaw/hunted/on_mob_creation(mob/user)
+	. = ..()
+	user.adjust_triumphs(2)
 
 /datum/charflaw/hunted/flaw_on_life(mob/user)
 	if(!ishuman(user))
@@ -429,14 +427,6 @@ GLOBAL_LIST_INIT(averse_factions, list(
 	..()
 	if(!ishuman(user))
 		return
-	var/datum/job/gnoll_job = SSjob.GetJob("Gnoll")
-	var/total_gnoll_positions = gnoll_job.total_positions
-	var/gnoll_increase = SSgnoll_scaling.get_gnoll_slot_increase(total_gnoll_positions)
-
-	if(gnoll_increase >= 1)
-		to_chat(user, span_notice("I have offended graggarite agents, and they may be tracking my scent."))
-		gnoll_job.total_positions = min(total_gnoll_positions + gnoll_increase, 10)
-		gnoll_job.spawn_positions = min(total_gnoll_positions + gnoll_increase, 10)
 
 /datum/charflaw/unintelligible
 	name = "Unintelligible"
@@ -627,7 +617,7 @@ GLOBAL_LIST_INIT(averse_factions, list(
 	ADD_TRAIT(user, TRAIT_CRITICAL_WEAKNESS, TRAIT_GENERIC)
 
 /datum/charflaw/leprosy
-	name = "Leper (+1 TRI)"
+	name = "Leper (+3 TRI)"
 	desc = "I am cursed with leprosy! Too poor to afford treatment, my skin now lays violated by lesions, my extremities are numb, and my presence disturbs even the most stalwart men."
 
 /datum/charflaw/leprosy/apply_post_equipment(mob/user)
@@ -641,10 +631,10 @@ GLOBAL_LIST_INIT(averse_factions, list(
 	H.change_stat(STATKEY_WIL, -1)
 	H.change_stat(STATKEY_SPD, -1)
 	H.change_stat(STATKEY_LCK, -1)
-	H.adjust_triumphs(1)
+	H.adjust_triumphs(3)
 
 /datum/charflaw/mind_broken
-	name = "Asundered Mind (+1 TRI)"
+	name = "Asundered Mind (+3 TRI)"
 	desc = "My mind is asundered, wether it was by own means or an unfortunate accident. Nothing seems real to me... \
 	\nWARNING: HALLUCINATIONS MAY JUMPSCARE YOU, AND PREVENT YOU FROM TELLING APART REALITY AND IMAGINATION. \
 	FURTHERMORE, THIS DOES NOT EXEMPT YOU FROM ANY RULES SET BY THE SERVER. ESCALATION STILL APPLIES."
@@ -652,7 +642,7 @@ GLOBAL_LIST_INIT(averse_factions, list(
 /datum/charflaw/mind_broken/apply_post_equipment(mob/living/carbon/human/insane_fool)
 	insane_fool.hallucination = INFINITY
 	ADD_TRAIT(insane_fool, TRAIT_PSYCHOSIS, TRAIT_GENERIC)
-	insane_fool.adjust_triumphs(1)
+	insane_fool.adjust_triumphs(3)
 	if(insane_fool.patron?.type == /datum/patron/divine/abyssor) 
 	 insane_fool.grant_language(/datum/language/abyssal)
 

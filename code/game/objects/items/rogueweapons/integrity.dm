@@ -17,6 +17,8 @@
 		return FALSE
 	if(sharpness_mod != 1)
 		amt *= sharpness_mod
+	if(cleave_sharpness_mult != 1)
+		amt *= cleave_sharpness_mult
 	if(user && HAS_TRAIT(user, TRAIT_SHARPER_BLADES))
 		amt = amt * 0.7
 
@@ -97,7 +99,7 @@
 				return
 			var/loopcount = round(max_blade_int / ST.sharpening_factor, 1) + 1
 			sharpen(ST, user, 0.3)
-			user.changeNext_move(CLICK_CD_TRACKING)
+			user.changeNext_move(CLICK_CD_WRESTLING)
 			if(blade_int >= max_blade_int)
 				to_chat(user, span_info("Fully sharpened."))
 				return

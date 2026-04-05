@@ -25,8 +25,8 @@ GLOBAL_LIST_INIT(bum_aggro, world.file2list("strings/rt/bumaggrolines.txt"))
 		aggressive=1
 		wander = TRUE
 		if(target != newtarg)
-			say(pick(GLOB.bum_aggro))
-			pointed(target)
+			if(npc_combat_dialogue(GLOB.bum_aggro, prob_chance = 50, cooldown = 0))
+				pointed(target)
 
 /mob/living/carbon/human/species/human/northern/bum/should_target(mob/living/L)
 	if(L.stat != CONSCIOUS)
@@ -63,6 +63,6 @@ GLOBAL_LIST_INIT(bum_aggro, world.file2list("strings/rt/bumaggrolines.txt"))
 	if(!wander && prob(10))
 		face_atom(get_step(src,pick(GLOB.cardinals)))
 	if(prob(3))
-		say(pick(GLOB.bum_quotes))
+		say(pick(GLOB.bum_quotes), npc_speech = TRUE)
 	if(prob(3))
 		emote(pick("laugh","burp","yawn","grumble","mumble","blink_r","clap"))

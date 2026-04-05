@@ -10,7 +10,11 @@
 	spells = list()
 	advclass_cat_rolls = list(CTAG_WAPPRENTICE = 20)
 
-	tutorial = "Yils of study have led you to the University of Azuria. The Divine heals and protects. The arcyne arts, though useful, are far more suited to death and destruction. The Crown knows this, and provides a stipend to fund your studies and just as much your complacency, to not turn your magicks against the Crown. A comfortable tenure, a stipend, and a place to undergo your study. What more could a Mage ask for?"
+	tutorial = "Yils of study have led you to the University of Azuria. The Divine heals and protects. \
+	The arcyne arts, though useful, are far more suited to death and destruction. The Crown knows this, \
+	and provides a stipend to fund your studies and just as much your complacency, to not turn your \
+	magicks against the Crown. A comfortable tenure, a stipend, and a place to undergo your study. \
+	What more could a Mage ask for?"
 
 	outfit = /datum/outfit/job/roguetown/wapprentice
 
@@ -28,7 +32,7 @@
 		/datum/advclass/wapprentice/associate,
 		/datum/advclass/wapprentice/alchemist,
 		/datum/advclass/wapprentice/apprentice,
-		/datum/advclass/wapprentice/spellblade
+		// /datum/advclass/wapprentice/spellblade
 	)
 
 /datum/outfit/job/roguetown/wapprentice
@@ -37,18 +41,23 @@
 
 /datum/advclass/wapprentice/associate
 	name = "Magician's Associate"
-	tutorial = "No one could truly master the entirety of the arcyne arts. But commanding the fundamentals is quite achievable. Deemed competent by your peers and mentor, you have become an Associate, paid a stipend to wield your power in the name of the Crown, or at least not against them. The Crown might want a bolt of lightning in their enemies back - after all, what else is the arcyne good for but war and destruction? But as many mages knows, wisdom and whimsy is the true calling of the Magi who has mastered the arts. The choice is yours."
+	tutorial = "No one could truly master the entirety of the arcyne arts. But commanding the fundamentals \
+	is quite achievable. Deemed competent by your peers and mentor, you have become an Associate, paid \
+	a stipend to wield your power in the name of the Crown, or at least not against them. The Crown might \
+	want a bolt of lightning in their enemies back - after all, what else is the arcyne good for but war \
+	and destruction? But as many mages knows, wisdom and whimsy is the true calling of the Magi who has \
+	mastered the arts. The choice is yours."
 	outfit = /datum/outfit/job/roguetown/wapprentice/associate
 
 	category_tags = list(CTAG_WAPPRENTICE)
-	traits_applied = list(TRAIT_ARCYNE_T3, TRAIT_MAGEARMOR)
+	traits_applied = list(TRAIT_ARCYNE)
 	subclass_stats = list(
 		STATKEY_INT = 3,
 		STATKEY_PER = 2,
 		STATKEY_SPD = 1
 	)
 	age_mod = /datum/class_age_mod/apprentice_associate
-	subclass_spellpoints = 21
+	subclass_mage_aspects = list("mastery" = FALSE, "major" = 1, "minor" = 2, "utilities" = 6, "ward" = TRUE)
 	subclass_skills = list(
 		/datum/skill/combat/polearms = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/staves = SKILL_LEVEL_APPRENTICE,
@@ -73,38 +82,38 @@
 	beltl = /obj/item/storage/magebag/associate
 	beltr = /obj/item/storage/keyring/apprentice
 	backl = /obj/item/storage/backpack/rogue/satchel
-	backr = /obj/item/rogueweapon/woodstaff
 	shoes = /obj/item/clothing/shoes/roguetown/gladiator
 	armor = /obj/item/clothing/suit/roguetown/shirt/robe/mage
 	head = /obj/item/clothing/head/roguetown/roguehood/mage
 	backpack_contents = list(
-		/obj/item/roguegem/amethyst = 1,
-		/obj/item/spellbook_unfinished/pre_arcyne = 1,
-		/obj/item/recipe_book/alchemy = 1,
-		/obj/item/recipe_book/magic = 1,
+		/obj/item/book/spellbook = 1,
 		/obj/item/chalk = 1,
 		)
 	switch(H.patron?.type)
 		if(/datum/patron/inhumen/zizo)
 			H.cmode_music = 'sound/music/combat_heretic.ogg'
 	if(H.mind)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/touch/prestidigitation)
+		backr = choose_implement(H, "lesser")
 		SStreasury.give_money_account(ECONOMIC_LOWER_MIDDLE_CLASS, H, "Savings.")
 
 /datum/advclass/wapprentice/alchemist
 	name = "Alchemist Associate"
-	tutorial = "Some never considered alchemy a true arcyne art, but simply a foundation. Like a quill is to poetry. During your studies, however, you have taken to the passion of alchemy, the transmutation of elements and the creation of something concrete. Lyfeblood, elixirs, coal dust, moondust, ozium, and bottle bombs! All under Psydonia is yours to create! Just don't set the University on fire. Or do, but don't get caught."
+	tutorial = "Some never considered alchemy a true arcyne art, but simply a foundation. Like a quill is to \
+	poetry. During your studies, however, you have taken to the passion of alchemy, the transmutation of \
+	elements and the creation of something concrete. Lyfeblood, elixirs, coal dust, moondust, ozium, and \
+	bottle bombs! All under Psydonia is yours to create! Just don't set the University on fire. Or do, \
+	but don't get caught."
 	outfit = /datum/outfit/job/roguetown/wapprentice/alchemist
 
 	category_tags = list(CTAG_WAPPRENTICE)
-	traits_applied = list(TRAIT_SEEDKNOW, TRAIT_ARCYNE_T3, TRAIT_MAGEARMOR)
+	traits_applied = list(TRAIT_SEEDKNOW, TRAIT_ARCYNE)
 	subclass_stats = list(
 		STATKEY_INT = 3,
 		STATKEY_PER = 3,
 		STATKEY_WIL = 1
 	)
 	age_mod = /datum/class_age_mod/apprentice_alchemist
-	subclass_spellpoints = 18
+	subclass_mage_aspects = list("mastery" = FALSE, "major" = 1, "minor" = 1, "utilities" = 6, "ward" = TRUE)
 	subclass_skills = list(
 		/datum/skill/combat/polearms = SKILL_LEVEL_NOVICE,
 		/datum/skill/combat/staves = SKILL_LEVEL_NOVICE,
@@ -130,31 +139,31 @@
 	beltl = /obj/item/storage/magebag/associate
 	beltr = /obj/item/storage/keyring/apprentice
 	backl = /obj/item/storage/backpack/rogue/satchel
-	backr = /obj/item/rogueweapon/woodstaff
 	shoes = /obj/item/clothing/shoes/roguetown/gladiator
 	backpack_contents = list(
-		/obj/item/roguegem/amethyst = 1,
+		/obj/item/book/spellbook = 1,
 		/obj/item/seeds/swampweed = 1,
 		/obj/item/seeds/pipeweed = 1,
-		/obj/item/recipe_book/alchemy = 1,
-		/obj/item/recipe_book/magic = 1,
 		/obj/item/chalk = 1,
-		/obj/item/spellbook_unfinished/pre_arcyne = 1
 		)
 	switch(H.patron?.type)
 		if(/datum/patron/inhumen/zizo)
 			H.cmode_music = 'sound/music/combat_heretic.ogg'
 	if(H.mind)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/touch/prestidigitation)
+		backr = choose_implement(H, "lesser")
 		SStreasury.give_money_account(ECONOMIC_LOWER_MIDDLE_CLASS, H, "Savings.")
 
 /datum/advclass/wapprentice/apprentice
 	name = "Magician's Apprentice"
-	tutorial = "The road to arcyne mastery is long and treacherous. Books, scrolls, gems, studies, singed hair, and summoning gone wrong. Expenses and death alike, it is not a path for the pauper or the coward. You, however, were given a place as an apprentice in the University of Azuria. Under the watchful gaze of the Court Magician, and their fellow associates, you may yet live to become a master of the arcyne arts."
+	tutorial = "The road to arcyne mastery is long and treacherous. Books, scrolls, gems, studies, \
+	singed hair, and summoning gone wrong. Expenses and death alike, it is not a path for the pauper \
+	or the coward. You, however, were given a place as an apprentice in the University of Azuria. \
+	Under the watchful gaze of the Court Magician, and their fellow associates, you may yet live \
+	to become a master of the arcyne arts."
 	outfit = /datum/outfit/job/roguetown/wapprentice/apprentice
 
 	category_tags = list(CTAG_WAPPRENTICE)
-	traits_applied = list(TRAIT_ARCYNE_T3, TRAIT_MAGEARMOR)
+	traits_applied = list(TRAIT_ARCYNE)
 	subclass_stats = list(
 		STATKEY_INT = 4,
 		STATKEY_WIL = 1,
@@ -162,7 +171,7 @@
 		STATKEY_LCK = 1 // this is just a carrot for the folk who are mad enough to take this role...
 	)
 	age_mod = /datum/class_age_mod/apprentice_apprentice
-	subclass_spellpoints = 18
+	subclass_mage_aspects = list("mastery" = FALSE, "major" = 1, "minor" = 1, "utilities" = 6, "ward" = TRUE)
 	subclass_skills = list(
 		/datum/skill/misc/reading = SKILL_LEVEL_MASTER,
 		/datum/skill/magic/arcane = SKILL_LEVEL_APPRENTICE,
@@ -179,22 +188,23 @@
 	beltl = /obj/item/storage/magebag/associate
 	beltr = /obj/item/storage/keyring/apprentice
 	backl = /obj/item/storage/backpack/rogue/satchel
-	backr = /obj/item/rogueweapon/woodstaff
 	shoes = /obj/item/clothing/shoes/roguetown/gladiator
 	backpack_contents = list(
-		/obj/item/roguegem/amethyst = 1,
-		/obj/item/recipe_book/alchemy = 1,
-		/obj/item/recipe_book/magic = 1,
-		/obj/item/spellbook_unfinished/pre_arcyne = 1,
+		/obj/item/book/spellbook = 1,
 		/obj/item/chalk = 1,
 		)
 	switch(H.patron?.type)
 		if(/datum/patron/inhumen/zizo)
 			H.cmode_music = 'sound/music/combat_heretic.ogg'
 	if(H.mind)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/touch/prestidigitation)
+		backr = choose_implement(H, "lesser")
 		SStreasury.give_money_account(ECONOMIC_LOWER_MIDDLE_CLASS, H, "Savings.")
 
+// Here lies the grave of Azurcaephon Associate, removed because a good portion of mage players are using it as a validhunting class
+// And unlike adventurer, the University being technically keep aligned means they can jump in and gank antags and there's less admins can do about it.
+// If the University becomes independent one day, we can restore it. Until then, it will remain commented out.
+
+/*
 /datum/advclass/wapprentice/spellblade
 	name = "Azurcaephan Associate"
 	maximum_possible_slots = 2
@@ -207,14 +217,14 @@
 		Further your mastery, your camaraderie, and the safety of your fellow mages."
 	outfit = /datum/outfit/job/roguetown/wapprentice/spellblade
 	category_tags = list(CTAG_WAPPRENTICE)
-	traits_applied = list(TRAIT_ARCYNE_T2)
+	traits_applied = list(TRAIT_ARCYNE)
 	subclass_stats = list(
 		STATKEY_INT = 2,
 		STATKEY_PER = 1,
 		STATKEY_CON = 1,
 		STATKEY_WIL = 1,
 	)
-	subclass_spell_point_pools = list("utility" = 4)
+	subclass_mage_aspects = list("mastery" = FALSE, "major" = 0, "minor" = 0, "utilities" = 4, "ward" = TRUE)
 	subclass_skills = list(
 		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/shields = SKILL_LEVEL_APPRENTICE,
@@ -267,8 +277,6 @@
 	backr = /obj/item/rogueweapon/shield/wood
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
 	backpack_contents = list(
-		/obj/item/recipe_book/alchemy = 1,
-		/obj/item/recipe_book/magic = 1,
 		/obj/item/storage/keyring/apprentice = 1,
 		/obj/item/chalk = 1,)
 
@@ -294,27 +302,26 @@
 	if(H.mind)
 		switch(subclass_selected)
 			if("blade")
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/caedo)
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/air_strike)
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/leyline_anchor)
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/blade_storm)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/caedo)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/air_strike)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/leyline_anchor)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/blade_storm)
 			if("phalangite")
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/azurean_phalanx)
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/azurean_javelin)
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/advance)
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/gate_of_reckoning)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/azurean_phalanx)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/azurean_pilum)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/advance)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/gate_of_reckoning)
 			if("macebearer")
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/shatter)
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/tremor)
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/charge)
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/cataclysm)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/shatter)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/tremor)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/charge)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/cataclysm)
 
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/recall_weapon)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/empower_weapon)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/bind_weapon)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/mending)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/enchant_weapon)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/touch/prestidigitation)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/recall_weapon)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/empower_weapon)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/bind_weapon)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/mending)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/touch/prestidigitation)
 
 	switch(subclass_selected)
 		if("blade")
@@ -367,3 +374,4 @@
 	H.cmode_music = 'sound/music/cmode/nobility/combat_courtmage.ogg'
 	if(H.mind)
 		SStreasury.give_money_account(ECONOMIC_LOWER_MIDDLE_CLASS, H, "Savings.")
+*/

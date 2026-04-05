@@ -538,7 +538,7 @@
 "IG" = (
 /obj/structure/closet/crate/drawer/inn,
 /obj/item/recipe_book/alchemy,
-/obj/item/book/granter/spell/blackstone/fireball,
+/obj/item/book/granter/arcane_aspect/major,
 /obj/item/scomstone/bad,
 /turf/open/floor/carpet/royalblack,
 /area/rogue/under/tomb/indoors/magic)

@@ -273,13 +273,13 @@
 /datum/anvil_recipe/armor/bronze/barbute
 	name = "Barbute, Bronze (+1 Bronze, +1 Cured Leather)"
 	req_bar = /obj/item/ingot/bronze
-	additional_items = list(/obj/item/ingot/bronze, /obj/item/natural/hide/cured, /obj/item/natural/hide/cured)
+	additional_items = list(/obj/item/ingot/bronze, /obj/item/natural/hide/cured)
 	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/bronze
 
 /datum/anvil_recipe/armor/bronze/murmillo
 	name = "Murmillo-Style Helmet, Bronze (+1 Bronze, +1 Fur)"
 	req_bar = /obj/item/ingot/bronze
-	additional_items = list(/obj/item/ingot/bronze, /obj/item/natural/hide/cured)
+	additional_items = list(/obj/item/ingot/bronze, /obj/item/natural/fur)
 	created_item = /obj/item/clothing/head/roguetown/helmet/bronzegladiator
 	craftdiff = 2
 
@@ -656,7 +656,7 @@
 	name = "Coat Of Plates, Steel (+1 Steel, +1 Cured Leather)"
 	req_bar = /obj/item/ingot/steel
 	additional_items = list(/obj/item/ingot/steel,/obj/item/natural/hide/cured)
-	created_item = /obj/item/clothing/suit/roguetown/armor/plate/scale/knight
+	created_item = /obj/item/clothing/suit/roguetown/armor/brigandine/heavy
 
 /datum/anvil_recipe/armor/steel/steel/brigandine
 	name = "Brigandine, Steel (+1 Steel, +2 Cloth)"

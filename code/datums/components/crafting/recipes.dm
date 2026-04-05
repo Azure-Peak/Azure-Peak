@@ -26,6 +26,7 @@
 	var/wallcraft = FALSE
 	var/diagonal = FALSE //allows diagonal structures to have their direction chosen.
 	var/craftdiff = 1
+	var/xp_modifier = 1 // Multiplier for crafting XP. Set to 0 to disable XP (e.g. arcana recipes).
 	var/sellprice = 0
 	/// Whether this recipe will be hidden from recipe books
 	var/hides_from_books = FALSE 
@@ -39,6 +40,8 @@
 	var/bypass_dupe_test = FALSE
 	//Hardcoded aliases, fill this in for things that have things like slang names. Real item alias names will be appended automatically during build_recipe_data
 	var/aliases = ""
+	var/list/cached_display_data
+	var/cached_category
 /*
 /datum/crafting_recipe/example
 	name = ""
@@ -50,6 +53,60 @@
 	category = CAT_NONE
 	subcategory = CAT_NONE
 */
+
+/datum/crafting_recipe/proc/build_display_cache()
+	var/list/data = list()
+	data["name"] = name
+	data["ref"] = "[REF(src)]"
+	data["path"] = type
+	data["sellprice"] = sellprice
+	data["craftingdifficulty"] = skill_to_string(craftdiff)
+
+	var/req_text = ""
+	for(var/a in reqs)
+		var/atom/A = a
+		req_text += " [reqs[A]] [initial(A.name)],"
+	if(req_text)
+		req_text = copytext(req_text, 1, length(req_text))
+	data["req_text"] = req_text
+
+	var/catalyst_text = ""
+	for(var/a in chem_catalysts)
+		var/atom/A = a
+		catalyst_text += " [chem_catalysts[A]] [initial(A.name)],"
+	if(catalyst_text)
+		catalyst_text = copytext(catalyst_text, 1, length(catalyst_text))
+	data["catalyst_text"] = catalyst_text
+
+	var/tool_text = ""
+	for(var/a in tools)
+		if(ispath(a, /obj/item))
+			var/obj/item/b = a
+			tool_text += " [initial(b.name)],"
+		else
+			tool_text += " [a],"
+	if(tool_text)
+		tool_text = copytext(tool_text, 1, length(tool_text))
+	data["tool_text"] = tool_text
+
+	var/alias_text = aliases
+	if(islist(result))
+		for(var/a in result)
+			var/atom/A = a
+			if(!(findtext(alias_text, A.name)))
+				alias_text += A.name + " "
+	else
+		var/atom/A = result
+		alias_text += A.name
+	data["aliases"] = alias_text
+
+	if(skillcraft)
+		var/datum/skill/S = skillcraft
+		cached_category = initial(S.name)
+	else
+		cached_category = "Other"
+
+	cached_display_data = data
 
 /datum/crafting_recipe/proc/generate_html(mob/user)
 	var/client/client = user
@@ -122,8 +179,6 @@
 			for(var/zone in body_parts_covered2organ_names(body_parts_covered2organ_names(C.body_parts_covered)))
 				html += "<b>[capitalize(zone)]</b> | "
 			html += "<br>"
-		if(!C.prevent_crits)
-			html += "\n<b>CRIT SUSCEPTIBLE!</b>"
 		html += "INTEGRITY: [bookarmor.max_integrity]<br>"
 		if(bookarmor.armor_class == ARMOR_CLASS_HEAVY)
 			html += "<b>AC: </b>HEAVY<br>"
@@ -160,8 +215,12 @@
 				if(WLENGTH_GREAT)
 					html += "Great<br>"
 
-		if(bookweapon.alt_intents)
-			html += "\n<b>GRIP: ALT-GRIP (right click while in hand)</b><br>"
+		if(bookweapon.has_altgrip_modes())
+			html += "\n<b>GRIP: ALT-GRIP (RCLICK/HOTKEY(B)/CTRL+SCRLWHL)</b><br>"
+			var/list/alt_grip_lines = bookweapon.get_altgrip_lines(src, user)
+			if(length(alt_grip_lines))
+				for(var/alt_grip_line in alt_grip_lines)
+					html += "[alt_grip_line]<br>"
 		if(bookweapon.gripped_intents)
 			html += "\n<b>TWO-HANDED: Yes</b><br>"
 
@@ -258,6 +317,31 @@
 	</html>
 	"}
 	return html
+
+/datum/crafting_recipe/proc/get_altgrip_preview_item()
+	var/result_path
+	if(islist(result))
+		var/list/result_list = result
+		if(result_list.len)
+			result_path = result_list[1]
+	else
+		result_path = result
+	if(!ispath(result_path, /obj/item))
+		return null
+	var/obj/item/preview_item = new result_path()
+	if(!preview_item.has_altgrip_modes())
+		qdel(preview_item)
+		return null
+	return preview_item
+
+/datum/crafting_recipe/Topic(href, href_list)
+	. = ..()
+	if(href_list["showaltgrip"])
+		var/obj/item/preview_item = get_altgrip_preview_item()
+		if(!preview_item)
+			return
+		preview_item.show_altgrip(usr, href_list["showaltgrip"])
+		qdel(preview_item)
 
 /datum/crafting_recipe/proc/show_menu(mob/user)
 	user << browse(generate_html(user),"window=new_recipe;size=500x810")

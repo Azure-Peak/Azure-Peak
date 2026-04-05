@@ -12,7 +12,7 @@
 
 /obj/item/clothing/head/roguetown/helmet/heavy/malum
 	name = "helm of malum"
-	desc = "Forged in a coal-black, this helmet carries a sigiled blade upon it's visor, ever reminding it's wearer of Malum's powerful gaze."
+	desc = "Forged in a coal-black, this helmet carries a sigiled blade upon its visor, ever reminding its wearer of Malum's powerful gaze."
 	icon_state = "malumhelm"
 	item_state = "malumhelm"
 	emote_environment = 3
@@ -44,6 +44,16 @@
 	smeltresult = /obj/item/ingot/steel
 	smelt_bar_num = 2
 
+/obj/item/clothing/head/roguetown/helmet/heavy/pestran/keeper
+	name = "keeper's stone mask"
+	desc = "A hooded stone mask worn by Pestran keepers. Their face, oft marred by disease doth not hold value, for it is the pursuit of knowledge of the heartbeast that is the true cause."
+	icon_state = "keeperhelm"
+	item_state = "keeperhelm"
+	// Best approximation for stone as we have no standard!
+	armor = ARMOR_PLATE
+	armor_class = ARMOR_CLASS_LIGHT
+	smeltresult = null
+
 /obj/item/clothing/head/roguetown/helmet/heavy/eoran
 	name = "eoran helmet"
 	desc = "A visage of beauty, this helm made in soft pink and beige reminds one of the grace of Eora."
@@ -55,3 +65,18 @@
 	smeltresult = /obj/item/ingot/steel
 	smelt_bar_num = 2
 
+/obj/item/clothing/head/roguetown/helmet/heavy/undivided
+	name = "templar silver sallet"
+	desc = "A silver-plated jousting helm, and symbol of hope worn by the Azurian Sect of The Undivided. Those who don it have sworn to lay down their lyves for the greater good, for no cost is too great to preserve Their will."
+	icon_state = "silversallet"
+	item_state = "silversallet"
+
+/obj/item/clothing/head/roguetown/helmet/heavy/undivided_ritual
+	name = "crusader greathelm"
+	desc = "A gold-plated bucket helm adorned with symbol of Astrata, beacon of hope worn during crusades. \
+	Sacrificial Hero, fear not your enemy; it is only the first tilt."
+	worn_x_dimension = 64
+	worn_y_dimension = 64
+	icon_state = "crusader_bucket"//Edit of a Stonekeep sprite
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/64x64/head.dmi'
+	bloody_icon = 'icons/effects/blood64.dmi'

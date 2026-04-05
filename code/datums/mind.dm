@@ -49,11 +49,16 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 
 	/// Wizard mode & "Give Spell" badmin button.
 	var/list/spell_list = list()
+	/// Whether this mind has arcyne momentum (persists through death)
+	var/has_arcyne_momentum = FALSE
 
-	var/spell_points
-	var/used_spell_points
-	var/list/spell_point_pools
-	var/list/spell_points_used_by_pool
+	var/list/major_aspects
+	var/list/minor_aspects
+	/// Mage aspect system config from subclass. Keys: "mastery", "major", "minor", "utilities". Optional: "locked_aspects" (list of type paths).
+	var/list/mage_aspect_config
+	/// Aspect reset budget used. Major costs 2, Minor/Utility costs 1. Max 2. Resets on sleep.
+	var/aspect_resets_used = 0
+
 	var/movemovemovetext = "Move!!"
 	var/takeaimtext = "Take aim!!"
 	var/holdtext = "Hold!!"
@@ -125,10 +130,6 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 
 	/// List of personal objectives not tied to the antag roles.
 	var/list/personal_objectives = list()
-
-	var/has_changed_spell = FALSE
-	var/has_rituos = FALSE
-	var/obj/effect/proc_holder/spell/rituos_spell
 
 	var/has_bomb = FALSE
 
@@ -358,23 +359,111 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 
 		new_character.key = key		//now transfer the key to link the client to our new body
 	new_character.update_fov_angles()
-	SEND_SIGNAL(old_current, COMSIG_MIND_TRANSFER, new_character)
 
-// adjusts the amount of available spellpoints
-/datum/mind/proc/adjust_spellpoints(points)
-	spell_points += points
-	if(!has_spell(/obj/effect/proc_holder/spell/targeted/touch/prestidigitation))
-		AddSpell(new /obj/effect/proc_holder/spell/targeted/touch/prestidigitation)
-	check_learnspell()
+	SEND_SIGNAL(src, COMSIG_MIND_TRANSFERRED, old_current)
+	SEND_SIGNAL(new_character, COMSIG_MOB_MIND_TRANSFERRED_INTO, old_current)
+	if(!isnull(old_current))
+		SEND_SIGNAL(old_current, COMSIG_MOB_MIND_TRANSFERRED_OUT_OF, current)
 
-/datum/mind/proc/set_spell_point_pools(list/pools)
-	spell_point_pools = pools.Copy()
-	spell_points_used_by_pool = list()
-	for(var/pool_name in pools)
-		spell_points_used_by_pool[pool_name] = 0
-	if(!has_spell(/obj/effect/proc_holder/spell/targeted/touch/prestidigitation))
-		AddSpell(new /obj/effect/proc_holder/spell/targeted/touch/prestidigitation)
-	check_learnspell()
+
+
+/datum/mind/proc/attune_aspect(datum/magic_aspect/aspect, variant, choice_spell)
+	if(!aspect)
+		return FALSE
+	var/max_majors = LAZYLEN(mage_aspect_config) ? mage_aspect_config["major"] : MAX_MAJOR_ASPECTS
+	var/max_minors = LAZYLEN(mage_aspect_config) ? mage_aspect_config["minor"] : MAX_MINOR_ASPECTS
+	var/has_mastery = LAZYLEN(mage_aspect_config) ? mage_aspect_config["mastery"] : FALSE
+	switch(aspect.aspect_type)
+		if(ASPECT_MAJOR)
+			if(LAZYLEN(major_aspects) >= max_majors)
+				if(current)
+					to_chat(current, span_warning("I cannot attune to another major aspect."))
+				return FALSE
+			LAZYADD(major_aspects, aspect)
+		if(ASPECT_MINOR)
+			if(LAZYLEN(minor_aspects) >= max_minors)
+				if(current)
+					to_chat(current, span_warning("I cannot attune to another minor aspect."))
+				return FALSE
+			LAZYADD(minor_aspects, aspect)
+	// Grant choice spell first so it appears first on the action bar
+	// If no explicit choice, auto-resolve: prefer one the player already has, else first in list
+	if(!choice_spell && length(aspect.choice_spells))
+		for(var/candidate in aspect.choice_spells)
+			if(has_spell(candidate))
+				choice_spell = candidate
+				break
+		if(!choice_spell)
+			choice_spell = aspect.choice_spells[1]
+	if(choice_spell)
+		aspect.grant_choice_spell(src, choice_spell)
+	aspect.grant_spells(src)
+	// Apply variant swaps — explicit variant takes priority, mastery config gets "mastery" by default
+	if(variant)
+		aspect.apply_variant(src, variant)
+	else if(has_mastery)
+		aspect.apply_variant(src, "mastery")
+	ensure_mage_basics()
+	return TRUE
+
+/datum/mind/proc/remove_aspect(datum/magic_aspect/aspect, list/skip_spells)
+	if(!aspect)
+		return FALSE
+	aspect.revoke_spells(src, skip_spells)
+	switch(aspect.aspect_type)
+		if(ASPECT_MAJOR)
+			LAZYREMOVE(major_aspects, aspect)
+		if(ASPECT_MINOR)
+			LAZYREMOVE(minor_aspects, aspect)
+	return TRUE
+
+/datum/mind/proc/remove_all_aspects()
+	for(var/datum/magic_aspect/aspect in major_aspects)
+		remove_aspect(aspect)
+	for(var/datum/magic_aspect/aspect in minor_aspects)
+		remove_aspect(aspect)
+
+/datum/mind/proc/has_aspect(aspect_type_path)
+	for(var/datum/magic_aspect/aspect in major_aspects)
+		if(aspect.type == aspect_type_path)
+			return TRUE
+	for(var/datum/magic_aspect/aspect in minor_aspects)
+		if(aspect.type == aspect_type_path)
+			return TRUE
+	return FALSE
+
+/datum/mind/proc/get_aspect_color()
+	if(LAZYLEN(major_aspects))
+		var/datum/magic_aspect/first = major_aspects[1]
+		return first.school_color
+	return GLOW_COLOR_ARCANE
+
+/datum/mind/proc/get_aspect_reset_remaining()
+	return ASPECT_RESET_BUDGET - aspect_resets_used
+
+/datum/mind/proc/can_reset_aspect(datum/magic_aspect/aspect)
+	if(!aspect)
+		return FALSE
+	var/cost = (aspect.aspect_type == ASPECT_MAJOR) ? ASPECT_RESET_COST_MAJOR : ASPECT_RESET_COST_MINOR
+	return get_aspect_reset_remaining() >= cost
+
+/datum/mind/proc/spend_aspect_reset(datum/magic_aspect/aspect)
+	if(!aspect)
+		return FALSE
+	var/cost = (aspect.aspect_type == ASPECT_MAJOR) ? ASPECT_RESET_COST_MAJOR : ASPECT_RESET_COST_MINOR
+	if(get_aspect_reset_remaining() < cost)
+		return FALSE
+	aspect_resets_used += cost
+	return TRUE
+
+/datum/mind/proc/can_reset_utility()
+	return get_aspect_reset_remaining() >= ASPECT_RESET_COST_UTILITY
+
+/datum/mind/proc/spend_utility_reset()
+	if(!can_reset_utility())
+		return FALSE
+	aspect_resets_used += ASPECT_RESET_COST_UTILITY
+	return TRUE
 
 /datum/mind/proc/set_death_time()
 	last_death = world.time
@@ -764,9 +853,24 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 		add_antag_datum(/datum/antagonist/traitor)
 
 
-/datum/mind/proc/AddSpell(obj/effect/proc_holder/spell/S, mob/living/user)
-	if(!S)
+/datum/mind/proc/AddSpell(datum/spell_or_action, mob/living/user)
+	if(!spell_or_action)
 		return
+
+	// New action-based spell system
+	if(istype(spell_or_action, /datum/action/cooldown/spell))
+		var/datum/action/cooldown/spell/new_spell = spell_or_action
+		for(var/datum/action/cooldown/spell/present in spell_list)
+			if(present.name == new_spell.name && present.type == new_spell.type)
+				return
+		spell_list += new_spell
+		new_spell.Grant(current)
+		if(length(spell_list) == 1 && current)
+			addtimer(CALLBACK(src, PROC_REF(show_spell_tip)), 3 SECONDS)
+		return
+
+	// Old proc_holder spell system
+	var/obj/effect/proc_holder/spell/S = spell_or_action
 	for(var/obj/effect/proc_holder/spell/present_spell in spell_list)
 		if(present_spell.name == S.name && present_spell.type == S.type)
 			return
@@ -777,41 +881,117 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 	if(length(spell_list) == 1 && current)
 		addtimer(CALLBACK(src, PROC_REF(show_spell_tip)), 3 SECONDS)
 
+/// Ensure arcyne ward and prestidigitation are present and bumped to the end of the spell list.
+/// Arcyne Ward is skipped if a dragonhide/crystalhide variant is already present (those replace it).
+/datum/mind/proc/ensure_mage_basics()
+	if(!current || !HAS_TRAIT(current, TRAIT_ARCYNE))
+		return
+
+	// Arcyne Ward - only granted if mage_aspect_config has "ward" = TRUE
+	if(mage_aspect_config && mage_aspect_config["ward"])
+		var/datum/action/cooldown/spell/conjure_arcyne_ward/base_ward
+		var/datum/action/cooldown/spell/conjure_arcyne_ward/variant_ward
+		for(var/datum/action/cooldown/spell/conjure_arcyne_ward/ward in spell_list)
+			if(ward.type == /datum/action/cooldown/spell/conjure_arcyne_ward)
+				base_ward = ward
+			else
+				variant_ward = ward
+		if(variant_ward)
+			if(base_ward)
+				RemoveSpell(base_ward)
+		else if(base_ward)
+			var/obj/item/clothing/suit/roguetown/armor/regenerating/skin/arcyne_ward/active_ward = base_ward.conjured_ward
+			if(active_ward)
+				base_ward.conjured_ward = null
+				active_ward.linked_spell = null
+			RemoveSpell(base_ward)
+			var/datum/action/cooldown/spell/conjure_arcyne_ward/new_ward_spell = new /datum/action/cooldown/spell/conjure_arcyne_ward
+			AddSpell(new_ward_spell)
+			if(active_ward && !QDELETED(active_ward))
+				new_ward_spell.conjured_ward = active_ward
+				active_ward.linked_spell = new_ward_spell
+		else
+			AddSpell(new /datum/action/cooldown/spell/conjure_arcyne_ward)
+
+	// Prestidigitation - always last
+	var/datum/presto = get_spell(/datum/action/cooldown/spell/touch/prestidigitation)
+	if(!presto)
+		AddSpell(new /datum/action/cooldown/spell/touch/prestidigitation)
+	else
+		RemoveSpell(presto)
+		AddSpell(new /datum/action/cooldown/spell/touch/prestidigitation)
+
+
 /datum/mind/proc/show_spell_tip()
 	if(current)
 		to_chat(current, span_nicegreen("Tip: You can Ctrl-Click your hotkey bar to unlock it, then drag to rearrange your spells. Re-arranging them change which hotkeys they are bound to in order from left to right (Alt 1 to Alt 9 default). You can shift click your spells to learn more about them."))
 
+/datum/mind/proc/setup_mage_aspects(list/config)
+	mage_aspect_config = config
+	ensure_mage_basics()
+	check_learnspell()
+
 /datum/mind/proc/check_learnspell()
-	// Pool-based system always takes priority over flat spellpoints to prevent unexpected spell point sources from bypassing pool restrictions
-	if(LAZYLEN(spell_point_pools))
-		var/has_remaining = FALSE
-		for(var/pool_name in spell_point_pools)
-			var/used = spell_points_used_by_pool?[pool_name] || 0
-			if(used < spell_point_pools[pool_name])
-				has_remaining = TRUE
-				break
-		if(has_remaining && !has_spell(/obj/effect/proc_holder/spell/self/learnspell))
-			AddSpell(new /obj/effect/proc_holder/spell/self/learnspell(null))
-		else if(!has_remaining)
-			RemoveSpell(/obj/effect/proc_holder/spell/self/learnspell)
+	// Aspect config system — LearnSpell only appears until the first binding.
+	// After that, the spellbook handles edit mode.
+	if(LAZYLEN(mage_aspect_config))
+		var/list/config = mage_aspect_config
+		var/current_majors = LAZYLEN(major_aspects)
+		var/current_minors = LAZYLEN(minor_aspects)
+		var/max_maj = config["major"] || 0
+		var/max_min = config["minor"] || 0
+		var/max_util = config["utilities"] || 0
+		// Check if all slots and points are exhausted
+		var/has_remaining_slots = (current_majors < max_maj) || (current_minors < max_min)
+		var/has_remaining_util = FALSE
+		if(max_util > 0)
+			var/util_points_spent = 0
+			for(var/path in GLOB.utility_spells)
+				if(has_spell(path))
+					var/is_picked = FALSE
+					for(var/datum/action/cooldown/spell/S in spell_list)
+						if(S.type == path && S.utility_learned)
+							is_picked = TRUE
+							break
+					if(!is_picked)
+						continue
+					if(ispath(path, /datum/action/cooldown/spell))
+						var/datum/action/cooldown/spell/S = path
+						util_points_spent += initial(S.point_cost)
+					else
+						var/obj/effect/proc_holder/spell/S = path
+						util_points_spent += initial(S.cost)
+			has_remaining_util = (util_points_spent < max_util)
+		if(!has_remaining_slots && !has_remaining_util)
+			RemoveSpell(/datum/action/cooldown/spell/learnspell)
+			return
+		// Still has available slots/points — remove and re-add LearnSpell to bump it to end
+		RemoveSpell(/datum/action/cooldown/spell/learnspell)
+		AddSpell(new /datum/action/cooldown/spell/learnspell())
 		return
 
-	if(!has_spell(/obj/effect/proc_holder/spell/self/learnspell))
-		if((spell_points - used_spell_points) > 0)
-			AddSpell(new /obj/effect/proc_holder/spell/self/learnspell(null))
+	// Arcyne casters without aspects still need learnspell to open the aspect picker
+	if(current)
+		if(HAS_TRAIT(current, TRAIT_ARCYNE) && !LAZYLEN(major_aspects))
+			RemoveSpell(/datum/action/cooldown/spell/learnspell)
+			AddSpell(new /datum/action/cooldown/spell/learnspell())
 			return
 
-	if((spell_points - used_spell_points) <= 0)
-		RemoveSpell(/obj/effect/proc_holder/spell/self/learnspell)
-		return
 	return
 
 /datum/mind/proc/has_spell(spell_type, specific = FALSE)
+	// Extract type from instance if passed one
 	if(istype(spell_type, /obj/effect/proc_holder))
 		var/obj/instanced_spell = spell_type
 		spell_type = instanced_spell.type
-	for(var/obj/effect/proc_holder/spell as anything in spell_list)
-		if((specific && spell.type == spell_type) || istype(spell, spell_type))
+	else if(istype(spell_type, /datum/action/cooldown/spell))
+		var/datum/action/cooldown/spell/instanced_spell = spell_type
+		spell_type = instanced_spell.type
+
+	for(var/datum/spell as anything in spell_list)
+		if(specific && spell.type == spell_type)
+			return TRUE
+		else if(!specific && istype(spell, spell_type))
 			return TRUE
 	return FALSE
 
@@ -820,8 +1000,12 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 	if(istype(spell_type, /obj/effect/proc_holder))
 		var/obj/effect/proc_holder/instanced_spell = spell_type
 		spell_path = instanced_spell.type
-	for(var/obj/effect/proc_holder/spell as anything in spell_list)
-		if(specific && (spell.type == spell_path))
+	else if(istype(spell_type, /datum/action/cooldown/spell))
+		var/datum/action/cooldown/spell/instanced_spell = spell_type
+		spell_path = instanced_spell.type
+
+	for(var/datum/spell as anything in spell_list)
+		if(specific && spell.type == spell_path)
 			return spell
 		else if(!specific && istype(spell, spell_path))
 			return spell
@@ -831,21 +1015,49 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 	return soulOwner == src
 
 //To remove a specific spell from a mind
-/datum/mind/proc/RemoveSpell(obj/effect/proc_holder/spell/spell)
-	var/success = FALSE
+/datum/mind/proc/RemoveSpell(datum/spell)
 	if(!spell)
 		return FALSE
+
+	// Handle type paths directly — match by type in spell_list
+	if(ispath(spell))
+		for(var/datum/S in spell_list)
+			if(S.type == spell)
+				spell_list -= S
+				qdel(S)
+				return TRUE
+		return FALSE
+
+	// Handle new action-based spells
+	if(istype(spell, /datum/action/cooldown/spell))
+		var/datum/action/cooldown/spell/action_spell = spell
+		for(var/datum/action/cooldown/spell/S in spell_list)
+			if(S.name == action_spell.name && S.type == action_spell.type)
+				spell_list -= S
+				qdel(S)
+				return TRUE
+		// Also try matching by type path (when passed a typepath-instantiated reference)
+		for(var/datum/action/cooldown/spell/S in spell_list)
+			if(S.type == action_spell.type)
+				spell_list -= S
+				qdel(S)
+				return TRUE
+		return FALSE
+
+	// Handle old proc_holder spells
+	var/obj/effect/proc_holder/spell/proc_spell = spell
 	for(var/X in spell_list)
+		if(!istype(X, /obj/effect/proc_holder/spell))
+			continue
 		var/obj/effect/proc_holder/spell/S = X
-		if(S.name == spell.name && S.type == spell.type) //match by name and type to avoid issues with multiple instances of the same spell
+		if(S.name == proc_spell.name && S.type == proc_spell.type)
 			spell_list -= S
 			qdel(S)
-			success = TRUE
-			return TRUE // We're deleting only one spell
-	return success
+			return TRUE
+	return FALSE
 
 /datum/mind/proc/RemoveAllSpells()
-	for(var/obj/effect/proc_holder/S in spell_list)
+	for(var/datum/S in spell_list)
 		RemoveSpell(S)
 
 /datum/mind/proc/transfer_martial_arts(mob/living/new_character)
@@ -865,18 +1077,41 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 
 /datum/mind/proc/transfer_mindbound_actions(mob/living/new_character)
 	for(var/X in spell_list)
-		var/obj/effect/proc_holder/spell/S = X
-		S.action.Grant(new_character)
+		// New action-based spells ARE actions — grant them directly
+		if(istype(X, /datum/action/cooldown/spell))
+			var/datum/action/cooldown/spell/action_spell = X
+			action_spell.Grant(new_character)
+		// Old proc_holder spells have a separate action wrapper
+		else if(istype(X, /obj/effect/proc_holder/spell))
+			var/obj/effect/proc_holder/spell/S = X
+			S.action?.Grant(new_character)
 
 /datum/mind/proc/disrupt_spells(delay, list/exceptions = New())
 	for(var/X in spell_list)
-		var/obj/effect/proc_holder/spell/S = X
-		for(var/type in exceptions)
-			if(istype(S, type))
+		// New action-based spells use cooldown system
+		if(istype(X, /datum/action/cooldown/spell))
+			var/datum/action/cooldown/spell/action_spell = X
+			var/dominated = FALSE
+			for(var/type in exceptions)
+				if(istype(action_spell, type))
+					dominated = TRUE
+					break
+			if(dominated)
 				continue
-		S.charge_counter = delay
-		S.updateButtonIcon()
-		INVOKE_ASYNC(S, TYPE_PROC_REF(/obj/effect/proc_holder/spell, start_recharge))
+			action_spell.StartCooldownSelf(delay)
+		// Old proc_holder spells use charge_counter recharge system
+		else if(istype(X, /obj/effect/proc_holder/spell))
+			var/obj/effect/proc_holder/spell/S = X
+			var/dominated = FALSE
+			for(var/type in exceptions)
+				if(istype(S, type))
+					dominated = TRUE
+					break
+			if(dominated)
+				continue
+			S.charge_counter = delay
+			S.action?.build_all_button_icons()
+			INVOKE_ASYNC(S, TYPE_PROC_REF(/obj/effect/proc_holder/spell, start_recharge))
 
 /datum/mind/proc/get_ghost(even_if_they_cant_reenter, ghosts_with_clients)
 	for(var/mob/dead/observer/G in (ghosts_with_clients ? GLOB.player_list : GLOB.dead_mob_list))

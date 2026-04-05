@@ -1,9 +1,10 @@
 //These are all Vanderlin ports, simply redone values and additions to fit Azure. Credit for the code and idea goes to them!
 
-//Divine Strike - Enhance your held weapon to have the next strike do extra damage and slow the target. Undead debuffed more.
+//Divine Strike - Enhance your held weapon to have the next strike ~~do extra damage~~ and slow the target. Undead debuffed more.
+//03/21/2026: Spell does not add extra damage. Leaving comment bc maybe it's supposed to, but, uhhh. IDK I'm fixing the description for now. -- MUMBLEMANCER
 /obj/effect/proc_holder/spell/self/divine_strike
 	name = "Divine Strike"
-	desc = "Bless your next strike to do extra damage and slow the target."
+	desc = "Bless your next strike to slow the target."
 	action_icon = 'icons/mob/actions/ravoxmiracles.dmi'
 	overlay_icon = 'icons/mob/actions/ravoxmiracles.dmi'
 	overlay_state = "divine_strike"
@@ -15,7 +16,7 @@
 	chargedloop = null
 	associated_skill = /datum/skill/magic/holy
 	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
-	sound = 'sound/magic/timestop.ogg'
+	sound = 'sound/misc/alert.ogg'
 	invocations = list("By Ravox, stand and fight!")
 	invocation_type = "shout"
 	antimagic_allowed = TRUE
@@ -184,8 +185,8 @@
 
 /atom/movable/screen/alert/status_effect/buff/divine_strike
 	name = "Divine Strike"
-	desc = "Your next attack deals additional damage and slows your target."
-	icon_state = "stressvg"
+	desc = "Your next attack slows your target, lowering their WIL and SPD."
+	icon_state = "divine_strike"
 
 /obj/effect/proc_holder/spell/invoked/tug_of_war
 	name = "Tug of War"

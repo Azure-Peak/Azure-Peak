@@ -32,14 +32,6 @@ GLOBAL_LIST_INIT(ghost_verbs, list(
 				if(D.buried && D.funeral)
 					D.returntolobby()
 					return
-
-				var/datum/job/target_job = SSjob.GetJob(D.mind.assigned_role)
-				if(target_job)
-					if(target_job.job_reopens_slots_on_death)
-						target_job.current_positions = max(0, target_job.current_positions - 1)
-					if(target_job.same_job_respawn_delay)
-						// Store the current time for the player
-						GLOB.job_respawn_delays[src.ckey] = world.time + target_job.same_job_respawn_delay
 			verbs -= GLOB.ghost_verbs
 			mob.returntolobby()
 		if("No")
@@ -68,6 +60,12 @@ GLOBAL_LIST_INIT(ghost_verbs, list(
 
 	if(key)
 		GLOB.respawntimes[key] = world.time
+
+	// Notify the job datum that this player is permanently leaving the round
+	if(mind?.assigned_role)
+		var/datum/job/my_job = SSjob.GetJob(mind.assigned_role)
+		if(my_job)
+			my_job.on_round_removal(src)
 
 	log_game("[key_name(usr)] respawned from underworld")
 

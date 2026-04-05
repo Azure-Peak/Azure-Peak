@@ -1,4 +1,0 @@
-author: "FreeStylaLT"
-delete-after: True
-changes:
-  - refactor: "Changed knockdown logic to not involve a disarm. Consequently several effects no longer disarm that used to knock the target down."

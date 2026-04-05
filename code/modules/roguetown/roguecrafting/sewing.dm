@@ -457,13 +457,7 @@
 				/obj/item/natural/fibers = 2)
 	craftdiff = 3
 
-/datum/crafting_recipe/roguetown/sewing/abyssortemplartabard
-	name = "tabard, abyssorite templar"
-	category = "Tabards"
-	result = list(/obj/item/clothing/cloak/tabard/abyssortabard)
-	reqs = list(/obj/item/natural/cloth = 3,
-				/obj/item/natural/fibers = 1)
-	craftdiff = 3
+
 
 /datum/crafting_recipe/roguetown/sewing/psydon
 	name = "tabard, psydon orthodoxist"
@@ -527,9 +521,9 @@
 				/obj/item/natural/fibers = 1)
 	craftdiff = 3
 
-/datum/crafting_recipe/roguetown/sewing/abyssortemplartabard
+/datum/crafting_recipe/roguetown/sewing/abyssortemplar
 	name = "tabard, abyssorite templar"
-	result = list(/obj/item/clothing/cloak/tabard/abyssortabard)
+	result = list(/obj/item/clothing/cloak/tabard/abyssorite)
 	reqs = list(/obj/item/natural/cloth = 3,
 				/obj/item/natural/fibers = 1)
 	craftdiff = 3
@@ -552,7 +546,7 @@
 /datum/crafting_recipe/roguetown/sewing/eora
 	name = "tabard, eora"
 	category = "Tabards"
-	result = list(/obj/item/clothing/cloak/templar/eora)
+	result = list(/obj/item/clothing/cloak/tabard/devotee/eora)
 	reqs = list(/obj/item/natural/cloth = 3,
 				/obj/item/natural/fibers = 1)
 	craftdiff = 3
@@ -567,7 +561,7 @@
 /datum/crafting_recipe/roguetown/sewing/pestra
 	name = "tabard, pestra"
 	category = "Tabards"
-	result = list(/obj/item/clothing/cloak/templar/pestra)
+	result = list(/obj/item/clothing/cloak/tabard/devotee/pestra)
 	reqs = list(/obj/item/natural/cloth = 3,
 				/obj/item/natural/fibers = 1)
 	craftdiff = 3
@@ -589,7 +583,7 @@
 /datum/crafting_recipe/roguetown/sewing/ravox
 	name = "tabard, ravox"
 	category = "Tabards"
-	result = list(/obj/item/clothing/cloak/cleric/ravox)
+	result = list(/obj/item/clothing/cloak/tabard/devotee/ravox)
 	reqs = list(/obj/item/natural/cloth = 3,
 				/obj/item/natural/fibers = 1)
 	craftdiff = 3
@@ -690,7 +684,7 @@
 /datum/crafting_recipe/roguetown/sewing/xylix
 	name = "tabard, xylix"
 	category = "Tabards"
-	result = list(/obj/item/clothing/cloak/templar/xylix)
+	result = list(/obj/item/clothing/cloak/tabard/devotee/xylix)
 	reqs = list(/obj/item/natural/cloth = 3,
 				/obj/item/natural/fibers = 1)
 	craftdiff = 3
@@ -1596,10 +1590,10 @@
 	craftdiff = 6
 	sellprice = 90
 
-/datum/crafting_recipe/roguetown/sewing/exoticsilkbra
-	name = "exotic silk bra"
+/datum/crafting_recipe/roguetown/sewing/silkbra
+	name = "giltsilk bra"
 	category = "Misc"
-	result = list (/obj/item/clothing/suit/roguetown/shirt/exoticsilkbra)
+	result = list (/obj/item/clothing/suit/roguetown/shirt/silkbra)
 	reqs = list(/obj/item/natural/silk = 5)
 	craftdiff = 6
 
@@ -1610,23 +1604,24 @@
 	craftdiff = 2
 
 /datum/crafting_recipe/roguetown/sewing/anklets
-	name = "exotic silk anklets"
+	name = "giltsilk anklets"
+	aliases = "golden anklets"
 	category = "Misc"
 	result = list (/obj/item/clothing/shoes/roguetown/anklets)
 	reqs = list(/obj/item/natural/silk = 5)
 	craftdiff = 6
 
-/datum/crafting_recipe/roguetown/sewing/exoticsilkbelt
-	name = "exotic silk belt"
+/datum/crafting_recipe/roguetown/sewing/silkbelt
+	name = "giltsilk belt"
 	category = "Misc"
-	result = list (/obj/item/storage/belt/rogue/leather/exoticsilkbelt)
+	result = list (/obj/item/storage/belt/rogue/leather/silkbelt)
 	reqs = list(/obj/item/natural/silk = 5)
 	craftdiff = 6
 
-/datum/crafting_recipe/roguetown/sewing/exoticsilkmask
-	name = "exotic silk mask"
+/datum/crafting_recipe/roguetown/sewing/silkmask
+	name = "giltsilk mask"
 	category = "Masks"
-	result = list (/obj/item/clothing/mask/rogue/exoticsilkmask)
+	result = list (/obj/item/clothing/mask/rogue/silkmask)
 	reqs = list(/obj/item/natural/silk = 5)
 	craftdiff = 6
 
@@ -1746,7 +1741,7 @@
 	craftdiff = 1
 
 /datum/crafting_recipe/roguetown/sewing/maiddress
-	name = "maid dress (1 fibers, 3 cloth)"
+	name = "servant dress"
 	result = list(/obj/item/clothing/suit/roguetown/shirt/dress/maid)
 	reqs = list(/obj/item/natural/cloth = 3,
 				/obj/item/natural/fibers = 1)
@@ -1762,7 +1757,7 @@
 	craftdiff = 2
 
 /datum/crafting_recipe/roguetown/sewing/maidapron
-	name = "maid apron (1 fibers, 2 cloth)"
+	name = "servant apron"
 	result = list(/obj/item/clothing/cloak/apron/waist/maid)
 	reqs = list(/obj/item/natural/cloth = 2,
 				/obj/item/natural/fibers = 1)
@@ -1770,7 +1765,7 @@
 	craftdiff = 2
 
 /datum/crafting_recipe/roguetown/sewing/maidsash
-	name = "maid sash (1 fibers, 1 cloth)"
+	name = "maid sash"
 	result = list(/obj/item/storage/belt/rogue/leather/sash/maid)
 	reqs = list(/obj/item/natural/cloth = 1,
 				/obj/item/natural/fibers = 1)
@@ -2051,3 +2046,67 @@
 	)
 	skillcraft = /datum/skill/magic/holy
 	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/sewing/maidband
+	name = "maid headband"
+	result = list(/obj/item/clothing/head/roguetown/maidband)
+	reqs = list(
+		/obj/item/natural/cloth = 1,
+		/obj/item/natural/fibers = 2
+	)
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/sewing/maiddress
+	name = "maid dress"
+	result = list(/obj/item/clothing/suit/roguetown/shirt/dress/maidfancy)
+	reqs = list(
+		/obj/item/natural/cloth = 3,
+		/obj/item/natural/fibers = 2
+	)
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/sewing/maidapron
+	name = "maid apron"
+	result = list(/obj/item/clothing/cloak/apron/waist/fancymaid)
+	reqs = list(
+		/obj/item/natural/cloth = 1,
+		/obj/item/natural/fibers = 1
+	)
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/sewing/formalshirt
+	name = "formal shirt"
+	result = list(/obj/item/clothing/suit/roguetown/shirt/undershirt/formal)
+	reqs = list(
+		/obj/item/natural/cloth = 3,
+		/obj/item/natural/fibers = 2
+	)
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/sewing/trousershorts
+	name = "trouser shorts"
+	result = list(/obj/item/clothing/under/roguetown/tights/shorts)
+	reqs = list(
+		/obj/item/natural/cloth = 2,
+		/obj/item/natural/fibers = 2
+	)
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/sewing/servantdress
+	name = "servant gown"
+	result = list(/obj/item/clothing/suit/roguetown/shirt/dress/maidservant)
+	reqs = list(
+		/obj/item/natural/cloth = 3,
+		/obj/item/natural/fibers = 2
+	)
+	craftdiff = 4
+
+/datum/crafting_recipe/roguetown/sewing/formaltrousers
+	name = "formal trousers"
+	result = list(/obj/item/clothing/under/roguetown/tights/formalfancy)
+	reqs = list(
+		/obj/item/natural/cloth = 3,
+		/obj/item/natural/fibers = 2
+	)
+	craftdiff = 4
+	category = "Pants"

@@ -120,6 +120,8 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 
 	if(HAS_TRAIT(owner, TRAIT_CRITICAL_RESISTANCE))
 		REMOVE_TRAIT(owner, TRAIT_CRITICAL_RESISTANCE, null)
+	if(HAS_TRAIT(owner, TRAIT_RAGE))
+		REMOVE_TRAIT(owner, TRAIT_RAGE, null)
 
 /datum/antagonist/vampire/proc/show_clan_selection(mob/living/carbon/human/vampdude)
 	var/list/clan_options = list()

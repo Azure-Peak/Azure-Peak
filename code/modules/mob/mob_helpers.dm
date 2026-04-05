@@ -522,7 +522,7 @@
 		if(Masteritem.wielded)
 			intents = Masteritem.gripped_intents
 		if(Masteritem.altgripped)
-			intents = Masteritem.alt_intents
+			intents = Masteritem.get_altgrip_intents()
 	else
 		if(active_hand_index == 1)
 			l_index = l_ua_index
@@ -540,7 +540,7 @@
 		if(Masteritem.wielded)
 			intents = Masteritem.gripped_intents
 		if(Masteritem.altgripped)
-			intents = Masteritem.alt_intents
+			intents = Masteritem.get_altgrip_intents()
 	else
 		if(active_hand_index == 1)
 			r_index = r_ua_index
@@ -591,6 +591,10 @@
 	if(input != QINTENT_SPELL)
 		if(ranged_ability)
 			ranged_ability.deactivate()
+		// Also clear new-style cooldown spells set on click_intercept
+		var/datum/action/cooldown/active_cooldown = click_intercept
+		if(istype(active_cooldown))
+			active_cooldown.unset_click_ability(src, refund_cooldown = TRUE)
 	switch(input)
 		if(QINTENT_KICK)
 			if(mmb_intent?.type == INTENT_KICK)
@@ -637,7 +641,6 @@
 				qdel(mmb_intent)
 
 			mmb_intent = new INTENT_SPELL(src)
-			mmb_intent.releasedrain = ranged_ability.get_fatigue_drain()
 			mmb_intent.chargedrain = ranged_ability.chargedrain
 			mmb_intent.chargetime = ranged_ability.get_chargetime()
 			mmb_intent.warnie = ranged_ability.warnie
@@ -776,7 +779,7 @@
 		playsound_local(src, 'sound/misc/click.ogg', 50, TRUE)
 		if(hud_used)
 			if(hud_used.zone_select)
-				hud_used.zone_select.update_icon()
+				hud_used.zone_select.update_selection()
 
 /mob/proc/select_organ_slot(choice)
 	organ_slot_selected = choice
@@ -1003,7 +1006,10 @@
 		return
 
 	// Cannot use the list as a map if the key is a number, so we stringify it (thank you BYOND)
-	var/smessage_type = num2text(message_type)
+	// Use string interpolation instead of num2text to avoid scientific notation for large numbers.
+	// num2text(1048576) produces "1.04858e+06" which text2num() parses as 1048580,
+	// causing LOG_NPC_SAY (1<<20 = 1048576) to be stored incorrectly and match against wrong filters.
+	var/smessage_type = "[message_type]"
 
 	if(client)
 		if(!islist(client.player_details.logging[smessage_type]))

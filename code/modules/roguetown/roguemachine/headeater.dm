@@ -53,7 +53,7 @@
 			if(!supress_message)
 				to_chat(user, span_danger("the [src] consumes [A] spitting out coins in its place!"))
 			if(paynow)
-				budget2change(tax(A.sellprice * return_ratio, user))
+				budget2change(tax(A.sellprice * return_ratio), user)
 			else
 				topay += A.sellprice * return_ratio
 			A.forceMove(src)

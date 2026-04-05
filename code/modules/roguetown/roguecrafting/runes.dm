@@ -63,12 +63,11 @@
 	user.visible_message("<span class='warning'>[user] begins siphoning the rune.</span>")
 
 /obj/item/rune/spell/on_finished(mob/user)
-	for(var/obj/effect/proc_holder/spell/knownspell in user.mind.spell_list)
-		if(knownspell.type == spell)
-			spell = null
+	if(user.mind.has_spell(spell, specific = TRUE))
+		spell = null
 	if(spell)
 		to_chat(user, "<span class='notice'>The power of [spellname] is emblazened in your mind!</span>")
-		var/obj/effect/proc_holder/spell/S = new spell
+		var/datum/S = new spell
 		user.mind.AddSpell(S)
 		if(user.get_skill_level(/datum/skill/magic/arcane) <= 5)
 			user.adjust_experience(/datum/skill/magic/arcane, 100, FALSE)
@@ -79,7 +78,7 @@
 	qdel(src)
 
 /obj/item/rune/spell/fire_rune
-	spell = /obj/effect/proc_holder/spell/invoked/projectile/fireball
+	spell = /datum/action/cooldown/spell/projectile/fireball
 	spellname = "fireball"
 	// icon_state = "fire_rune"
 	name = "fire rune"
@@ -95,7 +94,7 @@
 	remarks = list("To understand these archaic things...", "Mana flows through all living things...", "This spell will fatigue me...", "The spell should flow like water...")
 
 /obj/item/rune/spell/air_rune
-	spell = /obj/effect/proc_holder/spell/invoked/projectile/lightningbolt
+	spell = /datum/action/cooldown/spell/projectile/lightning_bolt
 	spellname = "lightning"
 	// icon_state = "air_rune"
 	name = "air rune"
@@ -103,7 +102,7 @@
 	remarks = list("To understand these archaic things...", "Done properly this could...", "I think I just shocked my hand...")
 
 /obj/item/rune/spell/earth_rune
-	spell = /obj/effect/proc_holder/spell/invoked/projectile/fetch
+	spell = /datum/action/cooldown/spell/projectile/fetch
 	spellname = "fetch"
 	// icon_state = "earth_rune"
 	name = "earth rune"

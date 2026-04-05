@@ -21,6 +21,8 @@
 	perfect_butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/crab = 5, 
 									/obj/item/alch/viscera = 2)
 	faction = list("crabs")
+	threat_point = THREAT_MODERATE
+	ambush_faction = "wildlife"
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
 	health = MOSSBACK_HEALTH
 	maxHealth = MOSSBACK_HEALTH

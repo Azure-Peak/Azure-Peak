@@ -55,7 +55,6 @@
 				remove_stress(/datum/stressevent/sleepytime)
 				if(mind)
 					mind.sleep_adv.advance_cycle()
-					handle_sleep_triumphs()
 	if(leprosy == 1)
 		adjustToxLoss(2)
 	else if(leprosy == 2)
@@ -114,7 +113,6 @@
 
 	. = ..()
 	name = get_visible_name()
-
 /mob/living/carbon/human/proc/on_daypass()
 	if(dna?.species)
 		if(STUBBLE in dna.species.species_traits)

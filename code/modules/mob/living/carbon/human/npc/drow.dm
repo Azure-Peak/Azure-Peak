@@ -10,9 +10,10 @@ GLOBAL_LIST_INIT(drowraider_aggro, world.file2list("strings/rt/drowaggrolines.tx
 	flee_in_pain = TRUE
 	d_intent = INTENT_DODGE
 	possible_rmb_intents = list()
-	var/is_silent = FALSE /// Determines whether or not we will scream our funny lines at people.
 
 /mob/living/carbon/human/species/elf/dark/drowraider/ambush
+	threat_point = THREAT_TOUGH
+	ambush_faction = "underdark"
 	aggressive=1
 	wander = TRUE
 
@@ -22,9 +23,9 @@ GLOBAL_LIST_INIT(drowraider_aggro, world.file2list("strings/rt/drowaggrolines.tx
 	if(target)
 		aggressive=1
 		wander = TRUE
-	if(!is_silent && target != newtarg)
-		say(pick(GLOB.drowraider_aggro))
-		pointed(target)
+	if(target != newtarg)
+		if(npc_combat_dialogue(GLOB.drowraider_aggro, prob_chance = 50, cooldown = 0))
+			pointed(target)
 
 /mob/living/carbon/human/species/elf/dark/drowraider/should_target(mob/living/L)
 	if(L.stat != CONSCIOUS)
@@ -122,8 +123,7 @@ GLOBAL_LIST_INIT(drowraider_aggro, world.file2list("strings/rt/drowaggrolines.tx
 
 /mob/living/carbon/human/species/elf/dark/drowraider/handle_combat()
 	if(mode == NPC_AI_HUNT)
-		if(prob(5))
-			emote("laugh")
+		npc_combat_dialogue(GLOB.drowraider_aggro, list("laugh", "cackle", "giggle"), prob_chance = 5, say_chance = 60)
 	. = ..()
 
 /datum/outfit/job/roguetown/human/species/elf/dark/drowraider/pre_equip(mob/living/carbon/human/H)

@@ -39,7 +39,7 @@
 	/obj/projectile/magic/sickness,
 	/obj/projectile/magic/arcane_barrage, 
 	/obj/projectile/magic/acidsplash,
-	/obj/projectile/magic/aoe/fireball/spitfire)
+	/obj/projectile/magic/spitfire)
 	patron = /datum/patron/inhumen/zizo
 	footstep_type = FOOTSTEP_MOB_SHOE
 	stat_attack = UNCONSCIOUS
@@ -186,7 +186,7 @@
 	damage_type = BURN
 	nodamage = FALSE
 	speed = 0.3
-	flag = "magic"
+	flag = "fire"
 	light_color = "#ffffff"
 /obj/projectile/magic/lich/lightning/on_hit(target)
 	. = ..()
@@ -306,7 +306,7 @@
 	blade_class = BCLASS_CUT
 	hitsound = 'sound/combat/hits/bladed/genchop (1).ogg'
 	chargetime = 20
-	penfactor = 25
+	penfactor = PEN_MEDIUM
 	swingdelay = 3
 	candodge = TRUE
 	canparry = TRUE

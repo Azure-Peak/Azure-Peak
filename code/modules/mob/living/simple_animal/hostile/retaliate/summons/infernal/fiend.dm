@@ -17,6 +17,7 @@
 	move_to_delay = 10
 	base_intents = list(/datum/intent/simple/bite)
 	butcher_results = list()
+	death_loot = list(/obj/item/magic/infernal/flame = 1)
 	faction = list("infernal")
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
 	health = 700
@@ -42,7 +43,7 @@
 	canparry = TRUE
 	defprob = 50
 	// del_on_deaggro = 44 SECONDS
-	retreat_health = 0.3
+	retreat_health = 0
 	food = 0
 	attack_sound = list('sound/misc/lava_death.ogg')
 	dodgetime = 30
@@ -62,17 +63,6 @@
 
 /mob/living/simple_animal/hostile/retaliate/rogue/infernal/fiend/death(gibbed)
 	..()
-	var/turf/deathspot = get_turf(src)
-	new /obj/item/magic/infernal/flame(deathspot)
-	new /obj/item/magic/infernal/core(deathspot)
-	new /obj/item/magic/infernal/core(deathspot)
-	new /obj/item/magic/infernal/fang(deathspot)
-	new /obj/item/magic/infernal/fang(deathspot)
-	new /obj/item/magic/infernal/ash(deathspot)
-	new /obj/item/magic/infernal/ash(deathspot)
-	new /obj/item/magic/infernal/ash(deathspot)
-	new /obj/item/magic/infernal/ash(deathspot)
-	new /obj/item/magic/melded/t2(deathspot)
 	update_icon()
 	spill_embedded_objects()
 	qdel(src)

@@ -76,6 +76,7 @@
 		/obj/item/reagent_containers/food/snacks/grown/rogue/swampweeddry = 2,
 		/obj/item/reagent_containers/powder/moondust = 2,
 		/obj/item/reagent_containers/powder/spice = 1,
+		/obj/item/mini_flagpole/bathhouse,
 		)
 
 	if(should_wear_masc_clothes(H))

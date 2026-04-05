@@ -35,3 +35,11 @@
 	icon_state = "lux_impure"
 	item_state = "lux_impure"
 	sellprice = 15
+
+/obj/item/reagent_containers/lux_moss
+	name = "corrupted lux"
+	desc = "Something is amiss with this piece of lifeforce. You can see a faint glimpse of a rock piece hurling through the sky."
+	icon = 'icons/roguetown/items/hag/hag_items.dmi'
+	icon_state = "mosslux"
+	item_state = "mosslux"
+	sellprice = 1
