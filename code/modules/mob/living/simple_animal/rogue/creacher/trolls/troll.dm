@@ -84,9 +84,9 @@
 
 /mob/living/simple_animal/hostile/retaliate/rogue/troll/Initialize()
 	. = ..()
+	AddComponent(/datum/component/ai_aggro_system)
 	if(critvuln)
 		ADD_TRAIT(src, TRAIT_CRITICAL_WEAKNESS, TRAIT_GENERIC)
-	AddElement(/datum/element/ai_retaliate)
 	ai_controller.set_blackboard_key(BB_BASIC_FOODS, food_type)
 
 /mob/living/simple_animal/hostile/retaliate/rogue/troll/death(gibbed)

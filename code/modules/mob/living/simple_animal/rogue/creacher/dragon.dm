@@ -71,6 +71,7 @@
 
 /mob/living/simple_animal/hostile/retaliate/rogue/dragon/Initialize()
 	. = ..()
+	AddComponent(/datum/component/ai_aggro_system)
 	gender = MALE
 	if(prob(33))
 		gender = FEMALE
@@ -96,8 +97,6 @@
 	var/datum/action/cooldown/mob_cooldown/dragon_leap/leap = new(src)
 
 	leap.Grant(src)
-
-	AddElement(/datum/element/ai_retaliate)
 
 	ai_controller.set_blackboard_key(BB_TARGETED_ACTION, leap)
 

@@ -56,8 +56,8 @@
 
 /mob/living/simple_animal/hostile/retaliate/rogue/mirespider/Initialize()
 	. = ..()
+	AddComponent(/datum/component/ai_aggro_system)
 	update_icon()
-	AddElement(/datum/element/ai_retaliate)
 	ADD_TRAIT(src, TRAIT_NOPAINSTUN, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_KNEESTINGER_IMMUNITY, INNATE_TRAIT)
 
@@ -237,6 +237,7 @@
 
 /mob/living/simple_animal/hostile/rogue/mirespider_lurker/Initialize()
 	. = ..()
+	AddComponent(/datum/component/ai_aggro_system)
 	ADD_TRAIT(src, TRAIT_NOPAINSTUN, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_KNEESTINGER_IMMUNITY, INNATE_TRAIT)
 	// I'll replace this with something better later. Stopgap for now to make killing them more than just a nuisance.
@@ -316,6 +317,10 @@
 
 /datum/intent/simple/bite/mirespider_paralytic
 	clickcd = ARAGN_ATTACK_SPEED
+
+/mob/living/simple_animal/hostile/rogue/mirespider_paralytic/Initialize()
+	. = ..()
+	AddComponent(/datum/component/ai_aggro_system)
 
 /mob/living/simple_animal/hostile/rogue/mirespider_paralytic/AttackingTarget()
 	. = ..()
