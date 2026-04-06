@@ -7,9 +7,9 @@
 	var/map_file = ""
 	/// Human-readable name for display
 	var/map_name = "Unknown"
-	/// Difficulty multiplier — drives ambush chance and mob scaling. Defined in quests.dm.
+	/// Difficulty multiplier â€” drives ambush chance and mob scaling. Defined in quests.dm.
 	var/difficulty_modifier = 1.0
-	/// Reward multiplier — globally scales quest payout on this map. Defined in quests.dm.
+	/// Reward multiplier â€” globally scales quest payout on this map. Defined in quests.dm.
 	var/reward_modifier = 1.0
 	/// Which QUEST_MAP_FLAG_* bitfield this map corresponds to for mob filtering
 	var/map_flag = QUEST_MAP_FLAG_ALL
