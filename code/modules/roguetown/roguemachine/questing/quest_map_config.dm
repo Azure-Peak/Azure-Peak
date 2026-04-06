@@ -30,9 +30,9 @@
 /datum/quest_map_config/town
 	map_file = "dun_world.dmm"
 	map_name = "Azure Peak"
-	difficulty_modifier = QUEST_MAP_DIFFICULTY_TOWN
-	reward_modifier = QUEST_MAP_REWARD_TOWN
-	map_flag = QUEST_MAP_FLAG_TOWN
+	difficulty_modifier = QUEST_MAP_DIFFICULTY_AZURE
+	reward_modifier = QUEST_MAP_REWARD_AZURE
+	map_flag = QUEST_MAP_FLAG_AZURE
 	ambush_pools = list(
 		/datum/ambush_config/bog_guard_deserters,
 		/datum/ambush_config/mirespiders_ambush,

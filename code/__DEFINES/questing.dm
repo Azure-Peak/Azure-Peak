@@ -56,29 +56,15 @@
 
 // ===== Map difficulty and reward modifiers =====
 // Map flag bitfields for mob availability per map
-#define QUEST_MAP_FLAG_TOWN (1<<0)
-#define QUEST_MAP_FLAG_BOG (1<<1)
-#define QUEST_MAP_FLAG_DESERT (1<<2)
-#define QUEST_MAP_FLAG_FROZEN (1<<3)
-#define QUEST_MAP_FLAG_UNDERDARK (1<<4)
-#define QUEST_MAP_FLAG_ALL (QUEST_MAP_FLAG_TOWN | QUEST_MAP_FLAG_BOG | QUEST_MAP_FLAG_DESERT | QUEST_MAP_FLAG_FROZEN | QUEST_MAP_FLAG_UNDERDARK)
+#define QUEST_MAP_FLAG_AZURE (1<<0)
+#define QUEST_MAP_FLAG_ALL (QUEST_MAP_FLAG_AZURE)
 
 // Per-map difficulty multipliers (drives ambush frequency and mob scaling).
 // 1.0x = baseline (~8% ambush), 2.0x = ~15% ambush, 3.0x = ~20% ambush.
-#define QUEST_MAP_DIFFICULTY_TOWN 0.9
-#define QUEST_MAP_DIFFICULTY_TOWN_SNOW 1.0
-#define QUEST_MAP_DIFFICULTY_BOG 1.5
-#define QUEST_MAP_DIFFICULTY_DESERT 1.3
-#define QUEST_MAP_DIFFICULTY_FROZEN 2.0
-#define QUEST_MAP_DIFFICULTY_UNDERDARK 3.0
+#define QUEST_MAP_DIFFICULTY_AZURE 1.0
 
 // Per-map reward multipliers (globally scales all quest reward on that map).
-#define QUEST_MAP_REWARD_TOWN 0.9
-#define QUEST_MAP_REWARD_TOWN_SNOW 1.0
-#define QUEST_MAP_REWARD_BOG 1.4
-#define QUEST_MAP_REWARD_DESERT 1.3
-#define QUEST_MAP_REWARD_FROZEN 1.8
-#define QUEST_MAP_REWARD_UNDERDARK 2.5
+#define QUEST_MAP_REWARD_AZURE 1.0
 
 // Distance bonus config: up to 25% extra reward based on distance from ledger to spawn point.
 #define QUEST_DISTANCE_BONUS_MAX_MULT 0.25
