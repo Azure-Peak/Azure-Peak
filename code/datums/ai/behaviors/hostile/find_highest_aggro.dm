@@ -121,6 +121,9 @@
 	var/mob/highest_threat = controller.blackboard[BB_HIGHEST_THREAT_MOB]
 	if(highest_threat)
 		controller.set_blackboard_key(target_key, highest_threat)
+	else if(chosen_target)
+		// Fallback: no aggro component yet (initialization timing) — set target directly
+		controller.set_blackboard_key(target_key, chosen_target)
 
 		// Check if target is hiding in something
 		var/atom/potential_hiding_location = find_hiding_location(living_mob, highest_threat)

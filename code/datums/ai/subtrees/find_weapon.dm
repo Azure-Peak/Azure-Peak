@@ -3,6 +3,8 @@
 
 /datum/ai_planning_subtree/find_weapon/SelectBehaviors(datum/ai_controller/controller, seconds_per_tick)
 	. = ..()
+	if(controller.blackboard[BB_BASIC_MOB_CURRENT_TARGET])
+		return // Don't go shopping for weapons mid-combat
 	var/atom/target = controller.blackboard[BB_MOB_EQUIP_TARGET]
 	if(!QDELETED(target))
 		// Busy with something
@@ -15,8 +17,6 @@
 		held_item = living_pawn.get_active_held_item()
 
 	if(held_item)
-		if(!prob(5))
-			return
-
+		return // Already armed — don't go looking for upgrades
 
 	controller.queue_behavior(/datum/ai_behavior/find_and_set/better_weapon, BB_MOB_EQUIP_TARGET, null, vision_range)
