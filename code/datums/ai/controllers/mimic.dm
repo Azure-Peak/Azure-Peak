@@ -1,5 +1,5 @@
 /datum/ai_controller/mimic
-	movement_delay = 0.8 SECONDS
+	movement_delay = 0.4 SECONDS
 
 	ai_movement = /datum/ai_movement/hybrid_pathing
 
