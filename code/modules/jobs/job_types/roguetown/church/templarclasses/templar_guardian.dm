@@ -117,7 +117,7 @@
 
 /datum/outfit/job/roguetown/templar/guardian/choose_loadout(mob/living/carbon/human/H)
 	. = ..()
-	var/weapons = list("Longsword","Flail","Mace","Battle Axe","Spear","Crossbow + Shortsword")
+	var/weapons = list("Longsword","Flail","Mace","Battle Axe","Spear")
 	switch(H.patron?.type)
 		if(/datum/patron/divine/astrata) //Unique patron weapons, more can be added here if wanted.
 			weapons += "Solar Judgement"
