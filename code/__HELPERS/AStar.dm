@@ -205,7 +205,13 @@ Also added 'exclude' turf to avoid travelling over; defaults to null
 	for(var/obj/O in T)
 		if(!O.CanAStarPass(ID, rdir, caller))
 			return TRUE
+	for(var/obj/O in src)
+		if(!O.CanAStarPass(ID, adir, caller))
+			return TRUE
 	for(var/mob/living/M in T)
+		if(!M.CanPass(caller, src))
+			return TRUE
+	for(var/obj/structure/M in T)
 		if(!M.CanPass(caller, src))
 			return TRUE
 	return FALSE
