@@ -1477,6 +1477,22 @@
 	item_state = "staffblade"
 	sheathe_icon = "staffblade"
 
+/obj/item/rogueweapon/sword/rapier/zizo
+	name = "avantyne rapier"
+	desc = "A cruel imitation of a rapier, it's slender frame bent to no discipline known to man. It rejects the measured art of Destreza, lashing out in uneven, hateful thrusts that defy prediction."
+	icon_state = "zizorapier"
+	sheathe_icon = "zizorapier"
+	force = 30 //On par with avantyne longsword
+	force_wielded = 30
+	max_blade_int = 300
+	max_integrity = 200
+	equip_delay_self = 0
+	unequip_delay_self = 0
+
+/obj/item/rogueweapon/sword/rapier/zizo/Initialize()
+	. = ..()
+	AddComponent(/datum/component/cursed_item, TRAIT_CABAL, "RAPIER")
+
 /obj/item/rogueweapon/sword/cutlass
 	name = "cutlass"
 	desc = "The mariner's special: A short, broad sabre with a slightly curved blade optimized for slashing."
