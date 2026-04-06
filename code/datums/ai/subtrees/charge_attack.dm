@@ -69,9 +69,10 @@
 	if(!target)
 		return FALSE
 	var/mob/living/pawn = controller.pawn
+	pawn.face_atom(target)
+	pawn.emote("warcry")
 	pawn.m_intent = MOVE_INTENT_RUN
 	pawn.update_move_intent_slowdown()
-	pawn.face_atom(target)
 	AI_THINK(pawn, "CHARGE: sprinting at [target]!")
 	controller.set_blackboard_key(BB_CHARGE_COOLDOWN, world.time + CHARGE_COOLDOWN)
 	set_movement_target(controller, target)
