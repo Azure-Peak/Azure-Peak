@@ -106,6 +106,10 @@
 	else
 		controller.ai_interact(target, TRUE, TRUE, modifiers)
 
+	// Recovery pause after feint attempt
+	if(modifiers[RIGHT_CLICK])
+		controller.PauseAi(1.5 SECONDS)
+
 	pawn.cmode = old_cmode
 	if(pawn.next_click < world.time)
 		// Dumber NPCs hesitate longer between attacks. INT 10 = 20-40% delay, INT 4 = 50-90%, INT 1 = 70-110%
@@ -246,6 +250,7 @@
 		return FALSE
 	SEND_SIGNAL(pawn, COMSIG_MOB_TRY_BARK, 100)
 	special.deploy(pawn, weapon, target)
+	controller.PauseAi(1.5 SECONDS) // Recovery pause after weapon special
 	return TRUE
 
 /// Scan target bodyparts for wounded (brute/burn > 20) or unarmored zones.

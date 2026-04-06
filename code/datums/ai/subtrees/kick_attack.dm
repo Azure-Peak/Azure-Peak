@@ -127,6 +127,7 @@
 	pawn.mmb_intent = old_mmb
 
 	controller.set_blackboard_key(BB_KICK_COOLDOWN, world.time + KICK_COOLDOWN)
+	controller.PauseAi(1 SECONDS) // Recovery pause after kick
 	AI_THINK(pawn, "KICK: kicked [target]!")
 	finish_action(controller, TRUE, target_key)
 
