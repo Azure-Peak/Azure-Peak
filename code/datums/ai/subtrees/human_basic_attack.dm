@@ -6,6 +6,7 @@
 #define HUMAN_NPC_WEAPON_SPECIAL_CHANCE         35
 #define HUMAN_NPC_INTENT_SWITCH_CHANCE          25  // chance per attack to start a new intent sequence
 #define HUMAN_NPC_RMB_ATTEMPT_CHANCE			25
+#define HUMAN_NPC_MIN_INT_FOR_TACTICS        8   // minimum INT to use weapon specials or feint
 
 
 //Note alot of this is just adapted from old code so its probably not the best
@@ -80,13 +81,14 @@
 		finish_action(controller, FALSE, target_key)
 		return
 
-	if(_try_weapon_special(controller))
-		return
+	if(pawn.STAINT >= HUMAN_NPC_MIN_INT_FOR_TACTICS)
+		if(_try_weapon_special(controller))
+			return
 
 	_update_combat_intent(controller, pawn, target)
 	var/list/modifiers = list()
 	var/old_cmode = pawn.cmode
-	if(AI_INT_SCALE_PROB(pawn, HUMAN_NPC_RMB_ATTEMPT_CHANCE))
+	if(pawn.STAINT >= HUMAN_NPC_MIN_INT_FOR_TACTICS && AI_INT_SCALE_PROB(pawn, HUMAN_NPC_RMB_ATTEMPT_CHANCE))
 		pawn.cmode = TRUE
 		#ifdef NPC_THINK_DEBUG
 		AI_THINK(pawn, "RMB: intent=[pawn.rmb_intent?.type] stam=[pawn.stamina]/[pawn.max_stamina]")
@@ -106,7 +108,9 @@
 
 	pawn.cmode = old_cmode
 	if(pawn.next_click < world.time)
-		pawn.next_click = world.time + (pawn.used_intent?.clickcd * ( 1 + rand(0.2, 0.4)))
+		// Dumber NPCs hesitate longer between attacks. INT 10 = 20-40% delay, INT 4 = 50-90%, INT 1 = 70-110%
+		var/int_penalty = max(0, (10 - pawn.STAINT)) * 0.08
+		pawn.next_click = world.time + (pawn.used_intent?.clickcd * (1 + rand(0.2, 0.4) + int_penalty))
 		SEND_SIGNAL(pawn, COMSIG_MOB_BREAK_SNEAK)
 
 	if(prob(HUMAN_NPC_WEAKPOINT_SCAN_CHANCE) && isliving(target))
@@ -429,3 +433,4 @@
 #undef HUMAN_NPC_WEAPON_SPECIAL_CHANCE
 #undef HUMAN_NPC_INTENT_SWITCH_CHANCE
 #undef HUMAN_NPC_RMB_ATTEMPT_CHANCE
+#undef HUMAN_NPC_MIN_INT_FOR_TACTICS

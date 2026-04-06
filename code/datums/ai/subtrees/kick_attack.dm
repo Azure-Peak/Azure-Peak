@@ -22,6 +22,8 @@
 		return
 	if(pawn.get_num_legs() < 2)
 		return
+	if(pawn.STAINT < 8)
+		return // Too dumb to use tactical kicks
 
 	// Cooldown check via blackboard
 	var/next_kick = controller.blackboard[BB_KICK_COOLDOWN]
