@@ -1539,11 +1539,10 @@
 	to_chat(target, span_userdanger("UNIMAGINABLE PAIN!"))
 	target.emote("Agony")
 	playsound(loc, 'sound/combat/newstuck.ogg', 50)
-	loc.visible_message(span_cult("Great hooks come from the rune, embedding into [target]'s ankles, pulling them onto the rune. Then, into their wrists. Their lux is torn from their chest, and reforms into armor. "))
+	loc.visible_message(span_cult("Great hooks come from the rune, embedding into [target]'s ankles, pulling them onto the rune. Then, into their wrists. Their lux is torn from their chest, and reforms into armor and weapon. "))
 	spawn(20)
 		playsound(loc, 'sound/combat/hits/onmetal/grille (2).ogg', 50)
 		target.equipOutfit(/datum/outfit/job/roguetown/darksteelrite, helm_path)
-		target.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
 		spawn(40)
 			to_chat(target, span_purple("They are ignorant, backwards, without hope. You. You will be powerful."))
 
@@ -1560,19 +1559,35 @@
 	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/zizo
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/zizo
 	gloves = /obj/item/clothing/gloves/roguetown/plate/zizo
-	head = helm_path
 	neck = /obj/item/clothing/neck/roguetown/bevor/zizo
-	backr = /obj/item/rogueweapon/sword/long/zizo
+	head = helm_path
+	if(H.mind)
+		var/list/weapon_options = list(
+		"Avantyne Longsword" = image(icon = 'icons/roguetown/weapons/swords64.dmi', icon_state = "zizosword"),
+		"Avantyne Rapier" = image(icon = 'icons/roguetown/weapons/swords64.dmi', icon_state = "zizorapier"),
+		"Avantyne Billhook" = image(icon = 'icons/roguetown/weapons/polearms64.dmi', icon_state = "zizobillhook"),
+		)
+		var/weapon_choice = show_radial_menu(H, H, weapon_options, tooltips = TRUE)
+		switch(weapon_choice)
+			if("Avantyne Longsword")
+				backr = /obj/item/rogueweapon/sword/long/zizo
+				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
+			if("Avantyne Rapier")
+				backr = /obj/item/rogueweapon/sword/rapier/zizo
+				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
+			if("Avantyne Billhook")
+				backr = /obj/item/rogueweapon/spear/billhook/zizo
+				H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_EXPERT, TRUE)
+		if(!weapon_choice)
+			backr = /obj/item/rogueweapon/sword/long/zizo
 
 	H.mind.AddSpell(new /datum/action/cooldown/spell/mending/lesser)
-
 
 /obj/structure/ritualcircle/matthios
 	name = "Rune of Transaction"
 	desc = "A Holy Rune of Matthios. All has a price."
 	icon_state = "matthios_chalky"
 	var/matthiosrites = list("Rite of Armaments", "Defenestration")
-
 
 /obj/structure/ritualcircle/matthios/attack_hand(mob/living/user)
 	if(!..())
