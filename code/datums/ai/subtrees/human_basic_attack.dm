@@ -3,7 +3,7 @@
 #define HUMAN_NPC_JUKE_PER_OVERSPD              5
 #define HUMAN_NPC_WEAKPOINT_SCAN_CHANCE         20
 #define HUMAN_NPC_WEAKPOINT_CACHE_DURATION      (6 SECONDS)
-#define HUMAN_NPC_WEAPON_SPECIAL_CHANCE         35
+#define HUMAN_NPC_WEAPON_SPECIAL_CHANCE         15  // base chance, INT-scaled. Was 35 — too spammy
 #define HUMAN_NPC_INTENT_SWITCH_CHANCE          25  // chance per attack to start a new intent sequence
 #define HUMAN_NPC_RMB_ATTEMPT_CHANCE			25
 #define HUMAN_NPC_MIN_INT_FOR_TACTICS        8   // minimum INT to use weapon specials or feint
@@ -82,7 +82,9 @@
 		return
 
 	if(pawn.STAINT >= HUMAN_NPC_MIN_INT_FOR_TACTICS)
-		if(_try_weapon_special(controller))
+		// Don't open with a special — need a few normal swings first
+		var/attacks_done = controller.blackboard[BB_HUMAN_NPC_ATTACK_ZONE_COUNTER]
+		if(attacks_done >= 2 && _try_weapon_special(controller))
 			return
 
 	_update_combat_intent(controller, pawn, target)
