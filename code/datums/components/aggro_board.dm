@@ -4,7 +4,7 @@
 	/// Default range at which mobs detect and add threats
 	var/default_aggro_range = 9
 	/// Default range at which mobs maintain aggro before dropping target
-	var/default_maintain_range = 12
+	var/default_maintain_range = 10
 	/// Default decay rate per second
 	var/default_decay_rate = 2
 

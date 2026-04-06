@@ -34,8 +34,7 @@
 			controller.add_blackboard_key(future_path_blackboard_key, null)
 		if(!COOLDOWN_FINISHED(controller, movement_cooldown))
 			continue
-		// AP: Poll movement frequently. step_to() handles actual movement speed via its speed parameter.
-		COOLDOWN_START(controller, movement_cooldown, 1) // 0.1s polling rate
+		COOLDOWN_START(controller, movement_cooldown, controller.movement_delay)
 
 		if(!controller.can_move())
 			continue
