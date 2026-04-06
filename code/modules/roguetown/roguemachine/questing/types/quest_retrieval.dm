@@ -1,5 +1,9 @@
 /datum/quest/retrieval
 	quest_type = QUEST_RETRIEVAL
+	contract_group = QUEST_GROUP_ERRANDS
+	minimum_tier = QUEST_TIER_ROUTINE
+	maximum_tier = QUEST_TIER_DEADLY
+	base_reward_value = QUEST_BASE_REWARD_RETRIEVAL
 	var/list/fetch_items = list(
 		/obj/item/rogueweapon/huntingknife/throwingknife/steel,
 		/obj/item/rogueweapon/huntingknife,

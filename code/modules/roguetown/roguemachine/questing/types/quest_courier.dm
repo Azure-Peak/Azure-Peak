@@ -1,5 +1,9 @@
 /datum/quest/courier
 	quest_type = QUEST_COURIER
+	contract_group = QUEST_GROUP_ERRANDS
+	minimum_tier = QUEST_TIER_ROUTINE
+	maximum_tier = QUEST_TIER_DEADLY
+	base_reward_value = QUEST_BASE_REWARD_COURIER
 	var/list/target_delivery_locations = list(
 		/area/rogue/indoors/town/tavern,
 		/area/rogue/indoors/town/church,

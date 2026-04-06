@@ -112,3 +112,4 @@ require only minor tweaks.
 /// TRUE if we're ok with going down
 #define Z_LEVEL_DOWN 2
 #define LARGEST_Z_LEVEL_INDEX Z_LEVEL_DOWN
+#define ZTRAIT_MAP_FILE "Map File"

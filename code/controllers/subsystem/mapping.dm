@@ -141,6 +141,7 @@ SUBSYSTEM_DEF(mapping)
 	// check that the total z count of all maps matches the list of traits
 	var/total_z = 0
 	var/list/parsed_maps = list()
+	var/list/map_files_by_level = list()
 	for (var/file in files)
 		var/full_path = "_maps/[path]/[file]"
 		var/datum/parsed_map/pm = new(file(full_path))
@@ -148,8 +149,11 @@ SUBSYSTEM_DEF(mapping)
 		if (!bounds)
 			errorList |= full_path
 			continue
+		var/z_count = bounds[MAP_MAXZ] - bounds[MAP_MINZ] + 1
 		parsed_maps[pm] = total_z  // save the start Z of this file
-		total_z += bounds[MAP_MAXZ] - bounds[MAP_MINZ] + 1
+		for(var/z_index in 1 to z_count)
+			map_files_by_level += file
+		total_z += z_count
 
 	if (!length(traits))  // null or empty - default
 		for (var/i in 1 to total_z)
@@ -165,7 +169,12 @@ SUBSYSTEM_DEF(mapping)
 	var/start_z = world.maxz + 1
 	var/i = 0
 	for (var/level in traits)
-		add_new_zlevel("[name][i ? " [i + 1]" : ""]", level)
+		var/list/level_traits = list()
+		if(islist(level))
+			level_traits = level
+			level_traits = level_traits.Copy()
+		level_traits[ZTRAIT_MAP_FILE] = map_files_by_level[i + 1]
+		add_new_zlevel("[name][i ? " [i + 1]" : ""]", level_traits)
 		++i
 
 	// load the maps
