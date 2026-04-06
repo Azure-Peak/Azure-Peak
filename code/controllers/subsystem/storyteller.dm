@@ -878,10 +878,14 @@ SUBSYSTEM_DEF(gamemode)
 	dat += "<BR><b>--- Job Scaling ---</b>"
 	var/list/wretch_scaling = calculate_wretch_scaling()
 	var/datum/job/wretch_job = SSjob.GetJob("Wretch")
-	dat += "<BR>Wretch Slots: [wretch_job?.current_positions]/[wretch_job?.total_positions] — T1: [wretch_scaling["tier1_slots"]]/10, T2: +[wretch_scaling["tier2_extra"]] / 5 = [wretch_scaling["final_slots"]] final"
-	dat += "<BR>&nbsp;&nbsp;Garrison: [wretch_scaling["garrison"]], Holy Warriors: [wretch_scaling["holy_warrior"]], Acolytes: [wretch_scaling["acolyte"]] (half weight), Combat Total: [wretch_scaling["combat_total"]] (need > 10 for T2)"
-	if(wretch_scaling["major_antag_active"])
-		dat += "<BR>&nbsp;&nbsp;<font color='red'>MAJOR ANTAG ACTIVE (VL/LICH) — Tier 2 locked, max 10</font>"
+	dat += "<BR>Wretch Slots: [wretch_job?.current_positions]/[wretch_job?.total_positions] (calc: [wretch_scaling["final_slots"]]/10)"
+
+	var/list/bandit_scaling = calculate_bandit_scaling()
+	var/datum/job/bandit_job = SSjob.GetJob("Bandit")
+	dat += "<BR>Bandit Slots: [bandit_job?.current_positions]/[bandit_job?.total_positions] — Garrison-gated: [bandit_scaling["final_slots"]]/5"
+	dat += "<BR>&nbsp;&nbsp;Garrison: [bandit_scaling["garrison"]], Holy Warriors: [bandit_scaling["holy_warrior"]], Acolytes: [bandit_scaling["acolyte"]] (half weight), Combat Total: [bandit_scaling["combat_total"]] (need > 10 for bandit slots)"
+	if(bandit_scaling["major_antag_active"])
+		dat += "<BR>&nbsp;&nbsp;<font color='red'>MAJOR ANTAG ACTIVE (VL/LICH) — Bandit scaling locked</font>"
 
 	var/list/adv_scaling = calculate_adventurer_scaling()
 	var/datum/job/adv_job = SSjob.GetJob("Adventurer")

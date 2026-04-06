@@ -41,6 +41,13 @@
 		/datum/advclass/sellsword
 	)
 
+/datum/job/roguetown/bandit/on_round_removal(mob/M)
+	// Respawn delay applies immediately
+	if(same_job_respawn_delay && M.ckey)
+		GLOB.job_respawn_delays[M.ckey] = world.time + same_job_respawn_delay
+	// Delayed slot reopen after 1 hour — subclass always reopens, global slot only if garrison criteria met
+	addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(bandit_delayed_slot_reopen), M.advjob), 1 HOURS)
+
 /datum/job/roguetown/bandit/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
 	..()
 	if(L)
@@ -119,4 +126,63 @@
 	var/descriptor_voice = build_coalesce_description_nofluff(d_list, H, list(MOB_DESCRIPTOR_SLOT_VOICE), "%DESC1%")
 
 	add_bounty(H.real_name, race, gender, descriptor_height, descriptor_body, descriptor_voice, bounty_total, FALSE, my_crime, bounty_poster)
+
+/// Returns an assoc list with all intermediate bandit scaling values for admin display.
+/// If override_player_count is provided (e.g. from readied player count at roundstart), use that instead of the live joined list.
+/proc/calculate_bandit_scaling(override_player_count)
+	var/list/result = list()
+	var/player_count = override_player_count || length(GLOB.joined_player_list)
+	result["player_count"] = player_count
+
+	// Check for major round antagonists (lich, vampire lord) - hard cap at 0
+	var/major_antag_active = FALSE
+	for(var/datum/antagonist/antag as anything in GLOB.antagonists)
+		if(QDELETED(antag) || QDELETED(antag.owner))
+			continue
+		if(istype(antag, /datum/antagonist/lich) || istype(antag, /datum/antagonist/vampire/lord))
+			major_antag_active = TRUE
+			break
+	result["major_antag_active"] = major_antag_active
+
+	// Garrison-gated scaling: up to 5 bandit slots when combat total exceeds 10
+	var/garrison_count = SSgamemode.garrison
+	var/holy_count = SSgamemode.holy_warrior
+	var/acolyte_count = SSgamemode.half_combatant
+	var/combat_count = garrison_count + holy_count + FLOOR(acolyte_count * 0.5, 1)
+	result["garrison"] = garrison_count
+	result["holy_warrior"] = holy_count
+	result["acolyte"] = acolyte_count
+	result["combat_total"] = combat_count
+
+	var/slots = 0
+	if(!major_antag_active)
+		slots = min(max(0, combat_count - 10), 5)
+	result["final_slots"] = max(0, slots)
+
+	return result
+
+/proc/update_bandit_slots(override_player_count)
+	var/datum/job/bandit_job = SSjob.GetJob("Bandit")
+	if(!bandit_job)
+		return
+	var/list/scaling = calculate_bandit_scaling(override_player_count)
+	var/slots = max(0, scaling["final_slots"])
+	// Never reduce below current occupancy
+	bandit_job.total_positions = max(bandit_job.current_positions, slots)
+	bandit_job.spawn_positions = max(bandit_job.current_positions, slots)
+
+/// Called after 1 hour delay when a bandit leaves the round.
+/// Always reopens the subclass slot. Only reopens the global slot if garrison criteria make sense.
+/proc/bandit_delayed_slot_reopen(advclass_name)
+	// Always reopen the subclass slot
+	if(advclass_name)
+		var/datum/advclass/target_class = SSrole_class_handler.get_advclass_by_name(advclass_name)
+		if(target_class)
+			SSrole_class_handler.adjust_class_amount(target_class, -1)
+
+	var/datum/job/bandit_job = SSjob.GetJob("Bandit")
+	if(!bandit_job)
+		return
+	bandit_job.current_positions = max(0, bandit_job.current_positions - 1)
+	update_scaling_slots()
 

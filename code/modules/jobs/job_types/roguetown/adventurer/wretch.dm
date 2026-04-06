@@ -148,48 +148,14 @@
 	var/player_count = override_player_count || length(GLOB.joined_player_list)
 	result["player_count"] = player_count
 	if(is_storyteller_soft_antag_blocked())
-		result["tier1_slots"] = 0
-		result["major_antag_active"] = FALSE
-		result["garrison"] = SSgamemode.garrison
-		result["holy_warrior"] = SSgamemode.holy_warrior
-		result["acolyte"] = SSgamemode.half_combatant
-		result["combat_total"] = SSgamemode.garrison + SSgamemode.holy_warrior + FLOOR(SSgamemode.half_combatant * 0.5, 1)
-		result["tier2_extra"] = 0
 		result["final_slots"] = 0
 		return result
 
-	// Tier 1: Population scaling, +1 per 10 players above 40, max 10
+	// Population scaling, +1 per 10 players above 40, max 10
 	var/slots = 5
 	if(player_count > 40)
 		slots += floor((player_count - 40) / 10)
 	slots = min(slots, 10)
-	result["tier1_slots"] = slots
-
-	// Check for major round antagonists (lich, vampire lord) — hard cap at tier 1
-	var/major_antag_active = FALSE
-	for(var/datum/antagonist/antag as anything in GLOB.antagonists)
-		if(QDELETED(antag) || QDELETED(antag.owner))
-			continue
-		if(istype(antag, /datum/antagonist/lich) || istype(antag, /datum/antagonist/vampire/lord))
-			major_antag_active = TRUE
-			break
-	result["major_antag_active"] = major_antag_active
-
-	// Tier 2: Garrison-gated expansion from 10 to 15
-	var/garrison_count = SSgamemode.garrison
-	var/holy_count = SSgamemode.holy_warrior
-	var/acolyte_count = SSgamemode.half_combatant
-	var/combat_count = garrison_count + holy_count + FLOOR(acolyte_count * 0.5, 1)
-	result["garrison"] = garrison_count
-	result["holy_warrior"] = holy_count
-	result["acolyte"] = acolyte_count
-	result["combat_total"] = combat_count
-
-	var/tier2_max = 0
-	if(slots >= 10 && !major_antag_active)
-		tier2_max = min(max(0, combat_count - 10), 5)
-		slots += tier2_max
-	result["tier2_extra"] = tier2_max
 	result["final_slots"] = max(0, slots)
 
 	return result
@@ -247,4 +213,5 @@
 /// Convenience proc to update both wretch and adventurer scaling in one call.
 /proc/update_scaling_slots(override_player_count)
 	update_wretch_slots(override_player_count)
+	update_bandit_slots(override_player_count)
 	update_adventurer_slots(override_player_count)
