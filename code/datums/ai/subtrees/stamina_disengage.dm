@@ -36,3 +36,9 @@
 		controller.set_blackboard_key(BB_STAMINA_DISENGAGED, TRUE)
 		AI_THINK(pawn, "STAMINA: exhausted, backing off! ([pawn.stamina]/[pawn.max_stamina])")
 		return // will disengage next tick
+
+#undef STAMINA_DISENGAGE_THRESHOLD
+#undef STAMINA_REENGAGE_THRESHOLD
+#undef BB_STAMINA_DISENGAGED
+#undef BB_LAST_RANGED_HIT_TIME
+#undef RANGED_PRESSURE_WINDOW

@@ -135,3 +135,13 @@
 	. = ..()
 	if(!succeeded)
 		controller.clear_blackboard_key(target_key)
+
+#undef BB_KICK_COOLDOWN
+#undef KICK_COOLDOWN
+#undef KICK_WALLED_CHANCE
+#undef KICK_CHOKEPOINT_CHANCE
+#undef KICK_STACKED_ENEMY_CHANCE
+#undef KICK_OPPORTUNISTIC_CHANCE
+#undef KICK_EXHAUSTED_CHANCE
+#undef KICK_EXHAUSTED_THRESHOLD
+#undef KICK_CHOKEPOINT_THRESHOLD
