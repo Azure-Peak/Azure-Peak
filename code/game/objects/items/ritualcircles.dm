@@ -164,7 +164,7 @@
 	if(!..())
 		return
 	if((user.patron?.type) != /datum/patron/divine/xylix)
-		to_chat(user,span_warning("Everytime I'm about to get it, it turns into something else."))
+		to_chat(user,span_warning("Every time I'm about to get it, it turns into something else."))
 		return
 	if(!HAS_TRAIT(user, TRAIT_RITUALIST))
 		to_chat(user,span_warning("I don't know the proper rites for this..."))
