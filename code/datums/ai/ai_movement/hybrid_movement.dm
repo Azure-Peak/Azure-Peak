@@ -34,9 +34,7 @@
 			controller.add_blackboard_key(future_path_blackboard_key, null)
 		if(!COOLDOWN_FINISHED(controller, movement_cooldown))
 			continue
-		// AP: In combat, step rapidly (1-2 deciseconds). Out of combat, use normal movement_delay.
-		var/combat_move = controller.blackboard[BB_BASIC_MOB_CURRENT_TARGET]
-		COOLDOWN_START(controller, movement_cooldown, combat_move ? 1 : controller.movement_delay)
+		COOLDOWN_START(controller, movement_cooldown, controller.movement_delay)
 
 		if(!controller.can_move())
 			continue
