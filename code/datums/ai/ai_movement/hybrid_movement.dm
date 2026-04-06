@@ -40,6 +40,19 @@
 			continue
 
 		var/atom/movable/movable_pawn = controller.pawn
+
+		// AP: NPCs sprint when far from combat target, walk when close or idle
+		if(isliving(movable_pawn))
+			var/mob/living/living_pawn = movable_pawn
+			var/combat_target = controller.blackboard[BB_BASIC_MOB_CURRENT_TARGET]
+			if(combat_target && get_dist(living_pawn, combat_target) >= 4)
+				if(living_pawn.m_intent != MOVE_INTENT_RUN)
+					living_pawn.m_intent = MOVE_INTENT_RUN
+					living_pawn.update_move_intent_slowdown()
+			else if(living_pawn.m_intent == MOVE_INTENT_RUN)
+				living_pawn.m_intent = MOVE_INTENT_WALK
+				living_pawn.update_move_intent_slowdown()
+
 		var/turf/target_turf = get_step_towards(movable_pawn, controller.current_movement_target)
 		var/turf/end_turf = get_turf(controller.current_movement_target)
 		var/advanced = TRUE
