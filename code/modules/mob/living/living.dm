@@ -909,7 +909,7 @@
 		GLOB.dead_mob_list -= src  //If any more forms of revival are added, better to use a proc to do this - easier to search
 		GLOB.alive_mob_list += src
 		set_suicide(FALSE)
-		stat = CONSCIOUS
+		set_stat(CONSCIOUS)
 		updatehealth() //then we check if the mob should wake up.
 		update_mobility()
 		update_sight()

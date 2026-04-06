@@ -1106,7 +1106,7 @@
 					visible_message(span_danger("<b>[src] collapses, broken and bloodied!</b>"), \
 						span_userdanger("My bones are shattered... I cannot go on."))
 					balloon_alert_to_viewers("<font color='#bb2b2b'>beaten down!</font>")
-			stat = UNCONSCIOUS
+			set_stat(UNCONSCIOUS)
 			if(ishuman(src))
 				var/mob/living/carbon/human/H = src
 				H.dna?.species?.stop_wagging_tail(H)
@@ -1117,9 +1117,9 @@
 				REMOVE_TRAIT(src, TRAIT_SIXTHSENSE, "near-death")
 		else
 			if(health <= crit_threshold && !HAS_TRAIT(src, TRAIT_NOSOFTCRIT))
-				stat = SOFT_CRIT
+				set_stat(SOFT_CRIT)
 			else
-				stat = CONSCIOUS
+				set_stat(CONSCIOUS)
 			cure_blind(UNCONSCIOUS_BLIND)
 			REMOVE_TRAIT(src, TRAIT_SIXTHSENSE, "near-death")
 		update_mobility()

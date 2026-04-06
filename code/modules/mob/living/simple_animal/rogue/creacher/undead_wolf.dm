@@ -113,7 +113,7 @@
 		icon_state = icon_downed
 		icon_living = icon_downed
 		adjustBruteLoss(-250)
-		stat = CONSCIOUS
+		set_stat(CONSCIOUS)
 		update_icon()
 		// If you don't kill it, it will become a threat again.
 		addtimer(CALLBACK(src, .proc/reanimation), reinimation_timer)
@@ -130,7 +130,7 @@
 		icon_living = "wolf"
 		ai_controller.movement_delay = initial(ai_controller.movement_delay)
 		is_downed = FALSE
-		stat = CONSCIOUS
+		set_stat(CONSCIOUS)
 		update_icon()
 
 /mob/living/simple_animal/hostile/retaliate/rogue/wolf_undead/apply_damage(damage, damagetype, def_zone, blocked, forced)
