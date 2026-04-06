@@ -2691,6 +2691,7 @@
 #include "code\modules\roguetown\roguemachine\questing\questing_decals.dm"
 #include "code\modules\roguetown\roguemachine\questing\questing_landmarks.dm"
 #include "code\modules\roguetown\roguemachine\questing\items\parcel.dm"
+#include "code\modules\roguetown\roguemachine\questing\items\quest_compass.dm"
 #include "code\modules\roguetown\roguemachine\questing\items\quest_scroll.dm"
 #include "code\modules\roguetown\roguemachine\questing\items\spawn_effect.dm"
 #include "code\modules\roguetown\roguemachine\questing\types\__quest.dm"
