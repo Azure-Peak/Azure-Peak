@@ -41,20 +41,6 @@
 
 		var/atom/movable/movable_pawn = controller.pawn
 
-		// AP: Human NPCs sprint to close distance — stamina gated
-		if(istype(controller, /datum/ai_controller/human_npc) && isliving(movable_pawn))
-			var/mob/living/living_pawn = movable_pawn
-			var/combat_target = controller.blackboard[BB_BASIC_MOB_CURRENT_TARGET]
-			var/dist = combat_target ? get_dist(living_pawn, combat_target) : 0
-			if(combat_target && dist >= 5 && living_pawn.stamina < living_pawn.max_stamina * 0.4)
-				if(living_pawn.m_intent != MOVE_INTENT_RUN)
-					living_pawn.m_intent = MOVE_INTENT_RUN
-					living_pawn.update_move_intent_slowdown()
-					AI_THINK(living_pawn, "SPRINT: running to close distance ([dist] tiles)")
-			else if(living_pawn.m_intent == MOVE_INTENT_RUN && (!combat_target || dist <= 1))
-				living_pawn.m_intent = MOVE_INTENT_WALK
-				living_pawn.update_move_intent_slowdown()
-				AI_THINK(living_pawn, "SPRINT: adjacent, walking")
 
 		var/turf/target_turf = get_step_towards(movable_pawn, controller.current_movement_target)
 		var/turf/end_turf = get_turf(controller.current_movement_target)

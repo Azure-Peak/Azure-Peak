@@ -3,8 +3,6 @@
 
 /datum/ai_planning_subtree/find_weapon/SelectBehaviors(datum/ai_controller/controller, seconds_per_tick)
 	. = ..()
-	if(controller.blackboard[BB_BASIC_MOB_CURRENT_TARGET])
-		return // Don't go shopping for weapons mid-combat
 	var/atom/target = controller.blackboard[BB_MOB_EQUIP_TARGET]
 	if(!QDELETED(target))
 		// Busy with something
