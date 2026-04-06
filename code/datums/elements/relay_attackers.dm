@@ -50,6 +50,10 @@
 		return
 	if(!ismob(hit_projectile.firer))
 		return
+	// Track ranged hit timing for stamina disengage system
+	if(ismob(target))
+		var/mob/living/living_target = target
+		living_target.ai_controller?.set_blackboard_key("bb_last_ranged_hit_time", world.time)
 	relay_attacker(target, hit_projectile.firer, hit_projectile.damage)
 
 /datum/element/relay_attackers/proc/on_hitby(atom/target, atom/movable/hit_atom, skipcatch = FALSE, hitpush = TRUE, blocked = FALSE, datum/thrownthing/throwingdatum)
