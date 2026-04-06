@@ -34,7 +34,7 @@ GLOBAL_LIST_INIT(target_interested_atoms, typecacheof(list(/mob)))
 	if(controller.blackboard[BB_FIND_TARGETS_FIELD(type)])
 		return
 
-	var/list/potential_targets = hearers(vision_range, controller.pawn) - living_mob //Remove self, so we don't suicide
+	var/list/potential_targets = viewers(vision_range, controller.pawn) - living_mob //Remove self, so we don't suicide
 
 	if(!potential_targets.len)
 		failed_to_find_anyone(controller, target_key, targetting_datum_key, hiding_location_key)
