@@ -56,7 +56,8 @@
 		return
 	var/list/present = list()
 	for(var/atom/movable/AM in target)
-		present += AM
+		if(can_see(controller.pawn, AM))
+			present += AM
 	if(length(present))
 		owning_behavior.new_atoms_found(present, controller, target_key, filter, hiding_location_key)
 	else
@@ -64,6 +65,8 @@
 
 /datum/proximity_monitor/advanced/ai_aggro_tracking/field_turf_crossed(atom/movable/movable, turf/location, turf/old_location)
 	if(!owning_behavior.atom_allowed(movable, filter, controller.pawn))
+		return
+	if(!can_see(controller.pawn, movable))
 		return
 
 	owning_behavior.new_atoms_found(list(movable), controller, target_key, filter, hiding_location_key)
