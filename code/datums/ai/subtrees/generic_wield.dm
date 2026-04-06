@@ -11,7 +11,6 @@
 		unwielded_twohander = inactive
 	if(unwielded_twohander)
 		controller.queue_behavior(/datum/ai_behavior/wield_weapon)
-		return SUBTREE_RETURN_FINISH_PLANNING
 
 /datum/ai_behavior/wield_weapon/perform(seconds_per_tick, datum/ai_controller/controller)
 	var/mob/living/living_pawn = controller.pawn

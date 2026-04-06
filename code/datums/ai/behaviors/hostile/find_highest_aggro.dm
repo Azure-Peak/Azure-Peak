@@ -3,7 +3,7 @@
 
 /datum/ai_behavior/find_aggro_targets/get_cooldown(datum/ai_controller/cooldown_for)
 	if(cooldown_for.blackboard[BB_FIND_TARGETS_FIELD(type)])
-		return 60 SECONDS
+		return 3 SECONDS // AP: match old system's 3-second scan rate instead of relying on proximity field
 	return ..()
 
 /datum/ai_behavior/find_aggro_targets/perform(seconds_per_tick, datum/ai_controller/controller, target_key, targetting_datum_key, hiding_location_key)
