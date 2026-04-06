@@ -2685,6 +2685,8 @@
 #include "code\modules\roguetown\roguemachine\merchant\navigator.dm"
 #include "code\modules\roguetown\roguemachine\noticeboard\noticeboard.dm"
 #include "code\modules\roguetown\roguemachine\questing\contract_ledger.dm"
+#include "code\modules\roguetown\roguemachine\questing\quest_ambush_payload.dm"
+#include "code\modules\roguetown\roguemachine\questing\quest_map_config.dm"
 #include "code\modules\roguetown\roguemachine\questing\questing_components.dm"
 #include "code\modules\roguetown\roguemachine\questing\questing_decals.dm"
 #include "code\modules\roguetown\roguemachine\questing\questing_landmarks.dm"
