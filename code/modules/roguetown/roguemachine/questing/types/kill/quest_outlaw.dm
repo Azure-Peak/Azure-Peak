@@ -1,7 +1,11 @@
 /datum/quest/kill/outlaw
 	quest_type = QUEST_OUTLAW
 	mob_types_to_spawn = list(
-		/mob/living/carbon/human/species/human/northern/deranged_knight
+		/mob/living/carbon/human/species/human/northern/deranged_knight/hedgeknight,
+		/mob/living/carbon/human/species/human/northern/outlaw_duelist,
+		/mob/living/carbon/human/species/human/northern/outlaw_ranger,
+		/mob/living/carbon/human/species/human/northern/outlaw_tank,
+		/mob/living/carbon/human/species/goblin/npc/large,
 	)
 	count_min = 1
 	count_max = 1
@@ -9,7 +13,7 @@
 /datum/quest/kill/outlaw/get_title()
 	if(title)
 		return title
-	return "Defeat [pick("the terrible", "the dreadful", "the monstrous", "the infamous")] [pick("warlord", "beast", "sorcerer", "abomination")]"
+	return "Defeat [pick("the terrible", "the dreadful", "the monstrous", "the infamous", "the feared")] [pick("warlord", "outlaw", "renegade", "marauder", "brigand")]"
 
 /datum/quest/kill/outlaw/get_objective_text()
 	return "Slay [initial(target_mob_type.name)]."
