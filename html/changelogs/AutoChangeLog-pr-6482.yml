@@ -1,0 +1,8 @@
+author: "Ollanius"
+delete-after: True
+changes:
+  - rscadd: "Adds the 'Azurian Grovewalker', a new subclass to the Adventurer's 'Nomad' class. These are weaker Black Oaks that can be themed as either fresh-faced inductees or sphere-applicable fallback slots (for all you Wretches and Mercenaries that didn't manage to snag a slot in time!)"
+  - rscadd: "Adds Autumnwoaden equipment. Armor protects the same, but has its durability reduced by -33% INT (or -20% if it's limb-related). Weapons are iron-tiered, with slightly tougher stats (but still inferior to traditional steel.)"
+  - rscadd: "The Grovewalkers spawn with lighter Autumnwoaden equipment, but can improve them in a Novice-tier Carpentry recipe with foliage, their chosen armor-piece, and an Essence of Nature."
+  - rscadd: "Thespian-Errants that worship Noc can now spawn with a bronze amulet of Noc."
+  - code_imp: "Part of a parity-check: archives the classic Estoc sprite in the code for future use."
