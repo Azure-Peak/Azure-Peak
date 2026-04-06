@@ -174,7 +174,8 @@ GLOBAL_LIST_INIT(target_interested_atoms, typecacheof(list(/mob)))
 	. = ..()
 	if (succeeded)
 		controller.CancelActions()
-		controller.pawn.icon_state = "mimicopen"
+		var/mob/living/simple_animal/hostile/retaliate/rogue/mimic/mimic_pawn = controller.pawn
+		mimic_pawn.undisguise()
 
 
 /datum/ai_behavior/find_potential_targets/mole
