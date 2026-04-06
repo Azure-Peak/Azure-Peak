@@ -1129,7 +1129,7 @@
 
 
 /atom/movable/screen/alert/status_effect/buff/lesserwolf
-	name = "Blessing of the Lesser Wolf"
+	name = "Blessing of the Lesser Volf"
 	desc = "I swell with the embuement of a predator..."
 	icon_state = "buff"
 
