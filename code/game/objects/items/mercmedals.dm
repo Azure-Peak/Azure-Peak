@@ -94,7 +94,10 @@
 
 /obj/item/clothing/neck/roguetown/luckcharm/mercmedal/isenban
 	name = "isenban's keepsake"
-	desc = "\"Fergive? FERGET? PFAH! GO T'HEL!\""
+	desc = "An ornamental hammer formed of fine dwarven steel, forged personally by every \
+	member of a dwarven Isenban company at the time of their initiation. These often carry \
+	small imperfections, having been made so early in their smith's service; a reminder of \
+	the craftsman's fallibility, and that mastery comes not easily to meek souls."
 	icon_state = "grudge_keepsake"
 
 /obj/item/clothing/neck/roguetown/luckcharm/mercmedal/underdweller
