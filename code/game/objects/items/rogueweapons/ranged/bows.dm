@@ -245,7 +245,7 @@
 			BB.accuracy -= 15
 		else
 			BB.damage = BB.damage
-		var/per_scaling = 1 + (min(user.STAPER, RANGED_STAT_SOFTCAP) * RANGED_STAT_MULT) + (max(0, user.STAPER - RANGED_STAT_SOFTCAP) * RANGED_STAT_CAPPEDMULT)
+		var/per_scaling = 1 + ((min(user.STAPER, RANGED_STAT_SOFTCAP) - 10) * RANGED_STAT_MULT) + (max(0, user.STAPER - RANGED_STAT_SOFTCAP) * RANGED_STAT_CAPPEDMULT)
 		BB.damage *= damfactor * per_scaling
 	return ..()
 
@@ -482,6 +482,11 @@
 	name = "aavnic riding bow"
 	desc = "A short recurve warbow made for the express purpose of shooting on saigaback, a skill every archer in Aavnr takes much more seriously than their Northern counterparts. Every seasoned Druzhina is themselves a good bowyer and usually makes their own bow, this one is made with the purpure-ish crimson wood of a Vörötslevé tree."
 	icon_state = "recurve_riding"
+
+/obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve/blackoak
+	name = "woad recurve bow"
+	desc = "A medium length composite bow of glued horn, wood, and sinew with fine shooting characteristics. Hewn from a living Black Oak branch, it carries the quiet strength of untouched groves; unyielding, unbroken, and fiercely guarded from the hands of Man."
+	icon_state = "blackoakrecurve_bow"
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/bow/short
 	name = "short bow"

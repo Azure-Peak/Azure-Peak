@@ -211,6 +211,9 @@
 	var/toggle_delay = 1 SECONDS
 	/// Toggle timer for Specials, or really anything else that you don't want input spam to instantly cycle through.
 	var/toggle_timer
+
+	/// Whether we are in a swingdelay, used to check for disrupted swingdelays.
+	var/swing_state = FALSE
 	var/is_swimming = FALSE
 	var/is_underwater = FALSE
 	var/drowning_drowniness = 0

@@ -193,7 +193,7 @@
 
 	// Distribute the spite
 	for(var/mob/living/carbon/human/H in GLOB.human_list)
-		if(H.stat == DEAD || !H.mind || HAS_TRAIT(H, TRAIT_ANCIENT_HAG))
+		if(H.stat == DEAD || !H.mind || HAS_TRAIT(H, TRAIT_ANCIENT_HAG) || HAS_TRAIT(H, TRAIT_FEYTOUCHED))
 			continue
 		// People who are enjoying only boons are technically allies.
 		if(HCT.boon_registry[H.real_name])

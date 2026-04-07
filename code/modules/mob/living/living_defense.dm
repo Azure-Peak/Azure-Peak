@@ -534,9 +534,29 @@
 /mob/living/proc/damage_clothes(damage_amount, damage_type = BRUTE, damage_flag = 0, def_zone)
 	return
 
+/mob/living/proc/do_item_attack_animation_wrapper(atom/A, visual_effect_icon, obj/item/used_item, animation_type, datum/intent/used_intent)
+	if(is_swinging())
+		var/datum/status_effect/swingdelay/disrupt/SW = has_status_effect(/datum/status_effect/swingdelay/disrupt)
+		if(SW)
+			if(SW.is_disrupted())	//We don't want to play an animation on a cancelled swing delay.
+				return
+		do_item_attack_animation(A, visual_effect_icon, used_item, animation_type, used_intent)
 
 /mob/living/do_attack_animation(atom/A, visual_effect_icon, obj/item/used_item, no_effect, item_animation_override = null, datum/intent/used_intent, simplified = TRUE)
 	if(!used_item)
 		used_item = get_active_held_item()
-	..()
+	if(!used_intent)
+		used_intent = src.used_intent
+	var/animation_type
+	if(used_item || !simplified)
+		animation_type = item_animation_override || used_intent?.get_attack_animation_type()
+		if(used_intent.swingdelay && used_intent.swingdelay_type)
+			addtimer(CALLBACK(src, PROC_REF(do_item_attack_animation_wrapper), A, visual_effect_icon, used_item, animation_type, used_intent), used_intent.swingdelay)
+			if(used_intent.reach < 2)	//It'll look confusing otherwise.
+				do_attack_animation_simple(get_step(src, src.dir), visual_effect_icon)
+			wiggle(A)
+		else
+			do_item_attack_animation(A, visual_effect_icon, used_item, animation_type, used_intent)
 	setMovetype(movement_type & ~FLOATING) // If we were without gravity, the bouncing animation got stopped, so we make sure we restart the bouncing after the next movement.
+
+	

@@ -471,7 +471,6 @@
 		/datum/intent/sword/strike,
 		/datum/intent/sword/bash,
 		/datum/intent/effect/daze,
-		/datum/intent/sword/cut/broadsword
 	)
 	onmobprop_overrides = list(
 		"altgrip" = list(

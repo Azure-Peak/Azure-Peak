@@ -271,7 +271,8 @@
 
 /obj/item/clothing/shoes/roguetown/boots/elven_boots
 	name = "woad elven boots"
-	desc = "The living trunks still blossom in the spring. They let water through, but it is never cold."
+	desc = "'Tread lightly, for the ground remembers every footfall.'"
+	allowed_race = list(/datum/species/elf/wood, /datum/species/human/halfelf, /datum/species/elf/dark)
 	armor = ARMOR_BLACKOAK //Resistant to blunt and stab, but very weak to slash.
 	max_integrity = ARMOR_INT_SIDE_IRON
 	resistance_flags = FIRE_PROOF

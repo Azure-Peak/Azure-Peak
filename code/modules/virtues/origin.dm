@@ -174,7 +174,7 @@
 	Their saiga, their sabre, their cattle, and their freedom. For while coin remains the main currency even in the wild steppes, it means nothing \
 	without the freedom to spend it as you wish. As the saying goes, 'a man can earn coin, but a man cannot earn freedom. It must be taken, it must be constantly achieved."
 
-/datum/virtue/origin/Lirvas
+/datum/virtue/origin/lirvas
 	name = "Lirvan"
 	origin_name = "Lirvas"
 	added_languages = list(/datum/language/draconic)

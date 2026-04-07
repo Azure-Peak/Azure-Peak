@@ -496,18 +496,18 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 		to_chat(usr, output)
 
 	if(href_list["explainbalance"])
-		var/output = span_info("A heavy weapon is easier to dodge, and inflicts 2 stamina damage per level of strength differences on a parrying defender. \n\
-		A swift balance weapon reduce the enemy's parry chance by 10% per level of speed difference, by up to 30%, \n\
-		If the defender have higher perception however, the penalty is reduced by 10% per point of difference, down to none.\n\
+		var/output = span_info("A heavy weapon is easier to dodge, and inflicts 2 stamina damage per level of strength difference on a parrying defender. \n\
+		A swift balance weapon reduces the enemy's parry chance by 10% per level of speed difference, by up to 30%. \n\
+		If the defender has higher perception however, the penalty is reduced by 10% per point of difference, down to none.\n\
 		Intelligence also reduces the penalty by 3% per point of difference, down to none.")
 		if(!usr.client.prefs.no_examine_blocks)
 			output = examine_block(output)
 		to_chat(usr, output)
 
-	var/additional_explanation = "This determines the damage dealt by this weapon. Force is increased / decrease by strength above / below 10 by 10% per point of differences,\n\
+	var/additional_explanation = "This determines the damage dealt by this weapon. Force is increased / decreased by strength above / below 10 by 10% per point of difference,\n\
 	Each point of strength at 15 or above only applies an additional +3% damage, except on punches. Damage is also multiplied by damage factor on intents. \n\
-	Both multiplication are applied to the base number, and does not multiply each other. Reduced sharpness decrease the contribution of strength\n\
-	Force, combined with armor penetration on an intent determines whether an attack penetrate the target's armor. Armor penetrating attack deals less damage to the armor itself."
+	Both multipliers are applied to the base number, and do not multiply each other. Reduced sharpness decreases the contribution of strength.\n\
+	Armor penetration on an intent determines whether an attack penetrates the target's armor. Armor penetrating attacks deal less damage to the armor itself."
 	if(href_list["showforce"])
 		var/output = span_info("Actual Force: ([force_dynamic]). [additional_explanation]")
 		if(!usr.client.prefs.no_examine_blocks)
@@ -550,7 +550,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 		to_chat(usr, output)
 
 	if(href_list["explainpenfactor"])
-		var/output = span_info("Armor Penetration whether this attack goes through armor.\n\
+		var/output = span_info("Armor Penetration determines whether this attack goes through armor.\n\
 		Each armor piece has a blocking tier (Light, Medium, Heavy, Blacksteel).\n\
 		Penetration > armor tier: 100% damage goes through.\n\
 		Penetration = armor tier: 20% damage through. Armor absorbs remaining %.\n\
