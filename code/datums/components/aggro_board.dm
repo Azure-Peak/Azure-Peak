@@ -85,6 +85,9 @@
 	AI_THINK(victim, "AGGRO: +[threat_to_add] from [attacker]")
 	add_threat(victim, attacker, threat_to_add)
 
+	if(victim.ai_controller.ai_status == AI_STATUS_IDLE)
+		victim.ai_controller.set_ai_status(AI_STATUS_ON)
+
 /// Clears the aggro table when the mob dies
 /datum/component/ai_aggro_system/proc/on_death(mob/living/source)
 	SIGNAL_HANDLER

@@ -269,6 +269,9 @@ have ways of interacting with a specific atom and control it. They posses a blac
 /datum/ai_controller/proc/should_idle()
 	if(!can_idle)
 		return FALSE
+	var/list/aggro_table = blackboard?[BB_MOB_AGGRO_TABLE]
+	if(length(aggro_table))
+		return FALSE
 	for(var/datum/spatial_grid_cell/grid as anything in our_cells.member_cells)
 		if(length(grid.client_contents))
 			return FALSE
@@ -284,6 +287,15 @@ have ways of interacting with a specific atom and control it. They posses a blac
 	SIGNAL_HANDLER
 	if(ai_status == AI_STATUS_IDLE)
 		set_ai_status(AI_STATUS_ON)
+		return
+	// AI_STATUS_OFF can be set when zero clients are on a weatherproof z-level (dungeons,
+	// outposts, contract maps). When a client finally enters our spatial grid cell, that OFF
+	// state is stale - re-evaluate so dungeon mobs actually wake up instead of fluoride staring.
+	// Skip if pawn is unconscious/dead, those should legitimately stay OFF.
+	if(ai_status == AI_STATUS_OFF && ismob(pawn))
+		var/mob/living/mob_pawn = pawn
+		if(mob_pawn.stat < UNCONSCIOUS && (continue_processing_when_client || !mob_pawn.client))
+			reset_ai_status()
 
 /datum/ai_controller/proc/on_client_exit(datum/source, datum/exited)
 	SIGNAL_HANDLER
