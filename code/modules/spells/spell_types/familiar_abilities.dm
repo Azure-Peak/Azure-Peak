@@ -79,7 +79,8 @@
 	if(!user) // literally how
 		revert_cast()
 		return FALSE
-	if(!targets.len || !(isliving(targets[1]) || targets[1].is_refillable()) || !targets[1].reagents)
+	var/atom/target = targets.len?targets[1]:null
+	if(!targets.len || !(isliving(target) || target.is_refillable()) || !target.reagents)
 		to_chat(user, span_notice("I need to select a valid target to bite!"))
 		revert_cast()
 		return FALSE
@@ -103,15 +104,15 @@
 			span_notice("You let go of [targets[1]].")
 		)
 		return TRUE
-	var/mob/living/target = targets[1]
+	var/mob/living/living_target = targets[1]
 	user.visible_message(
-		span_notice("[user.name] attempts to bite [target.name]!"),
-		span_notice("You attempt to bite [target.name]...")
+		span_notice("[user.name] attempts to bite [living_target.name]!"),
+		span_notice("You attempt to bite [living_target.name]...")
 	)
-	if(do_after_mob(user, target, time = 1 SECONDS) && user.reagents.trans_to(target, 5, transfered_by = user))
+	if(do_after_mob(user, living_target, time = 1 SECONDS) && user.reagents.trans_to(living_target, 5, transfered_by = user))
 		user.visible_message(
-			span_notice("[user.name] bites [target.name], delivering a dose of an alchemical cocktail!"),
-			span_notice("You bite [target.name], delivering a dose of your alchemical cocktail!")
+			span_notice("[user.name] bites [living_target.name], delivering a dose of an alchemical cocktail!"),
+			span_notice("You bite [living_target.name], delivering a dose of your alchemical cocktail!")
 		)
 		return TRUE
 
@@ -130,7 +131,11 @@
 		to_chat(user, span_notice("I need to select a valid target to bite!"))
 		revert_cast()
 		return FALSE
-	targets[1].fire_act(1,10) // shouldn't be oppressive by any means it's 1 stack every 10 seconds
+	var/atom/target = targets[1]
+	if(!istype(target))
+		revert_cast()
+		return FALSE
+	target.fire_act(1,10) // shouldn't be oppressive by any means it's 1 stack every 10 seconds
 
 /obj/effect/proc_holder/spell/self/infernal_surge
 	name = "Infernal Surge"

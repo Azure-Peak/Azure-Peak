@@ -33,12 +33,34 @@
 	if(!locate(/obj/effect/decal/cleanable/roguerune/arcyne/binding) in loc)
 		to_chat(user, span_warning("The binding array has been destroyed! The ritual fizzles."))
 		return FALSE
+	// special case: only highly skilled mages can safely perform this act of hubris
+	if(mob_to_bind == /mob/living/simple_animal/pet/familiar/void && !(user.mind.mage_aspect_config && user.mind.mage_aspect_config["major"]))
+		user.visible_message(span_boldwarning("The ritual spirals out of control! The void stares back, unappreciative of your hubris!"))
+		playsound(loc, 'sound/magic/cosmic_expansion.ogg', 100, TRUE, 14)
+		var/list/valid_turfs = list()
+		for(var/turf/open/T in range(3, loc))
+			if(T.density)
+				continue
+			if(T == loc)
+				continue
+			valid_turfs += T
+		shuffle_inplace(valid_turfs)
+		var/list/spawn_turfs = valid_turfs.Copy(1, min(4, length(valid_turfs) + 1))
+		var/spawned = 0
+		for(var/i in 1 to 3)
+			if(spawned >= length(spawn_turfs))
+				break
+			spawned++
+			var/mob/living/simple_animal/hostile/retaliate/rogue/voidstoneobelisk/obelisk = new /mob/living/simple_animal/hostile/retaliate/rogue/voidstoneobelisk(spawn_turfs[spawned])
+			addtimer(CALLBACK(obelisk, TYPE_PROC_REF(/mob/living/simple_animal/hostile, FindTarget)), 1 SECONDS) // so you have SOME time to react. without this, they just sit there until attacked
+		return TRUE
 	var/mob/living/bound = bind_ritual_mob(user, loc, mob_to_bind)
 	if(!bound)
 		return FALSE
 	to_chat(user, span_notice("The array flares with power as [bound] is pulled through the veil!"))
 	playsound(loc, 'sound/magic/cosmic_expansion.ogg', 100, TRUE, 7)
 	return bound
+
 
 /datum/runeritual/binding/proc/bind_ritual_mob(mob/living/user, turf/loc, mob/living/mob_to_bind)
 	var/mob/living/simple_animal/pet/familiar/binded
@@ -85,7 +107,7 @@
 	name = "Bind Void Drakeling"
 	desc = "Reach into the void and grasp a fragment of draconic power, shaping it into a familiar."
 	blacklisted = FALSE
-	mob_to_bind = /mob/living/simple_animal/hostile/retaliate/rogue/voiddragon
+	mob_to_bind = /mob/living/simple_animal/pet/familiar/void
 	required_atoms = list()
 	// required_atoms = list(/obj/item/magic/artifact = 1, /obj/item/magic/voidstone = 2, /obj/item/magic/leyline = 2) // todo this recipe sucks
 

@@ -20,7 +20,7 @@
 	icon = 'icons/roguetown/mob/familiars.dmi'
 
 	pass_flags = PASSMOB //We don't want them to block players.
-	base_intents = list(INTENT_HELP)
+	base_intents = list(INTENT_HELP, INTENT_BITE)
 	melee_damage_lower = 1
 	melee_damage_upper = 2
 
@@ -281,7 +281,7 @@
 // this makes you kinda valid because it's, you know a demon, so it gets to be a bit stronger. cuddle the campfire dog
 /mob/living/simple_animal/pet/familiar/infernal
 	name = "Hellhound"
-	desc = "A lesser infernal, the heat it radiates is almost comforting. Though daemon-binding is generally frowned upon, the power it grants is tempting to many."
+	desc = "A caniform lesser infernal, the heat it radiates is almost comforting. Though daemon-binding is generally frowned upon, the power it grants is tempting to many."
 	summoning_emote = "Flame erupts in the center of the rune, coalescing into a hellish canid!"
 	icon_state = "hellhound"
 	icon_living = "hellhound"
@@ -291,6 +291,12 @@
 	t2_spell = /obj/effect/proc_holder/spell/self/infernal_surge
 	var/healing_range = 1
 	var/static/list/acceptable_beds = list(/obj/structure/bed, /obj/structure/flora/roguetree/stump, /obj/item/bedsheet)
+
+// in case it wasn't obvious enough that this is license for people to be mad at you
+/mob/living/simple_animal/pet/familiar/infernal/examine(mob/user)
+	var/list/ret = ..()
+	ret.Insert(2,span_userdanger("A DAEMON...!"))
+	return ret
 
 /mob/living/simple_animal/pet/familiar/infernal/Life()
 	. = ..()
@@ -374,6 +380,7 @@
 	icon_living = "warden"
 	icon_dead = "stonebig1"
 	speak_emote = list ("rumbles", "grinds")
+	inherent_spell = list(/datum/action/cooldown/spell/magicians_stone) 
 	t1_spell = /datum/action/cooldown/spell/arcyne_forge/elemental
 	t2_spell = /datum/action/cooldown/spell/arcyne_forge/elemental/t2
 
@@ -391,6 +398,18 @@
 	icon_living = "emberdrake"
 	icon_dead = "emberdrake_dead"
 	speak_emote = list("growls","murmurs")
+
+/mob/living/simple_animal/pet/familiar/void/examine(mob/user)
+	var/list/ret = ..()
+	var/knows = FALSE
+	knows |= istype(user, /mob/living/simple_animal/pet/familiar)
+	// kind of horrid but this ensures only "proper" casters get to be knowers 
+	if(user.mind)
+		knows |= (user.mind.mage_aspect_config && user.mind.mage_aspect_config["major"])
+	if(knows)
+		ret.Insert(2, span_userdanger("AN ABBERANT...?"))
+		ret[3] = "A fragment of a void abberant's power, torn away and fashioned into a familiar; its eyes shine with a voracious hunger. What has been wrought, here? Who would—or even could—create such a thing?"
+	return ret
 
 // no time-based tiering system here
 /mob/living/simple_animal/pet/familiar/void/do_time_change()

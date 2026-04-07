@@ -399,7 +399,7 @@ GLOBAL_LIST(teleport_runes)
 	desc = "arcane symbols twist inward upon themselves, forming a cage of power..."
 	icon = 'icons/effects/96x96.dmi'
 	icon_state = "empowerment"
-	tier = 5
+	tier = 0
 	runesize = 1
 	pixel_x = -32
 	pixel_y = -32
@@ -428,7 +428,7 @@ GLOBAL_LIST(teleport_runes)
 			return
 		var/list/candidates = pollCandidatesForMob("Do you want to play as a Mage's familiar? You will materialize as a [S.name]", null, null, null, 100, S, POLL_IGNORE_MAGE_SUMMON)
 		if(!LAZYLEN(candidates))
-			to_chat(world,span_warning("whoops"))
+			to_chat(world,span_warning("No candidate players available."))
 			return
 		var/list/preferred_candidates = list()
 		var/mob/chosen = null
