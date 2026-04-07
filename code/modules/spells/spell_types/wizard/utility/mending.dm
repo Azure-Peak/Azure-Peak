@@ -1,7 +1,7 @@
 /datum/action/cooldown/spell/mending
 	button_icon = 'icons/mob/actions/roguespells.dmi'
 	name = "Mending"
-	desc = "Uses arcyne energy to mend an item. Effect of repair scales off of your Intelligence."
+	desc = "Uses arcyne energy to mend an item progressively, after initial focusing any movement will break concentration and force the spell into cooldown."
 	button_icon_state = "mending"
 	sound = 'sound/magic/whiteflame.ogg'
 	spell_color = GLOW_COLOR_BUFF
@@ -18,7 +18,7 @@
 	invocations = list("Reficio")
 	invocation_type = INVOCATION_SHOUT
 
-	cooldown_time = 20 SECONDS
+	cooldown_time = 12 SECONDS // the wait time is now mostly on the repairing process, too long with the 4 seconds concentration to properly make any repairs in the middle of combat
 
 	associated_skill = /datum/skill/magic/arcane
 	spell_tier = 1
@@ -28,8 +28,7 @@
 
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
 
-	var/repair_percent = 0.20
-	var/int_bonus = 0.00
+	var/repair_percent = 0.05
 
 /datum/action/cooldown/spell/mending/is_valid_target(atom/cast_on)
 	. = ..()
@@ -51,41 +50,44 @@
 	return TRUE
 
 /datum/action/cooldown/spell/mending/cast(atom/cast_on)
-	. = ..()
-	var/mob/living/user = owner
-	if(!istype(user))
-		return FALSE
+    . = ..()
+    var/mob/living/user = owner
+    if(!istype(user))
+        return FALSE
 
-	var/obj/item/I = cast_on
+    var/obj/item/I = cast_on
 
-	user.visible_message(
-		span_warning("[user] begins to concentrate on [I]!"),
-		span_notice("I begin to concentrate on [I]..")
-	)
-	if(!do_after(user, 4 SECONDS, TRUE, I, TRUE))
-		to_chat(user, span_warning("My concentration breaks! I could not repair [I]."))
-		return FALSE
+    user.visible_message(
+        span_warning("[user] begins to concentrate on [I]!"),
+        span_notice("I begin to concentrate on [I]..")
+    )
+    if(do_after(user, 4 SECONDS, TRUE, I, TRUE))
+        for(var/i = 1, i <= 20, i++) // up to 20 repeats, to insure the item is repaired by the end, a full 34 seconds of channeling + 12(down to 8 seconds at 15 INT) seconds cooldown to repair 1 item fully
+            if(do_after(user, 1.5 SECONDS, TRUE, I, TRUE))
+                repair_percent = initial(repair_percent)
+                repair_percent *= I.max_integrity
 
-	repair_percent = initial(repair_percent)
-	int_bonus = CLAMP((user.STAINT * 0.01), 0.01, 0.9)
-	repair_percent += int_bonus
-	repair_percent *= I.max_integrity
+                I.obj_integrity = min(I.obj_integrity + repair_percent, I.max_integrity)
+                user.visible_message(span_info("[I] glows in a faint mending light."))
+                playsound(I, 'sound/magic/mending.ogg', 35, TRUE, -2)
 
-	I.obj_integrity = min(I.obj_integrity + repair_percent, I.max_integrity)
-	user.visible_message(span_info("[I] glows in a faint mending light."))
-	playsound(I, 'sound/magic/mending.ogg', 35, TRUE, -2)
+                if(I.obj_integrity >= I.max_integrity)
+                    if(I.obj_broken)
+                        I.obj_fix()
+                    if(I.body_parts_covered_dynamic != I.body_parts_covered)
+                        I.repair_coverage()
+                        to_chat(user, span_info("[I]'s shorn layers mend together, completely."))
+                    break
+            else
+                break
+        return TRUE
+    else
+        to_chat(user, span_warning("My concentration breaks! I could not repair [I]."))
+    return FALSE
 
-	if(I.obj_integrity >= I.max_integrity)
-		if(I.obj_broken)
-			I.obj_fix()
-		if(I.body_parts_covered_dynamic != I.body_parts_covered)
-			I.repair_coverage()
-			to_chat(user, span_info("[I]'s shorn layers mend together, completely."))
-
-	return TRUE
 
 /datum/action/cooldown/spell/mending/lesser
-	name = "Lesser Mending"
+	name = "Guided Mending"
 	repair_percent = 0.10
-	cooldown_time = 30 SECONDS
+	cooldown_time = 18 SECONDS
 	point_cost = 1
