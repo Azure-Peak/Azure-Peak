@@ -52,13 +52,15 @@
 	var/atom/target = controller.blackboard[target_key]
 	var/datum/targetting_datum/td = controller.blackboard[targetting_datum_key]
 
-	var/obj/item/weapon/held_weapon = pawn.get_active_held_item()
-	if(!held_weapon)
-		for(var/obj/item/weapon/candidate in range(1, pawn))
+	var/obj/item/held_weapon = pawn.get_active_held_item()
+	if(!istype(held_weapon, /obj/item/rogueweapon) && !istype(held_weapon, /obj/item/weapon))
+		// Snatch a dropped weapon adjacent to us — recovers from getting disarmed mid-fight
+		for(var/obj/item/rogueweapon/candidate in range(1, pawn))
 			if(!isturf(candidate.loc))
 				continue
-			pawn.put_in_active_hand(candidate)
-			break
+			if(pawn.put_in_active_hand(candidate))
+				held_weapon = candidate
+				break
 
 	if(!td.can_attack(pawn, target))
 		AI_THINK(pawn, "ATTACK: can't attack [target] - td rejected")
