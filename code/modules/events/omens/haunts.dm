@@ -7,6 +7,8 @@
 	min_players = 0
 	req_omen = TRUE
 	todreq = list("night")
+	announce_text = "Restless bones stir in the streets!"
+	announce_title = "Haunted Streets"
 
 /datum/round_event/haunts
 	announceWhen	= 50

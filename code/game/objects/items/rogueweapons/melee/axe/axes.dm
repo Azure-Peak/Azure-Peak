@@ -202,7 +202,7 @@
 	name = "hatchet"
 	desc = "For those who seek to be a little more discrete with their carving, chopping, and cleaving."
 	force = 19
-	possible_item_intents = list(/datum/intent/axe/cut, /datum/intent/axe/chop)
+	possible_item_intents = list(/datum/intent/axe/cut/handaxe, /datum/intent/axe/chop)
 	gripped_intents = null
 	icon_state = "hatchet"
 	minstr = 1
@@ -220,6 +220,10 @@
 	grid_width = 32
 	throw_speed = 3 
 	armor_penetration = PEN_LIGHT
+
+/datum/intent/axe/cut/handaxe
+	damfactor = 1.1
+	clickcd = CLICK_CD_QUICK
 
 /obj/item/rogueweapon/stoneaxe/woodcut/bronze
 	name = "bronze axe"

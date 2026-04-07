@@ -196,7 +196,7 @@
 			BB.damage = BB.damage - (BB.damage * (user.client.chargedprog / 100))
 		else
 			BB.damage = BB.damage
-		var/per_scaling = 1 + (min(user.STAPER, RANGED_STAT_SOFTCAP) * RANGED_STAT_MULT) + (max(0, user.STAPER - RANGED_STAT_SOFTCAP) * RANGED_STAT_CAPPEDMULT)
+		var/per_scaling = 1 + ((min(user.STAPER, RANGED_STAT_SOFTCAP) - 10) * RANGED_STAT_MULT) + (max(0, user.STAPER - RANGED_STAT_SOFTCAP) * RANGED_STAT_CAPPEDMULT)
 		BB.damage = BB.damage * per_scaling + bonus_stone_force
 		// PER scales damage by 10% per point up to softcap, then 5% per point. Stone bonus force is added flat.
 		if (temp_stone != null) //reseting after stone ammo use

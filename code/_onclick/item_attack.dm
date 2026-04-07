@@ -113,7 +113,6 @@
 	else if(_attacker_signal & COMPONENT_ITEM_NO_DEFENSE)
 		override_status = ATTACK_OVERRIDE_NODEFENSE
 
-
 	if(HAS_TRAIT(M, TRAIT_TEMPO))
 		if(ishuman(M) && ishuman(user) && user.mind)
 			var/mob/living/carbon/human/H = M
@@ -148,17 +147,23 @@
 //	if(force)
 //		user.emote("attackgrunt")
 
-	var/swingdelay = user.used_intent.swingdelay
+	var/swingdelay = user.used_intent?.swingdelay
 	var/_swingdelay_mod = SEND_SIGNAL(src, COMSIG_LIVING_SWINGDELAY_MOD)
 	if(_swingdelay_mod)
 		swingdelay += _swingdelay_mod
 
 	var/datum/intent/cached_intent = user.used_intent
-	if(swingdelay)
-		if(!user.used_intent.noaa && isnull(user.mind) && !user.used_intent.cleave)
-			if(get_dist(get_turf(user), get_turf(M)) <= user.used_intent.reach)
-				user.do_attack_animation(M, user.used_intent.animname, user.used_intent.masteritem, used_intent = user.used_intent, simplified = TRUE)
-		sleep(swingdelay)
+	if(swingdelay && cached_intent.swingdelay_type)
+		if(user.add_swingdelay(cached_intent))
+			sleep(cached_intent.swingdelay)
+
+	// Getting struck w/ /disrupt swingdelay type sets our swing_state to false. 
+	// If we had the effect, but not the bool, we were interrupted. (Or something else went wrong.)
+	if(user.has_status_effect(/datum/status_effect/swingdelay) && !user.swing_state)
+		return
+
+	user.swing_state = FALSE
+
 	if(user.a_intent != cached_intent)
 		return
 	if(QDELETED(src) || QDELETED(M))

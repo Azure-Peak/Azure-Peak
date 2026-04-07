@@ -147,36 +147,22 @@
 	icon = 'icons/obj/items/donor_weapons_64.dmi'
 
 
-//Zydras donator items - iconoclast pyromaniac - who up icono they clast
-/obj/item/clothing/suit/roguetown/armor/brigandine/light/zydrasiconopauldrons
-	name = "gilded pauldrons"
-	desc = "A ritual-acquired set of pauldrons and gorget. Seemingly protects the gut, too."
-	icon_state = "zydras_iconopauldrons"
-	item_state = "zydras_iconopauldrons"
-	sleevetype = "zydras_iconopauldrons"
+//Zydras donator items - ironclad baddie
+/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/iron/heavy/zycuirass
+	name = "iron gardbrace and fauld"
+	desc = "An aged piece of damaged mailled hauberk, with only its skirt and a spiked shoulder remaining. It glimmers with a reddish hue."
 	icon = 'icons/clothing/donor_clothes.dmi'
 	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
-	sleeved = 'icons/clothing/onmob/donor_sleeves_armor.dmi' //No sleeves
+	icon_state = "zy_cuirass"
+	item_state = "zy_cuirass"
+	sleevetype = "zy_cuirass"
+	sleeved = 'icons/clothing/onmob/donor_sleeves_armor.dmi'
 
-/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/iron/zydrasiconosash //who up icono they clast
-	name = "gilded cloth sash"
-	desc = "A ritual-acquired sash of purple cloth, lined with gold. Seemingly protects the gut, too."
-	icon_state = "zydras_iconosash"
-	item_state = "zydras_iconosash"
-	sleevetype = "zydras_iconosash"
-	icon = 'icons/clothing/donor_clothes.dmi'
-	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
-	sleeved = 'icons/clothing/onmob/donor_sleeves_armor.dmi' //No sleeves
-
-/obj/item/clothing/head/roguetown/helmet/heavy/sheriff/zydrasiconocrown
-	name = "toper-iron crown"
-	desc = "A iron crown with a toper studded into it. Any blow landing upon the wearer's head seems to divert to the gem."
-	flags_inv = null //It's a crown, it ain't hiding anything
-	flags_cover = null 
-	icon_state = "zydras_iconocrown"
-	item_state = "zydras_iconocrown"
-	icon = 'icons/clothing/donor_clothes.dmi'
-	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+/obj/item/rogueweapon/greataxe/zygreataxe
+	name = "Bourreau"
+	desc = "This Greataxe has seen better days. It will see even worse ones, by the looks of its wielder."
+	icon = 'icons/obj/items/donor_weapons_64.dmi'
+	icon_state = "zy_greataxe"
 
 
 /obj/item/clothing/suit/roguetown/armor/longcoat/eiren //Longcoat has no armor, ignore the /armor/ path.
@@ -247,7 +233,7 @@
 		H.update_inv_head()
 
 /obj/item/clothing/head/roguetown/duelhat/pretzel
-	name = "rethrifted gravedigger's hat" 
+	name = "rethrifted gravedigger's hat"
 	desc = "A gravetender's dark leather slouch, refitted with a golden dragon-sigil. Who needs a steel skullcap when you have dumb luck? <br> \
 	\"You ever feel like nothin' good was ever gonna happen to you?\" <br> \
 	\"Yeah, and nothin' did. So what?\""
@@ -539,3 +525,24 @@
 //WALKTHEWASTE
 /obj/item/clothing/head/roguetown/mentorhat/walkthewaste
 	armor = ARMOR_CLOTHING
+
+//SCIDRAGON
+/obj/item/rogueweapon/sword/sabre/shamshir/dono_scidragon_flame
+	name = "flametongue"
+	desc = "An eternal flame dances and flickers across the blade of this shamshir, fueled by the passion of its wielder, promising to bring the heat of the long-away desert to its victims."
+	icon = 'icons/obj/items/donor_weapons_64.dmi'
+	icon_state = "sci_firetongue"
+
+/obj/item/rogueweapon/sword/sabre/shamshir/dono_scidragon_flame/ComponentInitialize()
+	. = ..()
+	AddComponent(/datum/component/ignitable/fluff/sci_flame)
+
+/obj/item/rogueweapon/sword/sabre/shamshir/dono_scidragon_sand
+	name = "sandlash"
+	desc = "Fury of an untamable desert sandstorm, conjured along the steel of this shamshir, destined to bite and lash at the target of its owner's ire. Or perhaps just business."
+	icon = 'icons/obj/items/donor_weapons_64.dmi'
+	icon_state = "sci_sandlash"
+
+/obj/item/rogueweapon/sword/sabre/shamshir/dono_scidragon_sand/ComponentInitialize()
+	. = ..()
+	AddComponent(/datum/component/ignitable/fluff/sci_sand)

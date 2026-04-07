@@ -136,18 +136,20 @@
 		if (user.get_skill_level(/datum/skill/craft/engineering) >= 2)
 			ADD_TRAIT(user, TRAIT_ENGINEERING_GOGGLES, "[type]")
 			user.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/engineeranalyze)
-			to_chat(user, span_notice("Time to build"))
+			to_chat(user, span_green("Time to get to work."))
 			active_item = TRUE
 			return
 		else
-			to_chat(user, span_notice("I can't understand these words and numbers before my eyes"))
+			to_chat(user, span_notice("I can't make sense of the words and numbers before my eyes."))
 			return
 	else
 		return
 
-
-
-
+/obj/item/clothing/mask/rogue/spectacles/golden/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Wear these on your face or head to activate them.")
+	. += span_info("With Apprentice Engineering or higher, they grant Analyze and engineering goggles, letting you inspect a structure's integrity and linked machinery details.")
+	. += span_info("Removing them disables the effect.")
 
 /obj/item/clothing/mask/rogue/spectacles/golden/dropped(mob/user, slot)
 	..()
@@ -155,7 +157,7 @@
 		active_item = FALSE
 		REMOVE_TRAIT(user, TRAIT_ENGINEERING_GOGGLES, "[type]")
 		user.mind.RemoveSpell(new /obj/effect/proc_holder/spell/invoked/engineeranalyze)
-		to_chat(user, span_notice("Time to stop working"))
+		to_chat(user, span_warning("Time to stop working."))
 
 /obj/item/clothing/mask/rogue/spectacles/golden/ComponentInitialize()
 	AddComponent(/datum/component/adjustable_clothing, NECK, null, null, 'sound/foley/equip/rummaging-03.ogg', null, (UPD_HEAD|UPD_MASK))	//Standard mask

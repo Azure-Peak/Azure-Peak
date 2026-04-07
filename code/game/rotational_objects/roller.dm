@@ -87,6 +87,12 @@
 		. += span_notice("Rollers don't consume stress from the network.")
 	. += span_notice("Use a <b>wrench</b> to rotate it.")
 
+/obj/structure/roller/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Powered rollers move loose items and mobs in their facing direction.")
+	. += span_info("They accept rotation from their side connections and do not consume stress from the network.")
+	. += span_info("They can be re-aimed to change which way they move items.")
+
 /obj/structure/roller/proc/get_rotation_sides_text()
 	var/list/sides = list()
 	switch(dir)
@@ -209,12 +215,14 @@
 
 /obj/structure/roller/wrench_act(mob/living/user, obj/item/tool)
 	tool.play_tool_sound(src, 50)
+	rotate_roller(user)
+	return TRUE
+
+/obj/structure/roller/proc/rotate_roller(mob/user)
 	setDir(turn(dir, 90))
 	to_chat(user, span_notice("You rotate [src]."))
-
 	connected_rollers = list()
 	build_roller_chain()
-	return TRUE
 
 /obj/structure/roller/vand_update_appearance()
 	. = ..()
@@ -233,157 +241,13 @@
 	animate(icon_state = "roller3", time = frame_time)
 	animate(icon_state = "roller4", time = frame_time)
 
-
-/obj/structure/roller/attack_hand(mob/living/user, list/modifiers)
+/obj/structure/roller/attack_right(mob/user, list/modifiers)
+	. = ..()
+	if(.)
+		return
 	var/obj/item/held_item = user.get_active_held_item()
-	if(held_item?.type == /obj/item/contraption/linker)
-		//tool.play_tool_sound(src, 50)
-		setDir(turn(dir, 90))
-		to_chat(user, span_notice("You rotate [src]."))
-
-		// Rebuild connections (parent's setDir handles rotation network)
-		connected_rollers = list()
-		build_roller_chain()
-		return TRUE
-
-/obj/structure/roller/wrench_act(mob/living/user, obj/item/tool)
-	tool.play_tool_sound(src, 50)
-	setDir(turn(dir, 90))
-	to_chat(user, span_notice("You rotate [src]."))
-
-	// Rebuild connections (parent's setDir handles rotation network)
-	connected_rollers = list()
-	build_roller_chain()
+	if(held_item?.type != /obj/item/contraption/linker)
+		return
+	rotate_roller(user)
 	return TRUE
 
-
-
-/obj/structure/roller/vand_update_appearance()
-	. = ..()
-	if(operating && rotations_per_minute > 0)
-		update_animation_effect()
-
-/obj/structure/roller/update_animation_effect()
-	if(!rotation_network || rotation_network.overstressed || !rotations_per_minute)
-		animate(src, icon_state = "roller", time = 1)
-		return
-
-	var/clamprpm = clamp(rotations_per_minute,0,32) //limiting RPM down
-	// Animate based on RPM
-	var/frame_stage = 1 / ((clamprpm / 60) * 4)
-
-	animate(src, icon_state = "roller1", time = frame_stage, loop = -1)
-	animate(icon_state = "roller2", time = frame_stage)
-	animate(icon_state = "roller3", time = frame_stage)
-	animate(icon_state = "roller4", time = frame_stage)
-
-/* commenting this part out, this seems to work but we don't have an icon in the dmi, will search for this
-/obj/structure/roller/attackby(obj/item/attacking_item, mob/user, params)
-	if(istype(attacking_item, /obj/item/roller_sorter_lister))
-		var/obj/structure/roller_sorter/new_sorter = new(get_turf(src))
-		new_sorter.parent_roller = src
-		to_chat(user, span_notice("You attach a sorter to [src]."))
-		return
-
-	return ..()
-
-/obj/structure/roller_sorter
-	name = "roller sorter"
-	desc = "A specialized roller that can sort items based on type."
-	icon = 'icons/obj/roller.dmi' 
-	icon_state = "roller_sorter" //NOTE: downloaded the dmi from vanderline but there's no "roller_sorter" icon, it seems to be missing?
-	density = FALSE
-	anchored = TRUE
-	layer = BELOW_OPEN_DOOR_LAYER
-
-	var/obj/structure/roller/parent_roller
-	var/list/sorting_list = list()
-	var/sort_direction = NORTH
-
-	COOLDOWN_DECLARE(use_cooldown)
-
-/obj/structure/roller_sorter/Initialize(mapload)
-	. = ..()
-
-	var/static/list/loc_connections = list(
-		COMSIG_ATOM_ENTERED = PROC_REF(on_entered),
-	)
-	AddElement(/datum/element/connect_loc, loc_connections)
-
-/obj/structure/roller_sorter/examine(mob/user)
-	. = ..()
-	. += span_notice("Sorts items to the [dir2text(sort_direction)] when they match the filter.")
-	. += span_notice("Currently sorting [length(sorting_list)] item types.")
-	. += span_notice("Click with empty hand to change sort direction.")
-	. += span_notice("Alt-Click to clear sorting list.")
-
-/obj/structure/roller_sorter/attack_hand(mob/living/user, list/modifiers)
-	var/list/directions = list("North", "East", "South", "West")
-	var/obj/item/held_item = user.get_active_held_item()
-	if(held_item?.type == /obj/item/contraption/linker)
-		var/user_choice = input(user, "Choose which direction to sort to!", "Direction choice") as null|anything in  directions
-		if(!user_choice)
-			return
-		sort_direction = text2dir(user_choice)
-		visible_message("[src] clicks, updating its sorting direction!")
-
-/obj/structure/roller_sorter/AltClick(mob/user, list/modifiers)
-	. = ..()
-	visible_message("[src] beeps, resetting its sorting list!")
-	sorting_list = list()
-
-/obj/structure/roller_sorter/proc/on_entered(datum/source, atom/movable/entering_atom)
-	SIGNAL_HANDLER
-
-	if(!ismovable(entering_atom))
-		return
-
-	if(entering_atom.anchored)
-		return
-
-	if(!is_type_in_list(entering_atom, sorting_list))
-		return
-
-	if(COOLDOWN_FINISHED(src, use_cooldown))
-		COOLDOWN_START(src, use_cooldown, 1 SECONDS)
-		entering_atom.Move(get_step(src, sort_direction))
-
-/obj/item/roller_sorter_lister
-	name = "roller sorter attachment"
-	desc = "An attachment that can be placed on rollers to sort items."
-	icon = 'icons/obj/roller.dmi'
-	icon_state = "sorter_construct"
-	w_class = WEIGHT_CLASS_SMALL
-
-	var/list/current_sort = list()
-	var/max_items = 5
-
-/obj/item/roller_sorter_lister/examine(mob/user)
-	. = ..()
-	. += span_notice("Can sort up to <b>[max_items]</b> item types.")
-	. += span_notice("Attack items to add them to the sorting list.")
-	. += span_notice("Alt-Click to reset the sorting list.")
-
-/obj/item/roller_sorter_lister/afterattack(atom/target, mob/user, proximity_flag, list/modifiers)
-	if(target == src || !proximity_flag)
-		return ..()
-
-	if(!ismovable(target))
-		return ..()
-
-	if(is_type_in_list(target, current_sort))
-		to_chat(user, span_warning("[target] is already in the sorting list!"))
-		return
-
-	if(length(current_sort) >= max_items)
-		to_chat(user, span_warning("The sorting list is full!"))
-		return
-
-	current_sort += target.type
-	to_chat(user, span_notice("[target] has been added to the sorting list."))
-
-/obj/item/roller_sorter_lister/AltClick(mob/user, list/modifiers)
-	. = ..()
-	visible_message("The sorting list has been reset!")
-	current_sort = list()
-*/

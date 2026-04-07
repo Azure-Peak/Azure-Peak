@@ -104,14 +104,14 @@
 
 	invocations = list("Entflamme.") //(Kindle)
 
-//////////////////////////////////////////////////////////////////////////////
-// T1 - Recuperation - Restore ENERGY to a target and provide healing buff. //
-//////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////
+// T1 - Recuperation - Restore ENERGY to a target and provide restoration buff. //
+//////////////////////////////////////////////////////////////////////////////////
 //Malum + Pestra
 
 /obj/effect/proc_holder/spell/invoked/recuperation
 	name = "Recuperation"
-	desc = "Restores the targets Energy and provides a healing buff. Twice as effective on target other than yourself."
+	desc = "Restores the targets Energy and provides brief regeneration to it. Twice as effective on target other than yourself."
 	action_icon = 'icons/mob/actions/undividedmiracles.dmi'
 	overlay_icon = 'icons/mob/actions/undividedmiracles.dmi'
 	overlay_state = "calming_respite"
@@ -120,7 +120,7 @@
 	releasedrain = 20
 
 	miracle = TRUE
-	devotion_cost = 30
+	devotion_cost = 50
 
 	chargetime = 1 SECONDS
 	chargedloop = /datum/looping_sound/invokeholy
@@ -132,24 +132,63 @@
 	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
 	associated_skill = /datum/skill/magic/holy
 
-	var/respite_healing = 3
-
 /obj/effect/proc_holder/spell/invoked/recuperation/cast(list/targets, mob/living/user)
 	. = ..()
-	var/const/starminatoregen = 250 // How much stamina should the spell give back to the caster.
+	var/const/energytoregen = 50
 	var/mob/living/carbon/target = targets[1]
 	if (!iscarbon(target)) 
 		return
 	if (target == user)
-		target.energy_add(starminatoregen)
-		target.apply_status_effect(/datum/status_effect/buff/healing, respite_healing)
+		target.energy_add(energytoregen * (user.get_skill_level(associated_skill)))//200 for templar, 300 for acolyte
+		target.apply_status_effect(/datum/status_effect/buff/recuperation)
 		show_visible_message(usr, "As [user] intones the incantation, vibrant flames swirl around them.", "As you intone the incantation, vibrant flames swirl around you. You feel refreshed.")
-	else if (user.energy > (starminatoregen * 2))
-		user.energy_add(-(starminatoregen))
-		target.energy_add(starminatoregen * 2)
-		target.apply_status_effect(/datum/status_effect/buff/healing, respite_healing*2)
+	else if (user.energy > (energytoregen * 2))
+		user.energy_add(-(energytoregen * (user.get_skill_level(associated_skill))))
+		target.energy_add((energytoregen * (user.get_skill_level(associated_skill))) * 2)
+		target.apply_status_effect(/datum/status_effect/buff/recuperation/other)
 		show_visible_message(target, "As [user] intones the incantation, vibrant flames swirl around them, a dance of energy flowing towards [target].", "As [user] intones the incantation, vibrant flames swirl around them, a dance of energy flowing towards you. You feel refreshed.")
 
+/atom/movable/screen/alert/status_effect/buff/recuperation
+	name = "Recuperation"
+	desc = "A brief respite for my ailments."
+	icon_state = "recuperation"
+
+#define RECUPERATION_BASE_FILTER "recuperation"
+
+/datum/status_effect/buff/recuperation
+	id = "recuperation"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/recuperation
+	duration = 5 SECONDS
+	var/healing_on_tick = 5
+	var/outline_colour = "#2e8d8d"
+
+/datum/status_effect/buff/recuperation/other
+	duration = 10 SECONDS
+
+/datum/status_effect/buff/recuperation/eoran
+	duration = 1 MINUTES
+	healing_on_tick = 2
+	outline_colour = "#EEBBBB"
+
+/datum/status_effect/buff/recuperation/on_apply()
+	var/filter = owner.get_filter(RECUPERATION_BASE_FILTER)
+	if (!filter)
+		owner.add_filter(RECUPERATION_BASE_FILTER, 2, list("type" = "outline", "color" = outline_colour, "alpha" = 90, "size" = 1))
+	return TRUE
+
+/datum/status_effect/buff/recuperation/tick()
+	if(owner.construct)
+		return
+	var/stamheal = healing_on_tick
+	if(!owner.cmode)
+		stamheal *= 2
+	owner.energy_add(stamheal)
+	owner.adjust_bodytemperature(8)
+
+/datum/status_effect/buff/recuperation/on_remove()
+	owner.remove_filter(RECUPERATION_BASE_FILTER)
+
+#undef RECUPERATION_BASE_FILTER
 
 ////////////////////////////////////////////////////////////////////////////
 // T1 - Rending Strike - Slow down a target, same as Ravox divine strike. //
@@ -165,7 +204,6 @@
 	releasedrain = 10
 	devotion_cost = 40
 
-	sound = 'sound/magic/undivided_strike.ogg'
 	invocations = list("Geleitet meine Hand!") //("Guide my hand!")
 
 ////////////////////////////////////////////////////////////
@@ -208,13 +246,13 @@
 				target.add_stress(/datum/stressevent/perseverance)
 			if(affecting)
 				for(var/datum/wound/bleeder in affecting.wounds)
-					bleeder.woundpain = max(bleeder.sewn_woundpain, bleeder.woundpain * 0.25)
+					bleeder.woundpain = max(bleeder.sewn_woundpain, bleeder.woundpain * 0.2)
 					if(!isnull(bleeder.clotting_threshold) && bleeder.bleed_rate > bleeder.clotting_threshold)
 						var/difference = bleeder.bleed_rate - bleeder.clotting_threshold
 						bleeder.set_bleed_rate(max(bleeder.clotting_threshold, bleeder.bleed_rate - difference))
 		else if(HAS_TRAIT(target, TRAIT_SIMPLE_WOUNDS))
 			for(var/datum/wound/bleeder in target.simple_wounds)
-				bleeder.woundpain = max(bleeder.sewn_woundpain, bleeder.woundpain * 0.25)
+				bleeder.woundpain = max(bleeder.sewn_woundpain, bleeder.woundpain * 0.2)
 				if(!isnull(bleeder.clotting_threshold) && bleeder.bleed_rate > bleeder.clotting_threshold)
 					var/difference = bleeder.bleed_rate - bleeder.clotting_threshold
 					bleeder.set_bleed_rate(max(bleeder.clotting_threshold, bleeder.bleed_rate - difference))
@@ -362,8 +400,7 @@
 /datum/status_effect/debuff/gallowshumor
 	id = "gallowshumor"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/gallowshumor
-	duration = 1 MINUTES
-	effectedstats = list(STATKEY_LCK = -2)
+	duration = 2 MINUTES
 
 /atom/movable/screen/alert/status_effect/debuff/gallowshumor
 	name = "Gallows Humor"
@@ -372,8 +409,17 @@
 
 /datum/stressevent/gallowshumor
 	timer = 10 MINUTES 
-	stressadd = 8
+	stressadd = 5
 	desc = span_boldred("NO NO NO!")
+
+/datum/status_effect/debuff/gallowshumor/on_apply()
+	. = ..()
+	ADD_TRAIT(owner, TRAIT_BAD_MOOD, TRAIT_MIRACLE)
+
+/datum/status_effect/debuff/gallowshumor/on_remove()
+	REMOVE_TRAIT(owner, TRAIT_BAD_MOOD, TRAIT_MIRACLE)
+	owner.update_stress()
+	return ..()
 
 //////////////////////////////////////////////////////////////////////////////////////////
 // T3 - Undivided Fortify - Heals and damages undead like actual one, bit worse though. //
@@ -409,7 +455,7 @@
 	miracle = TRUE
 	devotion_cost = 40
 
-	sound = 'sound/magic/undivided_command.ogg'
+	sound = 'sound/magic/battle_cry_undivided.ogg'
 	invocation_type = INVOCATION_SHOUT
 	invocations = list("WE STAND TOGETHER!", "UNITED WE WILL PREVAIL!", "DRIVE THE FIENDS BACK!!")
 

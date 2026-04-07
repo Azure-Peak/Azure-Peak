@@ -31,6 +31,11 @@
 	var/req_omen = FALSE
 	var/list/todreq
 
+	/// If set, announced via priority_announce when this event triggers. Replaces the old global badomen() flavor.
+	var/announce_text
+	var/announce_title = "Bad Omen"
+	var/announce_sound = 'sound/misc/evilevent.ogg'
+
 	///do we check against the antag cap before attempting a spawn?
 	var/checks_antag_cap = FALSE
 	/// List of enemy roles, will check if x amount of these exist exist
@@ -146,7 +151,9 @@
 	if(req_omen)
 		if(!GLOB.badomens.len)
 			return EVENT_CANCELLED
-		badomen(pick_n_take(GLOB.badomens))
+		pick_n_take(GLOB.badomens)
+		if(announce_text)
+			priority_announce(announce_text, announce_title, announce_sound)
 
 
 	triggering = FALSE
@@ -392,20 +399,3 @@ GLOBAL_LIST_INIT(badomens, list())
 
 	GLOB.badomens -= input
 
-/datum/round_event_control/proc/badomen(eventreason)
-	var/used
-	switch(eventreason)
-		if(OMEN_ROUNDSTART)
-			used = "Zizo."
-		if(OMEN_NOPRIEST)
-			used = "The Bishop has perished! The Ten are weakened..."
-		if(OMEN_SKELETONSIEGE)
-			used = "Unwelcome visitors!"
-		if(OMEN_NOLORD)
-			used = "The Monarch is dead! We need a new ruler."
-		if(OMEN_SUNSTEAL)
-			used = "The Sun, she is wounded!"
-		if(OMEN_INQUISITORDEATH)
-			used = "Something weeps..."
-	if(eventreason && used)
-		priority_announce(used, "Bad Omen", 'sound/misc/evilevent.ogg')

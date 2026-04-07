@@ -66,7 +66,7 @@
 
 	if(name in unknown_names)
 		. = list(span_info("ø ------------ ø\nThis is <EM>[name]</EM>."))
-	else if(obscure_name)
+	else if(obscure_name && !client?.prefs?.masked_examine)
 		. = list(span_info("ø ------------ ø\nThis is an unknown <EM>[name]</EM>."))
 	else
 		on_examine_face(user)

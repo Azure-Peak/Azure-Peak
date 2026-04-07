@@ -206,6 +206,7 @@
 	icon_state = "gronnchain"
 	item_state = "gronnchain"
 	smeltresult = /obj/item/ingot/iron
+	armor = ARMOR_MAILLE
 
 /obj/item/clothing/gloves/roguetown/chain/gronn
 	name = "gronn byrine gloves"
@@ -215,7 +216,7 @@
 	icon_state = "gronnchaingloves"
 	item_state = "gronnchaingloves"
 
-/obj/item/clothing/under/roguetown/splintlegs/gronn
+/obj/item/clothing/under/roguetown/chainlegs/gronn
 	name = "gronn byrine chausses"
 	desc = "A pair of chain-wrapped pants with a leather subligar, ensuring both protection and comfort."
 	icon = 'icons/roguetown/clothing/special/gronn.dmi'
