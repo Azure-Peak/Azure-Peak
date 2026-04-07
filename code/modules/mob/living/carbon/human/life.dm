@@ -26,7 +26,9 @@
 	if (notransform)
 		return
 
-	if(!client && ai_controller?.ai_status != AI_STATUS_ON)
+	// Sleep gate: skip Life() for idle NPCs to save cycles, but only if fully conscious.
+	// If not conscious, we must run Life() so update_stat() can transition us back and re-wake the AI.
+	if(!client && stat == CONSCIOUS && ai_controller?.ai_status != AI_STATUS_ON)
 		return
 
 	. = ..()
