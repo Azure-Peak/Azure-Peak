@@ -41,7 +41,7 @@
 	return bound
 
 /datum/runeritual/binding/proc/bind_ritual_mob(mob/living/user, turf/loc, mob/living/mob_to_bind)
-	var/mob/living/simple_animal/hostile/retaliate/rogue/binded
+	var/mob/living/simple_animal/pet/familiar/binded
 	if(isliving(mob_to_bind))
 		binded = mob_to_bind
 	else
@@ -52,118 +52,251 @@
 		animate(binded, color = "#ff0000",time = 5)
 		binded.move_resist = MOVE_FORCE_EXTREMELY_STRONG
 		binded.binded = TRUE
-		binded.death_loot = list() // No free loot from bound creatures
 		binded.SetParalyzed(900)
 		return binded
 
-// ----- Infernal Binding -----
-
-/datum/runeritual/binding/infernal_t1
-	name = "Bind Imp"
-	desc = "Bind a imp to your service."
-	blacklisted = FALSE
-	tier = 1
-	mob_to_bind = /mob/living/simple_animal/hostile/retaliate/rogue/infernal/imp
-	required_atoms = list(/obj/item/magic/infernal/ash = 4, /obj/item/magic/melded/t1 = 1, /obj/item/magic/artifact = 1)
+// ----- Familiar Binding -----
 
 /datum/runeritual/binding/infernal_t2
-	name = "Bind Hellhound"
-	desc = "Bind a hellhound to your service."
+	name = "Bind Lesser Infernal"
+	desc = "Bind a lesser infernal to your service: a being of daemonic hatred, specializing in fiery destruction."
 	blacklisted = FALSE
-	tier = 2
-	mob_to_bind = /mob/living/simple_animal/hostile/retaliate/rogue/infernal/hellhound
-	required_atoms = list(/obj/item/magic/infernal/fang = 2, /obj/item/magic/melded/t2 = 1, /obj/item/magic/artifact = 2)
-
-/datum/runeritual/binding/infernal_t3
-	name = "Bind Watcher"
-	desc = "Bind a watcher to your service."
-	blacklisted = FALSE
-	tier = 3
-	mob_to_bind = /mob/living/simple_animal/hostile/retaliate/rogue/infernal/watcher
-	required_atoms = list(/obj/item/magic/infernal/core = 1, /obj/item/magic/melded/t3 = 1, /obj/item/magic/artifact = 3)
-
-/datum/runeritual/binding/infernal_t4
-	name = "Bind Fiend"
-	desc = "Bind an infernal fiend to your service."
-	blacklisted = FALSE
-	tier = 4
-	mob_to_bind = /mob/living/simple_animal/hostile/retaliate/rogue/infernal/fiend
-	required_atoms = list(/obj/item/magic/infernal/flame = 1, /obj/item/magic/melded/t4 = 1, /obj/item/magic/artifact = 4)
-
-// ----- Fae Binding -----
-
-/datum/runeritual/binding/fae_t1
-	name = "Bind Sprite"
-	desc = "Bind a sprite to your service."
-	blacklisted = FALSE
-	tier = 1
-	mob_to_bind = /mob/living/simple_animal/hostile/retaliate/rogue/fae/sprite
-	required_atoms = list(/obj/item/magic/fae/fairydust = 4, /obj/item/magic/melded/t1 = 1, /obj/item/magic/artifact = 1)
+	mob_to_bind = /mob/living/simple_animal/pet/familiar/infernal
+	required_atoms = list()
+	//required_atoms = list(/obj/item/magic/infernal/fang = 2, /obj/item/magic/leyline = 1)
 
 /datum/runeritual/binding/fae_t2
-	name = "Bind Glimmerwing"
-	desc =	 "Bind a glimmerwing to your service."
+	name = "Bind Lesser Fae"
+	desc =	 "Bind a lesser fae to your service: a being of natural whimsy, specializing in mobility and alchemy."
 	blacklisted = FALSE
-	tier = 2
-	mob_to_bind = /mob/living/simple_animal/hostile/retaliate/rogue/fae/glimmerwing
-	required_atoms = list(/obj/item/magic/fae/iridescentscale = 2, /obj/item/magic/melded/t2 = 1, /obj/item/magic/artifact = 2)
-
-/datum/runeritual/binding/fae_t3
-	name = "Bind Dryad"
-	desc = "Bind a dryad to your service."
-	blacklisted = FALSE
-	tier = 3
-	mob_to_bind = /mob/living/simple_animal/hostile/retaliate/rogue/fae/dryad
-	required_atoms = list(/obj/item/magic/fae/heartwoodcore = 1, /obj/item/magic/melded/t3 = 1, /obj/item/magic/artifact = 3)
-
-/datum/runeritual/binding/fae_t4
-	name = "Bind Sylph"
-	desc = "Bind a sylph to your service."
-	blacklisted = FALSE
-	tier = 4
-	mob_to_bind = /mob/living/simple_animal/hostile/retaliate/rogue/fae/sylph
-	required_atoms = list(/obj/item/magic/fae/sylvanessence = 1, /obj/item/magic/melded/t4 = 1, /obj/item/magic/artifact = 4)
-
-// ----- Elemental Binding -----
-
-/datum/runeritual/binding/elemental_t1
-	name = "Bind Crawler"
-	desc = "Bind a crawler to your service."
-	blacklisted = FALSE
-	tier = 1
-	mob_to_bind = /mob/living/simple_animal/hostile/retaliate/rogue/elemental/crawler
-	required_atoms = list(/obj/item/magic/elemental/mote = 4, /obj/item/magic/melded/t1 = 1, /obj/item/magic/artifact = 1)
+	mob_to_bind = /mob/living/simple_animal/pet/familiar/fae
+	required_atoms = list()
+	//required_atoms = list(/obj/item/magic/fae/iridescentscale = 2, /obj/item/magic/leyline = 1)
 
 /datum/runeritual/binding/elemental_t2
-	name = "Bind Warden"
-	desc = "Bind a warden to your service."
+	name = "Bind Lesser Elemental"
+	desc = "Bind a lesser elemental to your service: a creature of earthen durability, specializing in world-manipulation and repairs."
 	blacklisted = FALSE
-	tier = 2
-	mob_to_bind = /mob/living/simple_animal/hostile/retaliate/rogue/elemental/warden
-	required_atoms = list(/obj/item/magic/elemental/shard = 2, /obj/item/magic/melded/t2 = 1, /obj/item/magic/artifact = 2)
-
-/datum/runeritual/binding/elemental_t3
-	name = "Bind Behemoth"
-	desc = "Bind a behemoth to your service."
-	blacklisted = FALSE
-	tier = 3
-	mob_to_bind = /mob/living/simple_animal/hostile/retaliate/rogue/elemental/behemoth
-	required_atoms = list(/obj/item/magic/elemental/fragment = 1, /obj/item/magic/melded/t3 = 1, /obj/item/magic/artifact = 3)
-
-/datum/runeritual/binding/elemental_t4
-	name = "Bind Colossus"
-	desc = "Bind a colossus to your service."
-	blacklisted = FALSE
-	tier = 4
-	mob_to_bind = /mob/living/simple_animal/hostile/retaliate/rogue/elemental/colossus
-	required_atoms = list(/obj/item/magic/elemental/relic = 1, /obj/item/magic/melded/t4 = 1, /obj/item/magic/artifact = 4)
-
-// ----- Void Dragon Binding -----
+	mob_to_bind = /mob/living/simple_animal/pet/familiar/elemental
+	required_atoms = list()
+	// required_atoms = list(/obj/item/magic/elemental/shard = 2, /obj/item/magic/leyline = 1)
 
 /datum/runeritual/binding/void_dragon
-	name = "Bind Void Dragon"
-	desc = "Sacrifice the spoils of a slain void dragon to bind another to your service. Only those who have already felled one may attempt this."
+	name = "Bind Void Drakeling"
+	desc = "Reach into the void and grasp a fragment of draconic power, shaping it into a familiar."
 	blacklisted = FALSE
-	tier = 5
 	mob_to_bind = /mob/living/simple_animal/hostile/retaliate/rogue/voiddragon
-	required_atoms = list(/obj/item/clothing/ring/dragon_ring = 3, /obj/item/book/granter/arcane_aspect/minor = 2, /obj/item/book/granter/arcane_aspect/major = 1)
+	required_atoms = list()
+	// required_atoms = list(/obj/item/magic/artifact = 1, /obj/item/magic/voidstone = 2, /obj/item/magic/leyline = 2) // todo this recipe sucks
+
+
+/datum/runeritual/revive_familiar
+	name = "Revive Familiar"
+	desc = "Return a departed familiar to lyfe, so long as they have not yet fully returned to their home plane."
+	required_atoms = list(/obj/item/magic/melded/t1)
+
+/datum/runeritual/revive_familiar/on_finished_recipe(mob/living/user, list/selected_atoms, turf/loc)
+	. = ..()
+	for(var/mob/living/simple_animal/pet/familiar/existing_fam in GLOB.alive_mob_list + GLOB.dead_mob_list)
+		if(existing_fam.familiar_summoner == user && existing_fam.health<=0 && existing_fam.revive(full_heal = TRUE, admin_revive = TRUE))
+			to_chat(user, span_notice("You channel the ritual's magic through your bond, returning [existing_fam.name] to this plane!"))
+			existing_fam.grab_ghost(force = TRUE)
+			existing_fam.familiar_summoner = user
+			existing_fam.visible_message(span_notice("[existing_fam.name] is restored to life by [user]'s magic!"))
+
+/datum/runeritual/release_familiar
+	name = "Free Familiar"
+	desc = "Terminate your contract with a familiar, sending them back from whence they came unharmed."
+	required_atoms = list(/mob/living/simple_animal/pet/familiar)
+
+/datum/runeritual/release_familiar/on_finished_recipe(mob/living/user, list/selected_atoms, turf/loc)
+	. = ..()
+	var/mob/living/simple_animal/pet/familiar/fam = selected_atoms[1]
+	if(QDELETED(fam))
+		to_chat(user, span_warning("The familiar is already gone."))
+		return
+	to_chat(user, span_warning("You feel your link with [fam.name] break."))
+	to_chat(fam, span_warning("You feel your link with [user.name] break, you are free."))
+
+	fam.familiar_summoner = null
+
+	user.mind?.RemoveSpell(/datum/action/cooldown/spell/message_familiar)
+	fam.mind?.RemoveSpell(/datum/action/cooldown/spell/message_summoner)
+	fam.mind?.unknow_all_people()
+
+	var/exit_msg
+	if(isdead(fam))
+		exit_msg = "[fam.name]'s corpse vanishes in a puff of smoke."
+	else
+		exit_msg = "[fam.name] looks in the direction of [user.name] one last time, before opening a portal and vanishing into it."
+	fam.visible_message(span_warning(exit_msg))
+	qdel(fam)
+
+/datum/runeritual/planar_pact
+	name = "Planar Pact"
+	desc = "Make a lesser pact with a planar being, exchanging only a mote of essence with each other. Grants a minor stat boon and a minor stat penalty."
+	required_atoms = list(/obj/item/magic/melded/t1)
+	var/list/planar_buffs = list(
+		/datum/status_effect/buff/familiar/settled_weight,
+		/datum/status_effect/buff/familiar/silver_glance,
+		/datum/status_effect/buff/familiar/threaded_thoughts,
+		/datum/status_effect/buff/familiar/quiet_resilience,
+		/datum/status_effect/buff/familiar/desert_bred_tenacity,
+		/datum/status_effect/buff/familiar/lightstep,
+		/datum/status_effect/buff/familiar/soft_favor,
+		/datum/status_effect/buff/familiar/burdened_coil,
+		/datum/status_effect/buff/familiar/starseam,
+		/datum/status_effect/buff/familiar/steady_spark,
+		/datum/status_effect/buff/familiar/subtle_slip,
+		/datum/status_effect/buff/familiar/noticed_thought,
+		/datum/status_effect/buff/familiar/worn_stone
+	)
+	var/list/pretty_buff_names = list(
+		"Settled Weight (+1 STR, -1 INT, -1 PER)",
+		"Silver Glance (+1 PER, -1 WIL)",
+		"Threaded Thoughts (+1 INT, -1 CON)",
+		"Quiet Resilience (+1 CON, -1 INT)",
+		"Desert-Bred Tenacity (+1 WIL, -1 PER)",
+		"Lightstep (+1 SPD, -1 WIL, -1 INT)",
+		"Soft Favor (+1 PER, -1 INT)",
+		"Burdened Coil (+1 WIL, -1 CON)",
+		"Starseam (+1 PER, -1 CON)",
+		"Steady Spark (+1 STR, -1 PER, -1 CON)",
+		"Subtle Slip (+1 LCK, -1 WIL)",
+		"Noticed Thought (+1 PER, +1 INT, -1 STR)",
+		"Worn Stone (+1 WIL, +1 CON, -1 SPD)"
+	)
+
+/datum/runeritual/planar_pact/on_finished_recipe(mob/living/user, list/selected_atoms, turf/loc)
+	. = ..()
+	for(var/datum/status_effect/buff/familiar/buff in planar_buffs)
+		if(user.has_status_effect(buff))
+			to_chat(user, span_warning("You can only bear one planar pact at a time!"))
+			return FALSE
+	var/pretty_choice = input(user, "Choose a pact:","ACROSS THE VEIL") as anything in pretty_buff_names
+	var/datum/status_effect/buff/familiar/chosen_buff = planar_buffs[pretty_buff_names.Find(pretty_choice)]
+	if(!chosen_buff)
+		return FALSE
+	user.apply_status_effect(chosen_buff)
+
+// planar pact buff definitions
+
+/datum/status_effect/buff/familiar
+	duration = -1
+
+/datum/status_effect/buff/familiar/settled_weight
+	id = "settled_weight"
+	effectedstats = list(STATKEY_STR = 1, STATKEY_INT = -1, STATKEY_PER = -1)
+	alert_type = /atom/movable/screen/alert/status_effect/buff/familiar/settled_weight
+
+/atom/movable/screen/alert/status_effect/buff/familiar/settled_weight
+	name = "Settled Weight"
+	desc = "You feel just a touch more grounded. Pushing back has become a little easier."
+
+/datum/status_effect/buff/familiar/silver_glance
+	id = "silver_glance"
+	effectedstats = list(STATKEY_PER = 1, STATKEY_WIL = -1)
+	alert_type = /atom/movable/screen/alert/status_effect/buff/familiar/silver_glance
+
+/atom/movable/screen/alert/status_effect/buff/familiar/silver_glance
+	name = "Silver Glance"
+	desc = "There's a flicker at the edge of your vision. You notice what others pass by."
+
+/datum/status_effect/buff/familiar/threaded_thoughts
+	id = "threaded_thoughts"
+	effectedstats = list(STATKEY_INT = 1, STATKEY_CON = -1)
+	alert_type = /atom/movable/screen/alert/status_effect/buff/familiar/threaded_thoughts
+
+/atom/movable/screen/alert/status_effect/buff/familiar/threaded_thoughts
+	name = "Threaded Thoughts"
+	desc = "Your thoughts gather more easily, like threads pulled into a tidy weave."
+
+/datum/status_effect/buff/familiar/quiet_resilience
+	id = "quiet_resilience"
+	effectedstats = list(STATKEY_CON = 1, STATKEY_INT = -1)
+	alert_type = /atom/movable/screen/alert/status_effect/buff/familiar/quiet_resilience
+
+/atom/movable/screen/alert/status_effect/buff/familiar/quiet_resilience
+	name = "Quiet Resilience"
+	desc = "A calm strength hums beneath your skin. You breathe a little deeper."
+
+/datum/status_effect/buff/familiar/desert_bred_tenacity
+	id = "desert_bred_tenacity"
+	effectedstats = list(STATKEY_WIL = 1, STATKEY_PER = -1)
+	alert_type = /atom/movable/screen/alert/status_effect/buff/familiar/desert_bred_tenacity
+
+/atom/movable/screen/alert/status_effect/buff/familiar/desert_bred_tenacity
+	name = "Desert-Bred Tenacity"
+	desc = "You feel steady and patient, like something that has survived years without rain."
+
+/datum/status_effect/buff/familiar/lightstep
+	id = "lightstep"
+	effectedstats = list(STATKEY_SPD = 1, STATKEY_WIL = -1, STATKEY_INT = -1)
+	alert_type = /atom/movable/screen/alert/status_effect/buff/familiar/lightstep
+
+/atom/movable/screen/alert/status_effect/buff/familiar/lightstep
+	name = "Lightstep"
+	desc = "You move with just a touch more ease."
+
+/datum/status_effect/buff/familiar/soft_favor
+	id = "soft_favor"
+	effectedstats = list(STATKEY_PER = 1, STATKEY_INT = -1)
+	alert_type = /atom/movable/screen/alert/status_effect/buff/familiar/soft_favor
+
+/atom/movable/screen/alert/status_effect/buff/familiar/soft_favor
+	name = "Soft Favor"
+	desc = "Fortune seems to tilt in your direction."
+
+/datum/status_effect/buff/familiar/burdened_coil
+	id = "burdened_coil"
+	effectedstats = list(STATKEY_CON = -1, STATKEY_WIL = 1)
+	alert_type = /atom/movable/screen/alert/status_effect/buff/familiar/burdened_coil
+
+/atom/movable/screen/alert/status_effect/buff/familiar/burdened_coil
+	name = "Burdened Coil"
+	desc = "You feel grounded and steady, as if strength coils beneath your skin."
+
+/datum/status_effect/buff/familiar/starseam
+	id = "starseam"
+	effectedstats = list(STATKEY_PER = 1, STATKEY_CON = -1)
+	alert_type = /atom/movable/screen/alert/status_effect/buff/familiar/starseam
+
+/atom/movable/screen/alert/status_effect/buff/familiar/starseam
+	name = "Starseam"
+	desc = "You feel nudged by distant patterns. The world flows more legibly."
+
+/datum/status_effect/buff/familiar/steady_spark
+	id = "steady_spark"
+	effectedstats = list(STATKEY_STR = 1, STATKEY_PER = -1, STATKEY_CON = -1)
+	alert_type = /atom/movable/screen/alert/status_effect/buff/familiar/steady_spark
+
+/atom/movable/screen/alert/status_effect/buff/familiar/steady_spark
+	name = "Steady Spark"
+	desc = "Your thoughts don't burn, they smolder. Clear, slow, and lasting."
+
+/datum/status_effect/buff/familiar/subtle_slip
+	id = "subtle_slip"
+	effectedstats = list(STATKEY_LCK = 1, STATKEY_WIL = -1)
+	alert_type = /atom/movable/screen/alert/status_effect/buff/familiar/subtle_slip
+
+/atom/movable/screen/alert/status_effect/buff/familiar/subtle_slip
+	name = "Subtle Slip"
+	desc = "Things seem a bit looser around you, a gap, a chance, a beat ahead."
+
+/datum/status_effect/buff/familiar/noticed_thought
+	id = "noticed_thought"
+	effectedstats = list(STATKEY_PER = 1, STATKEY_INT = 1, STATKEY_STR = -1)
+	alert_type = /atom/movable/screen/alert/status_effect/buff/familiar/noticed_thought
+
+/atom/movable/screen/alert/status_effect/buff/familiar/noticed_thought
+	name = "Noticed Thought"
+	desc = "Everything makes just a bit more sense. You catch patterns more quickly."
+
+/datum/status_effect/buff/familiar/worn_stone
+	id = "worn_stone"
+	effectedstats = list(STATKEY_WIL = 1, STATKEY_CON = 1, STATKEY_SPD = -1)
+	alert_type = /atom/movable/screen/alert/status_effect/buff/familiar/worn_stone
+
+/atom/movable/screen/alert/status_effect/buff/familiar/worn_stone
+	name = "Worn Stone"
+	desc = "Nothing feels urgent. You can take your time... and take a hit."

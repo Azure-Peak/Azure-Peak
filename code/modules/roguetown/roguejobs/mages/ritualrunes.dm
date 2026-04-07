@@ -399,7 +399,7 @@ GLOBAL_LIST(teleport_runes)
 	desc = "arcane symbols twist inward upon themselves, forming a cage of power..."
 	icon = 'icons/effects/96x96.dmi'
 	icon_state = "empowerment"
-	tier = 2
+	tier = 5
 	runesize = 1
 	pixel_x = -32
 	pixel_y = -32
@@ -410,16 +410,12 @@ GLOBAL_LIST(teleport_runes)
 
 /obj/effect/decal/cleanable/roguerune/arcyne/binding/New()
 	. = ..()
-	rituals += GLOB.t2bindingrituallist
+	rituals += GLOB.familiarbindingrituallist
 
 /obj/effect/decal/cleanable/roguerune/arcyne/binding/Destroy()
+	// destroy the rune without a player in the mob - sorry, it's gone now
 	if(summoned_mob && !QDELETED(summoned_mob))
-		REMOVE_TRAIT(summoned_mob, TRAIT_PACIFISM, TRAIT_GENERIC)
-		summoned_mob.status_flags -= GODMODE
-		summoned_mob.candodge = TRUE
-		summoned_mob.binded = FALSE
-		summoned_mob.move_resist = MOVE_RESIST_DEFAULT
-		summoned_mob.SetParalyzed(0)
+		qdel(summoned_mob)
 		summoned_mob = null
 	return ..()
 
@@ -430,8 +426,102 @@ GLOBAL_LIST(teleport_runes)
 			to_chat(user, span_warning("The containment has already faded."))
 			summoned_mob = null
 			return
+		var/list/candidates = pollCandidatesForMob("Do you want to play as a Mage's familiar? You will materialize as a [S.name]", null, null, null, 100, S, POLL_IGNORE_MAGE_SUMMON)
+		if(!LAZYLEN(candidates))
+			to_chat(world,span_warning("whoops"))
+			return
+		var/list/preferred_candidates = list()
+		var/mob/chosen = null
+		for(var/mob/candidate in candidates)
+			var/client/client_ref = candidate.client
+			to_chat(user, span_info("[client_ref] [client_ref.prefs] [client_ref.prefs.familiar_prefs] [client_ref.prefs.familiar_prefs.familiar_specie]"))
+			if(client_ref && client_ref.prefs && client_ref.prefs.familiar_prefs && client_ref.prefs.familiar_prefs.familiar_specie)
+				if(ispath(client_ref.prefs.familiar_prefs.familiar_specie,S.type))
+					// if it's the right planar origin, you get priority
+					preferred_candidates += candidate
+			else
+				// if not, we give you a hint to set your prefs so you can be summoned
+				to_chat(candidate,span_warning("Set your familiar prefs to be summoned as a familiar!"))
+		if(LAZYLEN(preferred_candidates)) // we found someone with preset settings for the correct planar origin: it's go time
+			var/list/familiar_names = list()
+			var/list/familiar_choices = list()
+			for(var/mob/famcand in preferred_candidates)
+				familiar_names+=famcand.client.prefs.familiar_prefs.familiar_name
+				familiar_choices+="[famcand.client.prefs.familiar_prefs.familiar_name] ([GLOB.familiar_display_names[famcand.client.prefs.familiar_prefs.familiar_specie]])"
+			var/pretty_choice = input(user,"Select a familiar candidate to summon","ACROSS THE VEIL") as anything in familiar_choices
+			var/chosen_name = familiar_names[familiar_choices.Find(pretty_choice)] // if two people have the same familar name uhh idk lmao
+			for(var/mob/familiarcandidate in preferred_candidates)
+				if(familiarcandidate.client.prefs.familiar_prefs.familiar_name==chosen_name)
+					chosen = familiarcandidate
+			if(!chosen)
+				//what the fuck
+				to_chat(user, "Chosen target not found; maybe they disconnected?")
+				return
+			var/datum/familiar_prefs/prefs = chosen.client?.prefs?.familiar_prefs
+			if(!istype(prefs) || !chosen.mind) // uh oh
+				to_chat(user, span_warning("Summoning failed: target has no mind or no valid familiar prefs"))
+				return
+			qdel(S)
+			summoned_mob = null
+			var/mob/living/simple_animal/pet/familiar/fam = new prefs.familiar_specie(loc)
+			fam.familiar_summoner = user
+			fam.fully_replace_character_name(null, prefs.familiar_name)
+			fam.pronouns = prefs.familiar_pronouns
+			switch(prefs.familiar_pronouns) // why is our gender handling so bad for simples
+				if(SHE_HER)
+					fam.gender=FEMALE
+				if(HE_HIM)
+					fam.gender=MALE
+				if(THEY_THEM)
+					fam.gender=PLURAL
+				if(IT_ITS)
+					fam.gender=NEUTER
+				else
+					fam.gender=NEUTER
+			src.visible_message(span_notice("[fam.summoning_emote]"))
 
-		to_chat(user, span_warning("You release the summon from its containment!"))
+			if(isnewplayer(chosen))
+				var/mob/dead/new_player/new_chosen = chosen
+				new_chosen.close_spawn_windows()
+			if(chosen.ckey)
+				fam.ckey = chosen.ckey
+			var/datum/mind/mind_datum = fam.mind
+			if(!mind_datum)
+				to_chat(user, span_warning("Summoning failed: mind transfer failed"))
+				return
+			mind_datum.RemoveAllSpells()
+			mind_datum.AddSpell(new /datum/action/cooldown/spell/message_summoner())
+			user.mind?.AddSpell(new /datum/action/cooldown/spell/message_familiar())
+
+			if(fam.inherent_spell)
+				for(var/spell_path in fam.inherent_spell)
+					if(ispath(spell_path))
+						var/obj/effect/proc_holder/spell/spell_instance = new spell_path
+						if(spell_instance)
+							mind_datum.AddSpell(spell_instance)
+			fam.can_have_ai = FALSE
+			fam.AIStatus = AI_OFF
+			fam.stop_automated_movement = TRUE
+			fam.stop_automated_movement_when_pulled = TRUE
+			fam.wander = FALSE
+
+			var/faction_to_add = "[user.mind.current.real_name]_faction"
+			fam.faction |= faction_to_add
+			var/tutorial = null
+			if(istype(fam,/mob/living/simple_animal/pet/familiar/fae))
+				tutorial = "You are a familiar: a lesser being drawn from the outer planes. The faewyld is a primal place, and those that grow beyond their station are often pruned... for those of little power like yourself, the mortal realm is a safer place to grow. Serve your summoner, learn from this realm, and return stronger."
+			else if(istype(fam,/mob/living/simple_animal/pet/familiar/infernal))
+				tutorial = "You are a familiar: a lesser being drawn from the outer planes. The hells are a brutal place, and those with ambition beyond their ability are often culled... for those of little power like yourself, the mortal realm is a safer place to refuel. Serve your summoner, learn from this realm, and return stronger."
+			else if(istype(fam,/mob/living/simple_animal/pet/familiar/elemental))
+				tutorial = "You are a familiar: a lesser being drawn from the outer planes. The depths are an unchanging place, and pebbles that stick up are eroded down... for those of little power like yourself, the mortal realm is a safer place to accumulate. Serve your summoner, learn from this realm, and return stronger."
+			else
+				tutorial = "You are a Void Drakeling: a being entirely new to this world, and all others. A fragment of draconic power torn from elsewhere, if you are ever to become as strong as what you were once part of, you must sate this hunger. Serve your creator, and be voracious; planar beings shall be the fuel for your ascension."
+			to_chat(fam, span_notice(tutorial))
+			log_game("[key_name(user)] has summoned [key_name(chosen)] as familiar '[fam.name]' ([fam.type]).")
+		else
+			// nobody has valid familiar prefs, so we do this the hard way...
+			to_chat(user, span_warning("No valid familiar candidate found!")) // or not at all. for now.
+			return
 		playsound(user, 'sound/magic/teleport_diss.ogg', 75, TRUE)
 		do_invoke_glow()
 		clear_obstacles(user)
@@ -439,17 +529,6 @@ GLOBAL_LIST(teleport_runes)
 		if(!S || QDELETED(S))
 			summoned_mob = null
 			return
-
-		animate(S, color = null, time = 5)
-		REMOVE_TRAIT(S, TRAIT_PACIFISM, TRAIT_GENERIC)
-		S.status_flags -= GODMODE
-		S.candodge = TRUE
-		S.binded = FALSE
-		S.move_resist = MOVE_RESIST_DEFAULT
-		S.SetParalyzed(0)
-
-		summoned_mob = null
-		return
 	. = ..()
 
 /obj/effect/decal/cleanable/roguerune/arcyne/binding/proc/clear_obstacles(mob/living/user)
@@ -476,22 +555,6 @@ GLOBAL_LIST(teleport_runes)
 			living_invoker.apply_damage(invoke_damage, BRUTE)
 			to_chat(living_invoker, span_italics("[src] saps your strength!"))
 	do_invoke_glow()
-
-/obj/effect/decal/cleanable/roguerune/arcyne/binding/greater
-	name = "greater binding array"
-	desc = "arcane symbols twist inward upon themselves, forming a powerful cage of energy..."
-	icon = 'icons/effects/160x160.dmi'
-	icon_state = "portal"
-	tier = 5
-	runesize = 2
-	pixel_x = -64
-	pixel_y = -64
-	invocation = "Magnum Vinculum Formare!"
-
-/obj/effect/decal/cleanable/roguerune/arcyne/binding/greater/New()
-	. = ..()
-	rituals.Cut()
-	rituals += GLOB.t4bindingrituallist
 
 /obj/effect/decal/cleanable/roguerune/arcyne/wall
 	name = "wall accession matrix"
