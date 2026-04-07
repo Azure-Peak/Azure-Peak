@@ -340,7 +340,7 @@
 		var/pickchance = 35
 		var/moveup = 10
 
-		var/silent = HAS_TRAIT(user, TRAIT_SILENT_LOCKPICK)
+		var/silentpick = HAS_TRAIT(user, TRAIT_SILENT_LOCKPICK)
 
 		picktime -= (pickskill * 10)
 		picktime = clamp(picktime, 10, 70)
@@ -373,7 +373,7 @@
 				else
 					continue
 			else
-				if(silent)
+				if(silentpick)
 					playsound(loc, 'sound/items/pickbad.ogg', 5, TRUE)
 				else
 					playsound(loc, 'sound/items/pickbad.ogg', 40, TRUE)

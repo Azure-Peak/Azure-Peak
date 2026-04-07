@@ -724,7 +724,7 @@
 
 /obj/item/roguecoin/gold/matthios/examine(mob/user)
 	. = ..()
-	if(prob(30)) // this may be remove based on how much people troll with it, but for now
+	if(prob(20)) // this may be remove based on how much people troll with it, but for now
 		if(HAS_TRAIT(user, TRAIT_SEEPRICES))
 			. += span_warning("Is this true...?")
 		else if(HAS_TRAIT(user, TRAIT_SEEPRICES_SHITTY))
@@ -765,15 +765,13 @@
 	STOP_PROCESSING(SSfastprocess, src)
 	var/turf/T = get_turf(src)
 	if(T)
-		for(var/mob/living/target in range(1, T))
+		for(var/mob/living/target in range(0, T))
 			if(!target.mind || istype(target, /mob/living/simple_animal))
 				target.adjustBruteLoss(5)
-				target.Stun(5)
 			if(iscarbon(target))
-				target.Stun(1 SECONDS)
 				target.blur_eyes(5)
 				target.adjust_blurriness(10)
-				target.blind_eyes(1)
+				target.blind_eyes(1.5)
 			target.visible_message(
 				span_warning("[target] is blasted with a cloud of sand!"),
 				span_warning("Sand gets into my eyes! I can't see!")
@@ -953,7 +951,7 @@
 /datum/status_effect/buff/mammonite
 	id = "mammonite"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/mammonite
-	duration = 10 SECONDS
+	duration = 20 SECONDS
 	status_type = STATUS_EFFECT_UNIQUE
 	var/bonus_damage = 0
 
