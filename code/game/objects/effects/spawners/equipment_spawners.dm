@@ -14,7 +14,6 @@
 		/obj/item/clothing/suit/roguetown/armor/leather/heavy = 1,
 		/obj/item/clothing/suit/roguetown/armor/leather/heavy/coat = 1,
 		/obj/item/clothing/suit/roguetown/armor/leather/heavy/jacket = 1,
-		/obj/item/clothing/suit/roguetown/armor/leather/trophyfur = 1,
 		/obj/item/clothing/suit/roguetown/armor/silkcoat = 1,
 		/obj/item/clothing/suit/roguetown/shirt/robe/spellcasterrobe = 1,
 		/obj/item/clothing/suit/roguetown/armor/plate/cuirass/copper = 1,

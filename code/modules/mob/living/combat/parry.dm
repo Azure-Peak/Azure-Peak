@@ -37,6 +37,10 @@
 		return FALSE
 	if(has_status_effect(/datum/status_effect/debuff/riposted))
 		return FALSE
+
+	if(!intenty)
+		intenty = user.used_intent
+
 	if(intenty && !intenty.canparry)
 		return FALSE
 
@@ -103,7 +107,10 @@
 
 	// If held weapon uses unarmed skill (katar, etc), allow unarmed parry fallback
 	var/allow_unarmed_fallback = FALSE
-	if(used_weapon?.associated_skill == /datum/skill/combat/unarmed)
+	if(used_weapon)
+		if(used_weapon.associated_skill == /datum/skill/combat/unarmed)
+			allow_unarmed_fallback = TRUE
+	else	//We have nothing.
 		allow_unarmed_fallback = TRUE
 
 	if(highest_defense > 0 && (!allow_unarmed_fallback || highest_defense >= unarmed_defense))

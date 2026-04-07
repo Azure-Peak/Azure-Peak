@@ -73,18 +73,13 @@
 	ckeywhitelist = list("bigfoot02")
 
 /datum/loadout_item/donator/zydrasiconocrown
-	name = "Donator Kit - Iconoclast Crown"
-	path = /obj/item/enchantingkit/zydrasiconocrown
+	name = "Donator Kit - Iron Gardbrace & Fauld"
+	path = /obj/item/enchantingkit/zydrashauberk
 	ckeywhitelist = list("1ceres")
 
-/datum/loadout_item/donator/zydrasiconopauldrons
-	name = "Donator Kit - Iconoclast Pauldrons"
-	path = /obj/item/enchantingkit/zydrasiconopauldrons
-	ckeywhitelist = list("1ceres")
-
-/datum/loadout_item/donator/zydrasiconosash
-	name = "Donator Kit - Iconoclast Sash"
-	path = /obj/item/enchantingkit/zydrasiconosash
+/datum/loadout_item/donator/zydrasgreataxe
+	name = "Donator Kit - Bourreau"
+	path = /obj/item/enchantingkit/zydrasgreataxe
 	ckeywhitelist = list("1ceres")
 
 /datum/loadout_item/donator/eiren

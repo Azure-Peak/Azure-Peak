@@ -232,3 +232,60 @@
   gatorceres:
   - bugfix: fyritius, swampweed, and pumpkin patches now automatically repeat if there's
       something to loot but you failed the roll
+2026-04-07:
+  BurpleBineapple:
+  - bugfix: The arming sword is wieldable again.
+  KatTheFox:
+  - bugfix: 'feytouched virtue now properly applies roundstart effects: you know the
+      hag, the hag knows you'
+  - bugfix: grand rite now excludes faetouched alongside other hag allies
+  Lamasmaster:
+  - rscadd: Eoran Ritual
+  - rscadd: Ravox Acolyte / Monk robes
+  - balance: Undivided
+  - sound: New sounds for Graggar and Ravox miracles
+  Ollanius:
+  - rscadd: Adds the 'Azurian Grovewalker', a new subclass to the Adventurer's 'Nomad'
+      class. These are weaker Black Oaks that can be themed as either fresh-faced
+      inductees or sphere-applicable fallback slots (for all you Wretches and Mercenaries
+      that didn't manage to snag a slot in time!)
+  - rscadd: Adds Autumnwoaden equipment. Armor protects the same, but has its durability
+      reduced by -33% INT (or -20% if it's limb-related). Weapons are iron-tiered,
+      with slightly tougher stats (but still inferior to traditional steel.)
+  - rscadd: The Grovewalkers spawn with lighter Autumnwoaden equipment, but can improve
+      them in a Novice-tier Carpentry recipe with foliage, their chosen armor-piece,
+      and an Essence of Nature.
+  - rscadd: Thespian-Errants that worship Noc can now spawn with a bronze amulet of
+      Noc.
+  - code_imp: 'Part of a parity-check: archives the classic Estoc sprite in the code
+      for future use.'
+  Quinalion:
+  - rscadd: Added a light elven barbute for Black Oaken Mercenaries & Pariah
+  - rscadd: Black Oaken Ranger now has a unique recurve bow reskin.
+  - rscadd: Black Oaken Pariah and Guardian now receive apprentice knives.
+  - balance: Treated fur robes are subtype of heavy leather coat.
+  - balance: Black Oaken armor is now restricted to elves.
+  - qol: Updated Black Oaken armor descriptions.
+  Rannoooo:
+  - rscadd: Added a new subtype of cut, solely for handaxes that has less of a damage
+      buff but quick slashes.
+  - balance: made byrine hauberk have maile armor stats
+  - balance: took away 1 con and 1 will from gronn ravager in exchange for 2 per
+  Ryan180602:
+  - refactor: autosmithy to have a UI and everything.
+  - rscadd: get_mechanics_examine for all engineering related goodies.
+  - rscadd: let wrench rotate shit.
+  - balance: Reduces crafting item reqs for traps
+  - balance: Ups Heretic statblock depending on God. Gives both Heretic/HereticSpy
+      +1 FOR overall.
+  - balance: Rite of Armaments gives Expert in the specific weapon.
+  - balance: automining takes less stamina.
+  - balance: automining with drill takes mining skill now
+  - code_imp: kills the triumph potion
+  - bugfix: taking off barding and putting it back on should not add slowdown.
+  - code_imp: refactors mounts a lil
+  borneblood:
+  - qol: Aquatic Compulsion is now a toggle Miracle and has a new animation.
+  zydras:
+  - rscadd: Added two donator items (for me :3)
+  - rscdel: Removed my unused donator items

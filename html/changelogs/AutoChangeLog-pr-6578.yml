@@ -1,7 +1,0 @@
-author: "Ryan180602"
-delete-after: True
-changes:
-  - refactor: "autosmithy to have a UI and everything."
-  - rscadd: "get_mechanics_examine for all engineering related goodies."
-  - rscadd: "let wrench rotate shit."
-  - balance: "Reduces crafting item reqs for traps"
