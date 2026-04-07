@@ -14,6 +14,7 @@ GLOBAL_LIST_INIT(large_goblin_aggro, list(
 /mob/living/carbon/human/species/goblin/npc/large
 	name = "unusually large goblin"
 	gob_outfit = /datum/outfit/job/roguetown/npc/mini_boss/large_goblin
+	faction = list("dundead")
 	dodgetime = 50
 
 /mob/living/carbon/human/species/goblin/npc/large/after_creation()
