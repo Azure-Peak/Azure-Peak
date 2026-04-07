@@ -426,6 +426,10 @@ GLOBAL_LIST(teleport_runes)
 			to_chat(user, span_warning("The containment has already faded."))
 			summoned_mob = null
 			return
+		for(var/mob/living/simple_animal/pet/familiar/existing_fam in GLOB.alive_mob_list + GLOB.dead_mob_list)
+			if(existing_fam.familiar_summoner == user)
+				to_chat(user, span_warning("You can only bind one familiar at once!"))
+				return FALSE
 		to_chat(user, span_notice("You reach across the veil, attempting to draw in the familiar's mind..."))
 		var/list/candidates = pollCandidatesForMob("Do you want to play as a Mage's familiar? You will materialize as a [S.name]", null, null, null, 100, S, POLL_IGNORE_MAGE_SUMMON)
 		if(!LAZYLEN(candidates))

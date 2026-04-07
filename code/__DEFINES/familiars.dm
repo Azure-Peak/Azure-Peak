@@ -39,6 +39,10 @@ GLOBAL_LIST_INIT(familiar_display_names, list(
 ))
 
 GLOBAL_LIST_INIT(familiar_lore_blurbs, list(
+	/mob/living/simple_animal/pet/familiar/fae = "Sprites are a particularly small manner of fae-creature known often to surround groves frequented by their kind. Often taken as a sign of good luck, although they are occasionally mistaken for Will-o'-the-wisps.",
+	/mob/living/simple_animal/pet/familiar/infernal = "Hellhounds are lesser infernals, creatures of daemonic fire. Though all daemons are creatures of hatred, these are weak enough to be safely bound by mortals.",
+	/mob/living/simple_animal/pet/familiar/elemental = "Wardens are lesser elementals, creatures of unyielding rock. Their forms are malleable as clay when they need to be, but durable as a boulder in times of duress.",
+	/mob/living/simple_animal/pet/familiar/void = "Void Drakelings are creatures of arcyne hubris, created by tearing a fragment of draconic power from the void. They are voracious, dangerous, and terribly intelligent.",
     /mob/living/simple_animal/pet/familiar/elemental/pondstone_toad = "Pondstone Toads are ancient, patient creatures, said to carry the wisdom of the marshes. They are calm, resilient, and often serve as silent observers.",
     /mob/living/simple_animal/pet/familiar/fae/mist_lynx = "Mist Lynxes are elusive and mysterious, moving unseen through fog and shadow. They are clever, perceptive, and fiercely loyal to those they trust.",
     /mob/living/simple_animal/pet/familiar/fae/rune_rat = "Rune Rats are quick-witted and curious, always seeking knowledge. They are drawn to secrets and the written word, leaving trails of glowing runes wherever they go.",
@@ -51,9 +55,8 @@ GLOBAL_LIST_INIT(familiar_lore_blurbs, list(
     /mob/living/simple_animal/pet/familiar/infernal/emberdrake = "Emberdrakes are tiny dragons of warmth and memory. Their presence stirs old stories and brings comfort in the darkest nights.",
     /mob/living/simple_animal/pet/familiar/fae/ripplefox = "Ripplefoxes are tricksters and guides, flickering at the edge of sight. They are masters of illusion and always seem to know more than they let on.",
     /mob/living/simple_animal/pet/familiar/fae/whisper_stoat = "Whisper Stoats are subtle and insightful, listening to thoughts and secrets. They are trusted confidants and clever companions.",
-    /mob/living/simple_animal/pet/familiar/elemental/thornback_turtle = "Thornback Turtles are sturdy guardians, embodying endurance and protection. They are slow to anger but steadfast in defense of their friends.",
-	/mob/living/simple_animal/pet/familiar/void = "Void Drakelings are creatures of arcyne hubris, created by tearing a fragment of draconic power from the void. They are voracious, dangerous, and terribly intelligent."
-))
+    /mob/living/simple_animal/pet/familiar/elemental/thornback_turtle = "Thornback Turtles are sturdy guardians, embodying endurance and protection. They are slow to anger but steadfast in defense of their friends."
+	))
 
 GLOBAL_LIST_INIT(fae_familiars, list(
 	"Sprite","Mist Lynx","Rune Rat","Vaporroot Wisp","Glimmer Hare","Hollow Antlerling","Ripplefox","Whisper Stoat","Starfield Zad"

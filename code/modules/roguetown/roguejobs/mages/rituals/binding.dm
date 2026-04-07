@@ -135,7 +135,6 @@
 	blacklisted = FALSE
 
 /datum/runeritual/binding/release_familiar/on_finished_recipe(mob/living/user, list/selected_atoms, turf/loc)
-	. = ..()
 	if(!selected_atoms.len)
 		return FALSE
 	var/mob/living/simple_animal/pet/familiar/fam = selected_atoms[1]

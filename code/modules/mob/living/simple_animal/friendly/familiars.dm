@@ -27,6 +27,10 @@
 	dextrous = TRUE
 	gender = NEUTER
 
+	// this should go down in a fireball or two—so be careful
+	maxHealth = WOLF_HEALTH
+	health = WOLF_HEALTH
+
 	speak_chance = 1
 	turns_per_move = 5
 	mob_size = MOB_SIZE_SMALL
@@ -379,6 +383,8 @@
 	icon_state = "warden"
 	icon_living = "warden"
 	icon_dead = "stonebig1"
+	maxHealth = WOLF_HEALTH_UNDEAD // more durable than the others
+	health = WOLF_HEALTH_UNDEAD
 	speak_emote = list ("rumbles", "grinds")
 	inherent_spell = list(/datum/action/cooldown/spell/magicians_stone) 
 	t1_spell = /datum/action/cooldown/spell/arcyne_forge/elemental
@@ -422,8 +428,8 @@
 		if("infernal") // nerfed abberant beam
 			src.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/fire_obelisk_beam/drakeling)
 		if("elemental") // stat buff
-			src.maxHealth = 250
-			src.health = 250
+			src.maxHealth = WOLF_HEALTH_UNDEAD
+			src.health = WOLF_HEALTH_UNDEAD
 			src.STACON += 2
 			src.STAWIL += 2
 

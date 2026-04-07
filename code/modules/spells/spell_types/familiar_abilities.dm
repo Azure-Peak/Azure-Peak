@@ -345,9 +345,12 @@
 /obj/effect/obeliskbeam/drakeling
 	name = "drakeling beam"
 
+// nerfed damage down to one-fifth the original value - still fucks up simples though
 /obj/effect/obeliskbeam/drakeling/damage(mob/living/hit_mob)
-	// nerfed damage down to one-fifteenth the original value
-	hit_mob.apply_damage(damage = 1, damagetype = BURN)
+	if(issimple(hit_mob))
+		hit_mob.apply_damage(damage = 10, damagetype = BURN)
+	else
+		hit_mob.apply_damage(damage = 3, damagetype = BURN)
 	to_chat(hit_mob, span_danger("You're damaged by [src]!"))
 
 /obj/effect/proc_holder/spell/invoked/fire_obelisk_beam/drakeling/cast(list/targets, mob/living/simple_animal/pet/familiar/void/user)
@@ -369,12 +372,15 @@
 					break
 			if(blocked)
 				break
-			var/obj/effect/obeliskbeam/new_obeliskbeam = new(affected_turf)
+			var/obj/effect/obeliskbeam/drakeling/new_obeliskbeam = new(affected_turf)
 			new_obeliskbeam.dir = user.dir
 			user.beam_parts += new_obeliskbeam
 			new_obeliskbeam.assign_creator(user)
 			for(var/mob/living/hit_mob in affected_turf.contents)
-				hit_mob.apply_damage(damage = 1, damagetype = BURN) // this is literally one-twentyfifth of the normal abberant beam you will not be fragging with this
+				if(issimple(hit_mob))
+					hit_mob.apply_damage(damage = 15, damagetype = BURN)
+				else
+					hit_mob.apply_damage(damage = 5, damagetype = BURN) // this is literally one-fifth of the normal abberant beam you will not be fragging with this
 				to_chat(hit_mob, span_userdanger("You're blasted by [user]'s aberrant beam!"))
 		if(!length(user.beam_parts))
 			return FALSE
@@ -384,6 +390,6 @@
 		first_obeliskbeam.icon_state = "obeliskbeam_start"
 		do_after(user, delay = 5 SECONDS, target = user)
 		user.move_resist = initial(user.move_resist)
-		for(var/obj/effect/obeliskbeam/beam in user.beam_parts)
+		for(var/obj/effect/obeliskbeam/drakeling/beam in user.beam_parts)
 			beam.disperse()
 		user.beam_parts = list()
