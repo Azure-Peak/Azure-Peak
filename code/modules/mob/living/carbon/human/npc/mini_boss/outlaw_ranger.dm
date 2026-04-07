@@ -40,6 +40,11 @@ GLOBAL_LIST_INIT(ranger_aggro, list(
 	update_hair()
 	update_body()
 
+/mob/living/carbon/human/species/human/northern/outlaw_ranger/death(gibbed)
+	. = ..()
+	if(!gibbed)
+		dust(FALSE, FALSE, TRUE)
+
 /datum/outfit/job/roguetown/npc/mini_boss/ranger/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.STASTR = 13

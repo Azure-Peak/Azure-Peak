@@ -42,6 +42,11 @@ GLOBAL_LIST_INIT(tank_aggro, list(
 	update_body()
 	def_intent_change(INTENT_PARRY)
 
+/mob/living/carbon/human/species/human/northern/outlaw_tank/death(gibbed)
+	. = ..()
+	if(!gibbed)
+		dust(FALSE, FALSE, TRUE)
+
 /datum/outfit/job/roguetown/npc/mini_boss/tank/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.STASTR = 15

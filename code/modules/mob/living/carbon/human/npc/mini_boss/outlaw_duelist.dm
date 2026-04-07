@@ -41,6 +41,11 @@ GLOBAL_LIST_INIT(duelist_aggro, list(
 	update_body()
 	def_intent_change(INTENT_DODGE)
 
+/mob/living/carbon/human/species/human/northern/outlaw_duelist/death(gibbed)
+	. = ..()
+	if(!gibbed)
+		dust(FALSE, FALSE, TRUE)
+
 /datum/outfit/job/roguetown/npc/mini_boss/duelist/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.STASTR = 13

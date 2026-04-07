@@ -36,6 +36,11 @@ GLOBAL_LIST_INIT(large_goblin_aggro, list(
 	for(var/obj/item/held_item in held_items)
 		ADD_TRAIT(held_item, TRAIT_NODROP, TRAIT_GENERIC)
 
+/mob/living/carbon/human/species/goblin/npc/large/death(gibbed)
+	. = ..()
+	if(!gibbed)
+		dust(FALSE, FALSE, TRUE)
+
 /datum/outfit/job/roguetown/npc/mini_boss/large_goblin/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.STASTR = 16
