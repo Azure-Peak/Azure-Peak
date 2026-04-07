@@ -258,16 +258,20 @@
 		return FALSE
 	if(!targets.len)
 		to_chat(user, span_notice("I can't eat that... not yet, at least."))
-		revert_cast()
 		return FALSE
 	var/mob/living/simple_animal/pet/familiar/target = targets[1]
 	if(!istype(target))
 		to_chat(user, span_notice("I can't eat that... not yet, at least."))
-		revert_cast()
 		return FALSE
 	if(target.mind)
 		to_chat(user, span_notice("This one is fully awakened... it will have too tight a grasp on its essence. I must find a mindless power, perhaps my creator can help?"))
 		revert_cast()
+		return FALSE
+	user.visible_message(
+		span_warning("[user] begins to devour [target]]!"),
+		span_warning("I begin to devour [target]]!")
+	)
+	if(!do_after_mob(user,target,5 SECONDS))
 		return FALSE
 	// we have a mindless familiar: let's see if it's actually valid for us
 	var/essence_to_grant = null
@@ -311,6 +315,8 @@
 		)
 		user.essences_consumed += essence_to_grant
 		user.grant_essence(essence_to_grant)
+		it(LAZYLEN(user.essences_consumed)==3)
+			to_chat(user,span_notice("I have consumed the essences of the three planes. One dae, I will grow strong enough to consume yet greater beings, but for now, this appears to be my limit."))
 		for(var/obj/effect/decal/cleanable/roguerune/arcyne/binding/rune in range(target.loc))
 			rune.summoned_mob = null
 		QDEL_NULL(target)
