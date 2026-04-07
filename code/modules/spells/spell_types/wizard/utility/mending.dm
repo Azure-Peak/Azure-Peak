@@ -28,7 +28,7 @@
 
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
 
-	var/repair_percent = 0.05
+	var/repair_percent = 0.08
 
 /datum/action/cooldown/spell/mending/is_valid_target(atom/cast_on)
 	. = ..()
@@ -88,6 +88,6 @@
 
 /datum/action/cooldown/spell/mending/lesser
 	name = "Guided Mending"
-	repair_percent = 0.10
-	cooldown_time = 18 SECONDS
+	repair_percent = 0.5
+	cooldown_time = 20 SECONDS // one full repair cycle would takes around 52 seconds
 	point_cost = 1
