@@ -61,9 +61,9 @@
         span_warning("[user] begins to concentrate on [I]!"),
         span_notice("I begin to concentrate on [I]..")
     )
-    if(do_after(user, 4 SECONDS, TRUE, I, TRUE))
-        for(var/i = 1, i <= 20, i++) // up to 20 repeats, to insure the item is repaired by the end, a full 34 seconds of channeling + 12(down to 8 seconds at 15 INT) seconds cooldown to repair 1 item fully
-            if(do_after(user, 1.5 SECONDS, TRUE, I, TRUE))
+    if(do_after(user, 3 SECONDS, TRUE, I, TRUE))
+        for(var/i = 1, i <= 20, i++)
+            if(do_after(user, 1.2 SECONDS, TRUE, I, TRUE))
                 repair_percent = initial(repair_percent)
                 repair_percent *= I.max_integrity
 
@@ -88,6 +88,6 @@
 
 /datum/action/cooldown/spell/mending/lesser
 	name = "Guided Mending"
-	repair_percent = 0.5
-	cooldown_time = 20 SECONDS // one full repair cycle would takes around 52 seconds
+	repair_percent = 0.05
+	cooldown_time = 20 SECONDS // one full repair cycle would takes around 27 seconds and each repairs seperated with 20 seconds of cooldown
 	point_cost = 1
