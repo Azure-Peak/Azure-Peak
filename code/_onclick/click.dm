@@ -123,6 +123,10 @@
 
 	if(SEND_SIGNAL(src, COMSIG_MOB_CLICKON, A, params) & COMSIG_MOB_CANCEL_CLICKON)
 		return
+	
+	if(wallpressed)
+		to_chat(src, span_warning("You need to step away from the wall first."))
+		return
 
 	if(modifiers["right"] && !modifiers["shift"] && !modifiers["alt"] && !modifiers["ctrl"])
 		if(try_special_attack(A, modifiers))
