@@ -305,7 +305,7 @@
 /datum/crafting_recipe/roguetown/survival/autumnwoadhelmet
 	name = "autumnwoad elven helmet, imbuement"
 	category = "Clothes"
-	result = /obj/item/clothing/head/roguetown/helmet/heavy/elven_helm
+	result = /obj/item/clothing/head/roguetown/helmet/heavy/elven_helm/autumn
 	reqs = list(
 		/obj/item/natural/fibers = 3,
 		/obj/item/grown/log/tree/stick = 3,
