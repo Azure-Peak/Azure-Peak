@@ -453,7 +453,7 @@
 /obj/structure/roguemachine/vendor/church_bedroomset_two/Initialize()
 	. = ..()
 
-	for (var/X in list(/obj/item/roguekey/church/roomvi, /obj/item/roguekey/church/roomvii, /obj/item/roguekey/church/roomviii, /obj/item/roguekey/church/roomix, /obj/item/roguekey/church/roomx, /obj/item/roguekey/church/roomxi, /obj/item/roguekey/church/roomxii, /obj/item/roguekey/church/roomxiii, /obj/item/roguekey/church/roomxiv))
+	for (var/X in list(/obj/item/roguekey/church/roomvi, /obj/item/roguekey/church/roomvii, /obj/item/roguekey/church/roomviii, /obj/item/roguekey/church/roomix, /obj/item/roguekey/church/roomx))
 		var/obj/P = new X(src)
 		held_items[P] = list()
 		held_items[P]["NAME"] = P.name

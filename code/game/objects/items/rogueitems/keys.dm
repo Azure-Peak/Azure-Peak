@@ -450,30 +450,6 @@
 	icon_state = "brownkey"
 	lockid = "church_bedroom_up_10"
 
-/obj/item/roguekey/church/roomxi
-	name = "church bedroom XI key"
-	desc = "The key to the fifth room."
-	icon_state = "brownkey"
-	lockid = "church_bedroom_up_11"
-	
-/obj/item/roguekey/church/roomxii
-	name = "church bedroom XII key"
-	desc = "The key to the fifth room."
-	icon_state = "brownkey"
-	lockid = "church_bedroom_up_12"
-
-/obj/item/roguekey/church/roomxiii
-	name = "church bedroom XIII key"
-	desc = "The key to the fifth room."
-	icon_state = "brownkey"
-	lockid = "church_bedroom_up_13"
-
-/obj/item/roguekey/church/roomxiv
-	name = "church bedroom XIV key"
-	desc = "The key to the fifth room."
-	icon_state = "brownkey"
-	lockid = "church_bedroom_up_14"
-
 //////////////
 // BURGHERS //
 //////////////
