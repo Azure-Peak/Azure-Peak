@@ -160,6 +160,8 @@
 
 /obj/item/clothing/mask/rogue/spectacles/matthios/equipped(mob/living/carbon/human/user, slot)
 	. = ..()
+	if(obj_broken)
+		return
 	if(slot == SLOT_WEAR_MASK)
 		if(HAS_TRAIT(user, TRAIT_FREEMAN))
 			if(!user.has_status_effect(/datum/status_effect/buff/matthios_vision))
@@ -1864,13 +1866,13 @@
 	action_icon = 'icons/mob/actions/matthiosmiracles.dmi'
 	overlay_icon = 'icons/mob/actions/matthiosmiracles.dmi'
 	overlay_state = "liberate"
-	recharge_time = 5 MINUTES
+	recharge_time = 10 MINUTES // temporary measure while I rework it
 	invocations = list("Free God, I walk in your shadow!","...Neck chop, backstab...","Double time, Matthios!","Remember the Large Liege!","...Apply pressure, palm strike...","The Matthiosans Sans Frontieres still lyves!","...Punch, punch, kick...","For Cobra and the Free God!")
 	invocation_type = "shout"
 	sound = 'sound/magic/haste.ogg'
-	releasedrain = 15
+	releasedrain = 35 // temporary measure while I rework it
 	miracle = TRUE
-	devotion_cost = 40
+	devotion_cost = 80 // temporary measure while I rework it
 	antimagic_allowed = FALSE
 	range = 0
 
