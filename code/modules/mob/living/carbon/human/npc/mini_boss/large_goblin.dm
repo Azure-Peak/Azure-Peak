@@ -40,8 +40,8 @@ GLOBAL_LIST_INIT(large_goblin_aggro, list(
 	..()
 	H.STASTR = 16
 	H.STASPD = 10
-	H.STACON = 14
-	H.STAWIL = 10
+	H.STACON = 20
+	H.STAWIL = 12
 	H.STAPER = 6
 	H.STAINT = 2
 	H.STALUC = 4
