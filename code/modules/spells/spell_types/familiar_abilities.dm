@@ -122,7 +122,7 @@
 	range = 1
 	recharge_time = 10 SECONDS
 
-/obj/effect/proc_holder/spell/invoked/incendiary_bite/cast(list/targets, mob/living/simple_animal/pet/familiar/fae/user)
+/obj/effect/proc_holder/spell/invoked/incendiary_bite/cast(list/targets, mob/living/simple_animal/pet/familiar/infernal/user)
 	. = ..()
 	if(!user) // literally how
 		revert_cast()
@@ -243,3 +243,134 @@
 		"Spoon" = /obj/item/kitchen/spoon/iron,
 		"Needle" = /obj/item/needle/thorn
 	)
+
+/obj/effect/proc_holder/spell/invoked/consume
+	name = "Consume"
+	desc = "Devour a planar being, feasting on its essences. Eat, and grow strong."
+	range = 1
+	recharge_time = 10 SECONDS
+
+/obj/effect/proc_holder/spell/invoked/consume/cast(list/targets, mob/living/simple_animal/pet/familiar/void/user)
+	. = ..()
+	if(!user) // literally how
+		revert_cast()
+		return FALSE
+	if(!targets.len)
+		to_chat(user, span_notice("I can't eat that... not yet, at least."))
+		revert_cast()
+		return FALSE
+	var/mob/living/simple_animal/pet/familiar/target = targets[1]
+	if(!istype(target))
+		to_chat(user, span_notice("I can't eat that... not yet, at least."))
+		revert_cast()
+		return FALSE
+	if(target.mind)
+		to_chat(user, span_notice("This one is fully awakened... it will have too tight a grasp on its essence. I must find a mindless power, perhaps my creator can help?"))
+		revert_cast()
+		return FALSE
+	// we have a mindless familiar: let's see if it's actually valid for us
+	var/essence_to_grant = null
+	if(istype(target, /mob/living/simple_animal/pet/familiar/fae))
+		essence_to_grant = "fae"
+	else if(istype(target, /mob/living/simple_animal/pet/familiar/infernal))
+		essence_to_grant = "infernal"
+	else if(istype(target, /mob/living/simple_animal/pet/familiar/elemental))
+		essence_to_grant = "elemental"
+	else
+		// kin... hubris begets hubris, in the end
+		for(var/obj/effect/decal/cleanable/roguerune/arcyne/binding/rune in range(target.loc))
+			rune.summoned_mob = null
+		QDEL_NULL(target)
+		user.visible_message(
+			span_warningbig("[src] attempts to consume [target], but as soon as their essences commingle, they annihilate in a violent blast!"),
+			span_warningbig("I attempt to consume [target], but as soon as I touch their essences, I am undone!")
+		)
+		new /obj/effect/temp_visual/dragon_swoop(target.loc)
+		for(var/mob/living/L in orange(1, target))
+			L.adjustBruteLoss(25) // way way way less than the actual dragon swoop this uses the visual of
+			if(L && !QDELETED(L)) // Some mobs are deleted on death
+				var/throw_dir = get_dir(target, L)
+				if(L.loc == loc)
+					throw_dir = pick(GLOB.alldirs)
+				var/throwtarget = get_edge_target_turf(target, throw_dir)
+				L.throw_at(throwtarget, 3)
+				visible_message(span_warning("[L] is thrown clear of the blast!</span>"))
+		for(var/mob/M in range(7, target))
+			shake_camera(M, 15, 1)
+		user.mind?.RemoveSpell(/datum/action/cooldown/spell/message_summoner)
+		user.mind?.RemoveSpell(/obj/effect/proc_holder/spell/invoked/consume)
+		user.mind?.unknow_all_people()
+		QDEL_NULL(user)
+		return TRUE
+	playsound(src, 'sound/foley/gross.ogg', 100, FALSE)
+	if(!user.essences_consumed.Find(essence_to_grant))
+		user.visible_message(
+			span_warning("[user] consumes [target], absorbing their essences!"),
+			span_warning("I consume [target]'s essence! I am stronger for it... but I am still hungry.")
+		)
+		user.essences_consumed += essence_to_grant
+		user.grant_essence(essence_to_grant)
+		for(var/obj/effect/decal/cleanable/roguerune/arcyne/binding/rune in range(target.loc))
+			rune.summoned_mob = null
+		QDEL_NULL(target)
+		return TRUE
+	else
+		user.visible_message(
+			span_warning("[user] consumes [target]... but [user.p_they()] don't seem even slightly sated!"),
+			span_warning("I consume [target]'s essence, but I have already tasted of it! This will not nourish me anymore, I must absorb novel creatures.")
+		)
+		for(var/obj/effect/decal/cleanable/roguerune/arcyne/binding/rune in range(target.loc))
+			rune.summoned_mob = null
+		QDEL_NULL(target)
+		return TRUE
+
+/obj/effect/proc_holder/spell/invoked/fire_obelisk_beam/drakeling
+	name = "Abberant Beam"
+	desc = "Show these fools the power of the void! With the power absorbed from that infernal, this much is no issue for you now."
+	recharge_time = 30 SECONDS
+
+/obj/effect/obeliskbeam/drakeling
+	name = "drakeling beam"
+
+/obj/effect/obeliskbeam/drakeling/damage(mob/living/hit_mob)
+	// nerfed damage down to one-fifteenth the original value
+	hit_mob.apply_damage(damage = 1, damagetype = BURN)
+	to_chat(hit_mob, span_danger("You're damaged by [src]!"))
+
+/obj/effect/proc_holder/spell/invoked/fire_obelisk_beam/drakeling/cast(list/targets, mob/living/simple_animal/pet/familiar/void/user)
+	user.face_atom(targets[1])
+	user.move_resist = MOVE_FORCE_VERY_STRONG
+	if(do_after(user,1 SECONDS, target=user))
+		user.visible_message(span_danger("[user] fires a aberrant beam!"))
+		playsound(user, 'sound/magic/obeliskbeam.ogg', 150, FALSE, 0, 3)
+		var/turf/target_turf = get_ranged_target_turf(user, user.dir, 4) // nerfed range by _over_ half
+		var/turf/origin_turf = get_turf(user)
+		var/list/affected_turfs = get_line(origin_turf, target_turf) - origin_turf
+		for(var/turf/affected_turf in affected_turfs)
+			if(affected_turf.opacity)
+				break
+			var/blocked = FALSE
+			for(var/obj/potential_block in affected_turf.contents)
+				if(potential_block.opacity)
+					blocked = TRUE
+					break
+			if(blocked)
+				break
+			var/obj/effect/obeliskbeam/new_obeliskbeam = new(affected_turf)
+			new_obeliskbeam.dir = user.dir
+			user.beam_parts += new_obeliskbeam
+			new_obeliskbeam.assign_creator(user)
+			for(var/mob/living/hit_mob in affected_turf.contents)
+				hit_mob.apply_damage(damage = 1, damagetype = BURN) // this is literally one-twentyfifth of the normal abberant beam you will not be fragging with this
+				to_chat(hit_mob, span_userdanger("You're blasted by [user]'s aberrant beam!"))
+		if(!length(user.beam_parts))
+			return FALSE
+		var/atom/last_obeliskbeam = user.beam_parts[length(user.beam_parts)]
+		last_obeliskbeam.icon_state = "obeliskbeam_end"
+		var/atom/first_obeliskbeam = user.beam_parts[1]
+		first_obeliskbeam.icon_state = "obeliskbeam_start"
+		do_after(user, delay = 5 SECONDS, target = user)
+		user.move_resist = initial(user.move_resist)
+		for(var/obj/effect/obeliskbeam/beam in user.beam_parts)
+			beam.disperse()
+		user.beam_parts = list()

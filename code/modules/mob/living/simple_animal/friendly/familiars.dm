@@ -20,7 +20,7 @@
 	icon = 'icons/roguetown/mob/familiars.dmi'
 
 	pass_flags = PASSMOB //We don't want them to block players.
-	base_intents = list(INTENT_HELP, INTENT_BITE)
+	base_intents = list(INTENT_HELP, /datum/intent/simple/bite)
 	melee_damage_lower = 1
 	melee_damage_upper = 2
 
@@ -398,6 +398,9 @@
 	icon_living = "emberdrake"
 	icon_dead = "emberdrake_dead"
 	speak_emote = list("growls","murmurs")
+	var/list/essences_consumed = list()
+	var/list/beam_parts = list()
+	inherent_spell = list(/obj/effect/proc_holder/spell/invoked/consume)
 
 /mob/living/simple_animal/pet/familiar/void/examine(mob/user)
 	var/list/ret = ..()
@@ -410,6 +413,19 @@
 		ret.Insert(2, span_userdanger("AN ABBERANT...?"))
 		ret[3] = "A fragment of a void abberant's power, torn away and fashioned into a familiar; its eyes shine with a voracious hunger. What has been wrought, here? Who would—or even could—create such a thing?"
 	return ret
+
+/mob/living/simple_animal/pet/familiar/void/proc/grant_essence(type)
+	switch(type)
+		if("fae") // faerie movement
+			src.pass_flags = PASSTABLE | PASSMOB
+			src.movement_type = FLYING
+		if("infernal") // nerfed abberant beam
+			src.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/fire_obelisk_beam/drakeling)
+		if("elemental") // stat buff
+			src.maxHealth = 250
+			src.health = 250
+			src.STACON += 2
+			src.STAWIL += 2
 
 // no time-based tiering system here
 /mob/living/simple_animal/pet/familiar/void/do_time_change()
