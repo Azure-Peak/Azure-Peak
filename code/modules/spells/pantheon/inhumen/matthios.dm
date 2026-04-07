@@ -151,13 +151,81 @@
 	revert_cast()
 	return FALSE
 
+/obj/item/clothing/mask/rogue/spectacles/matthios
+	name = "gilded spectacles"
+	desc = "A drakkyne's eyes are oft blindsided by greed, yet such vision does hold some merit."
+	armor = ARMOR_LEATHER
+	color = "#faf5cb" // we golden
+	aura_color = "#fffb00"
+
+/obj/item/clothing/mask/rogue/spectacles/matthios/equipped(mob/living/carbon/human/user, slot)
+	. = ..()
+	if(slot == SLOT_WEAR_MASK)
+		if(HAS_TRAIT(user, TRAIT_FREEMAN))
+			if(!user.has_status_effect(/datum/status_effect/buff/matthios_vision))
+				to_chat(user, span_info("Gold gleams where truth once hid."))
+				user.apply_status_effect(/datum/status_effect/buff/matthios_vision)
+		else
+			to_chat(user, span_warning("You look ridiculous and stupid. You are an amateur and a fool!"))
+
+/obj/item/clothing/mask/rogue/spectacles/matthios/dropped(mob/living/carbon/human/user)
+	. = ..()
+	if(istype(user) && user.get_item_by_slot(SLOT_WEAR_MASK) == src)
+		to_chat(user, span_info("The gleam fades from my sight."))
+		user.remove_status_effect(/datum/status_effect/buff/matthios_vision)
+
+/atom/movable/screen/alert/status_effect/buff/matthios_vision
+	name = "Gilded True Sight"
+	desc = "Through Him, all is seen, and no locks shall bar me. Whether that it should be... is another matter."
+	icon_state = "darkvision"
+
+/datum/status_effect/buff/matthios_vision
+	id = "matthios_vision"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/matthios_vision
+	duration = -1
+	tick_interval = 30 SECONDS
+
+/datum/status_effect/buff/matthios_vision/on_apply(mob/living/new_owner)
+	. = ..()
+	to_chat(owner, span_warning("The world sharpens. Nothing hides from His gaze, now yours."))
+	ADD_TRAIT(owner, TRAIT_GILDED_SIGHT, "matthiosboon")
+	ADD_TRAIT(owner, TRAIT_PSYCHOSIS, "matthiosboon")
+	owner.update_sight()
+
+/datum/status_effect/buff/matthios_vision/on_remove()
+	. = ..()
+	to_chat(owner, span_warning("The truth fades. Darkness returns, but so does peace."))
+	REMOVE_TRAIT(owner, TRAIT_GILDED_SIGHT, "matthiosboon")
+	REMOVE_TRAIT(owner, TRAIT_PSYCHOSIS, "matthiosboon")
+	owner.update_sight()
+
+/datum/status_effect/buff/matthios_vision/tick()
+	. = ..()
+	var/mob/living/carbon/crazymofo = owner
+	crazymofo.adjustFireLoss(25)
+	if(crazymofo.hallucination < 200)
+		crazymofo.hallucination += rand(1,50)
+		to_chat(crazymofo, span_warning(pick("Is this TRVE??","DAFUQ?","I am NOT meant to see this.","What... WHAT is this?","This doesn't make SENSE.","I don't UNDERSTAND.","Why does it LOOK like that?","Something is WRONG here.","I can't make SENSE of this.","This isn't RIGHT.","What am I looking at?","None of THIS adds up.","I shouldn't be SEEING this.","This feels... INCORRECT.","Why is everything like this?","I CAN'T process this.","This ISN'T how it should be.","I don't get it.","What is happening?","This is all WRONG.","I CAN'T tell what's REAL.","Why does it feel off?","I don't recognize this.","This SHOULDN'T exist.","What is THIS supposed to be?","I can't FOLLOW this.","This isn't making sense anymore.","I think SOMETHING is broke.", "Why can't I understand THIS?", "This feels IMPOSSIBLE.", "I don't KNOW what I'm seeing.")))
+		crazymofo.Jitter(5)
+		if(prob(10))
+			crazymofo.emote(pick("giggle","laugh","chuckle"))
+	if(prob(crazymofo.hallucination/2) && crazymofo.hallucination > 50)
+		crazymofo.blur_eyes(5)
+		crazymofo.adjust_blurriness(10)
+		crazymofo.blind_eyes(1.5)
+		crazymofo.adjustBruteLoss(10)
+		if(prob(10))
+			crazymofo.emote("agony")
+		to_chat(crazymofo, span_alert("MY EYES!!! THEY BURN!!!"))
+
 /obj/item/clothing/shoes/roguetown/boots/muffle_matthios //I guess in case someone wants to make generic muffled boots? Change it to muffle/matthios if you do
 	name = "gilded leather boots"
 	desc = "Those who bear His fyre often cower in its shadow."
 	icon_state = "matthiosboots"
 	sewrepair = TRUE
 	armor = ARMOR_LEATHER
-	color = "#fce517" // we golden
+	color = "#fff9c0" // we golden
+	aura_color = "#ffe600"
 
 /obj/item/clothing/shoes/roguetown/boots/muffle_matthios/equipped(mob/living/carbon/human/user, slot)
 	. = ..()
@@ -595,41 +663,114 @@
 	primary_resource_type = SPELL_COST_STAMINA
 	primary_resource_cost = SPELLCOST_CANTRIP
 	charge_required = FALSE
-	cooldown_time = 0
+	cooldown_time = 10
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
 
+	var/devotion_cost = 20
+
 	var/list/options = list(
-		"Pouch of Bribery" = list(
-			path = /obj/item/storage/belt/rogue/pouch/coins/matthios,
-			m_cooldown = 60 SECONDS,
-			m_rank = SKILL_LEVEL_EXPERT,
-			lines = list("Coin begets coin!", "Matthios, grant me a sliver of thy wealth!", "Wealth through will, as He demands!")
-		),
 		"Pocket Sand" = list(
 			path = /obj/item/impact_grenade/pocketsand,
-			m_cooldown = 30 SECONDS,
+			m_cooldown = 60 SECONDS,
 			m_rank = SKILL_LEVEL_NOVICE,
-			lines = list("Dust to blind thee!", "A handful of freedom!", "A gift for thee!")
+			lines = list("Dust to blind thee!", "A handful of freedom!", "A gift for thee!", "Mind yer eyes!", "This always works like a miracle!")
 		),
 		"Gilded Lockpick" = list(
 			path = /obj/item/melee/touch_attack/lesserknock/matthios,
 			m_cooldown = 5 SECONDS,
-			m_rank = SKILL_LEVEL_APPRENTICE,
-			lines = list("#No locks shall bar the free.", "#Thine tool shall bring liberation.", "#Matthios, shatter my locks!")
+			m_rank = SKILL_LEVEL_NOVICE,
+			lines = list("#By thine hands...", "#No locks shall bar the free!", "#Thine tool shall bring liberation!", "#Matthios, shatter my locks!")
+		),
+		"Pouch of Bribery" = list(
+			path = /obj/item/storage/belt/rogue/pouch/coins/matthios,
+			m_cooldown = 5 MINUTES,
+			m_rank = SKILL_LEVEL_EXPERT,
+			lines = list("Coin begets coin!", "Matthios, grant me a sliver of thy wealth!", "Wealth through will, as He demands!")
 		),
 		"Gilded Dexterous Gloves" = list(
 			path = /obj/item/clothing/gloves/roguetown/fingerless_leather/muffle_matthios,
 			m_cooldown = 5 MINUTES,
-			m_rank = SKILL_LEVEL_EXPERT,
-			lines = list("Hands of trade, be swift.", "Let fingers dance for thy amusement.", "Dexterity bought in faith.")
+			m_rank = SKILL_LEVEL_JOURNEYMAN,
+			lines = list("#Hands of trade, be swift.", "#Let fingers dance for thy amusement.", "#Dexterity bought in faith.")
 		),
 		"Gilded Muffled Boots" = list(
 			path = /obj/item/clothing/shoes/roguetown/boots/muffle_matthios,
 			m_cooldown = 5 MINUTES,
+			m_rank = SKILL_LEVEL_APPRENTICE,
+			lines = list("#Steps unheard, as I walk in thy shadow.", "#Silent as coin slipping, for thy hoard.", "#No sound, no chain, no better wisdom, O' Lord.")
+		),
+		"Gilded Lockpicking Specs" = list(
+			path = /obj/item/clothing/mask/rogue/spectacles/matthios,
+			m_cooldown = 60 MINUTES,
+			m_rank = SKILL_LEVEL_EXPERT,
+			lines = list("#Guide my sight, O' Matthios.","#Through pins and wards, thy Free eyes see.","#No door shall be between me and truth.")
+		),
+		"Gilded Chains" = list(
+			path = /obj/item/rope/chain/matthios,
+			m_cooldown = 10 MINUTES,
 			m_rank = SKILL_LEVEL_JOURNEYMAN,
-			lines = list("Steps unheard, as I walk in thy shadow.", "Silent as coin slipping, for thy hoard.", "No sound, no chain, no better wisdom, O' Lord.")
-		)
-
+			lines = list("Matthios! Chains for the tyrants!", "Matthios! Transact me thy chains!", "Lord of Freedom, chains for the unworthy!")
+		),
+		"Gilded Amulet of Matthios" = list(
+			path = /obj/item/clothing/neck/roguetown/psicross/inhumen/matthios/gilded,
+			m_cooldown = 60 MINUTES,
+			m_rank = SKILL_LEVEL_NOVICE,
+			lines = list("MATTHIOS! MATTHIOS! MATTHIOS!", "MATTHIOS! MY ALLEGIANCE IS YOURS!!", "MATTHIOS IS MY LORD!!", "MATTHIOS IS MY MASTER!!", "MY FAITH IS IN YOU, MATTHIOS!!", "I AM NO THIEF, I AM FREE!!")
+		),
+		"Vial of Kingsfeast Base" = list(
+			path = /obj/item/matthios_canister/kingsfeast,
+			m_cooldown = 2 MINUTES,
+			m_rank = SKILL_LEVEL_NOVICE,
+			lines = list("Matthios, provide the base, I shall complete thy work!", "Matthios! Deliver unto me the truth of alchemy!", "Lord of Exchange, I shall finish thy work!")
+		),
+		"Vial of Goodnite Base" = list(
+			path = /obj/item/matthios_canister/goodnite,
+			m_cooldown = 2 MINUTES,
+			m_rank = SKILL_LEVEL_APPRENTICE,
+			lines = list("Matthios, provide the base, I shall complete thy work!", "Matthios! Deliver unto me the truth of alchemy!", "Lord of Exchange, I shall finish thy work!")
+		),
+		"Vial of Warsmith Base" = list(
+			path = /obj/item/matthios_canister/warsmith,
+			m_cooldown = 2 MINUTES,
+			m_rank = SKILL_LEVEL_JOURNEYMAN,
+			lines = list("Matthios, provide the base, I shall complete thy work!", "Matthios! Deliver unto me the truth of alchemy!", "Lord of Exchange, I shall finish thy work!")
+		),
+/*		"Vial of Liquid Desire Base" = list(
+			path = /obj/item/matthios_canister/baotha,
+			m_cooldown = 10 MINUTES,
+			m_rank = SKILL_LEVEL_MASTER,
+			lines = list("Matthios, provide the base, I shall complete thy work!", "Matthios! Deliver unto me the truth of alchemy!", "Lord of Exchange, I shall finish thy work!")
+		),
+		"Vial of Liquid Bloodlust Base" = list(
+			path = /obj/item/matthios_canister/graggar,
+			m_cooldown = 10 MINUTES,
+			m_rank = SKILL_LEVEL_MASTER,
+			lines = list("Matthios, provide the base, I shall complete thy work!", "Matthios! Deliver unto me the truth of alchemy!", "Lord of Exchange, I shall finish thy work!")
+		),
+		"Vial of Liquid Progress Base" = list(
+			path = /obj/item/matthios_canister/zizo,
+			m_cooldown = 10 MINUTES,
+			m_rank = SKILL_LEVEL_MASTER,
+			lines = list("Matthios, provide the base, I shall complete thy work!", "Matthios! Deliver unto me the truth of alchemy!", "Lord of Exchange, I shall finish thy work!")
+		),
+		"Vial of Liquid Freedom Base" = list(
+			path = /obj/item/matthios_canister/matthios,
+			m_cooldown = 10 MINUTES,
+			m_rank = SKILL_LEVEL_MASTER,
+			lines = list("Matthios, provide the base, I shall complete thy work!", "Matthios! Deliver unto me the truth of alchemy!", "Lord of Exchange, I shall finish thy work!")
+		),*/
+		"Vial of Lyfestruth Base" = list(
+			path = /obj/item/matthios_canister/lyfestruth,
+			m_cooldown = 10 MINUTES,
+			m_rank = SKILL_LEVEL_MASTER, // exclusive to devotee missionary/heretic (HOPEFULLY!)
+			lines = list("Matthios, provide the base, I shall complete thy work!", "Matthios! Deliver unto me the truth of alchemy!", "Lord of Exchange, I shall finish thy work!")
+		),
+/*		"Vial of Truthsnuke Base" = list(
+			path = /obj/item/matthios_canister/truthsnuke,
+			m_cooldown = 3 HOURS,
+			m_rank = SKILL_LEVEL_MASTER, // exclusive to devotee missionary/heretic (HOPEFULLY!)
+			lines = list("Matthios, provide the base, I shall complete thy work!", "Matthios! Deliver unto me the truth of alchemy!", "Lord of Exchange, I shall finish thy work!")
+		),*/
 	)
 
 	var/list/item_cooldowns = list()
@@ -653,7 +794,18 @@
 	if(!valid.len)
 		return FALSE
 
-	var/choice = tgui_input_list(H, "Choose your tool", "Freeman's Tools", valid)
+	var/list/display = list()
+
+	for(var/name in valid)
+		var/time_left = item_cooldowns[name] ? max(0, item_cooldowns[name] - world.time) : 0
+		var/display_name = time_left > 0 ? "[name] ([round(time_left/10, 1)]s)" : name
+		display[display_name] = name
+
+	var/choice_display = tgui_input_list(H, "Choose your tool", "Freeman's Tools", display)
+	if(!choice_display)
+		return FALSE
+
+	var/choice = display[choice_display]
 	if(!choice)
 		return FALSE
 
@@ -682,6 +834,612 @@
 
 	return TRUE
 
+/obj/item/
+	var/aura_color = null
+
+/obj/item/Initialize()
+	. = ..()
+	if(aura_color)
+		apply_aura()
+
+/obj/item/proc/apply_aura()
+	if(!aura_color)
+		return
+	if(!filters)
+		filters = list()
+	remove_aura()
+	var/aura_color_final = "[aura_color]40"
+	filters += filter(type="outline", color=aura_color_final, size=2)
+
+/obj/item/proc/remove_aura()
+	if(!filters)
+		return
+
+	for(var/F in filters)
+		if(islist(F))
+			if(F["type"] == "outline")
+				filters -= F
+
+/obj/item/proc/refresh_aura()
+	if(aura_color)
+		apply_aura()
+
+/obj/item/alchserum
+	var/current_color = "#ffffff"
+
+/obj/item/alchserum/Initialize()
+	. = ..()
+	update_icon()
+
+/obj/item/alchserum/update_icon()
+	cut_overlays()
+
+	var/mutable_appearance/fluid = mutable_appearance(icon, "canister_fluid")
+	fluid.color = current_color
+	add_overlay(fluid)
+
+/obj/item/matthios_canister
+	name = "gilded alchemical canister"
+	desc = "A strange, fragile alchemical vessel housing a silent power beyond human comprehension. Is this true?"
+	icon = 'icons/obj/structures/heart_items.dmi'
+	icon_state = "canister_empty"
+	w_class = WEIGHT_CLASS_TINY
+
+	var/current_color = "#ffffff"
+	var/list/required_ingredients = list()
+	var/list/inserted_ingredients = list()
+	var/list/ingredient_colors = list()
+	var/result_path = null
+
+/obj/item/matthios_canister/examine(mob/user)
+	. = ..()
+
+	if(HAS_TRAIT(user, TRAIT_FREEMAN))
+		. += span_notice("[freeman_truth()]")
+		. += span_warning("[freeman_progress(user)]")
+
+/obj/item/matthios_canister/proc/freeman_truth()
+	return "..."
+
+/obj/item/matthios_canister/proc/freeman_progress(mob/user)
+	return "..."
+
+/obj/item/matthios_canister/update_icon()
+	. = ..()
+	cut_overlays()
+	var/mutable_appearance/fluid = mutable_appearance(icon, "canister_fluid")
+	fluid.color = current_color
+	add_overlay(fluid)
+
+/obj/item/matthios_canister/attackby(obj/item/I, mob/user)
+	if(!HAS_TRAIT(user, TRAIT_MATTHIOS_EYES))
+		return TRUE
+
+	if(istype(I, /obj/item/alch/golddust))
+		var/list/missing = list()
+		for(var/T in required_ingredients)
+			if(!(T in inserted_ingredients))
+				missing += T
+
+		if(!missing.len)
+			return TRUE
+
+		if(do_after(user, 2 SECONDS))
+			var/chosen = pick(missing)
+			inserted_ingredients += chosen
+
+			if(ingredient_colors[chosen])
+				current_color = ingredient_colors[chosen]
+
+			qdel(I)
+			update_icon()
+			check_completion(user)
+		return TRUE
+
+	var/valid = FALSE
+	for(var/T in required_ingredients)
+		if(istype(I, T))
+			valid = TRUE
+			break
+
+	if(!valid)
+		return TRUE
+
+	if(I.type in inserted_ingredients)
+		return TRUE
+
+	if(do_after(user, 2 SECONDS))
+		inserted_ingredients += I.type
+
+		if(ingredient_colors[I.type])
+			current_color = ingredient_colors[I.type]
+
+		qdel(I)
+		update_icon()
+		check_completion(user)
+
+	return TRUE
+
+/obj/item/matthios_canister/proc/check_completion(mob/user)
+	for(var/T in required_ingredients)
+		if(!(T in inserted_ingredients))
+			return
+	alch_transform(user)
+
+/obj/item/matthios_canister/proc/alch_transform(mob/user)
+	if(!result_path)
+		return
+	to_chat(user, span_notice("The mixture stabilizes successfully."))
+	new result_path(get_turf(src))
+	qdel(src)
+
+/obj/item/matthios_canister/lyfestruth
+	name = "vial of lyfestruth base"
+	desc = "Within the glass swells a searing draught, as though molten gold were stirred with the heartblood of a volcano. It glows too bright, too alive. The vessel ought crack, yet it does not. A sweetness clings to it—burnt, cloying, wrong. To gaze upon it is to feel thy pulse falter."
+	color = "#ff7a7a"	
+	required_ingredients = list(
+		/obj/item/alch/atropa,
+		/obj/item/alch/matricaria,
+		/obj/item/alch/symphitum,
+		/obj/item/alch/taraxacum,
+		/obj/item/alch/euphrasia,
+		/obj/item/alch/paris,
+		/obj/item/alch/calendula,
+		/obj/item/alch/mentha,
+		/obj/item/alch/urtica,
+		/obj/item/alch/salvia,
+		/obj/item/alch/hypericum,
+		/obj/item/alch/benedictus,
+		/obj/item/alch/valeriana,
+		/obj/item/alch/artemisia,
+		/obj/item/reagent_containers/food/snacks/grown/manabloom,
+		/obj/item/alch/rosa
+	)
+
+	ingredient_colors = list(
+		/obj/item/alch/atropa = "#8b37c4",
+		/obj/item/alch/matricaria = "#f5e6a8",
+		/obj/item/alch/symphitum = "#4f8f6a",
+		/obj/item/alch/taraxacum = "#ffd84d",
+		/obj/item/alch/euphrasia = "#cfe8ff",
+		/obj/item/alch/paris = "#62a044",
+		/obj/item/alch/calendula = "#ff9f1a",
+		/obj/item/alch/mentha = "#3aff7a",
+		/obj/item/alch/urtica = "#2f7f3f",
+		/obj/item/alch/salvia = "#6b8e23",
+		/obj/item/alch/hypericum = "#ffcc33",
+		/obj/item/alch/benedictus = "#d4b24c",
+		/obj/item/alch/valeriana = "#8e5a3c",
+		/obj/item/alch/artemisia = "#7a9e7e",
+		/obj/item/reagent_containers/food/snacks/grown/manabloom = "#66ccff",
+		/obj/item/alch/rosa = "#ff4d6d"
+	)
+
+	result_path = /obj/item/alchserum/matthios_lyfestruth
+
+/obj/item/matthios_canister/lyfestruth/freeman_truth()
+	return "This is no vulgar tonic, but 'Geald', the stolen fyre of Astrata condensed into liquid form. Oft called 'liquid anastasis', it restores not flesh, but the moment before death was writ. However, it is a fact of its volatile nature."
+
+/obj/item/matthios_canister/lyfestruth/freeman_progress(mob/user)
+	var/list/missing = list()
+
+	for(var/T in required_ingredients)
+		if(!(T in inserted_ingredients))
+			missing += T
+
+	if(!missing.len)
+		return "It is made whole. The draught strains against its prison."
+
+	var/obj/item/temp = new (pick(missing))
+	var/name = initial(temp.name)
+	qdel(temp)
+
+	return "It lacks [name] or gold dust. ([missing.len] humours yet unbound)"
+
+/obj/item/alchserum/matthios_lyfestruth
+	name = "canister of lyfestruth"
+	desc = "A radiant vial containing a volatile, life-restoring mixture. The liquid within churns with molten intensity, casting a searing orange-gold glow that flickers against its glass prison. It promises to restore what was lost— but not without exacting something in return. The heat is constant. Unnatural. Alive."
+	icon = 'icons/obj/structures/heart_items.dmi'
+	icon_state = "canister_empty"
+	current_color = "#ff9d00"
+	aura_color = "#fffaad"
+	w_class = WEIGHT_CLASS_TINY
+
+/obj/item/alchserum/matthios_lyfestruth/attack(mob/living/target, mob/user)
+	if(!istype(target))
+		return
+
+	to_chat(user, span_notice("You begin pouring the lyfestruth over [target.name]..."))
+
+	if(do_after(user, 3 SECONDS, target))
+		apply_effect(target, user)
+
+/obj/item/alchserum/matthios_lyfestruth/proc/apply_effect(mob/living/carbon/target, mob/user)
+	if(!target)
+		return
+
+	target.fully_heal(admin_revive = TRUE, break_restraints = TRUE)
+
+	to_chat(target, span_warning("Your body is violently forced back to life as searing heat floods your veins, your body, your everything!"))
+	visible_message(span_warning("[target.name]'s wounds seal instantly... only for their body and everywhere around them ignite moments after."))
+
+	explosion(target, devastation_range = null, heavy_impact_range = null, light_impact_range = 8, flame_range = 3, smoke = TRUE, soundin = pick('sound/misc/explode/bottlebomb (1).ogg','sound/misc/explode/bottlebomb (2).ogg'))
+	target.adjust_fire_stacks(10)
+	target.ignite_mob()
+	target.emote("agony", forced = TRUE)
+
+	to_chat(user, span_notice("The vial burns to ash in your hands."))
+	qdel(src)
+
+/obj/item/matthios_canister/kingsfeast
+	name = "vial of kingsfeast base"
+	desc = "The brew within sloshes thick as spoiled blood. A stench rises from it most foul, resembling a mixture of rot and brine. The very vapours of said tincture can dissolve organic matter."
+
+	var/max_ingredients = 10
+
+	required_ingredients = list(
+		/obj/item/alch/sinew,
+		/obj/item/organ,
+		/obj/item/alch/viscera,
+		/obj/item/natural/bone,
+		/obj/item/natural/bundle/bone,
+		/obj/item/natural/fibers,
+		/obj/item/reagent_containers/powder/salt,
+		/obj/item/reagent_containers/food
+	)
+	ingredient_colors = list(
+		/obj/item/alch/sinew = "#a84a4a",
+		/obj/item/organ = "#a84a4a",
+		/obj/item/alch/viscera = "#6e1e1e",
+		/obj/item/natural/bone = "#e8e2cf",
+		/obj/item/natural/bundle/bone = "#e8e2cf",
+		/obj/item/natural/fibers = "#b59b6a",
+		/obj/item/reagent_containers/powder/salt = "#f0f0f0",
+		/obj/item/reagent_containers/food = "#d67a4a"
+	)
+
+/obj/item/matthios_canister/kingsfeast/freeman_truth()
+	return "A primal alchemical reduction tincture. All organic input is stripped to its nutritional and experiential essence, then recomposed into perfected sustenance. It does not cook, it outright defines what it means to be food."
+
+/obj/item/matthios_canister/kingsfeast/freeman_progress(mob/user)
+	var/remaining = max_ingredients - inserted_ingredients.len
+	if(remaining <= 0)
+		return "The feast is ready to take form."
+
+	return "It needs [remaining] more organic offerings."
+
+/obj/item/matthios_canister/kingsfeast/attackby(obj/item/I, mob/user)
+	if(!HAS_TRAIT(user, TRAIT_MATTHIOS_EYES))
+		to_chat(user, span_warning("The hell do I do with this? This is no alchemy!"))
+		return TRUE
+
+	var/valid = FALSE
+	for(var/T in required_ingredients)
+		if(istype(I, T))
+			valid = TRUE
+			break
+
+	if(!valid)
+		return TRUE
+
+	if(inserted_ingredients.len >= max_ingredients)
+		to_chat(user, span_warning("The canister refuses to take more. It is... full."))
+		return TRUE
+
+	if(do_after(user, 1.5 SECONDS))
+		inserted_ingredients += I.type
+
+		var/color_to_use = null
+		for(var/T in ingredient_colors)
+			if(istype(I, T))
+				color_to_use = ingredient_colors[T]
+				break
+
+		if(color_to_use)
+			current_color = color_to_use
+
+		var/list/absorb_flavor = list(
+			"The mixture's vapors overtake the [I] at once, breaking it down into a fine, formless draught...",
+			"A faint hiss rises as the [I] is rendered to its base components, drawn into the brew...",
+			"The [I] loses all shape, reduced to a pale suspension within the thickened mixture...",
+			"The [I] slackens and falls apart, its substance wholly undone and folded into the draught...",
+			"The brew strips the [I] to its essence, leaving no trace of its former form...",
+			"A subtle reaction passes through the vessel as the [I] is reduced and made one with it...",
+			"The [I] collapses into a fine residue, its nature thoroughly dissolved into the mixture...",
+			"The [I] is unmade in moments, rendered down and claimed by the alchemical base...",
+			"The draught clouds as the [I] is broken to its simplest form and drawn within...",
+			"The [I] yields entirely, reduced and recomposed within the vessel's thick contents..."
+		)
+		qdel(I)
+
+		to_chat(user, span_notice(pick(absorb_flavor)))
+		update_icon()
+		check_completion(user)
+
+	return TRUE
+
+/obj/item/matthios_canister/kingsfeast/check_completion(mob/user)
+	if(inserted_ingredients.len < max_ingredients)
+		return
+
+	alch_transform(user)
+
+/obj/item/matthios_canister/kingsfeast/alch_transform(mob/user)
+	to_chat(user, span_notice("You begin channeling your greed into the mixture..."))
+
+	var/list/options = list(
+		"Ducal Peppersteak" = /obj/item/reagent_containers/food/snacks/rogue/peppersteak/ducal,
+		"Lobster Meal" = /obj/item/reagent_containers/food/snacks/rogue/fryfish/lobster/meal,
+		"Crabcake" = /obj/item/reagent_containers/food/snacks/rogue/crabcake,
+		"Chocolate" = /obj/item/reagent_containers/food/snacks/chocolate,
+		"Meat Flatpie" = /obj/item/reagent_containers/food/snacks/rogue/meattomatoplate,
+		"Broth Brique" = /obj/item/reagent_containers/food/snacks/rogue/meat/brothbrique,
+		"Strawberry Cake" = /obj/item/reagent_containers/food/snacks/rogue/strawberrycake,
+		"Cookies" = /obj/item/reagent_containers/food/snacks/rogue/cookiec
+	)
+
+	var/choice = input(user, "What form shall your greed take?", "Kingsfeast") as null|anything in options
+	if(!choice)
+		return
+
+	var/result_type = options[choice]
+
+	if(prob(25))
+		to_chat(user, span_warning("The mixture ignites violently, collapsing into useless slag and bitter disappointment. It... technically is edible..."))
+		new /obj/item/reagent_containers/food/snacks/badrecipe(get_turf(src))
+		qdel(src)
+		return
+	
+	var/mob/living/L = user
+	var/is_hungry = locate(/datum/status_effect/debuff/hungryt3) in L.status_effects
+
+	if(!is_hungry && prob(60)) // bread troll
+		to_chat(user, span_warning("The mixture shifts... simplifying itself into something more befitting your greed."))
+		new /obj/item/reagent_containers/food/snacks/rogue/bread(get_turf(src))
+		if(prob(20))
+			user.emote(pick("sigh","groan"))
+		qdel(src)
+		return
+	if(is_hungry)
+		to_chat(user, span_notice("Matthios takes pity on your mortal limitations. You compulsively shout in gratitude!"))
+		user.say(pick("PRAISE YOU, O' GENEROUS MATTHIOS!!","AT LAST, THE TRUE GOLD OF CULINARY ALCHEMY!!","BLESSED BE THY HANDS WHICH GRANT ME SUSTENANCE, MATTHIOS!!","I SHALL GIVE ALL FOR THY SMILE, LORD OF FREEDOM!!"))
+
+	to_chat(user, span_notice("The mixture responds to your greed, taking a decadent form."))
+
+	new result_type(get_turf(src))
+	qdel(src)
+
+/obj/item/matthios_canister/kingsfeast/attack_self(mob/user)
+	if(inserted_ingredients.len < max_ingredients)
+		to_chat(user, span_warning("It is not yet ready."))
+		return
+
+	to_chat(user, span_notice("The mixture churns expectantly, awaiting the weight of your greed..."))
+	alch_transform(user)
+
+/obj/item/matthios_canister/goodnite
+	name = "vial of goodnite base"
+	desc = "A dim, cloudy fluid rests inside, barely moving. Occasionally, something viscous streaks through it— like diluted brain matter. The glass feels warm, almost comforting. Staring at too long makes your eyelids heavy, and you get an odd compulsion to drink it."
+
+	required_ingredients = list(
+		/obj/item/alch/bonemeal,
+		/obj/item/alch/mentha,
+		/obj/item/reagent_containers/food/snacks/grown/manabloom
+	)
+
+	ingredient_colors = list(
+		/obj/item/alch/bonemeal = "#ffffff",
+		/obj/item/alch/mentha = "#3aff7a",
+		/obj/item/reagent_containers/food/snacks/grown/manabloom = "#66ccff"
+	)
+
+/obj/item/matthios_canister/goodnite/freeman_truth()
+	return "Condensed stellar residue. Dust harvested from a somnolent star that emits rhythmic sleep pulses. This is not sedation. It entrains the body to a universal resting cadence."
+
+/obj/item/matthios_canister/goodnite/freeman_progress(mob/user)
+	var/list/missing = list()
+
+	for(var/T in required_ingredients)
+		if(!(T in inserted_ingredients))
+			missing += T
+
+	if(!missing.len)
+		return "The mixture has reached perfect stillness."
+
+	var/remaining = missing.len
+	return "It requires refined manabloom alignment. ([remaining] components remaining)"
+
+/obj/item/matthios_canister/goodnite/alch_transform(mob/user)
+	to_chat(user, span_notice("The mixture settles into a perfectly still, somnolent state."))
+	new /obj/item/alchserum/matthios_goodnite(get_turf(src))
+	qdel(src)
+
+/obj/item/alchserum/matthios_goodnite
+	name = "vial of goodnite"
+	desc = "A soft-glowing concoction that induces immediate, restorative sleep. The fluid rests in perfect stillness, undisturbed by motion or time. Gazing into it too long draws a creeping heaviness into the body, as if the world itself is gently insisting you lie down and surrender to rest."
+	icon = 'icons/obj/structures/heart_items.dmi'
+	icon_state = "canister_empty"
+	current_color = "#5c6fb2"
+	aura_color = "#ffe4b9"
+	w_class = WEIGHT_CLASS_TINY
+
+/obj/item/alchserum/matthios_goodnite/attack(mob/living/target, mob/user)
+	if(!istype(target))
+		return
+
+	to_chat(user, span_notice("You begin gently administering the concoction to [target.name]'s eyes..."))
+
+	if(do_after(user, 6 SECONDS, target))
+		apply_sleep(target, user)
+
+/obj/item/alchserum/matthios_goodnite/proc/apply_sleep(mob/living/target, mob/user)
+	if(!target)
+		return
+
+	if(HAS_TRAIT(target, TRAIT_NOSLEEP))
+		to_chat(user, span_warning("[target.name] resists the effects entirely."))
+		return
+
+	to_chat(target, span_notice("A heavy calm overtakes your body..."))
+	sleep(5)
+	visible_message(span_notice("[target.name] suddenly goes limp, overtaken by unnatural sleep."))
+
+	target.SetSleeping(300)
+	target.SetUnconscious(0)
+	target.stat = UNCONSCIOUS
+
+	spawn()
+		while(target && target.IsSleeping())
+			target.energy_add(8)
+
+			if(target.nutrition > 0)
+				target.adjustBruteLoss(-1)
+				target.adjustFireLoss(-1)
+
+			if(target.hydration > 0)
+				target.adjustOxyLoss(-2)
+				target.adjustToxLoss(-1)
+
+			sleep(20)
+
+	to_chat(user, span_notice("The vial dulls and crumbles away."))
+	qdel(src)
+
+/obj/item/matthios_canister/warsmith
+	name = "vial of warsmith base"
+	desc = "A biting liquor gnaws within the vial, as though it would eat iron itself. Flecks of metal drift and vanish, then return as if unmade and remade. It reeks of rust and sharp ruin. No forge would suffer this thing near its works."
+
+	var/needed_scrap = 6
+	var/current_scrap = 0
+	var/has_needle = FALSE
+	var/has_fibers = FALSE
+	required_ingredients = list(
+		/obj/item/needle,
+		/obj/item/natural/bundle/fibers/full,
+		/obj/item/scrap,
+	)
+	ingredient_colors = list(
+		/obj/item/needle = "#c0c0c0",
+		/obj/item/natural/bundle/fibers/full = "#bfa76a",
+		/obj/item/scrap = "#6e6e6e"
+	)
+
+/obj/item/matthios_canister/warsmith/freeman_truth()
+	return "A cunning weave of filament and will. Metal and fiber undone to their first truths, that they may be rewrought aright. It does not destroy— it remembers the shape of perfection, and compels all things toward it."
+
+/obj/item/matthios_canister/warsmith/freeman_progress(mob/user)
+	return "Needle: [has_needle ? "set" : "wanting"]\nFibers: [has_fibers ? "set" : "wanting"]\nIron scrap: [current_scrap]/[needed_scrap]"
+
+/obj/item/matthios_canister/warsmith/attackby(obj/item/I, mob/user)
+	if(istype(I, /obj/item/scrap))
+		if(current_scrap >= needed_scrap)
+			to_chat(user, span_warning("The mixture refuses more metal."))
+			return TRUE
+
+		if(do_after(user, 2 SECONDS))
+			current_scrap++
+			qdel(I)
+
+			var/color_to_use = ingredient_colors[/obj/item/scrap]
+			if(color_to_use)
+				current_color = color_to_use
+
+			to_chat(user, span_notice("You feed scrap into the mixture. ([current_scrap]/[needed_scrap])"))
+			update_icon()
+			check_completion(user)
+		return TRUE
+
+	if(istype(I, /obj/item/needle))
+		if(has_needle)
+			to_chat(user, span_warning("A needle has already been integrated."))
+			return TRUE
+
+		if(do_after(user, 2 SECONDS))
+			has_needle = TRUE
+			qdel(I)
+
+			var/color_to_use = ingredient_colors[/obj/item/needle]
+			if(color_to_use)
+				current_color = color_to_use
+
+			to_chat(user, span_notice("The needle dissolves into fine metallic thread."))
+			update_icon()
+			check_completion(user)
+		return TRUE
+
+	if(istype(I, /obj/item/natural/bundle/fibers/full))
+		if(has_fibers)
+			to_chat(user, span_warning("Fibers have already been added."))
+			return TRUE
+
+		if(do_after(user, 2 SECONDS))
+			has_fibers = TRUE
+			qdel(I)
+
+			var/color_to_use = ingredient_colors[/obj/item/natural/bundle/fibers/full]
+			if(color_to_use)
+				current_color = color_to_use
+
+			to_chat(user, span_notice("The fibers unravel and merge into the mixture."))
+			update_icon()
+			check_completion(user)
+		return TRUE
+
+	to_chat(user, span_warning("This does not belong in the canister."))
+	return TRUE
+
+/obj/item/matthios_canister/warsmith/check_completion(mob/user)
+	if(current_scrap < needed_scrap)
+		return
+	if(!has_needle)
+		return
+	if(!has_fibers)
+		return
+
+	alch_transform(user)
+
+/obj/item/matthios_canister/warsmith/alch_transform(mob/user)
+	to_chat(user, span_notice("The mixture hardens, then liquefies into an amorphous, perfect balance of fiber and steel."))
+	new /obj/item/alchserum/matthios_warsmith(get_turf(src))
+	qdel(src)
+
+/obj/item/alchserum/matthios_warsmith
+	name = "vial of warsmith"
+	desc = "A volatile fusion of textile and metal-binding alchemy. Filaments of steel and fiber drift within the mixture, weaving and unweaving themselves in restless patterns. It hums faintly when held, as if anticipating fracture— and the satisfaction of making something whole again."
+	icon = 'icons/obj/structures/heart_items.dmi'
+	icon_state = "canister_empty"
+	current_color = "#9c7b45"
+	aura_color = "#615b4d"
+	w_class = WEIGHT_CLASS_TINY
+	var/uses = 4
+
+/obj/item/alchserum/matthios_warsmith/attack_obj(obj/O, mob/living/user)
+	if(!isitem(O))
+		return
+	var/obj/item/I = O
+	if(!I.max_integrity)
+		to_chat(user, span_warning("This cannot be repaired."))
+		return
+	if(I.obj_integrity >= I.max_integrity)
+		to_chat(user, span_warning("This is not broken."))
+		return
+	to_chat(user, span_notice("You begin applying the warsmith mixture to [I]..."))
+	if(!do_after(user, 6 SECONDS, target = I))
+		return
+	playsound(loc, 'sound/magic/swap.ogg', 100, TRUE, -2)
+	user.visible_message(span_info("[user] restores [I] with alchemical precision."))
+	if(I.body_parts_covered != I.body_parts_covered_dynamic)
+		I.repair_coverage()
+	I.obj_integrity = I.max_integrity
+	if(I.obj_broken)
+		I.obj_fix()
+	uses--
+	if(uses > 0)
+		to_chat(user, span_notice("The mixture settles, awkwardly. You estimate [uses] uses remain."))
+	else
+		to_chat(user, span_warning("The vial burns out, its contents fully spent."))
+		qdel(src)
+
 /obj/item/melee/touch_attack/lesserknock/matthios
 	name = "Gilded Lockpick"
 	desc = "A golden, glowing lockpick that appears to be held together by the truth of Matthios. To dispel it, simply use it on anything that isn't a door."
@@ -691,12 +1449,48 @@
 	icon_state = "lockpick"
 	color = "#eeff00" // we golden now, bij
 	picklvl = 1.1 // 10% better than normal picks!
-	max_integrity = 99
+	max_integrity = 100
 	destroy_sound = 'sound/items/pickbreak.ogg'
 	resistance_flags = FIRE_PROOF
+	aura_color = "#ffe761"
 
 /obj/item/melee/touch_attack/lesserknock/attack_self()
 	qdel(src)
+
+/obj/item/clothing/neck/roguetown/psicross/inhumen/matthios/gilded
+	name = "strange gilded amulet"
+	desc = "He was ever the one to make you ask questions: Why are we still here? Just to suffer? Nae. We are here to make a change. And a change we shall make, together."
+	icon_state = "matthios"
+	resistance_flags = FIRE_PROOF
+	slot_flags = ITEM_SLOT_NECK
+	smeltresult = /obj/item/roguecoin/gold/matthios/pile
+	var/grant_chant = FALSE
+	aura_color = "#ffe761"
+
+/obj/item/clothing/neck/roguetown/psicross/inhumen/matthios/gilded/equipped(mob/living/carbon/human/user, slot)
+	. = ..()
+	if(slot & (ITEM_SLOT_NECK))
+		if(HAS_TRAIT(user, TRAIT_FREEMAN))
+			if(!user.has_language(/datum/language/thievescant))
+				to_chat(user, span_info("The whispers of the unseen find my tongue."))
+				user.grant_language(/datum/language/thievescant)
+				grant_chant = TRUE
+
+/obj/item/clothing/neck/roguetown/psicross/inhumen/matthios/gilded/dropped(mob/living/carbon/human/user)
+	. = ..()
+	if(istype(user) && (user?.wear_neck == src))
+		if(grant_chant)
+			to_chat(user, span_info("The whispers fade from my tongue."))
+			user.remove_language(/datum/language/thievescant)
+			grant_chant = FALSE
+
+/obj/item/rope/chain/matthios
+	name = "gilded chain"
+	desc = "A heavy, gilded chain that thrums with latent divine power. It resonates negatively with the essence of nobility, as if stirred by divine rebuke."	
+	color = "#fdff86"
+	aura_color = "#fff385"
+	matthios_chains = TRUE
+	smeltresult = /obj/item/roguecoin/gold/matthios/pile
 
 /obj/item/clothing/gloves/roguetown/fingerless_leather/muffle_matthios
 	name = "gilded fingerless gloves"
@@ -704,16 +1498,17 @@
 	sewrepair = TRUE
 	armor = ARMOR_LEATHER
 	color = "#fce517" // we golden
+	aura_color = "#fff385"
 
 /obj/item/clothing/gloves/roguetown/fingerless_leather/muffle_matthios/equipped(mob/living/carbon/human/user, slot)
 	. = ..()
-	if(slot == SLOT_HANDS && HAS_TRAIT(user, TRAIT_FREEMAN))
+	if(slot == SLOT_GLOVES && HAS_TRAIT(user, TRAIT_FREEMAN))
 		to_chat(user, span_info("Like Him, my hands ready to grasp the impossible."))
 		ADD_TRAIT(user, TRAIT_SILENT_LOCKPICK, "matthiosboon")
 
 /obj/item/clothing/gloves/roguetown/fingerless_leather/muffle_matthios/dropped(mob/living/carbon/human/user)
 	. = ..()
-	if(istype(user) && user?.gloves == src)
+	if(istype(user) && user.get_item_by_slot(SLOT_GLOVES) == src)
 		to_chat(user, span_info("Once again, these hands are supplicant."))
 		REMOVE_TRAIT(user, TRAIT_SILENT_LOCKPICK, "matthiosboon")
 

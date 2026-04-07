@@ -341,6 +341,7 @@
 		var/moveup = 10
 
 		var/silentpick = HAS_TRAIT(user, TRAIT_SILENT_LOCKPICK)
+		var/gildedeyes = HAS_TRAIT(user, TRAIT_GILDED_SIGHT)
 
 		picktime -= (pickskill * 10)
 		picktime = clamp(picktime, 10, 70)
@@ -353,7 +354,8 @@
 		pickchance *= P.picklvl
 		pickchance = clamp(pickchance, 1, 95)
 
-
+		if(gildedeyes) // MIGHT BE TOO STRONG, BUT WE'LL SEE
+			picktime = 10
 
 		while(!QDELETED(I) &&(lockprogress < locktreshold))
 			if(!do_after(user, picktime, target = src))
