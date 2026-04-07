@@ -202,17 +202,6 @@
 	sort_category = "Triumphs"
 
 //////////////////
-//  UNIQUES  !  //
-//////////////////
-//Anything that doesn't fall within the standard pricing bracket, or is sufficently unique to warrant being categorized differently.
-
-/datum/loadout_item/triumph_buffpot
-	name = "Vial of Distilled Triumphance"
-	path = /obj/item/reagent_containers/glass/bottle/alchemical/tripot
-	triumph_cost = 99
-	sort_category = "Triumphs"
-
-//////////////////
 //  RESKINS  !  //
 //////////////////
 //Variants of the Donator Reskin item, specifically unlocked through Triumphs.

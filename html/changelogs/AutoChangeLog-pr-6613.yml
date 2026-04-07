@@ -1,5 +1,0 @@
-author: "FreeStylaLT"
-delete-after: True
-changes:
-  - bugfix: "Fixed simple mobs not interacting with dodge correctly."
-  - balance: "Being outnumbered (having Tempo) will reduce the frequency of dodge loss for dodge experts, or remove it entirely, depending on the situation."

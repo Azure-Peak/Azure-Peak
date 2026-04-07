@@ -1,8 +1,0 @@
-author: "Ryan180602"
-delete-after: True
-changes:
-  - refactor: "altgrips, to make it easier to make more"
-  - rscadd: "altgripping's default keybind is now B"
-  - rscadd: "can cycle through altgrips (if there's multiple)"
-  - rscadd: "examining a weapon tells you what altgrips it has."
-  - rscadd: "halfswording for longswords. halfsword + roofguard for freiswords"

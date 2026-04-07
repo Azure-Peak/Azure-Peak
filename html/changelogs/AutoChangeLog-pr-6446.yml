@@ -1,6 +1,0 @@
-author: "FreeStylaLT"
-delete-after: True
-changes:
-  - balance: "Wrestling ClickCDs now account for the actions being done to oneself or to mindless mobs. Those CDs are shorter."
-  - balance: "Added a missing ClickCD to the initiation of a grab."
-  - rscadd: "Dealing direct bodypart damage now carries a chance of the target dropping all grabs. Targeting the limb that is holding the grab increases this chance."

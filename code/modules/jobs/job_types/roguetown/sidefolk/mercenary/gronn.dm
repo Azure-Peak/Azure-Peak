@@ -68,7 +68,7 @@
 				head = /obj/item/clothing/head/roguetown/helmet/bascinet/atgervi/gronn/ownel
 				gloves = /obj/item/clothing/gloves/roguetown/chain/gronn
 				armor = /obj/item/clothing/suit/roguetown/armor/brigandine/gronn
-				pants = /obj/item/clothing/under/roguetown/splintlegs/gronn
+				pants = /obj/item/clothing/under/roguetown/chainlegs/gronn
 				wrists = /obj/item/clothing/wrists/roguetown/bracers/splint
 				backr = /obj/item/rogueweapon/shield/iron
 				beltr = /obj/item/rogueweapon/scabbard/sword
@@ -109,9 +109,10 @@
 				H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, 3, TRUE)
 				H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, 2, TRUE)
 				H.adjust_skillrank_up_to(/datum/skill/craft/traps, 3, TRUE)			//Ditto
-				H.change_stat(STATKEY_CON, 2)
-				H.change_stat(STATKEY_WIL, 3)
+				H.change_stat(STATKEY_CON, 1)
+				H.change_stat(STATKEY_WIL, 2)
 				H.change_stat(STATKEY_SPD, 2)
+				H.change_stat(STATKEY_PER, 2)
 				ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
 				H.dna.species.soundpack_m = new /datum/voicepack/male/evil() //Dodge builds are evil
 				var/weapons = list("Handclaws","Dual Handaxes")

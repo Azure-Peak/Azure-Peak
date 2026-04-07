@@ -713,6 +713,8 @@
 					user.visible_message("<span class='notice'>[user] finds [B] in [src].</span>")
 					return
 			user.visible_message("<span class='warning'>[user] searches through [src].</span>")
+			if(looty.len)
+				attack_hand(user)
 			if(!looty.len)
 				to_chat(user, "<span class='warning'>Picked clean... I should try later.</span>")
 
@@ -766,6 +768,8 @@
 					user.visible_message("<span class='notice'>[user] finds [HAS_TRAIT(user, TRAIT_WOODWALKER) ? "two of " : ""][B] in [src].</span>")
 					return
 			user.visible_message("<span class='warning'>[user] searches through [src].</span>")
+			if(looty.len)
+				attack_hand(user)
 			if(!looty.len)
 				to_chat(user, "<span class='warning'>Picked clean... I should try later.</span>")
 
@@ -810,6 +814,8 @@
 						qdel(src)
 					return
 			user.visible_message("<span class='warning'>[user] searches through [src].</span>")
+			if(looty.len)
+				attack_hand(user)
 
 // cute underdark mushrooms from dreamkeep
 // now with some scary mushrooms to rectify sins against pixelart

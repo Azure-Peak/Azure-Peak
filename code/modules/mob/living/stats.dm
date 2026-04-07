@@ -43,11 +43,6 @@
 	new_patron.on_gain(src)
 	return TRUE
 
-/datum/species
-	// Associative list of stat (STAT_STRENGTH, etc) bonuses used to differentiate each race. They should ALWAYS be positive.
-	var/list/race_bonus = list()
-	var/construct = 0
-	var/gibs_on_shapeshift = FALSE
 
 /mob/living/proc/roll_stats(mob/dead/new_player/new_player)
 	STASTR = 10

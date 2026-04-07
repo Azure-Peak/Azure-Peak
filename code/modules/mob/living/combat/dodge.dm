@@ -174,15 +174,25 @@
 
 
 		if(HAS_TRAIT(L, TRAIT_GUIDANCE))
-			prob2defend += 20
-			drained -= 5
+			prob2defend += FULL_GUIDANCE_CHANCE
+		else if(HAS_TRAIT(L, TRAIT_LESSER_GUIDANCE))
+			prob2defend += LESSER_GUIDANCE_CHANCE
 
 		if(HAS_TRAIT(U, TRAIT_GUIDANCE))
-			prob2defend -= 20
+			prob2defend -= FULL_GUIDANCE_CHANCE
 			ignore_DE_bonus = TRUE
+		else if(HAS_TRAIT(U, TRAIT_LESSER_GUIDANCE))
+			prob2defend -= LESSER_GUIDANCE_CHANCE
 
 		if(HAS_TRAIT(L, TRAIT_REVERSE_GUIDANCE))
-			prob2defend -= 20
+			prob2defend -= FULL_GUIDANCE_CHANCE
+		else if(HAS_TRAIT(L, TRAIT_LESSER_REVERSE_GUIDANCE))
+			prob2defend -= LESSER_GUIDANCE_CHANCE
+
+		if(HAS_TRAIT(U, TRAIT_REVERSE_GUIDANCE))
+			prob2defend += FULL_GUIDANCE_CHANCE
+		else if(HAS_TRAIT(U, TRAIT_LESSER_REVERSE_GUIDANCE))
+			prob2defend += LESSER_GUIDANCE_CHANCE
 		
 		if(HAS_TRAIT(user, TRAIT_CURSE_RAVOX))
 			prob2defend -= 40

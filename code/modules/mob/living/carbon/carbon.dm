@@ -1083,24 +1083,34 @@
 			return
 		if(((blood_volume in -INFINITY to BLOOD_VOLUME_SURVIVE) && !HAS_TRAIT(src, TRAIT_BLOODLOSS_IMMUNE)) || IsUnconscious() || IsSleeping() || getOxyLoss() > 75 || (HAS_TRAIT(src, TRAIT_DEATHCOMA)) || (health <= HEALTH_THRESHOLD_FULLCRIT && !HAS_TRAIT(src, TRAIT_NOHARDCRIT)))
 			if(stat != UNCONSCIOUS) // Transition into hardcrit — announce once
-				if((blood_volume in -INFINITY to BLOOD_VOLUME_SURVIVE) && !HAS_TRAIT(src, TRAIT_BLOODLOSS_IMMUNE))
+				var/bled_out = (blood_volume in -INFINITY to BLOOD_VOLUME_SURVIVE) && !HAS_TRAIT(src, TRAIT_BLOODLOSS_IMMUNE)
+				var/suffocating = getOxyLoss() > 75
+				var/poisoned = health <= HEALTH_THRESHOLD_FULLCRIT && getToxLoss() >= getFireLoss() && getToxLoss() >= getBruteLoss()
+				var/burned = health <= HEALTH_THRESHOLD_FULLCRIT && getFireLoss() >= getBruteLoss()
+				if(bled_out)
 					visible_message(span_danger("<b>[src] collapses, [src.p_their()] skin pale as parchment!</b>"), \
 						span_userdanger("My blood... there is nothing left. I cannot feel my limbs."))
-				else if(getOxyLoss() > 75)
+					balloon_alert_to_viewers("<font color='#bb2b2b'>bled out!</font>")
+				else if(suffocating)
 					visible_message(span_danger("<b>[src] collapses, [src.p_their()] lips turning blue!</b>"), \
 						span_userdanger("I cannot breathe... the world grows dark."))
-				else if(health <= HEALTH_THRESHOLD_FULLCRIT)
-					if(getFireLoss() >= getBruteLoss())
-						if(!mind && !HAS_TRAIT(src, TRAIT_CRIT_THRESHOLD))
-							visible_message(span_danger("<b>[src] collapses - [src.p_their()] will is too weak to endure the burns!</b>"))
-						else
-							visible_message(span_danger("<b>[src] collapses, [src.p_their()] flesh charred and smoking!</b>"), \
-								span_userdanger("My body is too burnt to go on!"))
-						balloon_alert_to_viewers("<font color='#bb2b2b'>burnt down!</font>")
-						playsound(src, 'sound/health/burning.ogg', 60, TRUE)
+					balloon_alert_to_viewers("<font color='#5b7ec4'>suffocating!</font>")
+				else if(poisoned)
+					visible_message(span_danger("<b>[src] collapses, [src.p_their()] body wracked with poison!</b>"), \
+						span_userdanger("The poison is too much... I cannot go on."))
+					balloon_alert_to_viewers("<font color='#2b8a3e'>poisoned!</font>")
+				else if(burned)
+					if(!mind && !HAS_TRAIT(src, TRAIT_CRIT_THRESHOLD))
+						visible_message(span_danger("<b>[src] collapses - [src.p_their()] will is too weak to endure the burns!</b>"))
 					else
-						visible_message(span_danger("<b>[src] collapses, broken and bloodied!</b>"), \
-							span_userdanger("My bones are shattered... I cannot go on."))
+						visible_message(span_danger("<b>[src] collapses, [src.p_their()] flesh charred and smoking!</b>"), \
+							span_userdanger("My body is too burnt to go on!"))
+					balloon_alert_to_viewers("<font color='#bb2b2b'>burnt down!</font>")
+					playsound(src, 'sound/health/burning.ogg', 60, TRUE)
+				else if(health <= HEALTH_THRESHOLD_FULLCRIT)
+					visible_message(span_danger("<b>[src] collapses, broken and bloodied!</b>"), \
+						span_userdanger("My bones are shattered... I cannot go on."))
+					balloon_alert_to_viewers("<font color='#bb2b2b'>beaten down!</font>")
 			stat = UNCONSCIOUS
 			if(ishuman(src))
 				var/mob/living/carbon/human/H = src
