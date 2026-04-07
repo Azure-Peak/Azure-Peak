@@ -40,7 +40,7 @@
 	icon = 'icons/obj/magic_projectiles.dmi'
 	icon_state = "arcyne_bolt"
 	guard_deflectable = TRUE
-	damage = 40
+	damage = 45
 	damage_type = BRUTE
 	flag = "blunt"
 	woundclass = BCLASS_BLUNT
