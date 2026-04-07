@@ -426,9 +426,10 @@ GLOBAL_LIST(teleport_runes)
 			to_chat(user, span_warning("The containment has already faded."))
 			summoned_mob = null
 			return
+		to_chat(user, span_notice("You reach across the veil, attempting to draw in the familiar's mind..."))
 		var/list/candidates = pollCandidatesForMob("Do you want to play as a Mage's familiar? You will materialize as a [S.name]", null, null, null, 100, S, POLL_IGNORE_MAGE_SUMMON)
 		if(!LAZYLEN(candidates))
-			to_chat(world,span_warning("No candidate players available."))
+			to_chat(user,span_warning("No candidate players available."))
 			return
 		var/list/preferred_candidates = list()
 		var/mob/chosen = null
@@ -455,7 +456,7 @@ GLOBAL_LIST(teleport_runes)
 					chosen = familiarcandidate
 			if(!chosen)
 				//what the fuck
-				to_chat(user, "Chosen target not found; maybe they disconnected?")
+				to_chat(user, span_warning("Chosen target not found; maybe they disconnected?"))
 				return
 			var/datum/familiar_prefs/prefs = chosen.client?.prefs?.familiar_prefs
 			if(!istype(prefs) || !chosen.mind) // uh oh

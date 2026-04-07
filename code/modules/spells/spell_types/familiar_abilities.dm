@@ -281,14 +281,13 @@
 		// kin... hubris begets hubris, in the end
 		for(var/obj/effect/decal/cleanable/roguerune/arcyne/binding/rune in range(target.loc))
 			rune.summoned_mob = null
-		QDEL_NULL(target)
 		user.visible_message(
 			span_warningbig("[src] attempts to consume [target], but as soon as their essences commingle, they annihilate in a violent blast!"),
 			span_warningbig("I attempt to consume [target], but as soon as I touch their essences, I am undone!")
 		)
 		new /obj/effect/temp_visual/dragon_swoop(target.loc)
 		for(var/mob/living/L in orange(1, target))
-			L.adjustBruteLoss(25) // way way way less than the actual dragon swoop this uses the visual of
+			L.adjustBruteLoss(75) // this should never kill it's just an "oh fuck" moment
 			if(L && !QDELETED(L)) // Some mobs are deleted on death
 				var/throw_dir = get_dir(target, L)
 				if(L.loc == loc)
@@ -301,6 +300,7 @@
 		user.mind?.RemoveSpell(/datum/action/cooldown/spell/message_summoner)
 		user.mind?.RemoveSpell(/obj/effect/proc_holder/spell/invoked/consume)
 		user.mind?.unknow_all_people()
+		QDEL_NULL(target)
 		QDEL_NULL(user)
 		return TRUE
 	playsound(src, 'sound/foley/gross.ogg', 100, FALSE)

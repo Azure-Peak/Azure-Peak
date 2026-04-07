@@ -128,8 +128,6 @@ GLOBAL_LIST_INIT(familiarbindingrituallist, generate_familiarbinding_rituallist(
 		if(runeritual.blacklisted)
 			continue
 		runerituals[initial(runeritual.name)] = runeritual
-	runerituals += /datum/runeritual/revive_familiar
-	runerituals += /datum/runeritual/release_familiar
 	return runerituals
 
 /datum/runeritual

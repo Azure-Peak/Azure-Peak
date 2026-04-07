@@ -112,28 +112,35 @@
 	// required_atoms = list(/obj/item/magic/artifact = 1, /obj/item/magic/voidstone = 2, /obj/item/magic/leyline = 2) // todo this recipe sucks
 
 
-/datum/runeritual/revive_familiar
+/datum/runeritual/binding/revive_familiar
 	name = "Revive Familiar"
 	desc = "Return a departed familiar to lyfe, so long as they have not yet fully returned to their home plane."
 	required_atoms = list(/obj/item/magic/melded/t1)
+	blacklisted = FALSE
 
-/datum/runeritual/revive_familiar/on_finished_recipe(mob/living/user, list/selected_atoms, turf/loc)
-	. = ..()
+/datum/runeritual/binding/revive_familiar/on_finished_recipe(mob/living/user, list/selected_atoms, turf/loc)
+	. = FALSE
 	for(var/mob/living/simple_animal/pet/familiar/existing_fam in GLOB.alive_mob_list + GLOB.dead_mob_list)
 		if(existing_fam.familiar_summoner == user && existing_fam.health<=0 && existing_fam.revive(full_heal = TRUE, admin_revive = TRUE))
 			to_chat(user, span_notice("You channel the ritual's magic through your bond, returning [existing_fam.name] to this plane!"))
 			existing_fam.grab_ghost(force = TRUE)
 			existing_fam.familiar_summoner = user
 			existing_fam.visible_message(span_notice("[existing_fam.name] is restored to life by [user]'s magic!"))
+			. = TRUE
 
-/datum/runeritual/release_familiar
+/datum/runeritual/binding/release_familiar
 	name = "Free Familiar"
 	desc = "Terminate your contract with a familiar, sending them back from whence they came unharmed."
 	required_atoms = list(/mob/living/simple_animal/pet/familiar)
+	blacklisted = FALSE
 
-/datum/runeritual/release_familiar/on_finished_recipe(mob/living/user, list/selected_atoms, turf/loc)
+/datum/runeritual/binding/release_familiar/on_finished_recipe(mob/living/user, list/selected_atoms, turf/loc)
 	. = ..()
+	if(!selected_atoms.len)
+		return FALSE
 	var/mob/living/simple_animal/pet/familiar/fam = selected_atoms[1]
+	if(!istype(fam))
+		return FALSE
 	if(QDELETED(fam))
 		to_chat(user, span_warning("The familiar is already gone."))
 		return
@@ -152,7 +159,7 @@
 	else
 		exit_msg = "[fam.name] looks in the direction of [user.name] one last time, before opening a portal and vanishing into it."
 	fam.visible_message(span_warning(exit_msg))
-	qdel(fam)
+	return TRUE
 
 /datum/runeritual/planar_pact
 	name = "Planar Pact"
