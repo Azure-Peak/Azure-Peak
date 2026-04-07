@@ -45,6 +45,7 @@
 		return
 	user.wallpressed = dir2wall
 	user.update_wallpress_slowdown()
+	ADD_TRAIT(user, TRAIT_SPELLCOCKBLOCK, TRAIT_GENERIC) // spell restrictions don't seem to be working well so I'm doing it this way for now
 	if(user.m_intent == MOVE_INTENT_SNEAK)
 		to_chat(user, span_info("You press yourself against [src]."))
 	else
@@ -113,6 +114,7 @@
 	else
 		remove_movespeed_modifier("wallpress")
 		animate(src, alpha = 255, time = 10)
+		REMOVE_TRAIT(src, TRAIT_SPELLCOCKBLOCK, TRAIT_GENERIC)
 
 /turf/closed/Bumped(atom/movable/AM)
 	..()
