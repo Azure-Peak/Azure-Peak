@@ -19,7 +19,7 @@
 	scent_description = "memories of a former triumph"
 
 /datum/reagent/buff/tri/on_mob_life(mob/living/carbon/M)
-	if(volume >= 10)  //Ensures that, no matter what, you can only buff one person from one vial. 
+	if(volume >= 10)  //Ensures that, no matter what, you can only buff one person from one vial.
 		M.apply_status_effect(/datum/status_effect/buff/alch/tripot)
 	return ..()
 

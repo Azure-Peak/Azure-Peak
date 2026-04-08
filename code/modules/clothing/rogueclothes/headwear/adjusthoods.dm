@@ -267,6 +267,26 @@
 	salvage_result = /obj/item/natural/cloth
 	salvage_amount = 1
 
+/obj/item/clothing/head/roguetown/roguehood/ravox
+	name = "ravox hood"
+	desc = "A hood of those devoted to upholding Justicar's will. Justice might be blind but not it's servants."
+	color = null
+	icon_state = "ravoxhood"
+	item_state = "ravoxhood"
+	icon = 'icons/roguetown/clothing/head.dmi'
+	body_parts_covered = NECK
+	slot_flags = ITEM_SLOT_HEAD|ITEM_SLOT_MASK
+	hidesnoutADJ = FALSE
+	flags_inv = HIDEEARS|HIDEHAIR|HIDEFACIALHAIR	//Does not hide face.
+	block2add = null
+	dynamic_hair_suffix = ""
+	edelay_type = 1
+	adjustable = CAN_CADJUST
+	toggle_icon_state = TRUE
+	max_integrity = 180
+	salvage_result = /obj/item/natural/cloth
+	salvage_amount = 1
+
 // UN-Holy Hoods!
 /obj/item/clothing/head/roguetown/roguehood/unholy
 	name = "foreboding hood"

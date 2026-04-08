@@ -1250,7 +1250,7 @@
 	desc = "A Holy Rune of Eora. A gentle warmth and joy spreads across your soul."
 	icon_state = "eora_chalky"
 
-	var/peacerites = list("Rite of Pacification")
+	var/peacerites = list("Rite of Pacification", "Rite of the Open Hearth")
 
 /obj/structure/ritualcircle/eora/attack_hand(mob/living/user)
 	if((user.patron?.type) != /datum/patron/divine/eora)
@@ -1277,6 +1277,32 @@
 							user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
 							spawn(120)
 								icon_state = "eora_chalky"
+		if("Rite of the Open Hearth")
+			var/onrune = view(1, loc)
+			var/list/folksonrune = list()
+			for(var/mob/living/carbon/human/persononrune in onrune)
+				if(HAS_TRAIT(persononrune, TRAIT_EXTEROCEPTION))//Only works on Eorans
+					folksonrune += persononrune
+			var/target = input(user, "Choose a host") as null|anything in folksonrune
+			if(!target)
+				return
+			user.say("I stand before you Mother to beg your ear and swear an oath!!")
+			if(!do_after(user, 5 SECONDS))
+				return
+			user.say("To stoke no anguish! To cause no pain!!")
+			if(!do_after(user, 5 SECONDS))
+				return
+			user.say("To mend what is frayed and redeem what has strayed!!")
+			if(!do_after(user, 5 SECONDS))
+				return
+			user.say("To shelter the lost and warm the forgotten!!")
+			if(!do_after(user, 5 SECONDS))
+				return
+			icon_state = "eora_active"
+			user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
+			eoranaura(target)
+			spawn(120)
+				icon_state = "eora_chalky"
 
 /obj/structure/ritualcircle/eora/proc/pacify(src)
 	var/ritualtargets = view(0, loc)
@@ -1285,6 +1311,22 @@
 		target.visible_message(span_green("I feel the burdens of my heart lifting. Something feels very wrong... I don't mind at all..."))
 		target.apply_status_effect(/datum/status_effect/buff/pacify)
 
+/obj/structure/ritualcircle/eora/proc/eoranaura(mob/living/carbon/human/target)
+	if(!HAS_TRAIT(target, TRAIT_EXTEROCEPTION))
+		loc.visible_message(span_cult("THE RITE REJECTS ONE WITHOUT PURE HEART!!"))
+		return FALSE
+	target.Stun(120)
+	to_chat(target, span_userdanger("UNIMAGINABLE PAIN!"))
+	target.emote("Agony")
+	playsound(loc, 'sound/magic/undivided_bless.ogg', 70)
+	loc.visible_message(span_good("[target]'s form becomes enveloped in calming aura."))
+	spawn(20)
+		target.apply_status_effect(/datum/status_effect/eoranaura)
+		playsound(target, 'sound/magic/undivided_solemnity.ogg', 90, FALSE, -1)
+		to_chat(target, span_boldred("I can do no HARM."))
+		ADD_TRAIT(target, TRAIT_PACIFISM, TRAIT_RITUAL)
+
+//UNDIVIDED
 /obj/structure/ritualcircle/undivided
 	name = "Rune of Deca Divinity"
 	desc = "A Holy Rune of The Undivided Pantheon"
@@ -1417,6 +1459,10 @@
 		playsound(target, 'sound/magic/undivided_solemnity.ogg', 90, FALSE, -1)
 		to_chat(target, span_boldred("I can do no HARM."))
 		ADD_TRAIT(target, TRAIT_PACIFISM, TRAIT_RITUAL)
+		to_chat(target, span_boldred("This is my only chance at LYFE."))
+		ADD_TRAIT(target, TRAIT_DNR, TRAIT_RITUAL)
+		to_chat(target, span_boldred("My body is susceptible to CRITICAL STRIKES."))
+		ADD_TRAIT(target, TRAIT_CRITICAL_WEAKNESS, TRAIT_RITUAL)
 
 // TIME FOR THE ASCENDANT. These can be stronger. As they are pretty much antag exclusive - Iconoclast for Matthios, Lich for ZIZO. ZIZO!
 
@@ -1497,6 +1543,7 @@
 	spawn(20)
 		playsound(loc, 'sound/combat/hits/onmetal/grille (2).ogg', 50)
 		target.equipOutfit(/datum/outfit/job/roguetown/darksteelrite, helm_path)
+		target.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
 		spawn(40)
 			to_chat(target, span_purple("They are ignorant, backwards, without hope. You. You will be powerful."))
 
@@ -1600,6 +1647,7 @@
 	spawn(20)
 		playsound(loc, 'sound/combat/hits/onmetal/grille (2).ogg', 50)
 		target.equipOutfit(/datum/outfit/job/roguetown/gildedrite)
+		target.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, SKILL_LEVEL_EXPERT, TRUE)
 		spawn(40)
 			to_chat(target, span_cult("More to the maw, this shall help feed our greed."))
 
@@ -1759,6 +1807,7 @@
 	spawn(20)
 		playsound(loc, 'sound/combat/hits/onmetal/grille (2).ogg', 50)
 		target.equipOutfit(/datum/outfit/job/roguetown/viciousrite)
+		target.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_EXPERT, TRUE)
 		spawn(40)
 			to_chat(target, span_cult("Break them."))
 

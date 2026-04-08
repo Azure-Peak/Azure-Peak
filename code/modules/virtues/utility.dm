@@ -358,7 +358,7 @@
 	)
 	added_stashed_items = list("Bag of Leechbait" = /obj/item/storage/roguebag/leechbait)
 
-/datum/virtue/feytouched/apply_to_human(mob/living/carbon/human/recipient)
+/datum/virtue/utility/feytouched/apply_to_human(mob/living/carbon/human/recipient)
     ..() // Apply traits, stats, and languages first
     if(!recipient.mind)
         return

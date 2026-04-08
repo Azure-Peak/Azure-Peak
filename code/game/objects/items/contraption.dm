@@ -8,7 +8,6 @@
 	var/on_icon
 	var/off_icon
 	icon = 'icons/roguetown/items/misc.dmi'
-	w_class = WEIGHT_CLASS_SMALL
 	smeltresult = /obj/item/ingot/bronze
 	slot_flags = ITEM_SLOT_HIP
 	//this is what we normally power things with
@@ -67,7 +66,7 @@
 	if(current_charge)
 		. += span_warning("The contraption has [current_charge] of [max_stored_charge] charges left.")
 		. += span_warning("It uses [initial(accepted_power_source.name)] or [initial(prime_power_source.name)] to function.")
-	if(!current_charge)
+	else
 		. += span_warning("This contraption requires a new [initial(accepted_power_source.name)] or [initial(prime_power_source.name)] to function.")
 	if(misfire_chance)
 		if(skill > 2)
@@ -106,20 +105,6 @@
 /obj/item/contraption/attackby(obj/item/I, mob/user, params)
 	var/datum/effect_system/spark_spread/S = new()
 	var/turf/front = get_turf(src)
-	/*if(istype(I, /obj/item/roguegear)) && special_cog)
-		var/obj/item/roguegear/cog = I
-		//if(cog.name_prefix)
-		//	name = "[cog.name_prefix] [initial(name)]"
-		//else
-		if(istype(I, /obj/item/roguegear))
-			name = initial(name)
-		qdel(cog)
-		playsound(src, pick('sound/combat/hits/onwood/fence_hit1.ogg', 'sound/combat/hits/onwood/fence_hit2.ogg', 'sound/combat/hits/onwood/fence_hit3.ogg'), 100, FALSE)
-		shake_camera(user, 1, 1)
-		S.set_up(1, 1, front)
-		S.start()
-		to_chat(user, "<span class='warning'>I use [cog] to modify [src]!</span>")
-		return */
 	if(istype(I, accepted_power_source))
 		user.changeNext_move(CLICK_CD_FAST)
 		S.set_up(1, 1, front)
@@ -196,7 +181,7 @@
 //Shamelessly stolen multitool code
 /obj/item/contraption/linker
 	name = "engineering wrench"
-	desc = "This strange contraption is able to connect machinery through an unknown calibration method, allowing them to communicate over long distances."
+	desc = "This strange contraption is able to connect machinery through an unknown calibration method, allowing them to communicate over long distances. It feeds on cogs."
 	icon = 'icons/obj/wrenches.dmi'
 	icon_state = "brasswrench"
 	w_class = WEIGHT_CLASS_SMALL
@@ -211,35 +196,41 @@
 
 /obj/item/contraption/linker/master
 	name = "Guild Master's Wrench"
-	desc = "Able to do more advanced linking than a standard wrench. Keep it out of apprentice's hands"
+	desc = "Able to do more advanced linking than a standard wrench. Keep it out of apprentices' hands."
 	charge_per_source = 20
 	max_stored_charge = 100
 
-/obj/item/contraption/linker/equipped(mob/user, slot)
-	..()
+/obj/item/contraption/linker/proc/disable_tuneup(mob/user, message = FALSE)
+	if(!active_item)
+		return
+	active_item = FALSE
+	if(user?.mind)
+		user.mind.RemoveSpell(new /obj/effect/proc_holder/spell/invoked/engineertuneup)
+	if(message && user)
+		to_chat(user, span_warning("I set my wrench down."))
+
+/obj/item/contraption/linker/proc/enable_tuneup(mob/user)
 	if(active_item)
 		return
-	if(slot == ITEM_SLOT_HANDS)
-		if (user.get_skill_level(/datum/skill/craft/engineering) >= 4)
-			user.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/engineertuneup)
-			to_chat(user, span_notice("Tune up time"))
-			active_item = TRUE
-			return
-		else 
-			if(active_item)
-				active_item = FALSE
-				user.mind.RemoveSpell(new /obj/effect/proc_holder/spell/invoked/engineertuneup)
-				to_chat(user, span_notice("I set my wrench down"))
-			return
-	else
+	if(!user?.mind)
 		return
+	user.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/engineertuneup)
+	to_chat(user, span_green("Time for a tune-up."))
+	active_item = TRUE
+
+/obj/item/contraption/linker/equipped(mob/user, slot)
+	..()
+	if(slot != ITEM_SLOT_HANDS)
+		disable_tuneup(user)
+		return
+	if(user.get_skill_level(/datum/skill/craft/engineering) < 4)
+		disable_tuneup(user)
+		return
+	enable_tuneup(user)
 
 /obj/item/contraption/linker/dropped(mob/user, slot)
 	..()
-	if(active_item)
-		active_item = FALSE
-		user.mind.RemoveSpell(new /obj/effect/proc_holder/spell/invoked/engineertuneup)
-		to_chat(user, span_notice("I set my wrench down"))
+	disable_tuneup(user, TRUE)
 
 /obj/item/contraption/linker/hammer_action(obj/item/I, mob/user)
 	return
@@ -247,6 +238,8 @@
 /obj/item/contraption/linker/Destroy()
 	if(buffer)
 		remove_buffer(buffer)
+	if(ismob(loc))
+		disable_tuneup(loc)
 	return ..()
 
 /obj/item/contraption/linker/examine(mob/user)
@@ -255,6 +248,15 @@
 		. += span_notice("Its buffer [buffer ? "contains [buffer]." : "is empty."]")
 	else
 		. += span_notice("All you can make out is a bunch of gibberish.")
+
+/obj/item/contraption/linker/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Use it like a multitool on compatible machinery to store a target in its buffer, then use it again on another compatible target to link them.")
+	. += span_info("Use it in-hand to wipe its stored buffer.")
+	. += span_info("Right-click an adjacent rotatable rotational object while holding this to rotate it.")
+	. += span_info("Middle-click an adjacent placed shaft, cogwheel, or gearbox while holding this to disassemble it back into an item pile.")
+	if(user.get_skill_level(/datum/skill/craft/engineering) >= 4)
+		. += span_info("Holding it in your hands grants Tune Up, which spends wrench charge to repair or enhance compatible engineering targets.")
 
 /obj/item/contraption/linker/attack_self(mob/user)
 	. = ..()
@@ -554,12 +556,8 @@
 	item_state = "drill"
 	possible_item_intents = list(MACE_SMASH)
 	gripped_intents = list(/datum/intent/drill)
-	//experimental_inhand = FALSE
-	//experimental_onback = FALSE
 	slot_flags = ITEM_SLOT_BACK
-	//gripspriteonmob = TRUE
 	smeltresult = /obj/item/ingot/bronze
-	//pickmult = 1.5
 	w_class = WEIGHT_CLASS_HUGE
 	accepted_power_source = /obj/item/alch/coaldust
 	prime_power_source = /obj/item/alch/firedust
@@ -576,8 +574,6 @@
 /obj/item/contraption/pick/drill/Initialize()
 	. = ..()
 	START_PROCESSING(SSobj, src)
-	//AddComponent(/datum/component/steam_storage, 300, 0)
-	//RegisterSignal(src, COMSIG_TWOHANDED_WIELD, PROC_REF(pre_wield_check))
 
 
 /obj/item/contraption/pick/drill/Destroy()
@@ -591,25 +587,10 @@
 
 	. = ..()
 	src.current_charge -= 1
-	//var/turf/closed/mineral/rogue/
 
 
 /obj/item/contraption/pick/drill/afterattack(atom/target, mob/living/user, proximity_flag, list/modifiers)
 	. = ..()
-	//SEND_SIGNAL(src, COMSIG_ATOM_STEAM_USE, 5)
-/*
-/obj/item/rogueweapon/pick/drill/proc/pre_wield_check(datum/source, mob/living/carbon/user)
-	if(!SEND_SIGNAL(src, COMSIG_ATOM_STEAM_USE, 1))
-		to_chat(user, span_warning("[src] doesn't have enough power to be wielded!"))
-		return COMPONENT_TWOHANDED_BLOCK_WIELD
-
-/obj/item/rogueweapon/pick/drill/process()
-	if(HAS_TRAIT(src, TRAIT_WIELDED))
-		if(!SEND_SIGNAL(src, COMSIG_ATOM_STEAM_USE, 1))
-			var/datum/component/two_handed/twohanded = GetComponent(/datum/component/two_handed)
-			if(ismob(loc))
-				twohanded.unwield(loc)
-*/
 
 /obj/item/contraption/pick/drill/attack_right(mob/user)
 	. = ..()

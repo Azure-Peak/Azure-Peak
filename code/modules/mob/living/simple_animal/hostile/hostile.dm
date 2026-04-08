@@ -17,7 +17,7 @@
 	var/projectiletype	//set ONLY it and NULLIFY casingtype var, if we have ONLY projectile
 	var/projectilesound
 	var/casingtype		//set ONLY it and NULLIFY projectiletype, if we have projectile IN CASING
-	var/move_to_delay = 3 //delay for the automated movement.
+	move_to_delay = 3 //delay for the automated movement.
 	var/list/friends = list()
 	var/list/emote_taunt = list()
 	var/taunt_chance = 0

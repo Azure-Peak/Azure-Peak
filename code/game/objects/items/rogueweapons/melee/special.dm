@@ -578,12 +578,41 @@
 	var/is_active
 	var/single_use = TRUE
 	var/icon_state_ignited
+	var/use_light = TRUE
+	var/spread_flame = TRUE
+
+/datum/component/ignitable/fluff
+	use_light = FALSE
+	spread_flame = FALSE
+
+/datum/component/ignitable/fluff/sci_flame
+	use_light = FALSE
+	spread_flame = FALSE
+	icon_state_ignited = "sci_firetongue_on"
+	
+/datum/component/ignitable/fluff/sci_sand
+	use_light = FALSE
+	spread_flame = FALSE
+	icon_state_ignited = "sci_sandlash_on"
 
 /datum/component/ignitable/Initialize(...)
-	. = ..()
+	if(!isitem(parent))
+		return COMPONENT_INCOMPATIBLE
+	
+	RegisterSignal(parent, COMSIG_STRUCTURE_ATTACKBY, PROC_REF(item_afterattack))
 	RegisterSignal(parent, COMSIG_ITEM_AFTERATTACK, PROC_REF(item_afterattack))
 	RegisterSignal(parent, COMSIG_PARENT_EXAMINE, PROC_REF(on_examine))
 	RegisterSignal(parent, COMSIG_ATOM_FIRE_ACT, PROC_REF(on_fireact))
+	RegisterSignal(parent, COMSIG_ATOM_ATTACK_RIGHT, PROC_REF(self_extinguish))
+
+/datum/component/ignitable/proc/self_extinguish()
+	is_active = FALSE
+	light_off()
+	update_icon()
+	var/obj/item/I = parent
+	if(ismob(I.loc))
+		var/mob/user = I.loc
+		user.regenerate_icons()
 
 /datum/component/ignitable/proc/on_fireact(added, maxstacks)
 	if(is_ignitable && !is_active)
@@ -595,7 +624,8 @@
 
 /datum/component/ignitable/proc/light_on()
 	var/obj/I = parent
-	I.set_light_on(TRUE)
+	if(use_light)
+		I.set_light_on(TRUE)
 	playsound(I.loc, 'sound/items/firelight.ogg', 100)
 	is_active = TRUE
 	is_ignitable = FALSE
@@ -620,7 +650,7 @@
 /datum/component/ignitable/proc/item_afterattack(obj/item/source, atom/target, mob/user, proximity_flag, click_parameters)
 	var/ignited = FALSE
 	if(user.used_intent?.reach >= get_dist(target, user))
-		if(is_active)
+		if(is_active && spread_flame)
 			if(isobj(target))
 				var/obj/O = target
 				if(!(O.resistance_flags & FIRE_PROOF))
@@ -640,7 +670,7 @@
 		else if(is_ignitable && !is_active)
 			if(isobj(target))
 				var/obj/O = target
-				if(O.damtype == BURN || O.light_on == TRUE)	//Super hacky, but should work on every conventional source you'd expect to ignite it. But also a few other weird ones.
+				if(O.damtype == BURN || O.light_on)	//Super hacky, but should work on every conventional source you'd expect to ignite it. But also a few other weird ones.
 					light_on()
 					user.regenerate_icons()
 

@@ -67,26 +67,33 @@
 // My wrists hurt. Let us have this. okay?
 /turf/closed/mineral/Bumped(atom/movable/AM)
 	. = ..()
-	if(ishuman(AM))
-		var/mob/living/carbon/human/user = AM
-		var/obj/item = user.get_active_held_item()
-		if(user.used_intent.type == /datum/intent/pick && (user.get_skill_level(/datum/skill/labor/mining) >= SKILL_LEVEL_APPRENTICE))
-			if(do_after(user, 1 SECONDS, TRUE, src, TRUE, null, TRUE))
-				if(!ismineralturf(src))
-					return
-				src.attackby(item, user, multiplier = 2)
-				user.stamina_add(25)
-		if(user.used_intent.type == /datum/intent/drill && (user.get_skill_level(/datum/skill/craft/engineering) >= SKILL_LEVEL_APPRENTICE) && (istype(item, /obj/item/contraption/pick/drill)))
-			var/obj/item/contraption/pick/drill/drillitem = item
-			if(drillitem.current_charge < 10)
-				to_chat(user, span_notice("Not enough fuel!"))
-				return
-			if(do_after(user, 1 SECONDS, TRUE, src, TRUE, null, TRUE))
-				if(!ismineralturf(src))
-					return
-				src.attackby(drillitem, user, multiplier = 2) //higherimpact
-				user.stamina_add(5) //less stamina
-				drillitem.current_charge -= 10
+
+	if(!ishuman(AM))
+		return
+	var/mob/living/carbon/human/user = AM
+	var/obj/item = user.get_active_held_item()
+
+	if(user.used_intent.type == /datum/intent/pick && (user.get_skill_level(/datum/skill/labor/mining) >= SKILL_LEVEL_APPRENTICE))
+		if(!do_after(user, 1 SECONDS, TRUE, src, TRUE, null, TRUE))
+			return
+		if(!ismineralturf(src))
+			return
+		attackby(item, user, multiplier = 2)
+		user.stamina_add(15)
+	if(user.used_intent.type == /datum/intent/drill && (user.get_skill_level(/datum/skill/labor/mining) >= SKILL_LEVEL_APPRENTICE) && (istype(item, /obj/item/contraption/pick/drill)))
+		var/obj/item/contraption/pick/drill/drillitem = item
+		if(drillitem.current_charge < 10)
+			to_chat(user, span_notice("Not enough fuel!"))
+			return
+		if(!do_after(user, 1 SECONDS, TRUE, src, TRUE, null, TRUE))
+			return
+		if(!ismineralturf(src))
+			return
+		attackby(drillitem, user, multiplier = 2) //higherimpact
+		user.stamina_add(5) //less stamina
+		drillitem.current_charge -= 10
+
+	return
 
 /turf/closed/mineral/attackby(obj/item/I, mob/user, params, multiplier)
 	if (!user.IsAdvancedToolUser())

@@ -1,3 +1,9 @@
+/datum/looping_sound/waterwheel_loop
+	mid_sounds = 'sound/items/wheelwater.ogg'
+	mid_length = 6 SECONDS
+	volume = 40
+	extra_range = -1
+
 /obj/structure/waterwheel
 	name = "waterwheel"
 
@@ -8,6 +14,33 @@
 	stress_generator = TRUE
 	rotation_structure = TRUE
 	initialize_dirs = CONN_DIR_FORWARD | CONN_DIR_FLIP
+	var/datum/looping_sound/waterwheel_loop/soundloop
+
+/obj/structure/waterwheel/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Place it in flowing river water with the wheel facing across the current, not along it.")
+	. += span_info("When the flow is strong enough, it generates rotational power for connected shafts and machinery.")
+
+/obj/structure/waterwheel/Initialize()
+	soundloop = new(src, FALSE)
+	. = ..()
+
+/obj/structure/waterwheel/Destroy()
+	QDEL_NULL(soundloop)
+	return ..()
+
+/obj/structure/waterwheel/proc/has_active_rotation()
+	return rotation_network && !rotation_network?.overstressed && rotations_per_minute && rotation_network?.total_stress
+
+/obj/structure/waterwheel/proc/update_soundloop()
+	if(!soundloop)
+		return
+	if(has_active_rotation())
+		if(soundloop.stopped)
+			soundloop.start()
+		return
+	if(!soundloop.stopped)
+		soundloop.stop()
 
 /obj/structure/waterwheel/find_rotation_network()
 	. = ..()
@@ -36,7 +69,8 @@
 	return TRUE
 
 /obj/structure/waterwheel/update_animation_effect()
-	if(!rotation_network || rotation_network?.overstressed || !rotations_per_minute || !rotation_network?.total_stress)
+	update_soundloop()
+	if(!has_active_rotation())
 		animate(src, icon_state = "1", time = 1)
 		return
 	var/frame_stage = 1 / ((rotations_per_minute / 60) * 4)

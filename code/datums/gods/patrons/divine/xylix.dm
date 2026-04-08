@@ -11,7 +11,7 @@
 					/obj/effect/proc_holder/spell/invoked/lesser_heal 			= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/blood_heal			= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/tipscales				= CLERIC_T1,
-					/obj/effect/proc_holder/spell/invoked/mockery				= CLERIC_T1,
+					/datum/action/cooldown/spell/projectile/vicious_mockery		= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/vendetta				= CLERIC_T2,
 					/obj/effect/proc_holder/spell/invoked/mastersillusion		= CLERIC_T2,
 					/obj/effect/proc_holder/spell/targeted/touch/parlor_trick	= CLERIC_T3,
