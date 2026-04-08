@@ -35,5 +35,8 @@
 		var/obj/effect/quest_spawn/spawn_effect = new /obj/effect/quest_spawn(spawn_turf)
 		var/mob/living/goon = new /mob/living/carbon/human/species/human/northern/highwayman/dk_goon(spawn_effect)
 		goon.faction |= "quest"
+		// Suppress AI scanning while dormant inside the spawn_effect — see __quest_kill_base.dm
+		ADD_TRAIT(goon, TRAIT_FRESHSPAWN, "[type]")
+		addtimer(TRAIT_CALLBACK_REMOVE(goon, TRAIT_FRESHSPAWN, "[type]"), 60 SECONDS)
 		spawn_effect.contained_atom = goon
 		spawn_effect.AddComponent(/datum/component/quest_object/mob_spawner, src)

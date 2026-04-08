@@ -4,7 +4,7 @@
 	/// Default range at which mobs detect and add threats
 	var/default_aggro_range = 9
 	/// Default range at which mobs maintain aggro before dropping target
-	var/default_maintain_range = 10
+	var/default_maintain_range = 12
 	/// Default decay rate per second
 	var/default_decay_rate = 2
 
@@ -123,6 +123,11 @@
 
 	if(!victim.ai_controller.blackboard[BB_BASIC_MOB_CURRENT_TARGET])
 		victim.ai_controller.set_blackboard_key(BB_BASIC_MOB_CURRENT_TARGET, attacker)
+
+	// Any threat addition should wake the AI from IDLE — otherwise NPCs that get aggro
+	// via call_for_help, proximity scans, or provocation miracles stay stuck staring.
+	if(victim.ai_controller.ai_status == AI_STATUS_IDLE)
+		victim.ai_controller.set_ai_status(AI_STATUS_ON)
 
 	// Update highest threat mob
 	update_highest_threat(victim)

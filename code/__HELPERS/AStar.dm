@@ -211,9 +211,6 @@ Also added 'exclude' turf to avoid travelling over; defaults to null
 	for(var/mob/living/M in T)
 		if(!M.CanPass(caller, src))
 			return TRUE
-	for(var/obj/structure/M in T)
-		if(!M.CanPass(caller, src))
-			return TRUE
 	return FALSE
 
 /proc/get_dist_3d(atom/source, atom/target)

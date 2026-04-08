@@ -490,15 +490,15 @@ GLOBAL_LIST_INIT(find_and_set_interested_atoms, typecacheof(list(/obj/item, /mob
 // 	target_controller.set_blackboard_key(set_key, target)
 // 	parent_behavior.finish_action(target_controller, succeeded = TRUE)
 
-// /datum/ai_behavior/find_and_set/perform(delta_time, datum/ai_controller/controller, set_key, locate_path, search_range)
-// 	. = ..()
-// 	var/find_this_thing = search_tactic(controller, locate_path, search_range)
-// 	if(find_this_thing)
-// 		controller.set_blackboard_key(set_key, find_this_thing)
-// 		finish_action(controller, TRUE)
-// 	else
-// 		failed_to_find_anything(controller, set_key, locate_path, search_range)
-// 		finish_action(controller, FALSE)
+/datum/ai_behavior/find_and_set/perform(delta_time, datum/ai_controller/controller, set_key, locate_path, search_range)
+	. = ..()
+	var/find_this_thing = search_tactic(controller, locate_path, search_range)
+	if(find_this_thing)
+		controller.set_blackboard_key(set_key, find_this_thing)
+		finish_action(controller, TRUE)
+	else
+		failed_to_find_anything(controller, set_key, locate_path, search_range)
+		finish_action(controller, FALSE)
 
 /datum/ai_behavior/find_and_set/proc/search_tactic(datum/ai_controller/controller, locate_path, search_range)
 	return locate(locate_path) in oview(search_range, controller.pawn)
