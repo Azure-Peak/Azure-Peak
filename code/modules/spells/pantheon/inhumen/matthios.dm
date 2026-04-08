@@ -1342,7 +1342,7 @@
 
 	spawn()
 		while(target && target.IsSleeping())
-			target.energy_add(8)
+			target.energy_add(20)
 
 			if(target.nutrition > 0)
 				target.adjustBruteLoss(-1)
@@ -1668,7 +1668,7 @@
 
 /datum/action/cooldown/spell/mammonite
 	name = "Mammonite"
-	desc = "Invoke Matthios's name and invest 50 to 200 mammon of your own hoard into your next strike. The power of your offering mirrors the wealth spent, drawing even from your bank. Every coin fuels your glory.<br><br>(Deals 2x damage to NPCs.)"
+	desc = "Invoke Matthios's name and invest 50 to 100 mammon of your own hoard into your next strike. The power of your offering mirrors the wealth spent, drawing even from your bank. Every coin fuels your glory.<br><br>Penetrates armor equal to 75% of the mammon spent."
 	button_icon = 'icons/mob/actions/matthiosmiracles.dmi'
 	button_icon_state = "mammonite"
 	spell_color = "#d4af37"
@@ -1683,7 +1683,7 @@
 	associated_skill = /datum/skill/magic/holy
 	spell_tier = 0
 	var/min_mammon = 50
-	var/max_mammon = 200
+	var/max_mammon = 100
 
 /datum/action/cooldown/spell/mammonite/can_cast_spell(feedback = TRUE)
 	. = ..()
@@ -1693,6 +1693,10 @@
 		return FALSE
 
 	var/mob/living/carbon/human/H = owner
+	if(!H.cmode)
+		to_chat(H, span_warning("I need some adrenaline pumping for this, my good sire!"))
+		revert_cast() 
+		return FALSE
 
 	if(!(H in SStreasury.bank_accounts))
 		SStreasury.bank_accounts[H] = 0
@@ -1879,6 +1883,7 @@
 		return
 	var/damage = calculate_damage()
 	var/npc_mult = (!target.mind) ? 2 : 1
+	var/apen = damage * 0.75
 
 	arcyne_strike(
 		owner,
@@ -1887,7 +1892,7 @@
 		damage,
 		owner.zone_selected,
 		BCLASS_SMASH,
-		0,
+		apen,
 		"Mammonite",
 		FALSE,
 		FALSE,
@@ -1945,28 +1950,21 @@
 		easing = EASE_OUT
 	)
 
-#define SKULDUGGERY_FILTER "skulduggery"
+#undef MAMMON_FILTER 
 
 /obj/effect/proc_holder/spell/self/skulduggery
 	name = "Skulduggery"
-	desc = "Tap into the boundless prowess and cunning of the Free God, granting you a fleeting moment of foresight to stay one step ahead of your foes.<br><br><i>They say that He once personally guided the infamous 'Grand Liege', Cobra, in the 'Liberation of 1513'.</i>"
+	desc = "Imbue your mind and eyes with the cunning of Matthios, reading strikes before they land and punishing them with brutal efficiency.<br><br>Toggle Throw mode to actively intercept and grapple attacks, otherwise, you'll try to avoid them however you can."
 	action_icon = 'icons/mob/actions/matthiosmiracles.dmi'
 	overlay_icon = 'icons/mob/actions/matthiosmiracles.dmi'
 	overlay_state = "liberate"
-	recharge_time = 10 MINUTES // temporary measure while I rework it
-	invocations = list("Free God, I walk in your shadow!","...Neck chop, backstab...","Double time, Matthios!","Remember the Large Liege!","...Apply pressure, palm strike...","The Matthiosans Sans Frontieres still lyves!","...Punch, punch, kick...","For Cobra and the Free God!")
-	invocation_type = "shout"
+	recharge_time = 120 SECONDS
 	sound = 'sound/magic/haste.ogg'
-	releasedrain = 35 // temporary measure while I rework it
+	releasedrain = 10
 	miracle = TRUE
-	devotion_cost = 80 // temporary measure while I rework it
+	devotion_cost = 70
 	antimagic_allowed = FALSE
 	range = 0
-
-	var/static/list/purged_effects = list(
-		/datum/status_effect/incapacitating/immobilized,
-		/datum/status_effect/incapacitating/knockdown
-	)
 
 /obj/effect/proc_holder/spell/self/skulduggery/cast(list/targets, mob/user)
 	. = ..()
@@ -1975,396 +1973,464 @@
 		return FALSE
 
 	var/mob/living/carbon/human/H = user
-	H.emote("laugh")
+
+	if(!H.cmode)
+		to_chat(H, span_warning("I need some adrenaline pumping for this, my good sire!"))
+		revert_cast() 
+		return FALSE
+
 	if(H.resting)
 		H.set_resting(FALSE, FALSE)
+		H.visible_message(
+			span_warning("[H] kips up!"),
+			span_warning("No rest for the wicked!"))
 
-	for(var/effect in purged_effects)
-		H.remove_status_effect(effect)
-
+	H.visible_message(
+		span_notice("[H] shifts their stance into something more relaxed and open! Their eyes glow golden..."),
+		span_notice("My gaze is grafted with truth, my mind wanders in freedom..."))
 	H.apply_status_effect(/datum/status_effect/buff/skulduggery)
-
-	var/is_grabbed = FALSE
-
-	if(length(H.grabbedby))
-		for(var/obj/item/grabbing/G in H.grabbedby)
-			var/mob/living/grabber = G.loc
-			if(grabber && grabber != H)
-				is_grabbed = TRUE
-				qdel(G)
-
-				grabber.Knockdown(2 SECONDS)
-				grabber.OffBalance(2 SECONDS)
-				grabber.adjustBruteLoss(5)
-
-				grabber.visible_message(
-					span_warning("[H] twists free from [grabber]'s grasp!"),
-					span_danger("[H] slips free and throws me off-balance!"))
-
-				playsound(grabber, 'sound/combat/riposte.ogg', 100, TRUE)
-
-	if(H.pulling)
-		var/mob/living/L = H.pulling
-		H.stop_pulling()
-
-		if(isliving(L))
-			is_grabbed = TRUE
-
-			L.Knockdown(1.5 SECONDS)
-			L.OffBalance(2 SECONDS)
-
-			L.visible_message(
-				span_warning("[H] tears free from [L]'s hold!"),
-				span_danger("[H] breaks free from my grip!"))
-
-			playsound(L, 'sound/combat/riposte.ogg', 100, TRUE)
-
-	if(is_grabbed)
-		H.visible_message(
-			span_warning("[H] twists free with a sudden close-quarters maneuver!"),
-			span_notice("I break free and seize the initiative."))
-
-		playsound(H, 'sound/combat/riposte.ogg', 100, TRUE)
-
-	else
-		H.visible_message(
-			span_notice("[H] blurs, moving with uncanny foresight and dexterity."),
-			span_notice("I remember the basics of S.K.D..."))
-
+	H.OffBalance(30)
 	return TRUE
 
-/atom/movable/screen/alert/status_effect/buff/skulduggery
-	name = "Skulduggery"
-	desc = "Remembering the basics of S.K.D.! You're now always one step ahead."
-	icon_state = "buff"
-	alert_group = ALERT_BUFF
+/atom/movable/screen/alert/status_effect/buff/skulduggery 
+	name = "Skulduggery" 
+	desc = span_notice("I prepare to slip inside attacks and punish aggressors, like a true Free Man would.") 
+	icon_state = "clash"
 
 /datum/status_effect/buff/skulduggery
 	id = "skulduggery"
+	duration = 15 SECONDS
 	alert_type = /atom/movable/screen/alert/status_effect/buff/skulduggery
-	duration = 20 SECONDS
 	status_type = STATUS_EFFECT_REFRESH
-	tick_interval = 1 SECONDS // This will be sextended by Tempo or Equalize
+	var/mob/living/carbon/human/grappled
+	var/waiting_followup = FALSE
 	var/afterimage_active = FALSE
-	var/outline_colour = "#ffeb7a"
-	var/CQC_stacks = 0
-	var/CQC_max = 6 // adjust this value if things are happening too fast or too long!
-	var/maneuver_level = 0
-	var/pressure = 0
-	var/is_ready = FALSE
+	var/list/grapple_counts = list() // free grapple can only happen twice vs players
+	var/parries_left = 0 // only got X free parries based on miracle level
+	tick_interval = 1 SECONDS
 
-/datum/status_effect/buff/skulduggery/tick()
-	. = ..()
-	if(!owner) 
-		return
-	// Check for any active Tempo or Equalized buffs
-	if(owner.stat != CONSCIOUS || owner.has_status_effect(STATUS_EFFECT_KNOCKDOWN))
-		owner.remove_status_effect(/datum/status_effect/buff/skulduggery)
-		return
+/datum/status_effect/buff/skulduggery/on_creation(mob/living/new_owner, ...)
+	RegisterSignal(new_owner, COMSIG_MOB_ITEM_ATTACK, PROC_REF(process_Wattack))
+	RegisterSignal(new_owner, COMSIG_MOB_ITEM_BEING_ATTACKED, PROC_REF(process_Wattack))
+	RegisterSignal(new_owner, COMSIG_MOB_ITEM_POST_SWINGDELAY_ATTACKED, PROC_REF(process_Wattack))
+	RegisterSignal(new_owner, COMSIG_MOB_ATTACKED_BY_HAND, PROC_REF(process_Wfist))
+	RegisterSignal(new_owner, COMSIG_LIVING_STATUS_STUN, PROC_REF(on_incapacitate))
+	RegisterSignal(new_owner, COMSIG_LIVING_STATUS_KNOCKDOWN, PROC_REF(on_incapacitate))
 
-	if(owner.has_status_effect(/datum/status_effect/buff/tempo_one) || owner.has_status_effect(/datum/status_effect/buff/tempo_two) || owner.has_status_effect(/datum/status_effect/buff/tempo_three) || owner.has_status_effect(/datum/status_effect/buff/equalizebuff))
-		owner.apply_status_effect(/datum/status_effect/buff/skulduggery)
-		return
-
-	if((pressure < maneuver_level) && (maneuver_level < 10))
-		pressure = maneuver_level
-		owner.apply_status_effect(/datum/status_effect/buff/skulduggery)
-
-/datum/status_effect/buff/skulduggery/on_apply()
-	. = ..()
-	RegisterSignal(owner, COMSIG_MOB_ITEM_ATTACK, PROC_REF(on_weapon_attack))
-	RegisterSignal(owner, COMSIG_HUMAN_MELEE_UNARMED_ATTACK, PROC_REF(on_unarmed_attack))
-	ADD_TRAIT(owner, TRAIT_DODGEEXPERT, "skulduggery")
-	ADD_TRAIT(owner, TRAIT_GRABIMMUNE, "skulduggery")
-
-	var/holyskill = owner.get_skill_level(/datum/skill/magic/holy)
-	duration = (10 SECONDS) + (holyskill * 3 SECONDS)
-
-	CQC_stacks = 0
-	maneuver_level = 0
-
-	owner.add_filter(SKULDUGGERY_FILTER, 2, list(
-		"type" = "outline",
-		"color" = outline_colour,
-		"alpha" = 55,
-		"size" = 1
-	))
-
-	owner.AddComponent(/datum/component/after_image)
+	new_owner.AddComponent(/datum/component/after_image)
 	afterimage_active = TRUE
+	parries_left = new_owner.get_skill_level(/datum/skill/magic/holy)
+	. = ..()
 
 /datum/status_effect/buff/skulduggery/on_remove()
-	. = ..()
+	UnregisterSignal(owner, COMSIG_LIVING_STATUS_STUN)
+	UnregisterSignal(owner, COMSIG_LIVING_STATUS_KNOCKDOWN)
 	UnregisterSignal(owner, COMSIG_MOB_ITEM_ATTACK)
-	UnregisterSignal(owner, COMSIG_HUMAN_MELEE_UNARMED_ATTACK)
-	REMOVE_TRAIT(owner, TRAIT_DODGEEXPERT, "skulduggery")
-	REMOVE_TRAIT(owner, TRAIT_GRABIMMUNE, "skulduggery")
+	UnregisterSignal(owner, COMSIG_MOB_ITEM_BEING_ATTACKED)
+	UnregisterSignal(owner, COMSIG_MOB_ITEM_POST_SWINGDELAY_ATTACKED)
+	UnregisterSignal(owner, COMSIG_MOB_ATTACKED_BY_HAND)
+
+	owner.stop_pulling()
+	waiting_followup = FALSE
 
 	if(afterimage_active)
 		var/datum/component/after_image/A = owner.GetComponent(/datum/component/after_image)
 		if(A)
 			qdel(A)
+		afterimage_active = FALSE
 
-	afterimage_active = FALSE
+	. = ..()
 
-	owner.remove_filter(SKULDUGGERY_FILTER)
+/datum/status_effect/buff/skulduggery/proc/on_incapacitate()
+	SIGNAL_HANDLER 
+	if(!owner) 
+		return 
+	if(!owner.IsKnockdown() && !owner.IsStun()) 
+		return 
+	to_chat(owner, span_warning("My footing falters! Carkin'--!")) 
+	qdel(src)
 
-/datum/status_effect/buff/skulduggery/proc/on_weapon_attack(mob/living/source, mob/living/target, mob/living/user, obj/item/weapon)
-	SIGNAL_HANDLER
-	if(source != owner || !isliving(target) || target.stat == DEAD)
-		return
-	
-	build_stack(target)
-	if(prob(50)) // sometimes weapons let you build it faster, to encourage the 1h weapon usage
-		build_stack(target)
-	var/back_dir = turn(target.dir, 180)
-	if(get_dir(target, owner) != back_dir)
-		return
-	INVOKE_ASYNC(src, PROC_REF(resolve_weapon_backstab), target, weapon)
-	return COMPONENT_ITEM_NO_DEFENSE //only ignore defenses on back!!!
+/datum/status_effect/buff/skulduggery/tick()
+	. = ..()
+	if(!owner) return
 
-/datum/status_effect/buff/skulduggery/proc/on_unarmed_attack(mob/living/source, atom/target, proximity)
-	SIGNAL_HANDLER
-	if(source != owner || !isliving(target))
-		return
+	if(waiting_followup && grappled)
+		if(owner.pulling != grappled)
+			waiting_followup = FALSE
+			grappled = null
 
-	var/mob/living/L = target
-
-	build_stack(L)
-
-	var/back_dir = turn(L.dir, 180)
-	if(get_dir(L, owner) != back_dir)
-		return // the following is only on back!!
-	ADD_TRAIT(owner, TRAIT_EMPOWERED_UNARMED, "trve!")
-	INVOKE_ASYNC(src, PROC_REF(resolve_fist_backstab), L)
-
-/datum/status_effect/buff/skulduggery/proc/build_stack(mob/living/target)
-	if(QDELETED(src) || QDELETED(owner) || QDELETED(target))
+	if(owner.has_status_effect(/datum/status_effect/buff/tempo_one) || owner.has_status_effect(/datum/status_effect/buff/tempo_two) || owner.has_status_effect(/datum/status_effect/buff/tempo_three) || owner.has_status_effect(/datum/status_effect/buff/equalizebuff))
+		owner.apply_status_effect(/datum/status_effect/buff/skulduggery)
 		return
 
-	var/mob/living/H = owner
-	var/obj/item/I = H.get_active_held_item()
-	var/is_unarmed = !I
-	var/is_cqc = is_unarmed || is_cqc_weapon(I)
-	var/is_punching = H.used_intent.type == INTENT_HARM
+// -------------------------
+// SIGNAL HOOKS
+// -------------------------
 
-	if((is_unarmed && is_punching) || is_cqc)
-		if(CQC_stacks >= CQC_max)
-			CQC_stacks = 0
-			maneuver_level++
-			INVOKE_ASYNC(src, PROC_REF(resolve_CQC_maneuver), target)
-			return
-		if(is_unarmed && is_punching)
-			CQC_stacks += 2
-		else
-			CQC_stacks += 1
+/datum/status_effect/buff/skulduggery/proc/process_Wfist(mob/living/carbon/human/parent,mob/living/carbon/human/attacker,mob/living/carbon/human/defender)
+	if(!ishuman(defender)) return
+	if(defender.process_skd(attacker, null))
+		return COMPONENT_HAND_NO_ATTACK
 
-	else
-		if(CQC_stacks >= CQC_max)
-			is_ready = TRUE
-			H.balloon_alert_to_viewers("SKD Ready!" , "SKD ready!", y_offset = 10)
-			return
-		CQC_stacks += 1
+/datum/status_effect/buff/skulduggery/proc/process_Wattack(mob/living/parent,mob/living/target,mob/user,obj/item/I)
+	if(ishuman(target))
+		var/mob/living/carbon/human/H = target
+		if(H.process_skd(user, I))
+			return COMPONENT_NO_ATTACK
 
-	if(CQC_stacks > CQC_max)
-		CQC_stacks = CQC_max
-		return
+/mob/living/carbon/human/proc/process_skd(mob/living/carbon/human/attacker, obj/item/I)
+	var/datum/status_effect/buff/skulduggery/S = has_status_effect(/datum/status_effect/buff/skulduggery)
+	if(!S) return FALSE
+	return S.process_skd(attacker, I)
 
-/datum/status_effect/buff/skulduggery/proc/is_cqc_weapon(obj/item/I)
-	if(!I)
+// -------------------------
+// CORE LOGIC
+// -------------------------
+
+/datum/status_effect/buff/skulduggery/proc/process_skd(mob/living/carbon/human/attacker, obj/item/I)
+	if(!owner || !ishuman(owner) || !ishuman(attacker))
 		return FALSE
 
-	return istype(I, /obj/item/rogueweapon/woodstaff/quarterstaff) || istype(I, /obj/item/rogueweapon/huntingknife/idagger)	|| istype(I, /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow)
+	var/mob/living/carbon/human/H = owner
+	var/mob/living/carbon/human/A = attacker
 
-/datum/status_effect/buff/skulduggery/proc/resolve_CQC_maneuver(mob/living/target)
-	if(QDELETED(src) || QDELETED(owner) || QDELETED(target))
-		return
+	// FOLLOW-UP STATE
+	if(waiting_followup)
+		if(A == grappled)
+			slam_target(A)
+		else
+			slam_into(A)
+		return TRUE
 
-	var/mob/living/carbon/human/HT = target
-	var/mob/living/carbon/human/HU = owner
-	var/fatiguemod = 4
+	// PRONE CHECK (FREE ACTION)
+	if(A.IsKnockdown() || A.lying)
+		return stomp_prone(A)
 
-	if(ishuman(HT))
-		var/targetac = HT.highest_ac_worn()
-		switch(targetac)
-			if(ARMOR_CLASS_NONE)
-				fatiguemod = 5
-			if(ARMOR_CLASS_LIGHT, ARMOR_CLASS_MEDIUM)
-				fatiguemod = 4
-			if(ARMOR_CLASS_HEAVY)
-				fatiguemod = 3
+	// THROW MODE: INTERCEPT → GRAPPLE
+	if(H.in_throw_mode)
+		return attempt_grapple(H, A)
 
-	if(HT.has_status_effect(/datum/status_effect/buff/clash/limbguard))
-		HT.bad_guard()
-	playsound(HU, 'sound/combat/ground_smash_start.ogg', 100, TRUE)
-	switch(maneuver_level)
-		if(1)
-			HT.Immobilize(0.5 SECONDS)
-			HU.do_attack_animation(HT, ATTACK_EFFECT_PUNCH, null, item_animation_override = ATTACK_ANIMATION_THRUST)
-			HT.Slowdown(3)
-			HT.stamina_add(HT.max_stamina / fatiguemod)
-			HT.apply_status_effect(/datum/status_effect/incapacitating/off_balanced, 3 SECONDS)
-			HT.emote("huh")
-			HU.changeNext_move(0.1 SECONDS, override = TRUE)
-			HU.visible_message(
-				span_warning("[HU] slips inside [HT]'s guard, disrupting their footing!"),
-				span_notice("I step inside [HT]'s guard, breaking their rhythm."))
-			HT.visible_message(
-				span_warning("[HT] stumbles as [HU] disrupts their stance!"),
-				span_danger("My footing falters-- they're inside my guard!"))
-			playsound(HT, 'sound/combat/hits/punch/punch (1).ogg', 80, TRUE)
-			HU.balloon_alert_to_viewers(message = "SKD!! (1)", self_message = "SKD!! (1)", y_offset = 10)
-		if(2)
-			HT.OffBalance(2 SECONDS)
-			HU.do_attack_animation(HT, ATTACK_EFFECT_SMASH, null, item_animation_override = ATTACK_ANIMATION_BONK)
-			HT.Immobilize(1.5 SECONDS)
-			HT.Slowdown(4)
-			HT.stamina_add(HT.max_stamina / fatiguemod)
-			HU.visible_message(
-				span_warning("[HU] overwhelms [HT]'s footing, forcing them off-balance!"),
-				span_notice("Their balance is collapsing."))
-			HT.visible_message(
-				span_warning("[HT] reels as [HU] batters their footing!"),
-				span_danger("My balance is breaking!"))
-			HT.emote("gasp")
-			playsound(HT, 'sound/combat/riposte.ogg', 90, TRUE)
-			playsound(HT, 'sound/combat/hits/punch/punch (1).ogg', 80, TRUE)
-			HU.balloon_alert_to_viewers(message = "SKD!! (2)", self_message = "SKD!! (2)", y_offset = 10)
-		if(3)
-			HT.Knockdown(2 SECONDS)
-			HT.OffBalance(3 SECONDS)
-			HU.do_attack_animation(HT, ATTACK_EFFECT_KICK, null, item_animation_override = ATTACK_ANIMATION_SWIPE)
-			HT.apply_status_effect(/datum/status_effect/debuff/exposed, 5 SECONDS)
-			HT.stamina_add(HT.max_stamina / fatiguemod)
-			HU.visible_message(
-				span_danger("[HU] sweeps [HT]'s footing and tears open their defenses!"),
-				span_notice("Their guard is open!"))
-			HT.visible_message(
-				span_danger("[HT] is swept off their footing by [HU]!"),
-				span_danger("My guard is broken!"))
-			HT.emote("pain")
-			playsound(HT, 'sound/combat/hits/punch/punch (2).ogg', 100, TRUE)
-			HU.balloon_alert_to_viewers(message = "SKD!! (3)", self_message = "SKD!! (3)", y_offset = 10)
-		if(4)
-			HT.Stun(2 SECONDS)
-			HT.Knockdown(3 SECONDS)
-			HT.OffBalance(4 SECONDS)
-			HT.apply_status_effect(/datum/status_effect/debuff/exposed, 8 SECONDS)
-			HU.visible_message(
-				span_danger("[HU] dismantles [HT] with a devastating close-quarters maneuver!"),
-				span_notice("Total control. Their defense collapses."))
+	// NPC BAMBOOZLING
+	if(!A.mind)
+		return auto_flank_move(H, A)
 
-			HT.visible_message(
-				span_danger("[HT] is completely dismantled by [HU]'s close-quarters maneuver!"),
-				span_danger("I can't recover-- they've taken control!"))
+	// PLAYER STANDARD PARRY
+	return attempt_parry(H, A, I)
 
-			HT.emote("pain")
-			playsound(HT, 'sound/combat/riposte.ogg', 100, TRUE)
-			playsound(HT, 'sound/combat/hits/punch/punch (3).ogg', 100, TRUE)
-			HT.adjustBruteLoss(10)
-			HU.do_attack_animation(HT, ATTACK_EFFECT_SMASH, null)
-			sleep(2)
-			playsound(HT, 'sound/combat/hits/punch/punch (1).ogg', 100, TRUE)
-			HT.adjustBruteLoss(10)
-			HU.do_attack_animation(HT, ATTACK_EFFECT_KICK, null)
-			sleep(3)
-			playsound(HT, 'sound/combat/hits/punch/punch (2).ogg', 100, TRUE)
-			HT.adjustBruteLoss(10)
-			HU.do_attack_animation(HT, ATTACK_EFFECT_PUNCH, null)
-			HT.emote("pain")
-			HU.balloon_alert_to_viewers(message = "SKD!! (Max)", self_message = "SKD!! (Max)", y_offset = 10)
-		if(5 to INFINITY)
-			HU.balloon_alert_to_viewers(message = "SKD!! (Consecutive)", self_message = "SKD!! (Consecutive)", y_offset = 10)
-			HT.emote("pain")
-			HU.visible_message(
-				span_danger("[HU] overwhelms [HT] with a barrage of consecutive close-quarters maneuvers!"),
-				span_notice("Keep the pressure! They'll fold soon."))
-			playsound(HT, 'sound/combat/riposte.ogg', 100, TRUE)
-			playsound(HT, 'sound/combat/hits/punch/punch (3).ogg', 100, TRUE)
-			HU.do_attack_animation(HT, ATTACK_EFFECT_PUNCH, null)
-			HT.adjustBruteLoss(5)
-			HT.stamina_add(HT.max_stamina / 4)
-			sleep(3)
-			playsound(HT, 'sound/combat/hits/punch/punch (1).ogg', 100, TRUE)
-			HU.do_attack_animation(HT, ATTACK_EFFECT_PUNCH, null)
-			HT.adjustBruteLoss(5)
-			sleep(3)
-			playsound(HT, 'sound/combat/hits/punch/punch (2).ogg', 100, TRUE)
-			HU.do_attack_animation(HT, ATTACK_EFFECT_KICK, null)
-			HT.adjustBruteLoss(5)	
+/datum/status_effect/buff/skulduggery/proc/attempt_grapple(mob/living/carbon/human/H, mob/living/carbon/human/A)
+	if(A.mind)
+		if(!grapple_counts[A])
+			grapple_counts[A] = 0
 
-	if(HT.pulling)
-		HT.stop_pulling()
+		if(grapple_counts[A] >= 2)
+			H.visible_message(
+				span_warning("[H] reaches for [A], but they anticipate it!"),
+				span_notice("They've adapted... I can't grab them again!")
+			)
+			return FALSE
 
-		HU.visible_message(
-			span_warning("[HU] twists free from [HT]'s grasp!"),
-			span_notice("I break free."))
+		grapple_counts[A]++
 
-		HT.visible_message(
-			span_warning("[HT]'s grip is broken by [HU]!"),
-			span_danger("My grip is broken!"))
+	H.start_pulling(A)
+	H.setDir(get_dir(H, A))
+	playsound(H, 'sound/combat/riposte.ogg', 100, TRUE)
 
-		HU.OffBalance(1 SECONDS)
-		HT.OffBalance(2 SECONDS)
-
-		playsound(HU, 'sound/combat/riposte.ogg', 100, TRUE)
-		HU.balloon_alert_to_viewers(message = "SKD!! (Grab)", self_message = "SKD!! (Grab)")
-
-	is_ready = FALSE
-
-/datum/status_effect/buff/skulduggery/proc/resolve_weapon_backstab(mob/living/target, obj/item/weapon)
-	if(QDELETED(src) || QDELETED(owner) || QDELETED(target))
-		return
-	var/damage = weapon.force * 2
-	arcyne_strike(
-		owner,
-		target,
-		weapon,
-		damage,
-		owner.zone_selected,
-		FALSE,
-		100,
-		"Backstab",
-		FALSE,
-		TRUE,
-		FALSE,
-		BRUTE,
-		1,
-		1
+	H.visible_message(
+		span_boldwarning("[H] intercepts [A] and seizes them!"),
+		span_notice("Got them!")
 	)
 
-	target.visible_message(
-		span_danger("[owner] slips behind [target] and attacks with ruthless precision!")
-	)
-	owner.balloon_alert_to_viewers(message = "Backstab!!", self_message = "Backstab!!")
-	playsound(owner, 'sound/combat/newstuck.ogg', 100, TRUE)
+	H.balloon_alert_to_viewers("SKD!!", "SKD!!", 10)
 
-/datum/status_effect/buff/skulduggery/proc/resolve_fist_backstab(mob/living/target)
-	if(QDELETED(src) || QDELETED(owner) || QDELETED(target))
-		return
-	REMOVE_TRAIT(owner, TRAIT_EMPOWERED_UNARMED, "trve!")
-	arcyne_strike(
-		owner,
-		target,
-		null,
-		25,
-		BODY_ZONE_PRECISE_NECK,
-		BCLASS_SMASH,
-		100,
-		"Neck Chop",
-		FALSE,
-		TRUE,
-		FALSE,
-		BRUTE,
-		1,
-		1
+	grappled = A
+	waiting_followup = TRUE
+
+	return TRUE
+
+/datum/status_effect/buff/skulduggery/proc/attempt_parry(mob/living/carbon/human/H, mob/living/carbon/human/A, obj/item/I)
+	var/my_skill = H.get_skill_level(/datum/skill/magic/holy)
+	var/enemy_skill = A.get_skill_level(I.associated_skill)
+
+	// Skill difference (your advantage)
+	var/skill_diff = my_skill - enemy_skill
+
+	// Base success chance (20% per point of advantage)
+	var/base_chance = skill_diff * 20
+
+	// Parry bonus (+20% per remaining parry)
+	var/parry_bonus = parries_left * 20
+
+	// Final success chance
+	var/success_chance = base_chance + parry_bonus
+	success_chance = clamp(success_chance, 0, 90)
+
+	// Roll
+	if(!prob(success_chance))
+		H.visible_message(
+			span_warning("[H] tries to read [A]'s attack, but fails!"),
+			span_notice("Gah, I can't keep up!")
+		)
+		return FALSE
+
+	// Success
+	if(parries_left > 0)
+		parries_left--
+
+	auto_flank_move(H, A)
+
+	return TRUE
+
+/datum/status_effect/buff/skulduggery/proc/is_valid_step(mob/living/carbon/human/H, turf/dest)
+	if(!dest)
+		return FALSE
+
+	// Use your existing teleport validation
+	if(arcyne_validate_blink_dest(dest, H))
+		return FALSE
+
+	// Extra paranoia (cliffs / void)
+	if(istransparentturf(dest))
+		return FALSE
+
+	return TRUE
+
+/datum/status_effect/buff/skulduggery/proc/auto_flank_move(mob/living/carbon/human/H, mob/living/carbon/human/A)
+	if(!H || !A)
+		return FALSE
+
+	// Snapshot direction (important)
+	var/original_dir = A.dir
+
+	// Compute tiles
+	var/left_dir = turn(original_dir, 90)
+	var/right_dir = turn(original_dir, -90)
+	var/behind_dir = turn(original_dir, 180)
+
+	var/turf/left = get_step(A, left_dir)
+	var/turf/right = get_step(A, right_dir)
+	var/turf/behind = get_step(A, behind_dir)
+
+	// Decide which side to use (based on relative position)
+	var/dx = H.x - A.x
+	var/dy = H.y - A.y
+	var/use_left = (dx * dy >= 0)
+
+	var/turf/side = use_left ? left : right
+	var/turf/alt_side = use_left ? right : left
+
+	// Validate full sequence: side to behind
+	if(!is_valid_step(H, side) || !is_valid_step(H, behind))
+		// fallback to opposite side
+		side = alt_side
+
+		if(!is_valid_step(H, side) || !is_valid_step(H, behind))
+			// final fallback: just behind
+			if(!is_valid_step(H, behind))
+				return FALSE
+
+			// blink directly behind
+			H.forceMove(behind)
+		else
+			// blink side to behind
+			H.forceMove(side)
+			sleep(1) // 1 tick, enough to render
+			H.forceMove(behind)
+	else
+		// main path: side to behind
+		H.forceMove(side)
+		sleep(1) // 1 tick, enough to render
+		H.forceMove(behind)
+
+	// Face target
+	H.setDir(get_dir(H, A))
+
+	// Effects
+	if(!A.mind)
+		A.Immobilize(8 SECONDS)
+		A.OffBalance(8 SECONDS)
+		A.apply_status_effect(/datum/status_effect/debuff/clickcd, 8 SECONDS)
+		if(A.mob_biotypes != MOB_UNDEAD && prob(25))
+			A.emote("huh")
+	else
+		A.apply_status_effect(/datum/status_effect/debuff/clickcd, 2 SECONDS)
+
+	H.visible_message(
+		span_boldwarning("[H] slips past [A] in a blur and appears at their back!"),
+		span_notice("Too slow.")
 	)
 
-	target.visible_message(
-		span_danger("[owner] slips behind [target] and delivers a precise neck chop!")
-	)
-	owner.balloon_alert_to_viewers(message = "Backstab!!", self_message = "Backstab!!")
-	playsound(owner, 'sound/combat/hits/punch/punch (1).ogg', 100, TRUE)
+	return TRUE
 
-#undef SKULDUGGERY_FILTER
-#undef MAMMON_FILTER // FUCK!!!!!!
+// -------------------------
+// STOMP
+// -------------------------
+
+/datum/status_effect/buff/skulduggery/proc/stomp_prone(mob/living/carbon/human/T)
+	if(!T) return
+
+	var/mob/living/carbon/human/H = owner
+	H.visible_message(
+			span_boldwarning("[H] delivers their foot onto [T] while they try to swing!"),
+			span_notice("Deserved kick for trying that, fool!")
+		)
+	H.do_attack_animation(T)
+	T.adjustBruteLoss(8)
+	T.stamina_add(8)
+	H.setDir(get_dir(H, T))
+
+	if(!T.mind)
+		T.stamina_add(12)
+		T.apply_status_effect(/datum/status_effect/debuff/clickcd, 2 SECONDS)
+
+	addtimer(CALLBACK(T, /mob/proc/slamdunked), 1)
+	return TRUE
+	
+// -------------------------
+// GROUND SLAM
+// -------------------------
+
+/datum/status_effect/buff/skulduggery/proc/slam_target(mob/living/carbon/human/T)
+	if(!T) return
+
+	var/mob/living/carbon/human/H = owner
+
+	var/power = H.get_skill_level(/datum/skill/combat/unarmed) + (H.get_skill_level(/datum/skill/magic/holy) / 2)
+	var/resist = (T.get_stat(STAT_CONSTITUTION) + T.get_stat(STAT_SPEED)/4)
+
+	var/chance = clamp(50 + (power - resist), 10, 90)
+	if(prob(chance))
+		H.stop_pulling()
+		waiting_followup = FALSE
+		grappled = null
+		H.visible_message(
+			span_boldwarning("[H] turns [T] upside their head and slams them into the ground!"),
+			span_notice("<i>I drive them into the floor with sheer skill!</i>")
+		)
+		H.setDir(get_dir(H, T))
+		H.balloon_alert_to_viewers(message = "SKD Slam!!", self_message = "SKD Slam!!", y_offset = 10)
+		playsound(get_turf(T), 'sound/combat/wooshes/blunt/wooshhuge (2).ogg', 100, FALSE)
+		T.Knockdown(4 SECONDS)
+		sleep(3)
+		T.apply_status_effect(/datum/status_effect/debuff/clickcd, 4 SECONDS)
+		T.adjustBruteLoss(40)
+		T.stamina_add(60)
+		shake_camera(H, 2, 1)
+		shake_camera(T, 2, 1)
+		var/da_slam = pick('sound/combat/hits/blunt/genblunt (1).ogg','sound/combat/hits/blunt/genblunt (2).ogg','sound/combat/hits/blunt/genblunt (3).ogg','sound/combat/hits/blunt/flailhit.ogg')
+		playsound(T, da_slam, 100, TRUE)
+		playsound(T, 'sound/combat/tf2crit.ogg', 100, TRUE)
+		if(!T.mind && T.mob_biotypes != MOB_UNDEAD)
+			if(prob(50))
+				T.Unconscious(800)
+	else
+		H.visible_message(
+			span_warning("[T] resists the slam, forcing [H] to kick them away!"),
+			span_notice("They resist my attempt to slam! I have to kick them off!")
+		)
+		H.balloon_alert_to_viewers(message = "SKD Kick!!", self_message = "SKD Kick!!", y_offset = 10)
+		H.setDir(get_dir(H, T))
+		playsound(T, 'sound/combat/hits/punch/punch_hard (2).ogg', 100, TRUE)
+		T.Knockdown(1 SECONDS)
+		var/dir = turn(get_dir(T, H), 180)
+		if(dir & (NORTH|SOUTH))
+			dir = (dir & NORTH) ? NORTH : SOUTH
+		else
+			dir = (dir & EAST) ? EAST : WEST
+		var/turf/current = get_turf(T)
+		for(var/i = 1 to 3)
+			var/turf/next = get_step(current, dir)
+			if(!next || next.density)
+				break
+			current = next
+		T.throw_at(current, 2, 4)
+		waiting_followup = FALSE
+
+	addtimer(CALLBACK(T, /mob/proc/slamdunked), 1)
+
+	grappled = null
+	waiting_followup = FALSE
+
+// -------------------------
+// SLAM INTO
+// -------------------------
+
+/datum/status_effect/buff/skulduggery/proc/slam_into(mob/living/carbon/human/other)
+	if(!other || !grappled) return
+
+	var/mob/living/carbon/human/H = owner
+	var/mob/living/carbon/human/G = grappled
+
+	H.visible_message(
+		span_boldwarning("[H] redirects [G] full force into [other]!"),
+		span_notice("<i>Consecutive Skulduggery! Hells yae! Bring me more!</i>")
+	)
+	H.balloon_alert_to_viewers(message = "Consecutive SKD!!", self_message = "Consecutive SKD!!", y_offset = 10)
+	H.setDir(get_dir(H, other))
+	var/attack_sound = pick('sound/combat/hits/blunt/genblunt (1).ogg','sound/combat/hits/blunt/genblunt (2).ogg','sound/combat/hits/blunt/genblunt (3).ogg','sound/combat/hits/blunt/flailhit.ogg')
+	playsound(other, attack_sound, 100, TRUE)
+
+	G.forceMove(get_turf(other))
+
+	G.adjustBruteLoss(30)
+	other.adjustBruteLoss(30)
+	other.stamina_add(25)
+
+	G.Knockdown(1 SECONDS)
+	other.Knockdown(1 SECONDS)
+
+	shake_camera(H, 2, 1)
+	shake_camera(G, 2, 1)
+	shake_camera(other, 2, 1)
+
+	var/dir = turn(get_dir(other, H), 180)
+
+	if(dir & (NORTH|SOUTH))
+		dir = (dir & NORTH) ? NORTH : SOUTH
+	else
+		dir = (dir & EAST) ? EAST : WEST
+
+	var/turf/current = get_turf(other)
+
+	for(var/i = 1 to 3)
+		var/turf/next = get_step(current, dir)
+		if(!next || next.density)
+			break
+		current = next
+
+	other.throw_at(current, 1, 4)
+	waiting_followup = FALSE
+
+	addtimer(CALLBACK(src, .proc/_slam_followup, other, G), 0.5)
+
+	grappled = null
+	waiting_followup = FALSE
+
+/datum/status_effect/buff/skulduggery/proc/_slam_followup(mob/living/carbon/human/other, mob/living/carbon/human/G)
+	if(!other || !G) return
+
+	G.forceMove(get_turf(other))
+
+	var/list/dirs = list(NORTH, SOUTH, EAST, WEST)
+	var/turf/T = get_step(G, pick(dirs))
+	if(T && !T.density)
+		G.forceMove(T)
+
+	addtimer(CALLBACK(G, /mob/proc/slamdunked), 1)
+	addtimer(CALLBACK(other, /mob/proc/slamdunked), 1)
+
+	if(!G.mind && G.mob_biotypes != MOB_UNDEAD)
+		if(prob(50))
+			G.Unconscious(800)
+
+// -------------------------
+// UTILS
+// -------------------------
+
+/mob/proc/slamdunked()
+	var/amp = 6
+	animate(src, pixel_x = 0, time = 0)
+	for(var/i in 1 to 5)
+		animate(src, pixel_x = -amp, time = 1)
+		animate(src, pixel_x = amp, time = 1)
+		amp = round(amp * 0.6)
+	animate(src, pixel_x = 0, time = 2)

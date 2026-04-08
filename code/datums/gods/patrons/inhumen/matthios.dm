@@ -11,7 +11,7 @@
 //					/datum/action/cooldown/spell/lesser_knock/miracle					= CLERIC_T0, // moved to freeman's tools
 					/obj/effect/proc_holder/spell/invoked/matthios_firebreath			= CLERIC_T0,
 //					/obj/effect/proc_holder/spell/self/matthios_muffle					= CLERIC_T0, // moved to freeman's tools
-//					/obj/effect/proc_holder/spell/self/skulduggery						= CLERIC_T1, // AAAAAAAAAAA
+					/obj/effect/proc_holder/spell/self/skulduggery						= CLERIC_T1, // AAAAAAAAAAA
 					/obj/effect/proc_holder/spell/invoked/matthios_transact				= CLERIC_T1, //It says it should be T1
 					/obj/effect/proc_holder/spell/invoked/lesser_heal 					= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/blood_heal					= CLERIC_T1,

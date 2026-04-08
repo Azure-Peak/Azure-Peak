@@ -1238,6 +1238,11 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 			target.process_clash(user, IM)
 			return
 
+		if(target.has_status_effect(/datum/status_effect/buff/skulduggery) && ishuman(user))
+			var/obj/item/IM = target.get_active_held_item()
+			target.process_skd(user, IM)
+			return
+
 		if(user.mob_biotypes & MOB_UNDEAD)
 			if(target.has_status_effect(/datum/status_effect/buff/necras_vow))
 				if(isnull(user.mind))
