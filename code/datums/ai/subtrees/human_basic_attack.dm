@@ -112,13 +112,11 @@
 
 	// Recovery pause after feint attempt
 	if(modifiers[RIGHT_CLICK])
-		controller.PauseAi(1.5 SECONDS)
+		controller.PauseAi(1 SECONDS)
 
 	pawn.cmode = old_cmode
 	if(pawn.next_click < world.time)
-		// Dumber NPCs hesitate longer between attacks. INT 10 = 20-40% delay, INT 4 = 50-90%, INT 1 = 70-110%
-		var/int_penalty = max(0, (10 - pawn.STAINT)) * 0.08
-		pawn.next_click = world.time + (pawn.used_intent?.clickcd * (1 + rand(0.2, 0.4) + int_penalty))
+		pawn.next_click = world.time + (pawn.used_intent?.clickcd * (1 + rand(0.2, 0.4)))
 		SEND_SIGNAL(pawn, COMSIG_MOB_BREAK_SNEAK)
 
 	if(prob(HUMAN_NPC_WEAKPOINT_SCAN_CHANCE) && isliving(target))
