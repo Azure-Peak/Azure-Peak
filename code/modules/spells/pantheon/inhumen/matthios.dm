@@ -1695,7 +1695,6 @@
 	var/mob/living/carbon/human/H = owner
 	if(!H.cmode)
 		to_chat(H, span_warning("I need some adrenaline pumping for this, my good sire!"))
-		revert_cast() 
 		return FALSE
 
 	if(!(H in SStreasury.bank_accounts))
