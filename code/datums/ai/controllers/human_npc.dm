@@ -4,7 +4,7 @@
 	max_target_distance = 13
 	ai_movement = /datum/ai_movement/hybrid_pathing
 	blackboard = list(
-		BB_WEAPON_TYPE = /obj/item/weapon,
+		BB_WEAPON_TYPE = /obj/item/rogueweapon,
 		BB_ARMOR_CLASS = 2,
 		BB_TARGETTING_DATUM = new /datum/targetting_datum/basic(),
 		BB_PET_TARGETING_DATUM = new /datum/targetting_datum/basic/not_friends(),

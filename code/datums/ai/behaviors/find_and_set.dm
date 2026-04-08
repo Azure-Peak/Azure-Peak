@@ -299,7 +299,7 @@ GLOBAL_LIST_INIT(find_and_set_interested_atoms, typecacheof(list(/obj/item, /mob
 	if(istype(held_item, /obj/item/rogueweapon/shield))
 		held_item = living_pawn.get_inactive_held_item()
 	if(held_item)
-		var/obj/item/weapon/candidate = checking
+		var/obj/item/rogueweapon/candidate = checking
 		if(held_item.force >= candidate.force)
 			return FALSE
 	return TRUE
@@ -311,7 +311,7 @@ GLOBAL_LIST_INIT(find_and_set_interested_atoms, typecacheof(list(/obj/item, /mob
 		living_pawn.swap_hand()
 		held_item = living_pawn.get_active_held_item()
 	var/list/weapons = list()
-	for(var/obj/item/weapon/local_candidate in oview(search_range, controller.pawn))
+	for(var/obj/item/rogueweapon/local_candidate in oview(search_range, controller.pawn))
 		if(!istype(local_candidate, controller.blackboard[BB_WEAPON_TYPE]))
 			continue
 		if(held_item)

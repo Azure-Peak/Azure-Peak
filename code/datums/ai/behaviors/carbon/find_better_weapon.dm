@@ -7,9 +7,10 @@
 		living_pawn.swap_hand()
 		held_item = living_pawn.get_active_held_item()
 
+	var/weapon_type = controller.blackboard[BB_WEAPON_TYPE]
 	var/list/weapons = list()
-	for(var/obj/item/weapon/local_candidate in oview(search_range, controller.pawn))
-		if(!istype(local_candidate, controller.blackboard[BB_WEAPON_TYPE]))
+	for(var/obj/item/local_candidate in oview(search_range, controller.pawn))
+		if(!istype(local_candidate, weapon_type))
 			continue
 		if(held_item)
 			if(held_item.force >= local_candidate.force)
@@ -31,7 +32,7 @@
 	if(held_item)
 		if(istype(held_item, /obj/item/rogueweapon/shield))
 			return FALSE
-		var/obj/item/weapon/candidate = checking
+		var/obj/item/candidate = checking
 		if(held_item.force >= candidate.force)
 			return FALSE
 	return TRUE

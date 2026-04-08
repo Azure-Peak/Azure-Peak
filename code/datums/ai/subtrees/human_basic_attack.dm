@@ -68,7 +68,7 @@
 	var/datum/targetting_datum/td = controller.blackboard[targetting_datum_key]
 
 	var/obj/item/held_weapon = pawn.get_active_held_item()
-	if(!istype(held_weapon, /obj/item/rogueweapon) && !istype(held_weapon, /obj/item/weapon))
+	if(!istype(held_weapon, /obj/item/rogueweapon))
 		// Snatch a dropped weapon adjacent to us — recovers from getting disarmed mid-fight
 		for(var/obj/item/rogueweapon/candidate in range(1, pawn))
 			if(!isturf(candidate.loc))

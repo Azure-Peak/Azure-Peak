@@ -51,7 +51,7 @@
 		return FALSE
 	if(istype(candidate, /obj/item/gun))
 		return FALSE
-	if(istype(candidate, /obj/item/weapon))
+	if(istype(candidate, /obj/item/rogueweapon))
 		return FALSE
 	if(candidate.anchored)
 		return FALSE
