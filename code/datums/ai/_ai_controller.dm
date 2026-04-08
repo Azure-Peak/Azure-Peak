@@ -449,7 +449,14 @@ have ways of interacting with a specific atom and control it. They posses a blac
 
 			///Stops pawns from performing such actions that should require the target to be adjacent.
 			var/mob/living/moving_pawn = pawn
-			var/can_reach = !(current_behavior.behavior_flags & AI_BEHAVIOR_REQUIRE_REACH) || moving_pawn.CanReach(current_movement_target)
+			// Pass active held item to CanReach so reach > 1 weapons (whips, polearms) actually
+			// detect reach correctly on carbon NPCs — without the tool arg, CanReach falls through
+			// to Adjacent() only for carbons.
+			var/obj/item/held_for_reach = null
+			if(iscarbon(moving_pawn))
+				var/mob/living/carbon/carbon_pawn = moving_pawn
+				held_for_reach = carbon_pawn.get_active_held_item()
+			var/can_reach = !(current_behavior.behavior_flags & AI_BEHAVIOR_REQUIRE_REACH) || moving_pawn.CanReach(current_movement_target, held_for_reach)
 
 			if(isliving(current_movement_target))
 				var/mob/living/living_pawn = pawn
@@ -463,7 +470,15 @@ have ways of interacting with a specific atom and control it. They posses a blac
 			if(prob(8))
 				moving_pawn.emote("cidle")
 
-			if(((can_reach && current_behavior.required_distance >= get_dist(moving_pawn, current_movement_target))) || failed_sneak_check > 4) ///Are we close
+			// Account for weapon reach: an AI with a whip/polearm should stop walking once they
+			// can swing, not insist on dist <= 1. iscarbon check matches the held_for_reach scope above.
+			var/effective_required_distance = current_behavior.required_distance
+			if(iscarbon(moving_pawn))
+				var/mob/living/carbon/carbon_pawn = moving_pawn
+				var/intent_reach = carbon_pawn.used_intent?.reach || 1
+				if(intent_reach > effective_required_distance)
+					effective_required_distance = intent_reach
+			if(((can_reach && effective_required_distance >= get_dist(moving_pawn, current_movement_target))) || failed_sneak_check > 4) ///Are we close
 				if(ai_movement.moving_controllers[src] == current_movement_target) //We are close enough, if we're moving stop.
 					ai_movement.stop_moving_towards(src)
 

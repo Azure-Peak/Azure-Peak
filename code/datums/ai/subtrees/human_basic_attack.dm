@@ -93,7 +93,8 @@
 	pawn.face_atom(target)
 	_choose_attack_zone(controller, pawn, target)
 
-	if(!pawn.CanReach(target))
+	// Pass active held item so reach > 1 weapons (whips, polearms) detect properly on carbons
+	if(!pawn.CanReach(target, pawn.get_active_held_item()))
 		AI_THINK(pawn, "ATTACK: can't reach [target]")
 		finish_action(controller, FALSE, target_key)
 		return
@@ -125,13 +126,12 @@
 	else
 		controller.ai_interact(target, TRUE, TRUE, modifiers)
 
-	// Recovery pause after feint attempt
-	if(modifiers[RIGHT_CLICK])
-		controller.PauseAi(1 SECONDS)
-
 	pawn.cmode = old_cmode
 	if(pawn.next_click < world.time)
-		pawn.next_click = world.time + (pawn.used_intent?.clickcd * (1 + rand(0.2, 0.4)))
+		// Post-attack click cooldown. Extra multiplier on feint — this is a committed action
+		// that should have a bigger opening between it and the next real swing.
+		var/recovery_mult = modifiers[RIGHT_CLICK] ? 1.6 : 1.0
+		pawn.next_click = world.time + (pawn.used_intent?.clickcd * recovery_mult * (1 + rand(0.2, 0.4)))
 		SEND_SIGNAL(pawn, COMSIG_MOB_BREAK_SNEAK)
 
 	if(prob(HUMAN_NPC_WEAKPOINT_SCAN_CHANCE) && isliving(target))
@@ -163,7 +163,7 @@
 	var/list/weighted = list()
 	for(var/datum/rmb_intent/available in pawn.possible_rmb_intents)
 		if(istype(available, /datum/rmb_intent/feint))
-			weighted[available.type] = 50
+			weighted[available.type] = 15
 		else if(istype(available, /datum/rmb_intent/strong))
 			weighted[available.type] = 30
 		else if(istype(available, /datum/rmb_intent/swift))
@@ -267,7 +267,9 @@
 		return FALSE
 	SEND_SIGNAL(pawn, COMSIG_MOB_TRY_BARK, 100)
 	special.deploy(pawn, weapon, target)
-	controller.PauseAi(1.5 SECONDS) // Recovery pause after weapon special
+	// Recovery: block the next swing for longer than a normal attack so specials don't chain
+	if(pawn.next_click < world.time + pawn.used_intent?.clickcd * 1.8)
+		pawn.next_click = world.time + (pawn.used_intent?.clickcd * 1.8)
 	return TRUE
 
 /// Scan target bodyparts for wounded (brute/burn > 20) or unarmored zones.

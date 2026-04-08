@@ -58,15 +58,21 @@
 	// Detect structural obstacle on the direct line — only fences, railings, dense structures.
 	// Mobs in the way don't count (we don't want to leap over allies/players).
 	var/has_obstacle = FALSE
+	#ifdef NPC_THINK_DEBUG
 	var/obstacle_reason = "none"
+	#endif
 	if(_leap_has_structural_obstacle(pawn, target))
 		has_obstacle = TRUE
+		#ifdef NPC_THINK_DEBUG
 		obstacle_reason = "structural-LOS-blocked"
+		#endif
 	else
 		var/list/movement_path = controller.movement_path
 		if(length(movement_path) >= distance * LEAP_OBSTACLE_PATH_RATIO)
 			has_obstacle = TRUE
+			#ifdef NPC_THINK_DEBUG
 			obstacle_reason = "path-length [length(movement_path)] >= [distance * LEAP_OBSTACLE_PATH_RATIO]"
+			#endif
 
 	var/leap_chance = has_obstacle ? LEAP_CHANCE_OBSTACLE : LEAP_CHANCE_OPEN
 	if(!prob(leap_chance))

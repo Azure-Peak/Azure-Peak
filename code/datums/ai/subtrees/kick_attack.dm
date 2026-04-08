@@ -127,7 +127,10 @@
 	pawn.mmb_intent = old_mmb
 
 	controller.set_blackboard_key(BB_KICK_COOLDOWN, world.time + KICK_COOLDOWN)
-	controller.PauseAi(1 SECONDS) // Recovery pause after kick
+	// Kick is a committed action; block the next melee swing briefly so they don't immediately
+	// combo into a full attack right after.
+	if(pawn.next_click < world.time + 1.2 SECONDS)
+		pawn.next_click = world.time + 1.2 SECONDS
 	AI_THINK(pawn, "KICK: kicked [target]!")
 	finish_action(controller, TRUE, target_key)
 
