@@ -232,7 +232,7 @@
 		/obj/item/natural/hide = 7,
 		/obj/item/clothing/ring/gold = 4)
 	head_butcher = /obj/item/natural/head/dragon/broodmother
-	damage_coeff = list(BRUTE = 1, BURN = 0.0, TOX = 1, CLONE = 1, STAMINA = 0, OXY = 1)
+	damage_coeff = list(BRUTE = 1, BURN = 1, TOX = 1, CLONE = 1, STAMINA = 0, OXY = 1)
 
 /mob/living/simple_animal/hostile/retaliate/rogue/dragon/broodmother/Initialize()
 	. = ..()
@@ -240,7 +240,6 @@
 	fire_breath = new(src)
 	fire_breath.Grant(src)
 	ai_controller.set_blackboard_key(BB_TARGETED_ACTION, fire_breath)
-	AddComponent(/datum/component/anti_magic, TRUE, TRUE, TRUE, null, null, FALSE) //my brother in Zizo
 
 /mob/living/simple_animal/hostile/retaliate/rogue/dragon/broodmother/Destroy()
 	fire_breath.Remove(src)
