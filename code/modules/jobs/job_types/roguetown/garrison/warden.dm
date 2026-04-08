@@ -68,6 +68,7 @@
 		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/swimming = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/climbing = SKILL_LEVEL_EXPERT,
+		/datum/skill/misc/riding = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/sneaking = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/tracking = SKILL_LEVEL_EXPERT,
 		/datum/skill/craft/crafting = SKILL_LEVEL_APPRENTICE,
@@ -85,8 +86,8 @@
 	..()
 	r_hand = /obj/item/rogueweapon/huntingknife/idagger/warden_machete
 	backpack_contents = list(
-		/obj/item/roguekey/warden = 1,
-		/obj/item/flashlight/flare/torch/lantern = 1,
+		/obj/item/storage/keyring/warden = 1,
+		/obj/item/flashlight/flare/torch/lantern/prelit = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1,
 		/obj/item/reagent_containers/glass/bottle/rogue/healthpot = 1,
 		/obj/item/signal_horn = 1
@@ -101,7 +102,7 @@
 			if("Dodge Expert")
 				ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
 				shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy
-			if( "Maille Training")
+			if("Maille Training")
 				shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/iron
 				ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
 
