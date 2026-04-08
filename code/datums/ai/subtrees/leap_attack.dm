@@ -21,47 +21,80 @@
 		return
 
 	if(world.time < controller.blackboard[BB_HUMAN_NPC_JUMP_COOLDOWN])
+		AI_THINK(pawn, "LEAP gate: on cooldown")
 		return
 
 	// Don't leap if we can't physically jump
 	if(!(pawn.mobility_flags & MOBILITY_STAND))
+		AI_THINK(pawn, "LEAP gate: not standing")
 		return
 	if(pawn.IsOffBalanced() || pawn.legcuffed)
+		AI_THINK(pawn, "LEAP gate: off-balance/legcuffed")
 		return
 	if(pawn.pulledby)
+		AI_THINK(pawn, "LEAP gate: being pulled")
 		return
 	if(pawn.get_num_legs() < 2)
+		AI_THINK(pawn, "LEAP gate: missing legs")
 		return
 	if(istype(get_turf(pawn), /turf/open/water))
+		AI_THINK(pawn, "LEAP gate: in water")
 		return
 
 	// Stamina gate — don't burn ourselves out
 	if(pawn.stamina > pawn.max_stamina * (1 - LEAP_STAMINA_RESERVE))
+		AI_THINK(pawn, "LEAP gate: low stam reserve ([pawn.stamina]/[pawn.max_stamina])")
 		return
 
 	var/distance = get_dist(pawn, target)
 	if(distance < LEAP_MIN_DISTANCE || distance > LEAP_MAX_DISTANCE)
+		AI_THINK(pawn, "LEAP gate: distance [distance] outside [LEAP_MIN_DISTANCE]-[LEAP_MAX_DISTANCE]")
 		return
 
 	if(target.z != pawn.z && !HAS_TRAIT(pawn, TRAIT_ZJUMP))
+		AI_THINK(pawn, "LEAP gate: target on different z, no zjump")
 		return
 
-	// Detect "obstacle in the way" — if there's no straight LOS to the target OR the AI's
-	// pathing is much longer than the direct distance, leaping is justified (fences, railings,
-	// chokepoints). Otherwise we're in open ground and should mostly just walk.
+	// Detect structural obstacle on the direct line — only fences, railings, dense structures.
+	// Mobs in the way don't count (we don't want to leap over allies/players).
 	var/has_obstacle = FALSE
-	if(!inLineOfTravel(pawn, target))
+	var/obstacle_reason = "none"
+	if(_leap_has_structural_obstacle(pawn, target))
 		has_obstacle = TRUE
+		obstacle_reason = "structural-LOS-blocked"
 	else
 		var/list/movement_path = controller.movement_path
 		if(length(movement_path) >= distance * LEAP_OBSTACLE_PATH_RATIO)
 			has_obstacle = TRUE
+			obstacle_reason = "path-length [length(movement_path)] >= [distance * LEAP_OBSTACLE_PATH_RATIO]"
 
 	var/leap_chance = has_obstacle ? LEAP_CHANCE_OBSTACLE : LEAP_CHANCE_OPEN
 	if(!prob(leap_chance))
+		AI_THINK(pawn, "LEAP gate: prob([leap_chance]%) failed (obstacle=[has_obstacle] [obstacle_reason])")
 		return
 
+	AI_THINK(pawn, "LEAP committed: dist=[distance] obstacle=[has_obstacle] reason=[obstacle_reason] chance=[leap_chance]%")
 	controller.queue_behavior(/datum/ai_behavior/human_npc_leap, BB_BASIC_MOB_CURRENT_TARGET)
+
+/// Walk the line from pawn to target and look for dense structures only — ignore mobs.
+/datum/ai_planning_subtree/leap_attack/proc/_leap_has_structural_obstacle(mob/pawn, atom/target)
+	var/turf/our_turf = get_turf(pawn)
+	var/turf/their_turf = get_turf(target)
+	if(!our_turf || !their_turf || our_turf.z != their_turf.z)
+		return FALSE
+	var/list/line = getline(our_turf, their_turf)
+	if(length(line) <= 2) // adjacent — nothing in between
+		return FALSE
+	for(var/i in 2 to length(line) - 1) // skip the endpoints
+		var/turf/T = line[i]
+		if(!T)
+			continue
+		if(T.density)
+			return TRUE
+		for(var/obj/structure/S in T)
+			if(S.density)
+				return TRUE
+	return FALSE
 
 /datum/ai_behavior/human_npc_leap
 	action_cooldown = 0.5 SECONDS
@@ -78,9 +111,29 @@
 	var/turf/dest = get_step_towards(target, pawn)
 	if(!dest || dest.density || !dest.can_traverse_safely(pawn))
 		dest = get_turf(target)
-	if(!dest)
+	if(!dest || dest.density)
+		AI_THINK(pawn, "LEAP abort: no valid destination")
 		finish_action(controller, FALSE)
 		return
+
+	// Validate the leap path itself — if there's a wall/dense structure on the line between us
+	// and dest, we'd just slam into it. Don't waste stamina and cooldown on a doomed jump.
+	var/turf/our_turf = get_turf(pawn)
+	if(our_turf && our_turf.z == dest.z)
+		var/list/leap_line = getline(our_turf, dest)
+		for(var/i in 2 to length(leap_line) - 1) // skip start, allow ending in melee range
+			var/turf/T = leap_line[i]
+			if(!T)
+				continue
+			if(T.density)
+				AI_THINK(pawn, "LEAP abort: wall in leap path at [T]")
+				finish_action(controller, FALSE)
+				return
+			for(var/obj/structure/S in T)
+				if(S.density)
+					AI_THINK(pawn, "LEAP abort: structure [S] in leap path")
+					finish_action(controller, FALSE)
+					return
 
 	// Set up jump intent — jump_action() reads mmb_intent.clickcd
 	var/datum/intent/old_mmb = pawn.mmb_intent
