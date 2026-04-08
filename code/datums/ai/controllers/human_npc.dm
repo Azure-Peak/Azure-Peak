@@ -2,7 +2,7 @@
 /datum/ai_controller/human_npc
 	movement_delay = 0.1 SECONDS
 	max_target_distance = 13
-	ai_movement = /datum/ai_movement/hybrid_pathing
+	ai_movement = /datum/ai_movement/hybrid_pathing/human_npc
 	blackboard = list(
 		BB_WEAPON_TYPE = /obj/item/rogueweapon,
 		BB_ARMOR_CLASS = 2,

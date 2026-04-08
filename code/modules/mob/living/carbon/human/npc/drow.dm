@@ -12,6 +12,42 @@ GLOBAL_LIST_INIT(drowraider_aggro, world.file2list("strings/rt/drowaggrolines.tx
 	threat_point = THREAT_TOUGH
 	ambush_faction = "underdark"
 
+// Testing-only subtype: forced whip loadout to verify NPC reach handling on weapons with reach > 1.
+/mob/living/carbon/human/species/elf/dark/drowraider/whip_test
+
+/mob/living/carbon/human/species/elf/dark/drowraider/whip_test/after_creation()
+	..()
+	for(var/obj/item/I in held_items)
+		qdel(I)
+	put_in_active_hand(new /obj/item/rogueweapon/whip(src))
+
+// Testing-only subtype: forced spear loadout (reach 2) to verify polearm reach handling.
+/mob/living/carbon/human/species/elf/dark/drowraider/spear_test
+
+/mob/living/carbon/human/species/elf/dark/drowraider/spear_test/after_creation()
+	..()
+	for(var/obj/item/I in held_items)
+		qdel(I)
+	put_in_active_hand(new /obj/item/rogueweapon/spear(src))
+
+// Testing-only subtype: forced short sword loadout (reach 1) as a baseline control.
+/mob/living/carbon/human/species/elf/dark/drowraider/sword_test
+
+/mob/living/carbon/human/species/elf/dark/drowraider/sword_test/after_creation()
+	..()
+	for(var/obj/item/I in held_items)
+		qdel(I)
+	put_in_active_hand(new /obj/item/rogueweapon/sword/short(src))
+
+// Testing-only subtype: empty-handed spawn. Use to verify find_weapon pickup behavior —
+// drop a rogueweapon nearby and watch them path to it.
+/mob/living/carbon/human/species/elf/dark/drowraider/disarmed_test
+
+/mob/living/carbon/human/species/elf/dark/drowraider/disarmed_test/after_creation()
+	..()
+	for(var/obj/item/I in held_items)
+		qdel(I)
+
 
 
 /mob/living/carbon/human/species/elf/dark/drowraider/Initialize()

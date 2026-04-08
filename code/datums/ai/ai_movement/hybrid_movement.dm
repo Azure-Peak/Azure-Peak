@@ -4,6 +4,13 @@
 	max_basic_failures = 2
 	always_advanced = TRUE
 
+/// Human NPCs always use A* pathing. Basic step_to can't reliably bump doors open —
+/// when a door blocks the direct path, step_to tries to navigate around instead of bumping,
+/// so humans get stuck on closed doors. A* pathing produces a path through the door turf,
+/// and stepping onto the door triggers Bump which opens it.
+/datum/ai_movement/hybrid_pathing/human_npc
+	always_advanced = TRUE
+
 /datum/ai_movement/hybrid_pathing
 	requires_processing = TRUE
 	max_pathing_attempts = 12
@@ -177,7 +184,19 @@
 						generate_path = TRUE
 						controller.clear_blackboard_key(future_path_blackboard_key)
 				else
-					step_to(movable_pawn, next_step, controller.blackboard[BB_CURRENT_MIN_MOVE_DISTANCE], controller.movement_delay)
+					// Use step() with an explicit direction rather than step_to(). step_to is
+					// BYOND's obstacle-avoidance routine that tries to navigate around dense
+					// objects instead of bumping them — which means NPCs never trigger door
+					// Bumped() handlers. step() with an explicit direction just attempts the
+					// move and triggers Bump on collision, which is what opens doors.
+					var/move_dir = get_dir(movable_pawn, next_step)
+					if(!step(movable_pawn, move_dir, controller.movement_delay))
+						// Step failed — check if there's a dense climbable structure (tables, rails)
+						// blocking us. Mirrors old _npc.dm behavior.
+						for(var/obj/structure/O in next_step)
+							if(O.density && O.climbable)
+								O.climb_structure(movable_pawn)
+								break
 
 				// Check if target has moved significantly from the end of our path
 				if(last_turf != get_turf(controller.current_movement_target))
