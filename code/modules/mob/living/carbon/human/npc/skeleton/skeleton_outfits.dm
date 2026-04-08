@@ -75,7 +75,7 @@
 	..()
 	H.STASTR = 10
 	H.STASPD = 8
-	H.STACON = 4
+	H.STACON = 3
 	H.STAWIL = 4
 	H.STAINT = 1
 	name = "Skeleton"
@@ -112,7 +112,7 @@
 	..()
 	H.STASTR = 9
 	H.STASPD = 8
-	H.STACON = 4
+	H.STACON = 3
 	H.STAWIL = 6
 	H.STAINT = 1
 	name = "Skeleton Footsoldier"
@@ -144,7 +144,7 @@
 	..()
 	H.STASTR = 9
 	H.STASPD = 8
-	H.STACON = 4
+	H.STACON = 3
 	H.STAWIL = 6
 	H.STAINT = 1
 	name = "Skeleton Pirate"
@@ -173,7 +173,7 @@
 	..()
 	H.STASTR = 11
 	H.STASPD = 8
-	H.STACON = 6
+	H.STACON = 5
 	H.STAWIL = 8
 	H.STAINT = 1
 	name = "Skeleton Soldier"
@@ -211,7 +211,7 @@
 /datum/outfit/job/roguetown/skeleton/npc/hard/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.STASTR = 12
-	H.STACON = 8
+	H.STACON = 6
 	H.STAWIL = 10
 	H.STAINT = 1
 	name = "Skeleton Dreadnought"
@@ -263,7 +263,7 @@
 	..()
 	H.STASTR = 10
 	H.STASPD = 10
-	H.STACON = 6
+	H.STACON = 5
 	H.STAWIL = 8
 	H.STAINT = 1
 	name = "Skeleton Archer"
@@ -292,7 +292,7 @@
 /datum/outfit/job/roguetown/skeleton/npc/vile_doctor/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.STASTR = 12
-	H.STACON = 8
+	H.STACON = 6
 	H.STAWIL = 10
 	H.STASPD = 14 // that dagger WILL get thru ur parry.
 	H.STAINT = 1
@@ -321,7 +321,7 @@
 /datum/outfit/job/roguetown/skeleton/npc/disgraced_noble/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.STASTR = 12 // stabs quick, stabs strong.
-	H.STACON = 8
+	H.STACON = 6
 	H.STAWIL = 10
 	H.STASPD = 12
 	H.STAINT = 1

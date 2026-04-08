@@ -37,7 +37,7 @@
 			r_hand = /obj/item/rogueweapon/mace
 	H.STASTR = rand(12,14)
 	H.STASPD = 8
-	H.STACON = 4
+	H.STACON = 3
 	H.STAWIL = 8
 	H.STAINT = 1
 	ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
@@ -64,7 +64,7 @@
 	r_hand = /obj/item/rogueweapon/halberd
 	H.STASTR = 18
 	H.STASPD = 10
-	H.STACON = 10
+	H.STACON = 8
 	H.STAWIL = 12
 	H.STAINT = 1
 	ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
