@@ -1,4 +1,0 @@
-author: "hazelrat"
-delete-after: True
-changes:
-  - qol: "Walking into stone turfs with a pickaxe to mine them no longer incurs a greater stamina cost than clicking on them normally."

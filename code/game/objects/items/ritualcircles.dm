@@ -1325,6 +1325,8 @@
 		playsound(target, 'sound/magic/undivided_solemnity.ogg', 90, FALSE, -1)
 		to_chat(target, span_boldred("I can do no HARM."))
 		ADD_TRAIT(target, TRAIT_PACIFISM, TRAIT_RITUAL)
+		to_chat(target, span_boldred("My body is susceptible to CRITICAL STRIKES."))
+		ADD_TRAIT(target, TRAIT_CRITICAL_WEAKNESS, TRAIT_RITUAL)
 
 //UNDIVIDED
 /obj/structure/ritualcircle/undivided

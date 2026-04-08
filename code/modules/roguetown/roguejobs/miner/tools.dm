@@ -17,6 +17,7 @@
 	smeltresult = /obj/item/ingot/iron
 	grid_width = 64
 	grid_height = 64
+	var/auto_boulder = FALSE
 
 /obj/item/rogueweapon/pick/getonmobprop(tag)
 	. = ..()
@@ -60,7 +61,7 @@
 
 /obj/item/rogueweapon/pick/blacksteel
 	name = "blacksteel pick"
-	desc = "Glimmering with silvered blackness, this is a pretigious tool for miners delving into the darkness."
+	desc = "Glimmering with silvered blackness, this is a pretigious tool for miners delving into the darkness. It looks like it will strike hard enough to shatter any boulders within a rocky surface instantly."
 	possible_item_intents = list(/datum/intent/pick/bad)
 	gripped_intents = list(/datum/intent/pick/good)
 	force = 25
@@ -69,6 +70,7 @@
 	item_state = "blacksteelpick1"
 	max_integrity = 800
 	smeltresult = /obj/item/ingot/blacksteel
+	auto_boulder = TRUE
 
 /obj/item/rogueweapon/pick/stone
 	name = "stone pick"

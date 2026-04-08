@@ -289,3 +289,12 @@
   zydras:
   - rscadd: Added two donator items (for me :3)
   - rscdel: Removed my unused donator items
+2026-04-08:
+  Ollanius:
+  - bugfix: Upgrading the Autumnwoad Barbute properly gives the Autumnwoad Helmet,
+      now.
+  WeNeedMorePhoron:
+  - bugfix: Bad omen events shouldn't falsely claim the monarch is dead. I think
+  hazelrat:
+  - qol: Walking into stone turfs with a pickaxe to mine them no longer incurs a greater
+      stamina cost than clicking on them normally.

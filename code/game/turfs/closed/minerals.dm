@@ -73,7 +73,7 @@
 	var/mob/living/carbon/human/user = AM
 	var/obj/item = user.get_active_held_item()
 
-	if(user.used_intent.type == /datum/intent/pick && (user.get_skill_level(/datum/skill/labor/mining) >= SKILL_LEVEL_APPRENTICE))
+	if(istype(user.used_intent, /datum/intent/pick) && (user.get_skill_level(/datum/skill/labor/mining) >= SKILL_LEVEL_APPRENTICE))
 		if(!do_after(user, 1 SECONDS, TRUE, src, TRUE, null, TRUE))
 			return
 		if(!ismineralturf(src))
@@ -150,7 +150,7 @@
 
 /turf/closed/mineral/attack_right(mob/user)
 	var/obj/item = user.get_active_held_item()
-	if(user.used_intent.type == /datum/intent/pick && (user.get_skill_level(/datum/skill/labor/mining) >= SKILL_LEVEL_APPRENTICE))
+	if(istype(user.used_intent, /datum/intent/pick) && (user.get_skill_level(/datum/skill/labor/mining) >= SKILL_LEVEL_APPRENTICE))
 		if(do_after(user, 2 SECONDS, TRUE, src))
 			if(!ismineralturf(src))
 				return
@@ -206,12 +206,17 @@
 	if(prob(30))
 		new /obj/item/natural/stone(src)
 	if (mineralType && (mineralAmt > 0))
+		var/autodestroy = FALSE
+		var/held = user.get_active_held_item()
+		if(istype(held, /obj/item/rogueweapon/pick))
+			var/obj/item/rogueweapon/pick/P = held
+			autodestroy = P.auto_boulder
 		if(prob(33)) //chance to spawn ore directly
 			new mineralType(src)
 		if(rockType) //always spawn at least 1 rock
-			new rockType(src)
+			new rockType(src, autodestroy)
 			if(prob(23))
-				new rockType(src)
+				new rockType(src, autodestroy)
 		SSblackbox.record_feedback("tally", "ore_mined", mineralAmt, mineralType)
 	else if(user?.goodluck(2))
 		var/newthing = pickweight(list(/obj/item/natural/rock/salt = 2, /obj/item/natural/rock/iron = 1, /obj/item/natural/rock/coal = 2))

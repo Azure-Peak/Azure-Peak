@@ -1,0 +1,6 @@
+author: "nauticall"
+delete-after: True
+changes:
+  - rscadd: "New 'Set Laws' TGUI window and command for the Duke/Regent to amend laws with. 'Make law' and 'Remove law' are still available as the legacy/individual methods for backwards compatibility."
+  - qol: "The 'laws of the land' viewable on SCOMs are now collapsible."
+  - rscdel: "Removed the 'Three Laws of Aasimar (Asimov)' from the list of default lawsets."

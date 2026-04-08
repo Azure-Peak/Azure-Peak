@@ -2390,6 +2390,5 @@
 			continue
 
 		mob.apply_status_effect(/datum/status_effect/eora_blessing)
-		mob.apply_status_effect(/datum/status_effect/buff/recuperation/eoran)
 
 #undef EORANAURA_FILTER

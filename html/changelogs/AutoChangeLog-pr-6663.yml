@@ -1,4 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - bugfix: "Bad omen events shouldn't falsely claim the monarch is dead. I think"
