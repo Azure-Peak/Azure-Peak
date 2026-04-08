@@ -1222,34 +1222,84 @@
 /obj/item/matthios_canister/goodnite
 	name = "vial of goodnite base"
 	desc = "A dim, cloudy fluid rests inside, barely moving. Occasionally, something viscous streaks through it— like diluted brain matter. The glass feels warm, almost comforting. Staring at too long makes your eyelids heavy, and you get an odd compulsion to drink it."
+	
+	var/max_ingredients = 6
 
 	required_ingredients = list(
 		/obj/item/alch/bonemeal,
 		/obj/item/alch/mentha,
-		/obj/item/reagent_containers/food/snacks/grown/manabloom
+		/obj/item/alch/manabloompowder,
 	)
 
 	ingredient_colors = list(
 		/obj/item/alch/bonemeal = "#ffffff",
 		/obj/item/alch/mentha = "#3aff7a",
-		/obj/item/reagent_containers/food/snacks/grown/manabloom = "#66ccff"
+		/obj/item/alch/manabloompowder = "#66ccff"
 	)
 
 /obj/item/matthios_canister/goodnite/freeman_truth()
 	return "Condensed stellar residue. Dust harvested from a somnolent star that emits rhythmic sleep pulses. This is not sedation. It entrains the body to a universal resting cadence."
 
 /obj/item/matthios_canister/goodnite/freeman_progress(mob/user)
-	var/list/missing = list()
+	var/remaining = max_ingredients - inserted_ingredients.len
 
-	for(var/T in required_ingredients)
-		if(!(T in inserted_ingredients))
-			missing += T
-
-	if(!missing.len)
+	if(remaining <= 0)
 		return "The mixture has reached perfect stillness."
 
-	var/remaining = missing.len
-	return "It requires refined manabloom alignment. ([remaining] components remaining)"
+	return "It requires further refinement with either bonemeal, manabloom dust or whole menthas. ([remaining] infusions remaining)"
+
+/obj/item/matthios_canister/goodnite/attackby(obj/item/I, mob/user)
+	if(!HAS_TRAIT(user, TRAIT_MATTHIOS_EYES))
+		to_chat(user, span_warning("The hell do I do with this? This is no alchemy!"))
+		return TRUE
+
+	var/valid = FALSE
+	for(var/T in required_ingredients)
+		if(istype(I, T))
+			valid = TRUE
+			break
+
+	if(!valid)
+		return TRUE
+
+	if(inserted_ingredients.len >= max_ingredients)
+		to_chat(user, span_warning("The vial will accept no more. It rests at perfect equilibrium."))
+		return TRUE
+
+	if(do_after(user, 1.5 SECONDS))
+		inserted_ingredients += I.type
+
+		var/color_to_use = null
+		for(var/T in ingredient_colors)
+			if(istype(I, T))
+				color_to_use = ingredient_colors[T]
+				break
+
+		if(color_to_use)
+			current_color = color_to_use
+
+		qdel(I)
+
+		var/list/absorb_flavor = list(
+			"The mixture receives [I], its form dissolving into a calm, pale suspension...",
+			"[I] softens and unravels, drawn quietly into the resting fluid...",
+			"A faint stillness follows as [I] is reduced and folded into the mixture...",
+			"[I] loses all distinction, rendered into a smooth, somnolent draught...",
+			"The vial clouds gently as [I] is broken down and made one with it..."
+		)
+
+		to_chat(user, span_notice(pick(absorb_flavor)))
+
+		update_icon()
+		check_completion(user)
+
+	return TRUE
+
+/obj/item/matthios_canister/goodnite/check_completion(mob/user)
+	if(inserted_ingredients.len < max_ingredients)
+		return
+
+	alch_transform(user)
 
 /obj/item/matthios_canister/goodnite/alch_transform(mob/user)
 	to_chat(user, span_notice("The mixture settles into a perfectly still, somnolent state."))
@@ -1311,26 +1361,30 @@
 	name = "vial of warsmith base"
 	desc = "A biting liquor gnaws within the vial, as though it would eat iron itself. Flecks of metal drift and vanish, then return as if unmade and remade. It reeks of rust and sharp ruin. No forge would suffer this thing near its works."
 
-	var/needed_scrap = 6
+	var/needed_scrap = 3
 	var/current_scrap = 0
 	var/has_needle = FALSE
-	var/has_fibers = FALSE
+	var/current_fibers = 0
+	var/needed_fibers = 6
+
 	required_ingredients = list(
 		/obj/item/needle,
-		/obj/item/natural/bundle/fibers/full,
+		/obj/item/natural/bundle/fibers,
+		/obj/item/natural/fibers,
 		/obj/item/scrap,
 	)
 	ingredient_colors = list(
 		/obj/item/needle = "#c0c0c0",
-		/obj/item/natural/bundle/fibers/full = "#bfa76a",
-		/obj/item/scrap = "#6e6e6e"
+		/obj/item/natural/bundle/fibers = "#1fa712",
+		/obj/item/natural/fibers = "#1fa712",
+		/obj/item/scrap = "#6e6e6e",
 	)
 
 /obj/item/matthios_canister/warsmith/freeman_truth()
 	return "A cunning weave of filament and will. Metal and fiber undone to their first truths, that they may be rewrought aright. It does not destroy— it remembers the shape of perfection, and compels all things toward it."
 
 /obj/item/matthios_canister/warsmith/freeman_progress(mob/user)
-	return "Needle: [has_needle ? "set" : "wanting"]\nFibers: [has_fibers ? "set" : "wanting"]\nIron scrap: [current_scrap]/[needed_scrap]"
+	return "Needle: [has_needle ? "set" : "wanting"]\nFibers: [current_fibers]/[needed_fibers]\nIron scrap: [current_scrap]/[needed_scrap]"
 
 /obj/item/matthios_canister/warsmith/attackby(obj/item/I, mob/user)
 	if(istype(I, /obj/item/scrap))
@@ -1369,22 +1423,55 @@
 			check_completion(user)
 		return TRUE
 
-	if(istype(I, /obj/item/natural/bundle/fibers/full))
-		if(has_fibers)
-			to_chat(user, span_warning("Fibers have already been added."))
+	if(istype(I, /obj/item/natural/bundle/fibers))
+		if(current_fibers >= needed_fibers)
+			to_chat(user, span_warning("The mixture will take no more fiber."))
+			return TRUE
+
+		var/obj/item/natural/bundle/fibers/B = I
+		var/amount = B.amount
+
+		var/space_left = needed_fibers - current_fibers
+		var/to_transfer = min(amount, space_left)
+
+		if(do_after(user, 2 SECONDS))
+			current_fibers += to_transfer
+
+			if(to_transfer >= amount)
+				qdel(B)
+			else
+				B.amount -= to_transfer
+				B.update_icon()
+
+			var/color_to_use = ingredient_colors[/obj/item/natural/bundle/fibers/full]
+			if(color_to_use)
+				current_color = color_to_use
+
+			to_chat(user, span_notice("You feed [to_transfer] measure\s of fiber into the mixture. ([current_fibers]/[needed_fibers])"))
+
+			update_icon()
+			check_completion(user)
+
+		return TRUE
+
+	if(istype(I, /obj/item/natural/fibers))
+		if(current_fibers >= needed_fibers)
+			to_chat(user, span_warning("The mixture will take no more fiber."))
 			return TRUE
 
 		if(do_after(user, 2 SECONDS))
-			has_fibers = TRUE
+			current_fibers++
 			qdel(I)
 
 			var/color_to_use = ingredient_colors[/obj/item/natural/bundle/fibers/full]
 			if(color_to_use)
 				current_color = color_to_use
 
-			to_chat(user, span_notice("The fibers unravel and merge into the mixture."))
+			to_chat(user, span_notice("The fiber is reduced and drawn into the mixture. ([current_fibers]/[needed_fibers])"))
+
 			update_icon()
 			check_completion(user)
+
 		return TRUE
 
 	to_chat(user, span_warning("This does not belong in the canister."))
@@ -1395,7 +1482,7 @@
 		return
 	if(!has_needle)
 		return
-	if(!has_fibers)
+	if(current_fibers < needed_fibers)
 		return
 
 	alch_transform(user)
@@ -1411,7 +1498,7 @@
 	icon = 'icons/obj/structures/heart_items.dmi'
 	icon_state = "canister_empty"
 	current_color = "#9c7b45"
-	aura_color = "#615b4d"
+	aura_color = "#ffe4b9"
 	w_class = WEIGHT_CLASS_TINY
 	var/uses = 4
 
