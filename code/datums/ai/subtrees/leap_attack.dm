@@ -1,6 +1,8 @@
-#define LEAP_CHANCE_BASE        20    // % chance per planning tick to consider a leap
+#define LEAP_CHANCE_OBSTACLE    35    // % chance to leap when path is much longer than direct (railing/obstacle)
+#define LEAP_CHANCE_OPEN        5     // % chance to leap in open ground (matches old AP NPC base rate)
 #define LEAP_MIN_DISTANCE       4     // tiles - target must be at least this far to leap
 #define LEAP_MAX_DISTANCE       8     // tiles - don't leap if target is too far (waste of stamina)
+#define LEAP_OBSTACLE_PATH_RATIO 1.5  // path must be at least this much longer than direct distance to count as "obstacle in the way"
 #define LEAP_STAMINA_RESERVE    0.5   // require at least this much stamina headroom (0-1, fraction of max)
 #define LEAP_COOLDOWN           (4 SECONDS)
 #define LEAP_RUN_RANGE          3     // jump_action with MOVE_INTENT_RUN reaches 3 tiles
@@ -44,7 +46,19 @@
 	if(target.z != pawn.z && !HAS_TRAIT(pawn, TRAIT_ZJUMP))
 		return
 
-	if(!prob(LEAP_CHANCE_BASE))
+	// Detect "obstacle in the way" — if there's no straight LOS to the target OR the AI's
+	// pathing is much longer than the direct distance, leaping is justified (fences, railings,
+	// chokepoints). Otherwise we're in open ground and should mostly just walk.
+	var/has_obstacle = FALSE
+	if(!inLineOfTravel(pawn, target))
+		has_obstacle = TRUE
+	else
+		var/list/movement_path = controller.movement_path
+		if(length(movement_path) >= distance * LEAP_OBSTACLE_PATH_RATIO)
+			has_obstacle = TRUE
+
+	var/leap_chance = has_obstacle ? LEAP_CHANCE_OBSTACLE : LEAP_CHANCE_OPEN
+	if(!prob(leap_chance))
 		return
 
 	controller.queue_behavior(/datum/ai_behavior/human_npc_leap, BB_BASIC_MOB_CURRENT_TARGET)
@@ -92,9 +106,11 @@
 	controller.set_blackboard_key(BB_HUMAN_NPC_JUMP_COOLDOWN, world.time + LEAP_COOLDOWN)
 	finish_action(controller, jumped)
 
-#undef LEAP_CHANCE_BASE
+#undef LEAP_CHANCE_OBSTACLE
+#undef LEAP_CHANCE_OPEN
 #undef LEAP_MIN_DISTANCE
 #undef LEAP_MAX_DISTANCE
+#undef LEAP_OBSTACLE_PATH_RATIO
 #undef LEAP_STAMINA_RESERVE
 #undef LEAP_COOLDOWN
 #undef LEAP_RUN_RANGE

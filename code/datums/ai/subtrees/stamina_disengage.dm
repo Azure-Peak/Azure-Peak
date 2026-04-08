@@ -26,6 +26,7 @@
 		if(pawn.stamina <= pawn.max_stamina * STAMINA_REENGAGE_THRESHOLD || under_ranged_pressure)
 			controller.clear_blackboard_key(BB_STAMINA_DISENGAGED)
 			AI_THINK(pawn, "STAMINA: recovered, re-engaging!")
+			pawn.visible_message(span_warning("[pawn] catches their breath and presses the attack!"))
 			return
 		// Still recovering — back away
 		controller.queue_behavior(/datum/ai_behavior/run_away_from_target, BB_BASIC_MOB_CURRENT_TARGET, BB_BASIC_MOB_CURRENT_TARGET_HIDING_LOCATION)
@@ -35,6 +36,8 @@
 	if(pawn.stamina >= pawn.max_stamina * STAMINA_DISENGAGE_THRESHOLD && !under_ranged_pressure)
 		controller.set_blackboard_key(BB_STAMINA_DISENGAGED, TRUE)
 		AI_THINK(pawn, "STAMINA: exhausted, backing off! ([pawn.stamina]/[pawn.max_stamina])")
+		pawn.visible_message(span_warning("[pawn] staggers back, gasping for breath!"))
+		pawn.emote("painmoan")
 		return // will disengage next tick
 
 #undef STAMINA_DISENGAGE_THRESHOLD

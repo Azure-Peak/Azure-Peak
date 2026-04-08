@@ -15,6 +15,21 @@
 	melee_attack_behavior = /datum/ai_behavior/basic_melee_attack/human_npc
 	end_planning = TRUE
 
+/datum/ai_planning_subtree/basic_melee_attack_subtree/human_npc/SelectBehaviors(datum/ai_controller/controller, delta_time)
+	var/mob/living/carbon/human/pawn = controller.pawn
+	if(istype(pawn))
+		// If we're disarmed and a weapon is reachable nearby, skip melee planning so find_weapon
+		// can run (it's the next subtree). Otherwise we'd just punch the target empty-handed forever.
+		var/obj/item/r_held = pawn.get_item_for_held_index(1)
+		var/obj/item/l_held = pawn.get_item_for_held_index(2)
+		var/has_weapon = istype(r_held, /obj/item/rogueweapon) || istype(l_held, /obj/item/rogueweapon)
+		if(!has_weapon)
+			for(var/obj/item/rogueweapon/nearby_weapon in view(7, pawn))
+				if(!isturf(nearby_weapon.loc))
+					continue
+				return // yield to find_weapon — there's a weapon worth grabbing
+	return ..()
+
 /datum/ai_behavior/basic_melee_attack/human_npc
 	action_cooldown = 0.2 SECONDS
 	behavior_flags = AI_BEHAVIOR_REQUIRE_MOVEMENT | AI_BEHAVIOR_REQUIRE_REACH | AI_BEHAVIOR_CAN_PLAN_DURING_EXECUTION
@@ -407,7 +422,9 @@
 		return FALSE
 
 	var/turf/juke_turf = pick(candidates)
-	pawn.Move(juke_turf, get_dir(pawn, juke_turf), pawn.cached_multiplicative_slowdown)
+	// Don't pass cached_multiplicative_slowdown as glide — that's a delay value, not a glide size,
+	// and using it directly produces the "smoothed dance" interpolation between attack tiles.
+	pawn.Move(juke_turf, get_dir(pawn, juke_turf))
 	pawn.nodirchange = FALSE
 	pawn.face_atom(target)
 

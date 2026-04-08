@@ -607,13 +607,6 @@
 // NPC Debugging - uncomment to enable AI debug runechat
 // #define NPC_THINK_DEBUG
 #ifdef NPC_THINK_DEBUG
-#define NPC_THINK(message) visible_message(message, runechat_message = message)
-#else
-#define NPC_THINK(message)
-#endif
-
-// AI Controller Debugging - uses same flag as NPC_THINK
-#ifdef NPC_THINK_DEBUG
 #define AI_THINK(pawn, message) pawn.visible_message(message, runechat_message = message)
 #else
 #define AI_THINK(pawn, message)
