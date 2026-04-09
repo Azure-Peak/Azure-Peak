@@ -172,7 +172,7 @@
 	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/iron
 	//Weapons
 	if(prob(30)) // ranged
-		backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow
+		backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
 		backl = /obj/item/quiver/arrows
 		r_hand = /obj/item/rogueweapon/sword/iron
 		H.adjust_skillrank(/datum/skill/combat/bows, 3, TRUE)
@@ -256,7 +256,7 @@
 	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/iron
 	//Weapons
 	if(prob(30)) // ranged
-		backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow
+		backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
 		backl = /obj/item/quiver/arrows
 		r_hand = /obj/item/rogueweapon/sword/iron
 		H.adjust_skillrank(/datum/skill/combat/bows, 3, TRUE)

@@ -274,7 +274,7 @@
 	shoes = /obj/item/clothing/shoes/roguetown/boots/aalloy
 	neck = /obj/item/clothing/neck/roguetown/chaincoif/iron/aalloy
 	gloves = /obj/item/clothing/gloves/roguetown/chain/aalloy
-	backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow
+	backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
 	backl = /obj/item/quiver/arrows
 	r_hand = /obj/item/rogueweapon/mace/alloy
 	H.adjust_skillrank(/datum/skill/combat/bows, 3, TRUE)

@@ -135,7 +135,7 @@ GLOBAL_LIST_INIT(drowraider_aggro, world.file2list("strings/rt/drowaggrolines.tx
 	mask = /obj/item/clothing/mask/rogue/facemask
 	neck = /obj/item/clothing/neck/roguetown/coif/heavypadding
 	if(prob(20)) // archer
-		backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow
+		backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
 		backl = /obj/item/quiver/arrows
 		r_hand = /obj/item/rogueweapon/huntingknife/idagger/steel/corroded/dirk
 		H.adjust_skillrank(/datum/skill/combat/bows, 4, TRUE)

@@ -101,7 +101,7 @@ GLOBAL_LIST_INIT(searaider_aggro, world.file2list("strings/rt/searaideraggroline
 	if(prob(50))
 		gloves = /obj/item/clothing/gloves/roguetown/leather
 	if(prob(30)) // archer
-		backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow
+		backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
 		backl = /obj/item/quiver/arrows
 		r_hand = /obj/item/rogueweapon/sword/iron
 		H.adjust_skillrank(/datum/skill/combat/bows, 3, TRUE)
