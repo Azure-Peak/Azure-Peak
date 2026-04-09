@@ -399,6 +399,8 @@
 /datum/ai_behavior/basic_melee_attack/human_npc/proc/_try_backstep(mob/living/carbon/human/pawn, atom/target)
 	if(pawn.mind?.has_antag_datum(/datum/antagonist/zombie))
 		return FALSE
+	if(!pawn.ai_controller.can_move())
+		return FALSE
 	if(!(pawn.mobility_flags & MOBILITY_STAND))
 		return FALSE
 	if(pawn.ai_controller.blackboard[BB_HUMAN_NPC_HARASS_MODE])

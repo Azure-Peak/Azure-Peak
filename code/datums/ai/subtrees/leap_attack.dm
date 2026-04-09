@@ -108,6 +108,9 @@
 
 /datum/ai_behavior/human_npc_leap/perform(delta_time, datum/ai_controller/controller, target_key)
 	var/mob/living/carbon/human/pawn = controller.pawn
+	if(!controller.can_move())
+		finish_action(controller, FALSE)
+		return
 	var/mob/living/target = controller.blackboard[target_key]
 	if(!target || QDELETED(target))
 		finish_action(controller, FALSE)
