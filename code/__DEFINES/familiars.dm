@@ -59,13 +59,33 @@ GLOBAL_LIST_INIT(familiar_lore_blurbs, list(
 	))
 
 GLOBAL_LIST_INIT(fae_familiars, list(
-	"Sprite","Mist Lynx","Rune Rat","Vaporroot Wisp","Glimmer Hare","Hollow Antlerling","Ripplefox","Whisper Stoat","Starfield Zad"
+	"Sprite" = /mob/living/simple_animal/pet/familiar/fae,
+	"Mist Lynx" = /mob/living/simple_animal/pet/familiar/fae/mist_lynx,
+	"Rune Rat" = /mob/living/simple_animal/pet/familiar/fae/rune_rat,
+	"Vaporroot Wisp" = /mob/living/simple_animal/pet/familiar/fae/vaporroot_wisp,
+	"Glimmer Hare" = /mob/living/simple_animal/pet/familiar/fae/glimmer_hare,
+	"Hollow Antlerling" = /mob/living/simple_animal/pet/familiar/fae/hollow_antlerling,
+	"Ripplefox" = /mob/living/simple_animal/pet/familiar/fae/ripplefox,
+	"Whisper Stoat" = /mob/living/simple_animal/pet/familiar/fae/whisper_stoat,
+	"Starfield Zad" = /mob/living/simple_animal/pet/familiar/fae/starfield_crow
 ))
 
 GLOBAL_LIST_INIT(infernal_familiars, list(
-	"Hellhound","Ashcoiler","Emberdrake"
+	"Hellhound" = /mob/living/simple_animal/pet/familiar/infernal,
+	"Ashcoiler" = /mob/living/simple_animal/pet/familiar/infernal/ashcoiler,
+	"Emberdrake" = /mob/living/simple_animal/pet/familiar/infernal/emberdrake
 ))
 
 GLOBAL_LIST_INIT(elemental_familiars, list(
-	"Warden","Pondstone Toad","Gravemoss Serpent","Thornback Turtle"
+	"Warden" = /mob/living/simple_animal/pet/familiar/elemental,
+	"Pondstone Toad" = /mob/living/simple_animal/pet/familiar/elemental/pondstone_toad,
+	"Gravemoss Serpent" = /mob/living/simple_animal/pet/familiar/elemental/gravemoss_serpent,
+	"Thornback Turtle" = /mob/living/simple_animal/pet/familiar/elemental/thornback_turtle
+))
+
+GLOBAL_LIST_INIT(planar_lists, list(
+	"fae" = GLOB.fae_familiars,
+	"infernal" = GLOB.infernal_familiars,
+	"elemental" = GLOB.elemental_familiars,
+	"void" = null
 ))

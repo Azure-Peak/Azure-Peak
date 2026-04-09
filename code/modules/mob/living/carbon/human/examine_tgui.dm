@@ -34,63 +34,6 @@
 		ui = new(user, src, "ExaminePanel")
 		ui.open()
 
-/datum/examine_panel/familiar/ui_static_data(mob/user) //altered and condensed version used for familiars. sorry
-
-	var/flavor_text
-	var/flavor_text_nsfw //probably breaks if i remove it entirely, just leaving it null
-	var/ooc_notes = ""
-	var/ooc_notes_nsfw
-	var/headshot = ""
-	var/list/img_gallery = list()
-	var/list/nsfw_img_gallery = list()
-	var/char_name
-	var/song_url
-	var/has_song = FALSE
-	var/is_vet = FALSE
-	var/is_naked = FALSE
-	var/obscured = FALSE
-
-	var/datum/preferences/prefs = holder.client?.prefs
-	var/datum/familiar_prefs/fam_pref = prefs?.familiar_prefs
-
-	flavor_text = fam_pref.familiar_flavortext_display
-	ooc_notes = fam_pref.familiar_ooc_notes_display
-	headshot = fam_pref.familiar_headshot_link
-	char_name = fam_pref.familiar_name
-	song_url = prefs.ooc_extra
-	is_vet = viewing.check_agevet()
-	if(!headshot)
-		headshot = "headshot_red.png"
-
-	if(song_url)
-		has_song = TRUE
-
-	var/list/data = list(
-		// Identity
-		"character_name" = obscured ? "Unknown" : char_name,
-		"headshot" = headshot,
-		"obscured" = obscured ? TRUE : FALSE,
-		// Descriptions
-		"flavor_text" = flavor_text,
-		"ooc_notes" = ooc_notes,
-		// Descriptions, but requiring manual input to see
-		"flavor_text_nsfw" = flavor_text_nsfw,
-		"ooc_notes_nsfw" = ooc_notes_nsfw,
-		"img_gallery" = img_gallery,
-		"nsfw_img_gallery" = nsfw_img_gallery,
-		"has_song" = has_song,
-		"is_vet" = is_vet,
-		"is_naked" = is_naked,
-	)
-
-	return data
-
-/datum/examine_panel/familiar/ui_data(mob/user)
-	var/list/data = list( 
-		"is_playing" = is_playing,
-	)
-	return data
-
 // Where MOST of the examine panel data lives because it don't update mid game
 /datum/examine_panel/ui_static_data(mob/user)
 	var/flavor_text

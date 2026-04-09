@@ -437,26 +437,36 @@ GLOBAL_LIST(teleport_runes)
 			return
 		var/list/preferred_candidates = list()
 		var/mob/chosen = null
+		var/plane = null
+		switch(S.type)
+			if(/mob/living/simple_animal/pet/familiar/fae)
+				plane = "fae"
+			if(/mob/living/simple_animal/pet/familiar/infernal)
+				plane = "infernal"
+			if(/mob/living/simple_animal/pet/familiar/elemental)
+				plane = "elemental"
+			if(/mob/living/simple_animal/pet/familiar/void)
+				plane = "void"
 		for(var/mob/candidate in candidates)
 			var/client/client_ref = candidate.client
-			to_chat(user, span_info("[client_ref] [client_ref.prefs] [client_ref.prefs.familiar_prefs] [client_ref.prefs.familiar_prefs.familiar_specie]"))
-			if(client_ref && client_ref.prefs && client_ref.prefs.familiar_prefs && client_ref.prefs.familiar_prefs.familiar_specie)
-				if(ispath(client_ref.prefs.familiar_prefs.familiar_specie,S.type))
-					// if it's the right planar origin, you get priority
+			if(client_ref && client_ref.prefs && client_ref.prefs.familiar_prefs)
+				if(client_ref.prefs.familiar_prefs.familiar_species[plane] && client_ref.prefs.familiar_prefs.familiar_names[plane] && client_ref.prefs.familiar_prefs.familiar_pronouns[plane])
+					// you have all the required fields set for a familiar of this type, congrats you can be summoned
 					preferred_candidates += candidate
 			else
 				// if not, we give you a hint to set your prefs so you can be summoned
 				to_chat(candidate,span_warning("Set your familiar prefs to be summoned as a familiar!"))
-		if(LAZYLEN(preferred_candidates)) // we found someone with preset settings for the correct planar origin: it's go time
+		if(LAZYLEN(preferred_candidates)) // we found someone with settings for the correct planar origin: it's go time
 			var/list/familiar_names = list()
 			var/list/familiar_choices = list()
 			for(var/mob/famcand in preferred_candidates)
-				familiar_names+=famcand.client.prefs.familiar_prefs.familiar_name
-				familiar_choices+="[famcand.client.prefs.familiar_prefs.familiar_name] ([GLOB.familiar_display_names[famcand.client.prefs.familiar_prefs.familiar_specie]])"
+				familiar_names+=famcand.client.prefs.familiar_prefs.familiar_names[plane]
+				var/fam_species = GLOB.familiar_display_names[famcand.client.prefs.familiar_prefs.familiar_species[plane]]
+				familiar_choices+="[famcand.client.prefs.familiar_prefs.familiar_names[plane]] ([fam_species])"
 			var/pretty_choice = input(user,"Select a familiar candidate to summon","ACROSS THE VEIL") as anything in familiar_choices
 			var/chosen_name = familiar_names[familiar_choices.Find(pretty_choice)] // if two people have the same familar name uhh idk lmao
 			for(var/mob/familiarcandidate in preferred_candidates)
-				if(familiarcandidate.client.prefs.familiar_prefs.familiar_name==chosen_name)
+				if(familiarcandidate.client.prefs.familiar_prefs.familiar_names[plane]==chosen_name)
 					chosen = familiarcandidate
 			if(!chosen)
 				//what the fuck
@@ -468,11 +478,12 @@ GLOBAL_LIST(teleport_runes)
 				return
 			qdel(S)
 			summoned_mob = null
-			var/mob/living/simple_animal/pet/familiar/fam = new prefs.familiar_specie(loc)
+			var/to_summon = prefs.familiar_species[plane]
+			var/mob/living/simple_animal/pet/familiar/fam = new to_summon(loc)
 			fam.familiar_summoner = user
-			fam.fully_replace_character_name(null, prefs.familiar_name)
-			fam.pronouns = prefs.familiar_pronouns
-			switch(prefs.familiar_pronouns) // why is our gender handling so bad for simples
+			fam.fully_replace_character_name(null, prefs.familiar_names[plane])
+			fam.pronouns = prefs.familiar_pronouns[plane]
+			switch(prefs.familiar_pronouns[plane]) // why is our gender handling so bad for simples
 				if(SHE_HER)
 					fam.gender=FEMALE
 				if(HE_HIM)
