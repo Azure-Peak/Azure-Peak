@@ -441,7 +441,7 @@
 	icon_state = "emberdrake" // temp
 	icon_living = "emberdrake"
 	speak_emote = list("growls","murmurs")
-	tutorial = span_notice("You are a new being, weak and without any notable traits. This will not do! Summon and consume mindless planar beings to grow your powers. One from each plane will suffice, for now. Add their natures to your own, and grow strong.")
+	tutorial_message = span_notice("You are a new being, weak and without any notable traits. This will not do! Summon and consume mindless planar beings to grow your powers. One from each plane will suffice, for now. Add their natures to your own, and grow strong.")
 	var/list/essences_consumed = list()
 	var/list/beam_parts = list()
 	inherent_spell = list(/obj/effect/proc_holder/spell/invoked/consume)
