@@ -20,7 +20,7 @@
 
 	invocations = list()
 	invocation_type = INVOCATION_NONE
-	var/barrage_invocation = "Tela Sine Fine!"
+	var/barrage_invocation = "Ultima Ratio Telum!"
 
 	charge_required = TRUE
 	weapon_cast_penalized = TRUE
