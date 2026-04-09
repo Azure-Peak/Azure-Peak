@@ -125,7 +125,7 @@
 		)
 		if(living_target.show_redflash())
 			living_target.flash_fullscreen("redflash3")
-		playsound(H, 'sound/combat/hits/bladed/genstab (1).ogg', 100, FALSE, -1)
+		playsound(living_target, 'sound/combat/hits/bladed/genstab (1).ogg', 100, FALSE, -1)
 		return TRUE
 
 /obj/effect/proc_holder/spell/invoked/incendiary_bite
