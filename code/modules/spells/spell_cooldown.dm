@@ -274,7 +274,7 @@
 		// Fully charged — swap to charged icon and stop processing
 		if(owner.client)
 			owner.client.mouse_pointer_icon = 'icons/effects/mousemice/swang/acharged.dmi'
-			playsound(owner, 'sound/magic/charged.ogg', 100, TRUE)
+			playsound(owner, 'sound/magic/charged.ogg', 40, TRUE)
 		return PROCESS_KILL
 
 /datum/action/cooldown/spell/Grant(mob/grant_to)
@@ -904,7 +904,7 @@
 	invocation(invoker)
 
 	if(sound)
-		playsound(owner, sound, 50, TRUE)
+		playsound(owner, sound, 60, TRUE)
 
 /// The invocation that accompanies the spell, called from spell_feedback() before cast().
 /datum/action/cooldown/spell/proc/invocation(mob/living/invoker)
