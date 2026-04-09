@@ -82,39 +82,6 @@
 	reqs = list(/obj/item/natural/wood/plank = 2,
 				/obj/item/magic/melded/t1 = 1)
 
-// these were used for the old binding system. which is still functional, in case anyone wants to use it for events or something,
-// but players shouldn't be able to craft these normally
-
-// /datum/crafting_recipe/roguetown/arcana/binding
-// 	name = "binding shackles"
-// 	result = /obj/item/rope/chain/bindingshackles
-// 	reqs = list(/obj/item/rope/chain = 1,
-// 				/obj/item/magic/melded/t1 = 1)
-
-// /datum/crafting_recipe/roguetown/arcana/bindingt2
-// 	name = "binding shackles (T2)"
-// 	result = /obj/item/rope/chain/bindingshackles/t2
-// 	reqs = list(/obj/item/rope/chain = 1,
-// 				/obj/item/magic/melded/t2 = 1)
-
-// /datum/crafting_recipe/roguetown/arcana/bindingt3
-// 	name = "binding shackles (T3)"
-// 	result = /obj/item/rope/chain/bindingshackles/t3
-// 	reqs = list(/obj/item/rope/chain = 1,
-// 				/obj/item/magic/melded/t3 = 1)
-
-// /datum/crafting_recipe/roguetown/arcana/bindingt4
-// 	name = "binding shackles (T4)"
-// 	result = /obj/item/rope/chain/bindingshackles/t4
-// 	reqs = list(/obj/item/rope/chain = 1,
-// 				/obj/item/magic/melded/t4 = 1)
-
-// /datum/crafting_recipe/roguetown/arcana/bindingt5
-// 	name = "binding shackles (T5)"
-// 	result = /obj/item/rope/chain/bindingshackles/t5
-// 	reqs = list(/obj/item/rope/chain = 1,
-// 				/obj/item/magic/melded/t5 = 1)
-
 /datum/crafting_recipe/roguetown/arcana/forge
 	name = "infernal forge"
 	req_table = FALSE
