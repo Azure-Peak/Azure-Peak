@@ -537,6 +537,7 @@ GLOBAL_LIST(teleport_runes)
 			else
 				tutorial = "You are a Void Drakeling: a being entirely new to this world, and all others. A fragment of draconic power torn from elsewhere, if you are ever to become as strong as what you were once part of, you must sate this hunger. Serve your creator, and be voracious; planar beings shall be the fuel for your ascension."
 			to_chat(fam, span_notice(tutorial))
+			GLOB.chosen_names += fam.real_name
 			GLOB.character_ckey_list[fam.real_name] = fam.ckey
 			log_game("[key_name(user)] has summoned [key_name(chosen)] as familiar '[fam.name]' ([fam.type]).")
 		else
