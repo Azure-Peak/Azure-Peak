@@ -79,7 +79,7 @@
 
 // ----- Familiar Binding -----
 
-/datum/runeritual/binding/infernal_t2
+/datum/runeritual/binding/infernal
 	name = "Bind Lesser Infernal"
 	desc = "Bind a lesser infernal to your service: a being of daemonic hatred, specializing in fiery destruction."
 	blacklisted = FALSE
@@ -87,7 +87,7 @@
 	required_atoms = list()
 	//required_atoms = list(/obj/item/magic/infernal/fang = 2, /obj/item/magic/leyline = 1)
 
-/datum/runeritual/binding/fae_t2
+/datum/runeritual/binding/fae
 	name = "Bind Lesser Fae"
 	desc =	 "Bind a lesser fae to your service: a being of natural whimsy, specializing in mobility and alchemy."
 	blacklisted = FALSE
@@ -95,7 +95,7 @@
 	required_atoms = list()
 	//required_atoms = list(/obj/item/magic/fae/iridescentscale = 2, /obj/item/magic/leyline = 1)
 
-/datum/runeritual/binding/elemental_t2
+/datum/runeritual/binding/elemental
 	name = "Bind Lesser Elemental"
 	desc = "Bind a lesser elemental to your service: a creature of earthen durability, specializing in world-manipulation and repairs."
 	blacklisted = FALSE
@@ -103,7 +103,7 @@
 	required_atoms = list()
 	// required_atoms = list(/obj/item/magic/elemental/shard = 2, /obj/item/magic/leyline = 1)
 
-/datum/runeritual/binding/void_dragon
+/datum/runeritual/binding/void
 	name = "Bind Void Drakeling"
 	desc = "Reach into the void and grasp a fragment of draconic power, shaping it into a familiar."
 	blacklisted = FALSE
