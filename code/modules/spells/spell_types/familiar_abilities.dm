@@ -123,6 +123,9 @@
 			span_notice("[user.name] bites [living_target.name], delivering a dose of an alchemical cocktail!"),
 			span_notice("You bite [living_target.name], delivering a dose of your alchemical cocktail!")
 		)
+		if(living_target.show_redflash())
+			living_target.flash_fullscreen("redflash3")
+		playsound(H, 'sound/combat/hits/bladed/genstab (1).ogg', 100, FALSE, -1)
 		return TRUE
 
 /obj/effect/proc_holder/spell/invoked/incendiary_bite
