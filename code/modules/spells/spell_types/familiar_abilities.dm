@@ -335,7 +335,7 @@
 		QDEL_NULL(target)
 		QDEL_NULL(user)
 		return TRUE
-	playsound(src, 'sound/foley/gross.ogg', 100, FALSE)
+	playsound(user, 'sound/gore/flesh_eat_03.ogg', 100, FALSE)
 	if(!user.essences_consumed.Find(essence_to_grant))
 		user.visible_message(
 			span_warning("[user] consumes [target], absorbing their essences!"),
