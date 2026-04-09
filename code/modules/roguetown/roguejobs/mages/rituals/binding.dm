@@ -1,22 +1,9 @@
 /*
  * ========== Binding Rituals ==========
  *
- * The payoff for leyline encounters. Mages spend realm materials gathered from
- * killing summoned creatures to bind a single creature to their service.
- * Drawn on a Binding Array (T2) or Greater Binding Array (T4).
- *
- * Costs: realm materials + runed artifact (tier count) + same-tier meld.
- *   Artifacts scale with tier: T1=1, T2=2, T3=3, T4=4.
- *   Melds force realm diversity — you need materials from all 3 realms
- *   to make one, meaning you either wait 3 days for different encounters
- *   or cooperate with other mages who went to different leylines.
- *
- * Realm material costs match 1 mob's drops at that tier:
- *   T1: 4x T1 mat, T2: 2x T2 mat, T3: 1x T3 mat, T4: 1x T4 mat.
- *
- * The bound creature spawns pacified, godmoded, paralyzed, and red-tinted
- * via bind_ritual_mob — the summoning circle's "seal and release" flow
- * handles the rest (removing godmode, giving orders, etc).
+ * Summon a familiar to aid you in your journey. Limit one per player, and not particularly tailored towards combat.
+ * Costs runed artifacts, planar materials, and leyline shards, but in low quantity.
+ * It'll only be a problem if you're a purist stay-at-home mage or want to feed a drakeling.
  */
 
 /datum/runeritual/binding

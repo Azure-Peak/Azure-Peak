@@ -141,6 +141,7 @@
 /mob/living/simple_animal/pet/familiar/fae/Initialize()
 	. = ..()
 	create_reagents(90, TRANSPARENT)
+	ADD_TRAIT(src, TRAIT_KNEESTINGER_IMMUNITY) // they're literally nature spirits
 
 /mob/living/simple_animal/pet/familiar/fae/examine(mob/user)
 	. = ..()
@@ -198,9 +199,6 @@
 	. = ..()
 
 /mob/living/simple_animal/pet/familiar/fae/attack_hand(mob/living/carbon/human/M)
-	if(!familiar_summoner)
-		to_chat(M,span_info("You pet [src], binding it to your will! Yeah this is a debug feature shush."))
-		familiar_summoner = M
 	if(ingredients.len)
 		var/obj/item/I = ingredients[ingredients.len]
 		ingredients -= I
@@ -295,6 +293,14 @@
 	t2_spell = /obj/effect/proc_holder/spell/self/infernal_surge
 	var/healing_range = 1
 	var/static/list/acceptable_beds = list(/obj/structure/bed, /obj/structure/flora/roguetree/stump, /obj/item/bedsheet)
+
+// they get to glow because they're on fire
+/mob/living/simple_animal/pet/familiar/infernal/Initialize()
+	. = ..()
+	src.set_light_range(LIGHT_RANGE_FIRE)
+	src.set_light_color(LIGHT_COLOR_FIRE)
+	if(src.light_system == STATIC_LIGHT)
+		src.update_light()
 
 // in case it wasn't obvious enough that this is license for people to be mad at you
 /mob/living/simple_animal/pet/familiar/infernal/examine(mob/user)
@@ -402,7 +408,7 @@
 	animal_species = "Void Drakeling"
 	icon_state = "emberdrake" // temp
 	icon_living = "emberdrake"
-	icon_dead = "emberdrake_dead"
+	icon_dead = "drakeling_dead"
 	speak_emote = list("growls","murmurs")
 	var/list/essences_consumed = list()
 	var/list/beam_parts = list()
@@ -425,13 +431,15 @@
 		if("fae") // faerie movement
 			src.pass_flags = PASSTABLE | PASSMOB
 			src.movement_type = FLYING
+			TryAddFlight()
 		if("infernal") // nerfed abberant beam
 			src.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/fire_obelisk_beam/drakeling)
-		if("elemental") // stat buff
+		if("elemental") // stat buff, inherits spell
 			src.maxHealth = WOLF_HEALTH_UNDEAD
 			src.health = WOLF_HEALTH_UNDEAD
 			src.STACON += 2
 			src.STAWIL += 2
+			src.mind.AddSpell(new /datum/action/cooldown/spell/magicians_stone/elemental)
 
 // no time-based tiering system here
 /mob/living/simple_animal/pet/familiar/void/do_time_change()

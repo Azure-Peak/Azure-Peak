@@ -451,8 +451,12 @@ GLOBAL_LIST(teleport_runes)
 			var/client/client_ref = candidate.client
 			if(client_ref && client_ref.prefs && client_ref.prefs.familiar_prefs)
 				if(client_ref.prefs.familiar_prefs.familiar_species[plane] && client_ref.prefs.familiar_prefs.familiar_names[plane] && client_ref.prefs.familiar_prefs.familiar_pronouns[plane])
-					// you have all the required fields set for a familiar of this type, congrats you can be summoned
-					preferred_candidates += candidate
+					if(client_ref.prefs.familiar_prefs.familiar_names[plane] in GLOB.chosen_names)
+						// special case: realname conflict
+						to_chat(client_ref, span_warning("Your familiar's name is already claimed, this round!"))
+					else
+						// you have all the required fields set for a familiar of this type, congrats you can be summoned
+						preferred_candidates += candidate
 			else
 				// if not, we give you a hint to set your prefs so you can be summoned
 				to_chat(candidate,span_warning("Set your familiar prefs to be summoned as a familiar!"))
@@ -533,10 +537,11 @@ GLOBAL_LIST(teleport_runes)
 			else
 				tutorial = "You are a Void Drakeling: a being entirely new to this world, and all others. A fragment of draconic power torn from elsewhere, if you are ever to become as strong as what you were once part of, you must sate this hunger. Serve your creator, and be voracious; planar beings shall be the fuel for your ascension."
 			to_chat(fam, span_notice(tutorial))
+			GLOB.character_ckey_list[fam.real_name] = fam.ckey
 			log_game("[key_name(user)] has summoned [key_name(chosen)] as familiar '[fam.name]' ([fam.type]).")
 		else
-			// nobody has valid familiar prefs, so we do this the hard way...
-			to_chat(user, span_warning("No valid familiar candidate found!")) // or not at all. for now.
+			// nobody has valid familiar prefs. woe!
+			to_chat(user, span_warning("No valid familiar candidate found!"))
 			return
 		playsound(user, 'sound/magic/teleport_diss.ogg', 75, TRUE)
 		do_invoke_glow()
