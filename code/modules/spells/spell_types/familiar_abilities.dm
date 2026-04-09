@@ -68,6 +68,11 @@
 	log_game("[key_name(user)] sent a message to [key_name(summoner)] with contents [message]")
 	return TRUE
 
+/datum/action/cooldown/spell/projectile/lesser_fetch/fae
+	name = "Grasp of Nature"
+	desc = "Shoot out a grasping vine that draws in a freestanding item towards the caster. Doesn't work on living targets."
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_SAME_Z
+
 /obj/effect/proc_holder/spell/invoked/reagent_bite
 	name = "Alchemical Bite" // placeholder
 	desc = "Bite a target, delivering a 5-dram dose of whatever is in your stomach."

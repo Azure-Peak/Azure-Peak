@@ -135,6 +135,7 @@
 	var/brewing = FALSE
 	var/brewtime = 0
 	pass_flags = PASSTABLE | PASSMOB
+	inherent_spell = list(/datum/action/cooldown/spell/projectile/lesser_fetch/fae)
 	movement_type = FLYING
 	t1_spell = /obj/effect/proc_holder/spell/invoked/reagent_bite
 
@@ -142,6 +143,7 @@
 	. = ..()
 	create_reagents(90, TRANSPARENT)
 	ADD_TRAIT(src, TRAIT_KNEESTINGER_IMMUNITY, TRAIT_GENERIC) // they're literally nature spirits
+	ADD_TRAIT(src, TRAIT_KEENEARS, TRAIT_GENERIC) // to fit with their recon focus
 
 /mob/living/simple_animal/pet/familiar/fae/examine(mob/user)
 	. = ..()
