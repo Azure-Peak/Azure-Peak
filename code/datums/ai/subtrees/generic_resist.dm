@@ -2,11 +2,11 @@
 	var/mob/living/living_pawn = controller.pawn
 
 	if(controller.blackboard[BB_RESISTING])
-		controller.queue_behavior(/datum/ai_behavior/resist) //KEEP TRYING TO RESIST
-		return SUBTREE_RETURN_FINISH_PLANNING //JUST KEEP DOING IT PLEASE
+		controller.queue_behavior(/datum/ai_behavior/resist)
+		return // Resist grab / but don't block melee attack
 	if(SHOULD_RESIST(living_pawn) && SPT_PROB(75, seconds_per_tick))
-		controller.queue_behavior(/datum/ai_behavior/resist) //BRO IM ON FUCKING FIRE BRO
-		return SUBTREE_RETURN_FINISH_PLANNING //IM NOT DOING ANYTHING ELSE BUT EXTINGUISH MYSELF, GOOD GOD HAVE MERCY.
+		controller.queue_behavior(/datum/ai_behavior/resist)
+		return // Same - resist fire and don't block combat.
 
 /datum/ai_behavior/resist/perform(seconds_per_tick, datum/ai_controller/controller)
 	var/mob/living/living_pawn = controller.pawn

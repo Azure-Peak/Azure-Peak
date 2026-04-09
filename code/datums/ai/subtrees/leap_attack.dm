@@ -4,7 +4,7 @@
 #define LEAP_MAX_DISTANCE       8     // tiles - don't leap if target is too far (waste of stamina)
 #define LEAP_OBSTACLE_PATH_RATIO 1.5  // path must be at least this much longer than direct distance to count as "obstacle in the way"
 #define LEAP_STAMINA_RESERVE    0.5   // require at least this much stamina headroom (0-1, fraction of max)
-#define LEAP_COOLDOWN           (4 SECONDS)
+#define LEAP_COOLDOWN           (10 SECONDS)
 #define LEAP_RUN_RANGE          3     // jump_action with MOVE_INTENT_RUN reaches 3 tiles
 #define LEAP_WALK_RANGE         2     // without run, 2 tiles
 
