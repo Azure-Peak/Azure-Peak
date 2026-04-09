@@ -350,7 +350,7 @@ have ways of interacting with a specific atom and control it. They posses a blac
 /datum/ai_controller/proc/on_pawn_attacked(mob/living/source, atom/attacker, damage)
 	SIGNAL_HANDLER
 	if(ai_status != AI_STATUS_ON)
-		set_ai_status(AI_STATUS_ON)
+		reset_ai_status()
 
 /// Sets the AI on or off based on current conditions, call to reset after you've manually disabled it somewhere
 /datum/ai_controller/proc/reset_ai_status()
