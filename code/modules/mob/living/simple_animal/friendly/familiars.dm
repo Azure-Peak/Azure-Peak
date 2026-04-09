@@ -73,6 +73,7 @@
 	ADD_TRAIT(src, TRAIT_INFINITE_STAMINA, TRAIT_GENERIC)
 	AddComponent(/datum/component/footstep, footstep_type)
 	TryAddFlight()
+	icon_dead = icon_living // to prevent sprite updating weirdness with vestige revival
 
 /mob/living/simple_animal/pet/familiar/death(gibbed)
 	. = ..(gibbed)
@@ -135,7 +136,6 @@
 	summoning_emote = "A flower sprouts in the center of the rune, blossoming into a small faerie!"
 	icon_state = "sprite"
 	icon_living = "sprite"
-	icon_dead = "leaf_trail"
 	speak_emote = list("rustles", "flutters", "creaks")
 	var/list/ingredients = list()
 	var/maxingredients = 4
@@ -296,7 +296,6 @@
 	summoning_emote = "Flame erupts in the center of the rune, coalescing into a hellish canid!"
 	icon_state = "hellhound"
 	icon_living = "hellhound"
-	icon_dead = "emberdrake_dead"
 	speak_emote = list("growls","crackles")
 	t1_spell = /obj/effect/proc_holder/spell/invoked/incendiary_bite
 	t2_spell = /obj/effect/proc_holder/spell/self/infernal_surge
@@ -397,7 +396,6 @@
 	summoning_emote = "The ground begins to rumble as a pile of raw earth erupts, forming into the rough visage of a humanoid figure!"
 	icon_state = "warden"
 	icon_living = "warden"
-	icon_dead = "stonebig1"
 	maxHealth = WOLF_HEALTH_UNDEAD // more durable than the others
 	health = WOLF_HEALTH_UNDEAD
 	speak_emote = list ("rumbles", "grinds")
@@ -417,7 +415,6 @@
 	animal_species = "Void Drakeling"
 	icon_state = "emberdrake" // temp
 	icon_living = "emberdrake"
-	icon_dead = "drakeling_dead"
 	speak_emote = list("growls","murmurs")
 	var/list/essences_consumed = list()
 	var/list/beam_parts = list()
@@ -503,7 +500,6 @@
 	animal_species = "Ashcoiler"
 	icon_state = "ashcoiler"
 	icon_living = "ashcoiler"
-	icon_dead = "ashcoiler_dead"
 	speak_emote = list("hisses", "rasps")
 
 /mob/living/simple_animal/pet/familiar/fae/glimmer_hare
@@ -514,7 +510,6 @@
 	alpha = 150
 	icon_state = "glimmer"
 	icon_living = "glimmer"
-	icon_dead = "glimmer_dead"
 	speak_emote = list("chatters quickly", "chirps")
 
 /mob/living/simple_animal/pet/familiar/fae/hollow_antlerling
@@ -524,7 +519,6 @@
 	animal_species = "Hollow Antlerling"
 	icon_state = "antlerling"
 	icon_living = "antlerling"
-	icon_dead = "antlerling_dead"
 	speak_emote = list("chimes softly", "calls out")
 
 /mob/living/simple_animal/pet/familiar/elemental/gravemoss_serpent
@@ -534,7 +528,6 @@
 	animal_species = "Gravemoss Serpent"
 	icon_state = "gravemoss"
 	icon_living = "gravemoss"
-	icon_dead = "gravemoss_dead"
 	speak_emote = list("hisses low", "mutters")
 
 /mob/living/simple_animal/pet/familiar/fae/starfield_crow
@@ -544,7 +537,6 @@
 	animal_species = "Starfield Crow"
 	icon_state = "crow_flying"
 	icon_living = "crow_flying"
-	icon_dead = "crow_dead"
 	speak_emote = list("caws quietly", "croaks")
 
 /mob/living/simple_animal/pet/familiar/infernal/emberdrake
@@ -554,7 +546,6 @@
 	animal_species = "Emberdrake"
 	icon_state = "emberdrake"
 	icon_living = "emberdrake"
-	icon_dead = "emberdrake_dead"
 	speak_emote = list("crackles", "speaks warmly")
 
 /mob/living/simple_animal/pet/familiar/fae/ripplefox
@@ -564,7 +555,6 @@
 	animal_species = "Ripplefox"
 	icon_state = "ripple"
 	icon_living = "ripple"
-	icon_dead = "ripple_dead"
 	speak_emote = list("whispers fast", "speaks quickly")
 
 /mob/living/simple_animal/pet/familiar/fae/whisper_stoat
@@ -574,7 +564,6 @@
 	animal_species = "Whisper Stoat"
 	icon_state = "whisper"
 	icon_living = "whisper"
-	icon_dead = "whisper_dead"
 	speak_emote = list("mutters", "speaks softly")
 
 /mob/living/simple_animal/pet/familiar/elemental/thornback_turtle
@@ -584,7 +573,6 @@
 	animal_species = "Thornback Turtle"
 	icon_state = "thornback"
 	icon_living = "thornback"
-	icon_dead = "thornback_dead"
 	speak_emote = list("rumbles", "speaks slowly")
 
 #undef FAMILIAR_SEE_IN_DARK
