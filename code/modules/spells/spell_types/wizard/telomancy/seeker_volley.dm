@@ -40,6 +40,9 @@
 		var/obj/projectile/magic/seeker_orb/orb = to_fire
 		orb.set_homing_target(target)
 		orb.Angle += ((iteration - (projectiles_per_fire + 1) / 2) * 60)
+		// Only the center orb can roll for blunt crit/knockout
+		if(iteration != (projectiles_per_fire + 1) / 2)
+			orb.woundclass = null
 
 /obj/projectile/magic/seeker_orb
 	name = "seeker orb"

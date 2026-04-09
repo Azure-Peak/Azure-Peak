@@ -42,6 +42,9 @@
 		base_angle = Get_Angle(user, target)
 	var/center_index = (projectiles_per_fire + 1) / 2
 	to_fire.Angle = base_angle + ((iteration - center_index) * spread_step)
+	// Only the center bolt can roll for blunt crit/knockout
+	if(iteration != center_index)
+		to_fire.woundclass = null
 
 /obj/projectile/magic/arcyne_salvo
 	name = "arcyne bolt"

@@ -50,6 +50,9 @@
 		base_angle = Get_Angle(user, target)
 	var/center_index = (projectiles_per_fire + 1) / 2
 	to_fire.Angle = base_angle + ((iteration - center_index) * spread_step)
+	// Only the center shard can roll for stab crit
+	if(iteration != center_index)
+		to_fire.woundclass = null
 
 // --- Stygian projectile ---
 
