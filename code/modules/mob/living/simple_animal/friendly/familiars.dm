@@ -153,14 +153,14 @@
 	ADD_TRAIT(src, TRAIT_KEENEARS, TRAIT_GENERIC) // to fit with their recon focus
 
 /mob/living/simple_animal/pet/familiar/fae/examine(mob/user)
-	. = ..()
+	var/list/ret = ..()
 	if(reagents)
 		if(reagents.flags & TRANSPARENT)
 			if(length(reagents.reagent_list))
 				if(user.can_see_reagents() || (user.Adjacent(src) && (user.get_skill_level(/datum/skill/craft/alchemy) >= 2 || HAS_TRAIT(user, TRAIT_CICERONE)))) //Show each individual reagent
-					. += "[src.p_they()] contain[src.gender==PLURAL?"":"s"]:"
+					ret.Insert(LAZYLEN(ret)-2, "[src.p_they()] contain[src.gender==PLURAL?"":"s"]:")
 					for(var/datum/reagent/R in reagents.reagent_list)
-						. += "[round(R.volume, 0.1)] [UNIT_FORM_STRING(round(R.volume, 0.1))] of <font color=[R.color]>[R.name]</font>"
+						ret.Insert(LAZYLEN(ret)-2, "[round(R.volume, 0.1)] [UNIT_FORM_STRING(round(R.volume, 0.1))] of <font color=[R.color]>[R.name]</font>")
 				else //Otherwise, just show the total volume
 					var/total_volume = 0
 					var/reagent_color
@@ -168,29 +168,40 @@
 						total_volume += R.volume
 					reagent_color = mix_color_from_reagents(reagents.reagent_list)
 					if(total_volume < 1)
-						. += "[src.p_they()] contain[src.gender==PLURAL?"":"s"] less than 1 [UNIT_FORM_STRING(1)] of <font color=[reagent_color]>something.</font>"
+						ret.Insert(LAZYLEN(ret)-2, "[src.p_they()] contain[src.gender==PLURAL?"":"s"] less than 1 [UNIT_FORM_STRING(1)] of <font color=[reagent_color]>something.</font>")
 					else
-						. += "[src.p_they()] contain[src.gender==PLURAL?"":"s"] [round(total_volume)] [UNIT_FORM_STRING(round(total_volume))] of <font color=[reagent_color]>something.</font>"
+						ret.Insert(LAZYLEN(ret)-2, "[src.p_they()] contain[src.gender==PLURAL?"":"s"] [round(total_volume)] [UNIT_FORM_STRING(round(total_volume))] of <font color=[reagent_color]>something.</font>")
 			else
-				. += "Nothing."
+				ret.Insert(LAZYLEN(ret)-2, "Nothing.")
 		else if(reagents.flags & AMOUNT_VISIBLE)
 			if(reagents.total_volume)
-				. += span_notice("[src.p_they()] [src.gender==PLURAL?"have":"has"] [round(reagents.total_volume)] [UNIT_FORM_STRING(round(reagents.total_volume))] left.")
+				ret.Insert(LAZYLEN(ret)-2, span_notice("[src.p_they()] [src.gender==PLURAL?"have":"has"] [round(reagents.total_volume)] [UNIT_FORM_STRING(round(reagents.total_volume))] left."))
 			else
-				. += span_danger("[src]'s stomach is empty.")
+				ret.Insert(LAZYLEN(ret)-2, span_danger("[src]'s stomach is empty."))
+	return ret
 
 /mob/living/simple_animal/pet/familiar/fae/attackby(obj/item/I, mob/user, params)
-	if(istype(I, /obj/item/reagent_containers) && tier >= 1) 
+	if(istype(I, /obj/item/reagent_containers) && tier >= 1)
 		var/datum/reagents/container_reagents=I.reagents
-		if(istype(container_reagents) && container_reagents.total_volume>0 && !reagents.holder_full())
+		if(istype(container_reagents) && user.used_intent.type == INTENT_POUR && container_reagents.total_volume>0 && !reagents.holder_full())
 			user.visible_message(
 				span_notice("I begin feeding [src] from [I]..."),
 				span_notice("[user] begins feeding [src] from [I]...")
 			)
-			while(!reagents.holder_full() && container_reagents.trans_to(src,5,transfered_by=user))
+			while(!reagents.holder_full() && do_after_mob(user, src, 1 SECONDS) && container_reagents.trans_to(src,5,transfered_by=user))
 				user.visible_message(
 					span_notice("I feed [src] from [I]..."),
 					span_notice("[user] feeds [src] from [I]...")
+				)
+		else if(istype(container_reagents) && user.used_intent.type == /datum/intent/fill)
+			src.visible_message(,
+				span_notice("I begin filling [user]'s [I.name]..."),
+				span_notice("[src] begins filling [user]'s [I.name]...")
+			)
+			while(!container_reagents.holder_full() && do_after_mob(user, src, 1 SECONDS) && reagents.trans_to(I,5,transfered_by=user))
+				src.visible_message(
+					span_notice("I fill [I] with some of my solution..."),
+					span_notice("[src] fills [I] with some solution...")
 				)
 	else if(istype(I, /obj/item/alch) && tier >= 2)
 		if(ingredients.len >= maxingredients)
