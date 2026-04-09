@@ -112,7 +112,7 @@
 
 /mob/living/simple_animal/pet/familiar/do_time_change()
 	. = ..()
-	if(GLOB.tod == "night" && tier < 2)
+	if(!istype(src, /mob/living/simple_animal/pet/familiar/void) && GLOB.tod == "night" && tier < 2)
 		to_chat(src, span_info("As another nite falls, your powers grow, adjusting more to the mortal plane."))
 		tier++
 		grant_tier_abilities(tier)
@@ -121,7 +121,7 @@
 	. = ..()
 	emote("deathgasp")
 	if(familiar_summoner)
-		to_chat(familiar_summoner, span_warning("[src.name] has fallen, and your bond dims. Yet in the quiet beyond, a flicker of their essence remains."))
+		to_chat(familiar_summoner, span_warning("[src.name] has fallen, and your bond dims. They may be recalled yet, should you recover their vestige."))
 
 /mob/living/simple_animal/pet/familiar/Destroy()
     if(familiar_summoner && familiar_summoner.mind)
@@ -410,7 +410,7 @@
 
 /mob/living/simple_animal/pet/familiar/void
 	name = "Void Drakeling"
-	desc = "An abberant being of the void, or a fragment of one; its eyes shine with a voracious hunger." // we don't put all the details here bcs this can be seen by nonmages
+	desc = "A small draconic being, gazing inquisitively at the world around it. It pulses with unseen power." // we don't put all the details here bcs this can be seen by nonmages
 	summoning_emote = "A small rift opens in the center of the rune! The ritual tears a fragment of draconic power from the other side and forms it into a draconic, if diminutive, shape..."
 	animal_species = "Void Drakeling"
 	icon_state = "emberdrake" // temp
@@ -419,6 +419,11 @@
 	var/list/essences_consumed = list()
 	var/list/beam_parts = list()
 	inherent_spell = list(/obj/effect/proc_holder/spell/invoked/consume)
+
+/mob/living/simple_animal/pet/familiar/void/fire_act(added, maxstacks)
+	if(essences_consumed.Find("infernal"))
+		return FALSE
+	. = ..()
 
 /mob/living/simple_animal/pet/familiar/void/examine(mob/user)
 	var/list/ret = ..()
@@ -429,27 +434,24 @@
 		knows |= (user.mind.mage_aspect_config && user.mind.mage_aspect_config["major"])
 	if(knows)
 		ret.Insert(2, span_userdanger("AN ABBERANT...?"))
-		ret[3] = "A fragment of a void abberant's power, torn away and fashioned into a familiar; its eyes shine with a voracious hunger. What has been wrought, here? Who would—or even could—create such a thing?"
+		ret[3] = "A fragment of a void abberant's power, torn away and fashioned into a familiar; its eyes shine with a voracious hunger. What work of hubris has been wrought, here? Who would—or even could—create such a thing?"
 	return ret
 
 /mob/living/simple_animal/pet/familiar/void/proc/grant_essence(type)
 	switch(type)
-		if("fae") // faerie movement
+		if("fae") // faerie movement, inherits spell
 			src.pass_flags = PASSTABLE | PASSMOB
 			src.movement_type = FLYING
 			TryAddFlight()
-		if("infernal") // nerfed abberant beam
+			src.mind.AddSpell()
+		if("infernal") // nerfed abberant beam, fire res
 			src.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/fire_obelisk_beam/drakeling)
 		if("elemental") // stat buff, inherits spell
 			src.maxHealth = WOLF_HEALTH_UNDEAD
 			src.health = WOLF_HEALTH_UNDEAD
 			src.STACON += 2
 			src.STAWIL += 2
-			src.mind.AddSpell(new /datum/action/cooldown/spell/magicians_stone/elemental)
-
-// no time-based tiering system here
-/mob/living/simple_animal/pet/familiar/void/do_time_change()
-	return
+			src.mind.AddSpell(new /datum/action/cooldown/spell/magicians_stone/elemental/void)
 
 /mob/living/simple_animal/pet/familiar/elemental/pondstone_toad
     name = "Pondstone Toad"

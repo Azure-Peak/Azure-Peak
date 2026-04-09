@@ -72,6 +72,7 @@
 	name = "Grasp of Nature"
 	desc = "Shoot out a grasping vine that draws in a freestanding item towards the caster. Doesn't work on living targets."
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_SAME_Z
+	invocations = list("Recolligere silva")
 
 /obj/effect/proc_holder/spell/invoked/reagent_bite
 	name = "Alchemical Bite" // placeholder
@@ -162,6 +163,8 @@
 		new /obj/effect/temp_visual/fire(T)
 
 /datum/action/cooldown/spell/magicians_stone/elemental
+	name = "Create Stone"
+	fluff_desc = ""
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_SAME_Z
 
 /datum/action/cooldown/spell/arcyne_forge/elemental
@@ -411,3 +414,12 @@
 		for(var/obj/effect/obeliskbeam/drakeling/beam in user.beam_parts)
 			beam.disperse()
 		user.beam_parts = list()
+
+/datum/action/cooldown/spell/projectile/lesser_fetch/fae/void
+	name = "Grasp of the Void"
+	desc = "Grasp a freestanding item with your arcyne power, drawing it towards the caster. Doesn't work on living targets."
+	invocations = list("Nihilo, recolligere")
+
+
+/datum/action/cooldown/spell/magicians_stone/elemental/void
+	name = "Harvest Stone"
