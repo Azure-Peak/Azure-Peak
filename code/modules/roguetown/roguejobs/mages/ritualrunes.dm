@@ -580,7 +580,7 @@ GLOBAL_LIST(teleport_runes)
 			continue
 		var/mob/living/living_invoker = invoker
 		var/datum/runeritual/binding/bindingritual = runeritual
-		if(istype(bindingritual) && bindingritual.invocation)
+		if(bindingritual.invocation)
 			living_invoker.say(bindingritual.invocation, language = /datum/language/common, ignore_spam = TRUE, forced = "cult invocation")
 		if(invoke_damage)
 			living_invoker.apply_damage(invoke_damage, BRUTE)
