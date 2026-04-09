@@ -3,10 +3,16 @@
 
 	if(controller.blackboard[BB_RESISTING])
 		controller.queue_behavior(/datum/ai_behavior/resist)
-		return // Resist grab / but don't block melee attack
+		if(living_pawn.pulledby?.grab_state > GRAB_PASSIVE && isliving(living_pawn.pulledby))
+			controller.set_blackboard_key(BB_BASIC_MOB_CURRENT_TARGET, living_pawn.pulledby)
+			controller.set_blackboard_key(BB_HIGHEST_THREAT_MOB, living_pawn.pulledby)
+		return // Don't block planning — melee and kick subtrees run after this.
 	if(SHOULD_RESIST(living_pawn) && SPT_PROB(75, seconds_per_tick))
 		controller.queue_behavior(/datum/ai_behavior/resist)
-		return // Same - resist fire and don't block combat.
+		if(living_pawn.pulledby?.grab_state > GRAB_PASSIVE && isliving(living_pawn.pulledby))
+			controller.set_blackboard_key(BB_BASIC_MOB_CURRENT_TARGET, living_pawn.pulledby)
+			controller.set_blackboard_key(BB_HIGHEST_THREAT_MOB, living_pawn.pulledby)
+		return // Resist + fight, don't block combat.
 
 /datum/ai_behavior/resist/perform(seconds_per_tick, datum/ai_controller/controller)
 	var/mob/living/living_pawn = controller.pawn
