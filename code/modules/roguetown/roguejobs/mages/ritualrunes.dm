@@ -446,7 +446,7 @@ GLOBAL_LIST(teleport_runes)
 				return FALSE
 		to_chat(user, span_notice(plane=="void"?"You begin attempting to awaken your creation's mind...":"You reach across the veil, attempting to draw in the familiar's mind..."))
 		busy = TRUE
-		var/list/candidates = pollCandidatesForMob("Do you want to play as a Mage's familiar? You will materialize as a [plane] familiar.", null, null, null, 100, S, POLL_IGNORE_MAGE_SUMMON)
+		var/list/candidates = pollCandidatesForMob("Do you want to play as a Mage's familiar? You will materialize as [(plane == "infernal" || plane == "elemental")?"an":"a"] [plane] familiar.", null, null, null, 100, S, POLL_IGNORE_MAGE_SUMMON)
 		if(!LAZYLEN(candidates))
 			to_chat(user,span_warning("No candidate players available."))
 			return
