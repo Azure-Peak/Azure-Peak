@@ -73,6 +73,8 @@
 	desc = "Bite a target, delivering a 5-dram dose of whatever is in your stomach."
 	range = 1
 	recharge_time = 10 SECONDS
+	overlay_icon = 'icons/mob/actions/mage_hex.dmi'
+	overlay_icon_state = "wither"
 
 /obj/effect/proc_holder/spell/invoked/reagent_bite/cast(list/targets, mob/living/simple_animal/pet/familiar/fae/user)
 	. = ..()
@@ -122,6 +124,8 @@
 	desc = "Bite a target, engulfing them in infernal flame."
 	range = 1
 	recharge_time = 10 SECONDS
+	overlay_icon = 'icons/mob/actions/mage_pyromancy.dmi'
+	overlay_icon_state = "spitfire"
 
 /obj/effect/proc_holder/spell/invoked/incendiary_bite/cast(list/targets, mob/living/simple_animal/pet/familiar/infernal/user)
 	. = ..()
@@ -142,6 +146,8 @@
 	name = "Infernal Surge"
 	desc = "Let loose the flame of the hells in a small radius around you."
 	recharge_time = 15 SECONDS
+	overlay_icon = 'icons/mob/actions/mage_pyromancy.dmi'
+	overlay_icon_state = "fire_curtain"
 
 /obj/effect/proc_holder/spell/self/infernal_surge/cast(list/targets, mob/user)
 	. = ..()
@@ -149,6 +155,9 @@
 	for(var/turf/T in range(1, center)) // 2  turned out to be too much lol
 		new /obj/effect/hotspot(T, null, null, 10)
 		new /obj/effect/temp_visual/fire(T)
+
+/datum/action/cooldown/spell/magicians_stone/elemental
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_SAME_Z
 
 /datum/action/cooldown/spell/arcyne_forge/elemental
 	name = "Earthen Forge"
@@ -250,6 +259,8 @@
 	desc = "Devour a planar being, feasting on its essences. Eat, and grow strong."
 	range = 1
 	recharge_time = 10 SECONDS
+	overlay_icon = 'icons/mob/actions/hagspells.dmi'
+	overlay_icon_state = "hand_up"
 
 /obj/effect/proc_holder/spell/invoked/consume/cast(list/targets, mob/living/simple_animal/pet/familiar/void/user)
 	. = ..()
@@ -341,6 +352,8 @@
 	name = "Abberant Beam"
 	desc = "Show these fools the power of the void! With the power absorbed from that infernal, this much is no issue for you now."
 	recharge_time = 30 SECONDS
+	overlay_icon = 'icons/mob/actions/mage_shared.dmi'
+	overlay_icon_state = "soulshot"
 
 /obj/effect/obeliskbeam/drakeling
 	name = "drakeling beam"
@@ -357,7 +370,7 @@
 	user.face_atom(targets[1])
 	user.move_resist = MOVE_FORCE_VERY_STRONG
 	if(do_after(user,1 SECONDS, target=user))
-		user.visible_message(span_danger("[user] fires a aberrant beam!"))
+		user.visible_message(span_danger("[user] fires an aberrant beam!"))
 		playsound(user, 'sound/magic/obeliskbeam.ogg', 150, FALSE, 0, 3)
 		var/turf/target_turf = get_ranged_target_turf(user, user.dir, 4) // nerfed range by _over_ half
 		var/turf/origin_turf = get_turf(user)

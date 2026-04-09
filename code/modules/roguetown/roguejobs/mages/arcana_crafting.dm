@@ -125,12 +125,6 @@
 				/obj/item/magic/fae/sylvanessence = 1,
 				/obj/item/magic/elemental/relic = 1)
 
-/datum/crafting_recipe/roguetown/arcana/meldt5
-	name = "arcanic abberation"
-	result = /obj/item/magic/melded/t5
-	reqs = list(/obj/item/magic/melded/t4 = 1,
-				/obj/item/magic/voidstone = 1)
-
 // ========== Fission (downgrade, same realm) ==========
 // Lesser: 1 T2 → 2 T1. Greater: 1 T3 → 2 T2. Grand: 1 T4 → 1 T3.
 

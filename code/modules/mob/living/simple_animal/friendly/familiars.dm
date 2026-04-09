@@ -386,7 +386,7 @@
 	maxHealth = WOLF_HEALTH_UNDEAD // more durable than the others
 	health = WOLF_HEALTH_UNDEAD
 	speak_emote = list ("rumbles", "grinds")
-	inherent_spell = list(/datum/action/cooldown/spell/magicians_stone) 
+	inherent_spell = list(/datum/action/cooldown/spell/magicians_stone/elemental) 
 	t1_spell = /datum/action/cooldown/spell/arcyne_forge/elemental
 	t2_spell = /datum/action/cooldown/spell/arcyne_forge/elemental/t2
 

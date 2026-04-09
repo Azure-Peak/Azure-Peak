@@ -131,13 +131,13 @@
 /datum/runeritual/binding/release_familiar
 	name = "Free Familiar"
 	desc = "Terminate your contract with a familiar, sending them back from whence they came unharmed."
-	required_atoms = list(/mob/living/simple_animal/pet/familiar)
 	blacklisted = FALSE
 
 /datum/runeritual/binding/release_familiar/on_finished_recipe(mob/living/user, list/selected_atoms, turf/loc)
-	if(!selected_atoms.len)
-		return FALSE
-	var/mob/living/simple_animal/pet/familiar/fam = selected_atoms[1]
+	var/mob/living/simple_animal/pet/familiar/fam
+	for(var/mob/living/simple_animal/pet/familiar/existing_fam in GLOB.alive_mob_list + GLOB.dead_mob_list)
+		if(existing_fam.familiar_summoner == user)
+			fam = existing_fam
 	if(!istype(fam))
 		return FALSE
 	if(QDELETED(fam))
@@ -158,6 +158,7 @@
 	else
 		exit_msg = "[fam.name] looks in the direction of [user.name] one last time, before opening a portal and vanishing into it."
 	fam.visible_message(span_warning(exit_msg))
+	QDEL_NULL(fam)
 	return TRUE
 
 /datum/runeritual/planar_pact
