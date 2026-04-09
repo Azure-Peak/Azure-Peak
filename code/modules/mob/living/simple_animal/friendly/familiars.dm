@@ -58,6 +58,8 @@
 	var/mob/living/carbon/familiar_summoner = null
 	var/inherent_spell = null
 	var/t1_spell = null
+	var/tutorial_message = null
+	var/tierup_messages = list()
 	var/t2_spell = null
 	var/summoning_emote = null
 	
@@ -114,6 +116,8 @@
 	. = ..()
 	if(!istype(src, /mob/living/simple_animal/pet/familiar/void) && GLOB.tod == "night" && tier < 2)
 		to_chat(src, span_info("As another nite falls, your powers grow, adjusting more to the mortal plane."))
+		if(tierup_messages[tier])
+			to_chat(src, tierup_messages[tier])
 		tier++
 		grant_tier_abilities(tier)
 
@@ -145,6 +149,11 @@
 	inherent_spell = list(/datum/action/cooldown/spell/projectile/lesser_fetch/fae)
 	movement_type = FLYING
 	t1_spell = /obj/effect/proc_holder/spell/invoked/reagent_bite
+	tutorial_message = span_notice("As a native of the faewyld, you are able to fly, and kneestingers will not harm you. In addition, you can lash out with a vine to retrieve small objects at a distance.")
+	tierup_messages = list(
+		span_info("You can now act as a reagent container, holding up to 90 drams of any solution. You can also deliver 5 drams at a time of your stored solution with an alchemical bite."),
+		span_info("You now act as a portable cauldron, able to be fed alchemical reagents and brew them into potions. You do not need water to do so. Any attempts to brew potion beyond your reagent capacity will result in reagents being voided.")
+	)
 
 /mob/living/simple_animal/pet/familiar/fae/Initialize()
 	. = ..()
@@ -308,6 +317,11 @@
 	icon_state = "hellhound"
 	icon_living = "hellhound"
 	speak_emote = list("growls","crackles")
+	tutorial_message = span_notice("As a weaker denizen of the hells, your fire is tame enough to act as a campfire: you can be cooked on, or rested near to aid in recuperation. You also shine with a small amount of light, and flames will not harm you.")
+	tierup_messages = list(
+		span_info("You can now bring a mote of infernal flame to bear with a bite, igniting anything you desire."),
+		span_info("As your flame grows, you can manifest it more directly, surging around you to burn anything unfortunate enough to be nearby.")
+	)
 	t1_spell = /obj/effect/proc_holder/spell/invoked/incendiary_bite
 	t2_spell = /obj/effect/proc_holder/spell/self/infernal_surge
 	var/healing_range = 1
@@ -421,12 +435,13 @@
 
 /mob/living/simple_animal/pet/familiar/void
 	name = "Void Drakeling"
-	desc = "A small draconic being, gazing inquisitively at the world around it. It pulses with unseen power." // we don't put all the details here bcs this can be seen by nonmages
+	desc = "A small draconic being, gazing inquisitively at the world around it. It pulses with an unfamiliar power." // we don't put all the details here bcs this can be seen by nonmages
 	summoning_emote = "A small rift opens in the center of the rune! The ritual tears a fragment of draconic power from the other side and forms it into a draconic, if diminutive, shape..."
 	animal_species = "Void Drakeling"
 	icon_state = "emberdrake" // temp
 	icon_living = "emberdrake"
 	speak_emote = list("growls","murmurs")
+	tutorial = span_notice("You are a new being, weak and without any notable traits. This will not do! Summon and consume mindless planar beings to grow your powers. One from each plane will suffice, for now. Add their natures to your own, and grow strong.")
 	var/list/essences_consumed = list()
 	var/list/beam_parts = list()
 	inherent_spell = list(/obj/effect/proc_holder/spell/invoked/consume)
@@ -451,13 +466,16 @@
 /mob/living/simple_animal/pet/familiar/void/proc/grant_essence(type)
 	switch(type)
 		if("fae") // faerie movement, inherits spell
+			to_chat(src, span_notice("As you absorb the essence of the faewyld, you take on some of its nature. You can now fly, and you've gained the ability to retrieve objects at a distance."))
 			src.pass_flags = PASSTABLE | PASSMOB
 			src.movement_type = FLYING
 			TryAddFlight()
-			src.mind.AddSpell()
+			src.mind.AddSpell(new /datum/action/cooldown/spell/projectile/lesser_fetch/fae/void)
 		if("infernal") // nerfed abberant beam, fire res
+			to_chat(src, span_notice("As you absorb the essence of the hells, you take on some of their nature. Flames will harm you no more, and you can now manifest an abberant beam to blast your foes."))
 			src.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/fire_obelisk_beam/drakeling)
 		if("elemental") // stat buff, inherits spell
+			to_chat(src, span_notice("As you absorb the essence of the depths, you take on some of its nature. Your body grows sturdier, and you can now tear stones from the earth itself."))
 			src.maxHealth = WOLF_HEALTH_UNDEAD
 			src.health = WOLF_HEALTH_UNDEAD
 			src.STACON += 2
