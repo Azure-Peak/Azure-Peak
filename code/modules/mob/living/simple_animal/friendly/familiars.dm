@@ -20,7 +20,7 @@
 	icon = 'icons/roguetown/mob/familiars.dmi'
 
 	pass_flags = PASSMOB //We don't want them to block players.
-	base_intents = list(INTENT_HELP, /datum/intent/simple/bite)
+	base_intents = list(INTENT_HELP)
 	melee_damage_lower = 1
 	melee_damage_upper = 2
 
@@ -73,6 +73,13 @@
 	ADD_TRAIT(src, TRAIT_INFINITE_STAMINA, TRAIT_GENERIC)
 	AddComponent(/datum/component/footstep, footstep_type)
 	TryAddFlight()
+
+/mob/living/simple_animal/pet/familiar/death(gibbed)
+	. = ..(gibbed)
+	var/obj/item/magic/familiar_vestige/vestige = new /obj/item/magic/familiar_vestige(loc)
+	vestige.stored_familiar = src
+	src.loc = vestige
+	vestige.desc = "The vestige of [src.name], a fallen [GLOB.familiar_display_names[src.type]]. Likely worth a lot to the magos that summoned [src.p_them()]!"
 
 /mob/living/simple_animal/pet/familiar/proc/TryAddFlight()
 	if(movement_type & (FLYING | FLOATING))

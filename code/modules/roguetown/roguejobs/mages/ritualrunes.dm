@@ -406,6 +406,7 @@ GLOBAL_LIST(teleport_runes)
 	invocation = "Vinculum Formare!"
 	layer = SIGIL_LAYER
 	can_be_scribed = TRUE
+	var/busy = FALSE
 	var/mob/living/simple_animal/summoned_mob
 
 /obj/effect/decal/cleanable/roguerune/arcyne/binding/New()
@@ -421,6 +422,9 @@ GLOBAL_LIST(teleport_runes)
 
 /obj/effect/decal/cleanable/roguerune/arcyne/binding/attack_hand(mob/living/user)
 	if(summoned_mob && isarcyne(user))
+		if(busy)
+			to_chat(user, span_warning("I am already attempting to bind this familiar! I must have patience..."))
+			return
 		var/mob/living/simple_animal/S = summoned_mob
 		if(!S || QDELETED(S))
 			to_chat(user, span_warning("The containment has already faded."))
@@ -431,6 +435,7 @@ GLOBAL_LIST(teleport_runes)
 				to_chat(user, span_warning("You can only bind one familiar at once!"))
 				return FALSE
 		to_chat(user, span_notice("You reach across the veil, attempting to draw in the familiar's mind..."))
+		busy = TRUE
 		var/list/candidates = pollCandidatesForMob("Do you want to play as a Mage's familiar? You will materialize as a [S.name]", null, null, null, 100, S, POLL_IGNORE_MAGE_SUMMON)
 		if(!LAZYLEN(candidates))
 			to_chat(user,span_warning("No candidate players available."))
@@ -540,6 +545,7 @@ GLOBAL_LIST(teleport_runes)
 			GLOB.chosen_names += fam.real_name
 			GLOB.character_ckey_list[fam.real_name] = fam.ckey
 			log_game("[key_name(user)] has summoned [key_name(chosen)] as familiar '[fam.name]' ([fam.type]).")
+			busy = FALSE
 		else
 			// nobody has valid familiar prefs. woe!
 			to_chat(user, span_warning("No valid familiar candidate found!"))

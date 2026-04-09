@@ -25,6 +25,14 @@
 	grid_height = 32
 	var/tier = 0 //used for determining potency for mob healing
 
+// vestige - needed to revive a familiar. sort of like a carbon's head, but magic-style
+/obj/item/magic/familiar_vestige
+	name = "Planar Vestige"
+	icon_state = "abberant"
+	var/mob/living/simple_animal/pet/familiar/stored_familiar
+	resistance_flags = INDESTRUCTIBLE // don't even want to know what would happen if you broke this while a familiar was stored inside
+	desc = "The vestige of a planar creature, departed from this plane. Likely worth a lot to the magos that summoned them!"
+
 // MELD
 /obj/item/magic/melded
 	name = "arcane meld"

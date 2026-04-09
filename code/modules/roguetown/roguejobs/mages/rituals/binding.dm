@@ -15,8 +15,8 @@
 	var/mob_to_bind
 
 /datum/runeritual/binding/on_finished_recipe(mob/living/user, list/selected_atoms, turf/loc)
-	if(!mob_to_bind)
-		return FALSE
+	if(!mob_to_bind) // it's a non-binding binding recipe. yay?
+		return ..()
 	if(!locate(/obj/effect/decal/cleanable/roguerune/arcyne/binding) in loc)
 		to_chat(user, span_warning("The binding array has been destroyed! The ritual fizzles."))
 		return FALSE
@@ -47,7 +47,6 @@
 	to_chat(user, span_notice("The array flares with power as [bound] is pulled through the veil!"))
 	playsound(loc, 'sound/magic/cosmic_expansion.ogg', 100, TRUE, 7)
 	return bound
-
 
 /datum/runeritual/binding/proc/bind_ritual_mob(mob/living/user, turf/loc, mob/living/mob_to_bind)
 	var/mob/living/simple_animal/pet/familiar/binded
@@ -98,21 +97,24 @@
 	required_atoms = list()
 	// required_atoms = list(/obj/item/magic/artifact = 1, /obj/item/magic/voidstone = 2, /obj/item/magic/leyline = 2) // todo this recipe sucks
 
-
 /datum/runeritual/binding/revive_familiar
 	name = "Revive Familiar"
-	desc = "Return a departed familiar to lyfe, so long as they have not yet fully returned to their home plane."
-	required_atoms = list(/obj/item/magic/melded/t1)
+	desc = "Return a departed familiar to lyfe, so long as they have not yet fully returned to their home plane. Requires the vestige dropped upon their death."
+	required_atoms = list(/obj/item/magic/melded/t1 = 1, /obj/item/magic/familiar_vestige = 1)
 	blacklisted = FALSE
 
 /datum/runeritual/binding/revive_familiar/on_finished_recipe(mob/living/user, list/selected_atoms, turf/loc)
 	. = FALSE
-	for(var/mob/living/simple_animal/pet/familiar/existing_fam in GLOB.alive_mob_list + GLOB.dead_mob_list)
-		if(existing_fam.familiar_summoner == user && existing_fam.health<=0 && existing_fam.revive(full_heal = TRUE, admin_revive = TRUE))
-			to_chat(user, span_notice("You channel the ritual's magic through your bond, returning [existing_fam.name] to this plane!"))
-			existing_fam.grab_ghost(force = TRUE)
-			existing_fam.familiar_summoner = user
-			existing_fam.visible_message(span_notice("[existing_fam.name] is restored to life by [user]'s magic!"))
+	for(var/obj/item/magic/familiar_vestige/vestige in selected_atoms)
+		if(vestige.stored_familiar && vestige.stored_familiar.revive(full_heal = TRUE, admin_revive = TRUE))
+			to_chat(user, span_notice("You channel the ritual's magic into the vestige, returning [vestige.stored_familiar.name] to this plane!"))
+			vestige.stored_familiar.loc = loc
+			vestige.stored_familiar.grab_ghost(force = TRUE)
+			vestige.stored_familiar.familiar_summoner = user
+			vestige.stored_familiar.icon_state = vestige.stored_familiar.icon_living
+			vestige.stored_familiar.update_icon()
+			vestige.stored_familiar.visible_message(span_notice("[vestige.stored_familiar.name] is restored to life by [user]'s magic!"))
+			vestige.stored_familiar = null
 			. = TRUE
 
 /datum/runeritual/binding/release_familiar
@@ -121,6 +123,7 @@
 	blacklisted = FALSE
 
 /datum/runeritual/binding/release_familiar/on_finished_recipe(mob/living/user, list/selected_atoms, turf/loc)
+	. = ..()
 	var/mob/living/simple_animal/pet/familiar/fam
 	for(var/mob/living/simple_animal/pet/familiar/existing_fam in GLOB.alive_mob_list + GLOB.dead_mob_list)
 		if(existing_fam.familiar_summoner == user)
