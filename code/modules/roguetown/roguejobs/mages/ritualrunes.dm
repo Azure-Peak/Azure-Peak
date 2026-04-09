@@ -430,18 +430,6 @@ GLOBAL_LIST(teleport_runes)
 			to_chat(user, span_warning("The containment has already faded."))
 			summoned_mob = null
 			return
-		for(var/mob/living/simple_animal/pet/familiar/existing_fam in GLOB.alive_mob_list + GLOB.dead_mob_list)
-			if(existing_fam.familiar_summoner == user)
-				to_chat(user, span_warning("You can only bind one familiar at once!"))
-				return FALSE
-		to_chat(user, span_notice("You reach across the veil, attempting to draw in the familiar's mind..."))
-		busy = TRUE
-		var/list/candidates = pollCandidatesForMob("Do you want to play as a Mage's familiar? You will materialize as a [S.name]", null, null, null, 100, S, POLL_IGNORE_MAGE_SUMMON)
-		if(!LAZYLEN(candidates))
-			to_chat(user,span_warning("No candidate players available."))
-			return
-		var/list/preferred_candidates = list()
-		var/mob/chosen = null
 		var/plane = null
 		switch(S.type)
 			if(/mob/living/simple_animal/pet/familiar/fae)
@@ -452,6 +440,18 @@ GLOBAL_LIST(teleport_runes)
 				plane = "elemental"
 			if(/mob/living/simple_animal/pet/familiar/void)
 				plane = "void"
+		for(var/mob/living/simple_animal/pet/familiar/existing_fam in GLOB.alive_mob_list + GLOB.dead_mob_list)
+			if(existing_fam.familiar_summoner == user)
+				to_chat(user, span_warning("You can only bind one familiar at once!"))
+				return FALSE
+		to_chat(user, span_notice(plane=="void"?"You begin attempting to awaken your creation's mind...":"You reach across the veil, attempting to draw in the familiar's mind..."))
+		busy = TRUE
+		var/list/candidates = pollCandidatesForMob("Do you want to play as a Mage's familiar? You will materialize as a [plane] familiar.", null, null, null, 100, S, POLL_IGNORE_MAGE_SUMMON)
+		if(!LAZYLEN(candidates))
+			to_chat(user,span_warning("No candidate players available."))
+			return
+		var/list/preferred_candidates = list()
+		var/mob/chosen = null
 		for(var/mob/candidate in candidates)
 			var/client/client_ref = candidate.client
 			if(client_ref && client_ref.prefs && client_ref.prefs.familiar_prefs)
@@ -579,8 +579,9 @@ GLOBAL_LIST(teleport_runes)
 		if(!isliving(invoker))
 			continue
 		var/mob/living/living_invoker = invoker
-		if(invocation)
-			living_invoker.say(invocation, language = /datum/language/common, ignore_spam = TRUE, forced = "cult invocation")
+		var/datum/runeritual/binding/bindingritual = runeritual
+		if(istype(bindingritual) && bindingritual.invocation)
+			living_invoker.say(bindingritual.invocation, language = /datum/language/common, ignore_spam = TRUE, forced = "cult invocation")
 		if(invoke_damage)
 			living_invoker.apply_damage(invoke_damage, BRUTE)
 			to_chat(living_invoker, span_italics("[src] saps your strength!"))

@@ -1,3 +1,4 @@
+#define LEYLINE_TILE_DETECTION_RANGE 7
 /*
  * ========== Binding Rituals ==========
  *
@@ -13,10 +14,18 @@
 	abstract_type = /datum/runeritual/binding
 	blacklisted = TRUE
 	var/mob_to_bind
+	var/invocation // some of these need unique invocations
 
 /datum/runeritual/binding/on_finished_recipe(mob/living/user, list/selected_atoms, turf/loc)
 	if(!mob_to_bind) // it's a non-binding binding recipe. yay?
 		return ..()
+	var/obj/structure/leyline/leyline
+	for(var/obj/structure/leyline/L in range(LEYLINE_TILE_DETECTION_RANGE, loc))
+		leyline = L
+		break
+	if(!leyline)
+		to_chat(user, span_warning("There is no leyline nearby. Draw your circle closer to a leyline."))
+		return FALSE
 	if(!locate(/obj/effect/decal/cleanable/roguerune/arcyne/binding) in loc)
 		to_chat(user, span_warning("The binding array has been destroyed! The ritual fizzles."))
 		return FALSE
@@ -44,7 +53,7 @@
 	var/mob/living/bound = bind_ritual_mob(user, loc, mob_to_bind)
 	if(!bound)
 		return FALSE
-	to_chat(user, span_notice("The array flares with power as [bound] is pulled through the veil!"))
+	to_chat(user, span_notice("The array flares with power as [bound] is pulled through [istype(src,/datum/runeritual/binding/void)?"the rift":"the veil"]!"))
 	playsound(loc, 'sound/magic/cosmic_expansion.ogg', 100, TRUE, 7)
 	return bound
 
@@ -70,24 +79,24 @@
 	desc = "Bind a lesser infernal to your service: a being of daemonic hatred, specializing in fiery destruction."
 	blacklisted = FALSE
 	mob_to_bind = /mob/living/simple_animal/pet/familiar/infernal
-	required_atoms = list()
-	//required_atoms = list(/obj/item/magic/infernal/fang = 2, /obj/item/magic/leyline = 1)
+	required_atoms = list(/obj/item/magic/infernal/fang = 2)
+	invocation = "Appare, spiritus infernus!"
 
 /datum/runeritual/binding/fae
 	name = "Bind Lesser Fae"
 	desc =	 "Bind a lesser fae to your service: a being of natural whimsy, specializing in mobility and alchemy."
 	blacklisted = FALSE
 	mob_to_bind = /mob/living/simple_animal/pet/familiar/fae
-	required_atoms = list()
-	//required_atoms = list(/obj/item/magic/fae/iridescentscale = 2, /obj/item/magic/leyline = 1)
+	required_atoms = list(/obj/item/magic/fae/iridescentscale = 2)
+	invocation = "Appare, spiritus silvae!"
 
 /datum/runeritual/binding/elemental
 	name = "Bind Lesser Elemental"
 	desc = "Bind a lesser elemental to your service: a creature of earthen durability, specializing in world-manipulation and repairs."
 	blacklisted = FALSE
 	mob_to_bind = /mob/living/simple_animal/pet/familiar/elemental
-	required_atoms = list()
-	// required_atoms = list(/obj/item/magic/elemental/shard = 2, /obj/item/magic/leyline = 1)
+	required_atoms = list(/obj/item/magic/elemental/shard = 2)
+	invocation = "Appare, spiritus terrae!"
 
 /datum/runeritual/binding/void
 	name = "Bind Void Drakeling"
@@ -95,13 +104,70 @@
 	blacklisted = FALSE
 	mob_to_bind = /mob/living/simple_animal/pet/familiar/void
 	required_atoms = list()
-	// required_atoms = list(/obj/item/magic/artifact = 1, /obj/item/magic/voidstone = 2, /obj/item/magic/leyline = 2) // todo this recipe sucks
+	required_atoms = list(/obj/item/magic/artifact = 1, /obj/item/magic/voidstone = 2, /obj/item/magic/leyline = 2) // todo this recipe sucks
+
+/obj/effect/void_rift
+	name = "Void Rift"
+	desc = "A tear in the veil, reaching deeper and deeper to... what?"
+	icon = 'icons/effects/effects.dmi'
+	icon_state = "bluestream_fade"
+
+// some familiar-binders get to aurafarm too. as a treat
+/datum/runeritual/binding/void/on_finished_recipe(mob/living/user, list/selected_atoms, turf/loc)
+	var/list/chants = list(
+		"Vacuum spectat.",
+		"See me! Turn your gaze!",
+		"Nihil respondet.",
+		"Answer me! I know you hear!",
+		"Ultra omnia voco.",
+		"Beyond every plane! Past every boundary!", // up to this point is from the void dragon summoning rite
+		"Draco vacui prehendo.", // 'i grasp the dragon'
+		"Now! I grasp your power!",
+		"Watch! The void is sundered!",
+		"Manifest! Evoca et Liga!"
+	)
+	var/obj/structure/leyline/leyline
+	for(var/obj/structure/leyline/L in range(LEYLINE_TILE_DETECTION_RANGE, loc))
+		leyline = L
+		break
+	if(!leyline)
+		to_chat(user, span_warning("There is no leyline nearby. Draw your circle closer to a leyline."))
+		return FALSE
+	user.visible_message(
+		span_danger("[user] begins to chant, channeling energy into the leyline!"),
+		span_danger("You begin to chant, channeling energy into the leyline!")
+	)
+	playsound(loc, 'sound/magic/teleport_diss.ogg', 100, TRUE, 14)
+	user.visible_message(
+		span_danger("A rift in the veil opens, shimmering in the center of the circle!"),
+		span_danger("You tear open a rift in the veil, reaching forth into the void!"),
+	)
+	var/obj/effect/void_rift/rift = new /obj/effect/void_rift(loc)
+	var/list/active_beams = list()
+	for(var/i in 1 to length(chants))
+		var/line = chants[i]
+		user.say(line, language = /datum/language/common, ignore_spam = TRUE, forced = "cult invocation")
+		// Beams: visually leyline → circle and circle → caster (origin.Beam draws FROM origin)
+		var/turf/leyline_turf = get_turf(leyline)
+		active_beams += leyline_turf.Beam(loc, icon_state = "b_beam", time = 2 SECONDS, maxdistance = 10)
+		active_beams += loc.Beam(user, icon_state = "b_beam", time = 2 SECONDS, maxdistance = 10)
+		// Drain energy from all chanters
+		user.energy_add(-10)
+		if(!do_after(user, 2 SECONDS, target = leyline))
+			to_chat(user, span_warning("The ritual is interrupted!"))
+			for(var/datum/beam/B in active_beams)
+				B.End()
+			qdel(rift)
+			return FALSE
+	qdel(rift)
+	. = ..()
 
 /datum/runeritual/binding/revive_familiar
 	name = "Revive Familiar"
 	desc = "Return a departed familiar to lyfe, so long as they have not yet fully returned to their home plane. Requires the vestige dropped upon their death."
 	required_atoms = list(/obj/item/magic/melded/t1 = 1, /obj/item/magic/familiar_vestige = 1)
 	blacklisted = FALSE
+	invocation = "Redeo, spiritus fidus!" // "return, loyal spirit"
 
 /datum/runeritual/binding/revive_familiar/on_finished_recipe(mob/living/user, list/selected_atoms, turf/loc)
 	. = FALSE
@@ -124,6 +190,7 @@
 	name = "Free Familiar"
 	desc = "Terminate your contract with a familiar, sending them back from whence they came unharmed."
 	blacklisted = FALSE
+	invocation = "Exsolvo spiritus!" // "release spirit." very creative
 
 /datum/runeritual/binding/release_familiar/on_finished_recipe(mob/living/user, list/selected_atoms, turf/loc)
 	. = ..()
