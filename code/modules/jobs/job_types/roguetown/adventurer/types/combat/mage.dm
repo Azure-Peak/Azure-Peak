@@ -259,7 +259,7 @@
 	if(H.mind)
 		H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/vicious_mockery)
 		H.mind.AddSpell(new /datum/action/cooldown/spell/arcyne_forge)
-		var/list/poke_options = list("Spitfire", "Frost Bolt", "Arc Bolt", "Greater Arcyne Bolt", "Stygian Efflorescence", "Arcyne Lance")
+		var/list/poke_options = list("Spitfire", "Frost Bolt", "Arc Bolt", "Greater Arcyne Bolt", "Stygian Efflorescence", "Arcyne Lance", "Lesser Gravel Blast")
 		var/poke_choice = input(H, "Choose your offensive cantrip.", "Arcyne Training") as anything in poke_options
 		switch(poke_choice)
 			if("Spitfire")
@@ -274,6 +274,8 @@
 				H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/stygian_efflorescence)
 			if("Arcyne Lance")
 				H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/arcyne_lance)
+			if("Lesser Gravel Blast")
+				H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/gravel_blast/lesser)
 	H.cmode_music = 'sound/music/cmode/adventurer/combat_outlander3.ogg'
 	switch(H.patron?.type)
 		if(/datum/patron/inhumen/zizo)
