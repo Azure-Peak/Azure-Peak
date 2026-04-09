@@ -1,5 +1,5 @@
 #define LEAP_CHANCE_OBSTACLE    35    // % chance to leap when path is much longer than direct (railing/obstacle)
-#define LEAP_CHANCE_OPEN        5     // % chance to leap in open ground (matches old AP NPC base rate)
+#define LEAP_CHANCE_OPEN        0     //
 #define LEAP_MIN_DISTANCE       4     // tiles - target must be at least this far to leap
 #define LEAP_MAX_DISTANCE       8     // tiles - don't leap if target is too far (waste of stamina)
 #define LEAP_OBSTACLE_PATH_RATIO 1.5  // path must be at least this much longer than direct distance to count as "obstacle in the way"
