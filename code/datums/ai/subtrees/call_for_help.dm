@@ -12,8 +12,6 @@
 		return
 
 	var/mob/living/living_pawn = controller.pawn
-	if(living_pawn.getBruteLoss() < 40 && living_pawn.getFireLoss() < 40)
-		return
 
 	controller.set_blackboard_key("bb_call_for_help_cooldown", world.time + 5 SECONDS)
 

@@ -198,6 +198,7 @@ have ways of interacting with a specific atom and control it. They posses a blac
 	RegisterSignal(pawn, COMSIG_MOVABLE_Z_CHANGED, PROC_REF(on_changed_z_level))
 	RegisterSignal(pawn, COMSIG_MOB_LOGIN, PROC_REF(on_sentience_gained))
 	RegisterSignal(pawn, COMSIG_MOB_STATCHANGE, PROC_REF(on_stat_changed))
+	RegisterSignal(pawn, COMSIG_ATOM_WAS_ATTACKED, PROC_REF(on_pawn_attacked))
 
 	our_cells = new(interesting_dist, interesting_dist, 1)
 	set_new_cells()
@@ -328,7 +329,7 @@ have ways of interacting with a specific atom and control it. They posses a blac
 
 ///Proc for deinitializing the pawn to the old controller
 /datum/ai_controller/proc/UnpossessPawn(destroy)
-	UnregisterSignal(pawn, list(COMSIG_MOVABLE_Z_CHANGED, COMSIG_MOB_LOGIN, COMSIG_MOB_LOGOUT, COMSIG_MOB_STATCHANGE))
+	UnregisterSignal(pawn, list(COMSIG_MOVABLE_Z_CHANGED, COMSIG_MOB_LOGIN, COMSIG_MOB_LOGOUT, COMSIG_MOB_STATCHANGE, COMSIG_ATOM_WAS_ATTACKED))
 	var/turf/pawn_turf = get_turf(pawn)
 	if(pawn_turf)
 		GLOB.ai_controllers_by_zlevel[pawn_turf.z] -= src
@@ -345,6 +346,11 @@ have ways of interacting with a specific atom and control it. They posses a blac
 /datum/ai_controller/proc/on_stat_changed(mob/living/source, new_stat)
 	SIGNAL_HANDLER
 	reset_ai_status()
+
+/datum/ai_controller/proc/on_pawn_attacked(mob/living/source, atom/attacker, damage)
+	SIGNAL_HANDLER
+	if(ai_status != AI_STATUS_ON)
+		set_ai_status(AI_STATUS_ON)
 
 /// Sets the AI on or off based on current conditions, call to reset after you've manually disabled it somewhere
 /datum/ai_controller/proc/reset_ai_status()
