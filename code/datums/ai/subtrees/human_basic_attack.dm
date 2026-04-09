@@ -42,7 +42,13 @@
 	var/atom/target = controller.blackboard[target_key]
 
 	var/obj/item/held_item = pawn.get_active_held_item()
-	if((!isweapon(held_item)))
+	// If holding a shield in the active hand and a real weapon in the other, swap so we
+	// attack with the weapon. Shields are rogueweapons so isweapon() passes for them.
+	if(istype(held_item, /obj/item/rogueweapon/shield))
+		var/obj/item/offhand = pawn.get_inactive_held_item()
+		if(isweapon(offhand) && !istype(offhand, /obj/item/rogueweapon/shield))
+			pawn.swap_hand()
+	else if(!isweapon(held_item))
 		pawn.swap_hand()
 		for(var/slot in list(ITEM_SLOT_BACK, ITEM_SLOT_HIP, ITEM_SLOT_BELT, ITEM_SLOT_BACK_L, ITEM_SLOT_BACK_R))
 			if(!pawn.get_item_by_slot(slot))
