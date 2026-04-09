@@ -2883,6 +2883,7 @@
 #include "code\modules\spells\spell_types\wizard\cryomancy\ice_burst.dm"
 #include "code\modules\spells\spell_types\wizard\ferramancy\sawblade_volley.dm"
 #include "code\modules\spells\spell_types\wizard\geomancy\emergence.dm"
+#include "code\modules\spells\spell_types\wizard\geomancy\magicians_rock.dm"
 #include "code\modules\spells\spell_types\wizard\conjure\find_familiar.dm"
 #include "code\modules\spells\spell_types\wizard\hex\wither.dm"
 #include "code\modules\spells\spell_types\wizard\geomancy\_geomancy_shared.dm"
