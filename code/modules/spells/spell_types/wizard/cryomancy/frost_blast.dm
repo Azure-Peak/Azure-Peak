@@ -102,7 +102,7 @@
 			if(!damage_dealt)
 				blocked = TRUE
 				continue
-			apply_frost_stack(victim, 2)
+			apply_frost_stack(victim, 1)
 			already_hit += victim
 			var/push_dir = get_dir(H, victim)
 			if(!push_dir)
