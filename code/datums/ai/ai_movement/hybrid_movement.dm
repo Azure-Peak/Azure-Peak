@@ -4,12 +4,6 @@
 	max_basic_failures = 2
 	always_advanced = TRUE
 
-/// Human NPCs always use A* pathing. Basic step_to can't reliably bump doors open —
-/// when a door blocks the direct path, step_to tries to navigate around instead of bumping,
-/// so humans get stuck on closed doors. A* pathing produces a path through the door turf,
-/// and stepping onto the door triggers Bump which opens it.
-/datum/ai_movement/hybrid_pathing/human_npc
-	always_advanced = TRUE
 
 /datum/ai_movement/hybrid_pathing
 	requires_processing = TRUE
