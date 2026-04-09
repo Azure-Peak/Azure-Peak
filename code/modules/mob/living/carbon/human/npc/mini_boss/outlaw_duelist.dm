@@ -41,7 +41,7 @@ GLOBAL_LIST_INIT(duelist_aggro, list(
 	update_body()
 	def_intent_change(INTENT_DODGE)
 
-/mob/living/carbon/human/species/human/northern/outlaw_duelist/death(gibbed)
+/mob/living/carbon/human/species/human/northern/outlaw_duelist/death(gibbed, nocutscene = FALSE)
 	. = ..()
 	if(!gibbed)
 		dust(FALSE, FALSE, TRUE)

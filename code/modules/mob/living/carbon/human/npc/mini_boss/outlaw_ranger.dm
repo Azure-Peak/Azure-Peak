@@ -40,7 +40,7 @@ GLOBAL_LIST_INIT(ranger_aggro, list(
 	update_hair()
 	update_body()
 
-/mob/living/carbon/human/species/human/northern/outlaw_ranger/death(gibbed)
+/mob/living/carbon/human/species/human/northern/outlaw_ranger/death(gibbed, nocutscene = FALSE)
 	. = ..()
 	if(!gibbed)
 		dust(FALSE, FALSE, TRUE)
