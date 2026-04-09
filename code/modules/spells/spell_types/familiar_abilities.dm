@@ -339,7 +339,7 @@
 	if(!user.essences_consumed.Find(essence_to_grant))
 		user.visible_message(
 			span_warning("[user] consumes [target], absorbing their essences!"),
-			span_warning("I consume [target]'s essence! I am stronger for it... but I am still hungry.")
+			span_warning("I consume [target]'s essence! I am stronger for it, though I hunger still.")
 		)
 		user.essences_consumed += essence_to_grant
 		user.grant_essence(essence_to_grant)
@@ -352,7 +352,7 @@
 	else
 		user.visible_message(
 			span_warning("[user] consumes [target]... but [user.p_they()] don't seem even slightly sated!"),
-			span_warning("I consume [target]'s essence, but I have already tasted of it! This will not nourish me anymore, I must absorb novel creatures.")
+			span_warning("I consume [target]'s essence, but I have already tasted of it! This will not nourish me anymore, I must find something new to devour.")
 		)
 		for(var/obj/effect/decal/cleanable/roguerune/arcyne/binding/rune in range(target.loc))
 			rune.summoned_mob = null
@@ -361,7 +361,7 @@
 
 /obj/effect/proc_holder/spell/invoked/fire_obelisk_beam/drakeling
 	name = "Abberant Beam"
-	desc = "Show these fools the power of the void! With the power absorbed from that infernal, this much is no issue for you now."
+	desc = "Show these fools the power of the void!"
 	recharge_time = 30 SECONDS
 	overlay_icon = 'icons/mob/actions/mage_shared.dmi'
 	overlay_icon_state = "soulshot"
@@ -420,7 +420,7 @@
 
 /datum/action/cooldown/spell/projectile/lesser_fetch/fae/void
 	name = "Grasp of the Void"
-	desc = "Grasp a freestanding item with your arcyne power, drawing it towards the caster. Doesn't work on living targets."
+	desc = "Grasp a freestanding item with your arcyne power, drawing it towards you. Doesn't work on living targets."
 	invocations = list("Nihilo, recolligere")
 
 
