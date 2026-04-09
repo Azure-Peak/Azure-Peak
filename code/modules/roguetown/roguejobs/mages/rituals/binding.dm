@@ -106,16 +106,19 @@
 /datum/runeritual/binding/revive_familiar/on_finished_recipe(mob/living/user, list/selected_atoms, turf/loc)
 	. = FALSE
 	for(var/obj/item/magic/familiar_vestige/vestige in selected_atoms)
-		if(vestige.stored_familiar && vestige.stored_familiar.revive(full_heal = TRUE, admin_revive = TRUE))
-			to_chat(user, span_notice("You channel the ritual's magic into the vestige, returning [vestige.stored_familiar.name] to this plane!"))
-			vestige.stored_familiar.loc = loc
-			vestige.stored_familiar.grab_ghost(force = TRUE)
-			vestige.stored_familiar.familiar_summoner = user
-			vestige.stored_familiar.icon_state = vestige.stored_familiar.icon_living
-			vestige.stored_familiar.update_icon()
-			vestige.stored_familiar.visible_message(span_notice("[vestige.stored_familiar.name] is restored to life by [user]'s magic!"))
-			vestige.stored_familiar = null
-			. = TRUE
+		if(vestige.stored_familiar)
+			if(!vestige.stored_familiar.client)
+				to_chat(user, span_warning("[vestige.stored_familiar.name] has fully departed for their home plane... they cannot be revived!"))
+			else if(vestige.stored_familiar.revive(full_heal = TRUE, admin_revive = TRUE))
+				to_chat(user, span_notice("You channel the ritual's magic into the vestige, returning [vestige.stored_familiar.name] to this plane!"))
+				vestige.stored_familiar.loc = loc
+				vestige.stored_familiar.grab_ghost(force = TRUE)
+				vestige.stored_familiar.familiar_summoner = user
+				vestige.stored_familiar.icon_state = vestige.stored_familiar.icon_living
+				vestige.stored_familiar.update_icon()
+				vestige.stored_familiar.visible_message(span_notice("[vestige.stored_familiar.name] is restored to life by [user]'s magic!"))
+				vestige.stored_familiar = null
+				. = TRUE
 
 /datum/runeritual/binding/release_familiar
 	name = "Free Familiar"
