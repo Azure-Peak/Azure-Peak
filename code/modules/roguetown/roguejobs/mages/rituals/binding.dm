@@ -388,3 +388,5 @@
 /atom/movable/screen/alert/status_effect/buff/familiar/worn_stone
 	name = "Worn Stone"
 	desc = "Nothing feels urgent. You can take your time... and take a hit."
+
+#undef LEYLINE_TILE_DETECTION_RANGE
