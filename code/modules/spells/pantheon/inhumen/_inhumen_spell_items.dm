@@ -352,21 +352,19 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 
 	required_ingredients = list(
 		/obj/item/alch/sinew,
-		/obj/item/organ,
-		/obj/item/alch/viscera,
 		/obj/item/natural/bone,
 		/obj/item/natural/bundle/bone,
 		/obj/item/natural/fibers,
+		/obj/item/natural/bundle/fibers,
 		/obj/item/reagent_containers/powder/salt,
 		/obj/item/reagent_containers/food
 	)
 	ingredient_colors = list(
 		/obj/item/alch/sinew = "#a84a4a",
-		/obj/item/organ = "#a84a4a",
-		/obj/item/alch/viscera = "#6e1e1e",
 		/obj/item/natural/bone = "#e8e2cf",
 		/obj/item/natural/bundle/bone = "#e8e2cf",
-		/obj/item/natural/fibers = "#b59b6a",
+		/obj/item/natural/fibers = "#007e1f",
+		/obj/item/natural/bundle/fibers = "#007e1f",
 		/obj/item/reagent_containers/powder/salt = "#f0f0f0",
 		/obj/item/reagent_containers/food = "#d67a4a"
 	)
@@ -438,7 +436,7 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 	alch_transform(user)
 
 /obj/item/matthios_canister/kingsfeast/alch_transform(mob/user)
-	var/ishungry = user.nutrition > NUTRITION_LEVEL_HUNGRY
+	var/ishungry = user.nutrition < NUTRITION_LEVEL_HUNGRY
 	var/miraclecheck = 10 * user.get_skill_level(/datum/skill/magic/holy)
 	to_chat(user, span_notice("You begin channeling your greed into the mixture..."))
 
@@ -447,10 +445,11 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 		"Lobster Meal" = /obj/item/reagent_containers/food/snacks/rogue/fryfish/lobster/meal,
 		"Crabcake" = /obj/item/reagent_containers/food/snacks/rogue/crabcake,
 		"Chocolate" = /obj/item/reagent_containers/food/snacks/chocolate,
-		"Meat Flatpie" = /obj/item/reagent_containers/food/snacks/rogue/meattomatoplate,
+		"Meat Tomatoplate" = /obj/item/reagent_containers/food/snacks/rogue/meattomatoplate,
 		"Broth Brique" = /obj/item/reagent_containers/food/snacks/rogue/meat/brothbrique,
 		"Strawberry Cake" = /obj/item/reagent_containers/food/snacks/rogue/strawberrycake,
-		"Cookies" = /obj/item/reagent_containers/food/snacks/rogue/cookiec
+		"Cookies" = /obj/item/reagent_containers/food/snacks/rogue/cookiec,
+		"Meat Handpie" = /obj/item/reagent_containers/food/snacks/rogue/handpie/meat,
 	)
 
 	var/choice = input(user, "What form shall your greed take?", "Kingsfeast") as null|anything in options
@@ -475,11 +474,11 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 		qdel(src)
 		return
 
-	if(ishungry)
+	if(ishungry && prob(25)) 
 		to_chat(user, span_notice("Matthios takes pity on your mortal limitations. You compulsively shout in gratitude!"))
 		user.say(pick("PRAISE YOU, O' GENEROUS MATTHIOS!!","AT LAST, THE TRUE GOLD OF CULINARY ALCHEMY!!","BLESSED BE THY HANDS WHICH GRANT ME SUSTENANCE, MATTHIOS!!","I SHALL GIVE ALL FOR THY SMILE, LORD OF FREEDOM!!"))
 
-	to_chat(user, span_notice("The mixture responds to your greed, taking a decadent form."))
+	to_chat(user, span_notice("The mixture responds to your greed, shaping and taking the desired form. It feels warm and tasty!"))
 
 	new result_type(get_turf(src))
 	funny_smoke(src)
@@ -669,13 +668,17 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 	if(!HAS_TRAIT(user, TRAIT_MATTHIOS_EYES))
 		to_chat(user, span_warning("The hell do I do with this? This is no alchemy!"))
 		return TRUE
+
 	if(istype(I, /obj/item/scrap))
 		if(current_scrap >= needed_scrap)
 			to_chat(user, span_warning("The mixture refuses more metal."))
 			return TRUE
 
 		if(do_after(user, 2 SECONDS))
-			current_scrap++
+			if(current_scrap >= needed_scrap)
+				return TRUE
+
+			current_scrap = min(current_scrap + 1, needed_scrap)
 			qdel(I)
 
 			var/color_to_use = ingredient_colors[/obj/item/scrap]
@@ -693,6 +696,9 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 			return TRUE
 
 		if(do_after(user, 2 SECONDS))
+			if(has_needle)
+				return TRUE
+
 			has_needle = TRUE
 			qdel(I)
 
@@ -712,12 +718,19 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 
 		var/obj/item/natural/bundle/fibers/B = I
 		var/amount = B.amount
-
 		var/space_left = needed_fibers - current_fibers
 		var/to_transfer = min(amount, space_left)
 
+		if(to_transfer <= 0)
+			return TRUE
+
 		if(do_after(user, 2 SECONDS))
-			current_fibers += to_transfer
+			space_left = needed_fibers - current_fibers
+			to_transfer = min(amount, space_left)
+			if(to_transfer <= 0)
+				return TRUE
+
+			current_fibers = min(current_fibers + to_transfer, needed_fibers)
 
 			if(to_transfer >= amount)
 				qdel(B)
@@ -742,7 +755,10 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 			return TRUE
 
 		if(do_after(user, 2 SECONDS))
-			current_fibers++
+			if(current_fibers >= needed_fibers)
+				return TRUE
+
+			current_fibers = min(current_fibers + 1, needed_fibers)
 			qdel(I)
 
 			var/color_to_use = ingredient_colors[/obj/item/natural/bundle/fibers/full]
@@ -822,12 +838,13 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 	required_ingredients = list(
 		/obj/item/reagent_containers/glass,
 		/obj/item/organ,
+		/obj/item/alch/viscera,
 		/obj/item/reagent_containers/food/snacks/grown/fruit,
 	)
-
 	ingredient_colors = list(
-		/obj/item/reagent_containers/glass = "#7a1f1f",
+		/obj/item/reagent_containers/glass = "#9c6262",
 		/obj/item/organ = "#5c0a0a",
+		/obj/item/alch/viscera = "#971616",
 		/obj/item/reagent_containers/food/snacks/grown/fruit = "#9c3b1f",
 	)
 
@@ -893,8 +910,8 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 			check_completion(user)
 		return TRUE
 
-	if(istype(I, /obj/item/reagent_containers))
-		var/obj/item/reagent_containers/R = I
+	if(istype(I, /obj/item/reagent_containers/glass))
+		var/obj/item/reagent_containers/glass/R = I
 
 		if(!R.reagents || !R.reagents.total_volume)
 			to_chat(user, span_warning("It holds nothing to extract."))
@@ -1077,19 +1094,34 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 	w_class = WEIGHT_CLASS_TINY
 	var/uses = 4
 
+/obj/item/alchserum/matthios_kingsblood/examine(mob/user)
+	. = ..()
+
+	if(user?.mind?.has_antag_datum(/datum/antagonist/vampire) || HAS_TRAIT(user, TRAIT_PALLID) || HAS_TRAIT(user, TRAIT_ORGAN_EATER))
+		. += span_warning("TIP: You could drink this instead of applying it. Aim for your mouth and use it on yourself.")
+
 /obj/item/alchserum/matthios_kingsblood/attack(mob/living/carbon/human/target, mob/living/user)
 	if(!istype(target))
 		return ..()
 
-	if(target.mind.has_antag_datum(/datum/antagonist/vampire))
+	var/is_vampire = target.mind?.has_antag_datum(/datum/antagonist/vampire)
+	var/is_blood_drinker = is_vampire || HAS_TRAIT(target, TRAIT_PALLID) || HAS_TRAIT(target, TRAIT_ORGAN_EATER)
+
+	if(target == user && user.zone_selected == BODY_ZONE_PRECISE_MOUTH && is_blood_drinker)
 		if(do_after(user, 2 SECONDS, target = target))
-			to_chat(target, span_notice("It tastes like very old wine... Rich, deep, and impossibly satisfying."))
-			target.visible_message(span_notice("[target] drinks deeply from [src], savoring every drop."))
-			target.bloodpool += 75
-			target.apply_status_effect(/datum/status_effect/buff/vitae)
+			if(is_vampire)
+				to_chat(target, span_notice("It tastes like very old wine... Rich, deep, and impossibly satisfying~"))
+				target.bloodpool += 75
+				target.apply_status_effect(/datum/status_effect/buff/vitae)
+			else
+				to_chat(target, span_notice("It tastes like old wine... Strange, but not entirely unpleasant."))
+
+			target.visible_message(span_notice("[target] drinks from [src]."))
+
 			for(var/datum/wound/W as anything in target.get_wounds())
 				if(W && W.bleed_rate > 0)
 					W.set_bleed_rate(0)
+
 			playsound(user, 'sound/misc/drink_blood.ogg', 100)
 			uses--
 	else
@@ -1103,14 +1135,15 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 				span_notice("[user] applies [src] to [target]'s wounds."),
 				span_notice("The tincture seeps into the flesh, cold and invasive...")
 			)
+
 			for(var/datum/wound/W as anything in target.get_wounds())
 				if(W && W.bleed_rate > 0)
 					W.set_bleed_rate(0)
+
 			var/heal_amt = round(BLOOD_VOLUME_NORMAL * 0.2)
-			target.blood_volume += heal_amt
-			if(target.blood_volume > BLOOD_VOLUME_NORMAL)
-				target.blood_volume = BLOOD_VOLUME_NORMAL
-			to_chat(target, span_warning("Something worms through your wounds, forcing them shut. The bleeding stops."))
+			target.blood_volume = min(target.blood_volume + heal_amt, BLOOD_VOLUME_NORMAL)
+
+			to_chat(target, span_warning("Something sloshes around your wounds, forcing them to coagulate. The bleeding stops."))
 			uses--
 
 	if(uses > 0)

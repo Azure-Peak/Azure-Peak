@@ -252,10 +252,7 @@
 		owner.apply_status_effect(/datum/status_effect/buff/skulduggery)
 		return
 
-// -------------------------
 // SIGNAL HOOKS
-// -------------------------
-
 /datum/status_effect/buff/skulduggery/proc/process_Wfist(mob/living/carbon/human/parent,mob/living/carbon/human/attacker,mob/living/carbon/human/defender)
 	if(!ishuman(defender)) return
 	if(defender.process_skd(attacker, null))
@@ -274,7 +271,7 @@
 
 // CORE LOGIC
 /datum/status_effect/buff/skulduggery/proc/process_skd(mob/living/carbon/human/attacker, obj/item/I)
-	if(!owner || !ishuman(owner) || !ishuman(attacker))
+	if(!owner || !ishuman(owner) || !ishuman(attacker) || owner.IsKnockdown() || owner.lying || owner.IsParalyzed() || owner.IsStun() || owner.stat != CONSCIOUS || !(owner.mobility_flags & MOBILITY_STAND))
 		return FALSE
 
 	var/mob/living/carbon/human/H = owner
