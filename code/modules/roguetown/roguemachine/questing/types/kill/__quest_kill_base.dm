@@ -177,6 +177,7 @@
 		spawn_effect.AddComponent(/datum/component/quest_object/mob_spawner, src)
 		add_tracked_atom(new_mob)
 		landmark.add_quest_faction_to_nearby_mobs(spawn_turf)
+		spawned_targets++
 		sleep(1)
 
 	progress_required = spawned_targets
