@@ -11837,7 +11837,7 @@
 /turf/open/floor/rogue/blocks,
 /area/rogue/indoors/town)
 "cCl" = (
-/obj/structure/roguemachine/scomm/receive_only/l{
+/obj/structure/roguemachine/scomm/l{
 	scom_tag = "Wardens - 1st Floor"
 	},
 /obj/effect/decal/cleanable/debris/stony,
@@ -40261,7 +40261,7 @@
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/mountains/decap)
 "iBV" = (
-/obj/structure/roguemachine/scomm/receive_only/l{
+/obj/structure/roguemachine/scomm/l{
 	scom_tag = "Wardens - 1st Floor"
 	},
 /turf/open/floor/rogue/blocks/stonered/tiny,

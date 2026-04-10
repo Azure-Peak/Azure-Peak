@@ -1,0 +1,4 @@
+author: "hazelrat"
+delete-after: True
+changes:
+  - bugfix: "'Gnoll' is now capitalised on examine."

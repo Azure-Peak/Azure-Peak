@@ -63,7 +63,7 @@
 	name = "blacksteel pick"
 	desc = "Glimmering with silvered blackness, this is a pretigious tool for miners delving into the darkness. It looks like it will strike hard enough to shatter any boulders within a rocky surface instantly."
 	possible_item_intents = list(/datum/intent/pick/bad)
-	gripped_intents = list(/datum/intent/pick/good)
+	gripped_intents = list(/datum/intent/pick)
 	force = 25
 	force_wielded = 32
 	icon_state = "blacksteelpick1"

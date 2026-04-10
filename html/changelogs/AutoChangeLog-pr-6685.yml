@@ -1,0 +1,6 @@
+author: "FreeStylaLT"
+delete-after: True
+changes:
+  - bugfix: "Fixed blacksteel pickaxe sometimes leaving boulders behind."
+  - balance: "Blacksteel pickaxe lost its 'better' pick intent."
+  - balance: "Blacksteel pickaxe now costs 1 ingot to forge again."

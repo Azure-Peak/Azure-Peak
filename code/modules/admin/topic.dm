@@ -959,6 +959,9 @@
 		for(var/datum/job/job in SSjob.occupations)
 			if(job.title == Add)
 				job.total_positions += 1
+				job.spawn_positions = job.total_positions
+				if(job.uses_storyteller_slot_caps())
+					job.admin_slot_override = TRUE
 				break
 
 		src.manage_free_slots()
@@ -977,8 +980,14 @@
 				if(!newtime)
 					to_chat(src.owner, "Setting to amount of positions filled for the job")
 					job.total_positions = job.current_positions
+					job.spawn_positions = job.total_positions
+					if(job.uses_storyteller_slot_caps())
+						job.admin_slot_override = TRUE
 					break
 				job.total_positions = newtime
+				job.spawn_positions = newtime
+				if(job.uses_storyteller_slot_caps())
+					job.admin_slot_override = TRUE
 
 		src.manage_free_slots()
 
@@ -991,6 +1000,9 @@
 		for(var/datum/job/job in SSjob.occupations)
 			if(job.title == Remove && job.total_positions - job.current_positions > 0)
 				job.total_positions -= 1
+				job.spawn_positions = job.total_positions
+				if(job.uses_storyteller_slot_caps())
+					job.admin_slot_override = TRUE
 				break
 
 		src.manage_free_slots()
@@ -1004,6 +1016,9 @@
 		for(var/datum/job/job in SSjob.occupations)
 			if(job.title == Unlimit)
 				job.total_positions = -1
+				job.spawn_positions = -1
+				if(job.uses_storyteller_slot_caps())
+					job.admin_slot_override = TRUE
 				break
 
 		src.manage_free_slots()
@@ -1017,6 +1032,9 @@
 		for(var/datum/job/job in SSjob.occupations)
 			if(job.title == Limit)
 				job.total_positions = job.current_positions
+				job.spawn_positions = job.total_positions
+				if(job.uses_storyteller_slot_caps())
+					job.admin_slot_override = TRUE
 				break
 
 		src.manage_free_slots()

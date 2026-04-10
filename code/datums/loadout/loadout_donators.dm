@@ -287,3 +287,8 @@
 	name = "Donator Item - Aeternum"
 	path = /obj/item/enchantingkit/weapon/aeternum
 	ckeywhitelist = list("nauticall")
+
+/datum/loadout_item/donator/porcelainmask
+	name = "Donator Item - Porcelain Mask"
+	path = /obj/item/clothing/mask/rogue/iamcrystalclear
+	ckeywhitelist = list("iamcrystalclear")
