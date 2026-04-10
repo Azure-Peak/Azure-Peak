@@ -220,10 +220,12 @@
 	QDEL_NULL(fam)
 	return TRUE
 
-/datum/runeritual/planar_pact
+/datum/runeritual/binding/planar_pact
 	name = "Planar Pact"
 	desc = "Make a lesser pact with a planar being, exchanging only a mote of essence with each other. Grants a minor stat boon and a minor stat penalty."
-	required_atoms = list(/obj/item/magic/melded/t1)
+	required_atoms = list(/obj/item/magic/melded/t1 = 1)
+	blacklisted = FALSE
+	invocation = "Permutatio essentiae!"
 	var/list/planar_buffs = list(
 		/datum/status_effect/buff/familiar/settled_weight,
 		/datum/status_effect/buff/familiar/silver_glance,
@@ -255,9 +257,9 @@
 		"Worn Stone (+1 WIL, +1 CON, -1 SPD)"
 	)
 
-/datum/runeritual/planar_pact/on_finished_recipe(mob/living/user, list/selected_atoms, turf/loc)
+/datum/runeritual/binding/planar_pact/on_finished_recipe(mob/living/user, list/selected_atoms, turf/loc)
 	. = ..()
-	for(var/datum/status_effect/buff/familiar/buff in planar_buffs)
+	for(var/buff in planar_buffs)
 		if(user.has_status_effect(buff))
 			to_chat(user, span_warning("You can only bear one planar pact at a time!"))
 			return FALSE
