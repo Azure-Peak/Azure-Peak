@@ -290,6 +290,23 @@
 	color = "#999797"
 	mill_result = /obj/item/reagent_containers/powder/salt
 
+/obj/item/reagent_containers/powder/coarse_salt/attackby(obj/item/I, mob/living/user, params)
+	var/found_table = locate(/obj/structure/table) in (loc)
+	update_cooktime(user)
+	var/client/player = user?.client
+	if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/challah_slice) && istype(player.prefs.virtue_origin, /datum/virtue/origin/raneshen) && (istype(player.prefs.selected_patron, /datum/patron/old_god)))
+		if(isturf(loc)&& (found_table))
+			playsound(get_turf(user), 'sound/foley/dropsound/food_drop.ogg', 40, TRUE, -1)
+			to_chat(user, span_notice("You being to dip the challah three times into the [src], restrengthening one's bond with Psydon..."))
+			if(do_after(user,long_cooktime, target = src))
+				add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)
+				user.put_in_hands(new /obj/item/reagent_containers/food/snacks/rogue/challah_slice_ritual)
+				qdel(I)
+		else
+			to_chat(user, span_warning("You need to put [src] on a table to do the covenant of salt!"))
+	else
+		to_chat(user, span_warning("It's really hard to stick the coarse salt on...")) // I will get upset if a inquisitor tries to use this to test someone.
+
 /obj/item/reagent_containers/powder/mineral/throw_impact(atom/hit_atom, datum/thrownthing/thrownthing)
 	new /obj/effect/decal/cleanable/food/flour(get_turf(src))
 	..()

@@ -1026,6 +1026,60 @@
 	rotprocess = SHELFLIFE_EXTREME
 	eat_effect = /datum/status_effect/buff/greatsnackbuff
 
+/*	.................   Lasagna   ................... */
+
+/obj/item/reagent_containers/food/snacks/rogue/lasagna
+	name = "lasagna"
+	desc = "Stacked pasta sheets layered with fresh marinara, made with limited ingredients. One might call this Navarno, but even there the Montecarinan style is the norm."
+	icon = 'modular/Neu_Food/icons/cooked/cooked_pasta.dmi'
+	icon_state = "lasagna"
+	faretype = FARE_NEUTRAL // Nobles are picky, noodle-with-sauce texture isn't as refined as spagetti, needs a little extra something.
+	list_reagents = list(/datum/reagent/consumable/nutriment = MEAL_MEAGRE) // It's MORE pasta and sauce.
+	tastes = list("richly smooth and salty tomatoes" = 1, "soft noodle sheets" = 1)
+	w_class = WEIGHT_CLASS_NORMAL
+	foodtype = GRAIN | FRUIT
+	eat_effect = /datum/status_effect/buff/mealbuff
+	rotprocess = SHELFLIFE_LONG
+
+/obj/item/reagent_containers/food/snacks/rogue/lasagna_white
+	name = "white lasagna"
+	desc = "Stacked pasta sheets layered with béchamel sauce and melted cheese. Lasagna was brought to Valoria by a Montecarinan royal chef, but the price of tomatoes made locals forgo it for a very otavan white sauce."
+	icon = 'modular/Neu_Food/icons/cooked/cooked_pasta.dmi'
+	icon_state = "lasagna"
+	faretype = FARE_FINE // Nobles fucking love cheese though.
+	list_reagents = list(/datum/reagent/consumable/nutriment = MEAL_MEAGRE) // It's MORE pasta and sauce.
+	tastes = list("smooth béchamel sauce" = 1, "cheesy noodle sheets" = 1)
+	w_class = WEIGHT_CLASS_NORMAL
+	foodtype = GRAIN | DAIRY
+	eat_effect = /datum/status_effect/buff/mealbuff
+	rotprocess = SHELFLIFE_LONG
+
+/obj/item/reagent_containers/food/snacks/rogue/lasagna_redwhite
+	name = "cheesy lasagna"
+	desc = "Pasta sheets decadently stacked with marinara and cheese, something so simple has no right to be so rich. The condottieri and sailors of Montecarina's royal navy hate leaving port, not knowing when next they can gorge on this soldiery pasta loaf of cheese and sauce."
+	icon = 'modular/Neu_Food/icons/cooked/cooked_pasta.dmi'
+	icon_state = "lasagna"
+	faretype = FARE_LAVISH
+	list_reagents = list(/datum/reagent/consumable/nutriment = MEAL_GOOD)
+	tastes = list("richly smooth and salty tomatoes" = 1, "melted cheese between noodle sheets" = 1)
+	w_class = WEIGHT_CLASS_NORMAL
+	foodtype = GRAIN | DAIRY | FRUIT
+	eat_effect = /datum/status_effect/buff/greatmealbuff
+	rotprocess = SHELFLIFE_LONG
+
+/obj/item/reagent_containers/food/snacks/rogue/lasagna_pesto
+	name = "pesto lasagna"
+	desc = "Pasta sheets elegantly stacked with pesto neatly spread between. It's taste can only be described as 'zig-like', the rocknut in the pesto seeming to boil from the heat. This version is even more loved by Azurian nobles, though visiting Montecarinan signoria-bloods are known occasionally to be offended at the taste."
+	icon = 'modular/Neu_Food/icons/cooked/cooked_pasta.dmi'
+	icon_state = "lasagna"
+	faretype = FARE_LAVISH
+	list_reagents = list(/datum/reagent/consumable/nutriment = MEAL_MEAGRE, /datum/reagent/consumable/acorn_powder = 4, /datum/reagent/drug/nicotine = 4)
+	tastes = list("richly smooth and salty tomatoes" = 1, "melted cheese between noodle sheets" = 1)
+	w_class = WEIGHT_CLASS_NORMAL
+	foodtype = GRAIN | VEGETABLES
+	eat_effect = /datum/status_effect/buff/greatmealbuff
+	rotprocess = SHELFLIFE_LONG
+
 /*	.................   Miscellanious Buns   ................... */
 /obj/item/reagent_containers/food/snacks/rogue/frybread
 	name = "frybread"
@@ -1051,3 +1105,243 @@
 	warming = 5 MINUTES
 	rotprocess = SHELFLIFE_LONG
 	eat_effect = /datum/status_effect/buff/greatsnackbuff
+
+/*	.................   Griddle   ................... */
+/obj/item/reagent_containers/food/snacks/rogue/griddle
+	name = "Griddles"
+	desc = "Fluffy griddlecakes fried to perfection, plain yet delicious."
+	icon = 'modular/Neu_Food/icons/cooked/cooked_griddles.dmi'
+	icon_state = "griddle"
+	faretype = FARE_NEUTRAL
+	list_reagents = list(/datum/reagent/consumable/nutriment = MEAL_AVERAGE)
+	var/fruittaste
+	var/griddletaste = "fluffy dough"
+	tastes = null
+	w_class = WEIGHT_CLASS_NORMAL
+	bitesize = 4
+	eat_effect = /datum/status_effect/buff/snackbuff
+	var/syrup_kind = null
+	var/butter = FALSE
+	var/syrup_overlay_state = FALSE
+
+/obj/item/reagent_containers/food/snacks/rogue/griddle/Initialize()
+	. = ..()
+	rebuild_tastes()
+
+/obj/item/reagent_containers/food/snacks/rogue/griddle/proc/rebuild_tastes()
+	tastes = list()
+	if(griddletaste)
+		tastes[griddletaste] = 1
+	if(fruittaste)
+		tastes[fruittaste] = 1
+	switch(syrup_kind)
+		if("chocolate")
+			tastes["syrupy chocolate"] = 1
+		if("honey")
+			tastes["syrupy honey"] = 1
+	if(butter)
+		tastes["decadent butter"] = 1
+
+/obj/item/reagent_containers/food/snacks/rogue/griddle/proc/rebuild_overlays()
+	cut_overlays()
+	var/syrup_state = null
+	switch(syrup_kind)
+		if("chocolate")
+			syrup_state = "griddle_chocolatesyrup"
+		if("honey")
+			syrup_state = "griddle_honeysyrup"
+	if(syrup_overlay_state)
+		var/mutable_appearance/syrup_overlay = mutable_appearance(icon, syrup_state)
+		add_overlay(syrup_overlay)
+	if(butter)
+		var/mutable_appearance/butter_overlay = mutable_appearance(icon, "griddle_butter")
+		add_overlay(butter_overlay)
+
+/obj/item/reagent_containers/food/snacks/rogue/griddle/proc/update_faretype()
+	faretype = initial(faretype)
+	if(syrup_kind || butter)
+		faretype = FARE_FINE
+
+/obj/item/reagent_containers/food/snacks/rogue/griddle/proc/finish_topping(obj/item/ingredient)
+	rebuild_overlays()
+	update_faretype()
+	rebuild_tastes()
+	qdel(ingredient)
+
+/obj/item/reagent_containers/food/snacks/rogue/griddle/proc/copy_customization(obj/item/reagent_containers/food/snacks/rogue/griddle/target)
+	if(!target)
+		return
+	target.syrup_kind = syrup_kind
+	target.butter = butter
+	target.rebuild_tastes()
+	target.rebuild_overlays()
+	target.update_faretype()
+
+
+/obj/item/reagent_containers/food/snacks/rogue/griddle/attackby(obj/item/I, mob/living/user, params)
+	update_cooktime(user)
+	if(!isturf(loc) || !locate(/obj/structure/table) in loc)
+		return ..()
+	if(istype(I, /obj/item/reagent_containers/food/snacks/chocolate/slice))
+		if(syrup_kind == "honey")
+			to_chat(user, span_warning("Even the finest things in life can have too much."))
+			return TRUE
+		if(syrup_kind == "chocolate")
+			to_chat(user, span_warning("[src] is already topped with [I]."))
+			return TRUE
+		playsound(get_turf(user), 'sound/foley/dropsound/food_drop.ogg', 40, TRUE, -1)
+		to_chat(user, span_notice("You place [I] atop [src] and let it melt..."))
+		syrup_kind = "chocolate"
+		syrup_overlay_state = TRUE
+		finish_topping(I)
+		return TRUE
+	if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/honey))
+		if(syrup_kind == "chocolate")
+			to_chat(user, span_warning("Even the finest things in life can have too much."))
+			return TRUE
+		if(syrup_kind == "honey")
+			to_chat(user, span_warning("[src] is already topped with [I]."))
+			return TRUE
+		playsound(get_turf(user), 'sound/foley/dropsound/food_drop.ogg', 40, TRUE, -1)
+		to_chat(user, span_notice("You place [I] atop [src] and let it melt..."))
+		syrup_kind = "honey"
+		syrup_overlay_state = TRUE
+		finish_topping(I)
+		return TRUE
+	if(istype(I, /obj/item/reagent_containers/food/snacks/butterslice))
+		if(butter)
+			to_chat(user, span_warning("[src] is already topped with [I]."))
+			return TRUE
+		playsound(get_turf(user), 'sound/foley/dropsound/food_drop.ogg', 40, TRUE, -1)
+		to_chat(user, span_notice("You place [I] atop [src] and let it melt..."))
+		butter = TRUE
+		finish_topping(I)
+		return TRUE
+
+	return ..()
+
+/obj/item/reagent_containers/food/snacks/rogue/griddle/On_Consume(mob/living/eater)
+	..()
+	if(syrup_kind)
+		eater.apply_status_effect(/datum/status_effect/buff/sweet)
+	if(butter)
+		eater.adjust_nutrition(5)
+
+/obj/item/reagent_containers/food/snacks/rogue/griddle/fruit/lemon
+	name = "Lemongriddles"
+	desc = "Fluffy griddlecakes fried to perfection and enough to make a bishop feel sour!."
+	icon = 'modular/Neu_Food/icons/cooked/cooked_griddles.dmi'
+	icon_state = "griddlelemon"
+	faretype = FARE_FINE
+	list_reagents = list(/datum/reagent/consumable/nutriment = MEAL_AVERAGE)
+	fruittaste = "sour lemon pulp"
+
+/obj/item/reagent_containers/food/snacks/rogue/griddle/fruit/berry
+	name = "Berrygriddles"
+	desc = "Fluffy griddlecakes fried to perfection, the area around each berry stained as if many beady eyes were staring back. Splendid!"
+	icon = 'modular/Neu_Food/icons/cooked/cooked_griddles.dmi'
+	icon_state = "griddleberry"
+	faretype = FARE_FINE
+	list_reagents = list(/datum/reagent/consumable/nutriment = MEAL_AVERAGE)
+	fruittaste = "sweet berry mash"
+
+/obj/item/reagent_containers/food/snacks/rogue/griddle/fruit/poisonberry
+	name = "Berrygriddles"
+	desc = "Fluffy griddlecakes fried to perfection, the area around each berry stained as if many beady eyes were staring back. Splendid!."
+	icon = 'modular/Neu_Food/icons/cooked/cooked_griddles.dmi'
+	icon_state = "griddleberry"
+	faretype = FARE_FINE
+	list_reagents = list(/datum/reagent/consumable/nutriment = MEAL_AVERAGE, /datum/reagent/berrypoison = 5)
+	fruittaste = "bittersweet berry mash"
+
+/obj/item/reagent_containers/food/snacks/rogue/griddle/fruit/apple
+	name = "Applegriddles"
+	desc = "Fluffy griddlecakes fried to perfection, with a blanket of crunchy apple slices tucking the griddles in."
+	icon = 'modular/Neu_Food/icons/cooked/cooked_griddles.dmi'
+	icon_state = "griddleapple"
+	faretype = FARE_FINE
+	list_reagents = list(/datum/reagent/consumable/nutriment = MEAL_AVERAGE)
+	fruittaste = "caramelized apple slices"
+/*	.................   Challah   ................... */
+/obj/item/reagent_containers/food/snacks/rogue/challah
+	name = "challah loaf"
+	desc = "A Nshkormh loaf of bread, made from leavened dough and egg, the communities of Psydonites in the region continued it's usage even during the Sun Dominion's banning of it's creation for it's 'rejection of Astratan butterness'."
+	icon = 'modular/Neu_Food/icons/cooked/cooked_baked.dmi'
+	icon_state = "challah4"
+	slices_num = 4
+	bitesize = 5
+	slice_path = /obj/item/reagent_containers/food/snacks/rogue/challah_slice
+	list_reagents = list(/datum/reagent/consumable/nutriment = DOUGH_NUTRITION)
+	faretype = FARE_NEUTRAL // Same thing as Psycrossbuns, wouldn't want a Nshkormh noble puking from it.
+	w_class = WEIGHT_CLASS_NORMAL
+	tastes = list("soft, pillowy eggdough" = 1)
+	slice_batch = FALSE
+	slice_sound = TRUE
+	rotprocess = SHELFLIFE_LONG
+	eat_effect = /datum/status_effect/buff/snackbuff
+	foodtype = GRAIN
+
+/obj/item/reagent_containers/food/snacks/rogue/challah/update_icon()
+	if(slices_num)
+		icon_state = "challah[slices_num]"
+	else
+		icon_state = "challah_slice"
+
+/obj/item/reagent_containers/food/snacks/rogue/challah/On_Consume(mob/living/eater)
+	..()
+	if(slices_num)
+		if(bitecount == 2)
+			slices_num = 3
+		if(bitecount == 4)
+			slices_num = 2
+		if(bitecount == 5)
+			changefood(slice_path, eater)
+
+/obj/item/reagent_containers/food/snacks/rogue/challah_slice
+	name = "sliced challah"
+	desc = "Some would dip the slice into salt to complete the bread at this point, but it is what it is."
+	icon = 'modular/Neu_Food/icons/cooked/cooked_baked.dmi'
+	icon_state = "challah_slice"
+	faretype = FARE_NEUTRAL
+	w_class = WEIGHT_CLASS_NORMAL
+	tastes = list("soft, pillowy eggdough" = 1)
+	list_reagents = list(/datum/reagent/consumable/nutriment = SMALLDOUGH_NUTRITION)
+	bitesize = 3
+	rotprocess = SHELFLIFE_LONG
+	dropshrink = 0.8
+	eat_effect = /datum/status_effect/buff/snackbuff
+	foodtype = GRAIN
+
+/obj/item/reagent_containers/food/snacks/rogue/challah_slice_ritual
+	name = "sliced salted challah"
+	desc = "Some would dip the slice into salt to complete the bread at this point, but it is what it is."
+	icon = 'modular/Neu_Food/icons/cooked/cooked_baked.dmi'
+	icon_state = "challah_slice"
+	faretype = FARE_NEUTRAL
+	w_class = WEIGHT_CLASS_NORMAL
+	tastes = list("soft, pillowy eggdough" = 1)
+	list_reagents = list(/datum/reagent/consumable/nutriment = SMALLDOUGH_NUTRITION)
+	bitesize = 3
+	rotprocess = SHELFLIFE_LONG
+	dropshrink = 0.8
+	foodtype = GRAIN
+
+/obj/item/reagent_containers/food/snacks/rogue/challah_slice_ritual/On_Consume(mob/living/eater)
+	..()
+	var/client/player = eater?.client
+	if((bitecount == 1) & istype(player.prefs.virtue_origin, /datum/virtue/origin/raneshen) & !issunelf(eater))
+		to_chat(eater, span_notice("As the bitterness of the salt hits your tastebuds, you ponder what it means to last."))
+	else if((bitecount == 1) & !istype(player.prefs.virtue_origin, /datum/virtue/origin/raneshen))
+		to_chat(eater, span_warning("That's way more saltier then you expected!"))
+	if((bitecount == 2) & istype(player.prefs.virtue_origin, /datum/virtue/origin/raneshen) & !issunelf(eater))
+		to_chat(eater, span_notice("Biting into the slice again, reflections on the rebonding of one's ties with the divine."))
+	else if((bitecount == 2) & !istype(player.prefs.virtue_origin, /datum/virtue/origin/raneshen))
+		to_chat(eater, span_warning("Yeah it's not getting any less salty."))
+	if((bitecount == 3) & istype(player.prefs.virtue_origin, /datum/virtue/origin/raneshen) & !issunelf(eater))
+		eater.apply_status_effect(/datum/status_effect/buff/psyhealing)
+		eater.apply_status_effect(/datum/status_effect/buff/snackbuff)
+		eater.adjust_hydration(-5)
+		to_chat(eater, span_notice("Finishing the slice, you are reminded of how eternal Psydon is, and their kindness washes over you."))
+	else if((bitecount == 3) & !istype(player.prefs.virtue_origin, /datum/virtue/origin/raneshen))
+		to_chat(eater, span_warning("My mouth just feels dry now."))
+		eater.adjust_hydration(-10)

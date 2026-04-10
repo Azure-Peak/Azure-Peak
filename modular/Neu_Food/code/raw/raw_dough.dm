@@ -79,6 +79,16 @@
 				qdel(I)
 				qdel(src)
 		else
+	if(istype(I, /obj/item/reagent_containers/food/snacks/egg))
+		if(isturf(loc)&& (found_table))
+			playsound(get_turf(user), 'modular/Neu_Food/sound/kneading.ogg', 100, TRUE, -1)
+			to_chat(user, span_notice("Kneading egg into the dough..."))
+			if(do_after(user,short_cooktime, target = src))
+				add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)
+				new /obj/item/reagent_containers/food/snacks/rogue/eggdough(loc)
+				qdel(I)
+				qdel(src)
+		else
 			to_chat(user, span_warning("You need to put [src] on a table to roll it out!"))
 	if(istype(I, /obj/item/kitchen/rollingpin))
 		if(isturf(loc)&& (found_table))
@@ -135,6 +145,17 @@
 		if(isturf(loc)&& (found_table))
 			playsound(get_turf(user), 'sound/foley/dropsound/food_drop.ogg', 40, TRUE, -1)
 			to_chat(user, span_notice("Crushing the sliced tomatoes into a thick, velvety sauce..."))
+			if(do_after(user,short_cooktime, target = src))
+				add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)
+				new /obj/item/reagent_containers/food/snacks/rogue/foodbase/tomatoplate_raw(loc)
+				qdel(I)
+				qdel(src)
+		else
+			to_chat(user, span_warning("You need to put [src] on a table to smear the flatdough with sauced tomatoes!"))
+	if(istype(I, /obj/item/reagent_containers/food/snacks/grown/fruit/tomato_sauce))
+		if(isturf(loc)&& (found_table))
+			playsound(get_turf(user), 'sound/foley/dropsound/food_drop.ogg', 40, TRUE, -1)
+			to_chat(user, span_notice("Spreading the sauce into a divine crimson layer of Etruscan culinary superiority..."))
 			if(do_after(user,short_cooktime, target = src))
 				add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)
 				new /obj/item/reagent_containers/food/snacks/rogue/foodbase/tomatoplate_raw(loc)
@@ -1061,3 +1082,354 @@
 /obj/item/reagent_containers/food/snacks/rogue/foodbase/tartdough_goldapple/Initialize()
   ..()
   add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_LIGHTNING, "alpha" = 100, "size" = 1))
+
+/*	.................   Eggdough   ................... */
+/obj/item/reagent_containers/food/snacks/rogue/eggdough
+	name = "eggdough"
+	desc = "Without tradition, legacy is left solivagant."
+	icon = 'modular/Neu_Food/icons/raw/raw_dough.dmi'
+	icon_state = "eggdough"
+	color = "#feffc1"
+	slices_num = 2
+	slice_batch = TRUE
+	slice_path = /obj/item/reagent_containers/food/snacks/rogue/eggdoughslice
+	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/challah
+	cooked_smell = /datum/pollutant/food/bread
+	w_class = WEIGHT_CLASS_NORMAL
+	slice_sound = TRUE
+
+/obj/item/reagent_containers/food/snacks/rogue/eggdough/attackby(obj/item/I, mob/living/user, params)
+	var/found_table = locate(/obj/structure/table) in (loc)
+	update_cooktime(user)
+// This is to remind people that we have a unused challah dough sprite if they add variants! I actually don't know if we NEED a psydonic variant though.
+//	if(istype(I, /obj/item/reagent_containers/powder/salt)
+//		if(isturf(loc)&& (found_table))
+//			playsound(get_turf(user), 'sound/foley/dropsound/food_drop.ogg', 40, TRUE, -1)
+//			to_chat(user, span_notice("Working the salt into the eggdough, shaping it into a psydonic challah..."))
+//			if(do_after(user,long_cooktime, target = src))
+//				add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)
+//				new /obj/item/reagent_containers/food/snacks/rogue/challahdough_salted(loc)
+//				qdel(I)
+//				qdel(src)
+	if(istype(I, /obj/item/kitchen/rollingpin))
+		if(isturf(loc)&& (found_table))
+			playsound(get_turf(user), 'modular/Neu_Food/sound/rollingpin.ogg', 100, TRUE, -1)
+			to_chat(user, span_notice("Rolling the eggdough flat and thin, starting to look like a cake made for a pan..."))
+			if(do_after(user,long_cooktime, target = src))
+				add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)
+				new /obj/item/reagent_containers/food/snacks/rogue/griddle_uncooked(loc)
+				qdel(src)
+		else
+			to_chat(user, span_warning("You need to put [src] on a table to roll it out!"))
+	else
+		return ..()
+
+/*	.................   Eggdough Piece   ................... */
+/obj/item/reagent_containers/food/snacks/rogue/eggdoughslice
+	name = "eggdough piece"
+	desc = "A slice of childhood, to remember one's roots."
+	icon = 'modular/Neu_Food/icons/raw/raw_dough.dmi'
+	icon_state = "eggdoughslice"
+	color = "#feffc1"
+	slices_num = 0
+	//fried_type - One day...
+	//cooked_type - One day...
+	cooked_smell = /datum/pollutant/food/pastry
+	w_class = WEIGHT_CLASS_NORMAL
+
+/obj/item/reagent_containers/food/snacks/rogue/eggdoughslice/attackby(obj/item/I, mob/living/user, params)
+	var/found_table = locate(/obj/structure/table) in (loc)
+	update_cooktime(user)
+	if(istype(I, /obj/item/kitchen/rollingpin))
+		if(isturf(loc)&& (found_table))
+			playsound(get_turf(user), 'modular/Neu_Food/sound/rollingpin.ogg', 100, TRUE, -1)
+			to_chat(user, span_notice("You string out the dough with pin and hand..."))
+			if(do_after(user,short_cooktime, target = src))
+				add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)
+				new /obj/item/reagent_containers/food/snacks/rogue/eggdoughnoodles(loc)
+				qdel(src)
+		else
+			to_chat(user, span_warning("You need to put [src] on a table to roll it out!"))
+	if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/eggdoughslice))
+		if(isturf(loc)&& (found_table))
+			playsound(get_turf(user), 'modular/Neu_Food/sound/kneading.ogg', 100, TRUE, -1)
+			to_chat(user, span_notice("Pinching dough, stacking sheets..."))
+			if(do_after(user,short_cooktime, target = src))
+				add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)
+				new /obj/item/reagent_containers/food/snacks/rogue/eggdoughsheetnoodles(loc)
+				qdel(I)
+				qdel(src)
+		else
+			to_chat(user, span_warning("You need to put [src] on a table to balance it out!"))
+	else
+		..()
+
+/*	.................   Noodle Dough   ................... */
+/obj/item/reagent_containers/food/snacks/rogue/eggdoughnoodles
+	name = "uncooked noodles"
+	desc = "A bundle of soft and wobbly uncooked noodles, ready to make dreams come true."
+	icon = 'modular/Neu_Food/icons/raw/raw_dough.dmi'
+	icon_state = "eggdoughnoodles"
+	color = "#feffc1"
+	//deep_fried_type = /obj/item/reagent_containers/food/snacks/rogue/justicespagetti (Spaghetti all'assassina but Ravox)
+	boiled_type = /obj/item/reagent_containers/food/snacks/rogue/noodles
+	cooked_smell = /datum/pollutant/food/pasta
+	w_class = WEIGHT_CLASS_NORMAL
+
+/*	.................   Sheet Noodle Dough   ................... */
+/obj/item/reagent_containers/food/snacks/rogue/eggdoughsheetnoodles
+	name = "uncooked sheet noodles"
+	desc = "Flat sheets of sheet noodles, ready to be mixed with sauce and/or cheese."
+	icon = 'modular/Neu_Food/icons/raw/raw_dough.dmi'
+	icon_state = "eggdoughsheetnoodle"
+	color = "#feffc1"
+	slices_num = 0
+	boiled_type = /obj/item/reagent_containers/food/snacks/rogue/sheetnoodles
+	cooked_smell = /datum/pollutant/food/pasta
+	w_class = WEIGHT_CLASS_NORMAL
+
+/obj/item/reagent_containers/food/snacks/rogue/eggdoughsheetnoodles/attackby(obj/item/I, mob/living/user, params)
+	var/found_table = locate(/obj/structure/table) in (loc)
+	update_cooktime(user)
+	if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/cheese))
+		if(isturf(loc)&& (found_table))
+			playsound(get_turf(user), 'sound/foley/dropsound/food_drop.ogg', 40, TRUE, -1)
+			to_chat(user, span_notice("I begin to stack the sheets with wet cheese..."))
+			if(do_after(user,long_cooktime, target = src))
+				add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)
+				new /obj/item/reagent_containers/food/snacks/rogue/eggdoughsheetnoodles_white(loc)
+				qdel(I)
+				qdel(src)
+		else
+			to_chat(user, span_warning("You need to put [src] on a table to stack this!"))
+	if(istype(I, /obj/item/reagent_containers/food/snacks/grown/fruit/tomato_sauce))
+		if(isturf(loc)&& (found_table))
+			playsound(get_turf(user), 'sound/foley/dropsound/food_drop.ogg', 40, TRUE, -1)
+			to_chat(user, span_notice("I begin to spread the [src] on each sheet before repeating..."))
+			if(do_after(user,long_cooktime, target = src))
+				add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)
+				new /obj/item/reagent_containers/food/snacks/rogue/eggdoughsheetnoodles_red(loc)
+				qdel(I)
+				qdel(src)
+		else
+			to_chat(user, span_warning("You need to put [src] on a table to stack this!"))
+	if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/pesto))
+		if(isturf(loc)&& (found_table))
+			playsound(get_turf(user), 'sound/foley/dropsound/food_drop.ogg', 40, TRUE, -1)
+			to_chat(user, span_notice("I begin to spread the [src] on each sheet before repeating..."))
+			if(do_after(user,long_cooktime, target = src))
+				add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)
+				new /obj/item/reagent_containers/food/snacks/rogue/eggdoughsheetnoodles_pesto(loc)
+				qdel(I)
+				qdel(src)
+		else
+			to_chat(user, span_warning("You need to put [src] on a table to stack this!"))
+	else
+		return ..()
+
+/obj/item/reagent_containers/food/snacks/rogue/eggdoughsheetnoodles_red
+	name = "uncooked red lasagna"
+	desc = "Flat sheets of sheet noodles smothered in tomato sauce, ready to be cooked in the oven or have cheese added."
+	icon = 'modular/Neu_Food/icons/raw/raw_dough.dmi'
+	icon_state = "eggdoughsheetnoodle_red"
+	color = "#feffc1"
+	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/lasagna
+	cooked_smell = /datum/pollutant/food/pasta
+	w_class = WEIGHT_CLASS_NORMAL
+
+/obj/item/reagent_containers/food/snacks/rogue/eggdoughsheetnoodles_red/attackby(obj/item/I, mob/living/user, params)
+	var/found_table = locate(/obj/structure/table) in (loc)
+	update_cooktime(user)
+	if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/cheese))
+		if(isturf(loc)&& (found_table))
+			playsound(get_turf(user), 'sound/foley/dropsound/food_drop.ogg', 40, TRUE, -1)
+			to_chat(user, span_notice("I top off the dish with sheets with wet cheese..."))
+			if(do_after(user,long_cooktime, target = src))
+				add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)
+				new /obj/item/reagent_containers/food/snacks/rogue/eggdoughsheetnoodles_redwhite(loc)
+				qdel(I)
+				qdel(src)
+		else
+			to_chat(user, span_warning("You need to put [src] on a table to stack this!"))
+	else
+		return ..()
+
+/obj/item/reagent_containers/food/snacks/rogue/eggdoughsheetnoodles_white
+	name = "uncooked white lasagna"
+	desc = "Flat sheets of sheet noodles smothered in cheese, Valorian style, ready to be cooked in the oven or have sauce added."
+	icon = 'modular/Neu_Food/icons/raw/raw_dough.dmi'
+	icon_state = "eggdoughsheetnoodle_white"
+	color = "#feffc1"
+	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/lasagna_white
+	cooked_smell = /datum/pollutant/food/pasta
+	w_class = WEIGHT_CLASS_NORMAL
+/obj/item/reagent_containers/food/snacks/rogue/eggdoughsheetnoodles_red/attackby(obj/item/I, mob/living/user, params)
+	var/found_table = locate(/obj/structure/table) in (loc)
+	update_cooktime(user)
+	if(istype(I, /obj/item/reagent_containers/food/snacks/grown/fruit/tomato_sauce))
+		if(isturf(loc)&& (found_table))
+			playsound(get_turf(user), 'sound/foley/dropsound/food_drop.ogg', 40, TRUE, -1)
+			to_chat(user, span_notice("I drench the sheets with tomato sauce..."))
+			if(do_after(user,long_cooktime, target = src))
+				add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)
+				new /obj/item/reagent_containers/food/snacks/rogue/eggdoughsheetnoodles_redwhite(loc)
+				qdel(I)
+				qdel(src)
+		else
+			to_chat(user, span_warning("You need to put [src] on a table to stack this!"))
+	else
+		return ..()
+
+/obj/item/reagent_containers/food/snacks/rogue/eggdoughsheetnoodles_redwhite
+	name = "uncooked red and white lasagna"
+	desc = "Flat sheets of sheet noodles smothered in cheese and sauce, Montecarinan style, ready to be cooked in the oven."
+	icon = 'modular/Neu_Food/icons/raw/raw_dough.dmi'
+	icon_state = "eggdoughsheetnoodle_redwhite"
+	color = "#feffc1"
+	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/lasagna_redwhite
+	cooked_smell = /datum/pollutant/food/pasta
+	w_class = WEIGHT_CLASS_NORMAL
+
+/obj/item/reagent_containers/food/snacks/rogue/eggdoughsheetnoodles_pesto
+	name = "uncooked pesto lasagna"
+	desc = "Flat sheets of sheet noodles spread with pesto, Azurian style, ready to be cooked in the oven."
+	icon = 'modular/Neu_Food/icons/raw/raw_dough.dmi'
+	icon_state = "eggdoughsheetnoodle_pesto"
+	color = "#feffc1"
+	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/lasagna_pesto
+	cooked_smell = /datum/pollutant/food/pasta
+	w_class = WEIGHT_CLASS_NORMAL
+
+/*	.................   Griddle Dough   ................... */
+/obj/item/reagent_containers/food/snacks/rogue/griddle_uncooked
+	name = "griddle dough"
+	desc = "A flat eggy mess of batter dough, desperate to be thrown onto a pan."
+	icon = 'modular/Neu_Food/icons/raw/raw_dough.dmi'
+	icon_state = "griddle_raw"
+	slices_num = null
+	slice_batch = FALSE
+	slice_path = null
+	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/griddle
+	w_class = WEIGHT_CLASS_NORMAL
+	slice_sound = TRUE
+
+/obj/item/reagent_containers/food/snacks/rogue/butterdough/attackby(obj/item/I, mob/living/user, params)
+	var/found_table = locate(/obj/structure/table) in (loc)
+	update_cooktime(user)
+	if(istype(I, /obj/item/reagent_containers/food/snacks/grown/fruit/lemon))
+		if(isturf(loc)&& (found_table))
+			playsound(get_turf(user), 'sound/foley/dropsound/food_drop.ogg', 40, TRUE, -1)
+			to_chat(user, span_notice("Working the lemons into the griddle dough, shaping it into a lemony pancake..."))
+			if(do_after(user,long_cooktime, target = src))
+				add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)
+				new /obj/item/reagent_containers/food/snacks/rogue/griddlelemon_uncooked(loc)
+				qdel(I)
+				qdel(src)
+		else
+			to_chat(user, span_warning("You need to put [src] on a table to stuff it with fruits!"))
+	if(istype(I, /obj/item/reagent_containers/food/snacks/grown/fruit/blackberry))
+		if(isturf(loc)&& (found_table))
+			playsound(get_turf(user), 'sound/foley/dropsound/food_drop.ogg', 40, TRUE, -1)
+			to_chat(user, span_notice("Working the blackberries into the griddle dough, shaping it into a fruity pancake..."))
+			if(do_after(user,long_cooktime, target = src))
+				add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)
+				new /obj/item/reagent_containers/food/snacks/rogue/griddleberry_uncooked(loc)
+				qdel(I)
+				qdel(src)
+		else
+			to_chat(user, span_warning("You need to put [src] on a table to stuff it with fruits!"))
+	if(istype(I, /obj/item/reagent_containers/food/snacks/grown/fruit/raspberry))
+		if(isturf(loc)&& (found_table))
+			playsound(get_turf(user), 'sound/foley/dropsound/food_drop.ogg', 40, TRUE, -1)
+			to_chat(user, span_notice("Working the raspberries into the griddle dough, shaping it into a fruity pancake..."))
+			if(do_after(user,long_cooktime, target = src))
+				add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)
+				new /obj/item/reagent_containers/food/snacks/rogue/griddleberry_uncooked(loc)
+				qdel(I)
+				qdel(src)
+		else
+			to_chat(user, span_warning("You need to put [src] on a table to stuff it with fruits!"))
+	if(istype(I, /obj/item/reagent_containers/food/snacks/grown/berries/rogue))
+		if(isturf(loc)&& (found_table))
+			playsound(get_turf(user), 'sound/foley/dropsound/food_drop.ogg', 40, TRUE, -1)
+			to_chat(user, span_notice("Working the jackberries into the griddle dough, shaping it into a fruity pancake..."))
+			if(do_after(user,long_cooktime, target = src))
+				add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)
+				new /obj/item/reagent_containers/food/snacks/rogue/griddleberry_uncooked(loc)
+				qdel(I)
+				qdel(src)
+		else
+			to_chat(user, span_warning("You need to put [src] on a table to stuff it with fruits!"))
+	if(istype(I, /obj/item/reagent_containers/food/snacks/grown/berries/rogue/poison))
+		if(isturf(loc)&& (found_table))
+			playsound(get_turf(user), 'sound/foley/dropsound/food_drop.ogg', 40, TRUE, -1)
+			to_chat(user, span_notice("Working the jackberries into the griddle dough, shaping it into a fruity pancake..."))
+			if(do_after(user,long_cooktime, target = src))
+				add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)
+				new /obj/item/reagent_containers/food/snacks/rogue/griddlepoisonberry_uncooked(loc)
+				qdel(I)
+				qdel(src)
+		else
+			to_chat(user, span_warning("You need to put [src] on a table to stuff it with fruits!"))
+	if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/fruit/apple_sliced))
+		if(isturf(loc)&& (found_table))
+			playsound(get_turf(user), 'sound/foley/dropsound/food_drop.ogg', 40, TRUE, -1)
+			to_chat(user, span_notice("Working the apple slices into the griddle dough, shaping it into a appley pancake..."))
+			if(do_after(user,long_cooktime, target = src))
+				add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)
+				new /obj/item/reagent_containers/food/snacks/rogue/griddleapple_uncooked(loc)
+				qdel(I)
+				qdel(src)
+		else
+			to_chat(user, span_warning("You need to put [src] on a table to stuff it with fruits!"))
+	else
+		return ..()
+
+/obj/item/reagent_containers/food/snacks/rogue/griddlelemon_uncooked
+	name = "lemongriddle dough"
+	desc = "A flat eggy mess of lemon-specked batter dough, desperate to be thrown onto a pan."
+	icon = 'modular/Neu_Food/icons/raw/raw_dough.dmi'
+	icon_state = "griddlelemon_raw"
+	slices_num = null
+	slice_batch = FALSE
+	slice_path = null
+	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/griddle/fruit/lemon
+	w_class = WEIGHT_CLASS_NORMAL
+	slice_sound = TRUE
+
+/obj/item/reagent_containers/food/snacks/rogue/griddleberry_uncooked
+	name = "berrygriddle dough"
+	desc = "A flat eggy mess of berry-specked batter dough, desperate to be thrown onto a pan."
+	icon = 'modular/Neu_Food/icons/raw/raw_dough.dmi'
+	icon_state = "griddleberry_raw"
+	slices_num = null
+	slice_batch = FALSE
+	slice_path = null
+	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/griddle/fruit/berry
+	w_class = WEIGHT_CLASS_NORMAL
+	slice_sound = TRUE
+
+/obj/item/reagent_containers/food/snacks/rogue/griddlepoisonberry_uncooked
+	name = "berrygriddle dough"
+	desc = "A flat eggy mess of berry-specked batter dough, desperate to be thrown onto a pan."
+	icon = 'modular/Neu_Food/icons/raw/raw_dough.dmi'
+	icon_state = "griddleberry_raw"
+	slices_num = null
+	slice_batch = FALSE
+	slice_path = null
+	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/griddle/fruit/poisonberry
+	list_reagents = list(/datum/reagent/berrypoison = 5)
+	w_class = WEIGHT_CLASS_NORMAL
+	slice_sound = TRUE
+
+/obj/item/reagent_containers/food/snacks/rogue/griddleapple_uncooked
+	name = "berrygriddle dough"
+	desc = "A flat eggy mess of apple-specked batter dough, desperate to be thrown onto a pan."
+	icon = 'modular/Neu_Food/icons/raw/raw_dough.dmi'
+	icon_state = "griddleapple_raw"
+	slices_num = null
+	slice_batch = FALSE
+	slice_path = null
+	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/griddle/fruit/apple
+	w_class = WEIGHT_CLASS_NORMAL
+	slice_sound = TRUE

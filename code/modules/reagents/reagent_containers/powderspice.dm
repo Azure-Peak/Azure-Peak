@@ -164,7 +164,7 @@
 
 /obj/item/reagent_containers/powder/rocknut
 	name = "rocknut powder"
-	desc = "Coarsely powdered rocknuts, ready to be rolled into a zig!"
+	desc = "Coarsely powdered rocknuts, ready to be rolled into a zig or made into azurian pesto!"
 	gender = PLURAL
 	icon_state = "rocknut"
 	volume = 1
@@ -220,6 +220,23 @@
 	new /obj/effect/decal/cleanable/food/salt(get_turf(src))
 	..()
 	qdel(src)
+
+/obj/item/reagent_containers/powder/salt/attackby(obj/item/I, mob/living/user, params)
+	var/found_table = locate(/obj/structure/table) in (loc)
+	update_cooktime(user)
+	var/client/player = user?.client
+	if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/challah_slice) && istype(player.prefs.virtue_origin, /datum/virtue/origin/raneshen) && (istype(player.prefs.selected_patron, /datum/patron/old_god)))
+		if(isturf(loc)&& (found_table))
+			playsound(get_turf(user), 'sound/foley/dropsound/food_drop.ogg', 40, TRUE, -1)
+			to_chat(user, span_notice("You being to dip the challah three times into the [src], restrengthening one's bond with Psydon..."))
+			if(do_after(user,long_cooktime, target = src))
+				add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)
+				user.put_in_hands(new /obj/item/reagent_containers/food/snacks/rogue/challah_slice_ritual)
+				qdel(I)
+		else
+			to_chat(user, span_warning("You need to put [src] on a table to do the covenant of salt!"))
+	else
+		to_chat(user, span_warning("That's alot of salt to put on some bread...")) // I will get upset if a inquisitor tries to use this to test someone.
 
 /obj/item/reagent_containers/powder/ozium
 	name = "ozium"

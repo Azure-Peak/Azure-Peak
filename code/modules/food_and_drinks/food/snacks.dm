@@ -58,6 +58,7 @@ All foods are distributed among various categories. Use common sense.
 	var/portable = TRUE
 	var/fried_type = null	//instead of becoming
 	var/deep_fried_type = null
+	var/boiled_type = null
 	var/filling_color = "#FFFFFF" //color to use when added to custom food.
 	var/custom_food_type = null  //for food customizing. path of the custom food to create
 	var/junkiness = 0  //for junk food. used to lower human satiety.

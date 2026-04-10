@@ -288,14 +288,26 @@
 	splat_color = "#CD5320"
 	slice_path = /obj/item/reagent_containers/food/snacks/grown/fruit/tomato_sliced
 	slices_num = 1
+	mill_result = /obj/item/reagent_containers/food/snacks/grown/fruit/tomato_sauce
 
 /obj/item/reagent_containers/food/snacks/grown/fruit/tomato_sliced
 	name = "split tomato"
 	seed = /obj/item/seeds/tomato
-	desc = "Split halves of a plump, red fruit with juicy flesh and a balanced sweet-tart flavor. Ruptured skin cradles a deliciously silky surprise, merely a palm away from being smeared into sauce atop flatdough."
+	desc = "Split halves of a plump, red fruit with juicy flesh and a balanced sweet-tart flavor. Ruptured skin cradles a deliciously silky surprise, merely a palm away from being smeared into sauce atop flatdough or put through a millstone for marinara."
 	icon_state = "tomato_split"
 	tastes = list("to" = 1, "mato" = 1)
 	splat_color = "#CD5320"
+	mill_result = /obj/item/reagent_containers/food/snacks/grown/fruit/tomato_sauce
+
+/obj/item/reagent_containers/food/snacks/grown/fruit/tomato_sauce
+	name = "tomato sauce"
+	seed = null
+	desc = "A truely ready sauce of tomato, it's juicy-tart taste and texture perfect for only the finest of palettes, it is said to be only surpassed by pesto in it's perfection with noodles."
+	icon = 'modular/Neu_Food/icons/raw/raw_veggies.dmi'
+	icon_state = "tomato_sauce"
+	tastes = list("to" = 1, "ma" = 1, "to" = 1)
+	splat_color = "#CD5320"
+
 
 /obj/item/reagent_containers/food/snacks/grown/berries/rogue
 	seed = /obj/item/seeds/berryrogue
