@@ -374,6 +374,10 @@ GLOBAL_LIST_INIT(goblin_aggro, world.file2list("strings/rt/goblinaggrolines.txt"
 			backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow
 			backl = /obj/item/quiver/stonearrows
 			H.adjust_skillrank(/datum/skill/combat/bows, 3, TRUE)
+		if(9)
+			r_hand = /obj/item/rogueweapon/flail
+			l_hand = /obj/item/rogueweapon/shield/wood
+			H.STAINT = 10 // Flail Special :)
 	H.adjust_skillrank(/datum/skill/combat/polearms, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/maces, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/axes, 2, TRUE)
