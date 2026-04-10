@@ -1,3 +1,5 @@
+const CURRENCY_NAME = 'mammon';
+
 const tierLabels = {
   1: 'Tier I - Routine',
   2: 'Tier II - Risky',
@@ -66,15 +68,15 @@ const resolveText = (key, args = {}) => {
     case 'notice.generate_failed':
       return 'Failed to generate quest content for that contract.';
     case 'notice.insufficient_funds':
-      return `Insufficient balance funds. You need ${amount} amna in your meister.`;
+      return `Insufficient balance funds. You need ${amount} ${CURRENCY_NAME} in your meister.`;
     case 'notice.issued_contract':
-      return `Issued ${contractTypes[contractType] || contractType} at ${tierLabels[tier] || 'unknown tier'}. Deposit charged: ${deposit} amna.`;
+      return `Issued ${contractTypes[contractType] || contractType} at ${tierLabels[tier] || 'unknown tier'}. Deposit charged: ${deposit} ${CURRENCY_NAME}.`;
     case 'notice.not_assigned':
       return 'You are not assigned to that contract.';
     case 'notice.no_completed_contract':
       return 'No completed contract is ready to turn in.';
     case 'notice.turn_in_success':
-      return `Contract turned in. Reward dispensed: ${reward} amna.`;
+      return `Contract turned in. Reward dispensed: ${reward} ${CURRENCY_NAME}.`;
     case 'notice.turn_in_not_ready':
       return 'That contract is not ready to turn in.';
     case 'notice.no_scroll_input':
@@ -84,7 +86,7 @@ const resolveText = (key, args = {}) => {
     case 'notice.abandoned_issuer_return':
       return 'The contract was abandoned and the deposit returned to the issuer.';
     case 'notice.abandoned_refund':
-      return `Contract abandoned. Refund returned: ${refund} amna.`;
+      return `Contract abandoned. Refund returned: ${refund} ${CURRENCY_NAME}.`;
     case 'preview.possible_targets':
       return 'Possible Targets';
     case 'preview.contract':

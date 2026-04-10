@@ -1,3 +1,5 @@
+const CURRENCY_NAME = 'amna';
+
 const tierLabels = {
   1: 'Тир I - Рутинный',
   2: 'Тир II - Рискованный',
@@ -66,15 +68,15 @@ const resolveText = (key, args = {}) => {
     case 'notice.generate_failed':
       return 'Не удалось сгенерировать содержимое контракта.';
     case 'notice.insufficient_funds':
-      return `Недостаточно средств. Нужно ${amount} amna на вашем счёте.`;
+      return `Недостаточно средств. Нужно ${amount} ${CURRENCY_NAME} на вашем счёте.`;
     case 'notice.issued_contract':
-      return `Выдан контракт ${contractTypes[contractType] || contractType} (${tierLabels[tier] || 'неизвестный тир'}). Залог: ${deposit} amna.`;
+      return `Выдан контракт ${contractTypes[contractType] || contractType} (${tierLabels[tier] || 'неизвестный тир'}). Залог: ${deposit} ${CURRENCY_NAME}.`;
     case 'notice.not_assigned':
       return 'Этот контракт назначен не вам.';
     case 'notice.no_completed_contract':
       return 'Нет готового к сдаче завершённого контракта.';
     case 'notice.turn_in_success':
-      return `Контракт сдан. Выплачено: ${reward} amna.`;
+      return `Контракт сдан. Выплачено: ${reward} ${CURRENCY_NAME}.`;
     case 'notice.turn_in_not_ready':
       return 'Этот контракт ещё не готов к сдаче.';
     case 'notice.no_scroll_input':
@@ -84,7 +86,7 @@ const resolveText = (key, args = {}) => {
     case 'notice.abandoned_issuer_return':
       return 'Контракт отменён, залог возвращён выдавшему его лицу.';
     case 'notice.abandoned_refund':
-      return `Контракт отменён. Возврат: ${refund} amna.`;
+      return `Контракт отменён. Возврат: ${refund} ${CURRENCY_NAME}.`;
     case 'preview.possible_targets':
       return 'Возможные цели';
     case 'preview.contract':

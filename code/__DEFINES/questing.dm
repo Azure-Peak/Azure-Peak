@@ -1,3 +1,6 @@
+#define QUEST_CURRENCY_NAME "mammon"
+#define QUEST_CURRENCY_NAME_PLURAL "mammons"
+
 #define QUEST_GROUP_ERRANDS "Guild Errands"
 #define QUEST_GROUP_BOUNTIES "Bounties"
 
