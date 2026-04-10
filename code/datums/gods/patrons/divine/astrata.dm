@@ -9,7 +9,7 @@
 					/obj/effect/proc_holder/spell/self/astrata_gaze					= CLERIC_T0,
 					/obj/effect/proc_holder/spell/invoked/lesser_heal 				= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/blood_heal				= CLERIC_T1,
-					/obj/effect/proc_holder/spell/self/astrata_fireresist       	= CLERIC_T1,
+					/datum/action/cooldown/spell/astrata_firecloak			       	= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/projectile/sacred_flame	= CLERIC_T1,
 					/obj/effect/proc_holder/spell/self/astrata_sword				= CLERIC_T2,
 					/obj/effect/proc_holder/spell/invoked/heal/astrata				= CLERIC_T2,

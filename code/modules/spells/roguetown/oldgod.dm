@@ -5,6 +5,8 @@
 /obj/effect/proc_holder/spell/invoked/psydonendure
 	name = "ENDURE"
 	desc = "Invoke an envigoring prayer for those who're faltering in willpower. </br>‎  </br>Provides minor health regeneration, staunches the target's bleeding, and helps to alleviate those who're struggling to breathe. The more valuable a caster's psycross is, the more health that is restored unto the target - this is further increased if they have been mortally wounded."
+	action_icon = 'icons/mob/actions/psydonmiracles.dmi'
+	overlay_icon = 'icons/mob/actions/psydonmiracles.dmi'
 	overlay_state = "ENDURE"
 	releasedrain = 33
 	chargedrain = 0
@@ -107,6 +109,8 @@
 
 /obj/effect/proc_holder/spell/invoked/psydonlux_tamper
 	name = "WEEP"
+	action_icon = 'icons/mob/actions/psydonmiracles.dmi'
+	overlay_icon = 'icons/mob/actions/psydonmiracles.dmi'
 	overlay_state = "WEEP" //Absolver-exclusive. Classified as 'lux-magicka', rather than a traditional miracle. Same line of thought as the Naledians.
 	releasedrain = 33
 	chargedrain = 0
@@ -199,6 +203,8 @@
 
 /obj/effect/proc_holder/spell/invoked/psydonabsolve	
 	name = "ABSOLVE"
+	action_icon = 'icons/mob/actions/psydonmiracles.dmi'
+	overlay_icon = 'icons/mob/actions/psydonmiracles.dmi'
 	overlay_state = "ABSOLVE" //Absolver-exclusive. Classified as 'lux-magicka', rather than a traditional miracle. Same line of thought as the Naledians.
 	desc = "Greater lux-magicka. Exchange your vitality for the sake of another. </br>‎  </br>Siphons away all injuries - be it physical damage, blood loss, or dismemberment - from the target, completely healing them. In exchange, all siphoned injuries are subsequently inflicted unto you. Using this on a target who's dead will fully resurrect them, albeit at the cost of your own lyfe."
 	releasedrain = 50
@@ -317,6 +323,8 @@
 	chargetime = 0
 	chargedloop = null
 	sound = null
+	action_icon = 'icons/mob/actions/psydonmiracles.dmi'
+	overlay_icon = 'icons/mob/actions/psydonmiracles.dmi'
 	overlay_state = "BOOTCHECK"
 	associated_skill = /datum/skill/magic/holy
 	antimagic_allowed = TRUE
@@ -403,7 +411,9 @@
 /obj/effect/proc_holder/spell/self/psydonprayer
 	name = "PRAYER"
 	desc = "Recite a psalm betwixt huffs, so that your wits do not succumb to more worldly ailments. </br>‎  </br>Provides minor health regeneration while standing still. The more damage that a caster has sustained - and the more valuable that their worn psycross is, the more health that they'll regenerate with each cycle."
-	overlay_state = "limb_attach"
+	action_icon = 'icons/mob/actions/psydonmiracles.dmi'
+	overlay_icon = 'icons/mob/actions/psydonmiracles.dmi'
+	overlay_state = "PRAYER"
 	releasedrain = 15
 	chargedrain = 0
 	chargetime = 0
@@ -510,6 +520,8 @@
 /obj/effect/proc_holder/spell/self/psydonrespite
 	name = "RESPITE"
 	desc = "Gather yourself, so that you may ready yourself for whatever lies next. </br>‎  </br>Provides health regeneration while standing still. The more damage that a caster has sustained - and the more valuable that their worn psycross is, the more health that they'll regenerate with each cycle."
+	action_icon = 'icons/mob/actions/psydonmiracles.dmi'
+	overlay_icon = 'icons/mob/actions/psydonmiracles.dmi'
 	overlay_state = "RESPITE"
 	releasedrain = 25
 	chargedrain = 0
@@ -617,6 +629,8 @@
 /obj/effect/proc_holder/spell/self/psydonpersist
 	name = "PERSIST"
 	desc = "Channel your willpower under duress, so that you may yet triumph over adversity. </br>‎  </br>Provides greater health regeneration while standing still. The more damage that a caster has sustained - and the more valuable that their worn psycross is, the more health that they'll regenerate with each cycle."
+	action_icon = 'icons/mob/actions/psydonmiracles.dmi'
+	overlay_icon = 'icons/mob/actions/psydonmiracles.dmi'
 	overlay_state = "PERSIST"
 	releasedrain = 30
 	chargedrain = 0

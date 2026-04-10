@@ -23,3 +23,13 @@
 	owner.remove_filter(DRAGONHIDE_FILTER)
 
 #undef DRAGONHIDE_FILTER
+
+/datum/status_effect/buff/dragonhide/astrata
+	id = "asbestine"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/dragonhide/astrata
+	duration = 5 MINUTES
+	outline_colour = "#9B7439"
+
+/atom/movable/screen/alert/status_effect/buff/dragonhide/astrata
+	name = "Asbestine Cloak"
+	desc = "Enveloped in Her radiance flames bear no hold over me!"

@@ -280,7 +280,7 @@
 
 	var/chosen_bundle
 	var/list/miracle_generalist_bundle = list(
-		/obj/effect/proc_holder/spell/self/astrata_fireresist::name			= /obj/effect/proc_holder/spell/self/astrata_fireresist,
+		/datum/action/cooldown/spell/astrata_firecloak::name				= /datum/action/cooldown/spell/astrata_firecloak,
 		/obj/effect/proc_holder/spell/invoked/spiderspeak::name				= /obj/effect/proc_holder/spell/invoked/spiderspeak,
 		/obj/effect/proc_holder/spell/invoked/invisibility/miracle::name	= /obj/effect/proc_holder/spell/invoked/invisibility/miracle,
 		/obj/effect/proc_holder/spell/targeted/blesscrop::name				= /obj/effect/proc_holder/spell/targeted/blesscrop,

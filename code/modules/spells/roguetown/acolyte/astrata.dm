@@ -156,104 +156,57 @@
 		H.hide_cone()
 		H.update_cone_show()
 
-////////////////////////////////////////////////////////////////////////
-// T1 - Asbestine Cloak - Removes cone vision for a dynamic duration. //
-////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
+// T1 - Asbestine Cloak - Grant fire resistance to people around caster. //
+///////////////////////////////////////////////////////////////////////////
 
-/obj/effect/proc_holder/spell/self/astrata_fireresist
+/datum/action/cooldown/spell/astrata_firecloak
 	name = "Asbestine Cloak"
-	desc = "Grants resistance to FIRE at cost of CONSTITUTION (-1)."
-	action_icon = 'icons/mob/actions/astratamiracles.dmi'
-	overlay_icon = 'icons/mob/actions/astratamiracles.dmi'
-	overlay_state = "cloak"
-	releasedrain = 10
-	chargedrain = 0
-	chargetime = 0
-	chargedloop = /datum/looping_sound/invokeholy
-	sound = 'sound/magic/astrata_choir.ogg'
-	associated_skill = /datum/skill/magic/holy
-	antimagic_allowed = FALSE
+	desc = "Cover yourself and adjacent targets in fire-resistant cloak."
+	fluff_desc = "Devout of the Sun found themselves combusting during their dae to dae rituals as Her radiance proved too much for most to handle, with it She has granted them a gift of a shroud, so that her subjects may worship her forevermore."
+	background_icon = 'icons/mob/actions/astratamiracles.dmi'
+	button_icon = 'icons/mob/actions/astratamiracles.dmi'
+	button_icon_state = "cloak"
+	sound = 'sound/magic/haste.ogg'
+	spell_color = GLOW_COLOR_BUFF
+	glow_intensity = GLOW_INTENSITY_LOW
+	attunement_school = ASPECT_NAME_AUGMENTATION
+
+	click_to_activate = TRUE
+	self_cast_possible = TRUE
+
+	primary_resource_type = SPELL_COST_STAMINA
+	primary_resource_cost = SPELLCOST_STAT_BUFF
+
 	invocations = list("Astrata, protect me.")
-	invocation_type = "whisper"
-	recharge_time = 0
-	devotion_cost = 30
-	miracle = TRUE
+	invocation_type = INVOCATION_WHISPER
 
-/obj/effect/proc_holder/spell/self/astrata_fireresist/cast(mob/living/carbon/human/user)
-	var/skill = user.get_skill_level(/datum/skill/magic/holy)
-	playsound(get_turf(user), 'sound/magic/haste.ogg', 80, TRUE, soundping = TRUE)
+	charge_required = TRUE
+	charge_time = 1 SECONDS
+	charge_drain = 0
+	charge_slowdown = CHARGING_SLOWDOWN_NONE
+	charge_sound = 'sound/magic/charging.ogg'
+	cooldown_time = 1.5 MINUTES
 
-	if(user.has_status_effect(/datum/status_effect/buff/dragonhide/fireresist))
-		user.remove_status_effect(/datum/status_effect/buff/dragonhide/fireresist)
-		user.remove_status_effect(/datum/status_effect/buff/dragonhide/fireresist/buff)
-		user.fire_stacks = 0
-		return TRUE
-	else
-		user.visible_message("[user] skin becomes entombed in cloak of scales!.")
-		if(skill >= 4) //Expert++
-			user.apply_status_effect(/datum/status_effect/buff/dragonhide/fireresist/buff)
-		else
-			user.apply_status_effect(/datum/status_effect/buff/dragonhide/fireresist)
+	associated_skill = null
+	spell_tier = 0
+
+	point_cost = 0
+	spell_impact_intensity = SPELL_IMPACT_NONE
+
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
+
+/datum/action/cooldown/spell/astrata_firecloak/cast(atom/cast_on)
+	. = ..()
+	var/mob/living/carbon/human/H = owner
+	if(!istype(H))
+		return FALSE
+
+	H.visible_message("[H] mutters an incantation and a dim pulse of light radiates out from them.")
+	for(var/mob/living/L in range(1, H))
+		L.apply_status_effect(/datum/status_effect/buff/dragonhide/astrata)
+
 	return TRUE
-
-/atom/movable/screen/alert/status_effect/buff/dragonhide/fireresist
-	name = "Fire Resistance"
-	desc = "Flames dance at my heels, yet do not sting!"
-	icon_state = "fire"
-
-/datum/status_effect/buff/dragonhide/fireresist
-	id = "fireresist"
-	examine_text = "<font color='red'>SUBJECTPRONOUN is shielded by a veil of sacred flame!</font>"
-	alert_type = /atom/movable/screen/alert/status_effect/buff/dragonhide/fireresist
-	effectedstats = list(STATKEY_CON = -1) //Target body loosing CON, but getting fireresist.
-	duration = 11 SECONDS
-
-/datum/status_effect/buff/dragonhide/fireresist/on_apply()
-	. = ..()
-	addtimer(CALLBACK(src, PROC_REF(continue_proc)), wait = (10 SECONDS))
-
-/datum/status_effect/buff/dragonhide/fireresist/proc/continue_proc()
-	if(QDELETED(src) || QDELING(src) || !owner || QDELETED(owner))
-		return
-	var/mob/living/carbon/human/user = owner
-	var/skill = user.get_skill_level(/datum/skill/magic/holy)
-	var/cost = 30 //Novice
-	switch(skill)
-		if(2)
-			cost = 25
-		if(3)
-			cost = 20
-		if(4)
-			cost = 10
-		if(5)
-			cost = 5
-		if(6)
-			cost = 0
-	if(user.has_status_effect(/datum/status_effect/buff/dragonhide/fireresist) || user.has_status_effect(/datum/status_effect/buff/dragonhide/fireresist/buff))
-		if((user.devotion?.devotion - cost) < 0)
-			to_chat(user, span_warning("I do not have enough devotion!"))
-			return
-		user.devotion?.update_devotion(-cost)
-		if(cost != 0)
-			to_chat(user, "<font color='purple'>I lose [cost] devotion!</font>")
-		if(skill >= 4) //Expert++
-			user.apply_status_effect(/datum/status_effect/buff/dragonhide/fireresist/buff)
-		else
-			user.apply_status_effect(/datum/status_effect/buff/dragonhide/fireresist)
-		addtimer(CALLBACK(src, PROC_REF(continue_proc)), wait = (10 SECONDS))
-	else
-		return
-
-/datum/status_effect/buff/dragonhide/fireresist/buff //you can step on lava
-
-/datum/status_effect/buff/dragonhide/fireresist/buff/on_apply()
-	. = ..()
-	addtimer(CALLBACK(src, PROC_REF(continue_proc)), wait = (15 SECONDS))
-	owner.weather_immunities += "lava"
-
-/datum/status_effect/buff/dragonhide/fireresist/buff/on_remove()
-	. = ..()
-	owner.weather_immunities -= "lava"
 
 //////////////////////////////////////////////////////////
 // T1 - Sacred Flame - Deals damage and ignites target. //
@@ -285,7 +238,7 @@
 	glow_intensity = GLOW_INTENSITY_MEDIUM
 	miracle = TRUE
 	devotion_cost = 40
-	invocations = list("Astrata, ignis sacrum!")
+	invocations = list("Holy flame upon you!", "Astrata, smite this fiend!")
 	invocation_type = "shout"
 
 /obj/projectile/magic/sacred_flame
@@ -416,7 +369,7 @@
 	chargedloop = /datum/looping_sound/invokeholy
 	glow_color = GLOW_COLOR_FIRE
 	glow_intensity = GLOW_INTENSITY_MEDIUM
-	invocations = list("Fulmen!")
+	invocations = list("Solar Implosion!", "Come to lyfe in Her name!")
 	invocation_type = "shout"
 	var/firemodificator = 2
 	devotion_cost = 50
@@ -426,6 +379,10 @@
 	var/turf/T = get_turf(targets[1])
 	if(T.z != user.z)
 		to_chat(span_warning("You cannot cast this spell on a different z-level!"))
+		revert_cast()
+		return FALSE
+	for(var/mob/living/L in T.contents)
+		to_chat(span_warning("You cannot cast this on living beings!"))
 		revert_cast()
 		return FALSE
 	for(var/obj/effect/hotspot/H in T.contents)
