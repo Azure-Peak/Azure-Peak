@@ -1090,13 +1090,13 @@ GLOBAL_VAR_INIT(quest_preview_preload_bootstrapped, FALSE)
 	var/obj/effect/landmark/quest_spawner/chosen_landmark = find_quest_landmark(attached_quest.requested_tier, type_selection)
 	if(!chosen_landmark)
 		set_session_notice(user, "notice.no_location", "warning")
-		to_chat(user, span_warning("No suitable location found for this contract!"))
+		to_chat(user, span_warning("No suitable location found for this contract! This may be a map configuration issue - please report it."))
 		qdel(attached_quest)
 		return FALSE
 
 	if(!attached_quest.generate(chosen_landmark))
 		set_session_notice(user, "notice.generate_failed", "warning")
-		to_chat(user, span_warning("Failed to generate quest content!"))
+		to_chat(user, span_warning("Failed to generate quest content! This may be a map configuration issue - please report it."))
 		qdel(attached_quest)
 		return FALSE
 
@@ -1121,7 +1121,7 @@ GLOBAL_VAR_INIT(quest_preview_preload_bootstrapped, FALSE)
 
 	if(SStreasury.bank_accounts[user] < attached_quest.deposit_amount)
 		set_session_notice(user, "notice.insufficient_funds", "warning", list("amount" = attached_quest.deposit_amount))
-		to_chat(user, span_warning("Insufficient balance funds. You need [attached_quest.deposit_amount] amna in your meister."))
+		to_chat(user, span_warning("Insufficient balance funds. You need [attached_quest.deposit_amount] [QUEST_CURRENCY_NAME_PLURAL] in your meister."))
 		attached_quest.quest_scroll = null
 		attached_quest.quest_scroll_ref = null
 		attached_quest.deposit_amount = 0
@@ -1228,6 +1228,19 @@ GLOBAL_VAR_INIT(quest_preview_preload_bootstrapped, FALSE)
 	if(length(closest_landmarks))
 		var/obj/effect/landmark/quest_spawner/chosen = pick(closest_landmarks)
 		return chosen
+
+	if(length(GLOB.quest_landmarks_list))
+		var/turf/sample_turf = get_turf(GLOB.quest_landmarks_list[1])
+		var/sample_map_file = sample_turf ? SSmapping.level_trait(sample_turf.z, ZTRAIT_MAP_FILE) : "unknown"
+		var/datum/quest/diag_template = create_quest_for_type(contract_type)
+		var/map_supported = diag_template ? diag_template.is_supported_map_file(sample_map_file) : TRUE
+		if(diag_template)
+			qdel(diag_template)
+		if(!map_supported)
+			stack_trace("Quest landmark search failed: [length(GLOB.quest_landmarks_list)] landmark(s) exist but map '[sample_map_file]' is not in supported_map_names for contract type '[contract_type]'. Add it to /datum/quest/proc/get_supported_map_name().")
+		else
+			stack_trace("Quest landmark search failed: [length(GLOB.quest_landmarks_list)] landmark(s) exist but none matched contract_type='[contract_type]' tier=[contract_tier]. Check landmark contract_types and tier ranges.")
+
 	return null
 
 /obj/structure/roguemachine/contractledger/proc/landmark_has_nearby_ambient_mobs(obj/effect/landmark/quest_spawner/landmark)
@@ -1311,8 +1324,8 @@ GLOBAL_VAR_INIT(quest_preview_preload_bootstrapped, FALSE)
 		user.put_in_hands(coins)
 	if(reward > 0)
 		say(reward > original_reward ? \
-			"Your handler assistance-increased reward of [reward] amna has been dispensed! The difference is [reward - original_reward] amna. ([tax_amt] amna taxed.)" : \
-			"Your reward of [reward] amna has been dispensed. ([tax_amt] amna taxed.)")
+			"Your handler assistance-increased reward of [reward] [QUEST_CURRENCY_NAME_PLURAL] has been dispensed! The difference is [reward - original_reward] [QUEST_CURRENCY_NAME_PLURAL]. ([tax_amt] [QUEST_CURRENCY_NAME_PLURAL] taxed.)" : \
+			"Your reward of [reward] [QUEST_CURRENCY_NAME_PLURAL] has been dispensed. ([tax_amt] [QUEST_CURRENCY_NAME_PLURAL] taxed.)")
 
 /obj/structure/roguemachine/contractledger/proc/abandon_contract(mob/user)
 	var/obj/item/paper/scroll/quest/abandoned_scroll = locate() in input_point
@@ -1348,13 +1361,13 @@ GLOBAL_VAR_INIT(quest_preview_preload_bootstrapped, FALSE)
 			SStreasury.treasury_value -= refund
 			SStreasury.log_entries += "-[refund] from treasury (contract refund to volunteer)"
 			set_session_notice(user, "notice.abandoned_refund", "success", list("refund" = refund))
-			to_chat(user, span_notice("You receive a [refund] amna refund for abandoning the contract."))
+			to_chat(user, span_notice("You receive a [refund] [QUEST_CURRENCY_NAME_PLURAL] refund for abandoning the contract."))
 		else
 			cash_in(user, refund, refund, 0)
 			SStreasury.treasury_value -= refund
 			SStreasury.log_entries += "-[refund] from treasury (contract refund)"
 			set_session_notice(user, "notice.abandoned_refund", "success", list("refund" = refund))
-			to_chat(user, span_notice("Your refund of [refund] amna has been dispensed."))
+			to_chat(user, span_notice("Your refund of [refund] [QUEST_CURRENCY_NAME_PLURAL] has been dispensed."))
 
 	log_quest(user.ckey, user.mind, user, "Abandon [quest_type_label]")
 	abandoned_scroll.assigned_quest = null
@@ -1388,7 +1401,7 @@ GLOBAL_VAR_INIT(quest_preview_preload_bootstrapped, FALSE)
 		report_text += "<b>Type:</b> [quest.quest_type].<br>"
 		report_text += "<b>Threat:</b> [quest.get_tier_label()].<br>"
 		report_text += "<b>Last Known Location:</b> [quest_area ? quest_area.name : "Unknown Location"].<br>"
-		report_text += "<b>Reward:</b> [quest.reward_amount] amna.<br><br>"
+		report_text += "<b>Reward:</b> [quest.reward_amount] [QUEST_CURRENCY_NAME_PLURAL].<br><br>"
 
 	report.info = report_text
 	say("Contract report printed.")

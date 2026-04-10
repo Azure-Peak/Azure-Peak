@@ -38,6 +38,13 @@
 		/datum/ambush_config/mirespiders_ambush,
 	)
 
+/datum/quest_map_config/roguetest
+	map_file = "roguetest.dmm"
+	map_name = "Roguetest"
+	difficulty_modifier = QUEST_MAP_DIFFICULTY_AZURE
+	reward_modifier = QUEST_MAP_REWARD_AZURE
+	map_flag = QUEST_MAP_FLAG_AZURE
+
 /// Global singleton cache of map configs keyed by lowercased map_file name.
 GLOBAL_LIST_EMPTY(quest_map_configs)
 

@@ -149,7 +149,7 @@ GLOBAL_LIST_EMPTY(quest_scrolls)
 		last_target_map_text = current_map_text
 	scroll_text += "<b>Map:</b> [last_target_map_text]<br>"
 	scroll_text += "<b>Location:</b> [assigned_quest.get_location_text()]<br>"
-	scroll_text += "<br><b>Reward:</b> [assigned_quest.reward_amount] amna upon completion<br>"
+	scroll_text += "<br><b>Reward:</b> [assigned_quest.reward_amount] [QUEST_CURRENCY_NAME_PLURAL] upon completion<br>"
 
 	if(assigned_quest.complete)
 		scroll_text += "<br><center><b>CONTRACT COMPLETE</b></center>"
