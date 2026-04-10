@@ -26,7 +26,7 @@
 	exp_light = -1
 	exp_flash = 0
 	exp_fire = 1
-	damage = 60
+	damage = 70
 	damage_type = BURN
 	npc_simple_damage_mult = 2.4
 	accuracy = 40
@@ -40,7 +40,7 @@
 
 /obj/projectile/magic/aoe/fireball/rogue/artillery/arc
 	name = "arced artillery fireball"
-	damage = 40
+	damage = 45
 	arcshot = TRUE
 
 /obj/projectile/magic/aoe/fireball/rogue/artillery/on_hit(target)
