@@ -190,7 +190,6 @@
 	status_type = STATUS_EFFECT_REFRESH
 	var/mob/living/carbon/human/grappled
 	var/waiting_followup = FALSE
-	var/afterimage_active = FALSE
 	var/list/grapple_counts = list() // free grapple can only happen twice vs players
 	var/parries_left = 0 // only got X free parries based on miracle level
 	tick_interval = 1 SECONDS
@@ -203,8 +202,6 @@
 	RegisterSignal(new_owner, COMSIG_LIVING_STATUS_STUN, PROC_REF(on_incapacitate))
 	RegisterSignal(new_owner, COMSIG_LIVING_STATUS_KNOCKDOWN, PROC_REF(on_incapacitate))
 
-	new_owner.AddComponent(/datum/component/after_image)
-	afterimage_active = TRUE
 	parries_left = new_owner.get_skill_level(/datum/skill/magic/holy)
 	. = ..()
 
@@ -218,14 +215,16 @@
 
 	owner.stop_pulling()
 	waiting_followup = FALSE
+	. = ..()
 
-	if(afterimage_active)
-		var/datum/component/after_image/A = owner.GetComponent(/datum/component/after_image)
+/datum/status_effect/buff/skulduggery/proc/trigger_afterimage(duration = 2)
+	if(!owner) return
+	if(owner.GetComponent(/datum/component/after_image))
+		return
+	var/datum/component/after_image/A = owner.AddComponent(/datum/component/after_image)
+	spawn(duration)
 		if(A)
 			qdel(A)
-		afterimage_active = FALSE
-
-	. = ..()
 
 /datum/status_effect/buff/skulduggery/proc/on_incapacitate()
 	SIGNAL_HANDLER 
@@ -238,14 +237,18 @@
 
 /datum/status_effect/buff/skulduggery/tick()
 	. = ..()
+	var/mob/living/carbon/human/H = owner
 	if(!owner) return
+	if(prob(40))
+		trigger_afterimage(2)
+		owner.Jitter(1)
 
 	if(waiting_followup && grappled)
 		if(owner.pulling != grappled)
 			waiting_followup = FALSE
 			grappled = null
-
-	if(owner.has_status_effect(/datum/status_effect/buff/tempo_one) || owner.has_status_effect(/datum/status_effect/buff/tempo_two) || owner.has_status_effect(/datum/status_effect/buff/tempo_three) || owner.has_status_effect(/datum/status_effect/buff/equalizebuff))
+			
+	if((H.highest_ac_worn() <= ARMOR_CLASS_LIGHT)&&(owner.has_status_effect(/datum/status_effect/buff/tempo_one) || owner.has_status_effect(/datum/status_effect/buff/tempo_two) || owner.has_status_effect(/datum/status_effect/buff/tempo_three) || owner.has_status_effect(/datum/status_effect/buff/equalizebuff)))
 		owner.apply_status_effect(/datum/status_effect/buff/skulduggery)
 		return
 
@@ -269,10 +272,7 @@
 	if(!S) return FALSE
 	return S.process_skd(attacker, I)
 
-// -------------------------
 // CORE LOGIC
-// -------------------------
-
 /datum/status_effect/buff/skulduggery/proc/process_skd(mob/living/carbon/human/attacker, obj/item/I)
 	if(!owner || !ishuman(owner) || !ishuman(attacker))
 		return FALSE
@@ -288,11 +288,11 @@
 			slam_into(A)
 		return TRUE
 
-	// PRONE CHECK (FREE ACTION)
+	// PRONE CHECK
 	if(A.IsKnockdown() || A.lying)
 		return stomp_prone(A)
 
-	// THROW MODE: INTERCEPT → GRAPPLE
+	// THROW MODE = INTERCEPT-GRAPPLE
 	if(H.in_throw_mode)
 		return attempt_grapple(H, A)
 
@@ -314,7 +314,6 @@
 				span_notice("They've adapted... I can't grab them again!")
 			)
 			return FALSE
-
 		grapple_counts[A]++
 
 	H.start_pulling(A)
@@ -339,15 +338,12 @@
 	if(!enemy_skill)
 		enemy_skill = 0
 
-	// Skill difference (your advantage)
+	// Skill difference
 	var/skill_diff = my_skill - enemy_skill
-
-	// Base success chance (20% per point of advantage)
-	var/base_chance = skill_diff * 20
-
+	// Base success chance (10% per point of advantage)
+	var/base_chance = skill_diff * 10
 	// Parry bonus (+20% per remaining parry)
 	var/parry_bonus = parries_left * 20
-
 	// Final success chance
 	var/success_chance = base_chance + parry_bonus
 	success_chance = clamp(success_chance, 0, 90)
@@ -358,81 +354,71 @@
 			span_warning("[H] tries to read [A]'s attack, but fails!"),
 			span_notice("Gah, I can't keep up!")
 		)
+		parries_left--
+		to_chat(owner, span_warning("Failed, [parries_left] left. ([success_chance]%)")) 
 		return FALSE
-
 	// Success
 	if(parries_left > 0)
 		parries_left--
 
+	to_chat(owner, span_warning("Success, [parries_left] left. ([success_chance]%)")) 
 	auto_flank_move(H, A)
-
 	return TRUE
 
 /datum/status_effect/buff/skulduggery/proc/is_valid_step(mob/living/carbon/human/H, turf/dest)
 	if(!dest)
 		return FALSE
-
-	// Use your existing teleport validation
 	if(arcyne_validate_blink_dest(dest, H))
 		return FALSE
-
-	// Extra paranoia (cliffs / void)
 	if(istransparentturf(dest))
 		return FALSE
-
 	return TRUE
 
 /datum/status_effect/buff/skulduggery/proc/auto_flank_move(mob/living/carbon/human/H, mob/living/carbon/human/A)
 	if(!H || !A)
 		return FALSE
 
-	// Snapshot direction (important)
 	var/original_dir = A.dir
-
-	// Compute tiles
 	var/left_dir = turn(original_dir, 90)
 	var/right_dir = turn(original_dir, -90)
 	var/behind_dir = turn(original_dir, 180)
-
 	var/turf/left = get_step(A, left_dir)
 	var/turf/right = get_step(A, right_dir)
 	var/turf/behind = get_step(A, behind_dir)
-
-	// Decide which side to use (based on relative position)
 	var/dx = H.x - A.x
 	var/dy = H.y - A.y
 	var/use_left = (dx * dy >= 0)
-
 	var/turf/side = use_left ? left : right
 	var/turf/alt_side = use_left ? right : left
 
-	// Validate full sequence: side to behind
 	if(!is_valid_step(H, side) || !is_valid_step(H, behind))
-		// fallback to opposite side
 		side = alt_side
 
 		if(!is_valid_step(H, side) || !is_valid_step(H, behind))
-			// final fallback: just behind
 			if(!is_valid_step(H, behind))
 				return FALSE
 
-			// blink directly behind
+			trigger_afterimage(3)
 			H.forceMove(behind)
 		else
-			// blink side to behind
+			trigger_afterimage(3)
 			H.forceMove(side)
-			sleep(1) // 1 tick, enough to render
+
+			sleep(1) 
+			
+			trigger_afterimage(3)
 			H.forceMove(behind)
 	else
-		// main path: side to behind
+		trigger_afterimage(3)
 		H.forceMove(side)
-		sleep(1) // 1 tick, enough to render
-		H.forceMove(behind)
 
-	// Face target
+		sleep(1) // 1 tick, enough to render
+	
+		H.forceMove(behind)
+		trigger_afterimage(3)
+
 	H.setDir(get_dir(H, A))
 
-	// Effects
 	if(!A.mind)
 		A.Immobilize(8 SECONDS)
 		A.OffBalance(8 SECONDS)
@@ -449,10 +435,7 @@
 
 	return TRUE
 
-// -------------------------
-// STOMP
-// -------------------------
-
+// SKD - STOMP
 /datum/status_effect/buff/skulduggery/proc/stomp_prone(mob/living/carbon/human/T)
 	if(!T) return
 
@@ -473,10 +456,7 @@
 	addtimer(CALLBACK(T, /mob/proc/slamdunked), 1)
 	return TRUE
 	
-// -------------------------
-// GROUND SLAM
-// -------------------------
-
+// SKD - GROUND SLAM
 /datum/status_effect/buff/skulduggery/proc/slam_target(mob/living/carbon/human/T)
 	if(!T) return
 
@@ -538,10 +518,7 @@
 	grappled = null
 	waiting_followup = FALSE
 
-// -------------------------
-// SLAM INTO
-// -------------------------
-
+// SKD - SLAM INTO ANOTHER
 /datum/status_effect/buff/skulduggery/proc/slam_into(mob/living/carbon/human/other)
 	if(!other || !grappled) return
 
@@ -610,10 +587,7 @@
 		if(prob(50))
 			G.Unconscious(800)
 
-// -------------------------
 // EFFECTS
-// -------------------------
-
 /mob/proc/slamdunked()
 	var/amp = 6
 	animate(src, pixel_x = 0, time = 0)
