@@ -577,8 +577,8 @@
 		pickchance *= P.picklvl
 		pickchance = clamp(pickchance, 1, 95)
 
-		if(gildedeyes) // MIGHT BE TOO STRONG, BUT WE'LL SEE
-			picktime = 10
+		if(gildedeyes && picktime <= 30) // MIGHT BE TOO STRONG, BUT WE'LL SEE -- i fuckin knew it ;_;
+			picktime = 30
 
 		if (lockdifficulty > 1) //each time the difficulty goes up, the harder the lock
 			picktime = picktime+(10*lockdifficulty)//add a flat 10 per level
