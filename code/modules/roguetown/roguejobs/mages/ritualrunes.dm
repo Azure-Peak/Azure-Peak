@@ -444,7 +444,11 @@ GLOBAL_LIST(teleport_runes)
 			if(existing_fam.familiar_summoner == user)
 				to_chat(user, span_warning("You can only bind one familiar at once!"))
 				return FALSE
-		to_chat(user, span_notice(plane=="void"?"You begin attempting to awaken your creation's mind...":"You reach across the veil, attempting to draw in the familiar's mind..."))
+		to_chat(user,plane)
+		if(istype(S,/mob/living/simple_animal/pet/familiar/void))
+			to_chat(user, span_notice("You begin attempting to awaken your creation's mind..."))
+		else
+			to_chat(user, span_notice("You reach across the veil, attempting to draw in the familiar's mind..."))
 		busy = TRUE
 		var/list/candidates = pollCandidatesForMob("Do you want to play as a Mage's familiar? You will materialize as [(plane == "infernal" || plane == "elemental")?"an":"a"] [plane] familiar.", null, null, null, 100, S, POLL_IGNORE_MAGE_SUMMON)
 		if(!LAZYLEN(candidates))

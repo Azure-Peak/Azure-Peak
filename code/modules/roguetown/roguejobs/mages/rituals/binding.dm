@@ -103,7 +103,6 @@
 	desc = "Reach into the void and grasp a fragment of draconic power, shaping it into a familiar."
 	blacklisted = FALSE
 	mob_to_bind = /mob/living/simple_animal/pet/familiar/void
-	required_atoms = list()
 	required_atoms = list(/obj/item/magic/artifact = 1, /obj/item/magic/voidstone = 2, /obj/item/magic/leyline = 2) // todo this recipe sucks
 
 /obj/effect/void_rift
@@ -126,12 +125,12 @@
 		"Watch! The void is sundered!",
 		"Manifest! Evoca et Liga!"
 	)
-	var/obj/structure/leyline/leyline
-	for(var/obj/structure/leyline/L in range(LEYLINE_TILE_DETECTION_RANGE, loc))
+	var/obj/structure/leyline/powerful/leyline
+	for(var/obj/structure/leyline/powerful/L in range(LEYLINE_TILE_DETECTION_RANGE, loc))
 		leyline = L
 		break
 	if(!leyline)
-		to_chat(user, span_warning("There is no leyline nearby. Draw your circle closer to a leyline."))
+		to_chat(user, span_warning("There is no leyline of sufficent strength nearby. Only the most powerful of leylines will do, for this."))
 		return FALSE
 	user.visible_message(
 		span_danger("[user] begins to chant, channeling energy into the leyline!"),

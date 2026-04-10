@@ -62,6 +62,7 @@
 	var/tierup_messages = list()
 	var/t2_spell = null
 	var/summoning_emote = null
+	var/list/valid_healing_items = list() // what planar materials can heal you?
 	
 //As far as I am aware, you cannot pat out fire as a familiar at least not in time for it to not kill you, this seems fair.
 /mob/living/simple_animal/pet/familiar/fire_act(added, maxstacks)
@@ -132,6 +133,23 @@
         familiar_summoner.mind.RemoveSpell(/datum/action/cooldown/spell/message_familiar)
     return ..()
 
+/mob/living/simple_animal/pet/familiar/attackby(obj/item/I, mob/user, params)
+	if(istype(I, /obj/item/magic))
+		var/obj/item/magic/magicmaterial = I
+		for(var/item_type in valid_healing_items)
+			if(istype(magicmaterial,item_type))
+				if(health == maxHealth)
+					to_chat(user, "[src] is already healthy!")
+					return
+				to_chat(user, "I start healing [src] with [magicmaterial].")
+				if(do_mob(user, src, 20))
+					var/heal_amount = magicmaterial.tier * 0.25
+					visible_message("[src] absorbs [magicmaterial] and is healed.")
+					adjustBruteLoss(-maxHealth * heal_amount)
+					qdel(magicmaterial)
+					return
+	. = ..()
+
 // mobility/utility focused. innocuous. can fly, and brew potions, but not much else
 /mob/living/simple_animal/pet/familiar/fae
 	name = "Sprite"
@@ -154,6 +172,7 @@
 		span_info("You can now act as a reagent container, holding up to 90 drams of any solution. You can also deliver 5 drams at a time of your stored solution with an alchemical bite."),
 		span_info("You now act as a portable cauldron, able to be fed alchemical reagents and brew them into potions. You do not need water to do so. Any attempts to brew potion beyond your reagent capacity will result in reagents being voided.")
 	)
+	valid_healing_items = list(/obj/item/magic/fae)
 
 /mob/living/simple_animal/pet/familiar/fae/Initialize()
 	. = ..()
@@ -197,7 +216,7 @@
 				span_notice("I begin feeding [src] from [I]..."),
 				span_notice("[user] begins feeding [src] from [I]...")
 			)
-			while(!reagents.holder_full() && do_after_mob(user, src, 1 SECONDS) && container_reagents.trans_to(src,5,transfered_by=user))
+			while(!reagents.holder_full() && do_mob(user, src, 1 SECONDS) && container_reagents.trans_to(src,5,transfered_by=user))
 				user.visible_message(
 					span_notice("I feed [src] from [I]..."),
 					span_notice("[user] feeds [src] from [I]...")
@@ -207,7 +226,7 @@
 				span_notice("I begin filling [user]'s [I.name]..."),
 				span_notice("[src] begins filling [user]'s [I.name]...")
 			)
-			while(!container_reagents.holder_full() && do_after_mob(user, src, 1 SECONDS) && reagents.trans_to(I,5,transfered_by=user))
+			while(!container_reagents.holder_full() && do_mob(user, src, 1 SECONDS) && reagents.trans_to(I,5,transfered_by=user))
 				src.visible_message(
 					span_notice("I fill [I] with some of my solution..."),
 					span_notice("[src] fills [I] with some solution...")
@@ -326,6 +345,7 @@
 	t2_spell = /obj/effect/proc_holder/spell/self/infernal_surge
 	var/healing_range = 1
 	var/static/list/acceptable_beds = list(/obj/structure/bed, /obj/structure/flora/roguetree/stump, /obj/item/bedsheet)
+	valid_healing_items = list(/obj/item/magic/infernal)
 
 // they get to glow because they're on fire
 /mob/living/simple_animal/pet/familiar/infernal/Initialize()
@@ -427,6 +447,7 @@
 	inherent_spell = list(/datum/action/cooldown/spell/magicians_stone/elemental) 
 	t1_spell = /datum/action/cooldown/spell/arcyne_forge/elemental
 	t2_spell = /datum/action/cooldown/spell/arcyne_forge/elemental/t2
+	valid_healing_items = list(/obj/item/magic/elemental)
 
 /mob/living/simple_animal/pet/familiar/elemental/grant_tier_abilities(tier)
 	. = ..()
@@ -445,6 +466,7 @@
 	var/list/essences_consumed = list()
 	var/list/beam_parts = list()
 	inherent_spell = list(/obj/effect/proc_holder/spell/invoked/consume)
+	valid_healing_items = list(/obj/item/magic/fae, /obj/item/magic/elemental, /obj/item/magic/infernal) // hungy
 
 /mob/living/simple_animal/pet/familiar/void/fire_act(added, maxstacks)
 	if(essences_consumed.Find("infernal"))

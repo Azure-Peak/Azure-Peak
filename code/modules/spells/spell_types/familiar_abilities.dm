@@ -102,7 +102,7 @@
 			span_notice("You gently bite the top of [targets[1]], filling it with your alchemical cocktail...")
 		)
 		// we're not biting a mob, so we can loop for convenience 
-		while(do_after_mob(user, targets, 1 SECONDS) && user.reagents.trans_to(targets[1], 5, transfered_by = user))
+		while(do_mob(user, targets, 1 SECONDS) && user.reagents.trans_to(targets[1], 5, transfered_by = user))
 			user.visible_message(
 				span_notice("[user.name] fills [targets[1]] with more of [user.p_their()] alchemical cocktail..."),
 				span_notice("You fill [targets[1]] with more of your alchemical cocktail...")
@@ -118,7 +118,7 @@
 		span_notice("You attempt to bite [living_target.name]...")
 	)
 	// same do_after time and transfer amount as just walking up with a bottle and feeding them
-	if(do_after_mob(user, living_target, time = 5 SECONDS) && user.reagents.trans_to(living_target, 5, transfered_by = user))
+	if(do_mob(user, living_target, time = 5 SECONDS) && user.reagents.trans_to(living_target, 5, transfered_by = user))
 		user.visible_message(
 			span_notice("[user.name] bites [living_target.name], delivering a dose of an alchemical cocktail!"),
 			span_notice("You bite [living_target.name], delivering a dose of your alchemical cocktail!")
@@ -299,7 +299,7 @@
 			span_warning("[user] begins to devour [target]!"),
 			span_warning("I begin to devour [target]!")
 		)
-	if(!do_after_mob(user,target,5 SECONDS))
+	if(!do_mob(user,target,5 SECONDS))
 		return FALSE
 	// we have a mindless familiar: let's see if it's actually valid for us
 	var/essence_to_grant = null
