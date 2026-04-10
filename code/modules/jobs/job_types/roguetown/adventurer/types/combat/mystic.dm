@@ -3,6 +3,7 @@
 	tutorial = "I have spent my youth deepening my faith, only to be lured by the way of the magi, to the great regret of my family"
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
+	allowed_patrons = list(/datum/patron/old_god, ALL_DIVINE_PATRONS)
 	outfit = /datum/outfit/job/roguetown/adventurer/mystic
 	class_select_category = CLASS_CAT_MYSTIC
 	category_tags = list(CTAG_ADVENTURER, CTAG_COURTAGENT)
@@ -23,7 +24,7 @@
 		/datum/skill/magic/arcane = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/magic/holy = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/swimming = SKILL_LEVEL_NOVICE,
-		/datum/skill/combat/staves = SKILL_LEVEL_JOURNEYMAN, // average weapon skill for an adventurer role
+		/datum/skill/combat/staves = SKILL_LEVEL_JOURNEYMAN,
 	)
 
 /datum/outfit/job/roguetown/adventurer/mystic/pre_equip(mob/living/carbon/human/H)
@@ -78,18 +79,6 @@
 		if(/datum/patron/divine/eora)
 			neck = /obj/item/clothing/neck/roguetown/psicross/eora
 			H.cmode_music = 'sound/music/cmode/church/combat_eora.ogg'
-		if(/datum/patron/inhumen/zizo)
-			H.cmode_music = 'sound/music/combat_heretic.ogg'
-			ADD_TRAIT(H, TRAIT_HERESIARCH, TRAIT_GENERIC)
-		if(/datum/patron/inhumen/matthios)
-			H.cmode_music = 'sound/music/combat_matthios.ogg'
-			ADD_TRAIT(H, TRAIT_HERESIARCH, TRAIT_GENERIC)
-		if(/datum/patron/inhumen/graggar)
-			H.cmode_music = 'sound/music/combat_graggar.ogg'
-			ADD_TRAIT(H, TRAIT_HERESIARCH, TRAIT_GENERIC)
-		if(/datum/patron/inhumen/baotha)
-			H.cmode_music = 'sound/music/combat_baotha.ogg'
-			ADD_TRAIT(H, TRAIT_HERESIARCH, TRAIT_GENERIC)
 		if(/datum/patron/divine/xylix)
 			neck = /obj/item/clothing/neck/roguetown/luckcharm
 			H.cmode_music = 'sound/music/combat_jester.ogg'
@@ -99,6 +88,7 @@
 	tutorial = "I have spent my youth studying both the Arcyne and Miraculous ways, and developed my mastery of shielding and preserving lyfe under my care."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
+	allowed_patrons = list(/datum/patron/old_god, ALL_DIVINE_PATRONS)
 	outfit = /datum/outfit/job/roguetown/adventurer/resilient
 	class_select_category = CLASS_CAT_MYSTIC
 	category_tags = list(CTAG_ADVENTURER, CTAG_COURTAGENT)
@@ -194,18 +184,6 @@
 		if(/datum/patron/divine/eora)
 			neck = /obj/item/clothing/neck/roguetown/psicross/eora
 			H.cmode_music = 'sound/music/cmode/church/combat_eora.ogg'
-		if(/datum/patron/inhumen/zizo)
-			H.cmode_music = 'sound/music/combat_heretic.ogg'
-			ADD_TRAIT(H, TRAIT_HERESIARCH, TRAIT_GENERIC)
-		if(/datum/patron/inhumen/matthios)
-			H.cmode_music = 'sound/music/combat_matthios.ogg'
-			ADD_TRAIT(H, TRAIT_HERESIARCH, TRAIT_GENERIC)
-		if(/datum/patron/inhumen/graggar)
-			H.cmode_music = 'sound/music/combat_graggar.ogg'
-			ADD_TRAIT(H, TRAIT_HERESIARCH, TRAIT_GENERIC)
-		if(/datum/patron/inhumen/baotha)
-			H.cmode_music = 'sound/music/combat_baotha.ogg'
-			ADD_TRAIT(H, TRAIT_HERESIARCH, TRAIT_GENERIC)
 		if(/datum/patron/divine/xylix)
 			neck = /obj/item/clothing/neck/roguetown/luckcharm
 			H.cmode_music = 'sound/music/combat_jester.ogg'
@@ -215,6 +193,7 @@
 	tutorial = "I have spent my youth deepening my faith and one day a spellblade was under my care at the church, ever since their recovery they accepted me as their pupil and taught me the way of the blade and arcyne"
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
+	allowed_patrons = list(/datum/patron/old_god, ALL_DIVINE_PATRONS)
 	outfit = /datum/outfit/job/roguetown/adventurer/holyblade
 	class_select_category = CLASS_CAT_MYSTIC
 	category_tags = list(CTAG_ADVENTURER, CTAG_COURTAGENT)
@@ -237,8 +216,8 @@
 		/datum/skill/magic/arcane = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/magic/holy = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/swimming = SKILL_LEVEL_NOVICE,
-		/datum/skill/combat/swords = SKILL_LEVEL_JOURNEYMAN, // usual weapon proficiency, baseline apprentice is pretty coal to work with
-		/datum/skill/combat/shields = SKILL_LEVEL_NOVICE, // trainable on a target dummy/with other players/simple mobs, slight time sink
+		/datum/skill/combat/swords = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/shields = SKILL_LEVEL_JOURNEYMAN,
 	)
 
 /datum/outfit/job/roguetown/adventurer/holyblade/pre_equip(mob/living/carbon/human/H)
@@ -258,7 +237,7 @@
 	neck = /obj/item/clothing/neck/roguetown/coif/padded
 
 	if(H.mind)
-		var/weapons = list("Arming Sword", "Shortsword", "Falchion") // you may want to upgrade for a better sword
+		var/weapons = list("Arming Sword", "Shortsword", "Falchion")
 		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 		switch(weapon_choice)
 			if("Arming Sword")
@@ -321,18 +300,6 @@
 		if(/datum/patron/divine/eora)
 			id = /obj/item/clothing/neck/roguetown/psicross/eora
 			H.cmode_music = 'sound/music/cmode/church/combat_eora.ogg'
-		if(/datum/patron/inhumen/zizo)
-			H.cmode_music = 'sound/music/combat_heretic.ogg'
-			ADD_TRAIT(H, TRAIT_HERESIARCH, TRAIT_GENERIC)
-		if(/datum/patron/inhumen/matthios)
-			H.cmode_music = 'sound/music/combat_matthios.ogg'
-			ADD_TRAIT(H, TRAIT_HERESIARCH, TRAIT_GENERIC)
-		if(/datum/patron/inhumen/graggar)
-			H.cmode_music = 'sound/music/combat_graggar.ogg'
-			ADD_TRAIT(H, TRAIT_HERESIARCH, TRAIT_GENERIC)
-		if(/datum/patron/inhumen/baotha)
-			H.cmode_music = 'sound/music/combat_baotha.ogg'
-			ADD_TRAIT(H, TRAIT_HERESIARCH, TRAIT_GENERIC)
 		if(/datum/patron/divine/xylix)
 			id = /obj/item/clothing/neck/roguetown/luckcharm
 			H.cmode_music = 'sound/music/combat_jester.ogg'
@@ -342,6 +309,7 @@
 	tutorial = "I have spent my youth deepening my faith among Noccite acolytes, and was shown the wonders of the Arcyne. Ever since, I have studied the arcyne arts."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
+	allowed_patrons = list(/datum/patron/old_god, ALL_DIVINE_PATRONS)
 	outfit = /datum/outfit/job/roguetown/adventurer/theurgist
 	class_select_category = CLASS_CAT_MYSTIC
 	category_tags = list(CTAG_ADVENTURER, CTAG_COURTAGENT)
@@ -359,10 +327,10 @@
 		/datum/skill/misc/reading = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/craft/alchemy = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/medicine = SKILL_LEVEL_NOVICE,
-		/datum/skill/magic/arcane = SKILL_LEVEL_APPRENTICE, // arcyne focused class, they ought to have better alchemy knowledge than their counterpart
+		/datum/skill/magic/arcane = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/magic/holy = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/swimming = SKILL_LEVEL_NOVICE,
-		/datum/skill/combat/staves = SKILL_LEVEL_JOURNEYMAN, // what the bookworm gonna do? smash your head with their stick, they are better casting a spell
+		/datum/skill/combat/staves = SKILL_LEVEL_JOURNEYMAN,
 	)
 
 /datum/outfit/job/roguetown/adventurer/theurgist/pre_equip(mob/living/carbon/human/H)
@@ -434,18 +402,6 @@
 		if(/datum/patron/divine/eora)
 			neck = /obj/item/clothing/neck/roguetown/psicross/eora
 			H.cmode_music = 'sound/music/cmode/church/combat_eora.ogg'
-		if(/datum/patron/inhumen/zizo)
-			H.cmode_music = 'sound/music/combat_heretic.ogg'
-			ADD_TRAIT(H, TRAIT_HERESIARCH, TRAIT_GENERIC)
-		if(/datum/patron/inhumen/matthios)
-			H.cmode_music = 'sound/music/combat_matthios.ogg'
-			ADD_TRAIT(H, TRAIT_HERESIARCH, TRAIT_GENERIC)
-		if(/datum/patron/inhumen/graggar)
-			H.cmode_music = 'sound/music/combat_graggar.ogg'
-			ADD_TRAIT(H, TRAIT_HERESIARCH, TRAIT_GENERIC)
-		if(/datum/patron/inhumen/baotha)
-			H.cmode_music = 'sound/music/combat_baotha.ogg'
-			ADD_TRAIT(H, TRAIT_HERESIARCH, TRAIT_GENERIC)
 		if(/datum/patron/divine/xylix)
 			neck = /obj/item/clothing/neck/roguetown/luckcharm
 			H.cmode_music = 'sound/music/combat_jester.ogg'
