@@ -320,6 +320,8 @@
 		new /obj/effect/temp_visual/dragon_swoop(target.loc)
 		playsound(target.loc, 'sound/vo/mobs/vdragon/drgnroar.ogg', 50, TRUE, -1)
 		for(var/mob/living/L in orange(1, target))
+			if(L.ckey == user.ckey)
+				continue // user will be qdel'd so don't throw them
 			L.adjustBruteLoss(75) // this should never kill it's just an "oh fuck" moment
 			if(L && !QDELETED(L)) // Some mobs are deleted on death
 				var/throw_dir = get_dir(target, L)
