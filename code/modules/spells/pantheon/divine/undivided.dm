@@ -99,10 +99,22 @@
 
 	recharge_time = 15 SECONDS
 	releasedrain = 25
-	range = 7
+	range = 5
 	devotion_cost = 20
 
 	invocations = list("Entflamme.") //(Kindle)
+
+
+
+///////////////////
+// T0 - Miracle  //
+///////////////////
+
+/obj/effect/proc_holder/spell/invoked/lesser_heal/undivided
+	action_icon = 'icons/mob/actions/undividedmiracles.dmi'
+	overlay_icon = 'icons/mob/actions/undividedmiracles.dmi'
+	overlay_state = "heal"
+	devotion_cost = 20 //Always has 2.0 modifier, so we pay twice as much for one.
 
 //////////////////////////////////////////////////////////////////////////////////
 // T1 - Recuperation - Restore ENERGY to a target and provide restoration buff. //

@@ -11,7 +11,7 @@
 	releasedrain = 15
 	chargedrain = 0
 	chargetime = 0
-	range = 15
+	range = 7
 	warnie = "sydwarning"
 	movement_interrupt = FALSE
 	chargedloop = null
@@ -38,7 +38,7 @@
 		if(spell_guard_check(L, TRUE))
 			L.visible_message(span_warning("[L] shields against the divine flame!"))
 			return TRUE
-		L.adjust_fire_stacks(2)
+		L.adjust_fire_stacks(1)
 		L.ignite_mob()
 
 		return TRUE

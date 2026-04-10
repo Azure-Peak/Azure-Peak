@@ -8,7 +8,7 @@
 					/obj/effect/proc_holder/spell/self/twinned_gaze						= CLERIC_T0,
 					/obj/effect/proc_holder/spell/invoked/ignition/undivided			= CLERIC_T0,
 					/datum/action/cooldown/spell/darkvision/miracle/undivided			= CLERIC_T0,
-					/obj/effect/proc_holder/spell/invoked/lesser_heal 					= CLERIC_T1,
+					/obj/effect/proc_holder/spell/invoked/lesser_heal/undivided 		= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/blood_heal					= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/recuperation					= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/perseverance					= CLERIC_T2,
