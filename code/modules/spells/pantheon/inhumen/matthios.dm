@@ -21,7 +21,7 @@
 	primary_resource_type = SPELL_COST_STAMINA
 	primary_resource_cost = SPELLCOST_CANTRIP
 	charge_required = FALSE
-	cooldown_time = 10
+	cooldown_time = 10 SECONDS
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
 	var/devotion_cost = 20
 	var/list/options = list(
@@ -68,7 +68,7 @@
 		//enables piss night vision and sets your lockpick timer to 3 secs, makes you insane over time and prolonged use
 		"Gilded Lockpicking Specs" = list(
 			path = /obj/item/clothing/mask/rogue/spectacles/matthios,
-			m_cooldown = 60 MINUTES,
+			m_cooldown = -1, // this is too stronk, so only 1 allowed
 			m_rank = SKILL_LEVEL_EXPERT,
 			category = "Gilded Tools",
 			lines = list("#Guide my sight, O' Matthios.","#Through pins and wards, thy Free eyes see.","#No door shall be between me and truth.")
@@ -84,7 +84,7 @@
 		//enables thieves' cant when worn on neck
 		"Gilded Amulet of Matthios" = list(
 			path = /obj/item/clothing/neck/roguetown/psicross/inhumen/matthios/gilded,
-			m_cooldown = 60 MINUTES,
+			m_cooldown = 30 MINUTES,
 			m_rank = SKILL_LEVEL_NOVICE,
 			category = "Gilded Tools",
 			lines = list("MATTHIOS! MATTHIOS! MATTHIOS!", "MATTHIOS! MY ALLEGIANCE IS YOURS!!", "MATTHIOS IS MY LORD!!", "MATTHIOS IS MY MASTER!!", "MY FAITH IS IN YOU, MATTHIOS!!", "I AM NO THIEF, I AM FREE!!")
@@ -157,19 +157,20 @@
 		// a spicy, explosive, very, very difficult-to-make revive vial, uses all herbs in the world and 1 of any lux type
 		"Vial of Lyfestruth Base" = list(
 			path = /obj/item/matthios_canister/lyfestruth,
-			m_cooldown = 10 MINUTES,
+			m_cooldown = 30 MINUTES,
 			m_rank = SKILL_LEVEL_EXPERT,
 			category = "Malchem Vials",
 			lines = list("Matthios, provide the base, I shall complete thy work!", "Matthios! Deliver unto me the truth of alchemy!", "Lord of Exchange, I shall finish thy work!")
 		),
 		// a spicy, explosive grenade that ignites over a massive area, making tennites and nobles roll in agony and go insane
-		"Vial of Truthsnuke Base" = list(
-			path = /obj/item/matthios_canister/truthsnuke,
-			m_cooldown = -1, // single use
-			m_rank = SKILL_LEVEL_MASTER, // exclusive to devotee missionary/heretics
-			category = "Malchem Vials",
-			lines = list("Matthios, provide the base, I shall complete thy work!", "Matthios! Deliver unto me the truth of alchemy!", "Lord of Exchange, I shall finish thy work!")
-		),
+		// but in my BETTER JUDGEMENT, this is just my early april fools joke, go to sleep my child
+//		"Vial of Truthsnuke Base" = list(
+//			path = /obj/item/matthios_canister/truthsnuke,
+//			m_cooldown = -1, // single use
+//			m_rank = SKILL_LEVEL_MASTER, // exclusive to devotee missionary/heretics
+//			category = "Malchem Vials",
+//			lines = list("Matthios, provide the base, I shall complete thy work!", "Matthios! Deliver unto me the truth of alchemy!", "Lord of Exchange, I shall finish thy work!")
+//		),
 		// MIGHT be enough tools but this thing here lets anyone add anything as much as they want, have fun!
 		// I'll probably reuse this as a template for a Zizo Artificery miracle in the future.
 	)
@@ -273,6 +274,7 @@
 	else
 		item_cooldowns[choice] = world.time + m_cd
 
+	StartCooldown()
 	return TRUE
 
 // T0: Determine the net mammon value of target
@@ -880,7 +882,6 @@
 
 	var/mob/living/carbon/human/H = owner
 	if(!H.cmode)
-		to_chat(H, span_warning("I need some adrenaline pumping for this, my good sire!"))
 		return FALSE
 
 	if(!(H in SStreasury.bank_accounts))

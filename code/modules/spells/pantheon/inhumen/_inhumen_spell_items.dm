@@ -3,7 +3,6 @@
 ////////////
 
 //ALCHEMY
-
 /obj/item/
 	var/aura_color = null
 
@@ -44,12 +43,20 @@
 /obj/item/alchserum/update_icon()
 	cut_overlays()
 
-	var/mutable_appearance/fluid = mutable_appearance(icon, "canister_fluid")
-	fluid.color = current_color
-	add_overlay(fluid)
+/proc/funny_smoke(atom/source, radius = 0, sound_vol = 50)
+	if(!source)
+		return
+	var/turf/T = get_turf(source)
+	if(!T)
+		return
+	playsound(T, 'sound/items/smokebomb.ogg', sound_vol)
+	var/datum/effect_system/smoke_spread/smoke = new
+	smoke.set_up(radius, T)
+	smoke.start()
 
 var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (2).ogg','sound/foley/bubb (3).ogg','sound/foley/bubb (4).ogg','sound/foley/bubb (5).ogg')
 
+// admin spawnable only
 /obj/item/matthios_canister
 	name = "gilded alchemical canister"
 	desc = "A strange, fragile alchemical vessel housing a silent power beyond human comprehension. Is this true?"
@@ -99,6 +106,7 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 		return
 	to_chat(user, span_notice("The mixture stabilizes successfully."))
 	new result_path(get_turf(src))
+	funny_smoke(src)
 	qdel(src)
 
 //////////////////////
@@ -107,8 +115,17 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 
 /obj/item/matthios_canister/lyfestruth
 	name = "vial of lyfestruth base"
-	desc = "Within the glass swells a searing draught, as though molten gold were stirred with the heartblood of a volcano. It glows too bright, too alive. The vessel ought crack, yet it does not. A sweetness clings to it—burnt, cloying, wrong. To gaze upon it is to feel thy pulse falter."
-	color = "#ff7a7a"	
+	desc = "Within the glass swells a searing draught, as though molten gold were stirred with the heartblood of a volcano. It glows too bright, too alive. The vessel ought crack, yet it does not. What is this impossible sorcery?"
+	current_color = "#ffffff"	
+	result_path = /obj/item/alchserum/matthios_lyfestruth
+	var/has_lux = FALSE
+	var/lux_types = list(
+		/obj/item/reagent_containers/lux,
+		/obj/item/reagent_containers/lux_impure,
+		/obj/item/reagent_containers/lux_moss,
+		/obj/item/leechtick_bloated,
+
+	)
 	required_ingredients = list(
 		/obj/item/alch/atropa,
 		/obj/item/alch/matricaria,
@@ -126,9 +143,7 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 		/obj/item/alch/artemisia,
 		/obj/item/reagent_containers/food/snacks/grown/manabloom,
 		/obj/item/alch/rosa,
-		/obj/item/reagent_containers/lux,
 	)
-
 	ingredient_colors = list(
 		/obj/item/alch/atropa = "#8b37c4",
 		/obj/item/alch/matricaria = "#f5e6a8",
@@ -145,76 +160,98 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 		/obj/item/alch/valeriana = "#8e5a3c",
 		/obj/item/alch/artemisia = "#7a9e7e",
 		/obj/item/reagent_containers/food/snacks/grown/manabloom = "#66ccff",
-		/obj/item/reagent_containers/lux = "#66ccff",
 		/obj/item/alch/rosa = "#ff4d6d"
 	)
 
 	result_path = /obj/item/alchserum/matthios_lyfestruth
 
+/obj/item/matthios_canister/lyfestruth/Initialize()
+	. = ..()
+	required_ingredients = required_ingredients.Copy()
+
 /obj/item/matthios_canister/lyfestruth/freeman_progress(mob/user)
-	var/list/missing = list()
+	if(!required_ingredients.len && !has_lux)
+		return "The draught is complete. You can feel the heat, but it lacks the life essence to stabilize it."
 
-	for(var/T in required_ingredients)
-		if(!(T in inserted_ingredients))
-			missing += T
-
-	if(!missing.len)
-		playsound(user, pick(da_bubbles), 30, FALSE)
-		return "It is made whole. The draught strains against its prison."
-
-	var/typepath = pick(missing)
+	var/typepath = pick(required_ingredients)
 	var/atom/A = typepath
-
 	var/initial_name = initial(A.name)
 
-	return "It lacks [initial_name] or gold dust. ([missing.len] components yet unbound)"
+	if(has_lux)
+		return "It lacks [initial_name], but gold dust may also serve. Lux has been bound, speeding the process. ([required_ingredients.len] components yet unbound)"
+
+	return "It lacks [initial_name], but gold dust may also serve. ([required_ingredients.len] components yet unbound)"
+
 
 /obj/item/matthios_canister/lyfestruth/freeman_truth()
 	return "This is no vulgar tonic, but 'Geald', the stolen fyre of Astrata condensed into liquid form. Oft called 'liquid anastasis', it restores not flesh, but the moment before death was writ. However, it is a fact of its volatile nature."
 
-
-/obj/item/matthios_canister/lyfestruth/attack(mob/living/M, mob/living/user, obj/item/I)
+/obj/item/matthios_canister/lyfestruth/attackby(obj/item/I, mob/user)
 	. = ..()
-
 	if(!I)
 		return 
 
-	var/valid = FALSE
-	for(var/T in required_ingredients)
-		if(istype(I, T))
-			valid = TRUE
+	var/is_gold = istype(I, /obj/item/alch/golddust)
+	var/is_lux = FALSE
+
+	for(var/L in lux_types)
+		if(istype(I, L))
+			is_lux = TRUE
 			break
 
-	if(!valid)
-		return 
+	var/is_valid = FALSE
+	for(var/T in required_ingredients)
+		if(istype(I, T))
+			is_valid = TRUE
+			break
 
-	if(I.type in inserted_ingredients)
-		return 
+	if(!is_valid && !is_gold && !is_lux)
+		return
 
 	if(do_after(user, 2 SECONDS))
-		if(istype(I, /obj/item/alch/golddust))
-			var/list/missing = list()
 
-			for(var/T in required_ingredients)
-				if(!(T in inserted_ingredients))
-					missing += T
+		if(is_lux)
+			if(has_lux)
+				to_chat(user, span_warning("The vessel recoils—too much Lux would surely rupture it."))
+				return
 
-			if(!missing.len)
-				return 
+			has_lux = TRUE
+			current_color = "#66ccff"
 
-			var/chosen = pick(missing)
-			inserted_ingredients += chosen
+			var/remove_count = max(1, round(required_ingredients.len * 0.5))
+			for(var/i = 1, i <= remove_count, i++)
+				if(!required_ingredients.len)
+					break
+				var/chosen = pick(required_ingredients)
+				required_ingredients -= chosen
 
-			if(ingredient_colors[chosen])
-				current_color = ingredient_colors[chosen]
+			to_chat(user, span_notice("The mixture surges! Its progress hastened considerably by the life essence!"))
 
 			qdel(I)
 			playsound(user, 'sound/misc/lava_death.ogg', 15, FALSE)
 			update_icon()
 			check_completion(user)
-			return 
+			return
 
-		inserted_ingredients += I.type
+		if(is_gold)
+			if(!required_ingredients.len)
+				return
+
+			var/chosen = pick(required_ingredients)
+			required_ingredients -= chosen
+			current_color = "#fff066"
+
+			qdel(I)
+			playsound(user, 'sound/misc/lava_death.ogg', 15, FALSE)
+			update_icon()
+			check_completion(user)
+			return
+
+		if(!(I.type in required_ingredients))
+			to_chat(user, span_warning("That essence has already been bound."))
+			return
+
+		required_ingredients -= I.type
 
 		if(ingredient_colors[I.type])
 			current_color = ingredient_colors[I.type]
@@ -224,12 +261,19 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 		update_icon()
 		check_completion(user)
 
-	return 
+	return
 
+/obj/item/matthios_canister/lyfestruth/check_completion(mob/user)
+	if(!required_ingredients.len && !has_lux)
+		to_chat(user, span_warning("The mixture writhes… yet something radiant and vital is still missing..."))
+		return
+
+	if(!required_ingredients.len && has_lux)
+		alch_transform(user)
 
 /obj/item/alchserum/matthios_lyfestruth
 	name = "canister of lyfestruth"
-	desc = "A radiant vial containing a volatile, life-restoring mixture. The liquid within churns with molten intensity, casting a searing orange-gold glow that flickers against its glass prison. It promises to restore what was lost— but not without exacting something in return. The heat is constant. Unnatural. Alive."
+	desc = "A radiant vial containing a volatile mixture. The liquid within churns with molten intensity, casting a searing orange-gold glow that flickers against its glass prison. It seems extremely volatile."
 	icon = 'icons/obj/structures/heart_items.dmi'
 	icon_state = "canister_empty"
 	current_color = "#ff9d00"
@@ -418,6 +462,7 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 	if(prob(25) && !ishungry)
 		to_chat(user, span_warning("The mixture ignites violently, collapsing into useless slag and bitter disappointment. It... technically is edible. I guess?"))
 		new /obj/item/reagent_containers/food/snacks/badrecipe(get_turf(src))
+		funny_smoke(src)
 		qdel(src)
 		return
 	
@@ -426,6 +471,7 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 		new /obj/item/reagent_containers/food/snacks/rogue/bread(get_turf(src))
 		if(prob(20))
 			user.emote(pick("sigh","groan"))
+		funny_smoke(src)
 		qdel(src)
 		return
 
@@ -436,6 +482,7 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 	to_chat(user, span_notice("The mixture responds to your greed, taking a decadent form."))
 
 	new result_type(get_turf(src))
+	funny_smoke(src)
 	qdel(src)
 
 /obj/item/matthios_canister/kingsfeast/attack_self(mob/user)
@@ -534,6 +581,7 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 /obj/item/matthios_canister/goodnite/alch_transform(mob/user)
 	to_chat(user, span_notice("The mixture settles into a perfectly still, somnolent state."))
 	new /obj/item/alchserum/matthios_goodnite(get_turf(src))
+	funny_smoke(src)
 	qdel(src)
 
 /obj/item/alchserum/matthios_goodnite
@@ -542,7 +590,7 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 	icon = 'icons/obj/structures/heart_items.dmi'
 	icon_state = "canister_empty"
 	current_color = "#5c6fb2"
-	aura_color = "#ffe4b9"
+	aura_color = "#5e53ff"
 	w_class = WEIGHT_CLASS_TINY
 
 /obj/item/alchserum/matthios_goodnite/attack(mob/living/target, mob/user)
@@ -724,6 +772,7 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 /obj/item/matthios_canister/warsmith/alch_transform(mob/user)
 	to_chat(user, span_notice("The mixture hardens, then liquefies into an amorphous, perfect balance of fiber and steel."))
 	new /obj/item/alchserum/matthios_warsmith(get_turf(src))
+	funny_smoke(src)
 	qdel(src)
 
 /obj/item/alchserum/matthios_warsmith
@@ -765,7 +814,7 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 
 /obj/item/matthios_canister/kingswine
 	name = "vial of kingswine base"
-	desc = "A foul slurry churns within the glass, thick with rot and sugared decay. It smells of spoiled fruit left in gutters and something far worse beneath it... coppery, clinging, wrong. No proper alchemist would name this craft; it is theft of nature, forced and ugly. Only the desperate or deranged would dare finish what this mixture begins."
+	desc = "A foul slurry churns within the glass, thick with rot and sugared decay. It smells of spoiled fruit left in gutters and something far worse beneath it... coppery, clinging, wrong. No proper alchemist would name this craft; it is theft of nature."
 	var/needed_liquid = 10
 	var/current_liquid = 0
 	var/path = null
@@ -784,23 +833,35 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 
 /obj/item/matthios_canister/kingswine/freeman_truth()
 	if(path == "blood")
-		return "Not wine, but dominion. Life drawn out, refined, and made to serve again. To the starved and the hollow, it is salvation disguised as sin."
+		return "The path of Kingsblood is set. The vial now craves richer, vital inputs such as blood, viscera, even organs... refining them into a draught of a potent coagulant, or darker indulgence for the ashen ones."
+	else if(path == "wine")
+		return "A true miracle of Malchemy! Like the old tale of 'water to wine', this stands as proof that where miracles or alchemy begin, Malchem Arts had already long, long walked."
 	else
-		return "A true miracle of Malchemy! What was once bland, waste and water is slowly being coaxed into warmth and quality."
+		return "A simple base, eager to take on character. It accepts liquids, fruits, anything with juice… though, one notes, blood is a liquid as well."
+
 
 /obj/item/matthios_canister/kingswine/freeman_progress(mob/user)
 	return "Progress: [current_liquid]/[needed_liquid]\nPath: [path ? uppertext(path) : "UNFORMED"]"
 
 /obj/item/matthios_canister/kingswine/attackby(obj/item/I, mob/user)
+	var/miracle = user.get_skill_level(/datum/skill/magic/holy)
+	var/can_blood = (miracle >= SKILL_LEVEL_JOURNEYMAN)
+
 	if(current_liquid >= needed_liquid)
 		to_chat(user, span_warning("The mixture will take no more."))
 		return TRUE
+
 	if(!HAS_TRAIT(user, TRAIT_MATTHIOS_EYES))
 		to_chat(user, span_warning("The hell do I do with this? This is no alchemy!"))
 		return TRUE
+
 	if(istype(I, /obj/item/organ))
 		if(path && path != "blood")
 			to_chat(user, span_warning("The mixture rejects this. It has already chosen sweetness over blood."))
+			return TRUE
+
+		if(!can_blood)
+			to_chat(user, span_warning("I lack the divine insight to work with this. It'll only ruin the tincture if I try."))
 			return TRUE
 
 		if(do_after(user, 2 SECONDS))
@@ -841,9 +902,13 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 
 		var/has_blood = FALSE
 		for(var/datum/reagent/rg in R.reagents.reagent_list)
-			if(rg.name == ("Blood"||"Dirty blood"||"Liquid gibs"))
+			if(rg.name in list("Blood", "Dirty blood", "Liquid gibs"))
 				has_blood = TRUE
 				break
+
+		if(has_blood && !can_blood)
+			to_chat(user, span_warning("I lack the divine insight to work with this. It'll only ruin the tincture if I try."))
+			return TRUE
 
 		if(path == "wine" && has_blood)
 			to_chat(user, span_warning("The mixture recoils from blood."))
@@ -853,9 +918,8 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 			to_chat(user, span_warning("It demands only blood now."))
 			return TRUE
 
-		var/amount = max(1, round(R.reagents.total_volume * 0.1))
-		amount = min(amount, R.reagents.total_volume)
-
+		var/amount = min(20, R.reagents.total_volume)
+		
 		if(do_after(user, 2 SECONDS))
 			if(has_blood)
 				path = "blood"
@@ -865,9 +929,11 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 				current_color = "#7a1f1f"
 
 			R.reagents.remove_any(amount)
-			current_liquid = min(current_liquid + amount, needed_liquid)
 
-			to_chat(user, span_notice("The mixture siphons [amount] liquid. ([current_liquid]/[needed_liquid])"))
+			var/stacks = clamp(round(amount / 10), 1, 2)
+			current_liquid = min(current_liquid + stacks, needed_liquid)
+
+			to_chat(user, span_notice("The mixture siphons [amount] doses of liquid. ([current_liquid]/[needed_liquid])"))
 
 			update_icon()
 			check_completion(user)
@@ -878,52 +944,16 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 	return TRUE
 
 /obj/item/matthios_canister/kingswine/attack(atom/target, mob/user)
+	var/miracle = user.get_skill_level(/datum/skill/magic/holy)
+	var/can_blood = (miracle >= SKILL_LEVEL_JOURNEYMAN)
+
 	if(current_liquid >= needed_liquid)
 		to_chat(user, span_warning("The mixture is already complete."))
 		return TRUE
+
 	if(!HAS_TRAIT(user, TRAIT_MATTHIOS_EYES))
 		to_chat(user, span_warning("The hell do I do with this? This is no alchemy!"))
 		return TRUE
-	if(isturf(target))
-
-		var/turf/T = target
-		var/is_blood_water = istype(T, /turf/open/water/bloody)
-		var/is_water = (istype(T, /turf/open/water/river) || istype(T, /turf/open/water/cleanshallow) || istype(T, /turf/open/water/pond) || istype(T, /turf/open/water/ocean) || istype(T, /turf/open/water/ocean/deep) || istype(T, /turf/open/water/swamp) || istype(T, /turf/open/water/swamp/deep))
-
-		if(is_blood_water)
-			if(path && path != "blood")
-				to_chat(user, span_warning("The mixture recoils... This is not the path it chose."))
-				return TRUE
-			if(user.get_skill_level(/datum/skill/magic/holy) <= SKILL_LEVEL_JOURNEYMAN)
-				to_chat(user, span_warning("Knowledge on how to work on Kingsblood eludes you. Maybe a more devout can do so?"))
-				return TRUE
-
-			path = "blood"
-			current_liquid = needed_liquid
-			current_color = "#5c0a0a"
-
-			to_chat(user, span_warning("The mixture greedily devours the tainted water."))
-			user.visible_message(span_danger("[user] dips a vial into [T], and it darkens with hunger."))
-
-			update_icon()
-			check_completion(user)
-			return TRUE
-
-		if(is_water)
-			if(path && path != "wine")
-				to_chat(user, span_warning("The mixture rejects the water, already tainted by blood."))
-				return TRUE
-
-			path = "wine"
-			current_liquid = needed_liquid
-			current_color = "#7a2f1b"
-
-			to_chat(user, span_notice("The mixture eagerly drinks from the waters."))
-			user.visible_message(span_notice("[user] dips a vial into [T], and it greedily fills."))
-
-			update_icon()
-			check_completion(user)
-			return TRUE
 
 	if(ishuman(target))
 		var/mob/living/carbon/human/H = target
@@ -932,21 +962,32 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 			to_chat(user, span_warning("The mixture refuses flesh now."))
 			return TRUE
 
+		if(!can_blood)
+			to_chat(user, span_warning("I lack the divine insight to work with this. It'll only ruin the tincture if I try."))
+			return TRUE
+
 		if(!H.get_bleed_rate())
 			to_chat(user, span_warning("There is no blood to take."))
+			return TRUE
+
+		if(H.mind.has_antag_datum((/datum/antagonist/vampire)||(/datum/antagonist/skeleton)||(/datum/antagonist/zombie)||(/datum/antagonist/zizo_knight)||(/datum/antagonist/werewolf)||(/datum/antagonist/gnoll)))
+			to_chat(user, span_warning("Not your finest choice of blood for this. It won't work, even by the impossible Malchemical standards."))
 			return TRUE
 
 		if(do_after(user, 2 SECONDS, target = H))
 			path = "blood"
 			current_liquid = min(current_liquid + 1, needed_liquid)
-
 			current_color = "#5c0a0a"
 
 			to_chat(user, span_warning("The mixture drinks from the wound. ([current_liquid]/[needed_liquid])"))
+
 			if(user == H)
-				H.visible_message(span_danger("[user] presses a vial into their open wound."))
+				H.visible_message(span_danger("[user] presses a vial at their open wound, filling it a bit."))
 			else
-				H.visible_message(span_danger("[user] presses a vial into [H]'s open wound."))
+				H.visible_message(span_danger("[user] presses a vial at [H]'s open wound, filling it a bit."))
+
+			var/drain_amt = round(BLOOD_VOLUME_NORMAL * 0.05)
+			H.blood_volume -= drain_amt
 
 			update_icon()
 			check_completion(user)
@@ -954,6 +995,62 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 		return TRUE
 
 	return ..()
+
+/obj/item/matthios_canister/kingswine/afterattack(atom/target, mob/user, proximity_flag, click_parameters)
+	if(!proximity_flag)
+		return
+
+	var/miracle = user.get_skill_level(/datum/skill/magic/holy)
+	var/can_blood = (miracle >= SKILL_LEVEL_JOURNEYMAN)
+
+	if(current_liquid >= needed_liquid)
+		to_chat(user, span_warning("The mixture is already complete."))
+		return
+
+	if(!HAS_TRAIT(user, TRAIT_MATTHIOS_EYES))
+		to_chat(user, span_warning("The hell do I do with this? This is no alchemy!"))
+		return
+
+	if(isturf(target))
+		var/turf/T = target
+		var/is_blood_water = istype(T, /turf/open/water/bloody)
+		var/is_water = (istype(T, /turf/open/water/river) || istype(T, /turf/open/water/cleanshallow) || istype(T, /turf/open/water/pond) || istype(T, /turf/open/water/ocean) || istype(T, /turf/open/water/ocean/deep) || istype(T, /turf/open/water/swamp) || istype(T, /turf/open/water/swamp/deep))
+
+		if(is_blood_water)
+			if(path && path != "blood")
+				to_chat(user, span_warning("The mixture recoils... This is not the path it chose."))
+				return
+
+			if(!can_blood)
+				to_chat(user, span_warning("I lack the divine insight to work with this. It'll only ruin the tincture if I try."))
+				return
+
+			path = "blood"
+			current_liquid = needed_liquid
+			current_color = "#5c0a0a"
+
+			to_chat(user, span_warning("The mixture greedily devours the blood water."))
+			user.visible_message(span_danger("[user] dips a vial into [T], and it greedily fills."))
+
+			update_icon()
+			check_completion(user)
+			return
+
+		if(is_water)
+			if(path && path != "wine")
+				to_chat(user, span_warning("The mixture rejects the water, already tainted by blood."))
+				return
+
+			path = "wine"
+			current_liquid = needed_liquid
+			current_color = "#7a2f1b"
+
+			to_chat(user, span_notice("The mixture eagerly drinks from the boundless waters."))
+			user.visible_message(span_notice("[user] dips a vial into [T], and it greedily fills."))
+
+			update_icon()
+			check_completion(user)
+			return
 
 /obj/item/matthios_canister/kingswine/check_completion(mob/user)
 	if(current_liquid < needed_liquid)
@@ -975,7 +1072,7 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 	desc = "A dense, crimson tincture swirls within the glass, thick with vitality. It hums faintly with promise— a potent restorative said to replenish lost blood with unnatural efficiency. Though crude in origin, its effect is undeniable: where life has thinned, it forces it back in."
 	icon = 'icons/obj/structures/heart_items.dmi'
 	icon_state = "canister_empty"
-	current_color = "#5c0a0a"
+	current_color = "#ff0000"
 	aura_color = "#8a0f0f"
 	w_class = WEIGHT_CLASS_TINY
 	var/uses = 4
@@ -1023,8 +1120,7 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 		qdel(src)
 
 	return TRUE
-
-
+/*
 /obj/item/matthios_canister/truthsnuke
 	name = "gilded bomb canister"
 	desc = "A sealed vessel packed with gray ruin and glimmering excess. Ash churns endlessly within, swallowing light, while a single mote of gold refuses to be consumed. It does not yearn for the Crown— it rejects it. Matthios once stole Astrata's fire not to kneel, but to prove no throne was sacred. This vessel follows that truth, straining to break authority itself."
@@ -1185,8 +1281,9 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 		new /obj/item/impact_grenade/truthsnuke(get_turf(src))
 	else
 		new /obj/item/impact_grenade/truthsnuke/lesser(get_turf(src))
-
+	funny_smoke(src)
 	qdel(src)
+*/
 
 //EQUIPPABLES
 /obj/item/clothing/neck/roguetown/psicross/inhumen/matthios/gilded
@@ -1341,7 +1438,6 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 		REMOVE_TRAIT(user, TRAIT_LIGHT_STEP, "matthiosboon")
 
 //THROWABLES
-
 /obj/item/impact_grenade/truthsnuke/lesser
 	name = "Incomplete TRUTHSNUKE"
 	desc = "A fragile canister, filled with an explosive surprise. Shards of flint line its thin sleeve, aching to ignite at the slightest disturbance. The fire of Astrata does not seem to be imbuing it, but..."
@@ -1436,7 +1532,7 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 	explosion(T, devastation_range = 0,	heavy_impact_range = 0,	light_impact_range = 4, flame_range = 8, flash_range = 8, smoke = TRUE, soundin = pick('sound/misc/explode/bottlebomb (1).ogg','sound/misc/explode/bottlebomb (2).ogg'))
 	qdel(src)
 
-
+//I'll leave it as an admin spawnable cause why not, but as is right now there's no way anything can get access to this.
 /obj/item/impact_grenade/truthsnuke
 	name = "TRUTHSNUKE"
 	desc = "A fragile canister, filled with an explosive surprise. Shards of flint line its thin sleeve, aching to ignite at the slightest disturbance. It glows with a divine might, and once again stolen fire."
