@@ -297,12 +297,14 @@
 		return null
 
 	var/static/list/supported_map_names = list(
+		"dun_world.dmm" = "Azure Peak",
 		"bogforest.dmm" = "Bog Forest",
 		"desert.dmm" = "Desert",
 		"frozen_mountains.dmm" = "Frozen Mountains",
 		"hsector.dmm" = "Rivermist City",
 		"hsector_snow.dmm" = "Rivermist City (Winter)",
 		"underdark.dmm" = "Underdark",
+		"roguetest.dmm" = "Roguetest",
 	)
 
 	return supported_map_names[lowertext("[map_file]")]
