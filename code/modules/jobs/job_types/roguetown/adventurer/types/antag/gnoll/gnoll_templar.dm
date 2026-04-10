@@ -33,7 +33,7 @@
 		var/datum/devotion/C = new /datum/devotion(H, H.patron)
 		C.grant_miracles(H, cleric_tier = CLERIC_T2, passive_gain = CLERIC_REGEN_MINOR, start_maxed = FALSE)
 		H.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/convert_heretic)
-		H.mind?.RemoveSpell(/obj/effect/proc_holder/spell/invoked/silence/graggar) 
+		H.mind?.RemoveSpell(/obj/effect/proc_holder/spell/invoked/silence/graggar)
 
 /obj/item/clothing/suit/roguetown/armor/regenerating/skin/gnoll_armor/templar
 	icon_state = "templar"
