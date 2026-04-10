@@ -121,6 +121,8 @@
 	var/list/appearance_list = list()
 //	var/specific_layer = aux ? aux_layer : BODYPARTS_LAYER
 	var/specific_layer = aux_layer ? aux_layer : BODYPARTS_LAYER
+	if((specific_layer == HANDS_PART_LAYER) && (human_owner.wear_shirt)) // Arms snowflake check
+		return appearance_list
 	var/specific_render_zone = aux ? aux_zone : body_zone
 	for(var/key in specific_markings)
 		var/color = specific_markings[key]

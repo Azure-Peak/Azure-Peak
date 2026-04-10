@@ -165,12 +165,12 @@
 	slots = min(slots, 10)
 	result["tier1_slots"] = slots
 
-	// Check for major round antagonists (lich, vampire lord) — hard cap at tier 1
+	// Check for major round antagonists (lich, vampire lord, any bandits) — hard cap at tier 1
 	var/major_antag_active = FALSE
 	for(var/datum/antagonist/antag as anything in GLOB.antagonists)
 		if(QDELETED(antag) || QDELETED(antag.owner))
 			continue
-		if(istype(antag, /datum/antagonist/lich) || istype(antag, /datum/antagonist/vampire/lord))
+		if(istype(antag, /datum/antagonist/lich) || istype(antag, /datum/antagonist/vampire/lord) || istype(antag, /datum/antagonist/bandit))
 			major_antag_active = TRUE
 			break
 	result["major_antag_active"] = major_antag_active

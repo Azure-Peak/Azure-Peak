@@ -546,3 +546,39 @@
 /obj/item/rogueweapon/sword/sabre/shamshir/dono_scidragon_sand/ComponentInitialize()
 	. = ..()
 	AddComponent(/datum/component/ignitable/fluff/sci_sand)
+
+/obj/item/rogueweapon/wand/aisu
+    base_implement_name = "crystalline wand"
+    name = "crystalline wand"
+    desc = "A crystalline wand, born from a single tear and weeks of prayers and enchantments, Oh my guiding Moonlight!"
+    icon_state = "aisuwand"
+    icon = 'icons/obj/items/donor_weapons.dmi'
+
+/obj/item/rogueweapon/wand/aisu/getonmobprop(tag)
+	. = ..()
+	if(tag)
+		switch(tag)
+			if("gen")
+				return list("shrink" = 0.6,"sx" = -14,"sy" = -8,"nx" = 15,"ny" = -7,"wx" = -10,"wy" = -5,"ex" = 7,"ey" = -6,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = -13,"sturn" = 110,"wturn" = -60,"eturn" = -30,"nflip" = 1,"sflip" = 1,"wflip" = 8,"eflip" = 1)
+			if("onbelt")
+				return list("shrink" = 0.5,"sx" = -4,"sy" = -6,"nx" = 5,"ny" = -6,"wx" = 0,"wy" = -6,"ex" = -1,"ey" = -6,"nturn" = 100,"sturn" = 156,"wturn" = 90,"eturn" = 180,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
+
+//NAUTICALL
+/obj/item/rogueweapon/example/regnum
+	name = "Regnum"
+	desc = "<i>'In war, the moral is to the physical as three is to one.'</i> <br> \
+	An armor-piercing longsword. The finest steel, wrapped in the finest leather. Its rear-biased weight distribution makes it more of a scalpel than a slasher, while its sharp taper implies its purpose of skewering enemies with graceful precision. \
+	The immaculate craftsmanship, the red leather, and the sparse but tasteful gold ornaments tell anyone who may pick this blade up that 'tis truly fit for a sovereign."
+	icon = 'icons/obj/items/donor_weapons_64.dmi'
+	icon_state = "regnum" 
+	sheathe_icon = "regnum"
+	bigboy = TRUE
+
+/obj/item/rogueweapon/example/aeternum
+	name = "Aeternum"
+	desc = "<i>'Lay by your pleading, law lies a-bleeding / Burn all your studies down, and throw away your reading; small power the word has, and can afford us / Not half so many privileges as the sword has.'</i> <br> \
+	A bespoke polished montante. Austere yet ornate, formal yet functional. Like its smaller sibling, it comes with hardware of real gold and a handgrip of supple red leather. Where most monarchs' blades are meant for ceremony, this one tells a \
+	different story altogether, for it is made for only one purpose: war."
+	icon = 'icons/obj/items/donor_weapons_64.dmi'
+	icon_state = "aeternum"
+	bigboy = TRUE

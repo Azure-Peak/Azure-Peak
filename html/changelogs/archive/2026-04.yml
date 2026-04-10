@@ -298,3 +298,33 @@
   hazelrat:
   - qol: Walking into stone turfs with a pickaxe to mine them no longer incurs a greater
       stamina cost than clicking on them normally.
+2026-04-09:
+  FreeStylaLT:
+  - rscadd: Blacksteel Pickaxe now automatically breaks boulders.
+  Lamasmaster:
+  - balance: Eoran Vow
+  babamandaa:
+  - rscdel: ass clapping while sneaking
+  nauticall:
+  - rscadd: New 'Set Laws' TGUI window and command for the Duke/Regent to amend laws
+      with. 'Make law' and 'Remove law' are still available as the legacy/individual
+      methods for backwards compatibility.
+  - qol: The 'laws of the land' viewable on SCOMs are now collapsible.
+  - rscdel: Removed the 'Three Laws of Aasimar (Asimov)' from the list of default
+      lawsets.
+2026-04-10:
+  Aisu9:
+  - rscadd: donor item
+  Juubo:
+  - bugfix: run times when destroying rock walls
+  Quinalion:
+  - bugfix: Fixed markings on the arms layering over shirts while facing south.
+  - bugfix: Fixes sleeves layering over tabards on the east and west directions.
+  WeNeedMorePhoron:
+  - rscadd: When a bandit or more is present, wretch slots can no longer scales to
+      15.
+  gatorceres:
+  - bugfix: heretics used wrong statkey for fortune bonus
+  nauticall:
+  - rscadd: Added donor weapons Regnum & Aeternum.
+  - image: Added a two-handed wielded sprite for Judgement.
