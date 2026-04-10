@@ -322,12 +322,11 @@
 		for(var/mob/living/L in orange(1, target))
 			L.adjustBruteLoss(75) // this should never kill it's just an "oh fuck" moment
 			if(L && !QDELETED(L)) // Some mobs are deleted on death
-				to_chat(world,"here")
 				var/throw_dir = get_dir(target, L)
 				if(L.loc == target.loc)
 					throw_dir = pick(GLOB.alldirs)
 				L.throw_at(get_edge_target_turf(L,throw_dir), 3, 2)
-				visible_message(span_warning("[L] is thrown clear of the blast!</span>"))
+				L.visible_message(span_warning("[L] is thrown clear of the blast!</span>"))
 		for(var/mob/M in range(7, target))
 			shake_camera(M, 15, 1)
 		user.mind?.RemoveSpell(/datum/action/cooldown/spell/message_summoner)
