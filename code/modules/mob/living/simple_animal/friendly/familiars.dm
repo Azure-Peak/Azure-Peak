@@ -457,7 +457,7 @@
 /mob/living/simple_animal/pet/familiar/void
 	name = "Void Drakeling"
 	desc = "A small draconic being, gazing inquisitively at the world around it. It pulses with an unfamiliar power." // we don't put all the details here bcs this can be seen by nonmages
-	summoning_emote = "A small rift opens in the center of the rune! The ritual tears a fragment of draconic power from the other side and forms it into a draconic, if diminutive, shape..."
+	summoning_emote = "The drakeling opens its eyes... they gleam with a voracious hunger!" // not an actual summoning emote since that's handled in the aurafarm session
 	animal_species = "Void Drakeling"
 	icon_state = "emberdrake" // temp
 	icon_living = "emberdrake"
