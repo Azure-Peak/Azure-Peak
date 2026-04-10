@@ -3,7 +3,7 @@
 
 /datum/action/cooldown/spell/projectile/kastvyl
 	name = "Kastvyl"
-	desc = "In old Azurian - 'To throw a blade'. Tosses out a bouncing phantom hurlbat that ricochets against solid wall. The damage type changes based on the blade class of your current active intent, with blunt damage being better against heavy armor. Striking the same target twice will deals half damage on the second hit, and a third strike will deal no damage."
+	desc = "In old Azurian - 'To throw a blade'. Tosses out a bouncing phantom hurlbat that ricochets against solid wall. The damage type changes based on the blade class of your current active intent. Striking the same target twice will deals half damage on the second hit, and a third strike will deal no damage."
 	button_icon = 'icons/mob/actions/classuniquespells/spellblade.dmi'
 	button_icon_state = "kastvyl"
 	sound = 'sound/combat/wooshes/bladed/wooshlarge (1).ogg'
@@ -86,7 +86,6 @@
 				K.hitsound = 'sound/combat/hits/bladed/genthrust (1).ogg'
 			else
 				K.flag = "blunt"
-				K.intdamfactor = BLUNT_DEFAULT_INT_DAMAGEFACTOR
 				K.hitsound = 'sound/combat/hits/blunt/genblunt (1).ogg'
 
 /obj/projectile/energy/kastvyl
