@@ -459,8 +459,8 @@
 	desc = "A small draconic being, gazing inquisitively at the world around it. It pulses with an unfamiliar power." // we don't put all the details here bcs this can be seen by nonmages
 	summoning_emote = "The drakeling opens its eyes... they gleam with a voracious hunger!" // not an actual summoning emote since that's handled in the aurafarm session
 	animal_species = "Void Drakeling"
-	icon_state = "emberdrake" // temp
-	icon_living = "emberdrake"
+	icon_state = "drakeling"
+	icon_living = "drakeling"
 	speak_emote = list("growls","murmurs")
 	tutorial_message = span_notice("You are a new being, weak and without any notable traits. This will not do! Summon and consume mindless planar beings to grow your powers. One from each plane will suffice, for now. Add their natures to your own, and grow strong.")
 	var/list/essences_consumed = list()
