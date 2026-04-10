@@ -268,6 +268,7 @@
 	if(!chosen_buff)
 		return FALSE
 	user.apply_status_effect(chosen_buff)
+	return TRUE
 
 // planar pact buff definitions
 
