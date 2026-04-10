@@ -444,7 +444,6 @@ GLOBAL_LIST(teleport_runes)
 			if(existing_fam.familiar_summoner == user)
 				to_chat(user, span_warning("You can only bind one familiar at once!"))
 				return FALSE
-		to_chat(user,plane)
 		if(istype(S,/mob/living/simple_animal/pet/familiar/void))
 			to_chat(user, span_notice("You begin attempting to awaken your creation's mind..."))
 		else

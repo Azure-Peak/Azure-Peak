@@ -318,14 +318,15 @@
 			span_warningbig("I attempt to consume [target], but as soon as I touch their essences, I am undone!")
 		)
 		new /obj/effect/temp_visual/dragon_swoop(target.loc)
+		playsound(target.loc, 'sound/vo/mobs/vdragon/drgnroar.ogg', 50, TRUE, -1)
 		for(var/mob/living/L in orange(1, target))
 			L.adjustBruteLoss(75) // this should never kill it's just an "oh fuck" moment
 			if(L && !QDELETED(L)) // Some mobs are deleted on death
+				to_chat(world,"here")
 				var/throw_dir = get_dir(target, L)
-				if(L.loc == loc)
+				if(L.loc == target.loc)
 					throw_dir = pick(GLOB.alldirs)
-				var/throwtarget = get_edge_target_turf(target, throw_dir)
-				L.throw_at(throwtarget, 3)
+				L.throw_at(get_edge_target_turf(L,throw_dir), 3, 2)
 				visible_message(span_warning("[L] is thrown clear of the blast!</span>"))
 		for(var/mob/M in range(7, target))
 			shake_camera(M, 15, 1)

@@ -3,8 +3,7 @@
  * ========== Binding Rituals ==========
  *
  * Summon a familiar to aid you in your journey. Limit one per player, and not particularly tailored towards combat.
- * Costs runed artifacts, planar materials, and leyline shards, but in low quantity.
- * It'll only be a problem if you're a purist stay-at-home mage or want to feed a drakeling.
+ * Costs planar materials in low quantity, except the drakeling, which is expensive.
  */
 
 /datum/runeritual/binding
