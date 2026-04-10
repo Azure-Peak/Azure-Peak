@@ -200,7 +200,7 @@
 					else
 						ret.Insert(LAZYLEN(ret)-2, "[src.p_they()] contain[src.gender==PLURAL?"":"s"] [round(total_volume)] [UNIT_FORM_STRING(round(total_volume))] of <font color=[reagent_color]>something.</font>")
 			else
-				ret.Insert(LAZYLEN(ret)-2, "Nothing.")
+				ret.Insert(LAZYLEN(ret)-2, "[src]'s stomach is empty.")
 		else if(reagents.flags & AMOUNT_VISIBLE)
 			if(reagents.total_volume)
 				ret.Insert(LAZYLEN(ret)-2, span_notice("[src.p_they()] [src.gender==PLURAL?"have":"has"] [round(reagents.total_volume)] [UNIT_FORM_STRING(round(reagents.total_volume))] left."))
