@@ -76,7 +76,7 @@
 	overlay_icon = 'icons/mob/actions/graggarmiracles.dmi'
 	overlay_state = "call_to_slaughter"
 	recharge_time = 5 MINUTES
-	invocations = list("LAMBS TO THE SLAUGHTER!", "THE DARK STAR IS WATCHING!") // idk who changed it but it was identical to bloodrage. bad.
+	invocations = list("LAMBS TO THE SLAUGHTER!")
 	invocation_type = "shout"
 	sound = 'sound/magic/battle_cry_graggar.ogg'
 	releasedrain = 30
@@ -115,7 +115,7 @@
 	chargetime = 15
 	recharge_time = 40 SECONDS // no running, super slow. this FUCKS people. lower it if 40 is too much.
 	invocation_type = "shout"
-	invocations = list("TURN AND FACE THE BLOOD GOD!!") // VERY loud. do NOT add other invocations, this projectile can FUUUCK people up and needs to be telegraphed.
+	invocations = list("BE STILL!!") // VERY loud. do NOT add other invocations, this projectile can FUUUCK people up and needs to be telegraphed.
 	sound = 'sound/magic/blood_net.ogg'
 	range = 8
 
@@ -196,7 +196,7 @@
 	chargetime = 10
 	chargedrain = 0
 	chargedloop = /datum/looping_sound/invokeevil
-	invocations = list("SUFFER FOR THE DARK STAR!", "SINISTAR, MAKE THEM BLEED!")
+	invocations = list("SINISTAR, MAKE THEM BLEED!")
 	invocation_type = "shout"
 	sound = 'sound/magic/bleed_out.ogg'
 	releasedrain = 30

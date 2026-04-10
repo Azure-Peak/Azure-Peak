@@ -169,9 +169,6 @@
 
 	return TRUE
 
-/obj/effect/proc_holder/spell/invoked/heal/astrata
-	base_icon_state = "regalyscroll"
-
 // Bishop only miracle - This used to be T3 only but is too powerful and ate into apothecary's niche.
 // Instantly heals all wounds & damage on a selected limb.
 // Long CD (so a Medical class would still outpace this if there's more than one patient to heal)

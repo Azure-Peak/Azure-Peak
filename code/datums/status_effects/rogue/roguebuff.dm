@@ -2218,44 +2218,44 @@
     desc = "Malum's own wrench powers me. I can withstand more damage, now."
     icon_state = "buff"
 
-#define ORDERBRINGER_FILTER "orderbringer"
+#define PLAGUEBRINGER_FILTER "plaguebringer"
 
-/datum/status_effect/orderbringer
-	id = "orderbringer"
-	var/outline_colour = "#6BB7A0"
+/datum/status_effect/plaguebringer
+	id = "plaguebringer"
+	var/outline_colour = "#2C4628"
 	duration = -1
 	tick_interval = -1
-	examine_text = span_good("SUBJECTPRONOUN is bathed in Divine Light!")
+	examine_text = span_good("SUBJECTPRONOUN is emanating Rot!")
 	alert_type = null
 
-/datum/status_effect/orderbringer/on_apply()
+/datum/status_effect/plaguebringer/on_apply()
 	. = ..()
 
-	owner.visible_message(span_userdanger("A tide of divine light surges from [owner], it fills you with determination and hope!"))
+	owner.visible_message(span_userdanger("A putrid stench of rot from [owner] overwhelms your senses!"))
 
-	var/filter = owner.get_filter(ORDERBRINGER_FILTER)
+	var/filter = owner.get_filter(PLAGUEBRINGER_FILTER)
 	if(!filter)
-		owner.add_filter(ORDERBRINGER_FILTER, 2, list("type" = "outline", "color" = outline_colour, "alpha" = 60, "size" = 2))
+		owner.add_filter(PLAGUEBRINGER_FILTER, 2, list("type" = "outline", "color" = outline_colour, "alpha" = 60, "size" = 2))
 
 	var/mutable_appearance/effect = mutable_appearance('icons/effects/effects.dmi', "curse", -JOYBRINGER_LAYER, alpha = 128)
 	effect.appearance_flags = RESET_COLOR
 	effect.blend_mode = BLEND_ADD
-	effect.color = "#6BB7A0"
+	effect.color = "#2C4628"
 
-	owner.overlays_standing[ORDERBRINGER_FILTER] = effect
-	owner.apply_overlay(ORDERBRINGER_FILTER)
+	owner.overlays_standing[PLAGUEBRINGER_FILTER] = effect
+	owner.apply_overlay(PLAGUEBRINGER_FILTER)
 
 	RegisterSignal(owner, COMSIG_LIVING_LIFE, PROC_REF(on_life))
 
-/datum/status_effect/orderbringer/on_remove()
+/datum/status_effect/plaguebringer/on_remove()
 	. = ..()
 
-	owner.remove_filter(ORDERBRINGER_FILTER)
-	owner.remove_overlay(ORDERBRINGER_FILTER)
+	owner.remove_filter(PLAGUEBRINGER_FILTER)
+	owner.remove_overlay(PLAGUEBRINGER_FILTER)
 
 	UnregisterSignal(owner, COMSIG_LIVING_LIFE)
 
-/datum/status_effect/orderbringer/proc/on_life()
+/datum/status_effect/plaguebringer/proc/on_life()
 	SIGNAL_HANDLER
 
 	for(var/mob/living/mob in get_hearers_in_view(2, owner))
@@ -2264,7 +2264,9 @@
 
 		mob.apply_status_effect(/datum/status_effect/buff/fortify)
 
-#undef ORDERBRINGER_FILTER
+#undef PLAGUEBRINGER_FILTER
+
+
 #define NECRACON_FILTER "necra_consecration"
 #define NECRACON_TIER_NORMAL 2
 #define NECRACON_TIER_EXPERT 3
