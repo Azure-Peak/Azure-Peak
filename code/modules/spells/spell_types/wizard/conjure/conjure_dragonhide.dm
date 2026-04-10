@@ -27,7 +27,7 @@
 /datum/status_effect/buff/dragonhide/astrata
 	id = "asbestine"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/dragonhide/astrata
-	duration = 5 MINUTES
+	duration = 2 MINUTES
 	outline_colour = "#9B7439"
 
 /atom/movable/screen/alert/status_effect/buff/dragonhide/astrata

@@ -11,9 +11,9 @@
 	overlay_state = "twinned_gaze"
 
 	recharge_time = 2 MINUTES
-	releasedrain = 10
+	releasedrain = 30
 	miracle = TRUE
-	devotion_cost = 30
+	devotion_cost = 40
 
 	sound = 'sound/magic/undivided_bless.ogg'
 	invocation_type = INVOCATION_SHOUT
@@ -117,7 +117,7 @@
 	overlay_state = "calming_respite"
 
 	recharge_time = 3 MINUTES
-	releasedrain = 20
+	releasedrain = 30
 
 	miracle = TRUE
 	devotion_cost = 50
@@ -196,8 +196,8 @@
 	overlay_icon = 'icons/mob/actions/undividedmiracles.dmi'
 	overlay_state = "smite"
 
-	releasedrain = 10
-	devotion_cost = 40
+	releasedrain = 20
+	devotion_cost = 35
 
 	invocations = list("Geleitet meine Hand!") //("Guide my hand!")
 
@@ -213,11 +213,11 @@
 	overlay_icon = 'icons/mob/actions/undividedmiracles.dmi'
 	overlay_state = "perseverance"
 
-	recharge_time = 40 SECONDS
-	releasedrain = 40
+	recharge_time = 1 MINUTES
+	releasedrain = 50
 	range = 5
 	miracle = TRUE
-	devotion_cost = 40
+	devotion_cost = 80
 
 	chargetime = 2 SECONDS
 	chargedloop = /datum/looping_sound/invokeholy
@@ -427,7 +427,8 @@
 	overlay_state = "bolster"
 
 	recharge_time = 30 SECONDS
-	releasedrain = 40
+	releasedrain = 50
+	devotion_cost = 50
 
 	sound = 'sound/magic/heal_new.ogg'
 	chargetime = 1 SECONDS
@@ -445,10 +446,10 @@
 	overlay_state = "united"
 
 	recharge_time = 6 MINUTES
-	releasedrain = 30
+	releasedrain = 100
 	range = 5
 	miracle = TRUE
-	devotion_cost = 40
+	devotion_cost = 150
 
 	sound = 'sound/magic/battle_cry_undivided.ogg'
 	invocation_type = INVOCATION_SHOUT

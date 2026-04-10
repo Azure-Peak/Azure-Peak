@@ -373,6 +373,10 @@ GLOBAL_LIST_EMPTY(arenafolks) // we're just going to use a list and add to it. S
 	if(target == user)
 		revert_cast()
 		return FALSE
+	if(!target.mind)//We can't use it on mindless mobs
+		to_chat(user, span_warning("[target] is not worthy of a duel!"))
+		revert_cast()
+		return FALSE
 	if(
 		(target.stat > CONSCIOUS) || \
 		!(target.mobility_flags & MOBILITY_STAND) || \

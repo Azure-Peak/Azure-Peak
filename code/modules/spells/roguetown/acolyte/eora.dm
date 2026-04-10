@@ -1,6 +1,175 @@
-//Eora content from Stonekeep
+/////////////////////////
+// T0 - Eoran Blessing //
+/////////////////////////
 
-/obj/item/clothing/head/peaceflower
+/obj/effect/proc_holder/spell/invoked/eora_blessing
+	name = "Eora's Blessing"
+	desc = "Bestow a person with Eora's calm, if only for a little while. Restores their mood, as well as a tinge of hunger and thirst."
+	sound = 'sound/magic/eora_bless.ogg'
+	devotion_cost = 80
+	recharge_time = 5 MINUTES
+	miracle = TRUE
+	invocation_type = "shout"
+	invocations = list("Let the beauty of lyfe fill you whole.")
+	overlay_state = "eora_bless"
+	associated_skill = /datum/skill/magic/holy
+
+/obj/effect/proc_holder/spell/invoked/eora_blessing/cast(list/targets, mob/living/user)
+	if(ishuman(targets[1]))
+		var/mob/living/L = targets[1]
+		var/assocskill = user.get_skill_level(associated_skill)
+		L.apply_status_effect(/datum/status_effect/eora_blessing, assocskill)
+		return TRUE
+	revert_cast()
+	return FALSE
+
+/datum/status_effect/eora_blessing
+	id = "eora_bless"
+	duration = 1 MINUTES
+	alert_type = /atom/movable/screen/alert/status_effect/buff/eora_blessing
+
+/datum/status_effect/eora_blessing/on_creation(mob/living/new_owner/, assocskill)
+
+	if(assocskill)
+		// I asked the antichrist (gpt) to help me figure out why a bug was happening w/ this.
+		// Apparently BYOND explodes if you, like, do duration *= something.
+		duration = assocskill * 1 MINUTES
+
+	// Call parent here. We need owner to exist for the rest of the proc.
+	// Free. I am so sorry I used AI for this. Itsk illing me. This code is killing me.
+	. = ..()
+
+	var/mob/living/carbon/human/H = owner
+
+	// Attempted to rework it into more of a formula that's awesome and cool, but its hard to get numbers down..
+	// Maint, if you're reading this, pls give better ideas for formula.
+
+	/* Adjust nutrition based on skill
+	// As odd as these numbers are, its like, exponential, or quadaratic or some shit.
+	// I forgot the word. Anyhow-- acolytes can work together and boost a guy up pretty well, or recast and get
+	// someone out of starvation even with no food, though they'll have to make sure they dont exert themselves.
+	// AS this is recastable, and a secondary effect, its kinda eh.
+	*/
+	
+	// EXPECTED RANGE FOR FORMULA: 102 -> 172 (DEVOTEE TO LEGENDARY)
+	H.adjust_nutrition(100 + ((assocskill * assocskill)*2))
+	// Adjust hydration based on skill
+	// Same as above, but adjusts thirst. 
+	H.adjust_hydration(100 + ((assocskill * assocskill)*2))
+
+
+	// Apply stress effects
+	if(assocskill > SKILL_LEVEL_APPRENTICE)
+		H.add_stress(/datum/stressevent/eoran_blessing_greater)
+	else
+		H.add_stress(/datum/stressevent/eoran_blessing)
+
+	H.update_stress()
+
+/datum/status_effect/eora_blessing/on_apply()
+	. = ..()
+
+	// Add trait
+	ADD_TRAIT(owner, TRAIT_EORAN_SERENE, TRAIT_GENERIC)  //Generic origin so other Eorans do not have their innate traits overridden (they use TRAIT_MIRACLE)
+
+/datum/status_effect/eora_blessing/on_remove()
+	REMOVE_TRAIT(owner, TRAIT_EORAN_SERENE, TRAIT_GENERIC)
+	owner.update_stress()
+	return ..()
+
+/atom/movable/screen/alert/status_effect/buff/eora_blessing
+	name = "Eora's Calm"
+	desc = "A refreshing calm. All your troubles have washed away. Why can't it always be like this?"
+	icon_state = "eora_bless"
+
+/////////////////////
+// T1 - BLess Food //
+/////////////////////
+
+#define BLESSED_FOOD_FILTER "blessedfood"
+
+/datum/component/blessed_food
+	dupe_mode = COMPONENT_DUPE_UNIQUE
+	var/mob/living/caster
+	var/quality
+	var/skill
+	var/bitesize_mod
+	// I hate this but let's be consistent.
+	var/datum/patron/patron
+
+/datum/component/blessed_food/Initialize(mob/living/_caster, var/holy_skill, var/patron_init)
+	if(!isitem(parent) || !istype(parent, /obj/item/reagent_containers/food/snacks))
+		return COMPONENT_INCOMPATIBLE
+
+	caster = _caster
+	skill = holy_skill
+	var/obj/item/reagent_containers/food/snacks/F = parent
+	//Better food being blessed heals more
+	quality = F.faretype
+	bitesize_mod = 1 / F.bitesize
+	patron = patron_init
+	F.faretype = clamp(skill, 1, 5)
+	if(skill < 5 || patron.type != /datum/patron/divine/eora)
+		F.add_filter(BLESSED_FOOD_FILTER, 1, list("type" = "outline", "color" = "#ff00ff", "size" = 1))
+	else
+		F.add_filter(BLESSED_FOOD_FILTER, 1, list("type" = "outline", "color" = "#f0b000", "size" = 1))
+	RegisterSignal(F, COMSIG_FOOD_EATEN, .proc/on_food_eaten)
+
+/datum/component/blessed_food/proc/on_food_eaten(datum/source, mob/living/eater, mob/living/feeder)
+	SIGNAL_HANDLER
+	if(eater == caster)
+		eater.visible_message(span_notice("The divine energy fizzles harmlessly around [caster]."))
+		return
+
+	eater.apply_status_effect(/datum/status_effect/buff/healing, (quality + (skill / 5)) * bitesize_mod)
+	if(skill > 4 && patron.type == /datum/patron/divine/eora)
+		eater.apply_status_effect(/datum/status_effect/buff/haste, 15 SECONDS)
+
+/obj/effect/proc_holder/spell/invoked/bless_food
+	name = "Bless Food"
+	invocations = list("Eora, nourish this offering!")
+	desc = "Bless a food item. Items that take longer to eat heal slower. Skilled clergy can bless food more often. Finer food heals more. Eoran masters can make food a golden hue."
+	sound = 'sound/magic/magnet.ogg'
+	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
+	devotion_cost = 25
+	recharge_time = 90 SECONDS
+	overlay_state = "bread"
+	associated_skill = /datum/skill/magic/holy
+	var/base_recharge_time = 90 SECONDS
+
+/obj/effect/proc_holder/spell/invoked/bless_food/cast(list/targets, mob/living/user)
+	var/obj/item/target = targets[1]
+	if(!istype(target, /obj/item/reagent_containers/food/snacks))
+		to_chat(user, span_warning("You can only bless food!"))
+		revert_cast()
+		return FALSE
+
+	var/holy_skill = user.get_skill_level(associated_skill)
+	var/mob/living/carbon/human/H = user
+	var/patron = FALSE
+	if(ishuman(H))
+		patron = user.patron
+	target.AddComponent(/datum/component/blessed_food, user, holy_skill, patron)
+	to_chat(user, span_notice("You bless [target] with Eora's love!"))
+	return TRUE
+
+/obj/effect/proc_holder/spell/invoked/bless_food/start_recharge()
+	if(ranged_ability_user)
+		var/holy_skill = ranged_ability_user.get_skill_level(associated_skill)
+		// Reduce recharge by 6 seconds per skill level
+		var/skill_reduction = (6 SECONDS) * holy_skill
+		recharge_time = base_recharge_time - skill_reduction
+		// Ensure recharge doesn't go below 0
+		if(recharge_time < 0)
+			recharge_time = 0
+	else
+		recharge_time = base_recharge_time
+
+	last_process_time = world.time
+	START_PROCESSING(SSfastprocess, src)
+
+
+/obj/item/clothing/head/peaceflower//Eora content from Stonekeep
 	name = "eoran bud"
 	desc = "A flower of gentle petals, associated with Eora or Necra. Usually adorned as a headress or laid at graves as a symbol of love or peace."
 	icon = 'icons/roguetown/items/produce.dmi'
@@ -331,88 +500,6 @@
 
 /datum/status_effect/eora_bond/on_remove()
 	owner.remove_filter(HEARTWEAVE_FILTER)
-
-#define BLESSED_FOOD_FILTER "blessedfood"
-
-/datum/component/blessed_food
-	dupe_mode = COMPONENT_DUPE_UNIQUE
-	var/mob/living/caster
-	var/quality
-	var/skill
-	var/bitesize_mod
-	// I hate this but let's be consistent.
-	var/datum/patron/patron
-
-/datum/component/blessed_food/Initialize(mob/living/_caster, var/holy_skill, var/patron_init)
-	if(!isitem(parent) || !istype(parent, /obj/item/reagent_containers/food/snacks))
-		return COMPONENT_INCOMPATIBLE
-
-	caster = _caster
-	skill = holy_skill
-	var/obj/item/reagent_containers/food/snacks/F = parent
-	//Better food being blessed heals more
-	quality = F.faretype
-	bitesize_mod = 1 / F.bitesize
-	patron = patron_init
-	F.faretype = clamp(skill, 1, 5)
-	if(skill < 5 || patron.type != /datum/patron/divine/eora)
-		F.add_filter(BLESSED_FOOD_FILTER, 1, list("type" = "outline", "color" = "#ff00ff", "size" = 1))
-	else
-		F.add_filter(BLESSED_FOOD_FILTER, 1, list("type" = "outline", "color" = "#f0b000", "size" = 1))
-	RegisterSignal(F, COMSIG_FOOD_EATEN, .proc/on_food_eaten)
-
-/datum/component/blessed_food/proc/on_food_eaten(datum/source, mob/living/eater, mob/living/feeder)
-	SIGNAL_HANDLER
-	if(eater == caster)
-		eater.visible_message(span_notice("The divine energy fizzles harmlessly around [caster]."))
-		return
-
-	eater.apply_status_effect(/datum/status_effect/buff/healing, (quality + (skill / 5)) * bitesize_mod)
-	if(skill > 4 && patron.type == /datum/patron/divine/eora)
-		eater.apply_status_effect(/datum/status_effect/buff/haste, 15 SECONDS)
-
-/obj/effect/proc_holder/spell/invoked/bless_food
-	name = "Bless Food"
-	invocations = list("Eora, nourish this offering!")
-	desc = "Bless a food item. Items that take longer to eat heal slower. Skilled clergy can bless food more often. Finer food heals more. Eoran masters can make food a golden hue."
-	sound = 'sound/magic/magnet.ogg'
-	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
-	devotion_cost = 25
-	recharge_time = 90 SECONDS
-	overlay_state = "bread"
-	associated_skill = /datum/skill/magic/holy
-	var/base_recharge_time = 90 SECONDS
-
-/obj/effect/proc_holder/spell/invoked/bless_food/cast(list/targets, mob/living/user)
-	var/obj/item/target = targets[1]
-	if(!istype(target, /obj/item/reagent_containers/food/snacks))
-		to_chat(user, span_warning("You can only bless food!"))
-		revert_cast()
-		return FALSE
-
-	var/holy_skill = user.get_skill_level(associated_skill)
-	var/mob/living/carbon/human/H = user
-	var/patron = FALSE
-	if(ishuman(H))
-		patron = user.patron
-	target.AddComponent(/datum/component/blessed_food, user, holy_skill, patron)
-	to_chat(user, span_notice("You bless [target] with Eora's love!"))
-	return TRUE
-
-/obj/effect/proc_holder/spell/invoked/bless_food/start_recharge()
-	if(ranged_ability_user)
-		var/holy_skill = ranged_ability_user.get_skill_level(associated_skill)
-		// Reduce recharge by 6 seconds per skill level
-		var/skill_reduction = (6 SECONDS) * holy_skill
-		recharge_time = base_recharge_time - skill_reduction
-		// Ensure recharge doesn't go below 0
-		if(recharge_time < 0)
-			recharge_time = 0
-	else
-		recharge_time = base_recharge_time
-
-	last_process_time = world.time
-	START_PROCESSING(SSfastprocess, src)
 
 /obj/effect/proc_holder/spell/invoked/pomegranate
 	name = "Amaranth Sanctuary"
@@ -1036,87 +1123,8 @@
 #undef MATURING
 #undef FRUITING
 
-//Remove their ability to feel bad, restore a small amount of hunger / thirst
-/obj/effect/proc_holder/spell/invoked/eora_blessing
-	name = "Eora's Blessing"
-	desc = "Bestow a person with Eora's calm, if only for a little while. Restores their mood, as well as a tinge of hunger and thirst."
-	sound = 'sound/magic/eora_bless.ogg'
-	devotion_cost = 80
-	recharge_time = 5 MINUTES
-	miracle = TRUE
-	invocation_type = "shout"
-	invocations = list("Let the beauty of lyfe fill you whole.")
-	overlay_state = "eora_bless"
-	associated_skill = /datum/skill/magic/holy
-
-/obj/effect/proc_holder/spell/invoked/eora_blessing/cast(list/targets, mob/living/user)
-	if(ishuman(targets[1]))
-		var/mob/living/L = targets[1]
-		var/assocskill = user.get_skill_level(associated_skill)
-		L.apply_status_effect(/datum/status_effect/eora_blessing, assocskill)
-		return TRUE
-	revert_cast()
-	return FALSE
-
-/datum/status_effect/eora_blessing
-	id = "eora_bless"
-	duration = 1 MINUTES
-	alert_type = /atom/movable/screen/alert/status_effect/buff/eora_blessing
-
-/datum/status_effect/eora_blessing/on_creation(mob/living/new_owner/, assocskill)
-
-	if(assocskill)
-		// I asked the antichrist (gpt) to help me figure out why a bug was happening w/ this.
-		// Apparently BYOND explodes if you, like, do duration *= something.
-		duration = assocskill * 1 MINUTES
-
-	// Call parent here. We need owner to exist for the rest of the proc.
-	// Free. I am so sorry I used AI for this. Itsk illing me. This code is killing me.
-	. = ..()
-
-	var/mob/living/carbon/human/H = owner
-
-	// Attempted to rework it into more of a formula that's awesome and cool, but its hard to get numbers down..
-	// Maint, if you're reading this, pls give better ideas for formula.
-
-	/* Adjust nutrition based on skill
-	// As odd as these numbers are, its like, exponential, or quadaratic or some shit.
-	// I forgot the word. Anyhow-- acolytes can work together and boost a guy up pretty well, or recast and get
-	// someone out of starvation even with no food, though they'll have to make sure they dont exert themselves.
-	// AS this is recastable, and a secondary effect, its kinda eh.
-	*/
-	
-	// EXPECTED RANGE FOR FORMULA: 102 -> 172 (DEVOTEE TO LEGENDARY)
-	H.adjust_nutrition(100 + ((assocskill * assocskill)*2))
-	// Adjust hydration based on skill
-	// Same as above, but adjusts thirst. 
-	H.adjust_hydration(100 + ((assocskill * assocskill)*2))
 
 
-	// Apply stress effects
-	if(assocskill > SKILL_LEVEL_APPRENTICE)
-		H.add_stress(/datum/stressevent/eoran_blessing_greater)
-	else
-		H.add_stress(/datum/stressevent/eoran_blessing)
-
-	H.update_stress()
-
-/datum/status_effect/eora_blessing/on_apply()
-	. = ..()
-
-	// Add trait
-	ADD_TRAIT(owner, TRAIT_EORAN_SERENE, TRAIT_GENERIC)  //Generic origin so other Eorans do not have their innate traits overridden (they use TRAIT_MIRACLE)
-
-
-/datum/status_effect/eora_blessing/on_remove()
-	REMOVE_TRAIT(owner, TRAIT_EORAN_SERENE, TRAIT_GENERIC)
-	owner.update_stress()
-	return ..()
-
-/atom/movable/screen/alert/status_effect/buff/eora_blessing
-	name = "Eora's Calm"
-	desc = "A refreshing calm. All your troubles have washed away. Why can't it always be like this?"
-	icon_state = "eora_bless"
 
 #undef HEARTWEAVE_FILTER
 #undef BLESSED_FOOD_FILTER
