@@ -75,6 +75,9 @@
 	var/spell_impact_intensity = SPELL_IMPACT_NONE
 	/// If true, the spell can be refunded. Set by learnspell when learned.
 	var/refundable = FALSE
+	/// Aspect type path this spell was granted by, if any. Used by the aspect picker
+	/// to attribute pointbuy spells back to their source aspect for budget accounting.
+	var/source_aspect
 	/// If this spell is evil and can only be learned by heretics.
 	var/zizo_spell = FALSE
 	/// Damage value shown in spell examine. For non-projectile spells that want to display damage.
