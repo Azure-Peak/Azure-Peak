@@ -174,3 +174,33 @@
 			qdel(I)
 			return
 	return ..()
+
+/obj/item/reagent_containers/food/snacks/rogue/griddledog_uncooked
+	name = "wiener on a stick"
+	desc = "Delicious flesh stuffed in a intestine casing, impaled onto a stick, enjoyed both at circuses and on the march by Grenzelhoft soldiers."
+	icon = 'modular/Neu_Food/icons/raw/raw_deep_fried.dmi'
+	icon_state = "griddledog_step1"
+	faretype = FARE_NEUTRAL
+	bonus_reagents = list(/datum/reagent/consumable/nutriment = SNACK_DECENT)
+	tastes = list("tender wiener" = 1)
+	process_step = 1
+	cooked_smell = /datum/pollutant/food/fried_sausage
+	rotprocess = SHELFLIFE_EXTREME
+
+/obj/item/reagent_containers/food/snacks/rogue/wienerstick/attackby(obj/item/I, mob/living/user, params)
+	update_cooktime(user)
+	if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/griddle_uncooked))
+		if(process_step != 1)
+			return
+		to_chat(user, span_notice("Wrapping dough around the sausage."))
+		if(do_after(user, short_cooktime, target = src))
+			playsound(get_turf(user), 'sound/foley/dropsound/food_drop.ogg', 40, TRUE, -1)
+			name = "uncooked griddledog"
+			desc = "The sausage is still delicious, it's just covered with eggy dough now. It awaits a hot oil bath."
+			icon_state = "griddledog_step2"
+			process_step = 2
+			deep_fried_type = /obj/item/reagent_containers/food/snacks/rogue/meat/griddledog
+			update_icon()
+			qdel(I)
+			return
+	return ..()

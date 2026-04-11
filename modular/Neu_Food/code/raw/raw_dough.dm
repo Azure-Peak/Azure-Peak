@@ -1305,7 +1305,7 @@
 	name = "griddle dough"
 	desc = "A flat eggy mess of batter dough, desperate to be thrown onto a pan."
 	icon = 'modular/Neu_Food/icons/raw/raw_dough.dmi'
-	icon_state = "griddle_raw"
+	icon_state = "griddle_uncooked"
 	slices_num = null
 	slice_batch = FALSE
 	slice_path = null
@@ -1389,7 +1389,7 @@
 	name = "lemongriddle dough"
 	desc = "A flat eggy mess of lemon-specked batter dough, desperate to be thrown onto a pan."
 	icon = 'modular/Neu_Food/icons/raw/raw_dough.dmi'
-	icon_state = "griddlelemon_raw"
+	icon_state = "griddlelemon_uncooked"
 	slices_num = null
 	slice_batch = FALSE
 	slice_path = null
@@ -1401,7 +1401,7 @@
 	name = "berrygriddle dough"
 	desc = "A flat eggy mess of berry-specked batter dough, desperate to be thrown onto a pan."
 	icon = 'modular/Neu_Food/icons/raw/raw_dough.dmi'
-	icon_state = "griddleberry_raw"
+	icon_state = "griddleberry_uncooked"
 	slices_num = null
 	slice_batch = FALSE
 	slice_path = null
@@ -1413,7 +1413,7 @@
 	name = "berrygriddle dough"
 	desc = "A flat eggy mess of berry-specked batter dough, desperate to be thrown onto a pan."
 	icon = 'modular/Neu_Food/icons/raw/raw_dough.dmi'
-	icon_state = "griddleberry_raw"
+	icon_state = "griddleberry_uncooked"
 	slices_num = null
 	slice_batch = FALSE
 	slice_path = null
@@ -1426,7 +1426,7 @@
 	name = "berrygriddle dough"
 	desc = "A flat eggy mess of apple-specked batter dough, desperate to be thrown onto a pan."
 	icon = 'modular/Neu_Food/icons/raw/raw_dough.dmi'
-	icon_state = "griddleapple_raw"
+	icon_state = "griddleapple_uncooked"
 	slices_num = null
 	slice_batch = FALSE
 	slice_path = null
