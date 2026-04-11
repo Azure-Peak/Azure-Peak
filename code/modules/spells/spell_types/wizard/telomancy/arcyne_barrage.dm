@@ -3,8 +3,8 @@
 /datum/action/cooldown/spell/projectile/arcyne_barrage
 	button_icon = 'icons/mob/actions/mage_telomancy.dmi'
 	name = "Arcyne Barrage"
-	desc = "The Ultimate Reason of a Telomancer - barrage a general direction with a barrage of ricocheting arcyne bolts for ten seconds. \
-	The bolts arrive in interleaved pulses. You can walk while channeling but you are greatly slowed down nor can you change your direction. \
+	desc = "The Ultimate Reason of a Telomancer - barrage a general direction with a barrage of arcyne bolts for ten seconds. \
+	The bolts arrive in interleaved pulses. You can walk while channeling but you are greatly slowed down and cannot change your direction. \
 	Being stunned, knocked down, or grabbed will break the channeling."
 	button_icon_state = "arcyne_barrage"
 	sound = 'sound/magic/vlightning.ogg'
@@ -28,7 +28,7 @@
 	charge_drain = 1
 	charge_slowdown = CHARGING_SLOWDOWN_MEDIUM
 	charge_sound = 'sound/magic/charging.ogg'
-	cooldown_time = 60 SECONDS
+	cooldown_time = 90 SECONDS
 
 	associated_skill = /datum/skill/magic/arcane
 	spell_tier = 4
@@ -152,13 +152,6 @@
 	npc_simple_damage_mult = 1.5
 	intdamfactor = BLUNT_DEFAULT_INT_DAMAGEFACTOR
 	hitsound = 'sound/combat/hits/blunt/shovel_hit2.ogg'
-	ricochets_max = 2 // For maximum chaos
-	ricochet_chance = 100
-	ricochet_auto_aim_angle = 30
-	ricochet_auto_aim_range = 4
-	ricochet_incidence_leeway = 40
-	ricochet_decay_chance = 1
-	ricochet_decay_damage = 0.8 // Lowered damage on bounce, however
 
 /obj/projectile/magic/arcyne_barrage_bolt/on_hit(target)
 	hitsound = pick('sound/combat/hits/blunt/shovel_hit.ogg', 'sound/combat/hits/blunt/shovel_hit2.ogg', 'sound/combat/hits/blunt/shovel_hit3.ogg')
