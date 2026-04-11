@@ -23,6 +23,7 @@
 	var/advjob_examine = TRUE
 
 /datum/migrant_role/proc/after_spawn(mob/living/carbon/human/character)
+	character.job_path = src.type // save the job's typepath
 	return
 
 /datum/migrant_role/pilgrim

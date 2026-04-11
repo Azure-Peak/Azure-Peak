@@ -1,9 +1,4 @@
 
-//////////////////////////////////////////////////////
-//////////////////////////////////////////////////////
-//////////////////////////////////////////////////////
-
-
 /obj/item/treaty
 	name = "treaty"
 	desc = "An aged scroll of parchment tightly bound by a ribbon. Across the ribbon, countless prayers to order are inscribed in a faded, crimson script. \
@@ -26,6 +21,7 @@
 	var/list/active_terms = list()		// written terms
 	var/list/warband_sources = list()	// treaties from certain warband & aspects can have unique terms
 	var/list/user_cooldowns = list()
+	var/list/job_titles = list()
 
 
 /obj/item/treaty/Initialize()
@@ -131,6 +127,10 @@
 		for(var/datum/treaty/terms/term in src.active_terms)
 			var/display_name = is_expert ? (term.custom_name ? term.custom_name : term.name) : "???" // characters without law expert can't read terms properly
 			var/display_desc = is_expert ? term.desc : term.hint
+			var/list/display_names = list()
+			if(islist(term.authorities))
+				for(var/authority_name in term.authorities)
+					display_names += get_display_name(authority_name)
 			UNTYPED_LIST_ADD(current_terms, list(
 				"name" = display_name,
 				"original_name" = term.name,
@@ -145,7 +145,7 @@
 				"receiver" = term.receiver,
 				"obj_target" = term.obj_target,
 				"open_signatures" = term.open_signatures,
-				"authorities" = term.authorities,
+				"authorities" = display_names,
 				"signatures" = term.signatures,
 				"minimum_signatures" = term.minimum_signatures,
 				"index" = i - 1
@@ -203,7 +203,7 @@
 				"desc" = faction.desc,
 				"territories" = territory_names,
 				"owner" = faction.owner,
-				"job_owner" = faction.job_owner,
+				"job_owner" = get_display_name(faction.job_owner),
 				"type" = faction.type,
 				"icon" = spritesheet.icon_class_name(sanitize_css_class_name("factionicon_[REF(faction)]"))			
 			))
@@ -228,13 +228,12 @@
 	return data
 /obj/item/treaty/ui_act(action, params, datum/tgui/ui, datum/ui_state/state)
 	. = ..()
-	var/mob/user = usr
+	var/mob/living/user = usr
 	var/user_key = user.ckey
 	if(user_cooldowns[user_key] && world.time < user_cooldowns[user_key])
 		return TRUE
 	user_cooldowns[user_key] = world.time + 10
 
-	var/user_role = user.job
 	var/user_name = user.real_name
 	var/has_feather = FALSE
 	if(istype(user.get_active_held_item(), /obj/item/natural/feather) || istype(user.get_inactive_held_item(), /obj/item/natural/feather))
@@ -255,11 +254,9 @@
 
 	// if a mind has a filled "original char" variable, they're an envoy of that character
 	// when signing terms, envoys use the authority of that mob instead of their own
-	var/original_role
 	var/original_name
 	if(user.mind?.original_char)
-		var/mob/original = user.mind.original_char
-		original_role = original.job
+		var/mob/living/original = user.mind.original_char
 		original_name = original.real_name
 
 	if(!has_feather)
@@ -290,11 +287,14 @@
 				else if(istext(term_to_sign.authorities))
 					auth_list = list(term_to_sign.authorities)
 
-				if(auth_list.Find(user_role))
-					is_authority = TRUE
-
-				if(!is_authority && original_role && auth_list.Find(original_role))
-					is_authority = TRUE
+				for(var/auth in auth_list)
+					if(ispath(auth))
+						if(ispath(user.job_path, auth))
+							is_authority = TRUE
+							break
+						if(!is_authority && ispath(user.mind?.original_char?.job_path, auth))
+							is_authority = TRUE
+							break
 				
 				if(!is_authority)
 					if(auth_list.Find("target")) // check if target matches the current name (or the original name, for envoys)
@@ -303,11 +303,11 @@
 						else
 							for(var/datum/territory_faction/faction in SSwarbands.territory_factions)
 								if(faction.name == term_to_sign.target)
-									if(istype(faction.owner, /mob) && faction.owner == user)
+									if(ismob(faction.owner) && faction.owner == user)
 										is_authority = TRUE
 									else if(faction.owner == user_name || (original_name && faction.owner == original_name))
 										is_authority = TRUE
-									else if(faction.job_owner == user_role || (original_role && faction.job_owner == original_role))
+									else if(ispath(faction.job_owner, user.job_path) || (user.mind?.original_char && ispath(faction.job_owner, user.mind.original_char.job_path)))
 										is_authority = TRUE
 									break
 					if(term_to_sign.target_options == 5)  // territory transfer authority
@@ -321,11 +321,11 @@
 												faction = F
 												break
 									if(faction)
-										if(istype(faction.owner, /mob) && faction.owner == user) 
+										if(ismob(faction.owner) && faction.owner == user) 
 											is_authority = TRUE
 										if(faction.owner == user_name || (original_name && faction.owner == original_name))
 											is_authority = TRUE
-										if(faction.job_owner == user_role || (original_role && faction.job_owner == original_role))
+										if(ispath(faction.job_owner, user.job_path) || (user.mind?.original_char && ispath(faction.job_owner, user.mind.original_char.job_path)))
 											is_authority = TRUE
 									break
 			if(is_authority)
@@ -471,52 +471,18 @@
 			term.signed = FALSE
 			term.signatures.Cut()
 
+/obj/item/treaty/proc/get_display_name(authority)
+	if(ispath(authority))
+		if(!(authority in job_titles))
+			if(ispath(authority, /datum/job))
+				job_titles[authority] = initial(authority:title)
 
-//////////////////////////////////////////////////////////////
-///////////////////////////////////////////////// VERIFY NAMES
-/*
-	makes sure that generated factions & territories will never have the exact same name
-	if they ever do, you'll start to see problems w/ownership
-*/
-/datum/territory_faction/proc/verify_faction_name(base_name, mob/user)
-    var/proposed_name = base_name
-    var/counter = 1
-    var/name_exists = TRUE
-    
-    while(name_exists)
-        name_exists = FALSE
-        for(var/datum/territory_faction/faction in SSwarbands.territory_factions)
-            if(faction.name == proposed_name)
-                name_exists = TRUE
-                break
-        
-        if(name_exists)
-            counter++
-            if(user && user.real_name)
-                proposed_name = "[user.real_name]'s [base_name] ([counter])"
-            else
-                proposed_name = "[base_name] ([counter])"
-    
-    return proposed_name
+			// migrant role datums aren't actually jobs for whatever reason despite being (almost) identical to them
+			else if(ispath(authority, /datum/migrant_role)) 
+				job_titles[authority] = initial(authority:name)
+		
+			else
+				job_titles[authority] = "[authority]"
 
-/datum/territory/proc/verify_territory_name(base_name, mob/user)
-    var/proposed_name = base_name
-    var/counter = 1
-    var/name_exists = TRUE
-    
-    while(name_exists)
-        name_exists = FALSE
-        for(var/datum/territory/land in SSwarbands.territory)
-            if(land.name == proposed_name)
-                name_exists = TRUE
-                break
-        
-        if(name_exists)
-            counter++
-            if(user && user.real_name)
-                proposed_name = "[user.real_name]'s [base_name] ([counter])"
-            else
-                proposed_name = "[base_name] ([counter])"
-    
-    return proposed_name
-
+		return job_titles[authority]
+	return authority

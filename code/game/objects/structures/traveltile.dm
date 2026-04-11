@@ -431,14 +431,14 @@
 		if(readycheck == "I AM READY")
 			if(chosen_landmark)
 				to_chat(user, span_warning("The Rot prevented a simple walk down Azuria's main road. This is the safest route from my Warcamp."))
-				to_chat(user, span_warning("In order to return, I must SCOUT A PATH (Warband Verb Tab)."))
+				to_chat(user, span_warning("Before I return, I'll need to SCOUT A PATH (Warband Verb Tab)."))
 				user.forceMove(src.chosen_landmark.loc)
-				user.loc = src.chosen_landmark.loc
 				user.visible_message(span_bold("[user] emerges from a hidden path!"))
 				return
 		return
-	
-	if(user.mind.warband_ID != src.warband_ID) // if they don't match the warband ID, we assume they rebelled VERY early into the round (for whatever reason) and just let them leave
+
+	// if they don't match the warband ID, we assume they rebelled VERY early into the round (for whatever reason) and just let them leave
+	if(user.mind.warband_ID != src.warband_ID || user.mind.special_role == "Grunt") // we'll let grunts leave too	
 		if(chosen_landmark)
 			user.forceMove(src.chosen_landmark.loc)
 			return
@@ -456,9 +456,9 @@
 				var/depth_choice = input(user, "How should the Envoy look?", "Envoy Creation") as anything in depth_options
 				switch(depth_choice)
 					if("Use a Character Slot")
-						linked_warband.use_character_appearance(user)
+						linked_warband.select_pref_slot(user)
 						var/mob/living/envoy = src.summon_envoy_traveltile(user, null, depth_choice)
-						linked_warband.create_character(user, envoy)
+						linked_warband.load_appearance(user, envoy)
 					if("Simple Envoy")
 						var/list/races = list("Humen","Half-Elf","Dwarf","Elf","Aasimar")
 						var/race_choice = input(user, "What species should they be?", "Envoy Creation") as anything in races

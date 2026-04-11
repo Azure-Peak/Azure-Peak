@@ -190,13 +190,11 @@
 /obj/item/clothing/head/roguetown/roguehood/ringleader
 	color = "#704542"
 
-
 /obj/item/clothing/head/roguetown/roguehood/ringleader/Initialize()
 	. = ..()
 	var/datum/component/adjustable_clothing/adjust_component = GetComponent(/datum/component/adjustable_clothing)
 	if(adjust_component)
 		adjust_component.toggle_open(src)
-
 
 /obj/item/storage/belt/rogue/leather/battleskirt/ringleader
 	color = "#704542"
@@ -204,8 +202,6 @@
 /obj/item/clothing/wrists/roguetown/bracers/copper/cultist
 	color = "#8a8a8a"
 	
-/////////////// expressly for NPCs
-
 /obj/item/clothing/head/roguetown/helmet/kettle/jingasa/npc
 	detail_color = CLOTHING_RED
 

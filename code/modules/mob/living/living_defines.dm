@@ -206,3 +206,5 @@
 	var/toggle_delay = 1 SECONDS
 	/// Toggle timer for Specials, or really anything else that you don't want input spam to instantly cycle through.
 	var/toggle_timer
+
+	var/job_path	// the latest job path a mob used. we don't want to rely on job strings for Treaties & Territories

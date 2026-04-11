@@ -301,7 +301,7 @@
 
 /datum/objective/warband/aspirant/standard
 	name = "Term"
-	explanation_text = "A single treaty term of my design must be fulfilled once."
+	explanation_text = "A single treaty term of my design must be fulfilled."
 
 /datum/objective/warband/aspirant/disorder
 	name = "Pragmatism"
@@ -309,7 +309,7 @@
 
 /datum/objective/warband/aspirant/order
 	name = "Order"
-	explanation_text = "If we are to succeed, order must be maintained. My Warband cannot have 3 or more Disorder."
+	explanation_text = "If we are to succeed, order must be maintained. My Warband cannot have 3 or more foreigners in its ranks."
 
 /datum/objective/warband/aspirant/wormtongue
 	name = "Dead Weight"

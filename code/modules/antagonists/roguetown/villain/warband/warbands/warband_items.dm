@@ -447,9 +447,9 @@
 						var/depth_choice = input(user, "How should they look?", "Warband Recruitment") as anything in depth_options
 						switch(depth_choice)
 							if("Use a Character Slot")
-								src.linked_warband.use_character_appearance(user)
+								src.linked_warband.select_pref_slot(user)
 								var/mob/living/envoy = summon_envoy(user, null, depth_choice)
-								src.linked_warband.create_character(user, envoy)
+								src.linked_warband.load_appearance(user, envoy)
 								src.linked_warband.spawns--
 							if("Simple Envoy")
 								var/list/races = list("Humen","Half-Elf","Dwarf","Elf","Aasimar")
@@ -597,9 +597,9 @@
 		if(location == "Warcamp (No Toll)")
 			to_chat(user, span_warning("I withdraw goods from my warchest."))
 		else if(location == "City Docks (High Toll)")
-			to_chat(user, span_notice("Import affirmed. It will arrive on the docks in around twelve minutes."))
+			to_chat(user, span_notice("Import affirmed. It will arrive on the docks in twelve minutes."))
 		else
-			to_chat(user, span_notice("Import affirmed. It shall arrive on the Groveside dock in around twelve minutes."))
+			to_chat(user, span_notice("Import affirmed. It shall arrive on the Groveside dock in twelve minutes."))
 	else
 		user_faction.vault += amount
 		to_chat(user, span_warning("Import failed. Funds have been returned to the vault."))

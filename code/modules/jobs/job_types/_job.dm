@@ -285,6 +285,8 @@
 
 	log_admin("[H.key]/([H.real_name]) has joined as [H.mind.assigned_role].")
 
+	H.job_path = src.type // save the job's typepath
+
 /client/verb/set_mugshot()
 	set category = "OOC"
 	set name = "Set Credits Mugshot"

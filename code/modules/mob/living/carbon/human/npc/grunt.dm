@@ -30,7 +30,7 @@
 	var/next_combat_process = 0
 
 	// when a grunt is equipped, we cache the type of any item that can be disarmed/dismembered from them (gloves, weapons etc)
-	// when they're recycled, we regenerate those items
+	// when they're recycled, we regenerate those items and only those items
 	var/saved_r_weapon
 	var/saved_l_weapon
 	var/saved_mask
@@ -124,13 +124,11 @@
 	. = ..()
 	last_moved_time = world.time
 
-
 /mob/living/carbon/human/species/human/northern/goon/handle_combat()
 	if(flee_in_pain && target && target.stat == CONSCIOUS)
 		if(health > maxHealth * 0.5) // only bother calculating complex pain if they're below half health.
 			flee_in_pain = FALSE
 	. = ..()
-
 
 /mob/living/carbon/human/species/human/northern/goon/process_ai()
 	if(mode == NPC_AI_HUNT) // we're also throttling combat processing as a whole
@@ -138,7 +136,6 @@
 			return
 		next_combat_process = world.time + rand(12, 19)
 	. = ..()
-
 
 /mob/living/carbon/human/species/human/northern/goon/clear_path()
 	walk(src, 0)
@@ -301,7 +298,6 @@
 	if(saved_gloves	&& !istype(gloves,		saved_gloves))	equip_to_slot_or_del(new saved_gloves(),	SLOT_GLOVES)
 	if(saved_shoes	&& !istype(shoes,		saved_shoes))	equip_to_slot_or_del(new saved_shoes(),		SLOT_SHOES)
 
-
 /mob/living/carbon/human/species/human/northern/goon/after_creation()
 	..()
 	job = "Goon"
@@ -313,7 +309,6 @@
 	ADD_TRAIT(src, TRAIT_STUCKITEMS, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
 	equipOutfit(new /datum/outfit/job/roguetown/human/species/human/northern/goon/base_grunt_stats)
-
 
 /mob/living/carbon/human/species/human/northern/goon/proc/equip_for_warband()
 	if(!warband)
@@ -504,7 +499,6 @@
 		else
 			l_hand = /obj/item/rogueweapon/mace/woodclub/crafted
 
-
 /datum/outfit/job/roguetown/human/species/human/northern/goon/layman/pre_equip(mob/living/carbon/human/species/human/northern/goon/H)
 	r_hand = /obj/item/rogueweapon/mace/goden/steel
 	cloak = /obj/item/clothing/cloak/thrall
@@ -518,7 +512,6 @@
 	neck = /obj/item/clothing/neck/roguetown/bevor/iron/layman
 	gloves = /obj/item/clothing/gloves/roguetown/plate/iron/layman
 	shoes = /obj/item/clothing/shoes/roguetown/sandals
-
 
 /datum/outfit/job/roguetown/human/species/human/northern/goon/cultist/pre_equip(mob/living/carbon/human/species/human/northern/goon/H)
 	subtype = H.subtype
@@ -537,7 +530,6 @@
 		mask = /obj/item/clothing/mask/rogue/sack/psy
 	else
 		mask = /obj/item/clothing/mask/rogue/sack
-
 
 /datum/outfit/job/roguetown/human/species/human/northern/goon/mercenary/pre_equip(mob/living/carbon/human/species/human/northern/goon/H)
 	subtype = H.subtype

@@ -347,7 +347,7 @@
 		return
 
 	// target is a location
-	// grunts charge the target location
+	// grunts move towards the target location while scanning for enemies
 	else
 		var/turf/target_loc = get_turf(target)
 		if(target_loc)
@@ -488,7 +488,7 @@
 				if("charge")
 					if(manager)
 						manager.disband_squad()
-					grunt.mode = NPC_AI_HUNT
+					grunt.back_to_idle()
 					grunt.start_pathing_to(target_location, force = TRUE)
 					msg = "<span style='color:#ec3333'>charge.</span>"
 					grunt.target = null
@@ -524,7 +524,6 @@
 					cooldown = TRUE
 					grunt.apply_status_effect(/datum/status_effect/buff/warband_defend)
 					msg = "<span style='color:#ea76d9'>hold fast.</span>"
-
 
 	if(count>0)
 		to_chat(caster, "I've ordered [count] grunts to " + msg)

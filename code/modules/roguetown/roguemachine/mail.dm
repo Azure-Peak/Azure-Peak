@@ -559,10 +559,10 @@
 				finalize_import_writ_payment(writ, get_turf(src))
 			
 			if(findtext(writ.import_location, "City Docks"))
-				say("Import affirmed. It will arrive on our docks in around twelve minutes.")
+				say("Import affirmed. It will arrive on our docks in twelve minutes.")
 				to_chat(usr, span_warning("The Basin's waters are not to be traversed lightly. I should expect a heavy toll upon my import."))
 			else if(findtext(writ.import_location, "Groveside"))
-				say("Import affirmed. It shall arrive on the Groveside dock in around twelve minutes. Seek the northern coastline.")
+				say("Import affirmed. It shall arrive on the Groveside dock in twelve minutes. Seek the northern coastline.")
 			qdel(writ)
 			return
 	

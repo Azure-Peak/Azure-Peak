@@ -28,21 +28,21 @@
 //////////////////////////
 /datum/treaty/terms/codify_law
 	name = "Codify Law"
-	authorities = list("Grand Duke")
+	authorities = list(/datum/job/roguetown/lord)
 	desc = "A codified law cannot be removed."
 	hint = "...something about codifying a law..."
 	requires_text = TRUE
 
 /datum/treaty/terms/remove_law
 	name = "Abolish Law"
-	authorities = list("Grand Duke", "Hand", "Marshal") // this can easily be reversed, so there's no real harm in letting the Hand & Marshal sign for it too
+	authorities = list(/datum/job/roguetown/lord, /datum/job/roguetown/hand, /datum/job/roguetown/marshal) // this can easily be reversed, so there's no real harm in letting the Hand & Marshal sign for it too
 	desc = "An abolished law will be erased."
 	hint = "...something about abolishing a law..."
 	requires_number = TRUE
 
 /datum/treaty/terms/freeze_laws
 	name = "Freeze Laws"
-	authorities = list("Grand Duke")
+	authorities = list(/datum/job/roguetown/lord)
 	desc = "No law can be instated or erased for the forseeable future."
 	hint = "...something about something else getting frozen..."
 
@@ -51,28 +51,28 @@
 /datum/treaty/terms/set_tax/noble
 	name = "Adjust Noble Tax"
 	desc = "A tax rate established here shall remain for yils."
-	authorities = list("Grand Duke")
+	authorities = list(/datum/job/roguetown/lord)
 	hint = "...something about taxes and the Nobility..."
 	requires_number = TRUE
 
 /datum/treaty/terms/set_tax/yeoman
 	name = "Adjust Yeoman Tax"
 	desc = "A tax rate established here shall remain for yils."
-	authorities = list("Grand Duke")
+	authorities = list(/datum/job/roguetown/lord)
 	hint = "...something about Yeomen and taxes..."
 	requires_number = TRUE
 
 /datum/treaty/terms/set_tax/peasant
 	name = "Adjust Peasantry Tax"
 	desc = "A tax rate established here shall remain for yils."
-	authorities = list("Grand Duke")
+	authorities = list(/datum/job/roguetown/lord)
 	hint = "...something about the peasantry's tax rate..."
 	requires_number = TRUE
-
+ 
 /datum/treaty/terms/set_tax/church
 	name = "Adjust Church Tax"
 	desc = "A tax rate established here shall remain for yils."
-	authorities = list("Grand Duke", "Bishop")
+	authorities = list(/datum/job/roguetown/lord, /datum/job/roguetown/priest)
 	hint = "...something about taxes and the Church..."
 	requires_number = TRUE
 
@@ -97,7 +97,7 @@
 ///////////////////////////
 /datum/treaty/terms/exile
 	name = "Exile"
-	authorities = list("target", "Bishop", "Grand Duke")
+	authorities = list("target", /datum/job/roguetown/priest, /datum/job/roguetown/lord)
 	desc = "Should daelight find the Exile within the city limits, they'll be lit ablaze."
 	hint = "...something regarding someone's exile..."
 	minimum_signatures = 2
@@ -116,7 +116,7 @@
 	name = "Acknowledge Superior Wizard"
 	desc = "Admit the arcane superiority of the SORCERER-KING, henceforth and forever."
 	warbandlock = /datum/warbands/storyteller/wizard
-	authorities = list("Court Magician")
+	authorities = list(/datum/job/roguetown/magician)
 	hint = "...every other sentence is about how magnificent some wizard is.."
 
 //////////////////////////////////////////////////////

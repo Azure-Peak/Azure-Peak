@@ -333,6 +333,8 @@
 
 /turf/open/water/get_slowdown(mob/user)
 	var/returned = slowdown
+	if(!ismob(user)) // early bailout for things like spawn_objective(), otherwise we runtime like crazy
+		return max(., 0)
 	if(ishuman(user))
 		var/mob/living/carbon/human/H = user
 		var/ac = H.highest_ac_worn()

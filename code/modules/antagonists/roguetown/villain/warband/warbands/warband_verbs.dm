@@ -684,7 +684,7 @@
 ///////////////////////////////////////////////////////////
 ///////////////////////////////////////////////// ENLIGHTEN
 /* 7
-	allows the Prophet to grant enlightenment to another character
+	allows the Prophet to grant "enlightenment" to another character
 	converts them to the Prophet's patron and grants T4 Cleric powers
 	cannot convert characters who already have devotion
 
@@ -747,10 +747,10 @@
 		return FALSE
 
 	src.visible_message(span_boldwarning("[src] presses their palm against [chosen_target]'s face."))
-	apply_shared_enlightenment(chosen_target)
+	apply_enlightenment(chosen_target)
 	return TRUE
 
-/mob/living/carbon/human/proc/apply_shared_enlightenment(mob/living/carbon/human/target)
+/mob/living/carbon/human/proc/apply_enlightenment(mob/living/carbon/human/target)
 	to_chat(target, span_userdanger("Truth floods through me!"))
 	target.visible_message(span_warning("[target] convulses!"))
 	target.electrocute_act(0, src)

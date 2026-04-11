@@ -455,6 +455,9 @@
 	. = ..()
 	var/negate_slowdown = FALSE
 
+	if(!ismob(user)) // early bailout for things like spawn_objective(), otherwise we runtime like crazy
+		return max(., 0)
+
 	for(var/obj/item/stick in user.held_items)
 		if(stick.walking_stick && !stick.wielded && !user.cmode)
 			negate_slowdown = TRUE

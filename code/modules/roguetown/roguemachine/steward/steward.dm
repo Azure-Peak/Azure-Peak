@@ -567,7 +567,8 @@
 				if(other_territory.associated_faction)
 					var/datum/territory_faction/faction = other_territory.associated_faction
 					if(faction.job_owner)
-						contents += "Owner: [faction.job_owner]<br>"
+						var/owner_title = ispath(faction.job_owner, /datum/job) ? initial(faction.job_owner:title) : initial(faction.job_owner:name)
+						contents += "Owner: [owner_title]<br>"
 					if(faction.owner)
 						contents += "Owner: [faction.owner]<br>"
 				contents += "<BR>"
