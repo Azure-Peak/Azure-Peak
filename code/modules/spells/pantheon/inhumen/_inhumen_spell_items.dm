@@ -69,6 +69,10 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 	var/list/ingredient_colors = list()
 	var/result_path = null
 
+/obj/item/matthios_canister/Initialize()
+	. = ..()
+	update_icon()
+
 /obj/item/matthios_canister/examine(mob/user)
 	. = ..()
 
@@ -272,7 +276,7 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 		alch_transform(user)
 
 /obj/item/alchserum/matthios_lyfestruth
-	name = "canister of lyfestruth"
+	name = "vial of lyfestruth"
 	desc = "A radiant vial containing a volatile mixture. The liquid within churns with molten intensity, casting a searing orange-gold glow that flickers against its glass prison. It seems extremely volatile."
 	icon = 'icons/obj/structures/heart_items.dmi'
 	icon_state = "canister_empty"
@@ -339,6 +343,410 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 			M.throw_at(throw_target, 4, 2)
 
 	qdel(src)
+
+////////////////////
+//Vial of Firstlaw//
+//The core of Malchemy, harsher than the real deal. If you fail to produce the good, you lose all the ingredients.
+
+/obj/item/matthios_canister/firstlaw
+	name = "vial of firstlaw"
+	desc = "A suffocating pressure coils within the glass, as though something immense has been forced into too small a space. The contents do not slosh nor settle... they weigh upon reality itself."
+	current_color = "#e100ff"
+	aura_color = "#ff00b3"
+
+	var/stone_progress = 0
+	var/current_choice = null
+
+	required_ingredients = list(
+		/obj/item/natural/dirtclod,
+		/obj/item/natural/clay,
+		/obj/item/natural/stone,
+		/obj/item/rogueore/coal,
+		/obj/item/rogueore/iron,
+		/obj/item/rogueore/gold,
+		/obj/item/roguegem/yellow,
+		/obj/item/roguegem/green,
+		/obj/item/roguegem/violet,
+		/obj/item/roguegem/blue,
+		/obj/item/roguegem/diamond,
+	)
+
+/obj/item/matthios_canister/firstlaw/freeman_truth()
+	return "All things bend to the First Law. Equivalent exchange is not a rule, it is the only truth. To hold it is to feel a principle enforced: nothing is gained, nothing is lost, only exchanged."
+
+/obj/item/matthios_canister/firstlaw/freeman_progress(mob/user)
+	return "Stored Value: [stone_progress] stone\nChoice: [current_choice ? current_choice : "NONE"]"
+
+/obj/item/matthios_canister/firstlaw/proc/get_stone_value(obj/item/I)
+	if(istype(I, /obj/item/natural/dirtclod)) return 1
+	if(istype(I, /obj/item/natural/clay)) return 1
+	if(istype(I, /obj/item/natural/stone)) return 1
+	if(istype(I, /obj/item/rogueore/coal)) return 4
+	if(istype(I, /obj/item/rogueore/iron)) return 8
+	if(istype(I, /obj/item/rogueore/gold)) return 32
+	if(istype(I, /obj/item/roguegem/yellow)) return 65
+	if(istype(I, /obj/item/roguegem/green)) return 129
+	if(istype(I, /obj/item/roguegem/violet)) return 193
+	if(istype(I, /obj/item/roguegem/blue)) return 257
+	if(istype(I, /obj/item/roguegem/diamond)) return 578
+	if(istype(I, /obj/item/riddleofsteel)) return 1184
+	return 0
+
+/obj/item/matthios_canister/firstlaw/proc/get_cost(choice)
+	switch(choice)
+		if("Dirt") return 0
+		if("Clay") return 1
+		if("Stone") return 1
+		if("Mortar & Pestle") return 2
+		if("Coal") return 4
+		if("Iron") return 8
+		if("Alchemy Station") return 10
+		if("Cauldron") return 16
+		if("Firstlaw Extract") return 18
+		if("Gold") return 32
+		if("Toper") return 65
+		if("Gemerald") return 129
+		if("Saffira") return 193
+		if("Blortz") return 257
+		if("Dorpel") return 578
+		if("Riddle of Steel") return 1184
+
+/obj/item/matthios_canister/firstlaw/proc/get_requirement(choice)
+	switch(choice)
+		if("Mortar & Pestle","Alchemy Station","Cauldron","Dirt","Clay","Stone") return SKILL_LEVEL_NONE
+		if("Firstlaw Extract","Coal","Iron") return SKILL_LEVEL_JOURNEYMAN
+		if("Gold","Toper","Gemerald","Saffira","Blortz") return SKILL_LEVEL_EXPERT
+		if("Dorpel","Riddle of Steel") return SKILL_LEVEL_MASTER
+
+/obj/item/matthios_canister/firstlaw/attackby(obj/item/I, mob/user)
+	if(!HAS_TRAIT(user, TRAIT_MATTHIOS_EYES))
+		to_chat(user, span_warning("The principle escapes me. This is nonsense and heresy."))
+		return TRUE
+
+	var/valid = FALSE
+	for(var/T in required_ingredients)
+		if(istype(I, T))
+			valid = TRUE
+			break
+
+	if(!valid)
+		return TRUE
+
+	if(do_after(user, 1 SECONDS))
+		var/value = get_stone_value(I)
+		stone_progress += value
+		to_chat(user, span_warning("[I] disintegrates into a refined dust...<br>(Current Value: [stone_progress])"))
+		playsound(user.loc,'sound/misc/smelter_sound.ogg', 50, FALSE)
+		qdel(I)
+		update_icon()
+
+	return TRUE
+
+/obj/item/matthios_canister/firstlaw/proc/process_stone_batch(mob/user, turf/T)
+	var/level = user.get_skill_level(/datum/skill/magic/holy)
+	var/batch_size = 2 + 2 * level
+
+	var/found_any = FALSE
+	for(var/obj/item/natural/stone/S in T)
+		found_any = TRUE
+		break
+
+	if(!found_any)
+		return FALSE
+
+	var/processed_any = FALSE
+
+	while(TRUE)
+		var/list/batch = list()
+
+		for(var/obj/item/natural/stone/S in T)
+			batch += S
+			if(batch.len >= batch_size)
+				break
+
+		if(!batch.len)
+			break
+
+		if(!do_after(user, 1 SECONDS, target = user))
+			break
+
+		for(var/obj/item/natural/stone/S in batch)
+			if(QDELETED(S))
+				continue
+			stone_progress += 1
+			qdel(S)
+			processed_any = TRUE
+
+		playsound(user.loc, 'sound/misc/smelter_sound.ogg', 25, FALSE)
+
+	if(processed_any)
+		to_chat(user, span_warning("You gather the stones together, dissolving them into a pile of fine dust.<br>(Current Value: [stone_progress])"))
+		update_icon()
+
+	return processed_any
+
+/obj/item/matthios_canister/firstlaw/afterattack(atom/target, mob/user, proximity_flag, click_parameters)
+	if(!proximity_flag) return
+	if(!HAS_TRAIT(user, TRAIT_MATTHIOS_EYES)) return
+
+	if(istype(target, /obj/item/natural/stone))
+		var/obj/item/natural/stone/S = target
+		if(do_after(user, 0.5 SECONDS, target = user))
+			stone_progress += 1
+			qdel(S)
+			playsound(user.loc,'sound/misc/smelter_sound.ogg', 50, FALSE)
+			to_chat(user, span_warning("The stone crumbles into dust.<br>(Current Value: [stone_progress])"))
+			update_icon()
+		return
+
+	if(istype(target, /obj/item/natural/rock))
+		var/obj/item/natural/rock/R = target
+		if(do_after(user, 2 SECONDS, target = user))
+			var/gain = rand(1,4)
+			stone_progress += gain
+
+			if(prob(4))
+				var/list/ores = list(
+					/obj/item/natural/stone,
+					/obj/item/rogueore/coal,
+					/obj/item/rogueore/iron,
+					/obj/item/rogueore/gold,
+					/obj/item/roguegem/blue,
+					/obj/item/roguegem/yellow,
+					/obj/item/roguegem/green,
+					/obj/item/roguegem/violet,
+					/obj/item/roguegem/diamond
+				)
+				var/typepath = pick(ores)
+				var/bonus = get_stone_value(new typepath)
+				stone_progress += bonus
+
+			qdel(R)
+			playsound(user.loc,'sound/misc/smelter_sound.ogg', 50, FALSE)
+			to_chat(user, span_warning("The boulder is reduced to dust.<br>(Current Value: [stone_progress])"))
+			update_icon()
+		return
+
+	if(isturf(target))
+		var/turf/T = target
+		process_stone_batch(user, T)
+
+/obj/item/matthios_canister/firstlaw/attack_self(mob/user)
+	if(!HAS_TRAIT(user, TRAIT_MATTHIOS_EYES))
+		to_chat(user, span_warning("This is heresy beyond me."))
+		return
+
+	var/list/options_map = list(
+		"Mortar & Pestle" = list(/obj/item/reagent_containers/glass/mortar, /obj/item/pestle),
+		"Cauldron" = /obj/machinery/light/rogue/cauldron,
+		"Alchemy Station" = /obj/structure/fluff/alch,
+		"Firstlaw Extract" = /obj/item/alchserum/matthios_insight,
+		"Dirt" = /obj/item/natural/dirtclod,
+		"Clay" = /obj/item/natural/clay,
+		"Stone" = /obj/item/natural/stone,
+		"Coal" = /obj/item/rogueore/coal,
+		"Iron" = /obj/item/rogueore/iron,
+		"Gold" = /obj/item/rogueore/gold,
+		"Toper" = /obj/item/roguegem/yellow,
+		"Gemerald" = /obj/item/roguegem/green,
+		"Saffira" = /obj/item/roguegem/violet,
+		"Blortz" = /obj/item/roguegem/blue,
+		"Dorpel" = /obj/item/roguegem/diamond,
+		"Riddle of Steel" = /obj/item/riddleofsteel
+	)
+
+	var/level = user.get_skill_level(/datum/skill/magic/holy)
+
+	if(current_choice)
+		var/cost = get_cost(current_choice)
+		var/remaining = max(cost - stone_progress, 0)
+
+		var/finalize_text = (stone_progress >= cost) ? "Finalize Exchange (Ready!)" : "Finalize Exchange ([remaining] left.)"
+		var/redirect_text = "Redirect Law"
+		var/refund_text = "Refund Stones (75%)"
+		var/nevermind_text = "Nevermind"
+
+		var/list/choices = list(finalize_text, redirect_text, refund_text, nevermind_text)
+
+		var/decision = input(user, "The Law is in motion.", "First Law") as null|anything in choices
+		if(!decision || decision == nevermind_text)
+			return
+
+		if(decision == refund_text)
+			var/refund_amt = round(stone_progress * 0.75)
+			for(var/i in 1 to refund_amt)
+				new /obj/item/natural/stone(get_turf(src))
+
+			stone_progress = 0
+			current_choice = null
+			to_chat(user, span_warning("The Law unravels. Most is returned."))
+			update_icon()
+			return
+
+		if(decision == redirect_text)
+			var/list/display = list()
+			var/list/lookup = list()
+
+			for(var/K in options_map)
+				var/c = get_cost(K)
+				var/r = get_requirement(K)
+
+				if(level >= r)
+					var/entry = "[K] ([c])"
+					display += entry
+					lookup[entry] = K
+
+			var/pick_choice = input(user, "Redirect the Law?", "First Law") as null|anything in display
+			if(!pick_choice)
+				return
+
+			var/new_choice = lookup[pick_choice]
+			current_choice = new_choice
+			to_chat(user, span_notice("The Law bends toward [new_choice]."))
+
+			var/new_cost = get_cost(new_choice)
+
+			if(stone_progress >= new_cost)
+				var/excess = stone_progress - new_cost
+				stone_progress = 0
+
+				var/result = options_map[new_choice]
+
+				if(islist(result))
+					for(var/typepath in result)
+						if(ispath(typepath))
+							new typepath(get_turf(src))
+				else
+					if(ispath(result))
+						new result(get_turf(src))
+
+				var/half = round(excess / 2)
+				for(var/i in 1 to half)
+					new /obj/item/natural/stone(get_turf(src))
+
+				to_chat(user, span_notice("The Law resolves instantly into [new_choice], for a hefty cost..."))
+				if(isliving(user))
+					var/mob/living/U = user
+					U.adjust_fire_stacks(2)
+					U.adjustFireLoss(125)
+					U.ignite_mob()
+				funny_smoke(src)
+				qdel(src)
+				return
+
+			return
+
+		if(decision == finalize_text)
+			if(stone_progress < cost)
+				to_chat(user, span_warning("The Law demands more value to be transacted."))
+				return
+
+			if(do_after(user, 2.5 SECONDS, target = user, same_direction = TRUE))
+
+				var/list/single_crafts = list(
+					"Mortar & Pestle",
+					"Cauldron",
+					"Alchemy Station",
+					"Firstlaw Extract"
+				)
+
+				var/is_single = (current_choice in single_crafts)
+
+				var/amount
+				var/excess
+
+				if(is_single)
+					amount = 1
+					excess = stone_progress - cost
+				else
+					amount = (cost > 0) ? floor(stone_progress / cost) : 1
+					excess = (cost > 0) ? (stone_progress % cost) : 0
+
+				var/result = options_map[current_choice]
+
+				var/base_fail = min(75, round(cost / 5))
+				var/skill_bonus = level * 5
+
+				var/total_spent = amount * cost
+				var/overpay = max(0, stone_progress - total_spent)
+				var/overpay_ratio = cost > 0 ? (overpay / cost) : 0
+				var/overpay_bonus = round(overpay_ratio * 30)
+
+				var/final_fail = max(0, base_fail - skill_bonus - overpay_bonus)
+				if(final_fail)
+					to_chat(user, span_notice("--[final_fail]% chance of failure per item! Matthios have mercy..."))
+
+				for(var/i in 1 to amount)
+					if(prob(final_fail))
+						if(prob(50))
+							var/list/fail_results = list(/obj/item/ingot/aaslag, /obj/item/scrap)
+							var/typepath = pick(fail_results)
+							new typepath(get_turf(src))
+							to_chat(user, span_notice("The exchange falters..."))
+						else
+							to_chat(user, span_warning("The Law rejects part of the exchange."))
+					else
+						var/turf/spawn_turf = get_turf(src)
+
+						if(is_single)
+							var/turf/front = get_step(user, user.dir)
+
+							if(front && !front.density)
+								var/blocked = FALSE
+								for(var/atom/A in front)
+									if(A.density)
+										blocked = TRUE
+										break
+
+								if(!blocked)
+									spawn_turf = front
+							else
+								spawn_turf = get_turf(src)
+
+						if(islist(result))
+							for(var/typepath in result)
+								if(ispath(typepath))
+									new typepath(spawn_turf)
+						else
+							if(ispath(result))
+								new result(spawn_turf)
+
+
+
+				to_chat(user, span_notice("The exchange concludes. ([amount] attempted)"))
+
+				if(excess > 0)
+					for(var/i in 1 to excess)
+						new /obj/item/natural/stone(get_turf(src))
+
+				stone_progress = 0
+				funny_smoke(src)
+				qdel(src)
+				return
+	else
+		var/list/display = list()
+		var/list/lookup = list()
+
+		for(var/K in options_map)
+			var/cost = get_cost(K)
+			var/req = get_requirement(K)
+
+			if(level >= req)
+				var/entry = "[K] ([cost])"
+				display += entry
+				lookup[entry] = K
+
+		if(!display.len)
+			to_chat(user, span_warning("Nothing may yet be chosen."))
+			return
+
+		var/choice = input(user, "What shall be defined?", "First Law") as null|anything in display
+		if(!choice)
+			return 
+
+		current_choice = lookup[choice]
+		to_chat(user, span_notice("The Law bends toward [current_choice]."))
+
 
 //////////////////////
 //Vial of Kingsfeast//
@@ -583,6 +991,45 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 	funny_smoke(src)
 	qdel(src)
 
+/obj/item/alchserum/matthios_insight
+	name = "vial of firstlaw extract"
+	desc = "A soft-glowing concoction that hums with unbearable clarity. The liquid remains perfectly still, as if reality itself fears to disturb it. Those who glimpse too deeply may come to understand more than they were meant to."
+	icon = 'icons/obj/structures/heart_items.dmi'
+	icon_state = "canister_empty"
+	current_color = "#ff00b3"
+	aura_color = "#1100ff"
+	w_class = WEIGHT_CLASS_TINY
+
+/obj/item/alchserum/matthios_insight/attack(mob/living/carbon/human/target, mob/user)
+	if(!istype(target))
+		return
+
+	if(target == user)
+		to_chat(user, span_notice("You begin administering the vial to [target.name]'s forehead..."))	
+	else
+		to_chat(user, span_notice("You begin administering the vial to your own forehead..."))
+
+	if(do_after(user, 6 SECONDS, target))
+		apply_firstlaw_insight(target, user)
+
+/obj/item/alchserum/matthios_insight/proc/apply_firstlaw_insight(mob/living/carbon/human/T, mob/user)
+	if(T.get_skill_level(/datum/skill/craft/alchemy) <= 0)
+		T.adjust_skillrank_up_to(/datum/skill/craft/alchemy, SKILL_LEVEL_NOVICE, TRUE)
+		to_chat(T, span_notice("For a fleeting moment, the principles of transmutation become clear. You have become more proficient in Alchemy!"))
+	else
+		to_chat(T, span_notice("For a fleeting moment, the principles of transmutation become clear... But you soon realize those are just the basics!"))
+
+	qdel(src)
+	playsound(T.loc,'sound/misc/smelter_sound.ogg', 50, FALSE)
+	sleep(30)
+	to_chat(T, span_artery("<i>...Huh?</i>"))
+	sleep(30)
+	to_chat(T, span_danger("--The Law's purest essence reveals itself. In nature, nothing is given, nothing is lost. Everything is transformed."))
+	T.Knockdown(30)
+	T.adjustBruteLoss(125)
+	T.adjustFireLoss(150)
+	explosion(get_turf(T), light_impact_range = 1, flame_range = 2, smoke = FALSE, adminlog = FALSE)
+
 /obj/item/alchserum/matthios_goodnite
 	name = "vial of goodnite"
 	desc = "A soft-glowing concoction that induces immediate, restorative sleep. The fluid rests in perfect stillness, undisturbed by motion or time. Gazing into it too long draws a creeping heaviness into the body, as if the world itself is gently insisting you lie down and surrender to rest."
@@ -633,6 +1080,7 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 			sleep(20)
 
 	to_chat(user, span_notice("The vial dulls and crumbles away."))
+	playsound(user.loc,'sound/misc/smelter_sound.ogg', 50, FALSE)
 	qdel(src)
 
 /obj/item/matthios_canister/warsmith
@@ -650,12 +1098,14 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 		/obj/item/natural/bundle/fibers,
 		/obj/item/natural/fibers,
 		/obj/item/scrap,
+		/obj/item/rogueore/iron,
 	)
 	ingredient_colors = list(
 		/obj/item/needle = "#c0c0c0",
 		/obj/item/natural/bundle/fibers = "#1fa712",
 		/obj/item/natural/fibers = "#1fa712",
 		/obj/item/scrap = "#6e6e6e",
+		/obj/item/rogueore/iron = "#6e6e6e",
 	)
 
 /obj/item/matthios_canister/warsmith/freeman_truth()
@@ -669,7 +1119,7 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 		to_chat(user, span_warning("The hell do I do with this? This is no alchemy!"))
 		return TRUE
 
-	if(istype(I, /obj/item/scrap))
+	if((istype(I, /obj/item/scrap)) || (istype(I, /obj/item/rogueore/iron)))
 		if(current_scrap >= needed_scrap)
 			to_chat(user, span_warning("The mixture refuses more metal."))
 			return TRUE
@@ -679,6 +1129,7 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 				return TRUE
 
 			current_scrap = min(current_scrap + 1, needed_scrap)
+			playsound(user.loc,'sound/misc/smelter_sound.ogg', 50, FALSE)
 			qdel(I)
 
 			var/color_to_use = ingredient_colors[/obj/item/scrap]
@@ -700,6 +1151,7 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 				return TRUE
 
 			has_needle = TRUE
+			playsound(user.loc,'sound/misc/smelter_sound.ogg', 50, FALSE)
 			qdel(I)
 
 			var/color_to_use = ingredient_colors[/obj/item/needle]
@@ -743,7 +1195,7 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 				current_color = color_to_use
 
 			to_chat(user, span_notice("You feed [to_transfer] measure\s of fiber into the mixture. ([current_fibers]/[needed_fibers])"))
-
+			playsound(user.loc,'sound/misc/smelter_sound.ogg', 50, FALSE)
 			update_icon()
 			check_completion(user)
 
@@ -766,7 +1218,7 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 				current_color = color_to_use
 
 			to_chat(user, span_notice("The fiber is reduced and drawn into the mixture. ([current_fibers]/[needed_fibers])"))
-
+			playsound(user.loc,'sound/misc/smelter_sound.ogg', 50, FALSE)
 			update_icon()
 			check_completion(user)
 
@@ -826,6 +1278,7 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 		to_chat(user, span_notice("The mixture settles, awkwardly. You estimate [uses] uses remain."))
 	else
 		to_chat(user, span_warning("The vial burns out, its contents fully spent."))
+		playsound(user.loc,'sound/misc/smelter_sound.ogg', 50, FALSE)
 		qdel(src)
 
 /obj/item/matthios_canister/kingswine
@@ -872,7 +1325,7 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 		to_chat(user, span_warning("The hell do I do with this? This is no alchemy!"))
 		return TRUE
 
-	if(istype(I, /obj/item/organ))
+	if(istype(I, /obj/item/organ) || istype(I, /obj/item/alch/viscera))
 		if(path && path != "blood")
 			to_chat(user, span_warning("The mixture rejects this. It has already chosen sweetness over blood."))
 			return TRUE
@@ -887,8 +1340,8 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 
 			qdel(I)
 			current_color = "#5c0a0a"
-
-			to_chat(user, span_warning("The organ dissolves into thick slurry. ([current_liquid]/[needed_liquid])"))
+			playsound(user.loc,'sound/misc/lava_death.ogg', 50, FALSE)
+			to_chat(user, span_warning("The meaty component dissolves into a thick slurry. ([current_liquid]/[needed_liquid])"))
 			update_icon()
 			check_completion(user)
 		return TRUE
@@ -904,7 +1357,7 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 
 			qdel(I)
 			current_color = "#9c3b1f"
-
+			playsound(user, pick(da_bubbles), 30, FALSE)
 			to_chat(user, span_notice("The mixture ferments the offering. ([current_liquid]/[needed_liquid])"))
 			update_icon()
 			check_completion(user)
@@ -1150,6 +1603,7 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 		to_chat(user, span_notice("The tincture settles uneasily. You estimate [uses] uses remain."))
 	else
 		to_chat(user, span_warning("The vial empties, its contents spent."))
+		playsound(user.loc,'sound/misc/smelter_sound.ogg', 50, FALSE)
 		qdel(src)
 
 	return TRUE

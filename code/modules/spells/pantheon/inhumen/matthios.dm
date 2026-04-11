@@ -47,7 +47,7 @@
 			m_cooldown = 5 MINUTES,
 			m_rank = SKILL_LEVEL_EXPERT,
 			category = "Rogue Arts",
-			lines = list("Coin begets coin!", "Matthios, grant me a sliver of thy wealth!", "Wealth through will, as He demands!", "Matthios, see to my poverty!")
+			lines = list("#Coin begets coin!", "#Matthios, grant me a sliver of thy wealth!", "#Wealth through will, as He demands!", "#Matthios, see to my poverty!")
 		),
 		//makes failed lockpicking attempts muffled
 		"Gilded Dexterous Gloves" = list(
@@ -87,7 +87,15 @@
 			m_cooldown = 30 MINUTES,
 			m_rank = SKILL_LEVEL_NOVICE,
 			category = "Gilded Tools",
-			lines = list("MATTHIOS! MATTHIOS! MATTHIOS!", "MATTHIOS! MY ALLEGIANCE IS YOURS!!", "MATTHIOS IS MY LORD!!", "MATTHIOS IS MY MASTER!!", "MY FAITH IS IN YOU, MATTHIOS!!", "I AM NO THIEF, I AM FREE!!")
+			lines = list("#Matthios, let thine will be done.", "#Lord of Exchange, my soul is yours.", "#God of the Stolen Fyre, thou will be done.")
+		),
+		//miralchemy mode on
+		"Vial of Firstlaw" = list(
+			path = /obj/item/matthios_canister/firstlaw,
+			m_cooldown = 1 MINUTES,
+			m_rank = SKILL_LEVEL_NOVICE,
+			category = "Malchem Vials",
+			lines = list("#Matthios, provide the base, I shall complete thy work!", "#Matthios! Deliver unto me the truth of alchemy!", "#Lord of Exchange, I shall finish thy work!")
 		),
 		//turns 10 organic items into 1 rich food of choice (that will often be burned mess or bread if you're not starving to death)
 		"Vial of Kingsfeast Base" = list(
@@ -95,7 +103,7 @@
 			m_cooldown = 2 MINUTES,
 			m_rank = SKILL_LEVEL_NOVICE,
 			category = "Malchem Vials",
-			lines = list("Matthios, provide the base, I shall complete thy work!", "Matthios! Deliver unto me the truth of alchemy!", "Lord of Exchange, I shall finish thy work!")
+			lines = list("#Matthios, provide the base, I shall complete thy work!", "#Matthios! Deliver unto me the truth of alchemy!", "#Lord of Exchange, I shall finish thy work!")
 		),
 		//basically turns water or fruits into wine, if used with blood or lux instead, becomes Kingsblood
 		"Vial of Kingswine Base" = list(
@@ -103,7 +111,7 @@
 			m_cooldown = 2 MINUTES,
 			m_rank = SKILL_LEVEL_NOVICE,
 			category = "Malchem Vials",
-			lines = list("Matthios, provide the base, I shall complete thy work!", "Matthios! Deliver unto me the truth of alchemy!", "Lord of Exchange, I shall finish thy work!")
+			lines = list("#Matthios, provide the base, I shall complete thy work!", "#Matthios! Deliver unto me the truth of alchemy!", "#Lord of Exchange, I shall finish thy work!")
 		),
 		//makes you honk shoo mimimi, while restoring energy over time
 		"Vial of Goodnite Base" = list(
@@ -111,7 +119,7 @@
 			m_cooldown = 2 MINUTES,
 			m_rank = SKILL_LEVEL_APPRENTICE,
 			category = "Malchem Vials",
-			lines = list("Matthios, provide the base, I shall complete thy work!", "Matthios! Deliver unto me the truth of alchemy!", "Lord of Exchange, I shall finish thy work!")
+			lines = list("#Matthios, provide the base, I shall complete thy work!", "#Matthios! Deliver unto me the truth of alchemy!", "#Lord of Exchange, I shall finish thy work!")
 		),
 		//a 4 use vial of mending
 		"Vial of Warsmith Base" = list(
@@ -119,7 +127,7 @@
 			m_cooldown = 2 MINUTES,
 			m_rank = SKILL_LEVEL_JOURNEYMAN,
 			category = "Malchem Vials",
-			lines = list("Matthios, provide the base, I shall complete thy work!", "Matthios! Deliver unto me the truth of alchemy!", "Lord of Exchange, I shall finish thy work!")
+			lines = list("#Matthios, provide the base, I shall complete thy work!", "#Matthios! Deliver unto me the truth of alchemy!", "#Lord of Exchange, I shall finish thy work!")
 		),
 		// idk what else, but it should be used by baothans, something they'll want a lot
 /*		"Vial of Liquid Desire Base" = list(
@@ -160,7 +168,7 @@
 			m_cooldown = 30 MINUTES,
 			m_rank = SKILL_LEVEL_EXPERT,
 			category = "Malchem Vials",
-			lines = list("Matthios, provide the base, I shall complete thy work!", "Matthios! Deliver unto me the truth of alchemy!", "Lord of Exchange, I shall finish thy work!")
+			lines = list("#Matthios, provide the base, I shall complete thy work!", "#Matthios! Deliver unto me the truth of alchemy!", "#Lord of Exchange, I shall finish thy work!")
 		),
 		// a spicy, explosive grenade that ignites over a massive area, making tennites and nobles roll in agony and go insane
 		// but in my BETTER JUDGEMENT, this is just my early april fools joke, go to sleep my child
