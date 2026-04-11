@@ -53,6 +53,7 @@
 
 /mob/living/simple_animal/hostile/retaliate/rogue/mimic/Initialize(mapload)
 	. = ..()
+	AddComponent(/datum/component/ai_aggro_system)
 	if(mapload)//load objects into chest.
 		for(var/obj/item/I in loc)
 			I.forceMove(src)

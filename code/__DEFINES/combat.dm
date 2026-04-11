@@ -67,7 +67,6 @@
 #define HEALTH_THRESHOLD_NEARDEATH -90 //Not used mechanically, but to determine if someone is so close to death they hear the other side
 
 #define FIRE_HARDCRIT_BASE 300 //Total burn damage across all bodyparts to hardcrit a player
-#define FIRE_HARDCRIT_MINDLESS_MULT 0.5 //Mindless mobs without TRAIT_CRIT_THRESHOLD hardcrit at half (150)
 #define FIRE_HARDCRIT_NOPAIN_MULT 1.5 //NOPAIN/NOPAINSTUN increases threshold by 50% (450)
 
 #define STRENGTH_SOFTCAP 14	//STR value past which we get diminishing returns in our damage calculations.
@@ -404,7 +403,6 @@ Medical defines
 /*
  Misc. Category. Spin it out if needed
 */
-#define CRIT_DISMEMBER_DAMAGE_THRESHOLD_NPC 0.45 // Half the player threshold for mindless NPCs
 #define CRIT_DISMEMBER_DAMAGE_THRESHOLD 0.9 // 90% damage threshold for dismemberment / crit
 #define STANDING_DECAP_GRACE_PERIOD 2 SECONDS // Time after falling prone where you still count as standing for decap purpose
 #define INT_NOISE_DELAY 1 SECONDS

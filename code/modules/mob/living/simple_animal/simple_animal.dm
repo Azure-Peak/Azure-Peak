@@ -378,6 +378,7 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 	if(user)
 		owner = user
 		SEND_SIGNAL(user, COMSIG_ANIMAL_TAMED, src)
+	pet_passive = TRUE
 
 //mob/living/simple_animal/examine(mob/user)
 //	. = ..()

@@ -328,3 +328,23 @@
   nauticall:
   - rscadd: Added donor weapons Regnum & Aeternum.
   - image: Added a two-handed wielded sprite for Judgement.
+2026-04-11:
+  FreeStylaLT:
+  - bugfix: Fixed blacksteel pickaxe sometimes leaving boulders behind.
+  - balance: Blacksteel pickaxe lost its 'better' pick intent.
+  - balance: Blacksteel pickaxe now costs 1 ingot to forge again.
+  - bugfix: Fixed Thrillseekers not being able to parry / dodge.
+  Lamasmaster:
+  - balance: Poacher and Warden
+  Ryan180602:
+  - code_imp: Dabs up the vote panel UI
+  - code_imp: Changes storyteller favouring/blocking and cleans it up
+  - code_imp: Successful god votes disables the pool for next round
+  WeNeedMorePhoron:
+  - bugfix: Vicious Mockery no longer permanently buff your opponent on removal of
+      the status effect. Oops.
+  ariaworld:
+  - bugfix: Fixed maturing cheese disappearing into the underworld if you had it in
+      your hands.
+  hazelrat:
+  - bugfix: '''Gnoll'' is now capitalised on examine.'

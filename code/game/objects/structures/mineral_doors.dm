@@ -302,7 +302,7 @@
 	if(ishuman(user))
 		var/mob/living/carbon/human/human_user = user
 		// must have a client or be trying to pass through the door
-		if(!human_user.client && !length(human_user.myPath))
+		if(!human_user.client && !human_user.ai_controller)
 			return FALSE
 		if(human_user.handcuffed)
 			return FALSE

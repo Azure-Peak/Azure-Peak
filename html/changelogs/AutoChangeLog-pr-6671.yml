@@ -1,6 +1,0 @@
-author: "Ryan180602"
-delete-after: True
-changes:
-  - code_imp: "Dabs up the vote panel UI"
-  - code_imp: "Changes storyteller favouring/blocking and cleans it up"
-  - code_imp: "Successful god votes disables the pool for next round"

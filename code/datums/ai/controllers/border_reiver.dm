@@ -42,7 +42,7 @@
 	planning_subtrees = list(
 
 		/datum/ai_planning_subtree/being_a_minion,
-		/datum/ai_planning_subtree/target_retaliate,
+		/datum/ai_planning_subtree/aggro_find_target,
 		/datum/ai_planning_subtree/basic_ranged_attack_subtree,
 		/datum/ai_planning_subtree/simple_find_target/closest,
 	)

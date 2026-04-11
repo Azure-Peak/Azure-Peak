@@ -66,10 +66,10 @@
 
 /mob/living/simple_animal/hostile/retaliate/rogue/werewolf_npc/Initialize()
 	. = ..()
+	AddComponent(/datum/component/ai_aggro_system)
 	regenerate_icons()
 	ADD_TRAIT(src, TRAIT_SIMPLE_WOUNDS, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_SILVER_WEAK, TRAIT_GENERIC)
-	AddElement(/datum/element/ai_retaliate)
 	update_icon()
 	ai_controller.set_blackboard_key(BB_BASIC_FOODS, food_type)
 
