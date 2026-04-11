@@ -31,7 +31,7 @@
 		neck = /obj/item/storage/belt/rogue/pouch
 		don_pelt(H)
 		var/datum/devotion/C = new /datum/devotion(H, H.patron)
-		C.grant_miracles(H, cleric_tier = CLERIC_T2, passive_gain = CLERIC_REGEN_MINOR, start_maxed = FALSE)
+		C.grant_miracles(H, cleric_tier = CLERIC_T2, passive_gain = CLERIC_REGEN_MINOR, start_maxed = TRUE, devotion_limit = CLERIC_REQ_2)
 		H.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/convert_heretic)
 		H.mind?.RemoveSpell(/obj/effect/proc_holder/spell/invoked/silence/graggar)
 
