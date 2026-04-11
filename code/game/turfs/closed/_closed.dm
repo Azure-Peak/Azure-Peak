@@ -104,7 +104,7 @@
 	if(wallpressed)
 		add_movespeed_modifier("wallpress", TRUE, 100, override = TRUE, multiplicative_slowdown = 3)
 		if(m_intent == MOVE_INTENT_SNEAK)
-			ADD_TRAIT(user, TRAIT_SPELLCOCKBLOCK, TRAIT_GENERIC) // spell restrictions don't seem to be working well so I'm doing it this way for now
+			ADD_TRAIT(src, TRAIT_SPELLCOCKBLOCK, TRAIT_GENERIC) // spell restrictions don't seem to be working well so I'm doing it this way for now
 			var/lean_alpha = get_wallpress_alpha()
 			if(src.alpha != 0 && lean_alpha < src.alpha)
 				var/used_time = 50
