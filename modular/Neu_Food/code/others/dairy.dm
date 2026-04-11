@@ -65,6 +65,14 @@
 			qdel(I)
 			qdel(src)
 			return
+	if(istype(I, /obj/item/grown/log/tree/stick))
+		playsound(get_turf(user), 'sound/foley/dropsound/gen_drop.ogg', 30, TRUE, -1)
+		if(do_after(user,short_cooktime, target = src))
+			add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)
+			new /obj/item/reagent_containers/food/snacks/rogue/pestranstick(loc)
+			qdel(I)
+			qdel(src)
+			return
 	return ..()
 
 /obj/item/reagent_containers/food/snacks/butter/update_icon()
@@ -326,3 +334,15 @@
 	faretype = FARE_NEUTRAL
 	foodtype = DAIRY | SUGAR
 	eat_effect = /datum/status_effect/buff/sweet
+
+/obj/item/reagent_containers/food/snacks/rogue/pestranstick
+	icon = 'modular/Neu_Food/icons/others/dairy.dmi'
+	name = "pestran stick"
+	desc = "A stick of delicious butter on a not-so-delicious stick! Given by Pestrans during the Azurean Harvest Festival to children instead of honeyed apples. </br>'Never ask a Pestran for a treat...'"
+	icon_state = "pestranstick"
+	list_reagents = list(/datum/reagent/consumable/nutriment = BUTTER_NUTRITION)
+	foodtype = DAIRY
+	faretype = FARE_IMPOVERISHED
+	tastes = list("bloated mouthfuls of churned butter" = 1)
+	bitesize = 6
+	slice_sound = TRUE
