@@ -1067,6 +1067,12 @@
 	additional_items = list(/obj/item/ingot/steelholy, /obj/item/natural/hide/cured)
 	created_item = /obj/item/clothing/head/roguetown/helmet/sallet/eoran
 
+/datum/anvil_recipe/armor/holysteel/undividedhelmtemplar
+	name = "Undivided Templar's Helmet (+1 Holy Steel, +1 Cured Leather)"
+	req_bar = /obj/item/ingot/steelholy
+	additional_items = list(/obj/item/ingot/steelholy, /obj/item/natural/hide/cured)
+	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/undivided
+
 // SILVER
 
 /datum/anvil_recipe/armor/silver/belt

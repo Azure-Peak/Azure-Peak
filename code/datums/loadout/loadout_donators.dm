@@ -73,18 +73,13 @@
 	ckeywhitelist = list("bigfoot02")
 
 /datum/loadout_item/donator/zydrasiconocrown
-	name = "Donator Kit - Iconoclast Crown"
-	path = /obj/item/enchantingkit/zydrasiconocrown
+	name = "Donator Kit - Iron Gardbrace & Fauld"
+	path = /obj/item/enchantingkit/zydrashauberk
 	ckeywhitelist = list("1ceres")
 
-/datum/loadout_item/donator/zydrasiconopauldrons
-	name = "Donator Kit - Iconoclast Pauldrons"
-	path = /obj/item/enchantingkit/zydrasiconopauldrons
-	ckeywhitelist = list("1ceres")
-
-/datum/loadout_item/donator/zydrasiconosash
-	name = "Donator Kit - Iconoclast Sash"
-	path = /obj/item/enchantingkit/zydrasiconosash
+/datum/loadout_item/donator/zydrasgreataxe
+	name = "Donator Kit - Bourreau"
+	path = /obj/item/enchantingkit/zydrasgreataxe
 	ckeywhitelist = list("1ceres")
 
 /datum/loadout_item/donator/eiren
@@ -277,3 +272,23 @@
 	name = "Donator Item - Sandlash"
 	path = /obj/item/enchantingkit/sci_sand
 	ckeywhitelist = list("scidragon")
+
+/datum/loadout_item/donator/aisuwand
+    name = "Donator Kit - Crystalline Wand"
+    path = /obj/item/enchantingkit/aisuwand
+    ckeywhitelist = list("aisu9")
+
+/datum/loadout_item/donator/regnum
+	name = "Donator Item - Regnum"
+	path = /obj/item/enchantingkit/weapon/regnum
+	ckeywhitelist = list("nauticall")
+
+/datum/loadout_item/donator/aeternum
+	name = "Donator Item - Aeternum"
+	path = /obj/item/enchantingkit/weapon/aeternum
+	ckeywhitelist = list("nauticall")
+
+/datum/loadout_item/donator/porcelainmask
+	name = "Donator Item - Porcelain Mask"
+	path = /obj/item/clothing/mask/rogue/iamcrystalclear
+	ckeywhitelist = list("iamcrystalclear")

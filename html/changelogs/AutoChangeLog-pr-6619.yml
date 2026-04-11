@@ -1,7 +1,0 @@
-author: "Lamasmaster"
-delete-after: True
-changes:
-  - rscadd: "Eoran Ritual"
-  - rscadd: "Ravox Acolyte / Monk robes"
-  - balance: "Undivided"
-  - sound: "New sounds for Graggar and Ravox miracles"

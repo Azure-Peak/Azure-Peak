@@ -1331,7 +1331,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 			span_danger("[attack_message_local][target.next_attack_msg.Join()]"), null, COMBAT_MESSAGE_RANGE)
 		target.next_attack_msg.Cut()
 
-		target.retaliate(user)
+
 
 /*		if((target.stat != DEAD) && damage >= user.dna.species.punchstunthreshold)
 			target.visible_message(span_danger("[user] knocks [target] down!"), \
@@ -1833,7 +1833,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 	var/nodmg = FALSE
 
 	if(Iforce)
-		H.retaliate(user)
+
 
 		var/weakness = H.check_weakness(I, user)
 		H.next_attack_msg.Cut()

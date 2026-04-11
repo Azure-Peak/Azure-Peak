@@ -1,0 +1,4 @@
+author: "Ketrai"
+delete-after: True
+changes:
+  - bugfix: "Hag revive no longer gibs/harms undead"

@@ -500,6 +500,7 @@
 
 /obj/item/alch/hag_moss/enchanted/random/low
 	name = "Faded Moss"
+	desc = "It makes you feel like a different person, ever so slightly."
 	color = "#a9a9a9"
 
 /obj/item/alch/hag_moss/enchanted/random/low/is_in_range(val)
@@ -507,6 +508,7 @@
 
 /obj/item/alch/hag_moss/enchanted/random/mid
 	name = "Lustrous Moss"
+	desc = "It really makes you feel like your skin isn't your own."
 	color = "#3db1ff"
 
 /obj/item/alch/hag_moss/enchanted/random/mid/is_in_range(val)
@@ -514,6 +516,7 @@
 
 /obj/item/alch/hag_moss/enchanted/random/high
 	name = "Prismatic Moss"
+	desc = "The leaves show a different person, you wish you were them, you -could- be them."
 	color = "#ff3de1"
 
 /obj/item/alch/hag_moss/enchanted/random/high/is_in_range(val)

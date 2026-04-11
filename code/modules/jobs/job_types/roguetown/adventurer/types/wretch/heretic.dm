@@ -8,12 +8,11 @@
 	category_tags = list(CTAG_WRETCH)
 	traits_applied = list(TRAIT_RITUALIST, TRAIT_HEAVYARMOR, TRAIT_MARRIAGE_CAPABLE)
 	maximum_possible_slots = 2 //Ppl dont like heavy armor antags.
-	// Heretic is by far the best class with access to rituals (as long as they play a god with ritual), holy and heavy armor. So they keep 7 points.
 	subclass_stats = list(
 		STATKEY_STR = 2,
 		STATKEY_CON = 2,
 		STATKEY_WIL = 1,
-		STATKEY_FOR = 1
+		STATKEY_LCK = 1
 	)
 	subclass_skills = list(
 		/datum/skill/magic/holy = SKILL_LEVEL_EXPERT,
@@ -263,13 +262,12 @@
 	outfit = /datum/outfit/job/roguetown/wretch/hereticspy
 	maximum_possible_slots = 2 //Ppl dont like rogue antags.
 	traits_applied = list(TRAIT_RITUALIST, TRAIT_DODGEEXPERT)
-	//Slower than outlaw, but a bit more PER and INT
 	subclass_stats = list(
 		STATKEY_PER = 2,
 		STATKEY_WIL = 2,
 		STATKEY_SPD = 2,
 		STATKEY_INT = 1,
-		STATKEY_FOR = 1
+		STATKEY_LCK = 1
 	)
 	subclass_skills = list(
 		/datum/skill/magic/holy = SKILL_LEVEL_EXPERT,

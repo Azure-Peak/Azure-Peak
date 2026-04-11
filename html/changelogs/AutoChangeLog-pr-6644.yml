@@ -1,5 +1,0 @@
-author: "Ryan180602"
-delete-after: True
-changes:
-  - bugfix: "taking off barding and putting it back on should not add slowdown."
-  - code_imp: "refactors mounts a lil"

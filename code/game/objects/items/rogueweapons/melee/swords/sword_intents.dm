@@ -328,7 +328,6 @@
 
 /datum/intent/sword/thrust/zwei
 	reach = 2
-
 // ESTOC
 
 /datum/intent/sword/thrust/estoc

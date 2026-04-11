@@ -123,6 +123,11 @@
 
 	if(SEND_SIGNAL(src, COMSIG_MOB_CLICKON, A, params) & COMSIG_MOB_CANCEL_CLICKON)
 		return
+	
+	var/mob/living/L = src
+	if(L?.wallpressed && L.m_intent == MOVE_INTENT_SNEAK && !istype(L.loc, /turf/open/transparent/openspace))
+		to_chat(src, span_warning("You need to step away from the wall first."))
+		return
 
 	if(modifiers["right"] && !modifiers["shift"] && !modifiers["alt"] && !modifiers["ctrl"])
 		if(try_special_attack(A, modifiers))
@@ -130,6 +135,11 @@
 
 	if(next_move > world.time)
 		return
+
+	if(isliving(src))
+		var/mob/living/clicker = src
+		if(clicker.is_swinging())
+			return
 
 	if(modifiers["middle"] && atkswinging == "middle")
 		if(mmb_intent)
@@ -373,6 +383,27 @@
 	atkswinging = null
 	//update_warning()
 
+
+/mob/living/proc/add_swingdelay(datum/intent/used_intent)
+	if(!used_intent)
+		return FALSE
+	if(!used_intent.swingdelay || !used_intent.swingdelay_type)
+		return FALSE
+	var/delay = used_intent.swingdelay + 2	//We want the status effect to last longer than the delay itself so we'd have 2 tick overhead to check for a cancelled swingdelay.
+	switch(used_intent.swingdelay_type)
+		if(SWINGDELAY_NORMAL)
+			apply_status_effect(/datum/status_effect/swingdelay, delay)
+			return TRUE
+		if(SWINGDELAY_PENALTY)
+			apply_status_effect(/datum/status_effect/swingdelay/penalty, delay)
+			return TRUE
+		if(SWINGDELAY_CANCEL)
+			apply_status_effect(/datum/status_effect/swingdelay/disrupt, delay)
+			return TRUE
+
+/mob/living/proc/is_swinging()
+	return (has_status_effect(/datum/status_effect/swingdelay) || has_status_effect(/datum/status_effect/swingdelay/disrupt))
+
 //Branching path for Adjacent clicks with or without items
 //DOES NOT ACTUALLY KNOW IF YOU'RE ADJACENT, DO NOT CALL ON IT'S OWN
 /mob/proc/resolveAdjacentClick(atom/A,obj/item/W,params,used_hand)
@@ -387,7 +418,7 @@
 			if(HAS_TRAIT(L, TRAIT_DUALWIELDER) && L.last_used_double_attack <= world.time)
 				var/obj/item/offh = L.get_inactive_held_item()
 				var/dual_wielding = offh && (istype(W, offh) || istype(offh, W)) && W != offh && !L.check_arm_grabbed(L.get_inactive_hand_index())
-				if(dual_wielding)
+				if(dual_wielding && !L.is_swinging())
 					var/forceoffhand = L.dualwieldpitystacks >= L.dualwieldpitythreshhold
 					if(forceoffhand)
 						L.dualwieldpitystacks = 0

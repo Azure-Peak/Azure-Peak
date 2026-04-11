@@ -19,7 +19,7 @@
 	var/list/preferred_events
 
 /datum/round_event_control/antagonist/solo/from_ghosts/get_candidates()
-	var/round_started = SSticker.HasRoundStarted()
+	var/round_started = SSticker.HasRoundStarted() || SSgamemode?.roundstart_live
 	var/midround_antag_pref_arg = round_started ? FALSE : TRUE
 
 	var/list/candidates = SSgamemode.get_candidates(antag_flag, antag_flag, observers = TRUE, midround_antag_pref = midround_antag_pref_arg, restricted_roles = restricted_roles)
@@ -30,18 +30,26 @@
 	. = ..()
 	if(!.)
 		return
+	var/is_hard_roundstart = roundstart && (storyteller_antag_flags & STORYTELLER_ANTAG_VILLAIN)
+	if(is_hard_roundstart && players_amt < HARD_ANTAG_MIN_POP)
+		return FALSE
 	var/antag_amt = get_antag_amount()
+	if(antag_amt <= 0)
+		return FALSE
 	var/list/candidates = get_candidates()
-	if(length(candidates) < antag_amt)
+	if(!length(candidates))
 		return FALSE
 
 /datum/round_event_control/antagonist/solo/proc/get_antag_amount()
 	var/people = SSgamemode.get_correct_popcount()
+	var/storyteller_cap = SSgamemode.story_antag_slot_cap(antag_datum, roundstart = roundstart)
+	if(storyteller_cap > 0)
+		return SSgamemode.storyteller_scale_slots(storyteller_cap, people, !roundstart, SSgamemode.story_antag_scaling_step(antag_datum), SSgamemode.story_antag_min_players(antag_datum))
 	var/amount = base_antags + FLOOR(people / denominator, 1)
 	return min(amount, maximum_antags)
 
 /datum/round_event_control/antagonist/solo/proc/get_candidates()
-	var/round_started = SSticker.HasRoundStarted()
+	var/round_started = SSticker.HasRoundStarted() || SSgamemode?.roundstart_live
 	var/new_players_arg = round_started ? FALSE : TRUE
 	var/living_players_arg = round_started ? TRUE : FALSE
 	var/midround_antag_pref_arg = round_started ? FALSE : TRUE
@@ -54,13 +62,17 @@
 
 /datum/round_event_control/antagonist/solo/return_failure_string(players_amt)
 	. =..()
-
-	var/antag_amt = get_antag_amount()
-	var/list/candidates = get_candidates() //we should optimize this
-	if(length(candidates) < antag_amt)
+	var/is_hard_roundstart = roundstart && (storyteller_antag_flags & STORYTELLER_ANTAG_VILLAIN)
+	if(is_hard_roundstart && players_amt < HARD_ANTAG_MIN_POP)
 		if(.)
 			. += ", "
-		. += "Not Enough Candidates!"
+		. += "Needs [HARD_ANTAG_MIN_POP] pop for a hard antag"
+		return .
+	var/list/candidates = get_candidates() //we should optimize this
+	if(!length(candidates))
+		if(.)
+			. += ", "
+		. += "No Candidates!"
 
 	return .
 
@@ -96,8 +108,8 @@
 
 /datum/round_event/antagonist/solo/setup()
 	var/datum/round_event_control/antagonist/solo/cast_control = control
-	antag_count = cast_control.get_antag_amount()
-	message_admins("STORYTELLER:[cast_control.name] spawning [antag_count].")
+	var/requested_antag_count = cast_control.get_antag_amount()
+	antag_count = requested_antag_count
 	antag_flag = cast_control.antag_flag
 	antag_datum = cast_control.antag_datum
 	restricted_roles = cast_control.restricted_roles
@@ -128,6 +140,17 @@
 		picked_mob?.mind?.picking = TRUE
 		log_storyteller("Picked antag event mob: [picked_mob], special role: [picked_mob.mind?.special_role ? picked_mob.mind.special_role : "none"]")
 		candidates |= picked_mob
+
+	antag_count = min(antag_count, length(candidates))
+	if(antag_count <= 0)
+		message_admins("STORYTELLER:[cast_control.name] failed to spawn because it had no valid candidates at setup.")
+		log_storyteller("STORYTELLER:[cast_control.name] failed to spawn because it had no valid candidates at setup.")
+		return
+	if(antag_count < requested_antag_count)
+		message_admins("STORYTELLER:[cast_control.name] partially filled from [requested_antag_count] to [antag_count] due to limited valid candidates.")
+		log_storyteller("STORYTELLER:[cast_control.name] partially filled from [requested_antag_count] to [antag_count] due to limited valid candidates.")
+	else
+		message_admins("STORYTELLER:[cast_control.name] spawning [antag_count].")
 
 	var/list/picked_mobs = list()
 	for(var/i in 1 to antag_count)

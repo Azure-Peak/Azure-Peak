@@ -8,6 +8,8 @@
 	req_omen = TRUE
 	todreq = list("dusk", "night", "dawn", "day")
 	earliest_start = 2 HOURS
+	announce_text = "The dead walk! Skeletons rise to plague the living!"
+	announce_title = "Skeleton Omen"
 	var/last_siege = 0
 
 

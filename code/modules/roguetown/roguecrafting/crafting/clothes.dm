@@ -287,3 +287,31 @@
 		/obj/item/natural/fibers = 2,
 		/obj/item/grown/log/tree/stick = 2,
 		)
+
+/datum/crafting_recipe/roguetown/survival/autumnwoadarmor
+	name = "autumnwoad elven plate, imbuement"
+	category = "Clothes"
+	result = /obj/item/clothing/suit/roguetown/armor/plate/elven_plate/autumn
+	reqs = list(
+		/obj/item/natural/fibers = 3,
+		/obj/item/grown/log/tree/stick = 3,
+		/obj/item/clothing/suit/roguetown/armor/plate/elven_plate/autumn/light = 1,
+		/obj/item/grown/log/tree/small = 1,
+		/obj/item/natural/cured/essence = 1,
+		)
+	skillcraft = /datum/skill/craft/carpentry
+	craftdiff = 1
+
+/datum/crafting_recipe/roguetown/survival/autumnwoadhelmet
+	name = "autumnwoad elven helm, imbuement"
+	category = "Clothes"
+	result = /obj/item/clothing/head/roguetown/helmet/heavy/elven_helm/autumn
+	reqs = list(
+		/obj/item/natural/fibers = 3,
+		/obj/item/grown/log/tree/stick = 3,
+		/obj/item/clothing/head/roguetown/helmet/heavy/elven_helm/autumn/light = 1,
+		/obj/item/grown/log/tree/small = 1,
+		/obj/item/natural/cured/essence = 1,
+		)
+	skillcraft = /datum/skill/craft/carpentry
+	craftdiff = 1

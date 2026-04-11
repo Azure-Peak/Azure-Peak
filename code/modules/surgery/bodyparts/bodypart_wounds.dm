@@ -150,7 +150,7 @@
 			acheck_dflag = "fire"
 	armor = owner.run_armor_check(zone_precise, acheck_dflag, damage = 0)
 	armor = owner.getarmor(zone_precise, acheck_dflag)
-	if((owner.mind || HAS_TRAIT(owner, TRAIT_CRIT_THRESHOLD)) && (get_damage() <= (max_damage * CRIT_DISMEMBER_DAMAGE_THRESHOLD))) //No crits unless the limb is at 75%+ damage.
+	if(get_damage() <= (max_damage * CRIT_DISMEMBER_DAMAGE_THRESHOLD)) //No crits unless the limb is at 90%+ damage.
 		do_crit = FALSE
 	if(user)
 		if(user.goodluck(2))

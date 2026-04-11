@@ -511,8 +511,6 @@
 /mob/living/carbon/human/species/npc/arcyne_invoker
 	name = "Arcyne Invoker"
 	real_name = "Arcyne Invoker"
-	mode = NPC_AI_OFF
-	wander = FALSE
 
 /mob/living/carbon/human/species/npc/arcyne_invoker/Initialize()
 	. = ..()

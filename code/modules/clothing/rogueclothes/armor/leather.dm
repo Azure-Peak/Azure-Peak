@@ -82,7 +82,8 @@
 	name = "forester's brigandine"
 	desc = "A hardened leather harness with a large pauldron worn over a tasseted brigandine, imbued with Dendor's essence."
 	icon_state = "forestbrig"
-	max_integrity = ARMOR_INT_CHEST_PLATE_BRIGANDINE + 50
+	armor = ARMOR_BRIGANDINE//is actually a brigandine now
+	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER + 50
 	equip_delay_self = 50
 	smeltresult = /obj/item/ingot/iron
 
@@ -180,6 +181,14 @@
 	body_parts_covered = COVERAGE_ALL_BUT_HANDFEET
 	color = null
 
+/obj/item/clothing/suit/roguetown/armor/leather/heavy/coat/trophyfur
+	name = "treated trophy fur robes"
+	desc = "A heavy set of hardened robes, lined with fur. The leather is composed of several creatures that were notably difficult to fell by arrow. A proof or rangership among many."
+	icon_state = "hatanga"
+	item_state = "hatanga"
+	sellprice = 100
+	color = null
+
 /obj/item/clothing/suit/roguetown/armor/leather/heavy/jacket
 	name = "hardened leather jacket"
 	desc = "A heavy leather jacket that covers the arms and protects the vitals."
@@ -232,15 +241,6 @@
 	item_state = "freijacket"
 	max_integrity = ARMOR_INT_CHEST_LIGHT_MEDIUM
 	color = "#313131"
-
-/obj/item/clothing/suit/roguetown/armor/leather/trophyfur
-	name = "treated trophy fur robes"
-	desc = "A heavy set of hardened robes, lined with fur. The leather is composed of several creatures that were notably difficult to fell by arrow. A proof or rangership among many."
-	icon_state = "hatanga"
-	item_state = "hatanga"
-	armor = ARMOR_PADDED // Trophy fur — treated leather, gambeson equivalent
-	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER
-	sellprice = 100
 
 /obj/item/clothing/suit/roguetown/armor/leather/bikini
 	name = "leather corslet"

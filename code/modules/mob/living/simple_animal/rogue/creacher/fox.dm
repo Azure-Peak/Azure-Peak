@@ -74,6 +74,10 @@
 	ai_controller = /datum/ai_controller/volf
 	melee_cooldown = WOLF_ATTACK_SPEED
 
+/mob/living/simple_animal/hostile/retaliate/rogue/fox/Initialize()
+	. = ..()
+	AddComponent(/datum/component/ai_aggro_system)
+
 /obj/effect/decal/remains/fox
 	name = "remains"
 	desc = "A wily fox perished here. Never is a beast spry or clever enough, in the end."

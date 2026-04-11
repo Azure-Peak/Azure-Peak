@@ -1,6 +1,0 @@
-author: "Rannoooo"
-delete-after: True
-changes:
-  - rscadd: "Added a new subtype of cut, solely for handaxes that has less of a damage buff but quick slashes."
-  - balance: "made byrine hauberk have maile armor stats"
-  - balance: "took away 1 con and 1 will from gronn ravager in exchange for 2 per"

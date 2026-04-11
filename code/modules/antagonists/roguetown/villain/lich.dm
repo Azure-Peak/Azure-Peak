@@ -1,3 +1,8 @@
+// Scaling (base_antags path, no storyteller slot caps):
+//  base=1, denom=80, max=2
+//  Pop    | Slots
+//  1-79   |  1
+//  80+    |  2
 /datum/antagonist/lich
 	name = "Lich"
 	roundend_category = "Lich"
