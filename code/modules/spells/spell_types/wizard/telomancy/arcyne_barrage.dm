@@ -16,7 +16,7 @@
 	cast_range = 21
 
 	primary_resource_type = SPELL_COST_STAMINA
-	primary_resource_cost = SPELLCOST_MAJOR_PROJECTILE
+	primary_resource_cost = SPELLCOST_ULTIMATE
 
 	invocations = list()
 	invocation_type = INVOCATION_NONE
