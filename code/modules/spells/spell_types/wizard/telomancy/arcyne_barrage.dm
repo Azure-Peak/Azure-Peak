@@ -151,6 +151,13 @@
 	guard_deflectable = TRUE
 	npc_simple_damage_mult = 1.5
 	intdamfactor = BLUNT_DEFAULT_INT_DAMAGEFACTOR
+	ricochets_max = 2
+	ricochet_chance = 80
+	ricochet_auto_aim_angle = 40
+	ricochet_auto_aim_range = 5
+	ricochet_incidence_leeway = 40
+	ricochet_decay_chance = 1
+	ricochet_decay_damage = 0.8
 	hitsound = 'sound/combat/hits/blunt/shovel_hit2.ogg'
 
 /obj/projectile/magic/arcyne_barrage_bolt/on_hit(target)
