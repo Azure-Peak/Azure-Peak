@@ -123,6 +123,11 @@
 
 	if(SEND_SIGNAL(src, COMSIG_MOB_CLICKON, A, params) & COMSIG_MOB_CANCEL_CLICKON)
 		return
+	
+	var/mob/living/L = src
+	if(L?.wallpressed && L.m_intent == MOVE_INTENT_SNEAK && !istype(L.loc, /turf/open/transparent/openspace))
+		to_chat(src, span_warning("You need to step away from the wall first."))
+		return
 
 	if(modifiers["right"] && !modifiers["shift"] && !modifiers["alt"] && !modifiers["ctrl"])
 		if(try_special_attack(A, modifiers))

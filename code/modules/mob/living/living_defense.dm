@@ -80,6 +80,8 @@
 	if(guard)
 		if(P.on_guard_deflect(src))
 			apply_status_effect(/datum/status_effect/buff/parry_buffer)
+			apply_status_effect(/datum/status_effect/buff/adrenaline_rush)
+			guard.deflected_spell = TRUE
 			remove_status_effect(/datum/status_effect/buff/clash)
 			return TRUE
 		return FALSE

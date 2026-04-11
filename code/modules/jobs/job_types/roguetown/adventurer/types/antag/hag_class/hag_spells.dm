@@ -47,7 +47,7 @@
 	. = ..() 
 
 	var/datum/component/hag_curio_tracker/H = user.GetComponent(/datum/component/hag_curio_tracker)
-	if(!H || !length(H.stored_materials))
+	if(!H || !length(H.stored_materials) && !length(H.prepared_boons))
 		. += span_info("Spiritual Veil: Empty")
 		return
 
@@ -60,14 +60,26 @@
 			var/limit = H.material_limits[path] || "?"
 			. += span_info("- [name]: [count]/[limit]")
 	if(length(H.prepared_boons))
-		. += "<br><span class='notice'><b>Manifestable Blessings:</b></span>"
 		var/found_any = FALSE
+		var/boon_html = "<br><span class='notice'><b>Manifestable Blessings:</b></span>"
+		boon_html += "<details><summary><i>View Prepared Pacts</i></summary>"
+
 		for(var/path in H.prepared_boons)
-			if(H.prepared_boons[path] > 0)
-				. += span_info("- [initial(path:name)]: [H.prepared_boons[path]]")
-				found_any = TRUE
+			var/amt = H.prepared_boons[path]
+			if(amt <= 0)
+				continue
+
+			found_any = TRUE
+			var/boon_name = initial(path:name)
+			var/boon_desc = initial(path:desc)
+			var/boon_points = initial(path:points)
+			boon_html += "<details style='margin-left: 2px;'><summary><b>[boon_name]</b> ([amt]) - [boon_points] pts</summary><div style='margin-left: 10px; font-size: 0.9em;'>[boon_desc]</div></details>"
+
 		if(!found_any)
-			. += span_info("- None ready.")
+			boon_html += span_info("- None ready.")
+		
+		boon_html += "</details>"
+		. += boon_html
 
 /obj/effect/proc_holder/spell/invoked/transmutation_rite
 	name = "Transmutation"
@@ -249,6 +261,7 @@
 	req_items = list()
 	alt_required_items = list()
 	miracle = FALSE
+	harms_undead = FALSE
 	devotion_cost = 0
 	overlay_icon = 'icons/mob/actions/hagspells.dmi'
 	action_icon = 'icons/mob/actions/hagspells.dmi'
@@ -295,7 +308,8 @@
 		revert_cast()
 		return FALSE
 
-	for(var/i in 1 to 3)
+	// Up to the same max amount of people as a tier 3 hag can bless.
+	for(var/i in 1 to 5)
 		var/prompt = "Choose member #[i] to bind (Cancel to finalize coven with [coven_members.len] members)"
 		var/target_name = tgui_input_list(user, prompt, "Coven Link", sort_list(possible))
 

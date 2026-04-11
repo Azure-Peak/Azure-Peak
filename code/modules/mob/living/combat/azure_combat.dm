@@ -189,6 +189,11 @@
 	if(m_intent == MOVE_INTENT_RUN)
 		to_chat(src, span_warning("I can't focus on this while running."))
 		return FALSE
+	// Can't guard while channeling a spell
+	var/datum/action/cooldown/spell/active_spell = click_intercept
+	if(istype(active_spell) && (active_spell.currently_charging || active_spell.charged))
+		to_chat(src, span_warning("I can't guard while channeling a spell!"))
+		return FALSE
 	apply_status_effect(/datum/status_effect/buff/clash)
 	return TRUE
 

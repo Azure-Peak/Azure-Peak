@@ -1,8 +1,13 @@
+// Scaling (base_antags path, no storyteller slot caps):
+//  Midround event: base=1, denom=80, max=2 → 1-79 pop: 1, 80+: 2
+//  Roundstart (Abyssor only): base=2, max=2 → always 2
 /datum/antagonist/dreamwalker
 	name = "Dreamwalker"
 	roundend_category = "Dreamwalker"
 	antagpanel_category = "Dreamwalker"
 	job_rank = ROLE_DREAMWALKER
+	storyteller_antag_flags = STORYTELLER_ANTAG_SOFT
+	storyteller_favor_flags = STORYTELLER_FAVOR_DREAMWALKER
 	confess_lines = list(
 		"MY VISION ABOVE ALL!",
 		"I'LL TAKE YOU TO MY REALM!",
@@ -124,8 +129,8 @@
 	if(!ishuman(parent))
 		return COMPONENT_INCOMPATIBLE
 	to_chat(parent, span_userdanger("Your body pulses with strange dream energies."))
-	RegisterSignal(parent, COMSIG_ITEM_EQUIPPED, .proc/on_item_equipped)
-	RegisterSignal(parent, COMSIG_ITEM_DROPPED, .proc/on_item_dropped)
+	RegisterSignal(parent, COMSIG_MOB_EQUIPPED_ITEM, .proc/on_item_equipped)
+	RegisterSignal(parent, COMSIG_MOB_DROPITEM, .proc/on_item_dropped)
 	// Register for processing
 	START_PROCESSING(SSprocessing, src)
 

@@ -627,6 +627,7 @@
 			LAZYINITLIST(item_to_grid_coordinates)
 			LAZYINITLIST(item_to_grid_coordinates[storing])
 			LAZYADD(item_to_grid_coordinates[storing], calculated_coordinates)
+	SEND_SIGNAL(parent, COMSIG_STORAGE_ADDED, storing)
 	return TRUE
 
 /datum/component/storage/proc/grid_remove_item(obj/item/removed)

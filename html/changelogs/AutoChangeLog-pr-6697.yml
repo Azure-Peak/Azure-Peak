@@ -1,0 +1,14 @@
+author: "Ketrai"
+delete-after: True
+changes:
+  - qol: "hag siphon spirit now shows boon descriptions with a dropdown."
+  - qol: "Hag siphon spirit now shows how many points a boon is worth."
+  - qol: "People who receive boons from hags successfully now get known by hags so they can be mindlinked to."
+  - qol: "Siphon spirit now dumps 10 mosses at a time instead of 5 to lower micro."
+  - rscadd: "Hag now doesn't require food, they are an evil moss creature after all."
+  - balance: "Hag true form armor 250 => 350 integrity"
+  - balance: "Hag true form perception 10 => 12"
+  - balance: "Hag true form unarmed journeyman => expert"
+  - bugfix: "Hag mindlink now uses the intended limit of up to 6 participants"
+  - bugfix: "Hag mindlink now relays self-messages."
+  - bugfix: "Hag - Some minor moss descriptions for the random trait mosses to show in the crafting menu."

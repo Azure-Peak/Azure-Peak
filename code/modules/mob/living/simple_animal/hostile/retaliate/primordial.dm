@@ -31,6 +31,7 @@
 	ADD_TRAIT(src, TRAIT_BREADY, TRAIT_GENERIC)
 	src.adjust_skillrank(/datum/skill/combat/unarmed, 3, TRUE)
 	. = ..()
+	AddComponent(/datum/component/ai_aggro_system)
 
 /datum/intent/simple/claw/primordial
 	name = "claw"

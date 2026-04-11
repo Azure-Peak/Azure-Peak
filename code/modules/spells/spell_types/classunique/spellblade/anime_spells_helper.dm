@@ -81,6 +81,7 @@ without going through the click pipeline, so spells can deliver weapon-style str
 		intdamage_factor = (blade_class == BCLASS_BLUNT) ? BLUNT_DEFAULT_INT_DAMAGEFACTOR : 1
 	var/armor_block = target.run_armor_check(def_zone, attack_flag, blade_dulling = blade_class, armor_penetration = armor_penetration, damage = damage, intdamfactor = intdamage_factor)
 	var/damage_dealt = target.apply_damage(damage, damage_type, def_zone, armor_block)
+	SEND_SIGNAL(target, COMSIG_ATOM_WAS_ATTACKED, user, damage)
 
 	// Match standard melee flow: only apply wounds if damage actually got through armor
 	if(damage_dealt)

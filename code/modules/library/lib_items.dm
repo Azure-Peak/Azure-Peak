@@ -13,9 +13,15 @@
 	attacked_sound = "woodimpact"
 	var/state = 0
 	var/list/allowed_books = list(/obj/item/book, /obj/item/storage/book, /obj/item/recipe_book, /obj/item/skillbook) //Things allowed in the bookcase
+	hidingspot = TRUE
+	var/mob/living/hiddenguy = null // So we can find them with fixed eye search
 
 /obj/structure/bookcase/examine(mob/user)
 	. = ..()
+
+/obj/structure/bookcase/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Some structures can be used as hiding places. Toggle the 'SNEAK' button on your HUD, then click the structure to hide in it. You can stop hiding by clicking the structure again, or by moving out of it.")
 
 /obj/structure/bookcase/Initialize(mapload)
 	. = ..()
@@ -50,6 +56,9 @@
 
 /obj/structure/bookcase/attack_hand(mob/living/user)
 	. = ..()
+	if(user.m_intent == MOVE_INTENT_SNEAK)
+		hideinside(user)
+		return
 	if(.)
 		return
 	if(user.cmode)
@@ -67,6 +76,34 @@
 			else
 				choice.forceMove(drop_location())
 			update_icon()
+
+/obj/structure/bookcase/proc/hideinside(mob/living/user)
+	var/sneak_level = user.get_skill_level(/datum/skill/misc/sneaking) || 0
+	var/sneaktime = max(10, 50 - (sneak_level * 10)) // Hard caps at 1 second at Expert and above.
+	if(user.loc == src)
+		unhide(user)
+		return
+	if(occupied)
+		to_chat(user, span_warning("Someone is already hiding behind [src]!"))
+		return
+	if(!do_after(user, sneaktime, src))
+		return
+	user.forceMove(src)
+	occupied = TRUE
+	hiddenguy = user
+	to_chat(user, span_warning("I hide behind [src]!"))
+
+/obj/structure/bookcase/proc/unhide(mob/living/user)
+	var/turf/T = get_turf(src)
+	if(!T) return
+	user.forceMove(T)
+	occupied = FALSE
+	hiddenguy = null
+	to_chat(user, span_warning("I come out from behind [src]!"))
+
+/obj/structure/bookcase/relaymove(mob/user)
+	if(user.loc == src)
+		unhide(user)
 
 /obj/structure/bookcase/deconstruct(disassembled = TRUE)
 	for(var/obj/item/book/B in contents)

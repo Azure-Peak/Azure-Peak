@@ -83,6 +83,7 @@
 
 /mob/living/simple_animal/hostile/retaliate/rogue/bigrat/Initialize()
 	. = ..()
+	AddComponent(/datum/component/ai_aggro_system)
 	gender = MALE
 	AddElement(/datum/element/ai_flee_while_injured, 0.75, 0.3)
 	if(prob(33))

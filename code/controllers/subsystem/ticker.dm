@@ -414,6 +414,8 @@ SUBSYSTEM_DEF(ticker)
 		if(C.mob)
 			C.mob.playsound_local(C.mob, 'sound/misc/roundstart.ogg', 100, FALSE)
 
+	SSgamemode.roll_roundstart_antag()
+
 //	SEND_SOUND(world, sound('sound/misc/roundstart.ogg'))
 	current_state = GAME_STATE_PLAYING
 

@@ -1,4 +1,0 @@
-author: "Juubo"
-delete-after: True
-changes:
-  - bugfix: "run times when destroying rock walls"

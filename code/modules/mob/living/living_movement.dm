@@ -63,10 +63,16 @@
 		if(MOVE_INTENT_RUN)
 			mod = CONFIG_GET(number/movedelay/run_delay)
 		if(MOVE_INTENT_SNEAK)
+			var/base_walk = CONFIG_GET(number/movedelay/walk_delay)
+			var/default_delay
 			if(HAS_TRAIT(src, TRAIT_LIGHT_STEP))
-				mod = CONFIG_GET(number/movedelay/walk_delay) * 1.3
+				default_delay = base_walk * 1.3
 			else
-				mod = 6
+				default_delay = 6
+			var/skill = src.get_skill_level(/datum/skill/misc/sneaking)
+			var/skill_mod = 1.6 - (skill * 0.1)
+			var/skill_delay = base_walk * skill_mod
+			mod = min(default_delay, skill_delay)
 
 	var/spdchange = (10-STASPD)*0.1
 	spdchange = clamp(spdchange, -0.5, 1)  //if this is not clamped, maniacs will run at unfathomable speed

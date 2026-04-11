@@ -78,8 +78,8 @@
 
 /mob/living/simple_animal/hostile/retaliate/rogue/mole/Initialize()
 	. = ..()
+	AddComponent(/datum/component/ai_aggro_system)
 	gender = MALE
-	AddElement(/datum/element/ai_retaliate)
 	if(prob(33))
 		gender = FEMALE
 	update_icon()
