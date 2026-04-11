@@ -42,6 +42,9 @@
 	var/datum/special_intent/special
 
 	var/malumblessed_w = FALSE
+	
+	// whether this is actually a tool, like hoes and hammers, not a weapon proper. used to allow TRAIT_TINYPAWS users to conduct repairs and such
+	var/is_tool = FALSE
 
 
 /obj/item/rogueweapon/Initialize()

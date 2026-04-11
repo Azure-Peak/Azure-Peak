@@ -242,11 +242,11 @@
 		"Cudgel" = /obj/item/rogueweapon/mace/cudgel,
 		"Warhammer" = /obj/item/rogueweapon/mace/warhammer,
 		"Dagger" = /obj/item/rogueweapon/huntingknife/idagger,
-		"Axe" = /obj/item/rogueweapon/stoneaxe/woodcut,
 		"Flail" = /obj/item/rogueweapon/flail,
 		"Whip" = /obj/item/rogueweapon/whip,
 		"Wooden Shield" = /obj/item/rogueweapon/shield/wood,
 		// Tools
+		"Axe" = /obj/item/rogueweapon/stoneaxe/woodcut,
 		"Pickaxe" = /obj/item/rogueweapon/pick,
 		"Hoe" = /obj/item/rogueweapon/hoe,
 		"Thresher" = /obj/item/rogueweapon/thresher,

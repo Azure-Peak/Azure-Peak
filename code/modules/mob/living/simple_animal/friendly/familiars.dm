@@ -72,7 +72,7 @@
 /mob/living/simple_animal/pet/familiar/Initialize()
 	. = ..()
 	ADD_TRAIT(src, TRAIT_NOFALLDAMAGE1, TRAIT_GENERIC)
-	ADD_TRAIT(src, TRAIT_CHUNKYFINGERS, TRAIT_GENERIC)
+	ADD_TRAIT(src, TRAIT_TINYPAWS, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_INFINITE_STAMINA, TRAIT_GENERIC)
 	AddComponent(/datum/component/footstep, footstep_type)
 	TryAddFlight()
@@ -116,10 +116,10 @@
 /mob/living/simple_animal/pet/familiar/do_time_change()
 	. = ..()
 	if(!istype(src, /mob/living/simple_animal/pet/familiar/void) && GLOB.tod == "night" && tier < 2)
+		tier++
 		to_chat(src, span_info("As another nite falls, your powers grow, adjusting more to the mortal plane."))
 		if(LAZYLEN(tierup_messages) && tierup_messages[tier])
 			to_chat(src, tierup_messages[tier])
-		tier++
 		grant_tier_abilities(tier)
 
 /mob/living/simple_animal/pet/familiar/death()
@@ -452,6 +452,14 @@
 		span_info("You can now shape earth into tools, including those capable of repairing equipment."),
 		span_info("As your attunement grows, your earth-shaping becomes more potent. You can now sculpt weapons, though you cannot wield them yourself.")
 	)
+
+// so they can actually do repairs
+/mob/living/simple_animal/pet/familiar/elemental/Initialize()
+	. = ..()
+	src.adjust_skillrank_up_to(/datum/skill/craft/armorsmithing, SKILL_LEVEL_APPRENTICE)
+	src.adjust_skillrank_up_to(/datum/skill/craft/weaponsmithing, SKILL_LEVEL_APPRENTICE)
+	src.adjust_skillrank_up_to(/datum/skill/craft/blacksmithing, SKILL_LEVEL_APPRENTICE)
+	src.adjust_skillrank_up_to(/datum/skill/craft/sewing, SKILL_LEVEL_APPRENTICE)
 
 /mob/living/simple_animal/pet/familiar/elemental/grant_tier_abilities(tier)
 	. = ..()
