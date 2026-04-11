@@ -105,6 +105,7 @@
 
 /mob/living/simple_animal/hostile/rogue/dragger/Initialize()
 	. = ..()
+	AddComponent(/datum/component/ai_aggro_system)
 	set_light(2, 2, 2, l_color = "#c0523f")
 	ADD_TRAIT(src, TRAIT_IGNOREDAMAGESLOWDOWN, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NOPAINSTUN, TRAIT_GENERIC)

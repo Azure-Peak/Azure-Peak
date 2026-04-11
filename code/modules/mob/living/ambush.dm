@@ -224,10 +224,7 @@ GLOBAL_LIST_INIT(melee_combat_skills, list( \
 			M.GiveTarget(aggro_target)
 		if(istype(spawnedmob, /mob/living/carbon/human))
 			var/mob/living/carbon/human/H = spawnedmob
-			H.del_on_deaggro = 44 SECONDS
-			H.last_aggro_loss = world.time
 			H.faction += "ambush"
-			H.retaliate(aggro_target)
 			mustype = 2
 	if(!silent)
 		if(mustype == 1)

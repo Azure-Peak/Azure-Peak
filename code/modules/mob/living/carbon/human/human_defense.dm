@@ -187,9 +187,6 @@
 			P.on_hit(src, 100, def_zone)
 			return BULLET_ACT_HIT
 
-	var/mob/living/attacker = P?.firer
-	if(attacker)
-		retaliate(attacker)
 	return ..(P, def_zone)
 
 /mob/living/carbon/human/proc/check_reflect(def_zone) //Reflection checks for anything in my l_hand, r_hand, or wear_armor based on the reflection chance of the object
@@ -245,9 +242,6 @@
 		throwpower = I.throwforce
 		if(I.thrownby == src) //No throwing stuff at myself to trigger hit reactions
 			return ..()
-		else
-			if(ismob(I.thrownby))
-				retaliate(I.thrownby)
 	if(check_shields(AM, throwpower, "\the [AM.name]", THROWN_PROJECTILE_ATTACK))
 		hitpush = FALSE
 		skipcatch = TRUE
@@ -285,7 +279,6 @@
 /mob/living/carbon/human/grippedby(mob/living/user, instant = FALSE)
 	if(wear_pants)
 		wear_pants.add_fingerprint(user)
-	retaliate(user)
 	..()
 
 
@@ -311,16 +304,12 @@
 	SSblackbox.record_feedback("nested tally", "item_used_for_combat", 1, list("[I.force]", "[I.type]"))
 	SSblackbox.record_feedback("tally", "zone_targeted", 1, useder)
 
-	if(I.force)
-		retaliate(user)
-
 	// the attacked_by code varies among species
 	return dna.species.spec_attacked_by(I, user, affecting, used_intent, src, useder)
 
 /mob/living/carbon/human/attack_hand(mob/user)
 	if(..())	//to allow surgery to return properly.
 		return
-	retaliate(user)
 	if(ishuman(user))
 		var/mob/living/carbon/human/H = user
 		dna.species.spec_attack_hand(H, src)
@@ -333,8 +322,6 @@
 	if(M.used_intent.type == INTENT_HELP)
 		..() //shaking
 		return 0
-
-	retaliate(M)
 
 	if(M.used_intent.type == INTENT_DISARM) //Always drop item in hand, if no item, get stunned instead.
 		var/obj/item/I = get_active_held_item()
@@ -402,8 +389,6 @@
 		next_attack_msg.Cut()
 		if(nodmg)
 			return FALSE
-		else
-			retaliate(M)
 
 /mob/living/carbon/human/ex_act(severity, target, epicenter, devastation_range, heavy_impact_range, light_impact_range, flame_range)
 	..()

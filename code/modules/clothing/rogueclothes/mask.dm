@@ -699,3 +699,11 @@
 	smeltresult = null
 	anvilrepair = /datum/skill/craft/ceramics
 	sellprice = 0
+
+/obj/item/clothing/mask/rogue/xylixmask/weathered
+	name = "weathered mask"
+	item_state = "xylix_weathered"
+	icon_state = "xylix_weathered"
+	desc = "An ancient ceramic face. It looks weathered, the sort molded by Xylixian worshippers of many yils past. Even when cast aside, it feels like the hardened clay has never left your hands. As if it always finds a way back into your palms."
+	// No armor anyways
+	max_integrity = 200

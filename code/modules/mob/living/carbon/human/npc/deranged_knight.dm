@@ -10,53 +10,18 @@ GLOBAL_LIST_INIT(graggar_aggro, world.file2list("strings/rt/graggaraggrolines.tx
 GLOBAL_LIST_INIT(hedgeknight_aggro, world.file2list("strings/rt/hedgeknightaggrolines.txt"))
 
 /mob/living/carbon/human/species/human/northern/deranged_knight
-	aggressive = TRUE
-	rude = TRUE
-	mode = NPC_AI_IDLE
+	ai_controller = /datum/ai_controller/human_npc
 	faction = list("dundead")
 	ambushable = FALSE
 	dodgetime = 30
-	flee_in_pain = TRUE
-	possible_rmb_intents = list(
-		/datum/rmb_intent/feint,\
-		/datum/rmb_intent/aimed,\
-		/datum/rmb_intent/strong,\
-		/datum/rmb_intent/riposte,\
-		/datum/rmb_intent/weak
-	)
-	npc_max_jump_stamina = 0
 	var/preset = "matthios"
 	var/forced_preset = "" // If set, force a specific preset instead of randomizing.
 
-/mob/living/carbon/human/species/human/northern/deranged_knight/retaliate(mob/living/L)
-	var/newtarg = target
-	.=..()
-	if(target)
-		aggressive=1
-		wander = TRUE
-	if(target != newtarg)
-		var/list/saylines
-		switch(preset)
-			if("matthios")
-				saylines = GLOB.matthios_aggro
-			if("zizo")
-				saylines = GLOB.zizo_aggro
-			if("graggar")
-				saylines = GLOB.graggar_aggro
-			if("hedgeknight")
-				saylines = GLOB.hedgeknight_aggro
-		if(npc_combat_dialogue(saylines, prob_chance = 50, cooldown = 0))
-			pointed(target)
 
-/mob/living/carbon/human/species/human/northern/deranged_knight/should_target(mob/living/L)
-	if(L.stat != CONSCIOUS)
-		return FALSE
-	. = ..()
 
 /mob/living/carbon/human/species/human/northern/deranged_knight/Initialize()
 	. = ..()
 	addtimer(CALLBACK(src, PROC_REF(after_creation)), 1 SECONDS)
-	is_silent = TRUE
 
 /mob/living/carbon/human/species/human/northern/deranged_knight/proc/outfit_dk(datum/outfit/outfit)
 	if(!outfit)
@@ -71,13 +36,13 @@ GLOBAL_LIST_INIT(hedgeknight_aggro, world.file2list("strings/rt/hedgeknightaggro
 
 /mob/living/carbon/human/species/human/northern/deranged_knight/after_creation()
 	..()
+	AddComponent(/datum/component/ai_aggro_system)
 	job = "Ascendant Knight"
 	ADD_TRAIT(src, TRAIT_NOMOOD, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NOHUNGER, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_LEECHIMMUNE, INNATE_TRAIT)
 	ADD_TRAIT(src, TRAIT_BREADY, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
-	ADD_TRAIT(src, TRAIT_CRIT_THRESHOLD, TRAIT_GENERIC)
 	if(forced_preset)
 		preset = forced_preset
 	else
@@ -106,6 +71,19 @@ GLOBAL_LIST_INIT(hedgeknight_aggro, world.file2list("strings/rt/hedgeknightaggro
 			else
 				outfit_dk(new /datum/outfit/job/roguetown/quest_miniboss/blacksteel)
 			// No special trait for hedgeknight, he's just a generic tough guy.
+
+	var/list/aggro_lines
+	switch(preset)
+		if("graggar")
+			aggro_lines = GLOB.graggar_aggro
+		if("matthios")
+			aggro_lines = GLOB.matthios_aggro
+		if("zizo")
+			aggro_lines = GLOB.zizo_aggro
+		if("hedgeknight")
+			aggro_lines = GLOB.hedgeknight_aggro
+	if(aggro_lines)
+		SEND_SIGNAL(src, COMSIG_MOB_MODIFY_AGGRO_LINES, aggro_lines, TRUE)
 
 	gender = pick(MALE,FEMALE)
 	regenerate_icons()
@@ -155,36 +133,6 @@ GLOBAL_LIST_INIT(hedgeknight_aggro, world.file2list("strings/rt/hedgeknightaggro
 
 	def_intent_change(INTENT_PARRY)
 
-/mob/living/carbon/human/species/human/northern/deranged_knight/npc_idle()
-	if(m_intent == MOVE_INTENT_SNEAK)
-		return
-	if(world.time < next_idle)
-		return
-	next_idle = world.time + rand(30, 70)
-	if((mobility_flags & MOBILITY_MOVE) && isturf(loc) && wander)
-		if(prob(20))
-			var/turf/T = get_step(loc,pick(GLOB.cardinals))
-			if(!istype(T, /turf/open/transparent/openspace))
-				Move(T)
-		else
-			face_atom(get_step(src,pick(GLOB.cardinals)))
-	if(!wander && prob(10))
-		face_atom(get_step(src,pick(GLOB.cardinals)))
-
-/mob/living/carbon/human/species/human/northern/deranged_knight/handle_combat()
-	if(mode == NPC_AI_HUNT)
-		var/list/saylines
-		switch(preset)
-			if("matthios")
-				saylines = GLOB.matthios_aggro
-			if("zizo")
-				saylines = GLOB.zizo_aggro
-			if("graggar")
-				saylines = GLOB.graggar_aggro
-			if("hedgeknight")
-				saylines = GLOB.hedgeknight_aggro
-		npc_combat_dialogue(saylines, list("laugh", "warcry"), prob_chance = 5, say_chance = 50)
-	. = ..()
 
 /mob/living/carbon/human/species/human/northern/deranged_knight/death(gibbed, nocutscene)
 	if(preset == "matthios")
@@ -205,8 +153,8 @@ GLOBAL_LIST_INIT(hedgeknight_aggro, world.file2list("strings/rt/hedgeknightaggro
 	. = ..()
 	H.STASTR = 15
 	H.STASPD = 14
-	H.STACON = 15
-	H.STAWIL = 14
+	H.STACON = 12
+	H.STAWIL = 12
 	H.STAPER = 12
 	H.STAINT = 12
 	H.STALUC = 10

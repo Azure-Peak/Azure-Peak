@@ -50,7 +50,7 @@
 
 /mob/living/simple_animal/hostile/retaliate/rogue/orc/Initialize()
 	. = ..()
-	AddElement(/datum/element/ai_retaliate)
+	AddComponent(/datum/component/ai_aggro_system)
 
 /mob/living/simple_animal/hostile/retaliate/rogue/orc/orc2
 	icon_state = "savageorc2"

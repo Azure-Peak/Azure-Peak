@@ -43,7 +43,7 @@
 	blocksound = SOFTHIT
 	blade_dulling = DULLING_BASHCHOP
 	sewrepair = FALSE
-	max_integrity = 250
+	max_integrity = 350
 	item_flags = DROPDEL
 
 /mob/living/carbon/human/species/wildshape/hag/gain_inherent_skills()
@@ -52,10 +52,10 @@
 		STASTR = 12
 		STACON = 15
 		STAWIL = 15
-		STAPER = 10
+		STAPER = 12
 		STASPD = 8
 		adjust_skillrank(/datum/skill/combat/wrestling, SKILL_LEVEL_JOURNEYMAN, TRUE)
-		adjust_skillrank(/datum/skill/combat/unarmed, SKILL_LEVEL_JOURNEYMAN, TRUE)
+		adjust_skillrank(/datum/skill/combat/unarmed, SKILL_LEVEL_EXPERT, TRUE)
 		adjust_skillrank(/datum/skill/misc/swimming, SKILL_LEVEL_JOURNEYMAN, TRUE)
 		adjust_skillrank(/datum/skill/misc/athletics, SKILL_LEVEL_MASTER, TRUE)
 		adjust_skillrank(/datum/skill/misc/sneaking, SKILL_LEVEL_EXPERT, TRUE)
@@ -145,7 +145,7 @@
 	icon = 'icons/roguetown/weapons/misc32.dmi'
 	max_blade_int = 600
 	max_integrity = 600
-	force = 25
+	force = 27
 	block_chance = 0
 	wdefense = 6
 	blade_dulling = DULLING_SHAFT_WOOD

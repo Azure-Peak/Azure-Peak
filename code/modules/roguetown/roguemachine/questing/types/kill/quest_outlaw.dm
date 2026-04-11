@@ -1,7 +1,11 @@
 /datum/quest/kill/outlaw
 	quest_type = QUEST_OUTLAW
 	mob_types_to_spawn = list(
-		/mob/living/carbon/human/species/human/northern/deranged_knight
+		/mob/living/carbon/human/species/human/northern/deranged_knight/hedgeknight,
+		/mob/living/carbon/human/species/human/northern/outlaw_duelist,
+		/mob/living/carbon/human/species/human/northern/outlaw_ranger,
+		/mob/living/carbon/human/species/human/northern/outlaw_tank,
+		/mob/living/carbon/human/species/goblin/npc/large,
 	)
 	count_min = 1
 	count_max = 1
@@ -9,7 +13,7 @@
 /datum/quest/kill/outlaw/get_title()
 	if(title)
 		return title
-	return "Defeat [pick("the terrible", "the dreadful", "the monstrous", "the infamous")] [pick("warlord", "beast", "sorcerer", "abomination")]"
+	return "Defeat [pick("the terrible", "the dreadful", "the monstrous", "the infamous", "the feared")] [pick("warlord", "outlaw", "renegade", "marauder", "brigand")]"
 
 /datum/quest/kill/outlaw/get_objective_text()
 	return "Slay [initial(target_mob_type.name)]."
@@ -31,5 +35,8 @@
 		var/obj/effect/quest_spawn/spawn_effect = new /obj/effect/quest_spawn(spawn_turf)
 		var/mob/living/goon = new /mob/living/carbon/human/species/human/northern/highwayman/dk_goon(spawn_effect)
 		goon.faction |= "quest"
+		// Suppress AI scanning while dormant inside the spawn_effect — see __quest_kill_base.dm
+		ADD_TRAIT(goon, TRAIT_FRESHSPAWN, "[type]")
+		addtimer(TRAIT_CALLBACK_REMOVE(goon, TRAIT_FRESHSPAWN, "[type]"), 60 SECONDS)
 		spawn_effect.contained_atom = goon
 		spawn_effect.AddComponent(/datum/component/quest_object/mob_spawner, src)

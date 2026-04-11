@@ -129,8 +129,8 @@
 	if(!ishuman(parent))
 		return COMPONENT_INCOMPATIBLE
 	to_chat(parent, span_userdanger("Your body pulses with strange dream energies."))
-	RegisterSignal(parent, COMSIG_ITEM_EQUIPPED, .proc/on_item_equipped)
-	RegisterSignal(parent, COMSIG_ITEM_DROPPED, .proc/on_item_dropped)
+	RegisterSignal(parent, COMSIG_MOB_EQUIPPED_ITEM, .proc/on_item_equipped)
+	RegisterSignal(parent, COMSIG_MOB_DROPITEM, .proc/on_item_dropped)
 	// Register for processing
 	START_PROCESSING(SSprocessing, src)
 

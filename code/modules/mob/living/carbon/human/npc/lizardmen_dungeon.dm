@@ -2,56 +2,31 @@
 //Intended difficulty [HARD]
 /mob/living/carbon/human/species/lizardfolk/psy_vault_guard
 	race = /datum/species/lizardfolk
-	aggressive=1
-	rude = TRUE
-	mode = NPC_AI_IDLE
+	ai_controller = /datum/ai_controller/human_npc
 	faction = list("psy_vault_guard")
 	ambushable = FALSE
 	cmode = 1
 	setparrytime = 20
-	flee_in_pain = FALSE
 	a_intent = INTENT_HELP
 	d_intent = INTENT_PARRY
 	possible_mmb_intents = list(INTENT_BITE, INTENT_JUMP, INTENT_KICK, INTENT_SPECIAL)
-	possible_rmb_intents = list(
-		/datum/rmb_intent/feint,\
-		/datum/rmb_intent/aimed,\
-		/datum/rmb_intent/strong,\
-		/datum/rmb_intent/riposte,\
-		/datum/rmb_intent/weak
-	)
-	npc_max_jump_stamina = 0
 
 /mob/living/carbon/human/species/lizardfolk/psy_vault_guard/ambush
-	aggressive=1
-	wander = TRUE
 
-/mob/living/carbon/human/species/lizardfolk/psy_vault_guard/retaliate(mob/living/L)
-	var/newtarg = target
-	.=..()
-	if(target)
-		aggressive=1
-		wander = TRUE
-		if(target != newtarg)
-			if(npc_combat_dialogue(GLOB.highwayman_aggro, prob_chance = 50, cooldown = 0))
-				pointed(target)
 
-/mob/living/carbon/human/species/lizardfolk/psy_vault_guard/should_target(mob/living/L)
-	if(L.stat != CONSCIOUS)
-		return FALSE
-	. = ..()
 
 /mob/living/carbon/human/species/lizardfolk/psy_vault_guard/Initialize()
 	. = ..()
 	set_species(/datum/species/lizardfolk)
 	addtimer(CALLBACK(src, PROC_REF(after_creation)), 1 SECONDS)
-	is_silent = TRUE
 	transform = transform.Scale(1.25, 1.25)
 	transform = transform.Translate(0, 0.25 * 16)
 	update_transform()
 
 /mob/living/carbon/human/species/lizardfolk/psy_vault_guard/after_creation()
 	..()
+	AddComponent(/datum/component/ai_aggro_system)
+	SEND_SIGNAL(src, COMSIG_MOB_MODIFY_AGGRO_LINES, GLOB.highwayman_aggro, TRUE)
 	//This Stuff handles their parts
 	var/obj/item/organ/tail/lizard/tail = src.getorganslot(ORGAN_SLOT_TAIL)
 	var/obj/item/organ/snout/lizard/psy_vault_guard/snout = src.getorganslot(ORGAN_SLOT_SNOUT)
@@ -90,27 +65,6 @@
 	var/obj/item/bodypart/head/head = get_bodypart(BODY_ZONE_HEAD)
 	head.sellprice = 50 // Big sellprice for these guys
 
-/mob/living/carbon/human/species/lizardfolk/psy_vault_guard/npc_idle()
-	if(m_intent == MOVE_INTENT_SNEAK)
-		return
-	if(world.time < next_idle)
-		return
-	next_idle = world.time + rand(30, 70)
-	if((mobility_flags & MOBILITY_MOVE) && isturf(loc) && wander)
-		if(prob(20))
-			var/turf/T = get_step(loc,pick(GLOB.cardinals))
-			if(!istype(T, /turf/open/transparent/openspace))
-				Move(T)
-		else
-			face_atom(get_step(src,pick(GLOB.cardinals)))
-	if(!wander && prob(10))
-		face_atom(get_step(src,pick(GLOB.cardinals)))
-
-/mob/living/carbon/human/species/lizardfolk/psy_vault_guard/handle_combat()
-	if(mode == NPC_AI_HUNT)
-		if(prob(2)) // do not make this big or else they NEVER SHUT UP
-			emote("fsalute")
-	. = ..()
 
 /datum/outfit/job/roguetown/human/species/lizardfolk/psy_vault_guard/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -119,8 +73,8 @@
 	//Stat Stuff
 	H.STASTR = 15
 	H.STASPD = 13
-	H.STACON = 15
-	H.STAWIL = 15
+	H.STACON = 11
+	H.STAWIL = 11
 	H.STAPER = 12
 	H.STAINT = 10
 	H.STALUC = 13

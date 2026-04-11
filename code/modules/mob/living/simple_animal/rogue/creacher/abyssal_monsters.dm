@@ -83,12 +83,12 @@
             return pick('sound/mobs/abyssal/abyssal_idle.ogg')
 
 /mob/living/simple_animal/hostile/rogue/dreamfiend/Initialize()
-	AddElement(/datum/element/ai_retaliate)
 	ADD_TRAIT(src, TRAIT_NOBREATH, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NOPAIN, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_KNEESTINGER_IMMUNITY, INNATE_TRAIT)
 	ADD_TRAIT(src, TRAIT_SILVER_WEAK, TRAIT_GENERIC) //Dreamfiends fall into the 'eldritch' category. Technically not 'unholy', but certainly monstrous.
 	. = ..()
+	AddComponent(/datum/component/ai_aggro_system)
 
 /mob/living/simple_animal/hostile/rogue/dreamfiend/ancient/Initialize()
 	ADD_TRAIT(src, TRAIT_NOMOOD, TRAIT_GENERIC)

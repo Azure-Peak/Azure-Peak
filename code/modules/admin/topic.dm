@@ -22,10 +22,6 @@
 	if(!CheckAdminHref(href, href_list))
 		return
 
-	if(href_list["mass_direct"])
-		if(mass_direct_handle_topic(href_list))
-			return
-
 	// Open Heal Panel from Player Panel
 	if(href_list["heal_panel"])
 		var/mob/living/M = locate(href_list["heal_panel"])
@@ -1408,9 +1404,6 @@
 									var/mob/living/simple_animal/SA = spawned_mob
 									SA.toggle_ai(AI_OFF)
 									SA.can_have_ai = FALSE
-								if(ishuman(spawned_mob))
-									var/mob/living/carbon/human/H = spawned_mob
-									H.mode = NPC_AI_OFF
 								if(spawned_mob.ai_controller)
 									QDEL_NULL(spawned_mob.ai_controller)
 							if(where == "inhand" && isliving(usr) && isitem(O))

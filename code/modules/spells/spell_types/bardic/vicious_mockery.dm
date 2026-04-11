@@ -140,7 +140,6 @@ GLOBAL_LIST_INIT(mockery_insults, list(
 	linked_alert.name = "Vicious Mockery ([stacks]/[MOCKERY_STACKS_MAX])"
 
 /datum/status_effect/debuff/mockery_stack/on_remove()
-	remove_stack_effects()
 	to_chat(owner, span_info("The sting of mockery fades."))
 	. = ..()
 
