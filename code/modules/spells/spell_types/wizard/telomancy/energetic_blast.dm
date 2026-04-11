@@ -85,7 +85,6 @@
 				skip_animation = TRUE)
 			if(!damage_dealt)
 				blocked = TRUE
-				continue
 			new /obj/effect/temp_visual/spell_impact(get_turf(victim), spell_color, spell_impact_intensity)
 			already_hit += victim
 			var/push_dir = get_dir(H, victim)
