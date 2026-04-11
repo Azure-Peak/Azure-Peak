@@ -452,13 +452,14 @@ GLOBAL_LIST(teleport_runes)
 		var/list/candidates = pollCandidatesForMob("Do you want to play as a Mage's familiar? You will materialize as [(plane == "infernal" || plane == "elemental")?"an":"a"] [plane] familiar.", null, null, null, 100, S, POLL_IGNORE_MAGE_SUMMON)
 		if(!LAZYLEN(candidates))
 			to_chat(user,span_warning("No candidate players available."))
+			busy = FALSE
 			return
 		var/list/preferred_candidates = list()
 		var/mob/chosen = null
 		for(var/mob/candidate in candidates)
 			var/client/client_ref = candidate.client
 			if(client_ref && client_ref.prefs && client_ref.prefs.familiar_prefs)
-				if(client_ref.prefs.familiar_prefs.familiar_species[plane] && client_ref.prefs.familiar_prefs.familiar_names[plane] && client_ref.prefs.familiar_prefs.familiar_pronouns[plane])
+				if(client_ref.prefs.familiar_prefs.familiar_species[plane] && client_ref.prefs.familiar_prefs.familiar_names[plane])
 					if(client_ref.prefs.familiar_prefs.familiar_names[plane] in GLOB.chosen_names)
 						// special case: realname conflict
 						to_chat(client_ref, span_warning("Your familiar's name is already claimed, this round!"))
@@ -483,10 +484,12 @@ GLOBAL_LIST(teleport_runes)
 			if(!chosen)
 				//what the fuck
 				to_chat(user, span_warning("Chosen target not found; maybe they disconnected?"))
+				busy = FALSE
 				return
 			var/datum/familiar_prefs/prefs = chosen.client?.prefs?.familiar_prefs
 			if(!istype(prefs) || !chosen.mind) // uh oh
 				to_chat(user, span_warning("Summoning failed: target has no mind or no valid familiar prefs"))
+				busy = FALSE
 				return
 			qdel(S)
 			summoned_mob = null
@@ -494,7 +497,7 @@ GLOBAL_LIST(teleport_runes)
 			var/mob/living/simple_animal/pet/familiar/fam = new to_summon(loc)
 			fam.familiar_summoner = user
 			fam.fully_replace_character_name(null, prefs.familiar_names[plane])
-			fam.pronouns = prefs.familiar_pronouns[plane]
+			fam.pronouns = prefs.familiar_pronouns[plane] ? prefs.familiar_pronouns[plane] : THEY_THEM 
 			switch(prefs.familiar_pronouns[plane]) // why is our gender handling so bad for simples
 				if(SHE_HER)
 					fam.gender=FEMALE
@@ -516,6 +519,7 @@ GLOBAL_LIST(teleport_runes)
 			var/datum/mind/mind_datum = fam.mind
 			if(!mind_datum)
 				to_chat(user, span_warning("Summoning failed: mind transfer failed"))
+				busy = FALSE
 				return
 			mind_datum.RemoveAllSpells()
 			mind_datum.AddSpell(new /datum/action/cooldown/spell/message_summoner())

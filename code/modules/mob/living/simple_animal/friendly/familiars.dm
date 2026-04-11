@@ -117,7 +117,7 @@
 	. = ..()
 	if(!istype(src, /mob/living/simple_animal/pet/familiar/void) && GLOB.tod == "night" && tier < 2)
 		to_chat(src, span_info("As another nite falls, your powers grow, adjusting more to the mortal plane."))
-		if(tierup_messages[tier])
+		if(LAZYLEN(tierup_messages) && tierup_messages[tier])
 			to_chat(src, tierup_messages[tier])
 		tier++
 		grant_tier_abilities(tier)
@@ -448,6 +448,10 @@
 	t1_spell = /datum/action/cooldown/spell/arcyne_forge/elemental
 	t2_spell = /datum/action/cooldown/spell/arcyne_forge/elemental/t2
 	valid_healing_items = list(/obj/item/magic/elemental)
+	tierup_messages = list(
+		span_info("You can now shape earth into tools, including those capable of repairing equipment."),
+		span_info("As your attunement grows, your earth-shaping becomes more potent. You can now sculpt weapons, though you cannot wield them yourself.")
+	)
 
 /mob/living/simple_animal/pet/familiar/elemental/grant_tier_abilities(tier)
 	. = ..()
