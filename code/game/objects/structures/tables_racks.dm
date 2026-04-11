@@ -65,6 +65,10 @@
 
 /obj/structure/table/attack_hand(mob/living/user)
 	if(user.m_intent == MOVE_INTENT_SNEAK)
+		var/turf/T = get_turf(src)
+		for(var/obj/structure/bars/B in T)
+			to_chat(user, span_warning("I can't fit down there with the bars in the way!"))
+			return
 		hideinside(user)
 		return
 	if(Adjacent(user) && user.pulling)
