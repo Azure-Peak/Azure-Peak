@@ -93,17 +93,17 @@
 					H.playsound_local(get_turf(H), 'sound/music/wolfintro.ogg', 80, FALSE, pressure_affected = FALSE)
 					if(H.show_redflash())
 						H.flash_fullscreen("redflash3")
-					transforming = world.time  // Start timer
+					transforming = world.time
 
 	else if(transforming)
-		if(world.time >= transforming + 20 SECONDS)  // Stage 3 - complete transformation
+		if(world.time >= transforming + 20 SECONDS)
 			var/form_to_use = get_transform_path()
 			H.wildshape_transformation(form_to_use)
 			transforming = FALSE
 			transformed = TRUE
 			untransforming = FALSE
 
-		else if(world.time >= transforming + 15 SECONDS)  // Stage 2 - pain and stun
+		else if(world.time >= transforming + 15 SECONDS)
 			if(H.show_redflash())
 				H.flash_fullscreen("redflash3")
 			H.emote("pain", forced = TRUE)
@@ -111,22 +111,22 @@
 			H.Stun(20)
 			H.Knockdown(20)
 
-		else if(world.time >= transforming + 5 SECONDS)  // Stage 1 - warning
+		else if(world.time >= transforming + 5 SECONDS)
 			to_chat(H, span_warning("Your muscles begin to ache..."))
 
 	else if(transformed)
 		if(GLOB.tod != "night")
 			if(!untransforming)
-				untransforming = world.time  // Start untransformation timer
+				untransforming = world.time
 
-			if(world.time >= untransforming + 20 SECONDS)  // Untransform
+			if(world.time >= untransforming + 20 SECONDS)
 				var/mob/living/carbon/human/species/wildshape/current_form = H
 				if(istype(current_form) && current_form.stored_mob)
 					current_form.wildshape_untransform()
 				transformed = FALSE
 				untransforming = FALSE
 
-			else if(world.time >= untransforming + 10 SECONDS)  // Warning
+			else if(world.time >= untransforming + 10 SECONDS)
 				to_chat(H, span_warning("The daylight weakens your bestial form..."))
 
 /datum/component/night_form/Destroy()
