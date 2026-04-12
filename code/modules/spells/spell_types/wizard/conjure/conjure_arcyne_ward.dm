@@ -2,11 +2,11 @@
 
 /datum/action/cooldown/spell/conjure_arcyne_ward
 	name = "Conjure Arcyne Ward"
-	desc = "Conjure an invisible arcyne ward that protects your entire body. Costs 225 energy to conjure. Cast again to dismiss it. \
-	The ward dynamically yields coverage to real armor you wear - \
-	a helmet yields head coverage, a mask yields face coverage, gauntlets yield hand coverage, \
-	arm armor yields arm coverage, leg armor yields leg coverage, and boots yield foot coverage. \
-	Chest, vitals and groin coverage is only yielded when both your armor and shirt slots are filled. \
+	desc = "Conjure an invisible arcyne ward that covers your entire body. Costs 225 energy to conjure. Cast again to dismiss it. \
+	The ward withdraws from areas where you wear real armor, leaving those to your equipment instead - \
+	a helmet replaces head coverage, a mask replaces face coverage, gauntlets replace hand coverage, \
+	arm armor replaces arm coverage, leg armor replaces leg coverage, and boots replace foot coverage. \
+	Chest, vitals and groin coverage is only replaced when both your armor and shirt slots are filled. \
 	The ward has 225 integrity and regenerates over time by draining your energy. \
 	Dismissing the ward refunds cooldown based on remaining integrity - a full health ward has no cooldown, a destroyed ward has full cooldown."
 	button_icon = 'icons/mob/actions/roguespells.dmi'
