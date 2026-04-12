@@ -260,7 +260,7 @@
 	antimagic_allowed = FALSE
 	invocations = list("What is drowned shall rise anew!")
 	invocation_type = "shout"
-	recharge_time = 120 SECONDS
+	recharge_time = 2 MINUTES
 	devotion_cost = 30
 	miracle = TRUE
 	var/stamregenmod = 5	//How many % of stamina we regain after cast, scales with holy skill.
@@ -298,7 +298,7 @@
 	releasedrain = 15
 	chargedrain = 0
 	chargetime = 0.75 SECONDS
-	range = 15
+	range = 7
 	movement_interrupt = FALSE
 	chargedloop = null
 	sound = 'sound/foley/bubb (5).ogg'
@@ -344,7 +344,7 @@
 	releasedrain = 15
 	chargedrain = 0
 	chargetime = 0.75 SECONDS
-	range = 15
+	range = 7
 	movement_interrupt = FALSE
 	chargedloop = null
 	sound = 'sound/misc/undertow.ogg'
@@ -396,7 +396,7 @@
 	antimagic_allowed = TRUE
 	recharge_time = 10 SECONDS
 	miracle = TRUE
-	devotion_cost = 45
+	devotion_cost = 40 //Bolster is 50, Fortify 30, Miracle 10, I guess if we combined fortify + miracle then we get 40
 	var/slickness = 20
 	var/max_slickness = 20
 	var/max_slickness_greater_caster = 40
@@ -483,7 +483,7 @@
 	antimagic_allowed = TRUE
 	recharge_time = 10 SECONDS
 	miracle = TRUE
-	devotion_cost = 100
+	devotion_cost = 50
 	var/townercrab = TRUE //I was looking at this for three days and i am utterly stupid for not fixing it
 	var/mob/living/simple_animal/hostile/retaliate/rogue/mossback/summoned
 
@@ -517,9 +517,9 @@
 	sound = 'sound/foley/bubb (1).ogg'
 	invocations = list("From the dream, consume!")
 	invocation_type = "shout"
-	recharge_time = 300 SECONDS
+	recharge_time = 5 MINUTES
 	miracle = TRUE
-	devotion_cost = 150
+	devotion_cost = 100
 
 	// Teleport parameters
 	var/inner_tele_radius = 1
@@ -605,9 +605,9 @@
 	//Each dreamfiend has a different name to call!
 	invocations = list("shogg vulgt!")
 	invocation_type = "shout"
-	recharge_time = 600 SECONDS
+	recharge_time = 10 MINUTES
 	miracle = TRUE
-	devotion_cost = 300
+	devotion_cost = 150 //More in line with other T4s
 
 /obj/effect/proc_holder/spell/invoked/abyssal_infusion/cast(list/targets, mob/living/user)
 	. = ..()
@@ -665,7 +665,7 @@
 	//Each dreamfiend has a different name to call!
 	invocations = list("shogg vulgt!")
 	invocation_type = "shout"
-	recharge_time = 750 SECONDS
+	recharge_time = 12 MINUTES
 
 	var/stage = 1
 	var/casts_in_stage = 0
