@@ -523,6 +523,9 @@ GLOBAL_LIST_EMPTY(arenafolks) // we're just going to use a list and add to it. S
 	devotion_cost = 50
 
 /obj/effect/proc_holder/spell/invoked/persistence/cast(list/targets, mob/living/user)
+	if(!isliving(targets[1]))
+		revert_cast()
+		return FALSE
 	if(isliving(targets[1]))
 		var/mob/living/target = targets[1]
 		if(target.mob_biotypes & MOB_UNDEAD)

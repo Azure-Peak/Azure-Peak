@@ -104,8 +104,6 @@
 
 	invocations = list("Entflamme.") //(Kindle)
 
-
-
 ///////////////////
 // T0 - Miracle  //
 ///////////////////
@@ -135,6 +133,7 @@
 	devotion_cost = 50
 
 	chargetime = 1 SECONDS
+	no_early_release = TRUE
 	chargedloop = /datum/looping_sound/invokeholy
 	warnie = "sydwarning"
 
@@ -148,8 +147,9 @@
 	. = ..()
 	var/const/energytoregen = 50
 	var/mob/living/carbon/target = targets[1]
-	if (!iscarbon(target)) 
-		return
+	if (!iscarbon(target))
+		revert_cast()
+		return FALSE
 	if (target == user)
 		target.energy_add(energytoregen * (user.get_skill_level(associated_skill)))//200 for templar, 300 for acolyte
 		target.apply_status_effect(/datum/status_effect/buff/recuperation)
@@ -232,6 +232,7 @@
 	devotion_cost = 80
 
 	chargetime = 2 SECONDS
+	no_early_release = TRUE
 	chargedloop = /datum/looping_sound/invokeholy
 	warnie = "sydwarning"
 
@@ -242,6 +243,9 @@
 	associated_skill = /datum/skill/magic/holy
 
 /obj/effect/proc_holder/spell/invoked/perseverance/cast(list/targets, mob/living/user)
+	if(!isliving(targets[1]))
+		revert_cast()
+		return FALSE
 	if(isliving(targets[1]))
 		var/mob/living/target = targets[1]
 		target.visible_message(span_info("Warmth radiates from [target] as their wounds seal over!"), span_notice("The pain from my wounds fade as warmth radiates from my soul!"))
