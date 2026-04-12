@@ -80425,7 +80425,7 @@
 /area/rogue/under/underdark/north)
 "qPM" = (
 /obj/structure/rack/rogue,
-/obj/item/quiver/arrows/bronze,
+/obj/item/quiver/bronzearrows,
 /turf/open/floor/rogue/churchrough,
 /area/rogue/under/cave/scarymaze)
 "qPQ" = (

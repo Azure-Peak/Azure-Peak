@@ -93,3 +93,7 @@
 /datum/sprite_accessory/frills/earlike_angled
 	name = "Earlike (Angled)"
 	icon_state = "earlike_angled"
+
+/datum/sprite_accessory/frills/earlike_long
+	name = "Earlike (Long)"
+	icon_state = "earlike_long"

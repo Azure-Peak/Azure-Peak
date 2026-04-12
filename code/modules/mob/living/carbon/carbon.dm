@@ -258,12 +258,10 @@
 				to_chat(src, "<span class='notice'>I set [I] down gently on the ground.</span>")
 				return
 
-			if(I.throwforce && rogue_sneaking)
-				mob_timers[MT_FOUNDSNEAK] = world.time
-				update_sneak_invis(reset = TRUE)
-
-
 	if(thrown_thing)
+		if(rogue_sneaking)
+			mob_timers[MT_FOUNDSNEAK] = world.time
+			update_sneak_invis(reset = TRUE)
 		if(!thrown_speed)
 			thrown_speed = thrown_thing.throw_speed
 		if(!thrown_range)

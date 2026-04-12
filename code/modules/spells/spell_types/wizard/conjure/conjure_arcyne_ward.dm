@@ -152,8 +152,8 @@
 
 /obj/item/clothing/suit/roguetown/armor/regenerating/skin/arcyne_ward/proc/setup_ward(mob/living/carbon/human/H)
 	ward_owner = H
-	RegisterSignal(H, COMSIG_ITEM_EQUIPPED, PROC_REF(on_owner_equip_change))
-	RegisterSignal(H, COMSIG_ITEM_DROPPED, PROC_REF(on_owner_equip_change))
+	RegisterSignal(H, COMSIG_MOB_EQUIPPED_ITEM, PROC_REF(on_owner_equip_change))
+	RegisterSignal(H, COMSIG_MOB_DROPITEM, PROC_REF(on_owner_equip_change))
 	recalculate_coverage()
 
 /obj/item/clothing/suit/roguetown/armor/regenerating/skin/arcyne_ward/proc/on_owner_equip_change(datum/source, obj/item/item)
@@ -275,7 +275,7 @@
 		reptimer = null
 	if(ward_owner)
 		ward_owner.remove_filter(ARCYNE_WARD_FILTER)
-		UnregisterSignal(ward_owner, list(COMSIG_ITEM_EQUIPPED, COMSIG_ITEM_DROPPED))
+		UnregisterSignal(ward_owner, list(COMSIG_MOB_EQUIPPED_ITEM, COMSIG_MOB_DROPITEM))
 		if(ward_owner.skin_armor == src)
 			ward_owner.skin_armor = null
 		ward_owner = null

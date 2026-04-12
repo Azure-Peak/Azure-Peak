@@ -1,12 +1,12 @@
 
 
 /mob/living/simple_animal/hostile/retaliate/rogue/wolf
-	icon = 'icons/roguetown/mob/monster/vol.dmi'
+	icon = 'icons/roguetown/mob/monster/volf.dmi'
 	name = "volf"
 	desc = "A snarling beast of mangy fur and yellowed teeth. Volves are known to attack hapless travelers in the deep forests when prey is scarce."
-	icon_state = "vv"
-	icon_living = "vv"
-	icon_dead = "vvd"
+	icon_state = "volf_brown"
+	icon_living = "volf_brown_dead"
+	icon_dead = "volf_brown_dead"
 	gender = MALE
 	emote_hear = null
 	emote_see = null
@@ -102,7 +102,7 @@
 	desc = "Whether by starvation, disease, inter-pack conflict, or an unlucky kick from a saiga, this volf has died."
 	gender = PLURAL
 	icon_state = "bones"
-	icon = 'icons/roguetown/mob/monster/vol.dmi'
+	icon = 'icons/roguetown/mob/monster/volf.dmi'
 
 /mob/living/simple_animal/hostile/retaliate/rogue/wolf/Initialize()
 	. = ..()
@@ -113,6 +113,10 @@
 		gender = FEMALE
 	update_icon()
 	ai_controller.set_blackboard_key(BB_BASIC_FOODS, food_type)
+	var/color = pick("brown", "black", "white")
+	icon_state = "volf_[color]"
+	icon_living = "volf_[color]"
+	icon_dead = "volf_[color]_dead"
 
 
 /mob/living/simple_animal/hostile/retaliate/rogue/wolf/death(gibbed)

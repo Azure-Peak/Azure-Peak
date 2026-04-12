@@ -348,3 +348,43 @@
       your hands.
   hazelrat:
   - bugfix: '''Gnoll'' is now capitalised on examine.'
+2026-04-12:
+  KatTheFox:
+  - bugfix: rats no longer consume your inventory slots
+  Ketrai:
+  - qol: hag siphon spirit now shows boon descriptions with a dropdown.
+  - qol: Hag siphon spirit now shows how many points a boon is worth.
+  - qol: People who receive boons from hags successfully now get known by hags so
+      they can be mindlinked to.
+  - qol: Siphon spirit now dumps 10 mosses at a time instead of 5 to lower micro.
+  - rscadd: Hag now doesn't require food, they are an evil moss creature after all.
+  - balance: Hag true form armor 250 => 350 integrity
+  - balance: Hag true form perception 10 => 12
+  - balance: Hag true form unarmed journeyman => expert
+  - bugfix: Hag mindlink now uses the intended limit of up to 6 participants
+  - bugfix: Hag mindlink now relays self-messages.
+  - bugfix: Hag - Some minor moss descriptions for the random trait mosses to show
+      in the crafting menu.
+  - rscadd: Added a weathered Xylixian mask to the loadout
+  - bugfix: Hag revive no longer gibs/harms undead
+  Lamasmaster:
+  - rscadd: Smithable Undivided Sallet
+  - rscadd: Details to Astratan/Undivided templar helmets
+  NalimaTheWitch:
+  - rscadd: Hiding spots. Go examine bushes or tables to find out how to use them.
+  - rscadd: 'Crawling and wall-leaning sneaking: crawl or wall-lean with sneak mode
+      on to become partially transparent based on Sneak skill.'
+  - rscadd: You can spot people in hiding spots by standing next to them and examining
+      the object, or by using 'look around' (fixed eye button).
+  - qol: Far-looking with sneak mode on no longer prints a visible message to others.
+  - qol: Sneaking movement speed now scales from Sneak skill.
+  - balance: Prowler only grants 2 sneak levels instead of 3.
+  WeNeedMorePhoron:
+  - rscadd: Added ranged AI capability
+  - rscadd: Made the AI smarter and able to use specials (often hitting allies) and
+      occasionally switch stance and aim for weakpoints etc.
+  - rscadd: Nearly all NPC has their CON and WIL slashed massively, in exchange, every
+      single !mind check for things like burn hardcrit or bleeding rate or critical
+      threshold has been removed - now they operate on the same ground as PC but start
+      off far more fragile.
+  - rscadd: Drakkyn Aspirant no longer completely immune to burn damage nor antimagic

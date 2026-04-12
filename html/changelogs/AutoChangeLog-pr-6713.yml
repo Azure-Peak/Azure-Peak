@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - balance: "Throwing bottlebombs (and any item with no force) while invisible break stealth"

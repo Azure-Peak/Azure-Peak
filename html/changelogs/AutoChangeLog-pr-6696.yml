@@ -1,0 +1,4 @@
+author: "Ollanius"
+delete-after: True
+changes:
+  - balance: "Removes the 'minimum strength requirement' variable from most greataxes and silver axes. It remains present on the Minotaur Greataxe and Troll Axe, however."

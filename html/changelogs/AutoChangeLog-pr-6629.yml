@@ -1,7 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - rscadd: "Added ranged AI capability"
-  - rscadd: "Made the AI smarter and able to use specials (often hitting allies) and occasionally switch stance and aim for weakpoints etc."
-  - rscadd: "Nearly all NPC has their CON and WIL slashed massively, in exchange, every single !mind check for things like burn hardcrit or bleeding rate or critical threshold has been removed - now they operate on the same ground as PC but start off far more fragile."
-  - rscadd: "Drakkyn Aspirant no longer completely immune to burn damage nor antimagic"

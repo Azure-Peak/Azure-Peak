@@ -359,14 +359,15 @@
 	added_stashed_items = list("Bag of Leechbait" = /obj/item/storage/roguebag/leechbait)
 
 /datum/virtue/utility/feytouched/apply_to_human(mob/living/carbon/human/recipient)
-    ..() // Apply traits, stats, and languages first
-    if(!recipient.mind)
-        return
-    for(var/datum/mind/hag_mind in GLOB.active_hags)
-        if(!hag_mind)
-            continue
-        hag_mind.i_know_person(recipient)
-        recipient.mind.i_know_person(hag_mind)
-        if(hag_mind.current)
-            to_chat(hag_mind.current, span_boldnotice("A familiar rhythm pulse in the roots... [recipient.real_name] is walking the lands this week."))
-    to_chat(recipient, span_boldnotice("The Mossmother's gaze lingers upon you. You are recognized by her daughters."))
+	..() // Apply traits, stats, and languages first
+	if(!recipient.mind)
+		return
+	for(var/mob/living/hag_mob in GLOB.active_hags)
+		var/datum/mind/hag_mind = hag_mob.mind
+		if(!hag_mind)
+			continue
+		hag_mind.i_know_person(recipient)
+		recipient.mind.i_know_person(hag_mind)
+		if(hag_mind.current)
+			to_chat(hag_mind.current, span_boldnotice("A familiar rhythm pulse in the roots... [recipient.real_name] is walking the lands this week."))
+	to_chat(recipient, span_boldnotice("The Mossmother's gaze lingers upon you. You are recognized by her daughters."))
