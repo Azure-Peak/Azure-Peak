@@ -11,9 +11,9 @@
 	overlay_state = "twinned_gaze"
 
 	recharge_time = 2 MINUTES
-	releasedrain = 30
+	releasedrain = 25
 	miracle = TRUE
-	devotion_cost = 40
+	devotion_cost = 35
 
 	sound = 'sound/magic/undivided_bless.ogg'
 	invocation_type = INVOCATION_SHOUT
@@ -98,7 +98,7 @@
 	base_icon_state = "spell"
 
 	recharge_time = 15 SECONDS
-	releasedrain = 25
+	releasedrain = 20
 	range = 5
 	devotion_cost = 20
 
@@ -127,7 +127,7 @@
 	overlay_state = "calming_respite"
 
 	recharge_time = 3 MINUTES
-	releasedrain = 30
+	releasedrain = 25
 
 	miracle = TRUE
 	devotion_cost = 50
@@ -208,7 +208,7 @@
 	overlay_icon = 'icons/mob/actions/undividedmiracles.dmi'
 	overlay_state = "smite"
 
-	releasedrain = 20
+	releasedrain = 10
 	devotion_cost = 35
 
 	invocations = list("Geleitet meine Hand!") //("Guide my hand!")
@@ -226,10 +226,10 @@
 	overlay_state = "perseverance"
 
 	recharge_time = 1 MINUTES
-	releasedrain = 50
+	releasedrain = 40
 	range = 5
 	miracle = TRUE
-	devotion_cost = 80
+	devotion_cost = 70
 
 	chargetime = 2 SECONDS
 	no_early_release = TRUE
@@ -289,7 +289,7 @@
 	recharge_time = 25 MINUTES//Doesn't matter it's one time use
 	range = 0
 	miracle = TRUE
-	devotion_cost = 100	
+	devotion_cost = 10
 
 	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
 	associated_skill = /datum/skill/magic/holy
@@ -443,7 +443,7 @@
 	overlay_state = "bolster"
 
 	recharge_time = 30 SECONDS
-	releasedrain = 50
+	releasedrain = 40
 	devotion_cost = 50
 
 	sound = 'sound/magic/heal_new.ogg'
