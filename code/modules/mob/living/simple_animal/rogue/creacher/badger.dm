@@ -30,6 +30,7 @@
 	STACON = 6
 	STASTR = 7
 	STASPD = 16	//Pretty fast.
+	has_random_colors = FALSE
 
 /obj/effect/decal/remains/badger
 	name = "remains"

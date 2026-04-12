@@ -67,6 +67,7 @@
 //	stat_attack = UNCONSCIOUS
 	remains_type = /obj/effect/decal/remains/wolf
 	eat_forever = TRUE
+	var/has_random_colors = TRUE
 	var/chomp_cd = 0
 	var/chomp_roll = 0
 
@@ -113,11 +114,15 @@
 		gender = FEMALE
 	update_icon()
 	ai_controller.set_blackboard_key(BB_BASIC_FOODS, food_type)
+	SetRandomColor()
+
+/mob/living/simple_animal/hostile/retaliate/rogue/wolf/proc/SetRandomColor()
+	if(!has_random_colors)
+		return
 	var/color = pick("brown", "black", "white")
 	icon_state = "volf_[color]"
 	icon_living = "volf_[color]"
 	icon_dead = "volf_[color]_dead"
-
 
 /mob/living/simple_animal/hostile/retaliate/rogue/wolf/death(gibbed)
 	..()
