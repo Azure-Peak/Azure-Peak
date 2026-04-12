@@ -40,7 +40,7 @@
 	icon = 'icons/obj/magic_projectiles.dmi'
 	icon_state = "arcyne_bolt"
 	guard_deflectable = TRUE
-	damage = 40
+	damage = 45
 	damage_type = BRUTE
 	flag = "blunt"
 	woundclass = BCLASS_BLUNT
@@ -57,6 +57,7 @@
 	arcshot = TRUE
 
 /obj/projectile/magic/greater_arcyne_bolt/on_hit(target)
+	hitsound = pick('sound/combat/hits/blunt/shovel_hit.ogg', 'sound/combat/hits/blunt/shovel_hit2.ogg', 'sound/combat/hits/blunt/shovel_hit3.ogg')
 	if(ismob(target))
 		var/mob/M = target
 		if(M.anti_magic_check())

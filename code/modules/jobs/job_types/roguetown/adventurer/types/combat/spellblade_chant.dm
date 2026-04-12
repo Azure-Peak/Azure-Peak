@@ -20,27 +20,27 @@
 		if("blackoak")
 			blade_weapons = "Elvish Longsword / Elvish Saber / Elvish Curveblade / Steel Dagger"
 			phalanx_weapons = "Elvish Glaive"
-			mace_weapons = "Steel Mace / Steel Warhammer & Shield"
+			mace_weapons = "Steel Mace / Steel Warhammer & Shield / Grand Mace / Battle Axe / Steel Greataxe"
 		if("zizite")
 			blade_weapons = "Kriegmesser / Longsword / Rapier / Sabre / Steel Greatsword / Steel Dagger & Shield"
 			phalanx_weapons = "Halberd / Bardiche / Boar Spear / Dory & Shield / Naginata"
-			mace_weapons = "Steel Mace / Steel Warhammer & Shield / Grand Mace"
+			mace_weapons = "Steel Mace / Steel Warhammer & Shield / Grand Mace / Battle Axe / Steel Greataxe"
 		if("noccite")
 			blade_weapons = "Longsword / Rapier / Sabre / Steel Greatsword / Steel Dagger & Shield / Twilight Fang"
 			phalanx_weapons = "Halberd / Bardiche / Boar Spear / Dory & Shield / Naginata"
-			mace_weapons = "Steel Mace / Steel Warhammer & Shield / Grand Mace"
+			mace_weapons = "Steel Mace / Steel Warhammer & Shield / Grand Mace / Battle Axe / Steel Greataxe"
 		if("almah")
 			blade_weapons = "Dual Shamshirs / Shalal Saber & Shield"
 			phalanx_weapons = "Spear / Dory & Shield"
-			mace_weapons = "Steel Mace / Steel Warhammer & Shield"
+			mace_weapons = "Steel Mace / Steel Warhammer & Shield / Grand Mace / Battle Axe / Steel Greataxe"
 		if("undead")
 			blade_weapons = "Ancient Khopesh / Sabre / Corroded Dagger & Shield"
 			phalanx_weapons = "Ancient Spear / Ancient Bardiche / Dory & Shield"
-			mace_weapons = "Ancient Mace / Ancient Warhammer & Shield"
+			mace_weapons = "Ancient Mace / Ancient Warhammer & Shield / Grand Mace / Ancient Axe / Steel Greataxe"
 		else
 			blade_weapons = "Longsword / Rapier / Sabre / Arming Sword / Shortsword / Hwando  / Steel Dagger & Shield"
 			phalanx_weapons = "Spear / Dory & Shield / Naginata"
-			mace_weapons = "Mace / Warhammer & Shield"
+			mace_weapons = "Mace / Warhammer & Shield / Goedendag / Iron Axe / Greataxe"
 
 	// Inject patron-specific weapons into weapon lists
 	if(extra_blade_weapon)
@@ -329,7 +329,7 @@ a.choose-btn:hover {
 <div class="abilities">
 <h4>Abilities</h4>
 <ul>
-<li><b>Shatter</b> — 3-tile line smash that devastates armor integrity and knocks targets back 1 tile. Empowered: doubles damage.</li>
+<li><b>Kastvyl</b> — Hurl a phantom thrown weapon that ricochets between up to 4 victims, seeking new targets after each strike. The same target can be struck twice (the second blow at half damage), but never thrice. Wound type follows your active intent. Empowered: greatly increased damage.</li>
 <li><b>Tremor</b> — Slam the ground, damaging and pushing back everyone adjacent 1 tile. Empowered: doubles damage.</li>
 <li><b>Charge!</b> — Instantly dash forward 4 paces, shoving everyone in the path to the sides. Deals no damage — pure mobility and disruption.</li>
 <li><b>Cataclysm</b> — Conjure and hurl an arcyne hammer at a target area. Crushes a 5x5 area and leaves victims Vulnerable. Bonus damage at max momentum.</li>
