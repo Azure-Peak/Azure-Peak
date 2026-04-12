@@ -345,14 +345,14 @@
 		user.essences_consumed += essence_to_grant
 		user.grant_essence(essence_to_grant)
 		if(LAZYLEN(user.essences_consumed) == 3)
-			to_chat(user, span_notice("I have consumed the essences of the three planes. One dae, I will grow strong enough to consume yet greater beings, but for now, this appears to be my limit."))
+			to_chat(user, span_notice("I have consumed the essences of the three planes. One dae, I will grow strong enough to consume yet greater beings, but for now, this appears to be my limit. My hunger is mostly sated, for the week."))
 		for(var/obj/effect/decal/cleanable/roguerune/arcyne/binding/rune in range(target.loc))
 			rune.summoned_mob = null
 		QDEL_NULL(target)
 		return TRUE
 	else
 		user.visible_message(
-			span_warning("[user] consumes [target]... but [user.p_they()] don't seem even slightly sated!"),
+			span_warning("[user] consumes [target]... but [user.p_they()] [(user.pronouns == THEY_THEM) ? "don't" : "doesn't"] seem even slightly sated!"),
 			span_warning("I consume [target]'s essence, but I have already tasted of it! This will not nourish me anymore, I must find something new to devour.")
 		)
 		for(var/obj/effect/decal/cleanable/roguerune/arcyne/binding/rune in range(target.loc))
