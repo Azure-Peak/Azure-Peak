@@ -487,8 +487,8 @@ GLOBAL_LIST(teleport_runes)
 				busy = FALSE
 				return
 			var/datum/familiar_prefs/prefs = chosen.client?.prefs?.familiar_prefs
-			if(!istype(prefs) || !chosen.mind) // uh oh
-				to_chat(user, span_warning("Summoning failed: target has no mind or no valid familiar prefs"))
+			if(!istype(prefs)) // uh oh
+				to_chat(user, span_warning("Summoning failed: target has no valid familiar prefs, somehow."))
 				busy = FALSE
 				return
 			qdel(S)
