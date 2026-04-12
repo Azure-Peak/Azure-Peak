@@ -366,6 +366,7 @@
 	recharge_time = 30 SECONDS
 	overlay_icon = 'icons/mob/actions/mage_shared.dmi'
 	overlay_icon_state = "soulshot"
+	range = 4
 
 /obj/effect/obeliskbeam/drakeling
 	name = "drakeling beam"
