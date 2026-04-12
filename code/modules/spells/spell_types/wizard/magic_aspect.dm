@@ -123,9 +123,11 @@
 	if(istype(spell_instance, /obj/effect/proc_holder/spell))
 		var/obj/effect/proc_holder/spell/S = spell_instance
 		S.refundable = FALSE
+		S.source_aspect = type
 	else if(istype(spell_instance, /datum/action/cooldown/spell))
 		var/datum/action/cooldown/spell/S = spell_instance
 		S.refundable = FALSE
+		S.source_aspect = type
 
 /// Perform the binding or unbinding chant. Returns TRUE if completed, FALSE if interrupted.
 /// Each line is spoken aloud with a 2-second do_after between them.

@@ -2,36 +2,14 @@ GLOBAL_LIST_INIT(bum_quotes, world.file2list("strings/rt/bumlines.txt"))
 GLOBAL_LIST_INIT(bum_aggro, world.file2list("strings/rt/bumaggrolines.txt"))
 
 /mob/living/carbon/human/species/human/northern/bum
-	aggressive=0
-	rude = TRUE
-	mode = NPC_AI_IDLE
+	ai_controller = /datum/ai_controller/human_npc
 	faction = list("bums", "station")
 	ambushable = FALSE
 	dodgetime = 30
-	flee_in_pain = TRUE
-	possible_rmb_intents = list()
-
-	wander = FALSE
 
 /mob/living/carbon/human/species/human/northern/bum/ambush
-	aggressive=1
 
-	wander = TRUE
 
-/mob/living/carbon/human/species/human/northern/bum/retaliate(mob/living/L)
-	var/newtarg = target
-	.=..()
-	if(target)
-		aggressive=1
-		wander = TRUE
-		if(target != newtarg)
-			if(npc_combat_dialogue(GLOB.bum_aggro, prob_chance = 50, cooldown = 0))
-				pointed(target)
-
-/mob/living/carbon/human/species/human/northern/bum/should_target(mob/living/L)
-	if(L.stat != CONSCIOUS)
-		return FALSE
-	. = ..()
 
 /mob/living/carbon/human/species/human/northern/bum/Initialize()
 	. = ..()
@@ -40,29 +18,16 @@ GLOBAL_LIST_INIT(bum_aggro, world.file2list("strings/rt/bumaggrolines.txt"))
 
 /mob/living/carbon/human/species/human/northern/bum/after_creation()
 	..()
+	AddComponent(/datum/component/ai_aggro_system)
+	SEND_SIGNAL(src, COMSIG_MOB_MODIFY_AGGRO_LINES, GLOB.bum_aggro, TRUE)
 	job = "Beggar"
 	ADD_TRAIT(src, TRAIT_NOMOOD, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NOHUNGER, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_LEECHIMMUNE, INNATE_TRAIT)
 	ADD_TRAIT(src, TRAIT_BREADY, TRAIT_GENERIC)
 	equipOutfit(new /datum/outfit/job/roguetown/vagabond)
+	STACON = 4
+	STAWIL = 4
+	STAINT = 6
 
-/mob/living/carbon/human/species/human/northern/bum/npc_idle()
-	if(m_intent == MOVE_INTENT_SNEAK)
-		return
-	if(world.time < next_idle)
-		return
-	next_idle = world.time + rand(30, 70)
-	if((mobility_flags & MOBILITY_MOVE) && isturf(loc) && wander)
-		if(prob(20))
-			var/turf/T = get_step(loc,pick(GLOB.cardinals))
-			if(!istype(T, /turf/open/transparent/openspace))
-				Move(T)
-		else
-			face_atom(get_step(src,pick(GLOB.cardinals)))
-	if(!wander && prob(10))
-		face_atom(get_step(src,pick(GLOB.cardinals)))
-	if(prob(3))
-		say(pick(GLOB.bum_quotes), npc_speech = TRUE)
-	if(prob(3))
-		emote(pick("laugh","burp","yawn","grumble","mumble","blink_r","clap"))
+

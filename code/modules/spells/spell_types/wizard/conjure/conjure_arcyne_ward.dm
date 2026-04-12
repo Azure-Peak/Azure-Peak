@@ -2,13 +2,13 @@
 
 /datum/action/cooldown/spell/conjure_arcyne_ward
 	name = "Conjure Arcyne Ward"
-	desc = "Conjure an invisible arcyne ward that protects your entire body. Cast again to dismiss it. \
-	The ward dynamically yields coverage to real armor you wear - \
-	a helmet yields head coverage, a mask yields face coverage, gauntlets yield hand coverage, \
-	arm armor yields arm coverage, leg armor yields leg coverage, and boots yield foot coverage. \
-	Chest, vitals and groin coverage is only yielded when both your armor and shirt slots are filled. \
+	desc = "Conjure an invisible arcyne ward that covers your entire body. Costs 225 energy to conjure. Cast again to dismiss it. \
+	The ward withdraws from areas where you wear real armor, leaving those to your equipment instead - \
+	a helmet replaces head coverage, a mask replaces face coverage, gauntlets replace hand coverage, \
+	arm armor replaces arm coverage, leg armor replaces leg coverage, and boots replace foot coverage. \
+	Chest, vitals and groin coverage is only replaced when both your armor and shirt slots are filled. \
 	The ward has 225 integrity and regenerates over time by draining your energy. \
-	Cooldown begins when the ward is dismissed or destroyed."
+	Dismissing the ward refunds cooldown based on remaining integrity - a full health ward has no cooldown, a destroyed ward has full cooldown."
 	button_icon = 'icons/mob/actions/roguespells.dmi'
 	button_icon_state = "conjure_armor"
 	sound = 'sound/magic/whiteflame.ogg'
@@ -28,7 +28,7 @@
 	charge_drain = 1
 	charge_slowdown = 3
 	charge_sound = 'sound/magic/charging.ogg'
-	cooldown_time = 5 MINUTES
+	cooldown_time = 1 MINUTES
 
 	associated_skill = /datum/skill/magic/arcane
 	point_cost = 2
@@ -39,6 +39,7 @@
 	var/obj/item/clothing/suit/roguetown/armor/regenerating/skin/arcyne_ward/conjured_ward
 	var/ward_type = /obj/item/clothing/suit/roguetown/armor/regenerating/skin/arcyne_ward
 	var/dismiss_invocation = "Aegis Dissipo!"
+	var/energy_cost = 225
 
 /datum/action/cooldown/spell/conjure_arcyne_ward/before_cast(atom/cast_on)
 	var/dismissing = conjured_ward && !QDELETED(conjured_ward)
@@ -61,11 +62,16 @@
 	if(!istype(H))
 		return FALSE
 
-	// Toggle off - dismiss active ward (cleanup_ward handles cooldown)
+	// Toggle off - dismiss active ward with proportional cooldown refund
 	if(conjured_ward && !QDELETED(conjured_ward))
+		var/integrity_ratio = conjured_ward.obj_integrity / conjured_ward.max_integrity
 		H.say(dismiss_invocation, forced = "spell")
 		to_chat(owner, span_notice("I dismiss my arcyne ward."))
+		conjured_ward.dismissed = TRUE
 		qdel(conjured_ward)
+		// Cooldown scales inversely with remaining integrity - full HP = no cooldown, 0 HP = full cooldown
+		var/adjusted_cooldown = get_adjusted_cooldown() * (1 - integrity_ratio)
+		StartCooldown(adjusted_cooldown)
 		return TRUE
 
 	if(H.skin_armor)
@@ -77,7 +83,13 @@
 			to_chat(owner, span_warning("A stronger ward already protects me!"))
 			return FALSE
 
-	// Toggle on - conjure ward, no cooldown (button stays available for dismiss)
+	// Energy cost check
+	if(H.energy < energy_cost)
+		to_chat(owner, span_warning("I don't have enough energy to conjure the ward! I need [energy_cost] energy."))
+		return FALSE
+
+	// Toggle on - conjure ward, drain energy, no cooldown (button stays available for dismiss)
+	H.energy_add(-energy_cost)
 	owner.visible_message(span_notice("An arcyne ward shimmers into existence around [owner]!"))
 	conjured_ward = new ward_type(H)
 	H.skin_armor = conjured_ward
@@ -104,6 +116,7 @@
 	dismiss_invocation = "Draconis Dissipo!"
 	point_cost = 4
 	ward_type = /obj/item/clothing/suit/roguetown/armor/regenerating/skin/arcyne_ward/dragonhide
+	energy_cost = 300
 
 /datum/action/cooldown/spell/conjure_arcyne_ward/crystalhide
 	name = "Conjure Crystalhide Ward"
@@ -119,6 +132,7 @@
 	point_cost = 4
 	spell_tier = 3
 	ward_type = /obj/item/clothing/suit/roguetown/armor/regenerating/skin/arcyne_ward/crystalhide
+	energy_cost = 300
 
 // --- The Ward Item ---
 
@@ -137,23 +151,27 @@
 	repair_time = 30 SECONDS
 	auto_repair_mode = FALSE
 
-	repairmsg_begin = "The arcyne ward begins to mend itself, drawing from my energy..."
+	repairmsg_begin = "The arcyne ward will begin mending once the damage subsides..."
 	repairmsg_continue = "The arcyne ward weaves more of itself back together..."
 	repairmsg_stop = "The arcyne ward's regeneration falters!"
 	repairmsg_end = "The arcyne ward stabilizes, fully restored."
 
 	blocksound = SOFTHIT
 
+	/// How long after taking damage before regen begins (overrides parent's use of repair_time for initial delay)
+	var/regen_delay = 60 SECONDS
+
 	var/datum/action/cooldown/spell/conjure_arcyne_ward/linked_spell
 	var/mob/living/carbon/human/ward_owner
 	var/coverage_locked = FALSE
+	var/dismissed = FALSE
 	var/ward_color = GLOW_COLOR_ARCANE
 	var/arcyne_armor_tier = ARCYNE_WARD_TIER_BASE
 
 /obj/item/clothing/suit/roguetown/armor/regenerating/skin/arcyne_ward/proc/setup_ward(mob/living/carbon/human/H)
 	ward_owner = H
-	RegisterSignal(H, COMSIG_ITEM_EQUIPPED, PROC_REF(on_owner_equip_change))
-	RegisterSignal(H, COMSIG_ITEM_DROPPED, PROC_REF(on_owner_equip_change))
+	RegisterSignal(H, COMSIG_MOB_EQUIPPED_ITEM, PROC_REF(on_owner_equip_change))
+	RegisterSignal(H, COMSIG_MOB_DROPITEM, PROC_REF(on_owner_equip_change))
 	recalculate_coverage()
 
 /obj/item/clothing/suit/roguetown/armor/regenerating/skin/arcyne_ward/proc/on_owner_equip_change(datum/source, obj/item/item)
@@ -197,8 +215,6 @@
 		return FALSE
 	if(C.armor_class <= ARMOR_CLASS_NONE)
 		return FALSE
-	if(C.max_integrity && C.obj_integrity <= 0)
-		return FALSE
 	if(coverage_check)
 		return (C.body_parts_covered_dynamic & coverage_check)
 	return TRUE
@@ -212,7 +228,12 @@
 		if(prob(50))
 			do_sparks(2, FALSE, T)
 	coverage_locked = TRUE
+	// We handle our own regen delay instead of letting the parent use repair_time
+	// Save and swap repair_time so the parent's timer uses our longer regen_delay
+	var/saved_repair_time = repair_time
+	repair_time = regen_delay
 	..()
+	repair_time = saved_repair_time
 
 /obj/item/clothing/suit/roguetown/armor/regenerating/skin/arcyne_ward/proc/flash_ward()
 	if(!ward_owner)
@@ -238,7 +259,7 @@
 	if(obj_integrity == 0)
 		repair_amount = 5
 	else
-		repair_amount = 0.2 * max_integrity
+		repair_amount = 0.1 * max_integrity
 	repair_amount = min(repair_amount, max_integrity - obj_integrity)
 	if(repair_amount <= 0)
 		to_chat(ward_owner || loc, span_notice(repairmsg_end))
@@ -275,15 +296,13 @@
 		reptimer = null
 	if(ward_owner)
 		ward_owner.remove_filter(ARCYNE_WARD_FILTER)
-		UnregisterSignal(ward_owner, list(COMSIG_ITEM_EQUIPPED, COMSIG_ITEM_DROPPED))
+		UnregisterSignal(ward_owner, list(COMSIG_MOB_EQUIPPED_ITEM, COMSIG_MOB_DROPITEM))
 		if(ward_owner.skin_armor == src)
 			ward_owner.skin_armor = null
 		ward_owner = null
 	if(linked_spell)
-		// Start cooldown on the linked spell if it's not being destroyed
-		// This handles both dismiss (recast) and break (combat damage) cases
-		// When the spell itself is being destroyed, QDELETED catches it and skips cooldown
-		if(!QDELETED(linked_spell))
+		// Start full cooldown only when destroyed in combat (not dismissed - dismiss handles its own proportional cooldown)
+		if(!QDELETED(linked_spell) && !dismissed)
 			linked_spell.StartCooldown(linked_spell.get_adjusted_cooldown())
 		linked_spell.conjured_ward = null
 		linked_spell = null
@@ -297,7 +316,7 @@
 	max_integrity = 300
 	ward_color = GLOW_COLOR_FIRE
 	arcyne_armor_tier = ARCYNE_WARD_TIER_GREATER
-	repairmsg_begin = "The dragonhide ward begins to mend itself, drawing from my energy..."
+	repairmsg_begin = "The dragonhide ward will begin mending once the damage subsides..."
 	repairmsg_continue = "The dragonhide ward weaves draconic scales back together..."
 	repairmsg_end = "The dragonhide ward stabilizes, fully restored."
 
@@ -319,7 +338,7 @@
 	max_integrity = 300
 	ward_color = GLOW_COLOR_KINESIS
 	arcyne_armor_tier = ARCYNE_WARD_TIER_GREATER
-	repairmsg_begin = "The crystalhide ward begins to mend itself, drawing from my energy..."
+	repairmsg_begin = "The crystalhide ward will begin mending once the damage subsides..."
 	repairmsg_continue = "The crystalhide ward reforms crystalline lattice..."
 	repairmsg_end = "The crystalhide ward stabilizes, fully restored."
 

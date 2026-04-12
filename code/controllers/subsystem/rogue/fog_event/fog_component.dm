@@ -99,8 +99,8 @@
 
 		for(var/mob/living/simple_animal/hostile/H in spawned_mobs)
 			H.faction += "ambush"
-			// Appears to be bugged sire
-			//H.GiveTarget(pick(valid_victims))
+			ADD_TRAIT(H, TRAIT_FRESHSPAWN, "ambush_spawn")
+			addtimer(TRAIT_CALLBACK_REMOVE(H, TRAIT_FRESHSPAWN, "ambush_spawn"), 60 SECONDS)
 			current_mobs++
 
 		// Deduct from budget and track for cooldown

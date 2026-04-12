@@ -1,0 +1,4 @@
+author: "Quinalion"
+delete-after: True
+changes:
+  - code_imp: "Refactor mercenary system. Split subclass logic into independent types, remove empty fields, and consolidate/organize mercenary classes files (merge gronnheavy into gronn.dm). Technical/internal changes only; no new player-facing content."

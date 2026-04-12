@@ -122,6 +122,7 @@
 #define INIT_ORDER_AI_CONTROLLERS 	55 //So the controller can get the ref
 #define INIT_ORDER_TICKER			55
 #define INIT_ORDER_WARDROBE			54
+#define INIT_ORDER_AI_IDLE_CONTROLLERS 51
 #define INIT_ORDER_MAPPING			50
 #define INIT_ORDER_DUNGEON			49
 #define INIT_ORDER_NETWORKS			45
@@ -174,6 +175,7 @@
 // If the subsystem isn't listed here it's either DEFAULT or PROCESS (if it's a processing subsystem child)
 
 #define FIRE_PRIORITY_IDLE_NPC		5
+#define FIRE_PRIORITY_SLOW_OBJECTS 5
 #define FIRE_PRIORITY_ROLE_CLASS_HANDLER 10
 #define FIRE_PRIORITY_PING			10
 #define FIRE_PRIORITY_FARMING		10

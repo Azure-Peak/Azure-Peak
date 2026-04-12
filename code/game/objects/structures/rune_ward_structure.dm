@@ -40,6 +40,8 @@
 				return
 			if(L.is_jumping)
 				return
+			if(L.pulledby) // No grabbing someone into rune
+				return
 			if(L.mob_timers[RUNE_WARD_IMMUNITY_KEY] && world.time < L.mob_timers[RUNE_WARD_IMMUNITY_KEY])
 				return
 	else

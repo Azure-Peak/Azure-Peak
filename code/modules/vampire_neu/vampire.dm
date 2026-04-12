@@ -1,10 +1,22 @@
 GLOBAL_LIST_EMPTY(vampire_objects)
 #define INITIAL_BLOODPOOL_PERCENTAGE 40
+// Storyteller scaling:
+// scaling=2, min_players=0, default_cap=0
+// On Astrata (cap=2): uses storyteller_scale_slots → always 2 slots at any pop.
+// On others (cap=0): falls through to event control's base_antags path.
+//  Event          | base | denom | max | Formula: base + floor(pop/denom), capped at max
+//  Vampires       |  1   |  80   |  2  | 1-79 pop → 1, 80+ → 2
+//  Masquerade     |  2   |  80   |  4  | 1-79 pop → 2, 80-159 → 3, 160+ → 4
+//  Vamp+Werewolf  |  2   |  80   |  4  | 1-79 pop → 2, 80-159 → 3, 160+ → 4
 /datum/antagonist/vampire
 	name = "Vampire"
 	roundend_category = "Vampires"
 	antagpanel_category = "Vampire"
 	job_rank = ROLE_VAMPIRE
+	storyteller_antag_flags = STORYTELLER_ANTAG_VILLAIN | STORYTELLER_ANTAG_ROUNDSTART
+	storyteller_favor_flags = STORYTELLER_FAVOR_VAMPIRE_LORD | STORYTELLER_FAVOR_MASQUERADE
+	storyteller_slot_scaling = 2
+	storyteller_maxcaps = list(/datum/storyteller/astrata = 2)
 	antag_hud_type = ANTAG_HUD_VAMPIRE
 	antag_hud_name = "Vspawn"
 	confess_lines = list(

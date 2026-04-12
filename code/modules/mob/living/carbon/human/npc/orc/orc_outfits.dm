@@ -1,3 +1,11 @@
+/datum/outfit/job/roguetown/orc/npc/archer/pre_equip(mob/living/carbon/human/H)
+	..()
+	backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow
+	backl = /obj/item/quiver/arrows
+	l_hand = /obj/item/rogueweapon/stoneaxe/boneaxe
+	r_hand = null
+	H.adjust_skillrank(/datum/skill/combat/bows, 3, TRUE)
+
 /mob/living/carbon/human/species/orc/npc/footsoldier
 	threat_point = THREAT_HIGH
 	ambush_faction = "orcs"
@@ -9,7 +17,6 @@
 
 /mob/living/carbon/human/species/orc/npc/berserker
 	threat_point = THREAT_TOUGH
-	npc_jump_chance = 25 // Meant to leap and scare you - probably
 	orc_outfit = /datum/outfit/job/roguetown/orc/npc/berserker
 
 /mob/living/carbon/human/species/orc/npc/warlord
@@ -27,7 +34,7 @@
 	if(prob(50))
 		head = /obj/item/clothing/head/roguetown/helmet/leather
 	shoes = /obj/item/clothing/shoes/roguetown/gladiator
-	var/wepchoice = rand(1, 3)
+	var/wepchoice = rand(1, 4)
 	switch(wepchoice)
 		if(1)
 			l_hand = /obj/item/rogueweapon/stoneaxe/boneaxe
@@ -36,10 +43,15 @@
 			r_hand = /obj/item/rogueweapon/shield/wood // Help preserve integrity
 		if(3)
 			l_hand = /obj/item/rogueweapon/mace/cudgel/copper
+		if(4) // Ranged - bow with iron broadhead arrows
+			backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow
+			backl = /obj/item/quiver/arrows
+			l_hand = /obj/item/rogueweapon/stoneaxe/boneaxe
+			H.adjust_skillrank(/datum/skill/combat/bows, 3, TRUE)
 	H.STASTR = 11
 	H.STASPD = 8
-	H.STACON = 11
-	H.STAWIL = 11
+	H.STACON = 7
+	H.STAWIL = 6
 	H.STAINT = 4 // Very dumb
 	H.adjust_skillrank(/datum/skill/combat/polearms, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/axes, 2, TRUE)
@@ -76,8 +88,8 @@
 			l_hand = /obj/item/rogueweapon/pick/militia
 	H.STASTR = 12 // GAGGER GAGGER GAGGER
 	H.STASPD = 8
-	H.STACON = 12
-	H.STAWIL = 10
+	H.STACON = 9
+	H.STAWIL = 8
 	H.STAINT = 4
 	H.adjust_skillrank(/datum/skill/combat/polearms, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/swords, 3, TRUE)
@@ -110,8 +122,8 @@
 			l_hand = /obj/item/rogueweapon/pick/militia
 	H.STASTR = 13 // GAGGER GAGGER GAGGER
 	H.STASPD = 10 // Fast, for an orc
-	H.STACON = 12
-	H.STAWIL = 12
+	H.STACON = 10
+	H.STAWIL = 10
 	H.STAINT = 1 // Minmax department
 	H.adjust_skillrank(/datum/skill/combat/knives, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/wrestling, 3, TRUE)
@@ -151,8 +163,8 @@
 			r_hand = /obj/item/rogueweapon/sword/short/falchion // intrusive thoughts
 	H.STASTR = 14 // GAGGER GAGGER GAGGER
 	H.STASPD = 10 // Fast, for an orc
-	H.STACON = 12
-	H.STAWIL = 12
+	H.STACON = 11
+	H.STAWIL = 11
 	H.STAINT = 1
 	H.adjust_skillrank(/datum/skill/combat/polearms, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/swords, 4, TRUE)
@@ -165,4 +177,3 @@
 	H.adjust_skillrank(/datum/skill/misc/climbing, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/swimming, 2, TRUE)
 	ADD_TRAIT(H, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_CRIT_THRESHOLD, TRAIT_GENERIC)

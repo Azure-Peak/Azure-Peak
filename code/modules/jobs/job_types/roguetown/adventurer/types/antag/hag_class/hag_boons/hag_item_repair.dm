@@ -18,8 +18,8 @@
 	if(!isliving(parent))
 		return COMPONENT_INCOMPATIBLE
 	
-	RegisterSignal(parent, COMSIG_ITEM_EQUIPPED, PROC_REF(on_item_equipped))
-	RegisterSignal(parent, COMSIG_ITEM_DROPPED, PROC_REF(on_item_dropped))
+	RegisterSignal(parent, COMSIG_MOB_EQUIPPED_ITEM, PROC_REF(on_item_equipped))
+	RegisterSignal(parent, COMSIG_MOB_DROPITEM, PROC_REF(on_item_dropped))
 	START_PROCESSING(SSprocessing, src)
 
 /datum/component/hag_artifact_repair/Destroy()

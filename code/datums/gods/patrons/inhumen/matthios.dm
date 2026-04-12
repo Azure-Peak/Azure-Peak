@@ -6,15 +6,18 @@
 	crafting_recipes = list(/datum/crafting_recipe/roguetown/sewing/bandithood)
 	mob_traits = list(TRAIT_FREEMAN, TRAIT_MATTHIOS_EYES, TRAIT_SEEPRICES_SHITTY)
 	miracles = list(/obj/effect/proc_holder/spell/targeted/touch/orison					= CLERIC_ORI,
-					/obj/effect/proc_holder/spell/invoked/appraise						= CLERIC_ORI,
-					/datum/action/cooldown/spell/lesser_knock/miracle	= CLERIC_T0,
+					/datum/action/cooldown/spell/freemans_tools							= CLERIC_T0,
+//					/obj/effect/proc_holder/spell/invoked/appraise						= CLERIC_ORI,
+//					/datum/action/cooldown/spell/lesser_knock/miracle					= CLERIC_T0, // moved to freeman's tools
 					/obj/effect/proc_holder/spell/invoked/matthios_firebreath			= CLERIC_T0,
-					/obj/effect/proc_holder/spell/self/matthios_muffle					= CLERIC_T0,
+//					/obj/effect/proc_holder/spell/self/matthios_muffle					= CLERIC_T0, // moved to freeman's tools
+					/obj/effect/proc_holder/spell/self/skulduggery						= CLERIC_T1, // AAAAAAAAAAA
 					/obj/effect/proc_holder/spell/invoked/matthios_transact				= CLERIC_T1, //It says it should be T1
 					/obj/effect/proc_holder/spell/invoked/lesser_heal 					= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/blood_heal					= CLERIC_T1,
-					/obj/effect/proc_holder/spell/invoked/matthios_equalize				= CLERIC_T2,
+					/datum/action/cooldown/spell/mammonite								= CLERIC_T2,
 					/obj/effect/proc_holder/spell/invoked/barter						= CLERIC_T2,
+					/obj/effect/proc_holder/spell/invoked/matthios_equalize				= CLERIC_T2,
 					/obj/effect/proc_holder/spell/invoked/matthios_churn				= CLERIC_T3,
 					/obj/effect/proc_holder/spell/invoked/resurrect/matthios			= CLERIC_T3, // Counterpart to anastasis
 	)
@@ -24,6 +27,7 @@
 		"MATTHIOS IS MY LORD!",
 	)
 	storyteller = /datum/storyteller/matthios
+	crafting_recipes = list(/datum/crafting_recipe/roguetown/structure/matthios_cross_stone, /datum/crafting_recipe/roguetown/structure/matthios_cross_meat)
 
 // When near coin of at least 100 mammon, zchurch, bad-cross, or ritual talk
 /datum/patron/inhumen/matthios/can_pray(mob/living/follower)
@@ -34,7 +38,7 @@
 	// Allows prayer near EEEVIL psycross
 	for(var/obj/structure/fluff/psycross/zizocross/cross in view(4, get_turf(follower)))
 		if(cross.divine == TRUE)
-			to_chat(follower, span_danger("That acursed cross interupts my prayers!"))
+			to_chat(follower, span_danger("That acсursed cross interupts my prayers!"))
 			return FALSE
 		return TRUE
 	// Allows prayer if the user has more than 100 mammon on them.
@@ -63,8 +67,8 @@
 	is_inhumen
 )
 	*is_inhumen = TRUE
-	*message_out = span_info("A wreath of... strange light passes over [target]?")
-	*message_self = span_notice("I'm bathed in a... strange holy light?")
+	*message_out = span_info("A wreath of gilded light passes over [target]!")
+	*message_self = span_notice("I'm bathed in gilded light!")
 
 	if(HAS_TRAIT(target, TRAIT_FREEMAN))
 		*conditional_buff = TRUE

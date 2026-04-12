@@ -337,6 +337,34 @@
 	icon = 'icons/obj/items/donor_weapons_64.dmi'
 	icon_state = "dasfox_lance"
 
+//IamCrystalClear
+/obj/item/clothing/mask/rogue/iamcrystalclear
+	name = "porcelain mask"
+	desc = "A porcelain mask with black eyes and no mouth."
+	icon = 'icons/clothing/donor_clothes.dmi'
+	icon_state = "porc_mask"
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+	adjustable = CAN_CADJUST
+	var/list/toggles = list(
+		"porc_mask",
+		"porc_mask_red",
+		"porc_mask_blue"
+		)
+
+/obj/item/clothing/mask/rogue/iamcrystalclear/AdjustClothes(mob/user)
+	for(var/i in 1 to length(toggles))
+		if(toggles[i] == icon_state)
+			if(i == length(toggles))
+				icon_state = toggles[1]
+			else
+				icon_state = toggles[i+1]
+			break
+	to_chat(user, span_info("My mask shifts its contours."))
+	update_icon()
+	user.update_inv_head()
+	user.update_inv_wear_mask()
+	
+
 
 //RYAN180602
 /obj/item/caparison/ryan

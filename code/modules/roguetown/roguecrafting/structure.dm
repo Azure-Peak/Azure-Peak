@@ -39,8 +39,8 @@
 		return FALSE
 	return TRUE
 */
-/datum/crafting_recipe/roguetown/structure/psycrss
-	name = "wooden cross"
+/datum/crafting_recipe/roguetown/structure/pantheon_cross
+	name = "wooden pantheon cross"
 	category = "Misc"
 	result = /obj/structure/fluff/psycross/crafted
 	reqs = list(/obj/item/grown/log/tree/small = 1,
@@ -48,8 +48,16 @@
 	verbage_simple = "construct"
 	verbage = "constructs"
 
-/datum/crafting_recipe/roguetown/structure/psycruci
-	name = "wooden psydonic cross"
+/datum/crafting_recipe/roguetown/structure/pantheon_cross_stone
+	name = "stone pantheon cross"
+	category = "Misc"
+	result = /obj/structure/fluff/psycross
+	reqs = list(/obj/item/natural/stone = 2)
+	verbage_simple = "construct"
+	verbage = "constructs"
+
+/datum/crafting_recipe/roguetown/structure/psydon_cross
+	name = "wooden psydonic crucifix"
 	category = "Misc"
 	result = /obj/structure/fluff/psycross/psycrucifix
 	reqs = list(/obj/item/grown/log/tree/small = 1,
@@ -57,32 +65,16 @@
 	verbage_simple = "construct"
 	verbage = "constructs"
 
-/datum/crafting_recipe/roguetown/structure/stonenecrapsycrss
-	name = "stone necran cross"
-	category = "Misc"
-	result = /obj/structure/fluff/psycross/necra
-	reqs =	list(/obj/item/natural/stone = 3)
-	verbage_simple = "construct"
-	verbage = "constructs"
-
-/datum/crafting_recipe/roguetown/structure/stonenecrapsycrsscloth
-	name = "stone necran cross (with clothpieces)"
-	category = "Misc"
-	result = /obj/structure/fluff/psycross/necra/cloth
-	reqs =	list(/obj/item/rogueore/iron = 1, /obj/item/natural/stone = 3, /obj/item/natural/cloth = 2)
-	verbage_simple = "construct"
-	verbage = "constructs"
-
-/datum/crafting_recipe/roguetown/structure/stonepsycruci
-	name = "stone psydonic cross"
+/datum/crafting_recipe/roguetown/structure/psydon_cross_stone
+	name = "stone psydonic crucifix"
 	category = "Misc"
 	result = /obj/structure/fluff/psycross/psycrucifix/stone
 	reqs =	list(/obj/item/natural/stone = 3)
 	verbage_simple = "construct"
 	verbage = "constructs"
 
-/datum/crafting_recipe/roguetown/structure/silverpsycruci
-	name = "silver psydonic cross"
+/datum/crafting_recipe/roguetown/structure/psydon_cross_silver
+	name = "silver psydonic crucifix"
 	category = "Misc"
 	result = /obj/structure/fluff/psycross/psycrucifix/silver
 	reqs = list(/obj/item/ingot/silverblessed = 1,
@@ -92,22 +84,54 @@
 	skillcraft = /datum/skill/craft/masonry
 	craftdiff = 3
 
-/datum/crafting_recipe/roguetown/structure/stonepsycrss
-	name = "stone cross"
+/datum/crafting_recipe/roguetown/structure/astrata_cross
+	name = "wooden astrata cross"
 	category = "Misc"
-	result = /obj/structure/fluff/psycross
-	reqs = list(/obj/item/natural/stone = 2)
+	result = /obj/structure/fluff/psycross/astrata
+	reqs = list(/obj/item/grown/log/tree/small = 1,
+				/obj/item/grown/log/tree/stake = 3)
 	verbage_simple = "construct"
 	verbage = "constructs"
 
-/datum/crafting_recipe/roguetown/structure/zizo_shrine
-	name = "profane shrine"
+/datum/crafting_recipe/roguetown/structure/astrata_cross_stone
+	name = "stone astrata cross"
 	category = "Misc"
-	reqs = list(
-		/obj/item/grown/log/tree/small = 1,
-		/obj/item/natural/stone = 2,
-		/obj/item/grown/log/tree/stake = 2
-	)
+	result = /obj/structure/fluff/psycross/astrata/stone
+	reqs =	list(/obj/item/natural/stone = 3)
+	verbage_simple = "construct"
+	verbage = "constructs"
+
+/datum/crafting_recipe/roguetown/structure/astrata_cross_gold
+	name = "gilded astrata cross"
+	category = "Misc"
+	result = /obj/structure/fluff/psycross/astrata/golden
+	reqs =	list(/obj/item/natural/stone = 3, /obj/item/rogueore/gold = 1)
+	verbage_simple = "construct"
+	verbage = "constructs"
+	skillcraft = /datum/skill/craft/masonry
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/structure/necra_cross
+	name = "stone necran cross"
+	category = "Misc"
+	result = /obj/structure/fluff/psycross/necra
+	reqs =	list(/obj/item/natural/stone = 3)
+	verbage_simple = "construct"
+	verbage = "constructs"
+
+/datum/crafting_recipe/roguetown/structure/necra_cross_cloth
+	name = "stone necran cross (with clothpieces)"
+	category = "Misc"
+	result = /obj/structure/fluff/psycross/necra/cloth
+	reqs =	list(/obj/item/rogueore/iron = 1, /obj/item/natural/stone = 3, /obj/item/natural/cloth = 2)
+	verbage_simple = "construct"
+	verbage = "constructs"
+
+/datum/crafting_recipe/roguetown/structure/zizo_cross
+	name = "profane cross"
+	category = "Misc"
+	reqs = list(/obj/item/grown/log/tree/small = 1,
+				/obj/item/grown/log/tree/stake = 3)
 	result = /obj/structure/fluff/psycross/zizocross
 
 /datum/crafting_recipe/roguetown/structure/zizo_cross_stone
@@ -133,6 +157,7 @@
 	reqs =	list(/obj/item/natural/stone = 3)
 	verbage_simple = "construct"
 	verbage = "constructs"
+	always_availible = FALSE
 
 /datum/crafting_recipe/roguetown/structure/graggar_cross_meat
 	name = "revered vicious cross"
@@ -141,6 +166,7 @@
 	reqs =	list(/obj/item/natural/stone = 3, /obj/item/reagent_containers/food/snacks/rogue/meat = 2)
 	verbage_simple = "construct"
 	verbage = "constructs"
+	always_availible = FALSE
 
 /datum/crafting_recipe/roguetown/structure/matthios_cross_stone
 	name = "stone grinning cross"
@@ -149,6 +175,7 @@
 	reqs =	list(/obj/item/natural/stone = 3)
 	verbage_simple = "construct"
 	verbage = "constructs"
+	always_availible = FALSE
 
 /datum/crafting_recipe/roguetown/structure/matthios_cross_meat
 	name = "ornate grinning cross"
@@ -157,6 +184,7 @@
 	reqs =	list(/obj/item/natural/stone = 3, /obj/item/roguecoin/gold = 4)
 	verbage_simple = "construct"
 	verbage = "constructs"
+	always_availible = FALSE
 
 /datum/crafting_recipe/roguetown/structure/baotha_cross_stone
 	name = "stone spider cross"
@@ -165,6 +193,7 @@
 	reqs =	list(/obj/item/natural/stone = 3)
 	verbage_simple = "construct"
 	verbage = "constructs"
+	always_availible = FALSE
 
 /datum/crafting_recipe/roguetown/structure/baotha_cross_meat
 	name = "webbed spider cross"
@@ -173,6 +202,7 @@
 	reqs =	list(/obj/item/natural/stone = 3, /obj/item/natural/silk = 2)
 	verbage_simple = "construct"
 	verbage = "constructs"
+	always_availible = FALSE
 
 /datum/crafting_recipe/roguetown/structure/swing_door
 	name = "swing door"

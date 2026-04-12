@@ -1,0 +1,18 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Macebearer chant now have its Tremor replaced with a thrown piercing axe poke spell called Kastvyl, which is a word I just made up on the spot."
+  - rscadd: "Macebearer chant now have accesses to axes and two handed weapons across all of its varieties."
+  - rscadd: "Telomancy School added, focused on spamming bolts, bolts, and more bolts. With a Bullet Hell Mastery Spell."
+  - rscadd: "Replaced Soulshot sound effect with something I custom remixed. Also, the generic charge finished sounds is now quieter while the spell's non generic sound is now louder"
+  - rscadd: "Now, frost still keep its 3 tiers of slowing (-1 spd, -2 spd 1.1x slow, -2 spd 1.2x slow), but no longer bursts for a multiplicative slow. Instead, at the fourth stack it just shatter for a flat 50 burn damage, this increases kill pressure on mage while not making them too oppressive to fight, hopefully. Also Azurean Pilum now inflicts 1 stack instead of 2 and frozen mist inflicts 1 on hit."
+  - bugfix: "It should sounds better"
+  - balance: "Greater Arcyne Bolt now deals 45 damage instead of 40 baseline."
+  - balance: "Arcyne Ward reworked, now charges its integrity worth of energy upfront for conjuration"
+  - balance: "When arcyne ward is dismissed early refunds part of its cooldown proportional to remaining integrity."
+  - balance: "Arcyne Ward no longer regain dynamic coverage when the layers above it lose integrity - you'd have to at least take off the armor for it to take over"
+  - balance: "Arcyne Ward's autorepair threshold and time increased."
+  - balance: "Artillery Fireball deals the same damage as a normal fireball."
+  - balance: "You cannot grab people onto rune ward and activate it on them. No."
+  - balance: "Fulgurmancy Damage buffed. Arcshot: 30 -> 35. Lightning Bolt: 40 -> 45. Thunderstrike outer range buffed from 40 - 30 to 60 - 50"
+  - balance: "Stygian no longer ricochet"

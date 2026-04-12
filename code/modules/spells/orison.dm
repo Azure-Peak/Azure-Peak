@@ -28,6 +28,7 @@
 	icon_state = "pulling"
 	icon_state = "grabbing_greyscale"
 	color = "#FFFFFF"
+	associated_skill = /datum/skill/magic/holy
 	var/right_click = FALSE
 	var/thaumaturgy_devotion = 10
 	var/light_devotion = 5
@@ -77,11 +78,20 @@
 	examine_text = "SUBJECTPRONOUN is surrounded by an aura of gentle light."
 	var/outline_colour = "#ffffff"
 	var/color_mob_light = "#f5edda"
-	var/list/mobs_affected
+	/// The object attached to the mob that emits light
 	var/obj/effect/dummy/lighting_obj/moblight/mob_light_obj
+	/// Amount of light our buff emits, can be buffed by someone with higher miracles skill
+	var/holy_light_power = 1
 
-/datum/status_effect/light_buff/refresh()
+/datum/status_effect/light_buff/on_creation(mob/living/new_owner, light_power)
+	if(light_power > holy_light_power)
+		holy_light_power = light_power
+	return ..()
+
+/datum/status_effect/light_buff/refresh(mob/living/owner, light_power)
 	duration += initial(duration) // stack this up as much as we can be bothered to cast it
+	if(holy_light_power > mob_light_obj.light_power)
+		mob_light_obj.light_power = holy_light_power
 
 /datum/status_effect/light_buff/on_apply()
 	. = ..()
@@ -92,7 +102,8 @@
 	var/filter = owner.get_filter(BLESSINGOFLIGHT_FILTER)
 	if (!filter)
 		owner.add_filter(BLESSINGOFLIGHT_FILTER, 2, list("type" = "outline", "color" = outline_colour, "alpha" = 60, "size" = 1))
-	mob_light_obj = owner.mob_light(7, 7, _color = color_mob_light)
+	mob_light_obj = owner.mob_light(7, 7, _color ="#f5edda")
+	mob_light_obj.light_power = holy_light_power
 	return TRUE
 
 /datum/status_effect/light_buff/on_remove()
@@ -108,31 +119,30 @@
 		to_chat(user, span_info("I need to be next to [thing] to channel a blessing of light!"))
 		return
 
-	if (isliving(thing))
-
-		if (thing != user)
-			user.visible_message(span_notice("[user] reaches gently towards [thing], beads of light glimmering at [user.p_their()] fingertips..."), span_notice("Blessed [user.patron.name], I ask but for a light to guide the way..."))
-		else
-			user.visible_message(span_notice("[user] closes [user.p_their()] eyes and places a glowing hand upon [user.p_their()] chest..."), span_notice("Blessed [user.patron.name], I ask but for a light to guide the way..."))
-		
-		if (do_after(user, cast_time, target = thing))
-			var/mob/living/living_thing = thing
-			var/light_power = clamp(4 + (holy_skill - 3), 4, 7)
-			set_light_on()
-
-			if (living_thing.has_status_effect(/datum/status_effect/light_buff))
-				user.visible_message(span_notice("The holy light emanating from [living_thing] becomes brighter!"), span_notice("I feed further devotion into [living_thing]'s blessing of light."))
-			else
-				user.visible_message(span_notice("A gentle illumination suddenly blossoms into being around [living_thing]!"), span_notice("I grant [living_thing] a blessing of light."))
-
-			living_thing.apply_status_effect(/datum/status_effect/light_buff, light_power)
-
-			return light_devotion
-	else
+	if(!isliving(thing))
 		to_chat(user, span_notice("Only living creachers can bear the blessing of [user.patron.name]'s light."))
 		return
 
+	if(thing != user)
+		user.visible_message(span_notice("[user] reaches gently towards [thing], beads of light glimmering at [user.p_their()] fingertips..."), span_notice("Blessed [user.patron.name], I ask but for a light to guide the way..."))
+	else
+		user.visible_message(span_notice("[user] closes [user.p_their()] eyes and places a glowing hand upon [user.p_their()] chest..."), span_notice("Blessed [user.patron.name], I ask but for a light to guide the way..."))
+
+	if(!do_after(user, cast_time, target = thing))
+		return
+	var/mob/living/living_thing = thing
+	if (living_thing.has_status_effect(/datum/status_effect/light_buff))
+		user.visible_message(span_notice("The holy light emanating from [living_thing] becomes brighter!"), span_notice("I feed further devotion into [living_thing]'s blessing of light."))
+	else
+		user.visible_message(span_notice("A gentle illumination suddenly blossoms into being around [living_thing]!"), span_notice("I grant [living_thing] a blessing of light."))
+
+	var/light_power = clamp(4 + (holy_skill - 3), 4, 7)
+	living_thing.apply_status_effect(/datum/status_effect/light_buff, light_power)
+
+	return light_devotion
+
 #undef BLESSINGOFLIGHT_FILTER
+
 /atom/movable/screen/alert/status_effect/thaumaturgy
 	name = "Thaumaturgical Voice"
 	desc = "The power of my god will make the next thing I say carry much further!"

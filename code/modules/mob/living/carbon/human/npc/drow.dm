@@ -1,46 +1,65 @@
 GLOBAL_LIST_INIT(drowraider_aggro, world.file2list("strings/rt/drowaggrolines.txt"))
 
 /mob/living/carbon/human/species/elf/dark/drowraider
-	aggressive=1
-	rude = TRUE
-	mode = NPC_AI_IDLE
+	ai_controller = /datum/ai_controller/human_npc
 	faction = list("drow")
 	ambushable = FALSE
 	dodgetime = 30
-	flee_in_pain = TRUE
 	d_intent = INTENT_DODGE
-	possible_rmb_intents = list()
+
 
 /mob/living/carbon/human/species/elf/dark/drowraider/ambush
 	threat_point = THREAT_TOUGH
 	ambush_faction = "underdark"
-	aggressive=1
-	wander = TRUE
 
-/mob/living/carbon/human/species/elf/dark/drowraider/retaliate(mob/living/L)
-	var/newtarg = target
-	.=..()
-	if(target)
-		aggressive=1
-		wander = TRUE
-	if(target != newtarg)
-		if(npc_combat_dialogue(GLOB.drowraider_aggro, prob_chance = 50, cooldown = 0))
-			pointed(target)
+// Testing-only subtype: forced whip loadout to verify NPC reach handling on weapons with reach > 1.
+/mob/living/carbon/human/species/elf/dark/drowraider/whip_test
 
-/mob/living/carbon/human/species/elf/dark/drowraider/should_target(mob/living/L)
-	if(L.stat != CONSCIOUS)
-		return FALSE
-	. = ..()
+/mob/living/carbon/human/species/elf/dark/drowraider/whip_test/after_creation()
+	..()
+	for(var/obj/item/I in held_items)
+		qdel(I)
+	put_in_active_hand(new /obj/item/rogueweapon/whip(src))
+
+// Testing-only subtype: forced spear loadout (reach 2) to verify polearm reach handling.
+/mob/living/carbon/human/species/elf/dark/drowraider/spear_test
+
+/mob/living/carbon/human/species/elf/dark/drowraider/spear_test/after_creation()
+	..()
+	for(var/obj/item/I in held_items)
+		qdel(I)
+	put_in_active_hand(new /obj/item/rogueweapon/spear(src))
+
+// Testing-only subtype: forced short sword loadout (reach 1) as a baseline control.
+/mob/living/carbon/human/species/elf/dark/drowraider/sword_test
+
+/mob/living/carbon/human/species/elf/dark/drowraider/sword_test/after_creation()
+	..()
+	for(var/obj/item/I in held_items)
+		qdel(I)
+	put_in_active_hand(new /obj/item/rogueweapon/sword/short(src))
+
+// Testing-only subtype: empty-handed spawn. Use to verify find_weapon pickup behavior —
+// drop a rogueweapon nearby and watch them path to it.
+/mob/living/carbon/human/species/elf/dark/drowraider/disarmed_test
+
+/mob/living/carbon/human/species/elf/dark/drowraider/disarmed_test/after_creation()
+	..()
+	for(var/obj/item/I in held_items)
+		qdel(I)
+
+
 
 /mob/living/carbon/human/species/elf/dark/drowraider/Initialize()
 	. = ..()
 	set_species(/datum/species/elf/dark/raider)
 	addtimer(CALLBACK(src, PROC_REF(after_creation)), 1 SECONDS)
-	is_silent = TRUE
 
 
 /mob/living/carbon/human/species/elf/dark/drowraider/after_creation()
 	..()
+	AddComponent(/datum/component/ai_aggro_system)
+	SEND_SIGNAL(src, COMSIG_MOB_MODIFY_AGGRO_LINES, GLOB.drowraider_aggro, TRUE)
 	job = "Drow Raider"
 	ADD_TRAIT(src, TRAIT_NOMOOD, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NOHUNGER, TRAIT_GENERIC)
@@ -105,26 +124,6 @@ GLOBAL_LIST_INIT(drowraider_aggro, world.file2list("strings/rt/drowaggrolines.tx
 	update_hair()
 	update_body()
 
-/mob/living/carbon/human/species/elf/dark/drowraider/npc_idle()
-	if(m_intent == MOVE_INTENT_SNEAK)
-		return
-	if(world.time < next_idle)
-		return
-	next_idle = world.time + rand(30, 70)
-	if((mobility_flags & MOBILITY_MOVE) && isturf(loc) && wander)
-		if(prob(20))
-			var/turf/T = get_step(loc,pick(GLOB.cardinals))
-			if(!istype(T, /turf/open/transparent/openspace))
-				Move(T)
-		else
-			face_atom(get_step(src,pick(GLOB.cardinals)))
-	if(!wander && prob(10))
-		face_atom(get_step(src,pick(GLOB.cardinals)))
-
-/mob/living/carbon/human/species/elf/dark/drowraider/handle_combat()
-	if(mode == NPC_AI_HUNT)
-		npc_combat_dialogue(GLOB.drowraider_aggro, list("laugh", "cackle", "giggle"), prob_chance = 5, say_chance = 60)
-	. = ..()
 
 /datum/outfit/job/roguetown/human/species/elf/dark/drowraider/pre_equip(mob/living/carbon/human/H)
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
@@ -135,18 +134,24 @@ GLOBAL_LIST_INIT(drowraider_aggro, world.file2list("strings/rt/drowaggrolines.tx
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather/heavy
 	mask = /obj/item/clothing/mask/rogue/facemask
 	neck = /obj/item/clothing/neck/roguetown/coif/heavypadding
-	r_hand = /obj/item/rogueweapon/whip
-	if(prob(45))
+	if(prob(20)) // archer
+		backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
+		backl = /obj/item/quiver/arrows
+		r_hand = /obj/item/rogueweapon/huntingknife/idagger/steel/corroded/dirk
+		H.adjust_skillrank(/datum/skill/combat/bows, 4, TRUE)
+	else if(prob(45)) // whip
+		r_hand = /obj/item/rogueweapon/whip
+	else if(prob(50)) // dual falx
 		r_hand = /obj/item/rogueweapon/sword/falx/stalker
 		l_hand = /obj/item/rogueweapon/sword/falx/stalker
-	else if(prob(15))
+	else // dual dirk
 		r_hand = /obj/item/rogueweapon/huntingknife/idagger/steel/corroded/dirk
 		l_hand = /obj/item/rogueweapon/huntingknife/idagger/steel/corroded/dirk
 
 	H.STASTR = 12 // 6 Points
 	H.STASPD = 13 // 3 points
-	H.STACON = 14 // 4 points
-	H.STAWIL = 12 // 2 points - 14 points spread. Equal to 1 more than a KC accounting for Statpack.
+	H.STACON = 9
+	H.STAWIL = 8
 	H.STAPER = 10
 	H.STAINT = 10
 	H.adjust_skillrank(/datum/skill/combat/whipsflails, 4, TRUE)

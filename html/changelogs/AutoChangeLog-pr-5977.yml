@@ -1,0 +1,8 @@
+author: "FreeStylaLT"
+delete-after: True
+changes:
+  - balance: "SPD cap on movement speed reduced to 14."
+  - balance: "CON influence on bleedrate reduced."
+  - balance: "WIL influence on green stamina bar reduced. (Blue bar unaffected.)"
+  - balance: "Athletic skill influence on green bar removed. (Blue bar unaffected.)"
+  - balance: "PER influence on max lookahead distance slightly reduced."

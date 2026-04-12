@@ -1,0 +1,5 @@
+author: "babamandaa"
+delete-after: True
+changes:
+  - balance: "retools and rebalances freifechter fencers, using the new swingdelay and alt grip refactors"
+  - qol: "rewrites freifechter's debuffs and intents to be more helpful/terrifying"

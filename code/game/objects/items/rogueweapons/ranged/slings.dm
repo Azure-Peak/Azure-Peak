@@ -66,10 +66,17 @@
 	else
 		return chargetime //failsafe default value should the above conditions not be met
 
+/obj/item/gun/ballistic/revolver/grenadelauncher/sling/get_npc_chargetime(mob/living/user)
+	var/newtime = 20 - (user.get_skill_level(/datum/skill/combat/slings) * 1.5) - (user.STAPER / 2) - (user.STASTR / 5)
+	if(chambered)
+		newtime *= chambered.charge_time_mult
+	return max(0.5, newtime) * ARCHER_NPC_ROF_PENALTY
+
 //objs
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/sling
 	name = "sling"
+	flags_ai_inventory = AI_ITEM_GUN
 	desc = "Twisted fibers manifest into a strung pouch capable of hurling stones afar."
 	icon = 'icons/roguetown/weapons/misc32.dmi'
 	icon_state = "sling"
@@ -184,7 +191,7 @@
 		else
 			spread = 150 - (150 * (user.client.chargedprog / 100))
 	else
-		spread = 0
+		spread = max(0, (15 - user.STAPER) * ARCHER_NPC_SPREAD_PER_POINT)
 	for(var/obj/item/ammo_casing/CB in get_ammo_list(FALSE, TRUE))
 		var/obj/projectile/BB = CB.BB
 		BB.embedchance = 0.1 //for some reason, if the embedchance is 0, the reusable projectile will not drop after hitting a mob. so it's a 1/1000 chance now
@@ -192,10 +199,8 @@
 		BB.bonus_accuracy += (user.STAPER - 8) // 8+ PER gives +1 per level. Does not decrease over range.
 		BB.bonus_accuracy += (user.get_skill_level(/datum/skill/combat/slings) * 5) // +5 per Sling level.
 		BB.damage *= damfactor
-		if(user.client.chargedprog < 100)
+		if(user.client && user.client.chargedprog < 100)
 			BB.damage = BB.damage - (BB.damage * (user.client.chargedprog / 100))
-		else
-			BB.damage = BB.damage
 		var/per_scaling = 1 + ((min(user.STAPER, RANGED_STAT_SOFTCAP) - 10) * RANGED_STAT_MULT) + (max(0, user.STAPER - RANGED_STAT_SOFTCAP) * RANGED_STAT_CAPPEDMULT)
 		BB.damage = BB.damage * per_scaling + bonus_stone_force
 		// PER scales damage by 10% per point up to softcap, then 5% per point. Stone bonus force is added flat.

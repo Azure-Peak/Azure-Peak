@@ -1,0 +1,4 @@
+author: "FreeStylaLT"
+delete-after: True
+changes:
+  - bugfix: "Fixed an incorrect integrity damage modifier on the crossbow buttstroke intent."

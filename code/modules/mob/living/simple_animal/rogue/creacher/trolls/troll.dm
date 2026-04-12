@@ -84,9 +84,9 @@
 
 /mob/living/simple_animal/hostile/retaliate/rogue/troll/Initialize()
 	. = ..()
+	AddComponent(/datum/component/ai_aggro_system)
 	if(critvuln)
 		ADD_TRAIT(src, TRAIT_CRITICAL_WEAKNESS, TRAIT_GENERIC)
-	AddElement(/datum/element/ai_retaliate)
 	ai_controller.set_blackboard_key(BB_BASIC_FOODS, food_type)
 
 /mob/living/simple_animal/hostile/retaliate/rogue/troll/death(gibbed)
@@ -120,19 +120,29 @@
 	if(has_status_effect(/datum/status_effect/fire_handler))
 		adjustHealth(-rand(20,35))
 
+/mob/living/simple_animal/hostile/retaliate/rogue/troll/proc/hide()
+	flick("troll_hiding", src)
+	sleep(1 SECONDS)
+	icon_state = "troll_hide"
+
+/mob/living/simple_animal/hostile/retaliate/rogue/troll/proc/ambush()
+	flick("troll_ambush", src)
+	sleep(1 SECONDS)
+	icon_state = initial(icon_state)
+
 /mob/living/simple_animal/hostile/retaliate/rogue/troll/bog/LoseTarget()
 	..()
 	if(health > 0)
-		icon_state = "troll_hiding"
+		hide()
 
 /mob/living/simple_animal/hostile/retaliate/rogue/troll/bog/Moved()
 	. = ..()
-	if(!icon_state == "troll")
-		icon_state = "troll"
+	if(icon_state != initial(icon_state))
+		icon_state = initial(icon_state)
 
 /mob/living/simple_animal/hostile/retaliate/rogue/troll/bog/GiveTarget()
 	..()
-	icon_state = "troll_ambush"
+	ambush()
 
 /mob/living/simple_animal/hostile/retaliate/rogue/troll/simple_limb_hit(zone)
 	if(!zone)

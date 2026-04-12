@@ -13,8 +13,8 @@
 #define PEN_NONE			0	// No penetration. Training weapons, base cuts/chops.
 #define PEN_LIGHT			1	// Falx cut, axe chop. Penetrates trash armor (NPC cloth/bad leather).
 #define PEN_MEDIUM			2	// Sword thrusts, longsword chop. Penetrates player light armor (gambeson, hardened leather).
-#define PEN_HEAVY			3	// Spear, estoc. Penetrates mail/brigandine/plate at same-tier 20%.
-#define PEN_BSTEEL			4	// Halfsword, dagger pick. Penetrates plate fully, blacksteel at 20%.
+#define PEN_HEAVY			3	// Spear, estoc. Penetrates mail/brigandine/plate.alist
+#define PEN_BSTEEL			4	// Halfsword, dagger pick. Penetrates plate fully, blacksteel.
 
 // Damage Blocking tiers (0-4). Armor clothing.
 #define DBLOCK_NONE			0	// No blocking. Unarmored skin.
@@ -44,8 +44,10 @@
 #define ARMOR_DBLOCK_TYPES list("slash", "stab", "piercing")
 
 // Penetration passthrough fractions
-#define PEN_PASSTHROUGH_OVER	1.0		// pen > armor tier: full damage through
-#define PEN_PASSTHROUGH_SAME	0.2		// pen == armor tier: 20% damage through
+#define PEN_PASSTHROUGH_RATIO	0.1		// How much damage will go through per pen point (+ per relevant stat above 10). 0.1 = 10%
+#define PEN_PASSTHROUGH_PROJ_EQUAL 0.2
+#define PEN_PASSTHROUGH_PROJ_MORE 0.8
+#define PEN_PASSTHROUGH_CAP	8			// How many "dots" maximum (pen vs armor, + 1 dot per relevant stat above 10)
 // pen < armor tier: fully blocked (0 through)
 // 0.2 is calculated from 55 AP + 30 damage spear = 5 damage through on 80 plate (stab), 5 / 30 = 0.166, rounded up to 0.2. This somewhat matches old system behavior.
 
@@ -150,6 +152,7 @@
 // PADDED: Best Blunt protection, Bodkin immune. But Axe CHOP (MEDIUM) and most thrusts (LIGHT) get through. 
 // LEATHER: Decent Blunt DR. Axe CHOP (MEDIUM), sword thrust (MEDIUM) and bodkin (HEAVY) get through. Better vs stab than padded, worse vs piercing.
 #define ARMOR_PADDED list("blunt" = DR_SUPER, "slash" = DBLOCK_MEDIUM, "stab" = DBLOCK_LIGHT, "piercing" = DBLOCK_BSTEEL, "fire" = DR_MEDIUM, "acid" = DR_NONE)
+#define ARMOR_LEATHER_NPC list("blunt" = DR_HEAVY, "slash" = DBLOCK_LIGHT, "stab" = DBLOCK_LIGHT, "piercing" = DBLOCK_MEDIUM, "fire" = DR_MEDIUM, "acid" = DR_NONE)
 #define ARMOR_LEATHER list("blunt" = DR_ULTRA, "slash" = DBLOCK_MEDIUM, "stab" = DBLOCK_MEDIUM, "piercing" = DBLOCK_HEAVY, "fire" = DR_MEDIUM, "acid" = DR_NONE)
 
 // LIGHT ARMOR - SNOWFLAKE. Not comfortable with them, but not touching it atm.

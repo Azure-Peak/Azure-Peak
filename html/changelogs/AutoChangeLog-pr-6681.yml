@@ -1,0 +1,9 @@
+author: "FreeStylaLT"
+delete-after: True
+changes:
+  - balance: "Reduced sword stab pen, added a new delayed intent with 2 'dots' of pen."
+  - balance: "Increased pen of most delayed intents across the board."
+  - balance: "Gave most delayed pen intents harder swingdelays."
+  - balance: "Rapier & Sabre now have a delayed pen intent."
+  - balance: "Pick intents can tentatively crit through armor."
+  - refactor: "Changed the \"Red\" swingdelay icon to be more noticeable for colorblind folk."

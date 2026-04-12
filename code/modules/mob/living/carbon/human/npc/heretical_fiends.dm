@@ -1,66 +1,20 @@
 /mob/living/carbon/human/species/human/northern/heretical_fiend_no_gear
-	aggressive=1
-	rude = TRUE
-	mode = NPC_AI_IDLE
+	ai_controller = /datum/ai_controller/human_npc
 	faction = list("Heretical_Fiend", "dundead")
 	ambushable = FALSE
 	cmode = 1
 	setparrytime = 30
-	flee_in_pain = TRUE
 	a_intent = INTENT_HELP
 	d_intent = INTENT_PARRY
 	possible_mmb_intents = list(INTENT_BITE, INTENT_JUMP, INTENT_KICK, INTENT_SPECIAL)
-	possible_rmb_intents = list(
-		/datum/rmb_intent/feint,\
-		/datum/rmb_intent/aimed,\
-		/datum/rmb_intent/strong,\
-		/datum/rmb_intent/riposte,\
-		/datum/rmb_intent/weak
-	)
-	npc_max_jump_stamina = 0
 
-/mob/living/carbon/human/species/human/northern/heretical_fiend_no_gear/retaliate(mob/living/L)
-	var/newtarg = target
-	.=..()
-	if(target)
-		aggressive=1
-		wander = TRUE
-		if(target != newtarg)
-			if(npc_combat_dialogue(GLOB.highwayman_aggro, prob_chance = 50, cooldown = 0))
-				pointed(target)
 
-/mob/living/carbon/human/species/human/northern/heretical_fiend_no_gear/should_target(mob/living/L)
-	if(L.stat != CONSCIOUS)
-		return FALSE
-	. = ..()
 
 /mob/living/carbon/human/species/human/northern/heretical_fiend_no_gear/Initialize()
 	. = ..()
 	set_species(/datum/species/human/northern)
 	addtimer(CALLBACK(src, PROC_REF(after_creation)), 1 SECONDS)
-	is_silent = TRUE
 
-/mob/living/carbon/human/species/human/northern/heretical_fiend_no_gear/npc_idle()
-	if(m_intent == MOVE_INTENT_SNEAK)
-		return
-	if(world.time < next_idle)
-		return
-	next_idle = world.time + rand(30, 70)
-	if((mobility_flags & MOBILITY_MOVE) && isturf(loc) && wander)
-		if(prob(20))
-			var/turf/T = get_step(loc,pick(GLOB.cardinals))
-			if(!istype(T, /turf/open/transparent/openspace))
-				Move(T)
-		else
-			face_atom(get_step(src,pick(GLOB.cardinals)))
-	if(!wander && prob(10))
-		face_atom(get_step(src,pick(GLOB.cardinals)))
-
-/mob/living/carbon/human/species/human/northern/heretical_fiend_no_gear/handle_combat()
-	if(mode == NPC_AI_HUNT)
-		if(prob(2)) // do not make this big or else they NEVER SHUT UP
-			emote("laugh")
-	. = ..()
 
 //Stuff Starts Here
 
@@ -97,32 +51,20 @@
 			beltr = /obj/item/reagent_containers/glass/bottle/alchemical/healthpot
 
 /mob/living/carbon/human/species/human/northern/heretical_fiend_no_gear/zizo_cultist
-	aggressive=1
-	rude = TRUE
-	mode = NPC_AI_IDLE
+	ai_controller = /datum/ai_controller/human_npc
 	faction = list("Heretical Fiend", "dundead")
 	ambushable = FALSE
 	cmode = 1
 	dodgetime = 30
-	flee_in_pain = FALSE
 	a_intent = INTENT_HELP
 	d_intent = INTENT_DODGE
 	possible_mmb_intents = list(INTENT_BITE, INTENT_JUMP, INTENT_KICK, INTENT_SPECIAL)
-	possible_rmb_intents = list(
-		/datum/rmb_intent/feint,\
-		/datum/rmb_intent/aimed,\
-		/datum/rmb_intent/strong,\
-		/datum/rmb_intent/riposte,\
-		/datum/rmb_intent/weak
-	)
-	npc_max_jump_stamina = 0
 
 /mob/living/carbon/human/species/human/northern/heretical_fiend_no_gear/zizo_cultist/ambush
-	aggressive=1
-	wander = TRUE
 
 /mob/living/carbon/human/species/human/northern/heretical_fiend_no_gear/zizo_cultist/after_creation()
 	..()
+	AddComponent(/datum/component/ai_aggro_system)
 	job = "Zizo Cultist"
 	ADD_TRAIT(src, TRAIT_NOMOOD, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NOHUNGER, TRAIT_GENERIC)
@@ -159,8 +101,8 @@
 	H.STASTR = 10
 	H.STAPER = 10
 	H.STAINT = 14
-	H.STACON = 10
-	H.STAWIL = 12
+	H.STACON = 5
+	H.STAWIL = 6
 	H.STASPD = 11
 	H.STALUC = 10
 	//Chest Gear

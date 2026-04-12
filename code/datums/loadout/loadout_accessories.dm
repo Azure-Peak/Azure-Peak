@@ -333,3 +333,7 @@
 	path = /obj/item/clothing/cloak/cotehardie
 	sort_category = "Accessories"
 
+/datum/loadout_item/weatheredmask
+	name = "Weathered Xylixian Mask"
+	path = /obj/item/clothing/mask/rogue/xylixmask/weathered
+	sort_category = "Accessories"

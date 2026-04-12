@@ -604,9 +604,10 @@
 
 #define TYPING_INDICATOR_TIMEOUT 20 MINUTES
 
-// NPC Debugging
+// NPC Debugging - uncomment to enable AI debug runechat
+// #define NPC_THINK_DEBUG
 #ifdef NPC_THINK_DEBUG
-#define NPC_THINK(message) visible_message(message, runechat_message = message)
+#define AI_THINK(pawn, message) pawn.visible_message(message, runechat_message = message)
 #else
-#define NPC_THINK(message)
+#define AI_THINK(pawn, message)
 #endif
