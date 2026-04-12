@@ -2933,7 +2933,6 @@
 #include "code\modules\spells\spell_types\wizard\conjure\conjure_crystalhide.dm"
 #include "code\modules\spells\spell_types\wizard\conjure\conjure_dragonhide.dm"
 #include "code\modules\spells\spell_types\wizard\conjure\conjure_primordial.dm"
-#include "code\modules\spells\spell_types\wizard\conjure\find_familiar.dm"
 #include "code\modules\spells\spell_types\wizard\conjure\forcewall.dm"
 #include "code\modules\spells\spell_types\wizard\cryomancy\_cryomancy_shared.dm"
 #include "code\modules\spells\spell_types\wizard\cryomancy\chill_food.dm"
