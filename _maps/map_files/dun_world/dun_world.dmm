@@ -49028,14 +49028,6 @@
 /obj/effect/spawner/lootdrop/roguetown/dungeon/food,
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/cave/his_vault)
-"keZ" = (
-/obj/effect/decal/cobbleedge{
-	icon_state = "cobbleedge-sread";
-	pixel_y = -1
-	},
-/obj/machinery/light/rogue/firebowl/stump,
-/turf/open/floor/rogue/dirt/road,
-/area/rogue/outdoors/town)
 "kfi" = (
 /obj/effect/decal/cobbleedge{
 	icon_state = "cobbleedge-n"
@@ -53279,6 +53271,10 @@
 /obj/structure/flora/roguetree/burnt,
 /turf/open/floor/rogue/dirt,
 /area/rogue/outdoors/woods/southwest)
+"kVO" = (
+/obj/structure/fluff/psycross/crafted,
+/turf/open/floor/rogue/dirt,
+/area/rogue/outdoors/town)
 "kVP" = (
 /obj/structure/table/wood,
 /obj/effect/decal/cleanable/dirt/dust,
@@ -61843,6 +61839,10 @@
 "mDR" = (
 /turf/closed/wall/mineral/rogue/decostone/end/west,
 /area/rogue/outdoors/town/roofs)
+"mDT" = (
+/obj/structure/flora/roguetree/stump/burnt,
+/turf/open/floor/rogue/dirt,
+/area/rogue/outdoors/town)
 "mDU" = (
 /obj/effect/decal/cobble/mossy,
 /turf/open/floor/rogue/grass,
@@ -79450,14 +79450,6 @@
 	},
 /turf/open/floor/rogue/cobble,
 /area/rogue/outdoors/mountains/decap/gunduzirak)
-"qoi" = (
-/obj/effect/decal/cobbleedge{
-	icon_state = "cobbleedge-sread";
-	pixel_y = -1
-	},
-/obj/machinery/light/rogue/firebowl/stump,
-/turf/open/floor/rogue/grass,
-/area/rogue/outdoors/town)
 "qok" = (
 /obj/effect/decal/cobbleedge{
 	dir = 10
@@ -103672,14 +103664,6 @@
 /obj/item/roguegem/random,
 /turf/open/floor/rogue/carpet/lord/center,
 /area/rogue/under/cave/licharena/bossroom)
-"vkx" = (
-/obj/effect/decal/cobbleedge{
-	dir = 8;
-	pixel_x = 0;
-	pixel_y = 6
-	},
-/turf/open/floor/rogue/grass,
-/area/rogue/outdoors/town)
 "vkz" = (
 /obj/machinery/gear_painter,
 /turf/open/floor/rogue/tile,
@@ -104856,6 +104840,7 @@
 /obj/effect/decal/mossy{
 	dir = 8
 	},
+/obj/structure/flora/roguegrass,
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors/town)
 "vws" = (
@@ -254582,7 +254567,7 @@ qyR
 qyR
 pWT
 pWT
-aFv
+kVO
 fpx
 pLh
 pLh
@@ -255486,7 +255471,7 @@ qyR
 pWT
 pWT
 aFv
-aFv
+oOv
 aFv
 phl
 phl
@@ -256843,7 +256828,7 @@ hTO
 xYJ
 pwp
 aFv
-aFv
+mDT
 aFv
 pWT
 ftO
@@ -257294,8 +257279,8 @@ aoq
 sVK
 upM
 gyu
+aFv
 drt
-vkx
 njB
 qbZ
 gTY
@@ -257746,8 +257731,8 @@ uBc
 sVK
 xdG
 gyu
+njB
 drt
-sns
 qmJ
 vJk
 tKz
@@ -258198,8 +258183,8 @@ flT
 sVK
 xdG
 gyu
-keZ
-sns
+pWp
+qwV
 sns
 vJk
 rRD
@@ -258650,7 +258635,7 @@ uBc
 xOu
 bdS
 jtR
-fpx
+jiQ
 qwV
 sns
 vJk
@@ -259102,8 +259087,8 @@ cDX
 bAM
 pqo
 cDX
+pWT
 qwV
-sns
 sns
 qbZ
 gTY
@@ -259554,8 +259539,8 @@ qtz
 kie
 iEx
 pwp
+aFv
 qwV
-sns
 lSM
 tIy
 heP
@@ -260006,8 +259991,8 @@ tyz
 fUR
 iEx
 gyu
+aFv
 qwV
-sns
 mQr
 pnA
 ptu
@@ -260458,8 +260443,8 @@ opf
 esP
 glw
 gyu
+aFv
 drt
-sns
 qmJ
 wka
 xAG
@@ -260910,8 +260895,8 @@ rDJ
 ffc
 vwb
 jtR
+fpx
 drt
-sns
 sns
 tIy
 rUQ
@@ -261362,8 +261347,8 @@ cDX
 gyu
 gyu
 cDX
-qoi
-sns
+njB
+drt
 sns
 pnA
 jAp
@@ -261814,8 +261799,8 @@ uGn
 lCq
 mds
 pwp
+njB
 xKW
-sns
 sns
 qbZ
 gTY
@@ -262267,7 +262252,7 @@ sVK
 qlH
 gyu
 pWT
-hRO
+njB
 fwN
 vkW
 cJp
@@ -262718,7 +262703,7 @@ ylQ
 dEd
 qah
 gyu
-aFv
+pQX
 njB
 qfA
 mSh
@@ -263624,7 +263609,7 @@ jtR
 jtR
 aFv
 pWT
-qfA
+rUQ
 mSh
 lJQ
 cjL
@@ -265432,7 +265417,7 @@ aFv
 aFv
 aFv
 yaF
-qfA
+rUQ
 mSh
 jQr
 mcx
@@ -266789,7 +266774,7 @@ dVS
 gIT
 nKr
 eHg
-aFv
+mDT
 vkW
 omR
 cjL
