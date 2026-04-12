@@ -1,39 +1,23 @@
 //GLOBAL_LIST_INIT(militia_aggro, world.file2list("strings/rt/militiaaggrolines.txt")) //this doesn't exit but feel free to make it
 
 /mob/living/carbon/human/species/human/northern/militia //weak peasant infantry. Neutral but can be given factions for events. doesn't attack players.
-	aggressive=1 //they attack things. INCLUDING SAIGAS (THIS MEANS THEY WILL AGGRO ON PEOPLES MOUNTS)
-	rude = TRUE
-	mode = NPC_AI_IDLE
+	ai_controller = /datum/ai_controller/human_npc
 	faction = list("neutral")
 	ambushable = FALSE
 	dodgetime = 30
-	flee_in_pain = TRUE
-	possible_rmb_intents = list()
 
-/mob/living/carbon/human/species/human/northern/militia/retaliate(mob/living/L)
-	var/newtarg = target
-	.=..()
-	if(target)
-		aggressive=1
-		wander = TRUE
-		if(target != newtarg)
-			if(npc_combat_dialogue(GLOB.highwayman_aggro, prob_chance = 50, cooldown = 0))
-				pointed(target)
 
-/mob/living/carbon/human/species/human/northern/militia/should_target(mob/living/L)
-	if(L.stat != CONSCIOUS)
-		return FALSE
-	. = ..()
 
 /mob/living/carbon/human/species/human/northern/militia/Initialize()
 	. = ..()
 	set_species(/datum/species/human/northern)
 	addtimer(CALLBACK(src, PROC_REF(after_creation)), 1 SECONDS)
-	is_silent = TRUE
 
 
 /mob/living/carbon/human/species/human/northern/militia/after_creation()
 	..()
+	AddComponent(/datum/component/ai_aggro_system)
+	SEND_SIGNAL(src, COMSIG_MOB_MODIFY_AGGRO_LINES, GLOB.highwayman_aggro, TRUE)
 	job = "Militia"
 	ADD_TRAIT(src, TRAIT_NOMOOD, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NOHUNGER, TRAIT_GENERIC)
@@ -47,26 +31,6 @@
 	update_hair()
 	update_body()
 
-/mob/living/carbon/human/species/human/northern/militia/npc_idle()
-	if(m_intent == MOVE_INTENT_SNEAK)
-		return
-	if(world.time < next_idle)
-		return
-	next_idle = world.time + rand(30, 70)
-	if((mobility_flags & MOBILITY_MOVE) && isturf(loc) && wander)
-		if(prob(20))
-			var/turf/T = get_step(loc,pick(GLOB.cardinals))
-			if(!istype(T, /turf/open/transparent/openspace))
-				Move(T)
-		else
-			face_atom(get_step(src,pick(GLOB.cardinals)))
-	if(!wander && prob(10))
-		face_atom(get_step(src,pick(GLOB.cardinals)))
-
-/mob/living/carbon/human/species/human/northern/militia/handle_combat()
-	if(mode == NPC_AI_HUNT)
-		npc_combat_dialogue(GLOB.highwayman_aggro, list("laugh", "warcry", "rage"), prob_chance = 5, say_chance = 60)
-	. = ..()
 
 /datum/outfit/job/roguetown/human/species/human/northern/militia/pre_equip(mob/living/carbon/human/H)
 	if(H.faction && ("viking" in H.faction))
@@ -102,10 +66,10 @@
 		gloves = /obj/item/clothing/gloves/roguetown/angle
 	H.STASTR = rand(10,11) //GENDER EQUALITY!!
 	H.STASPD = 10
-	H.STACON = rand(10,12) //so their limbs no longer pop off like a skeleton
-	H.STAWIL = 10
+	H.STACON = 6
+	H.STAWIL = 6
 	H.STAPER = 10
-	H.STAINT = 10
+	H.STAINT = 8
 	switch(rand(1, 11))
 		// Militia Weapon. Of course they spawn with it
 		if(1)
@@ -152,10 +116,8 @@
 	H.adjust_skillrank(/datum/skill/misc/climbing, 2, TRUE)
 
 /mob/living/carbon/human/species/human/northern/militia/ambush
-	wander = TRUE
 
 /mob/living/carbon/human/species/human/northern/militia/guard //variant that doesn't wander, if you want to place them as set dressing. will aggro enemies and animals
-	wander = FALSE
 
 /mob/living/carbon/human/species/human/northern/militia/deserter // Bad deserter, trash mob
 	threat_point = THREAT_MODERATE
@@ -164,5 +126,6 @@
 
 /mob/living/carbon/human/species/human/northern/militia/after_creation()
 	..()
+	AddComponent(/datum/component/ai_aggro_system)
 	var/obj/item/bodypart/head/head = get_bodypart(BODY_ZONE_HEAD)
 	head.sellprice = 20 // Gobbo sellprice

@@ -10,6 +10,12 @@
 	sleepy = 0.5
 //	pixel_y = 10
 	layer = OBJ_LAYER
+	hidingspot = TRUE
+	var/mob/living/hiddenguy = null // So we can find them with fixed eye search
+
+/obj/structure/chair/bench/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Some structures can be used as hiding places. Toggle the 'SNEAK' button on your HUD, then click the structure to hide in it. You can stop hiding by clicking the structure again, or by moving out of it.")
 
 /obj/structure/chair/bench/church
 	icon_state = "church_benchleft"
@@ -33,6 +39,40 @@
 	else
 		layer = OBJ_LAYER
 		plane = GAME_PLANE
+
+/obj/structure/chair/bench/attack_hand(mob/user)
+	if(isliving(user))
+		if(user.m_intent == MOVE_INTENT_SNEAK)
+			hideinside(user)
+			return
+
+/obj/structure/chair/bench/proc/hideinside(mob/living/user)
+	var/sneak_level = user.get_skill_level(/datum/skill/misc/sneaking) || 0
+	var/sneaktime = max(10, 50 - (sneak_level * 10)) // Hard caps at 1 second at Expert and above.
+	if(user.loc == src)
+		unhide(user)
+		return
+	if(occupied)
+		to_chat(user, span_warning("Someone is already hiding under [src]!"))
+		return
+	if(!do_after(user, sneaktime, src))
+		return
+	user.forceMove(src)
+	occupied = TRUE
+	hiddenguy = user
+	to_chat(user, span_warning("I hide under [src]!"))
+
+/obj/structure/chair/bench/proc/unhide(mob/living/user)
+	var/turf/T = get_turf(src)
+	if(!T) return
+	user.forceMove(T)
+	occupied = FALSE
+	hiddenguy = null
+	to_chat(user, span_warning("I come out from under [src]!"))
+
+/obj/structure/chair/bench/relaymove(mob/user)
+	if(user.loc == src)
+		unhide(user)
 
 /obj/structure/chair/bench/post_buckle_mob(mob/living/M)
 	..()
@@ -337,6 +377,8 @@
 	debris = list(/obj/item/grown/log/tree/small = 1)
 	var/broken_matress = FALSE
 	var/broken_percentage = 0
+	hidingspot = TRUE
+	var/mob/living/hiddenguy = null // So we can find them with fixed eye search
 
 /obj/structure/bed/rogue/get_mechanics_examine(mob/user)
 	. = ..()
@@ -347,6 +389,7 @@
 	. += span_info("Sleeping will gradually heal most wounds and damages, over time. This can be further enhanced by sleeping next to a lit campfire or fireplace. To begin waking back up, click the arrows that border the HUD's eye once again. If you can see the eye, that means you'll wake up soon.")
 	. += span_info("Once awake, hit the 'RESIST' hotkey or left-click the bed to 'unbuckle' yourself. Once unbuckled, pressing the 'V' key will allow you to fully rise up.")
 	. += span_info("Note that you can still sleep anywhere you wish, even without a bed, by simply laying down and closing your eyes. While this can work in a pinch to stave off tiredness or bolster your characters to survive a critical wound, it's much less ideal.")
+	. += span_info("Some structures can be used as hiding places. Toggle the 'SNEAK' button on your HUD, then click the structure to hide in it. You can stop hiding by clicking the structure again, or by moving out of it.")
 
 /obj/structure/bed/rogue/proc/damage_bed(dam_value)
 	if(sleepy <= 2) // the bed is already pretty awful and broken (i.e: straw bed/bedroll), so don't break it even further
@@ -367,6 +410,39 @@
 	dirin = turn(dirin, 180)
 	. = ..(dirin)
 	update_icon()
+
+/obj/structure/bed/rogue/attack_hand(mob/living/user)
+	if(user.m_intent == MOVE_INTENT_SNEAK)
+		hideinside(user)
+		return
+
+/obj/structure/bed/rogue/proc/hideinside(mob/living/user)
+	var/sneak_level = user.get_skill_level(/datum/skill/misc/sneaking) || 0
+	var/sneaktime = max(10, 50 - (sneak_level * 10)) // Hard caps at 1 second at Expert and above.
+	if(user.loc == src)
+		unhide(user)
+		return
+	if(occupied)
+		to_chat(user, span_warning("Someone is already hiding under [src]!"))
+		return
+	if(!do_after(user, sneaktime, src))
+		return
+	user.forceMove(src)
+	occupied = TRUE
+	hiddenguy = user
+	to_chat(user, span_warning("I hide under [src]!"))
+
+/obj/structure/bed/rogue/proc/unhide(mob/living/user)
+	var/turf/T = get_turf(src)
+	if(!T) return
+	user.forceMove(T)
+	occupied = FALSE
+	hiddenguy = null
+	to_chat(user, span_warning("I come out from under [src]!"))
+
+/obj/structure/bed/rogue/relaymove(mob/user)
+	if(user.loc == src)
+		unhide(user)
 
 /obj/structure/bed/rogue/attack_right(mob/user)
 	var/datum/component/simple_rotation/rotcomp = GetComponent(/datum/component/simple_rotation)

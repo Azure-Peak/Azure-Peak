@@ -330,12 +330,6 @@
 	icon_state = "spikekey"
 	lockid = "garrison"
 
-/obj/item/roguekey/warden
-	name = "watchtower key"
-	desc = "This key opens the warden's watchtower."
-	icon_state = "spikekey"
-	lockid = "warden"
-
 /obj/item/roguekey/dungeon
 	name = "dungeon key"
 	desc = "This key opens the dungeons."
@@ -353,6 +347,12 @@
 	desc = "This key opens the garrison's armory."
 	icon_state = "hornkey"
 	lockid = "armory"
+
+/obj/item/roguekey/warden
+	name = "watchtower key"
+	desc = "This key opens the warden's watchtower."
+	icon_state = "spikekey"
+	lockid = "warden"
 
 /////////////////////
 // PANTHEON CHURCH //
@@ -938,7 +938,6 @@
 	desc = "A key to the private residence of the town's grumpy battlemaster."
 	icon_state = "greenkey"
 	lockid = "veteran"
-
 
 ///////////////////////////////////////
 // ABSOLUTELY ZERO CLUE WHAT THIS IS //

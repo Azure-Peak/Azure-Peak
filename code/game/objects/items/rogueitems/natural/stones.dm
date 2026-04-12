@@ -400,8 +400,11 @@ GLOBAL_LIST_INIT(stone_personality_descs, list(
 	. += span_info("Left-clicking a rock with a stone has a chance to spawn sparks. Sparks can be used to reignite extinguished torches, lampterns, hearths, and other igniteable structures.")
 	. += span_info("Left-clicking a rock with a chisel will turn it into a stone block, which can be used for masonry and construction.")
 
-/obj/item/natural/rock/Initialize()
+/obj/item/natural/rock/Initialize(mapload, autodeconstruct)
 	icon_state = "stonebig[rand(1,2)]"
+	if(autodeconstruct)
+		deconstruct()
+		return
 	..()
 
 /obj/item/natural/rock/Crossed(mob/living/L)

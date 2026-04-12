@@ -118,6 +118,15 @@
 		if(istype(P, /obj/item/roguecoin))
 			var/mob/living/carbon/human/H = user
 			if(H in SStreasury.bank_accounts)
+
+				if(istype(P, /obj/item/roguecoin/gold/matthios))
+					if(prob(30))
+						say("Matthios be praised! You are FREE of taxes!")
+					say("Your deposit was taxed 0 mammon.")
+					playsound(src, 'sound/misc/coininsert.ogg', 100, FALSE, -1)
+					qdel(P)
+					return
+
 				var/list/deposit_results = SStreasury.generate_money_account(P.get_real_price(), H)
 				if(islist(deposit_results))
 					record_round_statistic(STATS_MAMMONS_DEPOSITED, deposit_results[1] - deposit_results[2])

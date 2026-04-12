@@ -42,6 +42,7 @@ require only minor tweaks.
 #define ZTRAIT_UP "Up"
 #define ZTRAIT_DOWN "Down"
 #define ZTRAIT_IGNORE_WEATHER_TRAIT "NoDayorWeather"
+#define ZTRAIT_MATTHIOS_DUNGEON "NoDayorWeather"
 
 #define ZTRAIT_WEATHER_STUFF "Turf Weather Effects"
 

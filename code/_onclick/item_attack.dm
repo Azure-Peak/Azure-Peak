@@ -159,7 +159,7 @@
 
 	// Getting struck w/ /disrupt swingdelay type sets our swing_state to false. 
 	// If we had the effect, but not the bool, we were interrupted. (Or something else went wrong.)
-	if(user.has_status_effect(/datum/status_effect/swingdelay) && !user.swing_state)
+	if(user.is_swinging() && !user.swing_state)
 		return
 
 	user.swing_state = FALSE

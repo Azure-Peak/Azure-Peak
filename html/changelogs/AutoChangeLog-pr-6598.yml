@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - balance: "While armor integrity holds above, critical hits will not roll on the limb underneath. Damage still goes through. Clearer messages when this happens."

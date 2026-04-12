@@ -272,3 +272,23 @@
 	name = "Donator Item - Sandlash"
 	path = /obj/item/enchantingkit/sci_sand
 	ckeywhitelist = list("scidragon")
+
+/datum/loadout_item/donator/aisuwand
+    name = "Donator Kit - Crystalline Wand"
+    path = /obj/item/enchantingkit/aisuwand
+    ckeywhitelist = list("aisu9")
+
+/datum/loadout_item/donator/regnum
+	name = "Donator Item - Regnum"
+	path = /obj/item/enchantingkit/weapon/regnum
+	ckeywhitelist = list("nauticall")
+
+/datum/loadout_item/donator/aeternum
+	name = "Donator Item - Aeternum"
+	path = /obj/item/enchantingkit/weapon/aeternum
+	ckeywhitelist = list("nauticall")
+
+/datum/loadout_item/donator/porcelainmask
+	name = "Donator Item - Porcelain Mask"
+	path = /obj/item/clothing/mask/rogue/iamcrystalclear
+	ckeywhitelist = list("iamcrystalclear")

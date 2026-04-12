@@ -15,15 +15,14 @@
 	a_intent = INTENT_HELP
 	d_intent = INTENT_PARRY
 	possible_mmb_intents = list(INTENT_SPECIAL, INTENT_JUMP, INTENT_KICK, INTENT_BITE)
-	possible_rmb_intents = list(/datum/rmb_intent/feint, /datum/rmb_intent/aimed, /datum/rmb_intent/strong, /datum/rmb_intent/weak, /datum/rmb_intent/swift, /datum/rmb_intent/riposte)
 
 /mob/living/carbon/human/species/orc/npc
 	faction = list("orcs", "station")
-	aggressive = 1
-	rude = TRUE
-	mode = NPC_AI_IDLE
-	wander = FALSE
+	ai_controller = /datum/ai_controller/human_npc
 	cmode_music = FALSE
+
+/mob/living/carbon/human/species/orc/npc/archer
+	orc_outfit = /datum/outfit/job/roguetown/orc/npc/archer
 
 /mob/living/carbon/human/species/orc/npc/Initialize()
 	. = ..()
@@ -32,6 +31,7 @@
 
 /mob/living/carbon/human/species/orc/npc/after_creation()
 	..()
+	AddComponent(/datum/component/ai_aggro_system)
 	job = "Savage Orc"
 	equipOutfit(new orc_outfit)
 	gender = pick(MALE, FEMALE)
@@ -98,10 +98,10 @@
 	r_hand = /obj/item/rogueweapon/stoneaxe/boneaxe
 	l_hand = /obj/item/rogueweapon/shield/wood
 
-	H.STASTR = 16
+	H.STASTR = 12
 	H.STASPD = 8
-	H.STACON = 15
-	H.STAWIL = 15
+	H.STACON = 8
+	H.STAWIL = 8
 	H.STAINT = 6
 
 	//light labor skills for armor repairs and such, equipment is so-so, with good stats

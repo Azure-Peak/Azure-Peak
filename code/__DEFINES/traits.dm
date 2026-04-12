@@ -35,7 +35,6 @@
 #define TRAIT_DODGEEXPERT "Expert Dodger"
 #define TRAIT_DECEIVING_MEEKNESS "Deceiving Meekness"
 #define TRAIT_CRITICAL_RESISTANCE "Critical Resistance"
-#define TRAIT_CRIT_THRESHOLD "NPC Respect Crit Threshold"
 #define TRAIT_BLOOD_RESISTANCE "Thick Blooded"
 #define TRAIT_JOURNEYS_END "Journey's End"
 #define TRAIT_RAGE "Rage"
@@ -460,7 +459,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_AZURENATIVE = span_info("I've grown up and lived all my lyfe in these lands. I can only trigger ambushes if I sprint through them."),
 	TRAIT_SLEUTH = span_info("I can spot my tracked Mark's trail without needing to approach it, and can spot them at a distance. I can track more frequently, and the act is not impaired by movement. I can examine tracks right away."),
 	TRAIT_HARDSHELL = span_info("The bulk of this armor prevents me from parrying effectively, but I can still move out of the way."),
-	TRAIT_MATTHIOS_EYES = span_notice("I have a sense for what the most valuable item someone has is."),
+	TRAIT_MATTHIOS_EYES = span_notice("I have a sense for what the most valuable item someone has is. I can also estimate how much mammon they have."),
 	TRAIT_WOODWALKER = span_notice("I can climb trees quicker, and gain climbing experience twice as quickly. I can step on thorns and branches safely in the woods. I can get twice as many things from searching bushes, and I can stand on leaves in trees safely."),
 	TRAIT_ARCYNE = span_notice("I am trained in the Arcyne arts, allowing me to wield magyck."),
 	TRAIT_INFINITE_ENERGY = span_notice ("I don't need rest; I won't ever feel fatigue."),
@@ -638,6 +637,8 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 #define TRAIT_IGNOREDAMAGESLOWDOWN "Ignore Damage Slowdown"
 #define TRAIT_RIGIDMOVEMENT		"Ignore Natural Health Slowdown"
 #define TRAIT_DEATHCOMA			"Death Coma" //Causes death-like unconsciousness
+#define TRAIT_FRESHSPAWN "freshspawn"
+#define TRAIT_RELAYING_ATTACKER "relaying_attacker"
 #define TRAIT_FAKEDEATH			"Fake Death" //Makes the owner appear as dead to most forms of medical examination
 #define TRAIT_STUNIMMUNE		"stun_immunity"
 #define TRAIT_STUNRESISTANCE    "stun_resistance"
@@ -715,6 +716,10 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 #define TRAIT_REFUSED_VAMP_CONVERT "refused_vampire_conversion"
 /// makes your footsteps completely silent
 #define TRAIT_SILENT_FOOTSTEPS "silent_footsteps"
+/// reduces sharply the noise of failed lockpicking attempts
+#define TRAIT_SILENT_LOCKPICK "silent_lockpick"
+/// makes you pick locks as if you are legendary and see in the darkness, BUT...
+#define TRAIT_GILDED_SIGHT "gilded_sight"
 
 //bodypart traits
 #define TRAIT_PARALYSIS	"paralysis" //Used for limb-based paralysis and full body paralysis
@@ -860,6 +865,9 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 #define TRAIT_UI_BLOCKED "uiblocked"
 /// Prevents usage of manipulation appendages (picking, holding or using items, manipulating storage).
 #define TRAIT_HANDS_BLOCKED "handsblocked"
+// TODO: Refactor - Vanderlin moved restraint/floored checks to traits. AP still uses handcuffed var and mobility_flags. Stub defines for AI compatibility.
+#define TRAIT_RESTRAINED "restrained"
+#define TRAIT_FLOORED "floored"
 /// This mob should never close UI even if it doesn't have a client
 #define TRAIT_PRESERVE_UI_WITHOUT_CLIENT "preserve_ui_without_client"
 //important_recursive_contents traits

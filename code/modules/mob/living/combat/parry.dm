@@ -132,6 +132,11 @@
 		prob2defend += unarmed_defense
 		weapon_parry = FALSE
 
+	// We're one-handing a swift-balanced weapon (rapiers, sabers, etc). Small parry boost (1 wdef equiv.)
+	if(mainhand && !offhand)
+		if(used_weapon.wbalance == WBALANCE_SWIFT)
+			prob2defend += 10
+
 	if(intenty.masteritem)
 		attacker_skill = U.get_skill_level(intenty.masteritem.associated_skill)
 
@@ -141,7 +146,7 @@
 		prob2defend -= (attacker_skill * 20)
 		if((intenty.masteritem.wbalance == WBALANCE_SWIFT) && (user.STASPD > src.STASPD)) //enemy weapon is quick, so get a bonus based on spddiff
 			var/spdmod = ((user.STASPD - src.STASPD) * 10)
-			var/permod = ((src.STAPER - user.STAPER) * 10)
+			var/permod = ((src.STAPER - user.STAPER) * 5)
 			var/intmod = ((src.STAINT - user.STAINT) * 3)
 			if(mind)
 				if(permod > 0)
@@ -150,7 +155,7 @@
 					spdmod -= intmod
 			var/finalmod = spdmod
 			if(mind)
-				finalmod = clamp(spdmod, 0, 30)
+				finalmod = clamp(spdmod, 0, 45)
 			prob2defend -= finalmod
 	else
 		attacker_skill = U.get_skill_level(/datum/skill/combat/unarmed)
@@ -232,7 +237,7 @@
 		to_chat(src, span_info("[text]"))
 
 	if(has_status_effect(/datum/status_effect/swingdelay/penalty))
-		prob2defend -= 50
+		prob2defend = clamp(prob2defend - 50, 5, 90)
 
 	if(HAS_TRAIT(src, TRAIT_NODEF))
 		prob2defend = 0

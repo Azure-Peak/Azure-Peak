@@ -7,17 +7,17 @@
 	cmode_music = 'sound/music/combat_poacher.ogg'
 	class_select_category = CLASS_CAT_RANGER
 	category_tags = list(CTAG_WRETCH)
-	traits_applied = list(TRAIT_DODGEEXPERT, TRAIT_WOODSMAN, TRAIT_OUTDOORSMAN, TRAIT_SURVIVAL_EXPERT)
+	traits_applied = list(TRAIT_AZURENATIVE, TRAIT_DODGEEXPERT, TRAIT_WOODSMAN, TRAIT_OUTDOORSMAN, TRAIT_SURVIVAL_EXPERT)
 	// No straight upgrade to perception / speed to not stack one stat too high, but still stronger than MAA Skirm out of town.
 	subclass_stats = list(
-		STATKEY_PER = 2,
+		STATKEY_PER = 3,
 		STATKEY_SPD = 2,
 		STATKEY_WIL = 2,
 		STATKEY_CON = 1
 	)
 	subclass_skills = list(
 		/datum/skill/misc/tracking = SKILL_LEVEL_EXPERT,
-		/datum/skill/combat/bows = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/bows = SKILL_LEVEL_MASTER,
 		/datum/skill/combat/knives = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/axes = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/maces = SKILL_LEVEL_APPRENTICE,
@@ -68,16 +68,16 @@
 		H.set_blindness(0)
 		switch(weapon_choice)
 			if("Dagger")
-				H.adjust_skillrank_up_to(/datum/skill/combat/knives, 4, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/combat/knives, SKILL_LEVEL_EXPERT, TRUE)
 				beltr = /obj/item/rogueweapon/scabbard/sheath
 				r_hand = /obj/item/rogueweapon/huntingknife/idagger/steel
 			if("Axe")
-				H.adjust_skillrank_up_to(/datum/skill/combat/axes, 4, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_EXPERT, TRUE)
 				beltr = /obj/item/rogueweapon/stoneaxe/woodcut
 			if ("Cudgel")
-				H.adjust_skillrank_up_to(/datum/skill/combat/maces, 4, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_EXPERT, TRUE)
 				beltr = /obj/item/rogueweapon/mace/cudgel
 			if ("My Bow Is Enough")
-				H.adjust_skillrank_up_to(/datum/skill/combat/bows, 5, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/combat/bows, SKILL_LEVEL_LEGENDARY, TRUE)
 				head = /obj/item/clothing/head/roguetown/helmet/kettle
 		wretch_select_bounty(H)

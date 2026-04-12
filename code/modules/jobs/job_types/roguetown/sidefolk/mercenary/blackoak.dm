@@ -81,10 +81,19 @@
 			H.put_in_hands(new /obj/item/rogueweapon/sword/long/elvish)
 			H.equip_to_slot_or_del(new /obj/item/rogueweapon/scabbard/sword, SLOT_BACK_R, TRUE)
 
-/datum/advclass/mercenary/blackoak/ranger
+/datum/advclass/mercenary/blackoak_ranger
 	name = "Black Oaken Ranger"
 	tutorial = "A shady ranger of the Black Oaks. Half mercenary band, half irregular militia fighting for control of their ancestral elven homeland of the Peaks. Thankfully, you are not here today to shed the blood of the Duke's men — unless someone pays you to..."
+	allowed_sexes = list(MALE, FEMALE)
+	allowed_races = list(
+		/datum/species/human/halfelf,
+		/datum/species/elf/wood,
+		/datum/species/elf/dark,
+	)
 	outfit = /datum/outfit/job/roguetown/mercenary/blackoak_ranger
+	class_select_category = CLASS_CAT_RACIAL
+	category_tags = list(CTAG_MERCENARY)
+	cmode_music = 'sound/music/combat_blackoak.ogg'
 	traits_applied = list(TRAIT_AZURENATIVE, TRAIT_OUTDOORSMAN, TRAIT_BLACKOAK, TRAIT_DODGEEXPERT, TRAIT_WOODWALKER)
 	subclass_stats = list(
 		STATKEY_SPD = 3,
@@ -168,10 +177,19 @@
 		if("Winged Elven Barbute")
 			H.equip_to_slot_or_del(new /obj/item/clothing/head/roguetown/helmet/elvenbarbute/winged/blackoak, SLOT_HEAD, TRUE)
 
-/datum/advclass/mercenary/blackoak/adept
+/datum/advclass/mercenary/blackoak_adept
 	name = "Black Oaken Adept"
 	tutorial = "A spellblade of the Black Oaks. Half mercenary band, half irregular militia fighting for control of their ancestral elven homeland of the Peaks. You have honed the ancient Azurean art of spellbladery - an art that is yours and your people's alone. Thankfully, you are not here today to shed the blood of the Duke's men - unless someone pays you to..."
+	allowed_sexes = list(MALE, FEMALE)
+	allowed_races = list(
+		/datum/species/human/halfelf,
+		/datum/species/elf/wood,
+		/datum/species/elf/dark,
+	)
 	outfit = /datum/outfit/job/roguetown/mercenary/blackoak_adept
+	class_select_category = CLASS_CAT_RACIAL
+	category_tags = list(CTAG_MERCENARY)
+	cmode_music = 'sound/music/combat_blackoak.ogg'
 	class_select_category = CLASS_CAT_RACIAL
 	traits_applied = list(TRAIT_AZURENATIVE, TRAIT_OUTDOORSMAN, TRAIT_BLACKOAK, TRAIT_ARCYNE, TRAIT_WOODWALKER)
 	subclass_stats = list(
@@ -233,6 +251,7 @@
 		/obj/item/flashlight/flare/torch = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1,
 		/obj/item/book/spellbook = 1,
+		/obj/item/chalk = 1,
 		)
 
 	to_chat(H, span_warning("You start with Bind Weapon. Remember to Bind your weapon so you can use your abilities and build up Arcyne Momentum."))

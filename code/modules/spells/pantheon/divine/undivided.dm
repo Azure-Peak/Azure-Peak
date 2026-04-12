@@ -165,11 +165,6 @@
 /datum/status_effect/buff/recuperation/other
 	duration = 10 SECONDS
 
-/datum/status_effect/buff/recuperation/eoran
-	duration = 1 MINUTES
-	healing_on_tick = 2
-	outline_colour = "#EEBBBB"
-
 /datum/status_effect/buff/recuperation/on_apply()
 	var/filter = owner.get_filter(RECUPERATION_BASE_FILTER)
 	if (!filter)

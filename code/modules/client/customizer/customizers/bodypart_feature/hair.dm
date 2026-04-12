@@ -502,6 +502,7 @@
 		/datum/sprite_accessory/hair/head/hprotagonist,
 		/datum/sprite_accessory/hair/head/alsoprotagonist,
 		/datum/sprite_accessory/hair/head/ghast,
+		/datum/sprite_accessory/hair/head/scruffy,
 		)
 
 /datum/customizer_choice/bodypart_feature/hair/head/humanoid/get_random_accessory(datum/customizer_entry/entry, datum/preferences/prefs)

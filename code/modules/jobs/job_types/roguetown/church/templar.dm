@@ -120,6 +120,12 @@
 		if(/datum/patron/divine/malum)
 			neck = /obj/item/clothing/neck/roguetown/psicross/malum
 			cloak = /obj/item/clothing/cloak/templar/malumite
+	// Patron dagger + sheath in satchel
+	var/patron_dagger = get_templar_patron_dagger(H)
+	if(patron_dagger)
+		backpack_contents += patron_dagger
+		backpack_contents += /obj/item/rogueweapon/scabbard/sheath
+
 	head = /obj/item/clothing/head/roguetown/headband/monk
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/cloth/monk
 	shirt = /obj/item/clothing/suit/roguetown/shirt/tunic/black
@@ -335,6 +341,11 @@
 		if(/datum/patron/old_god)
 			wrists = /obj/item/clothing/neck/roguetown/psicross
 			cloak = /obj/item/clothing/cloak/tabard/crusader/psydon
+	// Patron dagger in satchel
+	var/patron_dagger = get_templar_patron_dagger(H)
+	if(patron_dagger)
+		backpack_contents += patron_dagger
+
 	gloves = /obj/item/clothing/gloves/roguetown/chain
 	neck = /obj/item/clothing/neck/roguetown/chaincoif
 	pants = /obj/item/clothing/under/roguetown/chainlegs

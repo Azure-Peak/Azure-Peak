@@ -87,6 +87,7 @@
 
 /mob/living/simple_animal/hostile/retaliate/rogue/direbear/Initialize(mapload)
 	. = ..()
+	AddComponent(/datum/component/ai_aggro_system)
 	var/datum/action/cooldown/mob_cooldown/bear_swipe/swipe = new(src)
 	swipe.Grant(src)
 	ai_controller.set_blackboard_key(BB_TARGETED_ACTION, swipe)

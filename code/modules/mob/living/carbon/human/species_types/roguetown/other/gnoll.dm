@@ -15,7 +15,7 @@
 	gender = FEMALE
 
 /datum/species/gnoll
-	name = "gnoll"
+	name = "Gnoll"
 	id = "gnoll"
 	custom_rotation_icon = TRUE
 	custom_base_icon = "firepelt"

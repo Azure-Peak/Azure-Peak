@@ -154,10 +154,10 @@
 	H.faction += "spider_lowers"
 
 	if(H.mind)
-		var/weapon = list("Bow and Poisoned Arrows", "Dual Sabres")
+		var/weapon = list("Bow & Poisoned Arrows", "Dual Sabres")
 		var/weaponchoice = input(H, "Choose your WEAPON.", "PICK YOUR INSTRUMENTS.") as anything in weapon
 		switch(weaponchoice)
-			if("Bow and Poisoned Arrows")
+			if("Bow & Poisoned Arrows")
 				backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/short
 				beltr = /obj/item/quiver/poisonarrows
 				H.adjust_skillrank_up_to(/datum/skill/combat/bows, SKILL_LEVEL_EXPERT, TRUE)
