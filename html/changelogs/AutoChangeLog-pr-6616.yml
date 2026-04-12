@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - balance: "Caedo back to 12 seconds CD. Deflecting it slows the attacker down."

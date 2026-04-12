@@ -3,7 +3,7 @@
 	desc = "A flexible vest, stitched together from lengths of cured leather."
 	icon_state = "roguearmor"
 	body_parts_covered = COVERAGE_TORSO
-	armor = ARMOR_LEATHER
+	armor = ARMOR_LEATHER_NPC
 	blocksound = SOFTHIT
 	blade_dulling = DULLING_BASHCHOP
 	break_sound = 'sound/foley/cloth_rip.ogg'

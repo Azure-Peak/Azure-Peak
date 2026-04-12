@@ -46,7 +46,7 @@
 	animname = "stab"
 	blade_class = BCLASS_STAB
 	hitsound = list('sound/combat/hits/bladed/genstab (1).ogg', 'sound/combat/hits/bladed/genstab (2).ogg', 'sound/combat/hits/bladed/genstab (3).ogg')
-	penfactor = PEN_MEDIUM
+	penfactor = PEN_LIGHT
 	chargetime = 0
 	swingdelay = 0
 	item_d_type = "stab"
@@ -54,36 +54,46 @@
 /datum/intent/sword/thrust/short
 	clickcd = 8
 	damfactor = 1.1
-	penfactor = PEN_MEDIUM
+	penfactor = PEN_LIGHT
 
 /datum/intent/sword/thrust/arming
 	clickcd = CLICK_CD_QUICK // Less than rapier
-	penfactor = PEN_MEDIUM // Arming sword thrust — penetrates light armor.
+	penfactor = PEN_LIGHT
 
 /datum/intent/sword/thrust/heavy
-	penfactor = PEN_MEDIUM
+	name = "heavy thrust"
+	icon_state = "inlunge"
+	penfactor = PEN_HEAVY
 	damfactor = 1.3
-	swingdelay = 6
+	swingdelay = 0.9 SECONDS
+	swingdelay_type = SWINGDELAY_PENALTY
 
 /datum/intent/sword/thrust/long
-	penfactor = PEN_MEDIUM // Longsword thrust — same pen tier, higher base damage
-	// Their cut is actually pretty decent when 2handed and should be inferior to zwei.
+	penfactor = PEN_LIGHT // Longsword thrust — same pen tier, higher base damage
+
+/datum/intent/sword/thrust/long/deep
+	name = "deep lunge"
+	icon_state = "inlunge"
+	penfactor = PEN_MEDIUM
+	damfactor = 1.1
+	swingdelay = 0.6 SECONDS
 
 /datum/intent/sword/thrust/long/halfsword
-	icon_state = "inpick"
-	damfactor = 1.2
+	name = "halfsword thrust"
+	icon_state = "inimpale"
 	clickcd = CLICK_CD_CHARGED
-	swingdelay = 0.5 SECONDS
+	penfactor = PEN_HEAVY
+	damfactor = 0.8
+	swingdelay_type = SWINGDELAY_PENALTY
+	swingdelay = 0.7 SECONDS
 
 /datum/intent/sword/thrust/long/halfsword/jab
 	name = "jab"
 	attack_verb = list("jabs")
+	penfactor = PEN_LIGHT
 	damfactor = 0.8
 	clickcd = CLICK_CD_QUICK
 	swingdelay = 0
-
-/datum/intent/sword/thrust/krieg
-	damfactor = 0.9
 
 /datum/intent/sword/thrust/blunt
 	blade_class = BCLASS_BLUNT
@@ -106,6 +116,22 @@
 	damfactor = NONBLUNT_BLUNT_DAMFACTOR
 	item_d_type = "blunt"
 	intent_intdamage_factor = BLUNT_DEFAULT_INT_DAMAGEFACTOR
+
+/datum/intent/sword/strike/penalty
+	name = "heavy blunted swing"
+	icon_state = "incut"
+	swingdelay_type = SWINGDELAY_PENALTY
+	swingdelay = 1 SECONDS
+	damfactor = 1.7
+
+/datum/intent/sword/strike/cancel
+	name = "sluggish blunted swing"
+	icon_state = "inchop"
+	swingdelay_type = SWINGDELAY_CANCEL
+	swingdelay = 1 SECONDS
+	damfactor = 3
+	canparry = FALSE
+	candodge = FALSE
 
 // Freifechter Longsword intents //
 /datum/intent/sword/cut/master
@@ -344,7 +370,9 @@
 /datum/intent/sword/thrust/estoc
 	name = "thrust"
 	penfactor = PEN_HEAVY	// Penetrates mail/plate at same-tier 20%. Estoc's purpose — point blank, telegraphed.
-	swingdelay = 6
+	swingdelay_type = SWINGDELAY_PENALTY
+	damfactor = 1.3
+	swingdelay = 0.6 SECONDS
 
 /datum/intent/sword/thrust/estoc/lunge
 	name = "lunge"

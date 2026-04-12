@@ -2780,6 +2780,8 @@
 #include "code\modules\spells\pantheon\inhumen\graggar.dm"
 #include "code\modules\spells\pantheon\inhumen\matthios.dm"
 #include "code\modules\spells\pantheon\inhumen\zizo.dm"
+#include "code\modules\spells\pantheon\inhumen\_inhumen_spell_items.dm"
+#include "code\modules\spells\pantheon\inhumen\_inhumen_spell_utils.dm"
 #include "code\modules\spells\roguetown\_roguetown.dm"
 #include "code\modules\spells\roguetown\confessor.dm"
 #include "code\modules\spells\roguetown\create_abyssoid.dm"
