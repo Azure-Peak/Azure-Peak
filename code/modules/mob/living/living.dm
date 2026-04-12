@@ -1579,7 +1579,7 @@
 	return TRUE
 
 /mob/living/proc/can_use_guns(obj/item/G)//actually used for more than guns!
-	if(HAS_TRAIT(src,TRAIT_TINYPAWS))
+	if(HAS_TRAIT(src, TRAIT_TINYPAWS))
 		to_chat(src, span_warning("I am unable to fire this!"))
 		return FALSE
 	if(G.trigger_guard == TRIGGER_GUARD_NONE)

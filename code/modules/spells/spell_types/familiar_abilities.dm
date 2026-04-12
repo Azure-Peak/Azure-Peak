@@ -1,6 +1,6 @@
 /datum/action/cooldown/spell/message_familiar
 	name = "Message Familiar"
-	desc = "Whisper a message in your Familiar's head."
+	desc = "Whisper a message in your Familiar's head, or track their vestige if they lie slain."
 	button_icon_state = "message"
 
 	click_to_activate = FALSE
@@ -24,6 +24,9 @@
 	if(!familiar || !familiar.mind)
 		to_chat(user, "You cannot sense your familiar's mind.")
 		return FALSE
+	if(familiar.health<=0)
+		// they're dead; track the vestige
+		return track_vestige(user,familiar)
 	var/message = input(user, "You make a connection. What are you trying to say?")
 	if(!message)
 		return FALSE
@@ -31,6 +34,37 @@
 	user.visible_message("[user] mutters an incantation and their mouth briefly flashes white.")
 	user.whisper(message)
 	log_game("[key_name(user)] sent a message to [key_name(familiar)] with contents [message]")
+	return TRUE
+
+/datum/action/cooldown/spell/message_familiar/proc/track_vestige(mob/living/user, mob/living/simple_animal/pet/familiar/fam)
+	user.visible_message(span_notice("[user] closes [user.p_their()] eyes and reaches out through the veil..."), span_notice("I close my eyes and attune to the flow of the veil..."))
+	if(!do_after(user, 2 SECONDS, target = user))
+		to_chat(user, span_warning("Your concentration breaks."))
+		return FALSE
+
+	var/user_z = user.z
+	var/obj/item/magic/familiar_vestige/vestige = fam.loc
+	if(!istype(vestige))
+		to_chat(user, span_warning("The familiar is not within their vestige. This should not happen!"))
+	var/dist = get_dist(user, vestige)
+	var/direction = dir2text(get_dir(user, vestige))
+	if(!direction)
+			direction = "beneath you"
+		else
+			direction = "to the [direction]"
+		if(!same_z)
+			if(vestige.z > user_z)
+				direction += ", above you"
+			else
+				direction += ", below you"
+	if(dist <= 3)
+		to_chat(user, span_info("You sense your familiar's vestige - right beside you."))
+	else if(dist <= 30)
+		to_chat(user, span_info("You sense your familiar's vestige - [direction], not far."))
+	else if(dist <= 100)
+		to_chat(user, span_info("You sense your familiar's vestige - [direction], some distance away."))
+	else
+		to_chat(user, span_info("You sense your familiar's vestige - [direction], far away."))
 	return TRUE
 
 /datum/action/cooldown/spell/message_summoner
