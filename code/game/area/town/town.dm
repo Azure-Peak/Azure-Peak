@@ -202,7 +202,7 @@
 	droning_sound = 'sound/music/area/catacombs.ogg'
 	droning_sound_dusk = null
 	droning_sound_night = null
-	first_time_text = "THE CRYPT OF THE TEN"
+	first_time_text = "CATHEDRAL CELLARAGE"
 
 /area/rogue/indoors/town/fire_chamber
 	name = "incinerator"
