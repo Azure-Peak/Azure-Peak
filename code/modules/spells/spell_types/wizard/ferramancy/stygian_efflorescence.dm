@@ -70,11 +70,6 @@
 	speed = MAGE_PROJ_SLOW
 	accuracy = 65
 	flag = "piercing"
-	ricochets_max = 4
-	ricochet_chance = 50
-	ricochet_auto_aim_angle = 40
-	ricochet_auto_aim_range = 5
-	ricochet_incidence_leeway = 50
 	hitsound = 'sound/combat/hits/bladed/genstab (1).ogg'
 	var/reduced_damage = 19
 
