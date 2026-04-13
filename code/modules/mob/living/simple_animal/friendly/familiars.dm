@@ -74,6 +74,7 @@
 	ADD_TRAIT(src, TRAIT_NOFALLDAMAGE1, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_TINYPAWS, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_INFINITE_STAMINA, TRAIT_GENERIC)
+	adjust_skillrank_up_to(/datum/skill/misc/reading, SKILL_LEVEL_NOVICE)
 	AddComponent(/datum/component/footstep, footstep_type)
 	TryAddFlight()
 	icon_dead = icon_living // to prevent sprite updating weirdness with vestige revival
@@ -90,6 +91,9 @@
 		verbs += list(/mob/living/simple_animal/proc/fly_up,
 		/mob/living/simple_animal/proc/fly_down)
 
+// they can wear pouches and amulets around their neck, for sovl
+/mob/living/simple_animal/pet/familiar/can_equip(obj/item/I, slot, disable_warning, bypass_equip_delay_self)
+	return slot == SLOT_NECK
 
 /mob/living/simple_animal/pet/familiar/proc/can_bite()
 	for(var/obj/item/grabbing/grab in grabbedby) //Grabbed by the mouth
