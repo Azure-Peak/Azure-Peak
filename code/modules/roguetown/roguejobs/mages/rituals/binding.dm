@@ -102,7 +102,8 @@
 	desc = "Reach into the void and grasp a fragment of draconic power, shaping it into a familiar."
 	blacklisted = FALSE
 	mob_to_bind = /mob/living/simple_animal/pet/familiar/void
-	required_atoms = list(/obj/item/magic/artifact = 1, /obj/item/magic/voidstone = 2, /obj/item/magic/leyline = 2) // todo this recipe sucks
+	// 1 shard instead of 2 means if you summon in the bog you'll still have an extra 2 shards to make something cool with as a reward
+	required_atoms = list(/obj/item/magic/artifact = 1, /obj/item/magic/voidstone = 2, /obj/item/magic/leyline = 1)
 
 /obj/effect/void_rift
 	name = "Void Rift"
