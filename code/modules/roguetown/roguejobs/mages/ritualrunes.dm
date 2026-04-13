@@ -558,6 +558,7 @@ GLOBAL_LIST(teleport_runes)
 		else
 			// nobody has valid familiar prefs. woe!
 			to_chat(user, span_warning("No valid familiar candidate found!"))
+			busy = FALSE
 			return
 		playsound(user, 'sound/magic/teleport_diss.ogg', 75, TRUE)
 		do_invoke_glow()
@@ -567,6 +568,13 @@ GLOBAL_LIST(teleport_runes)
 			summoned_mob = null
 			return
 	. = ..()
+
+/obj/effect/decal/cleanable/roguerune/arcyne/binding/attack_right(mob/user)
+	. = ..()
+	if(input(user,"Would you like to cancel this summoning attempt?","Fallback","No") as (anything in list("Yes","No")) | null)
+		busy = FALSE
+		if(summoned_mob)
+			QDEL_NULL(summoned_mob)
 
 /obj/effect/decal/cleanable/roguerune/arcyne/binding/proc/clear_obstacles(mob/living/user)
 	for(var/turf/closed/wall/anticheese in range(loc, runesize))
