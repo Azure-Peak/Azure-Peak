@@ -1,4 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - rscadd: "Ported templar daggers from Twilight Axis which is now added as a Nocblade blade option and also as a free dagger in templar backpack. It is a reskin with no statistical advantage."

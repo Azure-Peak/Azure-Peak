@@ -1,4 +1,0 @@
-author: "bearrrrrrrr"
-delete-after: True
-changes:
-  - rscadd: "guaranteed limb accuracies on hits in certain situations now replaced with high % bonuses"

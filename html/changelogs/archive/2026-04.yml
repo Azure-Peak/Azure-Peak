@@ -388,3 +388,115 @@
       threshold has been removed - now they operate on the same ground as PC but start
       off far more fragile.
   - rscadd: Drakkyn Aspirant no longer completely immune to burn damage nor antimagic
+2026-04-13:
+  CODEATHON1243:
+  - rscadd: Added new flavour text for failing a patron check for a rune.
+  - bugfix: allows Baotha/Dendor/Psydon/Ravox runes to be wiped away.
+  Doomtail:
+  - rscadd: Added new ponytail "Scruffy" hairstyle.
+  - rscadd: Added snout "Shark Eyes"  variant.
+  - rscadd: Added cobra hood "Naja" variant.
+  - rscadd: Added new earlike "long" to frills.
+  FreeStylaLT:
+  - balance: SPD cap on movement speed reduced to 14.
+  - balance: CON influence on bleedrate reduced.
+  - balance: WIL influence on green stamina bar reduced. (Blue bar unaffected.)
+  - balance: Athletic skill influence on green bar removed. (Blue bar unaffected.)
+  - balance: PER influence on max lookahead distance slightly reduced.
+  - balance: Reduced sword stab pen, added a new delayed intent with 2 'dots' of pen.
+  - balance: Increased pen of most delayed intents across the board.
+  - balance: Gave most delayed pen intents harder swingdelays.
+  - balance: Rapier & Sabre now have a delayed pen intent.
+  - balance: Pick intents can tentatively crit through armor.
+  - refactor: Changed the "Red" swingdelay icon to be more noticeable for colorblind
+      folk.
+  - bugfix: Fixed an incorrect integrity damage modifier on the crossbow buttstroke
+      intent.
+  Ketrai:
+  - balance: Hag mindlink is harder to listen in on.
+  - bugfix: weathered xylix mask cosmetic no longer reduces FOV
+  - bugfix: Feytouched after round start are now correctly known by the hag
+  Lamasmaster:
+  - bugfix: Weirdness of Bishop onspawn clothes
+  - balance: Orison scaling
+  - rscadd: Undivided templar knife
+  - rscadd: Literacy to gravetender sexton
+  - bugfix: Monk fit
+  Ollanius:
+  - balance: Removes the 'minimum strength requirement' variable from most greataxes
+      and silver axes. It remains present on the Minotaur Greataxe and Troll Axe,
+      however.
+  Quinalion:
+  - code_imp: Refactor mercenary system. Split subclass logic into independent types,
+      remove empty fields, and consolidate/organize mercenary classes files (merge
+      gronnheavy into gronn.dm). Technical/internal changes only; no new player-facing
+      content.
+  - image: Magician's Brick spell icon resprite and Knock spell icon
+  - bugfix: You no longer trigger maneater with AZURE_NATIVE trait
+  - bugfix: Black Oaken Spellblades having chalk
+  - image: Ported cow and volf sprites from Vanderlin.
+  WeNeedMorePhoron:
+  - balance: Caedo back to 12 seconds CD. Deflecting it slows the attacker down.
+  - rscadd: Macebearer chant now have its Tremor replaced with a thrown piercing axe
+      poke spell called Kastvyl, which is a word I just made up on the spot.
+  - rscadd: Macebearer chant now have accesses to axes and two handed weapons across
+      all of its varieties.
+  - rscadd: Telomancy School added, focused on spamming bolts, bolts, and more bolts.
+      With a Bullet Hell Mastery Spell.
+  - rscadd: Replaced Soulshot sound effect with something I custom remixed. Also,
+      the generic charge finished sounds is now quieter while the spell's non generic
+      sound is now louder
+  - rscadd: Now, frost still keep its 3 tiers of slowing (-1 spd, -2 spd 1.1x slow,
+      -2 spd 1.2x slow), but no longer bursts for a multiplicative slow. Instead,
+      at the fourth stack it just shatter for a flat 50 burn damage, this increases
+      kill pressure on mage while not making them too oppressive to fight, hopefully.
+      Also Azurean Pilum now inflicts 1 stack instead of 2 and frozen mist inflicts
+      1 on hit.
+  - bugfix: It should sounds better
+  - balance: Greater Arcyne Bolt now deals 45 damage instead of 40 baseline.
+  - balance: Arcyne Ward reworked, now charges its integrity worth of energy upfront
+      for conjuration
+  - balance: When arcyne ward is dismissed early refunds part of its cooldown proportional
+      to remaining integrity.
+  - balance: Arcyne Ward no longer regain dynamic coverage when the layers above it
+      lose integrity - you'd have to at least take off the armor for it to take over
+  - balance: Arcyne Ward's autorepair threshold and time increased.
+  - balance: Artillery Fireball deals the same damage as a normal fireball.
+  - balance: You cannot grab people onto rune ward and activate it on them. No.
+  - balance: 'Fulgurmancy Damage buffed. Arcshot: 30 -> 35. Lightning Bolt: 40 ->
+      45. Thunderstrike outer range buffed from 40 - 30 to 60 - 50'
+  - balance: Stygian no longer ricochet
+  - bugfix: Matthios Revive, Arcyne Ward, Hag Rotting Touch, Hag Item Repair should
+      work
+  - balance: Throwing bottlebombs (and any item with no force) while invisible break
+      stealth
+  - rscadd: Silverwares counts as lesser silver (again) and will nuke a silver weak
+      person's mood after holding onto it for 10 seconds and set them on fire after
+      30 seconds
+  - rscadd: Psyodn willing I'll smite anyone who uses this to metacheck vampire
+  - balance: While armor integrity holds above, critical hits will not roll on the
+      limb underneath. Damage still goes through. Clearer messages when this happens.
+  - rscadd: Ported templar daggers from Twilight Axis which is now added as a Nocblade
+      blade option and also as a free dagger in templar backpack. It is a reskin with
+      no statistical advantage.
+  YakumoChen:
+  - balance: Ham now imports again, for the same price and availability as bird meat.
+  babamandaa:
+  - bugfix: updates Freifechter
+  - balance: retools and rebalances freifechter fencers, using the new swingdelay
+      and alt grip refactors
+  - qol: rewrites freifechter's debuffs and intents to be more helpful/terrifying
+  bearrrrrrrr:
+  - rscadd: guaranteed limb accuracies on hits in certain situations now replaced
+      with high % bonuses
+  borneblood:
+  - rscadd: Added Freeman's Tools (T0), Skulduggery (T1) and Mammonite (T2) miracles
+      for Matthios.
+  - rscdel: Removed Muffle, Appraisal and Emancipate miracles from Matthios.
+  - balance: Matthios's Eyes now have Appraisal's effects.
+  - spellcheck: Matthios Lesser Miracle reflavored into something more trve.
+  gatorceres:
+  - rscdel: Removed essentially duplicate STRIKE intent from sword alt grips, leaving
+      BASH. Removed BASH and replaced with STRIKE on a couple other weapons
+  string-thing:
+  - rscadd: added divine blast to druid characters on spawn.

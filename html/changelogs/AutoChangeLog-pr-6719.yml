@@ -1,5 +1,0 @@
-author: "Ketrai"
-delete-after: True
-changes:
-  - balance: "Hag mindlink is harder to listen in on."
-  - bugfix: "weathered xylix mask cosmetic no longer reduces FOV"

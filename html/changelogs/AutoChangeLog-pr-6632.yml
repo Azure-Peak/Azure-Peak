@@ -1,4 +1,0 @@
-author: "gatorceres"
-delete-after: True
-changes:
-  - rscdel: "Removed essentially duplicate STRIKE intent from sword alt grips, leaving BASH. Removed BASH and replaced with STRIKE on a couple other weapons"
