@@ -12,7 +12,7 @@
 //SENSE THE SIN
 /datum/coven_power/demonic/deny_the_mother
 	name = "Deny the Mother"
-	desc = "Resistance to fire for twenty seconds, halving fire damage and causing flames to burn out faster."
+	desc = "Immunity to being set on fire for twenty seconds."
 
 	level = 1
 	research_cost = 0
@@ -22,7 +22,7 @@
 
 /datum/coven_power/demonic/deny_the_mother/activate()
 	. = ..()
-	ADD_TRAIT(owner, TRAIT_FIRE_RESIST, TRAIT_VAMPIRE)
+	ADD_TRAIT(owner, TRAIT_NOFIRE, TRAIT_VAMPIRE)
 	owner.color = "#884200"
 	owner.add_stress(/datum/stressevent/vampiric_nostalgia)
 	playsound(get_turf(owner), 'sound/misc/carriage4.ogg', 40, TRUE)
@@ -32,7 +32,7 @@
 /datum/coven_power/demonic/deny_the_mother/deactivate()
 	. = ..()
 	owner.color = initial(owner.color)
-	REMOVE_TRAIT(owner, TRAIT_FIRE_RESIST, TRAIT_VAMPIRE)
+	REMOVE_TRAIT(owner, TRAIT_NOFIRE, TRAIT_VAMPIRE)
 	owner.add_stress(/datum/stressevent/vampiric_reality)
 	playsound(get_turf(owner), 'sound/misc/carriage2.ogg', 40, TRUE)
 
