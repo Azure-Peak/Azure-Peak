@@ -459,6 +459,8 @@ GLOBAL_LIST(teleport_runes)
 		for(var/mob/candidate in candidates)
 			var/client/client_ref = candidate.client
 			if(client_ref && client_ref.prefs && client_ref.prefs.familiar_prefs)
+				if(!client_ref.prefs.familiar_prefs.familiar_species) // this is an old familiar prefs object again, woe! fix that shit
+					client_ref.prefs.familiar_prefs.New(client_ref.prefs)
 				if(client_ref.prefs.familiar_prefs.familiar_species[plane] && client_ref.prefs.familiar_prefs.familiar_names[plane])
 					if(client_ref.prefs.familiar_prefs.familiar_names[plane] in GLOB.chosen_names)
 						// special case: realname conflict
@@ -514,8 +516,11 @@ GLOBAL_LIST(teleport_runes)
 			if(isnewplayer(chosen))
 				var/mob/dead/new_player/new_chosen = chosen
 				new_chosen.close_spawn_windows()
-			if(chosen.ckey)
-				fam.ckey = chosen.ckey
+			if(!chosen.ckey)
+				to_chat(user, span_warning("Summoning failed: chosen candidate has no ckey!"))
+				busy = FALSE
+				return
+			fam.ckey = chosen.ckey
 			var/datum/mind/mind_datum = fam.mind
 			if(!mind_datum)
 				to_chat(user, span_warning("Summoning failed: mind transfer failed"))
