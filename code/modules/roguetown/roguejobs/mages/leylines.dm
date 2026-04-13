@@ -109,8 +109,21 @@ GLOBAL_LIST_EMPTY(leyline_activations)
 		. += span_info("Maximum ritual circle: [max_tier].")
 	. += span_info("Draw a summoning circle nearby to begin a leyline encounter.")
 	var/counts = list(0,0,0,0)
-	for(var/client/client_ref in GLOB.clients)
-		if(GLOB.character_ckey_list.Find(client.ckey))
+	var/list/candidates = list()
+	for(var/mob/dead/observer/G in GLOB.player_list)
+		candidates += G
+
+	for(var/mob/living/carbon/spirit/bigchungus in GLOB.player_list)
+		candidates += bigchungus
+
+	for(var/mob/dead/new_player/lobby_nerd in GLOB.player_list)
+		candidates += lobby_nerd
+
+	for(var/mob/candidate in candidates)
+		var/client/client_ref = candidate.client
+		if(!istype(client_ref))
+			continue
+		if(GLOB.character_ckey_list.Find(candidate.ckey))
 			continue // if they're actually in round, don't count them, since they can't be summoned
 		if(client_ref && client_ref.prefs && client_ref.prefs.familiar_prefs)
 			var/datum/familiar_prefs/prefs = client_ref.prefs.familiar_prefs
