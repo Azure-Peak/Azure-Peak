@@ -1,8 +1,20 @@
+// Storyteller scaling (roundstart, storyteller_scale_slots path):
+// scaling=2, min_players=25, default_cap=2
+//  Storyteller    | Cap | <25 | 25-40 | 41+
+//  Noc            |  1  |  0  |   1   |  1
+//  Dendor/Others  |  2  |  0  |   2   |  2
 /datum/antagonist/werewolf
 	name = "Verewolf"
 	roundend_category = "Werewolves"
 	antagpanel_category = "Werewolf"
 	job_rank = ROLE_WEREWOLF
+	storyteller_antag_flags = STORYTELLER_ANTAG_VILLAIN | STORYTELLER_ANTAG_ROUNDSTART
+	storyteller_favor_flags = STORYTELLER_FAVOR_WEREWOLF
+	override_candidatereq = TRUE
+	storyteller_min_players = 25
+	storyteller_slot_scaling = 2
+	storyteller_slot_default_cap = 2
+	storyteller_maxcaps = list(/datum/storyteller/noc = 1, /datum/storyteller/dendor = 2)
 	var/list/inherent_traits = list(
 		TRAIT_IGNORESLOWDOWN,
 		TRAIT_IGNOREDAMAGESLOWDOWN,

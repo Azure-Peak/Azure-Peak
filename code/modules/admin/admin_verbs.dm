@@ -21,7 +21,6 @@ GLOBAL_PROTECT(admin_verbs_default)
 	/datum/admins/proc/admin_sleep,
 	/client/proc/jumptoarea,
 	/client/proc/jumptokey,
-	/client/proc/mass_direct,
 	/client/proc/local_lightsout,
 	/datum/admins/proc/checkpq,
 	/datum/admins/proc/adjustpq,
@@ -804,7 +803,7 @@ GLOBAL_PROTECT(admin_verbs_hideable)
 
 	holder.deactivate()
 
-	to_chat(src, span_interface("I are now a normal player."))
+	to_chat(src, span_interface("I am now a normal player."))
 	hide_command_bar_button()
 	update_ooc_verb_visibility()
 	log_admin("[src] deadmined themself.")

@@ -1,352 +1,237 @@
-SUBSYSTEM_DEF(dungeon_generator)
-	name = "Matthios Creation"
-	wait = 1 SECONDS
+#define STAGE_EXPANSION 1
+#define STAGE_CLEANUP 2
 
-	init_order = INIT_ORDER_DUNGEON
-	runlevels = RUNLEVEL_GAME | RUNLEVEL_INIT | RUNLEVEL_LOBBY
-	lazy_load = FALSE
+SUBSYSTEM_DEF(dungeon_generator)
+	name = "Dungeon Generator"
+	init_order = 15
+	runlevels = RUNLEVEL_GAME | RUNLEVEL_INIT | RUNLEVEL_LOBBY | RUNLEVEL_SETUP
+	wait = 1.5 SECONDS 
 
 	var/list/parent_types = list()
-	var/list/created_types = list()
-	var/list/markers = list()
-	var/list/placed_types = list()
+	var/list/templates_by_category = list() 
+	var/list/markers = list() 
+	var/list/failed_markers = list() 
+	var/list/placed_count = list()
 
-	// How many entries must be created
-	var/required_entries = 2
+	var/generation_stage = STAGE_EXPANSION
+	var/repetition_penalty = 2 
+	
+	var/target_z = 0 
+	var/setup_done = FALSE
 
-	var/created_since = 0
-	var/unlinked_dungeon_length = 0
+	var/prot_min_x = 0; var/prot_max_x = 0; var/prot_min_y = 0; var/prot_max_y = 0
 
 /datum/controller/subsystem/dungeon_generator/Initialize(start_timeofday)
-	unlinked_dungeon_length = length(GLOB.unlinked_dungeon_entries)
-	while(length(markers))
-		for(var/obj/effect/dungeon_directional_helper/helper as anything in markers)
-			if(!get_turf(helper))
-				continue
-			find_soulmate(helper.dir, get_turf(helper), helper)
-			markers -= helper
+	var/list/dungeon_templates = list()
+	for(var/path in subtypesof(/datum/map_template/dungeon))
+		var/datum/map_template/dungeon/path_type = path
+		if(initial(path_type.abstract_type) == path || ispath(path, /datum/map_template/dungeon/entry))
+			continue 
+
+		var/datum/map_template/dungeon/T = new path
+		if(!T || !T.mappath) continue
+
+		parent_types[path] = initial(path_type.type_weight) || 10
+		dungeon_templates += T
+
+	
+	templates_by_category[/datum/map_template/dungeon] = dungeon_templates
+
+	addtimer(CALLBACK(src, .proc/find_initial_map_data), 50) 
 	return ..()
 
+/datum/controller/subsystem/dungeon_generator/proc/find_initial_map_data()
+	var/list/found_points = list()
+	for(var/obj/effect/dungeon_directional_helper/H in world)
+		if(!target_z)
+			target_z = H.z
+		if(H.z == target_z)
+			found_points += H
+
+	if(!length(found_points)) return
+
+	if(SSmapping.z_list.len < target_z + 1)
+		SSmapping.add_new_zlevel("Dungeon Upper Layer", list(ZTRAIT_AWAY = TRUE))
+
+	if(length(found_points) >= 4)
+		var/obj/F = found_points[1]
+		prot_min_x = F.x; prot_max_x = F.x; prot_min_y = F.y; prot_max_y = F.y
+		for(var/i in 1 to 4)
+			var/obj/O = found_points[i]
+			prot_min_x = min(prot_min_x, O.x); prot_max_x = max(prot_max_x, O.x)
+			prot_min_y = min(prot_min_y, O.y); prot_max_y = max(prot_max_y, O.y)
+	
+	markers |= found_points
+	setup_done = TRUE
+
 /datum/controller/subsystem/dungeon_generator/fire(resumed)
-	var/current_run = 0
-	if(length(markers))
-		for(var/obj/effect/dungeon_directional_helper/helper as anything in markers)
-			if(current_run >= 4)
-				return
-			if(!get_turf(helper))
-				continue
-			find_soulmate(helper.dir, get_turf(helper), helper)
-			markers -= helper
-			if(TICK_CHECK_LOW)
-				return
-			current_run++
+	if(!setup_done || (!length(markers) && !length(failed_markers))) return
 
-/datum/controller/subsystem/dungeon_generator/proc/find_soulmate(direction, turf/creator, obj/effect/dungeon_directional_helper/looking_for_love)
-	creator = get_step(creator, direction)
-	if(!creator)
-		return
-	if(creator.type != /turf/closed/dungeon_void)
-		return
-	switch(direction)
-		if(NORTH)
-			direction = SOUTH
-		if(SOUTH)
-			direction = NORTH
-		if(EAST)
-			direction = WEST
-		if(WEST)
-			direction = EAST
+	if(generation_stage == STAGE_EXPANSION)
+		if(length(markers))
+			process_markers(10) 
+		else
+			generation_stage = STAGE_CLEANUP
+	else if(generation_stage == STAGE_CLEANUP)
+		if(length(failed_markers))
+			process_failed_markers(10)
+		else
+			generation_stage = STAGE_EXPANSION 
 
-	if(!length(parent_types))
-		for(var/datum/map_template/dungeon/path as anything in subtypesof(/datum/map_template/dungeon))
-			if(!is_abstract(path))
-				continue
-			if(!initial(path.type_weight))
-				continue
-			parent_types += path
-			parent_types[path] = initial(path.type_weight)
+/datum/controller/subsystem/dungeon_generator/proc/process_markers(limit)
+	var/processed = 0
+	while(length(markers) && processed < limit)
+		var/idx = rand(1, length(markers))
+		var/obj/effect/dungeon_directional_helper/helper = markers[idx]
+		markers.Cut(idx, idx + 1)
+		
+		if(helper && !QDELETED(helper))
+			if(!try_grow_at_marker(helper))
+				failed_markers |= helper
+		processed++
 
-	if(!length(created_types))
-		for(var/path in subtypesof(/datum/map_template/dungeon))
-			if(is_abstract(path))
-				continue
-			var/datum/map_template/dungeon/template = new path
-			created_types += template
-			created_types[template] = template.rarity
+/datum/controller/subsystem/dungeon_generator/proc/try_grow_at_marker(obj/effect/dungeon_directional_helper/helper)
+	var/turf/origin = get_turf(helper)
+	var/direction = helper.dir
+	var/turf/start_step = get_step(origin, direction)
+	if(!start_step) return FALSE
 
-	var/picked_type = pickweight(parent_types)
-	var/picking = TRUE
-	var/not_enough_entries = required_entries < placed_types[/datum/map_template/dungeon/entry]
-	if(unlinked_dungeon_length > 0)
-		if(created_since > 70) // Used to be 30, but increases average distance of dungeon exits to create buffer room
-			if(not_enough_entries || prob(10 + created_since))
-				picked_type = /datum/map_template/dungeon/entry
+	if(start_step.density && !is_strictly_void(start_step))
+		if(!is_protected(start_step.x, start_step.y) && prob(40))
+			return try_bridge_gap(helper, start_step)
+		return FALSE
 
-	if(!try_pickedtype_first(picked_type, direction, creator, looking_for_love))
-		var/list/true_list = created_types.Copy()
-		while(picking)
-			if(!GET_TURF_ABOVE(creator))
-				message_admins("[ADMIN_JMP(creator)] A dungeon piece was set to spawn on a top level z. This is not intended, their is a bad template.")
-				return
-			if(!length(true_list))
-				return
-			var/datum/map_template/dungeon/template = pickweight(true_list)
-			true_list -= template
-			if(is_abstract(template))
-				continue
-			if(is_type_in_list(template, list(subtypesof(picked_type) + subtypesof(/datum/map_template/dungeon/entry))))
-				continue
-			var/turf/true_spawn
-			switch(direction)
-				if(WEST)
-					if(!template.west_offset)
-						continue
-					if(creator.y - template.west_offset < 0)
-						continue
-					var/turf/turf = locate(creator.x, creator.y - template.west_offset, creator.z)
-					if(turf?.type != /turf/closed/dungeon_void)
-						continue
-					var/turf/turf2 = locate(creator.x + template.width, creator.y - template.east_offset, creator.z)
-					if(turf2?.type != /turf/closed/dungeon_void)
-						continue
-					true_spawn = get_offset_target_turf(creator, 0, -(template.west_offset))
-					if(true_spawn.x + template.width > world.maxx)
-						continue
-					if(true_spawn.y + template.height > world.maxy)
-						continue
-					var/list/turfs = block(true_spawn, locate(true_spawn.x + template.width, true_spawn.y + template.height, true_spawn.z))
-					var/fail = FALSE
-					for(var/turf/list_turf in turfs)
-						if(list_turf.type != /turf/closed/dungeon_void)
-							fail = TRUE
-							break
-					if(fail)
-						continue
-					if(!template.load(true_spawn))
-						continue
+	var/list/area_dims = scan_free_area(start_step, direction)
+	var/max_dist = area_dims["h"]
+	if(max_dist < 4) return FALSE 
 
-				if(NORTH)
-					if(!template.north_offset)
-						continue
-					if(creator.x - template.north_offset < 0)
-						continue
-					if(creator.y - template.height < 0)
-						continue
-					var/turf/turf = locate(creator.x - template.north_offset - 1, creator.y + template.height, creator.z)
-					if(turf?.type != /turf/closed/dungeon_void)
-						continue
-					var/turf/turf2 = locate(creator.x -(template.north_offset - 1) + template.width, creator.y + template.height, creator.z)
-					if(turf2?.type != /turf/closed/dungeon_void)
-						continue
-					true_spawn = get_offset_target_turf(creator, -(template.north_offset), -(template.height-1))
-					if(true_spawn.x + template.width > world.maxx)
-						continue
-					if(true_spawn.y + template.height > world.maxy)
-						continue
-					var/list/turfs = block(true_spawn, locate(true_spawn.x + template.width, true_spawn.y + template.height-1, true_spawn.z))
-					var/fail = FALSE
-					for(var/turf/list_turf in turfs)
-						if(list_turf.type != /turf/closed/dungeon_void)
-							fail = TRUE
-							break
-					if(fail)
-						continue
-					if(!template.load(true_spawn))
-						continue
+	var/opp_dir = reverse_direction(direction)
+	
+	
+	var/list/all_templates = templates_by_category[/datum/map_template/dungeon]
+	var/list/checking_list = shuffle(all_templates.Copy())
+	
+	for(var/datum/map_template/dungeon/T in checking_list)
+		if(T.width > (max_dist * 2) || T.height > (max_dist * 2)) continue
+		var/offset = T.get_dir_offset(opp_dir)
+		if(offset == null) continue
 
-				if(SOUTH)
-					if(!template.south_offset)
-						continue
-					if(creator.y - template.south_offset < 0)
-						continue
-					var/turf/turf = locate(creator.x, creator.y + template.height, creator.z)
-					if(turf?.type != /turf/closed/dungeon_void)
-						continue
-					var/turf/turf2 = locate(creator.x + template.width - template.south_offset, creator.y + template.height, creator.z)
-					if(turf2?.type != /turf/closed/dungeon_void)
-						continue
-					true_spawn = get_offset_target_turf(creator, -template.south_offset, 0)
-					if(true_spawn.x + template.width > world.maxx)
-						continue
-					if(true_spawn.y + template.height > world.maxy)
-						continue
-					var/list/turfs = block(true_spawn, locate(true_spawn.x + template.width, true_spawn.y + template.height, true_spawn.z))
-					var/fail = FALSE
-					for(var/turf/list_turf in turfs)
-						if(list_turf.type != /turf/closed/dungeon_void)
-							fail = TRUE
-							break
-					if(fail)
-						continue
-					if(!template.load(true_spawn))
-						continue
+		var/spawn_x = start_step.x; var/spawn_y = start_step.y
+		if(direction == NORTH) spawn_x -= offset
+		else if(direction == SOUTH) { spawn_x -= offset; spawn_y -= (T.height - 1); }
+		else if(direction == EAST) spawn_y -= offset
+		else if(direction == WEST) { spawn_x -= (T.width - 1); spawn_y -= offset; }
 
-				if(EAST)
-					if(!template.east_offset)
-						continue
-					if(creator.y - template.east_offset < 0)
-						continue
-					if(creator.x - template.width < 0)
-						continue
-					var/turf/turf = locate(creator.x - (template.width-1), creator.y - template.east_offset, creator.z)
-					if(turf?.type != /turf/closed/dungeon_void)
-						continue
-					var/turf/turf2 = locate(creator.x, creator.y - template.east_offset, creator.z)
-					if(turf2?.type != /turf/closed/dungeon_void)
-						continue
-					true_spawn = get_offset_target_turf(creator, -(template.width-1), -template.east_offset)
-					if(true_spawn.x + template.width > world.maxx)
-						continue
-					if(true_spawn.y + template.height > world.maxy)
-						continue
-					var/list/turfs = block(true_spawn, locate(true_spawn.x + template.width-1, true_spawn.y + template.height, true_spawn.z))
-					var/fail = FALSE
-					for(var/turf/list_turf in turfs)
-						if(list_turf.type != /turf/closed/dungeon_void)
-							fail = TRUE
-							break
-					if(fail)
-						continue
-					if(!template.load(true_spawn))
-						continue
+		var/turf/placement = locate(spawn_x, spawn_y, target_z)
+		if(can_place(T, placement))
+			if(T.load(placement))
+				on_template_placed(T, placement)
+				qdel(helper)
+				return TRUE
+		CHECK_TICK
+	return FALSE
 
-			picking = FALSE
-			placed_types |= template.type
-			placed_types[template.type]++
-			created_since++
-
-/datum/controller/subsystem/dungeon_generator/proc/try_pickedtype_first(picked_type, direction, turf/creator, obj/effect/dungeon_directional_helper/looking_for_love)
-	var/picking = TRUE
-
-	var/list/true_list = created_types.Copy()
-	while(picking)
-		if(!length(true_list))
-			return FALSE
-		var/datum/map_template/dungeon/template = pickweight(true_list)
-		true_list -= template
-		if(is_abstract(template))
-			continue
-		if(!is_type_in_list(template, subtypesof(picked_type)))
-			continue
-		var/turf/true_spawn
-		switch(direction)
-			if(WEST)
-				if(!template.west_offset)
-					continue
-				if(creator.y - template.west_offset < 0)
-					continue
-				var/turf/turf = locate(creator.x, creator.y - template.west_offset, creator.z)
-				if(turf?.type != /turf/closed/dungeon_void)
-					continue
-				var/turf/turf2 = locate(creator.x + template.width, creator.y - template.east_offset, creator.z)
-				if(turf2?.type != /turf/closed/dungeon_void)
-					continue
-				true_spawn = get_offset_target_turf(creator, 0, -(template.west_offset))
-				if(true_spawn.x + template.width > world.maxx)
-					continue
-				if(true_spawn.y + template.height > world.maxy)
-					continue
-				var/list/turfs = block(true_spawn, locate(true_spawn.x + template.width, true_spawn.y + template.height, true_spawn.z))
-				var/fail = FALSE
-				for(var/turf/list_turf in turfs)
-					if(list_turf.type != /turf/closed/dungeon_void)
-						fail = TRUE
-						break
-				if(fail)
-					continue
-				if(!template.load(true_spawn))
-					continue
-
-			if(NORTH)
-				if(!template.north_offset)
-					continue
-				if(creator.x - template.north_offset < 0)
-					continue
-				if(creator.y - template.height < 0)
-					continue
-				var/turf/turf = locate(creator.x - template.north_offset - 1, creator.y + template.height, creator.z)
-				if(turf?.type != /turf/closed/dungeon_void)
-					continue
-				var/turf/turf2 = locate(creator.x -(template.north_offset - 1) + template.width, creator.y + template.height, creator.z)
-				if(turf2?.type != /turf/closed/dungeon_void)
-					continue
-				true_spawn = get_offset_target_turf(creator, -(template.north_offset), -(template.height-1))
-				if(true_spawn.x + template.width > world.maxx)
-					continue
-				if(true_spawn.y + template.height > world.maxy)
-					continue
-				var/list/turfs = block(true_spawn, locate(true_spawn.x + template.width, true_spawn.y + template.height-1, true_spawn.z))
-				var/fail = FALSE
-				for(var/turf/list_turf in turfs)
-					if(list_turf.type != /turf/closed/dungeon_void)
-						fail = TRUE
-						break
-				if(fail)
-					continue
-				if(!template.load(true_spawn))
-					continue
-
-			if(SOUTH)
-				if(!template.south_offset)
-					continue
-				if(creator.y - template.south_offset < 0)
-					continue
-				var/turf/turf = locate(creator.x, creator.y + template.height, creator.z)
-				if(turf?.type != /turf/closed/dungeon_void)
-					continue
-				var/turf/turf2 = locate(creator.x + template.width - template.south_offset, creator.y + template.height, creator.z)
-				if(turf2?.type != /turf/closed/dungeon_void)
-					continue
-				true_spawn = get_offset_target_turf(creator, -template.south_offset, 0)
-				if(true_spawn.x + template.width > world.maxx)
-					continue
-				if(true_spawn.y + template.height > world.maxy)
-					continue
-				var/list/turfs = block(true_spawn, locate(true_spawn.x + template.width, true_spawn.y + template.height, true_spawn.z))
-				var/fail = FALSE
-				for(var/turf/list_turf in turfs)
-					if(list_turf.type != /turf/closed/dungeon_void)
-						fail = TRUE
-						break
-				if(fail)
-					continue
-				if(!template.load(true_spawn))
-					continue
-
-			if(EAST)
-				if(!template.east_offset)
-					continue
-				if(creator.y - template.east_offset < 0)
-					continue
-				if(creator.x - template.width < 0)
-					continue
-				var/turf/turf = locate(creator.x - (template.width-1), creator.y - template.east_offset, creator.z)
-				if(turf?.type != /turf/closed/dungeon_void)
-					continue
-				var/turf/turf2 = locate(creator.x, creator.y - template.east_offset, creator.z)
-				if(turf2?.type != /turf/closed/dungeon_void)
-					continue
-				true_spawn = get_offset_target_turf(creator, -(template.width-1), -template.east_offset)
-				if(true_spawn.x + template.width > world.maxx)
-					continue
-				if(true_spawn.y + template.height > world.maxy)
-					continue
-				var/list/turfs = block(true_spawn, locate(true_spawn.x + template.width-1, true_spawn.y + template.height, true_spawn.z))
-				var/fail = FALSE
-				for(var/turf/list_turf in turfs)
-					if(list_turf.type != /turf/closed/dungeon_void)
-						fail = TRUE
-						break
-				if(fail)
-					continue
-				if(!template.load(true_spawn))
-					continue
-
-		picking = FALSE
-		created_since++
-		placed_types |= template.type
-		placed_types[template.type]++
-	if(picked_type == /datum/map_template/dungeon/entry)
-		created_since = 0
-		unlinked_dungeon_length--
+/datum/controller/subsystem/dungeon_generator/proc/try_bridge_gap(obj/effect/dungeon_directional_helper/helper, turf/target_turf)
+	if(!target_turf || !istype(target_turf, /turf/closed/wall/mineral/rogue)) return FALSE
+	target_turf.ChangeTurf(/turf/open/floor/rogue/hexstone, null, CHANGETURF_INHERIT_AIR | CHANGETURF_IGNORE_AIR)
+	qdel(helper)
 	return TRUE
+
+/datum/controller/subsystem/dungeon_generator/proc/scan_free_area(turf/start_T, dir)
+	var/depth = 0
+	for(var/i in 1 to 30)
+		var/turf/T = get_step_dist(start_T, dir, i)
+		if(!T || !is_strictly_void(T) || is_protected(T.x, T.y)) break
+		depth = i
+	return list("h" = depth) 
+
+/datum/controller/subsystem/dungeon_generator/proc/get_step_dist(turf/start, dir, dist)
+	var/tx = start.x; var/ty = start.y
+	switch(dir)
+		if(NORTH) ty += dist
+		if(SOUTH) ty -= dist
+		if(EAST) tx += dist
+		if(WEST) tx -= dist
+	return locate(tx, ty, target_z)
+
+/datum/controller/subsystem/dungeon_generator/proc/can_place(datum/map_template/dungeon/T, turf/start_T)
+	if(!start_T) return FALSE
+	var/ex = start_T.x + T.width - 1
+	var/ey = start_T.y + T.height - 1
+	if(ex > world.maxx || ey > world.maxy || start_T.x < 1 || start_T.y < 1) return FALSE
+
+	for(var/z_off in 0 to 1)
+		var/cz = target_z + z_off
+		if(cz > world.maxz) return FALSE
+		for(var/turf/test in block(locate(start_T.x, start_T.y, cz), locate(ex, ey, cz)))
+			if(z_off == 0)
+				if(!is_strictly_void(test) || is_protected(test.x, test.y)) return FALSE
+			else
+				if(test.density && !is_strictly_void(test)) return FALSE
+			for(var/obj/O in test)
+				if(istype(O, /obj/effect/dungeon_directional_helper)) continue
+				if(O.density) return FALSE
+	return TRUE
+
+/datum/controller/subsystem/dungeon_generator/proc/is_protected(x, y)
+	return (x > prot_min_x && x < prot_max_x && y > prot_min_y && y < prot_max_y)
+
+/datum/controller/subsystem/dungeon_generator/proc/is_strictly_void(turf/T)
+	if(!T) return FALSE
+	return (istype(T, /turf/closed/dungeon_void) || istype(T, /turf/closed/mineral/rogue/bedrock))
+
+/datum/controller/subsystem/dungeon_generator/proc/on_template_placed(datum/map_template/dungeon/T, turf/placement)
+	placed_count[T.type]++
+
+/datum/controller/subsystem/dungeon_generator/proc/reverse_direction(dir)
+	switch(dir)
+		if(NORTH) return SOUTH
+		if(SOUTH) return NORTH
+		if(EAST)  return WEST
+		if(WEST)  return EAST
+	return dir
+
+/datum/map_template/dungeon/proc/get_dir_offset(dir)
+	switch(dir)
+		if(NORTH) return north_offset
+		if(SOUTH) return south_offset
+		if(EAST) return east_offset
+		if(WEST) return west_offset
+	return null
+
+/datum/controller/subsystem/dungeon_generator/proc/process_failed_markers(limit)
+	var/processed = 0
+	while(length(failed_markers) && processed < limit)
+		var/obj/effect/dungeon_directional_helper/helper = failed_markers[1]
+		failed_markers.Cut(1, 2)
+		if(helper && !QDELETED(helper))
+			try_spawn_filler(helper.dir, get_turf(helper))
+			qdel(helper)
+		processed++
+
+/datum/controller/subsystem/dungeon_generator/proc/try_spawn_filler(direction, turf/target_turf)
+	var/opp_dir = reverse_direction(direction)
+	
+	
+	var/list/all_templates = templates_by_category[/datum/map_template/dungeon]
+	var/list/checking_list = shuffle(all_templates.Copy())
+	
+	for(var/datum/map_template/dungeon/T in checking_list)
+		if(T.width > 6 || T.height > 6) continue 
+		var/offset = T.get_dir_offset(opp_dir)
+		if(offset == null) continue
+		var/spawn_x = target_turf.x; var/spawn_y = target_turf.y
+		if(direction == NORTH) spawn_x -= offset
+		else if(direction == SOUTH) { spawn_x -= offset; spawn_y -= (T.height - 1); }
+		else if(direction == EAST) spawn_y -= offset
+		else if(direction == WEST) { spawn_x -= (T.width - 1); spawn_y -= offset; }
+
+		var/turf/start_turf = locate(spawn_x, spawn_y, target_z)
+		if(can_place(T, start_turf))
+			if(T.load(start_turf))
+				on_template_placed(T, start_turf)
+				return TRUE
+	return FALSE
+
+#undef STAGE_EXPANSION
+#undef STAGE_CLEANUP

@@ -7,26 +7,18 @@ GLOBAL_LIST_INIT(dwarfskeleton_aggro, world.file2list("strings/rt/dskeletonaggro
 	faction = list("dundead")
 	var/skel_outfit = /datum/outfit/job/roguetown/dwarfskeleton
 	ambushable = FALSE
-	mode = NPC_AI_IDLE
-	wander = FALSE
+	ai_controller = /datum/ai_controller/human_npc
 	cmode = 1
 	setparrytime = 30
 	a_intent = INTENT_HELP
 	d_intent = INTENT_PARRY //even in undeath dwarves parry. Dodging aint proper dorf behavior
 	selected_default_language = /datum/language/dwarvish
 	possible_mmb_intents = list(INTENT_BITE, INTENT_JUMP, INTENT_KICK, INTENT_SPECIAL) //intents given in case of player controlled
-	possible_rmb_intents = list(/datum/rmb_intent/feint, /datum/rmb_intent/aimed, /datum/rmb_intent/strong, /datum/rmb_intent/weak)
 
 /mob/living/carbon/human/species/dwarfskeleton/ambush
 	threat_point = THREAT_ELITE
 	ambush_faction = "undead"
-	aggressive=1
-	wander = TRUE
 
-/mob/living/carbon/human/species/dwarfskeleton/retaliate(mob/living/L)
-	.=..()
-	if(npc_combat_dialogue(GLOB.dwarfskeleton_aggro, prob_chance = 5, cooldown = 0))
-		pointed(target)
 
 /mob/living/carbon/human/species/dwarfskeleton/Initialize()
 	. = ..()
@@ -36,6 +28,8 @@ GLOBAL_LIST_INIT(dwarfskeleton_aggro, world.file2list("strings/rt/dskeletonaggro
 
 /mob/living/carbon/human/species/dwarfskeleton/after_creation()
 	..()
+	AddComponent(/datum/component/ai_aggro_system)
+	SEND_SIGNAL(src, COMSIG_MOB_MODIFY_AGGRO_LINES, GLOB.dwarfskeleton_aggro, TRUE)
 	if(src.dna && src.dna.species)
 		src.dna.species.species_traits |= NOBLOOD
 		src.dna.species.soundpack_m = new /datum/voicepack/skeleton()
@@ -106,8 +100,8 @@ GLOBAL_LIST_INIT(dwarfskeleton_aggro, world.file2list("strings/rt/dskeletonaggro
 
 	H.STASTR = 12
 	H.STASPD = 11
-	H.STACON = 12
-	H.STAWIL = 12
+	H.STACON = 10
+	H.STAWIL = 10
 	H.STAPER = 14
 	H.STAINT = 11
 	H.adjust_skillrank(/datum/skill/combat/polearms, 3, TRUE)
@@ -140,8 +134,8 @@ GLOBAL_LIST_INIT(dwarfskeleton_aggro, world.file2list("strings/rt/dskeletonaggro
 
 	H.STASTR = 16
 	H.STASPD = 11
-	H.STACON = 14
-	H.STAWIL = 14
+	H.STACON = 12
+	H.STAWIL = 12
 	H.STAPER = 14
 	H.STAINT = 11
 	H.adjust_skillrank(/datum/skill/combat/polearms, 4, TRUE)

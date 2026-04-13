@@ -457,13 +457,7 @@
 				/obj/item/natural/fibers = 2)
 	craftdiff = 3
 
-/datum/crafting_recipe/roguetown/sewing/abyssortemplartabard
-	name = "tabard, abyssorite templar"
-	category = "Tabards"
-	result = list(/obj/item/clothing/cloak/tabard/abyssortabard)
-	reqs = list(/obj/item/natural/cloth = 3,
-				/obj/item/natural/fibers = 1)
-	craftdiff = 3
+
 
 /datum/crafting_recipe/roguetown/sewing/psydon
 	name = "tabard, psydon orthodoxist"
@@ -527,9 +521,9 @@
 				/obj/item/natural/fibers = 1)
 	craftdiff = 3
 
-/datum/crafting_recipe/roguetown/sewing/abyssortemplartabard
+/datum/crafting_recipe/roguetown/sewing/abyssortemplar
 	name = "tabard, abyssorite templar"
-	result = list(/obj/item/clothing/cloak/tabard/abyssortabard)
+	result = list(/obj/item/clothing/cloak/tabard/abyssorite)
 	reqs = list(/obj/item/natural/cloth = 3,
 				/obj/item/natural/fibers = 1)
 	craftdiff = 3
@@ -552,7 +546,7 @@
 /datum/crafting_recipe/roguetown/sewing/eora
 	name = "tabard, eora"
 	category = "Tabards"
-	result = list(/obj/item/clothing/cloak/templar/eora)
+	result = list(/obj/item/clothing/cloak/tabard/devotee/eora)
 	reqs = list(/obj/item/natural/cloth = 3,
 				/obj/item/natural/fibers = 1)
 	craftdiff = 3
@@ -567,7 +561,7 @@
 /datum/crafting_recipe/roguetown/sewing/pestra
 	name = "tabard, pestra"
 	category = "Tabards"
-	result = list(/obj/item/clothing/cloak/templar/pestra)
+	result = list(/obj/item/clothing/cloak/tabard/devotee/pestra)
 	reqs = list(/obj/item/natural/cloth = 3,
 				/obj/item/natural/fibers = 1)
 	craftdiff = 3
@@ -589,7 +583,7 @@
 /datum/crafting_recipe/roguetown/sewing/ravox
 	name = "tabard, ravox"
 	category = "Tabards"
-	result = list(/obj/item/clothing/cloak/cleric/ravox)
+	result = list(/obj/item/clothing/cloak/tabard/devotee/ravox)
 	reqs = list(/obj/item/natural/cloth = 3,
 				/obj/item/natural/fibers = 1)
 	craftdiff = 3
@@ -690,7 +684,7 @@
 /datum/crafting_recipe/roguetown/sewing/xylix
 	name = "tabard, xylix"
 	category = "Tabards"
-	result = list(/obj/item/clothing/cloak/templar/xylix)
+	result = list(/obj/item/clothing/cloak/tabard/devotee/xylix)
 	reqs = list(/obj/item/natural/cloth = 3,
 				/obj/item/natural/fibers = 1)
 	craftdiff = 3

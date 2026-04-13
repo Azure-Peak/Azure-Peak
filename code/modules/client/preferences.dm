@@ -213,6 +213,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/erpprefs_cached
 
 	var/list/img_gallery = list()
+	var/list/nsfw_img_gallery = list()
 
 	var/datum/familiar_prefs/familiar_prefs
 
@@ -571,7 +572,10 @@ GLOBAL_LIST_EMPTY(chosen_names)
 			if(charflaws.len)
 				for(var/i = 1 to charflaws.len)
 					var/datum/charflaw/cf = charflaws[i]
-					dat += " <a href='?_src_=prefs;preference=charflaw;task=remove;index=[i]'>[cf]</a>"
+					var/warning = ""
+					if(cf.needs_extra_vice && charflaws.len < 2)
+						warning = "<font color = '#910505'>"
+					dat += "[warning] <a href='?_src_=prefs;preference=charflaw;task=remove;index=[i]'>[cf]</a>[warning ? " (Requires Extra Vice!)</font>" : ""]"
 					if(i < charflaws.len)
 						dat += " |"
 				dat += "<BR>"
@@ -681,7 +685,9 @@ GLOBAL_LIST_EMPTY(chosen_names)
 			dat += "<a href='?_src_=prefs;preference=change_title;task=input'>Change Title</a>"
 			dat += "<a href='?_src_=prefs;preference=change_artist;task=input'>Change Artist</a>"
 			dat += "<br><B>Image Gallery:</b> <a href='?_src_=prefs;preference=img_gallery;task=input'>Add</a>"
-			dat+= "<a href='?_src_=prefs;preference=clear_gallery;task=input'>Clear Gallery</a>"
+			dat += "<a href='?_src_=prefs;preference=clear_gallery;task=input'>Clear Gallery</a>"
+			dat += "<br><B>NSFW Image Gallery:</b> <a href='?_src_=prefs;preference=nsfw_img_gallery;task=input'>Add</a>"
+			dat += "<a href='?_src_=prefs;preference=clear_nsfw_gallery;task=input'>Clear Gallery</a>"
 			dat += "<br><a href='?_src_=prefs;preference=ooc_preview;task=input'><b>Preview Examine</b></a>"
 
 			dat += "<br><b>Loadout:</b> <a href='?_src_=prefs;preference=open_loadout;task=input'>Open Menu</a>"
@@ -1778,16 +1784,18 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 						to_chat(user, "<font color='red'><b>Your classes have been reset.</b></font>")
 
 				if ("titles")
-					var/titles_input = tgui_input_list(user, "Choose your character's titles", "TITLES", GLOB.titles_list)
-					if(titles_input)
-						titles_pref = titles_input
-						to_chat(user, "<font color='red'>Your character's titles are now [titles_pref].</font>")
+					if(titles_pref == TITLES_M)
+						titles_pref = TITLES_F
+					else
+						titles_pref = TITLES_M
+					to_chat(user, "<font color='red'>Your character's titles are now [titles_pref].</font>")
 
 				if ("clothespref")
-					var/clothespref_input = tgui_input_list(user, "Choose your character's clothing preference", "CLOTHING", GLOB.clothespref_list)
-					if(clothespref_input)
-						clothes_pref = clothespref_input
-						to_chat(user, "<font color='red'>Your character's titles are now [clothespref_input].</font>")
+					if(clothes_pref == CLOTHES_M)
+						clothes_pref = CLOTHES_F
+					else
+						clothes_pref = CLOTHES_M
+					to_chat(user, "<font color='red'>Your character's titles are now [clothes_pref].</font>")
 				// LETHALSTONE EDIT: add voice type selection
 				if ("voicetype")
 					var voicetype_input = tgui_input_list(user, "Choose your character's voice type", "VOICE TYPE", GLOB.voice_types_list)
@@ -2149,6 +2157,34 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 					to_chat(user, "<span class='notice'>Successfully added image to gallery.</span>")
 					log_game("[user] has added an image to their gallery: '[new_galleryimg]'.")
 
+				if("nsfw_img_gallery")
+
+					if(nsfw_img_gallery.len >= 3)
+						to_chat(user, "You already have three images in your NSFW gallery!")
+						return
+
+					to_chat(user, "<span class='notice'>Please use an explicit image ["<span class='bold'>of your character</span>"] only when it fits the character and server rules.</span>")
+					to_chat(user, "<span class='notice'>If the photo doesn't show up properly in-game, ensure that it's a direct image link that opens properly in a browser.</span>")
+					to_chat(user, "<span class='notice'>Keep in mind that all three images are displayed next to eachother and justified to fill a horizontal rectangle. As such, vertical images work best.</span>")
+					to_chat(user, "<span class='notice'>You can only have a maximum of ["<span class='bold'>THREE IMAGES</span>"] in your NSFW gallery at a time.</span>")
+
+					var/new_galleryimg_nsfw = tgui_input_text(user, "Input the image link (https, hosts: gyazo, discord, lensdump, imgbox, catbox):", "NSFW Gallery Image",  encode = FALSE)
+
+					if(new_galleryimg_nsfw == null)
+						return
+					if(new_galleryimg_nsfw == "")
+						new_galleryimg_nsfw = null
+						ShowChoices(user)
+						return
+					if(!valid_headshot_link(user, new_galleryimg_nsfw))
+						to_chat(user, "<span class='notice'>Invalid image link. Make sure it's a direct link from a valid host (gyazo, discord, lensdump, imgbox, catbox).</span>")
+						new_galleryimg_nsfw = null
+						ShowChoices(user)
+						return
+					nsfw_img_gallery += new_galleryimg_nsfw
+					to_chat(user, "<span class='notice'>Successfully added image to NSFW gallery.</span>")
+					log_game("[user] has added an image to their NSFW gallery: '[new_galleryimg_nsfw]'.")
+
 				if("clear_gallery")
 					if(!img_gallery.len)
 						to_chat(user, "You don't have any images in your gallery to clear!")
@@ -2160,6 +2196,18 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 					img_gallery = list()
 					to_chat(user, "<span class='notice'>Successfully cleared image gallery.</span>")
 					log_game("[user] has cleared their image gallery.")
+
+				if("clear_nsfw_gallery")
+					if(!nsfw_img_gallery.len)
+						to_chat(user, "You don't have any images in your NSFW gallery to clear!")
+						return
+					var/dachoice_nsfw = tgui_alert(user, "Do you really want to clear your NSFW image gallery?", "Clear NSFW Gallery", list("Yae", "Nae"))
+					if(dachoice_nsfw == "Nae")
+						ShowChoices(user)
+						return
+					nsfw_img_gallery = list()
+					to_chat(user, "<span class='notice'>Successfully cleared NSFW image gallery.</span>")
+					log_game("[user] has cleared their NSFW image gallery.")
 
 				if("examine_theme")
 					var/list/all_themes = get_tgui_themes()
@@ -3005,6 +3053,7 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 	character.erpprefs_cached = erpprefs_cached
 
 	character.img_gallery = img_gallery
+	character.nsfw_img_gallery = nsfw_img_gallery
 
 	character.examine_theme = examine_theme
 	character.ooc_extra = ooc_extra
@@ -3163,7 +3212,7 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 			dat += "["\Roman[L[2]]"] level[L[2] > 1 ? "s" : ""] of <b>[name]</b>[L[3] ? ", up to <b>[SSskills.level_names_plain[L[3]]]</b>" : ""] <br>"
 		dat += "</font>"
 	if(V.softcap)
-		dat += "<font color = '#a3e2ff'><font size = 3>This is a soft capped, and values will give only 1 level above the skill cap<br></font>"
+		dat += "<font color = '#a3e2ff'><font size = 3>This is soft capped, and values will give only 1 level above the skill cap<br></font>"
 	if(length(V.added_traits))
 		if(istype(V, /datum/virtue/origin))
 			dat += "<font color = '#a3e2ff'><font size = 3>This Origin grants the following traits: <br>"

@@ -1,56 +1,60 @@
-/* Empower Weapon — Universal spellblade momentum dump.
-Burns ALL momentum stacks to empower your next melee swing,
-bypassing parry and dodge entirely. Visible red glow while active.
-Safety valve for excess momentum — useful but not overpowered
-since spellblades have no STR. */
-
 #define EMPOWER_FILTER "empower_glow"
 
-/obj/effect/proc_holder/spell/self/empower_weapon
+/datum/action/cooldown/spell/empower_weapon
 	name = "Empower Weapon"
 	desc = "Channel all accumulated momentum into your next strike, empowering it to bypass parry and dodge. Works with both weapons and unarmed attacks. \
 		Requires 5+ momentum. Burns ALL momentum."
-	clothes_req = FALSE
-	action_icon = 'icons/mob/actions/classuniquespells/spellblade.dmi'
-	overlay_state = "empower_weapon"
-	releasedrain = 0
-	chargedrain = 0
-	chargetime = 0
-	recharge_time = 30 SECONDS
+	button_icon = 'icons/mob/actions/classuniquespells/spellblade.dmi'
+	button_icon_state = "empower_weapon"
+	sound = 'sound/magic/antimagic.ogg'
+	spell_color = GLOW_COLOR_ARCANE
+	glow_intensity = GLOW_INTENSITY_MEDIUM
+
+	click_to_activate = FALSE
+	self_cast_possible = TRUE
+
+	primary_resource_type = SPELL_COST_NONE
+	primary_resource_cost = 0
+
 	invocations = list()
-	invocation_type = "none"
-	gesture_required = FALSE
-	xp_gain = FALSE
+	invocation_type = INVOCATION_NONE
+
+	charge_required = FALSE
+	cooldown_time = 30 SECONDS
+
+	associated_skill = /datum/skill/magic/arcane
+	spell_tier = 1
+	spell_impact_intensity = SPELL_IMPACT_NONE
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
+
 	var/min_momentum = 5
 
-/obj/effect/proc_holder/spell/self/empower_weapon/can_cast(mob/user = usr, feedback = TRUE)
+/datum/action/cooldown/spell/empower_weapon/can_cast_spell(feedback = TRUE)
 	. = ..()
 	if(!.)
 		return FALSE
-	if(!ishuman(user))
+	if(!ishuman(owner))
 		return FALSE
-	var/mob/living/carbon/human/H = user
+	var/mob/living/carbon/human/H = owner
 	var/datum/status_effect/buff/arcyne_momentum/M = H.has_status_effect(/datum/status_effect/buff/arcyne_momentum)
 	if(!M || M.stacks < min_momentum)
 		return FALSE
 	return TRUE
 
-/obj/effect/proc_holder/spell/self/empower_weapon/cast(list/targets, mob/user = usr)
-	var/mob/living/carbon/human/H = user
+/datum/action/cooldown/spell/empower_weapon/cast(atom/cast_on)
+	. = ..()
+	var/mob/living/carbon/human/H = owner
 	if(!istype(H))
-		revert_cast()
-		return
+		return FALSE
 
 	var/datum/status_effect/buff/arcyne_momentum/M = H.has_status_effect(/datum/status_effect/buff/arcyne_momentum)
 	if(!M || M.stacks < min_momentum)
 		to_chat(H, span_warning("I need at least [min_momentum] momentum to empower my weapon!"))
-		revert_cast()
-		return
+		return FALSE
 
 	if(H.has_status_effect(/datum/status_effect/buff/empowered_strike))
 		to_chat(H, span_warning("My weapon is already empowered!"))
-		revert_cast()
-		return
+		return FALSE
 
 	var/stacks_burned = M.stacks
 	M.consume_stacks(stacks_burned)
@@ -91,7 +95,7 @@ since spellblades have no STR. */
 	SIGNAL_HANDLER
 	if(target == owner || target.stat == DEAD)
 		return
-	// Consume the buff — this swing bypasses defense
+	// Consume the buff - this swing bypasses defense
 	consume_empower()
 	return COMPONENT_ITEM_NO_DEFENSE
 

@@ -41,7 +41,7 @@ GLOBAL_LIST_EMPTY(prayers)
 	if(HAS_TRAIT(pious, TRAIT_XYLIX))
 		pious.grant_language(/datum/language/thievescant)
 		pious.verbs += /mob/living/carbon/human/proc/emote_ffsalute
-	if (HAS_TRAIT(pious, TRAIT_CABAL))
+	if(HAS_TRAIT(pious, TRAIT_CABAL))
 		pious.faction |= "cabal"
 
 /datum/patron/proc/on_loss(mob/living/pious)

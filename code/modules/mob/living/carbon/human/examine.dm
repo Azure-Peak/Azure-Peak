@@ -66,7 +66,7 @@
 
 	if(name in unknown_names)
 		. = list(span_info("ø ------------ ø\nThis is <EM>[name]</EM>."))
-	else if(obscure_name)
+	else if(obscure_name && !client?.prefs?.masked_examine)
 		. = list(span_info("ø ------------ ø\nThis is an unknown <EM>[name]</EM>."))
 	else
 		on_examine_face(user)
@@ -147,6 +147,12 @@
 				. += span_notice("A practitioner of the old ways.")
 			else
 				. += span_notice("Something about them seems... different.")
+
+		if((HAS_TRAIT(user, TRAIT_ANCIENT_HAG) || HAS_TRAIT(user, TRAIT_FEYTOUCHED)) && HAS_TRAIT(src, TRAIT_FEYTOUCHED))
+			. += span_nicegreen("Someone touched by, or created by fey. Perhaps a vessel of the past, or a deeply affected puppet.")
+
+		if(HAS_TRAIT(user, TRAIT_FEYTOUCHED) && HAS_TRAIT(src, TRAIT_ANCIENT_HAG))
+			. += span_nicegreen("A true force of the fey, the mossmother speaks to this one closely.")
 
 		if(SSticker.rulermob == src)
 			. += span_notice("<b>The ruler of this land.</b>")
@@ -313,10 +319,17 @@
 			if(L.STAINT > 9 && L.STAPER > 9)
 				. += span_redtext("<i>[m1] critically fragile!</i>")
 
-	if(user != src && HAS_TRAIT(user, TRAIT_MATTHIOS_EYES) && (!HAS_TRAIT(src, TRAIT_DECEIVING_MEEKNESS)))
+	if(user != src && HAS_TRAIT(user, TRAIT_MATTHIOS_EYES) && !HAS_TRAIT(src, TRAIT_DECEIVING_MEEKNESS))
 		var/atom/item = get_most_expensive()
 		if(item)
-			. += span_notice("You get the feeling [m2] most valuable possession is \a [item].")
+			. += span_notice("You get the feeling [src]'s most valuable possession is \a [item].")
+		var/mammonsonperson = get_mammons_in_atom(src)
+		var/mammonsinbank = SStreasury.bank_accounts[src]
+		if(isnull(mammonsinbank))
+			mammonsinbank = 0
+		var/totalvalue = mammonsonperson + mammonsinbank
+		if(totalvalue)
+			. += span_notice("They carry [mammonsonperson] mammons, with [mammonsinbank] stored away, totaling [totalvalue].")
 
 	var/obscured = check_obscured_slots()
 	var/skipface = (wear_mask && (wear_mask.flags_inv & HIDEFACE)) || (head && (head.flags_inv & HIDEFACE))
@@ -422,6 +435,7 @@
 		if(s_store && !(SLOT_S_STORE in obscured))
 			if(is_normal || is_smart)
 				. += "[m1] carrying [s_store.get_examine_string(user)] on [m2] [wear_armor.name]."
+
 	//back
 //	if(back)
 //		. += "[m3] [back.get_examine_string(user)] on [m2] back."
@@ -561,6 +575,15 @@
 		str += wear_wrists.integrity_check(is_smart)
 		if (is_stupid)
 			str = "[m3] something on [m2] wrists!"
+		. += str
+
+	//arcyne ward
+	if(istype(skin_armor, /obj/item/clothing/suit/roguetown/armor/regenerating/skin/arcyne_ward))
+		var/obj/item/clothing/suit/roguetown/armor/regenerating/skin/arcyne_ward/ward = skin_armor
+		var/str = "[m3] <font color='[ward.ward_color]'>[ward.generate_tooltip(ward.get_examine_string(user))] shimmering around [user == src ? "me" : p_them()].</font>"
+		str += ward.integrity_check(is_smart)
+		if (is_stupid)
+			str = "[m3] some weird shiny thing!"
 		. += str
 
 	//handcuffed?
@@ -966,6 +989,7 @@
 
 	if(pose_text)
 		. += fieldset_block("Pose", pose_text, "pose_block")
+
 
 	SEND_SIGNAL(src, COMSIG_PARENT_EXAMINE, user, .)
 

@@ -82,6 +82,12 @@
 /datum/intent/arc/bow/heavy
 	strength_check = TRUE
 
+/obj/item/gun/ballistic/revolver/grenadelauncher/bow/get_npc_chargetime(mob/living/user)
+	var/newtime = (10 - user.get_skill_level(/datum/skill/combat/bows) * 2) + (10 - user.STASTR / 2) + (20 - user.STAPER)
+	if(chambered)
+		newtime *= chambered.charge_time_mult
+	return max(1, newtime) * ARCHER_NPC_ROF_PENALTY
+
 //bow objs ฅ^•ﻌ•^ฅ
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/bow
@@ -92,6 +98,7 @@
 	icon_state = "bow"
 	item_state = "bow"
 	experimental_onhip = TRUE
+	flags_ai_inventory = AI_ITEM_GUN
 	experimental_onback = TRUE
 	possible_item_intents = list(
 		/datum/intent/shoot/bow,
@@ -232,20 +239,18 @@
 		else
 			spread = 150 - (150 * (user.client.chargedprog / 100))
 	else
-		spread = 0
+		spread = max(0, (15 - user.STAPER) * ARCHER_NPC_SPREAD_PER_POINT)
 	for(var/obj/item/ammo_casing/CB in get_ammo_list(FALSE, TRUE))
 		var/obj/projectile/BB = CB.BB
 		BB.accuracy += accfactor * (user.STAPER - 9) * 4 // 9+ PER gives +4 per level. Exponential.
 		BB.bonus_accuracy += (user.STAPER - 8) * 3 // 8+ PER gives +3 per level. Does not decrease over range.
 		BB.bonus_accuracy += (user.get_skill_level(/datum/skill/combat/bows) * 5) // +5 per Bow level.
 
-		if(user.client.chargedprog < 100)
+		if(user.client && user.client.chargedprog < 100)
 			BB.damage -= (BB.damage * (user.client.chargedprog / 100))
 			BB.embedchance /= 2
 			BB.accuracy -= 15
-		else
-			BB.damage = BB.damage
-		var/per_scaling = 1 + (min(user.STAPER, RANGED_STAT_SOFTCAP) * RANGED_STAT_MULT) + (max(0, user.STAPER - RANGED_STAT_SOFTCAP) * RANGED_STAT_CAPPEDMULT)
+		var/per_scaling = 1 + ((min(user.STAPER, RANGED_STAT_SOFTCAP) - 10) * RANGED_STAT_MULT) + (max(0, user.STAPER - RANGED_STAT_SOFTCAP) * RANGED_STAT_CAPPEDMULT)
 		BB.damage *= damfactor * per_scaling
 	return ..()
 
@@ -257,7 +262,7 @@
 
 	cut_overlays()
 	if(chambered)
-		var/mutable_appearance/ammo = mutable_appearance('icons/roguetown/weapons/ammo.dmi', chambered.icon_state)
+		var/mutable_appearance/ammo = mutable_appearance(chambered.icon, chambered.icon_state)
 		ammo.transform = mat
 		add_overlay(ammo)
 
@@ -431,6 +436,38 @@
 					"westabove" = 0,
 					)
 
+/obj/item/gun/ballistic/revolver/grenadelauncher/bow/classic
+	name = "bow"
+	desc = "The bow is your life; to hold it high and pull the string is to know the path of destiny."
+	var/hasloadedsprite = TRUE
+	accfactor = 1.15 //A fairly mild alternative to the Crude Selfbow, themed to be more like a proper ranged weapon. Same general stats, but with an increased bonus to accuracy.
+	icon_state = "classicbow0"
+	item_state = "classicbow"
+
+/obj/item/gun/ballistic/revolver/grenadelauncher/bow/classic/update_icon()
+	. = ..()
+	cut_overlays()
+	icon_state = "[item_state][0]"
+
+	if(chambered && hasloadedsprite)
+		icon_state = "[item_state][1]"
+
+	if(!ismob(loc))
+		return
+	var/mob/M = loc
+	M.update_inv_hands()
+
+/obj/item/gun/ballistic/revolver/grenadelauncher/bow/classic/getonmobprop(tag)
+	if(tag)
+		switch(tag)
+			if("gen")
+				return list("shrink" = 0.7,"sx" = -3,"sy" = -2,"nx" = 5,"ny" = -1,"wx" = -3,"wy" = 0,"ex" = 0,"ey" = -2,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 9,"sturn" = -100,"wturn" = -102,"eturn" = 10,"nflip" = 1,"sflip" = 8,"wflip" = 8,"eflip" = 1)
+			if("onbelt")
+				return list("shrink" = 0.6,"sx" = -2,"sy" = -5,"nx" = 4,"ny" = -5,"wx" = 0,"wy" = -5,"ex" = 2,"ey" = -5,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
+			if("onback")
+				return list("shrink" = 0.6,"sx" = 1,"sy" = -1,"nx" = 1,"ny" = -1,"wx" = 3,"wy" = -1,"ex" = 0,"ey" = -1,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 8,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 1,"southabove" = 0,"eastabove" = 0,"westabove" = 0)
+
+
 //Unique Bows
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve/warden
@@ -450,6 +487,11 @@
 	name = "aavnic riding bow"
 	desc = "A short recurve warbow made for the express purpose of shooting on saigaback, a skill every archer in Aavnr takes much more seriously than their Northern counterparts. Every seasoned Druzhina is themselves a good bowyer and usually makes their own bow, this one is made with the purpure-ish crimson wood of a Vörötslevé tree."
 	icon_state = "recurve_riding"
+
+/obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve/blackoak
+	name = "woad recurve bow"
+	desc = "A medium length composite bow of glued horn, wood, and sinew with fine shooting characteristics. Hewn from a living Black Oak branch, it carries the quiet strength of untouched groves; unyielding, unbroken, and fiercely guarded from the hands of Man."
+	icon_state = "blackoakrecurve_bow"
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/bow/short
 	name = "short bow"

@@ -25,7 +25,6 @@
 
 /datum/outfit/job/roguetown/mercenary/steppesman/pre_equip(mob/living/carbon/human/H)
 	..()
-
 	//Universal gear
 	belt = /obj/item/storage/belt/rogue/leather/black
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants
@@ -39,13 +38,11 @@
 		/obj/item/rogueweapon/whip/nagaika,
 		/obj/item/rogueweapon/scabbard/sheath
 		)
-
 	// CLASS ARCHETYPES
 	H.adjust_blindness(-3)
 	if(H.mind)
 		var/classes = list("Szabrista - Saber Veteran", "Árkász - Elite Sapper", "Druzhina - Light Archer","Kozak - Light Infantry")
 		var/classchoice = input(H, "Choose your archetypes", "Available archetypes") as anything in classes
-
 		switch(classchoice)
 			if("Szabrista - Saber Veteran")	//Tl;dr - medium armor class for Mount and Blade larpers who still get a saiga. Akin to Vaquero with specific drip.
 				H.set_blindness(0)
@@ -82,7 +79,6 @@
 				var/maskchoice = input("What fits your face?", "MASK SELECTION") as anything in masks
 				if(maskchoice != "None")
 					mask = masks[maskchoice]
-
 			if("Árkász - Elite Sapper")	//Tl;dr - medium armor sappers with less mobility in exchange for their different statblock and equipment.
 				H.set_blindness(0)
 				to_chat(H, span_warning("The Árkászi are frontline sappers specialized in sowing chaos and confusion in tandem with the Szabristas, focused on raw strength and will over the company's swordsmen and archers."))
@@ -120,7 +116,6 @@
 				var/maskchoice = input("What fits your face?", "MASK SELECTION") as anything in masks
 				if(maskchoice != "None")
 					mask = masks[maskchoice]
-
 			if("Druzhina - Light Archer")	//Tl;dr - light armor class for Tatar-style archery. Has 'Druzhina' as a name cus czech/polish influence, couldn't think of better one.
 				H.set_blindness(0)
 				to_chat(H, span_warning("A Druzhina, a commoner of the Aavnic steppes made into a professional soldier. Hunters, herders, and various nomads from all walks of life. Equal in service, equal behind their bow, and ready to fight."))

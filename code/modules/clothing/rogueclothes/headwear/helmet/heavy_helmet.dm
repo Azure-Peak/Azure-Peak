@@ -26,7 +26,7 @@
 	item_state = "bronzebarbute"
 	flags_inv = HIDEEARS|HIDEFACE|HIDESNOUT
 	flags_cover = HEADCOVERSEYES | HEADCOVERSMOUTH
-	armor = ARMOR_PLATE
+	armor = ARMOR_BRONZE
 	block2add = FOV_BEHIND
 	smeltresult = /obj/item/ingot/bronze
 	max_integrity = ARMOR_INT_HELMET_HEAVY_BRONZE
@@ -1039,8 +1039,9 @@
 
 /obj/item/clothing/head/roguetown/helmet/heavy/elven_helm
 	name = "woad elven helm"
-	desc = "An assembly of woven trunk, kept alive by ancient song, now twisted and warped for battle and scorn."
-	body_parts_covered = FULL_HEAD | NECK
+	desc = "A helm of thickly woven trunk, kept alive by ancient song and shaped to guard both face and spirit. Living fibers tighten and shift with each movement, as if the forest itself resists every blow struck against it. It is not merely worn - it watches alongside its bearer."
+	allowed_race = list(/datum/species/elf/wood, /datum/species/human/halfelf, /datum/species/elf/dark)
+	body_parts_covered = FULL_HEAD|NECK
 	armor = ARMOR_BLACKOAK //Resistant to blunt & stab, but very weak to slash.
 	icon = 'icons/roguetown/clothing/special/race_armor.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/race_armor.dmi'
@@ -1055,6 +1056,18 @@
 	blocksound = SOFTHIT
 	experimental_inhand = FALSE
 	experimental_onhip = FALSE
+
+/obj/item/clothing/head/roguetown/helmet/heavy/elven_helm/light
+	name = "woad elven barbute"
+	desc = "A helm of woven trunk, kept alive by ancient song and crowned with living leaves of endless verdure. Lighter and more pliant than it's fuller counterpart, it bends with the will of it's bearer, never truly severed from the living grove."
+	body_parts_covered = HEAD|HAIR|NOSE|EARS|NECK
+	icon = 'icons/roguetown/clothing/special/race_armor.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/race_armor.dmi'
+	icon_state = "welfheadalt"
+	item_state = "welfheadalt"
+	block2add = null
+	max_integrity = ARMOR_INT_HELMET_IRON
+	armor_class = ARMOR_CLASS_LIGHT
 
 /obj/item/clothing/head/roguetown/helmet/heavy/frogmouth
 	name = "froggemund helmet"
@@ -1215,26 +1228,21 @@
 	max_integrity = ARMOR_INT_HELMET_ANTAG
 	chunkcolor = "#363030"
 	material_category = ARMOR_MAT_PLATE
-	var/frogstyle = FALSE
+	toggle_icon_state = TRUE
 
-/obj/item/clothing/head/roguetown/helmet/heavy/zizo/MiddleClick(mob/user)
-	frogstyle = !frogstyle
-	to_chat(user, span_info("My avantyne greathelmet shifts into the style of [frogstyle ? "a froggemund" : "a barbute"]."))
-	if(frogstyle)
-		icon_state = "zizofrogmouth"
-		name = "avantyne froggemund"
-		desc = "Crystallized inzanity, brought to a lower plane of existence and flared into a wide-collared froggemund. It has been called forth from the edge of reality, in Her name."
-		flags_inv = HIDEFACE|HIDESNOUT|HIDEEARS
-		body_parts_covered = HEAD|EARS|HAIR
-		adjustable = CANT_CADJUST
-	else
-		icon_state = "zizobarbute"
-		name = "avantyne barbute"
-		desc = "Crystallized inzanity, brought to a lower plane of existence and flared into a visored aegis. It has been called forth from the edge of reality, in Her name."
-		adjustable = CAN_CADJUST
-	update_icon()
-	user.update_inv_head()
+/obj/item/clothing/head/roguetown/helmet/heavy/zizo/frogge
+	icon_state = "zizofrogmouth"
+	name = "avantyne froggemund"
+	desc = "Crystallized inzanity, brought to a lower plane of existence and flared into a wide-collared froggemund. It has been called forth from the edge of reality, in Her name."
+	flags_inv = HIDEFACE|HIDESNOUT|HIDEEARS
+	body_parts_covered = HEAD|EARS|HAIR
+	adjustable = CANT_CADJUST
 
+/obj/item/clothing/head/roguetown/helmet/heavy/zizo/volfhelm
+	name = "avantyne volf-face bascinet"
+	desc = "An unholy combination of a bastardised volf-face bascinet, along with avantyne reinforcements. Progress is an agonising process."
+	icon_state = "volfplate_avantyne"
+	item_state = "volfplate_avantyne"
 
 /obj/item/clothing/head/roguetown/helmet/heavy/zizo/Initialize()
 	. = ..()

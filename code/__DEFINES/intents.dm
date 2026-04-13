@@ -29,7 +29,8 @@
 #define SWORD_CUT		 /datum/intent/sword/cut
 #define SWORD_THRUST	 /datum/intent/sword/thrust
 #define SWORD_CHOP		 /datum/intent/sword/chop //2h swords only
-#define SWORD_STRIKE	 /datum/intent/sword/strike //mordhau grip
+#define SWORD_STRIKE	 /datum/intent/sword/strike
+#define SWORD_BASH		 /datum/intent/sword/strike/bash // alternate sword bash, e.g. mordhau
 
 #define ELFSWORD_CUT		/datum/intent/sword/cut/elf
 #define ELFSWORD_THRUST		/datum/intent/sword/thrust/elf

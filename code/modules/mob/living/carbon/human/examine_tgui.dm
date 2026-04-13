@@ -42,6 +42,7 @@
 	var/ooc_notes_nsfw
 	var/headshot = ""
 	var/list/img_gallery = list()
+	var/list/nsfw_img_gallery = list()
 	var/char_name
 	var/song_url
 	var/has_song = FALSE
@@ -76,8 +77,10 @@
 		"flavor_text_nsfw" = flavor_text_nsfw,
 		"ooc_notes_nsfw" = ooc_notes_nsfw,
 		"img_gallery" = img_gallery,
+		"nsfw_img_gallery" = nsfw_img_gallery,
 		"has_song" = has_song,
 		"is_vet" = is_vet,
+		"is_donator" = is_donator(holder.ckey),
 		"is_naked" = is_naked,
 	)
 
@@ -98,6 +101,7 @@
 	var/ooc_notes_nsfw
 	var/headshot = ""
 	var/list/img_gallery = list()
+	var/list/nsfw_img_gallery = list()
 	var/char_name
 	var/song_url
 	var/has_song = FALSE
@@ -126,6 +130,8 @@
 			else
 				headshot = holder.headshot_link
 			img_gallery = holder.img_gallery
+			if(is_naked)
+				nsfw_img_gallery = holder.nsfw_img_gallery
 		if(!headshot)
 			headshot = "headshot_red.png"
 
@@ -143,6 +149,8 @@
 		else
 			headshot = pref.headshot_link
 		img_gallery = pref.img_gallery
+		if(is_naked)
+			nsfw_img_gallery = pref.nsfw_img_gallery
 		char_name = pref.real_name
 		song_url = pref.ooc_extra
 		is_vet = viewing.check_agevet()
@@ -176,8 +184,10 @@
 		"flavor_text_nsfw" = flavor_text_nsfw,
 		"ooc_notes_nsfw" = ooc_notes_nsfw,
 		"img_gallery" = img_gallery,
+		"nsfw_img_gallery" = nsfw_img_gallery,
 		"has_song" = has_song,
 		"is_vet" = is_vet,
+		"is_donator" = is_donator(holder.ckey),
 		"is_naked" = is_naked,
 		"examine_theme" = char_examine_theme,
 	)
@@ -239,6 +249,9 @@
 			return TRUE
 		if("vet_chat")
 			to_chat(viewing, span_boldgreen("This player is age-verified!"))
+			return TRUE
+		if("donator_chat")
+			to_chat(viewing, span_boldgreen("This player is a donator!"))
 			return TRUE
 
 /datum/examine_panel/ui_close()

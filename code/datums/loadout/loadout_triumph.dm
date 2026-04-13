@@ -202,78 +202,13 @@
 	sort_category = "Triumphs"
 
 //////////////////
-//  UNIQUES  !  //
-//////////////////
-//Anything that doesn't fall within the standard pricing bracket, or is sufficently unique to warrant being categorized differently.
-
-/datum/loadout_item/triumph_buffpot
-	name = "Vial of Distilled Triumphance"
-	path = /obj/item/reagent_containers/glass/bottle/alchemical/tripot
-	triumph_cost = 99
-	sort_category = "Triumphs"
-
-//////////////////
 //  RESKINS  !  //
 //////////////////
 //Variants of the Donator Reskin item, specifically unlocked through Triumphs.
 
-/datum/loadout_item/triumph_weaponkitaxealt
-	name = "Morphing Elixir, 'Doubleheaded Axe'"
-	path = /obj/item/enchantingkit/triumph_weaponkit_axedouble
-	triumph_cost = 3
-	sort_category = "Triumphs"
-
-/datum/loadout_item/triumph_weaponkitaxe
-	name = "Morphing Elixir, 'Valorian Axe'"
-	path = /obj/item/enchantingkit/triumph_weaponkit_axe
-	triumph_cost = 3
-	sort_category = "Triumphs"
-
-/datum/loadout_item/triumph_weaponkitsword
-	name = "Morphing Elixir, 'Valorian Sword'"
-	path = /obj/item/enchantingkit/weapon/triumph_weaponkit_sword
-	triumph_cost = 3
-	sort_category = "Triumphs"
-
-/datum/loadout_item/triumph_weaponkittri
-	name = "Morphing Elixir, 'Valorian Longsword'"
-	path = /obj/item/enchantingkit/triumph_weaponkit_tri
-	triumph_cost = 3
-	sort_category = "Triumphs"
-
-/datum/loadout_item/triumph_weaponkitgreatval
-	name = "Morphing Elixir, 'Valorian Greatsword'"
-	path = /obj/item/enchantingkit/weapon/triumph_weaponkit_greatval
-	triumph_cost = 3
-	sort_category = "Triumphs"
-
 /datum/loadout_item/triumph_armorkit
 	name = "Morphing Elixir, 'Valorian Steel Armor'"
 	path = /obj/item/enchantingkit/triumph_armorkit
-	triumph_cost = 3
-	sort_category = "Triumphs"
-
-/datum/loadout_item/triumph_weaponkitrock
-	name = "Morphing Elixir, 'Rockhillian Broadsword'"
-	path = /obj/item/enchantingkit/weapon/triumph_weaponkit_rock
-	triumph_cost = 3
-	sort_category = "Triumphs"
-
-/datum/loadout_item/triumph_weaponkitwide
-	name = "Morphing Elixir, 'Wideguard Longsword'"
-	path = /obj/item/enchantingkit/triumph_weaponkit_wide
-	triumph_cost = 3
-	sort_category = "Triumphs"
-
-/datum/loadout_item/triumph_weaponkitsabre
-	name = "Morphing Elixir, 'Sabreguard Longsword'"
-	path = /obj/item/enchantingkit/triumph_weaponkit_sabre
-	triumph_cost = 3
-	sort_category = "Triumphs"
-
-/datum/loadout_item/triumph_weaponkitpsy
-	name = "Morphing Elixir, 'Psycrucifix Longsword'"
-	path = /obj/item/enchantingkit/triumph_weaponkit_psy
 	triumph_cost = 3
 	sort_category = "Triumphs"
 
@@ -283,20 +218,140 @@
 	triumph_cost = 3
 	sort_category = "Triumphs"
 
-/datum/loadout_item/triumph_weaponkitwodao
+/datum/loadout_item/triumph_weaponkit_axealt
+	name = "Morphing Elixir, 'Doubleheaded Axe'"
+	path = /obj/item/enchantingkit/triumph_weaponkit_axedouble
+	triumph_cost = 3
+	sort_category = "Triumphs"
+
+/datum/loadout_item/triumph_weaponkit_axe
+	name = "Morphing Elixir, 'Valorian Axe'"
+	path = /obj/item/enchantingkit/triumph_weaponkit_axe
+	triumph_cost = 3
+	sort_category = "Triumphs"
+
+/datum/loadout_item/triumph_weaponkit_sword
+	name = "Morphing Elixir, 'Valorian Sword'"
+	path = /obj/item/enchantingkit/weapon/triumph_weaponkit_sword
+	triumph_cost = 3
+	sort_category = "Triumphs"
+
+/datum/loadout_item/triumph_weaponkit_tri
+	name = "Morphing Elixir, 'Valorian Longsword'"
+	path = /obj/item/enchantingkit/triumph_weaponkit_tri
+	triumph_cost = 3
+	sort_category = "Triumphs"
+
+/datum/loadout_item/triumph_weaponkit_greatval
+	name = "Morphing Elixir, 'Valorian Greatsword'"
+	path = /obj/item/enchantingkit/weapon/triumph_weaponkit_greatval
+	triumph_cost = 3
+	sort_category = "Triumphs"
+
+/datum/loadout_item/triumph_weaponkit_rock
+	name = "Morphing Elixir, 'Rockhillian Broadsword'"
+	path = /obj/item/enchantingkit/weapon/triumph_weaponkit_rock
+	triumph_cost = 3
+	sort_category = "Triumphs"
+
+/datum/loadout_item/triumph_weaponkit_wide
+	name = "Morphing Elixir, 'Wideguard Longsword'"
+	path = /obj/item/enchantingkit/triumph_weaponkit_wide
+	triumph_cost = 3
+	sort_category = "Triumphs"
+
+/datum/loadout_item/triumph_weaponkit_sabre
+	name = "Morphing Elixir, 'Sabreguard Longsword'"
+	path = /obj/item/enchantingkit/triumph_weaponkit_sabre
+	triumph_cost = 3
+	sort_category = "Triumphs"
+
+/datum/loadout_item/triumph_weaponkit_psy
+	name = "Morphing Elixir, 'Psycrucifix Longsword'"
+	path = /obj/item/enchantingkit/triumph_weaponkit_psy
+	triumph_cost = 3
+	sort_category = "Triumphs"
+
+/datum/loadout_item/triumph_weaponkit_wodao
 	name = "Morphing Elixir, 'Wodao'"
 	path = /obj/item/enchantingkit/weapon/triumph_weaponkit_wodao
 	triumph_cost = 3
 	sort_category = "Triumphs"
 
-/datum/loadout_item/triumph_weaponkitdadao
+/datum/loadout_item/triumph_weaponkit_dadao
 	name = "Morphing Elixir, 'Dadao'"
 	path = /obj/item/enchantingkit/weapon/triumph_weaponkit_dadao
 	triumph_cost = 3
 	sort_category = "Triumphs"
 
-/datum/loadout_item/triumph_weaponkitgdadao
+/datum/loadout_item/triumph_weaponkit_gdadao
 	name = "Morphing Elixir, 'Greatdadao'"
 	path = /obj/item/enchantingkit/weapon/triumph_weaponkit_gdadao
+	triumph_cost = 3
+	sort_category = "Triumphs"
+
+/datum/loadout_item/triumph_weaponkit_estoc
+	name = "Morphing Elixir, 'Azurian Estoc'"
+	path = /obj/item/enchantingkit/triumph_weaponkit_estoc
+	triumph_cost = 3
+	sort_category = "Triumphs"
+
+/datum/loadout_item/triumph_weaponkit_fancymace
+	name = "Morphing Elixir, 'Rungu-Shishpar Mace'"
+	path = /obj/item/enchantingkit/triumph_weaponkit_fancymace
+	triumph_cost = 3
+	sort_category = "Triumphs"
+
+/datum/loadout_item/triumph_weaponkit_krisdagger
+	name = "Morphing Elixir, 'Kris'"
+	path = /obj/item/enchantingkit/triumph_weaponkit_kris
+	triumph_cost = 3
+	sort_category = "Triumphs"
+
+/datum/loadout_item/triumph_weaponkit_njoradagger
+	name = "Morphing Elixir, 'Njora'"
+	path = /obj/item/enchantingkit/triumph_weaponkit_njora
+	triumph_cost = 3
+	sort_category = "Triumphs"
+
+/datum/loadout_item/triumph_weaponkit_alloywhip
+	name = "Morphing Elixir, 'Alloytip Whip'"
+	path = /obj/item/enchantingkit/triumph_weaponkit_whip
+	triumph_cost = 3
+	sort_category = "Triumphs"
+
+/datum/loadout_item/triumph_weaponkit_kaskara
+	name = "Morphing Elixir, 'Kaskara'"
+	path = /obj/item/enchantingkit/weapon/triumph_weaponkit_kaskara
+	triumph_cost = 3
+	sort_category = "Triumphs"
+
+/datum/loadout_item/triumph_weaponkit_ida
+	name = "Morphing Elixir, 'Ida'"
+	path = /obj/item/enchantingkit/weapon/triumph_weaponkit_ida
+	triumph_cost = 3
+	sort_category = "Triumphs"
+
+/datum/loadout_item/triumph_weaponkit_hwi
+	name = "Morphing Elixir, 'Hwi'"
+	path = /obj/item/enchantingkit/weapon/triumph_weaponkit_hwi
+	triumph_cost = 3
+	sort_category = "Triumphs"
+
+/datum/loadout_item/triumph_weaponkit_ngombe
+	name = "Morphing Elixir, 'Ngombe'"
+	path = /obj/item/enchantingkit/weapon/triumph_weaponkit_ngombe
+	triumph_cost = 3
+	sort_category = "Triumphs"
+
+/datum/loadout_item/triumph_weaponkit_ada
+	name = "Morphing Elixir, 'Ada'"
+	path = /obj/item/enchantingkit/weapon/triumph_weaponkit_ada
+	triumph_cost = 3
+	sort_category = "Triumphs"
+
+/datum/loadout_item/triumph_weaponkit_sengese
+	name = "Morphing Elixir, 'Sengese'"
+	path = /obj/item/enchantingkit/weapon/triumph_weaponkit_sengese
 	triumph_cost = 3
 	sort_category = "Triumphs"

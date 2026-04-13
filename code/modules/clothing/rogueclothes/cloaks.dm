@@ -167,16 +167,6 @@
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/cloaks.dmi'
 	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_cloaks.dmi'
 	sleevetype = "shirt"
-	
-
-/obj/item/clothing/cloak/tabard/abyssortabard
-	name = "abyssorite tabard"
-	desc = "A tabard worn by Abyssorite devouts. It reeks of brine."
-	color = null
-	icon_state = "abyssortabard"
-	item_state = "abyssortabard"
-	mob_overlay_icon = 'icons/roguetown/clothing/onmob/cloaks.dmi'
-	custom_design = TRUE
 
 /obj/item/clothing/cloak/tabard/psydontabard
 	name = "psydonian tabard"
@@ -238,6 +228,15 @@
 	icon_state = "astratatabard"
 	resistance_flags = FIRE_PROOF
 
+/obj/item/clothing/cloak/tabard/abyssorite
+	name = "abyssorite tabard"
+	desc = "A tabard worn by Abyssorite devouts. It reeks of brine."
+	color = null
+	icon_state = "abyssortabard"
+	item_state = "abyssortabard"
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/cloaks.dmi'
+	custom_design = TRUE
+
 /obj/item/clothing/cloak/templar/malumite
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/cloaks.dmi'
 	alternate_worn_layer = TABARD_LAYER
@@ -259,7 +258,7 @@
 	alternate_worn_layer = TABARD_LAYER
 	boobed = TRUE
 	name = "pestran tabard"
-	desc = "A simple covering of green cloth, meant to keep rot and blood alike off it's wearer."
+	desc = "A simple covering of green cloth, meant to keep rot and blood alike off its wearer."
 	icon_state = "pestratabard"
 
 /obj/item/clothing/cloak/templar/eoran
@@ -280,6 +279,19 @@
 	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_cloaks.dmi'
 	sleevetype = "shirt"
 
+/obj/item/clothing/cloak/templar/ravox
+	name = "justice tabard"
+	desc = "An underarmor vestments with a neck cover, worn by templars of Ravox."
+	icon_state = "justicetabard"
+	body_parts_covered = CHEST|GROIN
+	boobed = TRUE
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/cloaks.dmi'
+	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_cloaks.dmi'
+	sleevetype = "shirt"
+	nodismemsleeves = TRUE
+	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_CLOAK|ITEM_SLOT_MASK
+	flags_inv = HIDECROTCH|HIDEBOOB
+
 /obj/item/clothing/cloak/templar/undivided
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/cloaks.dmi'
 	alternate_worn_layer = TABARD_LAYER
@@ -287,6 +299,14 @@
 	name = "undivided tabard"
 	desc = "The refuge of the TEN upon my back. A Undivided House, standing eternal against the encroaching darkness."
 	icon_state = "seetabard"
+
+/obj/item/clothing/cloak/templar/undivided_alt
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/cloaks.dmi'
+	alternate_worn_layer = TABARD_LAYER
+	boobed = TRUE
+	name = "crusader tabard"
+	desc = "The refuge of the TEN upon my back. A Undivided House, standing eternal against the encroaching darkness."
+	icon_state = "seetabardalt"
 
 /obj/item/clothing/cloak/tabard/devotee
 	nodismemsleeves = TRUE
@@ -334,6 +354,14 @@
 	sleeved = 'icons/roguetown/clothing/onmob/detailed/tabards.dmi'
 	sleevetype = "shirt"
 
+/obj/item/clothing/cloak/tabard/devotee/pestra
+	name = "pestra tabard"
+	desc = "An outer garment commonly worn by soldiers. This one has the symbol of Pestra on it."
+	icon_state = "tabard_pestra"
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/detailed/tabards.dmi'
+	sleeved = 'icons/roguetown/clothing/onmob/detailed/tabards.dmi'
+	sleevetype = "shirt"
+
 /obj/item/clothing/cloak/tabard/devotee/abyssor
 	name = "abyssor tabard"
 	desc = "An outer garment commonly worn by soldiers. This one has the symbol of Abyssor on it."
@@ -350,6 +378,29 @@
 	sleeved = 'icons/roguetown/clothing/onmob/detailed/tabards.dmi'
 	sleevetype = "shirt"
 
+/obj/item/clothing/cloak/tabard/devotee/ravox
+	name = "ravox tabard"
+	desc = "An outer garment commonly worn by soldiers. This one has the symbol of Ravox on it."
+	icon_state = "tabard_ravox"
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/detailed/tabards.dmi'
+	sleeved = 'icons/roguetown/clothing/onmob/detailed/tabards.dmi'
+	sleevetype = "shirt"
+
+/obj/item/clothing/cloak/tabard/devotee/xylix
+	name = "xylix tabard"
+	desc = "An outer garment commonly worn by soldiers. This one has the symbol of Xylix on it."
+	icon_state = "tabard_xylix"
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/detailed/tabards.dmi'
+	sleeved = 'icons/roguetown/clothing/onmob/detailed/tabards.dmi'
+	sleevetype = "shirt"
+
+/obj/item/clothing/cloak/tabard/devotee/eora
+	name = "eora tabard"
+	desc = "An outer garment commonly worn by soldiers. This one has the symbol of Eora on it."
+	icon_state = "tabard_eora"
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/detailed/tabards.dmi'
+	sleeved = 'icons/roguetown/clothing/onmob/detailed/tabards.dmi'
+	sleevetype = "shirt"
 
 /obj/item/clothing/cloak/tabard/knight
 	color = CLOTHING_PURPLE
@@ -892,6 +943,9 @@
 /obj/item/clothing/cloak/cape/guard
 	color = CLOTHING_AZURE
 
+/obj/item/clothing/cloak/cape/red
+	color = CLOTHING_RED
+
 /obj/item/clothing/cloak/cape/guard/Initialize()
 	. = ..()
 	if(GLOB.lordprimary)
@@ -1201,75 +1255,6 @@
 		alternate_worn_layer = UNDER_ARMOR_LAYER
 	user.update_inv_cloak()
 	user.update_inv_armor()
-
-/obj/item/clothing/cloak/templar/eora
-	name = "eora tabard"
-	desc = "An outer garment commonly worn by soldiers. This one has the symbol of Eora on it."
-	icon_state = "tabard_eora"
-	alternate_worn_layer = TABARD_LAYER
-	body_parts_covered = CHEST|GROIN
-	boobed = TRUE
-	mob_overlay_icon = 'icons/roguetown/clothing/onmob/detailed/tabards.dmi'
-	sleeved = 'icons/roguetown/clothing/onmob/detailed/tabards.dmi'
-	sleevetype = "shirt"
-	nodismemsleeves = TRUE
-	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_CLOAK
-	flags_inv = HIDECROTCH|HIDEBOOB
-
-/obj/item/clothing/cloak/templar/pestra
-	name = "pestra tabard"
-	desc = "An outer garment commonly worn by soldiers. This one has the symbol of Pestra on it."
-	icon_state = "tabard_pestra"
-	alternate_worn_layer = TABARD_LAYER
-	body_parts_covered = CHEST|GROIN
-	boobed = TRUE
-	mob_overlay_icon = 'icons/roguetown/clothing/onmob/detailed/tabards.dmi'
-	sleeved = 'icons/roguetown/clothing/onmob/detailed/tabards.dmi'
-	sleevetype = "shirt"
-	nodismemsleeves = TRUE
-	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_CLOAK
-	flags_inv = HIDECROTCH|HIDEBOOB
-
-/obj/item/clothing/cloak/cleric/ravox
-	name = "ravox tabard"
-	desc = "An outer garment commonly worn by soldiers. This one has the symbol of Ravox on it."
-	icon_state = "tabard_ravox"
-	alternate_worn_layer = TABARD_LAYER
-	body_parts_covered = CHEST|GROIN
-	boobed = TRUE
-	mob_overlay_icon = 'icons/roguetown/clothing/onmob/detailed/tabards.dmi'
-	sleeved = 'icons/roguetown/clothing/onmob/detailed/tabards.dmi'
-	sleevetype = "shirt"
-	nodismemsleeves = TRUE
-	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_CLOAK
-	flags_inv = HIDECROTCH|HIDEBOOB
-
-/obj/item/clothing/cloak/templar/ravox
-	name = "justice tabard"
-	desc = "An underarmor vestments with a neck cover, worn by templars of Ravox."
-	icon_state = "justicetabard"
-	body_parts_covered = CHEST|GROIN
-	boobed = TRUE
-	mob_overlay_icon = 'icons/roguetown/clothing/onmob/cloaks.dmi'
-	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_cloaks.dmi'
-	sleevetype = "shirt"
-	nodismemsleeves = TRUE
-	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_CLOAK|ITEM_SLOT_MASK
-	flags_inv = HIDECROTCH|HIDEBOOB
-
-/obj/item/clothing/cloak/templar/xylix
-	name = "xylix tabard"
-	desc = "An outer garment commonly worn by soldiers. This one has the symbol of Xylix on it."
-	icon_state = "tabard_xylix"
-	alternate_worn_layer = TABARD_LAYER
-	body_parts_covered = CHEST|GROIN
-	boobed = TRUE
-	mob_overlay_icon = 'icons/roguetown/clothing/onmob/detailed/tabards.dmi'
-	sleeved = 'icons/roguetown/clothing/onmob/detailed/tabards.dmi'
-	sleevetype = "shirt"
-	nodismemsleeves = TRUE
-	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_CLOAK
-	flags_inv = HIDECROTCH|HIDEBOOB
 
 /obj/item/clothing/cloak/cape/blkknight
 	name = "blood cape"

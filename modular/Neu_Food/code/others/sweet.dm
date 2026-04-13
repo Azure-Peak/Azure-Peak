@@ -37,6 +37,8 @@
 	pumpkin spice and tossed into a kettle, it makes for an absolutely divine drink."
 	bitesize = 3 //Sharing is caring!
 	icon_state = "chocolatehalf"
+	slices_num = null
+	slice_path = null
 
 /obj/item/reagent_containers/food/snacks/jamtallow
 	name = "stick of jamtallow"
@@ -75,7 +77,7 @@
 
 /obj/item/reagent_containers/food/snacks/jamtallowslice
 	name = "slice of jamtallow"
-	desc = "A portion of jammy paradise, bearing the same hues as Azuria's morning skies. It yearns to be savored not by its lonesome, but upon a slice of bread - be it plain or toasted."
+	desc = "A portion of jammy paradise, bearing the same hues as Azuria's morning skies. It yearns to be savored not by its lonesome, but upon a slice of bread - ideally, butterdoughed or toasted."
 	icon = 'modular/Neu_Food/icons/others/sweet.dmi'
 	icon_state = "jamtallow_slice"
 	faretype = FARE_POOR
@@ -120,7 +122,7 @@
 
 /obj/item/reagent_containers/food/snacks/marmaladeslice
 	name = "slice of marmalade"
-	desc = "A portion of jammy paradise, bearing the same hues as Azuria's evening seas. It yearns to be savored not by its lonesome, but upon a slice of bread - be it plain or toasted."
+	desc = "A portion of jammy paradise, bearing the same hues as Azuria's evening seas. It yearns to be savored not by its lonesome, but upon a slice of bread - ideally, butterdoughed or toasted."
 	icon = 'modular/Neu_Food/icons/others/sweet.dmi'
 	icon_state = "marmalade_slice"
 	faretype = FARE_POOR

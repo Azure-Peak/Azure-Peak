@@ -1,13 +1,22 @@
-//Raccoons are a faster, still hostile, version of a wolf and bobcat, but the weakest of the three.
-/mob/living/simple_animal/hostile/retaliate/rogue/wolf/raccoon
+//Raccoons are a faster, still hostile, but weakest small predator.
+/mob/living/simple_animal/hostile/retaliate/rogue/raccoon
 	icon = 'icons/roguetown/mob/monster/raccoon.dmi'
 	name = "rakun"
 	desc = "An adorable albiet dangerous creacher of Azuria's northern coast, known to steal food from bins or eat small game."
 	icon_state = "raccoon"
 	icon_living = "raccoon"
 	icon_dead = "raccoon_dead"
+	gender = MALE
+	emote_hear = null
+	emote_see = null
+	speak_chance = 1
+	turns_per_move = 3
+	see_in_dark = 6
+	move_to_delay = 3
+	base_intents = list(/datum/intent/simple/bite/volf)
 	aggressive = 1
 	threat_point = THREAT_TRASH
+	ambush_faction = "wildlife"
 	botched_butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/steak = 1, /obj/item/natural/bone = 2, /obj/item/alch/viscera = 1)
 	butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/steak = 2,
 						/obj/item/natural/hide = 1,
@@ -22,21 +31,50 @@
 						/obj/item/alch/viscera = 1,
 						/obj/item/natural/bone = 2,
 						/obj/item/natural/fur/raccoon = 1)
+	faction = list("wolfs", "zombie")
+	mob_biotypes = MOB_ORGANIC|MOB_BEAST
 	remains_type = /obj/effect/decal/remains/raccoon
 	health = 85
-	maxHealth = 85	//Wolf is 120
-	simple_detect_bonus = 30	//Good at detecting stealthed people, but not as well as Bobcats.
+	maxHealth = 85
 	melee_damage_lower = 10
 	melee_damage_upper = 15
+	vision_range = 7
+	aggro_vision_range = 9
+	environment_smash = ENVIRONMENT_SMASH_NONE
+	retreat_distance = 0
+	minimum_distance = 0
+	milkies = FALSE
+	food_type = list(/obj/item/reagent_containers/food/snacks,
+					/obj/item/natural/bone,
+					/obj/item/natural/hide)
+	footstep_type = FOOTSTEP_MOB_BAREFOOT
+	pooptype = null
 	STACON = 4
 	STASTR = 4
-	STASPD = 18	//A little faster than bobcats.
+	STASPD = 18
+	simple_detect_bonus = 30
+	deaggroprob = 0
+	defprob = 40
+	del_on_deaggro = 44 SECONDS
+	retreat_health = 0.3
+	food = 0
+	attack_sound = list('sound/vo/mobs/vw/attack (1).ogg','sound/vo/mobs/vw/attack (2).ogg','sound/vo/mobs/vw/attack (3).ogg','sound/vo/mobs/vw/attack (4).ogg')
+	dodgetime = 30
+	eat_forever = TRUE
 
-	//new ai, old ai off
+//new ai, old ai off
 	AIStatus = AI_OFF
 	can_have_ai = FALSE
 	ai_controller = /datum/ai_controller/volf
 	melee_cooldown = WOLF_ATTACK_SPEED
+
+/mob/living/simple_animal/hostile/retaliate/rogue/raccoon/Initialize()
+	. = ..()
+	AddComponent(/datum/component/ai_aggro_system)
+	AddElement(/datum/element/ai_flee_while_injured, 0.75, 0.4)
+	gender = pick(MALE, FEMALE)
+	update_icon()
+	ai_controller.set_blackboard_key(BB_BASIC_FOODS, food_type)
 
 /obj/effect/decal/remains/raccoon
 	name = "remains"
@@ -44,3 +82,70 @@
 	gender = PLURAL
 	icon_state = "bones"
 	icon = 'icons/roguetown/mob/monster/raccoon.dmi'
+
+/mob/living/simple_animal/hostile/retaliate/rogue/raccoon/get_sound(input)
+	switch(input)
+		if("aggro")
+			return pick('sound/vo/mobs/vw/aggro (1).ogg','sound/vo/mobs/vw/aggro (2).ogg')
+		if("pain")
+			return pick('sound/vo/mobs/vw/pain (1).ogg','sound/vo/mobs/vw/pain (2).ogg','sound/vo/mobs/vw/pain (3).ogg')
+		if("death")
+			return pick('sound/vo/mobs/vw/death (1).ogg','sound/vo/mobs/vw/death (2).ogg','sound/vo/mobs/vw/death (3).ogg','sound/vo/mobs/vw/death (4).ogg','sound/vo/mobs/vw/death (5).ogg')
+		if("idle")
+			return pick('sound/vo/mobs/vw/idle (1).ogg','sound/vo/mobs/vw/idle (2).ogg','sound/vo/mobs/vw/idle (3).ogg','sound/vo/mobs/vw/idle (4).ogg')
+		if("cidle")
+			return pick('sound/vo/mobs/vw/bark (1).ogg','sound/vo/mobs/vw/bark (2).ogg','sound/vo/mobs/vw/bark (3).ogg','sound/vo/mobs/vw/bark (4).ogg','sound/vo/mobs/vw/bark (5).ogg','sound/vo/mobs/vw/bark (6).ogg','sound/vo/mobs/vw/bark (7).ogg')
+
+/mob/living/simple_animal/hostile/retaliate/rogue/raccoon/taunted(mob/user)
+	emote("aggro")
+	Retaliate()
+	GiveTarget(user)
+	return
+
+/mob/living/simple_animal/hostile/retaliate/rogue/raccoon/Life()
+	..()
+	if(pulledby)
+		Retaliate()
+		GiveTarget(pulledby)
+
+/mob/living/simple_animal/hostile/retaliate/rogue/raccoon/simple_limb_hit(zone)
+	if(!zone)
+		return ""
+	switch(zone)
+		if(BODY_ZONE_PRECISE_R_EYE)
+			return "head"
+		if(BODY_ZONE_PRECISE_L_EYE)
+			return "head"
+		if(BODY_ZONE_PRECISE_NOSE)
+			return "nose"
+		if(BODY_ZONE_PRECISE_MOUTH)
+			return "mouth"
+		if(BODY_ZONE_PRECISE_SKULL)
+			return "head"
+		if(BODY_ZONE_PRECISE_EARS)
+			return "head"
+		if(BODY_ZONE_PRECISE_NECK)
+			return "neck"
+		if(BODY_ZONE_PRECISE_L_HAND)
+			return "foreleg"
+		if(BODY_ZONE_PRECISE_R_HAND)
+			return "foreleg"
+		if(BODY_ZONE_PRECISE_L_FOOT)
+			return "leg"
+		if(BODY_ZONE_PRECISE_R_FOOT)
+			return "leg"
+		if(BODY_ZONE_PRECISE_STOMACH)
+			return "stomach"
+		if(BODY_ZONE_PRECISE_GROIN)
+			return "tail"
+		if(BODY_ZONE_HEAD)
+			return "head"
+		if(BODY_ZONE_R_LEG)
+			return "leg"
+		if(BODY_ZONE_L_LEG)
+			return "leg"
+		if(BODY_ZONE_R_ARM)
+			return "foreleg"
+		if(BODY_ZONE_L_ARM)
+			return "foreleg"
+	return ..()

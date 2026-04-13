@@ -33,11 +33,11 @@
 #define TRAIT_MEDIUMARMOR "Maille Training"
 #define TRAIT_HEAVYARMOR "Plate Training"
 #define TRAIT_DODGEEXPERT "Expert Dodger"
-#define TRAIT_MAGEARMOR "Magic Barrier"
 #define TRAIT_DECEIVING_MEEKNESS "Deceiving Meekness"
 #define TRAIT_CRITICAL_RESISTANCE "Critical Resistance"
-#define TRAIT_CRIT_THRESHOLD "NPC Respect Crit Threshold"
 #define TRAIT_BLOOD_RESISTANCE "Thick Blooded"
+#define TRAIT_JOURNEYS_END "Journey's End"
+#define TRAIT_RAGE "Rage"
 #define TRAIT_CRITICAL_WEAKNESS "Critical Weakness"
 #define TRAIT_DNR "Bane of Existence"
 #define TRAIT_MANIAC_AWOKEN "Awoken"
@@ -77,6 +77,7 @@
 #define TRAIT_ANTHRAXI "Apex Predator"
 #define TRAIT_DEATHBARGAIN "Death Bargain" // Used by UNDERMAIDEN'S BARGAIN
 #define TRAIT_RITUALIST "Ritualist"  // Allows use of ritual chalk
+#define TRAIT_MARRIAGE_CAPABLE "Marriage Capable"
 #define TRAIT_INQUISITION "Otavan Adherent"
 #define TRAIT_CLERGY "Clergy of the Azurian Church"
 #define TRAIT_GOODTRAINER "Good Trainer"
@@ -111,6 +112,11 @@
 #define TRAIT_STANDARD_BEARER "Standard Bearer" //Can use the keep's standard to provide buffs and rally the retinue.
 #define TRAIT_VENDETTA "Vendetta" // Trait for xylixan opponent and caster, allows for clashing in the azure_combat file similar to Dulist Rings
 #define TRAIT_FOG_WARDED "Fog Warded"
+#define TRAIT_ANCIENT_HAG "Ancient Hag" // Trait for ancient hags and ancient hags ONLY
+#define TRAIT_FEYTOUCHED "Feytouched" // Can use heart trees for travel
+#define TRAIT_ROOT_WALKER "Root Walker"
+#define TRAIT_WYRD_LABOURER "Wyrd Labourer" // Hag boon
+#define TRAIT_CURSE_SCAR "Curse Scar"
 
 //Hearthstone port (Tracking)
 #define TRAIT_PERFECT_TRACKER "Huntmaster" //Will always find any tracks and analyzes them perfectly.
@@ -231,16 +237,14 @@
 #define TRAIT_FACELESS_KNOWN "Faceless but Known" //recognizable despite having no face (skeletonized head - for skeleton) — does NOT bypass TRAIT_DISFIGURED
 #define TRAIT_NOHUNGER	"Foodless"
 #define TRAIT_DARKVISION "Darksight"
+#define TRAIT_NITEVISION "Nitevision"
 #define TRAIT_NOCSHADES "Nocshaded"
 #define TRAIT_LIGHT_STEP	"Light Step"
 #define TRAIT_AZURENATIVE "Azure Native"
 #define TRAIT_SLEUTH	"Sleuth"
 #define TRAIT_HARDSHELL "Hardshell"
 #define TRAIT_WOODWALKER "Woodwalker"
-#define TRAIT_ARCYNE_T1 "Arcyne Training (Novice)"
-#define TRAIT_ARCYNE_T2 "Arcyne Training (Apprentice)"
-#define TRAIT_ARCYNE_T3 "Arcyne Training (Expert)"
-#define TRAIT_ARCYNE_T4 "Arcyne Training (Master)"
+#define TRAIT_ARCYNE "Arcyne Training"
 #define TRAIT_BITERHELM "Helmetbiter" // just use this to get helmets which are bitey.
 #define TRAIT_STRENGTH_UNCAPPED "Strength Unbound"	//ignores the STR softcap.
 #define TRAIT_EORAN_CALM "Eoran Calm"
@@ -251,6 +255,7 @@
 #define TRAIT_COMBAT_AWARE	"Combat Aware"
 #define TRAIT_TEMPO	"Tempo Capable"
 #define TRAIT_SILVER_WEAK "Silver Weakness"
+#define TRAIT_PALLID "Pallid"
 #define TRAIT_ASSASSIN	"Assassin"
 #define TRAIT_EQUESTRIAN "Equestrian"
 // ARMOR / CLOTHING GIVEN TRAITS (GIVEN BY WEARING CLOTHES/ARMOR PIECES)
@@ -299,6 +304,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_ANTHRAXI = span_info("I am the deadliest being in the underdark. No beast or foe can ever hope to match me in the caves."),
 	TRAIT_DEATHBARGAIN = span_info("A horrible deal has been prepared in your name. May you never see it fulfilled..."),
 	TRAIT_RITUALIST = span_info("I am skilled in the holy arts. Using ritual chalk, I can more deftly channel my God's powers via runes."),
+	TRAIT_MARRIAGE_CAPABLE = span_info("I am blessed of the gods. If I am of Eora's flock, or Astrata's chosen, I can perform marriages."),
 	TRAIT_INSPIRING_MUSICIAN = span_info("The flow of battle dances to my song!"),
 	TRAIT_INQUISITION = span_info("I serve the Holy Otavan Inquisition. From a passing glance, I can recognize all other adherents within the local sect."),
 	TRAIT_CLERGY = span_info("I serve the Church of the Ten in Azuria. From a passing glance, I can recognize all other clergy of this Church."),
@@ -340,10 +346,11 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_MEDIUMARMOR = span_info("I can move freely in medium armor."),
 	TRAIT_HEAVYARMOR = span_info("I can move freely in heavy armor."),
 	TRAIT_DODGEEXPERT = span_info("I am much better at dodging incoming strikes, when dressed in either light armor or nothing at all. Heavier armor, such as maille or plate, is too burdensome for me to quickly maneuver in."),
-	TRAIT_MAGEARMOR = span_info("My magics can protect me from a blow every so often."),
 	TRAIT_DECEIVING_MEEKNESS = span_info("People look at me and think I am a weakling. They are mistaken. I've learned how to hide my vices and true beliefs from others."),
 	TRAIT_CRITICAL_RESISTANCE = span_info("My constitution is iron-clad. My lifeblood flows slowly, I can resist the first few critical wounds that would fell others, but repeated punishment will overwhelm my defenses."),
 	TRAIT_BLOOD_RESISTANCE = span_info("My body is taut, and my blood runs slower. I bleed far less than others."),
+	TRAIT_JOURNEYS_END = span_info ("As the lyfe ebbs from my veins, my resolve hardens to push through. Do not go quietly into that good nite."),
+	TRAIT_RAGE = span_info ("PAIN AND INJURY FUELS MY BATTLERAGE!"),
 	TRAIT_CRITICAL_WEAKNESS = span_danger("I am weak to wounds that others could survive."),
 	TRAIT_DNR = span_danger("My lux' vigor is weak. There is no hope for me. This lyfe is all I have."),
 	TRAIT_MANIAC_AWOKEN = span_danger("I am <b>WAKING UP</b> and the sheeple know this. They will resist."),
@@ -385,7 +392,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_WATERBREATHING = span_info("I do not drown in bodies of water."),
 	TRAIT_NUDE_SLEEPER = span_warning("I can't fall asleep unless I'm nude and in bed."),
 	TRAIT_ABYSSOR_SWIM = span_info("I get far less tired when swimming than my peers. I also find mirth in rain and in the midst of storms."),
-	TRAIT_LONGSTRIDER = span_info("Each of my steps finds it's footing no matter how treacherous the terrain is."),
+	TRAIT_LONGSTRIDER = span_info("Each of my steps finds its footing no matter how treacherous the terrain is."),
 	TRAIT_TRAINED_SMITH = span_info("I've spent long training, and with some more, I will be able to smith legendary items."),
 	TRAIT_CAUTIOUS_FISHER = span_info("I know my way around the dangers of fishing, and know how to avoid unwanted attention from the depths."),
 	TRAIT_DEATHSIGHT = span_info("I can feel when someone nearby draws the Undermaiden's attention."),
@@ -402,7 +409,10 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_BLACKBAGGER = span_info("I've been trained to properly abduct individuals through the use of seizing garrotes and blackbags."),
 	TRAIT_LYCANRESILENCE = span_info("Dendor's fury flows through my veins, my wounds regenerate over time..."),
 	TRAIT_FORTITUDE = span_info("The typical drain I feel from day to day life is lessened, my athleticism greater."),
-	TRAIT_GUIDANCE = span_info("The arcyne aides me in battle."),
+	TRAIT_GUIDANCE = span_info("Something guides my hand in battle, my strikes and defenses are more precise."),
+	TRAIT_LESSER_GUIDANCE = span_info("Something faintly guides my hand in battle, my strikes and defenses are slightly more precise."),
+	TRAIT_REVERSE_GUIDANCE = span_warning("Something hinders me in battle, my strikes and defenses feel sluggish and imprecise."),
+	TRAIT_LESSER_REVERSE_GUIDANCE = span_warning("Something faintly hinders me in battle, my strikes and defenses feel slightly imprecise."),
 	TRAIT_DEPRAVED = span_info("The languid scent of Her debauchery is known to me."),
 	TRAIT_SILVER_BLESSED = span_info("I have been baptized in fire. Blessed silverdust flows through my blood, protecting me from both vampyrism and lycanthropy."),
 	TRAIT_UNLYCKERABLE = span_info("My kind cannot bear the Sun curse for it already has another."),
@@ -433,14 +443,15 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_DEADITE = span_info("I am a feral deadite."),
 	TRAIT_EASYDISMEMBER = span_info("My limbs are frail and fragile. They can be dismembered with greater ease, including my neck."),
 	TRAIT_HARDDISMEMBER = span_info("My body is strong and endurant. My limbs are not easily dismembered."),
-	TRAIT_NOPAIN = span_info("I feel no pain."),
-	TRAIT_NOPAINSTUN = span_info("Pain does not impair me."),
+	TRAIT_NOPAIN = span_info("I feel no pain. I can endure more burns before collapsing."),
+	TRAIT_NOPAINSTUN = span_info("Pain does not impair me. I can endure more burns before collapsing."),
 	TRAIT_NOBREATH = span_info("I do not breathe."),
 	TRAIT_DEATHLESS = span_info("Even without my lyfesblood, I will not be taken by Necra so easily."),
 	TRAIT_TOXIMMUNE = span_info("Poisons do nothing to me."),
 	TRAIT_ZOMBIE_IMMUNE = span_info("Deadite bites cannot infect me."),
 	TRAIT_NOHUNGER = span_info("I do not hunger, or thirst."),
 	TRAIT_DARKVISION = span_info("I can see better in the dark."),
+	TRAIT_NITEVISION = span_info("I can see perfectly in the dark."),
 	TRAIT_NOCSHADES = span_info("The lens I look through allows me to see in the dark clear as dae, at the cost of greater vision."),
 	TRAIT_RESIDENT = span_info("I've been granted a Meister account, and the ownership of a house in Azure Peak."),
 	TRAIT_LIGHT_STEP = span_info("My steps are light and swift. I make less noise while sneaking and wearing armor, and can sneak much quicker."),
@@ -448,12 +459,9 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_AZURENATIVE = span_info("I've grown up and lived all my lyfe in these lands. I can only trigger ambushes if I sprint through them."),
 	TRAIT_SLEUTH = span_info("I can spot my tracked Mark's trail without needing to approach it, and can spot them at a distance. I can track more frequently, and the act is not impaired by movement. I can examine tracks right away."),
 	TRAIT_HARDSHELL = span_info("The bulk of this armor prevents me from parrying effectively, but I can still move out of the way."),
-	TRAIT_MATTHIOS_EYES = span_notice("I have a sense for what the most valuable item someone has is."),
+	TRAIT_MATTHIOS_EYES = span_notice("I have a sense for what the most valuable item someone has is. I can also estimate how much mammon they have."),
 	TRAIT_WOODWALKER = span_notice("I can climb trees quicker, and gain climbing experience twice as quickly. I can step on thorns and branches safely in the woods. I can get twice as many things from searching bushes, and I can stand on leaves in trees safely."),
-	TRAIT_ARCYNE_T1 = span_notice("I have received basic training in the Arcyne arts, allowing me access to a small variety of spells useful outside of combat."),
-	TRAIT_ARCYNE_T2 = span_notice("I have received advanced training in the Arcyne arts, allowing me to learn basic combat spells"),
-	TRAIT_ARCYNE_T3 = span_notice("I am a full-fledged mage, and have access to devastating spells that affects a wide area."),
-	TRAIT_ARCYNE_T4 = span_notice("I'm a master of the Arcyne arts, and has access to some of the most powerful spells ever devised."),
+	TRAIT_ARCYNE = span_notice("I am trained in the Arcyne arts, allowing me to wield magyck."),
 	TRAIT_INFINITE_ENERGY = span_notice ("I don't need rest; I won't ever feel fatigue."),
 	TRAIT_PERMAMUTE = span_notice("I am a mute. I cannot speak."),
 	TRAIT_STRENGTH_UNCAPPED = span_warning("MY STRENGTH IS UNBOUND!"),
@@ -492,6 +500,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_HOMESTEAD_EXPERT = span_greentext("I'm experienced with the arts of homesteading. Farming, Mining, Cooking, Fishing, Butchering, Lumberjacking, Masonry and Pottery can progress to Legendary levels. Sewing and Skincrafting can progress to Journeyman levels."),
 	TRAIT_SELF_SUSTENANCE = span_greentext("Yils of experience running from the law and living off the land have made me a jack of all trades. All crafting and labor skills can progress to Journeyman levels."),
 	TRAIT_SILVER_WEAK = span_warning("Silver is the greatest threat to my lyfe. Blows from silver weapons will set me alight, inhibit my ability to regenerate, and - if blessed - can outright destroy my vessel."),
+	TRAIT_PALLID = span_warning("I was once a creature of the night. The open sky fills me with unease, but my eyes pierce the darkness and my lungs need no air."),
 	TRAIT_COMBAT_AWARE = span_notice("My honed senses and intuition allow me to spot notable things in the midst of battle with ease."),
 	TRAIT_TEMPO	= span_greentext("I can keep up with multiple opponents at once."),
 	TRAIT_BLACKOAK = span_warning("The Black Oaks can spot <b>any</b> foreigners and outsiders, no matter how long they've lived in Azuria. I can spot an invader at a glance."),
@@ -518,6 +527,11 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_FOOD_STIPEND = span_notice("The creachers of the vomitorium know my touch, and will pull costs for their products directly from the treasury for me."),
 	TRAIT_STANDARD_BEARER = span_info("The banner is my lifeline. Just as I am to it. The retinue know to rally around me, so long as I keep it safe."),
 	TRAIT_FOG_WARDED = span_info("I am protected from Necra's deadly fog. The revenants won't find me... for now."),
+	TRAIT_ANCIENT_HAG = span_info("I know of secrets in alchemy and magyck no one else is aware of, for none are more ancient, more engrossed with the finer details of this land."),
+	TRAIT_WYRD_LABOURER = span_info("Strange power causes my swings to cut through trees and rocks with ease."),
+	TRAIT_CURSE_SCAR = span_info("That foul wench cursed me! I'll have my revenge... Those strange fog wards in the bog, what if?..."),
+	TRAIT_FEYTOUCHED = span_info("I've been influenced or created by fey, after offering lux to a heartroot, I can use it to travel."),
+	TRAIT_ROOT_WALKER = span_info("After offering lux, I can now travel along heartroot trees.")
 ))
 
 // trait accessor defines
@@ -623,6 +637,8 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 #define TRAIT_IGNOREDAMAGESLOWDOWN "Ignore Damage Slowdown"
 #define TRAIT_RIGIDMOVEMENT		"Ignore Natural Health Slowdown"
 #define TRAIT_DEATHCOMA			"Death Coma" //Causes death-like unconsciousness
+#define TRAIT_FRESHSPAWN "freshspawn"
+#define TRAIT_RELAYING_ATTACKER "relaying_attacker"
 #define TRAIT_FAKEDEATH			"Fake Death" //Makes the owner appear as dead to most forms of medical examination
 #define TRAIT_STUNIMMUNE		"stun_immunity"
 #define TRAIT_STUNRESISTANCE    "stun_resistance"
@@ -700,6 +716,10 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 #define TRAIT_REFUSED_VAMP_CONVERT "refused_vampire_conversion"
 /// makes your footsteps completely silent
 #define TRAIT_SILENT_FOOTSTEPS "silent_footsteps"
+/// reduces sharply the noise of failed lockpicking attempts
+#define TRAIT_SILENT_LOCKPICK "silent_lockpick"
+/// makes you pick locks as if you are legendary and see in the darkness, BUT...
+#define TRAIT_GILDED_SIGHT "gilded_sight"
 
 //bodypart traits
 #define TRAIT_PARALYSIS	"paralysis" //Used for limb-based paralysis and full body paralysis
@@ -740,6 +760,10 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 #define TRAIT_STATUS_EFFECT	"status_effect"
 #define TRAIT_VIRTUE "virtue"
 #define TRAIT_MIRACLE "miracle"
+#define TRAIT_RITUAL "ritual"
+#define TRAIT_GAZE "gaze"
+#define TRAIT_NECRACON "necracon"
+#define TRAIT_HAG_BOON "hag boon"
 #define TRAIT_ADMIN "admin"
 #define UNCONSCIOUS_BLIND "unconscious_blind"
 #define EYE_DAMAGE "eye_damage"
@@ -769,7 +793,9 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 
 // unique trait sources, still defines
 #define TRAIT_GUIDANCE "Guidance"
+#define TRAIT_LESSER_GUIDANCE "Lesser Guidance"
 #define TRAIT_REVERSE_GUIDANCE "Reverse Guidance"
+#define TRAIT_LESSER_REVERSE_GUIDANCE "Lesser Reverse Guidance"
 #define TRAIT_FORTITUDE "Fortitude"
 #define CLONING_POD_TRAIT "cloning-pod"
 #define STATUE_MUTE "statue"
@@ -839,6 +865,9 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 #define TRAIT_UI_BLOCKED "uiblocked"
 /// Prevents usage of manipulation appendages (picking, holding or using items, manipulating storage).
 #define TRAIT_HANDS_BLOCKED "handsblocked"
+// TODO: Refactor - Vanderlin moved restraint/floored checks to traits. AP still uses handcuffed var and mobility_flags. Stub defines for AI compatibility.
+#define TRAIT_RESTRAINED "restrained"
+#define TRAIT_FLOORED "floored"
 /// This mob should never close UI even if it doesn't have a client
 #define TRAIT_PRESERVE_UI_WITHOUT_CLIENT "preserve_ui_without_client"
 //important_recursive_contents traits

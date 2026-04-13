@@ -8,29 +8,17 @@ GLOBAL_LIST_INIT(zizoconstruct_aggro, world.file2list("strings/rt/zconstructaggr
 	faction = list("dundead")
 	var/zc_outfit = /datum/outfit/job/roguetown/human/species/construct/metal/zizoconstruct
 	ambushable = FALSE
-	mode = NPC_AI_IDLE
-	wander = FALSE
+	ai_controller = /datum/ai_controller/human_npc
 	cmode = 1
 	setparrytime = 30
 	a_intent = INTENT_HELP
 	d_intent = INTENT_PARRY //knocks your weapon away with with their big scary metal arms
 	possible_mmb_intents = list(INTENT_BITE, INTENT_JUMP, INTENT_KICK, INTENT_SPECIAL) //intents given incase of player controlled
-	possible_rmb_intents = list(/datum/rmb_intent/feint, /datum/rmb_intent/aimed, /datum/rmb_intent/strong, /datum/rmb_intent/weak)
 	resize = 1.2
 
 /mob/living/carbon/human/species/construct/metal/zizoconstruct/ambush
-	aggressive=1
-	wander = TRUE
 
-/mob/living/carbon/human/species/construct/metal/zizoconstruct/retaliate(mob/living/L)
-	.=..()
-	if(npc_combat_dialogue(GLOB.zizoconstruct_aggro, prob_chance = 5, cooldown = 0))
-		pointed(target)
 
-/mob/living/carbon/human/species/construct/metal/zizoconstruct/should_target(mob/living/L)
-	if(L.stat != CONSCIOUS)
-		return FALSE
-	. = ..()
 
 /mob/living/carbon/human/species/construct/metal/zizoconstruct/Initialize()
 	. = ..()
@@ -40,6 +28,8 @@ GLOBAL_LIST_INIT(zizoconstruct_aggro, world.file2list("strings/rt/zconstructaggr
 
 /mob/living/carbon/human/species/construct/metal/zizoconstruct/after_creation()
 	..()
+	AddComponent(/datum/component/ai_aggro_system)
+	SEND_SIGNAL(src, COMSIG_MOB_MODIFY_AGGRO_LINES, GLOB.zizoconstruct_aggro, TRUE)
 	job = "Zizo Construct"
 	ADD_TRAIT(src, TRAIT_NOMOOD, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_BREADY, TRAIT_GENERIC)

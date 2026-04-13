@@ -101,6 +101,8 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 
 	///LETS SEE IF I CAN SET SPEEDS FOR SIMPLE MOBS WITHOUT DESTROYING EVERYTHING. Higher speed is slower, negative speed is faster.
 	var/speed = 1
+	///Delay for movement and riding logic across the simple-animal hierarchy.
+	var/move_to_delay = 3
 
 	///Hot simple_animal baby making vars.
 	var/list/childtype = null
@@ -194,6 +196,8 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 	var/obj/item/clothing/barding/bbarding
 	var/caparison_over_barding = FALSE
 	var/barding_speed_mult = 1
+	var/do_footstep = FALSE
+	var/fly_time = 3 SECONDS //default fly delay
 
 /mob/living/simple_animal/get_mechanics_examine(mob/user)
 	. = ..()
@@ -374,6 +378,7 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 	if(user)
 		owner = user
 		SEND_SIGNAL(user, COMSIG_ANIMAL_TAMED, src)
+	pet_passive = TRUE
 
 //mob/living/simple_animal/examine(mob/user)
 //	. = ..()
@@ -949,7 +954,7 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 
 //ANIMAL RIDING
 
-/mob/living/simple_animal/hostile/proc/get_mount_time(mob/living/M, default_fail)
+/mob/living/simple_animal/proc/get_mount_time(mob/living/M, default_fail)
 	var/time2mount = 12
 	if(M.mind)
 		var/amt = M.get_skill_level(/datum/skill/misc/riding)
@@ -960,17 +965,48 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 			return default_fail
 	return time2mount
 
-/mob/living/simple_animal/hostile/proc/setup_mount_riding()
+/mob/living/simple_animal/proc/setup_mount(list/riding_offsets = list(TEXT_NORTH = list(0, 8), TEXT_SOUTH = list(0, 8), TEXT_EAST = list(-2, 8), TEXT_WEST = list(2, 8)), south_layer = ABOVE_MOB_LAYER, north_layer = OBJ_LAYER, east_layer = OBJ_LAYER, west_layer = OBJ_LAYER)
 	if(!can_buckle)
 		return
 	var/datum/component/riding/D = LoadComponent(/datum/component/riding/no_ocean)
-	D.set_riding_offsets(RIDING_OFFSET_ALL, list(TEXT_NORTH = list(0, 8), TEXT_SOUTH = list(0, 8), TEXT_EAST = list(-2, 8), TEXT_WEST = list(2, 8)))
-	D.set_vehicle_dir_layer(SOUTH, ABOVE_MOB_LAYER)
-	D.set_vehicle_dir_layer(NORTH, OBJ_LAYER)
-	D.set_vehicle_dir_layer(EAST, OBJ_LAYER)
-	D.set_vehicle_dir_layer(WEST, OBJ_LAYER)
+	D.set_riding_offsets(RIDING_OFFSET_ALL, riding_offsets)
+	D.set_vehicle_dir_layer(SOUTH, south_layer)
+	D.set_vehicle_dir_layer(NORTH, north_layer)
+	D.set_vehicle_dir_layer(EAST, east_layer)
+	D.set_vehicle_dir_layer(WEST, west_layer)
 
-/mob/living/simple_animal/hostile/user_unbuckle_mob(mob/living/M, mob/user)
+/mob/living/simple_animal/proc/add_saddleicon(saddle_above_state, saddle_state, overlay_layer = 4.3)
+	if(!ssaddle)
+		return
+	var/mutable_appearance/saddle_overlay = mutable_appearance(icon, saddle_above_state, overlay_layer)
+	saddle_overlay.appearance_flags = RESET_ALPHA|RESET_COLOR
+	add_overlay(saddle_overlay)
+	saddle_overlay = mutable_appearance(icon, saddle_state, overlay_layer)
+	saddle_overlay.appearance_flags = RESET_ALPHA|RESET_COLOR
+	add_overlay(saddle_overlay)
+
+/mob/living/simple_animal/proc/add_ridericon(mounted_state, overlay_layer = 4.3)
+	if(!has_buckled_mobs())
+		return
+	var/mutable_appearance/mounted_overlay = mutable_appearance(icon, mounted_state, overlay_layer)
+	mounted_overlay.appearance_flags = RESET_ALPHA|RESET_COLOR
+	add_overlay(mounted_overlay)
+
+/mob/living/simple_animal/proc/adjust_speed(mob/living/driver)
+	var/delay = vars["move_to_delay"]
+	if(!isnum(delay))
+		delay = 3
+	if(driver?.m_intent == MOVE_INTENT_RUN)
+		delay -= 1
+	if(driver?.mind)
+		var/amt = driver.get_skill_level(/datum/skill/misc/riding)
+		if(amt)
+			delay -= 5 + amt/6
+		else
+			delay -= 3
+	return max(delay, 1)
+
+/mob/living/simple_animal/user_unbuckle_mob(mob/living/M, mob/user)
 	if(user != M)
 		return
 	var/time2mount = get_mount_time(M, 30)
@@ -983,6 +1019,26 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 		M.visible_message(span_danger("[M] falls off [src]!"))
 	..()
 	update_icon()
+
+/mob/living/simple_animal/user_buckle_mob(mob/living/M, mob/user)
+	if(user != M)
+		return ..()
+
+	var/datum/component/riding/riding_datum = GetComponent(/datum/component/riding/no_ocean)
+	if(!riding_datum)
+		return
+	var/time2mount = get_mount_time(M, 50)
+	riding_datum.vehicle_move_delay = adjust_speed(M)
+	if(!move_after(M,time2mount, target = src))
+		return
+	if(user.incapacitated())
+		return
+	M.forceMove(get_turf(src))
+	if(ssaddle)
+		playsound(src, 'sound/foley/saddlemount.ogg', 100, TRUE)
+	..()
+	update_icon()
+
 /mob/living/simple_animal/hostile/user_buckle_mob(mob/living/M, mob/user)
 	if(user != M)
 		if(!has_buckled_mobs())
@@ -1013,24 +1069,7 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 		M.visible_message(span_warning("[user] hoists [M] onto [src]!"),\
 			span_warning("[user] hoists me onto [src]!"))
 		return TRUE
-
-	var/datum/component/riding/riding_datum = GetComponent(/datum/component/riding/no_ocean)
-	if(!riding_datum)
-		return
-	var/time2mount = get_mount_time(M, 50)
-	riding_datum.vehicle_move_delay = move_to_delay
-	if(!move_after(M,time2mount, target = src))
-		return
-	if(user.incapacitated())
-		return
-	M.forceMove(get_turf(src))
-	if(ssaddle)
-		playsound(src, 'sound/foley/saddlemount.ogg', 100, TRUE)
-	..()
-	update_icon()
-
-/mob/living/simple_animal/hostile
-	var/do_footstep = FALSE
+	return ..()
 
 /mob/living/simple_animal/hostile/proc/dismount_incap()
 	if(!has_buckled_mobs())
@@ -1052,7 +1091,7 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 	. = ..()
 	dismount_incap()
 
-/mob/living/simple_animal/hostile/relaymove(mob/user, direction)
+/mob/living/simple_animal/relaymove(mob/user, direction)
 	if (stat == DEAD)
 		return
 	var/oldloc = loc
@@ -1066,10 +1105,10 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 	if(!driver || user != driver)
 		return
 
+	riding_datum.vehicle_move_delay = adjust_speed(driver)
 	if(riding_datum.handle_ride(driver, direction))
-		riding_datum.vehicle_move_delay = move_to_delay
+		riding_datum.vehicle_move_delay = adjust_speed(driver)
 		if(driver && user == driver && driver.m_intent == MOVE_INTENT_RUN)
-			riding_datum.vehicle_move_delay -= 1
 			if(loc != oldloc)
 				var/turf/open/T = loc
 				if(!do_footstep && T.footstep)
@@ -1085,13 +1124,6 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 					playsound(loc,pick('sound/foley/footsteps/hoof/horsewalk (1).ogg','sound/foley/footsteps/hoof/horsewalk (2).ogg','sound/foley/footsteps/hoof/horsewalk (3).ogg'), 100, TRUE)
 				else
 					do_footstep = FALSE
-
-		if(driver && driver.mind)
-			var/amt = driver.get_skill_level(/datum/skill/misc/riding)
-			if(amt)
-				riding_datum.vehicle_move_delay -= 5 + amt/6
-			else
-				riding_datum.vehicle_move_delay -= 3
 		if(loc != oldloc)
 			var/obj/structure/mineral_door/MD = locate() in loc
 			if(MD && !MD.ridethrough)
@@ -1236,5 +1268,37 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 		RegisterSignal(new_grid, SPATIAL_GRID_CELL_ENTERED(SPATIAL_GRID_CONTENTS_TYPE_CLIENTS), PROC_REF(on_client_enter))
 		RegisterSignal(new_grid, SPATIAL_GRID_CELL_EXITED(SPATIAL_GRID_CONTENTS_TYPE_CLIENTS), PROC_REF(on_client_exit))
 	consider_wakeup()
+
+//Flight related procs foy flying simple_animals
+/mob/living/simple_animal/proc/fly_up()
+	set category = "Winged Form"
+	set name = "Fly Up"
+
+	if(src.pulledby != null)
+		to_chat(src, span_notice("I can't fly away while being grabbed!"))
+		return
+	src.visible_message(span_notice("[src] begins to ascend!"), span_notice("You take flight..."))
+	if(do_after(src, fly_time))
+		if(src.pulledby == null)
+			src.zMove(UP, TRUE)
+			to_chat(src, span_notice("I fly up."))
+		else
+			to_chat(src, span_notice("I can't fly away while being grabbed!"))
+
+/mob/living/simple_animal/proc/fly_down()
+	set category = "Winged Form"
+	set name = "Fly Down"
+
+	if(src.pulledby != null)
+		to_chat(src, span_notice("I can't fly away while being grabbed!"))
+		return
+	src.visible_message(span_notice("[src] begins to descend!"), span_notice("You take flight..."))
+	if(do_after(src, fly_time))
+		if(src.pulledby == null)
+			src.zMove(DOWN, TRUE)
+			to_chat(src, span_notice("I fly down."))
+		else
+			to_chat(src, span_notice("I can't fly away while being grabbed!"))
+//End flight
 
 #undef MAX_FARM_ANIMALS

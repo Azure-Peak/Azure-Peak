@@ -62,6 +62,7 @@
 
 /mob/living/simple_animal/hostile/retaliate/rogue/headless/Initialize()
 	. = ..()
+	AddComponent(/datum/component/ai_aggro_system)
 	AddElement(/datum/element/ai_flee_while_injured, 0.75, retreat_health)
 
 /mob/living/simple_animal/hostile/retaliate/rogue/headless/AttackingTarget()

@@ -131,7 +131,7 @@
 	return bleed_rate
 
 /// Called after a bodypart is attacked so that wounds and critical effects can be applied
-/obj/item/bodypart/proc/bodypart_attacked_by(bclass = BCLASS_BLUNT, dam, mob/living/user, zone_precise = src.body_zone, silent = FALSE, crit_message = FALSE, armor, obj/item/weapon)
+/obj/item/bodypart/proc/bodypart_attacked_by(bclass = BCLASS_BLUNT, dam, mob/living/user, zone_precise = src.body_zone, silent = FALSE, crit_message = FALSE, armor, obj/item/weapon, pen_info)
 	RETURN_TYPE(/datum/wound)
 	if(!bclass || !dam || !owner || (owner.status_flags & GODMODE))
 		return null
@@ -146,16 +146,24 @@
 			acheck_dflag = "stab"
 		if(BCLASS_PIERCE)
 			acheck_dflag = "piercing"
-	armor = owner.getarmor(zone_precise, acheck_dflag)
-	if((owner.mind || HAS_TRAIT(owner, TRAIT_CRIT_THRESHOLD)) && (get_damage() <= (max_damage * CRIT_DISMEMBER_DAMAGE_THRESHOLD))) //No crits unless the limb is at 75%+ damage.
+		if(BCLASS_BURN)
+			acheck_dflag = "fire"
+	if(!armor)
+		armor = owner.run_armor_check(zone_precise, acheck_dflag, damage = 0)
+	if(get_damage() <= (max_damage * CRIT_DISMEMBER_DAMAGE_THRESHOLD)) //No crits unless the limb is at 90%+ damage.
 		do_crit = FALSE
+	if(do_crit && ishuman(owner) && bclass != BCLASS_PICK) // Armor with integrity prevents crits
+		var/mob/living/carbon/human/H = owner
+		var/obj/item/clothing/worn_armor = H.get_best_worn_armor(zone_precise, acheck_dflag)
+		if(worn_armor)
+			do_crit = FALSE
 	if(user)
 		if(user.goodluck(2))
 			dam += 10
 		if(istype(user.rmb_intent, /datum/rmb_intent/weak))
 			do_crit = FALSE
 
-	var/datum/wound/dynwound = manage_dynamic_wound(bclass, dam, armor)
+	var/datum/wound/dynwound = manage_dynamic_wound(bclass, dam, armor, pen_info)
 
 	if(do_crit)
 		var/datum/component/silverbless/psyblessed = weapon?.GetComponent(/datum/component/silverbless)
@@ -208,7 +216,7 @@
 
 	return dynwound
 
-/obj/item/bodypart/proc/manage_dynamic_wound(bclass, dam, armor)
+/obj/item/bodypart/proc/manage_dynamic_wound(bclass, dam, armor, pen_info)
 	var/woundtype
 	switch(bclass)
 		if(BCLASS_BLUNT, BCLASS_SMASH, BCLASS_PUNCH, BCLASS_TWIST)
@@ -230,7 +238,7 @@
 	var/datum/wound/dynwound = has_wound(woundtype)
 	var/exposed = owner.has_status_effect(/datum/status_effect/debuff/exposed)
 	if(!isnull(dynwound))
-		dynwound.upgrade(dam, armor, exposed)
+		dynwound.upgrade(dam, armor, exposed, pen_info)
 	else
 		if(ispath(woundtype) && woundtype)
 			if(!isnull(woundtype))
@@ -238,7 +246,7 @@
 				dynwound = newwound
 				if(newwound && !isnull(newwound))	//don't even ask - Free
 					owner.visible_message(span_red("A new [newwound.name] appears on [owner]'s [lowertext(bodyzone2readablezone(bodypart_to_zone(newwound.bodypart_owner)))]!"))
-					newwound.upgrade(dam, armor, exposed)
+					newwound.upgrade(dam, armor, exposed, pen_info)
 	return dynwound
 
 /// Behemoth of a proc used to apply a wound after a bodypart is damaged in an attack
@@ -296,7 +304,6 @@
 			used = round(damage_dividend * 20 + (dam / 2))
 			if(prob(used))
 				attempted_wounds += /datum/wound/sunder
-
 	// Check if critical resistance applies
 	var/has_crit_attempt = length(attempted_wounds)
 	if(!has_crit_attempt)
@@ -376,7 +383,6 @@
 			used = round(damage_dividend * 20 + (dam / 2))
 			if(prob(used))
 				attempted_wounds += list(/datum/wound/sunder/chest)
-
 	// Check if critical resistance applies
 	var/has_crit_attempt = length(attempted_wounds)
 	if(!has_crit_attempt)
@@ -508,7 +514,6 @@
 			used = round(damage_dividend * 20 + (dam / 2), 1)
 			if(prob(used))
 				attempted_wounds += /datum/wound/sunder/head
-
 	var/has_crit_attempt = length(attempted_wounds) || try_knockout
 	if(!has_crit_attempt)
 		return FALSE

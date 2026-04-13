@@ -1,0 +1,4 @@
+author: "Quinalion"
+delete-after: True
+changes:
+  - bugfix: "Fixed deranged knight outfit"

@@ -69,9 +69,63 @@
 
 /obj/item/rogueweapon/shovel/attack_turf(turf/T, mob/living/user)
 	user.changeNext_move(user.used_intent.clickcd)
+
 	if(user.used_intent.type == /datum/intent/shovelscoop)
 		if(istype(T, /turf/open/floor/rogue/dirt))
 			var/turf/open/floor/rogue/dirt/D = T
+
+			if(!heldclod && user && istype(user.rmb_intent, /datum/rmb_intent/strong) && HAS_TRAIT(user, TRAIT_GRAVEROBBER))
+				if(D.holie && D.holie.stage >= 3)
+					return
+
+				to_chat(user, span_notice("I tear into the earth, carving out a pit!"))
+
+				if(do_after(user, 2 SECONDS, target = T))
+					var/obj/structure/closet/dirthole/H = null
+
+					if(istype(T, /turf/open/floor/rogue/dirt))
+						var/turf/open/floor/rogue/dirt/curD = T
+						H = curD.holie
+
+					if(!H)
+						if(istype(T, /turf/open/floor/rogue/dirt/road))
+							H = new /obj/structure/closet/dirthole(T)
+						else
+							T.ChangeTurf(/turf/open/floor/rogue/dirt/road, flags = CHANGETURF_INHERIT_AIR)
+							var/turf/open/floor/rogue/dirt/newD = T
+							H = newD.holie
+
+					if(H)
+						H.stage = 3
+						H.faildirt = 0
+						H.climb_offset = 0
+						H.locked = FALSE
+						H.opened = TRUE
+						H.update_icon()
+
+						heldclod = new(src)
+						update_icon()
+
+						var/list/spawn_turfs = list(
+							user,
+							get_step(user, NORTH),
+							get_step(user, SOUTH),
+							get_step(user, EAST),
+							get_step(user, WEST)
+						)
+
+						var/spawned = 0
+						for(var/turf/spawnT in spawn_turfs)
+							if(!spawnT) continue
+							new /obj/item/natural/dirtclod(spawnT)
+							spawned++
+							if(spawned >= 3)
+								break
+
+						playsound(T,'sound/items/dig_shovel.ogg', 100, TRUE)
+
+				return
+
 			if(heldclod)
 				if(D.holie && D.holie.stage < 4)
 					D.holie.attackby(src, user)
@@ -81,6 +135,7 @@
 						T.ChangeTurf(/turf/open/floor/rogue/dirt, flags = CHANGETURF_INHERIT_AIR)
 					else
 						heldclod.forceMove(T)
+
 					heldclod = null
 					playsound(T,'sound/items/empty_shovel.ogg', 100, TRUE)
 					update_icon()
@@ -93,27 +148,34 @@
 						new /obj/structure/closet/dirthole(T)
 					else
 						T.ChangeTurf(/turf/open/floor/rogue/dirt/road, flags = CHANGETURF_INHERIT_AIR)
+
 					heldclod = new(src)
 					playsound(T,'sound/items/dig_shovel.ogg', 100, TRUE)
 					update_icon()
+
 			return
+
 		if(heldclod)
 			if(istype(T, /turf/open/water))
 				qdel(heldclod)
 			else
 				heldclod.forceMove(T)
+
 			heldclod = null
 			playsound(T,'sound/items/empty_shovel.ogg', 100, TRUE)
 			update_icon()
 			return
+
 		if(istype(T, /turf/open/floor/rogue/grass) || istype(T, /turf/open/floor/rogue/grassred) || istype(T, /turf/open/floor/rogue/grassyel) || istype(T, /turf/open/floor/rogue/grasscold))
 			to_chat(user, span_warning("There is grass in the way."))
 			return
+
 		if(istype(T, /turf/open/floor/rogue/snow))
 			T.ChangeTurf(/turf/open/floor/rogue/dirt, flags = CHANGETURF_INHERIT_AIR)
 			to_chat(user, span_warning("You scoop away the snow!"))
-		return
-	. = ..()
+			return
+
+	return ..()
 
 /obj/item/rogueweapon/shovel/getonmobprop(tag)
 	. = ..()

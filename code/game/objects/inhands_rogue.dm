@@ -64,6 +64,10 @@ GLOBAL_LIST_INIT(has_behind_cache, list()) // cheaty hack to avoid repeated list
 	addtimer(CALLBACK(src, PROC_REF(fake_throw_at), target_turf, dist, dist, deflector), 0.1 SECONDS)
 
 /obj/item/proc/getonmobprop(tag)
+	if(current_alt_grip)
+		var/list/altgrip_prop = current_alt_grip.getonmobprop(src, tag)
+		if(altgrip_prop)
+			return altgrip_prop
 	if(tag)
 		switch(tag)
 			if("gen")

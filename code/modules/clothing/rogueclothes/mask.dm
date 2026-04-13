@@ -136,18 +136,20 @@
 		if (user.get_skill_level(/datum/skill/craft/engineering) >= 2)
 			ADD_TRAIT(user, TRAIT_ENGINEERING_GOGGLES, "[type]")
 			user.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/engineeranalyze)
-			to_chat(user, span_notice("Time to build"))
+			to_chat(user, span_green("Time to get to work."))
 			active_item = TRUE
 			return
 		else
-			to_chat(user, span_notice("I can't understand these words and numbers before my eyes"))
+			to_chat(user, span_notice("I can't make sense of the words and numbers before my eyes."))
 			return
 	else
 		return
 
-
-
-
+/obj/item/clothing/mask/rogue/spectacles/golden/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Wear these on your face or head to activate them.")
+	. += span_info("With Apprentice Engineering or higher, they grant Analyze and engineering goggles, letting you inspect a structure's integrity and linked machinery details.")
+	. += span_info("Removing them disables the effect.")
 
 /obj/item/clothing/mask/rogue/spectacles/golden/dropped(mob/user, slot)
 	..()
@@ -155,7 +157,7 @@
 		active_item = FALSE
 		REMOVE_TRAIT(user, TRAIT_ENGINEERING_GOGGLES, "[type]")
 		user.mind.RemoveSpell(new /obj/effect/proc_holder/spell/invoked/engineeranalyze)
-		to_chat(user, span_notice("Time to stop working"))
+		to_chat(user, span_warning("Time to stop working."))
 
 /obj/item/clothing/mask/rogue/spectacles/golden/ComponentInitialize()
 	AddComponent(/datum/component/adjustable_clothing, NECK, null, null, 'sound/foley/equip/rummaging-03.ogg', null, (UPD_HEAD|UPD_MASK))	//Standard mask
@@ -360,8 +362,34 @@
 	name = "copper mask"
 	icon_state = "cmask"
 	desc = "A heavy copper mask that conceals and protects the face, though not very effectively."
-	armor = ARMOR_PLATE
+	armor = ARMOR_BRONZE
 	smeltresult = /obj/item/ingot/copper
+
+/obj/item/clothing/mask/rogue/facemask/bronze
+	name = "bronze mask"
+	desc = "Glimmering bronze, curved to veil its wearer's face from both judgement and harm."
+	armor = ARMOR_BRONZE
+	armor_class = ARMOR_CLASS_LIGHT
+	icon_state = "bronzemask"
+	item_state = "bronzemask"
+	max_integrity = 150
+	smeltresult = /obj/item/ingot/bronze
+
+/obj/item/clothing/mask/rogue/facemask/bronze/classic
+	name = "bronze death mask"
+	icon_state = "bronzemask_legacy"
+	item_state = "bronzemask_legacy"
+	desc = "Glimmering bronze, meticuliusly shaped to mimic the guise of another. One of civilization's oldest superstitions is the belief that donning such masks would impart a sliver of the mimicked facebearer's power unto its wearer."
+
+/obj/item/clothing/mask/rogue/facemask/bronze/anthro
+	name = "bronze mask"
+	icon_state = "bronzemask_snout"
+	item_state = "bronzemask_snout"
+
+/obj/item/clothing/mask/rogue/facemask/bronze/classic/anthro
+	name = "bronze death mask"
+	icon_state = "bronzemask_legacy_snout"
+	item_state = "bronzemask_legacy_snout"
 
 /obj/item/clothing/mask/rogue/facemask/psydonmask
 	name = "psydonic mask"
@@ -514,6 +542,7 @@
 	desc = "Runes and wards, meant for daemons; the gold has somehow rusted in unnatural, impossible agony. The most prominent of these etchings is in the shape of the Naledian psycross. Armored to protect the wearer's face."
 	max_integrity = 100
 	armor = ARMOR_PLATE
+	slot_flags = ITEM_SLOT_MASK|ITEM_SLOT_HIP
 	flags_inv = HIDEFACE|HIDESNOUT
 	sellprice = 0
 
@@ -528,6 +557,7 @@
 	max_integrity = 150
 	armor = ARMOR_PLATE
 	flags_inv = HIDEFACE|HIDESNOUT
+	slot_flags = ITEM_SLOT_MASK|ITEM_SLOT_HIP
 	sellprice = 0
 
 /obj/item/clothing/mask/rogue/silkmask
@@ -669,3 +699,13 @@
 	smeltresult = null
 	anvilrepair = /datum/skill/craft/ceramics
 	sellprice = 0
+
+/obj/item/clothing/mask/rogue/xylixmask/weathered
+	name = "weathered mask"
+	item_state = "xylix_weathered"
+	icon_state = "xylix_weathered"
+	desc = "An ancient ceramic face. It looks weathered, the sort molded by Xylixian worshippers of many yils past. Even when cast aside, it feels like the hardened clay has never left your hands. As if it always finds a way back into your palms."
+	// No armor anyways
+	max_integrity = 200
+	// Not messing with jester mask, but again, it has no armor. many other masks also don't block vision.
+	block2add = FOV_DEFAULT

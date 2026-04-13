@@ -24,6 +24,7 @@
 	max_integrity = 200
 	can_damage = TRUE
 	flags_1 = NONE
+	damtype = BURN
 
 /obj/machinery/light/rogue/get_mechanics_examine(mob/user)
 	. = ..()

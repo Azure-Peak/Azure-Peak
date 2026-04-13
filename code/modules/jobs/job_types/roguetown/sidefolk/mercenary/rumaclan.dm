@@ -49,10 +49,16 @@
 		)
 	H.merctype = 9
 
-/datum/advclass/mercenary/rumaclan/sasu
+/datum/advclass/mercenary/rumaclan_sasu
 	name = "Ruma Clan Sasu"
 	tutorial = "A band of foreign outcast Kazengunites. The Ruma Clan were outcasts from the Xinyi Dynasty, believed to be associated with the rebels at the time. The clan departed lest they risked being executed for such suspicions, or worse. It is no organized group of soldiers, but rather a loose collection of experienced fighters."
+	allowed_sexes = list(MALE, FEMALE)
+	allowed_races = NON_DWARVEN_RACE_TYPES //no dwarf sprites
 	outfit = /datum/outfit/job/roguetown/mercenary/rumaclan_sasu
+	subclass_languages = list(/datum/language/kazengunese)
+	class_select_category = CLASS_CAT_KAZENGUN
+	category_tags = list(CTAG_MERCENARY)
+	traits_applied = list(TRAIT_BLOOD_RESISTANCE, TRAIT_IGNOREDAMAGESLOWDOWN, TRAIT_HONORBOUND)
 	subclass_stats = list(
 		STATKEY_SPD = 4,
 		STATKEY_PER = 2,

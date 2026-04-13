@@ -186,36 +186,176 @@
 
 #undef CHURN_FILTER
 
-/obj/effect/proc_holder/spell/targeted/locate_dead
+#define NECRA_HATES        1
+#define NECRA_DISAPPROVES  2
+#define NECRA_NEUTRAL      3
+#define NECRA_APPROVES     4
+
+/obj/effect/proc_holder/spell/self/locate_dead
 	name = "Locate Corpse"
-	desc = "Call upon the Undermaiden to guide you to a lost soul."
+	desc = "Invoke the Undermaiden's guidance to sense the direction of those within her domain who lack proper burial. She may also reveal the earthbound, though seeking those newly claimed risks her displeasure.<br><br>Costs 20 Devotion to use, and the sustain cost varies on corpse freshness."
 	overlay_state = "necraeye"
 	sound = 'sound/magic/whiteflame.ogg'
-	releasedrain = 30
-	chargedrain = 0.5
-	max_targets = 0
 	cast_without_targets = TRUE
 	miracle = TRUE
 	associated_skill = /datum/skill/magic/holy
 	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
-	invocations = list("Undermaiden, guide my hand to those who have lost their way.")
-	invocation_type = "whisper"
-	recharge_time = 15 SECONDS
-	devotion_cost = 35
 
-/obj/effect/proc_holder/spell/targeted/locate_dead/cast(list/targets, mob/living/user = usr)
+/mob/living
+	var/mob/living/necra_tracked_corpse = null
+	var/last_necra_ping = 0
+	var/necra_judgement = 0
+	var/necra_score = 0
+
+/proc/get_necra_score(mob/living/carbon/C)
+	if(!C || QDELETED(C))
+		return 0
+	var/score = 0
+	var/time_dead = 0
+	if(C.timeofdeath)
+		time_dead = world.time - C.timeofdeath
+	var/minutes_dead = round(time_dead / 600)
+	if(minutes_dead < 0)
+		minutes_dead = 0
+	score += minutes_dead
+	var/is_skeleton = istype(C, /mob/living/carbon/human/species/skeleton)
+	var/is_player = !!C.client
+	var/has_ghost = !!C.get_ghost(FALSE, TRUE)
+	var/is_earthbound = (is_player && has_ghost)
+	var/is_departed = (is_player && !has_ghost)
+	var/is_forsaken = (!is_player)
+	if(minutes_dead < 5 && is_earthbound) // fresh + earthbound = VERY BAD
+		score -= 15
+	if(is_forsaken || is_departed) // forsaken or departed = good, this means it's only 2 minutes till they're valid
+		score += 3
+	if(is_skeleton) // skeletons start on neutral, unless they're players
+		score += 2
+
+	return score
+
+/proc/get_necra_judgement(mob/living/carbon/C)
+	var/score = get_necra_score(C)
+	if(score <= 0)
+		return NECRA_HATES
+	if(score <= 5)
+		return NECRA_DISAPPROVES
+	if(score <= 10)
+		return NECRA_NEUTRAL
+
+	return NECRA_APPROVES
+
+var/global/list/_corpse_sort_list = null
+var/global/mob/_corpse_sort_ref = null
+
+/proc/_corpse_dist_compare_simple(a, b)
+	var/mob/A = _corpse_sort_list[a]
+	var/mob/B = _corpse_sort_list[b]
+
+	if(!A || QDELETED(A))
+		return 1
+	if(!B || QDELETED(B))
+		return -1
+
+	var/da = get_dist(_corpse_sort_ref, A)
+	var/db = get_dist(_corpse_sort_ref, B)
+
+	if(da < db)
+		return -1
+	if(da > db)
+		return 1
+	return 0
+
+/proc/sort_corpse_list_by_distance_simple(var/list/L, var/mob/ref)
+	if(!L || !length(L) || !ref)
+		return L
+
+	_corpse_sort_list = L
+	_corpse_sort_ref = ref
+
+	var/list/keys = list()
+	for(var/k in L)
+		keys += k
+
+	sortTim(keys, GLOBAL_PROC_REF(_corpse_dist_compare_simple))
+
+	_corpse_sort_list = null
+	_corpse_sort_ref = null
+
+	var/list/new_list = list()
+	for(var/k in keys)
+		new_list[k] = L[k]
+
+	return new_list
+
+/obj/effect/proc_holder/spell/self/locate_dead/cast(mob/living/user = usr)
 	. = ..()
-	var/list/mob/corpses = list()
-	for(var/mob/living/C in GLOB.dead_mob_list)
-		if(!C.mind)
+
+	if(user.necra_tracked_corpse)
+		to_chat(user, span_notice("The Undermaiden releases your hand."))
+		user.necra_tracked_corpse = null
+		user.necra_judgement = 0
+		user.necra_score = 0
+		STOP_PROCESSING(SSprocessing, user)
+		revert_cast()
+		return
+
+	var/mob/living/carbon/human/H = user
+	if(!istype(H) || !H.devotion || H.devotion.devotion < 20)
+		to_chat(user, span_notice("I don't nearly have enough devotion to sustain this."))
+		return
+
+	user.visible_message(
+		span_purple("<i>A ghastly fog embraces [user] momentarily as they focus...</i>"),
+		span_purple("<i>You plead for the Undermaiden to offer you insight on the restless.</i>")
+	)
+
+	var/list/earthbound = list()
+	var/list/departed = list()
+	var/list/forsaken = list()
+
+	for(var/mob/living/carbon/C in GLOB.mob_list)
+		if(!C || QDELETED(C))
 			continue
-		if(istype(C, /mob/living/carbon/human))
-			var/mob/living/carbon/human/B = C
-			if(B.buried)
-				continue
+
+		// --- corpse logic ---
+		var/is_dead = (C.stat == DEAD)
+		var/is_deadite = FALSE
+		if(C.mind)
+			is_deadite = C.mind.has_antag_datum(/datum/antagonist/zombie)
+
+		var/is_skeleton = istype(C, /mob/living/carbon/human/species/skeleton)
+		var/is_skeleton_valid = (is_skeleton && !(C.mobility_flags & MOBILITY_STAND))
+		var/no_burialrites = !C.burialrited
+
+		var/is_corpse = ((is_dead || is_deadite || is_skeleton_valid) && no_burialrites)
+		if(!is_corpse)
+			continue
+
+		// --- classification ---
+		var/has_player_identity = (C.mind && C.mind.key)
+		var/has_presence = (C.key || C.get_ghost(FALSE, TRUE))
+
+		var/is_earthbound = FALSE
+		var/is_departed = FALSE
+		var/is_forsaken = FALSE
+
+		if(has_player_identity)
+			if(has_presence)
+				is_earthbound = TRUE
+			else
+				is_departed = TRUE
+		else
+			is_forsaken = TRUE
+
+		// --- filters ---
 		var/time_dead = 0
 		if(C.timeofdeath)
 			time_dead = world.time - C.timeofdeath
+
+		var/fuhgeddaboutit = (time_dead > 45 MINUTES)
+		var/same_z = (C.z == user.z)
+
+		// --- name ---
 		var/corpse_name
 
 		if(time_dead < 5 MINUTES)
@@ -225,58 +365,462 @@
 		else if(time_dead < 30 MINUTES)
 			corpse_name = "Long dead "
 		else
-			corpse_name = "Forgotten remains of "
-		var/list/d_list = C.get_mob_descriptors()
-		var/trait_desc = "[capitalize(build_coalesce_description_nofluff(d_list, C, list(MOB_DESCRIPTOR_SLOT_TRAIT), "%DESC1%"))]"
-		var/stature_desc = "[capitalize(build_coalesce_description_nofluff(d_list, C, list(MOB_DESCRIPTOR_SLOT_STATURE), "%DESC1%"))]"
-		var/descriptor_name = "[trait_desc] [stature_desc]"
-		if(descriptor_name == " ")
-			descriptor_name = "Unknown"
+			corpse_name = "Forgotten remains "
 
-		corpse_name += " of \a [descriptor_name]..."
-		corpses[corpse_name] = C
+		var/descriptor_name
 
-	if(!length(corpses))
-		to_chat(user, span_warning("The Undermaiden's grasp lets slip."))
-		return .
+		if(istype(C, /mob/living/carbon/human))
+			var/list/d_list = C.get_mob_descriptors()
 
-	var/mob/selected = tgui_input_list(user, "Which body shall I seek?", "Available Bodies", corpses)
+			var/trait_desc = ""
+			var/stature_desc = ""
 
-	if(QDELETED(src) || QDELETED(user) || QDELETED(corpses[selected]))
-		to_chat(user, span_warning("The Undermaiden's grasp lets slip."))
-		return .
+			if(d_list)
+				trait_desc = capitalize(build_coalesce_description_nofluff(d_list, C, list(MOB_DESCRIPTOR_SLOT_TRAIT), "%DESC1%"))
+				stature_desc = capitalize(build_coalesce_description_nofluff(d_list, C, list(MOB_DESCRIPTOR_SLOT_STATURE), "%DESC1%"))
 
-	var/corpse = corpses[selected]
+			descriptor_name = trim("[trait_desc] [stature_desc]")
 
-	var/turf/turf_user = get_turf(user)
-	var/turf/turf_corpse = get_turf(corpse)
-	var/direction_name = "unknown"
-	if(turf_user.z != turf_corpse.z)
-		if(turf_corpse.z > turf_user.z)
-			direction_name = "above"
+			if(!length(descriptor_name) || descriptor_name == "()")
+				descriptor_name = C.name ? C.name : "Unknown"
 		else
-			direction_name = "below"
-	else
-		var/direction = get_dir(user, corpse)
-		switch(direction)
-			if(NORTH)
-				direction_name = "north"
-			if(SOUTH)
-				direction_name = "south"
-			if(EAST)
-				direction_name = "east"
-			if(WEST)
-				direction_name = "west"
-			if(NORTHEAST)
-				direction_name = "northeast"
-			if(NORTHWEST)
-				direction_name = "northwest"
-			if(SOUTHEAST)
-				direction_name = "southeast"
-			if(SOUTHWEST)
-				direction_name = "southwest"
+			descriptor_name = C.name ? C.name : "Unknown"
 
-	to_chat(user, span_notice("The Undermaiden pulls on your hand, guiding you [direction_name]."))
+		corpse_name += "of \a [descriptor_name]"
+
+		// --- markers ---
+		if(is_deadite && C.stat != DEAD)
+			corpse_name += " (!!☣︎!!)"
+		else if(is_deadite)
+			corpse_name += " (☣︎)"
+		else if(is_skeleton_valid)
+			corpse_name += " (☠)"
+
+		// --- pick list ---
+		var/list/target_list = null
+
+		if(is_earthbound)
+			target_list = earthbound
+		else if(is_departed && !fuhgeddaboutit)
+			target_list = departed
+		else if(is_forsaken && !fuhgeddaboutit && same_z)
+			target_list = forsaken
+
+		if(!target_list)
+			continue
+
+		// --- unique key ---
+		var/list_key = corpse_name
+		var/i = 1
+		while(list_key in target_list)
+			i++
+			list_key = "[corpse_name] ([i])"
+
+		target_list[list_key] = C
+
+	// --- SORT ---
+	if(length(earthbound))
+		earthbound = sort_corpse_list_by_distance_simple(earthbound, user)
+	if(length(departed))
+		departed = sort_corpse_list_by_distance_simple(departed, user)
+	if(length(forsaken))
+		forsaken = sort_corpse_list_by_distance_simple(forsaken, user)
+
+	// --- UI ---
+	var/list/type_options = list()
+	if(length(earthbound)) type_options += "Earthbound"
+	if(length(departed)) type_options += "Departed"
+	if(length(forsaken)) type_options += "Forsaken"
+
+	if(!length(type_options))
+		to_chat(user, span_purple("You reach out. Nothing answers. The Undermaiden is silent..."))
+		return
+
+	var/type_choice = tgui_input_list(user, "What doth thy seek?", "Corpse Type", type_options)
+	if(!type_choice || QDELETED(user))
+		return
+
+	var/list/selected_list
+	switch(type_choice)
+		if("Earthbound") selected_list = earthbound
+		if("Departed") selected_list = departed
+		if("Forsaken") selected_list = forsaken
+
+	if(!length(selected_list))
+		return
+
+	var/choice = tgui_input_list(user, "Which body shall I seek?", "Available Bodies", selected_list)
+	if(!choice || QDELETED(user))
+		return
+
+	var/mob/living/carbon/target = selected_list[choice]
+	if(!target || QDELETED(target))
+		return
+
+	user.say("#Undermaiden, guide my hand to those who have lost their way...")
+
+	var/score = get_necra_score(target)
+	var/judgement = get_necra_judgement(target)
+
+	user.necra_tracked_corpse = target
+	user.necra_score = score
+	user.necra_judgement = judgement
+	user.last_necra_ping = 0
+
+	switch(judgement)
+		if(NECRA_HATES)
+			to_chat(user, span_purple("<i>You feel utterly scorned as your breath is nearly completely taken away.</i>"))
+			user.Jitter(10)
+			user.emote("breathgasp")
+			user.adjustOxyLoss(40)
+
+		if(NECRA_DISAPPROVES)
+			to_chat(user, span_purple("<i>The Undermaiden answers your pleas with clear disapproval.</i>"))
+			user.emote("whimper")
+			user.Jitter(5)
+
+		if(NECRA_NEUTRAL)
+			to_chat(user, span_purple("<i>A cold, indifferent presence answers to your pleas. You feel her hand.</i>"))
+
+		if(NECRA_APPROVES)
+			to_chat(user, span_purple("<i>The Undermaiden guides your hand. You can almost feel a smile.</i>"))
+
+	if(H.devotion?.check_devotion(src))
+		H.devotion?.update_devotion(-20)
+
+	START_PROCESSING(SSprocessing, user)
+
+/proc/get_nearest_corpse(list/L, atom/ref)
+	if(!L || !length(L) || !ref)
+		return null
+
+	var/mob/living/carbon/closest = null
+	var/min_dist = INFINITY
+
+	for(var/k in L)
+		var/mob/living/carbon/C = L[k]
+		if(!C || QDELETED(C))
+			continue
+
+		var/d = get_dist(ref, C)
+		if(d < min_dist)
+			min_dist = d
+			closest = C
+
+	return closest
+
+/mob/living/process()
+	..()
+
+	var/mob/living/carbon/human/H = src
+
+	if(!necra_tracked_corpse || QDELETED(necra_tracked_corpse) || !istype(H))
+		src.necra_tracked_corpse = null
+		STOP_PROCESSING(SSprocessing, src)
+		return
+
+	if(necra_tracked_corpse.burialrited)
+		to_chat(src, span_purple("<i>The Undermaiden is seemingly content, you briefly sense your bounty being buried and consecrated.</i>"))
+		src.necra_tracked_corpse = null
+		STOP_PROCESSING(SSprocessing, src)
+		return
+	
+	if(necra_tracked_corpse?.mind && !necra_tracked_corpse.mind.has_antag_datum(/datum/antagonist/zombie) && necra_tracked_corpse.stat != DEAD)
+		to_chat(src, span_purple("<i>The Undermaiden's interest wanes, you briefly sense your bounty back from undeath, alive once more.</i>"))
+		src.necra_tracked_corpse = null
+		STOP_PROCESSING(SSprocessing, src)
+		return
+
+	if(src.stat == DEAD)
+		to_chat(src, span_purple("<i>As you hold Her hand, you realize late that you are now directly holding onto it. The Undermaiden mourns your demise.</i>"))
+		src.necra_tracked_corpse = null
+		STOP_PROCESSING(SSprocessing, src)
+		return
+
+	if(src.stat == UNCONSCIOUS)
+		to_chat(src, span_purple("<i>As you lose consciousness, your connection to Necra's guidance abruptly breaks!</i>"))
+		src.necra_tracked_corpse = null
+		STOP_PROCESSING(SSprocessing, src)
+		return
+
+	var/score = get_necra_score(necra_tracked_corpse)
+	var/judgement = get_necra_judgement(necra_tracked_corpse)
+
+	var/old_judgement = src.necra_judgement
+	var/judgement_changed = (old_judgement && old_judgement != judgement)
+
+	src.necra_score = score
+	src.necra_judgement = judgement
+	
+	// --- Devotion cost ---
+	var/devotion_cost = 2
+	switch(judgement)
+		if(NECRA_HATES) devotion_cost = 5
+		if(NECRA_DISAPPROVES) devotion_cost = 4
+		if(NECRA_NEUTRAL) devotion_cost = 3
+		if(NECRA_APPROVES) devotion_cost = 2
+
+	if(!H.devotion || H.devotion.devotion < devotion_cost)
+		to_chat(src, span_notice("<i>You let her hand slip. You don't have enough Devotion.</i>"))
+		src.necra_tracked_corpse = null
+		STOP_PROCESSING(SSprocessing, src)
+		return
+
+	// --- Ping delay ---
+	var/ping_delay = 3 SECONDS
+	switch(judgement)
+		if(NECRA_HATES) ping_delay = 18 SECONDS
+		if(NECRA_DISAPPROVES) ping_delay = 12 SECONDS
+		if(NECRA_NEUTRAL) ping_delay = 6 SECONDS
+		if(NECRA_APPROVES) ping_delay = 3 SECONDS
+
+	if(world.time < last_necra_ping + ping_delay)
+		return
+
+	last_necra_ping = world.time
+	H.devotion.update_devotion(-devotion_cost)
+
+	if(judgement_changed)
+		if(judgement > old_judgement)
+			to_chat(src, span_blue("<i>The Undermaiden's grip softens and her voice calms… her favor for your choice grows.</i>"))
+		else
+			to_chat(src, span_red("<i>A sudden chill runs through you. Her judgment worsens for some reason...</i>"))
+
+	var/turf/user_turf = get_turf(src)
+	var/turf/target_turf = get_turf(necra_tracked_corpse)
+
+	if(!user_turf || !target_turf)
+		return
+
+	var/direction_name = "unknown"
+
+	switch(get_dir(src, necra_tracked_corpse))
+		if(NORTH) direction_name = "north"
+		if(SOUTH) direction_name = "south"
+		if(EAST) direction_name = "east"
+		if(WEST) direction_name = "west"
+		if(NORTHEAST) direction_name = "northeast"
+		if(NORTHWEST) direction_name = "northwest"
+		if(SOUTHEAST) direction_name = "southeast"
+		if(SOUTHWEST) direction_name = "southwest"
+		else direction_name = "here"
+
+	var/z_hint
+
+	if(target_turf.z != user_turf.z)
+		z_hint = target_turf.z > user_turf.z ? "above" : "below"
+
+	// NECRA HATES
+	if(judgement == NECRA_HATES)
+		var/true_dir = dir2text(get_cardinal_dir(src, necra_tracked_corpse))
+		var/list/symbols = list("!","$","@","#","%","&","*")
+
+		var/list/noise_words = list(
+			"back","forward","run","stop","turn","leave","return","flee","sacrifice","Psydon",
+			"heretic","heresy","blasphemy","profane","unworthy","defile","desecrate","ren",
+			"fool","insolent","wretch","cur","vermin","filth","failure","disgrace","fortune",
+			"die","rot","decay","wither","suffer","bleed","break","choke","drown","song",
+			"silence","quiet","hush","listen","obey","kneel","submit","yield","will",
+			"lost","blind","empty","hollow","forgotten","forsaken","abandoned","tea",
+			"wrong","error","mistake","false","misguided","deceived","doomed","sapphire",
+			"liar","traitor","betrayer","coward","weakling","pretender","lych","ansari",
+			"where","here","there","nowhere","gone","vanished","deadite","unlyfe","free",
+			"watch","seen","marked","judged","condemned","claimed","Noc","devourer","ryon",
+			"endure","weep","mourn","grieve","scream","beg","Dendor","Necra","Souls","see you",
+			"Xylix","Pestra","Eora","Malum","Astrata","Ravox","Abyssor","Ferryman","spirits","watching"
+		)
+
+		var/list/cardinals_pool = list("north","south","east","west","northeast","southeast","northwest","southwest")
+		var/list/output = list()
+
+		// build output FIRST
+		output += true_dir
+		output += true_dir
+		output += true_dir
+
+		var/list/cardinals = shuffle(cardinals_pool.Copy())
+		for(var/i in 1 to 4)
+			output += cardinals[i]
+
+		var/list/noise_pool = shuffle(noise_words.Copy())
+		for(var/i in 1 to 6)
+			output += noise_pool[i]
+
+		output = shuffle(output)
+
+		// THEN build message with noise
+		var/msg = "Ghastly whispers painfully claw at your mind: <br><i>"
+
+		for(var/word in output)
+			var/prefix = ""
+			for(var/i in 1 to rand(1,6))
+				prefix += pick(symbols)
+
+			var/suffix = ""
+			for(var/i in 1 to rand(1,8))
+				suffix += pick(symbols)
+
+			msg += "[prefix][word][suffix]"
+
+		msg += "</i>"
+
+		to_chat(src, span_warning(msg))
+		src.adjustOxyLoss(20)
+		if(src.hallucination < 200)
+			src.hallucination += 50	
+		if(prob(20))
+			switch(rand(1,5))
+				if(1) // CRITICAL HIIIIT!!!
+					H.adjust_fire_stacks(10, /datum/status_effect/fire_handler/fire_stacks/divine)
+					H.ignite_mob()
+					H.add_stress(/datum/stressevent/psycurse)
+					var/list/fire_reactions = list(
+						"THIS ISN'T FIRE- WHAT IS THIS?!",
+						"IT BURNS THROUGH MY VERY SOUL!",
+						"THE FLAME WON'T LET GO!",
+						"I CAN'T PUT IT OUT!"
+					)
+					to_chat(src, span_red(pick(fire_reactions)))
+					src.emote("agony")
+				if(2)
+					src.adjustToxLoss(rand(1, 20))
+
+					var/list/tox_reactions = list(
+						"I CAN TASTE IT- SOMETHING IS WRONG!",
+						"IT'S IN MY BLOOD!",
+						"I'M ROTTING- CAN'T YOU SEE?!",
+						"SOMETHING IS EATING ME FROM INSIDE!"
+					)
+					to_chat(src, span_red(pick(tox_reactions)))
+					src.emote("breathgasp")
+				if(3)
+					src.adjustBruteLoss(rand(10, 20))
+
+					var/list/brute_reactions = list(
+						"IT'S TEARING ME APART!",
+						"MY BONES- THEY'RE BREAKING!",
+						"I CAN FEEL IT RIPPING THROUGH ME!",
+						"STOP- YOU'RE PULLING ME TO PIECES!"
+					)
+					to_chat(src, span_red(pick(brute_reactions)))
+					H.add_stress(/datum/stressevent/psycurse)
+					src.emote("painscream")
+				if(4)
+					if(ishuman(src))
+						var/list/valid_parts = list()
+						for(var/obj/item/bodypart/BP in H.bodyparts)
+							if(BP)
+								valid_parts += BP
+
+						if(length(valid_parts))
+							var/obj/item/bodypart/BP = pick(valid_parts)
+							BP.manage_dynamic_wound(BCLASS_LASHING, rand(10, 20), 0)
+
+							var/list/wound_reactions = list(
+								"SOMETHING JUST TORE OPEN!",
+								"I'M BLEEDING- AM I BLEEDING?!",
+								"SHE CUT ME WITHOUT TOUCHING ME!",
+								"I'M SORRY, UNDERMAIDEN, I'M SORRY!"
+							)
+							to_chat(src, span_red(pick(wound_reactions)))
+							src.emote("agony")
+					else
+						src.adjustBruteLoss(rand(15, 25))
+
+						var/list/fallback_reactions = list(
+							"MY BODY'S BREAKING APART!",
+							"SOMETHING IS WRONG- DEEPLY WRONG!",
+							"I CAN'T HOLD MYSELF TOGETHER!",
+							"IT HURTS- EVERYWHERE!"
+						)
+						to_chat(src, span_red(pick(fallback_reactions)))
+						src.emote("painscream")
+				if(5)
+					src.adjustBruteLoss(10)
+					src.adjustToxLoss(10)
+
+					var/list/mixed_reactions = list(
+						"IT'S EVERYWHERE—IT HURTS EVERYWHERE!",
+						"I CAN'T TELL WHERE IT'S COMING FROM!",
+						"MAKE IT STOP- PLEASE!",
+						"I'M FALLING APART!"
+					)
+					src.emote("painscream")
+					to_chat(src, span_red(pick(mixed_reactions)))
+
+		if(z_hint)
+			msg += " <b>([z_hint])</b>"
+		msg += "."
+		return
+
+	// NECRA DISAPPROVES
+	if(judgement == NECRA_DISAPPROVES)
+		var/true_dir = direction_name
+
+		var/list/noise_words = list(
+			"are you sure?","do you have to?","really?","why?","yae?","where?",
+			"are you certain?","is this the right way?","are you lost?","did you forget something?",
+			"should you be here?","who told you that?","what are you doing?","why would you go there?",
+			"are you being watched?","can you hear me?","do you trust this?","is it safe?",
+			"are you alone?","what was that?","did you see that?","are you afraid?",
+			"should you turn back?","is that wise?","what if you're wrong?","do you feel it?",
+			"why are you hesitating?","what's behind you?","who's there?","are you listening?",
+			"do you remember?","have you forgotten?","why keep going?","what are you chasing?",
+			"is it worth it?","what if it's a trap?","are you sure about that?","do you doubt yourself?",
+			"why this path?","why not another way?","what are you missing?","can you feel her?",
+			"does she approve?","are you being judged?","what does she see?","why are you still here?",
+			"do you regret this?","should you stop?","are you going the wrong way?","what lies ahead?",
+			"what lies behind?","are you too late?","are you too early?","is it watching you?",
+			"do you hear the whispers?","are they getting louder?","can you ignore them?",
+			"what do they want?","what do you want?","why continue?","why persist?",
+			"are you close?","are you far?","does it matter?","are you sure it's not here?",
+			"why not turn around?","what if you're mistaken?","is this your choice?",
+			"are you being guided?","or misled?","do you understand?","are you certain you do?",
+			"what are you becoming?","is this who you are?","should you keep going?"
+		)
+
+		var/list/cardinals_pool = list("northeast","southeast","northwest","southwest")
+		var/list/output = list()
+
+		for(var/i in 1 to 7)
+			if(prob(50))
+				output += pick(cardinals_pool)
+			else
+				output += pick(noise_words)
+		output += true_dir
+		output += true_dir
+		output = shuffle(output)
+
+		var/msg = "A ghastly whisper reaches you: <i><br>"
+		for(var/word in output)
+			msg += "[word]… "
+		msg += "</i>"
+
+		if(z_hint)
+			msg += " <b>([z_hint])</b>"
+		msg += "."
+		to_chat(src, span_warning(msg))
+		return
+
+	// NECRA NEUTRAL / APPROVES
+	var/dist = get_dist(user_turf, target_turf)
+
+	var/msg = "The Undermaiden guides your hand <b>[direction_name]</b>"
+
+	if(z_hint)
+		msg += " <b>([z_hint])</b>"
+
+	if(judgement == NECRA_APPROVES)
+		msg += " - <b>[dist]</b> meters"
+	
+	msg += "."
+
+	to_chat(src, span_warning(msg))
+
+#undef NECRA_HATES
+#undef NECRA_DISAPPROVES
+#undef NECRA_NEUTRAL
+#undef NECRA_APPROVES
 
 /obj/effect/proc_holder/spell/invoked/necra_vow
 	name = "Vow to Necra"

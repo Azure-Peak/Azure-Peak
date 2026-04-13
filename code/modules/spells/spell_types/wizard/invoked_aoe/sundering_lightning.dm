@@ -4,6 +4,7 @@
 	overlay_state = "lightning_sunder"
 	cost = 9
 	spell_tier = 4 // Highest tier AOE
+	spell_impact_intensity = SPELL_IMPACT_HIGH
 	releasedrain = SPELLCOST_ULTIMATE
 	chargedrain = 1
 	chargetime = 50
@@ -57,6 +58,7 @@
 			continue
 		L.electrocute_act(65)	//a little over half the damage of thunderstrike, but doesn't degrade on each subsequent ring.
 		to_chat(L, span_userdanger("You're hit by lightning!!!"))
+		new /obj/effect/temp_visual/spell_impact(get_turf(L), glow_color, spell_impact_intensity)
 
 /obj/effect/temp_visual/lightning
 	icon = 'icons/effects/32x96.dmi'

@@ -235,7 +235,7 @@
 
 /obj/item/reagent_containers/food/snacks/fish/creepy_shark
 	name = "iridescent reaver"
-	desc = "It's scales refract light in a strange, unsettling manner."
+	desc = "Its scales refract light in a strange, unsettling manner."
 	icon_state = "creepy_shark"
 	faretype = FARE_IMPOVERISHED
 	no_rarity_sprite = TRUE

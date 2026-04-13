@@ -1127,9 +1127,9 @@
 	..()
 
 /obj/structure/fluff/psycross
-	name = "pantheon cross"
+	name = "stone pantheon cross"
 	desc = "Symbol of the Divine Pantheon, the religion of ten - formerly eleven - deities which reigns throughout most of the known world. Their divine order must be maintained."
-	icon_state = "psycross"
+	icon_state = "cross_undivided_r"
 	icon = 'icons/roguetown/misc/tallstructure.dmi'
 	break_sound = 'sound/combat/hits/onwood/destroyfurniture.ogg'
 	attacked_sound = list('sound/combat/hits/onwood/woodimpact (1).ogg','sound/combat/hits/onwood/woodimpact (2).ogg')
@@ -1148,6 +1148,16 @@
 	buckle_prevents_pull = 1
 	var/divine = TRUE
 	obj_flags = UNIQUE_RENAME | CAN_BE_HIT
+
+/obj/structure/fluff/psycross/get_mechanics_examine(mob/user)
+	. = ..()
+	var/mob/living/living_user = user
+	if(user.mind.assigned_role == "Bishop")
+		. += span_info("As the Bishop, you can marry two people by having them both bite an apple, then offering it to the cross.")
+		. += span_info("The second person to bite the apple will take the last name of whoever bit it first.")
+	else if(istype(living_user) && HAS_TRAIT(living_user, TRAIT_MARRIAGE_CAPABLE) && (living_user.patron.type == /datum/patron/divine/eora))
+		. += span_info("As an Eoran, you can marry two people by having them both bite an apple, then offering it to the cross.")
+		. += span_info("The second person to bite the apple will take the last name of whoever bit it first.")
 
 /obj/structure/fluff/psycross/Initialize()
 	. = ..()
@@ -1188,49 +1198,71 @@
 
 /obj/structure/fluff/psycross/copper
 	name = "pantheon cross"
-	icon_state = "psycrosschurch"
+	icon_state = "cross_undivided_church"
 	break_sound = null
 	attacked_sound = list("sound/combat/hits/onmetal/metalimpact (1).ogg", "sound/combat/hits/onmetal/metalimpact (2).ogg")
 	chance2hear = 66
 
 /obj/structure/fluff/psycross/crafted
 	name = "wooden pantheon cross"
-	icon_state = "psycrosscrafted"
+	icon_state = "cross_undivided"
 	max_integrity = 80
 	chance2hear = 10
 
 /obj/structure/fluff/psycross/psycrucifix
 	name = "wooden psydonic crucifix"
 	desc = "A rarely seen symbol of absolute and devoted certainty, more common in Otava: HE yet lyves. HE yet breathes."
-	icon_state = "psycruci"
+	icon_state = "cross_psy"
 	max_integrity = 80
 	chance2hear = 10
 
 /obj/structure/fluff/psycross/psycrucifix/stone
 	name = "stone psydonic crucifix"
 	desc = "Formed of stone, this great Psycross symbolises that HE is forever ENDURING. Considered a rare sight upon the Peaks."
-	icon_state = "psycruci_r"
+	icon_state = "cross_psy_r"
 	max_integrity = 120
 	chance2hear = 10
 
 /obj/structure/fluff/psycross/psycrucifix/silver
 	name = "silver psydonic crucifix"
-	icon_state = "psycruci_s"
+	icon_state = "cross_psy_s"
 	desc = "Constructed of Blessed Silver, this crucifix symbolises absolute faith in the ONE - For PSYDON WEEPS, for all mortal ilk. PSYDON WEEPS, for all who walk upon the soil. PSYDON WEEPS..."
 	attacked_sound = list("sound/combat/hits/onmetal/metalimpact (1).ogg", "sound/combat/hits/onmetal/metalimpact (2).ogg")
 	max_integrity = 450
 	chance2hear = 10
 
+/obj/structure/fluff/psycross/astrata
+	name = "wooden astratan cross"
+	icon_state = "cross_astrata"
+	desc = "A simple cross of carved wood, raised in quiet devotion to Astrata."
+	max_integrity = 100
+	chance2hear = 20
+
+/obj/structure/fluff/psycross/astrata/stone
+	name = "stone astratan cross"
+	icon_state = "cross_astrata_r"
+	desc = "A towering monument to Astrata. Those who stand beneath it feel the warmth of her light."
+	max_integrity = 140
+	chance2hear = 20
+
+/obj/structure/fluff/psycross/astrata/golden
+	name = "golden astratan cross"
+	icon_state = "cross_astrata_u"
+	desc = "A radiant monument of gold, devoted to Astrata in her full glory. It's surface gleams with an almost blinding brilliance, catching even the faintest light and casting it forth as a warm, unwavering glow."
+	attacked_sound = list("sound/combat/hits/onmetal/metalimpact (1).ogg", "sound/combat/hits/onmetal/metalimpact (2).ogg")
+	max_integrity = 400
+	chance2hear = 20
+
 /obj/structure/fluff/psycross/zizocross
 	name = "inverted cross"
 	desc = "An unholy symbol. Blasphemy for most, reverence for few."
-	icon_state = "invertedcross"
+	icon_state = "cross_zizo"
 	divine = FALSE
 
 /obj/structure/fluff/psycross/zizocross/stone
 	name = "stone inverted cross"
 	desc = "An unholy symbol, the knowledge that something so sturdy was able to be put up in reverence of the dark star, completely unattended... is a difficult anchovy to swallow for many."
-	icon_state = "cross_zizo"
+	icon_state = "cross_zizo_r"
 	divine = FALSE
 	max_integrity = 200
 
@@ -1278,18 +1310,17 @@
 
 /obj/structure/fluff/psycross/baotha/decorated
 	name = "webbed spider cross"
-	desc = "The spider spreads its legs, the web unfurls. Just looking at it makes bad memories surface."
+	desc = "The spider spreads it's legs, the web unfurls. Just looking at it makes bad memories surface."
 	icon_state = "cross_baotha_u"
 	divine = FALSE
 	max_integrity = 350
 
 /obj/structure/fluff/psycross/attackby(obj/item/W, mob/user, params)
 	if(user.mind)
-		if(user.mind.assigned_role == "Bishop")
+		var/mob/living/living_user = user
+		// if there's no bishop inround, you can still get married... as long as there's an eoran. heretics can do it too!
+		if((user.mind.assigned_role == "Bishop") || (istype(living_user) && HAS_TRAIT(living_user, TRAIT_MARRIAGE_CAPABLE) && (living_user.patron.type == /datum/patron/divine/eora)))
 			if(istype(W, /obj/item/reagent_containers/food/snacks/grown/apple))
-				if(!istype(get_area(user), /area/rogue/indoors/town/church/chapel))
-					to_chat(user, span_warning("I need to do this in the chapel."))
-					return FALSE
 				var/marriage
 				var/obj/item/reagent_containers/food/snacks/grown/apple/A = W
 				//The MARRIAGE TEST BEGINS
@@ -1312,34 +1343,22 @@
 							* second. This seems to be the best way
 							* to use the least amount of variables.
 							*/
-							var/name_placement = 1
-							for(var/X in A.bitten_names)
-								//I think that guy is dead.
-								if(C.stat == DEAD)
-									continue
-								//That person is not a player or afk.
-								if(!C.client)
-									continue
-								//Gotta get a divorce first
-								if(C.marriedto)
-									continue
-								if(C.real_name == X)
-									//I know this is very sloppy but its alot less code.
-									switch(name_placement)
-										if(1)
-											if(thegroom)
-												continue
-											thegroom = C
-										if(2)
-											if(thebride)
-												continue
-											thebride = C
-
-									name_placement++
-
+							//I think that guy is dead.
+							if(C.stat == DEAD)
+								continue
+							//That person is not a player or afk.
+							if(!C.client)
+								continue
+							//Gotta get a divorce first
+							if(C.marriedto)
+								continue
+							if(C.real_name == A.bitten_names[1])
+								thegroom = C
+							if(C.real_name == A.bitten_names[2])
+								thebride = C
 						//WE FOUND THEM LETS GET THIS SHOW ON THE ROAD!
 						if(!thegroom || !thebride)
-
+							to_chat(user, span_warn("nonexistent"))
 							return
 						//Alright now for the boring surname formatting.
 						var/surname2use

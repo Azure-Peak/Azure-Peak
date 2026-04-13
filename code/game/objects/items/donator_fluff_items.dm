@@ -25,6 +25,14 @@
 	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
 	sleeved = 'icons/clothing/onmob/donor_sleeves_armor.dmi'
 
+/obj/item/clothing/head/roguetown/circlet/saffiratiara
+	name = "saffira encrusted tiara"
+	desc = "An ornate gold tiara, inset with a Saffira in its peak."
+	icon_state = "eekasqueak"
+	item_state = "eekasqueak"
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+
 //Funkymonke's donator item - dress
 /obj/item/clothing/suit/roguetown/shirt/dress/funkydress
 	name = "padded dress"
@@ -36,7 +44,7 @@
 	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
 	sleeved = 'icons/clothing/onmob/donor_sleeves_armor.dmi'
 
-//Strudles donator item - mage vest (same as robes) and xylix tabard
+//Strudles donator item - mage vest, xylix tabard, etruscan cloak, and formfitted gambeson
 /obj/item/clothing/suit/roguetown/shirt/robe/sofiavest
 	name = "grenzelhoftian mages vest"
 	desc = "A vest often worn by those of the Grenzelhoftian mages college."
@@ -66,6 +74,33 @@
 	color = CLOTHING_DARK_GREY
 	detail_tag = "_detail"
 	detail_color = CLOTHING_WHITE
+
+/obj/item/clothing/cloak/poncho/dittocloak
+	name = "etruscan design cloak"
+	desc = "A overly fancy and nicely designed Cloak with what appears to be Etruscan silks. Looks expensive."
+	detail_tag = "_detail"
+	altdetail_tag = "_detailalt"
+	adjustable = CAN_CADJUST
+	alternate_worn_layer = 9.9 // okay look this is weird but its to cover hair :)
+	color = CLOTHING_WHITE
+	detail_color = CLOTHING_WHITE
+	altdetail_color = CLOTHING_WHITE
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+	sleeved = 'icons/clothing/onmob/donor_sleeves_armor.dmi'
+	icon_state = "dittocloak"
+	item_state = "dittocloak"
+	sleevetype = "dittocloak"
+	nodismemsleeves = TRUE
+
+/obj/item/clothing/suit/roguetown/armor/gambeson/heavy/strudels
+	name = "form-fitting padded gambeson"
+	desc = "A normal looking padded gambeson that seems to have been custom fitted to a specific body for more comfort."
+	icon_state = "formfit"
+	item_state = "formfit"
+	color = "#ffffff"
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
 
 //Bat's donator item - custom harp sprite
 /obj/item/rogue/instrument/harp/handcarved
@@ -112,36 +147,22 @@
 	icon = 'icons/obj/items/donor_weapons_64.dmi'
 
 
-//Zydras donator items - iconoclast pyromaniac - who up icono they clast
-/obj/item/clothing/suit/roguetown/armor/brigandine/light/zydrasiconopauldrons
-	name = "gilded pauldrons"
-	desc = "A ritual-acquired set of pauldrons and gorget. Seemingly protects the gut, too."
-	icon_state = "zydras_iconopauldrons"
-	item_state = "zydras_iconopauldrons"
-	sleevetype = "zydras_iconopauldrons"
+//Zydras donator items - ironclad baddie
+/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/iron/heavy/zycuirass
+	name = "iron gardbrace and fauld"
+	desc = "An aged piece of damaged mailled hauberk, with only its skirt and a spiked shoulder remaining. It glimmers with a reddish hue."
 	icon = 'icons/clothing/donor_clothes.dmi'
 	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
-	sleeved = 'icons/clothing/onmob/donor_sleeves_armor.dmi' //No sleeves
+	icon_state = "zy_cuirass"
+	item_state = "zy_cuirass"
+	sleevetype = "zy_cuirass"
+	sleeved = 'icons/clothing/onmob/donor_sleeves_armor.dmi'
 
-/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/iron/zydrasiconosash //who up icono they clast
-	name = "gilded cloth sash"
-	desc = "A ritual-acquired sash of purple cloth, lined with gold. Seemingly protects the gut, too."
-	icon_state = "zydras_iconosash"
-	item_state = "zydras_iconosash"
-	sleevetype = "zydras_iconosash"
-	icon = 'icons/clothing/donor_clothes.dmi'
-	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
-	sleeved = 'icons/clothing/onmob/donor_sleeves_armor.dmi' //No sleeves
-
-/obj/item/clothing/head/roguetown/helmet/heavy/sheriff/zydrasiconocrown
-	name = "toper-iron crown"
-	desc = "A iron crown with a toper studded into it. Any blow landing upon the wearer's head seems to divert to the gem."
-	flags_inv = null //It's a crown, it ain't hiding anything
-	flags_cover = null 
-	icon_state = "zydras_iconocrown"
-	item_state = "zydras_iconocrown"
-	icon = 'icons/clothing/donor_clothes.dmi'
-	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+/obj/item/rogueweapon/greataxe/zygreataxe
+	name = "Bourreau"
+	desc = "This Greataxe has seen better days. It will see even worse ones, by the looks of its wielder."
+	icon = 'icons/obj/items/donor_weapons_64.dmi'
+	icon_state = "zy_greataxe"
 
 
 /obj/item/clothing/suit/roguetown/armor/longcoat/eiren //Longcoat has no armor, ignore the /armor/ path.
@@ -172,9 +193,47 @@
 			pic.color = get_detail_color()
 		add_overlay(pic)
 
+/obj/item/rogueweapon/eirenxiv/eiren_m
+	name = "glintstone longsword"
+	desc = "A glimmering blade, forged from a blue-white ore found rarely within the duchy of Azuria. Identical to steel in its properties, the tempering process to preserve the blue sheen is extensive and time consuming."
+	icon_state = "eiren_m"
+	icon = 'icons/obj/items/donor_weapons_64.dmi'
+	sheathe_icon = "eiren_m"
+	bigboy = TRUE
+
+/obj/item/rogueweapon/eirenxiv/eirensword
+	name = "stygian longsword"
+	desc = "A finely crafted steel longsword, its design perfectly combining elegance and practicality. Quenched in white oil, refined by the dwarves of Hammerhold, the blade holds a darker hue than usual."
+	icon_state = "eirensword"
+	icon = 'icons/obj/items/donor_weapons_64.dmi'
+	sheathe_icon = "eirensword"
+	bigboy = TRUE
+
+/obj/item/clothing/head/roguetown/helmet/heavy/knight/armet/eiren_helmet
+	name = "strigidae armet"
+	desc = "An armet of distinct bird like design with a pronounced beak. \
+		Close to the teachings of Noc himself, it shields the curious gaze of the one wearing it. \
+		This one has seen some use and may be fitted with a great plume atop, to bear heraldic colors."
+	icon_state = "armetowl"
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+
+/obj/item/clothing/head/roguetown/helmet/heavy/knight/armet/eiren_helmet/attackby(obj/item/W, mob/living/user, params)
+	..()
+	if(!(istype(W, /obj/item/natural/feather) && !detail_tag))
+		return
+	var/choice = input(user, "Choose a color.", "Plume") as anything in COLOR_MAP
+	user.visible_message(span_warning("[user] adds [W] to [src]."))
+	user.transferItemToLoc(W, src, FALSE, FALSE)
+	detail_color = COLOR_MAP[choice]
+	detail_tag = "_detail"
+	update_icon()
+	if(loc == user && ishuman(user))
+		var/mob/living/carbon/H = user
+		H.update_inv_head()
 
 /obj/item/clothing/head/roguetown/duelhat/pretzel
-	name = "rethrifted gravedigger's hat" 
+	name = "rethrifted gravedigger's hat"
 	desc = "A gravetender's dark leather slouch, refitted with a golden dragon-sigil. Who needs a steel skullcap when you have dumb luck? <br> \
 	\"You ever feel like nothin' good was ever gonna happen to you?\" <br> \
 	\"Yeah, and nothin' did. So what?\""
@@ -278,6 +337,34 @@
 	icon = 'icons/obj/items/donor_weapons_64.dmi'
 	icon_state = "dasfox_lance"
 
+//IamCrystalClear
+/obj/item/clothing/mask/rogue/iamcrystalclear
+	name = "porcelain mask"
+	desc = "A porcelain mask with black eyes and no mouth."
+	icon = 'icons/clothing/donor_clothes.dmi'
+	icon_state = "porc_mask"
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+	adjustable = CAN_CADJUST
+	var/list/toggles = list(
+		"porc_mask",
+		"porc_mask_red",
+		"porc_mask_blue"
+		)
+
+/obj/item/clothing/mask/rogue/iamcrystalclear/AdjustClothes(mob/user)
+	for(var/i in 1 to length(toggles))
+		if(toggles[i] == icon_state)
+			if(i == length(toggles))
+				icon_state = toggles[1]
+			else
+				icon_state = toggles[i+1]
+			break
+	to_chat(user, span_info("My mask shifts its contours."))
+	update_icon()
+	user.update_inv_head()
+	user.update_inv_wear_mask()
+	
+
 
 //RYAN180602
 /obj/item/caparison/ryan
@@ -325,6 +412,24 @@
 	icon_state = "koruu_glaive"
 	icon = 'icons/obj/items/donor_weapons_64.dmi'
 
+/obj/item/rogueweapon/koruu/kukri
+	name = "leachwhacker"
+	desc = "A curved blade proudly made of Azurean Origin. Forged for wading through the hellish Terrorbog, it is a symbol of Azurean Tenacity. \
+	It is said that the name is derived from old rituals of severing the leaves of a westleach bush while the iron is still hot to bless it. \
+	The bane of Maneaters, Brigands, and Invaders."
+	icon_state = "koruu_kukri"
+	icon = 'icons/obj/items/donor_weapons.dmi'
+	sheathe_icon = "koruu_kukri"
+
+/obj/item/rogueweapon/koruu/kukri/warden
+	name = "warden's leachwhacker"
+	desc = "A curved blade proudly made of Azurean Origin. Forged for wading through the hellish Terrorbog, it is a symbol of Azurean Tenacity. \
+	It is said that the name is derived from old rituals of severing the leaves of a westleach bush while the iron is still hot to bless it. \
+	The bane of Maneaters, Brigands, and Invaders. An azure cloth could be seen wrapped around the handle."
+	icon_state = "koruu_kukri_warden"
+	icon = 'icons/obj/items/donor_weapons.dmi'
+	sheathe_icon = "koruu_kukri_warden"
+
 //DAKKEN12
 /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/hounskull/dakken
 	name = "armoured avantyne barbute"
@@ -361,7 +466,7 @@
 	name = "avantyne threaded longsword"
 	desc = "'Threads of dark metal wind through what was formerly a simple steel blade. Cracks and chips are filled in as the weapon of war is reshaped into a symbol of faith.'"
 	icon = 'icons/obj/items/donor_weapons_64.dmi'
-	icon_state = "alloybsword_64"
+	icon_state = "alloyblongsword"
 	sheathe_icon = "alloybsword"
 
 /obj/item/rogueweapon/spear/boar/frei/pike/stinketh
@@ -377,7 +482,22 @@
 	icon_state = "drd_lsword"
 	icon = 'icons/obj/items/donor_weapons_64.dmi'
 
-//Brass Beak Mask
+/obj/item/caparison/drd
+	name = "\improper House Woerden caparison"
+	desc = "The livery of House Woerden: Pale blue, and white. A deer's head marks the flanks of the caparison."
+	icon = 'icons/clothing/donor_clothes.dmi'
+	icon_state = "drd_caparison"
+	caparison_icon = 'icons/clothing/onmob/donor_caparisons.dmi'
+	caparison_state = "drd_caparison"
+	female_caparison_state = "drd_caparison-f"
+
+/obj/item/rogueweapon/drd/shield
+	name = "kite shield"
+	desc = "The heraldry of the near-fallen House Woerden: Argent and celestial-azure, per bend, in fess point a deer head erased affronty gray."
+	icon_state = "drd_shield"
+	icon = 'icons/obj/items/donor_weapons.dmi'
+
+//LMWEVIL
 /obj/item/clothing/mask/rogue/courtphysician/brassbeak
 	name = "\improper Society of the Brass Beak mask"
 	desc = "A plague mask fitted with a brass-embossed beak, indicating membership in an erudite society of like-minded physickers. \
@@ -386,3 +506,107 @@
 	item_state = "brassbeak"
 	icon = 'icons/clothing/donor_clothes.dmi'
 	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+
+//SHUDDERFLY
+/obj/item/rogueweapon/huntingknife/idagger/steel/shudderfly
+	name = "\improper Eoran Spike"
+	desc = "An ornately decorated steel dagger with the initials M.D. engraved on one side and the word Amor on the other. \
+	Around its crossguard is bound a rosa that never seems to wilt, the weapon is obviously cared for, but has seen many fights. \
+	You can’t help but shake the feeling that the weapon itself resists being used."
+	icon_state = "eoranspike"
+	icon = 'icons/obj/items/donor_weapons.dmi'
+
+//MAESUNE
+/obj/item/clothing/suit/roguetown/shirt/maesune
+	name = "mercantile union's garb"
+	desc = "Baubles, Trinkets, Merchandise galore! Come seek your finest wares, store them in your many pockets! Made for the finery of the naturalistic entrepreneurs! Mercantilism, ho!"
+	slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR
+	icon_state = "merchantgarb"
+	sleevetype = "merchantgarb"
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+	sleeved = 'icons/clothing/onmob/donor_sleeves_armor.dmi'
+
+/obj/item/rogueweapon/maesune/sabre
+	name = "\improper Y Ceirw"
+	desc = "A masterfully forged sword, trimmed in gold, embedded with a gem in the guard. Built as a weapon against injustice. So we may carve out a better world. \
+	Borne upon the blade, a faded inscription reads, \"A Light Shineth In the Darkness\"."
+	icon_state = "maesune_sabre"
+	icon = 'icons/obj/items/donor_weapons_64.dmi'
+	bigboy = TRUE
+
+/obj/item/rogueweapon/maesune/shield
+	name = "\improper Fy Annwyl"
+	desc = "A balanced shield, trimmed in silver, and bearing the crest of a golden deer's head with gleaming gemstone eyes. A bulwark against the howling abyss. Endvring, so we may all live in a better world. \
+	Borne upon it, a freshly carved inscription reads, \"But The Darkness Comprehended It Not\"."
+	icon_state = "maesune_shield"
+	icon = 'icons/obj/items/donor_weapons.dmi'
+
+//NEROCAVALIER
+/obj/item/rogueweapon/nerocavalier/flsword
+	name = "blacksteel longsword"
+	desc = "A sleek blade of a dark, and burnished hue. A handle carved from a rosawood branch. A pairing that should sing a melody sweeter than any harp as it parts the air.. and yet, beautiful it may be, it is not worthy of song."
+	icon_state = "flsword"
+	icon = 'icons/obj/items/donor_weapons_64.dmi'
+	bigboy = TRUE
+
+//WALKTHEWASTE
+/obj/item/clothing/head/roguetown/mentorhat/walkthewaste
+	armor = ARMOR_CLOTHING
+
+//SCIDRAGON
+/obj/item/rogueweapon/sword/sabre/shamshir/dono_scidragon_flame
+	name = "flametongue"
+	desc = "An eternal flame dances and flickers across the blade of this shamshir, fueled by the passion of its wielder, promising to bring the heat of the long-away desert to its victims."
+	icon = 'icons/obj/items/donor_weapons_64.dmi'
+	icon_state = "sci_firetongue"
+
+/obj/item/rogueweapon/sword/sabre/shamshir/dono_scidragon_flame/ComponentInitialize()
+	. = ..()
+	AddComponent(/datum/component/ignitable/fluff/sci_flame)
+
+/obj/item/rogueweapon/sword/sabre/shamshir/dono_scidragon_sand
+	name = "sandlash"
+	desc = "Fury of an untamable desert sandstorm, conjured along the steel of this shamshir, destined to bite and lash at the target of its owner's ire. Or perhaps just business."
+	icon = 'icons/obj/items/donor_weapons_64.dmi'
+	icon_state = "sci_sandlash"
+
+/obj/item/rogueweapon/sword/sabre/shamshir/dono_scidragon_sand/ComponentInitialize()
+	. = ..()
+	AddComponent(/datum/component/ignitable/fluff/sci_sand)
+
+/obj/item/rogueweapon/wand/aisu
+    base_implement_name = "crystalline wand"
+    name = "crystalline wand"
+    desc = "A crystalline wand, born from a single tear and weeks of prayers and enchantments, Oh my guiding Moonlight!"
+    icon_state = "aisuwand"
+    icon = 'icons/obj/items/donor_weapons.dmi'
+
+/obj/item/rogueweapon/wand/aisu/getonmobprop(tag)
+	. = ..()
+	if(tag)
+		switch(tag)
+			if("gen")
+				return list("shrink" = 0.6,"sx" = -14,"sy" = -8,"nx" = 15,"ny" = -7,"wx" = -10,"wy" = -5,"ex" = 7,"ey" = -6,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = -13,"sturn" = 110,"wturn" = -60,"eturn" = -30,"nflip" = 1,"sflip" = 1,"wflip" = 8,"eflip" = 1)
+			if("onbelt")
+				return list("shrink" = 0.5,"sx" = -4,"sy" = -6,"nx" = 5,"ny" = -6,"wx" = 0,"wy" = -6,"ex" = -1,"ey" = -6,"nturn" = 100,"sturn" = 156,"wturn" = 90,"eturn" = 180,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
+
+//NAUTICALL
+/obj/item/rogueweapon/example/regnum
+	name = "Regnum"
+	desc = "<i>'In war, the moral is to the physical as three is to one.'</i> <br> \
+	An armor-piercing longsword. The finest steel, wrapped in the finest leather. Its rear-biased weight distribution makes it more of a scalpel than a slasher, while its sharp taper implies its purpose of skewering enemies with graceful precision. \
+	The immaculate craftsmanship, the red leather, and the sparse but tasteful gold ornaments tell anyone who may pick this blade up that 'tis truly fit for a sovereign."
+	icon = 'icons/obj/items/donor_weapons_64.dmi'
+	icon_state = "regnum" 
+	sheathe_icon = "regnum"
+	bigboy = TRUE
+
+/obj/item/rogueweapon/example/aeternum
+	name = "Aeternum"
+	desc = "<i>'Lay by your pleading, law lies a-bleeding / Burn all your studies down, and throw away your reading; small power the word has, and can afford us / Not half so many privileges as the sword has.'</i> <br> \
+	A bespoke polished montante. Austere yet ornate, formal yet functional. Like its smaller sibling, it comes with hardware of real gold and a handgrip of supple red leather. Where most monarchs' blades are meant for ceremony, this one tells a \
+	different story altogether, for it is made for only one purpose: war."
+	icon = 'icons/obj/items/donor_weapons_64.dmi'
+	icon_state = "aeternum"
+	bigboy = TRUE

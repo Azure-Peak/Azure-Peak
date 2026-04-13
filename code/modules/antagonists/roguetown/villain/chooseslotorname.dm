@@ -3,8 +3,8 @@
 		return
 
 	if(!client?.prefs?.path)
-		addtimer(CALLBACK(target, TYPE_PROC_REF(/mob/living/carbon/human, choose_name_popup)), 3 SECONDS)
-		addtimer(CALLBACK(target, TYPE_PROC_REF(/mob/living/carbon/human, choose_pronouns_and_body)), 7 SECONDS)
+		addtimer(CALLBACK(src, TYPE_PROC_REF(/mob/living/carbon/human, choose_name_popup)), 3 SECONDS)
+		addtimer(CALLBACK(src, TYPE_PROC_REF(/mob/living/carbon/human, choose_pronouns_and_body)), 7 SECONDS)
 		return
 
 	var/list/choices = list()
@@ -25,14 +25,14 @@
 		return
 
 	if(!client?.prefs || choice == "Choose A Name")
-		addtimer(CALLBACK(target, TYPE_PROC_REF(/mob/living/carbon/human, choose_name_popup)), 3 SECONDS)
-		addtimer(CALLBACK(target, TYPE_PROC_REF(/mob/living/carbon/human, choose_pronouns_and_body)), 7 SECONDS)
+		addtimer(CALLBACK(src, TYPE_PROC_REF(/mob/living/carbon/human, choose_name_popup)), 3 SECONDS)
+		addtimer(CALLBACK(src, TYPE_PROC_REF(/mob/living/carbon/human, choose_pronouns_and_body)), 7 SECONDS)
 		return
 	else
 		choice = choices[choice]
 		if(!client.prefs.load_character(choice))
 			to_chat(src, span_userdanger("Char load failed, choosing name, body and pronouns now."))
-			addtimer(CALLBACK(target, TYPE_PROC_REF(/mob/living/carbon/human, choose_name_popup)), 3 SECONDS)
-			addtimer(CALLBACK(target, TYPE_PROC_REF(/mob/living/carbon/human, choose_pronouns_and_body)), 7 SECONDS)
+			addtimer(CALLBACK(src, TYPE_PROC_REF(/mob/living/carbon/human, choose_name_popup)), 3 SECONDS)
+			addtimer(CALLBACK(src, TYPE_PROC_REF(/mob/living/carbon/human, choose_pronouns_and_body)), 7 SECONDS)
 		else
 			client.prefs.copy_to(src, TRUE, FALSE, FALSE, TRUE)

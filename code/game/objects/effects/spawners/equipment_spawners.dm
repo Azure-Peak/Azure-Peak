@@ -14,7 +14,6 @@
 		/obj/item/clothing/suit/roguetown/armor/leather/heavy = 1,
 		/obj/item/clothing/suit/roguetown/armor/leather/heavy/coat = 1,
 		/obj/item/clothing/suit/roguetown/armor/leather/heavy/jacket = 1,
-		/obj/item/clothing/suit/roguetown/armor/leather/trophyfur = 1,
 		/obj/item/clothing/suit/roguetown/armor/silkcoat = 1,
 		/obj/item/clothing/suit/roguetown/shirt/robe/spellcasterrobe = 1,
 		/obj/item/clothing/suit/roguetown/armor/plate/cuirass/copper = 1,
@@ -55,7 +54,7 @@
 		/obj/item/clothing/suit/roguetown/armor/plate/full = 2,
 		/obj/item/clothing/suit/roguetown/armor/plate/full/fluted = 1,
 		/obj/item/clothing/suit/roguetown/armor/brigandine = 6,
-		/obj/item/clothing/suit/roguetown/armor/plate/scale/knight = 4,
+		/obj/item/clothing/suit/roguetown/armor/brigandine/heavy = 4,
 		/obj/item/clothing/under/roguetown/platelegs = 6, //how is there only one nonunique heavy leg armor
 	)
 

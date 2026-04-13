@@ -26,6 +26,48 @@
 	req_bar = /obj/item/ingot/aalloy
 	created_item = /obj/item/roguestatue/aalloy
 
+/datum/anvil_recipe/valuables/noccrossaalloy
+	name = "Amulet of Knowledge, Decrepit"
+	req_bar = /obj/item/ingot/aalloy
+	created_item = /obj/item/clothing/neck/roguetown/psicross/noc/aalloy
+	craftdiff = 3
+
+/datum/anvil_recipe/valuables/noccrosspaalloy
+	name = "Amulet of Knowledge, Ancient"
+	req_bar = /obj/item/ingot/purifiedaalloy
+	created_item = /obj/item/clothing/neck/roguetown/psicross/noc/paalloy
+	craftdiff = 3
+
+/datum/anvil_recipe/valuables/psycrossaalloy
+	name = "Amulet of Psydonia, Decrepit"
+	req_bar = /obj/item/ingot/aalloy
+	created_item = /obj/item/clothing/neck/roguetown/psicross/aalloy
+	craftdiff = 3
+
+/datum/anvil_recipe/valuables/psycrosspaalloy
+	name = "Amulet of Psydonia, Ancient"
+	req_bar = /obj/item/ingot/purifiedaalloy
+	created_item = /obj/item/clothing/neck/roguetown/psicross/paalloy
+	craftdiff = 3
+
+/datum/anvil_recipe/valuables/zcrossaalloy
+	name = "Amulet of Ascension, Decrepit"
+	req_bar = /obj/item/ingot/aalloy
+	created_item = /obj/item/clothing/neck/roguetown/psicross/inhumen/aalloy
+	craftdiff = 3
+
+/datum/anvil_recipe/valuables/zcrosspaalloy
+	name = "Amulet of Ascension, Ancient"
+	req_bar = /obj/item/ingot/purifiedaalloy
+	created_item = /obj/item/clothing/neck/roguetown/psicross/inhumen/paalloy
+	craftdiff = 3
+
+/datum/anvil_recipe/valuables/noccrossbronze
+	name = "Amulet of Knowledge, Bronze"
+	req_bar = /obj/item/ingot/bronze
+	created_item = /obj/item/clothing/neck/roguetown/psicross/noc/bronze
+	craftdiff = 2
+
 /datum/anvil_recipe/valuables/steel
 	name = "Statue, Steel"
 	req_bar = /obj/item/ingot/steel
@@ -68,7 +110,7 @@
 	craftdiff = 2
 
 /datum/anvil_recipe/valuables/zcrossbronze
-	name = "Amulet of Inhumenity, Bronze"
+	name = "Amulet of Ascension, Bronze"
 	req_bar = /obj/item/ingot/bronze
 	created_item = /obj/item/clothing/neck/roguetown/psicross/inhumen/bronze
 	craftdiff = 2
@@ -95,6 +137,12 @@
 	name = "Amulet of Creation, Bronze"
 	req_bar = /obj/item/ingot/bronze
 	created_item = /obj/item/clothing/neck/roguetown/psicross/malum/bronze
+	craftdiff = 2
+
+/datum/anvil_recipe/valuables/noccrossbronze
+	name = "Amulet of Knowledge, Bronze"
+	req_bar = /obj/item/ingot/bronze
+	created_item = /obj/item/clothing/neck/roguetown/psicross/noc/bronze
 	craftdiff = 2
 
 /datum/anvil_recipe/valuables/statuebronze
@@ -128,6 +176,30 @@
 	req_bar = /obj/item/ingot/blacksteel
 	created_item = /obj/item/clothing/ring/blacksteel
 	createditem_num = 3
+
+/datum/anvil_recipe/valuables/weddingrings
+	name = "Weddingbands, Silver (x2)"
+	req_bar = /obj/item/ingot/silver
+	created_item = /obj/item/clothing/ring/band
+	createditem_num = 2
+
+/datum/anvil_recipe/valuables/weddingringg
+	name = "Weddingbands, Gold (x2)"
+	req_bar = /obj/item/ingot/gold
+	created_item = /obj/item/clothing/ring/band/gold
+	createditem_num = 2
+
+/datum/anvil_recipe/valuables/weddingringb
+	name = "Weddingbands, Bronze (x2)"
+	req_bar = /obj/item/ingot/bronze
+	created_item = /obj/item/clothing/ring/band/bronze
+	createditem_num = 2
+
+/datum/anvil_recipe/valuables/weddingringp
+	name = "Weddingbands, Ancient (x2)"
+	req_bar = /obj/item/ingot/purifiedaalloy
+	created_item = /obj/item/clothing/ring/band/paalloy
+	createditem_num = 2
 
 /datum/anvil_recipe/valuables/ornateamulet
 	name = "Ornate Amulet"

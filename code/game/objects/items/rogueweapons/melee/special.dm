@@ -26,6 +26,19 @@
 	clickcd = CLICK_CD_FAST
 	item_d_type = "stab"
 
+/datum/intent/axe/chop/arbelos
+	damfactor = 1.3
+	clickcd = CLICK_CD_QUICK //Quicker than a conventional axe, but slower than a katar.
+
+/datum/intent/axe/cut/arbelos
+	damfactor = 1.15
+	clickcd = CLICK_CD_FAST //Same speed as a katar, but with reduced penetration and half-damage. Main appeal's the chopper.
+
+/datum/intent/katar/thrust/arbelos
+	penfactor = PEN_LIGHT
+	damfactor = 0.8
+	clickcd = CLICK_CD_QUICK //Slower than a regular thrust, with slightly less penetration and damage. Inverse to the katar.
+
 /datum/intent/lordbash
 	name = "bash"
 	blade_class = BCLASS_BLUNT
@@ -301,6 +314,18 @@
 			if("onbelt")
 				return list("shrink" = 0.3,"sx" = -2,"sy" = -5,"nx" = 4,"ny" = -5,"wx" = 0,"wy" = -5,"ex" = 2,"ey" = -5,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
 
+/obj/item/rogueweapon/katar/bronze/gladiator
+	name = "arbelos"
+	icon_state = "bronzescissor"
+	item_state = "bronzescissor"
+	desc = "A sharpened axhead that's been mounted onto a bronze gauntlet. Popularized at the turn of the millennium within the Underdark's gladiatorial arenas, \
+	it triumphs over the katar when it comes to thawrting blows and cleaving skulls. The wooden handle used to connect its axhead to the gauntlet is fragile, however; \
+	all it takes is a precise strike to neuter such a weapon."
+	wdefense = 5 //Much higher than usual for most unarmed weapons..
+	max_integrity = 150 //..and tougher, too.
+	max_blade_int = 150 // Reduced sharpness, however, as a result. Such a weapon is built for gladitorial combat, not the rigors of the wilderness. Keep it sharpened
+	possible_item_intents = list(/datum/intent/axe/chop/arbelos, /datum/intent/axe/cut/arbelos, /datum/intent/katar/thrust/arbelos)
+	thrown_bclass = BCLASS_CHOP
 
 /obj/item/rogueweapon/katar/abyssor
 	name = "barotrauma"
@@ -316,6 +341,32 @@
 	force = 21 //-3 damage malus, same as the knuckles.
 	max_integrity = 80
 	smeltresult = /obj/item/ingot/bronze
+
+/obj/item/rogueweapon/katar/bronze/gladiator
+	name = "arbelos"
+	icon_state = "bronzescissor"
+	item_state = "bronzescissor"
+	desc = "A sharpened axhead that's been mounted onto a bronze gauntlet. Popularized at the turn of the millennium within the Underdark's gladiatorial arenas, \
+	it triumphs over the katar when it comes to thawrting blows and cleaving skulls. The wooden handle used to connect its axhead to the gauntlet is fragile, however; \
+	all it takes is a precise strike to neuter such a weapon."
+	wdefense = 5 //Much higher than usual for most unarmed weapons..
+	max_integrity = 150 //..and tougher, too.
+	max_blade_int = 150 // Reduced sharpness, however, as a result. Such a weapon is built for gladitorial combat, not the rigors of the wilderness. Keep it sharpened
+	possible_item_intents = list(/datum/intent/axe/chop/arbelos, /datum/intent/axe/cut/arbelos, /datum/intent/katar/thrust/arbelos)
+	thrown_bclass = BCLASS_CHOP
+
+/datum/intent/axe/chop/arbelos
+	damfactor = 1.3
+	clickcd = CLICK_CD_QUICK //Quicker than a conventional axe, but slower than a katar.
+
+/datum/intent/axe/cut/arbelos
+	damfactor = 1.15
+	clickcd = CLICK_CD_FAST //Same speed as a katar, but with reduced penetration and half-damage. Main appeal's the chopper.
+
+/datum/intent/katar/thrust/arbelos
+	penfactor = PEN_LIGHT
+	damfactor = 0.8
+	clickcd = CLICK_CD_QUICK //Slower than a regular thrust, with slightly less penetration and damage. Inverse to the katar.
 
 /obj/item/rogueweapon/katar/punchdagger
 	name = "punch dagger"
@@ -527,12 +578,41 @@
 	var/is_active
 	var/single_use = TRUE
 	var/icon_state_ignited
+	var/use_light = TRUE
+	var/spread_flame = TRUE
+
+/datum/component/ignitable/fluff
+	use_light = FALSE
+	spread_flame = FALSE
+
+/datum/component/ignitable/fluff/sci_flame
+	use_light = FALSE
+	spread_flame = FALSE
+	icon_state_ignited = "sci_firetongue_on"
+	
+/datum/component/ignitable/fluff/sci_sand
+	use_light = FALSE
+	spread_flame = FALSE
+	icon_state_ignited = "sci_sandlash_on"
 
 /datum/component/ignitable/Initialize(...)
-	. = ..()
+	if(!isitem(parent))
+		return COMPONENT_INCOMPATIBLE
+	
+	RegisterSignal(parent, COMSIG_STRUCTURE_ATTACKBY, PROC_REF(item_afterattack))
 	RegisterSignal(parent, COMSIG_ITEM_AFTERATTACK, PROC_REF(item_afterattack))
 	RegisterSignal(parent, COMSIG_PARENT_EXAMINE, PROC_REF(on_examine))
 	RegisterSignal(parent, COMSIG_ATOM_FIRE_ACT, PROC_REF(on_fireact))
+	RegisterSignal(parent, COMSIG_ATOM_ATTACK_RIGHT, PROC_REF(self_extinguish))
+
+/datum/component/ignitable/proc/self_extinguish()
+	is_active = FALSE
+	light_off()
+	update_icon()
+	var/obj/item/I = parent
+	if(ismob(I.loc))
+		var/mob/user = I.loc
+		user.regenerate_icons()
 
 /datum/component/ignitable/proc/on_fireact(added, maxstacks)
 	if(is_ignitable && !is_active)
@@ -544,7 +624,8 @@
 
 /datum/component/ignitable/proc/light_on()
 	var/obj/I = parent
-	I.set_light_on(TRUE)
+	if(use_light)
+		I.set_light_on(TRUE)
 	playsound(I.loc, 'sound/items/firelight.ogg', 100)
 	is_active = TRUE
 	is_ignitable = FALSE
@@ -569,7 +650,7 @@
 /datum/component/ignitable/proc/item_afterattack(obj/item/source, atom/target, mob/user, proximity_flag, click_parameters)
 	var/ignited = FALSE
 	if(user.used_intent?.reach >= get_dist(target, user))
-		if(is_active)
+		if(is_active && spread_flame)
 			if(isobj(target))
 				var/obj/O = target
 				if(!(O.resistance_flags & FIRE_PROOF))
@@ -589,7 +670,7 @@
 		else if(is_ignitable && !is_active)
 			if(isobj(target))
 				var/obj/O = target
-				if(O.damtype == BURN || O.light_on == TRUE)	//Super hacky, but should work on every conventional source you'd expect to ignite it. But also a few other weird ones.
+				if(O.damtype == BURN || O.light_on)	//Super hacky, but should work on every conventional source you'd expect to ignite it. But also a few other weird ones.
 					light_on()
 					user.regenerate_icons()
 
@@ -703,10 +784,10 @@
 /obj/item/rogueweapon/sword/falchion/militia/bronze
 	name = "kopis"
 	desc = "The falchion's ancient predecessor, veiled in bronze - yet no less lethal against an awaiting trunk. The curved grip snuggly fits in the wielder's hand, allowing their will to be imposed upon assailant-and-archdevil alike with terrible force."
-	possible_item_intents = list(/datum/intent/sword/cut, /datum/intent/sword/chop/militia, /datum/intent/sword/thrust/krieg, /datum/intent/sword/strike)
+	possible_item_intents = list(/datum/intent/sword/cut, /datum/intent/sword/chop/militia, /datum/intent/sword/thrust/long/deep, /datum/intent/sword/strike)
 	icon_state = "kopis"
 	sheathe_icon = "kopis"
-	gripped_intents = list(/datum/intent/rend, /datum/intent/sword/chop/militia, /datum/intent/sword/thrust/krieg, /datum/intent/sword/strike)
+	gripped_intents = list(/datum/intent/rend, /datum/intent/sword/chop/militia, /datum/intent/sword/thrust/long/deep, /datum/intent/sword/strike)
 	force = 20
 	force_wielded = 27 // +2/3ish over the Maciejowski. A proper killing machine.
 	max_integrity = 175
@@ -1064,7 +1145,7 @@
 	force_wielded = 30
 	throwforce = 40 // It'll be funny. Trust.
 	possible_item_intents = list(SPEAR_BASH)
-	gripped_intents = list(/datum/intent/spear/thrust/ducal_standard, /datum/intent/spear/bash/ranged, /datum/intent/mace/smash/eaglebeak) // GET THEM OFF OF ME!!! OOOUGH!!!
+	gripped_intents = list(/datum/intent/spear/thrust, /datum/intent/spear/bash/ranged, /datum/intent/mace/smash/eaglebeak) // GET THEM OFF OF ME!!! OOOUGH!!!
 	icon = 'icons/roguetown/weapons/polearms64.dmi'
 	icon_state = "standard"
 	max_blade_int = 200
@@ -1133,6 +1214,3 @@
 /obj/item/rogueweapon/spear/keep_standard/Destroy()
 	GLOB.lordcolor -= src
 	return ..()
-
-/datum/intent/spear/thrust/ducal_standard
-	penfactor = PEN_MEDIUM

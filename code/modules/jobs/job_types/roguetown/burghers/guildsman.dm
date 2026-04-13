@@ -29,7 +29,7 @@
 		/datum/advclass/guildsman/blacksmith,
 		/datum/advclass/guildsman/architect
 	)
-	spells = list(/obj/effect/proc_holder/spell/invoked/takeapprentice)
+	spells = list()
 
 /datum/advclass/guildsman/blacksmith
 	name = "Guild Blacksmith"
@@ -96,6 +96,7 @@
 		beltr = /obj/item/roguekey/crafterguild
 		cloak = /obj/item/clothing/cloak/apron/blacksmith
 	if(H.mind)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/takeapprentice)
 		SStreasury.give_money_account(ECONOMIC_UPPER_MIDDLE_CLASS, H, "Savings.")
 
 
@@ -105,9 +106,10 @@
 	But your true calling is the creation and enchantment of magical items, alongside feats of engineering, creating mechanical and magical wonders whose art of creation has been passed down\
 	from a certain elven Artificer..."
 	outfit = /datum/outfit/job/roguetown/guildsman/artificer
+	subclass_mage_aspects = list("mastery" = FALSE, "major" = 1, "minor" = 2, "utilities" = 4, "locked_aspects" = list(/datum/magic_aspect/battlewardry, /datum/magic_aspect/artifice), "post_aspect_spells" = list(/obj/effect/proc_holder/spell/invoked/takeapprentice), "ward" = TRUE)
 
 	category_tags = list(CTAG_GUILDSMEN)
-	traits_applied = list(TRAIT_ARCYNE_T2)
+	traits_applied = list(TRAIT_ARCYNE)
 	subclass_stats = list(
 		STATKEY_INT = 3,
 		STATKEY_WIL = 2,
@@ -161,11 +163,9 @@
 						/obj/item/clothing/mask/rogue/spectacles/golden = 1, //putting them in the bag because bad eye sight virtue strips these
 						/obj/item/contraption/linker = 1,
 						/obj/item/mini_flagpole/artificer = 1,
+						/obj/item/book/spellbook = 1,
 						)
 	// Not a real mage, no free spell point. Take Arcyne Potential if you want it.
-	if(H.mind)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/touch/prestidigitation)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/enchant_weapon)
 	if(H.mind)
 		SStreasury.give_money_account(ECONOMIC_UPPER_MIDDLE_CLASS, H, "Savings.")
 
@@ -236,4 +236,5 @@
 	ADD_TRAIT(H, TRAIT_MASTER_CARPENTER, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_MASTER_MASON, TRAIT_GENERIC)
 	if(H.mind)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/takeapprentice)
 		SStreasury.give_money_account(ECONOMIC_UPPER_MIDDLE_CLASS, H, "Savings.")

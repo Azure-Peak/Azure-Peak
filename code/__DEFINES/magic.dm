@@ -54,6 +54,8 @@
 #define SPELL_CASTABLE_WITHOUT_INVOCATION (1 << 6)
 /// If the spell requires the user to not move during casting.
 #define SPELL_REQUIRES_NO_MOVE (1 << 7)
+/// Whether the spell requires the target to be on the same Z-level as the caster.
+#define SPELL_REQUIRES_SAME_Z (1 << 8)
 
 /// Default magic resistance that blocks normal magic
 #define MAGIC_RESISTANCE (1 << 0)

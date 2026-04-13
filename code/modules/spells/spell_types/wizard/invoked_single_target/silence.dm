@@ -13,6 +13,7 @@
 	no_early_release = TRUE
 	movement_interrupt = FALSE
 	spell_tier = 1
+	spell_impact_intensity = SPELL_IMPACT_NONE
 	invocations = list("Silentium!")
 	invocation_type = "whisper"
 	glow_color = GLOW_COLOR_BUFF

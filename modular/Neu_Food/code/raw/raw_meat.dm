@@ -431,3 +431,15 @@
 
 	qdel(user)
 	qdel(src)
+
+/* ............. Raw Ham ................*/
+/obj/item/reagent_containers/food/snacks/rogue/meat/ham
+	name = "raw ham"
+	desc = "Perfect cut of swine flesh, raw and ready to be steamed."
+	icon_state = "ham_raw"
+	rotprocess = SHELFLIFE_DECENT
+	fried_type = /obj/item/reagent_containers/food/snacks/rogue/meat/ham/steamed
+	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/meat/ham/steamed
+	slices_num = 2
+	slice_path = null
+	tastes = list("hog" = 1)

@@ -1,5 +1,5 @@
-#define ULTRA_PRECISE_ZONE 1 
-#define PRECISE_ZONE 2 
+#define ULTRA_PRECISE_ZONE 1
+#define PRECISE_ZONE 2
 #define NO_PENALTY_ZONE 3
 #define PRECISE_FACE_ZONE 4
 #define RANGED_MAX_ULTRA_PRECISE_HIT_CHANCE 50 // No matter what max 50% chance to hit
@@ -16,16 +16,7 @@
 		return zone
 	if(zone == BODY_ZONE_CHEST)
 		return zone
-	if(HAS_TRAIT(user, TRAIT_CIVILIZEDBARBARIAN) && (zone == BODY_ZONE_L_LEG || zone == BODY_ZONE_R_LEG))
-		return zone
-	if(target.pulledby || target.pulling)
-		return zone
-	if(!(target.mobility_flags & MOBILITY_STAND))
-		return zone
-	// If you're floored, you will aim feet and legs easily. There's a check for whether the victim is laying down already.
-	if(!(user.mobility_flags & MOBILITY_STAND) && (zone in list(BODY_ZONE_L_LEG, BODY_ZONE_R_LEG, BODY_ZONE_PRECISE_R_FOOT, BODY_ZONE_PRECISE_L_FOOT)))
-		return zone
-	if(target.dir == turn(get_dir(target, user), 180))
+	if(target.stat >= UNCONSCIOUS)
 		return zone
 
 	var/chance2hit = 0
@@ -45,9 +36,30 @@
 	if(HAS_TRAIT(user, TRAIT_CURSE_RAVOX))
 		chance2hit -= 40
 
+	if(target.pulledby || target.pulling)
+		chance2hit += target.pulledby?.grab_state > GRAB_PASSIVE ? 20 : 10
+
+	if(!(target.mobility_flags & MOBILITY_STAND))
+		chance2hit += 30
+
+	if(target.has_status_effect(/datum/status_effect/debuff/exposed) || target.has_status_effect(/datum/status_effect/debuff/vulnerable))
+		chance2hit += 20
+
+	if(!(user.mobility_flags & MOBILITY_STAND) && (zone in list(BODY_ZONE_L_LEG, BODY_ZONE_R_LEG, BODY_ZONE_PRECISE_R_FOOT, BODY_ZONE_PRECISE_L_FOOT)))
+		chance2hit += 5
+	if(HAS_TRAIT(user, TRAIT_GUIDANCE))
+		chance2hit += FULL_GUIDANCE_ACCURACY
+	else if(HAS_TRAIT(user, TRAIT_LESSER_GUIDANCE))
+		chance2hit += LESSER_GUIDANCE_ACCURACY
+
+	if(HAS_TRAIT(user, TRAIT_REVERSE_GUIDANCE))
+		chance2hit -= FULL_GUIDANCE_ACCURACY
+	else if(HAS_TRAIT(user, TRAIT_LESSER_REVERSE_GUIDANCE))
+		chance2hit -= LESSER_GUIDANCE_ACCURACY
+
 	chance2hit += accuracy_bonus
 
-	chance2hit = CLAMP(chance2hit, 5, 93)
+	chance2hit = CLAMP(chance2hit, 5, 95)
 
 	if(prob(chance2hit))
 		return zone
@@ -77,8 +89,8 @@
 	if(used_intent)
 		if(used_intent.blade_class == BCLASS_STAB)
 			bonus += 10
-		if(used_intent.blade_class == BCLASS_HALFSWORD)
-			bonus += 20	//Double that of stab
+		if(used_intent.blade_class == BCLASS_PICK)
+			bonus += 15
 		if(used_intent.blade_class == BCLASS_CUT)
 			bonus += 6
 		if((used_intent.blade_class == BCLASS_BLUNT || used_intent.blade_class == BCLASS_SMASH) && check_zone(zone) != zone)	//A mace can't hit the eyes very well

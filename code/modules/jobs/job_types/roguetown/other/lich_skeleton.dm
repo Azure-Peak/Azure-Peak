@@ -506,7 +506,7 @@ LICH SKELETONS
 	H.STAPER = 11
 
 	ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_ARCYNE_T2, TRAIT_GENERIC)
+	ADD_TRAIT(H, TRAIT_ARCYNE, TRAIT_GENERIC)
 
 	H.adjust_skillrank(/datum/skill/combat/shields, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/wrestling, 2, TRUE)
@@ -552,27 +552,26 @@ LICH SKELETONS
 	if(H.mind)
 		switch(subclass_selected)
 			if("blade")
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/caedo)
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/air_strike)
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/leyline_anchor)
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/blade_storm)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/caedo)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/air_strike)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/leyline_anchor)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/blade_storm)
 			if("phalangite")
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/azurean_phalanx)
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/azurean_javelin)
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/advance)
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/gate_of_reckoning)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/azurean_phalanx)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/azurean_pilum)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/advance)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/gate_of_reckoning)
 			if("macebearer")
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/shatter)
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/tremor)
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/charge)
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/cataclysm)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/kastvyl)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/tremor)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/charge)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/cataclysm)
 
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/recall_weapon)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/empower_weapon)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/bind_weapon)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/mending)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/enchant_weapon)
-		H.mind.set_spell_point_pools(list("utility" = 4))
+		H.mind.AddSpell(new /datum/action/cooldown/spell/recall_weapon)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/empower_weapon)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/bind_weapon)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/mending)
+		H.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 0, "minor" = 0, "utilities" = 4, "ward" = TRUE))
 
 	H.adjust_blindness(-3)
 	switch(subclass_selected)
@@ -599,14 +598,26 @@ LICH SKELETONS
 					backr = /obj/item/rogueweapon/scabbard/gwstrap
 			H.adjust_skillrank_up_to(/datum/skill/combat/polearms, 4, TRUE)
 		if("macebearer")
-			var/weapons = list("Ancient Mace", "Ancient Warhammer")
+			var/weapons = list("Ancient Mace", "Ancient Warhammer", "Ancient Grand Mace", "Ancient Alloy Axe", "Steel Greataxe")
 			var/weapon_choice = input(H, "Choose your WEAPON.", "RAGE AGAINST THE LYVING.") as anything in weapons
+			var/picked_axe = FALSE
 			switch(weapon_choice)
 				if("Ancient Mace")
 					beltr = /obj/item/rogueweapon/mace/steel/palloy
 				if("Ancient Warhammer")
 					beltr = /obj/item/rogueweapon/mace/warhammer/steel/paalloy
-			H.adjust_skillrank_up_to(/datum/skill/combat/maces, 4, TRUE)
+				if("Ancient Grand Mace")
+					r_hand = /obj/item/rogueweapon/mace/goden/steel/paalloy
+				if("Ancient Alloy Axe")
+					beltr = /obj/item/rogueweapon/stoneaxe/woodcut/steel/paaxe
+					picked_axe = TRUE
+				if("Steel Greataxe")
+					r_hand = /obj/item/rogueweapon/greataxe/steel
+					picked_axe = TRUE
+			if(picked_axe)
+				H.adjust_skillrank_up_to(/datum/skill/combat/axes, 4, TRUE)
+			else
+				H.adjust_skillrank_up_to(/datum/skill/combat/maces, 4, TRUE)
 	H.set_blindness(0)
 
 	// Hack for ordering

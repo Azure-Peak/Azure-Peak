@@ -1,3 +1,10 @@
+// Storyteller scaling (roundstart, storyteller_scale_slots path):
+// scaling=2, min_players=20, default_cap=2
+//  Storyteller    | Cap | <20 | 20-40 | 41-50 | 51-60 | 61+
+//  Ravox          |  4  |  0  |   2   |   4   |   4   |  4
+//  Xylix          |  4  |  0  |   2   |   4   |   4   |  4
+//  Matthios       |  6  |  0  |   2   |   4   |   6   |  6
+//  Others         |  2  |  0  |   2   |   2   |   2   |  2
 /datum/antagonist/bandit
 	name = "Bandit"
 	roundend_category = "bandits"
@@ -12,6 +19,17 @@
 	)
 	rogue_enabled = TRUE
 	has_tempo = TRUE
+	storyteller_antag_flags = STORYTELLER_ANTAG_VILLAIN | STORYTELLER_ANTAG_ROUNDSTART
+	storyteller_favor_flags = STORYTELLER_FAVOR_BANDIT
+	override_candidatereq = TRUE
+	storyteller_min_players = CHARACTER_INJECTION_MIN_POP
+	storyteller_slot_scaling = 2
+	storyteller_slot_default_cap = 2
+	storyteller_maxcaps = list(
+		/datum/storyteller/ravox = 4,
+		/datum/storyteller/xylix = 4,
+		/datum/storyteller/matthios = 6,
+	)
 	var/favor = 150
 	var/totaldonated = 0
 

@@ -13,6 +13,7 @@
 	if(!cmode)	//We just toggled it off.
 		addtimer(CALLBACK(src, PROC_REF(purge_bait)), 30 SECONDS, TIMER_UNIQUE | TIMER_OVERRIDE)
 		addtimer(CALLBACK(src, PROC_REF(clear_tempo_all)), 30 SECONDS, TIMER_UNIQUE | TIMER_OVERRIDE)
+		addtimer(CALLBACK(src, PROC_REF(reset_dodgetime), 20 SECONDS, TIMER_UNIQUE | TIMER_OVERRIDE))
 	if(!HAS_TRAIT(src, TRAIT_DECEIVING_MEEKNESS))
 		filtered_balloon_alert(TRAIT_COMBAT_AWARE, (cmode ? ("<i><font color = '#831414'>Tense</font></i>") : ("<i><font color = '#c7c6c6'>Relaxed</font></i>")), y_offset = 32)
 
@@ -82,6 +83,12 @@
 	HT.apply_status_effect(/datum/status_effect/debuff/baited)
 	HT.apply_status_effect(/datum/status_effect/debuff/exposed)
 	HT.apply_status_effect(/datum/status_effect/debuff/clickcd, 5 SECONDS)
+	if(HT.d_intent == INTENT_DODGE)
+		HT.changeNext_def(clamp(HT.dodgetime + 5, 0, CLICK_CD_DODGE))
+		HT.changeMaxDodge(-5)
+	if(HU.d_intent == INTENT_DODGE)
+		HU.changeNext_def(clamp(HU.dodgetime - 5, 0, CLICK_CD_DODGE))
+		HU.changeMaxDodge(5)
 	HT.bait_stacks++
 	HT.reset_desert_rider_momentum_tier()
 
@@ -127,8 +134,6 @@
 	if(!user)
 		return
 	if(user.incapacitated())
-		return
-	if(!user.mind)
 		return
 	if(user.has_status_effect(/datum/status_effect/debuff/specialcd))
 		return
@@ -183,8 +188,6 @@
 		return
 	if(user.incapacitated())
 		return
-	if(!user.mind)
-		return
 	if(user.has_status_effect(/datum/status_effect/debuff/feintcd))
 		return
 	var/mob/living/L = target
@@ -229,6 +232,9 @@
 		user.apply_status_effect(/datum/status_effect/debuff/feintcd, newcd)
 		if(special_msg)
 			to_chat(user, special_msg)
+		if(L.d_intent == INTENT_DODGE)
+			L.changeNext_def(clamp(L.dodgetime - 2, 0, CLICK_CD_DODGE))
+			L.changeMaxDodge(-2)
 		return
 
 	if(L.has_status_effect(/datum/status_effect/buff/clash))
@@ -242,6 +248,12 @@
 	L.Immobilize(0.5 SECONDS)
 	L.stamina_add(L.stamina * 0.1)
 	L.Slowdown(2)
+	if(L.d_intent == INTENT_DODGE)
+		L.changeNext_def(clamp(L.dodgetime + 3, 0, CLICK_CD_DODGE))
+		L.changeMaxDodge(-3)
+	if(user.d_intent == INTENT_DODGE)
+		user.changeNext_def(clamp((user.dodgetime - 3), 0, CLICK_CD_DODGE))
+		user.changeMaxDodge(2)
 
 	user.changeNext_move(CLICK_CD_FAST)	//We don't want the feint effect to be popped instantly.
 	user.apply_status_effect(/datum/status_effect/debuff/feintcd, newcd)
