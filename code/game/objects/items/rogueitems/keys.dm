@@ -385,8 +385,8 @@
 	lockid = "church"
 
 /obj/item/roguekey/graveyard
-	name = "crypt key"
-	desc = "This rusty key opens the crypt."
+	name = "graveyard key"
+	desc = "This rusty key opens the graveyard a little outside town."
 	icon_state = "rustkey"
 	lockid = "graveyard"
 

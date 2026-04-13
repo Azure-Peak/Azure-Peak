@@ -146,7 +146,7 @@
 	name = "bottle of Aurorian Herbal Beer"
 	icon_state = "beer"
 	list_reagents = list(/datum/reagent/consumable/ethanol/aurorian = 50)
-	desc = "A bottle with the aurorian brewhouse cork-seal. An Elvish beer brewed from an herbal gruit."
+	desc = "A bottle with the Aurorian Brewhouse cork-seal. An Elvish beer brewed from an herbal gruit."
 
 /obj/item/reagent_containers/glass/bottle/rogue/beer/fireleaf
 	name = "bottle of Fireleaf"
@@ -368,3 +368,20 @@
 /obj/item/reagent_containers/glass/bottle/claybottle/whitewine
 	list_reagents = list(/datum/reagent/consumable/ethanol/whitewine = 75)
 	desc = "A bottle with the Otavan Merchant Guild cork-seal. This one appears to be labelled as a sweet wine from the colder northern regions."
+
+/obj/item/reagent_containers/glass/bottle/claybottleclassic/water
+	list_reagents = list(/datum/reagent/water = 75)
+	desc = "A clay bottle bearing the cork-seal of Kingsfield Abbey, an institution known to \
+	bottle and sell water drawn from natural springs under its ownership. While the water inside \
+	these is said to carry particular health benefits, most agree that all water is quite alike."
+
+/obj/item/reagent_containers/glass/bottle/clayvaseclassic/water
+	list_reagents = list(/datum/reagent/water = 65)
+	desc = "A finely crafted ceramic vase designed to carry water; you wonder if it's \
+	good to drink, or if it has been sitting there for weeks."
+
+/obj/item/reagent_containers/glass/bottle/clayfancyvaseclassic/water
+	list_reagents = list(/datum/reagent/water = 65)
+	desc = "A broad, large ceramic vase intended to carry water. A classic piece of \
+	ornamentation for any household that wishes to call back to the old Imperial era."
+

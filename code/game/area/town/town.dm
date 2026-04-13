@@ -174,7 +174,7 @@
 	tavern_area = TRUE
 
 /area/rogue/indoors/town/church
-	name = "church"
+	name = "cathedral"
 	icon_state = "church"
 	droning_sound = 'sound/music/area/church.ogg'
 	droning_sound_dusk = null
