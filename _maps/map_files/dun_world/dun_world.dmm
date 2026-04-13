@@ -15681,6 +15681,8 @@
 /obj/item/reagent_containers/food/snacks/egg,
 /obj/item/reagent_containers/food/snacks/rogue/meat/steak,
 /obj/item/reagent_containers/food/snacks/rogue/meat/steak,
+/obj/item/reagent_containers/food/snacks/fish/salmon,
+/obj/item/reagent_containers/food/snacks/fish/salmon,
 /obj/effect/decal/edge{
 	color = "#3f3f3f";
 	dir = 4
@@ -21847,6 +21849,15 @@
 	},
 /obj/structure/roguemachine/mail{
 	mailtag = "Cathedral Study"
+	},
+/obj/structure/rack/rogue/shelf/big,
+/obj/item/roguecoin/copper{
+	pixel_x = -5;
+	pixel_y = 13
+	},
+/obj/item/roguecoin/copper{
+	pixel_x = 5;
+	pixel_y = 13
 	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/church/chapel)
@@ -45118,6 +45129,14 @@
 	pixel_x = -1;
 	pixel_y = 18
 	},
+/obj/item/reagent_containers/glass/cup/golden/small{
+	pixel_x = -9;
+	pixel_y = 43
+	},
+/obj/item/reagent_containers/glass/cup{
+	pixel_x = 4;
+	pixel_y = 39
+	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/church/chapel)
 "jpD" = (
@@ -52035,7 +52054,6 @@
 /obj/item/reagent_containers/glass/cup/ceramic,
 /obj/item/reagent_containers/glass/cup/ceramic,
 /obj/item/book/rogue/yeoldecookingmanual,
-/obj/machinery/light/rogue/candle/blue/l,
 /obj/item/contraption/folding_table_stored,
 /obj/item/contraption/folding_table_stored,
 /turf/open/floor/rogue/concrete,
@@ -54209,6 +54227,10 @@
 /obj/item/candle/candlestick/gold/single/lit{
 	pixel_x = 8;
 	pixel_y = 8
+	},
+/obj/item/reagent_containers/glass/cup/wooden{
+	pixel_x = -7;
+	pixel_y = 5
 	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/church/chapel)
@@ -82431,6 +82453,10 @@
 	pixel_x = -2;
 	pixel_y = 7
 	},
+/obj/item/reagent_containers/glass/cup/wooden{
+	pixel_x = 7;
+	pixel_y = 0
+	},
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town/church/chapel)
 "qON" = (
@@ -85352,6 +85378,10 @@
 /obj/item/candle/eora{
 	pixel_x = -4;
 	pixel_y = 16
+	},
+/obj/item/reagent_containers/glass/cup/wooden{
+	pixel_x = 7;
+	pixel_y = -1
 	},
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town/church/chapel)
@@ -99634,7 +99664,18 @@
 	},
 /obj/machinery/light/rogue/candle,
 /obj/structure/table/wood/poor,
-/obj/machinery/light/rogue/candle/floorcandle/alt,
+/obj/item/flowercrown/briar{
+	pixel_x = 0;
+	pixel_y = -3
+	},
+/obj/item/candle/yellow{
+	pixel_x = -11;
+	pixel_y = 17
+	},
+/obj/item/candle/yellow{
+	pixel_x = 12;
+	pixel_y = 18
+	},
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town/church/chapel)
 "upj" = (
