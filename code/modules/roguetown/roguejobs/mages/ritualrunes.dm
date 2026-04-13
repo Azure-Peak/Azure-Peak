@@ -664,7 +664,7 @@ GLOBAL_LIST(teleport_runes)
 
 /obj/effect/decal/cleanable/roguerune/arcyne/teleport
 	name = "leyline teleportation matrix"
-	desc = "A matrix that allows teleportation between leylines, ducking into the leyline and then rematerializing in another spot. Despite magos trying their best, no one has been able to conceive a way to teleport more than a mile at once in all of Psydonia. Repeated usages or chaining teleport out of a two mile radius appears to exhaust or degrade the body rapidly." 
+	desc = "A matrix that allows teleportation between leylines, ducking into the leyline and then rematerializing in another spot. The matrix can carry up to five people, though no more than two may lack arcyne knowledge. Despite magos trying their best, no one has been able to conceive a way to teleport more than a mile at once in all of Psydonia. Repeated usages or chaining teleport out of a two mile radius appears to exhaust or degrade the body rapidly."
 	icon = 'icons/effects/160x160.dmi'
 	icon_state = "portal"
 	tier = 2
@@ -768,7 +768,7 @@ GLOBAL_LIST(teleport_runes)
 		fail_invoke()
 		return
 
-	// --- Collect passengers (max 5, max 1 non-arcyne) ---
+	// --- Collect passengers (max TELEPORT_MAX_PASSENGERS total, max TELEPORT_MAX_NONMAGES non-arcyne) ---
 	var/list/mob/living/passengers = list()
 	var/non_arcyne_count = 0
 	var/non_arcyne_excluded = 0
@@ -781,17 +781,17 @@ GLOBAL_LIST(teleport_runes)
 			continue
 		if(M.stat != CONSCIOUS)
 			continue
-		if(length(passengers) >= 5)
+		if(length(passengers) >= TELEPORT_MAX_PASSENGERS)
 			break
 		if(!isarcyne(M))
-			if(non_arcyne_count >= 1)
+			if(non_arcyne_count >= TELEPORT_MAX_NONMAGES)
 				non_arcyne_excluded++
 				continue
 			non_arcyne_count++
 		passengers += M
 
 	if(non_arcyne_excluded)
-		to_chat(user, span_warning("The matrix can only carry one who lacks arcyne knowledge. [non_arcyne_excluded] non-mage\s will be left behind."))
+		to_chat(user, span_warning("The matrix can only carry [TELEPORT_MAX_NONMAGES] who lack arcyne knowledge. [non_arcyne_excluded] non-mage\s will be left behind."))
 
 	// --- Check energy (400 total per person, drained across 4 chant phases = 100 per phase) ---
 	var/energy_per_phase = 100
