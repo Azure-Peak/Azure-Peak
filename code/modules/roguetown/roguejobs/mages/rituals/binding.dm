@@ -18,13 +18,6 @@
 /datum/runeritual/binding/on_finished_recipe(mob/living/user, list/selected_atoms, turf/loc)
 	if(!mob_to_bind) // it's a non-binding binding recipe. yay?
 		return ..()
-	var/obj/structure/leyline/leyline
-	for(var/obj/structure/leyline/L in range(LEYLINE_TILE_DETECTION_RANGE, loc))
-		leyline = L
-		break
-	if(!leyline)
-		to_chat(user, span_warning("There is no leyline nearby. Draw your circle closer to a leyline."))
-		return FALSE
 	if(!locate(/obj/effect/decal/cleanable/roguerune/arcyne/binding) in loc)
 		to_chat(user, span_warning("The binding array has been destroyed! The ritual fizzles."))
 		return FALSE

@@ -530,6 +530,7 @@ GLOBAL_LIST(teleport_runes)
 				return
 			mind_datum.RemoveAllSpells()
 			mind_datum.AddSpell(new /datum/action/cooldown/spell/message_summoner())
+			mind_datum.AddSpell(new /datum/action/cooldown/spell/familiar_transform())
 			user.mind?.AddSpell(new /datum/action/cooldown/spell/message_familiar())
 
 			if(fam.inherent_spell)
@@ -581,6 +582,18 @@ GLOBAL_LIST(teleport_runes)
 	if((input(user,"Would you like to cancel this summoning attempt?","Fallback","No") as anything in list("Yes","No") | null)=="Yes")
 		busy = FALSE
 		if(summoned_mob)
+			var/list/refund_costs = list()
+			if(istype(fam,/mob/living/simple_animal/pet/familiar/fae))
+				refund_costs = list(/obj/item/magic/fae/iridescentscale = 2)
+			else if(istype(fam,/mob/living/simple_animal/pet/familiar/infernal))
+				refund_costs = list(/obj/item/magic/infernal/fang = 2)
+			else if(istype(fam,/mob/living/simple_animal/pet/familiar/elemental))
+				refund_costs = list(/obj/item/magic/elemental/shard = 2)
+			else
+				refund_costs = list(/obj/item/magic/artifact = 1, /obj/item/magic/voidstone = 2, /obj/item/magic/leyline = 1)
+			for(var/index in refund_costs)
+				for(var/i in 1 to refund_costs[index])
+					new i(loc)
 			QDEL_NULL(summoned_mob)
 
 /obj/effect/decal/cleanable/roguerune/arcyne/binding/proc/clear_obstacles(mob/living/user)

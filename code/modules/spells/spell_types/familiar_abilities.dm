@@ -103,6 +103,64 @@
 	log_game("[key_name(user)] sent a message to [key_name(summoner)] with contents [message]")
 	return TRUE
 
+/datum/action/cooldown/spell/familiar_transform
+	name = "Spirit Transformation"
+	desc = "Draw your form into itself, becoming a small orb that is wearable as a pendant, or revert to your original form."
+	button_icon_state = "rune2"
+
+	click_to_activate = FALSE
+	self_cast_possible = TRUE
+	charge_required = FALSE
+	cooldown_time = 1 SECONDS
+
+	primary_resource_type = SPELL_COST_NONE
+	spell_requirements = NONE
+	spell_impact_intensity = SPELL_IMPACT_NONE
+
+/datum/action/cooldown/spell/familiar_transform/cast(mob/living/simple_animal/pet/familiar/user)
+	. = ..()
+	if(!istype(user))
+		return FALSE
+	if(isturf(user.loc))
+		// we're on the ground somewhere, so we should become orb
+		var/obj/item/magic/familiar_spirit/spirit = new /obj/item/magic/familiar_spirit(user.loc)
+		spirit.icon = user.icon
+		spirit.icon_state = user.icon_living
+		spirit.name = user.name
+		spirit.desc = "A small orb, containing the spirit of [user.name]."
+		user.loc = spirit
+		return TRUE
+	else
+		if(user.health<=0) // you shouldn't be able to cast this while dead, but just in case
+			return FALSE
+		var/obj/item/magic/familiar_spirit/spirit = user.loc
+		if(!istype(spirit)) // we might be inside another item like warden tools
+			return FALSE
+		user.loc = get_turf(user)
+		qdel(spirit)
+		return TRUE
+
+/datum/action/cooldown/spell/fae_brew
+	name = "Alchemical Stomach"
+	desc = "Toggle your brewing ability; while enabled, and you have a stock of reagents inside yourself, you will attempt to brew them into a potion using your summoner's alchemical skill."
+	button_icon_state = "create_campfire"
+
+	click_to_activate = FALSE
+	self_cast_possible = TRUE
+	charge_required = FALSE
+	cooldown_time = 1 SECONDS
+
+	primary_resource_type = SPELL_COST_NONE
+	spell_requirements = NONE
+	spell_impact_intensity = SPELL_IMPACT_NONE
+
+/datum/action/cooldown/spell/fae_brew/cast(mob/living/simple_animal/pet/familiar/fae/user)
+	. = ..()
+	if(!istype(user))
+		return FALSE
+	user.should_brew = !user.should_brew
+	return TRUE
+
 /datum/action/cooldown/spell/projectile/lesser_fetch/fae
 	name = "Grasp of Nature"
 	desc = "Shoot out a grasping vine that draws in a freestanding item towards the caster. Doesn't work on living targets."
@@ -207,30 +265,87 @@
 
 /datum/action/cooldown/spell/arcyne_forge/elemental
 	name = "Earthen Forge"
-	desc = "Shape a tool of your choice out of raw earth. Limited selection. Conjured items have halved durability.\n\
-	Only one conjured item can exist at a time - conjuring a new one destroys the old."
+	desc = "Shape your earthen form into a tool or weapon. Shaped items have halved durability. When the item breaks, you will revert to your original form. Cast again to manually revert."
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_SAME_Z
 	conjure_options = list(
+		// Weapons
+		"Short Sword" = /obj/item/rogueweapon/sword/short/iron,
+		"Hunting Sword" = /obj/item/rogueweapon/sword/short/messer/iron,
+		"Arming Sword" = /obj/item/rogueweapon/sword/iron,
+		"Cudgel" = /obj/item/rogueweapon/mace/cudgel,
+		"Warhammer" = /obj/item/rogueweapon/mace/warhammer,
 		"Dagger" = /obj/item/rogueweapon/huntingknife/idagger,
-		"Axe" = /obj/item/rogueweapon/stoneaxe/woodcut,
+		"Flail" = /obj/item/rogueweapon/flail,
+		"Whip" = /obj/item/rogueweapon/whip,
+		"Wooden Shield" = /obj/item/rogueweapon/shield/wood,
 		// Tools
+		"Axe" = /obj/item/rogueweapon/stoneaxe/woodcut,
 		"Pickaxe" = /obj/item/rogueweapon/pick,
 		"Hoe" = /obj/item/rogueweapon/hoe,
 		"Thresher" = /obj/item/rogueweapon/thresher,
 		"Sickle" = /obj/item/rogueweapon/sickle,
 		"Pitchfork" = /obj/item/rogueweapon/pitchfork,
 		"Tongs" = /obj/item/rogueweapon/tongs,
+		"Hammer" = /obj/item/rogueweapon/hammer/iron,
 		"Shovel" = /obj/item/rogueweapon/shovel,
 		"Handsaw" = /obj/item/rogueweapon/handsaw,
+		"Scissors" = /obj/item/rogueweapon/huntingknife/scissors,
 		"Fishing Rod" = /obj/item/fishingrod,
 		"Frying Pan" = /obj/item/cooking/pan,
 		"Pot" = /obj/item/reagent_containers/glass/bucket/pot,
 		"Bowl" = /obj/item/reagent_containers/glass/bowl,
 		"Fork" = /obj/item/kitchen/fork/iron,
 		"Spoon" = /obj/item/kitchen/spoon/iron,
+		"Needle" = /obj/item/needle/thorn
 	)
 
 /datum/action/cooldown/spell/arcyne_forge/elemental/cast(atom/cast_on)
+	. = ..()
+	var/mob/living/simple_animal/pet/familiar/elemental/H = owner
+	if(!istype(H))
+		return FALSE
+
+	// We're an item. Stop being an item.
+	if(conjured_item && !QDELETED(conjured_item))
+		H.loc = get_turf(H)
+		QDEL_NULL(conjured_item)
+		return FALSE // we don't want to add a cooldown for this case
+
+	var/choice = tgui_input_list(H, "Choose what to conjure", "Earthen Forge", conjure_options)
+	if(!choice)
+		return FALSE
+
+	var/item_path = conjure_options[choice]
+	var/obj/item/R = new item_path(H.drop_location())
+
+	// Halve durability
+	R.max_integrity = round(R.max_integrity * 0.5)
+	R.obj_integrity = R.max_integrity
+
+	// Mark as conjured — no salvage, no smelting
+	R.smeltresult = null
+	R.salvage_result = null
+	R.fiber_salvage = FALSE
+
+	// Conjured glow
+	R.AddComponent(/datum/component/conjured_item, GLOW_COLOR_EARTHEN)
+	RegisterSignal(R, COMSIG_ITEM_BROKEN, PROC_REF(revert))
+	H.loc = R
+	conjured_item = R
+	return TRUE
+
+/datum/action/cooldown/spell/arcyne_forge/elemental/proc/revert()
+	if(conjured_item)
+		owner.loc = get_turf(owner)
+		QDEL_NULL(conjured_item)
+
+/datum/action/cooldown/spell/arcyne_forge/elemental/t2
+	name = "Greater Earthen Shaping"
+	desc = "Shape a weapon or tool of your choice out of raw earth. Conjured items have halved durability.\n\
+	Only one conjured item can exist at a time - conjuring a new one destroys the old."
+
+
+/datum/action/cooldown/spell/arcyne_forge/elemental/t2/cast(atom/cast_on)
 	. = ..()
 	var/mob/living/simple_animal/pet/familiar/elemental/H = owner
 	if(!istype(H))
@@ -263,42 +378,6 @@
 	H.put_in_hands(R)
 	conjured_item = R
 	return TRUE
-
-// the difference is that this one can conjure hammers and needles to repair your gear, as well as weapons
-/datum/action/cooldown/spell/arcyne_forge/elemental/t2
-	name = "Greater Earthen Shaping"
-	desc = "Shape a weapon or tool of your choice out of raw earth. Conjured items have halved durability.\n\
-	Only one conjured item can exist at a time - conjuring a new one destroys the old."
-	conjure_options = list(
-		// Weapons
-		"Short Sword" = /obj/item/rogueweapon/sword/short/iron,
-		"Hunting Sword" = /obj/item/rogueweapon/sword/short/messer/iron,
-		"Arming Sword" = /obj/item/rogueweapon/sword/iron,
-		"Cudgel" = /obj/item/rogueweapon/mace/cudgel,
-		"Warhammer" = /obj/item/rogueweapon/mace/warhammer,
-		"Dagger" = /obj/item/rogueweapon/huntingknife/idagger,
-		"Flail" = /obj/item/rogueweapon/flail,
-		"Whip" = /obj/item/rogueweapon/whip,
-		"Wooden Shield" = /obj/item/rogueweapon/shield/wood,
-		// Tools
-		"Axe" = /obj/item/rogueweapon/stoneaxe/woodcut,
-		"Pickaxe" = /obj/item/rogueweapon/pick,
-		"Hoe" = /obj/item/rogueweapon/hoe,
-		"Thresher" = /obj/item/rogueweapon/thresher,
-		"Sickle" = /obj/item/rogueweapon/sickle,
-		"Pitchfork" = /obj/item/rogueweapon/pitchfork,
-		"Tongs" = /obj/item/rogueweapon/tongs,
-		"Hammer" = /obj/item/rogueweapon/hammer/iron,
-		"Shovel" = /obj/item/rogueweapon/shovel,
-		"Handsaw" = /obj/item/rogueweapon/handsaw,
-		"Fishing Rod" = /obj/item/fishingrod,
-		"Frying Pan" = /obj/item/cooking/pan,
-		"Pot" = /obj/item/reagent_containers/glass/bucket/pot,
-		"Bowl" = /obj/item/reagent_containers/glass/bowl,
-		"Fork" = /obj/item/kitchen/fork/iron,
-		"Spoon" = /obj/item/kitchen/spoon/iron,
-		"Needle" = /obj/item/needle/thorn
-	)
 
 /obj/effect/proc_holder/spell/invoked/consume
 	name = "Consume"

@@ -165,12 +165,13 @@
 	speak_emote = list("rustles", "flutters", "creaks")
 	var/list/ingredients = list()
 	var/maxingredients = 4
-	var/brewing = FALSE
-	var/brewtime = 0
+	var/brewing = 0
+	var/should_brew = FALSE
 	pass_flags = PASSTABLE | PASSMOB
 	inherent_spell = list(/datum/action/cooldown/spell/projectile/lesser_fetch/fae)
 	movement_type = FLYING
 	t1_spell = /obj/effect/proc_holder/spell/invoked/reagent_bite
+	t2_spell = /datum/action/cooldown/spell/fae_brew
 	tutorial_message = span_notice("As a native of the faewyld, you are able to fly, and kneestingers will not harm you. In addition, you can lash out with a vine to retrieve small objects at a distance.")
 	tierup_messages = list(
 		span_info("You can now act as a reagent container, holding up to 90 drams of any solution. You can also deliver 5 drams at a time of your stored solution with an alchemical bite."),
@@ -265,7 +266,9 @@
 	. = ..()
 	if(brewing && !ingredients.len)
 		brewing = 0
-	if(tier>=2 && ingredients.len)
+	if(brewing && !should_brew)
+		brewing = 0
+	if(tier>=2 && ingredients.len && should_brew)
 		if(brewing < 20)
 			if(brewing == 0)
 				src.visible_message(span_info("[src] bubbles softly, beginning to mix the ingredients into a potion..."))
@@ -298,7 +301,7 @@
 				var/amt2raise = familiar_summoner?.STAINT*2
 				// Handle skillgating
 				if(!familiar_summoner)
-					brewtime = 0
+					brewing = 0
 					src.visible_message(span_info("[src] needs their summoner's alchemical knowledge to brew anything."))
 					return
 				if(found_recipe.skill_required > familiar_summoner?.get_skill_level(/datum/skill/craft/alchemy))
@@ -454,8 +457,8 @@
 	t2_spell = /datum/action/cooldown/spell/arcyne_forge/elemental/t2
 	valid_healing_items = list(/obj/item/magic/elemental)
 	tierup_messages = list(
-		span_info("You can now shape earth into tools, including those capable of repairing equipment."),
-		span_info("As your attunement grows, your earth-shaping becomes more potent. You can now sculpt weapons, though you cannot wield them yourself.")
+		span_info("You can now shape your earthen form into tools and weapons, including those capable of repairing equipment."),
+		span_info("You can now use the ground itself to shape tools and weapons, instead of using your own body.")
 	)
 
 // so they can actually do repairs
@@ -465,11 +468,6 @@
 	src.adjust_skillrank_up_to(/datum/skill/craft/weaponsmithing, SKILL_LEVEL_APPRENTICE)
 	src.adjust_skillrank_up_to(/datum/skill/craft/blacksmithing, SKILL_LEVEL_APPRENTICE)
 	src.adjust_skillrank_up_to(/datum/skill/craft/sewing, SKILL_LEVEL_APPRENTICE)
-
-/mob/living/simple_animal/pet/familiar/elemental/grant_tier_abilities(tier)
-	. = ..()
-	if(tier==2)
-		src.mind.RemoveSpell(/datum/action/cooldown/spell/arcyne_forge/elemental)
 
 /mob/living/simple_animal/pet/familiar/void
 	name = "Void Drakeling"
