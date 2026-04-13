@@ -63,13 +63,13 @@
     )
     if(do_after(user, 3 SECONDS, TRUE, I, TRUE))
         for(var/i = 1, i <= 20, i++)
-            if(do_after(user, 1.2 SECONDS, TRUE, I, TRUE))
+            if(do_after(user, 1.5 SECONDS, TRUE, I, TRUE))
                 repair_percent = initial(repair_percent)
                 repair_percent *= I.max_integrity
 
                 I.obj_integrity = min(I.obj_integrity + repair_percent, I.max_integrity)
                 user.visible_message(span_info("[I] glows in a faint mending light."))
-                playsound(I, 'sound/magic/mending.ogg', 35, TRUE, -2)
+                playsound(I, 'sound/magic/mending.ogg', 20, TRUE, -2)
 
                 if(I.obj_integrity >= I.max_integrity)
                     if(I.obj_broken)
