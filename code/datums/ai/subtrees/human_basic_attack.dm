@@ -394,11 +394,11 @@
 		return
 
 	var/scan_reason = "unknown"
-	if(length(wounded) && chosen in wounded)
+	if(chosen in wounded)
 		scan_reason = "wounded"
-	else if(length(exposed) && chosen in exposed)
+	else if(chosen in exposed)
 		scan_reason = "exposed"
-	else if(length(soft) && chosen in soft)
+	else if(chosen in soft)
 		scan_reason = "soft armor"
 	else
 		scan_reason = "lowest resist"
