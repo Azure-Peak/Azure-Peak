@@ -1,4 +1,6 @@
 #define ARCYNE_WARD_FILTER "arcyne_ward_glow"
+#define BASE_ARCYNE_INTEGRITY 120
+#define UPGRADE_ARCYNE_INTEGRITY 150
 
 /datum/action/cooldown/spell/conjure_arcyne_ward
 	name = "Conjure Arcyne Ward"
@@ -7,7 +9,7 @@
 	a helmet replaces head coverage, a mask replaces face coverage, gauntlets replace hand coverage, \
 	arm armor replaces arm coverage, leg armor replaces leg coverage, and boots replace foot coverage. \
 	Chest, vitals and groin coverage is only replaced when both your armor and shirt slots are filled. \
-	The ward has 225 integrity and regenerates over time by draining your energy. \
+	The ward has 120 integrity and regenerates over time by draining your energy. \
 	Dismissing the ward refunds cooldown based on remaining integrity - a full health ward has no cooldown, a destroyed ward has full cooldown."
 	button_icon = 'icons/mob/actions/roguespells.dmi'
 	button_icon_state = "conjure_armor"
@@ -39,7 +41,7 @@
 	var/obj/item/clothing/suit/roguetown/armor/regenerating/skin/arcyne_ward/conjured_ward
 	var/ward_type = /obj/item/clothing/suit/roguetown/armor/regenerating/skin/arcyne_ward
 	var/dismiss_invocation = "Aegis Dissipo!"
-	var/energy_cost = 225
+	var/energy_cost = 120
 
 /datum/action/cooldown/spell/conjure_arcyne_ward/before_cast(atom/cast_on)
 	var/dismissing = conjured_ward && !QDELETED(conjured_ward)
@@ -116,7 +118,7 @@
 	dismiss_invocation = "Draconis Dissipo!"
 	point_cost = 4
 	ward_type = /obj/item/clothing/suit/roguetown/armor/regenerating/skin/arcyne_ward/dragonhide
-	energy_cost = 300
+	energy_cost = UPGRADE_ARCYNE_INTEGRITY
 
 /datum/action/cooldown/spell/conjure_arcyne_ward/crystalhide
 	name = "Conjure Crystalhide Ward"
@@ -132,7 +134,7 @@
 	point_cost = 4
 	spell_tier = 3
 	ward_type = /obj/item/clothing/suit/roguetown/armor/regenerating/skin/arcyne_ward/crystalhide
-	energy_cost = 300
+	energy_cost = UPGRADE_ARCYNE_INTEGRITY
 
 // --- The Ward Item ---
 
@@ -146,9 +148,9 @@
 	body_parts_inherent = COVERAGE_FULL_BODY_ACTUAL
 	armor_class = ARMOR_CLASS_LIGHT
 	armor = ARMOR_LEATHER
-	max_integrity = 225
+	max_integrity = BASE_ARCYNE_INTEGRITY
 
-	repair_time = 30 SECONDS
+	repair_time = 20 SECONDS
 	auto_repair_mode = FALSE
 
 	repairmsg_begin = "The arcyne ward will begin mending once the damage subsides..."
@@ -159,7 +161,7 @@
 	blocksound = SOFTHIT
 
 	/// How long after taking damage before regen begins (overrides parent's use of repair_time for initial delay)
-	var/regen_delay = 60 SECONDS
+	var/regen_delay = 30 SECONDS
 
 	var/datum/action/cooldown/spell/conjure_arcyne_ward/linked_spell
 	var/mob/living/carbon/human/ward_owner
@@ -313,7 +315,7 @@
 	name = "dragonhide ward"
 	desc = "An arcyne ward hardened with draconic scales. Impervious to flame."
 	armor = ARMOR_DRAGONHIDE
-	max_integrity = 300
+	max_integrity = UPGRADE_ARCYNE_INTEGRITY
 	ward_color = GLOW_COLOR_FIRE
 	arcyne_armor_tier = ARCYNE_WARD_TIER_GREATER
 	repairmsg_begin = "The dragonhide ward will begin mending once the damage subsides..."
@@ -335,7 +337,7 @@
 	name = "crystalhide ward"
 	desc = "An arcyne ward crystallized with leyline energy. Tough against blunt force but less rigid than plate. Shatters violently when broken."
 	armor = ARMOR_BRIGANDINE
-	max_integrity = 300
+	max_integrity = UPGRADE_ARCYNE_INTEGRITY
 	ward_color = GLOW_COLOR_KINESIS
 	arcyne_armor_tier = ARCYNE_WARD_TIER_GREATER
 	repairmsg_begin = "The crystalhide ward will begin mending once the damage subsides..."
@@ -365,3 +367,5 @@
 		target.adjustBruteLoss(20)
 
 #undef ARCYNE_WARD_FILTER
+#undef BASE_ARCYNE_INTEGRITY
+#undef UPGRADE_ARCYNE_INTEGRITY
