@@ -461,6 +461,8 @@ GLOBAL_LIST(teleport_runes)
 			if(client_ref && client_ref.prefs && client_ref.prefs.familiar_prefs)
 				if(!client_ref.prefs.familiar_prefs.familiar_species) // this is an old familiar prefs object again, woe! fix that shit
 					client_ref.prefs.familiar_prefs.New(client_ref.prefs)
+					to_chat(candidate,span_warning("Set your familiar prefs to be summoned as a familiar!"))
+					continue // we skip the rest of the checks because they are not going to have prefs
 				if(client_ref.prefs.familiar_prefs.familiar_species[plane] && client_ref.prefs.familiar_prefs.familiar_names[plane])
 					if(client_ref.prefs.familiar_prefs.familiar_names[plane] in GLOB.chosen_names)
 						// special case: realname conflict
