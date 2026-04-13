@@ -127,6 +127,9 @@ GLOBAL_LIST_EMPTY(leyline_activations)
 			continue // if they're actually in round, don't count them, since they can't be summoned
 		if(client_ref && client_ref.prefs && client_ref.prefs.familiar_prefs)
 			var/datum/familiar_prefs/prefs = client_ref.prefs.familiar_prefs
+			if(!prefs.familiar_names)
+				prefs.New(client_ref.prefs)
+				continue
 			if(prefs.familiar_names["fae"])
 				counts[1]++
 			if(prefs.familiar_names["infernal"])
