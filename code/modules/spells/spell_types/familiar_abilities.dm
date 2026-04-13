@@ -49,14 +49,14 @@
 	var/dist = get_dist(user, vestige)
 	var/direction = dir2text(get_dir(user, vestige))
 	if(!direction)
-			direction = "beneath you"
+		direction = "beneath you"
+	else
+		direction = "to the [direction]"
+	if(!same_z)
+		if(vestige.z > user_z)
+			direction += ", above you"
 		else
-			direction = "to the [direction]"
-		if(!same_z)
-			if(vestige.z > user_z)
-				direction += ", above you"
-			else
-				direction += ", below you"
+			direction += ", below you"
 	if(dist <= 3)
 		to_chat(user, span_info("You sense your familiar's vestige - right beside you."))
 	else if(dist <= 30)
