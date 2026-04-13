@@ -8443,7 +8443,7 @@
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/woods/wretch_lair)
 "TO" = (
-/obj/effect/decal/cleanable/roguerune/god/dendor,
+/obj/structure/ritualcircle/dendor,
 /obj/effect/decal/cobbleedge{
 	dir = 9;
 	pixel_x = 1;
@@ -8603,7 +8603,7 @@
 /turf/open/floor/rogue/dirt,
 /area/rogue/outdoors/banditcamp)
 "UE" = (
-/obj/effect/decal/cleanable/roguerune/god/ravox,
+/obj/structure/ritualcircle/ravox,
 /obj/item/rogueweapon/sword/stone,
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/cave/inhumen)

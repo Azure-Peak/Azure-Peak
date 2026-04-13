@@ -75,6 +75,9 @@
 	var/spell_impact_intensity = SPELL_IMPACT_NONE
 	/// If true, the spell can be refunded. Set by learnspell when learned.
 	var/refundable = FALSE
+	/// Aspect type path this spell was granted by, if any. Used by the aspect picker
+	/// to attribute pointbuy spells back to their source aspect for budget accounting.
+	var/source_aspect
 	/// If this spell is evil and can only be learned by heretics.
 	var/zizo_spell = FALSE
 	/// Damage value shown in spell examine. For non-projectile spells that want to display damage.
@@ -274,7 +277,7 @@
 		// Fully charged — swap to charged icon and stop processing
 		if(owner.client)
 			owner.client.mouse_pointer_icon = 'icons/effects/mousemice/swang/acharged.dmi'
-			playsound(owner, 'sound/magic/charged.ogg', 100, TRUE)
+			playsound(owner, 'sound/magic/charged.ogg', 40, TRUE)
 		return PROCESS_KILL
 
 /datum/action/cooldown/spell/Grant(mob/grant_to)
@@ -904,7 +907,7 @@
 	invocation(invoker)
 
 	if(sound)
-		playsound(owner, sound, 50, TRUE)
+		playsound(owner, sound, 60, TRUE)
 
 /// The invocation that accompanies the spell, called from spell_feedback() before cast().
 /datum/action/cooldown/spell/proc/invocation(mob/living/invoker)

@@ -58,8 +58,6 @@
 		detailcolor = input("Choose a color.", "NALEDIAN COLORPLEX") as anything in naledicolors
 		detailcolor = naledicolors[detailcolor]
 	r_hand = /obj/item/rogueweapon/woodstaff/implement/grand/naledi
-
-
 	head = /obj/item/clothing/head/roguetown/roguehood/hierophant
 	cloak = /obj/item/clothing/cloak/hierophant
 	armor = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/hierophant
@@ -82,15 +80,20 @@
 		)
 	H.merctype = 14
 
-/datum/advclass/mercenary/warscholar/pontifex
+/datum/advclass/mercenary/warscholar_pontifex
 	name = "Naledi Pontifex"
 	age_mod = /datum/class_age_mod/pontifex
 	tutorial = "A Naledi Pontifex, trained in the discipline of Automagic - enhancement of one's own body through Arcyne Magick. \
 		Your fists and your will are the one thing that cannot be deprived from you, handy tools when your homeland is rife with treacherous djinns and humens alike. \
 		Where your fists fall short, your wits prevail. Where your magyck falters, your fists answer. \
 		And when both are found wanting, the Naledian art of blade conjuration will lend you a Katar to cut demons and humens alike to ribbons."
+	allowed_sexes = list(MALE, FEMALE)
+	allowed_races = RACES_ALL_KINDS
 	outfit = /datum/outfit/job/roguetown/mercenary/warscholar_pontifex
 	subclass_languages = list(/datum/language/celestial, /datum/language/thievescant)
+	class_select_category = CLASS_CAT_NALEDI
+	category_tags = list(CTAG_MERCENARY)
+	cmode_music = 'sound/music/warscholar.ogg'
 	traits_applied = list(TRAIT_CIVILIZEDBARBARIAN, TRAIT_ARCYNE, TRAIT_NALEDI)
 	// Previous budget was kinda lopsided with negative per and con on a melee class (??) to give them a lot of str and speed. I took 6 points off and shifted it to wil and perception instead.
 	subclass_stats = list(
@@ -199,11 +202,17 @@
 		)
 	H.merctype = 14
 
-/datum/advclass/mercenary/warscholar/vizier
+/datum/advclass/mercenary/warscholar_vizier
 	name = "Naledi Vizier"
 	age_mod = /datum/class_age_mod/vizier
 	tutorial = "You are a Naledi Vizier. Psydonians have long struggled to channel the All-Father's divinity, but such obstacles need not stop you. The Yogis of Naledi have long studied the nature of magick, and concluded that as Psydon is the origin of all things, a school of magick that returns a person or an item to a form it had before is the purest of all magick - and named it Origin Magic. Others say that you do not wield true miracles, merely a form of magycks. But true believers know that magyck is one of Psydon's greatest gifts, and in His name you shall wield His powers to heal His creations. A line of magyck closely guarded and trained only in the seven Great Seminary of Naledi, of which only five remain standing in this age. It is said that one must attune themselves to Psydon for ten yils in the Naledian desert. And despite foreigners' many attempts, no one has managed to bring this lineage of magyck outside without studying in Naledi itself. Perhaps it is truly divine."
+	allowed_sexes = list(MALE, FEMALE)
+	allowed_races = RACES_ALL_KINDS
 	outfit = /datum/outfit/job/roguetown/mercenary/warscholar_vizier
+	subclass_languages = list(/datum/language/celestial)
+	class_select_category = CLASS_CAT_NALEDI
+	category_tags = list(CTAG_MERCENARY)
+	cmode_music = 'sound/music/warscholar.ogg'
 	traits_applied = list(TRAIT_ARCYNE, TRAIT_ALCHEMY_EXPERT, TRAIT_NALEDI)
 	subclass_stats = list(
 		STATKEY_INT = 3,
@@ -283,14 +292,10 @@
 		H.mind.AddSpell(new /datum/action/cooldown/spell/guidance)
 		H.mind.AddSpell(new /datum/action/cooldown/spell/mending)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/diagnose/secular)
-
 	H.merctype = 14
-
-
 
 /datum/outfit/job/roguetown/mercenary/warscholar/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	. = ..()
-
 	for(var/obj/item/clothing/V in H.get_equipped_items(FALSE))
 		if(V.naledicolor)
 			V.color = detailcolor

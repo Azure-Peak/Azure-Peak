@@ -1,5 +1,3 @@
-//shield flail or longsword, tief can be this with red cross
-
 /datum/job/roguetown/templar
 	title = "Templar"
 	flag = TEMPLAR

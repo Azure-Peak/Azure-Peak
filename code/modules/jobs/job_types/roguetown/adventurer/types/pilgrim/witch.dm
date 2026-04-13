@@ -104,7 +104,7 @@
 				H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/shapeshift/witch/cabbit)
 		switch (classchoice)
 			if("Mystagogue")
-				var/list/poke_options = list("Spitfire", "Frost Bolt", "Arc Bolt", "Gravel Blast", "Stygian Efflorescence", "Arcyne Lance")
+				var/list/poke_options = list("Spitfire", "Frost Bolt", "Arc Bolt", "Greater Arcyne Bolt", "Stygian Efflorescence", "Arcyne Lance", "Lesser Gravel Blast")
 				var/poke_choice = input(H, "Choose your offensive cantrip.", "Arcyne Training") as anything in poke_options
 				switch(poke_choice)
 					if("Spitfire")
@@ -113,12 +113,14 @@
 						H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/frost_bolt)
 					if("Arc Bolt")
 						H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/arc_bolt)
-					if("Gravel Blast")
-						H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/gravel_blast)
+					if("Greater Arcyne Bolt")
+						H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/greater_arcyne_bolt)
 					if("Stygian Efflorescence")
 						H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/stygian_efflorescence)
 					if("Arcyne Lance")
 						H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/arcyne_lance)
+					if("Lesser Gravel Blast")
+						H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/gravel_blast/lesser)
 	if(H.gender == FEMALE)
 		armor = /obj/item/clothing/suit/roguetown/armor/corset
 		shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/lowcut

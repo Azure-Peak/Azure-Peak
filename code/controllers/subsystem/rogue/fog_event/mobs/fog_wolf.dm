@@ -1,7 +1,7 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/revenant/wolf
 	name = "volf revenant"
 	desc = "A snarling beast of mangy fur and yellowed teeth. This one's hunger has outlasted its life, returning as a shimmering predator in the fog."
-	icon = 'icons/roguetown/mob/monster/vol.dmi'
+	icon = 'icons/roguetown/mob/monster/volf.dmi'
 	icon_state = "revenant"
 	icon_living = "revenant"
 	icon_dead = "revenant"

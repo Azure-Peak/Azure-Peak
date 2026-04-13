@@ -258,12 +258,10 @@
 				to_chat(src, "<span class='notice'>I set [I] down gently on the ground.</span>")
 				return
 
-			if(I.throwforce && rogue_sneaking)
-				mob_timers[MT_FOUNDSNEAK] = world.time
-				update_sneak_invis(reset = TRUE)
-
-
 	if(thrown_thing)
+		if(rogue_sneaking)
+			mob_timers[MT_FOUNDSNEAK] = world.time
+			update_sneak_invis(reset = TRUE)
 		if(!thrown_speed)
 			thrown_speed = thrown_thing.throw_speed
 		if(!thrown_range)
@@ -848,6 +846,13 @@
 	else
 		remove_client_colour(/datum/client_colour/nocshaded)
 		clear_fullscreen("inqvision")
+
+	if(HAS_TRAIT(src, TRAIT_GILDED_SIGHT))
+		lighting_alpha = min(lighting_alpha, LIGHTING_PLANE_ALPHA_NOCSHADES)
+		see_in_dark = max(see_in_dark, 12)
+		add_client_colour(/datum/client_colour/gildsight)
+	else
+		remove_client_colour(/datum/client_colour/gildsight)
 
 	if(HAS_TRAIT(src, TRAIT_THERMAL_VISION))
 		sight |= (SEE_MOBS)

@@ -1129,7 +1129,7 @@
 
 
 /atom/movable/screen/alert/status_effect/buff/lesserwolf
-	name = "Blessing of the Lesser Wolf"
+	name = "Blessing of the Lesser Volf"
 	desc = "I swell with the embuement of a predator..."
 	icon_state = "buff"
 
@@ -1528,11 +1528,11 @@
 			mob_effect_offset_x = -6
 			mob_effect_offset_y = -9
 
-/datum/status_effect/buff/clash/limbguard/process_attack(mob/living/parent, mob/living/target, mob/user, obj/item/I)
+/datum/status_effect/buff/clash/limbguard/process_attack(mob/living/parent, mob/living/target, mob/user, obj/item/I, zone_override)
 	if(is_active)
 		if(ishuman(user) && target == owner)
 			var/mob/living/carbon/human/HM = user
-			if(check_zone(HM.zone_selected) == protected_zone)	//User has struck the exact limb that was being protected. Bad!
+			if(check_zone(HM.zone_selected) == protected_zone || zone_override == protected_zone)	//User has struck the exact limb that was being protected. Bad!
 				if(ishuman(user))
 					apply_debuffs(HM)
 					perform_disarm(HM)

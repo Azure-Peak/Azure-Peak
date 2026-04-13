@@ -137,6 +137,10 @@
 	colour = list(rgb(139, 25, 30), rgb(197, 88, 38), rgb(16, 16, 16), rgb(0,0,0))
 	priority = 1
 
+/datum/client_colour/gildsight
+	colour = list(rgb(212, 175, 55),rgb(255, 215, 0), rgb(60, 50, 20), rgb(0, 0, 0))
+	priority = 1
+
 /datum/client_colour/monochrome/trance
 	priority = 2
 

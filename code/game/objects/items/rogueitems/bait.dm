@@ -132,7 +132,7 @@
 	attracted_types = list(/mob/living/simple_animal/hostile/retaliate/rogue/wolf = 35,
 							/mob/living/simple_animal/hostile/retaliate/rogue/mole = 20,
 							/mob/living/simple_animal/hostile/retaliate/rogue/fox = 20,	
-							/mob/living/simple_animal/hostile/retaliate/rogue/wolf/bobcat = 15,		//Annoying bastards
+							/mob/living/simple_animal/hostile/retaliate/rogue/bobcat = 15,		//Annoying bastards
 							/mob/living/simple_animal/hostile/retaliate/rogue/direbear = 10,
 							/mob/living/simple_animal/hostile/retaliate/rogue/troll/bog = 5)			//RUH-ROH
 

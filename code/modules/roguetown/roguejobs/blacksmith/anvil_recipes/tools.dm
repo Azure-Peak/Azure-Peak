@@ -607,9 +607,9 @@
 	created_item = /obj/item/rogueweapon/hammer/blacksteel
 
 /datum/anvil_recipe/tools/blacksteel/pick
-	name = "Blacksteel Pickaxe (+1 Stick, +1 Blacksteel)"
+	name = "Blacksteel Pickaxe (+1 Stick)"
 	req_bar = /obj/item/ingot/blacksteel
-	additional_items = list(/obj/item/grown/log/tree/stick, /obj/item/ingot/blacksteel)
+	additional_items = list(/obj/item/grown/log/tree/stick)
 	created_item = /obj/item/rogueweapon/pick/blacksteel
 
 /datum/anvil_recipe/tools/blacksteel/tongs

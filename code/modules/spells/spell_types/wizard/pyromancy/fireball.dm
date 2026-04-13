@@ -72,6 +72,10 @@
 		qdel(src)
 		return BULLET_ACT_BLOCK
 
+	if(M)
+		M.adjust_fire_stacks(1)
+		M.ignite_mob()
+
 	var/aoe_damage = round(damage * arcyne_aoe_damage_ratio)
 
 	var/turf/epicenter = get_turf(target)

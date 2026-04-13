@@ -1570,6 +1570,10 @@
 	name = "Alsoprotagonist"
 	icon_state = "alsoprotagonist"
 
+/datum/sprite_accessory/hair/head/scruffy
+	name = "Scruffy"
+	icon_state = "scruffy"
+
 /datum/sprite_accessory/hair/head/vulpkian
 	abstract_type = /datum/sprite_accessory/hair/head/vulpkian
 	icon = 'icons/mob/sprite_accessory/hair/vulpkian_hair.dmi'

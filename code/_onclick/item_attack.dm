@@ -159,7 +159,7 @@
 
 	// Getting struck w/ /disrupt swingdelay type sets our swing_state to false. 
 	// If we had the effect, but not the bool, we were interrupted. (Or something else went wrong.)
-	if(user.has_status_effect(/datum/status_effect/swingdelay) && !user.swing_state)
+	if(user.is_swinging() && !user.swing_state)
 		return
 
 	user.swing_state = FALSE
@@ -622,17 +622,23 @@
 	SEND_SIGNAL(src, COMSIG_ITEM_ATTACK_EFFECT_SELF, user, affecting, intent, victim, selzone)
 
 	if(is_silver && HAS_TRAIT(victim, TRAIT_SILVER_WEAK))
-		SEND_SIGNAL(victim, COMSIG_FORCE_UNDISGUISE)
-		var/datum/component/silverbless/blesscomp = GetComponent(/datum/component/silverbless)
-		if(blesscomp?.is_blessed)
-			if(!victim.has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder))
-				to_chat(victim, span_danger("Silver rebukes my presence! My vitae smolders, and my powers wane!"))
-			victim.adjust_fire_stacks(thrown ? 1 : 3, /datum/status_effect/fire_handler/fire_stacks/sunder/blessed)
+		if(is_lesser_silver)
+			// Lesser silver only flares meaningfully on a deliberate melee strike — thrown contact does nothing,
+			// and the hit never forces a disguise off. Stacks accumulate without ignition.
+			if(!thrown)
+				victim.adjust_fire_stacks(1, /datum/status_effect/fire_handler/fire_stacks/sunder/lesser)
 		else
-			if(!victim.has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder/blessed))
-				to_chat(victim, span_danger("Blessed silver rebukes my presence! These fires are lashing at my very soul!"))
-			victim.adjust_fire_stacks(thrown ? 1 : 3, /datum/status_effect/fire_handler/fire_stacks/sunder)
-		victim.ignite_mob()
+			SEND_SIGNAL(victim, COMSIG_FORCE_UNDISGUISE)
+			var/datum/component/silverbless/blesscomp = GetComponent(/datum/component/silverbless)
+			if(blesscomp?.is_blessed)
+				if(!victim.has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder))
+					to_chat(victim, span_danger("Silver rebukes my presence! My vitae smolders, and my powers wane!"))
+				victim.adjust_fire_stacks(thrown ? 1 : 3, /datum/status_effect/fire_handler/fire_stacks/sunder/blessed)
+			else
+				if(!victim.has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder/blessed))
+					to_chat(victim, span_danger("Blessed silver rebukes my presence! These fires are lashing at my very soul!"))
+				victim.adjust_fire_stacks(thrown ? 1 : 3, /datum/status_effect/fire_handler/fire_stacks/sunder)
+			victim.ignite_mob()
 
 /mob/living/attacked_by(obj/item/I, mob/living/user)
 	var/hitlim = simple_limb_hit(user.zone_selected)

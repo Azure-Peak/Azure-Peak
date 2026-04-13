@@ -1,9 +1,9 @@
-/mob/living/carbon/human/getarmor(def_zone, type, damage, armor_penetration = PEN_NONE, blade_dulling, intdamfactor, used_weapon)
+/mob/living/carbon/human/getarmor(def_zone, type, damage, armor_penetration = PEN_NONE, blade_dulling, intdamfactor, used_weapon, pen_info)
 	var/armorval = 0
 	var/organnum = 0
 
 	if(def_zone)
-		return checkarmor(def_zone, type, damage, armor_penetration, blade_dulling, intdamfactor, used_weapon)
+		return checkarmor(def_zone, type, damage, armor_penetration, blade_dulling, intdamfactor, used_weapon, pen_info)
 		//If a specific bodypart is targetted, check how that bodypart is protected and return the value.
 
 	//If you don't specify a bodypart, it checks ALL my bodyparts for protection, and averages out the values
@@ -14,7 +14,7 @@
 	return (armorval/max(organnum, 1))
 
 
-/mob/living/carbon/human/proc/checkarmor(def_zone, d_type, damage, armor_penetration = PEN_NONE, blade_dulling, intdamfactor = 1, obj/item/used_weapon)
+/mob/living/carbon/human/proc/checkarmor(def_zone, d_type, damage, armor_penetration = PEN_NONE, blade_dulling, intdamfactor = 1, obj/item/used_weapon, pen_info)
 	if(!d_type)
 		return 0
 	if(isbodypart(def_zone))
@@ -35,15 +35,18 @@
 				playsound(loc, get_armor_sound(used.blocksound, blade_dulling), 100)
 
 			// Tier-based penetration:
-			//   pen > armor  = 100% through (full penetration)
-			//   pen == armor = 20% through (partial penetration)
-			//   pen < armor  = fully blocked
-			if(armor_penetration > protection)
-				consume_debuff = FALSE
-				intdamage = damage * PEN_PASSTHROUGH_OVER
-			else if(armor_penetration == protection)
-				consume_debuff = FALSE
-				intdamage = damage * PEN_PASSTHROUGH_SAME
+			// + 10% damage per "dot" of pen and per relevant stat point.
+			if(d_type != "piercing")
+				if(armor_penetration >= protection)
+					consume_debuff = FALSE
+					intdamage = damage * (1 - (pen_info * PEN_PASSTHROUGH_RATIO))
+			else
+				if(armor_penetration == protection)
+					consume_debuff = FALSE
+					intdamage = damage * PEN_PASSTHROUGH_PROJ_EQUAL
+				if(armor_penetration > protection)
+					consume_debuff = FALSE
+					intdamage = damage * PEN_PASSTHROUGH_PROJ_MORE
 
 			if(intdamfactor != 1)
 				intdamage *= intdamfactor

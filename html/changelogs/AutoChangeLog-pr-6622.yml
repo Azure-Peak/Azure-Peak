@@ -1,9 +1,0 @@
-author: "NalimaTheWitch"
-delete-after: True
-changes:
-  - rscadd: "Hiding spots. Go examine bushes or tables to find out how to use them."
-  - rscadd: "Crawling and wall-leaning sneaking: crawl or wall-lean with sneak mode on to become partially transparent based on Sneak skill."
-  - rscadd: "You can spot people in hiding spots by standing next to them and examining the object, or by using 'look around' (fixed eye button)."
-  - qol: "Far-looking with sneak mode on no longer prints a visible message to others."
-  - qol: "Sneaking movement speed now scales from Sneak skill."
-  - balance: "Prowler only grants 2 sneak levels instead of 3."

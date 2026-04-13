@@ -1,7 +1,13 @@
-/datum/advclass/mercenary/desert_rider/almah
+/datum/advclass/mercenary/desert_rider_almah
 	name = "Desert Rider Almah"
 	tutorial = "You're an Almah - a blade dancer, trained in the arts of spellbladery, an art originating from Azurea in ancient time. Your people have refined spellbladery into an artform. They call you a bladedancer - for the beautiful, bloody tapestry of magycks and blade you weave out of your foes in battle."
+	allowed_sexes = list(MALE, FEMALE)
+	allowed_races = RACES_ALL_KINDS
 	outfit = /datum/outfit/job/roguetown/mercenary/desert_rider_almah
+	class_select_category = CLASS_CAT_RANESHENI
+	category_tags = list(CTAG_MERCENARY)
+	cmode_music = 'sound/music/combat_desertrider.ogg'
+	subclass_languages = list(/datum/language/raneshi)
 	traits_applied = list(TRAIT_ARCYNE)
 	subclass_stats = list(
 		STATKEY_SPD = 1, // Weighted 7. Swap str for spd
@@ -52,7 +58,6 @@
 	shoes = /obj/item/clothing/shoes/roguetown/shalal
 	belt = /obj/item/storage/belt/rogue/leather/shalal
 	backr = /obj/item/storage/backpack/rogue/satchel/black
-
 	backpack_contents = list(
 		/obj/item/roguekey/mercenary,
 		/obj/item/rogueweapon/huntingknife/idagger/navaja,
@@ -97,7 +102,7 @@
 				H.mind.AddSpell(new /datum/action/cooldown/spell/gate_of_reckoning)
 			if("macebearer")
 				H.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_EXPERT, TRUE)
-				H.mind.AddSpell(new /datum/action/cooldown/spell/shatter)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/kastvyl)
 				H.mind.AddSpell(new /datum/action/cooldown/spell/tremor)
 				H.mind.AddSpell(new /datum/action/cooldown/spell/charge)
 				H.mind.AddSpell(new /datum/action/cooldown/spell/cataclysm)
@@ -133,13 +138,23 @@
 					r_hand = /obj/item/rogueweapon/spear/spellblade
 					backl = /obj/item/rogueweapon/shield/tower/raneshen
 		if("macebearer")
-			var/mace_weapons = list("Steel Mace", "Steel Warhammer & Shield")
+			var/mace_weapons = list("Steel Mace", "Steel Warhammer & Shield", "Grand Mace", "Battle Axe", "Steel Greataxe")
 			var/mace_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in mace_weapons
+			var/picked_axe = FALSE
 			switch(mace_choice)
 				if("Steel Mace")
 					r_hand = /obj/item/rogueweapon/mace/steel
 				if("Steel Warhammer & Shield")
 					r_hand = /obj/item/rogueweapon/mace/warhammer/steel
 					backl = /obj/item/rogueweapon/shield/tower/raneshen
-
+				if("Grand Mace")
+					r_hand = /obj/item/rogueweapon/mace/goden/steel
+				if("Battle Axe")
+					r_hand = /obj/item/rogueweapon/stoneaxe/battle
+					picked_axe = TRUE
+				if("Steel Greataxe")
+					r_hand = /obj/item/rogueweapon/greataxe/steel
+					picked_axe = TRUE
+			if(picked_axe)
+				H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_EXPERT, TRUE)
 	H.merctype = 4
