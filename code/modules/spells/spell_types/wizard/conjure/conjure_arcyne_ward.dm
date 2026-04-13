@@ -110,7 +110,7 @@
 /datum/action/cooldown/spell/conjure_arcyne_ward/dragonhide
 	name = "Conjure Dragonhide Ward"
 	desc = "Conjure a dragonhide ward - an upgraded arcyne ward hardened with draconic scales. \
-	Grants fire resistance, halving fire damage and causing flames to burn out faster. 200 integrity. \
+	Grants fire resistance, halving fire damage and causing flames to burn out faster and bolsters constitution. 200 integrity. \
 	Otherwise functions as a standard arcyne ward - yields coverage to real armor, regenerates by draining energy. \
 	Cast again to dismiss. Cooldown begins when dismissed or destroyed."
 	button_icon_state = "conjure_dragonhide"
