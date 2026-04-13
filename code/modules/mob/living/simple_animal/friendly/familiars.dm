@@ -641,6 +641,25 @@
 	icon_living = "thornback"
 	speak_emote = list("rumbles", "speaks slowly")
 
+/mob/living/simple_animal/pet/familiar/elemental/brass_thrum
+    name = "Brass Thrum"
+    desc = "A mechanical spider-like creature of brass and whirring gears, its movements precise and accompanied by a faint, rhythmic hum."
+    animal_species = "Brass Thrum"
+    icon = 'icons/mob/drone.dmi'
+    icon_state = "drone_clock"
+    icon_living = "drone_clock"
+    summoning_emote = "A metallic clatter as a brass spider-like automaton unfolds itself."
+
+/mob/living/simple_animal/pet/familiar/elemental/gemspire_beetle
+    name = "Gemspire Beetle"
+    desc = "A four-legged, spider-like automaton adorned with crystalline spires, blending arcane energy with intricate clockwork."
+    animal_species = "Gemspire Beetle"
+    icon = 'icons/mob/drone.dmi'
+    icon_state = "drone_gem"
+    icon_living = "drone_gem"
+    summoning_emote = "A faint chime as a gem-encrusted mechanical beetle scuttles into view."
+    speak_emote = "chimes"
+
 #undef FAMILIAR_SEE_IN_DARK
 #undef FAMILIAR_MIN_BODYTEMP
 #undef FAMILIAR_MAX_BODYTEMP

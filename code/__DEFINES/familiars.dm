@@ -15,7 +15,9 @@ GLOBAL_LIST_INIT(familiar_types, list(
 				"Emberdrake" = /mob/living/simple_animal/pet/familiar/infernal/emberdrake,
 				"Ripplefox" = /mob/living/simple_animal/pet/familiar/fae/ripplefox,
 				"Whisper Stoat" = /mob/living/simple_animal/pet/familiar/fae/whisper_stoat,
-				"Thornback Turtle" = /mob/living/simple_animal/pet/familiar/elemental/thornback_turtle
+				"Thornback Turtle" = /mob/living/simple_animal/pet/familiar/elemental/thornback_turtle,
+				"Brass Thrum" = /mob/living/simple_animal/pet/familiar/elemental/brass_thrum,
+				"Gemspire Beetle" = /mob/living/simple_animal/pet/familiar/elemental/gemspire_beetle
 ))
 
 GLOBAL_LIST_INIT(familiar_display_names, list(
@@ -35,7 +37,9 @@ GLOBAL_LIST_INIT(familiar_display_names, list(
 				/mob/living/simple_animal/pet/familiar/infernal/emberdrake = "Emberdrake",
 				/mob/living/simple_animal/pet/familiar/fae/ripplefox = "Ripplefox",
 				/mob/living/simple_animal/pet/familiar/fae/whisper_stoat = "Whisper Stoat",
-				/mob/living/simple_animal/pet/familiar/elemental/thornback_turtle = "Thornback Turtle"
+				/mob/living/simple_animal/pet/familiar/elemental/thornback_turtle = "Thornback Turtle",
+    			/mob/living/simple_animal/pet/familiar/elemental/brass_thrum = "Brass Thrum",
+    			/mob/living/simple_animal/pet/familiar/elemental/gemspire_beetle = "Gemspire Beetle"
 ))
 
 GLOBAL_LIST_INIT(familiar_lore_blurbs, list(
@@ -55,7 +59,9 @@ GLOBAL_LIST_INIT(familiar_lore_blurbs, list(
     /mob/living/simple_animal/pet/familiar/infernal/emberdrake = "Emberdrakes are tiny dragons of warmth and memory. Their presence stirs old stories and brings comfort in the darkest nights.",
     /mob/living/simple_animal/pet/familiar/fae/ripplefox = "Ripplefoxes are tricksters and guides, flickering at the edge of sight. They are masters of illusion and always seem to know more than they let on.",
     /mob/living/simple_animal/pet/familiar/fae/whisper_stoat = "Whisper Stoats are subtle and insightful, listening to thoughts and secrets. They are trusted confidants and clever companions.",
-    /mob/living/simple_animal/pet/familiar/elemental/thornback_turtle = "Thornback Turtles are sturdy guardians, embodying endurance and protection. They are slow to anger but steadfast in defense of their friends."
+    /mob/living/simple_animal/pet/familiar/elemental/thornback_turtle = "Thornback Turtles are sturdy guardians, embodying endurance and protection. They are slow to anger but steadfast in defense of their friends.",
+    /mob/living/simple_animal/pet/familiar/elemental/brass_thrum = "A elemental spider-like creature of brass and whirring gears, its movements precise and accompanied by a faint, rhythmic hum.",
+    /mob/living/simple_animal/pet/familiar/elemental/gemspire_beetle = "A four-legged, spider-like automaton adorned with crystalline spires, blending arcane energy with intricate clockwork."
 	))
 
 GLOBAL_LIST_INIT(fae_familiars, list(
