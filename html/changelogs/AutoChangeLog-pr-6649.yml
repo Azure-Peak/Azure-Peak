@@ -1,0 +1,5 @@
+author: "CODEATHON1243"
+delete-after: True
+changes:
+  - rscadd: "Added new flavour text for failing a patron check for a rune."
+  - bugfix: "allows Baotha/Dendor/Psydon/Ravox runes to be wiped away."
