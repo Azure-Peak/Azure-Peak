@@ -36,10 +36,13 @@ type Data = {
   categories: string[];
   items: LoadoutItem[];
   max_points: number;
+  is_donator: boolean;
+  triumph_discount: number;
   // Dynamic
   selected: SelectedItem[];
   total_cost: number;
   total_triumph_cost: number;
+  effective_triumph_cost: number;
   player_triumphs: number;
 };
 
@@ -298,7 +301,10 @@ const LoadoutDisplay = () => {
     total_cost,
     max_points,
     total_triumph_cost,
+    effective_triumph_cost,
     player_triumphs,
+    is_donator,
+    triumph_discount,
   } = data;
 
   const currentCategory = activeCategory || categories[0] || '';
@@ -456,9 +462,29 @@ const LoadoutDisplay = () => {
               <Box inline bold fontSize={0.95} color={total_cost >= max_points ? 'bad' : undefined} mr={1.5}>
                 Budget: {total_cost}/{max_points}
               </Box>
-              <Box inline bold fontSize={0.95} color={total_triumph_cost > player_triumphs ? 'bad' : 'gold'} mr={1.5}>
-                Triumphs: {total_triumph_cost}/{player_triumphs}
+              <Box inline bold fontSize={0.95} color={effective_triumph_cost > player_triumphs ? 'bad' : 'gold'} mr={1.5}>
+                Triumphs:{' '}
+                {is_donator && triumph_discount > 0 && total_triumph_cost > 0 ? (
+                  <>
+                    {total_triumph_cost}
+                    <Box inline color="green" ml={0.5}>
+                      (-{Math.min(triumph_discount, total_triumph_cost)} free)
+                    </Box>
+                    {' = '}
+                    {effective_triumph_cost}/{player_triumphs}
+                  </>
+                ) : (
+                  <>
+                    {effective_triumph_cost}/{player_triumphs}
+                  </>
+                )}
               </Box>
+              {!!is_donator && (
+                <Box inline bold fontSize={0.85} color="gold" mr={1.5}>
+                  <Box inline mr={0.5}>&#9733;</Box>
+                  Donator - {triumph_discount} TRI free
+                </Box>
+              )}
               <Box inline color="label" fontSize={0.85}>
                 Free loadout items cannot be sold, smelted, or salvaged. Triumph items are exempt.
               </Box>
