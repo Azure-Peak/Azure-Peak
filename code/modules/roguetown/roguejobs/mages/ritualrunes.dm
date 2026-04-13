@@ -571,7 +571,7 @@ GLOBAL_LIST(teleport_runes)
 
 /obj/effect/decal/cleanable/roguerune/arcyne/binding/attack_right(mob/user)
 	. = ..()
-	if(input(user,"Would you like to cancel this summoning attempt?","Fallback","No") as (anything in list("Yes","No")) | null)
+	if((input(user,"Would you like to cancel this summoning attempt?","Fallback","No") as anything in list("Yes","No") | null)=="Yes")
 		busy = FALSE
 		if(summoned_mob)
 			QDEL_NULL(summoned_mob)
