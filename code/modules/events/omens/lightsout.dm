@@ -7,6 +7,8 @@
 	min_players = 0
 	req_omen = TRUE
 	todreq = list("dusk", "night")
+	announce_text = "An unnatural darkness smothers lights across the realm!"
+	announce_title = "Lights Out"
 
 /datum/round_event/lightsout
 	announceWhen	= 1

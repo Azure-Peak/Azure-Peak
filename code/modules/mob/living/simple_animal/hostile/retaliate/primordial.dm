@@ -31,6 +31,7 @@
 	ADD_TRAIT(src, TRAIT_BREADY, TRAIT_GENERIC)
 	src.adjust_skillrank(/datum/skill/combat/unarmed, 3, TRUE)
 	. = ..()
+	AddComponent(/datum/component/ai_aggro_system)
 
 /datum/intent/simple/claw/primordial
 	name = "claw"
@@ -89,7 +90,7 @@
 	environment_smash = ENVIRONMENT_SMASH_NONE
 	retreat_distance = 0
 	minimum_distance = 0
-	projectiletype = /obj/projectile/magic/aoe/fireball/spitfire	//if we ever get ranged toggling working
+	projectiletype = /obj/projectile/magic/spitfire	//if we ever get ranged toggling working
 	projectilesound = 'sound/magic/whiteflame.ogg'
 	next_ability_use
 	STACON = 10

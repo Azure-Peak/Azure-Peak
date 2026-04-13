@@ -31,6 +31,11 @@
 	var/req_omen = FALSE
 	var/list/todreq
 
+	/// If set, announced via priority_announce when this event triggers. Replaces the old global badomen() flavor.
+	var/announce_text
+	var/announce_title = "Bad Omen"
+	var/announce_sound = 'sound/misc/evilevent.ogg'
+
 	///do we check against the antag cap before attempting a spawn?
 	var/checks_antag_cap = FALSE
 	/// List of enemy roles, will check if x amount of these exist exist
@@ -54,6 +59,10 @@
 	var/can_run_post_roundstart = TRUE
 	/// If set then the type or list of types of storytellers we are restricted to being trigged by
 	var/list/allowed_storytellers
+	/// Shared storyteller antag classification used by storyteller blocking/conflict helpers.
+	var/storyteller_antag_flags = STORYTELLER_ANTAG_NONE
+	/// Storyteller-specific guaranteed role mapping for antagonist events.
+	var/storyteller_guarantee_flags = STORYTELLER_FAVOR_NONE
 
 
 /datum/round_event_control/proc/valid_for_map()
@@ -63,7 +72,8 @@
 	var/string
 	if(roundstart && (world.time-SSticker.round_start_time >= 2 MINUTES))
 		string += "Roundstart"
-	if(length(allowed_storytellers) && !(SSgamemode.current_storyteller.type in allowed_storytellers))
+	var/current_storyteller_type = SSgamemode?.get_storyteller_type(roundstart)
+	if(length(allowed_storytellers) && !(current_storyteller_type in allowed_storytellers))
 		if(string)
 			string += ","
 		string += "Wrong God"
@@ -118,7 +128,8 @@
 	if(length(todreq) && !(GLOB.tod in todreq))
 		return FALSE
 	if(length(allowed_storytellers))
-		if(!(SSgamemode.current_storyteller.type in allowed_storytellers))
+		var/current_storyteller_type = SSgamemode?.get_storyteller_type(roundstart)
+		if(!(current_storyteller_type in allowed_storytellers))
 			return FALSE
 	if(req_omen)
 		if(!GLOB.badomens.len)
@@ -146,7 +157,9 @@
 	if(req_omen)
 		if(!GLOB.badomens.len)
 			return EVENT_CANCELLED
-		badomen(pick_n_take(GLOB.badomens))
+		pick_n_take(GLOB.badomens)
+		if(announce_text)
+			priority_announce(announce_text, announce_title, announce_sound)
 
 
 	triggering = FALSE
@@ -392,20 +405,3 @@ GLOBAL_LIST_INIT(badomens, list())
 
 	GLOB.badomens -= input
 
-/datum/round_event_control/proc/badomen(eventreason)
-	var/used
-	switch(eventreason)
-		if(OMEN_ROUNDSTART)
-			used = "Zizo."
-		if(OMEN_NOPRIEST)
-			used = "The Bishop has perished! The Ten are weakened..."
-		if(OMEN_SKELETONSIEGE)
-			used = "Unwelcome visitors!"
-		if(OMEN_NOLORD)
-			used = "The Monarch is dead! We need a new ruler."
-		if(OMEN_SUNSTEAL)
-			used = "The Sun, she is wounded!"
-		if(OMEN_INQUISITORDEATH)
-			used = "Something weeps..."
-	if(eventreason && used)
-		priority_announce(used, "Bad Omen", 'sound/misc/evilevent.ogg')

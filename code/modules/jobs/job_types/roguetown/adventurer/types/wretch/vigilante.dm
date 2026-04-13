@@ -63,6 +63,10 @@
 	head = /obj/item/clothing/head/roguetown/roguehood/shalal/heavyhood
 	cloak = /obj/item/clothing/cloak/thief_cloak
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat
+	H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/dropkick) // their batman they get all of them
+	H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/chokeslam)
+	H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/headbutt)
+	H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/stunner)
 	H.change_stat(STATKEY_STR, 2)
 	H.change_stat(STATKEY_CON, 3)
 	H.change_stat(STATKEY_WIL, 3)

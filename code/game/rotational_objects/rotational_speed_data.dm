@@ -12,11 +12,6 @@
 	var/dpdir
 	/// Bitflags of relative directional SHAFT connections. See \code\_DEFINES\rotation_defines.dm
 	var/initialize_dirs
-
-/* //we're not include waterpumps right now
-	var/obj/structure/water_pipe/input
-	var/obj/structure/water_pipe/output
-*/
 	var/datum/rotation_network/rotation_network
 
 /obj/structure/Initialize()
@@ -35,10 +30,6 @@
 	if(rotation_structure && !QDELETED(src))
 		set_connection_dir()
 		find_rotation_network()
-/*//we're not include waterpumps right now
-	if(accepts_water_input)
-		setup_water()
-*/
 
 /obj/structure/Destroy()
 	if(rotation_network)
@@ -46,17 +37,13 @@
 		rotation_network.remove_connection(src)
 		old_network.reassess_group(src)
 	rotation_network = null
-/*//we're not include waterpumps right now
-	input = null
-	output = null
-*/
 	return ..()
 
 /obj/structure/MiddleClick(mob/user, params)
 	. = ..()
 	if(!user.Adjacent(src))
 		return
-	if(!rotation_structure) //&& !istype(src, /obj/structure/water_pipe)) //we're not include waterpumps right now
+	if(!rotation_structure)
 		return
 	var/obj/item/contraption/linker/linker = user.get_active_held_item()
 	if(!istype(linker))
@@ -66,6 +53,21 @@
 		if(type == initial(item.placed_type))
 			start_deconstruct(user, item)
 			return
+
+/obj/structure/attack_right(mob/user, list/modifiers)
+	. = ..()
+	if(.)
+		return
+	if(!rotation_structure || !user?.Adjacent(src))
+		return
+	var/obj/item/contraption/linker/linker = user.get_active_held_item()
+	if(!istype(linker))
+		return
+	var/datum/component/simple_rotation/rotcomp = GetComponent(/datum/component/simple_rotation)
+	if(!rotcomp)
+		return
+	rotcomp.HandRot(rotcomp, user, ROTATION_CLOCKWISE)
+	return TRUE
 
 /obj/structure/proc/start_deconstruct(mob/living/user, obj/item/rotation_contraption/type)
 	user.visible_message(span_notice("[user] starts to disassemble [src]."), span_notice("You start to disassemble [src]."))
@@ -123,23 +125,10 @@
 
 /obj/structure/proc/setup_water()
 	return
-/*
-	for(var/direction in GLOB.cardinals)
-		var/turf/cardinal_turf = get_step(src, direction)
-		for(var/obj/structure/water_pipe/structure in cardinal_turf)
-			if(!valid_water_connection(REVERSE_DIR(direction), structure))
-				continue
-			structure.set_connection(get_dir(structure, src))
-*/
 
 /obj/structure/proc/update_animation_effect()
 	return
 
-/* //we're not include waterpumps right now
-///reminder this is the direction coming from the pipe to src.
-/obj/structure/proc/valid_water_connection(direction, obj/structure/water_pipe/pipe)
-	return TRUE
-*/
 /obj/structure/proc/use_water_pressure(pressure)
 	return
 

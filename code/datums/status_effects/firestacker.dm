@@ -292,6 +292,70 @@
 		victim?.dna?.species?.handle_fire(victim, no_protection)
 	victim.adjustFireLoss(8)
 
+/// Lesser silver sunder. Tracks how long the silver-weak owner has been in continuous contact with
+/// any is_lesser_silver item, escalating in stages: a stress event after a brief grace period (so
+/// "force them to hold silver for two seconds" metachecks can't instantly out a vampyre), and a
+/// real sunder ignition once they've been holding it long enough to count as a true exposure.
+#define LESSER_SILVER_STRESS_DELAY    (10 SECONDS)
+#define LESSER_SILVER_IGNITE_DELAY    (30 SECONDS)
+#define LESSER_SILVER_IGNITE_STACKS   3
+
+/datum/status_effect/fire_handler/fire_stacks/sunder/lesser
+	id = "fire_stacks_sunder_lesser"
+	tick_interval = 1 SECONDS
+	stack_limit = 20
+	/// World time at which contact with lesser silver began (or was last refreshed). Reset whenever
+	/// the owner stops touching any lesser silver.
+	var/contact_started_at = 0
+	/// Whether the stress event has been applied this exposure.
+	var/stress_applied = FALSE
+	/// Whether the real sunder ignition has been triggered this exposure.
+	var/ignited_from_lesser = FALSE
+
+/datum/status_effect/fire_handler/fire_stacks/sunder/lesser/on_creation(mob/living/new_owner, new_stacks, forced = FALSE)
+	. = ..()
+	contact_started_at = world.time
+	to_chat(new_owner, span_warning("The silver stings against my flesh - a slow, smoldering reminder of what I am."))
+
+/datum/status_effect/fire_handler/fire_stacks/sunder/lesser/on_remove()
+	if(stress_applied && owner)
+		owner.remove_stress(/datum/stressevent/lesser_silver)
+	return ..()
+
+/datum/status_effect/fire_handler/fire_stacks/sunder/lesser/tick(wait)
+	if(!isliving(owner) || QDELETED(owner))
+		qdel(src)
+		return TRUE
+	// Antimagic wards off the slow burn entirely.
+	if(owner.has_status_effect(STATUS_EFFECT_ANTIMAGIC))
+		qdel(src)
+		return TRUE
+	var/touching_lesser_silver = FALSE
+	for(var/obj/item/checked in (owner.get_equipped_items(TRUE) | owner.held_items))
+		if(checked?.is_lesser_silver)
+			touching_lesser_silver = TRUE
+			break
+	if(!touching_lesser_silver)
+		// They've let go. Tear down the exposure entirely — stress and timers reset, so picking
+		// silver back up gives them another grace window.
+		qdel(src)
+		return TRUE
+	var/elapsed = world.time - contact_started_at
+	if(!stress_applied && elapsed >= LESSER_SILVER_STRESS_DELAY)
+		owner.add_stress(/datum/stressevent/lesser_silver)
+		stress_applied = TRUE
+	if(!ignited_from_lesser && elapsed >= LESSER_SILVER_IGNITE_DELAY)
+		owner.adjust_fire_stacks(LESSER_SILVER_IGNITE_STACKS, /datum/status_effect/fire_handler/fire_stacks/sunder)
+		owner.ignite_mob()
+		ignited_from_lesser = TRUE
+		// At this point a real sunder effect is now driving the burn — our work is done.
+		qdel(src)
+		return TRUE
+
+#undef LESSER_SILVER_STRESS_DELAY
+#undef LESSER_SILVER_IGNITE_DELAY
+#undef LESSER_SILVER_IGNITE_STACKS
+
 /datum/status_effect/fire_handler/wet_stacks
 	id = "wet_stacks"
 

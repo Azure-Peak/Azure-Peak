@@ -94,5 +94,5 @@
 				ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
 			if("Bardic Inspiration")
 				var/datum/inspiration/I = new /datum/inspiration(H)
-				I.grant_inspiration(H, bard_tier = BARD_T2)
+				I.grant_inspiration(H, bard_tier = BARD_T1)
 	H.merctype = 13

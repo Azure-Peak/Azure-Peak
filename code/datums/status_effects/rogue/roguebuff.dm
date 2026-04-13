@@ -465,12 +465,12 @@
 /datum/status_effect/buff/wardenbuff
 	id = "wardenbuff"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/wardenbuff
-	effectedstats = list(STATKEY_SPD = 1, STATKEY_PER = 3)
+	effectedstats = list(STATKEY_PER = 2, STATKEY_WIL = 1, STATKEY_SPD = 1)
 
 /datum/status_effect/buff/innkeeperbuff
 	id = "innkeeperbuff"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/innkeeperbuff
-	effectedstats = list(STATKEY_CON = 1,STATKEY_WIL = 1, STATKEY_SPD = 1, STATKEY_STR = 3)
+	effectedstats = list(STATKEY_CON = 1, STATKEY_WIL = 1, STATKEY_SPD = 1, STATKEY_STR = 3)
 
 /datum/status_effect/buff/innkeeperbuff/process()
 
@@ -510,14 +510,6 @@
 	if(!(our_area.warden_area))
 		owner.remove_status_effect(/datum/status_effect/buff/wardenbuff)
 
-/datum/status_effect/buff/wardenbuff/on_apply()
-	. = ..()
-	ADD_TRAIT(owner, TRAIT_LONGSTRIDER, id)
-
-/datum/status_effect/buff/wardenbuff/on_remove()
-	. = ..()
-	REMOVE_TRAIT(owner, TRAIT_LONGSTRIDER, id)
-
 // Lesser Miracle effect
 /atom/movable/screen/alert/status_effect/buff/healing
 	name = "Healing Miracle"
@@ -537,7 +529,8 @@
 	var/block_combat_mode = FALSE
 
 /datum/status_effect/buff/healing/on_creation(mob/living/new_owner, new_healing_on_tick, is_inhumen = FALSE)
-	healing_on_tick = new_healing_on_tick
+	if(!isnull(new_healing_on_tick))
+		healing_on_tick = new_healing_on_tick
 	tech_healing_modifier = SSchimeric_tech.get_healing_multiplier()
 	if(is_inhumen)
 		// The penalty/benefit of healing tech is halved for inhumen followers
@@ -829,7 +822,7 @@
 /atom/movable/screen/alert/status_effect/buff/fortify
 	name = "Fortifying Miracle"
 	desc = "Divine intervention bolsters me and aids my recovery."
-	icon_state = "buff"
+	icon_state = "fortify"
 
 /atom/movable/screen/alert/status_effect/debuff/diminish
 	name = "Diminished"
@@ -970,6 +963,17 @@
 
 	return TRUE
 
+/atom/movable/screen/alert/status_effect/buff/guidinglight/undivided
+	desc = "I am the light in eternal darkness!"
+	icon_state = "guiding_light_undivided"
+
+/datum/status_effect/buff/guidinglight/undivided
+	id = "guidinglight"//Admitedly don't want this to stack with Astrata's one because that would result in a flashbang.
+	alert_type = /atom/movable/screen/alert/status_effect/buff/guidinglight/undivided
+	duration = -1
+	status_type = STATUS_EFFECT_REFRESH
+	effectedstats = list(STATKEY_LCK = 1)
+	examine_text = "SUBJECTPRONOUN carries Their Light!"
 
 /datum/status_effect/buff/guidinglight/on_remove()
 	. = ..()
@@ -1125,7 +1129,7 @@
 
 
 /atom/movable/screen/alert/status_effect/buff/lesserwolf
-	name = "Blessing of the Lesser Wolf"
+	name = "Blessing of the Lesser Volf"
 	desc = "I swell with the embuement of a predator..."
 	icon_state = "buff"
 
@@ -1524,11 +1528,11 @@
 			mob_effect_offset_x = -6
 			mob_effect_offset_y = -9
 
-/datum/status_effect/buff/clash/limbguard/process_attack(mob/living/parent, mob/living/target, mob/user, obj/item/I)
+/datum/status_effect/buff/clash/limbguard/process_attack(mob/living/parent, mob/living/target, mob/user, obj/item/I, zone_override)
 	if(is_active)
 		if(ishuman(user) && target == owner)
 			var/mob/living/carbon/human/HM = user
-			if(check_zone(HM.zone_selected) == protected_zone)	//User has struck the exact limb that was being protected. Bad!
+			if(check_zone(HM.zone_selected) == protected_zone || zone_override == protected_zone)	//User has struck the exact limb that was being protected. Bad!
 				if(ishuman(user))
 					apply_debuffs(HM)
 					perform_disarm(HM)
@@ -2052,6 +2056,42 @@
 	desc = "My natural defenses are gone! I am lighter, but far weaker."
 	icon_state = "buff"
 
+// escalating buffs applied on bleed out tied to TRAIT_JOURNEYS_END, currently only used by mistwalker
+/atom/movable/screen/alert/status_effect/buff/journey_ending
+	name = "An end in sight..."
+	desc = "Is this to be my story?"
+	icon_state = "buff"
+
+/atom/movable/screen/alert/status_effect/buff/journey_end
+	name = "The chapter's closing."
+	desc = "Treading the fine line of lyfe and death."
+	icon_state = "buff"
+
+/atom/movable/screen/alert/status_effect/buff/journey_end_final
+	name = "The final act!"
+	desc = "A death worthy of song!"
+	icon_state = "buff"
+
+/datum/status_effect/buff/journey_ending
+	id = "journey_ending"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/journey_ending
+	effectedstats = list(STATKEY_SPD = 2, STATKEY_WIL = 2)
+	duration = -1
+
+/datum/status_effect/buff/journey_end
+	id = "journey_end"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/journey_end
+	effectedstats = list(STATKEY_STR = 2, STATKEY_SPD = 3, STATKEY_WIL = 2)
+	examine_text = "<font color='blue'>SUBJECTPRONOUN has entered a Battle Trance!</font>"
+	duration = -1
+
+/datum/status_effect/buff/journey_end_final //takes ages for them to die to bloodloss, but they *do* die to it
+	id = "journey_end_final"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/journey_end_final
+	effectedstats = list(STATKEY_STR = 5, STATKEY_SPD = 6, STATKEY_WIL = 4)
+	examine_text = "<font color='blue'>SUBJECTPRONOUN has entered a Battle Trance!</font>"
+	duration = -1
+
 /datum/status_effect/buff/stagehands_silence
 	id = "Stagehand"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/stagehands_silence
@@ -2134,7 +2174,7 @@
 
 /atom/movable/screen/alert/status_effect/buff/artificerint
 	name = "Artificer Arcyne"
-	desc = "This armor fills me with arcyne power and knowledge"
+	desc = "This armor fills me with arcyne power and knowledge."
 	icon_state = "buff"
 
 /datum/status_effect/buff/artificerstr
@@ -2144,28 +2184,203 @@
 
 /atom/movable/screen/alert/status_effect/buff/artificerstr
 	name = "Artificer Athletic"
-	desc = "This armor fills me with atheletic power and strength"
+	desc = "This armor fills me with atheletic power and strength."
 	icon_state = "buff"
 
 //construct buffing
 /datum/status_effect/buff/windup
-	id = "windup"
-	alert_type = /atom/movable/screen/alert/status_effect/buff/windup
-	effectedstats = list(STATKEY_SPD = 1, STATKEY_WIL = 1)
-	duration = 15 MINUTES
+    id = "windup"
+    alert_type = /atom/movable/screen/alert/status_effect/buff/windup
+    effectedstats = list(STATKEY_SPD = 1, STATKEY_WIL = 1)
+    duration = 45 MINUTES
 
 /atom/movable/screen/alert/status_effect/buff/windup
-	name = "Drill Windup"
-	desc = "a drill has wound up my core, making me faster"
-	icon_state = "buff"
+    name = "Drill Windup"
+    desc = "Malum's own drill has wound me up. I am faster, now."
+    icon_state = "buff"
 
 /datum/status_effect/buff/tuneup
-	id = "tuneup"
-	alert_type = /atom/movable/screen/alert/status_effect/buff/tuneup
-	effectedstats = list(STATKEY_CON = 1)
-	duration = 15 MINUTES
+    id = "tuneup"
+    alert_type = /atom/movable/screen/alert/status_effect/buff/tuneup
+    effectedstats = list(STATKEY_CON = 1, STATKEY_PER = 1)
+    duration = 45 MINUTES
 
 /atom/movable/screen/alert/status_effect/buff/tuneup
-	name = "Wrench Tuneup"
-	desc = "a wrench has turned me up, helping steel myself for more damage"
+    name = "Wrench Tuneup"
+    desc = "Malum's own wrench powers me. I can withstand more damage, now."
+    icon_state = "buff"
+
+#define ORDERBRINGER_FILTER "orderbringer"
+
+/datum/status_effect/orderbringer
+	id = "orderbringer"
+	var/outline_colour = "#6BB7A0"
+	duration = -1
+	tick_interval = -1
+	examine_text = span_good("SUBJECTPRONOUN is bathed in Divine Light!")
+	alert_type = null
+
+/datum/status_effect/orderbringer/on_apply()
+	. = ..()
+
+	owner.visible_message(span_userdanger("A tide of divine light surges from [owner], it fills you with determination and hope!"))
+
+	var/filter = owner.get_filter(ORDERBRINGER_FILTER)
+	if(!filter)
+		owner.add_filter(ORDERBRINGER_FILTER, 2, list("type" = "outline", "color" = outline_colour, "alpha" = 60, "size" = 2))
+
+	var/mutable_appearance/effect = mutable_appearance('icons/effects/effects.dmi', "curse", -JOYBRINGER_LAYER, alpha = 128)
+	effect.appearance_flags = RESET_COLOR
+	effect.blend_mode = BLEND_ADD
+	effect.color = "#6BB7A0"
+
+	owner.overlays_standing[ORDERBRINGER_FILTER] = effect
+	owner.apply_overlay(ORDERBRINGER_FILTER)
+
+	RegisterSignal(owner, COMSIG_LIVING_LIFE, PROC_REF(on_life))
+
+/datum/status_effect/orderbringer/on_remove()
+	. = ..()
+
+	owner.remove_filter(ORDERBRINGER_FILTER)
+	owner.remove_overlay(ORDERBRINGER_FILTER)
+
+	UnregisterSignal(owner, COMSIG_LIVING_LIFE)
+
+/datum/status_effect/orderbringer/proc/on_life()
+	SIGNAL_HANDLER
+
+	for(var/mob/living/mob in get_hearers_in_view(2, owner))
+		if(HAS_TRAIT(mob, TRAIT_PSYDONITE) || HAS_TRAIT(mob, TRAIT_CABAL) || HAS_TRAIT(mob, TRAIT_HORDE) || HAS_TRAIT(mob, TRAIT_FREEMAN) || HAS_TRAIT(mob, TRAIT_CRACKHEAD))
+			continue
+
+		mob.apply_status_effect(/datum/status_effect/buff/fortify)
+
+#undef ORDERBRINGER_FILTER
+#define NECRACON_FILTER "necra_consecration"
+#define NECRACON_TIER_NORMAL 2
+#define NECRACON_TIER_EXPERT 3
+#define NECRACON_TIER_MASTER 4
+
+
+/datum/status_effect/buff/necran_consecration
+	id = "necra_consecrate"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/necra_consecrate
+	effectedstats = list(STATKEY_CON = 1)
+	var/outline_colour ="#929186" // A dull grey.
+	var/tier = 2
+	duration = 3 SECONDS
+
+/datum/status_effect/buff/necran_consecration/on_creation(mob/living/new_owner, newtier)
+	if(newtier > NECRACON_TIER_NORMAL)
+		tier = newtier
+	. = ..()
+
+/datum/status_effect/buff/necran_consecration/refresh()
+	. = ..()
+	var/bluerestore = 0
+	if(HAS_TRAIT(owner, TRAIT_DNR))
+		bluerestore += 5
+	switch(tier)
+		if(NECRACON_TIER_NORMAL)
+			bluerestore += 5
+		if(NECRACON_TIER_EXPERT)
+			bluerestore += 8
+		if(NECRACON_TIER_MASTER)
+			bluerestore += 10
+	owner.energy_add(bluerestore)
+
+/datum/status_effect/buff/necran_consecration/on_apply()
+	. = ..()
+
+	var/bluerestore = 0
+	if(HAS_TRAIT(owner, TRAIT_DNR))
+		bluerestore += 5
+	switch(tier)
+		if(NECRACON_TIER_NORMAL)
+			bluerestore += 5
+		if(NECRACON_TIER_EXPERT)
+			bluerestore += 8
+		if(NECRACON_TIER_MASTER)
+			bluerestore += 10
+	owner.energy_add(bluerestore)
+
+	var/filter = owner.get_filter(NECRACON_FILTER)
+	if (!filter)
+		owner.add_filter(NECRACON_FILTER, 2, list("type" = "outline", "color" = outline_colour, "alpha" = 200, "size" = 1))
+	ADD_TRAIT(owner, TRAIT_ADRENALINE_RUSH, TRAIT_NECRACON)
+	if(tier > NECRACON_TIER_NORMAL)	//expert
+		ADD_TRAIT(owner, TRAIT_FORTITUDE, TRAIT_NECRACON)
+		if(HAS_TRAIT(owner, TRAIT_DNR))
+			ADD_TRAIT(owner, TRAIT_GUIDANCE, TRAIT_NECRACON)
+	if(tier > NECRACON_TIER_EXPERT && HAS_TRAIT(owner, TRAIT_DNR))	//master+
+		ADD_TRAIT(owner, TRAIT_NOPAIN, TRAIT_NECRACON)
+
+/datum/status_effect/buff/necran_consecration/on_remove()
+	. = ..()
+	owner.remove_filter(NECRACON_FILTER)
+	REMOVE_TRAIT(owner, TRAIT_ADRENALINE_RUSH, TRAIT_NECRACON)
+	if(tier > NECRACON_TIER_NORMAL)
+		REMOVE_TRAIT(owner, TRAIT_FORTITUDE, TRAIT_NECRACON)
+		REMOVE_TRAIT(owner, TRAIT_GUIDANCE, TRAIT_NECRACON)
+	if(tier > NECRACON_TIER_EXPERT)
+		REMOVE_TRAIT(owner, TRAIT_NOPAIN, TRAIT_NECRACON)
+
+
+/atom/movable/screen/alert/status_effect/buff/necra_consecrate
+	name = "Necra's Blessed Consecration"
+	desc = "Upon this ground, I hold firm. Upon this ground, Her will guides me true. Upon this ground, I will send them back to Her waiting grasp."
 	icon_state = "buff"
+
+#undef NECRACON_FILTER
+#undef NECRACON_TIER_NORMAL
+#undef NECRACON_TIER_EXPERT
+#undef NECRACON_TIER_MASTER
+
+#define EORANAURA_FILTER "eoranaura"
+
+/datum/status_effect/eoranaura
+	id = "eoranaura"
+	var/outline_colour = "#EEBBBB"
+	duration = -1
+	tick_interval = -1
+	examine_text = span_good("SUBJECTPRONOUN is bathed in Eora's Light!")
+	alert_type = null
+
+/datum/status_effect/eoranaura/on_apply()
+	. = ..()
+
+	owner.visible_message(span_userdanger("A tide of Eoran light surges from [owner], it fills you with peace and hope!"))
+
+	var/filter = owner.get_filter(EORANAURA_FILTER)
+	if(!filter)
+		owner.add_filter(EORANAURA_FILTER, 2, list("type" = "outline", "color" = outline_colour, "alpha" = 60, "size" = 2))
+
+	var/mutable_appearance/effect = mutable_appearance('icons/effects/effects.dmi', "curse", -JOYBRINGER_LAYER, alpha = 128)
+	effect.appearance_flags = RESET_COLOR
+	effect.blend_mode = BLEND_ADD
+	effect.color = "#EEBBBB"
+
+	owner.overlays_standing[EORANAURA_FILTER] = effect
+	owner.apply_overlay(EORANAURA_FILTER)
+
+	RegisterSignal(owner, COMSIG_LIVING_LIFE, PROC_REF(on_life))
+
+/datum/status_effect/eoranaura/on_remove()
+	. = ..()
+
+	owner.remove_filter(EORANAURA_FILTER)
+	owner.remove_overlay(EORANAURA_FILTER)
+
+	UnregisterSignal(owner, COMSIG_LIVING_LIFE)
+
+/datum/status_effect/eoranaura/proc/on_life()
+	SIGNAL_HANDLER
+
+	for(var/mob/living/mob in get_hearers_in_view(2, owner))
+		if(HAS_TRAIT(mob, TRAIT_PSYDONITE))
+			continue
+
+		mob.apply_status_effect(/datum/status_effect/eora_blessing)
+
+#undef EORANAURA_FILTER

@@ -11,7 +11,7 @@
 	anchored = TRUE
 	alpha = 180
 	layer = TURF_LAYER + 0.1
-	max_integrity = 100
+	max_integrity = 300
 
 	var/datum/weakref/owner_ref
 	var/datum/weakref/spell_ref
@@ -39,6 +39,8 @@
 			if(L.movement_type & (FLYING|FLOATING))
 				return
 			if(L.is_jumping)
+				return
+			if(L.pulledby) // No grabbing someone into rune
 				return
 			if(L.mob_timers[RUNE_WARD_IMMUNITY_KEY] && world.time < L.mob_timers[RUNE_WARD_IMMUNITY_KEY])
 				return
@@ -84,7 +86,7 @@
 	to_chat(L, span_danger("<B>The rune locks your muscles in place!</B>"))
 	playsound(src, 'sound/magic/lightning.ogg', 80, TRUE)
 	L.electrocute_act(10, src, flags = SHOCK_NOGLOVES)
-	L.Paralyze(120)
+	L.Paralyze(6 SECONDS)
 
 /obj/structure/rune_ward/fire
 	name = "flame rune"

@@ -3,6 +3,7 @@
 	desc = "A light, slingable bag that can store arrows. It is the best friend of many-a-plucksome archer."
 	icon_state = "quiver0"
 	item_state = "quiver"
+	flags_ai_inventory = AI_ITEM_QUIVER
 	icon = 'icons/roguetown/weapons/ammo.dmi'
 	//lefthand_file = 'icons/mob/inhands/equipment/backpack_lefthand.dmi'
 	//righthand_file = 'icons/mob/inhands/equipment/backpack_righthand.dmi'
@@ -263,10 +264,10 @@
 		arrows += A
 	update_icon()
 
-/obj/item/quiver/arrows/bronze/Initialize()
+/obj/item/quiver/stonearrows/Initialize()
 	..()
 	for(var/i in 1 to max_storage)
-		var/obj/item/ammo_casing/caseless/rogue/arrow/bronze/A = new()
+		var/obj/item/ammo_casing/caseless/rogue/arrow/stone/A = new()
 		arrows += A
 	update_icon()
 

@@ -32,15 +32,6 @@
 			],
 			"weight": 1
 		},
-		"asimov": {
-			"name": "The Three Laws of Aasimar",
-			"laws": [
-				"A peasant may not injure a noble or, through inaction, allow a noble to come to harm.",
-				"A peasant must obey the orders given it by nobles except where such orders would conflict with the First Law.",
-				"A peasant must protect their own existence as long as such protection does not conflict with the First or Second Law."
-			],
-			"weight": 0
-		},
 		"the_great_charter": {
 			"name": "The Great Charter",
 			"laws": [
@@ -56,15 +47,6 @@
 				"Burghers and Nobles retain the right to bear arms, save when such right is revoked for crimes against the Crown."
 			],
 			"weight": 5
-		},
-		"human_supremacy": {
-			"name": "Divine Supremacy",
-			"laws": [
-				"Thou shalt not worship the inhumen. All that that is inhumen is lesser.",
-				"Thou shalt not associate with inhumen worshipers, those who do that do so forsake their faith.",
-				"Those who worship the inhumen must be eradicated."
-			],
-			"weight": 1
 		}
 	}
 }

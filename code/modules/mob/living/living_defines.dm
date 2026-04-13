@@ -197,6 +197,8 @@
 
 	var/domhand = 0
 
+	var/pet_passive = FALSE
+
 	var/cmode_music_override = list() // set by prefs or the verb, ignored if empty
 	var/cmode_music_override_name // solely for autoselecting as a spawned-in mob
 	var/last_heard_raw_message //to prevent repeated messages from spamming
@@ -211,6 +213,9 @@
 	var/toggle_delay = 1 SECONDS
 	/// Toggle timer for Specials, or really anything else that you don't want input spam to instantly cycle through.
 	var/toggle_timer
+
+	/// Whether we are in a swingdelay, used to check for disrupted swingdelays.
+	var/swing_state = FALSE
 	var/is_swimming = FALSE
 	var/is_underwater = FALSE
 	var/drowning_drowniness = 0

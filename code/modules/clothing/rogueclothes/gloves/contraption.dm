@@ -16,11 +16,10 @@
 	AddComponent(/datum/component/armour_filtering/positive, TRAIT_FENCERDEXTERITY)
 	AddComponent(/datum/component/armour_filtering/negative, TRAIT_HONORBOUND)
 
-    // === CONTRAPTION CORE BEHAVIOR ===
+// === CONTRAPTION CORE BEHAVIOR ===
 /obj/item/clothing/gloves/roguetown/chain/contraption/proc/battery_collapse(obj/O, mob/living/user)
 	to_chat(user, span_info("The [accepted_power_source.name] powering [src] fizzles into nothing!"))
 	playsound(src, pick('sound/combat/hits/onmetal/grille (1).ogg','sound/combat/hits/onmetal/grille (2).ogg'), 100, FALSE)
-	//qdel(src)
 	O.take_damage(400, BRUTE, "blunt", 1)
 
 /obj/item/clothing/gloves/roguetown/chain/contraption/proc/misfire(obj/O, mob/living/user)
@@ -31,7 +30,6 @@
 /obj/item/clothing/gloves/roguetown/chain/contraption/proc/misfire_result(obj/O, mob/living/user)
 	misfiring = TRUE
 	explosion(src, light_impact_range = 2, flame_range = 2, smoke = TRUE)
-	//qdel(src)
 	O.take_damage(400, BRUTE, "blunt", 1)
 
 /obj/item/clothing/gloves/roguetown/chain/contraption/proc/charge_deduction(obj/O, mob/living/user, deduction)
@@ -42,7 +40,7 @@
 
 /obj/item/clothing/gloves/roguetown/chain/contraption/voltic
 	name = "voltic contraption gauntlets"
-	desc = "A pair of bronze-plated gauntlets, fitted with whirring machinery. Runic enigmas have been meticulously etched onto its joints - a voltic incantation, humming with electrical power. </br>‎  </br>By right-clicking these gauntlets, I can unleash bursts of paralyzing lightning.. so long as the mechanisms are powered, at least."
+	desc = "A pair of bronze-plated gauntlets fitted with whirring machinery. Runic enigmas have been meticulously etched onto their joints, forming a voltic incantation that hums with electrical power. It hungers for cogs."
 	icon_state = "volticgauntlets"
 	slot_flags = ITEM_SLOT_GLOVES
 	armor = ARMOR_MAILLE
@@ -88,7 +86,6 @@
 			current_charge += charge_per_source
 			playsound(src, 'sound/combat/hits/blunt/woodblunt (2).ogg', 100, TRUE)
 			qdel(I)
-			//addtimer(CALLBACK(src, PROC_REF(play_clock_sound)), 5)
 	if(istype(I, prime_power_source))
 		user.changeNext_move(CLICK_CD_FAST)
 		S.set_up(1, 1, front)
@@ -103,22 +100,25 @@
 				current_charge = max_stored_charge
 				playsound(src, 'sound/combat/hits/blunt/woodblunt (2).ogg', 100, TRUE)
 				qdel(I)
-				//addtimer(CALLBACK(src, PROC_REF(play_clock_sound)), 5)
 		else
 			to_chat(user, span_info("I insert the [I.name] and the [name] starts ticking. It gets a big boost"))
 			current_charge += charge_per_prime
 			playsound(src, 'sound/combat/hits/blunt/woodblunt (2).ogg', 100, TRUE)
 			qdel(I)
-			//addtimer(CALLBACK(src, PROC_REF(play_clock_sound)), 5)
+
+/obj/item/clothing/gloves/roguetown/chain/contraption/voltic/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Insert a bronze gear into the gauntlets to charge them.")
+	. += span_info("Right-click the gauntlets while wearing or holding them to prime a short lightning burst.")
+	. += span_info("The burst shocks nearby targets within 2 tiles, briefly immobilizes them, and consumes charge. After use, the gauntlets go on cooldown.")
 
 
 /obj/item/clothing/gloves/roguetown/chain/contraption/voltic/attack_right(mob/user)
 	if(loc != user)
 		return
-	if(cooldowny)
-		if(world.time < cooldowny + cdtime)
-			to_chat(user, span_warning("Nothing happens."))
-			return
+	if(cooldowny && world.time < cooldowny + cdtime)
+		to_chat(user, span_warning("Nothing happens."))
+		return
 	user.visible_message(span_warning("[user] primes the [src]!"))
 	if(activate_sound)
 		playsound(user, activate_sound, 100, FALSE, -1)
@@ -136,14 +136,14 @@
 		user.visible_message(span_warning("[src] settles down."))
 		user.update_inv_wear_id()
 
-    // === VOLTIC ZAP ===
+// === VOLTIC ZAP ===
 /obj/item/clothing/gloves/roguetown/chain/contraption/voltic/proc/activate(mob/living/user)
-	if (!user)
+	if(!user)
 		return
-	if (obj_broken)
+	if(obj_broken)
 		to_chat(user, span_warning("The gauntlets spark. they are too damaged to work!"))
 		return
-	if (!current_charge)
+	if(!current_charge)
 		to_chat(user, span_warning("The gauntlets sputter. It needs a [initial(accepted_power_source.name)]!"))
 		playsound(src, 'sound/magic/magic_nulled.ogg', 100)
 		return
@@ -160,33 +160,33 @@
 
 	var/list/mob/living/valid_targets = list()
 	// Find targets in range
-	for (var/mob/living/carbon/C in view(2, user))
-		if (C.anti_magic_check())
+	for(var/mob/living/carbon/C in view(2, user))
+		if(C.anti_magic_check())
 			visible_message(span_warning("The lightning fizzles harmlessly against [C]!"))
 			playsound(get_turf(C), 'sound/magic/magic_nulled.ogg', 100)
 			continue
-		if (C == user)
+		if(C == user)
 			continue
 		valid_targets += C
 		user.visible_message(span_warning("[C] is connected to [user] with a voltic link!"),
 		span_warning("You create a static link with [C]."))
 
-	if (!valid_targets.len)
+	if(!valid_targets.len)
 		return
 
 	// Create beam effects and apply shock
-	for (var/mob/living/carbon/C in valid_targets)
-		if (C == user)
+	for(var/mob/living/carbon/C in valid_targets)
+		if(C == user)
 			continue
 		var/datum/beam/current_beam
-		for (var/x = 1; x <= sprite_changes; x++)
+		for(var/x = 1; x <= sprite_changes; x++)
 			current_beam = new(user, C, time = 50 / sprite_changes, beam_icon_state = "lightning[ rand(1,12) ]", btype = /obj/effect/ebeam, maxdistance = 10)
 			INVOKE_ASYNC(current_beam, TYPE_PROC_REF(/datum/beam, Start))
 			sleep(delay / sprite_changes)
 
 		var/dist = get_dist(user, C)
-		if (dist <= 2)
-			if (HAS_TRAIT(C, TRAIT_SHOCKIMMUNE))
+		if(dist <= 2)
+			if(HAS_TRAIT(C, TRAIT_SHOCKIMMUNE))
 				continue
 			else
 				C.Immobilize(0.5 SECONDS)

@@ -24,9 +24,21 @@
 	penfactor = PEN_MEDIUM
 	damfactor = 1.5
 	demolition_mod = 5
-	swingdelay = 6
+	swingdelay = 0.8 SECONDS
+	swingdelay_type = SWINGDELAY_PENALTY
 	clickcd = CLICK_CD_CHARGED // Effective Shield DPS: 25 / 2.4 = 10.4
 	item_d_type = "slash"
+
+/datum/intent/axe/chop/heavy
+	name = "hack"
+	icon_state = "inhack"
+	penfactor = PEN_BSTEEL
+	damfactor = 1.5
+	swingdelay = 1 SECONDS
+	
+	candodge = FALSE
+	canparry = FALSE
+	swingdelay_type = SWINGDELAY_CANCEL
 
 /datum/intent/axe/chop/scythe
 	reach = 2
@@ -37,19 +49,6 @@
 /datum/intent/axe/chop/halberd
 	damfactor = 1.3
 	reach = 2
-
-/datum/intent/axe/thrust
-	name = "stab"
-	icon_state = "instab"
-	attack_verb = list("stabs")
-	animname = "stab"
-	blade_class = BCLASS_STAB
-	hitsound = list('sound/combat/hits/bladed/genstab (1).ogg', 'sound/combat/hits/bladed/genstab (2).ogg', 'sound/combat/hits/bladed/genstab (3).ogg')
-	penfactor = PEN_NONE 
-	damfactor = 0.9 //Lesser variant of the Stab intent for battle axes that have spikes on them. Mordhau-maxxing, as it were.
-	chargetime = 0
-	swingdelay = 0
-	item_d_type = "stab"
 
 /datum/intent/axe/bash
 	name = "bash"

@@ -44,7 +44,7 @@
 	movement_type = UNSTOPPABLE
 	guard_deflectable = TRUE
 	light_color = LIGHT_COLOR_WHITE
-	damage = 40
+	damage = 45
 	npc_simple_damage_mult = 2
 	damage_type = BURN
 	accuracy = 40
@@ -75,4 +75,7 @@
 			else
 				var/remaining = round((L.mob_timers[MT_LIGHTNING_ADAPTATION] + LIGHTNING_ADAPTATION_COOLDOWN - world.time) / 10)
 				L.balloon_alert_to_viewers("<font color='#ffcc00'>shock adapted ([remaining]s)</font>")
+	else if(isatom(target))
+		var/atom/A = target
+		A.fire_act()
 	qdel(src)

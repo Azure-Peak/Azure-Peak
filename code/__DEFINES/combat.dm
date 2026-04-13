@@ -1,5 +1,11 @@
 /*ALL DEFINES RELATED TO COMBAT GO HERE*/
 
+// Guidance system - used by parry.dm, dodge.dm, accuracy_checks.dm, and bardic songs
+#define FULL_GUIDANCE_CHANCE 20 // % parry/dodge bypass and parry/dodge chance (mage Guidance, Bard Fantasia/Requiem)
+#define LESSER_GUIDANCE_CHANCE 12 // % parry/dodge bypass and parry/dodge chance (Cantor/Spellsinger songs)
+#define FULL_GUIDANCE_ACCURACY 8 // Accuracy bonus from guidance (equivalent to 1 skill level)
+#define LESSER_GUIDANCE_ACCURACY 5 // Accuracy bonus from lesser guidance
+
 /// Alternate attack defines. Return these at the end of procs like afterattack_secondary.
 /// Calls the normal attack proc. For example, if returned in afterattack_secondary, will call afterattack.
 /// Will continue the chain depending on the return value of the non-alternate proc, like with normal attacks.
@@ -61,7 +67,6 @@
 #define HEALTH_THRESHOLD_NEARDEATH -90 //Not used mechanically, but to determine if someone is so close to death they hear the other side
 
 #define FIRE_HARDCRIT_BASE 300 //Total burn damage across all bodyparts to hardcrit a player
-#define FIRE_HARDCRIT_MINDLESS_MULT 0.5 //Mindless mobs without TRAIT_CRIT_THRESHOLD hardcrit at half (150)
 #define FIRE_HARDCRIT_NOPAIN_MULT 1.5 //NOPAIN/NOPAINSTUN increases threshold by 50% (450)
 
 #define STRENGTH_SOFTCAP 14	//STR value past which we get diminishing returns in our damage calculations.
@@ -75,10 +80,12 @@
 //click cooldowns, in tenths of a second, used for various combat actions
 #define CLICK_CD_EXHAUSTED 60
 #define CLICK_CD_TRACKING 30
+#define CLICK_CD_WRESTLING 30
 #define CLICK_CD_SLEUTH 10
 #define CLICK_CD_GLACIAL 20	// Tier: Glacial
 #define CLICK_CD_MASSIVE 18	// Tier: Extremely Sluggish
 #define CLICK_CD_HEAVY 16		// Tier: Very Sluggish
+#define CLICK_CD_DODGE 16
 #define CLICK_CD_CHARGED 14	// Tier: Sluggish
 #define CLICK_CD_MELEE 12		// Tier: Normal (baseline)
 #define CLICK_CD_QUICK 10		// Tier: Quick
@@ -91,6 +98,7 @@
 #define CLICK_CD_HANDCUFFED 10
 #define CLICK_CD_RESIST 20
 #define CLICK_CD_GRABBING 10
+#define CLICK_CD_GRAB_RESIST 5
 
 //Aimed / Swift defines
 #define EXTRA_STAMDRAIN_SWIFSTRONG 10
@@ -111,6 +119,11 @@
 #define EFF_RANGE_EXACT 1
 #define EFF_RANGE_ABOVE 2
 #define EFF_RANGE_BELOW 3
+
+// Swingdelay presets
+#define SWINGDELAY_NORMAL 1	//No penalties, we just swing.
+#define SWINGDELAY_PENALTY 2 //We suffer a defensive penalty if struck during it. Otherwise, normal.
+#define SWINGDELAY_CANCEL 3 //We have -no- defense during it, and it can be interrupted if we are hit.
 
 //Grab levels
 #define GRAB_PASSIVE				0
@@ -174,7 +187,6 @@
 #define BCLASS_PUNISH		"punish"
 #define BCLASS_EFFECT		"effect"
 #define BCLASS_SUNDER       "sunder"
-#define BCLASS_HALFSWORD	"stab"
 
 //Material class (what material is striking)
 #define MCLASS_GENERIC		1
@@ -368,25 +380,34 @@ GLOBAL_LIST_INIT(shove_disarming_types, typecacheof(list(
 #define TEMPO_TAG_STAMLOSS_DODGE "dodge"
 #define TEMPO_TAG_ARMOR_INTEGFACTOR "integ"
 #define TEMPO_TAG_NOLOS_PARRY "nolosparry"
+#define TEMPO_TAG_NOLOS_DODGE "nolosdodge"
 #define TEMPO_TAG_DEF_SHARPNESSFACTOR "sharpness"
 #define TEMPO_TAG_DEF_INTEGFACTOR "parryinteg"
 #define TEMPO_TAG_PARRYCD_BONUS	"parrycd"
 #define TEMPO_TAG_RCLICK_CD_BONUS "rclickcd"
 #define TEMPO_TAG_FEINTBAIT_FOV "feintbaitfov"
 #define TEMPO_TAG_DEF_BONUS	"defbonus"
+#define TEMPO_TAG_DODGE_LOSS "dodgeloss"
+	#define TEMPO_DODGE_LOSS_NORMAL 0
+	#define TEMPO_DODGE_LOSS_LESS 1
+	#define TEMPO_DODGE_LOSS_NONE 2
 
 
 /*
 Medical defines
 */
 #define ARTERY_LIMB_BLEEDRATE 20	//This is used as a reference point for dynamic wounds, so it's better off as a define.
-#define CONSTITUTION_BLEEDRATE_MOD 0.1	//How much slower we'll be bleeding for every CON point. 0.1 = 10% slower.
-#define CONSTITUTION_BLEEDRATE_CAP 15	//The CON value up to which we get a bleedrate reduction.
+#define CONSTITUTION_BLEEDRATE_MOD 0.05	//How much slower we'll be bleeding for every CON point. 0.1 = 10% slower.
+#define CONSTITUTION_BLEEDRATE_CAP 20	//The CON value up to which we get a bleedrate reduction.
+
+#define WILLPOWER_STARTING_STAMINA 135	//Starting stamina (green bar) value. Before major changes this would represent Expert Athletics + ~11.5 WIL 
+#define WILLPOWER_MODIFIER	5	//How much stamina (flat value) we gain (or lose) for every WIL above / below 10.
+
+#define SPEED_MOVSPD_MOD 0.075	//Multiplicative modifier for our speed, per point (for both <10 and >10 values)
 
 /*
  Misc. Category. Spin it out if needed
 */
-#define CRIT_DISMEMBER_DAMAGE_THRESHOLD_NPC 0.45 // Half the player threshold for mindless NPCs
 #define CRIT_DISMEMBER_DAMAGE_THRESHOLD 0.9 // 90% damage threshold for dismemberment / crit
 #define STANDING_DECAP_GRACE_PERIOD 2 SECONDS // Time after falling prone where you still count as standing for decap purpose
 #define INT_NOISE_DELAY 1 SECONDS
@@ -422,3 +443,6 @@ Medical defines
 
 #define PROB_ATTACK_EMOTE_PLAYER 10
 #define PROB_ATTACK_EMOTE_NPC 10
+
+#define MAX_DODGE_CEIL 5
+#define MAX_DODGE_FLOOR -15

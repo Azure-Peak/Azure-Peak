@@ -60,6 +60,8 @@
 	var/charging_slowdown = 0
 	var/warnoffset = 0
 	var/swingdelay = 0
+
+	var/swingdelay_type = SWINGDELAY_NORMAL
 	/// Causes a return in /attack() but still allows to be used in attackby()
 	var/no_attack = FALSE
 	/// Range in tiles for melee attacks.
@@ -207,12 +209,22 @@
 		inspec += "\n<b>Short Reach:</b> More accurate at striking specific body parts."
 	if(swingdelay > 0)
 		inspec += "\n<b>Attack Delay:</b> "
-		if(swingdelay <= 2)
+		if(swingdelay <= 4)
 			inspec += "<font color='#fa4'>Moderate</font>"
-		else if(swingdelay <= 4)
+		else if(swingdelay <= 8)
 			inspec += "<font color='#f44'>Significant</font>"
 		else
 			inspec += "<font color='#f22'>Heavy</font>"
+	if(swingdelay_type)
+		inspec += " | Type: "
+		switch(swingdelay_type)
+			if(SWINGDELAY_NORMAL)
+				inspec += SPAN_TOOLTIP("The swing will be without any unusual effects.", "<font color='#e6e6e6'><u>Normal</u></font>")
+			if(SWINGDELAY_PENALTY)
+				inspec += SPAN_TOOLTIP("The swing will reduce my defense by a significant amount.", "<font color='#dab141'><u>Difficult</u></font>")
+			if(SWINGDELAY_CANCEL)
+				inspec += SPAN_TOOLTIP("I will have no chance to defend while swinging, and a strike against me will interrupt it.", "<font color='#a70d0d'><u>Rigid</u></font>")
+		
 	if(cleave)
 		inspec += "\n<b>Cleave:</b> [cleave.desc]"
 		inspec += "\n  Max additional targets: [cleave.max_targets ? cleave.max_targets : "Unlimited"]"

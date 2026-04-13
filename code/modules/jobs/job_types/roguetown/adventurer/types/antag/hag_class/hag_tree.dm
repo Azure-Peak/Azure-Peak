@@ -252,12 +252,22 @@
 		if(!destination || destination.is_blocked_turf())
 			destination = get_turf(target)
 
+		if(HAS_TRAIT(user, TRAIT_ROOT_WALKER) && GLOB.hag_root_landmarks.len)
+			var/obj/effect/hag_teleport_marker/L = pick(GLOB.hag_root_landmarks)
+			var/turf/maze_turf = get_turf(L)
+			user.apply_status_effect(/datum/status_effect/hag_root_tether, target, get_turf(user))
+			user.forceMove(maze_turf)
+			if(passenger && get_dist(src, passenger) <= 2)
+				passenger.apply_status_effect(/datum/status_effect/hag_root_tether, target, get_turf(passenger))
+				passenger.forceMove(maze_turf)
+				to_chat(passenger, span_userdanger("You are dragged through the suffocating, muddy darkness of the roots!"))
+			to_chat(user, span_boldnotice("The roots pull you deep into the earth. Find the Heartroot to reach your destination!"))
+			return
+
 		user.forceMove(destination)
 		user.visible_message(span_notice("[user] emerges from the roots of [target]."), \
 							 span_boldnotice("The roots spit you back out into [get_area(target)]."))
-		if(HAS_TRAIT(user, TRAIT_ROOT_WALKER))
-			to_chat(user, span_notice("Your affinity with the roots falls away again, demanding more tribute."))
-			REMOVE_TRAIT(user, TRAIT_ROOT_WALKER, TRAIT_HAG_BOON)
+
 		if(passenger && get_dist(src, passenger) <= 2)
 			passenger.forceMove(destination)
 			to_chat(passenger, span_userdanger("You are dragged through the suffocating, muddy darkness of the roots!"))
@@ -490,6 +500,7 @@
 
 /obj/item/alch/hag_moss/enchanted/random/low
 	name = "Faded Moss"
+	desc = "It makes you feel like a different person, ever so slightly."
 	color = "#a9a9a9"
 
 /obj/item/alch/hag_moss/enchanted/random/low/is_in_range(val)
@@ -497,6 +508,7 @@
 
 /obj/item/alch/hag_moss/enchanted/random/mid
 	name = "Lustrous Moss"
+	desc = "It really makes you feel like your skin isn't your own."
 	color = "#3db1ff"
 
 /obj/item/alch/hag_moss/enchanted/random/mid/is_in_range(val)
@@ -504,6 +516,7 @@
 
 /obj/item/alch/hag_moss/enchanted/random/high
 	name = "Prismatic Moss"
+	desc = "The leaves show a different person, you wish you were them, you -could- be them."
 	color = "#ff3de1"
 
 /obj/item/alch/hag_moss/enchanted/random/high/is_in_range(val)

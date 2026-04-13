@@ -8,7 +8,7 @@
 
 /obj/item/ritechalk/attack_self(mob/living/user)
 	if(!HAS_TRAIT(user, TRAIT_RITUALIST))
-		to_chat(user, span_smallred("I don't know what I'm doing with this..."))
+		to_chat(user, span_warning("I don't know what I'm doing with this..."))
 		return
 
 	var/ritechoices = list()
@@ -18,7 +18,7 @@
 		if(/datum/patron/inhumen/zizo)
 			ritechoices+="Rune of ZIZO" 
 		if(/datum/patron/inhumen/matthios)
-			ritechoices+="Rune of Transaction" 
+			ritechoices+="Rune of Transaction"
 		if(/datum/patron/inhumen/baotha)
 			ritechoices+="Rune of Hedonism"
 		if(/datum/patron/divine/undivided)
@@ -67,7 +67,7 @@
 			to_chat(user,span_cultsmall("I begin inscribing the rune of His Madness."))
 			if(do_after(user, 30, src))
 				playsound(src, 'sound/foley/scribble.ogg', 40, TRUE)
-				new /obj/effect/decal/cleanable/roguerune/god/dendor(step_turf)
+				new /obj/structure/ritualcircle/dendor(step_turf)
 		if("Rune of Forge")
 			to_chat(user,span_cultsmall("I begin inscribing the rune of Their Craft..."))
 			if(do_after(user, 30, src))
@@ -97,7 +97,7 @@
 			to_chat(user,span_cultsmall("I begin inscribing the rune of His Justice..."))
 			if(do_after(user, 30, src))
 				playsound(src, 'sound/foley/scribble.ogg', 40, TRUE)
-				new /obj/effect/decal/cleanable/roguerune/god/ravox(step_turf)
+				new /obj/structure/ritualcircle/ravox(step_turf)
 		if("Rune of Storm")
 			to_chat(user,span_cultsmall("I begin inscribing the rune of His Storm..."))
 			if(do_after(user, 30, src))

@@ -26,6 +26,8 @@
 		playsound(src, 'sound/combat/clash_struck.ogg', 100)
 		H.apply_status_effect(/datum/status_effect/debuff/exposed, 3 SECONDS)
 		H.apply_status_effect(/datum/status_effect/debuff/clickcd, 3 SECONDS)
+		if(H.mind)
+			H.dodgetime = clamp(H.dodgetime + 5, 0, CLICK_CD_HEAVY)
 		H.Slowdown(3)
 		to_chat(src, span_notice("[capitalize(H.p_theyre())] exposed!"))
 		remove_status_effect(/datum/status_effect/buff/clash)
@@ -48,6 +50,9 @@
 		playsound(src, 'sound/combat/clash_struck.ogg', 100)
 		H.apply_status_effect(/datum/status_effect/debuff/exposed, 3 SECONDS)
 		H.apply_status_effect(/datum/status_effect/debuff/clickcd, 3 SECONDS)
+		if(H.mind)
+			H.dodgetime = clamp(H.dodgetime + 5, 0, CLICK_CD_HEAVY)
+		dodgetime = clamp(dodgetime - 5, 0, CLICK_CD_DODGE)
 		H.Slowdown(3)
 		to_chat(src, span_notice("[capitalize(H.p_theyre())] exposed!"))
 		remove_status_effect(/datum/status_effect/buff/clash)
@@ -184,6 +189,11 @@
 	if(m_intent == MOVE_INTENT_RUN)
 		to_chat(src, span_warning("I can't focus on this while running."))
 		return FALSE
+	// Can't guard while channeling a spell
+	var/datum/action/cooldown/spell/active_spell = click_intercept
+	if(istype(active_spell) && (active_spell.currently_charging || active_spell.charged))
+		to_chat(src, span_warning("I can't guard while channeling a spell!"))
+		return FALSE
 	apply_status_effect(/datum/status_effect/buff/clash)
 	return TRUE
 
@@ -205,6 +215,11 @@
 		if(bait_stacks > 0)
 			bait_stacks = 0
 			to_chat(src, span_info("My focus and balance returns. I won't lose my footing if I am baited again."))
+
+/mob/living/carbon/human/proc/reset_dodgetime()
+	if(!cmode && mind)
+		dodgetime = 0
+		max_dodge = MAX_DODGE_CEIL
 
 ///A Unique Stat comparison between src and HT.
 ///It takes the highest stats up to 14 and lowest stats 'up to' 14.
@@ -353,6 +368,8 @@
 				return 0.4 SECONDS
 			if(has_status_effect(/datum/status_effect/buff/tempo_three))
 				return 0.6 SECONDS
+			else
+				return 0
 		//Modifier for how much integ damage the weapon we parry with takes. Multiplier.
 		if(TEMPO_TAG_DEF_INTEGFACTOR)
 			if(has_status_effect(/datum/status_effect/buff/tempo_one))
@@ -379,6 +396,16 @@
 				return TRUE
 			else
 				return FALSE
+		//Whether we care about our attacker being in our FOV when dodging.
+		if(TEMPO_TAG_NOLOS_DODGE)
+			if(has_status_effect(/datum/status_effect/buff/tempo_one))
+				return FALSE
+			if(has_status_effect(/datum/status_effect/buff/tempo_two))
+				return TRUE
+			if(has_status_effect(/datum/status_effect/buff/tempo_three))
+				return TRUE
+			else
+				return FALSE
 		//How much less armor integ we lose on hit. Multiplier. (0 to 1)
 		if(TEMPO_TAG_ARMOR_INTEGFACTOR)
 			if(has_status_effect(/datum/status_effect/buff/tempo_one))
@@ -390,11 +417,11 @@
 		//How much stamloss we take away from dodging. Flat number.
 		if(TEMPO_TAG_STAMLOSS_DODGE)
 			if(has_status_effect(/datum/status_effect/buff/tempo_one))
-				return 2
+				return 3
 			if(has_status_effect(/datum/status_effect/buff/tempo_two))
-				return 4
+				return 5
 			if(has_status_effect(/datum/status_effect/buff/tempo_three))
-				return 6
+				return 7
 		//How much stamloss we take away from parrying. Flat number.
 		if(TEMPO_TAG_STAMLOSS_PARRY)
 			if(has_status_effect(/datum/status_effect/buff/tempo_one))
@@ -411,3 +438,13 @@
 				return TRUE
 			if(has_status_effect(/datum/status_effect/buff/tempo_three))
 				return TRUE
+		//Whether we lose max dodge and increase our dodge delay after a dodge.
+		if(TEMPO_TAG_DODGE_LOSS)
+			if(has_status_effect(/datum/status_effect/buff/tempo_one))
+				return TEMPO_DODGE_LOSS_LESS
+			if(has_status_effect(/datum/status_effect/buff/tempo_two))
+				return TEMPO_DODGE_LOSS_NONE
+			if(has_status_effect(/datum/status_effect/buff/tempo_three))
+				return TEMPO_DODGE_LOSS_NONE
+			else
+				return TEMPO_DODGE_LOSS_NORMAL

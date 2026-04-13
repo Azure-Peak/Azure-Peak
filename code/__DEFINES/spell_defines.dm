@@ -14,6 +14,7 @@
 #define GLOW_COLOR_HEARTH "#FF8A65" // Warm hearthfire salmon
 #define GLOW_COLOR_LIGHT "#FFFDE7" // Pale warm white, for light spells
 #define GLOW_COLOR_WARD "#D4A844" // Warm amber-gold, for battlewardry / protective ward spells
+#define GLOW_COLOR_BARDIC "#E8837C" // Warm rose, for bardic songs and cadences
 
 // Constants for spell glow intensity. These are literally 1 2 3 4 but it is for documenting design purposes
 #define GLOW_INTENSITY_LOW 1 // For spam projectiles or generic buffs
@@ -131,6 +132,7 @@
 #define ASPECT_NAME_FERRAMANCY  "Metal"
 #define ASPECT_NAME_AUGMENTATION "Enhancement"
 #define ASPECT_NAME_BATTLEWARDRY "Wards"
+#define ASPECT_NAME_TELOMANCY   "Trajectory"
 
 // Arcyne ward tier hierarchy - higher tier wards override lower, equal or lower cannot override
 #define ARCYNE_WARD_TIER_OTHER   1 // Other Ward (cast on allies)

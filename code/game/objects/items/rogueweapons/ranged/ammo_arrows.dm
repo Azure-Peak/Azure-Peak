@@ -118,6 +118,7 @@
 /obj/projectile/bullet/reusable/arrow/stone
 	name = "stone arrow"
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/arrow/stone
+	damage = 30
 	accuracy = 60
 
 // Broadheads are high damage, low AP. Very high base damage - relies on breaking armor

@@ -388,3 +388,49 @@
 				qdel(src)
 	else
 		return ..()
+
+/*	.............   Cooked Ham   ................ */
+/obj/item/reagent_containers/food/snacks/rogue/meat/ham/steamed
+	name = "steamed ham"
+	desc = "Salted cut of meat ready to be torn into further with a knife. You would be hard pressed to find this lacking in a pantry of anyone with modicum of wealth."
+	icon = 'modular/Neu_Food/icons/cooked/cooked_meat.dmi'
+	icon_state = "ham5"
+	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_CHUNKY)
+	bitesize = 6
+	slice_path = /obj/item/reagent_containers/food/snacks/rogue/meat/ham/sliced
+	faretype = FARE_POOR
+	slices_num = 4
+	slice_batch = FALSE
+	rotprocess = null
+	slice_sound = TRUE
+	eat_effect = null
+	tastes = list("hog" = 1)
+
+/obj/item/reagent_containers/food/snacks/rogue/meat/ham/steamed/update_icon()
+	if(slices_num)
+		icon_state = "ham[slices_num]"
+	else
+		icon_state = "ham_slice"
+
+/obj/item/reagent_containers/food/snacks/rogue/meat/ham/steamed/On_Consume(mob/living/eater)
+	..()
+	if(slices_num)
+		if(bitecount == 2)
+			slices_num = 4
+		if(bitecount == 3)
+			slices_num = 3
+		if(bitecount == 4)
+			slices_num = 2
+		if(bitecount == 5)
+			changefood(slice_path, eater)
+
+/obj/item/reagent_containers/food/snacks/rogue/meat/ham/sliced
+	name = "sliced ham"
+	icon = 'modular/Neu_Food/icons/cooked/cooked_meat.dmi'
+	icon_state = "ham_slice"
+	bitesize = 2
+	slices_num = FALSE
+	slice_path = FALSE
+	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_POOR)
+	eat_effect = null
+	tastes = list("hog" = 1)

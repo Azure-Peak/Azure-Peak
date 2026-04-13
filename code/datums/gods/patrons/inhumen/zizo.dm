@@ -39,7 +39,7 @@
 	// Allows prayer near EEEVIL psycross
 	for(var/obj/structure/fluff/psycross/zizocross/cross in view(4, get_turf(follower)))
 		if(cross.divine == TRUE)
-			to_chat(follower, span_danger("That acursed cross interupts my prayers!"))
+			to_chat(follower, span_danger("That acсursed cross interupts my prayers!"))
 			return FALSE
 		return TRUE
 	// Allows prayer near a grave.

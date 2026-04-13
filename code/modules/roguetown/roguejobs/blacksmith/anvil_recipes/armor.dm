@@ -273,13 +273,13 @@
 /datum/anvil_recipe/armor/bronze/barbute
 	name = "Barbute, Bronze (+1 Bronze, +1 Cured Leather)"
 	req_bar = /obj/item/ingot/bronze
-	additional_items = list(/obj/item/ingot/bronze, /obj/item/natural/hide/cured, /obj/item/natural/hide/cured)
+	additional_items = list(/obj/item/ingot/bronze, /obj/item/natural/hide/cured)
 	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/bronze
 
 /datum/anvil_recipe/armor/bronze/murmillo
 	name = "Murmillo-Style Helmet, Bronze (+1 Bronze, +1 Fur)"
 	req_bar = /obj/item/ingot/bronze
-	additional_items = list(/obj/item/ingot/bronze, /obj/item/natural/hide/cured)
+	additional_items = list(/obj/item/ingot/bronze, /obj/item/natural/fur)
 	created_item = /obj/item/clothing/head/roguetown/helmet/bronzegladiator
 	craftdiff = 2
 
@@ -1066,6 +1066,12 @@
 	req_bar = /obj/item/ingot/steelholy
 	additional_items = list(/obj/item/ingot/steelholy, /obj/item/natural/hide/cured)
 	created_item = /obj/item/clothing/head/roguetown/helmet/sallet/eoran
+
+/datum/anvil_recipe/armor/holysteel/undividedhelmtemplar
+	name = "Undivided Templar's Helmet (+1 Holy Steel, +1 Cured Leather)"
+	req_bar = /obj/item/ingot/steelholy
+	additional_items = list(/obj/item/ingot/steelholy, /obj/item/natural/hide/cured)
+	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/undivided
 
 // SILVER
 

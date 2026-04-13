@@ -220,7 +220,6 @@
 		conbonus = CONSTITUTION_BLEEDRATE_CAP - 10
 	else if(STACON != 10)
 		conbonus = STACON - 10
-	if(mind)
 		amt -= amt * (conbonus * CONSTITUTION_BLEEDRATE_MOD)
 		if(HAS_TRAIT(src, TRAIT_CRITICAL_RESISTANCE))
 			amt = amt * CRIT_RESISTANCE_EFFECTIVE_BLEEDRATE

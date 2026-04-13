@@ -47,7 +47,7 @@
 	recharge_time = 10 MINUTES //Goes down pretty signifcantly if you have high holy level.
 	invocations = list("GRAGGAR BREAK MY CHAINS!", "GRAGGAR SET ME FREE!", "SLAUGHTER RESUMED!")
 	invocation_type = "shout"
-	sound = 'sound/misc/chain_snap.ogg'
+	sound = 'sound/magic/break_chains.ogg'
 	miracle = TRUE
 	releasedrain = 30
 	devotion_cost = 30
@@ -78,7 +78,7 @@
 	recharge_time = 5 MINUTES
 	invocations = list("LAMBS TO THE SLAUGHTER!", "THE DARK STAR IS WATCHING!") // idk who changed it but it was identical to bloodrage. bad.
 	invocation_type = "shout"
-	sound = 'sound/magic/timestop.ogg'
+	sound = 'sound/magic/battle_cry_graggar.ogg'
 	releasedrain = 30
 	miracle = TRUE
 	devotion_cost = 40
@@ -116,9 +116,9 @@
 	recharge_time = 40 SECONDS // no running, super slow. this FUCKS people. lower it if 40 is too much.
 	invocation_type = "shout"
 	invocations = list("TURN AND FACE THE BLOOD GOD!!") // VERY loud. do NOT add other invocations, this projectile can FUUUCK people up and needs to be telegraphed.
-	sound = 'sound/magic/soulsteal.ogg'
+	sound = 'sound/magic/blood_net.ogg'
 	range = 8
-	
+
 /obj/projectile/magic/unholy_grasp
 	name = "visceral organ net"
 	icon_state = "tentacle_end"
@@ -142,7 +142,7 @@
 //T2: Unholy Silence - Silences a target, preventing them from speaking or casting spells.
 /obj/effect/proc_holder/spell/invoked/silence/graggar
 	name = "Unholy Silence"
-	desc = "Tie up the tongue of your foe, giving eachother some much needed time alone without pesky words or magic."
+	desc = "Tie up the tongue of your foe, making them unable to speak or cast spells/miracles."
 	action_icon = 'icons/mob/actions/graggarmiracles.dmi'
 	overlay_icon = 'icons/mob/actions/graggarmiracles.dmi'
 	overlay_state = "unholy_silence"
@@ -155,6 +155,7 @@
 	recharge_time = 2 MINUTES //This lasts 25 SECONDS at max holy rank so for purposes of it not being chainable solo.
 	associated_skill = /datum/skill/magic/holy
 	invocation_type = "shout"
+	sound = 'sound/magic/graggar_silence.ogg'
 	invocations = list("BE SILENT!", "QUIET!", "NOT ANOTHER WORD!")
 	zizo_spell = FALSE // Graggar wants his car back.
 
@@ -197,7 +198,7 @@
 	chargedloop = /datum/looping_sound/invokeevil
 	invocations = list("SUFFER FOR THE DARK STAR!", "SINISTAR, MAKE THEM BLEED!")
 	invocation_type = "shout"
-	sound = 'sound/magic/antimagic.ogg'
+	sound = 'sound/magic/bleed_out.ogg'
 	releasedrain = 30
 	miracle = TRUE
 	devotion_cost = 70

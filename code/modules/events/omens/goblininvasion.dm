@@ -1,5 +1,5 @@
 /datum/round_event_control/gobinvade
-	name = "Gob Invasion"
+	name = "Goblin Invasion"
 	track = EVENT_TRACK_OMENS
 	typepath = /datum/round_event/gobinvade
 	weight = 10
@@ -8,6 +8,8 @@
 	req_omen = TRUE
 	earliest_start = 35 MINUTES
 	todreq = list("night", "dawn", "day", "dusk")
+	announce_text = "Goblins pour forth from the shadows!"
+	announce_title = "Goblin Invasion"
 
 /datum/round_event/gobinvade
 	announceWhen	= 50

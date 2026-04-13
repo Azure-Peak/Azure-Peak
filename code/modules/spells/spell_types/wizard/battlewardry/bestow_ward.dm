@@ -112,8 +112,8 @@
 
 /obj/item/clothing/suit/roguetown/armor/regenerating/skin/arcyne_ward/bestowed/setup_ward(mob/living/carbon/human/H)
 	ward_owner = H
-	RegisterSignal(H, COMSIG_ITEM_EQUIPPED, PROC_REF(on_owner_equip_change))
-	RegisterSignal(H, COMSIG_ITEM_DROPPED, PROC_REF(on_owner_equip_change))
+	RegisterSignal(H, COMSIG_MOB_EQUIPPED_ITEM, PROC_REF(on_owner_equip_change))
+	RegisterSignal(H, COMSIG_MOB_DROPITEM, PROC_REF(on_owner_equip_change))
 	recalculate_coverage()
 	// Very visible glow so everyone can see the warded person
 	H.add_filter("bestowed_ward_glow", 2, list("type" = "outline", "color" = ward_color, "alpha" = 150, "size" = 2))

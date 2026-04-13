@@ -145,6 +145,7 @@
 		/datum/sprite_accessory/hair/head/lowbraid,
 		/datum/sprite_accessory/hair/head/shortbraid,
 		/datum/sprite_accessory/hair/head/braided,
+	    /datum/sprite_accessory/hair/head/braided_sidetail,
 		/datum/sprite_accessory/hair/head/braidtail,
 		/datum/sprite_accessory/hair/head/bun,
 		/datum/sprite_accessory/hair/head/bun2,
@@ -501,6 +502,7 @@
 		/datum/sprite_accessory/hair/head/hprotagonist,
 		/datum/sprite_accessory/hair/head/alsoprotagonist,
 		/datum/sprite_accessory/hair/head/ghast,
+		/datum/sprite_accessory/hair/head/scruffy,
 		)
 
 /datum/customizer_choice/bodypart_feature/hair/head/humanoid/get_random_accessory(datum/customizer_entry/entry, datum/preferences/prefs)

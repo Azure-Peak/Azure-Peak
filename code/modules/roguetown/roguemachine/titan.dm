@@ -163,7 +163,7 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 	switch(mode)
 		if(0)
 			if(findtext(message, "secrets of the throat"))
-				say("My commands are: Make Decree, Make Announcement, Set Taxes, Declare Outlaw, Summon Crown, Summon Key, Make Law, Remove Law, Purge Laws, Purge Decrees, Become Regent, Change Colors, I Ascend, Nevermind")
+				say("My commands are: Make Decree, Make Announcement, Set Taxes, Declare Outlaw, Summon Crown, Summon Key, Set Laws, Make Law, Remove Law, Purge Laws, Purge Decrees, Become Regent, Change Colors, I Ascend, Nevermind")
 				playsound(src, 'sound/misc/machinelong.ogg', 100, FALSE, -1)
 			if(findtext(message, "make announcement"))
 				if(nocrown)
@@ -219,7 +219,7 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 				playsound(src, 'sound/misc/machineyes.ogg', 100, FALSE, -1)
 				mode = 4
 				return
-			if(findtext(message, "remove law"))
+			if(findtext(message, "set laws"))
 				if(!SScommunications.can_announce(H))
 					say("I must gather my strength!")
 					playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
@@ -228,14 +228,9 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 					say("You are not my master!")
 					playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
 					return
-				var/message_clean = replacetext(message, "remove law", "")
-				var/law_index = text2num(message_clean) || 0
-				if(!law_index || !GLOB.laws_of_the_land[law_index])
-					say("That law doesn't exist!")
-					return
-				say("That law shall be gone!")
-				playsound(src, 'sound/misc/machineyes.ogg', 100, FALSE, -1)
-				remove_law(law_index)
+				say("The new laws shall be as such...")
+				playsound(src, 'sound/misc/machinetalk.ogg', 100, FALSE, -1)
+				give_law_popup(H)
 				return
 			if(findtext(message, "purge laws"))
 				if(!SScommunications.can_announce(H))
@@ -346,6 +341,12 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 		return
 	var/datum/taxsetter/taxsetter = new("The Generous Lord Decrees")
 	taxsetter.ui_interact(user)
+
+/obj/structure/roguemachine/titan/proc/give_law_popup(mob/living/carbon/human/user)
+	if(!Adjacent(user))
+		return
+	var/datum/laws_menu/lawmenu = new
+	lawmenu.ui_interact(user)
 
 /obj/structure/roguemachine/titan/proc/make_announcement(mob/living/user, raw_message)
 	if(!SScommunications.can_announce(user))

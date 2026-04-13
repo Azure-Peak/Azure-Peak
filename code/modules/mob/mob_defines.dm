@@ -273,7 +273,10 @@
 	var/dodgecd = FALSE
 
 	var/setparrytime = 12
-	var/dodgetime = 12
+	var/dodgetime = 0
+	var/max_dodge = MAX_DODGE_CEIL
+	var/parrydelay = 12
+	var/magearmor = 0
 
 	var/last_dodge = 0
 	var/last_parry = 0
@@ -317,6 +320,7 @@
 	var/last_client_interact = 0
 
 	var/datum/weakref/offered_item_ref
+
 
 	/// cooldown for the next time this person can offer
 	COOLDOWN_DECLARE(offer_cooldown)
