@@ -63,7 +63,7 @@
     )
     if(do_after(user, 3 SECONDS, TRUE, I, TRUE))
         for(var/i = 1, i <= 20, i++)
-            if(do_after(user, 1.5 SECONDS, TRUE, I, TRUE))
+            if(do_after(user, 1.6 SECONDS, TRUE, I, TRUE))
                 repair_percent = initial(repair_percent)
                 repair_percent *= I.max_integrity
 
