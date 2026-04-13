@@ -558,7 +558,7 @@
 	wdefense = 8
 	special = /datum/special_intent/limbguard
 
-	max_integrity = 200
+	max_integrity = 250
 
 /obj/item/rogueweapon/scabbard/sword/kazengun/noparry
 	name = "ceremonial kazengun scabbard"
@@ -577,7 +577,7 @@
 	icon_state = "kazscab_steel"
 	item_state = "kazscab_steel"
 	valid_blade = /obj/item/rogueweapon/sword/sabre/mulyeog/rumahench
-	max_integrity = 220
+	max_integrity = 275
 
 
 /obj/item/rogueweapon/scabbard/sword/kazengun/gold

@@ -204,15 +204,15 @@
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/shirts.dmi'
 	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_shirts.dmi'
 	allowed_race = NON_DWARVEN_RACE_TYPES
-	max_integrity = 350
+	max_integrity = 300
 
 	repairmsg_begin = "The tattoos begin to slowly mend their abuse..."
 	repairmsg_continue = "The tattoos mend some of their abuse..."
 	repairmsg_stop = "The tattoos stops mending from the onslaught!"
 	repairmsg_end = "The tattoos flow more calmly, as they finish resting and regain their strength."
 
-	interrupt_damount = 20
-	repair_time = 30 SECONDS
+	interrupt_damount = 5
+	repair_time = 40 SECONDS
 
 /obj/item/clothing/suit/roguetown/armor/regenerating/skin/disciple/gladiator
 	name = "gladiator's skin"
