@@ -1,6 +1,6 @@
 #define ARCYNE_WARD_FILTER "arcyne_ward_glow"
-#define BASE_ARCYNE_INTEGRITY 120
-#define UPGRADE_ARCYNE_INTEGRITY 150
+#define BASE_ARCYNE_INTEGRITY 150
+#define UPGRADE_ARCYNE_INTEGRITY 200
 
 /datum/action/cooldown/spell/conjure_arcyne_ward
 	name = "Conjure Arcyne Ward"
