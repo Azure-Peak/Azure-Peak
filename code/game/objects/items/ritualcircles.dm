@@ -241,7 +241,6 @@
 	icon_state = "pestra_chalky"
 	var/plaguerites = list("Flylord's Triage", "Vow of Aesculapius")
 
-
 /obj/structure/ritualcircle/pestra/attack_hand(mob/living/user)
 	if(!..())
 		return
@@ -333,7 +332,7 @@
 		to_chat(target, span_boldred("My body is susceptible to CRITICAL STRIKES."))
 		ADD_TRAIT(target, TRAIT_CRITICAL_WEAKNESS, TRAIT_RITUAL)
 
-/obj/effect/decal/cleanable/roguerune/god/dendor
+/obj/structure/ritualcircle/dendor
 	name = "Rune of Beasts"
 	icon_state = "dendor_chalky"
 	desc = "A Holy Rune of Dendor. Becoming one with nature is to connect with ones true instinct."
