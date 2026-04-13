@@ -222,7 +222,7 @@
 /datum/runeritual/binding/planar_pact
 	name = "Planar Pact"
 	desc = "Make a lesser pact with a planar being, exchanging only a mote of essence with each other. Grants a minor stat boon and a minor stat penalty."
-	required_atoms = list(/obj/item/magic/melded/t1 = 1)
+	required_atoms = list(/obj/item/magic/fae/iridescentscale = 1)
 	blacklisted = FALSE
 	invocation = "Permutatio essentiae!"
 	var/list/planar_buffs = list(
