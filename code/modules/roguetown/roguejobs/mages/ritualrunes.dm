@@ -497,8 +497,8 @@ GLOBAL_LIST(teleport_runes)
 			var/mob/living/simple_animal/pet/familiar/fam = new to_summon(loc)
 			fam.familiar_summoner = user
 			fam.fully_replace_character_name(null, prefs.familiar_names[plane])
-			fam.pronouns = prefs.familiar_pronouns[plane] ? prefs.familiar_pronouns[plane] : THEY_THEM 
-			switch(prefs.familiar_pronouns[plane]) // why is our gender handling so bad for simples
+			fam.pronouns = prefs.familiar_pronouns[plane] ? prefs.familiar_pronouns[plane] : THEY_THEM
+			switch(prefs.familiar_pronouns[plane] ? prefs.familiar_pronouns[plane] : THEY_THEM) // why is our gender handling so bad for simples
 				if(SHE_HER)
 					fam.gender=FEMALE
 				if(HE_HIM)
