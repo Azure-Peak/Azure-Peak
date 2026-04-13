@@ -1,0 +1,5 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Donators that are added manually to the donator list get a 3 TRIUMPHS discount on loadout menu items"
+  - rscadd: "Donators' examine panel get a nice little heart icon."

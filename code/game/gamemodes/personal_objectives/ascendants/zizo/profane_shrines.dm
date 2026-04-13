@@ -8,7 +8,6 @@
 /datum/objective/build_zizo_shrine/on_creation()
 	. = ..()
 	if(owner?.current)
-		owner.current.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/structure/zizo_shrine)
 		RegisterSignal(owner.current, COMSIG_ITEM_CRAFTED, PROC_REF(on_item_crafted))
 	update_explanation_text()
 

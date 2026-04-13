@@ -24,6 +24,7 @@
 		"MATTHIOS IS MY LORD!",
 	)
 	storyteller = /datum/storyteller/matthios
+	crafting_recipes = list(/datum/crafting_recipe/roguetown/structure/matthios_cross_stone, /datum/crafting_recipe/roguetown/structure/matthios_cross_meat)
 
 // When near coin of at least 100 mammon, zchurch, bad-cross, or ritual talk
 /datum/patron/inhumen/matthios/can_pray(mob/living/follower)
@@ -34,7 +35,7 @@
 	// Allows prayer near EEEVIL psycross
 	for(var/obj/structure/fluff/psycross/zizocross/cross in view(4, get_turf(follower)))
 		if(cross.divine == TRUE)
-			to_chat(follower, span_danger("That acursed cross interupts my prayers!"))
+			to_chat(follower, span_danger("That acсursed cross interupts my prayers!"))
 			return FALSE
 		return TRUE
 	// Allows prayer if the user has more than 100 mammon on them.

@@ -545,7 +545,7 @@
 	id = "uszkodzić"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/dazed/freisabre
 	effectedstats = list(STATKEY_STR = -2, STATKEY_SPD = -3)
-	duration = 10 SECONDS
+	duration = 16 SECONDS
 	status_type = STATUS_EFFECT_REFRESH
 
 /atom/movable/screen/alert/status_effect/debuff/dazed/freisabre

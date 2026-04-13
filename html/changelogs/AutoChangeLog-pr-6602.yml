@@ -1,7 +1,0 @@
-author: "borneblood"
-delete-after: True
-changes:
-  - rscadd: "Added Freeman's Tools (T0), Skulduggery (T1) and Mammonite (T2) miracles for Matthios."
-  - rscdel: "Removed Muffle, Appraisal and Emancipate miracles from Matthios."
-  - balance: "Matthios's Eyes now have Appraisal's effects."
-  - spellcheck: "Matthios Lesser Miracle reflavored into something more trve."

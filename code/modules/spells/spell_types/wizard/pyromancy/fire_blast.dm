@@ -68,22 +68,25 @@
 	for(var/turf/T in line_turfs)
 		if(blocked)
 			break
-		for(var/mob/living/victim in T)
-			if(victim == H || victim.stat == DEAD || (victim in already_hit))
+		var/list/victims_here = list()
+		for(var/mob/living/L in T)
+			victims_here += L
+		for(var/mob/living/victim as anything in victims_here)
+			if(victim == H || (victim in already_hit))
 				continue
 			if(victim.anti_magic_check())
 				victim.visible_message(span_warning("The flames fizzle on contact with [victim]!"))
 				continue
 			if(spell_guard_check(victim, FALSE, H))
 				blocked = TRUE
-				break
+				continue
 			var/damage_dealt = arcyne_strike(H, victim, null, blast_damage, BODY_ZONE_CHEST, \
 				BCLASS_BURN, spell_name = "Fire Blast", \
 				allow_shield_check = TRUE, damage_type = BURN, \
 				skip_animation = TRUE)
 			if(!damage_dealt)
 				blocked = TRUE
-				break
+				continue
 			victim.adjust_fire_stacks(fire_stacks_applied)
 			victim.ignite_mob()
 			new /obj/effect/temp_visual/spell_impact(get_turf(victim), spell_color, spell_impact_intensity)
