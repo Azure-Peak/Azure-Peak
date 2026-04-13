@@ -1,7 +1,7 @@
 #define HUMAN_NPC_BASE_JUKE_CHANCE              15
 #define HUMAN_NPC_JUKE_MIN_SPD                  10
 #define HUMAN_NPC_JUKE_PER_OVERSPD              5
-#define HUMAN_NPC_WEAKPOINT_SCAN_CHANCE         20
+#define HUMAN_NPC_WEAKPOINT_SCAN_CHANCE         15
 #define HUMAN_NPC_WEAKPOINT_CACHE_DURATION      (6 SECONDS)
 #define HUMAN_NPC_WEAPON_SPECIAL_CHANCE         15  // base chance, INT-scaled. Was 35 — too spammy
 #define HUMAN_NPC_INTENT_SWITCH_CHANCE          25  // chance per attack to start a new intent sequence
@@ -65,7 +65,7 @@
 		pawn.used_intent = pawn.a_intent
 
 	if(prob(HUMAN_NPC_WEAKPOINT_SCAN_CHANCE) && isliving(target))
-		_scan_for_weakpoint(controller, pawn, target)
+		_scan_for_weakpoint(controller, pawn, target) // initial scan on setup
 
 /datum/ai_behavior/basic_melee_attack/human_npc/perform(delta_time, datum/ai_controller/controller, target_key, targetting_datum_key, hiding_location_key)
 	controller.behavior_cooldowns[src] = world.time + get_cooldown(controller)
@@ -137,7 +137,13 @@
 		pawn.next_click = world.time + (pawn.used_intent?.clickcd * recovery_mult * (1 + rand(0.2, 0.4)))
 		SEND_SIGNAL(pawn, COMSIG_MOB_BREAK_SNEAK)
 
-	if(prob(HUMAN_NPC_WEAKPOINT_SCAN_CHANCE) && isliving(target))
+	// Skilled fighters scan for weakpoints more often
+	var/scan_chance = HUMAN_NPC_WEAKPOINT_SCAN_CHANCE
+	var/obj/item/scan_weapon = pawn.get_active_held_item()
+	if(scan_weapon?.associated_skill)
+		var/scan_skill = pawn.get_skill_level(scan_weapon.associated_skill)
+		scan_chance += scan_skill * 5 // +5% per skill level: novice 20%, journeyman 30%, expert 35%, master 40%
+	if(prob(scan_chance) && isliving(target))
 		_scan_for_weakpoint(controller, pawn, target)
 
 	_try_backstep(pawn, target)
@@ -218,15 +224,32 @@
 		var/aimheight = _zone_to_aimheight(wp[1])
 		if(aimheight)
 			pawn.aimheight_change(aimheight)
+			AI_THINK(pawn, "ZONE: hitting cached weakpoint [wp[1]] (aim [aimheight])")
 		return
 
+	// Skilled fighters commit to a zone longer before switching
+	var/obj/item/held = pawn.get_active_held_item()
+	var/skill_level = SKILL_LEVEL_NONE
+	if(held?.associated_skill)
+		skill_level = pawn.get_skill_level(held.associated_skill)
+	var/switch_threshold = 3
+	switch(skill_level)
+		if(SKILL_LEVEL_JOURNEYMAN)
+			switch_threshold = 4
+		if(SKILL_LEVEL_EXPERT)
+			switch_threshold = 5
+		if(SKILL_LEVEL_MASTER to INFINITY)
+			switch_threshold = 6
+
 	var/counter = controller.blackboard[BB_HUMAN_NPC_ATTACK_ZONE_COUNTER]
-	if(counter < 4)
+	if(counter < switch_threshold)
 		controller.set_blackboard_key(BB_HUMAN_NPC_ATTACK_ZONE_COUNTER, counter + 1)
+		AI_THINK(pawn, "ZONE: committing to current zone ([counter+1]/[switch_threshold], skill [skill_level])")
 		return
 
 	controller.set_blackboard_key(BB_HUMAN_NPC_ATTACK_ZONE_COUNTER, 0)
 	controller.clear_blackboard_key(BB_HUMAN_NPC_WEAKPOINT)
+	AI_THINK(pawn, "ZONE: switching up! (skill [skill_level], threshold was [switch_threshold])")
 
 	// Parity with npc_choose_attack_zone aimheight picks
 	if(pawn.mind?.has_antag_datum(/datum/antagonist/zombie))
@@ -238,7 +261,28 @@
 	if(HAS_TRAIT(target, TRAIT_BLOODLOSS_IMMUNE))
 		pawn.aimheight_change(rand(12, 19))
 		return
-	pawn.aimheight_change(pick(rand(5, 8), rand(9, 11), rand(12, 19)))
+
+	// Before going random, skilled fighters try to re-scan for a weakpoint
+	if(skill_level >= SKILL_LEVEL_APPRENTICE && isliving(target))
+		_scan_for_weakpoint(controller, pawn, target)
+		wp = controller.blackboard[BB_HUMAN_NPC_WEAKPOINT]
+		if(wp)
+			var/aimheight = _zone_to_aimheight(wp[1])
+			if(aimheight)
+				pawn.aimheight_change(aimheight)
+				AI_THINK(pawn, "ZONE: re-scan found weakpoint [wp[1]] (aim [aimheight])")
+				return
+		AI_THINK(pawn, "ZONE: re-scan found nothing, going random")
+
+	// Skilled fighters favor the chest - it's practical and reliable
+	var/new_aim
+	if(skill_level >= SKILL_LEVEL_JOURNEYMAN)
+		new_aim = pick(50;rand(9, 11), 25;rand(5, 8), 25;rand(12, 19))
+		AI_THINK(pawn, "ZONE: skilled random pick -> aim [new_aim] (chest-favored)")
+	else
+		new_aim = pick(rand(5, 8), rand(9, 11), rand(12, 19))
+		AI_THINK(pawn, "ZONE: random pick -> aim [new_aim]")
+	pawn.aimheight_change(new_aim)
 
 /datum/ai_behavior/basic_melee_attack/human_npc/proc/_try_weapon_special(datum/ai_controller/controller)
 	var/mob/living/carbon/human/pawn = controller.pawn
@@ -310,8 +354,8 @@
 			if(part.brute_dam > 20 || part.burn_dam > 20)
 				wounded += part.body_zone
 
-		var/obj/item/worn = htarget.get_item_by_slot(part.body_zone)
-		if(!worn?.armor)
+		var/obj/item/clothing/worn = htarget.get_best_worn_armor(part.body_zone, armor_rating)
+		if(!worn)
 			exposed += part.body_zone
 			continue
 
@@ -320,9 +364,6 @@
 			var/rating = worn.armor.getRating(armor_rating)
 			if(rating < 25)
 				soft += part.body_zone
-		// Unskilled fighters just notice bare skin
-		else if(!worn)
-			exposed += part.body_zone
 
 	// Priority: wounded > bare exposed > soft armor coverage > armored fallback (experts only)
 	var/chosen = null
@@ -339,17 +380,29 @@
 		for(var/obj/item/bodypart/part in htarget.bodyparts)
 			if(!part)
 				continue
-			var/obj/item/worn = htarget.get_item_by_slot(part.body_zone)
-			if(!worn?.armor)
+			var/obj/item/clothing/fallback_armor = htarget.get_best_worn_armor(part.body_zone, armor_rating)
+			if(!fallback_armor)
 				continue
-			var/rating = worn.armor.getRating(armor_rating)
+			var/rating = fallback_armor.armor.getRating(armor_rating)
 			if(rating < lowest_rating)
 				lowest_rating = rating
 				lowest_zone = part.body_zone
 		chosen = lowest_zone
 
 	if(!chosen)
+		AI_THINK(pawn, "SCAN: no weakpoint found (wounded=[length(wounded)] exposed=[length(exposed)] soft=[length(soft)], skill [skill_level])")
 		return
+
+	var/scan_reason = "unknown"
+	if(length(wounded) && chosen in wounded)
+		scan_reason = "wounded"
+	else if(length(exposed) && chosen in exposed)
+		scan_reason = "exposed"
+	else if(length(soft) && chosen in soft)
+		scan_reason = "soft armor"
+	else
+		scan_reason = "lowest resist"
+	AI_THINK(pawn, "SCAN: targeting [chosen] ([scan_reason], skill [skill_level])")
 
 	// Skill scales how long the targeting solution stays valid
 	//longer weapons can maintain solutions longer
