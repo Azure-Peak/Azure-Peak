@@ -48,6 +48,7 @@
 		to_chat(user, span_warning("The familiar is not within their vestige. This should not happen!"))
 	var/dist = get_dist(user, vestige)
 	var/direction = dir2text(get_dir(user, vestige))
+	var/same_z = vestige.z==user.z
 	if(!direction)
 		direction = "beneath you"
 	else
