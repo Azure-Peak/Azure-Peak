@@ -1,0 +1,4 @@
+author: "FreeStylaLT"
+delete-after: True
+changes:
+  - bugfix: "Fixed the blacksteel pick having an incorrect amount of required ingots for its smithing recipe."
