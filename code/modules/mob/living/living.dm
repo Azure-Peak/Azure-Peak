@@ -1686,7 +1686,8 @@
  */
 
 /mob/living/proc/on_fire_stack(seconds_per_tick, datum/status_effect/fire_handler/fire_stacks/fire_handler)
-	adjust_bodytemperature(((fire_handler.stacks * 12)) * 0.5 * seconds_per_tick)
+	var/fire_resist_mult = HAS_TRAIT(src, TRAIT_FIRE_RESIST) ? 0.5 : 1
+	adjust_bodytemperature(((fire_handler.stacks * 12)) * 0.5 * seconds_per_tick * fire_resist_mult)
 
 /**
  * Adjust the amount of fire stacks on a mob

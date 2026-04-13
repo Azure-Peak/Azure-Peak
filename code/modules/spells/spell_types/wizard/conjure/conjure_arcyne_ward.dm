@@ -1,6 +1,7 @@
 #define ARCYNE_WARD_FILTER "arcyne_ward_glow"
 #define BASE_ARCYNE_INTEGRITY 150
 #define UPGRADE_ARCYNE_INTEGRITY 200
+#define ARCYNE_REGEN_ENERGY_MULT 0.5 // Energy cost per point of integrity regenerated
 
 /datum/action/cooldown/spell/conjure_arcyne_ward
 	name = "Conjure Arcyne Ward"
@@ -9,7 +10,7 @@
 	a helmet replaces head coverage, a mask replaces face coverage, gauntlets replace hand coverage, \
 	arm armor replaces arm coverage, leg armor replaces leg coverage, and boots replace foot coverage. \
 	Chest, vitals and groin coverage is only replaced when both your armor and shirt slots are filled. \
-	The ward has 120 integrity and regenerates over time by draining your energy. \
+	The ward has 150 integrity and regenerates over time by draining your energy. \
 	Dismissing the ward refunds cooldown based on remaining integrity - a full health ward has no cooldown, a destroyed ward has full cooldown."
 	button_icon = 'icons/mob/actions/roguespells.dmi'
 	button_icon_state = "conjure_armor"
@@ -41,7 +42,7 @@
 	var/obj/item/clothing/suit/roguetown/armor/regenerating/skin/arcyne_ward/conjured_ward
 	var/ward_type = /obj/item/clothing/suit/roguetown/armor/regenerating/skin/arcyne_ward
 	var/dismiss_invocation = "Aegis Dissipo!"
-	var/energy_cost = 120
+	var/energy_cost = 60
 
 /datum/action/cooldown/spell/conjure_arcyne_ward/before_cast(atom/cast_on)
 	var/dismissing = conjured_ward && !QDELETED(conjured_ward)
@@ -109,7 +110,7 @@
 /datum/action/cooldown/spell/conjure_arcyne_ward/dragonhide
 	name = "Conjure Dragonhide Ward"
 	desc = "Conjure a dragonhide ward - an upgraded arcyne ward hardened with draconic scales. \
-	Grants fire immunity and superior blunt resistance. 300 integrity. \
+	Grants fire resistance, halving fire damage and causing flames to burn out faster. 200 integrity. \
 	Otherwise functions as a standard arcyne ward - yields coverage to real armor, regenerates by draining energy. \
 	Cast again to dismiss. Cooldown begins when dismissed or destroyed."
 	button_icon_state = "conjure_dragonhide"
@@ -118,12 +119,12 @@
 	dismiss_invocation = "Draconis Dissipo!"
 	point_cost = 4
 	ward_type = /obj/item/clothing/suit/roguetown/armor/regenerating/skin/arcyne_ward/dragonhide
-	energy_cost = UPGRADE_ARCYNE_INTEGRITY
+	energy_cost = UPGRADE_ARCYNE_INTEGRITY * ARCYNE_REGEN_ENERGY_MULT
 
 /datum/action/cooldown/spell/conjure_arcyne_ward/crystalhide
 	name = "Conjure Crystalhide Ward"
 	desc = "Conjure a crystalhide ward - an upgraded arcyne ward crystallized with leyline energy. \
-	Grants brigandine-tier protection and bolsters intelligence. Shatters violently when broken, knocking back nearby foes. 300 integrity. \
+	Grants brigandine-tier protection and bolsters intelligence. Shatters violently when broken, knocking back nearby foes. 200 integrity. \
 	Otherwise functions as a standard arcyne ward - yields coverage to real armor, regenerates by draining energy. \
 	Cast again to dismiss. Cooldown begins when dismissed or destroyed."
 	button_icon_state = "conjure_dragonhide"
@@ -134,7 +135,7 @@
 	point_cost = 4
 	spell_tier = 3
 	ward_type = /obj/item/clothing/suit/roguetown/armor/regenerating/skin/arcyne_ward/crystalhide
-	energy_cost = UPGRADE_ARCYNE_INTEGRITY
+	energy_cost = UPGRADE_ARCYNE_INTEGRITY * ARCYNE_REGEN_ENERGY_MULT
 
 // --- The Ward Item ---
 
@@ -268,11 +269,12 @@
 		coverage_locked = FALSE
 		recalculate_coverage()
 		return
-	if(!ward_owner || ward_owner.energy < repair_amount)
+	var/energy_cost = repair_amount * ARCYNE_REGEN_ENERGY_MULT
+	if(!ward_owner || ward_owner.energy < energy_cost)
 		to_chat(ward_owner || loc, span_warning("I don't have enough energy - the ward can't mend itself!"))
 		reptimer = addtimer(CALLBACK(src, PROC_REF(armour_regen)), repair_time, TIMER_STOPPABLE)
 		return
-	ward_owner.energy_add(-repair_amount)
+	ward_owner.energy_add(-energy_cost)
 	obj_integrity = min(obj_integrity + repair_amount, max_integrity)
 	if(obj_broken && obj_integrity > 0)
 		obj_fix(full_repair = FALSE)
@@ -313,7 +315,7 @@
 
 /obj/item/clothing/suit/roguetown/armor/regenerating/skin/arcyne_ward/dragonhide
 	name = "dragonhide ward"
-	desc = "An arcyne ward hardened with draconic scales. Impervious to flame."
+	desc = "An arcyne ward hardened with draconic scales. Resistant to flame."
 	armor = ARMOR_DRAGONHIDE
 	max_integrity = UPGRADE_ARCYNE_INTEGRITY
 	ward_color = GLOW_COLOR_FIRE
@@ -369,3 +371,4 @@
 #undef ARCYNE_WARD_FILTER
 #undef BASE_ARCYNE_INTEGRITY
 #undef UPGRADE_ARCYNE_INTEGRITY
+#undef ARCYNE_REGEN_ENERGY_MULT
