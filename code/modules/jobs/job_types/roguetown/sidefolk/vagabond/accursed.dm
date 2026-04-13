@@ -18,7 +18,7 @@
 		/datum/skill/craft/carpentry = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/craft/tanning = SKILL_LEVEL_APPRENTICE
 	)
-	extra_context = "Contains randomized skills and stats."
+	extra_context = "Contains randomized skills and stats. Transforms into beast under moonlight."
 
 /datum/outfit/job/roguetown/vagabond/accursed/pre_equip(mob/living/carbon/human/H)
 	..()
