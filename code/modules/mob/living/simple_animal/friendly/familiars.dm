@@ -177,6 +177,7 @@
 /mob/living/simple_animal/pet/familiar/fae/Initialize()
 	. = ..()
 	create_reagents(90, TRANSPARENT)
+	ADD_TRAIT(src, TRAIT_CICERONE, TRAIT_GENERIC) // alchemy familiar
 	ADD_TRAIT(src, TRAIT_KNEESTINGER_IMMUNITY, TRAIT_GENERIC) // they're literally nature spirits
 	ADD_TRAIT(src, TRAIT_KEENEARS, TRAIT_GENERIC) // to fit with their recon focus
 
