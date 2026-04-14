@@ -97,7 +97,7 @@
 			nodmg = TRUE
 			next_attack_msg += VISMSG_ARMOR_BLOCKED
 		else if(!nodmg && (HAS_TRAIT(user, TRAIT_VAMPBITE)))
-			if(!HAS_TRAIT(src, TRAIT_PALLID))
+			if(!HAS_TRAIT(src, TRAIT_PALLID)) // pallid is guaranteed to make vamp scenes not sexy
 				var/ramount = 15
 				var/rid = /datum/reagent/vampsolution
 				reagents.add_reagent(rid, ramount)
@@ -122,8 +122,6 @@
 			if(istype(user.dna.species, /datum/species/werewolf))
 				if(HAS_TRAIT(src, TRAIT_SILVER_BLESSED))
 					to_chat(user, span_warning("BLEH! [bite_victim] tastes of SILVER! My gift cannot take hold."))
-				else if(HAS_TRAIT(src, TRAIT_PALLID))
-					to_chat(user, span_warning("BLEH! [bite_victim] tastes like one of us! My gift cannot take hold."))
 				else
 					caused_wound?.werewolf_infect_attempt()
 					if(prob(30))
