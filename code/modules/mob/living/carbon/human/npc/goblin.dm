@@ -416,10 +416,13 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 	..()
 	r_hand = /obj/item/rogueweapon/huntingknife/stoneknife
 	l_hand = null
+	backr = null
+	backl = null
 	wrists = /obj/item/gun/ballistic/revolver/grenadelauncher/sling
 	neck = /obj/item/quiver/sling/stone
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/hide/goblin
 	H.adjust_skillrank(/datum/skill/combat/slings, 2, TRUE)
+	H.upgrade_ai_controller(/datum/ai_controller/human_npc) // reset in case parent rolled archer
 
 /mob/living/carbon/human/species/goblin/npc/bomber
 	name = "goblin pyromancer"
@@ -430,6 +433,7 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 	SEND_SIGNAL(src, COMSIG_MOB_MODIFY_AGGRO_LINES, GLOB.goblin_pyromancer_aggro, TRUE)
 	name = "goblin pyromancer"
 	real_name = "goblin pyromancer"
+	AddComponent(/datum/component/looc_on_death)
 
 /datum/outfit/job/roguetown/npc/goblin/bomber/pre_equip(mob/living/carbon/human/H)
 	..()
