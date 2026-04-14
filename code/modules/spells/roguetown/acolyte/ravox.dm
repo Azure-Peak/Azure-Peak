@@ -154,10 +154,6 @@
 	overlay_state = "divine_strike"
 	recharge_time = 1 MINUTES
 	movement_interrupt = FALSE
-	chargedrain = 0
-	chargetime = 1 SECONDS
-	charging_slowdown = 2
-	chargedloop = null
 	associated_skill = /datum/skill/magic/holy
 	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
 	sound = 'sound/magic/battletrance.ogg'
@@ -184,7 +180,7 @@
 
 /atom/movable/screen/alert/status_effect/buff/divine_strike
 	name = "Divine Strike"
-	desc = "Your next attack slows your target, lowering their WIL and SPD."
+	desc = "Your next attack slows your target and SPD."
 	icon_state = "divine_strike"
 
 /datum/status_effect/divine_strike/on_creation(mob/living/new_owner, obj/item/I)
@@ -229,25 +225,43 @@
 	H.visible_message(span_warning("The strike from [M]'s fist causes [H] to go stiff!"), vision_distance = COMBAT_MESSAGE_RANGE)
 	qdel(src)
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////
-// T2 - Strong Stance - Based on skill provides varying degrees of stun immunity and force push up. //
-//////////////////////////////////////////////////////////////////////////////////////////////////////
+/datum/status_effect/debuff/ravox_burden
+	id = "ravox_burden"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/ravox_burden
+	effectedstats = list(STATKEY_SPD = -2)
+	duration = 30 SECONDS
+
+/atom/movable/screen/alert/status_effect/debuff/ravox_burden
+	name = "Ravox's Burden"
+	desc = "My arms and legs are restrained by divine chains!\n"
+	icon_state = "restrained"
+
+/datum/status_effect/debuff/ravox_burden/on_apply()
+		. = ..()
+		var/mob/living/carbon/C = owner
+		C.add_movespeed_modifier(MOVESPEED_ID_DAMAGE_SLOWDOWN, multiplicative_slowdown = 1.5)
+
+/datum/status_effect/debuff/ravox_burden/on_remove()
+	. = ..()
+	if(iscarbon(owner))
+		var/mob/living/carbon/C = owner
+		C.remove_movespeed_modifier(MOVESPEED_ID_DAMAGE_SLOWDOWN)
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// T2 - Withstand - Based on skill provides varying degrees of stun immunity and force push up. //
+//////////////////////////////////////////////////////////////////////////////////////////////////
 
 /obj/effect/proc_holder/spell/self/balance_immune
-	name = "Strong Stance"
+	name = "Withstand"
 	desc = "Regain balance and become immune to any form of stun for the next 10 seconds."
 	action_icon = 'icons/mob/actions/ravoxmiracles.dmi'
 	overlay_icon = 'icons/mob/actions/ravoxmiracles.dmi'
 	overlay_state = "balance_immune"
 	recharge_time = 1 MINUTES
 	movement_interrupt = FALSE
-	chargedrain = 0
-	chargetime = 1 SECONDS
-	charging_slowdown = 2
-	chargedloop = null
 	associated_skill = /datum/skill/magic/holy
 	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
-	sound = 'sound/magic/battletrance.ogg'
+	sound = 'sound/magic/ravox_withstand.ogg'
 	invocations = list("I stand, by Ravox!")
 	invocation_type = "shout"
 	antimagic_allowed = TRUE
@@ -316,6 +330,28 @@
 			continue
 		target.apply_status_effect(/datum/status_effect/buff/call_to_arms)
 	return TRUE
+
+/datum/status_effect/buff/call_to_arms
+	id = "call_to_arms"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/call_to_arms
+	duration = 2.5 MINUTES
+	effectedstats = list(STATKEY_STR = 1, STATKEY_WIL = 2, STATKEY_CON = 1)
+
+/atom/movable/screen/alert/status_effect/buff/call_to_arms
+	name = "Call to Arms"
+	desc = span_bloody("FOR GLORY AND HONOR!")
+	icon_state = "call_to_arms"
+
+/datum/status_effect/debuff/call_to_arms
+	id = "call_to_arms"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/call_to_arms
+	effectedstats = list(STATKEY_WIL = -2, STATKEY_CON = -2)
+	duration = 2.5 MINUTES
+
+/atom/movable/screen/alert/status_effect/debuff/call_to_arms
+	name = "Ravox's Call to Arms"
+	desc = "His voice keeps ringing in your ears, rocking your soul.."
+	icon_state = "call_to_arms_negative"
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 // T2 - Challenge - Teleport yourself and target into an ARENA for 3 minutes or until one of you dies. //
@@ -574,12 +610,12 @@ GLOBAL_LIST_EMPTY(arenafolks) // we're just going to use a list and add to it. S
 	physiology.bleed_mod /= 1.5
 	physiology.pain_mod /= 1.5
 
-////////////////////////////////////////////////////////////////
-// T3 - Inner Fire - Summon warrior spirits to fight for you. //
-////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////
+// T3 - Warrior Spirit - Summon warrior spirits to fight for you. //
+////////////////////////////////////////////////////////////////////
 
 /obj/effect/proc_holder/spell/invoked/raise_warrior_spirits
-	name = "Inner Fire"
+	name = "Warrior Spirit"
 	desc = "Tear out part of your warrior's spirit, and manifest it into a spirit of battle!"
 	range = 7
 	sound = list('sound/magic/magnet.ogg')

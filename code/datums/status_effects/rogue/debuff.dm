@@ -362,17 +362,6 @@
 	name = "Rites Complete"
 	desc = "It will take a lot of time before I can perform a next rite. I am drained."
 
-/datum/status_effect/debuff/call_to_arms
-	id = "call_to_arms"
-	alert_type = /atom/movable/screen/alert/status_effect/debuff/call_to_arms
-	effectedstats = list(STATKEY_WIL = -2, STATKEY_CON = -2)
-	duration = 2.5 MINUTES
-
-/atom/movable/screen/alert/status_effect/debuff/call_to_arms
-	name = "Ravox's Call to Arms"
-	desc = "His voice keeps ringing in your ears, rocking your soul.."
-	icon_state = "call_to_arms_negative"
-
 /datum/status_effect/debuff/ravox_spirit_backlash
 	id = "ravox_spirit_backlash"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/ravox_spirit_backlash
@@ -394,18 +383,6 @@
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/ravox_warrior_spirit
 	duration = 1 MINUTES
 	effectedstats = list(STATKEY_STR = -1, STATKEY_WIL = -1, STATKEY_SPD = -1)
-
-
-/datum/status_effect/debuff/ravox_burden
-	id = "ravox_burden"
-	alert_type = /atom/movable/screen/alert/status_effect/debuff/ravox_burden
-	effectedstats = list(STATKEY_SPD = -2, STATKEY_WIL = -3)
-	duration = 12 SECONDS
-
-/atom/movable/screen/alert/status_effect/debuff/ravox_burden
-	name = "Ravox's Burden"
-	desc = "My arms and legs are restrained by divine chains!\n"
-	icon_state = "restrained"
 
 /datum/status_effect/debuff/call_to_slaughter
 	id = "call_to_slaughter"
