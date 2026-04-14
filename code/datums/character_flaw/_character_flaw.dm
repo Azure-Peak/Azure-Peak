@@ -2,6 +2,7 @@
 GLOBAL_LIST_INIT(character_flaws, list(
 	/datum/charflaw/addiction/alcoholic::name = /datum/charflaw/addiction/alcoholic,
 	/datum/charflaw/averse::name = /datum/charflaw/averse,
+	/datum/charflaw/agoraphobic::name = /datum/charflaw/agoraphobic,
 	/datum/charflaw/addiction/godfearing::name = /datum/charflaw/addiction/godfearing,
 	/datum/charflaw/addiction/caffiend::name = /datum/charflaw/addiction/caffiend,
 	/datum/charflaw/colorblind::name = /datum/charflaw/colorblind,
@@ -30,6 +31,7 @@ GLOBAL_LIST_INIT(character_flaws, list(
 	/datum/charflaw/sleepless::name = /datum/charflaw/sleepless,
 	/datum/charflaw/mute::name = /datum/charflaw/mute,
 	/datum/charflaw/critweakness::name = /datum/charflaw/critweakness,
+	/datum/charflaw/silverweakness::name = /datum/charflaw/silverweakness,
 	/datum/charflaw/hunted::name = /datum/charflaw/hunted,
 	/datum/charflaw/mind_broken::name = /datum/charflaw/mind_broken,
 	/datum/charflaw/noflaw::name = /datum/charflaw/noflaw,
@@ -810,5 +812,60 @@ GLOBAL_LIST_INIT(averse_factions, list(
 	if(is_active && user && !QDELETED(user))
 		addtimer(CALLBACK(src, PROC_REF(check_for_candidates), user), 5 SECONDS)
 
+/datum/charflaw/silverweakness 
+	name = "Silver Weakness"
+	desc = "For reasons unholy or sorcerous, my blood is so tainted that silver burns at my touch."
 
+/datum/charflaw/silverweakness/apply_post_equipment(mob/user)
+	var/mob/living/carbon/human/target = user
+	spawn(100) // lets hope this is enough during a large server load
+		if(QDELETED(src) || QDELETED(target))
+			return
 
+		if(HAS_TRAIT(target, TRAIT_SILVER_WEAK))
+			to_chat(target, "<font color=red>Your futile attempt to cheese this makes Psydon weep.<br>Giving you a random vice.</font>")
+
+			give_random_flaw(target, src)
+
+			target.charflaws.Remove(src)
+			QDEL_NULL(src)
+			return
+		else
+			to_chat(target, "Silver is my BANE!!")
+			ADD_TRAIT(target, TRAIT_SILVER_WEAK, TRAIT_GENERIC)
+
+/proc/give_random_flaw(mob/living/carbon/human/target, datum/charflaw/exclude)
+	var/list/cf_list = GLOB.character_flaws.Copy()
+
+	for(var/key in cf_list)
+		if(cf_list[key] == exclude.type || cf_list[key] == /datum/charflaw/noflaw)
+			cf_list -= key
+
+	var/datum/job/mob_job = null
+	if(target.mind?.assigned_role)
+		mob_job = SSjob.GetJob(target.mind.assigned_role)
+	else if(target.client?.prefs?.lastclass)
+		mob_job = SSjob.GetJob(target.client.prefs.lastclass)
+
+	if(mob_job && mob_job.vice_restrictions)
+		for(var/key in cf_list)
+			if(cf_list[key] in mob_job.vice_restrictions)
+				cf_list -= key
+
+	if(!length(cf_list))
+		return
+
+	var/chosen_key = pick_n_take(cf_list)
+	var/datum/charflaw/chosen_type = GLOB.character_flaws[chosen_key]
+
+	if(chosen_type)
+		var/datum/charflaw/added_flaw = new chosen_type()
+		target.charflaws.Add(added_flaw)
+		added_flaw.on_mob_creation(target)
+
+/datum/charflaw/agoraphobic 
+	name = "Agoraphobic"
+	desc = "Something about the open world unsettles me. I loathe being outdoors."
+
+/datum/charflaw/agoraphobic/apply_post_equipment(mob/user)
+	ADD_TRAIT(user, TRAIT_AGORAPHOBIC, TRAIT_GENERIC)

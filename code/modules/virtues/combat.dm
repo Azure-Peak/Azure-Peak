@@ -188,7 +188,7 @@
 	custom_text = "- Unlocks the 'Rotten' option in skin tone selection, if applicable.<br><font color=red>- Reduces CON by 1.</font>"
 	max_choices = 1
 	restricted = TRUE
-	races = list(/datum/species/construct/metal, /datum/species/gnoll, /datum/species/aasimar, /datum/species/dullahan)
+	races = list(/datum/species/construct/metal, /datum/species/gnoll, /datum/species/dullahan)
 	choice_costs = list(0, 0)
 	extra_choices = list(
 		SC_ROTCURED,

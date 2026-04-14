@@ -513,3 +513,8 @@
 	timer = 2 MINUTES
 	stressadd = 3
 	desc = span_red("It is too bright and annoying outside right now. The sunlight burns my eyes.")
+
+/datum/stressevent/agoraphobic_outdoors
+	timer = 2 MINUTES
+	stressadd = 20 //MOODNUUUUUKEEEEEEEEEEEE
+	desc = span_red("I HATE THE OUTDOORS! I am not SAFE here!!")
