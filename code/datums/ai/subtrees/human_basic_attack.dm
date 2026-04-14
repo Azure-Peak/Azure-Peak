@@ -367,12 +367,16 @@
 
 	// Priority: wounded > bare exposed > soft armor coverage > armored fallback (experts only)
 	var/chosen = null
+	var/scan_reason = "unknown"
 	if(length(wounded))
 		chosen = pick(wounded)
+		scan_reason = "wounded"
 	else if(length(exposed))
 		chosen = pick(exposed)
+		scan_reason = "exposed"
 	else if(length(soft))
 		chosen = pick(soft)
+		scan_reason = "soft armor"
 	else if(skill_level >= SKILL_LEVEL_EXPERT)
 		// Expert fallback: just pick whatever zone has the lowest resistance for our damage type
 		var/lowest_rating = INFINITY
@@ -388,20 +392,12 @@
 				lowest_rating = rating
 				lowest_zone = part.body_zone
 		chosen = lowest_zone
+		scan_reason = "lowest resist"
 
 	if(!chosen)
 		AI_THINK(pawn, "SCAN: no weakpoint found (wounded=[length(wounded)] exposed=[length(exposed)] soft=[length(soft)], skill [skill_level])")
 		return
 
-	var/scan_reason = "unknown"
-	if(chosen in wounded)
-		scan_reason = "wounded"
-	else if(chosen in exposed)
-		scan_reason = "exposed"
-	else if(chosen in soft)
-		scan_reason = "soft armor"
-	else
-		scan_reason = "lowest resist"
 	AI_THINK(pawn, "SCAN: targeting [chosen] ([scan_reason], skill [skill_level])")
 
 	// Skill scales how long the targeting solution stays valid
