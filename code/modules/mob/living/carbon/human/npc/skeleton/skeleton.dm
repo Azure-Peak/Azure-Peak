@@ -96,6 +96,10 @@
 /mob/living/carbon/human/species/skeleton/npc/no_equipment
 	skel_outfit = null
 
+/mob/living/carbon/human/species/skeleton/npc/no_equipment/after_creation()
+	..()
+	STAINT = 1
+
 /mob/living/carbon/human/species/skeleton/no_equipment
 	skel_outfit = null
 	var/datum/weakref/crystal
