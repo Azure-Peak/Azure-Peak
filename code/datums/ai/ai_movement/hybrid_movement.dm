@@ -183,7 +183,16 @@
 					var/move_dir = get_dir(movable_pawn, next_step)
 					if(!step(movable_pawn, move_dir, controller.movement_delay))
 						var/obj/structure/climb_target
-
+						for(var/obj/structure/O in next_step)
+							if(O.climbable)
+								climb_target = O
+								break
+						if(!climb_target)
+							for(var/obj/structure/O in current_turf)
+								if(O.climbable)
+									climb_target = O
+									break
+						climb_target?.climb_structure(movable_pawn)
 
 				// Check if target has moved significantly from the end of our path
 				if(last_turf != get_turf(controller.current_movement_target))

@@ -561,7 +561,11 @@
 		for(var/direction in dir_list) //now we hit all of the directions we got in this fashion, since it's the only directions we should actually need
 			DestroyObjectsInDirection(direction)
 	for(var/obj/structure/O in get_step(src,dir_to_target))
-		if(O.density && O.climbable)
+		if(O.climbable)
+			O.climb_structure(src)
+			break
+	for(var/obj/structure/O in get_turf(src))
+		if(O.climbable)
 			O.climb_structure(src)
 			break
 
