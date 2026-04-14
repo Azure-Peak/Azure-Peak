@@ -125,6 +125,7 @@
 	update_body()
 	var/obj/item/bodypart/head/head = get_bodypart(BODY_ZONE_HEAD)
 	head.sellprice = 50 // Big sellprice for these guys since they're deserters
+	AddComponent(/datum/component/npc_death_line, null, 25)
 
 
 /datum/outfit/job/roguetown/human/northern/bog_deserters/pre_equip(mob/living/carbon/human/H)

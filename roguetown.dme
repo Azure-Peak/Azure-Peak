@@ -724,6 +724,7 @@
 #include "code\datums\components\magnetic_catch.dm"
 #include "code\datums\components\mirage_border.dm"
 #include "code\datums\components\movable_lighting.dm"
+#include "code\datums\components\npc_death_line.dm"
 #include "code\datums\components\obsession.dm"
 #include "code\datums\components\orbiter.dm"
 #include "code\datums\components\pollutant.dm"

@@ -263,6 +263,7 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 	if(is_species(src, /datum/species/goblin/sea))
 		ADD_TRAIT(src, TRAIT_NOBREATH, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_TOXIMMUNE, TRAIT_GENERIC)
+	AddComponent(/datum/component/npc_death_line, GLOB.npc_death_lines_goblin, 25)
 	if(gob_outfit)
 		var/datum/outfit/O = new gob_outfit
 		if(O)
@@ -422,7 +423,6 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 	neck = /obj/item/quiver/sling/stone
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/hide/goblin
 	H.adjust_skillrank(/datum/skill/combat/slings, 2, TRUE)
-	H.upgrade_ai_controller(/datum/ai_controller/human_npc) // reset in case parent rolled archer
 
 /mob/living/carbon/human/species/goblin/npc/bomber
 	name = "goblin pyromancer"
@@ -433,7 +433,6 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 	SEND_SIGNAL(src, COMSIG_MOB_MODIFY_AGGRO_LINES, GLOB.goblin_pyromancer_aggro, TRUE)
 	name = "goblin pyromancer"
 	real_name = "goblin pyromancer"
-	AddComponent(/datum/component/looc_on_death)
 
 /datum/outfit/job/roguetown/npc/goblin/bomber/pre_equip(mob/living/carbon/human/H)
 	..()

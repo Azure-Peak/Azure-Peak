@@ -31,6 +31,7 @@
 		organ_eyes.eye_color = pick("27becc", "35cc27", "000000")
 	update_hair()
 	update_body()
+	AddComponent(/datum/component/npc_death_line, null, 25)
 
 
 /datum/outfit/job/roguetown/human/species/human/northern/militia/pre_equip(mob/living/carbon/human/H)

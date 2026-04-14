@@ -41,6 +41,7 @@ GLOBAL_LIST_INIT(tank_aggro, list(
 	update_hair()
 	update_body()
 	def_intent_change(INTENT_PARRY)
+	AddComponent(/datum/component/npc_death_line)
 
 /mob/living/carbon/human/species/human/northern/outlaw_tank/death(gibbed, nocutscene = FALSE)
 	. = ..()
