@@ -21,6 +21,8 @@ Sunlight System
 */
 /obj
 	var/object_slowdown = 0
+	/// Extra AI pathfinding cost for this object. Higher values make NPCs avoid this tile.
+	var/ai_path_weight = 0
 	var/weatherproof = FALSE
 	var/weather = FALSE
 
