@@ -168,10 +168,10 @@
 	added_traits = list(TRAIT_EASYDISMEMBER, TRAIT_NOPAIN, TRAIT_NOPAINSTUN, TRAIT_NOBREATH, TRAIT_DEATHLESS, TRAIT_TOXIMMUNE, TRAIT_ZOMBIE_IMMUNE, TRAIT_ROTMAN, TRAIT_SILVER_WEAK)
 
 /datum/virtue/combat/pallid
-	name = "Pallid"
-	desc = "I was once afflicted with either vampirism or lycantropy, and was cured. It left me changed: the sunlight feels punishing, my blood is tainted by foul humors and my insides became abnormal..."
-	custom_text = "- Minor sunlight sensitivity.<br>- Resistance against infections and sickness.<br>- Your blood is repulsive for consumption.<br><br><font color=red>(This Virtue will reduce your CON by 1.)"
-	added_traits = list(TRAIT_PALLID, TRAIT_NASTY_EATER, TRAIT_NITEVISION,)
+	name = "Nitecured"
+	desc = "I was once afflicted with either vampirism or lycantropy, and was cured. It left me changed: the sunlight feels punishing to my eyes and skin, my blood is tainted by foul humors and my body is still somewhat adapted to my past lyfe..."
+	custom_text = "<font color=red>CON reduced by 1.</font>"
+	added_traits = list(TRAIT_PALLID, TRAIT_NASTY_EATER, TRAIT_NITEVISION)
 	added_stats = list(STATKEY_CON = -1)
 
 /datum/virtue/combat/dualwielder
