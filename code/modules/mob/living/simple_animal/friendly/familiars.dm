@@ -102,6 +102,9 @@
 			
 	return TRUE
 
+/mob/living/simple_animal/pet/familiar/is_literate()
+	return TRUE
+
 /mob/living/simple_animal/pet/familiar/proc/grant_tier_abilities(tier)
 	if(tier==1 && t1_spell)
 		var/spell_instance = new t1_spell
