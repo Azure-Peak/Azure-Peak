@@ -76,7 +76,7 @@
 
 /obj/projectile/magic/gravel_blast/arc
 	name = "arced gravel shot"
-	damage = 16
+	damage = 17
 	arcshot = TRUE
 
 /obj/projectile/magic/gravel_blast/on_hit(target)

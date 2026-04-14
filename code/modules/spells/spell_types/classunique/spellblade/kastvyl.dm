@@ -133,8 +133,10 @@
 
 /obj/projectile/energy/kastvyl/arc
 	name = "arced phantom hurlbat"
+	damage = 30
 	arcshot = TRUE
 
 /obj/projectile/energy/kastvyl/empowered/arc
 	name = "empowered arced phantom hurlbat"
+	damage = 45
 	arcshot = TRUE

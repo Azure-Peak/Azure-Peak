@@ -57,7 +57,7 @@
 
 /obj/projectile/magic/arcyne_lance/arc
 	name = "arced arcyne lance"
-	damage = 45
+	damage = 41
 	arcshot = TRUE
 	max_hits = 1 // Arced version does not pierce
 
