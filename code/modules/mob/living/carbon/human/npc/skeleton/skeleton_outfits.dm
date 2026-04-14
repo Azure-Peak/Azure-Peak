@@ -278,6 +278,7 @@
 	backl = /obj/item/quiver/arrows
 	r_hand = /obj/item/rogueweapon/mace/alloy
 	H.adjust_skillrank(/datum/skill/combat/bows, 3, TRUE)
+	H.upgrade_ai_controller(/datum/ai_controller/human_npc/archer)
 	H.adjust_skillrank(/datum/skill/combat/polearms, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/maces, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/axes, 2, TRUE)

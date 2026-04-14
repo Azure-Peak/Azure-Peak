@@ -139,6 +139,7 @@ GLOBAL_LIST_INIT(drowraider_aggro, world.file2list("strings/rt/drowaggrolines.tx
 		backl = /obj/item/quiver/arrows
 		r_hand = /obj/item/rogueweapon/huntingknife/idagger/steel/corroded/dirk
 		H.adjust_skillrank(/datum/skill/combat/bows, 4, TRUE)
+		H.upgrade_ai_controller(/datum/ai_controller/human_npc/archer)
 	else if(prob(45)) // whip
 		r_hand = /obj/item/rogueweapon/whip
 	else if(prob(50)) // dual falx

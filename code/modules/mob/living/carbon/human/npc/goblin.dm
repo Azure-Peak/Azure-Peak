@@ -363,6 +363,7 @@ GLOBAL_LIST_INIT(goblin_aggro, world.file2list("strings/rt/goblinaggrolines.txt"
 			backl = /obj/item/quiver/stonearrows
 			armor = /obj/item/clothing/suit/roguetown/armor/leather/hide/goblin
 			H.adjust_skillrank(/datum/skill/combat/bows, 2, TRUE)
+			H.upgrade_ai_controller(/datum/ai_controller/human_npc/archer)
 		if(7) // slinger
 			r_hand = /obj/item/rogueweapon/huntingknife/stoneknife
 			wrists = /obj/item/gun/ballistic/revolver/grenadelauncher/sling
@@ -374,6 +375,7 @@ GLOBAL_LIST_INIT(goblin_aggro, world.file2list("strings/rt/goblinaggrolines.txt"
 			backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow
 			backl = /obj/item/quiver/stonearrows
 			H.adjust_skillrank(/datum/skill/combat/bows, 3, TRUE)
+			H.upgrade_ai_controller(/datum/ai_controller/human_npc/archer)
 		if(9)
 			r_hand = /obj/item/rogueweapon/flail
 			l_hand = /obj/item/rogueweapon/shield/wood
@@ -396,6 +398,7 @@ GLOBAL_LIST_INIT(goblin_aggro, world.file2list("strings/rt/goblinaggrolines.txt"
 	backl = /obj/item/quiver/stonearrows
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/hide/goblin
 	H.adjust_skillrank(/datum/skill/combat/bows, 2, TRUE)
+	H.upgrade_ai_controller(/datum/ai_controller/human_npc/archer)
 
 /datum/outfit/job/roguetown/npc/goblin/slinger/pre_equip(mob/living/carbon/human/H)
 	..()

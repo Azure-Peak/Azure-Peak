@@ -106,6 +106,7 @@ GLOBAL_LIST_INIT(searaider_aggro, world.file2list("strings/rt/searaideraggroline
 		backl = /obj/item/quiver/arrows
 		r_hand = /obj/item/rogueweapon/sword/iron
 		H.adjust_skillrank(/datum/skill/combat/bows, 3, TRUE)
+		H.upgrade_ai_controller(/datum/ai_controller/human_npc/archer)
 	else
 		switch(rand(1, 4))
 			if(1)

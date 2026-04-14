@@ -176,6 +176,7 @@
 		backl = /obj/item/quiver/arrows
 		r_hand = /obj/item/rogueweapon/sword/iron
 		H.adjust_skillrank(/datum/skill/combat/bows, 3, TRUE)
+		H.upgrade_ai_controller(/datum/ai_controller/human_npc/archer)
 	else
 		add_random_deserter_weapon(H)
 	add_random_deserter_beltl_stuff(H)
@@ -260,6 +261,7 @@
 		backl = /obj/item/quiver/arrows
 		r_hand = /obj/item/rogueweapon/sword/iron
 		H.adjust_skillrank(/datum/skill/combat/bows, 3, TRUE)
+		H.upgrade_ai_controller(/datum/ai_controller/human_npc/archer)
 	else
 		add_random_deserter_weapon_hard(H)
 	add_random_deserter_beltl_stuff(H)

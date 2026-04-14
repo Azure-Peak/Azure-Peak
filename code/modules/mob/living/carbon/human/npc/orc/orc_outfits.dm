@@ -5,6 +5,7 @@
 	l_hand = /obj/item/rogueweapon/stoneaxe/boneaxe
 	r_hand = null
 	H.adjust_skillrank(/datum/skill/combat/bows, 3, TRUE)
+	H.upgrade_ai_controller(/datum/ai_controller/human_npc/archer)
 
 /mob/living/carbon/human/species/orc/npc/footsoldier
 	threat_point = THREAT_HIGH
@@ -48,6 +49,7 @@
 			backl = /obj/item/quiver/arrows
 			l_hand = /obj/item/rogueweapon/stoneaxe/boneaxe
 			H.adjust_skillrank(/datum/skill/combat/bows, 3, TRUE)
+			H.upgrade_ai_controller(/datum/ai_controller/human_npc/archer)
 	H.STASTR = 11
 	H.STASPD = 8
 	H.STACON = 7
