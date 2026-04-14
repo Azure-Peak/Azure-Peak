@@ -190,7 +190,7 @@
 	if(!allow_all)
 		if(ishuman(user))
 			var/mob/living/carbon/human/H = user
-			if(HAS_TRAIT(user, TRAIT_ROTMAN) || HAS_TRAIT(user, TRAIT_DEATHLESS))	//Can't be a Martyr if you're undead already.
+			if(HAS_TRAIT(src, TRAIT_PALLID) || HAS_TRAIT(user, TRAIT_ROTMAN) || HAS_TRAIT(user, TRAIT_DEATHLESS))	//Can't be a Martyr if you're undead already.
 				to_chat(H, span_warn("It burns and sizzles! It does not tolerate my pallid flesh!"))
 				H.dropItemToGround(parent)
 				return

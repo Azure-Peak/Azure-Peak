@@ -347,13 +347,13 @@
 		span_notice("[user] finishes."), TRUE) //By default the patient will notice if the wrong thing has been cut
 	switch (success_prob)
 		if (0 to 15)
-			if(!HAS_TRAIT(target, TRAIT_PALLID))
+			if(!(HAS_TRAIT(target, TRAIT_PALLID)||HAS_TRAIT(target, TRAIT_ROTMAN)))
 				target.reagents.add_reagent(/datum/reagent/infection/major, rand(2,5))
 		if (16 to 50)
-			if(!HAS_TRAIT(target, TRAIT_PALLID))
+			if(!(HAS_TRAIT(target, TRAIT_PALLID)||HAS_TRAIT(target, TRAIT_ROTMAN)))
 				target.reagents.add_reagent(/datum/reagent/infection, rand(1,3))
 		if (51 to 70)
-			if(!HAS_TRAIT(target, TRAIT_PALLID))
+			if(!(HAS_TRAIT(target, TRAIT_PALLID)||HAS_TRAIT(target, TRAIT_ROTMAN)))
 				target.reagents.add_reagent(/datum/reagent/infection/minor, rand(1,6))
 	return TRUE
 

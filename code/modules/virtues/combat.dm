@@ -193,7 +193,7 @@
 		SC_PALLID, 
 	)
 	choice_tooltips = list(
-		SC_ROTCURED = "<font color='#8b488d'>I was once afflicted with the accursed rot, and was cured. It has left me changed: my limbs are weaker, but I feel no pain and have no need to breathe...</font>",
+		SC_ROTCURED = "<font color='#548d48'>I was once afflicted with the accursed rot, and was cured. It has left me changed: my limbs are weaker, but I feel no pain and have no need to breathe...</font>",
 		SC_PALLID = "<font color='#8b488d'>I was once afflicted with either vampirism or lycantropy, and was cured. It left me changed: the sunlight feels punishing to my eyes and skin, my blood is tainted by foul humors and my body is still somewhat adapted to my past lyfe...</font>",
 	)
 
