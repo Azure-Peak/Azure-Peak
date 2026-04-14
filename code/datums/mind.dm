@@ -887,8 +887,8 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 	if(!current || !HAS_TRAIT(current, TRAIT_ARCYNE))
 		return
 
-	// Arcyne Ward - only granted to full mages (classes with at least one Major Aspect slot)
-	var/allow_ward = mage_aspect_config && mage_aspect_config["ward"] && (mage_aspect_config["major"] >= 1)
+	// Arcyne Ward - only granted to classes whose aspect config explicitly enables it
+	var/allow_ward = mage_aspect_config && mage_aspect_config["ward"]
 	if(allow_ward)
 		var/datum/action/cooldown/spell/conjure_arcyne_ward/base_ward
 		var/datum/action/cooldown/spell/conjure_arcyne_ward/variant_ward
