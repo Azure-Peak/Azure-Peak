@@ -61,7 +61,7 @@
         span_warning("[user] begins to concentrate on [I]!"),
         span_notice("I begin to concentrate on [I]..")
     )
-    if(do_after(user, 3 SECONDS, TRUE, I, TRUE))
+    if(do_after(user, 2 SECONDS, TRUE, I, TRUE))
         for(var/i = 1, i <= 20, i++)
             if(do_after(user, 1.6 SECONDS, TRUE, I, TRUE))
                 repair_percent = initial(repair_percent)
