@@ -169,9 +169,10 @@
 
 /datum/virtue/combat/pallid
 	name = "Pallid"
-	desc = "I was once afflicted with vampirism, and was cured. It has left me changed: silver burns my flesh, and the open sky fills me with unease. Yet I draw no breath, and my eyes pierce the darkness. Lingering traces of the curse that once claimed me."
-	custom_text = "Grants darkvision, no need to breathe, and deadite immunity. Silver weapons will set you alight. Being outdoors causes stress."
-	added_traits = list(TRAIT_PALLID, TRAIT_DARKVISION, TRAIT_NOBREATH, TRAIT_ZOMBIE_IMMUNE, TRAIT_SILVER_WEAK)
+	desc = "I was once afflicted with either vampirism or lycantropy, and was cured. It left me changed: the sunlight feels punishing, my blood is tainted by foul humors and my insides became abnormal..."
+	custom_text = "- Minor sunlight sensitivity.<br>- Resistance against infections and sickness.<br>- Your blood is repulsive for consumption.<br><br><font color=red>(This Virtue will reduce your CON by 1.)"
+	added_traits = list(TRAIT_PALLID, TRAIT_NASTY_EATER, TRAIT_NITEVISION,)
+	added_stats = list(STATKEY_CON = -1)
 
 /datum/virtue/combat/dualwielder
 	name = "Dual Wielder"

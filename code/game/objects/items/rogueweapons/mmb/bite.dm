@@ -97,10 +97,11 @@
 			nodmg = TRUE
 			next_attack_msg += VISMSG_ARMOR_BLOCKED
 		else if(!nodmg && (HAS_TRAIT(user, TRAIT_VAMPBITE)))
-			var/ramount = 15
-			var/rid = /datum/reagent/vampsolution
-			reagents.add_reagent(rid, ramount)
-			rid = /datum/reagent/vampsolution
+			if(!HAS_TRAIT(src, TRAIT_PALLID))
+				var/ramount = 15
+				var/rid = /datum/reagent/vampsolution
+				reagents.add_reagent(rid, ramount)
+				rid = /datum/reagent/vampsolution
 	var/datum/wound/caused_wound
 	if(!nodmg)
 		caused_wound = affecting.bodypart_attacked_by(BCLASS_BITE, dam2do, user, user.zone_selected, crit_message = TRUE)
@@ -121,6 +122,8 @@
 			if(istype(user.dna.species, /datum/species/werewolf))
 				if(HAS_TRAIT(src, TRAIT_SILVER_BLESSED))
 					to_chat(user, span_warning("BLEH! [bite_victim] tastes of SILVER! My gift cannot take hold."))
+				else if(HAS_TRAIT(src, TRAIT_PALLID))
+					to_chat(user, span_warning("BLEH! [bite_victim] tastes like one of us! My gift cannot take hold."))
 				else
 					caused_wound?.werewolf_infect_attempt()
 					if(prob(30))

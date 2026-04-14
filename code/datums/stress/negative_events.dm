@@ -512,4 +512,4 @@
 /datum/stressevent/pallid_outdoors
 	timer = 2 MINUTES
 	stressadd = 3
-	desc = span_red("I long for the shelter of wall and roofs. The sun and moon are too bright for me to bear!")
+	desc = span_red("It is too bright and annoying outside right now. The sunlight burns my eyes.")
