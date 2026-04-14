@@ -300,7 +300,7 @@
 
 		var/datum/antagonist/vampire/vamp_inspect = src.mind?.has_antag_datum(/datum/antagonist/vampire)
 		if(vamp_inspect && (!SEND_SIGNAL(src, COMSIG_DISGUISE_STATUS)))
-			. += span_redtext("[m3] strange glowying eyes and fangs!")
+			. += span_redtext("[m3] strange, glowing eyes and fangs!")
 
 		// Shouldn't be able to tell they are unrevivable through a mask as a Necran
 		if(HAS_TRAIT(src, TRAIT_DNR) && src != user)
@@ -378,7 +378,8 @@
 						. += shit
 		if(user.mind?.has_antag_datum(/datum/antagonist/vampire) || user.mind?.has_antag_datum(/datum/antagonist/vampire))
 			. += span_userdanger("<a href='?src=[REF(src)];task=bloodpoolinfo;'>Vitae: [(mind && !clan) ? (bloodpool * CLIENT_VITAE_MULTIPLIER) : bloodpool]; Blood: [blood_volume]</a>")
-
+			if(HAS_TRAIT(src, TRAIT_PALLID))
+				. += span_userdanger("This pallid form and foul Vitae stench... They are a Nitecured vermin! Disgusting!")
 	if(wear_shirt && !(SLOT_SHIRT in obscured))
 		var/str = "[m3] [wear_shirt.generate_tooltip(wear_shirt.get_examine_string(user))]. "
 		str += "[wear_shirt.integrity_check(is_smart)]"
