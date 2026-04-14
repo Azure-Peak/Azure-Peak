@@ -160,20 +160,6 @@
 	custom_text = "Obfuscates information about you from all sorts of effects, including patron abilities & passives, Assess and other virtues."
 	added_traits = list(TRAIT_DECEIVING_MEEKNESS)
 
-/datum/virtue/combat/rotcured
-	name = "Rotcured"
-	desc = "I was once afflicted with the accursed rot, and was cured. It has left me changed: my limbs are weaker, but I feel no pain and have no need to breathe..."
-	custom_text = "Unlocks the 'Rotten' option in skin tone selection, if applicable."
-	// below is functionally equivalent to dying and being resurrected via astrata T4 - yep, this is what it gives you.
-	added_traits = list(TRAIT_EASYDISMEMBER, TRAIT_NOPAIN, TRAIT_NOPAINSTUN, TRAIT_NOBREATH, TRAIT_DEATHLESS, TRAIT_TOXIMMUNE, TRAIT_ZOMBIE_IMMUNE, TRAIT_ROTMAN, TRAIT_SILVER_WEAK)
-
-/datum/virtue/combat/pallid
-	name = "Nitecured"
-	desc = "I was once afflicted with either vampirism or lycantropy, and was cured. It left me changed: the sunlight feels punishing to my eyes and skin, my blood is tainted by foul humors and my body is still somewhat adapted to my past lyfe..."
-	custom_text = "<font color=red>CON reduced by 1.</font>"
-	added_traits = list(TRAIT_PALLID, TRAIT_NASTY_EATER, TRAIT_NITEVISION)
-	added_stats = list(STATKEY_CON = -1)
-
 /datum/virtue/combat/dualwielder
 	name = "Dual Wielder"
 	desc = "Whether it was by the Naledi scholars, Etruscan privateers or even the Kazengan senseis. I've been graced with the knowledge of how to wield two weapons at once."
@@ -192,3 +178,42 @@
 
 /datum/virtue/combat/combat_aware/apply_to_human(mob/living/carbon/human/recipient)
 	recipient.verbs += /mob/living/carbon/human/proc/togglecombatawareness
+
+#define SC_ROTCURED "Rotcured"
+#define SC_PALLID "Nitecured"
+
+/datum/virtue/combat/second_chance
+	name = "Second Chance"
+	desc = "Not many are given second chances. Somehow, you're among the lucky bastards who were. What foul, cruel fate did you narrowly escape, changed yet still living?"
+	custom_text = "- Unlocks the 'Rotten' option in skin tone selection, if applicable.<br><font color=red>- Reduces CON by 1.</font>"
+	max_choices = 1
+	choice_costs = list(0, 0)
+	extra_choices = list(
+		SC_ROTCURED,
+		SC_PALLID, 
+	)
+	choice_tooltips = list(
+		SC_ROTCURED = "<font color='#8b488d'>I was once afflicted with the accursed rot, and was cured. It has left me changed: my limbs are weaker, but I feel no pain and have no need to breathe...</font>",
+		SC_PALLID = "<font color='#8b488d'>I was once afflicted with either vampirism or lycantropy, and was cured. It left me changed: the sunlight feels punishing to my eyes and skin, my blood is tainted by foul humors and my body is still somewhat adapted to my past lyfe...</font>",
+	)
+
+/datum/virtue/combat/combat_virtue/apply_to_human(mob/living/carbon/human/recipient)
+	. = ..()
+	for(var/choice in picked_choices)
+		switch(choice)
+			if(SC_ROTCURED)
+				ADD_TRAIT(recipient, TRAIT_EASYDISMEMBER, TRAIT_VIRTUE)
+				ADD_TRAIT(recipient, TRAIT_NOPAIN, TRAIT_VIRTUE)
+				ADD_TRAIT(recipient, TRAIT_NOBREATH, TRAIT_VIRTUE)
+				ADD_TRAIT(recipient, TRAIT_TOXIMMUNE, TRAIT_VIRTUE)
+				ADD_TRAIT(recipient, TRAIT_ZOMBIE_IMMUNE, TRAIT_VIRTUE)
+				ADD_TRAIT(recipient, TRAIT_ROTMAN, TRAIT_VIRTUE)
+				ADD_TRAIT(recipient, TRAIT_SILVER_WEAK, TRAIT_VIRTUE)
+
+			if(SC_PALLID)
+				ADD_TRAIT(recipient, TRAIT_PALLID, TRAIT_VIRTUE)
+				ADD_TRAIT(recipient, TRAIT_NASTY_EATER, TRAIT_VIRTUE)
+				ADD_TRAIT(recipient, TRAIT_NITEVISION, TRAIT_VIRTUE)
+
+#undef SC_ROTCURED
+#undef SC_PALLID
