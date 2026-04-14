@@ -1,0 +1,4 @@
+author: "FreeStylaLT"
+delete-after: True
+changes:
+  - rscdel: "Removed half-elves from Anthrax merc class race eligibility."
