@@ -187,6 +187,8 @@
 	desc = "Not many are given second chances. Somehow, you're among the lucky bastards who were. What foul, cruel fate did you narrowly escape, changed yet still living?"
 	custom_text = "- Unlocks the 'Rotten' option in skin tone selection, if applicable.<br><font color=red>- Reduces CON by 1.</font>"
 	max_choices = 1
+	restricted = TRUE
+	races = list(/datum/species/construct/metal, /datum/species/gnoll, /datum/species/aasimar, /datum/species/dullahan)
 	choice_costs = list(0, 0)
 	extra_choices = list(
 		SC_ROTCURED,
@@ -194,11 +196,10 @@
 	)
 	choice_tooltips = list(
 		SC_ROTCURED = "<font color='#548d48'>I was once afflicted with the accursed rot, and was cured. It has left me changed: my limbs are weaker, but I feel no pain and have no need to breathe...</font>",
-		SC_PALLID = "<font color='#8b488d'>I was once afflicted with either vampirism or lycantropy, and was cured. It left me changed: the sunlight feels punishing to my eyes and skin, my blood is tainted by foul humors and my body is still somewhat adapted to my past lyfe...</font>",
+		SC_PALLID = "<font color='#8b488d'>I was once afflicted with either vampirism or lycantropy, and was cured. It left me changed: the sunlight feels punishing to my eyes and skin, my blood is tainted by foul humors and my body is still somewhat adapted to my past lyfe...<br><font color=red>(THIS CHOICE INCLUDES SILVER WEAKNESS AND EASY DISMEMBER!)</font>",
 	)
 
-/datum/virtue/combat/combat_virtue/apply_to_human(mob/living/carbon/human/recipient)
-	. = ..()
+/datum/virtue/combat/second_chance/apply_to_human(mob/living/carbon/human/recipient)
 	for(var/choice in picked_choices)
 		switch(choice)
 			if(SC_ROTCURED)
