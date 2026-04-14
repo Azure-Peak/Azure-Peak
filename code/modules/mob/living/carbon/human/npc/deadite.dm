@@ -165,7 +165,7 @@
 		return
 	if(HAS_TRAIT(src, TRAIT_PALLID) && prob(50))
 		to_chat(src, span_danger("You feel the putrid saliva mixing in with your impure blood, saving you from an infection-- Don't test your luck!"))
-		addtimer(CALLBACK(human_owner, TYPE_PROC_REF(/mob/living/carbon, vomit), 0, TRUE), rand(10 SECONDS, 15 SECONDS))		
+		addtimer(CALLBACK(src, TYPE_PROC_REF(/mob/living/carbon, vomit), 0, TRUE), rand(10 SECONDS, 15 SECONDS))		
 		return FALSE
 	to_chat(src, span_danger("I feel horrible... REALLY horrible..."))
 	mob_timers["puke"] = world.time
