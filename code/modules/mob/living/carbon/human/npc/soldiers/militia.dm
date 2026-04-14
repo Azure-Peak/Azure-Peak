@@ -97,6 +97,8 @@
 			l_hand = /obj/item/rogueweapon/shield/wood
 		if(11)
 			r_hand = /obj/item/rogueweapon/flail/peasantwarflail
+	if(prob(10))
+		neck = /obj/item/storage/belt/rogue/pouch/bombs
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
 	H.eye_color = pick("27becc", "35cc27", "000000")
 	H.hair_color = pick ("4f4f4f", "61310f", "faf6b9")

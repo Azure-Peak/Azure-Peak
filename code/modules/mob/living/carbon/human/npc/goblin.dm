@@ -1,5 +1,14 @@
 GLOBAL_LIST_INIT(goblin_aggro, world.file2list("strings/rt/goblinaggrolines.txt"))
 
+GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
+	"SFERA IGNA!",
+	"EVOMOO FLAMAS!",
+	"IGNA EERAY!",
+	"VELUM... VELAM... FIRE CURTAIN THING!",
+	"MAYA SFERA IGNA!",
+	"IGNA SFERA BOMBADA!",
+))
+
 /mob/living/carbon/human/species/goblin
 	name = "goblin"
 
@@ -315,7 +324,7 @@ GLOBAL_LIST_INIT(goblin_aggro, world.file2list("strings/rt/goblinaggrolines.txt"
 		H.STAINT = 8
 	else
 		H.STAINT = 4
-	var/loadout = rand(1,8)
+	var/loadout = rand(1,9)
 	switch(loadout)
 		if(1) //tribal spear
 			r_hand = /obj/item/rogueweapon/spear/stone
@@ -376,10 +385,13 @@ GLOBAL_LIST_INIT(goblin_aggro, world.file2list("strings/rt/goblinaggrolines.txt"
 			backl = /obj/item/quiver/stonearrows
 			H.adjust_skillrank(/datum/skill/combat/bows, 3, TRUE)
 			H.upgrade_ai_controller(/datum/ai_controller/human_npc/archer)
-		if(9)
-			r_hand = /obj/item/rogueweapon/flail
-			l_hand = /obj/item/rogueweapon/shield/wood
-			H.STAINT = 10 // Flail Special :)
+		if(9) // bottle bomber
+			r_hand = /obj/item/rogueweapon/huntingknife/stoneknife
+			neck = /obj/item/storage/belt/rogue/pouch/bombs
+			armor = /obj/item/clothing/suit/roguetown/armor/leather/hide/goblin
+			H.name = "goblin pyromancer"
+			H.real_name = "goblin pyromancer"
+			SEND_SIGNAL(H, COMSIG_MOB_MODIFY_AGGRO_LINES, GLOB.goblin_pyromancer_aggro, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/polearms, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/maces, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/axes, 2, TRUE)
@@ -408,6 +420,23 @@ GLOBAL_LIST_INIT(goblin_aggro, world.file2list("strings/rt/goblinaggrolines.txt"
 	neck = /obj/item/quiver/sling/stone
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/hide/goblin
 	H.adjust_skillrank(/datum/skill/combat/slings, 2, TRUE)
+
+/mob/living/carbon/human/species/goblin/npc/bomber
+	name = "goblin pyromancer"
+	gob_outfit = /datum/outfit/job/roguetown/npc/goblin/bomber
+
+/mob/living/carbon/human/species/goblin/npc/bomber/after_creation()
+	..()
+	SEND_SIGNAL(src, COMSIG_MOB_MODIFY_AGGRO_LINES, GLOB.goblin_pyromancer_aggro, TRUE)
+	name = "goblin pyromancer"
+	real_name = "goblin pyromancer"
+
+/datum/outfit/job/roguetown/npc/goblin/bomber/pre_equip(mob/living/carbon/human/H)
+	..()
+	r_hand = /obj/item/rogueweapon/huntingknife/stoneknife
+	l_hand = null
+	neck = /obj/item/storage/belt/rogue/pouch/bombs
+	armor = /obj/item/clothing/suit/roguetown/armor/leather/hide/goblin
 
 //////////////////   INVADER ZIM	//////////////////
 

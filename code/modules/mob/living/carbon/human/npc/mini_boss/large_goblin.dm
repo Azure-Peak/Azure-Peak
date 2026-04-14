@@ -51,7 +51,7 @@ GLOBAL_LIST_INIT(large_goblin_aggro, list(
 	H.STAPER = 6
 	H.STAINT = 8 // I am Evil
 	H.STALUC = 4
-	var/loadout = rand(1, 3)
+	var/loadout = rand(1, 4)
 	switch(loadout)
 		if(1) // mace brute
 			r_hand = /obj/item/rogueweapon/mace
@@ -67,6 +67,13 @@ GLOBAL_LIST_INIT(large_goblin_aggro, list(
 			l_hand = /obj/item/rogueweapon/shield/wood
 			armor = /obj/item/clothing/suit/roguetown/armor/leather/hide/goblin
 			head = /obj/item/clothing/head/roguetown/helmet/leather/goblin
+		if(4) // bottle bomber
+			r_hand = /obj/item/rogueweapon/mace
+			neck = /obj/item/storage/belt/rogue/pouch/bombs
+			armor = /obj/item/clothing/suit/roguetown/armor/leather/hide/goblin
+			head = /obj/item/clothing/head/roguetown/helmet/leather/goblin
+	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
+	gloves = /obj/item/clothing/gloves/roguetown/leather
 	H.adjust_skillrank(/datum/skill/combat/maces, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/axes, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/shields, 3, TRUE)

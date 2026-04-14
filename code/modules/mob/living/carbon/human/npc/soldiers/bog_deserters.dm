@@ -167,17 +167,22 @@
 	gloves = /obj/item/clothing/gloves/roguetown/chain/iron
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/iron
 	//Lower Gear
-	belt = /obj/item/storage/belt/rogue/leather
 	pants = /obj/item/clothing/under/roguetown/chainlegs/iron
 	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/iron
 	//Weapons
 	if(prob(30)) // ranged
+		belt = /obj/item/storage/belt/rogue/leather
 		backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
 		backl = /obj/item/quiver/arrows
 		r_hand = /obj/item/rogueweapon/sword/iron
 		H.adjust_skillrank(/datum/skill/combat/bows, 3, TRUE)
 		H.upgrade_ai_controller(/datum/ai_controller/human_npc/archer)
+	else if(prob(50)) // tossblade
+		belt = /obj/item/storage/belt/rogue/leather/knifebelt/iron
+		H.adjust_skillrank(/datum/skill/combat/knives, 3, TRUE)
+		add_random_deserter_weapon(H)
 	else
+		belt = /obj/item/storage/belt/rogue/leather
 		add_random_deserter_weapon(H)
 	add_random_deserter_beltl_stuff(H)
 	add_random_deserter_beltr_stuff(H)
@@ -257,12 +262,168 @@
 	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/iron
 	//Weapons
 	if(prob(30)) // ranged
+		belt = /obj/item/storage/belt/rogue/leather
 		backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
 		backl = /obj/item/quiver/arrows
 		r_hand = /obj/item/rogueweapon/sword/iron
 		H.adjust_skillrank(/datum/skill/combat/bows, 3, TRUE)
 		H.upgrade_ai_controller(/datum/ai_controller/human_npc/archer)
-	else
+	else if(prob(50)) // tossblade
+		belt = /obj/item/storage/belt/rogue/leather/knifebelt/iron
+		H.adjust_skillrank(/datum/skill/combat/knives, 3, TRUE)
+		H.upgrade_ai_controller(/datum/ai_controller/human_npc/archer)
 		add_random_deserter_weapon_hard(H)
+	else
+		belt = /obj/item/storage/belt/rogue/leather
+		add_random_deserter_weapon_hard(H)
+	add_random_deserter_beltl_stuff(H)
+	add_random_deserter_beltr_stuff(H)
+
+//Tosser variants - always spawn with tossblade belt and archer AI
+/mob/living/carbon/human/species/human/northern/bog_deserters/tosser
+	ai_controller = /datum/ai_controller/human_npc/archer
+
+/mob/living/carbon/human/species/human/northern/bog_deserters/tosser/ambush
+	threat_point = THREAT_DANGEROUS
+	ambush_faction = "bandits"
+
+/mob/living/carbon/human/species/human/northern/bog_deserters/tosser/after_creation()
+	AddComponent(/datum/component/ai_aggro_system)
+	SEND_SIGNAL(src, COMSIG_MOB_MODIFY_AGGRO_LINES, GLOB.highwayman_aggro, TRUE)
+	job = "Garrison Deserter"
+	ADD_TRAIT(src, TRAIT_NOMOOD, TRAIT_GENERIC)
+	ADD_TRAIT(src, TRAIT_NOHUNGER, TRAIT_GENERIC)
+	ADD_TRAIT(src, TRAIT_LEECHIMMUNE, INNATE_TRAIT)
+	ADD_TRAIT(src, TRAIT_BREADY, TRAIT_GENERIC)
+	ADD_TRAIT(src, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
+	ADD_TRAIT(src, TRAIT_KNEESTINGER_IMMUNITY, TRAIT_GENERIC)
+	equipOutfit(new /datum/outfit/job/roguetown/human/northern/bog_deserters/tosser)
+	var/obj/item/organ/eyes/organ_eyes = getorgan(/obj/item/organ/eyes)
+	if(organ_eyes)
+		organ_eyes.eye_color = pick("27becc", "35cc27", "000000")
+	update_hair()
+	update_body()
+	var/obj/item/bodypart/head/head = get_bodypart(BODY_ZONE_HEAD)
+	head.sellprice = 50
+
+/datum/outfit/job/roguetown/human/northern/bog_deserters/tosser/pre_equip(mob/living/carbon/human/H)
+	//Body Stuff
+	H.eye_color = "27becc"
+	H.hair_color = "61310f"
+	H.facial_hair_color = H.hair_color
+	if(H.gender == FEMALE)
+		H.hairstyle =  "Messy (Rogue)"
+	else
+		H.hairstyle = "Messy"
+		H.facial_hairstyle = "Beard (Manly)"
+	//skill Stuff
+	H.adjust_skillrank(/datum/skill/combat/maces, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/whipsflails, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/polearms, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/swords, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/shields, 3, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/wrestling, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/unarmed, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/athletics, 3, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/knives, 3, TRUE)
+	ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
+	ADD_TRAIT(H, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
+	ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)
+	H.STASTR = rand(12,14)
+	H.STASPD = 11
+	H.STACON = 8
+	H.STAWIL = 8
+	H.STAPER = 11
+	H.STAINT = 10
+	//Chest Gear
+	add_random_deserter_cloak(H)
+	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
+	armor = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/iron
+	//Head Gear
+	neck = /obj/item/clothing/neck/roguetown/coif/heavypadding
+	head = /obj/item/clothing/head/roguetown/helmet/kettle/iron
+	//wrist Gear
+	gloves = /obj/item/clothing/gloves/roguetown/chain/iron
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/iron
+	//Lower Gear
+	belt = /obj/item/storage/belt/rogue/leather/knifebelt/iron
+	pants = /obj/item/clothing/under/roguetown/chainlegs/iron
+	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/iron
+	//Weapons - guaranteed tossblade + melee
+	H.upgrade_ai_controller(/datum/ai_controller/human_npc/archer)
+	add_random_deserter_weapon(H)
+	add_random_deserter_beltl_stuff(H)
+	add_random_deserter_beltr_stuff(H)
+
+/mob/living/carbon/human/species/human/northern/bog_deserters/tosser/better_gear
+	ai_controller = /datum/ai_controller/human_npc/archer
+
+/mob/living/carbon/human/species/human/northern/bog_deserters/tosser/better_gear/ambush
+	threat_point = THREAT_DANGEROUS
+
+/mob/living/carbon/human/species/human/northern/bog_deserters/tosser/better_gear/after_creation()
+	AddComponent(/datum/component/ai_aggro_system)
+	job = "Garrison Deserter"
+	ADD_TRAIT(src, TRAIT_NOMOOD, TRAIT_GENERIC)
+	ADD_TRAIT(src, TRAIT_NOHUNGER, TRAIT_GENERIC)
+	ADD_TRAIT(src, TRAIT_LEECHIMMUNE, INNATE_TRAIT)
+	ADD_TRAIT(src, TRAIT_BREADY, TRAIT_GENERIC)
+	ADD_TRAIT(src, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
+	ADD_TRAIT(src, TRAIT_KNEESTINGER_IMMUNITY, TRAIT_GENERIC)
+	equipOutfit(new /datum/outfit/job/roguetown/human/northern/bog_deserters/tosser/better_gear)
+	var/obj/item/organ/eyes/organ_eyes = getorgan(/obj/item/organ/eyes)
+	if(organ_eyes)
+		organ_eyes.eye_color = pick("27becc", "35cc27", "000000")
+	update_hair()
+	update_body()
+	var/obj/item/bodypart/head/head = get_bodypart(BODY_ZONE_HEAD)
+	head.sellprice = 50
+
+/datum/outfit/job/roguetown/human/northern/bog_deserters/tosser/better_gear/pre_equip(mob/living/carbon/human/H)
+	//Body Stuff
+	H.eye_color = "27becc"
+	H.hair_color = "61310f"
+	H.facial_hair_color = H.hair_color
+	if(H.gender == FEMALE)
+		H.hairstyle =  "Messy (Rogue)"
+	else
+		H.hairstyle = "Messy"
+		H.facial_hairstyle = "Beard (Manly)"
+	//skill Stuff
+	H.adjust_skillrank(/datum/skill/combat/maces, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/whipsflails, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/polearms, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/swords, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/shields, 3, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/wrestling, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/unarmed, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/athletics, 3, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/knives, 4, TRUE)
+	ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
+	ADD_TRAIT(H, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
+	ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)
+	H.STASTR = rand(12,14)
+	H.STASPD = 11
+	H.STACON = 10
+	H.STAWIL = 10
+	H.STAPER = 11
+	H.STAINT = 10
+	//Chest Gear
+	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/iron
+	add_random_deserter_armor_hard(H)
+	add_random_deserter_cloak(H)
+	//Head Gear
+	neck = /obj/item/clothing/neck/roguetown/chaincoif/full
+	head = /obj/item/clothing/head/roguetown/helmet/heavy/knight/skettle
+	//wrist Gear
+	gloves = /obj/item/clothing/gloves/roguetown/plate/iron
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/iron
+	//Lower Gear
+	belt = /obj/item/storage/belt/rogue/leather/knifebelt/iron
+	pants = /obj/item/clothing/under/roguetown/chainlegs/iron
+	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/iron
+	//Weapons - guaranteed tossblade + melee
+	H.upgrade_ai_controller(/datum/ai_controller/human_npc/archer)
+	add_random_deserter_weapon_hard(H)
 	add_random_deserter_beltl_stuff(H)
 	add_random_deserter_beltr_stuff(H)
