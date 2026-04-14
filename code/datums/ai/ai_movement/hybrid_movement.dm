@@ -182,10 +182,8 @@
 					// Step will fail if we can't move in that direction and allow us to climb.
 					var/move_dir = get_dir(movable_pawn, next_step)
 					if(!step(movable_pawn, move_dir, controller.movement_delay))
-						for(var/obj/structure/O in next_step)
-							if(O.density && O.climbable)
-								O.climb_structure(movable_pawn)
-								break
+						var/obj/structure/climb_target
+
 
 				// Check if target has moved significantly from the end of our path
 				if(last_turf != get_turf(controller.current_movement_target))
