@@ -167,7 +167,6 @@
 	outfit = /datum/outfit/job/roguetown/squire/skirmisher
 
 	category_tags = list(CTAG_SQUIRE)
-	traits_applied = list(TRAIT_DODGEEXPERT)
 	subclass_stats = list(
 		STATKEY_SPD = 2,
 		STATKEY_PER = 1,

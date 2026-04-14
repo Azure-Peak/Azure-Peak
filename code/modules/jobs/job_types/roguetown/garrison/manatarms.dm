@@ -173,14 +173,16 @@
 	outfit = /datum/outfit/job/roguetown/manorguard/skirmisher
 
 	category_tags = list(CTAG_MENATARMS)
+	traits_applied = list(TRAIT_MEDIUMARMOR)
 	//Garrison ranged/speed class. Time to go wild
 	subclass_stats = list(
 		STATKEY_STR = 1, //Xbow
-		STATKEY_SPD = 2,// seems kinda lame but remember guardsman bonus!!
-		STATKEY_PER = 2,
-		STATKEY_WIL = 1
+		STATKEY_SPD = 1,// seems kinda lame but remember guardsman bonus!!
+		STATKEY_PER = 3,
+		STATKEY_WIL = 2
 	)
 	subclass_skills = list(
+		/datum/skill/combat/swords = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/knives = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/maces = SKILL_LEVEL_APPRENTICE, 		// Still have a cugel.
 		/datum/skill/combat/crossbows = SKILL_LEVEL_MASTER,		//Only effects draw and reload time.
@@ -228,13 +230,11 @@
 				armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy
 				wrists = /obj/item/clothing/wrists/roguetown/bracers
 				pants = /obj/item/clothing/under/roguetown/heavy_leather_pants
-				ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
 			if("Brigandine Armor") //New MAA skirmisher
 				head = /obj/item/clothing/head/roguetown/helmet/kettle
 				armor = /obj/item/clothing/suit/roguetown/armor/brigandine/light/retinue
 				wrists = /obj/item/clothing/wrists/roguetown/bracers/brigandine
 				pants = /obj/item/clothing/under/roguetown/brigandinelegs
-				ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
 
 		backpack_contents = list(
 			/obj/item/rogueweapon/huntingknife/combat/messser = 1,
@@ -244,8 +244,6 @@
 			/obj/item/reagent_containers/glass/bottle/rogue/healthpot = 1,
 			)
 		H.verbs |= /mob/proc/haltyell
-
-	if(H.mind)
 		SStreasury.give_money_account(ECONOMIC_LOWER_MIDDLE_CLASS, H, "Savings.")
 
 

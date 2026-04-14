@@ -629,7 +629,7 @@
 		/datum/species/elf/wood,
 		/datum/species/elf/dark,
 	)
-	traits_applied = list(TRAIT_OUTDOORSMAN, TRAIT_BLACKOAK, TRAIT_DODGEEXPERT, TRAIT_WOODWALKER)
+	traits_applied = list(TRAIT_OUTDOORSMAN, TRAIT_BLACKOAK, TRAIT_WOODWALKER)
 	outfit = /datum/outfit/job/roguetown/adventurer/lesserblackoak
 	subclass_languages = list(/datum/language/oldazurian)
 	cmode_music = 'sound/music/combat_blackoak.ogg'
@@ -668,12 +668,14 @@
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_JOURNEYMAN, TRUE)
 				l_hand = /obj/item/rogueweapon/sword/long/elvish/autumn
 				beltr = /obj/item/rogueweapon/scabbard/sword
+				ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
 			if("Autumned Glaive")
 				H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_JOURNEYMAN, TRUE)
 				l_hand = /obj/item/rogueweapon/halberd/bardiche/elvish/autumn
 				backr = /obj/item/rogueweapon/scabbard/gwstrap
+				ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
 			if("Autumned Bow")
-				H.adjust_skillrank_up_to(/datum/skill/combat/bows, SKILL_LEVEL_JOURNEYMAN, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/combat/bows, SKILL_LEVEL_EXPERT, TRUE)
 				l_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve/autumn
 				beltr = /obj/item/quiver/arrows
 	head = /obj/item/clothing/head/roguetown/helmet/heavy/elven_helm/autumn/light

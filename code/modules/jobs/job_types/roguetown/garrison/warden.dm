@@ -25,7 +25,7 @@
 	round_contrib_points = 2
 
 	cmode_music = 'sound/music/cmode/garrison/combat_warden.ogg'
-	job_traits = list(TRAIT_AZURENATIVE, TRAIT_OUTDOORSMAN, TRAIT_WOODSMAN, TRAIT_SURVIVAL_EXPERT)
+	job_traits = list(TRAIT_AZURENATIVE, TRAIT_MEDIUMARMOR, TRAIT_OUTDOORSMAN, TRAIT_WOODSMAN, TRAIT_SURVIVAL_EXPERT)
 	job_subclasses = list(/datum/advclass/warden/warden)
 
 /datum/outfit/job/roguetown/warden
@@ -34,6 +34,7 @@
 	backr = /obj/item/storage/backpack/rogue/satchel
 	backl = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve/warden
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/studded/warden
+	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/iron
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/jackchain
 	gloves = /obj/item/clothing/gloves/roguetown/fingerless_leather
 	belt = /obj/item/storage/belt/rogue/leather
@@ -96,16 +97,6 @@
 	H.set_blindness(0)
 
 	if(H.mind)
-		var/armor_options = list("Dodge Expert", "Maille Training")
-		var/armor_choice = input(H, "Choose your armor.", "TAKE UP ARMS") as anything in armor_options
-		switch(armor_choice)//Like skirmisher, you are not getting both
-			if("Dodge Expert")
-				ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
-				shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy
-			if("Maille Training")
-				shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/iron
-				ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
-
 		var/helmets = list(
 			"Path of the Antelope" 	= /obj/item/clothing/head/roguetown/helmet/bascinet/antler,
 			"Path of the Volf"		= /obj/item/clothing/head/roguetown/helmet/sallet/warden/wolf,
@@ -126,5 +117,6 @@
 		var/hoodchoice = input(H, "Choose your shroud.", "HOOD SELECTION") as anything in hoods
 		if(hoodchoice != "None")
 			mask = hoods[hoodchoice]
-	if(H.mind)
+
 		SStreasury.give_money_account(ECONOMIC_LOWER_MIDDLE_CLASS, H, "Savings.")
+
