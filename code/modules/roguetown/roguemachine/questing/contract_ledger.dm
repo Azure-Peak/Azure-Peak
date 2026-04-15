@@ -8,14 +8,12 @@
 	max_integrity = 0
 	layer = ABOVE_MOB_LAYER
 	layer = GAME_PLANE_UPPER
-	var/input_point
 
-/obj/structure/roguemachine/contractledger/Initialize()
+/obj/structure/roguemachine/contractledger/get_mechanics_examine(mob/user)
 	. = ..()
-	input_point = locate(x, y - 1, z)
-	var/obj/effect/decal/marker_export/marker = new(get_turf(input_point))
-	marker.desc = "Place completed contract scrolls here to turn them in."
-	marker.layer = ABOVE_OBJ_LAYER
+	. += span_info("<b>Left click</b> to open the Grand Contract Ledger, where you can sign new contracts and abandon ones you hold.")
+	. += span_info("To <b>turn in</b> a completed contract, click the ledger while holding the quest scroll.")
+	. += span_info("Abandoning a contract forfeits its deposit to the treasury and places you under a brief guild cooldown before you may abandon another.")
 
 /obj/structure/roguemachine/contractledger/attackby(obj/item/P, mob/living/carbon/human/user, params)
 	. = ..()
@@ -105,6 +103,9 @@
 		if("sign")
 			sign_contract(user, params["ref"])
 			return TRUE
+		if("abandon")
+			abandon_by_ref(user, params["ref"])
+			return TRUE
 		if("print_active")
 			var/datum/job/mob_job = user?.job ? SSjob.GetJob(user.job) : null
 			if(mob_job?.is_quest_giver)
@@ -134,7 +135,7 @@
 		return
 
 	if(!SSquestpool.claim(Q, user))
-		say("That contract could not be claimed.")
+		say("That contract could not be dispatched. Try another.")
 		return
 
 	// Create scroll
@@ -153,18 +154,11 @@
 	SStreasury.log_entries += "+[deposit] to treasury (quest deposit)"
 
 /obj/structure/roguemachine/contractledger/proc/turn_in_contract(mob/user, obj/item/paper/scroll/quest/scroll_in_hand)
-	if(scroll_in_hand)
-		var/list/mob/quest_assignees = scroll_in_hand.get_quest_assignees(user, TRUE)
-		if(!(user in quest_assignees))
-			to_chat(user, span_warning("You are not the assigned quest receiver for this contract!"))
-			return
-		turn_in_scroll(user, scroll_in_hand)
-	else
-		for(var/obj/item/paper/scroll/quest/floor_scroll in input_point)
-			var/list/mob/quest_assignees = floor_scroll.get_quest_assignees(user, TRUE)
-			if(!(user in quest_assignees))
-				continue
-			turn_in_scroll(user, floor_scroll)
+	var/list/mob/quest_assignees = scroll_in_hand.get_quest_assignees(user, TRUE)
+	if(!(user in quest_assignees))
+		to_chat(user, span_warning("You are not the assigned quest receiver for this contract!"))
+		return
+	turn_in_scroll(user, scroll_in_hand)
 
 /obj/structure/roguemachine/contractledger/proc/turn_in_scroll(mob/user, obj/item/paper/scroll/quest/scroll)
 	var/reward = 0
@@ -228,33 +222,39 @@
 
 /// Abandon handler: a scroll left in the input area is destroyed with its contract. The deposit
 /// is NOT refunded - it's the cost of backing out.
-/obj/structure/roguemachine/contractledger/proc/abandon_contract(mob/user)
-	var/obj/item/paper/scroll/quest/abandoned_scroll = locate() in input_point
-	if(!abandoned_scroll)
-		to_chat(user, span_warning("No contract scroll found in the input area!"))
+/obj/structure/roguemachine/contractledger/proc/abandon_by_ref(mob/user, ref)
+	if(!ref)
 		return
-
-	var/datum/quest/quest = abandoned_scroll.assigned_quest
-	if(!quest)
-		to_chat(user, span_warning("This scroll doesn't have an assigned contract!"))
+	var/datum/weakref/user_ref = WEAKREF(user)
+	var/obj/item/paper/scroll/quest/matched_scroll
+	var/datum/quest/matched_quest
+	for(var/obj/item/paper/scroll/quest/scroll in GLOB.quest_scrolls)
+		var/datum/quest/Q = scroll.assigned_quest
+		if(!Q || Q.quest_receiver_reference != user_ref)
+			continue
+		if(REF(Q) != ref)
+			continue
+		matched_scroll = scroll
+		matched_quest = Q
+		break
+	if(!matched_quest)
+		to_chat(user, span_warning("That contract is not yours to abandon."))
 		return
-
-	if(quest.complete)
-		turn_in_contract(user)
+	if(matched_quest.complete)
+		to_chat(user, span_warning("That contract is already complete - turn it in instead."))
 		return
-
 	if(SSquestpool.is_on_abandon_cooldown(user))
 		var/remaining_seconds = round(SSquestpool.abandon_cooldown_remaining(user) / 10)
 		to_chat(user, span_warning("The guild is watching you. Wait [remaining_seconds]s before abandoning another contract."))
 		return
 
-	var/forfeited = quest.calculate_deposit()
-	log_quest(user.ckey, user.mind, user, "Abandon [quest.quest_type]")
-	SSquestpool.mark_abandoned(user, quest, forfeited)
+	var/forfeited = matched_quest.calculate_deposit()
+	log_quest(user.ckey, user.mind, user, "Abandon [matched_quest.quest_type]")
+	SSquestpool.mark_abandoned(user, matched_quest, forfeited)
 	to_chat(user, span_warning("The contract is voided. Your deposit of [forfeited] mammon is forfeit to the treasury."))
-	abandoned_scroll.assigned_quest = null
-	qdel(quest)
-	qdel(abandoned_scroll)
+	matched_scroll.assigned_quest = null
+	qdel(matched_quest)
+	qdel(matched_scroll)
 
 /obj/structure/roguemachine/contractledger/proc/print_contracts(mob/user)
 	var/list/active_quests = list()

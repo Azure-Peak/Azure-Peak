@@ -181,6 +181,16 @@ const ActiveStrip = (props: {
                 ` · ${a.progress_current}/${a.progress_required}`}
               {!!a.complete && ' · ready to turn in'}
             </span>
+            {!a.complete && (
+              <Button
+                icon="times"
+                color="bad"
+                tooltip="Forfeit deposit and void the contract."
+                onClick={() => act('abandon', { ref: a.ref })}
+              >
+                Abandon
+              </Button>
+            )}
           </div>
         ))
       )}

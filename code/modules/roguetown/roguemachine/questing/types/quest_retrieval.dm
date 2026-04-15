@@ -23,24 +23,22 @@
 
 	return ROUND_UP(distance_reward + item_bonus)
 
-/datum/quest/retrieval/generate(obj/effect/landmark/quest_spawner/landmark)
+/datum/quest/retrieval/preview(obj/effect/landmark/quest_spawner/landmark)
+	. = ..()
+	if(!.)
+		return
+	target_item_type = pick(fetch_items)
+	progress_required = rand(1, 3)
+
+/datum/quest/retrieval/materialize(obj/effect/landmark/quest_spawner/landmark)
 	..()
 	if(!landmark)
 		return FALSE
-
-	// Select random item type from landmark's list
-	target_item_type = pick(fetch_items)
-	progress_required = rand(1, 3)
-	target_spawn_area = get_area_name(get_turf(landmark))
-
-	// Spawn items
 	for(var/i in 1 to progress_required)
 		var/turf/spawn_turf = landmark.get_safe_spawn_turf()
 		if(!spawn_turf)
 			continue
-
 		var/obj/item/new_item = new target_item_type(spawn_turf)
 		new_item.AddComponent(/datum/component/quest_object/retrieval, src)
 		add_tracked_atom(new_item)
-
 	return TRUE

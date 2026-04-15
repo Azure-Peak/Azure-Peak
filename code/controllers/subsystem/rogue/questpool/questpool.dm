@@ -101,7 +101,7 @@ SUBSYSTEM_DEF(questpool)
 	if(!landmark)
 		qdel(Q)
 		return null
-	if(!Q.generate(landmark))
+	if(!Q.preview(landmark))
 		qdel(Q)
 		return null
 	Q.reward_amount = Q.calculate_reward(get_turf(landmark))
@@ -141,11 +141,28 @@ SUBSYSTEM_DEF(questpool)
 		return FALSE
 	if(!Q.can_claim(user))
 		return FALSE
+	var/obj/effect/landmark/quest_spawner/landmark = resolve_or_repick_landmark(Q)
+	if(!landmark)
+		log_event("claim_failed", "no landmark available for [Q.quest_difficulty] [Q.quest_type]")
+		return FALSE
+	if(!Q.materialize(landmark))
+		log_event("claim_failed", "materialize failed for [Q.quest_difficulty] [Q.quest_type]")
+		return FALSE
 	pool -= Q
 	Q.on_claim(user)
 	record_round_statistic(STATS_CONTRACTS_TAKEN)
 	log_event("claim", "[describe_user(user)] took [Q.quest_difficulty] [Q.quest_type]")
 	return TRUE
+
+/datum/controller/subsystem/questpool/proc/resolve_or_repick_landmark(datum/quest/Q)
+	var/obj/effect/landmark/quest_spawner/landmark = Q.pending_landmark_ref?.resolve()
+	if(landmark && !QDELETED(landmark))
+		return landmark
+	landmark = find_quest_landmark(Q.quest_difficulty, Q.quest_type)
+	if(landmark)
+		Q.pending_landmark_ref = WEAKREF(landmark)
+		Q.target_spawn_area = get_area_name(get_turf(landmark))
+	return landmark
 
 /datum/controller/subsystem/questpool/proc/is_on_abandon_cooldown(mob/user)
 	if(!user?.ckey)

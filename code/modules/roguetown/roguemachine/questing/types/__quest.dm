@@ -39,6 +39,8 @@
 	var/datum/weakref/quest_scroll_ref
 	/// List of weakrefs to actual quest items/mobs for reducing overhead of compass.
 	var/list/datum/weakref/tracked_atoms = list()
+	/// Landmark picked at preview time; materialize() spawns content around it when claimed.
+	var/datum/weakref/pending_landmark_ref
 
 /datum/quest/Destroy()
 	// Clean up mobs with quest components
@@ -76,10 +78,21 @@
 /datum/quest/proc/add_tracked_atom(atom/movable/to_track)
 	tracked_atoms += WEAKREF(to_track)
 
-/// Generate quest content - override in subtypes
-/datum/quest/proc/generate(obj/effect/landmark/quest_spawner/landmark)
+/// Lightweight pre-generation: pick templates and set display fields, but DO NOT mutate the
+/// world. Called by SSquestpool.generate_one so pool contracts don't spawn mobs/items until
+/// someone claims them. Subtypes override to set target_mob_type, target_item_type, etc.
+/datum/quest/proc/preview(obj/effect/landmark/quest_spawner/landmark)
+	if(!landmark)
+		return FALSE
+	pending_landmark_ref = WEAKREF(landmark)
+	target_spawn_area = get_area_name(get_turf(landmark))
 	if(!title)
 		title = get_title()
+	return TRUE
+
+/// World-mutating generation: spawn mobs, items, parcels. Called by SSquestpool.claim when the
+/// contract is actually signed. Subtypes override to do their specific spawns.
+/datum/quest/proc/materialize(obj/effect/landmark/quest_spawner/landmark)
 	return TRUE
 
 /// Get the quest title - override in subtypes for dynamic titles

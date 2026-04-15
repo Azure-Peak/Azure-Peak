@@ -15,10 +15,9 @@
 /datum/quest/kill/raid/get_location_text()
 	return target_spawn_area ? "Reported raid in [target_spawn_area] region." : "Reported infestations in Azuria region."
 
-/datum/quest/kill/raid/generate(obj/effect/landmark/quest_spawner/landmark)
+/datum/quest/kill/raid/materialize(obj/effect/landmark/quest_spawner/landmark)
 	..()
 	if(!landmark)
 		return FALSE
 	spawn_kill_mobs(landmark)
-
 	return TRUE

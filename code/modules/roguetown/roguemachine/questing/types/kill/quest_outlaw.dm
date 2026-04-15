@@ -18,7 +18,7 @@
 /datum/quest/kill/outlaw/get_objective_text()
 	return "Slay [initial(target_mob_type.name)]."
 
-/datum/quest/kill/outlaw/generate(obj/effect/landmark/quest_spawner/landmark)
+/datum/quest/kill/outlaw/materialize(obj/effect/landmark/quest_spawner/landmark)
 	..()
 	if(!landmark)
 		return FALSE

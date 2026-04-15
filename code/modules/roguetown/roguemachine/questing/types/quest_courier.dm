@@ -30,15 +30,7 @@
 	var/distance_reward = (distance / QUEST_DELIVERY_DISTANCE_DIVISOR) * QUEST_DELIVERY_DISTANCE_BONUS
 	return ROUND_UP(distance_reward + QUEST_COURIER_BONUS_FLAT)
 
-/datum/quest/courier/proc/spawn_courier_item(area/delivery_area, obj/effect/landmark/quest_spawner/landmark)
-	if(!delivery_area)
-		return null
-
-	var/turf/spawn_turf = landmark.get_safe_spawn_turf()
-	if(!spawn_turf)
-		return
-
-	var/obj/item/parcel/delivery_parcel = new(spawn_turf)
+/datum/quest/courier/proc/get_area_delivery_items()
 	var/static/list/area_delivery_items = list(
 		/area/rogue/indoors/town/tavern = list(
 			/obj/item/cooking/pan,
@@ -80,15 +72,18 @@
 			/obj/item/ration,
 		)
 	)
+	return area_delivery_items
 
-	var/list/possible_items = area_delivery_items[delivery_area] || list(
-		/obj/item/natural/cloth,
-		/obj/item/ration,
-		/obj/item/reagent_containers/food/snacks/rogue/crackerscooked,
-	)
+/datum/quest/courier/proc/spawn_courier_item(area/delivery_area, obj/effect/landmark/quest_spawner/landmark)
+	if(!delivery_area)
+		return null
 
-	var/contained_item_type = pick(possible_items)
-	var/obj/item/contained_item = new contained_item_type(delivery_parcel)
+	var/turf/spawn_turf = landmark.get_safe_spawn_turf()
+	if(!spawn_turf)
+		return
+
+	var/obj/item/parcel/delivery_parcel = new(spawn_turf)
+	var/obj/item/contained_item = new target_delivery_item(delivery_parcel)
 	delivery_parcel.contained_item = contained_item
 	delivery_parcel.delivery_area_type = delivery_area
 	delivery_parcel.allowed_jobs = delivery_parcel.get_area_jobs(delivery_area)
@@ -98,26 +93,30 @@
 	delivery_parcel.dropshrink = 1
 	delivery_parcel.update_icon()
 
-	target_delivery_item = contained_item_type
 	delivery_parcel.AddComponent(/datum/component/quest_object/courier, src)
 	contained_item.AddComponent(/datum/component/quest_object/courier, src)
 	add_tracked_atom(delivery_parcel)
 
 	return delivery_parcel
 
-/datum/quest/courier/generate(obj/effect/landmark/quest_spawner/landmark)
+/datum/quest/courier/preview(obj/effect/landmark/quest_spawner/landmark)
+	. = ..()
+	if(!.)
+		return
+	target_delivery_location = pick(target_delivery_locations)
+	progress_required = 1
+	var/list/possible_items = get_area_delivery_items()[target_delivery_location] || list(
+		/obj/item/natural/cloth,
+		/obj/item/ration,
+		/obj/item/reagent_containers/food/snacks/rogue/crackerscooked,
+	)
+	target_delivery_item = pick(possible_items)
+
+/datum/quest/courier/materialize(obj/effect/landmark/quest_spawner/landmark)
 	..()
 	if(!landmark)
 		return FALSE
-
-	// Select delivery location
-	target_delivery_location = pick(target_delivery_locations)
-	progress_required = 1
-	target_spawn_area = get_area_name(get_turf(landmark))
-
-	// Spawn parcel
 	var/obj/item/parcel/delivery_parcel = spawn_courier_item(target_delivery_location, landmark)
 	if(!delivery_parcel)
 		return FALSE
-
 	return TRUE

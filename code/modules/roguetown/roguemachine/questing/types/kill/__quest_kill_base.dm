@@ -4,12 +4,14 @@
 	var/count_min = 1
 	var/count_max = 3
 
-/datum/quest/kill/proc/spawn_kill_mobs(obj/effect/landmark/quest_spawner/landmark)
+/datum/quest/kill/preview(obj/effect/landmark/quest_spawner/landmark)
+	. = ..()
+	if(!.)
+		return
 	target_mob_type = pick(mob_types_to_spawn)
 	progress_required = rand(count_min, count_max)
-	target_spawn_area = get_area_name(get_turf(landmark))
 
-	// Spawn mobs
+/datum/quest/kill/proc/spawn_kill_mobs(obj/effect/landmark/quest_spawner/landmark)
 	for(var/i in 1 to progress_required)
 		var/turf/spawn_turf = landmark.get_safe_spawn_turf()
 		if(!spawn_turf)
