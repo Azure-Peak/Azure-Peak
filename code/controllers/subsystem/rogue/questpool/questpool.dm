@@ -1,14 +1,3 @@
-/**
- * Passive contract pool.
- *
- * Pre-generates a set of unclaimed contracts (/datum/quest instances without a receiver) that
- * the Grand Contract Ledger surfaces to players. Pool size is scaled to the current population
- * and replenished on a cadence controlled by QUEST_POOL_* defines in __DEFINES/questing.dm.
- *
- * Claiming a pool contract is done via claim(quest, user) - this hands off ownership, sets the
- * receiver, and removes it from the pool. Deposits, scroll creation, and refunds stay the
- * responsibility of the caller (the ledger obj).
- */
 SUBSYSTEM_DEF(questpool)
 	name = "Quest Pool"
 	wait = QUEST_POOL_REGEN_INTERVAL
@@ -16,46 +5,84 @@ SUBSYSTEM_DEF(questpool)
 	runlevels = RUNLEVEL_GAME
 	init_order = INIT_ORDER_DEFAULT
 
-	/// Unclaimed /datum/quest instances awaiting pickup from the ledger.
 	var/list/datum/quest/pool = list()
 
 /datum/controller/subsystem/questpool/Initialize()
-	// Prime the pool so the first player to open the ledger has something to take.
-	top_up_pool(get_desired_pool_size())
+	regen_to_targets(get_total_target())
 	return ..()
 
 /datum/controller/subsystem/questpool/fire(resumed)
-	expire_stale()
-	var/desired = get_desired_pool_size()
-	var/shortfall = desired - length(pool)
-	if(shortfall <= 0)
-		return
-	top_up_pool(min(shortfall, QUEST_POOL_REGEN_PER_TICK))
+	reroll_stale()
+	regen_to_targets(get_regen_per_tick())
 
-/datum/controller/subsystem/questpool/proc/get_desired_pool_size()
-	var/population = GLOB.player_list.len
-	var/size = QUEST_POOL_BASELINE + round(population / QUEST_POOL_PER_PLAYERS)
-	return min(size, QUEST_POOL_MAX)
+/datum/controller/subsystem/questpool/proc/get_regen_per_tick()
+	return max(1, round(GLOB.player_list.len / QUEST_POOL_REGEN_DIVISOR))
 
-/datum/controller/subsystem/questpool/proc/top_up_pool(count)
-	for(var/i in 1 to count)
-		if(length(pool) >= QUEST_POOL_MAX)
-			break
-		generate_one()
+/datum/controller/subsystem/questpool/proc/get_target_for(difficulty)
+	var/pop = GLOB.player_list.len
+	switch(difficulty)
+		if(QUEST_DIFFICULTY_EASY)
+			return max(QUEST_POOL_FLOOR_EASY, round(pop * QUEST_POOL_FRACTION_EASY))
+		if(QUEST_DIFFICULTY_MEDIUM)
+			return max(QUEST_POOL_FLOOR_MEDIUM, round(pop * QUEST_POOL_FRACTION_MEDIUM))
+		if(QUEST_DIFFICULTY_HARD)
+			return max(QUEST_POOL_FLOOR_HARD, round(pop * QUEST_POOL_FRACTION_HARD))
+	return 0
 
-/datum/controller/subsystem/questpool/proc/expire_stale()
-	var/cutoff = world.time - QUEST_POOL_CONTRACT_TTL
+/datum/controller/subsystem/questpool/proc/get_total_target()
+	return get_target_for(QUEST_DIFFICULTY_EASY) \
+		+ get_target_for(QUEST_DIFFICULTY_MEDIUM) \
+		+ get_target_for(QUEST_DIFFICULTY_HARD)
+
+/datum/controller/subsystem/questpool/proc/count_for_difficulty(difficulty)
+	var/count = 0
 	for(var/datum/quest/Q as anything in pool)
-		if(Q.created_at < cutoff)
-			pool -= Q
-			qdel(Q)
+		if(Q.quest_difficulty == difficulty)
+			count++
+	return count
 
-/datum/controller/subsystem/questpool/proc/generate_one()
-	var/difficulty = pickweight(list(
-		QUEST_DIFFICULTY_EASY = QUEST_POOL_WEIGHT_EASY,
-		QUEST_DIFFICULTY_MEDIUM = QUEST_POOL_WEIGHT_MEDIUM,
-		QUEST_DIFFICULTY_HARD = QUEST_POOL_WEIGHT_HARD,
-	))
+/// Returns the difficulty furthest below its target by fill ratio, or null if all are at/above.
+/datum/controller/subsystem/questpool/proc/pick_neediest_difficulty()
+	var/list/difficulties = list(
+		QUEST_DIFFICULTY_EASY,
+		QUEST_DIFFICULTY_MEDIUM,
+		QUEST_DIFFICULTY_HARD,
+	)
+	var/lowest_ratio = 1
+	var/chosen = null
+	for(var/diff in difficulties)
+		var/target = get_target_for(diff)
+		if(!target)
+			continue
+		var/have = count_for_difficulty(diff)
+		if(have >= target)
+			continue
+		var/ratio = have / target
+		if(ratio < lowest_ratio)
+			lowest_ratio = ratio
+			chosen = diff
+	return chosen
+
+/datum/controller/subsystem/questpool/proc/regen_to_targets(count)
+	for(var/i in 1 to count)
+		var/difficulty = pick_neediest_difficulty()
+		if(!difficulty)
+			return
+		generate_one(difficulty)
+
+/datum/controller/subsystem/questpool/proc/reroll_stale()
+	var/cutoff = world.time - QUEST_POOL_STALE_THRESHOLD
+	for(var/datum/quest/Q as anything in pool)
+		if(Q.created_at >= cutoff)
+			continue
+		pool -= Q
+		qdel(Q)
+		var/difficulty = pick_neediest_difficulty()
+		if(!difficulty)
+			continue
+		generate_one(difficulty)
+
+/datum/controller/subsystem/questpool/proc/generate_one(difficulty)
 	var/type = pick_type_for(difficulty)
 	if(!type)
 		return null
@@ -103,10 +130,6 @@ SUBSYSTEM_DEF(questpool)
 			return new /datum/quest/kill/outlaw()
 	return null
 
-/**
- * Hand a pooled contract to a claimant. Returns TRUE on success; the caller is responsible for
- * charging the deposit, spawning the scroll, and otherwise finishing the handoff.
- */
 /datum/controller/subsystem/questpool/proc/claim(datum/quest/Q, mob/user)
 	if(!Q || !(Q in pool))
 		return FALSE
@@ -116,7 +139,6 @@ SUBSYSTEM_DEF(questpool)
 	Q.on_claim(user)
 	return TRUE
 
-/// Count of currently-active pool contracts assigned to a given user.
 /datum/controller/subsystem/questpool/proc/count_active_for(mob/user)
 	if(!user)
 		return 0

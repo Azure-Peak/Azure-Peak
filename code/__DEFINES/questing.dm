@@ -22,27 +22,25 @@
 
 #define QUEST_HANDLER_REWARD_MULTIPLIER 2
 
-// Default cap on how many open contracts a single player can hold at once (non-quest-giver jobs).
-// A job may override via /datum/job.max_active_quests.
+// Jobs may override via /datum/job.max_active_quests.
 #define QUEST_MAX_ACTIVE_PER_PLAYER 2
 
-// Passive contract pool (SSquestpool). The pool is the set of pre-generated contracts
-// that appear on the ledger and can be claimed. It is replenished over time and scaled to
-// population.
-#define QUEST_POOL_BASELINE 4        // minimum pool size regardless of population
-#define QUEST_POOL_PER_PLAYERS 4     // one additional pool slot per N players
-#define QUEST_POOL_MAX 16            // upper cap to keep the ledger legible
-#define QUEST_POOL_REGEN_INTERVAL (5 MINUTES)  // how often the pool tops itself up
-#define QUEST_POOL_REGEN_PER_TICK 2  // max new contracts added per regen tick
-#define QUEST_POOL_CONTRACT_TTL (45 MINUTES)   // unclaimed contracts auto-expire after this
+// Per-difficulty pool targets: max(floor, round(pop * fraction)).
+// At pop=120 -> 15/10/5 (30 total). At pop=60 -> 8/5/3. At pop=12 -> 2/1/1.
+#define QUEST_POOL_FRACTION_EASY 0.125
+#define QUEST_POOL_FRACTION_MEDIUM 0.085
+#define QUEST_POOL_FRACTION_HARD 0.042
+#define QUEST_POOL_FLOOR_EASY 6
+#define QUEST_POOL_FLOOR_MEDIUM 4
+#define QUEST_POOL_FLOOR_HARD 3
 
-// Difficulty weights when the pool picks what difficulty to generate next. Higher = more common.
-#define QUEST_POOL_WEIGHT_EASY 50
-#define QUEST_POOL_WEIGHT_MEDIUM 30
-#define QUEST_POOL_WEIGHT_HARD 15
+// Each tick generates max(1, pop / QUEST_POOL_REGEN_DIVISOR) new contracts. At pop=120: 6/tick = 72/hr.
+#define QUEST_POOL_REGEN_INTERVAL (5 MINUTES)
+#define QUEST_POOL_REGEN_DIVISOR 20
 
-// Type weights per difficulty - used to bias pool generation towards certain contract types.
-// Kept separate so a given difficulty can prefer different work.
+// Unclaimed listings past this threshold are rerolled in place, bypassing the per-tick cap.
+#define QUEST_POOL_STALE_THRESHOLD (20 MINUTES)
+
 #define QUEST_POOL_WEIGHTS_EASY list(\
 	QUEST_RETRIEVAL = 35,\
 	QUEST_COURIER = 25,\
@@ -60,8 +58,6 @@
 	QUEST_OUTLAW = 25,\
 )
 
-// Where a contract originated. Pool contracts are pre-generated; handler contracts
-// are printed by a quest-giver job (Steward, Clerk, etc.) via the existing flow.
 #define QUEST_SOURCE_POOL "pool"
 #define QUEST_SOURCE_HANDLER "handler"
 
