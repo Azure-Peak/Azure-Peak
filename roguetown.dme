@@ -1104,6 +1104,7 @@
 #include "code\game\objects\shapeshift_holder.dm"
 #include "code\game\objects\structures.dm"
 #include "code\game\objects\effects\alien_acid.dm"
+#include "code\game\objects\effects\animal_tracks.dm"
 #include "code\game\objects\effects\blessing.dm"
 #include "code\game\objects\effects\bump_teleporter.dm"
 #include "code\game\objects\effects\countdown.dm"
