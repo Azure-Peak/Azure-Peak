@@ -8,7 +8,6 @@
 #define QUEST_CLEAR_OUT "Clear Out"
 #define QUEST_RAID "Raid"
 #define QUEST_OUTLAW "Outlaw"
-#define QUEST_BEACON "Beacon"
 
 #define QUEST_REWARD_EASY_LOW 30
 #define QUEST_REWARD_EASY_HIGH 35
@@ -22,6 +21,49 @@
 #define QUEST_DEPOSIT_HARD 20
 
 #define QUEST_HANDLER_REWARD_MULTIPLIER 2
+
+// Default cap on how many open contracts a single player can hold at once (non-quest-giver jobs).
+// A job may override via /datum/job.max_active_quests.
+#define QUEST_MAX_ACTIVE_PER_PLAYER 2
+
+// Passive contract pool (SSquestpool). The pool is the set of pre-generated contracts
+// that appear on the ledger and can be claimed. It is replenished over time and scaled to
+// population.
+#define QUEST_POOL_BASELINE 4        // minimum pool size regardless of population
+#define QUEST_POOL_PER_PLAYERS 4     // one additional pool slot per N players
+#define QUEST_POOL_MAX 16            // upper cap to keep the ledger legible
+#define QUEST_POOL_REGEN_INTERVAL (5 MINUTES)  // how often the pool tops itself up
+#define QUEST_POOL_REGEN_PER_TICK 2  // max new contracts added per regen tick
+#define QUEST_POOL_CONTRACT_TTL (45 MINUTES)   // unclaimed contracts auto-expire after this
+
+// Difficulty weights when the pool picks what difficulty to generate next. Higher = more common.
+#define QUEST_POOL_WEIGHT_EASY 50
+#define QUEST_POOL_WEIGHT_MEDIUM 30
+#define QUEST_POOL_WEIGHT_HARD 15
+
+// Type weights per difficulty - used to bias pool generation towards certain contract types.
+// Kept separate so a given difficulty can prefer different work.
+#define QUEST_POOL_WEIGHTS_EASY list(\
+	QUEST_RETRIEVAL = 35,\
+	QUEST_COURIER = 25,\
+	QUEST_KILL_EASY = 40,\
+)
+
+#define QUEST_POOL_WEIGHTS_MEDIUM list(\
+	QUEST_KILL_EASY = 30,\
+	QUEST_CLEAR_OUT = 70,\
+)
+
+#define QUEST_POOL_WEIGHTS_HARD list(\
+	QUEST_CLEAR_OUT = 40,\
+	QUEST_RAID = 35,\
+	QUEST_OUTLAW = 25,\
+)
+
+// Where a contract originated. Pool contracts are pre-generated; handler contracts
+// are printed by a quest-giver job (Steward, Clerk, etc.) via the existing flow.
+#define QUEST_SOURCE_POOL "pool"
+#define QUEST_SOURCE_HANDLER "handler"
 
 // Delivery quest additional reward scaling
 #define QUEST_DELIVERY_DISTANCE_DIVISOR 8 // Divides the distance for reward calculation

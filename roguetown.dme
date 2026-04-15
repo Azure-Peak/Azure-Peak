@@ -466,6 +466,7 @@
 #include "code\controllers\subsystem\rogue\fog_event\mobs\fog_dragon.dm"
 #include "code\controllers\subsystem\rogue\fog_event\mobs\fog_spiders.dm"
 #include "code\controllers\subsystem\rogue\fog_event\mobs\fog_wolf.dm"
+#include "code\controllers\subsystem\rogue\questpool\questpool.dm"
 #include "code\controllers\subsystem\rogue\regional_threat\__define.dm"
 #include "code\controllers\subsystem\rogue\regional_threat\regional_threat.dm"
 #include "code\controllers\subsystem\rogue\regional_threat\threat_region.dm"

@@ -18,202 +18,139 @@
 	marker.layer = ABOVE_OBJ_LAYER
 
 /obj/structure/roguemachine/contractledger/attackby(obj/item/P, mob/living/carbon/human/user, params)
-	. = .. ()
+	. = ..()
 	if(istype(P, /obj/item/paper/scroll/quest))
 		turn_in_contract(user, P)
 		return
 	return
 
-/obj/structure/roguemachine/contractledger/Topic(href, href_list)
-	. = ..()
-	if(href_list["consultcontracts"])
-		consult_contracts(usr)
-		return attack_hand(usr)
-	if(href_list["turnincontract"])
-		turn_in_contract(usr)
-		return attack_hand(usr)
-	if(href_list["abandoncontract"])
-		abandon_contract(usr)
-		return attack_hand(usr)
-	if(href_list["printcontracts"])
-		print_contracts(usr)
-		return attack_hand(usr)
-	return attack_hand(usr)
-
 /obj/structure/roguemachine/contractledger/attack_hand(mob/living/carbon/human/user)
 	if(!ishuman(user))
 		return
-	// Inshallah I'll make this TGUI one day.
-	var/contents = "<center><h2>Grand Contract Ledger</h2>"
-	contents += "<a href='?src=[REF(src)];consultcontracts=1'>Consult Contracts</a><br>"
-	contents += "<a href='?src=[REF(src)];turnincontract=1'>Turn in Contract</a><br>"
-	contents += "<a href='?src=[REF(src)];abandoncontract=1'>Abandon Contract</a><br>"
-	var/datum/job/mob_job = user.job ? SSjob.GetJob(user.job) : null
-	if(mob_job?.is_quest_giver)
-		contents += "<a href='?src=[REF(src)];printcontracts=1'>Print Issued Contracts</a><br>"
-	contents += "</center>"
-	var/datum/browser/popup = new(user, "Grand Contract Ledger", "", 500, 300)
-	popup.set_content(contents)
-	popup.open()
+	ui_interact(user)
 
-/obj/structure/roguemachine/contractledger/proc/consult_contracts(mob/user)
+/obj/structure/roguemachine/contractledger/ui_state(mob/user)
+	return GLOB.physical_state
+
+/obj/structure/roguemachine/contractledger/ui_interact(mob/user, datum/tgui/ui)
+	ui = SStgui.try_update_ui(user, src, ui)
+	if(!ui)
+		ui = new(user, src, "ContractLedger")
+		ui.open()
+
+/obj/structure/roguemachine/contractledger/ui_data(mob/user)
+	var/list/data = list()
+	var/datum/job/mob_job = user?.job ? SSjob.GetJob(user.job) : null
+	data["is_handler"] = !!mob_job?.is_quest_giver
+	data["balance"] = SStreasury.bank_accounts[user] || 0
+	data["active_max"] = mob_job?.max_active_quests || QUEST_MAX_ACTIVE_PER_PLAYER
+	data["active_count"] = count_user_active_contracts(user)
+	data["pool"] = build_pool_listing()
+	data["active"] = build_active_listing(user)
+	return data
+
+/obj/structure/roguemachine/contractledger/proc/build_pool_listing()
+	var/list/listing = list()
+	for(var/datum/quest/Q as anything in SSquestpool.pool)
+		listing += list(list(
+			"ref" = REF(Q),
+			"title" = Q.title || "Unnamed Contract",
+			"type" = Q.quest_type,
+			"difficulty" = Q.quest_difficulty,
+			"reward" = Q.reward_amount,
+			"deposit" = Q.deposit_amount,
+			"area" = Q.target_spawn_area,
+			"objective" = "",
+		))
+	return listing
+
+/obj/structure/roguemachine/contractledger/proc/build_active_listing(mob/user)
+	var/list/listing = list()
+	var/datum/weakref/user_ref = WEAKREF(user)
+	for(var/obj/item/paper/scroll/quest/scroll in GLOB.quest_scrolls)
+		var/datum/quest/Q = scroll.assigned_quest
+		if(!Q)
+			continue
+		if(Q.quest_receiver_reference != user_ref)
+			continue
+		listing += list(list(
+			"ref" = REF(Q),
+			"title" = Q.title || "Unnamed Contract",
+			"type" = Q.quest_type,
+			"difficulty" = Q.quest_difficulty,
+			"area" = Q.target_spawn_area,
+			"progress_current" = Q.progress_current,
+			"progress_required" = Q.progress_required,
+			"complete" = Q.complete,
+		))
+	return listing
+
+/obj/structure/roguemachine/contractledger/proc/count_user_active_contracts(mob/user)
+	var/datum/weakref/user_ref = WEAKREF(user)
+	var/count = 0
+	for(var/obj/item/paper/scroll/quest/scroll in GLOB.quest_scrolls)
+		var/datum/quest/Q = scroll.assigned_quest
+		if(!Q || Q.complete)
+			continue
+		if(Q.quest_receiver_reference == user_ref)
+			count++
+	return count
+
+/obj/structure/roguemachine/contractledger/ui_act(action, list/params)
+	. = ..()
+	if(.)
+		return
+	var/mob/user = usr
+	switch(action)
+		if("sign")
+			sign_contract(user, params["ref"])
+			return TRUE
+		if("print_active")
+			var/datum/job/mob_job = user?.job ? SSjob.GetJob(user.job) : null
+			if(mob_job?.is_quest_giver)
+				print_contracts(user)
+			return TRUE
+
+/obj/structure/roguemachine/contractledger/proc/sign_contract(mob/user, ref)
+	if(!ref)
+		return
 	if(!(user in SStreasury.bank_accounts))
-		say("You have no bank account.")
+		say("[user.real_name] has no bank account on record.")
 		return
-
-	var/list/difficulty_data = list(
-		QUEST_DIFFICULTY_EASY = list(deposit = QUEST_DEPOSIT_EASY),
-		QUEST_DIFFICULTY_MEDIUM = list(deposit = QUEST_DEPOSIT_MEDIUM),
-		QUEST_DIFFICULTY_HARD = list(deposit = QUEST_DEPOSIT_HARD)
-	)
-
-	// Create a list with formatted difficulty choices showing deposits
-	var/list/difficulty_choices = list()
-	for(var/difficulty in difficulty_data)
-		var/deposit = difficulty_data[difficulty]["deposit"]
-		difficulty_choices["[difficulty] ([deposit] mammon deposit)"] = difficulty
-
-	var/selection = tgui_input_list(user, "Select contract difficulty (deposit required)", "CONTRACTS", difficulty_choices)
-	if(!selection)
-		return
-
-	// Get the actual difficulty key from our formatted choice
-	var/actual_difficulty = difficulty_choices[selection]
-	var/deposit = difficulty_data[actual_difficulty]["deposit"]
-
-	if(SStreasury.bank_accounts[user] < deposit)
-		say("Insufficient balance funds. You need [deposit] mammons in your meister.")
-		return
-
-	var/type_choices = GLOB.global_quest_types
-
-	var/type_selection = tgui_input_list(user, "Select contract type", "CONTRACTS", type_choices[actual_difficulty])
-
-	if(!type_selection)
+	var/datum/quest/Q = locate(ref) in SSquestpool.pool
+	if(!Q)
+		say("That contract is no longer available.")
 		return
 
 	var/datum/job/mob_job = user.job ? SSjob.GetJob(user.job) : null
-	if(!mob_job?.is_quest_giver)
-		var/quest_number = 0
-		var/datum/weakref/weakref_datum = WEAKREF(user)
-		for(var/obj/item/paper/scroll/quest/quest_scroll in GLOB.quest_scrolls)
-			if(quest_scroll.assigned_quest && !quest_scroll.assigned_quest.complete && quest_scroll.assigned_quest.quest_receiver_reference == weakref_datum)
-				quest_number++
-		var/max_quests_for_job = mob_job?.max_active_quests || 3
-		if(quest_number >= max_quests_for_job)
-			say("You have reached the maximum number of active quests. You can take up to [max_quests_for_job] active quests at a time.")
-			return
-
-	// Instantiate appropriate quest subtype
-	var/datum/quest/attached_quest
-	switch(type_selection)
-		if(QUEST_RETRIEVAL)
-			attached_quest = new /datum/quest/retrieval()
-		if(QUEST_KILL_EASY)
-			attached_quest = new /datum/quest/kill/easy()
-		if(QUEST_COURIER)
-			attached_quest = new /datum/quest/courier()
-		if(QUEST_CLEAR_OUT)
-			attached_quest = new /datum/quest/kill/clearout()
-		if(QUEST_RAID)
-			attached_quest = new /datum/quest/kill/raid()
-		if(QUEST_OUTLAW)
-			attached_quest = new /datum/quest/kill/outlaw()
-
-	if(!attached_quest)
-		to_chat(user, span_warning("Invalid quest type selected!"))
+	var/active_cap = mob_job?.max_active_quests || QUEST_MAX_ACTIVE_PER_PLAYER
+	if(count_user_active_contracts(user) >= active_cap)
+		say("You are already committed to [active_cap] contracts. Complete one before signing another.")
 		return
 
-	// Configure quest
-	attached_quest.quest_difficulty = actual_difficulty
-	attached_quest.deposit_amount = attached_quest.calculate_deposit()
-
-	// Set giver or receiver
-	if(mob_job?.is_quest_giver)
-		attached_quest.quest_giver_name = user.real_name
-		attached_quest.quest_giver_reference = WEAKREF(user)
-	else
-		attached_quest.quest_receiver_reference = WEAKREF(user)
-		attached_quest.quest_receiver_name = user.real_name
-
-	// Find appropriate landmark
-	var/obj/effect/landmark/quest_spawner/chosen_landmark = find_quest_landmark(actual_difficulty, type_selection)
-	if(!chosen_landmark)
-		to_chat(user, span_warning("No suitable location found for this contract!"))
-		qdel(attached_quest)
+	var/deposit = Q.deposit_amount
+	if(SStreasury.bank_accounts[user] < deposit)
+		say("Insufficient balance. This contract requires a [deposit] mammon deposit.")
 		return
 
-	// Generate quest content (spawns mobs/items)
-	if(!attached_quest.generate(chosen_landmark))
-		to_chat(user, span_warning("Failed to generate quest content!"))
-		qdel(attached_quest)
+	if(!SSquestpool.claim(Q, user))
+		say("That contract could not be claimed.")
 		return
 
 	// Create scroll
 	var/obj/item/paper/scroll/quest/spawned_scroll = new(get_turf(src))
 	user.put_in_hands(spawned_scroll)
-	log_quest(user.ckey, user.mind, user, "Take [attached_quest.quest_type]")
-	spawned_scroll.base_icon_state = attached_quest.get_scroll_icon()
-	spawned_scroll.assigned_quest = attached_quest
-	attached_quest.quest_scroll = spawned_scroll
-	attached_quest.quest_scroll_ref = WEAKREF(spawned_scroll)
-
-	// Reward calculation comes after generation & scroll creation to factor in distance for courier quests
-	attached_quest.reward_amount = attached_quest.calculate_reward(get_turf(chosen_landmark))
-
-	// Update scroll text
+	log_quest(user.ckey, user.mind, user, "Sign [Q.quest_type]")
+	spawned_scroll.base_icon_state = Q.get_scroll_icon()
+	spawned_scroll.assigned_quest = Q
+	Q.quest_scroll = spawned_scroll
+	Q.quest_scroll_ref = WEAKREF(spawned_scroll)
 	spawned_scroll.update_quest_text()
 
-	// Charge deposit
+	// Charge deposit. Deposit is forfeited on abandon and only returned on successful completion.
 	SStreasury.bank_accounts[user] -= deposit
 	SStreasury.treasury_value += deposit
 	SStreasury.log_entries += "+[deposit] to treasury (quest deposit)"
-
-/obj/structure/roguemachine/contractledger/proc/find_quest_landmark(difficulty, type)
-	// First try to find landmarks that match both difficulty AND type
-	var/list/correctest_landmarks = list()
-	GLOB.quest_landmarks_list = shuffle(GLOB.quest_landmarks_list)
-	for(var/obj/effect/landmark/quest_spawner/landmark in GLOB.quest_landmarks_list)
-		if(landmark.quest_difficulty != difficulty || !(type in landmark.quest_type))
-			continue
-
-		var/has_clients_around = FALSE
-		for(var/mob/M in get_hearers_in_view(world.view, landmark))
-			if(!M.client)
-				continue
-
-			has_clients_around = TRUE
-
-		if(has_clients_around)
-			continue
-
-		correctest_landmarks += landmark
-
-	if(length(correctest_landmarks))
-		return pick(correctest_landmarks)
-
-	// If none found, try landmarks that match just the difficulty
-	var/list/correcter_landmarks = list()
-	for(var/obj/effect/landmark/quest_spawner/landmark in GLOB.quest_landmarks_list)
-		if(landmark.quest_difficulty != difficulty)
-			continue
-
-		var/has_clients_around = FALSE
-		for(var/mob/M in get_hearers_in_view(world.view, landmark))
-			if(!M.client)
-				continue
-
-			has_clients_around = TRUE
-
-		if(has_clients_around)
-			continue
-
-		correcter_landmarks += landmark
-
-	if(length(correcter_landmarks))
-		return pick(correcter_landmarks)
-
-	return null
 
 /obj/structure/roguemachine/contractledger/proc/turn_in_contract(mob/user, obj/item/paper/scroll/quest/scroll_in_hand)
 	if(scroll_in_hand)
@@ -229,11 +166,9 @@
 				continue
 			turn_in_scroll(user, floor_scroll)
 
-
 /obj/structure/roguemachine/contractledger/proc/turn_in_scroll(mob/user, obj/item/paper/scroll/quest/scroll)
 	var/reward = 0
 	var/original_reward = 0
-	var/total_deposit_return = 0
 	var/tax_rate = SStreasury.tax_value
 	var/tax_amt = 0
 
@@ -242,9 +177,8 @@
 		var/base_reward = scroll.assigned_quest.reward_amount
 		original_reward += base_reward
 
-		// Calculate deposit return
+		// Deposit is returned only on successful completion.
 		var/deposit_return = scroll.assigned_quest.calculate_deposit()
-		total_deposit_return += deposit_return
 
 		// Apply bonus to the base reward, if appliciable (Steward, Merchant, Clerk, Councillor, Shophand, Duke)
 		var/datum/job/mob_job = user.job ? SSjob.GetJob(user.job) : null
@@ -253,7 +187,6 @@
 		else
 			reward += base_reward
 
-		// Add deposit return to both reward totals
 		reward += deposit_return
 		original_reward += deposit_return
 
@@ -289,7 +222,9 @@
 		say(reward > original_reward ? \
 			"Your handler assistance-increased reward of [reward] mammons has been dispensed! The difference is [reward - original_reward] mammons. ([tax_amt] mammons taxed.)" : \
 			"Your reward of [reward] mammons has been dispensed. ([tax_amt] mammons taxed.)")
-		
+
+/// Abandon handler: a scroll left in the input area is destroyed with its contract. The deposit
+/// is NOT refunded - it's the cost of backing out.
 /obj/structure/roguemachine/contractledger/proc/abandon_contract(mob/user)
 	var/obj/item/paper/scroll/quest/abandoned_scroll = locate() in input_point
 	if(!abandoned_scroll)
@@ -305,30 +240,8 @@
 		turn_in_contract(user)
 		return
 
-	var/refund = quest.calculate_deposit()
-
-	// First try to return to quest giver
-	var/mob/giver = quest.quest_giver_reference?.resolve()
-	if(giver && (giver in SStreasury.bank_accounts))
-		SStreasury.bank_accounts[giver] += refund
-		SStreasury.treasury_value -= refund
-		SStreasury.log_entries += "-[refund] from treasury (contract refund to handler)"
-		to_chat(user, span_notice("The deposit has been returned to the contract giver."))
-	// Otherwise try quest receiver
-	else if(quest.quest_receiver_reference)
-		var/mob/receiver = quest.quest_receiver_reference.resolve()
-		if(receiver && (receiver in SStreasury.bank_accounts))
-			SStreasury.bank_accounts[receiver] += refund
-			SStreasury.treasury_value -= refund
-			SStreasury.log_entries += "-[refund] from treasury (contract refund to volunteer)"
-			to_chat(user, span_notice("You receive a [refund] mammon refund for abandoning the contract."))
-		else
-			cash_in(refund)
-			SStreasury.treasury_value -= refund
-			SStreasury.log_entries += "-[refund] from treasury (contract refund)"
-			to_chat(user, span_notice("Your refund of [refund] mammon has been dispensed."))
-
-	log_quest(user.ckey, user.mind, user, "Abandon [abandoned_scroll.assigned_quest.quest_type]")
+	log_quest(user.ckey, user.mind, user, "Abandon [quest.quest_type]")
+	to_chat(user, span_warning("The contract is voided. Your deposit of [quest.calculate_deposit()] mammon is forfeit to the treasury."))
 	abandoned_scroll.assigned_quest = null
 	qdel(quest)
 	qdel(abandoned_scroll)

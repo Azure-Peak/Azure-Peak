@@ -1,0 +1,271 @@
+@use '../colors.scss';
+@use '../base.scss';
+
+// Wood-grain cork-board background the cards are pinned to.
+.ContractLedger__Board {
+  position: relative;
+  background-color: hsl(28, 32%, 22%);
+  background-image:
+    repeating-linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.18) 0px,
+      rgba(0, 0, 0, 0.18) 1px,
+      transparent 1px,
+      transparent 9px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0.04) 0px,
+      rgba(255, 255, 255, 0.04) 1px,
+      transparent 1px,
+      transparent 23px
+    ),
+    radial-gradient(
+      circle at 30% 20%,
+      hsl(28, 36%, 28%) 0%,
+      hsl(28, 32%, 20%) 70%
+    );
+  padding: 16px;
+  min-height: 420px;
+}
+
+.ContractLedger__BoardHeader {
+  text-align: center;
+  color: hsl(42, 52%, 82%);
+  font-family: 'Georgia', 'Palatino Linotype', serif;
+  font-size: 1.3em;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-shadow:
+    0 1px 0 hsla(0, 0%, 0%, 0.6),
+    0 0 8px hsla(36, 50%, 40%, 0.4);
+  border-bottom: 1px solid hsla(42, 40%, 60%, 0.3);
+  padding-bottom: 6px;
+  margin-bottom: 12px;
+}
+
+// Grid that lays out the pinned parchment cards.
+.ContractLedger__Grid {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+// One parchment card. Slight per-card rotation via nth-child selectors to sell the pinned look.
+.ContractLedger__Card {
+  position: relative;
+  width: 220px;
+  min-height: 170px;
+  padding: 18px 14px 14px 14px;
+  color: hsl(28, 40%, 18%);
+  background-color: hsl(46, 44%, 90%);
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      rgba(82, 52, 18, 0.055) 0px,
+      rgba(82, 52, 18, 0.055) 1px,
+      transparent 1px,
+      transparent 21px
+    ),
+    radial-gradient(
+      ellipse at 50% 0%,
+      hsl(46, 55%, 94%) 0%,
+      hsl(46, 44%, 90%) 40%,
+      hsl(42, 34%, 82%) 100%
+    );
+  border: 1px solid hsl(34, 28%, 52%);
+  box-shadow:
+    0 6px 14px hsla(0, 0%, 0%, 0.55),
+    inset 0 0 22px hsla(32, 50%, 45%, 0.2);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  user-select: none;
+
+  // Torn bottom edge illusion.
+  &::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -1px;
+    height: 8px;
+    background: linear-gradient(
+      180deg,
+      transparent 0%,
+      hsl(46, 44%, 90%) 100%
+    );
+    mask-image: radial-gradient(circle at 3px 0, black 2.5px, transparent 3px);
+    -webkit-mask-image: radial-gradient(circle at 3px 0, black 2.5px, transparent 3px);
+    mask-size: 7px 8px;
+    -webkit-mask-size: 7px 8px;
+  }
+
+  // Offset rotations to avoid a grid-perfect look.
+  &:nth-child(3n + 1) { transform: rotate(-1.2deg); }
+  &:nth-child(3n + 2) { transform: rotate(0.8deg); }
+  &:nth-child(3n)     { transform: rotate(-0.3deg); }
+
+  &:hover {
+    transform: translateY(-3px) rotate(0);
+    box-shadow:
+      0 10px 18px hsla(0, 0%, 0%, 0.65),
+      inset 0 0 22px hsla(32, 50%, 45%, 0.2);
+    z-index: 5;
+  }
+}
+
+// The pushpin in the top-center of each card. Colored per difficulty.
+.ContractLedger__Pin {
+  position: absolute;
+  top: -7px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 1px solid hsla(0, 0%, 0%, 0.45);
+  background-image: radial-gradient(
+    circle at 30% 30%,
+    rgba(255, 255, 255, 0.6) 0%,
+    rgba(255, 255, 255, 0) 55%
+  );
+  box-shadow: 0 2px 3px hsla(0, 0%, 0%, 0.55);
+  z-index: 2;
+}
+
+.ContractLedger__Pin--easy   { background-color: hsl(120, 45%, 42%); }
+.ContractLedger__Pin--medium { background-color: hsl(44, 80%, 52%); }
+.ContractLedger__Pin--hard   { background-color: hsl(0, 65%, 44%); }
+
+.ContractLedger__CardTitle {
+  font-family: 'Georgia', 'Palatino Linotype', serif;
+  font-weight: bold;
+  font-size: 1.05em;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: hsl(28, 52%, 20%);
+  margin-bottom: 6px;
+  text-shadow: 1px 1px 0 hsla(0, 0%, 100%, 0.45);
+  border-bottom: 1px dashed hsla(32, 30%, 35%, 0.45);
+  padding-bottom: 4px;
+}
+
+.ContractLedger__CardRow {
+  display: flex;
+  justify-content: space-between;
+  font-family: 'Georgia', 'Palatino Linotype', serif;
+  font-size: 0.92em;
+  margin: 2px 0;
+}
+
+.ContractLedger__CardLabel {
+  color: hsl(30, 35%, 32%);
+  font-style: italic;
+}
+
+.ContractLedger__CardValue {
+  color: hsl(28, 52%, 20%);
+  font-weight: bold;
+}
+
+.ContractLedger__CardObjective {
+  font-family: 'Georgia', 'Palatino Linotype', serif;
+  font-size: 0.9em;
+  font-style: italic;
+  color: hsl(28, 40%, 28%);
+  margin: 8px 0;
+  text-align: center;
+  line-height: 1.25;
+}
+
+.ContractLedger__CardFooter {
+  display: flex;
+  justify-content: center;
+  margin-top: 8px;
+}
+
+// "Sign" button - a wax-seal button.
+.ContractLedger__SignButton {
+  font-family: 'Georgia', 'Palatino Linotype', serif;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: hsl(42, 80%, 92%);
+  background-color: hsl(0, 55%, 38%);
+  background-image: radial-gradient(
+    circle at 30% 30%,
+    rgba(255, 255, 255, 0.4) 0%,
+    rgba(255, 255, 255, 0) 55%
+  );
+  border: 1px solid hsl(0, 50%, 22%);
+  border-radius: 4px;
+  padding: 4px 14px;
+  cursor: var(--cursor-pointer);
+  box-shadow: 0 2px 3px hsla(0, 0%, 0%, 0.5);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+
+  &:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px hsla(0, 0%, 0%, 0.6);
+    background-color: hsl(0, 60%, 45%);
+  }
+
+  &:disabled {
+    background-color: hsl(0, 10%, 40%);
+    border-color: hsl(0, 10%, 25%);
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+}
+
+// Empty-state flavor text when the pool is dry.
+.ContractLedger__Empty {
+  color: hsl(42, 40%, 75%);
+  font-family: 'Georgia', 'Palatino Linotype', serif;
+  font-style: italic;
+  font-size: 1.05em;
+  text-align: center;
+  padding: 48px 24px;
+  opacity: 0.85;
+}
+
+// "Your Contracts" bottom strip.
+.ContractLedger__ActiveStrip {
+  margin-top: 14px;
+  padding: 10px 12px;
+  background-color: hsl(30, 25%, 14%);
+  border: 1px solid hsl(34, 28%, 28%);
+  color: hsl(42, 40%, 80%);
+  font-family: 'Georgia', 'Palatino Linotype', serif;
+}
+
+.ContractLedger__ActiveStripHeader {
+  font-size: 0.95em;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: hsl(42, 52%, 80%);
+  border-bottom: 1px solid hsla(42, 40%, 60%, 0.25);
+  padding-bottom: 4px;
+  margin-bottom: 6px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.ContractLedger__ActiveRow {
+  display: flex;
+  justify-content: space-between;
+  padding: 3px 0;
+  font-size: 0.9em;
+  color: hsl(42, 28%, 72%);
+}
+
+.ContractLedger__ActiveRow__Title {
+  color: hsl(42, 48%, 85%);
+  font-weight: bold;
+}
+
+.ContractLedger__ActiveRow__Meta {
+  color: hsl(42, 20%, 60%);
+  font-style: italic;
+}

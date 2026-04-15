@@ -10,6 +10,11 @@
 	var/deposit_amount = 0
 	var/complete = FALSE
 
+	/// Where this contract originated. See QUEST_SOURCE_* defines.
+	var/source = QUEST_SOURCE_HANDLER
+	/// world.time when the quest was created. Used by SSquestpool to expire stale listings.
+	var/created_at = 0
+
 	/// Progress tracking
 	var/progress_current = 0
 	var/progress_required = 1

@@ -62,3 +62,36 @@
 	icon_state = "quest_marker_high"
 	quest_difficulty = "Hard"
 	quest_type = list(QUEST_CLEAR_OUT, QUEST_RAID, QUEST_OUTLAW)
+
+/// Pick a quest_spawner landmark matching the given difficulty and type. Prefers landmarks with
+/// no players in visual range so the spawned content isn't witnessed mid-creation. Falls back to
+/// any landmark matching just the difficulty if no type-matching landmark is clear.
+/proc/find_quest_landmark(difficulty, type)
+	var/list/type_matches = list()
+	GLOB.quest_landmarks_list = shuffle(GLOB.quest_landmarks_list)
+	for(var/obj/effect/landmark/quest_spawner/landmark in GLOB.quest_landmarks_list)
+		if(landmark.quest_difficulty != difficulty || !(type in landmark.quest_type))
+			continue
+		if(quest_landmark_has_client_witness(landmark))
+			continue
+		type_matches += landmark
+	if(length(type_matches))
+		return pick(type_matches)
+
+	var/list/difficulty_matches = list()
+	for(var/obj/effect/landmark/quest_spawner/landmark in GLOB.quest_landmarks_list)
+		if(landmark.quest_difficulty != difficulty)
+			continue
+		if(quest_landmark_has_client_witness(landmark))
+			continue
+		difficulty_matches += landmark
+	if(length(difficulty_matches))
+		return pick(difficulty_matches)
+
+	return null
+
+/proc/quest_landmark_has_client_witness(obj/effect/landmark/quest_spawner/landmark)
+	for(var/mob/M in get_hearers_in_view(world.view, landmark))
+		if(M.client)
+			return TRUE
+	return FALSE
