@@ -578,7 +578,7 @@ Inquisitorial armory down here
 	else
 		return				
 
-/obj/item/inqarticles/indexer/proc/takeblood(mob/living/carbon/human/M, mob/living/carbon/human/user)
+/obj/item/inqarticles/indexer/proc/takeblood(mob/living/carbon/M, mob/living/carbon/user)
 	if(timestaken >= 8)
 		playsound(src, 'sound/items/indexer_finished.ogg', 75, FALSE, 3)
 		working = FALSE
@@ -635,7 +635,7 @@ Inquisitorial armory down here
 		else
 			working = FALSE
 
-/obj/item/inqarticles/indexer/attack(mob/living/carbon/human/M, mob/living/carbon/human/user)
+/obj/item/inqarticles/indexer/attack(mob/living/carbon/M, mob/living/carbon/user)
 	. = ..()
 	if(HAS_TRAIT(user, TRAIT_INQUISITION))
 		if(!active)
