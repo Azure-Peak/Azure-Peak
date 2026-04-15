@@ -16,7 +16,7 @@
 	controller.set_blackboard_key("bb_call_for_help_cooldown", world.time + 5 SECONDS)
 
 	var/allowed = FALSE
-	for(var/mob/living/carbon/human/ally in range(controller.max_target_distance - 1, living_pawn))
+	for(var/mob/living/carbon/human/ally in view(controller.max_target_distance - 1, living_pawn))
 		if(ally == living_pawn)
 			continue
 		var/datum/ai_controller/ally_ctrl = ally.ai_controller
@@ -40,7 +40,7 @@
 	living_pawn.emote("scream")
 	var/atom/current_target = controller.blackboard[target_key]
 
-	for(var/mob/living/carbon/human/ally in range(controller.max_target_distance - 1, living_pawn))
+	for(var/mob/living/carbon/human/ally in view(controller.max_target_distance - 1, living_pawn))
 		if(ally == living_pawn)
 			continue
 		var/datum/ai_controller/ally_ctrl = ally.ai_controller
