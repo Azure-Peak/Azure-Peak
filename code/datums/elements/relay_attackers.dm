@@ -51,9 +51,12 @@
 	if(!ismob(hit_projectile.firer))
 		return
 	// Track ranged hit timing for stamina disengage system
+	// Also records the shooter so aggro code can grant a "hot pursuit" grace period
+	// that overrides the normal melee-leash distance checks.
 	if(ismob(target))
 		var/mob/living/living_target = target
 		living_target.ai_controller?.set_blackboard_key("bb_last_ranged_hit_time", world.time)
+		living_target.ai_controller?.set_blackboard_key("bb_last_ranged_attacker", hit_projectile.firer)
 	relay_attacker(target, hit_projectile.firer, hit_projectile.damage)
 
 /datum/element/relay_attackers/proc/on_hitby(atom/target, atom/movable/hit_atom, skipcatch = FALSE, hitpush = TRUE, blocked = FALSE, datum/thrownthing/throwingdatum)

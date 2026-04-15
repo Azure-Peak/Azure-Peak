@@ -39,8 +39,14 @@
 				current_target = null
 
 			if(current_target && get_dist(living_mob, living_target) > maintain_range)
-				controller.clear_blackboard_key(BB_HIGHEST_THREAT_MOB)
-				current_target = null
+				// Hot-pursuit grace: if we were recently shot by this exact mob, keep them as
+				// our threat regardless of melee-leash distance so we chase the sniper.
+				var/last_hit = controller.blackboard["bb_last_ranged_hit_time"] || 0
+				var/mob/last_shooter = controller.blackboard["bb_last_ranged_attacker"]
+				var/in_grace = (last_shooter == current_target) && (world.time - last_hit < 15 SECONDS)
+				if(!in_grace)
+					controller.clear_blackboard_key(BB_HIGHEST_THREAT_MOB)
+					current_target = null
 
 	// If we have a valid target, set it
 	if(current_target)

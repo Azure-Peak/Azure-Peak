@@ -61,6 +61,12 @@
 
 		ally_ctrl.set_blackboard_key(BB_HIGHEST_THREAT_MOB, current_target)
 
+		// Propagate hot-pursuit grace to the responding ally. Without this, allies inherit
+		// the target but get leash-cleared on the next planning tick if the attacker is past
+		// maintain_range / max_target_distance (classic offscreen-sniper case).
+		ally_ctrl.set_blackboard_key("bb_last_ranged_hit_time", world.time)
+		ally_ctrl.set_blackboard_key("bb_last_ranged_attacker", current_target)
+
 		var/datum/proximity_monitor/field = ally_ctrl.blackboard[BB_FIND_TARGETS_FIELD(/datum/ai_behavior/find_aggro_targets)]
 		if(field)
 			qdel(field)
