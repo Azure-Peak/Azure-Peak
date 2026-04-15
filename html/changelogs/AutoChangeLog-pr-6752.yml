@@ -1,0 +1,4 @@
+author: "FreeStylaLT"
+delete-after: True
+changes:
+  - bugfix: "Fixed water-related lookup messages appearing when the player is not underwater."

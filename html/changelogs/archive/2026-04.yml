@@ -520,3 +520,13 @@
       you reach the bled out condition (Also fixes AI spam)
   - bugfix: You can test Tomb of Alotheos / Matthios on Roguetest by running the options
       that is not labeled "No Dungeons" now.
+2026-04-15:
+  7erracotta:
+  - qol: the nipple piercings for vermin kin is fixed
+  FreeStylaLT:
+  - rscdel: Removed half-elves from Anthrax merc class race eligibility.
+  KatTheFox:
+  - bugfix: rings and ring-slot amulets are no longer invisible for women specifically
+  - rscadd: Added iron scissors to arcyne forge
+  UEDCommander:
+  - bugfix: Fixed matthiosite crafting recepies being redefined twice

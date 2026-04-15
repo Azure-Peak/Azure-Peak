@@ -1,4 +1,0 @@
-author: "UEDCommander"
-delete-after: True
-changes:
-  - bugfix: "Fixed matthiosite crafting recepies being redefined twice"
