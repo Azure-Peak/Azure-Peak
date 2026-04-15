@@ -8,11 +8,22 @@
 	max_integrity = 0
 	layer = ABOVE_MOB_LAYER
 	layer = GAME_PLANE_UPPER
+	/// Turf south of the ledger, marked with a drop-here decal. Retrieval-quest items carry a
+	/// component that consumes them on any tile bearing this decal.
+	var/input_point
+
+/obj/structure/roguemachine/contractledger/Initialize()
+	. = ..()
+	input_point = locate(x, y - 1, z)
+	var/obj/effect/decal/marker_export/marker = new(get_turf(input_point))
+	marker.desc = "Drop retrieval-quest items here to turn them in."
+	marker.layer = ABOVE_OBJ_LAYER
 
 /obj/structure/roguemachine/contractledger/get_mechanics_examine(mob/user)
 	. = ..()
 	. += span_info("<b>Left click</b> to open the Grand Contract Ledger, where you can sign new contracts and abandon ones you hold.")
 	. += span_info("To <b>turn in</b> a completed contract, click the ledger while holding the quest scroll.")
+	. += span_info("Retrieval-quest items should be <b>dropped onto the marked tile</b> in front of the ledger.")
 	. += span_info("Abandoning a contract forfeits its deposit to the treasury and places you under a brief guild cooldown before you may abandon another.")
 
 /obj/structure/roguemachine/contractledger/attackby(obj/item/P, mob/living/carbon/human/user, params)
