@@ -52,6 +52,7 @@
 
 /datum/antagonist/vampire/lord/greet()
 	to_chat(owner.current, span_userdanger("I am ancient. I am the Land. And I am now awoken to trespassers upon my domain."))
+	to_chat(owner.current, span_warning("I should check my Crimson Crucible, to remember my plans and what cost shalt be required for my domination - Servantry and guards may assist my goals, as shalt recovering my lost lost power through collective contribution and sacrifice.")) //Push newer vlords towards the blood pool, since it'll be useful for them.
 	. = ..()
 
 /datum/outfit/job/vamplord/pre_equip(mob/living/carbon/human/H)

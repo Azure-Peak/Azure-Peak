@@ -281,7 +281,7 @@
 		switch(weapon_choice)
 			if("Crossbow")
 				beltr = /obj/item/quiver/bolt/standard
-				backl = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
+				backr = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
 				H.adjust_skillrank_up_to(/datum/skill/combat/crossbows, SKILL_LEVEL_MASTER, TRUE)
 			if("Recurve Bow")
 				beltr = /obj/item/quiver/arrows
