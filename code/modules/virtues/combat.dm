@@ -188,33 +188,42 @@
 	custom_text = "- Unlocks the 'Rotten' option in skin tone selection, if applicable.<br><font color=red>- Reduces CON by 1.</font>"
 	max_choices = 1
 	restricted = TRUE
-	races = list(/datum/species/construct/metal, /datum/species/gnoll, /datum/species/dullahan)
+	races = list(/datum/species/construct/metal, /datum/species/gnoll)
 	choice_costs = list(0, 0)
 	extra_choices = list(
 		SC_ROTCURED,
 		SC_PALLID, 
 	)
 	choice_tooltips = list(
-		SC_ROTCURED = "<font color='#548d48'>I was once afflicted with the accursed rot, and was cured. It has left me changed: my limbs are weaker, but I feel no pain and have no need to breathe...</font>",
-		SC_PALLID = "<font color='#8b488d'>I was once afflicted with either vampirism or lycantropy, and was cured. It left me changed: the sunlight feels punishing to my eyes and skin, my blood is tainted by foul humors and my body is still somewhat adapted to my past lyfe...<br><font color=red>(THIS CHOICE INCLUDES SILVER WEAKNESS AND EASY DISMEMBER!)</font>",
+		SC_ROTCURED = "<font color='#548d48'>I was once afflicted with the accursed rot, and was cured. It has left me changed: my limbs are weaker, but I feel no pain and have no need for a lot of my bodily functions, including the need to breathe...<br><font color=red>(THIS CHOICE INCLUDES SILVER WEAKNESS AND EASY DISMEMBER!)</font>",
+		SC_PALLID = "<font color='#8b488d'>I was once afflicted with either vampirism or lycanthropy, and was cured. It left me changed: the sunlight feels punishing to my eyes and skin, my blood is tainted by foul humors and my body is still somewhat adapted to my past lyfe...</font>",
 	)
 
 /datum/virtue/combat/second_chance/apply_to_human(mob/living/carbon/human/recipient)
-	for(var/choice in picked_choices)
-		switch(choice)
-			if(SC_ROTCURED)
-				ADD_TRAIT(recipient, TRAIT_EASYDISMEMBER, TRAIT_VIRTUE)
-				ADD_TRAIT(recipient, TRAIT_NOPAIN, TRAIT_VIRTUE)
-				ADD_TRAIT(recipient, TRAIT_NOBREATH, TRAIT_VIRTUE)
-				ADD_TRAIT(recipient, TRAIT_TOXIMMUNE, TRAIT_VIRTUE)
-				ADD_TRAIT(recipient, TRAIT_ZOMBIE_IMMUNE, TRAIT_VIRTUE)
-				ADD_TRAIT(recipient, TRAIT_ROTMAN, TRAIT_VIRTUE)
-				ADD_TRAIT(recipient, TRAIT_SILVER_WEAK, TRAIT_VIRTUE)
+	spawn(100)
+		if(recipient.mind.has_antag_datum(/datum/antagonist/skeleton) || recipient.mind.has_antag_datum(/datum/antagonist/lich) || recipient.mind.has_antag_datum(/datum/antagonist/vampire) || recipient.mind.has_antag_datum(/datum/antagonist/vampire/lord) || recipient.mind.has_antag_datum(/datum/antagonist/werewolf) || recipient.mind.has_antag_datum(/datum/antagonist/zombie))
+			to_chat(recipient, "Second Chance cannot be applied to your role. Removing.")
+			QDEL_NULL(src)
+			return
 
-			if(SC_PALLID)
-				ADD_TRAIT(recipient, TRAIT_PALLID, TRAIT_VIRTUE)
-				ADD_TRAIT(recipient, TRAIT_NASTY_EATER, TRAIT_VIRTUE)
-				ADD_TRAIT(recipient, TRAIT_NITEVISION, TRAIT_VIRTUE)
+		for(var/choice in picked_choices)
+			switch(choice)
+				if(SC_ROTCURED)
+					ADD_TRAIT(recipient, TRAIT_EASYDISMEMBER, TRAIT_VIRTUE)
+					ADD_TRAIT(recipient, TRAIT_NOPAIN, TRAIT_VIRTUE)
+					ADD_TRAIT(recipient, TRAIT_NOPAINSTUN, TRAIT_VIRTUE)
+					ADD_TRAIT(recipient, TRAIT_NOBREATH, TRAIT_VIRTUE)
+					ADD_TRAIT(recipient, TRAIT_DEATHLESS, TRAIT_VIRTUE)
+					ADD_TRAIT(recipient, TRAIT_TOXIMMUNE, TRAIT_VIRTUE)
+					ADD_TRAIT(recipient, TRAIT_ZOMBIE_IMMUNE, TRAIT_VIRTUE)
+					ADD_TRAIT(recipient, TRAIT_ROTMAN, TRAIT_VIRTUE)
+					ADD_TRAIT(recipient, TRAIT_SILVER_WEAK, TRAIT_VIRTUE)
+					to_chat(recipient, "You are partially undead, and fiending for brains.</font>")
+				if(SC_PALLID)
+					ADD_TRAIT(recipient, TRAIT_PALLID, TRAIT_VIRTUE)
+					ADD_TRAIT(recipient, TRAIT_NASTY_EATER, TRAIT_VIRTUE)
+					ADD_TRAIT(recipient, TRAIT_NITEVISION, TRAIT_VIRTUE)
+					to_chat(recipient, "You are no longer one among the nite creechers.</font>")
 
 #undef SC_ROTCURED
 #undef SC_PALLID

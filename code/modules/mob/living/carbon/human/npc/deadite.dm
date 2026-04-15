@@ -163,7 +163,7 @@
 		return
 	if(!prob(ZOMBIE_INFECTION_PROBABILITY))	//Failed the probability of infection
 		return
-	if(HAS_TRAIT(src, TRAIT_PALLID) && prob(50))
+	if(HAS_TRAIT(src, TRAIT_PALLID) && prob(80))
 		to_chat(src, span_danger("You feel the putrid saliva mixing in with your impure blood, saving you from an infection-- Don't test your luck!"))
 		addtimer(CALLBACK(src, TYPE_PROC_REF(/mob/living/carbon, vomit), 0, TRUE), rand(10 SECONDS, 15 SECONDS))		
 		return FALSE
