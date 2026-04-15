@@ -10,13 +10,25 @@
 #define HUMAN_NPC_FEINT_COOLDOWN             (30 SECONDS)
 // Post-attack click recovery jitter — added onto clickcd as (1 + rand(MIN, MAX)).
 // Bigger numbers = slower, less consistent swing cadence (less "frame perfect").
-#define HUMAN_NPC_CLICK_RECOVERY_JITTER_MIN  0.3
-#define HUMAN_NPC_CLICK_RECOVERY_JITTER_MAX  0.6
+#define HUMAN_NPC_CLICK_RECOVERY_JITTER_MIN  0.15
+#define HUMAN_NPC_CLICK_RECOVERY_JITTER_MAX  0.3
 // Feint adds extra delay on top of the base recovery, since it's a committed whiff-bait.
 #define HUMAN_NPC_FEINT_RECOVERY_MULT        1.6
 // AI weapon-special cooldown is multiplied by this over the player baseline to simulate
 // human reaction delay / decision cost. 1.0 = parity with players.
 #define HUMAN_NPC_SPECIAL_CD_PENALTY         1.5
+// Reaction window (deciseconds) between locking on and the swing actually landing.
+// If the target steps off the snapshot turf during this window, the swing resolves
+// against the (now empty) stale turf — a real whiff that still pays stamina/clickcd.
+// Scales down by (STAINT + STAPER): smarter/sharper NPCs re-aim faster.
+#define HUMAN_NPC_REACTION_TIME_BASE         5
+#define HUMAN_NPC_REACTION_TIME_MIN          2
+#define HUMAN_NPC_REACTION_PER_STAT_POINT    12  // total stat points needed to shave 1 ds
+// Whiff floor/ceiling: keep the result non-binary. Even a stationary target gets missed
+// sometimes (sloppy swing), and even a moving target sometimes gets tracked and hit.
+// Both are INT-scaled via AI_INT_SCALE_PROB — dumber NPCs whiff more and track less.
+#define HUMAN_NPC_WHIFF_FLOOR_CHANCE         8   // % chance to whiff even when target is stationary
+#define HUMAN_NPC_TRACK_CEILING_CHANCE       40  // % chance to still land a hit when target moved off the snapshot
 
 
 //Note alot of this is just adapted from old code so its probably not the best
@@ -139,10 +151,45 @@
 			AI_THINK(pawn, "FEINT: too exhausted ([pawn.stamina] >= [pawn.max_stamina * 0.7])")
 		#endif
 
-	if(hiding_target)
-		controller.ai_interact(hiding_target, TRUE, TRUE, modifiers)
-	else
-		controller.ai_interact(target, TRUE, TRUE, modifiers)
+	// Stale-prediction whiff: snapshot the target's tile, wait a reaction window, then
+	// swing at whatever is on that snapshot. A stationary target gets hit; a moving target
+	// can step off and make us whack empty air. No RNG — purely about whether they moved.
+	var/turf/locked_turf = get_turf(target)
+	var/reaction_time = max(HUMAN_NPC_REACTION_TIME_MIN, HUMAN_NPC_REACTION_TIME_BASE - round((pawn.STAPER + pawn.STAINT) / HUMAN_NPC_REACTION_PER_STAT_POINT))
+	sleep(reaction_time)
+
+	// Re-validate after sleep — pawn/target may have died, moved out of reach, etc.
+	if(QDELETED(pawn) || QDELETED(target) || QDELETED(controller) || controller.pawn != pawn)
+		return
+	var/swing_reach = pawn.used_intent?.reach || 1
+	if(!pawn.CanReach(target, pawn.get_active_held_item()) && locked_turf && get_dist(pawn, locked_turf) > swing_reach)
+		finish_action(controller, FALSE, target_key)
+		return
+
+	var/atom/swing_at = hiding_target || target
+	if(!hiding_target && locked_turf && get_dist(pawn, locked_turf) <= swing_reach)
+		var/target_moved = (get_turf(target) != locked_turf)
+		if(target_moved)
+			// Ceiling: small chance to track the target and hit anyway.
+			if(AI_INT_SCALE_PROB(pawn, HUMAN_NPC_TRACK_CEILING_CHANCE))
+				AI_THINK(pawn, "WHIFF: target moved but we tracked - hit anyway")
+			else
+				swing_at = locked_turf
+				AI_THINK(pawn, "WHIFF: target stepped off [locked_turf], swinging at empty tile")
+		else
+			// Floor: small chance to whiff even when stationary (sloppy swing).
+			if(!AI_INT_SCALE_PROB(pawn, 100 - HUMAN_NPC_WHIFF_FLOOR_CHANCE))
+				// Pick an adjacent turf to swing at instead
+				var/list/nearby = list()
+				for(var/turf/T in range(1, locked_turf))
+					if(T == locked_turf || T.density)
+						continue
+					nearby += T
+				if(length(nearby))
+					swing_at = pick(nearby)
+					AI_THINK(pawn, "WHIFF: sloppy swing, hit [swing_at] instead of target")
+
+	controller.ai_interact(swing_at, TRUE, TRUE, modifiers)
 
 	if(pawn.next_click < world.time)
 		// Post-attack click cooldown. Extra multiplier on feint — this is a committed action
@@ -535,3 +582,8 @@
 #undef HUMAN_NPC_CLICK_RECOVERY_JITTER_MAX
 #undef HUMAN_NPC_FEINT_RECOVERY_MULT
 #undef HUMAN_NPC_SPECIAL_CD_PENALTY
+#undef HUMAN_NPC_REACTION_TIME_BASE
+#undef HUMAN_NPC_REACTION_TIME_MIN
+#undef HUMAN_NPC_REACTION_PER_STAT_POINT
+#undef HUMAN_NPC_WHIFF_FLOOR_CHANCE
+#undef HUMAN_NPC_TRACK_CEILING_CHANCE
