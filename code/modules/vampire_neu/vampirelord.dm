@@ -50,7 +50,7 @@
 	ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)
 
 /datum/antagonist/vampire/lord/greet()
-	to_chat(owner.current, span_userdanger("I am ancient. I am the Land. And I am now awoken to trespassers upon my domain. I should check my Crimson Crucible to bring forth my plans of domination.")) //Sovl remains, added a small prompt to get newbies qued in on what they're supposed to be doing.
+	to_chat(owner.current, span_userdanger("I am ancient. I am the Land. And I am now awoken to trespassers upon my domain."))
 	. = ..()
 
 /datum/outfit/job/vamplord/pre_equip(mob/living/carbon/human/H)
