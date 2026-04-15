@@ -20,7 +20,7 @@
 		to_chat(src, span_warning("I can only drink blood from living, intelligent beings!"))
 		return
 	if(victim.dna?.species && (NOBLOOD in victim.dna.species.species_traits))
-		to_chat(src, span_warning("Nothing to drink. They never had blood to begin with."))
+		to_chat(src, span_warning("Nothing to drink from this."))
 		return
 	if(victim.blood_volume <= 0)
 		to_chat(src, span_warning("They have no blood left..."))
@@ -32,10 +32,10 @@
 	if(ishuman(victim))
 		var/mob/living/carbon/human/human_victim = victim
 		if(VDrinker && istype(human_victim.wear_neck, /obj/item/clothing/neck/roguetown/psicross/silver))
-			to_chat(src, span_userdanger("HISS!! They dress silver on their neck! I can't INDULGE like this!"))
+			to_chat(src, span_userdanger("HISS!! SILVER ON THEIR NECK!!"))
 			return
 		if(VDrinker && HAS_TRAIT(human_victim, TRAIT_SILVER_BLESSED))
-			to_chat(src, span_userdanger("By KAINE, did this maniac lace their blood in silver?! I can't DRINK this!"))
+			to_chat(src, span_userdanger("HISS!! SILVER IN THEIR BLOOD!!"))
 			return
 		human_victim.add_bite_animation()
 
