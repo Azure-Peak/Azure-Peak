@@ -578,7 +578,7 @@ Inquisitorial armory down here
 	else
 		return				
 
-/obj/item/inqarticles/indexer/proc/takeblood(mob/living/M, mob/living/user)
+/obj/item/inqarticles/indexer/proc/takeblood(mob/living/carbon/human/M, mob/living/carbon/human/user)
 	if(timestaken >= 8)
 		playsound(src, 'sound/items/indexer_finished.ogg', 75, FALSE, 3)
 		working = FALSE
@@ -635,7 +635,7 @@ Inquisitorial armory down here
 		else
 			working = FALSE
 
-/obj/item/inqarticles/indexer/attack(mob/living/M, mob/living/user)
+/obj/item/inqarticles/indexer/attack(mob/living/carbon/human/M, mob/living/carbon/human/user)
 	. = ..()
 	if(HAS_TRAIT(user, TRAIT_INQUISITION))
 		if(!active)
@@ -644,11 +644,11 @@ Inquisitorial armory down here
 		if(subject)
 			if(M != subject)
 				return
-		if(HAS_TRAIT(M, TRAIT_IRONMAN || HAS_TRAIT(M, TRAIT_BLOODLOSS_IMMUNE))) // mob/living/M prevents me from going NOBLOOD, bleh
-			to_chat(user, span_warning("They don't have any blood to sample."))		
-			return
 		if(istype(M, /mob/living/carbon/human/species/skeleton))
 			to_chat(user, span_warning("I don't think the Inquisition values marrow much these daes."))	
+			return
+		if(M.dna?.species && (NOBLOOD in M.dna.species.species_traits))
+			to_chat(user, span_warning("They don't have any blood to sample."))		
 			return		
 		if(!M.mind)		
 			return	
