@@ -44,7 +44,6 @@
 	ADD_TRAIT(H, TRAIT_HEAVYARMOR, TRAIT_GENERIC) //Brute-forced method to ensure that Vampire Lords, no matter what, receive their most important traits.
 	ADD_TRAIT(H, TRAIT_INFINITE_ENERGY, TRAIT_GENERIC) //Playing it safe, with the assumption that Vampire Lords already inherit any traits given to regular Vampires.
 	ADD_TRAIT(H, TRAIT_STRENGTH_UNCAPPED, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_DECEIVING_MEEKNESS, TRAIT_GENERIC) //Since you can get 14-20 in stats, this gives a you a little leeway to blend in more as you used to be able to before. Being unable to see their faith salute is fitting anyway.
 	ADD_TRAIT(H, TRAIT_BITERHELM, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_STRONGBITE, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_NOBLE, TRAIT_GENERIC)
@@ -52,6 +51,7 @@
 
 /datum/antagonist/vampire/lord/greet()
 	to_chat(owner.current, span_userdanger("I am ancient. I am the Land. And I am now awoken to trespassers upon my domain."))
+	to_chat(owner.current, span_warning("I should check the Crimson Crucible to remember my plans, servantry and guards may be of assistance in furthering my plans. All things bare a cost, one best paid collectively in vitae amongst kindred."))
 	. = ..()
 
 /datum/outfit/job/vamplord/pre_equip(mob/living/carbon/human/H)
