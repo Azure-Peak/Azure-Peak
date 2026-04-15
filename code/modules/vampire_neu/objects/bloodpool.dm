@@ -429,7 +429,7 @@
 
 /datum/vampire_project/servant/servant_t1
 	display_name = "Summon Vampyre Servant"
-	description = "A loyal servant to do your chores and labors for you and your thralls, from toiling the forges below, to tending the manor and trivial tasks. (Generation: Neonite - Can sire 1 Thinblood)"
+	description = "A loyal servant to do your chores and labors for you and your thralls, from toiling the forges below, to tending the manor and trivial tasks. (Generation: Neonite - Can sire 1 Thinblood - 9RP)"
 	total_cost = SERVANT_COST
 	completion_sound = 'sound/misc/vcraft.ogg'
 
@@ -439,7 +439,7 @@
 
 /datum/vampire_project/servant/servant_t2
 	display_name = "Summon Vampyre Guard"
-	description = "A loyal servant to fight for of your cause, bring you forth mortals or defend your manor, be it wit blade and shield, bow and arrow or wit and magicks. (Generation: Neonite - Can sire 1 Thinblood)"
+	description = "A loyal servant to fight for of your cause, bring you forth mortals or defend your manor, be it wit blade and shield, bow and arrow or wit and magicks. (Generation: Neonite - Can sire 1 Thinblood - 9RP)"
 	total_cost = SERVANT_T2_COST
 	completion_sound = 'sound/misc/vcraft.ogg'
 
@@ -449,7 +449,7 @@
 
 /datum/vampire_project/servant/servant_t3
 	display_name = "Summon Vampyre Champion"
-	description = "A loyal, high talented and powerful champion to herald your army of darkness, or disrupt mortalkynd from the shadows. (Generation: Ancillae - Can sire 5 Neonites)."
+	description = "A loyal, high talented and powerful champion to herald your army of darkness, or disrupt mortalkynd from the shadows. (Generation: Ancillae - Can sire 5 Neonites - 17RP)."
 	total_cost = SERVANT_T3_COST
 	completion_sound = 'sound/misc/vcraft.ogg'
 

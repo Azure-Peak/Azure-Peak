@@ -50,14 +50,13 @@
 	ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)
 
 /datum/antagonist/vampire/lord/greet()
-	to_chat(owner.current, span_userdanger("I am ancient. I am the Land. And I am now awoken to trespassers upon my domain."))
-	to_chat(owner.current, span_warning("I should check the Crimson Crucible to remember my plans, servantry and guards may be of assistance in furthering my plans. All things bare a cost, one best paid collectively in vitae amongst kindred."))
+	to_chat(owner.current, span_userdanger("I am ancient. I am the Land. And I am now awoken to trespassers upon my domain. I should check my Crimson Crucible to bring forth my plans of domination.")) //Sovl remains, added a small prompt to get newbies qued in on what they're supposed to be doing.
 	. = ..()
 
 /datum/outfit/job/vamplord/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.adjust_skillrank_up_to(/datum/skill/magic/blood, 6, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/combat/swords, 6, TRUE) //Returned to Legendary-tier, but its the only weapon you get at this level, since Halford's new Blood Magic system compensates a lot for this.
+	H.adjust_skillrank_up_to(/datum/skill/combat/swords, 6, TRUE) //Returned to Legendary-tier for sovl, but its the only weapon you get at this level, since while Halford's new Blood Magic system compensates a lot for this. You can still meet your match, a lot.
 	H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, 5, TRUE) //Equalized all combat skills to be Master-tier, otherwise. Unless you somehow get legendary via-other means. You used to just get legendary in everything cause this added to your class, not skill upto'd.
 	H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, 5, TRUE)
 	H.adjust_skillrank_up_to(/datum/skill/combat/knives, 5, TRUE)
@@ -65,9 +64,9 @@
 	H.adjust_skillrank_up_to(/datum/skill/combat/maces, 5, TRUE)
 	H.adjust_skillrank_up_to(/datum/skill/combat/polearms, 5, TRUE)
 	H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, 5, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/reading, 5, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/climbing, 5, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/misc/athletics, 6, TRUE) //Yeah I don't think dreamwalker should be more athletic than a thousand or more yills old vampyre.
+	H.adjust_skillrank_up_to(/datum/skill/misc/reading, 6, TRUE) //Long lived.
+	H.adjust_skillrank_up_to(/datum/skill/misc/climbing, 6, TRUE) //Supernatural athletics.
+	H.adjust_skillrank_up_to(/datum/skill/misc/athletics, 6, TRUE)
 	pants = /obj/item/clothing/under/roguetown/tights/puritan
 	shirt = /obj/item/clothing/suit/roguetown/shirt/vampire
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass
@@ -75,7 +74,7 @@
 	gloves = /obj/item/clothing/gloves/roguetown/chain
 	belt = /obj/item/storage/belt/rogue/leather/plaquegold
 	id = /obj/item/clothing/ring/rubybs //Blacksteel and Rontz, fits a lorde, very well.
-	beltr = /obj/item/storage/belt/rogue/pouch/coins/veryrich //Intended they have two now.
+	beltr = /obj/item/storage/belt/rogue/pouch/coins/veryrich //Intended they have two now, messy solution but it'll do for now.
 	beltl = /obj/item/rogueweapon/scabbard/sheath/royal
 	head = /obj/item/clothing/head/roguetown/vampire
 	neck = /obj/item/clothing/neck/roguetown/chaincoif
