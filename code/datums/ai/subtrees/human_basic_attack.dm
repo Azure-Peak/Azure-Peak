@@ -7,6 +7,7 @@
 #define HUMAN_NPC_INTENT_SWITCH_CHANCE          25  // chance per attack to start a new intent sequence
 #define HUMAN_NPC_RMB_ATTEMPT_CHANCE			25
 #define HUMAN_NPC_MIN_INT_FOR_TACTICS        8   // minimum INT to use weapon specials or feint
+#define HUMAN_NPC_FEINT_COOLDOWN             (30 SECONDS)
 
 
 //Note alot of this is just adapted from old code so its probably not the best
@@ -117,10 +118,14 @@
 		#ifdef NPC_THINK_DEBUG
 		AI_THINK(pawn, "RMB: intent=[pawn.rmb_intent?.type] stam=[pawn.stamina]/[pawn.max_stamina]")
 		#endif
-		if(pawn.stamina < pawn.max_stamina * 0.7 && istype(pawn.rmb_intent, /datum/rmb_intent/feint))
+		var/feint_ready = world.time >= (controller.blackboard[BB_HUMAN_NPC_FEINT_COOLDOWN] || 0)
+		if(feint_ready && pawn.stamina < pawn.max_stamina * 0.7 && istype(pawn.rmb_intent, /datum/rmb_intent/feint))
 			AI_THINK(pawn, "FEINT: attempting feint on [target]!")
 			modifiers = list(RIGHT_CLICK = TRUE)
+			controller.set_blackboard_key(BB_HUMAN_NPC_FEINT_COOLDOWN, world.time + HUMAN_NPC_FEINT_COOLDOWN)
 		#ifdef NPC_THINK_DEBUG
+		else if(istype(pawn.rmb_intent, /datum/rmb_intent/feint) && !feint_ready)
+			AI_THINK(pawn, "FEINT: on cooldown ([controller.blackboard[BB_HUMAN_NPC_FEINT_COOLDOWN] - world.time]ds remaining)")
 		else if(istype(pawn.rmb_intent, /datum/rmb_intent/feint))
 			AI_THINK(pawn, "FEINT: too exhausted ([pawn.stamina] >= [pawn.max_stamina * 0.7])")
 		#endif
@@ -510,3 +515,4 @@
 #undef HUMAN_NPC_INTENT_SWITCH_CHANCE
 #undef HUMAN_NPC_RMB_ATTEMPT_CHANCE
 #undef HUMAN_NPC_MIN_INT_FOR_TACTICS
+#undef HUMAN_NPC_FEINT_COOLDOWN

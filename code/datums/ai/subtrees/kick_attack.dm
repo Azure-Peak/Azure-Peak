@@ -1,5 +1,5 @@
 #define BB_KICK_COOLDOWN           "bb_kick_cooldown"
-#define KICK_COOLDOWN              (8 SECONDS)
+#define KICK_COOLDOWN              (20 SECONDS)
 #define KICK_WALLED_CHANCE         30  // target backed against a wall
 #define KICK_CHOKEPOINT_CHANCE     25  // target in a doorway/corridor (2+ dense neighbors)
 #define KICK_STACKED_ENEMY_CHANCE  20  // non-allied mob behind target to knock into
