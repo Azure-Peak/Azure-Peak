@@ -8,6 +8,15 @@
 #define HUMAN_NPC_RMB_ATTEMPT_CHANCE			25
 #define HUMAN_NPC_MIN_INT_FOR_TACTICS        8   // minimum INT to use weapon specials or feint
 #define HUMAN_NPC_FEINT_COOLDOWN             (30 SECONDS)
+// Post-attack click recovery jitter — added onto clickcd as (1 + rand(MIN, MAX)).
+// Bigger numbers = slower, less consistent swing cadence (less "frame perfect").
+#define HUMAN_NPC_CLICK_RECOVERY_JITTER_MIN  0.3
+#define HUMAN_NPC_CLICK_RECOVERY_JITTER_MAX  0.6
+// Feint adds extra delay on top of the base recovery, since it's a committed whiff-bait.
+#define HUMAN_NPC_FEINT_RECOVERY_MULT        1.6
+// AI weapon-special cooldown is multiplied by this over the player baseline to simulate
+// human reaction delay / decision cost. 1.0 = parity with players.
+#define HUMAN_NPC_SPECIAL_CD_PENALTY         1.5
 
 
 //Note alot of this is just adapted from old code so its probably not the best
@@ -138,8 +147,9 @@
 	if(pawn.next_click < world.time)
 		// Post-attack click cooldown. Extra multiplier on feint — this is a committed action
 		// that should have a bigger opening between it and the next real swing.
-		var/recovery_mult = modifiers[RIGHT_CLICK] ? 1.6 : 1.0
-		pawn.next_click = world.time + (pawn.used_intent?.clickcd * recovery_mult * (1 + rand(0.2, 0.4)))
+		var/recovery_mult = modifiers[RIGHT_CLICK] ? HUMAN_NPC_FEINT_RECOVERY_MULT : 1.0
+		var/jitter = 1 + rand(HUMAN_NPC_CLICK_RECOVERY_JITTER_MIN, HUMAN_NPC_CLICK_RECOVERY_JITTER_MAX)
+		pawn.next_click = world.time + (pawn.used_intent?.clickcd * recovery_mult * jitter)
 		SEND_SIGNAL(pawn, COMSIG_MOB_BREAK_SNEAK)
 
 	// Skilled fighters scan for weakpoints more often
@@ -320,6 +330,11 @@
 		return FALSE
 	SEND_SIGNAL(pawn, COMSIG_MOB_TRY_BARK, 100)
 	special.deploy(pawn, weapon, target)
+	// AI penalty: re-stamp the special cooldown longer than the player baseline so NPCs
+	// can't chain specials as tightly as a human player could. Override replaces the
+	// debuff applied inside deploy() with our extended version.
+	if(HUMAN_NPC_SPECIAL_CD_PENALTY > 1.0)
+		special.apply_cooldown(special.cooldown * HUMAN_NPC_SPECIAL_CD_PENALTY, override = TRUE)
 	// Recovery: block the next swing for longer than a normal attack so specials don't chain
 	if(pawn.next_click < world.time + pawn.used_intent?.clickcd * 1.8)
 		pawn.next_click = world.time + (pawn.used_intent?.clickcd * 1.8)
@@ -516,3 +531,7 @@
 #undef HUMAN_NPC_RMB_ATTEMPT_CHANCE
 #undef HUMAN_NPC_MIN_INT_FOR_TACTICS
 #undef HUMAN_NPC_FEINT_COOLDOWN
+#undef HUMAN_NPC_CLICK_RECOVERY_JITTER_MIN
+#undef HUMAN_NPC_CLICK_RECOVERY_JITTER_MAX
+#undef HUMAN_NPC_FEINT_RECOVERY_MULT
+#undef HUMAN_NPC_SPECIAL_CD_PENALTY
