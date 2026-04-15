@@ -15,6 +15,8 @@
 	var/static/list/track_types = list("cervine", "small", "ursine", "canine")
 	var/locked_track_icon = null
 	var/track_revealed = FALSE
+	var/datum/weakref/hunter_ref
+	var/image/track_image
 
 /obj/effect/hunting_track/Initialize(mapload)
 	. = ..()
@@ -23,8 +25,40 @@
 	pixel_x = rand(-8, 8)
 	pixel_y = rand(-8, 8)
 
+/obj/effect/hunting_track/Destroy()
+	var/mob/living/L = hunter_ref?.resolve()
+	if(L?.client && track_image)
+		L.client.images -= track_image
+	track_image = null
+	hunter_ref = null
+	return ..()
+
+/obj/effect/hunting_track/proc/setup_hunter_visibility(mob/living/new_hunter)
+	if(!new_hunter)
+		return
+
+	hunter_ref = WEAKREF(new_hunter)
+	// Make the physical object invisible to everyone else
+	invisibility = INVISIBILITY_MAXIMUM 
+
+	if(!new_hunter.client)
+		return
+
+	track_image = image(icon, src, icon_state, layer)
+	track_image.color = src.color
+	track_image.pixel_x = src.pixel_x
+	track_image.pixel_y = src.pixel_y
+	track_image.transform = src.transform
+	new_hunter.client.images += track_image
+
 /obj/effect/hunting_track/attack_hand(mob/living/user)
 	if(track_revealed)
+		return
+
+	var/mob/living/H = hunter_ref?.resolve()
+
+	// Just in case anyone finds an invisible track somehow, this way they can't mess up someone's trail.
+	if(H && user != H)
 		return
 
 	if(get_dist(user, src) < 1)
@@ -41,6 +75,7 @@
 	if(uncover_trail(user))
 		to_chat(user, span_nicegreen("The trail continues further ahead!"))
 		track_revealed = TRUE
+		fade_and_die(user)
 		//qdel(src)
 	else
 		to_chat(user, span_warning("The trail seems to disappear into the brush here."))
@@ -84,18 +119,27 @@
 				if(src.locked_track_icon)
 					next_trail.locked_track_icon = src.locked_track_icon
 				//qdel(src)
+
+				next_trail.color = "#e6d2b5" 
+				next_trail.setup_hunter_visibility(user)
 				return TRUE
 	return FALSE
 
 /obj/effect/hunting_track/proc/reveal_track(turf/target_turf)
 	// Pick a random visual style
 	if(!locked_track_icon)
-		icon_state = pick(track_types)
-		locked_track_icon = icon_state
-	else
-		icon_state = locked_track_icon
+		locked_track_icon = pick(track_types)
+
+	var/mob/living/H = hunter_ref?.resolve()
+	if(H?.client && track_image)
+		H.client.images -= track_image
+	track_image = null
+
+	invisibility = 0
+	icon_state = locked_track_icon
 	name = "[icon_state] tracks"
 	desc = "Fresh prints leading away into the wilderness."
+	color = null
 
 	// Calculate rotation
 	var/direction = get_dir(src, target_turf)
@@ -105,6 +149,13 @@
 	var/matrix/M = matrix()
 	M.Turn(angle)
 	transform = M
+
+	if(track_image)
+		track_image.icon_state = icon_state
+		track_image.transform = transform
+		track_image.color = null 
+	else
+		color = null
 
 /obj/effect/hunting_track/proc/validate_turf(turf/T)
 	if(!T || T.density)
@@ -117,8 +168,16 @@
 	// Area persistence check
 	var/area/A = get_area(src)
 	var/area/target_A = get_area(T)
-	
+
 	if(target_A == A || (target_A.type in linked_areas))
 		return TRUE
-		
 	return FALSE
+
+/obj/effect/hunting_track/proc/fade_and_die(mob/living/user)
+	var/skill = user.get_skill_level(/datum/skill/misc/hunting)
+	var/wait_time = 5 SECONDS + (skill * 2 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(start_fade_animation)), wait_time)
+
+/obj/effect/hunting_track/proc/start_fade_animation()
+	animate(src, alpha = 0, time = 200, easing = EASE_OUT)
+	addtimer(CALLBACK(GLOBAL_PROC, .proc/qdel, src), 20 SECONDS)
