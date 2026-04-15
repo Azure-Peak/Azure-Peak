@@ -644,7 +644,7 @@ Inquisitorial armory down here
 		if(subject)
 			if(M != subject)
 				return
-		if(HAS_TRAIT(M, TRAIT_BLOODLOSS_IMMUNE))
+		if(HAS_TRAIT(M, TRAIT_IRONMAN || HAS_TRAIT(M, TRAIT_BLOODLOSS_IMMUNE))) // mob/living/M prevents me from going NOBLOOD, bleh
 			to_chat(user, span_warning("They don't have any blood to sample."))		
 			return
 		if(istype(M, /mob/living/carbon/human/species/skeleton))

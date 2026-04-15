@@ -77,8 +77,8 @@ GLOBAL_LIST_INIT(zizoconstruct_aggro, world.file2list("strings/rt/zconstructaggr
 	anvilrepair = /datum/skill/craft/engineering
 	unarmed_bonus = 8
 
-/obj/item/clothing/gloves/roguetown/knuckles/bronze/zizoconstruct/pickup(mob/living/user)
-	if(!HAS_TRAIT(user, TRAIT_BLOODLOSS_IMMUNE))
+/obj/item/clothing/gloves/roguetown/knuckles/bronze/zizoconstruct/pickup(mob/living/carbon/user)
+	if(!HAS_TRAIT(user, TRAIT_BLOODLOSS_IMMUNE) || !(user.dna?.species && (NOBLOOD in user.dna.species.species_traits)))
 		to_chat(user, "<font color='purple'> You attempt to wield the knuckles. The spike sinks deeply into your hand, piercing it and drinking deep of your vital energies!</font>")
 		user.adjustBruteLoss(15)
 		user.Stun(40)

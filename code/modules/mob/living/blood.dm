@@ -85,6 +85,7 @@
 	if(dna?.species)
 		if(NOBLOOD in dna.species.species_traits)
 			blood_volume = BLOOD_VOLUME_NORMAL
+			bleed_rate = 0 // futureproof and sanity's sake
 			return
 
 	// if we're dead and have no blood left, then there's nothing to do here: we can't regen it ourselves (in this proc), so...

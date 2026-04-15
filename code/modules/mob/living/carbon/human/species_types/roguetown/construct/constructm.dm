@@ -11,13 +11,13 @@
 	is_subrace = TRUE
 	desc = "<b>Metallic Construct</b><br>\
 	Masterworks of artifice, metal constructs are as the name implies- entirely constructed by mortal hands. They are beings not of flesh and blood, but cold metal and the arcyne. Constructs are said to originate from works of Zizo, and they hail from the far-off lands of the Southern Empty- a great city of artifice, where the only artificers capable of understanding what is necessary to create the constructs live. For some reason, they have found themselves travelling out of the empty, as of late. Children of the Resonator Siphon.<br>\
-	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b>+1 WIL | -2 SPD | Insomnia | No Hunger | No Bleeding </b></span><br><br>"
+	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b>+1 WIL | -2 SPD | No Hunger | No Breath | No Blood | Toxic Immunity | Shock Weakness</b></span><br><br>"
 
 	construct = 1
 	skin_tone_wording = "Material"
 	use_skin_tone_wording_for_examine = FALSE
 	default_color = "FFFFFF"
-	species_traits = list(EYECOLOR,HAIR,FACEHAIR,LIPS,STUBBLE,OLDGREY,NOBLOOD)
+	species_traits = list(EYECOLOR,HAIR,FACEHAIR,LIPS,STUBBLE,OLDGREY,NOBLOOD) // this already overwrites all blood-related things, brothers
 	default_features = MANDATORY_FEATURE_LIST
 	use_skintones = TRUE
 	possible_ages = ALL_AGES_LIST
@@ -25,11 +25,10 @@
 	disliked_food = NONE
 	liked_food = NONE
 	inherent_traits = list(
+		TRAIT_IRONMAN, // this will help define better construct flags around the code, also bloodloss immunity and deathless are redundant due to NOBLOOD anyway, trait should also bar you from being infected now, same for Rotman
 		TRAIT_NOHUNGER,
-		TRAIT_BLOODLOSS_IMMUNE,
-		TRAIT_NOBREATH,
-		TRAIT_DEATHLESS,
-		TRAIT_ZOMBIE_IMMUNE
+		TRAIT_NOBREATH, // nobreath should make it so snoring doesn't make noises anymore, sleep away, brothers
+		TRAIT_TOXIMMUNE, // legit once got poisoned for eating bad food LOL, fixed
 		)
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_MAGIC | MIRROR_PRIDE | RACE_SWAP | SLIME_EXTRACT
 	limbs_icon_m = 'icons/roguetown/mob/bodies/m/mcom.dmi'

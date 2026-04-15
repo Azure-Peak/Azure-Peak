@@ -589,7 +589,7 @@
 	nausea = clamp(nausea + amt, 0, 300)
 
 /mob/living/carbon/proc/handle_nausea()
-	if(HAS_TRAIT(src, TRAIT_ROTMAN))
+	if(HAS_TRAIT(src, TRAIT_ROTMAN)||HAS_TRAIT(src, TRAIT_IRONMAN)) // constructs shouldn't feel nauseous, makes no sense, this fixes it
 		return TRUE
 	if(stat == DEAD)
 		return TRUE

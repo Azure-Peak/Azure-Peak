@@ -20,10 +20,10 @@
 		to_chat(src, span_warning("I can only drink blood from living, intelligent beings!"))
 		return
 	if(victim.dna?.species && (NOBLOOD in victim.dna.species.species_traits))
-		to_chat(src, span_warning("Sigh. No blood."))
+		to_chat(src, span_warning("Nothing to drink. They never had blood to begin with."))
 		return
 	if(victim.blood_volume <= 0)
-		to_chat(src, span_warning("Sigh. No blood."))
+		to_chat(src, span_warning("They have no blood left..."))
 		return
 
 	var/datum/antagonist/vampire/VDrinker = mind.has_antag_datum(/datum/antagonist/vampire)
@@ -32,10 +32,10 @@
 	if(ishuman(victim))
 		var/mob/living/carbon/human/human_victim = victim
 		if(VDrinker && istype(human_victim.wear_neck, /obj/item/clothing/neck/roguetown/psicross/silver))
-			to_chat(src, span_userdanger("SILVER! HISSS!!!"))
+			to_chat(src, span_userdanger("HISS!! They dress silver on their neck! I can't INDULGE like this!"))
 			return
 		if(VDrinker && HAS_TRAIT(human_victim, TRAIT_SILVER_BLESSED))
-			to_chat(src, span_userdanger("SILVER IN THE BLOOD! HISSS!!!"))
+			to_chat(src, span_userdanger("By KAINE, did this maniac lace their blood in silver?! I can't DRINK this!"))
 			return
 		human_victim.add_bite_animation()
 
@@ -65,7 +65,7 @@
 		return
 
 	if(VVictim)
-		to_chat(src, span_userdanger("<b>YOU TRY TO COMMIT DIABLERIE ON [victim].</b>"))
+		to_chat(src, span_userdanger("<b>YOU TRY TO COMMIT DIABLERIE ON [uppertext(victim)].</b>"))
 
 	var/blood_handle
 	if(victim.stat == DEAD)

@@ -135,7 +135,8 @@
 		if(carbon_owner)
 			carbon_owner.handle_dreams()
 			if(prob(10) && owner.health > owner.crit_threshold)
-				owner.emote("snore")
+				if(!HAS_TRAIT(owner, TRAIT_NOBREATH)) // how do you snore soundly when you don't need to breathe son?
+					owner.emote("snore")
 
 /atom/movable/screen/alert/status_effect/asleep
 	name = "Asleep"
