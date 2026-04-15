@@ -38,6 +38,7 @@
 	. = ..()
 	var/mob/living/living_pawn = controller.pawn
 	living_pawn.emote("scream")
+	living_pawn.visible_message(span_danger("[living_pawn] shouts for aid!"))
 	var/atom/current_target = controller.blackboard[target_key]
 
 	for(var/mob/living/carbon/human/ally in view(controller.max_target_distance - 1, living_pawn))
@@ -65,5 +66,6 @@
 			qdel(field)
 
 		ally_ctrl.CancelActions()
+		ally.visible_message(span_warning("[ally] rushes to aid [living_pawn]!"))
 
 	finish_action(controller, TRUE, target_key)
