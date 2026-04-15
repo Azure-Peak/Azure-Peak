@@ -6,6 +6,8 @@ SUBSYSTEM_DEF(questpool)
 	init_order = INIT_ORDER_DEFAULT
 
 	var/list/datum/quest/pool = list()
+	var/list/abandon_cooldowns = list()
+	var/list/event_log = list()
 
 /datum/controller/subsystem/questpool/Initialize()
 	regen_to_targets(get_total_target())
@@ -76,7 +78,9 @@ SUBSYSTEM_DEF(questpool)
 		if(Q.created_at >= cutoff)
 			continue
 		pool -= Q
+		log_event("reroll", "stale [Q.quest_difficulty] [Q.quest_type]")
 		qdel(Q)
+		record_round_statistic(STATS_CONTRACTS_REROLLED)
 		var/difficulty = pick_neediest_difficulty()
 		if(!difficulty)
 			continue
@@ -102,6 +106,8 @@ SUBSYSTEM_DEF(questpool)
 		return null
 	Q.reward_amount = Q.calculate_reward(get_turf(landmark))
 	pool += Q
+	record_round_statistic(STATS_CONTRACTS_GENERATED)
+	log_event("generate", "[difficulty] [type] at [Q.target_spawn_area || "unknown"] (reward [Q.reward_amount])")
 	return Q
 
 /datum/controller/subsystem/questpool/proc/pick_type_for(difficulty)
@@ -137,7 +143,47 @@ SUBSYSTEM_DEF(questpool)
 		return FALSE
 	pool -= Q
 	Q.on_claim(user)
+	record_round_statistic(STATS_CONTRACTS_TAKEN)
+	log_event("claim", "[describe_user(user)] took [Q.quest_difficulty] [Q.quest_type]")
 	return TRUE
+
+/datum/controller/subsystem/questpool/proc/is_on_abandon_cooldown(mob/user)
+	if(!user?.ckey)
+		return FALSE
+	var/free_at = abandon_cooldowns[user.ckey]
+	return free_at && free_at > world.time
+
+/datum/controller/subsystem/questpool/proc/abandon_cooldown_remaining(mob/user)
+	if(!user?.ckey)
+		return 0
+	var/free_at = abandon_cooldowns[user.ckey]
+	return free_at ? max(0, free_at - world.time) : 0
+
+/datum/controller/subsystem/questpool/proc/mark_abandoned(mob/user, datum/quest/Q, forfeited)
+	if(user?.ckey)
+		abandon_cooldowns[user.ckey] = world.time + QUEST_ABANDON_COOLDOWN
+	record_round_statistic(STATS_CONTRACTS_ABANDONED)
+	if(forfeited)
+		record_round_statistic(STATS_CONTRACT_MAMMONS_FORFEITED, forfeited)
+	log_event("abandon", "[describe_user(user)] forfeited [forfeited] on [Q?.quest_difficulty] [Q?.quest_type]")
+
+/datum/controller/subsystem/questpool/proc/record_completion(mob/user, datum/quest/Q, paid, taxed)
+	record_round_statistic(STATS_CONTRACTS_COMPLETED)
+	if(paid)
+		record_round_statistic(STATS_CONTRACT_MAMMONS_PAID, paid)
+	if(taxed)
+		record_round_statistic(STATS_CONTRACT_MAMMONS_TAXED, taxed)
+	log_event("complete", "[describe_user(user)] finished [Q?.quest_difficulty] [Q?.quest_type] (paid [paid], taxed [taxed])")
+
+/datum/controller/subsystem/questpool/proc/describe_user(mob/user)
+	if(!user)
+		return "unknown"
+	var/name = user.real_name || "unknown"
+	var/role = user.job || "no role"
+	return "[user.ckey] ([name], [role])"
+
+/datum/controller/subsystem/questpool/proc/log_event(category, msg)
+	event_log += "[station_time_timestamp()] [category]: [msg]"
 
 /datum/controller/subsystem/questpool/proc/count_active_for(mob/user)
 	if(!user)

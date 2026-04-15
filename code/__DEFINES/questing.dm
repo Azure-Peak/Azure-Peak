@@ -41,6 +41,9 @@
 // Unclaimed listings past this threshold are rerolled in place, bypassing the per-tick cap.
 #define QUEST_POOL_STALE_THRESHOLD (20 MINUTES)
 
+// After abandoning a contract, a ckey cannot abandon another for this long.
+#define QUEST_ABANDON_COOLDOWN (5 MINUTES)
+
 #define QUEST_POOL_WEIGHTS_EASY list(\
 	QUEST_RETRIEVAL = 35,\
 	QUEST_COURIER = 25,\

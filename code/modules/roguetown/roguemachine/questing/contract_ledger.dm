@@ -190,6 +190,7 @@
 		reward += deposit_return
 		original_reward += deposit_return
 
+		var/datum/quest/completed_quest = scroll.assigned_quest
 		qdel(scroll.assigned_quest)
 		qdel(scroll)
 
@@ -200,6 +201,8 @@
 			SStreasury.give_money_treasury(tax_amt, "quest completion tax - [src.name]")
 			record_featured_stat(FEATURED_STATS_TAX_PAYERS, user, tax_amt)
 			record_round_statistic(STATS_TAXES_COLLECTED, tax_amt)
+
+		SSquestpool.record_completion(user, completed_quest, round(reward), tax_amt)
 
 	cash_in(round(reward), original_reward, tax_amt)
 
@@ -240,8 +243,15 @@
 		turn_in_contract(user)
 		return
 
+	if(SSquestpool.is_on_abandon_cooldown(user))
+		var/remaining_seconds = round(SSquestpool.abandon_cooldown_remaining(user) / 10)
+		to_chat(user, span_warning("The guild is watching you. Wait [remaining_seconds]s before abandoning another contract."))
+		return
+
+	var/forfeited = quest.calculate_deposit()
 	log_quest(user.ckey, user.mind, user, "Abandon [quest.quest_type]")
-	to_chat(user, span_warning("The contract is voided. Your deposit of [quest.calculate_deposit()] mammon is forfeit to the treasury."))
+	SSquestpool.mark_abandoned(user, quest, forfeited)
+	to_chat(user, span_warning("The contract is voided. Your deposit of [forfeited] mammon is forfeit to the treasury."))
 	abandoned_scroll.assigned_quest = null
 	qdel(quest)
 	qdel(abandoned_scroll)

@@ -186,6 +186,16 @@
 #define STATS_INDEBTED "indebt_people"
 #define STATS_GOLD_TRANSMUTED "gold_transmuted"
 
+//Guild Contracts (SSquestpool)
+#define STATS_CONTRACTS_GENERATED "contracts_generated"
+#define STATS_CONTRACTS_TAKEN "contracts_taken"
+#define STATS_CONTRACTS_COMPLETED "contracts_completed"
+#define STATS_CONTRACTS_ABANDONED "contracts_abandoned"
+#define STATS_CONTRACTS_REROLLED "contracts_rerolled"
+#define STATS_CONTRACT_MAMMONS_PAID "contract_mammons_paid"
+#define STATS_CONTRACT_MAMMONS_TAXED "contract_mammons_taxed"
+#define STATS_CONTRACT_MAMMONS_FORFEITED "contract_mammons_forfeited"
+
 GLOBAL_LIST_INIT(azure_round_stats, list(
 	STATS_DEATHS = 0,
 	STATS_NOBLE_DEATHS = 0,
@@ -345,6 +355,14 @@ GLOBAL_LIST_INIT(azure_round_stats, list(
 	STATS_RURAL_TAXES_COLLECTED = 0,
 	STATS_BANK_INTEREST_CREATED = 0,
 	STATS_GOLD_TRANSMUTED = 0,
+	STATS_CONTRACTS_GENERATED = 0,
+	STATS_CONTRACTS_TAKEN = 0,
+	STATS_CONTRACTS_COMPLETED = 0,
+	STATS_CONTRACTS_ABANDONED = 0,
+	STATS_CONTRACTS_REROLLED = 0,
+	STATS_CONTRACT_MAMMONS_PAID = 0,
+	STATS_CONTRACT_MAMMONS_TAXED = 0,
+	STATS_CONTRACT_MAMMONS_FORFEITED = 0,
 ))
 
 GLOBAL_LIST_EMPTY(patron_follower_counts)

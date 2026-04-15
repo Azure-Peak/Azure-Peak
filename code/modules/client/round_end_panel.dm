@@ -565,6 +565,33 @@
 
 			data += "</div></div>"
 
+			// Guild Contracts Section
+			data += "<div style='text-align: center; color: #e6b327; font-size: 1.2em; margin: 15px 0; text-transform: uppercase; margin-top: 35px;'>GUILD CONTRACTS</div>"
+			data += "<div style='border-top: 1.5px solid #e6b327; margin: 0 auto 20px auto; width: 75%;'></div>"
+
+			data += "<div style='width: 100%; margin: 0 auto; position: relative;'>"
+			data += "<div style='display: flex; justify-content: space-between; gap: 0;'>"
+
+			// Left column - throughput
+			data += "<div style='width: 44%; display: flex; justify-content: flex-end;'>"
+			data += "<div style='text-align: left; padding-right: 20px;'>"
+			data += "<div style='margin-bottom: 4px;'><font color='#c0b283'>Contracts Generated: </font>[GLOB.azure_round_stats[STATS_CONTRACTS_GENERATED]]</div>"
+			data += "<div style='margin-bottom: 4px;'><font color='#90b34f'>Contracts Taken: </font>[GLOB.azure_round_stats[STATS_CONTRACTS_TAKEN]]</div>"
+			data += "<div style='margin-bottom: 4px;'><font color='#5cb85c'>Contracts Completed: </font>[GLOB.azure_round_stats[STATS_CONTRACTS_COMPLETED]]</div>"
+			data += "<div style='margin-bottom: 4px;'><font color='#d9534f'>Contracts Abandoned: </font>[GLOB.azure_round_stats[STATS_CONTRACTS_ABANDONED]]</div>"
+			data += "<div><font color='#8f816b'>Contracts Rerolled: </font>[GLOB.azure_round_stats[STATS_CONTRACTS_REROLLED]]</div>"
+			data += "</div></div>"
+
+			// Right column - mammon flow
+			data += "<div style='width: 44%; display: flex; justify-content: flex-start;'>"
+			data += "<div style='text-align: left; padding-left: 20px;'>"
+			data += "<div style='margin-bottom: 4px;'><font color='#ebbf49'>Mammons Paid Out: </font>[GLOB.azure_round_stats[STATS_CONTRACT_MAMMONS_PAID]]</div>"
+			data += "<div style='margin-bottom: 4px;'><font color='#f5c02e'>Mammons Taxed: </font>[GLOB.azure_round_stats[STATS_CONTRACT_MAMMONS_TAXED]]</div>"
+			data += "<div><font color='#e74c3c'>Mammons Forfeited: </font>[GLOB.azure_round_stats[STATS_CONTRACT_MAMMONS_FORFEITED]]</div>"
+			data += "</div></div>"
+
+			data += "</div></div>"
+
 		if("Heroes")
 			data += "<div style='text-align: center; color: #e6e6e6; font-size: 1.2em; margin-bottom: 15px;'>HEROES OF THE REALM</div>"
 			data += "<div style='border-top: 1.5px solid #7a7a7a; margin: 0 auto 20px auto; width: 65%;'></div>"
