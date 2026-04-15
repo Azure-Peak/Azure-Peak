@@ -185,7 +185,7 @@
 /datum/virtue/combat/second_chance
 	name = "Second Chance"
 	desc = "Not many are given second chances. Somehow, you're among the lucky bastards who were. What foul, cruel fate did you narrowly escape, changed yet still living?"
-	custom_text = "- Unlocks the 'Rotten' option in skin tone selection, if applicable.<br><font color=red>- Reduces CON by 1.</font>"
+	custom_text = "- Unlocks the 'Rotten' option in skin tone selection, if applicable.<br><font color='#ff0000'>- Reduces CON by 1.</font>"
 	max_choices = 1
 	restricted = TRUE
 	races = list(/datum/species/construct/metal, /datum/species/gnoll)
@@ -200,9 +200,12 @@
 	)
 
 /datum/virtue/combat/second_chance/apply_to_human(mob/living/carbon/human/recipient)
-	spawn(100)
+	spawn(80)
+		if(QDELETED(src) || QDELETED(recipient))
+			return
+
 		if(recipient.mind.has_antag_datum(/datum/antagonist/skeleton) || recipient.mind.has_antag_datum(/datum/antagonist/lich) || recipient.mind.has_antag_datum(/datum/antagonist/vampire) || recipient.mind.has_antag_datum(/datum/antagonist/vampire/lord) || recipient.mind.has_antag_datum(/datum/antagonist/werewolf) || recipient.mind.has_antag_datum(/datum/antagonist/zombie))
-			to_chat(recipient, "Second Chance cannot be applied to your role. Removing.")
+			to_chat(recipient, "Second Chance cannot be applied to your role, so it has been removed.")
 			QDEL_NULL(src)
 			return
 

@@ -813,31 +813,32 @@ GLOBAL_LIST_INIT(averse_factions, list(
 
 /datum/charflaw/silverweakness 
 	name = "Silver Weakness"
-	desc = "For reasons unholy or sorcerous, my blood is so tainted that silver burns at my touch. It also makes my body quite frail at parts."
+	desc = "For reasons unholy or sorcerous, my blood is so tainted that silver burns at my touch. It also makes my body quite frail at parts. If my upbringing is already bad, this vice becomes worse."
 
 /datum/charflaw/silverweakness/apply_post_equipment(mob/user)
-	ADD_TRAIT(user, TRAIT_SILVER_WEAK, TRAIT_GENERIC)
-// 	pick one or the other, let's go with this for now
-	ADD_TRAIT(user, TRAIT_EASYDISMEMBER, TRAIT_GENERIC)
-//	ADD_TRAIT(user, TRAIT_CRITICAL_WEAKNESS, TRAIT_GENERIC)
-
-/*	var/mob/living/carbon/human/target = user
-	spawn(100) // lets hope this is enough during a large server load
+	var/mob/living/carbon/human/target = user
+	spawn(100)
 		if(QDELETED(src) || QDELETED(target))
 			return
 
-		if(HAS_TRAIT(target, TRAIT_SILVER_WEAK))
-			to_chat(target, "<font color=red>Your futile attempt to cheese this makes Psydon weep.<br>Rerolling into a random vice.</font>")
-
-			give_random_flaw(target, src)
-
-			target.charflaws.Remove(src)
-			QDEL_NULL(src)
-			return
-		else
-			to_chat(target, "Silver is my BANE!!")
+		if(!HAS_TRAIT(target, TRAIT_SILVER_WEAK) && !HAS_TRAIT(target, TRAIT_EASYDISMEMBER))
 			ADD_TRAIT(target, TRAIT_SILVER_WEAK, TRAIT_GENERIC)
-			ADD_TRAIT(target, TRAIT_CRITICAL_WEAKNESS, TRAIT_GENERIC)*/
+			ADD_TRAIT(target, TRAIT_EASYDISMEMBER, TRAIT_GENERIC)
+
+			to_chat(target, span_warning("Silver is your BANE."))
+			to_chat(target, span_warning("Your body yields easily to blades."))
+			return
+
+		if(HAS_TRAIT(target, TRAIT_SILVER_WEAK) && HAS_TRAIT(target, TRAIT_EASYDISMEMBER) && !HAS_TRAIT(target, TRAIT_CRITICAL_WEAKNESS))
+			ADD_TRAIT(target, TRAIT_CRITICAL_WEAKNESS, TRAIT_GENERIC)
+			to_chat(target, span_danger("Your body is catastrophically fragile due to your mounting conditions."))
+			return
+
+		if(HAS_TRAIT(target, TRAIT_SILVER_WEAK) && HAS_TRAIT(target, TRAIT_EASYDISMEMBER) && HAS_TRAIT(target, TRAIT_CRITICAL_WEAKNESS))
+			ADD_TRAIT(target, TRAIT_DNR, TRAIT_GENERIC)
+			ADD_TRAIT(target, TRAIT_DEATHLESS, TRAIT_GENERIC)
+			to_chat(target, span_warning("You're practically a walking corpse due to how cursed you are. Don't die."))
+			return
 
 /proc/give_random_flaw(mob/living/carbon/human/target, datum/charflaw/exclude)
 	var/list/cf_list = GLOB.character_flaws.Copy()
