@@ -157,6 +157,7 @@
 	backpack_contents = list(
 		/obj/item/handmirror = 1,
 		/obj/item/book/spellbook = 1,
+		/obj/item/chalk = 1,
 	)
 
 

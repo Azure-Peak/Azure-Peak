@@ -14006,7 +14006,7 @@
 	pixel_y = -6
 	},
 /obj/effect/spawner/lootdrop/valuable_tableware_spawner,
-/mob/living/carbon/human/species/human/northern/deranged_knight/matthios,
+/mob/living/carbon/human/species/human/northern/highwayman/dk_goon,
 /turf/open/floor/rogue/churchrough,
 /area/rogue/under/cave/scarymaze)
 "cZY" = (
@@ -37266,7 +37266,7 @@
 /obj/structure/stairs/fancy/l{
 	dir = 1
 	},
-/mob/living/carbon/human/species/human/northern/deranged_knight/matthios,
+/mob/living/carbon/human/species/human/northern/highwayman/dk_goon,
 /turf/open/floor/rogue/carpet/lord/left,
 /area/rogue/under/cave/scarymaze)
 "hWR" = (
@@ -92833,7 +92833,7 @@
 	pixel_x = 9;
 	pixel_y = -3
 	},
-/mob/living/carbon/human/species/human/northern/deranged_knight/matthios,
+/mob/living/carbon/human/species/human/northern/highwayman/dk_goon,
 /turf/open/floor/rogue/churchrough,
 /area/rogue/under/cave/scarymaze)
 "tuu" = (
@@ -106250,7 +106250,7 @@
 /obj/structure/stairs/fancy/r{
 	dir = 1
 	},
-/mob/living/carbon/human/species/human/northern/deranged_knight/matthios,
+/mob/living/carbon/human/species/human/northern/highwayman/dk_goon,
 /turf/open/floor/rogue/carpet/lord/right,
 /area/rogue/under/cave/scarymaze)
 "wjZ" = (

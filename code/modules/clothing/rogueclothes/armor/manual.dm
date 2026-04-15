@@ -57,10 +57,11 @@
 	. += span_info("Repairable via push-up emotes.")
 
 /obj/item/clothing/suit/roguetown/armor/manual/pushups/leather
-    armor = ARMOR_LEATHER
+	armor = ARMOR_LEATHER
 
-/obj/item/clothing/suit/roguetown/armor/manual/pushups/leather/good
-    armor = ARMOR_LEATHER
+/obj/item/clothing/suit/roguetown/armor/manual/pushups/leather/good // Honestly wasn't even sure what the diff was to the parent of this subtype, this one actually is GOOD and it's for Berzerker
+	armor = ARMOR_LEATHER
+	max_integrity = 400 //Now actually matches desciple and bersekers unarmed discpline armor int, drawback is it doesnt natrually regen without push-ups
 
 
 /*

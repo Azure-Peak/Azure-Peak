@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Adjusted TGUI List Input to become compact again instead of wide for no reasons."
