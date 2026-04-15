@@ -15,6 +15,10 @@
 	show_in_credits = FALSE
 	give_bank_account = FALSE
 	announce_latejoin = FALSE
+
+	obsfuscated_job = TRUE //future coders if you ever ADD an antag-job that's not supposed to be immedately obvious like lich skele, please add these. Otherwise the job title will show on examine + actors menu
+	wanderer_examine = TRUE
+	advjob_examine = TRUE
 	cmode_music = 'sound/music/combat_weird.ogg'
 
 /datum/job/roguetown/vampire_servant/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
@@ -25,10 +29,10 @@
 	..()
 	H.adjust_blindness(-3)
 	var/list/possible_classes = list()
-	for(var/datum/advclass/CHECKS in SSrole_class_handler.sorted_class_categories[CTAG_LICKER_WRETCH])
+	for(var/datum/advclass/CHECKS in SSrole_class_handler.sorted_class_categories[CTAG_VAMPSERVANT])
 		possible_classes += CHECKS
 
-	var/datum/advclass/C = input(H.client, "What is my class?", "Adventure") as null|anything in possible_classes
+	var/datum/advclass/C = input(H.client, "What is my class?", "SERVITUDE UNTO ETERNAL LYFE.") as null|anything in possible_classes
 	C.equipme(H)
 
 	H.adjust_skillrank_up_to(/datum/skill/magic/blood, 3, TRUE)

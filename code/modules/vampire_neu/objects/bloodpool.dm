@@ -1,12 +1,12 @@
-#define VAMPCOST_ONE 8000
-#define VAMPCOST_TWO 10000
+#define VAMPCOST_ONE 6000
+#define VAMPCOST_TWO 8000 //Earlygame finish point, most vlords will end up here around 1hr in ideally.
 #define VAMPCOST_THREE 12000
-#define VAMPCOST_FOUR 14000
-#define ARMOR_COST 5000
+#define VAMPCOST_FOUR 16000 //This is the shit-is-fucked point.
+#define ARMOR_COST 8000 //Keep this high, its the best armor set in the game. It should be exclusively on the vlord where-possible. Encourages them to tradeoff power, or have a forgemaster/smith get them a set of armor.
 #define SUN_STEAL_COST 10000
-#define SERVANT_COST 800
-#define SERVANT_T2_COST 2500
-#define SERVANT_T3_COST 4000
+#define SERVANT_COST 800 //Keep these low, so people can play as vampires, don't worry about vamp duplication.
+#define SERVANT_T2_COST 1000 //Same as above, a little bit higher because these roles /can/ actually fight, keep it low so they can get a retinue starting off.
+#define SERVANT_T3_COST 5000 //Keep moderately high, these are rarer classes that can cause problems when spammed en-mass. Expected to show up mid/late game, ideally. Very frag capable on their own.
 
 #define INITIATE_LORDE 1
 #define INITIATE_ANYONE 2
@@ -270,7 +270,7 @@
 // Specific project types
 /datum/vampire_project/power_growth
 	display_name = "Rite of Stirring"
-	description = "The ancient blood stirs once more. Forgotten whispers echo through the marrow of the land."
+	description = "The ancient blood stirs once more. Forgotten whispers echo through the marrow of the land. (+2 to all lorde stats, +1000 vitae pool limit)"
 	total_cost = VAMPCOST_ONE
 	completion_sound = 'sound/misc/batsound.ogg'
 
@@ -294,7 +294,7 @@
 
 /datum/vampire_project/power_growth_2
 	display_name = "Rite of Reclamation"
-	description = "Strength long sealed returns. The soil, the stone, and the shadows bend again to their rightful master."
+	description = "Strength long sealed returns. The soil, the stone, and the shadows bend again to their rightful master. (+2 to all lorde stats, +1000 vitae pool limit)"
 	total_cost = VAMPCOST_TWO
 	completion_sound = 'sound/misc/batsound.ogg'
 
@@ -314,7 +314,7 @@
 
 /datum/vampire_project/power_growth_3
 	display_name = "Rite of Dominion"
-	description = "The veil of time shreds. The Elder's will pours forth, binding trespassers within the grasp of the Land."
+	description = "The veil of time shreds. The Elder's will pours forth, binding trespassers within the grasp of the Land. (+2 to all lorde stats, +1000 vitae pool limit)"
 	total_cost = VAMPCOST_THREE
 	completion_sound = 'sound/misc/batsound.ogg'
 
@@ -334,7 +334,7 @@
 
 /datum/vampire_project/power_growth_4
 	display_name = "Rite of Sovereignty"
-	description = "The Lord is whole. Ancient power saturates every stone and vein, for the Land and its master are one."
+	description = "The Lord is whole. Ancient power saturates every stone and vein, for the Land and its master are one. (+2 to all stats for all clan vampyres, +2 to all stats for lorde (+4 total for lord) +1000 vitae pool limit, lorde gains silver resistance, lorde becomes immune to sunlite.)"
 	total_cost = VAMPCOST_FOUR
 	completion_sound = 'sound/misc/batsound.ogg'
 
@@ -361,7 +361,7 @@
 /datum/vampire_project/armor_crafting
 	display_name = "Wicked Plate"
 	description = "Summon a complete set of vampiric plate armor from crystallized blood. Let not steel, silver, nor salvation inhibit the Lord's plan."
-	total_cost = 5000
+	total_cost = 8000
 	completion_sound = 'sound/misc/vcraft.ogg'
 
 /datum/vampire_project/armor_crafting/on_complete(atom/movable/creation_point)
@@ -377,7 +377,7 @@
 
 /datum/vampire_project/sunsteal
 	display_name = "Steal the Sun"
-	description = "The scorching gaze of the Sun-Tyrant shall hamper our plans no more. This project can only be initiated by your Lorde."
+	description = "The scorching gaze of the Sun-Tyrant shall hamper our plans no more. This project can only be initiated by your Lorde. (Permanently enforces night until the lord dies, turns all water to blood.)"
 	total_cost = SUN_STEAL_COST
 	completion_sound = 'sound/misc/vcraft.ogg'
 	can_be_initiated_by = INITIATE_LORDE
@@ -409,26 +409,27 @@
 
 	var/mob/living/carbon/human/species/human/northern/target = new /mob/living/carbon/human/species/human/northern(get_turf(feedback_atom))
 	target.key = C.key
-	target.visible_message(span_warning("[target]'s eyes light up with an eerie glow!"))
+	target.visible_message(span_warning("[target] manifests from the crimson crucible in a kneel, before rising upwards."))
 	addtimer(CALLBACK(target, TYPE_PROC_REF(/mob/living/carbon/human, load_char_or_namechoice)), 3 SECONDS)
 	switch(type)
 		if("Vampire Servant")
-			SSjob.EquipRank(target, "Vampire Servant", TRUE)
-			var/datum/antagonist/vampire/new_antag = new /datum/antagonist/vampire(incoming_clan = initiator_clan, forced_clan = TRUE, generation = GENERATION_THINBLOOD)
+			SSjob.EquipRank(target, "Vampire Servant", TRUE) //Labor non-combat roles, they still have some vampyric Progression and can become semi-combat roles.
+			var/datum/antagonist/vampire/new_antag = new /datum/antagonist/vampire(incoming_clan = initiator_clan, forced_clan = TRUE, generation = GENERATION_NEONATE) //GENERATION_THINBLOOD is intentionally removed
 			target.mind.add_antag_datum(new_antag)
 		if("Vampire Guard")
-			SSjob.EquipRank(target, "Vampire Guard", TRUE)
+			SSjob.EquipRank(target, "Vampire Guard", TRUE) //Combat-focused roles, they can level vampyric powers partly to become pretty scary to fight.
 			var/datum/antagonist/vampire/new_antag = new /datum/antagonist/vampire(incoming_clan = initiator_clan, forced_clan = TRUE, generation = GENERATION_NEONATE)
 			target.mind.add_antag_datum(new_antag)
 		if("Vampire Spawn")
-			SSjob.EquipRank(target, "Vampire Spawn", TRUE)
+			SSjob.EquipRank(target, "Vampire Spawn", TRUE) //Rare and powerful champions, they can level vampyric powers to become minibosses, alongside siring 5 additional vampyres of a lower generation.
 			var/datum/antagonist/vampire/new_antag = new /datum/antagonist/vampire(incoming_clan = initiator_clan, forced_clan = TRUE, generation = GENERATION_ANCILLAE)
 			target.mind.add_antag_datum(new_antag)
 	ADD_TRAIT(target, TRAIT_BLOODPOOL_BORN, TRAIT_GENERIC)
+	ADD_TRAIT(target, TRAIT_DUSTABLE, TRAIT_GENERIC) //They cannot be cured unlike sired vampires, so we let them just dust on death. They get good enough skills to make up for it, less back and forth with revival checking "hey can I cure this one?".
 
 /datum/vampire_project/servant/servant_t1
-	display_name = "Summon Servant"
-	description = "A loyal servant to do your bidding."
+	display_name = "Summon Vampyre Servant"
+	description = "A loyal servant to do your chores and labors for you and your thralls, from toiling the forges below, to tending the manor and trivial tasks. (Generation: Neonite - Can sire 1 Thinblood)"
 	total_cost = SERVANT_COST
 	completion_sound = 'sound/misc/vcraft.ogg'
 
@@ -437,8 +438,8 @@
 		on_cancel()
 
 /datum/vampire_project/servant/servant_t2
-	display_name = "Summon Guard"
-	description = "A loyal servant to do your bidding."
+	display_name = "Summon Vampyre Guard"
+	description = "A loyal servant to fight for of your cause, bring you forth mortals or defend your manor, be it wit blade and shield, bow and arrow or wit and magicks. (Generation: Neonite - Can sire 1 Thinblood)"
 	total_cost = SERVANT_T2_COST
 	completion_sound = 'sound/misc/vcraft.ogg'
 
@@ -447,8 +448,8 @@
 		on_cancel()
 
 /datum/vampire_project/servant/servant_t3
-	display_name = "Summon Knight Spawn"
-	description = "A loyal servant to do your bidding."
+	display_name = "Summon Vampyre Champion"
+	description = "A loyal, high talented and powerful champion to herald your army of darkness, or disrupt mortalkynd from the shadows. (Generation: Ancillae - Can sire 5 Neonites)."
 	total_cost = SERVANT_T3_COST
 	completion_sound = 'sound/misc/vcraft.ogg'
 

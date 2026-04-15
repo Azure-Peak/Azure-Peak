@@ -44,6 +44,7 @@
 	ADD_TRAIT(H, TRAIT_HEAVYARMOR, TRAIT_GENERIC) //Brute-forced method to ensure that Vampire Lords, no matter what, receive their most important traits.
 	ADD_TRAIT(H, TRAIT_INFINITE_ENERGY, TRAIT_GENERIC) //Playing it safe, with the assumption that Vampire Lords already inherit any traits given to regular Vampires.
 	ADD_TRAIT(H, TRAIT_STRENGTH_UNCAPPED, TRAIT_GENERIC)
+	ADD_TRAIT(H, TRAIT_DECEIVING_MEEKNESS, TRAIT_GENERIC) //Since you can get 14-20 in stats, this gives a you a little leeway to blend in more as you used to be able to before. Being unable to see their faith salute is fitting anyway.
 	ADD_TRAIT(H, TRAIT_BITERHELM, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_STRONGBITE, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_NOBLE, TRAIT_GENERIC)
@@ -56,24 +57,26 @@
 /datum/outfit/job/vamplord/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.adjust_skillrank_up_to(/datum/skill/magic/blood, 6, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/swords, 5, TRUE) //Reduced from Legendary-tier, as Halford's new Blood Magic system compensates a lot for this.
-	H.adjust_skillrank(/datum/skill/combat/wrestling, 5, TRUE) //Equalized all combat skills to be Master-tier, otherwise,
-	H.adjust_skillrank(/datum/skill/combat/unarmed, 5, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/knives, 5, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/axes, 5, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/maces, 5, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/polearms, 5, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/whipsflails, 5, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/swords, 6, TRUE) //Returned to Legendary-tier, but its the only weapon you get at this level, since Halford's new Blood Magic system compensates a lot for this.
+	H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, 5, TRUE) //Equalized all combat skills to be Master-tier, otherwise. Unless you somehow get legendary via-other means. You used to just get legendary in everything cause this added to your class, not skill upto'd.
+	H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, 5, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/knives, 5, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/axes, 5, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/maces, 5, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/polearms, 5, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, 5, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/reading, 5, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/climbing, 5, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/athletics, 5, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/misc/athletics, 6, TRUE) //Yeah I don't think dreamwalker should be more athletic than a thousand or more yills old vampyre.
 	pants = /obj/item/clothing/under/roguetown/tights/puritan
 	shirt = /obj/item/clothing/suit/roguetown/shirt/vampire
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass
+	wrists = /obj/item/clothing/wrists/roguetown/bracers
 	gloves = /obj/item/clothing/gloves/roguetown/chain
 	belt = /obj/item/storage/belt/rogue/leather/plaquegold
-	beltr = /obj/item/storage/belt/rogue/pouch/coins/veryrich
-	beltl = /obj/item/roguekey/vampire
+	id = /obj/item/clothing/ring/rubybs //Blacksteel and Rontz, fits a lorde, very well.
+	beltr = /obj/item/storage/belt/rogue/pouch/coins/veryrich //Intended they have two now.
+	beltl = /obj/item/rogueweapon/scabbard/sheath/royal
 	head = /obj/item/clothing/head/roguetown/vampire
 	neck = /obj/item/clothing/neck/roguetown/chaincoif
 	cloak = /obj/item/clothing/cloak/cape/puritan
@@ -81,6 +84,12 @@
 	backl = /obj/item/storage/backpack/rogue/satchel/black
 	l_hand = /obj/item/rogueweapon/sword/long/judgement/vlord
 	H.ambushable = FALSE
+	backpack_contents = list(
+		/obj/item/storage/belt/rogue/pouch/coins/veryrich = 1, //Intended they have two now, its a bad solution but it means they don't become poorer than an adv/miner towner midgame as easily as before.
+		/obj/item/rope/chain = 1, //Needed so you can actually sire people, beforehand you had to get rope every round. This speeds things up.
+		/obj/item/rogueweapon/huntingknife/idagger/steel = 1,
+		/obj/item/roguekey/vampire = 1 //Softlock protection, otherwise I'd have removed it. You still spawn in a room with keys anyway soo...
+		)
 /*------VERBS-----*/
 
 // NEW VERBS
