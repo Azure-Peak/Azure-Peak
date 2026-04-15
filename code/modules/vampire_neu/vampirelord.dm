@@ -39,7 +39,7 @@
 	H.adjust_bloodpool(3000)
 	for(var/S in MOBSTATS)
 		H.change_stat(S, 2)
-	H.forceMove(pick(GLOB.vlord_starts))
+	owner.current.forceMove(pick(GLOB.vlord_starts))
 	ADD_TRAIT(H, TRAIT_DUSTABLE, TRAIT_GENERIC) //They are ancient and have a great risk. Maybe add a quest to reclaim their power?
 	ADD_TRAIT(H, TRAIT_HEAVYARMOR, TRAIT_GENERIC) //Brute-forced method to ensure that Vampire Lords, no matter what, receive their most important traits.
 	ADD_TRAIT(H, TRAIT_INFINITE_ENERGY, TRAIT_GENERIC) //Playing it safe, with the assumption that Vampire Lords already inherit any traits given to regular Vampires.
@@ -50,10 +50,10 @@
 	ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)
 
 /datum/antagonist/vampire/lord/greet()
-	to_chat(owner.current, span_userdanger("I am ancient. I am the Land. And I am now awoken to trespassers upon my domain."))
+	to_chat(owner.current, span_userdanger("I am ancient. I am the Land. And I am now awoken to trespassers upon my domain.")) //Sovl, stays as-is.
 	to_chat(owner.current, span_warning("I should consult my Crimson Crucible for my plans of domination. Servantry, sires to heed my will and further power will serve me well, I have yet to recover before I am anywhere close to my full potental. My Ichor fang is bound to my bloodstained stone, I can recall it for vitae if I happen to lose it.")) //Small tutorial text for vlord on spawning in.
 	owner.announce_objectives() //They don't get any yet but if you do add them, like lich has this, they'll show.
-	..()
+	. = ..()
 
 /datum/outfit/job/vamplord/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -66,6 +66,7 @@
 	H.adjust_skillrank_up_to(/datum/skill/combat/maces, 5, TRUE)
 	H.adjust_skillrank_up_to(/datum/skill/combat/polearms, 5, TRUE)
 	H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, 5, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/misc/riding, 2, TRUE) //Let them ride mounts if they really want to. You still won't be faster than just running on foot at a certain point, it just means you won't make a fool of yourself trying to use one like a noble lord should be able to.
 	H.adjust_skillrank_up_to(/datum/skill/misc/reading, 6, TRUE) //Long lived.
 	H.adjust_skillrank_up_to(/datum/skill/misc/climbing, 6, TRUE) //Supernatural athletics.
 	H.adjust_skillrank_up_to(/datum/skill/misc/athletics, 6, TRUE)
