@@ -145,6 +145,15 @@
 	QDEL_NULL(physiology)
 	QDEL_NULL(sunder_light_obj)
 	GLOB.human_list -= src
+	if(current_fellowship)
+		current_fellowship.remove_member(src, reason = FELLOWSHIP_REASON_DESTROYED)
+		current_fellowship = null
+	if(length(incoming_fellowship_invites))
+		for(var/datum/weakref/W as anything in incoming_fellowship_invites)
+			var/datum/fellowship/F = W.resolve()
+			if(F)
+				F.remove_pending_invite(real_name)
+		incoming_fellowship_invites.Cut()
 	return ..()
 
 /mob/living/carbon/human/Stat()

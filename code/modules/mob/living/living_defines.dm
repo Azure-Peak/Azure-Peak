@@ -144,6 +144,9 @@
 	var/threat_point = 0 // Threat Point cost for the ambush budget system. Set on NPC subtypes.
 	var/ambush_faction = "" // Faction tag for ambush same/wrong-faction purchasing. Separate from mob faction list.
 
+	var/datum/fellowship/current_fellowship
+	var/list/incoming_fellowship_invites = list() // list of /datum/weakref to /datum/fellowship; kept in sync with fellowship.pending_invites
+
 	// Tracks whether mob is in surrendering state (right-click combat button)
 	var/surrendering = 0
 
