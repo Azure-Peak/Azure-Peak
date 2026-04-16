@@ -170,6 +170,10 @@
 			var/turf/T = locate(target_x, target_y, src.z)
 
 			if(validate_turf(T))
+				// Let's make sure tracks replenish themselves eventually.
+				if(trail_depth == 0)
+					new /obj/effect/landmark/hunting_spawner(get_turf(src))
+
 				//Reveal THIS track before moving on
 				reveal_track(T)
 
