@@ -184,6 +184,19 @@
 			return slot_flag
 	return 0
 
+/datum/component/ai_inventory_manager/proc/has_any_space()
+	for(var/slot_flag in container_refs)
+		var/obj/item/container = container_refs[slot_flag]
+		if(!container)
+			continue
+		var/datum/component/storage/STR = container.GetComponent(/datum/component/storage)
+		if(!STR)
+			continue
+		var/atom/real_location = STR.real_location() || container
+		if(real_location.contents.len < STR.max_items)
+			return TRUE
+	return FALSE
+
 /datum/component/ai_inventory_manager/proc/draw_item(obj/item/it, category)
 	var/mob/living/carbon/human/H = parent
 
