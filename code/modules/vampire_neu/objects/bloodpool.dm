@@ -1,9 +1,9 @@
-#define VAMPCOST_ONE 5000 //heavily chopped down, you're a server-wide antagonist that should be doing stuff, just slightly below your ability to buy roundstart.
-#define VAMPCOST_TWO 7000 //Earlygame finish point, most vlords will end up here less than 1hr into spawning into a round ideally.
-#define VAMPCOST_THREE 12000
-#define VAMPCOST_FOUR 20000 //This is the shit-is-fucked point, intended to be exorbantly high (T3 vlord has 3000+ vitae pool to 9000, so that's 3 full vitae pool's worth roughly) because your thralls become stronger too AND you become immune to silver almost plus sunlight. You probably want to kill the sun if you're not a Vitabella clan, due to being burned by it. If you want any hope of reaching here.
-#define ARMOR_COST 10000 //Keep this high, higher than sunkill. Its the best armor set in the game. It should be exclusively on the vlord where-possible. Encourages them to tradeoff between sufficent champions with your army, power for yourself, killing the sun for more time, or have a forgemaster/smith get them a set of armor.
-#define SUN_STEAL_COST 8000 //Server wide war declaration, at the price of losing any and all stealth pertaining to "are there vampires or not?" you get... no daylight to worry about. Useful for most clans, mostly useless for Vitabella.
+#define VAMPCOST_ONE 5000 //heavily chopped down, you're a server-wide antagonist that should be doing stuff, just slightly above your ability to buy roundstart.
+#define VAMPCOST_TWO 6000 //Earlygame finish point, most vlords will end up here less than 30 mins into a round if they're good, 1hr if not.
+#define VAMPCOST_THREE 12000 //Grab immunity, leave high. This is where they become a major threat.
+#define VAMPCOST_FOUR 20000 //Intended to be exorbantly high (T3 vlord has 3000+ vitae pool to 9000, so that's 3 full vitae pool's worth roughly solo. Thralls have 3000 cap each.), they get infinite stamina and a ton of other buffs at this point.
+#define ARMOR_COST 8000 //Keep this high, we want to encourage them to take it before T3 power, or get armor smithed earlygame.
+#define SUN_STEAL_COST 10000 //Server wide war declaration, mostly useless for Vitabella.
 #define SERVANT_COST 800 //Keep these low, so people can play as vampires. We want to scoop up observers/lobby joiners before they get bored.
 #define SERVANT_T2_COST 1000 //Same as above, a little bit higher because these roles /can/ actually fight, keep it low so they can get a retinue starting off.
 #define SERVANT_T3_COST 5000 //Keep moderately high, these are rarer classes that can cause problems when spammed en-mass. Expected to show up mid/late game, ideally at (2) upgrades in. Very frag capable on their own.
@@ -269,8 +269,8 @@
 
 // Specific project types
 /datum/vampire_project/power_growth
-	display_name = "Rite of Stirring"
-	description = "The ancient blood stirs once more. Forgotten whispers echo through the marrow of the land. (+2 to all lorde stats, +1000 vitae pool limit)"
+	display_name = "Rite of Stirring (+ 1000 lorde vitae pool limit)"
+	description = "The ancient blood stirs once more. Forgotten whispers echo through the marrow of the land. (+2 to all lorde stats + 1000 lorde vitae pool limit)"
 	total_cost = VAMPCOST_ONE
 	completion_sound = 'sound/misc/batsound.ogg'
 
@@ -293,8 +293,8 @@
 			break
 
 /datum/vampire_project/power_growth_2
-	display_name = "Rite of Reclamation"
-	description = "Strength long sealed returns. The soil, the stone, and the shadows bend again to their rightful master. (+2 to all lorde stats, +1000 vitae pool limit)"
+	display_name = "Rite of Reclamation (+ 1000 lorde vitae pool limit)"
+	description = "Strength long sealed returns. The soil, the stone, and the shadows bend again to their rightful master. (+2 to all lorde stats + 1000 lorde vitae pool limit)"
 	total_cost = VAMPCOST_TWO
 	completion_sound = 'sound/misc/batsound.ogg'
 
@@ -314,7 +314,7 @@
 
 /datum/vampire_project/power_growth_3
 	display_name = "Rite of Dominion"
-	description = "The veil of time shreds. The Elder's will pours forth, binding trespassers within the grasp of the Land. (+2 to all lorde stats, +1000 vitae pool limit)"
+	description = "The veil of time shreds. The Elder's will pours forth, binding trespassers within the grasp of the Land. (+2 to all lorde stats + 1000 lorde vitae pool limit.)"
 	total_cost = VAMPCOST_THREE
 	completion_sound = 'sound/misc/batsound.ogg'
 
@@ -324,11 +324,10 @@
 		var/datum/antagonist/vampire/lord/lord = user.mind?.has_antag_datum(/datum/antagonist/vampire/lord)
 		if(lord && !lord.ascended)
 			var/mob/living/carbon/human/lord_body = user
-			to_chat(user, span_greentext("My power grows through collective sacrifice."))
+			to_chat(user, span_greentext("My power grows through collective sacrifice, I am nearing completion."))
 			for(var/S in MOBSTATS)
 				lord_body.change_stat(S, 2)
 			ADD_TRAIT(lord_body, TRAIT_GRABIMMUNE, TRAIT_GENERIC) //You're reaching solo-antagonist levels of godhood here.
-			ADD_TRAIT(lord_body, TRAIT_NOFALLDAMAGE1, TRAIT_GENERIC) //Lets you jump down and out-aura farm anything that moves.
 			lord_body.maxbloodpool += 1000
 			bloodpool.available_project_types -= /datum/vampire_project/power_growth_3
 			bloodpool.available_project_types += /datum/vampire_project/power_growth_4
@@ -336,7 +335,7 @@
 
 /datum/vampire_project/power_growth_4
 	display_name = "Rite of Sovereignty"
-	description = "The Lord is whole. Ancient power saturates every stone and vein, for the Land and its master are one. (+2 to all stats for all clan vampyres, +2 to all stats for lorde (+4 total for lord) +1000 vitae pool limit, lorde gains resistance to silver and sunlite, infinite stamina and moodless.)"
+	description = "The Lord is whole. Ancient power saturates every stone and vein, for the Land and its master are one. (+2 to all stats for subordinates +2 to lorde + 1000 lorde vitae pool limit.)"
 	total_cost = VAMPCOST_FOUR
 	completion_sound = 'sound/misc/batsound.ogg'
 
@@ -349,7 +348,7 @@
 			for(var/S in MOBSTATS)
 				lord_body.change_stat(S, 2)
 			ADD_TRAIT(lord_body, TRAIT_INFINITE_STAMINA, TRAIT_GENERIC) //I mean, you worked for it. You're now the OG vlord once more, go nuts! The lorde of mass-fragging once more.
-			ADD_TRAIT(lord_body, TRAIT_NOMOOD, TRAIT_GENERIC) //"...Yet you stood there, numb..."
+			ADD_TRAIT(lord_body, TRAIT_NOMOOD, TRAIT_GENERIC) //Why should I care for anything, when I am god?
 			lord_body.maxbloodpool += 1000
 			to_chat(user, span_danger("I AM ANCIENT, I AM THE LAND. EVEN THE SUN BOWS TO ME."))
 			lord.ascended = TRUE

@@ -39,38 +39,34 @@
 	H.adjust_bloodpool(3000)
 	for(var/S in MOBSTATS)
 		H.change_stat(S, 2)
-	owner.current.forceMove(pick(GLOB.vlord_starts))
+	H.forceMove(pick(GLOB.vlord_starts))
 	ADD_TRAIT(H, TRAIT_DUSTABLE, TRAIT_GENERIC) //They are ancient and have a great risk. Maybe add a quest to reclaim their power?
-	ADD_TRAIT(H, TRAIT_HEAVYARMOR, TRAIT_GENERIC) //Brute-forced method to ensure that Vampire Lords, no matter what, receive their most important traits.
-	ADD_TRAIT(H, TRAIT_INFINITE_ENERGY, TRAIT_GENERIC) //Playing it safe, with the assumption that Vampire Lords already inherit any traits given to regular Vampires. // They'll work this off through the bloodpool, where they'll get traits as they go.
+	ADD_TRAIT(H, TRAIT_HEAVYARMOR, TRAIT_GENERIC) //Ensure you can use your stuff off-the-bat still.
+	ADD_TRAIT(H, TRAIT_INFINITE_ENERGY, TRAIT_GENERIC) //Hard to stamcheck, you'll get infinite down the line.
 	ADD_TRAIT(H, TRAIT_STRENGTH_UNCAPPED, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_BITERHELM, TRAIT_GENERIC)
+	//ADD_TRAIT(H, TRAIT_BITERHELM, TRAIT_GENERIC) //Their helmet from their armor set gives this properly now.
 	ADD_TRAIT(H, TRAIT_STRONGBITE, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_NOBLE, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)
-	. = ..()
 
 /datum/antagonist/vampire/lord/greet()
-	to_chat(owner.current, span_userdanger("I am ancient. I am the Land. And I am now awoken to trespassers upon my domain.")) //Sovl, stays as-is.
-	to_chat(owner.current, span_warning("I should consult my Crimson Crucible for my plans of domination. Servantry, sires to heed my will and further power will serve me well, I have yet to recover before I am anywhere close to my full potental. My Ichor fang is bound to my bloodstained stone, I can recall it for vitae if I happen to lose it.")) //Small tutorial text for vlord on spawning in.
-	owner.announce_objectives() //They don't get any yet but if you do add them, like lich has this, they'll show.
-	..()
+	to_chat(owner.current, span_userdanger("I am ancient. I am the Land. And I am now awoken to trespassers upon my domain."))
+	. = ..()
 
 /datum/outfit/job/vamplord/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.adjust_skillrank_up_to(/datum/skill/magic/blood, 6, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/combat/swords, 6, TRUE) //Returned to Legendary-tier for sovl, but its the only weapon you get at this level, since while Halford's new Blood Magic system compensates a lot for this. You can still meet your match, a lot.
-	H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, 5, TRUE) //Equalized all combat skills to be Master-tier, otherwise.
+	H.adjust_skillrank_up_to(/datum/skill/combat/swords, 6, TRUE) //Returned to Legendary-tier, but its the only weapon you get at this level, since Halford's new Blood Magic system compensates a lot for this.
+	H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, 5, TRUE) //Equalized all combat skills to be Master-tier, otherwise. Unless you somehow get legendary via-other means. You used to just get legendary in everything cause this added to your class, not skill upto'd.
 	H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, 5, TRUE)
 	H.adjust_skillrank_up_to(/datum/skill/combat/knives, 5, TRUE)
 	H.adjust_skillrank_up_to(/datum/skill/combat/axes, 5, TRUE)
 	H.adjust_skillrank_up_to(/datum/skill/combat/maces, 5, TRUE)
 	H.adjust_skillrank_up_to(/datum/skill/combat/polearms, 5, TRUE)
 	H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, 5, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/misc/riding, 2, TRUE) //Let them ride mounts if they really want to. You still won't be faster than just running on foot at a certain point, it just means you won't make a fool of yourself trying to use one like a noble lord should be able to.
-	H.adjust_skillrank_up_to(/datum/skill/misc/reading, 6, TRUE) //Long lived.
-	H.adjust_skillrank_up_to(/datum/skill/misc/climbing, 6, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/misc/athletics, 6, TRUE) //Doesn't matter with infinite stamina now but whatever, examination of skills hints into their supernatural endurance.
+	H.adjust_skillrank_up_to(/datum/skill/misc/reading, 5, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/misc/climbing, 5, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/misc/athletics, 6, TRUE) //Who said Progress can't have gains?
 	pants = /obj/item/clothing/under/roguetown/tights/puritan
 	shirt = /obj/item/clothing/suit/roguetown/shirt/vampire
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass
@@ -78,7 +74,7 @@
 	gloves = /obj/item/clothing/gloves/roguetown/chain
 	belt = /obj/item/storage/belt/rogue/leather/plaquegold
 	id = /obj/item/clothing/ring/rubybs //Blacksteel and Rontz, fits a lorde, very well.
-	beltr = /obj/item/storage/belt/rogue/pouch/coins/veryrich //Intended they have two now, messy solution but it'll do for now.
+	beltr = /obj/item/storage/belt/rogue/pouch/coins/veryrich //Intended they have two now.
 	beltl = /obj/item/rogueweapon/scabbard/sheath/royal
 	head = /obj/item/clothing/head/roguetown/vampire
 	neck = /obj/item/clothing/neck/roguetown/chaincoif
