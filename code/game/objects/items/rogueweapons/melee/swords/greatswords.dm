@@ -3,9 +3,9 @@
 	force = 12
 	force_wielded = 30
 	possible_item_intents = list(/datum/intent/sword/chop, /datum/intent/sword/strike) //bash is for nonlethal takedowns, only targets limbs
-	// Design Intent: I have a big fucking sword and I want to cut everything in sight.
-	gripped_intents = list(/datum/intent/sword/cut/zwei, /datum/intent/sword/thrust/zwei, /datum/intent/sword/cut/zwei/cleave, /datum/intent/sword/cut/zwei/sweep)
-	alt_grips = list(/datum/alt_grip/mordhau/greatsword, /datum/alt_grip/halfsword/greatsword)
+	// Design Intent: greatswords have two stances, the default is a low damage defensive stance, the alternate is a high damage offensive stance with cleave.
+	gripped_intents = list(/datum/intent/sword/cut/zwei, /datum/intent/sword/thrust/zwei, /datum/intent/sword/strike/bad)
+	alt_grips = list(/datum/alt_grip/greatsword/lowguard)
 	name = "greatsword"
 	desc = "Might be able to chop anything in half!"
 	icon_state = "gsw"
@@ -49,11 +49,12 @@
 			if("onback")
 				return list("shrink" = 0.6,"sx" = -1,"sy" = 2,"nx" = 0,"ny" = 2,"wx" = 2,"wy" = 1,"ex" = 0,"ey" = 1,"nturn" = 0,"sturn" = 0,"wturn" = 70,"eturn" = 15,"nflip" = 1,"sflip" = 1,"wflip" = 1,"eflip" = 1,"northabove" = 1,"southabove" = 0,"eastabove" = 0,"westabove" = 0)
 
-/obj/item/rogueweapon/greatsword/elfgsword
+/obj/item/rogueweapon/greatsword/elfgsword // this is now a defensive sword, +2 wdef over a greatsword at the cost of 5 force
 	name = "elven kriegsmesser"
 	desc = "An elegant greatsword, crested with a glistening blade that - in spite of its intimidating length - is mysteriously light. Unlike most elven masterworks, the grip is dressed in rosaleather; a foreboding symbol, christening it as a weapon of war against those who'd threaten elvekind."
 	icon_state = "elfkriegmesser"
 	item_state = "elfkriegmesser"
+	force_wielded = 25 
 	minstr = 10
 	wdefense = 7
 	sellprice = 120
@@ -103,34 +104,35 @@
 	icon_state = "ancient_gsw"
 	smeltresult = /obj/item/ingot/aaslag
 
-/obj/item/rogueweapon/greatsword/zwei
+/obj/item/rogueweapon/greatsword/zwei // an iron flamberge basically, 35 force but -1 wdef 
 	name = "claymore"
 	desc = "This is much longer than a common greatsword, and well balanced too!"
 	icon_state = "claymore"
 	smeltresult = /obj/item/ingot/iron
 	smelt_bar_num = 3
 	max_blade_int = 220
+	max_integrity = 200
 	wdefense = 4
 	force = 14
 	force_wielded = 35
 
-/obj/item/rogueweapon/greatsword/grenz
+/obj/item/rogueweapon/greatsword/grenz // unique merc weapon, exact stats of the greatsword but it's able to use the cleave stance without any downsides.
+	alt_grips = list(/datum/alt_grip/greatsword/Nebenhut)
 	name = "steel zweihander"
+	desc = "A steel greatsword of Grenzlehoft, it's steel Parierhaken allow the user to cleave large swaths of enemys and still be protected!"
 	icon_state = "steelzwei"
 	smeltresult = /obj/item/ingot/steel
 	smelt_bar_num = 3
-	max_blade_int = 240
-	wdefense = 4
-	force = 14
-	force_wielded = 35
 
-/obj/item/rogueweapon/greatsword/grenz/flamberge
+
+
+/obj/item/rogueweapon/greatsword/grenz/flamberge // greatsword with +5 force but -1 wdef
+	alt_grips = list(/datum/alt_grip/greatsword/lowguard)
 	name = "steel flamberge"
 	desc = "A close relative of the Grenzelhoftian \"zweihander\", favored by Otavan nobility. The name comes from its unique, flame-shaped blade; a labor only surmountable by Psydonia's finest weaponsmiths."
 	icon_state = "steelflamberge"
-	max_blade_int = 180
-	max_integrity = 130
-	wdefense = 6
+	force_wielded = 35
+	wdefense = 4
 
 /obj/item/rogueweapon/greatsword/grenz/flamberge/getonmobprop(tag)
 	. = ..()
@@ -143,14 +145,16 @@
 			if("onback")
 				return list("shrink" = 0.6,"sx" = -1,"sy" = 2,"nx" = 0,"ny" = 2,"wx" = 2,"wy" = 1,"ex" = 0,"ey" = 1,"nturn" = 0,"sturn" = 0,"wturn" = 70,"eturn" = 15,"nflip" = 1,"sflip" = 1,"wflip" = 1,"eflip" = 1,"northabove" = 1,"southabove" = 0,"eastabove" = 0,"westabove" = 0)
 
-/obj/item/rogueweapon/greatsword/grenz/flamberge/malum
+/obj/item/rogueweapon/greatsword/grenz/flamberge/malum 
+	alt_grips = list(/datum/alt_grip/greatsword/lowguard)
 	name = "forgefiend flamberge"
 	desc = "This sword's creation took a riddle in its own making. A great sacrifice was made for a blade of perfect quality."
 	icon_state = "malumflamberge"
-	max_integrity = 200
-	max_blade_int = 200
+	max_integrity = 300
+	max_blade_int = 300
 
 /obj/item/rogueweapon/greatsword/grenz/flamberge/ravox
+	alt_grips = list(/datum/alt_grip/greatsword/lowguard)
 	name = "Censure"
 	desc = "A blade that invites imagery of hope. Of men clad in shattered plate and bearing blackened pauldrons, \
 	standing at His side. To correct Her wrongs, as they sought the censure of divine tyranny. \
@@ -160,7 +164,8 @@
 	max_blade_int = 240
 	wdefense = 7//You are truly unique, m'lord.
 
-/obj/item/rogueweapon/greatsword/grenz/flamberge/blacksteel
+/obj/item/rogueweapon/greatsword/grenz/flamberge/blacksteel // super weapon, has the best of both worlds and +5 force
+	alt_grips = list(/datum/alt_grip/greatsword/lowguard)
 	name = "blacksteel flamberge"
 	desc = "An uncommon kind of sword with a characteristically undulating style of blade, made with an equally rare metal. \
 	The wave in the blade is considered to contribute a flame-like quality to its appearance, turning it into a menacing sight. \

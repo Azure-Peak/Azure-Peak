@@ -345,7 +345,7 @@
 	desc = "A cleave that cuts through a second target behind the first."
 	attack_verb = list("cleaves", "carves through")
 	clickcd = CLICK_CD_HEAVY
-	damfactor = 1.0
+	damfactor = 1.5
 	reach = 1 // No!!
 	cleave = /datum/cleave_pattern/forward_cleave
 
@@ -354,8 +354,9 @@
 	icon_state = "insweep"
 	desc = "A heavy sweep that cuts through targets to the front."
 	attack_verb = list("sweeps through", "cuts across")
+	damfactor = 1.5
 	reach = 1
-	clickcd = CLICK_CD_MASSIVE
+	clickcd = CLICK_CD_HEAVY
 	cleave = /datum/cleave_pattern/horizontal_sweep
 
 /datum/intent/sword/thrust/zwei

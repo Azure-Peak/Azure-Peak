@@ -718,3 +718,79 @@
 	var_overrides = list(
 		"wlength" = WLENGTH_NORMAL
 	)
+
+/datum/alt_grip/greatsword/lowguard // low wdef stance for big damage on greatswords
+	two_handed = TRUE
+	name = "Tail Guard"
+	grip_intents = list(
+		/datum/intent/sword/cut/,
+		/datum/intent/sword/cut/zwei/cleave,
+		/datum/intent/sword/cut/zwei/sweep
+	)
+	onmobprop_overrides = list(
+		"altgrip" = list(
+			"shrink" = 0.6,
+			"sx" = 6,
+			"sy" = -7,
+			"nx" = -7,
+			"ny" = -2,
+			"wx" = -9,
+			"wy" = 2,
+			"ex" = 10,
+			"ey" = 2,
+			"northabove" = 0,
+			"southabove" = 1,
+			"eastabove" = 1,
+			"westabove" = 0,
+			"nturn" = -30,
+			"sturn" = -160,
+			"wturn" = -170,
+			"eturn" = -10,
+			"nflip" = 8,
+			"sflip" = 8,
+			"wflip" = 1,
+			"eflip" = 0,
+			
+
+		),
+	)
+	additive_var_overrides = list(
+		wdefense = -2 // weaker parrys 
+	)
+	
+/datum/alt_grip/greatsword/Nebenhut
+ //the zweihanders gimmick is it gets to use this stance without downside unlike other swords
+	name = "Nebenhut"
+	two_handed = TRUE
+	grip_intents = list(
+		/datum/intent/sword/cut/,
+		/datum/intent/sword/cut/zwei/cleave,
+		/datum/intent/sword/cut/zwei/sweep
+	)
+	onmobprop_overrides = list(
+		"altgrip" = list(
+			"shrink" = 0.6,
+			"sx" = 6,
+			"sy" = -7,
+			"nx" = -7,
+			"ny" = -2,
+			"wx" = -9,
+			"wy" = 2,
+			"ex" = 10,
+			"ey" = 2,
+			"northabove" = 0,
+			"southabove" = 1,
+			"eastabove" = 1,
+			"westabove" = 0,
+			"nturn" = -30,
+			"sturn" = -160,
+			"wturn" = -170,
+			"eturn" = -10,
+			"nflip" = 8,
+			"sflip" = 8,
+			"wflip" = 1,
+			"eflip" = 0,
+			
+
+		),
+	)

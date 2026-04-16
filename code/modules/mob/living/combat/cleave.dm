@@ -170,9 +170,9 @@
 	desc = "Cleaves into an adjacent target."
 
 /datum/cleave_pattern/forward_cleave
-	tile_offsets = list(list(0, 1))
-	max_targets = 1
-	desc = "Cleaves forward into a second target."
+	tile_offsets = list(list(0,1), list(0,2))
+	max_targets = 2
+	desc = "Cleaves forward into two more targets."
 
 /datum/cleave_pattern/wide_sweep
 	tile_offsets = list(list(-1, 0), list(1, 0), list(0, -1), list(0, 1))
