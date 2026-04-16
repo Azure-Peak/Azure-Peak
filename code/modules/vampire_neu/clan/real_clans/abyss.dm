@@ -6,8 +6,7 @@
 		/mob/living/carbon/human/proc/punish_spawn
 	)
 	lord_traits = list(TRAIT_HEAVYARMOR, TRAIT_INFINITE_ENERGY, TRAIT_STRENGTH_UNCAPPED)
-	vitae_bonus = 500
-	lord_title = "Elder"
+
 /// Baali from aliexpress, sort of ish.
 /datum/clan/abyss
 	name = "Children of the Abyss"

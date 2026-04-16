@@ -1,3 +1,12 @@
+/datum/clan_leader/crimson_fang
+	lord_spells = list(
+		/obj/effect/proc_holder/spell/targeted/shapeshift/gaseousform //Strongest form of shapeshifting, evens out with being unable to go into the church at all without burning up.
+	)
+	lord_verbs = list(
+		/mob/living/carbon/human/proc/punish_spawn
+	)
+	lord_traits = list(TRAIT_HEAVYARMOR, TRAIT_INFINITE_ENERGY, TRAIT_STRENGTH_UNCAPPED)
+
 /// Banu Haqim from Temu, kinda.
 /datum/clan/crimson_fang
 	name = "Crimson Fang"

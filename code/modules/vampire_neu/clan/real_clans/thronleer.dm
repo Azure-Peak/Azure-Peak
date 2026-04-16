@@ -1,12 +1,12 @@
-
 /datum/clan_leader/thronleer
 	lord_verbs = list(
 		/mob/living/carbon/human/proc/punish_spawn
 	)
-	lord_traits = list(TRAIT_HEAVYARMOR, TRAIT_INFINITE_ENERGY, TRAIT_STRENGTH_UNCAPPED)
+	lord_traits = list(TRAIT_HEAVYARMOR, TRAIT_INFINITE_ENERGY, TRAIT_SEEPRICES, TRAIT_STRENGTH_UNCAPPED) //Lord is more learned than other leaders
 	vitae_bonus = 500
 	lord_title = "Elder"
 
+//Completely re-done because inital Thronleer didn't really have any identity beyond, children of the Abyss but better
 /datum/clan/thronleer
 	name = "House Thronleer"
 	desc = "Noc, facinated by your House's endless persuit of archiving knowledge has bestowed his blessing upon your cursed bloodline, yet with a bad hand dealt by Xylix, the cursed nature of your bloodline has left you with fears of whismy and stress."
