@@ -325,7 +325,7 @@
 		/obj/item/bomb = 2 //CHAOS REIGNS
 		)
 
-//A bunch of motherfuckin' draculas and they're all playin' flute.
+//A bunch of motherfuckin' draculas and they're all playin' flute. Buff-class lite duelist, doesn't perform as well as duelist in tradeoff for being able to buff up their teammates with music and perform vicious mockery.
 /datum/advclass/vampbard
 	name = "Vampiric Bard"
 	tutorial = "Through your blood, you can recount upon memories naught quite your own of tymes long past, tales and songs worthy of legends as though you were there for as long as you can remember through your unlyfe, betwixt an occasional visit to a brothel, tavern or flophouse for your thirst for blood; yet now you've a prophecy to fulfil. Your lord's will be done."
@@ -336,7 +336,6 @@
 		STATKEY_INT = 2,
 		STATKEY_SPD = 2,
 		STATKEY_WIL = 1,
-
 		//5 weighted statline, unchanged from adv. Due to how strong bardic buffs can be in the hands of vampyres now they get numbers (I.E stam regen, health regen, etc) although they do still feel blue bar (excluding vlord) they have to retain being somewhat weak-ish
 	)
 	subclass_skills = list(
@@ -346,7 +345,7 @@
 		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/swords = SKILL_LEVEL_EXPERT, //OG bard, its sovl
-		/datum/skill/combat/knives = SKILL_LEVEL_JOURNEYMAN, //Still gets adv knife fighting skill to back down onto.
+		/datum/skill/combat/knives = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/reading = SKILL_LEVEL_MASTER, //Dead men tell no tales, fortunately undead ones tell many more.
 		/datum/skill/misc/medicine = SKILL_LEVEL_APPRENTICE, //Keeping captives, alive. We're not a lich's army, we have standards.
 		/datum/skill/misc/sneaking = SKILL_LEVEL_EXPERT,
@@ -385,7 +384,7 @@
 	if(H.mind)
 		H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/vicious_mockery)
 		var/weapons = list("Harp","Lute","Accordion","Guitar","Hurdy-Gurdy","Viola","Vocal Talisman", "Psyaltery", "Flute")
-		var/weapon_choice = tgui_input_list(H, "Choose your instrument.", "STRINGS TO PLAY LYKE MORTALS.", weapons)
+		var/weapon_choice = input(H, "Choose your instrument.", "STRINGS TO PLAY LYKE MORTALS.") as anything in weapons
 		H.set_blindness(0)
 		switch(weapon_choice)
 			if("Harp")
