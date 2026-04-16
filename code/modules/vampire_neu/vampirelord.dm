@@ -12,7 +12,7 @@
 		"I AM THE LAND!",
 		"I AM THE FIRSTBORNE OF KAINE!",
 		"I AM THE INHERITOR!",
-		"I WILL, NOT BE FORGOTTEN!",
+		"I WILL NOT BE FORGOTTEN!",
 	)
 	show_in_roundend = TRUE
 	var/ascended = FALSE
