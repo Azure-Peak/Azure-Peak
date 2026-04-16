@@ -261,10 +261,11 @@
 
 /datum/outfit/job/roguetown/skeleton/npc/archer/pre_equip(mob/living/carbon/human/H)
 	..()
-	H.STASTR = 10
+	H.STASTR = 8
 	H.STASPD = 10
 	H.STACON = 5
 	H.STAWIL = 8
+	H.STAPER = 13
 	H.STAINT = 1
 	name = "Skeleton Archer"
 	head = /obj/item/clothing/head/roguetown/helmet/heavy/aalloy

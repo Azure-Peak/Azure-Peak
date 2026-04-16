@@ -177,6 +177,8 @@
 		r_hand = /obj/item/rogueweapon/sword/iron
 		H.adjust_skillrank(/datum/skill/combat/bows, 3, TRUE)
 		H.upgrade_ai_controller(/datum/ai_controller/human_npc/archer)
+		H.STASTR -= 2
+		H.STAPER += 3
 	else if(prob(50)) // tossblade
 		belt = /obj/item/storage/belt/rogue/leather/knifebelt/iron
 		H.adjust_skillrank(/datum/skill/combat/knives, 3, TRUE)
@@ -267,6 +269,8 @@
 		r_hand = /obj/item/rogueweapon/sword/iron
 		H.adjust_skillrank(/datum/skill/combat/bows, 3, TRUE)
 		H.upgrade_ai_controller(/datum/ai_controller/human_npc/archer)
+		H.STASTR -= 2
+		H.STAPER += 3
 	else if(prob(50)) // tossblade
 		belt = /obj/item/storage/belt/rogue/leather/knifebelt/iron
 		H.adjust_skillrank(/datum/skill/combat/knives, 3, TRUE)

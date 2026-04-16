@@ -372,6 +372,8 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 			backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow
 			backl = /obj/item/quiver/stonearrows
 			armor = /obj/item/clothing/suit/roguetown/armor/leather/hide/goblin
+			H.STASTR -= 2
+			H.STAPER += 3
 			H.adjust_skillrank(/datum/skill/combat/bows, 2, TRUE)
 			H.upgrade_ai_controller(/datum/ai_controller/human_npc/archer)
 		if(7) // slinger
@@ -384,6 +386,8 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 			r_hand = /obj/item/rogueweapon/huntingknife/stoneknife
 			backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow
 			backl = /obj/item/quiver/stonearrows
+			H.STASTR -= 2
+			H.STAPER += 3
 			H.adjust_skillrank(/datum/skill/combat/bows, 3, TRUE)
 			H.upgrade_ai_controller(/datum/ai_controller/human_npc/archer)
 		if(9) // bottle bomber
@@ -410,6 +414,8 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 	backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow
 	backl = /obj/item/quiver/stonearrows
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/hide/goblin
+	H.STASTR = 6
+	H.STAPER = 11
 	H.adjust_skillrank(/datum/skill/combat/bows, 2, TRUE)
 	H.upgrade_ai_controller(/datum/ai_controller/human_npc/archer)
 

@@ -101,12 +101,14 @@ GLOBAL_LIST_INIT(searaider_aggro, world.file2list("strings/rt/searaideraggroline
 		neck = /obj/item/clothing/neck/roguetown/gorget
 	if(prob(50))
 		gloves = /obj/item/clothing/gloves/roguetown/leather
+	var/archer_variant = FALSE
 	if(prob(30)) // archer
 		backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
 		backl = /obj/item/quiver/arrows
 		r_hand = /obj/item/rogueweapon/sword/iron
 		H.adjust_skillrank(/datum/skill/combat/bows, 3, TRUE)
 		H.upgrade_ai_controller(/datum/ai_controller/human_npc/archer)
+		archer_variant = TRUE
 	else
 		switch(rand(1, 4))
 			if(1)
@@ -126,6 +128,9 @@ GLOBAL_LIST_INIT(searaider_aggro, world.file2list("strings/rt/searaideraggroline
 	H.STAPER = 10
 	H.STAINT = 1
 	H.STASTR = 14
+	if(archer_variant)
+		H.STASTR -= 2
+		H.STAPER += 3
 	H.adjust_skillrank(/datum/skill/combat/polearms, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/maces, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/axes, 3, TRUE)
