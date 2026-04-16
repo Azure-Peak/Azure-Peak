@@ -32,6 +32,10 @@
 	var/kick_dir = get_dir(pawn, target)
 	var/should_kick = FALSE
 
+	// Situation 0: Being passive-grabbed - instinctive self-preservation, no gates.
+	if(pawn.pulledby == target && pawn.pulledby.grab_state < GRAB_AGGRESSIVE)
+		should_kick = TRUE
+
 	// Situation 1: Chokepoint - target in a doorway/corridor (instinctive, no INT gate)
 	var/dense_neighbors = 0
 	for(var/dir in GLOB.cardinals)
