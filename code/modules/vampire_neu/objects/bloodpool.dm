@@ -361,7 +361,7 @@
 /datum/vampire_project/armor_crafting
 	display_name = "Wicked Plate"
 	description = "Summon a complete set of vampiric plate armor from crystallized blood. Let not steel, silver, nor salvation inhibit the Lord's plan."
-	total_cost = 8000
+	total_cost = ARMOR_COST
 	completion_sound = 'sound/misc/vcraft.ogg'
 
 /datum/vampire_project/armor_crafting/on_complete(atom/movable/creation_point)
