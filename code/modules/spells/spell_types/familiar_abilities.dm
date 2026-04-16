@@ -403,7 +403,7 @@
 		to_chat(user, span_notice("This one is fully awakened... it will have too tight a grasp on its essence. I must find a mindless power, perhaps my creator can help?"))
 		revert_cast()
 		return FALSE
-	if(istype(target, /mob/living/simple_animal/pet/familiar/void))
+	if(target.planar_origin == "void")
 		user.visible_message(
 			span_warning("[user] reaches out towards [target]... suddenly, you feel a sense of foreboding!"),
 			span_warning("I prepare to devour [target]... this seems like a bad idea, but I am oh so hungry...")

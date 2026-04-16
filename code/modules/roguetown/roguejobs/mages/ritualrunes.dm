@@ -425,26 +425,17 @@ GLOBAL_LIST(teleport_runes)
 		if(busy)
 			to_chat(user, span_warning("I am already attempting to bind this familiar! I must have patience..."))
 			return
-		var/mob/living/simple_animal/S = summoned_mob
+		var/mob/living/simple_animal/pet/familiar/S = summoned_mob
 		if(!S || QDELETED(S))
 			to_chat(user, span_warning("The containment has already faded."))
 			summoned_mob = null
 			return
-		var/plane = null
-		switch(S.type)
-			if(/mob/living/simple_animal/pet/familiar/fae)
-				plane = "fae"
-			if(/mob/living/simple_animal/pet/familiar/infernal)
-				plane = "infernal"
-			if(/mob/living/simple_animal/pet/familiar/elemental)
-				plane = "elemental"
-			if(/mob/living/simple_animal/pet/familiar/void)
-				plane = "void"
+		var/plane = S.planar_origin
 		for(var/mob/living/simple_animal/pet/familiar/existing_fam in GLOB.alive_mob_list + GLOB.dead_mob_list)
 			if(existing_fam.familiar_summoner == user)
 				to_chat(user, span_warning("You can only bind one familiar at once!"))
 				return FALSE
-		if(istype(S,/mob/living/simple_animal/pet/familiar/void))
+		if(S.planar_origin == "void")
 			to_chat(user, span_notice("You begin attempting to awaken your creation's mind..."))
 		else
 			to_chat(user, span_notice("You reach across the veil, attempting to draw in the familiar's mind..."))

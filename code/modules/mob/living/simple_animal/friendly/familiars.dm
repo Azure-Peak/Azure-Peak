@@ -63,6 +63,7 @@
 	var/t2_spell = null
 	var/summoning_emote = null
 	var/list/valid_healing_items = list() // what planar materials can heal you?
+	var/planar_origin = "void" // what plane are we from? avoids a bunch of istype checks
 	
 //As far as I am aware, you cannot pat out fire as a familiar at least not in time for it to not kill you, this seems fair.
 /mob/living/simple_animal/pet/familiar/fire_act(added, maxstacks)
@@ -122,7 +123,7 @@
 
 /mob/living/simple_animal/pet/familiar/do_time_change()
 	. = ..()
-	if(!istype(src, /mob/living/simple_animal/pet/familiar/void) && GLOB.tod == "night" && tier < 2)
+	if(src.planar_origin!="void" && GLOB.tod == "night" && tier < 2)
 		tier++
 		to_chat(src, span_info("As another nite falls, your powers grow, adjusting more to the mortal plane."))
 		if(LAZYLEN(tierup_messages) && tierup_messages[tier])
@@ -157,6 +158,20 @@
 					return
 	. = ..()
 
+/mob/living/simple_animal/pet/familiar/examine(mob/user)
+	var/list/ret = ..()
+	var/datum/familiar_prefs/prefs = src.client?.prefs?.familiar_prefs
+	if(!prefs)
+		return ret
+	if(!prefs.familiar_headshot_link) // prefs object from the dev period before we had examines; update them
+		prefs.instantiate_examine_prefs()
+		return ret
+	if((valid_headshot_link(src, prefs.familiar_headshot_link[planar_origin], TRUE)) && (user.client?.prefs.chatheadshot))
+		ret.Insert(2, "<img src=[prefs.familiar_headshot_link[planar_origin]] width=100 height=100/>")
+	if(prefs.familiar_flavortext_display[planar_origin] || prefs.familiar_headshot_link[planar_origin] || prefs.familiar_ooc_notes_display[planar_origin])
+		ret.Insert(ret.len-1, "<a href='?src=[REF(src)];task=view_fam_headshot;'>Examine closer</a>")
+	return ret
+
 // mobility/utility focused. innocuous. can fly, and brew potions, but not much else
 /mob/living/simple_animal/pet/familiar/fae
 	name = "Sprite"
@@ -181,6 +196,7 @@
 		span_info("You now act as a portable cauldron, able to be fed alchemical reagents and brew them into potions. You do not need water to do so. Any attempts to brew potion beyond your reagent capacity will result in reagents being voided.")
 	)
 	valid_healing_items = list(/obj/item/magic/fae)
+	planar_origin = "fae"
 
 /mob/living/simple_animal/pet/familiar/fae/Initialize()
 	. = ..()
@@ -195,9 +211,9 @@
 		if(reagents.flags & TRANSPARENT)
 			if(length(reagents.reagent_list))
 				if(user.can_see_reagents() || (user.Adjacent(src) && (user.get_skill_level(/datum/skill/craft/alchemy) >= 2 || HAS_TRAIT(user, TRAIT_CICERONE)))) //Show each individual reagent
-					ret.Insert(LAZYLEN(ret)-2, "[src.p_they()] contain[src.gender==PLURAL?"":"s"]:")
+					ret.Insert(LAZYLEN(ret)-1, "[src.p_they()] contain[src.gender==PLURAL?"":"s"]:")
 					for(var/datum/reagent/R in reagents.reagent_list)
-						ret.Insert(LAZYLEN(ret)-2, "[round(R.volume, 0.1)] [UNIT_FORM_STRING(round(R.volume, 0.1))] of <font color=[R.color]>[R.name]</font>")
+						ret.Insert(LAZYLEN(ret)-1, "[round(R.volume, 0.1)] [UNIT_FORM_STRING(round(R.volume, 0.1))] of <font color=[R.color]>[R.name]</font>")
 				else //Otherwise, just show the total volume
 					var/total_volume = 0
 					var/reagent_color
@@ -205,16 +221,16 @@
 						total_volume += R.volume
 					reagent_color = mix_color_from_reagents(reagents.reagent_list)
 					if(total_volume < 1)
-						ret.Insert(LAZYLEN(ret)-2, "[src.p_they()] contain[src.gender==PLURAL?"":"s"] less than 1 [UNIT_FORM_STRING(1)] of <font color=[reagent_color]>something.</font>")
+						ret.Insert(LAZYLEN(ret)-1, "[src.p_they()] contain[src.gender==PLURAL?"":"s"] less than 1 [UNIT_FORM_STRING(1)] of <font color=[reagent_color]>something.</font>")
 					else
-						ret.Insert(LAZYLEN(ret)-2, "[src.p_they()] contain[src.gender==PLURAL?"":"s"] [round(total_volume)] [UNIT_FORM_STRING(round(total_volume))] of <font color=[reagent_color]>something.</font>")
+						ret.Insert(LAZYLEN(ret)-1, "[src.p_they()] contain[src.gender==PLURAL?"":"s"] [round(total_volume)] [UNIT_FORM_STRING(round(total_volume))] of <font color=[reagent_color]>something.</font>")
 			else
-				ret.Insert(LAZYLEN(ret)-2, "[src]'s stomach is empty.")
+				ret.Insert(LAZYLEN(ret)-1, "[src]'s stomach is empty.")
 		else if(reagents.flags & AMOUNT_VISIBLE)
 			if(reagents.total_volume)
-				ret.Insert(LAZYLEN(ret)-2, span_notice("[src.p_they()] [src.gender==PLURAL?"have":"has"] [round(reagents.total_volume)] [UNIT_FORM_STRING(round(reagents.total_volume))] left."))
+				ret.Insert(LAZYLEN(ret)-1, span_notice("[src.p_they()] [src.gender==PLURAL?"have":"has"] [round(reagents.total_volume)] [UNIT_FORM_STRING(round(reagents.total_volume))] left."))
 			else
-				ret.Insert(LAZYLEN(ret)-2, span_danger("[src]'s stomach is empty."))
+				ret.Insert(LAZYLEN(ret)-1, span_danger("[src]'s stomach is empty."))
 	return ret
 
 /mob/living/simple_animal/pet/familiar/fae/attackby(obj/item/I, mob/user, params)
@@ -357,6 +373,7 @@
 	var/healing_range = 1
 	var/static/list/acceptable_beds = list(/obj/structure/bed, /obj/structure/flora/roguetree/stump, /obj/item/bedsheet)
 	valid_healing_items = list(/obj/item/magic/infernal)
+	planar_origin = "infernal"
 
 // they get to glow because they're on fire
 /mob/living/simple_animal/pet/familiar/infernal/Initialize()
@@ -367,9 +384,14 @@
 		src.update_light()
 
 // in case it wasn't obvious enough that this is license for people to be mad at you
+// update 2026-04-16: it wasn't obvious enough STILL. have some role-specific prodding to do some conflict
 /mob/living/simple_animal/pet/familiar/infernal/examine(mob/user)
 	var/list/ret = ..()
 	ret.Insert(2,span_userdanger("A DAEMON...!"))
+	if(HAS_TRAIT(user, TRAIT_CLERGY))
+		ret.Insert(3, span_notice("Vile Archdevil-spawn! Binding such things is forbidden! Brook not daemonbinders!"))
+	if(HAS_TRAIT(user, TRAIT_INQUISITION))
+		ret.Insert(3, span_notice("Summoning daemons to kill is one thing. Bringing one to Psydonia in full is blatant disrespect of His sacrifice! Brook not daemonbinders!"))
 	return ret
 
 /mob/living/simple_animal/pet/familiar/infernal/Life()
@@ -463,6 +485,7 @@
 		span_info("You can now shape your earthen form into tools and weapons, including those capable of repairing equipment."),
 		span_info("You can now use the ground itself to shape tools and weapons, instead of using your own body.")
 	)
+	planar_origin = "elemental"
 
 // so they can actually do repairs
 /mob/living/simple_animal/pet/familiar/elemental/Initialize()
@@ -485,6 +508,7 @@
 	var/list/beam_parts = list()
 	inherent_spell = list(/obj/effect/proc_holder/spell/invoked/consume)
 	valid_healing_items = list(/obj/item/magic/fae, /obj/item/magic/elemental, /obj/item/magic/infernal) // hungy
+	planar_origin = "void"
 
 /mob/living/simple_animal/pet/familiar/void/fire_act(added, maxstacks)
 	if(essences_consumed.Find("infernal"))
