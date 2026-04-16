@@ -15,6 +15,7 @@
 	smeltresult = /obj/item/ash
 	grid_width = 32
 	grid_height = 64
+	max_integrity = 80
 	var/quality = 1
 
 /obj/item/rogueweapon/hammer/get_mechanics_examine(mob/user)
