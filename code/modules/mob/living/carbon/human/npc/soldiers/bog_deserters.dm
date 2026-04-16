@@ -428,3 +428,58 @@
 	add_random_deserter_weapon_hard(H)
 	add_random_deserter_beltl_stuff(H)
 	add_random_deserter_beltr_stuff(H)
+
+/mob/living/carbon/human/species/human/northern/bog_deserters/archer
+	ai_controller = /datum/ai_controller/human_npc/archer
+
+/mob/living/carbon/human/species/human/northern/bog_deserters/archer/ambush
+	threat_point = THREAT_DANGEROUS
+	ambush_faction = "bandits"
+
+/mob/living/carbon/human/species/human/northern/bog_deserters/archer/after_creation()
+	..()
+	for(var/obj/item/I in held_items)
+		qdel(I)
+	for(var/obj/item/I in get_equipped_items(FALSE))
+		if(istype(I, /obj/item/gun) || istype(I, /obj/item/quiver))
+			qdel(I)
+	equipOutfit(new /datum/outfit/job/roguetown/human/northern/bog_deserters/archer)
+
+/datum/outfit/job/roguetown/human/northern/bog_deserters/archer/pre_equip(mob/living/carbon/human/H)
+	..()
+	belt = /obj/item/storage/belt/rogue/leather
+	backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
+	backl = /obj/item/quiver/arrows
+	r_hand = /obj/item/rogueweapon/sword/iron
+	l_hand = null
+	H.STASTR = rand(10,12)
+	H.STAPER = 14
+	H.adjust_skillrank(/datum/skill/combat/bows, 3, TRUE)
+	H.upgrade_ai_controller(/datum/ai_controller/human_npc/archer)
+
+/mob/living/carbon/human/species/human/northern/bog_deserters/better_gear/archer
+	ai_controller = /datum/ai_controller/human_npc/archer
+
+/mob/living/carbon/human/species/human/northern/bog_deserters/better_gear/archer/ambush
+	threat_point = THREAT_DANGEROUS
+
+/mob/living/carbon/human/species/human/northern/bog_deserters/better_gear/archer/after_creation()
+	..()
+	for(var/obj/item/I in held_items)
+		qdel(I)
+	for(var/obj/item/I in get_equipped_items(FALSE))
+		if(istype(I, /obj/item/gun) || istype(I, /obj/item/quiver))
+			qdel(I)
+	equipOutfit(new /datum/outfit/job/roguetown/human/northern/bog_deserters/better_gear/archer)
+
+/datum/outfit/job/roguetown/human/northern/bog_deserters/better_gear/archer/pre_equip(mob/living/carbon/human/H)
+	..()
+	belt = /obj/item/storage/belt/rogue/leather
+	backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
+	backl = /obj/item/quiver/arrows
+	r_hand = /obj/item/rogueweapon/sword/iron
+	l_hand = null
+	H.STASTR = rand(10,12)
+	H.STAPER = 14
+	H.adjust_skillrank(/datum/skill/combat/bows, 4, TRUE)
+	H.upgrade_ai_controller(/datum/ai_controller/human_npc/archer)
