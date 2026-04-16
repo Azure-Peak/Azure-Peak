@@ -37,7 +37,8 @@
 		STATKEY_CON = 2,
 		STATKEY_PER = 3,
 		STATKEY_LCK = 1,
-		// 12 (11 without luck) weighted statline, a miniboss of sorts for an expensive vitae cost; intended to command the vampire lord's army. (+1 over old spawn stats)
+		STATKEY_SPD = -1,
+		// 11 (10 without luck) weighted statline, a miniboss of sorts for an expensive vitae cost; intended to command the vampire lord's army. (+1 over old spawn stats)
 	)
 	subclass_skills = list(
 		/datum/skill/combat/crossbows = SKILL_LEVEL_EXPERT,
