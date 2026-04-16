@@ -23,12 +23,13 @@
 	/// The category this hunt belongs to
 	var/datum/hunting_category/hunt_category
 	/// Total tracks to find before the animal spawns
-	var/max_trail_depth = 10
+	var/max_trail_depth = 8
 	/// Category boosted by user.
 	var/datum/hunting_category/preferred_hunt
 	/// Hunting map influences
 	var/datum/hunting_category/secret_map_influence
 	var/influence_attempted = FALSE
+	var/track_dir
 
 /obj/effect/hunting_track/get_mechanics_examine(mob/user)
 	. = ..()
@@ -45,13 +46,9 @@
 	. = ..()
 	if(trail_depth > 0)
 		. += span_notice("You are tracking this track.")
-	if(track_revealed)
-		// Convert the current dir into a string
-		var/dir_string = dir2text(dir)
-		if(dir_string)
-			. += span_notice("The tracks seem to be heading <b>[dir_string]</b>.")
-		else
-			. += span_notice("The tracks are too scrambled to determine a clear direction.")
+	if(track_dir)
+		var/dir_text = dir2text(track_dir)
+		. += span_notice("The tracks seem to be heading <b>[dir_text]</b>.")
 	var/skill = user.get_skill_level(/datum/skill/misc/hunting)
 	if(skill < 4)
 		return
@@ -100,7 +97,7 @@
 
 /obj/effect/hunting_track/Initialize(mapload)
 	. = ..()
-	layer = ABOVE_OPEN_TURF_LAYER
+	layer = HIGH_LANDMARK_LAYER
 	// Add some visual variety
 	pixel_x = rand(-8, 8)
 	pixel_y = rand(-8, 8)
@@ -253,6 +250,7 @@
 
 	// Calculate rotation
 	var/direction = get_dir(src, target_turf)
+	src.track_dir = direction
 	var/angle = dir2angle(direction)
 
 	// Apply rotation via matrix (assumes tracks point North/Up by default)
@@ -297,7 +295,7 @@
 	var/area/A = get_area(src)
 
 	// Calculate total tracks needed: 10 base, minus 1 for each level above 3
-	max_trail_depth = clamp(10 - (max(0, skill - 3)), 7, 10)
+	max_trail_depth = clamp(max_trail_depth - (max(0, skill - 3)), 5, max_trail_depth)
 	var/list/cat_weights = list()
 
 	if(secret_map_influence)
