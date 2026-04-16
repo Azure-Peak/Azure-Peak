@@ -42,7 +42,7 @@
 	owner.current.forceMove(pick(GLOB.vlord_starts))
 	ADD_TRAIT(H, TRAIT_DUSTABLE, TRAIT_GENERIC) //They are ancient and have a great risk. Maybe add a quest to reclaim their power?
 	ADD_TRAIT(H, TRAIT_HEAVYARMOR, TRAIT_GENERIC) //Brute-forced method to ensure that Vampire Lords, no matter what, receive their most important traits.
-	ADD_TRAIT(H, TRAIT_INFINITE_STAMINA, TRAIT_GENERIC) //Correct trait for not being stamcritted. Makes them virtually untirable like the OG vlord, so that they don't just get obliterated by stamcrit into being dorpeled in a 1v7 with XX stats anticlimatically.
+	ADD_TRAIT(H, TRAIT_INFINITE_ENERGY, TRAIT_GENERIC) //Playing it safe, with the assumption that Vampire Lords already inherit any traits given to regular Vampires. // They'll work this off through the bloodpool, where they'll get traits as they go.
 	ADD_TRAIT(H, TRAIT_STRENGTH_UNCAPPED, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_BITERHELM, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_STRONGBITE, TRAIT_GENERIC)
