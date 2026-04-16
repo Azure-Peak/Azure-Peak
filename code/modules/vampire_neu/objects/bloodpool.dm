@@ -1,7 +1,7 @@
 #define VAMPCOST_ONE 5000 //heavily chopped down, you're a server-wide antagonist that should be doing stuff, just slightly below your ability to buy roundstart.
 #define VAMPCOST_TWO 7000 //Earlygame finish point, most vlords will end up here less than 1hr into spawning into a round ideally.
 #define VAMPCOST_THREE 12000
-#define VAMPCOST_FOUR 18000 //This is the shit-is-fucked point, intended to be exorbantly high because your thralls become stronger too AND you become immune to silver almost plus sunlight. You probably want to kill the sun if you're not a Vitabella clan, due to being burned by it. If you want any hope of reaching here.
+#define VAMPCOST_FOUR 20000 //This is the shit-is-fucked point, intended to be exorbantly high (T3 vlord has 3000+ vitae pool to 9000, so that's 3 full vitae pool's worth roughly) because your thralls become stronger too AND you become immune to silver almost plus sunlight. You probably want to kill the sun if you're not a Vitabella clan, due to being burned by it. If you want any hope of reaching here.
 #define ARMOR_COST 10000 //Keep this high, higher than sunkill. Its the best armor set in the game. It should be exclusively on the vlord where-possible. Encourages them to tradeoff between sufficent champions with your army, power for yourself, killing the sun for more time, or have a forgemaster/smith get them a set of armor.
 #define SUN_STEAL_COST 8000 //Server wide war declaration, at the price of losing any and all stealth pertaining to "are there vampires or not?" you get... no daylight to worry about. Useful for most clans, mostly useless for Vitabella.
 #define SERVANT_COST 800 //Keep these low, so people can play as vampires. We want to scoop up observers/lobby joiners before they get bored.
@@ -377,7 +377,7 @@
 
 /datum/vampire_project/sunsteal
 	display_name = "Steal the Sun"
-	description = "The scorching gaze of the Sun-Tyrant shall hamper our plans no more. This project can only be initiated by your Lorde. (Permanently enforces night until the lord dies, turns all water to blood.)"
+	description = "The scorching gaze of the Sun-Tyrant shall hamper our plans no more. This project can only be initiated by your Lorde. (Permanent night until the lord dies, most may see this as a declaration of war.)"
 	total_cost = SUN_STEAL_COST
 	completion_sound = 'sound/misc/vcraft.ogg'
 	can_be_initiated_by = INITIATE_LORDE

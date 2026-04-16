@@ -42,7 +42,7 @@
 	owner.current.forceMove(pick(GLOB.vlord_starts))
 	ADD_TRAIT(H, TRAIT_DUSTABLE, TRAIT_GENERIC) //They are ancient and have a great risk. Maybe add a quest to reclaim their power?
 	ADD_TRAIT(H, TRAIT_HEAVYARMOR, TRAIT_GENERIC) //Brute-forced method to ensure that Vampire Lords, no matter what, receive their most important traits.
-	ADD_TRAIT(H, TRAIT_INFINITE_ENERGY, TRAIT_GENERIC) //Playing it safe, with the assumption that Vampire Lords already inherit any traits given to regular Vampires.
+	ADD_TRAIT(H, TRAIT_INFINITE_STAMINA, TRAIT_GENERIC) //Correct trait for not being stamcritted. Makes them virtually untirable like the OG vlord, so that they don't just get obliterated by stamcrit into being dorpeled in a 1v7 with XX stats anticlimatically.
 	ADD_TRAIT(H, TRAIT_STRENGTH_UNCAPPED, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_BITERHELM, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_STRONGBITE, TRAIT_GENERIC)
@@ -60,7 +60,7 @@
 	..()
 	H.adjust_skillrank_up_to(/datum/skill/magic/blood, 6, TRUE)
 	H.adjust_skillrank_up_to(/datum/skill/combat/swords, 6, TRUE) //Returned to Legendary-tier for sovl, but its the only weapon you get at this level, since while Halford's new Blood Magic system compensates a lot for this. You can still meet your match, a lot.
-	H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, 5, TRUE) //Equalized all combat skills to be Master-tier, otherwise. Unless you somehow get legendary via-other means. You used to just get legendary in everything cause this added to your class, not skill upto'd.
+	H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, 5, TRUE) //Equalized all combat skills to be Master-tier, otherwise.
 	H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, 5, TRUE)
 	H.adjust_skillrank_up_to(/datum/skill/combat/knives, 5, TRUE)
 	H.adjust_skillrank_up_to(/datum/skill/combat/axes, 5, TRUE)
@@ -69,8 +69,8 @@
 	H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, 5, TRUE)
 	H.adjust_skillrank_up_to(/datum/skill/misc/riding, 2, TRUE) //Let them ride mounts if they really want to. You still won't be faster than just running on foot at a certain point, it just means you won't make a fool of yourself trying to use one like a noble lord should be able to.
 	H.adjust_skillrank_up_to(/datum/skill/misc/reading, 6, TRUE) //Long lived.
-	H.adjust_skillrank_up_to(/datum/skill/misc/climbing, 6, TRUE) //Supernatural athletics.
-	H.adjust_skillrank_up_to(/datum/skill/misc/athletics, 6, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/misc/climbing, 6, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/misc/athletics, 6, TRUE) //Doesn't matter with infinite stamina now but whatever, examination of skills hints into their supernatural endurance.
 	pants = /obj/item/clothing/under/roguetown/tights/puritan
 	shirt = /obj/item/clothing/suit/roguetown/shirt/vampire
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass
