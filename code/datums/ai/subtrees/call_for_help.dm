@@ -67,10 +67,6 @@
 		ally_ctrl.set_blackboard_key("bb_last_ranged_hit_time", world.time)
 		ally_ctrl.set_blackboard_key("bb_last_ranged_attacker", current_target)
 
-		var/datum/proximity_monitor/field = ally_ctrl.blackboard[BB_FIND_TARGETS_FIELD(/datum/ai_behavior/find_aggro_targets)]
-		if(field)
-			qdel(field)
-
 		ally_ctrl.CancelActions()
 		ally.visible_message(span_warning("[ally] rushes to aid [living_pawn]!"))
 

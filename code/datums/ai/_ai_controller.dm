@@ -270,6 +270,9 @@ have ways of interacting with a specific atom and control it. They posses a blac
 /datum/ai_controller/proc/should_idle()
 	if(!can_idle)
 		return FALSE
+	var/alert_until = blackboard[BB_AI_ALERT_MODE_UNTIL] || 0
+	if(alert_until > world.time)
+		return FALSE
 	var/list/aggro_table = blackboard?[BB_MOB_AGGRO_TABLE]
 	if(length(aggro_table))
 		return FALSE
@@ -286,6 +289,10 @@ have ways of interacting with a specific atom and control it. They posses a blac
 
 /datum/ai_controller/proc/on_client_enter(datum/source, atom/target)
 	SIGNAL_HANDLER
+	// Stamp the hold-open window. Aggressive scanning for 30s after a client enters
+	// our cell; find_aggro_targets already runs every 1s when awake, so the client
+	// gets picked up fast.
+	blackboard[BB_AI_ALERT_MODE_UNTIL] = world.time + 30 SECONDS
 	if(ai_status == AI_STATUS_IDLE)
 		if(ismob(pawn))
 			var/mob/living/mob_pawn = pawn
@@ -584,11 +591,8 @@ have ways of interacting with a specific atom and control it. They posses a blac
 	behavior_cooldowns[behavior.type] = new_cooldown
 
 /datum/ai_controller/proc/nudge_target_scan()
+	// Kick the cooldown on target-acquisition behaviors so they fire on the next tick.
 	for(var/behavior_type in list(/datum/ai_behavior/find_potential_targets, /datum/ai_behavior/find_aggro_targets))
-		var/field_key = BB_FIND_TARGETS_FIELD(behavior_type)
-		var/datum/proximity_monitor/field = blackboard[field_key]
-		if(field)
-			qdel(field)
 		behavior_cooldowns[behavior_type] = world.time
 
 /proc/alert_ai_visibility_change(atom/source, range = 7)
