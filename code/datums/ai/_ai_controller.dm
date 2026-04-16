@@ -583,6 +583,20 @@ have ways of interacting with a specific atom and control it. They posses a blac
 /datum/ai_controller/proc/modify_cooldown(datum/ai_behavior/behavior, new_cooldown)
 	behavior_cooldowns[behavior.type] = new_cooldown
 
+/datum/ai_controller/proc/nudge_target_scan()
+	for(var/behavior_type in list(/datum/ai_behavior/find_potential_targets, /datum/ai_behavior/find_aggro_targets))
+		var/field_key = BB_FIND_TARGETS_FIELD(behavior_type)
+		var/datum/proximity_monitor/field = blackboard[field_key]
+		if(field)
+			qdel(field)
+		behavior_cooldowns[behavior_type] = world.time
+
+/proc/alert_ai_visibility_change(atom/source, range = 7)
+	for(var/mob/living/L in view(range, source))
+		if(!L.ai_controller)
+			continue
+		L.ai_controller.nudge_target_scan()
+
 ///Call this to add a behavior to the stack.
 /datum/ai_controller/proc/queue_behavior(behavior_type, ...)
 	var/datum/ai_behavior/behavior = GET_AI_BEHAVIOR(behavior_type)

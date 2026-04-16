@@ -116,6 +116,7 @@
 	air_update_turf(1)
 	update_icon()
 	isSwitchingStates = FALSE
+	alert_ai_visibility_change(src)
 
 	if(close_delay != -1)
 		addtimer(CALLBACK(src, PROC_REF(Close)), close_delay)
@@ -331,6 +332,7 @@
 	air_update_turf(1)
 	update_icon()
 	isSwitchingStates = FALSE
+	alert_ai_visibility_change(src)
 
 	if(close_delay != -1)
 		addtimer(CALLBACK(src, PROC_REF(Close)), close_delay)

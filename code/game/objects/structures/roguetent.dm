@@ -30,6 +30,7 @@
 	density = FALSE
 	opacity = FALSE
 	update_icon()
+	alert_ai_visibility_change(src)
 
 /obj/structure/roguetent/proc/close_up(mob/user)
 	visible_message(span_info("[user] closes [src]."))
