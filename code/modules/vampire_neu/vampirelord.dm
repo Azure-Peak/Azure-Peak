@@ -48,12 +48,13 @@
 	ADD_TRAIT(H, TRAIT_STRONGBITE, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_NOBLE, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)
+	. = ..()
 
 /datum/antagonist/vampire/lord/greet()
 	to_chat(owner.current, span_userdanger("I am ancient. I am the Land. And I am now awoken to trespassers upon my domain.")) //Sovl, stays as-is.
 	to_chat(owner.current, span_warning("I should consult my Crimson Crucible for my plans of domination. Servantry, sires to heed my will and further power will serve me well, I have yet to recover before I am anywhere close to my full potental. My Ichor fang is bound to my bloodstained stone, I can recall it for vitae if I happen to lose it.")) //Small tutorial text for vlord on spawning in.
 	owner.announce_objectives() //They don't get any yet but if you do add them, like lich has this, they'll show.
-	. = ..()
+	..()
 
 /datum/outfit/job/vamplord/pre_equip(mob/living/carbon/human/H)
 	..()

@@ -1,12 +1,12 @@
-#define VAMPCOST_ONE 6000
-#define VAMPCOST_TWO 8000 //Earlygame finish point, most vlords will end up here around 1hr in ideally.
+#define VAMPCOST_ONE 5000 //heavily chopped down, you're a server-wide antagonist that should be doing stuff, just slightly below your ability to buy roundstart.
+#define VAMPCOST_TWO 7000 //Earlygame finish point, most vlords will end up here less than 1hr into spawning into a round ideally.
 #define VAMPCOST_THREE 12000
-#define VAMPCOST_FOUR 16000 //This is the shit-is-fucked point.
-#define ARMOR_COST 8000 //Keep this high, its the best armor set in the game. It should be exclusively on the vlord where-possible. Encourages them to tradeoff power, or have a forgemaster/smith get them a set of armor.
-#define SUN_STEAL_COST 10000
-#define SERVANT_COST 800 //Keep these low, so people can play as vampires, don't worry about vamp duplication.
+#define VAMPCOST_FOUR 18000 //This is the shit-is-fucked point, intended to be exorbantly high because your thralls become stronger too AND you become immune to silver almost plus sunlight. You probably want to kill the sun if you're not a Vitabella clan, due to being burned by it. If you want any hope of reaching here.
+#define ARMOR_COST 10000 //Keep this high, higher than sunkill. Its the best armor set in the game. It should be exclusively on the vlord where-possible. Encourages them to tradeoff between sufficent champions with your army, power for yourself, killing the sun for more time, or have a forgemaster/smith get them a set of armor.
+#define SUN_STEAL_COST 8000 //Server wide war declaration, at the price of losing any and all stealth pertaining to "are there vampires or not?" you get... no daylight to worry about. Useful for most clans, mostly useless for Vitabella.
+#define SERVANT_COST 800 //Keep these low, so people can play as vampires. We want to scoop up observers/lobby joiners before they get bored.
 #define SERVANT_T2_COST 1000 //Same as above, a little bit higher because these roles /can/ actually fight, keep it low so they can get a retinue starting off.
-#define SERVANT_T3_COST 5000 //Keep moderately high, these are rarer classes that can cause problems when spammed en-mass. Expected to show up mid/late game, ideally. Very frag capable on their own.
+#define SERVANT_T3_COST 5000 //Keep moderately high, these are rarer classes that can cause problems when spammed en-mass. Expected to show up mid/late game, ideally at (2) upgrades in. Very frag capable on their own.
 
 #define INITIATE_LORDE 1
 #define INITIATE_ANYONE 2
