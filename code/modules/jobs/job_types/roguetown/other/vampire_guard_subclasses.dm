@@ -348,7 +348,7 @@
 		/datum/skill/combat/knives = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/reading = SKILL_LEVEL_MASTER, //Dead men tell no tales, fortunately undead ones tell many more.
 		/datum/skill/misc/medicine = SKILL_LEVEL_APPRENTICE, //Keeping captives, alive. We're not a lich's army, we have standards.
-		/datum/skill/misc/sneaking = SKILL_LEVEL_EXPERT,
+		/datum/skill/misc/sneaking = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/stealing = SKILL_LEVEL_APPRENTICE, //Worse than adv, intended.
 		/datum/skill/misc/music = SKILL_LEVEL_LEGENDARY, //SOVL NUKE
 		/datum/skill/misc/lockpicking = SKILL_LEVEL_EXPERT, //Keeping it, unironically works perfectly here.

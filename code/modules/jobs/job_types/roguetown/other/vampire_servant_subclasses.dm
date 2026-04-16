@@ -47,7 +47,7 @@
 		/datum/skill/labor/butchering = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/craft/cooking = SKILL_LEVEL_MASTER, //Go forth and break their kneecaps my child.
 		/datum/skill/labor/farming = SKILL_LEVEL_EXPERT, //Little roundtime to be wasted tending crops, lets them just /get it over with/ so they can continue antagging at the same time. If you want to do a feast gimmic anyway.
-		/datum/skill/labor/lumberjacking = SKILL_LEVEL_EXPERT, //Sunlight limits their time outside
+		/datum/skill/labor/lumberjacking = SKILL_LEVEL_EXPERT, //Sunlight limits their time outside, higher than forgemaster so they can supply them better
 		//They do not get mining or engineering talent, go forgemaster for that
 	)
 
@@ -122,7 +122,7 @@
 		/datum/skill/craft/smelting = SKILL_LEVEL_MASTER,
 		/datum/skill/labor/mining = SKILL_LEVEL_EXPERT,
 		/datum/skill/craft/traps = SKILL_LEVEL_EXPERT, //Another niche in the field, they can disarm traps at least
-		/datum/skill/labor/lumberjacking = SKILL_LEVEL_EXPERT, //Sunlight limits their time outside
+		/datum/skill/labor/lumberjacking = SKILL_LEVEL_JOURNEYMAN, //Capable but often better supplied
 		// They do not much for farming, nor any medical talent or the jack-of-all-trades of servants, pick that if you want those quirks.
 	)
 
@@ -130,12 +130,28 @@
 /datum/outfit/job/roguetown/other/vampforgemaster/pre_equip(mob/living/carbon/human/H)
 	..()
 	to_chat(H, span_warning("You were promised forever to perfect your craft and you recieved it, at a cost of eternal servitude and a never-ending taste for blood. Now you solely smith for your lord's army and allies, their will be done."))
-	gloves = /obj/item/clothing/gloves/roguetown/angle/grenzelgloves/blacksmith
-	cloak = /obj/item/clothing/cloak/apron/blacksmith
-	pants = /obj/item/clothing/under/roguetown/trou //More rugged appearance
-	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
-	shirt = /obj/item/clothing/suit/roguetown/shirt/shortshirt
+	if(H.mind)
+		H.set_blindness(0)
+		var/choice_list = list("Smith", "Artificer") //Doesn't get arcayne, inherently. Sorry but I'm not having servants do enchantments.
+		var/choice = input(H, "What is your occupation?", "WHAT MASQUERADE DO YOU BARE?") as anything in choice_list
 
+		switch(choice)
+			if("Smith") //Similar to towner blacksmith in appearance
+				head = /obj/item/clothing/head/roguetown/hatblu
+				cloak = /obj/item/clothing/cloak/apron/blacksmith
+				armor = /obj/item/clothing/suit/roguetown/armor/leather/vest
+				pants = /obj/item/clothing/under/roguetown/trou //More rugged appearance
+				shoes = /obj/item/clothing/shoes/roguetown/boots/leather
+				shirt = /obj/item/clothing/suit/roguetown/shirt/shortshirt
+			if("Artificer") //Pretty much town artificer in appearance
+				head = /obj/item/clothing/head/roguetown/articap
+				armor = /obj/item/clothing/suit/roguetown/armor/leather/jacket/artijacket
+				cloak = /obj/item/clothing/cloak/apron/waist/brown
+				pants = /obj/item/clothing/under/roguetown/trou/artipants
+				shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/artificer
+				shoes = /obj/item/clothing/shoes/roguetown/boots/leather
+
+	gloves = /obj/item/clothing/gloves/roguetown/angle/grenzelgloves/blacksmith
 	beltl = /obj/item/rogueweapon/pick //intended, you'll be upgrading that pretty fast.
 	beltr = /obj/item/storage/hip/orestore/bronze
 	backl = /obj/item/storage/backpack/rogue/backpack
@@ -144,8 +160,10 @@
 		/obj/item/storage/belt/rogue/pouch/coins/mid = 1,
 		/obj/item/rogueweapon/huntingknife = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1,
+		/obj/item/rogueweapon/handsaw = 1,
+		/obj/item/rogueweapon/chisel = 1,
 		/obj/item/clothing/mask/rogue/spectacles/golden = 1, //For style/construction maintenance, in backpack since they'd get replaced by eyepatches from flaws.
-		/obj/item/rogueweapon/hammer/iron = 1, //You already get these mapped in but in case you get 3 forgemasters somehow, they won't be useless.
+		/obj/item/rogueweapon/hammer/iron = 1, //You already get these mapped in but in case you get 3 forgemasters somehow, they won't be useless. Also to pair with chisel.
 		/obj/item/rogueweapon/tongs = 1,
 		/obj/item/flint = 1
 		)
