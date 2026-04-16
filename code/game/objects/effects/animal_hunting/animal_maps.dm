@@ -15,6 +15,12 @@
 	/// Hard limit on uses
 	var/uses_left = -1 
 
+/obj/item/hunting_map/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Click a hunt map onto a fresh mound to apply a % increase to find the corresponding creechers.")
+	. += span_info("Some maps scale with hunting skill.")
+	. += span_info("Some maps degrade when used, getting worse or breaking entirely.")
+
 /obj/item/hunting_map/afterattack(obj/effect/hunting_track/target, mob/user, proximity)
 	if(!proximity || !istype(target))
 		return

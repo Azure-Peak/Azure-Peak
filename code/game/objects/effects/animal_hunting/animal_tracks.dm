@@ -30,6 +30,17 @@
 	var/datum/hunting_category/secret_map_influence
 	var/influence_attempted = FALSE
 
+/obj/effect/hunting_track/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("A fresh mound is dark brown, these can be used to start a hunt by interacting with them.")
+	. += span_info("Mounds provide more info with high hunting skill.")
+	. += span_info("Follow the direction of the track to find the next mound, only you can see it, it is lighter brown in color.")
+	. += span_info("Find enough mounds to find an animal at the end!")
+	. += span_info("Mounds respawn overtime where they originally spawned.")
+	. += span_info("Buy hunting maps to improve odds at finding certain animals.")
+	. += span_info("Higher hunting skill spawns better animals more often.")
+	. += span_info("If you see a white stag, think twice before attacking. Maybe just run, to be safe.")
+
 /obj/effect/hunting_track/examine(mob/user)
 	. = ..()
 	if(trail_depth > 0)
