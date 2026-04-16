@@ -21325,13 +21325,6 @@
 	},
 /turf/open/floor/rogue/blocks/stonered/tiny,
 /area/rogue/indoors/town)
-"eDF" = (
-/obj/structure/standingbell{
-	dir = 1;
-	name = "guild service bell"
-	},
-/turf/open/floor/rogue/herringbone,
-/area/rogue/indoors/town/dwarfin)
 "eDG" = (
 /turf/open/water/swamp/deep,
 /area/rogue/outdoors/woods/south)
@@ -25005,13 +24998,6 @@
 "fqY" = (
 /turf/open/water/swamp/deep,
 /area/rogue/under/underdark/south)
-"frf" = (
-/obj/structure/standingbell{
-	dir = 1;
-	name = "merchant service bell"
-	},
-/turf/open/floor/rogue/wood,
-/area/rogue/indoors/town/shop)
 "frg" = (
 /obj/structure/fluff/statue/myth,
 /turf/open/floor/rogue/blocks,
@@ -26667,12 +26653,6 @@
 	},
 /turf/open/floor/rogue/blocks/stonered/tiny,
 /area/rogue/outdoors/town/roofs)
-"fJF" = (
-/obj/structure/standingbell{
-	name = "steward service bell"
-	},
-/turf/open/floor/rogue/herringbone,
-/area/rogue/indoors/town/steward)
 "fJH" = (
 /obj/machinery/light/rogue/candle/blue/r,
 /turf/open/floor/rogue/ruinedwood/herringbone,
@@ -271906,7 +271886,7 @@ kgf
 rtc
 oWi
 rbf
-fJF
+lbd
 rKJ
 iyM
 oQw
@@ -273270,7 +273250,7 @@ exD
 mfC
 rkI
 xHv
-frf
+oti
 iTU
 oCP
 tvm
@@ -276412,7 +276392,7 @@ jWX
 ufu
 smL
 vgo
-eDF
+cbR
 drh
 ehv
 bUt
