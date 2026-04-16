@@ -45,6 +45,13 @@
 	. = ..()
 	if(trail_depth > 0)
 		. += span_notice("You are tracking this track.")
+	if(track_revealed)
+		// Convert the current dir into a string
+		var/dir_string = dir2text(dir)
+		if(dir_string)
+			. += span_notice("The tracks seem to be heading <b>[dir_string]</b>.")
+		else
+			. += span_notice("The tracks are too scrambled to determine a clear direction.")
 	var/skill = user.get_skill_level(/datum/skill/misc/hunting)
 	if(skill < 4)
 		return
@@ -223,8 +230,7 @@
 				next_trail.hunt_category = src.hunt_category
 				next_trail.locked_track_icon = src.locked_track_icon
 				next_trail.linked_areas = src.linked_areas
-
-				next_trail.color = "#e6d2b5" 
+				next_trail.color = "#ff9100" 
 				next_trail.setup_hunter_visibility(user)
 				return TRUE
 	return FALSE
@@ -264,11 +270,11 @@
 /obj/effect/hunting_track/proc/validate_turf(turf/T)
 	if(!T || T.density)
 		return FALSE
-
+	if(istransparentturf(T))
+		return FALSE
 	// Check for wall-like objects
 	if(T.is_blocked_turf())
 		return FALSE
-
 	// Area persistence check
 	var/area/A = get_area(src)
 	var/area/target_A = get_area(T)
