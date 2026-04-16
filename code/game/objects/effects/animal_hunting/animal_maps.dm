@@ -3,7 +3,7 @@
 	desc = "A rough sketch of animal migratory patterns and bedding sites."
 	icon = 'icons/roguetown/items/books.dmi'
 	icon_state = "hunt_map"
-	w_class = WEIGHT_CLASS_SMALL
+	w_class = WEIGHT_CLASS_TINY
 	/// Category this map forces
 	var/datum/hunting_category/target_category = /datum/hunting_category/low_tier
 	/// Skill-based success chances (0-6)

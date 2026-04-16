@@ -10,6 +10,7 @@
 		TRAIT_SEWING_EXPERT,
 		TRAIT_SURVIVAL_EXPERT,
 		TRAIT_HOMESTEAD_EXPERT // No medicine but they get the full package
+		// No hunting, as it's a specialty skill.
 	)
 	category_tags = list(CTAG_PILGRIM, CTAG_TOWNER)
 	adaptive_name = TRUE
@@ -40,6 +41,7 @@
 		/datum/skill/misc/lockpicking = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/sneaking = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/riding = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/hunting = SKILL_LEVEL_NOVICE,
 
 		/datum/skill/craft/crafting = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/craft/carpentry = SKILL_LEVEL_APPRENTICE,

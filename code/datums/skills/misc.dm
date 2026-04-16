@@ -119,6 +119,7 @@
 	)
 	expert_name = "Tracker"
 
+// Shouldn't be given to adventurers/mercs etc willy nilly, only locals are really experienced hunters, as hunting is very region dependent.
 /datum/skill/misc/hunting
 	name = "Hunting"
 	desc = "Increases how fast you can catch up to animals you track. Provides more information about the possible animals you can find whilst tracking them. Makes rare animals easier to find."
