@@ -240,6 +240,7 @@
 #define TRAIT_NITEVISION "Nitevision"
 #define TRAIT_NOCSHADES "Nocshaded"
 #define TRAIT_LIGHT_STEP	"Light Step"
+#define TRAIT_HARDSOLE		"Hard Sole"
 #define TRAIT_AZURENATIVE "Azure Native"
 #define TRAIT_SLEUTH	"Sleuth"
 #define TRAIT_HARDSHELL "Hardshell"

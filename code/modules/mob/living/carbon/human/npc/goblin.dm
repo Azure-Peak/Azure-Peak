@@ -228,6 +228,8 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 /mob/living/carbon/human/species/goblin/after_creation()
 	..()
 	AddComponent(/datum/component/ai_aggro_system)
+	// Goblins shrug off their own bottle bombs
+	ADD_TRAIT(src, TRAIT_HARDSOLE, INNATE_TRAIT)
 	SEND_SIGNAL(src, COMSIG_MOB_MODIFY_AGGRO_LINES, GLOB.goblin_aggro, TRUE)
 	gender = MALE
 	if(src.dna && src.dna.species)
