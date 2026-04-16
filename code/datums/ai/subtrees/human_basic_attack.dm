@@ -388,8 +388,7 @@
 	// AI penalty: re-stamp the special cooldown longer than the player baseline so NPCs
 	// can't chain specials as tightly as a human player could. Override replaces the
 	// debuff applied inside deploy() with our extended version.
-	if(HUMAN_NPC_SPECIAL_CD_PENALTY > 1.0)
-		special.apply_cooldown(special.cooldown * HUMAN_NPC_SPECIAL_CD_PENALTY, override = TRUE)
+	special.apply_cooldown(special.cooldown * HUMAN_NPC_SPECIAL_CD_PENALTY, override = TRUE)
 	// Recovery: block the next swing for longer than a normal attack so specials don't chain
 	if(pawn.next_click < world.time + pawn.used_intent?.clickcd * 1.8)
 		pawn.next_click = world.time + (pawn.used_intent?.clickcd * 1.8)
