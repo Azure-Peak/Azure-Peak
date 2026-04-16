@@ -117,6 +117,13 @@
 	if(track_revealed)
 		return
 
+	if(trail_depth == 0)
+		var/datum/component/hunting_blocker/B = user.GetComponent(/datum/component/hunting_blocker)
+		if(!B)
+			B = user.AddComponent(/datum/component/hunting_blocker)
+		if(!B.can_start_hunt())
+			return
+
 	var/mob/living/H = hunter_ref?.resolve()
 
 	// Just in case anyone finds an invisible track somehow, this way they can't mess up someone's trail.
@@ -146,6 +153,9 @@
 		track_revealed = TRUE
 		fade_and_die(user)
 		//qdel(src)
+		if(trail_depth == 0)
+			var/datum/component/hunting_blocker/B = user.GetComponent(/datum/component/hunting_blocker)
+			B?.register_hunt()
 	else
 		to_chat(user, span_warning("The trail seems to disappear into the brush here."))
 
