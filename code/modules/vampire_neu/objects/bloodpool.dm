@@ -269,7 +269,7 @@
 
 // Specific project types
 /datum/vampire_project/power_growth
-	display_name = "Rite of Stirring (+ 1000 lorde vitae pool limit)"
+	display_name = "Rite of Stirring"
 	description = "The ancient blood stirs once more. Forgotten whispers echo through the marrow of the land. (+2 to all lorde stats + 1000 lorde vitae pool limit)"
 	total_cost = VAMPCOST_ONE
 	completion_sound = 'sound/misc/batsound.ogg'
@@ -293,7 +293,7 @@
 			break
 
 /datum/vampire_project/power_growth_2
-	display_name = "Rite of Reclamation (+ 1000 lorde vitae pool limit)"
+	display_name = "Rite of Reclamation"
 	description = "Strength long sealed returns. The soil, the stone, and the shadows bend again to their rightful master. (+2 to all lorde stats + 1000 lorde vitae pool limit)"
 	total_cost = VAMPCOST_TWO
 	completion_sound = 'sound/misc/batsound.ogg'
