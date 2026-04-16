@@ -56,20 +56,44 @@
 		return
 	var/list/present = list()
 	for(var/atom/movable/AM in target)
-		if(can_see(controller.pawn, AM))
-			present += AM
+		present += AM
 	if(length(present))
-		owning_behavior.new_atoms_found(present, controller, target_key, filter, hiding_location_key)
+		trigger_alert_mode(present)
+		// No new_atoms_found() call: that path adds threat with no LOS check, causing
+		// wall/door aggro. Alert mode flips on the 2s LOS-gated scan, which will lock
+		// the target the moment line of sight actually opens.
 	else
 		owning_behavior.new_turf_found(target, controller, filter)
 
 /datum/proximity_monitor/advanced/ai_aggro_tracking/field_turf_crossed(atom/movable/movable, turf/location, turf/old_location)
 	if(!owning_behavior.atom_allowed(movable, filter, controller.pawn))
 		return
-	if(!can_see(controller.pawn, movable))
-		return
 
-	owning_behavior.new_atoms_found(list(movable), controller, target_key, filter, hiding_location_key)
+	trigger_alert_mode(list(movable))
+	// No new_atoms_found() call - see note in setup_field_turf. Alert mode + LOS-gated
+	// scan handles actual target acquisition.
+
+/// Flag the NPC into alert mode for AI_ALERT_MODE_DURATION seconds. In alert mode,
+/// find_aggro_targets runs every 2 seconds (vs 3s default) and breaks past the
+/// "field exists so don't scan" gate. Actual target acquisition still requires LOS
+/// (enforced inside scan_for_new_targets), so alert != aggro.
+/datum/proximity_monitor/advanced/ai_aggro_tracking/proc/trigger_alert_mode(list/trigger_atoms)
+	if(QDELETED(controller) || !controller.pawn)
+		return
+	// Only care about living-mob entries for alert purposes - ignore items, effects etc.
+	var/living_found = FALSE
+	for(var/mob/living/M in trigger_atoms)
+		if(M == controller.pawn)
+			continue
+		living_found = TRUE
+		break
+	if(!living_found)
+		return
+	var/was_alert = controller.blackboard[BB_AI_ALERT_MODE_UNTIL] || 0
+	var/new_until = world.time + AI_ALERT_MODE_DURATION
+	controller.set_blackboard_key(BB_AI_ALERT_MODE_UNTIL, new_until)
+	if(was_alert < world.time)
+		AI_WORLD_THINK(controller.pawn, "entered ALERT mode (someone in aggro bubble, scanning for LOS)")
 
 /// React to controller planning
 /datum/proximity_monitor/advanced/ai_aggro_tracking/proc/controller_deleted(datum/source)

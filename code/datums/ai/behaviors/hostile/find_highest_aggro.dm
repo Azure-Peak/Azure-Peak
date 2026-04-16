@@ -3,8 +3,12 @@
 	behavior_flags = AI_BEHAVIOR_CAN_PLAN_DURING_EXECUTION
 
 /datum/ai_behavior/find_aggro_targets/get_cooldown(datum/ai_controller/cooldown_for)
+	// Alert mode: someone entered our bubble, scan every 2s to catch them the moment LOS opens.
+	var/alert_until = cooldown_for.blackboard[BB_AI_ALERT_MODE_UNTIL] || 0
+	if(alert_until > world.time)
+		return 2 SECONDS
 	if(cooldown_for.blackboard[BB_FIND_TARGETS_FIELD(type)])
-		return 3 SECONDS // AP: match old system's 3-second scan rate instead of relying on proximity field
+		return 3 SECONDS
 	return ..()
 
 /datum/ai_behavior/find_aggro_targets/perform(seconds_per_tick, datum/ai_controller/controller, target_key, targetting_datum_key, hiding_location_key)
@@ -54,6 +58,7 @@
 			finish_action(controller, succeeded = FALSE)
 			return
 		AI_THINK(living_mob, "SCAN: locking [current_target]")
+		AI_WORLD_THINK(living_mob, "LOCKED target [current_target] (was alert, now aggro)")
 		controller.set_blackboard_key(target_key, current_target)
 
 		// Check if target is hiding in something
@@ -69,8 +74,10 @@
 	// Clear target key since we don't have a valid target
 	controller.clear_blackboard_key(target_key)
 
-	// If we're using a field rn, just don't do anything
-	if(controller.blackboard[BB_FIND_TARGETS_FIELD(type)])
+	// If a field is active AND we're NOT in alert mode, defer to the field.
+	// In alert mode we want the active scan to run so we can catch the target the moment LOS opens.
+	var/alert_until = controller.blackboard[BB_AI_ALERT_MODE_UNTIL] || 0
+	if(controller.blackboard[BB_FIND_TARGETS_FIELD(type)] && alert_until <= world.time)
 		return
 
 	// If we don't have a target, check for new targets in range
@@ -86,12 +93,28 @@
 		finish_action(controller, succeeded = FALSE)
 		return
 
+	for(var/mob/living/M in potential_targets)
+		if(M.stat == DEAD)
+			continue
+		if(!targetting_datum.can_attack(living_mob, M))
+			continue
+		var/was_alert = controller.blackboard[BB_AI_ALERT_MODE_UNTIL] || 0
+		controller.set_blackboard_key(BB_AI_ALERT_MODE_UNTIL, world.time + AI_ALERT_MODE_DURATION)
+		if(was_alert < world.time)
+			AI_WORLD_THINK(living_mob, "entered ALERT mode (hostile in hearers range, scanning for LOS)")
+		break
+
 	var/list/filtered_targets = list()
 	for(var/mob/living/pot_target in potential_targets)
 		// Skip dead mobs
 		if(pot_target.stat == DEAD)
 			continue
 		if (!targetting_datum.can_attack(living_mob, pot_target))
+			continue
+		// LOS gate: no aggroing around corners. Aggro set from damage signals bypasses this
+		// path entirely (add_threat handles that), so combatants already fighting us are
+		// unaffected. This only restricts cold acquisition from passive scans.
+		if(!can_see(living_mob, pot_target))
 			continue
 		// Skip sneaking mobs with a chance to detect them
 		if(pot_target.rogue_sneaking)

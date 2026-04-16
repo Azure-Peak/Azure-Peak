@@ -123,6 +123,8 @@
 #define BB_HUMAN_NPC_JUKE_COOLDOWN       "human_npc_juke_cooldown"
 #define BB_HUMAN_NPC_FEINT_COOLDOWN      "human_npc_feint_cooldown"
 #define BB_HUMAN_NPC_TECHNIQUE_CD        "human_npc_technique_cd"
+#define BB_AI_ALERT_MODE_UNTIL           "ai_alert_mode_until"
+#define AI_ALERT_MODE_DURATION           (30 SECONDS)
 #define BB_HUMAN_NPC_CURRENT_INTENT_ATTACKS_LEFT "human_npc_intent_attacks"
 #define BB_BEGGING_FOOD_ITEM "item_beg_target"
 #define BB_ARCHER_NPC_TARGET_ARROW      "archer_target_arrow"
