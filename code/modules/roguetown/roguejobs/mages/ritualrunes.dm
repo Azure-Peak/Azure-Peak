@@ -461,17 +461,20 @@ GLOBAL_LIST(teleport_runes)
 			if(client_ref && client_ref.prefs && client_ref.prefs.familiar_prefs)
 				if(!client_ref.prefs.familiar_prefs.familiar_species) // this is an old familiar prefs object again, woe! fix that shit
 					client_ref.prefs.familiar_prefs.New(client_ref.prefs)
-					to_chat(candidate,span_warning("Set your familiar prefs to be summoned as a familiar!"))
+					to_chat(user, span_warning("A candidate had invalid familiar prefs! Re-instantiating them now."))
+					to_chat(candidate, span_warning("Set your familiar prefs to be summoned as a familiar!"))
 					continue // we skip the rest of the checks because they are not going to have prefs
 				if(client_ref.prefs.familiar_prefs.familiar_species[plane] && client_ref.prefs.familiar_prefs.familiar_names[plane])
 					if(client_ref.prefs.familiar_prefs.familiar_names[plane] in GLOB.chosen_names)
 						// special case: realname conflict
+						to_chat(user, span_warning("A candidate had valid prefs, but their name conflicted with an existing character's!"))
 						to_chat(client_ref, span_warning("Your familiar's name is already claimed, this round!"))
 					else
 						// you have all the required fields set for a familiar of this type, congrats you can be summoned
 						preferred_candidates += candidate
 			else
 				// if not, we give you a hint to set your prefs so you can be summoned
+				to_chat(user, span_warning("A candidate tried to be summoned, but had no valid prefs!"))
 				to_chat(candidate,span_warning("Set your familiar prefs to be summoned as a familiar!"))
 		if(LAZYLEN(preferred_candidates)) // we found someone with settings for the correct planar origin: it's go time
 			var/list/familiar_names = list()
