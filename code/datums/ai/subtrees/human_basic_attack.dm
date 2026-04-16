@@ -140,10 +140,12 @@
 		AI_THINK(pawn, "RMB: intent=[pawn.rmb_intent?.type] stam=[pawn.stamina]/[pawn.max_stamina]")
 		#endif
 		var/feint_ready = world.time >= (controller.blackboard[BB_HUMAN_NPC_FEINT_COOLDOWN] || 0)
-		if(feint_ready && pawn.stamina < pawn.max_stamina * 0.7 && istype(pawn.rmb_intent, /datum/rmb_intent/feint))
+		var/technique_ready = world.time >= (controller.blackboard[BB_HUMAN_NPC_TECHNIQUE_CD] || 0)
+		if(feint_ready && technique_ready && pawn.stamina < pawn.max_stamina * 0.7 && istype(pawn.rmb_intent, /datum/rmb_intent/feint))
 			AI_THINK(pawn, "FEINT: attempting feint on [target]!")
 			modifiers = list(RIGHT_CLICK = TRUE)
 			controller.set_blackboard_key(BB_HUMAN_NPC_FEINT_COOLDOWN, world.time + HUMAN_NPC_FEINT_COOLDOWN)
+			controller.set_blackboard_key(BB_HUMAN_NPC_TECHNIQUE_CD, world.time + 3 SECONDS)
 		#ifdef NPC_THINK_DEBUG
 		else if(istype(pawn.rmb_intent, /datum/rmb_intent/feint) && !feint_ready)
 			AI_THINK(pawn, "FEINT: on cooldown ([controller.blackboard[BB_HUMAN_NPC_FEINT_COOLDOWN] - world.time]ds remaining)")
@@ -352,6 +354,11 @@
 	if(pawn.has_status_effect(/datum/status_effect/debuff/specialcd))
 		return FALSE
 
+	// Shared technique cooldown prevents kick/feint/special from chaining back-to-back.
+	var/next_technique = controller.blackboard[BB_HUMAN_NPC_TECHNIQUE_CD]
+	if(next_technique && world.time < next_technique)
+		return FALSE
+
 	var/obj/item/held_weapon = pawn.get_active_held_item()
 	if(!istype(held_weapon, /obj/item/rogueweapon) || !held_weapon:special)
 		return FALSE
@@ -377,6 +384,7 @@
 		return FALSE
 	SEND_SIGNAL(pawn, COMSIG_MOB_TRY_BARK, 100)
 	special.deploy(pawn, weapon, target)
+	controller.set_blackboard_key(BB_HUMAN_NPC_TECHNIQUE_CD, world.time + 3 SECONDS)
 	// AI penalty: re-stamp the special cooldown longer than the player baseline so NPCs
 	// can't chain specials as tightly as a human player could. Override replaces the
 	// debuff applied inside deploy() with our extended version.

@@ -28,6 +28,11 @@
 	if(next_kick && world.time < next_kick)
 		return
 
+	// Shared technique cooldown prevents kick/feint/special from chaining back-to-back.
+	var/next_technique = controller.blackboard[BB_HUMAN_NPC_TECHNIQUE_CD]
+	if(next_technique && world.time < next_technique)
+		return
+
 	var/turf/target_turf = get_turf(target)
 	var/kick_dir = get_dir(pawn, target)
 	var/should_kick = FALSE
@@ -130,6 +135,7 @@
 	pawn.mmb_intent = old_mmb
 
 	controller.set_blackboard_key(BB_KICK_COOLDOWN, world.time + KICK_COOLDOWN)
+	controller.set_blackboard_key(BB_HUMAN_NPC_TECHNIQUE_CD, world.time + 3 SECONDS)
 	// Kick is a committed action; block the next melee swing briefly so they don't immediately
 	// combo into a full attack right after.
 	if(pawn.next_click < world.time + 1.2 SECONDS)
