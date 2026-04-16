@@ -151,7 +151,7 @@
 	beltr = /obj/item/rogueweapon/huntingknife/idagger/steel
 	cloak = /obj/item/clothing/cloak/half/red
 	backpack_contents = list(
-		/obj/item/storage/keyring,
+		/obj/item/storage/keyring = 1,
 	)
 	if(H.mind)
 		SStreasury.give_money_account(ECONOMIC_LOWER_MIDDLE_CLASS, H, "Savings.") // lower starting fund, but give them a saiga
@@ -191,7 +191,8 @@
 	cloak = /obj/item/clothing/cloak/half/red
 	backpack_contents = list(
 		/obj/item/hunting_map/white_stag = 1,
-		/obj/item/storage/keyring,
+		/obj/item/storage/keyring = 1,
+		/obj/item/rogueweapon/huntingknife/idagger/steel = 1,
 	)
 	if(H.mind)
 		SStreasury.give_money_account(ECONOMIC_LOWER_MIDDLE_CLASS, H, "Savings.")
@@ -215,7 +216,7 @@
 	beltr = /obj/item/rogueweapon/huntingknife/idagger/steel
 	cloak = /obj/item/clothing/cloak/half/red
 	backpack_contents = list(
-		/obj/item/storage/keyring,
+		/obj/item/storage/keyring = 1,
 	)
 	if(H.mind)
 		SStreasury.give_money_account(ECONOMIC_LOWER_MIDDLE_CLASS, H, "Savings.")
