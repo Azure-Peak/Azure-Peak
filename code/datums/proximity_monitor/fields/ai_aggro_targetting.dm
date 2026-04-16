@@ -92,8 +92,10 @@
 	var/was_alert = controller.blackboard[BB_AI_ALERT_MODE_UNTIL] || 0
 	var/new_until = world.time + AI_ALERT_MODE_DURATION
 	controller.set_blackboard_key(BB_AI_ALERT_MODE_UNTIL, new_until)
+	#ifdef NPC_THINK_DEBUG_WORLD
 	if(was_alert < world.time)
 		AI_WORLD_THINK(controller.pawn, "entered ALERT mode (someone in aggro bubble, scanning for LOS)")
+	#endif
 
 /// React to controller planning
 /datum/proximity_monitor/advanced/ai_aggro_tracking/proc/controller_deleted(datum/source)

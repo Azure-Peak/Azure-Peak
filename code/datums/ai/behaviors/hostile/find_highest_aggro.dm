@@ -100,8 +100,10 @@
 			continue
 		var/was_alert = controller.blackboard[BB_AI_ALERT_MODE_UNTIL] || 0
 		controller.set_blackboard_key(BB_AI_ALERT_MODE_UNTIL, world.time + AI_ALERT_MODE_DURATION)
+		#ifdef NPC_THINK_DEBUG_WORLD
 		if(was_alert < world.time)
 			AI_WORLD_THINK(living_mob, "entered ALERT mode (hostile in hearers range, scanning for LOS)")
+		#endif
 		break
 
 	var/list/filtered_targets = list()
