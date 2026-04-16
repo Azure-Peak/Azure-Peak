@@ -140,6 +140,9 @@
 
 	if(uncover_trail(user))
 		to_chat(user, span_nicegreen("The trail continues further ahead!"))
+		var/hunting_exp_modifier = max(1 + ((user.STAINT - 10) / 10), 0.1)
+		var/base_exp_amount = 3
+		user.mind.add_sleep_experience(/datum/skill/misc/hunting, base_exp_amount * hunting_exp_modifier)
 		track_revealed = TRUE
 		fade_and_die(user)
 		//qdel(src)
@@ -185,6 +188,9 @@
 				// Spawn Animal if depth reached
 				if(trail_depth >= max_trail_depth)
 					to_chat(user, span_boldwarning("You see your quarry in the distance faintly!"))
+					var/hunting_exp_modifier = max(1 + ((user.STAINT - 10) / 10), 0.1)
+					var/base_exp_amount = 35
+					user.mind.add_sleep_experience(/datum/skill/misc/hunting, base_exp_amount * hunting_exp_modifier)
 					new target_animal_type(T)
 					return TRUE
 
