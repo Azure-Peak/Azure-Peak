@@ -44,10 +44,10 @@
 	leader = /datum/clan_leader/eoran
 	covens_to_select = 0
 /datum/clan/eoran/get_blood_preference_string()
-	return "All that is the beauty of lyfe, you love."
+	return "All that is the beauty of lyfe, you love"
 
 /datum/clan/eoran/get_downside_string()
-	return "You are perfect, you do not have any downsides."
+	return "You are perfect, you do not have any downsides. Not even sunlight"
 
 /datum/clan/eoran/apply_clan_components(mob/living/carbon/human/H)
 	H.AddComponent(/datum/component/vampire_disguise)
