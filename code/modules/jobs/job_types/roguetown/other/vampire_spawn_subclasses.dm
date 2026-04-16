@@ -189,7 +189,7 @@
 //Played right this class could probably cause more damage than the vampire lord themselves without even being close to their statline, traits and whatever else, this is completely fine and honestly if it happens. Good for them, you get to impersonate a style of either a foreign noble, a suitor or a foreign royal.
 //TLDR: specialises in sabotage via roleplay hooks, power, coin and tools but it also inherently has decent traits to stand their own ground or even bring the fight themselves through martal and ranged arts combined. On top of T3 vamp magics from their generation.
 /datum/advclass/vampnoble
-	name = "Vampire Noble Spy"
+	name = "Vampiric Noble Spy"
 	tutorial = "You are a noble of a long fallen and forgotten kingdom, trained in maile and footwork alike. You can almost remember the days of listening to the quietest whispers in your court, you were once a vault of intrique in your own right before the previous collapse. Yet your talents will see another era of use and with it, your master's vision shalt become reality."
 	outfit = /datum/outfit/job/roguetown/other/vampnoble
 	subclass_languages = list(/datum/language/thievescant)

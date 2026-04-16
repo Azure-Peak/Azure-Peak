@@ -141,7 +141,6 @@
 /datum/outfit/job/roguetown/other/vampskirmisher/pre_equip(mob/living/carbon/human/H)
 	..()
 	to_chat(H, span_warning("You are a professional soldier, light in footwork, yet with years of experience in warfare and archery, far more than most mortals could claim. Your lord's will be done."))
-	H.verbs |= /mob/proc/haltyell_exhausting //Soldier gets to halt people
 
 	cloak = /obj/item/clothing/cloak/tabard/stabard/dungeon
 	head = /obj/item/clothing/head/roguetown/roguehood/studded //Minimal face protection, maximal auramaxxing.
@@ -181,7 +180,7 @@
 
 // Dodger melee class, excels in damage but also lacks the jack-of-all trades that is, guardsman and weaker tracking
 /datum/advclass/vampduelist
-	name = "Vampire Duelist"
+	name = "Vampiric Duelist"
 	tutorial = "You are an professional swordsman and warrior who foregoes armor in exchange for a more nimble fighting style than most mortals could claim. Your lord's will be done."
 	outfit = /datum/outfit/job/roguetown/other/vampduelist
 	traits_applied = list(TRAIT_STEELHEARTED, TRAIT_DODGEEXPERT, TRAIT_DECEIVING_MEEKNESS)
@@ -273,7 +272,7 @@
 
 // Puglist arson experiment class, replacement for adventurer bombardier. Still despite going all-in they actually perform worst as a puglist class when fighting themselves over just using bombs, this is intended.
 /datum/advclass/vampbomber
-	name = "Vampire Arsonist"
+	name = "Vampiric Arsonist"
 	tutorial = "There has been nothing more enchanting in unlyfe than the dance of flames upon an inferno of your alchemical mixes and the taste of blood. Now your master arises once more and your talents shall see use again. Your lord's will be done."
 	outfit = /datum/outfit/job/roguetown/other/vampbomber
 	traits_applied = list(TRAIT_STEELHEARTED, TRAIT_ALCHEMY_EXPERT, TRAIT_EXPLOSIVE_SUPPLY, TRAIT_MEDIUMARMOR, TRAIT_CIVILIZEDBARBARIAN,  TRAIT_BOMBER_EXPERT)
@@ -326,9 +325,91 @@
 		/obj/item/bomb = 2 //CHAOS REIGNS
 		)
 
+//A bunch of motherfuckin' draculas and they're all playin' flute.
+/datum/advclass/vampbard
+	name = "Vampiric Bard"
+	tutorial = "Through your blood, you can recount upon memories naught quite your own of tymes long past, tales and songs worthy of legends as though you were there for as long as you can remember through your unlyfe, betwixt an occasional visit to a brothel, tavern or flophouse for your thirst for blood; yet now you've a prophecy to fulfil. Your lord's will be done."
+	outfit = /datum/outfit/job/roguetown/other/vampbard
+	traits_applied = list(TRAIT_STEELHEARTED, TRAIT_DODGEEXPERT, TRAIT_GOODLOVER, TRAIT_EMPATH) //Keeping good lover, its funny.
+	category_tags = list(CTAG_VAMPGUARD)
+	subclass_stats = list(
+		STATKEY_INT = 2,
+		STATKEY_SPD = 2,
+		STATKEY_WIL = 1,
+
+		//5 weighted statline, unchanged from adv. Due to how strong bardic buffs can be in the hands of vampyres now they get numbers (I.E stam regen, health regen, etc) although they do still feel blue bar (excluding vlord) they have to retain being somewhat weak-ish
+	)
+	subclass_skills = list(
+		/datum/skill/combat/wrestling = SKILL_LEVEL_APPRENTICE, //Still not amazing, because you can buff up already pretty stacked classes.
+		/datum/skill/combat/unarmed = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/swords = SKILL_LEVEL_EXPERT, //OG bard, its sovl
+		/datum/skill/combat/knives = SKILL_LEVEL_JOURNEYMAN, //Still gets adv knife fighting skill to back down onto.
+		/datum/skill/misc/reading = SKILL_LEVEL_MASTER, //Dead men tell no tales, fortunately undead ones tell many more.
+		/datum/skill/misc/medicine = SKILL_LEVEL_APPRENTICE, //Keeping captives, alive. We're not a lich's army, we have standards.
+		/datum/skill/misc/sneaking = SKILL_LEVEL_EXPERT,
+		/datum/skill/misc/stealing = SKILL_LEVEL_APPRENTICE, //Worse than adv, intended.
+		/datum/skill/misc/music = SKILL_LEVEL_LEGENDARY, //SOVL NUKE
+		/datum/skill/misc/lockpicking = SKILL_LEVEL_EXPERT, //Keeping it, unironically works perfectly here.
+	)
+
+/datum/outfit/job/roguetown/other/vampbard/pre_equip(mob/living/carbon/human/H)
+	..()
+	to_chat(H, span_warning("Through your blood, you can recount upon memories naught quite your own of tymes long past, tales and songs worthy of legends as though you were there for as long as you can remember through your unlyfe, betwixt an occasional visit to a brothel, tavern or flophouse for your thirst for blood; yet now you've a prophecy to fulfil. Your lord's will be done."))
+	head = /obj/item/clothing/head/roguetown/bardhat //Thou hath nae hat then thou art nae bard O' myne.
+	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
+	neck = /obj/item/clothing/neck/roguetown/chaincoif/paalloy //Covers head, also semi-noticable
+	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants
+	mask = /obj/item/clothing/mask/rogue/ragmask/black //Obligary face coverage
+	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson //Less protection, due to support class.
+	gloves = /obj/item/clothing/gloves/roguetown/fingerless_leather
+	belt = /obj/item/storage/belt/rogue/leather
+	beltr = /obj/item/rogueweapon/huntingknife/idagger/steel
+	beltl = /obj/item/rogueweapon/scabbard/sword
+	backr = /obj/item/rogueweapon/sword //OG sword
+	armor = /obj/item/clothing/suit/roguetown/armor/leather/vest
+	backl = /obj/item/storage/backpack/rogue/satchel
+	cloak = /obj/item/clothing/cloak/half/red //stays, obligary.
+	backpack_contents = list(
+		/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
+		/obj/item/rope/chain = 1,
+		/obj/item/lockpick = 1, //Go buy more, if you need em.
+		/obj/item/rogueweapon/scabbard/sheath = 1
+		)
+	H.verbs |= /mob/proc/haltyell_exhausting //This is stupid, keeping it. Halting someone to listen to your music is too funny.
+
+	var/datum/inspiration/I = new /datum/inspiration(H)
+	I.grant_inspiration(H, bard_tier = BARD_T2)
+	if(H.mind)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/vicious_mockery)
+		var/weapons = list("Harp","Lute","Accordion","Guitar","Hurdy-Gurdy","Viola","Vocal Talisman", "Psyaltery", "Flute")
+		var/weapon_choice = tgui_input_list(H, "Choose your instrument.", "STRINGS TO PLAY LYKE MORTALS.", weapons)
+		H.set_blindness(0)
+		switch(weapon_choice)
+			if("Harp")
+				l_hand = /obj/item/rogue/instrument/harp
+			if("Lute")
+				l_hand = /obj/item/rogue/instrument/lute
+			if("Accordion")
+				l_hand = /obj/item/rogue/instrument/accord
+			if("Guitar")
+				l_hand = /obj/item/rogue/instrument/guitar
+			if("Hurdy-Gurdy")
+				l_hand = /obj/item/rogue/instrument/hurdygurdy
+			if("Viola")
+				l_hand = /obj/item/rogue/instrument/viola
+			if("Vocal Talisman")
+				l_hand = /obj/item/rogue/instrument/vocals
+			if("Psyaltery")
+				l_hand = /obj/item/rogue/instrument/psyaltery
+			if("Flute")
+				l_hand = /obj/item/rogue/instrument/flute //You know what must be done.
+
 // Armored mage, basically vampire magos for the lord. Specialises in faster casting, as a sort of step-in replacement for the grenzelhoftian seige mage. They may be buffed, nerfed or replaced depending how they perform.
 /datum/advclass/vampseigemage
-	name = "Vampire Battlemage"
+	name = "Vampiric Battlemage"
 	tutorial = "You were a magos of old, ever since the embrace you've never had more time to practice your persuit of arcayne magicks, let alone revel in your taste for blood; now your master arises once more and your arcayne research shall see fruitation. Your lord's will be done."
 	outfit = /datum/outfit/job/roguetown/other/vampseigemage
 	traits_applied = list(TRAIT_STEELHEARTED, TRAIT_INTELLECTUAL, TRAIT_ALCHEMY_EXPERT, TRAIT_ARCYNE)

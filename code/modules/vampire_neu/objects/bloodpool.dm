@@ -442,7 +442,7 @@
 
 /datum/vampire_project/servant/servant_t2
 	display_name = "Summon Vampyre Guard"
-	description = "A loyal servant to fight for of your cause, bring you forth mortals or defend your manor, be it wit blade and shield, bow and arrow or wit and magicks. (Generation: Neonite - Can sire 1 Thinblood - 9RP)"
+	description = "A loyal servant to fight for of your cause, or defend your manor, be it wit blade and shield, bow and arrow or wit and magicks. (Generation: Neonite - Can sire 1 Thinblood - 9RP)"
 	total_cost = SERVANT_T2_COST
 	completion_sound = 'sound/misc/vcraft.ogg'
 
@@ -452,7 +452,7 @@
 
 /datum/vampire_project/servant/servant_t3
 	display_name = "Summon Vampyre Champion"
-	description = "A loyal, high talented and powerful champion to herald your army of darkness, or disrupt mortalkynd from the shadows. (Generation: Ancillae - Can sire 5 Neonites - 17RP)."
+	description = "A loyal, highly talented and powerful champion to herald your army of darkness, or disrupt mortalkynd from the shadows. (Generation: Ancillae - Can sire 5 Neonites - 17RP)."
 	total_cost = SERVANT_T3_COST
 	completion_sound = 'sound/misc/vcraft.ogg'
 

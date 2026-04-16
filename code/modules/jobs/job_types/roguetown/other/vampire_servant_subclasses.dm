@@ -132,9 +132,9 @@
 	to_chat(H, span_warning("You were promised forever to perfect your craft and you recieved it, at a cost of eternal servitude and a never-ending taste for blood. Now you solely smith for your lord's army and allies, their will be done."))
 	gloves = /obj/item/clothing/gloves/roguetown/angle/grenzelgloves/blacksmith
 	cloak = /obj/item/clothing/cloak/apron/blacksmith
-	pants = /obj/item/clothing/under/roguetown/tights/formalfancy
-	shoes = /obj/item/clothing/shoes/roguetown/boots
-	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/formal
+	pants = /obj/item/clothing/under/roguetown/trou //More rugged appearance
+	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
+	shirt = /obj/item/clothing/suit/roguetown/shirt/shortshirt
 
 	beltl = /obj/item/rogueweapon/pick //intended, you'll be upgrading that pretty fast.
 	beltr = /obj/item/storage/hip/orestore/bronze
@@ -144,7 +144,7 @@
 		/obj/item/storage/belt/rogue/pouch/coins/mid = 1,
 		/obj/item/rogueweapon/huntingknife = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1,
-		/obj/item/clothing/mask/rogue/spectacles/golden = 1, //For style, you can toss these away if you want.
+		/obj/item/clothing/mask/rogue/spectacles/golden = 1, //For style/construction maintenance, in backpack since they'd get replaced by eyepatches from flaws.
 		/obj/item/rogueweapon/hammer/iron = 1, //You already get these mapped in but in case you get 3 forgemasters somehow, they won't be useless.
 		/obj/item/rogueweapon/tongs = 1,
 		/obj/item/flint = 1
