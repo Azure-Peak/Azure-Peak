@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - balance: "Removed most stats and athletics skills influence on hunger rate and then halved the flat hunger rate gain. Report if hunger happens too often. Str above 10 increases hunger rate by 5% per point instead of 7.5%"

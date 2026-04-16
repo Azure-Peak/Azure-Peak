@@ -354,6 +354,7 @@
 		/obj/item/rogueweapon/scabbard/sheath = 1,
 		(naledi_book) = 1,
 		/obj/item/book/spellbook = 1,
+		/obj/item/chalk = 1,
 	)
 
 	var/origin = input(H, "Did you study under the Naledi Yogis?", "ORIGIN") as anything in list("Yes", "No")
