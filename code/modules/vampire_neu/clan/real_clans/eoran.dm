@@ -15,7 +15,7 @@
 	desc = "Eora, moved by your relentless pursuit of art and beauty, has bestowed her blessing upon your cursed bloodline. Yet, in her admiration, she has overlooked the darker facets of your nature: your twisted notion of love and your delusions of grandeur. "
 	curse = "Obsession with vanity, need to be loved"
 	clanicon = "eoran"
-	blood_preference = BLOOD_PREFERENCE_ALL
+	blood_preference = BLOOD_PREFERENCE_LIVING //You can't love them if they're dead
 	clane_traits = list(
 		TRAIT_BEAUTIFUL,
 		TRAIT_EMPATH,
@@ -44,7 +44,7 @@
 	leader = /datum/clan_leader/eoran
 	covens_to_select = 0
 /datum/clan/eoran/get_blood_preference_string()
-	return "Regular blood, blood of your loved ones"
+	return "All that is the beauty of lyfe, you love."
 
 /datum/clan/eoran/get_downside_string()
 	return "You are perfect, you do not have any downsides."

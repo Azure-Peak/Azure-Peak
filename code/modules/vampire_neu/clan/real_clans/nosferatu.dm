@@ -34,6 +34,9 @@
 		TRAIT_NOPAIN,
 		TRAIT_TOXIMMUNE,
 		TRAIT_STEELHEARTED,
+		TRAIT_NASTY_EATER,
+		TRAIT_ANTISCRYING, //You're not scrying the sewer abomination, sire.
+		TRAIT_UNSEEMLY, //Yeah you're horrible to look at.
 		TRAIT_NOSLEEP,
 		TRAIT_VAMPMANSION,
 		TRAIT_VAMP_DREAMS,
