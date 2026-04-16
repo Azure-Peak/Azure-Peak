@@ -150,6 +150,9 @@
 	beltl = /obj/item/roguekey/manor
 	beltr = /obj/item/rogueweapon/huntingknife/idagger/steel
 	cloak = /obj/item/clothing/cloak/half/red
+	backpack_contents = list(
+		/obj/item/storage/keyring,
+	)
 	if(H.mind)
 		SStreasury.give_money_account(ECONOMIC_LOWER_MIDDLE_CLASS, H, "Savings.") // lower starting fund, but give them a saiga
 	// give them the shitty see prices trait
@@ -188,6 +191,7 @@
 	cloak = /obj/item/clothing/cloak/half/red
 	backpack_contents = list(
 		/obj/item/hunting_map/white_stag = 1,
+		/obj/item/storage/keyring,
 	)
 	if(H.mind)
 		SStreasury.give_money_account(ECONOMIC_LOWER_MIDDLE_CLASS, H, "Savings.")
@@ -210,6 +214,9 @@
 	beltl = /obj/item/storage/keyring/steward
 	beltr = /obj/item/rogueweapon/huntingknife/idagger/steel
 	cloak = /obj/item/clothing/cloak/half/red
+	backpack_contents = list(
+		/obj/item/storage/keyring,
+	)
 	if(H.mind)
 		SStreasury.give_money_account(ECONOMIC_LOWER_MIDDLE_CLASS, H, "Savings.")
 	// give them the good see prices trait
