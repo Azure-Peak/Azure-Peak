@@ -100,6 +100,7 @@
 		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/climbing = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/athletics = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/labor/butchering = SKILL_LEVEL_JOURNEYMAN,
 		// One below spear hunters
 		/datum/skill/combat/polearms = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/knives = SKILL_LEVEL_APPRENTICE,
@@ -193,6 +194,8 @@
 	// give them the shitty see prices trait
 	ADD_TRAIT(H, TRAIT_SEEPRICES_SHITTY, JOB_TRAIT)
 	ADD_TRAIT(H, TRAIT_MASTERFUL_HUNTER, JOB_TRAIT)
+	// Level up butchering
+	ADD_TRAIT(H, TRAIT_SURVIVAL_EXPERT, JOB_TRAIT)
 
 /datum/outfit/job/roguetown/councillor/castellan/pre_equip(mob/living/carbon/human/H)
 	..()
