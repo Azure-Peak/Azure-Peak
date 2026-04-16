@@ -305,6 +305,7 @@
 		if(lord && !lord.ascended)
 			var/mob/living/carbon/human/lord_body = user
 			to_chat(user, span_greentext("My power grows through collective sacrifice."))
+			to_chat(user, span_warning("I should grow my dominion, so that I shall gain more power through collective sacrifice.")) //Subtle Que for Newer players, to convert/buy servants
 			for(var/S in MOBSTATS)
 				lord_body.change_stat(S, 2)
 			lord_body.maxbloodpool += 1000
@@ -325,6 +326,7 @@
 		if(lord && !lord.ascended)
 			var/mob/living/carbon/human/lord_body = user
 			to_chat(user, span_greentext("My power grows through collective sacrifice, I am nearing completion."))
+			to_chat(user, span_warning("I am stronger than ever, I am now immune to grabs.")) //Trait hints
 			for(var/S in MOBSTATS)
 				lord_body.change_stat(S, 2)
 			ADD_TRAIT(lord_body, TRAIT_GRABIMMUNE, TRAIT_GENERIC) //You're reaching solo-antagonist levels of godhood here.
@@ -351,6 +353,7 @@
 			ADD_TRAIT(lord_body, TRAIT_NOMOOD, TRAIT_GENERIC) //Why should I care for anything, when I am god?
 			lord_body.maxbloodpool += 1000
 			to_chat(user, span_danger("I AM ANCIENT, I AM THE LAND. EVEN THE SUN BOWS TO ME."))
+			to_chat(user, span_warning("I will no longer tire nor feel, stamina will no longer affect me.")) //Trait hints
 			lord.ascended = TRUE
 			var/list/all_subordinates = user.clan_position.get_all_subordinates()
 			for(var/mob/living/carbon/human/subordinate_body  in all_subordinates)
