@@ -65,8 +65,11 @@
 	adjust_skillrank(/datum/skill/combat/wrestling, 6, TRUE)
 	adjust_skillrank(/datum/skill/misc/athletics, 6, TRUE)
 
-	var/obj/item/rogueweapon/stag_antlers/A = new(src)
-	put_in_hands(A, TRUE)
+	// Giving them two in an attempt to prevent them from picking up other weapons. AS FUNNY AS IT IS....
+	for(var/i in 1 to 2)
+		var/obj/item/rogueweapon/stag_antlers/A = new(src)
+		if(!put_in_hands(A, TRUE))
+			qdel(A)
 
 	skin_armor = new /obj/item/clothing/suit/roguetown/armor/skin_armor/stag_hide
 
@@ -105,7 +108,9 @@
 		"Bone Stalker"
 	)
 	real_name = pick(stag_titles)
+	name = real_name
 	AddComponent(/datum/component/white_stag_tracker)
+	// Practically the only way to kill this thing is through decapitating it, good luck!
 	if(dna && dna.species)
 		dna.species.species_traits |= NOBLOOD
 
@@ -120,7 +125,7 @@
 	blocksound = SOFTHIT
 	blade_dulling = DULLING_BASHCHOP
 	sewrepair = FALSE
-	max_integrity = 1000
+	max_integrity = 1200
 	item_flags = DROPDEL
 
 /datum/intent/simple/stag_gore
@@ -178,6 +183,8 @@
 	health = 1
 	maxHealth = 1
 	// High-tier loot table
+	// Yae, the loot of this thing is fairly lame, but that's because I ain't got the energy to sprite unique crafts right now.
+	// It serves as a roleplay tool more than well enough without special loot.
 	butcher_results = list(
 		/obj/item/reagent_containers/food/snacks/rogue/meat/steak = 10,
 		/obj/item/reagent_containers/food/snacks/fat = 6,
@@ -208,7 +215,7 @@
 	anchored = TRUE
 	density = FALSE
 	layer = ABOVE_MOB_LAYER
-	pixel_x = -16 // Default centering for the 64px sprite
+	pixel_x = -16
 	var/stolen_item = /obj/item/natural/head/white_stag
 
 /obj/structure/fluff/walldeco/mounted_head/attack_hand(mob/user)

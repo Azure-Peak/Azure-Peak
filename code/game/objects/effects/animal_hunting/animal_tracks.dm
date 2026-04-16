@@ -26,9 +26,14 @@
 	var/max_trail_depth = 10
 	/// Category boosted by user.
 	var/datum/hunting_category/preferred_hunt
+	/// Hunting map influences
+	var/datum/hunting_category/secret_map_influence
+	var/influence_attempted = FALSE
 
 /obj/effect/hunting_track/examine(mob/user)
 	. = ..()
+	if(trail_depth > 0)
+		. += span_notice("You are tracking this track.")
 	var/skill = user.get_skill_level(/datum/skill/misc/hunting)
 	if(skill < 4)
 		return
@@ -260,34 +265,37 @@
 
 	// Calculate total tracks needed: 10 base, minus 1 for each level above 3
 	max_trail_depth = clamp(10 - (max(0, skill - 3)), 7, 10)
-
 	var/list/cat_weights = list()
-	for(var/cat_type in subtypesof(/datum/hunting_category))
-		var/datum/hunting_category/C = new cat_type()
-		var/weight = C.skill_weights[skill]
 
-		// Exact type matching for area bonus to avoid using subtypes
-		var/area_bonus = C.preferred_areas[A.type]
-		if(area_bonus)
-			weight *= (1 + (area_bonus / 100))
-
-		// Right-click preference boost
-		if(preferred_hunt && C.type == preferred_hunt.type)
-			var/boost = 1.0
-			switch(skill)
-				if(4)
-					boost = 1.25
-				if(5)
-					boost = 1.50
-				if(6)
-					boost = 2.0
-			weight *= boost
-		if(weight > 0)
-			cat_weights[C] = weight
-
-	if(!cat_weights.len) // Emergency fallback
-		hunt_category = new /datum/hunting_category/low_tier()
+	if(secret_map_influence)
+		hunt_category = new secret_map_influence()
 	else
+		for(var/cat_type in subtypesof(/datum/hunting_category))
+			var/datum/hunting_category/C = new cat_type()
+			var/weight = C.skill_weights[skill + 1]
+
+			// Exact type matching for area bonus to avoid using subtypes
+			var/area_bonus = C.preferred_areas[A.type]
+			if(area_bonus)
+				weight *= (1 + (area_bonus / 100))
+
+			// Right-click preference boost
+			if(preferred_hunt && C.type == preferred_hunt.type)
+				var/boost = 1.0
+				switch(skill)
+					if(4)
+						boost = 1.25
+					if(5)
+						boost = 1.50
+					if(6)
+						boost = 2.0
+				weight *= boost
+			if(weight > 0)
+				cat_weights[C] = weight
+
+	if(!cat_weights.len && !hunt_category) // Emergency fallback
+		hunt_category = new /datum/hunting_category/low_tier()
+	else if (!hunt_category)
 		hunt_category = pickweight(cat_weights)
 
 	target_animal_type = pickweight(hunt_category.animals)

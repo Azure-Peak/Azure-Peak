@@ -138,3 +138,16 @@
 		/area/rogue/under/cavewet/bogcaves/north = 60,
 		/area/rogue/under/cavewet/bogcaves/coastcaves = 60
 	)
+
+/datum/hunting_category/white_stag
+	// Named the same as to make it impossible to tell when a stag is there.
+	name = "Great Beasts"
+	// May become even rarer down the line.
+	skill_weights = list(1, 1, 1, 1, 1, 1, 2) // Stumbling into this aimlessly is nigh-impossible
+	animals = list(
+		/mob/living/carbon/human/species/wildshape/white_stag = 1
+	)
+	preferred_tracks = list(
+		/mob/living/carbon/human/species/wildshape/white_stag = "cervine"
+	)
+	preferred_areas = list()
