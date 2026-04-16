@@ -11,7 +11,7 @@
 	wlength = WLENGTH_SHORT
 	slot_flags = ITEM_SLOT_HIP
 	w_class = WEIGHT_CLASS_NORMAL
-	associated_skill = /datum/skill/combat/maces
+	associated_skill = /datum/skill/craft/blacksmithing
 	smeltresult = /obj/item/ash
 	grid_width = 32
 	grid_height = 64
