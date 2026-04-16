@@ -530,3 +530,17 @@
   - rscadd: Added iron scissors to arcyne forge
   UEDCommander:
   - bugfix: Fixed matthiosite crafting recepies being redefined twice
+2026-04-16:
+  7erracotta:
+  - rscadd: Added new hats and a face accessory
+  - rscadd: new sprites
+  FreeStylaLT:
+  - bugfix: Fixed water-related lookup messages appearing when the player is not underwater.
+  WeNeedMorePhoron:
+  - rscadd: Adjusted TGUI List Input to become compact again instead of wide for no
+      reasons.
+  - balance: Reduced difficulty of the final room of the Necran Labyrinth
+  - rscadd: Roles that should have chalk but is missing chalks, including grenzelhoftian
+      mage, some mystic classes, heartfelt magos / hand gotten them chalk
+  bearrrrrrrr:
+  - balance: jannisary NO LONGER loses 1 per (literally unbeatable in combat)
