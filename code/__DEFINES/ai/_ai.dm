@@ -10,7 +10,7 @@
 #define AI_INT_SCALE_PROB(pawn, chance) prob(min(chance, chance * pawn.STAINT / AI_INT_BASELINE))
 
 ///Carbon checks
-#define SHOULD_RESIST(source) (source.on_fire || source.buckled || HAS_TRAIT(source, TRAIT_RESTRAINED) || (source.pulledby && source.pulledby.grab_state > GRAB_PASSIVE))
+#define SHOULD_RESIST(source) (source.on_fire || source.buckled || HAS_TRAIT(source, TRAIT_RESTRAINED) || source.pulledby)
 #define SHOULD_STAND(source) (source.resting)
 #define IS_DEAD_OR_INCAP(source) (source.incapacitated() || source.stat)
 
