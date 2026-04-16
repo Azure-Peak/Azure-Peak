@@ -327,6 +327,8 @@
 			to_chat(user, span_greentext("My power grows through collective sacrifice."))
 			for(var/S in MOBSTATS)
 				lord_body.change_stat(S, 2)
+			ADD_TRAIT(lord_body, TRAIT_GRABIMMUNE, TRAIT_GENERIC) //You're reaching solo-antagonist levels of godhood here.
+			ADD_TRAIT(lord_body, TRAIT_NOFALLDAMAGE1, TRAIT_GENERIC) //Lets you jump down and out-aura farm anything that moves.
 			lord_body.maxbloodpool += 1000
 			bloodpool.available_project_types -= /datum/vampire_project/power_growth_3
 			bloodpool.available_project_types += /datum/vampire_project/power_growth_4
@@ -334,7 +336,7 @@
 
 /datum/vampire_project/power_growth_4
 	display_name = "Rite of Sovereignty"
-	description = "The Lord is whole. Ancient power saturates every stone and vein, for the Land and its master are one. (+2 to all stats for all clan vampyres, +2 to all stats for lorde (+4 total for lord) +1000 vitae pool limit, lorde gains silver resistance, lorde becomes immune to sunlite.)"
+	description = "The Lord is whole. Ancient power saturates every stone and vein, for the Land and its master are one. (+2 to all stats for all clan vampyres, +2 to all stats for lorde (+4 total for lord) +1000 vitae pool limit, lorde gains resistance to silver and sunlite, infinite stamina and moodless.)"
 	total_cost = VAMPCOST_FOUR
 	completion_sound = 'sound/misc/batsound.ogg'
 
@@ -346,6 +348,8 @@
 			var/mob/living/carbon/human/lord_body = user
 			for(var/S in MOBSTATS)
 				lord_body.change_stat(S, 2)
+			ADD_TRAIT(lord_body, TRAIT_INFINITE_STAMINA, TRAIT_GENERIC) //I mean, you worked for it. You're now the OG vlord once more, go nuts! The lorde of mass-fragging once more.
+			ADD_TRAIT(lord_body, TRAIT_NOMOOD, TRAIT_GENERIC) //"...Yet you stood there, numb..."
 			lord_body.maxbloodpool += 1000
 			to_chat(user, span_danger("I AM ANCIENT, I AM THE LAND. EVEN THE SUN BOWS TO ME."))
 			lord.ascended = TRUE
