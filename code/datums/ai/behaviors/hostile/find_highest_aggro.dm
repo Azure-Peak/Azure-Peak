@@ -98,7 +98,9 @@
 			continue
 		if(!targetting_datum.can_attack(living_mob, M))
 			continue
+		#ifdef NPC_THINK_DEBUG_WORLD
 		var/was_alert = controller.blackboard[BB_AI_ALERT_MODE_UNTIL] || 0
+		#endif
 		controller.set_blackboard_key(BB_AI_ALERT_MODE_UNTIL, world.time + AI_ALERT_MODE_DURATION)
 		#ifdef NPC_THINK_DEBUG_WORLD
 		if(was_alert < world.time)
