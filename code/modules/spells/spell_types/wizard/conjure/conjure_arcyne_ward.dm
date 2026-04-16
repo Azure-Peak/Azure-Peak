@@ -26,7 +26,7 @@
 	invocation_type = INVOCATION_SHOUT
 
 	charge_required = TRUE
-	charge_time = 6 SECONDS
+	charge_time = 8 SECONDS
 	charge_drain = 1
 	charge_slowdown = 3
 	charge_sound = 'sound/magic/charging.ogg'
