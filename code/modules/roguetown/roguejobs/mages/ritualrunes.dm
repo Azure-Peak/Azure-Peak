@@ -587,7 +587,7 @@ GLOBAL_LIST(teleport_runes)
 				refund_costs = list(/obj/item/magic/artifact = 1, /obj/item/magic/voidstone = 2, /obj/item/magic/leyline = 1)
 			for(var/index in refund_costs)
 				for(var/i in 1 to refund_costs[index])
-					new i(loc)
+					new index(loc)
 			QDEL_NULL(summoned_mob)
 
 /obj/effect/decal/cleanable/roguerune/arcyne/binding/proc/clear_obstacles(mob/living/user)
