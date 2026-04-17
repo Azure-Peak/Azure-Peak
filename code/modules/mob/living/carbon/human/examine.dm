@@ -328,9 +328,10 @@
 		if(isnull(mammonsinbank))
 			mammonsinbank = 0
 		var/totalvalue = mammonsonperson + mammonsinbank
-		if(totalvalue)
+		if(totalvalue && HAS_TRAIT(user, TRAIT_GILDED_SIGHT))
 			. += span_notice("They carry [mammonsonperson] mammons, with [mammonsinbank] stored away, totaling [totalvalue].")
-
+		else if(mammonsonperson && mammonsonperson >= 200)
+			. += span_notice("They carry about [mammonsonperson] mammons with them.")
 	var/obscured = check_obscured_slots()
 	var/skipface = (wear_mask && (wear_mask.flags_inv & HIDEFACE)) || (head && (head.flags_inv & HIDEFACE))
 	if(HAS_TRAIT(user, TRAIT_ROYALSERVANT))

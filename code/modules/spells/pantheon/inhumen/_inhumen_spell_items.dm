@@ -515,7 +515,6 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 					/obj/item/roguegem/yellow,
 					/obj/item/roguegem/green,
 					/obj/item/roguegem/violet,
-					/obj/item/roguegem/diamond
 				)
 				var/typepath = pick(ores)
 				var/bonus = get_stone_value(new typepath)
@@ -806,7 +805,13 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 		return TRUE
 
 	if(do_after(user, 1.5 SECONDS))
-		inserted_ingredients += I.type
+
+		if(istype(I, /obj/item/natural/bundle/fibers))
+			var/obj/item/natural/bundle/fibers/B = I
+			for(var/i = 1 to B.amount)
+				inserted_ingredients += /obj/item/natural/fibers
+		else
+			inserted_ingredients += I.type
 
 		var/color_to_use = null
 		for(var/T in ingredient_colors)
@@ -911,6 +916,8 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 		/obj/item/alch/mentha,
 		/obj/item/alch/manabloompowder,
 		/obj/item/reagent_containers/powder,
+		/obj/item/natural/bone,
+		/obj/item/natural/bundle/bone,
 	)
 
 	ingredient_colors = list(
@@ -918,6 +925,8 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 		/obj/item/alch/mentha = "#3aff7a",
 		/obj/item/alch/manabloompowder = "#66ccff",
 		/obj/item/reagent_containers/powder = "#ff00b3",
+		/obj/item/natural/bone = "#e8e2cf",
+		/obj/item/natural/bundle/bone = "#e8e2cf",
 	)
 
 /obj/item/matthios_canister/goodnite/freeman_truth()
@@ -1779,12 +1788,14 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 	icon_state = "matthios"
 	resistance_flags = FIRE_PROOF
 	slot_flags = ITEM_SLOT_NECK
-	smeltresult = /obj/item/roguecoin/gold/matthios/pile
+	smeltresult = /obj/item/ash
 	var/grant_chant = FALSE
 	aura_color = "#ffe761"
 
 /obj/item/clothing/neck/roguetown/psicross/inhumen/matthios/gilded/equipped(mob/living/carbon/human/user, slot)
 	. = ..()
+	if(obj_broken)
+		return
 	if(slot == (SLOT_NECK||SLOT_RING) && HAS_TRAIT(user, TRAIT_FREEMAN))
 		if(!user.has_language(/datum/language/thievescant))
 			to_chat(user, span_info("You gain insight on Thieves' Cant.<br><br><i>Keep in mind these are 'words' that come out as gestures, so blend it between normal speech to make it not so obvious.</i>"))
@@ -1811,6 +1822,8 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 
 /obj/item/clothing/gloves/roguetown/fingerless_leather/muffle_matthios/equipped(mob/living/carbon/human/user, slot)
 	. = ..()
+	if(obj_broken)
+		return
 	if(slot == SLOT_GLOVES && HAS_TRAIT(user, TRAIT_FREEMAN))
 		to_chat(user, span_info("Like Him, my hands ready to grasp the impossible."))
 		ADD_TRAIT(user, TRAIT_SILENT_LOCKPICK, "matthiosboon")
@@ -2143,42 +2156,31 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 
 //MISC
 
-/obj/item/roguecoin/gold/matthios
-	name = "zenar"
-	desc = "A gold coin bearing the symbol of the Taurus and the pre-kingdom psycross. These were in the best condition of the provincial gold mints, the rest were melted down."
-	sellprice = 0 // honk, though knowing these powergamers, the meme won't last forever, worst case this skill's worth is to create free pouches :'(
+/datum/component/storage/concrete/roguetown/pouch/matthios
+	screen_max_rows = 4
+	screen_max_columns = 2
 
-/obj/item/roguecoin/gold/matthios/examine(mob/user)
+/obj/item/storage/belt/rogue/pouch/matthios
+	aura_color = "#fff385"
+	desc = "A small sack with a drawstring that allows it to be worn around the neck. Or at the hips, provided you have a belt. It has a strange, gilded glow to it."
+	component_type = /datum/component/storage/concrete/roguetown/pouch/matthios
+
+/obj/item/storage/belt/rogue/pouch/matthios/Initialize()
 	. = ..()
-	if(prob(20)) // this may be remove based on how much people troll with it, but for now
-		if(HAS_TRAIT(user, TRAIT_SEEPRICES))
-			. += span_warning("Is this true...?")
-		else if(HAS_TRAIT(user, TRAIT_SEEPRICES_SHITTY))
-			. += span_warning("Is this TRVE??")
+	AddComponent(/datum/component/cursed_item, (TRAIT_FREEMAN||TRAIT_XYLIX), "BLESSED POUCH")
 
-/obj/item/roguecoin/gold/matthios/pile/Initialize()
+/obj/item/storage/backpack/rogue/backpack/matthios
+	name = "smuggling bag"
+	desc = "A sack tied with some 'blessed' rope. There is a carving of a grinning symbol within the side of it. It has a strange, gilded glow to it."
+	aura_color = "#fff385"
+	icon_state = "rucksack_untied"
+	item_state = "rucksack"
+	component_type = /datum/component/storage/concrete/roguetown/backpack
+	max_integrity = 100
+
+/obj/item/storage/backpack/rogue/backpack/matthios/Initialize()
 	. = ..()
-	set_quantity(rand(4,19))
-
-/obj/item/storage/belt/rogue/pouch/coins/matthios
-	name = "pouch"
-	desc = "A small sack with a drawstring that allows it to be worn around the neck. Or at the hips, provided you have a belt."
-	preload = TRUE
-
-/obj/item/storage/belt/rogue/pouch/coins/matthios/get_types_to_preload()
-	var/list/to_preload = list()
-	to_preload += /obj/item/roguecoin/gold/matthios/pile
-	return to_preload
-
-/obj/item/storage/belt/rogue/pouch/coins/matthios/PopulateContents()
-	. = ..()
-	for(var/i in 1 to 4)
-		var/obj/item/roguecoin/gold/matthios/pile/H = SSwardrobe.provide_type(/obj/item/roguecoin/gold/matthios/pile, loc)
-		if(istype(H))
-			H.set_quantity(20) // full stacks
-			if(!SEND_SIGNAL(src, COMSIG_TRY_STORAGE_INSERT, H, null, TRUE, TRUE))
-				SSwardrobe.recycle_object(H)
-				break
+	AddComponent(/datum/component/cursed_item, (TRAIT_FREEMAN||TRAIT_XYLIX), "BLESSED RUCKSACK")
 
 /obj/item/rope/chain/matthios
 	name = "gilded chain"
@@ -2186,7 +2188,7 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 	color = "#fdff86"
 	aura_color = "#fff385"
 	matthios_chains = TRUE
-	smeltresult = /obj/item/roguecoin/gold/matthios/pile
+	smeltresult = /obj/item/ash
 
 /obj/item/melee/touch_attack/lesserknock/matthios
 	name = "Gilded Lockpick"

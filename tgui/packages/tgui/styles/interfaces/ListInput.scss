@@ -8,10 +8,24 @@
 
 .ListInput__Section .Section__title {
   flex-shrink: 0;
+  padding: 0.25em 0.5em;
 }
 
 .ListInput__Section .Section__titleText {
-  font-size: 1rem;
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+}
+
+.ListInput__Section .candystripe {
+  min-height: 1.4em;
+  line-height: 1.4em;
+  padding: 0 0.4em;
+  font-size: 0.9rem;
+}
+
+.ListInput__Section .Button {
+  min-height: 1.5em;
+  line-height: 1.5em;
 }
 
 .ListInput__Loader {

@@ -1,3 +1,4 @@
+#define ALCOHOL_BLOOD_RESTORE 10
 ////////////// I don't know who made this header before I refactored alcohols but I'm going to fucking strangle them because it was so ugly, holy Christ
 // ALCOHOLS //
 //////////////
@@ -31,15 +32,19 @@ All effects don't start immediately, but rather get worse over time; the rate is
 91-100: Dangerously toxic - swift death
 */
 
+
 /datum/reagent/consumable/ethanol/on_mob_life(mob/living/carbon/C)
 	if(C.drunkenness < volume * boozepwr * ALCOHOL_THRESHOLD_MODIFIER || boozepwr < 0)
 		var/booze_power = boozepwr
 		C.drunkenness = max((C.drunkenness + (sqrt(volume) * booze_power * ALCOHOL_RATE)), 0) //Volume, power, and server alcohol rate effect how quickly one gets drunk
+	if(C.blood_volume < BLOOD_VOLUME_NORMAL && !holder.has_reagent(/datum/reagent/water))
+		C.blood_volume = min(C.blood_volume + ALCOHOL_BLOOD_RESTORE, BLOOD_VOLUME_NORMAL)
 //		if(boozepwr > 0)
 //			var/obj/item/organ/liver/L = C.getorganslot(ORGAN_SLOT_LIVER)
 //			if (istype(L))
 //				L.applyOrganDamage(((max(sqrt(volume) * (boozepwr ** ALCOHOL_EXPONENT) * L.alcohol_tolerance, 0))/150))
 	return ..()
+#undef ALCOHOL_BLOOD_RESTORE
 
 /datum/reagent/consumable/ethanol/reaction_obj(obj/O, reac_volume)
 	if(istype(O, /obj/item/paper))

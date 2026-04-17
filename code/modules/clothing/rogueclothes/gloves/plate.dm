@@ -29,6 +29,15 @@
 	smeltresult = /obj/item/ingot/iron
 	max_integrity = ARMOR_INT_SIDE_IRON
 
+/obj/item/clothing/gloves/roguetown/plate/iron/banded
+	name = "banded iron gauntlets"
+	desc = "A pair of leather gloves layered under a fur wrap with an iron plate hastily tightened together on both ends. It's primarily worn in the cold north, where armor has to sometimes be cobbled together due to logistical shortages."
+	drop_sound = 'sound/foley/dropsound/scrap_drop.ogg'
+	pickup_sound = 'sound/foley/equip/scrap_equip.ogg'
+	equip_sound = 'sound/foley/equip/scrap_equip.ogg'
+	icon_state = "bandedgloves"
+	item_state = "bandedgloves"
+
 /obj/item/clothing/gloves/roguetown/plate/aalloy
 	name = "decrepit plate gauntlets"
 	desc = "Frayed bronze mechanisms, connected to form the shells of hands. Too clumsy to properly knock a bow, too rigid to comfortably grip a sword; clench those fists any tighter, and the segments'll cut into flesh."

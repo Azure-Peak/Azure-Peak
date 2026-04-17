@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Alcohol now restore blood at 2/3 the rate of water if there's no water in you."

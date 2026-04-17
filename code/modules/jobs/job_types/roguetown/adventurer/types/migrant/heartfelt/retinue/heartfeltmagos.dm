@@ -59,6 +59,7 @@
 		/obj/item/book/spellbook = 1,
 		/obj/item/rogueweapon/huntingknife/idagger/silver/arcyne = 1,
 		/obj/item/scrying = 1,
+		/obj/item/chalk = 1,
 		)
 	if(H.age == AGE_OLD)
 		H.adjust_skillrank(/datum/skill/magic/arcane, 1, TRUE)
