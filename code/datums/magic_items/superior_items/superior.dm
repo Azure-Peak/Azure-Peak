@@ -73,13 +73,13 @@
 		return
 	else
 		active_item = TRUE
-		ADD_TRAIT(user, TRAIT_NOFIRE, "[type]")
+		ADD_TRAIT(user, TRAIT_FIRE_RESIST, "[type]")
 		to_chat(user, span_notice("I feel fire-resistant!"))
 
 /datum/magic_item/superior/fireresist/on_drop(var/obj/item/i, var/mob/living/user)
 	if(active_item)
 		active_item = FALSE
-		REMOVE_TRAIT(user, TRAIT_NOFIRE, "[type]")
+		REMOVE_TRAIT(user, TRAIT_FIRE_RESIST, "[type]")
 		to_chat(user, span_notice("I feel mundane once more"))
 
 /datum/magic_item/superior/climbing

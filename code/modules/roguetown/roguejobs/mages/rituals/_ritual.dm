@@ -9,8 +9,7 @@ GLOBAL_LIST_INIT(t4wallrunerituallist, generate_t4wall_rituallist())
 GLOBAL_LIST_INIT(t2enchantmentrunerituallist,generate_t2enchantment_rituallist())
 GLOBAL_LIST_INIT(t3enchantmentrunerituallist,generate_t3enchantment_rituallist())
 GLOBAL_LIST_INIT(t4enchantmentrunerituallist,generate_t4enchantment_rituallist())
-GLOBAL_LIST_INIT(t2bindingrituallist, generate_t2binding_rituallist())
-GLOBAL_LIST_INIT(t4bindingrituallist, generate_t4binding_rituallist())
+GLOBAL_LIST_INIT(familiarbindingrituallist, generate_familiarbinding_rituallist())
 
 /proc/generate_runeritual_types()	//debug list
 	RETURN_TYPE(/list)
@@ -122,18 +121,7 @@ GLOBAL_LIST_INIT(t4bindingrituallist, generate_t4binding_rituallist())
 		runerituals[initial(runeritual.name)] = runeritual
 	return runerituals
 
-/proc/generate_t2binding_rituallist()
-	RETURN_TYPE(/list)
-	var/list/runerituals = list()
-	for(var/datum/runeritual/runeritual as anything in subtypesof(/datum/runeritual/binding))
-		if(runeritual.blacklisted)
-			continue
-		if(runeritual.tier > 2)
-			continue
-		runerituals[initial(runeritual.name)] = runeritual
-	return runerituals
-
-/proc/generate_t4binding_rituallist()
+/proc/generate_familiarbinding_rituallist()
 	RETURN_TYPE(/list)
 	var/list/runerituals = list()
 	for(var/datum/runeritual/runeritual as anything in subtypesof(/datum/runeritual/binding))

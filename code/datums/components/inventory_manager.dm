@@ -64,7 +64,7 @@
 		if(!candidate)
 			continue
 		_try_register_container(slot_flag, candidate)
-		if(!candidate.GetComponent(/datum/component/storage))
+		if(!candidate.GetComponent(/datum/component/storage) && !candidate.ai_get_custom_inventory())
 			_classify_item(candidate, slot_flag)
 
 	for(var/slot_flag in container_refs)
@@ -72,6 +72,10 @@
 		var/datum/component/storage/STR = container.GetComponent(/datum/component/storage)
 		if(STR)
 			_appraise_storage(STR, slot_flag)
+		var/list/custom = container.ai_get_custom_inventory()
+		if(custom)
+			for(var/obj/item/it in custom)
+				_classify_item(it, slot_flag)
 
 /// Scan inside a single storage component and classify contents
 /datum/component/ai_inventory_manager/proc/_appraise_storage(datum/component/storage/STR, slot_flag)
@@ -80,11 +84,12 @@
 
 /// Register a container slot and watch it for deletion
 /datum/component/ai_inventory_manager/proc/_try_register_container(slot_flag, obj/item/candidate)
-	if(!candidate.GetComponent(/datum/component/storage))
+	if(!candidate.GetComponent(/datum/component/storage) && !candidate.ai_get_custom_inventory())
 		return
 	container_refs[slot_flag] = candidate
 	RegisterSignal(candidate, COMSIG_PARENT_QDELETING, PROC_REF(on_container_delete), override = TRUE)
-	RegisterSignal(candidate, COMSIG_STORAGE_ADDED, PROC_REF(on_storage_added), override = TRUE)
+	if(candidate.GetComponent(/datum/component/storage))
+		RegisterSignal(candidate, COMSIG_STORAGE_ADDED, PROC_REF(on_storage_added), override = TRUE)
 
 /datum/component/ai_inventory_manager/proc/on_storage_added(datum/source, obj/item/inserted)
 	SIGNAL_HANDLER
@@ -108,10 +113,17 @@
 	// Partial rescan: just this slot
 	_purge_slot(slot)
 	_try_register_container(slot, equipment)
+	var/has_container = FALSE
 	if(equipment.GetComponent(/datum/component/storage))
 		var/datum/component/storage/STR = equipment.GetComponent(/datum/component/storage)
 		_appraise_storage(STR, slot)
-	else
+		has_container = TRUE
+	var/list/custom = equipment.ai_get_custom_inventory()
+	if(custom)
+		for(var/obj/item/it in custom)
+			_classify_item(it, slot)
+		has_container = TRUE
+	if(!has_container)
 		_classify_item(equipment, slot)
 
 /datum/component/ai_inventory_manager/proc/on_unequip(datum/source, obj/item/equipment, slot)
@@ -172,6 +184,19 @@
 			return slot_flag
 	return 0
 
+/datum/component/ai_inventory_manager/proc/has_any_space()
+	for(var/slot_flag in container_refs)
+		var/obj/item/container = container_refs[slot_flag]
+		if(!container)
+			continue
+		var/datum/component/storage/STR = container.GetComponent(/datum/component/storage)
+		if(!STR)
+			continue
+		var/atom/real_location = STR.real_location() || container
+		if(real_location.contents.len < STR.max_items)
+			return TRUE
+	return FALSE
+
 /datum/component/ai_inventory_manager/proc/draw_item(obj/item/it, category)
 	var/mob/living/carbon/human/H = parent
 
@@ -193,9 +218,12 @@
 	if(!container)
 		return FALSE
 	var/datum/component/storage/STR = container.GetComponent(/datum/component/storage)
-	if(!STR)
+	if(STR)
+		STR.remove_from_storage(it, H)
+	else if(container.ai_withdraw_item(it, H))
+		it.forceMove(get_turf(H))
+	else
 		return FALSE
-	STR.remove_from_storage(it, H)
 	return H.put_in_active_hand(it)
 
 /datum/component/ai_inventory_manager/proc/restore_hands()

@@ -178,19 +178,21 @@
 						generate_path = TRUE
 						controller.clear_blackboard_key(future_path_blackboard_key)
 				else
-					// Use step() with an explicit direction rather than step_to(). step_to is
-					// BYOND's obstacle-avoidance routine that tries to navigate around dense
-					// objects instead of bumping them — which means NPCs never trigger door
-					// Bumped() handlers. step() with an explicit direction just attempts the
-					// move and triggers Bump on collision, which is what opens doors.
+					// Use step() with explicit direction rather than step_to().
+					// Step will fail if we can't move in that direction and allow us to climb.
 					var/move_dir = get_dir(movable_pawn, next_step)
 					if(!step(movable_pawn, move_dir, controller.movement_delay))
-						// Step failed — check if there's a dense climbable structure (tables, rails)
-						// blocking us. Mirrors old _npc.dm behavior.
+						var/obj/structure/climb_target
 						for(var/obj/structure/O in next_step)
-							if(O.density && O.climbable)
-								O.climb_structure(movable_pawn)
+							if(O.climbable)
+								climb_target = O
 								break
+						if(!climb_target)
+							for(var/obj/structure/O in current_turf)
+								if(O.climbable)
+									climb_target = O
+									break
+						climb_target?.climb_structure(movable_pawn)
 
 				// Check if target has moved significantly from the end of our path
 				if(last_turf != get_turf(controller.current_movement_target))
@@ -245,6 +247,9 @@
 					// Generate the future path and store it in the controller's blackboard
 					var/list/new_future_path = get_path_to(movable_pawn, controller.current_movement_target, TYPE_PROC_REF(/turf, Heuristic_cardinal_3d),
 						max_path_distance + 1, max_path_distance + 1, minimum_distance, id=controller.get_access())
+					// Strip the caller's own turf if AStar included it — see note on main path gen below
+					if(length(new_future_path) && new_future_path[1] == get_turf(movable_pawn))
+						new_future_path.Cut(1, 2)
 					controller.set_blackboard_key(future_path_blackboard_key, new_future_path)
 					SEND_SIGNAL(controller.pawn, COMSIG_AI_FUTURE_PATH_GENERATED, new_future_path)
 			else
@@ -264,5 +269,9 @@
 				COOLDOWN_START(controller, repath_cooldown, 0.5 SECONDS) // AP: aggressive repath
 				controller.movement_path = get_path_to(movable_pawn, controller.current_movement_target, TYPE_PROC_REF(/turf, Heuristic_cardinal_3d),
 					max_path_distance + 1, max_path_distance + 1, minimum_distance, id=controller.get_access())
+				// AStar includes the caller's current turf as path[1] — strip it so path[1] is
+				// always the next tile to step to. Matches old _npc.dm:503 behavior.
+				if(length(controller.movement_path) && controller.movement_path[1] == get_turf(movable_pawn))
+					controller.movement_path.Cut(1, 2)
 				controller.clear_blackboard_key(future_path_blackboard_key) // Clear any future path as we have a fresh main path
 				SEND_SIGNAL(controller.pawn, COMSIG_AI_PATH_GENERATED, controller.movement_path)

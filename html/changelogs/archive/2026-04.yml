@@ -544,3 +544,26 @@
       mage, some mystic classes, heartfelt magos / hand gotten them chalk
   bearrrrrrrr:
   - balance: jannisary NO LONGER loses 1 per (literally unbeatable in combat)
+2026-04-17:
+  BurpleBineapple:
+  - bugfix: Marriage now requires consent.
+  - bugfix: The second person who bites the apple can choose if they want the first
+      person's last name or not when being married.
+  Draganfrukts:
+  - rscadd: Added Banded Iron Armor set
+  - rscadd: Added banded iron sword
+  - rscadd: Added banded iron shield skin
+  - rscadd: Ironclad adventurers can now choose banded iron armor
+  - balance: The Ironclad half-plate pick now spawns with a normal gambeson. The light
+      gambeson is relegated to the banded armor loadout.
+  - image: Iron boots now adhere to the iron palette and have functional female sprites.
+  - image: Iron plate gauntlets now adhere to the iron palette.
+  WeNeedMorePhoron:
+  - balance: Removed most stats and athletics skills influence on hunger rate and
+      then halved the flat hunger rate gain. Report if hunger happens too often. Str
+      above 10 increases hunger rate by 5% per point instead of 7.5%
+  - rscadd: Alcohol now restore blood at 2/3 the rate of water if there's no water
+      in you.
+  borneblood:
+  - balance: Problematic/buggy/unhealthy Matthios miracle interactions have been addressed
+  - bugfix: Fiber bundles were not counting properly for kingsfeast

@@ -219,11 +219,6 @@
 	)
 	result_item = /obj/item/rogueweapon/eirenxiv/eirensword
 
-/obj/item/enchantingkit/eiren_helmet
-	name = "'strigidae armet' morphing elixir"
-	target_items = list(/obj/item/clothing/head/roguetown/helmet/heavy/knight/armet)
-	result_item = /obj/item/clothing/head/roguetown/helmet/heavy/knight/armet/eiren_helmet
-
 //pretzel - custom steel greatsword. PSYDON LYVES. PSYDON ENDVRES.
 /obj/item/enchantingkit/weapon/waff
 	name = "'Weeper's Lathe' morphing elixir"

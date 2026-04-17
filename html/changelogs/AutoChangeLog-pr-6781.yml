@@ -1,0 +1,4 @@
+author: "Ketrai"
+delete-after: True
+changes:
+  - balance: "Hag message down to 0 range, so you need to be on the same tile to listen in"

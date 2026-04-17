@@ -1720,3 +1720,9 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 
 /obj/item/proc/update_wdefense_dynamic()
 	wdefense_dynamic = (wielded ? (wdefense + wdefense_wbonus) : wdefense)
+
+/obj/item/proc/ai_get_custom_inventory()
+	return null
+
+/obj/item/proc/ai_withdraw_item(obj/item/it, mob/living/user)
+	return FALSE

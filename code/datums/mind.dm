@@ -887,8 +887,9 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 	if(!current || !HAS_TRAIT(current, TRAIT_ARCYNE))
 		return
 
-	// Arcyne Ward - only granted if mage_aspect_config has "ward" = TRUE
-	if(mage_aspect_config && mage_aspect_config["ward"])
+	// Arcyne Ward - only granted to classes whose aspect config explicitly enables it
+	var/allow_ward = mage_aspect_config && mage_aspect_config["ward"]
+	if(allow_ward)
 		var/datum/action/cooldown/spell/conjure_arcyne_ward/base_ward
 		var/datum/action/cooldown/spell/conjure_arcyne_ward/variant_ward
 		for(var/datum/action/cooldown/spell/conjure_arcyne_ward/ward in spell_list)
@@ -900,7 +901,7 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 			if(base_ward)
 				RemoveSpell(base_ward)
 		else if(base_ward)
-			var/obj/item/clothing/suit/roguetown/armor/regenerating/skin/arcyne_ward/active_ward = base_ward.conjured_ward
+			var/obj/item/clothing/suit/roguetown/armor/manual/arcyne_ward/active_ward = base_ward.conjured_ward
 			if(active_ward)
 				base_ward.conjured_ward = null
 				active_ward.linked_spell = null
@@ -912,6 +913,14 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 				active_ward.linked_spell = new_ward_spell
 		else
 			AddSpell(new /datum/action/cooldown/spell/conjure_arcyne_ward)
+	else
+		// Strip any base arcyne ward the mage no longer qualifies for (e.g. attuned a major aspect)
+		for(var/datum/action/cooldown/spell/conjure_arcyne_ward/ward in spell_list)
+			if(ward.type != /datum/action/cooldown/spell/conjure_arcyne_ward)
+				continue
+			if(ward.conjured_ward && !QDELETED(ward.conjured_ward))
+				qdel(ward.conjured_ward)
+			RemoveSpell(ward)
 
 	// Prestidigitation - always last
 	var/datum/presto = get_spell(/datum/action/cooldown/spell/touch/prestidigitation)

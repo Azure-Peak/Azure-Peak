@@ -270,6 +270,9 @@ have ways of interacting with a specific atom and control it. They posses a blac
 /datum/ai_controller/proc/should_idle()
 	if(!can_idle)
 		return FALSE
+	var/alert_until = blackboard[BB_AI_ALERT_MODE_UNTIL] || 0
+	if(alert_until > world.time)
+		return FALSE
 	var/list/aggro_table = blackboard?[BB_MOB_AGGRO_TABLE]
 	if(length(aggro_table))
 		return FALSE
@@ -286,6 +289,10 @@ have ways of interacting with a specific atom and control it. They posses a blac
 
 /datum/ai_controller/proc/on_client_enter(datum/source, atom/target)
 	SIGNAL_HANDLER
+	// Stamp the hold-open window. Aggressive scanning for 30s after a client enters
+	// our cell; find_aggro_targets already runs every 1s when awake, so the client
+	// gets picked up fast.
+	blackboard[BB_AI_ALERT_MODE_UNTIL] = world.time + 30 SECONDS
 	if(ai_status == AI_STATUS_IDLE)
 		if(ismob(pawn))
 			var/mob/living/mob_pawn = pawn
@@ -421,6 +428,10 @@ have ways of interacting with a specific atom and control it. They posses a blac
 		walk(pawn, 0) //stop moving
 		return //this should remove them from processing in the future through event-based stuff.
 
+	if(!LAZYLEN(current_behaviors) && ai_status == AI_STATUS_ON && should_idle())
+		set_ai_status(AI_STATUS_IDLE)
+		return
+
 	if(!LAZYLEN(current_behaviors) && idle_behavior)
 		idle_behavior.perform_idle_behavior(delta_time, src) //Do some stupid shit while we have nothing to do
 		return
@@ -432,8 +443,13 @@ have ways of interacting with a specific atom and control it. They posses a blac
 			return
 
 		if(get_dist_3d(pawn, current_movement_target) > max_target_distance) //The distance is out of range
-			CancelActions()
-			return
+			// Hot-pursuit grace: recently ranged-hit by this exact target - allow chasing past
+			// the normal movement leash so snipers don't get free damage from offscreen.
+			var/last_hit = blackboard["bb_last_ranged_hit_time"] || 0
+			var/mob/last_shooter = blackboard["bb_last_ranged_attacker"]
+			if(!(last_shooter == current_movement_target && (world.time - last_hit < 15 SECONDS)))
+				CancelActions()
+				return
 
 	SEND_SIGNAL(src, COMSIG_AI_CONTROLLER_PICKED_BEHAVIORS, current_behaviors, planned_behaviors)
 
@@ -577,6 +593,17 @@ have ways of interacting with a specific atom and control it. They posses a blac
 
 /datum/ai_controller/proc/modify_cooldown(datum/ai_behavior/behavior, new_cooldown)
 	behavior_cooldowns[behavior.type] = new_cooldown
+
+/datum/ai_controller/proc/nudge_target_scan()
+	// Kick the cooldown on target-acquisition behaviors so they fire on the next tick.
+	for(var/behavior_type in list(/datum/ai_behavior/find_potential_targets, /datum/ai_behavior/find_aggro_targets))
+		behavior_cooldowns[behavior_type] = world.time
+
+/proc/alert_ai_visibility_change(atom/source, range = 7)
+	for(var/mob/living/L in view(range, source))
+		if(!L.ai_controller)
+			continue
+		L.ai_controller.nudge_target_scan()
 
 ///Call this to add a behavior to the stack.
 /datum/ai_controller/proc/queue_behavior(behavior_type, ...)

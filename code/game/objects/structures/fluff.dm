@@ -130,6 +130,17 @@
 	/// Throwing/Flying non mobs can always exit the turf regardless of other flags
 	var/allow_flying_outwards = TRUE
 
+/obj/structure/fluff/railing/do_climb(atom/movable/A)
+	var/turf/climber_turf = get_turf(A)
+	var/turf/dest
+	if(climber_turf == src.loc)
+		dest = get_step(src.loc, dir)
+	else
+		dest = src.loc
+	if(!dest)
+		return
+	. = A.forceMove(dest)
+
 /obj/structure/fluff/railing/Initialize()
 	. = ..()
 	init_connect_loc_element()

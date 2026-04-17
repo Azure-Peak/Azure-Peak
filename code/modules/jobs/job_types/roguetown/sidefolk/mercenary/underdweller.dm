@@ -8,6 +8,7 @@
 		/datum/species/dwarf/gnome,
 		/datum/species/elf/dark,
 		/datum/species/kobold,
+		/datum/species/moth,				//They are from the Underdark. source: moth.dm
 		/datum/species/goblinp,				//Might be a little weird but goblins do reside in caves, and they could use a unique merc class type.
 		/datum/species/anthromorphsmall,	//Basically all under-ground races. Perfect for cave-clearing.
 	)
@@ -40,7 +41,7 @@
 		/datum/skill/craft/smelting = SKILL_LEVEL_APPRENTICE,	//Accompanies mining; they know how to smelt, not make armor though.
 	)
 	subclass_languages = list(/datum/language/undercommon)
-	extra_context = "This subclass is race-limited to: Dwarves, Dark Elves, Kobolds, Goblins & Verminvolk."
+	extra_context = "This subclass is race-limited to: Dwarves, Dark Elves, Fluvians, Kobolds, Goblins & Verminvolk."
 
 /datum/outfit/job/roguetown/mercenary/underdweller/pre_equip(mob/living/carbon/human/H)
 	..()

@@ -10,6 +10,7 @@
 	max_integrity = 100
 	buckle_lying = 90
 	layer = 2.8
+	ai_path_weight = 10
 
 /obj/structure/spike_pit/Crossed(atom/movable/AM)
 	var/hitsound = pick('sound/combat/hits/bladed/genstab (1).ogg', 'sound/combat/hits/bladed/genstab (2).ogg', 'sound/combat/hits/bladed/genstab (3).ogg')
