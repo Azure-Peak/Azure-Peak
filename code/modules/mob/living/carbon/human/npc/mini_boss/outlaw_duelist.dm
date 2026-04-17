@@ -40,6 +40,7 @@ GLOBAL_LIST_INIT(duelist_aggro, list(
 	update_hair()
 	update_body()
 	def_intent_change(INTENT_DODGE)
+	AddComponent(/datum/component/npc_death_line)
 
 /mob/living/carbon/human/species/human/northern/outlaw_duelist/death(gibbed, nocutscene = FALSE)
 	. = ..()

@@ -40,7 +40,7 @@
 
 /obj/projectile/magic/aoe/fireball/rogue/artillery/arc
 	name = "arced artillery fireball"
-	damage = 45
+	damage = 53
 	arcshot = TRUE
 
 /obj/projectile/magic/aoe/fireball/rogue/artillery/on_hit(target)

@@ -25,6 +25,22 @@
 	grid_height = 32
 	var/tier = 0 //used for determining potency for mob healing
 
+// vestige - needed to revive a familiar. sort of like a carbon's head, but magic-style
+/obj/item/magic/familiar_vestige
+	name = "Planar Vestige"
+	icon_state = "abberant"
+	var/mob/living/simple_animal/pet/familiar/stored_familiar
+	resistance_flags = INDESTRUCTIBLE // don't even want to know what would happen if you broke this while a familiar was stored inside
+	desc = "The vestige of a planar creature, departed from this plane. Likely worth a lot to the magos that summoned them!"
+
+// familiar (item form): familiars can transform into this for portability and sovl
+/obj/item/magic/familiar_spirit
+	name = "Familiar Spirit"
+	icon = 'icons/roguetown/mob/familiars.dmi'
+	resistance_flags = INDESTRUCTIBLE
+	slot_flags = ITEM_SLOT_HIP|ITEM_SLOT_NECK|ITEM_SLOT_RING // little pendant-esque thing
+	desc = "You should not be seeing this!"
+
 // MELD
 /obj/item/magic/melded
 	name = "arcane meld"
@@ -56,12 +72,6 @@
 	icon_state = "confluence"
 	desc = "A melding of abyssal flame, sylvan essence and elemental relic."
 	sellprice = T4MELDSELLPRICE
-
-/obj/item/magic/melded/t5
-	name = "arcanic aberation"
-	icon_state = "abberant"
-	desc = "A melding of arcane fusion and voidstone. It pulses erratically, power coiled tightly within and dangerous. Many would be afraid of going near this, let alone holding it."
-	sellprice = T5MELDSELLPRICE
 
 //mapfetchable items
 /obj/item/magic/obsidian

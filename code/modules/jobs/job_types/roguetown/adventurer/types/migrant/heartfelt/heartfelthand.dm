@@ -229,4 +229,4 @@
 		H.change_stat("intelligence", 1)
 		H.change_stat("perception", 1)
 		if(H.mind)
-			H.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 0, "minor" = 0, "utilities" = 3, "ward" = TRUE))
+			H.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 0, "minor" = 0, "utilities" = 3))

@@ -37,6 +37,7 @@ GLOBAL_LIST_INIT(highwayman_aggro, world.file2list("strings/rt/highwaymanaggroli
 	update_body()
 	var/obj/item/bodypart/head/head = get_bodypart(BODY_ZONE_HEAD)
 	head.sellprice = 30 // 50% More than goblin
+	AddComponent(/datum/component/npc_death_line, null, 25)
 
 
 /datum/outfit/job/roguetown/human/species/human/northern/highwayman/pre_equip(mob/living/carbon/human/H)
@@ -73,6 +74,8 @@ GLOBAL_LIST_INIT(highwayman_aggro, world.file2list("strings/rt/highwaymanaggroli
 		l_hand = /obj/item/rogueweapon/shield/wood
 	if(prob(10))
 		l_hand = /obj/item/rogueweapon/shield/buckler/palloy
+	if(prob(15))
+		neck = /obj/item/storage/belt/rogue/pouch/bombs
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
 	if(prob(30))
 		neck = /obj/item/clothing/neck/roguetown/leather

@@ -1,6 +1,8 @@
 
 /datum/ai_planning_subtree/loot
 	var/scan_range = 7
+	/// Minimum time between world scans. Loot isn't time-sensitive, so we skip most ticks.
+	var/scan_cooldown = 4 SECONDS
 
 /datum/ai_planning_subtree/loot/SelectBehaviors(datum/ai_controller/controller, delta_time)
 	if(controller.blackboard[BB_BASIC_MOB_CURRENT_TARGET])
@@ -8,10 +10,19 @@
 	if(controller.blackboard[BB_BASIC_MOB_FLEEING])
 		return
 
+	var/next_scan = controller.blackboard[BB_LOOT_NEXT_SCAN]
+	if(next_scan && world.time < next_scan)
+		return
+
 	var/mob/living/pawn = controller.pawn
 	var/datum/component/ai_inventory_manager/inv = controller.get_inventory()
 	if(!inv)
 		return
+	if(!inv.has_any_space())
+		controller.set_blackboard_key(BB_LOOT_NEXT_SCAN, world.time + scan_cooldown * 3)
+		return
+
+	controller.set_blackboard_key(BB_LOOT_NEXT_SCAN, world.time + scan_cooldown)
 
 	var/list/blacklist = controller.blackboard[BB_LOOT_BLACKLIST]
 

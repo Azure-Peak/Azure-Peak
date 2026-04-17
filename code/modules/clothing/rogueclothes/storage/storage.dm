@@ -391,6 +391,16 @@
 	if(knives.len)
 		. += span_notice("[knives.len] inside.")
 
+/obj/item/storage/belt/rogue/leather/knifebelt/ai_get_custom_inventory()
+	return knives
+
+/obj/item/storage/belt/rogue/leather/knifebelt/ai_withdraw_item(obj/item/it, mob/living/user)
+	if(it in knives)
+		knives -= it
+		update_icon()
+		return TRUE
+	return FALSE
+
 /obj/item/storage/belt/rogue/leather/knifebelt/iron/Initialize()
 	. = ..()
 	for(var/i in 1 to max_storage)

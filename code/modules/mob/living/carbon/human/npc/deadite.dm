@@ -1,5 +1,6 @@
 /mob/living/carbon/human/species/npc/deadite
 	ai_controller = /datum/ai_controller/human_npc
+	d_intent = INTENT_PARRY
 	dodgetime = 8
 	ambushable = FALSE
 	infected = TRUE

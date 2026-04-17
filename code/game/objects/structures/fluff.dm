@@ -130,6 +130,17 @@
 	/// Throwing/Flying non mobs can always exit the turf regardless of other flags
 	var/allow_flying_outwards = TRUE
 
+/obj/structure/fluff/railing/do_climb(atom/movable/A)
+	var/turf/climber_turf = get_turf(A)
+	var/turf/dest
+	if(climber_turf == src.loc)
+		dest = get_step(src.loc, dir)
+	else
+		dest = src.loc
+	if(!dest)
+		return
+	. = A.forceMove(dest)
+
 /obj/structure/fluff/railing/Initialize()
 	. = ..()
 	init_connect_loc_element()
@@ -1321,87 +1332,71 @@
 		// if there's no bishop inround, you can still get married... as long as there's an eoran. heretics can do it too!
 		if((user.mind.assigned_role == "Bishop") || (istype(living_user) && HAS_TRAIT(living_user, TRAIT_MARRIAGE_CAPABLE) && (living_user.patron.type == /datum/patron/divine/eora)))
 			if(istype(W, /obj/item/reagent_containers/food/snacks/grown/apple))
-				var/marriage
 				var/obj/item/reagent_containers/food/snacks/grown/apple/A = W
 				//The MARRIAGE TEST BEGINS
-				if(A.bitten_names.len)
-					if(A.bitten_names.len == 2)
-						//Groom provides the surname that the bride will take
-						var/mob/living/carbon/human/thegroom
-						var/mob/living/carbon/human/thebride
-						//Did anyone get cold feet on the wedding?
-						for(var/mob/M in viewers(src, 7))
+				if(A.bitten_names.len == 2)
+					// Find the groom and bride from those who bit the apple
+					var/mob/living/carbon/human/thegroom
+					var/mob/living/carbon/human/thebride
+					for(var/mob/M in viewers(src, 7))
+						// You cannot marry an animal, a corpse, a brainless mob, or someone who is already married.
+						if(!ishuman(M)) 
+							continue
+						var/mob/living/carbon/human/C = M
 
-							if(thegroom && thebride)
-								break
-							if(!ishuman(M))
-								continue
-							var/mob/living/carbon/human/C = M
-							/*
-							* This is for making the first biters name
-							* always be applied to the groom.
-							* second. This seems to be the best way
-							* to use the least amount of variables.
-							*/
-							//I think that guy is dead.
-							if(C.stat == DEAD)
-								continue
-							//That person is not a player or afk.
-							if(!C.client)
-								continue
-							//Gotta get a divorce first
-							if(C.marriedto)
-								continue
-							if(C.real_name == A.bitten_names[1])
-								thegroom = C
-							if(C.real_name == A.bitten_names[2])
-								thebride = C
-						//WE FOUND THEM LETS GET THIS SHOW ON THE ROAD!
-						if(!thegroom || !thebride)
-							to_chat(user, span_warn("nonexistent"))
-							return
-						//Alright now for the boring surname formatting.
-						var/surname2use
-						var/index = findtext(thegroom.real_name, " ")
-						var/bridefirst
-						thegroom.original_name = thegroom.real_name
-						thebride.original_name = thebride.real_name
-						if(!index)
-							surname2use = thegroom.dna.species.random_surname()
-						else
-							/*
-							* This code prevents inheriting the last name of
-							* " of wolves" or " the wolf"
-							* remove this if you want "Skibbins of wolves" to
-							* have his bride become "Sarah of wolves".
-							*/
-							if(findtext(thegroom.real_name, " of ") || findtext(thegroom.real_name, " the "))
-								surname2use = thegroom.dna.species.random_surname()
-								thegroom.change_name(copytext(thegroom.real_name, 1,index))
-							else
-								surname2use = copytext(thegroom.real_name, index)
-								thegroom.change_name(copytext(thegroom.real_name, 1,index))
-						index = findtext(thebride.real_name, " ")
-						if(index)
-							thebride.change_name(copytext(thebride.real_name, 1,index))
-						bridefirst = thebride.real_name
-						thegroom.change_name(thegroom.real_name + surname2use)
-						thebride.change_name(thebride.real_name + surname2use)
-						thegroom.marriedto = thebride.real_name
-						thebride.marriedto = thegroom.real_name
-						thegroom.adjust_triumphs(1)
-						thebride.adjust_triumphs(1)
-						//Bite the apple first if you want to be the groom.
-						priority_announce("[thegroom.real_name] has married [bridefirst]!", title = "Holy Union!", sound = 'sound/misc/bell.ogg')
-						record_round_statistic(STATS_MARRIAGES_MADE)
-						marriage = TRUE
-						qdel(A)
+						if(C.stat == DEAD || !C.client || C.marriedto)
+							continue
+						
+						if(C.real_name == A.bitten_names[1])
+							thegroom = C
+						if(C.real_name == A.bitten_names[2])
+							thebride = C
+					
+					if(!thegroom || !thebride)
+						to_chat(user, span_warn("nonexistent"))
+						return
+					
+					// Astounding update: marriage now requires consent (it didn't before)
+					var/groom_confirm = input(thegroom, "Do you want to marry [thebride]?") as null|anything in list("Yes", "No")
+					if(groom_confirm != "Yes")
+						to_chat(user, span_warning("The groom has declined the marriage!"))
+						return ..()
+					
+					var/bride_confirm = input(thebride, "Do you want to marry [thegroom]?") as null|anything in list("Yes", "No")
+					if(bride_confirm != "Yes")
+						to_chat(user, span_warning("The bride has declined the marriage!"))
+						return ..()
+					
+					// Horrible terrible last name necromancy (sometimes works)
+					var/groom_index = findtext(thegroom.real_name, " ")
+					var/bride_index = findtext(thebride.real_name, " ")
+					var/bride_firstname = bride_index ? copytext(thebride.real_name, 1, bride_index) : thebride.real_name
+					
+					// Get groom's surname
+					var/groom_surname = copytext(thegroom.real_name, groom_index + 1)
+					if(!groom_index)
+						groom_surname = null
+					else if(findtext(thegroom.real_name, " of ") || findtext(thegroom.real_name, " the "))
+						groom_surname = null
+					
+					var/final_bride_name
+					// Ask bride if she wants to take the groom's surname
+					if(groom_surname != null)
+						var/bride_surname_choice = input(thebride, "Do you want to take [thegroom]'s surname? (Your new name will be [bride_firstname] [groom_surname])") as null|anything in list("Yes", "No")
+						final_bride_name = (bride_surname_choice == "Yes") ? (bride_firstname + " " + groom_surname) : thebride.real_name
+					
+					// Apply the changes
+					thebride.change_name(final_bride_name)
+			
+					thegroom.marriedto = thebride.real_name
+					thebride.marriedto = thegroom.real_name
 
-				if(!marriage)
-					A.burn()
-					return
+					thegroom.adjust_triumphs(1)
+					thebride.adjust_triumphs(1)
+
+					priority_announce("[thegroom.real_name] has married [thebride.real_name]!", title = "Holy Union!", sound = 'sound/misc/bell.ogg')
+					return ..()
 	return ..()
-
 
 /obj/structure/fluff/psycross/copper/Destroy()
 	addomen("psycross")

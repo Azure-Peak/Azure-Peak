@@ -108,6 +108,38 @@ GLOBAL_LIST_EMPTY(leyline_activations)
 	if(max_tier)
 		. += span_info("Maximum ritual circle: [max_tier].")
 	. += span_info("Draw a summoning circle nearby to begin a leyline encounter.")
+	var/counts = list(0,0,0,0)
+	var/list/candidates = list()
+	for(var/mob/dead/observer/G in GLOB.player_list)
+		candidates += G
+
+	for(var/mob/living/carbon/spirit/bigchungus in GLOB.player_list)
+		candidates += bigchungus
+
+	for(var/mob/dead/new_player/lobby_nerd in GLOB.player_list)
+		candidates += lobby_nerd
+
+	for(var/mob/candidate in candidates)
+		var/client/client_ref = candidate.client
+		if(!istype(client_ref))
+			continue
+		if(GLOB.character_ckey_list.Find(candidate.ckey))
+			continue // if they're actually in round, don't count them, since they can't be summoned
+		if(client_ref && client_ref.prefs && client_ref.prefs.familiar_prefs)
+			var/datum/familiar_prefs/prefs = client_ref.prefs.familiar_prefs
+			if(!prefs.familiar_names)
+				prefs.New(client_ref.prefs)
+				continue
+			if(prefs.familiar_names["fae"])
+				counts[1]++
+			if(prefs.familiar_names["infernal"])
+				counts[2]++
+			if(prefs.familiar_names["elemental"])
+				counts[3]++
+			if(prefs.familiar_names["void"])
+				counts[4]++
+	.+= "You can sense [counts[1]] fae spirits, [counts[1]] infernal spirits, [counts[3]] elemental spirits, and [counts[4]] void spirits, just beyond the veil."
+
 
 /obj/structure/leyline/tamed
 	name = "tamed leyline"

@@ -10,10 +10,7 @@
 /atom/proc/reset_grid_inventory()
 	var/drop_location = drop_location()
 	for(var/obj/item/item_in_source in contents)
-		if(drop_location)
-			item_in_source.forceMove(drop_location)
-		else
-			item_in_source.moveToNullspace()
+		SEND_SIGNAL(src, COMSIG_TRY_STORAGE_TAKE, item_in_source, drop_location, TRUE)
 		SEND_SIGNAL(src, COMSIG_TRY_STORAGE_INSERT, item_in_source, null, TRUE, TRUE, FALSE)
 
 /obj/item
@@ -47,10 +44,7 @@
 	//this is stupid shitcode but grid inventory sadly requires it
 	var/drop_location = drop_location()
 	for(var/obj/item/item_in_source in contents)
-		if(drop_location)
-			item_in_source.forceMove(drop_location)
-		else
-			item_in_source.moveToNullspace()
+		SEND_SIGNAL(src, COMSIG_TRY_STORAGE_TAKE, item_in_source, drop_location, TRUE)
 		SEND_SIGNAL(src, COMSIG_TRY_STORAGE_INSERT, item_in_source, null, TRUE, TRUE, FALSE)
 
 /datum/component/storage

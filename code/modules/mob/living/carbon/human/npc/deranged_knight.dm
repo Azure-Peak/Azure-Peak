@@ -11,6 +11,7 @@ GLOBAL_LIST_INIT(hedgeknight_aggro, world.file2list("strings/rt/hedgeknightaggro
 
 /mob/living/carbon/human/species/human/northern/deranged_knight
 	ai_controller = /datum/ai_controller/human_npc
+	d_intent = INTENT_PARRY
 	faction = list("dundead")
 	ambushable = FALSE
 	dodgetime = 30

@@ -205,18 +205,17 @@
 			return
 
 /obj/structure/roguemachine/stockpile/attackby(obj/item/P, mob/user, params)
-	if(ishuman(user))
-		if(istype(P, /obj/item/roguecoin/aalloy))
-			return
+	if(istype(P, /obj/item/roguecoin/aalloy))
+		return
 
-		if(istype(P, /obj/item/roguecoin/inqcoin))
-			return
+	if(istype(P, /obj/item/roguecoin/inqcoin))
+		return
 
-		if(istype(P, /obj/item/roguecoin))
-			withdraw_tab.insert_coins(P)
-			return attack_hand(user)
-		else
-			attemptsell(P, user, TRUE, TRUE)
+	if(istype(P, /obj/item/roguecoin))
+		withdraw_tab.insert_coins(P)
+		return attack_hand(user)
+	else if (ishuman(user))
+		attemptsell(P, user, TRUE, TRUE)
 
 /obj/structure/roguemachine/stockpile/attack_right(mob/user)
 	if(ishuman(user))

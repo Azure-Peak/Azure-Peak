@@ -2,6 +2,7 @@
 
 /mob/living/carbon/human/species/human/northern/militia //weak peasant infantry. Neutral but can be given factions for events. doesn't attack players.
 	ai_controller = /datum/ai_controller/human_npc
+	d_intent = INTENT_PARRY
 	faction = list("neutral")
 	ambushable = FALSE
 	dodgetime = 30
@@ -30,6 +31,7 @@
 		organ_eyes.eye_color = pick("27becc", "35cc27", "000000")
 	update_hair()
 	update_body()
+	AddComponent(/datum/component/npc_death_line, null, 25)
 
 
 /datum/outfit/job/roguetown/human/species/human/northern/militia/pre_equip(mob/living/carbon/human/H)
@@ -96,6 +98,8 @@
 			l_hand = /obj/item/rogueweapon/shield/wood
 		if(11)
 			r_hand = /obj/item/rogueweapon/flail/peasantwarflail
+	if(prob(10))
+		neck = /obj/item/storage/belt/rogue/pouch/bombs
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
 	H.eye_color = pick("27becc", "35cc27", "000000")
 	H.hair_color = pick ("4f4f4f", "61310f", "faf6b9")

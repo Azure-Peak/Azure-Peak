@@ -53,7 +53,8 @@
 	damtype = BRUTE
 	force = 1
 	w_class = WEIGHT_CLASS_TINY
-	var/rune_to_scribe = null
+	var/obj/effect/decal/cleanable/roguerune/rune_to_scribe = null
+	var/chosen_keyword
 
 /obj/item/chalk/attack_self(mob/living/carbon/human/user)
 	if(!isarcyne(user))
@@ -77,6 +78,18 @@
 	if(structures_in_way == TRUE)
 		to_chat(user, span_cult("There is a structure, rune or wall in the way."))
 		return
+	if(initial(rune_to_scribe.requires_leyline))
+		var/found_leyline = FALSE
+		for(var/obj/structure/leyline/L in range(5, user))
+			found_leyline = TRUE
+			break
+		if(!found_leyline)
+			to_chat(user, span_warning("This matrix must be drawn within reach of a leyline."))
+			return
+	if(initial(rune_to_scribe.req_keyword))
+		chosen_keyword = stripped_input(user, "Keyword for the new rune", "Runes", max_length = MAX_NAME_LEN)
+		if(!chosen_keyword)
+			return
 	var/crafttime = (100 - ((user.get_skill_level(/datum/skill/magic/arcane))*5))
 
 	user.visible_message(span_notice("\The [user] begins to drag [user.p_their()] [name] over \the [Turf], inscribing intricate symbols and sigils inside a circle."), span_notice("I start to drag my [name] over \the [Turf], inscribing intricate symbols and sigils on a circle."))
@@ -84,7 +97,7 @@
 	if(do_after(user, crafttime, target = src))
 		user.visible_message(span_warning("[user] draws an arcyne rune with [user.p_their()] [name]!"), \
 		span_notice("I finish tracing ornate symbols and circles with my [name], leaving behind a ritual rune."))
-		new rune_to_scribe(Turf)
+		new rune_to_scribe(Turf, chosen_keyword)
 
 /obj/item/chalk/proc/check_for_structures_and_closed_turfs(loc, var/obj/effect/decal/cleanable/roguerune/rune_to_scribe)
 	for(var/turf/T in range(loc, rune_to_scribe.runesize))
@@ -353,128 +366,3 @@
 	. = ..()
 	var/datum/magic_item/mundane/nomagic/effect = new
 	AddComponent(/datum/component/magic_item, effect)
-
-/obj/item/rope/chain/bindingshackles
-	name = "planar binding shackles"
-	desc = "Arcane shackles imbued to bind an other-planar creature's will to this plane. Once bound, they are compelled to obey their summoner."
-	var/mob/living/fam
-	var/tier = 1
-	var/being_used = FALSE
-	var/sentience_type = SENTIENCE_ORGANIC
-	var/chosen_name
-	var/binding = FALSE
-
-/obj/item/rope/chain/bindingshackles/Initialize()
-	. = ..()
-	src.filters += filter(type="drop_shadow", x=0, y=0, size=1, offset=2, color=rgb(rand(1,255),rand(1,255),rand(1,255)))
-
-/obj/item/rope/chain/bindingshackles/t2
-	name = "greater planar binding shackles"
-	tier = 2
-
-/obj/item/rope/chain/bindingshackles/t3
-	name = "woven planar binding shackles"
-	tier = 3
-
-/obj/item/rope/chain/bindingshackles/t4
-	name = "confluent planar binding shackles"
-	tier = 4
-
-/obj/item/rope/chain/bindingshackles/t5
-	name = "abberant planar binding shackles"
-	tier = 5
-
-/obj/item/rope/chain/bindingshackles/attack(mob/living/simple_animal/hostile/retaliate/rogue/captive, mob/living/user)
-	var/list/summon_types = list(
-		/mob/living/simple_animal/hostile/retaliate/rogue/infernal/imp,
-		/mob/living/simple_animal/hostile/retaliate/rogue/infernal/hellhound,
-		/mob/living/simple_animal/hostile/retaliate/rogue/infernal/watcher,
-		/mob/living/simple_animal/hostile/retaliate/rogue/infernal/fiend,
-		/mob/living/simple_animal/hostile/retaliate/rogue/elemental/crawler,
-		/mob/living/simple_animal/hostile/retaliate/rogue/elemental/warden,
-		/mob/living/simple_animal/hostile/retaliate/rogue/elemental/behemoth,
-		/mob/living/simple_animal/hostile/retaliate/rogue/elemental/colossus,
-		/mob/living/simple_animal/hostile/retaliate/rogue/fae/sprite,
-		/mob/living/simple_animal/hostile/retaliate/rogue/fae/glimmerwing,
-		/mob/living/simple_animal/hostile/retaliate/rogue/fae/dryad,
-		/mob/living/simple_animal/hostile/retaliate/rogue/fae/sylph,
-		/mob/living/simple_animal/hostile/retaliate/rogue/voidstoneobelisk,
-		/mob/living/simple_animal/hostile/retaliate/rogue/voiddragon)
-
-	if(!(captive.type in summon_types))
-		to_chat(user, span_warning("[captive] cannot be bound by these shackles!"))
-		return
-	if(captive.summon_tier > tier)
-		to_chat(user, span_warning("[src] is not strong enough to bind [captive]!"))
-		return
-
-	var/mob/living/simple_animal/hostile/retaliate/rogue/target = captive
-	target.visible_message(span_warning("[user] is trying to bind [target.real_name]!"))
-
-	// 4-phase binding chant with beams and energy drain
-	var/list/binding_chants = list(
-		"Vinculum formare!",
-		"I bind you to this plane!",
-		"Catena animae stringitur!",
-		"Submit! The shackles hold!")
-	var/list/active_beams = list()
-	for(var/phase in 1 to 4)
-		user.say(binding_chants[phase], language = /datum/language/common, ignore_spam = TRUE, forced = "binding invocation")
-		active_beams += target.Beam(user, icon_state = "b_beam", time = 2 SECONDS, maxdistance = 10)
-		user.energy_add(-10)
-		if(!do_after(user, 2 SECONDS, target = target))
-			to_chat(user, span_warning("The binding is interrupted!"))
-			for(var/datum/beam/B in active_beams)
-				B.End()
-			return FALSE
-
-	if(binding)
-		return FALSE
-
-	if(target.ckey)
-		target.visible_message(span_notice("This summon is already bound to this plane."))
-		return FALSE
-
-	// player is not inside body or has refused, poll for candidates
-	to_chat(user, span_notice("You attempt to bind the targetted summon to this plane."))
-	binding = TRUE
-	target.visible_message(span_warning("[target.real_name]'s body is entangled by glowing chains..."), runechat_message = TRUE)
-	var/reason = stripped_input(user, "What are your instructions for this summon?", "Summoner's Instructions")
-	var/list/candidates = pollCandidatesForMob("Do you want to play as a Mage's summon? You will materialize as a [target.name] and [reason]", null, null, null, 100, target, POLL_IGNORE_MAGE_SUMMON)
-
-	// theres at least one candidate
-	if(LAZYLEN(candidates))
-		var/mob/C = pick(candidates)
-		target.awaken_summon(user, C.ckey, reason)
-		target.visible_message(span_warning("[target.real_name]'s eyes light up with an intelligence as it awakens fully on this plane."), runechat_message = TRUE)
-		custom_name(user,target)
-		target.name = chosen_name
-		binding = FALSE
-	//no candidates, raise as npc
-	else
-		to_chat(user, span_notice("The [captive] stares at you with mindless hate. The binding attempt failed to draw out its intelligence!"))
-		binding = FALSE
-	return FALSE
-
-/mob/living/simple_animal/hostile/retaliate/rogue/proc/awaken_summon(mob/living/carbon/human/master, ckey, reason)
-	if(!master)
-		return FALSE
-	if(ckey) //player
-		src.ckey = ckey
-
-	to_chat(src, span_userdanger("You have been bound to this plane by [master.real_name]. The shackles compel your obedience \u2014 you will serve them until dismissed or slain. (ERP is not included and allowed under server rules and they must respect your boundaries as a player)"))
-	to_chat(src, span_notice("[summon_primer]"))
-	if(reason)
-		to_chat(src, span_notice("Your summoner's instructions: \"[reason]\""))
-
-	see_in_dark = 8
-	lighting_alpha = LIGHTING_PLANE_ALPHA_MOSTLY_INVISIBLE//easiest way to give mage summons proper darksight, although I'm wracking my brain for other angles since admin-spawned guys might happen
-
-/obj/item/rope/chain/bindingshackles/proc/custom_name(mob/awakener, var/mob/chosen_one, iteration = 1)
-	if(iteration > 5)
-		return  // The spirit of indecision
-	chosen_name = sanitize_name(stripped_input(chosen_one, "What are you named?"))
-	if(!chosen_name) // with the way that sanitize_name works, it'll actually send the error message to the awakener as well.
-		to_chat(awakener, span_warning("Your summon did not select a valid name! Please wait as they try again.")) // more verbose than what sanitize_name might pass in it's error message
-		return custom_name(awakener, iteration++)
-	return chosen_name

@@ -3,6 +3,9 @@ GLOBAL_LIST_INIT(find_and_set_interested_atoms, typecacheof(list(/obj/item, /mob
 
 /datum/ai_behavior/find_and_set
 	action_cooldown = 2 SECONDS
+	// Don't block planning — food/item searches park themselves on a 60s field cooldown,
+	// and if that blocks planning the mob can't queue combat behaviors when attacked.
+	behavior_flags = AI_BEHAVIOR_CAN_PLAN_DURING_EXECUTION
 	/// How far can we see stuff when setting up fields?
 	var/vision_range = 7
 

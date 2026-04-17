@@ -1,0 +1,4 @@
+author: "rivercadaver"
+delete-after: True
+changes:
+  - code_imp: "gives psydonic boots 250 hp"

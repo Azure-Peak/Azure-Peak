@@ -500,3 +500,70 @@
       BASH. Removed BASH and replaced with STRIKE on a couple other weapons
   string-thing:
   - rscadd: added divine blast to druid characters on spawn.
+2026-04-14:
+  CODEATHON1243:
+  - bugfix: fixed eora ritual. oops.
+  FreeStylaLT:
+  - bugfix: Fixed the blacksteel pick having an incorrect amount of required ingots
+      for its smithing recipe.
+  Quinalion:
+  - bugfix: Fixed deranged knight outfit
+  WeNeedMorePhoron:
+  - rscadd: Donators that are added manually to the donator list get a 3 TRIUMPHS
+      discount on loadout menu items
+  - rscadd: Donators' examine panel get a nice little heart icon.
+  - bugfix: Bobcat, Badger and Raccoon should no longer go invisible
+  - bugfix: AI probably a bit more fair when it comes to detecting you in stealth
+  - bugfix: AI should no longer stand up while unconscious
+  - bugfix: AI turns on Cmode properly and will dodge and parry again.
+  - balance: You no longer faint in and out of consciousness at low blood level before
+      you reach the bled out condition (Also fixes AI spam)
+  - bugfix: You can test Tomb of Alotheos / Matthios on Roguetest by running the options
+      that is not labeled "No Dungeons" now.
+2026-04-15:
+  7erracotta:
+  - qol: the nipple piercings for vermin kin is fixed
+  FreeStylaLT:
+  - rscdel: Removed half-elves from Anthrax merc class race eligibility.
+  KatTheFox:
+  - bugfix: rings and ring-slot amulets are no longer invisible for women specifically
+  - rscadd: Added iron scissors to arcyne forge
+  UEDCommander:
+  - bugfix: Fixed matthiosite crafting recepies being redefined twice
+2026-04-16:
+  7erracotta:
+  - rscadd: Added new hats and a face accessory
+  - rscadd: new sprites
+  FreeStylaLT:
+  - bugfix: Fixed water-related lookup messages appearing when the player is not underwater.
+  WeNeedMorePhoron:
+  - rscadd: Adjusted TGUI List Input to become compact again instead of wide for no
+      reasons.
+  - balance: Reduced difficulty of the final room of the Necran Labyrinth
+  - rscadd: Roles that should have chalk but is missing chalks, including grenzelhoftian
+      mage, some mystic classes, heartfelt magos / hand gotten them chalk
+  bearrrrrrrr:
+  - balance: jannisary NO LONGER loses 1 per (literally unbeatable in combat)
+2026-04-17:
+  BurpleBineapple:
+  - bugfix: Marriage now requires consent.
+  - bugfix: The second person who bites the apple can choose if they want the first
+      person's last name or not when being married.
+  Draganfrukts:
+  - rscadd: Added Banded Iron Armor set
+  - rscadd: Added banded iron sword
+  - rscadd: Added banded iron shield skin
+  - rscadd: Ironclad adventurers can now choose banded iron armor
+  - balance: The Ironclad half-plate pick now spawns with a normal gambeson. The light
+      gambeson is relegated to the banded armor loadout.
+  - image: Iron boots now adhere to the iron palette and have functional female sprites.
+  - image: Iron plate gauntlets now adhere to the iron palette.
+  WeNeedMorePhoron:
+  - balance: Removed most stats and athletics skills influence on hunger rate and
+      then halved the flat hunger rate gain. Report if hunger happens too often. Str
+      above 10 increases hunger rate by 5% per point instead of 7.5%
+  - rscadd: Alcohol now restore blood at 2/3 the rate of water if there's no water
+      in you.
+  borneblood:
+  - balance: Problematic/buggy/unhealthy Matthios miracle interactions have been addressed
+  - bugfix: Fiber bundles were not counting properly for kingsfeast

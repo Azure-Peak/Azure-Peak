@@ -691,8 +691,10 @@
 /turf/open/water/transparent/inner/Initialize()
 	. = ..()
 	
-	if(water_overlay) qdel(water_overlay)
-	if(water_top_overlay) qdel(water_top_overlay)
+	if(water_overlay) 
+		QDEL_NULL(water_overlay)
+	if(water_top_overlay) 
+		QDEL_NULL(water_top_overlay)
 
 /turf/open/water/transparent/inner/Entered(atom/movable/AM, atom/oldLoc)
 	. = ..() 

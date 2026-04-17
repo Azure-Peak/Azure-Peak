@@ -7,15 +7,7 @@
 	var/mob/living/carbon/human/pawn = controller.pawn
 	var/atom/target = controller.blackboard[BB_BASIC_MOB_CURRENT_TARGET]
 	if(!target || !isliving(target))
-		var/obj/item/stashed = controller.blackboard[BB_ARCHER_NPC_STASHED_WEAPON]
-		if(stashed && !QDELETED(stashed))
-			if(!pawn.get_active_held_item())
-				pawn.dropItemToGround(stashed, TRUE, TRUE)
-				pawn.put_in_active_hand(stashed)
-			else if(!pawn.get_inactive_held_item())
-				pawn.dropItemToGround(stashed, TRUE, TRUE)
-				pawn.put_in_inactive_hand(stashed)
-			controller.clear_blackboard_key(BB_ARCHER_NPC_STASHED_WEAPON)
+		_restore_stashed_weapon(controller, pawn)
 		return
 
 	var/obj/item/quiver/Q = controller.blackboard[BB_ARCHER_NPC_QUIVER]
@@ -23,15 +15,7 @@
 		return
 
 	if(get_dist(pawn, target) < ARCHER_NPC_MIN_RANGE)
-		var/obj/item/stashed = controller.blackboard[BB_ARCHER_NPC_STASHED_WEAPON]
-		if(stashed && !QDELETED(stashed))
-			if(!pawn.get_active_held_item())
-				pawn.dropItemToGround(stashed, TRUE, TRUE)
-				pawn.put_in_active_hand(stashed)
-			else if(!pawn.get_inactive_held_item())
-				pawn.dropItemToGround(stashed, TRUE, TRUE)
-				pawn.put_in_inactive_hand(stashed)
-			controller.clear_blackboard_key(BB_ARCHER_NPC_STASHED_WEAPON)
+		_restore_stashed_weapon(controller, pawn)
 		return
 
 	controller.queue_behavior(/datum/ai_behavior/ranged_attack_bow, BB_BASIC_MOB_CURRENT_TARGET)
@@ -196,15 +180,28 @@
 	var/mob/living/carbon/human/pawn = controller.pawn
 	var/obj/item/quiver/Q = controller.blackboard[BB_ARCHER_NPC_QUIVER]
 
-	if(!succeeded || !length(Q.arrows))
+	if(!succeeded || !Q || !length(Q.arrows))
 		controller.clear_blackboard_key(target_key)
-		// Re-equip stashed melee weapon
-		var/obj/item/stashed = controller.blackboard[BB_ARCHER_NPC_STASHED_WEAPON]
-		if(stashed && !QDELETED(stashed))
-			if(!pawn.get_active_held_item())
-				pawn.dropItemToGround(stashed, TRUE, TRUE)
-				pawn.put_in_active_hand(stashed)
-			else if(!pawn.get_inactive_held_item())
-				pawn.dropItemToGround(stashed, TRUE, TRUE)
-				pawn.put_in_inactive_hand(stashed)
+		_restore_stashed_weapon(controller, pawn)
+
+/// Stows the bow and restores the stashed melee weapon to the active hand
+/proc/_restore_stashed_weapon(datum/ai_controller/controller, mob/living/carbon/human/pawn)
+	var/obj/item/stashed = controller.blackboard[BB_ARCHER_NPC_STASHED_WEAPON]
+	if(!stashed || QDELETED(stashed))
 		controller.clear_blackboard_key(BB_ARCHER_NPC_STASHED_WEAPON)
+		return
+	// Stow the bow first so the active hand is free
+	var/obj/item/held = pawn.get_active_held_item()
+	if(istype(held, /obj/item/gun/ballistic/revolver/grenadelauncher))
+		for(var/slot in list(ITEM_SLOT_BACK_R, ITEM_SLOT_BACK_L, ITEM_SLOT_BACK))
+			if(!pawn.get_item_by_slot(slot))
+				if(pawn.equip_to_slot_if_possible(held, slot, disable_warning = TRUE))
+					break
+	// Now restore the melee weapon
+	if(stashed.loc != pawn)
+		pawn.put_in_active_hand(stashed)
+	else
+		// Stashed weapon is in a slot - unequip it to hand
+		pawn.doUnEquip(stashed, TRUE)
+		pawn.put_in_active_hand(stashed)
+	controller.clear_blackboard_key(BB_ARCHER_NPC_STASHED_WEAPON)

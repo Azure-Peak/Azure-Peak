@@ -556,6 +556,8 @@
 	var/obj/structure/mineral_door/door = locate() in src
 	if(door && door.density && !door.locked && door.anchored) // door will have to be opened
 		. += 2 // try to avoid closed doors where possible
+	for(var/obj/O in src)
+		. += O.ai_path_weight
 
 	for(var/obj/structure/O in contents)
 		if(O.obj_flags & BLOCK_Z_OUT_DOWN)

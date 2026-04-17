@@ -32,7 +32,7 @@
 		for(var/mob/living/M in members)
 			// Slightly more secretive!
 			M.playsound_local(M, 'sound/magic/mindlink.ogg', 75, TRUE)
-			M.audible_message(formatted, hearing_distance = 1, runechat_message = message, custom_spans = list("mindlink", "italic"))
+			M.audible_message(formatted, hearing_distance = 0, runechat_message = message, custom_spans = list("mindlink", "italic"))
 		
 		speaker.log_talk(message, LOG_SAY, tag="Coven Link")
 		speech_args[SPEECH_MESSAGE] = null

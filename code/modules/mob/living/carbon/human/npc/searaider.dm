@@ -2,6 +2,7 @@ GLOBAL_LIST_INIT(searaider_aggro, world.file2list("strings/rt/searaideraggroline
 
 /mob/living/carbon/human/species/human/northern/searaider
 	ai_controller = /datum/ai_controller/human_npc
+	d_intent = INTENT_PARRY
 	faction = list("viking", "station")
 	ambushable = FALSE
 	dodgetime = 30
@@ -100,11 +101,14 @@ GLOBAL_LIST_INIT(searaider_aggro, world.file2list("strings/rt/searaideraggroline
 		neck = /obj/item/clothing/neck/roguetown/gorget
 	if(prob(50))
 		gloves = /obj/item/clothing/gloves/roguetown/leather
+	var/archer_variant = FALSE
 	if(prob(30)) // archer
 		backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
 		backl = /obj/item/quiver/arrows
 		r_hand = /obj/item/rogueweapon/sword/iron
 		H.adjust_skillrank(/datum/skill/combat/bows, 3, TRUE)
+		H.upgrade_ai_controller(/datum/ai_controller/human_npc/archer)
+		archer_variant = TRUE
 	else
 		switch(rand(1, 4))
 			if(1)
@@ -124,6 +128,9 @@ GLOBAL_LIST_INIT(searaider_aggro, world.file2list("strings/rt/searaideraggroline
 	H.STAPER = 10
 	H.STAINT = 1
 	H.STASTR = 14
+	if(archer_variant)
+		H.STASTR -= 2
+		H.STAPER += 3
 	H.adjust_skillrank(/datum/skill/combat/polearms, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/maces, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/axes, 3, TRUE)
@@ -133,3 +140,48 @@ GLOBAL_LIST_INIT(searaider_aggro, world.file2list("strings/rt/searaideraggroline
 	H.adjust_skillrank(/datum/skill/combat/wrestling, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/swimming, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/climbing, 2, TRUE)
+
+/mob/living/carbon/human/species/human/northern/searaider/archer
+	ai_controller = /datum/ai_controller/human_npc/archer
+
+/mob/living/carbon/human/species/human/northern/searaider/archer/ambush
+	threat_point = THREAT_MODERATE
+	ambush_faction = "raiders"
+
+/mob/living/carbon/human/species/human/northern/searaider/archer/after_creation()
+	..()
+	for(var/obj/item/I in held_items)
+		qdel(I)
+	for(var/obj/item/I in get_equipped_items(FALSE))
+		if(istype(I, /obj/item/gun) || istype(I, /obj/item/quiver))
+			qdel(I)
+	equipOutfit(new /datum/outfit/job/roguetown/human/species/human/northern/searaider/archer)
+
+/datum/outfit/job/roguetown/human/species/human/northern/searaider/archer/pre_equip(mob/living/carbon/human/H)
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
+	armor = /obj/item/clothing/suit/roguetown/armor/chainmail/iron
+	shirt = /obj/item/clothing/suit/roguetown/shirt/tunic
+	pants = /obj/item/clothing/under/roguetown/tights
+	head = /obj/item/clothing/head/roguetown/helmet/leather
+	gloves = /obj/item/clothing/gloves/roguetown/leather
+	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
+	backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
+	backl = /obj/item/quiver/arrows
+	r_hand = /obj/item/rogueweapon/sword/iron
+	H.STASPD = 9
+	H.STACON = 8
+	H.STAWIL = 8
+	H.STAPER = 13
+	H.STAINT = 1
+	H.STASTR = 12
+	H.adjust_skillrank(/datum/skill/combat/bows, 3, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/polearms, 3, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/maces, 3, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/axes, 3, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/swords, 3, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/shields, 3, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/unarmed, 3, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/wrestling, 3, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/swimming, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/climbing, 2, TRUE)
+	H.upgrade_ai_controller(/datum/ai_controller/human_npc/archer)
