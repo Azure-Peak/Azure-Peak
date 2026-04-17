@@ -40,6 +40,7 @@
 	pixel_x = -16
 	// We are not a normal wildshape.
 	untransform_on_death = FALSE
+	faction = list("White Stag")
 
 /mob/living/carbon/human/species/wildshape/white_stag/gain_inherent_skills()
 	return FALSE

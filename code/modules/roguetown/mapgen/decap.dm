@@ -43,4 +43,5 @@
 							/obj/structure/flora/roguegrass/bush/westleach = 2,
 							/obj/item/natural/stone = 6,
 							/obj/item/natural/rock = 1,
-							/obj/item/grown/log/tree/stick = 3)
+							/obj/item/grown/log/tree/stick = 3,
+							/obj/effect/hunting_track = 3)
