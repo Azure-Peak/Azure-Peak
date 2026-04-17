@@ -1,4 +1,5 @@
-import { Box, Button, Section, Stack } from 'tgui-core/components';
+import { useState } from 'react';
+import { Button } from 'tgui-core/components';
 import type { BooleanLike } from 'tgui-core/react';
 
 import { useBackend } from '../backend';
@@ -35,6 +36,19 @@ type ContractLedgerData = {
   active: ActiveContract[];
 };
 
+// Pluggable grouping: change the `key` field to regroup by type, origin, etc.
+type TabDef = {
+  id: string;
+  label: string;
+  filter: (c: Contract) => boolean;
+};
+
+const DIFFICULTY_TABS: TabDef[] = [
+  { id: 'Easy', label: 'Easy', filter: (c) => c.difficulty === 'Easy' },
+  { id: 'Medium', label: 'Medium', filter: (c) => c.difficulty === 'Medium' },
+  { id: 'Hard', label: 'Hard', filter: (c) => c.difficulty === 'Hard' },
+];
+
 const difficultyPinClass = (difficulty: string) => {
   switch (difficulty) {
     case 'Easy':
@@ -50,47 +64,66 @@ const difficultyPinClass = (difficulty: string) => {
 
 export const ContractLedger = () => {
   const { data } = useBackend<ContractLedgerData>();
+  const [activeTab, setActiveTab] = useState(DIFFICULTY_TABS[0].id);
+  const tabs = DIFFICULTY_TABS;
+  const currentTab = tabs.find((t) => t.id === activeTab) || tabs[0];
+  const filtered = data.pool.filter(currentTab.filter);
+
   return (
-    <Window title="Grand Contract Ledger" width={760} height={640}>
-      <Window.Content>
-        <Stack vertical fill>
-          <Stack.Item grow>
-            <Section fill scrollable>
-              <div className="ContractLedger__Board">
-                <div className="ContractLedger__BoardHeader">
-                  Grand Contract Ledger
+    <Window
+      title="Grand Contract Ledger"
+      width={780}
+      height={620}
+      theme="grimoire"
+    >
+      <Window.Content fitted>
+        <div className="ContractLedger">
+          <div className="ContractLedger__Header">
+            Grand Contract Ledger
+          </div>
+
+          <div className="ContractLedger__TabBar">
+            {tabs.map((tab) => {
+              const count = data.pool.filter(tab.filter).length;
+              const isActive = tab.id === activeTab;
+              return (
+                <div
+                  key={tab.id}
+                  className={
+                    'ContractLedger__Tab' +
+                    (isActive ? ' ContractLedger__Tab--active' : '')
+                  }
+                  onClick={() => setActiveTab(tab.id)}
+                >
+                  {tab.label} ({count})
                 </div>
-                <ContractBoard contracts={data.pool} />
+              );
+            })}
+          </div>
+
+          <div className="ContractLedger__Board">
+            {filtered.length === 0 ? (
+              <div className="ContractLedger__Empty">
+                No {currentTab.label.toLowerCase()} contracts posted. Return
+                later.
               </div>
-            </Section>
-          </Stack.Item>
-          <Stack.Item>
-            <ActiveStrip
-              active={data.active}
-              activeMax={data.active_max}
-              balance={data.balance}
-            />
-          </Stack.Item>
-        </Stack>
+            ) : (
+              <div className="ContractLedger__Grid">
+                {filtered.map((c) => (
+                  <ContractCard key={c.ref} contract={c} />
+                ))}
+              </div>
+            )}
+          </div>
+
+          <ActiveStrip
+            active={data.active}
+            activeMax={data.active_max}
+            balance={data.balance}
+          />
+        </div>
       </Window.Content>
     </Window>
-  );
-};
-
-const ContractBoard = (props: { contracts: Contract[] }) => {
-  if (!props.contracts.length) {
-    return (
-      <div className="ContractLedger__Empty">
-        The board is bare. Return later when the guild has more to offer.
-      </div>
-    );
-  }
-  return (
-    <div className="ContractLedger__Grid">
-      {props.contracts.map((c) => (
-        <ContractCard key={c.ref} contract={c} />
-      ))}
-    </div>
   );
 };
 
@@ -121,15 +154,11 @@ const ContractCard = (props: { contract: Contract }) => {
       </div>
       <div className="ContractLedger__CardRow">
         <span className="ContractLedger__CardLabel">Reward</span>
-        <span className="ContractLedger__CardValue">
-          {c.reward} mammon
-        </span>
+        <span className="ContractLedger__CardValue">{c.reward} mammon</span>
       </div>
       <div className="ContractLedger__CardRow">
         <span className="ContractLedger__CardLabel">Deposit</span>
-        <span className="ContractLedger__CardValue">
-          {c.deposit} mammon
-        </span>
+        <span className="ContractLedger__CardValue">{c.deposit} mammon</span>
       </div>
       {c.objective && (
         <div className="ContractLedger__CardObjective">{c.objective}</div>
@@ -156,7 +185,7 @@ const ActiveStrip = (props: {
 }) => {
   const { act, data } = useBackend<ContractLedgerData>();
   return (
-    <Box className="ContractLedger__ActiveStrip">
+    <div className="ContractLedger__ActiveStrip">
       <div className="ContractLedger__ActiveStripHeader">
         <span>
           Your Contracts ({props.active.length} / {props.activeMax})
@@ -178,8 +207,8 @@ const ActiveStrip = (props: {
             <span className="ContractLedger__ActiveRow__Meta">
               {a.type} &middot; {a.difficulty} &middot; {a.area || 'Unknown'}
               {a.progress_required > 1 &&
-                ` · ${a.progress_current}/${a.progress_required}`}
-              {!!a.complete && ' · ready to turn in'}
+                ` - ${a.progress_current}/${a.progress_required}`}
+              {!!a.complete && ' - ready to turn in'}
             </span>
             {!a.complete && (
               <Button
@@ -195,7 +224,7 @@ const ActiveStrip = (props: {
         ))
       )}
       {!!data.is_handler && (
-        <Box mt={1}>
+        <div style={{ marginTop: '8px' }}>
           <Button
             icon="print"
             color="transparent"
@@ -203,8 +232,8 @@ const ActiveStrip = (props: {
           >
             Print Active Contracts
           </Button>
-        </Box>
+        </div>
       )}
-    </Box>
+    </div>
   );
 };
