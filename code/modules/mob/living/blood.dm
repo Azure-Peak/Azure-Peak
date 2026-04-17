@@ -82,11 +82,14 @@
 		return
 	
 	blood_volume = min(blood_volume, BLOOD_VOLUME_MAXIMUM)
-	if(dna?.species)
-		if(NOBLOOD in dna.species.species_traits)
-			blood_volume = BLOOD_VOLUME_NORMAL
-			bleed_rate = 0 // futureproof and sanity's sake
-			return
+
+	if(dna?.species && (NOBLOOD in dna.species.species_traits))
+		blood_volume = BLOOD_VOLUME_NORMAL
+
+		for(var/datum/wound/W in src.get_wounds())
+			W.bleed_rate = 0 // should stop bleeding from appearing! :D
+
+		return
 
 	// if we're dead and have no blood left, then there's nothing to do here: we can't regen it ourselves (in this proc), so...
 	// we'll continue to bleed out for as long as we have blood, but that's it

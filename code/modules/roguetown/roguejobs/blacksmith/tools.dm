@@ -180,10 +180,17 @@
 /obj/item/rogueweapon/hammer/proc/hammerheal(mob/living/M, mob/living/user)
 	if(!M.can_inject(user, TRUE))
 		return
+
 	if(!ishuman(M))
 		return
+
 	if(!M.construct)
 		to_chat(user, span_warning("I can't tinker on living flesh!"))
+		return
+
+	if(user != M && (user.get_skill_level(/datum/skill/craft/armorsmithing) >= SKILL_LEVEL_JOURNEYMAN || user.get_skill_level(/datum/skill/craft/engineering) >= SKILL_LEVEL_JOURNEYMAN || user.get_skill_level(/datum/skill/craft/blacksmithing) >= SKILL_LEVEL_JOURNEYMAN))
+		to_chat(user, span_warning("[user] hammers a mean dent into [M]! Do they even know what they're doing...?"))
+		playsound(loc, 'sound/items/bsmith4.ogg', 100, FALSE)
 		return
 
 	var/mob/living/carbon/human/H = M
@@ -205,36 +212,46 @@
 		to_chat(user, span_warning("These injuries are too severe to hammer safely! You need proper tools like tongs or a wrench."))
 		return
 
-	var/obj/item/bodypart/affecting = H.get_bodypart(check_zone(user.zone_selected))
-	if(!affecting)
-		return
-
 	do
 		var/used_time = 100
 
 		if(user.mind)
 			used_time -= (user.get_skill_level(/datum/skill/craft/engineering) * 10)
 
-		// tool advantage: halves time if present
 		if(has_tool)
 			used_time *= 0.5
 
-		// minimum clamp
 		used_time = max(used_time, 5)
 
 		var/list/wCount = H.get_wounds()
 
-		// Re-evaluate complexity each cycle (for dynamic healing progression)
-		has_complex_wounds = FALSE
-		for(var/datum/wound/W in wCount)
-			if(W.severity >= WOUND_SEVERITY_MODERATE)
-				has_complex_wounds = TRUE
-				break
+		// dynamic targeting each loop (highest damage + wound priority)
+		var/obj/item/bodypart/affecting
+		var/highest_priority = 0
 
-		// Audio feedback per loop cycle
+		for(var/obj/item/bodypart/BP in H.bodyparts)
+			if(!BP)
+				continue
+
+			var/priority = BP.brute_dam + BP.burn_dam
+
+			for(var/datum/wound/W in BP.wounds)
+				if(W.severity >= WOUND_SEVERITY_MODERATE)
+					priority += 20
+				else
+					priority += 10
+
+			if(priority > highest_priority)
+				highest_priority = priority
+				affecting = BP
+
+		if(!affecting)
+			break
+
+		// tool-based audio feedback
 		if(has_complex_wounds)
 			playsound(loc, 'sound/misc/ratchet.ogg', 80, FALSE)
-			spawn((rand(5,20)))
+			spawn(rand(5,20))
 				playsound(loc, 'sound/items/bsmith1.ogg', 100, FALSE)
 		else
 			playsound(loc, 'sound/items/bsmith1.ogg', 100, FALSE)
@@ -244,20 +261,20 @@
 
 		playsound(loc, 'sound/items/bsmith4.ogg', 100, FALSE)
 
-		// Healing
-		H.adjustBruteLoss(-10)
-		H.adjustFireLoss(-10)
+		// healing
+		H.adjustBruteLoss(-14)
+		H.adjustFireLoss(-14)
 		H.update_damage_overlays()
 
 		if(wCount.len > 0)
 			if(M == user)
 				H.heal_wounds(2)
 			else
-				H.heal_wounds(10)
+				H.heal_wounds(8)
 
 			H.update_damage_overlays()
 
-		// Flavor messaging
+		// flavor text per target
 		if(M == user)
 			user.visible_message(
 				span_notice("[user] repairs [user.p_their()] [affecting]."),
@@ -275,8 +292,8 @@
 
 		if(!M.construct)
 			break
-		
-		if((M.getBruteLoss + M.getFireLoss) == 0 && wCount.len == 0)
+
+		if((M.getBruteLoss() + M.getFireLoss()) == 0 && wCount.len == 0)
 			user.visible_message(
 				span_notice("[user] is good as new!"),
 				span_notice("I am as good as new!")
