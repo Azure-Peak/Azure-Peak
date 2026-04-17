@@ -66,7 +66,7 @@
 	user.put_in_hands(selected_organ)
 
 	var/obj/item/bodypart/gotten_part = target.get_bodypart(check_zone(target_zone))
-	if(gotten_part) //Vrell - This stuff is meant to be a jank/awful solution, so it leaves the target very wounded when you literally server a part of them via blade or saw
+	if(gotten_part) //Vrell - This stuff is meant to be a jank/awful solution, so it leaves the target very wounded when you literally server a part of them via blade or saw // i am going to EAT YOUR TOEEEEESSSSSSS if this happens to construct
 		gotten_part.add_wound(/datum/wound/artery)
 		gotten_part.add_wound(/datum/wound/slash/large)
 

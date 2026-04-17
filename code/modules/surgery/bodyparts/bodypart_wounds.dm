@@ -290,13 +290,20 @@
 			else if(istype(user.rmb_intent, /datum/rmb_intent/aimed))
 				used += 10
 		if(prob(used))
-			attempted_wounds += /datum/wound/artery
+			if(HAS_TRAIT(src, TRAIT_IRONMAN))
+				attempted_wounds += /datum/wound/integrity
+			else
+				attempted_wounds += /datum/wound/artery
+
 	if(bclass in GLOB.whipping_bclasses)
 		used = round(damage_dividend * 20 + (dam / 3))
 		if(user && istype(user.rmb_intent, /datum/rmb_intent/strong))
 			dam += 10
 		if(HAS_TRAIT(src, TRAIT_CRITICAL_WEAKNESS))
-			attempted_wounds += /datum/wound/artery		//basically does sword-tier wounds.
+			if(HAS_TRAIT(src, TRAIT_IRONMAN))
+				attempted_wounds += /datum/wound/integrity	
+			else
+				attempted_wounds += /datum/wound/artery		//basically does sword-tier wounds.
 		if(prob(used))
 			attempted_wounds += /datum/wound/scarring
 	if((bclass in GLOB.sunder_bclasses))
@@ -365,9 +372,15 @@
 			if(zone_precise == BODY_ZONE_PRECISE_STOMACH)
 				attempted_wounds += /datum/wound/slash/disembowel
 			if(owner.has_wound(/datum/wound/fracture/chest) || (bclass in GLOB.artery_heart_bclasses) || HAS_TRAIT(owner, TRAIT_CRITICAL_WEAKNESS))
-				attempted_wounds += /datum/wound/artery/chest
+				if(HAS_TRAIT(owner, TRAIT_IRONMAN))			
+					attempted_wounds += /datum/wound/integrity/chest
+				else
+					attempted_wounds += /datum/wound/artery/chest
 			else
-				attempted_wounds += /datum/wound/artery
+				if(HAS_TRAIT(owner, TRAIT_IRONMAN))			
+					attempted_wounds += /datum/wound/integrity
+				else
+					attempted_wounds += /datum/wound/artery
 	if(bclass in GLOB.whipping_bclasses)
 		used = round(damage_dividend * 20 + (dam / 4))
 		if(user)
@@ -375,7 +388,10 @@
 				dam += 10
 		if(prob(used))
 			if(HAS_TRAIT(owner, TRAIT_CRITICAL_WEAKNESS))
-				attempted_wounds += /datum/wound/artery/chest
+				if(HAS_TRAIT(owner, TRAIT_IRONMAN))			
+					attempted_wounds += /datum/wound/integrity/chest
+				else
+					attempted_wounds += /datum/wound/artery/chest
 			else
 				attempted_wounds += /datum/wound/scarring
 	if(bclass in GLOB.sunder_bclasses)
@@ -477,7 +493,10 @@
 					used += 10
 		var/artery_type = /datum/wound/artery
 		if(zone_precise == BODY_ZONE_PRECISE_NECK)
-			artery_type = /datum/wound/artery/neck
+			if(HAS_TRAIT(owner, TRAIT_IRONMAN))			
+				artery_type = /datum/wound/integrity/neck
+			else
+				artery_type = /datum/wound/artery/neck
 		if(prob(used))
 			attempted_wounds += artery_type
 			if(bclass in GLOB.stab_bclasses)
