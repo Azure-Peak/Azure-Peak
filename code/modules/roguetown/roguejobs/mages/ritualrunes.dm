@@ -538,6 +538,7 @@ GLOBAL_LIST(teleport_runes)
 			fam.stop_automated_movement = TRUE
 			fam.stop_automated_movement_when_pulled = TRUE
 			fam.wander = FALSE
+			fam.cmode = FALSE
 
 			var/faction_to_add = "[user.mind.current.real_name]_faction"
 			fam.faction |= faction_to_add
