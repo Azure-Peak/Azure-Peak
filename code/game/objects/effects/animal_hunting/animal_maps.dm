@@ -73,4 +73,9 @@
 	target_category = /datum/hunting_category/white_stag
 	skill_chances = list(1, 1, 1, 5, 7.5, 10, 12.5)
 	degradation_rate = 0.1 // 10% drop per use
-	uses_left = 2
+	uses_left = 3
+
+/obj/item/hunting_map/white_stag/debug
+	skill_chances = list(100, 100, 100, 100, 100, 100, 100)
+	uses_left = 99
+	degradation_rate = 0

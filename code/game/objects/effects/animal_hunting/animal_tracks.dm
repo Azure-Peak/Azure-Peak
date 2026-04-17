@@ -191,7 +191,16 @@
 	)
 
 	var/base_dist = 9
-	var/deviation = max(0, 6 - skill) 
+	var/deviation = 5 // Default for skill 0-2
+	switch(skill)
+		if(3)
+			deviation = 4
+		if(4)
+			deviation = 3
+		if(5)
+			deviation = 2
+		if(6)
+			deviation = 1
 
 	for(var/list/pattern in search_patterns)
 		var/p_dx = pattern[1]
@@ -201,6 +210,13 @@
 			var/target_x = src.x + (p_dx * target_dist) + rand(-deviation, deviation)
 			var/target_y = src.y + (p_dy * target_dist) + rand(-deviation, deviation)
 			var/turf/T = locate(target_x, target_y, src.z)
+
+			if(!T)
+				continue
+
+			for(var/turf/step in get_line(src, T))
+				if(step.density)
+					continue
 
 			if(validate_turf(T))
 				// Let's make sure tracks replenish themselves eventually.
@@ -229,6 +245,7 @@
 				next_trail.linked_areas = src.linked_areas
 				next_trail.color = "#ff9100" 
 				next_trail.setup_hunter_visibility(user)
+				next_trail.linked_areas = src.linked_areas
 				return TRUE
 	return FALSE
 
@@ -293,6 +310,7 @@
 /obj/effect/hunting_track/proc/initialize_hunt_chain(mob/living/user)
 	var/skill = user.get_skill_level(/datum/skill/misc/hunting)
 	var/area/A = get_area(src)
+	src.linked_areas = SShunting.get_linked_areas(A.type)
 
 	// Calculate total tracks needed: 10 base, minus 1 for each level above 3
 	max_trail_depth = clamp(max_trail_depth - (max(0, skill - 3)), 5, max_trail_depth)
