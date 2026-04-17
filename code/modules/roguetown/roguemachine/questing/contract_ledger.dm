@@ -44,7 +44,7 @@
 	ui_interact(user)
 
 /obj/structure/roguemachine/contractledger/ui_state(mob/user)
-	return GLOB.physical_state
+	return GLOB.human_adjacent_state
 
 /obj/structure/roguemachine/contractledger/ui_interact(mob/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)
@@ -115,6 +115,8 @@
 	if(.)
 		return
 	var/mob/user = usr
+	if(!user?.Adjacent(src))
+		return TRUE
 	switch(action)
 		if("sign")
 			sign_contract(user, params["ref"])
