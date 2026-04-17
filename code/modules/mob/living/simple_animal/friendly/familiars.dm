@@ -207,6 +207,8 @@
 
 /mob/living/simple_animal/pet/familiar/fae/examine(mob/user)
 	var/list/ret = ..()
+	if(!ret)
+		ret = list() // temp fix for a cascading runtime
 	if(reagents)
 		if(reagents.flags & TRANSPARENT)
 			if(length(reagents.reagent_list))
