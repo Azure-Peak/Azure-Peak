@@ -8,10 +8,13 @@
 	var/list/preferred_tracks = list()
 	/// Areas where this category is likely to appear
 	var/list/preferred_areas = list()
+	/// Amount of bonus animals group hunts can spawn
+	var/bonus_animal_amount = 1
 
 /datum/hunting_category/low_tier
 	name = "Small Game"
 	skill_weights = list(100, 80, 50, 20, 10, 5, 5) // Common for beginners, rare for experts
+	bonus_animal_amount = 5
 	animals = list(
 		/mob/living/simple_animal/hostile/retaliate/rogue/bigrat = 15,
 		/mob/living/simple_animal/hostile/retaliate/rogue/badger = 10,
@@ -38,6 +41,7 @@
 /datum/hunting_category/mid_tier
 	name = "Forest Denizens"
 	skill_weights = list(10, 40, 100, 80, 50, 30, 10)
+	bonus_animal_amount = 3
 	animals = list(
 		/mob/living/simple_animal/hostile/retaliate/rogue/wolf = 15,
 		/mob/living/simple_animal/hostile/retaliate/rogue/goat = 20,
@@ -60,6 +64,7 @@
 /datum/hunting_category/high_tier
 	name = "Great Beasts"
 	skill_weights = list(0, 5, 20, 50, 100, 120, 150) // Only highly skilled hunters find these
+	bonus_animal_amount = 2
 	animals = list(
 		/mob/living/simple_animal/hostile/retaliate/rogue/saiga = 10,
 		/mob/living/simple_animal/hostile/retaliate/rogue/saiga/saigabuck = 5,
@@ -99,6 +104,7 @@
 /datum/hunting_category/spiders
 	name = "Common Arachnids"
 	skill_weights = list(30, 30, 30, 25, 20, 10, 5)
+	bonus_animal_amount = 3
 	animals = list(
 		/mob/living/simple_animal/hostile/retaliate/rogue/spider = 50,
 		/mob/living/simple_animal/hostile/retaliate/rogue/spider/mutated = 10
@@ -116,7 +122,8 @@
 /datum/hunting_category/mire_spiders
 	name = "Mire Dwellers"
 
-	skill_weights = list(30, 30, 30, 25, 25, 20, 20) 
+	skill_weights = list(30, 30, 30, 25, 25, 20, 20)
+	bonus_animal_amount = 2
 	animals = list(
 		/mob/living/simple_animal/hostile/retaliate/rogue/mirespider = 30,
 		/mob/living/simple_animal/hostile/rogue/mirespider_lurker = 20,
@@ -144,6 +151,7 @@
 	name = "Great Beasts"
 	// May become even rarer down the line.
 	skill_weights = list(1, 1, 1, 1, 1, 1, 2) // Stumbling into this aimlessly is nigh-impossible
+	bonus_animal_amount = 0 // Hahahhaa No.
 	animals = list(
 		/mob/living/carbon/human/species/wildshape/white_stag = 1
 	)

@@ -15,8 +15,11 @@
 	var/static/list/track_types = list("cervine", "small", "ursine", "canine")
 	var/locked_track_icon = null
 	var/track_revealed = FALSE
+	/// Hunt leader or solo hunter
 	var/datum/weakref/hunter_ref
-	var/image/track_image
+	/// For group hunts
+	var/list/datum/weakref/party_refs = list()
+	var/list/image/party_images = list()
 
 	/// The specific animal that will spawn at the end
 	var/target_animal_type
@@ -103,30 +106,27 @@
 	pixel_y = rand(-8, 8)
 
 /obj/effect/hunting_track/Destroy()
-	var/mob/living/L = hunter_ref?.resolve()
-	if(L?.client && track_image)
-		L.client.images -= track_image
-	track_image = null
+	clear_party_images()
+	party_refs.Cut()
 	hunter_ref = null
 	return ..()
 
-/obj/effect/hunting_track/proc/setup_hunter_visibility(mob/living/new_hunter)
-	if(!new_hunter)
-		return
-
-	hunter_ref = WEAKREF(new_hunter)
+/obj/effect/hunting_track/proc/setup_hunter_visibility()
 	// Make the physical object invisible to everyone else
 	invisibility = INVISIBILITY_MAXIMUM 
 
-	if(!new_hunter.client)
-		return
-
-	track_image = image(icon, src, icon_state, layer)
-	track_image.color = src.color
-	track_image.pixel_x = src.pixel_x
-	track_image.pixel_y = src.pixel_y
-	track_image.transform = src.transform
-	new_hunter.client.images += track_image
+	for(var/datum/weakref/W in party_refs)
+		var/mob/living/L = W.resolve()
+		if(!L?.client)
+			continue
+		var/image/I = image(icon, src, icon_state, layer)
+		I.color = src.color
+		I.pixel_x = src.pixel_x
+		I.pixel_y = src.pixel_y
+		I.transform = src.transform
+		// Add to client and our local tracker
+		L.client.images += I
+		party_images += I
 
 /obj/effect/hunting_track/attack_hand(mob/living/user)
 	if(track_revealed)
@@ -139,11 +139,11 @@
 		if(!B.can_start_hunt())
 			return
 
-	var/mob/living/H = hunter_ref?.resolve()
+	// var/mob/living/H = hunter_ref?.resolve()
 
-	// Just in case anyone finds an invisible track somehow, this way they can't mess up someone's trail.
-	if(H && user != H)
-		return
+	// // Just in case anyone finds an invisible track somehow, this way they can't mess up someone's trail.
+	// if(H && user != H)
+	// 	return
 
 	if(get_dist(user, src) < 1)
 		to_chat(user, span_warning("You are standing too close to see where the trail leads. Step back."))
@@ -156,15 +156,9 @@
 	if(!do_after(user, get_hunting_do_time(user, 4 SECONDS), target = src))
 		return
 
-	// Do this before uncover_trail to make sure the icon is locked if need be
-	if(trail_depth == 0 && !target_animal_type)
-		initialize_hunt_chain(user)
-
 	if(uncover_trail(user))
 		to_chat(user, span_nicegreen("The trail continues further ahead!"))
-		var/hunting_exp_modifier = max(1 + ((user.STAINT - 10) / 10), 0.1)
-		var/base_exp_amount = 3
-		user.mind.add_sleep_experience(/datum/skill/misc/hunting, base_exp_amount * hunting_exp_modifier)
+		distribute_party_exp(3)
 		track_revealed = TRUE
 		fade_and_die(user)
 		//qdel(src)
@@ -175,8 +169,7 @@
 		to_chat(user, span_warning("The trail seems to disappear into the brush here."))
 
 /obj/effect/hunting_track/proc/uncover_trail(mob/living/user)
-	var/skill = 0
-	skill = user.get_skill_level(/datum/skill/misc/hunting)
+	var/skill = process_party_and_get_skill()
 
 	var/base_dx = clamp(src.x - user.x, -1, 1)
 	var/base_dy = clamp(src.y - user.y, -1, 1)
@@ -223,20 +216,26 @@
 				if(trail_depth == 0)
 					new /obj/effect/landmark/hunting_spawner(get_turf(src))
 
+				// Do this before reveal trail to make sure the icon is locked if need be
+				if(trail_depth == 0 && !target_animal_type)
+					initialize_hunt_group(user)
+					initialize_hunt_chain(user)
 				//Reveal THIS track before moving on
 				reveal_track(T)
 
 				// Spawn Animal if depth reached
 				if(trail_depth >= max_trail_depth)
 					to_chat(user, span_boldwarning("You see your quarry in the distance faintly!"))
-					var/hunting_exp_modifier = max(1 + ((user.STAINT - 10) / 10), 0.1)
-					var/base_exp_amount = 35
-					user.mind.add_sleep_experience(/datum/skill/misc/hunting, base_exp_amount * hunting_exp_modifier)
-					new target_animal_type(T)
+					distribute_party_exp(35)
+					var/mob/living/primary_target = new target_animal_type(T)
+					if(spawn_group_bonus_animals(T, primary_target))
+						visible_message(span_boldwarning("There seems to be a herd in the distance!"))
 					return TRUE
 
 				//Spawn the NEXT hidden mound
 				var/obj/effect/hunting_track/next_trail = new(T)
+				next_trail.party_refs = src.party_refs
+				next_trail.hunter_ref = src.hunter_ref
 				next_trail.trail_depth = src.trail_depth + 1
 				next_trail.max_trail_depth = src.max_trail_depth
 				next_trail.target_animal_type = src.target_animal_type
@@ -244,20 +243,82 @@
 				next_trail.locked_track_icon = src.locked_track_icon
 				next_trail.linked_areas = src.linked_areas
 				next_trail.color = "#ff9100" 
-				next_trail.setup_hunter_visibility(user)
 				next_trail.linked_areas = src.linked_areas
+				next_trail.setup_hunter_visibility()
 				return TRUE
 	return FALSE
+
+/obj/effect/hunting_track/proc/initialize_hunt_group(mob/living/revealer)
+	var/list/potential_party = list(revealer)
+	for(var/mob/living/L in range(3, src))
+		if(L.stat == DEAD || !L.mind)
+			continue
+		potential_party |= L
+
+	var/mob/living/best_hunter
+	var/highest_skill = -1
+
+	// 2. Determine leader and store all as weakrefs
+	for(var/mob/living/L in potential_party)
+		var/L_skill = L.get_skill_level(/datum/skill/misc/hunting)
+		if(L_skill > highest_skill)
+			highest_skill = L_skill
+			best_hunter = L
+
+		party_refs |= WEAKREF(L)
+
+	hunter_ref = WEAKREF(best_hunter)
+
+	if(potential_party.len > 1)
+		to_chat(potential_party, "<b>Group Hunt started!</b> [best_hunter.name] is leading the tracks. There are [party_refs.len] hunters participating.")
+
+/obj/effect/hunting_track/proc/process_party_and_get_skill()
+	var/highest_skill = 0
+	var/mob/living/current_leader
+	var/list/valid_party = list()
+
+	for(var/datum/weakref/W in party_refs)
+		var/mob/living/L = W.resolve()
+		// Cleanup: Remove if deleted, dead, or further than 7 tiles from THIS track
+		if(!L || L.stat == DEAD || get_dist(src, L) > 7)
+			continue
+
+		valid_party |= W
+
+		// Determine who the best hunter CURRENTLY at the track is
+		var/L_skill = L.get_skill_level(/datum/skill/misc/hunting)
+		if(L_skill >= highest_skill)
+			highest_skill = L_skill
+			current_leader = L
+
+	// Update the track's state
+	party_refs = valid_party
+	hunter_ref = WEAKREF(current_leader)
+	
+	return highest_skill
+
+/obj/effect/hunting_track/proc/distribute_party_exp(base_amount)
+	var/mob/living/leader = hunter_ref?.resolve()
+
+	for(var/datum/weakref/W in party_refs)
+		var/mob/living/L = W.resolve()
+		if(!L || L.stat == DEAD || !L.mind)
+			continue
+
+		var/hunting_exp_modifier = max(1 + ((L.STAINT - 10) / 10), 0.1)
+		var/final_amount = base_amount
+
+		// If they aren't the leader, they get half
+		if(L != leader)
+			final_amount *= 0.5
+		L.mind.add_sleep_experience(/datum/skill/misc/hunting, final_amount * hunting_exp_modifier)
 
 /obj/effect/hunting_track/proc/reveal_track(turf/target_turf)
 	// Pick a random visual style
 	if(!locked_track_icon)
 		locked_track_icon = pick(track_types)
 
-	var/mob/living/H = hunter_ref?.resolve()
-	if(H?.client && track_image)
-		H.client.images -= track_image
-	track_image = null
+	clear_party_images()
 
 	invisibility = 0
 	icon_state = locked_track_icon
@@ -274,13 +335,6 @@
 	var/matrix/M = matrix()
 	M.Turn(angle)
 	transform = M
-
-	if(track_image)
-		track_image.icon_state = icon_state
-		track_image.transform = transform
-		track_image.color = null 
-	else
-		color = null
 
 /obj/effect/hunting_track/proc/validate_turf(turf/T)
 	if(!T || T.density)
@@ -354,3 +408,67 @@
 		locked_track_icon = hunt_category.preferred_tracks[target_animal_type]
 	else
 		locked_track_icon = pick(track_types)
+
+/obj/effect/hunting_track/proc/spawn_group_bonus_animals(turf/T, mob/living/primary_target)
+	if(!hunt_category || !primary_target)
+		return
+
+	var/mob/living/leader = hunter_ref?.resolve()
+	var/spawned_count = 0
+
+	// We start at the target turf and look for nearby spots
+	for(var/datum/weakref/W in party_refs)
+		if(spawned_count >= hunt_category.bonus_animal_amount)
+			break
+
+		var/mob/living/L = W.resolve()
+		if(!L || L == leader || L.stat == DEAD)
+			continue
+
+		var/skill = L.get_skill_level(/datum/skill/misc/hunting)
+		// 14% per skill up to 98%
+		var/success_chance = (skill + 1) * 14
+
+		if(prob(success_chance))
+			// Find a nearby valid turf so they aren't stacked
+			var/turf/spawn_turf = T
+			var/list/nearby_turfs = list()
+
+			for(var/dir in GLOB.alldirs)
+				var/turf/neighbor = get_step(T, dir)
+				if(validate_turf(neighbor))
+					nearby_turfs += neighbor
+
+			// If neighbors are clear, pick one. Otherwise, stay on T (last resort)
+			if(nearby_turfs.len)
+				spawn_turf = pick(nearby_turfs)
+
+			var/bonus_type = pickweight(hunt_category.animals)
+			var/mob/living/bonus_mob = new bonus_type(spawn_turf)
+
+			// Sync factions so the pack stays friendly
+			if(primary_target.faction && primary_target.faction.len)
+				bonus_mob.faction = primary_target.faction.Copy()
+			spawned_count++
+	return spawned_count
+
+/obj/effect/hunting_track/proc/clear_party_images()
+	if(!party_images.len)
+		return
+
+	// Iterate backwards through the image list for safety while deleting
+	for(var/i in party_images.len to 1 step -1)
+		var/image/I = party_images[i]
+		if(!I)
+			continue
+
+		// Remove from every client in the party
+		for(var/datum/weakref/W in party_refs)
+			var/mob/living/L = W.resolve()
+			if(L?.client)
+				L.client.images -= I
+
+		// Explicitly qdel the image object to avoid hard deletes
+		qdel(I)
+
+	party_images.Cut()
