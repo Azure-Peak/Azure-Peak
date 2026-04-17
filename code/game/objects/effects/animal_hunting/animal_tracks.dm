@@ -234,7 +234,7 @@
 
 				//Spawn the NEXT hidden mound
 				var/obj/effect/hunting_track/next_trail = new(T)
-				next_trail.party_refs = src.party_refs
+				next_trail.party_refs = src.party_refs.Copy()
 				next_trail.hunter_ref = src.hunter_ref
 				next_trail.trail_depth = src.trail_depth + 1
 				next_trail.max_trail_depth = src.max_trail_depth
