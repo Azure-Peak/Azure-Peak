@@ -177,7 +177,7 @@
 	else
 		. = ..() //normal hit
 
-/obj/item/rogueweapon/hammer/proc/hammerheal(mob/living/M, mob/user)
+/obj/item/rogueweapon/hammer/proc/hammerheal(mob/living/M, mob/living/user)
 	if(!M.can_inject(user, TRUE))
 		return
 	if(!ishuman(M))
@@ -185,39 +185,105 @@
 	if(!M.construct)
 		to_chat(user, span_warning("I can't tinker on living flesh!"))
 		return
+
 	var/mob/living/carbon/human/H = M
+
+	// Tool gate for complex wounds
+	var/has_complex_wounds = FALSE
+	for(var/datum/wound/W in H.get_wounds())
+		if(W.severity >= WOUND_SEVERITY_MODERATE)
+			has_complex_wounds = TRUE
+			break
+
+	var/has_tool = FALSE
+	for(var/obj/item/I in user.held_items)
+		if(istype(I, /obj/item/rogueweapon/tongs) || istype(I, /obj/item/contraption/linker))
+			has_tool = TRUE
+			break
+
+	if(has_complex_wounds && !has_tool)
+		to_chat(user, span_warning("These injuries are too severe to hammer safely! You need proper tools like tongs or a wrench."))
+		return
+
 	var/obj/item/bodypart/affecting = H.get_bodypart(check_zone(user.zone_selected))
 	if(!affecting)
 		return
 
 	do
-		var/used_time = 70
+		var/used_time = 100
+
 		if(user.mind)
 			used_time -= (user.get_skill_level(/datum/skill/craft/engineering) * 10)
-		playsound(loc, 'sound/items/bsmith1.ogg', 100, FALSE)
-		if(!do_mob(user, M, used_time))
-			return
-		playsound(loc, 'sound/items/bsmith4.ogg', 100, FALSE)
+
+		// tool advantage: halves time if present
+		if(has_tool)
+			used_time *= 0.5
+
+		// minimum clamp
+		used_time = max(used_time, 5)
 
 		var/list/wCount = H.get_wounds()
+
+		// Re-evaluate complexity each cycle (for dynamic healing progression)
+		has_complex_wounds = FALSE
+		for(var/datum/wound/W in wCount)
+			if(W.severity >= WOUND_SEVERITY_MODERATE)
+				has_complex_wounds = TRUE
+				break
+
+		// Audio feedback per loop cycle
+		if(has_complex_wounds)
+			playsound(loc, 'sound/misc/ratchet.ogg', 80, FALSE)
+			spawn((rand(5,20)))
+				playsound(loc, 'sound/items/bsmith1.ogg', 100, FALSE)
+		else
+			playsound(loc, 'sound/items/bsmith1.ogg', 100, FALSE)
+
+		if(!do_mob(user, M, used_time))
+			return
+
+		playsound(loc, 'sound/items/bsmith4.ogg', 100, FALSE)
+
+		// Healing
 		H.adjustBruteLoss(-10)
 		H.adjustFireLoss(-10)
 		H.update_damage_overlays()
+
 		if(wCount.len > 0)
 			if(M == user)
 				H.heal_wounds(2)
 			else
-				H.heal_wounds(10) // Other heal are far more powerful and can heal skullcrack in 15 hits instead of 75
-			H.update_damage_overlays()
-		if(M == user)
-			user.visible_message(span_notice("[user] hammers [user.p_their()] [affecting]."), span_notice("I hammer my [affecting]."))
-		else
-			user.visible_message(span_notice("[user] hammers [M]'s [affecting]."), span_notice("I hammer [M]'s [affecting]."))
+				H.heal_wounds(10)
 
-		if(wCount.len <= 0)
+			H.update_damage_overlays()
+
+		// Flavor messaging
+		if(M == user)
+			user.visible_message(
+				span_notice("[user] repairs [user.p_their()] [affecting]."),
+				span_notice("I repair my [affecting].")
+			)
+		else
+			user.visible_message(
+				span_notice("[user] repairs [M]'s [affecting]."),
+				span_notice("I repair [M]'s [affecting].")
+			)
+
+		// loop exit conditions
+		if(!ishuman(M))
 			break
 
-	while(M.can_inject(user, TRUE))
+		if(!M.construct)
+			break
+		
+		if((M.getBruteLoss + M.getFireLoss) == 0 && wCount.len == 0)
+			user.visible_message(
+				span_notice("[user] is good as new!"),
+				span_notice("I am as good as new!")
+			)
+			break
+
+	while(do_after(user, CLICK_CD_MELEE, target = M))
 
 /obj/item/rogueweapon/hammer/wood	// wood hammer (mallet)
 	name = "wooden mallet"

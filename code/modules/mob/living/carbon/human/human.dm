@@ -690,7 +690,7 @@
 /mob/living/carbon/human/can_hold_items()
 	return TRUE
 
-/mob/living/carbon/human/vomit(lost_nutrition = 10, blood = 0, stun = 1, distance = 0, message = 1, toxic = 0)
+/*/mob/living/carbon/human/vomit(lost_nutrition = 10, blood = 0, stun = 1, distance = 0, message = 1, toxic = 0)
 	if(blood && (NOBLOOD in dna.species.species_traits) && !HAS_TRAIT(src, TRAIT_TOXINLOVER))
 		if(message)
 			visible_message(span_warning("[src] dry heaves!"), \
@@ -698,7 +698,7 @@
 		if(stun)
 			Immobilize(200)
 		return 1
-	..()
+	..()*/ // why the FUC we have two vomit procs???? just call the real parent, this was causing noblood things to stunlock permanently 
 
 /mob/living/carbon/human/vv_get_dropdown()
 	. = ..()
