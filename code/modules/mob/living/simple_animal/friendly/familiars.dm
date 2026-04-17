@@ -163,7 +163,7 @@
 	var/datum/familiar_prefs/prefs = src.client?.prefs?.familiar_prefs
 	if(!prefs)
 		return ret
-	if(!prefs.familiar_headshot_link) // prefs object from the dev period before we had examines; update them
+	if(!prefs.familiar_headshot_link || !istype(prefs.familiar_headshot_link)) // prefs object from the dev period before we had examines; update them
 		prefs.instantiate_examine_prefs()
 		return ret
 	if((valid_headshot_link(src, prefs.familiar_headshot_link[planar_origin], TRUE)) && (user.client?.prefs.chatheadshot))
