@@ -18,6 +18,11 @@
 	var/obj/effect/decal/marker_export/marker = new(get_turf(input_point))
 	marker.desc = "Drop retrieval-quest items here to turn them in."
 	marker.layer = ABOVE_OBJ_LAYER
+	SSquestpool.registered_ledgers += src
+
+/obj/structure/roguemachine/contractledger/Destroy()
+	SSquestpool.registered_ledgers -= src
+	return ..()
 
 /obj/structure/roguemachine/contractledger/get_mechanics_examine(mob/user)
 	. = ..()

@@ -133,14 +133,12 @@
 		if(QUEST_DIFFICULTY_HARD)
 			return rand(QUEST_REWARD_HARD_LOW, QUEST_REWARD_HARD_HIGH)
 
-// Additional reward, override in subtypes for specific calculations. Called AFTER generation.
-/datum/quest/proc/get_additional_reward(turf/target_turf)
+/datum/quest/proc/get_additional_reward(turf/origin_turf, turf/target_turf)
 	return 0
 
-/// Calculate reward based on base + additional reward. Called AFTER generation.
-/datum/quest/proc/calculate_reward(turf/target_turf)
+/datum/quest/proc/calculate_reward(turf/origin_turf, turf/target_turf)
 	var/base = get_base_reward()
-	var/additional = get_additional_reward(target_turf)
+	var/additional = get_additional_reward(origin_turf, target_turf)
 	return base + additional
 
 /// Calculate deposit based on difficulty

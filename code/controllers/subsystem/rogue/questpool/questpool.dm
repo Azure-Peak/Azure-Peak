@@ -8,10 +8,26 @@ SUBSYSTEM_DEF(questpool)
 	var/list/datum/quest/pool = list()
 	var/list/abandon_cooldowns = list()
 	var/list/event_log = list()
+	var/list/registered_ledgers = list()
 
 /datum/controller/subsystem/questpool/Initialize()
 	regen_to_targets(get_total_target())
 	return ..()
+
+/datum/controller/subsystem/questpool/proc/get_nearest_ledger_turf(turf/reference)
+	var/turf/closest
+	var/min_dist = INFINITY
+	for(var/obj/structure/roguemachine/contractledger/ledger as anything in registered_ledgers)
+		var/turf/T = get_turf(ledger)
+		if(!T)
+			continue
+		if(!reference)
+			return T
+		var/dist = get_dist(reference, T)
+		if(dist < min_dist)
+			min_dist = dist
+			closest = T
+	return closest
 
 /datum/controller/subsystem/questpool/fire(resumed)
 	reroll_stale()
@@ -104,7 +120,9 @@ SUBSYSTEM_DEF(questpool)
 	if(!Q.preview(landmark))
 		qdel(Q)
 		return null
-	Q.reward_amount = Q.calculate_reward(get_turf(landmark))
+	var/turf/landmark_turf = get_turf(landmark)
+	var/turf/origin = get_nearest_ledger_turf(landmark_turf) || landmark_turf
+	Q.reward_amount = Q.calculate_reward(origin, landmark_turf)
 	pool += Q
 	record_round_statistic(STATS_CONTRACTS_GENERATED)
 	log_event("generate", "[difficulty] [type] at [Q.target_spawn_area || "unknown"] (reward [Q.reward_amount])")
