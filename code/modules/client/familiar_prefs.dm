@@ -257,7 +257,7 @@
 	var/client/client = prefs?.parent
 	if (!client)
 		return
-	if(!src.familiar_flavortext) // this is a prefs object from before the examine update; re-instantiate it
+	if(!src.familiar_flavortext || !istype(src.familiar_flavortext)) // this is a prefs object from before the examine update; re-instantiate it
 		src.instantiate_examine_prefs()
 	var/list/dat = list()
 	dat += "<br><b>Familiar Headshot:</b> <a href='?_src_=familiar_prefs;preference=familiar_headshot;task=input;planar_origin=[planar_origin]'>Change</a>"
