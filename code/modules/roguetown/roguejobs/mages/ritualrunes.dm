@@ -420,6 +420,13 @@ GLOBAL_LIST(teleport_runes)
 		summoned_mob = null
 	return ..()
 
+/obj/effect/decal/cleanable/roguerune/arcyne/binding/get_mechanics_examine(mob/user)
+	. = ..()
+	if(isarcyne(user))
+		. += span_info("Use the rune to select a rite. Some rites require the circle to be near a leyline.")
+		. += span_info("For rites that summon a familiar, left-click the circle with an empty hand afterwards to attempt to draw in a player to control it.")
+		. += span_info("If you need to cancel a binding attempt, right-click the circle to delete the mob and refund the costs.")
+
 /obj/effect/decal/cleanable/roguerune/arcyne/binding/attack_hand(mob/living/user)
 	try
 		summon_mob(user)
