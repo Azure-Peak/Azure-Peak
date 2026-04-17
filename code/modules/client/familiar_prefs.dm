@@ -104,7 +104,9 @@
 					to_chat(user, "<span class='notice'>Familiar name set to [new_name].</span>")
 				else
 					to_chat(user, "<font color='red'>Invalid name. Your name should be at least 2 and at most [MAX_NAME_LEN] characters long. It may only contain the characters A-Z, a-z, -, ', . and ,.</font>")
-				
+			else
+				familiar_names[planar_origin] = null
+				to_chat(user, "<span class='notice'>Familiar name reset.</span>")
 		if ("familiar_pronouns")
 			var/list/pronoun_options = list(
 				"he/him" = HE_HIM,
