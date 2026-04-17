@@ -5,8 +5,8 @@
 	department_flag = PEASANTS
 	selection_color = JCOLOR_PEASANT
 	faction = "Station"
-	total_positions = 5
-	spawn_positions = 5
+	total_positions = 4
+	spawn_positions = 4
 
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = ACCEPTED_RACES

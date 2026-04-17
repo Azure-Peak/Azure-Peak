@@ -3,8 +3,8 @@
 	flag = MERCENARY
 	department_flag = SIDEFOLK
 	faction = "Station"
-	total_positions = 8
-	spawn_positions = 8
+	total_positions = 10
+	spawn_positions = 10
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
 	tutorial = "Blood stains your hands and the coins you hold. You are a sell-sword, a mercenary, a contractor of war. Where you come from, what you are, who you serve.. none of it matters. What matters is that the mammon flows to your pocket."

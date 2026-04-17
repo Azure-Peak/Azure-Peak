@@ -3,8 +3,8 @@
 	flag = SQUIRE
 	department_flag = RETINUE
 	faction = "Station"
-	total_positions = 4
-	spawn_positions = 4
+	total_positions = 5
+	spawn_positions = 5
 	allowed_races = ACCEPTED_RACES
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_ages = list(AGE_ADULT)

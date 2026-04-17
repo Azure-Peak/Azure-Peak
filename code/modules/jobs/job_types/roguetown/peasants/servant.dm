@@ -4,8 +4,8 @@
 	flag = SERVANT
 	department_flag = PEASANTS
 	faction = "Station"
-	total_positions = 6
-	spawn_positions = 6
+	total_positions = 4
+	spawn_positions = 4
 
 	allowed_races = ACCEPTED_RACES
 	allowed_ages = ALL_AGES_LIST

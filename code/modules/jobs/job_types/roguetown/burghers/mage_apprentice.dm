@@ -3,8 +3,8 @@
 	flag = APPRENTICE
 	department_flag = BURGHERS
 	faction = "Station"
-	total_positions = 4
-	spawn_positions = 4
+	total_positions = 5
+	spawn_positions = 5
 
 	allowed_races = ACCEPTED_RACES
 	spells = list()

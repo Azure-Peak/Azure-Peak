@@ -3,8 +3,8 @@
 	flag = TRADER
 	department_flag = WANDERERS
 	faction = "Station"
-	total_positions = 20
-	spawn_positions = 20
+	total_positions = 25
+	spawn_positions = 25
 	allowed_races = RACES_ALL_KINDS
 	tutorial = "A traveling salesman, a peddler of goods - commerce is your expertise, and you've come to this land to make a fortune."
 	outfit = null
