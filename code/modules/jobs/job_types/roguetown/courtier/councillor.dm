@@ -105,6 +105,8 @@
 		// One below spear hunters
 		/datum/skill/combat/polearms = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/knives = SKILL_LEVEL_APPRENTICE,
+		// Too easy to get hurt hunting
+		/datum/skill/misc/medicine = SKILL_LEVEL_NOVICE,
 		// One below bow hunters
 		/datum/skill/combat/bows = SKILL_LEVEL_JOURNEYMAN,
 		// One above hunters
@@ -134,6 +136,7 @@
 		/datum/skill/combat/knives = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/craft/engineering = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/craft/traps = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/medicine = SKILL_LEVEL_NOVICE,
 	)
 
 /datum/outfit/job/roguetown/councillor
