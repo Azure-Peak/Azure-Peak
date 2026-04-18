@@ -31573,10 +31573,10 @@
 /area/rogue/outdoors/woods/southwest)
 "gAb" = (
 /obj/machinery/light/rogue/candle/floorcandle,
-/obj/structure/table/church/end,
 /obj/structure/fluff/walldeco/stone/stone4{
 	pixel_y = 32
 	},
+/obj/structure/table/wood/long_table/right,
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/church/basement)
 "gAc" = (
@@ -31763,10 +31763,10 @@
 /area/rogue/under/town/basement/keep)
 "gCq" = (
 /obj/machinery/light/rogue/candle/floorcandle/alt,
-/obj/structure/table/church,
 /obj/structure/fluff/walldeco/stone/stone4{
 	pixel_y = 32
 	},
+/obj/structure/table/wood/long_table,
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/church/basement)
 "gCw" = (
@@ -36220,7 +36220,7 @@
 	pixel_y = 17;
 	pixel_x = 0
 	},
-/obj/structure/table/church/m,
+/obj/structure/table/wood/long_table/mid/alt,
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/church/basement)
 "hxq" = (
