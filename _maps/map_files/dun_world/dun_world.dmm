@@ -6830,6 +6830,7 @@
 	pixel_x = 7;
 	pixel_y = 43
 	},
+/obj/machinery/light/rogue/candle/r,
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/church/chapel)
 "bvn" = (
