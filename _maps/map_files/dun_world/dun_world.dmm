@@ -21084,6 +21084,12 @@
 /obj/machinery/light/rogue/candle/r,
 /turf/open/floor/carpet/inn,
 /area/rogue/indoors/town/manor)
+"erW" = (
+/obj/structure/chair/wood/rogue/chair4{
+	dir = 8
+	},
+/turf/open/floor/rogue/wood,
+/area/rogue/indoors/town/church/chapel)
 "erX" = (
 /obj/structure/table/wood/long_table/mid/alt,
 /obj/structure/roguemachine/contractledger{
@@ -39370,10 +39376,6 @@
 /obj/structure/bed/rogue/shit,
 /turf/open/floor/rogue/ruinedwood/turned,
 /area/rogue/indoors/cave/northern)
-"idP" = (
-/obj/structure/fluff/walldeco/church/line,
-/turf/open/floor/rogue/wood,
-/area/rogue/indoors/town/church/chapel)
 "idS" = (
 /mob/living/simple_animal/hostile/rogue/deepone/wiz,
 /turf/open/floor/rogue/naturalstone,
@@ -53664,6 +53666,12 @@
 	},
 /turf/open/floor/carpet/red,
 /area/rogue/indoors/shelter)
+"kRZ" = (
+/obj/structure/chair/wood/rogue/chair4{
+	dir = 4
+	},
+/turf/open/floor/rogue/wood,
+/area/rogue/indoors/town/church/chapel)
 "kSb" = (
 /obj/machinery/light/rogue/torchholder/l,
 /turf/open/water/ocean,
@@ -75836,6 +75844,10 @@
 	},
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cave/his_vault/four)
+"pmL" = (
+/obj/machinery/light/rogue/candle/r,
+/turf/open/floor/rogue/wood,
+/area/rogue/indoors/town/church/chapel)
 "pmR" = (
 /obj/structure/fluff/wallclock/r,
 /obj/item/reagent_containers/food/snacks/smallrat,
@@ -78464,7 +78476,7 @@
 	pixel_x = -7;
 	pixel_y = 11
 	},
-/turf/open/floor/rogue/concrete,
+/turf/open/floor/rogue/wood,
 /area/rogue/indoors/town/church/chapel)
 "pPs" = (
 /obj/structure/mineral_door/wood/deadbolt{
@@ -271154,8 +271166,8 @@ qdu
 fwK
 fwK
 nII
-idP
-fdW
+fwK
+kRZ
 vJk
 mQr
 xyA
@@ -271606,7 +271618,7 @@ dft
 mjy
 iXC
 mjy
-idP
+fwK
 pPn
 vJk
 jiQ
@@ -272058,8 +272070,8 @@ dft
 mjy
 tXh
 mjy
-idP
-nAB
+fwK
+erW
 aaG
 jiQ
 dmt
@@ -272510,8 +272522,8 @@ esS
 mjy
 ays
 vTh
-idP
-ppl
+fwK
+pmL
 djq
 aZo
 eZB
@@ -498952,7 +498964,7 @@ gTY
 gTY
 gTY
 gTY
-gTY
+cQe
 gMG
 qbZ
 gTY
