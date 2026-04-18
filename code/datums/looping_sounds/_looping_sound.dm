@@ -227,7 +227,7 @@ GLOBAL_LIST_EMPTY(created_sound_groups)
 		play(start_sound)
 		start_wait = start_length
 	if(persistent_loop && !cursound)
-		cursound = get_sound(world.time, mid_sounds)
+		cursound = get_sound(mid_sounds)
 	addtimer(CALLBACK(src, PROC_REF(begin_loop)), start_wait, TIMER_CLIENT_TIME)
 	if(persistent_loop && !(src in GLOB.persistent_sound_loops))
 		GLOB.persistent_sound_loops += src
