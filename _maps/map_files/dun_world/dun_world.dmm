@@ -11492,7 +11492,7 @@
 /area/rogue/indoors/town/garrison)
 "ctM" = (
 /obj/structure/fluff/psycross/copper,
-/turf/open/floor/rogue/churchrough,
+/turf/open/floor/rogue/church,
 /area/rogue/indoors/town/church/chapel)
 "ctR" = (
 /obj/structure/closet/crate/chest,
@@ -50720,8 +50720,8 @@
 /obj/structure/stairs/stone{
 	dir = 4
 	},
-/obj/structure/fluff/walldeco/psybanner/tennite/red{
-	pixel_y = 30
+/obj/structure/fluff/walldeco/psybanner/astrata/red{
+	pixel_y = 32
 	},
 /turf/open/floor/rogue/churchmarble,
 /area/rogue/indoors/town/church/chapel)
@@ -59501,8 +59501,8 @@
 /obj/structure/stairs/stone{
 	dir = 8
 	},
-/obj/structure/fluff/walldeco/psybanner/tennite/red{
-	pixel_y = 30
+/obj/structure/fluff/walldeco/psybanner/astrata/red{
+	pixel_y = 32
 	},
 /turf/open/floor/rogue/churchmarble,
 /area/rogue/indoors/town/church/chapel)
@@ -73084,7 +73084,7 @@
 	pixel_x = -18;
 	pixel_y = 11
 	},
-/turf/open/floor/rogue/churchrough,
+/turf/open/floor/rogue/church,
 /area/rogue/indoors/town/church/chapel)
 "oKZ" = (
 /turf/open/floor/rogue/cobble,
@@ -105682,10 +105682,7 @@
 "vnl" = (
 /obj/structure/table/church,
 /obj/machinery/light/rogue/candle/floorcandle,
-/obj/structure/fluff/walldeco/psybanner/astrata{
-	pixel_y = 30
-	},
-/turf/open/floor/rogue/churchrough,
+/turf/open/floor/rogue/church,
 /area/rogue/indoors/town/church/chapel)
 "vno" = (
 /obj/structure/fermentation_keg/random/beer,
@@ -115310,10 +115307,7 @@
 "xnB" = (
 /obj/structure/table/church/end,
 /obj/machinery/light/rogue/candle/floorcandle/alt,
-/obj/structure/fluff/walldeco/psybanner/astrata{
-	pixel_y = 30
-	},
-/turf/open/floor/rogue/churchrough,
+/turf/open/floor/rogue/church,
 /area/rogue/indoors/town/church/chapel)
 "xnC" = (
 /obj/effect/decal/cobbleedge{
@@ -265777,7 +265771,7 @@ mSh
 dZq
 jVM
 jVM
-mSh
+jBn
 vnl
 pcV
 hfa
@@ -266681,7 +266675,7 @@ mSh
 dZq
 cDm
 cDm
-mSh
+jBn
 xnB
 pcV
 hfa
