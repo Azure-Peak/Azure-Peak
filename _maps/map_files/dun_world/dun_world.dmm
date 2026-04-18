@@ -1696,7 +1696,6 @@
 /turf/open/floor/rogue/dirt,
 /area/rogue/indoors/cave)
 "arp" = (
-/obj/structure/fluff/walldeco/church/line,
 /obj/structure/table/church/end,
 /obj/machinery/light/rogue/candle/floorcandle/alt,
 /turf/open/floor/rogue/concrete,
@@ -18218,7 +18217,6 @@
 /turf/open/floor/rogue/ruinedwood/herringbone,
 /area/rogue/indoors/inq/office)
 "dOb" = (
-/obj/structure/fluff/walldeco/church/line,
 /obj/structure/table/church/m,
 /obj/structure/fluff/statue/astrata/gold{
 	pixel_x = -16;
@@ -28294,6 +28292,16 @@
 /obj/structure/closet/crate/roguecloset/lord/duke_preset,
 /turf/open/floor/carpet/royalblack,
 /area/rogue/indoors/town/manor)
+"fPx" = (
+/obj/effect/decal/edge{
+	color = "#3f3f3f";
+	dir = 10
+	},
+/obj/structure/fluff/walldeco/church/line{
+	dir = 1
+	},
+/turf/open/floor/rogue/churchrough,
+/area/rogue/indoors/town/church/chapel)
 "fPz" = (
 /obj/structure/fluff/walldeco/church/line,
 /obj/structure/fluff/walldeco/church/line{
@@ -31566,8 +31574,8 @@
 "gAb" = (
 /obj/machinery/light/rogue/candle/floorcandle,
 /obj/structure/table/church/end,
-/obj/structure/fluff/walldeco/psybanner/tennite/red{
-	pixel_y = 30
+/obj/structure/fluff/walldeco/stone/stone4{
+	pixel_y = 32
 	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/church/basement)
@@ -31756,8 +31764,8 @@
 "gCq" = (
 /obj/machinery/light/rogue/candle/floorcandle/alt,
 /obj/structure/table/church,
-/obj/structure/fluff/walldeco/psybanner/tennite/red{
-	pixel_y = 30
+/obj/structure/fluff/walldeco/stone/stone4{
+	pixel_y = 32
 	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/church/basement)
@@ -32208,11 +32216,6 @@
 	},
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/outdoors/beach)
-"gHH" = (
-/obj/machinery/light/rogue/candle/r,
-/obj/structure/fermentation_keg/water,
-/turf/open/floor/rogue/concrete,
-/area/rogue/indoors/town/church/chapel)
 "gHI" = (
 /obj/structure/stairs/stone{
 	dir = 1
@@ -43067,6 +43070,9 @@
 /obj/effect/decal/edge{
 	color = "#3f3f3f"
 	},
+/obj/structure/fluff/walldeco/church/line{
+	dir = 1
+	},
 /turf/open/floor/rogue/churchrough,
 /area/rogue/indoors/town/church/chapel)
 "iOO" = (
@@ -50622,6 +50628,9 @@
 /obj/structure/fluff/railing/border/east,
 /obj/effect/decal/edge{
 	color = "#3f3f3f"
+	},
+/obj/structure/fluff/walldeco/church/line{
+	dir = 1
 	},
 /turf/open/floor/rogue/churchrough,
 /area/rogue/indoors/town/church/chapel)
@@ -78049,7 +78058,6 @@
 /area/rogue/indoors/shelter/mountains/decap)
 "pLn" = (
 /obj/structure/fluff/railing/corner/south_east,
-/obj/structure/fluff/walldeco/church/line,
 /obj/structure/fluff/walldeco/stone/stone2{
 	pixel_y = 32
 	},
@@ -81719,6 +81727,9 @@
 /obj/effect/decal/edge{
 	color = "#3f3f3f";
 	dir = 6
+	},
+/obj/structure/fluff/walldeco/church/line{
+	dir = 1
 	},
 /turf/open/floor/rogue/churchrough,
 /area/rogue/indoors/town/church/chapel)
@@ -100118,7 +100129,6 @@
 /area/rogue/indoors/town)
 "uip" = (
 /obj/structure/fluff/railing/corner/south_west,
-/obj/structure/fluff/walldeco/church/line,
 /obj/structure/fluff/walldeco/stone/stone2{
 	pixel_y = 32
 	},
@@ -103769,8 +103779,8 @@
 /obj/item/clothing/cloak/templar/astratan,
 /obj/item/clothing/suit/roguetown/shirt/robe/astrata,
 /obj/item/clothing/suit/roguetown/shirt/robe/astrata,
-/obj/structure/fluff/walldeco/psybanner/astrata/red{
-	pixel_y = 32
+/obj/structure/fluff/walldeco/psybanner/astrata{
+	pixel_y = 30
 	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/church/chapel)
@@ -113438,7 +113448,6 @@
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cave/his_vault/puzzle)
 "wRG" = (
-/obj/structure/fluff/walldeco/church/line,
 /obj/structure/table/church,
 /obj/machinery/light/rogue/candle/floorcandle,
 /turf/open/floor/rogue/concrete,
@@ -266190,7 +266199,7 @@ cDX
 yaF
 cne
 qfA
-mSh
+vJk
 iVM
 rmv
 rfK
@@ -491291,7 +491300,7 @@ bGf
 kSK
 kSK
 kwL
-nbQ
+oNf
 sJM
 eqO
 dOp
@@ -492199,7 +492208,7 @@ oKc
 xAM
 cRy
 szg
-gHH
+ppl
 qbZ
 tav
 gTY
@@ -496261,7 +496270,7 @@ bGf
 bGf
 vJk
 wRG
-gBS
+fPx
 ang
 ang
 ang
@@ -496713,7 +496722,7 @@ bGf
 bGf
 vJk
 dOb
-ghm
+ktj
 iPO
 tcp
 iPO
