@@ -308,5 +308,10 @@ GLOBAL_LIST_EMPTY(created_sound_groups)
 
 /datum/looping_sound/proc/handle_parent_move(datum/source, atom/old_loc, dir, forced)
 	SIGNAL_HANDLER
-	if(loop_started)
-		SSsoundloopers.mark_loop_dirty(src)
+	if(!loop_started)
+		return
+	SSsoundloopers.mark_loop_dirty(src)
+	// If the parent itself moved (not the proxy), the proxy may now be stale — refresh it.
+	var/atom/real_parent = parent?.resolve()
+	if(real_parent && source == real_parent)
+		handle_move(real_parent)
