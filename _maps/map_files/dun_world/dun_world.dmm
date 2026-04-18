@@ -101522,7 +101522,6 @@
 /obj/structure/roguemachine/scomm/r{
 	scom_tag = "Cathedral - Eatery"
 	},
-/obj/structure/fermentation_keg/random/beer,
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/church/chapel)
 "uwi" = (
