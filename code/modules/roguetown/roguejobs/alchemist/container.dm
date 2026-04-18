@@ -148,7 +148,7 @@
 	name = "bottle of Aurorian Herbal Beer"
 	icon_state = "beer"
 	list_reagents = list(/datum/reagent/consumable/ethanol/aurorian = 50)
-	desc = "A bottle with the Aurorian Brewhouse cork-seal. An Elvish beer brewed from an herbal gruit."
+	desc = "A bottle with the Aurorian Brewhouse cork-seal. An Elvish beer brewed from a herbal gruit."
 
 /obj/item/reagent_containers/glass/bottle/rogue/beer/fireleaf
 	name = "bottle of Fireleaf"
