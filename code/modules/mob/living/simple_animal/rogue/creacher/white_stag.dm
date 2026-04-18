@@ -196,6 +196,8 @@
 	)
 	// Dropping the special antlers as a trophy
 	head_butcher = /obj/item/natural/head/white_stag
+	// Doesn't rot
+	rot_type = 0
 
 /obj/item/natural/head/white_stag
 	name = "white stag head"
