@@ -195,6 +195,9 @@ SUBSYSTEM_DEF(soundloopers)
 		if(PS in client_played_loops) //Make sure it's not already on the list
 			continue
 
+		if(PS.filter_pref && !(prefs.toggles & PS.filter_pref))
+			continue
+
 		var/atom/PS_parent = PS.parent.resolve()
 		if(!PS_parent)
 			continue
