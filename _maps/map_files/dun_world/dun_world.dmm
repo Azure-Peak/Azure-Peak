@@ -43071,6 +43071,10 @@
 /obj/effect/decal/edge{
 	color = "#3f3f3f"
 	},
+/obj/effect/decal/edge{
+	color = "#3f3f3f";
+	dir = 1
+	},
 /turf/open/floor/rogue/churchrough,
 /area/rogue/indoors/town/church/chapel)
 "iOO" = (
@@ -50626,6 +50630,10 @@
 /obj/structure/fluff/railing/border/east,
 /obj/effect/decal/edge{
 	color = "#3f3f3f"
+	},
+/obj/effect/decal/edge{
+	color = "#3f3f3f";
+	dir = 1
 	},
 /turf/open/floor/rogue/churchrough,
 /area/rogue/indoors/town/church/chapel)
