@@ -1,8 +1,8 @@
 /datum/component/hunting_blocker
 	/// Timestamp of when we last started a depth 0 track
 	var/last_hunt_start = 0
-	/// Cooldown period (2 minutes)
-	var/hunt_cooldown = 2 MINUTES
+	/// Cooldown period (90 seconds)
+	var/hunt_cooldown = 90 SECONDS
 
 /datum/component/hunting_blocker/Initialize()
 	if(!ishuman(parent))
