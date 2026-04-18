@@ -73,7 +73,7 @@
 	)
 	preferred_tracks = list(
 		/mob/living/simple_animal/hostile/retaliate/rogue/direbear = "ursine",
-		/mob/living/simple_animal/hostile/retaliate/rogue/saiga = "cervine"
+		/mob/living/simple_animal/hostile/retaliate/rogue/saiga/game = "cervine"
 	)
 	preferred_areas = list(
 		/area/rogue/outdoors/woods = 20,
