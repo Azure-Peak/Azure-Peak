@@ -28,7 +28,7 @@
 	name = "tender venison loins"
 	icon = 'modular/Neu_Food/icons/cooked/cooked_meat_saiga.dmi'
 	icon_state = "loin"
-	eat_effect = null
+	eat_effect = /datum/status_effect/buff/mealbuff
 	faretype = FARE_LAVISH
 	tastes = list("forest loins" = 1)
 	bitesize = 3
@@ -41,7 +41,7 @@
 	name = "venison prime steak"
 	icon = 'modular/Neu_Food/icons/cooked/cooked_meat_saiga.dmi'
 	icon_state = "ossobuco"
-	eat_effect = null
+	eat_effect = /datum/status_effect/buff/greatmealbuff
 	faretype = FARE_LAVISH
 	tastes = list("forest bounty" = 1)
 	bitesize = 6
@@ -106,7 +106,7 @@
 	name = "royal venison steak"
 	icon = 'modular/Neu_Food/icons/cooked/cooked_meat_saiga.dmi'
 	icon_state = "steak_w"
-	eat_effect = null
+	eat_effect = /datum/status_effect/buff/greatmealbuff
 	faretype = FARE_LAVISH
 	tastes = list("a life of hardship" = 1)
 	bitesize = 8
@@ -118,7 +118,7 @@
 	name = "royal venison ribs"
 	icon = 'modular/Neu_Food/icons/cooked/cooked_meat_saiga.dmi'
 	icon_state = "ribs_w"
-	eat_effect = null
+	eat_effect = /datum/status_effect/buff/greatmealbuff
 	faretype = FARE_LAVISH
 	tastes = list("pure resolve" = 1)
 	bitesize = 10
@@ -131,7 +131,7 @@
 	name = "royal venison loins"
 	icon = 'modular/Neu_Food/icons/cooked/cooked_meat_saiga.dmi'
 	icon_state = "loin_w"
-	eat_effect = null
+	eat_effect = /datum/status_effect/buff/greatmealbuff
 	faretype = FARE_LAVISH
 	tastes = list("dendor's fury" = 1)
 	bitesize = 5
@@ -143,7 +143,7 @@
 	name = "royal venison prime steak"
 	icon = 'modular/Neu_Food/icons/cooked/cooked_meat_saiga.dmi'
 	icon_state = "ossobuco_w"
-	eat_effect = null
+	eat_effect = /datum/status_effect/buff/greatmealbuff
 	faretype = FARE_LAVISH
 	tastes = list("determination" = 1)
 	bitesize = 15
