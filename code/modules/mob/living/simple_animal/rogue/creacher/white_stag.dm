@@ -186,8 +186,33 @@
 	// High-tier loot table
 	// Yae, the loot of this thing is fairly lame, but that's because I ain't got the energy to sprite unique crafts right now.
 	// It serves as a roleplay tool more than well enough without special loot.
+	botched_butcher_results = list(
+		/obj/item/reagent_containers/food/snacks/rogue/meat/saiga_w = 6,
+		/obj/item/reagent_containers/food/snacks/rogue/meat/saiga_ribs_w = 3,
+		/obj/item/reagent_containers/food/snacks/rogue/meat/saiga_loins_w = 1,
+		/obj/item/reagent_containers/food/snacks/rogue/meat/saiga_prime_w = 1,
+		/obj/item/reagent_containers/food/snacks/fat = 2,
+		/obj/item/natural/hide = 4,
+		/obj/item/natural/bundle/bone/full = 4,
+		/obj/item/alch/sinew = 2,
+		/obj/item/alch/viscera = 1
+	)
 	butcher_results = list(
-		/obj/item/reagent_containers/food/snacks/rogue/meat/steak = 10,
+		/obj/item/reagent_containers/food/snacks/rogue/meat/saiga_w = 10,
+		/obj/item/reagent_containers/food/snacks/rogue/meat/saiga_ribs_w = 5,
+		/obj/item/reagent_containers/food/snacks/rogue/meat/saiga_loins_w = 3,
+		/obj/item/reagent_containers/food/snacks/rogue/meat/saiga_prime_w = 3,
+		/obj/item/reagent_containers/food/snacks/fat = 6,
+		/obj/item/natural/hide = 10,
+		/obj/item/natural/bundle/bone/full = 10,
+		/obj/item/alch/sinew = 5,
+		/obj/item/alch/viscera = 3
+	)
+	perfect_butcher_results = list(
+		/obj/item/reagent_containers/food/snacks/rogue/meat/saiga_w = 8,
+		/obj/item/reagent_containers/food/snacks/rogue/meat/saiga_ribs_w = 8,
+		/obj/item/reagent_containers/food/snacks/rogue/meat/saiga_loins_w = 5,
+		/obj/item/reagent_containers/food/snacks/rogue/meat/saiga_prime_w = 5,
 		/obj/item/reagent_containers/food/snacks/fat = 6,
 		/obj/item/natural/hide = 10,
 		/obj/item/natural/bundle/bone/full = 10,
