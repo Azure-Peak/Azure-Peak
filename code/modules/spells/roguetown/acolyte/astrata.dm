@@ -17,8 +17,8 @@
 	chargedloop = null
 	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
 	sound = 'sound/items/firelight.ogg'
-	invocations = list("Flame.")
-	invocation_type = "whisper"
+	invocations = list(span_astrata("claps hands together, producing sparks."))
+	invocation_type = "emote"
 	associated_skill = /datum/skill/magic/holy
 	antimagic_allowed = TRUE
 	recharge_time = 10 SECONDS
@@ -684,7 +684,7 @@
 	overlay_state = "immolation"
 	range = 2
 	chargetime = 0.5 SECONDS
-	invocations = list("By sacred fire, be cleansed!")
+	invocations = list("The Sun cleanses!")
 	sound = 'sound/magic/fireball.ogg'
 	recharge_time = 600 SECONDS
 	miracle = TRUE

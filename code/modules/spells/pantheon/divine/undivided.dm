@@ -102,7 +102,7 @@
 	range = 5
 	devotion_cost = 20
 
-	invocations = list("Entflamme.") //(Kindle)
+	invocations = list(span_undivided("claps hands together, producing sparks."))
 
 ///////////////////
 // T0 - Miracle  //
@@ -273,7 +273,7 @@
 /datum/stressevent/perseverance
 	timer = 2 MINUTES 
 	stressadd = -4 //Should be enough to offset the bleed
-	desc = span_boldgreen("I am soothed from the ravages of war.")
+	desc = span_undivided("I am soothed from the ravages of war.")
 
 ////////////////////////////////////////////////////////////
 // T2 - Divine Inspiration - Select your pack of miracles.//
@@ -421,7 +421,7 @@
 /datum/stressevent/gallowshumor
 	timer = 10 MINUTES 
 	stressadd = 5
-	desc = span_boldred("NO NO NO!")
+	desc = span_undivided("NO NO NO!")
 
 /datum/status_effect/debuff/gallowshumor/on_apply()
 	. = ..()
@@ -497,5 +497,5 @@
 
 /atom/movable/screen/alert/status_effect/buff/ten_united
 	name = "Undivided Camaraderie"
-	desc = span_bloody("WE STAND TOGETHER!")
+	desc = span_undivided("WE STAND TOGETHER!")
 	icon_state = "ten_united"
