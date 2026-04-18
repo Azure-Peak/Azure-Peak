@@ -321,7 +321,8 @@ All foods are distributed among various categories. Use common sense.
 						else
 							if (eater.has_stress_event(/datum/stressevent/noble_impoverished_food))
 								eater.add_stress(/datum/stressevent/noble_desperate)
-							apply_effect = FALSE
+							if(eat_effect != /datum/status_effect/debuff/rotfood && eat_effect != /datum/status_effect/debuff/burnedfood && eat_effect != /datum/status_effect/debuff/uncookedfood)
+								apply_effect = FALSE
 					if (FARE_POOR to FARE_NEUTRAL)
 						eater.add_stress(/datum/stressevent/noble_bland_food)
 						if (prob(25))
