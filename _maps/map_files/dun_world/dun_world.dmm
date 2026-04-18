@@ -1698,6 +1698,9 @@
 "arp" = (
 /obj/structure/table/church/end,
 /obj/machinery/light/rogue/candle/floorcandle/alt,
+/obj/structure/fluff/walldeco/psybanner/astrata/red{
+	pixel_y = 30
+	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/church/chapel)
 "arw" = (
@@ -18220,7 +18223,7 @@
 "dOb" = (
 /obj/structure/table/church/m,
 /obj/structure/fluff/statue/astrata/gold{
-	pixel_x = -16;
+	pixel_x = -19;
 	pixel_y = 11
 	},
 /turf/open/floor/rogue/concrete,
@@ -73077,7 +73080,7 @@
 /area/rogue/indoors/town/steward)
 "oKX" = (
 /obj/structure/fluff/statue/astrata/gold{
-	pixel_x = -16;
+	pixel_x = -19;
 	pixel_y = 11
 	},
 /obj/structure/table/church/m,
@@ -105679,6 +105682,9 @@
 "vnl" = (
 /obj/structure/table/church,
 /obj/machinery/light/rogue/candle/floorcandle,
+/obj/structure/fluff/walldeco/psybanner/astrata/red{
+	pixel_y = 30
+	},
 /turf/open/floor/rogue/churchrough,
 /area/rogue/indoors/town/church/chapel)
 "vno" = (
@@ -113460,6 +113466,9 @@
 "wRG" = (
 /obj/structure/table/church,
 /obj/machinery/light/rogue/candle/floorcandle,
+/obj/structure/fluff/walldeco/psybanner/astrata/red{
+	pixel_y = 30
+	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/church/chapel)
 "wRH" = (
@@ -115301,6 +115310,9 @@
 "xnB" = (
 /obj/structure/table/church/end,
 /obj/machinery/light/rogue/candle/floorcandle/alt,
+/obj/structure/fluff/walldeco/psybanner/astrata/red{
+	pixel_y = 30
+	},
 /turf/open/floor/rogue/churchrough,
 /area/rogue/indoors/town/church/chapel)
 "xnC" = (
@@ -265765,7 +265777,7 @@ mSh
 dZq
 jVM
 jVM
-jBn
+mSh
 vnl
 pcV
 hfa
@@ -266669,7 +266681,7 @@ mSh
 dZq
 cDm
 cDm
-jBn
+mSh
 xnB
 pcV
 hfa
