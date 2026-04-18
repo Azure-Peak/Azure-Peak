@@ -18222,8 +18222,8 @@
 /area/rogue/indoors/inq/office)
 "dOb" = (
 /obj/structure/table/church/m,
-/obj/structure/fluff/statue/astrata/gold{
-	pixel_x = -19;
+/obj/structure/fluff/statue/astrata{
+	pixel_x = -18;
 	pixel_y = 11
 	},
 /turf/open/floor/rogue/concrete,
@@ -73080,8 +73080,8 @@
 /area/rogue/indoors/town/steward)
 "oKX" = (
 /obj/structure/table/church/m,
-/obj/structure/fluff/statue/astrata{
-	pixel_x = -16;
+/obj/structure/fluff/statue/astrata/gold{
+	pixel_x = -18;
 	pixel_y = 11
 	},
 /turf/open/floor/rogue/churchrough,
@@ -105682,7 +105682,7 @@
 "vnl" = (
 /obj/structure/table/church,
 /obj/machinery/light/rogue/candle/floorcandle,
-/obj/structure/fluff/walldeco/psybanner/astrata/red{
+/obj/structure/fluff/walldeco/psybanner/astrata{
 	pixel_y = 30
 	},
 /turf/open/floor/rogue/churchrough,
@@ -115310,7 +115310,7 @@
 "xnB" = (
 /obj/structure/table/church/end,
 /obj/machinery/light/rogue/candle/floorcandle/alt,
-/obj/structure/fluff/walldeco/psybanner/astrata/red{
+/obj/structure/fluff/walldeco/psybanner/astrata{
 	pixel_y = 30
 	},
 /turf/open/floor/rogue/churchrough,
