@@ -50720,8 +50720,8 @@
 /obj/structure/stairs/stone{
 	dir = 4
 	},
-/obj/structure/fluff/walldeco/psybanner/astrata/red{
-	pixel_y = 32
+/obj/structure/fluff/walldeco/psybanner/tennite/red{
+	pixel_y = 30
 	},
 /turf/open/floor/rogue/churchmarble,
 /area/rogue/indoors/town/church/chapel)
@@ -59501,8 +59501,8 @@
 /obj/structure/stairs/stone{
 	dir = 8
 	},
-/obj/structure/fluff/walldeco/psybanner/astrata/red{
-	pixel_y = 32
+/obj/structure/fluff/walldeco/psybanner/tennite/red{
+	pixel_y = 30
 	},
 /turf/open/floor/rogue/churchmarble,
 /area/rogue/indoors/town/church/chapel)
@@ -73079,11 +73079,11 @@
 /turf/open/floor/rogue/herringbone,
 /area/rogue/indoors/town/steward)
 "oKX" = (
-/obj/structure/fluff/statue/astrata/gold{
-	pixel_x = -19;
+/obj/structure/table/church/m,
+/obj/structure/fluff/statue/astrata{
+	pixel_x = -16;
 	pixel_y = 11
 	},
-/obj/structure/table/church/m,
 /turf/open/floor/rogue/churchrough,
 /area/rogue/indoors/town/church/chapel)
 "oKZ" = (
