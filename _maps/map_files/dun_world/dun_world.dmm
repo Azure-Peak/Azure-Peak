@@ -43071,9 +43071,6 @@
 /obj/effect/decal/edge{
 	color = "#3f3f3f"
 	},
-/obj/structure/fluff/walldeco/church/line{
-	dir = 1
-	},
 /turf/open/floor/rogue/churchrough,
 /area/rogue/indoors/town/church/chapel)
 "iOO" = (
@@ -50629,9 +50626,6 @@
 /obj/structure/fluff/railing/border/east,
 /obj/effect/decal/edge{
 	color = "#3f3f3f"
-	},
-/obj/structure/fluff/walldeco/church/line{
-	dir = 1
 	},
 /turf/open/floor/rogue/churchrough,
 /area/rogue/indoors/town/church/chapel)
@@ -78062,6 +78056,10 @@
 /obj/structure/fluff/walldeco/stone/stone2{
 	pixel_y = 32
 	},
+/obj/structure/fluff/walldeco/church/line{
+	dir = 8;
+	pixel_y = 0
+	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/church/chapel)
 "pLs" = (
@@ -100132,6 +100130,9 @@
 /obj/structure/fluff/railing/corner/south_west,
 /obj/structure/fluff/walldeco/stone/stone2{
 	pixel_y = 32
+	},
+/obj/structure/fluff/walldeco/church/line{
+	dir = 4
 	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/church/chapel)
