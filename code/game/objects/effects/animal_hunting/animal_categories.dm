@@ -66,7 +66,7 @@
 	skill_weights = list(0, 5, 20, 50, 100, 120, 150) // Only highly skilled hunters find these
 	bonus_animal_amount = 2
 	animals = list(
-		/mob/living/simple_animal/hostile/retaliate/rogue/saiga/game = 15,
+		/mob/living/simple_animal/hostile/retaliate/rogue/saiga/game = 20,
 		/mob/living/simple_animal/hostile/retaliate/rogue/direbear = 5,
 		/mob/living/simple_animal/hostile/retaliate/rogue/troll = 3,
 		/mob/living/simple_animal/hostile/retaliate/rogue/mole = 10
