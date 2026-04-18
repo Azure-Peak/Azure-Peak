@@ -4276,7 +4276,7 @@
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/indoors/town/garrison)
 "aSy" = (
-/obj/structure/fluff/walldeco/psybanner,
+/obj/structure/fluff/walldeco/psybanner/astrata,
 /turf/closed/wall/mineral/rogue/decostone/end/east,
 /area/rogue/indoors/town/church/chapel)
 "aSz" = (
@@ -8389,6 +8389,16 @@
 	},
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/outdoors/bog/north)
+"bND" = (
+/obj/structure/stairs/stone{
+	dir = 1
+	},
+/obj/structure/fluff/walldeco/psybanner/tennite{
+	pixel_y = 30;
+	pixel_x = -15
+	},
+/turf/open/floor/rogue/churchrough,
+/area/rogue/indoors/town/church/chapel)
 "bNJ" = (
 /obj/effect/decal/cleanable/blood/drip{
 	pixel_x = 8;
@@ -8989,7 +8999,7 @@
 /turf/open/floor/carpet/royalblack,
 /area/rogue/indoors/town)
 "bTj" = (
-/obj/structure/fluff/walldeco/psybanner,
+/obj/structure/fluff/walldeco/psybanner/astrata,
 /turf/closed/wall/mineral/rogue/decostone/end/west,
 /area/rogue/indoors/town/church/chapel)
 "bTk" = (
@@ -17221,8 +17231,8 @@
 	},
 /obj/machinery/light/rogue/candle/blue/l,
 /obj/effect/decal/cleanable/blood/old,
-/obj/structure/fluff/walldeco/stone/stone4{
-	pixel_y = 32
+/obj/structure/fluff/walldeco/psybanner/tennite/red{
+	pixel_y = 30
 	},
 /turf/open/floor/rogue/hexstone,
 /area/rogue/indoors/town/church/basement)
@@ -25809,9 +25819,6 @@
 /obj/structure/rack/rogue/shelf/biggest,
 /obj/item/clothing/cloak/templar/pestran,
 /obj/item/clothing/cloak/templar/pestran,
-/obj/structure/fluff/walldeco/psybanner{
-	pixel_y = 29
-	},
 /obj/machinery/light/rogue/candle/l,
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/church/chapel)
@@ -27551,6 +27558,9 @@
 /obj/structure/stairs/stone{
 	dir = 8
 	},
+/obj/structure/fluff/walldeco/psybanner/astrata{
+	pixel_y = 30
+	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/outdoors/town)
 "fIa" = (
@@ -27900,6 +27910,16 @@
 /obj/structure/flora/hotspring_rocks/small,
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors/rtfield/eora)
+"fLm" = (
+/obj/structure/stairs/stone{
+	dir = 1
+	},
+/obj/structure/fluff/walldeco/psybanner/tennite{
+	pixel_y = 30;
+	pixel_x = 15
+	},
+/turf/open/floor/rogue/churchrough,
+/area/rogue/indoors/town/church/chapel)
 "fLq" = (
 /obj/effect/decal/cobbleedge{
 	dir = 5;
@@ -29243,6 +29263,9 @@
 /obj/item/clothing/cloak/undivided,
 /obj/item/clothing/neck/roguetown/psicross/undivided,
 /obj/item/clothing/neck/roguetown/psicross/undivided,
+/obj/structure/fluff/walldeco/psybanner/tennite{
+	pixel_y = 30
+	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/church/chapel)
 "gaT" = (
@@ -31065,6 +31088,9 @@
 /obj/structure/stairs/stone{
 	dir = 4
 	},
+/obj/structure/fluff/walldeco/psybanner/astrata{
+	pixel_y = 30
+	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/outdoors/town)
 "gvg" = (
@@ -31539,10 +31565,10 @@
 /area/rogue/outdoors/woods/southwest)
 "gAb" = (
 /obj/machinery/light/rogue/candle/floorcandle,
-/obj/structure/fluff/walldeco/stone/stone4{
-	pixel_y = 32
-	},
 /obj/structure/table/church/end,
+/obj/structure/fluff/walldeco/psybanner/tennite/red{
+	pixel_y = 30
+	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/church/basement)
 "gAc" = (
@@ -31729,10 +31755,10 @@
 /area/rogue/under/town/basement/keep)
 "gCq" = (
 /obj/machinery/light/rogue/candle/floorcandle/alt,
-/obj/structure/fluff/walldeco/stone/stone4{
-	pixel_y = 32
-	},
 /obj/structure/table/church,
+/obj/structure/fluff/walldeco/psybanner/tennite/red{
+	pixel_y = 30
+	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/church/basement)
 "gCw" = (
@@ -49348,8 +49374,8 @@
 	color = "#3f3f3f";
 	dir = 8
 	},
-/obj/structure/fluff/walldeco/psybanner{
-	pixel_y = 32
+/obj/structure/fluff/walldeco/psybanner/tennite{
+	pixel_y = 30
 	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/church/basement)
@@ -50679,7 +50705,7 @@
 /obj/structure/stairs/stone{
 	dir = 4
 	},
-/obj/structure/fluff/walldeco/psybanner{
+/obj/structure/fluff/walldeco/psybanner/astrata/red{
 	pixel_y = 32
 	},
 /turf/open/floor/rogue/churchmarble,
@@ -56916,11 +56942,11 @@
 /turf/open/floor/rogue/grassyel,
 /area/rogue/indoors/cave)
 "lvc" = (
-/obj/structure/fluff/walldeco/psybanner{
-	pixel_y = 29
-	},
 /obj/effect/decal/edge_corner{
 	color = "#3f3f3f"
+	},
+/obj/structure/fluff/walldeco/psybanner/tennite{
+	pixel_y = 30
 	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/church/chapel)
@@ -57184,16 +57210,6 @@
 	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/church/basement)
-"lxW" = (
-/obj/structure/stairs/stone{
-	dir = 1
-	},
-/obj/structure/fluff/walldeco/psybanner{
-	pixel_y = 30;
-	pixel_x = 17
-	},
-/turf/open/floor/rogue/churchrough,
-/area/rogue/indoors/town/church/chapel)
 "lyb" = (
 /mob/living/simple_animal/hostile/retaliate/rogue/mudcrab,
 /turf/open/floor/rogue/naturalstone,
@@ -59470,7 +59486,7 @@
 /obj/structure/stairs/stone{
 	dir = 8
 	},
-/obj/structure/fluff/walldeco/psybanner{
+/obj/structure/fluff/walldeco/psybanner/astrata/red{
 	pixel_y = 32
 	},
 /turf/open/floor/rogue/churchmarble,
@@ -72026,10 +72042,10 @@
 	dir = 1;
 	icon_state = "borderfall"
 	},
-/obj/structure/fluff/walldeco/psybanner{
-	pixel_y = 29
-	},
 /obj/machinery/light/rogue/candle/l,
+/obj/structure/fluff/walldeco/psybanner/tennite{
+	pixel_y = 30
+	},
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town/church/chapel)
 "oBv" = (
@@ -81454,8 +81470,8 @@
 	},
 /obj/structure/bed/rogue/inn/wool,
 /obj/machinery/light/rogue/candle/blue/r,
-/obj/structure/fluff/walldeco/stone/stone4{
-	pixel_y = 32
+/obj/structure/fluff/walldeco/psybanner/tennite/red{
+	pixel_y = 30
 	},
 /turf/open/floor/rogue/hexstone,
 /area/rogue/indoors/town/church/basement)
@@ -84024,8 +84040,8 @@
 /area/rogue/indoors/shelter)
 "qWv" = (
 /obj/structure/chair/wood/rogue,
-/obj/structure/fluff/walldeco/psybanner{
-	pixel_y = 29
+/obj/structure/fluff/walldeco/psybanner/tennite{
+	pixel_y = 30
 	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/church/chapel)
@@ -85422,8 +85438,8 @@
 /turf/open/floor/rogue/hay,
 /area/rogue/indoors/town)
 "rlg" = (
-/obj/structure/fluff/walldeco/psybanner{
-	pixel_y = 29
+/obj/structure/fluff/walldeco/psybanner/tennite{
+	pixel_y = 30
 	},
 /turf/open/floor/rogue/hexstone,
 /area/rogue/indoors/town/church/chapel)
@@ -93164,8 +93180,8 @@
 /turf/open/transparent/openspace,
 /area/rogue/indoors/town/garrison)
 "sOg" = (
-/obj/structure/fluff/walldeco/psybanner{
-	pixel_y = 29
+/obj/structure/fluff/walldeco/psybanner/tennite{
+	pixel_y = 30
 	},
 /turf/open/floor/carpet/purple,
 /area/rogue/indoors/town/church/chapel)
@@ -101291,16 +101307,6 @@
 /obj/structure/chair/bench/ultimacouch/r,
 /turf/open/floor/carpet/royalblack,
 /area/rogue/under/underdark/north)
-"utD" = (
-/obj/structure/stairs/stone{
-	dir = 1
-	},
-/obj/structure/fluff/walldeco/psybanner{
-	pixel_y = 30;
-	pixel_x = -15
-	},
-/turf/open/floor/rogue/churchrough,
-/area/rogue/indoors/town/church/chapel)
 "utE" = (
 /obj/structure/closet/crate/chest/gold,
 /turf/open/floor/rogue/churchbrick,
@@ -101479,9 +101485,6 @@
 /obj/item/clothing/head/roguetown/necrahood,
 /obj/item/clothing/head/roguetown/necramask,
 /obj/item/clothing/head/roguetown/necramask,
-/obj/structure/fluff/walldeco/psybanner{
-	pixel_y = 29
-	},
 /obj/machinery/light/rogue/candle/r,
 /obj/item/clothing/suit/roguetown/shirt/robe/necra,
 /obj/item/clothing/suit/roguetown/shirt/robe/necra,
@@ -103766,6 +103769,9 @@
 /obj/item/clothing/cloak/templar/astratan,
 /obj/item/clothing/suit/roguetown/shirt/robe/astrata,
 /obj/item/clothing/suit/roguetown/shirt/robe/astrata,
+/obj/structure/fluff/walldeco/psybanner/astrata/red{
+	pixel_y = 32
+	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/church/chapel)
 "uTb" = (
@@ -105241,6 +105247,9 @@
 /obj/structure/rack/rogue,
 /obj/item/rogueweapon/mace/church,
 /obj/machinery/light/rogue/candle/l,
+/obj/structure/fluff/walldeco/psybanner/tennite{
+	pixel_y = 32
+	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/church/chapel)
 "vir" = (
@@ -116563,10 +116572,10 @@
 	pixel_x = -1;
 	pixel_y = 0
 	},
-/obj/structure/fluff/walldeco/psybanner{
-	pixel_y = 29
-	},
 /obj/machinery/light/rogue/candle/r,
+/obj/structure/fluff/walldeco/psybanner/tennite{
+	pixel_y = 30
+	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/church/chapel)
 "xAN" = (
@@ -379636,7 +379645,7 @@ bGf
 bGf
 vkW
 vJk
-lxW
+kxt
 jfx
 avV
 cMk
@@ -380088,7 +380097,7 @@ bGf
 bGf
 mSh
 vJk
-kxt
+bND
 nxl
 nZi
 ivA
@@ -382800,7 +382809,7 @@ bGf
 bGf
 mSh
 vJk
-kxt
+fLm
 vix
 ang
 kWs
@@ -383252,7 +383261,7 @@ bGf
 bGf
 tLB
 vJk
-utD
+kxt
 jfx
 iYo
 cMk
