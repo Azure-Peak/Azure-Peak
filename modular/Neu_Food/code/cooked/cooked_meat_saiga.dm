@@ -165,3 +165,7 @@
 	volume = 100
 	fried_type = null
 	cooked_type = null
+
+/obj/item/reagent_containers/food/snacks/rogue/meat/saiga_prime_w/cooked/Initialize(mapload)
+	AddComponent(/datum/component/stag_essence)
+	. = ..()

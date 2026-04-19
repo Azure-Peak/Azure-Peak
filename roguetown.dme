@@ -3231,6 +3231,7 @@
 #include "modular\Neu_Food\code\cooked\cooked_rice.dm"
 #include "modular\Neu_Food\code\cooked\cooked_seafood.dm"
 #include "modular\Neu_Food\code\cooked\cooked_seafood_meal.dm"
+#include "modular\Neu_Food\code\cooked\cooked_stag_buffs.dm"
 #include "modular\Neu_Food\code\cooked\cooked_veggies.dm"
 #include "modular\Neu_Food\code\cookware\bowl.dm"
 #include "modular\Neu_Food\code\cookware\cup.dm"
