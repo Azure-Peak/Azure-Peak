@@ -9,7 +9,7 @@
 	icon_state = "ancientslag"
 	smeltresult = /obj/item/ingot/aaslag
 	sellprice = 0
-	aura_color = "#ff37377"
+	aura_color = "#ff3737"
 	color = "#634040"
 	var/value = 1
 
@@ -200,7 +200,7 @@
 			to_chat(user,span_cultsmall("I begin inscribing the runes in raw Enochian language... My fingers twist painfully during it. A replica of Her Great Work..."))
 			if(do_after(user, 40, src)) 
 				playsound(src, 'sound/foley/scribble.ogg', 40, TRUE)
-				new /obj/structure/ritualcircle/profane/riplux(step_turf)
+				new /obj/structure/ritualcircle/profane/reaper(step_turf)
 
 /obj/structure/ritualcircle/profane/melding
 	name = "Profane Melding Circle"
@@ -210,37 +210,52 @@
 	var/stored_value = 0
 
 /obj/structure/ritualcircle/profane/melding/proc/get_Z_item_value(obj/item/I)
+	if(!I)
+		return 0
 	if(istype(I, /obj/item/ingot/aaslag_zizo))
 		var/obj/item/ingot/aaslag_zizo/A = I
-		return A.value
-	if(istype(I, /obj/item/bone)|| istype(I, /obj/item/grown/log/tree/small)|| istype(I, /obj/item/natural/stone))
+		return max(0, A.value)
+	if(istype(/obj/effect/decal/remains) || istype(I, /obj/item/natural/bundle/bone) || istype(I, /obj/item/skull) || istype(I, /obj/item/natural/bone) || istype(I, /obj/item/grown/log/tree/small) || istype(I, /obj/item/natural/stone) || istype(I, /obj/item/natural/wood/plank) || istype(I, /obj/item/natural/stoneblock))
 		return 1
-	if(istype(I, /obj/item/organ) || istype(I, /obj/item/alch/viscera) || istype(I, /obj/item/reagent_containers/food/snacks/rogue/meat/steak))
+	if(istype(I, /obj/item/natural/bone) || istype(I, /obj/item/organ) || istype(I, /obj/item/alch/viscera) || istype(I, /obj/item/reagent_containers/food/snacks/rogue/meat/steak))
 		return 2
-	if(istype(I, /obj/item/heart_blood_vial/filled))
+	if(istype(I, /obj/item/heart_blood_vial/filled) || istype(I, /obj/item/natural/bundle/bone/full))
 		return 5
 	if(istype(I, /obj/item/heart_blood_canister/filled))
 		return 10
 	if(istype(I, /obj/item/reagent_containers/lux_impure))
 		return 50
-	if(istype(I, /obj/item/reagent_containers/lux_moss)|| istype(I, /obj/item/reagent_containers/lux))
+	if(istype(I, /obj/item/reagent_containers/lux_moss) || istype(I, /obj/item/reagent_containers/lux))
 		return 100
+
 	return 0
 
 /obj/structure/ritualcircle/profane/melding/attackby(obj/item/I, mob/living/user)
+	if(!I || !user)
+		return
+
 	if((user.patron?.type) != /datum/patron/inhumen/zizo)
 		to_chat(user, span_artery("Foreboding thing... I shouldn't mess with it."))
 		return
 
 	var/value = get_Z_item_value(I)
 	if(value <= 0)
-		return ..()
+		return
+
 	to_chat(user, span_artery("I begin feeding the circle..."))
+
 	if(!do_after(user, 20, src))
 		return
+
+	if(QDELETED(I))
+		return
+
 	stored_value += value
-	to_chat(user, span_artery("The circle flares, as hooked chains latch on and quickly absorb the [value] inside. Total: [stored_value]."))
-	playsound(user.loc,'sound/misc/smelter_sound.ogg', 50, FALSE)
+	visible_message("Hooked avantyne chains spring out and latch on the [I], absorbing it into the circle...")
+	to_chat(user, span_artery("+[value] liquid hatred gained. ([stored_value] motes of liquid hatred accumulated.)"))
+
+	playsound(src, 'sound/misc/smelter_sound.ogg', 50, FALSE)
+
 	qdel(I)
 
 /obj/structure/ritualcircle/profane/melding/attack_hand(mob/living/user)
@@ -251,13 +266,9 @@
 		to_chat(user, span_smallred("This rite is not meant for me..."))
 		return
 
+	// bleeding check (simplified)
 	var/has_bleeding = FALSE
-	var/list/carbons = list()
-	
 	for(var/mob/living/carbon/C in view(1, src))
-		carbons += C
-
-	for(var/mob/living/carbon/C in carbons)
 		if(C.bleed_rate)
 			has_bleeding = TRUE
 			break
@@ -267,7 +278,8 @@
 		return
 
 	var/list/choices = list(
-		"Meld Corpse / Materials",
+		"Meld Corpse",
+		"Meld Materials",
 		"Shape Molten Avantyne",
 		"Create Avantyne Slag"
 	)
@@ -280,6 +292,9 @@
 		if("Meld Corpse")
 			meld_corpse(user)
 
+		if("Meld Materials")
+			meld_materials(user)
+
 		if("Shape Molten Avantyne")
 			shape_avantyne(user)
 
@@ -288,6 +303,8 @@
 
 /obj/structure/ritualcircle/profane/melding/proc/meld_corpse(mob/living/user)
 	var/turf/T = get_turf(src)
+	if(!T)
+		return
 
 	var/list/valid_bodies = list()
 
@@ -296,74 +313,113 @@
 		if(C.stat != DEAD)
 			continue
 
-		// valid if NPC OR skeleton antag
 		if(!C.client || C.mind?.has_antag_datum(/datum/antagonist/skeleton))
-			valid_bodies += C
+			valid_bodies |= C
 
 	if(!valid_bodies.len)
-		to_chat(user, span_warning("A corpse is required, preferably souless, decrepit or rotting.")) // we don't want players here
+		to_chat(user, span_warning("A corpse is required, the condition departed, rotting or decrepit."))
 		return
 
 	if(!execute_rite(src, user, 10, 3, TRUE))
 		return
 
-	// PROCESS BODIES
-	for(var/mob/living/carbon/C in valid_bodies)
-		C.dust(drop_items = TRUE)
-		stored_value += 1
+	var/gained = 0
 
-	// PROCESS ITEMS ON TILE
+	// DUST CORPSES FIRST (drops items)
+	for(var/mob/living/carbon/C in valid_bodies)
+		if(QDELETED(C))
+			continue
+
+		C.dust(drop_items = TRUE)
+		gained += 5
+
+	// PROCESS DROPPED GEAR
 	for(var/obj/item/I in T)
-		if(I.smeltresult == /obj/item/ingot/aaslag_zizo)
-			stored_value += 1
+		if(QDELETED(I))
+			continue
+
+		if(I.smeltresult == /obj/item/ingot/iron || I.smeltresult == /obj/item/ingot/bronze || I.smeltresult == /obj/item/ingot/aaslag)
+			gained += 1
 			qdel(I)
 
-	to_chat(user, span_cultsmall("The remains are chopped up gruesomely by avantyne chained hooks, and dragged into it... Total: [stored_value]."))
+	stored_value += gained
+
+	visible_message("Hooked avantyne chains spring out and latch on the remains, as they soon disintegrate...")
+	to_chat(user, span_artery("+[gained] liquid hatred gained. ([stored_value] motes of liquid hatred accumulated.)"))
+
+/obj/structure/ritualcircle/profane/melding/proc/meld_materials(mob/living/user)
+	var/turf/T = get_turf(src)
+	if(!T)
+		return
+
+	var/list/valid_items = list()
+
+	// COLLECT VALID ITEMS
+	for(var/obj/item/I in T)
+		if(QDELETED(I))
+			continue
+
+		var/value = get_Z_item_value(I)
+		if(value > 0)
+			valid_items[I] = value // store value to avoid recalculating
+
+	if(!valid_items.len)
+		to_chat(user, span_warning("The circle finds nothing of value to consume."))
+		return
+
+	if(!execute_rite(src, user, 10, 3, TRUE))
+		return
+
+	var/gained = 0
+
+	// PROCESS ITEMS
+	for(var/obj/item/I in valid_items)
+		if(QDELETED(I))
+			continue
+
+		var/value = valid_items[I]
+		gained += value
+		qdel(I)
+
+	stored_value += gained
+
+	visible_message("Hooked avantyne chains spring out and latch on the materials, as they soon disintegrate...")
+	to_chat(user, span_artery("+[gained] liquid hatred gained. ([stored_value] motes of liquid hatred accumulated.)"))
 
 /obj/structure/ritualcircle/profane/melding/proc/shape_avantyne(mob/living/user)
-	if(stored_value <= 0)
+	if(stored_value == 0)
 		to_chat(user, span_warning("The circle lacks substance."))
 		return
 
-	var/miracle = user.get_skill_level(/datum/skill/magic/holy)
+	var/miracle = max(1, user.get_skill_level(/datum/skill/magic/holy))
+	var/turf/T = get_turf(src)
+	if(!T)
+		return
 
-	var/list/options = list(
-		"Woods",
-		"Stones",
-		"Primed Avantyne Slag"
-	)
-
+	var/list/options = list("Woods", "Stones", "Primed Avantyne Slag")
 	var/choice = input(user, "Shape what?", src) as null|anything in options
 	if(!choice)
 		return
 
-	// WOOD / STONE BRANCH
 	if(choice == "Woods" || choice == "Stones")
 
-		var/list/form_choice = list("Natural", "Processed")
-		var/form = input(user, "Do you want natural or processed?", src) as null|anything in form_choice
+		var/form = input(user, "Natural or processed?", src) as null|anything in list("Natural", "Processed")
 		if(!form)
 			return
 
-		var/amount = input(user, "How many units to shape?", src) as num|null
+		var/amount = round(input(user, "How many units do you want to conjure?", src) as num|null)
 		if(!amount || amount <= 0)
 			return
 
-		amount = round(amount)
+		var/max_amount = miracle * 5
 
 		if(amount > stored_value)
-			to_chat(user, span_warning("The circle cannot supply that much."))
+			to_chat(user, span_warning("The circle cannot supply that much with its current liquid hatred..."))
 			return
 
-		// optional miracle limiter
-		if(amount > (miracle * 5))
-			to_chat(user, span_warning("I cannot shape that much at once."))
+		if(amount > max_amount)
+			to_chat(user, span_warning("I cannot shape that much at once. I lack a deeper faith to HER..."))
 			return
-
-		if(!do_after(user, 30, src))
-			return
-
-		var/turf/T = get_turf(src)
 
 		for(var/i = 1 to amount)
 			if(choice == "Woods")
@@ -371,8 +427,7 @@
 					new /obj/item/grown/log/tree/small(T)
 				else
 					new /obj/item/natural/wood/plank(T)
-
-			else if(choice == "Stones")
+			else
 				if(form == "Natural")
 					new /obj/item/natural/stone(T)
 				else
@@ -380,10 +435,10 @@
 
 		stored_value -= amount
 
-		to_chat(user, span_cultsmall("I shape [amount] units of [lowertext(form)] [lowertext(choice)]. Remaining: [stored_value]."))
+		to_chat(user, span_cultsmall("I shape [amount] units of [lowertext(form)] [lowertext(choice)]. Remaining liquid hatred: [stored_value]."))
 		return
 
-	// PRIMED SLAG
+	// slag branch
 	if(choice == "Primed Avantyne Slag")
 		var/cost = 100
 
@@ -395,27 +450,38 @@
 			to_chat(user, span_warning("This form is beyond my capability."))
 			return
 
-		execute_rite()
+		if(!execute_rite_lesser(src, user, 2, TRUE))
+			return
 
 		stored_value -= cost
+		new /obj/item/ingot/aaslag_zizo/primed(T)
 
-		new /obj/item/ingot/aaslag_zizo/primed(get_turf(src))
-
-		to_chat(user, span_cultsmall("The mass condenses into a volatile, hateful slag. Remaining: [stored_value]."))
+		to_chat(user, span_cultsmall("The mass condenses into a volatile slag, ready to be used. Remaining liquid hatred: [stored_value]."))
 
 /obj/structure/ritualcircle/profane/melding/proc/create_slag(mob/living/user)
 	if(stored_value <= 0)
 		to_chat(user, span_warning("Nothing to extract."))
 		return
-	if(!do_after(user, 70, src))
+
+	var/turf/T = get_turf(src)
+	if(!T)
 		return
-	var/obj/item/ingot/aaslag_zizo/A = new(get_turf(src))
+
+	if(!execute_rite(src, user, 8, 2, TRUE))
+		return
+
+	if(!do_after(user, 50, src))
+		return
+
+	var/obj/item/ingot/aaslag_zizo/A = new(T)
 	A.value = stored_value
+
 	to_chat(user, span_artery("I condense [stored_value] motes of liquid hatred into a single slag."))
+
 	stored_value = 0
 
 /obj/structure/ritualcircle/profane/leyline
-	name = "Veil-Rending matrix"
+	name = "Veilrender Matrix"
 	desc = "A violent geometric construct meant to tear at creechers from within the leylines."
 	icon_state = "zizo_chalky"
 	color = "#00eeff"
@@ -445,7 +511,7 @@
 
 	playsound(src, 'sound/magic/swap.ogg', 60, TRUE)
 
-	// LEYLINE "sabotagegoesherewheneverPRsletmeTMthis"
+	// LEYLINE -- TODO: Change this into proper sabotaging, but I can only do so once TM is up to avoid conflicts
 	for(var/obj/structure/leyline/L in nearby_leylines)
 		qdel(L)
 
@@ -454,17 +520,17 @@
 		/obj/item/magic/infernal/ash = 40,
 		/obj/item/magic/infernal/fang = 25,
 		/obj/item/magic/infernal/core = 10,
-		/obj/item/magic/infernal/flame = 5,
+		/obj/item/magic/infernal/flame = 2,
 
 		/obj/item/magic/fae/fairydust = 40,
 		/obj/item/magic/fae/iridescentscale = 25,
 		/obj/item/magic/fae/heartwoodcore = 10,
-		/obj/item/magic/fae/sylvanessence = 5,
+		/obj/item/magic/fae/sylvanessence = 2,
 
 		/obj/item/magic/elemental/mote = 40,
 		/obj/item/magic/elemental/shard = 25,
 		/obj/item/magic/elemental/fragment = 10,
-		/obj/item/magic/elemental/relic = 5
+		/obj/item/magic/elemental/relic = 2
 	)
 
 	// LOOT ROLLS
@@ -480,14 +546,13 @@
 		"<i>You hear a piercing, unnatural scream tear through the air.</i>"
 	)
 
-/obj/structure/ritualcircle/profane/luxrip
+/obj/structure/ritualcircle/profane/reaper
 	name = "Great Work Rituos circle"
 	desc = "An acidic-looking transmutation circle. ."
 	icon_state = "zizo_chalky"
 	color = "#00ff15"
-	var/stored_value = 0
 
-/obj/structure/ritualcircle/profane/luxrip/attack_hand(mob/living/user)
+/obj/structure/ritualcircle/profane/reaper/attack_hand(mob/living/user)
 	if(!..())
 		return
 
@@ -495,56 +560,112 @@
 		to_chat(user, span_smallred("This rite is not meant for me..."))
 		return
 
-	// CHECK BLEEDING
+	var/turf/T = get_turf(src)
+	if(!T)
+		return
+
+	// ACTIVATION REQS
 	var/has_bleeding = FALSE
 	for(var/mob/living/carbon/C in view(1, src))
 		if(C.bleed_rate)
 			has_bleeding = TRUE
 			break
 
-	if(!has_bleeding)
-		to_chat(user, span_warning("The circle remains inert. It demands fresh blood from bleeding wounds."))
+	// Count blood resources on tile
+	var/vial_count = 0
+	var/canister_count = 0
+	var/list/consumables = list()
+
+	for(var/obj/item/I in T)
+		if(istype(I, /obj/item/heart_blood_vial/filled))
+			vial_count++
+			consumables += I
+		else if(istype(I, /obj/item/heart_blood_canister/filled))
+			canister_count++
+			consumables += I
+
+	var/has_blood_cost = (canister_count >= 2) || (vial_count >= 6)
+
+	if(!has_bleeding && !has_blood_cost)
+		to_chat(user, span_warning("The rite demands either a cut wound's fresh blood, or the blood of a heartbeast."))
 		return
 
-	// FIND VALID CROSSES WITH VICTIMS
+	// TARGET COLLECTION
 	var/list/valid_targets = list()
 
 	for(var/obj/structure/fluff/psycross/zizocross/C in view(3, src))
-		if(C.buckled_mobs && C.buckled_mobs.len)
-			for(var/mob/living/L in C.buckled_mobs)
-				valid_targets += L
+		if(!C.buckled_mobs || !C.buckled_mobs.len)
+			continue
+
+		for(var/mob/living/L in C.buckled_mobs)
+			if(QDELETED(L))
+				continue
+			valid_targets |= L // avoid duplicates
 
 	if(!valid_targets.len)
 		to_chat(user, span_warning("The rite demands subjects bound to profane crosses."))
 		return
 
-	to_chat(user, span_cultsmall("I begin invoking the Great Work..."))
+	// CONSUME BLOOD (if needed)
+	if(!has_bleeding)
+		var/needed_vials = 6
+		var/needed_canisters = 2
+
+		// Prefer canisters first (stronger)
+		for(var/obj/item/heart_blood_canister/filled/C in consumables)
+			if(needed_canisters <= 0)
+				break
+			qdel(C)
+			needed_canisters--
+
+		// If still missing, consume vials
+		if(needed_canisters > 0)
+			for(var/obj/item/heart_blood_vial/filled/V in consumables)
+				if(needed_vials <= 0)
+					break
+				qdel(V)
+				needed_vials--
+
+		playsound(src, 'sound/misc/smelter_sound.ogg', 50, FALSE)
+
+	// RITUAL EXECUTION
+	to_chat(user, span_cultsmall("I begin invoking the Great Work... Yet far beneath Her true design."))
 
 	if(!execute_rite(src, user, 10, 5, TRUE))
 		return
 
 	playsound(src, 'sound/magic/swap.ogg', 70, TRUE)
 
-	// APPLY EFFECTS
+	// EFFECT 
+	var/lux_spawned = 0
+
 	for(var/mob/living/L in valid_targets)
-		if(!L)
+		if(QDELETED(L))
 			continue
 
-		// KILL NPCs here
+		// NPCs: goobai~
 		if(!L.client)
 			L.gib(TRUE, TRUE, FALSE)
+			lux_spawned++
 			continue
 
-		// TRAUMATIZE PCs here
-		//L.add_stress(/datum/stressevent/cult_trauma) // to-do, add a stress for it
-		//ADD_TRAIT(L, TRAIT_TORNLUX, INNATE_TRAIT) // to-do, add a trait that prevents lux from regenning, reason im not for now is so the TM makes it in without conflicts
- 
+		// Players: trauma + extraction (has a placeholder for now, will improve on TM, atm its mostly to avoid conflicts)
+		if(istype(L, /mob/living))
+			L.emote("scream")
+
+		lux_spawned++
+
+	// LUX 
+	for(var/i = 1 to lux_spawned)
+		new /obj/item/reagent_containers/lux(T)
+
 	// FEEDBACK
 	visible_message(
-		span_artery("The circle pulses violently as Lux is torn screaming from bound bodies!"),
+		span_artery("The circle pulses violently as something is torn from bound bodies, coalescing into raw essence!"),
 		null,
 		"<i>You hear a chorus of distorted, agonized whispers.</i>"
 	)
+
 
 /obj/item/rogueweapon/huntingknife/idagger/zizo
 	name = "luxdrinker blade"

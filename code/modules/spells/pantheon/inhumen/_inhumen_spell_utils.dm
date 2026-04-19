@@ -6,34 +6,53 @@
 	if(!leader || QDELETED(source))
 		return FALSE
 
+	var/turf/T = get_turf(source)
+	if(!T)
+		return FALSE
+
 	// GATHER CABALISTS
 	var/list/mob/living/cabalists = list()
-	var/list/mob/living/participants = list()
-
 	for(var/mob/living/M in range(1, source))
 		if(HAS_TRAIT(M, TRAIT_CABAL) && M.stat == CONSCIOUS)
 			cabalists += M
 
-	// Always include leader if valid
-	if(!(leader in cabalists) && HAS_TRAIT(leader, TRAIT_CABAL))
+	if(HAS_TRAIT(leader, TRAIT_CABAL) && !(leader in cabalists))
 		cabalists += leader
 
 	if(!length(cabalists))
 		to_chat(leader, span_warning("None nearby can answer the rite."))
 		return FALSE
 
-	// CONSENT PHASE (7s timeout)
+	// CONSENT PHASE
 	var/list/responders = list()
+	var/list/pending = list()
 
 	for(var/mob/living/M in cabalists)
+		if(M == leader)
+			continue
+
+		pending += M
+
 		spawn()
+			if(QDELETED(M))
+				return
 			var/choice = alert(M, "Do you wish to contribute to the rite?", "Ritual Invocation", "Yes", "No")
 			if(choice == "Yes")
-				responders += M
+				// safe add
+				responders |= M
 
-	sleep(7 SECONDS)
+	// wait up to 7 seconds, but allow early exit if all responded
+	var/timeout = world.time + 7 SECONDS
+	while(world.time < timeout && length(pending))
+		sleep(2)
+		// remove people who already responded or are invalid
+		for(var/mob/living/M in pending.Copy())
+			if(QDELETED(M) || M in responders)
+				pending -= M
 
-	// Clamp participants
+	// BUILD PARTICIPANTS
+	var/list/participants = list()
+
 	for(var/mob/living/M in responders)
 		if(length(participants) >= max_cultists)
 			break
@@ -41,66 +60,158 @@
 			continue
 		participants += M
 
+	// Leader ALWAYS included
 	if(!(leader in participants))
-		participants += leader
+		participants.Insert(1, leader)
 
 	if(!length(participants))
 		to_chat(leader, span_warning("The rite finds no willing voices."))
 		return FALSE
 
-	// CHANT PHASE
+	// CHANTS
 	var/list/chant_lines = list(
 		"Ol sonf vorsg-hoath iaida.",
 		"Zirdo madriax, soba lonshi.",
 		"Faxs to faxs-athan velor.",
 		"Ph'nglui mglw'nafh.",
 		"R'lyeh wgah'nagl fhtagn.",
-		"ZIZO! HEAR US!",
-		"ZIZO! ZIZO! ZIZO!",
+		"Velor ixan thrae-zho.",
+		"Korvath en'zul miraxis.",
+		"Thren val'kora, ix.",
+		"Zai'ul phoros vekh.",
+		"Morath xi'en thul."
 	)
-
 	var/list/silent_chant_lines = list(
 		"#Ol sonf vorsg-hoath iaida.",
 		"#Zirdo madriax, soba lonshi.",
 		"#Faxs to faxs-athan velor.",
 		"#Ph'nglui mglw'nafh.",
 		"#R'lyeh wgah'nagl fhtagn.",
-		"#ZIZO! HEAR US!",
-		"#ZIZO! ZIZO! ZIZO!",
+		"#Velor ixan thrae-zho.",
+		"#Korvath en'zul miraxis.",
+		"#Thren val'kora, ix.",
+		"#Zai'ul phoros vekh.",
+		"#Morath xi'en thul."
 	)
 
-	var/phases = ritual_length
 	var/list/datum/beam/active_beams = list()
 
-	for(var/phase in 1 to phases)
-		// Chant
+	// RITUAL LOOP
+	for(var/phase in 1 to ritual_length)
+
+		// abort if leader dies or disappears
+		if(QDELETED(leader) || leader.stat != CONSCIOUS)
+			break
+
+		// chant
+		var/line_index = min(phase, length(chant_lines))
 		for(var/mob/living/P in participants)
+			if(QDELETED(P) || P.stat != CONSCIOUS)
+				continue
+
 			if(silent)
-				P.say(silent_chant_lines[min(phase, length(silent_chant_lines))], forced = "rite invocation", ignore_spam = TRUE)
+				P.say(silent_chant_lines[line_index], forced = "rite invocation", ignore_spam = TRUE)
 			else
-				P.say(chant_lines[min(phase, length(chant_lines))], forced = "rite invocation", ignore_spam = TRUE)
+				P.say(chant_lines[line_index], forced = "rite invocation", ignore_spam = TRUE)
 
-		// Visual beams (optional but consistent with TP)
-		var/turf/T = get_turf(source)
+		// beams
 		for(var/mob/living/P in participants)
-			active_beams += T.Beam(P, icon_state = "b_beam", time = 5 SECONDS, maxdistance = 10)
+			if(QDELETED(P))
+				continue
+			active_beams += T.Beam(P, icon_state = "drainbeam", time = 5 SECONDS, maxdistance = 10)
 
-		// Pain / cost (light, reusable)
+		// scaling cost (ramps each phase)
+		var/damage = 5 + (phase * 2)
+
 		for(var/mob/living/P in participants)
-			P.adjustBruteLoss(10)
-			if(prob(30) && !(HAS_TRAIT(P, TRAIT_NOPAIN)))
+			if(QDELETED(P))
+				continue
+
+			P.adjustBruteLoss(damage)
+
+			if(prob(10 + phase * 5) && !(HAS_TRAIT(P, TRAIT_NOPAIN)))
 				P.emote("painscream")
 
-		// Channel time
+		// channel
 		if(!do_after(leader, 5 SECONDS, target = source))
 			to_chat(leader, span_warning("The rite collapses before completion."))
 			for(var/datum/beam/B in active_beams)
-				B.End()
+				if(B) B.End()
 			return FALSE
 
-	// Cleanup beams
+	// CLEANUP
 	for(var/datum/beam/B in active_beams)
-		B.End()
+		if(B) B.End()
+
+	return TRUE
+
+/proc/execute_rite_lesser(atom/source, mob/living/leader, ritual_length = 4, silent = FALSE)
+	if(!leader || QDELETED(source))
+		return FALSE
+
+	var/turf/T = get_turf(source)
+	if(!T)
+		return FALSE
+
+	if(!HAS_TRAIT(leader, TRAIT_CABAL) || leader.stat != CONSCIOUS)
+		return FALSE
+
+	// CHANTS
+	var/list/chant_lines = list(
+		"Ol sonf vorsg-hoath iaida.",
+		"Zirdo madriax, soba lonshi.",
+		"Faxs to faxs-athan velor.",
+		"Ph'nglui mglw'nafh.",
+		"R'lyeh wgah'nagl fhtagn.",
+		"Velor ixan thrae-zho.",
+		"Korvath en'zul miraxis.",
+		"Thren val'kora, ix.",
+		"Zai'ul phoros vekh.",
+		"Morath xi'en thul."
+	)
+	var/list/silent_chant_lines = list(
+		"#Ol sonf vorsg-hoath iaida.",
+		"#Zirdo madriax, soba lonshi.",
+		"#Faxs to faxs-athan velor.",
+		"#Ph'nglui mglw'nafh.",
+		"#R'lyeh wgah'nagl fhtagn.",
+		"#Velor ixan thrae-zho.",
+		"#Korvath en'zul miraxis.",
+		"#Thren val'kora, ix.",
+		"#Zai'ul phoros vekh.",
+		"#Morath xi'en thul."
+	)
+
+	var/list/datum/beam/active_beams = list()
+
+	// RITUAL LOOP
+	for(var/phase in 1 to ritual_length)
+
+		if(QDELETED(leader) || leader.stat != CONSCIOUS)
+			break
+
+		// random chant
+		var/line
+		if(silent)
+			line = pick(silent_chant_lines)
+		else
+			line = pick(chant_lines)
+
+		leader.say(line, forced = "rite invocation", ignore_spam = TRUE)
+
+		// visual beam (self only)
+		active_beams += T.Beam(leader, icon_state = "drainbeam", time = 5 SECONDS, maxdistance = 10)
+
+		// channel
+		if(!do_after(leader, 5 SECONDS, target = source))
+			to_chat(leader, span_warning("The rite fizzles before completion."))
+			for(var/datum/beam/B in active_beams)
+				if(B) B.End()
+			return FALSE
+
+	// CLEANUP
+	for(var/datum/beam/B in active_beams)
+		if(B) B.End()
 
 	return TRUE
 
