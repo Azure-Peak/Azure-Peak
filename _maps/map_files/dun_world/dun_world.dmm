@@ -17159,6 +17159,14 @@
 	color = "#3f3f3f";
 	dir = 5
 	},
+/obj/effect/decal/edge{
+	color = "#3f3f3f";
+	dir = 6
+	},
+/obj/effect/decal/edge{
+	color = "#3f3f3f";
+	dir = 10
+	},
 /turf/open/floor/rogue/wood,
 /area/rogue/indoors/town/church/chapel)
 "dCC" = (
@@ -19193,17 +19201,6 @@
 /obj/machinery/light/rogue/candle/off/r,
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/cave/his_vault)
-"dXw" = (
-/obj/effect/decal/edge{
-	color = "#3f3f3f";
-	dir = 10
-	},
-/obj/effect/decal/edge{
-	color = "#3f3f3f";
-	dir = 1
-	},
-/turf/open/floor/rogue/wood,
-/area/rogue/indoors/town/church/chapel)
 "dXx" = (
 /obj/structure/flora/roguegrass,
 /obj/effect/wisp/prestidigitation{
@@ -43594,17 +43591,6 @@
 	},
 /turf/open/transparent/openspace,
 /area/rogue/druidsgrove)
-"iUo" = (
-/obj/effect/decal/edge{
-	color = "#3f3f3f";
-	dir = 1
-	},
-/obj/effect/decal/edge{
-	color = "#3f3f3f";
-	dir = 6
-	},
-/turf/open/floor/rogue/wood,
-/area/rogue/indoors/town/church/chapel)
 "iUq" = (
 /obj/structure/fluff/nest,
 /mob/living/carbon/human/species/npc/deadite,
@@ -58520,18 +58506,6 @@
 	},
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/outdoors/woods/southeast)
-"lJT" = (
-/obj/structure/table/wood/long_table,
-/obj/structure/fluff/psycross/copper{
-	pixel_x = 0;
-	pixel_y = 14
-	},
-/obj/effect/decal/edge{
-	color = "#3f3f3f";
-	dir = 8
-	},
-/turf/open/floor/rogue/wood,
-/area/rogue/indoors/town/church/chapel)
 "lJZ" = (
 /obj/structure/fluff/railing/fence{
 	dir = 1
@@ -97736,18 +97710,6 @@
 /obj/structure/fluff/railing/corner,
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/outdoors/mountains)
-"tJf" = (
-/obj/structure/table/wood/long_table/mid/alt,
-/obj/item/natural/whetstone{
-	pixel_x = -13;
-	pixel_y = 8
-	},
-/obj/item/book/rogue/law{
-	pixel_x = 5;
-	pixel_y = 6
-	},
-/turf/open/floor/rogue/wood,
-/area/rogue/indoors/town/church/chapel)
 "tJi" = (
 /obj/structure/rack/rogue/shelf,
 /obj/item/rogueweapon/huntingknife/idagger/steel/special{
@@ -119205,18 +119167,6 @@
 	},
 /turf/open/floor/rogue/cobble,
 /area/rogue/indoors/town)
-"ybt" = (
-/obj/structure/table/wood/long_table/right,
-/obj/structure/fluff/psycross/copper{
-	pixel_x = 0;
-	pixel_y = 14
-	},
-/obj/effect/decal/edge{
-	color = "#3f3f3f";
-	dir = 4
-	},
-/turf/open/floor/rogue/wood,
-/area/rogue/indoors/town/church/chapel)
 "ybu" = (
 /obj/item/rogueweapon/huntingknife/chefknife/cleaver,
 /obj/item/rogueweapon/huntingknife/chefknife,
@@ -381095,9 +381045,9 @@ gUW
 bDs
 iBk
 iBk
-dXw
-lyt
-lJT
+rCd
+iBk
+iBk
 hPZ
 vhk
 bsh
@@ -381548,8 +381498,8 @@ igy
 qtm
 pwu
 dCq
-fwK
-tJf
+pwu
+pwu
 hPZ
 vQq
 bsh
@@ -381999,9 +381949,9 @@ maV
 mnC
 iBk
 iBk
-iUo
-tlf
-ybt
+rCd
+iBk
+iBk
 hPZ
 aNS
 bsh
