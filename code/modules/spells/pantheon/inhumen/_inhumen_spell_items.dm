@@ -1,3 +1,578 @@
+////////
+//ZIZO//
+////////
+
+// the zizo bitcoin dosh :tm:
+/obj/item/ingot/aaslag_zizo
+	name = "darkened slag"
+	desc = "A mass of wrought avantyne, condensed and unusable, for one reason or another. It hums with a strong aura of hatred for this stagnant world."
+	icon_state = "ancientslag"
+	smeltresult = /obj/item/ingot/aaslag
+	sellprice = 0
+	aura_color = "#ff37377"
+	color = "#634040"
+	var/value = 1
+
+/obj/item/ingot/aaslag_zizo/primed
+	name = "volatile darkened slag"
+	desc = "A mass of wriggling avantyne, condensed and usable. It hums with a strong aura of defiance for this stagnant world."
+	color = "#ff0000"
+	aura_color = "#ff8800"
+
+/obj/item/ingot/aaslag_zizo/primed/attack_self(mob/living/user)
+	if(!isliving(user))
+		return
+
+	var/holy = user.get_skill_level(/datum/skill/magic/holy)
+
+	var/list/options = list() // idea here is mostly so Zizo and Matthios can have good feuds, one supporting the other
+
+	if(holy >= SKILL_LEVEL_NOVICE) 
+		options["Surgery Bag"] = /obj/item/storage/belt/rogue/surgery_bag
+		options["Iron Anvil"] = /obj/machinery/anvil
+		options["Forge"] = /obj/machinery/light/rogue/forge
+		options["Water Bin"] = /obj/item/roguebin/water
+	if(holy >= SKILL_LEVEL_APPRENTICE) 
+		options["Operating Table"] = /obj/structure/table/optable
+		options["Bronze Melter"] = /obj/machinery/light/rogue/smelter/bronze
+		options["Iron Bloomery"] = /obj/machinery/light/rogue/smelter/hiron
+		options["Serfstone"] = /obj/item/scomstone/bad	
+	if(holy >= SKILL_LEVEL_JOURNEYMAN)
+		options["Cooling Backpack"] = /obj/item/storage/backpack/rogue/artibackpack
+		options["Purifier Waterskin"] = /obj/item/reagent_containers/glass/bottle/waterskin/purifier
+		options["Engineering Wrench"] = /obj/item/contraption/linker
+		options["SCOMStone"] = /obj/item/scomstone
+	if(holy >= SKILL_LEVEL_EXPERT) // everything spawned here will cause you to lose a random limb permanently.
+		options["Drill"] = /obj/item/contraption/pick/drill
+		options["Autosmither"] =  /obj/structure/autosmither
+		options["Infernal Engine"] = /obj/structure/infernalengine
+		options["Great Furnace"] = /obj/machinery/light/rogue/smelter/great
+
+	if(!options.len)
+		to_chat(user, span_warning("I lack the knowledge to shape this mass..."))
+		return
+
+	var/choice = input(user, "What shall be Artificed into existence?", src) as null|anything in options
+	if(!choice)
+		return
+
+	// AGONIZING RITUAL
+	to_chat(user, span_cultsmall("The slag writhes violently in my grasp..."))
+
+	user.emote("agony")
+	user.adjustBruteLoss(10)
+	user.adjustFireLoss(5)
+
+	if(!do_after(user, 50, src))
+		return
+
+	user.emote("agony")
+	user.adjustBruteLoss(15)
+	user.adjustFireLoss(10)
+
+	// SPAWN LOCATION LOGIC
+	var/turf/T = get_step(get_turf(user), user.dir)
+
+	if(!T || T.density)
+		T = get_turf(user)
+
+	// fallback if blocked by dense object
+	for(var/atom/A in T)
+		if(A.density)
+			T = get_turf(user)
+			break
+
+	// SPAWN RESULT
+	var/typepath = options[choice]
+
+	if(ispath(typepath, /obj))
+		new typepath(T)
+
+	to_chat(user, span_cultsmall("Reality buckles before Her design. Through a swirl of dust and sparks, the [choice] is forced into being."))
+
+	qdel(src)
+
+/obj/item/matthios_canister/zizo_corrosive
+	name = "vial of corrosion"
+	desc = "A writhing, unstable corrosive that hungrily seeks structure."
+	current_color = "#1eff00"
+
+/obj/item/matthios_canister/zizo_corrosive/examine(mob/user)
+	. = ..()
+	if(HAS_TRAIT(user, TRAIT_CABAL))
+		. += span_notice("A possessed acidic slime. Perfect for dealing with iron bars and blockades. Not so perfect to deal with anything else, for this is unfortunately possessed by a foul, stubborn spirit who bears a distinct grudge against bars.")
+
+/obj/item/matthios_canister/zizo_corrosive/afterattack(atom/target, mob/living/user, proximity)
+	if(!proximity)
+		return
+
+	if(istype(target, /obj/structure/bars))
+		var/obj/structure/bars/B = target
+
+		to_chat(user, span_necrosis("The corrosion eagerly devours the metal, and the spirit within the vial is set free..."))
+		playsound(src.loc, 'sound/misc/lava_death.ogg', 100, TRUE)
+		B.break_message = null
+		B.obj_break()
+
+		qdel(src)
+		return
+	else
+		to_chat(user, span_necrosis("The vial's contents wriggle in disapproval... It wants only bars."))
+
+	return ..()
+
+// nothing really different from normal chalk here, just spooky aura color!
+/obj/item/chalk/zizo
+	name = "stick of corrupted chalk"
+	desc = "A stark-white stick of chalk, possibly made from quicksilver but you can't confirm it. This one has an odd, necrotic aura about it..."
+	aura_color = "#ff5c5c"
+
+/obj/item/chalk/zizo/examine(mob/user)
+	. = ..()
+	if(HAS_TRAIT(user, TRAIT_CABAL))
+		. += span_artery("A mana-infused chalk conjured from your own blood, bone marrow and a minor Enochian enchant. The Cabal oft speak that this is how things were done back in the old days of sorcery.")
+
+// this is a chalk for people without ritualist trait, used mostly for artificery and trolling mages
+/obj/item/ritechalk_zizo
+	name = "profane chalk"
+	icon_state = "chalk"
+	desc = "Simple white chalk made from dubious materials. A useful tool for rites. This one has an odd, necrotic aura about it..."
+	icon = 'icons/roguetown/misc/rituals.dmi'
+	w_class = WEIGHT_CLASS_TINY
+	experimental_inhand = FALSE
+	aura_color = "#ff3737"
+
+/obj/item/ritechalk_zizo/examine(mob/user)
+	. = ..()
+	if(HAS_TRAIT(user, TRAIT_CABAL))
+		. += span_artery("Larger than its stick-like sibling, it helps concentrate more the essence of avantyne onto any rite you draw. Prying hands may suffer trying to keep this from your righteously-deserving ones.")
+		. += span_warning("<b>Rune of Zizo:</b> While only the real devout can make use of it for armaments, this rune is known to appease your Dark Lady, and guarantee success on Lesser Work Rituos.")
+		. += span_warning("<b>Rite of Profane Melding:</b> This rite allows you to recycle ancient corpses, skeletons, bones, organs and so on, into useful bits and pieces for Artificery.")
+		. += span_warning("<b>Veil-Rending matrix:</b> The proper, progressive method to harvest useful materials from Leylines. Surrounding all the cardinals of a Leyline is required. On use, undergo a long, loud and painful ritual, attempting to extract the materials directly from it, destabilizing the natural formation permanently.")
+		. += span_warning("<b>Great Work Rituos:</b> This rite attempts to forcefully tear out Lux from an unwilling subject. They must be crucified to a profane cross for this to work. Very painful and permanently scarring.")
+
+/obj/item/ritechalk_zizo/attack_self(mob/living/user)
+	if(!HAS_TRAIT(user, TRAIT_CABAL))
+		to_chat(user, span_smallred("As you inspect it closer, the foreboding chalk ignites on your hand, crumbling to foul-smelling ashes..."))
+		user.emote("pain")
+		user.adjustFireLoss(5)
+		user.adjust_fire_stacks(2)
+		user.ignite_mob()
+		qdel(src)
+		return
+
+	var/ritechoices = list()
+
+ 	// practically worthless without the RITUAL trait, but having people spam zizo runes for territory flexing is cool
+	ritechoices+="Rune of ZIZO"
+
+ 	// used to convert various things, mainly ancient slag, into bronze or other useful things for artificery
+	ritechoices+="Rite of Profane Melding"
+
+	// used to sabotage leylines and get free mats out of them, including something that outright destroys the leyline but lets you use the following
+	ritechoices+="Veil-Rending matrix" 
+
+	// used to extract lux without medicine, pretty simple thing. traumatizes PCs, gibs NPCs
+	ritechoices+="Great Work Rituos" 
+
+	var/runeselection = input(user, "Which rune shall I inscribe?", src) as null|anything in ritechoices
+	var/turf/step_turf = get_step(get_turf(user), user.dir)
+	switch(runeselection)
+		if("Rune of ZIZO")
+			to_chat(user,span_cultsmall("I begin inscribing the rune of Her Knowledge..."))
+			if(do_after(user, 30, src))
+				playsound(src, 'sound/foley/scribble.ogg', 40, TRUE)
+				new /obj/structure/ritualcircle/zizo(step_turf)
+
+		if("Rite of Profane Melding")
+			to_chat(user,span_cultsmall("I begin inscribing the rune of Enochian melding sorcery..."))
+			if(do_after(user, 40, src))
+				playsound(src, 'sound/foley/scribble.ogg', 40, TRUE)
+				new /obj/structure/ritualcircle/profane/melding(step_turf)
+
+		if("Veil-Rending matrix")
+			to_chat(user,span_cultsmall("I begin inscribing the matrix that rends the veil and siphons from the Ley..."))
+			if(do_after(user, 40, src)) 
+				playsound(src, 'sound/foley/scribble.ogg', 40, TRUE)
+				new /obj/structure/ritualcircle/profane/leyline(step_turf)
+
+		if("Great Work Rituos")
+			to_chat(user,span_cultsmall("I begin inscribing the runes in raw Enochian language... My fingers twist painfully during it. A replica of Her Great Work..."))
+			if(do_after(user, 40, src)) 
+				playsound(src, 'sound/foley/scribble.ogg', 40, TRUE)
+				new /obj/structure/ritualcircle/profane/riplux(step_turf)
+
+/obj/structure/ritualcircle/profane/melding
+	name = "Profane Melding Circle"
+	desc = "A grotesque transmutation circle. Flesh, bone, and memory are rendered into something... useful."
+	icon_state = "zizo_chalky"
+	color = "#ff0000"
+	var/stored_value = 0
+
+/obj/structure/ritualcircle/profane/melding/proc/get_Z_item_value(obj/item/I)
+	if(istype(I, /obj/item/ingot/aaslag_zizo))
+		var/obj/item/ingot/aaslag_zizo/A = I
+		return A.value
+	if(istype(I, /obj/item/bone)|| istype(I, /obj/item/grown/log/tree/small)|| istype(I, /obj/item/natural/stone))
+		return 1
+	if(istype(I, /obj/item/organ) || istype(I, /obj/item/alch/viscera) || istype(I, /obj/item/reagent_containers/food/snacks/rogue/meat/steak))
+		return 2
+	if(istype(I, /obj/item/heart_blood_vial/filled))
+		return 5
+	if(istype(I, /obj/item/heart_blood_canister/filled))
+		return 10
+	if(istype(I, /obj/item/reagent_containers/lux_impure))
+		return 50
+	if(istype(I, /obj/item/reagent_containers/lux_moss)|| istype(I, /obj/item/reagent_containers/lux))
+		return 100
+	return 0
+
+/obj/structure/ritualcircle/profane/melding/attackby(obj/item/I, mob/living/user)
+	if((user.patron?.type) != /datum/patron/inhumen/zizo)
+		to_chat(user, span_artery("Foreboding thing... I shouldn't mess with it."))
+		return
+
+	var/value = get_Z_item_value(I)
+	if(value <= 0)
+		return ..()
+	to_chat(user, span_artery("I begin feeding the circle..."))
+	if(!do_after(user, 20, src))
+		return
+	stored_value += value
+	to_chat(user, span_artery("The circle flares, as hooked chains latch on and quickly absorb the [value] inside. Total: [stored_value]."))
+	playsound(user.loc,'sound/misc/smelter_sound.ogg', 50, FALSE)
+	qdel(I)
+
+/obj/structure/ritualcircle/profane/melding/attack_hand(mob/living/user)
+	if(!..())
+		return
+
+	if((user.patron?.type) != /datum/patron/inhumen/zizo)
+		to_chat(user, span_smallred("This rite is not meant for me..."))
+		return
+
+	var/has_bleeding = FALSE
+	var/list/carbons = list()
+	
+	for(var/mob/living/carbon/C in view(1, src))
+		carbons += C
+
+	for(var/mob/living/carbon/C in carbons)
+		if(C.bleed_rate)
+			has_bleeding = TRUE
+			break
+
+	if(!has_bleeding)
+		to_chat(user, span_warning("The circle remains inert. It demands fresh blood from bleeding wounds."))
+		return
+
+	var/list/choices = list(
+		"Meld Corpse / Materials",
+		"Shape Molten Avantyne",
+		"Create Avantyne Slag"
+	)
+
+	var/selection = input(user, "Choose rite", src) as null|anything in choices
+	if(!selection)
+		return
+
+	switch(selection)
+		if("Meld Corpse")
+			meld_corpse(user)
+
+		if("Shape Molten Avantyne")
+			shape_avantyne(user)
+
+		if("Create Avantyne Slag")
+			create_slag(user)
+
+/obj/structure/ritualcircle/profane/melding/proc/meld_corpse(mob/living/user)
+	var/turf/T = get_turf(src)
+
+	var/list/valid_bodies = list()
+
+	// COLLECT VALID CORPSES
+	for(var/mob/living/carbon/C in T)
+		if(C.stat != DEAD)
+			continue
+
+		// valid if NPC OR skeleton antag
+		if(!C.client || C.mind?.has_antag_datum(/datum/antagonist/skeleton))
+			valid_bodies += C
+
+	if(!valid_bodies.len)
+		to_chat(user, span_warning("A corpse is required, preferably souless, decrepit or rotting.")) // we don't want players here
+		return
+
+	if(!execute_rite(src, user, 10, 3, TRUE))
+		return
+
+	// PROCESS BODIES
+	for(var/mob/living/carbon/C in valid_bodies)
+		C.dust(drop_items = TRUE)
+		stored_value += 1
+
+	// PROCESS ITEMS ON TILE
+	for(var/obj/item/I in T)
+		if(I.smeltresult == /obj/item/ingot/aaslag_zizo)
+			stored_value += 1
+			qdel(I)
+
+	to_chat(user, span_cultsmall("The remains are chopped up gruesomely by avantyne chained hooks, and dragged into it... Total: [stored_value]."))
+
+/obj/structure/ritualcircle/profane/melding/proc/shape_avantyne(mob/living/user)
+	if(stored_value <= 0)
+		to_chat(user, span_warning("The circle lacks substance."))
+		return
+
+	var/miracle = user.get_skill_level(/datum/skill/magic/holy)
+
+	var/list/options = list(
+		"Woods",
+		"Stones",
+		"Primed Avantyne Slag"
+	)
+
+	var/choice = input(user, "Shape what?", src) as null|anything in options
+	if(!choice)
+		return
+
+	// WOOD / STONE BRANCH
+	if(choice == "Woods" || choice == "Stones")
+
+		var/list/form_choice = list("Natural", "Processed")
+		var/form = input(user, "Do you want natural or processed?", src) as null|anything in form_choice
+		if(!form)
+			return
+
+		var/amount = input(user, "How many units to shape?", src) as num|null
+		if(!amount || amount <= 0)
+			return
+
+		amount = round(amount)
+
+		if(amount > stored_value)
+			to_chat(user, span_warning("The circle cannot supply that much."))
+			return
+
+		// optional miracle limiter
+		if(amount > (miracle * 5))
+			to_chat(user, span_warning("I cannot shape that much at once."))
+			return
+
+		if(!do_after(user, 30, src))
+			return
+
+		var/turf/T = get_turf(src)
+
+		for(var/i = 1 to amount)
+			if(choice == "Woods")
+				if(form == "Natural")
+					new /obj/item/grown/log/tree/small(T)
+				else
+					new /obj/item/natural/wood/plank(T)
+
+			else if(choice == "Stones")
+				if(form == "Natural")
+					new /obj/item/natural/stone(T)
+				else
+					new /obj/item/natural/stoneblock(T)
+
+		stored_value -= amount
+
+		to_chat(user, span_cultsmall("I shape [amount] units of [lowertext(form)] [lowertext(choice)]. Remaining: [stored_value]."))
+		return
+
+	// PRIMED SLAG
+	if(choice == "Primed Avantyne Slag")
+		var/cost = 100
+
+		if(stored_value < cost)
+			to_chat(user, span_warning("Insufficient value."))
+			return
+
+		if(miracle < 3)
+			to_chat(user, span_warning("This form is beyond my capability."))
+			return
+
+		execute_rite()
+
+		stored_value -= cost
+
+		new /obj/item/ingot/aaslag_zizo/primed(get_turf(src))
+
+		to_chat(user, span_cultsmall("The mass condenses into a volatile, hateful slag. Remaining: [stored_value]."))
+
+/obj/structure/ritualcircle/profane/melding/proc/create_slag(mob/living/user)
+	if(stored_value <= 0)
+		to_chat(user, span_warning("Nothing to extract."))
+		return
+	if(!do_after(user, 70, src))
+		return
+	var/obj/item/ingot/aaslag_zizo/A = new(get_turf(src))
+	A.value = stored_value
+	to_chat(user, span_artery("I condense [stored_value] motes of liquid hatred into a single slag."))
+	stored_value = 0
+
+/obj/structure/ritualcircle/profane/leyline
+	name = "Veil-Rending matrix"
+	desc = "A violent geometric construct meant to tear at creechers from within the leylines."
+	icon_state = "zizo_chalky"
+	color = "#00eeff"
+
+/obj/structure/ritualcircle/profane/leyline/attack_hand(mob/living/user)
+	if(!..())
+		return
+
+	if((user.patron?.type) != /datum/patron/inhumen/zizo)
+		to_chat(user, span_smallred("I cannot comprehend this structure..."))
+		return
+
+	var/turf/T = get_turf(src)
+
+	// LEYLINE VALIDATION
+	var/list/nearby_leylines = list()
+	for(var/obj/structure/leyline/L in view(1, src))
+		nearby_leylines += L
+
+	if(!nearby_leylines.len)
+		to_chat(user, span_warning("This matrix must fully surround a leyline."))
+		return
+
+	// RITUAL EXECUTION
+	if(!execute_rite(src, user, 5, 3))
+		return
+
+	playsound(src, 'sound/magic/swap.ogg', 60, TRUE)
+
+	// LEYLINE "sabotagegoesherewheneverPRsletmeTMthis"
+	for(var/obj/structure/leyline/L in nearby_leylines)
+		qdel(L)
+
+	// GACHA TABLE
+	var/list/loot_table = list(
+		/obj/item/magic/infernal/ash = 40,
+		/obj/item/magic/infernal/fang = 25,
+		/obj/item/magic/infernal/core = 10,
+		/obj/item/magic/infernal/flame = 5,
+
+		/obj/item/magic/fae/fairydust = 40,
+		/obj/item/magic/fae/iridescentscale = 25,
+		/obj/item/magic/fae/heartwoodcore = 10,
+		/obj/item/magic/fae/sylvanessence = 5,
+
+		/obj/item/magic/elemental/mote = 40,
+		/obj/item/magic/elemental/shard = 25,
+		/obj/item/magic/elemental/fragment = 10,
+		/obj/item/magic/elemental/relic = 5
+	)
+
+	// LOOT ROLLS
+	for(var/i = 1 to 12)
+		var/typepath = pickweight(loot_table)
+		if(typepath)
+			new typepath(T)
+
+	// FINAL FEEDBACK
+	visible_message(
+		span_artery("The leyline shrieks as it is violently unraveled, spilling raw essence into reality!"),
+		null,
+		"<i>You hear a piercing, unnatural scream tear through the air.</i>"
+	)
+
+/obj/structure/ritualcircle/profane/luxrip
+	name = "Great Work Rituos circle"
+	desc = "An acidic-looking transmutation circle. ."
+	icon_state = "zizo_chalky"
+	color = "#00ff15"
+	var/stored_value = 0
+
+/obj/structure/ritualcircle/profane/luxrip/attack_hand(mob/living/user)
+	if(!..())
+		return
+
+	if((user.patron?.type) != /datum/patron/inhumen/zizo)
+		to_chat(user, span_smallred("This rite is not meant for me..."))
+		return
+
+	// CHECK BLEEDING
+	var/has_bleeding = FALSE
+	for(var/mob/living/carbon/C in view(1, src))
+		if(C.bleed_rate)
+			has_bleeding = TRUE
+			break
+
+	if(!has_bleeding)
+		to_chat(user, span_warning("The circle remains inert. It demands fresh blood from bleeding wounds."))
+		return
+
+	// FIND VALID CROSSES WITH VICTIMS
+	var/list/valid_targets = list()
+
+	for(var/obj/structure/fluff/psycross/zizocross/C in view(3, src))
+		if(C.buckled_mobs && C.buckled_mobs.len)
+			for(var/mob/living/L in C.buckled_mobs)
+				valid_targets += L
+
+	if(!valid_targets.len)
+		to_chat(user, span_warning("The rite demands subjects bound to profane crosses."))
+		return
+
+	to_chat(user, span_cultsmall("I begin invoking the Great Work..."))
+
+	if(!execute_rite(src, user, 10, 5, TRUE))
+		return
+
+	playsound(src, 'sound/magic/swap.ogg', 70, TRUE)
+
+	// APPLY EFFECTS
+	for(var/mob/living/L in valid_targets)
+		if(!L)
+			continue
+
+		// KILL NPCs here
+		if(!L.client)
+			L.gib(TRUE, TRUE, FALSE)
+			continue
+
+		// TRAUMATIZE PCs here
+		//L.add_stress(/datum/stressevent/cult_trauma) // to-do, add a stress for it
+		//ADD_TRAIT(L, TRAIT_TORNLUX, INNATE_TRAIT) // to-do, add a trait that prevents lux from regenning, reason im not for now is so the TM makes it in without conflicts
+ 
+	// FEEDBACK
+	visible_message(
+		span_artery("The circle pulses violently as Lux is torn screaming from bound bodies!"),
+		null,
+		"<i>You hear a chorus of distorted, agonized whispers.</i>"
+	)
+
+/obj/item/rogueweapon/huntingknife/idagger/zizo
+	name = "luxdrinker blade"
+	desc = "A profane blade shaped and made from a lesser alloy of avantyne. It does not look very deadly, but it has an odd, necrotic aura about it..."
+	force = 10 // this isn't a weapon, good sire
+	max_blade_int = 400 // but you can try shanking someone to death ig, hail zizo
+	max_integrity = 120
+	wdefense = 8
+	associated_skill = (/datum/skill/magic/holy)
+	tool_behaviour = TOOL_SCALPEL // It takes longer to use than a scalpel, but causes a different (AND EXTREMELY PAINFUL) incision that does different things.
+	icon_state = "corruptdagger"
+	aura_color = "#ff3737"
+
+/obj/item/rogueweapon/huntingknife/idagger/zizo/Initialize()
+	. = ..()
+	set_light(5, 4, l_color = LIGHT_COLOR_RED)
+
+
+
+
+
+
+
+
+
+
+
+
 ////////////
 //MATTHIOS//
 ////////////

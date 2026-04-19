@@ -1,3 +1,260 @@
+////////
+//ZIZO//
+////////
+
+/proc/execute_rite(atom/source, mob/living/leader, ritual_length = 4, max_cultists = 5, silent = FALSE)
+	if(!leader || QDELETED(source))
+		return FALSE
+
+	// GATHER CABALISTS
+	var/list/mob/living/cabalists = list()
+	var/list/mob/living/participants = list()
+
+	for(var/mob/living/M in range(1, source))
+		if(HAS_TRAIT(M, TRAIT_CABAL) && M.stat == CONSCIOUS)
+			cabalists += M
+
+	// Always include leader if valid
+	if(!(leader in cabalists) && HAS_TRAIT(leader, TRAIT_CABAL))
+		cabalists += leader
+
+	if(!length(cabalists))
+		to_chat(leader, span_warning("None nearby can answer the rite."))
+		return FALSE
+
+	// CONSENT PHASE (7s timeout)
+	var/list/responders = list()
+
+	for(var/mob/living/M in cabalists)
+		spawn()
+			var/choice = alert(M, "Do you wish to contribute to the rite?", "Ritual Invocation", "Yes", "No")
+			if(choice == "Yes")
+				responders += M
+
+	sleep(7 SECONDS)
+
+	// Clamp participants
+	for(var/mob/living/M in responders)
+		if(length(participants) >= max_cultists)
+			break
+		if(QDELETED(M) || M.stat != CONSCIOUS)
+			continue
+		participants += M
+
+	if(!(leader in participants))
+		participants += leader
+
+	if(!length(participants))
+		to_chat(leader, span_warning("The rite finds no willing voices."))
+		return FALSE
+
+	// CHANT PHASE
+	var/list/chant_lines = list(
+		"Ol sonf vorsg-hoath iaida.",
+		"Zirdo madriax, soba lonshi.",
+		"Faxs to faxs-athan velor.",
+		"Ph'nglui mglw'nafh.",
+		"R'lyeh wgah'nagl fhtagn.",
+		"ZIZO! HEAR US!",
+		"ZIZO! ZIZO! ZIZO!",
+	)
+
+	var/list/silent_chant_lines = list(
+		"#Ol sonf vorsg-hoath iaida.",
+		"#Zirdo madriax, soba lonshi.",
+		"#Faxs to faxs-athan velor.",
+		"#Ph'nglui mglw'nafh.",
+		"#R'lyeh wgah'nagl fhtagn.",
+		"#ZIZO! HEAR US!",
+		"#ZIZO! ZIZO! ZIZO!",
+	)
+
+	var/phases = ritual_length
+	var/list/datum/beam/active_beams = list()
+
+	for(var/phase in 1 to phases)
+		// Chant
+		for(var/mob/living/P in participants)
+			if(silent)
+				P.say(silent_chant_lines[min(phase, length(silent_chant_lines))], forced = "rite invocation", ignore_spam = TRUE)
+			else
+				P.say(chant_lines[min(phase, length(chant_lines))], forced = "rite invocation", ignore_spam = TRUE)
+
+		// Visual beams (optional but consistent with TP)
+		var/turf/T = get_turf(source)
+		for(var/mob/living/P in participants)
+			active_beams += T.Beam(P, icon_state = "b_beam", time = 5 SECONDS, maxdistance = 10)
+
+		// Pain / cost (light, reusable)
+		for(var/mob/living/P in participants)
+			P.adjustBruteLoss(10)
+			if(prob(30) && !(HAS_TRAIT(P, TRAIT_NOPAIN)))
+				P.emote("painscream")
+
+		// Channel time
+		if(!do_after(leader, 5 SECONDS, target = source))
+			to_chat(leader, span_warning("The rite collapses before completion."))
+			for(var/datum/beam/B in active_beams)
+				B.End()
+			return FALSE
+
+	// Cleanup beams
+	for(var/datum/beam/B in active_beams)
+		B.End()
+
+	return TRUE
+
+/obj/effect/proc_holder/spell/invoked/rituos/proc/grant_poke_spell(mob/living/carbon/human/user)
+	var/list/poke_options = list("Spitfire", "Frost Bolt", "Arc Bolt", "Gravel Blast", "Stygian Efflorescence", "Arcyne Lance")
+	var/poke_choice = tgui_input_list(user, "Choose your offensive cantrip.", "Arcyne Awakening", poke_options)
+	if(!poke_choice || !user.mind)
+		return
+	switch(poke_choice)
+		if("Spitfire")
+			user.mind.AddSpell(new /datum/action/cooldown/spell/projectile/spitfire)
+		if("Frost Bolt")
+			user.mind.AddSpell(new /datum/action/cooldown/spell/projectile/frost_bolt)
+		if("Arc Bolt")
+			user.mind.AddSpell(new /datum/action/cooldown/spell/projectile/arc_bolt)
+		if("Gravel Blast")
+			user.mind.AddSpell(new /datum/action/cooldown/spell/projectile/gravel_blast)
+		if("Stygian Efflorescence")
+			user.mind.AddSpell(new /datum/action/cooldown/spell/projectile/stygian_efflorescence)
+		if("Arcyne Lance")
+			user.mind.AddSpell(new /datum/action/cooldown/spell/projectile/arcyne_lance)
+
+/datum/action/cooldown/spell/bonemend // note should work like conjure arcyne ward
+	name = "Bone Mend"
+	desc = "A necromantic Arcyne spell that attempts to repair skeletons around you through the use of bones, or limbs on the ground."
+	button_icon = 'icons/mob/actions/zizomiracles.dmi'
+	button_icon_state = "churn_living"
+	associated_skill = /datum/skill/magic/holy
+	click_to_activate = FALSE
+	primary_resource_type = SPELL_COST_ENERGY
+	primary_resource_cost = SPELLCOST_MIRACLE_MAJOR
+	charge_required = FALSE
+	cooldown_time = 45 SECONDS
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
+
+/datum/action/cooldown/spell/bonemend/cast(atom/cast_on)
+	. = ..()
+	if(!.)
+		return FALSE
+
+	var/mob/living/user = owner
+	if(!user)
+		return FALSE
+
+	var/list/targets = list()
+
+	for(var/mob/living/carbon/human/H in view(5, user))
+		if(H.mob_biotypes & MOB_UNDEAD)
+			targets += H
+
+	if(user.mob_biotypes & MOB_UNDEAD)
+		targets |= user
+
+	if(!targets.len)
+		to_chat(user, span_warning("No undead nearby to mend."))
+		return FALSE
+
+	var/list/nearby_parts = list()
+	var/list/bones = list()
+
+	for(var/obj/item/I in view(2, user))
+		if(istype(I, /obj/item/bodypart))
+			var/obj/item/bodypart/BP = I
+			if(BP.skeletonized)
+				nearby_parts += BP
+
+		else if(istype(I, /obj/item/bone) || istype(I, /obj/item/natural/bundle/bone))
+			bones += I
+
+	var/attached_count = 0
+
+	for(var/mob/living/carbon/human/H in targets)
+		if(!H || QDELETED(H))
+			continue
+
+		var/list/missing_limbs = H.get_missing_limbs()
+		if(!missing_limbs.len)
+			continue
+
+		for(var/obj/item/bodypart/limb in nearby_parts.Copy())
+			if(!(limb.body_zone in missing_limbs))
+				continue
+
+			if(!limb.skeletonized)
+				continue
+
+			if(limb.owner && limb.owner != H)
+				continue
+
+			if(H.get_bodypart(limb.body_zone))
+				continue
+
+			if(limb.attach_limb(H))
+				nearby_parts -= limb
+				missing_limbs -= limb.body_zone
+
+				H.visible_message(
+					span_boldwarning("The bones of [limb] jerk and snap into place on [H]!"),
+					span_notice("A limb reattaches itself to your body.")
+				)
+
+				attached_count++
+			else
+				to_chat(user, span_warning("Failed to attach [limb]"))
+
+		for(var/zone in missing_limbs.Copy())
+			if(bones.len < 2)
+				break
+
+			var/obj/item/B1 = bones[1]
+			var/obj/item/B2 = bones[2]
+
+			bones -= B1
+			bones -= B2
+
+			qdel(B1)
+			qdel(B2)
+
+			var/obj/item/bodypart/new_limb = null
+			switch(zone)
+				if(BODY_ZONE_L_ARM)
+					new_limb = new /obj/item/bodypart/l_arm
+				if(BODY_ZONE_R_ARM)
+					new_limb = new /obj/item/bodypart/r_arm
+				if(BODY_ZONE_L_LEG)
+					new_limb = new /obj/item/bodypart/l_leg
+				if(BODY_ZONE_R_LEG)
+					new_limb = new /obj/item/bodypart/r_leg
+
+			if(!new_limb)
+				continue
+
+			new_limb.skeletonize(FALSE)
+
+			if(new_limb.attach_limb(H))
+				H.visible_message(
+					span_boldwarning("Loose bones twist and fuse into a new limb on [H]!"),
+					span_notice("A new skeletal limb forms and binds to you.")
+				)
+
+				attached_count++
+			else
+				qdel(new_limb)
+
+		H.update_body()
+
+	if(attached_count)
+		playsound(user.loc, 'sound/magic/swap.ogg', 50, FALSE)
+		to_chat(user, span_notice("Bone answers your call."))
+	else
+		to_chat(user, span_warning("The bones lie still. Nothing answers your call."))
+
+	return TRUE
+	
 ////////////
 //MATTHIOS//
 ////////////
