@@ -345,4 +345,3 @@
 	faretype = FARE_IMPOVERISHED
 	tastes = list("bloated mouthfuls of churned butter" = 1)
 	bitesize = 6
-	slice_sound = TRUE
