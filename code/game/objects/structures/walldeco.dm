@@ -234,7 +234,7 @@
 /obj/structure/fluff/walldeco/psybanner/tennite
 	name = "ten undivided banner"
 	icon_state = "unibanner_purple"
-	desc = "A banner depicting a circular cross; the symbolism of the Ten Undivided, the sphere of \
+	desc = "A banner depicting a circle over a cross; the symbolism of the Ten Undivided, the sphere of \
 	Tennite religious practice dedicated to the entirety of the pantheon without favour or preference. \
 	Particularly strongly associated with the Grenzelhoftian Holy See."
 
@@ -244,9 +244,10 @@
 /obj/structure/fluff/walldeco/psybanner/astrata
 	name = "astratan banner"
 	icon_state = "astratabanner_purple"
-	desc = "The six-pronged cross of Astrata, woven into fine fabrics. She is a terrible tyrant, \
-	and also the light by which all the world is sustained. Often used by Tennite authorities, which \
-	consider her as chief among the Gods."
+	desc = "The six-pronged cross of Astrata, embroidered upon fine fabric. It is Her will that \
+	suspends the heavens and the earth, and it is Her light that maintains life upon the abandoned \
+	surface of Psydonia. An image associated with the nobility of all lands, and with the \
+	highest echelons of church leadership."
 
 /obj/structure/fluff/walldeco/psybanner/astrata/red
 	icon_state = "astratabanner_red"
@@ -254,9 +255,10 @@
 /obj/structure/fluff/walldeco/psybanner/zizo
 	name = "zizite banner"
 	icon_state = "zizobanner_purple"
-	desc = "A carefully made banner bearing the inverted cross of Zizo, Dame of Progress. Wildly \
-	dangerous to fly in any Tennite or Psydonite nation, in which the worship of the progenitor of \
-	undeath is harshly criminalised."
+	desc = "A carefully made banner bearing the inverted cross of Zizo, Dame of Progress. Banners such \
+	as this one are wildly dangerous to fly in any Tennite or Psydonite nation, in which the worship \
+	of the progenitor of undeath is harshly criminalised, but may be commonly found in more remote \
+	areas of the world."
 
 /obj/structure/fluff/walldeco/psybanner/zizo/red
 	icon_state = "zizobanner_red"
