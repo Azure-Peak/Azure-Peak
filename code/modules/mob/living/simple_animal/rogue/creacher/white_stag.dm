@@ -330,7 +330,7 @@
 /atom/movable/screen/alert/status_effect/buff/white_rush
 	name = "Forest Rush"
 	desc = "I WILL NOT BE HUNTED."
-	icon_state = "lesser_heal"
+	icon_state = "stag_heal"
 
 /datum/status_effect/buff/white_rush/on_apply()
 	. = ..()
