@@ -33,7 +33,7 @@
 	. = ..()
 	if(!proximity)
 		return
-	user.say(catchphrase, forced = "spell")
+	user.say(catchphrase, forced = "spell", language = /datum/language/common)
 	playsound(get_turf(user), on_use_sound,50,TRUE)
 	charges--
 	if(charges <= 0)

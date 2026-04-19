@@ -98,7 +98,7 @@ export const ListInputModal = (props) => {
   );
   // Dynamically changes the window height based on the message.
   const windowHeight =
-    500 + Math.ceil(message.length / 3) + (large_buttons ? 5 : 0);
+    340 + Math.ceil(message.length / 3) + (large_buttons ? 5 : 0);
   // Grabs the cursor when no search bar is visible.
   if (!searchBarVisible) {
     setTimeout(() => document!.getElementById(selected.toString())?.focus(), 1);
@@ -125,7 +125,7 @@ export const ListInputModal = (props) => {
   }
 
   return (
-    <Window title={title} width={575} height={windowHeight}>
+    <Window title={title} width={400} height={windowHeight}>
       {timeout && <Loader value={timeout} />}
       <Window.Content
         onKeyDown={(event) => {

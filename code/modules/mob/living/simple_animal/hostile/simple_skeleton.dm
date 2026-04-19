@@ -32,7 +32,7 @@
 	defprob = 50
 	speak_emote = list("grunts")
 	loot = list(/obj/item/natural/bone,	/obj/item/natural/bone, /obj/item/natural/bone,	/obj/item/skull)
-	faction = list("undead")
+	faction = list(FACTION_UNDEAD)
 	footstep_type = FOOTSTEP_MOB_BAREFOOT
 	del_on_death = TRUE
 	var/start_take_damage = FALSE
@@ -126,14 +126,14 @@
 		else
 			summoner = user.name
 	if (is_summoned || cabal_affine)
-		faction = list("cabal") //No mix undead faction and cabal, summoned skeletons can attack any undead, mark your friends
+		faction = list(FACTION_CABAL) //No mix undead faction and cabal, summoned skeletons can attack any undead, mark your friends
 	// adds the name of the summoner to the faction, to avoid the hooded "Unknown" bug with Skeleton IDs
 	if(user && user.mind && user.mind.current)
 		faction = list("[user.mind.current.real_name]_faction") //if you summon this, he not affected on cabal. This skeletons can attack any undead and other zizo affected characters
 		// lich also gets to have friendlies, as a treat
 		var/datum/antagonist/lich/lich_antag = user.mind.has_antag_datum(/datum/antagonist/lich)
 		if(lich_antag && user.real_name)
-			faction = list("undead", "[user.mind.current.real_name]_faction", "[user.real_name]_faction") //no changes. Undead faction + lich_name faction
+			faction = list(FACTION_UNDEAD, "[user.mind.current.real_name]_faction", "[user.real_name]_faction") //no changes. Undead faction + lich_name faction
 	damage_check = world.time
 	if(is_summoned) //check, if it NOT summoned skeleton, he lifetime - infinity. For mapping-spawned skeltons
 		addtimer(CALLBACK(src, TYPE_PROC_REF(/mob/living/simple_animal/hostile/rogue/skeleton, deathtime), TRUE), 1 MINUTES)

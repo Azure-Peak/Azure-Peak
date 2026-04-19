@@ -16,7 +16,7 @@
 	controller.set_blackboard_key("bb_call_for_help_cooldown", world.time + 5 SECONDS)
 
 	var/allowed = FALSE
-	for(var/mob/living/carbon/human/ally in range(controller.max_target_distance - 1, living_pawn))
+	for(var/mob/living/carbon/human/ally in view(controller.max_target_distance - 1, living_pawn))
 		if(ally == living_pawn)
 			continue
 		var/datum/ai_controller/ally_ctrl = ally.ai_controller
@@ -38,9 +38,10 @@
 	. = ..()
 	var/mob/living/living_pawn = controller.pawn
 	living_pawn.emote("scream")
+	living_pawn.visible_message(span_danger("[living_pawn] shouts for aid!"))
 	var/atom/current_target = controller.blackboard[target_key]
 
-	for(var/mob/living/carbon/human/ally in range(controller.max_target_distance - 1, living_pawn))
+	for(var/mob/living/carbon/human/ally in view(controller.max_target_distance - 1, living_pawn))
 		if(ally == living_pawn)
 			continue
 		var/datum/ai_controller/ally_ctrl = ally.ai_controller
@@ -60,10 +61,13 @@
 
 		ally_ctrl.set_blackboard_key(BB_HIGHEST_THREAT_MOB, current_target)
 
-		var/datum/proximity_monitor/field = ally_ctrl.blackboard[BB_FIND_TARGETS_FIELD(/datum/ai_behavior/find_aggro_targets)]
-		if(field)
-			qdel(field)
+		// Propagate hot-pursuit grace to the responding ally. Without this, allies inherit
+		// the target but get leash-cleared on the next planning tick if the attacker is past
+		// maintain_range / max_target_distance (classic offscreen-sniper case).
+		ally_ctrl.set_blackboard_key("bb_last_ranged_hit_time", world.time)
+		ally_ctrl.set_blackboard_key("bb_last_ranged_attacker", current_target)
 
 		ally_ctrl.CancelActions()
+		ally.visible_message(span_warning("[ally] rushes to aid [living_pawn]!"))
 
 	finish_action(controller, TRUE, target_key)

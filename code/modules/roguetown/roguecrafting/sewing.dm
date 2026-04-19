@@ -13,6 +13,34 @@
 	reqs = list(/obj/item/natural/cloth = 1)
 	craftdiff = 0
 
+/datum/crafting_recipe/roguetown/sewing/tiyon
+	name = "tiyon"
+	category = "Hats"
+	result = list(/obj/item/clothing/head/roguetown/tiyon)
+	reqs = list(/obj/item/natural/cloth = 2)
+	craftdiff = 0
+
+/datum/crafting_recipe/roguetown/sewing/longveil
+	name = "long veil"
+	category = "Hats"
+	result = list(/obj/item/clothing/head/roguetown/longveil)
+	reqs = list(/obj/item/natural/cloth = 1)
+	craftdiff = 0
+
+/datum/crafting_recipe/roguetown/sewing/durag
+	name = "durag"
+	category = "Hats"
+	result = list(/obj/item/clothing/head/roguetown/durag)
+	reqs = list(/obj/item/natural/cloth = 1)
+	craftdiff = 0
+
+/datum/crafting_recipe/roguetown/sewing/faceveil
+	name = "face veil"
+	category = "Masks"
+	result = list(/obj/item/clothing/mask/rogue/faceveil)
+	reqs = list(/obj/item/natural/cloth = 1)
+	craftdiff = 0
+
 /datum/crafting_recipe/roguetown/sewing/allwrappings
 	name = "cloth wrappings"
 	category = "Bracers"

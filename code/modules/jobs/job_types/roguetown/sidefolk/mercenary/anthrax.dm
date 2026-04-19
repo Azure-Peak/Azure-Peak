@@ -6,8 +6,7 @@
 	on, and during this time you will be able to earn money, because, unfortunately, the \
 	inhabitants of the upper world refuse to accept spider paws as payment for their services."
 	allowed_races = list(
-		/datum/species/elf/dark,
-		/datum/species/human/halfelf, // Because half-drows are half-elves, guh.
+		/datum/species/elf/dark
 	)
 	outfit = /datum/outfit/job/roguetown/mercenary/anthrax
 	class_select_category = CLASS_CAT_RACIAL
@@ -92,8 +91,7 @@
 	that your contract is fulfilled and your pockets heavy with mammon."
 	outfit = /datum/outfit/job/roguetown/mercenary/anthrax_assassin
 	allowed_races = list(
-		/datum/species/elf/dark,
-		/datum/species/human/halfelf, // Because half-drows are half-elves, guh.
+		/datum/species/elf/dark
 	)
 	category_tags = list(CTAG_MERCENARY)
 	class_select_category = CLASS_CAT_RACIAL

@@ -319,7 +319,7 @@
 /obj/structure/roguemachine/scomm/Hear(message, atom/movable/speaker, message_language, raw_message, radio_freq, list/spans, message_mode, original_message)
 	if(speaker.loc != loc)
 		return
-	if(!ishuman(speaker))
+	if(!isliving(speaker))
 		return
 	if(!listening)
 		return
@@ -333,10 +333,12 @@
 		var/time_remaining = round((last_message + NORMAL_SCOM_PER_MESSAGE_DELAY - world.time) / 10)
 		to_chat(speaker, span_warning("The SCOM's rats are still recovering. Wait [time_remaining] more second[time_remaining != 1 ? "s" : ""]."))
 		return
-	var/mob/living/carbon/human/H = speaker
-	var/usedcolor = H.voice_color
-	if(H.voicecolor_override)
-		usedcolor = H.voicecolor_override
+	var/usedcolor = "a0a0a0"
+	if(ishuman(speaker))
+		var/mob/living/carbon/human/H = speaker
+		usedcolor = H.voice_color
+	if(speaker.voicecolor_override)
+		usedcolor = speaker.voicecolor_override
 	// Update last message time
 	last_message = world.time
 	// Feedback to indicate successful sending

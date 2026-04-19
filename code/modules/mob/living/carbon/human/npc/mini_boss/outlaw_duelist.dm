@@ -11,7 +11,7 @@ GLOBAL_LIST_INIT(duelist_aggro, list(
 
 /mob/living/carbon/human/species/human/northern/outlaw_duelist
 	ai_controller = /datum/ai_controller/human_npc
-	faction = list("dundead")
+	faction = list(FACTION_DUNDEAD)
 	ambushable = FALSE
 	dodgetime = 20
 	d_intent = INTENT_DODGE
@@ -40,6 +40,7 @@ GLOBAL_LIST_INIT(duelist_aggro, list(
 	update_hair()
 	update_body()
 	def_intent_change(INTENT_DODGE)
+	AddComponent(/datum/component/npc_death_line)
 
 /mob/living/carbon/human/species/human/northern/outlaw_duelist/death(gibbed, nocutscene = FALSE)
 	. = ..()

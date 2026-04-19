@@ -200,7 +200,10 @@
 					else if(recipient.charflaws.len)
 						recipient.verbs += /mob/living/carbon/human/proc/toggleblindness
 			else if(ispath(extra_choices[choice], /datum/skill))
-				recipient.adjust_skillrank(extra_choices[choice], SKILL_LEVEL_APPRENTICE, silent = TRUE)
+				if(extra_choices[choice] == /datum/skill/misc/sneaking)
+					recipient.adjust_skillrank(extra_choices[choice], SKILL_LEVEL_APPRENTICE, silent = TRUE)
+				else if(extra_choices[choice] == /datum/skill/misc/lockpicking)
+					recipient.adjust_skillrank(extra_choices[choice], SKILL_LEVEL_JOURNEYMAN, silent = TRUE)
 			else if(ispath(extra_choices[choice], /obj/item))
 				var/obj/item/I = extra_choices[choice]
 				recipient.mind?.special_items[capitalize(I::name)] = extra_choices[choice]

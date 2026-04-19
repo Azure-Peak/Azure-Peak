@@ -2,7 +2,7 @@ GLOBAL_LIST_INIT(drowraider_aggro, world.file2list("strings/rt/drowaggrolines.tx
 
 /mob/living/carbon/human/species/elf/dark/drowraider
 	ai_controller = /datum/ai_controller/human_npc
-	faction = list("drow")
+	faction = list(FACTION_DROW)
 	ambushable = FALSE
 	dodgetime = 30
 	d_intent = INTENT_DODGE
@@ -134,11 +134,14 @@ GLOBAL_LIST_INIT(drowraider_aggro, world.file2list("strings/rt/drowaggrolines.tx
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather/heavy
 	mask = /obj/item/clothing/mask/rogue/facemask
 	neck = /obj/item/clothing/neck/roguetown/coif/heavypadding
+	var/archer_variant = FALSE
 	if(prob(20)) // archer
 		backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
 		backl = /obj/item/quiver/arrows
 		r_hand = /obj/item/rogueweapon/huntingknife/idagger/steel/corroded/dirk
 		H.adjust_skillrank(/datum/skill/combat/bows, 4, TRUE)
+		H.upgrade_ai_controller(/datum/ai_controller/human_npc/archer)
+		archer_variant = TRUE
 	else if(prob(45)) // whip
 		r_hand = /obj/item/rogueweapon/whip
 	else if(prob(50)) // dual falx
@@ -154,6 +157,9 @@ GLOBAL_LIST_INIT(drowraider_aggro, world.file2list("strings/rt/drowaggrolines.tx
 	H.STAWIL = 8
 	H.STAPER = 10
 	H.STAINT = 10
+	if(archer_variant)
+		H.STASTR -= 2
+		H.STAPER += 3
 	H.adjust_skillrank(/datum/skill/combat/whipsflails, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/maces, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/axes, 4, TRUE)
@@ -163,3 +169,49 @@ GLOBAL_LIST_INIT(drowraider_aggro, world.file2list("strings/rt/drowaggrolines.tx
 	H.adjust_skillrank(/datum/skill/combat/wrestling, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/swimming, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/climbing, 2, TRUE)
+
+/mob/living/carbon/human/species/elf/dark/drowraider/archer
+	ai_controller = /datum/ai_controller/human_npc/archer
+
+/mob/living/carbon/human/species/elf/dark/drowraider/archer/ambush
+	threat_point = THREAT_TOUGH
+	ambush_faction = "underdark"
+
+/mob/living/carbon/human/species/elf/dark/drowraider/archer/after_creation()
+	..()
+	for(var/obj/item/I in held_items)
+		qdel(I)
+	for(var/obj/item/I in get_equipped_items(FALSE))
+		if(istype(I, /obj/item/gun) || istype(I, /obj/item/quiver))
+			qdel(I)
+	equipOutfit(new /datum/outfit/job/roguetown/human/species/elf/dark/drowraider/archer)
+
+/datum/outfit/job/roguetown/human/species/elf/dark/drowraider/archer/pre_equip(mob/living/carbon/human/H)
+	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
+	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/shadowpants/drowraider
+	armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/shadowvest/drowraider
+	shirt = /obj/item/clothing/suit/roguetown/shirt/shadowshirt/elflock/drowraider
+	gloves = /obj/item/clothing/gloves/roguetown/fingerless/shadowgloves/elflock
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather/heavy
+	mask = /obj/item/clothing/mask/rogue/facemask
+	neck = /obj/item/clothing/neck/roguetown/coif/heavypadding
+	backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
+	backl = /obj/item/quiver/arrows
+	r_hand = /obj/item/rogueweapon/huntingknife/idagger/steel/corroded/dirk
+	H.STASTR = 10
+	H.STASPD = 13
+	H.STACON = 9
+	H.STAWIL = 8
+	H.STAPER = 13
+	H.STAINT = 10
+	H.adjust_skillrank(/datum/skill/combat/bows, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/whipsflails, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/maces, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/axes, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/swords, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/shields, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/unarmed, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/wrestling, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/swimming, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/climbing, 2, TRUE)
+	H.upgrade_ai_controller(/datum/ai_controller/human_npc/archer)

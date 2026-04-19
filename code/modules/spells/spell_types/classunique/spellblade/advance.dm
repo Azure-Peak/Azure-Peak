@@ -47,7 +47,7 @@
 		to_chat(H, span_warning("I need my bound weapon in hand!"))
 		return FALSE
 
-	H.say("Procede!", forced = "spell")
+	H.say("Procede!", forced = "spell", language = /datum/language/common)
 
 	var/turf/target_turf = get_turf(cast_on)
 	var/turf/start = get_turf(H)

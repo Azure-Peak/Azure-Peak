@@ -196,6 +196,7 @@
 				/datum/species/dwarf/mountain,
 				/datum/species/dwarf/gnome,
 				/datum/species/goblinp,
+				/datum/species/moth,			//They are from the Underdark. source: moth.dm
 				/datum/species/anthromorphsmall
 )
 	origin_desc = "Underdwellers are those who are descendants of their lengthy lineage that settled, lived and toiled in the darkest and deepest \

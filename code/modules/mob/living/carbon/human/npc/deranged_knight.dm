@@ -11,7 +11,8 @@ GLOBAL_LIST_INIT(hedgeknight_aggro, world.file2list("strings/rt/hedgeknightaggro
 
 /mob/living/carbon/human/species/human/northern/deranged_knight
 	ai_controller = /datum/ai_controller/human_npc
-	faction = list("dundead")
+	d_intent = INTENT_PARRY
+	faction = list(FACTION_DUNDEAD)
 	ambushable = FALSE
 	dodgetime = 30
 	var/preset = "matthios"
@@ -248,7 +249,7 @@ GLOBAL_LIST_INIT(hedgeknight_aggro, world.file2list("strings/rt/hedgeknightaggro
 */
 
 /mob/living/carbon/human/species/human/northern/highwayman/dk_goon
-	faction = list("dundead")
+	faction = list(FACTION_DUNDEAD)
 
 /mob/living/carbon/human/species/human/northern/deranged_knight/matthios
 	forced_preset = "matthios"

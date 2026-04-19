@@ -4,7 +4,7 @@ GLOBAL_LIST_INIT(dwarfskeleton_aggro, world.file2list("strings/rt/dskeletonaggro
 
 	race = /datum/species/dwarf/mountain
 	gender = MALE
-	faction = list("dundead")
+	faction = list(FACTION_DUNDEAD)
 	var/skel_outfit = /datum/outfit/job/roguetown/dwarfskeleton
 	ambushable = FALSE
 	ai_controller = /datum/ai_controller/human_npc

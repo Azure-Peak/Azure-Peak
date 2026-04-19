@@ -1579,8 +1579,11 @@
 	return TRUE
 
 /mob/living/proc/can_use_guns(obj/item/G)//actually used for more than guns!
+	if(HAS_TRAIT(src, TRAIT_TINYPAWS))
+		to_chat(src, span_warning("I am unable to fire this!"))
+		return FALSE
 	if(G.trigger_guard == TRIGGER_GUARD_NONE)
-		to_chat(src, span_warning("I are unable to fire this!"))
+		to_chat(src, span_warning("I am unable to fire this!"))
 		return FALSE
 	if(G.trigger_guard != TRIGGER_GUARD_ALLOW_ALL && !IsAdvancedToolUser())
 		to_chat(src, span_warning("I try to fire [G], but can't use the trigger!"))
@@ -1686,7 +1689,8 @@
  */
 
 /mob/living/proc/on_fire_stack(seconds_per_tick, datum/status_effect/fire_handler/fire_stacks/fire_handler)
-	adjust_bodytemperature(((fire_handler.stacks * 12)) * 0.5 * seconds_per_tick)
+	var/fire_resist_mult = HAS_TRAIT(src, TRAIT_FIRE_RESIST) ? 0.5 : 1
+	adjust_bodytemperature(((fire_handler.stacks * 12)) * 0.5 * seconds_per_tick * fire_resist_mult)
 
 /**
  * Adjust the amount of fire stacks on a mob
@@ -2186,15 +2190,15 @@
 
 	var/turf/T = get_turf(src)
 	var/turf/ceiling = get_step_multiz(src, UP)
-	var/water_view = istype(T, /turf/open/water) && istype(ceiling, /turf/open/water)
+	var/water_view = (istype(T, /turf/open/water) && istype(ceiling, /turf/open/water))
 
 	changeNext_move(CLICK_CD_MELEE)
 
-	if(m_intent != MOVE_INTENT_SNEAK)
-		if(water_view)
+	if(water_view)
+		if(m_intent != MOVE_INTENT_SNEAK)
 			visible_message(span_info("[src] peers into the thickness of the water above [src.p_their()] head."))
 		else
-			to_chat(src, span_info("[src] peers into the thickness of the water above his head."))
+			to_chat(src, span_info("[src] peers into the thickness of the water above [src.p_their()] head."))
 	else
 		if(m_intent != MOVE_INTENT_SNEAK)
 			visible_message(span_info("[src] looks up."))

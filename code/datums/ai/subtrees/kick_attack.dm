@@ -1,5 +1,5 @@
 #define BB_KICK_COOLDOWN           "bb_kick_cooldown"
-#define KICK_COOLDOWN              (8 SECONDS)
+#define KICK_COOLDOWN              (20 SECONDS)
 #define KICK_WALLED_CHANCE         30  // target backed against a wall
 #define KICK_CHOKEPOINT_CHANCE     25  // target in a doorway/corridor (2+ dense neighbors)
 #define KICK_STACKED_ENEMY_CHANCE  20  // non-allied mob behind target to knock into
@@ -22,68 +22,76 @@
 		return
 	if(pawn.get_num_legs() < 2)
 		return
-	if(pawn.STAINT < 8)
-		return // Too dumb to use tactical kicks
 
 	// Cooldown check via blackboard
 	var/next_kick = controller.blackboard[BB_KICK_COOLDOWN]
 	if(next_kick && world.time < next_kick)
 		return
 
+	// Shared technique cooldown prevents kick/feint/special from chaining back-to-back.
+	var/next_technique = controller.blackboard[BB_HUMAN_NPC_TECHNIQUE_CD]
+	if(next_technique && world.time < next_technique)
+		return
+
 	var/turf/target_turf = get_turf(target)
 	var/kick_dir = get_dir(pawn, target)
 	var/should_kick = FALSE
 
-	// Situation 1: Target is against a wall - kick them into it
-	var/turf/behind_target = get_step(target_turf, kick_dir)
-	var/walled = FALSE
-	if(!behind_target || behind_target.density)
-		walled = TRUE
-	else
-		for(var/obj/structure/S in behind_target)
-			if(S.density)
-				walled = TRUE
-				break
-	if(walled && AI_INT_SCALE_PROB(pawn, KICK_WALLED_CHANCE))
+	// Situation 0: Being passive-grabbed - instinctive self-preservation, no gates.
+	if(pawn.pulledby == target && pawn.pulledby.grab_state < GRAB_AGGRESSIVE)
 		should_kick = TRUE
 
-	// Situation 2: Chokepoint - target has dense neighbors (doorways, corridors)
-	if(!should_kick)
-		var/dense_neighbors = 0
-		for(var/dir in GLOB.cardinals)
-			var/turf/T = get_step(target_turf, dir)
-			if(!T || T.density)
+	// Situation 1: Chokepoint - target in a doorway/corridor (instinctive, no INT gate)
+	var/dense_neighbors = 0
+	for(var/dir in GLOB.cardinals)
+		var/turf/T = get_step(target_turf, dir)
+		if(!T || T.density)
+			dense_neighbors++
+			continue
+		for(var/obj/structure/S in T)
+			if(S.density)
 				dense_neighbors++
-				continue
-			for(var/obj/structure/S in T)
+				break
+	if(dense_neighbors >= KICK_CHOKEPOINT_THRESHOLD && prob(KICK_CHOKEPOINT_CHANCE))
+		should_kick = TRUE
+
+	// Situation 2+: Tactical kicks require INT 8+
+	var/turf/behind_target = get_step(target_turf, kick_dir)
+	if(!should_kick && pawn.STAINT >= 8)
+		// Target against a wall
+		var/walled = FALSE
+		if(!behind_target || behind_target.density)
+			walled = TRUE
+		else
+			for(var/obj/structure/S in behind_target)
 				if(S.density)
-					dense_neighbors++
+					walled = TRUE
 					break
-		if(dense_neighbors >= KICK_CHOKEPOINT_THRESHOLD && AI_INT_SCALE_PROB(pawn, KICK_CHOKEPOINT_CHANCE))
+		if(walled && AI_INT_SCALE_PROB(pawn, KICK_WALLED_CHANCE))
 			should_kick = TRUE
 
-	// Situation 3: Two non-allied enemies stacked - kick one into the other
-	if(!should_kick && behind_target && !behind_target.density)
-		for(var/mob/living/M in behind_target)
-			if(M == pawn)
-				continue
-			if(pawn.faction_check_mob(M))
-				continue // Don't kick target into an ally
-			if(AI_INT_SCALE_PROB(pawn, KICK_STACKED_ENEMY_CHANCE))
-				should_kick = TRUE
-				break
+		// Two non-allied enemies stacked - kick one into the other
+		if(!should_kick && behind_target && !behind_target.density)
+			for(var/mob/living/M in behind_target)
+				if(M == pawn)
+					continue
+				if(pawn.faction_check_mob(M))
+					continue
+				if(AI_INT_SCALE_PROB(pawn, KICK_STACKED_ENEMY_CHANCE))
+					should_kick = TRUE
+					break
 
-	// Situation 4: Opportunistic - target is vulnerable (off-balanced, prone, stunned)
-	if(!should_kick)
-		if(target.IsOffBalanced() || !(target.mobility_flags & MOBILITY_STAND) || target.IsStun())
-			if(AI_INT_SCALE_PROB(pawn, KICK_OPPORTUNISTIC_CHANCE))
-				should_kick = TRUE
+		// Opportunistic - target is vulnerable
+		if(!should_kick)
+			if(target.IsOffBalanced() || !(target.mobility_flags & MOBILITY_STAND) || target.IsStun())
+				if(AI_INT_SCALE_PROB(pawn, KICK_OPPORTUNISTIC_CHANCE))
+					should_kick = TRUE
 
-	// Situation 5: Target is exhausted - kick guarantees knockdown per species.dm
-	if(!should_kick)
-		if(target.stamina >= target.max_stamina * KICK_EXHAUSTED_THRESHOLD)
-			if(AI_INT_SCALE_PROB(pawn, KICK_EXHAUSTED_CHANCE))
-				should_kick = TRUE
+		// Target is exhausted
+		if(!should_kick)
+			if(target.stamina >= target.max_stamina * KICK_EXHAUSTED_THRESHOLD)
+				if(AI_INT_SCALE_PROB(pawn, KICK_EXHAUSTED_CHANCE))
+					should_kick = TRUE
 
 	if(!should_kick)
 		return
@@ -127,6 +135,7 @@
 	pawn.mmb_intent = old_mmb
 
 	controller.set_blackboard_key(BB_KICK_COOLDOWN, world.time + KICK_COOLDOWN)
+	controller.set_blackboard_key(BB_HUMAN_NPC_TECHNIQUE_CD, world.time + 3 SECONDS)
 	// Kick is a committed action; block the next melee swing briefly so they don't immediately
 	// combo into a full attack right after.
 	if(pawn.next_click < world.time + 1.2 SECONDS)

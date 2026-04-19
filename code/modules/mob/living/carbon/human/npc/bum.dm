@@ -3,7 +3,8 @@ GLOBAL_LIST_INIT(bum_aggro, world.file2list("strings/rt/bumaggrolines.txt"))
 
 /mob/living/carbon/human/species/human/northern/bum
 	ai_controller = /datum/ai_controller/human_npc
-	faction = list("bums", "station")
+	d_intent = INTENT_PARRY
+	faction = list(FACTION_BUMS, FACTION_STATION)
 	ambushable = FALSE
 	dodgetime = 30
 

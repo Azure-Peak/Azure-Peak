@@ -101,6 +101,11 @@
 	path = /obj/item/clothing/neck/roguetown/collar/bell_collar
 	sort_category = "Accessories"
 
+/datum/loadout_item/faceveil
+	name= "Face Veil"
+	path = /obj/item/clothing/mask/rogue/faceveil
+	sort_category = "Accessories"
+	
 /datum/loadout_item/cursed_collar
 	name = "Cursed Collar"
 	path = /obj/item/clothing/neck/roguetown/gorget/cursed_collar

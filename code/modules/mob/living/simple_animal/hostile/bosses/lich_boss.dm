@@ -3,7 +3,7 @@
 	desc = "An incomprehensibly powerful necromancer, dressed in the papal garbs of a Rockhillian priest - a glimpse into what once was. The air around you crackles with unholy energy."
 	mob_biotypes = MOB_HUMANOID|MOB_UNDEAD
 	boss_abilities = list(/datum/action/boss/lich_summon_minions)
-	faction = list("lich")
+	faction = list(FACTION_LICH)
 	del_on_death = TRUE
 	icon = 'icons/mob/evilpope.dmi'
 	icon_state = "EvilPope"

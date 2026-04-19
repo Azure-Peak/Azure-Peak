@@ -1,0 +1,4 @@
+author: "NalimaTheWitch"
+delete-after: True
+changes:
+  - bugfix: "Prowler gives +3 lockpicking again as intended."

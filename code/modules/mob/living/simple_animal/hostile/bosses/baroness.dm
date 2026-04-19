@@ -4,7 +4,7 @@
 	gender = FEMALE
 	desc = "An old, dwarven woman with a malicious stare. Her sallow skin is stretched taut over their skeletal structure. She is dressed in expensive clothes."
 	mob_biotypes = MOB_HUMANOID | MOB_ORGANIC
-	faction = list("dundead")
+	faction = list(FACTION_DUNDEAD)
 	del_on_death = FALSE
 	icon = 'icons/mob/baroness.dmi'
 	icon_state = "baroness"

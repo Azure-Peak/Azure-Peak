@@ -55,7 +55,7 @@
 	if(!istype(H))
 		return FALSE
 
-	H.say(barrage_invocation, forced = "spell")
+	H.say(barrage_invocation, forced = "spell", language = /datum/language/common)
 
 	var/locked_angle = dir2angle(H.dir)
 	var/end_time = world.time + channel_duration
