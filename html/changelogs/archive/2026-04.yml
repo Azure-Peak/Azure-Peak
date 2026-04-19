@@ -567,3 +567,121 @@
   borneblood:
   - balance: Problematic/buggy/unhealthy Matthios miracle interactions have been addressed
   - bugfix: Fiber bundles were not counting properly for kingsfeast
+2026-04-18:
+  7erracotta:
+  - rscadd: Added new hair
+  KatTheFox:
+  - rscdel: find familiar and npc binding removed
+  - rscadd: planar pact ritual to grant the old familiar buffs
+  - rscadd: new familiar binding system. draw a rune of binding to see all the options.
+  - qol: familiar binding uses the same "prompt all lobby players" system as old npc
+      summons and lich skeletons, but respects familiar prefs. if your prefs are unset
+      and you attempt to respond to a summons, you will be prompted to set them.
+  - balance: all familiar subtypes are aesthetic variants of the same 3+1 base types.
+      there is no mechanical difference between familiars with the same planar origin
+  Ketrai:
+  - balance: Hag message down to 0 range, so you need to be on the same tile to listen
+      in
+  WeNeedMorePhoron:
+  - balance: Arcyne Ward no longer regenerate on its own, and must be actively dismissed
+      and recast, CD reduced to 1 minutes, uncasting refunds cooldown proportional
+      to remaining integrity and is only accessible by full mages (1 or more Major
+      Aspect), no more super proliferation.
+  - balance: Fire Resistance granted by Dragonhide, Astrata, Enchantments etc. no
+      longer flat out make you immune to fire stacks but merely halve the damage you
+      take and the stacks you take. The trait that makes you immune to firestacks
+      is no longer accessible for normal players.
+  - balance: Fire stacks damage has been adjusted to be around 33% lower on the highest
+      end.
+  - balance: Dragonhide now grants +1 Constitution.
+  - balance: Deny the Mother keeps old NO_FIRE trait as it belongs to a powerful antagonist
+      and is a situational ability.
+  - rscadd: Chalk can now rename and give keywords to teleport runes.
+  - rscadd: Quarterstaff and Woodstaff now counts as an implement for the purpose
+      of not giving you a penalty on cast
+  - rscadd: You can bring along 2 muggles when using teleport runes, up from 1
+  - balance: Kastvyl empowered no longer invisible (this is a bug). CD increased to
+      9s from 8s. Damage is now 40 / 70 -> 35 / 60. When it bounce on the same person
+      it no longer deal halved damage (It just don't do any damage and go through
+      them)
+  - rscadd: Wither reverted and reworked to a lineal, 4 ticks delay strike that saps
+      your stats again
+  - balance: Audited all arced projectiles damage, those that were too high (Greater
+      Arcyne Bolt) were fixed, those too low (fireball) were increased. Unified around
+      25% damage penalty
+  - rscadd: Bestowed Ward now breaks and disappear on breaking and will be overridden
+      by spell. CD reduced to 1.5 minutes base
+  - balance: Arcyne Ward cast time increased to 8s from 3s to make mid combat use
+      way harder.
+  - rscadd: Skilled AI should now properly target weak spots.
+  - rscadd: Railing are now climable
+  - rscadd: AI will now climb railings.
+  - rscadd: Added compatibilities with bottlebomb tossing and tossblade belt usage
+      to AI and tossblade using bogmen and bottlebombs using NPC.
+  - rscadd: Certain NPCs now drop a line on death.
+  - rscadd: Bogmen no longer immune to kneestingers. NPC will now path around spike
+      pits, rune wards and kneestingers if possible.
+  - rscadd: Vulnerable / Exposed inflicts extra damage to simple animals
+  - balance: Bottlebombs no longer inflict extra damage to mindless complex mob or
+      rideable simple animals
+  - balance: AI Kick CD raised from 8s to 20s
+  - balance: AI Feint CD added, now can perform it maximum every 30s
+  - balance: AI cannot call for help through wall
+  - balance: AI will aggro and call for help when shot by ranged attack and temporarily
+      ignore its aggro range limit, to reduce amount of long range cheese possible.
+  - balance: AI jitter (Artificial clickdelay) after attack raised from 15 - 30%
+  - balance: AI is now capable of resolving to a stale tile if you are moving and
+      missing its hit. The chance of hitting is capped at 40% no matter what and missing
+      chance is reduced by int / perception.
+  - balance: AI gain a cooldown penalty in using special, currently 1.5x that of a
+      normal player's CD
+  - balance: AI now have a 3 seconds cooldown between feint, special and kick to make
+      them less perfect at comboing and less oppressive to deal with.
+  - rscdel: Removed the proximity field I ported from Vanderlin in favor of old spatial
+      grid based wake up and aggressive scanning which is more performant and reliable.
+  - rscdel: Obelisk no longer have a misleading description saying it is magic resistant.
+  - rscadd: Tent Doors are now opaque for AI purpose, and should no longer propagate
+      AI call for help or have AI aggro you through. (They were not set as opaque
+      in code)
+  - bugfix: Fixed a severe issue with AI Pathfinding causing them to fail 9 out of
+      10 times or so
+  - rscdel: Removed bedbreaking code that was runtiming a lot
+  Wildwestmars:
+  - bugfix: Fluvians can now select underdark origin, they weren't available previously
+      despite it being default.
+  - code_imp: Fluvians default origin changed to Nowhere. A larger update to explain
+      Fluvian society, communities, and colors will be done once I have time for it,
+      but default origin being underdark was a oversight when the origins system was
+      added.
+  - code_imp: Fluvians added to underdweller since I assume that is meant to be all
+      underdark origins.
+  ariaworld:
+  - bugfix: Inventory being occupied by nothing for coin pouches.
+  eirenxiv:
+  - rscadd: Added Owl armet to Nocblade and Heretic Nocblade
+  - rscdel: Removed one of my own donor items
+  rivercadaver:
+  - code_imp: gives psydonic boots 250 hp
+  zydras:
+  - image: resprited the Leylines into visually pleasant floating crystals
+  - image: resprited the Mage Chalk and the Arcyne Silver Dagger
+  - image: resprited (some of) the main Mage Runes to be made out of chalk instead
+      of Neon Cyan
+2026-04-19:
+  BurpleBineapple:
+  - bugfix: Flamberges are held like greatswords properly now.
+  Kelshark:
+  - bugfix: Offering candelabrums to Matthios statue won't also make you hit the statue.
+  Ketrai:
+  - bugfix: Abyssor dream isn't shy when it isn't supposed to be now.
+  NalimaTheWitch:
+  - bugfix: Prowler gives +3 lockpicking again as intended.
+  WeNeedMorePhoron:
+  - rscadd: Added ability to set mob factions and make them dust on death, dust but
+      drop head, and dust and delete gears to the Create Mob Panel.
+  - rscadd: All spells invocation are spoken in Imperial (Common) and will no longer
+      follow your character's default language, even if you do not know Imperial.
+  - rscadd: Refactored Psydon PRAYER - report any oddities. It can loop up to a maximum
+      of 10 times now.
+  zydras:
+  - bugfix: ACTUALLY gives the teleportation rune the right filepath

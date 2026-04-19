@@ -1,6 +1,6 @@
 /mob/living/carbon/human/species/human/northern/thief //I'm a thief, give me your shit
 	ai_controller = /datum/ai_controller/human_npc
-	faction = list("thieves")
+	faction = list(FACTION_THIEVES)
 	ambushable = FALSE
 	dodgetime = 30
 	a_intent = INTENT_HELP

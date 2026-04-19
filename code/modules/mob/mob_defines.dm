@@ -169,7 +169,7 @@
 	var/advjob = null
 
 	/// A list of factions that this mob is currently in, for hostile mob targetting, amongst other things
-	var/list/faction = list("neutral")
+	var/list/faction = list(FACTION_NEUTRAL)
 
 	/// The current client inhabiting this mob. Managed by login/logout
 	/// This exists so we can do cleanup in logout for occasions where a client was transfere rather then destroyed

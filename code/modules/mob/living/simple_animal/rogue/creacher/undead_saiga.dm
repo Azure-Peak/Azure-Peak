@@ -21,7 +21,7 @@
 	var/is_downed = FALSE
 	var/legs_broken = FALSE
 	mob_biotypes = MOB_UNDEAD
-	faction = list("zombie")
+	faction = list(FACTION_ZOMBIE)
 
 	base_intents = list(/datum/intent/simple/headbutt/saiga)
 

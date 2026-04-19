@@ -252,7 +252,7 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 		charflaws.Remove(cf)
 		QDEL_NULL(cf)
 	update_body()
-	faction = list("orcs")
+	faction = list(FACTION_ORCS)
 	name = "goblin"
 	real_name = "goblin"
 	ADD_TRAIT(src, TRAIT_NOMOOD, TRAIT_GENERIC)

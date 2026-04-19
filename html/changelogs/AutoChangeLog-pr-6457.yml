@@ -1,4 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - rscdel: "Removed bedbreaking code that was runtiming a lot"

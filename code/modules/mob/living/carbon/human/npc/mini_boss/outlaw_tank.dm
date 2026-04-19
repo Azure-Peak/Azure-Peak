@@ -11,7 +11,7 @@ GLOBAL_LIST_INIT(tank_aggro, list(
 
 /mob/living/carbon/human/species/human/northern/outlaw_tank
 	ai_controller = /datum/ai_controller/human_npc
-	faction = list("dundead")
+	faction = list(FACTION_DUNDEAD)
 	ambushable = FALSE
 	dodgetime = 40
 	d_intent = INTENT_PARRY

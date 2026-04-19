@@ -802,13 +802,13 @@ GLOBAL_LIST(teleport_runes)
 /obj/effect/decal/cleanable/roguerune/arcyne/teleport
 	name = "leyline teleportation matrix"
 	desc = "A matrix that allows teleportation between leylines, ducking into the leyline and then rematerializing in another spot. The matrix can carry up to five people, though no more than two may lack arcyne knowledge. Despite magos trying their best, no one has been able to conceive a way to teleport more than a mile at once in all of Psydonia. Repeated usages or chaining teleport out of a two mile radius appears to exhaust or degrade the body rapidly."
-	icon = 'icons/effects/160x160.dmi'
+	icon = 'icons/effects/96x96.dmi'
 	icon_state = "portal"
 	tier = 2
 	req_keyword = TRUE
-	runesize = 2
-	pixel_x = -64 //So the big ol' 96x96 sprite shows up right
-	pixel_y = -64
+	runesize = 1
+	pixel_x = -32 //So the big ol' 96x96 sprite shows up right
+	pixel_y = -32
 	pixel_z = 0
 	can_be_scribed = TRUE
 	requires_leyline = TRUE
@@ -1039,7 +1039,7 @@ GLOBAL_LIST(teleport_runes)
 	name = "ordinary matrix of summoning"
 	desc = "An ordinary circle of arcyne power, capable of reaching into the second dimension of the veil and bringing forth more powerful creechurs."
 	icon = 'icons/effects/96x96.dmi'
-	icon_state = "sealate"
+	icon_state = "summonmid"
 	runesize = 1
 	tier = 2
 	pixel_x = -32
@@ -1055,12 +1055,12 @@ GLOBAL_LIST(teleport_runes)
 /obj/effect/decal/cleanable/roguerune/arcyne/summoning/adv
 	name = "greater sealed matrix of summoning"
 	desc = "A greater summoning circle, and the strongest a singular mage can sustain with the lyfeforce from their body, capable of summoning truly terrifying beasts."
-	icon = 'icons/effects/160x160.dmi'
-	icon_state = "warded"
-	runesize = 2
+	icon = 'icons/effects/96x96.dmi'
+	icon_state = "summonadv"
+	runesize = 1
 	tier = 3
-	pixel_x = -64
-	pixel_y = -64
+	pixel_x = -32
+	pixel_y = -32
 	pixel_z = 0
 	can_be_scribed = TRUE
 
@@ -1072,12 +1072,12 @@ GLOBAL_LIST(teleport_runes)
 /obj/effect/decal/cleanable/roguerune/arcyne/summoning/max
 	name = "grand warded matrix of summoning"
 	desc = "A grand summoning circle capable of summoning the strongest and most powerful of creechurs modern mages can manage to reach."
-	icon = 'icons/effects/224x224.dmi'
-	icon_state = "huge_runeblued"
-	runesize = 3
+	icon = 'icons/effects/96x96.dmi'
+	icon_state = "summonmax"
+	runesize = 1
 	tier = 5
-	pixel_x = -96
-	pixel_y = -96
+	pixel_x = -32
+	pixel_y = -32
 	pixel_z = 0
 	can_be_scribed = TRUE
 

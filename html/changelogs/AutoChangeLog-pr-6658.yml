@@ -1,8 +1,0 @@
-author: "KatTheFox"
-delete-after: True
-changes:
-  - rscdel: "find familiar and npc binding removed"
-  - rscadd: "planar pact ritual to grant the old familiar buffs"
-  - rscadd: "new familiar binding system. draw a rune of binding to see all the options."
-  - qol: "familiar binding uses the same \"prompt all lobby players\" system as old npc summons and lich skeletons, but respects familiar prefs. if your prefs are unset and you attempt to respond to a summons, you will be prompted to set them."
-  - balance: "all familiar subtypes are aesthetic variants of the same 3+1 base types. there is no mechanical difference between familiars with the same planar origin"

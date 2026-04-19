@@ -29,7 +29,7 @@
 	icon_living = "obelisk-combined"
 	icon_dead = "obelisk-combined"
 
-	faction = list("abberant")
+	faction = list(FACTION_ABBERANT)
 	emote_hear = null
 	emote_see = null
 	turns_per_move = 6

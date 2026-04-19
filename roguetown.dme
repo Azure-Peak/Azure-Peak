@@ -57,6 +57,7 @@
 #include "code\__DEFINES\events.dm"
 #include "code\__DEFINES\explosion.dm"
 #include "code\__DEFINES\exports.dm"
+#include "code\__DEFINES\factions.dm"
 #include "code\__DEFINES\familiars.dm"
 #include "code\__DEFINES\fantasy_affixes.dm"
 #include "code\__DEFINES\flags.dm"

@@ -2,7 +2,7 @@ GLOBAL_LIST_INIT(drowraider_aggro, world.file2list("strings/rt/drowaggrolines.tx
 
 /mob/living/carbon/human/species/elf/dark/drowraider
 	ai_controller = /datum/ai_controller/human_npc
-	faction = list("drow")
+	faction = list(FACTION_DROW)
 	ambushable = FALSE
 	dodgetime = 30
 	d_intent = INTENT_DODGE

@@ -206,7 +206,7 @@
 			)
 
 	for(var/i in 1 to length(chant_lines))
-		user.say(chant_lines[i], forced = "spell")
+		user.say(chant_lines[i], forced = "spell", language = /datum/language/common)
 		user.adjustBruteLoss(15)
 		if(path_choice == "Progress")
 			user.emote(pick("whimper", "gasp"))

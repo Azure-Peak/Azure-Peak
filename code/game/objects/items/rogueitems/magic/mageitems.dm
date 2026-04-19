@@ -118,6 +118,7 @@
 /obj/item/rogueweapon/huntingknife/idagger/silver/arcyne
 	name = "arcyne silver dagger"
 	desc = "This dagger glows a faint purple. Quicksilver runs across its blade."
+	icon_state = "arcynedagger"
 	var/is_bled = FALSE
 	var/obj/effect/decal/cleanable/roguerune/rune_to_scribe = null
 	var/chosen_keyword

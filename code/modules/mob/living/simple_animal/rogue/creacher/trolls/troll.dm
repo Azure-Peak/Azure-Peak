@@ -7,7 +7,7 @@
 	icon_dead = "troll_dead"
 	pixel_x = -16
 
-	faction = list("trolls")
+	faction = list(FACTION_TROLLS)
 	threat_point = THREAT_DANGEROUS
 	ambush_faction = "trolls"
 	footstep_type = FOOTSTEP_MOB_HEAVY

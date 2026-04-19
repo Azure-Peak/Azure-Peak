@@ -1,6 +1,0 @@
-author: "Wildwestmars"
-delete-after: True
-changes:
-  - bugfix: "Fluvians can now select underdark origin, they weren't available previously despite it being default."
-  - code_imp: "Fluvians default origin changed to Nowhere. A larger update to explain Fluvian society, communities, and colors will be done once I have time for it, but default origin being underdark was a oversight when the origins system was added."
-  - code_imp: "Fluvians added to underdweller since I assume that is meant to be all underdark origins."

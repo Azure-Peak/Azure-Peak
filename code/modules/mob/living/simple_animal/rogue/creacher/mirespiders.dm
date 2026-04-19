@@ -13,7 +13,7 @@
 	see_in_dark = 10
 	move_to_delay = 3
 
-	faction = list("zombie", "spiders")
+	faction = list(FACTION_ZOMBIE, FACTION_SPIDERS)
 	threat_point = THREAT_TRASH
 	ambush_faction = "mirespiders"
 	attack_sound = list('sound/vo/mobs/spider/attack (1).ogg','sound/vo/mobs/spider/attack (2).ogg','sound/vo/mobs/spider/attack (3).ogg','sound/vo/mobs/spider/attack (4).ogg')
@@ -156,7 +156,7 @@
 	icon_living = "lurker"
 	icon_dead = "lurker_dead"
 
-	faction = list("zombie", "spiders")
+	faction = list(FACTION_ZOMBIE, FACTION_SPIDERS)
 	threat_point = THREAT_ELITE
 	ambush_faction = "mirespiders"
 	attack_sound = list('sound/vo/mobs/spider/attack (1).ogg','sound/vo/mobs/spider/attack (2).ogg','sound/vo/mobs/spider/attack (3).ogg','sound/vo/mobs/spider/attack (4).ogg')
@@ -280,7 +280,7 @@
 	icon_living = "aragn"
 	icon_dead = "aragn_dead"
 
-	faction = list("zombie", "spiders")
+	faction = list(FACTION_ZOMBIE, FACTION_SPIDERS)
 	threat_point = THREAT_ELITE
 	ambush_faction = "mirespiders"
 	attack_sound = list('sound/vo/mobs/spider/attack (1).ogg','sound/vo/mobs/spider/attack (2).ogg','sound/vo/mobs/spider/attack (3).ogg','sound/vo/mobs/spider/attack (4).ogg')
@@ -350,10 +350,10 @@
 	qdel(src)
 
 /mob/living/simple_animal/hostile/retaliate/rogue/mirespider/angry
-	faction = list("mad", "zombie")
+	faction = list(FACTION_MAD, FACTION_ZOMBIE)
 
 /mob/living/simple_animal/hostile/rogue/mirespider_paralytic/angry
-	faction = list("mad", "zombie")
+	faction = list(FACTION_MAD, FACTION_ZOMBIE)
 
 /mob/living/simple_animal/hostile/rogue/mirespider_lurker/angry
-	faction = list("mad", "zombie")
+	faction = list(FACTION_MAD, FACTION_ZOMBIE)

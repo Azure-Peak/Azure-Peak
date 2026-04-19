@@ -7,7 +7,7 @@
 	icon_dead = "dreamfiend"
 
 	//Not a crab, but mossbacks respect other creations of Abyssor...
-	faction = list("dream", "crabs")
+	faction = list(FACTION_DREAM, FACTION_CRABS)
 	attack_sound = list('sound/mobs/abyssal/abyssal_attack.ogg','sound/mobs/abyssal/abyssal_attack2.ogg')
 
 	base_intents = list(/datum/intent/simple/bite)

@@ -32,7 +32,7 @@
 							/obj/item/alch/viscera = 1,
 							/obj/item/natural/fur/rat = 1)
 	head_butcher = /obj/item/natural/head/rous
-	faction = list("rats")
+	faction = list(FACTION_RATS)
 	threat_point = THREAT_TRASH
 	ambush_faction = "wildlife"
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST

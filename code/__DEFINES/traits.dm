@@ -263,6 +263,8 @@
 #define TRAIT_MONK_ROBE	"Holy Vestatures"
 #define TRAIT_BLACKOAK "Heritage Vision"
 #define TRAIT_DUSTABLE "Dustable"
+#define TRAIT_DUST_LEAVE_HEAD "Dust Leave Head"
+#define TRAIT_DUST_DELETE_GEAR "Dust Delete Gear"
 #define TRAIT_SECONDLIFE "Second Life"
 #define TRAIT_QUICKSILVERRESISTANT "Quicksilver Resistance"
 #define TRAIT_GARRISON_ITEM "Garrison Item"

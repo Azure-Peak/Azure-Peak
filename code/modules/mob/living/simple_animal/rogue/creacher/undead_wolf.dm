@@ -30,7 +30,7 @@
 						/obj/item/natural/fur/wolf = 1,
 						/obj/item/natural/bone = 4)
 
-	faction = list("zombie")
+	faction = list(FACTION_ZOMBIE)
 	mob_biotypes = MOB_UNDEAD
 	melee_damage_lower = 24
 	melee_damage_upper = 34

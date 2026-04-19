@@ -46,7 +46,7 @@
 	..()
 
 /mob/living/carbon/human/species/skeleton/npc/mediumspread/lich
-	faction = list("lich")
+	faction = list(FACTION_LICH)
 
 // for Lich Dungeon
 /mob/living/carbon/human/species/skeleton/npc/hardspread/Initialize()

@@ -57,9 +57,13 @@
 	new_pawn.AddComponent(/datum/component/combat_vocalizer)
 
 /datum/ai_controller/human_npc/UnpossessPawn(destroy)
+	var/mob/living/living_pawn = pawn
 	UnregisterSignal(pawn, list(
 		COMSIG_MOB_MOVESPEED_UPDATED,
 	))
+	living_pawn.RemoveElement(/datum/element/interrupt_on_damage)
+	qdel(living_pawn.GetComponent(/datum/component/ai_inventory_manager))
+	qdel(living_pawn.GetComponent(/datum/component/combat_vocalizer))
 	return ..()
 
 /datum/ai_controller/human_npc/proc/update_movespeed(mob/living/pawn)
