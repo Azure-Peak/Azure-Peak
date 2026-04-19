@@ -170,7 +170,7 @@
 			H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/gravel_blast/lesser)
 
 	var/stat_option = list("Great Intellect - +3 INT +1 CON +2 WIL", "Great Vitality - +1 INT +3 CON +2 WIL")
-	var/stat_choice = input(H, "What defines me", "Body or Soul.") as anything in stat_option
+	var/stat_choice = input(H, "What defines me", "Mind or Body.") as anything in stat_option
 	switch(stat_choice)
 		if("Great Intellect - +3 INT +1 CON +2 WIL")
 			H.change_stat(STATKEY_INT, 3)
