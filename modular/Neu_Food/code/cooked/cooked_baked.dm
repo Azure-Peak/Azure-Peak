@@ -1043,7 +1043,7 @@
 
 /obj/item/reagent_containers/food/snacks/rogue/lasagna_white
 	name = "white lasagna"
-	desc = "Stacked pasta sheets layered with béchamel sauce and melted cheese. Lasagna was brought to Valoria by a Montecarinan royal chef, but the price of tomatoes made locals forgo it for a very otavan white sauce."
+	desc = "Stacked pasta sheets layered with béchamel sauce and melted cheese. Lasagna was brought to Valoria by a Montecarinan royal chef, but the price of tomatoes made locals forgo it for a very Otavan white sauce."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_pasta.dmi'
 	icon_state = "lasagna"
 	faretype = FARE_FINE // Nobles fucking love cheese though.
