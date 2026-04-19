@@ -13,7 +13,7 @@
 	maximum_possible_slots = 1
 	class_select_category = CLASS_CAT_RACIAL
 	category_tags = list(CTAG_WRETCH)
-	traits_applied = list(TRAIT_AZURENATIVE, TRAIT_OUTDOORSMAN, TRAIT_BLACKOAK, TRAIT_DODGEEXPERT, TRAIT_ARCYNE, TRAIT_WOODWALKER)
+	traits_applied = list(TRAIT_AZURENATIVE, TRAIT_OUTDOORSMAN, TRAIT_BLACKOAK, TRAIT_DODGEEXPERT, TRAIT_ARCYNE, TRAIT_WOODWALKER, TRAIT_EXPERT_HUNTER)
 	//lower-than-avg stats for wretch but their traits are insanely good
 	subclass_stats = list(
 		STATKEY_INT = 1,
@@ -42,6 +42,7 @@
 		/datum/skill/craft/crafting = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/labor/farming = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/magic/arcane = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/hunting = SKILL_LEVEL_NOVICE,
 	)
 	subclass_stashed_items = list(
         "Sewing Kit" =  /obj/item/repair_kit,
