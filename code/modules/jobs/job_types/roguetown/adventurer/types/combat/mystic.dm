@@ -37,13 +37,17 @@
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
 	belt = /obj/item/storage/belt/rogue/leather
 	beltl = /obj/item/storage/belt/rogue/pouch/coins/poor
-	backl = /obj/item/storage/backpack/rogue/satchel
+	backl = /obj/item/storage/backpack/rogue/backpack
 	r_hand = /obj/item/rogueweapon/woodstaff/quarterstaff/iron
 	l_hand = /obj/item/rogueweapon/scabbard/gwstrap
 	H.dna.species.soundpack_m = new /datum/voicepack/male/wizard()
 	backpack_contents = list(
 		/obj/item/flashlight/flare/torch = 1,
 		/obj/item/recipe_book/survival = 1,
+		/obj/item/folding_alchcauldron_stored = 1,
+		/obj/item/reagent_containers/glass/bottle = 3,
+		/obj/item/reagent_containers/glass/bottle/alchemical = 3,
+		/obj/item/recipe_book/alchemy = 1,
 		/obj/item/book/spellbook = 1,
 		/obj/item/chalk = 1,
 		)
@@ -133,16 +137,12 @@
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
 	belt = /obj/item/storage/belt/rogue/leather
 	beltl = /obj/item/storage/belt/rogue/pouch/coins/poor
-	backl = /obj/item/storage/backpack/rogue/backpack
+	backl = /obj/item/storage/backpack/rogue/satchel
 	backr = /obj/item/rogueweapon/woodstaff
 	H.dna.species.soundpack_m = new /datum/voicepack/male/wizard()
 	backpack_contents = list(
 		/obj/item/flashlight/flare/torch = 1,
 		/obj/item/recipe_book/survival = 1,
-		/obj/item/folding_alchcauldron_stored = 1,
-		/obj/item/reagent_containers/glass/bottle = 3,
-		/obj/item/reagent_containers/glass/bottle/alchemical = 3,
-		/obj/item/recipe_book/alchemy = 1,
 		/obj/item/book/spellbook = 1,
 		/obj/item/chalk = 1,
 		)
