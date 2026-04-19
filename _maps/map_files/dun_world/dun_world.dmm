@@ -43846,7 +43846,6 @@
 /area/rogue/outdoors/mountains)
 "iZo" = (
 /obj/machinery/light/rogue/candle/r,
-/obj/item/rogueweapon/huntingknife/idagger/stake,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/town)
 "iZp" = (
