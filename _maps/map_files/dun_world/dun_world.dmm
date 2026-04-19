@@ -5364,8 +5364,7 @@
 /turf/open/floor/rogue/tile/brick,
 /area/rogue/indoors/town)
 "bfE" = (
-/obj/structure/fluff/littlebanners/greenwhite{
-	pixel_x = 0;
+/obj/structure/fluff/littlebanners/bluewhite{
 	pixel_y = -6
 	},
 /turf/open/floor/rogue/churchrough,
@@ -14196,15 +14195,6 @@
 /obj/effect/decal/cleanable/blood/gibs/limb,
 /turf/open/floor/rogue/wood,
 /area/rogue/indoors/shelter/mountains/decap)
-"cXN" = (
-/obj/effect/decal/edge{
-	color = "#3f3f3f"
-	},
-/obj/structure/fluff/walldeco/stone/stone2{
-	pixel_y = 32
-	},
-/turf/open/floor/rogue/concrete,
-/area/rogue/indoors/town/church/chapel)
 "cXO" = (
 /obj/structure/fluff/railing/wood,
 /turf/open/floor/rogue/hexstone,
@@ -20307,6 +20297,10 @@
 /obj/machinery/light/rogue/torchholder/c,
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors/beach/forest/hamlet)
+"ekx" = (
+/obj/structure/fluff/littlebanners/greenwhite,
+/turf/open/floor/rogue/concrete,
+/area/rogue/indoors/town/church/chapel)
 "ekN" = (
 /obj/structure/table/wood/fancy/red,
 /obj/item/cooking/platter/pewter,
@@ -22753,8 +22747,7 @@
 	dir = 8
 	},
 /obj/structure/fluff/railing/corner/south_east,
-/obj/structure/fluff/littlebanners/greenwhite{
-	pixel_x = 0;
+/obj/structure/fluff/littlebanners/bluewhite{
 	pixel_y = -6
 	},
 /turf/open/floor/rogue/church,
@@ -32077,11 +32070,10 @@
 	color = "#3f3f3f";
 	dir = 6
 	},
-/obj/structure/fluff/littlebanners/greenwhite{
-	pixel_x = 0;
+/obj/effect/landmark/start/monk,
+/obj/structure/fluff/littlebanners/bluewhite{
 	pixel_y = -6
 	},
-/obj/effect/landmark/start/monk,
 /turf/open/floor/rogue/churchrough,
 /area/rogue/indoors/town/church/chapel)
 "gIz" = (
@@ -48235,18 +48227,6 @@
 	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/church/basement)
-"jSb" = (
-/obj/effect/decal/edge{
-	color = "#3f3f3f";
-	dir = 8
-	},
-/obj/effect/decal/edge{
-	color = "#3f3f3f";
-	dir = 4
-	},
-/obj/machinery/light/rogue/candle/blue,
-/turf/open/floor/rogue/hexstone,
-/area/rogue/indoors/town/church/chapel)
 "jSe" = (
 /obj/structure/chair/wood/rogue{
 	dir = 1
@@ -49225,6 +49205,7 @@
 	color = "#3f3f3f";
 	dir = 8
 	},
+/obj/structure/fluff/littlebanners/greenwhite,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/indoors/town/church/chapel)
 "kaZ" = (
@@ -68412,7 +68393,8 @@
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/under/cave/his_vault)
 "nSA" = (
-/obj/structure/mineral_door/bars{
+/obj/structure/mineral_door/wood/window{
+	name = "Storage of the Clergy";
 	lockid = "church";
 	locked = 1
 	},
@@ -76467,6 +76449,10 @@
 /obj/structure/mineral_door/bars{
 	lockid = "priest";
 	locked = 1
+	},
+/obj/structure/fluff/littlebanners/bluewhite{
+	pixel_x = 0;
+	pixel_y = -4
 	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/church/chapel)
@@ -85061,11 +85047,10 @@
 /turf/closed/wall/mineral/rogue/wooddark,
 /area/rogue/indoors/town/shop)
 "rkL" = (
-/obj/structure/fluff/littlebanners/greenwhite{
-	pixel_x = 0;
+/obj/effect/landmark/start/monk,
+/obj/structure/fluff/littlebanners/bluewhite{
 	pixel_y = -6
 	},
-/obj/effect/landmark/start/monk,
 /turf/open/floor/rogue/churchrough,
 /area/rogue/indoors/town/church/chapel)
 "rkO" = (
@@ -99716,8 +99701,7 @@
 	dir = 4
 	},
 /obj/structure/fluff/railing/corner/south_west,
-/obj/structure/fluff/littlebanners/greenwhite{
-	pixel_x = 0;
+/obj/structure/fluff/littlebanners/bluewhite{
 	pixel_y = -6
 	},
 /turf/open/floor/rogue/church,
@@ -111854,8 +111838,7 @@
 /obj/effect/decal/edge{
 	color = "#3f3f3f"
 	},
-/obj/structure/fluff/littlebanners/greenwhite{
-	pixel_x = 0;
+/obj/structure/fluff/littlebanners/bluewhite{
 	pixel_y = -6
 	},
 /turf/open/floor/rogue/churchrough,
@@ -116714,6 +116697,7 @@
 	color = "#3f3f3f";
 	dir = 4
 	},
+/obj/structure/fluff/littlebanners/greenwhite,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/indoors/town/church/chapel)
 "xCF" = (
@@ -494899,7 +494883,7 @@ nRO
 bGf
 bGf
 vkW
-cXN
+noY
 pWC
 uHq
 oLT
@@ -494910,7 +494894,7 @@ rBQ
 xCM
 qTr
 vkW
-jSb
+dZO
 dZO
 dZO
 pxt
@@ -496723,7 +496707,7 @@ qTj
 noK
 kou
 kou
-kou
+ekx
 awV
 jiI
 qjU
@@ -498515,7 +498499,7 @@ bGf
 bGf
 bGf
 tLB
-cXN
+noY
 wdB
 isZ
 mCx
