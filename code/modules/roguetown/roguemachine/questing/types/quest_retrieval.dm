@@ -9,7 +9,7 @@
 /datum/quest/retrieval/get_title()
 	if(title)
 		return title
-	return "Retrieve [pick("an ancient", "a rare", "a stolen", "a magical")] [pick("artifact", "relic", "doohickey", "treasure")]"
+	return "Retrieve [pick("misplaced", "lost", "abandoned")] goods"
 
 /datum/quest/retrieval/get_objective_text()
 	return "Retrieve [progress_required] [initial(target_item_type.name)]."

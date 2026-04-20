@@ -7,12 +7,13 @@
 		/area/rogue/indoors/town/shop,
 		/area/rogue/indoors/town/manor,
 		/area/rogue/indoors/town/magician,
+		/area/rogue/indoors/town/physician,
 	)
 
 /datum/quest/courier/get_title()
 	if(title)
 		return title
-	return "Deliver [pick("an important", "a sealed", "a confidential", "a valuable")] [pick("package", "parcel", "letter", "delivery")]"
+	return "Deliver a parcel"
 
 /datum/quest/courier/get_objective_text()
 	return "Deliver [initial(target_delivery_item.name)] to [initial(target_delivery_location.name)]."
@@ -67,6 +68,11 @@
 			/obj/item/roguegem/yellow,
 			/obj/item/reagent_containers/glass/bottle/rogue/manapot,
 		),
+		/area/rogue/indoors/town/physician = list(
+			/obj/item/reagent_containers/glass/bottle/rogue/healthpot,
+			/obj/item/alch/viscera,
+			/obj/item/natural/bundle/cloth/bandage/full,
+		),
 		/area/rogue/indoors/town = list(
 			/obj/item/ration,
 		)
@@ -82,18 +88,18 @@
 		return
 
 	var/obj/item/parcel/delivery_parcel = new(spawn_turf)
-	var/obj/item/contained_item = new target_delivery_item(delivery_parcel)
-	delivery_parcel.contained_item = contained_item
+	var/obj/item/contained = new target_delivery_item(delivery_parcel)
+	delivery_parcel.contained_items += contained
 	delivery_parcel.delivery_area_type = delivery_area
 	delivery_parcel.allowed_jobs = delivery_parcel.get_area_jobs(delivery_area)
 	delivery_parcel.name = "Delivery for [initial(delivery_area.name)]"
 	delivery_parcel.desc = "A securely wrapped parcel addressed to [initial(delivery_area.name)]. [pick("Handle with care.", "Do not bend.", "Confidential contents.", "Urgent delivery.")]"
-	delivery_parcel.icon_state = contained_item.w_class >= WEIGHT_CLASS_NORMAL ? "ration_large" : "ration_small"
+	delivery_parcel.icon_state = contained.w_class >= WEIGHT_CLASS_NORMAL ? "ration_large" : "ration_small"
 	delivery_parcel.dropshrink = 1
 	delivery_parcel.update_icon()
 
 	delivery_parcel.AddComponent(/datum/component/quest_object/courier, src)
-	contained_item.AddComponent(/datum/component/quest_object/courier, src)
+	contained.AddComponent(/datum/component/quest_object/courier, src)
 	add_tracked_atom(delivery_parcel)
 
 	return delivery_parcel

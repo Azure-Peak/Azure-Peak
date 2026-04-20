@@ -50,6 +50,11 @@
 	/// Minimum fellowship size required to sign this quest. 0 means solo-allowed. Only the
 	/// signer pays the take-cooldown cost; fellowship-mates are free labor.
 	var/required_fellowship_size = 0
+	/// If TRUE, the crown levy is skipped at turn-in. Stamped by a Steward on specific contracts
+	/// as a personal favor, or set at preview by Module 6 towner-to-towner bounties.
+	/// TODO: Implement new taxation mechanics — Module 3/6 will add the stamping UI and towner
+	/// bounty path. Levy rate itself also needs revisiting under the new treasury design.
+	var/levy_exempt = FALSE
 
 /datum/quest/Destroy()
 	// Clean up mobs with quest components

@@ -17,6 +17,7 @@ type Contract = {
   objective: string;
   expected_count: number;
   threat_bands: number;
+  levy_exempt: BooleanLike;
 };
 
 type ActiveContract = {
@@ -39,6 +40,7 @@ type ContractLedgerData = {
   pool: Contract[];
   active: ActiveContract[];
   regions: string[];
+  tax_rate: number;
 };
 
 const ALL_REGIONS = 'All';
@@ -181,6 +183,32 @@ const ContractCard = (props: { contract: Contract }) => {
         <span className="ContractLedger__CardLabel">Reward</span>
         <span className="ContractLedger__CardValue">{c.reward} mammon</span>
       </div>
+      {!c.levy_exempt && data.tax_rate > 0 && (
+        <>
+          <div className="ContractLedger__CardRow">
+            <span className="ContractLedger__CardLabel">
+              Crown Levy ({Math.round(data.tax_rate * 100)}%)
+            </span>
+            <span className="ContractLedger__CardValue" style={{ color: '#c44' }}>
+              -{Math.round(c.reward * data.tax_rate)} mammon
+            </span>
+          </div>
+          <div className="ContractLedger__CardRow">
+            <span className="ContractLedger__CardLabel">Take-home</span>
+            <span className="ContractLedger__CardValue" style={{ fontWeight: 'bold' }}>
+              {c.reward - Math.round(c.reward * data.tax_rate)} mammon
+            </span>
+          </div>
+        </>
+      )}
+      {!!c.levy_exempt && (
+        <div className="ContractLedger__CardRow">
+          <span className="ContractLedger__CardLabel">Stamp</span>
+          <span className="ContractLedger__CardValue" style={{ color: '#4a4' }}>
+            LEVY EXEMPT
+          </span>
+        </div>
+      )}
       <div className="ContractLedger__CardRow">
         <span className="ContractLedger__CardLabel">Deposit</span>
         <span className="ContractLedger__CardValue">{c.deposit} mammon</span>

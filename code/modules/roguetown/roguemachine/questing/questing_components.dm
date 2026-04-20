@@ -174,10 +174,10 @@
 	// Handle parcel delivery
 	if(istype(dropped_item, /obj/item/parcel))
 		var/obj/item/parcel/parcel = dropped_item
-		if(parcel.contained_item && istype(parcel.contained_item, Q.target_delivery_item))
+		if(length(parcel.contained_items) && istype(parcel.contained_items[1], Q.target_delivery_item))
 			parcel.remove_filter(outline_filter_id)
-			if(parcel.contained_item)
-				parcel.contained_item.remove_filter(outline_filter_id)
+			for(var/obj/item/I as anything in parcel.contained_items)
+				I.remove_filter(outline_filter_id)
 
 			// Notify quest of progress
 			Q.progress_current++

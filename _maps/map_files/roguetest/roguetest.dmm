@@ -167,6 +167,9 @@
 "hh" = (
 /turf/closed/mineral/random/rogue,
 /area/rogue/outdoors/rtfield)
+"hq" = (
+/turf/open/floor/rogue/dirt/road,
+/area/rogue/indoors/town/magician)
 "hG" = (
 /obj/structure/table/wood{
 	icon_state = "longtable_mid";
@@ -560,6 +563,9 @@
 /obj/structure/roguewindow,
 /turf/open/floor/rogue/blocks/newstone/alt,
 /area/rogue/indoors)
+"sR" = (
+/turf/open/floor/rogue/dirt/road,
+/area/rogue/indoors/town/tavern)
 "tg" = (
 /obj/structure/table/wood{
 	icon_state = "longtable"
@@ -896,6 +902,9 @@
 /obj/structure/fluff/railing/wood,
 /turf/open/floor/rogue/hay,
 /area/rogue/indoors)
+"BU" = (
+/turf/open/floor/rogue/dirt/road,
+/area/rogue/indoors/town/shop)
 "Ci" = (
 /obj/structure/rack/rogue/shelf/biggest,
 /obj/item/reagent_containers/glass/bottle/rogue,
@@ -1085,6 +1094,9 @@
 /obj/item/flashlight/flare/torch/lantern,
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/outdoors)
+"IC" = (
+/turf/open/floor/rogue/dirt/road,
+/area/rogue/indoors/town/manor)
 "IE" = (
 /obj/structure/table/wood{
 	icon_state = "longtable"
@@ -1443,6 +1455,12 @@
 /obj/structure/fluff/railing/wood,
 /turf/open/floor/rogue/hay,
 /area/rogue/indoors)
+"VD" = (
+/obj/structure/fluff/customsign{
+	desc = "COURIER QUEST"
+	},
+/turf/open/floor/rogue/dirt/road,
+/area/rogue/outdoors)
 "VQ" = (
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/under/underdark/north)
@@ -1511,9 +1529,8 @@
 /turf/open/floor/rogue/blocks/stonered/tiny,
 /area/rogue/indoors)
 "XN" = (
-/obj/structure/dungeon_entry/hamlet,
 /turf/open/floor/rogue/dirt/road,
-/area/rogue/outdoors)
+/area/rogue/indoors/town/dwarfin)
 "XU" = (
 /obj/structure/rack/rogue/shelf/biggest,
 /obj/effect/decal/cleanable/dirt/cobweb,
@@ -1548,6 +1565,9 @@
 	},
 /turf/open/floor/rogue/ruinedwood/herringbone,
 /area/rogue/indoors)
+"Yf" = (
+/turf/open/floor/rogue/dirt/road,
+/area/rogue/indoors/town/church)
 "YT" = (
 /obj/structure/table/wood{
 	icon_state = "longtable"
@@ -1557,6 +1577,9 @@
 /obj/item/clothing/head/roguetown/helmet/leather,
 /turf/open/floor/rogue/grass,
 /area/rogue/indoors)
+"YU" = (
+/turf/open/floor/rogue/dirt/road,
+/area/rogue/indoors/town/physician)
 "YX" = (
 /turf/open/floor/rogue/ruinedwood/herringbone,
 /area/rogue/indoors)
@@ -2895,7 +2918,7 @@ vq
 rT
 rT
 rT
-rT
+VD
 rT
 rT
 rT
@@ -2946,8 +2969,8 @@ eg
 rT
 rT
 rT
-rT
-rT
+sR
+IC
 rT
 rT
 rT
@@ -2998,8 +3021,8 @@ rT
 rT
 rT
 rT
-rT
-rT
+Yf
+hq
 rT
 rT
 rT
@@ -3050,7 +3073,7 @@ rT
 rT
 rT
 rT
-rT
+YU
 XN
 rT
 rT
@@ -3103,7 +3126,7 @@ rT
 rT
 rT
 rT
-rT
+BU
 rT
 rT
 rT

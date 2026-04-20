@@ -2,7 +2,7 @@
 	name = "quest landmark"
 	icon = 'code/modules/roguetown/roguemachine/questing/questing.dmi'
 	icon_state = "quest_marker"
-	var/list/quest_type = list(QUEST_RETRIEVAL, QUEST_COURIER, QUEST_CLEAR_OUT, QUEST_RAID, QUEST_KILL_EASY, QUEST_BOUNTY)
+	var/list/quest_type = list(QUEST_RETRIEVAL, QUEST_COURIER, QUEST_CLEAR_OUT, QUEST_RAID, QUEST_KILL_EASY, QUEST_BOUNTY, QUEST_RECOVERY)
 	var/region
 
 /obj/effect/landmark/quest_spawner/Initialize()
@@ -38,7 +38,7 @@
 /obj/effect/landmark/quest_spawner/generic
 	name = "generic quest landmark"
 	icon_state = "quest_marker_low"
-	quest_type = list(QUEST_RETRIEVAL, QUEST_COURIER, QUEST_KILL_EASY, QUEST_CLEAR_OUT)
+	quest_type = list(QUEST_RETRIEVAL, QUEST_COURIER, QUEST_KILL_EASY, QUEST_CLEAR_OUT, QUEST_RECOVERY)
 
 /obj/effect/landmark/quest_spawner/defense
 	name = "defense quest landmark"

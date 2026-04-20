@@ -62,7 +62,7 @@ SUBSYSTEM_DEF(regionthreat)
 				QUEST_FACTION_FOREST_GOBLIN = 10,
 			),
 			_tp_budget_multiplier = 1.5,
-			_allowed_quest_types = list(QUEST_CLEAR_OUT, QUEST_RAID, QUEST_BOUNTY, QUEST_COURIER, QUEST_RETRIEVAL),
+			_allowed_quest_types = list(QUEST_CLEAR_OUT, QUEST_RAID, QUEST_BOUNTY, QUEST_COURIER, QUEST_RETRIEVAL, QUEST_RECOVERY),
 			_kill_target_floor = 3,
 			_evergreen_target = 2
 		),
@@ -84,7 +84,7 @@ SUBSYSTEM_DEF(regionthreat)
 				QUEST_FACTION_GREAT_BEAST = 5,
 			),
 			_tp_budget_multiplier = 1.2,
-			_allowed_quest_types = list(QUEST_CLEAR_OUT, QUEST_RAID, QUEST_BOUNTY),
+			_allowed_quest_types = list(QUEST_CLEAR_OUT, QUEST_RAID, QUEST_BOUNTY, QUEST_RECOVERY),
 			_kill_target_floor = 2
 		),
 		new /datum/threat_region(
@@ -104,7 +104,7 @@ SUBSYSTEM_DEF(regionthreat)
 				QUEST_FACTION_MADMAN = 10,
 			),
 			_tp_budget_multiplier = 1.5,
-			_allowed_quest_types = list(QUEST_CLEAR_OUT, QUEST_RAID, QUEST_BOUNTY),
+			_allowed_quest_types = list(QUEST_CLEAR_OUT, QUEST_RAID, QUEST_BOUNTY, QUEST_RECOVERY),
 			_kill_target_floor = 2
 		),
 		// Underdark cannot be tamed — min_ambush is high, keeping the region permanently dangerous.
@@ -124,7 +124,7 @@ SUBSYSTEM_DEF(regionthreat)
 				QUEST_FACTION_MINOTAUR = 10,
 			),
 			_tp_budget_multiplier = 1.5,
-			_allowed_quest_types = list(QUEST_CLEAR_OUT, QUEST_RAID, QUEST_BOUNTY),
+			_allowed_quest_types = list(QUEST_CLEAR_OUT, QUEST_RAID, QUEST_BOUNTY, QUEST_RECOVERY),
 			_kill_target_floor = 2
 		)
 	)

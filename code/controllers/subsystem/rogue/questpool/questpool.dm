@@ -66,7 +66,7 @@ SUBSYSTEM_DEF(questpool)
 	return count
 
 /proc/is_kill_type(quest_type)
-	return quest_type == QUEST_KILL_EASY || quest_type == QUEST_CLEAR_OUT || quest_type == QUEST_RAID || quest_type == QUEST_BOUNTY
+	return quest_type == QUEST_KILL_EASY || quest_type == QUEST_CLEAR_OUT || quest_type == QUEST_RAID || quest_type == QUEST_BOUNTY || quest_type == QUEST_RECOVERY
 
 /proc/is_evergreen_type(quest_type)
 	return quest_type == QUEST_COURIER || quest_type == QUEST_RETRIEVAL
@@ -196,7 +196,7 @@ SUBSYSTEM_DEF(questpool)
 			return QUEST_DIFFICULTY_EASY
 		if(QUEST_RETRIEVAL, QUEST_COURIER)
 			return QUEST_DIFFICULTY_EASY
-		if(QUEST_CLEAR_OUT)
+		if(QUEST_CLEAR_OUT, QUEST_RECOVERY)
 			return QUEST_DIFFICULTY_MEDIUM
 		if(QUEST_RAID, QUEST_BOUNTY)
 			return QUEST_DIFFICULTY_HARD
@@ -216,6 +216,8 @@ SUBSYSTEM_DEF(questpool)
 			return new /datum/quest/kill/raid()
 		if(QUEST_BOUNTY)
 			return new /datum/quest/kill/bounty()
+		if(QUEST_RECOVERY)
+			return new /datum/quest/kill/recovery()
 	return null
 
 /datum/controller/subsystem/questpool/proc/claim(datum/quest/Q, mob/user)

@@ -16,7 +16,7 @@ GLOBAL_LIST_EMPTY(quest_factions)
 	if(!id)
 		CRASH("Quest faction created without id: [type]")
 	if(!allowed_quest_types)
-		allowed_quest_types = list(QUEST_KILL_EASY, QUEST_CLEAR_OUT, QUEST_RAID)
+		allowed_quest_types = list(QUEST_KILL_EASY, QUEST_CLEAR_OUT, QUEST_RAID, QUEST_RECOVERY)
 		if(length(boss_mob_types))
 			allowed_quest_types += QUEST_BOUNTY
 

@@ -62,6 +62,7 @@
 	data["pool"] = build_pool_listing()
 	data["active"] = build_active_listing(user)
 	data["regions"] = build_region_listing()
+	data["tax_rate"] = SStreasury.tax_value
 	return data
 
 /obj/structure/roguemachine/contractledger/proc/build_region_listing()
@@ -90,6 +91,7 @@
 			"objective" = Q.get_objective_text(),
 			"expected_count" = expected_count,
 			"threat_bands" = threat_bands,
+			"levy_exempt" = Q.levy_exempt,
 		))
 	return listing
 
@@ -230,16 +232,19 @@
 		original_reward += deposit_return
 
 		var/datum/quest/completed_quest = scroll.assigned_quest
+		// Capture flags from the quest before qdel, since the fields won't be readable after.
+		var/quest_levy_exempt = completed_quest.levy_exempt
 		qdel(scroll.assigned_quest)
 		qdel(scroll)
 
-		// Tax payment
-		tax_amt = round(tax_rate * reward)
-		if(tax_amt > 0)
-			reward -= tax_amt
-			SStreasury.give_money_treasury(tax_amt, "quest completion tax - [src.name]")
-			record_featured_stat(FEATURED_STATS_TAX_PAYERS, user, tax_amt)
-			record_round_statistic(STATS_TAXES_COLLECTED, tax_amt)
+		// Tax payment — stamped / towner quests bypass the levy.
+		if(!quest_levy_exempt)
+			tax_amt = round(tax_rate * reward)
+			if(tax_amt > 0)
+				reward -= tax_amt
+				SStreasury.give_money_treasury(tax_amt, "quest completion tax - [src.name]")
+				record_featured_stat(FEATURED_STATS_TAX_PAYERS, user, tax_amt)
+				record_round_statistic(STATS_TAXES_COLLECTED, tax_amt)
 
 		SSquestpool.record_completion(user, completed_quest, round(reward), tax_amt)
 
