@@ -17,7 +17,7 @@
 	butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/crab = 2, /obj/item/alch/viscera = 2)
 	perfect_butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/crab = 3, /obj/item/alch/viscera = 2)
 	food_type = list(/obj/item/reagent_containers/food/snacks)
-	faction = list("crabs")
+	faction = list(FACTION_CRABS)
 	response_help_continuous = "pets"
 	response_help_simple = "pet"
 	response_disarm_continuous = "gently pushes aside"

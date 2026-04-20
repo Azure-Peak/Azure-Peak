@@ -361,6 +361,7 @@
 			"Knight's Armet"		= /obj/item/clothing/head/roguetown/helmet/heavy/knight/iron,
 			"Knight's Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/knight/old/iron,
 			"Knight's Greatplumed Armet"		= /obj/item/clothing/head/roguetown/helmet/heavy/knight/iron/greatplume,
+			"Banded Iron Helmet"			=	/obj/item/clothing/head/roguetown/helmet/sallet/iron/banded,
 			"None"
 			)
 		var/helmchoice = input(H, "Choose your Helm.", "TAKE UP HELMS") as anything in helmets
@@ -368,26 +369,31 @@
 			head = helmets[helmchoice]
 
 		var/armors = list(
-			"Breastplate + Hauberk",
-			"Half-Plate + Light Gambeson"
+			"Breastplate, Hauberk, & Kilt",
+			"Half-Plate, Gambeson, & Chausses",
+			"Banded Iron, Light Gambeson, & Pants"
 			)
 		var/armorchoice = input(H, "Choose your armor.", "TAKE UP ARMOR") as anything in armors
 		switch(armorchoice)
-			if("Breastplate + Hauberk")
+			if("Breastplate, Hauberk, & Kilt")
 				armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron
 				shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/iron
-			if("Half-Plate + Light Gambeson")
+				gloves = /obj/item/clothing/gloves/roguetown/chain/iron
+				neck = /obj/item/clothing/neck/roguetown/bevor/iron
+				pants = /obj/item/clothing/under/roguetown/chainlegs/iron/kilt
+			if("Half-Plate, Gambeson, & Chausses")
 				armor = /obj/item/clothing/suit/roguetown/armor/plate/iron
+				shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
+				gloves = /obj/item/clothing/gloves/roguetown/chain/iron
+				neck = /obj/item/clothing/neck/roguetown/bevor/iron
+				pants = /obj/item/clothing/under/roguetown/chainlegs/iron
+			if("Banded Iron, Light Gambeson, & Pants")
+				armor = /obj/item/clothing/suit/roguetown/armor/plate/iron/banded
 				shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/light
+				gloves = /obj/item/clothing/gloves/roguetown/plate/iron/banded
+				neck = /obj/item/clothing/neck/roguetown/gorget
+				pants = /obj/item/clothing/under/roguetown/tights/black
 
-		var/legs = list(
-			"Chain Chausses"	= /obj/item/clothing/under/roguetown/chainlegs/iron,
-			"Chain Kilt"		= /obj/item/clothing/under/roguetown/chainlegs/iron/kilt
-			)
-		var/legschoice = input(H, "Choose your Pants.", "TAKE UP PANTS") as anything in legs
-		pants = legs[legschoice]
-	gloves = /obj/item/clothing/gloves/roguetown/chain/iron
-	neck = /obj/item/clothing/neck/roguetown/bevor/iron
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/iron
 	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/iron
 	belt = /obj/item/storage/belt/rogue/leather/battleskirt/black
@@ -401,7 +407,7 @@
 	H.dna.species.soundpack_m = new /datum/voicepack/male/warrior()
 	H.set_blindness(0)
 	if(H.mind)
-		var/weapons = list("Executioner's Sword","Broadsword","Warhammer + Shield","Flail + Shield","Studded Flail + Shield","Lucerne","Greataxe","Greatflail")
+		var/weapons = list("Executioner's Sword","Broadsword","Warhammer + Shield","Flail + Shield","Studded Flail + Shield","Lucerne","Greataxe","Greatflail","Banded Sword + Shield")
 		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 		switch(weapon_choice)
 			if("Executioner's Sword")
@@ -438,6 +444,11 @@
 				H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_JOURNEYMAN, TRUE)
 				r_hand = /obj/item/rogueweapon/greataxe
 				backr = /obj/item/rogueweapon/scabbard/gwstrap
+			if("Banded Sword + Shield")
+				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_JOURNEYMAN, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/combat/shields, SKILL_LEVEL_JOURNEYMAN, TRUE)
+				beltr = /obj/item/rogueweapon/sword/short/iron/banded
+				backr = /obj/item/rogueweapon/shield/iron
 
 /datum/advclass/sfighter/mhunter
 	name = "Exorcist"
@@ -445,7 +456,7 @@
 	outfit = /datum/outfit/job/roguetown/adventurer/mhunter
 	cmode_music = 'sound/music/cmode/adventurer/combat_outlander2.ogg'
 	category_tags = list(CTAG_ADVENTURER, CTAG_COURTAGENT)
-	traits_applied = list(TRAIT_STEELHEARTED, TRAIT_PURITAN_ADVENTURER, TRAIT_ALCHEMY_EXPERT)
+	traits_applied = list(TRAIT_STEELHEARTED, TRAIT_PURITAN_ADVENTURER, TRAIT_ALCHEMY_EXPERT, TRAIT_EXPERT_HUNTER)
 	maximum_possible_slots = 5 //Not a Wretch or Towner, but still conditionally lethal for an Adventurer - especially with steel coverage and round-start access to silver weapons. Adjust the amount of available slots as needed.
 	subclass_stats = list(
 		STATKEY_STR = 2,
@@ -464,6 +475,7 @@
 		/datum/skill/misc/reading = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/tracking = SKILL_LEVEL_EXPERT,
 		/datum/skill/craft/alchemy = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/hunting = SKILL_LEVEL_APPRENTICE,
 		)
 	extra_context = "This subclass can choose a silver weapon to spawn with, and has three disciplines to pick from: each one provides a different level of armor training, a unique trait, and a minor one-point boon to certain stats. 'Old' characters are more proficient in this subclass."
 

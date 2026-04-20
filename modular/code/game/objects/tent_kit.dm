@@ -492,6 +492,7 @@
 // === HELPERS ===
 /obj/structure/roguetent
 	parent_type = /obj/structure/tent_component
+	opacity = TRUE
 
 /proc/is_openspace(atom/A)
 	if(!A) return FALSE

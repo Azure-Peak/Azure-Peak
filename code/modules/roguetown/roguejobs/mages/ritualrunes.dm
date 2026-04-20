@@ -399,39 +399,184 @@ GLOBAL_LIST(teleport_runes)
 	desc = "arcane symbols twist inward upon themselves, forming a cage of power..."
 	icon = 'icons/effects/96x96.dmi'
 	icon_state = "empowerment"
-	tier = 2
+	tier = 0
 	runesize = 1
 	pixel_x = -32
 	pixel_y = -32
 	invocation = "Vinculum Formare!"
 	layer = SIGIL_LAYER
 	can_be_scribed = TRUE
+	var/busy = FALSE
 	var/mob/living/simple_animal/summoned_mob
 
 /obj/effect/decal/cleanable/roguerune/arcyne/binding/New()
 	. = ..()
-	rituals += GLOB.t2bindingrituallist
+	rituals += GLOB.familiarbindingrituallist
 
 /obj/effect/decal/cleanable/roguerune/arcyne/binding/Destroy()
+	// destroy the rune without a player in the mob - sorry, it's gone now
 	if(summoned_mob && !QDELETED(summoned_mob))
-		REMOVE_TRAIT(summoned_mob, TRAIT_PACIFISM, TRAIT_GENERIC)
-		summoned_mob.status_flags -= GODMODE
-		summoned_mob.candodge = TRUE
-		summoned_mob.binded = FALSE
-		summoned_mob.move_resist = MOVE_RESIST_DEFAULT
-		summoned_mob.SetParalyzed(0)
+		qdel(summoned_mob)
 		summoned_mob = null
 	return ..()
 
+/obj/effect/decal/cleanable/roguerune/arcyne/binding/get_mechanics_examine(mob/user)
+	. = ..()
+	if(isarcyne(user))
+		. += span_info("Use the rune to select a rite. Some rites require the circle to be near a leyline.")
+		. += span_info("For rites that summon a familiar, left-click the circle with an empty hand afterwards to attempt to draw in a player to control it.")
+		. += span_info("If you need to cancel a binding attempt, right-click the circle to delete the mob and refund the costs.")
+
 /obj/effect/decal/cleanable/roguerune/arcyne/binding/attack_hand(mob/living/user)
+	try
+		summon_mob(user)
+	catch(var/exception/e)
+		to_chat(user, "Exception: [e] on [e.file], line [e.line]. This is a code error!")
+	. = ..()
+
+/obj/effect/decal/cleanable/roguerune/arcyne/binding/proc/summon_mob(mob/living/user)
 	if(summoned_mob && isarcyne(user))
-		var/mob/living/simple_animal/S = summoned_mob
+		if(busy)
+			to_chat(user, span_warning("I am already attempting to bind this familiar! I must have patience..."))
+			return
+		var/mob/living/simple_animal/pet/familiar/S = summoned_mob
 		if(!S || QDELETED(S))
 			to_chat(user, span_warning("The containment has already faded."))
 			summoned_mob = null
 			return
+		var/plane = S.planar_origin
+		for(var/mob/living/simple_animal/pet/familiar/existing_fam in GLOB.alive_mob_list + GLOB.dead_mob_list)
+			if(existing_fam.familiar_summoner == user)
+				to_chat(user, span_warning("You can only bind one familiar at once!"))
+				return FALSE
+		if(S.planar_origin == "void")
+			to_chat(user, span_notice("You begin attempting to awaken your creation's mind..."))
+		else
+			to_chat(user, span_notice("You reach across the veil, attempting to draw in the familiar's mind..."))
+		busy = TRUE
+		var/list/candidates = pollCandidatesForMob("Do you want to play as a Mage's familiar? You will materialize as [(plane == "infernal" || plane == "elemental")?"an":"a"] [plane] familiar.", null, null, null, 100, S, POLL_IGNORE_MAGE_SUMMON)
+		if(!LAZYLEN(candidates))
+			to_chat(user,span_warning("No candidate players available."))
+			busy = FALSE
+			return
+		var/list/preferred_candidates = list()
+		var/mob/chosen = null
+		for(var/mob/candidate in candidates)
+			var/client/client_ref = candidate.client
+			if(client_ref && client_ref.prefs && client_ref.prefs.familiar_prefs)
+				if(!client_ref.prefs.familiar_prefs.familiar_species) // this is an old familiar prefs object again, woe! fix that shit
+					client_ref.prefs.familiar_prefs.New(client_ref.prefs)
+					to_chat(user, span_warning("A candidate had invalid familiar prefs! Re-instantiating them now."))
+					to_chat(candidate, span_warning("Set your familiar prefs to be summoned as a familiar!"))
+					continue // we skip the rest of the checks because they are not going to have prefs
+				if(client_ref.prefs.familiar_prefs.familiar_species[plane] && client_ref.prefs.familiar_prefs.familiar_names[plane])
+					if(client_ref.prefs.familiar_prefs.familiar_names[plane] in GLOB.chosen_names)
+						// special case: realname conflict
+						to_chat(user, span_warning("A candidate had valid prefs, but their name conflicted with an existing character's!"))
+						to_chat(client_ref, span_warning("Your familiar's name is already claimed, this round!"))
+					else
+						// you have all the required fields set for a familiar of this type, congrats you can be summoned
+						preferred_candidates += candidate
+			else
+				// if not, we give you a hint to set your prefs so you can be summoned
+				to_chat(user, span_warning("A candidate tried to be summoned, but had no valid prefs!"))
+				to_chat(candidate,span_warning("Set your familiar prefs to be summoned as a familiar!"))
+		if(LAZYLEN(preferred_candidates)) // we found someone with settings for the correct planar origin: it's go time
+			var/list/familiar_names = list()
+			var/list/familiar_choices = list()
+			for(var/mob/famcand in preferred_candidates)
+				familiar_names+=famcand.client.prefs.familiar_prefs.familiar_names[plane]
+				var/fam_species = GLOB.familiar_display_names[famcand.client.prefs.familiar_prefs.familiar_species[plane]]
+				familiar_choices+="[famcand.client.prefs.familiar_prefs.familiar_names[plane]] ([fam_species])"
+			var/pretty_choice = input(user,"Select a familiar candidate to summon","ACROSS THE VEIL") as anything in familiar_choices
+			var/chosen_name = familiar_names[familiar_choices.Find(pretty_choice)] // if two people have the same familar name uhh idk lmao
+			for(var/mob/familiarcandidate in preferred_candidates)
+				if(familiarcandidate.client.prefs.familiar_prefs.familiar_names[plane]==chosen_name)
+					chosen = familiarcandidate
+			if(!chosen)
+				//what the fuck
+				to_chat(user, span_warning("Chosen target not found; maybe they disconnected?"))
+				busy = FALSE
+				return
+			var/datum/familiar_prefs/prefs = chosen.client?.prefs?.familiar_prefs
+			if(!istype(prefs)) // uh oh
+				to_chat(user, span_warning("Summoning failed: target has no valid familiar prefs, somehow."))
+				busy = FALSE
+				return
+			qdel(S)
+			summoned_mob = null
+			var/to_summon = prefs.familiar_species[plane]
+			var/mob/living/simple_animal/pet/familiar/fam = new to_summon(loc)
+			fam.familiar_summoner = user
+			fam.fully_replace_character_name(null, prefs.familiar_names[plane])
+			fam.pronouns = prefs.familiar_pronouns[plane] ? prefs.familiar_pronouns[plane] : THEY_THEM
+			switch(prefs.familiar_pronouns[plane] ? prefs.familiar_pronouns[plane] : THEY_THEM) // why is our gender handling so bad for simples
+				if(SHE_HER)
+					fam.gender=FEMALE
+				if(HE_HIM)
+					fam.gender=MALE
+				if(THEY_THEM)
+					fam.gender=PLURAL
+				if(IT_ITS)
+					fam.gender=NEUTER
+				else
+					fam.gender=NEUTER
+			src.visible_message(span_notice("[fam.summoning_emote]"))
 
-		to_chat(user, span_warning("You release the summon from its containment!"))
+			if(isnewplayer(chosen))
+				var/mob/dead/new_player/new_chosen = chosen
+				new_chosen.close_spawn_windows()
+			if(!chosen.ckey)
+				to_chat(user, span_warning("Summoning failed: chosen candidate has no ckey!"))
+				busy = FALSE
+				return
+			fam.ckey = chosen.ckey
+			var/datum/mind/mind_datum = fam.mind
+			if(!mind_datum)
+				to_chat(user, span_warning("Summoning failed: mind transfer failed"))
+				busy = FALSE
+				return
+			mind_datum.RemoveAllSpells()
+			mind_datum.AddSpell(new /datum/action/cooldown/spell/message_summoner())
+			mind_datum.AddSpell(new /datum/action/cooldown/spell/familiar_transform())
+			user.mind?.AddSpell(new /datum/action/cooldown/spell/message_familiar())
+
+			if(fam.inherent_spell)
+				for(var/spell_path in fam.inherent_spell)
+					if(ispath(spell_path))
+						var/obj/effect/proc_holder/spell/spell_instance = new spell_path
+						if(spell_instance)
+							mind_datum.AddSpell(spell_instance)
+			fam.can_have_ai = FALSE
+			fam.AIStatus = AI_OFF
+			fam.stop_automated_movement = TRUE
+			fam.stop_automated_movement_when_pulled = TRUE
+			fam.wander = FALSE
+			fam.cmode = FALSE
+
+			var/faction_to_add = "[user.mind.current.real_name]_faction"
+			fam.faction |= faction_to_add
+			var/tutorial = null
+			if(istype(fam,/mob/living/simple_animal/pet/familiar/fae))
+				tutorial = "You are a familiar: a lesser being drawn from the outer planes. The faewyld is a primal place, and those that grow beyond their station are often pruned... for those of little power like yourself, the mortal realm is a safer place to grow. Serve your summoner, learn from this realm, and return stronger."
+			else if(istype(fam,/mob/living/simple_animal/pet/familiar/infernal))
+				tutorial = "You are a familiar: a lesser being drawn from the outer planes. The hells are a brutal place, and those with ambition beyond their ability are often culled... for those of little power like yourself, the mortal realm is a safer place to refuel. Serve your summoner, learn from this realm, and return stronger."
+			else if(istype(fam,/mob/living/simple_animal/pet/familiar/elemental))
+				tutorial = "You are a familiar: a lesser being drawn from the outer planes. The depths are an unchanging place, and pebbles that stick up are eroded down... for those of little power like yourself, the mortal realm is a safer place to accumulate. Serve your summoner, learn from this realm, and return stronger."
+			else
+				tutorial = "You are a Void Drakeling: a being entirely new to this world, and all others. A fragment of draconic power torn from elsewhere, if you are ever to become as strong as what you were once part of, you must sate this hunger. Serve your creator, and be voracious; planar beings shall be the fuel for your ascension."
+			to_chat(fam, span_notice(tutorial))
+			if(fam.tutorial_message)
+				to_chat(fam, fam.tutorial_message)
+			GLOB.chosen_names += fam.real_name
+			GLOB.character_ckey_list[fam.real_name] = fam.ckey
+			log_game("[key_name(user)] has summoned [key_name(chosen)] as familiar '[fam.name]' ([fam.type]).")
+			busy = FALSE
+		else
+			// nobody has valid familiar prefs. woe!
+			to_chat(user, span_warning("No valid familiar candidate found!"))
+			busy = FALSE
+			return
 		playsound(user, 'sound/magic/teleport_diss.ogg', 75, TRUE)
 		do_invoke_glow()
 		clear_obstacles(user)
@@ -440,17 +585,24 @@ GLOBAL_LIST(teleport_runes)
 			summoned_mob = null
 			return
 
-		animate(S, color = null, time = 5)
-		REMOVE_TRAIT(S, TRAIT_PACIFISM, TRAIT_GENERIC)
-		S.status_flags -= GODMODE
-		S.candodge = TRUE
-		S.binded = FALSE
-		S.move_resist = MOVE_RESIST_DEFAULT
-		S.SetParalyzed(0)
-
-		summoned_mob = null
-		return
+/obj/effect/decal/cleanable/roguerune/arcyne/binding/attack_right(mob/user)
 	. = ..()
+	if((input(user,"Would you like to cancel this summoning attempt?","Fallback","No") as anything in list("Yes","No") | null)=="Yes")
+		busy = FALSE
+		if(summoned_mob)
+			var/list/refund_costs = list()
+			if(istype(summoned_mob,/mob/living/simple_animal/pet/familiar/fae))
+				refund_costs = list(/obj/item/magic/fae/iridescentscale = 2)
+			else if(istype(summoned_mob,/mob/living/simple_animal/pet/familiar/infernal))
+				refund_costs = list(/obj/item/magic/infernal/fang = 2)
+			else if(istype(summoned_mob,/mob/living/simple_animal/pet/familiar/elemental))
+				refund_costs = list(/obj/item/magic/elemental/shard = 2)
+			else
+				refund_costs = list(/obj/item/magic/artifact = 1, /obj/item/magic/voidstone = 2, /obj/item/magic/leyline = 1)
+			for(var/index in refund_costs)
+				for(var/i in 1 to refund_costs[index])
+					new index(loc)
+			QDEL_NULL(summoned_mob)
 
 /obj/effect/decal/cleanable/roguerune/arcyne/binding/proc/clear_obstacles(mob/living/user)
 	for(var/turf/closed/wall/anticheese in range(loc, runesize))
@@ -470,28 +622,13 @@ GLOBAL_LIST(teleport_runes)
 		if(!isliving(invoker))
 			continue
 		var/mob/living/living_invoker = invoker
-		if(invocation)
-			living_invoker.say(invocation, language = /datum/language/common, ignore_spam = TRUE, forced = "cult invocation")
+		var/datum/runeritual/binding/bindingritual = runeritual
+		if(bindingritual.invocation)
+			living_invoker.say(bindingritual.invocation, language = /datum/language/common, ignore_spam = TRUE, forced = "cult invocation")
 		if(invoke_damage)
 			living_invoker.apply_damage(invoke_damage, BRUTE)
 			to_chat(living_invoker, span_italics("[src] saps your strength!"))
 	do_invoke_glow()
-
-/obj/effect/decal/cleanable/roguerune/arcyne/binding/greater
-	name = "greater binding array"
-	desc = "arcane symbols twist inward upon themselves, forming a powerful cage of energy..."
-	icon = 'icons/effects/160x160.dmi'
-	icon_state = "portal"
-	tier = 5
-	runesize = 2
-	pixel_x = -64
-	pixel_y = -64
-	invocation = "Magnum Vinculum Formare!"
-
-/obj/effect/decal/cleanable/roguerune/arcyne/binding/greater/New()
-	. = ..()
-	rituals.Cut()
-	rituals += GLOB.t4bindingrituallist
 
 /obj/effect/decal/cleanable/roguerune/arcyne/wall
 	name = "wall accession matrix"
@@ -664,14 +801,14 @@ GLOBAL_LIST(teleport_runes)
 
 /obj/effect/decal/cleanable/roguerune/arcyne/teleport
 	name = "leyline teleportation matrix"
-	desc = "A matrix that allows teleportation between leylines, ducking into the leyline and then rematerializing in another spot. Despite magos trying their best, no one has been able to conceive a way to teleport more than a mile at once in all of Psydonia. Repeated usages or chaining teleport out of a two mile radius appears to exhaust or degrade the body rapidly." 
-	icon = 'icons/effects/160x160.dmi'
+	desc = "A matrix that allows teleportation between leylines, ducking into the leyline and then rematerializing in another spot. The matrix can carry up to five people, though no more than two may lack arcyne knowledge. Despite magos trying their best, no one has been able to conceive a way to teleport more than a mile at once in all of Psydonia. Repeated usages or chaining teleport out of a two mile radius appears to exhaust or degrade the body rapidly."
+	icon = 'icons/effects/96x96.dmi'
 	icon_state = "portal"
 	tier = 2
 	req_keyword = TRUE
-	runesize = 2
-	pixel_x = -64 //So the big ol' 96x96 sprite shows up right
-	pixel_y = -64
+	runesize = 1
+	pixel_x = -32 //So the big ol' 96x96 sprite shows up right
+	pixel_y = -32
 	pixel_z = 0
 	can_be_scribed = TRUE
 	requires_leyline = TRUE
@@ -768,7 +905,7 @@ GLOBAL_LIST(teleport_runes)
 		fail_invoke()
 		return
 
-	// --- Collect passengers (max 5, max 1 non-arcyne) ---
+	// --- Collect passengers (max TELEPORT_MAX_PASSENGERS total, max TELEPORT_MAX_NONMAGES non-arcyne) ---
 	var/list/mob/living/passengers = list()
 	var/non_arcyne_count = 0
 	var/non_arcyne_excluded = 0
@@ -781,17 +918,17 @@ GLOBAL_LIST(teleport_runes)
 			continue
 		if(M.stat != CONSCIOUS)
 			continue
-		if(length(passengers) >= 5)
+		if(length(passengers) >= TELEPORT_MAX_PASSENGERS)
 			break
 		if(!isarcyne(M))
-			if(non_arcyne_count >= 1)
+			if(non_arcyne_count >= TELEPORT_MAX_NONMAGES)
 				non_arcyne_excluded++
 				continue
 			non_arcyne_count++
 		passengers += M
 
 	if(non_arcyne_excluded)
-		to_chat(user, span_warning("The matrix can only carry one who lacks arcyne knowledge. [non_arcyne_excluded] non-mage\s will be left behind."))
+		to_chat(user, span_warning("The matrix can only carry [TELEPORT_MAX_NONMAGES] who lack arcyne knowledge. [non_arcyne_excluded] non-mage\s will be left behind."))
 
 	// --- Check energy (400 total per person, drained across 4 chant phases = 100 per phase) ---
 	var/energy_per_phase = 100
@@ -902,7 +1039,7 @@ GLOBAL_LIST(teleport_runes)
 	name = "ordinary matrix of summoning"
 	desc = "An ordinary circle of arcyne power, capable of reaching into the second dimension of the veil and bringing forth more powerful creechurs."
 	icon = 'icons/effects/96x96.dmi'
-	icon_state = "sealate"
+	icon_state = "summonmid"
 	runesize = 1
 	tier = 2
 	pixel_x = -32
@@ -918,12 +1055,12 @@ GLOBAL_LIST(teleport_runes)
 /obj/effect/decal/cleanable/roguerune/arcyne/summoning/adv
 	name = "greater sealed matrix of summoning"
 	desc = "A greater summoning circle, and the strongest a singular mage can sustain with the lyfeforce from their body, capable of summoning truly terrifying beasts."
-	icon = 'icons/effects/160x160.dmi'
-	icon_state = "warded"
-	runesize = 2
+	icon = 'icons/effects/96x96.dmi'
+	icon_state = "summonadv"
+	runesize = 1
 	tier = 3
-	pixel_x = -64
-	pixel_y = -64
+	pixel_x = -32
+	pixel_y = -32
 	pixel_z = 0
 	can_be_scribed = TRUE
 
@@ -935,12 +1072,12 @@ GLOBAL_LIST(teleport_runes)
 /obj/effect/decal/cleanable/roguerune/arcyne/summoning/max
 	name = "grand warded matrix of summoning"
 	desc = "A grand summoning circle capable of summoning the strongest and most powerful of creechurs modern mages can manage to reach."
-	icon = 'icons/effects/224x224.dmi'
-	icon_state = "huge_runeblued"
-	runesize = 3
+	icon = 'icons/effects/96x96.dmi'
+	icon_state = "summonmax"
+	runesize = 1
 	tier = 5
-	pixel_x = -96
-	pixel_y = -96
+	pixel_x = -32
+	pixel_y = -32
 	pixel_z = 0
 	can_be_scribed = TRUE
 

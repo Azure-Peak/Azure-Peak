@@ -8,7 +8,7 @@
 	remains_type = /obj/effect/decal/remains/cabbit
 	speak = list("Meow!", "Chk!", "Purr!", "Chrr!")
 	speak_emote = list("chirrups", "meows")
-	faction = list("cabbits")	//Snowflake code
+	faction = list(FACTION_CABBITS)	//Snowflake code
 	emote_hear = list("meows.", "clucks.")
 	emote_see = list("brings their ears alert.", "scratches their ear with a hindleg.")
 	botched_butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/rabbit = 2)

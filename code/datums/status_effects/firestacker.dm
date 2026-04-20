@@ -166,7 +166,8 @@
 	if(!(owner.mobility_flags & MOBILITY_STAND))
 		decay_multiplier *= STACK_DECAY_PRONE_MULTIPLIER
 
-	adjust_stacks(decay_multiplier * owner.fire_stack_decay_rate * STACK_DECAY_MULTIPLIER * wait * 0.1)
+	var/fire_resist_decay = HAS_TRAIT(owner, TRAIT_FIRE_RESIST) ? 2 : 1
+	adjust_stacks(decay_multiplier * owner.fire_stack_decay_rate * STACK_DECAY_MULTIPLIER * fire_resist_decay * wait * 0.1)
 
 	if(stacks <= 0)
 		qdel(src)

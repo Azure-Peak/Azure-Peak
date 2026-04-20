@@ -1,0 +1,10 @@
+author: "Ketrai"
+delete-after: True
+changes:
+  - rscadd: "Add hunting skill, granted to many classes"
+  - balance: "Adjusted steward to +5 statweight"
+  - balance: "Adjusted councillor classes to +5 statweight"
+  - rscadd: "Huntmaster councillor class"
+  - rscadd: "Castellan councillor class"
+  - rscadd: "Hunting maps to boost hunting chances for the white stag"
+  - rscadd: "White stag mob"

@@ -5,7 +5,7 @@
 	desc = "A guise of before."
 	w_class = WEIGHT_CLASS_NORMAL
 	static_price = TRUE
-	sellprice = 100
+	sellprice = 10
 	icon = 'icons/roguetown/items/misc.dmi'
 	var/deployed_structure = /obj/structure/fluff/walldeco/painting
 
@@ -55,14 +55,14 @@
 	icon_state = "queenpainting"
 	desc = "It's Queen Samantha I of Psydonia. Her late husband would be so proud of what she has accomplished in his realm."
 	dropshrink = 0.5
-	sellprice = 200
+	sellprice = 20
 	deployed_structure = /obj/structure/fluff/walldeco/painting/queen
 
 /obj/item/rogue/painting/seraphina
 	icon_state = "seraphinapainting"
 	desc = "It's the Holy Priestess, Seraphina; first of Her name, blessed be Her name."
 	dropshrink = 0.5
-	sellprice = 200
+	sellprice = 20
 	deployed_structure = /obj/structure/fluff/walldeco/painting/seraphina
 
 /obj/structure/fluff/walldeco/painting/seraphina
@@ -73,7 +73,7 @@
 /obj/item/rogue/painting/skullzhg
 	icon_state = "skullpainting"
 	desc = "A moody scene depicting a skull and candles on a table. Memento mori."
-	sellprice = 200
+	sellprice = 20
 	deployed_structure = /obj/structure/fluff/walldeco/painting/skull
 
 /obj/structure/fluff/walldeco/painting/skull

@@ -72,7 +72,7 @@
 
 /obj/projectile/magic/arcyne_salvo/arc
 	name = "arced arcyne bolt"
-	damage = 22
+	damage = 23
 	arcshot = TRUE
 
 /obj/projectile/magic/arcyne_salvo/on_hit(target)

@@ -8,11 +8,6 @@ GLOBAL_LIST_INIT(target_interested_atoms, typecacheof(list(/mob)))
 	/// How far can we see stuff?
 	var/vision_range = 9
 
-/datum/ai_behavior/find_potential_targets/get_cooldown(datum/ai_controller/cooldown_for)
-	if(cooldown_for.blackboard[BB_FIND_TARGETS_FIELD(type)])
-		return 60 SECONDS
-	return ..()
-
 /datum/ai_behavior/find_potential_targets/perform(seconds_per_tick, datum/ai_controller/controller, target_key, targetting_datum_key, hiding_location_key)
 	. = ..()
 	var/mob/living/living_mob = controller.pawn
@@ -30,14 +25,12 @@ GLOBAL_LIST_INIT(target_interested_atoms, typecacheof(list(/mob)))
 		return
 
 	controller.clear_blackboard_key(target_key)
-	// If we're using a field rn, just don't do anything yeah?
-	if(controller.blackboard[BB_FIND_TARGETS_FIELD(type)])
-		return
 
-	var/list/potential_targets = viewers(vision_range, controller.pawn) - living_mob //Remove self, so we don't suicide
+	// Wake/sleep is gated by spatial-grid cell tracking on the base controller.
+	// When no clients are in our cells we don't tick, so scanning here is cheap.
+	var/list/potential_targets = viewers(vision_range, controller.pawn) - living_mob
 
 	if(!potential_targets.len)
-		failed_to_find_anyone(controller, target_key, targetting_datum_key, hiding_location_key)
 		finish_action(controller, succeeded = FALSE)
 		return
 
@@ -59,7 +52,6 @@ GLOBAL_LIST_INIT(target_interested_atoms, typecacheof(list(/mob)))
 			filtered_targets -= living_target
 
 	if(!filtered_targets.len)
-		failed_to_find_anyone(controller, target_key, targetting_datum_key, hiding_location_key)
 		finish_action(controller, succeeded = FALSE)
 		return
 
@@ -73,78 +65,10 @@ GLOBAL_LIST_INIT(target_interested_atoms, typecacheof(list(/mob)))
 
 	finish_action(controller, succeeded = TRUE)
 
-/datum/ai_behavior/find_potential_targets/proc/failed_to_find_anyone(datum/ai_controller/controller, target_key, targeting_strategy_key, hiding_location_key)
-	var/aggro_range = vision_range
-	// takes the larger between our range() input and our implicit hearers() input (world.view)
-	aggro_range = max(aggro_range, ROUND_UP(max(getviewsize(world.view)) / 2))
-	// Alright, here's the interesting bit
-	// We're gonna use this max range to hook into a proximity field so we can just await someone interesting to come along
-	// Rather then trying to check every few seconds
-	var/datum/proximity_monitor/advanced/ai_target_tracking/detection_field = new(
-		controller.pawn,
-		aggro_range,
-		TRUE,
-		src,
-		controller,
-		target_key,
-		targeting_strategy_key,
-		hiding_location_key,
-	)
-	// We're gonna store this field in our blackboard, so we can clear it away if we end up finishing successsfully
-	controller.set_blackboard_key(BB_FIND_TARGETS_FIELD(type), detection_field)
-
-/datum/ai_behavior/find_potential_targets/proc/new_turf_found(turf/found, datum/ai_controller/controller, datum/targetting_datum/strategy)
-	var/valid_found = FALSE
-	var/mob/pawn = controller.pawn
-	for(var/maybe_target as anything in found)
-		if(!atom_allowed(maybe_target, strategy, pawn))
-			continue
-		valid_found = TRUE
-		break
-	if(!valid_found)
-		return
-	// If we found any one thing we "could" attack, then run the full search again so we can select from the best possible canidate
-	var/datum/proximity_monitor/field = controller.blackboard[BB_FIND_TARGETS_FIELD(type)]
-	qdel(field) // autoclears so it's fine
-	// Fire instantly, you should find something I hope
-	controller.modify_cooldown(src, world.time)
-
-/datum/ai_behavior/find_potential_targets/proc/atom_allowed(atom/movable/checking, datum/targetting_datum/strategy, mob/pawn)
-	if(checking == pawn)
-		return FALSE
-	if(!ismob(checking) && !is_type_in_typecache(checking, GLOB.target_interested_atoms))
-		return FALSE
-	if(!strategy.can_attack(pawn, checking))
-		return FALSE
-	// LOS check: proximity field fires on range, not sight, so gate walls here.
-	if(!(checking in viewers(vision_range, pawn)))
-		return FALSE
-	if(isliving(checking))
-		var/mob/living/living_check = checking
-		if(living_check.rogue_sneaking && isliving(pawn))
-			var/mob/living/living_pawn = pawn
-			var/extra_chance = (living_pawn.health <= living_pawn.maxHealth * 50) ? 30 : 0
-			if(!living_pawn.npc_detect_sneak(living_check, extra_chance))
-				return FALSE
-	return TRUE
-
-/datum/ai_behavior/find_potential_targets/proc/new_atoms_found(list/atom/movable/found, datum/ai_controller/controller, target_key, datum/targetting_datum/strategy, hiding_location_key)
-	var/mob/pawn = controller.pawn
-	// Don't short-circuit target selection: any candidate the proximity field reports
-	// still needs to go through the full perform() filter (viewers + sneak check).
-	// Just kick the cooldown so the behavior reruns immediately.
-	for(var/maybe_target as anything in found)
-		if(!atom_allowed(maybe_target, strategy, pawn))
-			continue
-		controller.modify_cooldown(src, world.time)
-		return
-
 /datum/ai_behavior/find_potential_targets/finish_action(datum/ai_controller/controller, succeeded, target_key, targeting_strategy_key, hiding_location_key)
 	. = ..()
 	if (succeeded)
-		var/datum/proximity_monitor/field = controller.blackboard[BB_FIND_TARGETS_FIELD(type)]
-		qdel(field) // autoclears so it's fine
-		controller.CancelActions() // On retarget cancel any further queued actions so that they will setup again with new target
+		controller.CancelActions()
 		controller.modify_cooldown(controller, world.time + get_cooldown(controller))
 
 /// Returns the desired final target from the filtered list of targets

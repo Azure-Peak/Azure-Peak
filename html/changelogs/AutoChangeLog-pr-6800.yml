@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Balloon alerts that appears at the same time should appear vertically stacked on top instead of overlapping eachother most of the time, making it visually clearer"

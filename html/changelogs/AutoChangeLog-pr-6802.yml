@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Bear / Mantrap recipe no longer smelt into anything to avoid a dupe exploit."

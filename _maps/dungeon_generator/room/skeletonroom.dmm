@@ -19,10 +19,7 @@
 /obj/structure/fluff/railing/border{
 	dir = 1
 	},
-/obj/item/reagent_containers/food/snacks/rogue/breadslice{
-	pixel_y = -2;
-	pixel_x = -13
-	},
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
 /obj/structure/table/wood/crafted{
 	icon_state = "longtable";
 	dir = 1
@@ -135,7 +132,7 @@
 /obj/structure/fluff/railing/border{
 	dir = 6
 	},
-/obj/item/reagent_containers/food/snacks/smallrat,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
 /turf/open/floor/rogue/wood,
 /area/rogue/under/tomb/indoors/church)
 "sU" = (
@@ -170,7 +167,7 @@
 /turf/closed/wall/mineral/rogue/stone/moss,
 /area/rogue/under/tomb/indoors/church)
 "FJ" = (
-/obj/item/reagent_containers/food/snacks/smallrat,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
 /turf/open/floor/rogue/wood,
 /area/rogue/under/tomb/indoors/church)
 "Gd" = (
@@ -307,9 +304,7 @@
 /obj/structure/fluff/railing/border{
 	dir = 1
 	},
-/obj/item/reagent_containers/food/snacks/rogue/breadslice{
-	pixel_x = 19
-	},
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
 /obj/item/rogueweapon/huntingknife/cleaver{
 	pixel_x = -2;
 	pixel_y = -8

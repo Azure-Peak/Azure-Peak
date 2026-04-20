@@ -102,9 +102,7 @@
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/tomb/indoors)
 "kl" = (
-/obj/item/reagent_containers/food/snacks/rogue/meat/sausage{
-	pixel_y = 4
-	},
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
 /obj/structure/table/wood{
 	icon_state = "tablewood1"
 	},

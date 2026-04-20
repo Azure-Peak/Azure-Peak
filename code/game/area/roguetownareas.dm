@@ -23,6 +23,12 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 	var/drow_area = FALSE
 	var/necra_area = FALSE
 	var/ceiling_protected = FALSE //Prevents tunneling into these from above
+	/// Loot pool budget for this area. Spawners compete for mammons - when budget runs out, remaining spawners get junk. 0 = no pool (spawners fire normally).
+	var/loot_budget = 0
+	/// Pool key for grouping multiple sub-areas into one shared pool. Areas with the same key share one budget. Defaults to own type path.
+	var/loot_pool_key
+	/// If TRUE, this area's pool is not auto-processed at SSatoms init. Use for areas built incrementally by the dungeon generator - call process_deferred_loot_pools() once generation finishes.
+	var/loot_pool_deferred = FALSE
 
 /area/rogue/Entered(mob/living/carbon/human/guy)
 	. = ..()
@@ -235,6 +241,8 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 
 /area/rogue/under/cave/licharena
 	name = "lich's domain"
+	loot_budget = LOOT_BUDGET_LICH_ARENA
+	loot_pool_key = "lich_arena"
 	icon_state = "under"
 	first_time_text = "LICH'S DOMAIN"
 	droning_sound = 'sound/music/area/dragonden.ogg'
@@ -252,6 +260,7 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 
 /area/rogue/under/cave/undeadmanor
 	name = "skelemansion"
+	loot_budget = LOOT_BUDGET_UNDEAD_MANOR
 	icon_state = "spidercave"
 	first_time_text = "ABANDONED MANOR"
 	droning_sound = 'sound/music/area/dungeon2.ogg'

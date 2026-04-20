@@ -36,7 +36,7 @@
 	loot = list(/obj/effect/mob_spawn/human/orc/corpse/savageorc,
 			/obj/item/rogueweapon/stoneaxe/boneaxe,
 			/obj/effect/decal/cleanable/blood)
-	faction = list("orcs")
+	faction = list(FACTION_ORCS)
 	footstep_type = FOOTSTEP_MOB_BAREFOOT
 	del_on_death = TRUE
 	butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/steak = 3,

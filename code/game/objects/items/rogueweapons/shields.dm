@@ -30,6 +30,12 @@
 	COOLDOWN_DECLARE(shield_bang)
 	special = /datum/special_intent/limbguard
 
+/obj/item/rogueweapon/shield/equipped(mob/user, slot, initial)
+	. = ..()
+	if(HAS_TRAIT(user, TRAIT_TINYPAWS))
+		to_chat(user, span_danger("The shield is too bulky for me to wield effectively!"))
+		forceMove(user.loc)
+
 /obj/item/rogueweapon/shield/attackby(obj/item/attackby_item, mob/user, params)
 
 	// Shield banging

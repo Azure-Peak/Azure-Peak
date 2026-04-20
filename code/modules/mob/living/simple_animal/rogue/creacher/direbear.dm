@@ -27,7 +27,7 @@
 									/obj/item/alch/viscera = 2,
 									/obj/item/natural/bone = 4)
 	head_butcher = /obj/item/natural/head/direbear
-	faction = list("bears")		//This mf will kill undead - swapped to its own faction, doesn't trigger ambushes
+	faction = list(FACTION_BEARS)		//This mf will kill undead - swapped to its own faction, doesn't trigger ambushes
 	threat_point = THREAT_DANGEROUS
 	ambush_faction = "wildlife"
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST

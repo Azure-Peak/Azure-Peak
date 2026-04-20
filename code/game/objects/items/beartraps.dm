@@ -236,4 +236,4 @@
 /obj/item/restraints/legcuffs/beartrap/crafted
 	rusty = FALSE
 	desc = "Curious is the trapmaker's art. Their efficacy unwitnessed by their own eyes."
-	smeltresult = /obj/item/ingot/iron
+	smeltresult = null

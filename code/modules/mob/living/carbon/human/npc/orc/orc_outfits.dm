@@ -4,7 +4,10 @@
 	backl = /obj/item/quiver/arrows
 	l_hand = /obj/item/rogueweapon/stoneaxe/boneaxe
 	r_hand = null
+	H.STASTR -= 2
+	H.STAPER += 3
 	H.adjust_skillrank(/datum/skill/combat/bows, 3, TRUE)
+	H.upgrade_ai_controller(/datum/ai_controller/human_npc/archer)
 
 /mob/living/carbon/human/species/orc/npc/footsoldier
 	threat_point = THREAT_HIGH
@@ -48,11 +51,15 @@
 			backl = /obj/item/quiver/arrows
 			l_hand = /obj/item/rogueweapon/stoneaxe/boneaxe
 			H.adjust_skillrank(/datum/skill/combat/bows, 3, TRUE)
+			H.upgrade_ai_controller(/datum/ai_controller/human_npc/archer)
 	H.STASTR = 11
 	H.STASPD = 8
 	H.STACON = 7
 	H.STAWIL = 6
 	H.STAINT = 4 // Very dumb
+	if(wepchoice == 4)
+		H.STASTR -= 2
+		H.STAPER += 3
 	H.adjust_skillrank(/datum/skill/combat/polearms, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/axes, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/wrestling, 2, TRUE)
@@ -134,6 +141,7 @@
 	H.adjust_skillrank(/datum/skill/misc/climbing, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/swimming, 2, TRUE)
 	ADD_TRAIT(H, TRAIT_NOPAINSTUN, TRAIT_GENERIC)
+	ADD_TRAIT(H, TRAIT_NOBURN_RESIST, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_CRITICAL_RESISTANCE, INNATE_TRAIT)
 
 // Heavily armored orc with complete iron protection, heavy armor, and a two hander.

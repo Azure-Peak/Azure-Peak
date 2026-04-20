@@ -1,12 +1,34 @@
 #define HUMAN_NPC_BASE_JUKE_CHANCE              15
 #define HUMAN_NPC_JUKE_MIN_SPD                  10
 #define HUMAN_NPC_JUKE_PER_OVERSPD              5
-#define HUMAN_NPC_WEAKPOINT_SCAN_CHANCE         20
+#define HUMAN_NPC_WEAKPOINT_SCAN_CHANCE         15
 #define HUMAN_NPC_WEAKPOINT_CACHE_DURATION      (6 SECONDS)
 #define HUMAN_NPC_WEAPON_SPECIAL_CHANCE         15  // base chance, INT-scaled. Was 35 — too spammy
 #define HUMAN_NPC_INTENT_SWITCH_CHANCE          25  // chance per attack to start a new intent sequence
 #define HUMAN_NPC_RMB_ATTEMPT_CHANCE			25
 #define HUMAN_NPC_MIN_INT_FOR_TACTICS        8   // minimum INT to use weapon specials or feint
+#define HUMAN_NPC_FEINT_COOLDOWN             (30 SECONDS)
+// Post-attack click recovery jitter — added onto clickcd as (1 + rand(MIN, MAX)).
+// Bigger numbers = slower, less consistent swing cadence (less "frame perfect").
+#define HUMAN_NPC_CLICK_RECOVERY_JITTER_MIN  0.15
+#define HUMAN_NPC_CLICK_RECOVERY_JITTER_MAX  0.3
+// Feint adds extra delay on top of the base recovery, since it's a committed whiff-bait.
+#define HUMAN_NPC_FEINT_RECOVERY_MULT        1.6
+// AI weapon-special cooldown is multiplied by this over the player baseline to simulate
+// human reaction delay / decision cost. 1.0 = parity with players.
+#define HUMAN_NPC_SPECIAL_CD_PENALTY         1.5
+// Reaction window (deciseconds) between locking on and the swing actually landing.
+// If the target steps off the snapshot turf during this window, the swing resolves
+// against the (now empty) stale turf — a real whiff that still pays stamina/clickcd.
+// Scales down by (STAINT + STAPER): smarter/sharper NPCs re-aim faster.
+#define HUMAN_NPC_REACTION_TIME_BASE         5
+#define HUMAN_NPC_REACTION_TIME_MIN          2
+#define HUMAN_NPC_REACTION_PER_STAT_POINT    12  // total stat points needed to shave 1 ds
+// Whiff floor/ceiling: keep the result non-binary. Even a stationary target gets missed
+// sometimes (sloppy swing), and even a moving target sometimes gets tracked and hit.
+// Both are INT-scaled via AI_INT_SCALE_PROB — dumber NPCs whiff more and track less.
+#define HUMAN_NPC_WHIFF_FLOOR_CHANCE         8   // % chance to whiff even when target is stationary
+#define HUMAN_NPC_TRACK_CEILING_CHANCE       40  // % chance to still land a hit when target moved off the snapshot
 
 
 //Note alot of this is just adapted from old code so its probably not the best
@@ -65,7 +87,7 @@
 		pawn.used_intent = pawn.a_intent
 
 	if(prob(HUMAN_NPC_WEAKPOINT_SCAN_CHANCE) && isliving(target))
-		_scan_for_weakpoint(controller, pawn, target)
+		_scan_for_weakpoint(controller, pawn, target) // initial scan on setup
 
 /datum/ai_behavior/basic_melee_attack/human_npc/perform(delta_time, datum/ai_controller/controller, target_key, targetting_datum_key, hiding_location_key)
 	controller.behavior_cooldowns[src] = world.time + get_cooldown(controller)
@@ -117,27 +139,75 @@
 		#ifdef NPC_THINK_DEBUG
 		AI_THINK(pawn, "RMB: intent=[pawn.rmb_intent?.type] stam=[pawn.stamina]/[pawn.max_stamina]")
 		#endif
-		if(pawn.stamina < pawn.max_stamina * 0.7 && istype(pawn.rmb_intent, /datum/rmb_intent/feint))
+		var/feint_ready = world.time >= (controller.blackboard[BB_HUMAN_NPC_FEINT_COOLDOWN] || 0)
+		var/technique_ready = world.time >= (controller.blackboard[BB_HUMAN_NPC_TECHNIQUE_CD] || 0)
+		if(feint_ready && technique_ready && pawn.stamina < pawn.max_stamina * 0.7 && istype(pawn.rmb_intent, /datum/rmb_intent/feint))
 			AI_THINK(pawn, "FEINT: attempting feint on [target]!")
 			modifiers = list(RIGHT_CLICK = TRUE)
+			controller.set_blackboard_key(BB_HUMAN_NPC_FEINT_COOLDOWN, world.time + HUMAN_NPC_FEINT_COOLDOWN)
+			controller.set_blackboard_key(BB_HUMAN_NPC_TECHNIQUE_CD, world.time + 3 SECONDS)
 		#ifdef NPC_THINK_DEBUG
+		else if(istype(pawn.rmb_intent, /datum/rmb_intent/feint) && !feint_ready)
+			AI_THINK(pawn, "FEINT: on cooldown ([controller.blackboard[BB_HUMAN_NPC_FEINT_COOLDOWN] - world.time]ds remaining)")
 		else if(istype(pawn.rmb_intent, /datum/rmb_intent/feint))
 			AI_THINK(pawn, "FEINT: too exhausted ([pawn.stamina] >= [pawn.max_stamina * 0.7])")
 		#endif
 
-	if(hiding_target)
-		controller.ai_interact(hiding_target, TRUE, TRUE, modifiers)
-	else
-		controller.ai_interact(target, TRUE, TRUE, modifiers)
+	// Stale-prediction whiff: snapshot the target's tile, wait a reaction window, then
+	// swing at whatever is on that snapshot. A stationary target gets hit; a moving target
+	// can step off and make us whack empty air. No RNG — purely about whether they moved.
+	var/turf/locked_turf = get_turf(target)
+	var/reaction_time = max(HUMAN_NPC_REACTION_TIME_MIN, HUMAN_NPC_REACTION_TIME_BASE - round((pawn.STAPER + pawn.STAINT) / HUMAN_NPC_REACTION_PER_STAT_POINT))
+	sleep(reaction_time)
+
+	// Re-validate after sleep — pawn/target may have died, moved out of reach, etc.
+	if(QDELETED(pawn) || QDELETED(target) || QDELETED(controller) || controller.pawn != pawn)
+		return
+	var/swing_reach = pawn.used_intent?.reach || 1
+	if(!pawn.CanReach(target, pawn.get_active_held_item()) && locked_turf && get_dist(pawn, locked_turf) > swing_reach)
+		finish_action(controller, FALSE, target_key)
+		return
+
+	var/atom/swing_at = hiding_target || target
+	if(!hiding_target && locked_turf && get_dist(pawn, locked_turf) <= swing_reach)
+		var/target_moved = (get_turf(target) != locked_turf)
+		if(target_moved)
+			// Ceiling: small chance to track the target and hit anyway.
+			if(AI_INT_SCALE_PROB(pawn, HUMAN_NPC_TRACK_CEILING_CHANCE))
+				AI_THINK(pawn, "WHIFF: target moved but we tracked - hit anyway")
+			else
+				swing_at = locked_turf
+				AI_THINK(pawn, "WHIFF: target stepped off [locked_turf], swinging at empty tile")
+		else
+			// Floor: small chance to whiff even when stationary (sloppy swing).
+			if(!AI_INT_SCALE_PROB(pawn, 100 - HUMAN_NPC_WHIFF_FLOOR_CHANCE))
+				// Pick an adjacent turf to swing at instead
+				var/list/nearby = list()
+				for(var/turf/T in range(1, locked_turf))
+					if(T == locked_turf || T.density)
+						continue
+					nearby += T
+				if(length(nearby))
+					swing_at = pick(nearby)
+					AI_THINK(pawn, "WHIFF: sloppy swing, hit [swing_at] instead of target")
+
+	controller.ai_interact(swing_at, TRUE, TRUE, modifiers)
 
 	if(pawn.next_click < world.time)
 		// Post-attack click cooldown. Extra multiplier on feint — this is a committed action
 		// that should have a bigger opening between it and the next real swing.
-		var/recovery_mult = modifiers[RIGHT_CLICK] ? 1.6 : 1.0
-		pawn.next_click = world.time + (pawn.used_intent?.clickcd * recovery_mult * (1 + rand(0.2, 0.4)))
+		var/recovery_mult = modifiers[RIGHT_CLICK] ? HUMAN_NPC_FEINT_RECOVERY_MULT : 1.0
+		var/jitter = 1 + rand(HUMAN_NPC_CLICK_RECOVERY_JITTER_MIN, HUMAN_NPC_CLICK_RECOVERY_JITTER_MAX)
+		pawn.next_click = world.time + (pawn.used_intent?.clickcd * recovery_mult * jitter)
 		SEND_SIGNAL(pawn, COMSIG_MOB_BREAK_SNEAK)
 
-	if(prob(HUMAN_NPC_WEAKPOINT_SCAN_CHANCE) && isliving(target))
+	// Skilled fighters scan for weakpoints more often
+	var/scan_chance = HUMAN_NPC_WEAKPOINT_SCAN_CHANCE
+	var/obj/item/scan_weapon = pawn.get_active_held_item()
+	if(scan_weapon?.associated_skill)
+		var/scan_skill = pawn.get_skill_level(scan_weapon.associated_skill)
+		scan_chance += scan_skill * 5 // +5% per skill level: novice 20%, journeyman 30%, expert 35%, master 40%
+	if(prob(scan_chance) && isliving(target))
 		_scan_for_weakpoint(controller, pawn, target)
 
 	_try_backstep(pawn, target)
@@ -218,15 +288,32 @@
 		var/aimheight = _zone_to_aimheight(wp[1])
 		if(aimheight)
 			pawn.aimheight_change(aimheight)
+			AI_THINK(pawn, "ZONE: hitting cached weakpoint [wp[1]] (aim [aimheight])")
 		return
 
+	// Skilled fighters commit to a zone longer before switching
+	var/obj/item/held = pawn.get_active_held_item()
+	var/skill_level = SKILL_LEVEL_NONE
+	if(held?.associated_skill)
+		skill_level = pawn.get_skill_level(held.associated_skill)
+	var/switch_threshold = 3
+	switch(skill_level)
+		if(SKILL_LEVEL_JOURNEYMAN)
+			switch_threshold = 4
+		if(SKILL_LEVEL_EXPERT)
+			switch_threshold = 5
+		if(SKILL_LEVEL_MASTER to INFINITY)
+			switch_threshold = 6
+
 	var/counter = controller.blackboard[BB_HUMAN_NPC_ATTACK_ZONE_COUNTER]
-	if(counter < 4)
+	if(counter < switch_threshold)
 		controller.set_blackboard_key(BB_HUMAN_NPC_ATTACK_ZONE_COUNTER, counter + 1)
+		AI_THINK(pawn, "ZONE: committing to current zone ([counter+1]/[switch_threshold], skill [skill_level])")
 		return
 
 	controller.set_blackboard_key(BB_HUMAN_NPC_ATTACK_ZONE_COUNTER, 0)
 	controller.clear_blackboard_key(BB_HUMAN_NPC_WEAKPOINT)
+	AI_THINK(pawn, "ZONE: switching up! (skill [skill_level], threshold was [switch_threshold])")
 
 	// Parity with npc_choose_attack_zone aimheight picks
 	if(pawn.mind?.has_antag_datum(/datum/antagonist/zombie))
@@ -238,12 +325,38 @@
 	if(HAS_TRAIT(target, TRAIT_BLOODLOSS_IMMUNE))
 		pawn.aimheight_change(rand(12, 19))
 		return
-	pawn.aimheight_change(pick(rand(5, 8), rand(9, 11), rand(12, 19)))
+
+	// Before going random, skilled fighters try to re-scan for a weakpoint
+	if(skill_level >= SKILL_LEVEL_APPRENTICE && isliving(target))
+		_scan_for_weakpoint(controller, pawn, target)
+		wp = controller.blackboard[BB_HUMAN_NPC_WEAKPOINT]
+		if(wp)
+			var/aimheight = _zone_to_aimheight(wp[1])
+			if(aimheight)
+				pawn.aimheight_change(aimheight)
+				AI_THINK(pawn, "ZONE: re-scan found weakpoint [wp[1]] (aim [aimheight])")
+				return
+		AI_THINK(pawn, "ZONE: re-scan found nothing, going random")
+
+	// Skilled fighters favor the chest - it's practical and reliable
+	var/new_aim
+	if(skill_level >= SKILL_LEVEL_JOURNEYMAN)
+		new_aim = pick(50;rand(9, 11), 25;rand(5, 8), 25;rand(12, 19))
+		AI_THINK(pawn, "ZONE: skilled random pick -> aim [new_aim] (chest-favored)")
+	else
+		new_aim = pick(rand(5, 8), rand(9, 11), rand(12, 19))
+		AI_THINK(pawn, "ZONE: random pick -> aim [new_aim]")
+	pawn.aimheight_change(new_aim)
 
 /datum/ai_behavior/basic_melee_attack/human_npc/proc/_try_weapon_special(datum/ai_controller/controller)
 	var/mob/living/carbon/human/pawn = controller.pawn
 
 	if(pawn.has_status_effect(/datum/status_effect/debuff/specialcd))
+		return FALSE
+
+	// Shared technique cooldown prevents kick/feint/special from chaining back-to-back.
+	var/next_technique = controller.blackboard[BB_HUMAN_NPC_TECHNIQUE_CD]
+	if(next_technique && world.time < next_technique)
 		return FALSE
 
 	var/obj/item/held_weapon = pawn.get_active_held_item()
@@ -271,6 +384,11 @@
 		return FALSE
 	SEND_SIGNAL(pawn, COMSIG_MOB_TRY_BARK, 100)
 	special.deploy(pawn, weapon, target)
+	controller.set_blackboard_key(BB_HUMAN_NPC_TECHNIQUE_CD, world.time + 3 SECONDS)
+	// AI penalty: re-stamp the special cooldown longer than the player baseline so NPCs
+	// can't chain specials as tightly as a human player could. Override replaces the
+	// debuff applied inside deploy() with our extended version.
+	special.apply_cooldown(special.cooldown * HUMAN_NPC_SPECIAL_CD_PENALTY, override = TRUE)
 	// Recovery: block the next swing for longer than a normal attack so specials don't chain
 	if(pawn.next_click < world.time + pawn.used_intent?.clickcd * 1.8)
 		pawn.next_click = world.time + (pawn.used_intent?.clickcd * 1.8)
@@ -310,8 +428,8 @@
 			if(part.brute_dam > 20 || part.burn_dam > 20)
 				wounded += part.body_zone
 
-		var/obj/item/worn = htarget.get_item_by_slot(part.body_zone)
-		if(!worn?.armor)
+		var/obj/item/clothing/worn = htarget.get_best_worn_armor(part.body_zone, armor_rating)
+		if(!worn)
 			exposed += part.body_zone
 			continue
 
@@ -320,9 +438,6 @@
 			var/rating = worn.armor.getRating(armor_rating)
 			if(rating < 25)
 				soft += part.body_zone
-		// Unskilled fighters just notice bare skin
-		else if(!worn)
-			exposed += part.body_zone
 
 	// Priority: wounded > bare exposed > soft armor coverage > armored fallback (experts only)
 	var/chosen = null
@@ -339,17 +454,20 @@
 		for(var/obj/item/bodypart/part in htarget.bodyparts)
 			if(!part)
 				continue
-			var/obj/item/worn = htarget.get_item_by_slot(part.body_zone)
-			if(!worn?.armor)
+			var/obj/item/clothing/fallback_armor = htarget.get_best_worn_armor(part.body_zone, armor_rating)
+			if(!fallback_armor)
 				continue
-			var/rating = worn.armor.getRating(armor_rating)
+			var/rating = fallback_armor.armor.getRating(armor_rating)
 			if(rating < lowest_rating)
 				lowest_rating = rating
 				lowest_zone = part.body_zone
 		chosen = lowest_zone
 
 	if(!chosen)
+		AI_THINK(pawn, "SCAN: no weakpoint found (wounded=[length(wounded)] exposed=[length(exposed)] soft=[length(soft)], skill [skill_level])")
 		return
+
+	AI_THINK(pawn, "SCAN: targeting [chosen] (skill [skill_level])")
 
 	// Skill scales how long the targeting solution stays valid
 	//longer weapons can maintain solutions longer
@@ -466,3 +584,13 @@
 #undef HUMAN_NPC_INTENT_SWITCH_CHANCE
 #undef HUMAN_NPC_RMB_ATTEMPT_CHANCE
 #undef HUMAN_NPC_MIN_INT_FOR_TACTICS
+#undef HUMAN_NPC_FEINT_COOLDOWN
+#undef HUMAN_NPC_CLICK_RECOVERY_JITTER_MIN
+#undef HUMAN_NPC_CLICK_RECOVERY_JITTER_MAX
+#undef HUMAN_NPC_FEINT_RECOVERY_MULT
+#undef HUMAN_NPC_SPECIAL_CD_PENALTY
+#undef HUMAN_NPC_REACTION_TIME_BASE
+#undef HUMAN_NPC_REACTION_TIME_MIN
+#undef HUMAN_NPC_REACTION_PER_STAT_POINT
+#undef HUMAN_NPC_WHIFF_FLOOR_CHANCE
+#undef HUMAN_NPC_TRACK_CEILING_CHANCE

@@ -1,0 +1,7 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "NPC Skeletons, Zizo Construct and Orc Berserker no longer gain a massive burning down threshold increase from their nopain trait and should be reasonably easy to kill by burning spells now."
+  - rscadd: "Thief speed reduced from 16 to 12. Outlaw Duelist gains dexpert and light step."
+  - rscadd: "AI should no longer spam the chat with *rushes to X's aid"
+  - bugfix: "Summon Dreamfiend's dreamfiend is now fixed."
