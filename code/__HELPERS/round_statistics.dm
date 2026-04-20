@@ -65,7 +65,6 @@
 #define STATS_PURITY_VALUE_SPENT "purity_spent"
 #define STATS_TAXES_EVADED "taxes_evaded"
 #define STATS_NOBLE_INCOME_TOTAL "noble_income_total"
-#define STATS_BANK_INTEREST_CREATED "bank_interest_created"
 #define STATS_DIRECT_TREASURY_TRANSFERS "direct_treasury_transfers"
 #define STATS_STOCKPILE_EXPORTS_VALUE "stockpile_exports_value"
 #define STATS_STOCKPILE_IMPORTS_VALUE "stockpile_imports_value"
@@ -353,7 +352,6 @@ GLOBAL_LIST_INIT(azure_round_stats, list(
 	STATS_MAMMONS_WITHDRAWN = 0,
 	STATS_STARTING_TREASURY = 0,
 	STATS_RURAL_TAXES_COLLECTED = 0,
-	STATS_BANK_INTEREST_CREATED = 0,
 	STATS_GOLD_TRANSMUTED = 0,
 	STATS_CONTRACTS_GENERATED = 0,
 	STATS_CONTRACTS_TAKEN = 0,

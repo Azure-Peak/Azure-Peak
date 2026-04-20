@@ -513,7 +513,6 @@
 			data += "<div style='margin-bottom: 4px;'><font color='#e67e22'>Noble Estates Revenue: </font>[GLOB.azure_round_stats[STATS_NOBLE_INCOME_TOTAL]]</div>"
 			data += "<div style='margin-bottom: 4px;'><font color='#ce9d15'>Rural Taxes Collected: </font>[GLOB.azure_round_stats[STATS_RURAL_TAXES_COLLECTED]]</div>"
 			data += "<div style='margin-bottom: 4px;'><font color='#f5c02e'>Royal Taxes Collected: </font>[GLOB.azure_round_stats[STATS_TAXES_COLLECTED]]</div>"
-			data += "<div style='margin-bottom: 4px;'><font color='#b2d33d'>Interest Issued: </font>[GLOB.azure_round_stats[STATS_BANK_INTEREST_CREATED]]</div>"
 			data += "<div style='margin-bottom: 4px;'><font color='#8fa36a'>Mammons Deposited: </font>[GLOB.azure_round_stats[STATS_MAMMONS_DEPOSITED]]</div>"
 			data += "<div style='margin-bottom: 4px;'><font color='#90b34f'>Stockpile Exports: </font>[GLOB.azure_round_stats[STATS_STOCKPILE_EXPORTS_VALUE]]</div>"
 			data += "<div style='margin-bottom: 4px;'><font color='#a2b337'>Bought from Stockpile: </font>[GLOB.azure_round_stats[STATS_STOCKPILE_REVENUE]]</div>"

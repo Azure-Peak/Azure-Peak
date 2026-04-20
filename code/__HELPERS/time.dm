@@ -100,7 +100,6 @@ GLOBAL_VAR_INIT(date_override_offset, 0)
 			GLOB.dayspassed++
 			SStreasury.distribute_estate_incomes()
 			SStreasury.distribute_daily_payments()
-			SStreasury.distribute_interest()
 		for(var/mob/living/player in GLOB.mob_list)
 			if(player.stat != DEAD && player.client)
 				player.do_time_change()

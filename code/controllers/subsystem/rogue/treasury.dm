@@ -33,8 +33,6 @@ SUBSYSTEM_DEF(treasury)
 	)
 	var/tax_value = 0.11
 	var/queens_tax = 0.10
-	var/bank_interest_rate = 0.035 // 3.5% per day; changeable at steward
-	var/bank_interest_cap = 50
 	var/treasury_value = 0
 	var/mint_multiplier = 0.8 // 1x is meant to leave a margin after standard 80% collectable. Less than Bathmatron.
 	var/minted = 0
@@ -280,32 +278,6 @@ SUBSYSTEM_DEF(treasury)
 
 	if(total_paid > 0)
 		log_to_steward("Daily wages distributed: [total_paid]m total")
-
-/datum/controller/subsystem/treasury/proc/distribute_interest()
-	var/total_interest_created = 0
-	var/interest_cap = 50 // Maximum interest per account per day
-
-	for(var/key in bank_accounts)
-		var/datum/bank_account/account = bank_accounts[key]
-		if(!account || account.balance <= 0)
-			continue
-
-		var/interest = round(account.balance * bank_interest_rate)
-		if(interest <= 0)
-			continue
-
-		interest = min(interest, interest_cap)
-
-		account.balance += interest
-		total_interest_created += interest
-
-		if(istype(key, /mob/living/carbon/human))
-			var/mob/living/carbon/human/H = key
-			send_ooc_note("<b>MEISTER:</b> You received [interest]m in interest.", H.real_name)
-
-	if(total_interest_created > 0)
-		log_to_steward("-[total_interest_created] from treasury (interest issued)")
-		record_round_statistic(STATS_BANK_INTEREST_CREATED, total_interest_created)
 
 /datum/controller/subsystem/treasury/proc/do_export(var/datum/roguestock/D, silent = FALSE)
 	if((D.held_items[1] < D.importexport_amt))
