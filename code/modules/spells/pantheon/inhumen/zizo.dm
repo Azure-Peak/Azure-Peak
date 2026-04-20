@@ -55,8 +55,8 @@ corpses and discarded junk*/
 			lines = list("Ol sonf vorsg, hoath zir.","Madriax soba-lonshi od zorge.","Faxs to faxs-sobol athan.","Velor ixan thrae-zho vel.","Korvath en'zul miraxis thren.","Thren val'kora ix ven.","Zai'ul phoros vekh tor.","Morath xi'en thul var.","Vael kor zin'athra vel.","Thul'kor imnaza vekh dor.","En'ra zolth ix venak.","Zhorath kal'mir vex ul.","Ul ix zizo vel'kra.","Sothra vel ixan thul.","Zor'en valix thrae kor.","Vel'zan morath ix ul.","Threx ul ven'kai zhor.","Ix zol ven'ra thul kor.","Vorath ixen kal zor.","Zizo ul thren val'ix.")		
 		),
 		"Profane Rope" = list(
-			path = /obj/item/rogueweapon/huntingknife/idagger/zizo,
-			m_cooldown = 5 MINUTES,
+			path = /obj/item/rope/zizo, // the serial eeper disease
+			m_cooldown = 2 MINUTES,
 			m_rank = SKILL_LEVEL_NONE,
 			category = "Rite Instruments",
 			lines = list("Ol sonf vorsg, hoath zir.","Madriax soba-lonshi od zorge.","Faxs to faxs-sobol athan.","Velor ixan thrae-zho vel.","Korvath en'zul miraxis thren.","Thren val'kora ix ven.","Zai'ul phoros vekh tor.","Morath xi'en thul var.","Vael kor zin'athra vel.","Thul'kor imnaza vekh dor.","En'ra zolth ix venak.","Zhorath kal'mir vex ul.","Ul ix zizo vel'kra.","Sothra vel ixan thul.","Zor'en valix thrae kor.","Vel'zan morath ix ul.","Threx ul ven'kai zhor.","Ix zol ven'ra thul kor.","Vorath ixen kal zor.","Zizo ul thren val'ix.")		
@@ -573,6 +573,7 @@ corpses and discarded junk*/
 		if("Progress")
 			// keep in mind rituos is Heretic/Missionary only, should be fine for an ult
 			// the idea is that progress is now for supporting, undeath is the offensive option
+			// I'll add more to this based on feedback, but for now I don't want to give it too much
 			user.adjust_skillrank(/datum/skill/magic/arcane, 3, TRUE)
 			ADD_TRAIT(user, TRAIT_JACKOFALLTRADES, "rituos")
 			ADD_TRAIT(user, TRAIT_SMITHING_EXPERT, "rituos")
