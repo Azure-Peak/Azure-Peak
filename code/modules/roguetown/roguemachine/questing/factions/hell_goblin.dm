@@ -19,4 +19,4 @@
 		"%N of the Ember",
 		"%N the Cinder-eyed",
 	)
-	boss_name_pool = list("Azrun", "Morvekh", "Thessar", "Kharmog", "Vyrax", "Zabal")
+	boss_name_file = "strings/rt/names/other/devilm.txt"

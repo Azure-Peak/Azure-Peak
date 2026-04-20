@@ -18,4 +18,4 @@
 		"%N-Biter",
 		"Big %N",
 	)
-	boss_name_pool = list("Grug", "Skrik", "Zug", "Mok", "Grak", "Nok", "Urk", "Skarr")
+	boss_name_file = "strings/rt/names/other/goblinm.txt"

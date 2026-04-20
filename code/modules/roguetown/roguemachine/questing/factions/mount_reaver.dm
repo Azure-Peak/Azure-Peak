@@ -16,4 +16,4 @@
 		"%N Stonebreaker",
 		"%N the Bear",
 	)
-	boss_name_pool = list("Borric", "Hal", "Durran", "Kethric", "Mordric", "Osric")
+	boss_name_file = "strings/rt/names/human/humnorm.txt"

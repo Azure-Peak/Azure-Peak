@@ -18,4 +18,4 @@
 		"%N the Wolf",
 		"%N Bloodhand",
 	)
-	boss_name_pool = list("Gareth", "Tomas", "Edric", "Rhys", "Alric", "Hendric", "Wulf", "Ormond")
+	boss_name_file = "strings/rt/names/human/humnorm.txt"

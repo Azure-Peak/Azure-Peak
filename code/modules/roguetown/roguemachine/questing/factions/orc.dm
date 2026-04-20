@@ -21,4 +21,4 @@
 		"%N the Mighty",
 		"Chieftain %N",
 	)
-	boss_name_pool = list("Grosh", "Mukrag", "Durgal", "Thak", "Brulg", "Kargor", "Vulgrim", "Azgor")
+	boss_name_file = "strings/rt/names/other/halforcm.txt"

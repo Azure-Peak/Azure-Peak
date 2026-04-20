@@ -10,7 +10,9 @@ GLOBAL_LIST_EMPTY(quest_factions)
 	var/list/allowed_quest_types
 	var/list/boss_mob_types = list()
 	var/list/boss_title_templates = list()
-	var/list/boss_name_pool = list()
+	/// Path to a txt file under strings/rt/names/ that supplies first names for boss title
+	/// substitution. One name per line. Loaded on demand via pick_boss_name().
+	var/boss_name_file
 
 /datum/quest_faction/New()
 	if(!id)
@@ -28,11 +30,19 @@ GLOBAL_LIST_EMPTY(quest_factions)
 		return null
 	return pickweight(boss_mob_types)
 
+/datum/quest_faction/proc/pick_boss_name()
+	if(!boss_name_file)
+		return null
+	var/list/names = world.file2list(boss_name_file)
+	if(!length(names))
+		return null
+	return pick(names)
+
 /datum/quest_faction/proc/generate_boss_name()
-	if(!length(boss_title_templates) || !length(boss_name_pool))
+	var/template = length(boss_title_templates) ? pick(boss_title_templates) : "%N"
+	var/name = pick_boss_name()
+	if(!name)
 		return "a notorious [name_singular]"
-	var/template = pick(boss_title_templates)
-	var/name = pick(boss_name_pool)
 	return replacetext(template, "%N", name)
 
 /datum/quest_faction/proc/describe_group_count(n)
