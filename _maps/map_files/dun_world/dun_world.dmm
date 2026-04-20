@@ -19041,6 +19041,8 @@
 /area/rogue/druidsgrove)
 "eHA" = (
 /obj/structure/table/wood/map/three,
+/obj/item/paper/scroll,
+/obj/item/natural/feather,
 /turf/open/floor/carpet/red,
 /area/rogue/indoors/inq)
 "eHD" = (
@@ -27048,6 +27050,7 @@
 /obj/item/clothing/mask/rogue/sack/psy,
 /obj/item/clothing/gloves/roguetown/otavan/inqgloves,
 /obj/item/clothing/gloves/roguetown/otavan/psygloves,
+/obj/item/clothing/cloak/cape/inquisitor,
 /turf/open/floor/rogue/carpet,
 /area/rogue/indoors/inq/basement)
 "gIF" = (
@@ -32293,8 +32296,6 @@
 /area/rogue/indoors/town/tavern)
 "hUN" = (
 /obj/structure/table/wood/map,
-/obj/item/paper/scroll,
-/obj/item/natural/feather,
 /turf/open/floor/carpet/red,
 /area/rogue/indoors/inq)
 "hUV" = (
@@ -34936,7 +34937,6 @@
 /area/rogue/indoors/town/bath)
 "iBo" = (
 /obj/structure/table/wood/map/six,
-/obj/item/clothing/neck/roguetown/psicross/wood,
 /turf/open/floor/carpet/royalblack,
 /area/rogue/indoors/inq)
 "iBp" = (
@@ -42104,10 +42104,6 @@
 	pixel_x = 6;
 	pixel_y = 12
 	},
-/obj/item/reagent_containers/glass/cup/silver{
-	pixel_x = 11;
-	pixel_y = 3
-	},
 /obj/structure/fluff/walldeco/psybanner{
 	pixel_y = 32
 	},
@@ -47987,11 +47983,6 @@
 	pixel_x = -26;
 	pixel_y = 6
 	},
-/obj/item/candle/candlestick/silver/lit{
-	layer = 3.1;
-	pixel_x = 7;
-	pixel_y = 9
-	},
 /turf/open/floor/rogue/herringbone,
 /area/rogue/indoors/inq/office)
 "lGo" = (
@@ -51582,6 +51573,14 @@
 	},
 /turf/open/water/swamp,
 /area/rogue/under/cavewet/bogcaves/north)
+"mzc" = (
+/obj/structure/mineral_door/wood/donjon/stone{
+	locked = 1;
+	lockid = "inquisition";
+	name = "Healer Wing"
+	},
+/turf/closed/wall/mineral/rogue/craftstone,
+/area/rogue/indoors/inq/basement)
 "mzd" = (
 /obj/effect/decal/remains/human,
 /obj/effect/decal/cleanable/blood,
@@ -54691,32 +54690,10 @@
 /turf/open/floor/rogue/grassyel,
 /area/rogue/outdoors/mountains/decap/gunduzirak)
 "nnU" = (
-/obj/structure/rack/rogue/shelf/biggest,
-/obj/item/reagent_containers/glass/cup/silver/small{
-	pixel_x = 7;
-	pixel_y = 17
+/obj/structure/bars/cemetery{
+	max_integrity = 4000
 	},
-/obj/item/reagent_containers/glass/cup/silver/small{
-	pixel_x = -6;
-	pixel_y = 17
-	},
-/obj/item/reagent_containers/glass/cup/silver/small{
-	pixel_x = 7;
-	pixel_y = 5
-	},
-/obj/item/reagent_containers/glass/cup/silver/small{
-	pixel_x = -6;
-	pixel_y = 5
-	},
-/obj/item/reagent_containers/glass/cup/silver/small{
-	pixel_x = 7;
-	pixel_y = -4
-	},
-/obj/item/reagent_containers/glass/cup/silver/small{
-	pixel_x = -6;
-	pixel_y = -4
-	},
-/turf/open/floor/rogue/herringbone,
+/turf/open/floor/rogue/grass,
 /area/rogue/indoors/inq)
 "nob" = (
 /mob/living/simple_animal/hostile/retaliate/rogue/bigrat/gethsmane,
@@ -63744,13 +63721,8 @@
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/town)
 "pCd" = (
-/obj/structure/mineral_door/wood/donjon/stone{
-	locked = 1;
-	lockid = "inquisition";
-	name = "Healer Wing"
-	},
-/turf/open/floor/rogue/blocks,
-/area/rogue/indoors/inq/basement)
+/turf/closed/wall/mineral/rogue/stone,
+/area/rogue/indoors/inq)
 "pCi" = (
 /obj/structure/flora/roguegrass/water/reeds,
 /turf/open/water/swamp/deep,
@@ -66990,6 +66962,12 @@
 /obj/structure/table/wood/poor,
 /turf/open/floor/rogue/twig,
 /area/rogue/outdoors/mountains)
+"qrH" = (
+/obj/structure/bars/cemetery{
+	max_integrity = 4000
+	},
+/turf/open/floor/rogue/grassred,
+/area/rogue/indoors/inq)
 "qrI" = (
 /turf/closed/wall/mineral/rogue/wooddark,
 /area/rogue/under/town/basement)
@@ -70585,7 +70563,10 @@
 /obj/structure/mannequin/male/female,
 /obj/item/clothing/mask/rogue/sack/psy,
 /obj/item/storage/belt/rogue/leather/steel/tasset,
-/obj/item/storage/backpack/rogue/satchel/otavan,
+/obj/item/clothing/shoes/roguetown/boots/psydonboots,
+/obj/item/clothing/gloves/roguetown/otavan/psygloves,
+/obj/item/clothing/suit/roguetown/armor/gambeson/heavy/inq,
+/obj/item/clothing/under/roguetown/heavy_leather_pants/otavan,
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/indoors/inq/basement)
 "rmi" = (
@@ -79534,6 +79515,9 @@
 	},
 /turf/open/floor/rogue/tile/brick,
 /area/rogue/indoors/town/bath)
+"tuH" = (
+/turf/closed/wall/mineral/rogue/stone,
+/area/rogue/indoors/inq/office)
 "tuJ" = (
 /obj/structure/roguerock,
 /turf/open/floor/rogue/dirt,
@@ -84082,6 +84066,13 @@
 	},
 /turf/open/floor/rogue/church,
 /area/rogue/under/cave/orcdungeon)
+"uzW" = (
+/obj/structure/fluff/wallclock/r{
+	pixel_x = 0;
+	pixel_y = -32
+	},
+/turf/open/floor/rogue/blocks,
+/area/rogue/indoors/inq/basement)
 "uAe" = (
 /obj/structure/flora/newbranch/leafless{
 	dir = 4
@@ -88269,7 +88260,7 @@
 /obj/structure/mineral_door/wood/donjon/stone{
 	locked = 1;
 	lockid = "inquisition";
-	name = "Bathroom"
+	name = "Psychurch"
 	},
 /turf/open/floor/rogue/herringbone,
 /area/rogue/indoors/inq/office)
@@ -90045,6 +90036,14 @@
 "vWe" = (
 /turf/closed/wall/mineral/rogue/stone/blue_moss,
 /area/rogue/outdoors/beach/forest/south)
+"vWm" = (
+/obj/structure/mineral_door/wood/donjon/stone{
+	locked = 1;
+	lockid = "inquisition";
+	name = "DreapRoom"
+	},
+/turf/open/floor/rogue/blocks,
+/area/rogue/indoors/inq/basement)
 "vWw" = (
 /obj/structure/telescope,
 /turf/open/floor/rogue/churchmarble,
@@ -97423,6 +97422,7 @@
 /obj/item/bomb/smoke,
 /obj/item/bomb,
 /obj/item/bomb,
+/obj/item/impact_grenade/smoke/mute_gas,
 /turf/open/floor/rogue/herringbone,
 /area/rogue/indoors/inq/basement)
 "xOo" = (
@@ -99058,26 +99058,18 @@
 /obj/structure/rack/rogue/shelf/biggest,
 /obj/item/reagent_containers/glass/cup/silver{
 	pixel_x = 8;
-	pixel_y = 16
-	},
-/obj/item/reagent_containers/glass/cup/silver{
-	pixel_x = -6;
-	pixel_y = 16
-	},
-/obj/item/reagent_containers/glass/cup/silver{
-	pixel_x = 8;
 	pixel_y = 5
 	},
 /obj/item/reagent_containers/glass/cup/silver{
 	pixel_x = -6;
 	pixel_y = 5
 	},
-/obj/item/reagent_containers/glass/cup/silver{
-	pixel_x = 8;
+/obj/item/reagent_containers/glass/cup/silver/small{
+	pixel_x = 7;
 	pixel_y = -4
 	},
-/obj/item/reagent_containers/glass/cup/silver{
-	pixel_x = -5;
+/obj/item/reagent_containers/glass/cup/silver/small{
+	pixel_x = -6;
 	pixel_y = -4
 	},
 /turf/open/floor/rogue/herringbone,
@@ -336268,14 +336260,14 @@ dTp
 dTp
 dTp
 dTp
-kPC
-kPC
-fXj
-fXj
-fXj
-fXj
-fXj
-fXj
+qrH
+qrH
+pCd
+nnU
+pCd
+nnU
+pCd
+nnU
 vwC
 sPF
 xZb
@@ -343040,7 +343032,7 @@ sNZ
 seL
 lui
 dTp
-nnU
+vou
 qjG
 sGd
 dTp
@@ -345297,7 +345289,7 @@ bsL
 bsL
 sNZ
 sNZ
-sNZ
+seL
 hmZ
 nYk
 wZw
@@ -349838,7 +349830,7 @@ bGf
 bGf
 bGf
 bGf
-ebU
+bGf
 bGf
 bGf
 bGf
@@ -449244,7 +449236,7 @@ qCO
 dJU
 uZW
 rhQ
-pCd
+rhQ
 rhQ
 rhQ
 uIX
@@ -449696,7 +449688,7 @@ uZW
 dJU
 uZW
 ueE
-uZW
+mzc
 rJG
 vDn
 ddW
@@ -450590,7 +450582,7 @@ wDB
 ppc
 gui
 rhQ
-rhQ
+uzW
 xAQ
 oYz
 xbw
@@ -451070,14 +451062,14 @@ aBB
 aBB
 aBB
 aBB
-jQT
-jQT
-jQT
-jQT
-jQT
-jQT
-jQT
-jQT
+aBB
+aBB
+aBB
+aBB
+aBB
+aBB
+aBB
+aBB
 aBB
 aBB
 aBB
@@ -451531,12 +451523,12 @@ efb
 nKi
 jQT
 jQT
-aBB
-aBB
-aBB
-aBB
-aBB
-aBB
+tuH
+jQT
+tuH
+jQT
+tuH
+jQT
 ujs
 rep
 bto
@@ -456051,8 +456043,8 @@ wSa
 kgR
 uVb
 lqB
-jQT
-jQT
+aBB
+aBB
 aBB
 aBB
 aBB
@@ -456505,7 +456497,7 @@ jQT
 jQT
 jQT
 jQT
-jQT
+aBB
 aBB
 aBB
 aBB
@@ -457367,7 +457359,7 @@ msR
 mIM
 ksY
 dJU
-ksY
+vWm
 dJU
 iPl
 xAQ
@@ -460563,8 +460555,8 @@ aBB
 rep
 gLt
 gLt
-jQT
-jQT
+aBB
+aBB
 jQT
 jQT
 jQT
