@@ -200,7 +200,7 @@
 
 	user.visible_message(
 		span_userdanger("[user] clenches the air while muttering a dark chant..."),
-		span_notice("I seize [target] with sheer arcyne force.")
+		span_notice("I attempt to seize [target] with primordial arcyne force.")
 	)
 
 	var/mob/living/carbon/C = user
@@ -208,13 +208,36 @@
 
 	if(istype(C))
 		var/obj/item/bodypart/chest = C.get_bodypart(BODY_ZONE_CHEST)
-		if((chest && chest.skeletonized) && !target.client) // unlife path from rituos is inherently lethal to NPCs
+		if((chest && chest.skeletonized) && !target.client)
 			use_rend = TRUE
 
-	if(use_rend)
-		target.apply_status_effect(/datum/status_effect/enochian_rend)
+	// === CONTESTED CHECK ===
+	var/user_int = user.get_stat(STATKEY_INT)
+	var/target_wil = target.get_stat(STATKEY_WIL)
+
+	// add swing so it's not static
+	var/user_roll = user_int + rand(-5, 5)
+	var/target_roll = target_wil + rand(-5, 5)
+
+	if(user_roll >= target_roll)
+		// SUCCESS
+		if(use_rend)
+			target.apply_status_effect(/datum/status_effect/enochian_rend)
+		else
+			target.apply_status_effect(/datum/status_effect/slam_rage)
+
+		user.visible_message(
+			span_userdanger("[target] is seized by invisible force!"),
+			span_notice("My will overpowers [target]!")
+		)
 	else
-		target.apply_status_effect(/datum/status_effect/slam_rage)
+		// FAILURE (partial effect instead of nothing)
+		target.apply_damage(rand(1, 25), BRUTE)
+
+		user.visible_message(
+			span_warning("[target] resists the grasp!"),
+			span_notice("[target]'s will pushes back against mine!")
+		)
 
 	playsound(target.loc, 'sound/misc/murderbeast.ogg', 100, FALSE)
 

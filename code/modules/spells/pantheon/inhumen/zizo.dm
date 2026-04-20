@@ -351,7 +351,7 @@ corpses and discarded junk*/
 
 /obj/effect/proc_holder/spell/invoked/rituos/miracle
 	miracle = TRUE
-	devotion_cost = 12 // 120 THIS IS JUST TO MAKE MY TESTS FASTER! note to self don't forget to revert
+	devotion_cost = 120 // I forgot to revert holy shit 1 job
 	associated_skill = /datum/skill/magic/holy
 
 /obj/effect/proc_holder/spell/invoked/rituos/cast(list/targets, mob/living/carbon/human/user)
