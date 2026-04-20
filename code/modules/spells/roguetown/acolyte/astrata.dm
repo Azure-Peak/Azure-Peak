@@ -38,7 +38,7 @@
 		if(spell_guard_check(L, TRUE))
 			L.visible_message(span_warning("[L] shields against the divine flame!"))
 			return TRUE
-		L.adjust_fire_stacks(1)
+		L.adjust_fire_stacks(2)
 		L.ignite_mob()
 
 		return TRUE
@@ -110,7 +110,7 @@
 /datum/status_effect/buff/astrata_gaze
 	id = "astratagaze"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/astrata_gaze
-	duration = 20 SECONDS
+	duration = 25 SECONDS
 	var/skill_level = 0
 	status_type = STATUS_EFFECT_REPLACE
 
@@ -124,7 +124,7 @@
 	// now actually be recast at high enough skill and during day time
 	// This is a safeguard because buff code makes my head hurt
 	var/per_bonus = 0
-	duration = 20 SECONDS
+	duration = 25 SECONDS
 
 	if(skill_level > SKILL_LEVEL_NOVICE)
 		per_bonus++
@@ -178,7 +178,7 @@
 	primary_resource_type = SPELL_COST_STAMINA
 	primary_resource_cost = SPELLCOST_STAT_BUFF
 
-	invocations = list("Astrata, protect me.")
+	invocations = list("The Sun protects.")
 	invocation_type = INVOCATION_WHISPER
 
 	charge_required = TRUE
@@ -238,7 +238,7 @@
 	glow_intensity = GLOW_INTENSITY_MEDIUM
 	miracle = TRUE
 	devotion_cost = 40
-	invocations = list("Holy flame upon you!", "Astrata, smite this fiend!")
+	invocations = list("Holy flame upon you!", "Judgement the Sun upon you!")
 	invocation_type = "shout"
 
 /obj/projectile/magic/sacred_flame
@@ -469,7 +469,7 @@
 		target.gib()
 		return TRUE
 	if(alert(target, "They are calling for you. Are you ready?", "Revival", "I need to wake up", "Don't let me go") != "I need to wake up")
-		target.visible_message(span_notice("Nothing happens. They are not being let go."))
+		target.visible_message(span_astrata("Nothing happens. They are not being let go."))
 		return FALSE
 	target.adjustOxyLoss(-target.getOxyLoss()) //Ye Olde CPR
 	if(!target.revive(full_heal = FALSE))
@@ -488,7 +488,7 @@
 	target.Jitter(100)
 	record_round_statistic(STATS_ASTRATA_REVIVALS)
 	target.update_body()
-	target.visible_message(span_notice("[target] is revived by holy light!"), span_green("I awake from the void."))
+	target.visible_message(span_astrata("[target] is revived by holy light!"), span_green("I awake from the void."))
 	if(revive_pq && !HAS_TRAIT(target, TRAIT_IWASREVIVED) && user?.ckey)
 		adjust_playerquality(revive_pq, user.ckey)
 		ADD_TRAIT(target, TRAIT_IWASREVIVED, "[type]")
@@ -724,7 +724,7 @@
 	target.AddComponent(/datum/component/immolation/partner, target, user, holy_skill, is_astrata)
 
 	// Visual feedback
-	user.visible_message(span_notice("Holy flames erupt from [user]'s hands and engulf [target]!"))
+	user.visible_message(span_astrata("Holy flames erupt from [user]'s hands and engulf [target]!"))
 	if(!is_astrata)
 		target.visible_message(span_danger("[target] lights ablaze with sacred fire. Fire cutting like a blade in a small area around them."))
 	else
