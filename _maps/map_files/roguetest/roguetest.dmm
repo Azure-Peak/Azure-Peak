@@ -87,6 +87,9 @@
 /obj/machinery/light/rogue/candle/l,
 /turf/open/floor/rogue/hay,
 /area/rogue/indoors)
+"cQ" = (
+/turf/open/floor/rogue/dirt,
+/area/rogue/outdoors/beach/forest/north)
 "cU" = (
 /obj/structure/fluff/railing/corner/north_east,
 /turf/open/floor/rogue/tile/harem,
@@ -201,6 +204,9 @@
 /obj/structure/flora/roguegrass/herb/random,
 /turf/open/floor/rogue/dirt,
 /area/rogue/outdoors)
+"il" = (
+/turf/closed/indestructible/rock,
+/area)
 "im" = (
 /obj/structure/table/vtable/v2,
 /obj/structure/broadcast_horn/loudmouth/guest{
@@ -697,6 +703,9 @@
 /obj/item/ingot/steel,
 /turf/open/floor/rogue/ruinedwood,
 /area/rogue/indoors)
+"wr" = (
+/turf/open/floor/rogue/cobble,
+/area/rogue/outdoors/beach/forest/north)
 "wv" = (
 /obj/structure/fluff/railing/border{
 	dir = 8
@@ -1085,6 +1094,10 @@
 /obj/item/rogueweapon/eaglebeak/lucerne,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/indoors)
+"Ka" = (
+/obj/effect/landmark/quest_spawner/generic,
+/turf/open/floor/rogue/cobble,
+/area/rogue/outdoors/beach/forest/north)
 "Kn" = (
 /obj/structure/table/wood{
 	icon_state = "longtable"
@@ -1161,6 +1174,10 @@
 	},
 /turf/open/floor/rogue/dirt,
 /area/rogue/outdoors)
+"MD" = (
+/obj/effect/landmark/quest_spawner/defense,
+/turf/open/floor/rogue/cobble,
+/area/rogue/outdoors/beach/forest/north)
 "MT" = (
 /obj/structure/stairs/fancy/l{
 	dir = 1
@@ -1350,6 +1367,9 @@
 /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk,
 /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk,
 /turf/open/floor/rogue/dirt/road,
+/area/rogue/indoors)
+"SW" = (
+/turf/closed/indestructible/rock,
 /area/rogue/indoors)
 "Tj" = (
 /obj/structure/flora/roguegrass/bush,
@@ -3313,13 +3333,13 @@ ej
 WL
 WL
 WL
-AO
-AO
-dB
-dB
-dB
-dB
-dB
+SW
+SW
+il
+il
+il
+il
+il
 "}
 (35,1,1) = {"
 dB
@@ -3364,14 +3384,14 @@ Ln
 Ln
 Ln
 Ln
-Ln
-AO
-AO
-dB
-dB
-dB
-dB
-dB
+cQ
+cQ
+cQ
+cQ
+cQ
+cQ
+cQ
+il
 "}
 (36,1,1) = {"
 dB
@@ -3416,14 +3436,14 @@ Kx
 Ln
 fo
 Dp
-Ln
-AO
-AO
-dB
-dB
-dB
-dB
-dB
+cQ
+cQ
+cQ
+cQ
+cQ
+cQ
+cQ
+il
 "}
 (37,1,1) = {"
 dB
@@ -3468,14 +3488,14 @@ Ln
 Ln
 Ln
 Ln
-Ln
-AO
-AO
-dB
-dB
-dB
-dB
-dB
+cQ
+cQ
+cQ
+cQ
+cQ
+cQ
+cQ
+il
 "}
 (38,1,1) = {"
 dB
@@ -3520,14 +3540,14 @@ kz
 kz
 kz
 Ln
-Ln
-AO
-AO
-dB
-dB
-dB
-dB
-dB
+cQ
+cQ
+cQ
+wr
+wr
+wr
+cQ
+il
 "}
 (39,1,1) = {"
 dB
@@ -3572,14 +3592,14 @@ kz
 hQ
 yG
 Ln
-Ln
-AO
-AO
-dB
-dB
-dB
-dB
-dB
+cQ
+cQ
+cQ
+wr
+Ka
+MD
+cQ
+il
 "}
 (40,1,1) = {"
 dB
@@ -3624,14 +3644,14 @@ kz
 kz
 kz
 Ln
-Ln
-AO
-AO
-dB
-dB
-dB
-dB
-dB
+cQ
+cQ
+cQ
+wr
+wr
+wr
+cQ
+il
 "}
 (41,1,1) = {"
 dB
@@ -3676,14 +3696,14 @@ Ln
 Ln
 fo
 Ln
-Ln
-AO
-AO
-dB
-dB
-dB
-dB
-dB
+cQ
+cQ
+cQ
+cQ
+cQ
+cQ
+cQ
+il
 "}
 (42,1,1) = {"
 dB
@@ -3728,14 +3748,14 @@ Ln
 Ln
 Ln
 Kx
-Ln
-AO
-AO
-dB
-dB
-dB
-dB
-dB
+cQ
+cQ
+cQ
+cQ
+cQ
+cQ
+cQ
+il
 "}
 (43,1,1) = {"
 dB
@@ -3780,14 +3800,14 @@ Ln
 Ln
 Ln
 Ln
-Ln
-AO
-AO
-dB
-dB
-dB
-dB
-dB
+cQ
+cQ
+cQ
+cQ
+cQ
+cQ
+cQ
+il
 "}
 (44,1,1) = {"
 dB
@@ -3833,13 +3853,13 @@ AO
 AO
 AO
 AO
-AO
-AO
-dB
-dB
-dB
-dB
-dB
+SW
+SW
+il
+il
+il
+il
+il
 "}
 (45,1,1) = {"
 dB
