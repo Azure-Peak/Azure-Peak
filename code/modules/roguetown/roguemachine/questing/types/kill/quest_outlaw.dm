@@ -63,3 +63,4 @@ GLOBAL_LIST_INIT(quest_outlaw_goblin_goons, list(
 		addtimer(TRAIT_CALLBACK_REMOVE(goon, TRAIT_FRESHSPAWN, "[type]"), 60 SECONDS)
 		spawn_effect.contained_atom = goon
 		spawn_effect.AddComponent(/datum/component/quest_object/mob_spawner, src)
+		register_spawner(spawn_effect)
