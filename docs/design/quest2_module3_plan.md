@@ -439,43 +439,14 @@ Two roundend readout additions bundled together since both hook into roundend re
 ### M3-C15 — Docs + tuning
 Roundend report additions ("Discretionary flows," "Defense Quest stats," "Loans issued," "Rumor Quests issued"). `get_mechanics_examine` updates on affected machines. Playtest tuning pass on the numbers table above.
 
-## Module 2 (marker rework + raid content) — bundled into same PR
+## Module 2 (marker rework) — bundled into same PR
 
 Covered in a separate commit sequence within the same PR:
 
 - **M2-C1** — Stub `/easy`, `/medium`, `/hard` as functional aliases of `/generic`. Add `/obj/effect/landmark/quest_spawner/generic` and `/obj/effect/landmark/quest_spawner/raid` subtypes. Add `region` var auto-detected from area. Rewrite `find_quest_landmark(type, region = null)` with region filter.
-- **M2-C2** — DMM pass on `dun_world.dmm`: replace all `/easy`, `/medium`, `/hard` placements with `/generic`, except underdark markers (6) → `/raid`. Delete underground markers in caves/sewers per audit recommendation.
-- **M2-C3** — Remove `/easy`, `/medium`, `/hard` subtypes entirely. Drop `quest_difficulty` var on landmark class (stays on quest datum). Fold all currently-raid-marker-hosted types (`QUEST_RAID`, `QUEST_OUTLAW`) onto `/generic` so `/generic` hosts every existing quest type. `/raid` marker is reserved for the new `QUEST_GRAND_RAID` only.
+- **M2-C2** — DMM pass on `dun_world.dmm`: replace all `/easy`, `/medium`, `/hard` placements with `/generic`, except underdark markers (6) → `/defense`. Delete underground markers in caves/sewers per audit recommendation.
+- **M2-C3** — Remove `/easy`, `/medium`, `/hard` subtypes entirely. Drop `quest_difficulty` var on landmark class (stays on quest datum). `/generic` hosts every existing quest type (retrieval, courier, kill, clear out, raid, outlaw); `/defense` marker is reserved infrastructure for a future Grand Raid content commit and has no quest types routing to it yet.
 - **M2-C4** — Fellowship-gating on raid-class quests. `/datum/quest.required_fellowship_size` var (default 0, solo-allowed). `QUEST_RAID` and `QUEST_OUTLAW` set to 2. `can_claim(user)` checks `user.current_fellowship` and its member count; returns FALSE with a descriptive chat message if under the required size. Sign flow in the ledger surfaces the error. Reward remains signer-only — fellowship members divide IC. This is the first real coupling between Fellowship and Contract Ledger.
-- **M2-C5** — Grand Raid quest type (`QUEST_GRAND_RAID`). New `/datum/quest/kill/grand_raid` on the `/raid` marker.
-
-### Grand Raid mechanic
-
-A fellowship-only, timed, multi-wave defense quest:
-
-- **Claim**: signer receives a Grand Raid scroll. Quest is bound to a `/raid` marker at preview time. No mobs spawn yet.
-- **Plant**: signer uses the scroll while standing on (or adjacent to) the `/raid` marker turf. This is the "begin" action — geographic commitment. On plant:
-  - Wave 1 mobs spawn around the marker
-  - A 10-minute (tuneable) timer starts
-  - Scroll text updates: *"Stage 1 of 3. Time remaining: 10:00"*
-  - Chat broadcast to fellowship: *"The horde gathers — the first wave is upon you."*
-- **Wave progression**: wave N cleared → 15-20 second breather → wave N+1 spawns at the marker. Chat horn line per wave. Scroll text updates per stage.
-- **Victory**: wave 3 cleared before timer expires → quest complete → reward paid to signer (fellowship divides IC). Standard turn-in at ledger.
-- **Failure (timeout)**: timer expires before wave 3 is cleared → quest auto-fails. Deposit forfeit. Remaining mobs stay as ambient threats (not despawned). Chat broadcast: *"The warband breaks through your line. The raid is lost."*
-- **Failure (fellowship wipe)**: if the signer dies, the scroll drops. A fellowship-mate may pick it up and continue. If no living fellowship member retrieves it before timer expires, quest fails normally.
-- **Single-use**: the scroll is consumed on plant. A failed Grand Raid cannot be re-planted; the fellowship must abandon and take a new contract (which burns a deposit). Natural self-limit on attempts.
-
-Stage defaults (tune in playtest):
-
-| Stage | Mob count | Composition |
-|-------|-----------|-------------|
-| 1 | 5 | Basic raiders (scouts) |
-| 2 | 7 | Raiders + a sergeant |
-| 3 | 8-10 | Elite raiders + a warlord |
-
-Mobs spawn in a ring around the `/raid` marker, not a single point, so the fellowship must cover angles. Mob types draw from the region's flavor pool (Terrorbog raids = bogmen warband; Coast raids = Gronn raiders; etc.).
-
-Narrative flavor per raid location is expressed through `get_title()` / `get_location_text()` overrides on the quest datum. Examples: *"Repel a bog-warband at the Terrorbog edge"* / *"Break the Gronn landing at the Azurean Coast"*.
 
 ### Fellowship-gated quest summary
 
@@ -487,7 +458,18 @@ Narrative flavor per raid location is expressed through `get_title()` / `get_loc
 | Courier | `/generic` | 0 (solo) |
 | Raid | `/generic` | **2** |
 | Outlaw | `/generic` | **2** |
-| Grand Raid | `/raid` | **2** (or more if tuned) |
+
+### Deferred: Grand Raid
+
+A multi-stage, timed, fellowship-only defense quest is planned for a future commit. Design sketch:
+
+- `/defense` marker hosts it exclusively
+- Signer plants a scroll on a `/defense` marker turf to trigger the first wave
+- 3 waves spawn sequentially with breather windows; 10-minute total timer
+- Failure modes: timer expiry or fellowship wipe
+- Fellowship size 2+
+
+Deferred from this PR to scope it properly. `/defense` marker subtype exists now so the mapping work doesn't have to redo itself when Grand Raid lands.
 
 ## Savings Goal (civic counterweight)
 
