@@ -39,6 +39,9 @@
 	},
 /turf/open/floor/rogue/blocks/stonered/tiny,
 /area/rogue/indoors)
+"bh" = (
+/turf/open/floor/rogue/cobble,
+/area/rogue/indoors/shelter/mountains/decap)
 "bT" = (
 /obj/structure/table/wood{
 	icon_state = "longtable_mid";
@@ -49,6 +52,9 @@
 /obj/item/clothing/shoes/roguetown/boots/leather,
 /turf/open/floor/rogue/grass,
 /area/rogue/indoors)
+"bW" = (
+/turf/open/floor/rogue/dirt,
+/area/rogue/under/underdark/north)
 "cd" = (
 /obj/structure/table/wood{
 	icon_state = "longtable_mid";
@@ -169,7 +175,7 @@
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/indoors)
 "hQ" = (
-/obj/effect/landmark/quest_spawner/medium,
+/obj/effect/landmark/quest_spawner/generic,
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/outdoors/bog/north)
 "ia" = (
@@ -333,6 +339,10 @@
 /obj/item/reagent_containers/glass/bucket,
 /turf/open/floor/rogue/blocks/newstone/alt,
 /area/rogue/indoors)
+"nH" = (
+/obj/effect/landmark/quest_spawner/defense,
+/turf/open/floor/rogue/cobble,
+/area/rogue/indoors/shelter/mountains/decap)
 "nJ" = (
 /mob/living/simple_animal/hostile/retaliate/rogue/swine,
 /turf/open/floor/rogue/hay,
@@ -475,6 +485,14 @@
 	},
 /turf/open/water/swamp,
 /area/rogue/indoors)
+"rh" = (
+/obj/effect/gibspawner/generic,
+/obj/effect/landmark/quest_spawner/generic,
+/turf/open/floor/rogue/cobble,
+/area/rogue/indoors/shelter/mountains/decap)
+"rk" = (
+/turf/closed/mineral/rogue/bedrock,
+/area)
 "rm" = (
 /obj/structure/flora/roguegrass/bush,
 /turf/open/floor/rogue/dirt/road,
@@ -487,7 +505,7 @@
 /turf/open/floor/rogue/tile/harem,
 /area/rogue/indoors)
 "rt" = (
-/obj/effect/landmark/quest_spawner/hard,
+/obj/effect/landmark/quest_spawner/generic,
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/outdoors/woods/north)
 "rB" = (
@@ -496,6 +514,10 @@
 	},
 /turf/open/floor/rogue/hay,
 /area/rogue/indoors)
+"rD" = (
+/obj/effect/landmark/quest_spawner/defense,
+/turf/open/floor/rogue/cobblerock,
+/area/rogue/under/underdark/north)
 "rN" = (
 /turf/open/floor/rogue/tile/masonic/single,
 /area/rogue/indoors/town/vault)
@@ -743,7 +765,7 @@
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/indoors)
 "xU" = (
-/obj/effect/landmark/quest_spawner/easy,
+/obj/effect/landmark/quest_spawner/generic,
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/outdoors/rtfield)
 "xY" = (
@@ -759,6 +781,13 @@
 /obj/item/clothing/gloves/roguetown/plate,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/indoors)
+"yF" = (
+/turf/closed/mineral/rogue/bedrock,
+/area/rogue/indoors/shelter/mountains/decap)
+"yG" = (
+/obj/effect/landmark/quest_spawner/defense,
+/turf/open/floor/rogue/cobblerock,
+/area/rogue/outdoors/bog/north)
 "yK" = (
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/outdoors)
@@ -952,6 +981,10 @@
 /obj/structure/roguemachine/stockpile,
 /turf/open/floor/rogue/grass,
 /area/rogue/indoors)
+"Ex" = (
+/obj/effect/landmark/quest_spawner/generic,
+/turf/open/floor/rogue/cobblerock,
+/area/rogue/under/underdark/north)
 "Ey" = (
 /turf/open/floor/rogue/tile/harem,
 /area/rogue/indoors)
@@ -1065,6 +1098,9 @@
 /obj/structure/flora/roguegrass,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/bog/north)
+"Lg" = (
+/turf/open/floor/rogue/snow,
+/area/rogue/indoors/shelter/mountains/decap)
 "Ln" = (
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/bog/north)
@@ -1084,6 +1120,10 @@
 /obj/item/reagent_containers/food/snacks/grown/apple,
 /turf/open/floor/rogue/ruinedwood/herringbone,
 /area/rogue/indoors)
+"Lz" = (
+/obj/effect/landmark/quest_spawner/defense,
+/turf/open/floor/rogue/cobblerock,
+/area/rogue/outdoors/rtfield)
 "LB" = (
 /obj/item/flint,
 /turf/open/floor/rogue/ruinedwood,
@@ -1338,6 +1378,10 @@
 /obj/item/kitchen/rollingpin,
 /turf/open/floor/rogue/blocks/stonered/tiny,
 /area/rogue/indoors)
+"Uv" = (
+/obj/effect/landmark/quest_spawner/defense,
+/turf/open/floor/rogue/cobblerock,
+/area/rogue/outdoors/woods/north)
 "UL" = (
 /obj/structure/table/wood{
 	icon_state = "longtable"
@@ -1379,6 +1423,9 @@
 /obj/structure/fluff/railing/wood,
 /turf/open/floor/rogue/hay,
 /area/rogue/indoors)
+"VQ" = (
+/turf/open/floor/rogue/cobblerock,
+/area/rogue/under/underdark/north)
 "VZ" = (
 /obj/structure/closet/crate/chest/old_crate,
 /obj/item/reagent_containers/food/snacks/egg,
@@ -1864,11 +1911,11 @@ AO
 AO
 AO
 AO
-dB
-dB
-dB
-dB
-dB
+rk
+rk
+rk
+rk
+rk
 "}
 (8,1,1) = {"
 dB
@@ -1914,13 +1961,13 @@ Rk
 Rk
 Rk
 Rk
-AO
-AO
-dB
-dB
-dB
-dB
-dB
+Lg
+Lg
+Lg
+Lg
+Lg
+Lg
+yF
 "}
 (9,1,1) = {"
 dB
@@ -1966,13 +2013,13 @@ ds
 Rk
 tx
 Rk
-AO
-AO
-dB
-dB
-dB
-dB
-dB
+Lg
+Lg
+Lg
+Lg
+Lg
+Lg
+yF
 "}
 (10,1,1) = {"
 dB
@@ -2018,13 +2065,13 @@ Rk
 Rk
 Rk
 Rk
-AO
-AO
-dB
-dB
-dB
-dB
-dB
+Lg
+Lg
+Lg
+Lg
+Lg
+Lg
+yF
 "}
 (11,1,1) = {"
 dB
@@ -2070,13 +2117,13 @@ Fi
 Fi
 Rk
 Rk
-AO
-AO
-dB
-dB
-dB
-dB
-dB
+Lg
+Lg
+bh
+bh
+bh
+Lg
+yF
 "}
 (12,1,1) = {"
 dB
@@ -2119,16 +2166,16 @@ Rk
 Rk
 Fi
 xU
-Fi
+Lz
 Rk
 Rk
-AO
-AO
-dB
-dB
-dB
-dB
-dB
+Lg
+Lg
+bh
+rh
+nH
+Lg
+yF
 "}
 (13,1,1) = {"
 dB
@@ -2174,13 +2221,13 @@ Fi
 Fi
 Rk
 Rk
-AO
-AO
-dB
-dB
-dB
-dB
-dB
+Lg
+Lg
+bh
+bh
+bh
+Lg
+yF
 "}
 (14,1,1) = {"
 dB
@@ -2226,13 +2273,13 @@ Rk
 Rk
 Rk
 Rk
-AO
-AO
-dB
-dB
-dB
-dB
-dB
+Lg
+Lg
+Lg
+Lg
+Lg
+Lg
+yF
 "}
 (15,1,1) = {"
 dB
@@ -2278,13 +2325,13 @@ Rk
 Rk
 tx
 Rk
-AO
-AO
-dB
-dB
-dB
-dB
-dB
+Lg
+Lg
+Lg
+Lg
+Lg
+Lg
+yF
 "}
 (16,1,1) = {"
 dB
@@ -2330,13 +2377,13 @@ Rk
 Rk
 Rk
 Rk
-AO
-AO
-dB
-dB
-dB
-dB
-dB
+Lg
+Lg
+Lg
+Lg
+Lg
+Lg
+yF
 "}
 (17,1,1) = {"
 dB
@@ -2384,11 +2431,11 @@ WL
 WL
 AO
 AO
-dB
-dB
-dB
-dB
-dB
+rk
+rk
+rk
+rk
+rk
 "}
 (18,1,1) = {"
 dB
@@ -2540,11 +2587,11 @@ WL
 WL
 AO
 AO
-dB
-dB
-dB
-dB
-dB
+rk
+rk
+rk
+rk
+rk
 "}
 (21,1,1) = {"
 dB
@@ -2590,13 +2637,13 @@ wX
 wX
 wX
 wX
-AO
-AO
-dB
-dB
-dB
-dB
-dB
+bW
+bW
+bW
+bW
+bW
+bW
+rk
 "}
 (22,1,1) = {"
 dB
@@ -2642,13 +2689,13 @@ wX
 aa
 wX
 wX
-AO
-AO
-dB
-dB
-dB
-dB
-dB
+bW
+bW
+bW
+bW
+bW
+bW
+rk
 "}
 (23,1,1) = {"
 dB
@@ -2694,13 +2741,13 @@ wX
 wX
 wX
 wX
-AO
-AO
-dB
-dB
-dB
-dB
-dB
+bW
+bW
+bW
+bW
+bW
+bW
+rk
 "}
 (24,1,1) = {"
 dB
@@ -2746,13 +2793,13 @@ rn
 rn
 MX
 wX
-AO
-AO
-dB
-dB
-dB
-dB
-dB
+bW
+bW
+VQ
+VQ
+VQ
+bW
+rk
 "}
 (25,1,1) = {"
 dB
@@ -2795,16 +2842,16 @@ wX
 MX
 rn
 rt
-rn
+Uv
 wX
 wX
-AO
-AO
-dB
-dB
-dB
-dB
-dB
+bW
+bW
+VQ
+Ex
+rD
+bW
+rk
 "}
 (26,1,1) = {"
 dB
@@ -2850,13 +2897,13 @@ rn
 rn
 wX
 wX
-AO
-AO
-dB
-dB
-dB
-dB
-dB
+bW
+bW
+VQ
+VQ
+VQ
+bW
+rk
 "}
 (27,1,1) = {"
 dB
@@ -2902,13 +2949,13 @@ wX
 wX
 wX
 wX
-AO
-AO
-dB
-dB
-dB
-dB
-dB
+bW
+bW
+bW
+bW
+bW
+bW
+rk
 "}
 (28,1,1) = {"
 dB
@@ -2954,13 +3001,13 @@ MX
 wX
 aa
 wX
-AO
-AO
-dB
-dB
-dB
-dB
-dB
+bW
+bW
+bW
+bW
+bW
+bW
+rk
 "}
 (29,1,1) = {"
 dB
@@ -3006,13 +3053,13 @@ wX
 wX
 wX
 wX
-AO
-AO
-dB
-dB
-dB
-dB
-dB
+bW
+bW
+bW
+bW
+bW
+bW
+rk
 "}
 (30,1,1) = {"
 dB
@@ -3060,11 +3107,11 @@ WL
 WL
 AO
 AO
-dB
-dB
-dB
-dB
-dB
+rk
+rk
+rk
+rk
+rk
 "}
 (31,1,1) = {"
 dB
@@ -3523,7 +3570,7 @@ Ln
 Ln
 kz
 hQ
-kz
+yG
 Ln
 Ln
 AO
