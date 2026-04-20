@@ -24,7 +24,7 @@
 	/// Target item type for courier quests
 	var/obj/item/target_delivery_item
 	/// Target mob type for kill quests
-	var/mob/target_mob_type
+	var/mob/living/target_mob_type
 	/// Location for courier quests
 	var/area/rogue/indoors/town/target_delivery_location
 	/// Location name for kill/clear quests

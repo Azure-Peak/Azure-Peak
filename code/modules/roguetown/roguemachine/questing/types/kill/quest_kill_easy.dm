@@ -2,6 +2,7 @@
 	quest_type = QUEST_KILL_EASY
 	count_min = 2
 	count_max = 4
+	threat_bands_cleared = QUEST_BANDS_KILL_EASY
 
 /datum/quest/kill/easy/get_title()
 	if(title)

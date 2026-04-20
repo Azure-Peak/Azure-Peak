@@ -17,6 +17,13 @@
 #define QUEST_KILL_THREAT_MULT 0.5
 #define QUEST_BOUNTY_THREAT_MULT 2
 
+// Bands of threat each kill quest type clears from its region on successful completion.
+// One band = THREAT_POINTS_PER_BAND (50) threat points by default.
+#define QUEST_BANDS_KILL_EASY 1
+#define QUEST_BANDS_CLEAR_OUT 2
+#define QUEST_BANDS_RAID 3
+#define QUEST_BANDS_BOUNTY 2
+
 #define QUEST_REWARD_EASY_LOW 30
 #define QUEST_REWARD_EASY_HIGH 35
 #define QUEST_REWARD_MEDIUM_LOW 45

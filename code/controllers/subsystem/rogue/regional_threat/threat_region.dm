@@ -69,6 +69,36 @@
 	else
 		return DANGER_LEVEL_BLEAK
 
+/// Translates latent_ambush into an IC-flavored breakdown by faction.
+/// Returns a list of strings like "12 warbands of bogmen" in descending order of count.
+/// Factions with 0 bands (due to small weights at low threat) are dropped. If nothing to report,
+/// returns an empty list (caller renders "Safe" or equivalent).
+/datum/threat_region/proc/get_ic_description()
+	var/list/result = list()
+	if(!length(faction_weights) || latent_ambush <= 0)
+		return result
+	var/total_bands = round(latent_ambush / THREAT_POINTS_PER_BAND)
+	if(total_bands <= 0)
+		return result
+	var/weight_sum = 0
+	for(var/id in faction_weights)
+		weight_sum += faction_weights[id]
+	if(!weight_sum)
+		return result
+	var/list/shares = list()
+	for(var/id in faction_weights)
+		var/datum/quest_faction/F = get_quest_faction(id)
+		if(!F)
+			continue
+		var/bands = round(total_bands * faction_weights[id] / weight_sum)
+		if(bands <= 0)
+			continue
+		shares[F] = bands
+	sortTim(shares, /proc/cmp_numeric_dsc, associative = TRUE)
+	for(var/datum/quest_faction/F as anything in shares)
+		result += F.describe_group_count(shares[F])
+	return result
+
 /datum/threat_region/proc/get_danger_color(level)
 	switch(get_danger_level())
 		if(DANGER_LEVEL_SAFE)

@@ -114,6 +114,7 @@ SUBSYSTEM_DEF(regionthreat)
 	var/region_name
 	var/danger_level
 	var/danger_color
+	var/list/ic_description = list()
 
 /datum/controller/subsystem/regionthreat/proc/get_threat_regions_for_display()
 	var/list/threat_region_displays = list()
@@ -123,5 +124,6 @@ SUBSYSTEM_DEF(regionthreat)
 		TRS.region_name = TR.region_name
 		TRS.danger_level = TR.get_danger_level()
 		TRS.danger_color = TR.get_danger_color()
+		TRS.ic_description = TR.get_ic_description()
 		threat_region_displays += TRS
 	return threat_region_displays

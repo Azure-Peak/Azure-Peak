@@ -1,6 +1,17 @@
 /datum/quest/kill
 	var/count_min = 1
 	var/count_max = 3
+	/// How many "bands" of threat this kill quest type clears on completion. Subtypes override.
+	var/threat_bands_cleared = 0
+
+/datum/quest/kill/mark_complete()
+	..()
+	if(threat_bands_cleared <= 0 || !region)
+		return
+	var/datum/threat_region/TR = SSregionthreat.get_region(region)
+	if(!TR)
+		return
+	TR.reduce_latent_ambush(threat_bands_cleared * THREAT_POINTS_PER_BAND)
 
 /datum/quest/kill/preview(obj/effect/landmark/quest_spawner/landmark)
 	. = ..()

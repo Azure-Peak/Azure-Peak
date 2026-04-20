@@ -74,17 +74,14 @@
 
 /datum/fellowship_ui/proc/get_pending_invites_for(mob/living/user)
 	var/list/invites = list()
-	var/changed = FALSE
 	for(var/datum/weakref/W as anything in user.incoming_fellowship_invites)
 		var/datum/fellowship/F = W.resolve()
 		if(QDELETED(F) || !(user.real_name in F.pending_invites))
 			user.incoming_fellowship_invites -= W
-			changed = TRUE
 			continue
 		var/list/entry = F.pending_invites[user.real_name]
 		if(entry[1] < world.time)
 			F.remove_pending_invite(user.real_name)
-			changed = TRUE
 			continue
 		var/mob/living/lead = F.get_leader()
 		invites += list(list(

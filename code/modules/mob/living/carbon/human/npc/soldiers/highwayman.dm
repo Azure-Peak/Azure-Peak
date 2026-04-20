@@ -111,19 +111,17 @@ GLOBAL_LIST_INIT(highwayman_aggro, world.file2list("strings/rt/highwaymanaggroli
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
 	if(prob(50))
 		mask = /obj/item/clothing/mask/rogue/ragmask/red
-	armor = /obj/item/clothing/suit/roguetown/armor/cuirass/iron
+	armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
 	pants = /obj/item/clothing/under/roguetown/trou/leather
 	if(prob(55))
-		head = /obj/item/clothing/head/roguetown/helmet/skullcap/iron
+		head = /obj/item/clothing/head/roguetown/helmet/skullcap
 	else if(prob(30))
 		head = /obj/item/clothing/head/roguetown/helmet/sallet/visored/iron
 	else if(prob(30))
 		head = /obj/item/clothing/head/roguetown/helmet/heavy/barbute
-	else if(prob(40))
-		head = /obj/item/clothing/head/roguetown/helmet/kettle/iron
 	else
-		head = /obj/item/clothing/head/roguetown/helmet/iron
+		head = /obj/item/clothing/head/roguetown/helmet/kettle/iron
 	if(prob(70))
 		neck = /obj/item/clothing/neck/roguetown/coif
 	gloves = /obj/item/clothing/gloves/roguetown/leather

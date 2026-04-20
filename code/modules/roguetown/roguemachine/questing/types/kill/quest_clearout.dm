@@ -2,6 +2,7 @@
 	quest_type = QUEST_CLEAR_OUT
 	count_min = 4
 	count_max = 6
+	threat_bands_cleared = QUEST_BANDS_CLEAR_OUT
 
 /datum/quest/kill/clearout/get_title()
 	if(title)

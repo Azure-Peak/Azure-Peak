@@ -2,6 +2,7 @@
 	quest_type = QUEST_BOUNTY
 	count_min = 1
 	count_max = 1
+	threat_bands_cleared = QUEST_BANDS_BOUNTY
 	/// Generated boss name for title/objective. Set at preview.
 	var/boss_name
 
