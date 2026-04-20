@@ -1,4 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - rscadd: "Refactored Psydon PRAYER - report any oddities. It can loop up to a maximum of 10 times now."

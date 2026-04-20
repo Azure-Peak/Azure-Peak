@@ -32,6 +32,8 @@ GLOBAL_LIST_INIT(duelist_aggro, list(
 	ADD_TRAIT(src, TRAIT_NOHUNGER, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_LEECHIMMUNE, INNATE_TRAIT)
 	ADD_TRAIT(src, TRAIT_BREADY, TRAIT_GENERIC)
+	ADD_TRAIT(src, TRAIT_LIGHT_STEP, TRAIT_GENERIC)
+	ADD_TRAIT(src, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
 	equipOutfit(new /datum/outfit/job/roguetown/npc/mini_boss/duelist)
 	for(var/obj/item/equipped_item in get_equipped_items() + held_items)
 		equipped_item.AddComponent(/datum/component/item_on_drop/dust)

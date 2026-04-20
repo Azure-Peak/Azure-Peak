@@ -1,4 +1,0 @@
-author: "Kelshark"
-delete-after: True
-changes:
-  - bugfix: "Offering candelabrums to Matthios statue won't also make you hit the statue."

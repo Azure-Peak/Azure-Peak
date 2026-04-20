@@ -572,6 +572,8 @@ GLOBAL_LIST_EMPTY(chosen_names)
 			if(charflaws.len)
 				for(var/i = 1 to charflaws.len)
 					var/datum/charflaw/cf = charflaws[i]
+					if(!cf)
+						continue
 					var/warning = ""
 					if(cf.needs_extra_vice && charflaws.len < 2)
 						warning = "<font color = '#910505'>"

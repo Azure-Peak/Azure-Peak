@@ -1,4 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - rscadd: "All spells invocation are spoken in Imperial (Common) and will no longer follow your character's default language, even if you do not know Imperial."

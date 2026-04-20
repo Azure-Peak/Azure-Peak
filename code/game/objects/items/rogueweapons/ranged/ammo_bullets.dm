@@ -147,6 +147,7 @@
 	hitsound = 'sound/combat/hits/blunt/bluntsmall (1).ogg'
 	embedchance = 0
 	woundclass = BCLASS_BLUNT
+	intdamfactor = BLUNT_DEFAULT_INT_DAMAGEFACTOR // Slings are meant to break armor so this will help
 	flag = "blunt"
 	speed = 0.4
 	npc_simple_damage_mult = 2.5 // Deals roughly ~75-95 damage against a simplemob, compared to the ~140 damage of a crossbolt or arrow.

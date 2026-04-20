@@ -667,3 +667,56 @@
   - image: resprited the Mage Chalk and the Arcyne Silver Dagger
   - image: resprited (some of) the main Mage Runes to be made out of chalk instead
       of Neon Cyan
+2026-04-19:
+  BurpleBineapple:
+  - bugfix: Flamberges are held like greatswords properly now.
+  Kelshark:
+  - bugfix: Offering candelabrums to Matthios statue won't also make you hit the statue.
+  Ketrai:
+  - bugfix: Abyssor dream isn't shy when it isn't supposed to be now.
+  NalimaTheWitch:
+  - bugfix: Prowler gives +3 lockpicking again as intended.
+  WeNeedMorePhoron:
+  - rscadd: Added ability to set mob factions and make them dust on death, dust but
+      drop head, and dust and delete gears to the Create Mob Panel.
+  - rscadd: All spells invocation are spoken in Imperial (Common) and will no longer
+      follow your character's default language, even if you do not know Imperial.
+  - rscadd: Refactored Psydon PRAYER - report any oddities. It can loop up to a maximum
+      of 10 times now.
+  zydras:
+  - bugfix: ACTUALLY gives the teleportation rune the right filepath
+2026-04-20:
+  7erracotta:
+  - rscadd: NEW MEAT
+  Ketrai:
+  - rscadd: Add hunting skill, granted to many classes
+  - balance: Adjusted steward to +5 statweight
+  - balance: Adjusted councillor classes to +5 statweight
+  - rscadd: Huntmaster councillor class
+  - rscadd: Castellan councillor class
+  - rscadd: Hunting maps to boost hunting chances for the white stag
+  - rscadd: White stag mob
+  Ollanius:
+  - balance: The visored- and great barbute now have slightly less integrity than
+      before. Now, they're just as durable as your average visored helmet and great
+      helmet.
+  WeNeedMorePhoron:
+  - rscadd: NPC Skeletons, Zizo Construct and Orc Berserker no longer gain a massive
+      burning down threshold increase from their nopain trait and should be reasonably
+      easy to kill by burning spells now.
+  - rscadd: Thief speed reduced from 16 to 12. Outlaw Duelist gains dexpert and light
+      step.
+  - rscadd: AI should no longer spam the chat with *rushes to X's aid
+  - bugfix: Summon Dreamfiend's dreamfiend is now fixed.
+  - rscadd: Skeleton archers gain options to use decrepit broadhead arrows, which
+      is now a reflavor of iron broadhead.
+  - balance: Sling bullets now deal 1.6x damage to integrity
+  - balance: Arrows now deals 1.25x damage to integrity
+  - rscadd: Balloon alerts that appears at the same time should appear vertically
+      stacked on top instead of overlapping eachother most of the time, making it
+      visually clearer
+  - rscadd: Implemented a loot pool system, through which loot on most legacy / old
+      dungeons has been increased and Tomb of Alotheos decreased
+  - balance: Painting value decreased by 10x and no longer sell for a ransom at 200
+      / 100. Stick to portable dungeon loot instead.
+  - rscadd: Bear / Mantrap recipe no longer smelt into anything to avoid a dupe exploit.

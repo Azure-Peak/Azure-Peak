@@ -27,8 +27,9 @@
 	vice_restrictions = list(/datum/charflaw/mute, /datum/charflaw/unintelligible) //Needs to use the throat - sometimes
 	job_subclasses = list(
 		/datum/advclass/councillor/herald,
-		/datum/advclass/councillor/advisor,
+		/datum/advclass/councillor/huntmaster,
 		/datum/advclass/councillor/cofferer,
+		/datum/advclass/councillor/castellan
 	)
 
 /datum/advclass/councillor/herald
@@ -41,8 +42,8 @@
 		STATKEY_SPD = 2,
 		STATKEY_INT = 1,
 		STATKEY_PER = 1,
-		STATKEY_STR = -1,
-		STATKEY_CON = -1
+		STATKEY_WIL = 1,
+		STATKEY_STR = -1
 	)
 
 	// better movement skills
@@ -58,30 +59,6 @@
 		/datum/skill/combat/knives = SKILL_LEVEL_APPRENTICE,
 	)
 
-
-/datum/advclass/councillor/advisor
-	name = "Council Advisor"
-	tutorial = "You have a keen sense of political acumen. Much like the jester, albeit in a less farcical manner, you are well-suited to giving the court advice on daily matters. They might even listen if you tell them that a plan of theirs may have a hole in it that would sink it. You may be the lowest rung of the ladder, but that rung still towers over everyone else in town."
-	outfit = /datum/outfit/job/roguetown/councillor/advisor
-	category_tags = list(CTAG_COUNCILLOR)
-	subclass_stats = list(
-		STATKEY_INT = 3, // smart and savvy
-		STATKEY_PER = 2,
-		STATKEY_STR = -2,
-		STATKEY_CON = -1
-	)
-	subclass_skills = list(
-		/datum/skill/misc/reading = SKILL_LEVEL_EXPERT,
-		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/combat/wrestling = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/misc/climbing = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/misc/athletics = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/combat/swords = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/combat/knives = SKILL_LEVEL_APPRENTICE,
-	)
-
-
 /datum/advclass/councillor/cofferer
 	name = "Cofferer"
 	tutorial = "Whether born into wealth, or earned through working up from the bottom, you have quite the reserve of mammon at your disposal. Use your silver-tongue to acquire more, or buy more favour with the court. You may be the lowest rung of the ladder, but that rung still towers over everyone else in town."
@@ -91,8 +68,7 @@
 		STATKEY_WIL = 2,
 		STATKEY_INT = 2,
 		STATKEY_PER = 2,
-		STATKEY_STR = -1,
-		STATKEY_CON = -2
+		STATKEY_STR = -1
 	)
 	subclass_skills = list(
 		/datum/skill/misc/reading = SKILL_LEVEL_EXPERT,
@@ -103,6 +79,64 @@
 		/datum/skill/misc/athletics = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/swords = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/knives = SKILL_LEVEL_APPRENTICE,
+	)
+
+/datum/advclass/councillor/huntmaster
+	name = "Huntmaster"
+	tutorial = "Formerly a commoner, or perhaps you just like spending time in the woods too much. Organizing the hunt for their lordship is difficult, and you may not be as rich as your peers, but you'll make it work."
+	outfit = /datum/outfit/job/roguetown/councillor/huntmaster
+	category_tags = list(CTAG_COUNCILLOR)
+	// Slightly worse than bow hunters
+	subclass_stats = list(
+		STATKEY_PER = 3,
+		STATKEY_INT = 1,
+		STATKEY_SPD = 1,
+		STATKEY_CON = -1
+	)
+	subclass_skills = list(
+		/datum/skill/misc/reading = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/wrestling = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/climbing = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/athletics = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/labor/butchering = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/craft/cooking = SKILL_LEVEL_APPRENTICE,
+		// One below spear hunters
+		/datum/skill/combat/polearms = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/combat/knives = SKILL_LEVEL_APPRENTICE,
+		// Too easy to get hurt hunting
+		/datum/skill/misc/medicine = SKILL_LEVEL_NOVICE,
+		// One below bow hunters
+		/datum/skill/combat/bows = SKILL_LEVEL_JOURNEYMAN,
+		// One above hunters
+		/datum/skill/misc/hunting = SKILL_LEVEL_MASTER,
+	)
+
+/datum/advclass/councillor/castellan
+	name = "Castellan"
+	tutorial = "Whilst not enjoying a position of leadership over the troops, you are in charge of overseeing the keep's defenses. You even know a thing or two about constructing siege weaponry, and defending against such devices."
+	outfit = /datum/outfit/job/roguetown/councillor/castellan
+	category_tags = list(CTAG_COUNCILLOR)
+	// Mini Artificer
+	subclass_stats = list(
+		STATKEY_STR = 1,
+		STATKEY_CON = 1,
+		STATKEY_WIL = 1,
+		STATKEY_PER = 1
+	)
+	subclass_skills = list(
+		/datum/skill/misc/reading = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/wrestling = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/climbing = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/athletics = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/combat/swords = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/combat/knives = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/craft/engineering = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/craft/traps = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/medicine = SKILL_LEVEL_NOVICE,
 	)
 
 /datum/outfit/job/roguetown/councillor
@@ -120,25 +154,11 @@
 	beltl = /obj/item/roguekey/manor
 	beltr = /obj/item/rogueweapon/huntingknife/idagger/steel
 	cloak = /obj/item/clothing/cloak/half/red
+	backpack_contents = list(
+		/obj/item/storage/keyring = 1,
+	)
 	if(H.mind)
 		SStreasury.give_money_account(ECONOMIC_LOWER_MIDDLE_CLASS, H, "Savings.") // lower starting fund, but give them a saiga
-	// give them the shitty see prices trait
-	ADD_TRAIT(H, TRAIT_SEEPRICES_SHITTY, JOB_TRAIT)
-
-/datum/outfit/job/roguetown/councillor/advisor/pre_equip(mob/living/carbon/human/H)
-	..()
-	neck = /obj/item/storage/belt/rogue/pouch/coins/mid // a mediocre pouch of coins
-	shirt = /obj/item/clothing/suit/roguetown/shirt/fancyjacket
-	pants = /obj/item/clothing/under/roguetown/trou/beltpants
-	shoes = /obj/item/clothing/shoes/roguetown/boots
-	saiga_shoes = /obj/item/clothing/shoes/roguetown/horseshoes/steel
-	backl = /obj/item/storage/backpack/rogue/satchel
-	belt = /obj/item/storage/belt/rogue/leather
-	beltl = /obj/item/roguekey/manor
-	beltr = /obj/item/rogueweapon/huntingknife/idagger/steel
-	cloak = /obj/item/clothing/cloak/half/red
-	if(H.mind)
-		SStreasury.give_money_account(ECONOMIC_UPPER_CLASS, H, "Savings.")
 	// give them the shitty see prices trait
 	ADD_TRAIT(H, TRAIT_SEEPRICES_SHITTY, JOB_TRAIT)
 
@@ -158,3 +178,53 @@
 		SStreasury.give_money_account(ECONOMIC_RICH, H, "Savings.") // wealth beyond measure
 	// give them the good see prices trait
 	ADD_TRAIT(H, TRAIT_SEEPRICES, JOB_TRAIT)
+
+/datum/outfit/job/roguetown/councillor/huntmaster/pre_equip(mob/living/carbon/human/H)
+	..()
+	neck = /obj/item/storage/belt/rogue/pouch/coins/mid // a mediocre pouch of coins
+	head = /obj/item/clothing/head/roguetown/roguehood/shalal/heavyhood
+	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/light // Look, it would be silly to get mauled by a single wolf
+	pants = /obj/item/clothing/under/roguetown/trou/beltpants
+	shoes = /obj/item/clothing/shoes/roguetown/boots
+	saiga_shoes = /obj/item/clothing/shoes/roguetown/horseshoes/steel
+	backl = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
+	backr = /obj/item/storage/backpack/rogue/satchel
+	belt = /obj/item/storage/belt/rogue/leather
+	beltl = /obj/item/roguekey/manor
+	beltr = /obj/item/quiver/arrows
+	cloak = /obj/item/clothing/cloak/half/red
+	backpack_contents = list(
+		/obj/item/hunting_map/white_stag = 1,
+		/obj/item/storage/keyring = 1,
+		/obj/item/rogueweapon/huntingknife/idagger/steel = 1,
+	)
+	if(H.mind)
+		SStreasury.give_money_account(ECONOMIC_LOWER_MIDDLE_CLASS, H, "Savings.")
+	// give them the shitty see prices trait
+	ADD_TRAIT(H, TRAIT_SEEPRICES_SHITTY, JOB_TRAIT)
+	ADD_TRAIT(H, TRAIT_MASTERFUL_HUNTER, JOB_TRAIT)
+	// Level up butchering
+	ADD_TRAIT(H, TRAIT_SURVIVAL_EXPERT, JOB_TRAIT)
+
+/datum/outfit/job/roguetown/councillor/castellan/pre_equip(mob/living/carbon/human/H)
+	..()
+	neck = /obj/item/storage/belt/rogue/pouch/coins/mid
+	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/light // Technically an important figure
+	pants = /obj/item/clothing/under/roguetown/trou/beltpants
+	shoes = /obj/item/clothing/shoes/roguetown/boots/nobleboot
+	saiga_shoes = /obj/item/clothing/shoes/roguetown/horseshoes/steel
+	backl = /obj/item/storage/backpack/rogue/satchel
+	belt = /obj/item/storage/belt/rogue/leather
+	// Less money of their own, but does need funds to oversee defenses
+	beltl = /obj/item/storage/keyring/steward
+	beltr = /obj/item/rogueweapon/huntingknife/idagger/steel
+	cloak = /obj/item/clothing/cloak/half/red
+	backpack_contents = list(
+		/obj/item/storage/keyring = 1,
+	)
+	if(H.mind)
+		SStreasury.give_money_account(ECONOMIC_LOWER_MIDDLE_CLASS, H, "Savings.")
+	// give them the good see prices trait
+	ADD_TRAIT(H, TRAIT_SEEPRICES, JOB_TRAIT)
+	// Level past Jman if they want to
+	ADD_TRAIT(H, TRAIT_SMITHING_EXPERT, JOB_TRAIT)

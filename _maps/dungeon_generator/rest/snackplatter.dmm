@@ -50,10 +50,7 @@
 /obj/structure/table/church{
 	dir = 1
 	},
-/obj/item/reagent_containers/food/snacks/rogue/crackerscooked{
-	pixel_x = -6;
-	pixel_y = 9
-	},
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/under/tomb/cave)
 "K" = (

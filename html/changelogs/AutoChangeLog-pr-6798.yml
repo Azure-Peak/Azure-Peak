@@ -1,4 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - rscadd: "Added ability to set mob factions and make them dust on death, dust but drop head, and dust and delete gears to the Create Mob Panel."

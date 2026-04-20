@@ -3,7 +3,7 @@
 	desc = "By birth, blade or brain, I am noble known to the royalty of these lands, and have all the benefits associated with it. I've cleverly stashed away a healthy amount of coinage, alongside a familial heirloom."
 	restricted = TRUE
 	races = list(/datum/species/construct, /datum/species/dullahan)
-	added_traits = list(TRAIT_NOBLE)
+	added_traits = list(TRAIT_NOBLE, TRAIT_EXPERT_HUNTER)
 	added_skills = list(list(/datum/skill/misc/reading, 1, 6))
 	added_stashed_items = list("Heirloom Amulet" = /obj/item/clothing/neck/roguetown/ornateamulet/noble,
 								"Hefty Coinpurse" = /obj/item/storage/belt/rogue/pouch/coins/virtuepouch)

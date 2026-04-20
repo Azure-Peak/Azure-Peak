@@ -88,6 +88,8 @@
 	range = 15
 	hitsound = 'sound/combat/hits/hi_arrow2.ogg'
 	embedchance = 25
+	intdamfactor = 1.25 // Attempt to make it so that arrows do more damage to armor
+	// Without instantly killing people when armor breaks
 	woundclass = BCLASS_PIERCE
 	flag = "piercing"
 	speed = 0.4
@@ -137,10 +139,9 @@
 	name = "decrepit broadhead arrow"
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/arrow/iron/aalloy
 	icon_state = "ancientarrow_proj"
-	damage = 40
+	damage = 50
 	armor_penetration = PEN_LIGHT
 	flag = "piercing"
-	embedchance = 40
 
 // Bodkins should penetrate essentially any armour in the game with decent perception, as
 // recompense for their very low damage. Better for lower perception characters without

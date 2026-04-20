@@ -1,4 +1,0 @@
-author: "zydras"
-delete-after: True
-changes:
-  - bugfix: "ACTUALLY gives the teleportation rune the right filepath"

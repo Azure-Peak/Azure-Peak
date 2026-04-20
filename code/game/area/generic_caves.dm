@@ -3,6 +3,7 @@
 	name = "cave"
 	warden_area = TRUE
 	icon_state = "cave"
+	loot_budget = LOOT_BUDGET_CAVE_DEFAULT
 	ambientsounds = AMB_GENCAVE
 	ambientnight = AMB_GENCAVE
 	spookysounds = SPOOKY_CAVE
@@ -41,6 +42,7 @@
 	droning_sound_dusk = null
 	droning_sound_night = null
 	converted_type = /area/rogue/outdoors/spidercave
+	loot_budget = LOOT_BUDGET_ARAIGNEE
 
 /area/rogue/outdoors/spidercave
 	icon_state = "spidercave"

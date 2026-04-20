@@ -99,7 +99,7 @@
 	if(prob(50))
 		l_hand = /obj/item/rogueweapon/huntingknife/copper
 	H.STASTR = 11
-	H.STASPD = 16
+	H.STASPD = 12
 	H.STACON = 5
 	H.STAWIL = 5
 	H.STAPER = 11

@@ -68,6 +68,5 @@
 		ally_ctrl.set_blackboard_key("bb_last_ranged_attacker", current_target)
 
 		ally_ctrl.CancelActions()
-		ally.visible_message(span_warning("[ally] rushes to aid [living_pawn]!"))
 
 	finish_action(controller, TRUE, target_key)
