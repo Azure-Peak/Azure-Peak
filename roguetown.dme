@@ -2544,6 +2544,7 @@
 #include "code\modules\paperwork\papers\scrap.dm"
 #include "code\modules\photography\_pictures.dm"
 #include "code\modules\pixel_shift\pixel_shifting.dm"
+#include "code\modules\politics\_politics.dm"
 #include "code\modules\procedural_mapping\mapGenerator.dm"
 #include "code\modules\procedural_mapping\mapGeneratorModule.dm"
 #include "code\modules\procedural_mapping\mapGeneratorObj.dm"
