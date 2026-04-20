@@ -38,6 +38,8 @@ SUBSYSTEM_DEF(treasury)
 	var/minted = 0
 	var/autoexport_percentage = 0.6 // Percentage above which stockpiles will automatically export  
 	var/list/bank_accounts = list()
+	var/datum/fund/discretionary_fund
+	var/list/ledger = list()
 	var/list/noble_incomes = list()
 	var/list/stockpile_datums = list()
 	var/next_treasury_check = 0
@@ -53,6 +55,7 @@ SUBSYSTEM_DEF(treasury)
 
 /datum/controller/subsystem/treasury/Initialize()
 	treasury_value = rand(1000, 2000)
+	discretionary_fund = new("Crown Discretionary", null, treasury_value, CURRENCY_MAMMON)
 	force_set_round_statistic(STATS_STARTING_TREASURY, treasury_value)
 
 	for(var/path in subtypesof(/datum/roguestock/bounty))
@@ -98,18 +101,18 @@ SUBSYSTEM_DEF(treasury)
 	return bank_accounts[target]
 
 /datum/controller/subsystem/treasury/proc/get_balance(target)
-	var/datum/bank_account/account = get_account(target)
+	var/datum/fund/account = get_account(target)
 	return account ? account.balance : 0
 
 /datum/controller/subsystem/treasury/proc/adjust_balance(target, delta)
-	var/datum/bank_account/account = get_account(target)
+	var/datum/fund/account = get_account(target)
 	if(!account)
 		return null
 	account.balance += delta
 	return account.balance
 
 /datum/controller/subsystem/treasury/proc/set_balance(target, value)
-	var/datum/bank_account/account = get_account(target)
+	var/datum/fund/account = get_account(target)
 	if(!account)
 		return null
 	account.balance = value
@@ -119,17 +122,17 @@ SUBSYSTEM_DEF(treasury)
 	return !isnull(bank_accounts[target])
 
 /datum/controller/subsystem/treasury/proc/rename_account(mob/living/owner, new_name)
-	var/datum/bank_account/account = get_account(owner)
+	var/datum/fund/account = get_account(owner)
 	if(!account)
 		return
-	account.owner_name = new_name
+	account.name = new_name
 
 /datum/controller/subsystem/treasury/proc/is_name_taken(candidate_name)
 	if(!candidate_name)
 		return FALSE
 	for(var/key in bank_accounts)
-		var/datum/bank_account/account = bank_accounts[key]
-		if(account?.owner_name == candidate_name)
+		var/datum/fund/account = bank_accounts[key]
+		if(account?.name == candidate_name)
 			return TRUE
 	return FALSE
 
@@ -140,7 +143,7 @@ SUBSYSTEM_DEF(treasury)
 		return
 	if(is_name_taken(owner.real_name))
 		return
-	var/datum/bank_account/account = new(owner, initial_deposit || 0)
+	var/datum/fund/account = new(owner.real_name, owner, initial_deposit || 0, CURRENCY_MAMMON)
 	bank_accounts[owner] = account
 	return TRUE
 
@@ -167,7 +170,7 @@ SUBSYSTEM_DEF(treasury)
 	if(istype(target,/mob/living/carbon/human))
 		var/mob/living/carbon/human/H = target
 		target_name = H.real_name
-	var/datum/bank_account/account = get_account(target)
+	var/datum/fund/account = get_account(target)
 	if(!account)
 		return FALSE
 	if(amt > 0)
@@ -208,7 +211,7 @@ SUBSYSTEM_DEF(treasury)
 		return FALSE
 	if(!character)
 		return FALSE
-	var/datum/bank_account/account = get_account(character)
+	var/datum/fund/account = get_account(character)
 	if(!account)
 		return FALSE
 	var/taxed_amount = 0
@@ -230,7 +233,7 @@ SUBSYSTEM_DEF(treasury)
 	if(istype(target,/mob/living/carbon/human))
 		var/mob/living/carbon/human/H = target
 		target_name = H.real_name
-	var/datum/bank_account/account = get_account(target)
+	var/datum/fund/account = get_account(target)
 	if(!account)
 		return
 	if(account.balance < amt)

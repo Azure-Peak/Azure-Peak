@@ -365,7 +365,7 @@
 		if(TAB_BANK)
 			var/total_deposit = 0
 			for(var/key in SStreasury.bank_accounts)
-				var/datum/bank_account/account = SStreasury.bank_accounts[key]
+				var/datum/fund/account = SStreasury.bank_accounts[key]
 				if(account)
 					total_deposit += account.balance
 			if(total_deposit == 0)
