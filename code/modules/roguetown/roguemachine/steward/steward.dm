@@ -199,10 +199,6 @@
 			return
 		for(var/mob/living/A in SStreasury.bank_accounts)
 			if(A == X)
-				if(SStreasury.check_fine_exemption(A))
-					say("By our Liege's mercy, they can not be fined!")
-					playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
-					return
 				var/newtax = input(usr, "How much to fine [X]", src) as null|num
 				if(!usr.canUseTopic(src, BE_CLOSE) || locked)
 					return

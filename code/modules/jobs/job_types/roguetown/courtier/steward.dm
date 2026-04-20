@@ -84,7 +84,6 @@
 		/obj/item/mini_flagpole/steward = 1,
 	)
 
-GLOBAL_VAR_INIT(steward_tax_cooldown, -50000) // Antispam
 /mob/living/carbon/human/proc/adjust_taxes()
 	set name = "Adjust Taxes"
 	set category = "Stewardry"
@@ -94,8 +93,9 @@ GLOBAL_VAR_INIT(steward_tax_cooldown, -50000) // Antispam
 	if(lord)
 		to_chat(src, span_warning("You cannot adjust taxes while the [SSticker.rulertype] is present in the realm. Ask your liege."))
 		return
-	if(world.time < GLOB.steward_tax_cooldown + 600 SECONDS)
-		to_chat(src, span_warning("You must wait [round((GLOB.steward_tax_cooldown + 600 SECONDS - world.time)/600, 0.1)] minutes before adjusting taxes again! Think of the realm."))
+	if(SStreasury.tax_rates_last_set_day == GLOB.dayspassed)
+		to_chat(src, span_warning("The ledger has already been revised today. Wait until dawn to adjust levies again."))
 		return FALSE
 	var/datum/taxsetter/taxsetter = new("The Diligent Steward Intervenes", "The Greedy Steward Imposes")
+	taxsetter.marks_daily_cooldown = TRUE
 	taxsetter.ui_interact(src)

@@ -1,10 +1,8 @@
-/**
- * UI holder for interacting wtih SStreasury's tax values
- */
-
-/// Since duke/steward have different announcements
-/datum/taxsetter/var/good_announcement_text = "The Generous Lord Decrees"
-/datum/taxsetter/var/bad_announcement_text = "The Tyrannical Lord Dictates"
+/datum/taxsetter
+	var/good_announcement_text = "The Generous Lord Decrees"
+	var/bad_announcement_text = "The Tyrannical Lord Dictates"
+	/// If TRUE, setting rates through this panel consumes the Steward's once-per-day slot.
+	var/marks_daily_cooldown = FALSE
 
 /datum/taxsetter/New(good_announcement_text = null, bad_announcement_text = null)
 	. = ..()
@@ -16,31 +14,29 @@
 /datum/taxsetter/ui_interact(mob/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
-		ui = new(user, src, "TaxSetter", "Set Taxes")
+		ui = new(user, src, "TaxSetter", "Set Crown Levies")
 		ui.open()
 
 /datum/taxsetter/ui_static_data(mob/user)
-	var/list/data = list("taxCategories")
-	for(var/category in SStreasury.taxation_cat_settings)
-		var/list/cat = list(
-			"categoryName" = category,
-			"taxAmount" = SStreasury.taxation_cat_settings[category]["taxAmount"],
-			"fineExemption" = SStreasury.taxation_cat_settings[category]["fineExemption"],
-		)
-		data["taxCategories"] += list(cat)
-	return data
+	var/list/category_rates = list()
+	for(var/category in SStreasury.tax_rates)
+		if(category == TAX_CATEGORY_FINE)
+			continue
+		category_rates += list(list(
+			"category" = category,
+			"rate" = round(SStreasury.tax_rates[category] * 100),
+		))
+	return list("categoryRates" = category_rates)
 
 /datum/taxsetter/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)
 	if(..())
 		return TRUE
-
 	switch(action)
-		if("set_taxes")
-			SStreasury.set_taxes(
-				params["taxationCats"],
-				good_announcement_text,
-				bad_announcement_text
-			)
+		if("set_rates")
+			SStreasury.apply_rate_adjustments(params["categoryRates"], good_announcement_text, bad_announcement_text)
+			if(marks_daily_cooldown)
+				SStreasury.tax_rates_last_set_day = GLOB.dayspassed
+			return TRUE
 
 /datum/taxsetter/ui_state(mob/user)
 	return GLOB.conscious_state

@@ -34,17 +34,15 @@
 	return tax_rates[tax_category] || 0
 
 /datum/controller/subsystem/treasury/proc/set_tax_rate(tax_category, rate)
-	if(rate < 0)
+	if(tax_category == TAX_CATEGORY_FINE)
 		return
-	tax_rates[tax_category] = rate
+	tax_rates[tax_category] = CLAMP(rate, 0, 0.50)
 
 /datum/controller/subsystem/treasury/proc/is_tax_exempt(mob/living/payer, tax_category)
 	if(!payer)
 		return FALSE
 	if(HAS_TRAIT(payer, TRAIT_NOBLE))
 		return TRUE
-	if(tax_category == TAX_CATEGORY_FINE)
-		return check_fine_exemption(payer)
 	return FALSE
 
 /datum/controller/subsystem/treasury/proc/apply_tax(datum/fund/payer, base_amount, tax_category, reason)

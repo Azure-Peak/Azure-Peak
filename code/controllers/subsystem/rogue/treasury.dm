@@ -24,20 +24,14 @@ SUBSYSTEM_DEF(treasury)
 	name = "treasury"
 	wait = 1
 	priority = FIRE_PRIORITY_WATER_LEVEL
-	/// Assoc list of assoc lists for taxation settings. [category] = list("tax_percent" = num, "fine_exemption" = TRUE/FALSE)
-	var/list/taxation_cat_settings = list(
-		TAX_CAT_NOBLE = list("taxAmount" = 0, "fineExemption" = TRUE),
-		TAX_CAT_CHURCH = list("taxAmount" = 6, "fineExemption" = TRUE),
-		TAX_CAT_BURGHERS = list("taxAmount" = 12, "fineExemption" = FALSE),
-		TAX_CAT_PEASANTS = list("taxAmount" = 12, "fineExemption" = FALSE)
-	)
 	var/list/tax_rates = list(
-		TAX_CATEGORY_CONTRACT_LEVY = 0.11,
-		TAX_CATEGORY_HEADEATER_LEVY = 0.10,
-		TAX_CATEGORY_IMPORT_TARIFF = 0.10,
-		TAX_CATEGORY_EXPORT_DUTY = 0.10,
+		TAX_CATEGORY_CONTRACT_LEVY = 0.20,
+		TAX_CATEGORY_HEADEATER_LEVY = 0.20,
+		TAX_CATEGORY_IMPORT_TARIFF = 0.20,
+		TAX_CATEGORY_EXPORT_DUTY = 0.20,
 		TAX_CATEGORY_FINE = 1.0,
 	)
+	var/tax_rates_last_set_day = -1
 	var/trade_spread = 0.10 // Merchant-guild spread between stockpile import and export prices. Not a ledger tax.
 	var/mint_multiplier = 0.8 // 1x is meant to leave a margin after standard 80% collectable. Less than Bathmatron.
 	var/minted = 0
@@ -258,51 +252,31 @@ SUBSYSTEM_DEF(treasury)
 	bank_accounts -= person
 	return TRUE
 
-/// Boilerplate that sets taxes and announces it to the world. Only changed taxes are announced. 
-/datum/controller/subsystem/treasury/proc/set_taxes(list/categories, good_announcement_text, bad_announcement_text)
+/// Apply Steward/Lord-submitted category rate changes. Announces only changed rates.
+/datum/controller/subsystem/treasury/proc/apply_rate_adjustments(list/adjustments, good_announcement_text, bad_announcement_text)
 	var/final_text = null
-	var/bad_guy = FALSE // If any fine exemptions are removed or tax is increased, uses an alternative message
-	for(var/category in categories)
-		if(taxation_cat_settings[category]["taxAmount"] != categories[category]["taxAmount"])
-			if(categories[category]["taxAmount"] > taxation_cat_settings[category]["taxAmount"])
-				bad_guy = TRUE
-			final_text += "<br>[category] tax: [categories[category]["taxAmount"]]%. "
-		if(taxation_cat_settings[category]["fineExemption"] != categories[category]["fineExemption"])
-			if(taxation_cat_settings[category]["fineExemption"] && !categories[category]["fineExemption"])
-				bad_guy = TRUE
-			final_text += "[category] is [categories[category]["fineExemption"] ? "now exempt from fines" : "no longer exempt from fines"]."
-		taxation_cat_settings[category] = categories[category]
+	var/bad_guy = FALSE
+	for(var/entry in adjustments)
+		var/category = entry["category"]
+		if(!(category in tax_rates))
+			continue
+		if(category == TAX_CATEGORY_FINE)
+			continue
+		var/new_pct = CLAMP(entry["rate"], 0, 50)
+		var/new_rate = new_pct / 100
+		var/old_rate = tax_rates[category]
+		if(new_rate == old_rate)
+			continue
+		if(new_rate > old_rate)
+			bad_guy = TRUE
+		tax_rates[category] = new_rate
+		final_text += "<br>[category]: [new_pct]%"
 
 	if(isnull(final_text))
 		return
-	
-	var/final_announcement_text = good_announcement_text
-	if(bad_guy)
-		final_announcement_text = bad_announcement_text
 
+	var/final_announcement_text = bad_guy ? bad_announcement_text : good_announcement_text
 	priority_announce(final_text, final_announcement_text, pick('sound/misc/royal_decree.ogg', 'sound/misc/royal_decree2.ogg'), "Captain", strip_html = FALSE)
-
-/// Returns correct tax (0, 100) for a living mob based on its traits & job
-/datum/controller/subsystem/treasury/proc/get_tax_value_for(mob/living/person)
-	if(HAS_TRAIT(person, TRAIT_NOBLE))
-		return taxation_cat_settings[TAX_CAT_NOBLE]["taxAmount"] / 100
-	else if(HAS_TRAIT(person, TRAIT_RESIDENT) || (person.job in GLOB.burgher_positions))
-		return taxation_cat_settings[TAX_CAT_BURGHERS]["taxAmount"] / 100
-	else if(person.job in GLOB.church_positions)
-		return taxation_cat_settings[TAX_CAT_CHURCH]["taxAmount"] / 100
-	else
-		return taxation_cat_settings[TAX_CAT_PEASANTS]["taxAmount"] / 100
-
-/// Checks if a given mob can be fined, based on its traits & job. TRUE if can be fined, FALSE if protected by decrees
-/datum/controller/subsystem/treasury/proc/check_fine_exemption(mob/living/person)
-	if(HAS_TRAIT(person, TRAIT_NOBLE))
-		return taxation_cat_settings[TAX_CAT_NOBLE]["fineExemption"]
-	else if(HAS_TRAIT(person, TRAIT_RESIDENT) || (person.job in GLOB.burgher_positions))
-		return taxation_cat_settings[TAX_CAT_BURGHERS]["fineExemption"]
-	else if(person.job in GLOB.church_positions)
-		return taxation_cat_settings[TAX_CAT_CHURCH]["fineExemption"]
-	else
-		return taxation_cat_settings[TAX_CAT_PEASANTS]["fineExemption"]
 
 /// Checks if there is a valid amount in the treasury, if so, withdraw that amount and log it
 /// Currently only used by Chimeric heartbeasts
