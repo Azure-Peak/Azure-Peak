@@ -136,11 +136,27 @@
 			record_round_statistic(STATS_TRADE_VALUE_EXPORTED, budgie)
 			if(budgie > 0)
 				play_sound=TRUE
+				var/duty_amt = apply_export_duty(budgie)
+				var/net_payout = budgie - duty_amt
 				var/turf/budget_turf = get_turf(src)
-				budget2change(budgie, custom_turf = budget_turf)
+				if(net_payout > 0)
+					budget2change(net_payout, custom_turf = budget_turf)
 				budgie = 0
 		if(play_sound)
 			playsound(src.loc, 'sound/misc/hiss.ogg', 100, FALSE, -1)
+
+/// Crown's export duty on legitimate trade. Overridden on smuggler navigator (off-ledger).
+/obj/item/roguemachine/navigator/proc/apply_export_duty(amount)
+	var/rate = SStreasury.get_tax_rate(TAX_CATEGORY_EXPORT_DUTY)
+	var/duty = round(amount * rate)
+	if(duty <= 0)
+		return 0
+	SStreasury.mint(SStreasury.discretionary_fund, duty, "[TAX_CATEGORY_EXPORT_DUTY] ([src.name])")
+	record_round_statistic(STATS_TAXES_COLLECTED, duty)
+	return duty
+
+/obj/item/roguemachine/navigator/smuggler/apply_export_duty(amount)
+	return 0
 
 #undef EXPORT_TIME
 #undef EXPORT_TIME_TESTING

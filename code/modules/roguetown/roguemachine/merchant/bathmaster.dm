@@ -82,14 +82,14 @@
 			return
 		var/datum/supply_pack/PA = SSmerchant.supply_packs[path]
 		var/cost = PA.cost
-		var/tax_amt=round(SStreasury.tax_value * cost)
+		var/tax_amt=round(SStreasury.get_tax_rate(TAX_CATEGORY_IMPORT_TARIFF) * cost)
 		cost=cost+tax_amt
 		if(upgrade_flags & UPGRADE_NOTAX)
 			cost = PA.cost
 		if(budget >= cost)
 			budget -= cost
 			if(!(upgrade_flags & UPGRADE_NOTAX))
-				SStreasury.mint(SStreasury.discretionary_fund, tax_amt, "brassface import tax")
+				SStreasury.mint(SStreasury.discretionary_fund, tax_amt, "[TAX_CATEGORY_IMPORT_TARIFF] (brassface)")
 				record_featured_stat(FEATURED_STATS_TAX_PAYERS, human_mob, tax_amt)
 				record_round_statistic(STATS_TAXES_COLLECTED, tax_amt)
 		else
@@ -168,7 +168,7 @@
 		for(var/datum/supply_pack/PA in sortNames(pax))
 			var/costy = PA.cost
 			if(!(upgrade_flags & UPGRADE_NOTAX))
-				costy=round(costy+(SStreasury.tax_value * costy))
+				costy=round(costy+(SStreasury.get_tax_rate(TAX_CATEGORY_IMPORT_TARIFF) * costy))
 			contents += "[PA.name] [PA.contains.len > 1?"x[PA.contains.len]":""] - ([costy])<a href='?src=[REF(src)];buy=[PA.type]'>BUY</a><BR>"
 
 	if(!canread)

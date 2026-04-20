@@ -4,6 +4,7 @@
 	var/currency = CURRENCY_MAMMON
 	var/datum/weakref/owner_ref
 	var/created_at
+	var/tax_debt = 0
 
 /datum/fund/New(fund_name, mob/living/fund_owner, starting_balance = 0, fund_currency = CURRENCY_MAMMON)
 	. = ..()

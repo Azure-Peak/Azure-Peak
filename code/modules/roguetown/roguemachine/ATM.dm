@@ -15,7 +15,7 @@
 /obj/structure/roguemachine/atm/get_mechanics_examine(mob/user)
 	. = ..()
 	. += span_info("Left-click with an open hand to check your personal account. If you don't already have an account, left-clicking the MEISTER will make one for you with a single mechanical jab.")
-	. += span_info("The amount of coinage you insert into a MEISTER might be taxed, depending on the whims of the Steward and your position in society. Accounts of nobility, in particular, have passive incomes.")
+	. += span_info("Deposits are safe from taxation. Income taxes apply at the moment mammon is earned - contract completions, headeater turn-ins, and other Crown-levied events.")
 
 /obj/structure/roguemachine/atm/attack_hand(mob/user)
 	if(!ishuman(user))
@@ -118,13 +118,8 @@
 			var/mob/living/carbon/human/H = user
 			if(SStreasury.has_account(H))
 
-				var/list/deposit_results = SStreasury.generate_money_account(P.get_real_price(), H)
-				if(islist(deposit_results))
-					record_round_statistic(STATS_MAMMONS_DEPOSITED, deposit_results[1] - deposit_results[2])
-				if(deposit_results[2] != 0)
-					say("Your deposit was taxed [deposit_results[2]] mammon.")
-					record_featured_stat(FEATURED_STATS_TAX_PAYERS, H, deposit_results[2])
-					record_round_statistic(STATS_TAXES_COLLECTED, deposit_results[2])
+				if(SStreasury.generate_money_account(P.get_real_price(), H))
+					record_round_statistic(STATS_MAMMONS_DEPOSITED, P.get_real_price())
 				qdel(P)
 				playsound(src, 'sound/misc/coininsert.ogg', 100, FALSE, -1)
 				return
@@ -165,11 +160,11 @@
 
 /obj/structure/roguemachine/atm/examine(mob/user)
 	. = ..()
-	. += span_notice("Current rates:")
-	. += span_smallnotice("Nobility tax: [SStreasury.taxation_cat_settings[TAX_CAT_NOBLE]["taxAmount"] ? "[SStreasury.taxation_cat_settings[TAX_CAT_NOBLE]["taxAmount"]]%." : "EXEMPT."]")
-	. += span_smallnotice("Church tax: [SStreasury.taxation_cat_settings[TAX_CAT_CHURCH]["taxAmount"] ? "[SStreasury.taxation_cat_settings[TAX_CAT_CHURCH]["taxAmount"]]%." : "EXEMPT."]")
-	. += span_smallnotice("Burghers tax: [SStreasury.taxation_cat_settings[TAX_CAT_BURGHERS]["taxAmount"] ? "[SStreasury.taxation_cat_settings[TAX_CAT_BURGHERS]["taxAmount"]]%." : "EXEMPT."]")
-	. += span_smallnotice("Peasantry tax: [SStreasury.taxation_cat_settings[TAX_CAT_PEASANTS]["taxAmount"] ? "[SStreasury.taxation_cat_settings[TAX_CAT_PEASANTS]["taxAmount"]]%." : "EXEMPT."]")
+	. += span_notice("Current Crown levies:")
+	. += span_smallnotice("Contract levy: [round(SStreasury.get_tax_rate(TAX_CATEGORY_CONTRACT_LEVY) * 100)]%")
+	. += span_smallnotice("Headeater levy: [round(SStreasury.get_tax_rate(TAX_CATEGORY_HEADEATER_LEVY) * 100)]%")
+	. += span_smallnotice("Import tariff: [round(SStreasury.get_tax_rate(TAX_CATEGORY_IMPORT_TARIFF) * 100)]%")
+	. += span_smallnotice("Export duty: [round(SStreasury.get_tax_rate(TAX_CATEGORY_EXPORT_DUTY) * 100)]%")
 
 
 /obj/structure/roguemachine/atm/proc/drill(obj/structure/roguemachine/atm)

@@ -400,8 +400,7 @@
 			contents += "--------------<BR>"
 			if(compact)
 				contents += "Treasury: [SStreasury.discretionary_fund.balance]m"
-				contents += " / Lord's Tax: [SStreasury.tax_value*100]%"
-				contents += " / Guild's Tax: [SStreasury.queens_tax*100]%</center><BR>"
+				contents += " / Contract Levy: [round(SStreasury.get_tax_rate(TAX_CATEGORY_CONTRACT_LEVY)*100)]%</center><BR>"
 				contents += "<center>Auto Export Stockpile Above: "
 				contents += "<a href='?src=\ref[src];changeautoexport=1'>[SStreasury.autoexport_percentage * 100]%</a></center><BR>"
 				var/selection = "<center>Categories: "
@@ -429,8 +428,7 @@
 			
 			else
 				contents += "Treasury: [SStreasury.discretionary_fund.balance]m<BR>"
-				contents += "Lord's Tax: [SStreasury.tax_value*100]%<BR>"
-				contents += "Guild's Tax: [SStreasury.queens_tax*100]%</center><BR>"
+				contents += "Contract Levy: [round(SStreasury.get_tax_rate(TAX_CATEGORY_CONTRACT_LEVY)*100)]%</center><BR>"
 				var/selection = "<center>Categories: "
 				for(var/category in categories)
 					if(category == current_category)
@@ -462,15 +460,13 @@
 			contents += "--------------<BR>"
 			if(compact)
 				contents += "Treasury: [SStreasury.discretionary_fund.balance]m"
-				contents += " / Lord's Tax: [SStreasury.tax_value*100]%"
-				contents += " / Guild's Tax: [SStreasury.queens_tax*100]%</center><BR>"
+				contents += " / Contract Levy: [round(SStreasury.get_tax_rate(TAX_CATEGORY_CONTRACT_LEVY)*100)]%</center><BR>"
 				for(var/datum/roguestock/import/A in SStreasury.stockpile_datums)
 					contents += "<b>[A.name]:</b>"
 					contents += " <a href='?src=\ref[src];import=\ref[A]'>\[Import [A.importexport_amt] ([A.get_import_price()])\]</a><BR><BR>"
 			else
 				contents += "Treasury: [SStreasury.discretionary_fund.balance]m<BR>"
-				contents += "Lord's Tax: [SStreasury.tax_value*100]%<BR>"
-				contents += "Guild's Tax: [SStreasury.queens_tax*100]%</center><BR>"
+				contents += "Contract Levy: [round(SStreasury.get_tax_rate(TAX_CATEGORY_CONTRACT_LEVY)*100)]%</center><BR>"
 				for(var/datum/roguestock/import/A in SStreasury.stockpile_datums)
 					contents += "[A.name]<BR>"
 					contents += "[A.desc]<BR>"
@@ -482,7 +478,7 @@
 			contents += "<center>Bounties<BR>"
 			contents += "--------------<BR>"
 			contents += "Treasury: [SStreasury.discretionary_fund.balance]m<BR>"
-			contents += "Lord's Tax: [SStreasury.tax_value*100]%</center><BR>"
+			contents += "Contract Levy: [round(SStreasury.get_tax_rate(TAX_CATEGORY_CONTRACT_LEVY)*100)]%</center><BR>"
 			for(var/datum/roguestock/bounty/A in SStreasury.stockpile_datums)
 				contents += "[A.name]<BR>"
 				contents += "[A.desc]<BR>"

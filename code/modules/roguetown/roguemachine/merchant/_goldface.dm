@@ -225,7 +225,7 @@
 			return
 		var/datum/supply_pack/PA = SSmerchant.supply_packs[path]
 		var/cost = PA.cost + PA.cost * extra_fee
-		var/tax_amt = round(SStreasury.tax_value * PA.cost)
+		var/tax_amt = round(SStreasury.get_tax_rate(TAX_CATEGORY_IMPORT_TARIFF) * PA.cost)
 		if(!(upgrade_flags & UPGRADE_NOTAX) && !bypass_tax)
 			cost = cost + tax_amt
 		cost = round(cost)
@@ -234,7 +234,7 @@
 			record_round_statistic(value_record_key, cost)
 			record_round_statistic(STATS_TRADE_VALUE_IMPORTED, cost)
 			if(!(upgrade_flags & UPGRADE_NOTAX) && !bypass_tax)
-				SStreasury.mint(SStreasury.discretionary_fund, tax_amt, "import tax - [src.name]")
+				SStreasury.mint(SStreasury.discretionary_fund, tax_amt, "[TAX_CATEGORY_IMPORT_TARIFF] ([src.name])")
 				record_featured_stat(FEATURED_STATS_TAX_PAYERS, human_mob, tax_amt)
 				record_round_statistic(STATS_TAXES_COLLECTED, tax_amt)
 			else
@@ -331,7 +331,7 @@
 		for(var/datum/supply_pack/PA in sortNames(pax))
 			var/costy = PA.cost + PA.cost * extra_fee
 			if(!(upgrade_flags & UPGRADE_NOTAX))
-				costy = costy + round(SStreasury.tax_value * PA.cost)
+				costy = costy + round(SStreasury.get_tax_rate(TAX_CATEGORY_IMPORT_TARIFF) * PA.cost)
 			costy = round(costy)
 			var/quantified_name = PA.no_name_quantity ? PA.name : "[PA.name] [PA.contains.len > 1?"x[PA.contains.len]":""]"
 			if(is_public && locked) 

@@ -31,8 +31,14 @@ SUBSYSTEM_DEF(treasury)
 		TAX_CAT_BURGHERS = list("taxAmount" = 12, "fineExemption" = FALSE),
 		TAX_CAT_PEASANTS = list("taxAmount" = 12, "fineExemption" = FALSE)
 	)
-	var/tax_value = 0.11
-	var/queens_tax = 0.10
+	var/list/tax_rates = list(
+		TAX_CATEGORY_CONTRACT_LEVY = 0.11,
+		TAX_CATEGORY_HEADEATER_LEVY = 0.10,
+		TAX_CATEGORY_IMPORT_TARIFF = 0.10,
+		TAX_CATEGORY_EXPORT_DUTY = 0.10,
+		TAX_CATEGORY_FINE = 1.0,
+	)
+	var/trade_spread = 0.10 // Merchant-guild spread between stockpile import and export prices. Not a ledger tax.
 	var/mint_multiplier = 0.8 // 1x is meant to leave a margin after standard 80% collectable. Less than Bathmatron.
 	var/minted = 0
 	var/autoexport_percentage = 0.6 // Percentage above which stockpiles will automatically export  
@@ -168,10 +174,8 @@ SUBSYSTEM_DEF(treasury)
 	var/datum/fund/account = get_account(character)
 	if(!account)
 		return FALSE
-	var/original_amt = amt
-	mint(account, amt, "[TAX_CATEGORY_DEPOSIT] by [character.real_name]")
-	var/taxed_amount = apply_tax(account, amt, TAX_CATEGORY_DEPOSIT, character.real_name)
-	return list(original_amt, taxed_amount)
+	mint(account, amt, "Meister deposit by [character.real_name]")
+	return list(amt, 0)
 
 /datum/controller/subsystem/treasury/proc/withdraw_money_account(amt, target)
 	if(!amt)

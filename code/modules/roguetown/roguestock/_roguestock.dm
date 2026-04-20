@@ -15,7 +15,6 @@
 	var/demand = 100
 	// If the type of item is a mint item it will be reminted into coins
 	var/mint_item = FALSE
-	//SStreasury.queens_tax is used in getting import price
 	var/export_price = 1
 	// Limit for stockpile. Only accounted for if it is not mint_item
 	var/stockpile_limit = 100 // Limit beyond which the stockpile will just eat your things for free. Very high limit just to be safe you should define it directly.
@@ -40,10 +39,6 @@
 	return
 
 /datum/roguestock/proc/get_payout_price(obj/item/I) //treasures modify this based on the price of the treasure
-//	var/taxes = SStreasury.tax_value
-//	var/taxed_amount = round(payout_price * taxes)
-//	taxed_amount = max(payout_price - taxed_amount, 0)
-//	return taxed_amount
 	return payout_price
 
 /datum/roguestock/proc/check_item(obj/item/I) //for checking monster heads if they belong to monsters and other stuff
@@ -61,14 +56,16 @@
 	return TRUE
 
 /datum/roguestock/proc/get_export_price()
-	var/taxed_amount = round((export_price*importexport_amt) * (demand/100))
-	taxed_amount = taxed_amount - round(SStreasury.queens_tax*taxed_amount)
-	return max(taxed_amount, 0)
+	var/spread = SStreasury.trade_spread
+	var/amount = round((export_price*importexport_amt) * (demand/100))
+	amount = amount - round(spread*amount)
+	return max(amount, 0)
 
 /datum/roguestock/proc/get_import_price()
-	var/taxed_amount = round((export_price*importexport_amt) * (demand/100))
-	taxed_amount = taxed_amount + round(SStreasury.queens_tax*taxed_amount)
-	return max(taxed_amount, 5)
+	var/spread = SStreasury.trade_spread
+	var/amount = round((export_price*importexport_amt) * (demand/100))
+	amount = amount + round(spread*amount)
+	return max(amount, 5)
 
 /datum/roguestock/proc/lower_demand()
 	if(stable_price)

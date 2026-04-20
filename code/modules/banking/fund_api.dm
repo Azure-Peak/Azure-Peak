@@ -30,31 +30,40 @@
 	log_fund_entry(new /datum/treasury_entry("transfer", from_fund, to_fund, amount, reason))
 	return TRUE
 
-/datum/controller/subsystem/treasury/proc/get_tax_rate(datum/fund/payer, tax_category)
+/datum/controller/subsystem/treasury/proc/get_tax_rate(tax_category)
+	return tax_rates[tax_category] || 0
+
+/datum/controller/subsystem/treasury/proc/set_tax_rate(tax_category, rate)
+	if(rate < 0)
+		return
+	tax_rates[tax_category] = rate
+
+/datum/controller/subsystem/treasury/proc/is_tax_exempt(mob/living/payer, tax_category)
 	if(!payer)
-		return 0
-	switch(tax_category)
-		if(TAX_CATEGORY_BOUNTY)
-			return queens_tax
-		if(TAX_CATEGORY_QUEST_REWARD, TAX_CATEGORY_DEPOSIT)
-			var/mob/living/owner = payer.get_owner()
-			if(!owner)
-				return 0
-			return get_tax_value_for(owner)
-	return 0
+		return FALSE
+	if(HAS_TRAIT(payer, TRAIT_NOBLE))
+		return TRUE
+	if(tax_category == TAX_CATEGORY_FINE)
+		return check_fine_exemption(payer)
+	return FALSE
 
 /datum/controller/subsystem/treasury/proc/apply_tax(datum/fund/payer, base_amount, tax_category, reason)
 	if(!payer || base_amount <= 0)
 		return 0
-	var/rate = get_tax_rate(payer, tax_category)
+	var/mob/living/owner = payer.get_owner()
+	if(owner && is_tax_exempt(owner, tax_category))
+		return 0
+	var/rate = get_tax_rate(tax_category)
 	if(rate <= 0)
 		return 0
-	var/tax_amt = round(base_amount * rate)
-	if(tax_amt <= 0)
+	payer.tax_debt += base_amount * rate
+	var/due = FLOOR(payer.tax_debt, 1)
+	if(due <= 0)
 		return 0
-	if(!transfer(payer, discretionary_fund, tax_amt, "[tax_category] ([reason])"))
+	if(!transfer(payer, discretionary_fund, due, "[tax_category] ([reason])"))
 		return 0
-	return tax_amt
+	payer.tax_debt -= due
+	return due
 
 /datum/controller/subsystem/treasury/proc/verify_mammon_conservation()
 	var/ledger_delta = 0

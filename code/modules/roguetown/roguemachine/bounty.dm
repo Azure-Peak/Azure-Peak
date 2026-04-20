@@ -155,9 +155,7 @@
 
 	var/datum/fund/user_account = SStreasury.get_account(user)
 	amount = round(amount)
-	var/royal_tax = SStreasury.apply_tax(user_account, amount, TAX_CATEGORY_BOUNTY, "bounty - [target.real_name]")
-	SStreasury.burn(user_account, amount - royal_tax, "bounty placement - [target.real_name]")
-	amount -= royal_tax
+	SStreasury.burn(user_account, amount, "bounty placement - [target.real_name]")
 
 	var/race = target.dna.species
 	var/gender = target.gender

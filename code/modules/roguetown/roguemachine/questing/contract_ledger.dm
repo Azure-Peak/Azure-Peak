@@ -62,7 +62,7 @@
 	data["pool"] = build_pool_listing()
 	data["active"] = build_active_listing(user)
 	data["regions"] = build_region_listing()
-	data["tax_rate"] = SStreasury.tax_value
+	data["tax_rate"] = SStreasury.get_tax_rate(TAX_CATEGORY_CONTRACT_LEVY)
 	return data
 
 /obj/structure/roguemachine/contractledger/proc/build_region_listing()
@@ -230,7 +230,7 @@
 
 	var/tax_amt = 0
 	if(!quest_levy_exempt)
-		tax_amt = SStreasury.apply_tax(user_account, gross_reward, TAX_CATEGORY_QUEST_REWARD, src.name)
+		tax_amt = SStreasury.apply_tax(user_account, gross_reward, TAX_CATEGORY_CONTRACT_LEVY, src.name)
 		if(tax_amt > 0)
 			record_featured_stat(FEATURED_STATS_TAX_PAYERS, user, tax_amt)
 			record_round_statistic(STATS_TAXES_COLLECTED, tax_amt)
