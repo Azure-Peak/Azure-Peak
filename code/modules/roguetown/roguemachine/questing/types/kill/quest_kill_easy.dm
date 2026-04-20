@@ -13,8 +13,8 @@
 
 /datum/quest/kill/easy/get_objective_text()
 	if(!faction)
-		return "Slay [progress_required] [initial(target_mob_type.name)]."
-	return "Slay [progress_required] [faction.name_plural]."
+		return "Slay ~[progress_required] [initial(target_mob_type.name)]."
+	return "Slay ~[progress_required] [faction.name_plural]."
 
 /datum/quest/kill/easy/materialize(obj/effect/landmark/quest_spawner/landmark)
 	..()

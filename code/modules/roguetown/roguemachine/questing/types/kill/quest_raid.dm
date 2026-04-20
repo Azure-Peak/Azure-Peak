@@ -13,8 +13,8 @@
 
 /datum/quest/kill/raid/get_objective_text()
 	if(!faction)
-		return "Eliminate [progress_required] [initial(target_mob_type.name)]."
-	return "Eliminate [progress_required] [faction.name_plural]."
+		return "Eliminate ~[progress_required] [initial(target_mob_type.name)]."
+	return "Eliminate ~[progress_required] [faction.name_plural]."
 
 /datum/quest/kill/raid/get_location_text()
 	return target_spawn_area ? "Reported raid in [target_spawn_area] region." : "Reported infestations in Azuria region."

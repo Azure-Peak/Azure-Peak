@@ -181,7 +181,7 @@ const ContractCard = (props: { contract: Contract }) => {
       </div>
       <div className="ContractLedger__CardRow">
         <span className="ContractLedger__CardLabel">Reward</span>
-        <span className="ContractLedger__CardValue">{c.reward} mammon</span>
+        <span className="ContractLedger__CardValue">{c.reward}</span>
       </div>
       {!c.levy_exempt && data.tax_rate > 0 && (
         <>
@@ -190,13 +190,13 @@ const ContractCard = (props: { contract: Contract }) => {
               Crown Levy ({Math.round(data.tax_rate * 100)}%)
             </span>
             <span className="ContractLedger__CardValue" style={{ color: '#c44' }}>
-              -{Math.round(c.reward * data.tax_rate)} mammon
+              -{Math.round(c.reward * data.tax_rate)}
             </span>
           </div>
           <div className="ContractLedger__CardRow">
-            <span className="ContractLedger__CardLabel">Take-home</span>
+            <span className="ContractLedger__CardLabel">Purse</span>
             <span className="ContractLedger__CardValue" style={{ fontWeight: 'bold' }}>
-              {c.reward - Math.round(c.reward * data.tax_rate)} mammon
+              {c.reward - Math.round(c.reward * data.tax_rate)}
             </span>
           </div>
         </>
@@ -211,16 +211,8 @@ const ContractCard = (props: { contract: Contract }) => {
       )}
       <div className="ContractLedger__CardRow">
         <span className="ContractLedger__CardLabel">Deposit</span>
-        <span className="ContractLedger__CardValue">{c.deposit} mammon</span>
+        <span className="ContractLedger__CardValue">{c.deposit}</span>
       </div>
-      {c.expected_count > 0 && (
-        <div className="ContractLedger__CardRow">
-          <span className="ContractLedger__CardLabel">Expected</span>
-          <span className="ContractLedger__CardValue">
-            ~{c.expected_count} target{c.expected_count === 1 ? '' : 's'}
-          </span>
-        </div>
-      )}
       {c.threat_bands > 0 && (
         <div className="ContractLedger__CardRow">
           <span className="ContractLedger__CardLabel">Clears</span>
