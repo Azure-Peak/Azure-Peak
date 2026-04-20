@@ -30,6 +30,32 @@
 	log_fund_entry(new /datum/treasury_entry("transfer", from_fund, to_fund, amount, reason))
 	return TRUE
 
+/datum/controller/subsystem/treasury/proc/get_tax_rate(datum/fund/payer, tax_category)
+	if(!payer)
+		return 0
+	switch(tax_category)
+		if(TAX_CATEGORY_BOUNTY)
+			return queens_tax
+		if(TAX_CATEGORY_QUEST_REWARD, TAX_CATEGORY_DEPOSIT)
+			var/mob/living/owner = payer.get_owner()
+			if(!owner)
+				return 0
+			return get_tax_value_for(owner)
+	return 0
+
+/datum/controller/subsystem/treasury/proc/apply_tax(datum/fund/payer, base_amount, tax_category, reason)
+	if(!payer || base_amount <= 0)
+		return 0
+	var/rate = get_tax_rate(payer, tax_category)
+	if(rate <= 0)
+		return 0
+	var/tax_amt = round(base_amount * rate)
+	if(tax_amt <= 0)
+		return 0
+	if(!transfer(payer, discretionary_fund, tax_amt, "[tax_category] ([reason])"))
+		return 0
+	return tax_amt
+
 /datum/controller/subsystem/treasury/proc/verify_mammon_conservation()
 	var/ledger_delta = 0
 	for(var/datum/treasury_entry/entry as anything in ledger)

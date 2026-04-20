@@ -83,7 +83,7 @@
 		return	
 	if(istype(P, /obj/item/roguecoin))
 		record_round_statistic(STATS_MAMMONS_DEPOSITED, P.get_real_price())
-		SStreasury.give_money_treasury(P.get_real_price(), "NERVE MASTER deposit")
+		SStreasury.mint(SStreasury.discretionary_fund, P.get_real_price(), "NERVE MASTER deposit")
 		qdel(P)
 		playsound(src, 'sound/misc/coininsert.ogg', 100, FALSE, -1)
 		return
@@ -100,13 +100,11 @@
 		var/datum/roguestock/D = locate(href_list["import"]) in SStreasury.stockpile_datums
 		if(!D)
 			return
-		if(SStreasury.treasury_value < D.get_import_price())
+		var/amt = D.get_import_price()
+		if(!SStreasury.burn(SStreasury.discretionary_fund, amt, "imported [D.name]"))
 			say("Insufficient mammon.")
 			return
-		var/amt = D.get_import_price()
-		SStreasury.treasury_value -= amt
 		SStreasury.total_import += amt
-		SStreasury.log_to_steward("-[amt] imported [D.name]")
 		record_round_statistic(STATS_STOCKPILE_IMPORTS_VALUE, amt)
 		if(amt >= 100) //Only announce big spending.
 			scom_announce("Azure Peak imports [D.name] for [amt] mammon.", )
@@ -374,8 +372,8 @@
 			contents += " <a href='?src=\ref[src];compact=1'>\[Compact: [compact? "ENABLED" : "DISABLED"]\]</a><BR>"
 			contents += "<center>Bank<BR>"
 			contents += "--------------<BR>"
-			contents += "Treasury: [SStreasury.treasury_value]m<BR>"
-			contents += "Reserve Ratio: [round(SStreasury.treasury_value / total_deposit * 100)]%</center><BR>"
+			contents += "Treasury: [SStreasury.discretionary_fund.balance]m<BR>"
+			contents += "Reserve Ratio: [round(SStreasury.discretionary_fund.balance / total_deposit * 100)]%</center><BR>"
 			contents += "<a href='?src=\ref[src];payroll=1'>\[Pay by Class\]</a><BR><BR>"
 			if(compact)
 				for(var/mob/living/carbon/human/A in SStreasury.bank_accounts)
@@ -401,7 +399,7 @@
 			contents += "<center>Stockpile<BR>"
 			contents += "--------------<BR>"
 			if(compact)
-				contents += "Treasury: [SStreasury.treasury_value]m"
+				contents += "Treasury: [SStreasury.discretionary_fund.balance]m"
 				contents += " / Lord's Tax: [SStreasury.tax_value*100]%"
 				contents += " / Guild's Tax: [SStreasury.queens_tax*100]%</center><BR>"
 				contents += "<center>Auto Export Stockpile Above: "
@@ -430,7 +428,7 @@
 							contents += " <a href='?src=\ref[src];export=\ref[A]'>\[EXP [A.importexport_amt] ([A.get_export_price()])\]</a> <BR>"
 			
 			else
-				contents += "Treasury: [SStreasury.treasury_value]m<BR>"
+				contents += "Treasury: [SStreasury.discretionary_fund.balance]m<BR>"
 				contents += "Lord's Tax: [SStreasury.tax_value*100]%<BR>"
 				contents += "Guild's Tax: [SStreasury.queens_tax*100]%</center><BR>"
 				var/selection = "<center>Categories: "
@@ -463,14 +461,14 @@
 			contents += "<center>Imports<BR>"
 			contents += "--------------<BR>"
 			if(compact)
-				contents += "Treasury: [SStreasury.treasury_value]m"
+				contents += "Treasury: [SStreasury.discretionary_fund.balance]m"
 				contents += " / Lord's Tax: [SStreasury.tax_value*100]%"
 				contents += " / Guild's Tax: [SStreasury.queens_tax*100]%</center><BR>"
 				for(var/datum/roguestock/import/A in SStreasury.stockpile_datums)
 					contents += "<b>[A.name]:</b>"
 					contents += " <a href='?src=\ref[src];import=\ref[A]'>\[Import [A.importexport_amt] ([A.get_import_price()])\]</a><BR><BR>"
 			else
-				contents += "Treasury: [SStreasury.treasury_value]m<BR>"
+				contents += "Treasury: [SStreasury.discretionary_fund.balance]m<BR>"
 				contents += "Lord's Tax: [SStreasury.tax_value*100]%<BR>"
 				contents += "Guild's Tax: [SStreasury.queens_tax*100]%</center><BR>"
 				for(var/datum/roguestock/import/A in SStreasury.stockpile_datums)
@@ -483,7 +481,7 @@
 			contents += "<a href='?src=\ref[src];switchtab=[TAB_MAIN]'>\[Return\]</a>"
 			contents += "<center>Bounties<BR>"
 			contents += "--------------<BR>"
-			contents += "Treasury: [SStreasury.treasury_value]m<BR>"
+			contents += "Treasury: [SStreasury.discretionary_fund.balance]m<BR>"
 			contents += "Lord's Tax: [SStreasury.tax_value*100]%</center><BR>"
 			for(var/datum/roguestock/bounty/A in SStreasury.stockpile_datums)
 				contents += "[A.name]<BR>"
@@ -497,8 +495,9 @@
 			contents += "<a href='?src=\ref[src];switchtab=[TAB_MAIN]'>\[Return\]</a><BR>"
 			contents += "<center>Log<BR>"
 			contents += "--------------</center><BR><BR>"
-			for(var/i = SStreasury.log_entries.len to 1 step -1)
-				contents += "<span class='info'>[SStreasury.log_entries[i]]</span><BR>"
+			for(var/i = SStreasury.ledger.len to 1 step -1)
+				var/datum/treasury_entry/entry = SStreasury.ledger[i]
+				contents += "<span class='info'>[entry.format()]</span><BR>"
 		if(TAB_STATISTICS)
 			contents += "<a href='?src=\ref[src];switchtab=[TAB_MAIN]'>\[Return\]</a><BR>"
 			contents += "<center>Statistics:<BR>"
@@ -515,7 +514,7 @@
 			contents += "<a href='?src=\ref[src];switchtab=[TAB_MAIN]'>\[Return\]</a><BR>"
 			contents += "<center>Daily Payments<BR>"
 			contents += "--------------<BR>"
-			contents += "Treasury: [SStreasury.treasury_value]m</center><BR>"
+			contents += "Treasury: [SStreasury.discretionary_fund.balance]m</center><BR>"
 			contents += "<a href='?src=\ref[src];setdailypay=1'>\[Add/Modify Job Payment\]</a><BR><BR>"
 			if(daily_payments.len)
 				contents += "<center>Configured Payments:</center><BR>"

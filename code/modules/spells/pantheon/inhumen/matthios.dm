@@ -961,8 +961,7 @@
 
 	if(remaining > 0)
 		from_bank = min(remaining, SStreasury.get_balance(H))
-		SStreasury.adjust_balance(H, -from_bank)
-		SStreasury.log_to_steward("-[from_bank] suddenly disappeared. Is this true?")
+		SStreasury.burn(SStreasury.get_account(H), from_bank, "matthios tribute")
 		remaining -= from_bank
 
 	var/datum/status_effect/buff/mammonite/E = H.apply_status_effect(/datum/status_effect/buff/mammonite)

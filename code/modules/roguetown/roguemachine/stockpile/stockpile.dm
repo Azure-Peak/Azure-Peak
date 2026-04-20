@@ -187,7 +187,7 @@
 			else
 				var/mint_amt = round(SStreasury.mint_multiplier * I.get_real_price())
 				SStreasury.minted += mint_amt
-				SStreasury.give_money_treasury(mint_amt, "Minting - [I.name]", FALSE)
+				SStreasury.mint(SStreasury.discretionary_fund, mint_amt, "Minting - [I.name]")
 				qdel(I) // Eaten to be minted!
 				if(sound == TRUE)
 					playsound(loc, 'sound/misc/hiss.ogg', 100, FALSE, -1)

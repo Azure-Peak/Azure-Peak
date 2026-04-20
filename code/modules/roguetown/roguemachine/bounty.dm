@@ -153,14 +153,10 @@
 	var/confirm = input(user, "Do you dare unleash this darkness upon the world? Your name will be known.", src) as null|anything in list("Yes", "No")
 	if(isnull(confirm) || confirm == "No") return
 
-	// Deduct money from user
-	SStreasury.adjust_balance(user, -round(amount))
-
-	//Deduct royal tax from amount
-	var/royal_tax = round(amount * 0.1)
-	SStreasury.treasury_value += royal_tax
-	SStreasury.log_entries += "+[royal_tax] to treasury (bounty tax)"
-
+	var/datum/fund/user_account = SStreasury.get_account(user)
+	amount = round(amount)
+	var/royal_tax = SStreasury.apply_tax(user_account, amount, TAX_CATEGORY_BOUNTY, "bounty - [target.real_name]")
+	SStreasury.burn(user_account, amount - royal_tax, "bounty placement - [target.real_name]")
 	amount -= royal_tax
 
 	var/race = target.dna.species
@@ -237,9 +233,7 @@
 		say("Insufficient funds. [cost] mammons required.")
 		return
 
-	SStreasury.adjust_balance(user, -cost)
-	SStreasury.treasury_value += cost
-	SStreasury.log_entries += "+[cost] to treasury (bounty scroll fee)"
+	SStreasury.transfer(SStreasury.get_account(user), SStreasury.discretionary_fund, cost, "bounty scroll fee")
 
 	var/obj/item/paper/scroll/bounty/scroll = new(get_turf(src))
 	scroll.update_bounty_text()

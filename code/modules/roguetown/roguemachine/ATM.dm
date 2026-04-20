@@ -16,7 +16,6 @@
 	. = ..()
 	. += span_info("Left-click with an open hand to check your personal account. If you don't already have an account, left-clicking the MEISTER will make one for you with a single mechanical jab.")
 	. += span_info("The amount of coinage you insert into a MEISTER might be taxed, depending on the whims of the Steward and your position in society. Accounts of nobility, in particular, have passive incomes.")
-	. += span_info("Accounts accrue interest, providing passive income at the start of each dae. The more coinage you have inside of your account, the more income you'll earn through interest.")
 
 /obj/structure/roguemachine/atm/attack_hand(mob/user)
 	if(!ishuman(user))
@@ -62,7 +61,7 @@
 			mod = 10
 		if(selection == "SILVER")
 			mod = 5
-		var/coin_amt = input(user, "There is [SStreasury.treasury_value] mammon in the treasury. You may withdraw [floor(amt/mod)] [selection] COINS from your account.", src) as null|num
+		var/coin_amt = input(user, "There is [SStreasury.discretionary_fund.balance] mammon in the treasury. You may withdraw [floor(amt/mod)] [selection] COINS from your account.", src) as null|num
 		coin_amt = round(coin_amt)
 		if(coin_amt < 1)
 			return
@@ -142,7 +141,7 @@
 			if(!can_anyone_know)
 				to_chat(user, span_info("There is no one important for the transaction to flow through."))
 				return
-			if(SStreasury.treasury_value <50)
+			if(SStreasury.discretionary_fund.balance <50)
 				to_chat(user, "<font color='red'>These fools are completely broke. We'll get nothing out of this...</font>")
 				return
 			if(mammonsiphoned >499)
@@ -176,7 +175,7 @@
 /obj/structure/roguemachine/atm/proc/drill(obj/structure/roguemachine/atm)
 	if(!drilling)
 		return
-	if(SStreasury.treasury_value <50)
+	if(SStreasury.discretionary_fund.balance <50)
 		new /obj/item/coveter(loc)
 		loc.visible_message(span_warning("The Crown grinds to a halt as the last of the treasury spills from the meister!"))
 		playsound(src, 'sound/misc/DrillDone.ogg', 70, TRUE)
@@ -201,11 +200,10 @@
 		playsound(src, 'sound/misc/TheDrill.ogg', 70, TRUE)
 		spawn(100) // The time it takes to complete an interval. If you adjust this, please adjust the sound too. It's 'about' perfect at 100. Anything less It'll start overlapping.
 			loc.visible_message(span_warning("The meister spills its bounty!"))
-			SStreasury.treasury_value -= 20 // Takes from the treasury
+			SStreasury.burn(SStreasury.discretionary_fund, 20, "ATM drill - Freefolk")
 			mammonsiphoned += 20
 			budget2change(20, null, "SILVER")
 			playsound(src, 'sound/misc/coindispense.ogg', 70, TRUE)
-			SStreasury.log_to_steward("-[20] exported mammon to the Freefolks!")
 			drill(src)
 
 /obj/structure/roguemachine/atm/attack_right(mob/living/carbon/human/user)
@@ -278,10 +276,9 @@
 					to_chat(H,span_info("<font color ='red'>Sharp claws dig into your skull. There's a warmth trickling down your head.</font>"))
 					for(var/i = 1,i<=needed_cycles,i++)
 						if(do_after(user, 25))
-							SStreasury.adjust_balance(H, -fast_drain)
+							SStreasury.burn(SStreasury.get_account(H), fast_drain, "Coveter Crown - Freefolk")
 							sum += fast_drain
 							new /obj/item/roguecoin/gold(T, fast_drain / 10)
-							SStreasury.log_to_steward("-[fast_drain] exported mammon to the Freefolks!")
 							if(prob(needed_cycles*2))
 								drain_effect_fast(H)
 							if(i == needed_cycles)	//Last cycle.
@@ -308,10 +305,9 @@
 					H.apply_damage(10, BRUTE, head)
 					for(var/i = 1,i<=needed_cycles,i++)
 						if(do_after(user, 10))
-							SStreasury.adjust_balance(H, -slow_drain)
+							SStreasury.burn(SStreasury.get_account(H), slow_drain, "Coveter Crown - Freefolk")
 							sum += slow_drain
 							new /obj/item/roguecoin/gold(T, slow_drain / 10)
-							SStreasury.log_to_steward("-[slow_drain] exported mammon to the Freefolks!")
 							if(prob(needed_cycles*2))
 								drain_effect_fast(H)
 							if(i == needed_cycles)	//Last cycle.

@@ -33,7 +33,6 @@ SUBSYSTEM_DEF(treasury)
 	)
 	var/tax_value = 0.11
 	var/queens_tax = 0.10
-	var/treasury_value = 0
 	var/mint_multiplier = 0.8 // 1x is meant to leave a margin after standard 80% collectable. Less than Bathmatron.
 	var/minted = 0
 	var/autoexport_percentage = 0.6 // Percentage above which stockpiles will automatically export  
@@ -43,7 +42,6 @@ SUBSYSTEM_DEF(treasury)
 	var/list/noble_incomes = list()
 	var/list/stockpile_datums = list()
 	var/next_treasury_check = 0
-	var/list/log_entries = list()
 	var/economic_output = 0
 	var/total_deposit_tax = 0
 	var/total_rural_tax = 0
@@ -54,9 +52,8 @@ SUBSYSTEM_DEF(treasury)
 	var/initial_payment_done = FALSE // Flag to track if initial round-start payment has been distributed
 
 /datum/controller/subsystem/treasury/Initialize()
-	treasury_value = rand(1000, 2000)
-	discretionary_fund = new("Crown Discretionary", null, treasury_value, CURRENCY_MAMMON)
-	force_set_round_statistic(STATS_STARTING_TREASURY, treasury_value)
+	discretionary_fund = new("Crown Discretionary", null, rand(1000, 2000), CURRENCY_MAMMON)
+	force_set_round_statistic(STATS_STARTING_TREASURY, discretionary_fund.balance)
 
 	for(var/path in subtypesof(/datum/roguestock/bounty))
 		var/datum/D = new path
@@ -89,7 +86,7 @@ SUBSYSTEM_DEF(treasury)
 		for(var/obj/structure/roguemachine/vaultbank/VB in A)
 			if(istype(VB))
 				VB.update_icon()
-		give_money_treasury(RURAL_TAX, "Rural Tax Collection") //Give the King's purse to the treasury
+		mint(discretionary_fund, RURAL_TAX, "Rural Tax Collection") //Give the King's purse to the treasury
 		record_round_statistic(STATS_RURAL_TAXES_COLLECTED, RURAL_TAX)
 		total_rural_tax += RURAL_TAX
 	
@@ -103,20 +100,6 @@ SUBSYSTEM_DEF(treasury)
 /datum/controller/subsystem/treasury/proc/get_balance(target)
 	var/datum/fund/account = get_account(target)
 	return account ? account.balance : 0
-
-/datum/controller/subsystem/treasury/proc/adjust_balance(target, delta)
-	var/datum/fund/account = get_account(target)
-	if(!account)
-		return null
-	account.balance += delta
-	return account.balance
-
-/datum/controller/subsystem/treasury/proc/set_balance(target, value)
-	var/datum/fund/account = get_account(target)
-	if(!account)
-		return null
-	account.balance = value
-	return account.balance
 
 /datum/controller/subsystem/treasury/proc/has_account(target)
 	return !isnull(bank_accounts[target])
@@ -147,19 +130,6 @@ SUBSYSTEM_DEF(treasury)
 	bank_accounts[owner] = account
 	return TRUE
 
-//increments the treasury directly (tax collection)
-/datum/controller/subsystem/treasury/proc/give_money_treasury(amt, source, silent = FALSE)
-	if(!amt)
-		return
-	treasury_value += amt
-	if(silent)
-		return
-	if(source)
-		log_to_steward("+[amt] to treasury ([source])")
-	else
-		log_to_steward("+[amt] to treasury")
-
-//pays to account from treasury (payroll)
 /datum/controller/subsystem/treasury/proc/give_money_account(amt, target, source)
 	if(!amt)
 		return
@@ -173,39 +143,23 @@ SUBSYSTEM_DEF(treasury)
 	var/datum/fund/account = get_account(target)
 	if(!account)
 		return FALSE
+
 	if(amt > 0)
-		account.balance += amt
+		if(!transfer(discretionary_fund, account, amt, source))
+			send_ooc_note("<b>MEISTER:</b> The Crown is insolvent. No payment this day.", name = target_name)
+			return FALSE
+		record_round_statistic(STATS_DIRECT_TREASURY_TRANSFERS, amt)
+		send_ooc_note(source ? "<b>MEISTER:</b> You received [amt]m. ([source])" : "<b>MEISTER:</b> You received [amt]m.", name = target_name)
 	else
-		if(abs(amt) > account.balance)
+		var/fine_amt = abs(amt)
+		if(!transfer(account, discretionary_fund, fine_amt, "[TAX_CATEGORY_FINE] ([source])"))
 			send_ooc_note("<b>MEISTER:</b> Error: Insufficient funds in the account to complete the fine.", name = target_name)
 			return FALSE
-		account.balance -= abs(amt)
-
-	if (amt > 0)
-		// Player received money
-		record_round_statistic(STATS_DIRECT_TREASURY_TRANSFERS, amt)
-		if(source)
-			send_ooc_note("<b>MEISTER:</b> You received [amt]m. ([source])", name = target_name)
-			log_to_steward("+[amt] from treasury to [target_name] ([source])")
-		else
-			send_ooc_note("<b>MEISTER:</b> You received [amt]m.", name = target_name)
-			log_to_steward("+[amt] from treasury to [target_name]")
-	else
-		// Player was fined
 		record_round_statistic(STATS_FINES_INCOME, amt)
-		if(source)
-			send_ooc_note("<b>MEISTER:</b> You were fined [amt]m. ([source])", name = target_name)
-			log_to_steward("[target_name] was fined [amt] ([source])")
-		else
-			send_ooc_note("<b>MEISTER:</b> You were fined [amt]m.", name = target_name)
-			log_to_steward("[target_name] was fined [amt]")
+		send_ooc_note(source ? "<b>MEISTER:</b> You were fined [fine_amt]m. ([source])" : "<b>MEISTER:</b> You were fined [fine_amt]m.", name = target_name)
 
 	return TRUE
 
-///Deposits money into a character's bank account. Taxes are deducted from the deposit and added to the treasury.
-///@param amt: The amount of money to deposit.
-///@param character: The character making the deposit.
-///@return TRUE if the money was successfully deposited, FALSE otherwise.
 /datum/controller/subsystem/treasury/proc/generate_money_account(amt, mob/living/carbon/human/character)
 	if(!amt)
 		return FALSE
@@ -214,16 +168,9 @@ SUBSYSTEM_DEF(treasury)
 	var/datum/fund/account = get_account(character)
 	if(!account)
 		return FALSE
-	var/taxed_amount = 0
 	var/original_amt = amt
-	treasury_value += amt
-
-	taxed_amount = round(amt * get_tax_value_for(character))
-	amt -= taxed_amount
-	account.balance += amt
-
-	log_to_steward("+[original_amt] deposited by [character.real_name] of which taxed [taxed_amount]")
-
+	mint(account, amt, "[TAX_CATEGORY_DEPOSIT] by [character.real_name]")
+	var/taxed_amount = apply_tax(account, amt, TAX_CATEGORY_DEPOSIT, character.real_name)
 	return list(original_amt, taxed_amount)
 
 /datum/controller/subsystem/treasury/proc/withdraw_money_account(amt, target)
@@ -239,48 +186,34 @@ SUBSYSTEM_DEF(treasury)
 	if(account.balance < amt)
 		send_ooc_note("<b>MEISTER:</b> Error: Insufficient funds in the account to complete the withdrawal.", name = target_name)
 		return
-	if(treasury_value < amt)
-		send_ooc_note("<b>MEISTER:</b> Error: Insufficient funds in the treasury to complete the transaction.", name = target_name)
+	if(!burn(account, amt, "Meister withdraw by [target_name]"))
 		return
-	account.balance -= amt
-	treasury_value -= amt
-	log_to_steward("-[amt] withdrawn by [target_name]")
 	return TRUE
-
-
-/datum/controller/subsystem/treasury/proc/log_to_steward(log)
-	log_entries += log
-	return
 
 /datum/controller/subsystem/treasury/proc/distribute_estate_incomes()
 	for(var/mob/living/welfare_dependant in noble_incomes)
 		var/how_much = noble_incomes[welfare_dependant]
+		var/datum/fund/account = get_account(welfare_dependant)
+		if(!account)
+			continue
 		record_round_statistic(STATS_NOBLE_INCOME_TOTAL, how_much)
-		give_money_treasury(how_much, silent = TRUE)
 		total_noble_income += how_much
-		if(welfare_dependant.job == "Merchant")
-			give_money_account(how_much, welfare_dependant, "The Guild")
-		else
-			give_money_account(how_much, welfare_dependant, "Noble Estate")
+		var/source = welfare_dependant.job == "Merchant" ? "The Guild" : "Noble Estate"
+		mint(account, how_much, source)
+		send_ooc_note("<b>MEISTER:</b> You received [how_much]m. ([source])", name = welfare_dependant.real_name)
 
 /datum/controller/subsystem/treasury/proc/distribute_daily_payments()
 	if(!steward_machine || !steward_machine.daily_payments || !steward_machine.daily_payments.len)
 		return
 
-	var/total_paid = 0
 	for(var/job_name in steward_machine.daily_payments)
 		var/payment_amount = steward_machine.daily_payments[job_name]
 		for(var/mob/living/carbon/human/H in GLOB.human_list)
 			if(H.job == job_name)
-				// Skip payment if wages are suspended
 				if(HAS_TRAIT(H, TRAIT_WAGES_SUSPENDED))
 					continue
 				if(give_money_account(payment_amount, H, "Daily Wage"))
-					total_paid += payment_amount
 					record_round_statistic(STATS_WAGES_PAID)
-
-	if(total_paid > 0)
-		log_to_steward("Daily wages distributed: [total_paid]m total")
 
 /datum/controller/subsystem/treasury/proc/do_export(var/datum/roguestock/D, silent = FALSE)
 	if((D.held_items[1] < D.importexport_amt))
@@ -292,9 +225,8 @@ SUBSYSTEM_DEF(treasury)
 	if(D.held_items[1] >= D.importexport_amt)
 		D.held_items[1] -= D.importexport_amt
 
-	SStreasury.treasury_value += amt
+	mint(discretionary_fund, amt, "exported [D.name]")
 	SStreasury.total_export += amt
-	SStreasury.log_to_steward("+[amt] exported [D.name]")
 	record_round_statistic(STATS_STOCKPILE_EXPORTS_VALUE, amt)
 	if(!silent && amt >= EXPORT_ANNOUNCE_THRESHOLD) //Only announce big spending.
 		scom_announce("Azure Peak exports [D.name] for [amt] mammon.")
@@ -371,10 +303,7 @@ SUBSYSTEM_DEF(treasury)
 /// Checks if there is a valid amount in the treasury, if so, withdraw that amount and log it
 /// Currently only used by Chimeric heartbeasts
 /datum/controller/subsystem/treasury/proc/withdraw_money_treasury(amt, target)
-	if(!amt || treasury_value < amt)
-		return FALSE // Not enough funds
-
-	treasury_value -= amt
-	log_to_steward("-[amt] withdrawn from treasury by [target]")
-	return TRUE
+	if(!amt)
+		return FALSE
+	return burn(discretionary_fund, amt, "withdrawn by [target]")
 	

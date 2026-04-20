@@ -89,7 +89,7 @@
 		if(budget >= cost)
 			budget -= cost
 			if(!(upgrade_flags & UPGRADE_NOTAX))
-				SStreasury.give_money_treasury(tax_amt, "brassface import tax")
+				SStreasury.mint(SStreasury.discretionary_fund, tax_amt, "brassface import tax")
 				record_featured_stat(FEATURED_STATS_TAX_PAYERS, human_mob, tax_amt)
 				record_round_statistic(STATS_TAXES_COLLECTED, tax_amt)
 		else

@@ -196,9 +196,7 @@
 	spawned_scroll.update_quest_text()
 
 	// Charge deposit. Deposit is forfeited on abandon and only returned on successful completion.
-	SStreasury.adjust_balance(user, -deposit)
-	SStreasury.treasury_value += deposit
-	SStreasury.log_entries += "+[deposit] to treasury (quest deposit)"
+	SStreasury.transfer(SStreasury.get_account(user), SStreasury.discretionary_fund, deposit, "quest deposit")
 
 /obj/structure/roguemachine/contractledger/proc/turn_in_contract(mob/user, obj/item/paper/scroll/quest/scroll_in_hand)
 	var/list/mob/quest_assignees = scroll_in_hand.get_quest_assignees(user, TRUE)
@@ -208,67 +206,42 @@
 	turn_in_scroll(user, scroll_in_hand)
 
 /obj/structure/roguemachine/contractledger/proc/turn_in_scroll(mob/user, obj/item/paper/scroll/quest/scroll)
-	var/reward = 0
-	var/original_reward = 0
-	var/tax_rate = SStreasury.tax_value
+	if(!scroll.assigned_quest?.complete)
+		return
+
+	var/base_reward = scroll.assigned_quest.reward_amount
+	var/deposit_return = scroll.assigned_quest.calculate_deposit()
+	var/datum/job/mob_job = user.job ? SSjob.GetJob(user.job) : null
+	var/gross_reward = (mob_job?.is_quest_giver ? base_reward * QUEST_HANDLER_REWARD_MULTIPLIER : base_reward) + deposit_return
+	gross_reward = round(gross_reward)
+	var/original_reward = base_reward + deposit_return
+
+	var/datum/quest/completed_quest = scroll.assigned_quest
+	var/quest_levy_exempt = completed_quest.levy_exempt
+	qdel(scroll.assigned_quest)
+	qdel(scroll)
+
+	var/datum/fund/user_account = SStreasury.get_account(user)
+	if(!user_account)
+		say("No account on record - reward cannot be paid.")
+		return
+
+	SStreasury.mint(user_account, gross_reward, "quest reward - [src.name]")
+
 	var/tax_amt = 0
+	if(!quest_levy_exempt)
+		tax_amt = SStreasury.apply_tax(user_account, gross_reward, TAX_CATEGORY_QUEST_REWARD, src.name)
+		if(tax_amt > 0)
+			record_featured_stat(FEATURED_STATS_TAX_PAYERS, user, tax_amt)
+			record_round_statistic(STATS_TAXES_COLLECTED, tax_amt)
 
-	if(scroll.assigned_quest?.complete)
-		// Calculate base reward
-		var/base_reward = scroll.assigned_quest.reward_amount
-		original_reward += base_reward
+	var/take_home = gross_reward - tax_amt
+	SSquestpool.record_completion(user, completed_quest, take_home, tax_amt)
 
-		// Deposit is returned only on successful completion.
-		var/deposit_return = scroll.assigned_quest.calculate_deposit()
-
-		// Apply bonus to the base reward, if appliciable (Steward, Merchant, Clerk, Councillor, Shophand, Duke)
-		var/datum/job/mob_job = user.job ? SSjob.GetJob(user.job) : null
-		if(mob_job?.is_quest_giver)
-			reward += base_reward * QUEST_HANDLER_REWARD_MULTIPLIER
-		else
-			reward += base_reward
-
-		reward += deposit_return
-		original_reward += deposit_return
-
-		var/datum/quest/completed_quest = scroll.assigned_quest
-		// Capture flags from the quest before qdel, since the fields won't be readable after.
-		var/quest_levy_exempt = completed_quest.levy_exempt
-		qdel(scroll.assigned_quest)
-		qdel(scroll)
-
-		// Tax payment — stamped / towner quests bypass the levy.
-		if(!quest_levy_exempt)
-			tax_amt = round(tax_rate * reward)
-			if(tax_amt > 0)
-				reward -= tax_amt
-				SStreasury.give_money_treasury(tax_amt, "quest completion tax - [src.name]")
-				record_featured_stat(FEATURED_STATS_TAX_PAYERS, user, tax_amt)
-				record_round_statistic(STATS_TAXES_COLLECTED, tax_amt)
-
-		SSquestpool.record_completion(user, completed_quest, round(reward), tax_amt)
-
-	cash_in(round(reward), original_reward, tax_amt)
-
-/obj/structure/roguemachine/contractledger/proc/cash_in(reward, original_reward, tax_amt)
-	var/list/coin_types = list(
-		/obj/item/roguecoin/gold = FLOOR(reward / 10, 1),
-		/obj/item/roguecoin/silver = FLOOR(reward % 10 / 5, 1),
-		/obj/item/roguecoin/copper = reward % 5
-	)
-
-	for(var/coin_type in coin_types)
-		var/amount = coin_types[coin_type]
-		if(amount > 0)
-			var/obj/item/roguecoin/coin_stack = new coin_type(get_turf(src))
-			coin_stack.quantity = amount
-			coin_stack.update_icon()
-			coin_stack.update_transform()
-
-	if(reward > 0)
-		say(reward > original_reward ? \
-			"Your handler assistance-increased reward of [reward] mammons has been dispensed! The difference is [reward - original_reward] mammons. ([tax_amt] mammons taxed.)" : \
-			"Your reward of [reward] mammons has been dispensed. ([tax_amt] mammons taxed.)")
+	if(gross_reward > original_reward)
+		say("Your handler-assisted reward of [gross_reward] mammon has been credited. The difference is [gross_reward - original_reward] mammon. ([tax_amt] taxed.)")
+	else
+		say("Your reward of [gross_reward] mammon has been credited. ([tax_amt] taxed.)")
 
 /// Abandon handler: a scroll left in the input area is destroyed with its contract. The deposit
 /// is NOT refunded - it's the cost of backing out.

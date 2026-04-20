@@ -29,7 +29,7 @@
 	var/net_amount = amount - tax_amt
 
 	if(tax_amt > 0)
-		SStreasury.give_money_treasury(tax_amt, "headeater tax - [src.name]")
+		SStreasury.mint(SStreasury.discretionary_fund, tax_amt, "headeater tax - [src.name]")
 		record_round_statistic(STATS_TAXES_COLLECTED, tax_amt)
 
 	return round(net_amount)

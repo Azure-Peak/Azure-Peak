@@ -80,9 +80,8 @@
 		else if(total_price > budget)
 			var/mob/living/user = usr
 			if (user && HAS_TRAIT(user, TRAIT_FOOD_STIPEND))
-				if (SStreasury.treasury_value >= total_price)
+				if (SStreasury.burn(SStreasury.discretionary_fund, total_price, "food stipend - vomitorium"))
 					D.held_items[source_stockpile]--
-					SStreasury.log_to_steward("-[D.withdraw_price]m worth of goods withdrawn direct from vomitorium (keep stipend)")
 					var/obj/item/I = new D.item_type(parent_structure.loc)
 					to_chat(user, span_info("[parent_structure] chitters and squeaks into the treasury ratlines."))
 					if(!user.put_in_hands(I))
@@ -96,7 +95,7 @@
 			D.held_items[source_stockpile]--
 			budget -= total_price
 			SStreasury.economic_output -= D.export_price // Prevent GDP double counting
-			SStreasury.give_money_treasury(D.withdraw_price, "stockpile withdraw")
+			SStreasury.mint(SStreasury.discretionary_fund, D.withdraw_price, "stockpile withdraw")
 			record_round_statistic(STATS_STOCKPILE_REVENUE, D.withdraw_price)
 			var/obj/item/I = new D.item_type(parent_structure.loc)
 			var/mob/user = usr

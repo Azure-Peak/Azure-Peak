@@ -500,7 +500,7 @@
 			data += "<div style='height: 20px;'></div>"
 
 			// Treasury Section
-			data += "<div style='text-align: center; color: #e6b327; font-size: 1.2em; margin: 15px 0; text-transform: uppercase;'>Realm's Treasury: [SStreasury.treasury_value]</div>"
+			data += "<div style='text-align: center; color: #e6b327; font-size: 1.2em; margin: 15px 0; text-transform: uppercase;'>Realm's Treasury: [SStreasury.discretionary_fund.balance]</div>"
 			data += "<div style='border-top: 1.5px solid #e6b327; margin: 0 auto 20px auto; width: 75%;'></div>"
 
 			data += "<div style='width: 100%; margin: 0 auto; position: relative;'>"

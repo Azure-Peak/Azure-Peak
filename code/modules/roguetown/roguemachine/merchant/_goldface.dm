@@ -234,7 +234,7 @@
 			record_round_statistic(value_record_key, cost)
 			record_round_statistic(STATS_TRADE_VALUE_IMPORTED, cost)
 			if(!(upgrade_flags & UPGRADE_NOTAX) && !bypass_tax)
-				SStreasury.give_money_treasury(tax_amt, "import tax - [src.name]")
+				SStreasury.mint(SStreasury.discretionary_fund, tax_amt, "import tax - [src.name]")
 				record_featured_stat(FEATURED_STATS_TAX_PAYERS, human_mob, tax_amt)
 				record_round_statistic(STATS_TAXES_COLLECTED, tax_amt)
 			else
