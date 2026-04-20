@@ -591,11 +591,11 @@
 		options["Purifier Waterskin"] = /obj/item/reagent_containers/glass/bottle/waterskin/purifier
 		options["Engineering Wrench"] = /obj/item/contraption/linker
 		options["SCOMStone"] = /obj/item/scomstone
-	if(holy >= SKILL_LEVEL_EXPERT) // everything spawned here will cause you to lose a random limb permanently.
+	if(holy >= SKILL_LEVEL_EXPERT) 
 		options["Drill"] = /obj/item/contraption/pick/drill
 		options["Autosmither"] =  /obj/structure/autosmither
 		options["Infernal Engine"] = /obj/structure/infernalengine
-		options["Great Furnace"] = /obj/machinery/light/rogue/smelter/great
+		options["Rouscker"] = /obj/item/contraption/hacker_doohickey // It hacks Stockpiles and SCOMs, TBD.
 
 	if(!options.len)
 		to_chat(user, span_warning("I lack the knowledge to shape this mass..."))
@@ -1185,37 +1185,31 @@
 
 	playsound(src, 'sound/magic/swap.ogg', 70, TRUE)
 
-	// EFFECT 
-	var/lux_spawned = 0
-
 	for(var/mob/living/L in valid_targets)
 		if(QDELETED(L))
 			continue
-
-		// NPCs: goobai~
+		
+		if (!L.has_status_effect(/datum/status_effect/buff/ozium))
+			L.emote("agony")
+		if (L.has_status_effect(/datum/status_effect/debuff/devitalised))
+			L.emote("painscream")
+			continue
 		if(!L.client)
 			L.gib(TRUE, TRUE, FALSE)
-			lux_spawned++
-			continue
+		
+		var/apply_greater
+		if (istype(L, /mob/living/carbon/human) && !(HAS_TRAIT(L, TRAIT_FEYTOUCHED) || HAS_TRAIT(L, TRAIT_DEATHLESS || HAS_TRAIT(L, TRAIT_FAKEDEATH)) ))
+			new /obj/item/reagent_containers/lux(L.loc)
+			apply_greater = TRUE
+		else if (HAS_TRAIT(L, TRAIT_FEYTOUCHED))
+			new /obj/item/reagent_containers/lux_moss(L.loc)
+		else
+			new /obj/item/reagent_containers/lux_impure(L.loc)
 
-		// Players: trauma + extraction (has a placeholder for now, will improve on TM, atm its mostly to avoid conflicts)
-		if(istype(L, /mob/living))
-			L.emote("scream")
-
-		lux_spawned++
-
-	// LUX 
-	for(var/i = 1 to lux_spawned)
-		new /obj/item/reagent_containers/lux(T)
-
-	// FEEDBACK
-	visible_message(
-		span_artery("The circle pulses violently as something is torn from bound bodies, coalescing into raw essence!"),
-		null,
-		"<i>You hear a chorus of distorted, agonized whispers.</i>"
-	)
-
-
+		SEND_SIGNAL(user, COMSIG_LUX_EXTRACTED, L)
+		record_round_statistic(STATS_LUX_HARVESTED)
+		L.apply_status_effect((apply_greater ? /datum/status_effect/debuff/devitalised/greater : /datum/status_effect/debuff/devitalised))
+		
 /obj/item/rogueweapon/huntingknife/idagger/zizo
 	name = "luxdrinker blade"
 	desc = "A profane blade shaped and made from a lesser alloy of avantyne. It does not look very deadly, but it has an odd, necrotic aura about it..."
@@ -1233,14 +1227,21 @@
 	set_light(5, 4, l_color = LIGHT_COLOR_RED)
 
 
+/obj/item/contraption/hacker_doohickey
+	name = "rouscker device"
+	desc = "A creation of insanity with no exceptions. This curious contraption tampers with the little rous within devices, effectively sabotaging it. Needs cheese wedges!"
+	icon_state = "metalizer"
+	on_icon = "metalizer_flick"
+	off_icon = "metalizer_off"
+	w_class = WEIGHT_CLASS_NORMAL
+	misfire_chance = 15
+	charge_per_source = 5
+	max_stored_charge = 100
+	grid_height = 64
+	grid_width = 64
 
-
-
-
-
-
-
-
+/obj/item/contraption/hacker_doohickey/attack_obj(obj/O, mob/living/user)
+	..() // TBD
 
 
 ////////////

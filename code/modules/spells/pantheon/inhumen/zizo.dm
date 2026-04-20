@@ -578,6 +578,7 @@ corpses and discarded junk*/
 			ADD_TRAIT(user, TRAIT_JACKOFALLTRADES, "rituos")
 			ADD_TRAIT(user, TRAIT_SMITHING_EXPERT, "rituos")
 			ADD_TRAIT(user, TRAIT_SELF_SUSTENANCE, "rituos")
+			ADD_TRAIT(user, TRAIT_SQUIRE_REPAIR, "rituos")
 			if(user.mind)
 				user.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 0, "minor" = 2, "utilities" = 4))
 				grant_poke_spell(user)
