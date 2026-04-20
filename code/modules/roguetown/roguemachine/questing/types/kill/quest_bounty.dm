@@ -1,5 +1,5 @@
-/datum/quest/kill/outlaw
-	quest_type = QUEST_OUTLAW
+/datum/quest/kill/bounty
+	quest_type = QUEST_BOUNTY
 	mob_types_to_spawn = list(
 		/mob/living/carbon/human/species/human/northern/deranged_knight/hedgeknight,
 		/mob/living/carbon/human/species/human/northern/outlaw_duelist,
@@ -10,15 +10,15 @@
 	count_min = 1
 	count_max = 1
 
-/datum/quest/kill/outlaw/get_title()
+/datum/quest/kill/bounty/get_title()
 	if(title)
 		return title
 	return "Defeat [pick("the terrible", "the dreadful", "the monstrous", "the infamous", "the feared")] [pick("warlord", "outlaw", "renegade", "marauder", "brigand")]"
 
-/datum/quest/kill/outlaw/get_objective_text()
+/datum/quest/kill/bounty/get_objective_text()
 	return "Slay [initial(target_mob_type.name)]."
 
-/datum/quest/kill/outlaw/materialize(obj/effect/landmark/quest_spawner/landmark)
+/datum/quest/kill/bounty/materialize(obj/effect/landmark/quest_spawner/landmark)
 	..()
 	if(!landmark)
 		return FALSE
@@ -26,8 +26,8 @@
 	spawn_goons(landmark)
 	return TRUE
 
-/// Spawns proximity-gated goons near the quest landmark to accompany the outlaw target.
-/datum/quest/kill/outlaw/proc/spawn_goons(obj/effect/landmark/quest_spawner/landmark)
+/// Spawns proximity-gated goons near the quest landmark to accompany the bounty target.
+/datum/quest/kill/bounty/proc/spawn_goons(obj/effect/landmark/quest_spawner/landmark)
 	for(var/i in 1 to rand(2, 5))
 		var/turf/spawn_turf = landmark.get_safe_spawn_turf()
 		if(!spawn_turf)

@@ -6,7 +6,7 @@ SUBSYSTEM_DEF(questpool)
 	init_order = INIT_ORDER_DEFAULT
 
 	var/list/datum/quest/pool = list()
-	var/list/abandon_cooldowns = list()
+	var/list/recent_takes = list()
 	var/list/event_log = list()
 	var/list/registered_ledgers = list()
 
@@ -151,8 +151,8 @@ SUBSYSTEM_DEF(questpool)
 			return new /datum/quest/kill/clearout()
 		if(QUEST_RAID)
 			return new /datum/quest/kill/raid()
-		if(QUEST_OUTLAW)
-			return new /datum/quest/kill/outlaw()
+		if(QUEST_BOUNTY)
+			return new /datum/quest/kill/bounty()
 	return null
 
 /datum/controller/subsystem/questpool/proc/claim(datum/quest/Q, mob/user)
@@ -183,21 +183,42 @@ SUBSYSTEM_DEF(questpool)
 		Q.target_spawn_area = get_area_name(get_turf(landmark))
 	return landmark
 
-/datum/controller/subsystem/questpool/proc/is_on_abandon_cooldown(mob/user)
+/datum/controller/subsystem/questpool/proc/prune_recent_takes(ckey)
+	var/list/takes = recent_takes[ckey]
+	if(!takes)
+		return null
+	var/cutoff = world.time - QUEST_TAKE_COOLDOWN
+	while(length(takes) && takes[1] < cutoff)
+		takes.Cut(1, 2)
+	if(!length(takes))
+		recent_takes -= ckey
+		return null
+	return takes
+
+/datum/controller/subsystem/questpool/proc/is_on_take_cooldown(mob/user)
 	if(!user?.ckey)
 		return FALSE
-	var/free_at = abandon_cooldowns[user.ckey]
-	return free_at && free_at > world.time
+	var/list/takes = prune_recent_takes(user.ckey)
+	return takes && length(takes) >= QUEST_TAKE_COOLDOWN_SLOTS
 
-/datum/controller/subsystem/questpool/proc/abandon_cooldown_remaining(mob/user)
+/datum/controller/subsystem/questpool/proc/take_cooldown_remaining(mob/user)
 	if(!user?.ckey)
 		return 0
-	var/free_at = abandon_cooldowns[user.ckey]
-	return free_at ? max(0, free_at - world.time) : 0
+	var/list/takes = prune_recent_takes(user.ckey)
+	if(!takes || length(takes) < QUEST_TAKE_COOLDOWN_SLOTS)
+		return 0
+	return max(0, takes[1] + QUEST_TAKE_COOLDOWN - world.time)
+
+/datum/controller/subsystem/questpool/proc/mark_taken(mob/user)
+	if(!user?.ckey)
+		return
+	var/list/takes = recent_takes[user.ckey]
+	if(!takes)
+		takes = list()
+		recent_takes[user.ckey] = takes
+	takes += world.time
 
 /datum/controller/subsystem/questpool/proc/mark_abandoned(mob/user, datum/quest/Q, forfeited)
-	if(user?.ckey)
-		abandon_cooldowns[user.ckey] = world.time + QUEST_ABANDON_COOLDOWN
 	record_round_statistic(STATS_CONTRACTS_ABANDONED)
 	if(forfeited)
 		record_round_statistic(STATS_CONTRACT_MAMMONS_FORFEITED, forfeited)

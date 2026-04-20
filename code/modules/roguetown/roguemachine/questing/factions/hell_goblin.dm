@@ -11,3 +11,12 @@
 		/mob/living/simple_animal/hostile/retaliate/rogue/minotaur = 10,
 		/mob/living/simple_animal/hostile/retaliate/rogue/infernal/watcher = 8,
 	)
+	boss_mob_types = list(
+		/mob/living/simple_animal/hostile/retaliate/rogue/infernal/watcher = 100,
+	)
+	boss_title_templates = list(
+		"%N the Watchful",
+		"%N of the Ember",
+		"%N the Cinder-eyed",
+	)
+	boss_name_pool = list("Azrun", "Morvekh", "Thessar", "Kharmog", "Vyrax", "Zabal")

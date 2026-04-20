@@ -9,3 +9,13 @@
 		/mob/living/carbon/human/species/human/northern/bog_deserters/better_gear/ambush = 30,
 		/mob/living/simple_animal/hostile/retaliate/rogue/troll/bog = 15,
 	)
+	boss_mob_types = list(
+		/mob/living/carbon/human/species/human/northern/outlaw_tank = 100,
+	)
+	boss_title_templates = list(
+		"Sergeant %N",
+		"Captain %N",
+		"%N the Bogman",
+		"%N the Marshwalker",
+	)
+	boss_name_pool = list("Othmar", "Dagric", "Gethrik", "Bolvar", "Yorric", "Halric", "Osmund")

@@ -12,3 +12,13 @@
 		/mob/living/simple_animal/hostile/retaliate/rogue/minotaur = 7,
 		/mob/living/carbon/human/species/orc/npc/warlord = 3,
 	)
+	boss_mob_types = list(
+		/mob/living/carbon/human/species/orc/npc/warlord = 100,
+	)
+	boss_title_templates = list(
+		"Warlord %N",
+		"%N Skullcleaver",
+		"%N the Mighty",
+		"Chieftain %N",
+	)
+	boss_name_pool = list("Grosh", "Mukrag", "Durgal", "Thak", "Brulg", "Kargor", "Vulgrim", "Azgor")

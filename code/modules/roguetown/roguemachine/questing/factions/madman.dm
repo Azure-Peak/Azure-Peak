@@ -7,3 +7,4 @@
 	mob_types = list(
 		/mob/living/carbon/human/species/human/northern/mad_touched_treasure_hunter/ambush = 100,
 	)
+	allowed_quest_types = list(QUEST_KILL_EASY, QUEST_RAID)

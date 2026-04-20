@@ -9,8 +9,9 @@
 	var/last_natural_ambush_time = -AMBUSH_REGION_COOLDOWN // Pre-expired so start-of-round doesn't block ambushes
 	var/last_induced_ambush_time = 0 // Time between now and the previous ambush triggered by horn
 	var/list/faction_weights = list()
+	var/courier_eligible = TRUE
 
-/datum/threat_region/New(_region_name, _latent_ambush, _min_ambush, _max_ambush, _fixed_ambush, _lowpop_tick, _highpop_tick, _faction_weights)
+/datum/threat_region/New(_region_name, _latent_ambush, _min_ambush, _max_ambush, _fixed_ambush, _lowpop_tick, _highpop_tick, _faction_weights, _courier_eligible = TRUE)
 	region_name = _region_name
 	latent_ambush = _latent_ambush
 	min_ambush = _min_ambush
@@ -20,6 +21,7 @@
 	highpop_tick = _highpop_tick
 	if(_faction_weights)
 		faction_weights = _faction_weights
+	courier_eligible = _courier_eligible
 
 /datum/threat_region/proc/pick_faction()
 	if(!length(faction_weights))

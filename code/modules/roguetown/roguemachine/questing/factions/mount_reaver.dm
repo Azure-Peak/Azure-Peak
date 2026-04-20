@@ -8,3 +8,12 @@
 		/mob/living/carbon/human/species/human/northern/highwayman/mount_reaver = 70,
 		/mob/living/carbon/human/species/human/northern/highwayman/ambush = 30,
 	)
+	boss_mob_types = list(
+		/mob/living/carbon/human/species/human/northern/outlaw_tank = 100,
+	)
+	boss_title_templates = list(
+		"%N the Ironclad",
+		"%N Stonebreaker",
+		"%N the Bear",
+	)
+	boss_name_pool = list("Borric", "Hal", "Durran", "Kethric", "Mordric", "Osric")

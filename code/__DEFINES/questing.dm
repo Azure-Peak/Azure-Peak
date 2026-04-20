@@ -7,7 +7,15 @@
 #define QUEST_KILL_EASY "Kill"
 #define QUEST_CLEAR_OUT "Clear Out"
 #define QUEST_RAID "Raid"
-#define QUEST_OUTLAW "Outlaw"
+#define QUEST_BOUNTY "Bounty"
+
+// Flat bonuses layered on top of base quest reward and per-mob scaling.
+#define QUEST_REWARD_PER_HEAD 3
+#define QUEST_REWARD_BOUNTY_HEAD 30
+
+// Multipliers applied to the target mob's `threat_point` when computing additional reward.
+#define QUEST_KILL_THREAT_MULT 0.5
+#define QUEST_BOUNTY_THREAT_MULT 2
 
 #define QUEST_REWARD_EASY_LOW 30
 #define QUEST_REWARD_EASY_HIGH 35
@@ -42,7 +50,11 @@
 #define QUEST_POOL_STALE_THRESHOLD (20 MINUTES)
 
 // After abandoning a contract, a ckey cannot abandon another for this long.
-#define QUEST_ABANDON_COOLDOWN (5 MINUTES)
+// Per-ckey take cooldown. Once you've taken QUEST_TAKE_COOLDOWN_SLOTS contracts within
+// QUEST_TAKE_COOLDOWN, you must wait for the oldest take to expire before the next sign.
+// Abandoning does not reset this; the deposit forfeit is the abandon penalty.
+#define QUEST_TAKE_COOLDOWN (10 MINUTES)
+#define QUEST_TAKE_COOLDOWN_SLOTS 2
 
 #define QUEST_POOL_WEIGHTS_EASY list(\
 	QUEST_RETRIEVAL = 35,\
@@ -58,7 +70,7 @@
 #define QUEST_POOL_WEIGHTS_HARD list(\
 	QUEST_CLEAR_OUT = 40,\
 	QUEST_RAID = 35,\
-	QUEST_OUTLAW = 25,\
+	QUEST_BOUNTY = 25,\
 )
 
 #define QUEST_SOURCE_POOL "pool"

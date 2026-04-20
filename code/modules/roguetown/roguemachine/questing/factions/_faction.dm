@@ -7,10 +7,33 @@ GLOBAL_LIST_EMPTY(quest_factions)
 	var/group_word
 	var/faction_tag
 	var/list/mob_types = list()
+	var/list/allowed_quest_types
+	var/list/boss_mob_types = list()
+	var/list/boss_title_templates = list()
+	var/list/boss_name_pool = list()
 
 /datum/quest_faction/New()
 	if(!id)
 		CRASH("Quest faction created without id: [type]")
+	if(!allowed_quest_types)
+		allowed_quest_types = list(QUEST_KILL_EASY, QUEST_CLEAR_OUT, QUEST_RAID)
+		if(length(boss_mob_types))
+			allowed_quest_types += QUEST_BOUNTY
+
+/datum/quest_faction/proc/allows_quest_type(quest_type)
+	return (quest_type in allowed_quest_types)
+
+/datum/quest_faction/proc/pick_boss_mob_type()
+	if(!length(boss_mob_types))
+		return null
+	return pickweight(boss_mob_types)
+
+/datum/quest_faction/proc/generate_boss_name()
+	if(!length(boss_title_templates) || !length(boss_name_pool))
+		return "a notorious [name_singular]"
+	var/template = pick(boss_title_templates)
+	var/name = pick(boss_name_pool)
+	return replacetext(template, "%N", name)
 
 /datum/quest_faction/proc/describe_group_count(n)
 	if(n <= 0)

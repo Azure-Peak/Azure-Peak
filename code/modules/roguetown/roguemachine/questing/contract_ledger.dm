@@ -156,6 +156,11 @@
 		say("You are already committed to [active_cap] contracts. Complete one before signing another.")
 		return
 
+	if(SSquestpool.is_on_take_cooldown(user))
+		var/remaining_seconds = round(SSquestpool.take_cooldown_remaining(user) / 10)
+		say("You have taken your fill of contracts. Wait [remaining_seconds]s before signing another.")
+		return
+
 	var/deposit = Q.deposit_amount
 	if(SStreasury.bank_accounts[user] < deposit)
 		say("Insufficient balance. This contract requires a [deposit] mammon deposit.")
@@ -164,6 +169,8 @@
 	if(!SSquestpool.claim(Q, user))
 		say("That contract could not be dispatched. Try another.")
 		return
+
+	SSquestpool.mark_taken(user)
 
 	// Create scroll
 	var/obj/item/paper/scroll/quest/spawned_scroll = new(get_turf(src))
@@ -270,11 +277,6 @@
 	if(matched_quest.complete)
 		to_chat(user, span_warning("That contract is already complete - turn it in instead."))
 		return
-	if(SSquestpool.is_on_abandon_cooldown(user))
-		var/remaining_seconds = round(SSquestpool.abandon_cooldown_remaining(user) / 10)
-		to_chat(user, span_warning("The guild is watching you. Wait [remaining_seconds]s before abandoning another contract."))
-		return
-
 	var/forfeited = matched_quest.calculate_deposit()
 	log_quest(user.ckey, user.mind, user, "Abandon [matched_quest.quest_type]")
 	SSquestpool.mark_abandoned(user, matched_quest, forfeited)

@@ -70,7 +70,8 @@ SUBSYSTEM_DEF(regionthreat)
 				QUEST_FACTION_HIGHWAYMAN = 10,
 				QUEST_FACTION_WILD_BEAST = 5,
 				QUEST_FACTION_GREAT_BEAST = 5,
-			)
+			),
+			_courier_eligible = FALSE
 		),
 		new /datum/threat_region(
 			_region_name = THREAT_REGION_MOUNT_DECAP, // Solo: 30 TP → 1 minotaur | 5-party: 150 TP → 5 minotaurs
@@ -87,7 +88,8 @@ SUBSYSTEM_DEF(regionthreat)
 				QUEST_FACTION_MOUNT_REAVER = 25,
 				QUEST_FACTION_GREAT_BEAST = 10,
 				QUEST_FACTION_MADMAN = 10,
-			)
+			),
+			_courier_eligible = FALSE
 		)
 	)
 
