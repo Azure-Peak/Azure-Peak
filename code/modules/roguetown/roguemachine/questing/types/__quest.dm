@@ -47,6 +47,9 @@
 	var/faction_id
 	/// Resolved faction datum for the run. Non-null for kill / bounty quests.
 	var/datum/quest_faction/faction
+	/// Minimum fellowship size required to sign this quest. 0 means solo-allowed. Only the
+	/// signer pays the take-cooldown cost; fellowship-mates are free labor.
+	var/required_fellowship_size = 0
 
 /datum/quest/Destroy()
 	// Clean up mobs with quest components
@@ -196,7 +199,23 @@
 
 /// Check if a user can claim this quest - override for restrictions
 /datum/quest/proc/can_claim(mob/user)
+	if(required_fellowship_size > 0)
+		var/datum/fellowship/F = user.current_fellowship
+		if(!F)
+			return FALSE
+		if(length(F.get_members()) < required_fellowship_size)
+			return FALSE
 	return TRUE
+
+/// Human-readable reason why can_claim failed, shown to the user at sign time.
+/datum/quest/proc/claim_failure_reason(mob/user)
+	if(required_fellowship_size > 0)
+		var/datum/fellowship/F = user.current_fellowship
+		if(!F)
+			return "This contract requires a Fellowship of [required_fellowship_size]."
+		if(length(F.get_members()) < required_fellowship_size)
+			return "Your Fellowship is too small — requires [required_fellowship_size] members."
+	return "You cannot sign that contract."
 
 /// Called when quest is claimed by a user
 /datum/quest/proc/on_claim(mob/user)

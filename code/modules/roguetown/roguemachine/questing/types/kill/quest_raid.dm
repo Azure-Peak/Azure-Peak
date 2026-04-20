@@ -2,6 +2,7 @@
 	quest_type = QUEST_RAID
 	tp_budget = QUEST_TP_BUDGET_RAID
 	threat_bands_cleared = QUEST_BANDS_RAID
+	required_fellowship_size = 2
 
 /datum/quest/kill/raid/get_title()
 	if(title)

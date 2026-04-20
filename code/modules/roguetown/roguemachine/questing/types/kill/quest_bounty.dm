@@ -2,6 +2,7 @@
 	quest_type = QUEST_BOUNTY
 	tp_budget = QUEST_TP_BUDGET_BOUNTY_GOONS
 	threat_bands_cleared = QUEST_BANDS_BOUNTY
+	required_fellowship_size = 2
 	/// Generated boss name for title/objective. Set at preview.
 	var/boss_name
 

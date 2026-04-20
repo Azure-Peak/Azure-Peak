@@ -173,6 +173,10 @@
 		say("Insufficient balance. This contract requires a [deposit] mammon deposit.")
 		return
 
+	if(!Q.can_claim(user))
+		say(Q.claim_failure_reason(user))
+		return
+
 	if(!SSquestpool.claim(Q, user))
 		say("That contract could not be dispatched. Try another.")
 		return
