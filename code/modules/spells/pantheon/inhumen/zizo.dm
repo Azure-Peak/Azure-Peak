@@ -38,21 +38,35 @@ corpses and discarded junk*/
 			m_cooldown = -1, // don't lose it! :D
 			m_rank = SKILL_LEVEL_NONE,
 			category = "Sepulchral Relics",
-			lines = list("Ol sonf vorsg, hoath zir.","Madriax soba-lonshi od zorge.","Faxs to faxs-sobol athan."),
+			lines = list("Ol sonf vorsg, hoath zir.","Madriax soba-lonshi od zorge.","Faxs to faxs-sobol athan.","Velor ixan thrae-zho vel.","Korvath en'zul miraxis thren.","Thren val'kora ix ven.","Zai'ul phoros vekh tor.","Morath xi'en thul var.","Vael kor zin'athra vel.","Thul'kor imnaza vekh dor.","En'ra zolth ix venak.","Zhorath kal'mir vex ul.","Ul ix zizo vel'kra.","Sothra vel ixan thul.","Zor'en valix thrae kor.","Vel'zan morath ix ul.","Threx ul ven'kai zhor.","Ix zol ven'ra thul kor.","Vorath ixen kal zor.","Zizo ul thren val'ix.")
 		),
 		"Profane Riteblade" = list(
 			path = /obj/item/rogueweapon/huntingknife/idagger/zizo,
 			m_cooldown = -1, // don't lose it! :D
 			m_rank = SKILL_LEVEL_JOURNEYMAN,
 			category = "Rite Instruments",
-			lines = list("Zorge, zorge-od comselh.","Micaolz brin-zir faonts.","Gohol oriad-laneth vors."),
+			lines = list("Ol sonf vorsg, hoath zir.","Madriax soba-lonshi od zorge.","Faxs to faxs-sobol athan.","Velor ixan thrae-zho vel.","Korvath en'zul miraxis thren.","Thren val'kora ix ven.","Zai'ul phoros vekh tor.","Morath xi'en thul var.","Vael kor zin'athra vel.","Thul'kor imnaza vekh dor.","En'ra zolth ix venak.","Zhorath kal'mir vex ul.","Ul ix zizo vel'kra.","Sothra vel ixan thul.","Zor'en valix thrae kor.","Vel'zan morath ix ul.","Threx ul ven'kai zhor.","Ix zol ven'ra thul kor.","Vorath ixen kal zor.","Zizo ul thren val'ix.")		
+		),
+		"Enochian Grasp" = list(
+			path = /obj/item/melee/touch_attack/sans_undertale,
+			m_cooldown = 90 SECONDS,
+			m_rank = SKILL_LEVEL_EXPERT,
+			category = "Enochian Artificery",
+			lines = list("Ol sonf vorsg, hoath zir.","Madriax soba-lonshi od zorge.","Faxs to faxs-sobol athan.","Velor ixan thrae-zho vel.","Korvath en'zul miraxis thren.","Thren val'kora ix ven.","Zai'ul phoros vekh tor.","Morath xi'en thul var.","Vael kor zin'athra vel.","Thul'kor imnaza vekh dor.","En'ra zolth ix venak.","Zhorath kal'mir vex ul.","Ul ix zizo vel'kra.","Sothra vel ixan thul.","Zor'en valix thrae kor.","Vel'zan morath ix ul.","Threx ul ven'kai zhor.","Ix zol ven'ra thul kor.","Vorath ixen kal zor.","Zizo ul thren val'ix.")		
+		),
+		"Profane Rope" = list(
+			path = /obj/item/rogueweapon/huntingknife/idagger/zizo,
+			m_cooldown = 5 MINUTES,
+			m_rank = SKILL_LEVEL_NONE,
+			category = "Rite Instruments",
+			lines = list("Ol sonf vorsg, hoath zir.","Madriax soba-lonshi od zorge.","Faxs to faxs-sobol athan.","Velor ixan thrae-zho vel.","Korvath en'zul miraxis thren.","Thren val'kora ix ven.","Zai'ul phoros vekh tor.","Morath xi'en thul var.","Vael kor zin'athra vel.","Thul'kor imnaza vekh dor.","En'ra zolth ix venak.","Zhorath kal'mir vex ul.","Ul ix zizo vel'kra.","Sothra vel ixan thul.","Zor'en valix thrae kor.","Vel'zan morath ix ul.","Threx ul ven'kai zhor.","Ix zol ven'ra thul kor.","Vorath ixen kal zor.","Zizo ul thren val'ix.")		
 		),
 		"Vial of Corrosion" = list(
 			path = /obj/item/matthios_canister/zizo_corrosive,
 			m_cooldown = 5 MINUTES,
 			m_rank = SKILL_LEVEL_EXPERT,
-			category = "Dark Malchem Vials",
-			lines = list("Soba iaida-zorge athan.", "Lonshi tox-brin madriax.", "Faonts velor-ol comah."),
+			category = "Enochian Artificery",
+			lines = list("Ol sonf vorsg, hoath zir.","Madriax soba-lonshi od zorge.","Faxs to faxs-sobol athan.","Velor ixan thrae-zho vel.","Korvath en'zul miraxis thren.","Thren val'kora ix ven.","Zai'ul phoros vekh tor.","Morath xi'en thul var.","Vael kor zin'athra vel.","Thul'kor imnaza vekh dor.","En'ra zolth ix venak.","Zhorath kal'mir vex ul.","Ul ix zizo vel'kra.","Sothra vel ixan thul.","Zor'en valix thrae kor.","Vel'zan morath ix ul.","Threx ul ven'kai zhor.","Ix zol ven'ra thul kor.","Vorath ixen kal zor.","Zizo ul thren val'ix.")		
 		),
 	)
 
@@ -82,7 +96,7 @@ corpses and discarded junk*/
 	var/list/categories = list(
 		"Sepulchral Relics",
 		"Rite Instruments",
-		"Dark Malchem Vials"
+		"Enochian Artificery"
 	)
 
 	var/category = tgui_input_list(H, "Choose your rite", name, categories)

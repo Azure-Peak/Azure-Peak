@@ -2,6 +2,532 @@
 //ZIZO//
 ////////
 
+/obj/item/melee/touch_attack/sans_undertale
+	name = "enochian force"
+	desc = "A coalesced mass of primordial arcyne force, shaped by will and a deeper knowledge of Enochian language. It can let you push, pull, slam or tear open localized leylines at a target."
+	catchphrase = null
+	possible_item_intents = list(/datum/intent/sans/push, /datum/intent/sans/pull, /datum/intent/sans/slam, /datum/intent/sans/blast)
+	icon = 'icons/mob/roguehudgrabs.dmi'
+	icon_state = "grabbing_greyscale"
+	color = "#c774ee"
+	aura_color = "#9ca4a8"
+	associated_skill = /datum/skill/magic/holy
+	experimental_inhand = FALSE
+	wdefense = 5	
+	var/cd_push = 0
+	var/cd_pull = 0
+	var/cd_slam = 0
+	var/cd_blast = 0
+	var/deleting = FALSE
+
+/obj/item/melee/touch_attack/sans_undertale/attack_self()
+	if(deleting)
+		return
+	deleting = TRUE
+	qdel(src)
+
+/obj/item/melee/touch_attack/sans_undertale/dropped(mob/user)
+	..()
+	if(deleting)
+		return
+	deleting = TRUE
+	qdel(src)
+
+/obj/item/melee/touch_attack/sans_undertale/Destroy()
+	if(deleting)
+		return ..()
+	deleting = TRUE
+	return ..()
+
+/datum/intent/sans/push
+	name = "push"
+	icon_state = "inshove"
+	no_attack = TRUE
+	candodge = FALSE
+	canparry = FALSE
+	tranged = 1
+
+/datum/intent/sans/pull
+	name = "pull"
+	icon_state = "ingrab"
+	no_attack = TRUE
+	candodge = FALSE
+	canparry = FALSE
+	tranged = 1
+
+/datum/intent/sans/slam
+	name = "slam"
+	icon_state = "inpunish"
+	no_attack = TRUE
+	candodge = FALSE
+	canparry = FALSE
+	tranged = 1
+
+/datum/intent/sans/blast
+	name = "blast"
+	icon_state = "insmoke"
+	no_attack = TRUE
+	candodge = FALSE
+	canparry = FALSE
+	tranged = 1
+
+/obj/item/melee/touch_attack/sans_undertale/proc/get_cd(is_npc, push=0, pull=0, slam=0, blast=0)
+	if(is_npc)
+		return list(push=2 SECONDS, pull=2 SECONDS, slam=15 SECONDS, blast=30 SECONDS)
+	else
+		return list(push=45 SECONDS, pull=45 SECONDS, slam=120 SECONDS, blast=60 SECONDS)
+
+/obj/item/melee/touch_attack/sans_undertale/afterattack(atom/target, mob/living/user, proximity)
+	if(!isliving(target))
+		return
+
+	var/mob/living/L = target
+	if(QDELETED(L))
+		return
+
+	var/is_npc = !L.client
+	var/list/cds = get_cd(is_npc)
+
+	switch(user.used_intent.type)
+
+		// SHOVE (Repulse-style)
+		if(/datum/intent/sans/push)
+			if(world.time < cd_push)
+				return
+
+			var/list/thrown = list(L)
+
+			for(var/am in thrown)
+				var/atom/movable/AM = am
+				if(AM == user || AM.anchored)
+					continue
+
+				var/turf/throwtarget = get_edge_target_turf(user, get_dir(user, get_step_away(AM, user)))
+				var/dist = get_dist(user, AM)
+
+				if(dist <= 1)
+					if(isliving(AM))
+						var/mob/living/M = AM
+						M.set_resting(TRUE, TRUE)
+						M.adjustBruteLoss(20)
+						to_chat(M, span_danger("You're slammed into the ground by [user]!"))
+				else
+					if(isliving(AM))
+						var/mob/living/M = AM
+						M.set_resting(TRUE, TRUE)
+						to_chat(M, span_danger("You're violently repelled by [user]!"))
+
+					AM.safe_throw_at(
+						throwtarget,
+						CLAMP(6 - (dist - 1), 3, 6),
+						1,
+						user,
+						force = MOVE_FORCE_EXTREMELY_STRONG
+					)
+
+			user.visible_message(
+				span_notice("[user] releases a violent wave of force, repelling [L]!"),
+				span_notice("I violently shove [L] away.")
+			)
+
+			cd_push = world.time + cds["push"]
+
+
+		// PULL (inverse repulse)
+		if(/datum/intent/sans/pull)
+			if(world.time < cd_pull)
+				return
+
+			var/list/thrown = list(L)
+
+			for(var/am in thrown)
+				var/atom/movable/AM = am
+				if(AM == user || AM.anchored)
+					continue
+
+				var/turf/throwtarget = get_turf(user)
+				var/dist = get_dist(user, AM)
+
+				if(dist <= 1)
+					if(isliving(AM))
+						var/mob/living/M = AM
+						M.set_resting(TRUE, TRUE)
+						M.adjustBruteLoss(15)
+						to_chat(M, span_danger("You're violently crushed into [user]!"))
+				else
+					if(isliving(AM))
+						var/mob/living/M = AM
+						M.set_resting(TRUE, TRUE)
+						to_chat(M, span_danger("You're dragged toward [user] by unseen force!"))
+
+					AM.safe_throw_at(
+						throwtarget,
+						CLAMP(6 - (dist - 1), 3, 6),
+						1,
+						user,
+						force = MOVE_FORCE_EXTREMELY_STRONG
+					)
+
+			user.visible_message(
+				span_notice("[user] clenches their hand, dragging [L] forward!"),
+				span_notice("I pull [L] toward me.")
+			)
+
+			cd_pull = world.time + cds["pull"]
+		// SLAM
+		if(/datum/intent/sans/slam)
+			if(world.time < cd_slam)
+				to_chat(user, span_warning("The force is still stabilizing."))
+				return
+
+			do_slam(user, L)
+
+			cd_slam = world.time + cds["slam"]
+
+		// BLAST
+		if(/datum/intent/sans/blast)
+			if(world.time < cd_blast)
+				to_chat(user, span_warning("The force is still stabilizing."))
+				return
+
+			do_blast(user, L)
+
+			cd_blast = world.time + cds["blast"]
+
+/obj/item/melee/touch_attack/sans_undertale/proc/do_slam(mob/living/user, mob/living/target)
+	if(!target || QDELETED(target))
+		return
+
+	user.visible_message(
+		span_userdanger("[user] clenches the air while muttering a dark chant..."),
+		span_notice("I seize [target] with sheer arcyne force.")
+	)
+
+	var/mob/living/carbon/C = user
+	var/use_rend = FALSE
+
+	if(istype(C))
+		var/obj/item/bodypart/chest = C.get_bodypart(BODY_ZONE_CHEST)
+		if((chest && chest.skeletonized) && !target.client) // unlife path from rituos is inherently lethal to NPCs
+			use_rend = TRUE
+
+	if(use_rend)
+		target.apply_status_effect(/datum/status_effect/enochian_rend)
+	else
+		target.apply_status_effect(/datum/status_effect/slam_rage)
+
+	playsound(target.loc, 'sound/misc/murderbeast.ogg', 100, FALSE)
+
+#define SLAM_FILTER "slam_rage"
+
+/atom/movable/screen/alert/status_effect/slam_rage
+	name = "Crushing Force"
+	desc = "An unseen force is violently slamming you!"
+
+/datum/status_effect/slam_rage
+	id = "slam_rage"
+	duration = 3 SECONDS
+	tick_interval = 0.5 SECONDS
+	alert_type = /atom/movable/screen/alert/status_effect/slam_rage
+
+	var/outline_color = "#c774ee"
+	var/slam_count = 0
+	var/max_slams = 4
+
+/datum/status_effect/slam_rage/on_apply()
+	if(!isliving(owner))
+		return FALSE
+
+	var/mob/living/L = owner
+
+	L.Immobilize(duration)
+
+	L.add_filter(SLAM_FILTER, 2, list(
+		"type" = "outline",
+		"color" = outline_color,
+		"alpha" = 200,
+		"size" = 2
+	))
+
+	L.update_icon()
+
+	to_chat(L, span_userdanger("An invisible force seizes me!"))
+
+	return TRUE
+
+/datum/status_effect/slam_rage/tick()
+	if(!isliving(owner))
+		return
+
+	var/mob/living/L = owner
+	L.Immobilize(8)
+
+	if(slam_count >= max_slams)
+		return
+	slam_count++
+
+	var/base_y = L.pixel_y
+
+	// VIOLENT LIFT (fast, high)
+	animate(L,
+		pixel_y = base_y + 48,
+		time = 0.08 SECONDS,
+		easing = CUBIC_EASING
+	)
+
+	// BRUTAL SLAM (faster, harder)
+	animate(L,
+		pixel_y = base_y - 8,
+		time = 0.06 SECONDS,
+		easing = BOUNCE_EASING
+	)
+
+	L.flash_fullscreen("redflash3", 1)
+
+	var/damage = 8 + (slam_count * 4)
+	L.adjustBruteLoss(damage)
+
+	playsound(L.loc, 'sound/combat/hits/onstone/wallhit.ogg', 80, TRUE)
+
+	if(prob(50))
+		L.emote("painscream")
+
+	// FINAL IMPACT
+	if(slam_count == max_slams)
+		L.Knockdown(3 SECONDS)
+		L.visible_message(
+			span_userdanger("[L] is violently smashed into the ground!"),
+			span_userdanger("The final impact crushes me into the floor!")
+		)
+
+/datum/status_effect/slam_rage/on_remove()
+	if(isliving(owner))
+		var/mob/living/L = owner
+
+		L.remove_filter(SLAM_FILTER)
+
+		animate(L, pixel_y = 0, time = 0.2 SECONDS)
+
+		L.visible_message(
+			span_danger("The unseen force releases [L]!"),
+			span_notice("The crushing force finally relents.")
+		)
+
+#undef SLAM_FILTER
+
+#define ENOCHIAN_FILTER "enochian_rend"
+
+/atom/movable/screen/alert/status_effect/enochian_rend // only works on NPCs!
+	name = "Enochian Rend"
+	desc = "Invisible force grips and tears at my form!"
+
+/datum/status_effect/enochian_rend
+	id = "enochian_rend"
+	duration = 5 SECONDS
+	tick_interval = 1 SECONDS
+	alert_type = /atom/movable/screen/alert/status_effect/enochian_rend
+
+	var/outline_color = "#c774ee"
+	var/limb_removed = FALSE
+
+/datum/status_effect/enochian_rend/on_apply()
+	if(!isliving(owner))
+		return FALSE
+
+	var/mob/living/L = owner
+
+	L.Immobilize(duration)
+
+	L.add_filter(ENOCHIAN_FILTER, 2, list(
+		"type" = "outline",
+		"color" = outline_color,
+		"alpha" = 210,
+		"size" = 2
+	))
+
+	L.update_icon()
+
+	to_chat(L, span_userdanger("An unseen force seizes me, locking my body in place!"))
+
+	animate(L, pixel_y = L.pixel_y + 12, time = 0.3 SECONDS, easing = SINE_EASING)
+
+	return TRUE
+
+/datum/status_effect/enochian_rend/tick()
+	if(!isliving(owner))
+		return
+
+	var/mob/living/L = owner
+
+	L.flash_fullscreen("redflash3", 1)
+	L.adjustBruteLoss(12)
+
+	if(!limb_removed && iscarbon(L))
+		var/mob/living/carbon/C = L
+		remove_limb(C)
+
+/datum/status_effect/enochian_rend/on_remove()
+	if(isliving(owner))
+		var/mob/living/L = owner
+
+		L.remove_filter(ENOCHIAN_FILTER)
+
+		animate(L, pixel_y = 0, time = 0.3 SECONDS, easing = SINE_EASING)
+
+		L.visible_message(
+			span_danger("The unseen force releases [L]!"),
+			span_notice("The pressure suddenly vanishes.")
+		)
+
+/datum/status_effect/enochian_rend/proc/remove_limb(mob/living/carbon/C)
+	var/obj/item/bodypart/left_arm = C.get_bodypart(BODY_ZONE_L_ARM)
+	var/obj/item/bodypart/right_arm = C.get_bodypart(BODY_ZONE_R_ARM)
+	var/obj/item/bodypart/left_leg = C.get_bodypart(BODY_ZONE_L_LEG)
+	var/obj/item/bodypart/right_leg = C.get_bodypart(BODY_ZONE_R_LEG)
+
+	if(left_arm || right_arm)
+		if(left_arm)
+			C.visible_message(
+				span_userdanger("[C]'s left arm is torn away by unseen force!"),
+				span_userdanger("My left arm is ripped free!")
+			)
+			left_arm.dismember()
+
+		if(right_arm)
+			C.visible_message(
+				span_userdanger("[C]'s right arm is torn away by unseen force!"),
+				span_userdanger("My right arm is ripped free!")
+			)
+			right_arm.dismember()
+
+		playsound(C.loc, 'sound/magic/repulse.ogg', 70, TRUE)
+		return
+
+	if(left_leg || right_leg)
+		if(left_leg)
+			C.visible_message(
+				span_userdanger("[C]'s left leg is violently removed!"),
+				span_userdanger("My left leg is torn away!")
+			)
+			left_leg.dismember()
+
+		if(right_leg)
+			C.visible_message(
+				span_userdanger("[C]'s right leg is violently removed!"),
+				span_userdanger("My right leg is torn away!")
+			)
+			right_leg.dismember()
+
+		playsound(C.loc, 'sound/magic/repulse.ogg', 80, TRUE)
+		return
+
+	var/obj/item/bodypart/head = C.get_bodypart(BODY_ZONE_HEAD)
+	if(head)
+		C.visible_message(
+			span_userdanger("[C] is overwhelmed by crushing arcyne force!"),
+			span_userdanger("The force around me spikes catastrophically!")
+		)
+		C.emote("agony")
+		head.dismember()
+		C.adjustBruteLoss(200)
+		playsound(C.loc, 'sound/magic/repulse.ogg', 90, TRUE)
+
+/datum/status_effect/enochian_rend/proc/remove_head(mob/living/carbon/C)
+	var/obj/item/bodypart/head = C.get_bodypart(BODY_ZONE_HEAD)
+	if(head)
+		C.visible_message(
+			span_userdanger("[C] is overwhelmed by crushing force!"),
+			span_userdanger("The force around me spikes catastrophically!")
+		)
+
+		head.dismember()
+		C.adjustBruteLoss(200)
+
+		playsound(C.loc, 'sound/magic/repulse.ogg', 90, TRUE)
+
+#undef ENOCHIAN_FILTER
+
+/obj/item/melee/touch_attack/sans_undertale/proc/do_blast(mob/living/user, mob/living/target)
+	if(!target || QDELETED(target))
+		return
+
+	var/turf/center = get_turf(target)
+	if(!center)
+		return
+
+	user.visible_message(
+		span_danger("[user] tears open space as reality fractures around [target]!"),
+		span_warning("I call forth converging voidstone annihilation.")
+	)
+
+	// pick axis directions
+	var/dir_ns = pick(NORTH, SOUTH)
+	var/dir_ew = pick(EAST, WEST)
+
+	var/list/spawn_turfs = list()
+
+	// get positions within 2 tiles
+	var/turf/T1 = get_step(center, dir_ns)
+	if(T1)
+		T1 = get_step(T1, dir_ns)
+
+	var/turf/T2 = get_step(center, dir_ew)
+	if(T2)
+		T2 = get_step(T2, dir_ew)
+
+	if(T1) spawn_turfs += T1
+	if(T2) spawn_turfs += T2
+
+	// TELEGRAPH EFFECT
+	for(var/turf/T in spawn_turfs)
+		if(!T) continue
+		var/obj/effect/temp_visual/tele = new /obj/effect/temp_visual(T)
+		tele.icon = 'icons/effects/effects.dmi'
+		tele.icon_state = "leylinerupture"
+		tele.duration = 1 SECONDS
+
+	// wait for telegraph
+	sleep(1 SECONDS)
+
+	// SPAWN OBELISKS
+	for(var/turf/T in spawn_turfs)
+		if(!T) continue
+
+		var/mob/living/simple_animal/hostile/retaliate/rogue/voidstoneobelisk/O = new(T)
+
+		O.stop_automated_movement = TRUE
+		O.wander = FALSE
+
+		spawn()
+			if(QDELETED(O) || QDELETED(target))
+				return
+
+			O.face_atom(target)
+
+			// charge delay before firing
+			sleep(1 SECONDS)
+
+			if(QDELETED(O) || QDELETED(target))
+				return
+
+			if(O.fire_laser())
+				sleep(25)
+
+			explosion(O.loc, 0, 0, 0, 0, FALSE, 0, 1, 0, 0)
+			qdel(O)
+
+/obj/item/rope/zizo
+	name = "profane rope"
+	desc = "A woven hemp rope. Useful for countless crafts, or to tie someone up in a pinch. It hums with a strong aura of hatred for this stagnant world."
+	color = "#862626"
+	aura_color = "#ff0000"
+	smeltresult = /obj/item/ash
+
+/obj/item/rope/zizo/Initialize()
+	. = ..()
+	AddComponent(/datum/component/cursed_item, (TRAIT_CABAL), "PROFANE ROPE")
+
+
 // the zizo bitcoin dosh :tm:
 /obj/item/ingot/aaslag_zizo
 	name = "darkened slag"
@@ -215,7 +741,7 @@
 	if(istype(I, /obj/item/ingot/aaslag_zizo))
 		var/obj/item/ingot/aaslag_zizo/A = I
 		return max(0, A.value)
-	if(istype(/obj/effect/decal/remains) || istype(I, /obj/item/natural/bundle/bone) || istype(I, /obj/item/skull) || istype(I, /obj/item/natural/bone) || istype(I, /obj/item/grown/log/tree/small) || istype(I, /obj/item/natural/stone) || istype(I, /obj/item/natural/wood/plank) || istype(I, /obj/item/natural/stoneblock))
+	if(istype(I, /obj/effect/decal/remains) || istype(I, /obj/item/natural/bundle/bone) || istype(I, /obj/item/skull) || istype(I, /obj/item/natural/bone) || istype(I, /obj/item/grown/log/tree/small) || istype(I, /obj/item/natural/stone) || istype(I, /obj/item/natural/wood/plank) || istype(I, /obj/item/natural/stoneblock))
 		return 1
 	if(istype(I, /obj/item/natural/bone) || istype(I, /obj/item/organ) || istype(I, /obj/item/alch/viscera) || istype(I, /obj/item/reagent_containers/food/snacks/rogue/meat/steak))
 		return 2

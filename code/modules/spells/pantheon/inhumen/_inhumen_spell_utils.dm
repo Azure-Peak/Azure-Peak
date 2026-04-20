@@ -47,7 +47,7 @@
 		sleep(2)
 		// remove people who already responded or are invalid
 		for(var/mob/living/M in pending.Copy())
-			if(QDELETED(M) || M in responders)
+			if(QDELETED(M))
 				pending -= M
 
 	// BUILD PARTICIPANTS
