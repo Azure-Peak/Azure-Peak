@@ -316,6 +316,13 @@
 		arrows += A
 	update_icon()
 
+/obj/item/quiver/broadhead_aalloy/Initialize()
+	..()
+	for(var/i in 1 to max_storage)
+		var/obj/item/ammo_casing/caseless/rogue/arrow/iron/aalloy/A = new()
+		arrows += A
+	update_icon()
+
 /obj/item/quiver/silver/Initialize()
 	..()
 	for(var/i in 1 to max_storage)

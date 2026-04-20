@@ -1,5 +1,19 @@
 /mob/living/carbon/human/proc/become_skeleton()
+	// Revenant's on_species_loss and on_head_destroyed both call death() — and the
+	// dullahan head's drop_limb assumes the owner is still dullahan, so it runtimes
+	// after a species swap. Replace the head with a vanilla one first under GODMODE,
+	// then swap species.
+	var/had_godmode = (status_flags & GODMODE)
+	status_flags |= GODMODE
+	if(isdullahan(src))
+		var/obj/item/bodypart/head/old_head = get_bodypart(BODY_ZONE_HEAD)
+		if(old_head)
+			var/obj/item/bodypart/head/new_head = new /obj/item/bodypart/head()
+			new_head.replace_limb(src, TRUE)
+			qdel(old_head)
 	set_species(/datum/species/human/northern)
+	if(!had_godmode)
+		status_flags &= ~GODMODE
 
 	for(var/datum/charflaw/cf in charflaws)
 		charflaws.Remove(cf)

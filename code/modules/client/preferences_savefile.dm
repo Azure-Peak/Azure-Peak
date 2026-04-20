@@ -366,16 +366,30 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	charflaws = list()
 	var/list/charflaw_types
 	S["charflaws"] >> charflaw_types
+	var/needs_resave = FALSE
 	if(charflaw_types && length(charflaw_types))
 		for(var/flaw_type in charflaw_types)
-			if(flaw_type)
-				charflaws.Add(new flaw_type())
+			if(!ispath(flaw_type, /datum/charflaw))
+				needs_resave = TRUE
+				continue
+			var/datum/charflaw/cf = new flaw_type()
+			if(!cf)
+				needs_resave = TRUE
+				continue
+			charflaws.Add(cf)
 	// Backwards compatibility: load old single charflaw format
 	else
 		var/charflaw_type
 		S["charflaw"] >> charflaw_type
-		if(charflaw_type)
-			charflaws.Add(new charflaw_type())
+		if(ispath(charflaw_type, /datum/charflaw))
+			var/datum/charflaw/cf = new charflaw_type()
+			if(cf)
+				charflaws.Add(cf)
+	if(needs_resave)
+		var/list/cleaned_types = list()
+		for(var/datum/charflaw/cf in charflaws)
+			cleaned_types.Add(cf.type)
+		WRITE_FILE(S["charflaws"], cleaned_types)
 
 /datum/preferences/proc/_load_culinary_preferences(S)
 	var/list/loaded_culinary_preferences
@@ -580,12 +594,14 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["taur_color"]			>> taur_color
 
 /datum/preferences/proc/_load_familiar_prefs(S)
-	S["familiar_name"]					>> familiar_prefs.familiar_name
+	S["familiar_names"]					>> familiar_prefs.familiar_names
 	S["familiar_pronouns"]				>> familiar_prefs.familiar_pronouns
-	S["familiar_specie"]				>> familiar_prefs.familiar_specie
-	S["familiar_headshot_link"]			>> familiar_prefs.familiar_headshot_link
+	S["familiar_species"]				>> familiar_prefs.familiar_species
 	S["familiar_flavortext"]			>> familiar_prefs.familiar_flavortext
+	S["familiar_flavortext_display"]	>> familiar_prefs.familiar_flavortext_display
+	S["familiar_headshot_link"]			>> familiar_prefs.familiar_headshot_link
 	S["familiar_ooc_notes"]				>> familiar_prefs.familiar_ooc_notes
+	S["familiar_ooc_notes_display"]		>> familiar_prefs.familiar_ooc_notes_display
 	S["familiar_ooc_extra"]				>> familiar_prefs.familiar_ooc_extra
 	S["familiar_ooc_extra_link"]		>> familiar_prefs.familiar_ooc_extra_link
 
@@ -932,17 +948,18 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["gear_list"], gear_list)
 
 	//Familiar Files
-	WRITE_FILE(S["familiar_name"] , familiar_prefs.familiar_name)
+	WRITE_FILE(S["familiar_names"] , familiar_prefs.familiar_names)
 	WRITE_FILE(S["familiar_pronouns"] , familiar_prefs.familiar_pronouns)
-	WRITE_FILE(S["familiar_specie"] , familiar_prefs.familiar_specie)
-	WRITE_FILE(S["familiar_headshot_link"] , familiar_prefs.familiar_headshot_link)
+	WRITE_FILE(S["familiar_species"] , familiar_prefs.familiar_species)
 	WRITE_FILE(S["familiar_flavortext"] , familiar_prefs.familiar_flavortext)
+	WRITE_FILE(S["familiar_flavortext_display"] , familiar_prefs.familiar_flavortext_display)
+	WRITE_FILE(S["familiar_headshot_link"] , familiar_prefs.familiar_headshot_link)
 	WRITE_FILE(S["familiar_ooc_notes"] , familiar_prefs.familiar_ooc_notes)
+	WRITE_FILE(S["familiar_ooc_notes_display"] , familiar_prefs.familiar_ooc_notes_display)
 	WRITE_FILE(S["familiar_ooc_extra"] , familiar_prefs.familiar_ooc_extra)
 	WRITE_FILE(S["familiar_ooc_extra_link"] , familiar_prefs.familiar_ooc_extra_link)
 
 	return TRUE
-
 
 #undef SAVEFILE_VERSION_MAX
 #undef SAVEFILE_VERSION_MIN

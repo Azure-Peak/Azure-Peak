@@ -393,7 +393,7 @@
 "jS" = (
 /obj/machinery/light/rogue/hearth,
 /obj/item/cooking/pan,
-/obj/item/reagent_containers/food/snacks/egg,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
 /turf/open/floor/rogue/ruinedwood,
 /area/rogue/under/tomb/indoors)
 "jW" = (

@@ -59,7 +59,7 @@
 
 /obj/projectile/magic/aoe/fireball/rogue/arc
 	name = "arced fireball"
-	damage = 45 // 25% damage penalty
+	damage = 53 // 25% damage penalty
 	arcshot = TRUE
 
 /obj/projectile/magic/aoe/fireball/rogue/on_hit(target)

@@ -927,10 +927,10 @@
 
 	switch(used_invocation_type)
 		if(INVOCATION_SHOUT)
-			invoker.say(used_invocation_message, forced = "spell ([src])")
+			invoker.say(used_invocation_message, forced = "spell ([src])", language = /datum/language/common)
 
 		if(INVOCATION_WHISPER)
-			invoker.whisper(used_invocation_message, forced = "spell ([src])")
+			invoker.whisper(used_invocation_message, forced = "spell ([src])", language = /datum/language/common)
 
 		if(INVOCATION_EMOTE)
 			invoker.visible_message(

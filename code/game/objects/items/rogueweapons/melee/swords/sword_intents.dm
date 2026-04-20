@@ -390,3 +390,22 @@
 	damfactor = 1.3	//Zwei will still deal ~7-10 more damage at the same range, depending on user's STR.
 	swingdelay = 8
 
+//Banded iron sword intents
+/datum/intent/sword/chop/powerstrike
+	name = "power strike"
+	desc = "Heft your nine-pound iron sword backwards and slam it down into your opponent for a devastating blow... As long as you land it. Keeping the attack ready costs stamina."
+	attack_verb = list("power-strikes")
+	chargetime = 7
+	swingdelay = 9
+	min_intent_damage = 30
+	max_intent_damage = 32
+	penfactor = PEN_MEDIUM
+	chargedrain = 1.2
+
+/datum/intent/sword/cut/short/banded
+	name = "flurry"
+	desc = "Swing your sword wildly without much purpose to deal a static amount of damage."
+	clickcd = 6		//Faster than a sabre
+	damfactor = 2.17	//Base damage of 15
+	max_intent_damage = 16 //Never better than ANY real sword
+	min_intent_damage = 7.5	//I've decided after testing that even with the big sharpness buff you'll still get cucked out of your damage pretty fast. This is a stopgap that leaves you at ~50% minimum damage.

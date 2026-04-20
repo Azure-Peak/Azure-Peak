@@ -13,7 +13,7 @@
 	icon_living = "leycreature"
 	icon_dead = "leycreature"
 
-	faction = list("leyline")
+	faction = list(FACTION_LEYLINE)
 	emote_hear = null
 	emote_see = null
 	turns_per_move = 8

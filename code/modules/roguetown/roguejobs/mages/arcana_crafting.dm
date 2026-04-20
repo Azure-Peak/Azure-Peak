@@ -82,36 +82,6 @@
 	reqs = list(/obj/item/natural/wood/plank = 2,
 				/obj/item/magic/melded/t1 = 1)
 
-/datum/crafting_recipe/roguetown/arcana/binding
-	name = "binding shackles"
-	result = /obj/item/rope/chain/bindingshackles
-	reqs = list(/obj/item/rope/chain = 1,
-				/obj/item/magic/melded/t1 = 1)
-
-/datum/crafting_recipe/roguetown/arcana/bindingt2
-	name = "binding shackles (T2)"
-	result = /obj/item/rope/chain/bindingshackles/t2
-	reqs = list(/obj/item/rope/chain = 1,
-				/obj/item/magic/melded/t2 = 1)
-
-/datum/crafting_recipe/roguetown/arcana/bindingt3
-	name = "binding shackles (T3)"
-	result = /obj/item/rope/chain/bindingshackles/t3
-	reqs = list(/obj/item/rope/chain = 1,
-				/obj/item/magic/melded/t3 = 1)
-
-/datum/crafting_recipe/roguetown/arcana/bindingt4
-	name = "binding shackles (T4)"
-	result = /obj/item/rope/chain/bindingshackles/t4
-	reqs = list(/obj/item/rope/chain = 1,
-				/obj/item/magic/melded/t4 = 1)
-
-/datum/crafting_recipe/roguetown/arcana/bindingt5
-	name = "binding shackles (T5)"
-	result = /obj/item/rope/chain/bindingshackles/t5
-	reqs = list(/obj/item/rope/chain = 1,
-				/obj/item/magic/melded/t5 = 1)
-
 /datum/crafting_recipe/roguetown/arcana/forge
 	name = "infernal forge"
 	req_table = FALSE
@@ -154,12 +124,6 @@
 	reqs = list(/obj/item/magic/infernal/flame = 1,
 				/obj/item/magic/fae/sylvanessence = 1,
 				/obj/item/magic/elemental/relic = 1)
-
-/datum/crafting_recipe/roguetown/arcana/meldt5
-	name = "arcanic abberation"
-	result = /obj/item/magic/melded/t5
-	reqs = list(/obj/item/magic/melded/t4 = 1,
-				/obj/item/magic/voidstone = 1)
 
 // ========== Fission (downgrade, same realm) ==========
 // Lesser: 1 T2 → 2 T1. Greater: 1 T3 → 2 T2. Grand: 1 T4 → 1 T3.

@@ -11,6 +11,10 @@
 #define BALLOON_Y_OFFSET_TIER1 5
 #define BALLOON_Y_OFFSET_TIER2 15
 #define BALLOON_Y_OFFSET_TIER3 25
+/// Vertical pixels between stacked concurrent balloons shown to the same client.
+#define BALLOON_STACK_SPACING 12
+/// Max concurrent balloons per client before new ones are dropped to avoid towers.
+#define BALLOON_STACK_MAX 5
 
 #define WXH_TO_HEIGHT(measurement, return_var) \
 	do { \

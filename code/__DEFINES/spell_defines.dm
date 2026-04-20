@@ -145,6 +145,10 @@
 // Weapon-in-hand casting penalty — applied when casting a penalized spell while holding a non-implement rogueweapon
 #define WEAPON_CAST_PENALTY 0.3
 
+// Leyline teleportation matrix passenger limits
+#define TELEPORT_MAX_PASSENGERS 5
+#define TELEPORT_MAX_NONMAGES 2
+
 // Spell implement tiers and multipliers
 #define IMPLEMENT_TIER_LESSER  1
 #define IMPLEMENT_TIER_GREATER 2

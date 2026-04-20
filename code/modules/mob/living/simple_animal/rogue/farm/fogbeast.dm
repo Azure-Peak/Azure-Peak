@@ -29,7 +29,7 @@ GLOBAL_LIST_INIT(valid_fogbeast_colors, list("White" = COLOR_WHITE, "Gray" = COL
 	bonus_tame_chance = 15
 	footstep_type = FOOTSTEP_MOB_SHOE
 	pooptype = /obj/item/natural/poo/horse
-	faction = list("horse")
+	faction = list(FACTION_HORSE)
 	attack_verb_continuous = "tramples"
 	attack_verb_simple = "kicks"
 	melee_damage_lower = 50

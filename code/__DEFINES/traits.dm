@@ -226,6 +226,7 @@
 #define TRAIT_HARDDISMEMBER	"Hard Dismemberment"
 #define TRAIT_EASYDECAPITATION "Easy Decapitation"
 #define TRAIT_NOPAIN	"Painless"
+#define TRAIT_NOBURN_RESIST	"No Burn Resistance" // Negates NOPAIN's +50% burn threshold bonus
 #define TRAIT_NOPAINSTUN	"Enduring"
 #define TRAIT_NOBREATH	"Breathless"
 #define TRAIT_DEATHLESS "Deathless"
@@ -240,6 +241,7 @@
 #define TRAIT_NITEVISION "Nitevision"
 #define TRAIT_NOCSHADES "Nocshaded"
 #define TRAIT_LIGHT_STEP	"Light Step"
+#define TRAIT_HARDSOLE		"Hard Sole"
 #define TRAIT_AZURENATIVE "Azure Native"
 #define TRAIT_SLEUTH	"Sleuth"
 #define TRAIT_HARDSHELL "Hardshell"
@@ -262,11 +264,14 @@
 #define TRAIT_MONK_ROBE	"Holy Vestatures"
 #define TRAIT_BLACKOAK "Heritage Vision"
 #define TRAIT_DUSTABLE "Dustable"
+#define TRAIT_DUST_LEAVE_HEAD "Dust Leave Head"
+#define TRAIT_DUST_DELETE_GEAR "Dust Delete Gear"
 #define TRAIT_SECONDLIFE "Second Life"
 #define TRAIT_QUICKSILVERRESISTANT "Quicksilver Resistance"
 #define TRAIT_GARRISON_ITEM "Garrison Item"
 #define TRAIT_WEATHER_PROTECTED "Weather Protected"
 #define TRAIT_VAMPIRE_SPAWN_PROTECTION "Vampire Spawn Protection"
+#define TRAIT_WHITE_STAG "Stag Protection"
 
 // Economic Roles Traits
 // Most of these should NOT be given to any true combat roles (I.E. anything with Dexpert or Miracle / Good Magic) with very few exceptions
@@ -280,6 +285,8 @@
 #define TRAIT_SURVIVAL_EXPERT "Expert Survivalist" // Butchering, Cooking, Fishing & Skincraft, Sewing = Jman.
 #define TRAIT_HOMESTEAD_EXPERT "Expert Homesteader" // Farming, Mining, Cooking, Fishing, Butchering, Lumberjacking (All Labor), Pottery. Skincraft + Sewing = Jman.
 #define TRAIT_SELF_SUSTENANCE "Self-Sustenance" // Unlocks all gated crafting skills to Jman. Wretches & Antags only.
+#define TRAIT_MASTERFUL_HUNTER "Masterful Hunter" // Hunting is a specialty skill, this trait should only be granted to select classes.
+#define TRAIT_EXPERT_HUNTER "Expert Hunter" // Ditto, but this one lets you go up to expert instead of legendary
 
 
 //item and enchantment traits should go under here as new ones get added
@@ -459,7 +466,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_AZURENATIVE = span_info("I've grown up and lived all my lyfe in these lands. I can only trigger ambushes if I sprint through them."),
 	TRAIT_SLEUTH = span_info("I can spot my tracked Mark's trail without needing to approach it, and can spot them at a distance. I can track more frequently, and the act is not impaired by movement. I can examine tracks right away."),
 	TRAIT_HARDSHELL = span_info("The bulk of this armor prevents me from parrying effectively, but I can still move out of the way."),
-	TRAIT_MATTHIOS_EYES = span_notice("I have a sense for what the most valuable item someone has is. I can also estimate how much mammon they have."),
+	TRAIT_MATTHIOS_EYES = span_notice("I have a sense for what the most valuable item someone has is. I can also tell if someone is hoarding mammons, and with blessed gilded spectacles, I can even see how much they have in their bank."),
 	TRAIT_WOODWALKER = span_notice("I can climb trees quicker, and gain climbing experience twice as quickly. I can step on thorns and branches safely in the woods. I can get twice as many things from searching bushes, and I can stand on leaves in trees safely."),
 	TRAIT_ARCYNE = span_notice("I am trained in the Arcyne arts, allowing me to wield magyck."),
 	TRAIT_INFINITE_ENERGY = span_notice ("I don't need rest; I won't ever feel fatigue."),
@@ -499,6 +506,8 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_SURVIVAL_EXPERT = span_greentext("I'm experienced with the arts of survival in the wild. Cooking, Fishing, Butchering and Skincrafting can progress to Legendary levels. Sewing can progress to Journeyman levels."),
 	TRAIT_HOMESTEAD_EXPERT = span_greentext("I'm experienced with the arts of homesteading. Farming, Mining, Cooking, Fishing, Butchering, Lumberjacking, Masonry and Pottery can progress to Legendary levels. Sewing and Skincrafting can progress to Journeyman levels."),
 	TRAIT_SELF_SUSTENANCE = span_greentext("Yils of experience running from the law and living off the land have made me a jack of all trades. All crafting and labor skills can progress to Journeyman levels."),
+	TRAIT_MASTERFUL_HUNTER = span_greentext("To hunt well, is to know the land. I have an advantage in becoming a masterful hunter here, for I know about the various watering holes, the feeding grounds, which thickets are bent by animal flanks."),
+	TRAIT_EXPERT_HUNTER = span_greentext("To hunt well, is to know the land. I have an advantage in becoming a expert hunter here, for I know about the various watering holes, the feeding grounds, which thickets are bent by animal flanks."),
 	TRAIT_SILVER_WEAK = span_warning("Silver is the greatest threat to my lyfe. Blows from silver weapons will set me alight, inhibit my ability to regenerate, and - if blessed - can outright destroy my vessel."),
 	TRAIT_PALLID = span_warning("I was once a creature of the night. The open sky fills me with unease, but my eyes pierce the darkness and my lungs need no air."),
 	TRAIT_COMBAT_AWARE = span_notice("My honed senses and intuition allow me to spot notable things in the midst of battle with ease."),
@@ -531,7 +540,8 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_WYRD_LABOURER = span_info("Strange power causes my swings to cut through trees and rocks with ease."),
 	TRAIT_CURSE_SCAR = span_info("That foul wench cursed me! I'll have my revenge... Those strange fog wards in the bog, what if?..."),
 	TRAIT_FEYTOUCHED = span_info("I've been influenced or created by fey, after offering lux to a heartroot, I can use it to travel."),
-	TRAIT_ROOT_WALKER = span_info("After offering lux, I can now travel along heartroot trees.")
+	TRAIT_ROOT_WALKER = span_info("After offering lux, I can now travel along heartroot trees."),
+	TRAIT_WHITE_STAG = span_info("The power of the white stag lives on inside of me!"),
 ))
 
 // trait accessor defines
@@ -622,6 +632,7 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 #define TRAIT_CLUMSY			"clumsy"
 #define TRAIT_CHUNKYFINGERS		"chunkyfingers" //means that you can't use weapons with normal trigger guards.
 #define TRAIT_GNARLYDIGITS		"gnarlydigits" //less aggressive version of chunky fingers to allow -some- fun.
+#define TRAIT_TINYPAWS		"tinypaws" // even less aggressive version of chunky fingers to allow familiars to perform repairs.
 #define TRAIT_DUMB				"dumb"
 #define TRAIT_MONKEYLIKE		"monkeylike" //sets IsAdvancedToolUser to FALSE
 #define TRAIT_NOTIGHTGRABMESSAGE "notightgrabmessage" // Hides grab tightening messages.
@@ -655,7 +666,8 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 #define TRAIT_VIRUSIMMUNE		"virus_immunity"
 #define TRAIT_PIERCEIMMUNE		"Pierce Immunity"
 #define TRAIT_NODISMEMBER		"Dismember Immunity"
-#define TRAIT_NOFIRE			"nonflammable"
+#define TRAIT_NOFIRE			"nonflammable" // Full fire immunity - reserve for monsters/NPCs only, do not grant to players
+#define TRAIT_FIRE_RESIST		"fire_resistance" // 50% fire damage/heating reduction + 2x stack decay - use this for player-accessible fire resistance
 #define TRAIT_NOGUNS			"no_guns"
 #define TRAIT_NOMETABOLISM		"no_metabolism"
 #define TRAIT_LIMBATTACHMENT 	"limb_attach"

@@ -5,7 +5,7 @@
 	icon_state = "revenant"
 	alpha = 0 // Starts invisible for the spawn animation
 	status_flags = CANPUSH
-	faction = list("revenants")
+	faction = list(FACTION_REVENANTS)
 	mob_biotypes = MOB_UNDEAD
 
 	health = 150

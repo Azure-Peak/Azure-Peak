@@ -24,12 +24,12 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/voidstoneobelisk
 	icon = 'icons/mob/summonable/32x32.dmi'
 	name = "voidstone obelisk"
-	desc = "A construct from another age. It is marked by glowing sigils and its material seems to absorb magic!"
+	desc = "A construct from another age. It is marked by glowing sigils!"
 	icon_state = "obelisk-combined"
 	icon_living = "obelisk-combined"
 	icon_dead = "obelisk-combined"
 
-	faction = list("abberant")
+	faction = list(FACTION_ABBERANT)
 	emote_hear = null
 	emote_see = null
 	turns_per_move = 6
