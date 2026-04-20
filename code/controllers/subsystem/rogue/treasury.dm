@@ -40,7 +40,13 @@ SUBSYSTEM_DEF(treasury)
 	var/datum/fund/discretionary_fund
 	var/list/ledger = list()
 	var/list/noble_incomes = list()
+	var/list/decrees = list()
 	var/list/stockpile_datums = list()
+	/// ckey -> list("day" = N, "count" = N) - tracks how many fines a Steward has issued today
+	var/list/fines_issued_today = list()
+	/// ckey -> day-number - tracks whether a target has already been fined today
+	var/list/fines_received_today = list()
+	var/fine_cap_per_steward_per_day = 3
 	var/next_treasury_check = 0
 	var/economic_output = 0
 	var/total_deposit_tax = 0
@@ -54,6 +60,7 @@ SUBSYSTEM_DEF(treasury)
 /datum/controller/subsystem/treasury/Initialize()
 	discretionary_fund = new("Crown Discretionary", null, rand(1000, 2000), CURRENCY_MAMMON)
 	force_set_round_statistic(STATS_STARTING_TREASURY, discretionary_fund.balance)
+	init_decrees()
 
 	for(var/path in subtypesof(/datum/roguestock/bounty))
 		var/datum/D = new path
@@ -130,6 +137,27 @@ SUBSYSTEM_DEF(treasury)
 	bank_accounts[owner] = account
 	return TRUE
 
+/datum/controller/subsystem/treasury/proc/can_issue_fine(mob/living/steward, mob/living/target)
+	if(!steward?.ckey || !target?.ckey)
+		return FALSE
+	var/list/issuer_record = fines_issued_today[steward.ckey]
+	if(issuer_record && issuer_record["day"] == GLOB.dayspassed && issuer_record["count"] >= fine_cap_per_steward_per_day)
+		return FALSE
+	var/target_day = fines_received_today[target.ckey]
+	if(target_day == GLOB.dayspassed)
+		return FALSE
+	return TRUE
+
+/datum/controller/subsystem/treasury/proc/record_fine_issued(mob/living/steward, mob/living/target)
+	if(steward?.ckey)
+		var/list/issuer_record = fines_issued_today[steward.ckey]
+		if(!issuer_record || issuer_record["day"] != GLOB.dayspassed)
+			fines_issued_today[steward.ckey] = list("day" = GLOB.dayspassed, "count" = 1)
+		else
+			issuer_record["count"]++
+	if(target?.ckey)
+		fines_received_today[target.ckey] = GLOB.dayspassed
+
 /datum/controller/subsystem/treasury/proc/give_money_account(amt, target, source)
 	if(!amt)
 		return
@@ -151,11 +179,23 @@ SUBSYSTEM_DEF(treasury)
 		record_round_statistic(STATS_DIRECT_TREASURY_TRANSFERS, amt)
 		send_ooc_note(source ? "<b>MEISTER:</b> You received [amt]m. ([source])" : "<b>MEISTER:</b> You received [amt]m.", name = target_name)
 	else
+		var/mob/living/fine_owner = istype(target, /mob/living) ? target : null
+		if(fine_owner && is_tax_exempt(fine_owner, TAX_CATEGORY_FINE))
+			send_ooc_note("<b>MEISTER:</b> Error: By decree, they cannot be fined.", name = target_name)
+			return FALSE
 		var/fine_amt = abs(amt)
+		if(fine_owner)
+			var/cap_rate = get_rate_cap(fine_owner, TAX_CATEGORY_FINE)
+			var/max_fine = FLOOR(account.balance * cap_rate, 1)
+			if(fine_amt > max_fine)
+				fine_amt = max_fine
+		if(fine_amt <= 0)
+			send_ooc_note("<b>MEISTER:</b> Error: No fineable amount remains.", name = target_name)
+			return FALSE
 		if(!transfer(account, discretionary_fund, fine_amt, "[TAX_CATEGORY_FINE] ([source])"))
 			send_ooc_note("<b>MEISTER:</b> Error: Insufficient funds in the account to complete the fine.", name = target_name)
 			return FALSE
-		record_round_statistic(STATS_FINES_INCOME, amt)
+		record_round_statistic(STATS_FINES_INCOME, -fine_amt)
 		send_ooc_note(source ? "<b>MEISTER:</b> You were fined [fine_amt]m. ([source])" : "<b>MEISTER:</b> You were fined [fine_amt]m.", name = target_name)
 
 	return TRUE
@@ -254,7 +294,7 @@ SUBSYSTEM_DEF(treasury)
 
 /// Apply Steward/Lord-submitted category rate changes. Announces only changed rates.
 /datum/controller/subsystem/treasury/proc/apply_rate_adjustments(list/adjustments, good_announcement_text, bad_announcement_text)
-	var/final_text = null
+	var/list/lines = list()
 	var/bad_guy = FALSE
 	for(var/entry in adjustments)
 		var/category = entry["category"]
@@ -267,16 +307,34 @@ SUBSYSTEM_DEF(treasury)
 		var/old_rate = tax_rates[category]
 		if(new_rate == old_rate)
 			continue
+		var/old_pct = round(old_rate * 100)
 		if(new_rate > old_rate)
 			bad_guy = TRUE
 		tax_rates[category] = new_rate
-		final_text += "<br>[category]: [new_pct]%"
+		var/pretty = get_tax_category_pretty_name(category)
+		var/verb = new_rate > old_rate ? "raised" : "reduced"
+		lines += "[pretty] [verb] from [old_pct]% to [new_pct]%."
 
-	if(isnull(final_text))
+	if(!length(lines))
 		return
 
+	var/final_text = jointext(lines, "<br>")
 	var/final_announcement_text = bad_guy ? bad_announcement_text : good_announcement_text
 	priority_announce(final_text, final_announcement_text, pick('sound/misc/royal_decree.ogg', 'sound/misc/royal_decree2.ogg'), "Captain", strip_html = FALSE)
+
+/datum/controller/subsystem/treasury/proc/get_tax_category_pretty_name(category)
+	switch(category)
+		if(TAX_CATEGORY_CONTRACT_LEVY)
+			return "Contract Levy"
+		if(TAX_CATEGORY_HEADEATER_LEVY)
+			return "Headeater Levy"
+		if(TAX_CATEGORY_IMPORT_TARIFF)
+			return "Import Tariff"
+		if(TAX_CATEGORY_EXPORT_DUTY)
+			return "Export Duty"
+		if(TAX_CATEGORY_FINE)
+			return "Fine"
+	return capitalize(category)
 
 /// Checks if there is a valid amount in the treasury, if so, withdraw that amount and log it
 /// Currently only used by Chimeric heartbeasts

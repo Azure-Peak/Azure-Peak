@@ -199,6 +199,10 @@
 			return
 		for(var/mob/living/A in SStreasury.bank_accounts)
 			if(A == X)
+				if(!SStreasury.can_issue_fine(usr, A))
+					say("The ledger will accept no further fines against that person today.")
+					playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
+					return
 				var/newtax = input(usr, "How much to fine [X]", src) as null|num
 				if(!usr.canUseTopic(src, BE_CLOSE) || locked)
 					return
@@ -208,7 +212,8 @@
 					return
 				if(newtax < 1)
 					return
-				SStreasury.give_money_account(-newtax, A, "NERVE MASTER")
+				if(SStreasury.give_money_account(-newtax, A, "NERVE MASTER"))
+					SStreasury.record_fine_issued(usr, A)
 				break
 	if(href_list["payroll"])
 		var/list/L = list(GLOB.noble_positions) + list(GLOB.retinue_positions) + list(GLOB.garrison_positions) + list(GLOB.courtier_positions) + list(GLOB.church_positions) + list(GLOB.burgher_positions) + list(GLOB.peasant_positions) + list(GLOB.sidefolk_positions) + list(GLOB.inquisition_positions)

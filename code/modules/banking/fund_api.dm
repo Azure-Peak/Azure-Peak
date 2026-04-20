@@ -41,9 +41,22 @@
 /datum/controller/subsystem/treasury/proc/is_tax_exempt(mob/living/payer, tax_category)
 	if(!payer)
 		return FALSE
-	if(HAS_TRAIT(payer, TRAIT_NOBLE))
-		return TRUE
+	for(var/id in decrees)
+		var/datum/decree/D = decrees[id]
+		if(D.apply_exemption(payer, tax_category))
+			return TRUE
 	return FALSE
+
+/// Returns the tightest rate cap (as a fraction 0-1) applicable to the payer for this category.
+/// Starts at GENERIC_RATE_CAP and lets decrees narrow further via apply_rate_cap.
+/datum/controller/subsystem/treasury/proc/get_rate_cap(mob/living/payer, tax_category)
+	var/cap = GENERIC_RATE_CAP
+	if(!payer)
+		return cap
+	for(var/id in decrees)
+		var/datum/decree/D = decrees[id]
+		cap = D.apply_rate_cap(payer, tax_category, cap)
+	return cap
 
 /datum/controller/subsystem/treasury/proc/apply_tax(datum/fund/payer, base_amount, tax_category, reason)
 	if(!payer || base_amount <= 0)
@@ -52,6 +65,8 @@
 	if(owner && is_tax_exempt(owner, tax_category))
 		return 0
 	var/rate = get_tax_rate(tax_category)
+	if(owner)
+		rate = min(rate, get_rate_cap(owner, tax_category))
 	if(rate <= 0)
 		return 0
 	payer.tax_debt += base_amount * rate
