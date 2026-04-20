@@ -20,9 +20,18 @@
 // Tab bar
 .ContractLedger__TabBar {
   display: flex;
+  flex-wrap: wrap;
   gap: 4px;
   padding: 4px 16px;
   border-bottom: 1px solid rgba(200, 170, 100, 0.12);
+  margin-bottom: 2px;
+}
+
+.ContractLedger__FilterBar {
+  display: flex;
+  gap: 6px;
+  padding: 4px 16px;
+  border-bottom: 1px solid rgba(200, 170, 100, 0.08);
   margin-bottom: 2px;
 }
 

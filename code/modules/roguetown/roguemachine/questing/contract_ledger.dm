@@ -61,7 +61,14 @@
 	data["active_count"] = count_user_active_contracts(user)
 	data["pool"] = build_pool_listing()
 	data["active"] = build_active_listing(user)
+	data["regions"] = build_region_listing()
 	return data
+
+/obj/structure/roguemachine/contractledger/proc/build_region_listing()
+	var/list/known = list()
+	for(var/datum/threat_region/TR as anything in SSregionthreat.threat_regions)
+		known += TR.region_name
+	return known
 
 /obj/structure/roguemachine/contractledger/proc/build_pool_listing()
 	var/list/listing = list()
@@ -74,6 +81,7 @@
 			"reward" = Q.reward_amount,
 			"deposit" = Q.deposit_amount,
 			"area" = Q.target_spawn_area,
+			"region" = Q.region,
 			"objective" = "",
 		))
 	return listing
@@ -93,6 +101,7 @@
 			"type" = Q.quest_type,
 			"difficulty" = Q.quest_difficulty,
 			"area" = Q.target_spawn_area,
+			"region" = Q.region,
 			"progress_current" = Q.progress_current,
 			"progress_required" = Q.progress_required,
 			"complete" = Q.complete,

@@ -13,6 +13,7 @@ type Contract = {
   reward: number;
   deposit: number;
   area: string;
+  region: string;
   objective: string;
 };
 
@@ -22,6 +23,7 @@ type ActiveContract = {
   type: string;
   difficulty: string;
   area: string;
+  region: string;
   progress_current: number;
   progress_required: number;
   complete: BooleanLike;
@@ -34,20 +36,12 @@ type ContractLedgerData = {
   active_max: number;
   pool: Contract[];
   active: ActiveContract[];
+  regions: string[];
 };
 
-// Pluggable grouping: change the `key` field to regroup by type, origin, etc.
-type TabDef = {
-  id: string;
-  label: string;
-  filter: (c: Contract) => boolean;
-};
-
-const DIFFICULTY_TABS: TabDef[] = [
-  { id: 'Easy', label: 'Easy', filter: (c) => c.difficulty === 'Easy' },
-  { id: 'Medium', label: 'Medium', filter: (c) => c.difficulty === 'Medium' },
-  { id: 'Hard', label: 'Hard', filter: (c) => c.difficulty === 'Hard' },
-];
+const ALL_REGIONS = 'All';
+const ALL_DIFFICULTIES = 'All';
+const DIFFICULTIES = ['Easy', 'Medium', 'Hard'];
 
 const difficultyPinClass = (difficulty: string) => {
   switch (difficulty) {
@@ -64,10 +58,20 @@ const difficultyPinClass = (difficulty: string) => {
 
 export const ContractLedger = () => {
   const { data } = useBackend<ContractLedgerData>();
-  const [activeTab, setActiveTab] = useState(DIFFICULTY_TABS[0].id);
-  const tabs = DIFFICULTY_TABS;
-  const currentTab = tabs.find((t) => t.id === activeTab) || tabs[0];
-  const filtered = data.pool.filter(currentTab.filter);
+  const [activeRegion, setActiveRegion] = useState<string>(ALL_REGIONS);
+  const [activeDifficulty, setActiveDifficulty] =
+    useState<string>(ALL_DIFFICULTIES);
+
+  const matchesRegion = (c: Contract) =>
+    activeRegion === ALL_REGIONS || c.region === activeRegion;
+  const matchesDifficulty = (c: Contract) =>
+    activeDifficulty === ALL_DIFFICULTIES || c.difficulty === activeDifficulty;
+
+  const filtered = data.pool.filter(
+    (c) => matchesRegion(c) && matchesDifficulty(c),
+  );
+
+  const regionTabs = [ALL_REGIONS, ...(data.regions || [])];
 
   return (
     <Window
@@ -78,25 +82,40 @@ export const ContractLedger = () => {
     >
       <Window.Content fitted>
         <div className="ContractLedger">
-          <div className="ContractLedger__Header">
-            Grand Contract Ledger
-          </div>
+          <div className="ContractLedger__Header">Grand Contract Ledger</div>
 
           <div className="ContractLedger__TabBar">
-            {tabs.map((tab) => {
-              const count = data.pool.filter(tab.filter).length;
-              const isActive = tab.id === activeTab;
+            {regionTabs.map((region) => {
+              const count = data.pool.filter(
+                (c) => region === ALL_REGIONS || c.region === region,
+              ).length;
+              const isActive = region === activeRegion;
               return (
                 <div
-                  key={tab.id}
+                  key={region}
                   className={
                     'ContractLedger__Tab' +
                     (isActive ? ' ContractLedger__Tab--active' : '')
                   }
-                  onClick={() => setActiveTab(tab.id)}
+                  onClick={() => setActiveRegion(region)}
                 >
-                  {tab.label} ({count})
+                  {region} ({count})
                 </div>
+              );
+            })}
+          </div>
+
+          <div className="ContractLedger__FilterBar">
+            {[ALL_DIFFICULTIES, ...DIFFICULTIES].map((diff) => {
+              const isActive = diff === activeDifficulty;
+              return (
+                <Button
+                  key={diff}
+                  selected={isActive}
+                  onClick={() => setActiveDifficulty(diff)}
+                >
+                  {diff}
+                </Button>
               );
             })}
           </div>
@@ -104,7 +123,7 @@ export const ContractLedger = () => {
           <div className="ContractLedger__Board">
             {filtered.length === 0 ? (
               <div className="ContractLedger__Empty">
-                No {currentTab.label.toLowerCase()} contracts posted. Return
+                No contracts match this filter. Broaden your search or return
                 later.
               </div>
             ) : (
@@ -143,14 +162,24 @@ const ContractCard = (props: { contract: Contract }) => {
       <div className={difficultyPinClass(c.difficulty)} />
       <div className="ContractLedger__CardTitle">{c.title}</div>
       <div className="ContractLedger__CardRow">
+        <span className="ContractLedger__CardLabel">Region</span>
+        <span className="ContractLedger__CardValue">
+          {c.region || 'Unknown'}
+        </span>
+      </div>
+      <div className="ContractLedger__CardRow">
+        <span className="ContractLedger__CardLabel">Locale</span>
+        <span className="ContractLedger__CardValue">
+          {c.area || 'Unknown'}
+        </span>
+      </div>
+      <div className="ContractLedger__CardRow">
         <span className="ContractLedger__CardLabel">Type</span>
         <span className="ContractLedger__CardValue">{c.type}</span>
       </div>
       <div className="ContractLedger__CardRow">
-        <span className="ContractLedger__CardLabel">Region</span>
-        <span className="ContractLedger__CardValue">
-          {c.area || 'Unknown'}
-        </span>
+        <span className="ContractLedger__CardLabel">Difficulty</span>
+        <span className="ContractLedger__CardValue">{c.difficulty}</span>
       </div>
       <div className="ContractLedger__CardRow">
         <span className="ContractLedger__CardLabel">Reward</span>
@@ -201,11 +230,10 @@ const ActiveStrip = (props: {
       ) : (
         props.active.map((a) => (
           <div key={a.ref} className="ContractLedger__ActiveRow">
-            <span className="ContractLedger__ActiveRow__Title">
-              {a.title}
-            </span>
+            <span className="ContractLedger__ActiveRow__Title">{a.title}</span>
             <span className="ContractLedger__ActiveRow__Meta">
-              {a.type} &middot; {a.difficulty} &middot; {a.area || 'Unknown'}
+              {a.type} &middot; {a.difficulty} &middot;{' '}
+              {a.region || a.area || 'Unknown'}
               {a.progress_required > 1 &&
                 ` - ${a.progress_current}/${a.progress_required}`}
               {!!a.complete && ' - ready to turn in'}

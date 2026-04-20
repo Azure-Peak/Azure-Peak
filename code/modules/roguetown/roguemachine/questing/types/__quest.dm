@@ -41,6 +41,8 @@
 	var/list/datum/weakref/tracked_atoms = list()
 	/// Landmark picked at preview time; materialize() spawns content around it when claimed.
 	var/datum/weakref/pending_landmark_ref
+	/// Threat region this quest's content lives in. Captured from the landmark at preview time.
+	var/region = ""
 
 /datum/quest/Destroy()
 	// Clean up mobs with quest components
@@ -86,6 +88,7 @@
 		return FALSE
 	pending_landmark_ref = WEAKREF(landmark)
 	target_spawn_area = get_area_name(get_turf(landmark))
+	region = landmark.region
 	if(!title)
 		title = get_title()
 	return TRUE
