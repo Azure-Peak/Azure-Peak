@@ -49,15 +49,28 @@
 					var/obj/item/treaty/spawned_treaty = new /obj/item/treaty(src.loc)
 					new /obj/item/natural/feather(src.loc)
 					spawned_treaty.firstparty = linked_warband.linked_faction.name
-					if(src.linked_warband) // gives the treaty any unique terms the associated warband might have
-						if(src.linked_warband.selected_warband)
-							spawned_treaty.warband_sources += linked_warband.selected_warband.name
-						if(src.linked_warband.selected_subtype)
-							spawned_treaty.warband_sources += linked_warband.selected_subtype.name
-						if(src.linked_warband.selected_aspects)
-							for(var/datum/warbands/aspects/aspect in src.linked_warband.selected_aspects)
-								spawned_treaty.warband_sources += aspect.name
-					spawned_treaty.add_unique_terms()
+					spawned_treaty.secondparty = "The Crown"
+					spawned_treaty.add_unique_terms(src.linked_warband)
+					if(src.linked_warband?.casus_belli_selection) // add a copy of the warband's casus belli
+						var/datum/treaty/terms/cb_copy = new src.linked_warband.casus_belli_selection.type()
+						var/datum/treaty/terms/chosen_casus_belli = src.linked_warband.casus_belli_selection
+						if(chosen_casus_belli.custom_name)
+							cb_copy.custom_name = chosen_casus_belli.custom_name
+						if(chosen_casus_belli.text)
+							cb_copy.text = chosen_casus_belli.text
+						if(chosen_casus_belli.number)
+							cb_copy.number = chosen_casus_belli.number
+						if(chosen_casus_belli.target)
+							cb_copy.target = chosen_casus_belli.target
+							// if a faction's a target, we make them the second party
+							// the 'first party' and 'second party' are 100% just flavor, but this is for clarity's sake
+							if(src.linked_warband?.casus_belli_selection.target != linked_warband.linked_faction.name) // as long as it isn't the linked warband's linked faction)
+								spawned_treaty.secondparty = chosen_casus_belli.target 
+						if(chosen_casus_belli.receiver)
+							cb_copy.receiver = chosen_casus_belli.receiver
+						if(chosen_casus_belli.obj_target) 
+							cb_copy.obj_target  = chosen_casus_belli.obj_target
+						spawned_treaty.active_terms += cb_copy
 					COOLDOWN_START(user.mind, treaty_cooldown, 60 SECONDS)
 					return
 				if("View Troops")
@@ -661,5 +674,5 @@
 			if((user_role == "Warlord" || user_role == "Lieutenant" || user_role == "Aspirant Lieutenant") && user.mind.warband_ID == src.warband_ID)
 				if(!user.fixedeye)
 					to_chat(user, span_notice("I shouldn't leave so soon. I should allow our veterans and envoys to scout a path, first. \n \
-											<span style='color:#a4a4a4'>(Directly control an Envoy by interacting with a Rally Point)</span> \n \
-											<span style='color:#a4a4a4'>(You may temporarily bypass this barrier by approaching it in Fixed Eye Mode)</span>"))
+											<span style='color:#4f4733'>(Directly control an Envoy by interacting with a Rally Point)</span> \n \
+											<span style='color:#4f4733'>(You may temporarily bypass this barrier by approaching it in Fixed Eye Mode)</span>"))

@@ -25,6 +25,17 @@ export const useWarbandData = () => {
   const nobleList = data?.nobles || [];
   const alliesList = data?.allies || [];
 
+  // casus belli
+  const allTerms = data?.all_terms || [];
+  const casusBelliProposals = data?.casus_belli_proposals || [];
+  const userProposal = data?.user_proposal ?? null;
+  const userVote = data?.user_vote ?? null;
+  const userVoteConfirmed = data?.user_vote_confirmed || false;
+  const warlordSelectedProposal = data?.warlord_selected_proposal ?? null;
+  const warlordCasusBelli = data?.warlord_casus_belli ?? null;
+  const factions = data?.backend_factions || [];
+  const territories = data?.backend_territories || [];
+
   return {
     user_role,
     act,
@@ -35,10 +46,20 @@ export const useWarbandData = () => {
     storytellersList,
     alliesList,
     nobleList,
+    backend_warband,
     creation_stage,
     warlord_spawned,
     is_warlord,
     time_remaining,
     timer_active,
+    allTerms,
+    casusBelliProposals,
+    userProposal,
+    userVote,
+    userVoteConfirmed,
+    warlordSelectedProposal,
+    warlordCasusBelli,
+    factions,
+    territories,
   };
 };

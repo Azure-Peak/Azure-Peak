@@ -558,6 +558,7 @@
 		if(modifiers["middle"])
 			if(ismob(usr))
 				var/mob/M = usr
+				// middle clicking the Special Intent button w/Grunt Order active allows for a special order to be sent
 				if(M.ranged_ability && istype(M.ranged_ability, /obj/effect/proc_holder/spell/invoked/grunt_order))
 					M.ranged_ability.InterceptClickOn(M, params, src)
 					return

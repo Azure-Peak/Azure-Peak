@@ -71,7 +71,6 @@
 			qdel(src)
 			return
 	
-	to_chat(warlord, span_userdanger("TIME'S UP! THE WARBAND IS BEING FORCED TO SPAWN!"))
 	if(src.creation_stage == 1)
 		to_chat(warlord, span_warning("Selecting random warband configuration..."))
 		
@@ -221,6 +220,13 @@
 			if(member.mind.special_role == "Lieutenant" || member.mind.special_role == "Aspirant Lieutenant" || member.mind.special_role == "Grunt")
 				to_chat(member, span_boldwarning("TIME EXPIRED! The warband has been auto-finalized. You may now create your character."))
 				member.playsound_local(member, 'sound/misc/warband/menusound3.ogg', 100, FALSE)
+
+// called between stages
+// refreshes the creation timer
+/atom/movable/screen/warband/manager/proc/reset_creation_timer()
+	stop_creation_timer()
+	warned = FALSE
+	start_creation_timer()
 
 // get remaining time in deciseconds
 /atom/movable/screen/warband/manager/proc/get_remaining_time()

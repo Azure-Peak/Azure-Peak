@@ -135,7 +135,7 @@
 		return TRUE
 	return FALSE
 
-/obj/structure/fluff/traveltile/proc/perform_travel(obj/structure/fluff/traveltile/T, mob/living/carbon/human/L)
+/obj/structure/fluff/traveltile/proc/perform_travel(obj/structure/fluff/traveltile/T, mob/living/L)
 	if(!L.restrained(ignore_grab = TRUE)) // heavy-handedly prevents using prisoners to metagame camp locations. pulledby would stop this but prisoners can also be kicked/thrown into the tile repeatedly
 		for(var/mob/living/carbon/human/H in hearers(6,src))
 			if(!H.IsUnconscious() && H.stat == CONSCIOUS && !HAS_TRAIT(H, TRAIT_PARALYSIS) && !HAS_TRAIT(H, required_trait) && !HAS_TRAIT(H, TRAIT_BLIND))
@@ -171,9 +171,6 @@
 			if(!(goon in qualified_squad))
 				squad.remove_member(goon)
 	
-	for(var/mob/npc in L.friends)
-		if(npc.stat == CONSCIOUS && !istype(npc, /mob/living/carbon/human/species/human/northern/goon))
-			npc.forceMove(T.loc)
 
 	return
 
@@ -268,14 +265,10 @@
 	if(L.originalcmode)
 		L.restore_original_cmode_music()
 
-
-
-
 /obj/structure/fluff/traveltile/warband/Initialize()
 	..()
 	SSwarbands.warband_machines += src
 	src.color = null	// different colors in the editor for visual clarity, but they should appear normal in game
-
 
 /obj/structure/fluff/traveltile/warband/intermission_to_outskirts
 	color = "#ff8b2c"

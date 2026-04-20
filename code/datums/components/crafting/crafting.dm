@@ -237,7 +237,7 @@
 			return
 	if(get_area(user.loc))
 		var/area/rogue/zone = get_area(user.loc)
-		if(zone.no_structure_craft)
+		if(zone.no_structure_craft) // prevents structure crafting in Warband areas
 			to_chat(user, span_warning("I can't craft here."))
 			return
 		for(var/obj/structure/S in T)

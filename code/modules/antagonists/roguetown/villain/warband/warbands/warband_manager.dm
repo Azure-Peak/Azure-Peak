@@ -29,7 +29,7 @@
 	var/aspirant_chance = 50				// chance that a lieutenant spawns as an aspirant
 	var/list/combatmusic = list()			// combat track given to members + people who enter the warcamp/outskirts
 	var/finalized = FALSE					// whether or not a warband is finalized
-	var/creation_stage = 1  				// 1 = warband selection, 2 = class selection
+	var/creation_stage = 1  				// 1 = warband selection, 2 = casus belli selection, 3 = class selection
 	var/warlord_spawned = FALSE	
 	var/outskirts_established = FALSE		// whether or not the warband has spawned an outskirts map
 	var/warcamp_established = FALSE
@@ -62,6 +62,10 @@
 	var/list/assigned_grunt_cache = list()					// a cache holding pre-equipped goon NPCs
 	var/atom/movable/screen/warband/manager/cache_source	// if two opposing warbands have identical grunts, they share an NPC cache | this points to the manager we're sharing with
 	var/list/cache_dependents = list()						// list of other managers sharing our cache
+
+	// casus belli voting
+	var/list/casus_belli_proposals = list()
+	var/datum/treaty/terms/casus_belli_selection
 
 ////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////// BASE PROCS

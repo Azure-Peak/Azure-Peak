@@ -75,11 +75,11 @@
 /*
 	draws from a pool of every lieutenant class from every warband
 	presents 3 options
-	this makes it a Queer Case where we need to put its pre_equip proc after the warbands are defined, as the warbands are reliant on the classes being defined first
+	this makes it a Queer Case where we need to put the majority of its pre_equip proc after the warbands are defined, as the warbands are reliant on the classes being defined first
 	at least i think so
 	idk i can't code
 
-	it's over in warband_manager.dm (20)
+	it's handled in random_classes() over in warband_mob_spawn.dm
 */
 /datum/advclass/warband/rebellion/lieutenant/wildcard
 	title = "WILDCARD"

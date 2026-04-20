@@ -75,7 +75,7 @@
 	if(!(L.client?.prefs.floating_text_toggles & XP_TEXT))
 		show_xp = FALSE
 	if(HAS_TRAIT(mind.current, TRAIT_NO_XP))
-		return
+		return // prevents Warband characters from leveling skills
 	if((L.get_skill_level(skill) < SKILL_LEVEL_APPRENTICE) && (!is_considered_sleeping()|| HAS_TRAIT(mind.current, TRAIT_VAMP_DREAMS)))
 		var/org_lvl = L.get_skill_level(skill)
 		L.adjust_experience(skill, amt)

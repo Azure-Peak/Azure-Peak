@@ -111,6 +111,9 @@
 /////////////////////////////////// REPLACE MOB
 /datum/antagonist/warlord_lieutenant/proc/replace_mob(mob/living/new_character)
 	var/mob/living/replacement_mob = SSwarbands.get_lobby_mob()
+	for(var/obj/effect/landmark/start/warlord/warlord_spawn in GLOB.landmarks_list)
+		replacement_mob.forceMove(warlord_spawn.loc)
+		break
 	replacement_mob.key = new_character.key
 	replacement_mob.sync_mind()
 	GLOB.chosen_names -= new_character.real_name
@@ -122,6 +125,9 @@
 
 /datum/antagonist/warlord_grunt/proc/replace_mob(mob/living/new_character)
 	var/mob/living/replacement_mob = SSwarbands.get_lobby_mob()
+	for(var/obj/effect/landmark/start/warlord/warlord_spawn in GLOB.landmarks_list)
+		replacement_mob.forceMove(warlord_spawn.loc)
+		break
 	replacement_mob.key = new_character.key
 	replacement_mob.sync_mind()
 	GLOB.chosen_names -= new_character.real_name

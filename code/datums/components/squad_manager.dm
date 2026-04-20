@@ -9,7 +9,7 @@
 /datum/component/squad_controller/Destroy()
 	disband_squad()
 	followers = null
-	waypoints = list()
+	waypoints = null
 	return ..()
 
 /datum/component/squad_controller/proc/on_leader_moved(atom/movable/mover, atom/old_loc, direction, forced)

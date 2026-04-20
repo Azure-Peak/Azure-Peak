@@ -3,9 +3,8 @@
 	var/asclass					// aspects of the same class can't be selected simultaneously (i.e: two map aspects)
 
 /datum/warbands/subtypes
-	var/quote							// small flavortext for the creation menu
-	var/quote_followup					// as above
-	var/subtype_class_override = FALSE 	// if this is true, the main warband's class options will be ignored during character creation
+	var/quote					// small flavortext for the creation menu
+	var/quote_followup			// as above
 
 /datum/warbands/aspects/blockade
 	title = "BLOCKADE"
@@ -28,13 +27,11 @@
 	warning = "...?"
 	points = -1
 
-
 /datum/warbands/aspects/extraspawns
 	title = "GRAND HOST"
 	summary = "Many have flocked to the Warlord's banner."
 	warning = "...of a notably large size."
 	points = -1
-
 
 ////////////////////////////////////////////////////
 /////////////////////////////////// NEGATIVE ASPECTS

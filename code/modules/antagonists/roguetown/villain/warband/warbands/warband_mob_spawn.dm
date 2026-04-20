@@ -321,14 +321,28 @@
 	var/obj/item/treaty/new_treaty = new /obj/item/treaty(user.loc)
 	new /obj/item/natural/feather(user.loc)
 	new_treaty.firstparty = linked_faction.name
-	if(src.selected_warband)
-		new_treaty.warband_sources += src.selected_warband.title
-	if(src.selected_subtype)
-		new_treaty.warband_sources += src.selected_subtype.title
-	for(var/datum/warbands/aspects/aspect in src.selected_aspects)
-		new_treaty.warband_sources += aspect.title
-	
-	new_treaty.add_unique_terms()
+	new_treaty.secondparty = "The Crown"
+	new_treaty.add_unique_terms(src)
+	if(src.casus_belli_selection) // add a copy of the warband's chosen casus belli
+		var/datum/treaty/terms/cb_copy = new src.casus_belli_selection.type()
+		if(src.casus_belli_selection.custom_name)
+			cb_copy.custom_name = src.casus_belli_selection.custom_name
+		if(src.casus_belli_selection.text) 
+			cb_copy.text = src.casus_belli_selection.text
+		if(src.casus_belli_selection.number)
+			cb_copy.number = src.casus_belli_selection.number
+		if(src.casus_belli_selection.target)
+			cb_copy.target = src.casus_belli_selection.target
+			// if a faction's a target, we make them the second party
+			// the 'first party' and 'second party' are 100% just flavor, but this is for clarity's sake
+			if(src.casus_belli_selection.target != linked_faction.name)
+				new_treaty.secondparty = src.casus_belli_selection.target 
+		if(src.casus_belli_selection.receiver) 
+			cb_copy.receiver = src.casus_belli_selection.receiver
+		if(src.casus_belli_selection.obj_target)
+			cb_copy.obj_target = src.casus_belli_selection.obj_target
+		new_treaty.active_terms += cb_copy
+
 	to_chat(user, span_notice("I fetch the Treaty from my bag. If I lose it, I can draft spares from the Campaign Planner."))
 	user.playsound_local(src, 'sound/foley/dropsound/gen_drop.ogg', 100, FALSE)
 

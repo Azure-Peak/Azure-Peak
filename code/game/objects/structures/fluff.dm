@@ -182,9 +182,9 @@
 			return 0
 	else if(get_dir(loc, target) == dir)
 		if(istype(mover, /mob/living/carbon/human/species/human/northern/goon))
-			return 1 // railing climbing is broken atm and i can't wrap my head around it, so this is here as a temporary fix to stop Grunts from getting stuck like Roombas	
+			return TRUE // railing climbing is broken atm and i can't wrap my head around it, so this is here as a temporary fix to stop Grunts from getting stuck like Roombas	
 		else
-			return 0
+			return FALSE
 	return 1
 
 /obj/structure/fluff/railing/proc/on_exit(datum/source, atom/movable/leaving, atom/new_location)
@@ -862,7 +862,7 @@
 	if(get_dir(loc, mover) == dir)
 		if(istype(mover, /mob/living/carbon/human/species/human/northern/goon))
 			playsound(src, climb_sound, 100)
-			return 1
+			return TRUE
 		return 0
 	return !density
 

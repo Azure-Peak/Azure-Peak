@@ -39,33 +39,29 @@ export const CreationTab = ({
 }: CreationTabProps) => {
 
   const getAspectColor = (points: number) => {
-    if (points < 0) {
-      return '#3c0d0d';
-    } else if (points > 0) {
-      return '#0f0606ff'; 
-    }
-    return undefined; 
+    if (points < 0) return '#3c0d0d';
+    if (points > 0) return '#722b5d';
+    return undefined;
   };
 
   const disableReason = () => {
     if (stage1Complete) return null;
-    
-    if (pointCounter < 0) {
-      return "MUST HAVE 0 OR MORE ASPECT POINTS";
-    }
-    if (!selectedWarband) {
-      return "SELECT A WARBAND";
-    }
-    if (selectedWarband?.subtyperequired && !selectedSubtype) {
-      return "THIS WARBAND REQUIRES A SUBTYPE";
-    }
+    if (pointCounter < 0) return "MUST HAVE 0 OR MORE ASPECT POINTS";
+    if (!selectedWarband) return "SELECT A WARBAND";
+    if (selectedWarband?.subtyperequired && !selectedSubtype) return "THIS WARBAND REQUIRES A SUBTYPE";
     return null;
   };
 
+  const canAdvance = stage1Complete;
+
   return (
     <Stack style={{ flex: 1, flexDirection: 'column', height: '100%' }}>
-      <Stack row-Reverse style={{ flex: 1, minHeight: 0 }}>
-        <Section title={<span style={{ color: '#7a2525ff' }}>AVAILABLE WARBANDS</span>} scrollable fill style={{ flex: 1, minWidth: '100px' }}>
+      <Stack direction="row" style={{ flex: 1, minHeight: 0 }}>
+        <Section
+          title={<span style={{ color: '#7a2525ff' }}>AVAILABLE WARBANDS</span>}
+          scrollable fill
+          style={{ flex: 1, minWidth: '280px' }}
+        >
           {filteredWarbands.length > 0 ? (
             <Stack vertical>
               {filteredWarbands.map((warband) => (
@@ -89,7 +85,12 @@ export const CreationTab = ({
             </div>
           )}
         </Section>
-        <Section title={<span style={{ color: '#7a2525ff' }}>SUBTYPE</span>} scrollable fill style={{ flex: 1, minWidth: '300px' }}>
+
+        <Section
+          title={<span style={{ color: '#7a2525ff' }}>SUBTYPE</span>}
+          scrollable fill
+          style={{ flex: 1, minWidth: '280px' }}
+        >
           {selectedWarband && filteredSubtypes.length > 0 ? (
             <Stack vertical>
               {filteredSubtypes.map((subtype) => (
@@ -97,7 +98,7 @@ export const CreationTab = ({
                   key={subtype.title}
                   onClick={() => {
                     if (locked) return;
-                    handleSubtypeSelect(subtype);                    
+                    handleSubtypeSelect(subtype);
                     act('interaction_sound');
                   }}
                   disabled={locked}
@@ -114,27 +115,33 @@ export const CreationTab = ({
             </div>
           )}
         </Section>
-        <Section title={<span style={{ color: '#7a2525ff' }}>ASPECTS</span>} scrollable fill style={{ flex: 1, minWidth: '300px' }}>
+
+        <Section
+          title={<span style={{ color: '#7a2525ff' }}>ASPECTS</span>}
+          scrollable fill
+          style={{ flex: 1, minWidth: '280px' }}
+        >
           {selectedWarband && filteredAspects.length > 0 ? (
             <Stack vertical>
               {filteredAspects.map((aspect) => {
-                const isSelected = selectedAspects.some((selected) => selected.title === aspect.title);
+                const isSelected = selectedAspects.some((s) => s.title === aspect.title);
                 return (
                   <Button
                     key={aspect.title}
                     onClick={() => {
                       if (locked) return;
-                      handleAspectSelect(aspect);                      
+                      handleAspectSelect(aspect);
                       act('interaction_sound');
                     }}
                     disabled={locked}
-                    style={{ 
-                      backgroundColor: isSelected ? '#7a2525ff' : getAspectColor(aspect.points), 
-                      height: 'auto', 
-                      padding: '12px 16px', 
-                      whiteSpace: 'normal', 
+                    style={{
+                      backgroundColor: isSelected ? '#7a2525ff' : getAspectColor(aspect.points),
+                      height: 'auto',
+                      padding: '12px 16px',
+                      whiteSpace: 'normal',
                       textAlign: 'left',
-                    }}>
+                    }}
+                  >
                     <div style={{ fontWeight: 'bold' }}>{aspect.title}</div>
                     <p style={{ margin: 0, fontSize: '15px' }}>{aspect.summary}</p>
                   </Button>
@@ -148,9 +155,10 @@ export const CreationTab = ({
           )}
         </Section>
       </Stack>
-      <Section 
-        title={<span style={{ color: '#7a2525ff' }}>{selectedWarband?.title || 'No Warband Selected'}</span>} 
-        style={{ flex: 0, flexBasis: 'auto', maxHeight: '200px', minHeight: '200px', overflowY: 'scroll' }}
+
+      <Section
+        title={<span style={{ color: '#7a2525ff' }}>{selectedWarband?.title || 'No Warband Selected'}</span>}
+        style={{ flexShrink: 0, maxHeight: '200px', minHeight: '200px', overflowY: 'scroll' }}
       >
         {selectedWarband ? (
           <Stack vertical style={{ display: 'flex', flexDirection: 'column', textAlign: 'center' }}>
@@ -169,16 +177,17 @@ export const CreationTab = ({
         <Section style={{ flex: 0, flexBasis: 'auto' }}>
           <Stack direction="row" justify="center">
             <span
-              style={{ 
-                flex: 1, 
-                color: '#ae3636', 
-                fontSize: '15px', 
-                padding: '25px', 
+              style={{
+                flex: 1,
+                color: '#ae3636',
+                fontSize: '15px',
+                padding: '25px',
                 display: 'flex',
                 marginBottom: '110px',
-                justifyContent: 'center', 
+                justifyContent: 'center',
                 alignItems: 'center',
-              }}>
+              }}
+            >
               {disableReason()}
             </span>
             <Button
@@ -191,16 +200,17 @@ export const CreationTab = ({
                 act('advance_stage', stage1_selections);
                 act('interaction_sound');
               }}
-              disabled={!stage1Complete}
-              style={{ 
-                flex: 1, 
-                fontSize: '25px', 
+              disabled={!canAdvance}
+              style={{
+                flex: 1,
+                fontSize: '25px',
                 padding: '25px',
                 marginBottom: '110px',
-                display: 'flex', 
-                justifyContent: 'center', 
+                display: 'flex',
+                justifyContent: 'center',
                 alignItems: 'center',
-              }}>
+              }}
+            >
               CONFIRM WARBAND
             </Button>
           </Stack>

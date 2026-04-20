@@ -29,8 +29,9 @@
 			return land
 	return
 
-/obj/item/treaty/proc/check_duplicate_term(datum/treaty/terms/new_term, skip_index = null) 
-	for(var/i = 1 to src.active_terms.len) // when we edit or create a new term, we want to be absolutely sure it isn't a duplicate
+// when we edit or create a new term, we want to be absolutely sure it isn't a duplicate
+/obj/item/treaty/proc/check_duplicate_term(datum/treaty/terms/new_term, skip_index) 
+	for(var/i = 1 to src.active_terms.len) 
 		if(skip_index && i == skip_index) // skip the term we're editing
 			continue
 			
@@ -63,6 +64,10 @@
 		
 		// same tax category can't be adjusted twice
 		else if(istype(new_term, /datum/treaty/terms/set_tax) && istype(existing, /datum/treaty/terms/set_tax))
+			if(new_term.type == existing.type)
+				return TRUE
+
+		else if(istype(new_term, /datum/treaty/terms/unique/wizard) && istype(existing, /datum/treaty/terms/unique/wizard))
 			if(new_term.type == existing.type)
 				return TRUE
 	

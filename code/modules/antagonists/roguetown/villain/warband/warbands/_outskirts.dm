@@ -29,7 +29,7 @@
 	var/cleanup_attempt_interval = 50
 	var/integrity_check_interval = 30
 	var/initial_besieger_count = 0
-	var/march_timer = null
+	var/march_timer
 
 	var/datum/outskirts_wave/custom_wave
 	var/list/active_duties = list()	
@@ -122,8 +122,6 @@
 	var/additional = incoming - 5
 	var/calculated_size = base_size + additional
 	return min(calculated_size, max_wave_size)
-
-
 
 /////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////// START ENCOUNTER

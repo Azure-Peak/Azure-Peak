@@ -2,7 +2,7 @@
 /obj/item/treaty
 	name = "treaty"
 	desc = "An aged scroll of parchment tightly bound by a ribbon. Across the ribbon, countless prayers to order are inscribed in a faded, crimson script. \
-	It's a disquieting thing; warm to the touch as if one is holding sun-scorched leather, while being accompanied by a faint stench of blood and ash. \n \
+	It's a disquieting thing; warm to the touch as if one is holding sun-scorched leather, and accompanied by a faint stench of ash. \n \
 	<span style='color:#e8bf67'>OPEN:</span> Unroll the treaty by resizing the window. \n \
 	<span style='color:#e8bf67'>DRAFT:</span> Drafting a new term will unverify all verified terms. \n \
 	<span style='color:#e8bf67'>FINALIZE:</span> Hurling a completed treaty into an open flame at dawn will finalize it. \n \
@@ -38,21 +38,20 @@
 	warband_sources = null
 	return ..()
 
-// 1
 //////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////// ADD UNIQUE TERMS
-/* 1
+/*
 	when a treaty is spawned by a warband, this proc adds any unique terms the warband might have
 */
-/obj/item/treaty/proc/add_unique_terms()
-	for(var/source_name in warband_sources)
-		if(source_name == "Sorcerer-King")
+/obj/item/treaty/proc/add_unique_terms(atom/movable/screen/warband/manager/warband_manager)
+	var/datum/warbands/warband = warband_manager.selected_warband
+	if(warband)
+		if(istype(warband, /datum/warbands/storyteller/wizard))
 			src.terms += new /datum/treaty/terms/unique/wizard
 
-// 2
 ////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////// GET WEALTH
-/* 2
+/*
 	get a faction's vault for the treaty's "Wealth" display
 	the town's faction vault is directly linked to its treasury
 	for everyone else, it just returns the actual vault value from their faction datum

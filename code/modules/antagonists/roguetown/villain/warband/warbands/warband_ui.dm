@@ -71,6 +71,72 @@
 			"in_lobby" = TRUE
 		))
 	data["allies"] = allies_list	
+
+	// casus belli voting state (per-user)
+	var/user_ckey = user.ckey
+	var/user_proposal_id_out	// proposal_id of the term the user authored
+	var/user_vote_id_out 		// proposal_id of the term the user is voting on
+	var/user_vote_confirmed_flag = FALSE
+	var/warlord_selected_id		// proposal_id the warlord has selected
+	var/list/proposals_out = list()
+
+	for(var/list/proposal in src.casus_belli_proposals)
+		var/list/confirmed_votes = proposal["confirmed_votes"]
+		var/list/pending_votes = proposal["pending_votes"]
+		var/is_user_proposal = (proposal["author"] == user_ckey)
+		var/user_is_pending = (user_ckey in pending_votes)
+		var/user_vote_confirmed = (user_ckey in confirmed_votes)
+		var/is_user_vote = user_is_pending || user_vote_confirmed
+		if(is_user_proposal)
+			user_proposal_id_out = proposal["proposal_id"]
+		if(is_user_vote)
+			user_vote_id_out = proposal["proposal_id"]
+			user_vote_confirmed_flag = user_vote_confirmed
+		if(proposal["is_selected"])
+			warlord_selected_id = proposal["proposal_id"]
+		var/list/details = proposal["term_details"] || list()
+		UNTYPED_LIST_ADD(proposals_out, list(
+			"proposal_id" = proposal["proposal_id"],
+			"term_type" = proposal["term_type"],
+			"term_name" = proposal["term_name"],
+			"term_desc" = proposal["term_desc"],
+			"vote_count" = confirmed_votes.len,
+			"pending_count" = pending_votes.len,
+			"is_user_proposal" = is_user_proposal,
+			"is_user_vote_confirmed" = user_vote_confirmed,
+			"is_warlord_selected" = proposal["is_selected"],
+			"term_custom_name" = details["custom_name"],
+			"term_text" = details["text"],
+			"term_number" = details["number"],
+			"term_target" = details["target"],
+			"term_receiver" = details["receiver"],
+			"term_obj_target" = details["obj_target"]
+		))
+	data["casus_belli_proposals"] = proposals_out
+	data["user_proposal"] = user_proposal_id_out
+	data["user_vote"] = user_vote_id_out
+	data["user_vote_confirmed"] = user_vote_confirmed_flag
+	data["warlord_selected_proposal"] = warlord_selected_id
+
+	if(src.casus_belli_selection)
+		data["warlord_casus_belli"] = list(
+			"name" = src.casus_belli_selection.name,
+			"desc" = src.casus_belli_selection.desc,
+			"type" = "[src.casus_belli_selection.type]",
+			"target_options" = src.casus_belli_selection.target_options,
+			"requires_text" = src.casus_belli_selection.requires_text,
+			"requires_number" = src.casus_belli_selection.requires_number,
+			"open_signatures" = src.casus_belli_selection.open_signatures,
+			"target" = src.casus_belli_selection.target,
+			"receiver" = src.casus_belli_selection.receiver,
+			"obj_target" = src.casus_belli_selection.obj_target,
+			"text" = src.casus_belli_selection.text,
+			"number" = src.casus_belli_selection.number,
+			"custom_name" = src.casus_belli_selection.custom_name
+		)
+	else
+		data["warlord_casus_belli"] = null
+
 	return data
 
 /atom/movable/screen/warband/manager/ui_static_data(mob/user)
@@ -202,6 +268,75 @@
 			"type" = class.type
 		))
 	data["classes"] = class_list
+
+	// faction & territory data for drafting terms that need targets
+	var/list/cb_faction_list = list()
+	for(var/datum/territory_faction/faction in SSwarbands.territory_factions)
+		if(faction.type in DEFAULT_TERRITORY_FACTIONS)
+			UNTYPED_LIST_ADD(cb_faction_list, list(
+				"name" = faction.name,
+				"desc" = faction.desc,
+				"vault" = faction.vault,
+				"owner" = faction.owner,
+				"territories" = list(),
+				"type" = "[faction.type]",
+				"icon" = ""
+			))
+
+	if(src.linked_faction)
+		UNTYPED_LIST_ADD(cb_faction_list, list(
+			"name" = src.linked_faction.name,
+			"desc" = src.linked_faction.desc,
+			"vault" = src.linked_faction.vault,
+			"owner" = src.linked_faction.owner,
+			"territories" = list(),
+			"type" = "[src.linked_faction.type]",
+			"icon" = ""
+		))
+	data["backend_factions"] = cb_faction_list
+
+	var/list/cb_territory_list = list()
+	for(var/datum/territory/land in SSwarbands.territory)
+		var/cb_faction_name
+		if(land.associated_faction)
+			cb_faction_name = land.associated_faction.name
+		var/list/aspect_data = list()
+		if(land.aspects && islist(land.aspects))
+			for(var/datum/territory/aspect/asp in land.aspects)
+				if(istype(asp))
+					aspect_data += list(list("name" = asp.name, "desc" = asp.desc))
+		var/prized_good_name
+		if(land.prized_good)
+			prized_good_name = land.prized_good.name
+		UNTYPED_LIST_ADD(cb_territory_list, list(
+			"name" = land.name,
+			"desc" = land.desc,
+			"prized_good" = prized_good_name,
+			"faction_name" = cb_faction_name,
+			"aspects" = aspect_data
+		))
+	data["backend_territories"] = cb_territory_list
+
+	// a list of treaty terms for casus belli browsing & proposal
+	// gets rebuilt in stage 2, as the decisions in stage 1 can potentially make more available
+	var/obj/item/treaty/temp_treaty = new /obj/item/treaty()
+	if(src.creation_stage >= 2 && src.selected_warband)
+		temp_treaty.add_unique_terms(src)
+	var/list/all_terms_list = list()
+	for(var/datum/treaty/terms/term in temp_treaty.terms)
+		UNTYPED_LIST_ADD(all_terms_list, list(
+			"name" = term.name,
+			"desc" = term.desc,
+			"hint" = term.hint,
+			"requires_text" = term.requires_text,
+			"requires_number" = term.requires_number,
+			"open_signatures" = term.open_signatures,
+			"target_options" = term.target_options,
+			"type" = "[term.type]",
+			"warbandlock" = (term.warbandlock ? "[term.warbandlock]" : null)
+		))
+	qdel(temp_treaty)
+	data["all_terms"] = all_terms_list
 	src.static_data_set = TRUE
 	return data
 
@@ -249,40 +384,65 @@
 				to_chat(user, span_warning("Only the Warlord can advance stages."))
 				user.playsound_local(user, 'sound/misc/warband/menusound_fail.ogg', 100, FALSE)
 				return
-			if(src.creation_stage != 1)
-				return
-			
-			var/warband_path = text2path(params["warband"])
-			if(warband_path && SSwarbands.warband_lookup[warband_path])
-				src.selected_warband = SSwarbands.warband_lookup[warband_path]
-			var/subtype_path = text2path(params["subtype"])
-			if(subtype_path && SSwarbands.subtype_lookup[subtype_path])
-				src.selected_subtype = SSwarbands.subtype_lookup[subtype_path]
-			var/list/aspect_paths = params["aspects"]
-			for(var/aspect_path in aspect_paths)
-				var/aspect_type = text2path(aspect_path)
-				if(aspect_type && SSwarbands.aspect_lookup[aspect_type])
-					src.selected_aspects += SSwarbands.aspect_lookup[aspect_type]
 
-			src.creation_stage = 2
-			envy_check() // check for Throne of Envy once a warband is locked in, so we can update any lieutenants
-			set_race_and_faith_locks()
-			notify_sect()
-			send_warnings() // send a warning to a non-warband player
-			for(var/mob/living/carbon/human/member in src.lobby_members)
-				to_chat(member, span_greenteamradio("The Warlord has advanced to class selection. You may now choose your class."))
-				SStgui.update_uis(member)
-				update_static_data(member)
-			return
+			// stage 1 -> 2: commit the warband selection and move to casus belli phase
+			// the warband's mob cache will start filling up at this point, too
+			if(src.creation_stage == 1)
+				var/warband_path = text2path(params["warband"])
+				if(!warband_path || !SSwarbands.warband_lookup[warband_path])
+					to_chat(user, span_warning("Select a valid warband before advancing."))
+					user.playsound_local(user, 'sound/misc/warband/menusound_fail.ogg', 100, FALSE)
+					return
+				src.selected_warband = SSwarbands.warband_lookup[warband_path]
+				var/subtype_path = text2path(params["subtype"])
+				if(subtype_path && SSwarbands.subtype_lookup[subtype_path])
+					src.selected_subtype = SSwarbands.subtype_lookup[subtype_path]
+				var/list/aspect_paths = params["aspects"]
+				for(var/aspect_path in aspect_paths)
+					var/aspect_type = text2path(aspect_path)
+					if(aspect_type && SSwarbands.aspect_lookup[aspect_type])
+						src.selected_aspects += SSwarbands.aspect_lookup[aspect_type]
+				if(!src.linked_faction)
+					var/datum/territory_faction/custom/seed_faction = new /datum/territory_faction/custom()
+					SSwarbands.territory_factions += seed_faction	// added first so verify_faction_name sees it
+					seed_faction.name = seed_faction.verify_faction_name("The Warband", null)
+					src.linked_faction = seed_faction
+				src.creation_stage = 2
+				SStgui.update_uis(user)
+				for(var/mob/living/carbon/human/member in src.lobby_members)
+					to_chat(member, span_greenteamradio("The Warlord has chosen a warband. But what are you fighting for? Propose a Casus Belli."))
+					SStgui.update_uis(member)
+					update_static_data(member)
+				envy_check()
+				set_race_and_faith_locks()
+				notify_sect()
+				send_warnings()	
+				reset_creation_timer()							
+				return
+
+			// stage 2 -> 3: commit the casus belli and open up class selection & finalization
+			if(src.creation_stage == 2)
+				if(!src.casus_belli_selection)
+					to_chat(user, span_warning("A casus belli must be chosen before advancing."))
+					user.playsound_local(user, 'sound/misc/warband/menusound_fail.ogg', 100, FALSE)
+					return
+				src.creation_stage = 3
+				reset_creation_timer()
+
+				for(var/mob/living/carbon/human/member in src.lobby_members)
+					to_chat(member, span_greenteamradio("The Warlord has advanced to class selection. You may now choose your class."))
+					SStgui.update_uis(member)
+					update_static_data(member)
+				return
 
 		// warband finalization
-		// spawns the map
+		// spawns the map & the warlord
 		if("create_warband")
 			if(user.mind.special_role != "Warlord")
 				to_chat(user, span_warning("Only the Warlord may finalize the warband."))
 				user.playsound_local(user, 'sound/misc/warband/menusound_fail.ogg', 100, FALSE)
 				return
-			if(src.creation_stage != 2)
+			if(src.creation_stage != 3)
 				to_chat(user, span_warning("Select a Warband first."))
 				user.playsound_local(user, 'sound/misc/warband/menusound_fail.ogg', 100, FALSE)
 				return
@@ -301,6 +461,16 @@
 			apply_sect_faithlock(user)
 			spawn_warband(user) 	// this spawns the map, too
 			set_IDs()
+			if(src.linked_faction && !src.linked_faction.owner)
+				src.linked_faction.owner = user.real_name
+				src.linked_faction.name = src.linked_faction.verify_faction_name("[user.real_name]'s Warband", user)
+			// we use "The Warband" as a placeholder faction for the UI. once we're actually in-game, we need to update it
+			if(src.casus_belli_selection && src.linked_faction)
+				var/real_name = src.linked_faction.name
+				if(src.casus_belli_selection.target == "The Warband") 
+					src.casus_belli_selection.target = real_name
+				if(src.casus_belli_selection.receiver == "The Warband") 
+					src.casus_belli_selection.receiver = real_name
 			spawn_character(class_path, user, subclass_path, is_leader = 1)			
 			set_default_exit()
 			
@@ -317,6 +487,203 @@
 
 		if("interaction_sound")
 			user.playsound_local(user, 'sound/misc/warband/menusound1.ogg', 100, FALSE)
+			return
+
+		// submits a term to the list of casus belli proposals
+		// big, but this is rate limited so it should be fine
+		if("propose_casus_belli")
+			var/term_type_str = params["term_type"]
+			var/term_name = params["term_name"]
+			if(!term_type_str || !term_name)
+				return
+			var/found_type = text2path(term_type_str)
+			if(!found_type)
+				return
+			var/list/term_details = list()
+			if(params["custom_name"])
+				term_details["custom_name"] = sanitize(copytext(params["custom_name"], 1, MAX_MESSAGE_LEN))
+			if(params["text"])
+				term_details["text"] = sanitize(copytext(params["text"], 1, MAX_MESSAGE_LEN))
+			if(params["number"])
+				term_details["number"] = text2num(params["number"])
+			if(params["target"]) // copytext rather than sanitize at this point, because factions are already set in stone. nothing to worry about
+				term_details["target"] = copytext(params["target"], 1, MAX_MESSAGE_LEN)
+			if(params["receiver"])
+				term_details["receiver"] = copytext(params["receiver"], 1, MAX_MESSAGE_LEN)
+			if(params["obj_target"])
+				term_details["obj_target"] = copytext(params["obj_target"], 1, MAX_MESSAGE_LEN)
+
+			// removes authorship from the previous proposal BEFORE the duplicate check
+			for(var/list/existing in src.casus_belli_proposals)
+				if(existing["author"] == user.ckey)
+					existing["author"] = null
+					var/list/existing_confirmed = existing["confirmed_votes"]
+					var/list/existing_pending = existing["pending_votes"]
+					if(!existing_confirmed.len && !existing_pending.len)
+						src.casus_belli_proposals -= list(existing)
+					break
+
+			var/datum/treaty/terms/new_term = new found_type()
+			if(term_details["text"]) 
+				new_term.text = term_details["text"]
+			if(term_details["number"]) 
+				new_term.number = term_details["number"]
+			if(term_details["target"]) 
+				new_term.target = term_details["target"]
+			if(term_details["receiver"]) 
+				new_term.receiver = term_details["receiver"]
+			if(term_details["obj_target"]) 
+				new_term.obj_target = term_details["obj_target"]
+
+			// check for duplicate proposals
+			for(var/list/existing_proposal in src.casus_belli_proposals)
+				var/existing_type = text2path(existing_proposal["term_type"])
+				if(!existing_type)
+					continue
+				var/datum/treaty/terms/existing_term = new existing_type()
+				var/list/ed = existing_proposal["term_details"] || list()
+				if(ed["text"]) 
+					existing_term.text = ed["text"]
+				if(ed["number"]) 
+					existing_term.number = ed["number"]
+				if(ed["target"]) 
+					existing_term.target = ed["target"]
+				if(ed["receiver"]) 
+					existing_term.receiver = ed["receiver"]
+				if(ed["obj_target"]) 
+					existing_term.obj_target = ed["obj_target"]
+
+				var/is_dup = FALSE
+				if(istype(new_term, /datum/treaty/terms/territory_loss) && istype(existing_term, /datum/treaty/terms/territory_loss))
+					is_dup = (new_term.obj_target == existing_term.obj_target)
+				else if(istype(new_term, /datum/treaty/terms/cointribute) && istype(existing_term, /datum/treaty/terms/cointribute))
+					is_dup = (new_term.target == existing_term.target && new_term.receiver == existing_term.receiver)
+				else if(istype(new_term, /datum/treaty/terms/exile) && istype(existing_term, /datum/treaty/terms/exile))
+					is_dup = (new_term.target == existing_term.target)
+				else if(istype(new_term, /datum/treaty/terms/remove_law) && istype(existing_term, /datum/treaty/terms/remove_law))
+					is_dup = (new_term.number == existing_term.number)
+				else if(istype(new_term, /datum/treaty/terms/codify_law) && istype(existing_term, /datum/treaty/terms/codify_law))
+					is_dup = (new_term.text == existing_term.text)
+				else if(istype(new_term, /datum/treaty/terms/set_tax) && istype(existing_term, /datum/treaty/terms/set_tax))
+					is_dup = (new_term.number == existing_term.number)
+
+				qdel(existing_term)
+
+				if(is_dup)
+					qdel(new_term)
+					to_chat(user, span_warning("An identical proposition already exists. Your proposal was cancelled."))
+					user.playsound_local(user, 'sound/misc/warband/menusound_fail.ogg', 100, FALSE)
+					return
+
+			qdel(new_term)
+			user.playsound_local(user, 'sound/misc/warband/menusound1.ogg', 100, FALSE)
+			var/term_desc = ""
+			var/datum/treaty/terms/proto = new found_type()
+			term_desc = proto.desc
+			qdel(proto)
+			var/new_proposal_id = "[user.ckey]_[world.time]"
+			var/list/new_proposal = list(
+				"proposal_id" = new_proposal_id,
+				"term_type" = term_type_str,
+				"term_name" = term_name,
+				"term_desc" = term_desc,
+				"term_details" = term_details,
+				"author" = user.ckey,
+				"confirmed_votes" = list(),
+				"pending_votes" = list(),
+				"is_selected" = FALSE
+			)
+			src.casus_belli_proposals += list(new_proposal)
+			SStgui.update_uis(src)
+			return
+
+		// vote on a proposal
+		if("vote_casus_belli")
+			if(user.mind.special_role == "Warlord")
+				return
+			var/target_id = params["proposal_id"]
+			if(!target_id)
+				return
+			// if they already have a confirmed vote, cancel it
+			for(var/list/proposal in src.casus_belli_proposals)
+				if(user.ckey in proposal["confirmed_votes"])
+					return
+			// if they're already pending on the chosen proposal, toggle it off
+			var/already_pending = FALSE
+			for(var/list/proposal in src.casus_belli_proposals)
+				if(proposal["proposal_id"] == target_id)
+					if(user.ckey in proposal["pending_votes"])
+						already_pending = TRUE
+					break
+			// if they have a vote pending elsewhere, remove them
+			for(var/list/proposal in src.casus_belli_proposals)
+				proposal["pending_votes"] -= user.ckey
+			if(!already_pending)
+				for(var/list/proposal in src.casus_belli_proposals)
+					if(proposal["proposal_id"] == target_id)
+						proposal["pending_votes"] += user.ckey
+						break
+			SStgui.update_uis(src)
+			return
+
+		// lock in your pending vote
+		if("confirm_casus_belli")
+			if(user.mind.special_role == "Warlord")
+				return
+			var/target_id = params["proposal_id"]
+			if(!target_id)
+				return
+			for(var/list/proposal in src.casus_belli_proposals)
+				if(proposal["proposal_id"] == target_id && (user.ckey in proposal["pending_votes"]))
+					proposal["pending_votes"] -= user.ckey
+					proposal["confirmed_votes"] += user.ckey
+					user.playsound_local(user, 'sound/misc/warband/menusound1.ogg', 100, FALSE)
+					SStgui.update_uis(src)
+					return
+			return
+
+		// warlord only | selects a proposal as the warband's casus belli
+		if("select_casus_belli")
+			if(user.mind.special_role != "Warlord")
+				return
+			var/target_id = params["proposal_id"]
+			if(!target_id)
+				return
+			var/list/target_proposal
+			for(var/list/proposal in src.casus_belli_proposals)
+				if(proposal["proposal_id"] == target_id)
+					target_proposal = proposal
+					break
+			if(!target_proposal)
+				return
+			var/found_type = text2path(target_proposal["term_type"])
+			if(!found_type)
+				return
+			var/was_selected = target_proposal["is_selected"]
+			for(var/list/proposal in src.casus_belli_proposals)
+				proposal["is_selected"] = FALSE
+			if(src.casus_belli_selection && was_selected)
+				qdel(src.casus_belli_selection)
+				src.casus_belli_selection = null
+			else
+				target_proposal["is_selected"] = TRUE
+				if(src.casus_belli_selection)
+					qdel(src.casus_belli_selection)
+				src.casus_belli_selection = new found_type()
+				var/list/details = target_proposal["term_details"] || list()
+				if(details["custom_name"]) 
+					src.casus_belli_selection.custom_name = details["custom_name"]
+				if(details["text"]) 
+					src.casus_belli_selection.text = details["text"]
+				if(details["number"]) 
+					src.casus_belli_selection.number = details["number"]
+				if(details["target"]) 
+					src.casus_belli_selection.target = details["target"]
+				if(details["receiver"]) 
+					src.casus_belli_selection.receiver = details["receiver"]
+				if(details["obj_target"]) 
+					src.casus_belli_selection.obj_target = details["obj_target"]
+			SStgui.update_uis(src)
 			return
 
 		// view a list of the current laws

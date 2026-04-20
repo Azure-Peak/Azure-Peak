@@ -160,24 +160,6 @@
 		final_goods_value -= item_cost
 		items_spawned++
 
-
-////////
-// import writs
-/proc/process_import_writ_payment(obj/item/import_writ/writ)
-	if(!writ || !writ.issuing_faction)
-		return FALSE
-	var/payment_amount = writ.import_amount
-	if(writ.attached_grant) // attempt to use an attached grant to pay for the import
-		var/obj/item/grant/G = writ.attached_grant
-		if(G.grant_amount < payment_amount)
-			return FALSE
-		return TRUE
-	else
-		if(writ.issuing_faction.vault < payment_amount)
-			return FALSE // otherwise, use the faction's vault
-		writ.issuing_faction.vault -= payment_amount
-		return TRUE
-
 /proc/finalize_import_writ_payment(obj/item/import_writ/writ, turf/drop_location)
 	if(!writ)
 		return

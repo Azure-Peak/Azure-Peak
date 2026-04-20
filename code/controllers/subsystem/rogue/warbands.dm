@@ -144,7 +144,7 @@ SUBSYSTEM_DEF(warbands)
 		else
 			process_slowmode()
 
-// add warcamps here AND in the proc below this one
+// if you're adding maps, add warcamps here AND in the proc below this one
 /datum/controller/subsystem/warbands/proc/get_warcamp(datum/map_template/template_type)
 	switch(template_type)
 		if(/datum/map_template/warcamp_standard)
