@@ -15,8 +15,14 @@
 	/// Quest types this region will host. Default is everything; set per region to restrict
 	/// (e.g. a dangerous region that won't host trivial kill-easy quests).
 	var/list/allowed_quest_types
+	/// Floor on the number of simultaneous kill quests targeting this region. The pool will try
+	/// to keep at least this many present, scaled up by population (see QUEST_KILL_FRACTION).
+	var/kill_target_floor = 2
+	/// Flat number of evergreen courier / retrieval quests this region always hosts. Not
+	/// population-scaled — couriers are trivially scalable on the player side.
+	var/evergreen_target = 0
 
-/datum/threat_region/New(_region_name, _latent_ambush, _min_ambush, _max_ambush, _fixed_ambush, _lowpop_tick, _highpop_tick, _faction_weights, _tp_budget_multiplier = 1.0, _allowed_quest_types)
+/datum/threat_region/New(_region_name, _latent_ambush, _min_ambush, _max_ambush, _fixed_ambush, _lowpop_tick, _highpop_tick, _faction_weights, _tp_budget_multiplier = 1.0, _allowed_quest_types, _kill_target_floor = 2, _evergreen_target = 0)
 	region_name = _region_name
 	latent_ambush = _latent_ambush
 	min_ambush = _min_ambush
@@ -31,6 +37,12 @@
 		allowed_quest_types = _allowed_quest_types
 	else
 		allowed_quest_types = list(QUEST_KILL_EASY, QUEST_CLEAR_OUT, QUEST_RAID, QUEST_BOUNTY, QUEST_COURIER, QUEST_RETRIEVAL)
+	kill_target_floor = _kill_target_floor
+	evergreen_target = _evergreen_target
+
+/datum/threat_region/proc/get_kill_target(pop)
+	var/scaled = round(pop * QUEST_KILL_FRACTION)
+	return clamp(scaled, kill_target_floor, kill_target_floor + QUEST_KILL_CEILING_OFFSET)
 
 /datum/threat_region/proc/allows_quest_type(quest_type)
 	return (quest_type in allowed_quest_types)

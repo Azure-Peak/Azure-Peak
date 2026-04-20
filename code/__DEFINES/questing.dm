@@ -56,18 +56,15 @@
 // Jobs may override via /datum/job.max_active_quests.
 #define QUEST_MAX_ACTIVE_PER_PLAYER 2
 
-// Per-difficulty pool targets: max(floor, round(pop * fraction)).
-// At pop=120 -> 15/10/5 (30 total). At pop=60 -> 8/5/3. At pop=12 -> 2/1/1.
-#define QUEST_POOL_FRACTION_EASY 0.125
-#define QUEST_POOL_FRACTION_MEDIUM 0.085
-#define QUEST_POOL_FRACTION_HARD 0.042
-#define QUEST_POOL_FLOOR_EASY 6
-#define QUEST_POOL_FLOOR_MEDIUM 4
-#define QUEST_POOL_FLOOR_HARD 3
+// Per-region kill quest targets: clamp(round(pop * KILL_FRACTION), floor, floor + CEILING_OFFSET).
+// Floors live on /datum/threat_region so each region can tune independently.
+#define QUEST_KILL_FRACTION 0.05
+#define QUEST_KILL_CEILING_OFFSET 3
 
-// Each tick generates max(1, pop / QUEST_POOL_REGEN_DIVISOR) new contracts. At pop=120: 6/tick = 72/hr.
+// Each tick generates up to this many kill quests across all regions; evergreen quests top up
+// independently to their flat per-region targets.
 #define QUEST_POOL_REGEN_INTERVAL (5 MINUTES)
-#define QUEST_POOL_REGEN_DIVISOR 20
+#define QUEST_KILL_REGEN_PER_TICK 2
 
 // Unclaimed listings past this threshold are rerolled in place, bypassing the per-tick cap.
 #define QUEST_POOL_STALE_THRESHOLD (20 MINUTES)
@@ -79,21 +76,21 @@
 #define QUEST_TAKE_COOLDOWN (10 MINUTES)
 #define QUEST_TAKE_COOLDOWN_SLOTS 2
 
-#define QUEST_POOL_WEIGHTS_EASY list(\
-	QUEST_RETRIEVAL = 35,\
-	QUEST_COURIER = 25,\
-	QUEST_KILL_EASY = 40,\
+// Weights for picking which kill / bounty quest type to spawn. Difficulty no longer gates
+// generation — region selection and per-region allowed_quest_types handle that. Raid and
+// bounty are the most popular quest types for fellowship play so they weight high.
+#define QUEST_KILL_TYPE_WEIGHTS list(\
+	QUEST_KILL_EASY = 25,\
+	QUEST_CLEAR_OUT = 25,\
+	QUEST_RAID = 30,\
+	QUEST_BOUNTY = 20,\
 )
 
-#define QUEST_POOL_WEIGHTS_MEDIUM list(\
-	QUEST_KILL_EASY = 30,\
-	QUEST_CLEAR_OUT = 70,\
-)
-
-#define QUEST_POOL_WEIGHTS_HARD list(\
-	QUEST_CLEAR_OUT = 40,\
-	QUEST_RAID = 35,\
-	QUEST_BOUNTY = 25,\
+// Evergreen quest type weights. Couriers and retrievals refill on a flat per-region target,
+// independent of threat.
+#define QUEST_EVERGREEN_TYPE_WEIGHTS list(\
+	QUEST_RETRIEVAL = 55,\
+	QUEST_COURIER = 45,\
 )
 
 #define QUEST_SOURCE_POOL "pool"

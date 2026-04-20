@@ -11,46 +11,50 @@ SUBSYSTEM_DEF(regionthreat)
 	// Additive group drain: 5-man party drains at 3x/player_factor efficiency (0.5x per extra player).
 	var/list/threat_regions = list(
 		new /datum/threat_region(
-			_region_name = THREAT_REGION_AZURE_BASIN, // Solo: 7.5 TP → 1 wolf | 5-party: 37 TP → 3-4 wolves
-			_latent_ambush = 100,
+			_region_name = THREAT_REGION_AZURE_BASIN,
+			_latent_ambush = 150,
 			_min_ambush = 0,
-			_max_ambush = 250,
+			_max_ambush = 375,
 			_fixed_ambush = FALSE,
-			_lowpop_tick = 250 * THREAT_LOWPOP_TICK_RATE,
-			_highpop_tick = 250 * THREAT_HIGHPOP_TICK_RATE,
+			_lowpop_tick = 375 * THREAT_LOWPOP_TICK_RATE,
+			_highpop_tick = 375 * THREAT_HIGHPOP_TICK_RATE,
 			_faction_weights = list(
 				QUEST_FACTION_WILD_BEAST = 70,
 				QUEST_FACTION_HIGHWAYMAN = 20,
 				QUEST_FACTION_FOREST_GOBLIN = 10,
 			),
-			_tp_budget_multiplier = 0.75
+			_tp_budget_multiplier = 0.75,
+			_kill_target_floor = 3,
+			_evergreen_target = 2
 			// allowed_quest_types: default (all)
 		),
 		new /datum/threat_region(
-			_region_name = THREAT_REGION_AZURE_GROVE, // Solo: 15 TP → 1-2 mixed | 5-party: 75 TP → 5-6 mixed
-			_latent_ambush = 250,
+			_region_name = THREAT_REGION_AZURE_GROVE,
+			_latent_ambush = 375,
 			_min_ambush = 0,
-			_max_ambush = 500,
+			_max_ambush = 750,
 			_fixed_ambush = FALSE,
-			_lowpop_tick = 500 * THREAT_LOWPOP_TICK_RATE,
-			_highpop_tick = 500 * THREAT_HIGHPOP_TICK_RATE,
+			_lowpop_tick = 750 * THREAT_LOWPOP_TICK_RATE,
+			_highpop_tick = 750 * THREAT_HIGHPOP_TICK_RATE,
 			_faction_weights = list(
 				QUEST_FACTION_WILD_BEAST = 35,
 				QUEST_FACTION_FOREST_GOBLIN = 30,
 				QUEST_FACTION_HIGHWAYMAN = 25,
 				QUEST_FACTION_STRAY_DEADITE = 10,
 			),
-			_tp_budget_multiplier = 1.0
+			_tp_budget_multiplier = 1.0,
+			_kill_target_floor = 4,
+			_evergreen_target = 2
 			// allowed_quest_types: default (all)
 		),
 		new /datum/threat_region(
-			_region_name = THREAT_REGION_TERRORBOG, // Solo: 45 TP → 2-3 bogmen | 5-party: 225 TP → 11 bogmen
-			_latent_ambush = 1500,
+			_region_name = THREAT_REGION_TERRORBOG,
+			_latent_ambush = 2250,
 			_min_ambush = 0, // Fully tameable — a warden can engage in a long war to tame the terrorbog.
-			_max_ambush = 1500,
+			_max_ambush = 2250,
 			_fixed_ambush = FALSE,
-			_lowpop_tick = 1500 * THREAT_LOWPOP_TICK_RATE,
-			_highpop_tick = 1500 * THREAT_HIGHPOP_TICK_RATE,
+			_lowpop_tick = 2250 * THREAT_LOWPOP_TICK_RATE,
+			_highpop_tick = 2250 * THREAT_HIGHPOP_TICK_RATE,
 			_faction_weights = list(
 				QUEST_FACTION_BOGMAN = 40,
 				QUEST_FACTION_MIRESPIDER = 30,
@@ -58,17 +62,19 @@ SUBSYSTEM_DEF(regionthreat)
 				QUEST_FACTION_FOREST_GOBLIN = 10,
 			),
 			_tp_budget_multiplier = 1.5,
-			_allowed_quest_types = list(QUEST_CLEAR_OUT, QUEST_RAID, QUEST_BOUNTY, QUEST_COURIER, QUEST_RETRIEVAL)
+			_allowed_quest_types = list(QUEST_CLEAR_OUT, QUEST_RAID, QUEST_BOUNTY, QUEST_COURIER, QUEST_RETRIEVAL),
+			_kill_target_floor = 3,
+			_evergreen_target = 2
 		),
 		// Coast & Decap stay somewhat dangerous no matter what
 		new /datum/threat_region(
-			_region_name = THREAT_REGION_AZUREAN_COAST, // Solo: 24 TP → 1-2 deepones | 5-party: 120 TP → 6 deepones
-			_latent_ambush = 500,
-			_min_ambush = 150,
-			_max_ambush = 800,
+			_region_name = THREAT_REGION_AZUREAN_COAST,
+			_latent_ambush = 750,
+			_min_ambush = 225,
+			_max_ambush = 1200,
 			_fixed_ambush = FALSE,
-			_lowpop_tick = 800 * THREAT_LOWPOP_TICK_RATE,
-			_highpop_tick = 800 * THREAT_HIGHPOP_TICK_RATE,
+			_lowpop_tick = 1200 * THREAT_LOWPOP_TICK_RATE,
+			_highpop_tick = 1200 * THREAT_HIGHPOP_TICK_RATE,
 			_faction_weights = list(
 				QUEST_FACTION_ORC = 30,
 				QUEST_FACTION_GRONNMAN = 25,
@@ -78,16 +84,17 @@ SUBSYSTEM_DEF(regionthreat)
 				QUEST_FACTION_GREAT_BEAST = 5,
 			),
 			_tp_budget_multiplier = 1.2,
-			_allowed_quest_types = list(QUEST_CLEAR_OUT, QUEST_RAID, QUEST_BOUNTY)
+			_allowed_quest_types = list(QUEST_CLEAR_OUT, QUEST_RAID, QUEST_BOUNTY),
+			_kill_target_floor = 2
 		),
 		new /datum/threat_region(
-			_region_name = THREAT_REGION_MOUNT_DECAP, // Solo: 30 TP → 1 minotaur | 5-party: 150 TP → 5 minotaurs
-			_latent_ambush = 500,
-			_min_ambush = 200,
-			_max_ambush = 1000,
+			_region_name = THREAT_REGION_MOUNT_DECAP,
+			_latent_ambush = 750,
+			_min_ambush = 300,
+			_max_ambush = 1500,
 			_fixed_ambush = FALSE,
-			_lowpop_tick = 1000 * THREAT_LOWPOP_TICK_RATE,
-			_highpop_tick = 1000 * THREAT_HIGHPOP_TICK_RATE,
+			_lowpop_tick = 1500 * THREAT_LOWPOP_TICK_RATE,
+			_highpop_tick = 1500 * THREAT_HIGHPOP_TICK_RATE,
 			_faction_weights = list(
 				QUEST_FACTION_HELL_GOBLIN = 30,
 				QUEST_FACTION_MINOTAUR = 10,
@@ -97,17 +104,18 @@ SUBSYSTEM_DEF(regionthreat)
 				QUEST_FACTION_MADMAN = 10,
 			),
 			_tp_budget_multiplier = 1.5,
-			_allowed_quest_types = list(QUEST_CLEAR_OUT, QUEST_RAID, QUEST_BOUNTY)
+			_allowed_quest_types = list(QUEST_CLEAR_OUT, QUEST_RAID, QUEST_BOUNTY),
+			_kill_target_floor = 2
 		),
 		// Underdark cannot be tamed — min_ambush is high, keeping the region permanently dangerous.
 		new /datum/threat_region(
 			_region_name = THREAT_REGION_UNDERDARK,
-			_latent_ambush = 800,
-			_min_ambush = 400, // Hard floor — drow and spider nests are eternal
-			_max_ambush = 1200,
+			_latent_ambush = 1200,
+			_min_ambush = 600, // Hard floor — drow and spider nests are eternal
+			_max_ambush = 1800,
 			_fixed_ambush = FALSE,
-			_lowpop_tick = 1200 * THREAT_LOWPOP_TICK_RATE,
-			_highpop_tick = 1200 * THREAT_HIGHPOP_TICK_RATE,
+			_lowpop_tick = 1800 * THREAT_LOWPOP_TICK_RATE,
+			_highpop_tick = 1800 * THREAT_HIGHPOP_TICK_RATE,
 			_faction_weights = list(
 				QUEST_FACTION_DROW = 30,
 				QUEST_FACTION_MIRESPIDER = 25,
@@ -116,7 +124,8 @@ SUBSYSTEM_DEF(regionthreat)
 				QUEST_FACTION_MINOTAUR = 10,
 			),
 			_tp_budget_multiplier = 1.5,
-			_allowed_quest_types = list(QUEST_CLEAR_OUT, QUEST_RAID, QUEST_BOUNTY)
+			_allowed_quest_types = list(QUEST_CLEAR_OUT, QUEST_RAID, QUEST_BOUNTY),
+			_kill_target_floor = 2
 		)
 	)
 

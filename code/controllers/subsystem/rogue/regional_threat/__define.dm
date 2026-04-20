@@ -2,8 +2,9 @@
 #define AMBUSH_REGION_COOLDOWN (5 MINUTES)
 
 /// Fraction of the latent_ambush pool spent as budget per ambush.
-/// 0.03 = 3% → ~33 solo ambushes to drain a region from full.
-#define AMBUSH_BUDGET_PCT 0.03
+/// Paired with 1.5x region max_ambush so ambush size at full fill matches the old 3% model,
+/// but there is more pool depth to drain before a region is cleared.
+#define AMBUSH_BUDGET_PCT 0.02
 
 /// Display thresholds — percentage of max_ambush for each danger level label.
 #define DANGER_PCT_SAFE 15    // 0% to this = Safe (green)

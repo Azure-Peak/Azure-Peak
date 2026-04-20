@@ -12,7 +12,9 @@ SUBSYSTEM_DEF(questpool)
 
 /datum/controller/subsystem/questpool/Initialize()
 	init_quest_factions()
-	regen_to_targets(get_total_target())
+	// Front-load every region to its full target so roundstart has a healthy mix.
+	regen_kill_targets(total_kill_target())
+	regen_fetch_targets()
 	return ..()
 
 /datum/controller/subsystem/questpool/proc/get_nearest_ledger_turf(turf/reference)
@@ -32,91 +34,146 @@ SUBSYSTEM_DEF(questpool)
 
 /datum/controller/subsystem/questpool/fire(resumed)
 	reroll_stale()
-	regen_to_targets(get_regen_per_tick())
+	regen_kill_targets(QUEST_KILL_REGEN_PER_TICK)
+	regen_fetch_targets()
 
-/datum/controller/subsystem/questpool/proc/get_regen_per_tick()
-	return max(1, round(GLOB.player_list.len / QUEST_POOL_REGEN_DIVISOR))
-
-/datum/controller/subsystem/questpool/proc/get_target_for(difficulty)
+/// Sum of per-region kill targets across all regions.
+/datum/controller/subsystem/questpool/proc/total_kill_target()
 	var/pop = GLOB.player_list.len
-	switch(difficulty)
-		if(QUEST_DIFFICULTY_EASY)
-			return max(QUEST_POOL_FLOOR_EASY, round(pop * QUEST_POOL_FRACTION_EASY))
-		if(QUEST_DIFFICULTY_MEDIUM)
-			return max(QUEST_POOL_FLOOR_MEDIUM, round(pop * QUEST_POOL_FRACTION_MEDIUM))
-		if(QUEST_DIFFICULTY_HARD)
-			return max(QUEST_POOL_FLOOR_HARD, round(pop * QUEST_POOL_FRACTION_HARD))
-	return 0
+	var/total = 0
+	for(var/datum/threat_region/TR as anything in SSregionthreat.threat_regions)
+		total += TR.get_kill_target(pop)
+	return total
 
-/datum/controller/subsystem/questpool/proc/get_total_target()
-	return get_target_for(QUEST_DIFFICULTY_EASY) \
-		+ get_target_for(QUEST_DIFFICULTY_MEDIUM) \
-		+ get_target_for(QUEST_DIFFICULTY_HARD)
-
-/datum/controller/subsystem/questpool/proc/count_for_difficulty(difficulty)
+/datum/controller/subsystem/questpool/proc/count_kill_quests_in(region_name)
 	var/count = 0
 	for(var/datum/quest/Q as anything in pool)
-		if(Q.quest_difficulty == difficulty)
-			count++
+		if(Q.region != region_name)
+			continue
+		if(!is_kill_type(Q.quest_type))
+			continue
+		count++
 	return count
 
-/// Returns the difficulty furthest below its target by fill ratio, or null if all are at/above.
-/datum/controller/subsystem/questpool/proc/pick_neediest_difficulty()
-	var/list/difficulties = list(
-		QUEST_DIFFICULTY_EASY,
-		QUEST_DIFFICULTY_MEDIUM,
-		QUEST_DIFFICULTY_HARD,
-	)
+/datum/controller/subsystem/questpool/proc/count_evergreen_quests_in(region_name)
+	var/count = 0
+	for(var/datum/quest/Q as anything in pool)
+		if(Q.region != region_name)
+			continue
+		if(!is_evergreen_type(Q.quest_type))
+			continue
+		count++
+	return count
+
+/proc/is_kill_type(quest_type)
+	return quest_type == QUEST_KILL_EASY || quest_type == QUEST_CLEAR_OUT || quest_type == QUEST_RAID || quest_type == QUEST_BOUNTY
+
+/proc/is_evergreen_type(quest_type)
+	return quest_type == QUEST_COURIER || quest_type == QUEST_RETRIEVAL
+
+/// Returns the region furthest below its kill target by fill ratio, or null if all are at target.
+/datum/controller/subsystem/questpool/proc/pick_neediest_kill_region()
+	var/pop = GLOB.player_list.len
 	var/lowest_ratio = 1
-	var/chosen = null
-	for(var/diff in difficulties)
-		var/target = get_target_for(diff)
+	var/datum/threat_region/chosen
+	for(var/datum/threat_region/TR as anything in SSregionthreat.threat_regions)
+		var/target = TR.get_kill_target(pop)
 		if(!target)
 			continue
-		var/have = count_for_difficulty(diff)
+		if(!region_allows_any_kill_type(TR))
+			continue
+		var/have = count_kill_quests_in(TR.region_name)
 		if(have >= target)
 			continue
 		var/ratio = have / target
 		if(ratio < lowest_ratio)
 			lowest_ratio = ratio
-			chosen = diff
+			chosen = TR
 	return chosen
 
-/datum/controller/subsystem/questpool/proc/regen_to_targets(count)
+/proc/region_allows_any_kill_type(datum/threat_region/TR)
+	return TR.allows_quest_type(QUEST_KILL_EASY) || TR.allows_quest_type(QUEST_CLEAR_OUT) || TR.allows_quest_type(QUEST_RAID) || TR.allows_quest_type(QUEST_BOUNTY)
+
+/proc/region_allows_any_evergreen_type(datum/threat_region/TR)
+	return TR.allows_quest_type(QUEST_COURIER) || TR.allows_quest_type(QUEST_RETRIEVAL)
+
+/datum/controller/subsystem/questpool/proc/regen_kill_targets(count)
 	for(var/i in 1 to count)
-		var/difficulty = pick_neediest_difficulty()
-		if(!difficulty)
+		var/datum/threat_region/TR = pick_neediest_kill_region()
+		if(!TR)
 			return
-		generate_one(difficulty)
+		var/type = pick_kill_type_for(TR)
+		if(!type)
+			continue
+		generate_one(type, TR)
+
+/datum/controller/subsystem/questpool/proc/regen_fetch_targets()
+	for(var/datum/threat_region/TR as anything in SSregionthreat.threat_regions)
+		if(!TR.evergreen_target)
+			continue
+		if(!region_allows_any_evergreen_type(TR))
+			continue
+		var/have = count_evergreen_quests_in(TR.region_name)
+		var/needed = TR.evergreen_target - have
+		for(var/i in 1 to needed)
+			var/type = pick_evergreen_type_for(TR)
+			if(!type)
+				break
+			generate_one(type, TR)
+
+/// Weighted pick of a kill quest type the given region allows.
+/datum/controller/subsystem/questpool/proc/pick_kill_type_for(datum/threat_region/TR)
+	var/list/weights = list()
+	for(var/qtype in QUEST_KILL_TYPE_WEIGHTS)
+		if(TR.allows_quest_type(qtype))
+			weights[qtype] = QUEST_KILL_TYPE_WEIGHTS[qtype]
+	if(!length(weights))
+		return null
+	return pickweight(weights)
+
+/// Weighted pick of an evergreen quest type the given region allows.
+/datum/controller/subsystem/questpool/proc/pick_evergreen_type_for(datum/threat_region/TR)
+	var/list/weights = list()
+	for(var/qtype in QUEST_EVERGREEN_TYPE_WEIGHTS)
+		if(TR.allows_quest_type(qtype))
+			weights[qtype] = QUEST_EVERGREEN_TYPE_WEIGHTS[qtype]
+	if(!length(weights))
+		return null
+	return pickweight(weights)
 
 /datum/controller/subsystem/questpool/proc/reroll_stale()
 	var/cutoff = world.time - QUEST_POOL_STALE_THRESHOLD
 	for(var/datum/quest/Q as anything in pool)
 		if(Q.created_at >= cutoff)
 			continue
+		var/was_kill = is_kill_type(Q.quest_type)
 		pool -= Q
 		log_event("reroll", "stale [Q.quest_difficulty] [Q.quest_type]")
 		qdel(Q)
 		record_round_statistic(STATS_CONTRACTS_REROLLED)
-		var/difficulty = pick_neediest_difficulty()
-		if(!difficulty)
+		// Only kill quests reroll on the kill schedule. Evergreens get topped up by regen_fetch_targets.
+		if(!was_kill)
 			continue
-		generate_one(difficulty)
+		var/datum/threat_region/TR = pick_neediest_kill_region()
+		if(!TR)
+			continue
+		var/type = pick_kill_type_for(TR)
+		if(!type)
+			continue
+		generate_one(type, TR)
 
-/datum/controller/subsystem/questpool/proc/generate_one(difficulty)
-	var/type = pick_type_for(difficulty)
-	if(!type)
-		return null
+/datum/controller/subsystem/questpool/proc/generate_one(type, datum/threat_region/preferred_region)
 	var/datum/quest/Q = instantiate_quest_of_type(type)
 	if(!Q)
 		return null
-	Q.quest_difficulty = difficulty
+	Q.quest_difficulty = difficulty_for_type(type)
 	Q.source = QUEST_SOURCE_POOL
 	Q.created_at = world.time
 	Q.deposit_amount = Q.calculate_deposit()
-	// Pick a region weighted by fill ratio, so high-threat regions draw more quests.
-	var/datum/threat_region/TR = SSregionthreat.pick_region_for_quest(type)
-	var/region_name = TR?.region_name
+	// If caller didn't specify a region, pick one weighted by threat (kill) or any eligible (evergreen).
+	if(!preferred_region)
+		preferred_region = SSregionthreat.pick_region_for_quest(type)
+	var/region_name = preferred_region?.region_name
 	var/obj/effect/landmark/quest_spawner/landmark = find_quest_landmark(type, region_name)
 	if(!landmark)
 		qdel(Q)
@@ -129,18 +186,21 @@ SUBSYSTEM_DEF(questpool)
 	Q.reward_amount = Q.calculate_reward(origin, landmark_turf)
 	pool += Q
 	record_round_statistic(STATS_CONTRACTS_GENERATED)
-	log_event("generate", "[difficulty] [type] at [Q.target_spawn_area || "unknown"] (reward [Q.reward_amount])")
+	log_event("generate", "[Q.quest_difficulty] [type] at [Q.target_spawn_area || "unknown"] (reward [Q.reward_amount])")
 	return Q
 
-/datum/controller/subsystem/questpool/proc/pick_type_for(difficulty)
-	switch(difficulty)
-		if(QUEST_DIFFICULTY_EASY)
-			return pickweight(QUEST_POOL_WEIGHTS_EASY)
-		if(QUEST_DIFFICULTY_MEDIUM)
-			return pickweight(QUEST_POOL_WEIGHTS_MEDIUM)
-		if(QUEST_DIFFICULTY_HARD)
-			return pickweight(QUEST_POOL_WEIGHTS_HARD)
-	return null
+/// Map quest type to a legacy difficulty tier (still used for deposit tier and scroll icon).
+/proc/difficulty_for_type(type)
+	switch(type)
+		if(QUEST_KILL_EASY)
+			return QUEST_DIFFICULTY_EASY
+		if(QUEST_RETRIEVAL, QUEST_COURIER)
+			return QUEST_DIFFICULTY_EASY
+		if(QUEST_CLEAR_OUT)
+			return QUEST_DIFFICULTY_MEDIUM
+		if(QUEST_RAID, QUEST_BOUNTY)
+			return QUEST_DIFFICULTY_HARD
+	return QUEST_DIFFICULTY_EASY
 
 /datum/controller/subsystem/questpool/proc/instantiate_quest_of_type(type)
 	switch(type)

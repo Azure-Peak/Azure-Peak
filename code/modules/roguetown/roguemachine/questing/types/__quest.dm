@@ -198,9 +198,9 @@
 	return closest
 
 /// Check if a user can claim this quest - override for restrictions
-/datum/quest/proc/can_claim(mob/user)
+/datum/quest/proc/can_claim(mob/living/user)
 	if(required_fellowship_size > 0)
-		var/datum/fellowship/F = user.current_fellowship
+		var/datum/fellowship/F = user?.current_fellowship
 		if(!F)
 			return FALSE
 		if(length(F.get_members()) < required_fellowship_size)
@@ -208,9 +208,9 @@
 	return TRUE
 
 /// Human-readable reason why can_claim failed, shown to the user at sign time.
-/datum/quest/proc/claim_failure_reason(mob/user)
+/datum/quest/proc/claim_failure_reason(mob/living/user)
 	if(required_fellowship_size > 0)
-		var/datum/fellowship/F = user.current_fellowship
+		var/datum/fellowship/F = user?.current_fellowship
 		if(!F)
 			return "This contract requires a Fellowship of [required_fellowship_size]."
 		if(length(F.get_members()) < required_fellowship_size)
