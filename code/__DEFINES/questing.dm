@@ -9,13 +9,25 @@
 #define QUEST_RAID "Raid"
 #define QUEST_BOUNTY "Bounty"
 
-// Flat bonuses layered on top of base quest reward and per-mob scaling.
-#define QUEST_REWARD_PER_HEAD 3
+// Flat bonus for bringing in the named bounty target's head.
 #define QUEST_REWARD_BOUNTY_HEAD 30
 
-// Multipliers applied to the target mob's `threat_point` when computing additional reward.
-#define QUEST_KILL_THREAT_MULT 0.5
-#define QUEST_BOUNTY_THREAT_MULT 2
+// Multipliers applied to spawned mob `threat_point` when computing kill quest additional reward.
+// Kill mult of 1.0 keeps the reward equal to the TP of mobs actually slain.
+#define QUEST_KILL_THREAT_MULT 1.0
+#define QUEST_BOUNTY_THREAT_MULT 4
+
+// TP budget the faction composes against for each kill quest type. Mirrors the ambush budget
+// system — each quest spends this much TP picking weighted mob types from faction.mob_types,
+// then spawns the mix. Bigger budget = more / tougher mobs.
+#define QUEST_TP_BUDGET_KILL_EASY 30
+#define QUEST_TP_BUDGET_CLEAR_OUT 80
+#define QUEST_TP_BUDGET_RAID 150
+#define QUEST_TP_BUDGET_BOUNTY_GOONS 60
+
+// Each kill quest rolls its tp_budget with ±QUEST_TP_BUDGET_VARIANCE relative variance so any
+// two quests of the same difficulty differ slightly in mob count and reward.
+#define QUEST_TP_BUDGET_VARIANCE 0.25
 
 // Bands of threat each kill quest type clears from its region on successful completion.
 // One band = THREAT_POINTS_PER_BAND (50) threat points by default.
@@ -24,12 +36,9 @@
 #define QUEST_BANDS_RAID 3
 #define QUEST_BANDS_BOUNTY 2
 
-#define QUEST_REWARD_EASY_LOW 30
-#define QUEST_REWARD_EASY_HIGH 35
-#define QUEST_REWARD_MEDIUM_LOW 45
-#define QUEST_REWARD_MEDIUM_HIGH 65
-#define QUEST_REWARD_HARD_LOW 120
-#define QUEST_REWARD_HARD_HIGH 180
+// Flat "you showed up" fee on every quest regardless of difficulty. All other reward is earned
+// via threat_point of slain mobs (for kill/bounty) or distance/items (for courier/retrieval).
+#define QUEST_REWARD_BASE_FLAT 10
 
 #define QUEST_DEPOSIT_EASY 5
 #define QUEST_DEPOSIT_MEDIUM 10

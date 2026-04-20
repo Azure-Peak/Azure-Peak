@@ -30,6 +30,7 @@
 	detail_text = DETAIL_TEXT_DECAP
 
 /area/rogue/indoors/shelter/mountains/decap
+	name = "Mount Decapitation"
 	icon_state = "decap"
 	loot_budget = LOOT_BUDGET_DECAP_SHELTERS
 	loot_pool_key = "decap_shelters"

@@ -1,7 +1,6 @@
 /datum/quest/kill/easy
 	quest_type = QUEST_KILL_EASY
-	count_min = 2
-	count_max = 4
+	tp_budget = QUEST_TP_BUDGET_KILL_EASY
 	threat_bands_cleared = QUEST_BANDS_KILL_EASY
 
 /datum/quest/kill/easy/get_title()

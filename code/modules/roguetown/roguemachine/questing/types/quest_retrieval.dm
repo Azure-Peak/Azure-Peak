@@ -27,6 +27,7 @@
 		return
 	target_item_type = pick(fetch_items)
 	progress_required = rand(1, 3)
+	finalize_preview_title()
 
 /datum/quest/retrieval/materialize(obj/effect/landmark/quest_spawner/landmark)
 	..()

@@ -15,6 +15,8 @@ type Contract = {
   area: string;
   region: string;
   objective: string;
+  expected_count: number;
+  threat_bands: number;
 };
 
 type ActiveContract = {
@@ -76,8 +78,8 @@ export const ContractLedger = () => {
   return (
     <Window
       title="Grand Contract Ledger"
-      width={780}
-      height={620}
+      width={1000}
+      height={760}
       theme="grimoire"
     >
       <Window.Content fitted>
@@ -189,6 +191,22 @@ const ContractCard = (props: { contract: Contract }) => {
         <span className="ContractLedger__CardLabel">Deposit</span>
         <span className="ContractLedger__CardValue">{c.deposit} mammon</span>
       </div>
+      {c.expected_count > 0 && (
+        <div className="ContractLedger__CardRow">
+          <span className="ContractLedger__CardLabel">Expected</span>
+          <span className="ContractLedger__CardValue">
+            ~{c.expected_count} target{c.expected_count === 1 ? '' : 's'}
+          </span>
+        </div>
+      )}
+      {c.threat_bands > 0 && (
+        <div className="ContractLedger__CardRow">
+          <span className="ContractLedger__CardLabel">Clears</span>
+          <span className="ContractLedger__CardValue">
+            {c.threat_bands} band{c.threat_bands === 1 ? '' : 's'} of threat
+          </span>
+        </div>
+      )}
       {c.objective && (
         <div className="ContractLedger__CardObjective">{c.objective}</div>
       )}

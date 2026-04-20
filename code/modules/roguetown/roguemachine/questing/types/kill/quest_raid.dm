@@ -1,7 +1,6 @@
 /datum/quest/kill/raid
 	quest_type = QUEST_RAID
-	count_min = 5
-	count_max = 8
+	tp_budget = QUEST_TP_BUDGET_RAID
 	threat_bands_cleared = QUEST_BANDS_RAID
 
 /datum/quest/kill/raid/get_title()

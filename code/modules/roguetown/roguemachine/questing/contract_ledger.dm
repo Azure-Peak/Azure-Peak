@@ -73,6 +73,11 @@
 /obj/structure/roguemachine/contractledger/proc/build_pool_listing()
 	var/list/listing = list()
 	for(var/datum/quest/Q as anything in SSquestpool.pool)
+		var/expected_count = Q.progress_required
+		var/threat_bands = 0
+		if(istype(Q, /datum/quest/kill))
+			var/datum/quest/kill/KQ = Q
+			threat_bands = KQ.threat_bands_cleared
 		listing += list(list(
 			"ref" = REF(Q),
 			"title" = Q.title || "Unnamed Contract",
@@ -82,7 +87,9 @@
 			"deposit" = Q.deposit_amount,
 			"area" = Q.target_spawn_area,
 			"region" = Q.region,
-			"objective" = "",
+			"objective" = Q.get_objective_text(),
+			"expected_count" = expected_count,
+			"threat_bands" = threat_bands,
 		))
 	return listing
 

@@ -1,7 +1,6 @@
 /datum/quest/kill/bounty
 	quest_type = QUEST_BOUNTY
-	count_min = 1
-	count_max = 1
+	tp_budget = QUEST_TP_BUDGET_BOUNTY_GOONS
 	threat_bands_cleared = QUEST_BANDS_BOUNTY
 	/// Generated boss name for title/objective. Set at preview.
 	var/boss_name
@@ -19,6 +18,8 @@
 	if(!faction)
 		return FALSE
 	faction_id = faction.id
+	// Scale goon budget by regional danger, then roll variance.
+	tp_budget = roll_tp_budget(tp_budget, TR.tp_budget_multiplier)
 	target_mob_type = faction.pick_boss_mob_type()
 	if(!target_mob_type)
 		return FALSE
@@ -49,27 +50,54 @@
 	var/threat = initial(target_mob_type.threat_point) || 0
 	return threat * QUEST_BOUNTY_THREAT_MULT + QUEST_REWARD_BOUNTY_HEAD
 
+/// Override — bounty progress is fixed at 1 (the boss), regardless of goon count.
+/datum/quest/kill/bounty/estimate_mob_count()
+	return 1
+
 /datum/quest/kill/bounty/materialize(obj/effect/landmark/quest_spawner/landmark)
 	if(!landmark)
 		return FALSE
 	if(!faction)
 		return FALSE
-	spawn_kill_mobs(landmark)
+	spawn_boss(landmark)
 	spawn_goons(landmark)
-	// Rename the boss mob in-world so turn-in and examine read as the generated name.
-	for(var/datum/weakref/ref in tracked_atoms)
-		var/mob/living/M = ref.resolve()
-		if(M && istype(M, target_mob_type))
-			M.real_name = boss_name
-			M.name = boss_name
+	progress_required = 1
+	// Rename the boss mob after a delay so subtype after_creation() doesn't clobber it.
+	// Some subtypes (e.g. large_goblin) call after_creation on a 1s timer and set their own name.
+	addtimer(CALLBACK(src, PROC_REF(apply_boss_name)), 2 SECONDS)
 	return TRUE
 
-/// Spawn 2-5 gang members of the same faction to accompany the bounty target.
-/datum/quest/kill/bounty/proc/spawn_goons(obj/effect/landmark/quest_spawner/landmark)
-	var/goon_type = faction.pick_mob_type()
-	if(!goon_type)
+/datum/quest/kill/bounty/proc/spawn_boss(obj/effect/landmark/quest_spawner/landmark)
+	var/turf/spawn_turf = landmark.get_safe_spawn_turf()
+	if(!spawn_turf)
 		return
-	for(var/i in 1 to rand(2, 5))
+	var/obj/effect/quest_spawn/spawn_effect = new /obj/effect/quest_spawn(spawn_turf)
+	var/mob/living/boss = new target_mob_type(spawn_effect)
+	boss.faction |= "quest"
+	if(faction?.faction_tag)
+		boss.faction |= faction.faction_tag
+	boss.AddComponent(/datum/component/quest_object/kill, src)
+	ADD_TRAIT(boss, TRAIT_FRESHSPAWN, "[type]")
+	addtimer(TRAIT_CALLBACK_REMOVE(boss, TRAIT_FRESHSPAWN, "[type]"), 60 SECONDS)
+	spawn_effect.contained_atom = boss
+	spawn_effect.AddComponent(/datum/component/quest_object/mob_spawner, src)
+	add_tracked_atom(boss)
+	landmark.add_quest_faction_to_nearby_mobs(spawn_turf)
+
+/datum/quest/kill/bounty/proc/apply_boss_name()
+	for(var/datum/weakref/ref in tracked_atoms)
+		var/mob/living/M = ref.resolve()
+		if(QDELETED(M))
+			continue
+		if(!istype(M, target_mob_type))
+			continue
+		M.real_name = boss_name
+		M.name = boss_name
+
+/// Spawn a TP-budget gang of faction members to accompany the bounty target.
+/datum/quest/kill/bounty/proc/spawn_goons(obj/effect/landmark/quest_spawner/landmark)
+	var/list/to_spawn = compose_warband()
+	for(var/goon_type in to_spawn)
 		var/turf/spawn_turf = landmark.get_safe_spawn_turf()
 		if(!spawn_turf)
 			continue

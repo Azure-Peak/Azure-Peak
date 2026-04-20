@@ -8,3 +8,13 @@
 		/mob/living/carbon/human/species/skeleton/npc/mediumspread = 50,
 		/mob/living/carbon/human/species/skeleton/npc/hardspread = 50,
 	)
+	boss_mob_types = list(
+		/mob/living/carbon/human/species/skeleton/npc/dungeon/lich = 100,
+	)
+	boss_title_templates = list(
+		"%N the Unsleeping",
+		"%N the Bound",
+		"Sir %N",
+		"%N the Forsworn",
+	)
+	boss_name_file = "strings/rt/names/other/deaditenpcfirst.txt"

@@ -22,7 +22,8 @@ SUBSYSTEM_DEF(regionthreat)
 				QUEST_FACTION_WILD_BEAST = 70,
 				QUEST_FACTION_HIGHWAYMAN = 20,
 				QUEST_FACTION_FOREST_GOBLIN = 10,
-			)
+			),
+			_tp_budget_multiplier = 0.75
 		),
 		new /datum/threat_region(
 			_region_name = THREAT_REGION_AZURE_GROVE, // Solo: 15 TP → 1-2 mixed | 5-party: 75 TP → 5-6 mixed
@@ -37,7 +38,8 @@ SUBSYSTEM_DEF(regionthreat)
 				QUEST_FACTION_FOREST_GOBLIN = 30,
 				QUEST_FACTION_HIGHWAYMAN = 25,
 				QUEST_FACTION_STRAY_DEADITE = 10,
-			)
+			),
+			_tp_budget_multiplier = 1.0
 		),
 		new /datum/threat_region(
 			_region_name = THREAT_REGION_TERRORBOG, // Solo: 45 TP → 2-3 bogmen | 5-party: 225 TP → 11 bogmen
@@ -52,7 +54,8 @@ SUBSYSTEM_DEF(regionthreat)
 				QUEST_FACTION_MIRESPIDER = 30,
 				QUEST_FACTION_BOG_DEADITE = 20,
 				QUEST_FACTION_FOREST_GOBLIN = 10,
-			)
+			),
+			_tp_budget_multiplier = 1.5
 		),
 		// Coast & Decap stay somewhat dangerous no matter what
 		new /datum/threat_region(
@@ -71,7 +74,8 @@ SUBSYSTEM_DEF(regionthreat)
 				QUEST_FACTION_WILD_BEAST = 5,
 				QUEST_FACTION_GREAT_BEAST = 5,
 			),
-			_courier_eligible = FALSE
+			_courier_eligible = FALSE,
+			_tp_budget_multiplier = 1.2
 		),
 		new /datum/threat_region(
 			_region_name = THREAT_REGION_MOUNT_DECAP, // Solo: 30 TP → 1 minotaur | 5-party: 150 TP → 5 minotaurs
@@ -89,7 +93,27 @@ SUBSYSTEM_DEF(regionthreat)
 				QUEST_FACTION_GREAT_BEAST = 10,
 				QUEST_FACTION_MADMAN = 10,
 			),
-			_courier_eligible = FALSE
+			_courier_eligible = FALSE,
+			_tp_budget_multiplier = 1.5
+		),
+		// Underdark cannot be tamed — min_ambush is high, keeping the region permanently dangerous.
+		new /datum/threat_region(
+			_region_name = THREAT_REGION_UNDERDARK,
+			_latent_ambush = 800,
+			_min_ambush = 400, // Hard floor — drow and spider nests are eternal
+			_max_ambush = 1200,
+			_fixed_ambush = FALSE,
+			_lowpop_tick = 1200 * THREAT_LOWPOP_TICK_RATE,
+			_highpop_tick = 1200 * THREAT_HIGHPOP_TICK_RATE,
+			_faction_weights = list(
+				QUEST_FACTION_DROW = 30,
+				QUEST_FACTION_MIRESPIDER = 25,
+				QUEST_FACTION_MOON_GOBLIN = 25,
+				QUEST_FACTION_LICH_DEADITE = 10,
+				QUEST_FACTION_MINOTAUR = 10,
+			),
+			_courier_eligible = FALSE,
+			_tp_budget_multiplier = 1.5
 		)
 	)
 

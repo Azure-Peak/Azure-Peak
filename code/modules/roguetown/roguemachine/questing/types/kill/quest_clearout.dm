@@ -1,7 +1,6 @@
 /datum/quest/kill/clearout
 	quest_type = QUEST_CLEAR_OUT
-	count_min = 4
-	count_max = 6
+	tp_budget = QUEST_TP_BUDGET_CLEAR_OUT
 	threat_bands_cleared = QUEST_BANDS_CLEAR_OUT
 
 /datum/quest/kill/clearout/get_title()

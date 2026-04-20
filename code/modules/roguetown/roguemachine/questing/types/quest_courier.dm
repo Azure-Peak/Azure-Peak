@@ -110,6 +110,7 @@
 		/obj/item/reagent_containers/food/snacks/rogue/crackerscooked,
 	)
 	target_delivery_item = pick(possible_items)
+	finalize_preview_title()
 
 /datum/quest/courier/materialize(obj/effect/landmark/quest_spawner/landmark)
 	..()

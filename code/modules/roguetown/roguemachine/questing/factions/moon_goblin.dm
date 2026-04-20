@@ -9,3 +9,13 @@
 		/mob/living/simple_animal/hostile/retaliate/rogue/troll/cave = 10,
 		/mob/living/simple_animal/hostile/retaliate/rogue/minotaur = 10,
 	)
+	boss_mob_types = list(
+		/mob/living/carbon/human/species/goblin/npc/large/moon = 100,
+	)
+	boss_title_templates = list(
+		"Moonchief %N",
+		"%N-Under-the-Dark",
+		"%N the Pale",
+		"%N of the Vaults",
+	)
+	boss_name_file = "strings/rt/names/other/goblinm.txt"

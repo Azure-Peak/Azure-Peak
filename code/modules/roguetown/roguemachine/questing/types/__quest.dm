@@ -93,9 +93,13 @@
 	pending_landmark_ref = WEAKREF(landmark)
 	target_spawn_area = get_area_name(get_turf(landmark))
 	region = landmark.region
+	return TRUE
+
+/// Subtype preview chains call this at the end once target_mob_type / faction / etc. are set,
+/// so get_title() sees a fully populated quest state.
+/datum/quest/proc/finalize_preview_title()
 	if(!title)
 		title = get_title()
-	return TRUE
 
 /// World-mutating generation: spawn mobs, items, parcels. Called by SSquestpool.claim when the
 /// contract is actually signed. Subtypes override to do their specific spawns.
@@ -130,15 +134,10 @@
 	complete = TRUE
 	quest_scroll?.update_quest_text()
 
-// Base reward scaled only to difficulty
+// Flat "you showed up" base, same for every quest regardless of difficulty. Difficulty
+// expresses itself through tp_budget (kill types) and distance/items (courier/retrieval).
 /datum/quest/proc/get_base_reward()
-	switch(quest_difficulty)
-		if(QUEST_DIFFICULTY_EASY)
-			return rand(QUEST_REWARD_EASY_LOW, QUEST_REWARD_EASY_HIGH)
-		if(QUEST_DIFFICULTY_MEDIUM)
-			return rand(QUEST_REWARD_MEDIUM_LOW, QUEST_REWARD_MEDIUM_HIGH)
-		if(QUEST_DIFFICULTY_HARD)
-			return rand(QUEST_REWARD_HARD_LOW, QUEST_REWARD_HARD_HIGH)
+	return QUEST_REWARD_BASE_FLAT
 
 /datum/quest/proc/get_additional_reward(turf/origin_turf, turf/target_turf)
 	return 0

@@ -16,3 +16,4 @@
 #define QUEST_FACTION_HELL_GOBLIN "hell_goblin"
 #define QUEST_FACTION_MOUNT_REAVER "mount_reaver"
 #define QUEST_FACTION_MADMAN "madman"
+#define QUEST_FACTION_DROW "drow"

@@ -10,8 +10,11 @@
 	var/last_induced_ambush_time = 0 // Time between now and the previous ambush triggered by horn
 	var/list/faction_weights = list()
 	var/courier_eligible = TRUE
+	/// Multiplier applied to quest tp_budget for kill / bounty quests originating in this region.
+	/// Values > 1.0 spawn more or tougher content (and thus pay more, since reward scales with TP).
+	var/tp_budget_multiplier = 1.0
 
-/datum/threat_region/New(_region_name, _latent_ambush, _min_ambush, _max_ambush, _fixed_ambush, _lowpop_tick, _highpop_tick, _faction_weights, _courier_eligible = TRUE)
+/datum/threat_region/New(_region_name, _latent_ambush, _min_ambush, _max_ambush, _fixed_ambush, _lowpop_tick, _highpop_tick, _faction_weights, _courier_eligible = TRUE, _tp_budget_multiplier = 1.0)
 	region_name = _region_name
 	latent_ambush = _latent_ambush
 	min_ambush = _min_ambush
@@ -22,6 +25,7 @@
 	if(_faction_weights)
 		faction_weights = _faction_weights
 	courier_eligible = _courier_eligible
+	tp_budget_multiplier = _tp_budget_multiplier
 
 /datum/threat_region/proc/pick_faction()
 	if(!length(faction_weights))
