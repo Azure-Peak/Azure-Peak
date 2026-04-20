@@ -4,6 +4,8 @@
 	flavor_text = {"Under the Ten's Grace, with Ravox as witness, be it known that the Church of Azuria, consecrated beneath the Ten and quickened by Astrata's light, shall keep the peace of the gods upon this land: to pray for the safety and prosperity of the Realm by day and by night, to maintain the favor of the Ten through proper sacrament and offering, to levy tithe from amongst its own brethren, to shelter the poor and the downtrodden, and to furnish its own knightly order of templars that the common defense of the Realm be not wanting.
 
 In exchange, as sacred envoys of the gods and servants of the Ten, the clergy of the Church of Azuria shall bear no tax nor levy, neither upon their persons nor upon the properties of the Faith; nor shall the Crown intrude upon the internal discipline of the Church, save by lawful counsel of the Bishop's court."}
+	revoke_text = "The %RULER% has rescinded the Zenistadt Concordat. The Church's wealth shall serve the greater good of the realm."
+	restore_text = "The %RULER% has affirmed the Zenistadt Concordat. The hand of the Crown shall meddle no more in the disposition of the Church's worldly wealth."
 
 /datum/decree/zenistadt_concordat/roll_initial_year()
 	return CALENDAR_EPOCH_YEAR - rand(50, 120)

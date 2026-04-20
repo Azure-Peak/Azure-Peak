@@ -5,6 +5,8 @@
 	var/flavor_text
 	var/active = TRUE
 	var/cooldown_expires = 0
+	var/revoke_text
+	var/restore_text
 
 /datum/decree/New()
 	. = ..()
@@ -41,4 +43,14 @@
 		on_restore()
 	else
 		on_revoke()
+	broadcast_state_change()
 	return TRUE
+
+/datum/decree/proc/broadcast_state_change()
+	var/template = active ? restore_text : revoke_text
+	if(!template)
+		return
+	var/ruler_type = SSticker?.rulertype || "Lord"
+	var/body = replacetext(template, "%RULER%", ruler_type)
+	var/title = active ? "BY LORDLY MERCY" : "BY LORDLY DECREE"
+	priority_announce(body, title, pick('sound/misc/royal_decree.ogg', 'sound/misc/royal_decree2.ogg'), "Captain", strip_html = FALSE)
