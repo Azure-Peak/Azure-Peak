@@ -20,7 +20,7 @@
 
 /datum/supply_pack/rogue/Mage/leather/Lhelmet
 	name = "Leather Helmet"
-	cost = 5
+	cost = 10
 	contains = list(/obj/item/clothing/head/roguetown/helmet/leather)
 
 //////////
@@ -61,44 +61,24 @@
 	cost = 10
 	contains = list(/obj/item/clothing/suit/roguetown/armor/leather)
 
-/datum/supply_pack/rogue/Mage/leather/studded
-	name = "Studded Leather Armor"
-	cost = 20
-	contains = list(/obj/item/clothing/suit/roguetown/armor/leather/studded)
-
-/datum/supply_pack/rogue/Mage/leather/heavy
-	name = "Hardened Leather Armor"
-	cost = 20
-	contains = list(/obj/item/clothing/suit/roguetown/armor/leather/heavy)
-
 ///////////////////
 // WRISTS/GLOVES //
 ///////////////////
 
 /datum/supply_pack/rogue/Mage/leather/Lbracers
 	name = "Leather Bracers"
-	cost = 5
+	cost = 10
 	contains = list(/obj/item/clothing/wrists/roguetown/bracers/leather)
 
 /datum/supply_pack/rogue/Mage/leather/hbracers
 	name = "Hardened Leather Bracers"
-	cost = 10
+	cost = 20
 	contains = list(/obj/item/clothing/wrists/roguetown/bracers/leather/heavy)
 
 /datum/supply_pack/rogue/Mage/leather/lgloves
 	name = "Leather Gloves"
-	cost = 5
+	cost = 10
 	contains = list(/obj/item/clothing/gloves/roguetown/leather)
-
-/datum/supply_pack/rogue/Mage/leather/hlgloves
-	name = "Heavy Leather Gloves"
-	cost = 10
-	contains = list(/obj/item/clothing/gloves/roguetown/angle)
-
-/datum/supply_pack/rogue/Mage/leather/flgloves
-	name = "Fingerless Leather Gloves"
-	cost = 10
-	contains = list(/obj/item/clothing/gloves/roguetown/fingerless_leather)
 
 ///////////////
 // LEGS/FEET //
@@ -138,19 +118,29 @@
 	cost = 100
 	contains = list(/obj/item/rogueweapon/huntingknife/idagger/silver)
 
-///////////
-// MAGIC //
-///////////
-
-/datum/supply_pack/rogue/Mage/unfinbook
-	name = "Unfinished Spellbook"
-	cost = 10
-	contains = list(/obj/item/spellbook_unfinished)
+//////////////////
+// ✨ MAGIC ✨ //
+//////////////////
 
 /datum/supply_pack/rogue/Mage/nomag
 	name = "Ring of Nullmagic"
 	cost = 200
 	contains = list(/obj/item/clothing/ring/active/nomag)
+
+/datum/supply_pack/rogue/Mage/ring_swiftness
+	name = "Ring of Swiftness"
+	cost = 250
+	contains = list(/obj/item/clothing/ring/statgemerald)
+
+/datum/supply_pack/rogue/Mage/ring_vitality
+	name = "Ring of Vitality"
+	cost = 250
+	contains = list(/obj/item/clothing/ring/statonyx)
+
+/datum/supply_pack/rogue/Mage/ring_wisdom
+	name = "Ring of Wisdom"
+	cost = 250
+	contains = list(/obj/item/clothing/ring/statamythortz)
 
 /datum/supply_pack/rogue/Mage/talkstone
 	name = "Talkstone"
@@ -171,10 +161,10 @@
 // UTILITY //
 /////////////
 
-/datum/supply_pack/rogue/Mage/scrolls
-	name = "Scrolls"
-	cost = 2
-	contains = list(/obj/item/paper/scroll)
+/datum/supply_pack/rogue/Mage/book
+	name = "Spellbook"
+	cost = 80
+	contains = list(/obj/item/book/spellbook)
 
 /datum/supply_pack/rogue/bandit/Mage/cinnabar
 	name = "Cinnabar Ore"
@@ -185,32 +175,17 @@
 // 💎 GEMS 💎 //
 /////////////////
 
-/datum/supply_pack/rogue/Mage/toper
-	name = "Toper"
+/datum/supply_pack/rogue/Mage/lesser_implement
+	name = "Lesser Implement"
 	cost = 55
-	contains = list(/obj/item/roguegem/yellow)
+	contains = list(/obj/item/rogueweapon/woodstaff/implement)
 
-/datum/supply_pack/rogue/Mage/gemerald
-	name = "Gemerald"
-	cost = 70
-	contains = list(/obj/item/roguegem/green)
-
-/datum/supply_pack/rogue/Mage/saffira
-	name = "Saffira"
-	cost = 90
-	contains = list(/obj/item/roguegem/violet)
-
-/datum/supply_pack/rogue/Mage/Blortz
-	name = "Blortz"
+/datum/supply_pack/rogue/Mage/greater_implement
+	name = "Greater Implement"
 	cost = 120
-	contains = list(/obj/item/roguegem/blue)
+	contains = list(/obj/item/rogueweapon/woodstaff/implement/greater)
 
-/datum/supply_pack/rogue/Mage/Rontz
-	name = "Rontz"
-	cost = 150
-	contains = list(/obj/item/roguegem/ruby)
-
-/datum/supply_pack/rogue/Mage/Dorpel
-	name = "Dorpel"
+/datum/supply_pack/rogue/Mage/grand_implement
+	name = "Grand Implement"
 	cost = 180
-	contains = list(/obj/item/roguegem/diamond)
+	contains = list(/obj/item/rogueweapon/woodstaff/implement/grand)

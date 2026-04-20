@@ -9,11 +9,16 @@
 	alpha = 150
 	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
 	appearance_flags = NO_CLIENT_COLOR
+	mergeable_decal = FALSE
 
 /obj/effect/decal/cleanable/coom/Initialize(mapload)
 	. = ..()
 	pixel_x = rand(-8, 8)
 	pixel_y = rand(-8, 8)
+	if(prob(75))
+		var/matrix/M = new
+		M.Turn(90 * rand(1, 3)) // turn by 90 degrees
+		transform = M
 
 /obj/effect/decal/cleanable/blood
 	name = "blood"
@@ -277,7 +282,7 @@
 		return TRUE
 
 
-//BLOODY FOOTPRINTS
+//BLOODY/MUDDY/SNOWY FOOTPRINTS
 /obj/effect/decal/cleanable/blood/footprints
 	name = "footprints"
 	desc = ""
@@ -290,6 +295,10 @@
 	alpha = 140
 	bloodiness = 0
 	var/list/shoe_types = list()
+
+/obj/effect/decal/cleanable/blood/footprints/mud
+	icon_state = "mud1"
+	blood_state = BLOOD_STATE_MUD
 
 /obj/effect/decal/cleanable/blood/footprints/Initialize(mapload)
 	. = ..()

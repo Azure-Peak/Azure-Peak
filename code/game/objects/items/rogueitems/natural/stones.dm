@@ -136,7 +136,7 @@ GLOBAL_LIST_INIT(stone_personality_descs, list(
 	slot_flags = ITEM_SLOT_MOUTH
 	obj_flags = null
 	w_class = WEIGHT_CLASS_TINY
-	experimental_inhand = FALSE
+	experimental_inhand = TRUE
 	associated_skill = /datum/skill/combat/unarmed
 	mill_result = /obj/item/reagent_containers/powder/mineral
 	/// If our stone is magical, this lets us know -how- magical. Maximum is 15.
@@ -144,9 +144,19 @@ GLOBAL_LIST_INIT(stone_personality_descs, list(
 	sharpening_factor = 12
 	spark_chance = 35
 
+/obj/item/natural/stone/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Left-click a bladed weapon to begin sharpening it. Sharpening automatically stops once you move, or once the bladed weapon has been completely resharpened.")
+	. += span_info("Left-clicking a bladed weapon, another stone, or a rock has a chance to spawn sparks. Sparks can be used to reignite extinguished torches, lampterns, hearths, and other igniteable structures.")
+	. += span_info("Sharpening a bladed weapon will permenantly remove a very small amount of its maximum sharpness, with each pass. This can be avoided by sharpening it at a blacksmith's grindstone.")
+	. += span_info("Left-clicking a stone with a chisel will turn it into a stone block, which can be used for masonry and construction.")
+	. += span_info("Stones can be 'slapcrafted' into new items by left-clicking them with certain tools and materials. 'Slapcrafted' items don't require a Crafting skill to make.")
+	. += span_info("'Slapcrafts' for stones include tools and pots.")
+
 /obj/item/natural/stone/Initialize()
 	. = ..()
 	stone_lore()
+	update_force_dynamic() // Else it will not display the force properly.
 
 	var/static/list/slapcraft_recipe_list = list(
 		/datum/crafting_recipe/roguetown/survival/stoneaxe,
@@ -180,6 +190,14 @@ GLOBAL_LIST_INIT(stone_personality_descs, list(
 	possible_item_intents = list(/datum/intent/hit, /datum/intent/mace/smash/wood, /datum/intent/dagger/cut)
 	sharpening_factor = 21
 	spark_chance = 80
+
+/obj/item/natural/whetstone/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Left-click a bladed weapon to begin sharpening it. Sharpening automatically stops once you move, or once the bladed weapon has been completely resharpened.")
+	. += span_info("Left-clicking a bladed weapon, another stone, or a rock has a chance to spawn sparks. Sparks can be used to reignite extinguished torches, lampterns, hearths, and other igniteable structures.")
+	. += span_info("Sharpening a bladed weapon will permenantly remove a very small amount of its maximum sharpness, with each pass. This can be avoided by sharpening it at a blacksmith's grindstone.")
+	. += span_info("Whetstones can be 'slapcrafted' into new items by left-clicking them with certain tools and materials. 'Slapcrafted' items don't require a Crafting skill to make.")
+	. += span_info("'Slapcrafts' for whestones include tools, and - if used with hunting knives and farming tools - unique weapons.")
 
 /obj/item/natural/whetstone/Initialize()
 	. = ..()
@@ -353,7 +371,7 @@ GLOBAL_LIST_INIT(stone_personality_descs, list(
 
 /obj/item/natural/rock
 	name = "boulder"
-	desc = "A rock protudes from the ground."
+	desc = "They're not 'rocks', they're minerals!"
 	icon_state = "stonebig1"
 	dropshrink = 0
 	throwforce = 25
@@ -376,16 +394,25 @@ GLOBAL_LIST_INIT(stone_personality_descs, list(
 	attacked_sound = 'sound/foley/hit_rock.ogg'
 
 
-/obj/item/natural/rock/Initialize()
-	icon_state = "stonebig[rand(1,2)]"
-	..()
+/obj/item/natural/rock/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Rocks can be destroyed by left-clicking them with an item that has the 'PICK' intent selected. Hidden inside can be anything from stones and salt to ores and gems.")
+	. += span_info("Left-clicking a rock with a stone has a chance to spawn sparks. Sparks can be used to reignite extinguished torches, lampterns, hearths, and other igniteable structures.")
+	. += span_info("Left-clicking a rock with a chisel will turn it into a stone block, which can be used for masonry and construction.")
 
+/obj/item/natural/rock/Initialize(mapload, autodeconstruct)
+	icon_state = "stonebig[rand(1,2)]"
+	if(autodeconstruct)
+		deconstruct()
+		return
+	..()
 
 /obj/item/natural/rock/Crossed(mob/living/L)
 	if(istype(L) && !L.throwing)
 		if(L.m_intent == MOVE_INTENT_RUN)
 			L.visible_message(span_warning("[L] trips over the boulder!"),span_warning("I trip over the boulder!"))
 			L.Knockdown(10)
+			L.drop_all_held_items()
 			L.consider_ambush(always = TRUE)
 	..()
 
@@ -441,6 +468,22 @@ GLOBAL_LIST_INIT(stone_personality_descs, list(
 			S.set_up(1, 1, front)
 			S.start()
 		return
+	if(istype(W, /obj/item/contraption/pick/drill) && user.used_intent.type == /datum/intent/drill)
+		var/obj/item/contraption/pick/drill/drillitem = W
+		if(drillitem.current_charge < 10)
+			to_chat(user, span_warning("Not enough fuel."))
+			return
+		playsound(src.loc, 'sound/items/stonestone.ogg', 100)
+		if(prob(35))
+			var/datum/effect_system/spark_spread/S = new()
+			var/turf/front = get_turf(src)
+			S.set_up(1, 1, front)
+			S.start()
+		src.take_damage(500) //smashs through boulders with ease
+		drillitem.current_charge -= 10
+		if (drillitem.current_charge < 1)
+			ungrip(user, "it runs out of fuel")
+		return
 	if( user.used_intent.type == /datum/intent/chisel )
 		playsound(src.loc, pick('sound/combat/hits/onrock/onrock (1).ogg', 'sound/combat/hits/onrock/onrock (2).ogg', 'sound/combat/hits/onrock/onrock (3).ogg', 'sound/combat/hits/onrock/onrock (4).ogg'), 100)
 		user.visible_message("<span class='info'>[user] chisels the boulder into blocks.</span>")
@@ -495,24 +538,41 @@ GLOBAL_LIST_INIT(stone_personality_descs, list(
 /obj/item/natural/rock/random_ore
 	name = "rock?"
 	desc = "Wait, this shouldn't be here?"
-	icon_state = "stonerandom"
+	icon = 'icons/roguetown/helpers/spawnerhelpers.dmi'
+	icon_state = "random_rock"
+
+/obj/item/natural/rock/dungeon
+	name = "rock?"
+	desc = "Wait, this shouldn't be here? Tell Mumblemancer he's a shit coder!"
+	icon = 'icons/roguetown/helpers/spawnerhelpers.dmi'
+	icon_state = "dungeon_rock"
+
+// actually random
+/obj/item/natural/rock/random_ore/Initialize()
+	. = ..()
+	var/obj/item/natural/rock/theboi = pick(list(
+		/obj/item/natural/rock/copper,
+		/obj/item/natural/rock/tin,
+		/obj/item/natural/rock/coal,
+		/obj/item/natural/rock/salt,
+		/obj/item/natural/rock/iron,
+		/obj/item/natural/rock/gold,
+		/obj/item/natural/rock/silver,
+		/obj/item/natural/rock/gem,
+	))
+	new theboi(get_turf(src))
+	return INITIALIZE_HINT_QDEL
 
 /*
-Temporarily changing this to a weighted picklist so it's not actually 100% random, despite the name.
-I don't THINK this is actually used anywhere beyond the Dungeons of Matthios, but it's currently fucking up the economy
-a lot and I don't have time to do the mapping changes right now. I'll probably push this onto it's own kind of rock-spawn and replace
-the rocks w/ it later.
-
 BECAUSE this is a dungeon reward, and you're SUPPOSED to get SOMETHING, they've got a pretty high chance for good stuff.
 - MUMBLEMANCER
 */
-
-/obj/item/natural/rock/random_ore/Initialize()
+/obj/item/natural/rock/dungeon/Initialize()
 	. = ..()
 	// The amounts are going to be weird BC I wanted a % out of 100 and it's a 7 layer list.
 	// I am considering gems to be less problematic than gold BC gold can be melted into way more
 	// valuable stuff. Silver is the most egregious thing on this list, but I'm keeping it.
-	// All in all: you have a 16% chance of a "good" (read: at least like, 30 mammon) drop. 50% of coal or iron, 
+	// All in all: you have a 16% chance of a "good" (read: at least like, 30 mammon) drop.
 	var/obj/item/natural/rock/theboi = pickweight(list(
 		/obj/item/natural/rock/copper = 20,
 		/obj/item/natural/rock/tin = 25,
@@ -524,7 +584,6 @@ BECAUSE this is a dungeon reward, and you're SUPPOSED to get SOMETHING, they've 
 	))
 	new theboi(get_turf(src))
 	return INITIALIZE_HINT_QDEL
-
 //................	Stone blocks	............... //
 /obj/item/natural/stoneblock
 	name = "stone block"
@@ -576,7 +635,7 @@ BECAUSE this is a dungeon reward, and you're SUPPOSED to get SOMETHING, they've 
 	icon_state = "stoneblockbundle1"
 	icon = 'icons/roguetown/items/crafting.dmi'
 	item_state = "block"
-	experimental_inhand = FALSE
+	experimental_inhand = TRUE
 	grid_width = 64
 	grid_height = 64
 	base_width = 64

@@ -1,7 +1,7 @@
 /obj/item/natural/clay
 	name = "clay"
 	icon_state = "clay"     // Placeholder. TODO: Get an icon for clay.
-	desc = "A handful of damp, malleable clay"
+	desc = "A handful of damp, malleable clay. When rolled out atop a potter's wheel, it can be sculpted into pots, cutlery, and statues."
 	gripped_intents = null
 	dropshrink = 0.75
 	possible_item_intents = list(INTENT_GENERIC)

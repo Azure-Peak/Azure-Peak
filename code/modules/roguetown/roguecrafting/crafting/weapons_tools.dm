@@ -429,6 +429,17 @@
 	skillcraft = /datum/skill/craft/carpentry
 	craftdiff = 0
 
+/datum/crafting_recipe/roguetown/survival/sharpenedstake
+	name = "stake, sharpened"
+	category = "Tools" 
+	result = list(/obj/item/rogueweapon/huntingknife/idagger/stake)
+	reqs = list(
+		/obj/item/grown/log/tree/stake = 1,
+		/obj/item/natural/whetstone = 1,
+		)
+	skillcraft = /datum/skill/craft/crafting
+	craftdiff = 2
+
 /datum/crafting_recipe/roguetown/survival/wood_dagger
 	name = "wooden dagger (x3)"
 	category = "Tools"
@@ -512,9 +523,20 @@
 		/obj/item/natural/fibers = 2,
 		)
 
-
 /obj/item/fishingrod/crafted
 	sellprice = 8
+
+/datum/crafting_recipe/roguetown/survival/bow
+	name = "bow"
+	category = "Tools"
+	result = list(/obj/item/gun/ballistic/revolver/grenadelauncher/bow/classic)
+	reqs = list(
+		/obj/item/grown/log/tree = 1,
+		/obj/item/natural/cloth = 1,
+		/obj/item/natural/fibers = 3,
+		)
+	skillcraft = /datum/skill/craft/crafting
+	craftdiff = 3
 
 /datum/crafting_recipe/roguetown/survival/fishingcage
 	name = "fishing cage"
@@ -529,8 +551,10 @@
 /datum/crafting_recipe/roguetown/survival/strucrepairkit
 	name = "Structure Repair Kit"
 	category = "Tools"
-	result = /obj/item/construction/repairkit/structure
-	reqs = list(/obj/item/construction/nail = 3,
+	result = list(/obj/item/construction/repairkit/structure,
+				  /obj/item/construction/repairkit/structure,
+				  /obj/item/construction/repairkit/structure)
+	reqs = list(/obj/item/construction/nail = 6,
 				/obj/item/natural/wood/plank = 3,
 				/obj/item/natural/stoneblock = 3)
 	skillcraft = /datum/skill/craft/carpentry

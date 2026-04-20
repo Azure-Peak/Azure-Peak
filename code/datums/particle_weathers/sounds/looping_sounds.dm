@@ -22,6 +22,18 @@
 	volume = 150
 	direct = TRUE
 
+/datum/looping_sound/hail
+	mid_sounds = 'sound/weather/hail/weather_hail.ogg'
+	mid_length = 50 SECONDS
+	volume = 110
+	direct = TRUE
+
+/datum/looping_sound/indoor_hail
+	mid_sounds = 'sound/weather/hail/weather_hail_indoors.ogg'
+	mid_length = 30 SECONDS
+	volume = 175
+	direct = TRUE
+
 /datum/looping_sound/wind
 	mid_sounds = 'sound/weather/rain/wind_1.ogg'
 	mid_sounds = list(

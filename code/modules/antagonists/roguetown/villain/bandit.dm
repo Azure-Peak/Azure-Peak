@@ -1,3 +1,10 @@
+// Storyteller scaling (roundstart, storyteller_scale_slots path):
+// scaling=2, min_players=20, default_cap=2
+//  Storyteller    | Cap | <20 | 20-40 | 41-50 | 51-60 | 61+
+//  Ravox          |  4  |  0  |   2   |   4   |   4   |  4
+//  Xylix          |  4  |  0  |   2   |   4   |   4   |  4
+//  Matthios       |  6  |  0  |   2   |   4   |   6   |  6
+//  Others         |  2  |  0  |   2   |   2   |   2   |  2
 /datum/antagonist/bandit
 	name = "Bandit"
 	roundend_category = "bandits"
@@ -11,6 +18,18 @@
 		"I WILL NOT FOLLOW YOUR RULES!",
 	)
 	rogue_enabled = TRUE
+	has_tempo = TRUE
+	storyteller_antag_flags = STORYTELLER_ANTAG_VILLAIN | STORYTELLER_ANTAG_ROUNDSTART
+	storyteller_favor_flags = STORYTELLER_FAVOR_BANDIT
+	override_candidatereq = TRUE
+	storyteller_min_players = CHARACTER_INJECTION_MIN_POP
+	storyteller_slot_scaling = 2
+	storyteller_slot_default_cap = 2
+	storyteller_maxcaps = list(
+		/datum/storyteller/ravox = 4,
+		/datum/storyteller/xylix = 4,
+		/datum/storyteller/matthios = 6,
+	)
 	var/favor = 150
 	var/totaldonated = 0
 
@@ -35,7 +54,7 @@
 	ADD_TRAIT(H, TRAIT_BANDITCAMP, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_SEEPRICES, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_COMMIE, TRAIT_GENERIC)
+	ADD_TRAIT(H, TRAIT_FREEMAN, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_OUTLAW, TRAIT_GENERIC)		//Just to stop them from using mesiters like Wretches.
 	to_chat(H, span_alertsyndie("I am a BANDIT!"))
 	to_chat(H, span_boldwarning("Long ago I did a crime worthy of my bounty being hung on the wall outside of the local inn. I live now with fellow free men in reverence to MATTHIOS whose idol grants us boons and wishes when fed the money, treasures, and metals of the civilized wretches. As a member of the free men, I worship MATTHIOS first and foremost, though I may have allegiance to other deities."))

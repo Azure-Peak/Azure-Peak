@@ -5,13 +5,17 @@
 /datum/species/construct/metal
 	name = "Metal Construct"
 	id = "constructm"
+	origin_default = /datum/virtue/origin/naledi
+	origin = "Naledi"
+	base_name = "Godtouched"
+	is_subrace = TRUE
 	desc = "<b>Metallic Construct</b><br>\
 	Masterworks of artifice, metal constructs are as the name implies- entirely constructed by mortal hands. They are beings not of flesh and blood, but cold metal and the arcyne. Constructs are said to originate from works of Zizo, and they hail from the far-off lands of the Southern Empty- a great city of artifice, where the only artificers capable of understanding what is necessary to create the constructs live. For some reason, they have found themselves travelling out of the empty, as of late. Children of the Resonator Siphon.<br>\
-	(+1 Willpower, -2 Speed)<br>\
-	(Insomnia, No hunger, no blood.)"
+	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b>+1 WIL | -2 SPD | Insomnia | No Hunger | No Bleeding </b></span><br><br>"
 
 	construct = 1
 	skin_tone_wording = "Material"
+	use_skin_tone_wording_for_examine = FALSE
 	default_color = "FFFFFF"
 	species_traits = list(EYECOLOR,HAIR,FACEHAIR,LIPS,STUBBLE,OLDGREY,NOBLOOD)
 	default_features = MANDATORY_FEATURE_LIST
@@ -24,6 +28,7 @@
 		TRAIT_NOHUNGER,
 		TRAIT_BLOODLOSS_IMMUNE,
 		TRAIT_NOBREATH,
+		TRAIT_DEATHLESS,
 		TRAIT_ZOMBIE_IMMUNE
 		)
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_MAGIC | MIRROR_PRIDE | RACE_SWAP | SLIME_EXTRACT
@@ -59,11 +64,14 @@
 		)
 	customizers = list(
 		/datum/customizer/organ/eyes/humanoid,
+		/datum/customizer/bodypart_feature/hair/head/humanoid,
+		/datum/customizer/bodypart_feature/hair/facial/humanoid,
 		/datum/customizer/bodypart_feature/crest,
 		/datum/customizer/bodypart_feature/accessory,
 		/datum/customizer/bodypart_feature/face_detail,
 		/datum/customizer/bodypart_feature/underwear,
 		/datum/customizer/bodypart_feature/legwear,
+		/datum/customizer/bodypart_feature/piercing,
 		/datum/customizer/organ/penis/anthro,
 		/datum/customizer/organ/breasts/human,
 		/datum/customizer/organ/vagina/human_anthro,
@@ -88,7 +96,7 @@
 		/datum/body_marking/construct_psyclops_eye,
 	)
 
-	restricted_virtues = list(/datum/virtue/utility/noble, /datum/virtue/utility/deathless)
+	restricted_virtues = list(/datum/virtue/utility/noble, /datum/virtue/utility/hollow)
 
 /datum/species/construct/metal/check_roundstart_eligible()
 	return TRUE
@@ -99,6 +107,9 @@
 		"IRON" = "525352",
 		"STEEL" = "babbb9",
 		"BRONZE" = "e2a670",
+		"GOLD" = "bf9b30",
+		"WOOD" = "8B4513",
+		"PORCELAIN" = "FFF5EE",
 	)
 
 /datum/species/construct/metal/get_hairc_list()

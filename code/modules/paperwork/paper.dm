@@ -84,7 +84,15 @@
 
 /obj/item/paper/examine()
 	. = ..()
-	. += span_info("Use a feather to write on it. You can create a two-page manuscript that can be turned into a book by writing on it and applying it to another piece of paper that also have something written on it.")
+	. += span_info("Use a feather to write on it. You can create a two-page manuscript that can be turned into a book by writing on it and applying it to another piece of paper that also has something written on it.")
+
+/obj/item/paper/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Left-click with a feather to write on the parchment. Left-clicking two pieces of written parchment together will form a larger manuscript, which can then be turned into a book.")
+	. += span_info("Most items can be wrapped up by left-clicking them with a piece of parchment. Writing on the parchment beforehand allows you to include a message with the package.")
+	. += span_info("Wrapped items can be mailed through the HERMES. Note that the size of a wrapped-up package will depend on how large the targeted item is.")
+	. += span_info("Activate - or left-click - a package in your hand to unwrap it.")
+	. += span_info("Note that if someone does not have a minimum of Novice in the Literacy skill, they'll be unable to make any sense of what's been written down.")
 
 /obj/item/paper/get_real_price()
 	if(info)
@@ -124,9 +132,9 @@
 	update_icon_state()
 	updateinfolinks()
 	var/static/list/slapcraft_recipe_list = list(
-		/datum/crafting_recipe/roguetown/survival/sigsweet,
-		/datum/crafting_recipe/roguetown/survival/sigdry,
-		/datum/crafting_recipe/roguetown/survival/rocknutdry,
+		/datum/crafting_recipe/roguetown/cooking/sigsweet,
+		/datum/crafting_recipe/roguetown/cooking/sigdry,
+		/datum/crafting_recipe/roguetown/cooking/rocknutdry,
 		)
 
 	AddElement(

@@ -24,7 +24,7 @@
 	)
 	storyteller = /datum/storyteller/pestra
 
-// Near a well, cross, within the physicians, or within the church
+// Near a well, cross, within the physicians, within the heartbeast's sanctum, or within the church
 /datum/patron/divine/pesta/can_pray(mob/living/follower)
 	. = ..()
 	// Allows prayer near psycross
@@ -36,8 +36,11 @@
 	// Allows prayer in the church
 	if(istype(get_area(follower), /area/rogue/indoors/town/church))
 		return TRUE
-	// Allows prayer in the appothocary's building.
+	// Allows prayer in the apothecary's building.
 	if(istype(get_area(follower), /area/rogue/indoors/town/physician))
+		return TRUE
+	// Allows prayer in the heartbeast's sanctum.
+	if(istype(get_area(follower), /area/rogue/indoors/town/pestra_sanctum))
 		return TRUE
 	// Allows prayer near wells. Weird one, but makes sense for health and disease. Miasma, water, etc.
 	for(var/obj/structure/well/W in view(4, get_turf(follower)))
@@ -56,5 +59,10 @@
 	*message_out = span_info("An aura of clinical care encompasses [target]!")
 	*message_self = span_notice("I'm sewn back together by sacred medicine!")
 
-	target.adjustToxLoss(-*situational_bonus)
-	target.blood_volume += BLOOD_VOLUME_SURVIVE / 3
+	if(iscarbon(target))
+		var/mob/living/carbon/carbon = target
+		if(!(carbon.mobility_flags & MOBILITY_STAND) && !carbon.buckled) // activate when your target is laying on the floor, not limited to critical state
+			*conditional_buff = TRUE
+			*situational_bonus = 1 // finally pestra wont be the only line of miracle caster with a 2.5 lesser miracle regen
+			target.adjustToxLoss(-*situational_bonus*15) // flat 15 tox healing on lesser miracle effect application
+			target.blood_volume = min(target.blood_volume + (BLOOD_VOLUME_SURVIVE / 3), BLOOD_VOLUME_NORMAL) // actually this time around it cannot overcap blood!

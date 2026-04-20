@@ -4,7 +4,7 @@
 	name = "statue"
 	icon_state = ""
 	w_class = WEIGHT_CLASS_NORMAL
-	experimental_inhand = FALSE
+	experimental_inhand = TRUE
 	smeltresult = null
 	grid_width = 32
 	grid_height = 64
@@ -64,6 +64,17 @@
 /obj/item/roguestatue/aalloy/Initialize()
 	. = ..()
 	icon_state = "astatue[pick(1,2)]"
+
+/obj/item/roguestatue/bronze
+	name = "bronze statue"
+	desc = "A statue of sculpted bronze, forged in the visage of an ancient hero."
+	icon_state = "bronzestatue1"
+	smeltresult = /obj/item/ingot/bronze
+	sellprice = 30
+
+/obj/item/roguestatue/bronze/Initialize()
+	. = ..()
+	icon_state = "bronzestatue[pick(1,2,3)]"
 
 /obj/item/roguestatue/iron
 	name = "iron statue"
@@ -196,6 +207,7 @@
 			polished = 0
 			force -= 2
 			force_wielded -= 3
+			update_force_dynamic()
 			max_integrity -= polish_bonus
 			polish_bonus = 0
 			obj_integrity = min(obj_integrity, max_integrity)
@@ -215,6 +227,7 @@
 		obj_integrity += polish_bonus
 		force += 2
 		force_wielded += 3
+		update_force_dynamic()
 		AddComponent(/datum/component/metal_glint)
 		UnregisterSignal(src, COMSIG_COMPONENT_CLEAN_ACT)
 

@@ -13,6 +13,10 @@
 	layer = 2.91
 	damage_deflection = 30
 
+/obj/structure/well/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Left-clicking a well with a bucket, pot, or similarly-sized container will eventually fill it to the brim with freshwater.")
+	. += span_info("Some wells might provide alternatives to freshwater. Having a level in the Alchemy skill allows you to specifically check for non-freshwatered reagents inside the filled container.")
 
 /obj/structure/well/attackby(obj/item/I, mob/user, params)
 	if(istype(I, /obj/item/reagent_containers/glass/bucket))
@@ -30,7 +34,7 @@
 
 /obj/structure/well/poisoned
 	name = "dubious well"
-	desc = ""
+	desc = "A fetid stench eminates from this orifice of brick-and-wood, yearning to be ladled into unsuspecting buckets."
 	icon = 'icons/roguetown/misc/structure.dmi'
 	icon_state = "well"
 	color = "#59aa65"

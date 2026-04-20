@@ -7,7 +7,6 @@
 #define CLICKCATCHER_PLANE -99
 
 #define PLANE_SPACE -95
-#define PLANE_SPACE_PARALLAX -90
 
 #define WEATHER_OVERLAY_PLANE -80
 #define WEATHER_OVERLAY_LAYER -80
@@ -84,8 +83,10 @@
 #define SPACEVINE_LAYER 4.8
 #define SPACEVINE_MOB_LAYER 4.9
 //#define FLY_LAYER 5 //For easy recordkeeping; this is a byond define
+#define MOB_EFFECT_LAYER_DBOOST 5.005
 #define MOB_EFFECT_LAYER_FEINT 5.01
 #define MOB_EFFECT_LAYER_SWINGDELAY 5.015
+#define MOB_EFFECT_LAYER_VULNERABLE 5.016
 #define MOB_EFFECT_LAYER_EXPOSED 5.02	//For some INEXPLICABLE reason 4.0x gets wiped on MMB intent updates and 3.0x go under the mob (bad).
 #define MOB_EFFECT_LAYER_OFFBALANCED 5.03
 #define MOB_EFFECT_LAYER_GUARD 5.04

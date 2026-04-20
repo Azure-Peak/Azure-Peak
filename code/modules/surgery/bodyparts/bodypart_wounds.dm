@@ -104,8 +104,12 @@
 /obj/item/bodypart/proc/get_bleed_rate()
 	var/bleed_rate = bleeding
 	if(bandage && !HAS_BLOOD_DNA(bandage))
-		try_bandage_expire()
-		return 0
+		process_bandage(bleed_rate)
+		var/obj/item/natural/cloth/cloth = bandage
+		bleed_rate *= cloth.bandage_effectiveness
+		if(bleed_rate <= 1) //if the bleeding is below this after being bandaged, bleeding stops completely, but the bandage still takes damage
+			return 0
+		return bleed_rate
 	/*
 	for(var/datum/wound/wound in wounds)
 		if(istype(wound, /datum/wound))
@@ -114,12 +118,12 @@
 		if(!embedded.embedding.embedded_bloodloss)
 			continue
 		bleed_rate += embedded.embedding.embedded_bloodloss
-	
+
 	grabbedby = SANITIZE_LIST(grabbedby)
 	for(var/obj/item/grabbing/grab in grabbedby)
 		bleed_rate *= grab.bleed_suppressing
 	bleed_rate = max(round(bleed_rate, 0.1), 0)
-	
+
 	// temporarily disabling below because it is niche use and a LOT of performance drain
 	/*var/surgery_flags = get_surgery_flags()
 	if(surgery_flags & SURGERY_CLAMPED)
@@ -127,7 +131,7 @@
 	return bleed_rate
 
 /// Called after a bodypart is attacked so that wounds and critical effects can be applied
-/obj/item/bodypart/proc/bodypart_attacked_by(bclass = BCLASS_BLUNT, dam, mob/living/user, zone_precise = src.body_zone, silent = FALSE, crit_message = FALSE, armor, obj/item/weapon)
+/obj/item/bodypart/proc/bodypart_attacked_by(bclass = BCLASS_BLUNT, dam, mob/living/user, zone_precise = src.body_zone, silent = FALSE, crit_message = FALSE, armor, obj/item/weapon, pen_info)
 	RETURN_TYPE(/datum/wound)
 	if(!bclass || !dam || !owner || (owner.status_flags & GODMODE))
 		return null
@@ -138,34 +142,81 @@
 			acheck_dflag = "blunt"
 		if(BCLASS_CHOP, BCLASS_CUT, BCLASS_LASHING, BCLASS_PUNISH)
 			acheck_dflag = "slash"
-		if(BCLASS_PICK, BCLASS_STAB)
+		if(BCLASS_PICK, BCLASS_STAB, BCLASS_BITE)
 			acheck_dflag = "stab"
 		if(BCLASS_PIERCE)
 			acheck_dflag = "piercing"
-	armor = owner.run_armor_check(zone_precise, acheck_dflag, damage = 0)
-	if(ishuman(owner))
-		var/mob/living/carbon/human/human_owner = owner
-		if(human_owner.checkcritarmor(zone_precise, bclass))
+		if(BCLASS_BURN)
+			acheck_dflag = "fire"
+	if(!armor)
+		armor = owner.run_armor_check(zone_precise, acheck_dflag, damage = 0)
+	if(get_damage() <= (max_damage * CRIT_DISMEMBER_DAMAGE_THRESHOLD)) //No crits unless the limb is at 90%+ damage.
+		do_crit = FALSE
+	if(do_crit && ishuman(owner) && bclass != BCLASS_PICK) // Armor with integrity prevents crits
+		var/mob/living/carbon/human/H = owner
+		var/obj/item/clothing/worn_armor = H.get_best_worn_armor(zone_precise, acheck_dflag)
+		if(worn_armor)
 			do_crit = FALSE
-		if(owner.mind && (get_damage() <= (max_damage * CRIT_DISMEMBER_DAMAGE_THRESHOLD))) //No crits unless the damage is maxed out.
-			do_crit = FALSE // We used to check if they are buckled or lying down but being grounded is a big enough advantage.
 	if(user)
 		if(user.goodluck(2))
 			dam += 10
-		if(istype(user.rmb_intent, /datum/rmb_intent/weak) || bclass == BCLASS_PEEL)
+		if(istype(user.rmb_intent, /datum/rmb_intent/weak))
 			do_crit = FALSE
 
-	var/datum/wound/dynwound = manage_dynamic_wound(bclass, dam, armor)
+	var/datum/wound/dynwound = manage_dynamic_wound(bclass, dam, armor, pen_info)
 
 	if(do_crit)
 		var/datum/component/silverbless/psyblessed = weapon?.GetComponent(/datum/component/silverbless)
 		var/sundering = HAS_TRAIT(owner, TRAIT_SILVER_WEAK) && istype(weapon) && weapon?.is_silver && psyblessed?.is_blessed
 		var/crit_attempt = try_crit(sundering ? BCLASS_SUNDER : bclass, dam, user, zone_precise, silent, crit_message)
 		if(crit_attempt)
+			if(ishuman(owner))
+				var/mob/living/carbon/human/human_owner = owner
+				human_owner.hud_used?.stressies?.flick_pain(TRUE)
+				var/suppress_attack_blip = FALSE //At 'Always' we're guaranteed to have already emoted due to a successful attack.
+				if(user?.client?.prefs?.attack_blip_frequency == ATTACK_BLIP_PREF_ALWAYS || user?.client?.prefs?.attack_blip_frequency == ATTACK_BLIP_PREF_NEVER)
+					suppress_attack_blip = TRUE 
+				if(!suppress_attack_blip)
+					if(user)
+						user.emote("attack", forced = TRUE)
+				human_owner.emote("paincrit", forced = TRUE)
+
+			if(user)
+				if(user.has_flaw(/datum/charflaw/addiction/thrillseeker))
+					var/datum/component/arousal/CAR = user.GetComponent(/datum/component/arousal)
+					if(CAR)
+						user.sate_addiction(/datum/charflaw/addiction/thrillseeker)
+						user.add_stress(/datum/stressevent/thrill)
+						CAR.ejaculate_special()
+
+				if(owner.has_flaw(/datum/charflaw/addiction/thrillseeker))
+					var/datum/component/arousal/CAR = owner.GetComponent(/datum/component/arousal)
+					if(CAR)
+						owner.sate_addiction(/datum/charflaw/addiction/thrillseeker)
+						owner.add_stress(/datum/stressevent/thrill)
+						CAR.ejaculate_special()
+
 			return crit_attempt
+	if(ishuman(owner))
+		var/mob/living/carbon/human/human_owner = owner
+		human_owner.hud_used?.stressies?.flick_pain(FALSE)
+
+	if(owner?.has_status_effect(/datum/status_effect/debuff/exposed))
+		playsound(owner, 'sound/combat/exposed_pop.ogg', 100, TRUE)
+		owner.remove_status_effect(/datum/status_effect/debuff/exposed)
+		visible_message(span_danger("[src] suffers a savage hit while exposed!"))
+		if(!do_crit)	//We aren't already screaming from a crit.
+			owner.emote("painmoan", forced = TRUE)
+	else if(owner?.has_status_effect(/datum/status_effect/debuff/vulnerable))
+		playsound(owner, 'sound/combat/vulnerable_pop.ogg', 100, TRUE)
+		owner.remove_status_effect(/datum/status_effect/debuff/vulnerable)
+		visible_message(span_combatprimary("[src] is struck while vulnerable!"))
+		if(!do_crit)	//We aren't already screaming from a crit.
+			owner.emote("pain", forced = TRUE)
+
 	return dynwound
 
-/obj/item/bodypart/proc/manage_dynamic_wound(bclass, dam, armor)
+/obj/item/bodypart/proc/manage_dynamic_wound(bclass, dam, armor, pen_info)
 	var/woundtype
 	switch(bclass)
 		if(BCLASS_BLUNT, BCLASS_SMASH, BCLASS_PUNCH, BCLASS_TWIST)
@@ -185,8 +236,9 @@
 		else	//Wrong bclass type for wounds, skip adding this.
 			return
 	var/datum/wound/dynwound = has_wound(woundtype)
+	var/exposed = owner.has_status_effect(/datum/status_effect/debuff/exposed)
 	if(!isnull(dynwound))
-		dynwound.upgrade(dam, armor)
+		dynwound.upgrade(dam, armor, exposed, pen_info)
 	else
 		if(ispath(woundtype) && woundtype)
 			if(!isnull(woundtype))
@@ -194,7 +246,7 @@
 				dynwound = newwound
 				if(newwound && !isnull(newwound))	//don't even ask - Free
 					owner.visible_message(span_red("A new [newwound.name] appears on [owner]'s [lowertext(bodyzone2readablezone(bodypart_to_zone(newwound.bodypart_owner)))]!"))
-					newwound.upgrade(dam, armor)
+					newwound.upgrade(dam, armor, exposed, pen_info)
 	return dynwound
 
 /// Behemoth of a proc used to apply a wound after a bodypart is damaged in an attack
@@ -209,9 +261,6 @@
 	if(user && dam)
 		if(user.goodluck(2))
 			dam += 10
-	if((bclass == BCLASS_PUNCH) && (user && dam))
-		if(user && HAS_TRAIT(user, TRAIT_CIVILIZEDBARBARIAN))
-			dam += 15
 	if(bclass in GLOB.dislocation_bclasses)
 		used = round(damage_dividend * 20 + (dam / 3))
 		if(user && istype(user.rmb_intent, /datum/rmb_intent/strong))
@@ -255,7 +304,6 @@
 			used = round(damage_dividend * 20 + (dam / 2))
 			if(prob(used))
 				attempted_wounds += /datum/wound/sunder
-
 	// Check if critical resistance applies
 	var/has_crit_attempt = length(attempted_wounds)
 	if(!has_crit_attempt)
@@ -307,7 +355,7 @@
 		if(prob(used))
 			attempted_wounds += fracture_type
 	if(bclass in GLOB.artery_bclasses)
-		used = round(damage_dividend * 20 + (dam / 4))		
+		used = round(damage_dividend * 20 + (dam / 4))
 		if(user)
 			if((bclass in GLOB.artery_strong_bclasses) && istype(user.rmb_intent, /datum/rmb_intent/strong))
 				used += 10
@@ -321,7 +369,7 @@
 			else
 				attempted_wounds += /datum/wound/artery
 	if(bclass in GLOB.whipping_bclasses)
-		used = round(damage_dividend * 20 + (dam / 4))		
+		used = round(damage_dividend * 20 + (dam / 4))
 		if(user)
 			if(istype(user.rmb_intent, /datum/rmb_intent/strong))
 				dam += 10
@@ -335,7 +383,6 @@
 			used = round(damage_dividend * 20 + (dam / 2))
 			if(prob(used))
 				attempted_wounds += list(/datum/wound/sunder/chest)
-
 	// Check if critical resistance applies
 	var/has_crit_attempt = length(attempted_wounds)
 	if(!has_crit_attempt)
@@ -390,21 +437,31 @@
 			try_knockout = TRUE
 		var/dislocation_type
 		var/fracture_type = /datum/wound/fracture/head
-		var/necessary_damage = 0.9
-		if(zone_precise == BODY_ZONE_PRECISE_SKULL)
-			fracture_type = /datum/wound/fracture/head/brain
+		var/necessary_damage = 1
+		if(zone_precise == BODY_ZONE_HEAD)
+			if(owner.has_wound(/datum/wound/fracture/head))
+				fracture_type = /datum/wound/fracture/head/shatter
+			else
+				fracture_type = /datum/wound/fracture/head
+		else if(zone_precise == BODY_ZONE_PRECISE_SKULL)
+			if(owner.has_wound(/datum/wound/fracture/head/brain))
+				fracture_type = /datum/wound/fracture/head/brain/shatter
+			else
+				fracture_type = /datum/wound/fracture/head/brain
 		else if(zone_precise== BODY_ZONE_PRECISE_EARS)
 			fracture_type = /datum/wound/fracture/head/ears
-			necessary_damage = 0.8
+			necessary_damage = 0.9
 		else if(zone_precise == BODY_ZONE_PRECISE_NOSE)
 			fracture_type = /datum/wound/fracture/head/nose
-			necessary_damage = 0.7
+			necessary_damage = 0.8
 		else if(zone_precise == BODY_ZONE_PRECISE_MOUTH)
 			fracture_type = /datum/wound/fracture/mouth
-			necessary_damage = 0.7
+			necessary_damage = 0.8
 		else if(zone_precise == BODY_ZONE_PRECISE_NECK)
-			fracture_type = /datum/wound/fracture/neck
-			dislocation_type = /datum/wound/dislocation/neck
+			if(owner.has_wound(/datum/wound/fracture/neck))
+				fracture_type = /datum/wound/fracture/neck/shatter
+			else
+				fracture_type = /datum/wound/fracture/neck
 		if(prob(used) && (damage_dividend >= necessary_damage))
 			if(dislocation_type)
 				attempted_wounds += dislocation_type
@@ -457,7 +514,6 @@
 			used = round(damage_dividend * 20 + (dam / 2), 1)
 			if(prob(used))
 				attempted_wounds += /datum/wound/sunder/head
-
 	var/has_crit_attempt = length(attempted_wounds) || try_knockout
 	if(!has_crit_attempt)
 		return FALSE
@@ -534,13 +590,25 @@
 		embedder = has_embedded_object(embedder)
 	if(!istype(embedder) || !is_object_embedded(embedder))
 		return FALSE
+
 	LAZYREMOVE(embedded_objects, embedder)
 	embedder.is_embedded = FALSE
-	var/drop_location = owner?.drop_location() || drop_location()
-	if(drop_location)
-		embedder.forceMove(drop_location)
+	if(QDELETED(embedder))
+		if(owner)
+			if(!owner.has_embedded_objects())
+				owner.clear_alert("embeddedobject")
+			update_disabled()
+		return TRUE
+
+	var/atom/drop_loc = owner?.drop_location() || drop_location()
+	if(!isatom(drop_loc) || QDELETED(drop_loc))
+		drop_loc = null
+
+	if(drop_loc)
+		embedder.forceMove(drop_loc)
 	else
 		qdel(embedder)
+
 	if(owner)
 		if(!owner.has_embedded_objects())
 			owner.clear_alert("embeddedobject")
@@ -554,37 +622,38 @@
 	new_bandage.forceMove(src)
 	return TRUE
 
-/obj/item/bodypart/proc/try_bandage_expire()
+/obj/item/bodypart/proc/process_bandage(bleed_rate)
 	if(!bandage)
 		return FALSE
-	var/bandage_effectiveness = 10
-	if(istype(bandage, /obj/item/natural/cloth))
-		var/obj/item/natural/cloth/cloth = bandage
-		bandage_effectiveness = cloth.bandage_effectiveness
-	var/highest_bleed_rate = 0
-	for(var/datum/wound/wound as anything in wounds)
-		if(wound.bleed_rate < highest_bleed_rate)
-			continue
-		highest_bleed_rate = wound.bleed_rate
-	for(var/obj/item/embedded as anything in embedded_objects)
-		if(!embedded.embedding.embedded_bloodloss)
-			continue
-		if(embedded.embedding.embedded_bloodloss < highest_bleed_rate)
-			continue
-		highest_bleed_rate = embedded.embedding.embedded_bloodloss
-	highest_bleed_rate = round(highest_bleed_rate, 0.1)
-	if(bandage_effectiveness < highest_bleed_rate)
+	var/obj/item/natural/cloth/cloth = bandage
+	if(istype(cloth) && cloth.medicine_quality)
+		if(cloth.medicine_amount >= 0)
+			heal_wounds(cloth.medicine_quality * 1)
+			heal_damage(cloth.medicine_quality * 1, cloth.medicine_quality * 1, 0, null, FALSE)
+			cloth.medicine_amount -= 0.25
+		else
+			cloth.medicine_amount = 0
+			cloth.medicine_quality = 0
+			cloth.detail_color = null
+			cloth.desc = initial(cloth.desc)
+			cloth.update_icon()
+	if(!bleed_rate)
+		return FALSE
+	var/bandage_health = 1
+	if(istype(cloth))
+		cloth.bandage_health -= bleed_rate
+		bandage_health = cloth.bandage_health
+	if(bandage_health <= 0)
 		return bandage_expire()
 	return FALSE
 
 /obj/item/bodypart/proc/bandage_expire()
-
 	if(!owner)
 		return FALSE
 	if(!bandage)
 		return FALSE
 	if(owner.stat != DEAD)
-		to_chat(owner, span_warning("Blood soaks through the bandage on my [name]."))
+		owner.visible_message(span_warning("Blood soaks through the bandage on [owner]'s [name]."), span_warning("Blood soaks through the bandage on my [name]."), vision_distance = 3)
 	return bandage.add_mob_blood(owner)
 
 /obj/item/bodypart/proc/remove_bandage()

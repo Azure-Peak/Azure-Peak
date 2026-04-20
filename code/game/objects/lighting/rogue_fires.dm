@@ -21,6 +21,14 @@
 	crossfire = TRUE
 	fueluse = 0
 	no_refuel = TRUE
+	max_integrity = 200
+	can_damage = TRUE
+	flags_1 = NONE
+	damtype = BURN
+
+/obj/machinery/light/rogue/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("If extinguished, this can be rekindled by left-clicking it with a torch, lamptern, flint, or any other source of ignition. In a pinch, the sparks that're born from sharpening bladed weapons and hitting stones together can suffice.")
 
 /obj/machinery/light/rogue/firebowl/CanPass(atom/movable/mover, turf/target)
 	if(istype(mover) && (mover.pass_flags & PASSTABLE))
@@ -67,6 +75,7 @@
 	icon_state = "stumpfire1"
 	base_state = "stumpfire"
 	desc = "Somewhat crude, but it lights the long winding paths throughout the land."
+	max_integrity = 100
 
 /obj/machinery/light/rogue/firebowl/church
 	desc = "A wide metal bowl mounted on a stand for a healthy roaring flame."
@@ -88,6 +97,7 @@
 	bulb_colour = "#ff9648"
 	cookonme = FALSE
 	crossfire = FALSE
+	max_integrity = 80
 
 
 /obj/machinery/light/rogue/firebowl/standing/blue
@@ -203,7 +213,8 @@
 	bulb_colour = "#7b60f3"
 	icon_state = "wallcandleb1"
 	base_state = "wallcandleb"
-	desc = "Tiny bluish flames flicker gently like the stars themselves."
+	desc = "Tiny bluish flames flicker gently like the stars themselves. Mana-infused wax \
+	is rather expensive, but makes quite an impression!"
 
 /obj/machinery/light/rogue/candle/blue/r
 	pixel_y = 0
@@ -414,6 +425,7 @@
 	layer = TABLE_LAYER
 	climb_offset = 14
 	on = FALSE
+	roundstart_forbid = TRUE
 	cookonme = TRUE
 	soundloop = /datum/looping_sound/fireloop
 	var/obj/item/attachment = null
@@ -474,7 +486,7 @@
 	var/cooktime_divisor = get_cooktime_divisor(cs)
 
 	if(!attachment)
-		if(istype(W, /obj/item/cooking/pan) || istype(W, /obj/item/reagent_containers/glass/bucket/pot ) || istype(W, /obj/item/reagent_containers/glass/crucible))
+		if(istype(W, /obj/item/cooking/pan) || istype(W, /obj/item/reagent_containers/glass/bucket/pot))
 			playsound(get_turf(user), 'sound/foley/dropsound/shovel_drop.ogg', 40, TRUE, -1)
 			attachment = W
 			user.doUnEquip(W)
@@ -482,23 +494,6 @@
 			update_icon()
 			return
 	else
-		if(istype(attachment, /obj/item/reagent_containers/glass/crucible))
-			var/obj/item/reagent_containers/glass/crucible/crucible = attachment
-			if(crucible.hot)
-				to_chat(user, span_warning("The crucible is too hot to add ingots! Wait for it to cool down."))
-				return
-
-			if(istype(W, /obj/item/ingot/iron) || istype(W, /obj/item/ingot/steel))
-				if(crucible.get_total_ingots() >= crucible.max_ingots)
-					to_chat(user, span_warning("The crucible is full."))
-					return
-
-				user.visible_message(span_info("[user] places an ingot into the crucible."))
-				if(do_after(user, 10, target = src))
-					var/ingot_type = W.type
-					if(crucible.add_ingot(ingot_type, user) > 0)
-						qdel(W)
-				return
 		if(istype(W, /obj/item/reagent_containers/glass/bowl))
 			to_chat(user, "<span class='notice'>Remove the pot from the hearth first.</span>")
 			return
@@ -580,7 +575,7 @@
 	cut_overlays()
 	icon_state = "[base_state][on]"
 	if(attachment)
-		if(istype(attachment, /obj/item/cooking/pan) || istype(attachment, /obj/item/reagent_containers/glass/bucket/pot)  || istype(attachment, /obj/item/reagent_containers/glass/crucible))
+		if(istype(attachment, /obj/item/cooking/pan) || istype(attachment, /obj/item/reagent_containers/glass/bucket/pot))
 			var/obj/item/I = attachment
 			I.pixel_x = 0
 			I.pixel_y = 0
@@ -608,7 +603,7 @@
 					attachment.forceMove(user.loc)
 				attachment = null
 				update_icon()
-		if(istype(attachment, /obj/item/reagent_containers/glass/bucket/pot) || istype(attachment, /obj/item/reagent_containers/glass/crucible))
+		if(istype(attachment, /obj/item/reagent_containers/glass/bucket/pot))
 			if(!user.put_in_active_hand(attachment))
 				attachment.forceMove(user.loc)
 			attachment = null
@@ -645,12 +640,6 @@
 		if(fueluse == 0)
 			burn_out()
 	if(attachment)
-		if(istype(attachment, /obj/item/reagent_containers/glass/crucible))
-			var/obj/item/reagent_containers/glass/crucible/crucible = attachment
-			if(crucible.get_total_ingots() > 0 && on)
-				crucible.heat_up(crucible.heat_rate)
-			else if(!on)
-				crucible.cool_down(crucible.cool_rate)
 		if(istype(attachment, /obj/item/cooking/pan))
 			if(food && on)
 				var/obj/item/C = food.cooking(20 * cooktime_divisor, 20, src)
@@ -789,6 +778,11 @@
 	soundloop = /datum/looping_sound/fireloop
 	var/healing_range = 1
 	var/static/list/acceptable_beds = list(/obj/structure/bed, /obj/structure/flora/roguetree/stump, /obj/item/bedsheet)
+
+/obj/machinery/light/rogue/campfire/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Resting by a campfire gradually restores energy and stamina, while also healing wounds and dislocations. Sleeping next to a campfire further enhances the boons of a good nite's rest.")
+	. += span_info("If the fire is gone, then it may have simply ran out of fuel as well. Left-click it with something flammable, such as a book or stick, before rekindling to keep yourself warm.")
 
 /obj/machinery/light/rogue/campfire/process()
 	..()

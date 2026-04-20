@@ -28,15 +28,23 @@
 	maxSeverityChange = 2
 	severitySteps = 5
 	immunity_type = TRAIT_RAINSTORM_IMMUNE
-	probability = 1
+	probability = 70
 	target_trait = PARTICLEWEATHER_RAIN
 
 //Makes you a little chilly
 /datum/particle_weather/rain_gentle/weather_act(mob/living/L)
+	if(HAS_TRAIT(L, TRAIT_WEATHER_PROTECTED))
+		L.add_stress(/datum/stressevent/parasol_rain)
+		return
+
+	// Abyssorites like to be in the rain! They still get wet without a parasol, though.
+	if(HAS_TRAIT(L, TRAIT_ABYSSOR_SWIM))
+		L.add_stress(/datum/stressevent/abyssor_rain)
+
 	L.adjust_bodytemperature(-rand(1,3))
 	L.adjust_fire_stacks(-100)
 	L.SoakMob(FULL_BODY)
-	wash_atom(L,CLEAN_WEAK)
+	wash_atom(L, CLEAN_WEAK)
 
 /datum/particle_weather/rain_storm
 	name = "Rain"
@@ -52,11 +60,15 @@
 	maxSeverityChange = 50
 	severitySteps = 50
 	immunity_type = TRAIT_RAINSTORM_IMMUNE
-	probability = 1
+	probability = 40
 	target_trait = PARTICLEWEATHER_RAIN
 
 //Makes you a bit chilly
 /datum/particle_weather/rain_storm/weather_act(mob/living/L)
+	// Abyssorites like storms even more than they like rain!
+	if(HAS_TRAIT(L, TRAIT_ABYSSOR_SWIM))
+		L.add_stress(/datum/stressevent/abyssor_storm)
+
 	L.adjust_bodytemperature(-rand(3,5))
 	L.adjust_fire_stacks(-100)
 	L.SoakMob(FULL_BODY)

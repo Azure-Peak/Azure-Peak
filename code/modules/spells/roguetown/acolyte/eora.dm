@@ -16,20 +16,31 @@
 	w_class = WEIGHT_CLASS_TINY
 	throw_speed = 1
 	throw_range = 3
+	equip_delay_other = 10 SECONDS
+	// Pretty fragile
+	max_integrity = 150
 
 /obj/item/clothing/head/peaceflower/equipped(mob/living/carbon/human/user, slot)
 	. = ..()
 	if(slot == SLOT_HEAD || slot == SLOT_WEAR_MASK)
 		ADD_TRAIT(user, TRAIT_PACIFISM, "peaceflower_[REF(src)]")
+		if(user.patron.type != /datum/patron/divine/eora)
+			user.AddComponent(/datum/component/peaceflower_tracker, src)
 
 /obj/item/clothing/head/peaceflower/dropped(mob/living/carbon/human/user)
 	..()
 	REMOVE_TRAIT(user, TRAIT_PACIFISM, "peaceflower_[REF(src)]")
+	var/datum/component/peaceflower_tracker/T = user.GetComponent(/datum/component/peaceflower_tracker)
+	if(T)
+		qdel(T)
 
 /obj/item/clothing/head/peaceflower/proc/peace_check(mob/living/user)
 	// return true if we should be unequippable, return false if not
 	if(iscarbon(user))
 		var/mob/living/carbon/C = user
+		// Eorans can just take these off. It's their god!
+		if(C.patron.type == /datum/patron/divine/eora && do_after(user, 4 SECONDS, src))
+			return FALSE
 		if(src == C.head || src == C.wear_mask)
 			to_chat(user, "<span class='warning'>I feel at peace. <b style='color:pink'>Why would I want anything else?</b></span>")
 			return TRUE
@@ -47,12 +58,12 @@
 	name = "Eoran Bloom"
 	desc = "Tries to grow an Eoran bud on the target tile or on the targets head, forcing their thoughts away from violence until removed."
 	clothes_req = FALSE
-	range = 7
+	range = 3
 	overlay_state = "love"
 	sound = list('sound/magic/magnet.ogg')
 	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
 	releasedrain = 40
-	chargetime = 60
+	chargetime = 1 SECONDS
 	warnie = "spellwarning"
 	no_early_release = TRUE
 	charging_slowdown = 1
@@ -65,11 +76,19 @@
 	if(istype(target, /mob/living/carbon/human)) //Putting flower on head check
 		var/mob/living/carbon/human/C = target
 		if(!C.get_item_by_slot(SLOT_HEAD))
+			if(!do_after_mob(user, target, 10 SECONDS))
+				to_chat(user, span_warning("Both of you have to stand still for this to work!"))
+				revert_cast()
+				return FALSE
 			var/obj/item/clothing/head/peaceflower/F = new(get_turf(C))
 			C.equip_to_slot_if_possible(F, SLOT_HEAD, TRUE, TRUE)
 			to_chat(C, "<span class='info'>A flower of Eora blooms on my head. <b style='color:pink'> I feel at peace. </b></span>")
 			return TRUE
 		else if(!C.get_item_by_slot(SLOT_WEAR_MASK))
+			if(!do_after_mob(user, target, 10 SECONDS))
+				to_chat(user, span_warning("Both of you have to stand still for this to work!"))
+				revert_cast()
+				return FALSE
 			var/obj/item/clothing/head/peaceflower/F = new(get_turf(C))
 			C.equip_to_slot_if_possible(F, SLOT_WEAR_MASK, TRUE, TRUE)
 			to_chat(C, "<span class='info'>A flower of Eora blooms on my head. <b style='color:pink'> I feel at peace. </b></span>")
@@ -106,6 +125,9 @@
 /obj/effect/proc_holder/spell/invoked/eoracurse/cast(list/targets, mob/living/user)
 	if(isliving(targets[1]))
 		var/mob/living/carbon/target = targets[1]
+		if(spell_guard_check(target, TRUE))
+			target.visible_message(span_warning("[target] shrugs off the haze!"))
+			return TRUE
 		target.apply_status_effect(/datum/status_effect/buff/druqks)
 		target.apply_status_effect(/datum/status_effect/buff/drunk)
 		target.visible_message("<span class='info'>A purple haze shrouds [target]!</span>", "<span class='notice'>I feel much calmer.</span>")
@@ -238,7 +260,8 @@
 // =====================
 /obj/effect/proc_holder/spell/invoked/heartweave
 	name = "Heartweave"
-	desc = "Forge a symbiotic bond between two souls."
+	desc = "Interlinks the caster's vitality with a chosen target, sharing any incoming healing-or-damage with each other. </br>If one interlinked person is healed, the other interlinked person will \
+	be healed as well. </br>Likewise, if one interlinked person is damaged, the other interlinked person will be damaged as well."
 	overlay_state = "bliss"
 	range = 1
 	chargetime = 0.5 SECONDS
@@ -388,6 +411,9 @@
 	else
 		recharge_time = base_recharge_time
 
+	last_process_time = world.time
+	START_PROCESSING(SSfastprocess, src)
+
 /obj/effect/proc_holder/spell/invoked/pomegranate
 	name = "Amaranth Sanctuary"
 	invocations = list("Eora, provide sanctuary for your beauty!")
@@ -457,6 +483,7 @@
 	var/happiness = 0
 	var/water_happiness = 0
 	var/fertilizer_happiness = 0
+	var/prune_happiness = 0
 	var/prune_count = 0
 	var/list/tree_offerings = list()
 	var/happiness_tier = 1
@@ -484,6 +511,20 @@
 		happiness_tier = 1
 
 /obj/structure/eoran_pomegranate_tree/attackby(obj/item/I, mob/user)
+	if(istype(I, /obj/item/reagent_containers/food/snacks/eoran_aril/crimson))
+		if(iscarbon(user))
+			var/mob/living/carbon/human/sacrifice = user
+			visible_message(span_danger("[user] begins altruistically channeling the crimson aril's power to restore the tree."),
+	 		 span_info("I begin channeling the crimson aril's power into the tree using my own blood."))
+			if(!do_after(sacrifice, 15 SECONDS))
+				return
+			// same blood loss as using it to heal someone
+			sacrifice.blood_volume = max(0, sacrifice.blood_volume - ((BLOOD_VOLUME_NORMAL * 0.03) + (sacrifice.blood_volume * 0.06)))
+			// 50 healing; slightly more than healing a player, but you'll lose a lot of blood trying to fully heal a tree still
+			obj_integrity = min(max_integrity, obj_integrity + max_integrity / 4)
+			qdel(I)
+			update_icon()
+			return TRUE
 	if(istype(I, /obj/item/ash))
 		if(iscarbon(user))
 			var/mob/living/carbon/c = user
@@ -509,13 +550,21 @@
 			to_chat(user, span_warning("The tree has been fully pruned already!"))
 			return TRUE
 		var/skill = get_farming_skill(user)
-		var/prune_time = 25 SECONDS - (skill * 3.5 SECONDS)
+		var/prune_time = get_skill_delay(skill, fastest = 0.5, slowest = 3)
+		var/branches_pruned = 1
+		var/remaining_cap = 20 - prune_happiness
 
 		to_chat(user, span_notice("You begin pruning the tree..."))
 
 		if(do_after(user, prune_time, target = src))
-			prune_count++
-			happiness = min(happiness + 5, 100)
+			if(skill >= 3)
+				prune_count = min(4, prune_count + 2)
+				branches_pruned++
+			else
+				prune_count++
+			var/actual_gain = min(branches_pruned * 5, remaining_cap)
+			prune_happiness += actual_gain
+			happiness = min(happiness + actual_gain, 100)
 			update_happiness_tier()
 			if(iscarbon(user))
 				var/mob/living/carbon/C = user
@@ -532,8 +581,12 @@
 			return TRUE
 
 		var/has_water = FALSE
+		var/water_blessed = FALSE
 		if(container.reagents.has_reagent(/datum/reagent/water, 1))
 			has_water = TRUE
+		if(container.reagents.has_reagent(/datum/reagent/water/blessed))
+			has_water = TRUE
+			water_blessed = TRUE
 
 		if(!has_water)
 			to_chat(user, span_warning("The tree accepts only fresh, clean water."))
@@ -541,12 +594,15 @@
 
 		var/remaining_cap = 25 - water_happiness
 		var/skill = get_farming_skill(user)
-		var/potential_gain = 5 + (skill * 4)  // 5 at skill 0, 25 at skill 5+
+		var/potential_gain = 10 + (skill * 5)  // 10 at skill 0, 25 at skill 3+
 		var/actual_gain = min(potential_gain, remaining_cap)
-		var/action_time = 5 SECONDS - (skill * 0.5 SECONDS)
+		var/action_time = get_skill_delay(skill, fastest = 0.5, slowest = 3)
 
 		if(do_after(user, action_time, target = src))
-			container.reagents.remove_reagent(/datum/reagent/water, 1)
+			if(water_blessed)
+				container.reagents.remove_reagent(/datum/reagent/water/blessed, 1)
+			else
+				container.reagents.remove_reagent(/datum/reagent/water, 1)
 			if(iscarbon(user))
 				var/mob/living/carbon/C = user
 				add_sleep_experience(user, /datum/skill/labor/farming, C.STAINT * 0.5)
@@ -567,9 +623,9 @@
 
 		var/remaining_cap = 25 - fertilizer_happiness
 		var/skill = get_farming_skill(user)
-		var/potential_gain = 5 + (skill * 4)
+		var/potential_gain = 10 + (skill * 5)
 		var/actual_gain = min(potential_gain, remaining_cap)
-		var/action_time = 5 SECONDS - (skill * 0.5 SECONDS)
+		var/action_time = get_skill_delay(skill, fastest = 0.5, slowest = 3)
 
 		if(do_after(user, action_time, target = src))
 			qdel(I)
@@ -670,6 +726,7 @@
 	water_happiness = 0
 	fertilizer_happiness = 0
 	prune_count = 0
+	prune_happiness = 0
 	update_happiness_tier()
 	update_icon()
 
@@ -793,6 +850,13 @@
 			icon_state = "fruiting"
 
 	cut_overlays()
+
+	if(growth_stage >= FRUITING)
+		var/branches_to_show = 4 - prune_count
+		if(branches_to_show > 0)
+			for(var/i in 1 to branches_to_show)
+				var/image/branch_overlay = image(icon = initial(icon), icon_state = "branch[i]")
+				add_overlay(branch_overlay)
 
 	if(growth_stage == FRUITING && fruit_ready)
 		var/image/fruit_image = image(icon = initial(icon), icon_state = "fruit[happiness_tier]", layer = 1)
@@ -967,338 +1031,15 @@
 
 	qdel(src)
 
-/obj/item/reagent_containers/food/snacks/eoran_aril
-	name = "eoran aril"
-	desc = "A glowing seed from the fruit of Eora. It pulses with divine energy."
-	icon = 'icons/obj/items/eora_pom.dmi'
-	dropshrink = 0.7
-	icon_state = "auric"
-	bitesize = 1
-	faretype = FARE_NEUTRAL
-	w_class = WEIGHT_CLASS_TINY
-	drop_sound = 'sound/foley/dropsound/food_drop.ogg'
-	var/effect_desc = "Unknown effects."
-	list_reagents = list(/datum/reagent/consumable/nutriment = 1)
-
-/obj/item/reagent_containers/food/snacks/eoran_aril/attack(mob/living/M, mob/living/user, def_zone)
-	if(M != user)
-		to_chat(user, span_info("The seed glows hot with Eora's rage as you try to forcefully feed her gift to another."))
-		return
-	. = ..()
-
-/obj/item/reagent_containers/food/snacks/eoran_aril/On_Consume(mob/living/eater)
-	. = ..()
-	if(iscarbon(eater))
-		var/mob/living/carbon/c = eater
-		apply_effects(c)
-
-/obj/item/reagent_containers/food/snacks/eoran_aril/examine(mob/user)
-	. = ..()
-	if(iscarbon(user))
-		var/mob/living/carbon/c = user
-		if(c.patron.type == /datum/patron/divine/eora)
-			. += span_info(effect_desc)
-
-/obj/item/reagent_containers/food/snacks/eoran_aril/proc/apply_effects(mob/living/carbon/eater)
-	return
-
-//--TIER 1--
-/obj/item/reagent_containers/food/snacks/eoran_aril/crimson
-	name = "crimson aril"
-	desc = "A blood-red seed that seems to pulse with vitality."
-	icon_state = "crimson"
-	effect_desc = "This fruit heals for a blood price."
-
-	var/heal_amount = 35
-	var/blood_loss = 225
-
-/obj/item/reagent_containers/food/snacks/eoran_aril/crimson/Initialize()
-	. = ..()
-	blood_loss = BLOOD_VOLUME_NORMAL * 0.04
-
-/obj/item/reagent_containers/food/snacks/eoran_aril/crimson/apply_effects(mob/living/carbon/eater)
-	//Instant heal, but you can only eat a couple before the next will make you pass out.
-	var/list/wCount = eater.get_wounds()
-	//No undead because they kinda don't have blood to give for this.
-	if(!eater.construct && !(eater.mob_biotypes & MOB_UNDEAD))
-		var/current_brute_loss = eater.getBruteLoss()
-		blood_loss += (eater.blood_volume * 0.1)
-		if(wCount.len > 0)
-			eater.heal_wounds(heal_amount + (current_brute_loss * 0.12))
-			eater.update_damage_overlays()
-		// blood loss is equal to 4% max blood volume + 10% of current blood volume
-		// Regular healing is equal to 35 damage + 12% of current damage
-		eater.blood_volume = max(0, eater.blood_volume - blood_loss)
-		eater.adjustBruteLoss(-(heal_amount + (current_brute_loss * 0.12)), 0)
-		eater.adjustFireLoss(-(heal_amount + (eater.getFireLoss() * 0.12)), 0)
-		eater.adjustToxLoss(-(heal_amount + (eater.getToxLoss() * 0.12)), 0)
-		eater.adjustOxyLoss(-(heal_amount + (eater.getOxyLoss() * 0.12)), 0)
-		eater.adjustOrganLoss(ORGAN_SLOT_BRAIN, -heal_amount)
-		eater.adjustCloneLoss(-heal_amount, 0)
-
-/obj/item/reagent_containers/food/snacks/eoran_aril/roseate
-	name = "roseate aril"
-	desc = "A pink seed that radiates beauty and grace."
-	icon_state = "roseate"
-	effect_desc = "Grants fleeting beauty. Rejects the ugly."
-
-	var/beauty_duration = 10 MINUTES
-
-/obj/item/reagent_containers/food/snacks/eoran_aril/roseate/apply_effects(mob/living/carbon/eater)
-	if(ishuman(eater))
-		var/mob/living/carbon/human/H = eater
-		if(!HAS_TRAIT(H, TRAIT_UNSEEMLY) && !HAS_TRAIT(H, TRAIT_BEAUTIFUL))
-			H.apply_status_effect(/datum/status_effect/buff/eora_grace)
-
-/datum/status_effect/buff/eora_grace
-	id = "eora_grace"
-	duration = 10 MINUTES
-	alert_type = /atom/movable/screen/alert/status_effect/eora_grace
-
-/atom/movable/screen/alert/status_effect/eora_grace
-	name = "Eora's grace"
-	desc = "You feel beautiful."
-
-/datum/status_effect/buff/eora_grace/on_apply()
-	if(ishuman(owner))
-		var/mob/living/carbon/human/H = owner
-		ADD_TRAIT(H, TRAIT_BEAUTIFUL, TRAIT_VIRTUE)
-	return TRUE
-
-/datum/status_effect/buff/eora_grace/on_remove()
-	if(ishuman(owner))
-		var/mob/living/carbon/human/H = owner
-		REMOVE_TRAIT(H, TRAIT_BEAUTIFUL, TRAIT_VIRTUE)
-
-/obj/item/reagent_containers/food/snacks/eoran_aril/opalescent
-	name = "opalescent aril"
-	desc = "An iridescent seed that shifts colors in the light."
-	icon_state = "opalescent"
-	effect_desc = "Transforms held gems into rubies."
-	
-/obj/item/reagent_containers/food/snacks/eoran_aril/opalescent/apply_effects(mob/living/eater)
-	for(var/obj/item/roguegem/G in eater.held_items)
-		var/obj/item/roguegem/ruby/new_gem = new(eater.loc)
-		qdel(G)
-		eater.put_in_hands(new_gem)
-		to_chat(eater, span_notice("The [G] transforms into a rontz in your hand!"))
-		//Probably best not to allow 2 at once...
-		break
-
-// TIER 2
-/obj/item/reagent_containers/food/snacks/eoran_aril/cerulean
-	name = "cerulean aril"
-	desc = "A deep blue seed that smells of the ocean."
-	icon_state = "cerulean"
-	effect_desc = "Excellent fishing bait that attracts treasure."
-	baitpenalty = 5
-	isbait = TRUE
-	fishingMods=list(
-		"commonFishingMod" = 0.2,
-		"rareFishingMod" = 1,
-		"treasureFishingMod" = 1,
-		"trashFishingMod" = 0,
-		"dangerFishingMod" = 0,
-		"ceruleanFishingMod" = 1, // 1 on cerulean aril, 0 on everything else
-		"cheeseFishingMod" = 0 // Just for the funny gimmick of a chance for rats and rouses.
-	)
-/obj/item/reagent_containers/food/snacks/eoran_aril/fractal
-	name = "fractal aril"
-	desc = "A geometrically perfect seed that hurts to look at."
-	icon_state = "fractal"
-	effect_desc = "At a cost to constitution, Eora's mercy will melt unsightfulness away..."
-
-/obj/item/reagent_containers/food/snacks/eoran_aril/fractal/apply_effects(mob/living/eater)
-	if(ishuman(eater))
-		var/mob/living/carbon/human/H = eater
-		if(HAS_TRAIT(H, TRAIT_UNSEEMLY))
-			REMOVE_TRAIT(H, TRAIT_UNSEEMLY, TRAIT_VIRTUE)
-			H.change_stat(STATKEY_CON, -1)
-			to_chat(eater, span_good("You feel your imperfections melt away, but your body feels more fragile."))
-
-// TIER 3
-/obj/item/reagent_containers/food/snacks/eoran_aril/auric
-	name = "auric aril"
-	desc = "A golden seed that radiates warmth and life."
-	icon_state = "auric"
-	effect_desc = "Key ingredient in revival potions."
-
-/obj/item/reagent_containers/food/snacks/eoran_aril/ashen
-	name = "ashen aril"
-	desc = "A grey seed that feels glacial to the touch. An IMMENSE sense of dread can be felt just looking at it."
-	icon_state = "ashen"
-	effect_desc = "The forbidden aril. This one is not meant for you."
-
-/obj/item/reagent_containers/food/snacks/eoran_aril/ashen/apply_effects(mob/living/carbon/eater)
-	if(ishuman(eater))
-		var/mob/living/carbon/human/H = eater
-
-		if(H.patron.type == /datum/patron/divine/eora)
-			// Eora does not appreciate her followers ignoring her most sacred wishes.
-			H.apply_status_effect(/datum/status_effect/debuff/eoran_wilting)
-		else
-			var/datum/status_effect/buff/ashen_aril/existing_effect = H.has_status_effect(/datum/status_effect/buff/ashen_aril)
-
-			if(existing_effect)
-				// Already burnt by an aril, simply stave off the ashing for 30 minutes.
-				existing_effect.prevent_reapply = TRUE
-				H.remove_status_effect(/datum/status_effect/buff/ashen_aril)
-				H.remove_filter("ashen_filter")
-				H.apply_status_effect(/datum/status_effect/buff/ashen_aril, 0, 30 MINUTES)
-			else
-				H.apply_status_effect(/datum/status_effect/buff/ashen_aril, 5, 6 MINUTES)
-
-/obj/item/reagent_containers/food/snacks/eoran_aril/ochre
-	name = "ochre aril"
-	desc = "A blood-red seed that seems to pulse menacingly."
-	icon_state = "ochre"
-	effect_desc = "Return two nearby corpses in view from necra's embrace, at the cost of your own life."
-
-/obj/item/reagent_containers/food/snacks/eoran_aril/ochre/apply_effects(mob/living/carbon/eater)
-	if(ishuman(eater))
-		var/mob/living/carbon/human/H = eater
-		if(H.patron.type == /datum/patron/divine/eora)
-			var/list/mob/living/carbon/human/target_mobs = list()
-
-			for(var/mob/living/carbon/human/target in view(7, H))
-				if(target_mobs.len >= 2)
-					break
-				if(target.stat != DEAD)
-					continue
-				if(!target.mind || !target.mind.active)
-					continue
-				if(HAS_TRAIT(target, TRAIT_NECRAS_VOW))
-					continue
-				if(HAS_TRAIT(target, TRAIT_DNR))
-					continue
-				if(target.mob_biotypes & MOB_UNDEAD)
-					continue
-				if(target.has_status_effect(/datum/status_effect/debuff/metabolic_acceleration))
-					continue
-				if(target.has_status_effect(/datum/status_effect/debuff/eoran_wilting))
-					continue
-
-				target_mobs += target
-
-			if(target_mobs.len > 0)
-				H.apply_status_effect(/datum/status_effect/debuff/eoran_wilting)
-				addtimer(CALLBACK(GLOBAL_PROC_REF(process_ochre_revivals), target_mobs), 0)
-
-	return ..()
-
-/proc/process_ochre_revivals(list/mob/living/carbon/human/targets_to_revive)
-	for(var/mob/living/carbon/human/target in targets_to_revive)
-		continue
-		if(target.stat != DEAD)
-			continue
-
-		INVOKE_ASYNC(GLOBAL_PROC_REF(revive_ochre_target), target)
-
-/proc/revive_ochre_target(mob/living/carbon/human/target)
-	to_chat(world, span_userdanger("ATTEMPTING REVIVAL FOR [target]"))
-	if(QDELETED(target) || target.stat != DEAD)
-		return FALSE
-
-	var/mob/living/carbon/spirit/underworld_spirit = target.get_spirit()
-
-	if (target.client)
-		if (alert(target, "They are calling for you. Are you ready?", "Revival", "I need to wake up", "Don't let me go") != "I need to wake up")
-			target.visible_message(span_notice("Nothing happens. They are not being let go."))
-			return FALSE
-	else if (underworld_spirit && underworld_spirit.client)
-		if (alert(underworld_spirit, "They are calling for you. Are you ready?", "Revival", "I need to wake up", "Don't let me go") != "I need to wake up")
-			target.visible_message(span_notice("Nothing happens. They are not being let go."))
-			return FALSE
-	else
-		target.visible_message(span_notice("The body shudders, but there's no one to call out to."))
-		return FALSE
-
-	// Perform revival
-	target.adjustOxyLoss(-target.getOxyLoss())
-	if(target.revive(full_heal = FALSE))
-		// Transfer ghost back to body (if they were ghosted)
-		if(underworld_spirit && underworld_spirit.mind) // Ensure spirit exists and has a mind
-			underworld_spirit.mind.transfer_to(target, TRUE) // Transfer mind back to the revived body
-			qdel(underworld_spirit) // Delete the spirit mob
-		else
-			target.grab_ghost(force = TRUE) // This attempts to grab a ghost even if they committed suicide.
-
-		target.emote("breathgasp")
-		target.Jitter(100)
-		target.update_body()
-		target.visible_message(span_notice("[target] is revived by divine magic!"), span_green("I awake from the void."))
-
-		ADD_TRAIT(target, TRAIT_IWASREVIVED, "ochre_aril")
-		target.apply_status_effect(/datum/status_effect/debuff/metabolic_acceleration)
-		return TRUE
-	else
-		target.visible_message(span_warning("The magic falters, and nothing happens."))
-		return FALSE
-
-//For now this is just artifical lux. But this may make the user/receiver indebted to eora eventually.
-//This is meant to be given guaranteed with T4 pommes for priests but given we don't have eoran priests yet I will implement this when we do.
-/obj/item/reagent_containers/lux/eoran_aril
-	name = "incandescent aril"
-	desc = "A blindingly bright seed that radiates pure life energy. It imitates lux, the essence of life."
-	icon = 'icons/obj/items/eora_pom.dmi'
-	icon_state = "incandescent"
-	dropshrink = 0.7
-
-/obj/item/reagent_containers/food/snacks/eoran_aril/pearlescent
-	name = "pearlescent aril"
-	desc = "A milky-white seed that pulses with purifying energy."
-	icon_state = "pearlescent"
-	effect_desc = "Transforms poisons within your body into lifeblood at the cost of diluting strong lifeblood."
-
-/obj/item/reagent_containers/food/snacks/eoran_aril/pearlescent/apply_effects(mob/living/carbon/eater)
-	if(ishuman(eater))
-		var/mob/living/carbon/human/H = eater
-		H.apply_status_effect(/datum/status_effect/pearlescent_aril)
-
-/obj/item/reagent_containers/eoran_seed
-	name = "Satin aril"
-	desc = "A silky soft seed from Eora's sacred tree. It can be used to propagate her gift in fertile soil."
-	icon = 'icons/obj/items/eora_pom.dmi'
-	icon_state = "roseate"
-
-/obj/item/reagent_containers/eoran_seed/afterattack(atom/target, mob/user, proximity_flag, click_parameters)
-	if(!isturf(target) || !proximity_flag)
-		return ..()
-
-	var/turf/T = target
-
-	// Location checks
-	if(!isopenturf(T))
-		to_chat(user, span_warning("The seed needs open space to grow!"))
-		return
-	if(!(istype(T, /turf/open/floor/rogue/grass) || istype(T, /turf/open/floor/rogue/dirt)))
-		to_chat(user, span_warning("The seed must be planted on dirt or grass!"))
-		return
-
-	// Planting process
-	to_chat(user, span_notice("You begin to plant the seed in [T]. It pulses gently..."))
-	if(!do_after(user, 30 SECONDS, target))
-		to_chat(user, span_warning("Planting was interrupted!"))
-		return
-
-	// Re-check conditions after delay
-	if(!isopenturf(T) || !(istype(T, /turf/open/floor/rogue/grass) || istype(T, /turf/open/floor/rogue/dirt)))
-		to_chat(user, span_warning("The ground is no longer suitable!"))
-		return
-
-	// Create tree and consume seed
-	new /obj/structure/eoran_pomegranate_tree(T)
-	qdel(src)
-
 #undef SPROUT
 #undef GROWING
 #undef MATURING
 #undef FRUITING
 
-//Remove their ability to feel bad, restore a small amount of hunger / thirst if they're already starving.
+//Remove their ability to feel bad, restore a small amount of hunger / thirst
 /obj/effect/proc_holder/spell/invoked/eora_blessing
 	name = "Eora's Blessing"
-	desc = "Bestow a person with Eora's calm, if only for a little while."
+	desc = "Bestow a person with Eora's calm, if only for a little while. Restores their mood, as well as a tinge of hunger and thirst."
 	sound = 'sound/magic/eora_bless.ogg'
 	devotion_cost = 80
 	recharge_time = 5 MINUTES
@@ -1311,7 +1052,7 @@
 /obj/effect/proc_holder/spell/invoked/eora_blessing/cast(list/targets, mob/living/user)
 	if(ishuman(targets[1]))
 		var/mob/living/L = targets[1]
-		var/assocskill = L.get_skill_level(associated_skill)
+		var/assocskill = user.get_skill_level(associated_skill)
 		L.apply_status_effect(/datum/status_effect/eora_blessing, assocskill)
 		return TRUE
 	revert_cast()
@@ -1322,37 +1063,50 @@
 	duration = 1 MINUTES
 	alert_type = /atom/movable/screen/alert/status_effect/buff/eora_blessing
 
-/datum/status_effect/eora_blessing/on_apply(assocskill)
+/datum/status_effect/eora_blessing/on_creation(mob/living/new_owner/, assocskill)
+
 	if(assocskill)
-		duration *= assocskill	//+1 minute per skill level.
+		// I asked the antichrist (gpt) to help me figure out why a bug was happening w/ this.
+		// Apparently BYOND explodes if you, like, do duration *= something.
+		duration = assocskill * 1 MINUTES
+
+	// Call parent here. We need owner to exist for the rest of the proc.
+	// Free. I am so sorry I used AI for this. Itsk illing me. This code is killing me.
+	. = ..()
+
 	var/mob/living/carbon/human/H = owner
-	ADD_TRAIT(owner, TRAIT_EORAN_SERENE, TRAIT_GENERIC)	//Generic origin so other Eorans do not have their innate traits overridden (they use TRAIT_MIRACLE)
-	var/hungercheck = H.nutrition
-	var/hydrohomiecheck = H.hydration
-	switch(hungercheck)
-		if(0 to NUTRITION_LEVEL_STARVING)
-			switch(assocskill)
-				if(SKILL_LEVEL_NOVICE)
-					H.nutrition = NUTRITION_LEVEL_STARVING + 50
-				if(SKILL_LEVEL_APPRENTICE to SKILL_LEVEL_EXPERT)
-					H.nutrition = NUTRITION_LEVEL_HUNGRY + 50
-				else	//Acolyte w/ Devotee
-					H.nutrition = NUTRITION_LEVEL_FED
-	switch(hydrohomiecheck)
-		if(0 to HYDRATION_LEVEL_DEHYDRATED)
-			switch(assocskill)
-				if(SKILL_LEVEL_NOVICE)
-					H.nutrition = HYDRATION_LEVEL_DEHYDRATED + 50
-				if(SKILL_LEVEL_APPRENTICE to SKILL_LEVEL_EXPERT)
-					H.nutrition = HYDRATION_LEVEL_THIRSTY + 50
-				else	//Acolyte w/ Devotee
-					H.nutrition = HYDRATION_LEVEL_SMALLTHIRST
+
+	// Attempted to rework it into more of a formula that's awesome and cool, but its hard to get numbers down..
+	// Maint, if you're reading this, pls give better ideas for formula.
+
+	/* Adjust nutrition based on skill
+	// As odd as these numbers are, its like, exponential, or quadaratic or some shit.
+	// I forgot the word. Anyhow-- acolytes can work together and boost a guy up pretty well, or recast and get
+	// someone out of starvation even with no food, though they'll have to make sure they dont exert themselves.
+	// AS this is recastable, and a secondary effect, its kinda eh.
+	*/
+	
+	// EXPECTED RANGE FOR FORMULA: 102 -> 172 (DEVOTEE TO LEGENDARY)
+	H.adjust_nutrition(100 + ((assocskill * assocskill)*2))
+	// Adjust hydration based on skill
+	// Same as above, but adjusts thirst. 
+	H.adjust_hydration(100 + ((assocskill * assocskill)*2))
+
+
+	// Apply stress effects
 	if(assocskill > SKILL_LEVEL_APPRENTICE)
 		H.add_stress(/datum/stressevent/eoran_blessing_greater)
 	else
 		H.add_stress(/datum/stressevent/eoran_blessing)
+
 	H.update_stress()
+
+/datum/status_effect/eora_blessing/on_apply()
 	. = ..()
+
+	// Add trait
+	ADD_TRAIT(owner, TRAIT_EORAN_SERENE, TRAIT_GENERIC)  //Generic origin so other Eorans do not have their innate traits overridden (they use TRAIT_MIRACLE)
+
 
 /datum/status_effect/eora_blessing/on_remove()
 	REMOVE_TRAIT(owner, TRAIT_EORAN_SERENE, TRAIT_GENERIC)

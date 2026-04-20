@@ -10,6 +10,12 @@
 	mob_effect_offset_y = -4	//We want this shown UNDER the feet of the mob.
 	mob_effect_layer = MOB_EFFECT_LAYER_OFFBALANCED
 
+/datum/status_effect/incapacitating/off_balanced/on_apply()
+	. = ..()
+	if(owner.has_status_effect(/datum/status_effect/balance_immune))
+		owner.remove_status_effect(/datum/status_effect/incapacitating/off_balanced)
+		return
+
 /datum/status_effect/incapacitating/off_balanced/on_creation(mob/living/new_owner, set_duration, updating_canmove)
 	var/cmode_involved = FALSE
 	if(new_owner.mind)	//We skip bothering with this at all if it's AI
@@ -192,8 +198,9 @@
 
 /atom/movable/screen/alert/status_effect/compliance
 	name = "Compliant"
-	desc = "I am currently not resisting any grabs or breakout attempts against me."
-	icon_state = "buckled" // this really needs its own icon
+	desc = "I am currently not resisting any attempts to grab me, or to break free from my grasp. It is also effortless to restrain, subdue, and rob me.\n"\
+	+ span_info("Left click the icon to deactivate. Suppress messages under Options tab.")
+	icon_state = "compliance"
 
 // Sadly we can't rely on /atom/movable/screen/Click() to return TRUE at all.
 // We MUST use the shitcode method of copypasting if both examine and toggle are to work properly.
@@ -214,3 +221,26 @@
 /datum/status_effect/compliance
 	id = "compliance"
 	alert_type = /atom/movable/screen/alert/status_effect/compliance
+	needs_processing = FALSE
+
+/datum/status_effect/zuranus // this will hook into dreamcode.
+	id = "zuranus"
+	alert_type = /atom/movable/screen/alert/status_effect/zuranus
+	duration = 25 MINUTES
+	// honestly this might be better off as something else but a status effect is temporary
+	// id prefer it to be hidden but i dont think i can hide it. lol.
+
+/atom/movable/screen/alert/status_effect/zuranus
+	name = "Something is Stirring"
+	desc = span_purple("I feel... off. There's a weird chill throughout my body. I feel an odd desire to put gilbranze under my tongue...?")
+
+/datum/status_effect/telescope_used
+	id = "telescope"
+	alert_type = /atom/movable/screen/alert/status_effect/telescope_used
+	duration = 15 MINUTES
+	// honestly this might be better off as something else but a status effect is temporary
+	// id prefer it to be hidden but i dont think i can hide it. lol.
+
+/atom/movable/screen/alert/status_effect/telescope_used
+	name = "Minds Eye Expended"
+	desc = span_purple("Gazing upon the tapestry's celestial bodies takes an odd amount of energy. I must rest before trying again.")

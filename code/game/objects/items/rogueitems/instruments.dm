@@ -5,6 +5,7 @@
 	persistent_loop = TRUE
 	var/stress2give = /datum/stressevent/music
 	sound_group = /datum/sound_group/instruments //reserves sound channels for up to 10 instruments at a time
+	filter_pref = SOUND_INSTRUMENTS
 
 /obj/item/rogue/instrument
 	name = ""
@@ -60,6 +61,18 @@
 		soundloop.stop()
 		user.remove_status_effect(/datum/status_effect/buff/playing_music)
 
+/obj/item/rogue/instrument/proc/check_file(infile, filename, user)
+	var/file_ext = lowertext(copytext(filename, -4))
+	var/file_size = length(infile)
+
+	if(file_ext != ".ogg")
+		return "SONG MUST BE AN OGG."
+	if(file_size > 4 * 1024 * 1024)
+		return "TOO BIG. 4 MEGS OR LESS."
+
+	message_admins("[ADMIN_LOOKUPFLW(user)] uploaded a song [filename] of size [file_size / 1000000] (~MB).")
+	return null
+
 /obj/item/rogue/instrument/attack_self(mob/living/user)
 	var/stressevent = /datum/stressevent/music
 	. = ..()
@@ -83,14 +96,14 @@
 			var/list/options = song_list.Copy()
 			if(user.mind && user.get_skill_level(/datum/skill/misc/music) >= 4)
 				options["Upload New Song"] = "upload"
-			
+
 			var/choice = input(user, "Which song?", "Music", name) as null|anything in options
 			if(!choice || !user)
 				return
-				
+
 			if(playing || !(src in user.held_items) || user.get_inactive_held_item())
 				return
-				
+
 			if(choice == "Upload New Song")
 				if(lastfilechange && world.time < lastfilechange + 3 MINUTES)
 					say("NOT YET!")
@@ -104,22 +117,20 @@
 					return
 
 				var/filename = "[infile]"
-				var/file_ext = lowertext(copytext(filename, -4))
-				var/file_size = length(infile)
-				message_admins("[ADMIN_LOOKUPFLW(user)] uploaded a song [filename] of size [file_size / 1000000] (~MB).")
-				if(file_ext != ".ogg")
-					to_chat(user, span_warning("SONG MUST BE AN OGG."))
+				var/file_error = check_file(infile, filename, user)
+				if(file_error)
+					to_chat(user, span_warning(file_error))
 					return
-				if(file_size > 6485760)
-					to_chat(user, span_warning("TOO BIG. 6 MEGS OR LESS."))
-					return
+
 				lastfilechange = world.time
 				fcopy(infile,"data/jukeboxuploads/[user.ckey]/[filename]")
 				curfile = file("data/jukeboxuploads/[user.ckey]/[filename]")
+
 				var/songname = input(user, "Name your song:", "Song Name") as text|null
 				if(songname)
 					song_list[songname] = curfile
 				return
+
 			curfile = song_list[choice]
 			if(!user || playing || !(src in user.held_items))
 				return
@@ -338,6 +349,19 @@
 	lefthand_file = 'icons/mob/inhands/items_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/items_righthand.dmi'
 	song_list = list(
+	"A Rambling Tongue" = 'sound/music/instruments/shamisen A Rambling Tongue.ogg',
+	"Ashitaka" = 'sound/music/instruments/shamisen The Legend of Ashitaka.ogg',
+	"Daimyo Dreamwalker" = 'sound/music/instruments/shamisen Daimyo Dreamwalker.ogg',
+	"Emperor of Flame" = 'sound/music/instruments/shamisen Emperor of Flame.ogg',
+	"Fire Phoenix" = 'sound/music/instruments/shamisen Fire Phoenix.ogg',
+	"Kaiju Islands" = 'sound/music/instruments/shamisen Kaiju Islands.ogg',
+	"Lavender Village" = 'sound/music/instruments/shamisen Lavender Village.ogg',
+	"Morning Is Coming" = 'sound/music/instruments/shamisen Morning Is Coming.ogg',
+	"Pouncing Shadow" = 'sound/music/instruments/shamisen Pouncing Shadow.ogg',
+	"Rising Sun" = 'sound/music/instruments/shamisen Rising Sun.ogg',
+	"Those Who Fight" = 'sound/music/instruments/shamisen Those Who Fight.ogg',
+	"Village in the Mountains" = 'sound/music/instruments/shamisen Village in the Mountains.ogg',
+	"Winning the Soul" = 'sound/music/instruments/shamisen Winning the Soul.ogg',
 	"Cursed Apple" = 'sound/music/instruments/shamisen (1).ogg',
 	"Fire Dance" = 'sound/music/instruments/shamisen (2).ogg',
 	"Lute" = 'sound/music/instruments/shamisen (3).ogg',

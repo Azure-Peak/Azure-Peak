@@ -115,6 +115,12 @@
 /datum/component/orbiter/proc/move_react(atom/movable/master, atom/mover, atom/oldloc, direction)
 	set waitfor = FALSE // Transfer calls this directly and it doesnt care if the ghosts arent done moving
 
+	if(!master || QDELETED(master))
+		return
+
+	if(!master.loc)
+		return
+
 	if(master.loc == oldloc)
 		return
 

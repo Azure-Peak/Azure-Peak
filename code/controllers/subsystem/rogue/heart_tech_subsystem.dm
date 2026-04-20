@@ -6,13 +6,24 @@ SUBSYSTEM_DEF(chimeric_tech)
 	// The master list of all instantiated nodes, keyed by type path.
 	var/list/all_tech_nodes = list()
 	var/list/cached_choices = list() // Stores the currently offered choices
+	var/list/cached_choices_echoes = list()
 	var/list/cached_choices_paths = list()
+	var/list/cached_choices_paths_echoes = list()
 	var/list/tech_recipe_index = list() // Store references to recipes in the global recipe list to be able to iterate more efficiently later
+	var/echo_points = 0
 
-/datum/controller/subsystem/chimeric_tech/proc/clear_cached_choices()
+#define CHIMERIC_CACHE_TECH 1
+#define CHIMERIC_CACHE_ECHOES 2
+
+/datum/controller/subsystem/chimeric_tech/proc/clear_cached_choices(var/cache_to_clear = CHIMERIC_CACHE_TECH)
 	// Clears the cache when a tech is unlocked.
-	cached_choices = list()
-	cached_choices_paths = list()
+	switch(cache_to_clear)
+		if(CHIMERIC_CACHE_TECH)
+			cached_choices = list()
+			cached_choices_paths = list()
+		if(CHIMERIC_CACHE_ECHOES)
+			cached_choices_echoes = list()
+			cached_choices_paths_echoes = list()
 
 /datum/controller/subsystem/chimeric_tech/Initialize()
 	. = ..()
@@ -31,8 +42,10 @@ SUBSYSTEM_DEF(chimeric_tech)
 		return node.unlocked
 	return FALSE
 
-/datum/controller/subsystem/chimeric_tech/proc/get_available_choices(var/current_tier, var/current_points, var/max_choices = 3)
-	if(cached_choices.len)
+/datum/controller/subsystem/chimeric_tech/proc/get_available_choices(var/current_tier, var/current_points, var/max_choices = 3, var/cache_to_select = CHIMERIC_CACHE_TECH)
+	if(cache_to_select == CHIMERIC_CACHE_ECHOES && cached_choices_echoes.len)
+		return cached_choices_echoes
+	if(cache_to_select == CHIMERIC_CACHE_TECH && cached_choices.len)
 		return cached_choices
 
 	var/list/eligible_nodes = list()
@@ -45,7 +58,10 @@ SUBSYSTEM_DEF(chimeric_tech)
 		if(N.unlocked)
 			continue
 
-		if(current_tier < N.required_tier)
+		if(cache_to_select == CHIMERIC_CACHE_ECHOES && N.required_tier != 1)
+			continue
+
+		if(cache_to_select == CHIMERIC_CACHE_TECH && current_tier < N.required_tier)
 			continue
 
 		var/prereqs_met = TRUE
@@ -72,32 +88,44 @@ SUBSYSTEM_DEF(chimeric_tech)
 
 		selection_pool -= chosen_node // Remove all instances of this node
 
-	cached_choices = final_choices
-	for(var/datum/chimeric_tech_node/N in final_choices)
-		cached_choices_paths += N.type
+	if(cache_to_select == CHIMERIC_CACHE_ECHOES)
+		cached_choices_echoes = final_choices
+		for(var/datum/chimeric_tech_node/N in final_choices)
+			cached_choices_paths_echoes += N.type
+	if(cache_to_select == CHIMERIC_CACHE_TECH)
+		cached_choices = final_choices
+		for(var/datum/chimeric_tech_node/N in final_choices)
+			cached_choices_paths += N.type
 
 	return final_choices
 
-/datum/controller/subsystem/chimeric_tech/proc/unlock_node(var/string_id, var/datum/component/chimeric_heart_beast/beast_component)
+/datum/controller/subsystem/chimeric_tech/proc/unlock_node(var/string_id, var/datum/component/chimeric_heart_beast/beast_component, var/cache_to_clear = CHIMERIC_CACHE_TECH)
 	var/datum/chimeric_tech_node/node = all_tech_nodes[string_id]
 
 	if(!node)
 		return "Error: Node not found."
 	if(node.unlocked)
+		clear_cached_choices(CHIMERIC_CACHE_ECHOES)
+		clear_cached_choices(CHIMERIC_CACHE_TECH)
 		return "Already unlocked."
 
 	// Sanity check
-	if(beast_component.language_tier < node.required_tier || beast_component.tech_points < node.cost)
-		return "Requirements not met."
+	if(cache_to_clear == CHIMERIC_CACHE_TECH)
+		if(beast_component.language_tier < node.required_tier || beast_component.tech_points < node.cost)
+			return "Requirements not met."
 
 	// Sanity check
 	for(var/required_node_path in node.prerequisites)
 		if(!get_node_status(required_node_path))
 			return "Missing prerequisite: [required_node_path]"
 
-	beast_component.tech_points -= node.cost
+	if(cache_to_clear == CHIMERIC_CACHE_TECH)
+		beast_component.tech_points -= node.cost
+		clear_cached_choices()
+	if(cache_to_clear == CHIMERIC_CACHE_ECHOES)
+		echo_points -= node.cost
+		clear_cached_choices(CHIMERIC_CACHE_ECHOES)
 	node.unlocked = TRUE
-	clear_cached_choices()
 
 	if(node.is_recipe_node)
 		update_recipes_for_tech(string_id)
@@ -110,11 +138,11 @@ SUBSYSTEM_DEF(chimeric_tech)
 
 	if(!recipes_to_unlock)
 		return
-	for(var/rec in recipes_to_unlock)
-		var/datum/crafting_recipe/R = rec
-		R.tech_unlocked = TRUE
-		if(node.recipe_override)
-			R.reqs = node.recipe_override
+	for(var/datum/R in recipes_to_unlock)
+		R:tech_unlocked = TRUE
+		if(node.recipe_override && istype(R, /datum/crafting_recipe))
+			var/datum/crafting_recipe/CR = R
+			CR.reqs = node.recipe_override
 
 /datum/controller/subsystem/chimeric_tech/proc/init_unlockable_recipes()
 	tech_recipe_index = list()
@@ -125,8 +153,14 @@ SUBSYSTEM_DEF(chimeric_tech)
 				tech_recipe_index[R.required_tech_node] = list()
 			tech_recipe_index[R.required_tech_node] += R
 
+	for(var/datum/anvil_recipe/AR in GLOB.anvil_recipes)
+		if(AR.required_tech_node)
+			if(!tech_recipe_index[AR.required_tech_node])
+				tech_recipe_index[AR.required_tech_node] = list()
+			tech_recipe_index[AR.required_tech_node] += AR
+
 /datum/controller/subsystem/chimeric_tech/proc/get_healing_multiplier()
-	var/multiplier = 0.75
+	var/multiplier = 0.85
 
 	var/advanced_healing_path = "HEAL_TIER1"
 	var/enhanced_healing_path = "HEAL_TIER2"
@@ -134,7 +168,7 @@ SUBSYSTEM_DEF(chimeric_tech)
 	if(get_node_status(advanced_healing_path))
 		multiplier = 1.0
 	if(get_node_status(enhanced_healing_path))
-		multiplier = 1.1
+		multiplier = 1.25
 	
 	return multiplier
 
@@ -167,3 +201,24 @@ SUBSYSTEM_DEF(chimeric_tech)
 	else if(SSchimeric_tech.get_node_status("INFESTATION_ROT_MULTIPLE_1"))
 		amount = 2
 	return amount
+
+/datum/controller/subsystem/chimeric_tech/proc/admin_force_unlock(var/string_id, var/silent = FALSE)
+	var/datum/chimeric_tech_node/node = all_tech_nodes[string_id]
+
+	if(!node)
+		return "Error: Tech node '[string_id]' not found in master list."
+
+	if(node.unlocked)
+		return "Node '[node.name]' is already unlocked."
+
+	node.unlocked = TRUE
+
+	if(node.is_recipe_node)
+		update_recipes_for_tech(string_id)
+
+	if(!silent)
+		log_admin("Chimeric Tech: Node '[node.name]' ([string_id]) was force-unlocked via proc.")
+	return "Successfully force-unlocked [node.name]."
+
+#undef CHIMERIC_CACHE_TECH
+#undef CHIMERIC_CACHE_ECHOES

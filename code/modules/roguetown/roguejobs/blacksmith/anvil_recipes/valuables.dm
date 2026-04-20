@@ -26,6 +26,48 @@
 	req_bar = /obj/item/ingot/aalloy
 	created_item = /obj/item/roguestatue/aalloy
 
+/datum/anvil_recipe/valuables/noccrossaalloy
+	name = "Amulet of Knowledge, Decrepit"
+	req_bar = /obj/item/ingot/aalloy
+	created_item = /obj/item/clothing/neck/roguetown/psicross/noc/aalloy
+	craftdiff = 3
+
+/datum/anvil_recipe/valuables/noccrosspaalloy
+	name = "Amulet of Knowledge, Ancient"
+	req_bar = /obj/item/ingot/purifiedaalloy
+	created_item = /obj/item/clothing/neck/roguetown/psicross/noc/paalloy
+	craftdiff = 3
+
+/datum/anvil_recipe/valuables/psycrossaalloy
+	name = "Amulet of Psydonia, Decrepit"
+	req_bar = /obj/item/ingot/aalloy
+	created_item = /obj/item/clothing/neck/roguetown/psicross/aalloy
+	craftdiff = 3
+
+/datum/anvil_recipe/valuables/psycrosspaalloy
+	name = "Amulet of Psydonia, Ancient"
+	req_bar = /obj/item/ingot/purifiedaalloy
+	created_item = /obj/item/clothing/neck/roguetown/psicross/paalloy
+	craftdiff = 3
+
+/datum/anvil_recipe/valuables/zcrossaalloy
+	name = "Amulet of Ascension, Decrepit"
+	req_bar = /obj/item/ingot/aalloy
+	created_item = /obj/item/clothing/neck/roguetown/psicross/inhumen/aalloy
+	craftdiff = 3
+
+/datum/anvil_recipe/valuables/zcrosspaalloy
+	name = "Amulet of Ascension, Ancient"
+	req_bar = /obj/item/ingot/purifiedaalloy
+	created_item = /obj/item/clothing/neck/roguetown/psicross/inhumen/paalloy
+	craftdiff = 3
+
+/datum/anvil_recipe/valuables/noccrossbronze
+	name = "Amulet of Knowledge, Bronze"
+	req_bar = /obj/item/ingot/bronze
+	created_item = /obj/item/clothing/neck/roguetown/psicross/noc/bronze
+	craftdiff = 2
+
 /datum/anvil_recipe/valuables/steel
 	name = "Statue, Steel"
 	req_bar = /obj/item/ingot/steel
@@ -37,22 +79,77 @@
 	created_item = /obj/item/roguestatue/blacksteel
 
 /datum/anvil_recipe/valuables/zcross_iron
-	name = "Inverted Psycross (1 iron)"
+	name = "Inverted Psycross"
 	req_bar = /obj/item/ingot/iron
 	created_item = /obj/item/clothing/neck/roguetown/psicross/inhumen/iron
 	craftdiff = 1
 
 /datum/anvil_recipe/valuables/matthios
-	name = "Amulet of Matthios (1 gold)"
+	name = "Amulet of Matthios"
 	req_bar = /obj/item/ingot/gold
 	created_item = /obj/item/clothing/neck/roguetown/psicross/inhumen/matthios
 	craftdiff = 1
 
 /datum/anvil_recipe/valuables/graggar
-	name = "Amulet of Graggar (1 iron)"
+	name = "Amulet of Graggar"
 	req_bar = /obj/item/ingot/iron
 	created_item = /obj/item/clothing/neck/roguetown/psicross/inhumen/graggar
 	craftdiff = 1
+
+/datum/anvil_recipe/valuables/ringb
+	name = "Rings, Bronze (x2)"
+	req_bar = /obj/item/ingot/bronze
+	created_item = /obj/item/clothing/ring/bronze
+	craftdiff = SKILL_LEVEL_JOURNEYMAN
+	createditem_num = 2
+
+/datum/anvil_recipe/valuables/psicrossbronze
+	name = "Amulet of Psydonia, Bronze"
+	req_bar = /obj/item/ingot/bronze
+	created_item = /obj/item/clothing/neck/roguetown/psicross/bronze
+	craftdiff = 2
+
+/datum/anvil_recipe/valuables/zcrossbronze
+	name = "Amulet of Ascension, Bronze"
+	req_bar = /obj/item/ingot/bronze
+	created_item = /obj/item/clothing/neck/roguetown/psicross/inhumen/bronze
+	craftdiff = 2
+
+/datum/anvil_recipe/valuables/astcrossbronze
+	name = "Amulet of Order, Bronze"
+	req_bar = /obj/item/ingot/bronze
+	created_item = /obj/item/clothing/neck/roguetown/psicross/astrata/bronze
+	craftdiff = 2
+
+/datum/anvil_recipe/valuables/ravoxbronze
+	name = "Amulet of Justice, Bronze"
+	req_bar = /obj/item/ingot/bronze
+	created_item = /obj/item/clothing/neck/roguetown/psicross/ravox/bronze
+	craftdiff = 2
+
+/datum/anvil_recipe/valuables/graggarbronze
+	name = "Amulet of Violence, Bronze"
+	req_bar = /obj/item/ingot/bronze
+	created_item = /obj/item/clothing/neck/roguetown/psicross/inhumen/graggar/bronze
+	craftdiff = 2
+
+/datum/anvil_recipe/valuables/malumcrossbronze
+	name = "Amulet of Creation, Bronze"
+	req_bar = /obj/item/ingot/bronze
+	created_item = /obj/item/clothing/neck/roguetown/psicross/malum/bronze
+	craftdiff = 2
+
+/datum/anvil_recipe/valuables/noccrossbronze
+	name = "Amulet of Knowledge, Bronze"
+	req_bar = /obj/item/ingot/bronze
+	created_item = /obj/item/clothing/neck/roguetown/psicross/noc/bronze
+	craftdiff = 2
+
+/datum/anvil_recipe/valuables/statuebronze
+	name = "Statue, Bronze"
+	req_bar = /obj/item/ingot/bronze
+	created_item = /obj/item/roguestatue/bronze
+	craftdiff = SKILL_LEVEL_JOURNEYMAN
 
 /datum/anvil_recipe/valuables/ringg
 	name = "Rings, Gold (x3)"
@@ -79,6 +176,30 @@
 	req_bar = /obj/item/ingot/blacksteel
 	created_item = /obj/item/clothing/ring/blacksteel
 	createditem_num = 3
+
+/datum/anvil_recipe/valuables/weddingrings
+	name = "Weddingbands, Silver (x2)"
+	req_bar = /obj/item/ingot/silver
+	created_item = /obj/item/clothing/ring/band
+	createditem_num = 2
+
+/datum/anvil_recipe/valuables/weddingringg
+	name = "Weddingbands, Gold (x2)"
+	req_bar = /obj/item/ingot/gold
+	created_item = /obj/item/clothing/ring/band/gold
+	createditem_num = 2
+
+/datum/anvil_recipe/valuables/weddingringb
+	name = "Weddingbands, Bronze (x2)"
+	req_bar = /obj/item/ingot/bronze
+	created_item = /obj/item/clothing/ring/band/bronze
+	createditem_num = 2
+
+/datum/anvil_recipe/valuables/weddingringp
+	name = "Weddingbands, Ancient (x2)"
+	req_bar = /obj/item/ingot/purifiedaalloy
+	created_item = /obj/item/clothing/ring/band/paalloy
+	createditem_num = 2
 
 /datum/anvil_recipe/valuables/ornateamulet
 	name = "Ornate Amulet"
@@ -137,22 +258,36 @@
 	created_item = /obj/item/clothing/ring/diamond
 
 /datum/anvil_recipe/valuables/signet
-	name = "Signet Ring"
+	name = "Signet Ring, Gold"
 	req_bar = /obj/item/ingot/gold
 	craftdiff = SKILL_LEVEL_EXPERT
 	created_item = /obj/item/clothing/ring/signet
 
+/datum/anvil_recipe/valuables/signetalt
+	name = "Signet Ring, Silver"
+	req_bar = /obj/item/ingot/silver
+	craftdiff = SKILL_LEVEL_EXPERT
+	created_item = /obj/item/clothing/ring/signet/alt
+
 /datum/anvil_recipe/valuables/signet/silver
-	name = "Blessed Silver Signet Ring"
+	name = "Signet Ring, Blessed Silver"
 	craftdiff = SKILL_LEVEL_MASTER
 	req_bar = /obj/item/ingot/silverblessed
 	created_item = /obj/item/clothing/ring/signet/silver	
 
 /datum/anvil_recipe/valuables/signet/silver/inq
-	name = "Blessed Silver Signet Ring"
+	name = "Signet Ring, Blessed Silver"
 	craftdiff = SKILL_LEVEL_MASTER
 	req_bar = /obj/item/ingot/silverblessed/bullion
 	created_item = /obj/item/clothing/ring/signet/silver	
+
+/datum/anvil_recipe/valuables/duelring
+	name = "Duelist's Rings (x2) (+1 Rosestone Ring)"
+	req_bar = /obj/item/ingot/bronze
+	additional_items = list(/obj/item/clothing/ring/rose)
+	craftdiff = SKILL_LEVEL_MASTER
+	created_item = /obj/item/clothing/ring/duelist
+	createditem_num = 2
 
 // Silver ingots are now in play, and as such, the steel rings have been converted to silver with their value adjusted accordingly. -Kyogon
 
@@ -225,13 +360,37 @@
 	craftdiff = SKILL_LEVEL_LEGENDARY
 	bypass_dupe_test = TRUE // Transmutation into riddle of steel is fine if you smelt this.
 
-/datum/anvil_recipe/valuables/daemonslayer
-	name = "Daemonslayer (Secret!)"
-	req_bar = /obj/item/ingot/silver
-	hides_from_books = TRUE //Note to self - adding more than five additional items to a crafting recipe might result in unintended consequences.
-	additional_items = list(/obj/item/rogueweapon/greatsword/silver, /obj/item/rogueweapon/greatsword/paalloy, /obj/item/ingot/draconic, /obj/item/ingot/weeping, /obj/item/riddleofsteel)
-	created_item = /obj/item/rogueweapon/greatsword/psygsword/dragonslayer
+//
+
+/datum/anvil_recipe/valuables/anointedberserksword
+	name = "Anointed Berserkers Sword (Secret!)"
+	req_bar = /obj/item/ingot/component/glutcrystal
+	hides_from_books = TRUE
+	additional_items = list(/obj/item/rogueweapon/sword/long/exe/berserk)
+	created_item = /obj/item/rogueweapon/sword/long/exe/berserk/gnoll
 	appro_skill = /datum/skill/craft/weaponsmithing
 	i_type = "Weapons"
 	craftdiff = SKILL_LEVEL_LEGENDARY
 	bypass_dupe_test = TRUE // Smelting into a greatsword is fine.
+
+/obj/item/rogueweapon/sword/long/exe/berserk/gnoll
+	name = "anointed berserkers sword"
+	desc = "A raw heap of iron, hewn into an intimidatingly massive cleaver. Most could never aspire to effectively swing such a laborsome blade about; those few that have the strength, however, can force even the strongest opponents to stagger back. </br>The thrummage of your heart matches the otherworldly aura that has overtaken this blade. Someone's smiling down upon you, but it certainly isn't who you think it is."
+	max_blade_int = 666
+
+/obj/item/rogueweapon/sword/long/exe/berserk/gnoll/Initialize()
+  ..()
+  add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_VAMPIRIC, "alpha" = 188, "size" = 1))
+
+//
+
+/datum/anvil_recipe/valuables/daemonslayer
+	name = "Daemonslayer (Secret!)"
+	req_bar = /obj/item/ingot/silver
+	hides_from_books = TRUE //Note to self - adding more than five additional items to a crafting recipe might result in unintended consequences.
+	additional_items = list(/obj/item/rogueweapon/sword/long/exe/berserk/gnoll, /obj/item/rogueweapon/greatsword/paalloy, /obj/item/ingot/draconic, /obj/item/ingot/weeping, /obj/item/riddleofsteel)
+	created_item = /obj/item/rogueweapon/sword/long/exe/berserk/dragonslayer
+	appro_skill = /datum/skill/craft/weaponsmithing
+	i_type = "Weapons"
+	craftdiff = SKILL_LEVEL_LEGENDARY
+	bypass_dupe_test = TRUE

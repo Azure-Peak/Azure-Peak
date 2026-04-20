@@ -11,7 +11,6 @@
 	dynamic_hair_suffix = ""
 	max_integrity = 80
 	armor = ARMOR_CLOTHING
-	prevent_crits = list(BCLASS_TWIST)
 	anvilrepair = null
 	sewrepair = TRUE
 	blocksound = SOFTHIT
@@ -50,7 +49,7 @@
 
 /obj/item/clothing/head/roguetown/necramask
 	name = "death mask"
-	desc = "A hood with a decorated jaw bone at the chin, normally worn by some followers of Necra as a form of devotion"
+	desc = "A hood with a decorated jaw bone at the chin, normally worn by some followers of Necra as a form of devotion."
 	color = null
 	icon_state = "deathface"
 	item_state = "deathface"
@@ -101,6 +100,14 @@
 
 /obj/item/clothing/head/roguetown/menacing/bandit
 	icon_state = "bandithood"
+
+/obj/item/clothing/head/roguetown/menacing/executioner
+	name = "executioners hood"
+	icon_state = "dungeoneer"
+	color = null
+
+/obj/item/clothing/head/roguetown/menacing/executioner/ComponentInitialize()
+	AddComponent(/datum/component/armour_filtering/positive, TRAIT_JAILOR, "dungeoneer")
 
 /obj/item/clothing/head/roguetown/jester
 	name = "jester's hat"

@@ -24,12 +24,21 @@ with light edits to work with roguecode */
 	///when sounds start falling off for the rustle rustle.
 	var/sound_falloff_distance = 1
 
+	///whether our owner has a muffling trait.
+	var/has_light_steps = FALSE
+
+	var/static/list/valid_storage_rustlers = list(
+		/datum/component/storage/concrete/roguetown/hat
+	)
+
 /datum/component/item_equipped_movement_rustle/Initialize(custom_sounds, move_delay_override, volume_override, extrarange, falloff_exponent, falloff_distance)
 	if(!isitem(parent))
 		return COMPONENT_INCOMPATIBLE
 
 	RegisterSignal(parent, COMSIG_ITEM_EQUIPPED, PROC_REF(on_equip))
 	RegisterSignal(parent, COMSIG_ITEM_DROPPED, PROC_REF(on_unequip))
+	RegisterSignal(parent, COMSIG_AFTER_STORAGE_INSERT, PROC_REF(handle_storage_insert))
+	RegisterSignal(parent, COMSIG_AFTER_STORAGE_REMOVE, PROC_REF(handle_storage_remove))
 
 	if(custom_sounds)
 		rustle_sounds = custom_sounds
@@ -46,13 +55,45 @@ with light edits to work with roguecode */
 
 /datum/component/item_equipped_movement_rustle/proc/on_equip(datum/source, mob/equipper, slot)
 	SIGNAL_HANDLER
-	RegisterSignal(equipper, COMSIG_MOVABLE_MOVED, PROC_REF(try_step), override = TRUE)
 
+	has_light_steps = HAS_TRAIT(equipper, TRAIT_LIGHT_STEP)
+	RegisterSignal(equipper, COMSIG_MOVABLE_MOVED, PROC_REF(try_step), override = TRUE)
+	RegisterSignal(equipper, COMSIG_SEX_JOSTLE, PROC_REF(try_step_quick), override = TRUE)
 
 /datum/component/item_equipped_movement_rustle/proc/on_unequip(datum/source, mob/dropped)
 	SIGNAL_HANDLER
+
 	move_counter = 0
+	has_light_steps = FALSE
 	UnregisterSignal(dropped, COMSIG_MOVABLE_MOVED)
+	UnregisterSignal(dropped, COMSIG_SEX_JOSTLE)
+
+/datum/component/item_equipped_movement_rustle/proc/handle_storage_insert(datum/source, obj/storage_master, mob/user, datum/storage_datum)
+	SIGNAL_HANDLER
+
+	if(!is_type_in_list(storage_datum, valid_storage_rustlers))
+		return
+
+	has_light_steps = FALSE
+	RegisterSignal(storage_master, COMSIG_ITEM_EQUIPPED, PROC_REF(on_equip))
+	RegisterSignal(storage_master, COMSIG_ITEM_DROPPED, PROC_REF(on_unequip))
+
+	if(storage_master.loc == user)
+		has_light_steps = HAS_TRAIT(user, TRAIT_LIGHT_STEP)
+		RegisterSignal(user, COMSIG_MOVABLE_MOVED, PROC_REF(try_step), override = TRUE)
+
+/datum/component/item_equipped_movement_rustle/proc/handle_storage_remove(datum/source, obj/storage_master, mob/user, datum/storage_datum)
+	SIGNAL_HANDLER
+
+	if(!is_type_in_list(storage_datum, valid_storage_rustlers))
+		return
+
+	has_light_steps = FALSE
+	UnregisterSignal(storage_master, COMSIG_ITEM_EQUIPPED)
+	UnregisterSignal(storage_master, COMSIG_ITEM_DROPPED)
+
+	if(storage_master.loc == user)
+		UnregisterSignal(user, COMSIG_MOVABLE_MOVED)
 
 /datum/component/item_equipped_movement_rustle/proc/try_step(obj/item/clothing/source)//(mob/source)
 	SIGNAL_HANDLER
@@ -63,5 +104,15 @@ with light edits to work with roguecode */
 		play_rustle_sound(source)
 		move_counter = 0
 
+/datum/component/item_equipped_movement_rustle/proc/try_step_quick(obj/item/clothing/source)//(mob/source)
+	SIGNAL_HANDLER
+	/*if (source.moving_diagonally == FIRST_DIAG_STEP)   //you can uncomment these if someone ever implements diagonal movement
+		return*/
+	move_counter++
+	if(move_counter >= (move_delay / 2))
+		play_rustle_sound(source)
+		move_counter = 0
+
 /datum/component/item_equipped_movement_rustle/proc/play_rustle_sound(obj/item/clothing/source)//(mob/source)
-	playsound(source, rustle_sounds, volume, sound_vary, sound_extra_range, sound_falloff_exponent, falloff = sound_falloff_distance)
+	if(!has_light_steps)
+		playsound(source, rustle_sounds, volume, sound_vary, sound_extra_range, sound_falloff_exponent, falloff = sound_falloff_distance)

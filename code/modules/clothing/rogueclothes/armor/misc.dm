@@ -7,6 +7,7 @@
 	armor_class = ARMOR_CLASS_LIGHT
 	body_parts_covered = CHEST
 	salvage_result = /obj/item/natural/hide/cured
+	sewrepair = TRUE
 	salvage_amount = 1
 	
 /obj/item/clothing/suit/roguetown/armor/longcoat
@@ -57,12 +58,11 @@
 	desc = "A padded dressing made from the finest silks."
 	icon_state = "bliaut"
 	color = null
-	armor = ARMOR_SPELLSINGER
-	prevent_crits = PREVENT_CRITS_NONE
+	armor = ARMOR_LEATHER
 	blocksound = SOFTHIT
 	slot_flags = ITEM_SLOT_ARMOR
 	blade_dulling = DULLING_BASHCHOP
-	body_parts_covered = COVERAGE_ALL_BUT_ARMS
+	body_parts_covered = COVERAGE_ALL_BUT_HANDFEET
 	break_sound = 'sound/foley/cloth_rip.ogg'
 	drop_sound = 'sound/foley/dropsound/cloth_drop.ogg'
 	sewrepair = TRUE

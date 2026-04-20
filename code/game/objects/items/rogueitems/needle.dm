@@ -13,7 +13,7 @@
 	max_integrity = 20
 	anvilrepair = /datum/skill/craft/blacksmithing
 	tool_behaviour = TOOL_SUTURE
-	experimental_inhand = FALSE
+	experimental_inhand = TRUE
 	/// Amount of uses left
 	var/stringamt = 20
 	var/maxstring = 20
@@ -33,6 +33,14 @@
 			. += span_bold("It has no uses left.")
 	else
 		. += "Can be used indefinitely."
+
+/obj/item/needle/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Left-click someone - while targeting the desired limb - to begin stitching a wound. Stitching automatically stops once you've completely sealed the specific wound.")
+	. += span_info("While stitching a wound, it will bleed far slower than usual. This effect can be further stacked by applying cloth, bandages, or pressure to the wounded limb.")
+	. += span_info("If multiple stitchable wounds are present on the targeted limb, you'll be given the option to choose which specific wound is treated first.")
+	. += span_info("Needles require fibers to stitch, which can be found by cutting grass or foraging through bushes.")
+	. += span_info("To rethread an emptied needle, left-click it with a strand of fiber.")
 
 /obj/item/needle/Initialize()
 	. = ..()
@@ -151,8 +159,8 @@
 				if(XP_ON_SUCCESS > 0)
 					user.mind.add_sleep_experience(/datum/skill/craft/sewing, user.STAINT * XP_ON_SUCCESS)
 				I.obj_integrity = min(I.obj_integrity + BASE_SEW_REPAIR + skill * SEW_REPAIR_PER_LEVEL, I.max_integrity)
-				if(I.obj_broken && istype(I, /obj/item/clothing) && I.obj_integrity >= I.max_integrity)
-					var/obj/item/clothing/cloth = I
+				if(I.obj_broken && istype(I, /obj/item) && I.obj_integrity >= I.max_integrity)
+					var/obj/item/cloth = I
 					cloth.obj_fix()
 					return
 				if(do_after(user, AUTO_SEW_DELAY, target = I))
@@ -217,9 +225,9 @@
 		target_wound.set_bleed_rate(max( (target_wound.bleed_rate - bleedreduction), 0))
 		if(target_wound.bleed_rate == 0 && !informed)
 			if(is_simple_animal)
-				patient.visible_message(span_smallgreen("One last drop of blood trickles from the [(target_wound?.name)] on [patient] before it closes."), span_smallgreen("The throbbing warmth coming out of [target_wound] soothes and stops. It no longer bleeds."))
+				patient.visible_message(span_smallgreen("One last drop of blood trickles from the [(target_wound?.name)] on [patient] before it closes."), span_smallgreen("The throbbing warmth coming out of the [target_wound] soothes and stops. It no longer bleeds."))
 			else
-				patient.visible_message(span_smallgreen("One last drop of blood trickles from the [(target_wound?.name)] on [patient]'s [affecting.name] before it closes."), span_smallgreen("The throbbing warmth coming out of [target_wound] soothes and stops. It no longer bleeds."))
+				patient.visible_message(span_smallgreen("One last drop of blood trickles from the [(target_wound?.name)] on [patient]'s [affecting.name] before it closes."), span_smallgreen("The throbbing warmth coming out of the [target_wound] soothes and stops. It no longer bleeds."))
 			informed = TRUE
 		if(istype(target_wound, /datum/wound/dynamic))
 			var/datum/wound/dynamic/dynwound = target_wound
@@ -260,10 +268,25 @@
 	maxstring = 5
 	anvilrepair = null
 
+/obj/item/needle/thorn/cleric
+	name = "clerical needle"
+	icon_state = "lesserneedle"
+	desc = "This iron-tipped needle can stem the flow of nastier wounds; a blessing, when one is delivered a grave blow while far away from the Church."
+	stringamt = 10
+	maxstring = 10
+	anvilrepair = null
+
 /obj/item/needle/pestra
 	name = "needle of pestra"
 	desc = span_green("This needle has been blessed by the goddess of medicine herself!")
 	infinite = TRUE
+
+/obj/item/needle/bronze
+	name = "bronze needle"
+	icon_state = "bronzeneedle"
+	desc = "A deceptively long needle with a craned tip, laced for labors-a-plenety."
+	stringamt = 30
+	maxstring = 30
 
 /obj/item/needle/aalloy
 	name = "decrepit needle"

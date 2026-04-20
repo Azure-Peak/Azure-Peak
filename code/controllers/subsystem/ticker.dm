@@ -36,6 +36,7 @@ SUBSYSTEM_DEF(ticker)
 	var/start_at
 	//576000 dusk
 	//376000 day
+	// 8 AM
 	var/gametime_offset = 288001		//Deciseconds to add to world.time for station time.
 	var/station_time_rate_multiplier = 50		//factor of station time progressal vs real time.
 	var/time_until_vote = 180 MINUTES
@@ -68,6 +69,10 @@ SUBSYSTEM_DEF(ticker)
 
 	/// Realm name, the location name of the current map
 	var/realm_name = "Azure Peak"
+	/// Formal realm type (e.g. "Grand Duchy", "Most Serene Republic"). Changed by usurpation rites.
+	var/realm_type = "Grand Duchy"
+	/// Short form for casual references (e.g. "Duchy", "Republic"). Changed by usurpation rites.
+	var/realm_type_short = "Duchy"
 	/// Reports the current ruler's display name
 	var/rulertype = "Grand Duke"
 	/// The current ruling mob
@@ -76,6 +81,12 @@ SUBSYSTEM_DEF(ticker)
 	var/regentmob = null
 	/// Prevent regent shuffling
 	var/regentday = -1
+	/// Prevent chained coups — tracks the in-game day of the last completed usurpation
+	var/usurpation_day = -1
+	/// Optional epilogue text displayed at round end after a usurpation. Set by rites in on_complete().
+	var/roundend_epilogue
+	/// TRUE once a ruler has been assigned at least once (distinguishes "never had a ruler" from "ruler got qdeleted")
+	var/had_ruler = FALSE
 	var/failedstarts = 0
 	var/list/manualmodes = list()
 
@@ -167,10 +178,8 @@ SUBSYSTEM_DEF(ticker)
 		GLOB.syndicate_code_response_regex = codeword_match
 
 	start_at = world.time + (CONFIG_GET(number/lobby_countdown) * 10)
-	if(CONFIG_GET(flag/randomize_shift_time))
-		gametime_offset = rand(0, 23) HOURS
-	else if(CONFIG_GET(flag/shift_time_realtime))
-		gametime_offset = world.timeofday
+	// Offset time drift but start right in the morning of Monday.
+	gametime_offset = 288001
 	return ..()
 
 /datum/controller/subsystem/ticker/fire()
@@ -181,7 +190,7 @@ SUBSYSTEM_DEF(ticker)
 			for(var/client/C in GLOB.clients)
 				window_flash(C, ignorepref = TRUE) //let them know lobby has opened up.
 //			to_chat(world, span_boldnotice("Welcome to [station_name()]!"))
-			send2chat(new /datum/tgs_message_content("New round starting on [SSmapping.config.map_name]!"), CONFIG_GET(string/chat_announce_new_game))
+			send2chat(new /datum/tgs_message_content("New round starting on [SSmapping.config.map_name]! (Round ID: [GLOB.round_id])"), CONFIG_GET(string/chat_announce_new_game))
 			current_state = GAME_STATE_PREGAME
 			//Everyone who wants to be an observer is now spawned
 			create_observers()
@@ -327,6 +336,16 @@ SUBSYSTEM_DEF(ticker)
 
 	CHECK_TICK
 
+	// Pre-scale wretch and adventurer slots before job assignment using readied player count.
+	// Add ~10% buffer to account for immediate latejoins.
+	var/readied_count = 0
+	for(var/mob/dead/new_player/player in GLOB.new_player_list)
+		if(player.ready == PLAYER_READY_TO_PLAY)
+			readied_count++
+	var/estimated_pop = round(readied_count * 1.1)
+	gnollslot_update()
+	update_scaling_slots(estimated_pop)
+
 	can_continue = can_continue && SSjob.DivideOccupations(list()) 				//Distribute jobs
 
 	CHECK_TICK
@@ -394,6 +413,8 @@ SUBSYSTEM_DEF(ticker)
 	for(var/client/C in GLOB.clients)
 		if(C.mob)
 			C.mob.playsound_local(C.mob, 'sound/misc/roundstart.ogg', 100, FALSE)
+
+	SSgamemode.roll_roundstart_antag()
 
 //	SEND_SOUND(world, sound('sound/misc/roundstart.ogg'))
 	current_state = GAME_STATE_PLAYING
@@ -471,7 +492,7 @@ SUBSYSTEM_DEF(ticker)
 			continue
 		if(player.ready == PLAYER_READY_TO_PLAY)
 			GLOB.joined_player_list += player.ckey
-			update_wretch_slots()
+			update_scaling_slots()
 			player.create_character(FALSE)
 		else
 			player.new_player_panel()
@@ -523,21 +544,11 @@ SUBSYSTEM_DEF(ticker)
 		if(L)
 			L?.notransform = FALSE
 
-/datum/controller/subsystem/ticker/proc/send_tip_of_the_round()
-	return
-/*	var/m
-	if(selected_tip)
-		m = selected_tip
-	else
-		var/list/randomtips = world.file2list("strings/tips.txt")
-//		var/list/memetips = world.file2list("strings/sillytips.txt")
-//		if(randomtips.len && prob(95))
-		m = pick(randomtips)
-//		else if(memetips.len)
-//			m = pick(memetips)
-	if(m)
-		to_chat(world, span_purple("Before we begin, remember: [html_encode(m)]"))
-*/
+/datum/controller/subsystem/ticker/proc/send_tip_of_the_round(input)
+	if(!input)
+		return
+	to_chat(world, fieldset_block(span_purple("<b>Tip of the Round</b>"), span_purple("[html_encode(input)]"), "tipoftheround"))
+
 /datum/controller/subsystem/ticker/proc/check_queue()
 	if(!queued_players.len)
 		return
@@ -769,6 +780,7 @@ SUBSYSTEM_DEF(ticker)
 /// Wrapper for setting rulermob and rulertype
 /datum/controller/subsystem/ticker/proc/set_ruler_mob(mob/newruler)
 	rulermob = newruler
+	had_ruler = TRUE
 	var/datum/job/lord_job = SSjob.GetJob("Grand Duke")
 	if(should_wear_femme_clothes(rulermob))
 		SSticker.rulertype = lord_job?.f_title || lord_job.title

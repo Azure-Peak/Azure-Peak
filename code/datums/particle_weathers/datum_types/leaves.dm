@@ -5,8 +5,6 @@
 	gravity 	= list(0, -1, 0.1)
 	friction    = 0.3
 	transform 	= null
-	lifespan = generator("num", 35, 55)
-	fadein = generator("num", 2, 6)
 	//Weather effects, max values
 	maxSpawning            = 25
 	minSpawning            = 3
@@ -19,8 +17,6 @@
 	gravity 	= list(0, -1, 0.1)
 	friction 	= 0.5
 	transform 	= null
-	lifespan = generator("num", 35, 55)
-	fadein = generator("num", 2, 6)
 	//Weather effects, max values
 	maxSpawning            = 30
 	minSpawning            = 5
@@ -38,7 +34,7 @@
 	maxSeverityChange = 2
 	severitySteps = 5
 	immunity_type = TRAIT_RAINSTORM_IMMUNE
-	probability = 1
+	probability = 40
 	target_trait = PARTICLEWEATHER_LEAVES
 
 /datum/particle_weather/leaves_storm
@@ -53,7 +49,7 @@
 	maxSeverityChange = 50
 	severitySteps = 50
 	immunity_type = TRAIT_RAINSTORM_IMMUNE
-	probability = 1
+	probability = 20
 	target_trait = PARTICLEWEATHER_LEAVES
 
 /datum/particle_weather/sakura_gentle
@@ -68,7 +64,7 @@
 	maxSeverityChange = 2
 	severitySteps = 5
 	immunity_type = TRAIT_RAINSTORM_IMMUNE
-	probability = 1
+	probability = 0
 	target_trait = PARTICLEWEATHER_SAKURA
 
 /datum/particle_weather/sakura_storm
@@ -83,5 +79,5 @@
 	maxSeverityChange = 50
 	severitySteps = 50
 	immunity_type = TRAIT_RAINSTORM_IMMUNE
-	probability = 1
+	probability = 0
 	target_trait = PARTICLEWEATHER_SAKURA

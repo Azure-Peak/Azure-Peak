@@ -45,7 +45,7 @@
 	var/STAWIL
 	/// Weapons we can give to the dreamer
 	var/static/list/possible_weapons = list(
-		/obj/item/rogueweapon/huntingknife/cleaver,
+		/obj/item/rogueweapon/huntingknife/chefknife/cleaver,
 		/obj/item/rogueweapon/huntingknife/combat,
 		/obj/item/rogueweapon/huntingknife/idagger/steel/special,
 	)

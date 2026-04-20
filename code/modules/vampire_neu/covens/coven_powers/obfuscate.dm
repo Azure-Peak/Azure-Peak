@@ -66,13 +66,15 @@
 	RegisterSignal(owner, aggressive_signals, PROC_REF(on_combat_signal), override = TRUE)
 	RegisterSignal(owner, COMSIG_MOVABLE_MOVED, PROC_REF(handle_move))
 
-	owner.alpha = 10
+	owner.mob_timers[MT_INVISIBILITY] = world.time + 360000 // ten hours, it's hacky but w/e
+	owner.alpha = 0
 
 /datum/coven_power/obfuscate/cloak_of_shadows/deactivate()
 	. = ..()
 	UnregisterSignal(owner, aggressive_signals)
 	UnregisterSignal(owner, COMSIG_MOVABLE_MOVED)
 
+	owner.mob_timers[MT_INVISIBILITY] = 0
 	owner.alpha = 255
 
 /datum/coven_power/obfuscate/cloak_of_shadows/proc/handle_move(datum/source, atom/moving_thing, dir)
@@ -98,16 +100,20 @@
 
 /datum/coven_power/obfuscate/unseen_presence/activate()
 	. = ..()
+	ADD_TRAIT(owner, TRAIT_SILENT_FOOTSTEPS, TRAIT_GENERIC)
 	RegisterSignal(owner, aggressive_signals, PROC_REF(on_combat_signal), override = TRUE)
 	RegisterSignal(owner, COMSIG_MOVABLE_MOVED, PROC_REF(handle_move))
 
-	owner.alpha = 10
+	owner.mob_timers[MT_INVISIBILITY] = world.time + 360000
+	owner.alpha = 0
 
 /datum/coven_power/obfuscate/unseen_presence/deactivate()
 	. = ..()
+	REMOVE_TRAIT(owner, TRAIT_SILENT_FOOTSTEPS, TRAIT_GENERIC)
 	UnregisterSignal(owner, aggressive_signals)
 	UnregisterSignal(owner, COMSIG_MOVABLE_MOVED)
 
+	owner.mob_timers[MT_INVISIBILITY] = 0
 	owner.alpha = 255
 
 /datum/coven_power/obfuscate/unseen_presence/proc/handle_move(datum/source, atom/moving_thing, dir)
@@ -134,22 +140,27 @@
 
 /datum/coven_power/obfuscate/vanish_from_the_minds_eye/activate()
 	. = ..()
+	ADD_TRAIT(owner, TRAIT_SILENT_FOOTSTEPS, TRAIT_GENERIC)
 	RegisterSignal(owner, aggressive_signals, PROC_REF(on_combat_signal), override = TRUE)
 	RegisterSignal(owner, COMSIG_MOVABLE_MOVED, PROC_REF(handle_move))
 
-	owner.alpha = 10
+	owner.mob_timers[MT_INVISIBILITY] = world.time + 360000
+	owner.alpha = 0
 
 	// Memory wipe effect - make nearby people forget they saw you
 	for(var/mob/living/carbon/human/viewer in oviewers(7, owner))
 		if(viewer.client && viewer.stat < UNCONSCIOUS)
-			to_chat(viewer, span_hypnophrase("Wait... wasn't someone just here? No, must be my imagination..."))
+			to_chat(viewer, span_hypnophrase("<span style='font-size: 200%; text-shadow: 0 0 8px #ffffff;'>Wait... wasn't someone just here? No, must be my imagination...</span>"))
+			to_chat(viewer, span_hypnophrase("<span style='font-size: 80%; text-shadow: 0 0 6px #ffffff;'>You forget that you saw [owner].</span>"))
 			// Could add more memory effects here like removing recent chat logs mentioning the user
 
 /datum/coven_power/obfuscate/vanish_from_the_minds_eye/deactivate()
 	. = ..()
+	REMOVE_TRAIT(owner, TRAIT_SILENT_FOOTSTEPS, TRAIT_GENERIC)
 	UnregisterSignal(owner, aggressive_signals)
 	UnregisterSignal(owner, COMSIG_MOVABLE_MOVED)
 
+	owner.mob_timers[MT_INVISIBILITY] = 0
 	owner.alpha = 255
 
 /datum/coven_power/obfuscate/vanish_from_the_minds_eye/proc/handle_move(datum/source, atom/moving_thing, dir)
@@ -185,14 +196,16 @@
 	RegisterSignal(owner, aggressive_signals, PROC_REF(on_combat_signal), override = TRUE)
 	RegisterSignal(owner, COMSIG_MOVABLE_MOVED, PROC_REF(handle_move))
 
-	owner.alpha = 10
+	owner.alpha = 0
 	cloaked_mobs = list(owner)
 
 	// Cloak nearby allies
 	for(var/mob/living/target in oviewers(3, owner))
 		if(target.client && target.stat < UNCONSCIOUS)
 			// Add faction/ally checks here as appropriate
-			target.alpha = 10
+			ADD_TRAIT(target, TRAIT_SILENT_FOOTSTEPS, TRAIT_GENERIC)
+			target.mob_timers[MT_INVISIBILITY] = world.time + 360000
+			target.alpha = 0
 			cloaked_mobs += target
 			to_chat(target, span_notice("You feel a supernatural veil fall over you..."))
 			RegisterSignal(target, aggressive_signals, PROC_REF(on_ally_combat_signal), override = TRUE)
@@ -206,6 +219,8 @@
 
 	// Restore visibility to all cloaked mobs
 	for(var/mob/living/target in cloaked_mobs)
+		REMOVE_TRAIT(target, TRAIT_SILENT_FOOTSTEPS, TRAIT_GENERIC)
+		target.mob_timers[MT_INVISIBILITY] = 0
 		target.alpha = 255
 		UnregisterSignal(target, aggressive_signals)
 		if(target != owner)
@@ -229,6 +244,7 @@
 	to_chat(ally, span_danger("Your actions break the supernatural veil!"))
 
 	// Remove this ally from the cloak
+	ally.mob_timers[MT_INVISIBILITY] = 0
 	ally.alpha = 255
 	UnregisterSignal(ally, aggressive_signals)
 	cloaked_mobs -= ally

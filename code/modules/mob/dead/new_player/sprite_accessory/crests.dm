@@ -1,6 +1,6 @@
 /datum/sprite_accessory/crests
 	abstract_type = /datum/sprite_accessory/crests
-	layer = HAIR_LAYER
+	layer = HAIR_LAYER - 0.1
 	icon = 'icons/mob/sprite_accessory/crests/crests.dmi'
 	default_colors = list("#FFFFFF")
 
@@ -21,4 +21,4 @@
 
 /datum/sprite_accessory/crests/steelt
 	name = "Steel Thorn Crest"
-	icon_state = "steelt"	
+	icon_state = "steelt"

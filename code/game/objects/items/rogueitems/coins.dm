@@ -6,8 +6,8 @@
 #define MAX_COIN_STACK_SIZE 20
 
 /obj/item/roguecoin
-	name = ""
-	desc = ""
+	name = "coin"
+	desc = "Alloyed value, fitting in the palm of your hand."
 	icon = 'icons/roguetown/items/valuable.dmi'
 	icon_state = ""
 	lefthand_file = 'icons/mob/inhands/misc/food_lefthand.dmi'
@@ -33,21 +33,19 @@
 	if(coin_amount >= 1)
 		set_quantity(floor(coin_amount))
 
+/obj/item/roguecoin/get_mechanics_examine(mob/user)
+    . = ..()
+    . += span_info("Coinage can be exchanged for goods and services.")
+
 /obj/item/roguecoin/getonmobprop(tag)
-	. = ..()
-	if(tag != "gen")
-		return
-	return list("shrink" = 0.10, "sx" = -6, "sy" = 6, "nx" = 6, "ny" = 7, "wx" = 0, "wy" = 5, "ex" = -1, "ey" = 7, "northabove" = 0, "southabove" = 1, "eastabove" = 1, "westabove" = 0, "nturn" = -50, "sturn" = 40, "wturn" = 50, "eturn" = -50, "nflip" = 0, "sflip" = 8, "wflip" = 8, "eflip" = 0)
+	if(tag)
+		switch(tag)
+			if("gen")
+				return list("shrink" = 0.2,"sx" = -7,"sy" = -4,"nx" = 7,"ny" = -4,"wx" = -4,"wy" = -4,"ex" = 2,"ey" = -4,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
 
 /obj/item/roguecoin/throw_impact(atom/hit_atom, datum/thrownthing/throwingdatum)
 	playsound(loc, 'sound/foley/coins1.ogg', 100, TRUE, -2)
 	..() 
-
-/obj/item/roguecoin/Crossed(atom/movable/AM)
-	. = ..()
-	if(istype(AM, /obj/item/roguecoin) && isturf(loc)) // Only on floor
-		merge(AM, null)
-		return
 
 /obj/item/roguecoin/get_real_price()
 	return sellprice * quantity
@@ -194,7 +192,6 @@
 		if(16 to INFINITY)
 			icon_state = "[base_type]15"
 
-
 /obj/item/roguecoin/attackby(obj/item/I, mob/user)
 	if(istype(I, /obj/item/roguecoin))
 		var/obj/item/roguecoin/G = I
@@ -208,11 +205,17 @@
 //OTAVAN MARQUE - WORTHLESS TO ANYONE BUT INQ.
 /obj/item/roguecoin/inqcoin
 	name = "otavan marque"
-	desc = "A blessed silver coin finished with a unique wash of black dye, bearing the post-kingdom Psycross. Kingsfield has denied the existence of such a coin when queried, as such coinage is rumoured to be used internally by the Otavan Inquisition."
+	desc = "A blessed silver coin finished with a unique wash of black dye, bearing the post-kingdom Psycross. Kingsfield has denied the existence of such a coin when queried, as such coinage is rumoured to be used internally by Otava's inquisitorial sects."
 	icon_state = "i1"
 	sellprice = 0
 	base_type = CTYPE_ICOIN
 	plural_name = "otavan marques"	
+
+/obj/item/roguecoin/inqcoin/get_mechanics_examine(mob/user)
+    . = ..()
+    . += span_info("By loading these coins into a HERMES, I can access the MARQUETTE; a discrete variant of the GOLDFACE, capable of supplying the Inquisition with whatever's needed.")
+    . += span_info("The MARQUETTE exclusively accepts these coins as payment. Purchased supplies are dropped off inside the Inquisition's abode.")
+    . += span_info("More coins can be obtained by filling INDEXERS, pairing them with signed ACCUSATIONS or CONFESSIONS, and sending them through the HERMES.")
 
 //GOLD
 /obj/item/roguecoin/gold
@@ -245,7 +248,7 @@
 // ANCIENT
 /obj/item/roguecoin/aalloy
 	name = "psilen"
-	desc = "A coin of polished gilbranze, beheld to a fallen kingdom that hadn't endured the passage of tyme."
+	desc = "A coin of polished gilbranze, beheld to a fallen kingdom that hadn't endured the passage of tyme. </br>Most sophisticated machines won't recognize its value, but keen-eyed Merchants and Stewards might still pay a fair sum for such a relic."
 	icon_state = "a1"
 	sellprice = 3 //Dungeon-specific coinage - valued by historians, collectors, and smelters. 
 	base_type = CTYPE_ANCIENT
@@ -278,6 +281,11 @@
 /obj/item/roguecoin/gold/virtuepile/Initialize()
 	. = ..()
 	set_quantity(rand(8,12))
+
+/obj/item/roguecoin/gold/aspirantpile/Initialize()
+	. = ..()
+	set_quantity(20) // Fixed 200 mammons for aspirants which is a good psychological number to buy 1 merc's service
+
 
 #undef CTYPE_GOLD
 #undef CTYPE_SILV

@@ -38,8 +38,15 @@
 			return FALSE
 		return TRUE
 	// Allows prayer if raining and outside. Psydon weeps.
-	if(GLOB.forecast == "rain")
+	// this is a gpt'd fix after we updated our weather system. im pretty sure i get how it works, just didnt know how to call the SSParticleWeather.
+	var/datum/particle_weather/W = SSParticleWeather?.runningWeather
+	if(istype(W, /datum/particle_weather/rain_gentle) || istype(W, /datum/particle_weather/rain_storm))
 		if(istype(get_area(follower), /area/rogue/outdoors))
+			return TRUE
+	if(istype(W, /datum/particle_weather/blood_rain_gentle) || istype(W, /datum/particle_weather/blood_rain_storm))
+		if(istype(get_area(follower), /area/rogue/outdoors))
+			follower.add_stress(/datum/stressevent/something_stirs)
+			follower.playsound_local(follower, 'sound/magic/psydonbleeds.ogg', 40, TRUE)
 			return TRUE
 	// Allows prayer if bleeding.
 	if(follower.bleed_rate > 0)

@@ -137,7 +137,7 @@
 /area/rogue/under/tomb/indoors)
 "hy" = (
 /obj/structure/table/wood/crafted,
-/obj/item/reagent_containers/food/snacks/rogue/meat/mince,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/tomb/indoors)
 "hz" = (
@@ -193,6 +193,10 @@
 "jS" = (
 /turf/closed/wall/mineral/rogue/decostone/cand,
 /area/rogue/under/tomb/indoors)
+"kd" = (
+/obj/item/natural/rock/iron,
+/turf/open/floor/rogue/naturalstone,
+/area/rogue/under/tomb/cave)
 "kt" = (
 /obj/item/chair/stool/bar/rogue{
 	dir = 8
@@ -273,7 +277,7 @@
 /turf/open/transparent/openspace,
 /area/rogue/under/tomb)
 "qY" = (
-/obj/item/rogueweapon/huntingknife/copper,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/weapons,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/tomb/indoors)
 "rb" = (
@@ -368,7 +372,7 @@
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/tomb/indoors)
 "wy" = (
-/obj/item/natural/rock/random_ore,
+/obj/item/natural/rock/dungeon,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/tomb/cave)
 "wF" = (
@@ -429,12 +433,12 @@
 "yq" = (
 /obj/structure/fluff/railing/wood,
 /obj/structure/closet/crate/chest/neu,
-/obj/item/reagent_containers/food/snacks/grown/wheat,
-/obj/item/reagent_containers/food/snacks/grown/wheat,
-/obj/item/reagent_containers/food/snacks/grown/wheat,
-/obj/item/reagent_containers/food/snacks/grown/wheat,
-/obj/item/reagent_containers/food/snacks/rogue/cheddarwedge/aged,
-/obj/item/reagent_containers/food/snacks/rogue/cheddarwedge/aged,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
 /obj/effect/spawner/lootdrop/roguetown/dungeon/food,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/tomb/indoors)
@@ -491,6 +495,11 @@
 /obj/structure/ladder,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/tomb/cave)
+"Bt" = (
+/obj/item/natural/rock/dungeon,
+/obj/item/natural/rock/tin,
+/turf/open/floor/rogue/naturalstone,
+/area/rogue/under/tomb/cave)
 "BC" = (
 /obj/item/rogueore/gold,
 /turf/open/water/cleanshallow,
@@ -544,14 +553,8 @@
 /obj/effect/decal/cleanable/dirt/cobweb{
 	dir = 1
 	},
-/obj/item/reagent_containers/food/snacks/rogue/meat/sausage{
-	pixel_x = 2;
-	pixel_y = 8
-	},
-/obj/item/reagent_containers/food/snacks/rogue/meat/sausage{
-	pixel_x = -4;
-	pixel_y = -4
-	},
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/tomb/indoors)
 "FF" = (
@@ -636,6 +639,10 @@
 /obj/machinery/light/rogue/torchholder/l,
 /turf/open/floor/rogue/blocks/paving,
 /area/rogue/under/tomb/indoors)
+"Lk" = (
+/obj/item/natural/rock/coal,
+/turf/open/floor/rogue/naturalstone,
+/area/rogue/under/tomb/cave)
 "Ls" = (
 /obj/item/rogueweapon/pick/stone{
 	pixel_x = 5;
@@ -696,6 +703,11 @@
 /obj/structure/bars,
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/under/tomb/indoors)
+"Qe" = (
+/obj/item/natural/rock/dungeon,
+/obj/item/natural/rock/salt,
+/turf/open/floor/rogue/naturalstone,
+/area/rogue/under/tomb/cave)
 "Qn" = (
 /obj/machinery/light/rogue/campfire,
 /turf/open/floor/rogue/naturalstone,
@@ -781,7 +793,7 @@
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/tomb/cave)
 "Ut" = (
-/obj/item/reagent_containers/food/snacks/rogue/breadslice,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/under/tomb/indoors)
 "UI" = (
@@ -850,7 +862,7 @@
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/tomb/indoors)
 "WP" = (
-/obj/item/reagent_containers/food/snacks/rogue/breadslice,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
 /obj/effect/decal/cleanable/vomit/old,
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/under/tomb/indoors)
@@ -1688,7 +1700,7 @@ TZ
 TZ
 Ug
 DA
-wy
+jx
 jx
 Ls
 jx
@@ -1719,8 +1731,8 @@ TZ
 TZ
 TZ
 jx
-wy
-jx
+Qe
+kd
 jx
 jx
 jx
@@ -1753,7 +1765,7 @@ TZ
 TZ
 Iz
 wy
-wy
+Bt
 jx
 jx
 xb
@@ -1786,7 +1798,7 @@ TZ
 NQ
 FF
 jx
-wy
+Lk
 jx
 jx
 eF
@@ -1819,7 +1831,7 @@ TZ
 TZ
 TZ
 jx
-wy
+jx
 eF
 Pl
 IN

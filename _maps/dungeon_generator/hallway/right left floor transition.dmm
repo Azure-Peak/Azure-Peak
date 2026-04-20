@@ -28,6 +28,12 @@
 "H" = (
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/tomb/cave)
+"I" = (
+/obj/structure/stairs/stone{
+	dir = 4
+	},
+/turf/open/floor/rogue/naturalstone,
+/area/rogue/under/tomb/cave)
 "S" = (
 /obj/structure/glowshroom,
 /turf/open/floor/rogue/dirt,
@@ -147,7 +153,7 @@ a
 "}
 (7,1,2) = {"
 a
-Z
+I
 H
 H
 a

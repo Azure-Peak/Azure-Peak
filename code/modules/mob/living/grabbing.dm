@@ -19,12 +19,10 @@
 	var/handaction
 	var/bleed_suppressing = 0.25 //multiplier for how much we suppress bleeding, can accumulate so two grabs means 50% less bleeding; each grab being 25% basically.
 	var/chokehold = FALSE
+	experimental_inhand = FALSE
 
 /atom/movable //reference to all obj/item/grabbing
-	var/list/grabbedby = list()
-
-/turf
-	var/list/grabbedby = list()
+	var/list/grabbedby
 
 /obj/item/grabbing/Initialize()
 	. = ..()
@@ -84,10 +82,10 @@
 	STOP_PROCESSING(SSfastprocess, src)
 	if(isobj(grabbed))
 		var/obj/I = grabbed
-		I.grabbedby -= src
+		LAZYREMOVE(I.grabbedby, src)
 	if(ismob(grabbed))
 		var/mob/M = grabbed
-		M.grabbedby -= src
+		LAZYREMOVE(M.grabbedby, src)
 		if(iscarbon(M) && sublimb_grabbed)
 			var/mob/living/carbon/carbonmob = M
 			var/obj/item/bodypart/part = carbonmob.get_bodypart(sublimb_grabbed)
@@ -96,12 +94,9 @@
 			// In this case, grabbed will be the mob, and sublimb_grabbed will be the weapon, rather than a bodypart
 			// This means we should skip any further processing for the bodypart
 			if(part)
-				part.grabbedby -= src
+				LAZYREMOVE(part.grabbedby, src)
 				part = null
 				sublimb_grabbed = null
-	if(isturf(grabbed))
-		var/turf/T = grabbed
-		T.grabbedby -= src
 	if(grabbee)
 		if(grabbee.r_grab == src)
 			grabbee.r_grab = null
@@ -161,7 +156,10 @@
 		var/signal_result = SEND_SIGNAL(user, COMSIG_LIVING_GRAB_SELF_ATTEMPT, user, M, sublimb_grabbed, null)
 		if(signal_result & COMPONENT_CANCEL_GRAB_ATTACK)
 			return FALSE
-	user.changeNext_move(CLICK_CD_TRACKING)
+	var/clickcd = CLICK_CD_MELEE
+	if(M.mind && M != user)
+		clickcd = CLICK_CD_WRESTLING
+	user.changeNext_move(clickcd)
 
 	var/skill_diff = 0
 	var/combat_modifier = 1
@@ -209,7 +207,7 @@
 				return FALSE
 			if(user.badluck(5))
 				badluckmessage(user)
-				user.stop_pulling()
+				user.stop_pulling(TRUE)
 				return FALSE
 			if(limb_grabbed && grab_state > 0) //this implies a carbon victim
 				if(iscarbon(M))
@@ -225,10 +223,9 @@
 						choke_damage *= 1.2		//Slight bonus
 					if(C.pulling == user && C.grab_state >= GRAB_AGGRESSIVE)
 						choke_damage *= 0.95	//Slight malice
-					var/neck_armor = C.run_armor_check(BODY_ZONE_PRECISE_NECK, "slash")
-					var/reduction = (neck_armor / 100) * 0.66
-					reduction = min(max(reduction, 0), 1)
-					choke_damage *= (1 - reduction)
+					var/neck_tier = C.getarmor(BODY_ZONE_PRECISE_NECK, "slash")
+					if(neck_tier > 0)
+						choke_damage *= 1 / (1 + 0.2 * neck_tier)
 					if(!HAS_TRAIT(C, TRAIT_NOBREATH))
 						if(C.stamina < C.max_stamina)
 							C.stamina_add(choke_damage*1.5)
@@ -245,7 +242,7 @@
 				return FALSE
 			if(user.badluck(10))
 				badluckmessage(user)
-				user.stop_pulling()
+				user.stop_pulling(TRUE)
 				return FALSE
 			if(limb_grabbed && grab_state > GRAB_PASSIVE) //this implies a carbon victim
 				if(ishuman(M) && M != user)
@@ -268,7 +265,7 @@
 				return FALSE
 			if(user.badluck(5))
 				badluckmessage(user)
-				user.stop_pulling()
+				user.stop_pulling(TRUE)
 				return FALSE
 			if(limb_grabbed && grab_state > 0) //this implies a carbon victim
 				if(iscarbon(M))
@@ -280,7 +277,7 @@
 				return FALSE
 			if(user.badluck(10))
 				badluckmessage(user)
-				user.stop_pulling()
+				user.stop_pulling(TRUE)
 				return FALSE
 			if(limb_grabbed && grab_state > 0) //this implies a carbon victim
 				if(ismob(M))
@@ -292,7 +289,7 @@
 				return FALSE
 			if(user.badluck(10))
 				badluckmessage(user)
-				user.stop_pulling()
+				user.stop_pulling(TRUE)
 				return FALSE
 			user.stamina_add(rand(3,13))
 			if(isitem(sublimb_grabbed))
@@ -305,7 +302,7 @@
 				return FALSE
 			if(user.badluck(10))
 				badluckmessage(user)
-				user.stop_pulling()
+				user.stop_pulling(TRUE)
 				return FALSE
 			if(!(user.mobility_flags & MOBILITY_STAND))
 				to_chat(user, span_warning("I must stand.."))
@@ -342,7 +339,7 @@
 			else
 				if(user.badluck(10))
 					badluckmessage(user)
-					user.stop_pulling()
+					user.stop_pulling(TRUE)
 					return FALSE
 				user.stamina_add(rand(5,15))
 				if(M.compliance || prob(clamp((((4 + (((user.STASTR - M.STASTR)/2) + skill_diff)) * 10 + rand(-5, 5)) * combat_modifier), 5, 95)))
@@ -355,7 +352,7 @@
 		if(/datum/intent/grab/disarm)
 			if(user.badluck(10))
 				badluckmessage(user)
-				user.stop_pulling()
+				user.stop_pulling(TRUE)
 				return FALSE
 			var/obj/item/I
 			if(sublimb_grabbed == BODY_ZONE_PRECISE_L_HAND && M.active_hand_index == 1)
@@ -374,7 +371,11 @@
 				if(I.wielded)
 					probby -= 20
 				if(prob(probby))
-					M.dropItemToGround(I, force = FALSE, silent = FALSE)
+					if(!M.dropItemToGround(I, force = FALSE, silent = FALSE))
+						M.visible_message(span_warning("[user] tries to take [I] from [M]'s hand, but can't pry it away!"), \
+								span_userdanger("[user] tries to take [I] from my hand, but I keep my grip!"), span_hear("I hear a sickening sound of pugilism!"), COMBAT_MESSAGE_RANGE)
+						user.stop_pulling()
+						return
 					user.stop_pulling()
 					user.put_in_active_hand(I)
 					M.visible_message(span_danger("[user] takes [I] from [M]'s hand!"), \
@@ -384,7 +385,10 @@
 				else
 					probby += 20
 					if(prob(probby))
-						M.dropItemToGround(I, force = FALSE, silent = FALSE)
+						if(!M.dropItemToGround(I, force = FALSE, silent = FALSE))
+							M.visible_message(span_warning("[user] tries to disarm [M] of [I], but can't pry it away!"), \
+									span_userdanger("[user] tries to disarm me of [I], but I keep my grip!"), span_hear("I hear a sickening sound of pugilism!"), COMBAT_MESSAGE_RANGE)
+							return
 						M.visible_message(span_danger("[user] disarms [M] of [I]!"), \
 								span_userdanger("[user] disarms me of [I]!"), span_hear("I hear a sickening sound of pugilism!"), COMBAT_MESSAGE_RANGE)
 						M.Stun(6)//slight delay to pick up the weapon
@@ -400,11 +404,11 @@
 /obj/item/grabbing/proc/twistlimb(mob/living/user) //implies limb_grabbed and sublimb are things
 	if(user.badluck(5))
 		badluckmessage(user)
-		user.stop_pulling()
+		user.stop_pulling(TRUE)
 		return
 	var/mob/living/carbon/C = grabbed
-	var/armor_block = C.run_armor_check(limb_grabbed, "slash")
 	var/damage = user.get_punch_dmg()
+	var/armor_block = C.run_armor_check(limb_grabbed, "slash", armor_penetration = PEN_NONE, damage = damage)
 	if(grabbed == user && limb_grabbed.status == BODYPART_ROBOTIC)	//removing ones own prosthetic should not be violent, nor damaging
 		C.visible_message(span_notice("[user] starts twisting [limb_grabbed] of [C], twisting it out of its socket!"), span_notice("I start twisting [limb_grabbed] from [src]."))
 		playsound(user, 'sound/misc/blackbag2.ogg', 100)
@@ -532,7 +536,7 @@
 		return
 	if(user.badluck(5))
 		badluckmessage(user)
-		user.stop_pulling()
+		user.stop_pulling(TRUE)
 		return
 	user.changeNext_move(CLICK_CD_GRABBING)
 	switch(user.used_intent.type)
@@ -568,7 +572,7 @@
 		return
 	if(user.badluck(5))
 		badluckmessage(user)
-		user.stop_pulling()
+		user.stop_pulling(TRUE)
 		return
 	user.changeNext_move(CLICK_CD_GRABBING)
 	if(user.used_intent.type == /datum/intent/grab/smash)
@@ -588,10 +592,10 @@
 /obj/item/grabbing/proc/smashlimb(atom/A, mob/living/user) //implies limb_grabbed and sublimb are things
 	if(user.badluck(10))
 		badluckmessage(user)
-		user.stop_pulling()
+		user.stop_pulling(TRUE)
 		return
 	var/mob/living/carbon/C = grabbed
-	var/armor_block = C.run_armor_check(limb_grabbed, d_type, armor_penetration = BLUNT_DEFAULT_PENFACTOR)
+	var/armor_block = C.run_armor_check(limb_grabbed, d_type, armor_penetration = PEN_NONE)
 	var/damage = user.get_punch_dmg()
 	var/unarmed_skill = user.get_skill_level(/datum/skill/combat/unarmed)
 	damage *= (1 + (unarmed_skill / 10))	//1.X multiplier where X is the unarmed skill.

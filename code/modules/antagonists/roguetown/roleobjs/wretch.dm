@@ -3,6 +3,7 @@
 	roundend_category = "wretches"
 	antagpanel_category = "Wretches"
 	show_name_in_check_antagonists = FALSE
+	has_tempo = TRUE
 
 /datum/antagonist/wretch/get_antag_cap_weight()
 	return 0

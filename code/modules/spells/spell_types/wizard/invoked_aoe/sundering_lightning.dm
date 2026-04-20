@@ -4,7 +4,8 @@
 	overlay_state = "lightning_sunder"
 	cost = 9
 	spell_tier = 4 // Highest tier AOE
-	releasedrain = 50
+	spell_impact_intensity = SPELL_IMPACT_HIGH
+	releasedrain = SPELLCOST_ULTIMATE
 	chargedrain = 1
 	chargetime = 50
 	recharge_time = 30 SECONDS
@@ -15,6 +16,8 @@
 	glow_color = GLOW_COLOR_LIGHTNING
 	glow_intensity = GLOW_INTENSITY_HIGH
 	chargedloop = /datum/looping_sound/invokegen
+	gesture_required = TRUE // Offensive spell
+	human_req = TRUE // Combat spell
 	associated_skill = /datum/skill/magic/arcane
 	range = 4
 
@@ -25,6 +28,7 @@
 	T.visible_message(span_boldwarning("The air feels crackling and charged!"))
 	sleep(30)
 	create_lightning(T)
+	return TRUE
 
 //meteor storm and lightstorm.
 /obj/effect/proc_holder/spell/invoked/sundering_lightning/proc/create_lightning(atom/target)
@@ -41,7 +45,20 @@
 			last_dist = dist
 			sleep(2 + min(range - last_dist, 12) * 0.5) //gets faster
 		new /obj/effect/temp_visual/targetlightning(T)
+		addtimer(CALLBACK(src, PROC_REF(lightning_strike), T), 15)
 
+/obj/effect/proc_holder/spell/invoked/sundering_lightning/proc/lightning_strike(turf/T)
+	playsound(T, 'sound/magic/lightning.ogg', 80, TRUE)
+	new /obj/effect/temp_visual/lightning(T)
+	for(var/mob/living/L in T.contents)
+		if(L.anti_magic_check())
+			continue
+		if(spell_guard_check(L, TRUE))
+			L.visible_message(span_warning("[L] weathers the lightning strike!"))
+			continue
+		L.electrocute_act(65)	//a little over half the damage of thunderstrike, but doesn't degrade on each subsequent ring.
+		to_chat(L, span_userdanger("You're hit by lightning!!!"))
+		new /obj/effect/temp_visual/spell_impact(get_turf(L), glow_color, spell_impact_intensity)
 
 /obj/effect/temp_visual/lightning
 	icon = 'icons/effects/32x96.dmi'
@@ -62,21 +79,4 @@
 	layer = BELOW_MOB_LAYER
 	plane = GAME_PLANE
 	light_outer_range = 2
-	duration =15
-	var/explode_sound = list('sound/misc/explode/incendiary (1).ogg','sound/misc/explode/incendiary (2).ogg')
-
-/obj/effect/temp_visual/targetlightning/Initialize(mapload, list/flame_hit)
-	. = ..()
-	INVOKE_ASYNC(src, PROC_REF(storm), flame_hit)
-
-/obj/effect/temp_visual/targetlightning/proc/storm(list/flame_hit)	//electroshocktherapy
-	var/turf/T = get_turf(src)
-	sleep(duration)
-	playsound(T,'sound/magic/lightning.ogg', 80, TRUE)
-	new /obj/effect/temp_visual/lightning(T)
-
-	for(var/mob/living/L in T.contents)
-		if(L.anti_magic_check())
-			continue
-		L.electrocute_act(65)	//a little over half the damage of thunderstrike, but doesn't degrade on each subsequent ring.
-		to_chat(L, span_userdanger("You're hit by lightning!!!"))
+	duration = 15

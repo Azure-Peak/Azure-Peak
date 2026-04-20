@@ -6,6 +6,7 @@
 	name = "cheap clutter spawner"
 	icon_state = "lowclutter"
 	lootcount = 1
+	loot_value = LOOT_VALUE_CHEAP_CLUTTER
 	loot = list(
 		/obj/item/jingle_bells = 1,
 		/obj/item/bouquet/rosa = 1,
@@ -33,6 +34,8 @@
 	name = "valuable clutter spawner"
 	icon_state = "hiclutter"
 	lootcount = 1
+	loot_value = LOOT_VALUE_VALUABLE_CLUTTER
+	junk_loot = list(/obj/item/ash = 5, /obj/item/natural/glass_shard = 5)
 	loot = list(
 		/obj/item/reagent_containers/glass/bottle/clayfancyvase = 1,
 		/obj/item/roguestatue/glass = 1,
@@ -48,6 +51,7 @@
 	name = "cheap candle spawner"
 	icon_state = "lowcandle"
 	lootcount = 1
+	loot_value = LOOT_VALUE_CHEAP_CANDLE
 	loot = list(
 		/obj/item/candle/yellow/lit = 10,
 		/obj/item/candle/skull/lit = 1,
@@ -57,6 +61,8 @@
 	name = "valuable candle spawner"
 	icon_state = "hicandle"
 	lootcount = 1
+	loot_value = LOOT_VALUE_VALUABLE_CANDLE
+	junk_loot = list(/obj/item/candle/yellow = 5, /obj/item/ash = 3)
 	loot = list(
 		/obj/item/candle/candlestick/gold/lit = 2,
 		/obj/item/candle/candlestick/silver/lit = 1,
@@ -70,6 +76,7 @@
 	name = "valuable tableware spawner"
 	icon_state = "lowtableware"
 	lootcount = 1
+	loot_value = LOOT_VALUE_CHEAP_TABLEWARE
 	loot = list(
 		/obj/item/kitchen/fork/iron = 1,
 		/obj/item/kitchen/fork = 1,
@@ -85,6 +92,8 @@
 	name = "valuable tableware spawner"
 	icon_state = "hitableware"
 	lootcount = 1
+	loot_value = LOOT_VALUE_VALUABLE_TABLEWARE
+	junk_loot = list(/obj/item/reagent_containers/glass/cup/wooden = 5, /obj/item/ash = 3)
 	loot = list(
 		/obj/item/reagent_containers/glass/cup/silver/small = 1,
 		/obj/item/reagent_containers/glass/cup/golden/small = 2,
@@ -100,6 +109,8 @@
 	name = "cheap jewelry spawner"
 	icon_state = "lowjewlery"
 	lootcount = 1
+	loot_value = LOOT_VALUE_CHEAP_JEWELRY
+	junk_loot = list(/obj/item/natural/glass_shard = 5, /obj/item/ash = 5)
 	loot = list(
 		/obj/item/clothing/ring/aalloy = 6,
 		/obj/item/clothing/neck/roguetown/psicross = 2,
@@ -125,6 +136,8 @@
 	name = "valuable jewelry spawner"
 	icon_state = "hijewlery"
 	lootcount = 1
+	loot_value = LOOT_VALUE_VALUABLE_JEWELRY
+	junk_loot = list(/obj/item/natural/glass_shard = 5, /obj/item/ash = 3)
 	loot = list(
 		/obj/item/clothing/ring/silver = 10,
 		/obj/item/clothing/ring/gold = 10,

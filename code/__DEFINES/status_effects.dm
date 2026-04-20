@@ -35,10 +35,13 @@
 #define STATUS_EFFECT_REGENERATIVE_CORE /datum/status_effect/regenerative_core
 
 #define STATUS_EFFECT_ANTIMAGIC /datum/status_effect/antimagic //grants antimagic (and reapplies if lost) for the duration
+#define STATUS_EFFECT_VAMPIRE_SPAWN_PROTECTION /datum/status_effect/vampire_spawn_protection
 
 /////////////
 // DEBUFFS //
 /////////////
+
+#define STATUS_EFFECT_BLINDED /datum/status_effect/debuff/blindness // "new" noc blind effect. see noc.dm for details.
 
 #define STATUS_EFFECT_OFFBALANCED /datum/status_effect/incapacitating/off_balanced
 

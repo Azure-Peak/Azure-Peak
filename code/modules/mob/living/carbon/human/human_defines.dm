@@ -113,6 +113,8 @@
 	var/headshot_link = null
 	var/standard_headshot_link = null //used to store headshots when swapping for antag ones
 	var/flavortext = null
+	/// For setpose
+	var/pose_text = ""
 	var/ooc_notes = null
 	var/ooc_extra
 	var/rumour = null
@@ -123,7 +125,16 @@
 	var/nsfwflavortext = null
 	var/erpprefs = null
 
+	// Cached version
+	var/flavortext_cached = ""
+	var/nsfwflavortext_cached = ""
+	var/ooc_notes_cached = ""
+	var/erpprefs_cached = ""
+
+	/// Per-character theme override for examine panel viewers
+	var/examine_theme
 	var/list/img_gallery = list()
+	var/list/nsfw_img_gallery = list()
 	
 
 	possible_rmb_intents = list(/datum/rmb_intent/feint,\
@@ -143,6 +154,7 @@
 	var/vampire_skin = null
 	var/vampire_eyes = null
 	var/vampire_hair = null
+	var/vampire_ears = null
 	//An alternative headshot link that can be used when users want to use it for a special role like while a vampire, werewolf, bandit, etc.
 	var/vampire_headshot_link
 	var/lich_headshot_link
@@ -167,7 +179,7 @@
 	var/next_tempo_cull
 
 
-	var/datum/charflaw/charflaw
+	var/list/charflaws = list()
 
 	// curse list and cooldown
 	var/list/curses = list()
@@ -179,6 +191,7 @@
 	COOLDOWN_DECLARE(priest_excommunicate)
 	COOLDOWN_DECLARE(priest_curse)
 	COOLDOWN_DECLARE(priest_change_miracles)
+	COOLDOWN_DECLARE(hag_transform_lockout)
 
 	// bait stacks for aimed intent
 	var/bait_stacks

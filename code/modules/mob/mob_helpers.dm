@@ -510,6 +510,9 @@
 		hud_used.action_intent.switch_intent(r_index,l_index,oactive)
 
 /mob/proc/update_a_intents()
+	if(QDELETED(src))
+		return
+	stop_attack()
 	QDEL_LIST(possible_a_intents)
 	QDEL_LIST(possible_offhand_intents)
 	var/list/intents = list()
@@ -519,7 +522,7 @@
 		if(Masteritem.wielded)
 			intents = Masteritem.gripped_intents
 		if(Masteritem.altgripped)
-			intents = Masteritem.alt_intents
+			intents = Masteritem.get_altgrip_intents()
 	else
 		if(active_hand_index == 1)
 			l_index = l_ua_index
@@ -537,7 +540,7 @@
 		if(Masteritem.wielded)
 			intents = Masteritem.gripped_intents
 		if(Masteritem.altgripped)
-			intents = Masteritem.alt_intents
+			intents = Masteritem.get_altgrip_intents()
 	else
 		if(active_hand_index == 1)
 			r_index = r_ua_index
@@ -588,6 +591,10 @@
 	if(input != QINTENT_SPELL)
 		if(ranged_ability)
 			ranged_ability.deactivate()
+		// Also clear new-style cooldown spells set on click_intercept
+		var/datum/action/cooldown/active_cooldown = click_intercept
+		if(istype(active_cooldown))
+			active_cooldown.unset_click_ability(src, refund_cooldown = TRUE)
 	switch(input)
 		if(QINTENT_KICK)
 			if(mmb_intent?.type == INTENT_KICK)
@@ -595,6 +602,7 @@
 				input = null
 				mmb_intent = null
 			else
+				qdel(mmb_intent)
 				mmb_intent = new INTENT_KICK(src)
 		if(QINTENT_SPECIAL)
 			if(mmb_intent?.type == INTENT_SPECIAL)
@@ -602,6 +610,7 @@
 				input = null
 				mmb_intent = null
 			else
+				qdel(mmb_intent)
 				mmb_intent = new INTENT_SPECIAL(src)
 		if(QINTENT_BITE)
 			if(mmb_intent?.type == INTENT_BITE)
@@ -609,6 +618,7 @@
 				input = null
 				mmb_intent = null
 			else
+				qdel(mmb_intent)
 				mmb_intent = new INTENT_BITE(src)
 		if(QINTENT_JUMP)
 			if(mmb_intent?.type == INTENT_JUMP)
@@ -616,6 +626,7 @@
 				input = null
 				mmb_intent = null
 			else
+				qdel(mmb_intent)
 				mmb_intent = new INTENT_JUMP(src)
 		if(QINTENT_GIVE)
 			if(mmb_intent?.type == INTENT_GIVE)
@@ -623,13 +634,13 @@
 				input = null
 				mmb_intent = null
 			else
+				qdel(mmb_intent)
 				mmb_intent = new INTENT_GIVE(src)
 		if(QINTENT_SPELL)
 			if(mmb_intent)
 				qdel(mmb_intent)
 
 			mmb_intent = new INTENT_SPELL(src)
-			mmb_intent.releasedrain = ranged_ability.get_fatigue_drain()
 			mmb_intent.chargedrain = ranged_ability.chargedrain
 			mmb_intent.chargetime = ranged_ability.get_chargetime()
 			mmb_intent.warnie = ranged_ability.warnie
@@ -769,7 +780,7 @@
 		playsound_local(src, 'sound/misc/click.ogg', 50, TRUE)
 		if(hud_used)
 			if(hud_used.zone_select)
-				hud_used.zone_select.update_icon()
+				hud_used.zone_select.update_selection()
 
 /mob/proc/select_organ_slot(choice)
 	organ_slot_selected = choice
@@ -996,7 +1007,10 @@
 		return
 
 	// Cannot use the list as a map if the key is a number, so we stringify it (thank you BYOND)
-	var/smessage_type = num2text(message_type)
+	// Use string interpolation instead of num2text to avoid scientific notation for large numbers.
+	// num2text(1048576) produces "1.04858e+06" which text2num() parses as 1048580,
+	// causing LOG_NPC_SAY (1<<20 = 1048576) to be stored incorrectly and match against wrong filters.
+	var/smessage_type = "[message_type]"
 
 	if(client)
 		if(!islist(client.player_details.logging[smessage_type]))
@@ -1054,7 +1068,7 @@
 	if(mind)
 		. += mind.assigned_role
 		. += mind.special_role //In case there's something special leftover, try to avoid
-		for(var/datum/antagonist/A in mind.antag_datums)
+		for(var/datum/antagonist/A as anything in mind.antag_datums)
 			. += "[A.type]"
 
 ///Can the mob see reagents inside of containers?
@@ -1073,7 +1087,7 @@
 		if(!J)
 			return "unknown"
 		used_title =  J.display_title || J.title
-		if(J.f_title && (pronouns == SHE_HER || pronouns == THEY_THEM_F))
+		if(J.f_title && (titles_pref == TITLES_F))
 			used_title = J.f_title
 		if(J.advjob_examine)
 			used_title = advjob

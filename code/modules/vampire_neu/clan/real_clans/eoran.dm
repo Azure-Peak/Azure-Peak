@@ -24,6 +24,7 @@
 		TRAIT_VAMPBITE,
 		TRAIT_NOHUNGER,
 		TRAIT_NOBREATH,
+		TRAIT_DEATHLESS,
 		TRAIT_NOPAIN,
 		TRAIT_TOXIMMUNE,
 		TRAIT_STEELHEARTED,
@@ -37,7 +38,7 @@
 
 	clane_covens = list(
 		/datum/coven/presence,
-		/datum/coven/bloodheal,
+		/datum/coven/auspex,
 		/datum/coven/eora
 	)
 	leader = /datum/clan_leader/eoran

@@ -35,7 +35,7 @@
 
 /datum/component/storage/concrete/roguetown/hat/can_be_inserted(obj/item/storing, stop_messages, mob/user, worn_check = FALSE, params, storage_click = FALSE)
 	// we only want aesthetically head items, like flowercrowns, to be addable
-	if(!(storing.slot_flags & ITEM_SLOT_HEAD|ITEM_SLOT_MASK|ITEM_SLOT_NECK))
+	if(!(storing.slot_flags & (ITEM_SLOT_HEAD|ITEM_SLOT_MASK|ITEM_SLOT_NECK)))
 		return FALSE
 	// any sort of armoured item is forbidden, it's aesthetic only
 	if(storing.armor?.stab > 0 || storing.armor?.blunt > 0)
@@ -80,6 +80,11 @@
 				examine_strings += thing.get_examine_name(user)
 			default_examine_name += " ([examine_strings.Join(", ")])"
 	return default_examine_name
+
+/obj/item/clothing/head/get_mechanics_examine(mob/user)
+	. = ..()
+	if(attachment_component)
+		. += span_info("Shift-right-click to open the headwear's storage. This can be used to wear cosmetics over it or store smaller items.")
 
 /obj/item/clothing/head/ShiftRightClick(mob/user)
 	if(attachment_component)

@@ -221,11 +221,14 @@
  * Returns TRUE if the living mob can hear the weather (you might be immune, but you get to listen to the pitter patter)
  */
 /datum/particle_weather/proc/can_weather(mob/living/mob_to_check)
+	var/datum/component/area_ambience/area_amb = mob_to_check.GetComponent(/datum/component/area_ambience)
+	if(area_amb)
+		return area_amb.is_outside
+
 	var/turf/mob_turf = get_turf(mob_to_check)
 
 	if(!mob_turf)
 		return FALSE
-
 	if(!mob_turf.outdoor_effect || mob_turf.outdoor_effect.weatherproof)
 		return FALSE
 
@@ -253,15 +256,17 @@
 /datum/particle_weather/proc/try_weather_act(mob/living/L)
 	if(!L.mind)
 		return
-	if(can_weather(L))
-		weather_sound_effect(L)
-		if(can_weather_effect(L))
-			weather_act(L)
-			if(!messagedMobs[L] || world.time > messagedMobs[L])
-				weather_message(L) //Try not to spam
-	else
-		stop_weather_sound_effect(L)
+	if(!can_weather(L))
+		weather_sound_effect(L, FALSE)
 		messagedMobs[L] = 0 //resend a message next time they go outside
+		return
+
+	weather_sound_effect(L)
+	if(can_weather_effect(L))
+		weather_act(L)
+		if(!messagedMobs[L] || world.time > messagedMobs[L])
+			weather_message(L) //Try not to spam
+
 
 //Overload with weather effects
 /datum/particle_weather/proc/weather_act(mob/living/L)
@@ -276,7 +281,7 @@
 		L.weather = FALSE
 
 //Not using looping_sounds properly. somebody smart should fix this //actually this kind of works, just done a bit backwards
-/datum/particle_weather/proc/weather_sound_effect(mob/living/L)
+/datum/particle_weather/proc/weather_sound_effect(mob/living/L, var/outside = TRUE)
 	var/datum/looping_sound/currentSound = currentSounds[L]
 	if(currentSound)
 		//SET VOLUME
@@ -285,7 +290,14 @@
 		if(!currentSound.loop_started) //don't restart already playing sounds
 			currentSound.start()
 		return
-	var/tempSound = scale_range_pick(minSeverity, maxSeverity, severity, weather_sounds)
+
+	var/tempSound
+
+	if(!outside)
+		tempSound = scale_range_pick(minSeverity, maxSeverity, severity, indoor_weather_sounds)
+	else
+		tempSound = scale_range_pick(minSeverity, maxSeverity, severity, weather_sounds)
+
 	if(tempSound)
 		currentSound = new tempSound(L, FALSE, TRUE, CHANNEL_WEATHER)
 		currentSounds[L] = currentSound

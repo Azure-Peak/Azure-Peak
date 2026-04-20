@@ -8,6 +8,8 @@
 	roundstart = TRUE
 	antag_flag = ROLE_BANDIT
 	shared_occurence_type = SHARED_MINOR_THREAT
+	storyteller_antag_flags = STORYTELLER_ANTAG_VILLAIN | STORYTELLER_ANTAG_ROUNDSTART
+	storyteller_guarantee_flags = STORYTELLER_FAVOR_BANDIT
 
 	restricted_roles = DEFAULT_ANTAG_BLACKLISTED_ROLES
 	base_antags = 5
@@ -22,6 +24,11 @@
 
 /datum/round_event/antagonist/solo/bandits
 	var/leader = FALSE
+
+/datum/round_event_control/antagonist/solo/bandits/preRunEvent()
+	if(is_storyteller_villain_blocked())
+		return EVENT_CANT_RUN
+	return ..()
 
 /datum/round_event/antagonist/solo/bandits/start()
 	var/datum/job/bandit_job = SSjob.GetJob("Bandit")

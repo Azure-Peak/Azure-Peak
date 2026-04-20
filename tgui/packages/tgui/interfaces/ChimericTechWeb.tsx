@@ -6,6 +6,7 @@ import {
   NoticeBox,
   Section,
   Stack,
+  Tabs,
 } from 'tgui-core/components';
 
 import { useBackend } from '../backend';
@@ -20,13 +21,20 @@ type TechNode = {
   can_afford: boolean;
 };
 
+type UnlockedNode = {
+  name: string;
+  desc: string;
+  tier: number;
+};
+
 type Data = {
   choices: TechNode[];
+  unlocked: UnlockedNode[];
   points: number;
   tier: number;
 };
 
-// Reusable search bar component
+// EXACT COPY FROM ANVIL
 export const SearchBar = (props: {
   search: string;
   setSearch: Dispatch<SetStateAction<string>>;
@@ -35,80 +43,123 @@ export const SearchBar = (props: {
   return <Input value={search} onChange={setSearch} fluid />;
 };
 
-
 export const ChimericTechWeb = (props) => {
   const [search, setSearch] = useState('');
+  const [tab, setTab] = useState('research');
   const { act, data } = useBackend<Data>();
 
-  const { choices = [], points, tier } = data;
+  const { choices = [], unlocked = [], points, tier } = data;
 
-  // We only filter by search text here. Eligibility is handled by DM/SS.
-  const filteredChoices = (Array.isArray(choices) ? choices : [])
-  /*
+  // Filter Research Tab
+  const filteredChoices = choices
     .filter((node) => {
       if (search) {
         return node.name.toLowerCase().includes(search.toLowerCase());
       }
       return true;
-    })*/
-    .sort(
-      // Sort by affordability, then tier, then name
-      (a, b) => 
-        (b.can_afford as any) - (a.can_afford as any) ||
-        a.required_tier - b.required_tier ||
-        a.name.localeCompare(b.name),
+    })
+    .sort((a, b) => 
+      (b.can_afford as any) - (a.can_afford as any) ||
+      a.required_tier - b.required_tier ||
+      a.name.localeCompare(b.name)
     );
+
+  // Filter History Tab
+  const filteredUnlocked = unlocked.filter((node) => {
+    if (search) {
+      return node.name.toLowerCase().includes(search.toLowerCase());
+    }
+    return true;
+  });
 
   return (
     <Window width={600} height={500} title="Chimeric Tech Web">
-      <Window.Content>
-        <Section title="Current Status">
-          <Stack>
-            <Stack.Item grow>
-                <Box bold color="label">Tech Points:</Box> {points}
+      <Window.Content scrollable>
+        {/* Status Header */}
+        <Section>
+          <Stack align="center" justify="space-between">
+            <Stack.Item>
+               <Box color="label">Points: <Box inline color="white" bold>{points}</Box></Box>
+               <Box color="label">Tier: <Box inline color="white" bold>{tier}</Box></Box>
             </Stack.Item>
-            <Stack.Item grow>
-                <Box bold color="label">Language Tier:</Box> {tier}
+            <Stack.Item>
+              <Tabs>
+                <Tabs.Tab 
+                  selected={tab === 'research'} 
+                  onClick={() => setTab('research')}>
+                  Available ({choices.length})
+                </Tabs.Tab>
+                <Tabs.Tab 
+                  selected={tab === 'history'} 
+                  onClick={() => setTab('history')}>
+                  Unlocked ({unlocked.length})
+                </Tabs.Tab>
+              </Tabs>
             </Stack.Item>
           </Stack>
         </Section>
 
-        <Section
-          title="Available Research"
-          fill
-          scrollable
-          buttons={<SearchBar search={search} setSearch={setSearch} />}
-        >
-          {filteredChoices.length === 0 && (
-            <NoticeBox>
-                No new research is currently available. 
-                You may need more Tech Points, a higher Language Tier, or you may be missing a prerequisite for all remaining nodes.
-            </NoticeBox>
-          )}
+        {/* Research View */}
+        {tab === 'research' && (
+          <Section
+            title="Available Research"
+            buttons={<SearchBar search={search} setSearch={setSearch} />}
+          >
+            {filteredChoices.length === 0 && (
+              <NoticeBox>No research matches your search.</NoticeBox>
+            )}
+            {filteredChoices.map((node) => (
+              <Box 
+                key={node.path} 
+                mb={1} 
+                py={1} 
+                style={{ borderBottom: '1px solid rgba(255,255,255,0.1)' }}
+              >
+                <Stack align="center">
+                  <Stack.Item grow>
+                    <Box bold fontSize="1.1em" color="teal">{node.name}</Box>
+                    <Box color="label">Tier {node.required_tier} | Cost {node.cost}</Box>
+                    <Box italic color="gray">{node.desc}</Box>
+                  </Stack.Item>
+                  <Stack.Item>
+                    <Button
+                      icon="flask"
+                      color={node.can_afford ? 'good' : 'bad'}
+                      disabled={!node.can_afford}
+                      onClick={() => act('unlock_node', { path: node.path })}
+                    >
+                      {node.can_afford ? 'Unlock' : 'Too Expensive'}
+                    </Button>
+                  </Stack.Item>
+                </Stack>
+              </Box>
+            ))}
+          </Section>
+        )}
 
-          {filteredChoices.map((node) => (
-            <Box key={node.path} mb={1}>
-              <Stack align="center" justify="space-between">
-                <Stack.Item grow>
-                  <Box bold>{node.name}</Box>
-                  <Box color="label">Tier {node.required_tier} | Cost {node.cost}</Box>
-                  <Box className="text-desc">{node.desc}</Box>
-                </Stack.Item>
-
-                <Stack.Item>
-                  <Button
-                    icon="gear"
-                    color={node.can_afford ? 'good' : 'bad'}
-                    disabled={!node.can_afford}
-                    onClick={() => act('unlock_node', { path: node.path })}
-                  >
-                    {node.can_afford ? 'Unlock' : 'Too Expensive'}
-                  </Button>
-                </Stack.Item>
-              </Stack>
-            </Box>
-          ))}
-        </Section>
+        {/* History View */}
+        {tab === 'history' && (
+          <Section 
+            title="Unlocked Knowledge"
+            buttons={<SearchBar search={search} setSearch={setSearch} />}
+          >
+            {filteredUnlocked.length === 0 && (
+              <NoticeBox>No discovered technologies found.</NoticeBox>
+            )}
+            {filteredUnlocked.map((node, i) => (
+              <Box 
+                key={i} 
+                mb={1} 
+                py={1} 
+                style={{ borderBottom: '1px solid rgba(255,255,255,0.1)' }}
+              >
+                <Box bold color="good">{node.name}</Box>
+                <Box color="label" fontSize="0.9em">Tier {node.tier}</Box>
+                <Box color="white" mt={0.5}>{node.desc}</Box>
+              </Box>
+            ))}
+          </Section>
+        )}
       </Window.Content>
     </Window>
   );

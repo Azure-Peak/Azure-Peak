@@ -4,16 +4,22 @@
 	desc = "A fiery explosion waiting to be coaxed from its glass prison."
 	icon_state = "bbomb"
 	icon = 'icons/roguetown/items/misc.dmi'
-	w_class = WEIGHT_CLASS_NORMAL
+	w_class = WEIGHT_CLASS_SMALL
 	throwforce = 0
 	slot_flags = ITEM_SLOT_HIP
 	throw_speed = 0.5
+	flags_ai_inventory = AI_ITEM_THROWING
 	var/fuze = null
 	var/lit = FALSE
 	var/prob2fail = 5
 	var/PVE_damage = 160
 	grid_width = 32
 	grid_height = 64
+
+/obj/item/bomb/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Left-click with a torch, lamptern, flint, or another ignitioneer to light its fuse. Alternatively, the fuse can be lit by using it on a hearth, brazier, scone, or another source of ignition.")
+	. += span_info("Once lit, most bombs will detonate after a very short period of time.")
 
 /obj/item/bomb/Initialize()
 	..()
@@ -66,8 +72,11 @@
 	qdel(src)
 	playsound(T, 'sound/items/firesnuff.ogg', 100)
 	for(var/mob/living/target in range(1, T))
-		if(!target.mind || istype(target, /mob/living/simple_animal))
-			target.adjustFireLoss(PVE_damage) //fireball damage + 40. That
+		if(istype(target, /mob/living/simple_animal))
+			var/mob/living/simple_animal/SA = target
+			if(SA.can_buckle) // rideable/saddleborn animals are excluded
+				continue
+			target.adjustFireLoss(PVE_damage)
 	new /obj/item/natural/glass_shard(T)
 	explosion(T, light_impact_range = 1, flame_range = 2, smoke = TRUE, soundin = pick('sound/misc/explode/bottlebomb (1).ogg','sound/misc/explode/bottlebomb (2).ogg'))
 	return TRUE
@@ -246,7 +255,7 @@
 	desc = "A soft sphere with an alchemical mixture and a dispersion mechanism hidden inside. Any pressure will detonate it."
 	icon_state = "smokebomb"
 	icon = 'icons/roguetown/items/misc.dmi'
-	w_class = WEIGHT_CLASS_NORMAL
+	w_class = WEIGHT_CLASS_SMALL
 	throwforce = 0
 	slot_flags = ITEM_SLOT_HIP
 	throw_speed = 0.5
@@ -290,8 +299,8 @@
 	qdel(src)
 	
 /obj/item/tntstick
-	name = "blastsand stick"
-	desc = "A bit of gunpowder in paper shell..."
+	name = "blastpowder stick"
+	desc = "A bewicked vessel, filled to the brim with explosive powder. Ignition begets eruption; a dizzying shockwave which pulverizes stone, wood, and flesh alike with little discrimination."
 	icon_state = "tnt_stick"
 	var/lit_state = "tnt_stick-lit"
 	icon = 'icons/roguetown/items/misc.dmi'
@@ -406,8 +415,10 @@
 	return
 
 /obj/item/satchel_bomb
-	name = "blastsand satchel"
-	desc = "A satchel full of gunpowder..."
+	name = "blastpowder satchel"
+	desc = "A bewicked satchel, stuffed with a multitude of explosive-filled sticks. Too heavy to throw, and too powerful to withstand - for nothing but dust and echoes will remain, once \
+	the shockwave abates. </br>'When the fuse reaches its zenith, the blastpowder will detonate. The explosion will generate a temperature of almost one hundred million thermes. Don't be \
+	here when it blows.'"
 	icon_state = "satchel_bomb"
 	var/lit_state = "satchel_bomb-lit"
 	icon = 'icons/roguetown/items/misc.dmi'
@@ -420,6 +431,25 @@
 	var/lit = FALSE
 	var/prob2fail = 1 
 	var/PVE_damage = 300
+	grid_width = 256
+	grid_height = 256
+
+//admin only mega bomb, should never be made craftable
+/obj/item/satchel_bomb/mega
+	name = "MEGA blastpowder satchel"
+	desc = "An over filled satchel of Blastpowder originally made by Lubbin' Bleat, Octava's Famed sheep-kin bathhouse attendant and ruler of the slumber beat... this type of bomb has been banned by all nations and labeled as a threat by both the church of the ten and Pysdonia. IF YOU SEE A LIT WICK, YOU BEST RUN AWAY QUICK!"
+	icon_state = "satchel_bomb"
+	lit_state = "satchel_bomb-lit"
+	icon = 'icons/roguetown/items/misc.dmi'
+	w_class = WEIGHT_CLASS_BULKY 
+	dropshrink = 5
+	throwforce = 0
+	throw_range = 1
+	throw_speed = 0.3
+	fuze = 50
+	lit = FALSE
+	prob2fail = 0 
+	PVE_damage = 500
 	grid_width = 256
 	grid_height = 256
 
@@ -465,14 +495,22 @@
 			if(!skipprob && prob(prob2fail))
 				snuff()
 			else
-				for(var/mob/living/target in range(3, T))
-					if(!target.mind || istype(target, /mob/living/simple_animal))
+				if (istype(src, /obj/item/satchel_bomb/mega)) //removing restrictions, may the gods have mercy on you all
+					for(var/mob/living/target in range(3, T))
 						target.adjustFireLoss(PVE_damage) //summary 500
-				for(var/mob/living/target in range(8, T))
-					if(!target.mind || istype(target, /mob/living/simple_animal))
+					for(var/mob/living/target in range(8, T))
 						target.adjustFireLoss(PVE_damage - 100)
-				explosion(T, devastation_range = 2, heavy_impact_range = 3, light_impact_range = 8, flame_range = 2, smoke = TRUE, soundin = pick('sound/misc/explode/bottlebomb (1).ogg','sound/misc/explode/bottlebomb (2).ogg'))
-				qdel(src)
+					explosion(T, devastation_range = 10, heavy_impact_range = 15, light_impact_range = 40, adminlog = TRUE, ignorecap = TRUE, flame_range = 10, smoke = TRUE, soundin = pick('sound/misc/explode/bottlebomb (1).ogg','sound/misc/explode/bottlebomb (2).ogg')) //5 times the size
+					qdel(src)
+				else
+					for(var/mob/living/target in range(3, T))
+						if(!target.mind || istype(target, /mob/living/simple_animal))
+							target.adjustFireLoss(PVE_damage) //summary 500
+					for(var/mob/living/target in range(8, T))
+						if(!target.mind || istype(target, /mob/living/simple_animal))
+							target.adjustFireLoss(PVE_damage - 100)
+					explosion(T, devastation_range = 2, heavy_impact_range = 3, light_impact_range = 8, flame_range = 2, smoke = TRUE, soundin = pick('sound/misc/explode/bottlebomb (1).ogg','sound/misc/explode/bottlebomb (2).ogg'))
+					qdel(src)
 
 		else
 			if(prob(prob2fail))
@@ -528,7 +566,7 @@
 
 /obj/item/impact_grenade
 	name = "impact grenade"
-	desc = "Some substance, hidden under paper."
+	desc = "A fragile canister, filled with an explosive surprise. Shards of flint line its thin sleeve, aching to ignite at the slightest disturbance."
 	dropshrink = 0.6
 	icon_state = "impact_grenade"
 	icon = 'icons/roguetown/items/misc.dmi'
@@ -600,8 +638,8 @@
 	return
 
 /obj/item/impact_grenade/explosion
-	name = "Impact grenade"
-	desc = "Some substance, hidden under some paper and skin. This one sparks..."
+	name = "impact grenade"
+	desc = "A fragile canister, filled with an explosive surprise. Shards of flint line its thin sleeve, aching to ignite at the slightest disturbance."
 
 /obj/item/impact_grenade/explosion/explodes()
 	STOP_PROCESSING(SSfastprocess, src)
@@ -615,7 +653,7 @@
 
 /obj/item/smokeshell
 	name = "gas belcher shell"
-	desc = "An inert metal shell. Often filled with materials to create phlogiston-based gases."
+	desc = "A vented canister, bereft of its noxious payload. How long can you hold your breath?"
 	dropshrink = 0.6
 	icon_state = "smokeshell_blank"
 	icon = 'icons/roguetown/items/misc.dmi'
@@ -627,13 +665,12 @@
 
 /obj/item/impact_grenade/smoke
 	name = "gas belcher"
-	desc = "A gas belcher. This one emits clouds of harmless smoke..."
+	desc = "A vented canister, filled with an obfuscating payload. Wisps of charsmoke occassionally escape from its ported maw."
 	dropshrink = 0.6
 	icon_state = "smokeshell_blue"
 	var/datum/effect_system/smoke_spread/smoke_type = /datum/effect_system/smoke_spread
 	grid_width = 32
 	grid_height = 32
-
 
 /obj/item/impact_grenade/smoke/explodes()
 	var/turf/T = get_turf(src)
@@ -646,31 +683,31 @@
 
 /obj/item/impact_grenade/smoke/poison_gas
 	name = "poison gas belcher"
-	desc = "A gas belcher. The smell of this one makes you to gasp..."
+	desc = "A vented canister, filled with a noxious payload. Even a mere whiff of its verdant surprise threatens to choke you apart."
 	icon_state = "smokeshell_green"
 	smoke_type = /datum/effect_system/smoke_spread/poison_gas
 
 /obj/item/impact_grenade/smoke/healing_gas
 	name = "healing gas belcher"
-	desc = "A gas belcher.  The smell of this one reminds you the taste of red..."
+	desc = "A vented canister, filled with a medicinal payload. The crimson smoke tickles your lips; a taste not unlike sweetened lifeblood."
 	icon_state = "smokeshell_red"
 	smoke_type = /datum/effect_system/smoke_spread/healing_gas
 
 
 /obj/item/impact_grenade/smoke/fire_gas
 	name = "burning gas belcher"
-	desc = "A gas belcher. It smells like chicken and burns your hand..."
+	desc = "A vented canister, filled with a fiery payload. It feels uncomfortably hot in your palm, and carries a curious scent - not unlike roasted frybirds."
 	icon_state = "smokeshell_orange"
 	smoke_type = /datum/effect_system/smoke_spread/fire_gas
 
 /obj/item/impact_grenade/smoke/blind_gas
 	name = "blinding gas belcher"
-	desc = "A gas belcher. The smell from this makes your eyes water."
+	desc = "A vented canister, filled with an irritating payload. Your eyes are already watering from its ebbed fumes, and the numbness threatens to shutter your lids without resistance."
 	icon_state = "smokeshell_blue"
 	smoke_type = /datum/effect_system/smoke_spread/blind_gas
 
 /obj/item/impact_grenade/smoke/mute_gas
 	name = "silent gas belcher"
-	desc = "A gas belcher. The smell from this makes your mind blank and your tongue still."
+	desc = "A vented canister, filled with a numbing payload. A strange prickling sensation graces your mind and throat, not unlike the 'pins and needles' of a sleeping limb."
 	icon_state = "smokeshell_purple"
 	smoke_type = /datum/effect_system/smoke_spread/mute_gas	

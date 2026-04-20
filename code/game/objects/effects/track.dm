@@ -21,6 +21,9 @@
 /turf/open/floor/rogue/snow
 	track_prob = 20
 
+/turf/open/floor/rogue/snowpatchy
+	track_prob = 10
+
 /turf/open/floor/rogue/AzureSand
 	track_prob = 20
 
@@ -30,7 +33,16 @@
 /turf/open/floor/carpet
 	track_prob = 10
 
+/turf/open/floor/rogue/twig
+	track_prob = 5
+
 /turf/open/floor/rogue/wood
+	track_prob = 5
+
+/turf/open/floor/rogue/woodturned
+	track_prob = 5
+
+/turf/open/floor/rogue/ruinedwood
 	track_prob = 5
 
 /turf/open/floor/rogue/dirt/road
@@ -45,6 +57,9 @@
 /turf/open/floor/rogue/cobble
 	track_prob = 3
 
+/turf/open/floor/rogue/cobble/mossy
+	track_prob = 10
+
 /turf/open/floor/rogue/blocks
 	track_prob = 10
 
@@ -57,13 +72,25 @@
 /turf/open/floor/rogue/hexstone
 	track_prob = 10
 
+/turf/open/floor/rogue/herringbone
+	track_prob = 10
+
 /turf/open/floor/rogue/churchmarble
 	track_prob = 5
+
+/turf/open/floor/rogue/church
+	track_prob = 5
+
+/turf/open/floor/rogue/churchrough
+	track_prob = 10
 
 /turf/open/floor/rogue/churchbrick
 	track_prob = 5
 
 /turf/open/floor/rogue/cobblerock
+	track_prob = 10
+
+/turf/open/floor/rogue/naturalstone
 	track_prob = 10
 
 //Probabilities end (albeit mud is handled seperately).
@@ -120,6 +147,11 @@
 	var/markable = TRUE
 	///Base difficulty for noticing these tracks
 	var/base_diff = 11
+
+/obj/effect/track/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Right-clicking the eye on your HUD allows you to check for tracks, alongside hidden ambushes and traps. The effectiveness of each check scales with your character's Perception and Tracking skill.")
+	. += span_info("The higher your Tracking skill is, the more likely you can discover older and hidden tracks. Likewise, higher levels also let you determine how old the tracks are, which direction they've went, and what kinds of footwear or soles made them.")
 
 /obj/effect/track/Initialize()
 	. = ..()
@@ -209,7 +241,7 @@
 	if(!HAS_TRAIT(user, TRAIT_PERFECT_TRACKER))
 		var/diff = 0
 		diff += tracking_modifier
-		diff += round((world.time - creation_time) / (60 SECONDS), 1) 
+		diff += round((world.time - creation_time) / (60 SECONDS), 1)
 		var/competence = abs(user.STAPER - 5)
 		if(user.mind)
 			competence += 5 * user.get_skill_level(/datum/skill/misc/tracking) //Skill is much more relevant for analysis.
@@ -231,7 +263,7 @@
 //Handles value settings done for a track that need to be done.
 /obj/effect/track/proc/handle_creation(mob/living/track_source)
 	creator = track_source
-	RegisterSignal(track_source, COMSIG_PARENT_QDELETING, PROC_REF(clear_creator_reference))
+	RegisterSignal(track_source, COMSIG_PARENT_QDELETING, PROC_REF(clear_creator_reference), TRUE)
 	creation_time = world.time
 	track_source.get_track_info(src)
 	if(track_source.m_intent == MOVE_INTENT_SNEAK)

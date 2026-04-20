@@ -21,13 +21,16 @@
 		"I can smell my own flesh, it smells foul."
 	)
 
-/datum/status_effect/zombie_infection/on_creation(mob/living/new_owner, time_to_transform = 5 MINUTES, from_infected_wake = "wound")
+/datum/status_effect/zombie_infection/on_creation(mob/living/new_owner, time_to_transform = 5 MINUTES, infected_wake_flag = FALSE)
 	. = ..()
 	transformation_time = world.time + time_to_transform
 	message_cooldown_time = world.time + message_cooldown_amount
-	infected_wake = from_infected_wake
+	infected_wake = infected_wake_flag
 
 /datum/status_effect/zombie_infection/tick()
+	if(QDELETED(owner))
+		return
+
 	if(world.time > message_cooldown_time)
 		var/warning_message = pick(infection_messages)
 		if(prob(10))
@@ -35,28 +38,38 @@
 		else
 			to_chat(owner, span_danger("[warning_message]"))
 		message_cooldown_time = world.time + message_cooldown_amount
-	if(world.time > transformation_time)
-		var/mob/living/carbon/human/H = owner
-		if(!iscarbon(H))
-			owner.remove_status_effect(/datum/status_effect/zombie_infection)
 
-		if(H.stat == DEAD || infected_wake)
-			H.zombie_check_can_convert()
-			var/datum/antagonist/zombie/zombie_antag = H.mind?.has_antag_datum(/datum/antagonist/zombie)
-			if(zombie_antag && !zombie_antag.has_turned)
-				zombie_antag.wake_zombie(infected_wake)
-				owner.remove_status_effect(/datum/status_effect/zombie_infection)
+	if(world.time <= transformation_time)
+		return
+
+	var/mob/living/carbon/human/H = owner
+	if(!H)
+		owner.remove_status_effect(/datum/status_effect/zombie_infection)
+		return
+
+	if(H.stat == DEAD || infected_wake)
+		H.zombie_check_can_convert()
+		var/datum/antagonist/zombie/zombie_antag = H.mind?.has_antag_datum(/datum/antagonist/zombie)
+		if(zombie_antag && !zombie_antag.has_turned)
+			zombie_antag.wake_zombie(infected_wake)
+			owner.remove_status_effect(/datum/status_effect/zombie_infection)
 
 /datum/status_effect/zombie_infection/on_apply()
 	. = ..()
+	if(QDELETED(owner))
+		return FALSE
+		
 	var/warning_message = pick(infection_messages)
 	if(prob(10))
 		to_chat(owner, span_userdanger("[warning_message]"))
 	else
 		to_chat(owner, span_danger("[warning_message]"))
+		
 	var/mob/living/carbon/human/H = owner
-	if(!iscarbon(H))
+	if(!H)
 		owner.remove_status_effect(/datum/status_effect/zombie_infection)
+		return FALSE
+
 	H.vomit(1, blood = TRUE, stun = FALSE)
 	return TRUE
 
@@ -67,6 +80,9 @@
 
 // Updated proc to use status effect
 /mob/living/carbon/human/proc/attempt_zombie_infection(mob/living/carbon/human/source, infection_type, wake_delay = 0)
+	if(!source)
+		return FALSE
+	
 	var/datum/antagonist/zombie/zombie_antag = source.mind?.has_antag_datum(/datum/antagonist/zombie)
 	if(!zombie_antag || !zombie_antag.has_turned)
 		return FALSE

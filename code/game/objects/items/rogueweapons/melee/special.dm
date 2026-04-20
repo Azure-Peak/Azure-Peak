@@ -6,7 +6,7 @@
 	animname = "cut"
 	blade_class = BCLASS_CUT
 	hitsound = list('sound/combat/hits/bladed/smallslash (1).ogg', 'sound/combat/hits/bladed/smallslash (2).ogg', 'sound/combat/hits/bladed/smallslash (3).ogg')
-	penfactor = 20
+	penfactor = PEN_LIGHT
 	chargetime = 0
 	swingdelay = 0
 	damfactor = 1.3
@@ -20,17 +20,31 @@
 	animname = "stab"
 	blade_class = BCLASS_STAB
 	hitsound = list('sound/combat/hits/bladed/genstab (1).ogg', 'sound/combat/hits/bladed/genstab (2).ogg', 'sound/combat/hits/bladed/genstab (3).ogg')
-	penfactor = 25
+	penfactor = PEN_MEDIUM // This make them good vs other light armor users
+	// So they don't need extra bonus damage on top
 	chargetime = 0
 	clickcd = CLICK_CD_FAST
 	item_d_type = "stab"
+
+/datum/intent/axe/chop/arbelos
+	damfactor = 1.3
+	clickcd = CLICK_CD_QUICK //Quicker than a conventional axe, but slower than a katar.
+
+/datum/intent/axe/cut/arbelos
+	damfactor = 1.15
+	clickcd = CLICK_CD_FAST //Same speed as a katar, but with reduced penetration and half-damage. Main appeal's the chopper.
+
+/datum/intent/katar/thrust/arbelos
+	penfactor = PEN_LIGHT
+	damfactor = 0.8
+	clickcd = CLICK_CD_QUICK //Slower than a regular thrust, with slightly less penetration and damage. Inverse to the katar.
 
 /datum/intent/lordbash
 	name = "bash"
 	blade_class = BCLASS_BLUNT
 	icon_state = "inbash"
 	attack_verb = list("bashes", "strikes")
-	penfactor = BLUNT_DEFAULT_PENFACTOR
+	penfactor = PEN_NONE
 	item_d_type = "blunt"
 	intent_intdamage_factor = BLUNT_DEFAULT_INT_DAMAGEFACTOR
 
@@ -54,23 +68,12 @@
 	attack_verb = list("punches", "clocks")
 	hitsound = list('sound/combat/hits/punch/punch_hard (1).ogg', 'sound/combat/hits/punch/punch_hard (2).ogg', 'sound/combat/hits/punch/punch_hard (3).ogg')
 	chargetime = 0
-	penfactor = BLUNT_DEFAULT_PENFACTOR
+	penfactor = PEN_NONE
 	clickcd = 8
 	swingdelay = 0
 	icon_state = "inpunch"
 	item_d_type = "blunt"
 	intent_intdamage_factor = BLUNT_DEFAULT_INT_DAMAGEFACTOR // This might be a mistake
-
-/datum/intent/knuckles/smash
-	name = "smash"
-	blade_class = BCLASS_SMASH
-	attack_verb = list("smashes")
-	hitsound = list('sound/combat/hits/punch/punch_hard (1).ogg', 'sound/combat/hits/punch/punch_hard (2).ogg', 'sound/combat/hits/punch/punch_hard (3).ogg')
-	penfactor = BLUNT_DEFAULT_PENFACTOR
-	clickcd = CLICK_CD_MELEE
-	swingdelay = 8
-	icon_state = "insmash"
-	item_d_type = "blunt"
 
 /datum/intent/knuckles/strike/wallop
 	name = "wallop"
@@ -119,7 +122,7 @@
 	. = ..()
 	if(get_dist(user, target) > 7)
 		return
-	
+
 	user.changeNext_move(CLICK_CD_MELEE)
 
 	if(ishuman(user))
@@ -278,7 +281,7 @@
 /obj/item/rogueweapon/katar
 	slot_flags = ITEM_SLOT_HIP
 	force = 24
-	possible_item_intents = list(/datum/intent/katar/cut, /datum/intent/katar/thrust, /datum/intent/sword/peel)
+	possible_item_intents = list(/datum/intent/katar/cut, /datum/intent/katar/thrust)
 	name = "katar"
 	desc = "A steel blade that sits above the user's fist. Commonly used by those proficient at unarmed fighting."
 	icon_state = "katar"
@@ -311,6 +314,18 @@
 			if("onbelt")
 				return list("shrink" = 0.3,"sx" = -2,"sy" = -5,"nx" = 4,"ny" = -5,"wx" = 0,"wy" = -5,"ex" = 2,"ey" = -5,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
 
+/obj/item/rogueweapon/katar/bronze/gladiator
+	name = "arbelos"
+	icon_state = "bronzescissor"
+	item_state = "bronzescissor"
+	desc = "A sharpened axhead that's been mounted onto a bronze gauntlet. Popularized at the turn of the millennium within the Underdark's gladiatorial arenas, \
+	it triumphs over the katar when it comes to thawrting blows and cleaving skulls. The wooden handle used to connect its axhead to the gauntlet is fragile, however; \
+	all it takes is a precise strike to neuter such a weapon."
+	wdefense = 5 //Much higher than usual for most unarmed weapons..
+	max_integrity = 150 //..and tougher, too.
+	max_blade_int = 150 // Reduced sharpness, however, as a result. Such a weapon is built for gladitorial combat, not the rigors of the wilderness. Keep it sharpened
+	possible_item_intents = list(/datum/intent/axe/chop/arbelos, /datum/intent/axe/cut/arbelos, /datum/intent/katar/thrust/arbelos)
+	thrown_bclass = BCLASS_CHOP
 
 /obj/item/rogueweapon/katar/abyssor
 	name = "barotrauma"
@@ -327,6 +342,32 @@
 	max_integrity = 80
 	smeltresult = /obj/item/ingot/bronze
 
+/obj/item/rogueweapon/katar/bronze/gladiator
+	name = "arbelos"
+	icon_state = "bronzescissor"
+	item_state = "bronzescissor"
+	desc = "A sharpened axhead that's been mounted onto a bronze gauntlet. Popularized at the turn of the millennium within the Underdark's gladiatorial arenas, \
+	it triumphs over the katar when it comes to thawrting blows and cleaving skulls. The wooden handle used to connect its axhead to the gauntlet is fragile, however; \
+	all it takes is a precise strike to neuter such a weapon."
+	wdefense = 5 //Much higher than usual for most unarmed weapons..
+	max_integrity = 150 //..and tougher, too.
+	max_blade_int = 150 // Reduced sharpness, however, as a result. Such a weapon is built for gladitorial combat, not the rigors of the wilderness. Keep it sharpened
+	possible_item_intents = list(/datum/intent/axe/chop/arbelos, /datum/intent/axe/cut/arbelos, /datum/intent/katar/thrust/arbelos)
+	thrown_bclass = BCLASS_CHOP
+
+/datum/intent/axe/chop/arbelos
+	damfactor = 1.3
+	clickcd = CLICK_CD_QUICK //Quicker than a conventional axe, but slower than a katar.
+
+/datum/intent/axe/cut/arbelos
+	damfactor = 1.15
+	clickcd = CLICK_CD_FAST //Same speed as a katar, but with reduced penetration and half-damage. Main appeal's the chopper.
+
+/datum/intent/katar/thrust/arbelos
+	penfactor = PEN_LIGHT
+	damfactor = 0.8
+	clickcd = CLICK_CD_QUICK //Slower than a regular thrust, with slightly less penetration and damage. Inverse to the katar.
+
 /obj/item/rogueweapon/katar/punchdagger
 	name = "punch dagger"
 	desc = "A weapon that combines the ergonomics of the Ranesheni katar with the capabilities of the Western Psydonian \"knight-killers\". It can be tied around the wrist."
@@ -342,8 +383,11 @@
 /obj/item/rogueweapon/katar/punchdagger/frei
 	name = "vývrtka"
 	desc = "A type of punch dagger of Aavnic make initially designed to level the playing field with an orc in fisticuffs, its serrated edges and longer, thinner point are designed to maximize pain for the recipient. It's aptly given the name of \"corkscrew\", and this specific one has the colours of Szöréndnížina. Can be worn on your ring slot."
+	force = 18
 	icon_state = "freiplug"
 	slot_flags = ITEM_SLOT_RING
+	icon = 'icons/roguetown/weapons/special/freifechter32.dmi'
+	possible_item_intents = list(/datum/intent/dagger/thrust, /datum/intent/dagger/thrust/pick, /datum/intent/mace/smash)
 
 /obj/item/rogueweapon/katar/psydon
 	name = "psydonic katar"
@@ -365,115 +409,28 @@
 		added_def = 2,\
 	)
 
-/obj/item/rogueweapon/knuckles/psydon
-	name = "psydonic knuckles"
-	desc = "A simple piece of harm molded in a holy mixture of steel and silver, finished with three stumps - Psydon's crown - to crush the heretics' garments and armor into smithereens."
-	icon_state = "psyknuckle"
-	force = 17
-	wdefense = 5
+/obj/item/rogueweapon/katar/silver
+	name = "silver katar"
+	desc = "An exotic weapon that was born from frugality and scarcity, strongly associated with Saint Abenjunne of Astrata. As the folktale goes, this humble preacher belonged to an old village, whose \
+	lyvestock would be hunted every nite by a ferocious verebeaste. Though no weapon of steel-nor-iron could hope to rupture its hide, they had little silver to call upon; save for the abbey's lone \
+	psicrucifix. After praying for guidence, the preacher was said to've been guided by a ray of daelight to the silvered steeple - and through divine heat, melted it into a hand-dagger that would soon \
+	rip the verebeaste apart."
+	icon_state = "silverkatar"
+	force = 19
+	wdefense = 3
 	is_silver = TRUE
-	smeltresult = /obj/item/ingot/silverblessed
+	smeltresult = /obj/item/ingot/silver
 
-/obj/item/rogueweapon/knuckles/psydon/ComponentInitialize()
+/obj/item/rogueweapon/katar/silver/ComponentInitialize()
 	AddComponent(\
 		/datum/component/silverbless,\
 		pre_blessed = BLESSING_NONE,\
-		silver_type = SILVER_PSYDONIAN,\
+		silver_type = SILVER_TENNITE,\
 		added_force = 0,\
 		added_blade_int = 0,\
 		added_int = 50,\
 		added_def = 2,\
 	)
-
-/obj/item/rogueweapon/knuckles/psydon/old
-	name = "enduring knuckles"
-	desc = "A simple piece of harm molded in a holy mixture of steel and silver, its holy blessing long since faded. You are HIS weapon, you needn't fear Aeon."
-	icon_state = "psyknuckle"
-	force = 22
-	wdefense = 6
-	is_silver = FALSE
-	smeltresult = /obj/item/ingot/steel
-	color = COLOR_FLOORTILE_GRAY
-
-/obj/item/rogueweapon/knuckles/psydon/old/ComponentInitialize()
-	return
-
-/obj/item/rogueweapon/knuckles
-	name = "steel knuckles"
-	desc = "A mean looking pair of steel knuckles."
-	force = 25
-	possible_item_intents = list(/datum/intent/knuckles/strike,/datum/intent/knuckles/smash, /datum/intent/knuckles/strike/wallop)
-	icon = 'icons/roguetown/weapons/unarmed32.dmi'
-	icon_state = "steelknuckle"
-	gripsprite = FALSE
-	wlength = WLENGTH_SHORT
-	w_class = WEIGHT_CLASS_SMALL
-	slot_flags = ITEM_SLOT_HIP
-	parrysound = list('sound/combat/parry/pugilism/unarmparry (1).ogg','sound/combat/parry/pugilism/unarmparry (2).ogg','sound/combat/parry/pugilism/unarmparry (3).ogg')
-	sharpness = IS_BLUNT
-	max_integrity = 200
-	swingsound = list('sound/combat/wooshes/punch/punchwoosh (1).ogg','sound/combat/wooshes/punch/punchwoosh (2).ogg','sound/combat/wooshes/punch/punchwoosh (3).ogg')
-	associated_skill = /datum/skill/combat/unarmed
-	throwforce = 12
-	wdefense = 4
-	wbalance = WBALANCE_SWIFT
-	anvilrepair = /datum/skill/craft/weaponsmithing
-	smeltresult = /obj/item/ingot/steel
-	grid_width = 64
-	grid_height = 32
-
-/obj/item/rogueweapon/knuckles/getonmobprop(tag)
-	. = ..()
-	if(tag)
-		switch(tag)
-			if("gen")
-				return list("shrink" = 0.2,"sx" = -7,"sy" = -4,"nx" = 7,"ny" = -4,"wx" = -3,"wy" = -4,"ex" = 1,"ey" = -4,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 110,"sturn" = -110,"wturn" = -110,"eturn" = 110,"nflip" = 0,"sflip" = 8,"wflip" = 8,"eflip" = 0)
-			if("onbelt")
-				return list("shrink" = 0.1,"sx" = -2,"sy" = -5,"nx" = 4,"ny" = -5,"wx" = 0,"wy" = -5,"ex" = 2,"ey" = -5,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
-
-/obj/item/rogueweapon/knuckles/bronzeknuckles
-	name = "bronze knuckles"
-	desc = "A mean looking pair of bronze knuckles. Mildly heavier than it's steel counterpart, making it a solid defensive option, if less wieldy."
-	force = 22
-	possible_item_intents = list(/datum/intent/knuckles/strike, /datum/intent/knuckles/smash, /datum/intent/knuckles/strike/wallop)
-	icon = 'icons/roguetown/weapons/unarmed32.dmi'
-	icon_state = "bronzeknuckle"
-	gripsprite = FALSE
-	wlength = WLENGTH_SHORT
-	w_class = WEIGHT_CLASS_SMALL
-	slot_flags = ITEM_SLOT_HIP
-	parrysound = list('sound/combat/parry/pugilism/unarmparry (1).ogg','sound/combat/parry/pugilism/unarmparry (2).ogg','sound/combat/parry/pugilism/unarmparry (3).ogg')
-	sharpness = IS_BLUNT
-	max_integrity = 200
-	swingsound = list('sound/combat/wooshes/punch/punchwoosh (1).ogg','sound/combat/wooshes/punch/punchwoosh (2).ogg','sound/combat/wooshes/punch/punchwoosh (3).ogg')
-	associated_skill = /datum/skill/combat/unarmed
-	throwforce = 12
-	wdefense = 6
-	anvilrepair = /datum/skill/craft/weaponsmithing
-	smeltresult = /obj/item/ingot/bronze
-
-/obj/item/rogueweapon/knuckles/aknuckles
-	name = "decrepit knuckles"
-	desc = "a set of knuckles made of ancient metals, Aeon's grasp wither their form."
-	icon_state = "aknuckle"
-	force = 12
-	max_integrity = 100
-	wdefense = 4
-	smeltresult = /obj/item/ingot/aalloy
-	blade_dulling = DULLING_SHAFT_CONJURED
-
-/obj/item/rogueweapon/knuckles/paknuckles
-	name = "ancient knuckles"
-	desc = "a set of knuckles made of ancient metals, Aeon's grasp has been lifted from their form."
-	icon_state = "aknuckle"
-	smeltresult = /obj/item/ingot/aaslag
-
-
-/obj/item/rogueweapon/knuckles/eora
-	name = "close caress"
-	desc = "Some times call for a more intimate approach."
-	force = 24
-	icon_state = "eoraknuckle"
 
 ///Peasantry / Militia Weapon Pack///
 
@@ -485,7 +442,7 @@
 	name = "militia goedendag"
 	desc = "Clubs - and their spiked descendants - are older than most languages and civilizations. Tyme hasn't made them any less deadly, however. "
 	icon_state = "peasantwarclub"
-	icon = 'icons/roguetown/weapons/64.dmi'
+	icon = 'icons/roguetown/weapons/blunt64.dmi'
 	smeltresult = /obj/item/rogueore/coal
 	sharpness = IS_SHARP
 	walking_stick = TRUE
@@ -506,7 +463,7 @@
 	desc = "Shovels have always held some manner of importance in a militiaman's lyfe. Instead of digging corpsepits, however, this poleaxe will now fill them up."
 	icon_state = "peasantwaraxe"
 	possible_item_intents = list(/datum/intent/axe/cut, /datum/intent/axe/chop, SPEAR_BASH) //bash is for nonlethal takedowns, only targets limbs
-	gripped_intents = list(/datum/intent/rend/reach, /datum/intent/axe/chop/battle/greataxe, /datum/intent/sword/peel/big, SPEAR_BASH)
+	gripped_intents = list(/datum/intent/rend/reach, /datum/intent/axe/chop/long, SPEAR_BASH)
 	force = 15
 	force_wielded = 25
 	minstr = 10
@@ -521,7 +478,7 @@
 	desc = "'Do you think Psydon stays in Heaven because He too lives in fear of what He's created?' </br>A silver shovel, improvised - perhaps, by the hands of a particularly desperate gravedigger - to fill a polearm's duty."
 	icon_state = "silvershovelwaraxe"
 	possible_item_intents = list(/datum/intent/axe/cut, /datum/intent/axe/chop, SPEAR_BASH) //bash is for nonlethal takedowns, only targets limbs
-	gripped_intents = list(/datum/intent/rend/reach, /datum/intent/axe/chop/battle/greataxe, /datum/intent/sword/peel/big, SPEAR_BASH)
+	gripped_intents = list(/datum/intent/rend/reach, /datum/intent/axe/chop/long, SPEAR_BASH)
 	force = 15
 	force_wielded = 25
 	minstr = 11
@@ -557,12 +514,11 @@
 /obj/item/rogueweapon/spear/militia
 	force = 18
 	force_wielded = 30
-	possible_item_intents = list(SPEAR_THRUST_1H, SPEAR_CUT_1H) 
+	possible_item_intents = list(SPEAR_THRUST_1H, SPEAR_CUT_1H)
 	gripped_intents = list(SPEAR_THRUST, SPEAR_CUT, SPEAR_BASH)
 	name = "militia spear"
 	desc = "Pitchforks and hoes traditionally till the soil. In tymes of peril, however, it isn't uncommon for a militiaman to pound them into polearms."
 	icon_state = "peasantwarspear"
-	icon = 'icons/roguetown/weapons/64.dmi'
 	minstr = 8
 	max_blade_int = 120
 	max_integrity = 200
@@ -574,7 +530,7 @@
 	light_outer_range = 5
 	light_on = FALSE
 	light_color = "#db892b"
-	var/is_loaded = FALSE 
+	var/is_loaded = FALSE
 	var/list/hay_types = list(/obj/structure/fluff/nest, /obj/structure/composter, /obj/structure/flora/roguegrass, /obj/item/reagent_containers/food/snacks/grown/wheat)
 
 /obj/item/rogueweapon/spear/militia/ComponentInitialize()
@@ -622,12 +578,41 @@
 	var/is_active
 	var/single_use = TRUE
 	var/icon_state_ignited
+	var/use_light = TRUE
+	var/spread_flame = TRUE
+
+/datum/component/ignitable/fluff
+	use_light = FALSE
+	spread_flame = FALSE
+
+/datum/component/ignitable/fluff/sci_flame
+	use_light = FALSE
+	spread_flame = FALSE
+	icon_state_ignited = "sci_firetongue_on"
+	
+/datum/component/ignitable/fluff/sci_sand
+	use_light = FALSE
+	spread_flame = FALSE
+	icon_state_ignited = "sci_sandlash_on"
 
 /datum/component/ignitable/Initialize(...)
-	. = ..()
+	if(!isitem(parent))
+		return COMPONENT_INCOMPATIBLE
+	
+	RegisterSignal(parent, COMSIG_STRUCTURE_ATTACKBY, PROC_REF(item_afterattack))
 	RegisterSignal(parent, COMSIG_ITEM_AFTERATTACK, PROC_REF(item_afterattack))
 	RegisterSignal(parent, COMSIG_PARENT_EXAMINE, PROC_REF(on_examine))
 	RegisterSignal(parent, COMSIG_ATOM_FIRE_ACT, PROC_REF(on_fireact))
+	RegisterSignal(parent, COMSIG_ATOM_ATTACK_RIGHT, PROC_REF(self_extinguish))
+
+/datum/component/ignitable/proc/self_extinguish()
+	is_active = FALSE
+	light_off()
+	update_icon()
+	var/obj/item/I = parent
+	if(ismob(I.loc))
+		var/mob/user = I.loc
+		user.regenerate_icons()
 
 /datum/component/ignitable/proc/on_fireact(added, maxstacks)
 	if(is_ignitable && !is_active)
@@ -639,7 +624,8 @@
 
 /datum/component/ignitable/proc/light_on()
 	var/obj/I = parent
-	I.set_light_on(TRUE)
+	if(use_light)
+		I.set_light_on(TRUE)
 	playsound(I.loc, 'sound/items/firelight.ogg', 100)
 	is_active = TRUE
 	is_ignitable = FALSE
@@ -664,7 +650,7 @@
 /datum/component/ignitable/proc/item_afterattack(obj/item/source, atom/target, mob/user, proximity_flag, click_parameters)
 	var/ignited = FALSE
 	if(user.used_intent?.reach >= get_dist(target, user))
-		if(is_active)
+		if(is_active && spread_flame)
 			if(isobj(target))
 				var/obj/O = target
 				if(!(O.resistance_flags & FIRE_PROOF))
@@ -684,12 +670,12 @@
 		else if(is_ignitable && !is_active)
 			if(isobj(target))
 				var/obj/O = target
-				if(O.damtype == BURN || O.light_on == TRUE)	//Super hacky, but should work on every conventional source you'd expect to ignite it. But also a few other weird ones.
+				if(O.damtype == BURN || O.light_on)	//Super hacky, but should work on every conventional source you'd expect to ignite it. But also a few other weird ones.
 					light_on()
 					user.regenerate_icons()
 
 
-	
+
 /datum/component/ignitable/proc/on_examine(datum/source, mob/user, list/examine_list)
 	return
 
@@ -701,7 +687,7 @@
 	name = "scythe"
 	desc = "The bane of fields, the trimmer of grass, the harvester of wheat, and - depending on who you ask - the shepherd of souls to the afterlyfe."
 	icon_state = "peasantscythe"
-	icon = 'icons/roguetown/weapons/64.dmi'
+	icon = 'icons/roguetown/weapons/polearms64.dmi'
 	pixel_y = -16
 	pixel_x = -16
 	inhand_x_dimension = 64
@@ -786,12 +772,28 @@
 	desc = "Fittingly coined as a 'peasant's falchion', this hunting sword's blade has been retempered to hunt the most dangerous game. Those jagged edges are perfect for tearing into flesh-and-maille."
 	possible_item_intents = list(/datum/intent/sword/cut, /datum/intent/sword/strike)
 	icon_state = "maciejowski"
-	gripped_intents = list(/datum/intent/rend, /datum/intent/sword/chop/militia, /datum/intent/sword/peel, /datum/intent/sword/strike)
+	sheathe_icon = "maciejowski"
+	gripped_intents = list(/datum/intent/rend, /datum/intent/sword/chop/militia, /datum/intent/sword/strike)
 	force = 18
 	force_wielded = 25
 	anvilrepair = /datum/skill/craft/carpentry
 	smeltresult = /obj/item/ingot/iron
 	wdefense = 3
+	wbalance = WBALANCE_HEAVY
+
+/obj/item/rogueweapon/sword/falchion/militia/bronze
+	name = "kopis"
+	desc = "The falchion's ancient predecessor, veiled in bronze - yet no less lethal against an awaiting trunk. The curved grip snuggly fits in the wielder's hand, allowing their will to be imposed upon assailant-and-archdevil alike with terrible force."
+	possible_item_intents = list(/datum/intent/sword/cut, /datum/intent/sword/chop/militia, /datum/intent/sword/thrust/long/deep, /datum/intent/sword/strike)
+	icon_state = "kopis"
+	sheathe_icon = "kopis"
+	gripped_intents = list(/datum/intent/rend, /datum/intent/sword/chop/militia, /datum/intent/sword/thrust/long/deep, /datum/intent/sword/strike)
+	force = 20
+	force_wielded = 27 // +2/3ish over the Maciejowski. A proper killing machine.
+	max_integrity = 175
+	max_blade_int = 350
+	anvilrepair = /datum/skill/craft/weaponsmithing
+	smeltresult = /obj/item/ingot/bronze
 	wbalance = WBALANCE_HEAVY
 
 /obj/item/rogueweapon/handclaw
@@ -851,6 +853,29 @@
 	max_blade_int = 200
 	max_integrity = 200
 
+/obj/item/rogueweapon/handclaw/gronn/silver
+	name = "Silver Ravager Claws"
+	desc = "A trinity of silver claws, forged in defiant reverence of the Old Ways that still permeate throughout the Northern Empty. \
+			The psicruciformic edge shreds through the hide of thralls; resurrected corpses from Fjallic antiquity, said to've been born through faithlessness and despair. \
+			Few shamen hold the strength to wield it, and fewer will speak of what they, alone, know - the true fate of the Weeping Father. \
+			'Here we stand, to turn and face the odds; sacrifice yourself, or bow to lesser gods!'"
+	smeltresult = /obj/item/ingot/silver
+	icon_state = "silverclaws"
+	wdefense = 5
+	max_blade_int = 300
+	max_integrity = 225
+	is_silver = TRUE
+
+/obj/item/rogueweapon/handclaw/gronn/silver/ComponentInitialize()
+	AddComponent(\
+		/datum/component/silverbless,\
+		pre_blessed = BLESSING_NONE,\
+		silver_type = SILVER_TENNITE,\
+		added_force = 0,\
+		added_blade_int = 100,\
+		added_int = 50,\
+		added_def = 2,\
+	)
 
 /obj/item/rogueweapon/handclaw/getonmobprop(tag)
 	. = ..()
@@ -873,19 +898,19 @@
 	damfactor = 1.2
 	swingdelay = 8
 	clickcd = CLICK_CD_MELEE
-	penfactor = 35
+	penfactor = PEN_MEDIUM
 
 /datum/intent/claw/lunge/steel
 	damfactor = 1.2
 	swingdelay = 12
 	clickcd = CLICK_CD_HEAVY
-	penfactor = 35
+	penfactor = PEN_MEDIUM
 
 /datum/intent/claw/lunge/gronn
 	damfactor = 1.1
 	swingdelay = 5
-	clickcd = 10
-	penfactor = 45
+	clickcd = CLICK_CD_QUICK
+	penfactor = PEN_HEAVY
 
 /datum/intent/claw/cut
 	name = "cut"
@@ -897,19 +922,19 @@
 	item_d_type = "slash"
 
 /datum/intent/claw/cut/iron
-	penfactor = 20
+	penfactor = PEN_LIGHT
 	swingdelay = 8
 	damfactor = 1.4
 	clickcd = CLICK_CD_HEAVY
 
 /datum/intent/claw/cut/steel
-	penfactor = 10
+	penfactor = PEN_NONE
 	swingdelay = 4
 	damfactor = 1.3
 	clickcd = CLICK_CD_HEAVY
 
 /datum/intent/claw/cut/gronn
-	penfactor = 30
+	penfactor = PEN_MEDIUM
 	swingdelay = 0
 	damfactor = 1.1
 	clickcd = CLICK_CD_MELEE
@@ -921,7 +946,7 @@
 	animname = "cut"
 	blade_class = BCLASS_CHOP
 	reach = 1
-	penfactor = BLUNT_DEFAULT_PENFACTOR
+	penfactor = PEN_NONE
 	swingdelay = 20
 	damfactor = 2.5
 	clickcd = CLICK_CD_HEAVY
@@ -930,6 +955,7 @@
 	item_d_type = "slash"
 	misscost = 10
 	intent_intdamage_factor = 0.05
+	demolition_mod = 0.05
 
 /datum/intent/claw/rend/steel
 	damfactor = 3
@@ -938,15 +964,16 @@
 	name = "peculate"
 	hitsound = null
 	desc = "Thieve the appearance of another."
-	icon_state = "peculate"
+	icon_state = "inpeculate"
 
 //Unique assassin/antag dagger.
 /obj/item/rogueweapon/huntingknife/idagger/steel/profane
 	name = "profane dagger"
-	desc = "A profane dagger made of cursed black steel. Whispers emanate from the gem on its hilt."
-	possible_item_intents = list(/datum/intent/dagger/cut, /datum/intent/dagger/thrust, /datum/intent/peculate)
+	desc = "A profane dagger made from a cursed alloy. Whispers emanate from the diamond on its hilt. </br>A chill rolls down my spine. I am not alone."
+	possible_item_intents = list(/datum/intent/dagger/cut, /datum/intent/dagger/thrust, /datum/intent/peculate, /datum/intent/dagger/thrust/pick)
 	sellprice = 250
-	icon_state = "pdagger"
+	icon_state = "graggardagger"
+	sheathe_icon = "graggardagger"
 	embedding = list("embed_chance" = 0) // Embedding the cursed dagger has the potential to cause duping issues. Keep it like this unless you want to do a lot of bug hunting.
 	resistance_flags = INDESTRUCTIBLE
 	stealthy_audio = TRUE
@@ -1106,3 +1133,84 @@
 	src.container = container
 
 	S.forceMove(container)
+
+// Standard of the keep.
+// Big ol' flag that they keep to give bonuses, used by the manorguard standard bearer.
+/obj/item/rogueweapon/spear/keep_standard
+	name = "ducal standard"
+	desc = "The local lord's banner, fashioned to a blacksteel pike and turned into a deadly instrument of war. \
+	The man who wields this is said to bring great fortune to his house, and those who keep him safe. \
+	<small>Runes glow near the head of the pike. A sure sign of the arcyne.</small>"
+	force = 15
+	force_wielded = 30
+	throwforce = 40 // It'll be funny. Trust.
+	possible_item_intents = list(SPEAR_BASH)
+	gripped_intents = list(/datum/intent/spear/thrust, /datum/intent/spear/bash/ranged, /datum/intent/mace/smash/eaglebeak) // GET THEM OFF OF ME!!! OOOUGH!!!
+	icon = 'icons/roguetown/weapons/polearms64.dmi'
+	icon_state = "standard"
+	max_blade_int = 200
+	max_integrity = 250
+	smeltresult = /obj/item/ingot/blacksteel
+	resistance_flags = FIRE_PROOF
+	var/active_item = FALSE
+
+/obj/item/rogueweapon/spear/keep_standard/equipped(mob/living/user)
+	. = ..()
+	if(active_item)
+		return
+	active_item = TRUE
+	if(user.job == "Man at Arms")
+		to_chat(user, span_suppradio("The standard's runes pulse, accepting me as its <b>master</b>."))
+		user.change_stat(STATKEY_LCK, 3)
+		user.change_stat(STATKEY_PER, 2)
+		user.add_stress(/datum/stressevent/keep_standard)
+		ADD_TRAIT(user, TRAIT_IGNOREDAMAGESLOWDOWN, TRAIT_GENERIC)
+		if(HAS_TRAIT(user, TRAIT_STANDARD_BEARER))
+			to_chat(user, span_suppradio("<small>It remains ready for your word. You need only ask.</small>"))
+			user.verbs |= /mob/proc/standard_position
+			user.verbs |= /mob/proc/standard_rally
+	else
+		to_chat(user, span_suicide("The standard's runes pulse, rejecting me as its <b>master</b>."))
+
+/obj/item/rogueweapon/spear/keep_standard/dropped(mob/living/user)
+	..()
+	if(!active_item)
+		return
+	active_item = FALSE
+	if(user.job == "Man at Arms")
+		to_chat(user, span_monkeyhive("The standard's runes pulse, rhythmically, as if sad to see you release your control."))
+		user.change_stat(STATKEY_LCK, -3)
+		user.change_stat(STATKEY_PER, -2)
+		user.remove_stress(/datum/stressevent/keep_standard)
+		REMOVE_TRAIT(user, TRAIT_IGNOREDAMAGESLOWDOWN, TRAIT_GENERIC)
+		if(HAS_TRAIT(user, TRAIT_STANDARD_BEARER))
+			to_chat(user, span_monkeyhive("<small>You feel ill. Was that a mistake?</small>"))
+			user.verbs -= /mob/proc/standard_position
+			user.verbs -= /mob/proc/standard_rally
+	else
+		to_chat(user, span_suicide("The standard's runes pulse, as if sighing in relief once I let go."))
+
+//Shameless copy of how clothes handle it.
+/obj/item/rogueweapon/spear/keep_standard/update_icon()
+	cut_overlays()
+	if(get_detail_tag())
+		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))
+		pic.appearance_flags = RESET_COLOR
+		if(get_detail_color())
+			pic.color = get_detail_color()
+		add_overlay(pic)
+
+/obj/item/rogueweapon/spear/keep_standard/Initialize()
+	. = ..()
+	if(GLOB.lordprimary)
+		lordcolor(GLOB.lordprimary, GLOB.lordsecondary)
+	GLOB.lordcolor += src
+
+/obj/item/rogueweapon/spear/keep_standard/lordcolor(primary, secondary)
+	detail_tag = "_det"
+	detail_color = primary
+	update_icon()
+
+/obj/item/rogueweapon/spear/keep_standard/Destroy()
+	GLOB.lordcolor -= src
+	return ..()

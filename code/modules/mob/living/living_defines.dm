@@ -141,9 +141,14 @@
 	var/last_ps = 0
 
 	var/ambushable = 0
+	var/threat_point = 0 // Threat Point cost for the ambush budget system. Set on NPC subtypes.
+	var/ambush_faction = "" // Faction tag for ambush same/wrong-faction purchasing. Separate from mob faction list.
 
+	// Tracks whether mob is in surrendering state (right-click combat button)
 	var/surrendering = 0
-	var/compliance = 0 // whether we are choosing to auto-resist grabs and stuff
+
+	// Tracks whether mob is in compliance mode (middle-click combat button)
+	var/compliance = 0
 
 	var/defprob = 50 //base chance to defend against this mob's attacks, for simple mob combat
 	var/encumbrance = 0
@@ -192,6 +197,8 @@
 
 	var/domhand = 0
 
+	var/pet_passive = FALSE
+
 	var/list/cmode_music_override = list() // set by prefs or the verb, ignored if empty
 	var/cmode_music_override_name // solely for autoselecting as a spawned-in mob
 	var/last_heard_raw_message //to prevent repeated messages from spamming
@@ -206,5 +213,15 @@
 	var/toggle_delay = 1 SECONDS
 	/// Toggle timer for Specials, or really anything else that you don't want input spam to instantly cycle through.
 	var/toggle_timer
+
+	/// Whether we are in a swingdelay, used to check for disrupted swingdelays.
+	var/swing_state = FALSE
+	var/is_swimming = FALSE
+	var/is_underwater = FALSE
+	var/drowning_drowniness = 0
+	var/breath_remaining = 100
+	var/max_breath = 100
+	var/last_breath_spent = 0
+	var/client/swimming_filter_client = null
 
 	var/job_path	// the latest job path a mob used. we don't want to rely on job strings for Treaties & Territories

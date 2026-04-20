@@ -45,6 +45,9 @@
 /datum/status_effect/buff/frostbite/tick()
 	var/mob/living/target = owner
 	target.stamina_add(5)
+	// When stamcrit, removes it to prevent it from chaining too hard
+	if(target.stamina >= target.max_stamina)
+		target.remove_status_effect(/datum/status_effect/buff/frostbite)
 
 /datum/status_effect/buff/frostbite/on_remove()
 	var/mob/living/target = owner
@@ -102,8 +105,14 @@
 	target.update_vision_cone()
 	target.remove_movespeed_modifier(MOVESPEED_ID_LIGHTNINGSTRUCK, TRUE)
 
+/datum/status_effect/buff/lightningstruck/minor
+	duration = 3 SECONDS
+	effectedstats = list("speed" = -1)
 
-
+/datum/status_effect/buff/lightningstruck/minor/on_apply()
+	. = ..()
+	var/mob/living/target = owner
+	target.add_movespeed_modifier(MOVESPEED_ID_LIGHTNINGSTRUCK, update=TRUE, priority=100, multiplicative_slowdown=1, movetypes=GROUND)
 
 
 // arcane marks plus helper procs
@@ -141,7 +150,7 @@
 /datum/status_effect/debuff/arcanemark
 	id = "arcanemark"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/arcanemark
-	duration = 15 SECONDS //15 sec - combo spells are on an 8-10 sec cd so if you miss two you drop your combo. seems fair?
+	duration = 10 SECONDS //seems better
 	status_type = STATUS_EFFECT_REFRESH
 	var/outline_colour = "#c203fc"
 	var/stacks = 1

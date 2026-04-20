@@ -114,13 +114,13 @@
 
 /obj/structure/broadcast_horn/paid/examine()
 	. = ..()
-	. += span_info("A noble, yeoman, churchman, retinue member, or courtier can use this for a zenny. Others must insert a ziliqua.")
+	. += span_info("A noble, burgher, churchman, retinue member, or courtier can use this for a zenny. Others must insert a ziliqua.")
 
 /obj/structure/broadcast_horn/paid/proc/get_broadcast_cost(mob/user)
 	var/datum/job/user_job = SSjob.GetJob(user.job)
 	if(!user_job)
 		return NON_TOWNER_BROADCAST_COST
-	if(user_job.department_flag & (NOBLEMEN|YEOMEN|GARRISON|CHURCHMEN|COURTIERS))
+	if(user_job.department_flag & (NOBLEMEN|BURGHERS|GARRISON|CHURCHMEN|COURTIERS|RETINUE))
 		return TOWNER_BROADCAST_COST
 	if(HAS_TRAIT(user, TRAIT_NOBLE))
 		// Noble privilege! 

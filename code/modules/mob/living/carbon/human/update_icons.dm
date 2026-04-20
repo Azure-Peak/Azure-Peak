@@ -50,8 +50,7 @@ There are several things that need to be remembered:
 
 /mob/living/carbon/proc/get_limbloss_index(limbr, limbl)
 	var/jazz = 1
-	for(var/X in bodyparts)
-		var/obj/item/bodypart/affecting = X
+	for(var/obj/item/bodypart/affecting as anything in bodyparts)
 		if(affecting.body_part == limbr)
 			jazz += 1
 		if(affecting.body_part == limbl)
@@ -138,14 +137,10 @@ There are several things that need to be remembered:
 				if(I.flags_inv & HIDEBOOB)
 					hidechest = TRUE
 
-	for(var/X in bodyparts)
+	for(var/obj/item/bodypart/BP as anything in bodyparts)
 		var/list/damage_overlays = list()
 		var/list/legdam_overlays = list()
 		var/list/armdam_overlays = list()
-		var/obj/item/bodypart/BP = X
-		var/g = BP.offset
-		if(gender == FEMALE || dna.species.use_f)
-			g = BP.offset_f
 		if(BP.body_zone == BODY_ZONE_HEAD)
 			update_hair()
 		var/bleed_checker = FALSE
@@ -251,18 +246,18 @@ There are several things that need to be remembered:
 
 		for(var/mutable_appearance/M in damage_overlays)
 			if(used_offset in dna.species.offset_features)
-				M.pixel_x += dna.species.offset_features[g][1]
-				M.pixel_y += dna.species.offset_features[g][2]
+				M.pixel_x += dna.species.offset_features[used_offset][1]
+				M.pixel_y += dna.species.offset_features[used_offset][2]
 			limb_overlaysa += M
 		for(var/mutable_appearance/M in legdam_overlays)
 			if(used_offset in dna.species.offset_features)
-				M.pixel_x += dna.species.offset_features[g][1]
-				M.pixel_y += dna.species.offset_features[g][2]
+				M.pixel_x += dna.species.offset_features[used_offset][1]
+				M.pixel_y += dna.species.offset_features[used_offset][2]
 			limb_overlaysb += M
 		for(var/mutable_appearance/M in armdam_overlays)
 			if(used_offset in dna.species.offset_features)
-				M.pixel_x += dna.species.offset_features[g][1]
-				M.pixel_y += dna.species.offset_features[g][2]
+				M.pixel_x += dna.species.offset_features[used_offset][1]
+				M.pixel_y += dna.species.offset_features[used_offset][2]
 			limb_overlaysc += M
 
 	overlays_standing[DAMAGE_LAYER] = limb_overlaysa
@@ -404,6 +399,10 @@ There are several things that need to be remembered:
 		update_hud_neck(wear_neck)
 	rebuild_obscured_flags()
 	update_hair()
+	// Snowflake check to stop species with custom body sprites of having ugly pouches appear on their sprite, unaccustomed to the shape.
+	if(dna.species.custom_base_icon)
+		return
+
 	apply_overlay(NECK_LAYER)
 
 /mob/living/carbon/human/update_inv_wear_id()
@@ -420,11 +419,7 @@ There are several things that need to be remembered:
 		if(client && hud_used && hud_used.hud_shown)
 			client.screen += wear_ring
 		update_observer_view(wear_ring)
-		if(dna && dna.species.sexes)
-			if((gender == FEMALE && !dna.species.use_m) || dna.species.use_f)
-				id_overlay = wear_ring.build_worn_icon(default_layer = RING_LAYER, default_icon_file = 'icons/mob/clothing/feet.dmi', female = TRUE)
-			else
-				id_overlay = wear_ring.build_worn_icon(default_layer = RING_LAYER, default_icon_file = 'icons/mob/clothing/feet.dmi', female = FALSE)
+		id_overlay = wear_ring.build_worn_icon(default_layer = RING_LAYER, default_icon_file = 'icons/mob/clothing/feet.dmi', female = FALSE)
 		if(gender == MALE)
 			if(OFFSET_ID in dna.species.offset_features)
 				id_overlay.pixel_x += dna.species.offset_features[OFFSET_ID][1]
@@ -489,12 +484,11 @@ There are several things that need to be remembered:
 
 			//add sleeve overlays, then offset
 			var/list/sleeves = list()
-			if(gloves.sleeved && armsindex > 0)
+			if(gloves.sleeved && armsindex > 0 && !should_hide_sleeves_for_layer(GLOVESLEEVE_LAYER))
 				sleeves = get_sleeves_layer(gloves,armsindex,GLOVESLEEVE_LAYER)
 
 			if(sleeves)
-				for(var/X in sleeves)
-					var/mutable_appearance/S = X
+				for(var/mutable_appearance/S as anything in sleeves)
 					if(gender == MALE)
 						if(OFFSET_GLOVES in dna.species.offset_features)
 							S.pixel_x += dna.species.offset_features[OFFSET_GLOVES][1]
@@ -545,12 +539,11 @@ There are several things that need to be remembered:
 
 			//add sleeve overlays, then offset
 			var/list/sleeves = list()
-			if(wear_wrists.sleeved && armsindex > 0)
+			if(wear_wrists.sleeved && armsindex > 0 && !should_hide_sleeves_for_layer(WRISTSLEEVE_LAYER))
 				sleeves = get_sleeves_layer(wear_wrists,armsindex,WRISTSLEEVE_LAYER)
 
 			if(sleeves)
-				for(var/X in sleeves)
-					var/mutable_appearance/S = X
+				for(var/mutable_appearance/S as anything in sleeves)
 					if(gender == MALE)
 						if(OFFSET_WRISTS in dna.species.offset_features)
 							S.pixel_x += dna.species.offset_features[OFFSET_WRISTS][1]
@@ -562,6 +555,7 @@ There are several things that need to be remembered:
 				overlays_standing[WRISTSLEEVE_LAYER] = sleeves
 
 	rebuild_obscured_flags()
+	update_inv_gloves()
 	apply_overlay(WRISTS_LAYER)
 	apply_overlay(WRISTSLEEVE_LAYER)
 
@@ -624,6 +618,7 @@ There are several things that need to be remembered:
 
 /mob/living/carbon/human/update_inv_shoes()
 	remove_overlay(SHOES_LAYER)
+	remove_overlay(SHOESLEEVE_LAYER)
 	if(client && hud_used)
 		var/atom/movable/screen/inventory/inv = hud_used.inv_slots[SLOT_SHOES]
 		inv.update_icon()
@@ -653,8 +648,21 @@ There are several things that need to be remembered:
 				shoes_overlay.pixel_y += dna.species.offset_features[OFFSET_SHOES][2]
 			overlays_standing[SHOES_LAYER] = shoes_overlay
 
+			//add sleeve overlays, then offset
+			var/list/sleeves = list()
+			if(shoes.sleeved && footindex > 0 && !should_hide_sleeves_for_layer(SHOESLEEVE_LAYER))
+				sleeves = get_sleeves_layer(shoes,footindex,SHOESLEEVE_LAYER)
+			if(sleeves)
+				for(var/mutable_appearance/S as anything in sleeves)
+					if(OFFSET_SHOES in dna.species.offset_features)
+						S.pixel_x += dna.species.offset_features[OFFSET_SHOES][1]
+						S.pixel_y += dna.species.offset_features[OFFSET_SHOES][2]
+
+				overlays_standing[SHOESLEEVE_LAYER] = sleeves
+
 	rebuild_obscured_flags()
 	apply_overlay(SHOES_LAYER)
+	apply_overlay(SHOESLEEVE_LAYER)
 
 /mob/living/carbon/human/update_inv_s_store()
 /*
@@ -1142,9 +1150,8 @@ There are several things that need to be remembered:
 			if(cloak.sleeved)
 				cloaksleeves = get_sleeves_layer(cloak,0,CLOAK_LAYER)
 
-			if(cloaksleeves.len)
-				for(var/X in cloaksleeves)
-					var/mutable_appearance/S = X
+			if(length(cloaksleeves))
+				for(var/mutable_appearance/S as anything in cloaksleeves)
 					if(gender == MALE)
 						if(OFFSET_SHIRT in dna.species.offset_features)
 							S.pixel_x += dna.species.offset_features[OFFSET_CLOAK][1]
@@ -1189,9 +1196,8 @@ There are several things that need to be remembered:
 			if(backr.sleeved)
 				cloaksleeves = get_sleeves_layer(backr,0,CLOAK_LAYER)
 
-			if(cloaksleeves.len)
-				for(var/X in cloaksleeves)
-					var/mutable_appearance/S = X
+			if(length(cloaksleeves))
+				for(var/mutable_appearance/S as anything in cloaksleeves)
 					if(gender == MALE)
 						if(OFFSET_SHIRT in dna.species.offset_features)
 							S.pixel_x += dna.species.offset_features[OFFSET_CLOAK][1]
@@ -1251,12 +1257,11 @@ There are several things that need to be remembered:
 
 			//add sleeve overlays, then offset
 			var/list/sleeves = list()
-			if(wear_shirt.sleeved && armsindex > 0)
+			if(wear_shirt.sleeved && armsindex > 0 && !should_hide_sleeves_for_layer(SHIRTSLEEVE_LAYER))
 				sleeves = get_sleeves_layer(wear_shirt,armsindex,SHIRTSLEEVE_LAYER)
 
 			if(sleeves)
-				for(var/X in sleeves)
-					var/mutable_appearance/S = X
+				for(var/mutable_appearance/S as anything in sleeves)
 					if(gender == MALE)
 						if(OFFSET_SHIRT in dna.species.offset_features)
 							S.pixel_x += dna.species.offset_features[OFFSET_SHIRT][1]
@@ -1277,6 +1282,9 @@ There are several things that need to be remembered:
 	apply_overlay(SHIRTSLEEVE_LAYER)
 
 /mob/living/carbon/human/update_inv_armor()
+	// Snowflake check to stop species with custom body sprites of losing their armor when it's handled by the skin armor they wear.
+	if(dna.species.custom_base_icon)
+		return
 	remove_overlay(ARMOR_LAYER)
 	remove_overlay(ARMORSLEEVE_LAYER)
 
@@ -1322,12 +1330,11 @@ There are several things that need to be remembered:
 
 			//add sleeve overlays, then offset
 			var/list/sleeves = list()
-			if(wear_armor.sleeved && armsindex > 0)
+			if(wear_armor.sleeved && armsindex > 0 && !should_hide_sleeves_for_layer(ARMORSLEEVE_LAYER))
 				sleeves = get_sleeves_layer(wear_armor,armsindex,ARMORSLEEVE_LAYER)
 
 			if(sleeves)
-				for(var/X in sleeves)
-					var/mutable_appearance/S = X
+				for(var/mutable_appearance/S as anything in sleeves)
 					if(gender == MALE)
 						if(OFFSET_ARMOR in dna.species.offset_features)
 							S.pixel_x += dna.species.offset_features[OFFSET_ARMOR][1]
@@ -1393,14 +1400,13 @@ There are several things that need to be remembered:
 			//add sleeve overlays, then offset
 			var/list/sleeves = list()
 			var/femw = ((gender == FEMALE && !dna.species.use_m) || dna.species.use_f) ? "_f" : ""
-			if(wear_pants.sleeved && legsindex > 0 && wear_pants.adjustable != CADJUSTED)
+			if(wear_pants.sleeved && legsindex > 0 && wear_pants.adjustable != CADJUSTED && !should_hide_sleeves_for_layer(LEGSLEEVE_LAYER))
 				sleeves = get_sleeves_layer(wear_pants,legsindex,LEGSLEEVE_LAYER)
 			if(wear_pants.adjustable == CADJUSTED)
 				var/mutable_appearance/overleg = mutable_appearance(wear_pants.mob_overlay_icon, "[wear_pants.icon_state][femw][racecustom ? "_[racecustom]" : ""]", -LEGSLEEVE_LAYER)
 				sleeves += overleg
 			if(sleeves)
-				for(var/X in sleeves)
-					var/mutable_appearance/S = X
+				for(var/mutable_appearance/S as anything in sleeves)
 					if(gender == MALE)
 						if(OFFSET_PANTS in dna.species.offset_features)
 							S.pixel_x += dna.species.offset_features[OFFSET_PANTS][1]
@@ -1447,6 +1453,25 @@ There are several things that need to be remembered:
 		apply_overlay(MOUTH_LAYER)
 
 	rebuild_obscured_flags()
+
+/mob/living/carbon/human/proc/update_inv_armor_special()
+	remove_overlay(ARMOR_LAYER)
+
+	if(!skin_armor)
+		return
+
+	if(!skin_armor.icon_state)
+		return
+
+	var/armor_icon_state = skin_armor.icon_state
+	if(!(src.mobility_flags & MOBILITY_STAND))
+		armor_icon_state = "[skin_armor.icon_state]_down"
+	
+	var/mutable_appearance/armor_overlay = mutable_appearance(skin_armor.icon, armor_icon_state, layer = ARMOR_LAYER)
+
+	overlays_standing[ARMOR_LAYER] = armor_overlay
+
+	add_overlay(armor_overlay)
 
 //endrogue
 
@@ -1697,6 +1722,35 @@ generate/load female uniform sprites matching all previously decided variables
 
 	return standing
 
+/mob/living/carbon/human/proc/should_hide_sleeves_for_layer(layer)
+	// Check if any higher-layer clothing covers arms without having sleeve overlays
+	// This prevents lower-layer sleeve overlays from clipping through
+	switch(layer)
+		if(GLOVESLEEVE_LAYER)
+			if(wear_armor && (wear_armor.body_parts_covered & ARMS) && !wear_armor.sleeved)
+				return TRUE
+			if(wear_shirt && (wear_shirt.body_parts_covered & ARMS) && !wear_shirt.sleeved)
+				return TRUE
+			if(wear_wrists && (wear_wrists.body_parts_covered & ARMS) && !wear_wrists.sleeved)
+				return TRUE
+		if(ARMORSLEEVE_LAYER)
+			if(wear_armor && (wear_armor.body_parts_covered & ARMS) && !wear_armor.sleeved)
+				return TRUE
+			if(wear_shirt && (wear_shirt.body_parts_covered & ARMS) && !wear_shirt.sleeved)
+				return TRUE
+		if(WRISTSLEEVE_LAYER)
+			if(wear_armor && (wear_armor.body_parts_covered & ARMS) && !wear_armor.sleeved)
+				return TRUE
+			if(wear_shirt && (wear_shirt.body_parts_covered & ARMS) && !wear_shirt.sleeved)
+				return TRUE
+		if(SHIRTSLEEVE_LAYER)
+			if(wear_armor && (wear_armor.body_parts_covered & ARMS) && !wear_armor.sleeved)
+				return TRUE
+		if(SHOESLEEVE_LAYER, LEGSLEEVE_LAYER)
+			if(wear_pants && (wear_pants.body_parts_covered & LEGS) && !wear_pants.sleeved)
+				return TRUE
+	return FALSE
+
 /mob/living/carbon/proc/get_sleeves_layer(obj/item/I,sleeveindex,layer2use)
 	if(!I)
 		return
@@ -1823,13 +1877,9 @@ generate/load female uniform sprites matching all previously decided variables
 	. += gender
 	. += age
 
-	for(var/X in bodyparts)
-		var/obj/item/bodypart/BP = X
+	for(var/obj/item/bodypart/BP as anything in bodyparts)
 		. += BP.body_zone
-		if(BP.status == BODYPART_ORGANIC)
-			. += "organic"
-		else
-			. += "robotic"
+		. += (BP.status == BODYPART_ORGANIC) ? "organic" : "robotic"
 		switch(BP.use_digitigrade)
 			if(FULL_DIGITIGRADE)
 				. += "digitigrade_full"
@@ -1876,8 +1926,7 @@ generate/load female uniform sprites matching all previously decided variables
 
 	remove_overlay(BODYPARTS_LAYER)
 
-	for(var/X in bodyparts)
-		var/obj/item/bodypart/BP = X
+	for(var/obj/item/bodypart/BP as anything in bodyparts)
 		BP.update_limb()
 
 	//LOAD ICONS
@@ -1889,8 +1938,7 @@ generate/load female uniform sprites matching all previously decided variables
 	//GENERATE NEW LIMBS
 	var/list/new_limbs = list()
 	var/hiden = FALSE //used to tell if we should hide boobs, basically
-	for(var/X in bodyparts)
-		var/obj/item/bodypart/BP = X
+	for(var/obj/item/bodypart/BP as anything in bodyparts)
 		if(BP.name == BODY_ZONE_CHEST)
 			if(wear_armor)
 				var/obj/item/I = wear_armor
@@ -1907,54 +1955,12 @@ generate/load female uniform sprites matching all previously decided variables
 			new_limbs += BP.get_limb_icon(hideaux = hiden)
 		else
 			new_limbs += BP.get_limb_icon()
-	if(new_limbs.len)
+	if(length(new_limbs))
 		overlays_standing[BODYPARTS_LAYER] = new_limbs
 		limb_icon_cache[icon_render_key] = new_limbs
 
 	apply_overlay(BODYPARTS_LAYER)
 	update_damage_overlays()
-
-/mob/proc/update_body_parts_head_only()
-	return
-
-// Only renders the head of the human
-/mob/living/carbon/human/update_body_parts_head_only()
-	if (!dna)
-		return
-
-	if (!dna.species)
-		return
-
-	var/obj/item/bodypart/HD = get_bodypart("head")
-
-	if (!istype(HD))
-		return
-
-
-	HD.update_limb()
-
-	add_overlay(HD.get_limb_icon())
-	update_damage_overlays()
-
-	if(HD && !(HAS_TRAIT(src, TRAIT_HUSK)))
-
-		// lipstick
-		if(lip_style && (LIPS in dna.species.species_traits))
-			var/mutable_appearance/lip_overlay = mutable_appearance('icons/mob/human_face.dmi', "lips_[lip_style]", -BODY_LAYER)
-			lip_overlay.color = lip_color
-			if(gender == FEMALE)
-				if(OFFSET_FACE_F in dna.species.offset_features)
-					lip_overlay.pixel_x += dna.species.offset_features[OFFSET_FACE_F][1]
-					lip_overlay.pixel_y += dna.species.offset_features[OFFSET_FACE_F][2]
-			else
-				if(OFFSET_FACE in dna.species.offset_features)
-					lip_overlay.pixel_x += dna.species.offset_features[OFFSET_FACE][1]
-					lip_overlay.pixel_y += dna.species.offset_features[OFFSET_FACE][2]
-			add_overlay(lip_overlay)
-
-	update_inv_head()
-	update_inv_wear_mask()
-	update_inv_mouth()
 
 /mob/living/carbon/proc/has_boobed_overlay()
 	var/obj/item/organ/breasts/boobs = getorganslot(ORGAN_SLOT_BREASTS)

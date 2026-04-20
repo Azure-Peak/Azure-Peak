@@ -47,7 +47,7 @@
 	if(!locate(/obj/structure/table) in src.loc)
 		to_chat(user, span_warning("I need to use a table."))
 		return FALSE
-	update_cooktime(user)	
+	update_cooktime(user)
 	if(istype(M, /obj/item/reagent_containers/food/snacks/butterslice))
 		to_chat(user, "You start buttering the sole.")
 		playsound(get_turf(user), 'sound/foley/dropsound/gen_drop.ogg', 100, TRUE, -1)
@@ -57,8 +57,8 @@
 			qdel(M)
 			qdel(src)
 	else
-		to_chat(user, span_warning("You need to put [src] on a table to knead in the spice."))	
-	
+		to_chat(user, span_warning("You need to put [src] on a table to knead in the spice."))
+
 /obj/item/reagent_containers/food/snacks/rogue/fryfish/cod
 	name = "cooked cod"
 	desc = "A cooked cod, with a mild flavor and flaky texture. Quite popular."
@@ -86,7 +86,7 @@
 			qdel(src)
 	else
 		to_chat(user, span_warning("You need to put [src] on a table to knead in the spice."))
-	
+
 /obj/item/reagent_containers/food/snacks/rogue/fryfish/lobster
 	name = "cooked lobster"
 	desc = "A cooked lobster. It has a rich and sweet flavor, but not much meat. On its own it is considered\
@@ -127,7 +127,7 @@
 				qdel(src)
 	else
 		to_chat(user, span_warning("You need to put [src] on a table to knead in the spice."))
-	
+
 /obj/item/reagent_containers/food/snacks/rogue/fryfish/salmon
 	name = "cooked salmon"
 	desc = "A cooked salmon. Less terrifying now that it is cooked. It has rich and oily flesh, making it quite popular once spiced."
@@ -138,7 +138,7 @@
 	if(!locate(/obj/structure/table) in src.loc)
 		to_chat(user, span_warning("I need to use a table."))
 		return FALSE
-	update_cooktime(user)	
+	update_cooktime(user)
 	if(istype(M, /obj/item/alch/mentha))
 		to_chat(user, "You start crushing mentha upon the salmon.")
 		playsound(get_turf(user), 'sound/foley/dropsound/gen_drop.ogg', 100, TRUE, -1)
@@ -155,10 +155,10 @@
 			add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)
 			qdel(M)
 			qdel(src)
-		
+
 	else
-		to_chat(user, span_warning("You need to put [src] on a table to knead in the spice."))	
-	
+		to_chat(user, span_warning("You need to put [src] on a table to knead in the spice."))
+
 /obj/item/reagent_containers/food/snacks/rogue/fryfish/plaice
 	name = "cooked plaice"
 	desc = "A cooked plaice. With a mild and sweet flavor. Popular with the rich."
@@ -169,7 +169,7 @@
 	if(!locate(/obj/structure/table) in src.loc)
 		to_chat(user, span_warning("I need to use a table."))
 		return FALSE
-	update_cooktime(user)	
+	update_cooktime(user)
 	if(istype(M, /obj/item/reagent_containers/food/snacks/rogue/veg/onion_sliced))
 		to_chat(user, "You start placing onions under the plaice.")
 		playsound(get_turf(user), 'sound/foley/dropsound/gen_drop.ogg', 100, TRUE, -1)
@@ -179,14 +179,14 @@
 			qdel(M)
 			qdel(src)
 	else
-		to_chat(user, span_warning("You need to put [src] on a table to knead in the spice."))	
-	
+		to_chat(user, span_warning("You need to put [src] on a table to knead in the spice."))
+
 /obj/item/reagent_containers/food/snacks/rogue/fryfish/mudskipper
 	name = "cooked mudskipper"
 	desc = "A cooked mudskipper. With a fishy and earthy flavor. Popular amongst vagrants."
 	icon_state = "mudskippercooked"
 	faretype = FARE_POOR
-	
+
 /obj/item/reagent_containers/food/snacks/rogue/fryfish/bass
 	name = "cooked seabass"
 	desc = "A cooked seabass. With a firm texture, seabass goes well with spices and sauces."
@@ -197,7 +197,7 @@
 	if(!locate(/obj/structure/table) in src.loc)
 		to_chat(user, span_warning("I need to use a table."))
 		return FALSE
-	update_cooktime(user)	
+	update_cooktime(user)
 	if(istype(M, /obj/item/reagent_containers/food/snacks/rogue/veg/garlick_clove))
 		to_chat(user, "You start crushing garlick upon the bass.")
 		playsound(get_turf(user), 'sound/foley/dropsound/gen_drop.ogg', 100, TRUE, -1)
@@ -207,14 +207,14 @@
 			qdel(M)
 			qdel(src)
 	else
-		to_chat(user, span_warning("You need to put [src] on a table to knead in the spice."))	
-	
+		to_chat(user, span_warning("You need to put [src] on a table to knead in the spice."))
+
 /obj/item/reagent_containers/food/snacks/rogue/fryfish/sunny
 	name = "cooked sunny"
 	desc = "A cooked sunny. With tender and flaky flesh."
 	icon_state = "sunnycooked"
 	faretype = FARE_POOR
-	
+
 /obj/item/reagent_containers/food/snacks/rogue/fryfish/clam
 	name = "cooked clam"
 	desc = "A cooked clam. With a sweet and briny flavor, clams are often used in soup."
@@ -258,3 +258,48 @@
 	faretype = FARE_NEUTRAL
 	name = "cooked crab"
 	tastes = list("crab" = 1)
+
+/obj/item/reagent_containers/food/snacks/rogue/fryfish/salmon/black_headed
+	name = "black-headed salmon"
+	icon_state = "salmon_black"
+	faretype = FARE_NEUTRAL
+
+/obj/item/reagent_containers/food/snacks/rogue/fryfish/flounder
+	name = "flounder"
+	icon_state = "flounder"
+	faretype = FARE_NEUTRAL
+
+/obj/item/reagent_containers/food/snacks/rogue/fryfish/swamp_shrimp
+	name = "swamp shrimp"
+	icon_state = "swamp_shrimp"
+	faretype = FARE_NEUTRAL
+
+/obj/item/reagent_containers/food/snacks/rogue/fryfish/swamp_mother
+	name = "swamp mother"
+	icon_state = "swamp_mother"
+	faretype = FARE_NEUTRAL
+
+/obj/item/reagent_containers/food/snacks/rogue/fryfish/black_bass
+	name = "black bass"
+	icon_state = "black_bass"
+	faretype = FARE_NEUTRAL
+
+/obj/item/reagent_containers/food/snacks/rogue/fryfish/zizo_abberation
+	name = "zizo abberation"
+	icon_state = "zizo_abberation"
+	faretype = FARE_NEUTRAL
+
+/obj/item/reagent_containers/food/snacks/rogue/fryfish/sturgeon
+	name = "sturgeon"
+	icon_state = "sturgeon"
+	faretype = FARE_NEUTRAL
+
+/obj/item/reagent_containers/food/snacks/rogue/fryfish/mackerel
+	name = "mackerel"
+	icon_state = "mackerel"
+	faretype = FARE_NEUTRAL
+
+/obj/item/reagent_containers/food/snacks/rogue/fryfish/beaksnapper
+	name = "beaksnapper"
+	icon_state = "beaksnapper"
+	faretype = FARE_NEUTRAL

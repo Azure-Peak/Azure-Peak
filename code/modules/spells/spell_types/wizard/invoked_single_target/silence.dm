@@ -3,7 +3,7 @@
 	desc = "Quiet the target's tongue. Does not work against full-fledged mages."
 	cost = 3
 	xp_gain = TRUE
-	releasedrain = 60
+	releasedrain = SPELLCOST_SINGLE_CC
 	chargedrain = 1
 	chargetime = 15
 	recharge_time = 100 SECONDS
@@ -13,6 +13,7 @@
 	no_early_release = TRUE
 	movement_interrupt = FALSE
 	spell_tier = 1
+	spell_impact_intensity = SPELL_IMPACT_NONE
 	invocations = list("Silentium!")
 	invocation_type = "whisper"
 	glow_color = GLOW_COLOR_BUFF
@@ -37,6 +38,9 @@
 			to_chat(user, "<span class='warning'>Their magic is too strong, it won't work on them!</span>")
 			revert_cast()
 			return
+		if(spell_guard_check(target, TRUE))
+			target.visible_message(span_warning("[target] resists the silencing magic!"))
+			return TRUE
 		ADD_TRAIT(target, TRAIT_MUTE, MAGIC_TRAIT)
 		playsound(get_turf(target), 'sound/magic/zizo_snuff.ogg', 80, TRUE, soundping = TRUE)
 		to_chat(target, span_warning("The wind in my voice goes still. I can't speak!"))

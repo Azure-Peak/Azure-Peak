@@ -4,12 +4,15 @@
 	opacity = 1
 	density = TRUE
 	blocks_air = TRUE
-	baseturfs = list(/turf/open/floor/rogue/naturalstone, /turf/open/transparent/openspace)
+	baseturfs = /turf/open/floor/rogue/naturalstone
 	plane = WALL_PLANE
 	var/above_floor
 	var/wallpress = TRUE
 	var/wallclimb = FALSE
 	var/climbdiff = 0
+
+/turf/closed/basic
+	baseturfs = /turf/closed/basic
 
 /turf/closed/basic/New()//Do not convert to Initialize
 	SHOULD_CALL_PARENT(FALSE)
@@ -42,7 +45,10 @@
 		return
 	user.wallpressed = dir2wall
 	user.update_wallpress_slowdown()
-	user.visible_message(span_info("[user] leans against [src]."))
+	if(user.m_intent == MOVE_INTENT_SNEAK)
+		to_chat(user, span_info("You press yourself against [src]."))
+	else
+		user.visible_message(span_info("[user] leans against [src]."))
 	switch(dir2wall)
 		if(NORTH)
 			user.setDir(SOUTH)
@@ -56,6 +62,19 @@
 		if(WEST)
 			user.setDir(EAST)
 			user.set_mob_offsets("wall_press", _x = -12, _y = 0)
+
+/mob/living/proc/get_wallpress_alpha()
+	var/skill_level = src.get_skill_level(/datum/skill/misc/sneaking)
+
+	switch(skill_level)
+		if(1) return 128 //50%
+		if(2) return 115 //55%
+		if(3) return 102 //60%
+		if(4) return 90  //65%
+		if(5) return 77  //70%
+		if(6) return 64  //75%
+
+	return 255	
 
 /turf/closed/proc/wallshove(mob/living/user)
 	if(user.wallpressed)
@@ -84,8 +103,18 @@
 /mob/living/proc/update_wallpress_slowdown()
 	if(wallpressed)
 		add_movespeed_modifier("wallpress", TRUE, 100, override = TRUE, multiplicative_slowdown = 3)
+		if(m_intent == MOVE_INTENT_SNEAK)
+			ADD_TRAIT(src, TRAIT_SPELLCOCKBLOCK, TRAIT_GENERIC) // spell restrictions don't seem to be working well so I'm doing it this way for now
+			var/lean_alpha = get_wallpress_alpha()
+			if(src.alpha != 0 && lean_alpha < src.alpha)
+				var/used_time = 50
+				used_time = max(used_time - (get_skill_level(/datum/skill/misc/sneaking) * 8), 10)
+				animate(src, alpha = lean_alpha, time = used_time)
+
 	else
 		remove_movespeed_modifier("wallpress")
+		animate(src, alpha = 255, time = 10)
+		REMOVE_TRAIT(src, TRAIT_SPELLCOCKBLOCK, TRAIT_GENERIC)
 
 /turf/closed/Bumped(atom/movable/AM)
 	..()
@@ -153,20 +182,57 @@
 					to_chat(user, span_warning("I can't climb here."))
 					return
 			var/used_time = 0
+			var/list/helping_items = list()
 			if(L.mind)
 				var/myskill = L.get_skill_level(/datum/skill/misc/climbing)
+
+				var/has_step_ladder = FALSE
 				var/obj/structure/table/TA = locate() in L.loc
 				if(TA)
 					myskill += 1
-				else
+					helping_items += TA.name
+					has_step_ladder = TRUE
+				if(!has_step_ladder)
 					var/obj/structure/chair/CH = locate() in L.loc
 					if(CH)
 						myskill += 1
-					var/obj/structure/wallladder/WL = locate() in L.loc
-					if(WL)
-						if(get_dir(WL.loc,src) == WL.dir)
-							myskill += 8
-							climbsound = 'sound/foley/ladder.ogg'
+						helping_items += CH.name
+						has_step_ladder = TRUE
+				if(!has_step_ladder)
+					for(var/mob/living/carbon/human/human in L.loc)
+						if(human == L)
+							continue
+						if(!human.cmode && !human.get_active_held_item() && human.mob_size >= MOB_SIZE_HUMAN)
+							myskill += 1
+							helping_items += human.name
+							has_step_ladder = TRUE
+							break
+				if(!has_step_ladder)
+					for(var/mob/living/simple_animal/animal in L.loc)
+						if(animal == L)
+							continue
+						if(animal.tame && animal.mob_size >= MOB_SIZE_HUMAN)
+							myskill += 1
+							helping_items += animal.name
+							has_step_ladder = TRUE
+							break
+
+				var/has_wall_ladder = FALSE
+				for(var/obj/structure/wallladder/WL in L.loc)
+					if(get_dir(WL.loc,src) == WL.dir)
+						myskill += 8
+						climbsound = 'sound/foley/ladder.ogg'
+						helping_items += WL.name
+						has_wall_ladder = TRUE
+						break
+				if(!has_wall_ladder)
+					for(var/obj/structure/rope_ladder/rope in L.loc)
+						if(get_dir(rope.loc, src) == rope.dir)
+							myskill += 5
+							climbsound = 'sound/foley/noose_idle.ogg'
+							helping_items += rope.name
+							has_wall_ladder = TRUE
+							break
 
 				if(myskill < climbdiff)
 					to_chat(user, span_warning("I'm not capable of climbing this wall."))
@@ -174,7 +240,7 @@
 				used_time = max(70 - (myskill * 10) - (L.STASPD * 3), 30)
 			if(user.m_intent != MOVE_INTENT_SNEAK)
 				playsound(user, climbsound, 100, TRUE)
-			user.visible_message(span_warning("[user] starts to climb [src]."), span_warning("I start to climb [src]..."))
+			user.visible_message(span_warning("[user] starts to climb [src][length(helping_items) ? " with the help of \the [english_list(helping_items)]" : ""]."), span_warning("I start to climb [src][length(helping_items) ? " with the help of \the [english_list(helping_items)]" : ""]..."))
 			if(do_after(L, used_time, target = src))
 				var/pulling = user.pulling
 				var/mob/living/carbon/human/climber = user

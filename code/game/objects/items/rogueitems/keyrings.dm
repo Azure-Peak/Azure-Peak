@@ -2,7 +2,7 @@
 
 /obj/item/storage/keyring
 	name = "keyring"
-	desc = "Will help you organize your keys."
+	desc = "A ring of keys, stowable on the wrist and hip. The finest jewelry that a manor's guard could ask for."
 	icon_state = "keyring0"
 	icon = 'icons/roguetown/items/keys.dmi'
 	lefthand_file = 'icons/mob/inhands/misc/food_lefthand.dmi'
@@ -15,8 +15,16 @@
 	drop_sound = 'sound/foley/dropsound/chain_drop.ogg'
 	anvilrepair = /datum/skill/craft/blacksmithing
 	resistance_flags = FIRE_PROOF
-	experimental_inhand = FALSE
+	experimental_inhand = TRUE
+	experimental_onhip = TRUE
 	component_type = /datum/component/storage/concrete/roguetown/keyring
+
+/obj/item/storage/keyring/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Left-click an locked door to unlock it.")
+	. += span_info("Right-click an unlocked door to lock it.")
+	. += span_info("Keyrings can manipulate a wide variety of doors, depending on how many keys - and what kinds of keys - are stowed on its circumference.")
+	. += span_info("Individual keys can be plucked off the keyring by either right-clicking it, or by shift-clicking its inventory open and taking a specific key out of it.")
 
 /obj/item/storage/keyring/Initialize()
 	. = ..()
@@ -108,8 +116,12 @@
 	throwforce = 0
 	var/list/picks = list()
 	slot_flags = ITEM_SLOT_HIP|ITEM_SLOT_NECK|ITEM_SLOT_MOUTH|ITEM_SLOT_WRISTS
-	experimental_inhand = FALSE
+	experimental_inhand = TRUE
 	dropshrink = 0.7
+
+/obj/item/lockpickring/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Individual lockpicks can be plucked off the keyring by either right-clicking it, or by shift-clicking its inventory open and taking a specific lockpick out of it.")
 
 /obj/item/lockpickring/Initialize()
 	. = ..()
@@ -118,6 +130,10 @@
 			addtoring(new X())
 			picks -= X
 	update_icon()
+
+/obj/item/lockpickring/Destroy()
+	QDEL_LIST(picks)
+	return ..()
 
 /obj/item/lockpickring/getonmobprop(tag)
 	. = ..()
@@ -211,104 +227,171 @@
 /obj/item/lockpickring/one
 	picks = list(/obj/item/lockpick)
 
-/obj/item/storage/keyring/sheriff
-	keys = list(/obj/item/roguekey/sheriff, /obj/item/roguekey/dungeon, /obj/item/roguekey/garrison, /obj/item/roguekey/walls, /obj/item/roguekey/manor, /obj/item/roguekey/graveyard, /obj/item/roguekey/armory, /obj/item/roguekey/sergeant, /obj/item/roguekey/knight)
-
-/obj/item/storage/keyring/judge
-	keys = list(/obj/item/roguekey/sheriff, /obj/item/roguekey/armory, /obj/item/roguekey/dungeon, /obj/item/roguekey/garrison, /obj/item/roguekey/walls, /obj/item/roguekey/manor, /obj/item/roguekey/graveyard, /obj/item/roguekey/sergeant)
-
-/obj/item/storage/keyring/councillor
-	keys = list(/obj/item/roguekey/garrison, /obj/item/roguekey/manor, /obj/item/roguekey/graveyard)
-
-/obj/item/storage/keyring/councillor/cofferer
-	keys = list(/obj/item/roguekey/steward, /obj/item/roguekey/garrison, /obj/item/roguekey/manor, /obj/item/roguekey/graveyard)
-
-/obj/item/storage/keyring/squire
-	keys = list(/obj/item/roguekey/dungeon, /obj/item/roguekey/garrison, /obj/item/roguekey/walls, /obj/item/roguekey/manor)
-
-/obj/item/storage/keyring/guard
-	keys = list(/obj/item/roguekey/warden, /obj/item/roguekey/walls)
-
-/obj/item/storage/keyring/guardcastle
-	keys = list(/obj/item/roguekey/dungeon, /obj/item/roguekey/garrison, /obj/item/roguekey/walls, /obj/item/roguekey/manor, /obj/item/roguekey/armory)
-
-/obj/item/storage/keyring/guardsergeant
-	keys = list(/obj/item/roguekey/dungeon, /obj/item/roguekey/garrison, /obj/item/roguekey/warden, /obj/item/roguekey/walls, /obj/item/roguekey/manor, /obj/item/roguekey/armory, /obj/item/roguekey/sergeant)
-
-/obj/item/storage/keyring/guardknight
-	keys = list(/obj/item/roguekey/dungeon, /obj/item/roguekey/garrison, /obj/item/roguekey/walls, /obj/item/roguekey/manor, /obj/item/roguekey/armory, /obj/item/roguekey/knight)
-
-/obj/item/storage/keyring/vtavern
-	keys = list(/obj/item/roguekey/tavern/village, /obj/item/roguekey/roomvi/village, /obj/item/roguekey/roomv/village, /obj/item/roguekey/roomiv/village, /obj/item/roguekey/roomiii/village, /obj/item/roguekey/roomii/village, /obj/item/roguekey/roomi/village)
-
-/obj/item/storage/keyring/gatemaster
-	keys = list(/obj/item/roguekey/dungeon, /obj/item/roguekey/garrison, /obj/item/roguekey/walls, /obj/item/roguekey/manor, /obj/item/roguekey/armory)
-
-/obj/item/storage/keyring/merchant
-	keys = list(/obj/item/roguekey/shop, /obj/item/roguekey/merchant)
-
-/obj/item/storage/keyring/mguard
-	keys = list(/obj/item/roguekey/dungeon, /obj/item/roguekey/garrison, /obj/item/roguekey/walls, /obj/item/roguekey/manor, /obj/item/roguekey/armory)
-
-/obj/item/storage/keyring/mage
-	keys = list(/obj/item/roguekey/manor, /obj/item/roguekey/university, /obj/item/roguekey/mage)
-
-/obj/item/storage/keyring/innkeep
-	keys = list(/obj/item/roguekey/tavern, /obj/item/roguekey/tavernkeep, /obj/item/roguekey/roomhunt, /obj/item/roguekey/roomvi, /obj/item/roguekey/roomv, /obj/item/roguekey/roomiv, /obj/item/roguekey/roomiii, /obj/item/roguekey/roomii, /obj/item/roguekey/roomi, /obj/item/roguekey/fancyroomi, /obj/item/roguekey/fancyroomii, /obj/item/roguekey/fancyroomiii, /obj/item/roguekey/fancyroomiv, /obj/item/roguekey/fancyroomv)
-
-/obj/item/storage/keyring/priest
-	keys = list(/obj/item/roguekey/priest, /obj/item/roguekey/church, /obj/item/roguekey/graveyard, /obj/item/roguekey/keeper)
-
-/obj/item/storage/keyring/churchie
-	keys = list(/obj/item/roguekey/church, /obj/item/roguekey/graveyard, /obj/item/roguekey/keeper)
-
-/obj/item/storage/keyring/keeper
-	keys = list(/obj/item/roguekey/keeper)
-
-/obj/item/storage/keyring/puritan
-	keys = list(/obj/item/roguekey/puritan, /obj/item/roguekey/inquisition)
-
-/obj/item/storage/keyring/nightman
-	keys = list(/obj/item/roguekey/nightman, /obj/item/roguekey/nightmaiden)
-
-/obj/item/storage/keyring/hand
-	keys = list(/obj/item/roguekey/hand, /obj/item/roguekey/steward, /obj/item/roguekey/tavern, /obj/item/roguekey/church, /obj/item/roguekey/walls, /obj/item/roguekey/dungeon, /obj/item/roguekey/garrison, /obj/item/roguekey/manor, /obj/item/roguekey/graveyard, /obj/item/roguekey/armory, /obj/item/roguekey/sergeant, /obj/item/roguekey/knight)
-
-/obj/item/storage/keyring/steward
-	keys = list(/obj/item/roguekey/steward, /obj/item/roguekey/garrison, /obj/item/roguekey/manor, /obj/item/roguekey/graveyard)
-
-/obj/item/storage/keyring/clerk
-	keys = list(/obj/item/roguekey/manor, /obj/item/roguekey/graveyard)
-
-/obj/item/storage/keyring/servant
-	keys = list(/obj/item/roguekey/manor, /obj/item/roguekey/garrison)
-
-/obj/item/storage/keyring/archivist
-	keys = list(/obj/item/roguekey/manor, /obj/item/roguekey/archive, /obj/item/roguekey/university)
-
-/obj/item/storage/keyring/physician
-	keys = list(/obj/item/roguekey/manor, /obj/item/roguekey/garrison, /obj/item/roguekey/physician, /obj/item/roguekey/keeper)
-
-/obj/item/storage/keyring/royal
-	keys = list(/obj/item/roguekey/manor, /obj/item/roguekey/royal, /obj/item/roguekey/garrison)
+///////////
+// DUCAL //
+///////////
 
 /obj/item/storage/keyring/lord
-	keys = list(/obj/item/roguekey/hand, /obj/item/roguekey/steward, /obj/item/roguekey/tavern, /obj/item/roguekey/church, /obj/item/roguekey/walls, /obj/item/roguekey/dungeon, /obj/item/roguekey/garrison, /obj/item/roguekey/manor, /obj/item/roguekey/graveyard, /obj/item/roguekey/royal, /obj/item/roguekey/armory, /obj/item/roguekey/sergeant, /obj/item/roguekey/knight)
+	keys = list(/obj/item/roguekey/royal, /obj/item/roguekey/manor, /obj/item/roguekey/walls, /obj/item/roguekey/heir, /obj/item/roguekey/vault, /obj/item/roguekey/steward, /obj/item/roguekey/hand, /obj/item/roguekey/marshal, /obj/item/roguekey/knight, /obj/item/roguekey/sergeant, /obj/item/roguekey/garrison, /obj/item/roguekey/dungeon, /obj/item/roguekey/armory)
+
+/obj/item/storage/keyring/lady
+	keys = list(/obj/item/roguekey/royal, /obj/item/roguekey/manor, /obj/item/roguekey/heir, /obj/item/roguekey/vault, /obj/item/roguekey/steward, /obj/item/roguekey/hand)
 
 /obj/item/storage/keyring/heir
-	keys = list(/obj/item/roguekey/manor, /obj/item/roguekey/heir, /obj/item/roguekey/garrison)
+	keys = list(/obj/item/roguekey/manor, /obj/item/roguekey/heir)
 
-/obj/item/storage/keyring/mageapprentice
-	keys = list(/obj/item/roguekey/manor, /obj/item/roguekey/university)
+/////////////
+// COUNCIL //
+/////////////
 
-/obj/item/storage/keyring/soilson
-	keys = list(/obj/item/roguekey/farm, /obj/item/roguekey/apartments/stable1, /obj/item/roguekey/apartments/stable2)
+//Hand gets same as the lord
 
-/obj/item/storage/keyring/guildmaster
+/obj/item/storage/keyring/steward
+	keys = list(/obj/item/roguekey/manor, /obj/item/roguekey/steward)
+
+/obj/item/storage/keyring/archivist
+	keys = list(/obj/item/roguekey/manor, /obj/item/roguekey/archive, /obj/item/roguekey/university, /obj/item/roguekey/university_secure)
+
+/obj/item/storage/keyring/magician
+	keys = list(/obj/item/roguekey/manor, /obj/item/roguekey/apothecary, /obj/item/roguekey/mage, /obj/item/roguekey/university, /obj/item/roguekey/university_secure)
+
+/obj/item/storage/keyring/seneschal //Housekeeper, more of a reason to attack them too by antags
+	keys = list(/obj/item/roguekey/manor, /obj/item/roguekey/royal, /obj/item/roguekey/heir, /obj/item/roguekey/garrison)
+
+/obj/item/storage/keyring/jester //Might infact be hilarious, might be horrid, who knows
+	keys = list(/obj/item/roguekey/manor, /obj/item/roguekey/university, /obj/item/roguekey/walls)
+
+/////////////
+// RETINUE //
+/////////////
+
+/obj/item/storage/keyring/marshal //All access for Retinue / Garrison
+	keys = list(/obj/item/roguekey/marshal, /obj/item/roguekey/royal, /obj/item/roguekey/heir, /obj/item/roguekey/walls, /obj/item/roguekey/manor, /obj/item/roguekey/knight, /obj/item/roguekey/dungeon, /obj/item/roguekey/garrison,  /obj/item/roguekey/armory, /obj/item/roguekey/sergeant, /obj/item/roguekey/warden)
+
+/obj/item/storage/keyring/knight
+	keys = list(/obj/item/roguekey/garrison, /obj/item/roguekey/walls, /obj/item/roguekey/manor, /obj/item/roguekey/knight)
+
+/obj/item/storage/keyring/squire
+	keys = list(/obj/item/roguekey/walls, /obj/item/roguekey/manor)
+
+//////////////
+// GARRISON //
+//////////////
+
+/obj/item/storage/keyring/sergeant //All access to barracks and wardens
+	keys = list(/obj/item/roguekey/garrison, /obj/item/roguekey/walls, /obj/item/roguekey/dungeon, /obj/item/roguekey/armory, /obj/item/roguekey/warden, /obj/item/roguekey/sergeant, /obj/item/roguekey/manor, /obj/item/roguekey/marshal)
+
+/obj/item/storage/keyring/manatarms //All access to barracks
+	keys = list(/obj/item/roguekey/garrison, /obj/item/roguekey/walls, /obj/item/roguekey/dungeon, /obj/item/roguekey/armory, /obj/item/roguekey/manor)
+
+/obj/item/storage/keyring/warden //All access to wardens
+	keys = list(/obj/item/roguekey/walls, /obj/item/roguekey/warden)
+
+///////////
+// MANOR //
+///////////
+
+/obj/item/storage/keyring/manor/guest/one // Two Manor Keys, Two Guest Room Keys
+	name = "guest room I keyring"
+	keys = list(/obj/item/roguekey/manor/guest, /obj/item/roguekey/manor/guest, /obj/item/roguekey/manor, /obj/item/roguekey/manor)
+
+/obj/item/storage/keyring/manor/guest/two
+	name = "guest room II keyring"
+	keys = list(/obj/item/roguekey/manor/guest/two, /obj/item/roguekey/manor/guest/two, /obj/item/roguekey/manor, /obj/item/roguekey/manor)
+
+/obj/item/storage/keyring/manor/guest/three
+	name = "guest room III keyring"
+	keys = list(/obj/item/roguekey/manor/guest/three, /obj/item/roguekey/manor/guest/three, /obj/item/roguekey/manor, /obj/item/roguekey/manor)
+
+/obj/item/storage/keyring/manor/guest/four
+	name = "guest room IV keyring"
+	keys = list(/obj/item/roguekey/manor/guest/four, /obj/item/roguekey/manor/guest/four, /obj/item/roguekey/manor, /obj/item/roguekey/manor)
+
+////////////
+// CHURCH //
+////////////
+
+/obj/item/storage/keyring/church //All access
+	keys = list(/obj/item/roguekey/priest, /obj/item/roguekey/church, /obj/item/roguekey/graveyard, /obj/item/roguekey/keeper)
+
+/obj/item/storage/keyring/keeper
+	keys = list(/obj/item/roguekey/keeper, /obj/item/roguekey/keeper_inner)
+
+/obj/item/storage/keyring/acolyte //General access
+	keys = list(/obj/item/roguekey/church, /obj/item/roguekey/graveyard, /obj/item/roguekey/keeper)
+
+//////////////
+// BURGHERS //
+//////////////
+
+/obj/item/storage/keyring/apprentice
+	keys = list(/obj/item/roguekey/manor, /obj/item/roguekey/university, /obj/item/roguekey/university_secure)
+
+/obj/item/storage/keyring/merchant
+	keys = list(/obj/item/roguekey/merchant, /obj/item/roguekey/shop)
+
+/obj/item/storage/keyring/innkeep //All access to the tavern + baths
+	keys = list(/obj/item/roguekey/tavern, /obj/item/roguekey/tavernkeep, /obj/item/roguekey/bathmaster, /obj/item/roguekey/mercenary, /obj/item/roguekey/bathworker)
+
+/obj/item/storage/keyring/innkeep_rooms
+	keys = list(/obj/item/roguekey/roomhunt, /obj/item/roguekey/roomvi, /obj/item/roguekey/roomv, /obj/item/roguekey/roomiv, /obj/item/roguekey/roomiii, /obj/item/roguekey/roomii, /obj/item/roguekey/roomi, /obj/item/roguekey/fancyroomi, /obj/item/roguekey/fancyroomii, /obj/item/roguekey/fancyroomiii, /obj/item/roguekey/fancyroomiv, /obj/item/roguekey/fancyroomv)
+
+/obj/item/storage/keyring/bathmaster //All access to the baths
+	keys = list(/obj/item/roguekey/bathmaster, /obj/item/roguekey/bathworker)
+
+/obj/item/storage/keyring/apothecary
+	keys = list(/obj/item/roguekey/apothecary, /obj/item/roguekey/keeper, /obj/item/roguekey/university)
+
+/obj/item/storage/keyring/physician
+	keys = list(/obj/item/roguekey/physician, /obj/item/roguekey/apothecary, /obj/item/roguekey/keeper, /obj/item/roguekey/university, /obj/item/roguekey/university_secure)
+
+/obj/item/storage/keyring/guildmaster //All access to crafter's guild + tailor
 	keys = list(/obj/item/roguekey/crafterguild, /obj/item/roguekey/tailor, /obj/item/roguekey/craftermaster)
 
 /obj/item/storage/keyring/tailor
 	keys = list(/obj/item/roguekey/crafterguild, /obj/item/roguekey/tailor)
+
+/obj/item/storage/keyring/innfancyi // 3 Keys
+	name = "luxury room I keyring"
+	keys = list(/obj/item/roguekey/fancyroomi, /obj/item/roguekey/fancyroomi, /obj/item/roguekey/fancyroomi)
+
+/obj/item/storage/keyring/innfancyii
+	name = "luxury room II keyring"
+	keys = list(/obj/item/roguekey/fancyroomii, /obj/item/roguekey/fancyroomii, /obj/item/roguekey/fancyroomii)
+
+/obj/item/storage/keyring/innfancyiii
+	name = "luxury room III keyring"
+	keys = list(/obj/item/roguekey/fancyroomiii, /obj/item/roguekey/fancyroomiii, /obj/item/roguekey/fancyroomiii)
+
+/obj/item/storage/keyring/innfancyiv
+	name = "luxury room IV keyring"
+	keys = list(/obj/item/roguekey/fancyroomiv, /obj/item/roguekey/fancyroomiv, /obj/item/roguekey/fancyroomiv)
+
+/obj/item/storage/keyring/innfancyv
+	name = "luxury room V keyring"
+	keys = list(/obj/item/roguekey/fancyroomv, /obj/item/roguekey/fancyroomv, /obj/item/roguekey/fancyroomv)
+
+/obj/item/storage/keyring/innhunt // 4 keys
+	name = "HUNT room keyring"
+	keys = list(/obj/item/roguekey/roomhunt, /obj/item/roguekey/roomhunt, /obj/item/roguekey/roomhunt, /obj/item/roguekey/roomhunt)
+
+//////////////
+// PEASANTS //
+//////////////
+
+/obj/item/storage/keyring/soilson
+	keys = list(/obj/item/roguekey/farm, /obj/item/roguekey/apartments/stable1, /obj/item/roguekey/apartments/stable2)
+
+/////////////////
+// INQUISITION //
+/////////////////
+
+/obj/item/storage/keyring/inquisitor //All access to inquisition manor
+	keys = list(/obj/item/roguekey/inquisitor, /obj/item/roguekey/inquisitionmanor)
+
+/////////////////
+// ANTAGONISTS //
+/////////////////
 
 /obj/item/storage/keyring/vampire
 	keys = list(/obj/item/roguekey/vampire, /obj/item/roguekey/vampire/guest, /obj/item/roguekey/vampire/maid)

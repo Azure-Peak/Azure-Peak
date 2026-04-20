@@ -22,6 +22,7 @@
 	droning_sound = 'sound/music/area/towngen.ogg'
 	droning_sound_dusk = 'sound/music/area/septimus.ogg'
 	droning_sound_night = 'sound/music/area/sleeping.ogg'
+	fog_protected = TRUE
 
 /area/rogue/outdoors/exposed/town/keep
 	name = "Keep"
@@ -68,12 +69,24 @@
 	keep_area = TRUE
 	detail_text = DETAIL_TEXT_UNIVERSITY_OF_AZURIA
 
+/area/rogue/indoors/town/pestra_sanctum
+	name = "Sanctum of Pestra"
+	icon_state = "pestrasanctum"
+	droning_sound = 'sound/music/area/catacombs.ogg'
+	spookysounds = SPOOKY_MYSTICAL
+	spookynight = SPOOKY_MYSTICAL
+	first_time_text = "THE SANCTUM OF PESTRA"
+	droning_sound_dusk = null
+	droning_sound_night = null
+	keep_area = TRUE
+
 /area/rogue/outdoors/exposed/magiciantower
 	icon_state = "magiciantower"
 	droning_sound = 'sound/music/area/magiciantower.ogg'
 	droning_sound_dusk = null
 	droning_sound_night = null
 	keep_area = TRUE
+	town_area = TRUE
 	detail_text = DETAIL_TEXT_UNIVERSITY_OF_AZURIA
 
 /area/rogue/indoors/town/shop
@@ -98,7 +111,7 @@
 /area/rogue/indoors/town/physician
 	name = "Physician"
 	icon_state = "physician"
-	droning_sound = 'sound/music/area/shop.ogg'
+	droning_sound = 'sound/music/area/magiciantower.ogg'
 	droning_sound_dusk = null
 	droning_sound_night = null
 

@@ -8,6 +8,7 @@
 	chargetime = 0
 	recharge_time = 30 SECONDS
 	antimagic_allowed = TRUE
+	invocation_type = "none"
 
 /obj/effect/proc_holder/spell/invoked/massage/cast(list/targets, mob/user = usr)
 	var/mob/living/massagee = targets[1]

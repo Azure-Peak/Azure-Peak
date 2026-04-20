@@ -1,6 +1,6 @@
 /obj/item/broom
 	name = "broom"
-	desc = "A broom, made from a bundle of twigs."
+	desc = "A broom, made from a bundle of twigs. Sweep away blood, dirt, and tyme without a care in the world."
 	icon = 'icons/roguetown/weapons/tools.dmi'
 	icon_state = "broom"
 	possible_item_intents = list(/datum/intent/use)

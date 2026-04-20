@@ -29,9 +29,19 @@
 	. = ..()
 	AddComponent(/datum/component/adjustable_clothing, NECK, null, null, 'sound/foley/equip/cloak (3).ogg', null, (UPD_HEAD|UPD_MASK))	//Standard hood
 
-/obj/item/clothing/head/roguetown/roguehood/MiddleClick(mob/user) 
+/obj/item/clothing/head/roguetown/roguehood/MiddleClick(mob/user)
+	if(!ishuman(user))
+		return
+	if(flags_inv & HIDEHAIR)
+		flags_inv &= ~HIDEHAIR
+	else
+		flags_inv |= HIDEHAIR
+	user.update_inv_wear_mask()
+	user.update_inv_head()
+
+/obj/item/clothing/head/roguetown/roguehood/AltRightClick(mob/user)
 	overarmor = !overarmor
-	to_chat(user, span_info("I [overarmor ? "wear \the [src] under my hair" : "wear \the [src] over my hair"]."))
+	to_chat(user, span_info("I wear \the [src] [overarmor ? "under" : "over"] my hair."))
 	if(overarmor)
 		alternate_worn_layer = HOOD_LAYER //Below Hair Layer
 	else
@@ -39,11 +49,20 @@
 	user.update_inv_wear_mask()
 	user.update_inv_head()
 
+/obj/item/clothing/head/roguetown/roguehood/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Right click to adjust the hood's coverage. Most fully-drawn hoods will hide the wearer's identity.")
+	. += span_info("Middle click to toggle hair.")
+	. += span_info("Alt Right click to move hood layer under or above hair.")
+
 /obj/item/clothing/head/roguetown/roguehood/red
 	color = CLOTHING_RED
 
 /obj/item/clothing/head/roguetown/roguehood/black
 	color = CLOTHING_BLACK
+
+/obj/item/clothing/head/roguetown/roguehood/mageblue
+	color = CLOTHING_MAGE_BLUE
 
 /obj/item/clothing/head/roguetown/roguehood/darkgreen
 	color = "#264d26"
@@ -70,7 +89,6 @@
 	alternate_worn_layer  = 8.9 //On top of helmet
 	body_parts_covered = HEAD|HAIR|EARS|NECK
 	slot_flags = ITEM_SLOT_HEAD|ITEM_SLOT_MASK
-	armor = ARMOR_CLOTHING
 	dynamic_hair_suffix = ""
 	edelay_type = 1
 	adjustable = CAN_CADJUST
@@ -102,8 +120,9 @@
 /obj/item/clothing/head/roguetown/roguehood/shalal/hijab/raneshen
 	name = "padded headscarf"
 	desc = "A common sight amongst those travelling the long desert routes, it offers protection from the heat and a modicum of it against the beasts that prowl its more comfortable nites."
-	max_integrity = 100
-	armor = ARMOR_SPELLSINGER //basically the same as a warscholar hood
+	slot_flags = ITEM_SLOT_HEAD
+	max_integrity = 200
+	armor = ARMOR_LEATHER //basically the same as a warscholar hood
 	item_state = "hijab"
 	icon_state = "hijab"
 	naledicolor = TRUE
@@ -125,7 +144,9 @@
 
 /obj/item/clothing/head/roguetown/roguehood/astrata
 	name = "sun hood"
-	desc = "A hood worn by those who favor Astrata. Praise the firstborn sun!"
+	desc = "A hood worn by those who favor Astrata, guarding the devoted from Her radiant flames. It is said that \
+	those of particular devotion will often combine their hoods with golden masks that've been sculpted in Her divine \
+	visage, further guarding them from those who'd seek to harm them."
 	color = null
 	icon_state = "astratahood"
 	item_state = "astratahood"
@@ -140,6 +161,23 @@
 	resistance_flags = FIRE_PROOF
 	salvage_result = /obj/item/natural/cloth
 	salvage_amount = 1
+
+/obj/item/clothing/head/roguetown/roguehood/astrata/stonekeep
+	name = "sunwrought visage"
+	desc = "A ceremonial hood that billows around a golden mask, stylized in tribute to Astrata's divine radiance. It \
+	is traditionally worn by devoted Acolytes and Priests, though it isn't uncommon to be seen worn by others who \
+	revere the sun above all else."
+	color = null
+	armor = ARMOR_MAILLE
+	icon_state = "astratahoodmasked"
+	item_state = "astratahoodmasked"
+	adjustable = CAN_CADJUST
+	toggle_icon_state = TRUE
+	max_integrity = 180
+	worn_x_dimension = 64
+	worn_y_dimension = 64
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/64x64/head.dmi' //Uses the new 'greatplume + orle' system. If this glitches out, I made sure to include a fully-prepared 32x32 version - with details - in head.dmi.
+	bloody_icon = 'icons/effects/blood64.dmi'
 
 /obj/item/clothing/head/roguetown/roguehood/nochood
 	name = "moon hood"
@@ -209,6 +247,69 @@
 	salvage_amount = 1
 	block2add = null
 
+/obj/item/clothing/head/roguetown/roguehood/undivided
+	name = "undivided hood"
+	desc = "A hood of those devoted to upholding the deca-divinity in their dae to dae duties."
+	color = null
+	icon_state = "undividedhood"
+	item_state = "undividedhood"
+	icon = 'icons/roguetown/clothing/head.dmi'
+	body_parts_covered = NECK
+	slot_flags = ITEM_SLOT_HEAD|ITEM_SLOT_MASK
+	hidesnoutADJ = FALSE
+	flags_inv = HIDEEARS|HIDEHAIR|HIDEFACIALHAIR	//Does not hide face.
+	block2add = null
+	dynamic_hair_suffix = ""
+	edelay_type = 1
+	adjustable = CAN_CADJUST
+	toggle_icon_state = TRUE
+	max_integrity = 180
+	salvage_result = /obj/item/natural/cloth
+	salvage_amount = 1
+
+/obj/item/clothing/head/roguetown/roguehood/ravox
+	name = "ravox hood"
+	desc = "A hood of those devoted to upholding Justicar's will. Justice might be blind but not it's servants."
+	color = null
+	icon_state = "ravoxhood"
+	item_state = "ravoxhood"
+	icon = 'icons/roguetown/clothing/head.dmi'
+	body_parts_covered = NECK
+	slot_flags = ITEM_SLOT_HEAD|ITEM_SLOT_MASK
+	hidesnoutADJ = FALSE
+	flags_inv = HIDEEARS|HIDEHAIR|HIDEFACIALHAIR	//Does not hide face.
+	block2add = null
+	dynamic_hair_suffix = ""
+	edelay_type = 1
+	adjustable = CAN_CADJUST
+	toggle_icon_state = TRUE
+	max_integrity = 180
+	salvage_result = /obj/item/natural/cloth
+	salvage_amount = 1
+
+// UN-Holy Hoods!
+/obj/item/clothing/head/roguetown/roguehood/unholy
+	name = "foreboding hood"
+	desc = "A veil to the cultic and capricious. The runic sigils stitched along the hems teem with unimaginable knowledge, in the most literal sense of the word."
+	max_integrity = ARMOR_INT_HELMET_CLOTH
+	armor = ARMOR_PADDED
+	color = null
+	item_state = "warlockhood"
+	icon_state = "warlockhood"
+
+/obj/item/clothing/head/roguetown/roguehood/unholy/lich
+	name = "ominous hood"
+	desc = "An otherworldly veil, whispering the constant ponderances of a runic enigma. She watches over you; and Her grin is crooked into one of eternal malice."
+	max_integrity = ARMOR_INT_HELMET_ANTAG
+
+/obj/item/clothing/head/roguetown/roguehood/unholy/enchanted
+	name = "ominously enchanted hood"
+	desc = "An otherworldly veil, amythortz-woven and crackling with the unignorable truths of a runic enigma. She watches over you; and Her grin is crooked into one of eternal malice."
+	max_integrity = ARMOR_INT_HELMET_ANTAG
+	armor = ARMOR_LEATHER
+	item_state = "ewarlockhood"
+	icon_state = "ewarlockhood"
+
 //............... Feldshers Hood ............... //
 /obj/item/clothing/head/roguetown/roguehood/feld
 	name = "feldsher's hood"
@@ -253,6 +354,19 @@
 	salvage_result = /obj/item/natural/cloth
 	salvage_amount = 1
 
+/obj/item/clothing/head/roguetown/roguehood/shroudwhite
+	name = "robed shroud"
+	desc = "A billowing hood, carrying the aroma of a distant memory."
+	icon_state = "whitehood"
+	item_state = "whitehood"
+	body_parts_covered = HEAD|EARS|NOSE
+	color = null
+	salvage_result = /obj/item/natural/cloth
+	salvage_amount = 1
+
+/obj/item/clothing/head/roguetown/roguehood/shroudwhite/evil_ah_ah
+	color = CLOTHING_SCARLET
+
 //
 
 /obj/item/clothing/head/roguetown/roguehood/psydon
@@ -267,8 +381,7 @@
 	body_parts_covered = NECK | HEAD | HAIR
 	flags_inv = HIDEEARS|HIDEFACE|HIDEHAIR|HIDEFACIALHAIR|HIDESNOUT
 	slot_flags = ITEM_SLOT_HEAD|ITEM_SLOT_MASK
-	prevent_crits = PREVENT_CRITS_NONE
-	armor = ARMOR_SPELLSINGER
+	armor = ARMOR_LEATHER
 	dynamic_hair_suffix = ""
 	edelay_type = 1
 	adjustable = CAN_CADJUST
@@ -286,8 +399,7 @@
 	body_parts_covered = NECK | HEAD | HAIR
 	slot_flags = ITEM_SLOT_HEAD|ITEM_SLOT_MASK
 	flags_inv = HIDEEARS|HIDEFACE|HIDEHAIR|HIDEFACIALHAIR
-	prevent_crits = PREVENT_CRITS_NONE
-	armor = ARMOR_SPELLSINGER
+	armor = ARMOR_LEATHER
 	dynamic_hair_suffix = ""
 	edelay_type = 1
 	adjustable = CAN_CADJUST
@@ -300,8 +412,7 @@
 	name = "hierophant's pashmina"
 	desc = "A thick hood that covers one's entire head, should they desire, or merely acts as a scarf otherwise. Made with spell-laced fabric to provide some protection against daemons and mortals alike."
 	max_integrity = 100
-	prevent_crits = PREVENT_CRITS_NONE
-	armor = ARMOR_SPELLSINGER
+	armor = ARMOR_LEATHER
 	icon_state = "hijab"
 	item_state = "hijab"
 	naledicolor = TRUE
@@ -312,10 +423,70 @@
 	name = "pontifex's pashmina"
 	desc = "A slim hood with thin, yet dense fabric. Stretchy and malleable, allowing for full flexibility and mobility. Made with spell-laced fabric to provide some protection against daemons and mortals alike."
 	max_integrity = 100
-	prevent_crits = PREVENT_CRITS_NONE
-	armor = ARMOR_SPELLSINGER
+	armor = ARMOR_LEATHER
 	icon_state = "monkhood"
 	item_state = "monkhood"
 	naledicolor = TRUE
 	salvage_result = /obj/item/natural/cloth
 	salvage_amount = 1
+
+/obj/item/clothing/head/roguetown/roguehood/studded
+	name = "studded hood"
+	desc = "A padded hood splinted across creating a cocooon for whoever wears it - won't protect your face however."
+	icon_state = "studhood"
+	item_state = "studhood"
+	body_parts_covered = NECK | HEAD | HAIR
+	slot_flags = ITEM_SLOT_HEAD
+	flags_inv = HIDEEARS|HIDEHAIR
+	blocksound = SOFTHIT
+	armor = ARMOR_LEATHER
+	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER
+	dynamic_hair_suffix = ""
+	edelay_type = 1
+	adjustable = CAN_CADJUST
+	toggle_icon_state = TRUE
+	block2add = null
+	salvage_result = /obj/item/natural/cloth
+	salvage_amount = 1
+
+	color = CLOTHING_BROWN
+
+/obj/item/clothing/head/roguetown/roguehood/studded/retinue //For skirmisher
+	name = "guard studded hood"
+	desc = "A padded hood splinted across creating a cocooon for whoever wears it - won't protect your face however. This one bears the heraldry of the local lord."
+	detail_tag = "_detail"
+	color = CLOTHING_AZURE
+	detail_color = CLOTHING_WHITE
+
+/obj/item/clothing/head/roguetown/roguehood/studded/ComponentInitialize()
+	. = ..()
+	AddComponent(/datum/component/adjustable_clothing, NECK, null, null, 'sound/foley/equip/cloak (3).ogg', null, (UPD_HEAD))
+	AddComponent(/datum/component/armour_filtering/negative, TRAIT_FENCERDEXTERITY)
+	AddComponent(/datum/component/armour_filtering/negative, TRAIT_HONORBOUND)
+
+/obj/item/clothing/head/roguetown/roguehood/studded/retinue/update_icon()
+	cut_overlays()
+	if(get_detail_tag())
+		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))
+		pic.appearance_flags = RESET_COLOR
+		if(get_detail_color())
+			pic.color = get_detail_color()
+		add_overlay(pic)
+
+/obj/item/clothing/head/roguetown/roguehood/studded/retinue/Initialize()
+	. = ..()
+	if(GLOB.lordprimary)
+		lordcolor(GLOB.lordprimary,GLOB.lordsecondary)
+	GLOB.lordcolor += src
+
+/obj/item/clothing/head/roguetown/roguehood/studded/retinue/lordcolor(primary,secondary)
+	color = primary
+	detail_color = secondary
+	update_icon()
+	if(ismob(loc))
+		var/mob/L = loc
+		L.update_inv_armor()
+
+/obj/item/clothing/head/roguetown/roguehood/studded/retinue/Destroy()
+	GLOB.lordcolor -= src
+	return ..()

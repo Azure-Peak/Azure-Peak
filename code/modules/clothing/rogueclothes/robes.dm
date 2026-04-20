@@ -12,7 +12,31 @@
 	color = "#7c6d5c"
 	r_sleeve_status = SLEEVE_NORMAL
 	l_sleeve_status = SLEEVE_NORMAL
-	experimental_inhand = FALSE
+	experimental_inhand = TRUE
+
+/obj/item/clothing/suit/roguetown/shirt/robe/unholy
+	name = "foreboding robes"
+	desc = "Burlap, silk, cloth; it is none of this. The fabric itself is a paradox - lighter than a cloud, but heavier than blacksteel. Do not ponder the implication, lest you go inzane."
+	max_integrity = ARMOR_INT_CHEST_LIGHT_BASE
+	allowed_race = NON_DWARVEN_RACE_TYPES
+	armor = ARMOR_PADDED
+	color = null
+	boobed = null
+	item_state = "warlock"
+	icon_state = "warlock"
+
+/obj/item/clothing/suit/roguetown/shirt/robe/unholy/lich
+	name = "ominous robes"
+	desc = "An otherworldly veil, whispering a hundred paradoxical answers to the ultimate question. Her hand guides your grandest missive; to bring forth progress, no matter the cost."
+	max_integrity = ARMOR_INT_CHEST_PLATE_ANTAG
+
+/obj/item/clothing/suit/roguetown/shirt/robe/unholy/enchanted
+	name = "ominously enchanted robes"
+	desc = "An otherworldly veil, amythortz-woven and crackling with the constant ponderance of a runic enigma. Her hand guides your grandest missive; to bring forth progress, no matter the cost."
+	armor = ARMOR_LEATHER
+	allowed_race = ALL_RACES_TYPES
+	item_state = "ewarlock"
+	icon_state = "ewarlock"
 
 /obj/item/clothing/suit/roguetown/shirt/robe/astrata
 	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT|ITEM_SLOT_CLOAK
@@ -26,6 +50,34 @@
 	boobed = TRUE
 	color = null
 	resistance_flags = FIRE_PROOF
+	r_sleeve_status = SLEEVE_NORMAL
+	l_sleeve_status = SLEEVE_NORMAL
+
+/obj/item/clothing/suit/roguetown/shirt/robe/undivided
+	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT|ITEM_SLOT_CLOAK
+	name = "undivided robe"
+	desc = ""
+	body_parts_covered = CHEST|GROIN|ARMS|LEGS|VITALS
+	icon_state = "undividedrobe"
+	icon = 'icons/roguetown/clothing/armor.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/armor.dmi'
+	sleeved = null
+	boobed = TRUE
+	color = null
+	r_sleeve_status = SLEEVE_NORMAL
+	l_sleeve_status = SLEEVE_NORMAL
+
+/obj/item/clothing/suit/roguetown/shirt/robe/ravox
+	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT|ITEM_SLOT_CLOAK
+	name = "ravox robe"
+	desc = ""
+	body_parts_covered = CHEST|GROIN|ARMS|LEGS|VITALS
+	icon_state = "ravoxrobe"
+	icon = 'icons/roguetown/clothing/armor.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/armor.dmi'
+	sleeved = null
+	boobed = TRUE
+	color = null
 	r_sleeve_status = SLEEVE_NORMAL
 	l_sleeve_status = SLEEVE_NORMAL
 
@@ -75,7 +127,8 @@
 /obj/item/clothing/suit/roguetown/shirt/robe/dendor
 	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT|ITEM_SLOT_CLOAK
 	name = "briar robe"
-	desc = ""
+	desc = "A coarse, rough robe worn often by devout worshippers of Dendor, the Mad God, lord of all \
+	the wild places of the world. It's quite terribly itchy."
 	body_parts_covered = CHEST|GROIN|ARMS|LEGS|VITALS
 	icon_state = "dendorrobe"
 	icon = 'icons/roguetown/clothing/armor.dmi'
@@ -143,7 +196,7 @@
 	icon = 'icons/roguetown/clothing/shirts.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/shirts.dmi'
 	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_shirts.dmi'
-	armor = ARMOR_PADDED_GOOD	//Equal to a padded gambeson, like before.
+	armor = ARMOR_PADDED	//Equal to a padded gambeson, like before.
 	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER
 	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
 
@@ -244,6 +297,7 @@
 	desc = "Holy robes, intended for use by followers of Eora"
 	body_parts_covered = CHEST|GROIN|ARMS|LEGS|VITALS
 	icon_state = "eorarobes"
+	item_state = "eorarobes"
 	icon = 'icons/roguetown/clothing/armor.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/armor.dmi'
 	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_armor.dmi'
@@ -257,8 +311,10 @@
 /obj/item/clothing/suit/roguetown/shirt/robe/eora/alt
 	name = "open eoran robe"
 	desc = "Used by more radical followers of the Eoran Church"
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/armor.dmi'
 	body_parts_covered = null
 	icon_state = "eorastraps"
+	item_state = "eorastraps"
 	flags_inv = HIDEBOOB
 	fanatic_wear = TRUE
 
@@ -269,26 +325,30 @@
 			desc = "Used by more radical followers of the Eoran Church"
 			body_parts_covered = null
 			icon_state = "eorastraps"
+			item_state = "eorastraps"
 			fanatic_wear = TRUE
-			flags_inv = HIDEBOOB
+			flags_inv = HIDECROTCH
 			to_chat(usr, span_warning("Now wearing radically!"))
 		if(TRUE)
 			name = "eoran robe"
 			desc = "Holy robes, intended for use by followers of Eora"
 			body_parts_covered = CHEST|GROIN|ARMS|LEGS|VITALS
 			icon_state = "eorarobes"
+			item_state = "eorarobes"
 			fanatic_wear = FALSE
 			flags_inv = HIDEBOOB|HIDECROTCH
 			to_chat(usr, span_warning("Now wearing normally!"))
 	update_icon()
-	if(ismob(loc))
-		var/mob/L = loc
-		L.update_inv_armor()
+	if(user)
+		if(ishuman(user))
+			var/mob/living/carbon/H = user
+			H.update_inv_cloak()
+			H.update_inv_armor()
 
 /obj/item/clothing/suit/roguetown/shirt/robe/hierophant
 	name = "hierophant's kandys"
 	desc = "A thin piece of fabric worn under a robe to stop chafing and keep ones dignity if a harsh blow of wind comes through. Despite the light fabric, it offers decent protection."
-	armor = ARMOR_PADDED_GOOD
+	armor = ARMOR_PADDED
 	icon_state = "desertgown"
 	item_state = "desertgown"
 	color = null
@@ -296,7 +356,7 @@
 /obj/item/clothing/suit/roguetown/shirt/robe/pointfex
 	name = "pointfex's qaba"
 	desc = "A slimmed down, tighter fitting robe made of fine silks and fabrics. Somehow you feel more mobile in it than in the nude. Despite the light fabric, it offers decent protection."
-	armor = ARMOR_PADDED_GOOD
+	armor = ARMOR_PADDED
 	icon_state = "monkcloth"
 	item_state = "monkcloth"
 	color = null
@@ -330,3 +390,25 @@
 	color = null
 	icon_state = "surgrobe"
 	item_state = "surgrobe"
+
+/obj/item/clothing/suit/roguetown/shirt/robe/tabardwhite
+	name = "robed tabard"
+	desc = "Sleeveless robes, billowing in the breeze."
+	color = null
+	icon_state = "whiterobe"
+	item_state = "whiterobe"
+
+/obj/item/clothing/suit/roguetown/shirt/robe/tabardwhite/evil_ah_ah
+	color = CLOTHING_SCARLET
+
+/obj/item/clothing/suit/roguetown/shirt/robe/bared
+	name = "Bared Robe"
+	desc = "A robe of basic cloth, it's chest bared open to expose what lay underneath."
+	icon_state = "openrobe"
+	item_state = "openrobe"
+	icon = 'icons/roguetown/clothing/armor.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/armor.dmi'
+	color = CLOTHING_WHITE
+
+	
+	

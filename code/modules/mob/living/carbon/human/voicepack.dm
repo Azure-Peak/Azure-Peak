@@ -1,3 +1,6 @@
+/datum/voicepack
+	var/list/preview = list()
+
 /datum/voicepack/proc/get_sound(soundin, modifiers)
 	return
 

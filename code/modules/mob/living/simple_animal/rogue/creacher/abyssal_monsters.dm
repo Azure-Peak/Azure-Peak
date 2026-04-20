@@ -7,7 +7,7 @@
 	icon_dead = "dreamfiend"
 
 	//Not a crab, but mossbacks respect other creations of Abyssor...
-	faction = list("dream", "crabs")
+	faction = list(FACTION_DREAM, FACTION_CRABS)
 	attack_sound = list('sound/mobs/abyssal/abyssal_attack.ogg','sound/mobs/abyssal/abyssal_attack2.ogg')
 
 	base_intents = list(/datum/intent/simple/bite)
@@ -83,12 +83,12 @@
             return pick('sound/mobs/abyssal/abyssal_idle.ogg')
 
 /mob/living/simple_animal/hostile/rogue/dreamfiend/Initialize()
-	AddElement(/datum/element/ai_retaliate)
 	ADD_TRAIT(src, TRAIT_NOBREATH, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NOPAIN, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_KNEESTINGER_IMMUNITY, INNATE_TRAIT)
 	ADD_TRAIT(src, TRAIT_SILVER_WEAK, TRAIT_GENERIC) //Dreamfiends fall into the 'eldritch' category. Technically not 'unholy', but certainly monstrous.
 	. = ..()
+	AddComponent(/datum/component/ai_aggro_system)
 
 /mob/living/simple_animal/hostile/rogue/dreamfiend/ancient/Initialize()
 	ADD_TRAIT(src, TRAIT_NOMOOD, TRAIT_GENERIC)
@@ -208,7 +208,7 @@
 	animname = "cut"
 	blade_class = BCLASS_CHOP
 	hitsound = list('sound/mobs/abyssal/abyssal_attack.ogg','sound/mobs/abyssal/abyssal_attack2.ogg')
-	penfactor = 30
+	penfactor = PEN_MEDIUM
 
 // EVENT mobs and mappable mobs. (USE SPARINGLY)
 /mob/living/simple_animal/hostile/rogue/dreamfiend/unbound

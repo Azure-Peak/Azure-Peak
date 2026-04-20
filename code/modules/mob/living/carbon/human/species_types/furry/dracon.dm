@@ -4,9 +4,13 @@
 /datum/species/dracon
 	name = "Drakian"
 	id = "dracon"
+	is_subrace = TRUE
+	origin_default = /datum/virtue/origin/lirvas
+	origin = "Lirvas"
+	base_name = "Zard"
 	desc = "<b>Drakian</b><br>\
 	Mighty scaled individuals who claim to be descendants of the dragons of yore.<br>\
-	(+1 Strength)"
+	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b>+1 STR</b></span><br>"
 	species_traits = list(EYECOLOR,LIPS,STUBBLE,MUTCOLORS)
 	possible_ages = ALL_AGES_LIST
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_MAGIC | MIRROR_PRIDE | RACE_SWAP | SLIME_EXTRACT
@@ -62,6 +66,7 @@
 		/datum/customizer/bodypart_feature/face_detail,
 		/datum/customizer/bodypart_feature/underwear,
 		/datum/customizer/bodypart_feature/legwear,
+		/datum/customizer/bodypart_feature/piercing,
 		/datum/customizer/organ/wings/dracon,
 		/datum/customizer/organ/tail/lizard,
 		/datum/customizer/organ/tail_feature/lizard_spines,

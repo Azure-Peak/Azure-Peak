@@ -5,7 +5,7 @@
 	icon_state = "briefs"
 	w_class = WEIGHT_CLASS_TINY
 	resistance_flags = FLAMMABLE
-	obj_flags = CAN_BE_HIT
+	obj_flags = CAN_BE_HIT | UNIQUE_RENAME
 	break_sound = 'sound/foley/cloth_rip.ogg'
 	blade_dulling = DULLING_CUT
 	max_integrity = 200
@@ -73,11 +73,23 @@
 	icon_state = "braies"
 	sprite_acc = /datum/sprite_accessory/underwear/braies
 
+/obj/item/undies/briefs_eoran
+	name = "eoran briefs"
+	icon_state = "eoran_reg"
+	sprite_acc = /datum/sprite_accessory/underwear/briefs/eoran
+
 // Craft
 
 /datum/crafting_recipe/roguetown/sewing/undies
 	name = "briefs"
 	result = list(/obj/item/undies)
+	reqs = list(/obj/item/natural/cloth = 1,
+				/obj/item/natural/fibers = 1)
+	craftdiff = 2
+
+/datum/crafting_recipe/roguetown/sewing/undies_eoran
+	name = "briefs - eoran"
+	result = list(/obj/item/undies/briefs_eoran)
 	reqs = list(/obj/item/natural/cloth = 1,
 				/obj/item/natural/fibers = 1)
 	craftdiff = 2

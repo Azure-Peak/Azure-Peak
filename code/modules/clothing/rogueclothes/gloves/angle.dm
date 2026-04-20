@@ -1,8 +1,8 @@
 /obj/item/clothing/gloves/roguetown/angle
 	name = "heavy leather gloves"
-	desc = "A heavier pair of leather gloves with extra padding. These look like they can take some beating. Fair melee protection and decent durability."
+	desc = "A pair of heavy leather gloves, padded with the fur of a forest-dwelling beaste. The lengthened cuffs help to catch unseen bites from prowling monsters; a blessing, when even a single gnash can spread curses-most-foul."
 	icon_state = "angle"
-	armor = ARMOR_LEATHER_GOOD
+	armor = ARMOR_LEATHER
 	resistance_flags = FIRE_PROOF
 	blocksound = SOFTHIT
 	max_integrity = ARMOR_INT_SIDE_HARDLEATHER
@@ -17,10 +17,11 @@
 
 /obj/item/clothing/gloves/roguetown/angle/ComponentInitialize()
 	AddComponent(/datum/component/armour_filtering/positive, TRAIT_FENCERDEXTERITY)
+	AddComponent(/datum/component/armour_filtering/positive, TRAIT_HONORBOUND)
 
 /obj/item/clothing/gloves/roguetown/angle/grenzelgloves
 	name = "grenzelhoft gloves"
-	desc = "Regal gloves of Grenzelhoftian design, more a fashion statement than actual protection."
+	desc = "Regal gloves of Grenzelhoftian design; more a fashion statement than actual protection."
 	icon_state = "grenzelgloves"
 	item_state = "grenzelgloves"
 	sleeved = 'icons/roguetown/clothing/onmob/helpers/stonekeep_merc.dmi'
@@ -30,9 +31,15 @@
 	name = "forge gauntlets"
 	color = "#ffffff"
 
-/obj/item/clothing/gloves/roguetown/angle/pontifex
+/obj/item/clothing/gloves/roguetown/angle/grenzelgloves/freifechter
+	name = "fencing gloves"
+	desc = "A pair of hardened leather gloves used by fencers who aren't exactly convinced of losing a finger to a particularly strong feder cut. The inside is padded for extra durability."
+	icon_state = "freigloves"
+	item_state = "freigloves"
+	max_integrity = ARMOR_INT_SIDE_HARDLEATHER + 50
+
+/obj/item/clothing/gloves/roguetown/bandages/pontifex
 	name = "rune-scrybed wrappings"
 	desc = "Paper and cloth bandages enscrybed with powerful naledian runes. They do an ample job of protecting their user's hands in combat."
-	icon_state = "clothwraps"
-	item_state = "clothwraps"
 	color = "#ffffff"
+	unarmed_bonus = 5

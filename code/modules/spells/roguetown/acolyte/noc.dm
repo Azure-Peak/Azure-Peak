@@ -1,10 +1,152 @@
 // Noc Spells
+
+/*
+This is a NEW version of blindness that should be less ass to deal with. If any better programmers can come along later
+and rework the duration to be a clamped value based on holyskill, that's great, I couldn't get it working. Probably best
+to still keep this unavailable to mages... for the moment, at least.
+*/
+/obj/effect/proc_holder/spell/invoked/blindness
+	name = "Blindness"
+	desc = "Direct a mote of living darkness to temporarily blind another. \n(-3 PERCEPTION, REDUCED VISION CONE)"
+	action_icon = 'icons/mob/actions/nocmiracles.dmi'
+	overlay_icon = 'icons/mob/actions/nocmiracles.dmi'
+	overlay_state = "blindness"
+	clothes_req = FALSE
+	releasedrain = 30
+	chargedrain = 0
+	chargetime = 0
+	range = 7
+	warnie = "sydwarning"
+	movement_interrupt = FALSE
+	sound = 'sound/magic/churn.ogg'
+	spell_tier = 2 // Combat spell
+	invocations = list("Blackest nite, blind!")
+	invocation_type = "shout" //can be none, whisper, emote and shout
+	associated_skill = /datum/skill/magic/holy
+	devotion_cost = 50
+	recharge_time = 1.5 MINUTES
+	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
+	miracle = TRUE
+	cost = 3
+
+/obj/effect/proc_holder/spell/invoked/blindness/cast(list/targets, mob/user = usr)
+	if(isliving(targets[1]))
+		var/mob/living/target = targets[1]
+		if(target.anti_magic_check(TRUE, TRUE))
+			return FALSE
+		if(spell_guard_check(target, TRUE))
+			target.visible_message(span_warning("[target] shields their eyes from the darkness!"))
+			return TRUE
+		var/assocskill = user.get_skill_level(associated_skill)
+		target.visible_message(span_warning("[user] points at [target]'s eyes!"), span_userdanger("[user] points at my eyes! Shadowy fingers are digging into my vision-- I can't SEE!"))
+		target.apply_status_effect(STATUS_EFFECT_BLINDED, assocskill)
+		return TRUE
+	revert_cast()
+	return FALSE
+
+/atom/movable/screen/alert/status_effect/debuff/blindness
+	name = "Blindness"
+	desc = "I see naught but darkness! (-3 PER, vision cone reduced)"
+
+/datum/status_effect/debuff/blindness
+	id = "blindness"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/blindness
+	effectedstats = list(STATKEY_PER = -3)
+
+/datum/status_effect/debuff/blindness/on_creation(mob/living/new_owner, assocskill)
+	// Guaranteed at least five seconds. Technically not needed but Just In CaseTM.
+	if(assocskill)
+		duration = clamp(assocskill*5, 5, 30) * 1 SECONDS
+	else
+		duration = 5 SECONDS // Just in case someone somehow gets this W/O holy skill.
+	. = ..()
+
+/datum/status_effect/debuff/blindness/on_apply()
+	// Blindness actually hooks into the vision_cone.dm as part of a status effect check.
+	// If any of you can figure out how to get a fullscreen overlay working (imparied vision or the oxyloss if you want to be nicer)
+	// that'd be awesome to add. Unfortunately, I couldnt! 
+	. = ..()
+
+/datum/status_effect/debuff/blindness/on_remove()
+	. = ..()
+	to_chat(owner, span_warning("My vision returns...!"))
+
+/*
+NOCCITE SILENCE.
+This is going to be designed to work as an alternative to blindness that the cleric in question can pick.
+Might require a bit of modification, but we'll see if it works well. 
+
+Conceptually the miracle version of this chokes a mf out with their own shadow but I cant figure out how 2 only change the to_chat
+about the wind-pipe or whatever. So itj ust. Its in my mind. Ok? Redoing the ENTIRE cast to just change ONE line is not worth the sovl.
+*/
+
+/obj/effect/proc_holder/spell/invoked/silence/miracle
+	action_icon = 'icons/mob/actions/nocmiracles.dmi'
+	overlay_icon = 'icons/mob/actions/nocmiracles.dmi'
+	miracle = TRUE
+	devotion_cost = 40 // "worse" than blindness in most practical cases so its a little less. we'll see.
+	chargetime = 0
+	chargedrain = 0
+	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
+	associated_skill = /datum/skill/magic/holy
+	invocations = list("Blackest nite, bind!")
+	zizo_spell = FALSE // the Noc Intelligence Agency is here to kill you quietly
+
+/*
+BLINDNESS OR SILENCE CHOICE SPELL
+I'm not a great coder, so this is basically repurposed arcyne affinity. This makes Noccite clerics have the most variety in the game.
+Somewhat fitting, considering the broadness of their domains. I also just think Blindness AND Silence are too strong to give at the same time.
+*/
+/obj/effect/proc_holder/spell/self/blindnessorsilence
+	name = "Blindness/Silence"
+	desc = "Choose to blind the enemy's eyes (-3 PER, REDUCED VISION CONE) or bind their throat (MUTES, DOES NOT WORK ON FULL-FLEDGED MAGES)."
+	action_icon = 'icons/mob/actions/nocmiracles.dmi'
+	overlay_icon = 'icons/mob/actions/nocmiracles.dmi'
+	overlay_state = "blind_silence"
+	miracle = TRUE
+	chargetime = 0
+	chargedrain = 0
+	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
+	associated_skill = /datum/skill/magic/holy
+	var/chosen_spell
+	// this probably isnt necessary as these are no longer lists, but, uh, it's fine. i think.
+	var/silence = /obj/effect/proc_holder/spell/invoked/silence/miracle
+	var/blindness = /obj/effect/proc_holder/spell/invoked/blindness
+	var/choosingspell = FALSE
+
+/obj/effect/proc_holder/spell/self/blindnessorsilence/cast(list/targets, mob/user)
+	. = ..()
+	if(choosingspell == TRUE)
+		to_chat(user, span_warning("I'm already choosing a spell!"))
+	else
+		var/choice = chosen_spell
+		choosingspell = TRUE
+		if(!chosen_spell)
+			choice = alert(user, "BIRD or WORM, Crescent?", "ORDER OR ANARCHY", "Blindness", "Silence")
+			chosen_spell = choice
+		switch(choice)
+			if("Blindness")
+				user.mind?.AddSpell(new blindness, user)
+				user.mind?.RemoveSpell(src.type)
+			if("Silence")
+				user.mind?.AddSpell(new silence, user)
+				user.mind?.RemoveSpell(src.type)
+			else
+				revert_cast()
+
+
+
+// This is the OLD version of blindness that I am keeping just in case the admins need to use it, or whatever. IDK.
+// Get free to yell at me if you want it out.
+
 // Blindness is a cancerous spells and should not be available to everyone.
 // But I am not nuking it from Acolyte yet so it will be unavailable to mage.
 // I repathed it to avoid it becoming available to mages again.
-/obj/effect/proc_holder/spell/invoked/blindness
+/obj/effect/proc_holder/spell/invoked/old_blindness
 	name = "Blindness"
 	desc = "Direct a mote of living darkness to temporarily blind another."
+	action_icon = 'icons/mob/actions/nocmiracles.dmi'
+	overlay_icon = 'icons/mob/actions/nocmiracles.dmi'
 	overlay_state = "blindness"
 	clothes_req = FALSE
 	releasedrain = 30
@@ -24,12 +166,12 @@
 	miracle = TRUE
 	cost = 3
 
-/obj/effect/proc_holder/spell/invoked/blindness/cast(list/targets, mob/user = usr)
+/obj/effect/proc_holder/spell/invoked/old_blindness/cast(list/targets, mob/user = usr)
 	if(isliving(targets[1]))
 		var/mob/living/target = targets[1]
 		if(target.anti_magic_check(TRUE, TRUE))
 			return FALSE
-		target.visible_message(span_warning("[user] points at [target]'s eyes!"),span_warning("My eyes are covered in darkness!"))
+		target.visible_message(span_warning("[user] points at [target]'s eyes!"),span_userdanger("My eyes are covered in darkness!"))
 		var/strength = min(user.get_skill_level(associated_skill) * 4, 4)
 		target.blind_eyes(strength)
 		return TRUE
@@ -38,8 +180,10 @@
 
 /obj/effect/proc_holder/spell/invoked/invisibility
 	name = "Invisibility"
+	action_icon = 'icons/mob/actions/nocmiracles.dmi'
+	overlay_icon = 'icons/mob/actions/nocmiracles.dmi'
 	overlay_state = "invisibility"
-	desc = "Make another (or yourself) invisible for some time. Duration scales with the arcyne skill. Casting, attacking or being attacked will cancel the duration."
+	desc = "Make another (or yourself) invisible for some time. Duration scales with intelligence. Casting, attacking or being attacked will cancel the duration."
 	releasedrain = 30
 	chargedrain = 5
 	chargetime = 5
@@ -50,7 +194,8 @@
 	movement_interrupt = FALSE
 	spell_tier = 1
 	invocation_type = "none"
-	sound = 'sound/misc/area.ogg' //This sound doesnt play for some reason. Fix me.
+	glow_color = GLOW_COLOR_ILLUSION
+	sound = 'sound/misc/area.ogg'
 	associated_skill = /datum/skill/magic/arcane
 	antimagic_allowed = TRUE
 	hide_charge_effect = TRUE
@@ -71,7 +216,11 @@
 		if(target.anti_magic_check(TRUE, TRUE))
 			return FALSE
 		target.visible_message(span_warning("[target] starts to fade into thin air!"), span_notice("You start to become invisible!"))
-		var/dur = max((5 * (user.get_skill_level(associated_skill))), 5)
+		var/dur
+		if(miracle)
+			dur = max((5 * (user.get_skill_level(associated_skill))), 15)
+		else
+			dur = 15 + min(max(user.STAINT - 10, 0) * 2.5, 12.5)
 		if(dur >= recharge_time)
 			recharge_time = dur + 5 SECONDS
 		animate(target, alpha = 0, time = 1 SECONDS, easing = EASE_IN)
@@ -84,37 +233,39 @@
 
 /obj/effect/proc_holder/spell/self/noc_spell_bundle
 	name = "Arcyne Affinity"
-	desc = "Allows you to learn a spell or two of a certain type once every cycle."
+	desc = "Allows you to learn a set of empowering, utility or combat spells."
+	action_icon = 'icons/mob/actions/nocmiracles.dmi'
+	overlay_icon = 'icons/mob/actions/nocmiracles.dmi'
+	overlay_state = "spellpack"
 	miracle = TRUE
 	devotion_cost = 200
 	recharge_time = 25 MINUTES
 	chargetime = 0
 	chargedrain = 0
+	range = 0
 	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
 	associated_skill = /datum/skill/magic/holy
 	var/chosen_bundle
 	var/list/utility_bundle = list(	//Utility means exactly that. Nothing offensive and nothing that can affect another person negatively. (Barring Fetch)
-		/obj/effect/proc_holder/spell/self/message,
-		/obj/effect/proc_holder/spell/invoked/leap,
-		/obj/effect/proc_holder/spell/targeted/touch/lesserknock,
-		/obj/effect/proc_holder/spell/invoked/mending,
-		/obj/effect/proc_holder/spell/invoked/projectile/fetch,
-		/obj/effect/proc_holder/spell/invoked/blink,
+		/datum/action/cooldown/spell/message,
+		/datum/action/cooldown/spell/leap,
+		/datum/action/cooldown/spell/lesser_knock,
+		/datum/action/cooldown/spell/mending,
+		/datum/action/cooldown/spell/projectile/fetch,
+		/datum/action/cooldown/spell/blink,
 	)
 	var/list/offensive_bundle = list(	//This is not meant to make them combat-capable. A weak offensive, and mostly defensive option.
-		/obj/effect/proc_holder/spell/invoked/projectile/arcynebolt, // PLACEHOLDER
-		/obj/effect/proc_holder/spell/self/conjure_armor/miracle,
-		/obj/effect/proc_holder/spell/invoked/conjure_weapon/miracle,
-		/obj/effect/proc_holder/spell/invoked/rebuke, // By points, this adds up to 8 points total. However it is the strongest Acolyte combo offensively.
+		/datum/action/cooldown/spell/projectile/greater_arcyne_bolt,
+		/datum/action/cooldown/spell/conjure_arcyne_ward/dragonhide,
+		/datum/action/cooldown/spell/arcyne_forge,
 	)
 	var/list/buff_bundle = list(	//Buffs! An Acolyte being a supportive caster is 100% what they already are, so this fits neatly. No debuffs -- every patron already has a plethora of those.
-		/obj/effect/proc_holder/spell/invoked/hawks_eyes::name 			= /obj/effect/proc_holder/spell/invoked/hawks_eyes,
-		/obj/effect/proc_holder/spell/invoked/giants_strength::name 	= /obj/effect/proc_holder/spell/invoked/giants_strength,
-		/obj/effect/proc_holder/spell/invoked/longstrider::name 		= /obj/effect/proc_holder/spell/invoked/longstrider,
-		/obj/effect/proc_holder/spell/invoked/guidance::name 			= /obj/effect/proc_holder/spell/invoked/guidance,
-		/obj/effect/proc_holder/spell/invoked/haste::name 				= /obj/effect/proc_holder/spell/invoked/haste,
-		/obj/effect/proc_holder/spell/invoked/stoneskin::name 			= /obj/effect/proc_holder/spell/invoked/stoneskin,
-		/obj/effect/proc_holder/spell/invoked/fortitude::name 			= /obj/effect/proc_holder/spell/invoked/fortitude, // Picking the most expensive options adds up to 12 points
+		/datum/action/cooldown/spell/hawks_eyes::name 			= /datum/action/cooldown/spell/hawks_eyes,
+		/datum/action/cooldown/spell/giants_strength::name 	= /datum/action/cooldown/spell/giants_strength,
+		/datum/action/cooldown/spell/guidance::name 			= /datum/action/cooldown/spell/guidance,
+		/datum/action/cooldown/spell/haste::name 				= /datum/action/cooldown/spell/haste,
+		/datum/action/cooldown/spell/stoneskin::name 			= /datum/action/cooldown/spell/stoneskin,
+		/datum/action/cooldown/spell/fortitude::name 			= /datum/action/cooldown/spell/fortitude, // Picking the most expensive options adds up to 12 points
 	)
 /obj/effect/proc_holder/spell/self/noc_spell_bundle/cast(list/targets, mob/user)
 	. = ..()
@@ -131,11 +282,9 @@
 			user.mind?.RemoveSpell(src.type)
 		if("Offense")
 			add_spells(user, offensive_bundle, grant_all = TRUE)
-			ADD_TRAIT(user, TRAIT_MAGEARMOR, TRAIT_MIRACLE)
 			user.mind?.RemoveSpell(src.type)
 		if("Buffs")
 			add_spells(user, buff_bundle, choice_count = 4)
-			ADD_TRAIT(user, TRAIT_MAGEARMOR, TRAIT_MIRACLE)
 			user.mind?.RemoveSpell(src.type)
 		else
 			revert_cast()
@@ -151,13 +300,13 @@
 			var/choice = input(user, "Choose a spell! Choices remaining: [choice_count_visual]") as null|anything in spells
 			if(!isnull(choice))
 				var/picked_spell = spells[choice]
-				var/obj/effect/proc_holder/spell/new_spell = new picked_spell
+				var/datum/new_spell = new picked_spell
 				user?.mind.AddSpell(new_spell)
 				choice_count_visual--
 				spells.Remove(choice)
 	else
 		for(var/spell_type in spells)
-			var/obj/effect/proc_holder/spell/new_spell = new spell_type
+			var/datum/new_spell = new spell_type
 			user?.mind.AddSpell(new_spell)
 	if(!length(spells))
 		user.mind?.RemoveSpell(src.type)
@@ -165,8 +314,10 @@
 //15 PER peer-ahead.
 /obj/effect/proc_holder/spell/invoked/noc_sight
 	name = "Noc's Gaze"
+	action_icon = 'icons/mob/actions/nocmiracles.dmi'
+	overlay_icon = 'icons/mob/actions/nocmiracles.dmi'
 	overlay_state = "noc_sight"
-	desc = "Peer ahead."
+	desc = "Peer ahead. (Use MMB to project your vision as if you had a very high perception.)"
 	chargetime = 0
 	chargedrain = 0
 	clothes_req = FALSE
@@ -210,3 +361,272 @@
 		return TRUE
 	revert_cast()
 	return FALSE
+
+//T0.
+/obj/effect/proc_holder/spell/self/wise_moon
+	name = "Enlightenment"
+	desc = "Invoke a lesser form of the Moonlight Dance, temporarily increasing your intelligence. \
+	Scales with holy skill and grows much more effective at nite."
+	action_icon = 'icons/mob/actions/nocmiracles.dmi'
+	overlay_icon = 'icons/mob/actions/nocmiracles.dmi'
+	overlay_state = "noc_gaze"
+	releasedrain = 10
+	chargedrain = 0
+	chargetime = 0
+	chargedloop = /datum/looping_sound/invokeholy
+	sound = 'sound/magic/clang.ogg'
+	associated_skill = /datum/skill/magic/holy
+	antimagic_allowed = FALSE
+	invocations = list("His gaze upon me...!", "I beseech the stars; show me truth!") 
+	invocation_type = "shout"
+	recharge_time = 3 MINUTES
+	devotion_cost = 30
+	miracle = TRUE
+	range = 0
+
+/obj/effect/proc_holder/spell/self/wise_moon/cast(list/targets, mob/user)
+	if(!ishuman(user))
+		revert_cast()
+		return FALSE
+	var/mob/living/carbon/human/H = user
+	H.apply_status_effect(/datum/status_effect/buff/wise_moon, user.get_skill_level(associated_skill))
+	return TRUE
+
+/atom/movable/screen/alert/status_effect/buff/wise_moon
+	name = "Enlightenment"
+	desc = "Divine magic is boosting my intelligence."
+	icon_state = "enlightenment"
+
+/datum/status_effect/buff/wise_moon
+	id = "wise_moon"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/wise_moon
+	duration = 2 MINUTES
+
+/datum/status_effect/buff/wise_moon/on_creation(mob/living/new_owner, assocskill)
+	var/int_bonus = 0
+	if(assocskill)
+		int_bonus = 2
+		if(assocskill >= 4)
+			int_bonus = 3
+	if(GLOB.tod == "night")
+		if(assocskill <= 2)
+			int_bonus = 3
+		else
+			int_bonus = assocskill
+		duration *= 2
+	if(GLOB.tod == "day")
+		to_chat(owner, span_warning("ASTRATA IS RISEN! My spell loses some of its potency! (-1 TO STAT BOOST.)"))
+		int_bonus--
+	if(int_bonus > 0)
+		effectedstats = list(STATKEY_INT = int_bonus)
+	. = ..()
+
+//T0
+
+/obj/effect/proc_holder/spell/invoked/moondream
+	name = "Hypnagognian Inspiration"
+	desc = "Touch a target. Their next dream will be inspired, granting more dream-points to the target and a few to yourself. \
+	This spell will fail if it's dae or dawn. Points granted scales with holy skill."
+	action_icon = 'icons/mob/actions/nocmiracles.dmi'
+	overlay_icon = 'icons/mob/actions/nocmiracles.dmi'
+	overlay_state = "moondream"
+	releasedrain = 15
+	chargedrain = 0
+	chargetime = 1 SECONDS
+	range = 1 // touch spell cause its cooler that way
+	warnie = "sydwarning"
+	movement_interrupt = FALSE
+	sound = 'sound/magic/owlhoot.ogg' // its cool
+	invocation_type = "whisper"
+	invocations = list("Good nite.") // good nite :) i love you :)
+	associated_skill = /datum/skill/magic/holy
+	recharge_time = 30 MINUTES
+	gesture_required = TRUE
+	miracle = TRUE
+	devotion_cost = 30
+
+/obj/effect/proc_holder/spell/invoked/moondream/cast(list/targets, mob/living/user)
+	. = ..()
+	if(isliving(targets[1]))
+		var/mob/living/carbon/human/target = targets[1]
+		var/mob/living/carbon/human/H = user
+		if(target == user)
+			to_chat(user, span_warning("I cannot cast this spell on myself!"))
+			revert_cast()
+			return FALSE
+		if(!target.mind)
+			to_chat(user, span_warning("They are too simple for this spell to work!"))
+			revert_cast()
+			return FALSE
+		if(GLOB.tod == "day" || GLOB.tod == "dawn")
+			to_chat(user, span_warning("ASTRATA IS RISEN! MY SPELL FIZZLES!"))
+			revert_cast()
+			return FALSE
+		if(target.mind?.sleep_adv)
+			user.visible_message(span_blue("[user] draws a glowing blue crescent on [target]\'s forehead!"))
+			to_chat(target, span_blue("My mind flashes with inspiring images of the NOCMOS! My dreams will prove fruitful...!")) // the NOCMOS IS SPEAKING TO ME.
+			target.mind.sleep_adv.sleep_adv_points += H.get_skill_level(associated_skill)
+			H.mind.sleep_adv.sleep_adv_points += floor(H.get_skill_level(associated_skill)/2) //good boy, take a bun.
+		return TRUE
+	revert_cast()
+	return FALSE
+
+//T0
+
+/obj/effect/proc_holder/spell/targeted/touch/summonrogueweapon/nocgrasp
+	name = "Noc Grasp"
+	desc = "Summon a vestige of Noc and let it envelop your hand. Use it on scrolls, parchment and books to convert them into devotion."
+	clothes_req = FALSE
+	drawmessage = "I prepare to perform a divine incantation."
+	dropmessage = "I release my divine focus."
+	action_icon = 'icons/mob/actions/nocmiracles.dmi'
+	overlay_icon = 'icons/mob/actions/nocmiracles.dmi'
+	overlay_state = "nocgrasp"
+	chargedrain = 0
+	chargetime = 0
+	releasedrain = 5 // this influences -every- cost involved in the spell's functionality, if you want to edit specific features, do so in handle_cost
+	chargedloop = /datum/looping_sound/invokegen
+	associated_skill = /datum/skill/magic/holy
+	hand_path = /obj/item/melee/touch_attack/rogueweapon/nocgrasp
+	devotion_cost = 30
+	miracle = TRUE
+	range = 0
+
+/obj/item/melee/touch_attack/rogueweapon/nocgrasp
+	name = "Shimmering Hand"
+	desc = "The Sacred Light of Noc. \
+	Touch yourself to dispel it."
+	icon = 'icons/roguetown/misc/miraclestuff.dmi'
+	mob_overlay_icon = 'icons/roguetown/misc/miraclestuff.dmi'
+	lefthand_file = 'icons/roguetown/misc/miraclestuff.dmi'
+	righthand_file = 'icons/roguetown/misc/miraclestuff.dmi'
+	icon_state = "mooni"
+	item_state = "mooni"
+	possible_item_intents = list(/datum/intent/use)
+	parrysound = list('sound/magic/magic_nulled.ogg')
+	swingsound = list('sound/magic/cosmic_expansion.ogg')
+	attached_spell = /obj/effect/proc_holder/spell/targeted/touch/summonrogueweapon/nocgrasp
+	wbalance = WBALANCE_HEAVY
+	force = 0
+	damtype = BURN
+	wdefense = 0
+	associated_skill = /datum/skill/magic/holy //EHEHEHEHEHEH
+	can_parry = TRUE
+
+/obj/item/melee/touch_attack/rogueweapon/nocgrasp/Initialize()
+	. = ..()
+	addtimer(CALLBACK(src, PROC_REF(skillcheck), src), wait = 1)
+	ADD_TRAIT(src, TRAIT_NODROP, ABSTRACT_ITEM_TRAIT)
+
+/obj/item/melee/touch_attack/rogueweapon/nocgrasp/attack(mob/target, mob/living/carbon/user)
+	if(!iscarbon(user)) //Look ma, no hands
+		return
+	if(!(user.mobility_flags & MOBILITY_USE))
+		to_chat(user, "<span class='warning'>I cannot reach out!</span>")
+		return
+	..()
+
+/obj/item/melee/touch_attack/rogueweapon/nocgrasp/proc/skillcheck()
+	var/skill = usr.get_skill_level(/datum/skill/magic/holy)
+	wdefense_dynamic += skill
+	wdefense += skill
+
+/obj/item/melee/touch_attack/rogueweapon/nocgrasp/afterattack(atom/target, mob/living/carbon/user, params, proximity)
+	if(isobj(target))
+		var/obj/item/O = target
+		var/mob/living/carbon/human/H = usr
+		var/cost = 0
+		var/dist = get_dist(O, user)
+		if(dist > 1)
+			return
+		if(istype(O, /obj/item/paper))
+			cost = 20
+		if(istype(O, /obj/item/paper/scroll))
+			cost = 50
+		if(istype(O, /obj/item/skillbook) || istype(O, /obj/item/recipe_book) || istype(O, /obj/item/book))
+			cost = 100
+		if(cost >= 20)
+			H.devotion?.update_devotion(cost)
+			to_chat(user, "<font color='purple'>I gain [cost] devotion!</font>")
+			qdel(O)
+		return
+	if(isliving(target))
+		var/mob/living/M = target
+		if(M == user)
+			attached_spell.remove_hand()
+			qdel(src)
+	return
+
+/obj/item/melee/touch_attack/rogueweapon/nocgrasp/pre_attack(atom/target, mob/living/user, params)
+	if(isliving(target))
+		var/mob/living/L = target
+		L.extinguish_mob()
+	if(isobj(target))
+		var/obj/O = target
+		O.extinguish()
+	return ..()
+
+//T1
+
+/obj/effect/proc_holder/spell/self/moon_light
+	name = "Moonlight Glimmer"
+	desc = "Calls down shimmering moonlight onto those around you in a certain radius, scaling with holy skill. \
+	Mindless creachers will become critically weak. Simple creachers will burn. \
+	This CASTS INSTANTLY on selection, and does not work during dae nor dawn."
+	releasedrain = 10
+	chargedrain = 0
+	chargetime = 0
+	chargedloop = /datum/looping_sound/invokeholy
+	invocations = list("ALL WILL BE REVEALED!!", "DARKNESS, AWAY!!") // this is a LOUD yell bc it can FUUUUCK shit up. and rogues.
+	invocation_type = "shout"
+	sound = 'sound/magic/churn.ogg'
+	action_icon = 'icons/mob/actions/nocmiracles.dmi'
+	overlay_icon = 'icons/mob/actions/nocmiracles.dmi'
+	overlay_state = "moon_light"
+	associated_skill = /datum/skill/magic/holy
+	antimagic_allowed = FALSE
+	recharge_time = 1 MINUTES
+	miracle = TRUE
+	devotion_cost = 30
+	range = 3
+
+/obj/effect/proc_holder/spell/self/moon_light/cast(list/targets, mob/user = usr)
+	. = ..()
+	if(GLOB.tod == "day" || GLOB.tod == "dawn")
+		to_chat(user, span_warning("ASTRATA IS RISEN! MY SPELL FIZZLES!"))
+		revert_cast()
+		return FALSE
+	var/checkrange = (range + user.get_skill_level(/datum/skill/magic/holy)) //+1 range per holy skill up to a potential of 8.
+	for(var/mob/living/M in range(checkrange, user))
+		if(M == user)
+			continue
+		var/target_turf = get_turf(M)
+		new /obj/effect/temp_visual/moon(target_turf)
+		M.apply_status_effect(/datum/status_effect/light_buff/moon, 1)
+	return TRUE
+
+/datum/status_effect/light_buff/moon
+	id = "moon_light_buff"
+	alert_type = /atom/movable/screen/alert/status_effect/light_buff
+	duration = 15 SECONDS
+	color_mob_light = "#3936eacf"
+
+/obj/effect/temp_visual/moon
+	icon_state = "moon"
+	duration = 4 SECONDS
+	layer = MASSIVE_OBJ_LAYER
+	light_outer_range = 3
+	light_color = "#1640d7ff"
+
+/datum/status_effect/light_buff/moon/on_apply()
+	..()
+	if(!owner.mind) //PVE stuff.
+		if(HAS_TRAIT(owner, TRAIT_CRITICAL_WEAKNESS)) //skeletons...
+			return
+		ADD_TRAIT(owner, TRAIT_CRITICAL_WEAKNESS, TRAIT_GENERIC)
+
+/datum/status_effect/light_buff/moon/tick()
+	if(!owner.mind || istype(owner, /mob/living/simple_animal)) //AI mobs take 3 burn damage per tick. 45 burn without 15 seconds.
+		var/mob/living/target = owner
+		target.adjustFireLoss(3)
+

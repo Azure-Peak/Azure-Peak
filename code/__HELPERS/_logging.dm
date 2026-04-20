@@ -118,6 +118,10 @@
 	if (CONFIG_GET(flag/log_say))
 		WRITE_LOG(GLOB.world_game_log, "\[[logtime]] SAY: [text]")
 
+/proc/log_npc_say(text)
+	if (CONFIG_GET(flag/log_npc_say))
+		WRITE_LOG(GLOB.world_game_log, "\[[logtime]] NPC SAY: [text]")
+
 /proc/log_ooc(text)
 	if (CONFIG_GET(flag/log_ooc))
 		WRITE_LOG(GLOB.world_game_log, "\[[logtime]] OOC: [text]")

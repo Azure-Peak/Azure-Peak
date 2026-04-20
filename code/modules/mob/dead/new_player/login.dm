@@ -29,6 +29,8 @@
 	if(motd)
 		to_chat(src, "<div class=\"motd\">[motd]</div>", handle_whitespace=FALSE)
 
+	to_chat(src, span_notice("Welcome to the [SSticker.realm_type] of [SSticker.realm_name]."))
+
 	if(GLOB.rogue_round_id)
 		to_chat(src, span_info("ROUND ID: [GLOB.rogue_round_id]"))
 

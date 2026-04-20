@@ -17,6 +17,13 @@
 	spitoutmouth = FALSE
 	w_class = WEIGHT_CLASS_TINY
 
+/obj/item/natural/feather/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Left-click a scroll, manuscript, book, or piece of parchment to write on it. A minimal amount of the Literacy skill is required to read.")
+	. += span_info("Left-click an item - such as a weapon, chestplate, or anything else - to give it a custom name and description.")
+	. += span_info("Custom names'll still show the original item's name in smaller parentheses, while custom descriptions'll completely overwrite the original item's description.")
+	. += span_info("Certain helmets can be given a plume by left-clicking them with a feather, or by accessing the helmet's cosmetic inventory via shift-clicking and placing the feather inside.")
+
 //reproduces some code from pens so that we can utilize feathers for renaming objects
 
 /obj/item/natural/feather/afterattack(obj/O, mob/living/user, proximity)

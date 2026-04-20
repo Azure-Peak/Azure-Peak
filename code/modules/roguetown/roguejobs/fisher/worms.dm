@@ -1,5 +1,6 @@
 /obj/item
 	var/baitpenalty = 100 // Using this as bait will incurr a penalty to fishing chance. 100 makes it useless as bait. Lower values are better, but Never make it past 10.
+	var/baitresilience = 0 // How resilient bait is. Decreases by 2 for every catch, decreases by 1 when used by a master or better. Bait cannot be consumed whilst it has resilience left.
 	var/isbait = FALSE	// Is the item in question bait to be used?
 	var/list/fishingMods = null
 
@@ -21,9 +22,14 @@
 		"ceruleanFishingMod" = 0, // 1 on cerulean aril, 0 on everything else
 		"cheeseFishingMod" = 0 // Just for the funny gimmick of a chance for rats and rouses.
 	)
+	baitresilience = 1
 	
 	drop_sound = 'sound/foley/dropsound/food_drop.ogg'
 	var/amt = 1
+
+/obj/item/natural/worms/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Like many wriggling things, this can be used as bait for fishing. Its friends can be found by digging holes in wet dirt.")
 
 /obj/item/natural/worms/grubs
 	name = "grub"
@@ -40,6 +46,7 @@
 		"ceruleanFishingMod" = 0, // 1 on cerulean aril, 0 on everything else
 		"cheeseFishingMod" = 0 // Just for the funny gimmick of a chance for rats and rouses.
 	)
+	baitresilience = 2
 
 /obj/item/natural/worms/grubs/attack_right(mob/user)
 	return

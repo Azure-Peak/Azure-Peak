@@ -15,6 +15,7 @@
 		"ceruleanFishingMod" = 0, // 1 on cerulean aril, 0 on everything else
 		"cheeseFishingMod" = 0 // Just for the funny gimmick of a chance for rats and rouses.
 	)
+	baitresilience = 3
 
 	embedding = list(
 		"embed_chance" = 100,
@@ -44,6 +45,11 @@
 	var/blood_multiplier = 1
 	/// Whether we can be attached to mindless mobs.
 	var/mindless_attach = TRUE
+
+/obj/item/natural/worms/leech/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Leeches can be found by roaming through murkwater and sewage. Examine yourself - or click the heart on your HUD - to check your limbs, and click any highlighted mentions of the leech to remove them.")
+	. += span_info("When attached to someone, leeches will passively drain blood and toxins from the body. This can be used to counteract poisons, overdoses, and imbalanced humors.")
 
 /obj/item/natural/worms/leech/Initialize()
 	. = ..()
@@ -255,8 +261,8 @@
 	blood_sucking = 5
 	toxin_healing = -2
 	blood_multiplier = 3
-	blood_storage = BLOOD_VOLUME_BAD
-	blood_maximum = BLOOD_VOLUME_NORMAL
+	blood_storage = BLOOD_VOLUME_OKAY
+	blood_maximum = BLOOD_VOLUME_MAXIMUM
 	mindless_attach = FALSE
 	embedding = list(
 		"embed_chance" = 100,
@@ -282,6 +288,10 @@
 
 /obj/item/natural/worms/leech/attack_right(mob/user)
 	return
+
+/obj/item/natural/worms/leech/cheele/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("With cheeles, they can uniquely restore blood to whomever they're attached to. Activate the cheele in your hand to toggle between draining blood and giving blood.")
 
 /obj/item/natural/worms/leech/abyssoid
 	name = "abyssoid leech"

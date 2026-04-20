@@ -107,6 +107,7 @@
 	// Special knockup effect for strong throws
 	if(effect_strength >= 2 && radius <= 3)
 		L.Knockdown(1 * effect_strength)
+		L.drop_all_held_items()
 		knockup_effect(L)
 	else
 		L.set_resting(TRUE, TRUE)

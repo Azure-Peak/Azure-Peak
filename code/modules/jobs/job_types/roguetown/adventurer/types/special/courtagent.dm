@@ -23,4 +23,22 @@
 			GLOB.court_agents += H.real_name
 			if(H.mind)
 				H.mind.special_role = "Court Agent" //For obfuscating them in the Actors list: _job.dm L:216
+				H.verbs |= /datum/job/roguetown/adventurer/courtagent/proc/remember_employer
 			..()
+
+/datum/job/roguetown/adventurer/courtagent/proc/know_employer(var/mob/living/carbon/human/H)
+	if(!GLOB.court_spymaster.len)
+		to_chat(H, span_boldnotice("You begun the week with no spymaster."))
+	else
+		to_chat(H, span_boldnotice("The spymaster is:"))
+		for(var/name in GLOB.court_spymaster)
+			to_chat(H, span_greentext(name))
+
+/datum/job/roguetown/adventurer/courtagent/proc/remember_employer()
+	set name = "Remember Spymaster"
+	set category = "Subterfuge"
+
+	to_chat(usr, span_boldnotice("My spymaster is:"))
+	for(var/name in GLOB.court_spymaster)
+		to_chat(usr, span_greentext(name))
+	return

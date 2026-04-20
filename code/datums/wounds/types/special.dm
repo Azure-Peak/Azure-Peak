@@ -2,7 +2,7 @@
 	name = "facial trauma"
 	sound_effect = 'sound/combat/crit.ogg'
 	severity = WOUND_SEVERITY_SEVERE
-	whp = null
+	whp = 70 //Bit harder to heal than regular wounds but not impossible
 	woundpain = 0
 	can_sew = FALSE
 	can_cauterize = FALSE
@@ -34,10 +34,6 @@
 /datum/wound/facial/ears/on_mob_gain(mob/living/affected)
 	. = ..()
 	affected.Stun(10)
-	var/obj/item/organ/ears/ears = affected.getorganslot(ORGAN_SLOT_EARS)
-	if(ears)
-		ears.Remove(affected)
-		ears.forceMove(affected.drop_location())
 
 /datum/wound/facial/eyes
 	name = "eye evisceration"
@@ -167,7 +163,6 @@
 	check_name = span_warning("FACE")
 	severity = 0
 	crit_message = "The face is mangled beyond recognition!"
-	whp = null
 	woundpain = 20
 	mob_overlay = "cut"
 	can_sew = FALSE
@@ -419,8 +414,8 @@
 	bodypart_owner?.grievously_wounded = FALSE
 	. = ..()
 
-/datum/wound/grievous/pre_decapitation
+/datum/wound/grievous/pre_decapitation_sharp
 	name = "massacred spinal column"
 
-/datum/wound/grievous/pre_skullshatter
-	name = "shattered skull"
+/datum/wound/grievous/pre_decapitation_blunt//TODO: Actually add the skull smash at some point.
+	name = "annihilated skull"

@@ -140,7 +140,7 @@
 /atom/movable/screen/alert/status_effect/asleep
 	name = "Asleep"
 	desc = ""
-	icon_state = "asleep"
+	icon_state = "sleeping"
 
 //STASIS
 /datum/status_effect/incapacitating/stasis
@@ -853,7 +853,7 @@
 
 /atom/movable/screen/alert/status_effect/debuff/exposed
 	name = "Exposed"
-	desc = "My defenses are exposed. I can be hit through my parry and dodge!"
+	desc = "My defenses are completely exposed. I can be hit through my parry and dodge to great effect!"
 	icon_state = "exposed"
 
 /datum/status_effect/debuff/exposed
@@ -868,6 +868,26 @@
 	if(new_dur)
 		duration = new_dur
 	return ..()
+
+/atom/movable/screen/alert/status_effect/debuff/vulnerable
+	name = "Vulnerable"
+	desc = "A mistake. I can be hit through my parry and dodge to a lighter effect!"
+	icon_state = "vulnerable"
+	icon = 'icons/mob/combat_debuffs.dmi'
+
+/datum/status_effect/debuff/vulnerable
+	id = "nofeintlite"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/vulnerable
+	duration = 10 SECONDS
+	mob_effect_icon = 'icons/mob/mob_effects.dmi'
+	mob_effect_icon_state = "eff_vulnerable"
+	mob_effect_layer = MOB_EFFECT_LAYER_VULNERABLE
+
+/datum/status_effect/debuff/vulnerable/on_creation(mob/living/new_owner, new_dur)
+	if(new_dur)
+		duration = new_dur
+	return ..()
+
 
 /datum/status_effect/debuff/feintcd
 	id = "feintcd"
@@ -906,8 +926,16 @@
 /datum/status_effect/debuff/clickcd/on_creation(mob/living/new_owner, new_dur)
 	if(new_dur)
 		duration = new_dur
+	RegisterSignal(new_owner, COMSIG_MOB_CLICKON, PROC_REF(onclick))
 	new_owner.changeNext_move(duration)
 	return ..()
+
+/datum/status_effect/debuff/clickcd/proc/onclick()
+	return COMSIG_MOB_CANCEL_CLICKON
+
+/datum/status_effect/debuff/clickcd/on_remove()
+	UnregisterSignal(owner, COMSIG_MOB_CLICKON)
+	. = ..()
 
 /atom/movable/screen/alert/status_effect/debuff/clickcd
 	name = "Action Delayed"

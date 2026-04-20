@@ -3,8 +3,8 @@
 #define TAB_MANAGESCOMS 3
 
 /obj/structure/roguemachine/crier
-	name = "rous master"
-	desc = "A magitech device intended for the town crier. Can broadcast communications throughout the town and manage the streetpipe network."
+	name = "rousmaster"
+	desc = "A magitech device intended for the Town Crier's golden tone. In addition to functioning like an improved SCOM, it can also manage Azuria's own network of SCOMlines and streetpipes."
 	icon = 'icons/roguetown/misc/structure.dmi'
 	icon_state = "crier_machine"
 	density = TRUE
@@ -20,7 +20,7 @@
 /obj/structure/roguemachine/crier/attackby(obj/item/P, mob/user, params)
 	if(istype(P, /obj/item/roguekey))
 		var/obj/item/roguekey/K = P
-		if(K.lockid == keycontrol || istype(K, /obj/item/roguekey/lord))
+		if(K.lockid == keycontrol || istype(K, /obj/item/roguekey/lord) || istype(K, /obj/item/roguekey/skeleton))
 			locked = !locked
 			playsound(loc, 'sound/misc/beep.ogg', 100, FALSE, -1)
 			return

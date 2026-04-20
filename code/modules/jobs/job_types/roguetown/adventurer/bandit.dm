@@ -1,7 +1,7 @@
 /datum/job/roguetown/bandit //pysdon above there's like THREE bandit.dms now I'm so sorry. This one is latejoin bandits, the one in villain is the antag datum, and the one in the 'antag' folder is an old adventurer class we don't use. Good luck!
 	title = "Bandit"
 	flag = BANDIT
-	department_flag = PEASANTS
+	department_flag = ANTAGONIST
 	faction = "Station"
 	total_positions = 0
 	spawn_positions = 0
@@ -27,17 +27,17 @@
 	advjob_examine = TRUE
 	always_show_on_latechoices = TRUE
 	job_reopens_slots_on_death = FALSE //no endless stream of bandits, unless the migration waves deem it so
-	job_traits = list(TRAIT_SELF_SUSTENANCE)
+	job_traits = list(TRAIT_SELF_SUSTENANCE, TRAIT_STEELHEARTED)//Bandits and knaves truly though
+	vice_restrictions = list(/datum/charflaw/noeyer, /datum/charflaw/noeyel, /datum/charflaw/mute, /datum/charflaw/limbloss/arm_r, /datum/charflaw/limbloss/arm_l)
 	same_job_respawn_delay = 1 MINUTES
 	cmode_music = 'sound/music/cmode/antag/combat_deadlyshadows.ogg'
 	job_subclasses = list(
 		/datum/advclass/brigand,
-		/datum/advclass/demolisher,
+		/datum/advclass/hedgealchemist,
 		/datum/advclass/hedgeknight,
+		/datum/advclass/hedgemage,
 		/datum/advclass/iconoclast,
 		/datum/advclass/knave,
-		/datum/advclass/roguemage,
-		/datum/advclass/sawbones,
 		/datum/advclass/sellsword
 	)
 

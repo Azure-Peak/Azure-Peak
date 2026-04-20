@@ -14,6 +14,7 @@
 
 /area/rogue/under/town/sewer
 	name = "sewer"
+	loot_budget = LOOT_BUDGET_SEWERS
 	icon_state = "sewer"
 	ambientsounds = AMB_CAVEWATER
 	ambientnight = AMB_CAVEWATER
@@ -23,7 +24,7 @@
 	droning_sound_dusk = null
 	droning_sound_night = null
 	ambientrain = RAIN_SEWER
-	soundenv = 21
+	soundenv = 5
 	converted_type = /area/rogue/outdoors/exposed/under/sewer
 /area/rogue/outdoors/exposed/under/sewer
 	icon_state = "sewer"

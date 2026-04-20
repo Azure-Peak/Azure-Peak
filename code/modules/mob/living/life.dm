@@ -2,7 +2,9 @@
 	set waitfor = FALSE
 	set invisibility = 0
 
-	if(!client && ai_controller && ai_controller.ai_status == AI_STATUS_OFF)
+	// Sleep gate: skip Life() for AI-off NPCs to save cycles, but only if fully conscious.
+	// If not conscious, we must keep running Life() so wounds bleed, blood drops, and update_stat() can transition us.
+	if(!client && stat == CONSCIOUS && ai_controller && ai_controller.ai_status == AI_STATUS_OFF)
 		return
 
 	SEND_SIGNAL(src, COMSIG_LIVING_LIFE, seconds, times_fired)
@@ -59,7 +61,10 @@
 		handle_wounds()
 		if(blood_volume > BLOOD_VOLUME_SURVIVE)
 			for(var/datum/wound/wound as anything in get_wounds())
-				wound.heal_wound(3)		
+				wound.heal_wound(3)
+
+	if(blood_volume <= BLOOD_VOLUME_SURVIVE && stat)
+		handle_passive_blood()
 
 	if (QDELETED(src)) // diseases can qdel the mob via transformations
 		return
@@ -81,6 +86,28 @@
 
 	if(stat != DEAD)
 		return 1
+
+/mob/living/proc/handle_passive_blood()
+	#define MAX_PASSIVE_BLOOD_HEAL	10
+	#define MIN_PASSIVE_BLOOD_HEAL	0
+
+	var/passive_regen_rate = MIN_PASSIVE_BLOOD_HEAL
+	if(nutrition <= NUTRITION_LEVEL_HUNGRY)
+		passive_regen_rate -= 5
+	else
+		passive_regen_rate += 5
+
+	if(hydration <= HYDRATION_LEVEL_THIRSTY)
+		passive_regen_rate -= 5
+	else
+		passive_regen_rate += 5
+
+	passive_regen_rate = CLAMP(passive_regen_rate, MIN_PASSIVE_BLOOD_HEAL, MAX_PASSIVE_BLOOD_HEAL)
+
+	blood_volume += passive_regen_rate
+
+	#undef MAX_PASSIVE_BLOOD_HEAL
+	#undef MIN_PASSIVE_BLOOD_HEAL
 
 /mob/living/proc/check_drowning()
 	if(istype(loc, /turf/open/water))
@@ -132,24 +159,26 @@
 					sleep(10)
 					Stun(110)
 					Knockdown(110)
+					drop_all_held_items()
 
 /mob/living/proc/handle_environment()
 	return
 
 /mob/living/proc/handle_wounds()
 	for(var/datum/wound/wound as anything in get_wounds())
-		if(istype(wound, /datum/wound))
-			if (stat != DEAD)
-				wound.on_life()
-			else
-				wound.on_death()
+		if(!wound)
+			continue
 
+		if(stat != DEAD)
+			wound.on_life()
+		else
+			wound.on_death()
 
 /obj/item/proc/on_embed_life(mob/living/user, obj/item/bodypart/bodypart)
 	return
 
 /mob/living/proc/handle_embedded_objects()
-	for(var/obj/item/embedded in simple_embedded_objects)
+	for(var/obj/item/embedded as anything in simple_embedded_objects)
 		if(embedded.on_embed_life(src))
 			continue
 

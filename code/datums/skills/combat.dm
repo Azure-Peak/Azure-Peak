@@ -8,10 +8,10 @@
 	color = "#ec994b"
 
 /datum/skill/combat/knives
-	name = "Knife-fighting"
+	name = "Knives"
 	desc = "Increases your chance to successfully parry and bypass your opponent's parry by 20% with knives, and your chance to bypass dodge by 10%. At Apprentice or above, you will not fumble while taking out knives from a bandolier."
 	dreams = list(
-		"...a barkeep whistles as he cleans glasses and a drunkard snores, passed out on the counter. The rest of the tavern focuses on you with bated breath as your dagger darts between your fingers in an impressive display of legerdemain...",
+		"...an innkeeper whistles as he cleans glasses and a drunkard snores, passed out on the counter. The rest of the tavern focuses on you with bated breath as your dagger darts between your fingers in an impressive display of legerdemain...",
 		"...a flash of steel through the sky, and another, and another. Blades pass between your juggling hands as if you were pulling on singular, thick rope...",
 		"...you tuck the blade away in your cloak, and offer yourself up for inspection. While small, the invisible blade cannot be parried..."
 	)
@@ -19,7 +19,7 @@
 
 
 /datum/skill/combat/swords
-	name = "Sword-fighting"
+	name = "Swords"
 	desc = "Increases your chance to successfully parry and bypass your opponent's parry by 20% with swords, and your chance to bypass dodge by 10%."
 	dreams = list(
 		"...your heavy blade swings in a wide arc, cleaving through the air with a roar. Each landed strike hits with bone shattering force. Your opponent's shield crumples under the weight, and your blade finds its mark - crushing through armor, flesh, and will alike...",
@@ -82,7 +82,7 @@
 
 /datum/skill/combat/crossbows
 	name = "Crossbows"
-	desc = "Alongside perception, increases the speed you ready a crossbow and have it ready to shoot. Does not influence damage or chance to hit."
+	desc = "Alongside perception, increases the speed you ready a crossbow and have it ready to shoot as well its draw speed. Does not influence damage or chance to hit."
 	dreams = list(
 	"...you put your foot down and pull on the string. You wind the crossbow back with all your might. It feels like the thing is mocking you, impossible to pull taut. Only when a seasoned arbalist reminds you to pull from your back, and not your knees, do you make progress...",
 	"...the crossbow is a deadly marvel of engineering, waiting for your guidance. You steady your breath, finger poised on the trigger. The world narrows as you take aim, the perfect shot soon to come..."
@@ -100,7 +100,7 @@
 
 /datum/skill/combat/unarmed
 	name = "Unarmed"
-	desc = "Increases your chance to bypass your opponent's parry by 20% with unarmed or unarmed weapons such as katars, and your chance to bypass dodge by 10%. Parrying while unarmed does not work currently."
+	desc = "Increases your chance to bypass your opponent's parry by 20% with unarmed or unarmed weapons such as katars, and your chance to bypass dodge by 10%. Unarmed attacks are swift-balanced, making them harder to parry and dodge when you are faster than your opponent. Wearing knuckles or bracers enables unarmed parrying."
 	dreams = list(
 	"...the wet and harsh sound of skin against bone and clattering teeth reaches your ears before your mind processes what just happened. You got knocked out with a mighty blow to the jaw...",
 	"...your nails are claws, your hands are weapons. A silent watcher in pale plate armor nods with approval at your ferocity..."

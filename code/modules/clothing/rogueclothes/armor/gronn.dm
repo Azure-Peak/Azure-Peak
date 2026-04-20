@@ -23,7 +23,7 @@
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/gronn.dmi'
 	icon_state = "gronnleatherarmor"
 	item_state = "gronnleatherarmor"
-	armor = ARMOR_GRONN_LIGHT
+	armor = ARMOR_LEATHER
 
 /obj/item/clothing/under/roguetown/trou/leather/gronn
 	name = "gronnic fur pants"
@@ -31,7 +31,7 @@
 			Those of Gronn adopt a design that offers superior protection against the blunted hits and slashing claws of beasts."
 	icon_state = "gronnleatherpants"
 	item_state = "gronnleatherpants"
-	armor = ARMOR_GRONN_LIGHT
+	armor = ARMOR_LEATHER
 	max_integrity = ARMOR_INT_LEG_HARDLEATHER
 	icon = 'icons/roguetown/clothing/special/gronn.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/gronn.dmi'
@@ -54,7 +54,7 @@
 	item_state = "gronnfurgloves"
 	icon = 'icons/roguetown/clothing/special/gronn.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/gronn.dmi'
-	unarmed_bonus = 1.25
+	unarmed_bonus = 6
 	max_integrity = 250
 	color = "#ffffff"
 
@@ -68,7 +68,7 @@
 	icon_state = "gronnfurhood"
 	item_state = "gronnfurhood"
 	bloody_icon = 'icons/effects/blood64.dmi'
-	armor = ARMOR_LEATHER_GOOD
+	armor = ARMOR_LEATHER
 	flags_inv = HIDEEARS|HIDEFACE
 	worn_x_dimension = 32
 	worn_y_dimension = 48
@@ -206,6 +206,7 @@
 	icon_state = "gronnchain"
 	item_state = "gronnchain"
 	smeltresult = /obj/item/ingot/iron
+	armor = ARMOR_MAILLE
 
 /obj/item/clothing/gloves/roguetown/chain/gronn
 	name = "gronn byrine gloves"
@@ -215,7 +216,7 @@
 	icon_state = "gronnchaingloves"
 	item_state = "gronnchaingloves"
 
-/obj/item/clothing/under/roguetown/splintlegs/iron/gronn
+/obj/item/clothing/under/roguetown/chainlegs/gronn
 	name = "gronn byrine chausses"
 	desc = "A pair of chain-wrapped pants with a leather subligar, ensuring both protection and comfort."
 	icon = 'icons/roguetown/clothing/special/gronn.dmi'
@@ -254,7 +255,7 @@
 	icon_state = "gronnplate"
 	item_state = "gronnplate"
 	boobed = FALSE
-	body_parts_covered = COVERAGE_ALL_BUT_LEGS
+	body_parts_covered = COVERAGE_ALL_BUT_HANDLEGS
 	max_integrity = ARMOR_INT_CHEST_PLATE_STEEL
 	smeltresult = /obj/item/ingot/iron
 

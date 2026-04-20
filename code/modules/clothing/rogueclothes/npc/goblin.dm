@@ -27,6 +27,10 @@
 	armor = null
 	sellprice = 0
 
+/obj/item/clothing/suit/roguetown/armor/leather/hide/goblin/Initialize()
+	. = ..()
+	AddComponent(/datum/component/magic_item, new /datum/magic_item/superior/fireresist)
+
 /obj/item/clothing/head/roguetown/helmet/leather/goblin
 	name = "goblin helmet"
 	icon_state = "leather_helm_item"

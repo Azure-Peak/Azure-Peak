@@ -22,12 +22,14 @@
 	perfect_butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/steak = 3,
 									/obj/item/natural/hide = 3,
 									/obj/item/natural/fur/direbear = 2,
-									/obj/item/alch/sinew = 2, 
-									/obj/item/alch/bone = 1, 
+									/obj/item/alch/sinew = 2,
+									/obj/item/alch/bone = 1,
 									/obj/item/alch/viscera = 2,
-									/obj/item/natural/bone = 4,
-									/obj/item/natural/head/direbear = 1)
-	faction = list("bears")		//This mf will kill undead - swapped to its own faction, doesn't trigger ambushes
+									/obj/item/natural/bone = 4)
+	head_butcher = /obj/item/natural/head/direbear
+	faction = list(FACTION_BEARS)		//This mf will kill undead - swapped to its own faction, doesn't trigger ambushes
+	threat_point = THREAT_DANGEROUS
+	ambush_faction = "wildlife"
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
 	melee_damage_lower = 50		// Ey, bo-bo!
 	melee_damage_upper = 60		// We're gonna take his pick-in-ick basket!
@@ -85,6 +87,7 @@
 
 /mob/living/simple_animal/hostile/retaliate/rogue/direbear/Initialize(mapload)
 	. = ..()
+	AddComponent(/datum/component/ai_aggro_system)
 	var/datum/action/cooldown/mob_cooldown/bear_swipe/swipe = new(src)
 	swipe.Grant(src)
 	ai_controller.set_blackboard_key(BB_TARGETED_ACTION, swipe)

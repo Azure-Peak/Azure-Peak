@@ -41,6 +41,12 @@
 	var/aportalgoesto = "REPLACETHIS"
 	var/aallmig
 	var/required_trait = null
+	var/list/required_jobs = null
+	var/travel_time = 5 SECONDS
+	var/travel_message = "I begin to travel..."
+	var/travel_deny_message = "It is a dead end."
+	var/travel_access_hint = null
+	var/watchable = TRUE
 
 /obj/structure/fluff/traveltile/Initialize()
 	GLOB.traveltiles += src
@@ -79,7 +85,6 @@
 
 /atom/movable
 	var/recent_travel = 0
-//  var/last_client_interact = 0  // See mob_defines.dm.
 
 /obj/structure/fluff/traveltile/attack_hand(mob/user)
 	var/fou
@@ -126,8 +131,8 @@
 		return FALSE
 	if(L.pulledby)
 		return FALSE
-	to_chat(L, "<b>I begin to travel...</b>")
-	if(do_after(L, 50, needhand = FALSE, target = src))
+	to_chat(L, "<b>[travel_message]</b>")
+	if(do_after(L, travel_time, needhand = FALSE, target = src))
 		if(L.pulledby)
 			to_chat(L, span_warning("I can't go, something's holding onto me."))
 			return FALSE
@@ -136,8 +141,10 @@
 	return FALSE
 
 /obj/structure/fluff/traveltile/proc/perform_travel(obj/structure/fluff/traveltile/T, mob/living/L)
-	if(!L.restrained(ignore_grab = TRUE)) // heavy-handedly prevents using prisoners to metagame camp locations. pulledby would stop this but prisoners can also be kicked/thrown into the tile repeatedly
+	if(watchable && !L.restrained(ignore_grab = TRUE)) // heavy-handedly prevents using prisoners to metagame camp locations. pulledby would stop this but prisoners can also be kicked/thrown into the tile repeatedly
 		for(var/mob/living/carbon/human/H in hearers(6,src))
+			if(H == L)
+				continue
 			if(!H.IsUnconscious() && H.stat == CONSCIOUS && !HAS_TRAIT(H, TRAIT_PARALYSIS) && !HAS_TRAIT(H, required_trait) && !HAS_TRAIT(H, TRAIT_BLIND))
 				to_chat(H, "<b>I watch [L.name? L : "someone"] go through a well-hidden entrance.</b>")
 				if(!(H.m_intent == MOVE_INTENT_SNEAK))
@@ -174,23 +181,69 @@
 
 	return
 
+/obj/structure/fluff/traveltile/proc/has_access(atom/movable/AM)
+	if(required_jobs && ishuman(AM))
+		var/mob/living/carbon/human/H = AM
+		return (H.job in required_jobs)
+	if(required_trait && isliving(AM))
+		return HAS_TRAIT(AM, required_trait)
+	return TRUE
+
 /obj/structure/fluff/traveltile/proc/can_go(atom/movable/AM)
-	. = TRUE
 	var/cooldown_limit = 15 SECONDS
 	if(istype(src, /obj/structure/fluff/traveltile/warband))
 		cooldown_limit = 3 SECONDS // reduced cooldown for warband tiles, since they're so close together
 		
 	if(world.time < AM.recent_travel + cooldown_limit)
-		. = FALSE
-	if(. && required_trait && isliving(AM))
+		return FALSE
+	if(!has_access(AM))
+		to_chat(AM, "<b>[travel_deny_message]</b>")
+		return FALSE
+	if(isliving(AM))
 		var/mob/living/L = AM
-		if(HAS_TRAIT(L, required_trait))
-			if(world.time > L.last_client_interact + 0.3 SECONDS)
-				return FALSE // we will only be travelling of our own volition (anti-afk-abuse)
-			return TRUE
-		else
-			to_chat(L, "<b>It is a dead end.</b>")
+		if(world.time > L.last_client_interact + 0.3 SECONDS)
 			return FALSE
+	return TRUE
+
+/obj/structure/fluff/traveltile/examine(mob/user)
+	. = ..()
+	if(travel_access_hint && has_access(user))
+		. += span_info(travel_access_hint)
+
+/obj/structure/fluff/traveltile/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Shift-right-click to peer through to the other side.")
+
+/obj/structure/fluff/traveltile/ShiftRightClick(mob/user)
+	if(!isliving(user))
+		return FALSE
+	var/mob/living/L = user
+	if(!L.client)
+		return TRUE
+	if(L.client.perspective != MOB_PERSPECTIVE)
+		L.stop_looking()
+		return TRUE
+	if(!L.can_look_up())
+		return TRUE
+	if(!can_go(L))
+		return TRUE
+	var/list/destinations = return_connected_turfs()
+	if(!length(destinations))
+		to_chat(L, "<b>It is a dead end.</b>")
+		return TRUE
+	var/turf/destination = destinations[1]
+	if(L.m_intent != MOVE_INTENT_SNEAK)
+		L.visible_message(span_info("[L] peers through [src]."))
+	var/ttime = 10
+	if(L.STAPER > 5)
+		ttime = 10 - (L.STAPER - 5)
+		if(ttime < 0)
+			ttime = 0
+	if(!do_after(L, ttime, target = src))
+		return TRUE
+	L.reset_perspective(destination)
+	L.update_cone_show()
+	return TRUE
 
 /obj/structure/fluff/traveltile/bandit
 	required_trait = TRAIT_BANDITCAMP
@@ -213,6 +266,27 @@
 	opacity = FALSE
 
 /obj/structure/fluff/traveltile/eventarea
+
+/obj/structure/fluff/traveltile/eventarea/multiz
+	aportalgoesto = "MultizEventOut"
+	aportalid = "MultizEventIn"
+
+/obj/structure/fluff/traveltile/bathhouse_passage // this is IN the bathhouse
+	name = "suspicious passage"
+	desc = "A crevice in the wall. It looks like it leads somewhere."
+	required_trait = "bathhouse_passage_seen"
+	required_jobs = list("Bathmaster", "Bathhouse Attendant")
+	travel_time = 30 SECONDS // If there's an active chase you basically cannot use it to escape quickly
+	travel_message = "I begin to squeeze through the passage..."
+	travel_deny_message = "You're not supple enough to use this passage."
+	watchable = FALSE
+	travel_access_hint = "A tight passage that leads between the bathhouse and the northern coast, with many twists and turns - only a bathhouse staff member can fit through it. It takes a while to travel through, and is a popular route for smuggling goods in and out of town."
+	aportalid = "smuggler_bathhouse"
+	aportalgoesto = "smuggler_cove"
+
+/obj/structure/fluff/traveltile/bathhouse_passage/cave // this is ON THE COAST in the ne
+	aportalid = "smuggler_cove"
+	aportalgoesto = "smuggler_bathhouse"
 
 ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////

@@ -7,7 +7,9 @@
 	icon_dead = "troll_dead"
 	pixel_x = -16
 
-	faction = list("trolls")
+	faction = list(FACTION_TROLLS)
+	threat_point = THREAT_DANGEROUS
+	ambush_faction = "trolls"
 	footstep_type = FOOTSTEP_MOB_HEAVY
 	emote_hear = null
 	emote_see = null
@@ -33,17 +35,16 @@
 		/obj/item/alch/sinew = 5,
 		/obj/item/alch/horn = 2,
 		/obj/item/alch/viscera = 3,
-		/obj/item/natural/head/troll = 1, // We want head in normal tier to guarantee towner hunter get heads
 		)
 	perfect_butcher_results = list(
 		/obj/item/reagent_containers/food/snacks/rogue/meat/steak = 5,
 		/obj/item/natural/hide = 5,
-		/obj/item/natural/bundle/bone/full = 1, 
-		/obj/item/alch/sinew = 7, 
-		/obj/item/alch/horn = 2, 
+		/obj/item/natural/bundle/bone/full = 1,
+		/obj/item/alch/sinew = 7,
+		/obj/item/alch/horn = 2,
 		/obj/item/alch/viscera = 3,
-		/obj/item/natural/head/troll = 1,
 		)
+	head_butcher = /obj/item/natural/head/troll
 	health = TROLL_HEALTH * 1.1
 	maxHealth = TROLL_HEALTH
 	food_type = list(
@@ -83,9 +84,9 @@
 
 /mob/living/simple_animal/hostile/retaliate/rogue/troll/Initialize()
 	. = ..()
+	AddComponent(/datum/component/ai_aggro_system)
 	if(critvuln)
 		ADD_TRAIT(src, TRAIT_CRITICAL_WEAKNESS, TRAIT_GENERIC)
-	AddElement(/datum/element/ai_retaliate)
 	ai_controller.set_blackboard_key(BB_BASIC_FOODS, food_type)
 
 /mob/living/simple_animal/hostile/retaliate/rogue/troll/death(gibbed)
@@ -119,19 +120,29 @@
 	if(has_status_effect(/datum/status_effect/fire_handler))
 		adjustHealth(-rand(20,35))
 
+/mob/living/simple_animal/hostile/retaliate/rogue/troll/proc/hide()
+	flick("troll_hiding", src)
+	sleep(1 SECONDS)
+	icon_state = "troll_hide"
+
+/mob/living/simple_animal/hostile/retaliate/rogue/troll/proc/ambush()
+	flick("troll_ambush", src)
+	sleep(1 SECONDS)
+	icon_state = initial(icon_state)
+
 /mob/living/simple_animal/hostile/retaliate/rogue/troll/bog/LoseTarget()
 	..()
 	if(health > 0)
-		icon_state = "troll_hiding"
+		hide()
 
 /mob/living/simple_animal/hostile/retaliate/rogue/troll/bog/Moved()
 	. = ..()
-	if(!icon_state == "troll")
-		icon_state = "troll"
+	if(icon_state != initial(icon_state))
+		icon_state = initial(icon_state)
 
 /mob/living/simple_animal/hostile/retaliate/rogue/troll/bog/GiveTarget()
 	..()
-	icon_state = "troll_ambush"
+	ambush()
 
 /mob/living/simple_animal/hostile/retaliate/rogue/troll/simple_limb_hit(zone)
 	if(!zone)
@@ -182,4 +193,4 @@
 	
 /datum/intent/unarmed/claw/troll
 	clickcd = TROLL_ATTACK_SPEED
-	penfactor = 20
+	penfactor = PEN_LIGHT

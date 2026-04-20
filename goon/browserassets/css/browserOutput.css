@@ -53,7 +53,12 @@ body {
 
 @font-face {
 	font-family: "Furqan";
-	src: url("sand.ttf");
+	src: url("celestial.ttf");
+}
+
+@font-face {
+	font-family: "Furqan";
+	src: url("raneshi.ttf");
 }
 
 @font-face {
@@ -87,8 +92,23 @@ body {
 }
 
 @font-face {
-	font-family: "Notredame";
+	font-family: "ZCOOL XiaoWei";
+	src: url("lingyuese.ttf");
+}
+
+@font-face {
+	font-family: "Evil Bible";
+	src: url("undercommon.ttf");
+}
+
+@font-face {
+	font-family: "ArkansasDB";
 	src: url("otavan.ttf");
+}
+
+@font-face {
+	font-family: "BaggageMasterText79 ttcon";
+	src: url("oldazure.ttf");
 }
 
 @font-face {
@@ -820,6 +840,10 @@ h2.alert {
 .elf {
 	font-family: "Dauphin", cursive, "Pterra";
 }
+.oldazure{
+	font-family: "BaggageMasterText79 ttcon", "Pterra";
+	font-size: 110%;
+}
 .dwarf {
 	font-family: "MasonAlternate", "Pterra";
 }
@@ -853,6 +877,9 @@ h2.alert {
 .kazengunese {
 	font-family: "Yuji Boku", Pterra;
 }
+.lingyuese {
+	font-family: "ZCOOL XiaoWei", Pterra;
+}
 .orc {
 	font-family: "Thief by The Riddler", "Pterra";
 }
@@ -864,8 +891,8 @@ h2.alert {
 	font-size: 120%;
 }
 .otavan {
-	font-family: "Notredame", "Pterra";
-	font-size: 200%;
+	font-family: "ArkansasDB", "Pterra";
+	font-size: 120%;
 }
 .etruscan {
 	font-family: "Feronia", "Pterra";

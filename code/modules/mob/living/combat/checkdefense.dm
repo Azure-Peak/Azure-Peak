@@ -10,10 +10,22 @@
 		return FALSE
 	if(!(mobility_flags & MOBILITY_MOVE))
 		return FALSE
+		
+	var/datum/status_effect/swingdelay/disrupt/SW = has_status_effect(/datum/status_effect/swingdelay/disrupt)
+	if(SW)
+		if(!SW.is_disrupted())
+			SW.attacked()
+			swing_state = FALSE
+			return FALSE
 
 	if(client && used_intent)
 		if(client.charging && used_intent.tranged && !used_intent.tshield)
 			return FALSE
+
+	if(has_flaw(/datum/charflaw/addiction/thrillseeker))
+		var/datum/component/arousal/CAR = GetComponent(/datum/component/arousal)
+		if(CAR)
+			CAR.adjust_arousal_special(src, 2)
 
 	switch(d_intent)
 		if(INTENT_PARRY)

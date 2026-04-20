@@ -14,7 +14,12 @@ PROCESSING_SUBSYSTEM_DEF(roguemachine)
 	var/list/death_queue = list()
 	var/last_death_report
 	var/obj/item/clothing/head/roguetown/crown/serpcrown/crown
+	var/obj/item/rogueweapon/martyrweapon
 	var/obj/item/key
+	var/obj/structure/roguemachine/talkstatue/mercenary/mercenary_statue
+	var/list/mercenary_statues = list()
+
+	var/obj/structure/roguemachine/talkstatue/church/church_statue
 
 /datum/controller/subsystem/processing/roguemachine/fire(resumed = 0)
 	. = ..()

@@ -33,6 +33,20 @@
 	H.smart_equipbelt()
 	return TRUE
 
+/datum/keybinding/human/quick_equipcloak
+    hotkey_keys = list("ShiftN")
+    name = "quick_equipcloak"
+    full_name = "Quick equip cloak"
+    description = "Put held thing in cloak or take out most recent thing from cloak"
+
+/datum/keybinding/human/quick_equipcloak/down(client/user)
+	. = ..()
+	if(!.)
+		return FALSE
+	var/mob/living/carbon/human/H = user.mob
+	H.smart_equipcloak()
+	return TRUE
+
 /datum/keybinding/human/bag_equip_backl
 	hotkey_keys = list("ShiftQ")
 	name = "bag_equip_backl"
@@ -101,4 +115,18 @@
 		return FALSE
 	var/mob/living/carbon/human/H = user.mob
 	H.toggle_eye_intent(H)
+	return TRUE
+
+/datum/keybinding/human/set_pose
+	hotkey_keys = list("Unbound")
+	name = "set_pose"
+	full_name = "Set Pose"
+	description = "Set your pose."
+
+/datum/keybinding/human/set_pose/down(client/user)
+	. = ..()
+	if(!.)
+		return FALSE
+	var/mob/living/carbon/human/H = user.mob
+	H.set_pose(H)
 	return TRUE

@@ -121,12 +121,12 @@
 		)
 
 /datum/customizer/organ/snout/anthro
-	allows_disabling = TRUE
-	default_disabled = TRUE
+	allows_disabling = FALSE
+	default_disabled = FALSE
 	customizer_choices = list(/datum/customizer_choice/organ/snout/anthro)
 
 /datum/customizer/organ/snout/anthrosmall
-	allows_disabling = TRUE
+	allows_disabling = FALSE
 	default_disabled = FALSE
 	customizer_choices = list(/datum/customizer_choice/organ/snout/anthro)
 
@@ -171,6 +171,7 @@
 		/datum/sprite_accessory/snout/pede,
 		/datum/sprite_accessory/snout/sergal,
 		/datum/sprite_accessory/snout/shark,
+		/datum/sprite_accessory/snout/sharkeyes,
 		/datum/sprite_accessory/snout/toucan,
 		/datum/sprite_accessory/snout/redpanda,
 		/datum/sprite_accessory/snout/redpandaalt,
@@ -212,9 +213,13 @@
 		/datum/sprite_accessory/snout/front/redpanda,
 		/datum/sprite_accessory/snout/front/redpandaalt,
 		/datum/sprite_accessory/snout/sharp,
+		/datum/sprite_accessory/snout/sharpdualcolor,
 		/datum/sprite_accessory/snout/round,
+		/datum/sprite_accessory/snout/rounddualcolor,
 		/datum/sprite_accessory/snout/sharplight,
+		/datum/sprite_accessory/snout/sharplightdualcolor,
 		/datum/sprite_accessory/snout/roundlight,
+		/datum/sprite_accessory/snout/roundlightdualcolor,
 		/datum/sprite_accessory/snout/vulp,
 		/datum/sprite_accessory/snout/front/sharp,
 		/datum/sprite_accessory/snout/front/round,
@@ -325,6 +330,7 @@
 	organ_type = /obj/item/organ/snout/akula
 	sprite_accessories = list(
 		/datum/sprite_accessory/snout/shark,
+		/datum/sprite_accessory/snout/sharkeyes,
 		/datum/sprite_accessory/snout/sergal,
 		/datum/sprite_accessory/snout/sharp,
 		/datum/sprite_accessory/snout/round,

@@ -23,6 +23,7 @@
 		/datum/skill/misc/medicine = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
 	)
+	maximum_possible_slots = 20 // Should not fill, just a hack to make it shows what types of towners are in round
 
 /datum/outfit/job/roguetown/adventurer/peasant/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -37,7 +38,7 @@
 	armor = /obj/item/clothing/suit/roguetown/armor/workervest
 	mouth = /obj/item/rogueweapon/huntingknife
 	beltr = /obj/item/flint
-	if(H.pronouns == SHE_HER || H.pronouns == THEY_THEM_F)
+	if(should_wear_femme_clothes(H))
 		armor = /obj/item/clothing/suit/roguetown/shirt/dress/gen/random
 		shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt
 		pants = null
@@ -53,3 +54,20 @@
 	backr = /obj/item/rogueweapon/hoe
 	if(H.mind)
 		SStreasury.give_money_account(ECONOMIC_WORKING_CLASS, H, "Savings.")
+	if(H.mind)
+		var/seeds = list(
+			"Berry seeds" = /obj/item/storage/roguebag/farmer_berries,
+			"Rocknut seeds" = /obj/item/storage/roguebag/farmer_rocknut,
+			"Exotic fruit seeds" = /obj/item/storage/roguebag/farmer_fruits,
+			"Some extra smokes" = /obj/item/storage/roguebag/farmer_smokes,
+		)
+		var/seedbag_names = list()
+		for (var/name in seeds)
+			seedbag_names += name
+		for (var/i = 1 to 2)
+			var/seed_choice = input(H, "Choose your starting seed packs", "Select") as anything in seedbag_names
+			if (i == 1)
+				l_hand = seeds[seed_choice]
+			else
+				r_hand = seeds[seed_choice]
+		H.set_blindness(0)

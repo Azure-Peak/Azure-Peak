@@ -229,7 +229,7 @@ Turf and target are separate in case you want to teleport some distance from a t
 
 
 //Returns a list of all items of interest with their name
-/proc/getpois(mobs_only=0,skip_mindless=0,team=null)
+/proc/getpois(mobs_only=FALSE,skip_mindless=FALSE,team=null,skip_antighost=TRUE)
 	var/list/mobs = sortmobs()
 	var/list/namecounts = list()
 	var/list/pois = list()
@@ -237,6 +237,8 @@ Turf and target are separate in case you want to teleport some distance from a t
 		if(skip_mindless && (!M.mind || !M.ckey))
 			continue
 		if(M.client && M.client.holder && M.client.holder.fakekey) //stealthmins
+			continue
+		if(skip_mindless && skip_antighost && (M.client?.prefs.ghost_toggles & TOGGLE_ANTIGHOST))
 			continue
 		var/name = avoid_assoc_duplicate_keys(M.real_name, namecounts)
 
@@ -1195,7 +1197,6 @@ GLOBAL_REAL_VAR(list/stack_trace_storage)
 	pixel_x = initialpixelx
 	pixel_y = initialpixely
 
-
 ///Checks if the given iconstate exists in the given file, caching the result. Setting scream to TRUE will print a stack trace ONCE.
 /proc/icon_exists(file, state, scream)
 	var/static/list/icon_states_cache = list()
@@ -1599,14 +1600,15 @@ GLOBAL_LIST_INIT(duplicate_forbidden_vars,list(
 /proc/get_sorted_actors_list()
 	var/list/sorted_ckey_to_actor_data = list()
 	var/list/categories = list(
-		"Nobles" = GLOB.noble_positions,
+		"Ducal Family" = GLOB.noble_positions,
 		"Courtiers" = GLOB.courtier_positions,
+		"Retinue" = GLOB.retinue_positions,
 		"Garrison" = GLOB.garrison_positions,
 		"Church" = GLOB.church_positions,
-		"Inquisition" = GLOB.inquisition_positions,
-		"Yeoman" = GLOB.yeoman_positions,
+		"Burgher" = GLOB.burgher_positions,
 		"Peasant" = GLOB.peasant_positions,
-		"Youngfolk" = GLOB.youngfolk_positions,
+		"Sidefolk" = GLOB.sidefolk_positions,
+		"Inquisition" = GLOB.inquisition_positions,
 		"Wanderer" = GLOB.wanderer_positions,
 	)
 

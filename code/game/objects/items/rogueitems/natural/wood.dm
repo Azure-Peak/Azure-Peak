@@ -19,6 +19,13 @@
 	var/lumber = /obj/item/grown/log/tree/small //These are solely for lumberjack calculations
 	var/lumber_amount = 1
 
+/obj/item/grown/log/tree/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Full logs can be halved by left-clicking them with an axe. The chance of successfully halving it into two small logs scales with your Woodcutting skill.")
+	. += span_info("Full logs and small logs can both be manually hatcheted apart, otherwise, to bypass the standard timed action. Hatcheting a small log will turn it into sticks.")
+	. += span_info("Full logs, small logs, and sticks can be 'slapcrafted' into new items by left-clicking them with certain tools and materials. 'Slapcrafted' items don't require a Crafting skill to make.")
+	. += span_info("'Slapcrafts' for full logs include quarterstaffs, bows, oars, and boats.")
+
 /obj/item/grown/log/tree/Initialize()
 	. = ..()
 	var/static/list/slapcraft_recipe_list = list(
@@ -95,6 +102,10 @@
 	w_class = WEIGHT_CLASS_BULKY
 	smeltresult = /obj/item/rogueore/coal/charcoal
 	lumber_amount = 0
+
+/obj/item/grown/log/tree/small/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("'Slapcrafts' for small logs include stone-and-wooden tools, cutlery, prosthetics, buckets, paper, weapons, shields, tarots, and bows. Left-clicking a small log with a handsaw turns it into planks, which is quite useful for carpentry and construction.")
 
 /obj/item/grown/log/tree/small/Initialize()
 	. = ..()
@@ -252,6 +263,10 @@
 	grid_width = 32
 	grid_height = 32
 
+/obj/item/grown/log/tree/stick/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("'Slapcrafts' for sticks include torches, arrows, spades, tools, and knives. Left-click a stick with a tool that has the 'CUT' intent selected to carve it into a stake.")
+
 /obj/item/grown/log/tree/stick/Crossed(mob/living/L)
 	. = ..()
 	if(istype(L))
@@ -365,7 +380,7 @@
 /obj/item/grown/log/tree/stake
 	name = "stake"
 	icon_state = "stake"
-	desc = "A sharpened piece of wood, fantastic for piercing"
+	desc = "A snapped tree branch with a hand-whittled tip; the bane of both unspooled tarps and lesser nitecreechers. </br>With a whetstone, I could further sharpen this stake and gift it a proper handle for use against the unholy."
 	grid_width = 32
 	grid_height = 64
 	force = 10
@@ -382,6 +397,20 @@
 	gripped_intents = null
 	slot_flags = ITEM_SLOT_MOUTH|ITEM_SLOT_HIP
 	lumber_amount = 0
+
+/obj/item/grown/log/tree/stake/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Stakes can be crafted with a stone to make whetstones, which are better at sharpening blades.")
+	. += span_info("Stakes are weak, but can double as improvised weapons with total armor penetration. Crafting a stake with a whetstone can make it into a more refined weapon.")
+
+/obj/item/grown/log/tree/stake/getonmobprop(tag)
+	. = ..()
+	if(tag)
+		switch(tag)
+			if("gen")
+				return list("shrink" = 0.4,"sx" = -10,"sy" = 0,"nx" = 11,"ny" = 0,"wx" = -4,"wy" = 0,"ex" = 2,"ey" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 8,"wflip" = 8,"eflip" = 0)
+			if("onbelt")
+				return list("shrink" = 0.3,"sx" = -2,"sy" = -5,"nx" = 4,"ny" = -5,"wx" = 0,"wy" = -5,"ex" = 2,"ey" = -5,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
 
 /obj/item/grown/log/tree/stake/Initialize()
 	. = ..()
@@ -401,7 +430,7 @@
 		if(istype(I, /obj/item/ingot/iron))
 			if(!do_after(user, 4 SECONDS, target = I))
 				return
-			to_chat(user, span_warning("The [user] breaks an [I] using stake into small parts!"))
+			to_chat(user, span_warning("The [user] breaks an [I] into small parts with the stake!"))
 			new /obj/item/scrap(get_turf(I))
 			new /obj/item/scrap(get_turf(I))
 			new /obj/item/scrap(get_turf(I))
@@ -410,7 +439,7 @@
 			if(I.smeltresult == /obj/item/ingot/iron)
 				if(!do_after(user, 4 SECONDS, target = I))
 					return
-				to_chat(user, span_warning("The [user] breaks an [I] using stake into small parts!"))
+				to_chat(user, span_warning("The [user] breaks an [I] into small parts with the stake!"))
 				new /obj/item/scrap(get_turf(I))
 				qdel(I)
 

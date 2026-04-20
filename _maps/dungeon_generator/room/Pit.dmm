@@ -48,6 +48,9 @@
 /obj/structure/spider/stickyweb,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/tomb/cave/spider)
+"r" = (
+/turf/closed/mineral/random/rogue/high,
+/area/rogue/under/tomb/cave/spider)
 "t" = (
 /obj/item/clothing/under/roguetown/chainlegs/iron,
 /turf/open/floor/rogue/naturalstone,
@@ -83,7 +86,7 @@
 /area/rogue/under/tomb/cave/spider)
 "B" = (
 /obj/effect/decal/remains/human,
-/turf/closed/mineral,
+/turf/closed/mineral/random/rogue,
 /area/rogue/under/tomb/cave/spider)
 "D" = (
 /obj/effect/decal/remains/human,
@@ -103,7 +106,7 @@
 /area/rogue/under/tomb/cave/spider)
 "J" = (
 /obj/structure/spider/stickyweb,
-/turf/closed/mineral,
+/turf/closed/mineral/random/rogue,
 /area/rogue/under/tomb/cave/spider)
 "K" = (
 /obj/effect/decal/remains/human,
@@ -124,7 +127,7 @@
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/tomb/cave/spider)
 "M" = (
-/turf/closed/mineral,
+/turf/closed/mineral/random/rogue,
 /area/rogue/under/tomb/cave/spider)
 "N" = (
 /obj/item/clothing/suit/roguetown/shirt,
@@ -282,7 +285,7 @@ X
 M
 M
 M
-M
+r
 M
 X
 X
@@ -291,7 +294,7 @@ i
 (6,1,1) = {"
 i
 M
-X
+M
 M
 b
 M
@@ -430,7 +433,7 @@ R
 M
 X
 M
-M
+r
 Y
 Y
 Y
@@ -458,7 +461,7 @@ H
 n
 W
 Y
-M
+r
 M
 X
 X
@@ -474,7 +477,7 @@ N
 m
 X
 M
-M
+r
 Y
 J
 Y
@@ -522,7 +525,7 @@ L
 M
 t
 Y
-M
+r
 Y
 H
 M

@@ -1,6 +1,6 @@
 /obj/structure/roguemachine/noticeboard
 	name = "Notice Board"
-	desc = "A large wooden notice board, carrying postings from all across Azurea. A ZAD perch sits atop it."
+	desc = "A large wooden notice board, carrying postings from all across Azuria. A ZAD perch sits atop it."
 	icon = 'icons/roguetown/misc/64x64.dmi'
 	icon_state = "noticeboard0"
 	density = TRUE
@@ -10,7 +10,14 @@
 	layer = ABOVE_MOB_LAYER
 	plane = GAME_PLANE_UPPER
 	var/current_category = "Postings"
-	var/list/categories = list("Postings", "Premium Postings", "Scout Report")
+	var/list/categories = list("Postings", "Premium Postings", "Scout Report", "Mercenary Roster")
+
+/obj/structure/roguemachine/noticeboard/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Left-click the noticeboard to take a better look at it.")
+	. += span_info("'Postings' and 'Premium Postings' can host messages of any kind. The zads will audibly notify everyone that a new message has been added to the noticeboard, whenever one is posted.")
+	. += span_info("'Scout Reports' detail how dangerous the ambushes in Azuria's many regions might be. The more dangerous a region is, the more numerous and lethal its ambushers will be.")
+	. += span_info("'Mercenary Rosters' list the names and detailings of all Mercenaries currently registered to Azuria's Mercenary Guild.")
 
 /obj/structure/roguemachine/noticeboard/Initialize()
 	. = ..()
@@ -64,18 +71,18 @@
 		return attack_hand(usr)
 	if(href_list["authorityremovepost"])
 		authority_removepost(usr)
-		return attack_hand(usr) 
- 
+		return attack_hand(usr)
+
 	return attack_hand(usr)
 
 /obj/structure/roguemachine/noticeboard/attack_hand(mob/living/carbon/human/user)
-	if(!ishuman(user)) 
+	if(!ishuman(user))
 		return
 	var/can_remove = FALSE
 	var/can_premium = FALSE
-	if(user.job in list("Man at Arms","Inquisitor", "Knight", "Sergeant", "Knight Captain", "Orthodoxist", "Absolver", "Marshal", "Hand")) //why was KC here but not marshal ?
+	if(user.job in list("Man at Arms","Inquisitor", "Knight", "Sergeant", "Orthodoxist", "Absolver", "Marshal", "Hand", "Grand Duke")) //why was KC here but not marshal ?
 		can_remove = TRUE
-	if(user.job in list("Bathmaster","Merchant", "Innkeeper", "Steward", "Court Magician", "Town Crier", "Keeper"))
+	if(user.job in list("Bathmaster","Merchant", "Innkeeper", "Steward", "Court Magician", "Town Crier", "Keeper", "Grand Duke"))
 		can_premium = TRUE
 	var/contents
 	contents += "<center>NOTICEBOARD<BR>"
@@ -120,11 +127,17 @@
 			contents += ("<div>[TRS?.region_name]: <font color=[TRS?.danger_color]>[TRS?.danger_level]</font></div>")
 		contents += "<hr>"
 		contents += "Scouts rate how dangerous a region is from Safe -> Low -> Moderate -> Dangerous -> Bleak <br>"
-		contents += "A safe region is safe and travelers are unlikely to be ambushed by common creechurs and brigands <br>"
-		contents += "A low threat region is unlikely to manifest any great threat and brigands and creechurs are often found alone.<br>"
-		contents += "Only Azure Basin, Azure Grove and the Terrorbog can be rendered safe entirely. <br>" 
-		contents += "Regions not listed are beyond the charge of the wardens. Danger will be constant in these regions.<br>"
-		contents += "Danger is reduced by luring villains and creechurs and killing them when they ambush you. The signal horns wardens have been issued can help with this. Take care with using it."
+		contents += "A safe region is safe and travelers are unlikely to be ambushed by common creechurs and brigands. <br>"
+		contents += "A low threat region is unlikely to manifest any great threat and brigands and creechurs are often found alone. <br>"
+		contents += "Only Azure Basin, Azure Grove and the Terrorbog can be rendered safe entirely. <br>"
+		contents += "Regions not listed are beyond the charge of the wardens. Danger will be constant in these regions. <br>"
+		contents += "Danger is reduced by luring villains and creechurs and killing them when they ambush you. Traveling in groups draws larger ambushes, but each additional companion contributes less to taming the region than a lone traveler would. <br>"
+		contents += "The signal horns wardens have been issued can provoke a sizeable fight proportional to the region's dangers, and is the surest way to tame a region. Bandits and wild creechurs trickle back in over time, generally overnight. Take care with the horn, and bring friends."
+	else if(current_category == "Mercenary Roster")
+		if(SSroguemachine.mercenary_statue)
+			contents += SSroguemachine.mercenary_statue.get_readonly_roster_html()
+		else
+			contents += "<br><span class='notice'>The mercenary statue network is not available.</span>"
 	var/datum/browser/popup = new(user, "NOTICEBOARD", "", 800, 650)
 	popup.set_content(contents)
 	popup.open()

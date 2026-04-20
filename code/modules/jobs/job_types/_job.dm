@@ -33,8 +33,13 @@
 	//How many players have this job
 	var/current_positions = 0
 
+	/// Admin-manual slot override set via Manage Job Slots for storyteller-capped roles.
+	var/admin_slot_override = FALSE
+
 	//Whether this job clears a slot when you get a rename prompt.
 	var/antag_job = FALSE
+	var/storyteller_antag_flags = STORYTELLER_ANTAG_NONE
+	var/storyteller_midround_antag_flags = STORYTELLER_ANTAG_NONE
 
 	//Supervisors, who this person answers to directly
 	var/supervisors = ""
@@ -176,10 +181,13 @@
 /datum/job/proc/special_job_check(mob/dead/new_player/player)
 	return TRUE
 
+/datum/job/proc/uses_storyteller_slot_caps()
+	return title in list("Wretch", "Gnoll", "Assassin")
+
 /datum/job/proc/get_used_title(mob/player)
-	var/pronouns = player.pronouns
+	var/titles = player.titles_pref
 	var/used_name = display_title || title
-	if((pronouns == SHE_HER || pronouns == THEY_THEM_F) && f_title)
+	if((titles == TITLES_F) && f_title)
 		used_name = f_title
 	return used_name
 
@@ -249,9 +257,12 @@
 
 		to_chat(M, span_notice("Rising early, you made sure to pack a pouch of coins in your stash and eat a hearty breakfast before starting your day. A true TRIUMPH!"))
 
+	if(HAS_TRAIT(H, TRAIT_NOHUNGER))
+		H.hydration = 1000
+
 	if(H.islatejoin && announce_latejoin)
 		var/used_title = display_title || title
-		if((H.pronouns == SHE_HER || H.pronouns == THEY_THEM_F) && f_title)
+		if((H.titles_pref == TITLES_F) && f_title)
 			used_title = f_title
 		scom_announce("[H.real_name] the [used_title] arrives to Azure Peak.")
 
@@ -286,6 +297,13 @@
 	log_admin("[H.key]/([H.real_name]) has joined as [H.mind.assigned_role].")
 
 	H.job_path = src.type // save the job's typepath
+	
+/// Called when a player permanently leaves the round (via returntolobby). Handles slot reopening and respawn delays.
+/datum/job/proc/on_round_removal(mob/M)
+	if(job_reopens_slots_on_death)
+		current_positions = max(0, current_positions - 1)
+	if(same_job_respawn_delay && M.ckey)
+		GLOB.job_respawn_delays[M.ckey] = world.time + same_job_respawn_delay
 
 /client/verb/set_mugshot()
 	set category = "OOC"
@@ -451,6 +469,22 @@
 	if(!J)
 		J = SSjob.GetJob(H.job)
 
+	// --- FOG HIJACK START ---
+	// Basically fog protection on spawn
+	if(SSevent_scheduler.fog_scheduled)
+		H.apply_status_effect(/datum/status_effect/buff/fog_grace)
+
+		// Pity Lantern Logic
+		var/lantern_prob = 10
+		var/mob_rank = H.job
+		if(SSevent_scheduler.fog_active)
+			lantern_prob = (mob_rank in GLOB.antagonist_positions) ? 50 : 15
+		else
+			lantern_prob = (mob_rank in GLOB.antagonist_positions) ? 25 : 8
+		if(prob(lantern_prob))
+			new /obj/item/lantern/fog_repelling(H.loc)
+	// --- FOG HIJACK END ---
+
 //Warden and regular officers add this result to their get_access()
 /datum/job/proc/check_config_for_sec_maint()
 	if(CONFIG_GET(flag/security_has_maint_access))
@@ -467,16 +501,22 @@
 
 	if(length(statcl))
 		for(var/stat in statcl)
-			if(statcl[stat] < H.get_stat(stat))
-				H.change_stat(stat, (statcl[stat] - H.get_stat(stat)))
+			if(statcl[stat] < H.get_true_stat(stat))
+				H.change_stat(stat, (statcl[stat] - H.get_true_stat(stat)))
 				to_chat(H, "Your [stat] was reduced to \Roman[statcl[stat]] due to class limits.")
 
 // LETHALSTONE EDIT: Helper functions for pronoun-based clothing selection
 /proc/should_wear_masc_clothes(mob/living/carbon/human/H)
-	return (H.pronouns == HE_HIM || H.pronouns == THEY_THEM || H.pronouns == SHE_HER_M || (H.pronouns == IT_ITS && H.gender == MALE))
+	if(!H.mind)
+		return (H.pronouns == HE_HIM || H.pronouns == THEY_THEM || H.pronouns == IT_ITS)
+	else 
+		return (H.clothes_pref == CLOTHES_M)
 
 /proc/should_wear_femme_clothes(mob/living/carbon/human/H)
-	return (H.pronouns == SHE_HER || H.pronouns == THEY_THEM_F || H.pronouns == HE_HIM_F || (H.pronouns == IT_ITS && H.gender == FEMALE))
+	if(!H.mind)
+		return (H.pronouns == SHE_HER)
+	else
+		return (H.clothes_pref == CLOTHES_F)
 // LETHALSTONE EDIT END
 
 /datum/job/proc/get_informed_title(mob/mob)
@@ -514,8 +554,30 @@
 					for(var/stat in adv_ref.adv_stat_ceiling)
 						dat += "["[capitalize(stat)]: <b>\Roman[adv_ref.adv_stat_ceiling[stat]]</b>"] | "
 					dat += "<i><br>Regardless of your statpacks or race choice, you will not be able to exceed these stats on spawn.</i></font>"
-				if(adv_ref.subclass_spellpoints > 0)
-					dat += "<font color = '#a3a7e0'>Starting Spellpoints: <b>[adv_ref.subclass_spellpoints]</b></font>"
+				if(LAZYLEN(adv_ref.subclass_mage_aspects))
+					var/list/aspect_cfg = adv_ref.subclass_mage_aspects
+					dat += "<font color = '#a3a7e0'><b>Mage Aspects:</b><br>"
+					if(aspect_cfg["mastery"])
+						dat += "Mastery: <b>Unlocked</b><br>"
+					if(aspect_cfg["major"] > 0)
+						dat += "Major Aspects: <b>[aspect_cfg["major"]]</b><br>"
+					if(aspect_cfg["minor"] > 0)
+						dat += "Minor Aspects: <b>[aspect_cfg["minor"]]</b><br>"
+					if(aspect_cfg["utilities"] > 0)
+						dat += "Utility Slots: <b>[aspect_cfg["utilities"]]</b><br>"
+					if(LAZYLEN(aspect_cfg["locked_aspects"]))
+						dat += "Innate: "
+						var/list/locked = aspect_cfg["locked_aspects"]
+						for(var/aspect_path in locked)
+							var/datum/magic_aspect/A = aspect_path
+							dat += "<b>[initial(A.name)]</b> "
+						dat += "<br>"
+					if(islist(aspect_cfg["variants"]))
+						var/list/overrides = aspect_cfg["variants"]
+						for(var/aspect_path in overrides)
+							var/datum/magic_aspect/A = aspect_path
+							dat += "Tradition: <b>[capitalize(overrides[aspect_path])] [initial(A.name)]</b><br>"
+					dat += "</font>"
 				if(length(adv_ref.subclass_languages))
 					dat += "<details><summary><i>Known Languages</i></summary>"
 					for(var/i in 1 to length(adv_ref.subclass_languages))
@@ -544,6 +606,12 @@
 					for(var/stashed_item in adv_ref.subclass_stashed_items)
 						dat += "<br> - <i>[stashed_item]</i>"
 					dat += "</font>"
+				if(length(adv_ref.subclass_virtues))
+					dat += "<br><font color ='#7a4d0a'>Subclass Virtues:</font><font color ='#d4b164'>"
+					for(var/virtue_type in adv_ref.subclass_virtues)
+						var/datum/virtue/virtue = virtue_type
+						dat += "<br> - <i>[initial(virtue.name)]</i>"
+					dat += "</font>"
 				dat += "</td>"	//Trait Table end
 				if(length(adv_ref.subclass_skills))
 					dat += "<td width = 50%; style='text-align:right'>"
@@ -568,7 +636,11 @@
 				dat += "</td></tr></table>"//Skill table end
 				if(adv_ref.extra_context)
 					dat += "<font color ='#a06c1e'>[adv_ref.extra_context]"
-					dat += "</font>"
+					dat += "<br></font>"
+
+				if(istype(adv_ref.age_mod))
+					dat += adv_ref.age_mod.get_preview_string()
+
 				dat += "</details>"
 		dat += "<hr>"
 		if(length(job_stats))
@@ -624,6 +696,43 @@
 		popup.open(FALSE)
 		if(winexists(usr, "subclassslots"))
 			winset(usr, "subclassslots", "focus=true")
+	if(href_list["jobadvincomp"])
+		if(!usr)
+			return
+		if(!isdead(usr))
+			return
+		var/mob/dead/D = usr
+		var/client/player = D.client
+		var/list/dat = list()
+		for(var/adv in job_subclasses)
+			var/advdat = ""
+			var/datum/advclass/subclasspath = adv
+			var/datum/advclass/subclass = SSrole_class_handler.get_advclass_by_name(initial(subclasspath.name))
+			var/found_issue = FALSE
+			if(length(subclass.virtue_limits))
+				for(var/virtuetype in subclass.virtue_limits)
+					if(istype(player.prefs.virtue, virtuetype))
+						advdat += "[player.prefs.virtue.name]<br>"
+						found_issue = TRUE
+					if(istype(player.prefs.virtuetwo, virtuetype))
+						advdat += "[player.prefs.virtuetwo.name]<br>"
+						found_issue = TRUE
+
+			if(length(subclass.vice_limits))
+				for(var/vicetype in subclass.vice_limits)
+					for(var/vice in player.prefs.charflaws)
+						var/datum/charflaw/cf = vice
+						if(istype(vice, vicetype))
+							advdat += "[cf.name]<br>"
+							found_issue = TRUE
+			if(found_issue)
+				dat += "<font color = '#e4e1e1'><b>[subclass::name]</b></font><br>"
+				dat += advdat
+		var/datum/browser/popup = new(usr, "subclassslots", "<div style='text-align: center'>Subclass Incompatibilities</div>", nwidth = 200, nheight = 300)
+		popup.set_content(dat.Join())
+		popup.open(FALSE)
+		if(winexists(usr, "subclassslots"))
+			winset(usr, "subclassslots", "focus=true")
 	. = ..()
 
 /datum/job/proc/has_limited_subclasses()
@@ -634,3 +743,24 @@
 		if(initial(subclass.maximum_possible_slots) != -1)
 			return TRUE
 	return FALSE
+
+/datum/job/proc/prefs_subclass_compatibility(client/player)
+	if(!player)
+		return FALSE
+	if(!player.prefs)
+		return FALSE
+	if(!length(job_subclasses))
+		return FALSE
+	for(var/adv in job_subclasses)
+		var/datum/advclass/subclasspath = adv
+		var/datum/advclass/subclass = SSrole_class_handler.get_advclass_by_name(initial(subclasspath.name))
+		if(length(subclass.virtue_limits))
+			for(var/virtuetype in subclass.virtue_limits)
+				if(istype(player.prefs.virtue, virtuetype) || istype(player.prefs.virtuetwo, virtuetype))
+					return TRUE
+
+		if(length(subclass.vice_limits))
+			for(var/vicetype in subclass.vice_limits)
+				for(var/vice in player.prefs.charflaws)
+					if(istype(vice, vicetype))
+						return TRUE

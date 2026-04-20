@@ -171,8 +171,8 @@
 	pixel_x = -6;
 	pixel_y = 5
 	},
-/obj/item/roguegem/random,
-/obj/item/roguegem/random,
+/obj/effect/spawner/lootdrop/random_gem,
+/obj/effect/spawner/lootdrop/random_gem,
 /turf/open/floor/rogue/dirt,
 /area/rogue/under/tomb/cave/lava)
 "N" = (

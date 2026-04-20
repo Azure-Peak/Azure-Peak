@@ -5,7 +5,7 @@
 	icon_state = "pestle"
 	force = 7
 	dropshrink = 0.9
-	experimental_inhand = FALSE
+	experimental_inhand = TRUE
 
 	grid_width = 32
 	grid_height = 64
@@ -18,7 +18,7 @@
 	dropshrink = 0.75
 	amount_per_transfer_from_this = 10
 	volume = 100
-	experimental_inhand = FALSE
+	experimental_inhand = TRUE
 	reagent_flags = OPENCONTAINER|REFILLABLE|DRAINABLE
 	spillable = TRUE
 	var/obj/item/to_grind

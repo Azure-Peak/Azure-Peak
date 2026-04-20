@@ -1,5 +1,5 @@
 /datum/job/roguetown
-	display_order = JOB_DISPLAY_ORDER_CAPTAIN
+	display_order = JDO_LORD
 
 /datum/job/roguetown/New()
 	. = ..()
@@ -7,10 +7,13 @@
 		for(var/X in GLOB.peasant_positions)
 			peopleiknow += X
 			peopleknowme += X
-		for(var/X in GLOB.yeoman_positions)
+		for(var/X in GLOB.burgher_positions)
 			peopleiknow += X
 			peopleknowme += X
 		for(var/X in GLOB.church_positions)
+			peopleiknow += X
+			peopleknowme += X
+		for(var/X in GLOB.retinue_positions)
 			peopleiknow += X
 			peopleknowme += X
 		for(var/X in GLOB.garrison_positions)
@@ -22,10 +25,7 @@
 		for(var/X in GLOB.courtier_positions)
 			peopleiknow += X
 			peopleknowme += X
-		for(var/X in GLOB.youngfolk_positions)
-			peopleiknow += X
-			peopleknowme += X
-		for(var/X in GLOB.mercenary_positions)
+		for(var/X in GLOB.sidefolk_positions)
 			peopleiknow += X
 			peopleknowme += X
 		for(var/X in GLOB.inquisition_positions)
@@ -93,6 +93,7 @@
 		// Ensure Wretches are granted their antagonist datum at post-equip
 		if(H.mind.assigned_role == "Wretch" && !H.mind.has_antag_datum(/datum/antagonist/wretch))
 			H.mind.add_antag_datum(/datum/antagonist/wretch)
+
 	for(var/list_key in SStriumphs.post_equip_calls)
 		var/datum/triumph_buy/thing = SStriumphs.post_equip_calls[list_key]
 		thing.on_activate(H)

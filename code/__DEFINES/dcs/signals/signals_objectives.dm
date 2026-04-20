@@ -1,4 +1,4 @@
-#define COMSIG_VICIOUSLY_MOCKED "viciously_mocked_act" // from base of /obj/effect/proc_holder/spell/invoked/mockery/cast() (victim)
+#define COMSIG_VICIOUSLY_MOCKED "viciously_mocked_act" // sent by mockery projectile on_hit (victim)
 #define COMSIG_LUX_EXTRACTED "lux_extracted" // from base of /datum/surgery_step/extract_lux/success() (victim)
 #define COMSIG_DRUG_SNIFFED "drug_sniffed" // from base of /obj/item/reagent_containers/powder/attack() (applier)
 #define COMSIG_ITEM_STOLEN "item_stolen" // from base of /mob/living/MiddleClickOn() (victim)

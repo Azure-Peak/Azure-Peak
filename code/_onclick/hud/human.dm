@@ -172,6 +172,11 @@
 	cdmid.screen_loc = "WEST-3:0,SOUTH+7"
 	static_inventory += cdmid
 
+	defdelay = new /atom/movable/screen/action_bar/defensedelay/defdelay()
+	defdelay.hud = src
+	defdelay.screen_loc = "WEST-1:-5,SOUTH+10:15"
+	static_inventory += defdelay
+
 	build_hand_slots()
 
 	inv_box = new /atom/movable/screen/inventory()
@@ -399,7 +404,6 @@
 	zone_select =  new /atom/movable/screen/zone_sel()
 	zone_select.icon = 'icons/mob/roguehud64.dmi'
 	zone_select.screen_loc = rogueui_targetdoll
-	zone_select.update_icon()
 	zone_select.hud = src
 	static_inventory += zone_select
 
@@ -410,6 +414,11 @@
 
 	energy = new /atom/movable/screen/energy()
 	infodisplay += energy
+
+	breath_bar = new /atom/movable/screen/bloodpool/breath()
+	breath_bar.hud = src
+	static_inventory += breath_bar
+	breath_bar.alpha = 0
 
 	for(var/atom/movable/screen/inventory/inv in (static_inventory + toggleable_inventory))
 		if(inv.slot_id)

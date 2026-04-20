@@ -114,6 +114,13 @@
 					/obj/item/reagent_containers/food/snacks/rogue/honey/spider,
 				)
 
+/datum/supply_pack/rogue/food/chocolate
+	name = "Chocolate"
+	cost = 40
+	contains = list(
+					/obj/item/reagent_containers/food/snacks/chocolate,
+				)
+
 /datum/supply_pack/rogue/food/eel
 	name = "Eel"
 	cost = 20

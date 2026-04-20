@@ -2,18 +2,19 @@
 	title = "Court Magician"
 	flag = WIZARD
 	department_flag = COURTIERS
-	selection_color = JCOLOR_COURTIER
 	faction = "Station"
 	total_positions = 1
 	spawn_positions = 1
 
-	allowed_races = RACES_NO_CONSTRUCT		//Nobility, no construct
+	allowed_races = RACES_SHUNNED_UP		//Nobility, no construct
 	allowed_sexes = list(MALE, FEMALE)
-	spells = list(/obj/effect/proc_holder/spell/targeted/touch/prestidigitation)
+	spells = list()
 	display_order = JDO_MAGICIAN
 	tutorial = "Your creed is one dedicated to the conquering of the arcane arts and the constant thrill of knowledge. \
 		You owe your life to the Lord, for it was his coin that allowed you to continue your studies in these dark times. \
-		In return, you have proven time and time again as justicar and trusted advisor to their reign."
+		In return, you have proven time and time again as justicar and trusted advisor to their reign. You operate \
+		within the University of Azuria, sharing authority jointly with the Head Physician; their realm is the study \
+		of the mundane body, whereas you have authority over all things arcane."
 	outfit = /datum/outfit/job/roguetown/magician
 	whitelist_req = TRUE
 	give_bank_account = TRUE
@@ -26,7 +27,7 @@
 	// Can't get very far as a magician if you can't chant spells now can you?
 	vice_restrictions = list(/datum/charflaw/mute)
 
-	job_traits = list(TRAIT_MAGEARMOR, TRAIT_ARCYNE_T4, TRAIT_SEEPRICES, TRAIT_INTELLECTUAL, TRAIT_ALCHEMY_EXPERT, TRAIT_LAWEXPERT)
+	job_traits = list(TRAIT_ARCYNE, TRAIT_SEEPRICES, TRAIT_INTELLECTUAL, TRAIT_ALCHEMY_EXPERT, TRAIT_LAWEXPERT)
 	job_subclasses = list(
 		/datum/advclass/courtmage
 	)
@@ -35,10 +36,12 @@
 	name = "Court Magician"
 	tutorial = "Your creed is one dedicated to the conquering of the arcane arts and the constant thrill of knowledge. \
 		You owe your life to the Lord, for it was his coin that allowed you to continue your studies in these dark times. \
-		In return, you have proven time and time again as justicar and trusted advisor to their reign."
+		In return, you have proven time and time again as justicar and trusted advisor to their reign. You operate \
+		within the University of Azuria, sharing authority jointly with the Head Physician; their realm is the study \
+		of the mundane body, whereas you have authority over all things arcane."
 	outfit = /datum/outfit/job/roguetown/magician/basic
 
-	subclass_spellpoints = 36
+	subclass_mage_aspects = list("mastery" = TRUE, "major" = 2, "minor" = 3, "utilities" = 9, "ward" = TRUE)
 	category_tags = list(CTAG_COURTMAGE)
 	subclass_stats = list(
 		STATKEY_INT = 5,// Automatic advanced magic for most spells. (I.E summon weapon being upgraded to steel from iron/etc)
@@ -47,6 +50,7 @@
 		STATKEY_STR = -1,
 		STATKEY_CON = -1,
 	)
+	age_mod = /datum/class_age_mod/court_magician
 	subclass_skills = list(
 		/datum/skill/combat/staves = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/polearms = SKILL_LEVEL_JOURNEYMAN,
@@ -73,11 +77,6 @@
 /datum/outfit/job/roguetown/magician/choose_loadout(mob/living/carbon/human/H)
 	. = ..()
 	if(H.age == AGE_OLD)
-		H.adjust_skillrank_up_to(/datum/skill/magic/arcane, 6, TRUE)
-		H.change_stat(STATKEY_SPD, -1)
-		H.change_stat(STATKEY_INT, 1)
-		H.change_stat(STATKEY_PER, 1)
-		H.mind?.adjust_spellpoints(6)
 		if(ishumannorthern(H))
 			belt = /obj/item/storage/belt/rogue/leather/plaquegold
 			cloak = null
@@ -109,18 +108,17 @@
 	shoes = /obj/item/clothing/shoes/roguetown/shortboots
 	saiga_shoes = /obj/item/clothing/shoes/roguetown/horseshoes
 	belt = /obj/item/storage/belt/rogue/leather/plaquesilver
-	beltr = /obj/item/storage/keyring/mage
+	beltr = /obj/item/storage/keyring/magician
 	beltl = /obj/item/storage/magebag/associate
 	id = /obj/item/clothing/ring/gold
-	r_hand = /obj/item/rogueweapon/woodstaff/riddle_of_steel/magos
+	r_hand = /obj/item/rogueweapon/woodstaff/implement/grand/magos
 	backl = /obj/item/storage/backpack/rogue/satchel
 	backpack_contents = list(
 		/obj/item/reagent_containers/glass/bottle/rogue/poison,
 		/obj/item/reagent_containers/glass/bottle/rogue/healthpot,
-		/obj/item/recipe_book/alchemy,
-		/obj/item/recipe_book/magic,
 		/obj/item/book/spellbook,
-		/obj/item/rogueweapon/huntingknife/idagger/silver/arcyne
+		/obj/item/rogueweapon/huntingknife/idagger/silver/arcyne,
+		/obj/item/chalk
 	)
 	if(H.mind)
 		SStreasury.give_money_account(ECONOMIC_RICH, H, "Savings.")

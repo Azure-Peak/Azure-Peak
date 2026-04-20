@@ -9,6 +9,14 @@
 	name = "low tier general loot spawner"
 	icon_state = "genlow"
 	lootcount = 1
+	loot_value = LOOT_VALUE_GENERAL_LOW
+	junk_loot = list(
+		/obj/item/ash = 5,
+		/obj/item/natural/glass_shard = 5,
+		/obj/item/natural/stone = 3,
+		/obj/item/candle/yellow = 3,
+		/obj/item/natural/feather = 3,
+	)
 	loot = list(
 		//mats
 		/obj/item/natural/bundle/stick = 4,
@@ -67,7 +75,8 @@
 		/obj/item/mundane/puzzlebox/easy = 1,
 		//medical
 		/obj/item/needle/thorn = 4,
-		/obj/item/natural/cloth = 5,
+		/obj/item/natural/cloth/bandage = 5,
+		/obj/item/natural/bundle/cloth/bandage/full = 3,
 		//weapons
 		/obj/item/gun/ballistic/revolver/grenadelauncher/bow = 2,
 		/obj/item/quiver/arrows = 2,
@@ -148,6 +157,14 @@
 	name = "mid tier general loot spawner"
 	icon_state = "genmid"
 	lootcount = 1
+	loot_value = LOOT_VALUE_GENERAL_MID
+	junk_loot = list(
+		/obj/item/ash = 5,
+		/obj/item/natural/glass_shard = 5,
+		/obj/item/natural/stone = 3,
+		/obj/item/candle/yellow = 3,
+		/obj/item/natural/feather = 3,
+	)
 	loot = list(
 		//mats
 		/obj/item/natural/hide/cured = 2,
@@ -210,8 +227,8 @@
 		/obj/item/mundane/puzzlebox/easy = 1,
 		//medical
 		/obj/item/needle = 4,
-		/obj/item/natural/cloth = 5,
-		/obj/item/natural/bundle/cloth = 3,
+		/obj/item/natural/cloth/bandage = 5,
+		/obj/item/natural/bundle/cloth/bandage/full = 3,
 		//weapons
 		/obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve = 4,
 		/obj/item/gun/ballistic/revolver/grenadelauncher/crossbow = 3,
@@ -220,8 +237,8 @@
 		/obj/item/quiver/javelin = 2,
 		/obj/item/quiver/sling = 2,
 		/obj/item/quiver/Warrows = 1,
-		/obj/item/quiver/Wbolts = 1,
-		/obj/item/quiver/bolts = 2,
+		/obj/item/quiver/bolt/water = 1,
+		/obj/item/quiver/bolt/standard = 2,
 		/obj/item/rogueweapon/mace = 2,
 		/obj/item/rogueweapon/mace/cudgel = 2,
 		/obj/item/rogueweapon/mace/goden/steel/paalloy = 2,
@@ -307,6 +324,14 @@
 	name = "high tier general loot spawner"
 	icon_state = "genhi"
 	lootcount = 1
+	loot_value = LOOT_VALUE_GENERAL_HI
+	junk_loot = list(
+		/obj/item/ash = 3,
+		/obj/item/natural/glass_shard = 3,
+		/obj/item/candle/yellow = 3,
+		/obj/item/rope = 3,
+		/obj/item/rope/chain = 3,
+	)
 	loot = list(
 		//mats
 		/obj/item/natural/hide/cured = 2,
@@ -336,7 +361,8 @@
 		/obj/item/mundane/puzzlebox/impossible = 1,
 		//medical
 		/obj/item/needle = 4,
-		/obj/item/natural/bundle/cloth = 3,
+		/obj/item/natural/cloth/bandage = 5,
+		/obj/item/natural/bundle/cloth/bandage/full = 3,
 		//weapons
 		/obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve = 4,
 		/obj/item/gun/ballistic/revolver/grenadelauncher/bow/longbow  = 4,
@@ -345,8 +371,8 @@
 		/obj/item/quiver/arrows = 2,
 		/obj/item/quiver/sling = 2,
 		/obj/item/quiver/Warrows = 1,
-		/obj/item/quiver/Wbolts = 1,
-		/obj/item/quiver/bolts = 2,
+		/obj/item/quiver/bolt/water = 1,
+		/obj/item/quiver/bolt/standard = 2,
 		/obj/item/quiver/bodkin = 2,
 		/obj/item/rogueweapon/mace/steel = 2,
 		/obj/item/rogueweapon/mace/goden/steel = 2,
@@ -368,7 +394,6 @@
 		/obj/item/rogueweapon/katar = 1,
 		/obj/item/rogueweapon/spear/billhook = 2,
 		/obj/item/rogueweapon/halberd = 2,
-		/obj/item/rogueweapon/halberd/glaive = 2,
 		/obj/item/rogueweapon/eaglebeak = 1,
 		/obj/item/rogueweapon/greatsword = 1,
 		/obj/item/rogueweapon/estoc = 1,
@@ -387,6 +412,10 @@
 		/obj/item/rogueweapon/sword/long/kriegmesser/silver = 1,
 		/obj/item/rogueweapon/sword/short/silver = 1,
 		/obj/item/rogueweapon/sword/rapier/silver = 1,
+		/obj/item/rogueweapon/katar/silver = 1,
+		/obj/item/rogueweapon/handclaw/gronn/silver = 1,
+		/obj/item/rogueweapon/sword/long/exe/silver = 1,
+		/obj/item/rogueweapon/greatsword/silver = 1,
 		/obj/item/rogueweapon/whip/silver = 1,
 		/obj/item/rogueweapon/woodstaff/quarterstaff/silver = 1,
 		//tools
@@ -432,6 +461,7 @@
 		/obj/item/reagent_containers/food/snacks/rogue/meat/coppiette = 1,
 		/obj/item/reagent_containers/food/snacks/rogue/cheddarwedge/aged = 1,
 		/obj/item/reagent_containers/food/snacks/rogue/meat/salami = 1,
+		/obj/item/reagent_containers/food/snacks/grown/apple/gold = 1,
 	)
 
 //x3 of the above
@@ -440,16 +470,60 @@
 	name = "low tier general loot spawnerx3"
 	icon_state = "genlowx3"
 	lootcount = 3
+	loot_value = LOOT_VALUE_GENERAL_LOW * 3
 
 /obj/effect/spawner/lootdrop/general_loot_mid/x3
 	name = "mid tier general loot spawnerx3"
 	icon_state = "genmidx3"
 	lootcount = 3
+	loot_value = LOOT_VALUE_GENERAL_MID * 3
 
 /obj/effect/spawner/lootdrop/general_loot_hi/x3
 	name = "high tier general loot spawnerx3"
 	icon_state = "genhix3"
 	lootcount = 3
+	loot_value = LOOT_VALUE_GENERAL_HI * 3
+
+/obj/effect/spawner/lootdrop/random_gem
+	name = "random gem spawner"
+	icon_state = "roguegem"
+	lootcount = 1
+	loot_value = LOOT_VALUE_RANDOM_GEM
+	junk_loot = list(/obj/item/natural/stone = 5, /obj/item/natural/glass_shard = 5)
+	loot = list(
+		/obj/item/roguegem/ruby = 5,
+		/obj/item/roguegem/green = 15,
+		/obj/item/roguegem/blue = 10,
+		/obj/item/roguegem/yellow = 20,
+		/obj/item/roguegem/violet = 10,
+		/obj/item/roguegem/diamond = 5,
+		/obj/item/roguegem/onyxa = 5,
+		/obj/item/roguegem/jade = 3,
+		/obj/item/roguegem/coral = 3,
+		/obj/item/roguegem/turq = 3,
+		/obj/item/roguegem/amber = 3,
+		/obj/item/roguegem/opal = 3,
+		/obj/item/roguegem/blood_diamond = 1,
+		/obj/item/rogueore/silver = 3,
+	)
+
+/obj/effect/spawner/lootdrop/spider_cave_loot
+	name = "spider cave loot spawner"
+	icon_state = "genhi"
+	lootcount = 1
+	loot_value = LOOT_VALUE_SPIDER_CAVE_LOOT
+	junk_loot = list(/obj/item/natural/hide = 5, /obj/item/rope/chain = 3)
+	loot = list(
+		/obj/item/clothing/neck/roguetown/leather = 150,
+		/obj/item/clothing/neck/roguetown/chaincoif = 100,
+		/obj/item/clothing/suit/roguetown/armor/plate/cuirass = 50,
+		/obj/item/clothing/head/roguetown/helmet/heavy/volfplate = 100,
+		/obj/item/rogueweapon/mace/warhammer/steel/silver = 100,
+		/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk = 150,
+		/obj/item/clothing/gloves/roguetown/plate = 75,
+		/obj/item/clothing/under/roguetown/platelegs = 75,
+		/obj/item/clothing/head/roguetown/helmet/bascinet = 100,
+	)
 
 /*
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀

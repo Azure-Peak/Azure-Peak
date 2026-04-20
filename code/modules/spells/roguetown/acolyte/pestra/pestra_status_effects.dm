@@ -203,7 +203,7 @@
 	var/stacks = 1
 	var/tier = 1
 	var/progression_timer = 0
-	var/base_progression_time = 25 MINUTES // Base time to next tier at 1 stack
+	var/base_progression_time = 30 MINUTES // Base time to next tier at 1 stack
 	var/next_damage_tick = 0
 	var/static/list/valid_body_zones = list(
 		BODY_ZONE_L_ARM,
@@ -217,6 +217,9 @@
 	update_alert()
 
 /datum/status_effect/black_rot/on_apply()
+	if(owner.has_status_effect(/datum/status_effect/black_rot_debility))
+		to_chat(owner, span_warning("My body is still recovering from previous rot and resists new infection!"))
+		return FALSE
 	to_chat(owner, span_userdanger("A deep, chilling rot begins to spread through my body!"))
 	update_effects()
 	return TRUE
@@ -312,7 +315,7 @@
 
 	// Apply damage and effects based on tier
 	if(world.time >= next_damage_tick)
-		next_damage_tick = world.time + (8 SECONDS / stacks)
+		next_damage_tick = world.time + max(8 SECONDS, (8 SECONDS / (stacks / 2)))
 		apply_damage_effects()
 
 /datum/status_effect/black_rot/proc/apply_damage_effects()
@@ -329,7 +332,7 @@
 					to_chat(owner, span_warning("I feel a strange chill in my bones."))
 
 		if(2)
-			owner.adjustToxLoss(2 * damage_multiplier)
+			owner.adjustToxLoss(1 * damage_multiplier)
 			if(prob(25))
 				owner.adjustBruteLoss(4 * damage_multiplier)
 			if(prob(10))
@@ -340,7 +343,7 @@
 				to_chat(owner, span_warning(message))
 		if(3)
 			owner.adjustToxLoss(2 * damage_multiplier)
-			owner.adjustBruteLoss(2 * damage_multiplier)
+			owner.adjustBruteLoss(1 * damage_multiplier)
 			if(prob(25))
 				owner.adjustOxyLoss(min(60 - owner.getOxyLoss(), 50 * damage_multiplier))
 			if(prob(1))
@@ -378,6 +381,10 @@
 				to_chat(owner, span_userdanger(message))
 
 /datum/status_effect/black_rot/proc/add_stack(amount = 1)
+	if(owner.has_status_effect(/datum/status_effect/black_rot_debility))
+		to_chat(owner, span_warning("My recovering body fights off the worsening rot!"))
+		return
+
 	var/old_stacks = stacks
 	stacks = clamp(stacks + amount, 1, 4)
 
@@ -391,7 +398,14 @@
 
 /datum/status_effect/black_rot/proc/remove_stack(amount = 1)
 	var/old_stacks = stacks
-	stacks = clamp(stacks - amount, 1, 4)
+	stacks = clamp(stacks - amount, 0, 4)
+
+	if(stacks <= 0)
+		var/mob/living/carbon/human/H = owner
+		if(istype(H))
+			H.apply_status_effect(/datum/status_effect/black_rot_debility)
+		owner.remove_status_effect(/datum/status_effect/black_rot)
+		return
 	if(stacks != old_stacks)
 		var/time_remaining = progression_timer - world.time
 		var/new_time_remaining = time_remaining * (old_stacks / stacks)
@@ -481,3 +495,26 @@
 /atom/movable/screen/alert/status_effect/black_rot_carrier
 	name = "Pestra's blessing"
 	desc = "I carry Pestra's blessing, people should avoid my touch."
+
+/datum/status_effect/black_rot_debility
+	id = "black_rot_debility"
+	alert_type = /atom/movable/screen/alert/status_effect/black_rot_debility
+	duration = 30 MINUTES
+	effectedstats = list(
+		STATKEY_CON = -1,
+		STATKEY_STR = -1
+	)
+
+/datum/status_effect/black_rot_debility/on_apply()
+	. = ..()
+	to_chat(owner, span_warning("I feel weakened and fragile from the aftermath of the black rot."))
+	return TRUE
+
+/datum/status_effect/black_rot_debility/on_remove()
+	to_chat(owner, span_good("My strength finally returns to normal."))
+	return ..()
+
+/atom/movable/screen/alert/status_effect/black_rot_debility
+	name = "Rot-Weakened"
+	desc = "Pestra's skittering ethereal bugs are still knitting my ravaged flesh together. At least I should be immune for a while..."
+	icon_state = "debuff_moderate"

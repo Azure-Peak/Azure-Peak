@@ -45,13 +45,13 @@
 	desc = "Edible flesh harvested from swines."
 	item_type = /obj/item/reagent_containers/food/snacks/rogue/meat/fatty
 	held_items = list(0, 0)
-	payout_price = 3
-	withdraw_price = 3
-	transport_fee = 1
-	export_price = 5
+	payout_price = 4
+	withdraw_price = 4
+	transport_fee = 2
+	export_price = 8
 	importexport_amt = 5
 	stockpile_limit = 25
-	passive_generation = 2
+	passive_generation = 1
 	category = "Animal"
 
 /datum/roguestock/stockpile/fat

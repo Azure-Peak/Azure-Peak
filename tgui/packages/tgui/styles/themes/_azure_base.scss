@@ -1,0 +1,291 @@
+/**
+ * Azure Peak — Shared Theme Base
+ *
+ * All azure_* themes derive from this mixin.
+ * Each theme only needs to supply its color map and topbar asset.
+ *
+ * Color map keys:
+ *   base            – body / layout background
+ *   base-light      – slightly lighter than base (top of window gradient)
+ *   base-dark       – slightly darker than base (bottom of window gradient)
+ *   section         – section panel background (translucent or subtle)
+ *   text            – primary text color
+ *   label           – secondary / label text
+ *   accent          – section separators, dividers, input borders
+ *   accent-bright   – input focus borders, link hover (brighter accent)
+ *   border          – component borders, button backgrounds
+ *   btn-text        – button label color
+ *   btn-selected    – selected-state button background
+ *   btn-disabled    – disabled transparent-button text
+ *   scrollbar-thumb – scrollbar thumb color
+ *   section-title   – section heading text (bright accent, like chant's col_header)
+ *   glow            – box-shadow rgba for section depth (e.g. rgba(139,85,85,0.15))
+ *   link            – a:link color
+ *   link-visited    – a:visited color
+ *   link-hover      – a:hover / a:active color
+ */
+
+@use 'sass:color';
+@use 'sass:map';
+
+@font-face {
+  font-family: 'Pterra';
+  src: url('~roguefont/pterra.ttf');
+}
+
+@mixin azure-theme($colors, $topbar-svg) {
+  // ── Core variables ──────────────────────────────────────────────
+  --color-base: #{map.get($colors, 'base')};
+  --color-base-start: #{map.get($colors, 'base-light')};
+  --color-base-end: #{map.get($colors, 'base-dark')};
+
+  --font-size: 14px;
+  --font-family: 'Pterra';
+  --color-text: #{map.get($colors, 'text')};
+  --line-height: 170%;
+
+  // Semantic
+  --color-label: #{map.get($colors, 'label')};
+
+  // Section panels
+  --color-section: #{map.get($colors, 'section')};
+  --section-title-color: #{map.get($colors, 'section-title')};
+
+  // Scrollbar
+  --color-scrollbar-thumb: #{map.get($colors, 'scrollbar-thumb')};
+  scrollbar-color: #{map.get($colors, 'border')} #{map.get($colors, 'base')};
+
+  // Borders
+  --color-border: #{map.get($colors, 'border')};
+  --section-separator-color: #{map.get($colors, 'accent')};
+  --input-border-color: #{map.get($colors, 'accent')};
+  --input-border-color-focus: #{map.get($colors, 'accent-bright')};
+
+  // Buttons
+  --button-border-radius: 3px;
+  --button-background: #{map.get($colors, 'border')};
+  --button-background-default: #{map.get($colors, 'border')};
+  --button-background-selected: #{map.get($colors, 'btn-selected')};
+
+  // ── Layout ──────────────────────────────────────────────────────
+  .Layout__content {
+    background-image: none;
+  }
+
+  // ── Title Bar — gradient border instead of rope SVG ─────────────
+  .TitleBar {
+    background-image: none;
+    background-color: #{map.get($colors, 'base-dark')};
+    border-bottom: 2px solid #{map.get($colors, 'accent')};
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5),
+                0 1px 0 #{map.get($colors, 'accent-bright')};
+
+    &__title {
+      font-size: 1.6rem;
+    }
+  }
+
+  .TitleBar__title {
+    padding-left: 12px;
+    font-family: Georgia, 'Palatino Linotype', Palatino, serif;
+    font-size: 15px;
+    color: #{map.get($colors, 'section-title')};
+    font-weight: bolder;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  // ── Sections — gradient bg, gradient border, glow ───────────────
+  .Section {
+    background: linear-gradient(
+      to bottom,
+      #{map.get($colors, 'section')} 0%,
+      transparent 100%
+    );
+    box-shadow: 0 0 15px #{map.get($colors, 'glow')};
+  }
+
+  // ── Section titles — letter-spacing + uppercase (chant h2/h3 style)
+  .Section__title {
+    display: flex;
+    align-items: center;
+  }
+
+  .Section__titleText {
+    flex-grow: 1;
+  }
+
+  .Section__buttons {
+    position: static;
+    margin-top: 0;
+
+    .Button {
+      margin-right: 4px;
+    }
+  }
+
+  .Section__titleText {
+    font-family: Georgia, 'Palatino Linotype', Palatino, serif;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  // ── Emphasized text — brighter highlight like chant's col_em ──────
+  em {
+    color: #{map.get($colors, 'link-visited')};
+  }
+
+  // ── Buttons — wood plank style ──────────────────────────────────
+  .Button {
+    transition: all 0.3s ease;
+    --color-text: #{map.get($colors, 'btn-text')};
+    min-height: 1.667em;
+    line-height: 1.667em;
+    background-color: map.get($colors, 'border');
+    border: 2px solid map.get($colors, 'accent');
+    outline: 1px solid color.adjust(map.get($colors, 'border'), $lightness: -6%);
+    outline-offset: -3px;
+    text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.4);
+    // Raised: light top-left edge, dark bottom-right, drop shadow beneath
+    box-shadow:
+      inset 1px 1px 0 rgba(255, 255, 255, 0.12),
+      inset -1px -1px 0 rgba(0, 0, 0, 0.2),
+      0 2px 0 color.adjust(map.get($colors, 'border'), $lightness: -10%),
+      0 3px 6px rgba(0, 0, 0, 0.25);
+
+    &:hover {
+      background-color: color.adjust(map.get($colors, 'border'), $lightness: 6%);
+      border-color: map.get($colors, 'accent-bright');
+      outline-color: color.adjust(map.get($colors, 'border'), $lightness: -3%);
+    }
+
+    &:active {
+      // Pressed in
+      box-shadow:
+        inset 2px 2px 4px rgba(0, 0, 0, 0.5),
+        inset -1px -1px 0 rgba(255, 255, 255, 0.03);
+      outline-offset: -2px;
+      transform: translateY(1px);
+    }
+
+    &.Button--selected {
+      // Carved recess
+      background-color: map.get($colors, 'btn-selected');
+      border-color: map.get($colors, 'accent');
+      outline-color: color.adjust(map.get($colors, 'btn-selected'), $lightness: -4%);
+      box-shadow:
+        inset 2px 2px 4px rgba(0, 0, 0, 0.5),
+        inset -1px -1px 0 rgba(255, 255, 255, 0.04);
+    }
+  }
+
+  .Button--color--transparent {
+    --button-background-hover: #{map.get($colors, 'border')};
+    --button-background-active: #{map.get($colors, 'border')};
+    --button-background-disabled: transparent;
+    background-color: transparent;
+    border: 2px solid transparent;
+    outline: none;
+    box-shadow: none;
+    text-shadow: none;
+
+    &:hover {
+      border-color: transparent;
+      outline: none;
+      box-shadow: none;
+    }
+
+    &:active {
+      box-shadow: none;
+      outline: none;
+      transform: none;
+    }
+
+    &.Button--selected {
+      background-color: map.get($colors, 'btn-selected');
+      --button-color: #fff;
+      color: #fff !important;
+      border-color: transparent;
+      outline: none;
+      box-shadow: none;
+    }
+  }
+
+  .Button--color--transparent.Button--disabled {
+    --button-color: #{map.get($colors, 'btn-disabled')};
+  }
+
+  // ── Input — recessed parchment slot ───────────────────────────
+  .Input {
+    min-height: 1.667em;
+    line-height: 1.667em;
+    background-color: color.adjust(map.get($colors, 'base'), $lightness: -2%);
+    border: 2px solid map.get($colors, 'accent');
+    outline: 1px solid color.adjust(map.get($colors, 'base'), $lightness: -5%);
+    outline-offset: -3px;
+    color: #{map.get($colors, 'text')};
+    box-shadow:
+      inset 2px 2px 4px rgba(0, 0, 0, 0.4),
+      inset -1px -1px 0 rgba(255, 255, 255, 0.04);
+
+    &:focus-within {
+      border-color: map.get($colors, 'accent-bright');
+      box-shadow:
+        inset 2px 2px 4px rgba(0, 0, 0, 0.4),
+        inset -1px -1px 0 rgba(255, 255, 255, 0.04),
+        0 0 3px #{map.get($colors, 'glow')};
+    }
+  }
+
+  // ── Input Buttons ───────────────────────────────────────────────
+  .input-button {
+    &__submit, &__cancel {
+      color: #ae3636;
+      font-weight: 600;
+    }
+    &__submit:hover {
+      background: rgba(74, 140, 74, 0.3);
+      transition: all 0.5s;
+    }
+    &__cancel:hover {
+      background: rgba(140, 74, 74, 0.3);
+      transition: all 0.5s;
+    }
+  }
+
+  // ── Content padding ─────────────────────────────────────────────
+  .Window__contentPadding {
+    margin-left: 1rem;
+    margin-right: 1rem;
+  }
+
+  // ── Divider ─────────────────────────────────────────────────────
+  .Divider {
+    border-color: #{map.get($colors, 'accent')};
+  }
+
+  // ── Links ───────────────────────────────────────────────────────
+  a:link {
+    color: #{map.get($colors, 'link')};
+    background-color: transparent;
+    text-decoration: underline;
+  }
+
+  a:visited {
+    color: #{map.get($colors, 'link-visited')};
+    background-color: transparent;
+    text-decoration: underline;
+  }
+
+  a:hover {
+    color: #{map.get($colors, 'link-hover')};
+    background-color: transparent;
+    text-decoration: underline;
+  }
+
+  a:active {
+    color: #{map.get($colors, 'link-hover')};
+    background-color: transparent;
+    text-decoration: underline;
+  }
+}

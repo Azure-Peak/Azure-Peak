@@ -8,7 +8,10 @@ PROCESSING_SUBSYSTEM_DEF(dcs)
 /datum/controller/subsystem/processing/dcs/Recover()
 	comp_lookup = SSdcs.comp_lookup
 
-/datum/controller/subsystem/processing/dcs/proc/GetElement(list/arguments)
+/datum/controller/subsystem/processing/dcs/proc/GetElement(list/arguments, create_if_missing = TRUE)
+	if(!islist(arguments) || !length(arguments))
+		return null
+
 	var/datum/element/eletype = arguments[1]
 	var/element_id = eletype
 
@@ -19,8 +22,9 @@ PROCESSING_SUBSYSTEM_DEF(dcs)
 		element_id = GetIdFromArguments(arguments)
 
 	. = elements_by_type[element_id]
-	if(.)
+	if(. || !create_if_missing)
 		return
+
 	. = elements_by_type[element_id] = new eletype
 
 /****

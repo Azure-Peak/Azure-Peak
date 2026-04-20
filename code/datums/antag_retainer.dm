@@ -57,19 +57,8 @@
 	if(!forced && (world.time < SSticker.next_lord_check))
 		return
 	SSticker.next_lord_check = world.time + 1 MINUTES
-	var/lord_found = FALSE
-	var/lord_dead = FALSE
-	for(var/mob/living/carbon/human/H in GLOB.human_list)
-		if(H.mind)
-			if(H.job == "Grand Duke")
-				lord_found = TRUE
-				if(H.stat == DEAD)
-					lord_dead = TRUE
-				else
-					if(lord_dead)
-						lord_dead = FALSE
-					break
-	if(lord_dead || !lord_found)
+	var/mob/living/ruler = SSticker.rulermob
+	if(!ruler || ruler.stat == DEAD)
 		if(!SSticker.missing_lord_time)
 			SSticker.missing_lord_time = world.time
 		if(world.time > SSticker.missing_lord_time + 10 MINUTES)
@@ -77,6 +66,10 @@
 			addomen(OMEN_NOLORD)
 		return FALSE
 	else
+		// Ruler is alive - clear any stale "no lord" state so the omen does not linger
+		// after admin spawns, latejoins, or other paths that don't go through revive()/usurpation.
+		SSticker.missing_lord_time = 0
+		removeomen(OMEN_NOLORD)
 		return TRUE
 
 /proc/age_check(client/C)
@@ -95,3 +88,38 @@
 		return 0
 
 	return max(0, 0 - C.player_age)
+
+
+/proc/select_omen_event() // There's probably a better place I could've put this. Too bad!
+	// Check for all existing omen events
+	var/list/candidates = list()
+	for(var/datum/round_event_control/E in SSevents.control)
+		if(E.track == EVENT_TRACK_OMENS)
+			candidates += E
+	// None exist
+	if(!length(candidates))
+		return null
+
+	// Use var/weight to roll for which event in the list should launch. Probably a little better than just rand(0, length(candidates))
+	var/total_weight = 0
+	for(var/datum/round_event_control/E in candidates)
+		total_weight += max(1, E.weight)
+
+	var/roll = rand(1, total_weight)
+	var/acc = 0
+	for(var/datum/round_event_control/E in candidates)
+		acc += max(1, E.weight)
+		if(roll <= acc)
+			return E
+
+/proc/launch_omen_event()
+	// Pick an omen event
+	var/datum/round_event_control/E = select_omen_event()
+	if(!E)
+		return
+
+	// Force it to launch. We don't care about the storyteller requirements.
+	E.req_omen = FALSE
+	E.earliest_start = 0
+	E.min_players = 0
+	E.runEvent()

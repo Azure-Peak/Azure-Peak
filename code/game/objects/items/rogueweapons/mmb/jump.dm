@@ -47,6 +47,10 @@
 			to_chat(src, span_warning("That's too high for me..."))
 			return FALSE
 
+	if(has_status_effect(/datum/status_effect/debuff/exposed))
+		to_chat(src, span_warning("I'm exposed and lost my footing! I can't jump!"))
+		return FALSE
+
 	SEND_SIGNAL(src, COMSIG_LIVING_ONJUMP, A)
 
 	changeNext_move(mmb_intent.clickcd)
@@ -79,6 +83,7 @@
 		if(!H.check_armor_skill() || H.legcuffed)
 			jadded += 50
 			jrange = 1
+			to_chat(H, span_warning("My armor is too heavy to jump effectively!"))
 
 	jump_action_resolve(A, jadded, jrange, jextra, jroot)
 	return TRUE
@@ -108,6 +113,7 @@
 			animate(pixel_z = prev_pixel_z, transform = turn(transform, pick(-12, 0, 12)), time=2)
 			animate(transform = prev_transform, time = 0)
 
+		is_jumping = TRUE // Mark as jumping to differentiate from being thrown
 		if(jextra)
 			throw_at(A, jrange, 1, src, spin = FALSE)
 			while(src.throwing)
@@ -117,6 +123,7 @@
 			throw_at(A, jrange, 1, src, spin = FALSE)
 			while(src.throwing)
 				sleep(1)
+		is_jumping = FALSE
 		if(jroot && !HAS_TRAIT(src, TRAIT_ZJUMP))	//Jesters and werewolves don't get immobilized at all
 			Immobilize((HAS_TRAIT(src, TRAIT_LEAPER) ? 5 : 10))	//Acrobatics get half the time
 		if(isopenturf(src.loc))
@@ -128,7 +135,9 @@
 		animate(src, pixel_z = pixel_z + 6, time = 1)
 		animate(pixel_z = prev_pixel_z, transform = turn(transform, pick(-12, 0, 12)), time=2)
 		animate(transform = prev_transform, time = 0)
+		is_jumping = TRUE
 		throw_at(A, 1, 1, src, spin = FALSE)
+		is_jumping = FALSE
 
 	if(mob_offsets)
 		for(var/o in mob_offsets)

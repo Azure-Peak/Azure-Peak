@@ -1,9 +1,15 @@
 /datum/sex_action/sex/slit
 	name = "Fuck their slit"
 	stamina_cost = 1.0
+	intensity = 4
+	debug_erp_panel_verb = FALSE //When the frontend just works.
 
 /datum/sex_action/sex/slit/shows_on_menu(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	if(user == target)
+		return FALSE
+	if(!check_location_accessible(user, user, BODY_ZONE_PRECISE_GROIN, TRUE))
+		return FALSE
+	if(!check_location_accessible(user, target, BODY_ZONE_PRECISE_GROIN, TRUE))
 		return FALSE
 	if(!user.getorganslot(ORGAN_SLOT_PENIS))
 		return FALSE
@@ -40,9 +46,6 @@
 	var/is_knotting = sex_session.do_knot_action
 	user.visible_message(sex_session.spanify_force("[user] [sex_session.get_generic_force_adjective()] [is_knotting ? "knot-fucks" : "fucks"] [target]'s slit."))
 	playsound(target, sex_session.get_force_sound(), 50, TRUE, -2, ignore_walls = FALSE)
-	// their bells were still beyond me...
-	if(istype(target.head, /obj/item/clothing/head/roguetown/jester))
-		playsound(target, SFX_JINGLE_BELLS, 30, TRUE, -2, ignore_walls = FALSE)
 	do_thrust_animate(user, target)
 
 	do_onomatopoeia(user)
@@ -62,7 +65,7 @@
 	return "into"
 
 /datum/sex_action/sex/slit/get_finish_message(mob/living/carbon/human/user, mob/living/carbon/human/target)
-	return span_warning("[user] pulls [user.p_their()] cock out of [target]'s slit.")
+	return span_warning("[user] pulls [user.p_their()] pintle out of [target]'s slit.")
 
 /datum/sex_action/sex/slit/get_knot_count()
 	return 1
@@ -82,7 +85,7 @@
 	return ..()
 
 /datum/sex_action/sex/slit/double/get_start_message(mob/living/carbon/human/user, mob/living/carbon/human/target)
-	return span_warning("[user] slides [user.p_their()] cocks into [target]'s slit!")
+	return span_warning("[user] slides [user.p_their()] pintles into [target]'s slit!")
 
 /datum/sex_action/sex/slit/double/get_start_sound(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	return list('sound/misc/mat/insert (1).ogg','sound/misc/mat/insert (2).ogg')
@@ -106,7 +109,7 @@
 	sex_session.handle_passive_ejaculation(target)
 
 /datum/sex_action/sex/slit/double/get_finish_message(mob/living/carbon/human/user, mob/living/carbon/human/target)
-	return span_warning("[user] pulls [user.p_their()] cocks out of [target]'s slit.")
+	return span_warning("[user] pulls [user.p_their()] pintles out of [target]'s slit.")
 
 /datum/sex_action/sex/slit/double/get_knot_count()
 	return 2

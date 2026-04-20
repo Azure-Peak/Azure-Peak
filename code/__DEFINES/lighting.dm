@@ -116,6 +116,7 @@
 #define FLASH_LIGHT_DURATION 2
 #define FLASH_LIGHT_POWER 3
 #define FLASH_LIGHT_RANGE 3.8
+#define FLASH_LIGHT_SPELLGLOW 3 SECONDS
 
 #define EMISSIVE_BLOCK_GENERIC 1
 /// Uses a dedicated render_target object to copy the entire appearance in real time to the blocking layer. For things that can change in appearance a lot from the base state, like humans.

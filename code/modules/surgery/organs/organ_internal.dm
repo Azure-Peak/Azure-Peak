@@ -47,8 +47,8 @@
 	var/organ_dna_type = /datum/organ_dna
 	/// What food typepath should be used when eaten
 	var/food_type = /obj/item/reagent_containers/food/snacks/organ
-	/// Original owner of the organ, the one who had it inside them last
-	var/mob/living/carbon/last_owner = null
+	/// Whether this organ has ever been inside a mob
+	var/had_owner = FALSE
 
 	grid_width = 32
 	grid_height = 32
@@ -66,7 +66,11 @@
 			qdel(replaced)
 
 	owner = M
-	last_owner = M
+	had_owner = TRUE
+
+	if (visible_organ)
+		M.visible_organs |= src
+
 	M.internal_organs |= src
 	M.internal_organs_slot[slot] = src
 	moveToNullspace()
@@ -85,6 +89,9 @@
 	SEND_SIGNAL(owner, COMSIG_MOB_ORGAN_REMOVED, src, special, drop_if_replaced)
 	owner = null
 	if(M)
+		if (visible_organ)
+			M.visible_organs -= src
+
 		M.internal_organs -= src
 		if(M.internal_organs_slot[slot] == src)
 			M.internal_organs_slot.Remove(slot)
@@ -101,7 +108,7 @@
 //	START_PROCESSING(SSobj, src)
 
 /obj/item/organ/forceMove(atom/destination)
-	if((organ_flags & ORGAN_INTERNAL_ONLY) && last_owner)
+	if((organ_flags & ORGAN_INTERNAL_ONLY) && had_owner)
 		qdel(src)
 		return
 	..()
@@ -206,7 +213,7 @@
 
 /obj/item/organ/Initialize()
 	. = ..()
-	if(accessory_type)
+	if(accessory_type && owner)
 		set_accessory_type(accessory_type)
 	START_PROCESSING(SSobj, src)
 
@@ -215,7 +222,7 @@
 		// The special flag is important, because otherwise mobs can die
 		// while undergoing transformation into different mobs.
 		Remove(owner, special=TRUE)
-	last_owner = null
+	had_owner = FALSE
 	STOP_PROCESSING(SSobj, src)
 	return ..()
 
@@ -402,3 +409,12 @@
 		if(!getorganslot(ORGAN_SLOT_EARS))
 			var/obj/item/organ/ears/ears = new()
 			ears.Insert(src)
+
+///Used as callbacks by object pooling
+/obj/item/organ/proc/exit_wardrobe()
+	START_PROCESSING(SSobj, src)
+
+//See above
+/obj/item/organ/proc/enter_wardrobe()
+	accessory_type = initial(accessory_type)
+	STOP_PROCESSING(SSobj, src)

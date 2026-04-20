@@ -72,8 +72,7 @@
 /mob/living/carbon/check_projectile_wounding(obj/projectile/P, def_zone, blocked)
 	var/obj/item/bodypart/BP = get_bodypart(check_zone(def_zone))
 	if(BP)
-
-		var/newdam = P.damage * (100-blocked)/100
+		var/newdam = max(0, P.damage - blocked)
 		BP.bodypart_attacked_by(P.woundclass, newdam, zone_precise = def_zone, crit_message = TRUE, weapon = P)
 		return TRUE
 
@@ -81,7 +80,7 @@
 	var/obj/item/bodypart/BP = get_bodypart(check_zone(def_zone))
 	if(!BP)
 		return FALSE
-	var/newdam = P.damage * (100-blocked)/100
+	var/newdam = max(0, P.damage - blocked)
 	if(newdam <= 8)
 		return FALSE
 	if(prob(P.embedchance) && P.dropped)
@@ -324,8 +323,7 @@
 	. = ..()
 	if(. & EMP_PROTECT_CONTENTS)
 		return
-	for(var/X in internal_organs)
-		var/obj/item/organ/O = X
+	for(var/obj/item/organ/O as anything in internal_organs)
 		O.emp_act(severity)
 
 ///Adds to the parent by also adding functionality to propagate shocks through pulling and doing some fluff effects.

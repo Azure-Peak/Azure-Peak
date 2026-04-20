@@ -60,8 +60,6 @@
 			appearance.pixel_y += offset_list[2]
 
 /datum/sprite_accessory/proc/validate_color_keys_for_owner(mob/living/carbon/owner, colors)
-	if(!color_keys)
-		return colors
 	var/list/color_list = color_string_to_list(colors)
 	if(color_list && color_list.len == color_keys)
 		return colors

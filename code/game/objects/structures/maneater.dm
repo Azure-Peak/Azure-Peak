@@ -1,10 +1,13 @@
-
 /obj/structure/flora/roguegrass/maneater
 	name = "grass"
 	desc = "Green and vivid. Was that a tendril?"
 	icon = 'icons/roguetown/mob/monster/maneater.dmi'
 	icon_state = "maneater-hidden"
 	max_integrity = 5
+
+/obj/structure/flora/roguegrass/maneater/real/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Right-clicking the eye on your HUD allows you to check your surroundings for hidden threats, traps, and ambushes. The chance to spot each instance scales with your character's Perception.")
 
 /obj/structure/flora/roguegrass/maneater/update_icon()
 	return
@@ -21,6 +24,12 @@
 	var/seednutrition = 0
 	var/max_seednutrition = 100
 	var/mob/planter = null
+
+/obj/structure/flora/roguegrass/maneater/real/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("MANEATERs can rarely spawn when triggering an ambush over certain patches of grass. This chance is made a guarantee if someone passes the certain patch of grass while the 'RUN' button is toggled.")
+	. += span_info("Triggering a MANEATER's ambush immediately thrusts you into it. Spam the 'RESIST' hotkey as quickly as you can to break free. The chance to break free with each resist scales with your character's Strength.")
+	. += span_info("Failing to escape a MANEATER's clutches within a short timeframe will result in you taking massive damage to the limbs. This can quickly lead to being dismembered, and - for mindless bodies - completely gibbed.")
 
 /obj/structure/flora/roguegrass/maneater/real/process()
 	if(seednutrition >= max_seednutrition)
@@ -85,38 +94,50 @@
 		return
 
 	buckle_mob(victim, TRUE, check_loc = FALSE)
-	visible_message(span_warningbig("[src] begins to gnaw on [victim]!"))
+	playsound(loc, list('sound/vo/mobs/plant/attack (1).ogg','sound/vo/mobs/plant/attack (2).ogg','sound/vo/mobs/plant/attack (3).ogg','sound/vo/mobs/plant/attack (4).ogg'), 100, FALSE, -1)
+	visible_message(span_userdanger("[src] begins to gnaw on [victim]! RESIST as many times as possible, or risk being chewed apart!"))
 	addtimer(CALLBACK(src, PROC_REF(begin_eat), victim), 3 SECONDS, TIMER_OVERRIDE|TIMER_UNIQUE|TIMER_STOPPABLE)
 
-/obj/structure/flora/roguegrass/maneater/real/proc/begin_eat(mob/living/victim, var/chew_factor = 1)
+/obj/structure/flora/roguegrass/maneater/real/proc/begin_eat(mob/living/victim, chew_factor = 1)
+	if(!victim || QDELETED(victim))
+		return
 	if(victim.loc != loc)
 		return
 	if(!(has_buckled_mobs() && victim.buckled))
 		return
 
-	visible_message(span_warning("[src] chews on [victim]!"))
+	visible_message(span_userdanger("[src] gnaws on [victim]!"))
+	playsound(src, 'sound/misc/eat.ogg', rand(30,60), TRUE)
 
-	playsound(src,'sound/misc/eat.ogg', rand(30,60), TRUE)
 	if(!iscarbon(victim))
 		victim.adjustBruteLoss(20)
 	else
-		var/zone = pick(BODY_ZONE_L_ARM, BODY_ZONE_R_ARM, BODY_ZONE_L_LEG, BODY_ZONE_R_LEG)
-		var/obj/item/bodypart/limb = victim.get_bodypart(zone)
-		if(!limb)
-			begin_eat(victim)
+		// FX
 		victim.flash_fullscreen("redflash3")
-		playsound(loc, list('sound/vo/mobs/plant/attack (1).ogg','sound/vo/mobs/plant/attack (2).ogg','sound/vo/mobs/plant/attack (3).ogg','sound/vo/mobs/plant/attack (4).ogg'), 100, FALSE, -1)
-		if(prob(chew_factor * 15))
-			if(limb.dismember(damage = 20))
-				limb.forceMove(src)
-				seednutrition += 25
-				if(!victim.mind)
-					victim.gib()
+		playsound(loc, list(
+			'sound/vo/mobs/plant/attack (1).ogg',
+			'sound/vo/mobs/plant/attack (2).ogg',
+			'sound/vo/mobs/plant/attack (3).ogg',
+			'sound/vo/mobs/plant/attack (4).ogg'
+		), 100, FALSE, -1)
+
+		var/list/limb_zones = list(BODY_ZONE_L_ARM, BODY_ZONE_R_ARM, BODY_ZONE_L_LEG, BODY_ZONE_R_LEG)
+		var/zone = null
+		var/obj/item/bodypart/limb = null
+		while(length(limb_zones) && !limb)
+			zone = pick(limb_zones)
+			limb_zones -= zone
+			limb = victim.get_bodypart(zone)
+
+		if(limb)
+			if(limb.get_damage() > 50)
+				if(limb.dismember(damage = 20))
 					seednutrition += 25
-					return
-				maneater_spit_out(victim)
+			else
+				victim.apply_damage(60, BRUTE, zone, victim.run_armor_check(zone, BCLASS_CUT, damage = 500))
 		else
-			victim.run_armor_check(zone, BCLASS_CUT, damage = 20)
+			var/core_zone = pick(BODY_ZONE_CHEST, BODY_ZONE_HEAD)
+			victim.apply_damage(60, BRUTE, core_zone, victim.run_armor_check(core_zone, BCLASS_CUT, damage = 500))
 
 	if(victim.stat == DEAD || victim.stat == UNCONSCIOUS)
 		if(!victim.mind)
@@ -147,6 +168,7 @@
 	if(aggroed)
 		name = "MANEATER"
 		icon_state = "maneater"
+		desc = "A carnivorous creecher with an appetite for the ambushed. </br>Though deadly, these grassy gnashers can be cleaved apart underneath an axe's weight."
 	else
 		name = "grass"
 		icon_state = "maneater-hidden"
@@ -168,20 +190,45 @@
 	else
 		user.visible_message(span_warning("[user] tries to break free of [src]!"))
 
-	if(do_after(user, 1.5 SECONDS, FALSE, src, TRUE, null, FALSE, TRUE))
-		user.visible_message(span_warning("[M] stops struggling!"))
-		return
 	if(!prob(time2mount))
-		user_unbuckle_mob(M, user, break_factor * 1.5)
+		if(do_after(M, 0.75 SECONDS, target = src))
+			user_unbuckle_mob(M, user, break_factor * 1.5)
 	..()
-
 /obj/structure/flora/roguegrass/maneater/real/user_buckle_mob(mob/living/M, mob/living/user) //Don't want them getting put on the rack other than by spiking
 	return
 
 /obj/structure/flora/roguegrass/maneater/real/attackby(obj/item/W, mob/user, params)
 	..()
+	var/oldagg = aggroed
 	aggroed = world.time
 	update_icon()
+
+	if(!W)
+		return TRUE
+
+	// If item is one of the edible types, handle feeding behaviour
+	if(is_type_in_list(W, eatablez))
+		// Do not consume bodyparts — spit them out instead
+		if(istype(W, /obj/item/bodypart))
+			visible_message(span_danger("[src] spits out [W]!"))
+			playsound(src,'sound/misc/maneaterspit.ogg', 100)
+			var/turf/target = get_ranged_target_turf(src, pick(GLOB.alldirs), 1)
+			W.throw_at(target,3,2)
+			return TRUE
+
+		// Otherwise, 'eat' the item like when it crosses the plant
+		last_eat = world.time
+		playsound(src,'sound/misc/eat.ogg', rand(30,60), TRUE)
+		if(W.loc)
+			W.forceMove(src)
+		seednutrition += 20
+
+		if(!oldagg)
+			START_PROCESSING(SSobj, src)
+
+		return TRUE
+
+	
 
 
 //JUVENILE MANEATER

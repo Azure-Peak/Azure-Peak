@@ -171,7 +171,7 @@
 		return FALSE
 	if(user.stat != CONSCIOUS)
 		return FALSE
-	if(!user.Adjacent(target))
+	if(!user.Adjacent(target) && !action.ranged_action)
 		return FALSE
 	if(action.check_incapacitated && user.incapacitated())
 		return FALSE
@@ -434,6 +434,7 @@
 			. = TRUE
 		if("set_arousal_value")
 			SEND_SIGNAL(user, COMSIG_SEX_SET_AROUSAL, params["amount"])
+			user.apply_status_effect(/datum/status_effect/debuff/no_coom_cheating)
 			. = TRUE
 		if("freeze_arousal")
 			SEND_SIGNAL(user, COMSIG_SEX_FREEZE_AROUSAL)
@@ -442,7 +443,8 @@
 			if(collective)
 				collective.collective_display_name = params["name"]
 			. = TRUE
-
+		if("refresh")
+			. = TRUE
 	if(.)
 		SStgui.update_uis(src)
 

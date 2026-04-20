@@ -65,7 +65,7 @@ GLOBAL_VAR_INIT(observer_default_invisibility, INVISIBILITY_OBSERVER)
 /mob/dead/observer/rogue
 //	see_invisible = SEE_INVISIBLE_LIVING
 	sight = 0
-	see_in_dark = 2
+	see_in_dark = 10
 	var/next_gmove
 	var/misting = 0
 	draw_icon = TRUE
@@ -371,6 +371,13 @@ Works together with spawning an observer, noted above.
 	ghost.ghostize_time = world.time
 	SStgui.on_transfer(src, ghost) // Transfer NanoUIs.
 	ghost.can_reenter_corpse = can_reenter_corpse
+	ghost.advjob = src.advjob
+	// Clear any active spell click intercept before the client transfers to the ghost.
+	// Without this, the client keeps signal registrations from the old body's active spell,
+	// causing the ghost to cast the old body's last spell on click.
+	if(click_intercept && istype(click_intercept, /datum/action/cooldown))
+		var/datum/action/cooldown/active_ability = click_intercept
+		active_ability.unset_click_ability(src, refund_cooldown = FALSE)
 	ghost.key = key
 	return ghost
 
@@ -441,7 +448,6 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 
 	if(NewLoc)
 		forceMove(NewLoc)
-		update_parallax_contents()
 	else
 		forceMove(get_turf(src))  //Get out of closets and such as a ghost
 		if((direct & NORTH) && y < world.maxy)
@@ -581,8 +587,6 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 	set name = "Teleport"
 	set desc= "Teleport to a location"
 	set hidden = 1
-	if(!check_rights(R_WATCH))
-		return
 	if(!isobserver(usr))
 		to_chat(usr, span_warning("Not when you're not dead!"))
 		return
@@ -605,14 +609,17 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 		return
 
 	usr.forceMove(pick(L))
-	update_parallax_contents()
 
 /mob/dead/observer/verb/follow()
 	set category = "Ghost"
 	set name = "Orbit" // "Haunt"
 	set desc = ""
 	set hidden = 1
-	var/list/mobs = getpois(mobs_only=1,skip_mindless=1)
+	var/list/mobs
+	if(usr.client in GLOB.admins)
+		mobs = getpois(mobs_only=TRUE,skip_mindless=TRUE,skip_antighost=FALSE)
+	else
+		mobs = getpois(mobs_only=TRUE,skip_mindless=TRUE)
 
 	var/input = input("Who?!", "Haunt", null, null) as null|anything in mobs
 	var/mob/target = mobs[input]
@@ -664,15 +671,14 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 	set name = "Jump to Mob"
 	set desc = ""
 	set hidden = 1
-	if(!check_rights(R_WATCH))
-		return
+
 	if(isobserver(usr)) //Make sure they're an observer!
 
 
 		var/list/dest = list() //List of possible destinations (mobs)
 		var/target = null	   //Chosen target.
 
-		dest += getpois(mobs_only=1) //Fill list, prompt user with list
+		dest += getpois(mobs_only=TRUE) //Fill list, prompt user with list
 		target = input("Please, select a player!", "Jump to Mob", null, null) as null|anything in dest
 
 		if (!target)//Make sure we actually have a target
@@ -684,7 +690,6 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 
 			if(T && isturf(T))	//Make sure the turf exists, then move the source to that destination.
 				A.forceMove(T)
-				A.update_parallax_contents()
 			else
 				to_chat(A, span_danger("This mob is not located in the game world."))
 
@@ -839,7 +844,7 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 		return FALSE
 
 	target.key = key
-	target.faction = list("neutral")
+	target.faction = list(FACTION_NEUTRAL)
 	return TRUE
 
 /mob/dead/observer/verb/view_manifest()

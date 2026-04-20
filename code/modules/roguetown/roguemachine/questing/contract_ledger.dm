@@ -95,8 +95,8 @@
 	var/datum/job/mob_job = user.job ? SSjob.GetJob(user.job) : null
 	if(!mob_job?.is_quest_giver)
 		var/quest_number = 0
+		var/datum/weakref/weakref_datum = WEAKREF(user)
 		for(var/obj/item/paper/scroll/quest/quest_scroll in GLOB.quest_scrolls)
-			var/datum/weakref/weakref_datum = WEAKREF(user)
 			if(quest_scroll.assigned_quest && !quest_scroll.assigned_quest.complete && quest_scroll.assigned_quest.quest_receiver_reference == weakref_datum)
 				quest_number++
 		var/max_quests_for_job = mob_job?.max_active_quests || 3
@@ -234,6 +234,9 @@
 	var/reward = 0
 	var/original_reward = 0
 	var/total_deposit_return = 0
+	var/tax_rate = SStreasury.tax_value
+	var/tax_amt = 0
+
 	if(scroll.assigned_quest?.complete)
 		// Calculate base reward
 		var/base_reward = scroll.assigned_quest.reward_amount
@@ -243,7 +246,7 @@
 		var/deposit_return = scroll.assigned_quest.calculate_deposit()
 		total_deposit_return += deposit_return
 
-		// Apply Steward/Mechant bonus if applicable (only to the base reward)
+		// Apply bonus to the base reward, if appliciable (Steward, Merchant, Clerk, Councillor, Shophand, Duke)
 		var/datum/job/mob_job = user.job ? SSjob.GetJob(user.job) : null
 		if(mob_job?.is_quest_giver)
 			reward += base_reward * QUEST_HANDLER_REWARD_MULTIPLIER
@@ -257,9 +260,17 @@
 		qdel(scroll.assigned_quest)
 		qdel(scroll)
 
-	cash_in(round(reward), original_reward)
+		// Tax payment
+		tax_amt = round(tax_rate * reward)
+		if(tax_amt > 0)
+			reward -= tax_amt
+			SStreasury.give_money_treasury(tax_amt, "quest completion tax - [src.name]")
+			record_featured_stat(FEATURED_STATS_TAX_PAYERS, user, tax_amt)
+			record_round_statistic(STATS_TAXES_COLLECTED, tax_amt)
 
-/obj/structure/roguemachine/contractledger/proc/cash_in(reward, original_reward)
+	cash_in(round(reward), original_reward, tax_amt)
+
+/obj/structure/roguemachine/contractledger/proc/cash_in(reward, original_reward, tax_amt)
 	var/list/coin_types = list(
 		/obj/item/roguecoin/gold = FLOOR(reward / 10, 1),
 		/obj/item/roguecoin/silver = FLOOR(reward % 10 / 5, 1),
@@ -275,10 +286,10 @@
 			coin_stack.update_transform()
 
 	if(reward > 0)
-		say(reward != original_reward ? \
-			"Your handler assistance-increased reward of [reward] mammons has been dispensed! The difference is [reward - original_reward] mammons." : \
-			"Your reward of [reward] mammons has been dispensed.")
-
+		say(reward > original_reward ? \
+			"Your handler assistance-increased reward of [reward] mammons has been dispensed! The difference is [reward - original_reward] mammons. ([tax_amt] mammons taxed.)" : \
+			"Your reward of [reward] mammons has been dispensed. ([tax_amt] mammons taxed.)")
+		
 /obj/structure/roguemachine/contractledger/proc/abandon_contract(mob/user)
 	var/obj/item/paper/scroll/quest/abandoned_scroll = locate() in input_point
 	if(!abandoned_scroll)
@@ -316,17 +327,6 @@
 			SStreasury.treasury_value -= refund
 			SStreasury.log_entries += "-[refund] from treasury (contract refund)"
 			to_chat(user, span_notice("Your refund of [refund] mammon has been dispensed."))
-
-	// Clean up quest items
-	if(quest.quest_type == QUEST_COURIER && quest.target_delivery_item)
-		quest.target_delivery_item = null
-		for(var/obj/item/I in world)
-			if(istype(I, quest.target_delivery_item))
-				var/datum/component/quest_object/Q = I.GetComponent(/datum/component/quest_object)
-				if(Q && Q.quest_ref == WEAKREF(quest))
-					I.remove_filter("quest_item_outline")
-					qdel(Q)
-					qdel(I)
 
 	log_quest(user.ckey, user.mind, user, "Abandon [abandoned_scroll.assigned_quest.quest_type]")
 	abandoned_scroll.assigned_quest = null

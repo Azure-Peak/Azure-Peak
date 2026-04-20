@@ -16,7 +16,8 @@
 	SHOULD_NOT_SLEEP(TRUE)
 
 	var/list/hearers = get_hearers_in_view(vision_distance, src, RECURSIVE_CONTENTS_CLIENT_MOBS)
-	hearers -= ignored_mobs
+	if(ignored_mobs)
+		hearers -= ignored_mobs
 
 	for (var/mob/hearer in hearers)
 		if (is_blind(hearer))
@@ -33,9 +34,15 @@
 	var/client/viewer_client = viewer?.client
 	if (isnull(viewer_client))
 		return
-	
-	if(!(viewer_client.prefs.floating_text_toggles & FLOATING_TEXT))
+
+	if(!(viewer_client.prefs.combat_toggles & FLOATING_TEXT))
 		return
+
+	if(viewer_client.active_balloon_count >= BALLOON_STACK_MAX)
+		return
+
+	var/stack_offset = viewer_client.active_balloon_count * BALLOON_STACK_SPACING
+	viewer_client.active_balloon_count++
 
 	var/image/balloon_alert = image(loc = isturf(src) ? src : get_atom_on_turf(src), layer = ABOVE_MOB_LAYER)
 	balloon_alert.plane = BALLOON_CHAT_PLANE
@@ -50,17 +57,18 @@
 	var/length_mult = 1 + max(0, length(strip_html_simple(text)) - BALLOON_TEXT_CHAR_LIFETIME_INCREASE_MIN) * BALLOON_TEXT_CHAR_LIFETIME_INCREASE_MULT
 
 	if(!y_offset)
+		balloon_alert.pixel_y = stack_offset
 		animate(
 			balloon_alert,
-			pixel_y = ICON_SIZE_Y * 1.2,
+			pixel_y = stack_offset + ICON_SIZE_Y * 1.2,
 			time = BALLOON_TEXT_TOTAL_LIFETIME(length_mult),
 			easing = SINE_EASING | EASE_OUT,
 		)
 	else
-		balloon_alert.pixel_y = y_offset
+		balloon_alert.pixel_y = y_offset + stack_offset
 		animate(
 			balloon_alert,
-			pixel_y = y_offset + 5,
+			pixel_y = y_offset + stack_offset + 5,
 			time = BALLOON_TEXT_TOTAL_LIFETIME(length_mult),
 			easing = SINE_EASING | EASE_OUT,
 		)
@@ -82,7 +90,7 @@
 	// These two timers are not the same
 	// One manages the relation to the atom that spawned us, the other to the client we're displaying to
 	// We could lose our loc, and still need to talk to our client, so they are done seperately
-	addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(remove_image_from_client), balloon_alert, viewer_client), BALLOON_TEXT_TOTAL_LIFETIME(length_mult))
+	addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(remove_balloon_from_client), balloon_alert, viewer_client), BALLOON_TEXT_TOTAL_LIFETIME(length_mult))
 
 ///Proc for creating a balloon alert that only someone with a specific trait would see.
 /atom/proc/filtered_balloon_alert(trait, text, x_offset, y_offset, show_self = TRUE)
@@ -95,6 +103,5 @@
 				candidates -= H
 	else
 		CRASH("filtered_balloon_alert called without a trait, either it's an error or use balloon_alert instead.")
-		
-	if(length(candidates))
-		balloon_alert_to_viewers(text, null, DEFAULT_MESSAGE_RANGE, candidates, x_offset, y_offset)
+
+	balloon_alert_to_viewers(text, null, DEFAULT_MESSAGE_RANGE, candidates, x_offset, y_offset)

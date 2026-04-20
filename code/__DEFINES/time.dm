@@ -45,6 +45,8 @@ When using time2text(), please use "DDD" to find the weekday. Refrain from using
 #define SATURDAY	"Sat"
 #define SUNDAY		"Sun"
 
+#define DECISECONDS *1
+
 #define SECONDS *10
 
 #define MINUTES SECONDS*60

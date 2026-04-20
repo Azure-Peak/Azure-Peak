@@ -180,6 +180,8 @@
 		dna.species.on_species_gain(src, old_species, pref_load)
 
 /mob/living/carbon/human/set_species(datum/species/mrace, icon_update = TRUE, datum/preferences/pref_load = null)
+	set waitfor = 0
+	
 	if(pref_load)
 		skin_tone = pref_load.skin_tone
 	..()

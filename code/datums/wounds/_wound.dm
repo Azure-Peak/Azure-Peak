@@ -92,6 +92,7 @@ GLOBAL_LIST_INIT(primordial_wounds, init_primordial_wounds())
 	bodypart_owner = null
 	owner = null
 	. = ..()
+	return QDEL_HINT_IWILLGC
 
 /// Description of this wound returned to the player when a bodypart is examined and such
 /datum/wound/proc/get_visible_name(mob/user)
@@ -160,7 +161,10 @@ GLOBAL_LIST_INIT(primordial_wounds, init_primordial_wounds())
 	sortTim(affected.wounds, GLOBAL_PROC_REF(cmp_wound_severity_dsc))
 	bodypart_owner = affected
 	owner = bodypart_owner.owner
-	bodypart_owner.bleeding += bleed_rate // immediately apply our base bleeding
+	var/initial_bleed = bleed_rate
+	bleed_rate = 0
+	if(initial_bleed)
+		set_bleed_rate(initial_bleed)
 	on_bodypart_gain(affected)
 	INVOKE_ASYNC(src, PROC_REF(on_mob_gain), affected.owner) //this is literally a fucking lint error like new species cannot possible spawn with wounds until after its ass
 	if(crit_message)
@@ -260,12 +264,26 @@ GLOBAL_LIST_INIT(primordial_wounds, init_primordial_wounds())
 
 /// Called on handle_wounds(), on the life() proc
 /datum/wound/proc/on_life()
+	if(!owner || QDELETED(owner))
+		qdel(src)
+		return FALSE
+
+	if(!owner.loc)
+		return FALSE
+
 	if(!isnull(clotting_threshold) && clotting_rate && (bleed_rate > clotting_threshold))
 		set_bleed_rate(max(clotting_threshold, bleed_rate - clotting_rate))
+		if(!owner || QDELETED(owner) || QDELETED(src))
+			return FALSE
+
 	if(HAS_TRAIT(owner, TRAIT_PSYDONITE) && !passive_healing)
-		heal_wound(0.6) // psydonites are supposed to apparently slightly heal wounds whether dead or alive
-	if(owner.stat != DEAD && passive_healing) // passive healing is only called if we're like, you know, alive
+		heal_wound(0.6)
+		if(!owner || QDELETED(owner) || QDELETED(src))
+			return FALSE
+
+	if(passive_healing && owner && owner.stat != DEAD)
 		heal_wound(passive_healing)
+
 	return TRUE
 
 /// Called on handle_wounds(), on the life() proc
@@ -276,7 +294,7 @@ GLOBAL_LIST_INIT(primordial_wounds, init_primordial_wounds())
 
 	if (HAS_TRAIT(owner, TRAIT_PSYDONITE) && !passive_healing)
 		heal_wound(0.6) // psydonites are supposed to apparently slightly heal wounds whether dead or alive
-	
+
 	return TRUE
 
 /// Setter for any adjustments we make to our bleed_rate, propagating them to the host bodypart.
@@ -294,10 +312,15 @@ GLOBAL_LIST_INIT(primordial_wounds, init_primordial_wounds())
 			owner.simple_bleeding = 0
 			owner.bleed_rate = 0
 	else if(bodypart_owner)
+		var/was_bleeding = bodypart_owner.bleeding > 0
 		bodypart_owner.bleeding -= bleed_rate
 		bleed_rate = amount
 		bodypart_owner.bleeding += bleed_rate
-
+		var/now_bleeding = bodypart_owner.bleeding > 0
+		if(was_bleeding != now_bleeding && bodypart_owner.owner)
+			var/datum/hud/hud_used = bodypart_owner.owner.hud_used
+			if(hud_used?.zone_select)
+				hud_used.zone_select.update_limb(bodypart_owner.body_zone)
 /// Heals this wound by the given amount, and deletes it if it's healed completely
 /datum/wound/proc/heal_wound(heal_amount)
 	// Wound cannot be healed normally, whp is null
@@ -417,7 +440,7 @@ GLOBAL_LIST_INIT(primordial_wounds, init_primordial_wounds())
 #define CLOT_THRESHOLD_ARTERY 2
 
 /// Make sure this is called AFTER your child upgrade proc, unless you have a reason for the bleed rate to be above artery on a regular wound.
-/datum/wound/dynamic/upgrade(dam as num)
+/datum/wound/dynamic/upgrade(dam as num, armor, exposed = FALSE, pen_info)
 	if(!bodypart_owner.unlimited_bleeding)
 		if(bleed_rate >= ARTERY_LIMB_BLEEDRATE)
 			set_bleed_rate(ARTERY_LIMB_BLEEDRATE)

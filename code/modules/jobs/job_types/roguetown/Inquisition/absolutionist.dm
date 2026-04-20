@@ -11,7 +11,7 @@
 	selection_color = JCOLOR_INQUISITION
 	outfit = /datum/outfit/job/roguetown/absolver
 	display_order = JDO_ABSOLVER
-	min_pq = 3 
+	min_pq = 3
 	max_pq = null
 	round_contrib_points = 2
 	wanderer_examine = FALSE
@@ -98,15 +98,16 @@
 	id = /obj/item/clothing/ring/signet/silver
 	backpack_contents = list(
 		/obj/item/book/rogue/bibble/psy = 1,
-		/obj/item/natural/bundle/cloth/roll = 2,
+		/obj/item/natural/bundle/cloth/bandage/full = 2,
 		/obj/item/reagent_containers/glass/bottle/rogue/healthpot = 2,
 		/obj/item/paper/inqslip/arrival/abso = 1,
 		/obj/item/needle = 1,
 		/obj/item/natural/worms/leech/cheele = 1,
-		/obj/item/storage/keyring/puritan = 1,
+		/obj/item/storage/keyring/inquisitor = 1,
 		)
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T4, passive_gain = CLERIC_REGEN_ABSOLVER, start_maxed = TRUE) // PSYDONIAN MIRACLE-WORKER. LUX-MERGING FREEK.
+	change_origin(H, /datum/virtue/origin/otava, "Holy order")
 
 /obj/effect/proc_holder/spell/invoked/convert_psydon
 	name = "Return to Orthodoxy"
@@ -126,7 +127,7 @@
 	if(!ishuman(target))
 		revert_cast()
 		return FALSE
-	
+
 	if(target.cmode)
 		revert_cast()
 		return FALSE
@@ -143,13 +144,13 @@
 
 
 	if(target.devotion) //Remove all granted miracles and does NOT replace them, since Psydonic "miracles" don't work the same way and your old skills don't help with it
-		
+
 		for(var/obj/effect/proc_holder/spell/S in target.devotion.granted_spells)
 			target.mind.RemoveSpell(S)
 
 		target.devotion.Destroy()
 		target.mind.RemoveSpell(/obj/effect/proc_holder/spell/invoked/projectile/divineblast)
-		target.mind.RemoveSpell(/obj/effect/proc_holder/spell/invoked/projectile/divineblast/unholyblast)
+		target.mind.RemoveSpell(/obj/effect/proc_holder/spell/invoked/projectile/unholyblast)
 
 	// Convert to PSYDON
 	target.patron = new user.patron.type()

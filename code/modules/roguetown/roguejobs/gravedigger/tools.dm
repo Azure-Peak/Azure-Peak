@@ -20,6 +20,16 @@
 	max_blade_int = 300
 	grid_width = 32
 	grid_height = 96
+	is_tool = TRUE // if i see a familiar fragging out with a silver shovel i will be very upset but also like lmao
+
+/obj/item/rogueweapon/shovel/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Left-click a patch of dirt, while the 'SCOOP' intent is selected, to begin digging. Left-click on another tile to deposit whatever you've scooped up.")
+	. += span_info("Once a patch of dirt is cleared, left-clicking it again will dig a small hole. Left-click the hole while a scoop of dirt is still on the shovel to fill it up.")
+	. += span_info("By repeatedly digging-and-refilling a small hole, you can root around the patch of dirt for any subterranean delights: stones, clay, worms, and more.")
+	. += span_info("Left-click the hole to widen it. Once it has been dug out to its maximum size, click-drag an adjacent structure, item, or body onto it to shove it inside.")
+	. += span_info("Once click-dragged inside of the hole, left-clicking it with a scoop of dirt will bury everything underneath a mound. Crafting a grave marker atop a mound brings peace to the unruliest spirits.")
+	. += span_info("Mounds tend to house corpses, coffins, or other buried goods. Digging up the dead without the proper rites or blessings can lead to potentially being cursed.")
 
 /obj/item/rogueweapon/shovel/Destroy()
 	if(heldclod)
@@ -60,9 +70,63 @@
 
 /obj/item/rogueweapon/shovel/attack_turf(turf/T, mob/living/user)
 	user.changeNext_move(user.used_intent.clickcd)
+
 	if(user.used_intent.type == /datum/intent/shovelscoop)
 		if(istype(T, /turf/open/floor/rogue/dirt))
 			var/turf/open/floor/rogue/dirt/D = T
+
+			if(!heldclod && user && istype(user.rmb_intent, /datum/rmb_intent/strong) && HAS_TRAIT(user, TRAIT_GRAVEROBBER))
+				if(D.holie && D.holie.stage >= 3)
+					return
+
+				to_chat(user, span_notice("I tear into the earth, carving out a pit!"))
+
+				if(do_after(user, 2 SECONDS, target = T))
+					var/obj/structure/closet/dirthole/H = null
+
+					if(istype(T, /turf/open/floor/rogue/dirt))
+						var/turf/open/floor/rogue/dirt/curD = T
+						H = curD.holie
+
+					if(!H)
+						if(istype(T, /turf/open/floor/rogue/dirt/road))
+							H = new /obj/structure/closet/dirthole(T)
+						else
+							T.ChangeTurf(/turf/open/floor/rogue/dirt/road, flags = CHANGETURF_INHERIT_AIR)
+							var/turf/open/floor/rogue/dirt/newD = T
+							H = newD.holie
+
+					if(H)
+						H.stage = 3
+						H.faildirt = 0
+						H.climb_offset = 0
+						H.locked = FALSE
+						H.opened = TRUE
+						H.update_icon()
+
+						heldclod = new(src)
+						update_icon()
+
+						var/list/spawn_turfs = list(
+							user,
+							get_step(user, NORTH),
+							get_step(user, SOUTH),
+							get_step(user, EAST),
+							get_step(user, WEST)
+						)
+
+						var/spawned = 0
+						for(var/turf/spawnT in spawn_turfs)
+							if(!spawnT) continue
+							new /obj/item/natural/dirtclod(spawnT)
+							spawned++
+							if(spawned >= 3)
+								break
+
+						playsound(T,'sound/items/dig_shovel.ogg', 100, TRUE)
+
+				return
+
 			if(heldclod)
 				if(D.holie && D.holie.stage < 4)
 					D.holie.attackby(src, user)
@@ -72,6 +136,7 @@
 						T.ChangeTurf(/turf/open/floor/rogue/dirt, flags = CHANGETURF_INHERIT_AIR)
 					else
 						heldclod.forceMove(T)
+
 					heldclod = null
 					playsound(T,'sound/items/empty_shovel.ogg', 100, TRUE)
 					update_icon()
@@ -84,25 +149,34 @@
 						new /obj/structure/closet/dirthole(T)
 					else
 						T.ChangeTurf(/turf/open/floor/rogue/dirt/road, flags = CHANGETURF_INHERIT_AIR)
+
 					heldclod = new(src)
 					playsound(T,'sound/items/dig_shovel.ogg', 100, TRUE)
 					update_icon()
+
 			return
+
 		if(heldclod)
 			if(istype(T, /turf/open/water))
 				qdel(heldclod)
-//				T.ChangeTurf(/turf/open/floor/rogue/dirt/road, flags = CHANGETURF_INHERIT_AIR)
 			else
 				heldclod.forceMove(T)
+
 			heldclod = null
 			playsound(T,'sound/items/empty_shovel.ogg', 100, TRUE)
 			update_icon()
 			return
+
 		if(istype(T, /turf/open/floor/rogue/grass) || istype(T, /turf/open/floor/rogue/grassred) || istype(T, /turf/open/floor/rogue/grassyel) || istype(T, /turf/open/floor/rogue/grasscold))
 			to_chat(user, span_warning("There is grass in the way."))
 			return
-		return
-	. = ..()
+
+		if(istype(T, /turf/open/floor/rogue/snow))
+			T.ChangeTurf(/turf/open/floor/rogue/dirt, flags = CHANGETURF_INHERIT_AIR)
+			to_chat(user, span_warning("You scoop away the snow!"))
+			return
+
+	return ..()
 
 /obj/item/rogueweapon/shovel/getonmobprop(tag)
 	. = ..()
@@ -155,7 +229,6 @@
 			if("onbelt")
 				return list("shrink" = 0.3,"sx" = -2,"sy" = -5,"nx" = 4,"ny" = -5,"wx" = 0,"wy" = -5,"ex" = 2,"ey" = -5,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
 
-
 /obj/item/rogueweapon/shovel/small
 	force = 7
 	name = "spade"
@@ -179,6 +252,14 @@
 	smeltresult = /obj/item/ingot/aaslag
 	color = "#bb9696"
 	sellprice = 15
+
+/obj/item/rogueweapon/shovel/bronze
+	force = 23
+	name = "bronze shovel"
+	desc = "Dig the mound, so that water may flow into a thirsting crop. Puncture the earth, so that its depths may be catered to your whim. Leaven the soil, so that the buried may know peace from this world's evils."
+	icon_state = "bronzeshovel"
+	smeltresult = /obj/item/ingot/bronze
+	max_integrity = 300
 
 /obj/item/rogueweapon/shovel/silver
 	force = 25
@@ -270,7 +351,7 @@
 
 /obj/item/burial_shroud
 	name = "winding sheet"
-	desc = "A burial veil for the deceased. It makes transporting bodies slightly more tolerable."
+	desc = "A burial veil for the deceased. It makes transporting bodies slightly more tolerable, and ensures that their spirits will not arrive to the afterlyfe without any coverings."
 	icon = 'icons/obj/bodybag.dmi'
 	icon_state = "shroud_folded"
 	w_class = WEIGHT_CLASS_SMALL
@@ -293,10 +374,9 @@
 	moveToNullspace()
 	user.update_a_intents()
 
-
 /obj/structure/closet/burial_shroud
 	name = "winding sheet"
-	desc = "A length of thin fabric used to encase the deceased."
+	desc = "A length of thin fabric used to encase the deceased. Memento mori."
 	icon = 'icons/obj/bodybag.dmi'
 	icon_state = "shroud"
 	density = FALSE
@@ -313,7 +393,6 @@
 	horizontal = TRUE
 	var/foldedbag_path = /obj/item/burial_shroud
 	var/obj/item/bodybag/foldedbag_instance = null
-
 
 
 /obj/structure/closet/burial_shroud/Destroy()

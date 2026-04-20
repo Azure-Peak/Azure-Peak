@@ -59,7 +59,7 @@
 		return
 
 	if(HAS_TRAIT(M, TRAIT_QUICKSILVERRESISTANT))
-		to_chat(user, span_warning("The quicksilver bubbles and a rash forms on [M], they can not accept it's blessing."))
+		to_chat(user, span_warning("The quicksilver bubbles and a rash forms on [M], they can not accept its blessing."))
 		return
 
 	var/found = null

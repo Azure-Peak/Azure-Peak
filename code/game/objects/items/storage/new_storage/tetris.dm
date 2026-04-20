@@ -10,10 +10,7 @@
 /atom/proc/reset_grid_inventory()
 	var/drop_location = drop_location()
 	for(var/obj/item/item_in_source in contents)
-		if(drop_location)
-			item_in_source.forceMove(drop_location)
-		else
-			item_in_source.moveToNullspace()
+		SEND_SIGNAL(src, COMSIG_TRY_STORAGE_TAKE, item_in_source, drop_location, TRUE)
 		SEND_SIGNAL(src, COMSIG_TRY_STORAGE_INSERT, item_in_source, null, TRUE, TRUE, FALSE)
 
 /obj/item
@@ -24,7 +21,7 @@
 	var/grid_height
 
 /obj/item/proc/inventory_flip(mob/user, force = FALSE)
-	if(!force && (user && ((!user.Adjacent(src) && !user.DirectAccess(src)) || !isliving(user))))
+	if(!force && (user && ((!user.Adjacent(src) && !user.IsDirectlyAccessible(src)) || !isliving(user))))
 		return
 	var/old_width = grid_width
 	var/old_height = grid_height
@@ -47,10 +44,7 @@
 	//this is stupid shitcode but grid inventory sadly requires it
 	var/drop_location = drop_location()
 	for(var/obj/item/item_in_source in contents)
-		if(drop_location)
-			item_in_source.forceMove(drop_location)
-		else
-			item_in_source.moveToNullspace()
+		SEND_SIGNAL(src, COMSIG_TRY_STORAGE_TAKE, item_in_source, drop_location, TRUE)
 		SEND_SIGNAL(src, COMSIG_TRY_STORAGE_INSERT, item_in_source, null, TRUE, TRUE, FALSE)
 
 /datum/component/storage
@@ -396,7 +390,7 @@
 
 	if((storage_flags & STORAGE_NO_EQUIPPED_ACCESS) && (storing.item_flags & IN_INVENTORY))
 		if(!no_message)
-			to_chat(user, span_warning("[storing] is too bulky! I need to set it down before I can access it's contents!"))
+			to_chat(user, span_warning("[storing] is too bulky! I need to set it down before I can access its contents!"))
 		return FALSE
 	else if((storage_flags & STORAGE_NO_WORN_ACCESS) && (storing.item_flags & IN_INVENTORY) && !(storing in user.held_items))
 		if(!no_message)
@@ -410,7 +404,7 @@
 
 	if(storage_flags & STORAGE_NO_EQUIPPED_ACCESS)
 		if(!no_message)
-			to_chat(user, span_warning("[storing] is too bulky! I need to set it down before I can access it's contents!"))
+			to_chat(user, span_warning("[storing] is too bulky! I need to set it down before I can access its contents!"))
 		return FALSE
 	else if((storage_flags & STORAGE_NO_WORN_ACCESS) && !(storing in user.held_items))
 		if(!no_message)
@@ -627,6 +621,7 @@
 			LAZYINITLIST(item_to_grid_coordinates)
 			LAZYINITLIST(item_to_grid_coordinates[storing])
 			LAZYADD(item_to_grid_coordinates[storing], calculated_coordinates)
+	SEND_SIGNAL(parent, COMSIG_STORAGE_ADDED, storing)
 	return TRUE
 
 /datum/component/storage/proc/grid_remove_item(obj/item/removed)
@@ -756,6 +751,7 @@
 		else
 			coordinates = screen_loc_to_grid_coordinates(coordinates)
 		grid_add_item(storing, coordinates)
+	SEND_SIGNAL(storing, COMSIG_AFTER_STORAGE_INSERT, parent, user, src)
 	update_icon()
 	refresh_mob_views()
 	return TRUE
@@ -770,6 +766,7 @@
 	grid_remove_item(removed)
 	//Cache this as it should be reusable down the bottom, will not apply if anyone adds a sleep to dropped or moving objects, things that should never happen
 	var/atom/parent = src.parent
+	var/mob/carrying_mob
 	var/list/seeing_mobs = can_see_contents()
 	for(var/mob/seeing_mob as anything in seeing_mobs)
 		seeing_mob.client.screen -= removed
@@ -777,7 +774,7 @@
 		var/obj/item/removed_item = removed
 		removed_item.item_flags &= ~IN_STORAGE
 		if(ismob(parent.loc))
-			var/mob/carrying_mob = parent.loc
+			carrying_mob = parent.loc
 			removed_item.dropped(carrying_mob, TRUE)
 	if(new_location)
 		//Reset the items values
@@ -789,6 +786,7 @@
 		//Being destroyed, just move to nullspace now (so it's not in contents for the icon update)
 		removed.moveToNullspace()
 	removed.update_icon()
+	SEND_SIGNAL(removed, COMSIG_AFTER_STORAGE_REMOVE, parent, carrying_mob, src)
 	update_icon()
 	refresh_mob_views()
 	return TRUE

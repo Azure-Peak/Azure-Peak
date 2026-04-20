@@ -97,7 +97,7 @@
 
 	/// Whether the bodypart has unlimited bleeding.
 	var/unlimited_bleeding = FALSE
-	
+
 	/// Cached variable that reflects how much bleeding our wounds are applying to the limb. Handled inside each individual wound.
 	var/bleeding = 0
 
@@ -111,6 +111,9 @@
 
 	resistance_flags = FLAMMABLE
 
+/obj/item/bodypart/proc/operator""()
+	return "\proper"+name
+
 /obj/item/bodypart/proc/adjust_marking_overlays(var/list/appearance_list)
 	return
 
@@ -118,6 +121,8 @@
 	var/list/appearance_list = list()
 //	var/specific_layer = aux ? aux_layer : BODYPARTS_LAYER
 	var/specific_layer = aux_layer ? aux_layer : BODYPARTS_LAYER
+	if((specific_layer == HANDS_PART_LAYER) && (human_owner.wear_shirt)) // Arms snowflake check
+		return appearance_list
 	var/specific_render_zone = aux ? aux_zone : body_zone
 	for(var/key in specific_markings)
 		var/color = specific_markings[key]
@@ -178,6 +183,12 @@
 		QDEL_NULL(bandage)
 	for(var/datum/wound/wound as anything in wounds)
 		qdel(wound)
+	if(embedded_objects && length(embedded_objects))
+		for(var/obj/item/embedded as anything in embedded_objects)
+			embedded_objects -= embedded
+			if(!QDELETED(embedded))
+				qdel(embedded)
+		embedded_objects = null
 	return ..()
 
 /obj/item/bodypart/onbite(mob/living/carbon/human/user)
@@ -379,7 +390,12 @@
 			. = TRUE
 	consider_processing()
 	update_disabled()
-	return update_bodypart_damage_state() || .
+	. = update_bodypart_damage_state() || .
+	if(owner)
+		var/datum/hud/hud_used = owner.hud_used
+		if(hud_used?.zone_select)
+			hud_used.zone_select.update_limb(body_zone)
+	return .
 
 //Heals brute and burn damage for the organ. Returns 1 if the damage-icon states changed at all.
 //Damage cannot go below zero.
@@ -403,7 +419,12 @@
 	consider_processing()
 	update_disabled()
 	cremation_progress = min(0, cremation_progress - ((brute_dam + burn_dam)*(100/max_damage)))
-	return update_bodypart_damage_state()
+	. = update_bodypart_damage_state()
+	if(owner)
+		var/datum/hud/hud_used = owner.hud_used
+		if(hud_used?.zone_select)
+			hud_used.zone_select.update_limb(body_zone)
+	return .
 
 //Returns total damage.
 /obj/item/bodypart/proc/get_damage(include_stamina = FALSE)
@@ -577,6 +598,17 @@
 
 	return bodypart_organs
 
+/obj/item/bodypart/proc/get_visible_organs()
+	if(!owner)
+		return FALSE
+
+	var/list/bodypart_organs
+	for(var/obj/item/organ/organ_check as anything in owner.visible_organs) //internal organs inside the dismembered limb are dropped.
+		if(check_zone(organ_check.zone) == body_zone)
+			LAZYADD(bodypart_organs, organ_check) // this way if we don't have any, it'll just return null
+
+	return bodypart_organs
+
 //Gives you a proper icon appearance for the dismembered limb
 /obj/item/bodypart/proc/get_limb_icon(dropped, hideaux = FALSE)
 	icon_state = "" //to erase the default sprite, we're building the visual aspects of the bodypart through overlays alone.
@@ -656,13 +688,13 @@
 		override_color = SKIN_COLOR_ROT
 	if(is_organic_limb && should_draw_greyscale && !skeletonized)
 		var/draw_color =  mutation_color || species_color || skin_tone
-		if(rotted || (owner && HAS_TRAIT(owner, TRAIT_ROTMAN)))
+		if(rotted || (owner && HAS_TRAIT(owner, TRAIT_ROTMAN) && !owner.mind))
 			draw_color = SKIN_COLOR_ROT
 		if(draw_color)
 			limb.color = "#[draw_color]"
 			if(aux_zone && !hideaux)
 				aux.color = "#[draw_color]"
-	
+
 	var/draw_organ_features = TRUE
 	var/draw_bodypart_features = TRUE
 	if(owner && owner.dna)
@@ -671,22 +703,20 @@
 			draw_organ_features = FALSE
 		if(NO_BODYPART_FEATURES in owner_species.species_traits)
 			draw_bodypart_features = FALSE
-	
+
 	// Markings overlays
-	if(!skeletonized)
+	if(!skeletonized && draw_bodypart_features)
 		var/list/marking_overlays = get_markings_overlays(override_color)
 		if(marking_overlays)
 			. += marking_overlays
-	
+
 	// Organ overlays
 	if(!skeletonized && draw_organ_features)
-		for(var/obj/item/organ/organ as anything in get_organs())
-			if(!organ.is_visible())
-				continue
+		for(var/obj/item/organ/organ as anything in get_visible_organs())
 			var/mutable_appearance/organ_appearance = organ.get_bodypart_overlay(src)
 			if(organ_appearance)
 				. += organ_appearance
-	
+
 	// Feature overlays
 	if(!skeletonized && draw_bodypart_features)
 		for(var/datum/bodypart_feature/feature as anything in bodypart_features)

@@ -1,0 +1,25 @@
+@use 'azure_base' as *;
+
+// Gilbranze — conventional/default chant palette (warm gold)
+.theme-azure_gilbranze:root {
+  @include azure-theme((
+    'base':            #1a1410,
+    'base-light':      #2a2015,
+    'base-dark':       #14100a,
+    'section':         rgba(58, 42, 21, 0.45),
+    'section-title':   #c9a96e,
+    'text':            #d4c4a0,
+    'label':           #b0a080,
+    'accent':          #8b7355,
+    'accent-bright':   #a08050,
+    'border':          #4a3820,
+    'btn-text':        #d4c4a0,
+    'btn-selected':    #7a6540,
+    'btn-disabled':    #5a5040,
+    'scrollbar-thumb': #8b7355,
+    'glow':            rgba(139, 115, 85, 0.2),
+    'link':            #c9a96e,
+    'link-visited':    #e0d0b0,
+    'link-hover':      #d4c4a0,
+  ), '../assets/azure_default/topbar_red.svg');
+}

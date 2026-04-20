@@ -26,6 +26,8 @@ GLOBAL_LIST_EMPTY(locked_sex_objects)
 #define COMSIG_SEX_CAN_USE_PENIS "sex_can_use_penis"
 /// Checks if user is considered limp. Return: TRUE/FALSE
 #define COMSIG_SEX_CONSIDERED_LIMP "sex_considered_limp"
+/// Sends a signal whenever the user thrusts, or gets thrusted at
+#define COMSIG_SEX_JOSTLE "sex_jostle"
 
 #define SEX_SPEED_LOW 1
 #define SEX_SPEED_MID 2
@@ -68,12 +70,13 @@ GLOBAL_LIST_EMPTY(locked_sex_objects)
 
 #define MAX_AROUSAL 150
 #define PASSIVE_EJAC_THRESHOLD 108
+#define THRILLSEEKER_THRESHOLD 85
 #define ACTIVE_EJAC_THRESHOLD 100
 #define SEX_MAX_CHARGE 300
 #define CHARGE_FOR_CLIMAX 100
 #define AROUSAL_HARD_ON_THRESHOLD 20
 #define CHARGE_RECHARGE_RATE (CHARGE_FOR_CLIMAX / (2 MINUTES))
-#define AROUSAL_TIME_TO_UNHORNY (5 SECONDS)
+#define AROUSAL_TIME_TO_UNHORNY (10 SECONDS)
 #define SPENT_AROUSAL_RATE (3 / (1 SECONDS))
 #define IMPOTENT_AROUSAL_LOSS_RATE (3 / (1 SECONDS))
 
@@ -109,6 +112,9 @@ GLOBAL_LIST_EMPTY(locked_sex_objects)
 #define SHEATH_TYPE_NONE 0
 #define SHEATH_TYPE_NORMAL 1
 #define SHEATH_TYPE_SLIT 2
+
+#define EARS_NORMAL 0
+#define EARS_SENSITIVE 1 //Should this be used for ANYTHING else - move it. / Also only works on ANTHROS for some reason
 
 #define ERECT_STATE_NONE 0
 #define ERECT_STATE_PARTIAL 1

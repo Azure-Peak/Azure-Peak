@@ -11,7 +11,7 @@
 	abstract_type = /datum/crafting_recipe/roguetown/survival/
 	skillcraft = /datum/skill/craft/crafting
 
-/datum/crafting_recipe/roguetown/survival/flint //custar recipe for flint. 
+/datum/crafting_recipe/roguetown/survival/flint //custar recipe for flint.
 	name = "flint"
 	result = /obj/item/flint
 	reqs =  list(/obj/item/scrap = 2,
@@ -383,8 +383,8 @@
 	name = "improvised surgery saw"
 	result = /obj/item/rogueweapon/surgery/saw/improv
 	reqs = list(
-		/obj/item/natural/fibers = 1, 
-		/obj/item/natural/stone = 1, 
+		/obj/item/natural/fibers = 1,
+		/obj/item/natural/stone = 1,
 		/obj/item/grown/log/tree/stick = 1,
 		)
 	craftdiff = 1
@@ -411,7 +411,7 @@
 // I don't want ration paper to be too expensive, making wrapped food underused
 // So instead, ration paper is a very cheap recipe with parchment and tallow (instead of full fat) that makes 2 wrapper
 // However, it is heavily skillgated by cooking skill. At Craftdiff 4, only Innkeep / Cook can make it easily off the bat.
-// Servant w/ high int can also make it, but it is a bit harder. Or just be middle aged / old instead lol 
+// Servant w/ high int can also make it, but it is a bit harder. Or just be middle aged / old instead lol
 // For 1 fat, 1 log (48 reagents), you get 4 tallow + 6 piece of paper yielding 12 ration wrappers with 1 tallow leftover.
 /datum/crafting_recipe/roguetown/survival/ration_wrapper
 	name = "ration wrapping paper (x2)"
@@ -439,7 +439,7 @@
 	craftdiff = SKILL_LEVEL_EXPERT
 
 /datum/crafting_recipe/roguetown/survival/purify_lux
-	name = "purifiy lux"
+	name = "purify lux"
 	result = list(
 		/obj/item/heart_blood_canister,
 		/obj/item/reagent_containers/lux,
@@ -452,7 +452,7 @@
 	craftdiff = 2
 
 /datum/crafting_recipe/roguetown/survival/purify_lux_vials
-	name = "purifiy lux (vials)"
+	name = "purify lux (vials)"
 	result = list(
 		/obj/item/reagent_containers/lux,
 		/obj/item/heart_blood_vial,
@@ -463,5 +463,17 @@
 		/obj/item/reagent_containers/lux_impure = 1,
 		/obj/item/heart_blood_vial/filled = 3,
 		)
+	skillcraft = /datum/skill/misc/medicine
+	craftdiff = 2
+
+/datum/crafting_recipe/roguetown/survival/bandage
+	name = "bandages (medicine)"
+	result = list(
+		/obj/item/natural/cloth/bandage
+	)
+	reqs = list(
+		/obj/item/natural/cloth = 1,
+		/obj/item/natural/silk = 1,
+		/obj/item/ash = 1)
 	skillcraft = /datum/skill/misc/medicine
 	craftdiff = 2

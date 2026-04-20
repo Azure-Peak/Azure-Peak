@@ -36,6 +36,11 @@
 	cost = 25
 	contains = list(/obj/item/reagent_containers/glass/bottle/rogue/antidote)
 
+/datum/supply_pack/rogue/potions/runicflask
+	name = "Runic Tincture Flask"
+	cost = 100
+	contains = list(/obj/item/runicflask/charged)
+
 /datum/supply_pack/rogue/potions/strpot
 	name = "Strength Potion"
 	cost = 50
@@ -70,3 +75,17 @@
 	name = "Luck Potion"
 	cost = 50
 	contains = list(/obj/item/reagent_containers/glass/bottle/alchemical/lucpot)
+
+// This is really fucking stupid but it's actually for the SILVERFACE.
+// Bottlebombs are made by the apothecary, NOT the blacksmith, who can otherwise lock
+// you out of buying these.
+/datum/supply_pack/rogue/potions/bottlebombs
+	name = "Bottle Bomb"
+	cost = 40
+	contains = list(
+					/obj/item/bomb,
+					/obj/item/bomb,
+					/obj/item/bomb,
+					/obj/item/bomb,
+					/obj/item/bomb
+				)

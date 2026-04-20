@@ -2,5 +2,6 @@
 	"map_name": "Dungeon Map",
 	"map_path": "map_files/otherz",
 	"map_file": "dungeon.dmm",
-	"traits": [{ "Up": true }, { "Down": true }]
+	"traits": [{ "Up": true, "NoDayorWeather": true, "Dungeon": true }, { 
+		"Down": true, "NoDayorWeather": true, "Dungeon": true }]
 }

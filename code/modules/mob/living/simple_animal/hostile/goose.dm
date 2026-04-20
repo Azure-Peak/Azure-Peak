@@ -28,7 +28,7 @@
 	attack_verb_simple = "peck"
 	attack_sound = "goose"
 	speak_emote = list("honks")
-	faction = list("neutral")
+	faction = list(FACTION_NEUTRAL)
 	attack_same = TRUE
 	gold_core_spawnable = HOSTILE_SPAWN
 	var/random_retaliate = TRUE
@@ -188,7 +188,7 @@
 	name = "Vomit"
 	check_flags = AB_CHECK_CONSCIOUS
 	button_icon_state = "vomit"
-	icon_icon = 'icons/mob/animal.dmi'
+	button_icon = 'icons/mob/animal.dmi'
 	cooldown_time = 250
 
 /datum/action/cooldown/vomit/Trigger()

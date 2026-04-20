@@ -103,13 +103,6 @@
 				has_opaque_atom = TRUE
 				break
 
-/turf/Exited(atom/movable/Obj, atom/newloc)
-	. = ..()
-
-	if (Obj && Obj.opacity)
-		recalc_atom_opacity() // Make sure to do this before reconsider_lights(), incase we're on instant updates.
-		reconsider_lights()
-
 /turf/proc/change_area(area/old_area, area/new_area)
 	GLOB.SUNLIGHT_QUEUE_WORK += src
 	if(outdoor_effect)

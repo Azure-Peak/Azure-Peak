@@ -1,14 +1,15 @@
 /proc/reopen_roundstart_suicide_roles()
 	var/list/valid_positions = list()
-	valid_positions += GLOB.youngfolk_positions
+	valid_positions += GLOB.sidefolk_positions
 	valid_positions += GLOB.noble_positions
 	valid_positions += GLOB.courtier_positions
 	valid_positions += GLOB.church_positions
 	valid_positions += GLOB.inquisition_positions
+	valid_positions += GLOB.retinue_positions
 	valid_positions += GLOB.garrison_positions
 	valid_positions += GLOB.peasant_positions
-	valid_positions += GLOB.mercenary_positions
-	valid_positions += GLOB.yeoman_positions
+	valid_positions += GLOB.burgher_positions
+	valid_positions += GLOB.antagonist_positions
 
 
 	var/list/reopened_jobs = list()
@@ -22,6 +23,7 @@
 				continue
 			J.current_positions = max(J.current_positions-1, 0)
 			reopened_jobs += L.job
+	enforce_storyteller_soft_antag_slots()
 
 //////////////////////////
 //Reports player logouts//

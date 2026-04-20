@@ -116,7 +116,7 @@
 				if(required_tier <= level)
 					if(!silent)
 						to_chat(holder, span_boldnotice("I have unlocked a new trait: [trait]"))
-					ADD_TRAIT(holder, trait, TRAIT_MIRACLE)
+					ADD_TRAIT(holder, trait, ROUNDSTART_TRAIT)
 
 
 //The main proc that distributes all the needed devotion tweaks to the given class.
@@ -135,7 +135,7 @@
 		passive_devotion_gain = passive_gain
 		passive_progression_gain = passive_gain
 		START_PROCESSING(SSobj, src)
-	if(start_maxed)		//Mainly for Acolytes & Priests
+	if(start_maxed)		//Mainly for Acolytes & Bishops
 		max_devotion = CLERIC_REQ_4
 		devotion = max_devotion
 		update_devotion(max_devotion, CLERIC_REQ_4, silent = TRUE)

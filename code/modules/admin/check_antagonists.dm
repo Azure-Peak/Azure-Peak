@@ -14,13 +14,17 @@
 /datum/antagonist/proc/antag_listing_status()
 	if(!owner)
 		return "(Unassigned)"
+	var/weight = get_antag_cap_weight()
+	var/weight_str = weight ? " <font color='#888888'>\[W:[weight]\]</font>" : ""
 	if(!owner.current)
-		return "<font color=red>(Body destroyed)</font>"
+		return "<font color=red>(Body destroyed)</font>[weight_str]"
 	else
 		if(owner.current.stat == DEAD)
-			return "<font color=red>(DEAD)</font>"
+			return "<font color=red>(DEAD)</font>[weight_str]"
 		else if(!owner.current.client)
-			return "(No client)"
+			return "(No client)[weight_str]"
+		else
+			return weight_str
 
 //Builds the common FLW PM TP commands part
 //Probably not going to be overwritten by anything but you never know
@@ -184,6 +188,20 @@
 	dat += "<BR><b><font color='red'>Dead/Observing players:|[observers_connected] active|[observers - observers_connected] disconnected|[brains] brains|</font></b>"
 	if(other_players)
 		dat += "<BR><span class='danger'>[other_players] players in invalid state or the statistics code is bugged!</span>"
+	dat += "<br>"
+
+	// Job Scaling Summary
+	var/list/wretch_scaling = calculate_wretch_scaling()
+	var/datum/job/wretch_job = SSjob.GetJob("Wretch")
+	var/list/adv_scaling = calculate_adventurer_scaling()
+	var/datum/job/adv_job = SSjob.GetJob("Adventurer")
+	dat += "<b>Job Scaling:</b> "
+	dat += "Wretch [wretch_job?.current_positions]/[wretch_job?.total_positions] (T1: [wretch_scaling["tier1_slots"]]/10, T2: +[wretch_scaling["tier2_extra"]]/5) | "
+	dat += "Adventurer [adv_job?.current_positions]/[adv_job?.total_positions] (calc: [adv_scaling["final_slots"]]) | "
+	dat += "Garrison: [wretch_scaling["garrison"]] Holy: [wretch_scaling["holy_warrior"]] Acolytes: [wretch_scaling["acolyte"]] (half)"
+	if(wretch_scaling["major_antag_active"])
+		dat += " | <font color='red'>MAJOR ANTAG - T2 LOCKED</font>"
+	dat += "<BR><b>Antag Cap:</b> [SSgamemode.get_antag_count()] / [SSgamemode.get_antag_cap()] (weight used / max)"
 	dat += "<br><br>"
 
 	dat += build_antag_listing()

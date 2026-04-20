@@ -144,6 +144,10 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 	var/toggled = FALSE
 	redstone_structure = TRUE
 
+/obj/structure/lever/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Left-click the lever to actuate whatever might be connected to it. The time needed to complete this action scales with your character's Strength.")
+
 /obj/structure/lever/attack_hand(mob/user)
 	if(isliving(user))
 		var/mob/living/L = user
@@ -166,16 +170,16 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 			to_chat(user, span_warning("I need more skill to carve a name into this lever."))
 			return
 		playsound(user, 'sound/misc/wood_saw.ogg', 100, TRUE)
-		user.visible_message("<span class='info'>[user] Carves a name into the lever.</span>")
+		user.visible_message("<span class='info'>[user] carves a name into the lever.</span>")
 		if(do_after(user, 10))
 			var/levername
 			levername = input("What name would you like to carve into the lever?")
 			if (levername)
 				name = levername + "(lever)"
-				desc = "a lever with a name carved into it"
+				desc = "A lever with a name carved into it."
 			else
 				name = "lever"
-				desc = "a lever with a carving scratched out"
+				desc = "A lever with a carving scratched out."
 			playsound(user, 'sound/misc/wood_saw.ogg', 100, TRUE)
 		return
 	else if(istype(item, /obj/item/rogueweapon/chisel/assembly))
@@ -299,7 +303,7 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 
 /obj/structure/englauncher
 	name = "Engineer's Launcher" 
-	desc = "A engineering contraption made to launch various objects in the direction its pointed."
+	desc = "A engineering contraption made to launch various objects in the direction it's pointed."
 	icon = 'icons/roguetown/misc/engineering_structure.dmi'
 	icon_state = "activator"
 	max_integrity = 45 // so it gets destroyed when used to explode a bomb
@@ -324,6 +328,7 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 	var/unlocksound = 'sound/foley/doors/woodlock.ogg'
 	var/rattlesound = 'sound/foley/doors/lockrattle.ogg'
 	var/masterkey = TRUE //if masterkey can open this regardless
+	debris = list(/obj/item/roguegear = 1, /obj/item/natural/wood/plank = 1, /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow = 1)
 	
 /obj/structure/englauncher/Initialize()
 	. = ..()
@@ -569,7 +574,7 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 		return
 	else
 		var/obj/item/roguekey/K = I
-		if(K.lockhash == lockhash || istype(K, /obj/item/roguekey/lord)) //master key cares not for lockhashes
+		if(K.lockhash == lockhash || istype(K, /obj/item/roguekey/lord) || istype(K, /obj/item/roguekey/skeleton)) //master key cares not for lockhashes
 			lock_toggle(user)
 			return
 		else
@@ -687,10 +692,10 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 	delay2open = 30
 	delay2close = 10
 
-/obj/structure/floordoor/attackby(mob/user)
+/obj/structure/floordoor/attackby(obj/item/I, mob/user, params)
 	. = ..()
-	var/obj/item = user.get_active_held_item()
-	if(user.used_intent.type == /datum/intent/chisel )
+	var/obj/item/held = user.get_active_held_item()
+	if(user.used_intent.type == /datum/intent/chisel)
 		if (user.get_skill_level(/datum/skill/craft/engineering) <= 3)
 			to_chat(user, span_warning("I need more skill to carve a name into this hatch."))
 			return
@@ -707,7 +712,7 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 				desc = "a hatch with a carving scratched out"
 			playsound(user, 'sound/misc/wood_saw.ogg', 100, TRUE)
 		return
-	else if(istype(item, /obj/item/rogueweapon/chisel/assembly))
+	else if(istype(held, /obj/item/rogueweapon/chisel/assembly))
 		to_chat(user, span_warning("You most use both hands to rename the plate."))
 
 /obj/structure/kybraxor

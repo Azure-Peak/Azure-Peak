@@ -30,7 +30,9 @@
 /mob/living/carbon/human/death(gibbed, nocutscene = FALSE)
 	if(stat == DEAD)
 		return
-
+	if(QDELETED(src) || !loc)
+		return
+		
 	var/area/A = get_area(src)
 	dna?.species?.stop_wagging_tail(src)
 
@@ -38,6 +40,18 @@
 		SSdroning.kill_droning(client)
 		SSdroning.kill_loop(client)
 		SSdroning.kill_rain(client)
+
+	if(!gibbed && HAS_TRAIT(src, TRAIT_DUSTABLE))
+		if(HAS_TRAIT(src, TRAIT_DUST_LEAVE_HEAD))
+			var/obj/item/bodypart/head/head = get_bodypart(BODY_ZONE_HEAD)
+			if(head)
+				head.drop_limb()
+		var/delete_gear = HAS_TRAIT(src, TRAIT_DUST_DELETE_GEAR)
+		if(delete_gear)
+			for(var/obj/item/gear in get_equipped_items(TRUE) + held_items)
+				qdel(gear)
+		dust(just_ash=TRUE, drop_items=!delete_gear)
+		return
 
 	if(mind)
 		if(!gibbed)
@@ -48,11 +62,6 @@
 				var/datum/mind/playermind = mind
 				addtimer(CALLBACK(src, PROC_REF(secondliferespawn), playermind), respawn_time, TIMER_UNIQUE)
 				REMOVE_TRAIT(mind.current,TRAIT_SECONDLIFE,TRAIT_GENERIC)
-
-			var/has_dust_trait = HAS_TRAIT(mind.current, TRAIT_DUSTABLE)
-			if(has_dust_trait)
-				dust(just_ash=TRUE,drop_items=TRUE)
-				return
 
 		var/datum/antagonist/lich/L = mind.has_antag_datum(/datum/antagonist/lich)
 		if (L && !L.out_of_lives)
@@ -76,6 +85,7 @@
 		if(ishumannorthern(src))
 			record_round_statistic(STATS_HUMEN_DEATHS)
 		if(mind)
+			cmode = FALSE
 			if(mind.assigned_role in GLOB.church_positions)
 				record_round_statistic(STATS_CLERGY_DEATHS)
 			if(mind.has_antag_datum(/datum/antagonist/vampire))
@@ -137,12 +147,13 @@
 				for(var/mob/living/carbon/human/HU in GLOB.player_list)
 					if(!HU.stat && is_in_roguetown(HU))
 						HU.playsound_local(get_turf(HU), 'sound/music/lorddeath.ogg', 80, FALSE, pressure_affected = FALSE)
+				launch_omen_event()
 			if("Bishop")
 				addomen(OMEN_NOPRIEST)
-//		if(yeae)
-//			if(mind)
-//				if((mind.assigned_role == "Lord") || (mind.assigned_role == "Priest") || (mind.assigned_role == "Knight Captain") || (mind.assigned_role == "Merchant"))
-//					addomen(OMEN_NOBLEDEATH)
+				launch_omen_event()
+			if("Inquisitor")
+				addomen(OMEN_INQUISITORDEATH)
+				launch_omen_event()
 
 		if(!gibbed && yeae)
 			for(var/mob/living/carbon/human/HU in viewers(7, src))
@@ -195,7 +206,7 @@
 	if(T)
 		for(var/X in bodyparts)
 			var/obj/item/bodypart/BP = X
-			for(var/obj/item/I in BP.embedded_objects)
+			for(var/obj/item/I as anything in BP.embedded_objects)
 				I.forceMove(T)
 
 	if(mind.current)

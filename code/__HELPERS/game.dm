@@ -320,11 +320,13 @@
 	return O
 
 /proc/remove_images_from_clients(image/I, list/show_to)
-	for(var/client/C in show_to)
+	for(var/client/C as anything in show_to)
 		C.images -= I
 
 /proc/flick_overlay(image/I, list/show_to, duration)
-	for(var/client/C in show_to)
+	if(!show_to || !length(show_to))
+		return
+	for(var/client/C as anything in show_to)
 		C.images += I
 	addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(remove_images_from_clients), I, show_to), duration, TIMER_CLIENT_TIME)
 
@@ -537,6 +539,13 @@
 /// Removes an image from a client's `.images`. Useful as a callback.
 /proc/remove_image_from_client(image/image_to_remove, client/remove_from)
 	remove_from?.images -= image_to_remove
+
+/// Removes a balloon alert image and decrements the client's active balloon counter.
+/proc/remove_balloon_from_client(image/image_to_remove, client/remove_from)
+	if(!remove_from)
+		return
+	remove_from.images -= image_to_remove
+	remove_from.active_balloon_count = max(0, remove_from.active_balloon_count - 1)
 
 /// Returns this user's display ckey, used in OOC contexts.
 /proc/get_display_ckey(key)

@@ -77,6 +77,7 @@
 #define CLOTHING_MAGENTA			"#962e5c"
 
 //extended dye
+#define CLOTHING_BURLAP				"#a09571"
 #define CLOTHING_CHALK_WHITE		"#f4ecde"
 #define CLOTHING_CHESTNUT			"#613613"
 #define CLOTHING_CREAM				"#fffdd0"
@@ -86,7 +87,7 @@
 #define CLOTHING_EGGPLANT			"#5d4356"
 #define CLOTHING_GOLD				"#f9a602"
 #define CLOTHING_GOLD_METALLIC		"#b0955d"
-#define CLOTHING_INDIGO				"#4b0082"
+#define CLOTHING_GULF_BLUE			"#7bb6b0"
 #define CLOTHING_LIGHT_GREY			"#999999"
 #define CLOTHING_MADDER				"#d74c34"
 #define CLOTHING_MAGE_BLUE			"#4756d8"
@@ -102,8 +103,10 @@
 #define CLOTHING_RED_OCHRE			"#913831"
 #define CLOTHING_RUSSET				"#7f461b"
 #define CLOTHING_SCARLET			"#b8252c"
-#define CLOTHING_VIOLET				"#6925ac"
+#define CLOTHING_TAN				"#d6a790"
+#define CLOTHING_VIOLET				"#5b2294"
 #define CLOTHING_WOAD_BLUE			"#597fb9"
+#define CLOTHING_WISTERIA			"#b07bb6"
 #define CLOTHING_WINE_RED			"#995264"
 #define CLOTHING_YELLOW_OCHRE		"#cb9d06"
 #define CLOTHING_YELLOW_WELD		"#f4c430"
@@ -128,6 +131,7 @@
 )	
 /* Extended */
 #define EXTENDED_COLOR_MAP list(					\
+	"Burlap" = CLOTHING_BURLAP,						\
 	"Chalk White" = CLOTHING_CHALK_WHITE,			\
 	"Chestnut" = CLOTHING_CHESTNUT,					\
 	"Cream" = CLOTHING_CREAM,						\
@@ -137,7 +141,7 @@
 	"Eggplant" = CLOTHING_EGGPLANT,					\
 	"Gold" = CLOTHING_GOLD,							\
 	"Gold Metallic" = CLOTHING_GOLD_METALLIC,		\
-	"Indigo" = CLOTHING_INDIGO,						\
+	"Gulf Blue" = CLOTHING_GULF_BLUE,				\
 	"Light Grey" = CLOTHING_LIGHT_GREY,				\
 	"Madder" = CLOTHING_MADDER,						\
 	"Mage Blue" = CLOTHING_MAGE_BLUE,				\
@@ -153,8 +157,10 @@
 	"Red Ochre" = CLOTHING_RED_OCHRE,				\
 	"Russet" = CLOTHING_RUSSET,						\
 	"Scarlet" = CLOTHING_SCARLET,					\
+	"Tan" = CLOTHING_TAN,							\
 	"Violet" = CLOTHING_VIOLET,						\
 	"Woad Blue" = CLOTHING_WOAD_BLUE,				\
+	"Wisteria" = CLOTHING_WISTERIA,					\
 	"Wine Red" = CLOTHING_WINE_RED,					\
 	"Yellow Ochre" = CLOTHING_YELLOW_OCHRE,			\
 	"Yellow Weld" = CLOTHING_YELLOW_WELD,			\

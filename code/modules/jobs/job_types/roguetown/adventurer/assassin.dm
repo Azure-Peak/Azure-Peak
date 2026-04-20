@@ -1,7 +1,8 @@
 /datum/job/roguetown/assassin
 	title = "Assassin"
 	flag = ASSASSIN
-	department_flag = PEASANTS
+	department_flag = ANTAGONIST
+	selection_color = JCOLOR_ANTAGONIST
 	faction = "Station"
 	total_positions = 0
 	spawn_positions = 0
@@ -15,6 +16,7 @@
 	outfit_female = null
 
 	obsfuscated_job = TRUE
+	give_bank_account = FALSE
 
 	display_order = JDO_ASSASSIN
 	announce_latejoin = FALSE

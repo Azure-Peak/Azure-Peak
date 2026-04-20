@@ -10,7 +10,7 @@ GLOBAL_LIST_EMPTY(lord_titles)
 	total_positions = 1
 	spawn_positions = 1
 	selection_color = JCOLOR_NOBLE
-	allowed_races = RACES_NO_CONSTRUCT
+	allowed_races = RACES_SHUNNED_UP
 	allowed_sexes = list(MALE, FEMALE)
 	advclass_cat_rolls = list(CTAG_LORD = 20)
 
@@ -27,11 +27,10 @@ GLOBAL_LIST_EMPTY(lord_titles)
 	display_order = JDO_LORD
 	tutorial = "Elevated upon your throne through a web of intrigue and political upheaval, you are the absolute authority of these lands and at the center of every plot within it. Every man, woman and child is envious of your position and would replace you in less than a heartbeat: Show them the error of their ways."
 	whitelist_req = FALSE
-	min_pq = 10
+	min_pq = 50 //staff request
 	max_pq = null
 	round_contrib_points = 4
 	give_bank_account = 1000
-	required = TRUE
 	cmode_music = 'sound/music/combat_noble.ogg'
 
 	// Can't use the Throat when you can't talk properly or.. at all for that matter.
@@ -46,6 +45,7 @@ GLOBAL_LIST_EMPTY(lord_titles)
 
 /datum/outfit/job/roguetown/lord
 	job_bitflag = BITFLAG_ROYALTY
+	has_loadout = TRUE
 
 /datum/job/roguetown/lord/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
 	. = ..()
@@ -64,8 +64,9 @@ GLOBAL_LIST_EMPTY(lord_titles)
 			to_chat(L, span_notice("Word reached me on the approach that [regentbuddy.real_name], the [regentbuddy.job], served as regent in my absence."))
 		SSticker.regentmob = null //Time for regent to give up the position.
 
-		addtimer(CALLBACK(L, TYPE_PROC_REF(/mob, lord_marriage_choice)), 50)
-		if(STATION_TIME_PASSED() <= 10 MINUTES) //Late to the party? Stuck with default colors, sorry!
+		addtimer(CALLBACK(L, TYPE_PROC_REF(/mob, lord_marriage_choice)), 50) //sensible to have this first
+		addtimer(CALLBACK(L, TYPE_PROC_REF(/mob, lord_suitor_choice)), 50)
+		if(STATION_TIME_PASSED() <= 30 MINUTES) //Late to the party? Stuck with default colors, sorry!
 			addtimer(CALLBACK(L, TYPE_PROC_REF(/mob, lord_color_choice)), 50)
 
 /datum/outfit/job/roguetown/lord
@@ -73,7 +74,8 @@ GLOBAL_LIST_EMPTY(lord_titles)
 	cloak = /obj/item/clothing/cloak/lordcloak
 	belt = /obj/item/storage/belt/rogue/leather/plaquegold
 	beltl = /obj/item/storage/keyring/lord
-	backpack_contents = list(/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1)
+	beltr = /obj/item/rogueweapon/scabbard/sword/royal
+	backpack_contents = list(/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1, /obj/item/blueprint/mace_mushroom = 1, /obj/item/hunting_map/white_stag = 1)
 	id = /obj/item/scomstone/garrison
 
 /datum/outfit/job/roguetown/lord/pre_equip(mob/living/carbon/human/H)
@@ -105,6 +107,24 @@ GLOBAL_LIST_EMPTY(lord_titles)
 			mask = /obj/item/clothing/mask/rogue/lordmask/l
 	ADD_TRAIT(H, TRAIT_NOBLE, TRAIT_GENERIC)
 
+/datum/outfit/job/roguetown/lord/choose_loadout(mob/living/carbon/human/H)
+	. = ..()
+	var/client/player = H?.client
+	if(player.prefs)
+		if(!istype(player.prefs.virtue_origin, /datum/virtue/origin/azuria) && !istype(player.prefs.virtue_origin, /datum/virtue/origin/grenzelhoft) && !istype(player.prefs.virtue_origin, /datum/virtue/origin/otava) && !istype(player.prefs.virtue_origin, /datum/virtue/origin/etrusca))
+			var/list/new_origins = list("Azuria" = /datum/virtue/origin/azuria, 
+			"Grenzelhoft" = /datum/virtue/origin/grenzelhoft,
+			"Otava" = /datum/virtue/origin/otava,
+			"Etrusca" = /datum/virtue/origin/etrusca)
+			var/new_origin
+			var/choice = input(player, "Your origins are not compatible with the [SSticker.realm_type_short]. Where do you hail from?", "ANCESTRY") as anything in new_origins
+			if(choice)
+				new_origin = new_origins[choice]
+			else
+				to_chat(player, span_notice("No choice detected. Picking a random compatible origin."))
+				new_origin = pick(/datum/virtue/origin/grenzelhoft, /datum/virtue/origin/otava, /datum/virtue/origin/etrusca)
+			change_origin(H, new_origin, "Royal line")
+
 /datum/outfit/job/roguetown/lord/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	. = ..()
 	if(!visualsOnly)
@@ -119,7 +139,7 @@ GLOBAL_LIST_EMPTY(lord_titles)
 	tutorial = "You're a noble warrior. You rose to your rank through your own strength and skill, whether by leading your men or by fighting alongside them. Or perhaps you are none of that, but simply a well-trained heir elevated to the position of Lord. You're trained in the usage of heavy armor, and knows swordsmanship well."
 	outfit = /datum/outfit/job/roguetown/lord/warrior
 	category_tags = list(CTAG_LORD)
-	traits_applied = list(TRAIT_NOBLE, TRAIT_HEAVYARMOR, TRAIT_LAWEXPERT)
+	traits_applied = list(TRAIT_NOBLE, TRAIT_HEAVYARMOR, TRAIT_DNR, TRAIT_LAWEXPERT)
 	subclass_stats = list(
 		STATKEY_LCK = 5,
 		STATKEY_INT = 3,
@@ -128,6 +148,7 @@ GLOBAL_LIST_EMPTY(lord_titles)
 		STATKEY_SPD = 1,
 		STATKEY_STR = 1,
 	)
+	age_mod = /datum/class_age_mod/grand_duke
 	subclass_skills = list(
 		/datum/skill/combat/polearms = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/maces = SKILL_LEVEL_APPRENTICE,
@@ -141,13 +162,12 @@ GLOBAL_LIST_EMPTY(lord_titles)
 		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/reading = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/riding = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/hunting = SKILL_LEVEL_APPRENTICE,
 	)
 
 /datum/outfit/job/roguetown/lord/warrior/pre_equip(mob/living/carbon/human/H)
 	..()
 	l_hand = /obj/item/rogueweapon/lordscepter
-	if(H.age == AGE_OLD)
-		H.adjust_skillrank_up_to(/datum/skill/combat/swords, 5, TRUE)
 
 /**
 	Merchant Lord subclass. Consider this an evolution from Sheltered Aristocrat.
@@ -163,7 +183,7 @@ GLOBAL_LIST_EMPTY(lord_titles)
 	outfit = /datum/outfit/job/roguetown/lord/merchant
 	category_tags = list(CTAG_LORD)
 	noble_income = 400 // Let's go crazy. This is +400 per day for a total of 2400 per round at the end of a day. This is probably equal to doubling passive incomes of the keep.
-	traits_applied = list(TRAIT_NOBLE, TRAIT_SEEPRICES, TRAIT_CICERONE, TRAIT_KEENEARS, TRAIT_MEDIUMARMOR, TRAIT_LAWEXPERT)
+	traits_applied = list(TRAIT_NOBLE, TRAIT_SEEPRICES, TRAIT_CICERONE, TRAIT_KEENEARS, TRAIT_MEDIUMARMOR, TRAIT_DNR, TRAIT_LAWEXPERT)
 	subclass_stats = list(
 		STATKEY_LCK = 5,
 		STATKEY_INT = 5,
@@ -206,14 +226,14 @@ GLOBAL_LIST_EMPTY(lord_titles)
 	tutorial = "Despite spending your younger years focused on reading and the wonders of the arcyne, it came the time for you to take the throne. Now you rule not only by crown and steel, but by spell and wit, show those who doubted your time buried in books was well spent how wrong they were."
 	outfit = /datum/outfit/job/roguetown/lord/mage
 	category_tags = list(CTAG_LORD)
-	traits_applied = list(TRAIT_NOBLE, TRAIT_MAGEARMOR, TRAIT_ARCYNE_T3, TRAIT_LAWEXPERT)
+	traits_applied = list(TRAIT_NOBLE, TRAIT_ARCYNE, TRAIT_DNR, TRAIT_LAWEXPERT)
 	subclass_stats = list(
 		STATKEY_LCK = 5,
 		STATKEY_INT = 4,
 		STATKEY_PER = 2,
 		STATKEY_WIL = 1,
 	)
-	subclass_spellpoints = 18
+	subclass_mage_aspects = list("mastery" = FALSE, "major" = 1, "minor" = 1, "utilities" = 4, "ward" = TRUE)
 	subclass_skills = list(
 		/datum/skill/combat/staves = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/polearms = SKILL_LEVEL_APPRENTICE,
@@ -231,7 +251,7 @@ GLOBAL_LIST_EMPTY(lord_titles)
 	..()
 	backr = /obj/item/storage/backpack/rogue/satchel
 
-	backpack_contents = list(/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1, /obj/item/roguegem/amethyst = 1, /obj/item/spellbook_unfinished/pre_arcyne = 1)
+	backpack_contents = list(/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1, /obj/item/book/spellbook = 1, /obj/item/blueprint/mace_mushroom = 1, /obj/item/chalk = 1, /obj/item/hunting_map/white_stag = 1,)
 
 /**
 	Inbred Lord subclass. A joke class, evolution of the Inbred Wastrel.
@@ -245,7 +265,7 @@ GLOBAL_LIST_EMPTY(lord_titles)
 	tutorial = "Psydon and Astrata smiles upon you. For despite your inbred and weak body, and your family's conspiracies to remove you from succession, you have somehow become the Lord of Azure Peak. May your reign lasts a hundred years."
 	outfit = /datum/outfit/job/roguetown/lord/inbred
 	category_tags = list(CTAG_LORD)
-	traits_applied = list(TRAIT_NOBLE, TRAIT_CRITICAL_WEAKNESS, TRAIT_NORUN, TRAIT_HEAVYARMOR, TRAIT_GOODLOVER)
+	traits_applied = list(TRAIT_NOBLE, TRAIT_CRITICAL_WEAKNESS, TRAIT_NORUN, TRAIT_HEAVYARMOR, TRAIT_GOODLOVER, TRAIT_DNR)
 	subclass_stats = list(
 		STATKEY_LCK = 10,
 		STATKEY_INT = -2,
@@ -404,6 +424,98 @@ GLOBAL_LIST_EMPTY(lord_titles)
 	recruiter.say("I HEREBY GRANT YOU, [uppertext(recruit.name)], NOBILITY!")
 	ADD_TRAIT(recruit, TRAIT_NOBLE, TRAIT_GENERIC)
 	return TRUE
+
+/obj/effect/proc_holder/spell/self/convertrole
+	name = "Recruit Beggar"
+	desc = "Recruit someone to your cause."
+	overlay_state = "recruit_bog"
+	antimagic_allowed = TRUE
+	recharge_time = 100
+	/// Role given if recruitment is accepted
+	var/new_role = "Beggar"
+	/// Faction shown to the user in the recruitment prompt
+	var/recruitment_faction = "Beggars"
+	/// Message the recruiter gives
+	var/recruitment_message = "Serve the beggars, %RECRUIT!"
+	/// Range to search for potential recruits
+	var/recruitment_range = 3
+	/// Say message when the recruit accepts
+	var/accept_message = "I will serve!"
+	/// Say message when the recruit refuses
+	var/refuse_message = "I refuse."
+	ignore_los = 1 // this needs to ignore normal "range", it looks like
+	range = 3
+
+/obj/effect/proc_holder/spell/self/convertrole/cast(list/targets,mob/user = usr)
+	. = ..()
+	var/list/recruitment = list()
+	for(var/mob/living/carbon/human/recruit in (get_hearers_in_view(recruitment_range, user) - user))
+		//not allowed
+		if(!can_convert(recruit))
+			continue
+		recruitment[recruit.name] = recruit
+	if(!length(recruitment))
+		to_chat(user, span_warning("There are no potential recruits in range."))
+		return
+	var/inputty = input(user, "Select a potential recruit!", "[name]") as anything in recruitment
+	if(inputty)
+		var/mob/living/carbon/human/recruit = recruitment[inputty]
+		if(!QDELETED(recruit) && (recruit in get_hearers_in_view(recruitment_range, user)))
+			INVOKE_ASYNC(src, PROC_REF(convert), recruit, user)
+		else
+			to_chat(user, span_warning("Recruitment failed!"))
+	else
+		to_chat(user, span_warning("Recruitment cancelled."))
+
+/obj/effect/proc_holder/spell/self/convertrole/proc/can_convert(mob/living/carbon/human/recruit)
+	//wtf
+	if(QDELETED(recruit))
+		return FALSE
+	//need a mind
+	if(!recruit.mind)
+		return FALSE
+	//only migrants and peasants
+	if(!(recruit.job in GLOB.peasant_positions) && \
+		!(recruit.job in GLOB.burgher_positions) && \
+		!(recruit.job in GLOB.wanderer_positions))
+		return FALSE
+	//need to see their damn face
+	if(!recruit.get_face_name(null))
+		return FALSE
+	return TRUE
+
+/obj/effect/proc_holder/spell/self/convertrole/proc/convert(mob/living/carbon/human/recruit, mob/living/carbon/human/recruiter)
+	if(QDELETED(recruit) || QDELETED(recruiter))
+		return FALSE
+	recruiter.say(replacetext(recruitment_message, "%RECRUIT", "[recruit]"), forced = "[name]")
+	var/prompt = alert(recruit, "Do you wish to become a [new_role]?", "[recruitment_faction] Recruitment", "Yes", "No")
+	if(QDELETED(recruit) || QDELETED(recruiter) || !(recruiter in get_hearers_in_view(recruitment_range, recruit)))
+		return FALSE
+	if(prompt != "Yes")
+		if(refuse_message)
+			recruit.say(refuse_message, forced = "[name]")
+		return FALSE
+	if(accept_message)
+		recruit.say(accept_message, forced = "[name]")
+	if(new_role)
+		recruit.job = new_role
+		SEND_SIGNAL(SSdcs, COMSIG_GLOB_ROLE_CONVERTED, recruiter, recruit, new_role)
+	return TRUE
+
+/obj/effect/proc_holder/spell/self/convertrole/guard
+	name = "Recruit Guardsmen"
+	new_role = "Watchman"
+	overlay_state = "recruit_guard"
+	recruitment_faction = "Watchman"
+	recruitment_message = "Serve the town guard, %RECRUIT!"
+	accept_message = "FOR THE CROWN!"
+	refuse_message = "I refuse."
+
+/obj/effect/proc_holder/spell/self/convertrole/guard/convert(mob/living/carbon/human/recruit, mob/living/carbon/human/recruiter)
+	. = ..()
+	if(!.)
+		return
+	recruit.verbs |= /mob/proc/haltyell
 
 /obj/effect/proc_holder/spell/self/convertrole/servant
 	name = "Recruit Servant"

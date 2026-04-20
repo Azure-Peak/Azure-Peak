@@ -9,15 +9,9 @@
 	switch(described.pronouns)
 		if(SHE_HER)
 			return "woman"
-		if(SHE_HER_M)
-			return "woman"
 		if(HE_HIM)
 			return "man"
-		if(HE_HIM_F)
-			return "man"
 		if(THEY_THEM)
-			return "person"
-		if(THEY_THEM_F)
 			return "person"
 		else
 			return "creacher"
@@ -29,15 +23,9 @@
 	switch(described.pronouns)
 		if(SHE_HER)
 			return "gentlewoman"
-		if(SHE_HER_M)
-			return "gentlewoman"
 		if(HE_HIM)
 			return "gentleman"
-		if(HE_HIM_F)
-			return "gentleman"
 		if(THEY_THEM)
-			return "gentleperson"
-		if(THEY_THEM_F)
 			return "gentleperson"
 		else
 			return "gentlecreacher"
@@ -51,8 +39,6 @@
 			return "patriarch"
 		if(THEY_THEM)
 			return "hierarch"
-		if(THEY_THEM_F)
-			return "hierarch"
 		else
 			return "hierarch"
 /datum/mob_descriptor/stature/hag
@@ -65,8 +51,6 @@
 			return "codger"
 		if(THEY_THEM)
 			return "senior"
-		if(THEY_THEM_F)
-			return "senior"
 		else
 			return "elder"
 /datum/mob_descriptor/stature/villain
@@ -78,8 +62,6 @@
 		if(HE_HIM)
 			return "villain"
 		if(THEY_THEM)
-			return "antagonist"
-		if(THEY_THEM_F)
 			return "antagonist"
 		else
 			return "antagonist"
@@ -183,3 +165,26 @@
 
 /datum/mob_descriptor/stature/socialite
 	name = "Socialite"
+
+/datum/mob_descriptor/stature/shitheel
+	name = "Shitheel"
+
+/datum/mob_descriptor/stature/critter
+	name = "Critter"
+
+// this one technically already exists but it was a very specific selection choice & i've got a request to add it
+/datum/mob_descriptor/stature/creacher
+	name = "Creacher"
+
+/datum/mob_descriptor/stature/cur
+	name = "Cur"
+
+/datum/mob_descriptor/stature/wretch
+	name = "Wretch"
+
+/datum/mob_descriptor/stature/dullard
+	name = "Dullard"
+
+// basterd. specifically basterd. it is funnier this way.
+/datum/mob_descriptor/stature/basterd
+	name = "Basterd"

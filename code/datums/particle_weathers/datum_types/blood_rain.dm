@@ -28,10 +28,14 @@
 	maxSeverityChange = 2
 	severitySteps = 5
 	immunity_type = TRAIT_RAINSTORM_IMMUNE
-	probability = 1
+	probability = 10
 	target_trait = PARTICLEWEATHER_BLOODRAIN
 
 /datum/particle_weather/blood_rain_gentle/weather_act(mob/living/L)
+	if(HAS_TRAIT(L, TRAIT_WEATHER_PROTECTED))
+		return
+	if(HAS_TRAIT(L, TRAIT_HORDE))
+		L.add_stress(/datum/stressevent/graggarite_blood_rain)
 	L.adjust_fire_stacks(-100)
 	L.SoakMob(FULL_BODY)
 
@@ -49,10 +53,11 @@
 	maxSeverityChange = 50
 	severitySteps = 50
 	immunity_type = TRAIT_RAINSTORM_IMMUNE
-	probability = 1
+	probability = 10
 	target_trait = PARTICLEWEATHER_BLOODRAIN
 
-//Makes you a bit chilly
 /datum/particle_weather/blood_rain_storm/weather_act(mob/living/L)
+	if(HAS_TRAIT(L, TRAIT_HORDE))
+		L.add_stress(/datum/stressevent/graggarite_blood_rain)
 	L.adjust_fire_stacks(-100)
 	L.SoakMob(FULL_BODY)

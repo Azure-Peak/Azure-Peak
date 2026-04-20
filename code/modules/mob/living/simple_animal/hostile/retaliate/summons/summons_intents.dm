@@ -6,7 +6,7 @@
 	blade_class = BCLASS_BLUNT
 	hitsound = null
 	chargetime = 0
-	penfactor = BLUNT_DEFAULT_PENFACTOR
+	penfactor = PEN_NONE
 	swingdelay = 3
 
 /datum/intent/simple/elementalt2_unarmed
@@ -17,5 +17,5 @@
 	blade_class = BCLASS_SMASH
 	hitsound = null
 	chargetime = 0
-	penfactor = BLUNT_DEFAULT_PENFACTOR
+	penfactor = PEN_NONE
 	swingdelay = 3

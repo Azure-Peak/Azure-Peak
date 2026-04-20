@@ -10,6 +10,7 @@
 	chargetime = 0
 	releasedrain = 5
 	miracle = TRUE
+	skipcharge = TRUE
 	devotion_cost = 5
 	chargedloop = /datum/looping_sound/invokegen
 	associated_skill = /datum/skill/magic/holy
@@ -27,10 +28,12 @@
 	icon_state = "pulling"
 	icon_state = "grabbing_greyscale"
 	color = "#FFFFFF"
+	associated_skill = /datum/skill/magic/holy
 	var/right_click = FALSE
 	var/thaumaturgy_devotion = 10
 	var/light_devotion = 5
 	var/water_moisten = 2
+	experimental_inhand = FALSE
 
 /obj/item/melee/touch_attack/orison/attack_self()
 	qdel(src)
@@ -74,11 +77,21 @@
 	status_type = STATUS_EFFECT_REFRESH
 	examine_text = "SUBJECTPRONOUN is surrounded by an aura of gentle light."
 	var/outline_colour = "#ffffff"
-	var/list/mobs_affected
+	var/color_mob_light = "#f5edda"
+	/// The object attached to the mob that emits light
 	var/obj/effect/dummy/lighting_obj/moblight/mob_light_obj
+	/// Amount of light our buff emits, can be buffed by someone with higher miracles skill
+	var/holy_light_power = 1
 
-/datum/status_effect/light_buff/refresh()
+/datum/status_effect/light_buff/on_creation(mob/living/new_owner, light_power)
+	if(light_power > holy_light_power)
+		holy_light_power = light_power
+	return ..()
+
+/datum/status_effect/light_buff/refresh(mob/living/owner, light_power)
 	duration += initial(duration) // stack this up as much as we can be bothered to cast it
+	if(holy_light_power > mob_light_obj.light_power)
+		mob_light_obj.light_power = holy_light_power
 
 /datum/status_effect/light_buff/on_apply()
 	. = ..()
@@ -90,6 +103,7 @@
 	if (!filter)
 		owner.add_filter(BLESSINGOFLIGHT_FILTER, 2, list("type" = "outline", "color" = outline_colour, "alpha" = 60, "size" = 1))
 	mob_light_obj = owner.mob_light(7, 7, _color ="#f5edda")
+	mob_light_obj.light_power = holy_light_power
 	return TRUE
 
 /datum/status_effect/light_buff/on_remove()
@@ -105,31 +119,30 @@
 		to_chat(user, span_info("I need to be next to [thing] to channel a blessing of light!"))
 		return
 
-	if (isliving(thing))
-
-		if (thing != user)
-			user.visible_message(span_notice("[user] reaches gently towards [thing], beads of light glimmering at [user.p_their()] fingertips..."), span_notice("Blessed [user.patron.name], I ask but for a light to guide the way..."))
-		else
-			user.visible_message(span_notice("[user] closes [user.p_their()] eyes and places a glowing hand upon [user.p_their()] chest..."), span_notice("Blessed [user.patron.name], I ask but for a light to guide the way..."))
-		
-		if (do_after(user, cast_time, target = thing))
-			var/mob/living/living_thing = thing
-			var/light_power = clamp(4 + (holy_skill - 3), 4, 7)
-			set_light_on()
-
-			if (living_thing.has_status_effect(/datum/status_effect/light_buff))
-				user.visible_message(span_notice("The holy light emanating from [living_thing] becomes brighter!"), span_notice("I feed further devotion into [living_thing]'s blessing of light."))
-			else
-				user.visible_message(span_notice("A gentle illumination suddenly blossoms into being around [living_thing]!"), span_notice("I grant [living_thing] a blessing of light."))
-
-			living_thing.apply_status_effect(/datum/status_effect/light_buff, light_power)
-
-			return light_devotion
-	else
+	if(!isliving(thing))
 		to_chat(user, span_notice("Only living creachers can bear the blessing of [user.patron.name]'s light."))
 		return
 
+	if(thing != user)
+		user.visible_message(span_notice("[user] reaches gently towards [thing], beads of light glimmering at [user.p_their()] fingertips..."), span_notice("Blessed [user.patron.name], I ask but for a light to guide the way..."))
+	else
+		user.visible_message(span_notice("[user] closes [user.p_their()] eyes and places a glowing hand upon [user.p_their()] chest..."), span_notice("Blessed [user.patron.name], I ask but for a light to guide the way..."))
+
+	if(!do_after(user, cast_time, target = thing))
+		return
+	var/mob/living/living_thing = thing
+	if (living_thing.has_status_effect(/datum/status_effect/light_buff))
+		user.visible_message(span_notice("The holy light emanating from [living_thing] becomes brighter!"), span_notice("I feed further devotion into [living_thing]'s blessing of light."))
+	else
+		user.visible_message(span_notice("A gentle illumination suddenly blossoms into being around [living_thing]!"), span_notice("I grant [living_thing] a blessing of light."))
+
+	var/light_power = clamp(4 + (holy_skill - 3), 4, 7)
+	living_thing.apply_status_effect(/datum/status_effect/light_buff, light_power)
+
+	return light_devotion
+
 #undef BLESSINGOFLIGHT_FILTER
+
 /atom/movable/screen/alert/status_effect/thaumaturgy
 	name = "Thaumaturgical Voice"
 	desc = "The power of my god will make the next thing I say carry much further!"
@@ -273,6 +286,30 @@
 				M.update_damage_overlays()
 		M.stamina_add(0.5  * REAGENTS_EFFECT_MULTIPLIER)
 
+/datum/reagent/water/medicine
+	name = "Pestran Medicine"
+	description = "A gift of devotion from the Patron of Healing and Medicine, stronger than blessed water but taste horrible!"
+	color = "#428b42"
+	taste_description = "nauseatingly bitter"
+	scent_description = "medicine"
+	metabolization_rate = REAGENTS_METABOLISM
+
+/datum/reagent/water/medicine/on_mob_life(mob/living/carbon/M)
+	if(volume >= 50)
+		M.reagents.remove_reagent(/datum/reagent/water/medicine, 2) // no more than 1 large bottle at a time
+	if(volume > 0.99)
+		M.adjustBruteLoss(-0.5 * REAGENTS_EFFECT_MULTIPLIER, 0)
+		M.adjustFireLoss(-0.5 * REAGENTS_EFFECT_MULTIPLIER, 0)
+		M.adjustOxyLoss(-0.5 * REAGENTS_EFFECT_MULTIPLIER, 0)
+		M.adjustToxLoss(-0.5 * REAGENTS_EFFECT_MULTIPLIER, 0)
+		for(var/datum/reagent/R in M.reagents.reagent_list)
+			if(R.harmful)
+				holder.remove_reagent(R.type, 0.2 * REAGENTS_EFFECT_MULTIPLIER)
+		var/list/wCount = M.get_wounds()
+		if(wCount.len > 0)
+			M.heal_wounds(2 * REAGENTS_EFFECT_MULTIPLIER)
+		..()
+
 /obj/item/melee/touch_attack/orison/proc/create_water(atom/thing, mob/living/carbon/human/user)
 	// normally we wouldn't use fatigue here to keep in line w/ other holy magic, but we have to since water is a persistent resource
 	if (!thing.Adjacent(user))
@@ -294,18 +331,19 @@
 			if (thing.reagents.holder_full() || (user.devotion.devotion - fatigue_used <= 0))
 				break
 
-			var/water_qty = max(1, holy_skill) + 1
+			var/water_qty = max(2, 2 * holy_skill) + 2
 			var/list/water_contents = list(/datum/reagent/water/cursed = water_qty)
 			if(user.patron.undead_hater == TRUE)
 				water_contents = list(/datum/reagent/water/blessed = water_qty)
-
+			if(user.patron.name == "Pestra")
+				water_contents = list(/datum/reagent/water/medicine = water_qty)
 			var/datum/reagents/reagents_to_add = new()
 			reagents_to_add.add_reagent_list(water_contents)
-			reagents_to_add.trans_to(thing, reagents_to_add.total_volume, transfered_by = user, method = INGEST)
+			reagents_to_add.trans_to(thing, reagents_to_add.total_volume, transfered_by = user)
 
 			fatigue_spent += fatigue_used
 			user.stamina_add(fatigue_used)
-			user.devotion?.update_devotion(-1.0)
+			user.devotion?.update_devotion(-1.5)
 
 			if (prob(80))
 				playsound(user, 'sound/items/fillcup.ogg', 55, TRUE)
@@ -321,5 +359,17 @@
 		the_cloth.wet = holy_skill * 5
 		user.visible_message(span_info("[user] closes [user.p_their()] eyes in prayer, beads of moisture coalescing in [user.p_their()] hands to moisten [the_cloth]."), span_notice("I utter forth a plea to [user.patron.name] for succour, and will moisture into [the_cloth]. I should be able to clean with it properly now."))
 		return water_moisten
+	else if (istype(thing, /obj/item/reagent_containers/powder/flour))
+		// these three should probably be abstracted but the type pathing here is a nightmare and it's only three cases for now so it's probably fine
+		var/obj/item/reagent_containers/powder/flour/the_flour = thing
+		the_flour.wet(src, user)
+		return
+	else if (istype(thing, /obj/item/reagent_containers/food/snacks/grown/rice))
+		var/obj/item/reagent_containers/food/snacks/grown/rice/the_rice = thing
+		the_rice.wet(src, user)
+		return
+	else if (istype(thing, /obj/item/reagent_containers/powder/mineral))
+		var/obj/item/reagent_containers/powder/mineral/the_mineral = thing
+		the_mineral.wet(src, user)
 	else
 		to_chat(user, span_info("I'll need to find a container that can hold water."))

@@ -92,6 +92,7 @@
 #define BODYPART_FEATURE_ACCESSORY "accessory"
 #define BODYPART_FEATURE_FACE_DETAIL "facedetail"
 #define BODYPART_FEATURE_UNDERWEAR "underwear"
+#define BODYPART_FEATURE_PIERCINGS "piercings"
 #define BODYPART_FEATURE_CREST "crest"
 #define BODYPART_FEATURE_LEGWEAR "legwear"
 #define BODYPART_FEATURE_BRAND "brand"

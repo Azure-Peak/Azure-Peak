@@ -1,7 +1,6 @@
 /// Picks targets based on which one is closest to you, choice between targets at equal distance is arbitrary
 /datum/ai_behavior/find_potential_targets/nearest
 
-
 /datum/ai_behavior/find_potential_targets/nearest/pick_final_target(datum/ai_controller/controller, list/filtered_targets)
 	var/turf/our_position = get_turf(controller.pawn)
 	return get_closest_atom(/atom/, filtered_targets, our_position)
