@@ -11,7 +11,7 @@
 	overlay_state = "twinned_gaze"
 
 	recharge_time = 2 MINUTES
-	releasedrain = 25
+	releasedrain = 20
 	miracle = TRUE
 	devotion_cost = 35
 
@@ -126,7 +126,7 @@
 	overlay_icon = 'icons/mob/actions/undividedmiracles.dmi'
 	overlay_state = "calming_respite"
 
-	recharge_time = 3 MINUTES
+	recharge_time = 2 MINUTES
 	releasedrain = 25
 
 	miracle = TRUE
@@ -170,12 +170,12 @@
 /datum/status_effect/buff/recuperation
 	id = "recuperation"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/recuperation
-	duration = 5 SECONDS
+	duration = 10 SECONDS
 	var/healing_on_tick = 5
 	var/outline_colour = "#2e8d8d"
 
 /datum/status_effect/buff/recuperation/other
-	duration = 10 SECONDS
+	duration = 20 SECONDS
 
 /datum/status_effect/buff/recuperation/on_apply()
 	var/filter = owner.get_filter(RECUPERATION_BASE_FILTER)
@@ -226,7 +226,7 @@
 	overlay_state = "perseverance"
 
 	recharge_time = 1 MINUTES
-	releasedrain = 40
+	releasedrain = 35
 	range = 5
 	miracle = TRUE
 	devotion_cost = 70
@@ -360,9 +360,9 @@
 	if(!length(spells))
 		user.mind?.RemoveSpell(src.type)
 
-//////////////////////////////////////////////////////////////////////////////////////
-// T3 - Gallows Humor - Moodnuke a target with slight slap on the wrist to FORTUNE. //
-//////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+// T3 - Gallows Humor - Moodnuke a target with any negative stress being double for quite a while. //
+/////////////////////////////////////////////////////////////////////////////////////////////////////
 //Necra + Xylix
 
 /obj/effect/proc_holder/spell/invoked/gallowshumor
@@ -383,7 +383,7 @@
 
 	sound = 'sound/magic/undivided_mockery.ogg'
 	invocation_type = INVOCATION_EMOTE
-	invocations = list("cackles uncontrollably.")
+	invocations = list(span_undivided("cackles uncontrollably."))
 
 	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
 	associated_skill = /datum/skill/magic/holy
@@ -443,7 +443,7 @@
 	overlay_state = "bolster"
 
 	recharge_time = 30 SECONDS
-	releasedrain = 40
+	releasedrain = 35
 	devotion_cost = 50
 
 	sound = 'sound/magic/heal_new.ogg'
@@ -480,7 +480,7 @@
 			target.apply_status_effect(/datum/status_effect/buff/ten_united)
 			continue
 		if(istype(target.patron, /datum/patron/old_god) || istype(target.patron, /datum/patron/inhumen)) 
-			to_chat(target, span_danger("The divine light leaves me as abruptly as it came.."))
+			to_chat(target, span_undivided("The divine light leaves me as abruptly as it came.."))
 			continue
 		if(!user.faction_check_mob(target))
 			continue
