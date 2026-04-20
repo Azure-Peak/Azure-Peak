@@ -136,12 +136,12 @@
 		return
 
 	// Has user a bank account?
-	if(!(user in SStreasury.bank_accounts))
+	if(!SStreasury.has_account(user))
 		say("You have no bank account.")
 		return
 
 	// Has user enough money?
-	if(SStreasury.bank_accounts[user] < amount)
+	if(SStreasury.get_balance(user) < amount)
 		say("Insufficient balance funds.")
 		return
 
@@ -154,7 +154,7 @@
 	if(isnull(confirm) || confirm == "No") return
 
 	// Deduct money from user
-	SStreasury.bank_accounts[user] -= round(amount)
+	SStreasury.adjust_balance(user, -round(amount))
 
 	//Deduct royal tax from amount
 	var/royal_tax = round(amount * 0.1)
@@ -229,15 +229,15 @@
 	if(choice != "Yes")
 		return
 
-	if(!(user in SStreasury.bank_accounts))
+	if(!SStreasury.has_account(user))
 		say("You have no bank account.")
 		return
 
-	if(SStreasury.bank_accounts[user] < cost)
+	if(SStreasury.get_balance(user) < cost)
 		say("Insufficient funds. [cost] mammons required.")
 		return
 
-	SStreasury.bank_accounts[user] -= cost
+	SStreasury.adjust_balance(user, -cost)
 	SStreasury.treasury_value += cost
 	SStreasury.log_entries += "+[cost] to treasury (bounty scroll fee)"
 

@@ -661,8 +661,8 @@ GLOBAL_LIST_INIT(averse_factions, list(
 
 /datum/charflaw/indebted/proc/setup_self(mob/living/carbon/human/user)
 	if(user.mind)
-		if(!SStreasury.bank_accounts[user.real_name])
-			SStreasury.create_bank_account(user.real_name, minimum)
+		if(!SStreasury.has_account(user))
+			SStreasury.create_bank_account(user, minimum)
 			is_active = TRUE
 			next_alimony = world.time + interval
 
@@ -673,7 +673,7 @@ GLOBAL_LIST_INIT(averse_factions, list(
 			calculate_childsupport(user)
 
 /datum/charflaw/indebted/proc/calculate_childsupport(mob/deadbeat)
-	var/bankamt = SStreasury.bank_accounts[deadbeat]
+	var/bankamt = SStreasury.get_balance(deadbeat)
 	var/alimony = minimum
 	if(bankamt > minimum)
 		if((bankamt * relative) > minimum)

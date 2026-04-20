@@ -94,16 +94,56 @@ SUBSYSTEM_DEF(treasury)
 	
 		auto_export()
 
-/datum/controller/subsystem/treasury/proc/create_bank_account(name, initial_deposit)
-	if(!name)
+/datum/controller/subsystem/treasury/proc/get_account(target)
+	if(!target)
+		return null
+	return bank_accounts[target]
+
+/datum/controller/subsystem/treasury/proc/get_balance(target)
+	var/datum/bank_account/account = get_account(target)
+	return account ? account.balance : 0
+
+/datum/controller/subsystem/treasury/proc/adjust_balance(target, delta)
+	var/datum/bank_account/account = get_account(target)
+	if(!account)
+		return null
+	account.balance += delta
+	return account.balance
+
+/datum/controller/subsystem/treasury/proc/set_balance(target, value)
+	var/datum/bank_account/account = get_account(target)
+	if(!account)
+		return null
+	account.balance = value
+	return account.balance
+
+/datum/controller/subsystem/treasury/proc/has_account(target)
+	return !isnull(bank_accounts[target])
+
+/datum/controller/subsystem/treasury/proc/rename_account(mob/living/owner, new_name)
+	var/datum/bank_account/account = get_account(owner)
+	if(!account)
 		return
-	if(name in bank_accounts)
+	account.owner_name = new_name
+
+/datum/controller/subsystem/treasury/proc/is_name_taken(candidate_name)
+	if(!candidate_name)
+		return FALSE
+	for(var/key in bank_accounts)
+		var/datum/bank_account/account = bank_accounts[key]
+		if(account?.owner_name == candidate_name)
+			return TRUE
+	return FALSE
+
+/datum/controller/subsystem/treasury/proc/create_bank_account(mob/living/owner, initial_deposit)
+	if(!owner)
 		return
-	bank_accounts += name
-	if(initial_deposit)
-		bank_accounts[name] = initial_deposit
-	else
-		bank_accounts[name] = 0
+	if(has_account(owner))
+		return
+	if(is_name_taken(owner.real_name))
+		return
+	var/datum/bank_account/account = new(owner, initial_deposit || 0)
+	bank_accounts[owner] = account
 	return TRUE
 
 //increments the treasury directly (tax collection)
@@ -129,21 +169,16 @@ SUBSYSTEM_DEF(treasury)
 	if(istype(target,/mob/living/carbon/human))
 		var/mob/living/carbon/human/H = target
 		target_name = H.real_name
-	var/found_account
-	for(var/X in bank_accounts)
-		if(X == target)
-			if(amt > 0)
-				bank_accounts[X] += amt  // Add funds into the player's account
-			else
-				// Check if the amount to be fined exceeds the player's account balance
-				if(abs(amt) > bank_accounts[X])
-					send_ooc_note("<b>MEISTER:</b> Error: Insufficient funds in the account to complete the fine.", name = target_name)
-					return FALSE  // Return early if the player has insufficient funds
-				bank_accounts[X] -= abs(amt)  // Deduct the fine amount from the player's account
-			found_account = TRUE
-			break
-	if(!found_account)
+	var/datum/bank_account/account = get_account(target)
+	if(!account)
 		return FALSE
+	if(amt > 0)
+		account.balance += amt
+	else
+		if(abs(amt) > account.balance)
+			send_ooc_note("<b>MEISTER:</b> Error: Insufficient funds in the account to complete the fine.", name = target_name)
+			return FALSE
+		account.balance -= abs(amt)
 
 	if (amt > 0)
 		// Player received money
@@ -175,15 +210,16 @@ SUBSYSTEM_DEF(treasury)
 		return FALSE
 	if(!character)
 		return FALSE
+	var/datum/bank_account/account = get_account(character)
+	if(!account)
+		return FALSE
 	var/taxed_amount = 0
 	var/original_amt = amt
 	treasury_value += amt
-	if(!(character in bank_accounts))
-		return FALSE
 
 	taxed_amount = round(amt * get_tax_value_for(character))
 	amt -= taxed_amount
-	bank_accounts[character] += amt
+	account.balance += amt
 
 	log_to_steward("+[original_amt] deposited by [character.real_name] of which taxed [taxed_amount]")
 
@@ -196,21 +232,17 @@ SUBSYSTEM_DEF(treasury)
 	if(istype(target,/mob/living/carbon/human))
 		var/mob/living/carbon/human/H = target
 		target_name = H.real_name
-	var/found_account
-	for(var/X in bank_accounts)
-		if(X == target)
-			if(bank_accounts[X] < amt)  // Check if the withdrawal amount exceeds the player's account balance
-				send_ooc_note("<b>MEISTER:</b> Error: Insufficient funds in the account to complete the withdrawal.", name = target_name)
-				return  // Return without processing the transaction
-			if(treasury_value < amt)  // Check if the amount exceeds the treasury balance
-				send_ooc_note("<b>MEISTER:</b> Error: Insufficient funds in the treasury to complete the transaction.", name = target_name)
-				return  // Return early if the treasury balance is insufficient
-			bank_accounts[X] -= amt //The account accounts accountingly. Shame on you if you copy this, apple.
-			treasury_value -= amt
-			found_account = TRUE
-			break
-	if(!found_account)
+	var/datum/bank_account/account = get_account(target)
+	if(!account)
 		return
+	if(account.balance < amt)
+		send_ooc_note("<b>MEISTER:</b> Error: Insufficient funds in the account to complete the withdrawal.", name = target_name)
+		return
+	if(treasury_value < amt)
+		send_ooc_note("<b>MEISTER:</b> Error: Insufficient funds in the treasury to complete the transaction.", name = target_name)
+		return
+	account.balance -= amt
+	treasury_value -= amt
 	log_to_steward("-[amt] withdrawn by [target_name]")
 	return TRUE
 
@@ -253,23 +285,22 @@ SUBSYSTEM_DEF(treasury)
 	var/total_interest_created = 0
 	var/interest_cap = 50 // Maximum interest per account per day
 
-	for(var/account in bank_accounts)
-		var/balance = bank_accounts[account]
-		if(balance <= 0)
+	for(var/key in bank_accounts)
+		var/datum/bank_account/account = bank_accounts[key]
+		if(!account || account.balance <= 0)
 			continue
 
-		var/interest = round(balance * bank_interest_rate)
+		var/interest = round(account.balance * bank_interest_rate)
 		if(interest <= 0)
 			continue
 
 		interest = min(interest, interest_cap)
 
-		bank_accounts[account] += interest
+		account.balance += interest
 		total_interest_created += interest
 
-		// Notify real characters only
-		if(istype(account, /mob/living/carbon/human))
-			var/mob/living/carbon/human/H = account
+		if(istype(key, /mob/living/carbon/human))
+			var/mob/living/carbon/human/H = key
 			send_ooc_note("<b>MEISTER:</b> You received [interest]m in interest.", H.real_name)
 
 	if(total_interest_created > 0)

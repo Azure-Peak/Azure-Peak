@@ -380,8 +380,10 @@
 			contents += "</center>"
 		if(TAB_BANK)
 			var/total_deposit = 0
-			for(var/bank_account in SStreasury.bank_accounts)
-				total_deposit += SStreasury.bank_accounts[bank_account]
+			for(var/key in SStreasury.bank_accounts)
+				var/datum/bank_account/account = SStreasury.bank_accounts[key]
+				if(account)
+					total_deposit += account.balance
 			if(total_deposit == 0)
 				total_deposit++ //Division by zero catch
 			contents += "<a href='?src=\ref[src];switchtab=[TAB_MAIN]'>\[Return\]</a>"
@@ -396,18 +398,18 @@
 				for(var/mob/living/carbon/human/A in SStreasury.bank_accounts)
 					if(ishuman(A))
 						var/mob/living/carbon/human/tmp = A
-						contents += "[tmp.real_name] ([job_filter(tmp.advjob, tmp.job, compact)]) - [SStreasury.bank_accounts[A]]m"
+						contents += "[tmp.real_name] ([job_filter(tmp.advjob, tmp.job, compact)]) - [SStreasury.get_balance(A)]m"
 					else
-						contents += "[A.real_name] - [SStreasury.bank_accounts[A]]m"
+						contents += "[A.real_name] - [SStreasury.get_balance(A)]m"
 					var/wage_status = HAS_TRAIT(A, TRAIT_WAGES_SUSPENDED) ? "UNSUSPEND" : "SUSPEND"
 					contents += " / <a href='?src=\ref[src];givemoney=\ref[A]'>\[PAY\]</a> <a href='?src=\ref[src];fineaccount=\ref[A]'>\[FINE\]</a> <a href='?src=\ref[src];togglewages=\ref[A]'>\[[wage_status]\]</a><BR><BR>"
 			else
 				for(var/mob/living/carbon/human/A in SStreasury.bank_accounts)
 					if(ishuman(A))
 						var/mob/living/carbon/human/tmp = A
-						contents += "[tmp.real_name] ([job_filter(tmp.advjob, tmp.job, compact)]) - [SStreasury.bank_accounts[A]]m<BR>"
+						contents += "[tmp.real_name] ([job_filter(tmp.advjob, tmp.job, compact)]) - [SStreasury.get_balance(A)]m<BR>"
 					else
-						contents += "[A.real_name] - [SStreasury.bank_accounts[A]]m<BR>"
+						contents += "[A.real_name] - [SStreasury.get_balance(A)]m<BR>"
 					var/wage_status = HAS_TRAIT(A, TRAIT_WAGES_SUSPENDED) ? "Unsuspend Wages" : "Suspend Wages"
 					contents += "<a href='?src=\ref[src];givemoney=\ref[A]'>\[Give Money\]</a> <a href='?src=\ref[src];fineaccount=\ref[A]'>\[Fine Account\]</a> <a href='?src=\ref[src];togglewages=\ref[A]'>\[[wage_status]\]</a><BR><BR>"
 		if(TAB_STOCK)

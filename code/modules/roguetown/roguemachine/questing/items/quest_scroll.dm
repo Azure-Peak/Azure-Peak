@@ -33,15 +33,15 @@ GLOBAL_LIST_EMPTY(quest_scrolls)
 
 			// First try to return to quest giver if available
 			var/mob/giver = assigned_quest.quest_giver_reference?.resolve()
-			if(giver && (giver in SStreasury.bank_accounts))
-				SStreasury.bank_accounts[giver] += refund
+			if(giver && SStreasury.has_account(giver))
+				SStreasury.adjust_balance(giver, refund)
 				SStreasury.treasury_value -= refund
 				SStreasury.log_entries += "-[refund] from treasury (contract scroll destroyed refund to giver [giver.real_name])"
 			// Otherwise try quest receiver
 			else if(assigned_quest.quest_receiver_reference)
 				var/mob/receiver = assigned_quest.quest_receiver_reference.resolve()
-				if(receiver && (receiver in SStreasury.bank_accounts))
-					SStreasury.bank_accounts[receiver] += refund
+				if(receiver && SStreasury.has_account(receiver))
+					SStreasury.adjust_balance(receiver, refund)
 					SStreasury.treasury_value -= refund
 					SStreasury.log_entries += "-[refund] from treasury (contract scroll destroyed refund to receiver [receiver.real_name])"
 

@@ -39,8 +39,8 @@
 				say("Blueblood for the Freefolk!")
 				playsound(src, 'sound/vo/mobs/ghost/laugh (5).ogg', 100, TRUE)
 				return	
-	if(H in SStreasury.bank_accounts)
-		var/amt = SStreasury.bank_accounts[H]
+	if(SStreasury.has_account(H))
+		var/amt = SStreasury.get_balance(H)
 		if(!amt)
 			say("Your balance is nothing.")
 			return
@@ -56,7 +56,7 @@
 		var/selection = input(user, "Make a Selection", src) as null|anything in choicez
 		if(!selection)
 			return
-		amt = SStreasury.bank_accounts[H]
+		amt = SStreasury.get_balance(H)
 		var/mod = 1
 		if(selection == "GOLD")
 			mod = 10
@@ -72,7 +72,7 @@
 			to_chat(user, span_warning("Maximum withdrawal limit exceeded. You can only withdraw up to [max_coins] coins at once."))
 			playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
 			return
-		amt = SStreasury.bank_accounts[H]
+		amt = SStreasury.get_balance(H)
 		if(!Adjacent(user))
 			return
 		if((coin_amt*mod) > amt)
@@ -117,7 +117,7 @@
 
 		if(istype(P, /obj/item/roguecoin))
 			var/mob/living/carbon/human/H = user
-			if(H in SStreasury.bank_accounts)
+			if(SStreasury.has_account(H))
 
 				var/list/deposit_results = SStreasury.generate_money_account(P.get_real_price(), H)
 				if(islist(deposit_results))
@@ -262,15 +262,15 @@
 	if(H.head)
 		to_chat(user,span_info("Their head is covered."))
 		return
-	if(H in SStreasury.bank_accounts)
-		if(SStreasury.bank_accounts[H] > 0)
+	if(SStreasury.has_account(H))
+		if(SStreasury.get_balance(H) > 0)
 			var/turf/T = get_turf(H)
 			var/sum
 			var/choice = alert(user,"How would you like to take it? Fast and Loud or Slow and Quiet?","CHOOSE","Fast","Slow","Nevermind")
 			switch(choice)
 				if("Fast")
 					is_active = TRUE
-					needed_cycles = round(SStreasury.bank_accounts[H] / fast_drain)
+					needed_cycles = round(SStreasury.get_balance(H) / fast_drain)
 					if(needed_cycles == 0)	//If you have less than 50 mammon, you'll still get drained at least once.
 						needed_cycles = 1
 					user.visible_message(span_warn("[user] hastily shoves \the [src] into [H]'s forehead!"))
@@ -279,7 +279,7 @@
 					to_chat(H,span_info("<font color ='red'>Sharp claws dig into your skull. There's a warmth trickling down your head.</font>"))
 					for(var/i = 1,i<=needed_cycles,i++)
 						if(do_after(user, 25))
-							SStreasury.bank_accounts[H] -= fast_drain
+							SStreasury.adjust_balance(H, -fast_drain)
 							sum += fast_drain
 							new /obj/item/roguecoin/gold(T, fast_drain / 10)
 							SStreasury.log_to_steward("-[fast_drain] exported mammon to the Freefolks!")
@@ -297,7 +297,7 @@
 							break
 				if("Slow")
 					is_active = TRUE
-					needed_cycles = round(SStreasury.bank_accounts[H] / slow_drain)
+					needed_cycles = round(SStreasury.get_balance(H) / slow_drain)
 					if(needed_cycles == 0)	//If you have less than 10 mammon, you'll still get drained at least once.
 						needed_cycles = 1
 					user.visible_message(span_warn("[user] carefully and methodically aligns \the [src] with [H]'s forehead..."))
@@ -309,7 +309,7 @@
 					H.apply_damage(10, BRUTE, head)
 					for(var/i = 1,i<=needed_cycles,i++)
 						if(do_after(user, 10))
-							SStreasury.bank_accounts[H] -= slow_drain
+							SStreasury.adjust_balance(H, -slow_drain)
 							sum += slow_drain
 							new /obj/item/roguecoin/gold(T, slow_drain / 10)
 							SStreasury.log_to_steward("-[slow_drain] exported mammon to the Freefolks!")

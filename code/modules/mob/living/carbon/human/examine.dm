@@ -325,9 +325,7 @@
 		if(item)
 			. += span_notice("You get the feeling [src]'s most valuable possession is \a [item].")
 		var/mammonsonperson = get_mammons_in_atom(src)
-		var/mammonsinbank = SStreasury.bank_accounts[src]
-		if(isnull(mammonsinbank))
-			mammonsinbank = 0
+		var/mammonsinbank = SStreasury.get_balance(src)
 		var/totalvalue = mammonsonperson + mammonsinbank
 		if(totalvalue && HAS_TRAIT(user, TRAIT_GILDED_SIGHT))
 			. += span_notice("They carry [mammonsonperson] mammons, with [mammonsinbank] stored away, totaling [totalvalue].")

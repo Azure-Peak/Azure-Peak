@@ -151,7 +151,7 @@
 				to_chat(user, span_danger("Something is disrupting the rod's power!"))
 				return
 
-			if(!(H in SStreasury.bank_accounts))
+			if(!SStreasury.has_account(H))
 				to_chat(user, span_danger("The target must have a Meister account!"))
 				return
 

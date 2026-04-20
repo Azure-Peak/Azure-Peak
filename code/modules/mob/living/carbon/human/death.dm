@@ -118,7 +118,7 @@
 //		else
 //			if(get_triumphs() > 0)
 //				tris2take += -1
-		if(H in SStreasury.bank_accounts)
+		if(SStreasury.has_account(H))
 			for(var/obj/structure/roguemachine/camera/C in view(7, src))
 				var/area_name = A.name
 				var/texty = "<CENTER><B>Death of a Living Being</B><br>---<br></CENTER>"

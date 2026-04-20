@@ -1578,6 +1578,8 @@
 #include "code\modules\awaymissions\corpse.dm"
 #include "code\modules\awaymissions\zlevel.dm"
 #include "code\modules\balloon_alert\balloon_alert.dm"
+#include "code\modules\banking\_banking.dm"
+#include "code\modules\banking\bank_account.dm"
 #include "code\modules\buildmode\bm_mode.dm"
 #include "code\modules\buildmode\buildmode.dm"
 #include "code\modules\buildmode\buttons.dm"

@@ -330,7 +330,7 @@
 				to_chat(target, span_warning("A pair of prying eyes were laid on me..."))
 			return
 		var/mammonsonperson = get_mammons_in_atom(target)
-		var/mammonsinbank = SStreasury.bank_accounts[target]
+		var/mammonsinbank = SStreasury.get_balance(target)
 		var/totalvalue = mammonsinbank + mammonsonperson
 		to_chat(user, ("<font color='yellow'>[target] has [mammonsonperson] mammons on them, [mammonsinbank] in their meister, for a total of [totalvalue] mammons.</font>"))
 
@@ -775,7 +775,7 @@
 			target.visible_message(span_warning("[target] resists the weight of their greed!"))
 			return TRUE
 		var/mammonsonperson = get_mammons_in_atom(target)
-		var/mammonsinbank = SStreasury.bank_accounts[target]
+		var/mammonsinbank = SStreasury.get_balance(target)
 		var/totalvalue = mammonsinbank + mammonsonperson
 		if(HAS_TRAIT(target, TRAIT_NOBLE))
 			totalvalue += 101 // We're ALWAYS going to do a medium level smite minimum to nobles.
@@ -900,10 +900,10 @@
 	if(!H.cmode)
 		return FALSE
 
-	if(!(H in SStreasury.bank_accounts))
-		SStreasury.bank_accounts[H] = 0
+	if(!SStreasury.has_account(H))
+		SStreasury.create_bank_account(H, 0)
 
-	var/bank = SStreasury.bank_accounts[H]
+	var/bank = SStreasury.get_balance(H)
 	var/onhand = get_mammons_in_atom(H)
 	var/total = bank + onhand
 
@@ -928,10 +928,10 @@
 		to_chat(H, span_warning("Matthios' truth already lays claim to my next strike."))
 		return FALSE
 
-	if(!(H in SStreasury.bank_accounts))
-		SStreasury.bank_accounts[H] = 0
+	if(!SStreasury.has_account(H))
+		SStreasury.create_bank_account(H, 0)
 
-	var/bank = SStreasury.bank_accounts[H]
+	var/bank = SStreasury.get_balance(H)
 	var/onhand = get_mammons_in_atom(H)
 	var/total = bank + onhand
 
@@ -960,8 +960,8 @@
 		remaining -= from_inventory
 
 	if(remaining > 0)
-		from_bank = min(remaining, SStreasury.bank_accounts[H])
-		SStreasury.bank_accounts[H] = max(0, SStreasury.bank_accounts[H] - from_bank)
+		from_bank = min(remaining, SStreasury.get_balance(H))
+		SStreasury.adjust_balance(H, -from_bank)
 		SStreasury.log_to_steward("-[from_bank] suddenly disappeared. Is this true?")
 		remaining -= from_bank
 

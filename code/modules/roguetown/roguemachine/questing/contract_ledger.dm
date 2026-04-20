@@ -56,7 +56,7 @@
 	var/list/data = list()
 	var/datum/job/mob_job = user?.job ? SSjob.GetJob(user.job) : null
 	data["is_handler"] = !!mob_job?.is_quest_giver
-	data["balance"] = SStreasury.bank_accounts[user] || 0
+	data["balance"] = SStreasury.get_balance(user)
 	data["active_max"] = mob_job?.max_active_quests || QUEST_MAX_ACTIVE_PER_PLAYER
 	data["active_count"] = count_user_active_contracts(user)
 	data["pool"] = build_pool_listing()
@@ -151,7 +151,7 @@
 /obj/structure/roguemachine/contractledger/proc/sign_contract(mob/user, ref)
 	if(!ref)
 		return
-	if(!(user in SStreasury.bank_accounts))
+	if(!SStreasury.has_account(user))
 		say("[user.real_name] has no bank account on record.")
 		return
 	var/datum/quest/Q = locate(ref) in SSquestpool.pool
@@ -171,7 +171,7 @@
 		return
 
 	var/deposit = Q.deposit_amount
-	if(SStreasury.bank_accounts[user] < deposit)
+	if(SStreasury.get_balance(user) < deposit)
 		say("Insufficient balance. This contract requires a [deposit] mammon deposit.")
 		return
 
@@ -196,7 +196,7 @@
 	spawned_scroll.update_quest_text()
 
 	// Charge deposit. Deposit is forfeited on abandon and only returned on successful completion.
-	SStreasury.bank_accounts[user] -= deposit
+	SStreasury.adjust_balance(user, -deposit)
 	SStreasury.treasury_value += deposit
 	SStreasury.log_entries += "+[deposit] to treasury (quest deposit)"
 
