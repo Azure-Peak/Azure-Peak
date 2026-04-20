@@ -30,7 +30,7 @@
 	var/obj/structure/closet/crate/C
 	if(paying_account)
 		C = new /obj/structure/closet/crate(A)
-		C.name = "[crate_name] - Purchased by [paying_account.account_holder]"
+		C.name = "[crate_name] - Purchased by [paying_account.owner_name]"
 	else
 		C = new crate_type(A)
 		C.name = crate_name
