@@ -62,12 +62,16 @@
 /proc/find_quest_landmark(type, region = null)
 	GLOB.quest_landmarks_list = shuffle(GLOB.quest_landmarks_list)
 
+	var/courier_type = (type == QUEST_COURIER || type == QUEST_RETRIEVAL)
+
 	if(region)
 		var/list/region_matches = list()
 		for(var/obj/effect/landmark/quest_spawner/landmark in GLOB.quest_landmarks_list)
 			if(!(type in landmark.quest_type))
 				continue
 			if(landmark.region != region)
+				continue
+			if(courier_type && !landmark_region_allows_courier(landmark))
 				continue
 			if(quest_landmark_has_client_witness(landmark))
 				continue
@@ -79,6 +83,8 @@
 	for(var/obj/effect/landmark/quest_spawner/landmark in GLOB.quest_landmarks_list)
 		if(!(type in landmark.quest_type))
 			continue
+		if(courier_type && !landmark_region_allows_courier(landmark))
+			continue
 		if(quest_landmark_has_client_witness(landmark))
 			continue
 		type_matches += landmark
@@ -89,11 +95,21 @@
 	for(var/obj/effect/landmark/quest_spawner/landmark in GLOB.quest_landmarks_list)
 		if(!(type in landmark.quest_type))
 			continue
+		if(courier_type && !landmark_region_allows_courier(landmark))
+			continue
 		any_type_match += landmark
 	if(length(any_type_match))
 		return pick(any_type_match)
 
 	return null
+
+/proc/landmark_region_allows_courier(obj/effect/landmark/quest_spawner/landmark)
+	if(!landmark.region)
+		return TRUE
+	var/datum/threat_region/TR = SSregionthreat.get_region(landmark.region)
+	if(!TR)
+		return TRUE
+	return TR.courier_eligible
 
 /proc/quest_landmark_has_client_witness(obj/effect/landmark/quest_spawner/landmark)
 	for(var/mob/M in get_hearers_in_view(world.view, landmark))

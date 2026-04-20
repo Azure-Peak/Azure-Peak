@@ -10,8 +10,6 @@ GLOBAL_LIST_EMPTY(quest_factions)
 	var/list/allowed_quest_types
 	var/list/boss_mob_types = list()
 	var/list/boss_title_templates = list()
-	/// Path to a txt file under strings/rt/names/ that supplies first names for boss title
-	/// substitution. One name per line. Loaded on demand via pick_boss_name().
 	var/boss_name_file
 
 /datum/quest_faction/New()

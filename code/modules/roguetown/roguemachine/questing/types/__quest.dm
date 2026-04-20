@@ -43,6 +43,10 @@
 	var/datum/weakref/pending_landmark_ref
 	/// Threat region this quest's content lives in. Captured from the landmark at preview time.
 	var/region = ""
+	/// Quest faction id (see QUEST_FACTION_* defines). Captured at preview for kill / bounty quests.
+	var/faction_id
+	/// Resolved faction datum for the run. Non-null for kill / bounty quests.
+	var/datum/quest_faction/faction
 
 /datum/quest/Destroy()
 	// Clean up mobs with quest components
