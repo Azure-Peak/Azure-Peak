@@ -1927,7 +1927,7 @@ SUBSYSTEM_DEF(gamemode)
 
 	if(roundstart || !storyteller_locked())
 		set_storyteller(highest.type)
-	return highest.type
+		return highest.type
 
 /// Refreshes statistics regarding alive statuses of certain professions or antags, like nobles
 /datum/controller/subsystem/gamemode/proc/refresh_alive_stats(roundstart = FALSE)

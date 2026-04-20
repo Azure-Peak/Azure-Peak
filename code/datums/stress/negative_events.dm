@@ -388,6 +388,7 @@
 	stressadd = 5
 	desc = span_boldred("War's song shatters my peace.")
 	timer = 5 MINUTES
+	
 /datum/stressevent/necrarevive
 	stressadd = 15
 	desc = span_boldred("SO CLOSE TO BEING GRASPED, SO COLD!")

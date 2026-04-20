@@ -67,6 +67,11 @@
 
 	var/datum/class_age_mod/age_mod = null
 
+	// Warband Class Variables
+	var/title							// name that exclusively appears in class selection
+	var/datum/storytellerlimit			// required storyteller influence for the class to be available
+	var/rarity							// the required number of storyteller influences before a storyteller-limited class is unlocked
+
 /datum/advclass/New()
 	if(ispath(age_mod) && !istype(age_mod))
 		var/datum/class_age_mod/newmod = new age_mod()
