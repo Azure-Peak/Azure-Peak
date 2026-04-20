@@ -8,8 +8,9 @@
 	var/highpop_tick = 5 // How much TP to tick up every 15 min (> 30 pop)
 	var/last_natural_ambush_time = -AMBUSH_REGION_COOLDOWN // Pre-expired so start-of-round doesn't block ambushes
 	var/last_induced_ambush_time = 0 // Time between now and the previous ambush triggered by horn
+	var/list/faction_weights = list()
 
-/datum/threat_region/New(_region_name, _latent_ambush, _min_ambush, _max_ambush, _fixed_ambush, _lowpop_tick, _highpop_tick)
+/datum/threat_region/New(_region_name, _latent_ambush, _min_ambush, _max_ambush, _fixed_ambush, _lowpop_tick, _highpop_tick, _faction_weights)
 	region_name = _region_name
 	latent_ambush = _latent_ambush
 	min_ambush = _min_ambush
@@ -17,6 +18,22 @@
 	fixed_ambush = _fixed_ambush
 	lowpop_tick = _lowpop_tick
 	highpop_tick = _highpop_tick
+	if(_faction_weights)
+		faction_weights = _faction_weights
+
+/datum/threat_region/proc/pick_faction()
+	if(!length(faction_weights))
+		return null
+	var/id = pickweight(faction_weights)
+	return get_quest_faction(id)
+
+/datum/threat_region/proc/get_thematic_factions()
+	var/list/result = list()
+	for(var/id in faction_weights)
+		var/datum/quest_faction/F = get_quest_faction(id)
+		if(F)
+			result += F
+	return result
 
 /datum/threat_region/proc/reduce_latent_ambush(amount)
 	if(fixed_ambush)

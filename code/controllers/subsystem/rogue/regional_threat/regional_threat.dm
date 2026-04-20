@@ -17,7 +17,12 @@ SUBSYSTEM_DEF(regionthreat)
 			_max_ambush = 250,
 			_fixed_ambush = FALSE,
 			_lowpop_tick = 250 * THREAT_LOWPOP_TICK_RATE,
-			_highpop_tick = 250 * THREAT_HIGHPOP_TICK_RATE
+			_highpop_tick = 250 * THREAT_HIGHPOP_TICK_RATE,
+			_faction_weights = list(
+				QUEST_FACTION_WILD_BEAST = 70,
+				QUEST_FACTION_HIGHWAYMAN = 20,
+				QUEST_FACTION_FOREST_GOBLIN = 10,
+			)
 		),
 		new /datum/threat_region(
 			_region_name = THREAT_REGION_AZURE_GROVE, // Solo: 15 TP → 1-2 mixed | 5-party: 75 TP → 5-6 mixed
@@ -26,7 +31,13 @@ SUBSYSTEM_DEF(regionthreat)
 			_max_ambush = 500,
 			_fixed_ambush = FALSE,
 			_lowpop_tick = 500 * THREAT_LOWPOP_TICK_RATE,
-			_highpop_tick = 500 * THREAT_HIGHPOP_TICK_RATE
+			_highpop_tick = 500 * THREAT_HIGHPOP_TICK_RATE,
+			_faction_weights = list(
+				QUEST_FACTION_WILD_BEAST = 35,
+				QUEST_FACTION_FOREST_GOBLIN = 30,
+				QUEST_FACTION_HIGHWAYMAN = 25,
+				QUEST_FACTION_STRAY_DEADITE = 10,
+			)
 		),
 		new /datum/threat_region(
 			_region_name = THREAT_REGION_TERRORBOG, // Solo: 45 TP → 2-3 bogmen | 5-party: 225 TP → 11 bogmen
@@ -35,7 +46,13 @@ SUBSYSTEM_DEF(regionthreat)
 			_max_ambush = 1500,
 			_fixed_ambush = FALSE,
 			_lowpop_tick = 1500 * THREAT_LOWPOP_TICK_RATE,
-			_highpop_tick = 1500 * THREAT_HIGHPOP_TICK_RATE
+			_highpop_tick = 1500 * THREAT_HIGHPOP_TICK_RATE,
+			_faction_weights = list(
+				QUEST_FACTION_BOGMAN = 40,
+				QUEST_FACTION_MIRESPIDER = 30,
+				QUEST_FACTION_BOG_DEADITE = 20,
+				QUEST_FACTION_FOREST_GOBLIN = 10,
+			)
 		),
 		// Coast & Decap stay somewhat dangerous no matter what
 		new /datum/threat_region(
@@ -45,7 +62,15 @@ SUBSYSTEM_DEF(regionthreat)
 			_max_ambush = 800,
 			_fixed_ambush = FALSE,
 			_lowpop_tick = 800 * THREAT_LOWPOP_TICK_RATE,
-			_highpop_tick = 800 * THREAT_HIGHPOP_TICK_RATE
+			_highpop_tick = 800 * THREAT_HIGHPOP_TICK_RATE,
+			_faction_weights = list(
+				QUEST_FACTION_ORC = 30,
+				QUEST_FACTION_GRONNMAN = 25,
+				QUEST_FACTION_SEA_GOBLIN = 25,
+				QUEST_FACTION_HIGHWAYMAN = 10,
+				QUEST_FACTION_WILD_BEAST = 5,
+				QUEST_FACTION_GREAT_BEAST = 5,
+			)
 		),
 		new /datum/threat_region(
 			_region_name = THREAT_REGION_MOUNT_DECAP, // Solo: 30 TP → 1 minotaur | 5-party: 150 TP → 5 minotaurs
@@ -54,7 +79,15 @@ SUBSYSTEM_DEF(regionthreat)
 			_max_ambush = 1000,
 			_fixed_ambush = FALSE,
 			_lowpop_tick = 1000 * THREAT_LOWPOP_TICK_RATE,
-			_highpop_tick = 1000 * THREAT_HIGHPOP_TICK_RATE
+			_highpop_tick = 1000 * THREAT_HIGHPOP_TICK_RATE,
+			_faction_weights = list(
+				QUEST_FACTION_HELL_GOBLIN = 30,
+				QUEST_FACTION_MINOTAUR = 10,
+				QUEST_FACTION_TARICHEA_DEADITE = 20,
+				QUEST_FACTION_MOUNT_REAVER = 25,
+				QUEST_FACTION_GREAT_BEAST = 10,
+				QUEST_FACTION_MADMAN = 10,
+			)
 		)
 	)
 

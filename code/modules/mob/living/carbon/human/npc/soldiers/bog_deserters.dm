@@ -85,7 +85,7 @@
 
 /mob/living/carbon/human/species/human/northern/bog_deserters
 	ai_controller = /datum/ai_controller/human_npc
-	faction = list(FACTION_VIKING, FACTION_STATION)
+	faction = list(FACTION_BANDITS, FACTION_STATION)
 	ambushable = FALSE
 	cmode = 1
 	setparrytime = 30
@@ -191,7 +191,7 @@
 
 /mob/living/carbon/human/species/human/northern/bog_deserters/better_gear
 	ai_controller = /datum/ai_controller/human_npc
-	faction = list(FACTION_VIKING, FACTION_STATION)
+	faction = list(FACTION_BANDITS, FACTION_STATION)
 	ambushable = FALSE
 	cmode = 1
 	setparrytime = 30

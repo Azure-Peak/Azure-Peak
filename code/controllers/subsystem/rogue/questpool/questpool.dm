@@ -11,6 +11,7 @@ SUBSYSTEM_DEF(questpool)
 	var/list/registered_ledgers = list()
 
 /datum/controller/subsystem/questpool/Initialize()
+	init_quest_factions()
 	regen_to_targets(get_total_target())
 	return ..()
 
