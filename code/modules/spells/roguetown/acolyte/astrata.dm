@@ -238,7 +238,7 @@
 	glow_intensity = GLOW_INTENSITY_MEDIUM
 	miracle = TRUE
 	devotion_cost = 40
-	invocations = list("Holy flame upon you!", "Judgement the Sun upon you!")
+	invocations = list("Holy flame upon you!", "Judgement of the Sun!")
 	invocation_type = "shout"
 
 /obj/projectile/magic/sacred_flame
@@ -271,6 +271,47 @@
 	visible_message(span_warning("[src] ignites [target] in holy flame!"))
 	qdel(src)
 	return TRUE
+
+////////////////////////////////////////////////////////////////
+// T2 - Solar BLade / Fist - Choose between one or the other. //
+////////////////////////////////////////////////////////////////
+
+/obj/effect/proc_holder/spell/self/astrata_bladeorfist
+	name = "Solar Blade/Fist"
+	desc = "Choose between Solar Blade (SWORD) or Solar Grasp (UNARMED)."
+	action_icon = 'icons/mob/actions/nocmiracles.dmi'
+	overlay_icon = 'icons/mob/actions/nocmiracles.dmi'
+	overlay_state = "blind_silence"
+	miracle = TRUE
+	chargetime = 0
+	chargedrain = 0
+	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
+	associated_skill = /datum/skill/magic/holy
+	var/chosen_spell
+	var/solar_blade = /obj/effect/proc_holder/spell/self/astrata_sword
+	var/solar_fist = /obj/effect/proc_holder/spell/targeted/touch/summonrogueweapon/astratagrasp
+	var/choosingspell = FALSE
+
+/obj/effect/proc_holder/spell/self/astrata_bladeorfist/cast(list/targets, mob/user)
+	. = ..()
+	if(choosingspell == TRUE)
+		to_chat(user, span_warning("I'm already choosing a spell!"))
+	else
+		var/choice = chosen_spell
+		choosingspell = TRUE
+		if(!chosen_spell)
+			choice = alert(user, "BLADE or FIST", "ORDER OR ANARCHY", "Blade", "Fist")
+			chosen_spell = choice
+		switch(choice)
+			if("Blade")
+				user.mind?.AddSpell(new solar_blade, user)
+				user.mind?.RemoveSpell(src.type)
+			if("Fist")
+				user.mind?.AddSpell(new solar_fist, user)
+				user.mind?.RemoveSpell(src.type)
+			else
+				revert_cast()
+
 
 //////////////////////////////////////////////
 // T2 - Solar Blade - Summon a flame sword. //
@@ -334,6 +375,151 @@
 /obj/item/rogueweapon/sword/astrata_sword/Initialize()
 	. = ..()
 	set_light(5, 4, l_color = LIGHT_COLOR_WHITE)
+
+////////////////////////////
+// T2 - Astrata's Grasp - //
+////////////////////////////
+
+/obj/effect/proc_holder/spell/targeted/touch/summonrogueweapon/astratagrasp
+	name = "Solar Grasp"
+	desc = "HER fire burnet eaternae. Summon Her flame from your soul and let it envelop your hand. Use on ashes, fire dust and fyritius flowers to convert them into devotion. Can ignite objects. Consumes fire stacks on people to do extra damage."
+	clothes_req = FALSE
+	drawmessage = "I prepare to perform a divine incantation."
+	dropmessage = "I release my divine focus."
+	action_icon = 'icons/mob/actions/astratamiracles.dmi'
+	overlay_icon = 'icons/mob/actions/astratamiracles.dmi'
+	overlay_state = "grasp"
+	chargedrain = 0
+	chargetime = 0
+	recharge_time = 5 MINUTES
+	releasedrain = 5 // this influences -every- cost involved in the spell's functionality, if you want to edit specific features, do so in handle_cost
+	chargedloop = /datum/looping_sound/invokegen
+	associated_skill = /datum/skill/magic/holy
+	hand_path = /obj/item/melee/touch_attack/rogueweapon/astratagrasp
+	devotion_cost = 30
+	miracle = TRUE
+	range = -1
+
+/obj/item/melee/touch_attack/rogueweapon/astratagrasp
+	name = "burning hand"
+	desc = "The Sacred Flame of Astrata"
+	icon = 'icons/roguetown/misc/miraclestuff.dmi'
+	mob_overlay_icon = 'icons/roguetown/misc/miraclestuff.dmi'
+	lefthand_file = 'icons/roguetown/misc/miraclestuff.dmi'
+	righthand_file = 'icons/roguetown/misc/miraclestuff.dmi'
+	sleeved = 'icons/roguetown/misc/miraclestuff.dmi'
+	icon_state = "flamei"
+	item_state = "flameh"
+	color = "#ffbb00ff"
+	possible_item_intents = list(/datum/intent/mace/strike/astrata, /datum/intent/mace/smash/astrata, /datum/intent/use)
+	tool_behaviour = TOOL_CAUTERY
+	parrysound = list('sound/magic/magic_nulled.ogg')
+	swingsound = list('sound/items/firelight.ogg')
+	attached_spell = /obj/effect/proc_holder/spell/targeted/touch/summonrogueweapon/astratagrasp
+	force = 0
+	damtype = BURN
+	wdefense = 4
+	associated_skill = /datum/skill/combat/unarmed
+	max_integrity = 100
+	var/takespeed = 5
+	var/fprob = 0
+	var/cooldown = FALSE
+
+/datum/intent/mace/strike/astrata
+	hitsound = list('sound/items/firelight.ogg', 'sound/misc/frying.ogg', 'sound/misc/explode/incendiary (1).ogg', 'sound/misc/explode/incendiary (2).ogg')
+
+/datum/intent/mace/smash/astrata
+	hitsound = list('sound/items/firelight.ogg', 'sound/misc/frying.ogg', 'sound/misc/explode/incendiary (1).ogg', 'sound/misc/explode/incendiary (2).ogg')
+
+/obj/item/melee/touch_attack/rogueweapon/astratagrasp/Initialize()
+	. = ..()
+	addtimer(CALLBACK(src, PROC_REF(skillcheck), src), wait = 1)
+	ADD_TRAIT(src, TRAIT_NODROP, ABSTRACT_ITEM_TRAIT)
+	item_flags |= SURGICAL_TOOL
+
+/obj/item/melee/touch_attack/rogueweapon/astratagrasp/attack(mob/target, mob/living/carbon/user)
+	if(!iscarbon(user)) //Look ma, no hands
+		return
+	if(!(user.mobility_flags & MOBILITY_USE))
+		to_chat(user, "<span class='warning'>I cannot reach out!</span>")
+		return
+	..()
+
+/obj/item/melee/touch_attack/rogueweapon/astratagrasp/proc/skillcheck()
+	var/skill = usr.get_skill_level(/datum/skill/magic/holy)
+	fprob = 10 * skill
+	if(skill <= 4)
+		force = 5 * skill
+	else
+		force = 20
+
+/obj/item/melee/touch_attack/rogueweapon/astratagrasp/attack_self()
+	attached_spell.remove_hand()
+	qdel(src)
+
+/obj/item/melee/touch_attack/rogueweapon/astratagrasp/proc/cooldown()
+	cooldown = FALSE
+
+/obj/item/melee/touch_attack/rogueweapon/astratagrasp/afterattack(atom/target, mob/living/carbon/user, params, proximity)
+	if(istype(user.a_intent, /datum/intent/use))
+		if(isliving(target))
+			var/mob/living/M = target
+			var/skill = usr.get_skill_level(/datum/skill/magic/holy)
+			if(M.fire_stacks <= 0)
+				return
+			if(cooldown)
+				return
+			if(skill == 1) //Nope, devoute user.
+				return
+			user.visible_message("<font color='yellow'>[user] points at [M], flame rends out!</font>")
+			M.extinguish_mob()
+			cooldown = TRUE
+			addtimer(CALLBACK(src, PROC_REF(cooldown), src), wait = 5 SECONDS)
+		if(isobj(target))
+			var/obj/item/O = target
+			var/mob/living/carbon/human/H = usr
+			var/cost = 0
+			var/dist = get_dist(O, user)
+			if(dist > 1)
+				return
+			if(istype(O, /obj/item/ash))
+				cost = 20
+			if(istype(O, /obj/item/reagent_containers/food/snacks/grown/rogue/fyritius))
+				cost = 50
+			if(istype(O, /obj/item/alch/firedust))
+				cost = 100
+			if(cost >= 20)
+				H.devotion?.update_devotion(cost)
+				to_chat(user, "<font color='purple'>I gain [cost] devotion!</font>")
+				qdel(O)
+		return
+	if(isliving(target))
+		var/mob/living/M = target
+		var/dist = get_dist(M, user)
+		if(dist > 1)
+			return
+		if(istype(user.a_intent, /datum/intent/mace/smash/astrata))
+			var/fire_stacks = M.fire_stacks
+			if(fire_stacks > 4)
+				M.adjustFireLoss(fire_stacks * 5) //i am confident in your ability to kill someone after doing this much damage
+				M.adjust_fire_stacks(-fire_stacks)
+				M.extinguish_mob()
+				return
+		if(prob(fprob))
+			M.adjust_fire_stacks(1)
+			M.ignite_mob()
+	return
+
+/obj/item/melee/touch_attack/rogueweapon/astratagrasp/pre_attack(atom/target, mob/living/user, params)
+	if(!istype(user.a_intent, /datum/intent/use))
+		return ..()
+	if(isliving(target))
+		var/mob/living/L = target
+		L.spark_act()
+	if(isobj(target))
+		var/obj/O = target
+		O.fire_act()
+	return ..()
 
 ///////////////////
 // T2 - Fortify //
@@ -780,150 +966,3 @@
 			owner.remove_overlay(FIRE_LAYER)
 
 #undef IMMOLATION_FILTER
-
-////////////////////////////
-// T? - Astrata's Grasp - //
-////////////////////////////
-//Heretic
-/obj/effect/proc_holder/spell/targeted/touch/summonrogueweapon/astratagrasp
-	name = "Astrata's Grasp"
-	desc = "HER fire burnet eaternae. Summon Her flame from your soul and let it envelop your hand. Use on ashes, fire dust and fyritius flowers to convert them into devotion. Can ignite objects. Consumes fire stacks on people to do extra damage."
-	clothes_req = FALSE
-	drawmessage = "I prepare to perform a divine incantation."
-	dropmessage = "I release my divine focus."
-	action_icon = 'icons/mob/actions/astratamiracles.dmi'
-	overlay_icon = 'icons/mob/actions/astratamiracles.dmi'
-	overlay_state = "grasp"
-	chargedrain = 0
-	chargetime = 0
-	releasedrain = 5 // this influences -every- cost involved in the spell's functionality, if you want to edit specific features, do so in handle_cost
-	chargedloop = /datum/looping_sound/invokegen
-	associated_skill = /datum/skill/magic/holy
-	hand_path = /obj/item/melee/touch_attack/rogueweapon/astratagrasp
-	devotion_cost = 30
-	miracle = TRUE
-	range = -1
-
-/obj/item/melee/touch_attack/rogueweapon/astratagrasp
-	name = "Burning Hand"
-	desc = "The Sacred Flame of Astrata"
-	icon = 'icons/roguetown/misc/miraclestuff.dmi'
-	mob_overlay_icon = 'icons/roguetown/misc/miraclestuff.dmi'
-	lefthand_file = 'icons/roguetown/misc/miraclestuff.dmi'
-	righthand_file = 'icons/roguetown/misc/miraclestuff.dmi'
-	sleeved = 'icons/roguetown/misc/miraclestuff.dmi'
-	icon_state = "flamei"
-	item_state = "flameh"
-	color = "#ffbb00ff"
-	possible_item_intents = list(/datum/intent/mace/strike/astrata, /datum/intent/mace/smash/astrata, /datum/intent/use)
-	tool_behaviour = TOOL_CAUTERY
-	parrysound = list('sound/magic/magic_nulled.ogg')
-	swingsound = list('sound/items/firelight.ogg')
-	attached_spell = /obj/effect/proc_holder/spell/targeted/touch/summonrogueweapon/astratagrasp
-	wbalance = WBALANCE_HEAVY
-	force = 0
-	damtype = BURN
-	wdefense = 0
-	associated_skill = /datum/skill/magic/holy //EHEHEHEHEHEH
-	can_parry = FALSE
-	var/takespeed = 5
-	var/fprob = 0
-	var/cooldown = FALSE
-
-/datum/intent/mace/strike/astrata
-	hitsound = list('sound/items/firelight.ogg', 'sound/misc/frying.ogg', 'sound/misc/explode/incendiary (1).ogg', 'sound/misc/explode/incendiary (2).ogg')
-
-/datum/intent/mace/smash/astrata
-	hitsound = list('sound/items/firelight.ogg', 'sound/misc/frying.ogg', 'sound/misc/explode/incendiary (1).ogg', 'sound/misc/explode/incendiary (2).ogg')
-
-/obj/item/melee/touch_attack/rogueweapon/astratagrasp/Initialize()
-	. = ..()
-	addtimer(CALLBACK(src, PROC_REF(skillcheck), src), wait = 1)
-	ADD_TRAIT(src, TRAIT_NODROP, ABSTRACT_ITEM_TRAIT)
-	item_flags |= SURGICAL_TOOL
-
-/obj/item/melee/touch_attack/rogueweapon/astratagrasp/attack(mob/target, mob/living/carbon/user)
-	if(!iscarbon(user)) //Look ma, no hands
-		return
-	if(!(user.mobility_flags & MOBILITY_USE))
-		to_chat(user, "<span class='warning'>I cannot reach out!</span>")
-		return
-	..()
-
-/obj/item/melee/touch_attack/rogueweapon/astratagrasp/proc/skillcheck()
-	var/skill = usr.get_skill_level(/datum/skill/magic/holy)
-	wdefense += skill
-	wdefense_dynamic += skill
-	fprob = 10 * skill
-	if(skill <= 4)
-		force = 5 * skill
-	else
-		force = 20
-
-/obj/item/melee/touch_attack/rogueweapon/astratagrasp/attack_self()
-	attached_spell.remove_hand()
-	qdel(src)
-
-/obj/item/melee/touch_attack/rogueweapon/astratagrasp/proc/cooldown()
-	cooldown = FALSE
-
-/obj/item/melee/touch_attack/rogueweapon/astratagrasp/afterattack(atom/target, mob/living/carbon/user, params, proximity)
-	if(istype(user.a_intent, /datum/intent/use))
-		if(isliving(target))
-			var/mob/living/M = target
-			var/skill = usr.get_skill_level(/datum/skill/magic/holy)
-			if(M.fire_stacks <= 0)
-				return
-			if(cooldown)
-				return
-			if(skill == 1) //Nope, devoute user.
-				return
-			user.visible_message("<font color='yellow'>[user] points at [M], flame rends out!</font>")
-			M.extinguish_mob()
-			cooldown = TRUE
-			addtimer(CALLBACK(src, PROC_REF(cooldown), src), wait = 5 SECONDS)
-		if(isobj(target))
-			var/obj/item/O = target
-			var/mob/living/carbon/human/H = usr
-			var/cost = 0
-			var/dist = get_dist(O, user)
-			if(dist > 1)
-				return
-			if(istype(O, /obj/item/ash))
-				cost = 20
-			if(istype(O, /obj/item/reagent_containers/food/snacks/grown/rogue/fyritius))
-				cost = 50
-			if(istype(O, /obj/item/alch/firedust))
-				cost = 100
-			if(cost >= 20)
-				H.devotion?.update_devotion(cost)
-				to_chat(user, "<font color='purple'>I gain [cost] devotion!</font>")
-				qdel(O)
-		return
-	if(isliving(target))
-		var/mob/living/M = target
-		var/dist = get_dist(M, user)
-		if(dist > 1)
-			return
-		if(istype(user.a_intent, /datum/intent/mace/smash/astrata))
-			var/fire_stacks = M.fire_stacks
-			if(fire_stacks > 4)
-				M.adjustFireLoss(fire_stacks * 5) //i am confident in your ability to kill someone after doing this much damage
-				M.adjust_fire_stacks(-fire_stacks)
-				M.extinguish_mob()
-				return
-		if(prob(fprob))
-			M.adjust_fire_stacks(1)
-			M.ignite_mob()
-	return
-
-/obj/item/melee/touch_attack/rogueweapon/astratagrasp/pre_attack(atom/target, mob/living/user, params)
-	if(!istype(user.a_intent, /datum/intent/use))
-		return ..()
-	if(isliving(target))
-		var/mob/living/L = target
-		L.spark_act()
-	if(isobj(target))
-		var/obj/O = target
-		O.fire_act()
-	return ..()
