@@ -24,6 +24,7 @@ SUBSYSTEM_DEF(regionthreat)
 				QUEST_FACTION_FOREST_GOBLIN = 10,
 			),
 			_tp_budget_multiplier = 0.75
+			// allowed_quest_types: default (all)
 		),
 		new /datum/threat_region(
 			_region_name = THREAT_REGION_AZURE_GROVE, // Solo: 15 TP → 1-2 mixed | 5-party: 75 TP → 5-6 mixed
@@ -40,6 +41,7 @@ SUBSYSTEM_DEF(regionthreat)
 				QUEST_FACTION_STRAY_DEADITE = 10,
 			),
 			_tp_budget_multiplier = 1.0
+			// allowed_quest_types: default (all)
 		),
 		new /datum/threat_region(
 			_region_name = THREAT_REGION_TERRORBOG, // Solo: 45 TP → 2-3 bogmen | 5-party: 225 TP → 11 bogmen
@@ -55,7 +57,8 @@ SUBSYSTEM_DEF(regionthreat)
 				QUEST_FACTION_BOG_DEADITE = 20,
 				QUEST_FACTION_FOREST_GOBLIN = 10,
 			),
-			_tp_budget_multiplier = 1.5
+			_tp_budget_multiplier = 1.5,
+			_allowed_quest_types = list(QUEST_CLEAR_OUT, QUEST_RAID, QUEST_BOUNTY, QUEST_COURIER, QUEST_RETRIEVAL)
 		),
 		// Coast & Decap stay somewhat dangerous no matter what
 		new /datum/threat_region(
@@ -74,8 +77,8 @@ SUBSYSTEM_DEF(regionthreat)
 				QUEST_FACTION_WILD_BEAST = 5,
 				QUEST_FACTION_GREAT_BEAST = 5,
 			),
-			_courier_eligible = FALSE,
-			_tp_budget_multiplier = 1.2
+			_tp_budget_multiplier = 1.2,
+			_allowed_quest_types = list(QUEST_CLEAR_OUT, QUEST_RAID, QUEST_BOUNTY)
 		),
 		new /datum/threat_region(
 			_region_name = THREAT_REGION_MOUNT_DECAP, // Solo: 30 TP → 1 minotaur | 5-party: 150 TP → 5 minotaurs
@@ -93,8 +96,8 @@ SUBSYSTEM_DEF(regionthreat)
 				QUEST_FACTION_GREAT_BEAST = 10,
 				QUEST_FACTION_MADMAN = 10,
 			),
-			_courier_eligible = FALSE,
-			_tp_budget_multiplier = 1.5
+			_tp_budget_multiplier = 1.5,
+			_allowed_quest_types = list(QUEST_CLEAR_OUT, QUEST_RAID, QUEST_BOUNTY)
 		),
 		// Underdark cannot be tamed — min_ambush is high, keeping the region permanently dangerous.
 		new /datum/threat_region(
@@ -112,8 +115,8 @@ SUBSYSTEM_DEF(regionthreat)
 				QUEST_FACTION_LICH_DEADITE = 10,
 				QUEST_FACTION_MINOTAUR = 10,
 			),
-			_courier_eligible = FALSE,
-			_tp_budget_multiplier = 1.5
+			_tp_budget_multiplier = 1.5,
+			_allowed_quest_types = list(QUEST_CLEAR_OUT, QUEST_RAID, QUEST_BOUNTY)
 		)
 	)
 
@@ -133,6 +136,30 @@ SUBSYSTEM_DEF(regionthreat)
 		if(TR.region_name == region_name)
 			return TR
 	return null
+
+/// Weighted pick of a region that allows the given quest type, weighted by fill ratio
+/// (latent_ambush / max_ambush). Regions with more relative threat are picked more often, so
+/// as adventurers clear a region its quest share naturally drops. Returns null if no region
+/// allows the type.
+/datum/controller/subsystem/regionthreat/proc/pick_region_for_quest(quest_type)
+	var/list/weights = list()
+	for(var/T in threat_regions)
+		var/datum/threat_region/TR = T
+		if(!TR.allows_quest_type(quest_type))
+			continue
+		var/weight = TR.get_threat_weight()
+		if(weight <= 0)
+			continue
+		weights[TR] = weight
+	if(!length(weights))
+		// Fall back: any region that allows the type, ignoring fill ratio.
+		for(var/T in threat_regions)
+			var/datum/threat_region/TR = T
+			if(TR.allows_quest_type(quest_type))
+				weights[TR] = 1
+		if(!length(weights))
+			return null
+	return pickweight(weights)
 
 /datum/threat_region_display
 	var/region_name

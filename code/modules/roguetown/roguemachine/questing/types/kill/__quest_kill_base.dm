@@ -1,6 +1,9 @@
 /datum/quest/kill
 	/// TP budget this quest spends composing its warband. Subtypes override.
 	var/tp_budget = 0
+	/// Minimum mobs the composition must produce, even if budget math would give fewer. Keeps
+	/// quests from degenerating into "slay 1 orc." Subtypes override.
+	var/min_mobs = 1
 	/// How many "bands" of threat this kill quest type clears on completion. Subtypes override.
 	var/threat_bands_cleared = 0
 	/// Accumulated TP value of spawned mobs; summed from composition for reward scaling.
@@ -76,11 +79,13 @@
 	if(total_weight <= 0 || weighted_tp <= 0)
 		return 1
 	var/avg_tp = weighted_tp / total_weight
-	return max(1, round(tp_budget / avg_tp))
+	// Match compose_warband's min/max so the preview count and the actual spawn agree.
+	return clamp(round(tp_budget / avg_tp), min_mobs, QUEST_KILL_MAX_MOBS)
 
 /proc/initial_threat_point(mob_path)
 	var/mob/living/M = mob_path
-	return initial(M.threat_point) || 1
+	var/tp = initial(M.threat_point)
+	return max(tp, QUEST_MOB_MIN_TP)
 
 /datum/quest/kill/proc/spawn_kill_mobs(obj/effect/landmark/quest_spawner/landmark)
 	var/list/to_spawn = compose_warband()
@@ -127,7 +132,7 @@
 	result += first_pick
 	budget -= max(initial_threat_point(first_pick), 1)
 	// Continue until budget runs dry or hard cap.
-	while(budget > 0 && length(result) < 15)
+	while(budget > 0 && length(result) < QUEST_KILL_MAX_MOBS)
 		var/picked = pickweight(candidates)
 		if(!picked)
 			break
@@ -140,6 +145,12 @@
 				break
 		result += picked
 		budget -= cost
+	// Top up to min_mobs even if budget is spent — ensures e.g. Easy Kill always has ≥2 targets.
+	while(length(result) < min_mobs && length(result) < QUEST_KILL_MAX_MOBS)
+		var/picked = pickweight(candidates)
+		if(!picked)
+			break
+		result += picked
 	return result
 
 /datum/quest/kill/get_additional_reward(turf/origin_turf, turf/target_turf)

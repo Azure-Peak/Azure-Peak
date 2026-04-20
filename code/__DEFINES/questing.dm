@@ -20,6 +20,13 @@
 // TP budget the faction composes against for each kill quest type. Mirrors the ambush budget
 // system — each quest spends this much TP picking weighted mob types from faction.mob_types,
 // then spawns the mix. Bigger budget = more / tougher mobs.
+// Hard cap on mob count per kill quest — sanity limit against misconfigured mob threat_points
+// spiking the budget math into a 40-mob slog.
+#define QUEST_KILL_MAX_MOBS 15
+// Floor used when a quest mob has threat_point ≤ 0 (unconfigured). Matches the ambient threat
+// tier of a basic mob so quest math doesn't treat them as free filler.
+#define QUEST_MOB_MIN_TP 10
+
 #define QUEST_TP_BUDGET_KILL_EASY 30
 #define QUEST_TP_BUDGET_CLEAR_OUT 80
 #define QUEST_TP_BUDGET_RAID 150

@@ -164,15 +164,9 @@ const ContractCard = (props: { contract: Contract }) => {
       <div className={difficultyPinClass(c.difficulty)} />
       <div className="ContractLedger__CardTitle">{c.title}</div>
       <div className="ContractLedger__CardRow">
-        <span className="ContractLedger__CardLabel">Region</span>
-        <span className="ContractLedger__CardValue">
-          {c.region || 'Unknown'}
-        </span>
-      </div>
-      <div className="ContractLedger__CardRow">
         <span className="ContractLedger__CardLabel">Locale</span>
         <span className="ContractLedger__CardValue">
-          {c.area || 'Unknown'}
+          {c.area || c.region || 'Unknown'}
         </span>
       </div>
       <div className="ContractLedger__CardRow">

@@ -124,10 +124,11 @@
 		contents += "<hr></center>"
 		for(var/T in regional_threats)
 			var/datum/threat_region_display/TRS = T
-			contents += ("<div>[TRS?.region_name]: <font color=[TRS?.danger_color]>[TRS?.danger_level]</font></div>")
+			var/entry = "<div>[TRS?.region_name]: <font color=[TRS?.danger_color]>[TRS?.danger_level]</font>"
 			if(length(TRS?.ic_description))
-				for(var/line in TRS.ic_description)
-					contents += ("<div style='padding-left:16px;opacity:0.85'>&bull; [line]</div>")
+				entry += " &mdash; [jointext(TRS.ic_description, "; ")]"
+			entry += "</div>"
+			contents += entry
 		contents += "<hr>"
 		contents += "Scouts rate how dangerous a region is from Safe -> Low -> Moderate -> Dangerous -> Bleak <br>"
 		contents += "A safe region is safe and travelers are unlikely to be ambushed by common creechurs and brigands. <br>"

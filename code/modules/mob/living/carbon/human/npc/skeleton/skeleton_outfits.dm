@@ -30,6 +30,9 @@
 	skel_outfit = /datum/outfit/job/roguetown/skeleton/npc/archer
 
 // For Duke Manor & Zizo Manor - Ground based spread, so no pirate in pool!
+/mob/living/carbon/human/species/skeleton/npc/mediumspread
+	threat_point = THREAT_MODERATE
+
 /mob/living/carbon/human/species/skeleton/npc/mediumspread/Initialize()
 	var/outfit = rand(1, 5)
 	switch(outfit)
@@ -49,6 +52,9 @@
 	faction = list(FACTION_LICH)
 
 // for Lich Dungeon
+/mob/living/carbon/human/species/skeleton/npc/hardspread
+	threat_point = THREAT_TOUGH
+
 /mob/living/carbon/human/species/skeleton/npc/hardspread/Initialize()
 	var/outfit = rand(1,5)
 	switch(outfit)

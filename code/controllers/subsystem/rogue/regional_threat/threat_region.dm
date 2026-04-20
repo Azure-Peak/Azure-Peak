@@ -9,12 +9,14 @@
 	var/last_natural_ambush_time = -AMBUSH_REGION_COOLDOWN // Pre-expired so start-of-round doesn't block ambushes
 	var/last_induced_ambush_time = 0 // Time between now and the previous ambush triggered by horn
 	var/list/faction_weights = list()
-	var/courier_eligible = TRUE
 	/// Multiplier applied to quest tp_budget for kill / bounty quests originating in this region.
 	/// Values > 1.0 spawn more or tougher content (and thus pay more, since reward scales with TP).
 	var/tp_budget_multiplier = 1.0
+	/// Quest types this region will host. Default is everything; set per region to restrict
+	/// (e.g. a dangerous region that won't host trivial kill-easy quests).
+	var/list/allowed_quest_types
 
-/datum/threat_region/New(_region_name, _latent_ambush, _min_ambush, _max_ambush, _fixed_ambush, _lowpop_tick, _highpop_tick, _faction_weights, _courier_eligible = TRUE, _tp_budget_multiplier = 1.0)
+/datum/threat_region/New(_region_name, _latent_ambush, _min_ambush, _max_ambush, _fixed_ambush, _lowpop_tick, _highpop_tick, _faction_weights, _tp_budget_multiplier = 1.0, _allowed_quest_types)
 	region_name = _region_name
 	latent_ambush = _latent_ambush
 	min_ambush = _min_ambush
@@ -24,8 +26,19 @@
 	highpop_tick = _highpop_tick
 	if(_faction_weights)
 		faction_weights = _faction_weights
-	courier_eligible = _courier_eligible
 	tp_budget_multiplier = _tp_budget_multiplier
+	if(_allowed_quest_types)
+		allowed_quest_types = _allowed_quest_types
+	else
+		allowed_quest_types = list(QUEST_KILL_EASY, QUEST_CLEAR_OUT, QUEST_RAID, QUEST_BOUNTY, QUEST_COURIER, QUEST_RETRIEVAL)
+
+/datum/threat_region/proc/allows_quest_type(quest_type)
+	return (quest_type in allowed_quest_types)
+
+/datum/threat_region/proc/get_threat_weight()
+	if(!max_ambush || latent_ambush <= 0)
+		return 0
+	return latent_ambush / max_ambush
 
 /datum/threat_region/proc/pick_faction()
 	if(!length(faction_weights))

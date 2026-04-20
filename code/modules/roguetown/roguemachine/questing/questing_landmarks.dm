@@ -62,8 +62,6 @@
 /proc/find_quest_landmark(type, region = null)
 	GLOB.quest_landmarks_list = shuffle(GLOB.quest_landmarks_list)
 
-	var/courier_type = (type == QUEST_COURIER || type == QUEST_RETRIEVAL)
-
 	if(region)
 		var/list/region_matches = list()
 		for(var/obj/effect/landmark/quest_spawner/landmark in GLOB.quest_landmarks_list)
@@ -71,19 +69,20 @@
 				continue
 			if(landmark.region != region)
 				continue
-			if(courier_type && !landmark_region_allows_courier(landmark))
-				continue
 			if(quest_landmark_has_client_witness(landmark))
 				continue
 			region_matches += landmark
 		if(length(region_matches))
 			return pick(region_matches)
 
+	// Fallback: any landmark whose region allows this quest type. Prevents a Kill Easy
+	// generated for Basin from falling through to Coast (which forbids Easy) just because
+	// Coast landmarks also accept the type on the landmark side.
 	var/list/type_matches = list()
 	for(var/obj/effect/landmark/quest_spawner/landmark in GLOB.quest_landmarks_list)
 		if(!(type in landmark.quest_type))
 			continue
-		if(courier_type && !landmark_region_allows_courier(landmark))
+		if(!landmark_region_allows_type(landmark, type))
 			continue
 		if(quest_landmark_has_client_witness(landmark))
 			continue
@@ -95,7 +94,7 @@
 	for(var/obj/effect/landmark/quest_spawner/landmark in GLOB.quest_landmarks_list)
 		if(!(type in landmark.quest_type))
 			continue
-		if(courier_type && !landmark_region_allows_courier(landmark))
+		if(!landmark_region_allows_type(landmark, type))
 			continue
 		any_type_match += landmark
 	if(length(any_type_match))
@@ -103,13 +102,13 @@
 
 	return null
 
-/proc/landmark_region_allows_courier(obj/effect/landmark/quest_spawner/landmark)
+/proc/landmark_region_allows_type(obj/effect/landmark/quest_spawner/landmark, quest_type)
 	if(!landmark.region)
 		return TRUE
 	var/datum/threat_region/TR = SSregionthreat.get_region(landmark.region)
 	if(!TR)
 		return TRUE
-	return TR.courier_eligible
+	return TR.allows_quest_type(quest_type)
 
 /proc/quest_landmark_has_client_witness(obj/effect/landmark/quest_spawner/landmark)
 	for(var/mob/M in get_hearers_in_view(world.view, landmark))

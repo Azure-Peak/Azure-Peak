@@ -13,7 +13,7 @@ GLOBAL_LIST_INIT(highwayman_aggro, world.file2list("strings/rt/highwaymanaggroli
 
 /mob/living/carbon/human/species/human/northern/highwayman/mount_reaver
 	name = "mount reaver"
-	threat_point = THREAT_ELITE
+	threat_point = THREAT_HIGH
 	ambush_faction = "bandits"
 
 /mob/living/carbon/human/species/human/northern/highwayman/mount_reaver/after_creation()

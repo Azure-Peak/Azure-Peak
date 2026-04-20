@@ -114,7 +114,10 @@ SUBSYSTEM_DEF(questpool)
 	Q.source = QUEST_SOURCE_POOL
 	Q.created_at = world.time
 	Q.deposit_amount = Q.calculate_deposit()
-	var/obj/effect/landmark/quest_spawner/landmark = find_quest_landmark(type)
+	// Pick a region weighted by fill ratio, so high-threat regions draw more quests.
+	var/datum/threat_region/TR = SSregionthreat.pick_region_for_quest(type)
+	var/region_name = TR?.region_name
+	var/obj/effect/landmark/quest_spawner/landmark = find_quest_landmark(type, region_name)
 	if(!landmark)
 		qdel(Q)
 		return null
@@ -177,7 +180,7 @@ SUBSYSTEM_DEF(questpool)
 	var/obj/effect/landmark/quest_spawner/landmark = Q.pending_landmark_ref?.resolve()
 	if(landmark && !QDELETED(landmark))
 		return landmark
-	landmark = find_quest_landmark(Q.quest_type)
+	landmark = find_quest_landmark(Q.quest_type, Q.region)
 	if(landmark)
 		Q.pending_landmark_ref = WEAKREF(landmark)
 		Q.target_spawn_area = get_area_name(get_turf(landmark))
