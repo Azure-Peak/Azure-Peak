@@ -113,7 +113,7 @@ SUBSYSTEM_DEF(questpool)
 	Q.source = QUEST_SOURCE_POOL
 	Q.created_at = world.time
 	Q.deposit_amount = Q.calculate_deposit()
-	var/obj/effect/landmark/quest_spawner/landmark = find_quest_landmark(difficulty, type)
+	var/obj/effect/landmark/quest_spawner/landmark = find_quest_landmark(type)
 	if(!landmark)
 		qdel(Q)
 		return null
@@ -176,7 +176,7 @@ SUBSYSTEM_DEF(questpool)
 	var/obj/effect/landmark/quest_spawner/landmark = Q.pending_landmark_ref?.resolve()
 	if(landmark && !QDELETED(landmark))
 		return landmark
-	landmark = find_quest_landmark(Q.quest_difficulty, Q.quest_type)
+	landmark = find_quest_landmark(Q.quest_type)
 	if(landmark)
 		Q.pending_landmark_ref = WEAKREF(landmark)
 		Q.target_spawn_area = get_area_name(get_turf(landmark))

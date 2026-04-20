@@ -2,12 +2,16 @@
 	name = "quest landmark"
 	icon = 'code/modules/roguetown/roguemachine/questing/questing.dmi'
 	icon_state = "quest_marker"
-	var/quest_difficulty = list(QUEST_DIFFICULTY_EASY, QUEST_DIFFICULTY_MEDIUM, QUEST_DIFFICULTY_HARD)
-	var/quest_type = list(QUEST_RETRIEVAL, QUEST_COURIER, QUEST_CLEAR_OUT, QUEST_RAID, QUEST_KILL_EASY, QUEST_OUTLAW)
+	var/list/quest_type = list(QUEST_RETRIEVAL, QUEST_COURIER, QUEST_CLEAR_OUT, QUEST_RAID, QUEST_KILL_EASY, QUEST_OUTLAW)
+	var/region
 
 /obj/effect/landmark/quest_spawner/Initialize()
 	. = ..()
 	GLOB.quest_landmarks_list += src
+	if(!region)
+		var/area/A = get_area(src)
+		if(A)
+			region = A.threat_region
 
 /obj/effect/landmark/quest_spawner/Destroy()
 	GLOB.quest_landmarks_list -= src
@@ -19,58 +23,62 @@
 			M.faction |= "quest"
 
 /obj/effect/landmark/quest_spawner/proc/get_safe_spawn_turf()
-	var/list/possible_landmarks = list()
-	for(var/obj/effect/landmark/quest_spawner/landmark in GLOB.quest_landmarks_list)
-		if((quest_difficulty in landmark.quest_difficulty) || (landmark.quest_difficulty in quest_difficulty))
-			possible_landmarks += landmark
-
-	if(!length(possible_landmarks))
-		possible_landmarks += src
-	
-	var/obj/effect/landmark/quest_spawner/selected_landmark = pick(possible_landmarks)
 	var/list/possible_turfs = list()
-
-	for(var/turf/open/floor/T in view(7, selected_landmark))
+	for(var/turf/open/floor/T in view(7, src))
 		if(T.density || istransparentturf(T))
 			continue
-			
 		for(var/obj/O in get_turf(T))
-			if(O.density) //No more spawning in metal bars or trees...
+			if(O.density)
 				continue
-
-		if(get_area(T) != get_area(selected_landmark)) //No more spawning in guild room...
+		if(get_area(T) != get_area(src))
 			continue
-
 		possible_turfs += T
-
 	return length(possible_turfs) ? pick(possible_turfs) : get_turf(src)
+
+/obj/effect/landmark/quest_spawner/generic
+	name = "generic quest landmark"
+	icon_state = "quest_marker_low"
+	quest_type = list(QUEST_RETRIEVAL, QUEST_COURIER, QUEST_KILL_EASY, QUEST_CLEAR_OUT)
+
+/obj/effect/landmark/quest_spawner/defense
+	name = "defense quest landmark"
+	icon_state = "quest_marker_high"
+	quest_type = list()
 
 /obj/effect/landmark/quest_spawner/easy
 	name = "easy quest landmark"
 	icon_state = "quest_marker_low"
-	quest_difficulty = "Easy"
-	quest_type = list(QUEST_RETRIEVAL, QUEST_COURIER, QUEST_KILL_EASY)
+	quest_type = list(QUEST_RETRIEVAL, QUEST_COURIER, QUEST_KILL_EASY, QUEST_CLEAR_OUT)
 
 /obj/effect/landmark/quest_spawner/medium
 	name = "medium quest landmark"
 	icon_state = "quest_marker_mid"
-	quest_difficulty = "Medium"
-	quest_type = list(QUEST_KILL_EASY, QUEST_CLEAR_OUT)
+	quest_type = list(QUEST_RETRIEVAL, QUEST_COURIER, QUEST_KILL_EASY, QUEST_CLEAR_OUT)
 
 /obj/effect/landmark/quest_spawner/hard
 	name = "hard quest landmark"
 	icon_state = "quest_marker_high"
-	quest_difficulty = "Hard"
-	quest_type = list(QUEST_CLEAR_OUT, QUEST_RAID, QUEST_OUTLAW)
+	quest_type = list(QUEST_RAID, QUEST_OUTLAW, QUEST_CLEAR_OUT)
 
-/// Pick a quest_spawner landmark matching the given difficulty and type. Prefers landmarks with
-/// no players in visual range so the spawned content isn't witnessed mid-creation. Falls back to
-/// any landmark matching just the difficulty if no type-matching landmark is clear.
-/proc/find_quest_landmark(difficulty, type)
-	var/list/type_matches = list()
+/proc/find_quest_landmark(type, region = null)
 	GLOB.quest_landmarks_list = shuffle(GLOB.quest_landmarks_list)
+
+	if(region)
+		var/list/region_matches = list()
+		for(var/obj/effect/landmark/quest_spawner/landmark in GLOB.quest_landmarks_list)
+			if(!(type in landmark.quest_type))
+				continue
+			if(landmark.region != region)
+				continue
+			if(quest_landmark_has_client_witness(landmark))
+				continue
+			region_matches += landmark
+		if(length(region_matches))
+			return pick(region_matches)
+
+	var/list/type_matches = list()
 	for(var/obj/effect/landmark/quest_spawner/landmark in GLOB.quest_landmarks_list)
-		if(landmark.quest_difficulty != difficulty || !(type in landmark.quest_type))
+		if(!(type in landmark.quest_type))
 			continue
 		if(quest_landmark_has_client_witness(landmark))
 			continue
@@ -78,15 +86,13 @@
 	if(length(type_matches))
 		return pick(type_matches)
 
-	var/list/difficulty_matches = list()
+	var/list/any_type_match = list()
 	for(var/obj/effect/landmark/quest_spawner/landmark in GLOB.quest_landmarks_list)
-		if(landmark.quest_difficulty != difficulty)
+		if(!(type in landmark.quest_type))
 			continue
-		if(quest_landmark_has_client_witness(landmark))
-			continue
-		difficulty_matches += landmark
-	if(length(difficulty_matches))
-		return pick(difficulty_matches)
+		any_type_match += landmark
+	if(length(any_type_match))
+		return pick(any_type_match)
 
 	return null
 
