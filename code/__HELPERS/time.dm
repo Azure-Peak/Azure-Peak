@@ -100,7 +100,7 @@ GLOBAL_VAR_INIT(date_override_offset, 0)
 			GLOB.dayspassed++
 			SStreasury.distribute_estate_incomes()
 			SStreasury.distribute_daily_payments()
-			SStreasury.tick_war_chest()
+			SStreasury.tick_burgher_bond()
 			SStreasury.tick_loans()
 		for(var/mob/living/player in GLOB.mob_list)
 			if(player.stat != DEAD && player.client)

@@ -75,7 +75,7 @@
 
 <p><b>The Crown Discretionary</b> is the Realm's living treasury of coin. From it flow the daily wages of all sworn servants of the Crown, the purchase of imports, and the purse of the Steward's discretion. It is replenished by all taxes, by rural tribute, and by the margin upon exported goods.</p>
 
-<p><b>The War Chest</b> is not coin, but <i>authority</i> - a token of the Realm's standing to commission military action. It is granted daily in fixed measure, and only while the Golden Bull of Kingsfield stands in force. Should the Bull be suspended, the Burghers withdraw their contribution to the common defense, and the Chest shall not replenish until the Bull is restored.</p>
+<p><b>The Burgher Bond</b> is not coin, but <i>authority</i> - a token of the Realm's standing to commission military action. It is granted daily in fixed measure, and only while the Golden Bull of Kingsfield stands in force. Should the Bull be suspended, the Burghers withdraw their contribution to the common defense, and the Bond shall not replenish until the Bull is restored.</p>
 
 <hr>
 <h3>VII. The Crown Insolvent</h3>
