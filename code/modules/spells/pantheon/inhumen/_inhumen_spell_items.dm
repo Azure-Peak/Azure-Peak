@@ -2,6 +2,16 @@
 //ZIZO//
 ////////
 
+/obj/item/storage/magebag/zizo
+	name = "enochian artificer's pouch"
+	desc = "A pouch to carry handfuls of ingredients for summoning and alchemy. It has a hateful aura about it..."
+	aura_color = "#ff3737"
+	color = "#696969"	
+
+/obj/item/storage/magebag/zizo/Initialize()
+	. = ..()
+	AddComponent(/datum/component/cursed_item, (TRAIT_CABAL), "BLESSED BAG")
+
 /obj/item/melee/touch_attack/sans_undertale
 	name = "enochian force"
 	desc = "A coalesced mass of primordial arcyne force, shaped by will and a deeper knowledge of Enochian language. It can let you push, pull, slam or tear open localized leylines at a target."
@@ -753,10 +763,16 @@
 
 /obj/structure/ritualcircle/profane/melding
 	name = "Profane Melding Circle"
-	desc = "A grotesque transmutation circle. Flesh, bone, and memory are rendered into something... useful."
+	desc = "A malformed transmutation circle that holds a 'sweet', iron-like scent. Its purpose is unclear, but something about it feels profoundly heretical, beyond the inverted symbol of the Allfather."
 	icon_state = "zizo_chalky"
 	color = "#ff0000"
 	var/stored_value = 0
+
+/obj/structure/ritualcircle/profane/melding/examine(mob/user)
+	. = ..()
+	if(HAS_TRAIT(user, TRAIT_CABAL))
+		. += span_artery("A classic ritual circle of Enochian qualities. Plenty of buildings were raised from such a handy little thing. The Cabal has, however, taken this a step further, allowing me to recycle more things in the name of Progress.")
+		. += span_cultsmall("[stored_value] motes of liquid hatred sloshes through this circle...")
 
 /obj/structure/ritualcircle/profane/melding/proc/get_Z_item_value(obj/item/I)
 	if(!I)
@@ -766,7 +782,7 @@
 		return max(0, A.value)
 	if(istype(I, /obj/effect/decal/remains) || istype(I, /obj/item/natural/bundle/bone) || istype(I, /obj/item/skull) || istype(I, /obj/item/natural/bone) || istype(I, /obj/item/grown/log/tree/small) || istype(I, /obj/item/natural/stone) || istype(I, /obj/item/natural/wood/plank) || istype(I, /obj/item/natural/stoneblock))
 		return 1
-	if(istype(I, /obj/item/natural/bone) || istype(I, /obj/item/organ) || istype(I, /obj/item/alch/viscera) || istype(I, /obj/item/reagent_containers/food/snacks/rogue/meat/steak))
+	if(istype(I, /obj/item/rogueore) || istype(I, /obj/item/roguegem) || istype(I, /obj/item/ingot) || istype(I, /obj/item/natural/bone) || istype(I, /obj/item/organ) || istype(I, /obj/item/alch/viscera) || istype(I, /obj/item/reagent_containers/food/snacks/rogue/meat/steak))
 		return 2
 	if(istype(I, /obj/item/heart_blood_vial/filled) || istype(I, /obj/item/natural/bundle/bone/full))
 		return 5
@@ -801,7 +817,7 @@
 
 	stored_value += value
 	visible_message("Hooked avantyne chains spring out and latch on the [I], absorbing it into the circle...")
-	to_chat(user, span_artery("+[value] liquid hatred gained. ([stored_value] motes of liquid hatred accumulated.)"))
+	to_chat(user, span_artery("+[value] liquid hatred added. ([stored_value] motes of liquid hatred in the circle.)"))
 
 	playsound(src, 'sound/misc/smelter_sound.ogg', 50, FALSE)
 
@@ -894,7 +910,7 @@
 	stored_value += gained
 
 	visible_message("Hooked avantyne chains spring out and latch on the remains, as they soon disintegrate...")
-	to_chat(user, span_artery("+[gained] liquid hatred gained. ([stored_value] motes of liquid hatred accumulated.)"))
+	to_chat(user, span_artery("+[gained] liquid hatred added. ([stored_value] motes of liquid hatred in the circle.)"))
 
 /obj/structure/ritualcircle/profane/melding/proc/meld_materials(mob/living/user)
 	var/turf/T = get_turf(src)
@@ -933,7 +949,7 @@
 	stored_value += gained
 
 	visible_message("Hooked avantyne chains spring out and latch on the materials, as they soon disintegrate...")
-	to_chat(user, span_artery("+[gained] liquid hatred gained. ([stored_value] motes of liquid hatred accumulated.)"))
+	to_chat(user, span_artery("+[gained] liquid hatred added. ([stored_value] motes of liquid hatred in the circle.)"))
 
 /obj/structure/ritualcircle/profane/melding/proc/shape_avantyne(mob/living/user)
 	if(stored_value == 0)
@@ -1016,11 +1032,10 @@
 	if(!T)
 		return
 
-	if(!execute_rite(src, user, 8, 2, TRUE))
-		return
-
 	if(!do_after(user, 50, src))
 		return
+
+	playsound(src, 'sound/magic/swap.ogg', 60, TRUE)
 
 	var/obj/item/ingot/aaslag_zizo/A = new(T)
 	A.value = stored_value
@@ -1031,38 +1046,49 @@
 
 /obj/structure/ritualcircle/profane/leyline
 	name = "Veilrender Matrix"
-	desc = "A violent geometric construct meant to tear at creechers from within the leylines."
+	desc = "A jagged geometric matrix barely holding itself together, warped by heretical design. Its words defy comprehension, but to those attuned to Arcyne, it's as if the very world wants it gone."
 	icon_state = "zizo_chalky"
 	color = "#00eeff"
+	layer = 1
+	var/active = FALSE
+
+/obj/structure/ritualcircle/profane/leyline/examine(mob/user)
+	. = ..()
+	if(HAS_TRAIT(user, TRAIT_CABAL))
+		. += span_artery("An advanced Artificery matrix, enhanced by Enochian language. For those backward mages, having to expose oneself to harm's way is part of the procedure, but for a Cabalist? Another's job, not theirs.")
 
 /obj/structure/ritualcircle/profane/leyline/attack_hand(mob/living/user)
+	active = TRUE
 	if(!..())
+		active = FALSE
 		return
 
 	if((user.patron?.type) != /datum/patron/inhumen/zizo)
-		to_chat(user, span_smallred("I cannot comprehend this structure..."))
+		to_chat(user, span_smallred("I cannot comprehend this structure's purpose... I feel a horrible sensation upon me."))
+		active = FALSE
 		return
 
 	var/turf/T = get_turf(src)
+	if(!T)
+		active = FALSE
+		return
 
-	// LEYLINE VALIDATION
-	var/list/nearby_leylines = list()
-	for(var/obj/structure/leyline/L in view(1, src))
-		nearby_leylines += L
+	var/obj/structure/leyline/L = locate() in T
 
-	if(!nearby_leylines.len)
-		to_chat(user, span_warning("This matrix must fully surround a leyline."))
+	if(!L || L.sabotaged)
+		to_chat(user, span_warning("The rite demands a pure leyline. This one has already been reaped—or the circle is misplaced."))
+		active = FALSE
 		return
 
 	// RITUAL EXECUTION
 	if(!execute_rite(src, user, 5, 3))
+		active = FALSE
 		return
 
 	playsound(src, 'sound/magic/swap.ogg', 60, TRUE)
 
-	// LEYLINE -- TODO: Change this into proper sabotaging, but I can only do so once TM is up to avoid conflicts
-	for(var/obj/structure/leyline/L in nearby_leylines)
-		qdel(L)
+	// APPLY SABOTAGE
+	L.apply_sabotage()
 
 	// GACHA TABLE
 	var/list/loot_table = list(
@@ -1088,18 +1114,23 @@
 		if(typepath)
 			new typepath(T)
 
-	// FINAL FEEDBACK
 	visible_message(
 		span_artery("The leyline shrieks as it is violently unraveled, spilling raw essence into reality!"),
 		null,
-		"<i>You hear a piercing, unnatural scream tear through the air.</i>"
+		"<i>You hear a piercing, unnatural scream tear through the air! The world suffers...</i>"
 	)
+	active = FALSE
 
 /obj/structure/ritualcircle/profane/reaper
 	name = "Great Work Rituos circle"
-	desc = "An acidic-looking transmutation circle. ."
+	desc = "A transmutation circle coated in a bubbling, acidic sheen. The material resembles the acid pools of the Underdark. The heretical symbol feels like an open mockery to all that is righteous."
 	icon_state = "zizo_chalky"
 	color = "#00ff15"
+
+/obj/structure/ritualcircle/profane/reaper/examine(mob/user)
+	. = ..()
+	if(HAS_TRAIT(user, TRAIT_CABAL))
+		. += span_artery("A strong reason to believe ZIZO is no myth, for this combined matrix and ritual circle completely written in advanced Enochian is but a thousand steps behind what SHE had attempted, and the heavy cost it took to achieve it. While only but a replica of her Great Work, it still does the trick on the matters of Lux extraction.")
 
 /obj/structure/ritualcircle/profane/reaper/attack_hand(mob/living/user)
 	if(!..())
@@ -1243,21 +1274,23 @@
 /obj/item/contraption/hacker_doohickey/attack_obj(obj/O, mob/living/user)
 	..() // TBD
 
+/obj/item/storage/magebag
+
 
 ////////////
 //MATTHIOS//
 ////////////
 
 //ALCHEMY
-/obj/item/
+/obj/
 	var/aura_color = null
 
-/obj/item/Initialize()
+/obj/Initialize()
 	. = ..()
 	if(aura_color)
 		apply_aura()
 
-/obj/item/proc/apply_aura()
+/obj/proc/apply_aura()
 	if(!aura_color)
 		return
 	if(!filters)
@@ -1266,7 +1299,7 @@
 	var/aura_color_final = "[aura_color]40"
 	filters += filter(type="outline", color=aura_color_final, size=2)
 
-/obj/item/proc/remove_aura()
+/obj/proc/remove_aura()
 	if(!filters)
 		return
 
@@ -1275,7 +1308,7 @@
 			if(F["type"] == "outline")
 				filters -= F
 
-/obj/item/proc/refresh_aura()
+/obj/proc/refresh_aura()
 	if(aura_color)
 		apply_aura()
 

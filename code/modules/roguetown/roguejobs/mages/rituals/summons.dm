@@ -462,7 +462,7 @@
 		return FALSE
 
 	spend_leyline_charge(user)
-	leyline.use_charge()
+	leyline.use_charge(user)
 
 	var/list/spawn_turfs = get_encounter_turfs(loc, primary_count + secondary_count + extra_count)
 	var/spawned = 0

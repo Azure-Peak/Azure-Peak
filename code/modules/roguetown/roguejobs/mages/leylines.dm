@@ -64,6 +64,7 @@ GLOBAL_LIST_EMPTY(leyline_activations)
 	var/last_reset_day = 0
 	var/max_tier = 0
 	var/last_used_for_teleport = -LEYLINE_TELEPORT_COOLDOWN
+	var/sabotaged = FALSE
 
 /obj/structure/leyline/Initialize()
 	. = ..()
@@ -90,9 +91,48 @@ GLOBAL_LIST_EMPTY(leyline_activations)
 	check_daily_reset()
 	return uses_today < max_uses_per_day
 
-/obj/structure/leyline/proc/use_charge()
+/obj/structure/leyline/proc/use_charge(mob/living/user)
 	check_daily_reset()
+
+	if(sabotaged)
+		if(prob(35))
+			uses_today = max_uses_per_day
+		else if(prob(35))
+			if(user)
+				explosion(user, 0, 0, 3, 5, TRUE, FALSE)
+		else
+			spawn_hostiles()
+		return
+
 	uses_today++
+
+/obj/structure/leyline/proc/apply_sabotage()
+	sabotaged = TRUE
+	update_appearance()
+
+/obj/structure/leyline/proc/spawn_hostiles()
+	var/turf/T = get_turf(src)
+	if(!T) return
+
+	var/count = rand(10, 25)
+
+	for(var/i = 1 to count)
+		switch(rand(1,6))
+			if(1) new /mob/living/simple_animal/hostile/retaliate/rogue/voidstoneobelisk(T)
+			if(2) new /mob/living/carbon/human/species/skeleton/npc(T)
+			if(3) new /mob/living/simple_animal/hostile/retaliate/rogue/troll/cave(T)
+			if(4) new /mob/living/simple_animal/hostile/retaliate/rogue/wolf_undead(T)
+			if(5) new /mob/living/simple_animal/hostile/retaliate/rogue/saiga/undead(T)
+			if(6)
+				if(prob(50))
+					new /mob/living/simple_animal/hostile/rogue/mirespider_lurker/mushroom(T)
+				else
+					var/mob/living/carbon/human/H = new(T)
+					H.set_species(/datum/species/goblin/hell)
+
+/obj/structure/leyline/proc/update_appearance()
+	if(sabotaged)
+		aura_color = "#FF0000"
 
 /obj/structure/leyline/examine(mob/living/user)
 	. = ..()
