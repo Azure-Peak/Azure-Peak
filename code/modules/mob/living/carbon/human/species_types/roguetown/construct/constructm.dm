@@ -146,7 +146,7 @@
 		M.adjustBruteLoss(-power/2)
 		M.adjustFireLoss(-power/2)
 		user.visible_message(
-			span_notice("[user] brings the [I] to their mouth and crunches it down effortlessly."),
+			span_notice("[user] offers the [I] to [M]'s mouth, and they crunch it down instinctively."),
 			span_notice("I crunch the [I] down and swallow it effortlessly.")
 		)
 		playsound(M.loc,'sound/misc/eat.ogg', rand(60,100), TRUE)
@@ -160,7 +160,7 @@
 		power = 2 + I.sellprice / 2
 		M.apply_status_effect(/datum/status_effect/buff/oremuncher, power)
 		user.visible_message(
-			span_notice("[user] brings the [I] to their mouth and crunches it down effortlessly."),
+			span_notice("[user] offers the [I] to [M]'s mouth, and they crunch it down instinctively."),
 			span_notice("I crunch the [I] down and swallow it effortlessly. This one is good stuff.")
 		)
 		playsound(M.loc,'sound/misc/eat.ogg', rand(60,100), TRUE)
@@ -170,8 +170,8 @@
 		return TRUE
 
 	if(M == user)
-		if(!do_after(user, 12 SECONDS, src))
-		return FALSE
+		if(!do_after(user, 12 SECONDS, M))
+			return FALSE
 
 	// === INGOT === 
 	if(istype(I, /obj/item/ingot))
