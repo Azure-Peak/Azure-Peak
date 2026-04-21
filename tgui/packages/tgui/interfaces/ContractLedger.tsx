@@ -54,7 +54,8 @@ type ContractLedgerData = {
 const ALL_REGIONS = 'All';
 const ALL_DIFFICULTIES = 'All';
 const DIFFICULTIES = ['Easy', 'Medium', 'Hard'];
-const RUMORS_VIEW = 'Rumors';
+
+type LedgerMode = 'contracts' | 'rumors';
 
 const difficultyPinClass = (difficulty: string) => {
   switch (difficulty) {
@@ -71,11 +72,12 @@ const difficultyPinClass = (difficulty: string) => {
 
 export const ContractLedger = () => {
   const { data } = useBackend<ContractLedgerData>();
+  const [mode, setMode] = useState<LedgerMode>('contracts');
   const [activeRegion, setActiveRegion] = useState<string>(ALL_REGIONS);
   const [activeDifficulty, setActiveDifficulty] =
     useState<string>(ALL_DIFFICULTIES);
 
-  const showingRumors = activeRegion === RUMORS_VIEW && !!data.is_innkeeper;
+  const showingRumors = mode === 'rumors' && !!data.is_innkeeper;
 
   const matchesRegion = (c: Contract) =>
     activeRegion === ALL_REGIONS || c.region === activeRegion;
@@ -97,40 +99,54 @@ export const ContractLedger = () => {
     >
       <Window.Content fitted>
         <div className="ContractLedger">
-          <div className="ContractLedger__Header">Grand Contract Ledger</div>
-
-          <div className="ContractLedger__TabBar">
-            {regionTabs.map((region) => {
-              const count = data.pool.filter(
-                (c) => region === ALL_REGIONS || c.region === region,
-              ).length;
-              const isActive = region === activeRegion;
-              return (
-                <div
-                  key={region}
-                  className={
-                    'ContractLedger__Tab' +
-                    (isActive ? ' ContractLedger__Tab--active' : '')
-                  }
-                  onClick={() => setActiveRegion(region)}
-                >
-                  {region} ({count})
-                </div>
-              );
-            })}
+          <div className="ContractLedger__Header">
+            <span
+              className={
+                'ContractLedger__HeaderMode' +
+                (!showingRumors ? ' ContractLedger__HeaderMode--active' : '')
+              }
+              onClick={() => setMode('contracts')}
+            >
+              Grand Contract Ledger
+            </span>
             {!!data.is_innkeeper && (
-              <div
-                key={RUMORS_VIEW}
-                className={
-                  'ContractLedger__Tab' +
-                  (showingRumors ? ' ContractLedger__Tab--active' : '')
-                }
-                onClick={() => setActiveRegion(RUMORS_VIEW)}
-              >
-                {RUMORS_VIEW}
-              </div>
+              <>
+                <span className="ContractLedger__HeaderSep">|</span>
+                <span
+                  className={
+                    'ContractLedger__HeaderMode' +
+                    (showingRumors ? ' ContractLedger__HeaderMode--active' : '')
+                  }
+                  onClick={() => setMode('rumors')}
+                >
+                  Rumors
+                </span>
+              </>
             )}
           </div>
+
+          {!showingRumors && (
+            <div className="ContractLedger__TabBar">
+              {regionTabs.map((region) => {
+                const count = data.pool.filter(
+                  (c) => region === ALL_REGIONS || c.region === region,
+                ).length;
+                const isActive = region === activeRegion;
+                return (
+                  <div
+                    key={region}
+                    className={
+                      'ContractLedger__Tab' +
+                      (isActive ? ' ContractLedger__Tab--active' : '')
+                    }
+                    onClick={() => setActiveRegion(region)}
+                  >
+                    {region} ({count})
+                  </div>
+                );
+              })}
+            </div>
+          )}
 
           {!showingRumors && (
             <div className="ContractLedger__FilterBar">
