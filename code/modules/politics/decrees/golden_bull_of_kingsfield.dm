@@ -17,7 +17,11 @@ Should the Crown violate this Charter, the Burghers are absolved of their obliga
 /datum/decree/golden_bull/apply_rate_cap(mob/living/payer, tax_category, current_cap)
 	if(!active)
 		return current_cap
-	if(!(payer.job in GLOB.burgher_positions))
+	if(HAS_TRAIT(payer, TRAIT_RESIDENT))
+		return min(current_cap, GOLDEN_BULL_BURGHER_CAP)
+	if(payer.job in GLOB.wanderer_positions)
+		return current_cap
+	if(payer.job == "Mercenary")
 		return current_cap
 	return min(current_cap, GOLDEN_BULL_BURGHER_CAP)
 

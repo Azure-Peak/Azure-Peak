@@ -47,6 +47,10 @@ SUBSYSTEM_DEF(treasury)
 	/// ckey -> day-number - tracks whether a target has already been fined today
 	var/list/fines_received_today = list()
 	var/fine_cap_per_steward_per_day = 3
+	/// Day number on which the realm's 1-per-day decree revocation slot was last consumed.
+	var/decree_revoke_used_day = -1
+	/// Day number on which the realm's 1-per-day decree restoration slot was last consumed.
+	var/decree_restore_used_day = -1
 	var/next_treasury_check = 0
 	var/economic_output = 0
 	var/total_deposit_tax = 0
@@ -157,6 +161,27 @@ SUBSYSTEM_DEF(treasury)
 			issuer_record["count"]++
 	if(target?.ckey)
 		fines_received_today[target.ckey] = GLOB.dayspassed
+
+/datum/controller/subsystem/treasury/proc/get_steward_fines_used(mob/living/steward)
+	if(!steward?.ckey)
+		return 0
+	var/list/issuer_record = fines_issued_today[steward.ckey]
+	if(!issuer_record || issuer_record["day"] != GLOB.dayspassed)
+		return 0
+	return issuer_record["count"]
+
+/// Maximum mammon that can be fined from the target in a single action, accounting for
+/// decree exemptions and rate caps. Returns 0 if the target cannot be fined at all.
+/datum/controller/subsystem/treasury/proc/get_max_fine_for(mob/living/target)
+	if(!target)
+		return 0
+	if(is_tax_exempt(target, TAX_CATEGORY_FINE))
+		return 0
+	var/balance = get_balance(target)
+	if(balance <= 0)
+		return 0
+	var/cap_rate = get_rate_cap(target, TAX_CATEGORY_FINE)
+	return FLOOR(balance * cap_rate, 1)
 
 /datum/controller/subsystem/treasury/proc/give_money_account(amt, target, source)
 	if(!amt)

@@ -28,6 +28,7 @@
 	var/current_category = "Raw Materials"
 	var/list/categories = list("Raw Materials", "Fruit", "Vegetable", "Animal","Seafood")
 	var/list/daily_payments = list() // Associative list: job name -> payment amount
+	var/residency_print_cooldown = 0
 
 /obj/structure/roguemachine/steward/Initialize()
 	. = ..()
@@ -203,7 +204,12 @@
 					say("The ledger will accept no further fines against that person today.")
 					playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
 					return
-				var/newtax = input(usr, "How much to fine [X]", src) as null|num
+				var/max_fine = SStreasury.get_max_fine_for(A)
+				if(max_fine <= 0)
+					say("[A] cannot be fined by the Crown at this time.")
+					playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
+					return
+				var/newtax = input(usr, "How much to fine [A]? (Maximum [max_fine]m)", src, max_fine) as null|num
 				if(!usr.canUseTopic(src, BE_CLOSE) || locked)
 					return
 				if(findtext(num2text(newtax), "."))
@@ -212,9 +218,26 @@
 					return
 				if(newtax < 1)
 					return
+				if(newtax > max_fine)
+					newtax = max_fine
+					say("The ledger will accept no more than [max_fine]m from [A]. Amount adjusted.")
 				if(SStreasury.give_money_account(-newtax, A, "NERVE MASTER"))
 					SStreasury.record_fine_issued(usr, A)
 				break
+	if(href_list["printresidency"])
+		if(!usr.canUseTopic(src, BE_CLOSE) || locked)
+			return
+		if(world.time < residency_print_cooldown)
+			say("The machine is still warming its quill.")
+			playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
+			return
+		var/mob/living/carbon/human/H = usr
+		var/obj/item/residency_letter/letter = new(get_turf(src))
+		letter.issuer_name = H.real_name
+		letter.issuer_year = CALENDAR_EPOCH_YEAR
+		residency_print_cooldown = world.time + 1 MINUTES
+		playsound(src, 'sound/misc/coindispense.ogg', 60, FALSE, -1)
+		say("Letter of Residency issued, signed by [H.real_name].")
 	if(href_list["payroll"])
 		var/list/L = list(GLOB.noble_positions) + list(GLOB.retinue_positions) + list(GLOB.garrison_positions) + list(GLOB.courtier_positions) + list(GLOB.church_positions) + list(GLOB.burgher_positions) + list(GLOB.peasant_positions) + list(GLOB.sidefolk_positions) + list(GLOB.inquisition_positions)
 		var/list/things = list()
@@ -360,48 +383,46 @@
 			contents += "<a href='?src=\ref[src];switchtab=[TAB_PAYDAY]'>\[Daily Payments\]</a><BR>"
 			contents += "<a href='?src=\ref[src];switchtab=[TAB_LOG]'>\[Log\]</a><BR>"
 			contents += "<a href='?src=\ref[src];switchtab=[TAB_STATISTICS]'>\[Statistics\]</a><BR>"
+			contents += "<a href='?src=\ref[src];printresidency=1'>\[Print Letter of Residency\]</a><BR>"
 			contents += "</center>"
 		if(TAB_BANK)
-			var/total_deposit = 0
-			for(var/key in SStreasury.bank_accounts)
-				var/datum/fund/account = SStreasury.bank_accounts[key]
-				if(account)
-					total_deposit += account.balance
-			if(total_deposit == 0)
-				total_deposit++ //Division by zero catch
 			contents += "<a href='?src=\ref[src];switchtab=[TAB_MAIN]'>\[Return\]</a>"
 			contents += " <a href='?src=\ref[src];compact=1'>\[Compact: [compact? "ENABLED" : "DISABLED"]\]</a><BR>"
 			contents += "<center>Bank<BR>"
 			contents += "--------------<BR>"
 			contents += "Treasury: [SStreasury.discretionary_fund.balance]m<BR>"
-			contents += "Reserve Ratio: [round(SStreasury.discretionary_fund.balance / total_deposit * 100)]%</center><BR>"
+			var/fines_used = SStreasury.get_steward_fines_used(usr)
+			contents += "Fines remaining today: [max(0, SStreasury.fine_cap_per_steward_per_day - fines_used)] / [SStreasury.fine_cap_per_steward_per_day]</center><BR>"
 			contents += "<a href='?src=\ref[src];payroll=1'>\[Pay by Class\]</a><BR><BR>"
-			if(compact)
-				for(var/mob/living/carbon/human/A in SStreasury.bank_accounts)
+			for(var/mob/living/carbon/human/A in SStreasury.bank_accounts)
+				var/balance = SStreasury.get_balance(A)
+				var/max_fine = SStreasury.get_max_fine_for(A)
+				var/already_fined = SStreasury.fines_received_today[A.ckey] == GLOB.dayspassed
+				var/wage_status_short = HAS_TRAIT(A, TRAIT_WAGES_SUSPENDED) ? "UNSUSPEND" : "SUSPEND"
+				var/wage_status_long = HAS_TRAIT(A, TRAIT_WAGES_SUSPENDED) ? "Unsuspend Wages" : "Suspend Wages"
+				var/fine_label = already_fined ? "FINED TODAY" : (max_fine > 0 ? "FINE (Max [max_fine]m)" : "FINE (exempt)")
+				var/fine_long_label = already_fined ? "Already Fined Today" : (max_fine > 0 ? "Fine Account (Max [max_fine]m)" : "Fine Account (exempt)")
+				if(compact)
 					if(ishuman(A))
 						var/mob/living/carbon/human/tmp = A
-						contents += "[tmp.real_name] ([job_filter(tmp.advjob, tmp.job, compact)]) - [SStreasury.get_balance(A)]m"
+						contents += "[tmp.real_name] ([job_filter(tmp.advjob, tmp.job, compact)]) - [balance]m"
 					else
-						contents += "[A.real_name] - [SStreasury.get_balance(A)]m"
-					var/wage_status = HAS_TRAIT(A, TRAIT_WAGES_SUSPENDED) ? "UNSUSPEND" : "SUSPEND"
-					contents += " / <a href='?src=\ref[src];givemoney=\ref[A]'>\[PAY\]</a> <a href='?src=\ref[src];fineaccount=\ref[A]'>\[FINE\]</a> <a href='?src=\ref[src];togglewages=\ref[A]'>\[[wage_status]\]</a><BR><BR>"
-			else
-				for(var/mob/living/carbon/human/A in SStreasury.bank_accounts)
+						contents += "[A.real_name] - [balance]m"
+					contents += " / <a href='?src=\ref[src];givemoney=\ref[A]'>\[PAY\]</a> <a href='?src=\ref[src];fineaccount=\ref[A]'>\[[fine_label]\]</a> <a href='?src=\ref[src];togglewages=\ref[A]'>\[[wage_status_short]\]</a><BR><BR>"
+				else
 					if(ishuman(A))
 						var/mob/living/carbon/human/tmp = A
-						contents += "[tmp.real_name] ([job_filter(tmp.advjob, tmp.job, compact)]) - [SStreasury.get_balance(A)]m<BR>"
+						contents += "[tmp.real_name] ([job_filter(tmp.advjob, tmp.job, compact)]) - [balance]m<BR>"
 					else
-						contents += "[A.real_name] - [SStreasury.get_balance(A)]m<BR>"
-					var/wage_status = HAS_TRAIT(A, TRAIT_WAGES_SUSPENDED) ? "Unsuspend Wages" : "Suspend Wages"
-					contents += "<a href='?src=\ref[src];givemoney=\ref[A]'>\[Give Money\]</a> <a href='?src=\ref[src];fineaccount=\ref[A]'>\[Fine Account\]</a> <a href='?src=\ref[src];togglewages=\ref[A]'>\[[wage_status]\]</a><BR><BR>"
+						contents += "[A.real_name] - [balance]m<BR>"
+					contents += "<a href='?src=\ref[src];givemoney=\ref[A]'>\[Give Money\]</a> <a href='?src=\ref[src];fineaccount=\ref[A]'>\[[fine_long_label]\]</a> <a href='?src=\ref[src];togglewages=\ref[A]'>\[[wage_status_long]\]</a><BR><BR>"
 		if(TAB_STOCK)
 			contents += "<a href='?src=\ref[src];switchtab=[TAB_MAIN]'>\[Return\]</a>"
 			contents += " <a href='?src=\ref[src];compact=1'>\[Compact: [compact? "ENABLED" : "DISABLED"]\]</a><BR>"
 			contents += "<center>Stockpile<BR>"
 			contents += "--------------<BR>"
 			if(compact)
-				contents += "Treasury: [SStreasury.discretionary_fund.balance]m"
-				contents += " / Contract Levy: [round(SStreasury.get_tax_rate(TAX_CATEGORY_CONTRACT_LEVY)*100)]%</center><BR>"
+				contents += "Treasury: [SStreasury.discretionary_fund.balance]m</center><BR>"
 				contents += "<center>Auto Export Stockpile Above: "
 				contents += "<a href='?src=\ref[src];changeautoexport=1'>[SStreasury.autoexport_percentage * 100]%</a></center><BR>"
 				var/selection = "<center>Categories: "
@@ -428,8 +449,7 @@
 							contents += " <a href='?src=\ref[src];export=\ref[A]'>\[EXP [A.importexport_amt] ([A.get_export_price()])\]</a> <BR>"
 			
 			else
-				contents += "Treasury: [SStreasury.discretionary_fund.balance]m<BR>"
-				contents += "Contract Levy: [round(SStreasury.get_tax_rate(TAX_CATEGORY_CONTRACT_LEVY)*100)]%</center><BR>"
+				contents += "Treasury: [SStreasury.discretionary_fund.balance]m</center><BR>"
 				var/selection = "<center>Categories: "
 				for(var/category in categories)
 					if(category == current_category)
@@ -460,14 +480,12 @@
 			contents += "<center>Imports<BR>"
 			contents += "--------------<BR>"
 			if(compact)
-				contents += "Treasury: [SStreasury.discretionary_fund.balance]m"
-				contents += " / Contract Levy: [round(SStreasury.get_tax_rate(TAX_CATEGORY_CONTRACT_LEVY)*100)]%</center><BR>"
+				contents += "Treasury: [SStreasury.discretionary_fund.balance]m</center><BR>"
 				for(var/datum/roguestock/import/A in SStreasury.stockpile_datums)
 					contents += "<b>[A.name]:</b>"
 					contents += " <a href='?src=\ref[src];import=\ref[A]'>\[Import [A.importexport_amt] ([A.get_import_price()])\]</a><BR><BR>"
 			else
-				contents += "Treasury: [SStreasury.discretionary_fund.balance]m<BR>"
-				contents += "Contract Levy: [round(SStreasury.get_tax_rate(TAX_CATEGORY_CONTRACT_LEVY)*100)]%</center><BR>"
+				contents += "Treasury: [SStreasury.discretionary_fund.balance]m</center><BR>"
 				for(var/datum/roguestock/import/A in SStreasury.stockpile_datums)
 					contents += "[A.name]<BR>"
 					contents += "[A.desc]<BR>"
@@ -511,7 +529,16 @@
 			contents += "<a href='?src=\ref[src];switchtab=[TAB_MAIN]'>\[Return\]</a><BR>"
 			contents += "<center>Daily Payments<BR>"
 			contents += "--------------<BR>"
-			contents += "Treasury: [SStreasury.discretionary_fund.balance]m</center><BR>"
+			contents += "Treasury: [SStreasury.discretionary_fund.balance]m<BR>"
+			var/total_payroll = 0
+			for(var/job_name in daily_payments)
+				var/amt = daily_payments[job_name]
+				var/count = 0
+				for(var/mob/living/carbon/human/H in GLOB.human_list)
+					if(H.job == job_name && !HAS_TRAIT(H, TRAIT_WAGES_SUSPENDED))
+						count++
+				total_payroll += amt * count
+			contents += "Projected Daily Payroll: [total_payroll]m</center><BR>"
 			contents += "<a href='?src=\ref[src];setdailypay=1'>\[Add/Modify Job Payment\]</a><BR><BR>"
 			if(daily_payments.len)
 				contents += "<center>Configured Payments:</center><BR>"
