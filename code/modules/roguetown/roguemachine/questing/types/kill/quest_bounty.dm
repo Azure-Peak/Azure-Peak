@@ -48,8 +48,9 @@
 /datum/quest/kill/bounty/get_additional_reward(turf/origin_turf, turf/target_turf)
 	if(!target_mob_type)
 		return 0
-	var/threat = initial(target_mob_type.threat_point) || 0
-	return threat * QUEST_BOUNTY_THREAT_MULT + QUEST_REWARD_BOUNTY_HEAD
+	var/boss_threat = initial(target_mob_type.threat_point) || 0
+	var/goon_threat = (total_spawned_tp > 0) ? total_spawned_tp : tp_budget
+	return (boss_threat * QUEST_BOUNTY_THREAT_MULT) + (goon_threat * QUEST_KILL_THREAT_MULT)
 
 /// Override — bounty progress is fixed at 1 (the boss), regardless of goon count.
 /datum/quest/kill/bounty/estimate_mob_count()
@@ -98,6 +99,7 @@
 /// Spawn a TP-budget gang of faction members to accompany the bounty target.
 /datum/quest/kill/bounty/proc/spawn_goons(obj/effect/landmark/quest_spawner/landmark)
 	var/list/to_spawn = compose_warband()
+	total_spawned_tp = 0
 	for(var/goon_type in to_spawn)
 		var/turf/spawn_turf = landmark.get_safe_spawn_turf()
 		if(!spawn_turf)
@@ -111,3 +113,4 @@
 		addtimer(TRAIT_CALLBACK_REMOVE(goon, TRAIT_FRESHSPAWN, "[type]"), 60 SECONDS)
 		spawn_effect.contained_atom = goon
 		spawn_effect.AddComponent(/datum/component/quest_object/mob_spawner, src)
+		total_spawned_tp += initial(goon.threat_point) || 0

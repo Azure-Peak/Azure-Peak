@@ -10,6 +10,9 @@
 		/area/rogue/indoors/town/physician,
 	)
 
+/datum/quest/courier/get_base_reward()
+	return QUEST_REWARD_BASE_FETCH
+
 /datum/quest/courier/get_title()
 	if(title)
 		return title

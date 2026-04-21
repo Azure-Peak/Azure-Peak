@@ -84,12 +84,11 @@
 	SIGNAL_HANDLER
 
 	var/datum/quest/Q = quest_ref.resolve()
-	if(!Q || Q.complete || !istype(dead_mob, Q.target_mob_type))
+	if(!Q || Q.complete)
 		return
 
 	dead_mob.remove_filter("quest_item_outline")
 
-	// Notify quest of progress
 	Q.progress_current++
 	Q.on_progress_update()
 

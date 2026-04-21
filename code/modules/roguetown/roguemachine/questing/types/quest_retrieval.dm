@@ -6,6 +6,9 @@
 		/obj/item/reagent_containers/glass/bottle/rogue/whitewine
 	)
 
+/datum/quest/retrieval/get_base_reward()
+	return QUEST_REWARD_BASE_FETCH
+
 /datum/quest/retrieval/get_title()
 	if(title)
 		return title

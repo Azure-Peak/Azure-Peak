@@ -10,9 +10,6 @@
 #define QUEST_BOUNTY "Bounty"
 #define QUEST_RECOVERY "Recovery"
 
-// Flat bonus for bringing in the named bounty target's head.
-#define QUEST_REWARD_BOUNTY_HEAD 30
-
 // Multipliers applied to spawned mob `threat_point` when computing kill quest additional reward.
 // Kill mult of 1.0 keeps the reward equal to the TP of mobs actually slain.
 #define QUEST_KILL_THREAT_MULT 1.0
@@ -49,6 +46,7 @@
 // Flat "you showed up" fee on every quest regardless of difficulty. All other reward is earned
 // via threat_point of slain mobs (for kill/bounty) or distance/items (for courier/retrieval).
 #define QUEST_REWARD_BASE_FLAT 10
+#define QUEST_REWARD_BASE_FETCH 15
 
 #define QUEST_DEPOSIT_EASY 5
 #define QUEST_DEPOSIT_MEDIUM 10
