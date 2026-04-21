@@ -1,3 +1,4 @@
+/datum/clan_leader/crimson_fang
 	lord_verbs = list(
 		/mob/living/carbon/human/proc/punish_spawn
 	)
