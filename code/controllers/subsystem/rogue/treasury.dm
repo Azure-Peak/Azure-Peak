@@ -158,8 +158,9 @@ SUBSYSTEM_DEF(treasury)
 	var/cap_rate = get_rate_cap(target, TAX_CATEGORY_FINE)
 	return FLOOR(balance * cap_rate, 1)
 
-/// Awards +1 triumph to every player with >= SAVINGS_GOAL_THRESHOLD in their account.
-/// Records roundstat tally. Called once at roundend.
+/// Awards +3 triumphs to every player whose on-person coins plus mammon bank balance
+/// meet SAVINGS_GOAL_THRESHOLD. Any account holder with a mind is evaluated.
+/// Records roundstat tally and sends each eligible player a personal result message. Called once at roundend.
 /datum/controller/subsystem/treasury/proc/award_savings_goals()
 	var/threshold = SAVINGS_GOAL_THRESHOLD
 	var/met = 0
@@ -171,11 +172,17 @@ SUBSYSTEM_DEF(treasury)
 		var/mob/living/owner = account.get_owner()
 		if(!owner || !owner.mind)
 			continue
-		if(account.balance >= threshold)
-			owner.mind.adjust_triumphs(1)
+		var/on_person = 0
+		on_person = get_mammons_in_atom(owner) || 0
+		var/in_bank = account.balance
+		var/total = on_person + in_bank
+		if(total >= threshold)
+			owner.mind.adjust_triumphs(3)
 			met++
+			to_chat(owner, "<font color='purple'>You met the Savings Goal ([total]m total)! +3 TRIUMPHS awarded.</font>")
 		else
 			missed++
+			to_chat(owner, "<font color='gray'>You fell short of the Savings Goal (had [total]m, needed [threshold]m).</font>")
 	record_round_statistic(STATS_SAVINGS_GOAL_MET, met)
 	record_round_statistic(STATS_SAVINGS_GOAL_MISSED, missed)
 	return list("met" = met, "missed" = missed)

@@ -156,7 +156,7 @@
 	if(SStreasury)
 		var/list/savings_tally = SStreasury.award_savings_goals()
 		if(savings_tally && (savings_tally["met"] || savings_tally["missed"]))
-			to_chat(world, span_notice("<b>SAVINGS GOAL:</b> [savings_tally["met"]] players met the Savings Goal (>=[SAVINGS_GOAL_THRESHOLD]m in bank) and earned a triumph. [savings_tally["missed"]] fell short."))
+			to_chat(world, span_notice("<b>SAVINGS GOAL:</b> [savings_tally["met"]] players met the Savings Goal (>=[SAVINGS_GOAL_THRESHOLD]m on hand or in bank) and earned 3 triumphs. [savings_tally["missed"]] fell short."))
 
 	update_god_rankings()
 	
