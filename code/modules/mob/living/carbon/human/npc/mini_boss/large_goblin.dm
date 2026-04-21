@@ -12,6 +12,7 @@ GLOBAL_LIST_INIT(large_goblin_aggro, list(
 ))
 
 /mob/living/carbon/human/species/goblin/npc/large
+	threat_point = THREAT_ELITE
 	name = "unusually large goblin"
 	gob_outfit = /datum/outfit/job/roguetown/npc/mini_boss/large_goblin
 	faction = list(FACTION_DUNDEAD)

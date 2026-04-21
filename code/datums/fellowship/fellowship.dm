@@ -152,7 +152,7 @@
 	if(!is_leader(inviter))
 		to_chat(inviter, span_warning("Only the fellowship leader can invite others."))
 		return FALSE
-	if(!istype(target) || QDELETED(target) || !target.client)
+	if(!istype(target) || QDELETED(target))
 		to_chat(inviter, span_warning("That target cannot be invited."))
 		return FALSE
 	if(target == inviter)

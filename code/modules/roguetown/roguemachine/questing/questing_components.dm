@@ -119,11 +119,33 @@
 
 /// Component for kill/clearout/outlaw quests - handles mob death
 /datum/component/quest_object/kill
+	var/counted = FALSE
 
 /datum/component/quest_object/kill/Initialize(datum/quest/target_quest)
 	. = ..()
 	if(. == COMPONENT_INCOMPATIBLE)
 		return
+	RegisterSignal(parent, COMSIG_PARENT_QDELETING, PROC_REF(on_parent_qdel))
+
+/datum/component/quest_object/kill/proc/on_target_death(mob/living/dead_mob, gibbed)
+	SIGNAL_HANDLER
+	dead_mob?.remove_filter("quest_item_outline")
+	count_kill()
+
+/datum/component/quest_object/kill/proc/on_parent_qdel(datum/source)
+	SIGNAL_HANDLER
+	count_kill()
+
+/// Guard against double-counting when a mob both dies and is later qdeleted.
+/datum/component/quest_object/kill/proc/count_kill()
+	if(counted)
+		return
+	counted = TRUE
+	var/datum/quest/Q = quest_ref?.resolve()
+	if(!Q || Q.complete)
+		return
+	Q.progress_current++
+	Q.on_progress_update()
 
 /// Component for retrieval quests - handles item collection
 /datum/component/quest_object/retrieval

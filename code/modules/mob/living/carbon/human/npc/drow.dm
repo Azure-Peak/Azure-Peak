@@ -23,6 +23,7 @@ GLOBAL_LIST_INIT(drowraider_aggro, world.file2list("strings/rt/drowaggrolines.tx
 
 // Testing-only subtype: forced spear loadout (reach 2) to verify polearm reach handling.
 /mob/living/carbon/human/species/elf/dark/drowraider/spear_test
+	threat_point = THREAT_TOUGH
 
 /mob/living/carbon/human/species/elf/dark/drowraider/spear_test/after_creation()
 	..()
@@ -32,6 +33,7 @@ GLOBAL_LIST_INIT(drowraider_aggro, world.file2list("strings/rt/drowaggrolines.tx
 
 // Testing-only subtype: forced short sword loadout (reach 1) as a baseline control.
 /mob/living/carbon/human/species/elf/dark/drowraider/sword_test
+	threat_point = THREAT_TOUGH
 
 /mob/living/carbon/human/species/elf/dark/drowraider/sword_test/after_creation()
 	..()

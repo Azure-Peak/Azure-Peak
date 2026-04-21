@@ -13,7 +13,7 @@
 // Multipliers applied to spawned mob `threat_point` when computing kill quest additional reward.
 // Kill mult of 1.0 keeps the reward equal to the TP of mobs actually slain.
 #define QUEST_KILL_THREAT_MULT 1.0
-#define QUEST_BOUNTY_THREAT_MULT 4
+#define QUEST_BOUNTY_THREAT_MULT 2
 
 // TP budget the faction composes against for each kill quest type. Mirrors the ambush budget
 // system — each quest spends this much TP picking weighted mob types from faction.mob_types,
@@ -28,7 +28,7 @@
 #define QUEST_TP_BUDGET_KILL_EASY 30
 #define QUEST_TP_BUDGET_CLEAR_OUT 80
 #define QUEST_TP_BUDGET_RAID 150
-#define QUEST_TP_BUDGET_BOUNTY_GOONS 60
+#define QUEST_TP_BUDGET_BOUNTY_GOONS 100
 #define QUEST_TP_BUDGET_RECOVERY 60
 
 // Each kill quest rolls its tp_budget with ±QUEST_TP_BUDGET_VARIANCE relative variance so any

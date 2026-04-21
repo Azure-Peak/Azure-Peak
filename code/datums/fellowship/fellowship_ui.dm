@@ -167,8 +167,6 @@
 	for(var/mob/living/carbon/human/H in view(7, holder))
 		if(H == holder)
 			continue
-		if(!H.client)
-			continue
 		if(H.current_fellowship)
 			continue
 		if(F.has_member(H))
