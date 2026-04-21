@@ -108,7 +108,9 @@ GLOBAL_LIST_EMPTY(declared_psydonites)
 		return FALSE
 	ADD_TRAIT(target, trait_id, "[TRAIT_PATRONAGE_GRANT]_[granter.ckey]")
 	SStreasury.record_patronage_grant(granter, target)
-	get_patronage_global_list(trait_id) |= target
+	var/list/global_list = get_patronage_global_list(trait_id)
+	if(global_list)
+		global_list |= target
 	granter.say("I HEREBY DECLARE YOU, [uppertext(target.name)], [uppertext(grant_proclamation)]!")
 	return TRUE
 

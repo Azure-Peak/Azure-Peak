@@ -1,5 +1,12 @@
 #define CURRENCY_MAMMON "mammon"
-#define CURRENCY_DEFENSE_AUTHORITY "defense_authority"
+#define CURRENCY_WAR_AUTHORITY "war_authority"
+
+/// Floor amount of War Chest authority refilled per day regardless of population (lowpop safety).
+#define WAR_CHEST_BASE_REFILL 400
+/// Additional War Chest authority granted per active player per day.
+#define WAR_CHEST_PER_PLAYER 10
+/// Clawback ceiling — any War Chest balance above this multiple of the daily refill is skimmed at each daily tick.
+#define WAR_CHEST_CLAWBACK_MULTIPLIER 2
 
 #define TAX_CATEGORY_CONTRACT_LEVY "contract levy"
 #define TAX_CATEGORY_HEADEATER_LEVY "headeater levy"

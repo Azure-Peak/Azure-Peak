@@ -38,6 +38,7 @@ SUBSYSTEM_DEF(treasury)
 	var/autoexport_percentage = 0.6 // Percentage above which stockpiles will automatically export  
 	var/list/bank_accounts = list()
 	var/datum/fund/discretionary_fund
+	var/datum/fund/war_chest_fund
 	var/list/ledger = list()
 	var/list/noble_incomes = list()
 	var/list/decrees = list()
@@ -63,6 +64,7 @@ SUBSYSTEM_DEF(treasury)
 
 /datum/controller/subsystem/treasury/Initialize()
 	discretionary_fund = new("Crown Discretionary", null, rand(1000, 2000), CURRENCY_MAMMON)
+	war_chest_fund = new("War Chest", null, WAR_CHEST_BASE_REFILL, CURRENCY_WAR_AUTHORITY)
 	force_set_round_statistic(STATS_STARTING_TREASURY, discretionary_fund.balance)
 	init_decrees()
 
@@ -288,6 +290,22 @@ SUBSYSTEM_DEF(treasury)
 					continue
 				if(give_money_account(payment_amount, H, "Daily Wage"))
 					record_round_statistic(STATS_WAGES_PAID)
+
+/// Daily replenishment of the War Chest. Gated on the Golden Bull of Kingsfield being in force.
+/// If the charter is suspended, the refill skips. Surplus above the clawback ceiling is cleared.
+/// Refill scales with active player count - the realm's defense needs grow with the populace.
+/datum/controller/subsystem/treasury/proc/tick_war_chest()
+	if(!war_chest_fund)
+		return
+	var/datum/decree/golden = get_decree(DECREE_GOLDEN_BULL)
+	if(!golden?.active)
+		return
+	var/refill = WAR_CHEST_BASE_REFILL + (get_active_player_count() * WAR_CHEST_PER_PLAYER)
+	var/ceiling = refill * WAR_CHEST_CLAWBACK_MULTIPLIER
+	if(war_chest_fund.balance > ceiling)
+		var/surplus = war_chest_fund.balance - ceiling
+		burn(war_chest_fund, surplus, "War Chest clawback")
+	mint(war_chest_fund, refill, "War Chest replenishment")
 
 /datum/controller/subsystem/treasury/proc/do_export(var/datum/roguestock/D, silent = FALSE)
 	if((D.held_items[1] < D.importexport_amt))

@@ -2556,7 +2556,6 @@
 #include "code\modules\politics\decrees\golden_bull_of_kingsfield.dm"
 #include "code\modules\politics\decrees\great_writ_of_azuria.dm"
 #include "code\modules\politics\decrees\otavan_accords.dm"
-#include "code\modules\politics\decrees\zenistadt_concordat.dm"
 #include "code\modules\politics\items\residency_letter.dm"
 #include "code\modules\procedural_mapping\mapGenerator.dm"
 #include "code\modules\procedural_mapping\mapGeneratorModule.dm"

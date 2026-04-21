@@ -10,7 +10,7 @@
 	layer = ABOVE_MOB_LAYER
 	plane = GAME_PLANE_UPPER
 	var/current_category = "Postings"
-	var/list/categories = list("Postings", "Premium Postings", "Scout Report", "Mercenary Roster")
+	var/list/categories = list("Postings", "Premium Postings", "Scout Report", "Mercenary Roster", "Charters")
 
 /obj/structure/roguemachine/noticeboard/get_mechanics_examine(mob/user)
 	. = ..()
@@ -18,6 +18,7 @@
 	. += span_info("'Postings' and 'Premium Postings' can host messages of any kind. The zads will audibly notify everyone that a new message has been added to the noticeboard, whenever one is posted.")
 	. += span_info("'Scout Reports' detail how dangerous the ambushes in Azuria's many regions might be. The more dangerous a region is, the more numerous and lethal its ambushers will be.")
 	. += span_info("'Mercenary Rosters' list the names and detailings of all Mercenaries currently registered to Azuria's Mercenary Guild.")
+	. += span_info("'Charters' display the current state of Azuria's four foundational Charters.")
 
 /obj/structure/roguemachine/noticeboard/Initialize()
 	. = ..()
@@ -142,6 +143,17 @@
 			contents += SSroguemachine.mercenary_statue.get_readonly_roster_html()
 		else
 			contents += "<br><span class='notice'>The mercenary statue network is not available.</span>"
+	else if(current_category == "Charters")
+		contents += "<h2>Charters of the Realm</h2>"
+		contents += "<hr></center>"
+		for(var/id in SStreasury.decrees)
+			var/datum/decree/D = SStreasury.decrees[id]
+			var/state_color = D.active ? "#2a8a2a" : "#8a2a2a"
+			var/state_label = D.active ? "IN FORCE" : "SUSPENDED"
+			contents += "<div style='margin-bottom:10px'>"
+			contents += "<b>[D.name]</b> <i>of [D.year]</i> &mdash; <font color='[state_color]'>[state_label]</font><br>"
+			contents += "<div style='white-space:pre-wrap;margin-top:4px'>[D.flavor_text]</div>"
+			contents += "</div><hr>"
 	var/datum/browser/popup = new(user, "NOTICEBOARD", "", 800, 650)
 	popup.set_content(contents)
 	popup.open()
