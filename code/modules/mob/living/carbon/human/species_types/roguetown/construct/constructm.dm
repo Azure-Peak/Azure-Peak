@@ -1,6 +1,5 @@
 /mob/living/carbon/human/species/construct/metal
 	race = /datum/species/construct/metal
-	construct = 1
 
 /datum/species/construct/metal
 	name = "Metal Construct"
@@ -121,3 +120,83 @@
 
 	))
 
+/proc/try_construct_consume(obj/item/I, mob/living/M, mob/user)
+	if(!HAS_TRAIT(M, TRAIT_IRONMAN))
+		return FALSE
+
+	// === PROCESSING LOCKOUT ===
+	if(M.has_status_effect(/datum/status_effect/buff/ingotmuncher) \
+	|| M.has_status_effect(/datum/status_effect/buff/oremuncher) \
+	|| M.has_status_effect(/datum/status_effect/buff/gemmuncher))
+
+		if(M == user)
+			to_chat(user, span_warning("I am currently processing minerals, and need to wait..."))
+		else
+			to_chat(user, span_warning("[M] seems to be processing minerals on the moment, you need to wait..."))
+
+		return TRUE
+
+	var/power = 1
+
+	// === STONE === 
+	if(istype(I, /obj/item/natural/stone))
+		var/obj/item/natural/stone/S = I
+		power = S.magic_power + 1
+		M.energy_add(S.magic_power)
+		M.adjustBruteLoss(-power/2)
+		M.adjustFireLoss(-power/2)
+		user.visible_message(
+			span_notice("[user] brings the [I] to their mouth and crunches it down effortlessly."),
+			span_notice("I crunch the [I] down and swallow it effortlessly.")
+		)
+		playsound(M.loc,'sound/misc/eat.ogg', rand(60,100), TRUE)
+		sleep(5)
+		playsound(user.loc, 'sound/foley/smash_rock.ogg', 25)
+		qdel(I)
+		return TRUE
+
+	// === ORE === 
+	if(istype(I, /obj/item/rogueore))
+		power = 2 + I.sellprice / 2
+		M.apply_status_effect(/datum/status_effect/buff/oremuncher, power)
+		user.visible_message(
+			span_notice("[user] brings the [I] to their mouth and crunches it down effortlessly."),
+			span_notice("I crunch the [I] down and swallow it effortlessly. This one is good stuff.")
+		)
+		playsound(M.loc,'sound/misc/eat.ogg', rand(60,100), TRUE)
+		sleep(5)
+		playsound(user.loc, 'sound/foley/smash_rock.ogg', 25)
+		qdel(I)
+		return TRUE
+
+	if(M == user)
+		if(!do_after(user, 12 SECONDS, src))
+		return FALSE
+
+	// === INGOT === 
+	if(istype(I, /obj/item/ingot))
+		power = 4 + I.sellprice / 2
+		M.apply_status_effect(/datum/status_effect/buff/oremuncher, power)
+		user.visible_message(
+			span_notice("[user] presses the [I] into their form. It fuses seamlessly, spreading throughout their shell."),
+			span_notice("I press the [I] into my body. It quickly binds and greatly reinforces me.")
+		)
+		playsound(user.loc, 'sound/magic/swap.ogg', 40)
+		playsound(user.loc, 'sound/misc/lava_death.ogg', 40)
+		qdel(I)
+		return TRUE
+
+	// === GEM ===
+	if(istype(I, /obj/item/roguegem))
+		power = 6 + I.sellprice / 2
+		M.apply_status_effect(/datum/status_effect/buff/gemmuncher, power)
+		user.visible_message(
+			span_notice("[user] embeds the [I] into their core. It crackles, then vanishes within."),
+			span_notice("I set [I] into my core. It sinks in... and I feel it resonate greatly, restoring me!")
+		)
+		qdel(I)
+		playsound(user.loc, 'sound/magic/swap.ogg', 40)
+		playsound(user.loc, 'sound/misc/lava_death.ogg', 40)
+		return TRUE
+
+	return FALSE

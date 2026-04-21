@@ -269,21 +269,22 @@
 	return TRUE
 
 /datum/status_effect/regen/soothing_bloom/tick()
+	if(HAS_TRAIT(owner, TRAIT_IRONMAN))
+		return
 	var/obj/effect/temp_visual/heal/heal_effect = new /obj/effect/temp_visual/heal_rogue(get_turf(owner))
 	heal_effect.color = "#129160"
 	var/list/wound_count = owner.get_wounds()
-	if(!owner.construct)
-		if(owner.blood_volume < BLOOD_VOLUME_NORMAL)
-			owner.blood_volume = min(owner.blood_volume+2, BLOOD_VOLUME_NORMAL) //Reduced blood replenishment compared to cleric miracle.
-		if(wound_count.len > 0)
-			owner.heal_wounds(healing_on_tick)
-			owner.update_damage_overlays()
-		owner.adjustBruteLoss(-healing_on_tick, 0)
-		owner.adjustFireLoss(-healing_on_tick, 0)
-		owner.adjustOxyLoss(-healing_on_tick, 0)
-		owner.adjustToxLoss(-healing_on_tick, 0)
-		owner.adjustOrganLoss(ORGAN_SLOT_BRAIN, -healing_on_tick)
-		owner.adjustCloneLoss(-healing_on_tick, 0)
+	if(owner.blood_volume < BLOOD_VOLUME_NORMAL)
+		owner.blood_volume = min(owner.blood_volume+2, BLOOD_VOLUME_NORMAL) //Reduced blood replenishment compared to cleric miracle.
+	if(wound_count.len > 0)
+		owner.heal_wounds(healing_on_tick)
+		owner.update_damage_overlays()
+	owner.adjustBruteLoss(-healing_on_tick, 0)
+	owner.adjustFireLoss(-healing_on_tick, 0)
+	owner.adjustOxyLoss(-healing_on_tick, 0)
+	owner.adjustToxLoss(-healing_on_tick, 0)
+	owner.adjustOrganLoss(ORGAN_SLOT_BRAIN, -healing_on_tick)
+	owner.adjustCloneLoss(-healing_on_tick, 0)
 
 /obj/effect/proc_holder/spell/self/starseers_cry
 	name = "Starseer's Cry"

@@ -96,6 +96,18 @@
 				. += span_warning("[t_He] look[p_s()] weaker than I.")
 			if(-INFINITY to -5)
 				. += span_warning("<B>[t_He] look[p_s()] much weaker than I.</B>")
+=-==
+	if((user != src) && isliving(user))
+			if(blood_volume <= BLOOD_VOLUME_BAD || !HAS_TRAIT(src, TRAIT_NOBREATH || !HAS_TRAIT(src, TRAIT_NOBREATH)
+				adjustOxyLoss(blood_volume <= BLOOD_VOLUME_SURVIVE ? 3 : 1)
+				if(prob(40) && ))
+					emote("gasp")
+			else if((blood_volume > BLOOD_VOLUME_SURVIVE) || HAS_TRAIT(src, TRAIT_BLOODLOSS_IMMUNE))
+				if(getOxyLoss())
+					adjustOxyLoss(-1.6)
+					if(prob(40) && !HAS_TRAIT(src, TRAIT_NOBREATH))
+						emote("gasp")
+
 
 	if(Adjacent(user))
 		if(has_simple_wounds)

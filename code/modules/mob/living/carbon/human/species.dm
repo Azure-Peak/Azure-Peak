@@ -482,9 +482,6 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 	if(TRAIT_NOMETABOLISM in inherent_traits)
 		C.reagents.end_metabolization(C, keep_liverless = TRUE)
 
-	if(construct)
-		C.construct = 1 //for constructs? Duh.
-
 	if(inherent_factions)
 		for(var/i in inherent_factions)
 			C.faction += i //Using +=/-= for this in case you also gain the faction from a different source.

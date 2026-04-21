@@ -87,8 +87,8 @@
 		// if they're already spinal-severed, THEN the head is removed.
 		// extra note: we only do this for mobs with a mind, aka not NPCS. npcs always get insta-decapped as before
 		if (owner?.client && !vorpal && !guillotine_execution && two_stage_death && !grievously_wounded)
-			if (owner?.construct)
-				C.visible_message(span_danger("<b>[C]'s wrought skull is <span class='crit'>CLEFT NIGH IN TWAIN</span> by a fearsome blow, crumbling into a <span class='crit'>CLOUD of DUST!</span></b>"))
+			if (HAS_TRAIT(owner, TRAIT_IRONMAN))
+				C.visible_message(span_danger("<B>[C] is <span class='crit'>[pick("ENDED", "TERMINATED", "DEPRECATED","SCRAPPED","DESTROYED","UNDONE","WRECKED","REKT","FRAGGED")]</span> as [C.p_their()] ravaged neck <span class='crit'>BLOSSOMS</span> into wisps of <span class='crit'>SCRAP and MAGIC DUST!</span></B>"))
 				C.death()
 				return
 

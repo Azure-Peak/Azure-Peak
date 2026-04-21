@@ -441,7 +441,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_CICERONE = span_info("I am well-versed in the differences of brews and spirits, and can tell them apart at a glance."),
 	TRAIT_BETTER_SLEEP = span_info("I recover more energy when sleeping."),
 	TRAIT_ROTMAN = span_info("I am partially undead. My heart does not beat."),
-	TRAIT_IRONMAN = span_info("I am an artificial being. My physiology is different from organics. I am particularly vulnerable to being electrocuted."),
+	TRAIT_IRONMAN = span_info("I am an artificial being, which makes my physiology vastly different from organics. I can consume minerals to restore myself, but I am particularly vulnerable to being electrocuted."),
 	TRAIT_DEADITE = span_info("I am a feral deadite."),
 	TRAIT_EASYDISMEMBER = span_info("My limbs are frail and fragile. They can be dismembered with greater ease, including my neck."),
 	TRAIT_HARDDISMEMBER = span_info("My body is strong and endurant. My limbs are not easily dismembered."),

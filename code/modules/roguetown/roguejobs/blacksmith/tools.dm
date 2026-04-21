@@ -184,13 +184,15 @@
 	if(!ishuman(M))
 		return
 
-	if(!M.construct)
-		to_chat(user, span_warning("I can't tinker on living flesh!"))
+	if(!HAS_TRAIT(M, TRAIT_IRONMAN))
+		to_chat(user, span_warning("They are not made of metal, you can't tinker with that."))
 		return
 
 	if(user != M && (user.get_skill_level(/datum/skill/craft/armorsmithing) >= SKILL_LEVEL_JOURNEYMAN || user.get_skill_level(/datum/skill/craft/engineering) >= SKILL_LEVEL_JOURNEYMAN || user.get_skill_level(/datum/skill/craft/blacksmithing) >= SKILL_LEVEL_JOURNEYMAN))
 		to_chat(user, span_warning("[user] hammers a mean dent into [M]! Do they even know what they're doing...?"))
 		playsound(loc, 'sound/items/bsmith4.ogg', 100, FALSE)
+		if(!HAS_TRAIT(M, (TRAIT_NOPAIN || TRAIT_NOPAINSTUN)))
+			M.emote("whimper")
 		return
 
 	var/mob/living/carbon/human/H = M
@@ -290,7 +292,7 @@
 		if(!ishuman(M))
 			break
 
-		if(!M.construct)
+		if(!HAS_TRAIT(M, TRAIT_IRONMAN))
 			break
 
 		if((M.getBruteLoss() + M.getFireLoss()) == 0 && wCount.len == 0)
