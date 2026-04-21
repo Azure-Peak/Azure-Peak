@@ -58974,13 +58974,6 @@
 	},
 /turf/open/floor/rogue/tile/harem2,
 /area/rogue/indoors/town/bath)
-"lMB" = (
-/obj/structure/bars,
-/obj/structure/curtain/black,
-/turf/open/floor/rogue/metal{
-	icon_state = "plating2"
-	},
-/area/rogue/indoors/town/church/basement)
 "lME" = (
 /obj/structure/fluff/railing/fence{
 	dir = 4
@@ -85122,13 +85115,6 @@
 /obj/machinery/light/rogue/torchholder/r,
 /turf/open/floor/rogue/wood,
 /area/rogue/indoors/town/tavern)
-"qZe" = (
-/obj/structure/bars,
-/obj/structure/curtain/green,
-/turf/open/floor/rogue/metal{
-	icon_state = "plating2"
-	},
-/area/rogue/indoors/town/church/basement)
 "qZf" = (
 /obj/structure/gate/bars/preopen{
 	gid = "innernorthgate";
@@ -152343,9 +152329,9 @@ jug
 kIy
 gPp
 jph
-lMB
+llO
 vnl
-qZe
+llO
 xqM
 pme
 uQK
@@ -152795,9 +152781,9 @@ uju
 ccq
 gPp
 lHh
-lMB
+llO
 vnl
-qZe
+llO
 muH
 jdV
 uQK
@@ -153247,9 +153233,9 @@ xNv
 lNs
 gPp
 hTM
-lMB
+llO
 vnl
-qZe
+llO
 goP
 gVO
 uQK
