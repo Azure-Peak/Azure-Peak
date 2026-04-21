@@ -48,8 +48,17 @@ A well-played Steward becomes a useful economic actor. A careless or greedy one 
 | Starting Discretionary | 2000 mammon |
 | Defense Budget base (daily refill) | 400 mammon authority |
 | Defense Budget max carryover | 200% of base = 800 mammon authority |
-| Rumor Points (daily refill) | 3 points |
-| Rumor Points max carryover | 2x base = 6 |
+| Rumor Points starting balance | 12 points (2x base) |
+| Rumor Points daily refill (base) | 6 points |
+| Rumor Points per-player bonus | +0.25 / active player / day |
+| Rumor Points quest cost (Retrieval) | 1 point |
+| Rumor Points quest cost (Kill / Courier / Clear Out) | 2 points |
+| Rumor Points quest cost (Raid / Outlaw) | 3 points |
+| Poll Tax default rate (all 11 categories) | 10 mammon / day |
+| Poll Tax prepay grace window | 10 minutes from round start (no prepay allowed) |
+| Poll Tax max rate | 50 mammon / day |
+| Poll Tax debtor threshold | 2 consecutive days unpaid |
+| Golden Bull burgher poll tax cap | 25 mammon / day |
 | Rural tax | 50 mammon / 6 min (unchanged) |
 | Rural tax route | → Discretionary only |
 | Starting bank accounts | ECONOMIC_* (unchanged) |
@@ -85,7 +94,13 @@ Owned by the Steward. `SStreasury.defense_budget` → integer, "authority points
 On quest completion, the reward mints coins into the adventurer's hands (and Innkeeper's account for the Guild's Cut). Mint events are logged and tracked in `verify_mammon_conservation()` as known inflow sources.
 
 ### Rumor Points (authority, Innkeeper-only)
-Same shape as Defense Budget, owned by the Innkeeper. `SStreasury.rumor_points` → integer. Decrements on Innkeeper quest issuance. Replenishes daily. Cannot be transferred.
+Realm-scoped pool owned by whoever holds the Innkeeper role this round. `SStreasury.rumor_points` → float (stored as float so the 0.25/player accrual is lossless across many days; UI rounds to integer for display). Decrements on Innkeeper quest issuance. Cannot be transferred.
+
+**Accrual:** Starts at 12 points at round start (two days' worth of base income — lets the Innkeeper issue something interesting within the first hour without grinding). Daily refill at dawn = 6 + (0.25 × active_player_count). On a 15-player round this is ~9.75/day; over 5 days a full round yields ~60 points total.
+
+**Costs:** Tiered by quest type — Retrieval 1, Kill/Courier/Clear Out 2, Raid/Outlaw 3. On a 60-point-budget round the Innkeeper can issue ~20-30 quests depending on mix, hitting the 40-50% of round quest volume target when paired with the passive pool. Retrieval is the *primary* channel because it's the type the Innkeeper is best placed to flavor ("I heard the apothecary's lost locket is at X") — see "Innkeeper — Rumor Quests" below.
+
+**No carry cap.** Unlike Defense Budget, Rumor Points do not claw back surplus. Innkeeper hoarding is fine — a quiet first half-round becoming a busy second half is a natural pacing shape.
 
 ## Conservation invariant
 
@@ -372,7 +387,16 @@ Any quest completed on the ledger credits the Innkeeper's personal account with 
 
 ### Rumor Quests (Innkeeper-issued, 25% cut + reward)
 
-Innkeeper has their own Rumor Points pool, same shape as Defense Budget. Issuing a Rumor Quest decrements Rumor Points by a quest-type-specific cost.
+Innkeeper has their own Rumor Points pool (see "Rumor Points" above). Issuing a Rumor Quest decrements Rumor Points by a quest-type-specific cost.
+
+**Parameters the Innkeeper picks at issuance:**
+- **Type** — Retrieval / Kill / Courier / Clear Out / Raid / Outlaw. Cost scales with type.
+- **Region** — which internal region the rumor points to. Drives marker selection.
+- **Retrieval item** (Retrieval-only) — which specific item is "rumored to be at X." The Innkeeper's narrative flavor. Other quest types don't need this extra param.
+
+**UI surface:** New Innkeeper-exclusive tab on the Grand Contract Ledger (the existing contract ledger that every quest-source posts through). Tab shows remaining Rumor Points, a "Compose Rumor" form with the parameters above, and a history of Innkeeper-issued quests this round.
+
+**Retrieval-as-Innkeeper-staple:** Retrieval is priced cheapest (1 point) and the Innkeeper will issue most of them. Passive pool may still emit retrieval quests — this is not mechanically exclusive — but in practice retrieval supply shifts heavily toward the Innkeeper when the job is played, which is the intended flavor shift ("I heard..." vs. silent spawn).
 
 - Rumor quests land on the Contract Ledger tagged `QUEST_SOURCE_RUMOR`.
 - On completion: adventurer receives quest reward (minted), Innkeeper receives 25% bonus (also minted, deposited to their account).
@@ -381,6 +405,59 @@ Innkeeper has their own Rumor Points pool, same shape as Defense Budget. Issuing
 ### Supply shape
 
 Target: passive pool generates 50-60% of round quest volume, Rumor-issued 40-50% (when Innkeeper is played). If no Innkeeper, passive pool is 100% and threat supply drops — an intentional consequence of the job being unfilled.
+
+## Poll Tax opt-out via Well Off virtue
+
+Some players come to this game to RP in the tavern without interacting with Crown fiscal systems at all. The Poll Tax as currently designed is *everyone pays* (minus Charter exemptions), which is correct for the economic tension of the round but hostile to this playstyle.
+
+The opt-out lives on the **Well Off** utility virtue (`/datum/virtue/utility/notable` in `code/modules/virtues/utility.dm`), as a fifth sub-option alongside Beauty, Stash, Residency, and Shrewd. The virtue uses `max_choices = 2`, so picking this opt-out costs the player one of their two Well Off slots — a real tradeoff, not free immunity.
+
+### Mechanic
+
+New sub-option `NOTABLE_TITHED` ("Paid Tithes" or similar IC name) — "I have squared my civic debts at the outset. The Crown has no claim on my purse."
+
+Implementation: on virtue application, set `SStreasury.poll_tax_days_paid[recipient] = 999`. This re-uses the existing grace-days mechanism already built for the ATM-prepay flow — no new trait or exemption channel needed. The Steward's UI, once built, will show these players as "999 days grace" which is clear signal that they're IC-exempt via prior settlement rather than Charter-protected.
+
+### Why this design
+
+- **Re-uses existing plumbing.** Grace days already short-circuit `tick_poll_tax` cleanly; no new code paths to test.
+- **Steward can still see them.** They appear on any future Fiscal tab as "tithed" rather than being invisible. This matters — the Steward shouldn't be surprised.
+- **Costs a virtue slot.** The player forgoes Beauty / Stash / Residency / Shrewd for the peace-of-mind option. Non-trivial.
+- **IC-legitimate.** Well-off burghers historically paid civic dues up-front in many medieval economies; this is period-appropriate.
+- **Does not interact with debtor tracking.** Grace covers current-day obligation only; if these players somehow accrue arrears (e.g. from a period when they were briefly non-grace), debtor escalation still works as designed. But in practice they never accrue arrears because the 999-day buffer outlasts any round.
+
+### Commit target
+
+Lands in M3-C13 alongside Rumor Points, since both touch the Innkeeper/Towner axis of the system. Small enough to bundle without decomposing.
+
+## Steward Fiscal tab (consolidated treasury UI)
+
+Right now fiscal controls are scattered:
+- **TaxSetter TGUI** — Crown Levies + Poll Tax rates
+- **Nerve Master HTML** — Salaries, decrees, discretionary balance
+- **Meister / ATM** — Personal account + loan repay + poll tax prepay
+- **Loan contracts** — Issuance flow via paper
+
+This is fine from an RP-object standpoint (each machine has its own IC identity) but it's bad information architecture for the Steward who has to keep all of it in their head. Proposed remedy: a **consolidated read-only Fiscal tab** on the Nerve Master that aggregates everything the Steward needs to see at a glance.
+
+### Contents
+
+- **Balances**: Discretionary, Burgher Bond, total in-circulation bank coin, rural tax YTD
+- **Rates**: all 5 tax categories (Contract Levy, Headeater Levy, Import Tariff, Export Duty, Fine) + all 11 poll tax rates, displayed with Charter overlay (which are currently exempt/capped)
+- **Loans**: outstanding loans with debtor name, principal, remaining due, days-until-default
+- **Debtors**: list of TRAIT_DEBTOR holders with reason (loan default / poll tax arrears)
+- **Poll Tax tracking**: per-category head count, total collected this round, who's in grace and who's in arrears
+- **Decree status**: the four Charters' active/suspended state with day-counter to next revocation slot
+
+Write-side actions stay on their current surfaces (TaxSetter for rates, Nerve Master for salaries, etc.) — the Fiscal tab is **read-only** so the Steward can see the whole picture at once without a new permission model.
+
+### Why this matters
+
+Poll Tax is now the Steward's primary player-facing lever (every round, every player, every day). Without a consolidated view the Steward has to clicker-drone through three separate machines to answer "is the treasury OK?". This is exactly the friction that makes players under-use the system.
+
+### Scope / commit target
+
+Separate commit, slotted after M3-C13 (Innkeeper) but before M3-C15 (docs+tuning). Roughly M3-C14b or similar. Read-only surface keeps the commit small — ~200-300 lines of TGUI + `ui_static_data` aggregator proc on the Nerve Master.
 
 ## PR decomposition
 
@@ -428,8 +505,11 @@ Steward verb (via Nerve Master) to issue Directives: unfunded, no-deposit, narro
 ### M3-C12 — Innkeeper Guild's Cut (passive 10%)
 Hook into quest completion flow. Credit Innkeeper's account. Handle "no Innkeeper exists" case.
 
-### M3-C13 — Innkeeper Rumor Points + Rumor Quest issuance
-`SStreasury.rumor_points`, Innkeeper UI, Rumor Quest flow with 25% mint on completion.
+### M3-C13 — Innkeeper Rumor Points + Rumor Quest issuance + Well Off poll-tax opt-out
+`SStreasury.rumor_points` (float pool, start 12, daily 6 + 0.25/player). Tiered costs: Retrieval 1 / Kill+Courier+Clear Out 2 / Raid+Outlaw 3. Innkeeper-exclusive tab on the Grand Contract Ledger with Type / Region / (Retrieval) item parameters. `QUEST_SOURCE_RUMOR` tag; 25% mint on completion. Also in this commit: add `NOTABLE_TITHED` sub-option to `/datum/virtue/utility/notable` that sets `poll_tax_days_paid[H] = 999` on application (re-using grace-days plumbing, no new trait).
+
+### M3-C14b — Steward Fiscal tab (read-only consolidated treasury view)
+Read-only aggregator tab on Nerve Master: balances (Discretionary, Burgher Bond, in-circulation coin, rural tax YTD), all 16 rates (5 levies + 11 poll tax) with Charter overlay, outstanding loans, TRAIT_DEBTOR roster with reason, poll tax head count + collection stats per category, Charter active/suspended state with cooldown counters. Write-side actions stay on their existing surfaces.
 
 ### M3-C14 — Savings Goal + Blood Toll + roundend civic stats
 Two roundend readout additions bundled together since both hook into roundend reporting and the Chronicle UI:
@@ -509,7 +589,7 @@ The two loops don't fight for attention because they operate at different cadenc
 - **Jawbank heist for Discretionary**: currently only individual-account Coveter Crown exists. If we want "rob the crown" gameplay, design it as a separate PR. Not blocking.
 - **Estates General**: referenced in Quest 2 original design. Would give the Lord's decree power political counterbalance. Separate module, later.
 - **Region count**: starting with 5. If playtest shows "Steward solves optimal route in 20 minutes," expand to 8-10 regions or make events more frequent.
-- **Rumor Points cost scaling**: not yet specified per-quest-type. Assume flat 1 point/issued quest in MVP; tune after playtest.
+- **Rumor Points cost scaling**: finalized as Retrieval 1 / Kill+Courier+Clear Out 2 / Raid+Outlaw 3. Retune after playtest if supply shape drifts from 40-50% target.
 - **Innkeeper Guild's Cut when Innkeeper is AFK**: currently "void if no Innkeeper" — do we distinguish "job unfilled" vs. "Innkeeper SSD"? MVP treats both as unfilled.
 - **Loan default garrison mechanic**: not coded in MVP. "Steward has IC justification" means players RP it with existing garrison tools.
 - **Regional event visibility to non-Steward players**: should region events be visible publicly (noticeboard?) or only to the Steward? MVP: Steward-only to reduce UI scope. Flag for revisit.
