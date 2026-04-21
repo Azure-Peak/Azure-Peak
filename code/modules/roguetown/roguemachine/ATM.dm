@@ -40,20 +40,63 @@
 				return	
 	if(SStreasury.has_account(H))
 		var/amt = SStreasury.get_balance(H)
-		if(!amt)
+		var/datum/loan/active_loan = SStreasury.get_loan_for(H)
+		if(!amt && !active_loan)
 			say("Your balance is nothing.")
 			return
 		if(amt < 0)
 			say("Your balance is NEGATIVE.")
 			return
 		var/list/choicez = list()
+		if(active_loan)
+			choicez += "REPAY LOAN ([active_loan.get_remaining_due()]m due, [active_loan.days_until_due()]d left)"
 		if(amt > 10)
 			choicez += "GOLD"
 		if(amt > 5)
 			choicez += "SILVER"
-		choicez += "BRONZE"
+		if(amt > 0)
+			choicez += "BRONZE"
+		if(!length(choicez))
+			say("Your balance is nothing.")
+			return
 		var/selection = input(user, "Make a Selection", src) as null|anything in choicez
 		if(!selection)
+			return
+		if(active_loan && copytext(selection, 1, 11) == "REPAY LOAN")
+			if(!Adjacent(user))
+				return
+			// Re-resolve in case of dialog churn.
+			active_loan = SStreasury.get_loan_for(H)
+			if(!active_loan)
+				say("No active loan on record.")
+				return
+			var/outstanding = active_loan.get_remaining_due()
+			amt = SStreasury.get_balance(H)
+			var/max_payable = min(outstanding, amt)
+			if(max_payable <= 0)
+				say("You have nothing to repay the loan with.")
+				playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
+				return
+			var/pay_amt = input(user, "Repay how much? Outstanding: [outstanding]m. Your balance: [amt]m. (Maximum [max_payable]m)", src, max_payable) as null|num
+			if(isnull(pay_amt))
+				return
+			pay_amt = round(pay_amt)
+			if(pay_amt < 1)
+				return
+			if(!Adjacent(user))
+				return
+			pay_amt = min(pay_amt, max_payable)
+			var/paid = SStreasury.repay_loan(H, pay_amt)
+			if(!paid)
+				playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
+				say("The ledger refused the transfer.")
+				return
+			playsound(src, 'sound/misc/coininsert.ogg', 100, FALSE, -1)
+			if(!SStreasury.get_loan_for(H))
+				say("Loan repaid in full. [paid]m transferred to the Crown.")
+			else
+				var/datum/loan/still = SStreasury.get_loan_for(H)
+				say("[paid]m transferred. [still.get_remaining_due()]m remains.")
 			return
 		amt = SStreasury.get_balance(H)
 		var/mod = 1
@@ -122,6 +165,12 @@
 					record_round_statistic(STATS_MAMMONS_DEPOSITED, P.get_real_price())
 				qdel(P)
 				playsound(src, 'sound/misc/coininsert.ogg', 100, FALSE, -1)
+				// Any deposit by a marked defaulter is taken as an act of good faith
+				// and clears the stigma. The lost principal is gone regardless.
+				if(HAS_TRAIT(H, TRAIT_DEBTOR))
+					REMOVE_TRAIT(H, TRAIT_DEBTOR, TRAIT_GENERIC)
+					say("The stigma of default is cleared from [H.real_name]'s record.")
+					playsound(src, 'sound/misc/notice.ogg', 100, FALSE, -1)
 				return
 
 		if(istype(P, /obj/item/coveter))

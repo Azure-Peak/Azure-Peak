@@ -78,6 +78,8 @@
 #define STATS_RURAL_TAXES_COLLECTED "rural_taxes_collected" // Azure only. Lowpop safety
 #define STATS_LOANS_ISSUED "loans_issued"
 #define STATS_LOANS_DEFAULTED "loans_defaulted"
+#define STATS_SAVINGS_GOAL_MET "savings_goal_met"
+#define STATS_SAVINGS_GOAL_MISSED "savings_goal_missed"
 
 // Influence related statistics
 
@@ -363,6 +365,8 @@ GLOBAL_LIST_INIT(azure_round_stats, list(
 	STATS_CONTRACT_MAMMONS_PAID = 0,
 	STATS_CONTRACT_MAMMONS_TAXED = 0,
 	STATS_CONTRACT_MAMMONS_FORFEITED = 0,
+	STATS_SAVINGS_GOAL_MET = 0,
+	STATS_SAVINGS_GOAL_MISSED = 0,
 ))
 
 GLOBAL_LIST_EMPTY(patron_follower_counts)

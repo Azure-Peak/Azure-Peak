@@ -152,6 +152,12 @@
 					to_chat(H, "\n<font color='purple'><b>[job.round_contrib_points]</b> ROUND CONTRIBUTOR POINTS AWARDED. Thank you for playing!</font>")
 					add_roundpoints(job.round_contrib_points, H.ckey)
 	add_roundplayed(key_list)
+
+	if(SStreasury)
+		var/list/savings_tally = SStreasury.award_savings_goals()
+		if(savings_tally && (savings_tally["met"] || savings_tally["missed"]))
+			to_chat(world, span_notice("<b>SAVINGS GOAL:</b> [savings_tally["met"]] players met the Savings Goal (>=[SAVINGS_GOAL_THRESHOLD]m in bank) and earned a triumph. [savings_tally["missed"]] fell short."))
+
 	update_god_rankings()
 	
 	for(var/mob/M in GLOB.mob_list)

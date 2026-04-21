@@ -168,6 +168,9 @@
 		if(HAS_TRAIT(src, TRAIT_RESIDENT))
 			. += span_notice("A chartered resident of Azuria.")
 
+		if(HAS_TRAIT(src, TRAIT_DEBTOR))
+			. += span_danger("A default debtor of the Crown.")
+
 		if(src.job in GLOB.church_positions)
 			. += span_notice("A member of the Church of Azuria.")
 		else if(HAS_TRAIT(src, TRAIT_DECLARED_BENEFACTOR))

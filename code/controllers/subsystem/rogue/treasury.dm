@@ -158,6 +158,28 @@ SUBSYSTEM_DEF(treasury)
 	var/cap_rate = get_rate_cap(target, TAX_CATEGORY_FINE)
 	return FLOOR(balance * cap_rate, 1)
 
+/// Awards +1 triumph to every player with >= SAVINGS_GOAL_THRESHOLD in their account.
+/// Records roundstat tally. Called once at roundend.
+/datum/controller/subsystem/treasury/proc/award_savings_goals()
+	var/threshold = SAVINGS_GOAL_THRESHOLD
+	var/met = 0
+	var/missed = 0
+	for(var/key in bank_accounts)
+		var/datum/fund/account = bank_accounts[key]
+		if(!account || account.currency != CURRENCY_MAMMON)
+			continue
+		var/mob/living/owner = account.get_owner()
+		if(!owner || !owner.mind)
+			continue
+		if(account.balance >= threshold)
+			owner.mind.adjust_triumphs(1)
+			met++
+		else
+			missed++
+	record_round_statistic(STATS_SAVINGS_GOAL_MET, met)
+	record_round_statistic(STATS_SAVINGS_GOAL_MISSED, missed)
+	return list("met" = met, "missed" = missed)
+
 /// Off-map personal wealth granted at roundstart. Mints into the account directly;
 /datum/controller/subsystem/treasury/proc/grant_savings(amt, mob/living/target)
 	if(!amt || !target)

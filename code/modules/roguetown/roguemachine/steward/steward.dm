@@ -52,6 +52,68 @@
 	daily_payments["Archivist"] = 20
 	daily_payments["Magicians Associate"] = 10
 
+/obj/structure/roguemachine/steward/proc/issue_loan_dialog(mob/living/carbon/human/user)
+	if(!istype(user))
+		return
+	if(!user.canUseTopic(src, BE_CLOSE) || locked)
+		return
+	if(GLOB.dayspassed > SStreasury.loan_max_issuance_day)
+		say("No new loans may be drawn after day [SStreasury.loan_max_issuance_day].")
+		playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
+		return
+	// Build candidate list from accounted humans, excluding those already in debt or marked defaulter.
+	var/list/candidates = list()
+	for(var/mob/living/carbon/human/H in SStreasury.bank_accounts)
+		if(H.stat == DEAD)
+			continue
+		if(HAS_TRAIT(H, TRAIT_DEBTOR))
+			continue
+		if(SStreasury.get_loan_for(H))
+			continue
+		candidates["[H.real_name] ([H.job ? H.job : "-"])"] = H
+	if(!length(candidates))
+		say("No eligible debtors found.")
+		playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
+		return
+	var/picked = input(user, "Select a debtor for the loan.", src) as null|anything in candidates
+	if(!picked)
+		return
+	if(!user.canUseTopic(src, BE_CLOSE) || locked)
+		return
+	var/mob/living/carbon/human/debtor = candidates[picked]
+	if(!debtor || HAS_TRAIT(debtor, TRAIT_DEBTOR) || SStreasury.get_loan_for(debtor))
+		say("That debtor is no longer eligible.")
+		return
+	var/amount = input(user, "Principal (50-250 mammon).", src, 100) as null|num
+	if(isnull(amount))
+		return
+	if(!user.canUseTopic(src, BE_CLOSE) || locked)
+		return
+	if(findtext(num2text(amount), "."))
+		return
+	amount = CLAMP(round(amount), 50, 250)
+	var/term_choice = input(user, "Select term.", src) as null|anything in list("2 days", "3 days")
+	if(!term_choice)
+		return
+	if(!user.canUseTopic(src, BE_CLOSE) || locked)
+		return
+	var/term = (term_choice == "3 days") ? 3 : 2
+	if(SStreasury.discretionary_fund.balance < amount)
+		say("The treasury cannot cover a loan of [amount]m at this time.")
+		playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
+		return
+	var/obj/item/loan_contract/contract = new(get_turf(src))
+	contract.issuer_name = user.real_name
+	contract.issuer_year = CALENDAR_EPOCH_YEAR
+	contract.debtor_name_ic = debtor.real_name
+	contract.principal = amount
+	contract.term_days = term
+	contract.interest_rate = SStreasury.loan_interest_rate
+	contract.principal_due_on_day = GLOB.dayspassed + term
+	contract.total_due = FLOOR(amount * (1 + (contract.interest_rate * term)), 1)
+	playsound(src, 'sound/misc/coindispense.ogg', 60, FALSE, -1)
+	say("Loan Contract for [debtor.real_name] issued: [amount]m over [term] day\s, signed by [user.real_name].")
+
 /obj/structure/roguemachine/steward/attackby(obj/item/P, mob/user, params)
 	if(istype(P, /obj/item/roguekey))
 		var/obj/item/roguekey/K = P
@@ -233,6 +295,43 @@
 		residency_print_cooldown = world.time + 1 MINUTES
 		playsound(src, 'sound/misc/coindispense.ogg', 60, FALSE, -1)
 		say("Letter of Residency issued, signed by [H.real_name].")
+	if(href_list["issueloan"])
+		issue_loan_dialog(usr)
+	if(href_list["setloanrate"])
+		if(!usr.canUseTopic(src, BE_CLOSE) || locked)
+			return
+		var/current_pct = round(SStreasury.loan_interest_rate * 100)
+		var/new_pct = input(usr, "Set daily loan interest rate (percent 0-200)", src, current_pct) as null|num
+		if(isnull(new_pct))
+			return
+		if(!usr.canUseTopic(src, BE_CLOSE) || locked)
+			return
+		if(findtext(num2text(new_pct), "."))
+			return
+		new_pct = CLAMP(new_pct, 0, 200)
+		SStreasury.loan_interest_rate = new_pct / 100
+		say("Default loan rate set to [new_pct]% per day.")
+	if(href_list["clearloandebtor"])
+		if(!usr.canUseTopic(src, BE_CLOSE) || locked)
+			return
+		var/list/debtors = list()
+		for(var/mob/living/carbon/human/H in GLOB.human_list)
+			if(HAS_TRAIT(H, TRAIT_DEBTOR))
+				debtors["[H.real_name]"] = H
+		if(!length(debtors))
+			say("No debtors currently marked.")
+			return
+		var/pick = input(usr, "Clear defaulter mark from which debtor?", src) as null|anything in debtors
+		if(!pick)
+			return
+		if(!usr.canUseTopic(src, BE_CLOSE) || locked)
+			return
+		var/mob/living/carbon/human/target = debtors[pick]
+		if(!target || !HAS_TRAIT(target, TRAIT_DEBTOR))
+			return
+		REMOVE_TRAIT(target, TRAIT_DEBTOR, TRAIT_GENERIC)
+		say("[target.real_name]'s debtor mark has been cleared.")
+		to_chat(target, span_notice("The Stewardry has cleared the defaulter mark from my name."))
 	if(href_list["payroll"])
 		var/list/L = list(GLOB.noble_positions) + list(GLOB.retinue_positions) + list(GLOB.garrison_positions) + list(GLOB.courtier_positions) + list(GLOB.church_positions) + list(GLOB.burgher_positions) + list(GLOB.peasant_positions) + list(GLOB.sidefolk_positions) + list(GLOB.inquisition_positions)
 		var/list/things = list()
@@ -379,6 +478,14 @@
 			contents += "<a href='?src=\ref[src];switchtab=[TAB_LOG]'>\[Log\]</a><BR>"
 			contents += "<a href='?src=\ref[src];switchtab=[TAB_STATISTICS]'>\[Statistics\]</a><BR>"
 			contents += "<a href='?src=\ref[src];printresidency=1'>\[Print Letter of Residency\]</a><BR>"
+			var/loan_gate_ok = (GLOB.dayspassed <= SStreasury.loan_max_issuance_day)
+			if(loan_gate_ok)
+				contents += "<a href='?src=\ref[src];issueloan=1'>\[Issue Loan\]</a><BR>"
+			else
+				contents += "<font color='gray'>\[Issue Loan - closed after day [SStreasury.loan_max_issuance_day]\]</font><BR>"
+			contents += "<a href='?src=\ref[src];setloanrate=1'>\[Loan Rate: [round(SStreasury.loan_interest_rate * 100)]%/day\]</a><BR>"
+			contents += "<a href='?src=\ref[src];clearloandebtor=1'>\[Clear Defaulter Mark\]</a><BR>"
+			contents += "<font color='gray'><i>(Any deposit a defaulter makes at a MEISTER clears the mark automatically. Use this only to forgive without a deposit.)</i></font><BR>"
 			contents += "</center>"
 		if(TAB_BANK)
 			contents += "<a href='?src=\ref[src];switchtab=[TAB_MAIN]'>\[Return\]</a>"
@@ -386,6 +493,11 @@
 			contents += "<center>Bank<BR>"
 			contents += "--------------<BR>"
 			contents += "Treasury: [SStreasury.discretionary_fund.balance]m</center><BR>"
+			if(length(SStreasury.loans))
+				contents += "<center>Active Loans ([length(SStreasury.loans)]):</center><BR>"
+				for(var/datum/loan/L in SStreasury.loans)
+					contents += "<span class='info'>[L.format()]</span><BR>"
+				contents += "<BR>"
 			contents += "<a href='?src=\ref[src];payroll=1'>\[Pay by Class\]</a><BR><BR>"
 			for(var/mob/living/carbon/human/A in SStreasury.bank_accounts)
 				var/balance = SStreasury.get_balance(A)
