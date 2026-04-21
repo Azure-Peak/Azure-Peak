@@ -287,6 +287,7 @@
 	force = 0
 	damtype = BURN
 	wdefense = 4//Goes up to 10, a shield
+	can_parry = TRUE
 	associated_skill = /datum/skill/combat/unarmed
 	max_integrity = 200
 
