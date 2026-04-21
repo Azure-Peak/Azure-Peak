@@ -2,7 +2,7 @@
 
 Working plan for Quest 2 Module 3: the Steward, Treasury, and Innkeeper rework. Bundled with Module 2 (marker rework) into a single PR because the pieces interlock too tightly to ship separately.
 
-Last updated: 2026-04-19
+Last updated: 2026-04-21
 
 ## Design thesis
 
@@ -97,7 +97,7 @@ On quest completion, the reward mints coins into the adventurer's hands (and Inn
 ### Rumor Points (authority, Innkeeper-only)
 Realm-scoped pool owned by whoever holds the Innkeeper role this round. `SStreasury.rumor_points` → float (stored as float so the 0.25/player accrual is lossless across many days; UI rounds to integer for display). Decrements on Innkeeper quest issuance. Cannot be transferred.
 
-**Accrual:** Starts at 12 points at round start (two days' worth of base income — lets the Innkeeper issue something interesting within the first hour without grinding). Daily refill at dawn = 6 + (0.25 × active_player_count). On a 15-player round this is ~9.75/day; over 5 days a full round yields ~60 points total.
+**Accrual:** Starts at 12 points at round start (two days' worth of base income — lets the Innkeeper issue something interesting within the first hour without grinding). Daily refill at dawn = 6 + (0.25 × active_player_count). `active_player_count` is the existing `/proc/get_active_player_count()` helper: connected-and-minded players, excluding lobby and players who started as observers. Same call Burgher Bond refill uses, so scaling is consistent across the module. On a 15-player round this is ~9.75/day; over 5 days a full round yields ~60 points total.
 
 **Costs:** Tiered by quest type — Retrieval 1, Kill/Courier/Clear Out 2, Raid/Outlaw 3. On a 60-point-budget round the Innkeeper can issue ~20-30 quests depending on mix, hitting the 40-50% of round quest volume target when paired with the passive pool. Retrieval is the *primary* channel because it's the type the Innkeeper is best placed to flavor ("I heard the apothecary's lost locket is at X") — see "Innkeeper — Rumor Quests" below.
 
@@ -417,7 +417,7 @@ The opt-out lives on the **Well Off** utility virtue (`/datum/virtue/utility/not
 
 New sub-option `NOTABLE_TITHED` ("Paid Tithes" or similar IC name) — "I have squared my civic debts at the outset. The Crown has no claim on my purse."
 
-Implementation: on virtue application, set `SStreasury.poll_tax_days_paid[recipient] = 999`. This re-uses the existing grace-days mechanism already built for the ATM-prepay flow — no new trait or exemption channel needed. The Steward's UI, once built, will show these players as "999 days grace" which is clear signal that they're IC-exempt via prior settlement rather than Charter-protected.
+Implementation: on virtue application, set `SStreasury.poll_tax_days_paid[recipient] = 999`. This re-uses the existing grace-days mechanism already built for the ATM-prepay flow — no new trait or exemption channel needed. The Steward's UI, once built, will show these players as "999 days grace" which is clear signal that they're IC-exempt via prior settlement rather than Charter-protected. Note the 7-day prepay cap (`POLL_TAX_MAX_GRACE_DAYS`, below) applies only to `poll_tax_prepay_days()` — direct assignment from the virtue bypasses it intentionally. This is why the virtue writes to the list directly rather than calling the prepay proc.
 
 ### Why this design
 
@@ -430,6 +430,40 @@ Implementation: on virtue application, set `SStreasury.poll_tax_days_paid[recipi
 ### Commit target
 
 Lands in M3-C13 alongside Rumor Points, since both touch the Innkeeper/Towner axis of the system. Small enough to bundle without decomposing.
+
+## Poll Tax prepay cap (7 days)
+
+`POLL_TAX_MAX_GRACE_DAYS = 7` caps the amount of prepaid grace any single mob can hold via the `poll_tax_prepay_days()` proc. The cap is a single round's worth — typical rounds don't last longer than that, so in practice a burgher who prepays the full 7 is covered for the rest of the round at the rate that obtained at prepay time.
+
+Why 7:
+- A typical round is 3-5 in-game days. 7 days comfortably covers any round that actually happens.
+- The cap exists to prevent rich players from hoarding grace across Steward rate changes ("buy 100 days at 1m/day before the Steward raises the rate") while still allowing "buy enough that I don't think about this again for the round."
+- The effective rate at prepay *does* still respect in-game modifiers (Charter exemption → can't prepay at all, Golden Bull → burgher rate capped at 25m). `get_poll_tax_rate_for()` is the single source of truth for the charged rate in both the tick and the prepay paths.
+- Virtue-granted grace (NOTABLE_TITHED, sets `poll_tax_days_paid[H] = 999`) bypasses the cap by writing to the list directly. The cap is a prepay-path concern, not a grace-storage concern.
+
+ATM UI: the Meister's prepay flow clamps max days by both balance AND grace headroom, and surfaces current grace in the prompt so players can see why they're capped.
+
+## Admin Economic Panel (test + live moderation)
+
+A TGUI admin-only panel consolidating inspection and mutation verbs for the fiscal system. Accessible via **Debug → Economic Panel** for any admin with `R_ADMIN` or `R_DEBUG`.
+
+**Contents:**
+- Dashboard aggregates: Crown's Purse / Burgher Bond balances, total bank coin, avg balance, players under 50m, in-grace / in-arrears / debtor counts, loan count + exposure, rural tax YTD, noble income YTD
+- Tick actions: Advance Day, Fire Poll Tick, Fire Loan Tick, Fire Bond Tick, Distribute Estates, Fire Payroll, Award Savings Goals
+- Mint / burn into Crown's Purse
+- Charter toggle (all four as full-width buttons with current state colored)
+- Filter-driven player table: Category filter (11 options), Status filter (All / Arrears / Grace / Debtor / Low Balance / Exempt), substring name search. The table never renders all 150 players at once — always a filtered slice.
+- Per-player detail pane: clear debt, add/remove grace, toggle TRAIT_DEBTOR, mint/burn to account
+- Bulk actions operating on the current filter: clear debt / add grace to all matching
+
+**Logging:** every write action uses the `admin_log_fiscal(detail, tally_label)` helper, which does `log_admin` + `message_admins(span_adminnotice(...))` + `SSblackbox.record_feedback("tally", "admin_verb", 1, label)`. Standard admin-action triad.
+
+**Files:**
+- `code/modules/admin/verbs/economic_panel.dm` — datum, opener verb, 20 action handlers
+- `code/controllers/subsystem/rogue/treasury_snapshot.dm` — three reusable aggregator procs (`compute_fiscal_snapshot`, `compute_charter_states`, `compute_filtered_players`) — will back the Steward Fiscal tab too
+- `tgui/packages/tgui/interfaces/EconomicPanel.tsx`
+
+This ships before the Steward Fiscal tab and shares its aggregator procs. Testing infrastructure first, in-character UI on top.
 
 ## Steward Fiscal tab (consolidated treasury UI)
 
@@ -509,8 +543,11 @@ Hook into quest completion flow. Credit Innkeeper's account. Handle "no Innkeepe
 ### M3-C13 — Innkeeper Rumor Points + Rumor Quest issuance + Well Off poll-tax opt-out
 `SStreasury.rumor_points` (float pool, start 12, daily 6 + 0.25/player). Tiered costs: Retrieval 1 / Kill+Courier+Clear Out 2 / Raid+Outlaw 3. Innkeeper-exclusive tab on the Grand Contract Ledger with Type / Region / (Retrieval) item parameters. `QUEST_SOURCE_RUMOR` tag; 25% mint on completion. Also in this commit: add `NOTABLE_TITHED` sub-option to `/datum/virtue/utility/notable` that sets `poll_tax_days_paid[H] = 999` on application (re-using grace-days plumbing, no new trait).
 
+### M3-C14a — Admin Economic Panel (shipped)
+Admin-only TGUI panel for inspecting and manipulating the fiscal system. Dashboard aggregates, filtered player table, per-player + bulk actions, tick triggers, charter toggles, Crown's Purse mint/burn. Every write action logged via shared `admin_log_fiscal` helper. Aggregator procs (`compute_fiscal_snapshot`, `compute_charter_states`, `compute_filtered_players`) live on `SStreasury` and are reused by M3-C14b.
+
 ### M3-C14b — Steward Fiscal tab (read-only consolidated treasury view)
-Read-only aggregator tab on Nerve Master: balances (Crown's Purse, Burgher Bond, in-circulation coin, rural tax YTD), all 16 rates (5 levies + 11 poll tax) with Charter overlay, outstanding loans, TRAIT_DEBTOR roster with reason, poll tax head count + collection stats per category, Charter active/suspended state with cooldown counters. Write-side actions stay on their existing surfaces.
+Read-only aggregator tab on Nerve Master: balances (Crown's Purse, Burgher Bond, in-circulation coin, rural tax YTD), all 16 rates (5 levies + 11 poll tax) with Charter overlay, outstanding loans, TRAIT_DEBTOR roster with reason, poll tax head count + collection stats per category, Charter active/suspended state with cooldown counters. Write-side actions stay on their existing surfaces. Reuses the aggregator procs shipped in M3-C14a.
 
 ### M3-C14 — Savings Goal + Blood Toll + roundend civic stats
 Two roundend readout additions bundled together since both hook into roundend reporting and the Chronicle UI:
