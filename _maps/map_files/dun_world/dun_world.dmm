@@ -17765,12 +17765,6 @@
 /obj/structure/flora/roguetree/pine/dead,
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors/mountains)
-"dJi" = (
-/obj/structure/fluff/littlebanners/bluewhite{
-	pixel_y = -6
-	},
-/turf/open/floor/rogue/churchrough,
-/area/rogue/indoors/town/church/chapel)
 "dJj" = (
 /obj/structure/fluff/railing/wood/north,
 /turf/open/floor/rogue/grass,
@@ -19301,9 +19295,6 @@
 "dYo" = (
 /obj/effect/decal/edge{
 	color = "#3f3f3f"
-	},
-/obj/structure/fluff/littlebanners/bluewhite{
-	pixel_y = -6
 	},
 /obj/item/roguebin/water,
 /turf/open/floor/rogue/churchrough,
@@ -55156,15 +55147,6 @@
 	dir = 1
 	},
 /area/rogue/under/cave/scarymaze)
-"ldL" = (
-/obj/effect/decal/edge{
-	color = "#3f3f3f"
-	},
-/obj/structure/fluff/littlebanners/bluewhite{
-	pixel_y = -6
-	},
-/turf/open/floor/rogue/churchrough,
-/area/rogue/indoors/town/church/chapel)
 "ldQ" = (
 /obj/effect/landmark/quest_spawner/hard,
 /turf/open/floor/rogue/naturalstone,
@@ -62279,9 +62261,6 @@
 	dir = 8
 	},
 /obj/structure/fluff/railing/corner/south_east,
-/obj/structure/fluff/littlebanners/bluewhite{
-	pixel_y = -6
-	},
 /turf/open/floor/rogue/church,
 /area/rogue/indoors/town/church/chapel)
 "mwh" = (
@@ -63884,9 +63863,6 @@
 	dir = 6
 	},
 /obj/effect/landmark/start/monk,
-/obj/structure/fluff/littlebanners/bluewhite{
-	pixel_y = -6
-	},
 /turf/open/floor/rogue/churchrough,
 /area/rogue/indoors/town/church/chapel)
 "mOz" = (
@@ -78412,9 +78388,6 @@
 	dir = 4
 	},
 /obj/structure/fluff/railing/corner/south_west,
-/obj/structure/fluff/littlebanners/bluewhite{
-	pixel_y = -6
-	},
 /turf/open/floor/rogue/church,
 /area/rogue/indoors/town/church/chapel)
 "pJx" = (
@@ -84236,9 +84209,6 @@
 /area/rogue/under/underdark)
 "qRn" = (
 /obj/effect/landmark/start/monk,
-/obj/structure/fluff/littlebanners/bluewhite{
-	pixel_y = -6
-	},
 /turf/open/floor/rogue/churchrough,
 /area/rogue/indoors/town/church/chapel)
 "qRu" = (
@@ -264801,7 +264771,7 @@ kIP
 eAZ
 kIP
 vKt
-dJi
+vKt
 ajI
 cCK
 iyk
@@ -265253,7 +265223,7 @@ rSa
 rSa
 rSa
 eJl
-dJi
+vKt
 ajI
 vpp
 xxc
@@ -268869,7 +268839,7 @@ uvW
 uvW
 uvW
 hbA
-ldL
+ajI
 hfa
 hfa
 hlP
