@@ -1,7 +1,7 @@
 	lord_verbs = list(
 		/mob/living/carbon/human/proc/punish_spawn
 	)
-	lord_traits = list(TRAIT_HEAVYARMOR, TRAIT_INFINITE_ENERGY, TRAIT_STRENGTH_UNCAPPED)
+	lord_traits = list(TRAIT_HEAVYARMOR, TRAIT_INFINITE_ENERGY, TRAIT_STRENGTH_UNCAPPED, TRAIT_KEENEARS) //Lord gets a little treat to further them from other clans.
 
 /// Banu Haqim from Temu, kinda.
 /datum/clan/crimson_fang
