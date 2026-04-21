@@ -85657,9 +85657,6 @@
 /area/rogue/indoors/town)
 "rfq" = (
 /obj/structure/fluff/railing/corner/south_east,
-/obj/structure/fluff/walldeco/stone/stone2{
-	pixel_y = 32
-	},
 /obj/structure/fluff/walldeco/church/line{
 	dir = 8;
 	pixel_y = 0
@@ -113562,9 +113559,6 @@
 /area/rogue/indoors/town/manor)
 "wLe" = (
 /obj/structure/fluff/railing/corner/south_west,
-/obj/structure/fluff/walldeco/stone/stone2{
-	pixel_y = 32
-	},
 /obj/structure/fluff/walldeco/church/line{
 	dir = 4
 	},
@@ -114377,6 +114371,15 @@
 /obj/structure/fluff/walldeco/church/line,
 /turf/open/floor/rogue/tile/harem1,
 /area/rogue/indoors/town/manor)
+"wTk" = (
+/obj/effect/decal/edge{
+	color = "#3f3f3f"
+	},
+/obj/structure/fluff/walldeco/stone/stone2{
+	pixel_y = 32
+	},
+/turf/open/floor/rogue/concrete,
+/area/rogue/indoors/town/church/chapel)
 "wTm" = (
 /obj/structure/hotspring/border/thirteen,
 /turf/open/floor/rogue/grassred,
@@ -496266,8 +496269,8 @@ nRO
 nRO
 bGf
 bGf
-jBn
-oll
+mSh
+wTk
 qzC
 iBk
 iBk
@@ -498978,8 +498981,8 @@ bGf
 bGf
 bGf
 bGf
-jBn
-oll
+mSh
+wTk
 qzC
 iBk
 iBk
