@@ -221,7 +221,8 @@ GLOBAL_PROTECT(admin_verbs_debug)
 	/client/proc/set_tod_override,
 	/client/proc/stresstest_chat,
 	/client/proc/performance_stress_test, // Uncomment these if you tick the performance stress test .dm file
-	/client/proc/cleanup_stress_test_mobs
+	/client/proc/cleanup_stress_test_mobs,
+	/client/proc/cmd_admin_economic_panel
 	)
 GLOBAL_LIST_INIT(admin_verbs_possess, list(/proc/possess, GLOBAL_PROC_REF(release)))
 GLOBAL_PROTECT(admin_verbs_possess)
