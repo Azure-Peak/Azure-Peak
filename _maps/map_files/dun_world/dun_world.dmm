@@ -41301,6 +41301,7 @@
 	dir = 1
 	},
 /obj/machinery/light/rogue/candle/l,
+/obj/machinery/tanningrack,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town/church/basement)
 "itj" = (
@@ -155032,7 +155033,7 @@ iqi
 iqi
 qLb
 ouM
-pme
+aHp
 tmv
 sjJ
 sjJ
@@ -155936,7 +155937,7 @@ nIc
 iqi
 qLb
 ouM
-pme
+aHp
 uQK
 hrJ
 hrJ
@@ -156388,7 +156389,7 @@ xPg
 duQ
 oFT
 vnl
-aHp
+pme
 uQK
 tbS
 tbS
