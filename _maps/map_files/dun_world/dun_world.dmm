@@ -23875,7 +23875,6 @@
 	pixel_x = -7;
 	pixel_y = 14
 	},
-/obj/machinery/light/rogue/candle/l,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/indoors/town/church/chapel)
 "eTD" = (
@@ -375537,10 +375536,10 @@ gTY
 jBn
 gTY
 gTY
+gTY
 jBn
 gTY
-gTY
-gTY
+jBn
 cQe
 vkW
 jyZ
@@ -376441,7 +376440,7 @@ fwK
 qfu
 jHF
 oXe
-cda
+sOf
 sWT
 iBk
 iBk
