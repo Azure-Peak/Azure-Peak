@@ -382,8 +382,19 @@
 	desc = "A finely crafted ceramic vase designed to carry water; you wonder if it's \
 	good to drink, or if it has been sitting there for weeks."
 
+/obj/item/reagent_containers/glass/bottle/clayvaseclassic/holy_water
+	list_reagents = list(/datum/reagent/water/holywater = 65)
+	desc = "A richly ornamented ceramic vase. The circular cross of the Ten Undivided \
+	adorns its side; whatever is inside must be sacred."
+
 /obj/item/reagent_containers/glass/bottle/clayfancyvaseclassic/water
 	list_reagents = list(/datum/reagent/water = 65)
 	desc = "A broad, large ceramic vase intended to carry water. A classic piece of \
 	ornamentation for any household that wishes to call back to the old Imperial era."
+
+/obj/item/reagent_containers/glass/bottle/clayfancyvaseclassic/sanctified_oil
+	list_reagents = list(/datum/reagent/sanctified_oil = 65)
+	desc = "A fancy ceramic vase. Going off the smell, and the thin film of oil which \
+	seems to cling to its surface, this probably contains oil sanctified for liturgical \
+	- or magical - purposes."
 
