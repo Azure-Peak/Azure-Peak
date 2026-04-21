@@ -41,7 +41,7 @@
 /turf/open/floor/rogue/ruinedwood/turned,
 /area/rogue/under/tomb/indoors)
 "gi" = (
-/obj/item/reagent_containers/food/snacks/rogue/breadslice,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
 /obj/structure/table/wood{
 	dir = 1;
 	icon_state = "longtable_mid"
@@ -109,8 +109,8 @@
 /area/rogue/under/tomb/indoors)
 "mV" = (
 /obj/structure/closet/crate/chest/wicker,
-/obj/item/reagent_containers/food/snacks/grown/wheat,
-/obj/item/reagent_containers/food/snacks/grown/wheat,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
 /turf/open/floor/rogue/ruinedwood/turned,
 /area/rogue/under/tomb/indoors)
 "qw" = (
@@ -150,7 +150,7 @@
 /turf/open/floor/rogue/ruinedwood/turned,
 /area/rogue/under/tomb/indoors)
 "uk" = (
-/obj/item/reagent_containers/food/snacks/rogue/breadslice,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
 /obj/structure/table/wood{
 	dir = 1;
 	icon_state = "longtable"
@@ -176,15 +176,9 @@
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/under/tomb)
 "wV" = (
-/obj/item/reagent_containers/food/snacks/rogue/breadslice,
-/obj/item/reagent_containers/food/snacks/rogue/breadslice{
-	pixel_y = 3;
-	pixel_x = 2
-	},
-/obj/item/reagent_containers/food/snacks/rogue/breadslice{
-	pixel_y = 7;
-	pixel_x = 3
-	},
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
 /obj/structure/table/wood{
 	icon_state = "longtable"
 	},
@@ -301,10 +295,10 @@
 /area/rogue/under/tomb/indoors)
 "Lq" = (
 /obj/structure/closet/crate/chest/wicker,
-/obj/item/reagent_containers/food/snacks/grown/wheat,
-/obj/item/reagent_containers/food/snacks/grown/wheat,
-/obj/item/reagent_containers/food/snacks/grown/wheat,
-/obj/item/reagent_containers/food/snacks/grown/wheat,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
 /turf/open/floor/rogue/ruinedwood/turned,
 /area/rogue/under/tomb/indoors)
 "Lw" = (
@@ -376,8 +370,8 @@
 /area/rogue/under/tomb)
 "RK" = (
 /obj/structure/closet/crate/chest/wicker,
-/obj/item/reagent_containers/food/snacks/grown/wheat,
-/obj/item/reagent_containers/food/snacks/grown/wheat,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
 /obj/item/reagent_containers/food/snacks/rogue/raisins,
 /obj/item/reagent_containers/food/snacks/rogue/raisins,
 /turf/open/floor/rogue/ruinedwood/turned,

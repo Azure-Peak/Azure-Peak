@@ -340,6 +340,13 @@
 	/obj/item/reagent_containers/glass/bottle/rogue/triumphbeer,
 	)
 
+/obj/item/storage/belt/rogue/pouch/bombs
+
+/obj/item/storage/belt/rogue/pouch/bombs/PopulateContents()
+	new /obj/item/bomb(src)
+	new /obj/item/bomb(src)
+	new /obj/item/bomb(src)
+
 /obj/item/storage/belt/rogue/pouch/tailorscrap
 	name = "pouch of tailorscrap"
 	desc = "A pouch of iron scrap pieces, perfect for reinforcing leather equipment. Now, where'd you place that hammer.. ?"

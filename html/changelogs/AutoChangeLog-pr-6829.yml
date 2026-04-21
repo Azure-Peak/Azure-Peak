@@ -1,0 +1,5 @@
+author: "FreeStylaLT"
+delete-after: True
+changes:
+  - bugfix: "Fixed Lonely Vice working while unconscious / dead."
+  - bugfix: "Fixed Lonely Vice stress debuffs not being removed correctly."

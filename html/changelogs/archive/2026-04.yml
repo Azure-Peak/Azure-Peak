@@ -544,3 +544,289 @@
       mage, some mystic classes, heartfelt magos / hand gotten them chalk
   bearrrrrrrr:
   - balance: jannisary NO LONGER loses 1 per (literally unbeatable in combat)
+2026-04-17:
+  BurpleBineapple:
+  - bugfix: Marriage now requires consent.
+  - bugfix: The second person who bites the apple can choose if they want the first
+      person's last name or not when being married.
+  Draganfrukts:
+  - rscadd: Added Banded Iron Armor set
+  - rscadd: Added banded iron sword
+  - rscadd: Added banded iron shield skin
+  - rscadd: Ironclad adventurers can now choose banded iron armor
+  - balance: The Ironclad half-plate pick now spawns with a normal gambeson. The light
+      gambeson is relegated to the banded armor loadout.
+  - image: Iron boots now adhere to the iron palette and have functional female sprites.
+  - image: Iron plate gauntlets now adhere to the iron palette.
+  WeNeedMorePhoron:
+  - balance: Removed most stats and athletics skills influence on hunger rate and
+      then halved the flat hunger rate gain. Report if hunger happens too often. Str
+      above 10 increases hunger rate by 5% per point instead of 7.5%
+  - rscadd: Alcohol now restore blood at 2/3 the rate of water if there's no water
+      in you.
+  borneblood:
+  - balance: Problematic/buggy/unhealthy Matthios miracle interactions have been addressed
+  - bugfix: Fiber bundles were not counting properly for kingsfeast
+2026-04-18:
+  7erracotta:
+  - rscadd: Added new hair
+  KatTheFox:
+  - rscdel: find familiar and npc binding removed
+  - rscadd: planar pact ritual to grant the old familiar buffs
+  - rscadd: new familiar binding system. draw a rune of binding to see all the options.
+  - qol: familiar binding uses the same "prompt all lobby players" system as old npc
+      summons and lich skeletons, but respects familiar prefs. if your prefs are unset
+      and you attempt to respond to a summons, you will be prompted to set them.
+  - balance: all familiar subtypes are aesthetic variants of the same 3+1 base types.
+      there is no mechanical difference between familiars with the same planar origin
+  Ketrai:
+  - balance: Hag message down to 0 range, so you need to be on the same tile to listen
+      in
+  WeNeedMorePhoron:
+  - balance: Arcyne Ward no longer regenerate on its own, and must be actively dismissed
+      and recast, CD reduced to 1 minutes, uncasting refunds cooldown proportional
+      to remaining integrity and is only accessible by full mages (1 or more Major
+      Aspect), no more super proliferation.
+  - balance: Fire Resistance granted by Dragonhide, Astrata, Enchantments etc. no
+      longer flat out make you immune to fire stacks but merely halve the damage you
+      take and the stacks you take. The trait that makes you immune to firestacks
+      is no longer accessible for normal players.
+  - balance: Fire stacks damage has been adjusted to be around 33% lower on the highest
+      end.
+  - balance: Dragonhide now grants +1 Constitution.
+  - balance: Deny the Mother keeps old NO_FIRE trait as it belongs to a powerful antagonist
+      and is a situational ability.
+  - rscadd: Chalk can now rename and give keywords to teleport runes.
+  - rscadd: Quarterstaff and Woodstaff now counts as an implement for the purpose
+      of not giving you a penalty on cast
+  - rscadd: You can bring along 2 muggles when using teleport runes, up from 1
+  - balance: Kastvyl empowered no longer invisible (this is a bug). CD increased to
+      9s from 8s. Damage is now 40 / 70 -> 35 / 60. When it bounce on the same person
+      it no longer deal halved damage (It just don't do any damage and go through
+      them)
+  - rscadd: Wither reverted and reworked to a lineal, 4 ticks delay strike that saps
+      your stats again
+  - balance: Audited all arced projectiles damage, those that were too high (Greater
+      Arcyne Bolt) were fixed, those too low (fireball) were increased. Unified around
+      25% damage penalty
+  - rscadd: Bestowed Ward now breaks and disappear on breaking and will be overridden
+      by spell. CD reduced to 1.5 minutes base
+  - balance: Arcyne Ward cast time increased to 8s from 3s to make mid combat use
+      way harder.
+  - rscadd: Skilled AI should now properly target weak spots.
+  - rscadd: Railing are now climable
+  - rscadd: AI will now climb railings.
+  - rscadd: Added compatibilities with bottlebomb tossing and tossblade belt usage
+      to AI and tossblade using bogmen and bottlebombs using NPC.
+  - rscadd: Certain NPCs now drop a line on death.
+  - rscadd: Bogmen no longer immune to kneestingers. NPC will now path around spike
+      pits, rune wards and kneestingers if possible.
+  - rscadd: Vulnerable / Exposed inflicts extra damage to simple animals
+  - balance: Bottlebombs no longer inflict extra damage to mindless complex mob or
+      rideable simple animals
+  - balance: AI Kick CD raised from 8s to 20s
+  - balance: AI Feint CD added, now can perform it maximum every 30s
+  - balance: AI cannot call for help through wall
+  - balance: AI will aggro and call for help when shot by ranged attack and temporarily
+      ignore its aggro range limit, to reduce amount of long range cheese possible.
+  - balance: AI jitter (Artificial clickdelay) after attack raised from 15 - 30%
+  - balance: AI is now capable of resolving to a stale tile if you are moving and
+      missing its hit. The chance of hitting is capped at 40% no matter what and missing
+      chance is reduced by int / perception.
+  - balance: AI gain a cooldown penalty in using special, currently 1.5x that of a
+      normal player's CD
+  - balance: AI now have a 3 seconds cooldown between feint, special and kick to make
+      them less perfect at comboing and less oppressive to deal with.
+  - rscdel: Removed the proximity field I ported from Vanderlin in favor of old spatial
+      grid based wake up and aggressive scanning which is more performant and reliable.
+  - rscdel: Obelisk no longer have a misleading description saying it is magic resistant.
+  - rscadd: Tent Doors are now opaque for AI purpose, and should no longer propagate
+      AI call for help or have AI aggro you through. (They were not set as opaque
+      in code)
+  - bugfix: Fixed a severe issue with AI Pathfinding causing them to fail 9 out of
+      10 times or so
+  - rscdel: Removed bedbreaking code that was runtiming a lot
+  Wildwestmars:
+  - bugfix: Fluvians can now select underdark origin, they weren't available previously
+      despite it being default.
+  - code_imp: Fluvians default origin changed to Nowhere. A larger update to explain
+      Fluvian society, communities, and colors will be done once I have time for it,
+      but default origin being underdark was a oversight when the origins system was
+      added.
+  - code_imp: Fluvians added to underdweller since I assume that is meant to be all
+      underdark origins.
+  ariaworld:
+  - bugfix: Inventory being occupied by nothing for coin pouches.
+  eirenxiv:
+  - rscadd: Added Owl armet to Nocblade and Heretic Nocblade
+  - rscdel: Removed one of my own donor items
+  rivercadaver:
+  - code_imp: gives psydonic boots 250 hp
+  zydras:
+  - image: resprited the Leylines into visually pleasant floating crystals
+  - image: resprited the Mage Chalk and the Arcyne Silver Dagger
+  - image: resprited (some of) the main Mage Runes to be made out of chalk instead
+      of Neon Cyan
+2026-04-19:
+  BurpleBineapple:
+  - bugfix: Flamberges are held like greatswords properly now.
+  Kelshark:
+  - bugfix: Offering candelabrums to Matthios statue won't also make you hit the statue.
+  Ketrai:
+  - bugfix: Abyssor dream isn't shy when it isn't supposed to be now.
+  NalimaTheWitch:
+  - bugfix: Prowler gives +3 lockpicking again as intended.
+  WeNeedMorePhoron:
+  - rscadd: Added ability to set mob factions and make them dust on death, dust but
+      drop head, and dust and delete gears to the Create Mob Panel.
+  - rscadd: All spells invocation are spoken in Imperial (Common) and will no longer
+      follow your character's default language, even if you do not know Imperial.
+  - rscadd: Refactored Psydon PRAYER - report any oddities. It can loop up to a maximum
+      of 10 times now.
+  zydras:
+  - bugfix: ACTUALLY gives the teleportation rune the right filepath
+2026-04-20:
+  7erracotta:
+  - rscadd: NEW MEAT
+  Ketrai:
+  - rscadd: Add hunting skill, granted to many classes
+  - balance: Adjusted steward to +5 statweight
+  - balance: Adjusted councillor classes to +5 statweight
+  - rscadd: Huntmaster councillor class
+  - rscadd: Castellan councillor class
+  - rscadd: Hunting maps to boost hunting chances for the white stag
+  - rscadd: White stag mob
+  Ollanius:
+  - balance: The visored- and great barbute now have slightly less integrity than
+      before. Now, they're just as durable as your average visored helmet and great
+      helmet.
+  WeNeedMorePhoron:
+  - rscadd: NPC Skeletons, Zizo Construct and Orc Berserker no longer gain a massive
+      burning down threshold increase from their nopain trait and should be reasonably
+      easy to kill by burning spells now.
+  - rscadd: Thief speed reduced from 16 to 12. Outlaw Duelist gains dexpert and light
+      step.
+  - rscadd: AI should no longer spam the chat with *rushes to X's aid
+  - bugfix: Summon Dreamfiend's dreamfiend is now fixed.
+  - rscadd: Skeleton archers gain options to use decrepit broadhead arrows, which
+      is now a reflavor of iron broadhead.
+  - balance: Sling bullets now deal 1.6x damage to integrity
+  - balance: Arrows now deals 1.25x damage to integrity
+  - rscadd: Balloon alerts that appears at the same time should appear vertically
+      stacked on top instead of overlapping eachother most of the time, making it
+      visually clearer
+  - rscadd: Implemented a loot pool system, through which loot on most legacy / old
+      dungeons has been increased and Tomb of Alotheos decreased
+  - balance: Painting value decreased by 10x and no longer sell for a ransom at 200
+      / 100. Stick to portable dungeon loot instead.
+  - rscadd: Bear / Mantrap recipe no longer smelt into anything to avoid a dupe exploit.
+2026-04-21:
+  BurpleBineapple:
+  - rscadd: All Eorans (And the Bishop) can now perform the marriage rite. Two people
+      must bite an apple, and the Eoran/Bishop must then offer it to a cross.
+  DeciDesu:
+  - image: 'added new clean water tile for mapping
+
+      :cl:
+
+      <!-- Both :cl:''s are required for the changelog to work! You can put your name
+      to the right of the first :cl: if you want to overwrite your GitHub username
+      as author ingame. -->
+
+      <!-- You can use multiple of the same prefix (they''re only used for the icon
+      ingame) and delete the unneeded ones. Despite some of the tags, changelogs should
+      generally represent how a player might be affected by the changes rather than
+      a summary of the PR''s contents. -->'
+  - rscadd: 'The abandoned Inn across the river has been destroyed, rebuilt by unknown
+      entities and remade in the woods.
+
+      <!-- Both :cl:''s are required for the changelog to work! You can put your name
+      to the right of the first :cl: if you want to overwrite your GitHub username
+      as author ingame. -->
+
+      <!-- You can use multiple of the same prefix (they''re only used for the icon
+      ingame) and delete the unneeded ones. Despite some of the tags, changelogs should
+      generally represent how a player might be affected by the changes rather than
+      a summary of the PR''s contents. -->'
+  KatTheFox:
+  - bugfix: arcyne wall runes can no longer be deleted by prestidigitation while active
+  Kelshark:
+  - balance: wildshape does not drop everything, instead drops selective storage,
+      armor and weapons.
+  Ketrai:
+  - qol: Hag starting equipment has been increased
+  - rscadd: New volf meat sprites.
+  - rscadd: New Rous meat sprites & rous meat type.
+  - balance: Hag mindlink duration 5 => 20 minutes.
+  - balance: Huntmaster councillor butchery Jman => Expert
+  - rscadd: Hags can make pure lux, mosslux, out of bloated leechticks. For the mossmother
+      roots.
+  - qol: Tracking eyeball now gives hunting info.
+  - bugfix: Fixed being able to duplicate hunting trails.
+  Lamasmaster:
+  - rscadd: Economic Roleplay Panel Actions
+  - balance: Thieves' Cant
+  - balance: Templar Monks
+  NalimaTheWitch:
+  - qol: Added a toggle for looping area music. Bathhouse/bandit/etc music loop BEGONE.
+  Ollanius:
+  - rscadd: Replaces the placeholder text in the 'Azurian' origin with something properly
+      sourced from the wiki and community.
+  - rscadd: Touches up the 'Nowhere' option with a little more fluff.
+  - rscadd: Adds more commonly-found words and concepts to the Primer.
+  - bugfix: Mentions of 'Vanderlin' in the code have been appropriately adjusted to
+      the more agnostic term of 'Daftmarsh'.
+  - bugfix: Slightly agnostifies(?) Rudmarsch's maiden name into the 'Sanguine Reach',
+      and the Rotwood Vale into the Rotwoad Vale.
+  - bugfix: Modifies 'Lyndvhar' mention to 'Zyndhardia', at request.
+  - rscadd: Adds 'Lakkari' to the Primer, to avoid any potential confusion regarding
+      some descriptions. Similar to Monkberry's Naledi, this entry has also been co-authored
+      and approved by its original creator, 7erracotta.
+  - rscdel: Mentions of Blackstone - from the Primer - have been fittingly nuked out
+      of existence.
+  - rscdel: Rotwood, likewise, has been left to rot.
+  - rscadd: Aggressively grabbing someone's torso will now let you forcefully push
+      them against a wall, by click-dragging them onto-said wall.
+  - balance: Wardens can now pick between their unique bow, or a spear and sling.
+      Choosing the latter slightly alters the statblock as well, giving +I STR at
+      the cost of -I SPD.
+  - balance: Wardens now have Journeyman-level skills in both ranged weapon types,
+      by default. Picking the Bow gives Master-tier bow skills (like before), while
+      picking the Sling gives Expert-tier sling skills (like before.)
+  - balance: Wardens now get leather bracers, like before, if selecting the 'light
+      armored' option. Picking the alternative supplies them with a pair of jackchains,
+      like before.
+  - code_imp: Touches up a lot of the prompts, descriptors, and tutorials for the
+      Warden role's .dm file.
+  - code_imp: Adds an 'extra_content' line to the Warden, explaining the nature of
+      how their region-based statboosts work.
+  Quinalion:
+  - image: Resprited Elven Helms.
+  - rscadd: Elven Maille as replacement for Elven Cuirass.
+  - rscdel: Removed Elven cuirass.
+  ToasterStrudes:
+  - refactor: Magicians Brick weapon skill moved from maces to arcyne.
+  WeNeedMorePhoron:
+  - rscadd: Examining people also tell you whether they are much tougher or much frailer
+      than you are (CON stats difference)
+  - bugfix: Fixes an issue where revenant who joins as wretch skeleton just dies.
+      By setting them to Godmode, and then swap their species and head out for a normal
+      head and then remove godmode. Yep. (Swapping the head is necessary to prevent
+      runtimes from species swap)
+  - bugfix: Possibly fix an issue where after you die as a wretch skeleton you get
+      a character flaw needs extra vice related runtime that make you completely unable
+      to play the game or rejoin the round
+  - bugfix: When an admin click "Start Now", the storyteller vote automatically resolves
+  - bugfix: When an admin click Start Now and there's no vote, the storyteller vote
+      automatically resolves to Astrata. This means that on localhost I can save some
+      time testing wretch classes and antagonists in general for the general use case,
+      as Psydon is not a likely use case for most developers
+  - bugfix: Outlaw Goblin's goons are now goblins, and should no longer deliberately
+      beat the large goblin to death
+  - rscadd: Quest now spawns in every mob at once instead of based on which spawner
+      is proximate to you or not. Expect higher difficulty. Bring friends and headhook.
+  - server: TGS Round Start message now display RoundID (hopefully)
+  hazelrat:
+  - rscadd: Implemented a remap of the abyssal dream.
+  zeratinoalt:
+  - rscadd: changes the ravox monk tabard to be inline with the templar's

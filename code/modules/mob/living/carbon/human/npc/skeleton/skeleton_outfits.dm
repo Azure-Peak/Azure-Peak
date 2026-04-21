@@ -46,7 +46,7 @@
 	..()
 
 /mob/living/carbon/human/species/skeleton/npc/mediumspread/lich
-	faction = list("lich")
+	faction = list(FACTION_LICH)
 
 // for Lich Dungeon
 /mob/living/carbon/human/species/skeleton/npc/hardspread/Initialize()
@@ -261,10 +261,11 @@
 
 /datum/outfit/job/roguetown/skeleton/npc/archer/pre_equip(mob/living/carbon/human/H)
 	..()
-	H.STASTR = 10
+	H.STASTR = 8
 	H.STASPD = 10
 	H.STACON = 5
 	H.STAWIL = 8
+	H.STAPER = 13
 	H.STAINT = 1
 	name = "Skeleton Archer"
 	head = /obj/item/clothing/head/roguetown/helmet/heavy/aalloy
@@ -278,6 +279,7 @@
 	backl = /obj/item/quiver/arrows
 	r_hand = /obj/item/rogueweapon/mace/alloy
 	H.adjust_skillrank(/datum/skill/combat/bows, 3, TRUE)
+	H.upgrade_ai_controller(/datum/ai_controller/human_npc/archer)
 	H.adjust_skillrank(/datum/skill/combat/polearms, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/maces, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/axes, 2, TRUE)

@@ -25,6 +25,12 @@
 			if(istype(src, /obj/item/rogueweapon) && !istype(src, /obj/item/rogueweapon/werewolf_claw))
 				to_chat(user, span_warning("My fingers are too misshapen to use this puny implement."))
 				return
+		// even less aggressive; allows use of tools but not weapons
+		if(HAS_TRAIT(user, TRAIT_TINYPAWS))
+			var/obj/item/rogueweapon/weapon = src
+			if(istype(weapon) && !weapon.is_tool)
+				to_chat(user, span_warning("I am too small to properly wield a weapon."))
+				return
 	if(tool_behaviour && target.tool_act(user, src, tool_behaviour))
 		return
 	if(pre_attack(target, user, params))

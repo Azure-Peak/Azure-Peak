@@ -105,8 +105,10 @@
 
 /obj/projectile/energy/azurean_pilum/arc
 	name = "Arced Azurean Pilum"
+	damage = 26
 	arcshot = TRUE
 
 /obj/projectile/energy/azurean_pilum/empowered/arc
 	name = "Empowered Arced Azurean Pilum"
+	damage = 26
 	arcshot = TRUE

@@ -1,0 +1,4 @@
+author: "ToasterStrudes"
+delete-after: True
+changes:
+  - bugfix: "Fixes Prestidigitation not being able to clean things/people. Wizards no longer need baths again."

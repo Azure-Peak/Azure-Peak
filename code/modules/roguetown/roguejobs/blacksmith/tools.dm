@@ -16,6 +16,7 @@
 	grid_width = 32
 	grid_height = 64
 	var/quality = 1
+	is_tool = TRUE
 
 /obj/item/rogueweapon/hammer/get_mechanics_examine(mob/user)
 	. = ..()
@@ -400,6 +401,7 @@
 	smeltresult = /obj/item/ingot/iron
 	grid_width = 32
 	grid_height = 64
+	is_tool = TRUE
 
 /obj/item/rogueweapon/tongs/get_mechanics_examine(mob/user)
 	. = ..()

@@ -60,7 +60,7 @@
 	pixel_x = -10;
 	pixel_y = 18
 	},
-/obj/item/reagent_containers/food/snacks/smallrat/dead,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
 /turf/open/floor/rogue/blocks/stonered/tiny,
 /area/rogue/under/tomb/indoors)
 "cB" = (
@@ -296,13 +296,8 @@
 /turf/open/floor/rogue/herringbone,
 /area/rogue/under/tomb/cave)
 "kT" = (
-/obj/item/reagent_containers/powder/salt{
-	pixel_x = -7
-	},
-/obj/item/reagent_containers/powder/salt{
-	pixel_x = 5;
-	pixel_y = -6
-	},
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
 /obj/structure/closet/crate/chest/neu,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/under/tomb/cave/wet)
@@ -870,11 +865,11 @@
 	layer = 2.7
 	},
 /obj/item/clothing/under/roguetown/trou,
-/obj/item/reagent_containers/food/snacks/smallrat/dead,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
 /turf/open/floor/rogue/blocks/stonered/tiny,
 /area/rogue/under/tomb/indoors)
 "Fj" = (
-/obj/item/reagent_containers/food/snacks/smallrat,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
 /turf/open/floor/rogue/blocks/stonered/tiny,
 /area/rogue/under/tomb/indoors)
 "Fs" = (
@@ -898,7 +893,7 @@
 /area/rogue/under/tomb/indoors)
 "Gd" = (
 /obj/structure/chair/stool/rogue,
-/obj/item/reagent_containers/food/snacks/smallrat,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
 /turf/open/floor/rogue/blocks/stonered,
 /area/rogue/under/tomb/indoors)
 "Gj" = (
@@ -1209,10 +1204,6 @@
 /obj/item/rogueore/iron,
 /turf/open/floor/rogue/churchrough,
 /area/rogue/under/tomb/cave/spider)
-"NH" = (
-/obj/item/reagent_containers/food/snacks/smallrat/dead,
-/turf/open/floor/rogue/blocks/stonered/tiny,
-/area/rogue/under/tomb/indoors)
 "Ou" = (
 /obj/item/clothing/under/roguetown/trou/leather{
 	pixel_x = -6
@@ -1423,7 +1414,7 @@
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/under/tomb/indoors)
 "Wc" = (
-/obj/item/reagent_containers/food/snacks/rogue/cheddarwedge,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
 /obj/effect/decal/cleanable/blood/old,
 /obj/effect/decal/remains/bigrat,
 /turf/open/floor/rogue/cobblerock,
@@ -3104,7 +3095,7 @@ ho
 TD
 zv
 Zl
-NH
+Fj
 Ex
 ho
 ho

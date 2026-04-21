@@ -14,10 +14,14 @@ SUBSYSTEM_DEF(dungeon_generator)
 	var/list/placed_count = list()
 
 	var/generation_stage = STAGE_EXPANSION
-	var/repetition_penalty = 2 
-	
-	var/target_z = 0 
+	var/repetition_penalty = 2
+
+	var/target_z = 0
 	var/setup_done = FALSE
+	var/loot_pool_finalized = FALSE
+	var/last_placement_time = 0
+	/// Quiet period (deciseconds) after the last placement before we consider generation done.
+	var/finalize_quiet_period = 30 SECONDS
 
 	var/prot_min_x = 0; var/prot_max_x = 0; var/prot_min_y = 0; var/prot_max_y = 0
 
@@ -63,20 +67,28 @@ SUBSYSTEM_DEF(dungeon_generator)
 	
 	markers |= found_points
 	setup_done = TRUE
+	last_placement_time = world.time
 
 /datum/controller/subsystem/dungeon_generator/fire(resumed)
-	if(!setup_done || (!length(markers) && !length(failed_markers))) return
+	if(!setup_done) return
+
+	if(!loot_pool_finalized && (world.time - last_placement_time) >= finalize_quiet_period)
+		loot_pool_finalized = TRUE
+		process_deferred_loot_pool("tomb_of_alotheos")
+
+	if(!length(markers) && !length(failed_markers))
+		return
 
 	if(generation_stage == STAGE_EXPANSION)
 		if(length(markers))
-			process_markers(10) 
+			process_markers(10)
 		else
 			generation_stage = STAGE_CLEANUP
 	else if(generation_stage == STAGE_CLEANUP)
 		if(length(failed_markers))
 			process_failed_markers(10)
 		else
-			generation_stage = STAGE_EXPANSION 
+			generation_stage = STAGE_EXPANSION
 
 /datum/controller/subsystem/dungeon_generator/proc/process_markers(limit)
 	var/processed = 0
@@ -182,6 +194,7 @@ SUBSYSTEM_DEF(dungeon_generator)
 
 /datum/controller/subsystem/dungeon_generator/proc/on_template_placed(datum/map_template/dungeon/T, turf/placement)
 	placed_count[T.type]++
+	last_placement_time = world.time
 
 /datum/controller/subsystem/dungeon_generator/proc/reverse_direction(dir)
 	switch(dir)

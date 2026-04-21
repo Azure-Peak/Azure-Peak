@@ -425,7 +425,7 @@
 
 /atom/movable/screen/alert/status_effect/buff/dragonhide/fireresist
 	name = "Fire Resistance"
-	desc = "Flames dance at my heels, yet do not sting!"
+	desc = "Sacred flame shields me from the worst of the fire."
 	icon_state = "fire"
 
 /datum/status_effect/buff/dragonhide/fireresist

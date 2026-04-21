@@ -1,6 +1,6 @@
-/datum/language/thievescant
-	name = "Thieves' Cant"
-	desc = ""
+/datum/language/tricksterscant
+	name = "Trickster's Cant"
+	desc = "A gift from Xylix to mortals in His service, often used by slaves to organize rebellions against their masters right under their noses."
 	speech_verb = "says"
 	ask_verb = "asks"
 	exclaim_verb = "yells"
@@ -8,7 +8,7 @@
 	flags = TONGUELESS_SPEECH | SIGNLANG
 	space_chance = 66
 	default_priority = 80
-	icon_state = "thief"
+	icon_state = "xylix"
 	spans = list(SPAN_PAPYRUS)
 	signlang_verb = list(
 		"scrunches their nose",

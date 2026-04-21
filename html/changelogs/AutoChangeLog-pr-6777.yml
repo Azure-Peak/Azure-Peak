@@ -1,5 +1,0 @@
-author: "borneblood"
-delete-after: True
-changes:
-  - balance: "Problematic/buggy/unhealthy Matthios miracle interactions have been addressed"
-  - bugfix: "Fiber bundles were not counting properly for kingsfeast"

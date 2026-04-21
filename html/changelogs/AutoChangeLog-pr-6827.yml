@@ -1,0 +1,4 @@
+author: "Clem-The-Duck"
+delete-after: True
+changes:
+  - bugfix: "Fixed sleeved tabards weird sleeve layering issue"

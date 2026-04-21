@@ -3,7 +3,7 @@
 	desc = "This one seems smarter than the rest... And its axe could cut a man in two."
 	icon = 'icons/roguetown/mob/monster/trolls/troll_axe.dmi'
 	perfect_butcher_results = list(
-		/obj/item/reagent_containers/food/snacks/rogue/meat/steak = 5,
+		/obj/item/reagent_containers/food/snacks/rogue/meat/steak/troll = 5,
 		/obj/item/natural/hide = 5,
 		/obj/item/natural/bundle/bone/full = 1,
 		/obj/item/alch/sinew = 7,

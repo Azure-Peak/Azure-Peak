@@ -6,7 +6,7 @@
 	acclimates to with enough exposure."
 	pixel_x = -2
 	pixel_y = 7
-	faction = list("spider_lowers")
+	faction = list(FACTION_SPIDER_LOWERS)
 	threat_point = THREAT_DANGEROUS
 	ambush_faction = "underdark"
 	gender = MALE

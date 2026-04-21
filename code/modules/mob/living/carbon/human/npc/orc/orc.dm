@@ -17,7 +17,7 @@
 	possible_mmb_intents = list(INTENT_SPECIAL, INTENT_JUMP, INTENT_KICK, INTENT_BITE)
 
 /mob/living/carbon/human/species/orc/npc
-	faction = list("orcs", "station")
+	faction = list(FACTION_ORCS, FACTION_STATION)
 	ai_controller = /datum/ai_controller/human_npc
 	cmode_music = FALSE
 
