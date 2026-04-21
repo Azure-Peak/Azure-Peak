@@ -348,11 +348,7 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 /obj/structure/roguemachine/titan/proc/give_tax_popup(mob/living/carbon/human/user)
 	if(!Adjacent(user))
 		return
-	if(SStreasury.tax_rates_last_set_day == GLOB.dayspassed)
-		to_chat(user, span_warning("The ledger has already been revised today. Wait until dawn to adjust levies again."))
-		return
 	var/datum/taxsetter/taxsetter = new("The Generous Lord Decrees")
-	taxsetter.marks_daily_cooldown = TRUE
 	taxsetter.ui_interact(user)
 
 /obj/structure/roguemachine/titan/proc/give_law_popup(mob/living/carbon/human/user)

@@ -31,7 +31,6 @@ SUBSYSTEM_DEF(treasury)
 		TAX_CATEGORY_EXPORT_DUTY = 0.20,
 		TAX_CATEGORY_FINE = 1.0,
 	)
-	var/tax_rates_last_set_day = -1
 	var/trade_spread = 0.10 // Merchant-guild spread between stockpile import and export prices. Not a ledger tax.
 	var/mint_multiplier = 0.8 // 1x is meant to leave a margin after standard 80% collectable. Less than Bathmatron.
 	var/minted = 0
@@ -43,11 +42,6 @@ SUBSYSTEM_DEF(treasury)
 	var/list/noble_incomes = list()
 	var/list/decrees = list()
 	var/list/stockpile_datums = list()
-	/// ckey -> list("day" = N, "count" = N) - tracks how many fines a Steward has issued today
-	var/list/fines_issued_today = list()
-	/// ckey -> day-number - tracks whether a target has already been fined today
-	var/list/fines_received_today = list()
-	var/fine_cap_per_steward_per_day = 3
 	/// Day number on which the realm's 1-per-day decree revocation slot was last consumed.
 	var/decree_revoke_used_day = -1
 	/// Day number on which the realm's 1-per-day decree restoration slot was last consumed.
@@ -144,35 +138,6 @@ SUBSYSTEM_DEF(treasury)
 	if(initial_deposit > 0)
 		mint(account, initial_deposit, "Initial endowment")
 	return TRUE
-
-/datum/controller/subsystem/treasury/proc/can_issue_fine(mob/living/steward, mob/living/target)
-	if(!steward?.ckey || !target?.ckey)
-		return FALSE
-	var/list/issuer_record = fines_issued_today[steward.ckey]
-	if(issuer_record && issuer_record["day"] == GLOB.dayspassed && issuer_record["count"] >= fine_cap_per_steward_per_day)
-		return FALSE
-	var/target_day = fines_received_today[target.ckey]
-	if(target_day == GLOB.dayspassed)
-		return FALSE
-	return TRUE
-
-/datum/controller/subsystem/treasury/proc/record_fine_issued(mob/living/steward, mob/living/target)
-	if(steward?.ckey)
-		var/list/issuer_record = fines_issued_today[steward.ckey]
-		if(!issuer_record || issuer_record["day"] != GLOB.dayspassed)
-			fines_issued_today[steward.ckey] = list("day" = GLOB.dayspassed, "count" = 1)
-		else
-			issuer_record["count"]++
-	if(target?.ckey)
-		fines_received_today[target.ckey] = GLOB.dayspassed
-
-/datum/controller/subsystem/treasury/proc/get_steward_fines_used(mob/living/steward)
-	if(!steward?.ckey)
-		return 0
-	var/list/issuer_record = fines_issued_today[steward.ckey]
-	if(!issuer_record || issuer_record["day"] != GLOB.dayspassed)
-		return 0
-	return issuer_record["count"]
 
 /// Maximum mammon that can be fined from the target in a single action, accounting for
 /// decree exemptions and rate caps. Returns 0 if the target cannot be fined at all.
@@ -356,7 +321,7 @@ SUBSYSTEM_DEF(treasury)
 			continue
 		if(category == TAX_CATEGORY_FINE)
 			continue
-		var/new_pct = CLAMP(entry["rate"], 0, 50)
+		var/new_pct = CLAMP(entry["rate"], 0, 100)
 		var/new_rate = new_pct / 100
 		var/old_rate = tax_rates[category]
 		if(new_rate == old_rate)

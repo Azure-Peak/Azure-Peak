@@ -1,8 +1,6 @@
 /datum/taxsetter
 	var/good_announcement_text = "The Generous Lord Decrees"
 	var/bad_announcement_text = "The Tyrannical Lord Dictates"
-	/// If TRUE, setting rates through this panel consumes the Steward's once-per-day slot.
-	var/marks_daily_cooldown = FALSE
 
 /datum/taxsetter/New(good_announcement_text = null, bad_announcement_text = null)
 	. = ..()
@@ -34,8 +32,6 @@
 	switch(action)
 		if("set_rates")
 			SStreasury.apply_rate_adjustments(params["categoryRates"], good_announcement_text, bad_announcement_text)
-			if(marks_daily_cooldown)
-				SStreasury.tax_rates_last_set_day = GLOB.dayspassed
 			return TRUE
 
 /datum/taxsetter/ui_state(mob/user)

@@ -93,9 +93,5 @@
 	if(lord)
 		to_chat(src, span_warning("You cannot adjust taxes while the [SSticker.rulertype] is present in the realm. Ask your liege."))
 		return
-	if(SStreasury.tax_rates_last_set_day == GLOB.dayspassed)
-		to_chat(src, span_warning("The ledger has already been revised today. Wait until dawn to adjust levies again."))
-		return FALSE
 	var/datum/taxsetter/taxsetter = new("The Diligent Steward Intervenes", "The Greedy Steward Imposes")
-	taxsetter.marks_daily_cooldown = TRUE
 	taxsetter.ui_interact(src)

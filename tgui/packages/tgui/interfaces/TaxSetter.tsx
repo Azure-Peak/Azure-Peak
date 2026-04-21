@@ -48,7 +48,7 @@ export const TaxSetter = (props: any, context: any) => {
                     <NumberInput
                       step={1}
                       minValue={0}
-                      maxValue={50}
+                      maxValue={100}
                       unit="%"
                       value={rates[c.category] ?? c.rate}
                       onChange={(v: number) => updateRate(c.category, v)}

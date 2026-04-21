@@ -200,10 +200,6 @@
 			return
 		for(var/mob/living/A in SStreasury.bank_accounts)
 			if(A == X)
-				if(!SStreasury.can_issue_fine(usr, A))
-					say("The ledger will accept no further fines against that person today.")
-					playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
-					return
 				var/max_fine = SStreasury.get_max_fine_for(A)
 				if(max_fine <= 0)
 					say("[A] cannot be fined by the Crown at this time.")
@@ -221,8 +217,7 @@
 				if(newtax > max_fine)
 					newtax = max_fine
 					say("The ledger will accept no more than [max_fine]m from [A]. Amount adjusted.")
-				if(SStreasury.give_money_account(-newtax, A, "NERVE MASTER"))
-					SStreasury.record_fine_issued(usr, A)
+				SStreasury.give_money_account(-newtax, A, "NERVE MASTER")
 				break
 	if(href_list["printresidency"])
 		if(!usr.canUseTopic(src, BE_CLOSE) || locked)
@@ -390,18 +385,15 @@
 			contents += " <a href='?src=\ref[src];compact=1'>\[Compact: [compact? "ENABLED" : "DISABLED"]\]</a><BR>"
 			contents += "<center>Bank<BR>"
 			contents += "--------------<BR>"
-			contents += "Treasury: [SStreasury.discretionary_fund.balance]m<BR>"
-			var/fines_used = SStreasury.get_steward_fines_used(usr)
-			contents += "Fines remaining today: [max(0, SStreasury.fine_cap_per_steward_per_day - fines_used)] / [SStreasury.fine_cap_per_steward_per_day]</center><BR>"
+			contents += "Treasury: [SStreasury.discretionary_fund.balance]m</center><BR>"
 			contents += "<a href='?src=\ref[src];payroll=1'>\[Pay by Class\]</a><BR><BR>"
 			for(var/mob/living/carbon/human/A in SStreasury.bank_accounts)
 				var/balance = SStreasury.get_balance(A)
 				var/max_fine = SStreasury.get_max_fine_for(A)
-				var/already_fined = SStreasury.fines_received_today[A.ckey] == GLOB.dayspassed
 				var/wage_status_short = HAS_TRAIT(A, TRAIT_WAGES_SUSPENDED) ? "UNSUSPEND" : "SUSPEND"
 				var/wage_status_long = HAS_TRAIT(A, TRAIT_WAGES_SUSPENDED) ? "Unsuspend Wages" : "Suspend Wages"
-				var/fine_label = already_fined ? "FINED TODAY" : (max_fine > 0 ? "FINE (Max [max_fine]m)" : "FINE (exempt)")
-				var/fine_long_label = already_fined ? "Already Fined Today" : (max_fine > 0 ? "Fine Account (Max [max_fine]m)" : "Fine Account (exempt)")
+				var/fine_label = max_fine > 0 ? "FINE (Max [max_fine]m)" : "FINE (exempt)"
+				var/fine_long_label = max_fine > 0 ? "Fine Account (Max [max_fine]m)" : "Fine Account (exempt)"
 				if(compact)
 					if(ishuman(A))
 						var/mob/living/carbon/human/tmp = A

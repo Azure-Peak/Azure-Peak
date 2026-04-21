@@ -36,7 +36,7 @@
 /datum/controller/subsystem/treasury/proc/set_tax_rate(tax_category, rate)
 	if(tax_category == TAX_CATEGORY_FINE)
 		return
-	tax_rates[tax_category] = CLAMP(rate, 0, 0.50)
+	tax_rates[tax_category] = CLAMP(rate, 0, 1.0)
 
 /datum/controller/subsystem/treasury/proc/is_tax_exempt(mob/living/payer, tax_category)
 	if(!payer)
