@@ -1,0 +1,6 @@
+author: "Ketrai"
+delete-after: True
+changes:
+  - rscadd: "Trolls now have their own meat type"
+  - rscadd: "Bears now have their own meat type"
+  - bugfix: "tracks not spawning in the hamlet area"

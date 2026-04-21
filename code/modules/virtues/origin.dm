@@ -1,17 +1,24 @@
 // Race list means RESTRICTED from the LISTED races.
 /datum/virtue/origin/unknown
 	name = "Nowhere"
-	origin_name = "Unknown"
-	desc = "I hail from nowhere in particular, thus I know no regional tongue in particular.<br>"
-	origin_desc = "Wanderers, peasantry, abandoned orphans or souls left to wander the bygone world, with no identity associated with them."
+	origin_name = "Elsewhere"
+	desc = "I originate from one of the many lesser settlements dotted around Psydonia, oft-too demure or distant for the Azurian layman to recall. Since I hail from nowhere in particular, I know no regional tongue in particular. <br>"
+	origin_desc = "For every greater kingdom that crests Psydonia, there lies a hundred lesser settlements; villages and fiefdoms, cursed to bare a legacy that will \
+	only be carried by the few who travel abroad. More distressingly, such a fate is strongly associated with the many souls who've been left to wander this bygone \
+	world, bereft of an identity to call their own - peasants, refugees, orphans, erranteers and more."
 
 /datum/virtue/origin/azuria
 	name = "Azurian"
 	origin_name = "Azuria"
-	desc = "I originate from the settled lands of Azuria, an independent domain sandwiched between Otava and Grenzelhoft. Famed for its delicious waffles and many ancient ruins, it is neither prosperous nor well-respected.<br>"
+	desc = "I originate from the settled lands of Azuria, an independent kingdom sandwiched between Otava and Grenzelhoft. Famed for its delicious waffles and ancient ruins, the Duchy is uniquely situated at the forefront of many worldly affairs - both past and present.<br>"
 	restricted = FALSE
 	added_languages = list(/datum/language/oldazurian)
-	origin_desc = "PING THE LORE TEAM TO ADD THIS"
+	origin_desc = "Originally unsettled, Azuria's forested plateaus bore witness to the greatest miracle in history; the Comet Syon, which saved the world from complete \
+	destruction. The missile's resting place - just off Azuria's coast - established the locale as a holy site for worshippers of both Psydon and the Pantheon, which \
+	eventually led to a Celestian-funded displacement of its ancestral elven inhabitants. The recent surge of villainous monsters and misfortune is said to be attributed \
+	to such injustices; a belated curse from Dendor's scornful hand. </br> Azuria houses a uniquely diverse culture, borne from generations-upon-generations of pilgrims \
+	from all over Psydonia. Likewise, the lesser kingdom's proximity to the Comet Syon has spawned a deluge of anomalous quirks in both the land and its people; a facet \
+	that has drawn the attention of both opportunistic villains and desperate heroes."
 
 /datum/virtue/origin/grenzelhoft
 	name = "Grenzelhoftian"

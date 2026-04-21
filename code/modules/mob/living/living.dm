@@ -2162,6 +2162,36 @@
 			found_ping(get_turf(potential_track), client, "hidden")
 			potential_track.handle_revealing(src)
 		//Hearthstone end.
+		// Hunting Tracks Logic
+		var/obj/effect/hunting_track/closest_track
+		var/min_dist = 8
+		for(var/obj/effect/hunting_track/HT in range(7, src))
+			// Check if we are part of the party that can see this track
+			var/can_see_ht = FALSE
+			for(var/datum/weakref/W in HT.party_refs)
+				if(W.resolve() == src)
+					can_see_ht = TRUE
+					break
+			if(!can_see_ht)
+				continue
+			found_ping(get_turf(HT), client, "hidden")
+			var/dist = get_dist(src, HT)
+			if(dist < min_dist)
+				min_dist = dist
+				closest_track = HT
+		if(closest_track)
+			var/dir_text = dir2text(get_dir(src, closest_track))
+			var/dist_text = ""
+			switch(min_dist)
+				if(0 to 1)
+					dist_text = "right beneath your feet"
+				if(2 to 3)
+					dist_text = "very close by"
+				if(4 to 5)
+					dist_text = "a few paces away"
+				else
+					dist_text = "in the distance"
+			to_chat(src, span_notice("You spot a faint trail [dist_text] to the [dir_text]."))
 
 
 /proc/found_ping(atom/A, client/C, state)

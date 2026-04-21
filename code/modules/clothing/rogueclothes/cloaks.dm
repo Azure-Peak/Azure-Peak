@@ -157,7 +157,7 @@
 			pic.color = get_detail_color()
 		add_overlay(pic)
 
-/obj/item/clothing/cloak/tabard/sleevedtabard
+/obj/item/clothing/cloak/sleevedtabard
 	name = "Sleeved Tabard"
 	desc = " A tabard with a light sleeve and pauldron sewn on, it lacks the explicit detailing of other tabards in exchange."
 	color = null 

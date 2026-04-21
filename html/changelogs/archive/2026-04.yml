@@ -720,3 +720,113 @@
   - balance: Painting value decreased by 10x and no longer sell for a ransom at 200
       / 100. Stick to portable dungeon loot instead.
   - rscadd: Bear / Mantrap recipe no longer smelt into anything to avoid a dupe exploit.
+2026-04-21:
+  BurpleBineapple:
+  - rscadd: All Eorans (And the Bishop) can now perform the marriage rite. Two people
+      must bite an apple, and the Eoran/Bishop must then offer it to a cross.
+  DeciDesu:
+  - image: 'added new clean water tile for mapping
+
+      :cl:
+
+      <!-- Both :cl:''s are required for the changelog to work! You can put your name
+      to the right of the first :cl: if you want to overwrite your GitHub username
+      as author ingame. -->
+
+      <!-- You can use multiple of the same prefix (they''re only used for the icon
+      ingame) and delete the unneeded ones. Despite some of the tags, changelogs should
+      generally represent how a player might be affected by the changes rather than
+      a summary of the PR''s contents. -->'
+  - rscadd: 'The abandoned Inn across the river has been destroyed, rebuilt by unknown
+      entities and remade in the woods.
+
+      <!-- Both :cl:''s are required for the changelog to work! You can put your name
+      to the right of the first :cl: if you want to overwrite your GitHub username
+      as author ingame. -->
+
+      <!-- You can use multiple of the same prefix (they''re only used for the icon
+      ingame) and delete the unneeded ones. Despite some of the tags, changelogs should
+      generally represent how a player might be affected by the changes rather than
+      a summary of the PR''s contents. -->'
+  KatTheFox:
+  - bugfix: arcyne wall runes can no longer be deleted by prestidigitation while active
+  Kelshark:
+  - balance: wildshape does not drop everything, instead drops selective storage,
+      armor and weapons.
+  Ketrai:
+  - qol: Hag starting equipment has been increased
+  - rscadd: New volf meat sprites.
+  - rscadd: New Rous meat sprites & rous meat type.
+  - balance: Hag mindlink duration 5 => 20 minutes.
+  - balance: Huntmaster councillor butchery Jman => Expert
+  - rscadd: Hags can make pure lux, mosslux, out of bloated leechticks. For the mossmother
+      roots.
+  - qol: Tracking eyeball now gives hunting info.
+  - bugfix: Fixed being able to duplicate hunting trails.
+  Lamasmaster:
+  - rscadd: Economic Roleplay Panel Actions
+  - balance: Thieves' Cant
+  - balance: Templar Monks
+  NalimaTheWitch:
+  - qol: Added a toggle for looping area music. Bathhouse/bandit/etc music loop BEGONE.
+  Ollanius:
+  - rscadd: Replaces the placeholder text in the 'Azurian' origin with something properly
+      sourced from the wiki and community.
+  - rscadd: Touches up the 'Nowhere' option with a little more fluff.
+  - rscadd: Adds more commonly-found words and concepts to the Primer.
+  - bugfix: Mentions of 'Vanderlin' in the code have been appropriately adjusted to
+      the more agnostic term of 'Daftmarsh'.
+  - bugfix: Slightly agnostifies(?) Rudmarsch's maiden name into the 'Sanguine Reach',
+      and the Rotwood Vale into the Rotwoad Vale.
+  - bugfix: Modifies 'Lyndvhar' mention to 'Zyndhardia', at request.
+  - rscadd: Adds 'Lakkari' to the Primer, to avoid any potential confusion regarding
+      some descriptions. Similar to Monkberry's Naledi, this entry has also been co-authored
+      and approved by its original creator, 7erracotta.
+  - rscdel: Mentions of Blackstone - from the Primer - have been fittingly nuked out
+      of existence.
+  - rscdel: Rotwood, likewise, has been left to rot.
+  - rscadd: Aggressively grabbing someone's torso will now let you forcefully push
+      them against a wall, by click-dragging them onto-said wall.
+  - balance: Wardens can now pick between their unique bow, or a spear and sling.
+      Choosing the latter slightly alters the statblock as well, giving +I STR at
+      the cost of -I SPD.
+  - balance: Wardens now have Journeyman-level skills in both ranged weapon types,
+      by default. Picking the Bow gives Master-tier bow skills (like before), while
+      picking the Sling gives Expert-tier sling skills (like before.)
+  - balance: Wardens now get leather bracers, like before, if selecting the 'light
+      armored' option. Picking the alternative supplies them with a pair of jackchains,
+      like before.
+  - code_imp: Touches up a lot of the prompts, descriptors, and tutorials for the
+      Warden role's .dm file.
+  - code_imp: Adds an 'extra_content' line to the Warden, explaining the nature of
+      how their region-based statboosts work.
+  Quinalion:
+  - image: Resprited Elven Helms.
+  - rscadd: Elven Maille as replacement for Elven Cuirass.
+  - rscdel: Removed Elven cuirass.
+  ToasterStrudes:
+  - refactor: Magicians Brick weapon skill moved from maces to arcyne.
+  WeNeedMorePhoron:
+  - rscadd: Examining people also tell you whether they are much tougher or much frailer
+      than you are (CON stats difference)
+  - bugfix: Fixes an issue where revenant who joins as wretch skeleton just dies.
+      By setting them to Godmode, and then swap their species and head out for a normal
+      head and then remove godmode. Yep. (Swapping the head is necessary to prevent
+      runtimes from species swap)
+  - bugfix: Possibly fix an issue where after you die as a wretch skeleton you get
+      a character flaw needs extra vice related runtime that make you completely unable
+      to play the game or rejoin the round
+  - bugfix: When an admin click "Start Now", the storyteller vote automatically resolves
+  - bugfix: When an admin click Start Now and there's no vote, the storyteller vote
+      automatically resolves to Astrata. This means that on localhost I can save some
+      time testing wretch classes and antagonists in general for the general use case,
+      as Psydon is not a likely use case for most developers
+  - bugfix: Outlaw Goblin's goons are now goblins, and should no longer deliberately
+      beat the large goblin to death
+  - rscadd: Quest now spawns in every mob at once instead of based on which spawner
+      is proximate to you or not. Expect higher difficulty. Bring friends and headhook.
+  - server: TGS Round Start message now display RoundID (hopefully)
+  hazelrat:
+  - rscadd: Implemented a remap of the abyssal dream.
+  zeratinoalt:
+  - rscadd: changes the ravox monk tabard to be inline with the templar's

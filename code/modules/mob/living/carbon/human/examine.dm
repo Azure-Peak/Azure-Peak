@@ -840,20 +840,59 @@
 	if((user != src) && isliving(user))
 		var/mob/living/L = user
 		var/final_str = STASTR
+		var/final_con = STACON
 		if(HAS_TRAIT(src, TRAIT_DECEIVING_MEEKNESS))
 			final_str = L.STASTR - rand(1,2)
+			final_con = L.STACON - rand(1,2)
 		var/strength_diff = final_str - L.STASTR
+		var/con_diff = final_con - L.STACON
+
+		var/str_desc
+		var/str_extreme = FALSE
 		switch(strength_diff)
 			if(5 to INFINITY)
-				. += span_warning("<B>[t_He] look[p_s()] much stronger than I.</B>")
+				str_desc = "much stronger"
+				str_extreme = TRUE
 			if(1 to 5)
-				. += span_warning("[t_He] look[p_s()] stronger than I.")
-			if(0)
-				. += "[t_He] look[p_s()] about as strong as I."
+				str_desc = "stronger"
 			if(-5 to -1)
-				. += span_warning("[t_He] look[p_s()] weaker than I.")
+				str_desc = "weaker"
 			if(-INFINITY to -5)
-				. += span_warning("<B>[t_He] look[p_s()] much weaker than I.</B>")
+				str_desc = "much weaker"
+				str_extreme = TRUE
+
+		var/con_desc
+		var/con_extreme = FALSE
+		switch(con_diff)
+			if(5 to INFINITY)
+				con_desc = "much tougher"
+				con_extreme = TRUE
+			if(1 to 5)
+				con_desc = "tougher"
+			if(-5 to -1)
+				con_desc = "frailer"
+			if(-INFINITY to -5)
+				con_desc = "much frailer"
+				con_extreme = TRUE
+
+		var/is_extreme = str_extreme || con_extreme
+		var/phys_msg
+		if(str_desc && con_desc)
+			var/connector = ((strength_diff > 0) == (con_diff > 0)) ? "and" : "but"
+			phys_msg = "[t_He] look[p_s()] [str_desc] [connector] [con_desc] than me."
+		else if(str_desc)
+			phys_msg = "[t_He] look[p_s()] [str_desc] than me."
+		else if(con_desc)
+			phys_msg = "[t_He] look[p_s()] [con_desc] than me."
+		else
+			phys_msg = "[t_He] look[p_s()] about as strong as I."
+
+		if(is_extreme)
+			. += span_warning("<B>[phys_msg]</B>")
+		else if(str_desc || con_desc)
+			. += span_warning(phys_msg)
+		else
+			. += phys_msg
 
 	if((HAS_TRAIT(user,TRAIT_INTELLECTUAL)))
 		var/mob/living/L = user
@@ -863,13 +902,13 @@
 		var/int_diff = final_int - L.STAINT
 		switch(int_diff)
 			if(5 to INFINITY)
-				. += span_revenwarning("[t_He] look[p_s()] far more intelligent than I.")
+				. += span_revenwarning("[t_He] look[p_s()] far more intelligent than me.")
 			if(2 to 5)
-				. += span_revenminor("[t_He] look[p_s()] smarter than I.")
+				. += span_revenminor("[t_He] look[p_s()] smarter than me.")
 			if(-1 to 1)
 				. += "[t_He] look[p_s()] about as intelligent as I."
 			if(-5 to -2)
-				. += span_revennotice("[t_He] look[p_s()] dumber than I.")
+				. += span_revennotice("[t_He] look[p_s()] dumber than me.")
 			if(-INFINITY to -5)
 				. += span_revennotice("[t_He] look[p_s()] as blunt-minded as a rock.")
 

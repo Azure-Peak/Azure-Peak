@@ -1,7 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - bugfix: "Fixes an issue where revenant who joins as wretch skeleton just dies. By setting them to Godmode, and then swap their species and head out for a normal head and then remove godmode. Yep. (Swapping the head is necessary to prevent runtimes from species swap)"
-  - bugfix: "Possibly fix an issue where after you die as a wretch skeleton you get a character flaw needs extra vice related runtime that make you completely unable to play the game or rejoin the round"
-  - bugfix: "When an admin click \"Start Now\", the storyteller vote automatically resolves"
-  - bugfix: "When an admin click Start Now and there's no vote, the storyteller vote automatically resolves to Astrata. This means that on localhost I can save some time testing wretch classes and antagonists in general for the general use case, as Psydon is not a likely use case for most developers"
