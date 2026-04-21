@@ -9,7 +9,7 @@
 //Completely re-done because inital Thronleer didn't really have any identity beyond, children of the Abyss but better
 /datum/clan/thronleer
 	name = "House Thronleer"
-	desc = "Noc, facinated by your House's endless persuit of archiving knowledge has bestowed his blessing upon your cursed bloodline, yet with a bad hand dealt by Xylix, the cursed nature of your bloodline has left you with fears of whismy and stress."
+	desc = "Noc, facinated by your House's endless persuit of archiving knowledge has bestowed his blessing upon your cursed bloodline, yet with a bad hand dealt by Xylix the cursed nature of your bloodline has left you with fears of whismy and bad fates."
 	curse = "Jesterphobia, Obsession with learning and Terrible Mood."
 	clanicon = "bloodheal"
 	blood_preference = BLOOD_PREFERENCE_ALL //Noc blessed, they'll eat anything that moves.
