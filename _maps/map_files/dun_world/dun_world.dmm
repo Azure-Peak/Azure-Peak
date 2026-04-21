@@ -20195,6 +20195,12 @@
 "ehs" = (
 /turf/open/water/river/flow/east,
 /area/rogue/under/town/sewer)
+"eht" = (
+/obj/structure/handcart{
+	dir = 4
+	},
+/turf/open/floor/rogue/concrete,
+/area/rogue/indoors/town/church/basement)
 "ehu" = (
 /obj/structure/roguewindow/openclose/reinforced{
 	dir = 1
@@ -72851,19 +72857,6 @@
 	},
 /turf/open/floor/rogue/churchrough,
 /area/rogue/indoors/town/church/chapel)
-"oFT" = (
-/obj/effect/decal/edge{
-	color = "#3f3f3f"
-	},
-/obj/effect/decal/edge{
-	color = "#3f3f3f";
-	dir = 1
-	},
-/obj/structure/handcart{
-	dir = 8
-	},
-/turf/open/floor/rogue/concrete,
-/area/rogue/indoors/town/church/basement)
 "oFU" = (
 /obj/effect/decal/carpet/square{
 	pixel_x = 16;
@@ -97292,16 +97285,6 @@
 	},
 /turf/open/floor/rogue/dirt,
 /area/rogue/outdoors/exposed/magiciantower)
-"txR" = (
-/obj/effect/decal/edge{
-	color = "#3f3f3f";
-	dir = 8
-	},
-/obj/structure/handcart{
-	dir = 4
-	},
-/turf/open/floor/rogue/churchrough,
-/area/rogue/indoors/town/church/chapel)
 "txW" = (
 /turf/open/floor/rogue/blocks,
 /area/rogue/indoors/shelter/mountains/decap)
@@ -155884,7 +155867,7 @@ hrJ
 llO
 xQf
 iXM
-mbC
+eht
 llO
 ylh
 mMx
@@ -156326,7 +156309,7 @@ llO
 llO
 xPg
 duQ
-oFT
+boz
 vnl
 sJv
 hdb
@@ -264353,7 +264336,7 @@ ili
 oFS
 pfD
 sfn
-txR
+oFS
 uSo
 oFS
 qbZ
