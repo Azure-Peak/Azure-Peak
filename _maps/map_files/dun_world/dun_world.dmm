@@ -2138,13 +2138,7 @@
 /turf/open/water/river/flow,
 /area/rogue/outdoors/mountains/decap/minotaurfort)
 "axk" = (
-/obj/item/rogueore/silver,
-/obj/item/rogueore/silver,
-/obj/structure/closet/crate/chest/neu_iron{
-	locked = 1;
-	lockid = "church";
-	name = "Ecclesiastical Silver"
-	},
+/obj/machinery/light/rogue/firebowl/standing/blue,
 /turf/open/floor/rogue/metal,
 /area/rogue/indoors/town/church/chapel)
 "axp" = (
@@ -7018,17 +7012,6 @@
 /obj/effect/landmark/start/mercenary,
 /turf/open/floor/rogue/tile,
 /area/rogue/indoors/town/tavern)
-"bxr" = (
-/obj/structure/mineral_door/bars{
-	lockid = "priest";
-	locked = 1
-	},
-/obj/structure/fluff/littlebanners/bluewhite{
-	pixel_x = 0;
-	pixel_y = -4
-	},
-/turf/open/floor/rogue/concrete,
-/area/rogue/indoors/town/church/chapel)
 "bxv" = (
 /obj/item/bottle_kit{
 	pixel_y = 10;
@@ -17431,11 +17414,8 @@
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town)
 "dFt" = (
-/obj/machinery/light/rogue/candle/blue/l,
-/obj/structure/rack/rogue,
-/obj/effect/spawner/lootdrop/valuable_jewelry_spawner,
-/obj/effect/spawner/lootdrop/cheap_jewelry_spawner,
-/turf/open/floor/rogue/metal,
+/obj/structure/fluff/walldeco/psybanner/astrata,
+/turf/closed/wall/mineral/rogue/decostone/cand,
 /area/rogue/indoors/town/church/chapel)
 "dFy" = (
 /obj/structure/table/wood,
@@ -33304,13 +33284,6 @@
 "gRM" = (
 /turf/closed/wall/mineral/rogue/stone/moss,
 /area/rogue/under/cave/fishmandungeon)
-"gRN" = (
-/obj/structure/fluff/railing/wood,
-/obj/structure/roguemachine/scomm{
-	scom_tag = "Cathedral - Bell Chamber"
-	},
-/turf/open/floor/rogue/concrete,
-/area/rogue/indoors/town/church/chapel)
 "gRQ" = (
 /obj/structure/fluff/railing/border/west,
 /obj/structure/fluff/railing/corner/south_west,
@@ -39441,8 +39414,14 @@
 /turf/open/floor/rogue/dirt,
 /area/rogue/outdoors/woods/north)
 "ibo" = (
-/obj/machinery/light/rogue/firebowl/standing/blue,
-/turf/open/floor/rogue/concrete,
+/obj/item/rogueore/silver,
+/obj/item/rogueore/silver,
+/obj/structure/closet/crate/chest/neu_iron{
+	locked = 1;
+	lockid = "priest";
+	name = "Ecclesiastical Silver"
+	},
+/turf/open/floor/rogue/metal,
 /area/rogue/indoors/town/church/chapel)
 "ibp" = (
 /turf/open/floor/rogue/grassyel,
@@ -42723,6 +42702,15 @@
 "iHJ" = (
 /turf/open/floor/rogue/carpet/lord/center,
 /area/rogue/under/cave/scarymaze)
+"iHK" = (
+/obj/structure/fluff/walldeco/church/line{
+	dir = 1
+	},
+/obj/structure/roguemachine/scomm{
+	scom_tag = "Cathedral - Bell Chamber"
+	},
+/turf/open/floor/rogue/churchrough,
+/area/rogue/indoors/town/church/chapel)
 "iHN" = (
 /obj/machinery/light/rogue/candle/floorcandle/pink{
 	pixel_x = 1;
@@ -56400,13 +56388,6 @@
 	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town)
-"lnP" = (
-/obj/effect/decal/edge{
-	color = "#3f3f3f"
-	},
-/obj/machinery/light/rogue/candle/r,
-/turf/open/floor/rogue/churchrough,
-/area/rogue/indoors/town/church/chapel)
 "lnT" = (
 /obj/structure/table/vtable,
 /turf/open/floor/rogue/ruinedwood/spiral,
@@ -63062,13 +63043,6 @@
 "mDY" = (
 /turf/closed/wall/mineral/rogue/craftstone,
 /area/rogue/outdoors/beach/forest/north)
-"mEb" = (
-/obj/effect/decal/edge{
-	color = "#3f3f3f"
-	},
-/obj/machinery/light/rogue/candle/l,
-/turf/open/floor/rogue/churchrough,
-/area/rogue/indoors/town/church/chapel)
 "mEh" = (
 /obj/item/grown/log/tree/stick,
 /turf/open/floor/rogue/dirt/road,
@@ -67132,6 +67106,10 @@
 /obj/structure/fluff/railing/border/north,
 /turf/open/transparent/openspace,
 /area/rogue/indoors/town/manor)
+"nyo" = (
+/obj/machinery/light/rogue/candle/l,
+/turf/open/floor/rogue/churchrough,
+/area/rogue/indoors/town/church/chapel)
 "nyq" = (
 /obj/effect/decal/cobbleedge{
 	icon_state = "cobbleedge-sread"
@@ -68808,8 +68786,11 @@
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/mountains)
 "nRj" = (
-/obj/structure/fluff/walldeco/psybanner/astrata,
-/turf/closed/wall/mineral/rogue/decostone/end/east,
+/obj/structure/rack/rogue,
+/obj/effect/spawner/lootdrop/valuable_jewelry_spawner,
+/obj/effect/spawner/lootdrop/cheap_jewelry_spawner,
+/obj/machinery/light/rogue/candle/blue/l,
+/turf/open/floor/rogue/metal,
 /area/rogue/indoors/town/church/chapel)
 "nRk" = (
 /obj/effect/decal/edge{
@@ -76840,10 +76821,6 @@
 /obj/machinery/light/rogue/candle/off,
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/under/cave/his_vault)
-"psl" = (
-/obj/structure/fluff/walldeco/psybanner/astrata,
-/turf/closed/wall/mineral/rogue/decostone/end/west,
-/area/rogue/indoors/town/church/chapel)
 "psq" = (
 /obj/structure/closet/crate/roguecloset/inn,
 /obj/machinery/light/rogue/candle,
@@ -94230,6 +94207,13 @@
 /obj/structure/rack/rogue/shelf,
 /turf/open/floor/rogue/twig,
 /area/rogue/indoors/shelter/woods)
+"sRH" = (
+/obj/structure/mineral_door/bars{
+	lockid = "priest";
+	locked = 1
+	},
+/turf/open/floor/rogue/concrete,
+/area/rogue/indoors/town/church/chapel)
 "sRL" = (
 /mob/living/carbon/human/species/goblin/npc/ambush/sea,
 /turf/open/floor/rogue/dirt/road,
@@ -495388,8 +495372,8 @@ cQe
 vqT
 vqT
 qbZ
-gTY
 cQe
+vkW
 axk
 dFt
 szN
@@ -495841,14 +495825,14 @@ owe
 fos
 wtP
 bbG
-vkW
+mSh
+bzR
+sRH
 bzR
 bzR
 bzR
-bxr
-jdP
-xfO
-vez
+vJk
+iHK
 epX
 epv
 epv
@@ -496293,12 +496277,12 @@ sxB
 rrX
 wJh
 bAz
-tLB
-eiF
-pQz
+mSh
 szN
-psl
-ibo
+dFt
+szN
+pQz
+eiF
 vJk
 hKk
 uhY
@@ -496745,9 +496729,9 @@ sxB
 rrX
 paO
 paO
+tLB
+xfO
 qbZ
-gTY
-gTY
 gTY
 gTY
 gTY
@@ -497197,8 +497181,8 @@ rRe
 xsD
 wUH
 lge
-vKt
-mEb
+nyo
+ajI
 hHe
 vJk
 ajk
@@ -498101,8 +498085,8 @@ pPY
 lbs
 wFz
 vKt
-vKt
-lnP
+ogC
+ajI
 sBq
 vJk
 glq
@@ -498560,7 +498544,7 @@ gTY
 gTY
 gTY
 cQe
-gRN
+bhB
 wli
 iBk
 iBk
