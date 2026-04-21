@@ -279,9 +279,9 @@
 /obj/effect/proc_holder/spell/self/astrata_bladeorfist
 	name = "Solar Blade/Fist"
 	desc = "Choose between Solar Blade (SWORD) or Solar Grasp (UNARMED)."
-	action_icon = 'icons/mob/actions/nocmiracles.dmi'
-	overlay_icon = 'icons/mob/actions/nocmiracles.dmi'
-	overlay_state = "blind_silence"
+	action_icon = 'icons/mob/actions/astratamiracles.dmi'
+	overlay_icon = 'icons/mob/actions/astratamiracles.dmi'
+	overlay_state = "blade_grasp"
 	miracle = TRUE
 	chargetime = 0
 	chargedrain = 0
