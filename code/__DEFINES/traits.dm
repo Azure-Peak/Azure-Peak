@@ -215,6 +215,7 @@
 #define TRAIT_KNOWNCRIMINAL "Known Criminal"
 #define TRAIT_BIGGUY "Big Guy"
 #define TRAIT_RESIDENT "Resident"
+#define TRAIT_DEBTOR "Default Debtor"
 #define TRAIT_DECLARED_BENEFACTOR "Ecclesiastical Benefactor"
 #define TRAIT_PATRONAGE_GRANT "patronage_grant"
 #define TRAIT_COUNTERCOUNTERSPELL "Counter Counterspell"
@@ -463,6 +464,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_NITEVISION = span_info("I can see perfectly in the dark."),
 	TRAIT_NOCSHADES = span_info("The lens I look through allows me to see in the dark clear as dae, at the cost of greater vision."),
 	TRAIT_RESIDENT = span_info("I've been granted a Meister account, and the ownership of a house in Azure Peak."),
+	TRAIT_DEBTOR = span_danger("I have defaulted on a Crown loan. My name is writ red in the ledger until the Steward clears it."),
 	TRAIT_LIGHT_STEP = span_info("My steps are light and swift. I make less noise while sneaking and wearing armor, and can sneak much quicker."),
 	TRAIT_NOMOOD = span_info("I feel no sorrow, no joy, and no stress."),
 	TRAIT_AZURENATIVE = span_info("I've grown up and lived all my lyfe in these lands. I can only trigger ambushes if I sprint through them."),

@@ -55,6 +55,12 @@ SUBSYSTEM_DEF(treasury)
 	var/total_export = 0
 	var/obj/structure/roguemachine/steward/steward_machine // Reference to the nerve master
 	var/initial_payment_done = FALSE // Flag to track if initial round-start payment has been distributed
+	/// List of /datum/loan currently outstanding against debtors.
+	var/list/loans = list()
+	/// Steward-settable default simple-interest rate per day (0.25 == 25%).
+	var/loan_interest_rate = 0.25
+	/// GLOB.dayspassed value above which no new loans may be issued.
+	var/loan_max_issuance_day = 5
 
 /datum/controller/subsystem/treasury/Initialize()
 	discretionary_fund = new("Crown Discretionary", null, rand(1000, 2000), CURRENCY_MAMMON)

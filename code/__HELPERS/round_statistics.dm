@@ -76,6 +76,8 @@
 #define STATS_MAMMONS_WITHDRAWN "mammons_withdrawn"
 #define STATS_STARTING_TREASURY "starting_treasury"
 #define STATS_RURAL_TAXES_COLLECTED "rural_taxes_collected" // Azure only. Lowpop safety
+#define STATS_LOANS_ISSUED "loans_issued"
+#define STATS_LOANS_DEFAULTED "loans_defaulted"
 
 // Influence related statistics
 
