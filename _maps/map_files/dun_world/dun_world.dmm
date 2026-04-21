@@ -6280,6 +6280,8 @@
 /obj/item/rogueweapon/woodstaff/quarterstaff,
 /obj/item/rogueweapon/woodstaff/quarterstaff,
 /obj/item/rogueweapon/woodstaff/quarterstaff,
+/obj/item/rogueweapon/huntingknife/scissors/steel,
+/obj/item/rogueweapon/huntingknife/scissors/steel,
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/church/chapel)
 "bpe" = (
