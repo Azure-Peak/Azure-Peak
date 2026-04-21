@@ -67,6 +67,9 @@
 	data["dynamic_role"] = resolve_dynamic_role(user)
 	if(data["dynamic_role"] == "innkeeper")
 		data["rumor_points"] = round(SStreasury.rumor_points, 0.1)
+		data["rumor_refill_base"] = RUMOR_POINTS_BASE_REFILL
+		data["rumor_refill_per_player"] = RUMOR_POINTS_PER_PLAYER
+		data["rumor_active_players"] = get_active_player_count()
 		data["rumor_costs"] = GLOB.rumor_point_costs.Copy()
 		data["rumor_regions_by_type"] = build_rumor_regions_by_type()
 		data["rumor_destinations"] = build_rumor_destinations()

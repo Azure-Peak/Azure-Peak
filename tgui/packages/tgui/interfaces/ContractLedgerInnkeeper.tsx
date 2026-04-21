@@ -13,6 +13,9 @@ type RumorLogEntry = {
 
 type InnkeeperData = {
   rumor_points: number;
+  rumor_refill_base: number;
+  rumor_refill_per_player: number;
+  rumor_active_players: number;
   rumor_costs: Record<string, number>;
   rumor_regions_by_type: Record<string, string[]>;
   rumor_destinations: string[];
@@ -264,6 +267,23 @@ export const InnkeeperRumorPanel = () => {
         </div>
         <div className="ContractLedger__InnkeeperBalance">
           Rumor Points:&nbsp;<b>{data.rumor_points}</b>
+          <span className="ContractLedger__InnkeeperBalanceFormula">
+            {' '}
+            (+{data.rumor_refill_base} base, +
+            {data.rumor_refill_per_player.toFixed(2)}/player &times;{' '}
+            {data.rumor_active_players} ={' '}
+            {(
+              data.rumor_refill_base +
+              data.rumor_refill_per_player * data.rumor_active_players
+            ).toFixed(2)}
+            /day, cap{' '}
+            {Math.round(
+              2 *
+                (data.rumor_refill_base +
+                  data.rumor_refill_per_player * data.rumor_active_players),
+            )}
+            )
+          </span>
         </div>
       </div>
 
