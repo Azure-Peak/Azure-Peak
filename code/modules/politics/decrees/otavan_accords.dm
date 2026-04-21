@@ -1,9 +1,9 @@
 /datum/decree/otavan_accords
 	id = DECREE_OTAVAN_ACCORDS
 	name = "The Otavan Accords"
-	flavor_text = {"In the name of the Ten, under the Almighty Allfather's watch, be it known that the Holy Otavan Inquisition, sworn servants of Psydon and emissaries of the Orthodoxy, shall keep vigil against heresy upon this land: to hunt the Archenemy's servants and the false gods, to stay their hand from subjects of Azuria untainted by heresy, to try only the common folk, and to never try a burgher nor a nobleman - for whose crimes they must answer before the Bishop's authority.
+	flavor_text = {"In the name of the Ten, under the Almighty Allfather's watch, be it known that the Holy Otavan Inquisition, sworn servants of Psydon and emissaries of the Orthodoxy, shall keep vigil against heresy upon this land: to hunt the Archenemy's servants and the false gods, to stay their hand from subjects of Azuria untainted by heresy, to try only the common folk, and to never try a burgher nor a nobleman - for whose crimes they must answer before the Church of the Ten.
 
-In exchange, as foreign adherents sanctioned by treaty, the Inquisition shall bear no tax nor levy, neither upon their persons nor upon the instruments of their office; nor shall the Crown hinder their holy duty, save by lawful cause shown before the Bishop."}
+In exchange, as foreign adherents sanctioned by treaty, the Inquisition shall bear no tax nor levy, neither upon their persons nor upon the instruments of their office; nor shall the Crown hinder their holy duty, save by lawful cause shown before the Church of the Ten."}
 	revoke_text = "The %RULER% has broken the Otavan Accords. The Inquisition is stripped of its treaty protections, and Otava shall not take such an insult lightly."
 	restore_text = "The %RULER% has affirmed the Otavan Accords. The Holy Otavan Inquisition resumes its duty to purge the land of heretics, free from the Crown's interference."
 
@@ -14,5 +14,7 @@ In exchange, as foreign adherents sanctioned by treaty, the Inquisition shall be
 	if(!active)
 		return FALSE
 	if(payer.job in GLOB.inquisition_positions)
+		return TRUE
+	if(HAS_TRAIT(payer, TRAIT_DECLARED_PSYDONITE))
 		return TRUE
 	return FALSE

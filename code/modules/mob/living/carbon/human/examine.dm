@@ -168,6 +168,12 @@
 		if(HAS_TRAIT(src, TRAIT_RESIDENT))
 			. += span_notice("A chartered resident of Azuria.")
 
+		if((src.job in GLOB.church_positions) || HAS_TRAIT(src, TRAIT_DECLARED_CHURCHITE))
+			. += span_notice("A member of the Church of Azuria.")
+
+		if((src.job in GLOB.inquisition_positions) || HAS_TRAIT(src, TRAIT_DECLARED_PSYDONITE))
+			. += span_notice("A member of the Holy Otavan Inquisition.")
+
 		if((HAS_TRAIT(user, TRAIT_BLACKOAK) && !(src.dna.species.name == "Elf" || src.dna.species.name == "Dark Elf" || src.dna.species.name == "Half-Elf")))
 			. += span_phobia("An invader...")
 

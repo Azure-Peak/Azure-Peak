@@ -2552,6 +2552,7 @@
 #include "code\modules\politics\_politics.dm"
 #include "code\modules\politics\decree.dm"
 #include "code\modules\politics\decree_api.dm"
+#include "code\modules\politics\patronage.dm"
 #include "code\modules\politics\decrees\golden_bull_of_kingsfield.dm"
 #include "code\modules\politics\decrees\great_writ_of_azuria.dm"
 #include "code\modules\politics\decrees\otavan_accords.dm"
