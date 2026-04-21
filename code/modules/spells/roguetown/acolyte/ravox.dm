@@ -140,9 +140,9 @@
 	to_chat(owner, span_info("For Ravox!"))
 	. = ..()
 
-///////////////////////////////////////////////////////////////////////////////////
-// T1 - Provocation - Taunt nearby enemies into focusing you with their attacks. //
-///////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////
+// T1 - Divine Strike - Slow down an enemy on hit. //
+/////////////////////////////////////////////////////
 //These are all Vanderlin ports, simply redone values and additions to fit Azure. Credit for the code and idea goes to them!
 //Divine Strike - Enhance your held weapon to have the next strike ~~do extra damage~~ and slow the target. Undead debuffed more.
 //03/21/2026: Spell does not add extra damage. Leaving comment bc maybe it's supposed to, but, uhhh. IDK I'm fixing the description for now. -- MUMBLEMANCER
@@ -246,6 +246,94 @@
 	if(iscarbon(owner))
 		var/mob/living/carbon/C = owner
 		C.remove_movespeed_modifier(MOVESPEED_ID_DAMAGE_SLOWDOWN)
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+// T1 - Ravox' Grasp - Summon the Divine Justice from your soul and let it envelop your hand. //
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+/obj/effect/proc_holder/spell/targeted/touch/summonrogueweapon/ravoxgrasp
+	name = "Ravox' Grasp"
+	desc = "Summon the Divine Justice from your soul and let it envelop your hand. Use on heads of criminals (NPCs only) to convert them into devotion."
+	clothes_req = FALSE
+	drawmessage = "I prepare to perform a divine incantation."
+	dropmessage = "I release my divine focus."
+	overlay_state = "justice_hand"
+	action_icon = 'icons/mob/actions/ravoxmiracles.dmi'
+	overlay_icon = 'icons/mob/actions/ravoxmiracles.dmi'
+	chargedrain = 0
+	chargetime = 0
+	releasedrain = 5 // this influences -every- cost involved in the spell's functionality, if you want to edit specific features, do so in handle_cost
+	recharge_time = 5 MINUTES
+	chargedloop = /datum/looping_sound/invokegen
+	associated_skill = /datum/skill/magic/holy
+	hand_path = /obj/item/melee/touch_attack/rogueweapon/ravoxgrasp
+	devotion_cost = 30
+	miracle = TRUE
+
+/obj/item/melee/touch_attack/rogueweapon/ravoxgrasp
+	name = "justice hand"
+	desc = "The Sacred Light of Ravox. \n\
+	click on self to remove it."
+	icon = 'icons/roguetown/misc/miraclestuff.dmi'
+	mob_overlay_icon = 'icons/roguetown/misc/miraclestuff.dmi'
+	lefthand_file = 'icons/roguetown/misc/miraclestuff.dmi'
+	righthand_file = 'icons/roguetown/misc/miraclestuff.dmi'
+	icon_state = "justicei"
+	item_state = "justicei"
+	possible_item_intents = list(SHIELD_BLOCK, /datum/intent/use)
+	parrysound = list('sound/magic/magic_nulled.ogg')
+	swingsound = list('sound/magic/churn.ogg')
+	attached_spell = /obj/effect/proc_holder/spell/targeted/touch/summonrogueweapon/ravoxgrasp
+	force = 0
+	damtype = BURN
+	wdefense = 4//Goes up to 10, a shield
+	associated_skill = /datum/skill/combat/unarmed
+	max_integrity = 200
+
+/obj/item/melee/touch_attack/rogueweapon/ravoxgrasp/Initialize()
+	. = ..()
+	addtimer(CALLBACK(src, PROC_REF(skillcheck), src), wait = 1)
+	ADD_TRAIT(src, TRAIT_NODROP, ABSTRACT_ITEM_TRAIT)
+
+/obj/item/melee/touch_attack/rogueweapon/ravoxgrasp/attack(mob/target, mob/living/carbon/user)
+	if(!iscarbon(user)) //Look ma, no hands
+		return
+	if(!(user.mobility_flags & MOBILITY_USE))
+		to_chat(user, "<span class='warning'>I cannot reach out!</span>")
+		return
+	..()
+
+/obj/item/melee/touch_attack/rogueweapon/ravoxgrasp/proc/skillcheck()
+	var/skill = usr.get_skill_level(/datum/skill/magic/holy)
+	wdefense_dynamic += skill
+	wdefense += skill
+
+/obj/item/melee/touch_attack/rogueweapon/ravoxgrasp/afterattack(atom/target, mob/living/carbon/user, params, proximity)
+	if(isobj(target))
+		var/obj/item/O = target
+		var/mob/living/carbon/human/H = usr
+		var/cost = 0
+		var/dist = get_dist(O, user)
+		if(dist > 1)
+			return
+		if(istype(O, /obj/item/natural/head) || istype(O, /obj/item/bodypart/head))
+			if(O.sellprice > 0)
+				cost = 100
+		if(cost >= 100)
+			H.devotion?.update_devotion(cost)
+			to_chat(user, "<font color='purple'>I gain [cost] devotion!</font>")
+			qdel(O)
+		return
+	return
+
+/obj/item/melee/touch_attack/rogueweapon/ravoxgrasp/pre_attack(atom/target, mob/living/user, params)
+	if(isliving(target))
+		var/mob/living/L = target
+		if (do_after(user, 1 SECONDS, target = L))
+			wash_atom(target, 1)
+			to_chat(user, span_notice("I render \the [target.name] clean."))
+			return TRUE
+	return ..()
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // T2 - Withstand - Based on skill provides varying degrees of stun immunity and force push up. //
@@ -683,91 +771,3 @@ GLOBAL_LIST_EMPTY(arenafolks) // we're just going to use a list and add to it. S
 		return TRUE
 	revert_cast()
 	return FALSE
-
-////////////////////////////////////////////////////////////////////////////////////////////////
-// T? - Ravox' Grasp - Summon the Divine Justice from your soul and let it envelop your hand. //
-////////////////////////////////////////////////////////////////////////////////////////////////
-//Heretic Only
-/obj/effect/proc_holder/spell/targeted/touch/summonrogueweapon/ravoxgrasp
-	name = "Ravox' Grasp"
-	desc = "Summon the Divine Justice from your soul and let it envelop your hand. Use on heads of criminals (NPCs only) to convert them into devotion."
-	clothes_req = FALSE
-	drawmessage = "I prepare to perform a divine incantation."
-	dropmessage = "I release my divine focus."
-	overlay_state = "justice_hand"
-	action_icon = 'icons/mob/actions/ravoxmiracles.dmi'
-	overlay_icon = 'icons/mob/actions/ravoxmiracles.dmi'
-	chargedrain = 0
-	chargetime = 0
-	releasedrain = 5 // this influences -every- cost involved in the spell's functionality, if you want to edit specific features, do so in handle_cost
-	chargedloop = /datum/looping_sound/invokegen
-	associated_skill = /datum/skill/magic/holy
-	hand_path = /obj/item/melee/touch_attack/rogueweapon/ravoxgrasp
-	devotion_cost = 30
-	miracle = TRUE
-
-/obj/item/melee/touch_attack/rogueweapon/ravoxgrasp
-	name = "Justice Hand"
-	desc = "The Sacred Light of Ravox. \n\
-	click on self to remove it."
-	icon = 'icons/roguetown/misc/miraclestuff.dmi'
-	mob_overlay_icon = 'icons/roguetown/misc/miraclestuff.dmi'
-	lefthand_file = 'icons/roguetown/misc/miraclestuff.dmi'
-	righthand_file = 'icons/roguetown/misc/miraclestuff.dmi'
-	icon_state = "justicei"
-	item_state = "justicei"
-	possible_item_intents = list(/datum/intent/use)
-	parrysound = list('sound/magic/magic_nulled.ogg')
-	swingsound = list('sound/magic/churn.ogg')
-	attached_spell = /obj/effect/proc_holder/spell/targeted/touch/summonrogueweapon/ravoxgrasp
-	wbalance = WBALANCE_HEAVY
-	force = 0
-	damtype = BURN
-	wdefense = 0
-	associated_skill = /datum/skill/magic/holy //EHEHEHEHEHEH
-	can_parry = TRUE
-
-/obj/item/melee/touch_attack/rogueweapon/ravoxgrasp/Initialize()
-	. = ..()
-	addtimer(CALLBACK(src, PROC_REF(skillcheck), src), wait = 1)
-	ADD_TRAIT(src, TRAIT_NODROP, ABSTRACT_ITEM_TRAIT)
-
-/obj/item/melee/touch_attack/rogueweapon/ravoxgrasp/attack(mob/target, mob/living/carbon/user)
-	if(!iscarbon(user)) //Look ma, no hands
-		return
-	if(!(user.mobility_flags & MOBILITY_USE))
-		to_chat(user, "<span class='warning'>I cannot reach out!</span>")
-		return
-	..()
-
-/obj/item/melee/touch_attack/rogueweapon/ravoxgrasp/proc/skillcheck()
-	var/skill = usr.get_skill_level(/datum/skill/magic/holy)
-	wdefense_dynamic += skill
-	wdefense += skill
-
-/obj/item/melee/touch_attack/rogueweapon/ravoxgrasp/afterattack(atom/target, mob/living/carbon/user, params, proximity)
-	if(isobj(target))
-		var/obj/item/O = target
-		var/mob/living/carbon/human/H = usr
-		var/cost = 0
-		var/dist = get_dist(O, user)
-		if(dist > 1)
-			return
-		if(istype(O, /obj/item/natural/head) || istype(O, /obj/item/bodypart/head))
-			if(O.sellprice > 0)
-				cost = 100
-		if(cost >= 100)
-			H.devotion?.update_devotion(cost)
-			to_chat(user, "<font color='purple'>I gain [cost] devotion!</font>")
-			qdel(O)
-		return
-	return
-
-/obj/item/melee/touch_attack/rogueweapon/ravoxgrasp/pre_attack(atom/target, mob/living/user, params)
-	if(isliving(target))
-		var/mob/living/L = target
-		if (do_after(user, 1 SECONDS, target = L))
-			wash_atom(target, 1)
-			to_chat(user, span_notice("I render \the [target.name] clean."))
-			return TRUE
-	return ..()
