@@ -177,7 +177,6 @@ SUBSYSTEM_DEF(treasury)
 
 	if(amt > 0)
 		if(!transfer(discretionary_fund, account, amt, source))
-			send_ooc_note("<b>MEISTER:</b> The Crown is insolvent. No payment this day.", name = target_name)
 			return FALSE
 		record_round_statistic(STATS_DIRECT_TREASURY_TRANSFERS, amt)
 		send_ooc_note(source ? "<b>MEISTER:</b> You received [amt]m. ([source])" : "<b>MEISTER:</b> You received [amt]m.", name = target_name)
@@ -245,6 +244,17 @@ SUBSYSTEM_DEF(treasury)
 
 /datum/controller/subsystem/treasury/proc/distribute_daily_payments()
 	if(!steward_machine || !steward_machine.daily_payments || !steward_machine.daily_payments.len)
+		return
+
+	// Pre-check: sum projected payroll, ensure the Crown can cover it all. If not, pay nothing.
+	var/projected_total = 0
+	for(var/job_name in steward_machine.daily_payments)
+		var/payment_amount = steward_machine.daily_payments[job_name]
+		for(var/mob/living/carbon/human/H in GLOB.human_list)
+			if(H.job == job_name && !HAS_TRAIT(H, TRAIT_WAGES_SUSPENDED))
+				projected_total += payment_amount
+	if(discretionary_fund.balance < projected_total)
+		priority_announce("The Crown is Insolvent! Woe betides this land.", "THE CROWN IS INSOLVENT", 'sound/misc/royal_decree2.ogg', "Captain")
 		return
 
 	for(var/job_name in steward_machine.daily_payments)
