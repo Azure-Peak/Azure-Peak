@@ -9494,13 +9494,6 @@
 /obj/structure/fluff/walldeco/church/line,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cave/his_vault)
-"bYh" = (
-/obj/effect/decal/edge{
-	color = "#3f3f3f";
-	dir = 8
-	},
-/turf/open/floor/rogue/tile,
-/area/rogue/outdoors/beach/south)
 "bYj" = (
 /obj/machinery/light/rogue/torchholder/c,
 /turf/open/floor/rogue/ruinedwood/herringbone,
@@ -51982,17 +51975,6 @@
 "kyP" = (
 /turf/open/floor/rogue/grassred,
 /area/rogue/under/cave)
-"kyV" = (
-/obj/effect/decal/edge{
-	color = "#3f3f3f";
-	dir = 8
-	},
-/obj/machinery/light/rogue/candle/r,
-/obj/structure/closet/crate/chest/neu,
-/obj/item/storage/roguebag,
-/obj/item/storage/roguebag,
-/turf/open/floor/rogue/concrete,
-/area/rogue/outdoors/beach/south)
 "kyY" = (
 /obj/machinery/light/rogue/candle/r,
 /turf/open/floor/rogue/ruinedwood/herringbone,
@@ -53605,9 +53587,6 @@
 /obj/item/clothing/cloak/tabard/psydontabard,
 /turf/open/floor/carpet/red,
 /area/rogue/indoors/inq/basement)
-"kOw" = (
-/turf/open/floor/rogue/dirt/road,
-/area/rogue/outdoors/beach/south)
 "kOx" = (
 /obj/structure/rack/rogue,
 /obj/item/rogueweapon/halberd/bardiche,
@@ -54734,18 +54713,6 @@
 	},
 /turf/open/floor/carpet/stellar,
 /area/rogue/indoors/town/shop)
-"kYW" = (
-/obj/structure/rack/rogue,
-/obj/effect/decal/edge{
-	color = "#3f3f3f";
-	dir = 8
-	},
-/obj/item/rogueweapon/shovel,
-/obj/item/rogueweapon/hoe,
-/obj/item/rogueweapon/thresher,
-/obj/item/rogueweapon/sickle,
-/turf/open/floor/rogue/concrete,
-/area/rogue/outdoors/beach/south)
 "kYX" = (
 /obj/item/chair/rogue,
 /turf/open/floor/rogue/wood,
@@ -61890,13 +61857,6 @@
 /obj/structure/rack/rogue,
 /turf/open/floor/rogue/dirt,
 /area/rogue/under/cavewet/bogcaves/west)
-"mrf" = (
-/obj/effect/decal/edge{
-	color = "#3f3f3f";
-	dir = 8
-	},
-/turf/open/floor/rogue/concrete,
-/area/rogue/outdoors/beach/south)
 "mri" = (
 /obj/structure/fluff/pillow/magenta{
 	dir = 1
@@ -65330,15 +65290,6 @@
 /obj/structure/flora/roguegrass/bush,
 /turf/open/floor/rogue/grassyel,
 /area/rogue/outdoors/town)
-"neb" = (
-/obj/effect/decal/edge{
-	color = "#3f3f3f";
-	dir = 8
-	},
-/obj/machinery/light/rogue/candle/r,
-/obj/structure/fermentation_keg/random/water,
-/turf/open/floor/rogue/concrete,
-/area/rogue/outdoors/beach/south)
 "neg" = (
 /turf/open/floor/rogue/blocks/newstone/alt,
 /area/rogue/indoors/town/warehouse)
@@ -78691,13 +78642,6 @@
 	},
 /turf/open/floor/rogue/hexstone,
 /area/rogue/indoors/town/physician)
-"pKU" = (
-/obj/effect/decal/edge{
-	color = "#3f3f3f";
-	dir = 9
-	},
-/turf/open/floor/rogue/tile,
-/area/rogue/outdoors/beach/south)
 "pKZ" = (
 /obj/item/roguebin/water/gross,
 /turf/open/floor/rogue/cobble,
@@ -106031,13 +105975,6 @@
 	},
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/under/cave/his_vault)
-"vje" = (
-/obj/effect/decal/edge{
-	color = "#3f3f3f";
-	dir = 1
-	},
-/turf/open/floor/rogue/tile,
-/area/rogue/outdoors/beach/south)
 "vjg" = (
 /turf/closed/wall/mineral/rogue/pipe/joint/eight,
 /area/rogue/under/cave/dungeon1/gethsmane/inner)
@@ -212966,10 +212903,10 @@ oTx
 oTx
 oTx
 oTx
-kOw
-kOw
-kOw
-vje
+oTx
+oTx
+oTx
+oTx
 oTx
 oTx
 oTx
@@ -213418,10 +213355,10 @@ oTx
 oTx
 oTx
 oTx
-kOw
-kOw
-kOw
-vje
+oTx
+oTx
+oTx
+oTx
 oTx
 oTx
 oTx
@@ -213870,10 +213807,10 @@ oTx
 oTx
 oTx
 oTx
-kOw
-kOw
-kOw
-vje
+oTx
+oTx
+oTx
+oTx
 oTx
 oTx
 oTx
@@ -214322,10 +214259,10 @@ oTx
 oTx
 oTx
 oTx
-bYh
-bYh
-bYh
-pKU
+oTx
+oTx
+oTx
+oTx
 oTx
 oTx
 oTx
@@ -214774,10 +214711,10 @@ oTx
 oTx
 oTx
 oTx
-neb
-mrf
-kYW
-kyV
+oTx
+oTx
+oTx
+oTx
 oTx
 oTx
 oTx
