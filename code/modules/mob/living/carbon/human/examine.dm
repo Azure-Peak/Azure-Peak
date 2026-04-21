@@ -177,7 +177,7 @@
 			if(keep_aligned)
 				. += span_userdanger("DEFAULT DEBTOR OF THE CROWN!")
 			else
-				. += span_smallred("A bad debtor.")
+				. += span_smallred("Destitute!!")
 
 		if(src.job in GLOB.church_positions)
 			. += span_notice("A member of the Church of Azuria.")
