@@ -15,6 +15,4 @@ In exchange, as foreign adherents sanctioned by treaty, the Inquisition shall be
 		return FALSE
 	if(payer.job in GLOB.inquisition_positions)
 		return TRUE
-	if(HAS_TRAIT(payer, TRAIT_DECLARED_PSYDONITE))
-		return TRUE
 	return FALSE

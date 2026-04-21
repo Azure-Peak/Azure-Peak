@@ -15,6 +15,6 @@ In exchange, as sacred envoys of the gods and servants of the Ten, the clergy of
 		return FALSE
 	if(payer.job in GLOB.church_positions)
 		return TRUE
-	if(HAS_TRAIT(payer, TRAIT_DECLARED_CHURCHITE))
+	if(HAS_TRAIT(payer, TRAIT_DECLARED_BENEFACTOR))
 		return TRUE
 	return FALSE

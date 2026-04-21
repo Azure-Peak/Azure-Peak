@@ -80,8 +80,6 @@
 	has_loadout = TRUE
 	H.verbs |= /mob/living/carbon/human/proc/faith_test
 	H.verbs |= /mob/living/carbon/human/proc/torture_victim
-	H.verbs |= /mob/living/carbon/human/proc/declare_psydonite
-	H.verbs |= /mob/living/carbon/human/proc/revoke_psydonite
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_WEAK, devotion_limit = CLERIC_REQ_1) //Capped to T1 miracles.
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/inq
@@ -183,8 +181,6 @@
 	C.grant_miracles(H, cleric_tier = CLERIC_T2, passive_gain = CLERIC_REGEN_WEAK, devotion_limit = CLERIC_REQ_1) //Capped to T2 miracles.
 	H.verbs |= /mob/living/carbon/human/proc/faith_test
 	H.verbs |= /mob/living/carbon/human/proc/torture_victim
-	H.verbs |= /mob/living/carbon/human/proc/declare_psydonite
-	H.verbs |= /mob/living/carbon/human/proc/revoke_psydonite
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/inq
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/full/fluted/ornate/ordinator
 	belt = /obj/item/storage/belt/rogue/leather/steel/tasset
@@ -367,13 +363,3 @@
 		qdel(S)
 		return
 	to_chat(src, span_warning("This one is not in a ready state to be questioned..."))
-
-/mob/living/carbon/human/proc/declare_psydonite()
-	set name = "Declare Psydonite"
-	set category = "Interrogation"
-	perform_patronage_grant(src, TRAIT_DECLARED_PSYDONITE, "a member of the Psydonic Inquisition", "a member of the Psydonic Inquisition", "no longer a member of the Psydonic Inquisition")
-
-/mob/living/carbon/human/proc/revoke_psydonite()
-	set name = "Revoke Psydonite"
-	set category = "Interrogation"
-	perform_patronage_revoke_from_list(src, TRAIT_DECLARED_PSYDONITE, "no longer a member of the Psydonic Inquisition")

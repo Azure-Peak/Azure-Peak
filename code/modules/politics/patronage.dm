@@ -1,9 +1,8 @@
 #define PATRONAGE_GRANT_COOLDOWN (5 MINUTES)
-#define PATRONAGE_CAP_PER_ROUND 3
+#define PATRONAGE_CAP_PER_ROUND 20
 
-/// Global rolls of current patronage members. Iterated for revocation, inspection, and decree-revoke cleanup.
-GLOBAL_LIST_EMPTY(declared_churchites)
-GLOBAL_LIST_EMPTY(declared_psydonites)
+/// Global roll of current Ecclesiastical Benefactors. Iterated for revocation, inspection, and decree-revoke cleanup.
+GLOBAL_LIST_EMPTY(declared_benefactors)
 
 /datum/controller/subsystem/treasury
 	/// ckey -> list of WEAKREFs of currently-granted recipients
@@ -65,11 +64,11 @@ GLOBAL_LIST_EMPTY(declared_psydonites)
 	return length(held)
 
 /// Shared helper: target an adjacent mob, toggle the given trait. Returns TRUE on success.
-/// `grant_label` - name shown to target in the accept dialog (e.g. "a Declared Churchite").
+/// `grant_label` - name shown to target in the accept dialog (e.g. "a Benefactor of the Church").
 /// `grant_proclamation` - uppercase IC line the granter says on acceptance
-///                       (e.g. "a member of the Church of Azuria").
+///                       (e.g. "a benefactor of the Church of Azuria").
 /// `revoke_proclamation` - uppercase IC line the granter says on revocation
-///                        (e.g. "no longer a member of the Church of Azuria").
+///                        (e.g. "no longer a benefactor of the Church of Azuria").
 /proc/perform_patronage_grant(mob/living/carbon/human/granter, trait_id, grant_label, grant_proclamation, revoke_proclamation)
 	if(!granter.mind || granter.stat)
 		return FALSE
@@ -117,10 +116,8 @@ GLOBAL_LIST_EMPTY(declared_psydonites)
 /// Returns the global list matching the given patronage trait, for iteration / revocation.
 /proc/get_patronage_global_list(trait_id)
 	switch(trait_id)
-		if(TRAIT_DECLARED_CHURCHITE)
-			return GLOB.declared_churchites
-		if(TRAIT_DECLARED_PSYDONITE)
-			return GLOB.declared_psydonites
+		if(TRAIT_DECLARED_BENEFACTOR)
+			return GLOB.declared_benefactors
 	return null
 
 /// Revoke a patronage grant from a specific target. No adjacency check - the granter may
@@ -170,4 +167,3 @@ GLOBAL_LIST_EMPTY(declared_psydonites)
 		return FALSE
 	revoke_patronage(granter, target, trait_id, revoke_proclamation)
 	return TRUE
-
