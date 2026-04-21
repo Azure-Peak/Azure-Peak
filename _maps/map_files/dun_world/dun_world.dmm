@@ -107402,7 +107402,8 @@
 /obj/item/clothing/cloak/chasuble,
 /obj/structure/closet/crate/roguecloset/dark{
 	locked = 1;
-	lockid = "priest"
+	lockid = "priest";
+	keylock = 1
 	},
 /obj/item/scomstone,
 /obj/item/roguekey/priest,
