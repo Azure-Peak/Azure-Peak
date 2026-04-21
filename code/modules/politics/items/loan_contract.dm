@@ -33,7 +33,7 @@
 	var/signature = issuer_name || "the Nerve Master"
 	var/year = issuer_year || CALENDAR_EPOCH_YEAR
 	var/pct = round(interest_rate * 100)
-	. += span_info("The contract reads: <i>\"Be it known that the bearer, [debtor_name_ic || "(unnamed)"], doth receive of the Crown the sum of [principal] mammon, to be repaid in full on the [ordinal(principal_due_on_day)] dae of this round, at the rate of [pct] per centum per dae of simple interest, totaling [total_due] mammon due.\"</i>")
+	. += span_info("The contract reads: <i>\"Be it known that the bearer, [debtor_name_ic || "(unnamed)"], doth receive of the Crown the sum of [principal] mammon, to be repaid in full on the [ordinal(term_days)] dae after the acceptance of this loan, at the rate of [pct] per centum per dae of simple interest, totaling [total_due] mammon due.\"</i>")
 	. += span_info("<i>Signed in the year [year], [signature].</i>")
 	. += span_notice("Left-click in hand to accept or decline its terms.")
 

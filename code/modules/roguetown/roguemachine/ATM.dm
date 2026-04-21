@@ -39,6 +39,17 @@
 				playsound(src, 'sound/vo/mobs/ghost/laugh (5).ogg', 100, TRUE)
 				return	
 	if(SStreasury.has_account(H))
+		var/poll_category = SStreasury.get_poll_tax_category(H)
+		var/poll_rate = poll_category ? SStreasury.get_poll_tax_rate_for(H, poll_category) : 0
+		var/poll_exempt = poll_category ? SStreasury.is_poll_tax_charter_exempt(H, poll_category) : FALSE
+		if(!poll_category)
+			to_chat(H, span_info("<b>MEISTER:</b> There is no poll tax for your class."))
+		else if(poll_exempt)
+			to_chat(H, span_info("<b>MEISTER:</b> You are exempt from poll tax by decree."))
+		else if(poll_rate > 0)
+			to_chat(H, span_info("<b>MEISTER:</b> Poll tax for your class ([SStreasury.get_poll_tax_category_pretty_name(poll_category)]) is [poll_rate]m per day."))
+		else
+			to_chat(H, span_info("<b>MEISTER:</b> No poll tax is currently levied on your class ([SStreasury.get_poll_tax_category_pretty_name(poll_category)]). Advance payment may be made at a presumed rate of [POLL_TAX_ADVANCE_FALLBACK_RATE]m per day."))
 		var/amt = SStreasury.get_balance(H)
 		var/datum/loan/active_loan = SStreasury.get_loan_for(H)
 		if(!amt && !active_loan)
@@ -49,12 +60,15 @@
 			return
 		var/list/choicez = list()
 		if(active_loan)
-			choicez += "REPAY LOAN ([active_loan.get_remaining_due()]m due, [active_loan.days_until_due()]d left)"
-		var/poll_category = SStreasury.get_poll_tax_category(H)
-		var/poll_rate = poll_category ? SStreasury.get_poll_tax_rate_for(H, poll_category) : 0
-		if(amt > 0 && poll_category && poll_rate > 0 && !SStreasury.is_poll_tax_charter_exempt(H, poll_category))
-			var/grace_days = SStreasury.poll_tax_days_paid[H] || 0
-			choicez += "PREPAY POLL TAX ([poll_rate]m/day, grace: [grace_days]d)"
+			if(active_loan.defaulted)
+				choicez += "REPAY DEBT ([active_loan.get_remaining_due()]m owed to the Crown)"
+			else
+				choicez += "REPAY LOAN ([active_loan.get_remaining_due()]m due, [active_loan.days_until_due()]d left)"
+		if(amt > 0 && poll_category && !poll_exempt)
+			var/existing_advance = SStreasury.poll_tax_advance_days[H] || 0
+			var/advance_rate = poll_rate > 0 ? poll_rate : POLL_TAX_ADVANCE_FALLBACK_RATE
+			var/rate_suffix = poll_rate > 0 ? "m/d" : "m/d presumed"
+			choicez += "ADVANCE POLL TAX ([advance_rate][rate_suffix], [existing_advance]d held)"
 		if(amt > 10)
 			choicez += "GOLD"
 		if(amt > 5)
@@ -67,7 +81,7 @@
 		var/selection = input(user, "Make a Selection", src) as null|anything in choicez
 		if(!selection)
 			return
-		if(active_loan && copytext(selection, 1, 11) == "REPAY LOAN")
+		if(active_loan && (copytext(selection, 1, 11) == "REPAY LOAN" || copytext(selection, 1, 11) == "REPAY DEBT"))
 			if(!Adjacent(user))
 				return
 			// Re-resolve in case of dialog churn.
@@ -103,7 +117,7 @@
 				var/datum/loan/still = SStreasury.get_loan_for(H)
 				say("[paid]m transferred. [still.get_remaining_due()]m remains.")
 			return
-		if(copytext(selection, 1, 17) == "PREPAY POLL TAX ")
+		if(copytext(selection, 1, 18) == "ADVANCE POLL TAX ")
 			if(!Adjacent(user))
 				return
 			poll_category = SStreasury.get_poll_tax_category(H)
@@ -114,40 +128,43 @@
 				say("Your class is exempt from poll tax by decree.")
 				return
 			var/eff_rate = SStreasury.get_poll_tax_rate_for(H, poll_category)
+			var/presumed_rate = FALSE
 			if(eff_rate <= 0)
-				say("No poll tax rate is set for your class.")
-				return
+				// No rate set — permit advance at the presumed fallback so proactive
+				// payers can settle up front even when the Crown is lazy.
+				eff_rate = POLL_TAX_ADVANCE_FALLBACK_RATE
+				presumed_rate = TRUE
 			amt = SStreasury.get_balance(H)
 			if(amt <= 0)
 				say("Your balance is nothing.")
 				playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
 				return
-			var/existing_grace = SStreasury.poll_tax_days_paid[H] || 0
-			var/grace_room = POLL_TAX_MAX_GRACE_DAYS - existing_grace
-			if(grace_room <= 0)
-				say("You already hold the maximum of [POLL_TAX_MAX_GRACE_DAYS] days of grace.")
+			var/existing_advance = SStreasury.poll_tax_advance_days[H] || 0
+			var/advance_remaining = POLL_TAX_MAX_ADVANCE_DAYS - existing_advance
+			if(advance_remaining <= 0)
+				say("You already hold the maximum of [POLL_TAX_MAX_ADVANCE_DAYS] days of advance.")
 				playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
 				return
-			var/max_days = min(floor(amt / eff_rate), grace_room)
+			var/max_days = min(floor(amt / eff_rate), advance_remaining)
 			if(max_days < 1)
 				say("You cannot afford a single day at [eff_rate]m.")
 				playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
 				return
-			var/prepay_days = input(user, "Prepay how many days of Poll Tax at [eff_rate]m/day? Your balance: [amt]m. (Maximum [max_days] day[max_days == 1 ? "" : "s"]; cap is [POLL_TAX_MAX_GRACE_DAYS] total grace, you hold [existing_grace].)", src, max_days) as null|num
-			if(isnull(prepay_days))
+			var/days_to_advance = input(user, "Pay advance on how many days of poll tax? ([eff_rate]m/d[presumed_rate ? " presumed" : ""]) Your balance: [amt]m. (Maximum [max_days] day[max_days == 1 ? "" : "s"]; cap of [POLL_TAX_MAX_ADVANCE_DAYS] days of advance, you hold [existing_advance].)", src, max_days) as null|num
+			if(isnull(days_to_advance))
 				return
-			prepay_days = round(prepay_days)
-			if(prepay_days < 1)
+			days_to_advance = round(days_to_advance)
+			if(days_to_advance < 1)
 				return
 			if(!Adjacent(user))
 				return
-			prepay_days = min(prepay_days, max_days)
-			if(!SStreasury.poll_tax_prepay_days(H, prepay_days))
+			days_to_advance = min(days_to_advance, max_days)
+			if(!SStreasury.poll_tax_pay_advance(H, days_to_advance))
 				playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
 				say("The ledger refused the advance.")
 				return
 			playsound(src, 'sound/misc/coininsert.ogg', 100, FALSE, -1)
-			say("[prepay_days] day[prepay_days == 1 ? "" : "s"] of Poll Tax advanced for [H.real_name].")
+			say("[days_to_advance] day[days_to_advance == 1 ? "" : "s"] of Poll Tax advanced for [H.real_name].")
 			return
 		amt = SStreasury.get_balance(H)
 		var/mod = 1
@@ -216,17 +233,11 @@
 					record_round_statistic(STATS_MAMMONS_DEPOSITED, P.get_real_price())
 				qdel(P)
 				playsound(src, 'sound/misc/coininsert.ogg', 100, FALSE, -1)
-				// Any deposit by a marked defaulter is taken as an act of good faith
-				// and clears the stigma. The lost principal is gone regardless.
-				if(HAS_TRAIT(H, TRAIT_DEBTOR))
-					REMOVE_TRAIT(H, TRAIT_DEBTOR, TRAIT_GENERIC)
-					SStreasury.clear_poll_tax_debt(H)
-					say("The stigma of default is cleared from [H.real_name]'s record.")
-					playsound(src, 'sound/misc/notice.ogg', 100, FALSE, -1)
-				else
-					// Non-defaulters still clear any overdue poll-tax counter on deposit,
-					// as a good-faith tick-down of the ledger.
-					SStreasury.clear_poll_tax_debt(H)
+				// Deposits clear any overdue poll-tax counter as a good-faith tick-down
+				// of the ledger. The defaulter mark is separate: it lifts only when the
+				// outstanding debt is paid in full (via repay_loan / tick_loans auto-charge)
+				// or when the Steward explicitly forgives it.
+				SStreasury.clear_poll_tax_debt(H)
 				return
 
 		if(istype(P, /obj/item/coveter))

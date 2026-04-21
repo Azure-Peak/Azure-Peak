@@ -169,7 +169,15 @@
 			. += span_notice("A chartered resident of Azuria.")
 
 		if(HAS_TRAIT(src, TRAIT_DEBTOR))
-			. += span_danger("A default debtor of the Crown.")
+			var/keep_aligned = FALSE
+			if(ishuman(user))
+				var/mob/living/carbon/human/viewer = user
+				if((viewer.job in GLOB.garrison_positions) || (viewer.job in GLOB.retinue_positions) || (viewer.job in GLOB.courtier_positions) || (viewer.job in GLOB.noble_positions))
+					keep_aligned = TRUE
+			if(keep_aligned)
+				. += span_userdanger("DEFAULT DEBTOR OF THE CROWN!")
+			else
+				. += span_smallred("A bad debtor.")
 
 		if(src.job in GLOB.church_positions)
 			. += span_notice("A member of the Church of Azuria.")

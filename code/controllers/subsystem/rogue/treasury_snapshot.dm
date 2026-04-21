@@ -1,7 +1,7 @@
 /datum/controller/subsystem/treasury/proc/compute_fiscal_snapshot()
 	var/total_bank = 0
 	var/under_50m = 0
-	var/in_grace = 0
+	var/in_advance = 0
 	var/in_arrears = 0
 	var/debtor_count = 0
 	var/held_accounts = 0
@@ -16,8 +16,8 @@
 		var/mob/living/owner = account.get_owner()
 		if(!owner)
 			continue
-		if(poll_tax_days_paid[owner])
-			in_grace++
+		if(poll_tax_advance_days[owner])
+			in_advance++
 		if(poll_tax_owed[owner])
 			in_arrears++
 		if(HAS_TRAIT(owner, TRAIT_DEBTOR))
@@ -38,7 +38,7 @@
 		"avg_balance" = avg_balance,
 		"held_accounts" = held_accounts,
 		"under_50m" = under_50m,
-		"in_grace" = in_grace,
+		"in_advance" = in_advance,
 		"in_arrears" = in_arrears,
 		"debtor_count" = debtor_count,
 		"loans_outstanding" = length(loans),
@@ -63,7 +63,7 @@
 		))
 	return out
 
-/// status values: "arrears" owed>0, "grace" days_paid>0, "debtor" TRAIT_DEBTOR, "low_balance" <50m, "exempt" charter-exempt.
+/// status values: "arrears" owed>0, "advance" advance_days>0, "debtor" TRAIT_DEBTOR, "low_balance" <50m, "exempt" charter-exempt.
 /datum/controller/subsystem/treasury/proc/compute_filtered_players(category_filter, status_filter, search_str)
 	var/list/out = list()
 	var/search_lower = lowertext(search_str || "")
@@ -82,7 +82,7 @@
 
 		var/owed = poll_tax_owed[owner] || 0
 		var/overdue = poll_tax_debt_days[owner] || 0
-		var/grace = poll_tax_days_paid[owner] || 0
+		var/advance = poll_tax_advance_days[owner] || 0
 		var/exempt = category ? is_poll_tax_charter_exempt(owner, category) : FALSE
 		var/is_debtor = HAS_TRAIT(owner, TRAIT_DEBTOR)
 
@@ -91,8 +91,8 @@
 				if("arrears")
 					if(owed <= 0)
 						continue
-				if("grace")
-					if(grace <= 0)
+				if("advance")
+					if(advance <= 0)
 						continue
 				if("debtor")
 					if(!is_debtor)
@@ -122,7 +122,7 @@
 			"rate" = rate,
 			"raw_rate" = category ? (poll_tax_rates[category] || 0) : 0,
 			"exempt" = exempt,
-			"grace" = grace,
+			"advance" = advance,
 			"owed" = owed,
 			"overdue" = overdue,
 			"balance" = account.balance,

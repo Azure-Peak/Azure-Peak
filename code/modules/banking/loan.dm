@@ -57,6 +57,8 @@
 
 /datum/loan/proc/format()
 	var/pct = round(interest_rate * 100)
+	if(defaulted)
+		return "[debtor_name]: [principal]m principal @ [pct]%/day over [days_total] day\s - [get_remaining_due()]m outstanding (DEFAULTED day [due_on_day])"
 	return "[debtor_name]: [principal]m principal @ [pct]%/day over [days_total] day\s - [get_remaining_due()]m due (day [due_on_day], [days_until_due()] day\s left)"
 
 /// Resolve the weakref to the live debtor mob, or null if the mob is gone.
@@ -106,7 +108,8 @@
 
 /// Consume a partial or full repayment against an active loan. Transfers `amount`
 /// from the debtor's account into the Crown discretionary. Returns the amount
-/// actually repaid, or 0 on failure. Closes and removes the loan if fully repaid.
+/// actually repaid, or 0 on failure. Closes the loan and (for a defaulted loan)
+/// clears TRAIT_DEBTOR if fully settled.
 /datum/controller/subsystem/treasury/proc/repay_loan(mob/living/carbon/human/debtor, amount)
 	if(!debtor || amount <= 0)
 		return 0
@@ -120,10 +123,13 @@
 	amount = min(amount, outstanding, account.balance)
 	if(amount <= 0)
 		return 0
-	if(!transfer(account, discretionary_fund, amount, "Loan repayment"))
+	if(!transfer(account, discretionary_fund, amount, L.defaulted ? "Default debt settlement" : "Loan repayment"))
 		return 0
 	L.repaid_so_far += amount
 	if(L.get_remaining_due() <= 0)
+		if(L.defaulted)
+			REMOVE_TRAIT(debtor, TRAIT_DEBTOR, TRAIT_GENERIC)
+			to_chat(debtor, span_notice("The stigma of default is lifted. Your debt to the Crown is paid in full."))
 		loans -= L
 		qdel(L)
 	return amount
@@ -131,8 +137,11 @@
 /// Dawn-hook. For each outstanding loan:
 ///   - If the debtor mob is gone (weakref resolves null), silently prune. They no
 ///     longer exist in any meaningful sense; there is nothing to seize or mark.
-///   - Otherwise on/after maturity, collect in full if possible, else seize what
-///     we can, flag default, and mark TRAIT_DEBTOR.
+///   - Otherwise on/after maturity, collect in full if possible. If the account
+///     can't cover the debt on first maturity, seize what's there, flag default,
+///     mark TRAIT_DEBTOR, and keep the loan alive on `loans` for later settlement.
+///   - A defaulted loan with a recovered balance auto-settles on a later tick:
+///     debt is charged in full, TRAIT_DEBTOR cleared, loan qdel'd.
 /datum/controller/subsystem/treasury/proc/tick_loans()
 	for(var/datum/loan/L in loans.Copy())
 		var/mob/living/carbon/human/debtor = L.get_debtor_mob()
@@ -148,25 +157,33 @@
 		var/datum/fund/account = get_account(debtor)
 		var/outstanding = L.get_remaining_due()
 		if(outstanding <= 0)
+			if(L.defaulted)
+				REMOVE_TRAIT(debtor, TRAIT_DEBTOR, TRAIT_GENERIC)
 			loans -= L
 			qdel(L)
 			continue
 		if(account && account.balance >= outstanding)
-			if(transfer(account, discretionary_fund, outstanding, "Loan repayment (maturity)"))
-				send_ooc_note("<b>MEISTER:</b> Your loan of [L.principal]m has been repaid in full ([outstanding]m drawn from your account).", name = debtor.real_name)
+			if(transfer(account, discretionary_fund, outstanding, L.defaulted ? "Default debt settlement (auto)" : "Loan repayment (maturity)"))
+				L.repaid_so_far += outstanding
+				if(L.defaulted)
+					REMOVE_TRAIT(debtor, TRAIT_DEBTOR, TRAIT_GENERIC)
+					send_ooc_note("<b>MEISTER:</b> The stigma of default is lifted. [outstanding]m was drawn from your account to settle the outstanding debt in full.", name = debtor.real_name)
+				else
+					send_ooc_note("<b>MEISTER:</b> Your loan of [L.principal]m has been repaid in full ([outstanding]m drawn from your account).", name = debtor.real_name)
 				loans -= L
 				qdel(L)
 				continue
-		// Insufficient funds - seize what we can, mark default.
-		L.defaulted = TRUE
-		var/seized = 0
-		if(account && account.balance > 0)
-			seized = account.balance
-			if(burn(account, seized, "Loan default seizure"))
-				mint(discretionary_fund, seized, "Loan default seizure")
-		ADD_TRAIT(debtor, TRAIT_DEBTOR, TRAIT_GENERIC)
-		send_ooc_note("<b>MEISTER:</b> Your loan of [L.principal]m has come due and you cannot pay. [seized]m was seized and you are marked a defaulter of the Crown.", name = debtor.real_name)
-		record_round_statistic(STATS_LOANS_DEFAULTED, 1)
-		log_game("LOAN DEFAULT: [L.debtor_name] defaulted on [outstanding]m loan. [seized]m seized.")
-		loans -= L
-		qdel(L)
+		// Insufficient funds. First-time default: seize what we can, mark, persist.
+		if(!L.defaulted)
+			L.defaulted = TRUE
+			var/seized = 0
+			if(account && account.balance > 0)
+				seized = account.balance
+				if(transfer(account, discretionary_fund, seized, "Loan default seizure"))
+					L.repaid_so_far += seized
+			ADD_TRAIT(debtor, TRAIT_DEBTOR, TRAIT_GENERIC)
+			var/still_owed = L.get_remaining_due()
+			send_ooc_note("<b>MEISTER:</b> Your loan of [L.principal]m has come due and you cannot pay. [seized]m was seized; [still_owed]m remains owed to the Crown. You are marked a defaulter until the debt is settled.", name = debtor.real_name)
+			record_round_statistic(STATS_LOANS_DEFAULTED, 1)
+			log_game("LOAN DEFAULT: [L.debtor_name] defaulted on [outstanding]m loan. [seized]m seized, [still_owed]m remaining.")
+		// Already-defaulted loans persist on `loans` for future manual/auto settlement.

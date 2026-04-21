@@ -44,7 +44,7 @@ GLOBAL_DATUM_INIT(economic_panel, /datum/economic_panel, new)
 				POLL_TAX_CAT_MERCENARY,
 				POLL_TAX_CAT_PEASANT,
 			),
-			"statuses" = list("all", "arrears", "grace", "debtor", "low_balance", "exempt"),
+			"statuses" = list("all", "arrears", "advance", "debtor", "low_balance", "exempt"),
 		),
 	)
 
@@ -138,26 +138,26 @@ GLOBAL_DATUM_INIT(economic_panel, /datum/economic_panel, new)
 			SStreasury.clear_poll_tax_debt(target)
 			admin_log_fiscal("cleared poll-tax debt for [key_name(target)]", "Clear Poll Debt")
 			return TRUE
-		if("player_add_grace")
+		if("player_add_advance")
 			var/mob/living/target = locate(params["ref"])
 			if(!istype(target))
 				return TRUE
 			var/days = text2num(params["days"]) || 1
-			SStreasury.poll_tax_days_paid[target] = (SStreasury.poll_tax_days_paid[target] || 0) + days
-			admin_log_fiscal("added [days] days grace to [key_name(target)]", "Add Grace")
+			SStreasury.poll_tax_advance_days[target] = (SStreasury.poll_tax_advance_days[target] || 0) + days
+			admin_log_fiscal("added [days] days advance to [key_name(target)]", "Add Advance")
 			return TRUE
-		if("player_remove_grace")
+		if("player_remove_advance")
 			var/mob/living/target = locate(params["ref"])
 			if(!istype(target))
 				return TRUE
 			var/days = text2num(params["days"]) || 1
-			var/existing = SStreasury.poll_tax_days_paid[target] || 0
+			var/existing = SStreasury.poll_tax_advance_days[target] || 0
 			var/new_val = max(0, existing - days)
 			if(new_val <= 0)
-				SStreasury.poll_tax_days_paid -= target
+				SStreasury.poll_tax_advance_days -= target
 			else
-				SStreasury.poll_tax_days_paid[target] = new_val
-			admin_log_fiscal("removed [days] days grace from [key_name(target)]", "Remove Grace")
+				SStreasury.poll_tax_advance_days[target] = new_val
+			admin_log_fiscal("removed [days] days advance from [key_name(target)]", "Remove Advance")
 			return TRUE
 		if("player_toggle_debtor")
 			var/mob/living/target = locate(params["ref"])
@@ -207,7 +207,7 @@ GLOBAL_DATUM_INIT(economic_panel, /datum/economic_panel, new)
 				count++
 			admin_log_fiscal("bulk-cleared poll-tax debt for [count] players (filter cat=[filter_category] status=[filter_status])", "Bulk Clear Debt")
 			return TRUE
-		if("bulk_add_grace")
+		if("bulk_add_advance")
 			var/days = text2num(params["days"]) || 1
 			var/list/matches = SStreasury.compute_filtered_players(filter_category, filter_status, filter_search)
 			var/count = 0
@@ -215,9 +215,9 @@ GLOBAL_DATUM_INIT(economic_panel, /datum/economic_panel, new)
 				var/mob/living/target = locate(entry["ref"])
 				if(!istype(target))
 					continue
-				SStreasury.poll_tax_days_paid[target] = (SStreasury.poll_tax_days_paid[target] || 0) + days
+				SStreasury.poll_tax_advance_days[target] = (SStreasury.poll_tax_advance_days[target] || 0) + days
 				count++
-			admin_log_fiscal("bulk-added [days] grace days to [count] players", "Bulk Add Grace")
+			admin_log_fiscal("bulk-added [days] advance days to [count] players", "Bulk Add Advance")
 			return TRUE
 
 /proc/admin_log_fiscal(detail, tally_label)

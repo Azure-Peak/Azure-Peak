@@ -21,7 +21,7 @@ type Dashboard = {
   avg_balance: number;
   held_accounts: number;
   under_50m: number;
-  in_grace: number;
+  in_advance: number;
   in_arrears: number;
   debtor_count: number;
   loans_outstanding: number;
@@ -41,7 +41,7 @@ type PlayerRow = {
   rate: number;
   raw_rate: number;
   exempt: BooleanLike;
-  grace: number;
+  advance: number;
   owed: number;
   overdue: number;
   balance: number;
@@ -81,7 +81,7 @@ type Data = {
 const STATUS_LABELS: Record<string, string> = {
   all: 'All',
   arrears: 'In Arrears',
-  grace: 'In Grace',
+  advance: 'In Advance',
   debtor: 'Debtor',
   low_balance: 'Low Balance (<50m)',
   exempt: 'Charter-Exempt',
@@ -109,8 +109,8 @@ export const EconomicPanel = () => {
   const [searchDraft, setSearchDraft] = useState(filter.search);
   const [mintAmount, setMintAmount] = useState(100);
   const [burnAmount, setBurnAmount] = useState(100);
-  const [bulkGraceDays, setBulkGraceDays] = useState(1);
-  const [playerGraceDays, setPlayerGraceDays] = useState(1);
+  const [bulkAdvanceDays, setBulkAdvanceDays] = useState(1);
+  const [playerAdvanceDays, setPlayerAdvanceDays] = useState(1);
   const [playerMintAmount, setPlayerMintAmount] = useState(50);
 
   const applyFilter = (overrides: Partial<Filter> = {}) => {
@@ -149,8 +149,8 @@ export const EconomicPanel = () => {
                 </Stack.Item>
                 <Stack.Item grow>
                   <LabeledList>
-                    <LabeledList.Item label="In Grace">
-                      {dashboard.in_grace}
+                    <LabeledList.Item label="In Advance">
+                      {dashboard.in_advance}
                     </LabeledList.Item>
                     <LabeledList.Item label="In Arrears">
                       {dashboard.in_arrears}
@@ -348,7 +348,7 @@ export const EconomicPanel = () => {
                       <Table.Cell>Rate</Table.Cell>
                       <Table.Cell>Balance</Table.Cell>
                       <Table.Cell>Coin</Table.Cell>
-                      <Table.Cell>Grace</Table.Cell>
+                      <Table.Cell>Advance</Table.Cell>
                       <Table.Cell>Owed</Table.Cell>
                       <Table.Cell>Overdue</Table.Cell>
                       <Table.Cell>Flags</Table.Cell>
@@ -368,7 +368,7 @@ export const EconomicPanel = () => {
                         </Table.Cell>
                         <Table.Cell>{p.balance}m</Table.Cell>
                         <Table.Cell>{p.on_person}m</Table.Cell>
-                        <Table.Cell>{p.grace}</Table.Cell>
+                        <Table.Cell>{p.advance}</Table.Cell>
                         <Table.Cell>{p.owed}m</Table.Cell>
                         <Table.Cell>{p.overdue}</Table.Cell>
                         <Table.Cell>
@@ -400,17 +400,17 @@ export const EconomicPanel = () => {
                         step={1}
                         minValue={1}
                         maxValue={30}
-                        value={bulkGraceDays}
-                        onChange={(v: number) => setBulkGraceDays(v)}
+                        value={bulkAdvanceDays}
+                        onChange={(v: number) => setBulkAdvanceDays(v)}
                       />
                     </Stack.Item>
                     <Stack.Item>
                       <Button.Confirm
                         onClick={() =>
-                          act('bulk_add_grace', { days: bulkGraceDays })
+                          act('bulk_add_advance', { days: bulkAdvanceDays })
                         }
                       >
-                        Bulk: +{bulkGraceDays} grace days to all filtered
+                        Bulk: +{bulkAdvanceDays} advance days to all filtered
                       </Button.Confirm>
                     </Stack.Item>
                   </Stack>
@@ -446,8 +446,8 @@ export const EconomicPanel = () => {
                   <LabeledList.Item label="On-Person Coin">
                     {selected.on_person}m
                   </LabeledList.Item>
-                  <LabeledList.Item label="Grace Days">
-                    {selected.grace}
+                  <LabeledList.Item label="Advance Days">
+                    {selected.advance}
                   </LabeledList.Item>
                   <LabeledList.Item label="Arrears">
                     {selected.owed}m over {selected.overdue} day(s)
@@ -482,22 +482,22 @@ export const EconomicPanel = () => {
                 </Stack>
 
                 <Stack mt={1} align="center">
-                  <Stack.Item>Grace days:</Stack.Item>
+                  <Stack.Item>Advance days:</Stack.Item>
                   <Stack.Item>
                     <NumberInput
                       step={1}
                       minValue={1}
                       maxValue={999}
-                      value={playerGraceDays}
-                      onChange={(v: number) => setPlayerGraceDays(v)}
+                      value={playerAdvanceDays}
+                      onChange={(v: number) => setPlayerAdvanceDays(v)}
                     />
                   </Stack.Item>
                   <Stack.Item>
                     <Button.Confirm
                       onClick={() =>
-                        act('player_add_grace', {
+                        act('player_add_advance', {
                           ref: selected.ref,
-                          days: playerGraceDays,
+                          days: playerAdvanceDays,
                         })
                       }
                     >
@@ -507,9 +507,9 @@ export const EconomicPanel = () => {
                   <Stack.Item>
                     <Button.Confirm
                       onClick={() =>
-                        act('player_remove_grace', {
+                        act('player_remove_advance', {
                           ref: selected.ref,
-                          days: playerGraceDays,
+                          days: playerAdvanceDays,
                         })
                       }
                     >

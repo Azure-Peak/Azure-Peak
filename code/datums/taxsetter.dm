@@ -60,17 +60,7 @@
 			SStreasury.apply_rate_adjustments(params["categoryRates"], good_announcement_text, bad_announcement_text)
 			return TRUE
 		if("set_poll_rates")
-			var/list/incoming = params["pollTaxRates"]
-			if(!islist(incoming))
-				return TRUE
-			for(var/entry in incoming)
-				if(!islist(entry))
-					continue
-				var/category = entry["category"]
-				if(!(category in SStreasury.poll_tax_rates))
-					continue
-				var/new_rate = CLAMP(entry["rate"], 0, POLL_TAX_MAX_RATE)
-				SStreasury.poll_tax_rates[category] = new_rate
+			SStreasury.apply_poll_rate_adjustments(params["pollTaxRates"], good_announcement_text, bad_announcement_text)
 			return TRUE
 
 /datum/taxsetter/ui_state(mob/user)

@@ -289,12 +289,12 @@
 			playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
 			return
 		var/mob/living/carbon/human/H = usr
-		var/obj/item/residency_letter/letter = new(get_turf(src))
+		var/obj/item/citizenry_letter/letter = new(get_turf(src))
 		letter.issuer_name = H.real_name
 		letter.issuer_year = CALENDAR_EPOCH_YEAR
 		residency_print_cooldown = world.time + 1 MINUTES
 		playsound(src, 'sound/misc/coindispense.ogg', 60, FALSE, -1)
-		say("Letter of Residency issued, signed by [H.real_name].")
+		say("Letter of Citizenry issued, signed by [H.real_name].")
 	if(href_list["issueloan"])
 		issue_loan_dialog(usr)
 	if(href_list["setloanrate"])
@@ -330,8 +330,15 @@
 		if(!target || !HAS_TRAIT(target, TRAIT_DEBTOR))
 			return
 		REMOVE_TRAIT(target, TRAIT_DEBTOR, TRAIT_GENERIC)
-		say("[target.real_name]'s debtor mark has been cleared.")
-		to_chat(target, span_notice("The Stewardry has cleared the defaulter mark from my name."))
+		// A full pardon: forgive any active loan (defaulted or not) and wipe poll-tax arrears.
+		// The Stewardry is absolving the target of every outstanding Crown obligation.
+		var/datum/loan/forgiven = SStreasury.get_loan_for(target)
+		if(forgiven)
+			SStreasury.loans -= forgiven
+			qdel(forgiven)
+		SStreasury.clear_poll_tax_debt(target)
+		say("[target.real_name]'s debtor mark has been cleared; all Crown debts forgiven.")
+		to_chat(target, span_notice("The Stewardry has cleared the defaulter mark from my name. My debts to the Crown are forgiven."))
 	if(href_list["payroll"])
 		var/list/L = list(GLOB.noble_positions) + list(GLOB.retinue_positions) + list(GLOB.garrison_positions) + list(GLOB.courtier_positions) + list(GLOB.church_positions) + list(GLOB.burgher_positions) + list(GLOB.peasant_positions) + list(GLOB.sidefolk_positions) + list(GLOB.inquisition_positions)
 		var/list/things = list()
@@ -477,7 +484,7 @@
 			contents += "<a href='?src=\ref[src];switchtab=[TAB_PAYDAY]'>\[Daily Payments\]</a><BR>"
 			contents += "<a href='?src=\ref[src];switchtab=[TAB_LOG]'>\[Log\]</a><BR>"
 			contents += "<a href='?src=\ref[src];switchtab=[TAB_STATISTICS]'>\[Statistics\]</a><BR>"
-			contents += "<a href='?src=\ref[src];printresidency=1'>\[Print Letter of Residency\]</a><BR>"
+			contents += "<a href='?src=\ref[src];printresidency=1'>\[Print Letter of Citizenry\]</a><BR>"
 			var/loan_gate_ok = (GLOB.dayspassed <= SStreasury.loan_max_issuance_day)
 			if(loan_gate_ok)
 				contents += "<a href='?src=\ref[src];issueloan=1'>\[Issue Loan\]</a><BR>"
@@ -485,7 +492,7 @@
 				contents += "<font color='gray'>\[Issue Loan - closed after day [SStreasury.loan_max_issuance_day]\]</font><BR>"
 			contents += "<a href='?src=\ref[src];setloanrate=1'>\[Loan Rate: [round(SStreasury.loan_interest_rate * 100)]%/day\]</a><BR>"
 			contents += "<a href='?src=\ref[src];clearloandebtor=1'>\[Clear Defaulter Mark\]</a><BR>"
-			contents += "<font color='gray'><i>(Any deposit a defaulter makes at a MEISTER clears the mark automatically. Use this only to forgive without a deposit.)</i></font><BR>"
+			contents += "<font color='gray'><i>(A defaulter's mark lifts automatically when they settle the outstanding debt at a MEISTER. Use this to forgive the debt entirely.)</i></font><BR>"
 			contents += "</center>"
 		if(TAB_BANK)
 			contents += "<a href='?src=\ref[src];switchtab=[TAB_MAIN]'>\[Return\]</a>"
