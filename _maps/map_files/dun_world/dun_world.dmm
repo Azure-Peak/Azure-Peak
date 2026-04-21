@@ -20197,7 +20197,7 @@
 /area/rogue/under/town/sewer)
 "eht" = (
 /obj/structure/handcart{
-	dir = 4
+	dir = 8
 	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/church/basement)
