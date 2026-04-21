@@ -4487,7 +4487,6 @@
 	color = "#3f3f3f";
 	dir = 10
 	},
-/obj/structure/fluff/psycross/astrata/golden,
 /turf/open/floor/rogue/cobble,
 /area/rogue/outdoors/town)
 "aWb" = (
