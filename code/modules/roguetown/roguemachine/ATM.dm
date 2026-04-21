@@ -50,6 +50,11 @@
 		var/list/choicez = list()
 		if(active_loan)
 			choicez += "REPAY LOAN ([active_loan.get_remaining_due()]m due, [active_loan.days_until_due()]d left)"
+		var/poll_category = SStreasury.get_poll_tax_category(H)
+		var/poll_rate = poll_category ? SStreasury.get_poll_tax_rate_for(H, poll_category) : 0
+		if(amt > 0 && poll_category && poll_rate > 0 && !SStreasury.is_poll_tax_charter_exempt(H, poll_category))
+			var/grace_days = SStreasury.poll_tax_days_paid[H] || 0
+			choicez += "PREPAY POLL TAX ([poll_rate]m/day, grace: [grace_days]d)"
 		if(amt > 10)
 			choicez += "GOLD"
 		if(amt > 5)
@@ -97,6 +102,46 @@
 			else
 				var/datum/loan/still = SStreasury.get_loan_for(H)
 				say("[paid]m transferred. [still.get_remaining_due()]m remains.")
+			return
+		if(copytext(selection, 1, 17) == "PREPAY POLL TAX ")
+			if(!Adjacent(user))
+				return
+			poll_category = SStreasury.get_poll_tax_category(H)
+			if(!poll_category)
+				say("The Crown does not tax your class.")
+				return
+			if(SStreasury.is_poll_tax_charter_exempt(H, poll_category))
+				say("Your class is exempt from poll tax by decree.")
+				return
+			var/eff_rate = SStreasury.get_poll_tax_rate_for(H, poll_category)
+			if(eff_rate <= 0)
+				say("No poll tax rate is set for your class.")
+				return
+			amt = SStreasury.get_balance(H)
+			if(amt <= 0)
+				say("Your balance is nothing.")
+				playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
+				return
+			var/max_days = floor(amt / eff_rate)
+			if(max_days < 1)
+				say("You cannot afford a single day at [eff_rate]m.")
+				playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
+				return
+			var/prepay_days = input(user, "Prepay how many days of Poll Tax at [eff_rate]m/day? Your balance: [amt]m. (Maximum [max_days] days)", src, max_days) as null|num
+			if(isnull(prepay_days))
+				return
+			prepay_days = round(prepay_days)
+			if(prepay_days < 1)
+				return
+			if(!Adjacent(user))
+				return
+			prepay_days = min(prepay_days, max_days)
+			if(!SStreasury.poll_tax_prepay_days(H, prepay_days))
+				playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
+				say("The ledger refused the advance.")
+				return
+			playsound(src, 'sound/misc/coininsert.ogg', 100, FALSE, -1)
+			say("[prepay_days] day[prepay_days == 1 ? "" : "s"] of Poll Tax advanced for [H.real_name].")
 			return
 		amt = SStreasury.get_balance(H)
 		var/mod = 1
@@ -169,8 +214,13 @@
 				// and clears the stigma. The lost principal is gone regardless.
 				if(HAS_TRAIT(H, TRAIT_DEBTOR))
 					REMOVE_TRAIT(H, TRAIT_DEBTOR, TRAIT_GENERIC)
+					SStreasury.clear_poll_tax_debt(H)
 					say("The stigma of default is cleared from [H.real_name]'s record.")
 					playsound(src, 'sound/misc/notice.ogg', 100, FALSE, -1)
+				else
+					// Non-defaulters still clear any overdue poll-tax counter on deposit,
+					// as a good-faith tick-down of the ledger.
+					SStreasury.clear_poll_tax_debt(H)
 				return
 
 		if(istype(P, /obj/item/coveter))

@@ -24,7 +24,33 @@
 			"category" = category,
 			"rate" = round(SStreasury.tax_rates[category] * 100),
 		))
-	return list("categoryRates" = category_rates)
+	// Poll tax - flat mammon per head per day. Fixed order matches the civic-priority
+	// stack used by get_poll_tax_category().
+	var/list/poll_order = list(
+		POLL_TAX_CAT_NOBLE,
+		POLL_TAX_CAT_CLERGY,
+		POLL_TAX_CAT_INQUISITION,
+		POLL_TAX_CAT_COURTIER,
+		POLL_TAX_CAT_GARRISON,
+		POLL_TAX_CAT_GUILDS,
+		POLL_TAX_CAT_MERCHANT,
+		POLL_TAX_CAT_BURGHER,
+		POLL_TAX_CAT_ADVENTURER,
+		POLL_TAX_CAT_MERCENARY,
+		POLL_TAX_CAT_PEASANT,
+	)
+	var/list/poll_tax_rates_out = list()
+	for(var/category in poll_order)
+		poll_tax_rates_out += list(list(
+			"category" = category,
+			"label" = SStreasury.get_poll_tax_category_pretty_name(category),
+			"rate" = SStreasury.poll_tax_rates[category] || 0,
+		))
+	return list(
+		"categoryRates" = category_rates,
+		"pollTaxRates" = poll_tax_rates_out,
+		"pollTaxMax" = POLL_TAX_MAX_RATE,
+	)
 
 /datum/taxsetter/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)
 	if(..())
@@ -32,6 +58,19 @@
 	switch(action)
 		if("set_rates")
 			SStreasury.apply_rate_adjustments(params["categoryRates"], good_announcement_text, bad_announcement_text)
+			return TRUE
+		if("set_poll_rates")
+			var/list/incoming = params["pollTaxRates"]
+			if(!islist(incoming))
+				return TRUE
+			for(var/entry in incoming)
+				if(!islist(entry))
+					continue
+				var/category = entry["category"]
+				if(!(category in SStreasury.poll_tax_rates))
+					continue
+				var/new_rate = CLAMP(entry["rate"], 0, POLL_TAX_MAX_RATE)
+				SStreasury.poll_tax_rates[category] = new_rate
 			return TRUE
 
 /datum/taxsetter/ui_state(mob/user)

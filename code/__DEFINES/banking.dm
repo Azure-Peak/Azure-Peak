@@ -19,3 +19,25 @@
 
 /// Mammon balance at round-end required to earn the Savings Goal triumph.
 #define SAVINGS_GOAL_THRESHOLD 200
+
+// Poll Tax categories - flat per-head daily levy by civic class.
+#define POLL_TAX_CAT_NOBLE "poll_noble"
+#define POLL_TAX_CAT_CLERGY "poll_clergy"
+#define POLL_TAX_CAT_INQUISITION "poll_inquisition"
+#define POLL_TAX_CAT_COURTIER "poll_courtier"
+#define POLL_TAX_CAT_GARRISON "poll_garrison"
+#define POLL_TAX_CAT_GUILDS "poll_guilds"
+#define POLL_TAX_CAT_MERCHANT "poll_merchant"
+#define POLL_TAX_CAT_BURGHER "poll_burgher"
+#define POLL_TAX_CAT_ADVENTURER "poll_adventurer"
+#define POLL_TAX_CAT_MERCENARY "poll_mercenary"
+#define POLL_TAX_CAT_PEASANT "poll_peasant"
+
+/// Max poll tax per category, per day, in mammon.
+#define POLL_TAX_MAX_RATE 50
+/// Days consecutively owing before TRAIT_DEBTOR is applied.
+#define POLL_TAX_DEBT_DAYS_TO_DEBTOR 2
+/// Golden Bull of Kingsfield caps burgher poll tax at this flat amount when in force.
+#define GOLDEN_BULL_POLL_CAP 25
+/// Minimum world-time since round start before Poll Tax prepay is allowed.
+#define POLL_TAX_PREPAY_GRACE (10 MINUTES)

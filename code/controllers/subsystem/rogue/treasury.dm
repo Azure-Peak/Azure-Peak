@@ -1,5 +1,3 @@
-// SEE treasury.dm in __DEFINES for definitions
-
 /proc/send_ooc_note(msg, name, job)
 	var/list/names_to = list()
 	if(name)
@@ -31,10 +29,10 @@ SUBSYSTEM_DEF(treasury)
 		TAX_CATEGORY_EXPORT_DUTY = 0.20,
 		TAX_CATEGORY_FINE = 1.0,
 	)
-	var/trade_spread = 0.10 // Merchant-guild spread between stockpile import and export prices. Not a ledger tax.
-	var/mint_multiplier = 0.8 // 1x is meant to leave a margin after standard 80% collectable. Less than Bathmatron.
+	var/trade_spread = 0.10
+	var/mint_multiplier = 0.8
 	var/minted = 0
-	var/autoexport_percentage = 0.6 // Percentage above which stockpiles will automatically export  
+	var/autoexport_percentage = 0.6
 	var/list/bank_accounts = list()
 	var/datum/fund/discretionary_fund
 	var/datum/fund/burgher_bond_fund
@@ -42,9 +40,7 @@ SUBSYSTEM_DEF(treasury)
 	var/list/noble_incomes = list()
 	var/list/decrees = list()
 	var/list/stockpile_datums = list()
-	/// Day number on which the realm's 1-per-day decree revocation slot was last consumed.
 	var/decree_revoke_used_day = -1
-	/// Day number on which the realm's 1-per-day decree restoration slot was last consumed.
 	var/decree_restore_used_day = -1
 	var/next_treasury_check = 0
 	var/economic_output = 0
@@ -53,14 +49,27 @@ SUBSYSTEM_DEF(treasury)
 	var/total_noble_income = 0
 	var/total_import = 0
 	var/total_export = 0
-	var/obj/structure/roguemachine/steward/steward_machine // Reference to the nerve master
-	var/initial_payment_done = FALSE // Flag to track if initial round-start payment has been distributed
-	/// List of /datum/loan currently outstanding against debtors.
+	var/obj/structure/roguemachine/steward/steward_machine
+	var/initial_payment_done = FALSE
 	var/list/loans = list()
-	/// Steward-settable default simple-interest rate per day (0.25 == 25%).
 	var/loan_interest_rate = 0.25
-	/// GLOB.dayspassed value above which no new loans may be issued.
 	var/loan_max_issuance_day = 5
+	var/list/poll_tax_rates = list(
+		POLL_TAX_CAT_NOBLE = 10,
+		POLL_TAX_CAT_CLERGY = 10,
+		POLL_TAX_CAT_INQUISITION = 10,
+		POLL_TAX_CAT_COURTIER = 10,
+		POLL_TAX_CAT_GARRISON = 10,
+		POLL_TAX_CAT_GUILDS = 10,
+		POLL_TAX_CAT_MERCHANT = 10,
+		POLL_TAX_CAT_BURGHER = 10,
+		POLL_TAX_CAT_ADVENTURER = 10,
+		POLL_TAX_CAT_MERCENARY = 10,
+		POLL_TAX_CAT_PEASANT = 10,
+	)
+	var/list/poll_tax_days_paid = list()
+	var/list/poll_tax_owed = list()
+	var/list/poll_tax_debt_days = list()
 
 /datum/controller/subsystem/treasury/Initialize()
 	discretionary_fund = new("Crown Discretionary", null, rand(1000, 2000), CURRENCY_MAMMON)
@@ -83,7 +92,7 @@ SUBSYSTEM_DEF(treasury)
 	if(world.time > next_treasury_check)
 		next_treasury_check = world.time + TREASURY_TICK_AMOUNT
 		if(SSticker.current_state == GAME_STATE_PLAYING)
-			if(!initial_payment_done) // Distribute initial payments once at round start
+			if(!initial_payment_done)
 				initial_payment_done = TRUE
 				distribute_daily_payments()
 			for(var/datum/roguestock/X in stockpile_datums)
@@ -92,14 +101,14 @@ SUBSYSTEM_DEF(treasury)
 						X.demand += rand(5,15)
 					if(X.demand > initial(X.demand))
 						X.demand -= rand(5,15)
-			for(var/datum/roguestock/stockpile/A in stockpile_datums) //Generate some remote resources
+			for(var/datum/roguestock/stockpile/A in stockpile_datums)
 				A.held_items[2] += A.passive_generation
-				A.held_items[2] = min(A.held_items[2],10) //To a maximum of 10
+				A.held_items[2] = min(A.held_items[2],10)
 		var/area/A = GLOB.areas_by_type[/area/rogue/indoors/town/vault]
 		for(var/obj/structure/roguemachine/vaultbank/VB in A)
 			if(istype(VB))
 				VB.update_icon()
-		mint(discretionary_fund, RURAL_TAX, "Rural Tax Collection") //Give the King's purse to the treasury
+		mint(discretionary_fund, RURAL_TAX, "Rural Tax Collection")
 		record_round_statistic(STATS_RURAL_TAXES_COLLECTED, RURAL_TAX)
 		total_rural_tax += RURAL_TAX
 	
@@ -145,8 +154,6 @@ SUBSYSTEM_DEF(treasury)
 		mint(account, initial_deposit, "Initial endowment")
 	return TRUE
 
-/// Maximum mammon that can be fined from the target in a single action, accounting for
-/// decree exemptions and rate caps. Returns 0 if the target cannot be fined at all.
 /datum/controller/subsystem/treasury/proc/get_max_fine_for(mob/living/target)
 	if(!target)
 		return 0
@@ -158,9 +165,6 @@ SUBSYSTEM_DEF(treasury)
 	var/cap_rate = get_rate_cap(target, TAX_CATEGORY_FINE)
 	return FLOOR(balance * cap_rate, 1)
 
-/// Awards +3 triumphs to every player whose on-person coins plus mammon bank balance
-/// meet SAVINGS_GOAL_THRESHOLD. Any account holder with a mind is evaluated.
-/// Records roundstat tally and sends each eligible player a personal result message. Called once at roundend.
 /datum/controller/subsystem/treasury/proc/award_savings_goals()
 	var/threshold = SAVINGS_GOAL_THRESHOLD
 	var/met = 0
@@ -187,7 +191,6 @@ SUBSYSTEM_DEF(treasury)
 	record_round_statistic(STATS_SAVINGS_GOAL_MISSED, missed)
 	return list("met" = met, "missed" = missed)
 
-/// Off-map personal wealth granted at roundstart. Mints into the account directly;
 /datum/controller/subsystem/treasury/proc/grant_savings(amt, mob/living/target)
 	if(!amt || !target)
 		return FALSE
@@ -281,7 +284,6 @@ SUBSYSTEM_DEF(treasury)
 	if(!steward_machine || !steward_machine.daily_payments || !steward_machine.daily_payments.len)
 		return
 
-	// Pre-check: sum projected payroll, ensure the Crown can cover it all. If not, pay nothing.
 	var/projected_total = 0
 	for(var/job_name in steward_machine.daily_payments)
 		var/payment_amount = steward_machine.daily_payments[job_name]
@@ -301,9 +303,6 @@ SUBSYSTEM_DEF(treasury)
 				if(give_money_account(payment_amount, H, "Daily Wage"))
 					record_round_statistic(STATS_WAGES_PAID)
 
-/// Daily replenishment of the Burgher Bond. Gated on the Golden Bull of Kingsfield - when charter is active the burghers pledge their authority to the common defense.
-/// If the charter is suspended, the refill skips. Surplus above the clawback ceiling is cleared.
-/// Refill scales with active player count - the realm's defense needs grow with the populace.
 /datum/controller/subsystem/treasury/proc/tick_burgher_bond()
 	if(!burgher_bond_fund)
 		return
@@ -322,15 +321,14 @@ SUBSYSTEM_DEF(treasury)
 		return FALSE
 	var/amt = D.get_export_price()
 
-	// You should only export from town stockpiles, not from remote. Remote is meant
-	// To fulfill local economic shortfall and not to make $$ for the steward.
+	// Only export from town stockpiles, not remote. Remote fulfills local shortfall, not steward profit.
 	if(D.held_items[1] >= D.importexport_amt)
 		D.held_items[1] -= D.importexport_amt
 
 	mint(discretionary_fund, amt, "exported [D.name]")
 	SStreasury.total_export += amt
 	record_round_statistic(STATS_STOCKPILE_EXPORTS_VALUE, amt)
-	if(!silent && amt >= EXPORT_ANNOUNCE_THRESHOLD) //Only announce big spending.
+	if(!silent && amt >= EXPORT_ANNOUNCE_THRESHOLD)
 		scom_announce("Azure Peak exports [D.name] for [amt] mammon.")
 	D.lower_demand()
 	return amt
@@ -341,8 +339,7 @@ SUBSYSTEM_DEF(treasury)
 		if(!D.importexport_amt)
 			continue
 		if((autoexport_percentage * D.stockpile_limit) >= D.held_items[1])
-			continue // We only auto export if above the auto export percentage.
-		// We don't want to auto export if it is not profitable at all.
+			continue
 		if(D.get_export_price() <= (D.payout_price * D.importexport_amt))
 			continue
 		if(D.held_items[1] >= D.importexport_amt)
@@ -354,9 +351,11 @@ SUBSYSTEM_DEF(treasury)
 /datum/controller/subsystem/treasury/proc/remove_person(mob/living/person)
 	noble_incomes -= person
 	bank_accounts -= person
+	poll_tax_days_paid -= person
+	poll_tax_owed -= person
+	poll_tax_debt_days -= person
 	return TRUE
 
-/// Apply Steward/Lord-submitted category rate changes. Announces only changed rates.
 /datum/controller/subsystem/treasury/proc/apply_rate_adjustments(list/adjustments, good_announcement_text, bad_announcement_text)
 	var/list/lines = list()
 	var/bad_guy = FALSE
@@ -400,10 +399,180 @@ SUBSYSTEM_DEF(treasury)
 			return "Fine"
 	return capitalize(category)
 
-/// Checks if there is a valid amount in the treasury, if so, withdraw that amount and log it
-/// Currently only used by Chimeric heartbeasts
 /datum/controller/subsystem/treasury/proc/withdraw_money_treasury(amt, target)
 	if(!amt)
 		return FALSE
 	return burn(discretionary_fund, amt, "withdrawn by [target]")
-	
+
+/datum/controller/subsystem/treasury/proc/get_poll_tax_category(mob/living/H)
+	if(!H)
+		return null
+	if(HAS_TRAIT(H, TRAIT_OUTLAW))
+		return null
+	if(HAS_TRAIT(H, TRAIT_NOBLE) || (H.job in GLOB.noble_positions))
+		return POLL_TAX_CAT_NOBLE
+	if(H.job in GLOB.inquisition_positions)
+		return POLL_TAX_CAT_INQUISITION
+	if((H.job in GLOB.church_positions) || HAS_TRAIT(H, TRAIT_DECLARED_BENEFACTOR))
+		return POLL_TAX_CAT_CLERGY
+	if(H.job in GLOB.courtier_positions)
+		return POLL_TAX_CAT_COURTIER
+	if((H.job in GLOB.garrison_positions) || H.job == "Squire")
+		return POLL_TAX_CAT_GARRISON
+	if(H.job in list("Guildmaster", "Guildsman", "Tailor"))
+		return POLL_TAX_CAT_GUILDS
+	if(H.job == "Merchant")
+		return POLL_TAX_CAT_MERCHANT
+	if((H.job in list("Innkeeper", "Head Physician", "Apothecary", "Bathmaster", "Town Crier", "Magicians Associate")) || HAS_TRAIT(H, TRAIT_RESIDENT))
+		return POLL_TAX_CAT_BURGHER
+	if(H.job in GLOB.wanderer_positions)
+		return POLL_TAX_CAT_ADVENTURER
+	if(H.job == "Mercenary")
+		return POLL_TAX_CAT_MERCENARY
+	if((H.job in GLOB.peasant_positions) || (H.job in GLOB.sidefolk_positions))
+		return POLL_TAX_CAT_PEASANT
+	return null
+
+/datum/controller/subsystem/treasury/proc/is_poll_tax_charter_exempt(mob/living/H, category)
+	switch(category)
+		if(POLL_TAX_CAT_NOBLE)
+			var/datum/decree/GW = get_decree(DECREE_GREAT_WRIT)
+			return GW?.active
+		if(POLL_TAX_CAT_CLERGY)
+			var/datum/decree/ZC = get_decree(DECREE_ZENITSTADT_CONCORDAT)
+			return ZC?.active
+		if(POLL_TAX_CAT_INQUISITION)
+			var/datum/decree/OA = get_decree(DECREE_OTAVAN_ACCORDS)
+			return OA?.active
+	return FALSE
+
+/datum/controller/subsystem/treasury/proc/get_poll_tax_category_pretty_name(category)
+	switch(category)
+		if(POLL_TAX_CAT_NOBLE)
+			return "Noble"
+		if(POLL_TAX_CAT_CLERGY)
+			return "Clergy"
+		if(POLL_TAX_CAT_INQUISITION)
+			return "Inquisition"
+		if(POLL_TAX_CAT_COURTIER)
+			return "Courtier"
+		if(POLL_TAX_CAT_GARRISON)
+			return "Garrison"
+		if(POLL_TAX_CAT_GUILDS)
+			return "Guilds"
+		if(POLL_TAX_CAT_MERCHANT)
+			return "Merchant"
+		if(POLL_TAX_CAT_BURGHER)
+			return "Burgher"
+		if(POLL_TAX_CAT_ADVENTURER)
+			return "Adventurer"
+		if(POLL_TAX_CAT_MERCENARY)
+			return "Mercenary"
+		if(POLL_TAX_CAT_PEASANT)
+			return "Peasant"
+	return capitalize(category)
+
+/datum/controller/subsystem/treasury/proc/get_poll_tax_rate_for(mob/living/H, category)
+	if(!category)
+		return 0
+	if(H && is_poll_tax_charter_exempt(H, category))
+		return 0
+	var/rate = poll_tax_rates[category] || 0
+	if(category == POLL_TAX_CAT_BURGHER)
+		var/datum/decree/golden = get_decree(DECREE_GOLDEN_BULL)
+		if(golden?.active)
+			rate = min(rate, GOLDEN_BULL_POLL_CAP)
+	return rate
+
+/// Debits days at the rate that obtained at prepay time; later Steward rate changes do not affect purchased grace days.
+/datum/controller/subsystem/treasury/proc/poll_tax_prepay_days(mob/living/H, days)
+	if(!H || days <= 0)
+		return FALSE
+	if(SSticker?.round_start_time && (world.time - SSticker.round_start_time) < POLL_TAX_PREPAY_GRACE)
+		to_chat(H, span_warning("The Crown's ledgers have not yet opened for the day. Try again later."))
+		return FALSE
+	var/datum/fund/account = get_account(H)
+	if(!account)
+		return FALSE
+	var/category = get_poll_tax_category(H)
+	if(!category)
+		to_chat(H, span_warning("The Crown does not tax your class."))
+		return FALSE
+	if(is_poll_tax_charter_exempt(H, category))
+		to_chat(H, span_warning("Your class is exempt from poll tax by decree."))
+		return FALSE
+	var/rate = get_poll_tax_rate_for(H, category)
+	if(rate <= 0)
+		to_chat(H, span_warning("No poll tax rate is set for your class."))
+		return FALSE
+	var/total_cost = rate * days
+	if(account.balance < total_cost)
+		to_chat(H, span_warning("Insufficient balance. Need [total_cost]m for [days] days."))
+		return FALSE
+	if(!transfer(account, discretionary_fund, total_cost, "Poll Tax advance ([days] days)"))
+		return FALSE
+	poll_tax_days_paid[H] = (poll_tax_days_paid[H] || 0) + days
+	to_chat(H, span_notice("You have prepaid [days] day[days == 1 ? "" : "s"] of Poll Tax ([total_cost]m total). Grace remaining: [poll_tax_days_paid[H]] day[poll_tax_days_paid[H] == 1 ? "" : "s"]."))
+	return TRUE
+
+/// Clears arrears but preserves grace days - already-prepaid mammon stays credited on rehab. Use remove_person for full purge.
+/datum/controller/subsystem/treasury/proc/clear_poll_tax_debt(mob/living/H)
+	if(!H)
+		return
+	poll_tax_owed -= H
+	poll_tax_debt_days -= H
+
+/datum/controller/subsystem/treasury/proc/tick_poll_tax()
+	for(var/key in bank_accounts)
+		var/datum/fund/account = bank_accounts[key]
+		if(!account)
+			continue
+		var/mob/living/owner = account.get_owner()
+		if(!owner)
+			continue
+		var/category = get_poll_tax_category(owner)
+		if(!category)
+			continue
+		if(is_poll_tax_charter_exempt(owner, category))
+			continue
+		var/rate = get_poll_tax_rate_for(owner, category)
+		if(rate <= 0)
+			continue
+
+		var/grace = poll_tax_days_paid[owner] || 0
+		if(grace > 0)
+			grace--
+			if(grace <= 0)
+				poll_tax_days_paid -= owner
+			else
+				poll_tax_days_paid[owner] = grace
+			to_chat(owner, span_notice("<b>POLL TAX:</b> Covered by prepaid grace. [grace] day[grace == 1 ? "" : "s"] remaining."))
+			continue
+
+		var/owed_this_tick = rate + (poll_tax_owed[owner] || 0)
+
+		var/paid = 0
+		if(account.balance >= owed_this_tick)
+			if(transfer(account, discretionary_fund, owed_this_tick, "Poll Tax ([category])"))
+				paid = owed_this_tick
+				owed_this_tick = 0
+		else
+			var/partial = account.balance
+			if(partial > 0 && transfer(account, discretionary_fund, partial, "Poll Tax ([category])"))
+				paid = partial
+				owed_this_tick -= partial
+
+		if(paid > 0)
+			record_round_statistic(STATS_POLL_TAX_COLLECTED, paid)
+			to_chat(owner, span_notice("<b>POLL TAX:</b> [paid]m collected."))
+
+		if(owed_this_tick > 0)
+			poll_tax_owed[owner] = owed_this_tick
+			poll_tax_debt_days[owner] = (poll_tax_debt_days[owner] || 0) + 1
+			to_chat(owner, span_danger("<b>POLL TAX:</b> You owe the Crown [owed_this_tick]m. [poll_tax_debt_days[owner]] day\s overdue."))
+			if(poll_tax_debt_days[owner] >= POLL_TAX_DEBT_DAYS_TO_DEBTOR)
+				if(!HAS_TRAIT(owner, TRAIT_DEBTOR))
+					ADD_TRAIT(owner, TRAIT_DEBTOR, TRAIT_GENERIC)
+					to_chat(owner, span_danger("<b>You have been marked a DEBTOR of the Crown for unpaid Poll Tax.</b>"))
+		else
+			clear_poll_tax_debt(owner)
