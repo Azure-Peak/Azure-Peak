@@ -84,7 +84,7 @@
 		H.adjust_skillrank(/datum/skill/combat/maces, 1, TRUE)
 		H.change_stat(STATKEY_STR, 1)
 	if(H.mind)
-		SStreasury.give_money_account(ECONOMIC_UPPER_MIDDLE_CLASS, H, "Savings.")
+		SStreasury.grant_savings(ECONOMIC_UPPER_MIDDLE_CLASS, H)
 	backpack_contents = list(
 		/obj/item/mini_flagpole/merchant = 1,
 	)

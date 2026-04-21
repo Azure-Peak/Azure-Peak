@@ -137,8 +137,10 @@ SUBSYSTEM_DEF(treasury)
 		return
 	if(is_name_taken(owner.real_name))
 		return
-	var/datum/fund/account = new(owner.real_name, owner, initial_deposit || 0, CURRENCY_MAMMON)
+	var/datum/fund/account = new(owner.real_name, owner, 0, CURRENCY_MAMMON)
 	bank_accounts[owner] = account
+	if(initial_deposit > 0)
+		mint(account, initial_deposit, "Initial endowment")
 	return TRUE
 
 /datum/controller/subsystem/treasury/proc/can_issue_fine(mob/living/steward, mob/living/target)
@@ -182,6 +184,15 @@ SUBSYSTEM_DEF(treasury)
 		return 0
 	var/cap_rate = get_rate_cap(target, TAX_CATEGORY_FINE)
 	return FLOOR(balance * cap_rate, 1)
+
+/// Off-map personal wealth granted at roundstart. Mints into the account directly;
+/datum/controller/subsystem/treasury/proc/grant_savings(amt, mob/living/target)
+	if(!amt || !target)
+		return FALSE
+	var/datum/fund/account = get_account(target)
+	if(!account)
+		return FALSE
+	return mint(account, amt, "Savings")
 
 /datum/controller/subsystem/treasury/proc/give_money_account(amt, target, source)
 	if(!amt)
