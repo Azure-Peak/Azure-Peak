@@ -34459,8 +34459,6 @@
 /obj/item/clothing/cloak/templar/undivided,
 /obj/item/clothing/cloak/undivided,
 /obj/item/clothing/cloak/undivided,
-/obj/item/clothing/neck/roguetown/psicross/undivided,
-/obj/item/clothing/neck/roguetown/psicross/undivided,
 /obj/structure/fluff/walldeco/psybanner/tennite{
 	pixel_y = 30
 	},
@@ -94416,6 +94414,8 @@
 	},
 /obj/item/clothing/neck/roguetown/psicross/xylix,
 /obj/item/clothing/neck/roguetown/psicross/xylix,
+/obj/item/clothing/neck/roguetown/psicross/undivided,
+/obj/item/clothing/neck/roguetown/psicross/undivided,
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/church/chapel)
 "sTc" = (
