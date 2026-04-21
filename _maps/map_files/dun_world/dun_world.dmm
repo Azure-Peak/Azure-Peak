@@ -15846,6 +15846,11 @@
 	},
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cave/his_vault/four)
+"doJ" = (
+/obj/machinery/light/rogue/candle/blue,
+/obj/effect/lily_petal/three,
+/turf/open/water/bath,
+/area/rogue/indoors/town/church/basement)
 "doT" = (
 /obj/structure/table/wood/poor/alt_alt{
 	color = "#C4A484"
@@ -56364,7 +56369,6 @@
 	dir = 1;
 	icon_state = "borderfall"
 	},
-/obj/machinery/light/rogue/firebowl/church,
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/church/chapel)
 "loe" = (
@@ -85637,6 +85641,10 @@
 	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/physician)
+"rfz" = (
+/obj/effect/lily_petal/two,
+/turf/open/water/bath,
+/area/rogue/indoors/town/church/basement)
 "rfA" = (
 /obj/structure/fluff/walldeco/chains,
 /turf/open/floor/rogue/hexstone,
@@ -115154,6 +115162,7 @@
 /area/rogue/outdoors/mountains/decap/gunduzirak)
 "xcu" = (
 /obj/machinery/light/rogue/candle/blue,
+/obj/effect/lily_petal,
 /turf/open/water/bath,
 /area/rogue/indoors/town/church/basement)
 "xcE" = (
@@ -157214,7 +157223,7 @@ ehs
 ogs
 llO
 nNh
-xLx
+rfz
 xJo
 msh
 llO
@@ -157665,7 +157674,7 @@ rVQ
 ehs
 ogs
 llO
-xcu
+doJ
 xLx
 rEz
 llO
