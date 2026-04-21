@@ -160,7 +160,7 @@ SUBSYSTEM_DEF(questpool)
 		var/type = pick_kill_type_for(TR)
 		if(!type)
 			continue
-		generate_one(type, TR)
+		generate_one(type, TR, is_replacement = TRUE)
 
 /datum/controller/subsystem/questpool/proc/issue_rumor_quest(type, datum/threat_region/preferred_region, area/override_destination, in_hands = FALSE, mob/living/carbon/human/innkeeper = null)
 	if(!type || !(type in GLOB.rumor_point_costs))
@@ -205,15 +205,17 @@ SUBSYSTEM_DEF(questpool)
 		scroll.update_quest_text()
 		innkeeper.put_in_hands(scroll)
 		record_round_statistic(STATS_CONTRACTS_GENERATED)
+		record_round_statistic(STATS_CONTRACTS_GENERATED_RUMOR)
 		log_event("generate", "rumor-in-hands [Q.quest_difficulty] [type] at [Q.target_spawn_area || "unknown"] (reward [Q.reward_amount])")
 		return Q
 
 	pool += Q
 	record_round_statistic(STATS_CONTRACTS_GENERATED)
+	record_round_statistic(STATS_CONTRACTS_GENERATED_RUMOR)
 	log_event("generate", "rumor-pool [Q.quest_difficulty] [type] at [Q.target_spawn_area || "unknown"] (reward [Q.reward_amount])")
 	return Q
 
-/datum/controller/subsystem/questpool/proc/generate_one(type, datum/threat_region/preferred_region)
+/datum/controller/subsystem/questpool/proc/generate_one(type, datum/threat_region/preferred_region, is_replacement = FALSE)
 	var/datum/quest/Q = instantiate_quest_of_type(type)
 	if(!Q)
 		return null
@@ -236,7 +238,10 @@ SUBSYSTEM_DEF(questpool)
 	var/turf/origin = get_nearest_ledger_turf(landmark_turf) || landmark_turf
 	Q.reward_amount = Q.calculate_reward(origin, landmark_turf)
 	pool += Q
-	record_round_statistic(STATS_CONTRACTS_GENERATED)
+	// Skip the generation counter when this is a stale-reroll replacement - reroll already bumped STATS_CONTRACTS_REROLLED.
+	if(!is_replacement)
+		record_round_statistic(STATS_CONTRACTS_GENERATED)
+		record_round_statistic(STATS_CONTRACTS_GENERATED_POOL)
 	log_event("generate", "[Q.quest_difficulty] [type] at [Q.target_spawn_area || "unknown"] (reward [Q.reward_amount])")
 	return Q
 
@@ -286,6 +291,13 @@ SUBSYSTEM_DEF(questpool)
 	pool -= Q
 	Q.on_claim(user)
 	record_round_statistic(STATS_CONTRACTS_TAKEN)
+	switch(Q.source)
+		if(QUEST_SOURCE_POOL)
+			record_round_statistic(STATS_CONTRACTS_TAKEN_POOL)
+		if(QUEST_SOURCE_RUMOR)
+			record_round_statistic(STATS_CONTRACTS_TAKEN_RUMOR)
+		if(QUEST_SOURCE_DEFENSE)
+			record_round_statistic(STATS_CONTRACTS_TAKEN_DEFENSE)
 	log_event("claim", "[describe_user(user)] took [Q.quest_difficulty] [Q.quest_type]")
 	return TRUE
 
@@ -342,6 +354,13 @@ SUBSYSTEM_DEF(questpool)
 
 /datum/controller/subsystem/questpool/proc/record_completion(mob/user, datum/quest/Q, paid, taxed)
 	record_round_statistic(STATS_CONTRACTS_COMPLETED)
+	switch(Q?.source)
+		if(QUEST_SOURCE_POOL)
+			record_round_statistic(STATS_CONTRACTS_COMPLETED_POOL)
+		if(QUEST_SOURCE_RUMOR)
+			record_round_statistic(STATS_CONTRACTS_COMPLETED_RUMOR)
+		if(QUEST_SOURCE_DEFENSE)
+			record_round_statistic(STATS_CONTRACTS_COMPLETED_DEFENSE)
 	if(paid)
 		record_round_statistic(STATS_CONTRACT_MAMMONS_PAID, paid)
 	if(taxed)

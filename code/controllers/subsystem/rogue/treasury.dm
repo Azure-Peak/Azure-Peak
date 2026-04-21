@@ -35,7 +35,7 @@ SUBSYSTEM_DEF(treasury)
 	var/autoexport_percentage = 0.6
 	var/list/bank_accounts = list()
 	var/datum/fund/discretionary_fund
-	var/datum/fund/burgher_bond_fund
+	var/datum/fund/burgher_pledge_fund
 	var/list/ledger = list()
 	var/list/noble_incomes = list()
 	var/list/decrees = list()
@@ -77,7 +77,7 @@ SUBSYSTEM_DEF(treasury)
 
 /datum/controller/subsystem/treasury/Initialize()
 	discretionary_fund = new("Crown's Purse", null, rand(1000, 2000), CURRENCY_MAMMON)
-	burgher_bond_fund = new("Burgher Bond", null, BURGHER_BOND_BASE_REFILL, CURRENCY_BURGHER_AUTHORITY)
+	burgher_pledge_fund = new("Burgher Pledge", null, BURGHER_PLEDGE_BASE_REFILL * BURGHER_PLEDGE_ROUNDSTART_MULTIPLIER, CURRENCY_BURGHER_PLEDGE)
 	force_set_round_statistic(STATS_STARTING_TREASURY, discretionary_fund.balance)
 	init_decrees()
 
@@ -315,18 +315,18 @@ SUBSYSTEM_DEF(treasury)
 	if(rumor_points > ceiling)
 		rumor_points = ceiling
 
-/datum/controller/subsystem/treasury/proc/tick_burgher_bond()
-	if(!burgher_bond_fund)
+/datum/controller/subsystem/treasury/proc/tick_burgher_pledge()
+	if(!burgher_pledge_fund)
 		return
 	var/datum/decree/golden = get_decree(DECREE_GOLDEN_BULL)
 	if(!golden?.active)
 		return
-	var/refill = BURGHER_BOND_BASE_REFILL + (get_active_player_count() * BURGHER_BOND_PER_PLAYER)
-	var/ceiling = refill * BURGHER_BOND_CLAWBACK_MULTIPLIER
-	if(burgher_bond_fund.balance > ceiling)
-		var/surplus = burgher_bond_fund.balance - ceiling
-		burn(burgher_bond_fund, surplus, "Burgher Bond clawback")
-	mint(burgher_bond_fund, refill, "Burgher Bond replenishment")
+	var/refill = BURGHER_PLEDGE_BASE_REFILL + (get_active_player_count() * BURGHER_PLEDGE_PER_PLAYER)
+	var/ceiling = refill * BURGHER_PLEDGE_CLAWBACK_MULTIPLIER
+	if(burgher_pledge_fund.balance > ceiling)
+		var/surplus = burgher_pledge_fund.balance - ceiling
+		burn(burgher_pledge_fund, surplus, "Burgher Pledge clawback")
+	mint(burgher_pledge_fund, refill, "Burgher Pledge replenishment")
 
 /datum/controller/subsystem/treasury/proc/do_export(var/datum/roguestock/D, silent = FALSE)
 	if((D.held_items[1] < D.importexport_amt))

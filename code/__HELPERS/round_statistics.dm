@@ -199,6 +199,16 @@
 #define STATS_CONTRACT_MAMMONS_PAID "contract_mammons_paid"
 #define STATS_CONTRACT_MAMMONS_TAXED "contract_mammons_taxed"
 #define STATS_CONTRACT_MAMMONS_FORFEITED "contract_mammons_forfeited"
+/// Source-split contract stats. Aggregates above keep incrementing; these ones split by Q.source.
+#define STATS_CONTRACTS_GENERATED_POOL "contracts_generated_pool"
+#define STATS_CONTRACTS_GENERATED_RUMOR "contracts_generated_rumor"
+#define STATS_CONTRACTS_GENERATED_DEFENSE "contracts_generated_defense"
+#define STATS_CONTRACTS_TAKEN_POOL "contracts_taken_pool"
+#define STATS_CONTRACTS_TAKEN_RUMOR "contracts_taken_rumor"
+#define STATS_CONTRACTS_TAKEN_DEFENSE "contracts_taken_defense"
+#define STATS_CONTRACTS_COMPLETED_POOL "contracts_completed_pool"
+#define STATS_CONTRACTS_COMPLETED_RUMOR "contracts_completed_rumor"
+#define STATS_CONTRACTS_COMPLETED_DEFENSE "contracts_completed_defense"
 
 GLOBAL_LIST_INIT(azure_round_stats, list(
 	STATS_DEATHS = 0,
@@ -363,6 +373,15 @@ GLOBAL_LIST_INIT(azure_round_stats, list(
 	STATS_CONTRACTS_COMPLETED = 0,
 	STATS_CONTRACTS_ABANDONED = 0,
 	STATS_CONTRACTS_REROLLED = 0,
+	STATS_CONTRACTS_GENERATED_POOL = 0,
+	STATS_CONTRACTS_GENERATED_RUMOR = 0,
+	STATS_CONTRACTS_GENERATED_DEFENSE = 0,
+	STATS_CONTRACTS_TAKEN_POOL = 0,
+	STATS_CONTRACTS_TAKEN_RUMOR = 0,
+	STATS_CONTRACTS_TAKEN_DEFENSE = 0,
+	STATS_CONTRACTS_COMPLETED_POOL = 0,
+	STATS_CONTRACTS_COMPLETED_RUMOR = 0,
+	STATS_CONTRACTS_COMPLETED_DEFENSE = 0,
 	STATS_CONTRACT_MAMMONS_PAID = 0,
 	STATS_CONTRACT_MAMMONS_TAXED = 0,
 	STATS_CONTRACT_MAMMONS_FORFEITED = 0,

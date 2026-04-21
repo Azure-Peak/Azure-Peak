@@ -17,7 +17,7 @@ This flips the Steward's incentive structure:
 - From "custodian of the common pool" to "manager of a crown business that happens to operate in an economy of individuals"
 - From "authoritarian seizure" to "entrepreneurial margin generation"
 - Incentivizes *lowering* stockpile prices to encourage player purchases (because account hoarding doesn't help the crown anymore — only circulating mammon does)
-- Incentivizes *more* quest flow to keep adventurer activity high (mints from Burgher Bond circulate through shops → margins → Crown's Purse)
+- Incentivizes *more* quest flow to keep adventurer activity high (mints from Burgher Pledge circulate through shops → margins → Crown's Purse)
 - Makes loans attractive (converts static account wealth into active Crown's Purse income via interest, while giving players who need it a bootstrapping tool)
 - Makes fines *politically meaningful* because they're rate-limited — the Steward has to *choose* fine targets rather than tax everyone evenly
 
@@ -27,14 +27,14 @@ A well-played Steward becomes a useful economic actor. A careless or greedy one 
 
 1. **Three-tier mammon model.**
    - **Physical (coin-backed)**: individual bank accounts, Crown's Purse Budget. Withdrawable as coins at a MEISTER. Transferable.
-   - **Authority (abstract)**: Burgher Bond, Innkeeper Rumor Points. Not withdrawable, not robbable, not transferable. Manifests into physical coin only when a funded quest completes.
+   - **Authority (abstract)**: Burgher Pledge, Innkeeper Rumor Points. Not withdrawable, not robbable, not transferable. Manifests into physical coin only when a funded quest completes.
    - **Generation (spigots)**: rural tax, treasure resale, farming, noble estate income, quest-completion mints from authority budgets. These are the only sources of new physical mammon.
 2. **Fractional reserve is gone.** Every physical mammon has a ledger home: account, Crown's Purse, or coin-in-world.
-3. **Burgher Bond and Rumor Points decrement on quest issuance**, not on completion. Prevents parking quests to hoard authority across days.
+3. **Burgher Pledge and Rumor Points decrement on quest issuance**, not on completion. Prevents parking quests to hoard authority across days.
 4. **Innkeeper is an issuer, not a curator.** The design-review critique argued for curator-only; the author accepts the money-printer tradeoff with the mitigation that Innkeeper-issued quests supply ~40-50% of round quest volume (passive pool covers 50-60%).
 5. **No loan fractional-reserve accommodations.** Fully-backed accounts make loan auto-charge well-defined.
 6. **One concurrent loan per debtor.** Keeps auto-charge simple and prevents stacking.
-7. **Decree system gates the strongest Steward powers.** Four decrees enacted at roundstart protect burghers (Great Charter, which also gates Burgher Bond), church (Concordat), inquisition/psydonites (Edict of Tolerance), and nobles (Charter of Noble Rights). Lord controls decree state with a 30-minute cooldown per change. Political weight is the feature; revoking an immunity is a chat-broadcast, IC-visible political act. Decrees ship *first* (M3-C3) so the rest of the module is built against the assumption that factions are protected by default.
+7. **Decree system gates the strongest Steward powers.** Four decrees enacted at roundstart protect burghers (Great Charter, which also gates Burgher Pledge), church (Concordat), inquisition/psydonites (Edict of Tolerance), and nobles (Charter of Noble Rights). Lord controls decree state with a 30-minute cooldown per change. Political weight is the feature; revoking an immunity is a chat-broadcast, IC-visible political act. Decrees ship *first* (M3-C3) so the rest of the module is built against the assumption that factions are protected by default.
 8. **In-game day = 30 real minutes. Week = 7 days = 3.5 real hours.** Loan interest ticks daily, budgets replenish daily, region events fire daily.
 9. **No Steward-sabotage mitigations in MVP.** A bad-faith Steward dumping Crown's Purse into a single 5000-mammon bounty is a social problem (fire the Steward next round), not a mechanical one.
 10. **Noble estate income stays as a Tier 3 mint (current behavior).** Treating nobles as crown employees would be a much larger political shift; defer.
@@ -46,17 +46,18 @@ A well-played Steward becomes a useful economic actor. A careless or greedy one 
 | In-game day | 30 real minutes |
 | Week | 7 days (3.5 hours) |
 | Starting Crown's Purse | 2000 mammon |
-| Burgher Bond base (daily refill) | 400m (+10m per active player) |
-| Burgher Bond max carryover | 200% of daily refill (clawback on tick) |
-| Burgher Bond cost: Trivial quest | 100m |
-| Burgher Bond cost: Standard quest | 200m |
-| Burgher Bond cost: Major quest (Raid/Outlaw) | 400m |
-| Rumor Points starting balance | 12 points (2x base) |
-| Rumor Points daily refill (base) | 6 points |
-| Rumor Points per-player bonus | +0.25 / active player / day |
-| Rumor Points quest cost (Retrieval) | 1 point |
-| Rumor Points quest cost (Kill / Courier / Clear Out) | 2 points |
-| Rumor Points quest cost (Raid / Outlaw) | 3 points |
+| Burgher Pledge base (daily refill) | 200m (+4m per active player) |
+| Burgher Pledge roundstart balance | 2× daily refill |
+| Burgher Pledge max carryover | 200% of daily refill (clawback on tick) |
+| Burgher Pledge cost: Trivial quest (kill-easy / clear-out / courier / retrieval) | 100m |
+| Burgher Pledge cost: Standard quest (kill-medium / harder clear-out) | 250m |
+| Burgher Pledge cost: Major quest (Raid / Outlaw) | 500m |
+| Rumor Points starting balance | 6 points (2x base) |
+| Rumor Points daily refill (base) | 3 points |
+| Rumor Points per-player bonus | +0.1 / active player / day |
+| Rumor Points quest cost (Retrieval / Courier / Kill Easy) | 2 points |
+| Rumor Points quest cost (Clear Out / Recovery) | 4 points |
+| Rumor Points quest cost (Raid / Bounty) | 6 points |
 | Poll Tax default rate (all 11 categories) | 10 mammon / day |
 | Poll Tax prepay grace window | 10 minutes from round start (no prepay allowed) |
 | Poll Tax max prepaid grace days | 7 (roughly a full round's worth) |
@@ -90,21 +91,21 @@ Owned by individual players. `SStreasury.bank_accounts[ckey]` → integer balanc
 ### Crown's Purse Budget (physical, pooled)
 Owned by the crown. `SStreasury.discretionary` → integer balance. Steward withdraws at their Nerve Master machine, spawning coins (same mechanic as personal withdrawal, just that the authorized withdrawer is the Steward role). Fineable to? No — the Crown's Purse is above taxation. Robbable via a future jawbank heist mechanic if we care (not in MVP). Replenished by rural tax, treasure resale split, taxation, import/export margin.
 
-**Crown's Purse funds every physical crown expense**: keep salaries, import/export purchases, any bespoke Steward spending. Steward *can* voluntarily fund a quest from Crown's Purse but it competes directly with payroll — every mammon spent here is a mammon not paying next week's wages. That's an intentional political tradeoff, not a default action; most Stewards will use Burgher Bond authority to fund quests instead.
+**Crown's Purse funds every physical crown expense**: keep salaries, import/export purchases, any bespoke Steward spending. Steward *can* voluntarily fund a quest from Crown's Purse but it competes directly with payroll — every mammon spent here is a mammon not paying next week's wages. That's an intentional political tradeoff, not a default action; most Stewards will use Burgher Pledge authority to fund quests instead.
 
-### Burgher Bond (authority, pooled, mammon-denominated)
-Owned by the Steward. `SStreasury.burgher_bond_fund` → `/datum/fund` in `CURRENCY_BURGHER_AUTHORITY`. Denominated in mammons so the Steward can reason about "I can afford three major quests or ten trivial ones," but it does *not* leave the authority layer — not withdrawable, not robbable, not transferable to Crown's Purse. Issuance costs a flat tier amount (see "Steward Defense Quests" section). Completion mint is separate from and independent of the tier cost; the two dollar-denominated numbers do not need to balance. Replenishes daily (gated on the Golden Bull of Kingsfield being active) to `400 + 10 * active_player_count`. Surplus beyond 200% of that daily refill is clawed back at each daily tick.
+### Burgher Pledge (authority, pooled, mammon-denominated)
+Owned by the Steward. `SStreasury.burgher_pledge_fund` → `/datum/fund` in `CURRENCY_BURGHER_PLEDGE`. Denominated in mammons so the Steward can reason about "I can afford three major quests or ten trivial ones," but it does *not* leave the authority layer — not withdrawable, not robbable, not transferable to Crown's Purse. Issuance costs a flat tier amount (see "Steward Defense Quests" section). Completion mint is separate from and independent of the tier cost; the two mammon-denominated numbers do not need to balance. Roundstart balance is `2× daily refill` so the Steward has a buffer at the beginning of the round. Replenishes daily (gated on the Golden Bull of Kingsfield being active) to `200 + 4 * active_player_count`. Surplus beyond 200% of that daily refill is clawed back at each daily tick.
 
 On quest completion, the reward mints coins into the adventurer's hands (and Innkeeper's account for the Guild's Cut). Mint events are logged.
 
 ### Rumor Points (authority, Innkeeper-only)
-Realm-scoped pool owned by whoever holds the Innkeeper role this round. `SStreasury.rumor_points` → float (stored as float so the 0.25/player accrual is lossless across many days; UI rounds to integer for display). Decrements on Innkeeper quest issuance. Cannot be transferred.
+Realm-scoped pool owned by whoever holds the Innkeeper role this round. `SStreasury.rumor_points` → float (stored as float so the per-player fractional accrual is lossless across many days; UI rounds to integer for display). Decrements on Innkeeper quest issuance. Cannot be transferred.
 
-**Accrual:** Starts at 12 points at round start (two days' worth of base income — lets the Innkeeper issue something interesting within the first hour without grinding). Daily refill at dawn = 6 + (0.25 × active_player_count). `active_player_count` is the existing `/proc/get_active_player_count()` helper: connected-and-minded players, excluding lobby and players who started as observers. Same call Burgher Bond refill uses, so scaling is consistent across the module. On a 15-player round this is ~9.75/day; over 5 days a full round yields ~60 points total.
+**Accrual:** Starts at 6 points at round start (two days' base). Daily refill at dawn = 3 + (0.1 × active_player_count). `active_player_count` is the existing `/proc/get_active_player_count()` helper: connected-and-minded players, excluding lobby and players who started as observers. Same call Burgher Pledge refill uses, so scaling is consistent across the module. At 100 players × 7 days ≈ 84 points total; at 150 × 7 ≈ 114 points.
 
-**Costs:** Tiered by quest type — Retrieval 1, Kill/Courier/Clear Out 2, Raid/Outlaw 3. On a 60-point-budget round the Innkeeper can issue ~20-30 quests depending on mix, hitting the 40-50% of round quest volume target when paired with the passive pool. Retrieval is the *primary* channel because it's the type the Innkeeper is best placed to flavor ("I heard the apothecary's lost locket is at X") — see "Innkeeper — Rumor Quests" below.
+**Costs:** Tiered by quest type — Retrieval/Courier/Kill Easy 2, Clear Out/Recovery 4, Raid/Bounty 6. Target: ~20 Rumor-issued quests per full round at 100 players, scaling roughly symmetrically with the Steward's Burgher Pledge output. Retrieval is the *primary* channel because it's the type the Innkeeper is best placed to flavor ("I heard the apothecary's lost locket is at X") — see "Innkeeper — Rumor Quests" below.
 
-**No carry cap.** Unlike Burgher Bond, Rumor Points do not claw back surplus. Innkeeper hoarding is fine — a quiet first half-round becoming a busy second half is a natural pacing shape.
+**No carry cap.** Unlike Burgher Pledge, Rumor Points do not claw back surplus. Innkeeper hoarding is fine — a quiet first half-round becoming a busy second half is a natural pacing shape.
 
 ## Loan system
 
@@ -155,7 +156,7 @@ Decrees are the core political tension mechanic of Module 3. The Duchy ships eve
 
 | Decree | Default | Effect when ON | Effect when REVOKED |
 |--------|---------|----------------|---------------------|
-| **The Great Charter** | ON | Burgher fines capped at 25%; burgher taxation restricted. **Burgher Bond is active.** | Steward loses access to the Burgher Bond entirely — the burghers withdraw their voluntary contribution to common defense because the crown has stopped protecting them. |
+| **The Great Charter** | ON | Burgher fines capped at 25%; burgher taxation restricted. **Burgher Pledge is active.** | Steward loses access to the Burgher Pledge entirely — the burghers withdraw their voluntary contribution to common defense because the crown has stopped protecting them. |
 | **The Concordat** | ON | Church-category accounts are fine/tax immune. | Steward may fine the Church at standard percentages. Chat broadcasts the act to all players — the Church *knows* the crown is about to come for its wealth. |
 | **The Edict of Tolerance** | ON | Inquisition roles and up to 3 "Declared Psydonites" (flagged by the Inquisitor) are fine/tax immune. Flavored as a diplomatic accommodation to Otava/Psydonia. | Inquisitors and Declared Psydonites become fineable. Creates a diplomatic incident narratively; the Inquisition is likely to retaliate politically. |
 | **Charter of Noble Rights** | ON | Nobles (Knights, Squires, etc.) cannot be fined; noble taxation is capped low. | Nobles become fineable at standard rates. Least likely to be revoked because Knight/Squire loyalty is load-bearing for the round's combat capacity — revoking this risks a military crisis. |
@@ -166,7 +167,7 @@ Decrees are the core political tension mechanic of Module 3. The Duchy ships eve
 - **30-minute cooldown** per decree state change, in either direction. Revoking and re-granting the same decree therefore occupies a full in-game hour — the "flash fine" window is bounded.
 - On revocation, a chat broadcast fires to *all players*: *"By decree of the Lord, the Concordat is suspended. The Crown may now levy against the Church."* (And symmetric broadcast on re-grant.)
 - Decrees also land on a roguemachine / public display somewhere (noticeboard or similar) so they're discoverable without catching the chat line.
-- **Special case: The Great Charter** — revoking it doesn't just enable burgher fines, it *disables* the Burgher Bond for the remainder of the round (or until re-granted after cooldown). This is the mechanical teeth behind the "burghers withdraw common defense funding" flavor. Steward quest issuance from authority *dies*. Re-granting the Great Charter restores Burgher Bond replenishment from that day's tick onward (no retroactive refill).
+- **Special case: The Great Charter** — revoking it doesn't just enable burgher fines, it *disables* the Burgher Pledge for the remainder of the round (or until re-granted after cooldown). This is the mechanical teeth behind the "burghers withdraw common defense funding" flavor. Steward quest issuance from authority *dies*. Re-granting the Great Charter restores Burgher Pledge replenishment from that day's tick onward (no retroactive refill).
 
 ### The fiscal reality this produces
 
@@ -207,7 +208,7 @@ The point: decree protection is broad and automatic, but grant protection is **p
 
 #### Steward's unlimited-slot asymmetry
 
-Church and Inquisition cap at 3 grantees. The Steward can charter as many Burghers as they want, bounded only by per-grant cooldown (~5-10 min between uses). Rationale: Burgher status is less potent than Churchite/Psydonite (25% fine cap vs. full immunity), and the Steward's whole job is expanding the fiscal body politic. But this creates **insider risk**: over-granting Burgher status means more players now under Great Charter protection, which means revoking Great Charter later (to broaden the crown's fineable population) blows up in the Steward's face by exposing their own grantees to fines AND killing the Burgher Bond at the same time. Over-granting is self-hobbling.
+Church and Inquisition cap at 3 grantees. The Steward can charter as many Burghers as they want, bounded only by per-grant cooldown (~5-10 min between uses). Rationale: Burgher status is less potent than Churchite/Psydonite (25% fine cap vs. full immunity), and the Steward's whole job is expanding the fiscal body politic. But this creates **insider risk**: over-granting Burgher status means more players now under Great Charter protection, which means revoking Great Charter later (to broaden the crown's fineable population) blows up in the Steward's face by exposing their own grantees to fines AND killing the Burgher Pledge at the same time. Over-granting is self-hobbling.
 
 #### Printing the slip
 
@@ -241,7 +242,7 @@ Steward invokes fine via `/datum/taxsetter` (existing infrastructure) or a new v
 - **Per-Steward daily cap**: 3 fines per in-game day (30 minutes).
 - **Category percentages** (applied to target's account balance), mediated by the four starting decrees:
   - **Peasants / Adventurers / Mercenaries / unprotected**: up to 75% (no decree covers them)
-  - **Burghers** (Great Charter ON): up to 25% per fine | (Great Charter OFF): up to 75%, but Burgher Bond also disabled
+  - **Burghers** (Great Charter ON): up to 25% per fine | (Great Charter OFF): up to 75%, but Burgher Pledge also disabled
   - **Church** (Concordat ON): cannot fine | (Concordat OFF): up to 75%
   - **Inquisition / Declared Psydonites** (Edict of Tolerance ON): cannot fine | (Edict OFF): up to 75%
   - **Nobles** (Charter of Noble Rights ON): cannot fine | (Charter OFF): up to 75%
@@ -256,7 +257,7 @@ In addition to Defense-Budget-funded quests (which mint mammon on completion), t
 
 ### Purpose
 
-Directives exist for the fiscally pressed Steward who's burned through their Burgher Bond for the day, or who wants to conserve authority for a bigger quest later. Instead of minting authority, they issue an appeal: *"Clear out the bandits on the Rockhill road. No crown bounty, but the loot is yours."* A Knight or Squire loyal to the crown may take it as civic duty; an adventurer short on paying work may take it hoping the bandit loot covers their effort.
+Directives exist for the fiscally pressed Steward who's burned through their Burgher Pledge for the day, or who wants to conserve authority for a bigger quest later. Instead of minting authority, they issue an appeal: *"Clear out the bandits on the Rockhill road. No crown bounty, but the loot is yours."* A Knight or Squire loyal to the crown may take it as civic duty; an adventurer short on paying work may take it hoping the bandit loot covers their effort.
 
 Directives are the equivalent of a medieval lord "asking his knights to do their duty" — a power based on legitimacy, not wealth.
 
@@ -351,7 +352,7 @@ This adds complexity but keeps the trade loop alive across the whole round. MVP 
 - **No change** (most common)
 - **Harvest boom**: relevant export price drops (AP imports it cheaply), stockpile bonus
 - **Harvest bust**: relevant export price spikes (AP can profit by exporting replacement goods in)
-- **Route blocked**: brigands / monsters block the route. Import/export to this region is suspended until a Steward-issued quest clears the route. The block auto-generates a clearable quest entry in the Burgher Bond pool.
+- **Route blocked**: brigands / monsters block the route. Import/export to this region is suspended until a Steward-issued quest clears the route. The block auto-generates a clearable quest entry in the Burgher Pledge pool.
 - **Route cleared**: blockade lifted (if one was active).
 - **Caravan arrives**: temporary stockpile bonus.
 
@@ -365,39 +366,44 @@ Import/export margin (profit the crown makes reselling to citizens) flows into C
 
 ## Steward Defense Quests
 
-Steward issues quests from the Burgher Bond, a mammon-denominated authority pool refilled daily when the Golden Bull of Kingsfield is active. Parallel to Rumor Points — the Steward's issuer channel, measured in coin but not itself coin (does not exit the authority layer).
+Steward issues quests from the Burgher Pledge, a mammon-denominated authority pool refilled daily when the Golden Bull of Kingsfield is active. Parallel to Rumor Points — the Steward's issuer channel, measured in coin but not itself coin (does not exit the authority layer).
 
-### Bond as denomination vs. cost decoupling
+### Pledge as denomination vs. cost decoupling
 
-The Bond **balance** is in mammons. The Bond **issuance cost** is a flat per-tier amount that does not necessarily match the minted reward of the quest. This mirrors Rumor Points:
+The Pledge **balance** is in mammons. The Pledge **issuance cost** is a flat per-tier amount that does not necessarily match the minted reward of the quest. This mirrors Rumor Points:
 
-- Steward pays the flat tier cost at issuance time (Bond -= tier_cost)
+- Steward pays the flat tier cost at issuance time (Pledge -= tier_cost)
 - Quest reward is generated by the existing quest formula (which rolls by difficulty, bonus state, etc.)
-- On completion, the reward mints fresh coin to the adventurer (Bond is untouched at this point)
+- On completion, the reward mints fresh coin to the adventurer (Pledge is untouched at this point)
 
-Dissonance: spending 100m of Bond may produce a quest that mints 80m or 140m. Acceptable — the Bond is an authority pool with a coin unit for flavor/intuition, not a 1:1 escrow of the reward. This is the same pattern Rumor Points uses, just at scaled-up denominations.
+Dissonance: spending 100m of Pledge may produce a quest that mints 80m or 140m. Acceptable — the Pledge is an authority pool with a coin unit for flavor/intuition, not a 1:1 escrow of the reward. This is the same pattern Rumor Points uses, just at scaled-up denominations.
 
-### Tier costs (draft, tune in playtest)
+### Tier costs
 
-| Tier | Quest types | Bond cost | Notes |
-|------|-------------|-----------|-------|
+| Tier | Quest types | Pledge cost | Notes |
+|------|-------------|-------------|-------|
 | Trivial | Kill (easy), Clear Out, Courier, Retrieval | 100m | Bulk of Steward issuance |
-| Standard | Kill (medium), harder Clear Out | 200m | Meaningful spend |
-| Major | Raid, Outlaw | 400m | Rare; fellowship-gated in M2-C4 |
+| Standard | Kill (medium), harder Clear Out | 250m | Meaningful spend |
+| Major | Raid, Outlaw | 500m | Rare; fellowship-gated in M2-C4 |
 
-Budget check: 400 base + 10/player daily refill × 15 players = 550/day. Over a 5-day round ~2750 Bond total. That's ~6 Major or ~13 Standard or ~27 Trivial per round — call it ~10 meaningful Steward-issued quests. Combined with Innkeeper's ~20-30 Rumor quests, hits the 40-50% round-volume target for player-issued content.
+Budget math (7-day round):
+- 100 active players: 200 + 400 = 600/day refill, roundstart 1,200. Total round budget 4,800 → ~19 quests at avg 250.
+- 150 players: 800/day, start 1,600. Total 6,400 → ~26 quests.
+- 70 players: 480/day, start 960. Total 3,840 → ~15 quests.
+
+Design target: ~60% passive pool + ~20% Rumor (Innkeeper) + ~20% Defense (Steward). Steward and Innkeeper scale roughly symmetrically with player count.
 
 ### Issuance flow
 
-- Steward UI (Nerve Master tab) lists available tiers and types, shows current Bond balance, decrements on issue.
+- Steward UI (Nerve Master tab) lists available tiers and types, shows current Pledge balance, decrements on issue.
 - Lands on the Contract Ledger, same as passive pool quests. Source tagged `QUEST_SOURCE_DEFENSE`.
-- Can be canceled by Steward while unclaimed; refunds tier cost to Bond.
-- If issued quest expires unclaimed (ledger stale-reroll threshold applies), tier cost refunds to Bond.
+- Can be canceled by Steward while unclaimed; refunds tier cost to Pledge.
+- If issued quest expires unclaimed (ledger stale-reroll threshold applies), tier cost refunds to Pledge.
 - On completion, the reward mints to the adventurer via the usual quest-completion pipe.
 
 ### Anti-parking
 
-Because issuance decrements on-issue (not on-complete), parked quests tie up Bond until they resolve — Steward cannot hoard by refusing to spend. Same rule as Rumor Points.
+Because issuance decrements on-issue (not on-complete), parked quests tie up Pledge until they resolve — Steward cannot hoard by refusing to spend. Same rule as Rumor Points.
 
 ## Innkeeper — Guild's Cut + Rumor Quests
 
@@ -467,8 +473,8 @@ ATM UI: the Meister's prepay flow clamps max days by both balance AND grace head
 A TGUI admin-only panel consolidating inspection and mutation verbs for the fiscal system. Accessible via **Debug → Economic Panel** for any admin with `R_ADMIN` or `R_DEBUG`.
 
 **Contents:**
-- Dashboard aggregates: Crown's Purse / Burgher Bond balances, total bank coin, avg balance, players under 50m, in-grace / in-arrears / debtor counts, loan count + exposure, rural tax YTD, noble income YTD
-- Tick actions: Advance Day, Fire Poll Tick, Fire Loan Tick, Fire Bond Tick, Distribute Estates, Fire Payroll, Award Savings Goals
+- Dashboard aggregates: Crown's Purse / Burgher Pledge balances, total bank coin, avg balance, players under 50m, in-grace / in-arrears / debtor counts, loan count + exposure, rural tax YTD, noble income YTD
+- Tick actions: Advance Day, Fire Poll Tick, Fire Loan Tick, Fire Pledge Tick, Distribute Estates, Fire Payroll, Award Savings Goals
 - Mint / burn into Crown's Purse
 - Charter toggle (all four as full-width buttons with current state colored)
 - Filter-driven player table: Category filter (11 options), Status filter (All / Arrears / Grace / Debtor / Low Balance / Exempt), substring name search. The table never renders all 150 players at once — always a filtered slice.
@@ -496,7 +502,7 @@ This is fine from an RP-object standpoint (each machine has its own IC identity)
 
 ### Contents
 
-- **Balances**: Crown's Purse, Burgher Bond, total in-circulation bank coin, rural tax YTD
+- **Balances**: Crown's Purse, Burgher Pledge, total in-circulation bank coin, rural tax YTD
 - **Rates**: all 5 tax categories (Contract Levy, Headeater Levy, Import Tariff, Export Duty, Fine) + all 11 poll tax rates, displayed with Charter overlay (which are currently exempt/capped)
 - **Loans**: outstanding loans with debtor name, principal, remaining due, days-until-default
 - **Debtors**: list of TRAIT_DEBTOR holders with reason (loan default / poll tax arrears)
@@ -533,7 +539,7 @@ Ships before any budget/fine/quest work because every downstream commit assumes 
 At this commit, decrees and grants exist but have nothing to gate yet — they compile clean and wait for subsequent commits to wire them into fines, budget, etc.
 
 ### M3-C4 — Budget split
-Replace `SStreasury.treasury_value` with `.discretionary` (physical, Crown's Purse) and `.burgher_bond_fund` (authority). Route every income/expense site deliberately. Rural tax → Crown's Purse. **Great Charter wired**: Burgher Bond replenishment is gated on Great Charter being ON; if revoked, the daily tick skips Bond refill. Re-granting resumes refill from next tick (no retroactive refill).
+Replace `SStreasury.treasury_value` with `.discretionary` (physical, Crown's Purse) and `.burgher_pledge_fund` (authority). Route every income/expense site deliberately. Rural tax → Crown's Purse. **Great Charter wired**: Burgher Pledge replenishment is gated on Great Charter being ON; if revoked, the daily tick skips Pledge refill. Re-granting resumes refill from next tick (no retroactive refill).
 
 ### M3-C5 — Crown's Purse physicalization + salary routing
 Steward's Nerve Master UI gains "Withdraw from Crown's Purse" flow. Coins spawn. **Salaries (`distribute_daily_payments`) now pull from Crown's Purse instead of the old unified treasury.** If Crown's Purse balance is insufficient to cover the full payroll at tick time, **no salaries pay that day** and a chat broadcast fires: *"The Crown is insolvent. No salaries have been paid this day."* Also logged in the event log. This is intentionally a visible, in-character failure so the Steward's fiscal mistakes reshape the political round. Update noble income distribution to pull from Crown's Purse (sanity check against current behavior — document whether change is needed).
@@ -550,8 +556,8 @@ Per-Steward daily cap, category-based percentages, decree-gated exemption checks
 ### M3-C9 — `SSregionevents` + event table
 Event datums, weekly schedule, region-event interaction with trade prices and blockade state. Roundstart 3-blocked-region rule.
 
-### M3-C10 — Burgher Bond quest issuance
-Steward UI (Nerve Master tab) to issue defense-tier quests from the Burgher Bond. Flat tier costs (Trivial 100m / Standard 200m / Major 400m) decrement Bond at issuance; tier cost refunds to Bond on cancel or stale-expiry; reward mints to adventurer on completion via existing quest pipe. Integration with Contract Ledger, tagged `QUEST_SOURCE_DEFENSE`.
+### M3-C10 — Burgher Pledge quest issuance
+Steward UI (Nerve Master tab) to issue defense-tier quests from the Burgher Pledge. Flat tier costs (Trivial 100m / Standard 250m / Major 500m) decrement Pledge at issuance; tier cost refunds to Pledge on cancel or stale-expiry; reward mints to adventurer on completion via existing quest pipe. Integration with Contract Ledger, tagged `QUEST_SOURCE_DEFENSE`.
 
 ### M3-C11 — Steward Directives (unfunded civic quests)
 Steward verb (via Nerve Master) to issue Directives: unfunded, no-deposit, narrow-type civic calls-to-action. Per-Steward daily cap of 1-2. Allowed types: Clear Out, Raid, Outlaw, Route-Unblock. Lands on Contract Ledger tagged `QUEST_SOURCE_DIRECTIVE` with visibly different parchment styling. Stale-reroll applies; unused Directive slots don't refund — civic calls can be ignored.
@@ -566,7 +572,7 @@ Hook into quest completion flow. Credit Innkeeper's account. Handle "no Innkeepe
 Admin-only TGUI panel for inspecting and manipulating the fiscal system. Dashboard aggregates, filtered player table, per-player + bulk actions, tick triggers, charter toggles, Crown's Purse mint/burn. Every write action logged via shared `admin_log_fiscal` helper. Aggregator procs (`compute_fiscal_snapshot`, `compute_charter_states`, `compute_filtered_players`) live on `SStreasury` and are reused by M3-C14b.
 
 ### M3-C14b — Steward Fiscal tab (read-only consolidated treasury view)
-Read-only aggregator tab on Nerve Master: balances (Crown's Purse, Burgher Bond, in-circulation coin, rural tax YTD), all 16 rates (5 levies + 11 poll tax) with Charter overlay, outstanding loans, TRAIT_DEBTOR roster with reason, poll tax head count + collection stats per category, Charter active/suspended state with cooldown counters. Write-side actions stay on their existing surfaces. Reuses the aggregator procs shipped in M3-C14a.
+Read-only aggregator tab on Nerve Master: balances (Crown's Purse, Burgher Pledge, in-circulation coin, rural tax YTD), all 16 rates (5 levies + 11 poll tax) with Charter overlay, outstanding loans, TRAIT_DEBTOR roster with reason, poll tax head count + collection stats per category, Charter active/suspended state with cooldown counters. Write-side actions stay on their existing surfaces. Reuses the aggregator procs shipped in M3-C14a.
 
 ### M3-C14 — Savings Goal + Blood Toll + roundend civic stats
 Two roundend readout additions bundled together since both hook into roundend reporting and the Chronicle UI:
@@ -635,7 +641,7 @@ The Savings Goal is the counterweight that makes fully-backed accounts function 
 
 Two decoupled optimization problems with different cadences:
 
-**Authority side (daily, 30 min)**: look at region events and threat regions, spend Burgher Bond on the most relevant quests. Use-it-or-lose-it pressure means you *should* spend down to zero. Failure mode: hoarding via parking (mitigated by decrement-on-issue).
+**Authority side (daily, 30 min)**: look at region events and threat regions, spend Burgher Pledge on the most relevant quests. Use-it-or-lose-it pressure means you *should* spend down to zero. Failure mode: hoarding via parking (mitigated by decrement-on-issue).
 
 **Wealth side (continuous)**: watch Crown's Purse balance, make sure salaries are covered at the next payroll tick, invest surplus in trade, fine scofflaws if short. Failure mode: insolvency (broadcast failure, political consequence).
 
@@ -790,6 +796,29 @@ No actions - the scroll is read-only. Turn-in still happens at the ledger (uncha
 - Multiple-rulers case (e.g. co-monarchs): `resolve_realm_ruler()` returns first valid; noted as known limitation.
 - Localization-style variant lines (different phrasings per roll) - skip for MVP, one template per (quest_type × category) tuple.
 - Scrolls issued before this module shipped: either retro-generate preambles from quest data at open time, or leave them with the fallback "the Crown" template. MVP uses fallback.
+
+## Contract instrumentation (source-split)
+
+Round stats now record contract lifecycle (generated / taken / completed) both as flat aggregates AND split by `quest.source`. This is how we validate the 60% passive / 20% Rumor / 20% Defense target from real play data.
+
+**New stats** (in `round_statistics.dm`):
+
+- `STATS_CONTRACTS_GENERATED_POOL / _RUMOR / _DEFENSE`
+- `STATS_CONTRACTS_TAKEN_POOL / _RUMOR / _DEFENSE`
+- `STATS_CONTRACTS_COMPLETED_POOL / _RUMOR / _DEFENSE`
+
+Existing aggregates (`STATS_CONTRACTS_GENERATED` etc.) continue to increment alongside, so pre-existing roundend telemetry is preserved.
+
+**Reroll disambiguation**: `reroll_stale()` in `questpool.dm` deletes a stale quest (bumps `STATS_CONTRACTS_REROLLED`) and calls `generate_one(..., is_replacement = TRUE)` to refill the slot. The replacement does NOT increment any generation counter — the reroll signal already captures the churn. This prevents passive's generation count from appearing inflated relative to Rumor/Defense (which have no reroll mechanic).
+
+**Roundend panel** shows the split inline:
+```
+Contracts Generated: 47  (Pool 27 / Rumor 12 / Defense 8)
+Contracts Taken: 31      (Pool 18 / Rumor 9 / Defense 4)
+Contracts Completed: 22  (Pool 12 / Rumor 7 / Defense 3)
+```
+
+Use the first 2-3 rounds of real play to validate the 60/20/20 split and retune if drift is substantial.
 
 ## Open items / flagged for later
 

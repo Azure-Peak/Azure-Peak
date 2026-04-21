@@ -33,7 +33,7 @@
 
 	return list(
 		"discretionary" = discretionary_fund?.balance || 0,
-		"burgher_bond" = burgher_bond_fund?.balance || 0,
+		"burgher_pledge" = burgher_pledge_fund?.balance || 0,
 		"total_bank" = total_bank,
 		"avg_balance" = avg_balance,
 		"held_accounts" = held_accounts,

@@ -100,7 +100,7 @@ GLOBAL_VAR_INIT(date_override_offset, 0)
 			GLOB.dayspassed++
 			SStreasury.distribute_estate_incomes()
 			SStreasury.distribute_daily_payments()
-			SStreasury.tick_burgher_bond()
+			SStreasury.tick_burgher_pledge()
 			SStreasury.tick_rumor_points()
 			SStreasury.tick_loans()
 			SStreasury.tick_poll_tax()

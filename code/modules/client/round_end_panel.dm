@@ -574,9 +574,24 @@
 			// Left column - throughput
 			data += "<div style='width: 44%; display: flex; justify-content: flex-end;'>"
 			data += "<div style='text-align: left; padding-right: 20px;'>"
-			data += "<div style='margin-bottom: 4px;'><font color='#c0b283'>Contracts Generated: </font>[GLOB.azure_round_stats[STATS_CONTRACTS_GENERATED]]</div>"
-			data += "<div style='margin-bottom: 4px;'><font color='#90b34f'>Contracts Taken: </font>[GLOB.azure_round_stats[STATS_CONTRACTS_TAKEN]]</div>"
-			data += "<div style='margin-bottom: 4px;'><font color='#5cb85c'>Contracts Completed: </font>[GLOB.azure_round_stats[STATS_CONTRACTS_COMPLETED]]</div>"
+			var/gen_total = GLOB.azure_round_stats[STATS_CONTRACTS_GENERATED]
+			var/gen_pool = GLOB.azure_round_stats[STATS_CONTRACTS_GENERATED_POOL]
+			var/gen_rumor = GLOB.azure_round_stats[STATS_CONTRACTS_GENERATED_RUMOR]
+			var/gen_defense = GLOB.azure_round_stats[STATS_CONTRACTS_GENERATED_DEFENSE]
+			var/taken_total = GLOB.azure_round_stats[STATS_CONTRACTS_TAKEN]
+			var/taken_pool = GLOB.azure_round_stats[STATS_CONTRACTS_TAKEN_POOL]
+			var/taken_rumor = GLOB.azure_round_stats[STATS_CONTRACTS_TAKEN_RUMOR]
+			var/taken_defense = GLOB.azure_round_stats[STATS_CONTRACTS_TAKEN_DEFENSE]
+			var/comp_total = GLOB.azure_round_stats[STATS_CONTRACTS_COMPLETED]
+			var/comp_pool = GLOB.azure_round_stats[STATS_CONTRACTS_COMPLETED_POOL]
+			var/comp_rumor = GLOB.azure_round_stats[STATS_CONTRACTS_COMPLETED_RUMOR]
+			var/comp_defense = GLOB.azure_round_stats[STATS_CONTRACTS_COMPLETED_DEFENSE]
+			data += "<div style='margin-bottom: 4px;'><font color='#c0b283'>Contracts Generated: </font>[gen_total]"
+			data += " <span style='color:#888; font-size: 90%;'>(Pool [gen_pool] / Rumor [gen_rumor] / Defense [gen_defense])</span></div>"
+			data += "<div style='margin-bottom: 4px;'><font color='#90b34f'>Contracts Taken: </font>[taken_total]"
+			data += " <span style='color:#888; font-size: 90%;'>(Pool [taken_pool] / Rumor [taken_rumor] / Defense [taken_defense])</span></div>"
+			data += "<div style='margin-bottom: 4px;'><font color='#5cb85c'>Contracts Completed: </font>[comp_total]"
+			data += " <span style='color:#888; font-size: 90%;'>(Pool [comp_pool] / Rumor [comp_rumor] / Defense [comp_defense])</span></div>"
 			data += "<div style='margin-bottom: 4px;'><font color='#d9534f'>Contracts Abandoned: </font>[GLOB.azure_round_stats[STATS_CONTRACTS_ABANDONED]]</div>"
 			data += "<div><font color='#8f816b'>Contracts Rerolled: </font>[GLOB.azure_round_stats[STATS_CONTRACTS_REROLLED]]</div>"
 			data += "</div></div>"

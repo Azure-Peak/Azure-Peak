@@ -100,6 +100,8 @@
 #define QUEST_SOURCE_HANDLER "handler"
 // Innkeeper-issued rumor. Carries the 25% Contact Referral Fee on completion (see rumor.dm).
 #define QUEST_SOURCE_RUMOR "rumor"
+// Steward-issued defense quest. Spent from Burgher Pledge authority.
+#define QUEST_SOURCE_DEFENSE "defense"
 // Towner-posted private bounty. Bypasses the crown levy — it is a peer-to-peer contract, not
 // a guild-certified one. Reserved for Module 6.
 #define QUEST_SOURCE_TOWNER "towner"

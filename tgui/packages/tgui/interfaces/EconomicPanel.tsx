@@ -16,7 +16,7 @@ import { Window } from '../layouts';
 
 type Dashboard = {
   discretionary: number;
-  burgher_bond: number;
+  burgher_pledge: number;
   total_bank: number;
   avg_balance: number;
   held_accounts: number;
@@ -133,8 +133,8 @@ export const EconomicPanel = () => {
                     <LabeledList.Item label="Crown's Purse">
                       {dashboard.discretionary}m
                     </LabeledList.Item>
-                    <LabeledList.Item label="Burgher Bond">
-                      {dashboard.burgher_bond}
+                    <LabeledList.Item label="Burgher Pledge">
+                      {dashboard.burgher_pledge}
                     </LabeledList.Item>
                     <LabeledList.Item label="Total Bank Coin">
                       {dashboard.total_bank}m over {dashboard.held_accounts} accounts
@@ -192,8 +192,8 @@ export const EconomicPanel = () => {
                   </Button.Confirm>
                 </Stack.Item>
                 <Stack.Item>
-                  <Button.Confirm onClick={() => act('fire_bond_tick')}>
-                    Fire Bond Tick
+                  <Button.Confirm onClick={() => act('fire_pledge_tick')}>
+                    Fire Pledge Tick
                   </Button.Confirm>
                 </Stack.Item>
                 <Stack.Item>

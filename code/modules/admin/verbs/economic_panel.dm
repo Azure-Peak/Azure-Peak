@@ -94,9 +94,9 @@ GLOBAL_DATUM_INIT(economic_panel, /datum/economic_panel, new)
 			SStreasury.tick_loans()
 			admin_log_fiscal("fired tick_loans", "Fire Loan Tick")
 			return TRUE
-		if("fire_bond_tick")
-			SStreasury.tick_burgher_bond()
-			admin_log_fiscal("fired tick_burgher_bond", "Fire Bond Tick")
+		if("fire_pledge_tick")
+			SStreasury.tick_burgher_pledge()
+			admin_log_fiscal("fired tick_burgher_pledge", "Fire Pledge Tick")
 			return TRUE
 		if("fire_estate_incomes")
 			SStreasury.distribute_estate_incomes()
