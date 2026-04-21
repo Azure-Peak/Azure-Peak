@@ -251,7 +251,7 @@
 //	to_chat(user, "Initial delay: [delay]")
 
 	to_chat(user, span_blue("<i>[user] makes a beckoning gesture at [T] as a white fog swirls momentarily!</i>"))
-	user.say(pick("The Dreamer commands you, splash forth.","By Abyssor's will, spring forth.","Splash forth.","Come hither, abyssals.","Leap in Abyssor's name.","I call to you, denizens of the depths."))
+	user.say(pick("The Dreamer commands you, splash forth.","By Abyssor's will, spring forth.","Splash forth.","Come hither, abyssals.","Leap in Abyssor's name.","I call to you, denizens of the depths."), language = /datum/language/common)
 
 	// === FIRST INSTANT PULL ===
 	if(!H.devotion || H.devotion.devotion < devotion_cost)
@@ -557,7 +557,8 @@
 	F = new F(spawn_turf)
 	F.ai_controller.set_blackboard_key(BB_BASIC_MOB_CURRENT_TARGET, target)
 	F.ai_controller.set_blackboard_key(BB_MAIN_TARGET, target)
-	
+	F.ai_controller.insert_blackboard_key_lazylist(BB_BASIC_MOB_RETALIATE_LIST, target)
+
 	F.visible_message(span_notice("A [F] manifests following after [target]... countless teeth bared with hostility!"))
 	return TRUE
 

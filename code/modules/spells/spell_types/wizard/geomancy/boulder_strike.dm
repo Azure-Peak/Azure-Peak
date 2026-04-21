@@ -52,7 +52,7 @@
 
 /obj/projectile/magic/boulder/arc
 	name = "arced boulder"
-	damage = 70
+	damage = 68
 	frag_count = 6
 	arcshot = TRUE
 

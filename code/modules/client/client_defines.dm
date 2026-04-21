@@ -42,6 +42,8 @@
 		///////////////
 		//SOUND STUFF//
 		///////////////
+	///Active balloon alert count, used to vertically stack concurrent balloons so they don't overlap.
+	var/active_balloon_count = 0
 	///Currently playing ambience sound
 	var/ambience_playing = null
 	///Whether an ambience sound has been played and one shouldn't be played again, unset by a callback

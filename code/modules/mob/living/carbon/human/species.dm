@@ -2152,10 +2152,12 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 		var/datum/status_effect/fire_handler/fire_stacks/pure_stacks = H.has_status_effect(/datum/status_effect/fire_handler/fire_stacks)
 		var/firemodifier = pure_stacks?.stacks / 50
 		if(pure_stacks?.on_fire)
-			burn_damage = 10 + pure_stacks?.stacks * 3 // Minimum of 10 damage if you are on fire. Applies 3 additional per stack.
+			burn_damage = 5 + round(sqrt(pure_stacks?.stacks) * 10) // sqrt curve - diminishing returns at high stacks
 		else
 			firemodifier = min(firemodifier, 0)
 			burn_damage = round(max(log(2-firemodifier,(H.bodytemperature-BODYTEMP_NORMAL))-5,0)) // this can go below 5 at log 2.5
+		if(HAS_TRAIT(H, TRAIT_FIRE_RESIST))
+			burn_damage *= 0.5
 		if (burn_damage)
 			switch(burn_damage)
 				if(0 to 2)
@@ -2205,10 +2207,12 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 	if(thermal_protection >= FIRE_IMMUNITY_MAX_TEMP_PROTECT && !no_protection)
 		return
 
+	var/fire_resist_mult = HAS_TRAIT(H, TRAIT_FIRE_RESIST) ? 0.5 : 1
+
 	if(thermal_protection >= FIRE_SUIT_MAX_TEMP_PROTECT && !no_protection)
-		H.adjust_bodytemperature(11)
+		H.adjust_bodytemperature(11 * fire_resist_mult)
 	else
-		H.adjust_bodytemperature(BODYTEMP_HEATING_MAX + (H.fire_stacks * 12))
+		H.adjust_bodytemperature((BODYTEMP_HEATING_MAX + (H.fire_stacks * 12)) * fire_resist_mult)
 
 /datum/species/proc/Canignite_mob(mob/living/carbon/human/H)
 	if(HAS_TRAIT(H, TRAIT_NOFIRE))

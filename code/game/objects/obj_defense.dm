@@ -27,6 +27,12 @@
 
 		obj_destruction(damage_flag)
 
+//forces the object to reach the integrity failure and break if it has one
+/obj/proc/force_obj_break(damage_flag = "")
+	if(!obj_broken && integrity_failure)
+		obj_integrity = integrity_failure * max_integrity
+		obj_break(damage_flag)
+
 
 ///returns the damage value of the attack after processing the obj's various armor protections
 /obj/proc/run_obj_armor(damage_amount, damage_type, damage_flag = 0, attack_dir, armor_penetration = 0, object_damage_multiplier = 1)

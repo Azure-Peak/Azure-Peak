@@ -37,6 +37,10 @@
 
 	r_hand = /obj/item/rogueweapon/woodstaff
 	l_hand = /obj/item/book/spellbook
+	backl = /obj/item/storage/backpack/rogue/satchel
+	backpack_contents = list(
+	/obj/item/chalk = 1
+	)
 
 	if(H.mind)
 		SStreasury.give_money_account(ECONOMIC_DESTITUTE, H, "Savings.")

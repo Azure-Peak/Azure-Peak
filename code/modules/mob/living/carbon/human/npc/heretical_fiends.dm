@@ -1,6 +1,6 @@
 /mob/living/carbon/human/species/human/northern/heretical_fiend_no_gear
 	ai_controller = /datum/ai_controller/human_npc
-	faction = list("Heretical_Fiend", "dundead")
+	faction = list(FACTION_HERETICAL_FIEND, FACTION_DUNDEAD)
 	ambushable = FALSE
 	cmode = 1
 	setparrytime = 30
@@ -52,7 +52,7 @@
 
 /mob/living/carbon/human/species/human/northern/heretical_fiend_no_gear/zizo_cultist
 	ai_controller = /datum/ai_controller/human_npc
-	faction = list("Heretical Fiend", "dundead")
+	faction = list(FACTION_HERETICAL_FIEND, FACTION_DUNDEAD)
 	ambushable = FALSE
 	cmode = 1
 	dodgetime = 30

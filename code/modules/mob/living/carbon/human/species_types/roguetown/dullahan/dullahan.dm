@@ -264,14 +264,15 @@
 	UnregisterSignal(user, COMSIG_MOB_SAY)
 	UnregisterSignal(user, COMSIG_MOB_SAY_POSTPROCESS)
 	//UnregisterSignal(user, COMSIG_ERP_LOCATION_ACCESSIBLE) // TODO SEXCON2
-	if(my_head.owner ~= user)
+	if(my_head && my_head.owner ~= user)
 		// Give their head back instead?
 		// In TG Dullahan heads are always off, thus they give back heads.
 		// Warn that they're going to die?
 		if(!(user.status_flags & GODMODE))
 			user.death()
 
-	UnregisterSignal(my_head, COMSIG_QDELETING)
+	if(my_head)
+		UnregisterSignal(my_head, COMSIG_QDELETING)
 	my_head = null
 	soul_light_off()
 	mob_light_obj = null

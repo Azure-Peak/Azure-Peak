@@ -14,7 +14,9 @@
 		/obj/item/alch/hag_moss/envy = 5,
 		/obj/item/alch/hag_moss/lullaby = 5,
 		/obj/item/alch/hag_moss/pride = 5,
-		/obj/item/roguekey/hag = 1
+		/obj/item/roguekey/hag = 1,
+		/obj/item/leechtick = 3,
+		/obj/item/leechtick_bloated = 3,
 	)
 	var/hag_tier = 1
 	var/static/list/curse_registry = list(

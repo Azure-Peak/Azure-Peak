@@ -348,6 +348,12 @@ SUBSYSTEM_DEF(vote)
 			if("storyteller")
 				save_storyteller_vote_log(., "completed")
 				SSgamemode.storyteller_vote_result(.)
+	else if(mode == "storyteller")
+		// No winner (inconclusive / no votes cast). Still run the result hook so
+		// selected_storyteller gets the Astrata fallback instead of whichever
+		// storyteller pick_most_influential() happened to seed at init.
+		save_storyteller_vote_log(null, "completed")
+		SSgamemode.storyteller_vote_result(null)
 
 	if(restart)
 		var/active_admins = 0

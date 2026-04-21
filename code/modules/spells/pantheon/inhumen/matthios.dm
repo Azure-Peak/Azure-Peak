@@ -41,13 +41,21 @@
 			category = "Gilded Tools",
 			lines = list("#By thine hands...", "#No locks shall bar the free!", "#Thine tool shall bring liberation!", "#Matthios, shatter my locks!")
 		),
-		//freely spawns 400 mammon!!! no wae! is this trve?!!?!??
-		"Pouch of Bribery" = list(
-			path = /obj/item/storage/belt/rogue/pouch/coins/matthios,
-			m_cooldown = 5 MINUTES,
-			m_rank = SKILL_LEVEL_EXPERT,
+		//rip the bag of bribery, say hello to pouch of smuggling
+		"Pouch of Smuggling" = list(
+			path = /obj/item/storage/belt/rogue/pouch/matthios,
+			m_cooldown = 10 MINUTES,
+			m_rank = SKILL_LEVEL_NOVICE,
 			category = "Rogue Arts",
-			lines = list("#Coin begets coin!", "#Matthios, grant me a sliver of thy wealth!", "#Wealth through will, as He demands!", "#Matthios, see to my poverty!")
+			lines = list("#Let me begin your work!", "#Matthios, protect my well-deserved goods!", "#Grant me protection against those tyrant knaves!", "#Matthios, ordain me your blessed storage!")
+		),
+		//like a pouch of smuggling, but smugglier
+		"Bag of Smuggling" = list(
+			path = /obj/item/storage/backpack/rogue/backpack/matthios,
+			m_cooldown = -1,
+			m_rank = SKILL_LEVEL_APPRENTICE,
+			category = "Rogue Arts",
+			lines = list("#Let me begin your work!", "#Matthios, protect my well-deserved goods!", "#Grant me protection against those tyrant knaves!", "#Matthios, ordain me your blessed storage!")
 		),
 		//makes failed lockpicking attempts muffled
 		"Gilded Dexterous Gloves" = list(
@@ -85,7 +93,7 @@
 		"Gilded Amulet of Matthios" = list(
 			path = /obj/item/clothing/neck/roguetown/psicross/inhumen/matthios/gilded,
 			m_cooldown = 30 MINUTES,
-			m_rank = SKILL_LEVEL_NOVICE,
+			m_rank = SKILL_LEVEL_NONE,
 			category = "Gilded Tools",
 			lines = list("#Matthios, let thine will be done.", "#Lord of Exchange, my soul is yours.", "#God of the Stolen Fyre, thou will be done.")
 		),
@@ -274,7 +282,7 @@
 	H.put_in_hands(I)
 
 	if(lines && lines.len)
-		H.say(pick(lines))
+		H.say(pick(lines), language = /datum/language/common)
 
 	// APPLY COOLDOWN
 	if(m_cd == -1)

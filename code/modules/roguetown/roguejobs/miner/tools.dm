@@ -18,6 +18,7 @@
 	grid_width = 64
 	grid_height = 64
 	var/auto_boulder = FALSE
+	is_tool = TRUE
 
 /obj/item/rogueweapon/pick/getonmobprop(tag)
 	. = ..()

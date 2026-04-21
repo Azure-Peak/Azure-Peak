@@ -30,7 +30,7 @@
 						/obj/item/alch/bone = 1,
 						/obj/item/alch/viscera = 1,
 						/obj/item/natural/bone = 2,)
-	faction = list("wolfs", "zombie")
+	faction = list(FACTION_WOLFS, FACTION_ZOMBIE)
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
 	remains_type = /obj/effect/decal/remains/badger
 	health = 90

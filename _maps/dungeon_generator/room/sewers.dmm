@@ -24,7 +24,7 @@
 /turf/open/water/sewer,
 /area/rogue/under/tomb/sewer)
 "ag" = (
-/obj/item/reagent_containers/food/snacks/smallrat,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/under/tomb/sewer)
 "ai" = (
@@ -39,7 +39,7 @@
 /turf/open/floor/rogue/hexstone,
 /area/rogue/under/tomb/sewer)
 "ap" = (
-/obj/item/reagent_containers/food/snacks/smallrat,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
 /turf/open/water/sewer,
 /area/rogue/under/tomb/sewer)
 "aq" = (
@@ -89,7 +89,7 @@
 	pixel_y = 10;
 	pixel_x = 8
 	},
-/obj/item/reagent_containers/food/snacks/smallrat,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/under/tomb/sewer)
 "aU" = (

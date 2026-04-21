@@ -14,6 +14,12 @@
 /proc/get_farming_do_time(mob/user, time)
 	return time / get_farming_effort_multiplier(user, 3)
 
+/proc/get_hunting_effort_multiplier(mob/user, factor = 2)
+	return (10 + (user.get_skill_level(/datum/skill/misc/hunting) * factor)) * 0.1
+
+/proc/get_hunting_do_time(mob/user, time)
+	return time / get_hunting_effort_multiplier(user, 3)
+
 /proc/get_herb_effort_multiplier(mob/user, factor = 2)
 	var/farming_lvl = user.get_skill_level(/datum/skill/labor/farming)
 	var/medicine_lvl = user.get_skill_level(/datum/skill/misc/medicine)

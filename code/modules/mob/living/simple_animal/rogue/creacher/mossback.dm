@@ -20,7 +20,7 @@
 							/obj/item/alch/viscera = 2)
 	perfect_butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/crab = 5, 
 									/obj/item/alch/viscera = 2)
-	faction = list("crabs")
+	faction = list(FACTION_CRABS)
 	threat_point = THREAT_MODERATE
 	ambush_faction = "wildlife"
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
@@ -61,7 +61,7 @@
 	if(user)
 		summoner = user.mind.current.real_name
 		if (townercrab)
-			faction = list("neutral", "[summoner]_faction")
+			faction = list(FACTION_NEUTRAL, "[summoner]_faction")
 			tamed(user)
 
 /mob/living/simple_animal/hostile/retaliate/rogue/mossback/get_sound(input)

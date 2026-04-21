@@ -163,6 +163,9 @@
 	// Update highest threat mob
 	update_highest_threat(living_mob)
 
+	if(!length(aggro_table))
+		living_mob.ai_controller.recalculate_idle()
+
 /// Updates who the highest threat mob is
 /datum/component/ai_aggro_system/proc/update_highest_threat(mob/living/source)
 	if(!source?.ai_controller)

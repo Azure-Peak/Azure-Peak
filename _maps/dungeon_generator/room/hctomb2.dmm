@@ -81,7 +81,7 @@
 /turf/open/floor/rogue/dirt,
 /area/rogue/under/tomb)
 "gT" = (
-/obj/item/roguegem/yellow,
+/obj/effect/spawner/lootdrop/random_gem,
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/under/tomb/cave)
 "hQ" = (
@@ -201,7 +201,7 @@
 "rU" = (
 /obj/structure/closet/dirthole/closed,
 /obj/item/rogueweapon/shield/tower,
-/obj/item/rogueweapon/mace/cudgel/copper,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/weapons,
 /obj/effect/mapping_helpers/floor_clothing_equipper,
 /mob/living/carbon/human/species/skeleton/npc/no_equipment,
 /turf/open/floor/rogue/dirt,
@@ -212,7 +212,7 @@
 /area/rogue/under/tomb/cave)
 "sF" = (
 /obj/structure/closet/dirthole/closed,
-/obj/item/rogueweapon/mace/spiked,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/weapons,
 /turf/open/floor/rogue/dirt,
 /area/rogue/under/tomb)
 "tc" = (
@@ -364,7 +364,7 @@
 "DA" = (
 /obj/structure/closet/dirthole/grave,
 /obj/structure/closet/burial_shroud,
-/obj/item/rogueweapon/shield/wood,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/weapons,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/under/tomb)
 "DH" = (
@@ -483,10 +483,6 @@
 "NC" = (
 /turf/open/floor/rogue/grassyel,
 /area/rogue/under/tomb/cave)
-"Oh" = (
-/obj/item/roguegem/green,
-/turf/open/floor/rogue/cobblerock,
-/area/rogue/under/tomb/cave)
 "OL" = (
 /obj/structure/glowshroom{
 	icon_state = "glowshroom_A2"
@@ -525,7 +521,7 @@
 /area/rogue/under/tomb/cave)
 "Rk" = (
 /obj/structure/closet/dirthole/closed,
-/obj/item/rogueweapon/shield/wood,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/weapons,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/under/tomb)
 "Sk" = (
@@ -1616,7 +1612,7 @@ iR
 iR
 iR
 iR
-Oh
+gT
 vg
 Dz
 Pt
