@@ -41,3 +41,5 @@
 #define GOLDEN_BULL_POLL_CAP 25
 /// Minimum world-time since round start before Poll Tax prepay is allowed.
 #define POLL_TAX_PREPAY_GRACE (10 MINUTES)
+/// Maximum days of grace a mob can hold at once. Caps prepay + accumulation.
+#define POLL_TAX_MAX_GRACE_DAYS 7

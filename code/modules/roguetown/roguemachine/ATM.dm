@@ -122,12 +122,18 @@
 				say("Your balance is nothing.")
 				playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
 				return
-			var/max_days = floor(amt / eff_rate)
+			var/existing_grace = SStreasury.poll_tax_days_paid[H] || 0
+			var/grace_room = POLL_TAX_MAX_GRACE_DAYS - existing_grace
+			if(grace_room <= 0)
+				say("You already hold the maximum of [POLL_TAX_MAX_GRACE_DAYS] days of grace.")
+				playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
+				return
+			var/max_days = min(floor(amt / eff_rate), grace_room)
 			if(max_days < 1)
 				say("You cannot afford a single day at [eff_rate]m.")
 				playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
 				return
-			var/prepay_days = input(user, "Prepay how many days of Poll Tax at [eff_rate]m/day? Your balance: [amt]m. (Maximum [max_days] days)", src, max_days) as null|num
+			var/prepay_days = input(user, "Prepay how many days of Poll Tax at [eff_rate]m/day? Your balance: [amt]m. (Maximum [max_days] day[max_days == 1 ? "" : "s"]; cap is [POLL_TAX_MAX_GRACE_DAYS] total grace, you hold [existing_grace].)", src, max_days) as null|num
 			if(isnull(prepay_days))
 				return
 			prepay_days = round(prepay_days)

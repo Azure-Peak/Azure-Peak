@@ -8,7 +8,7 @@ Last updated: 2026-04-19
 
 Fractional reserve banking in the current system is a hidden subsidy. The crown treats every deposited mammon as de-facto crown wealth: the unified `treasury_value` pool operates on 100% of all deposits plus generated inflation, and fails only in the theoretical case of a bank run — which in a 3-hour SS13 round basically never happens. A player earning 500 mammon and stashing it in a bank account is, functionally, lending it to the crown at 0% interest with no recall mechanism. The crown silently consumes idle deposits to fund wages, shop purchases, garrison buys, and anything else, without asking permission, because the pool is abstract. The typical 4-5k in adventurer quest earnings that never get withdrawn becomes 4-5k of free crown working capital.
 
-Module 3 removes this silent subsidy. Fully-backed accounts mean the crown can no longer claim idle deposits. A player's 500 mammon is *actually* theirs, reachable to the Steward only via voluntary flows (the player buys goods, creating a shop margin for Discretionary), coercive flows (fine, rate-limited to 3/day and percentage-capped), or consensual flows (loan, repaid with interest). That's it.
+Module 3 removes this silent subsidy. Fully-backed accounts mean the crown can no longer claim idle deposits. A player's 500 mammon is *actually* theirs, reachable to the Steward only via voluntary flows (the player buys goods, creating a shop margin for Crown's Purse), coercive flows (fine, rate-limited to 3/day and percentage-capped), or consensual flows (loan, repaid with interest). That's it.
 
 The emergent effect is that **the crown is nominally richer but materially poorer**. Total mammon in the system goes up (no fractional reserve lets it collapse to claims), but the Steward's *spendable* wealth is tightly constrained because every mammon has a ledger home that isn't the crown's. More coins in play, less freedom to use them.
 
@@ -17,8 +17,8 @@ This flips the Steward's incentive structure:
 - From "custodian of the common pool" to "manager of a crown business that happens to operate in an economy of individuals"
 - From "authoritarian seizure" to "entrepreneurial margin generation"
 - Incentivizes *lowering* stockpile prices to encourage player purchases (because account hoarding doesn't help the crown anymore — only circulating mammon does)
-- Incentivizes *more* quest flow to keep adventurer activity high (mints from Defense Budget circulate through shops → margins → Discretionary)
-- Makes loans attractive (converts static account wealth into active Discretionary income via interest, while giving players who need it a bootstrapping tool)
+- Incentivizes *more* quest flow to keep adventurer activity high (mints from Defense Budget circulate through shops → margins → Crown's Purse)
+- Makes loans attractive (converts static account wealth into active Crown's Purse income via interest, while giving players who need it a bootstrapping tool)
 - Makes fines *politically meaningful* because they're rate-limited — the Steward has to *choose* fine targets rather than tax everyone evenly
 
 A well-played Steward becomes a useful economic actor. A careless or greedy one drives the crown insolvent, broadcasts the failure to the round, and creates narrative consequences. Neither outcome was available under fractional reserve because the pool was too abstract to visibly fail.
@@ -26,17 +26,17 @@ A well-played Steward becomes a useful economic actor. A careless or greedy one 
 ## Guiding design decisions (locked in during design review)
 
 1. **Three-tier mammon model.**
-   - **Physical (coin-backed)**: individual bank accounts, Discretionary Budget. Withdrawable as coins at a MEISTER. Transferable.
+   - **Physical (coin-backed)**: individual bank accounts, Crown's Purse Budget. Withdrawable as coins at a MEISTER. Transferable.
    - **Authority (abstract)**: Defense Budget, Innkeeper Rumor Points. Not withdrawable, not robbable, not transferable. Manifests into physical coin only when a funded quest completes.
    - **Generation (spigots)**: rural tax, treasure resale, farming, noble estate income, quest-completion mints from authority budgets. These are the only sources of new physical mammon.
-2. **Fractional reserve is gone.** Every physical mammon has a ledger home: account, Discretionary, or coin-in-world. Conservation is auditable via a debug proc.
+2. **Fractional reserve is gone.** Every physical mammon has a ledger home: account, Crown's Purse, or coin-in-world. Conservation is auditable via a debug proc.
 3. **Defense Budget and Rumor Points decrement on quest issuance**, not on completion. Prevents parking quests to hoard authority across days.
 4. **Innkeeper is an issuer, not a curator.** The design-review critique argued for curator-only; the author accepts the money-printer tradeoff with the mitigation that Innkeeper-issued quests supply ~40-50% of round quest volume (passive pool covers 50-60%).
 5. **No loan fractional-reserve accommodations.** Fully-backed accounts make loan auto-charge well-defined.
 6. **One concurrent loan per debtor.** Keeps auto-charge simple and prevents stacking.
 7. **Decree system gates the strongest Steward powers.** Four decrees enacted at roundstart protect burghers (Great Charter, which also gates Defense Budget), church (Concordat), inquisition/psydonites (Edict of Tolerance), and nobles (Charter of Noble Rights). Lord controls decree state with a 30-minute cooldown per change. Political weight is the feature; revoking an immunity is a chat-broadcast, IC-visible political act. Decrees ship *first* (M3-C3) so the rest of the module is built against the assumption that factions are protected by default.
 8. **In-game day = 30 real minutes. Week = 7 days = 3.5 real hours.** Loan interest ticks daily, budgets replenish daily, region events fire daily.
-9. **No Steward-sabotage mitigations in MVP.** A bad-faith Steward dumping Discretionary into a single 5000-mammon bounty is a social problem (fire the Steward next round), not a mechanical one.
+9. **No Steward-sabotage mitigations in MVP.** A bad-faith Steward dumping Crown's Purse into a single 5000-mammon bounty is a social problem (fire the Steward next round), not a mechanical one.
 10. **Noble estate income stays as a Tier 3 mint (current behavior).** Treating nobles as crown employees would be a much larger political shift; defer.
 
 ## Numbers (placeholders, tune in playtest)
@@ -45,7 +45,7 @@ A well-played Steward becomes a useful economic actor. A careless or greedy one 
 |------|-------|
 | In-game day | 30 real minutes |
 | Week | 7 days (3.5 hours) |
-| Starting Discretionary | 2000 mammon |
+| Starting Crown's Purse | 2000 mammon |
 | Defense Budget base (daily refill) | 400 mammon authority |
 | Defense Budget max carryover | 200% of base = 800 mammon authority |
 | Rumor Points starting balance | 12 points (2x base) |
@@ -56,11 +56,12 @@ A well-played Steward becomes a useful economic actor. A careless or greedy one 
 | Rumor Points quest cost (Raid / Outlaw) | 3 points |
 | Poll Tax default rate (all 11 categories) | 10 mammon / day |
 | Poll Tax prepay grace window | 10 minutes from round start (no prepay allowed) |
+| Poll Tax max prepaid grace days | 7 (roughly a full round's worth) |
 | Poll Tax max rate | 50 mammon / day |
 | Poll Tax debtor threshold | 2 consecutive days unpaid |
 | Golden Bull burgher poll tax cap | 25 mammon / day |
 | Rural tax | 50 mammon / 6 min (unchanged) |
-| Rural tax route | → Discretionary only |
+| Rural tax route | → Crown's Purse only |
 | Starting bank accounts | ECONOMIC_* (unchanged) |
 | Loan minimum | 50 mammon |
 | Loan interest on issuance | 25% of principal (flat) |
@@ -83,13 +84,13 @@ Owned by individual players. `SStreasury.bank_accounts[ckey]` → integer balanc
 
 **Audit note**: current implementation mixes ckey-keyed and mob-keyed entries. Module 3 normalizes to ckey-only in a prerequisite commit.
 
-### Discretionary Budget (physical, pooled)
-Owned by the crown. `SStreasury.discretionary` → integer balance. Steward withdraws at their Nerve Master machine, spawning coins (same mechanic as personal withdrawal, just that the authorized withdrawer is the Steward role). Fineable to? No — discretionary is above taxation. Robbable via a future jawbank heist mechanic if we care (not in MVP). Replenished by rural tax, treasure resale split, taxation, import/export margin.
+### Crown's Purse Budget (physical, pooled)
+Owned by the crown. `SStreasury.discretionary` → integer balance. Steward withdraws at their Nerve Master machine, spawning coins (same mechanic as personal withdrawal, just that the authorized withdrawer is the Steward role). Fineable to? No — the Crown's Purse is above taxation. Robbable via a future jawbank heist mechanic if we care (not in MVP). Replenished by rural tax, treasure resale split, taxation, import/export margin.
 
-**Discretionary funds every physical crown expense**: keep salaries, import/export purchases, any bespoke Steward spending. Steward *can* voluntarily fund a quest from Discretionary but it competes directly with payroll — every mammon spent here is a mammon not paying next week's wages. That's an intentional political tradeoff, not a default action; most Stewards will use Defense Budget authority to fund quests instead.
+**Crown's Purse funds every physical crown expense**: keep salaries, import/export purchases, any bespoke Steward spending. Steward *can* voluntarily fund a quest from Crown's Purse but it competes directly with payroll — every mammon spent here is a mammon not paying next week's wages. That's an intentional political tradeoff, not a default action; most Stewards will use Defense Budget authority to fund quests instead.
 
 ### Defense Budget (authority, pooled)
-Owned by the Steward. `SStreasury.defense_budget` → integer, "authority points." Not physical. Not withdrawable. Fully decoupled from Discretionary and rural tax — authority is not fueled by any wealth flow. Decrements on quest issuance. Replenishes daily to a cap from nothing. Surplus beyond 200% of daily refill is clawed back at each daily tick. Cannot be transferred to or from Discretionary.
+Owned by the Steward. `SStreasury.defense_budget` → integer, "authority points." Not physical. Not withdrawable. Fully decoupled from Crown's Purse and rural tax — authority is not fueled by any wealth flow. Decrements on quest issuance. Replenishes daily to a cap from nothing. Surplus beyond 200% of daily refill is clawed back at each daily tick. Cannot be transferred to or from Crown's Purse.
 
 On quest completion, the reward mints coins into the adventurer's hands (and Innkeeper's account for the Guild's Cut). Mint events are logged and tracked in `verify_mammon_conservation()` as known inflow sources.
 
@@ -136,10 +137,10 @@ Ship a `/datum/controller/subsystem/treasury/proc/verify_mammon_conservation()` 
 
 1. Steward uses "Issue Loan" verb → picks debtor (must have bank account, must have no existing loan), picks amount (min 50), picks term (2 or 3 days).
 2. Loan paper spawns, hands to debtor.
-3. Debtor consents → `/datum/loan` created, `interest = original_principal * 0.25`, amount transferred from Discretionary to debtor's account.
+3. Debtor consents → `/datum/loan` created, `interest = original_principal * 0.25`, amount transferred from Crown's Purse to debtor's account.
 4. Each 30-minute tick: `interest += original_principal * 0.25` for every outstanding loan.
-5. Same tick: if loan is delinquent AND `debtor.account >= balance_owed`, auto-charge: full balance transferred from account to Discretionary, loan `qdel`'d, debtor notified in chat and in bank log.
-6. Manual repayment at Steward machine: repayment amount clears `interest` first, then increments `principal_paid`. Money flows account → Discretionary. If `balance_owed == 0`, loan `qdel`'d.
+5. Same tick: if loan is delinquent AND `debtor.account >= balance_owed`, auto-charge: full balance transferred from account to Crown's Purse, loan `qdel`'d, debtor notified in chat and in bank log.
+6. Manual repayment at Steward machine: repayment amount clears `interest` first, then increments `principal_paid`. Money flows account → Crown's Purse. If `balance_owed == 0`, loan `qdel`'d.
 7. If debtor permanently dies, the loan stays on `SStreasury.loans`. Steward has IC justification to recover via garrison, stripping the corpse, etc. Not auto-cleared.
 
 ### Edge cases
@@ -147,7 +148,7 @@ Ship a `/datum/controller/subsystem/treasury/proc/verify_mammon_conservation()` 
 - **Fine-before-autocharge on same tick**: fine processes independently. If a fine drains the account below `balance_owed`, autocharge that tick does nothing; the loan stays delinquent until the account recovers or the Steward intervenes.
 - **Debtor logs out with loan active**: loan persists on `SStreasury.loans`. If they come back, everything resumes.
 - **Steward leaves job mid-loan**: loan is on `SStreasury`, not the Steward's mind. Next Steward inherits the book.
-- **Discretionary empty when repayment occurs**: money flows into Discretionary anyway. Repayment is additive to Discretionary's current balance.
+- **Crown's Purse empty when repayment occurs**: money flows into Crown's Purse anyway. Repayment is additive to Crown's Purse's current balance.
 
 ## Decree system
 
@@ -182,7 +183,7 @@ At roundstart, the town has 5000-7000 mammon distributed across ~130 accounts. *
 
 These are the groups the crown can *bully, cajole, or persuade* into providing income — and the rate-limit of 3 fines per in-game day means even this reach is narrow. The Steward must:
 
-1. Earn Discretionary through **voluntary flows** — stockpile purchases, import/export margins, loans with interest, deposit taxes at creation time
+1. Earn Crown's Purse through **voluntary flows** — stockpile purchases, import/export margins, loans with interest, deposit taxes at creation time
 2. **Persuade** individual players to contribute, pay for services, or take loans
 3. **Force** the narrow unprotected population via fines, judiciously
 4. **Convince the Lord to revoke a decree** when the narrow approach isn't enough, accepting the political backlash from whichever faction just lost its immunity
@@ -249,7 +250,7 @@ Steward invokes fine via `/datum/taxsetter` (existing infrastructure) or a new v
   - **Church** (Concordat ON): cannot fine | (Concordat OFF): up to 75%
   - **Inquisition / Declared Psydonites** (Edict of Tolerance ON): cannot fine | (Edict OFF): up to 75%
   - **Nobles** (Charter of Noble Rights ON): cannot fine | (Charter OFF): up to 75%
-- Fine transfers directly from target account → Discretionary.
+- Fine transfers directly from target account → Crown's Purse.
 - Target chat-notified with reason text (free-text input by Steward).
 - Logged in `SStreasury.event_log` with attribution.
 - **Per-individual grants**: Declared Churchites (from Church), Declared Psydonites (from Inquisitor), and chartered Burghers (from Steward) carry their grantor's category protection. Fine system resolves protection via: *decree + role/category + active grants*, in that precedence. Grants stacked across factions (e.g. Bob is both Churchite AND Burgher) mean the strictest applicable protection wins. See Patronage grants subsection above.
@@ -363,9 +364,9 @@ This adds complexity but keeps the trade loop alive across the whole round. MVP 
 
 ### Import/export flow
 
-Steward's Nerve Master UI gains a "Trade" tab listing regions, current prices, active events, blockade status. Pressing "Import" or "Export" spends Discretionary, routes goods to/from AP's stockpile, and credits Discretionary on profitable trades.
+Steward's Nerve Master UI gains a "Trade" tab listing regions, current prices, active events, blockade status. Pressing "Import" or "Export" spends Crown's Purse, routes goods to/from AP's stockpile, and credits Crown's Purse on profitable trades.
 
-Import/export margin (profit the crown makes reselling to citizens) flows into Discretionary.
+Import/export margin (profit the crown makes reselling to citizens) flows into Crown's Purse.
 
 ## Steward Defense Quests
 
@@ -434,7 +435,7 @@ Lands in M3-C13 alongside Rumor Points, since both touch the Innkeeper/Towner ax
 
 Right now fiscal controls are scattered:
 - **TaxSetter TGUI** — Crown Levies + Poll Tax rates
-- **Nerve Master HTML** — Salaries, decrees, discretionary balance
+- **Nerve Master HTML** — Salaries, decrees, Crown's Purse balance
 - **Meister / ATM** — Personal account + loan repay + poll tax prepay
 - **Loan contracts** — Issuance flow via paper
 
@@ -442,7 +443,7 @@ This is fine from an RP-object standpoint (each machine has its own IC identity)
 
 ### Contents
 
-- **Balances**: Discretionary, Burgher Bond, total in-circulation bank coin, rural tax YTD
+- **Balances**: Crown's Purse, Burgher Bond, total in-circulation bank coin, rural tax YTD
 - **Rates**: all 5 tax categories (Contract Levy, Headeater Levy, Import Tariff, Export Duty, Fine) + all 11 poll tax rates, displayed with Charter overlay (which are currently exempt/capped)
 - **Loans**: outstanding loans with debtor name, principal, remaining due, days-until-default
 - **Debtors**: list of TRAIT_DEBTOR holders with reason (loan default / poll tax arrears)
@@ -479,10 +480,10 @@ Ships before any budget/fine/quest work because every downstream commit assumes 
 At this commit, decrees and grants exist but have nothing to gate yet — they compile clean and wait for subsequent commits to wire them into fines, budget, etc.
 
 ### M3-C4 — Budget split
-Replace `SStreasury.treasury_value` with `.discretionary` (physical) and `.defense_budget` (authority). Route every income/expense site deliberately. Rural tax → discretionary. **Great Charter wired**: Defense Budget replenishment is gated on Great Charter being ON; if revoked, the daily tick skips Defense refill. Re-granting resumes refill from next tick (no retroactive refill). Ship `verify_mammon_conservation()` debug proc.
+Replace `SStreasury.treasury_value` with `.discretionary` (physical) and `.defense_budget` (authority). Route every income/expense site deliberately. Rural tax → Crown's Purse. **Great Charter wired**: Defense Budget replenishment is gated on Great Charter being ON; if revoked, the daily tick skips Defense refill. Re-granting resumes refill from next tick (no retroactive refill). Ship `verify_mammon_conservation()` debug proc.
 
-### M3-C5 — Discretionary physicalization + salary routing
-Steward's Nerve Master UI gains "Withdraw from Discretionary" flow. Coins spawn. **Salaries (`distribute_daily_payments`) now pull from Discretionary instead of the old unified treasury.** If Discretionary balance is insufficient to cover the full payroll at tick time, **no salaries pay that day** and a chat broadcast fires: *"The Crown is insolvent. No salaries have been paid this day."* Also logged in the event log. This is intentionally a visible, in-character failure so the Steward's fiscal mistakes reshape the political round. Update noble income distribution to pull from Discretionary (sanity check against current behavior — document whether change is needed).
+### M3-C5 — Crown's Purse physicalization + salary routing
+Steward's Nerve Master UI gains "Withdraw from Crown's Purse" flow. Coins spawn. **Salaries (`distribute_daily_payments`) now pull from Crown's Purse instead of the old unified treasury.** If Crown's Purse balance is insufficient to cover the full payroll at tick time, **no salaries pay that day** and a chat broadcast fires: *"The Crown is insolvent. No salaries have been paid this day."* Also logged in the event log. This is intentionally a visible, in-character failure so the Steward's fiscal mistakes reshape the political round. Update noble income distribution to pull from Crown's Purse (sanity check against current behavior — document whether change is needed).
 
 ### M3-C6 — Fine limits + category percentages
 Per-Steward daily cap, category-based percentages, decree-gated exemption checks. Fine system reads decree state from M3-C3.
@@ -509,7 +510,7 @@ Hook into quest completion flow. Credit Innkeeper's account. Handle "no Innkeepe
 `SStreasury.rumor_points` (float pool, start 12, daily 6 + 0.25/player). Tiered costs: Retrieval 1 / Kill+Courier+Clear Out 2 / Raid+Outlaw 3. Innkeeper-exclusive tab on the Grand Contract Ledger with Type / Region / (Retrieval) item parameters. `QUEST_SOURCE_RUMOR` tag; 25% mint on completion. Also in this commit: add `NOTABLE_TITHED` sub-option to `/datum/virtue/utility/notable` that sets `poll_tax_days_paid[H] = 999` on application (re-using grace-days plumbing, no new trait).
 
 ### M3-C14b — Steward Fiscal tab (read-only consolidated treasury view)
-Read-only aggregator tab on Nerve Master: balances (Discretionary, Burgher Bond, in-circulation coin, rural tax YTD), all 16 rates (5 levies + 11 poll tax) with Charter overlay, outstanding loans, TRAIT_DEBTOR roster with reason, poll tax head count + collection stats per category, Charter active/suspended state with cooldown counters. Write-side actions stay on their existing surfaces.
+Read-only aggregator tab on Nerve Master: balances (Crown's Purse, Burgher Bond, in-circulation coin, rural tax YTD), all 16 rates (5 levies + 11 poll tax) with Charter overlay, outstanding loans, TRAIT_DEBTOR roster with reason, poll tax head count + collection stats per category, Charter active/suspended state with cooldown counters. Write-side actions stay on their existing surfaces.
 
 ### M3-C14 — Savings Goal + Blood Toll + roundend civic stats
 Two roundend readout additions bundled together since both hook into roundend reporting and the Chronicle UI:
@@ -517,7 +518,7 @@ Two roundend readout additions bundled together since both hook into roundend re
 - **Blood Toll**: New Chronicle tab tallying all hostile NPC deaths over the round, grouped by subtype. Hook into mob death events for ckey-less hostiles, increment `SSroundstats.blood_toll[subtype]`. Chronicle tab renders as a simple table with flavor header. No attribution.
 
 ### M3-C15 — Docs + tuning
-Roundend report additions ("Discretionary flows," "Defense Quest stats," "Loans issued," "Rumor Quests issued"). `get_mechanics_examine` updates on affected machines. Playtest tuning pass on the numbers table above.
+Roundend report additions ("Crown's Purse flows," "Defense Quest stats," "Loans issued," "Rumor Quests issued"). `get_mechanics_examine` updates on affected machines. Playtest tuning pass on the numbers table above.
 
 ## Module 2 (marker rework) — bundled into same PR
 
@@ -580,13 +581,13 @@ Two decoupled optimization problems with different cadences:
 
 **Authority side (daily, 30 min)**: look at region events and threat regions, spend Defense Budget on the most relevant quests. Use-it-or-lose-it pressure means you *should* spend down to zero. Failure mode: hoarding via parking (mitigated by decrement-on-issue).
 
-**Wealth side (continuous)**: watch Discretionary balance, make sure salaries are covered at the next payroll tick, invest surplus in trade, fine scofflaws if short. Failure mode: insolvency (broadcast failure, political consequence).
+**Wealth side (continuous)**: watch Crown's Purse balance, make sure salaries are covered at the next payroll tick, invest surplus in trade, fine scofflaws if short. Failure mode: insolvency (broadcast failure, political consequence).
 
 The two loops don't fight for attention because they operate at different cadences and have different player-facing failure modes. A competent Steward manages both. A specialized Steward can let one slide for political reasons ("I refused to pay the Duke's nephew's salary because he's been aiding brigands").
 
 ## Open items / flagged for later
 
-- **Jawbank heist for Discretionary**: currently only individual-account Coveter Crown exists. If we want "rob the crown" gameplay, design it as a separate PR. Not blocking.
+- **Jawbank heist for Crown's Purse**: currently only individual-account Coveter Crown exists. If we want "rob the crown" gameplay, design it as a separate PR. Not blocking.
 - **Estates General**: referenced in Quest 2 original design. Would give the Lord's decree power political counterbalance. Separate module, later.
 - **Region count**: starting with 5. If playtest shows "Steward solves optimal route in 20 minutes," expand to 8-10 regions or make events more frequent.
 - **Rumor Points cost scaling**: finalized as Retrieval 1 / Kill+Courier+Clear Out 2 / Raid+Outlaw 3. Retune after playtest if supply shape drifts from 40-50% target.

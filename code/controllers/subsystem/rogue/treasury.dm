@@ -72,7 +72,7 @@ SUBSYSTEM_DEF(treasury)
 	var/list/poll_tax_debt_days = list()
 
 /datum/controller/subsystem/treasury/Initialize()
-	discretionary_fund = new("Crown Discretionary", null, rand(1000, 2000), CURRENCY_MAMMON)
+	discretionary_fund = new("Crown's Purse", null, rand(1000, 2000), CURRENCY_MAMMON)
 	burgher_bond_fund = new("Burgher Bond", null, BURGHER_BOND_BASE_REFILL, CURRENCY_BURGHER_AUTHORITY)
 	force_set_round_statistic(STATS_STARTING_TREASURY, discretionary_fund.balance)
 	init_decrees()
@@ -505,13 +505,20 @@ SUBSYSTEM_DEF(treasury)
 	if(rate <= 0)
 		to_chat(H, span_warning("No poll tax rate is set for your class."))
 		return FALSE
+	var/existing_grace = poll_tax_days_paid[H] || 0
+	var/room = POLL_TAX_MAX_GRACE_DAYS - existing_grace
+	if(room <= 0)
+		to_chat(H, span_warning("You already hold the maximum of [POLL_TAX_MAX_GRACE_DAYS] days of prepaid Poll Tax."))
+		return FALSE
+	if(days > room)
+		days = room
 	var/total_cost = rate * days
 	if(account.balance < total_cost)
 		to_chat(H, span_warning("Insufficient balance. Need [total_cost]m for [days] days."))
 		return FALSE
 	if(!transfer(account, discretionary_fund, total_cost, "Poll Tax advance ([days] days)"))
 		return FALSE
-	poll_tax_days_paid[H] = (poll_tax_days_paid[H] || 0) + days
+	poll_tax_days_paid[H] = existing_grace + days
 	to_chat(H, span_notice("You have prepaid [days] day[days == 1 ? "" : "s"] of Poll Tax ([total_cost]m total). Grace remaining: [poll_tax_days_paid[H]] day[poll_tax_days_paid[H] == 1 ? "" : "s"]."))
 	return TRUE
 

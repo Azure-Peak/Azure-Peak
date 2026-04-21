@@ -73,13 +73,13 @@
 <h3>VI. The Crown's Budgets</h3>
 <p>The Crown's purse is kept in two vessels:</p>
 
-<p><b>The Crown Discretionary</b> is the Realm's living treasury of coin. From it flow the daily wages of all sworn servants of the Crown, the purchase of imports, and the purse of the Steward's discretion. It is replenished by all taxes, by rural tribute, and by the margin upon exported goods.</p>
+<p><b>The Crown's Purse</b> is the Realm's living treasury of coin. From it flow the daily wages of all sworn servants of the Crown, the purchase of imports, and the purse of the Steward's discretion. It is replenished by all taxes, by rural tribute, and by the margin upon exported goods.</p>
 
 <p><b>The Burgher Bond</b> is not coin, but <i>authority</i> - a token of the Realm's standing to commission military action. It is granted daily in fixed measure, and only while the Golden Bull of Kingsfield stands in force. Should the Bull be suspended, the Burghers withdraw their contribution to the common defense, and the Bond shall not replenish until the Bull is restored.</p>
 
 <hr>
 <h3>VII. The Crown Insolvent</h3>
-<p>Should the Crown Discretionary fall short at the day's dawning and the sworn servants of the Realm go unpaid, the Nerve Master shall announce it so, and the fault shall be written plain against the Steward's hand. Keep the purse prudent; a hungry garrison is a faithless one.</p>
+<p>Should the Crown's Purse fall short at the day's dawning and the sworn servants of the Realm go unpaid, the Nerve Master shall announce it so, and the fault shall be written plain against the Steward's hand. Keep the purse prudent; a hungry garrison is a faithless one.</p>
 
 <hr>
 <center><i>Let the Crown's hand be steady, her ledger clean, and her levies few.</i></center>
