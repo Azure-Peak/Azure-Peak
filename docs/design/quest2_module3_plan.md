@@ -622,6 +622,156 @@ Two decoupled optimization problems with different cadences:
 
 The two loops don't fight for attention because they operate at different cadences and have different player-facing failure modes. A competent Steward manages both. A specialized Steward can let one slide for political reasons ("I refused to pay the Duke's nephew's salary because he's been aiding brigands").
 
+## Quest Scroll reflavoring (Module 4)
+
+Standalone flavor/UI initiative that sits alongside Module 3. Not economic; entirely about replacing the plain examine-text of quest scrolls with a medieval-document TGUI view whose preamble changes by quest type and target faction category. Shippable independently of M3.
+
+### Design thesis
+
+Quest scrolls in the current codebase are paper items with bland text. The contracts they represent - bounties, hunts, recoveries, razings - were in the real medieval period surrounded by heavy theological and legal apparatus: indulgences for crusaders, hunting writs under Dendor/forest-god dominion, bills of outlawry that stripped targets of legal personhood so killing them was no murder. Players doing the work end up doing something the setting treats as sacred or sanctioned, but the UI doesn't surface it. This module adds the apparatus.
+
+The tonal hook is the **gap between preamble and practice** - the scroll is solemn, the job is ugly. That irony is period-accurate (Crusaders recited absolution formulas then sacked Constantinople in 1204) and makes the flavor land rather than feel precious.
+
+### Faction category system
+
+New var on `/datum/quest_faction` and a small define file:
+
+```dm
+// code/__DEFINES/quest_faction_category.dm
+#define FACTION_CATEGORY_MONSTER  "monster"   // undead, infernal, aberrations - civic-pest framing
+#define FACTION_CATEGORY_BEAST    "beast"     // wildlife, cave fauna - dominion/stewardship framing
+#define FACTION_CATEGORY_HUMANOID "humanoid"  // intelligent races under the lord's peace - outlawry + absolution framing
+```
+
+Added to the faction base:
+
+```dm
+/datum/quest_faction
+    var/category = FACTION_CATEGORY_HUMANOID  // default, override per file
+```
+
+**Classification table** (review at implementation time; edge cases flagged):
+
+| Faction file | Category | Notes |
+|---|---|---|
+| `bog_deadite` | MONSTER | undead |
+| `bogman` | HUMANOID | human bandits |
+| `drow` | HUMANOID | |
+| `forest_goblin` | HUMANOID | goblins are intelligent, under outlawry |
+| `great_beast` | BEAST | bears |
+| `gronnman` | HUMANOID | |
+| `hell_goblin` | HUMANOID | still goblins, despite infernal taint |
+| `highwayman` | HUMANOID | classic outlaw framing |
+| `lich_deadite` | MONSTER | undead |
+| `madman` | HUMANOID | still human; madness aggravates but doesn't remove legal personhood |
+| `minotaur` | BEAST | edge case - greek tradition is "monster," but this faction co-spawns direbears/trolls so beast reads cleaner |
+| `mirespider` | BEAST | spiders |
+| `moon_goblin` | HUMANOID | |
+| `mount_reaver` | HUMANOID | bandit variant |
+| `orc` | HUMANOID | |
+| `sea_goblin` | HUMANOID | |
+| `stray_deadite` | MONSTER | |
+| `tarichea_deadite` | MONSTER | |
+| `wild_beast` | BEAST | wolves |
+
+### Preamble template system
+
+Each quest on sign captures a `preamble_vars` list (see "Ruler caching" below) and a resolved `preamble_template_id`. The template id is a tuple of `(quest_type, faction_category)`. Templates live in a single lookup table, keyed by quest type primarily and falling back to quest type + category when the category matters (kill-family only).
+
+Templates use simple `%VAR%` substitution - no full string formatter library needed. Variables always present: `%BEARER%`, `%RULER_TITLE%`, `%RULER_NAME%` (empty string if none), `%QUEST_OBJECTIVE%`, `%REWARD%`, `%REGION%`, `%TARGET_NOUN%` (e.g. "the warband," "a herd of minotaurs," "the undead"), `%DEITY%` (selected per template), `%DATE%` (round day or in-world date if present).
+
+**Template starter text** (tone-setting drafts; subject to final polish):
+
+**Retrieval / Courier** (any category) — *Malum invocation*:
+> *With Malum as witness, the bearer of this scroll, **%BEARER%**, is bound by oath of coin and safe passage. Let %QUEST_OBJECTIVE% be brought whole to %REGION%, and upon fulfillment shall %REWARD% mammon be rendered unto them. The Coin remembers those who keep their word, and likewise those who do not.*
+
+**Kill / Bounty / Raid / Clear Out — MONSTER**:
+> *By order of the Crown, the bearer of this scroll, **%BEARER%**, is charged with the extirpation of %TARGET_NOUN% from %REGION%. These things hold no name, no peace, no place beneath the sun's eye. For the labor of their unmaking, %REWARD% mammon.*
+
+**Kill / Bounty / Raid / Clear Out — BEAST** — *Dendor invocation*:
+> *Under the dominion granted to man by Dendor, keeper of the wild places, the bearer of this scroll, **%BEARER%**, is licensed to hunt %TARGET_NOUN% in %REGION%. Take no more than the warrant commands, and let no portion go to waste. %REWARD% mammon shall be paid upon proof of the kill.*
+
+**Kill / Bounty / Raid / Clear Out — HUMANOID** — *Ravox invocation + outlawry + absolution*:
+> *With Ravox as witness, by authority vested in us in the name of **%RULER_TITLE% %RULER_NAME%**, we do hereby declare %TARGET_NOUN% of %REGION% to be beyond the peace of the realm - wolves in form of men, whose heads the law has lifted from its protection. The bearer of this scroll, **%BEARER%**, is commanded to the work of their undoing, and is in the doing thereof absolved of the sin of killing, for where the law has withdrawn its hand, no murder is committed. Upon the work's finishing, %REWARD% mammon.*
+
+(The "wolves in form of men" phrase deliberately echoes *caput gerat lupinum* - "let him bear a wolf's head" - Anglo-Saxon outlawry that stripped legal personhood from the target.)
+
+**Rumor** (all categories, informal register — no deity):
+> *Whispered at the hearth, not sworn upon altar: a traveler swears %QUEST_OBJECTIVE% was seen in %REGION%. The innkeeper will stand good for %REWARD% mammon if the tale proves true.*
+
+### Ruler name caching
+
+On quest sign (hook into existing `/datum/quest/proc/on_claim`):
+
+```dm
+var/datum/ruler_info = resolve_realm_ruler()  // new helper
+preamble_vars["ruler_title"] = ruler_info?.title || "the Crown"
+preamble_vars["ruler_name"] = ruler_info?.name || ""
+```
+
+`resolve_realm_ruler()` precedence:
+1. Living player holding the ranking monarch job (Lord / Queen / equivalent) -> return their title and real_name
+2. Living player holding the Regent/Steward job, when monarch seat is empty -> return "Regent" and real_name
+3. Neither -> return null; template uses fallback "the Crown" with empty name, so the sentence reads "in the name of the Crown" without an awkward trailing blank
+
+Cached at sign time so a ruler dying mid-quest doesn't retroactively change the scroll. If the ruler was already absent at sign time, the scroll commits to "the Crown" framing and stays there. Per user: generic title is acceptable when no name exists and no regent sits.
+
+### Scroll TGUI interface
+
+New file: `tgui/packages/tgui/interfaces/QuestScroll.tsx`. Matches existing `theme="grimoire"` aesthetic. Opens on `attack_self` / left-click-in-hand of `/obj/item/paper/scroll/quest` - does **not** replace examine (examine stays as a one-liner "You hold a quest contract for: %TITLE%"). Shell layout:
+
+- Parchment card background (reuse `.ContractLedger__Card` palette, widen)
+- Top border: deity-appropriate sigil SVG or simple iconography keyed off `preamble_vars["deity"]`
+- Headline: quest title in serif display weight
+- Body: rendered preamble with `%VAR%` substitution done client-side
+- Mid-section: objective line, reward, region (structured, not prose)
+- Footer: issuer stamp, round-day issuance, a wax-seal graphic
+
+Data exposed via `ui_data` on the scroll:
+```
+{
+  title, quest_type, preamble: { template_id, vars: {...} },
+  objective, reward, region, target_noun, issuance_day, ruler_title, ruler_name, deity
+}
+```
+
+No actions - the scroll is read-only. Turn-in still happens at the ledger (unchanged).
+
+### Implementation steps / commit order
+
+1. **M4-C1** - Faction category define + var + classification. Add `code/__DEFINES/quest_faction_category.dm`, add `category` var to `/datum/quest_faction`, assign per-faction in existing faction files. No UI yet; just data.
+
+2. **M4-C2** - `resolve_realm_ruler()` helper + `preamble_vars` caching on quest sign. Hook into `on_claim`. Verify cached vars persist across quest state transitions.
+
+3. **M4-C3** - Template table + `render_preamble(template_id, vars)` proc. Returns rendered string from templates above. Unit-test with a few quest samples in a temp admin verb if needed.
+
+4. **M4-C4** - TGUI frontend scaffolding. New `QuestScroll.tsx`, minimal styling. Wire `attack_self` on quest scrolls to open it. Keep examine fallback for compatibility.
+
+5. **M4-C5** - Visual polish. Sigils per deity (Malum / Ravox / Dendor), wax seal, serif typography, border treatment. Playtest for readability on small UIs.
+
+6. **M4-C6** - Edge-case pass. Verify the HUMANOID outlawry preamble reads correctly when no monarch and no regent (should fall back to "the Crown" without orphaned name). Check rumor scrolls don't pick up unrelated deity sigils. Confirm Recovery quests use the Retrieval/Courier template path.
+
+### Files to touch / create
+
+| Path | Role |
+|---|---|
+| `code/__DEFINES/quest_faction_category.dm` | `FACTION_CATEGORY_*` defines (new) |
+| `code/modules/roguetown/roguemachine/questing/factions/_faction.dm` | add `category` var with default |
+| `code/modules/roguetown/roguemachine/questing/factions/*.dm` | assign `category` per faction |
+| `code/modules/roguetown/roguemachine/questing/types/__quest.dm` | `preamble_vars` list, `preamble_template_id`, `on_claim` hook, `render_preamble()` proc |
+| `code/modules/roguetown/roguemachine/questing/preamble_templates.dm` | template table (new) |
+| `code/modules/politics/realm_ruler.dm` or similar | `resolve_realm_ruler()` helper (new; pick location that already imports the Lord/Regent job defs) |
+| `code/modules/roguetown/roguemachine/questing/items/quest_scroll.dm` | `ui_data`, `ui_interact`, `attack_self` override |
+| `tgui/packages/tgui/interfaces/QuestScroll.tsx` | new scroll UI |
+| `tgui/packages/tgui/styles/interfaces/QuestScroll.scss` | new styles (sigils, wax seal, parchment polish) |
+
+### Deferred / open
+
+- Deity sigil icons: pick simple SVG or existing icons in `tgui/packages/tgui/assets/` rather than drafting new art for MVP. Revisit.
+- Multiple-rulers case (e.g. co-monarchs): `resolve_realm_ruler()` returns first valid; noted as known limitation.
+- Localization-style variant lines (different phrasings per roll) - skip for MVP, one template per (quest_type × category) tuple.
+- Scrolls issued before this module shipped: either retro-generate preambles from quest data at open time, or leave them with the fallback "the Crown" template. MVP uses fallback.
+
 ## Open items / flagged for later
 
 - **Jawbank heist for Crown's Purse**: currently only individual-account Coveter Crown exists. If we want "rob the crown" gameplay, design it as a separate PR. Not blocking.
