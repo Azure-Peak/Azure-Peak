@@ -64,14 +64,22 @@
 	data["regions"] = build_region_listing()
 	data["tax_rate"] = SStreasury.get_tax_rate(TAX_CATEGORY_CONTRACT_LEVY)
 	data["guild_cut_rate"] = GUILD_REFERRAL_FEE_PCT
-	data["is_innkeeper"] = user?.job == "Innkeeper"
-	if(data["is_innkeeper"])
+	data["dynamic_role"] = resolve_dynamic_role(user)
+	if(data["dynamic_role"] == "innkeeper")
 		data["rumor_points"] = round(SStreasury.rumor_points, 0.1)
 		data["rumor_costs"] = GLOB.rumor_point_costs.Copy()
 		data["rumor_regions_by_type"] = build_rumor_regions_by_type()
 		data["rumor_destinations"] = build_rumor_destinations()
 		data["rumor_log"] = SStreasury.rumor_log
 	return data
+
+/// Return the dynamic-tab role key for this user, or null. Extend here when a new job earns its
+/// own ledger panel (e.g. steward).
+/obj/structure/roguemachine/contractledger/proc/resolve_dynamic_role(mob/user)
+	switch(user?.job)
+		if("Innkeeper")
+			return "innkeeper"
+	return null
 
 /obj/structure/roguemachine/contractledger/proc/build_region_listing()
 	var/list/known = list()

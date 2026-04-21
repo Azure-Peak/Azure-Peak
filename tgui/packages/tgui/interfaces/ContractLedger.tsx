@@ -44,7 +44,7 @@ type ContractLedgerData = {
   regions: string[];
   tax_rate: number;
   guild_cut_rate: number;
-  is_innkeeper: BooleanLike;
+  dynamic_role: string | null;
   rumor_points?: number;
   rumor_costs?: Record<string, number>;
   rumor_regions_by_type?: Record<string, string[]>;
@@ -55,7 +55,20 @@ const ALL_REGIONS = 'All';
 const ALL_DIFFICULTIES = 'All';
 const DIFFICULTIES = ['Easy', 'Medium', 'Hard'];
 
-type LedgerMode = 'contracts' | 'rumors';
+type LedgerMode = 'contracts' | 'dynamic';
+
+const DYNAMIC_TAB_LABELS: Record<string, string> = {
+  innkeeper: 'Rumors',
+};
+
+const renderDynamicPanel = (role: string) => {
+  switch (role) {
+    case 'innkeeper':
+      return <InnkeeperRumorPanel />;
+    default:
+      return null;
+  }
+};
 
 const difficultyPinClass = (difficulty: string) => {
   switch (difficulty) {
@@ -77,7 +90,11 @@ export const ContractLedger = () => {
   const [activeDifficulty, setActiveDifficulty] =
     useState<string>(ALL_DIFFICULTIES);
 
-  const showingRumors = mode === 'rumors' && !!data.is_innkeeper;
+  const dynamicRole = data.dynamic_role || null;
+  const dynamicLabel = dynamicRole
+    ? DYNAMIC_TAB_LABELS[dynamicRole] || dynamicRole
+    : null;
+  const showingDynamic = mode === 'dynamic' && !!dynamicRole;
 
   const matchesRegion = (c: Contract) =>
     activeRegion === ALL_REGIONS || c.region === activeRegion;
@@ -100,32 +117,36 @@ export const ContractLedger = () => {
       <Window.Content fitted>
         <div className="ContractLedger">
           <div className="ContractLedger__Header">
-            <span
-              className={
-                'ContractLedger__HeaderMode' +
-                (!showingRumors ? ' ContractLedger__HeaderMode--active' : '')
-              }
-              onClick={() => setMode('contracts')}
-            >
-              Grand Contract Ledger
-            </span>
-            {!!data.is_innkeeper && (
+            {dynamicRole ? (
               <>
+                <span
+                  className={
+                    'ContractLedger__HeaderMode' +
+                    (!showingDynamic ? ' ContractLedger__HeaderMode--active' : '')
+                  }
+                  onClick={() => setMode('contracts')}
+                >
+                  Grand Contract Ledger
+                </span>
                 <span className="ContractLedger__HeaderSep">|</span>
                 <span
                   className={
                     'ContractLedger__HeaderMode' +
-                    (showingRumors ? ' ContractLedger__HeaderMode--active' : '')
+                    (showingDynamic ? ' ContractLedger__HeaderMode--active' : '')
                   }
-                  onClick={() => setMode('rumors')}
+                  onClick={() => setMode('dynamic')}
                 >
-                  Rumors
+                  {dynamicLabel}
                 </span>
               </>
+            ) : (
+              <span className="ContractLedger__HeaderStatic">
+                Grand Contract Ledger
+              </span>
             )}
           </div>
 
-          {!showingRumors && (
+          {!showingDynamic && (
             <div className="ContractLedger__TabBar">
               {regionTabs.map((region) => {
                 const count = data.pool.filter(
@@ -148,7 +169,7 @@ export const ContractLedger = () => {
             </div>
           )}
 
-          {!showingRumors && (
+          {!showingDynamic && (
             <div className="ContractLedger__FilterBar">
               {[ALL_DIFFICULTIES, ...DIFFICULTIES].map((diff) => {
                 const isActive = diff === activeDifficulty;
@@ -166,8 +187,8 @@ export const ContractLedger = () => {
           )}
 
           <div className="ContractLedger__Board">
-            {showingRumors ? (
-              <InnkeeperRumorPanel />
+            {showingDynamic && dynamicRole ? (
+              renderDynamicPanel(dynamicRole)
             ) : filtered.length === 0 ? (
               <div className="ContractLedger__Empty">
                 No contracts match this filter. Broaden your search or return
