@@ -41,6 +41,9 @@
 /datum/controller/subsystem/treasury/proc/is_tax_exempt(mob/living/payer, tax_category)
 	if(!payer)
 		return FALSE
+	// Outlawry is civic death - the Crown's ledger no longer recognises any protection.
+	if(HAS_TRAIT(payer, TRAIT_OUTLAW))
+		return FALSE
 	for(var/id in decrees)
 		var/datum/decree/D = decrees[id]
 		if(D.apply_exemption(payer, tax_category))
@@ -49,10 +52,13 @@
 
 /// Returns the tightest rate cap (as a fraction 0-1) applicable to the payer for this category.
 /// Starts at GENERIC_RATE_CAP and lets decrees narrow further via apply_rate_cap.
+/// Outlaws have no cap — their wealth is fully forfeit to the Crown.
 /datum/controller/subsystem/treasury/proc/get_rate_cap(mob/living/payer, tax_category)
 	var/cap = GENERIC_RATE_CAP
 	if(!payer)
 		return cap
+	if(HAS_TRAIT(payer, TRAIT_OUTLAW))
+		return 1.0
 	for(var/id in decrees)
 		var/datum/decree/D = decrees[id]
 		cap = D.apply_rate_cap(payer, tax_category, cap)
