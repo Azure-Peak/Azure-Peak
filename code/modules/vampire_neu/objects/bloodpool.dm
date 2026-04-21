@@ -206,7 +206,7 @@
 			return TRUE
 		else
 			if(!silent)
-				to_chat(user, span_warning("This project can only be initiate by your Lorde."))
+				to_chat(user, span_warning("This project can only be initiated by your Lorde."))
 			return FALSE
 
 	return TRUE
@@ -435,7 +435,7 @@
 
 /datum/vampire_project/servant/servant_t1
 	display_name = "Summon Vampyre Servant"
-	description = "A loyal servant to do your chores and labors for you and your thralls, from toiling the forges below, to tending the manor and trivial tasks. (Generation: Neonite - Can sire 1 Thinblood - 9RP)"
+	description = "A loyal servant to do your chores and labors for you and your thralls, from toiling the forges below, to tending the manor and trivial tasks. (Generation: Neonate - Can sire 1 Thinblood - 9RP)"
 	total_cost = SERVANT_COST
 	completion_sound = 'sound/misc/vcraft.ogg'
 
@@ -445,7 +445,7 @@
 
 /datum/vampire_project/servant/servant_t2
 	display_name = "Summon Vampyre Guard"
-	description = "A loyal servant to fight for of your cause, or defend your manor, be it wit blade and shield, bow and arrow or wit and magicks. (Generation: Neonite - Can sire 1 Thinblood - 9RP)"
+	description = "A loyal servant to fight for your cause or defend your manor, be it wit blade and shield, bow and arrow or wit and magicks. (Generation: Neonate - Can sire 1 Thinblood - 9RP)"
 	total_cost = SERVANT_T2_COST
 	completion_sound = 'sound/misc/vcraft.ogg'
 
