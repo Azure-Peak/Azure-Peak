@@ -515,6 +515,34 @@ SUBSYSTEM_DEF(treasury)
 			return "Peasant"
 	return capitalize(category)
 
+/datum/controller/subsystem/treasury/proc/record_poll_tax_by_category(category, amount)
+	if(!category || amount <= 0)
+		return
+	record_round_statistic(STATS_POLL_TAX_COLLECTED, amount)
+	switch(category)
+		if(POLL_TAX_CAT_NOBLE)
+			record_round_statistic(STATS_POLL_TAX_NOBLE, amount)
+		if(POLL_TAX_CAT_CLERGY)
+			record_round_statistic(STATS_POLL_TAX_CLERGY, amount)
+		if(POLL_TAX_CAT_INQUISITION)
+			record_round_statistic(STATS_POLL_TAX_INQUISITION, amount)
+		if(POLL_TAX_CAT_COURTIER)
+			record_round_statistic(STATS_POLL_TAX_COURTIER, amount)
+		if(POLL_TAX_CAT_GARRISON)
+			record_round_statistic(STATS_POLL_TAX_GARRISON, amount)
+		if(POLL_TAX_CAT_GUILDS)
+			record_round_statistic(STATS_POLL_TAX_GUILDS, amount)
+		if(POLL_TAX_CAT_MERCHANT)
+			record_round_statistic(STATS_POLL_TAX_MERCHANT, amount)
+		if(POLL_TAX_CAT_BURGHER)
+			record_round_statistic(STATS_POLL_TAX_BURGHER, amount)
+		if(POLL_TAX_CAT_ADVENTURER)
+			record_round_statistic(STATS_POLL_TAX_ADVENTURER, amount)
+		if(POLL_TAX_CAT_MERCENARY)
+			record_round_statistic(STATS_POLL_TAX_MERCENARY, amount)
+		if(POLL_TAX_CAT_PEASANT)
+			record_round_statistic(STATS_POLL_TAX_PEASANT, amount)
+
 /datum/controller/subsystem/treasury/proc/get_poll_tax_rate_for(mob/living/H, category)
 	if(!category)
 		return 0
@@ -530,10 +558,9 @@ SUBSYSTEM_DEF(treasury)
 /datum/controller/subsystem/treasury/proc/poll_tax_pay_advance(mob/living/H, days)
 	if(!H || days <= 0)
 		return FALSE
-	// TEMP: local-testing only — restore before merge.
-	// if(SSticker?.round_start_time && (world.time - SSticker.round_start_time) < POLL_TAX_ADVANCE_LOCKOUT)
-	// 	to_chat(H, span_warning("The Crown's ledgers have not yet opened for the day. Try again later."))
-	// 	return FALSE
+	if(SSticker?.round_start_time && (world.time - SSticker.round_start_time) < POLL_TAX_ADVANCE_LOCKOUT)
+		to_chat(H, span_warning("The Crown's ledgers have not yet opened for the day. Try again later."))
+		return FALSE
 	var/datum/fund/account = get_account(H)
 	if(!account)
 		return FALSE
@@ -560,6 +587,7 @@ SUBSYSTEM_DEF(treasury)
 		return FALSE
 	if(!transfer(account, discretionary_fund, total_cost, "Poll Tax advance ([days] days)"))
 		return FALSE
+	record_poll_tax_by_category(category, total_cost)
 	poll_tax_advance_days[H] = existing_advance + days
 	to_chat(H, span_notice("You have advanced [days] day[days == 1 ? "" : "s"] of Poll Tax ([total_cost]m total). Advance held: [poll_tax_advance_days[H]] day[poll_tax_advance_days[H] == 1 ? "" : "s"]."))
 	return TRUE
@@ -612,7 +640,7 @@ SUBSYSTEM_DEF(treasury)
 				owed_this_tick -= partial
 
 		if(paid > 0)
-			record_round_statistic(STATS_POLL_TAX_COLLECTED, paid)
+			record_poll_tax_by_category(category, paid)
 			to_chat(owner, span_notice("<b>POLL TAX:</b> [paid]m collected."))
 
 		if(owed_this_tick > 0)

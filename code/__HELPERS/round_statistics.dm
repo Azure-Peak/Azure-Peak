@@ -81,6 +81,23 @@
 #define STATS_SAVINGS_GOAL_MET "savings_goal_met"
 #define STATS_SAVINGS_GOAL_MISSED "savings_goal_missed"
 #define STATS_POLL_TAX_COLLECTED "poll_tax_collected"
+// Poll tax revenue split by civic category, so tuning can see which classes are carrying the levy.
+#define STATS_POLL_TAX_NOBLE "poll_tax_noble"
+#define STATS_POLL_TAX_CLERGY "poll_tax_clergy"
+#define STATS_POLL_TAX_INQUISITION "poll_tax_inquisition"
+#define STATS_POLL_TAX_COURTIER "poll_tax_courtier"
+#define STATS_POLL_TAX_GARRISON "poll_tax_garrison"
+#define STATS_POLL_TAX_GUILDS "poll_tax_guilds"
+#define STATS_POLL_TAX_MERCHANT "poll_tax_merchant"
+#define STATS_POLL_TAX_BURGHER "poll_tax_burgher"
+#define STATS_POLL_TAX_ADVENTURER "poll_tax_adventurer"
+#define STATS_POLL_TAX_MERCENARY "poll_tax_mercenary"
+#define STATS_POLL_TAX_PEASANT "poll_tax_peasant"
+// Crown's Purse revenue breakdown by tax category (mammon actually collected by the Crown).
+#define STATS_REVENUE_CONTRACT_LEVY "revenue_contract_levy"
+#define STATS_REVENUE_HEADEATER_LEVY "revenue_headeater_levy"
+#define STATS_REVENUE_IMPORT_TARIFF "revenue_import_tariff"
+#define STATS_REVENUE_EXPORT_DUTY "revenue_export_duty"
 
 // Influence related statistics
 
@@ -388,6 +405,21 @@ GLOBAL_LIST_INIT(azure_round_stats, list(
 	STATS_SAVINGS_GOAL_MET = 0,
 	STATS_SAVINGS_GOAL_MISSED = 0,
 	STATS_POLL_TAX_COLLECTED = 0,
+	STATS_POLL_TAX_NOBLE = 0,
+	STATS_POLL_TAX_CLERGY = 0,
+	STATS_POLL_TAX_INQUISITION = 0,
+	STATS_POLL_TAX_COURTIER = 0,
+	STATS_POLL_TAX_GARRISON = 0,
+	STATS_POLL_TAX_GUILDS = 0,
+	STATS_POLL_TAX_MERCHANT = 0,
+	STATS_POLL_TAX_BURGHER = 0,
+	STATS_POLL_TAX_ADVENTURER = 0,
+	STATS_POLL_TAX_MERCENARY = 0,
+	STATS_POLL_TAX_PEASANT = 0,
+	STATS_REVENUE_CONTRACT_LEVY = 0,
+	STATS_REVENUE_HEADEATER_LEVY = 0,
+	STATS_REVENUE_IMPORT_TARIFF = 0,
+	STATS_REVENUE_EXPORT_DUTY = 0,
 ))
 
 GLOBAL_LIST_EMPTY(patron_follower_counts)

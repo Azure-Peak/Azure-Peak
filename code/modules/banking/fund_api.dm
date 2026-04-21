@@ -82,21 +82,14 @@
 	if(!transfer(payer, discretionary_fund, due, "[tax_category] ([reason])"))
 		return 0
 	payer.tax_debt -= due
+	switch(tax_category)
+		if(TAX_CATEGORY_CONTRACT_LEVY)
+			record_round_statistic(STATS_REVENUE_CONTRACT_LEVY, due)
+		if(TAX_CATEGORY_HEADEATER_LEVY)
+			record_round_statistic(STATS_REVENUE_HEADEATER_LEVY, due)
+		if(TAX_CATEGORY_IMPORT_TARIFF)
+			record_round_statistic(STATS_REVENUE_IMPORT_TARIFF, due)
+		if(TAX_CATEGORY_EXPORT_DUTY)
+			record_round_statistic(STATS_REVENUE_EXPORT_DUTY, due)
 	return due
 
-/datum/controller/subsystem/treasury/proc/verify_mammon_conservation()
-	var/ledger_delta = 0
-	for(var/datum/treasury_entry/entry as anything in ledger)
-		if(entry.currency != CURRENCY_MAMMON)
-			continue
-		switch(entry.kind)
-			if("mint")
-				ledger_delta += entry.amount
-			if("burn")
-				ledger_delta -= entry.amount
-	var/observed_total = discretionary_fund ? discretionary_fund.balance : 0
-	for(var/key in bank_accounts)
-		var/datum/fund/account = bank_accounts[key]
-		if(account?.currency == CURRENCY_MAMMON)
-			observed_total += account.balance
-	return list("ledger_delta" = ledger_delta, "observed_total" = observed_total)

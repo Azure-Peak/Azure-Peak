@@ -507,17 +507,40 @@
 			data += "<div style='display: flex; justify-content: space-between; gap: 0;'>"
 
 			// Left column (Revenue)
+			var/contract_levy = GLOB.azure_round_stats[STATS_REVENUE_CONTRACT_LEVY]
+			var/headeater_levy = GLOB.azure_round_stats[STATS_REVENUE_HEADEATER_LEVY]
+			var/import_tariff = GLOB.azure_round_stats[STATS_REVENUE_IMPORT_TARIFF]
+			var/export_duty = GLOB.azure_round_stats[STATS_REVENUE_EXPORT_DUTY]
+			var/royal_taxes_total = GLOB.azure_round_stats[STATS_TAXES_COLLECTED]
+			var/categorized_taxes = contract_levy + headeater_levy + import_tariff + export_duty
+			var/other_fees = max(0, royal_taxes_total - categorized_taxes)
 			data += "<div style='width: 44%; display: flex; justify-content: flex-end;'>"
 			data += "<div style='text-align: left; padding-right: 20px;'>"
 			data += "<div style='margin-bottom: 4px;'><font color='#f0c759'>Starting Treasury: </font>[GLOB.azure_round_stats[STATS_STARTING_TREASURY]]</div>"
 			data += "<div style='margin-bottom: 4px;'><font color='#e67e22'>Noble Estates Revenue: </font>[GLOB.azure_round_stats[STATS_NOBLE_INCOME_TOTAL]]</div>"
 			data += "<div style='margin-bottom: 4px;'><font color='#ce9d15'>Rural Taxes Collected: </font>[GLOB.azure_round_stats[STATS_RURAL_TAXES_COLLECTED]]</div>"
-			data += "<div style='margin-bottom: 4px;'><font color='#f5c02e'>Royal Taxes Collected: </font>[GLOB.azure_round_stats[STATS_TAXES_COLLECTED]]</div>"
+			var/poll_total = GLOB.azure_round_stats[STATS_POLL_TAX_COLLECTED]
+			data += "<div style='margin-bottom: 4px;'><font color='#ebbf49'>Poll Tax Collected: </font>[poll_total]"
+			data += " <span style='color:#888; font-size: 90%;'>("
+			data += "Noble [GLOB.azure_round_stats[STATS_POLL_TAX_NOBLE]] / "
+			data += "Clergy [GLOB.azure_round_stats[STATS_POLL_TAX_CLERGY]] / "
+			data += "Inquisition [GLOB.azure_round_stats[STATS_POLL_TAX_INQUISITION]] / "
+			data += "Courtier [GLOB.azure_round_stats[STATS_POLL_TAX_COURTIER]] / "
+			data += "Garrison [GLOB.azure_round_stats[STATS_POLL_TAX_GARRISON]] / "
+			data += "Guilds [GLOB.azure_round_stats[STATS_POLL_TAX_GUILDS]] / "
+			data += "Merchant [GLOB.azure_round_stats[STATS_POLL_TAX_MERCHANT]] / "
+			data += "Burgher [GLOB.azure_round_stats[STATS_POLL_TAX_BURGHER]] / "
+			data += "Adventurer [GLOB.azure_round_stats[STATS_POLL_TAX_ADVENTURER]] / "
+			data += "Mercenary [GLOB.azure_round_stats[STATS_POLL_TAX_MERCENARY]] / "
+			data += "Peasant [GLOB.azure_round_stats[STATS_POLL_TAX_PEASANT]])</span></div>"
+			data += "<div style='margin-bottom: 4px;'><font color='#c78445'>Royal Fines Collected: </font>[GLOB.azure_round_stats[STATS_FINES_INCOME]]</div>"
+			data += "<div style='margin-bottom: 4px;'><font color='#f5c02e'>Royal Taxes Collected: </font>[royal_taxes_total]"
+			data += " <span style='color:#888; font-size: 90%;'>(Contract Levy [contract_levy] / Headeater Levy [headeater_levy] / Import Tariff [import_tariff] / Export Duty [export_duty] / Other [other_fees])</span></div>"
 			data += "<div style='margin-bottom: 4px;'><font color='#8fa36a'>Mammons Deposited: </font>[GLOB.azure_round_stats[STATS_MAMMONS_DEPOSITED]]</div>"
 			data += "<div style='margin-bottom: 4px;'><font color='#90b34f'>Stockpile Exports: </font>[GLOB.azure_round_stats[STATS_STOCKPILE_EXPORTS_VALUE]]</div>"
 			data += "<div style='margin-bottom: 4px;'><font color='#a2b337'>Bought from Stockpile: </font>[GLOB.azure_round_stats[STATS_STOCKPILE_REVENUE]]</div>"
 			data += "<div style='border-top: 1px solid #555; margin: 8px 0;'></div>"
-			data += "<div style='margin-bottom: 4px;'><font color='#23ba30'>Total Revenue: </font>[GLOB.azure_round_stats[STATS_STARTING_TREASURY]  + GLOB.azure_round_stats[STATS_NOBLE_INCOME_TOTAL] + GLOB.azure_round_stats[STATS_TAXES_COLLECTED] + GLOB.azure_round_stats[STATS_MAMMONS_DEPOSITED] + GLOB.azure_round_stats[STATS_STOCKPILE_EXPORTS_VALUE] + GLOB.azure_round_stats[STATS_STOCKPILE_REVENUE] + GLOB.azure_round_stats[STATS_RURAL_TAXES_COLLECTED]]</div>"
+			data += "<div style='margin-bottom: 4px;'><font color='#23ba30'>Total Revenue: </font>[GLOB.azure_round_stats[STATS_STARTING_TREASURY]  + GLOB.azure_round_stats[STATS_NOBLE_INCOME_TOTAL] + royal_taxes_total + GLOB.azure_round_stats[STATS_MAMMONS_DEPOSITED] + GLOB.azure_round_stats[STATS_STOCKPILE_EXPORTS_VALUE] + GLOB.azure_round_stats[STATS_STOCKPILE_REVENUE] + GLOB.azure_round_stats[STATS_RURAL_TAXES_COLLECTED] + GLOB.azure_round_stats[STATS_POLL_TAX_COLLECTED] + GLOB.azure_round_stats[STATS_FINES_INCOME]]</div>"
 			data += "</div></div>"
 
 			// Right column (Expenses)
@@ -545,7 +568,6 @@
 			data += "<div style='margin-bottom: 4px;'><font color='#c57e62'>Sold to Stockpile: </font>[GLOB.azure_round_stats[STATS_STOCKPILE_EXPANSES]]</div>"
 			data += "<div style='margin-bottom: 4px;'><font color='#b6a17f'>Salary Payments: </font>[GLOB.azure_round_stats[STATS_WAGES_PAID]]</div>"
 			data += "<div style='margin-bottom: 4px;'><font color='#aac484'>Treasury Transfers: </font>[GLOB.azure_round_stats[STATS_DIRECT_TREASURY_TRANSFERS]]</div>"
-			data += "<div style='margin-bottom: 4px;'><font color='#c78445'>Royal Fines Collected: </font>[GLOB.azure_round_stats[STATS_FINES_INCOME]]</div>"
 			data += "<div><font color='#e74c3c'>Royal Taxes Evaded: </font>[GLOB.azure_round_stats[STATS_TAXES_EVADED]]</div>"
 			data += "</div></div>"
 

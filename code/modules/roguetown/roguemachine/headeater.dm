@@ -31,6 +31,7 @@
 	if(tax_amt > 0)
 		SStreasury.mint(SStreasury.discretionary_fund, tax_amt, "[TAX_CATEGORY_HEADEATER_LEVY] ([src.name])")
 		record_round_statistic(STATS_TAXES_COLLECTED, tax_amt)
+		record_round_statistic(STATS_REVENUE_HEADEATER_LEVY, tax_amt)
 
 	return round(net_amount)
 	

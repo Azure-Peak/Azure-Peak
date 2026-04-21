@@ -189,14 +189,10 @@ GLOBAL_LIST_EMPTY(quest_scrolls)
 		scroll_text += "<br><i>Place it on the marked area next to the book.</i>"
 		if(assigned_quest.quest_giver_reference)
 			scroll_text += "<br><br><i>Return this to [assigned_quest.quest_giver_name] for increased pay!</i>"
-		else
-			scroll_text += "<br><br><i>Consider getting in touch with a Merchant or a Steward for your next quest for increased pay!</i>"
 	else
 		scroll_text += "<br><i>The magic in this scroll will update as you progress.</i>"
 		if(assigned_quest.quest_giver_reference)
 			scroll_text += "<br><br><i>Returning this to [assigned_quest.quest_giver_name] upon completion will yield increased pay!</i>"
-		else
-			scroll_text += "<br><br><i>Consider getting in touch with a Merchant or a Steward for your next quest for increased pay!</i>"
 
 	info = scroll_text
 	update_icon()
