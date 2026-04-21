@@ -44973,7 +44973,6 @@
 	pixel_x = 1;
 	pixel_y = 1
 	},
-/obj/effect/lily_petal/two,
 /turf/open/floor/rogue/churchmarble,
 /area/rogue/indoors/town/church/chapel)
 "jfN" = (
@@ -64559,7 +64558,6 @@
 /obj/structure/fluff/pillow/magenta{
 	dir = 8
 	},
-/obj/effect/lily_petal/three,
 /turf/open/floor/rogue/churchmarble,
 /area/rogue/indoors/town/church/chapel)
 "mVX" = (
@@ -73884,7 +73882,6 @@
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors/mountains)
 "oOB" = (
-/obj/effect/lily_petal/three,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/indoors/town/church/chapel)
 "oOG" = (
