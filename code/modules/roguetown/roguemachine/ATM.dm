@@ -233,10 +233,6 @@
 					record_round_statistic(STATS_MAMMONS_DEPOSITED, P.get_real_price())
 				qdel(P)
 				playsound(src, 'sound/misc/coininsert.ogg', 100, FALSE, -1)
-				// Deposits clear any overdue poll-tax counter as a good-faith tick-down
-				// of the ledger. The defaulter mark is separate: it lifts only when the
-				// outstanding debt is paid in full (via repay_loan / tick_loans auto-charge)
-				// or when the Steward explicitly forgives it.
 				SStreasury.clear_poll_tax_debt(H)
 				return
 

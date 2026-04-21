@@ -162,6 +162,57 @@ SUBSYSTEM_DEF(questpool)
 			continue
 		generate_one(type, TR)
 
+/datum/controller/subsystem/questpool/proc/issue_rumor_quest(type, datum/threat_region/preferred_region, area/override_destination, in_hands = FALSE, mob/living/carbon/human/innkeeper = null)
+	if(!type || !(type in GLOB.rumor_point_costs))
+		return null
+	if(in_hands && !innkeeper)
+		return null
+	var/datum/quest/Q = instantiate_quest_of_type(type)
+	if(!Q)
+		return null
+	Q.quest_difficulty = difficulty_for_type(type)
+	Q.source = QUEST_SOURCE_RUMOR
+	Q.created_at = world.time
+	if(innkeeper)
+		Q.quest_giver_name = innkeeper.real_name
+	Q.deposit_amount = Q.calculate_deposit()
+	if(override_destination && istype(Q, /datum/quest/kill/recovery))
+		var/datum/quest/kill/recovery/RQ = Q
+		RQ.override_destination = override_destination
+	if(!preferred_region)
+		preferred_region = SSregionthreat.pick_region_for_quest(type)
+	var/region_name = preferred_region?.region_name
+	var/obj/effect/landmark/quest_spawner/landmark = find_quest_landmark(type, region_name)
+	if(!landmark)
+		qdel(Q)
+		return null
+	if(!Q.preview(landmark))
+		qdel(Q)
+		return null
+	var/turf/landmark_turf = get_turf(landmark)
+	var/turf/origin = get_nearest_ledger_turf(landmark_turf) || landmark_turf
+	Q.reward_amount = Q.calculate_reward(origin, landmark_turf)
+
+	if(in_hands)
+		if(!Q.materialize(landmark))
+			qdel(Q)
+			return null
+		var/obj/item/paper/scroll/quest/scroll = new(get_turf(innkeeper))
+		scroll.base_icon_state = Q.get_scroll_icon()
+		scroll.assigned_quest = Q
+		Q.quest_scroll = scroll
+		Q.quest_scroll_ref = WEAKREF(scroll)
+		scroll.update_quest_text()
+		innkeeper.put_in_hands(scroll)
+		record_round_statistic(STATS_CONTRACTS_GENERATED)
+		log_event("generate", "rumor-in-hands [Q.quest_difficulty] [type] at [Q.target_spawn_area || "unknown"] (reward [Q.reward_amount])")
+		return Q
+
+	pool += Q
+	record_round_statistic(STATS_CONTRACTS_GENERATED)
+	log_event("generate", "rumor-pool [Q.quest_difficulty] [type] at [Q.target_spawn_area || "unknown"] (reward [Q.reward_amount])")
+	return Q
+
 /datum/controller/subsystem/questpool/proc/generate_one(type, datum/threat_region/preferred_region)
 	var/datum/quest/Q = instantiate_quest_of_type(type)
 	if(!Q)

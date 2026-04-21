@@ -1,153 +1,3 @@
-/obj/structure/roguemachine/contractledger
-	name = "Grand Contract Ledger"
-	desc = "A massive ledger book with gilded edges, sitting atop a pedestal with the Mercenary's Guild banner. Its myriad enchanted pages are filled with various contracts and bounties issued by Mercenary's Guild, with arcane scripts that appears and fades as contracts are issued and completed."
-	icon = 'code/modules/roguetown/roguemachine/questing/questing.dmi'
-	icon_state = "contractledger"
-	density = TRUE
-	anchored = TRUE
-	max_integrity = 0
-	layer = ABOVE_MOB_LAYER
-	layer = GAME_PLANE_UPPER
-	/// Turf south of the ledger, marked with a drop-here decal. Retrieval-quest items carry a
-	/// component that consumes them on any tile bearing this decal.
-	var/input_point
-
-/obj/structure/roguemachine/contractledger/Initialize()
-	. = ..()
-	input_point = locate(x, y - 1, z)
-	var/obj/effect/decal/marker_export/marker = new(get_turf(input_point))
-	marker.desc = "Drop retrieval-quest items here to turn them in."
-	marker.layer = ABOVE_OBJ_LAYER
-	SSquestpool.registered_ledgers += src
-
-/obj/structure/roguemachine/contractledger/Destroy()
-	SSquestpool.registered_ledgers -= src
-	return ..()
-
-/obj/structure/roguemachine/contractledger/get_mechanics_examine(mob/user)
-	. = ..()
-	. += span_info("<b>Left click</b> to open the Grand Contract Ledger, where you can sign new contracts and abandon ones you hold.")
-	. += span_info("To <b>turn in</b> a completed contract, click the ledger while holding the quest scroll.")
-	. += span_info("Retrieval-quest items should be <b>dropped onto the marked tile</b> in front of the ledger.")
-	. += span_info("Abandoning a contract forfeits its deposit to the treasury and places you under a brief guild cooldown before you may abandon another.")
-
-/obj/structure/roguemachine/contractledger/attackby(obj/item/P, mob/living/carbon/human/user, params)
-	. = ..()
-	if(istype(P, /obj/item/paper/scroll/quest))
-		turn_in_contract(user, P)
-		return
-	return
-
-/obj/structure/roguemachine/contractledger/attack_hand(mob/living/carbon/human/user)
-	if(!ishuman(user))
-		return
-	ui_interact(user)
-
-/obj/structure/roguemachine/contractledger/ui_state(mob/user)
-	return GLOB.human_adjacent_state
-
-/obj/structure/roguemachine/contractledger/ui_interact(mob/user, datum/tgui/ui)
-	ui = SStgui.try_update_ui(user, src, ui)
-	if(!ui)
-		ui = new(user, src, "ContractLedger")
-		ui.open()
-
-/obj/structure/roguemachine/contractledger/ui_data(mob/user)
-	var/list/data = list()
-	var/datum/job/mob_job = user?.job ? SSjob.GetJob(user.job) : null
-	data["is_handler"] = !!mob_job?.is_quest_giver
-	data["balance"] = SStreasury.get_balance(user)
-	data["active_max"] = mob_job?.max_active_quests || QUEST_MAX_ACTIVE_PER_PLAYER
-	data["active_count"] = count_user_active_contracts(user)
-	data["pool"] = build_pool_listing()
-	data["active"] = build_active_listing(user)
-	data["regions"] = build_region_listing()
-	data["tax_rate"] = SStreasury.get_tax_rate(TAX_CATEGORY_CONTRACT_LEVY)
-	return data
-
-/obj/structure/roguemachine/contractledger/proc/build_region_listing()
-	var/list/known = list()
-	for(var/datum/threat_region/TR as anything in SSregionthreat.threat_regions)
-		known += TR.region_name
-	return known
-
-/obj/structure/roguemachine/contractledger/proc/build_pool_listing()
-	var/list/listing = list()
-	for(var/datum/quest/Q as anything in SSquestpool.pool)
-		var/expected_count = Q.progress_required
-		var/threat_bands = 0
-		if(istype(Q, /datum/quest/kill))
-			var/datum/quest/kill/KQ = Q
-			threat_bands = KQ.threat_bands_cleared
-		listing += list(list(
-			"ref" = REF(Q),
-			"title" = Q.title || "Unnamed Contract",
-			"type" = Q.quest_type,
-			"difficulty" = Q.quest_difficulty,
-			"reward" = Q.reward_amount,
-			"deposit" = Q.deposit_amount,
-			"area" = Q.target_spawn_area,
-			"region" = Q.region,
-			"objective" = Q.get_objective_text(),
-			"expected_count" = expected_count,
-			"threat_bands" = threat_bands,
-			"levy_exempt" = Q.levy_exempt,
-		))
-	return listing
-
-/obj/structure/roguemachine/contractledger/proc/build_active_listing(mob/user)
-	var/list/listing = list()
-	var/datum/weakref/user_ref = WEAKREF(user)
-	for(var/obj/item/paper/scroll/quest/scroll in GLOB.quest_scrolls)
-		var/datum/quest/Q = scroll.assigned_quest
-		if(!Q)
-			continue
-		if(Q.quest_receiver_reference != user_ref)
-			continue
-		listing += list(list(
-			"ref" = REF(Q),
-			"title" = Q.title || "Unnamed Contract",
-			"type" = Q.quest_type,
-			"difficulty" = Q.quest_difficulty,
-			"area" = Q.target_spawn_area,
-			"region" = Q.region,
-			"progress_current" = Q.progress_current,
-			"progress_required" = Q.progress_required,
-			"complete" = Q.complete,
-		))
-	return listing
-
-/obj/structure/roguemachine/contractledger/proc/count_user_active_contracts(mob/user)
-	var/datum/weakref/user_ref = WEAKREF(user)
-	var/count = 0
-	for(var/obj/item/paper/scroll/quest/scroll in GLOB.quest_scrolls)
-		var/datum/quest/Q = scroll.assigned_quest
-		if(!Q || Q.complete)
-			continue
-		if(Q.quest_receiver_reference == user_ref)
-			count++
-	return count
-
-/obj/structure/roguemachine/contractledger/ui_act(action, list/params)
-	. = ..()
-	if(.)
-		return
-	var/mob/user = usr
-	if(!user?.Adjacent(src))
-		return TRUE
-	switch(action)
-		if("sign")
-			sign_contract(user, params["ref"])
-			return TRUE
-		if("abandon")
-			abandon_by_ref(user, params["ref"])
-			return TRUE
-		if("print_active")
-			var/datum/job/mob_job = user?.job ? SSjob.GetJob(user.job) : null
-			if(mob_job?.is_quest_giver)
-				print_contracts(user)
-			return TRUE
-
 /obj/structure/roguemachine/contractledger/proc/sign_contract(mob/user, ref)
 	if(!ref)
 		return
@@ -157,6 +7,9 @@
 	var/datum/quest/Q = locate(ref) in SSquestpool.pool
 	if(!Q)
 		say("That contract is no longer available.")
+		return
+	if(Q.quest_giver_name && Q.quest_giver_name == user.real_name)
+		say("You cannot sign a contract you yourself put on the board.")
 		return
 
 	var/datum/job/mob_job = user.job ? SSjob.GetJob(user.job) : null
@@ -185,7 +38,6 @@
 
 	SSquestpool.mark_taken(user)
 
-	// Create scroll
 	var/obj/item/paper/scroll/quest/spawned_scroll = new(get_turf(src))
 	user.put_in_hands(spawned_scroll)
 	log_quest(user.ckey, user.mind, user, "Sign [Q.quest_type]")
@@ -195,7 +47,6 @@
 	Q.quest_scroll_ref = WEAKREF(spawned_scroll)
 	spawned_scroll.update_quest_text()
 
-	// Charge deposit. Deposit is forfeited on abandon and only returned on successful completion.
 	SStreasury.transfer(SStreasury.get_account(user), SStreasury.discretionary_fund, deposit, "quest deposit")
 
 /obj/structure/roguemachine/contractledger/proc/turn_in_contract(mob/user, obj/item/paper/scroll/quest/scroll_in_hand)
@@ -235,7 +86,9 @@
 			record_featured_stat(FEATURED_STATS_TAX_PAYERS, user, tax_amt)
 			record_round_statistic(STATS_TAXES_COLLECTED, tax_amt)
 
-	var/take_home = gross_reward - tax_amt
+	var/guild_fee_paid = pay_innkeeper_referral_fees(user_account, completed_quest, gross_reward)
+
+	var/take_home = gross_reward - tax_amt - guild_fee_paid
 	SSquestpool.record_completion(user, completed_quest, take_home, tax_amt)
 
 	if(gross_reward > original_reward)
@@ -243,8 +96,6 @@
 	else
 		say("Your reward of [gross_reward] mammon has been credited. ([tax_amt] taxed.)")
 
-/// Abandon handler: a scroll left in the input area is destroyed with its contract. The deposit
-/// is NOT refunded - it's the cost of backing out.
 /obj/structure/roguemachine/contractledger/proc/abandon_by_ref(mob/user, ref)
 	if(!ref)
 		return

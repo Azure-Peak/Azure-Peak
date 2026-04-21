@@ -330,8 +330,6 @@
 		if(!target || !HAS_TRAIT(target, TRAIT_DEBTOR))
 			return
 		REMOVE_TRAIT(target, TRAIT_DEBTOR, TRAIT_GENERIC)
-		// A full pardon: forgive any active loan (defaulted or not) and wipe poll-tax arrears.
-		// The Stewardry is absolving the target of every outstanding Crown obligation.
 		var/datum/loan/forgiven = SStreasury.get_loan_for(target)
 		if(forgiven)
 			SStreasury.loans -= forgiven

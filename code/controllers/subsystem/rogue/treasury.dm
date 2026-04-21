@@ -54,9 +54,6 @@ SUBSYSTEM_DEF(treasury)
 	var/list/loans = list()
 	var/loan_interest_rate = 0.25
 	var/loan_max_issuance_day = 5
-	// Default rates are 0: until the Steward sets rates, no class is taxed on tick.
-	// Advance payment still works against POLL_TAX_ADVANCE_FALLBACK_RATE so proactive
-	// payers can settle up front even when the Crown is lazy.
 	var/list/poll_tax_rates = list(
 		POLL_TAX_CAT_NOBLE = 0,
 		POLL_TAX_CAT_CLERGY = 0,
@@ -73,9 +70,10 @@ SUBSYSTEM_DEF(treasury)
 	var/list/poll_tax_advance_days = list()
 	var/list/poll_tax_owed = list()
 	var/list/poll_tax_debt_days = list()
-	/// Last GLOB.dayspassed on which a poll-tax-rate-change announcement was broadcast.
-	/// Announcements fire at most once per in-game day; same-day re-edits update rates silently.
 	var/poll_tax_announce_used_day = -1
+	var/rumor_points = RUMOR_POINTS_START
+	var/list/rumor_log = list()
+	var/list/rumor_issued_today = list()
 
 /datum/controller/subsystem/treasury/Initialize()
 	discretionary_fund = new("Crown's Purse", null, rand(1000, 2000), CURRENCY_MAMMON)
@@ -309,6 +307,14 @@ SUBSYSTEM_DEF(treasury)
 				if(give_money_account(payment_amount, H, "Daily Wage"))
 					record_round_statistic(STATS_WAGES_PAID)
 
+/datum/controller/subsystem/treasury/proc/tick_rumor_points()
+	var/active = get_active_player_count()
+	var/refill = RUMOR_POINTS_BASE_REFILL + (RUMOR_POINTS_PER_PLAYER * active)
+	rumor_points += refill
+	var/ceiling = RUMOR_POINTS_CLAWBACK_MULTIPLIER * refill
+	if(rumor_points > ceiling)
+		rumor_points = ceiling
+
 /datum/controller/subsystem/treasury/proc/tick_burgher_bond()
 	if(!burgher_bond_fund)
 		return
@@ -391,8 +397,6 @@ SUBSYSTEM_DEF(treasury)
 	var/final_announcement_text = bad_guy ? bad_announcement_text : good_announcement_text
 	priority_announce(final_text, final_announcement_text, pick('sound/misc/royal_decree.ogg', 'sound/misc/royal_decree2.ogg'), "Captain", strip_html = FALSE)
 
-/// Apply poll-tax-rate changes and broadcast what moved. Announcement fires at most once per
-/// in-game day (poll_tax_announce_used_day cooldown); within-day edits update rates silently.
 /datum/controller/subsystem/treasury/proc/apply_poll_rate_adjustments(list/adjustments, good_announcement_text, bad_announcement_text)
 	if(!islist(adjustments))
 		return
@@ -523,7 +527,6 @@ SUBSYSTEM_DEF(treasury)
 			rate = min(rate, GOLDEN_BULL_POLL_CAP)
 	return rate
 
-/// Debits days at the rate that obtained at advance time; later Steward rate changes do not affect purchased advance days.
 /datum/controller/subsystem/treasury/proc/poll_tax_pay_advance(mob/living/H, days)
 	if(!H || days <= 0)
 		return FALSE
@@ -543,8 +546,6 @@ SUBSYSTEM_DEF(treasury)
 		return FALSE
 	var/rate = get_poll_tax_rate_for(H, category)
 	if(rate <= 0)
-		// Steward has not set a rate for this class — advance is allowed at the presumed
-		// fallback rate so a proactive payer can settle up front. Tick still skips at 0.
 		rate = POLL_TAX_ADVANCE_FALLBACK_RATE
 	var/existing_advance = poll_tax_advance_days[H] || 0
 	var/room = POLL_TAX_MAX_ADVANCE_DAYS - existing_advance

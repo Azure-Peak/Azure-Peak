@@ -135,6 +135,23 @@
 .ContractLedger__Pin--medium { background-color: hsl(44, 80%, 52%); }
 .ContractLedger__Pin--hard   { background-color: hsl(0, 65%, 44%); }
 
+.ContractLedger__RumorStamp {
+  position: absolute;
+  top: 6px;
+  right: -4px;
+  padding: 1px 8px;
+  font-size: 0.72em;
+  font-weight: bold;
+  letter-spacing: 2px;
+  color: hsl(42, 80%, 92%);
+  background-color: hsl(280, 45%, 28%);
+  border: 1px solid hsl(280, 50%, 18%);
+  transform: rotate(6deg);
+  box-shadow: 0 2px 3px hsla(0, 0%, 0%, 0.45);
+  text-shadow: 1px 1px 0 hsla(0, 0%, 0%, 0.35);
+  z-index: 3;
+}
+
 .ContractLedger__CardTitle {
   font-weight: bold;
   font-size: 1em;
@@ -263,4 +280,177 @@
   color: rgba(200, 180, 130, 0.45);
   font-style: italic;
   flex: 1;
+}
+
+// Innkeeper-only "Rumors" panel - lives under the same tab bar, styled as a single wide
+// parchment sheet with form rows instead of pinned cards. See ContractLedgerInnkeeper.tsx.
+.ContractLedger__Innkeeper {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 20px 24px 24px;
+  color: hsl(28, 40%, 18%);
+  background-color: hsl(46, 44%, 90%);
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      rgba(82, 52, 18, 0.055) 0px,
+      rgba(82, 52, 18, 0.055) 1px,
+      transparent 1px,
+      transparent 21px
+    ),
+    radial-gradient(
+      ellipse at 50% 0%,
+      hsl(46, 55%, 94%) 0%,
+      hsl(46, 44%, 90%) 40%,
+      hsl(42, 34%, 82%) 100%
+    );
+  border: 1px solid hsl(34, 28%, 52%);
+  box-shadow:
+    0 4px 10px hsla(0, 0%, 0%, 0.5),
+    inset 0 0 18px hsla(32, 50%, 45%, 0.15);
+}
+
+.ContractLedger__InnkeeperHeader {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  border-bottom: 1px dashed hsla(32, 30%, 35%, 0.4);
+  padding-bottom: 8px;
+  margin-bottom: 12px;
+}
+
+.ContractLedger__InnkeeperTitle {
+  font-weight: bold;
+  font-size: 1.1em;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: hsl(28, 52%, 20%);
+  text-shadow: 1px 1px 0 hsla(0, 0%, 100%, 0.4);
+}
+
+.ContractLedger__InnkeeperBalance {
+  color: hsl(28, 52%, 20%);
+  font-size: 0.95em;
+
+  b {
+    color: hsl(0, 55%, 38%);
+    font-size: 1.15em;
+  }
+}
+
+.ContractLedger__InnkeeperFlavor {
+  font-style: italic;
+  color: hsl(28, 40%, 28%);
+  margin-bottom: 14px;
+  line-height: 1.35;
+  font-size: 0.95em;
+}
+
+.ContractLedger__InnkeeperFormRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 8px 0;
+}
+
+.ContractLedger__InnkeeperLabel {
+  width: 160px;
+  flex-shrink: 0;
+  color: hsl(30, 35%, 35%);
+  font-style: italic;
+  font-size: 0.95em;
+}
+
+.ContractLedger__InnkeeperSelect {
+  flex: 1;
+  font-family: Georgia, 'Palatino Linotype', Palatino, serif;
+  font-size: 0.95em;
+  color: hsl(28, 52%, 20%);
+  background-color: hsla(46, 44%, 96%, 0.9);
+  border: 1px solid hsl(34, 28%, 52%);
+  padding: 3px 6px;
+
+  &:disabled {
+    opacity: 0.5;
+  }
+}
+
+.ContractLedger__InnkeeperModeRow {
+  display: flex;
+  gap: 18px;
+  font-size: 0.95em;
+  color: hsl(28, 52%, 20%);
+}
+
+.ContractLedger__InnkeeperFormFooter {
+  display: flex;
+  justify-content: flex-end;
+  border-top: 1px dashed hsla(32, 30%, 35%, 0.4);
+  padding-top: 12px;
+  margin-top: 14px;
+}
+
+.ContractLedger__InnkeeperSubTabBar {
+  display: flex;
+  gap: 6px;
+  margin: 10px 0 14px;
+  border-bottom: 1px solid hsla(32, 30%, 35%, 0.35);
+}
+
+.ContractLedger__InnkeeperSubTab {
+  padding: 4px 14px;
+  cursor: pointer;
+  font-style: italic;
+  letter-spacing: 1px;
+  color: hsla(30, 35%, 35%, 0.7);
+  border-bottom: 2px solid transparent;
+  transition: color 0.2s, border-color 0.2s;
+  user-select: none;
+
+  &:hover {
+    color: hsl(28, 52%, 20%);
+  }
+
+  &--active {
+    color: hsl(28, 52%, 20%);
+    font-weight: bold;
+    border-bottom-color: hsl(0, 55%, 38%);
+  }
+}
+
+.ContractLedger__InnkeeperEmpty {
+  color: hsla(30, 35%, 35%, 0.6);
+  font-style: italic;
+  text-align: center;
+  padding: 24px 12px;
+}
+
+.ContractLedger__InnkeeperHistory {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.ContractLedger__InnkeeperHistoryRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  padding: 4px 6px;
+  border-bottom: 1px dashed hsla(32, 30%, 35%, 0.25);
+  font-size: 0.92em;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.ContractLedger__InnkeeperHistoryTitle {
+  color: hsl(28, 52%, 20%);
+  font-weight: bold;
+}
+
+.ContractLedger__InnkeeperHistoryMeta {
+  color: hsla(30, 35%, 35%, 0.8);
+  font-style: italic;
 }

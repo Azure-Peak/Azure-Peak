@@ -39,11 +39,6 @@
 #define POLL_TAX_DEBT_DAYS_TO_DEBTOR 2
 /// Golden Bull of Kingsfield caps burgher poll tax at this flat amount when in force.
 #define GOLDEN_BULL_POLL_CAP 25
-/// Minimum world-time since round start before Poll Tax advance is allowed.
 #define POLL_TAX_ADVANCE_LOCKOUT (10 MINUTES)
-/// Maximum days of advance a mob can hold at once. Caps advance + accumulation.
 #define POLL_TAX_MAX_ADVANCE_DAYS 7
-/// Presumed per-day rate used for Poll Tax advance when the Steward has not set a rate for the class.
-/// Lets a proactive payer settle the full advance cap even when the Crown is lazy; it is NOT charged
-/// at tick time — if the Steward never sets a rate, the tick continues to skip the class.
 #define POLL_TAX_ADVANCE_FALLBACK_RATE 10

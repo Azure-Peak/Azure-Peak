@@ -145,6 +145,10 @@ GLOBAL_LIST_EMPTY(quest_scrolls)
 		update_quest_text()
 		return
 
+	if(assigned_quest.quest_giver_name && assigned_quest.quest_giver_name == user.real_name)
+		to_chat(user, span_warning("You cannot take a contract you yourself issued."))
+		return
+
 	// Claim the quest
 	assigned_quest.quest_receiver_reference = WEAKREF(user)
 	assigned_quest.quest_receiver_name = user.real_name

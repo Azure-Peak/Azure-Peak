@@ -4,6 +4,7 @@ import type { BooleanLike } from 'tgui-core/react';
 
 import { useBackend } from '../backend';
 import { Window } from '../layouts';
+import { InnkeeperRumorPanel } from './ContractLedgerInnkeeper';
 
 type Contract = {
   ref: string;
@@ -18,6 +19,7 @@ type Contract = {
   expected_count: number;
   threat_bands: number;
   levy_exempt: BooleanLike;
+  is_rumor: BooleanLike;
 };
 
 type ActiveContract = {
@@ -41,11 +43,18 @@ type ContractLedgerData = {
   active: ActiveContract[];
   regions: string[];
   tax_rate: number;
+  guild_cut_rate: number;
+  is_innkeeper: BooleanLike;
+  rumor_points?: number;
+  rumor_costs?: Record<string, number>;
+  rumor_regions_by_type?: Record<string, string[]>;
+  rumor_destinations?: string[];
 };
 
 const ALL_REGIONS = 'All';
 const ALL_DIFFICULTIES = 'All';
 const DIFFICULTIES = ['Easy', 'Medium', 'Hard'];
+const RUMORS_VIEW = 'Rumors';
 
 const difficultyPinClass = (difficulty: string) => {
   switch (difficulty) {
@@ -65,6 +74,8 @@ export const ContractLedger = () => {
   const [activeRegion, setActiveRegion] = useState<string>(ALL_REGIONS);
   const [activeDifficulty, setActiveDifficulty] =
     useState<string>(ALL_DIFFICULTIES);
+
+  const showingRumors = activeRegion === RUMORS_VIEW && !!data.is_innkeeper;
 
   const matchesRegion = (c: Contract) =>
     activeRegion === ALL_REGIONS || c.region === activeRegion;
@@ -107,25 +118,41 @@ export const ContractLedger = () => {
                 </div>
               );
             })}
+            {!!data.is_innkeeper && (
+              <div
+                key={RUMORS_VIEW}
+                className={
+                  'ContractLedger__Tab' +
+                  (showingRumors ? ' ContractLedger__Tab--active' : '')
+                }
+                onClick={() => setActiveRegion(RUMORS_VIEW)}
+              >
+                {RUMORS_VIEW}
+              </div>
+            )}
           </div>
 
-          <div className="ContractLedger__FilterBar">
-            {[ALL_DIFFICULTIES, ...DIFFICULTIES].map((diff) => {
-              const isActive = diff === activeDifficulty;
-              return (
-                <Button
-                  key={diff}
-                  selected={isActive}
-                  onClick={() => setActiveDifficulty(diff)}
-                >
-                  {diff}
-                </Button>
-              );
-            })}
-          </div>
+          {!showingRumors && (
+            <div className="ContractLedger__FilterBar">
+              {[ALL_DIFFICULTIES, ...DIFFICULTIES].map((diff) => {
+                const isActive = diff === activeDifficulty;
+                return (
+                  <Button
+                    key={diff}
+                    selected={isActive}
+                    onClick={() => setActiveDifficulty(diff)}
+                  >
+                    {diff}
+                  </Button>
+                );
+              })}
+            </div>
+          )}
 
           <div className="ContractLedger__Board">
-            {filtered.length === 0 ? (
+            {showingRumors ? (
+              <InnkeeperRumorPanel />
+            ) : filtered.length === 0 ? (
               <div className="ContractLedger__Empty">
                 No contracts match this filter. Broaden your search or return
                 later.
@@ -164,6 +191,9 @@ const ContractCard = (props: { contract: Contract }) => {
   return (
     <div className="ContractLedger__Card">
       <div className={difficultyPinClass(c.difficulty)} />
+      {!!c.is_rumor && (
+        <div className="ContractLedger__RumorStamp">RUMORED!</div>
+      )}
       <div className="ContractLedger__CardTitle">{c.title}</div>
       <div className="ContractLedger__CardRow">
         <span className="ContractLedger__CardLabel">Locale</span>
@@ -183,32 +213,53 @@ const ContractCard = (props: { contract: Contract }) => {
         <span className="ContractLedger__CardLabel">Reward</span>
         <span className="ContractLedger__CardValue">{c.reward}</span>
       </div>
-      {!c.levy_exempt && data.tax_rate > 0 && (
-        <>
-          <div className="ContractLedger__CardRow">
-            <span className="ContractLedger__CardLabel">
-              Crown Levy ({Math.round(data.tax_rate * 100)}%)
-            </span>
-            <span className="ContractLedger__CardValue" style={{ color: '#c44' }}>
-              -{Math.round(c.reward * data.tax_rate)}
-            </span>
-          </div>
-          <div className="ContractLedger__CardRow">
-            <span className="ContractLedger__CardLabel">Purse</span>
-            <span className="ContractLedger__CardValue" style={{ fontWeight: 'bold' }}>
-              {c.reward - Math.round(c.reward * data.tax_rate)}
-            </span>
-          </div>
-        </>
-      )}
-      {!!c.levy_exempt && (
-        <div className="ContractLedger__CardRow">
-          <span className="ContractLedger__CardLabel">Stamp</span>
-          <span className="ContractLedger__CardValue" style={{ color: '#4a4' }}>
-            LEVY EXEMPT
-          </span>
-        </div>
-      )}
+      {(() => {
+        const levyRate = c.levy_exempt ? 0 : data.tax_rate;
+        const guildRate = data.guild_cut_rate || 0;
+        const levy = Math.round(c.reward * levyRate);
+        const guild = Math.round(c.reward * guildRate);
+        const purse = c.reward - levy - guild;
+        return (
+          <>
+            {!c.levy_exempt && data.tax_rate > 0 && (
+              <div className="ContractLedger__CardRow">
+                <span className="ContractLedger__CardLabel">
+                  Crown Levy ({Math.round(data.tax_rate * 100)}%)
+                </span>
+                <span className="ContractLedger__CardValue" style={{ color: '#c44' }}>
+                  -{levy}
+                </span>
+              </div>
+            )}
+            {!!c.levy_exempt && (
+              <div className="ContractLedger__CardRow">
+                <span className="ContractLedger__CardLabel">Stamp</span>
+                <span className="ContractLedger__CardValue" style={{ color: '#4a4' }}>
+                  LEVY EXEMPT
+                </span>
+              </div>
+            )}
+            {guildRate > 0 && (
+              <div className="ContractLedger__CardRow">
+                <span className="ContractLedger__CardLabel">
+                  Guild Cut ({Math.round(guildRate * 100)}%)
+                </span>
+                <span className="ContractLedger__CardValue" style={{ color: '#c44' }}>
+                  -{guild}
+                </span>
+              </div>
+            )}
+            {(levy > 0 || guild > 0) && (
+              <div className="ContractLedger__CardRow">
+                <span className="ContractLedger__CardLabel">Purse</span>
+                <span className="ContractLedger__CardValue" style={{ fontWeight: 'bold' }}>
+                  {purse}
+                </span>
+              </div>
+            )}
+          </>
+        );
+      })()}
       <div className="ContractLedger__CardRow">
         <span className="ContractLedger__CardLabel">Deposit</span>
         <span className="ContractLedger__CardValue">{c.deposit}</span>
