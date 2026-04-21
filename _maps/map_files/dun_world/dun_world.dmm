@@ -30785,7 +30785,7 @@
 /turf/open/floor/carpet/royalblack,
 /area/rogue/indoors/town/physician)
 "goW" = (
-/obj/structure/rack/rogue/shelf/biggest,
+/obj/structure/rack/rogue,
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/church/chapel)
 "goZ" = (
