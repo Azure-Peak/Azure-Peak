@@ -555,6 +555,22 @@
 			data += "<div style='text-align: left; padding-left: 20px;'>"
 			data += "<div style='margin-bottom: 4px;'><font color='#c95555'>Mammons Withdrawn: </font>[GLOB.azure_round_stats[STATS_MAMMONS_WITHDRAWN]]</div>"
 			data += "<div style='margin-bottom: 4px;'><font color='#db853d'>Stockpile Imports: </font>[GLOB.azure_round_stats[STATS_STOCKPILE_IMPORTS_VALUE]]</div>"
+			var/exempt_contract = GLOB.azure_round_stats[STATS_EXEMPTED_CONTRACT_LEVY]
+			var/exempt_headeater = GLOB.azure_round_stats[STATS_EXEMPTED_HEADEATER_LEVY]
+			var/exempt_import = GLOB.azure_round_stats[STATS_EXEMPTED_IMPORT_TARIFF]
+			var/exempt_export = GLOB.azure_round_stats[STATS_EXEMPTED_EXPORT_DUTY]
+			var/exempt_fine = GLOB.azure_round_stats[STATS_EXEMPTED_FINE]
+			var/exempt_poll = GLOB.azure_round_stats[STATS_EXEMPTED_POLL_TAX]
+			var/exempt_total = exempt_contract + exempt_headeater + exempt_import + exempt_export + exempt_fine + exempt_poll
+			data += "<div style='margin-bottom: 2px;'><font color='#8f7a5a'>Forgone Revenue: </font>[exempt_total]</div>"
+			data += "<div style='color: #888; font-size: 85%; padding-left: 12px; margin-bottom: 4px; line-height: 1.4em;'>"
+			data += "Contract [exempt_contract] &bull; "
+			data += "Headeater [exempt_headeater] &bull; "
+			data += "Import [exempt_import] &bull; "
+			data += "Export [exempt_export] &bull; "
+			data += "Fines [exempt_fine] &bull; "
+			data += "Poll Tax [exempt_poll]"
+			data += "</div>"
 			data += "<div style='border-top: 1px solid #555; margin: 8px 0;'></div>"
 			data += "<div style='margin-bottom: 4px;'><font color='#c44731'>Total Expenses: </font>[GLOB.azure_round_stats[STATS_MAMMONS_WITHDRAWN] + GLOB.azure_round_stats[STATS_STOCKPILE_IMPORTS_VALUE]]</div>"
 			data += "</div></div>"

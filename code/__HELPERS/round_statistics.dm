@@ -98,6 +98,13 @@
 #define STATS_REVENUE_HEADEATER_LEVY "revenue_headeater_levy"
 #define STATS_REVENUE_IMPORT_TARIFF "revenue_import_tariff"
 #define STATS_REVENUE_EXPORT_DUTY "revenue_export_duty"
+// Tax revenue forgone due to exemption (Charter, patronage, levy-exempt stamp). Per category.
+#define STATS_EXEMPTED_CONTRACT_LEVY "exempted_contract_levy"
+#define STATS_EXEMPTED_HEADEATER_LEVY "exempted_headeater_levy"
+#define STATS_EXEMPTED_IMPORT_TARIFF "exempted_import_tariff"
+#define STATS_EXEMPTED_EXPORT_DUTY "exempted_export_duty"
+#define STATS_EXEMPTED_FINE "exempted_fine"
+#define STATS_EXEMPTED_POLL_TAX "exempted_poll_tax"
 
 // Influence related statistics
 
@@ -420,6 +427,12 @@ GLOBAL_LIST_INIT(azure_round_stats, list(
 	STATS_REVENUE_HEADEATER_LEVY = 0,
 	STATS_REVENUE_IMPORT_TARIFF = 0,
 	STATS_REVENUE_EXPORT_DUTY = 0,
+	STATS_EXEMPTED_CONTRACT_LEVY = 0,
+	STATS_EXEMPTED_HEADEATER_LEVY = 0,
+	STATS_EXEMPTED_IMPORT_TARIFF = 0,
+	STATS_EXEMPTED_EXPORT_DUTY = 0,
+	STATS_EXEMPTED_FINE = 0,
+	STATS_EXEMPTED_POLL_TAX = 0,
 ))
 
 GLOBAL_LIST_EMPTY(patron_follower_counts)

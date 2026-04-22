@@ -83,6 +83,9 @@
 		if(tax_amt > 0)
 			record_featured_stat(FEATURED_STATS_TAX_PAYERS, user, tax_amt)
 			record_round_statistic(STATS_TAXES_COLLECTED, tax_amt)
+	else
+		var/levy_rate = SStreasury.get_tax_rate(TAX_CATEGORY_CONTRACT_LEVY)
+		SStreasury.record_tax_exemption(TAX_CATEGORY_CONTRACT_LEVY, FLOOR(gross_reward * levy_rate, 1))
 
 	var/guild_fee_paid = pay_innkeeper_referral_fees(user_account, completed_quest, gross_reward)
 

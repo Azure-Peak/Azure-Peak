@@ -226,6 +226,7 @@ SUBSYSTEM_DEF(treasury)
 	else
 		var/mob/living/fine_owner = istype(target, /mob/living) ? target : null
 		if(fine_owner && is_tax_exempt(fine_owner, TAX_CATEGORY_FINE))
+			record_tax_exemption(TAX_CATEGORY_FINE, abs(amt))
 			send_ooc_note("<b>MEISTER:</b> Error: By decree, they cannot be fined.", name = target_name)
 			return FALSE
 		var/fine_amt = abs(amt)
@@ -233,6 +234,7 @@ SUBSYSTEM_DEF(treasury)
 			var/cap_rate = get_rate_cap(fine_owner, TAX_CATEGORY_FINE)
 			var/max_fine = FLOOR(account.balance * cap_rate, 1)
 			if(fine_amt > max_fine)
+				record_tax_exemption(TAX_CATEGORY_FINE, fine_amt - max_fine)
 				fine_amt = max_fine
 		if(fine_amt <= 0)
 			send_ooc_note("<b>MEISTER:</b> Error: No fineable amount remains.", name = target_name)
@@ -612,8 +614,14 @@ SUBSYSTEM_DEF(treasury)
 		if(!category)
 			continue
 		if(is_poll_tax_charter_exempt(owner, category))
+			var/exempted_rate = poll_tax_rates[category] || 0
+			if(exempted_rate > 0)
+				record_round_statistic(STATS_EXEMPTED_POLL_TAX, exempted_rate)
 			continue
 		var/rate = get_poll_tax_rate_for(owner, category)
+		var/raw_rate = poll_tax_rates[category] || 0
+		if(raw_rate > rate)
+			record_round_statistic(STATS_EXEMPTED_POLL_TAX, raw_rate - rate)
 		if(rate <= 0)
 			continue
 

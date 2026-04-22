@@ -68,13 +68,18 @@
 	if(!payer || base_amount <= 0)
 		return 0
 	var/mob/living/owner = payer.get_owner()
+	var/base_rate = get_tax_rate(tax_category)
 	if(owner && is_tax_exempt(owner, tax_category))
+		record_tax_exemption(tax_category, FLOOR(base_amount * base_rate, 1))
 		return 0
-	var/rate = get_tax_rate(tax_category)
+	var/rate = base_rate
 	if(owner)
 		rate = min(rate, get_rate_cap(owner, tax_category))
 	if(rate <= 0)
 		return 0
+	// If a rate-cap reduced what the Crown could take, log the gap as exemption.
+	if(rate < base_rate)
+		record_tax_exemption(tax_category, FLOOR(base_amount * (base_rate - rate), 1))
 	payer.tax_debt += base_amount * rate
 	var/due = FLOOR(payer.tax_debt, 1)
 	if(due <= 0)
@@ -92,4 +97,19 @@
 		if(TAX_CATEGORY_EXPORT_DUTY)
 			record_round_statistic(STATS_REVENUE_EXPORT_DUTY, due)
 	return due
+
+/datum/controller/subsystem/treasury/proc/record_tax_exemption(tax_category, amount)
+	if(amount <= 0)
+		return
+	switch(tax_category)
+		if(TAX_CATEGORY_CONTRACT_LEVY)
+			record_round_statistic(STATS_EXEMPTED_CONTRACT_LEVY, amount)
+		if(TAX_CATEGORY_HEADEATER_LEVY)
+			record_round_statistic(STATS_EXEMPTED_HEADEATER_LEVY, amount)
+		if(TAX_CATEGORY_IMPORT_TARIFF)
+			record_round_statistic(STATS_EXEMPTED_IMPORT_TARIFF, amount)
+		if(TAX_CATEGORY_EXPORT_DUTY)
+			record_round_statistic(STATS_EXEMPTED_EXPORT_DUTY, amount)
+		if(TAX_CATEGORY_FINE)
+			record_round_statistic(STATS_EXEMPTED_FINE, amount)
 
