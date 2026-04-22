@@ -111,6 +111,7 @@ GLOBAL_LIST_EMPTY(declared_benefactors)
 	if(global_list)
 		global_list |= target
 	granter.say("I HEREBY DECLARE YOU, [uppertext(target.name)], [uppertext(grant_proclamation)]!")
+	log_game("PATRONAGE GRANT: [key_name(granter)] declared [key_name(target)] as [grant_label]")
 	return TRUE
 
 /// Returns the global list matching the given patronage trait, for iteration / revocation.
@@ -131,6 +132,7 @@ GLOBAL_LIST_EMPTY(declared_benefactors)
 	if(global_list)
 		global_list -= target
 	granter.say("I HEREBY DECLARE YOU, [uppertext(target.name)], [uppertext(revoke_proclamation)]!")
+	log_game("PATRONAGE REVOKE: [key_name(granter)] revoked patronage from [key_name(target)]")
 	return TRUE
 
 /// Prune stale / dead entries from a patronage global list before display.

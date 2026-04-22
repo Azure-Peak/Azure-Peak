@@ -232,11 +232,16 @@ SUBSYSTEM_DEF(treasury)
 			return FALSE
 		record_round_statistic(STATS_DIRECT_TREASURY_TRANSFERS, amt)
 		send_ooc_note(source ? "<b>MEISTER:</b> You received [amt]m. ([source])" : "<b>MEISTER:</b> You received [amt]m.", name = target_name)
+		log_game("CROWN GRANT: [usr ? key_name(usr) : "system"] granted [amt]m to [istype(target, /mob/living) ? key_name(target) : target_name] via [source || "unknown"]")
 	else
+		if(SSgamemode?.roundvoteend)
+			send_ooc_note("<b>MEISTER:</b> Error: The round is ending. No further fines may be levied.", name = target_name)
+			return FALSE
 		var/mob/living/fine_owner = istype(target, /mob/living) ? target : null
 		if(fine_owner && is_tax_exempt(fine_owner, TAX_CATEGORY_FINE))
 			record_tax_exemption(TAX_CATEGORY_FINE, abs(amt))
 			send_ooc_note("<b>MEISTER:</b> Error: By decree, they cannot be fined.", name = target_name)
+			log_game("FINE REFUSED: [usr ? key_name(usr) : "system"] attempted to fine [key_name(fine_owner)] [abs(amt)]m but they were Charter-exempt")
 			return FALSE
 		var/fine_amt = abs(amt)
 		if(fine_owner)
@@ -253,6 +258,7 @@ SUBSYSTEM_DEF(treasury)
 			return FALSE
 		record_round_statistic(STATS_FINES_INCOME, -fine_amt)
 		send_ooc_note(source ? "<b>MEISTER:</b> You were fined [fine_amt]m. ([source])" : "<b>MEISTER:</b> You were fined [fine_amt]m.", name = target_name)
+		log_game("FINE: [usr ? key_name(usr) : "system"] fined [istype(target, /mob/living) ? key_name(target) : target_name] [fine_amt]m via [source || "unknown"]")
 
 	return TRUE
 
@@ -408,6 +414,7 @@ SUBSYSTEM_DEF(treasury)
 	var/final_text = jointext(lines, "<br>")
 	var/final_announcement_text = bad_guy ? bad_announcement_text : good_announcement_text
 	priority_announce(final_text, final_announcement_text, pick('sound/misc/royal_decree.ogg', 'sound/misc/royal_decree2.ogg'), "Captain", strip_html = FALSE)
+	log_game("TAX RATES: [usr ? key_name(usr) : "system"] changed levy rates - [jointext(lines, " | ")]")
 
 /datum/controller/subsystem/treasury/proc/apply_poll_rate_adjustments(list/adjustments, good_announcement_text, bad_announcement_text)
 	if(!islist(adjustments))
@@ -439,6 +446,7 @@ SUBSYSTEM_DEF(treasury)
 	var/final_text = jointext(lines, "<br>")
 	var/final_announcement_text = bad_guy ? bad_announcement_text : good_announcement_text
 	priority_announce(final_text, final_announcement_text, pick('sound/misc/royal_decree.ogg', 'sound/misc/royal_decree2.ogg'), "Captain", strip_html = FALSE)
+	log_game("POLL TAX RATES: [usr ? key_name(usr) : "system"] changed poll tax rates - [jointext(lines, " | ")]")
 
 /datum/controller/subsystem/treasury/proc/get_tax_category_pretty_name(category)
 	switch(category)
@@ -602,6 +610,7 @@ SUBSYSTEM_DEF(treasury)
 	record_poll_tax_by_category(category, total_cost)
 	poll_tax_advance_days[H] = existing_advance + days
 	to_chat(H, span_notice("You have advanced [days] day[days == 1 ? "" : "s"] of Poll Tax ([total_cost]m total). Advance held: [poll_tax_advance_days[H]] day[poll_tax_advance_days[H] == 1 ? "" : "s"]."))
+	log_game("POLL TAX ADVANCE: [key_name(H)] prepaid [days] days ([total_cost]m) of poll tax as [category]")
 	return TRUE
 
 /// Clears arrears but preserves advance days - already-advanced mammon stays credited on rehab. Use remove_person for full purge.

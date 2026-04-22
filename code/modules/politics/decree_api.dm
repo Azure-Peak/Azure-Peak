@@ -27,4 +27,5 @@
 		decree_restore_used_day = GLOB.dayspassed
 	else
 		decree_revoke_used_day = GLOB.dayspassed
+	log_game("CHARTER: [usr ? key_name(usr) : "system"] [new_active ? "restored" : "revoked"] [D.name]")
 	return TRUE

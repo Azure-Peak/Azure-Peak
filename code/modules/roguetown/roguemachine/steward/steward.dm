@@ -113,6 +113,7 @@
 	contract.total_due = FLOOR(amount * (1 + (contract.interest_rate * term)), 1)
 	playsound(src, 'sound/misc/coindispense.ogg', 60, FALSE, -1)
 	say("Loan Contract for [debtor.real_name] issued: [amount]m over [term] day\s, signed by [user.real_name].")
+	log_game("LOAN CONTRACT: [key_name(user)] drafted loan contract for [key_name(debtor)] - [amount]m over [term] days at [round(contract.interest_rate * 100)]%/day.")
 
 
 /obj/structure/roguemachine/steward/attackby(obj/item/P, mob/user, params)
@@ -332,11 +333,13 @@
 			return
 		REMOVE_TRAIT(target, TRAIT_DEBTOR, TRAIT_GENERIC)
 		var/datum/loan/forgiven = SStreasury.get_loan_for(target)
+		var/loan_amt = forgiven ? forgiven.get_remaining_due() : 0
 		if(forgiven)
 			SStreasury.loans -= forgiven
 			qdel(forgiven)
 		SStreasury.clear_poll_tax_debt(target)
 		say("[target.real_name]'s debtor mark has been cleared; all Crown debts forgiven.")
+		log_game("DEBT FORGIVEN: [key_name(usr)] cleared debtor mark on [key_name(target)][loan_amt ? " (wrote off [loan_amt]m loan)" : ""]")
 		to_chat(target, span_notice("The Stewardry has cleared the defaulter mark from my name. My debts to the Crown are forgiven."))
 	if(href_list["payroll"])
 		var/list/L = list(GLOB.noble_positions) + list(GLOB.retinue_positions) + list(GLOB.garrison_positions) + list(GLOB.courtier_positions) + list(GLOB.church_positions) + list(GLOB.burgher_positions) + list(GLOB.peasant_positions) + list(GLOB.sidefolk_positions) + list(GLOB.inquisition_positions)
