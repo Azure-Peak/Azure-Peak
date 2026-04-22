@@ -6,7 +6,6 @@
 	density = FALSE
 	blade_dulling = DULLING_BASH
 	pixel_y = 32
-	var/stockpile_index = 1
 	var/current_category = "Raw Materials"
 	var/list/categories = list("Raw Materials", "Fruit", "Vegetable", "Animal","Seafood")
 	var/datum/withdraw_tab/withdraw_tab = null
@@ -22,7 +21,7 @@
 /obj/structure/roguemachine/stockpile/Initialize()
 	. = ..()
 	SSroguemachine.stock_machines += src
-	withdraw_tab = new(stockpile_index, src)
+	withdraw_tab = new(src)
 
 
 /obj/structure/roguemachine/stockpile/Destroy()
@@ -88,7 +87,7 @@
 	for(var/datum/roguestock/stockpile/R in SStreasury.stockpile_datums)
 		if(R.category != current_category)
 			continue
-		contents += "[R.name] - [R.payout_price] - ([R.held_items[stockpile_index]]/[R.stockpile_limit]) - [R.demand2word()]"
+		contents += "[R.name] - [R.payout_price] - ([R.stockpile_amount]/[R.stockpile_limit]) - [R.demand2word()]"
 		contents += "<BR>"
 
 	return contents
@@ -153,8 +152,8 @@
 		if(istype(I, /obj/item/natural/bundle))
 			var/obj/item/natural/bundle/B = I
 			if(B.stacktype == R.item_type)
-				var/nopay = R.held_items[stockpile_index] >= R.stockpile_limit // Check whether it is overflowed BEFORE nopaying them
-				R.held_items[stockpile_index] += B.amount
+				var/nopay = R.stockpile_amount >= R.stockpile_limit // Check whether it is overflowed BEFORE nopaying them
+				R.stockpile_amount += B.amount
 				if(message == TRUE)
 					stock_announce("[B.amount] units of [R.name] has been stockpiled.")
 				qdel(B)
@@ -176,9 +175,9 @@
 			if(!R.check_item(I))
 				continue
 			var/amt = R.get_payout_price(I)
-			var/nopay = !R.mint_item && R.held_items[stockpile_index] >= R.stockpile_limit // Check whether it is overflowed BEFORE nopaying them
+			var/nopay = !R.mint_item && R.stockpile_amount >= R.stockpile_limit // Check whether it is overflowed BEFORE nopaying them
 			if(!R.mint_item)
-				R.held_items[stockpile_index] += 1 //stacked logs need to check for multiple
+				R.stockpile_amount += 1 //stacked logs need to check for multiple
 				qdel(I)
 				if(message == TRUE)
 					stock_announce("[R.name] has been stockpiled.")

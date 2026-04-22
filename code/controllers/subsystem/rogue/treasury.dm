@@ -106,9 +106,6 @@ SUBSYSTEM_DEF(treasury)
 						X.demand += rand(5,15)
 					if(X.demand > initial(X.demand))
 						X.demand -= rand(5,15)
-			for(var/datum/roguestock/stockpile/A in stockpile_datums)
-				A.held_items[2] += A.passive_generation
-				A.held_items[2] = min(A.held_items[2],10)
 		var/area/A = GLOB.areas_by_type[/area/rogue/indoors/town/vault]
 		for(var/obj/structure/roguemachine/vaultbank/VB in A)
 			if(istype(VB))
@@ -345,13 +342,10 @@ SUBSYSTEM_DEF(treasury)
 	mint(burgher_pledge_fund, refill, "Burgher Pledge replenishment")
 
 /datum/controller/subsystem/treasury/proc/do_export(var/datum/roguestock/D, silent = FALSE)
-	if((D.held_items[1] < D.importexport_amt))
+	if(D.stockpile_amount < D.importexport_amt)
 		return FALSE
 	var/amt = D.get_export_price()
-
-	// Only export from town stockpiles, not remote. Remote fulfills local shortfall, not steward profit.
-	if(D.held_items[1] >= D.importexport_amt)
-		D.held_items[1] -= D.importexport_amt
+	D.stockpile_amount -= D.importexport_amt
 
 	mint(discretionary_fund, amt, "exported [D.name]")
 	SStreasury.total_export += amt
@@ -362,15 +356,15 @@ SUBSYSTEM_DEF(treasury)
 	return amt
 
 /datum/controller/subsystem/treasury/proc/auto_export()
-	var/total_value_exported = 0 
+	var/total_value_exported = 0
 	for(var/datum/roguestock/D in stockpile_datums)
 		if(!D.importexport_amt)
 			continue
-		if((autoexport_percentage * D.stockpile_limit) >= D.held_items[1])
+		if((autoexport_percentage * D.stockpile_limit) >= D.stockpile_amount)
 			continue
 		if(D.get_export_price() <= (D.payout_price * D.importexport_amt))
 			continue
-		if(D.held_items[1] >= D.importexport_amt)
+		if(D.stockpile_amount >= D.importexport_amt)
 			var/exported = do_export(D, TRUE)
 			total_value_exported += exported
 	if(total_value_exported >= EXPORT_ANNOUNCE_THRESHOLD)

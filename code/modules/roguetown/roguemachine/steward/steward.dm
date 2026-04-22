@@ -550,7 +550,7 @@
 					if(A.category != current_category)
 						continue
 					contents += "<b>[A.name]:</b>"
-					contents += " [A.held_items[1] + A.held_items[2]]"
+					contents += " [A.stockpile_amount]"
 					contents += " | SELL: <a href='?src=\ref[src];setbounty=\ref[A]'>[A.payout_price]m</a>"
 					contents += " / BUY: <a href='?src=\ref[src];setprice=\ref[A]'>[A.withdraw_price]m</a>"
 					contents += " / LIMIT: <a href='?src=\ref[src];setlimit=\ref[A]'>[A.stockpile_limit]</a>"
@@ -576,7 +576,7 @@
 						continue
 					contents += "[A.name]<BR>"
 					contents += "[A.desc]<BR>"
-					contents += "Stockpiled Amount: [A.held_items[1] + A.held_items[2]]<BR>"
+					contents += "Stockpiled Amount: [A.stockpile_amount]<BR>"
 					contents += "Bounty Price: <a href='?src=\ref[src];setbounty=\ref[A]'>[A.payout_price]</a><BR>"
 					contents += "Withdraw Price: <a href='?src=\ref[src];setprice=\ref[A]'>[A.withdraw_price]</a><BR>"
 					contents += "Demand: [A.demand2word()]<BR>"
