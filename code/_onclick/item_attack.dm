@@ -96,7 +96,7 @@
 /mob/living
 	var/tempatarget = null
 	var/pegleg = 0			//Handles check & slowdown for peglegs. Fuckin' bootleg, literally, but hey it at least works.
-//	var/construct = 0		//this is deprecated, use 'HAS_TRAIT(x, TRAIT_IRONMAN)' for anything construct
+	var/construct = 0		
 	var/burialrited = FALSE
 
 /obj/item/proc/attack(mob/living/M, mob/living/user)
