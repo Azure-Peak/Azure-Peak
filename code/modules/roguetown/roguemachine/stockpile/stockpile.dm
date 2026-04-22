@@ -189,6 +189,10 @@
 		else if(istype(I,R.item_type))
 			if(!R.check_item(I))
 				continue
+			if(R.mint_item && I.unmintable)
+				if(message)
+					say("This is town property, it cannot be minted here.")
+				return
 			// Treasure / mint items bypass the purchase floor - they generate mammon rather than spending it.
 			if(below_floor && !R.mint_item)
 				if(message)

@@ -284,11 +284,17 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	var/always_destroy = FALSE
 	/// If TRUE, this item is not allowed to be minted. May be useful for other things later.
 	var/is_important = FALSE
+	/// Tagged on mapload-spawned items inside town areas - marks them as town property so they can't be fed to the stockpile for minting.
+	var/unmintable = FALSE
 	/// does this item/weapon circumvent two-stage death during dismemberment? (do not add this to anything but ultra rare shit)
 	var/vorpal = FALSE
 
-/obj/item/Initialize()
+/obj/item/Initialize(mapload)
 	. = ..()
+	if(mapload)
+		var/area/A = get_area(src)
+		if(A && is_type_in_typecache(A, GLOB.roguetown_areas_typecache))
+			unmintable = TRUE
 	if(!pixel_x && !pixel_y && !bigboy)
 		pixel_x = rand(-5,5)
 		pixel_y = rand(-5,5)
