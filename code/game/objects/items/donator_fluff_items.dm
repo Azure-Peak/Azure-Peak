@@ -553,11 +553,11 @@
 	AddComponent(/datum/component/ignitable/fluff/sci_sand)
 
 /obj/item/rogueweapon/wand/aisu
-    base_implement_name = "crystalline wand"
-    name = "crystalline wand"
-    desc = "A crystalline wand, born from a single tear and weeks of prayers and enchantments, Oh my guiding Moonlight!"
-    icon_state = "aisuwand"
-    icon = 'icons/obj/items/donor_weapons.dmi'
+	base_implement_name = "crystalline wand"
+	name = "crystalline wand"
+	desc = "A crystalline wand, born from a single tear and weeks of prayers and enchantments, Oh my guiding Moonlight!"
+	icon_state = "aisuwand"
+	icon = 'icons/obj/items/donor_weapons.dmi'
 
 /obj/item/rogueweapon/wand/aisu/getonmobprop(tag)
 	. = ..()
@@ -587,3 +587,39 @@
 	icon = 'icons/obj/items/donor_weapons_64.dmi'
 	icon_state = "aeternum"
 	bigboy = TRUE
+
+//KETRAI
+
+/obj/item/clothing/head/roguetown/octopus
+	name = "octopus hat"
+	desc = "A deep red, slimy cephalopod that clings to your scalp. Its tentacles can be adjusted."
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+	icon_state = "octopus"
+	adjustable = CAN_CADJUST
+	flags_inv = HIDEEARS|HIDEFACE|HIDEHAIR
+	body_parts_covered = HEAD|EARS|HAIR
+	armor = null 
+	resistance_flags = FIRE_PROOF
+	sellprice = 30
+
+/obj/item/clothing/head/roguetown/octopus/ComponentInitialize()
+	..()
+	AddComponent(/datum/component/adjustable_clothing, \
+		(HEAD|EARS|HAIR), \
+		(HIDEEARS|HIDEFACE|HIDEHAIR),\
+		null, \
+		'sound/magic/slimesquish.ogg', \
+		null, \
+		UPD_HEAD)
+
+/obj/item/clothing/head/roguetown/octopus/MiddleClick(mob/user)
+	if(!ishuman(user))
+		return
+	if(flags_inv & HIDEHAIR)
+		flags_inv &= ~HIDEHAIR
+		to_chat(user, span_info("You pull your hair out from under the [src]."))
+	else
+		flags_inv |= HIDEHAIR
+		to_chat(user, span_info("You tuck your hair under the [src]."))
+	user.update_inv_head()

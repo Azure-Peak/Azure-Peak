@@ -298,7 +298,7 @@
 /obj/item/reagent_containers/food/snacks/rogue/meat/steak/bear/fried
 	eat_effect = null
 	slices_num = 0
-	bitecount = 4
+	bitesize = 4
 	name = "T-bone bear steak"
 	desc = "Real meat, for real men."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_meat.dmi'
@@ -313,7 +313,7 @@
 /obj/item/reagent_containers/food/snacks/rogue/meat/steak/troll/fried
 	eat_effect = /datum/status_effect/debuff/uncookedfood
 	slices_num = 0
-	bitecount = 5
+	bitesize = 5
 	name = "chewy troll blubber"
 	desc = "Cooking it seems to have only caused the meat to toughen up. It is vile, disgusting, like partially hardened jello with greasy chunks hidden within."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_meat.dmi'

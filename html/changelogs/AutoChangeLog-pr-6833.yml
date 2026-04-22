@@ -1,0 +1,8 @@
+author: "FreeStylaLT"
+delete-after: True
+changes:
+  - rscadd: "Guarded virtue can now toggle their own anonimity with a button in the Virtue tab, appearing with fewer identifying features."
+  - refactor: "Guarded virtue no longer has a forcefully blank faith salute, it works like normal now. Instead, Guarded gets a Fake Faith Salute emote."
+  - balance: "Guarded virtue now obscures worn armor integrity values unless broken."
+  - balance: "Guarded virtue now obscures dodge / feint / parry values for the defender."
+  - balance: "Guarded virtue now prevents showing any identifiable healing miracle text to the target."

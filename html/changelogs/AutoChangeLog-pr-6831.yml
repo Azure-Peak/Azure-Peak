@@ -1,4 +1,0 @@
-author: "Ollanius"
-delete-after: True
-changes:
-  - code_imp: "Stages all decorated helmet sprites from Stonekeep under the 'special' category for eventual reimplementation."

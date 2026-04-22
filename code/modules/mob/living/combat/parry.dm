@@ -231,9 +231,9 @@
 		defender_dualw = TRUE
 
 	if(src.client?.prefs.showrolls)
-		var/text = "Roll to parry... [prob2defend]%"
+		var/text = "Roll to parry... [HAS_TRAIT(user, TRAIT_DECEIVING_MEEKNESS) ? "???" : prob2defend]%"
 		if(defender_dualw)
-			text += " Twice! Disadvantage! ([(prob2defend / 100) * (prob2defend / 100) * 100]%)"
+			text += " Twice! Disadvantage! [!HAS_TRAIT(user, TRAIT_DECEIVING_MEEKNESS) ? "([(prob2defend / 100) * (prob2defend / 100) * 100]%)" : ""]"
 		to_chat(src, span_info("[text]"))
 
 	if(has_status_effect(/datum/status_effect/swingdelay/penalty))

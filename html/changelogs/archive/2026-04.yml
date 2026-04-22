@@ -830,3 +830,22 @@
   - rscadd: Implemented a remap of the abyssal dream.
   zeratinoalt:
   - rscadd: changes the ravox monk tabard to be inline with the templar's
+2026-04-22:
+  Clem-The-Duck:
+  - bugfix: Fixed sleeved tabards weird sleeve layering issue
+  FreeStylaLT:
+  - bugfix: Fixed Lonely Vice working while unconscious / dead.
+  - bugfix: Fixed Lonely Vice stress debuffs not being removed correctly.
+  Ketrai:
+  - bugfix: bear and troll meat now use the correct bitesize
+  - rscadd: Trolls now have their own meat type
+  - rscadd: Bears now have their own meat type
+  - bugfix: tracks not spawning in the hamlet area
+  NalimaTheWitch:
+  - bugfix: Fixed a bug with the ambient music toggle pref
+  Ollanius:
+  - code_imp: Stages all decorated helmet sprites from Stonekeep under the 'special'
+      category for eventual reimplementation.
+  ToasterStrudes:
+  - bugfix: Fixes Prestidigitation not being able to clean things/people. Wizards
+      no longer need baths again.

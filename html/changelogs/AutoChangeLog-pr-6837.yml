@@ -1,0 +1,5 @@
+author: "Ketrai"
+delete-after: True
+changes:
+  - rscadd: "Second voice now lets you pick a voice descriptor for the second voice"
+  - rscadd: "Advanced mirror magic hag boon & hag feature"

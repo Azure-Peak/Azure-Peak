@@ -5,7 +5,7 @@
 	tutorial = "You are ancient, malevolent evil. None of the known gods claim to have brought you into this world. All you know is hatred, how to sift through the grains of this land with your calloused hands, picking those who prove themselves useful."
 	outfit = /datum/outfit/job/roguetown/hag
 	traits_applied = list(TRAIT_RITUALIST, TRAIT_ALCHEMY_EXPERT,
-	 					  TRAIT_ANCIENT_HAG, TRAIT_MIRROR_MAGIC,
+	 					  TRAIT_ANCIENT_HAG, TRAIT_EDIT_DESCRIPTORS,
 						  TRAIT_HOMESTEAD_EXPERT, TRAIT_SEWING_EXPERT,
 						  TRAIT_LEECHIMMUNE, TRAIT_ZOMBIE_IMMUNE,
 						  TRAIT_NOMOOD, TRAIT_UNLYCKERABLE,

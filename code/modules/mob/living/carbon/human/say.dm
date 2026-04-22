@@ -56,7 +56,7 @@
 /mob/living/carbon/human/get_alt_name(var/force = FALSE)
 	if(force || name != GetVoice())
 		var/datum/mob_descriptor/voice/voice_descriptor = get_descriptor_type(/datum/mob_descriptor/voice)
-		if(!voice_descriptor)
+		if(!voice_descriptor || (HAS_TRAIT(src, TRAIT_DECEIVING_MEEKNESS) && !show_descriptors))
 			return "Unknown Person"
 
 		var/voice_gender = "Person"
