@@ -167,6 +167,8 @@ GLOBAL_LIST_EMPTY(quest_scrolls)
 		to_chat(user, span_notice("You claim this contract for yourself!"))
 		update_quest_text()
 
+	open = TRUE
+	update_icon_state()
 	refresh_compass(user)
 	ui_interact(user)
 
@@ -189,6 +191,7 @@ GLOBAL_LIST_EMPTY(quest_scrolls)
 	data["difficulty"] = assigned_quest.quest_difficulty
 	data["issued_by"] = assigned_quest.quest_giver_name || "The Mercenary's Guild"
 	data["issued_to"] = assigned_quest.quest_receiver_name || "whoever it may concern"
+	data["issued_on"] = assigned_quest.issued_day ? get_ic_date_short_as_string(assigned_quest.issued_day) : null
 	data["objective"] = assigned_quest.get_objective_text()
 	data["location_fields"] = assigned_quest.get_location_fields()
 	data["reward"] = assigned_quest.reward_amount

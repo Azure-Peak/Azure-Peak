@@ -176,6 +176,7 @@ SUBSYSTEM_DEF(questpool)
 	Q.quest_difficulty = difficulty_for_type(type)
 	Q.source = QUEST_SOURCE_RUMOR
 	Q.created_at = world.time
+	Q.issued_day = GLOB.dayspassed
 	if(innkeeper)
 		Q.quest_giver_name = innkeeper.real_name
 	Q.deposit_amount = Q.calculate_deposit()
@@ -229,6 +230,7 @@ SUBSYSTEM_DEF(questpool)
 	Q.quest_difficulty = difficulty_for_type(type)
 	Q.source = QUEST_SOURCE_DEFENSE
 	Q.created_at = world.time
+	Q.issued_day = GLOB.dayspassed
 	if(steward)
 		Q.quest_giver_name = steward.real_name
 	Q.deposit_amount = Q.calculate_deposit()
@@ -274,6 +276,7 @@ SUBSYSTEM_DEF(questpool)
 	Q.quest_difficulty = difficulty_for_type(type)
 	Q.source = QUEST_SOURCE_POOL
 	Q.created_at = world.time
+	Q.issued_day = GLOB.dayspassed
 	Q.deposit_amount = Q.calculate_deposit()
 	// If caller didn't specify a region, pick one weighted by threat (kill) or any eligible (evergreen).
 	if(!preferred_region)

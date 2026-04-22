@@ -14,6 +14,8 @@
 	var/source = QUEST_SOURCE_HANDLER
 	/// world.time when the quest was created. Used by SSquestpool to expire stale listings.
 	var/created_at = 0
+	/// GLOB.dayspassed at creation - IC date captured for scroll display.
+	var/issued_day = 0
 
 	/// Progress tracking
 	var/progress_current = 0

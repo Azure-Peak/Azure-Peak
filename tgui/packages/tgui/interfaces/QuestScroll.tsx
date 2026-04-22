@@ -9,6 +9,7 @@ type QuestScrollData = {
   difficulty?: string;
   issued_by?: string;
   issued_to?: string;
+  issued_on?: string | null;
   objective?: string;
   location_fields?: [string, string][];
   compass_direction?: string;
@@ -181,6 +182,7 @@ export const QuestScroll = () => {
 
           <Field label="Issued by" value={data.issued_by} />
           <Field label="Issued to" value={data.issued_to} />
+          <Field label="Issued on" value={data.issued_on} />
           <Field label="Type" value={data.type} />
           <Field label="Difficulty" value={data.difficulty} />
 
