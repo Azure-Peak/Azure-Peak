@@ -64,6 +64,10 @@ GLOBAL_LIST_INIT(defense_quest_tier_costs, list(
 // Jobs may override via /datum/job.max_active_quests.
 #define QUEST_MAX_ACTIVE_PER_PLAYER 2
 
+// Townies (non-Adventurer/Mercenary) can't sign contracts for the first hour.
+// Protects the adventurer niche during the early round.
+#define CONTRACT_TOWNIE_GATE_TIME (1 HOURS)
+
 // Per-region kill quest targets: clamp(round(pop * KILL_FRACTION), floor, floor + CEILING_OFFSET).
 // Floors live on /datum/threat_region so each region can tune independently.
 #define QUEST_KILL_FRACTION 0.05

@@ -12,6 +12,14 @@
 		say("You cannot sign a contract you yourself put on the board.")
 		return
 
+	var/role = user.mind?.assigned_role
+	if(role != "Adventurer" && role != "Mercenary")
+		var/elapsed = world.time - SSticker.round_start_time
+		if(elapsed < CONTRACT_TOWNIE_GATE_TIME)
+			var/remaining_min = round((CONTRACT_TOWNIE_GATE_TIME - elapsed) / (1 MINUTES))
+			say("This contract is reserved for sellswords. Members of the town may sign after [remaining_min]m.")
+			return
+
 	var/datum/job/mob_job = user.job ? SSjob.GetJob(user.job) : null
 	var/active_cap = mob_job?.max_active_quests || QUEST_MAX_ACTIVE_PER_PLAYER
 	if(count_user_active_contracts(user) >= active_cap)

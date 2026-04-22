@@ -57,8 +57,17 @@
 	var/datum/job/mob_job = user?.job ? SSjob.GetJob(user.job) : null
 	data["is_handler"] = !!mob_job?.is_quest_giver
 	data["balance"] = SStreasury.get_balance(user)
+	data["has_account"] = SStreasury.has_account(user)
 	data["active_max"] = mob_job?.max_active_quests || QUEST_MAX_ACTIVE_PER_PLAYER
 	data["active_count"] = count_user_active_contracts(user)
+	var/role = user?.mind?.assigned_role
+	var/gate_remaining = 0
+	if(role != "Adventurer" && role != "Mercenary")
+		var/elapsed = world.time - SSticker.round_start_time
+		if(elapsed < CONTRACT_TOWNIE_GATE_TIME)
+			gate_remaining = round((CONTRACT_TOWNIE_GATE_TIME - elapsed) / 10)
+	data["townie_gate_remaining"] = gate_remaining
+	data["take_cooldown_remaining"] = round(SSquestpool.take_cooldown_remaining(user) / 10)
 	data["pool"] = build_pool_listing()
 	data["active"] = build_active_listing(user)
 	data["regions"] = build_region_listing()
