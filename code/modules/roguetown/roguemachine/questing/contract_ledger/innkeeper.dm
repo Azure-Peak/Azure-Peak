@@ -106,8 +106,6 @@
 	var/mob/living/carbon/human/innkeeper = find_active_innkeeper()
 	var/datum/fund/inn_account = innkeeper ? SStreasury.get_account(innkeeper) : null
 	var/guild_paid = 0
-	// Commissioned (Crown-issued) quests skip the Guild Cut - the Crown does not pay
-	// the Mercenary Guild a booking fee for contracts it authored itself.
 	if(completed_quest.source != QUEST_SOURCE_DEFENSE)
 		var/guild_fee = round(gross_reward * GUILD_REFERRAL_FEE_PCT)
 		if(guild_fee > 0 && user_account)
