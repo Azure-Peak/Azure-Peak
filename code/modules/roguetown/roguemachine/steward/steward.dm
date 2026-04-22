@@ -61,29 +61,6 @@
 		say("No new loans may be drawn after day [SStreasury.loan_max_issuance_day].")
 		playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
 		return
-	// Build candidate list from accounted humans, excluding those already in debt or marked defaulter.
-	var/list/candidates = list()
-	for(var/mob/living/carbon/human/H in SStreasury.bank_accounts)
-		if(H.stat == DEAD)
-			continue
-		if(HAS_TRAIT(H, TRAIT_DEBTOR))
-			continue
-		if(SStreasury.get_loan_for(H))
-			continue
-		candidates["[H.real_name] ([H.job ? H.job : "-"])"] = H
-	if(!length(candidates))
-		say("No eligible debtors found.")
-		playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
-		return
-	var/picked = input(user, "Select a debtor for the loan.", src) as null|anything in candidates
-	if(!picked)
-		return
-	if(!user.canUseTopic(src, BE_CLOSE) || locked)
-		return
-	var/mob/living/carbon/human/debtor = candidates[picked]
-	if(!debtor || HAS_TRAIT(debtor, TRAIT_DEBTOR) || SStreasury.get_loan_for(debtor))
-		say("That debtor is no longer eligible.")
-		return
 	var/amount = input(user, "Principal (50-250 mammon).", src, 100) as null|num
 	if(isnull(amount))
 		return
@@ -105,15 +82,14 @@
 	var/obj/item/loan_contract/contract = new(get_turf(src))
 	contract.issuer_name = user.real_name
 	contract.issuer_year = CALENDAR_EPOCH_YEAR
-	contract.debtor_name_ic = debtor.real_name
 	contract.principal = amount
 	contract.term_days = term
 	contract.interest_rate = SStreasury.loan_interest_rate
 	contract.principal_due_on_day = GLOB.dayspassed + term
 	contract.total_due = FLOOR(amount * (1 + (contract.interest_rate * term)), 1)
 	playsound(src, 'sound/misc/coindispense.ogg', 60, FALSE, -1)
-	say("Loan Contract for [debtor.real_name] issued: [amount]m over [term] day\s, signed by [user.real_name].")
-	log_game("LOAN CONTRACT: [key_name(user)] drafted loan contract for [key_name(debtor)] - [amount]m over [term] days at [round(contract.interest_rate * 100)]%/day.")
+	say("Bearer Loan Contract issued: [amount]m over [term] day\s, signed by [user.real_name].")
+	log_game("LOAN CONTRACT: [key_name(user)] drafted bearer loan contract - [amount]m over [term] days at [round(contract.interest_rate * 100)]%/day.")
 
 
 /obj/structure/roguemachine/steward/attackby(obj/item/P, mob/user, params)

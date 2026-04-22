@@ -1,6 +1,6 @@
 /obj/item/loan_contract
 	name = "Loan Contract"
-	desc = "A binding writ from the Nerve Master, bearing the Steward's signature."
+	desc = "A binding writ from the Nerve Master, bearing the Steward's signature. Any eligible bearer may accept its terms."
 	icon = 'icons/roguetown/items/paper.dmi'
 	icon_state = "paper_altprep"
 	w_class = WEIGHT_CLASS_TINY
@@ -10,8 +10,6 @@
 	var/issuer_name
 	/// Year the loan was signed. Set at spawn.
 	var/issuer_year
-	/// The intended debtor's real_name. attack_self() refuses other bearers.
-	var/debtor_name_ic
 	/// Principal (in mammon) that will be transferred on acceptance.
 	var/principal = 0
 	/// Term length in days (2 or 3).
@@ -33,7 +31,7 @@
 	var/signature = issuer_name || "the Nerve Master"
 	var/year = issuer_year || CALENDAR_EPOCH_YEAR
 	var/pct = round(interest_rate * 100)
-	. += span_info("The contract reads: <i>\"Be it known that the bearer, [debtor_name_ic || "(unnamed)"], doth receive of the Crown the sum of [principal] mammon, to be repaid in full on the [ordinal(term_days)] dae after the acceptance of this loan, at the rate of [pct] per centum per dae of simple interest, totaling [total_due] mammon due.\"</i>")
+	. += span_info("The contract reads: <i>\"Be it known that the bearer doth receive of the Crown the sum of [principal] mammon, to be repaid in full on the [ordinal(term_days)] dae after the acceptance of this loan, at the rate of [pct] per centum per dae of simple interest, totaling [total_due] mammon due.\"</i>")
 	. += span_info("<i>Signed in the year [year], [signature].</i>")
 	. += span_notice("Left-click in hand to accept or decline its terms.")
 
@@ -55,9 +53,6 @@
 /obj/item/loan_contract/attack_self(mob/living/carbon/human/user)
 	if(!istype(user))
 		return ..()
-	if(debtor_name_ic && user.real_name != debtor_name_ic)
-		to_chat(user, span_warning("This contract is meant for another. I must hand it over."))
-		return
 	if(HAS_TRAIT(user, TRAIT_DEBTOR))
 		to_chat(user, span_warning("I am already marked a defaulter of the Crown. I cannot take on new debt."))
 		return
