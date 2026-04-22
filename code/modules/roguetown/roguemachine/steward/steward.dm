@@ -627,72 +627,144 @@
 			contents += "<a href='?src=\ref[src];switchtab=[TAB_MAIN]'>\[Return\]</a><BR>"
 			var/list/snap = SStreasury.compute_fiscal_snapshot()
 			var/list/charters = SStreasury.compute_charter_states()
-			contents += "<center>Fiscal Ledger - Day [GLOB.dayspassed]<BR>"
-			contents += "--------------</center><BR>"
+			contents += "<center><b>Fiscal Ledger &mdash; Day [GLOB.dayspassed]</b></center>"
+			contents += "<hr>"
 
-			contents += "<b>Balances</b><BR>"
-			contents += "Crown's Purse: [snap["discretionary"]]m<BR>"
-			contents += "Burgher Pledge: [snap["burgher_pledge"]]m<BR>"
-			contents += "Total Bank Coin: [snap["total_bank"]]m across [snap["held_accounts"]] accounts (avg [snap["avg_balance"]]m)<BR>"
-			contents += "Under 50m: [snap["under_50m"]] accounts<BR><BR>"
+			// Balances (two-column)
+			contents += "<b><font color='#e6b327'>BALANCES</font></b>"
+			contents += "<table width='100%' cellspacing='0' cellpadding='2'>"
+			contents += "<tr><td>Crown's Purse</td><td align='right'><font color='#e6b327'>[snap["discretionary"]]m</font></td>"
+			contents += "<td>Burgher Pledge</td><td align='right'><font color='#e6b327'>[snap["burgher_pledge"]]m</font></td></tr>"
+			contents += "<tr><td>Total Bank Coin</td><td align='right'>[snap["total_bank"]]m</td>"
+			contents += "<td>Held Accounts</td><td align='right'>[snap["held_accounts"]]</td></tr>"
+			contents += "<tr><td>Average Balance</td><td align='right'>[snap["avg_balance"]]m</td>"
+			contents += "<td>Under 50m</td><td align='right'><font color='#e07b39'>[snap["under_50m"]]</font></td></tr>"
+			contents += "</table><br>"
 
-			contents += "<b>Revenue This Week</b><BR>"
-			contents += "Rural Tax: [SStreasury.total_rural_tax]m<BR>"
-			contents += "Noble Estate Income: [SStreasury.total_noble_income]m<BR>"
-			contents += "Poll Tax: [GLOB.azure_round_stats[STATS_POLL_TAX_COLLECTED]]m<BR>"
-			contents += "Fines: [GLOB.azure_round_stats[STATS_FINES_INCOME]]m<BR>"
-			contents += "Contract Levy: [GLOB.azure_round_stats[STATS_REVENUE_CONTRACT_LEVY]]m<BR>"
-			contents += "Headeater Levy: [GLOB.azure_round_stats[STATS_REVENUE_HEADEATER_LEVY]]m<BR>"
-			contents += "Import Tariff: [GLOB.azure_round_stats[STATS_REVENUE_IMPORT_TARIFF]]m<BR>"
-			contents += "Export Duty: [GLOB.azure_round_stats[STATS_REVENUE_EXPORT_DUTY]]m<BR>"
-			contents += "Stockpile Exports: [SStreasury.total_export]m<BR>"
-			contents += "Stockpile Imports: [SStreasury.total_import]m (cost)<BR>"
-			contents += "Trade Balance: [SStreasury.total_export - SStreasury.total_import]m<BR>"
-			contents += "Known Economic Output: [SStreasury.economic_output]m<BR>"
-			contents += "Total Mammons Minted: [SStreasury.minted]m<BR>"
-			contents += "Deposit Tax: [SStreasury.total_deposit_tax]m<BR><BR>"
+			// Revenue (two-column, green)
+			contents += "<b><font color='#5cb85c'>REVENUE THIS WEEK</font></b>"
+			contents += "<table width='100%' cellspacing='0' cellpadding='2'>"
+			contents += "<tr><td>Rural Tax</td><td align='right'><font color='#5cb85c'>[SStreasury.total_rural_tax]m</font></td>"
+			contents += "<td>Noble Estate</td><td align='right'><font color='#5cb85c'>[SStreasury.total_noble_income]m</font></td></tr>"
+			contents += "<tr><td>Poll Tax</td><td align='right'><font color='#5cb85c'>[GLOB.azure_round_stats[STATS_POLL_TAX_COLLECTED]]m</font></td>"
+			contents += "<td>Fines</td><td align='right'><font color='#5cb85c'>[GLOB.azure_round_stats[STATS_FINES_INCOME]]m</font></td></tr>"
+			contents += "<tr><td>Contract Levy</td><td align='right'><font color='#5cb85c'>[GLOB.azure_round_stats[STATS_REVENUE_CONTRACT_LEVY]]m</font></td>"
+			contents += "<td>Headeater Levy</td><td align='right'><font color='#5cb85c'>[GLOB.azure_round_stats[STATS_REVENUE_HEADEATER_LEVY]]m</font></td></tr>"
+			contents += "<tr><td>Import Tariff</td><td align='right'><font color='#5cb85c'>[GLOB.azure_round_stats[STATS_REVENUE_IMPORT_TARIFF]]m</font></td>"
+			contents += "<td>Export Duty</td><td align='right'><font color='#5cb85c'>[GLOB.azure_round_stats[STATS_REVENUE_EXPORT_DUTY]]m</font></td></tr>"
+			contents += "<tr><td>Deposit Tax</td><td align='right'><font color='#5cb85c'>[SStreasury.total_deposit_tax]m</font></td>"
+			contents += "<td>Mammons Minted</td><td align='right'>[SStreasury.minted]m</td></tr>"
+			contents += "</table><br>"
 
-			contents += "<b>Tax Rates</b><BR>"
+			// Trade (two-column, mixed)
+			contents += "<b><font color='#c0b283'>TRADE</font></b>"
+			contents += "<table width='100%' cellspacing='0' cellpadding='2'>"
+			contents += "<tr><td>Stockpile Exports</td><td align='right'><font color='#5cb85c'>[SStreasury.total_export]m</font></td>"
+			contents += "<td>Stockpile Imports</td><td align='right'><font color='#d9534f'>-[SStreasury.total_import]m</font></td></tr>"
+			var/trade_bal = SStreasury.total_export - SStreasury.total_import
+			var/trade_col = trade_bal >= 0 ? "#5cb85c" : "#d9534f"
+			contents += "<tr><td>Trade Balance</td><td align='right'><font color='[trade_col]'>[trade_bal]m</font></td>"
+			contents += "<td>Economic Output</td><td align='right'>[SStreasury.economic_output]m</td></tr>"
+			contents += "</table><br>"
+
+			// Expenses (two-column, red)
+			contents += "<b><font color='#d9534f'>EXPENSES THIS WEEK</font></b>"
+			contents += "<table width='100%' cellspacing='0' cellpadding='2'>"
+			contents += "<tr><td>Wages Paid</td><td align='right'><font color='#d9534f'>-[GLOB.azure_round_stats[STATS_WAGES_PAID]]m</font></td>"
+			contents += "<td>Treasury Transfers</td><td align='right'><font color='#d9534f'>-[GLOB.azure_round_stats[STATS_DIRECT_TREASURY_TRANSFERS]]m</font></td></tr>"
+			contents += "</table><br>"
+
+			// Tax Rates (two columns: rate name | percentage)
+			contents += "<b>TAX RATES</b>"
+			contents += "<table width='100%' cellspacing='0' cellpadding='2'>"
+			var/list/rate_entries = list()
 			for(var/cat in SStreasury.tax_rates)
 				if(cat == TAX_CATEGORY_FINE)
 					continue
-				contents += "[SStreasury.get_tax_category_pretty_name(cat)]: [round(SStreasury.tax_rates[cat] * 100)]%<BR>"
-			contents += "<BR><b>Poll Tax Rates (daily)</b><BR>"
+				rate_entries += "<td>[SStreasury.get_tax_category_pretty_name(cat)]</td><td align='right'>[round(SStreasury.tax_rates[cat] * 100)]%</td>"
+			for(var/i = 1, i <= length(rate_entries), i += 2)
+				contents += "<tr>"
+				contents += rate_entries[i]
+				if(i + 1 <= length(rate_entries))
+					contents += rate_entries[i + 1]
+				else
+					contents += "<td></td><td></td>"
+				contents += "</tr>"
+			contents += "</table><br>"
+
+			// Poll Tax Rates (two columns: category | m/day)
+			contents += "<b>POLL TAX RATES (daily)</b>"
+			contents += "<table width='100%' cellspacing='0' cellpadding='2'>"
+			var/datum/decree/golden = SStreasury.get_decree(DECREE_GOLDEN_BULL)
+			var/golden_active = golden?.active
+			var/list/poll_entries = list()
 			for(var/pcat in SStreasury.poll_tax_rates)
 				var/rate = SStreasury.poll_tax_rates[pcat]
 				var/pretty = SStreasury.get_poll_tax_category_pretty_name(pcat)
-				contents += "[pretty]: [rate]m"
-				if(pcat == POLL_TAX_CAT_BURGHER)
-					var/datum/decree/golden = SStreasury.get_decree(DECREE_GOLDEN_BULL)
-					if(golden?.active && rate > GOLDEN_BULL_POLL_CAP)
-						contents += " <i>(capped at [GOLDEN_BULL_POLL_CAP]m by Golden Bull)</i>"
-				contents += "<BR>"
-			contents += "<BR>"
+				var/rate_display = "[rate]m"
+				if(pcat == POLL_TAX_CAT_BURGHER && golden_active && rate > GOLDEN_BULL_POLL_CAP)
+					rate_display = "<font color='#e07b39'>[GOLDEN_BULL_POLL_CAP]m</font> (raw [rate]m, capped)"
+				poll_entries += "<td>[pretty]</td><td align='right'>[rate_display]</td>"
+			for(var/i = 1, i <= length(poll_entries), i += 2)
+				contents += "<tr>"
+				contents += poll_entries[i]
+				if(i + 1 <= length(poll_entries))
+					contents += poll_entries[i + 1]
+				else
+					contents += "<td></td><td></td>"
+				contents += "</tr>"
+			contents += "</table><br>"
 
-			contents += "<b>Charters</b><BR>"
+			// Charters (two-column)
+			contents += "<b>CHARTERS</b>"
+			contents += "<table width='100%' cellspacing='0' cellpadding='2'>"
+			var/list/charter_rows = list()
 			for(var/entry in charters)
 				var/cooldown_left = entry["cooldown_remaining"]
-				var/cd_text = cooldown_left > 0 ? " (cooldown: [round(cooldown_left / 600, 0.1)]min)" : ""
-				contents += "[entry["name"]]: [entry["active"] ? "<font color='#5cb85c'>ACTIVE</font>" : "<font color='#d9534f'>SUSPENDED</font>"][cd_text]<BR>"
-			contents += "<BR>"
+				var/cd_text = cooldown_left > 0 ? " <i>(cd: [round(cooldown_left / 600, 0.1)]m)</i>" : ""
+				var/status_color = entry["active"] ? "#5cb85c" : "#d9534f"
+				var/status_text = entry["active"] ? "ACTIVE" : "SUSPENDED"
+				charter_rows += "<td>[entry["name"]]</td><td align='right'><font color='[status_color]'>[status_text]</font>[cd_text]</td>"
+			for(var/i = 1, i <= length(charter_rows), i += 2)
+				contents += "<tr>"
+				contents += charter_rows[i]
+				if(i + 1 <= length(charter_rows))
+					contents += charter_rows[i + 1]
+				else
+					contents += "<td></td><td></td>"
+				contents += "</tr>"
+			contents += "</table><br>"
 
-			contents += "<b>Debt &amp; Loans</b><BR>"
-			contents += "Accounts in Arrears: [snap["in_arrears"]]<BR>"
-			contents += "Accounts with Grace Paid: [snap["in_grace"]]<BR>"
-			contents += "Default Debtors (TRAIT_DEBTOR): [snap["debtor_count"]]<BR>"
-			contents += "Loans Outstanding: [snap["loans_outstanding"]] ([snap["loan_exposure"]]m exposure)<BR><BR>"
+			// Debt & Loans (two-column, orange for warnings)
+			contents += "<b><font color='#e07b39'>DEBT &amp; LOANS</font></b>"
+			contents += "<table width='100%' cellspacing='0' cellpadding='2'>"
+			contents += "<tr><td>Accounts in Arrears</td><td align='right'><font color='#e07b39'>[snap["in_arrears"]]</font></td>"
+			contents += "<td>Accounts in Grace</td><td align='right'>[snap["in_grace"]]</td></tr>"
+			contents += "<tr><td>Default Debtors</td><td align='right'><font color='#d9534f'>[snap["debtor_count"]]</font></td>"
+			contents += "<td>Loans Outstanding</td><td align='right'>[snap["loans_outstanding"]] ([snap["loan_exposure"]]m)</td></tr>"
+			contents += "</table><br>"
 
-			contents += "<b>Contracts This Week</b><BR>"
-			var/gen_total = GLOB.azure_round_stats[STATS_CONTRACTS_GENERATED]
-			var/taken_total = GLOB.azure_round_stats[STATS_CONTRACTS_TAKEN]
-			var/comp_total = GLOB.azure_round_stats[STATS_CONTRACTS_COMPLETED]
-			contents += "Generated: [gen_total] (Pool [GLOB.azure_round_stats[STATS_CONTRACTS_GENERATED_POOL]] / Rumor [GLOB.azure_round_stats[STATS_CONTRACTS_GENERATED_RUMOR]] / Defense [GLOB.azure_round_stats[STATS_CONTRACTS_GENERATED_DEFENSE]])<BR>"
-			contents += "Taken: [taken_total] (Pool [GLOB.azure_round_stats[STATS_CONTRACTS_TAKEN_POOL]] / Rumor [GLOB.azure_round_stats[STATS_CONTRACTS_TAKEN_RUMOR]] / Defense [GLOB.azure_round_stats[STATS_CONTRACTS_TAKEN_DEFENSE]])<BR>"
-			contents += "Completed: [comp_total] (Pool [GLOB.azure_round_stats[STATS_CONTRACTS_COMPLETED_POOL]] / Rumor [GLOB.azure_round_stats[STATS_CONTRACTS_COMPLETED_RUMOR]] / Defense [GLOB.azure_round_stats[STATS_CONTRACTS_COMPLETED_DEFENSE]])<BR><BR>"
-
-			contents += "<b>Payroll</b><BR>"
-			contents += "Wages Paid: [GLOB.azure_round_stats[STATS_WAGES_PAID]]m<BR>"
-			contents += "Treasury Transfers: [GLOB.azure_round_stats[STATS_DIRECT_TREASURY_TRANSFERS]]m<BR>"
+			// Contracts (three-column: Generated / Taken / Completed)
+			contents += "<b>CONTRACTS THIS WEEK</b>"
+			contents += "<table width='100%' cellspacing='0' cellpadding='2'>"
+			contents += "<tr><td></td><td align='right'><b>Generated</b></td><td align='right'><b>Taken</b></td><td align='right'><b>Completed</b></td></tr>"
+			contents += "<tr><td>Pool</td>"
+			contents += "<td align='right'>[GLOB.azure_round_stats[STATS_CONTRACTS_GENERATED_POOL]]</td>"
+			contents += "<td align='right'>[GLOB.azure_round_stats[STATS_CONTRACTS_TAKEN_POOL]]</td>"
+			contents += "<td align='right'><font color='#5cb85c'>[GLOB.azure_round_stats[STATS_CONTRACTS_COMPLETED_POOL]]</font></td></tr>"
+			contents += "<tr><td>Rumor</td>"
+			contents += "<td align='right'>[GLOB.azure_round_stats[STATS_CONTRACTS_GENERATED_RUMOR]]</td>"
+			contents += "<td align='right'>[GLOB.azure_round_stats[STATS_CONTRACTS_TAKEN_RUMOR]]</td>"
+			contents += "<td align='right'><font color='#5cb85c'>[GLOB.azure_round_stats[STATS_CONTRACTS_COMPLETED_RUMOR]]</font></td></tr>"
+			contents += "<tr><td>Defense</td>"
+			contents += "<td align='right'>[GLOB.azure_round_stats[STATS_CONTRACTS_GENERATED_DEFENSE]]</td>"
+			contents += "<td align='right'>[GLOB.azure_round_stats[STATS_CONTRACTS_TAKEN_DEFENSE]]</td>"
+			contents += "<td align='right'><font color='#5cb85c'>[GLOB.azure_round_stats[STATS_CONTRACTS_COMPLETED_DEFENSE]]</font></td></tr>"
+			contents += "<tr><td><b>Total</b></td>"
+			contents += "<td align='right'><b>[GLOB.azure_round_stats[STATS_CONTRACTS_GENERATED]]</b></td>"
+			contents += "<td align='right'><b>[GLOB.azure_round_stats[STATS_CONTRACTS_TAKEN]]</b></td>"
+			contents += "<td align='right'><b><font color='#5cb85c'>[GLOB.azure_round_stats[STATS_CONTRACTS_COMPLETED]]</font></b></td></tr>"
+			contents += "</table>"
 		if(TAB_PAYDAY)
 			contents += "<a href='?src=\ref[src];switchtab=[TAB_MAIN]'>\[Return\]</a><BR>"
 			contents += "<center>Daily Payments<BR>"
