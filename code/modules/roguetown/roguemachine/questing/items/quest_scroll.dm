@@ -154,27 +154,61 @@ GLOBAL_LIST_EMPTY(quest_scrolls)
 	return ..()
 
 /obj/item/paper/scroll/quest/attack_self(mob/user)
-	. = ..()
-	if(.)
-		return
+	if(!assigned_quest)
+		return ..()
 
-	// Only do claim logic if unclaimed
-	if(!assigned_quest || assigned_quest.quest_receiver_reference)
-		refresh_compass(user) // Refresh compass when opened by claimed user
+	// Claim-on-first-open if unclaimed and the opener isn't the issuer.
+	if(!assigned_quest.quest_receiver_reference)
+		if(assigned_quest.quest_giver_name && assigned_quest.quest_giver_name == user.real_name)
+			to_chat(user, span_warning("You cannot take a contract you yourself issued."))
+			return
+		assigned_quest.quest_receiver_reference = WEAKREF(user)
+		assigned_quest.quest_receiver_name = user.real_name
+		to_chat(user, span_notice("You claim this contract for yourself!"))
 		update_quest_text()
-		return
 
-	if(assigned_quest.quest_giver_name && assigned_quest.quest_giver_name == user.real_name)
-		to_chat(user, span_warning("You cannot take a contract you yourself issued."))
-		return
+	refresh_compass(user)
+	ui_interact(user)
 
-	// Claim the quest
-	assigned_quest.quest_receiver_reference = WEAKREF(user)
-	assigned_quest.quest_receiver_name = user.real_name
+/obj/item/paper/scroll/quest/ui_state(mob/user)
+	return GLOB.hold_or_view_state
 
-	to_chat(user, span_notice("You claim this contract for yourself!"))
-	update_quest_text()
-	refresh_compass(user) // Update compass after claiming
+/obj/item/paper/scroll/quest/ui_interact(mob/user, datum/tgui/ui)
+	ui = SStgui.try_update_ui(user, src, ui)
+	if(!ui)
+		ui = new(user, src, "QuestScroll")
+		ui.open()
+
+/obj/item/paper/scroll/quest/ui_static_data(mob/user)
+	var/list/data = list()
+	if(!assigned_quest)
+		data["empty"] = TRUE
+		return data
+	data["title"] = assigned_quest.get_title()
+	data["type"] = assigned_quest.quest_type
+	data["difficulty"] = assigned_quest.quest_difficulty
+	data["issued_by"] = assigned_quest.quest_giver_name || "The Mercenary's Guild"
+	data["issued_to"] = assigned_quest.quest_receiver_name || "whoever it may concern"
+	data["objective"] = assigned_quest.get_objective_text()
+	data["location_fields"] = assigned_quest.get_location_fields()
+	data["reward"] = assigned_quest.reward_amount
+	data["progress_required"] = assigned_quest.progress_required
+	data["is_rumor"] = assigned_quest.source == QUEST_SOURCE_RUMOR
+	data["is_defense"] = assigned_quest.source == QUEST_SOURCE_DEFENSE
+	data["giver_name_for_return"] = assigned_quest.quest_giver_reference ? assigned_quest.quest_giver_name : null
+	return data
+
+/obj/item/paper/scroll/quest/ui_data(mob/user)
+	var/list/data = list()
+	if(!assigned_quest)
+		return data
+	refresh_compass(user)
+	data["compass_direction"] = last_compass_direction
+	data["z_hint"] = last_z_level_hint
+	data["progress_current"] = assigned_quest.progress_current
+	data["complete"] = assigned_quest.complete
+	data["levy_exempt"] = assigned_quest.levy_exempt
+	return data
 
 /obj/item/paper/scroll/quest/proc/update_quest_text()
 	if(!assigned_quest)

@@ -28,6 +28,13 @@
 	text += "Destination: [initial(target_delivery_location.name)]."
 	return text
 
+/datum/quest/courier/get_location_fields()
+	var/list/out = list()
+	if(target_spawn_area)
+		out += list(list("Pickup", "[target_spawn_area] region"))
+	out += list(list("Destination", "[initial(target_delivery_location.name)]"))
+	return out
+
 /datum/quest/courier/get_additional_reward(turf/origin_turf, turf/target_turf)
 	var/distance = CLAMP(get_dist(origin_turf, target_turf), 0, 200)
 	var/distance_reward = (distance / QUEST_DELIVERY_DISTANCE_DIVISOR) * QUEST_DELIVERY_DISTANCE_BONUS

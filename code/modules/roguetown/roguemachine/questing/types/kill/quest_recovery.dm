@@ -106,6 +106,16 @@ GLOBAL_LIST_INIT(quest_recovery_shipments, list(
 		text += "Deliver to: [initial(dest.name)]."
 	return text
 
+/datum/quest/kill/recovery/get_location_fields()
+	var/list/out = list()
+	if(target_spawn_area)
+		var/guarded_by = faction?.name_plural || "hostile forces"
+		out += list(list("Last sighted", "[target_spawn_area] region, guarded by [guarded_by]"))
+	var/area/dest = target_delivery_location
+	if(ispath(dest))
+		out += list(list("Deliver to", "[initial(dest.name)]"))
+	return out
+
 /datum/quest/kill/recovery/get_additional_reward(turf/origin_turf, turf/target_turf)
 	// Combat reward from fighting through (TP of guardians).
 	var/combat_reward = 0

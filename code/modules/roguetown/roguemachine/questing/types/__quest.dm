@@ -126,6 +126,13 @@
 /datum/quest/proc/get_location_text()
 	return target_spawn_area ? "Reported sighting in [target_spawn_area] region." : "Location unknown."
 
+/// Structured location fields for the TGUI scroll: list of list(label, value).
+/// Subtypes override to expose multiple rows (e.g. pickup + destination for Courier).
+/datum/quest/proc/get_location_fields()
+	if(target_spawn_area)
+		return list(list("Region", "[target_spawn_area]"))
+	return list(list("Location", "Unknown"))
+
 /// Check if quest objectives are complete
 /datum/quest/proc/check_completion()
 	return progress_current >= progress_required
