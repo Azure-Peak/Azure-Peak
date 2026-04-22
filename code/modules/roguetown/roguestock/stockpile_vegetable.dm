@@ -67,7 +67,8 @@
 	name = "Garlick"
 	desc = "A pungent root vegetable."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/garlick/rogue
-	payout_price = 2
+	trade_good_id = TRADE_GOOD_GARLICK
+	payout_price = 3
 	importexport_amt = 10
 	stockpile_limit = 50
 	category = "Vegetable"
@@ -96,7 +97,8 @@
 	name = "Cucumber"
 	desc = "A refreshing, long and green vegetable."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/cucumber
-	payout_price = 2
+	trade_good_id = TRADE_GOOD_CUCUMBER
+	payout_price = 3
 	importexport_amt = 10
 	stockpile_limit = 50
 	category = "Vegetable"
@@ -105,7 +107,8 @@
 	name = "Eggplant"
 	desc = "A large, purple vegetable with a mild taste."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/eggplant
-	payout_price = 2
+	trade_good_id = TRADE_GOOD_EGGPLANT
+	payout_price = 3
 	importexport_amt = 10
 	stockpile_limit = 50
 	category = "Vegetable"
@@ -114,10 +117,11 @@
 	name = "Sugar"
 	desc = "A sweet powder milled from sugarcane"
 	item_type = /obj/item/reagent_containers/food/snacks/sugar
+	trade_good_id = TRADE_GOOD_SUGAR
 
 	export_only = TRUE
 
-	payout_price = 4
+	payout_price = 5
 	importexport_amt = 10
 	stockpile_limit = 50
 	category = "Vegetable"
@@ -126,7 +130,8 @@
 	name = "Coffee Beans"
 	desc = "The seed of the coffee plant, used to make a stimulating drink."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/coffeebeans
-	payout_price = 3
+	trade_good_id = TRADE_GOOD_COFFEE
+	payout_price = 5
 	importexport_amt = 10
 	stockpile_limit = 50
 	category = "Vegetable"
@@ -135,7 +140,8 @@
 	name = "Dried Tea Leaves"
 	desc = "Dried tea leaves from the tea plant. Can be grounded and brewed to make tea."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/rogue/tealeaves_dry
-	payout_price = 3
+	trade_good_id = TRADE_GOOD_TEA
+	payout_price = 5
 	importexport_amt = 10
 	stockpile_limit = 50
 	category = "Vegetable"
@@ -154,10 +160,11 @@
 	name = "Rocknut"
 	desc = "A nut with mild stimulant properties."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/nut
+	trade_good_id = TRADE_GOOD_ROCKNUT
 
 	export_only = TRUE
 
-	payout_price = 2
+	payout_price = 4
 	importexport_amt = 10
 	stockpile_limit = 50
 	category = "Vegetable"

@@ -2813,6 +2813,7 @@
 #include "code\modules\roguetown\roguemachine\scomm\whisperer.dm"
 #include "code\modules\roguetown\roguemachine\steward\steward.dm"
 #include "code\modules\roguetown\roguemachine\steward\steward_report.dm"
+#include "code\modules\roguetown\roguemachine\steward\steward_trade_tgui.dm"
 #include "code\modules\roguetown\roguemachine\steward_export\steward_export.dm"
 #include "code\modules\roguetown\roguemachine\stockpile\stockpile.dm"
 #include "code\modules\roguetown\roguemachine\stockpile\withdraw_tab.dm"

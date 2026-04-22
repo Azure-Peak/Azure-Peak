@@ -103,6 +103,26 @@
 			color = "#c84"
 	return " <font color='[color]'>([sign_str]% [label])</font>"
 
+/// Returns a span tag naming the active event affecting this good, or "" if none.
+/datum/roguestock/proc/get_event_tag()
+	if(!trade_good_id)
+		return ""
+	for(var/datum/economic_event/E as anything in GLOB.active_economic_events)
+		if(!(trade_good_id in E.affected_goods))
+			continue
+		var/label
+		var/color
+		if(E.event_type == ECON_EVENT_SHORTAGE)
+			label = "SHORTAGE"
+			color = "#c44"
+		else if(E.event_type == ECON_EVENT_OVERSUPPLY)
+			label = "GLUT"
+			color = "#5cb85c"
+		else
+			continue
+		return " <font color='[color]'><b>([label])</b></font>"
+	return ""
+
 /datum/roguestock/proc/get_export_price()
 	if(trade_good_id && SSeconomy)
 		var/list/best = SSeconomy.get_best_export_region(trade_good_id)
