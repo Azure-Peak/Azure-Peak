@@ -177,7 +177,7 @@ GLOBAL_LIST_EMPTY(lord_titles)
 	But you have plenty of wealth, keen ears, and know a good deal from a bad one."
 	outfit = /datum/outfit/job/roguetown/lord/merchant
 	category_tags = list(CTAG_LORD)
-	noble_income = 400 // Let's go crazy. This is +400 per day for a total of 2400 per round at the end of a day. This is probably equal to doubling passive incomes of the keep.
+	noble_income = 275 // Decently high but shouldn't remove any need for economic management
 	traits_applied = list(TRAIT_NOBLE, TRAIT_SEEPRICES, TRAIT_CICERONE, TRAIT_KEENEARS, TRAIT_MEDIUMARMOR, TRAIT_DNR)
 	subclass_stats = list(
 		STATKEY_LCK = 5,
