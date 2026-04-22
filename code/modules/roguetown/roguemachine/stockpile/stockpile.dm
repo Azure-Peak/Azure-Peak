@@ -148,10 +148,27 @@
 			playsound(loc, 'sound/misc/hiss.ogg', 100, FALSE, -1)
 		return
 
+	// Pre-check: farmer must have a Meister account. Otherwise the stockpile would silently
+	// eat their goods for no payment - do not scam walk-ins.
+	var/has_account = SStreasury.has_account(H)
+	if(!has_account)
+		if(message)
+			say("No account found for [H]. Submit your fingers to a Meister for inspection.")
+		return
+
+	// Pre-check: Crown's Purse must be solvent enough to pay. Below the Steward-set floor,
+	// the Crown refuses purchases entirely - goods stay in the farmer's hands.
+	var/treasury_balance = SStreasury.discretionary_fund?.balance || 0
+	var/below_floor = treasury_balance < SStreasury.stockpile_purchase_floor
+
 	for(var/datum/roguestock/R in SStreasury.stockpile_datums)
 		if(istype(I, /obj/item/natural/bundle))
 			var/obj/item/natural/bundle/B = I
 			if(B.stacktype == R.item_type)
+				if(below_floor && !R.mint_item)
+					if(message)
+						say("The Crown's ledger is thin. No purchases today.")
+					return
 				var/nopay = R.stockpile_amount >= R.stockpile_limit // Check whether it is overflowed BEFORE nopaying them
 				R.stockpile_amount += B.amount
 				if(message == TRUE)
@@ -165,16 +182,20 @@
 				else
 					var/amt = R.payout_price * B.amount
 					SStreasury.economic_output += R.export_price * B.amount
-					if(!SStreasury.give_money_account(amt, H, "+[amt] from [R.name] bounty") && message == TRUE)
-						say("No account found. Submit your fingers to a Meister for inspection.")
-					else
-						record_round_statistic(STATS_STOCKPILE_EXPANSES, amt)
+					SStreasury.give_money_account(amt, H, "+[amt] from [R.name] bounty")
+					record_round_statistic(STATS_STOCKPILE_EXPANSES, amt)
 			continue
 		// Bloc to replace old vault mechanics
 		else if(istype(I,R.item_type))
 			if(!R.check_item(I))
 				continue
+			// Treasure / mint items bypass the purchase floor - they generate mammon rather than spending it.
+			if(below_floor && !R.mint_item)
+				if(message)
+					say("The Crown's ledger is thin. No purchases today.")
+				return
 			var/amt = R.get_payout_price(I)
+			var/true_value = I.get_real_price()
 			var/nopay = !R.mint_item && R.stockpile_amount >= R.stockpile_limit // Check whether it is overflowed BEFORE nopaying them
 			if(!R.mint_item)
 				R.stockpile_amount += 1 //stacked logs need to check for multiple
@@ -184,21 +205,21 @@
 				if(sound == TRUE)
 					playsound(loc, 'sound/misc/hiss.ogg', 100, FALSE, -1)
 			else
-				var/mint_amt = round(SStreasury.mint_multiplier * I.get_real_price())
+				var/mint_amt = round(SStreasury.mint_multiplier * true_value)
 				SStreasury.minted += mint_amt
 				SStreasury.mint(SStreasury.discretionary_fund, mint_amt, "Minting - [I.name]")
+				record_round_statistic(STATS_MINTED_TREASURE_GROSS, mint_amt)
+				record_round_statistic(STATS_MINTED_TREASURE_NET, max(0, mint_amt - amt))
 				qdel(I) // Eaten to be minted!
 				if(sound == TRUE)
 					playsound(loc, 'sound/misc/hiss.ogg', 100, FALSE, -1)
 					playsound(loc, 'sound/misc/disposalflush.ogg', 100, FALSE, -1)
-			var/true_value = I.get_real_price()
 			if(nopay)
 				SStreasury.economic_output += true_value // Still count as economic output hah
 				say("Stockpile is full, no payment.")
 			else if(amt)
 				SStreasury.economic_output += true_value
-				if(!SStreasury.give_money_account(amt, H, "+[amt] from [R.name] bounty") && message == TRUE)
-					say("No account found. Submit your fingers to a Meister for inspection.")
+				SStreasury.give_money_account(amt, H, "+[amt] from [R.name] bounty")
 			record_round_statistic(STATS_STOCKPILE_EXPANSES, amt) // Unlike deposit, a treasure minting is equal to both expending and profiting at the same time
 			record_round_statistic(STATS_STOCKPILE_REVENUE, true_value)
 			return

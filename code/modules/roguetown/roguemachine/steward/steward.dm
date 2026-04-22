@@ -313,6 +313,19 @@
 		new_pct = CLAMP(new_pct, 0, 200)
 		SStreasury.loan_interest_rate = new_pct / 100
 		say("Default loan rate set to [new_pct]% per day.")
+	if(href_list["setpurchasefloor"])
+		if(!usr.canUseTopic(src, BE_CLOSE) || locked)
+			return
+		var/current_floor = SStreasury.stockpile_purchase_floor
+		var/new_floor = input(usr, "Set the Crown's Purchase Floor. Below this balance the stockpile refuses purchases - goods stay with the seller. (0-10000m)", src, current_floor) as null|num
+		if(isnull(new_floor))
+			return
+		if(!usr.canUseTopic(src, BE_CLOSE) || locked)
+			return
+		new_floor = CLAMP(round(new_floor), 0, 10000)
+		SStreasury.stockpile_purchase_floor = new_floor
+		say("Crown's Purchase Floor set to [new_floor]m.")
+		log_game("PURCHASE FLOOR: [key_name(usr)] set stockpile purchase floor to [new_floor]m")
 	if(href_list["clearloandebtor"])
 		if(!usr.canUseTopic(src, BE_CLOSE) || locked)
 			return
@@ -493,6 +506,7 @@
 			else
 				contents += "<font color='gray'>\[Issue Loan - closed after day [SStreasury.loan_max_issuance_day]\]</font><BR>"
 			contents += "<a href='?src=\ref[src];setloanrate=1'>\[Loan Rate: [round(SStreasury.loan_interest_rate * 100)]%/day\]</a><BR>"
+			contents += "<a href='?src=\ref[src];setpurchasefloor=1'>\[Purchase Floor: [SStreasury.stockpile_purchase_floor]m\]</a><BR>"
 			contents += "<a href='?src=\ref[src];clearloandebtor=1'>\[Clear Defaulter Mark\]</a><BR>"
 			contents += "<font color='gray'><i>(A defaulter's mark lifts automatically when they settle the outstanding debt at a MEISTER. Use this to forgive the debt entirely.)</i></font><BR>"
 			contents += "</center>"
@@ -655,8 +669,8 @@
 			contents += "<td>Headeater Levy</td><td align='right'><font color='#5cb85c'>[GLOB.azure_round_stats[STATS_REVENUE_HEADEATER_LEVY]]m</font></td></tr>"
 			contents += "<tr><td>Import Tariff</td><td align='right'><font color='#5cb85c'>[GLOB.azure_round_stats[STATS_REVENUE_IMPORT_TARIFF]]m</font></td>"
 			contents += "<td>Export Duty</td><td align='right'><font color='#5cb85c'>[GLOB.azure_round_stats[STATS_REVENUE_EXPORT_DUTY]]m</font></td></tr>"
-			contents += "<tr><td>Mammons Minted</td><td align='right'>[SStreasury.minted]m</td>"
-			contents += "<td></td><td></td></tr>"
+			contents += "<tr><td>Treasure Minted (Gross)</td><td align='right'>[GLOB.azure_round_stats[STATS_MINTED_TREASURE_GROSS]]m</td>"
+			contents += "<td>Treasure Minted (Crown Cut)</td><td align='right'><font color='#5cb85c'>[GLOB.azure_round_stats[STATS_MINTED_TREASURE_NET]]m</font></td></tr>"
 			contents += "</table><br>"
 
 			// Forgone Revenue (two-column, muted - what the Crown *could* have collected)

@@ -105,6 +105,8 @@
 #define STATS_EXEMPTED_EXPORT_DUTY "exempted_export_duty"
 #define STATS_EXEMPTED_FINE "exempted_fine"
 #define STATS_EXEMPTED_POLL_TAX "exempted_poll_tax"
+#define STATS_MINTED_TREASURE_GROSS "minted_treasure_gross"
+#define STATS_MINTED_TREASURE_NET "minted_treasure_net"
 
 // Influence related statistics
 
@@ -433,6 +435,8 @@ GLOBAL_LIST_INIT(azure_round_stats, list(
 	STATS_EXEMPTED_EXPORT_DUTY = 0,
 	STATS_EXEMPTED_FINE = 0,
 	STATS_EXEMPTED_POLL_TAX = 0,
+	STATS_MINTED_TREASURE_GROSS = 0,
+	STATS_MINTED_TREASURE_NET = 0,
 ))
 
 GLOBAL_LIST_EMPTY(patron_follower_counts)

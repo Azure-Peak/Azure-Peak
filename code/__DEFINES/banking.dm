@@ -27,6 +27,8 @@
 
 /// Mammon balance at round-end required to earn the Savings Goal triumph.
 #define SAVINGS_GOAL_THRESHOLD 200
+/// Default Crown's Purse floor below which the stockpile refuses purchases. Steward-settable.
+#define STOCKPILE_CROWN_PURCHASE_FLOOR_DEFAULT 1000
 /// Extra savings required of a noble - aristocratic duty to be comfortable.
 #define SAVINGS_GOAL_NOBLE_BUMP 100
 /// Extra savings required of the Greedy - a self-declared flaw.

@@ -71,13 +71,16 @@ SUBSYSTEM_DEF(treasury)
 	var/list/poll_tax_owed = list()
 	var/list/poll_tax_debt_days = list()
 	var/poll_tax_announce_used_day = -1
+	/// Steward-settable floor. Stockpile refuses purchases when Crown's Purse would drop below this.
+	var/stockpile_purchase_floor = STOCKPILE_CROWN_PURCHASE_FLOOR_DEFAULT
 	var/rumor_points = RUMOR_POINTS_START
 	var/list/rumor_log = list()
 	var/list/rumor_issued_today = list()
 	var/list/defense_log = list()
 
 /datum/controller/subsystem/treasury/Initialize()
-	discretionary_fund = new("Crown's Purse", null, rand(1000, 2000), CURRENCY_MAMMON)
+	// Roundstart Crown's Purse = purchase floor + random buffer so deposits are immediately possible.
+	discretionary_fund = new("Crown's Purse", null, STOCKPILE_CROWN_PURCHASE_FLOOR_DEFAULT + rand(500, 1500), CURRENCY_MAMMON)
 	burgher_pledge_fund = new("Burgher Pledge", null, BURGHER_PLEDGE_BASE_REFILL * BURGHER_PLEDGE_ROUNDSTART_MULTIPLIER, CURRENCY_BURGHER_PLEDGE)
 	force_set_round_statistic(STATS_STARTING_TREASURY, discretionary_fund.balance)
 	init_decrees()
