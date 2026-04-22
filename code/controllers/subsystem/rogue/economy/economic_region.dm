@@ -80,7 +80,7 @@ GLOBAL_LIST_INIT(economic_regions, init_economic_regions())
 		TRADE_GOOD_APPLE = 4,
 		TRADE_GOOD_PEAR = 3,
 		TRADE_GOOD_JACKSBERRY = 4,
-		TRADE_GOOD_HERBS = 3,
+		TRADE_GOOD_CALENDULA = 3,
 		TRADE_GOOD_POPPY = 2,
 	)
 	demands = list(
@@ -116,7 +116,7 @@ GLOBAL_LIST_INIT(economic_regions, init_economic_regions())
 		TRADE_GOOD_SILK = 3,
 		TRADE_GOOD_VISCERA = 3,
 		TRADE_GOOD_DENDOR_ESSENCE = 1,
-		TRADE_GOOD_HERBS = 2,
+		TRADE_GOOD_CALENDULA = 2,
 	)
 	demands = list(
 		TRADE_GOOD_IRON_INGOT = 2,

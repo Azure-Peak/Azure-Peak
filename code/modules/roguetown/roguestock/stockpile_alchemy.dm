@@ -8,22 +8,23 @@
 	stockpile_limit = 20
 	category = "Alchemy"
 
-/datum/roguestock/stockpile/herbs
-	name = "Herbs"
-	desc = "Assorted herbs prized by apothecaries."
-	item_type = /obj/item/reagent_containers/food/snacks/grown/manabloom
-	trade_good_id = TRADE_GOOD_HERBS
-	payout_price = SELLPRICE_HERBS
+/datum/roguestock/stockpile/calendula
+	name = "Calendula"
+	desc = "Golden marigold flowers prized by apothecaries for healing salves."
+	item_type = /obj/item/alch/calendula
+	trade_good_id = TRADE_GOOD_CALENDULA
+	payout_price = SELLPRICE_CALENDULA
 	importexport_amt = 5
 	stockpile_limit = 20
 	category = "Alchemy"
 
 /datum/roguestock/stockpile/dendor_essence
 	name = "Essence of Wilderness"
-	desc = "A vial of distilled Dendorian essence."
+	desc = "Distilled Dendorian essence."
 	item_type = /obj/item/natural/cured/essence
 	trade_good_id = TRADE_GOOD_DENDOR_ESSENCE
 	payout_price = SELLPRICE_DENDOR_ESSENCE
 	importexport_amt = 3
 	stockpile_limit = 5
 	category = "Alchemy"
+	accept_toggle_enabled = FALSE

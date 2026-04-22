@@ -87,7 +87,8 @@
 	for(var/datum/roguestock/stockpile/R in SStreasury.stockpile_datums)
 		if(R.category != current_category)
 			continue
-		contents += "[R.name] - [R.payout_price] - ([R.stockpile_amount]/[R.stockpile_limit]) - [R.demand2word()]"
+		R.refresh_pegged_price()
+		contents += "[R.name] - [R.payout_price][R.get_market_delta_tag()] - ([R.stockpile_amount]/[R.stockpile_limit]) - [R.demand2word()]"
 		contents += "<BR>"
 
 	return contents

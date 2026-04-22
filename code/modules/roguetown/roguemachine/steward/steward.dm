@@ -6,6 +6,7 @@
 #define TAB_LOG 6
 #define TAB_FISCAL 7
 #define TAB_PAYDAY 8
+#define TAB_TRADE 9
 
 /obj/structure/roguemachine/steward
 	name = "nerve master"
@@ -29,6 +30,7 @@
 	var/list/categories = list("Raw Materials", "Refined", "Alchemy", "Fruit", "Vegetable", "Animal", "Seafood", "Precious")
 	var/list/daily_payments = list() // Associative list: job name -> payment amount
 	var/residency_print_cooldown = 0
+	var/trade_subtab = "market"
 
 /obj/structure/roguemachine/steward/Initialize()
 	. = ..()
@@ -227,6 +229,20 @@
 				A.payout_price = max(1, round(A.payout_price * mult))
 				A.pegged = FALSE
 			scom_announce("Steward adjusted [catname] stockpile prices by x[mult].")
+	if(href_list["catacceptall"])
+		var/catname = href_list["catacceptall"]
+		for(var/datum/roguestock/stockpile/A in SStreasury.stockpile_datums)
+			if(A.category != catname)
+				continue
+			A.accept_toggle_enabled = TRUE
+		scom_announce("Steward opened deposits for all [catname] goods.")
+	if(href_list["catacceptnone"])
+		var/catname = href_list["catacceptnone"]
+		for(var/datum/roguestock/stockpile/A in SStreasury.stockpile_datums)
+			if(A.category != catname)
+				continue
+			A.accept_toggle_enabled = FALSE
+		scom_announce("Steward closed deposits for all [catname] goods.")
 	if(href_list["setlimit"])
 		var/datum/roguestock/D = locate(href_list["setlimit"]) in SStreasury.stockpile_datums
 		if(!D)
@@ -450,8 +466,140 @@
 			return
 		new_autoexport = round(new_autoexport)
 		SStreasury.autoexport_percentage = new_autoexport * 0.01
-	
+	if(href_list["trade_subtab"])
+		trade_subtab = href_list["trade_subtab"]
+	if(href_list["fulfill_order"])
+		var/datum/standing_order/O = locate(href_list["fulfill_order"]) in GLOB.standing_order_pool
+		if(O)
+			if(SSeconomy.fulfill_order(usr, O))
+				scom_announce("Standing Order fulfilled: [O.name] (+[O.total_payout]m).")
+				playsound(src, 'sound/misc/coindispense.ogg', 60, FALSE, -1)
+	if(href_list["trade_import"])
+		handle_trade_import(usr, href_list["region_id"], href_list["good_id"])
+	if(href_list["trade_export"])
+		handle_trade_export(usr, href_list["region_id"], href_list["good_id"])
+	if(href_list["trade_region_import"])
+		handle_trade_region_import(usr, href_list["trade_region_import"])
+	if(href_list["trade_region_export"])
+		handle_trade_region_export(usr, href_list["trade_region_export"])
+
 	return attack_hand(usr)
+
+/obj/structure/roguemachine/steward/proc/handle_trade_import(mob/user, region_id, good_id)
+	if(!user.canUseTopic(src, BE_CLOSE) || locked)
+		return
+	var/datum/economic_region/region = GLOB.economic_regions[region_id]
+	var/datum/trade_good/tg = GLOB.trade_goods[good_id]
+	if(!region || !tg)
+		return
+	var/quantity = input(user, "How many [tg.name] to import from [region.name]?", src, 1) as null|num
+	if(!quantity || quantity < 1)
+		return
+	if(!user.canUseTopic(src, BE_CLOSE) || locked)
+		return
+	if(findtext(num2text(quantity), "."))
+		return
+	quantity = round(quantity)
+	var/daily_pace = region.produces[good_id] || 0
+	if(daily_pace <= 0)
+		to_chat(user, span_warning("[region.name] does not produce [tg.name]."))
+		return
+	var/produces_today = region.produces_today[good_id] || 0
+	var/starting_index = max(0, daily_pace - produces_today)
+	var/total = 0
+	for(var/i in 1 to quantity)
+		total += SSeconomy.compute_import_unit_price(good_id, region, starting_index + i)
+	var/balance = SStreasury.discretionary_fund.balance
+	var/blockade_note = region.is_region_blockaded ? "\n(BLOCKADED - [BLOCKADE_IMPORT_MULT]x cost)" : ""
+	var/confirm = alert(user, "Import [quantity] [tg.name] from [region.name]?\nTotal cost: [total]m\nCrown's Purse after: [balance - total]m[blockade_note]", "Confirm Import", "Yes", "No")
+	if(confirm != "Yes")
+		return
+	if(!user.canUseTopic(src, BE_CLOSE) || locked)
+		return
+	var/spent = SSeconomy.manual_import(user, region_id, good_id, quantity)
+	if(spent > 0)
+		scom_announce("Azure Peak imports [quantity] [tg.name] from [region.name] for [spent] mammon.")
+		playsound(src, 'sound/misc/coininsert.ogg', 100, FALSE, -1)
+
+/obj/structure/roguemachine/steward/proc/handle_trade_export(mob/user, region_id, good_id)
+	if(!user.canUseTopic(src, BE_CLOSE) || locked)
+		return
+	var/datum/economic_region/region = GLOB.economic_regions[region_id]
+	var/datum/trade_good/tg = GLOB.trade_goods[good_id]
+	if(!region || !tg)
+		return
+	var/quantity = input(user, "How many [tg.name] to export to [region.name]?", src, 1) as null|num
+	if(!quantity || quantity < 1)
+		return
+	if(!user.canUseTopic(src, BE_CLOSE) || locked)
+		return
+	if(findtext(num2text(quantity), "."))
+		return
+	quantity = round(quantity)
+	var/daily_pace = region.demands[good_id] || 0
+	if(daily_pace <= 0)
+		to_chat(user, span_warning("[region.name] does not demand [tg.name]."))
+		return
+	var/datum/roguestock/entry = SSeconomy.find_stockpile_by_trade_good(good_id)
+	if(!entry || entry.stockpile_amount < quantity)
+		to_chat(user, span_warning("Insufficient [tg.name] in stockpile: have [entry?.stockpile_amount || 0], need [quantity]."))
+		return
+	var/demands_today = region.demands_today[good_id] || 0
+	var/starting_index = max(0, daily_pace - demands_today)
+	var/total = 0
+	for(var/i in 1 to quantity)
+		total += SSeconomy.compute_export_unit_price(good_id, region, starting_index + i)
+	var/balance = SStreasury.discretionary_fund.balance
+	var/blockade_note = region.is_region_blockaded ? "\n(BLOCKADED - [BLOCKADE_EXPORT_MULT]x revenue)" : ""
+	var/confirm = alert(user, "Export [quantity] [tg.name] to [region.name]?\nTotal revenue: [total]m\nCrown's Purse after: [balance + total]m[blockade_note]", "Confirm Export", "Yes", "No")
+	if(confirm != "Yes")
+		return
+	if(!user.canUseTopic(src, BE_CLOSE) || locked)
+		return
+	var/gained = SSeconomy.manual_export(user, region_id, good_id, quantity)
+	if(gained > 0)
+		scom_announce("Azure Peak exports [quantity] [tg.name] to [region.name] for [gained] mammon.")
+		playsound(src, 'sound/misc/coindispense.ogg', 60, FALSE, -1)
+
+/obj/structure/roguemachine/steward/proc/handle_trade_region_import(mob/user, region_id)
+	if(!user.canUseTopic(src, BE_CLOSE) || locked)
+		return
+	var/datum/economic_region/region = GLOB.economic_regions[region_id]
+	if(!region)
+		return
+	var/list/options = list()
+	for(var/good_id in region.produces)
+		var/datum/trade_good/tg = GLOB.trade_goods[good_id]
+		if(!tg || !tg.importable)
+			continue
+		options["[tg.name]"] = good_id
+	if(!length(options))
+		to_chat(user, span_warning("[region.name] has no importable goods."))
+		return
+	var/pick_name = input(user, "Import what from [region.name]?", src) as null|anything in options
+	if(!pick_name)
+		return
+	handle_trade_import(user, region_id, options[pick_name])
+
+/obj/structure/roguemachine/steward/proc/handle_trade_region_export(mob/user, region_id)
+	if(!user.canUseTopic(src, BE_CLOSE) || locked)
+		return
+	var/datum/economic_region/region = GLOB.economic_regions[region_id]
+	if(!region)
+		return
+	var/list/options = list()
+	for(var/good_id in region.demands)
+		var/datum/trade_good/tg = GLOB.trade_goods[good_id]
+		if(!tg)
+			continue
+		options["[tg.name]"] = good_id
+	if(!length(options))
+		to_chat(user, span_warning("[region.name] has no demanded goods."))
+		return
+	var/pick_name = input(user, "Export what to [region.name]?", src) as null|anything in options
+	if(!pick_name)
+		return
+	handle_trade_export(user, region_id, options[pick_name])
 
 /obj/structure/roguemachine/steward/proc/do_import(datum/crown_import/D, number)
 	if(!D)
@@ -493,6 +641,7 @@
 			contents += "--------------<BR>"
 			contents += "<a href='?src=\ref[src];switchtab=[TAB_BANK]'>\[Bank\]</a><BR>"
 			contents += "<a href='?src=\ref[src];switchtab=[TAB_STOCK]'>\[Stockpile\]</a><BR>"
+			contents += "<a href='?src=\ref[src];switchtab=[TAB_TRADE]'>\[Trade\]</a><BR>"
 			contents += "<a href='?src=\ref[src];switchtab=[TAB_IMPORT]'>\[Import\]</a><BR>"
 			contents += "<a href='?src=\ref[src];switchtab=[TAB_BOUNTIES]'>\[Bounties\]</a><BR>"
 			contents += "<a href='?src=\ref[src];switchtab=[TAB_PAYDAY]'>\[Daily Payments\]</a><BR>"
@@ -547,13 +696,13 @@
 			contents += " <a href='?src=\ref[src];compact=1'>\[Compact: [compact? "ENABLED" : "DISABLED"]\]</a><BR>"
 			contents += "<center>Stockpile<BR>"
 			contents += "--------------<BR>"
-			// Refresh pegged prices so display and action read the current market value.
 			for(var/datum/roguestock/stockpile/A in SStreasury.stockpile_datums)
 				A.refresh_pegged_price()
 			contents += "Treasury: [SStreasury.discretionary_fund.balance]m</center><BR>"
 			contents += "<center>Auto Export Stockpile Above: "
 			contents += "<a href='?src=\ref[src];changeautoexport=1'>[SStreasury.autoexport_percentage * 100]%</a></center><BR>"
 			contents += "<center><a href='?src=\ref[src];pegall=1'>\[Peg All\]</a> <a href='?src=\ref[src];priceallmult=1'>\[Global Margin x\]</a> <a href='?src=\ref[src];pricecatmult=[current_category]'>\[[current_category] Margin x\]</a></center><BR>"
+			contents += "<center><a href='?src=\ref[src];catacceptall=[current_category]'>\[Accept All [current_category]\]</a> <a href='?src=\ref[src];catacceptnone=[current_category]'>\[Reject All [current_category]\]</a></center><BR>"
 			var/selection = "<center>Categories: "
 			for(var/category in categories)
 				if(category == current_category)
@@ -572,7 +721,7 @@
 					var/peg_tag = A.pegged ? "<font color='#8a8'>(P)</font>" : "<font color='#c84'>(U)</font>"
 					contents += "<b>[A.name]:</b>"
 					contents += " [A.stockpile_amount]"
-					contents += " | PRICE: <a href='?src=\ref[src];setbounty=\ref[A]'>[A.payout_price]m</a> [peg_tag] <a href='?src=\ref[src];togglepeg=\ref[A]'>\[[A.pegged ? "Unpeg" : "Peg"]\]</a>"
+					contents += " | PRICE: <a href='?src=\ref[src];setbounty=\ref[A]'>[A.payout_price]m[A.get_market_delta_tag()]</a> [peg_tag] <a href='?src=\ref[src];togglepeg=\ref[A]'>\[[A.pegged ? "Unpeg" : "Peg"]\]</a>"
 					contents += " / LIMIT: <a href='?src=\ref[src];setlimit=\ref[A]'>[A.stockpile_limit]</a>"
 					contents += " <a href='?src=\ref[src];toggleaccept=\ref[A]'>\[ACCEPT: ON\]</a><BR>"
 			else
@@ -588,7 +737,7 @@
 					contents += "[A.name]<BR>"
 					contents += "[A.desc]<BR>"
 					contents += "Stockpiled Amount: [A.stockpile_amount] / <a href='?src=\ref[src];setlimit=\ref[A]'>[A.stockpile_limit]</a><BR>"
-					contents += "Price: <a href='?src=\ref[src];setbounty=\ref[A]'>[A.payout_price]m</a> [peg_tag] <a href='?src=\ref[src];togglepeg=\ref[A]'>\[[A.pegged ? "Unpeg" : "Peg"]\]</a><BR>"
+					contents += "Price: <a href='?src=\ref[src];setbounty=\ref[A]'>[A.payout_price]m[A.get_market_delta_tag()]</a> [peg_tag] <a href='?src=\ref[src];togglepeg=\ref[A]'>\[[A.pegged ? "Unpeg" : "Peg"]\]</a><BR>"
 					contents += "<a href='?src=\ref[src];togglewithdraw=\ref[A]'>\[[A.withdraw_disabled ? "Enable" : "Disable"] Withdrawing\]</a> <a href='?src=\ref[src];toggleaccept=\ref[A]'>\[Accept Deposits: ON\]</a><BR><BR>"
 		if(TAB_IMPORT)
 			contents += "<a href='?src=\ref[src];switchtab=[TAB_MAIN]'>\[Return\]</a>"
@@ -612,8 +761,7 @@
 			contents += "<a href='?src=\ref[src];switchtab=[TAB_MAIN]'>\[Return\]</a>"
 			contents += "<center>Bounties<BR>"
 			contents += "--------------<BR>"
-			contents += "Treasury: [SStreasury.discretionary_fund.balance]m<BR>"
-			contents += "Contract Levy: [round(SStreasury.get_tax_rate(TAX_CATEGORY_CONTRACT_LEVY)*100)]%</center><BR>"
+			contents += "Treasury: [SStreasury.discretionary_fund.balance]m</center><BR>"
 			for(var/datum/roguestock/bounty/A in SStreasury.stockpile_datums)
 				contents += "[A.name]<BR>"
 				contents += "[A.desc]<BR>"
@@ -823,12 +971,168 @@
 					contents += " <a href='?src=\ref[src];removedailypay=[job_name]'>\[Remove\]</a><BR>"
 			else
 				contents += "<center>No daily payments configured.</center><BR>"
+		if(TAB_TRADE)
+			contents += get_trade_tab_contents()
 
 	if(!canread)
 		contents = stars(contents)
 	var/datum/browser/popup = new(user, "VENDORTHING", "", 700, 800)
 	popup.set_content(contents)
 	popup.open()
+
+/obj/structure/roguemachine/steward/proc/get_trade_tab_contents()
+	var/contents = ""
+	contents += "<a href='?src=\ref[src];switchtab=[TAB_MAIN]'>\[Return\]</a>"
+	contents += " <a href='?src=\ref[src];compact=1'>\[Compact: [compact? "ENABLED" : "DISABLED"]\]</a><BR>"
+	contents += "<center>REGIONS IN TRADE<BR>"
+	contents += "--------------</center><BR>"
+	contents += "<center>Crown's Purse: [SStreasury.discretionary_fund.balance]m</center><BR>"
+
+	var/list/blockaded_names = list()
+	for(var/region_id in GLOB.economic_regions)
+		var/datum/economic_region/region = GLOB.economic_regions[region_id]
+		if(region.is_region_blockaded)
+			blockaded_names += region.name
+	if(length(blockaded_names))
+		contents += "<center><font color='#c44'><b>BLOCKADED REGIONS: [jointext(blockaded_names, ", ")]</b></font></center><BR>"
+
+	var/active_order_count = 0
+	for(var/datum/standing_order/O as anything in GLOB.standing_order_pool)
+		if(!O.is_fulfilled)
+			active_order_count++
+	contents += "<center><b>ACTIVE STANDING ORDERS ([active_order_count]/[STANDING_ORDERS_POOL_CAP])</b><BR>"
+	contents += "--------------</center><BR>"
+	if(!active_order_count)
+		contents += "<center><i>No active orders. Check back tomorrow.</i></center><BR>"
+	else
+		for(var/datum/standing_order/O as anything in GLOB.standing_order_pool)
+			if(O.is_fulfilled)
+				continue
+			var/datum/economic_region/order_region = GLOB.economic_regions[O.region_id]
+			var/region_name = order_region ? order_region.name : O.region_id
+			var/blockade_tag = (order_region?.is_region_blockaded || O.unfulfillable) ? " <font color='#c44'>(BLOCKADED)</font>" : ""
+			var/days_left = max(0, O.day_expires - GLOB.dayspassed)
+			contents += "<b>[O.name]</b> - [region_name][blockade_tag] - [days_left]d left - Payout: [O.total_payout]m<BR>"
+			var/items_text = ""
+			var/first = TRUE
+			var/can_fulfill = TRUE
+			var/shortfall_text = ""
+			for(var/good_id in O.required_items)
+				var/needed = O.required_items[good_id]
+				var/datum/roguestock/entry = SSeconomy.find_stockpile_by_trade_good(good_id)
+				var/have = entry ? entry.stockpile_amount : 0
+				var/datum/trade_good/tg = GLOB.trade_goods[good_id]
+				var/label = tg ? tg.name : good_id
+				if(!first)
+					items_text += ", "
+				first = FALSE
+				if(have < needed)
+					items_text += "<font color='#c44'>[needed] [label] ([have])</font>"
+					can_fulfill = FALSE
+					if(shortfall_text != "")
+						shortfall_text += ", "
+					shortfall_text += "need [needed - have] more [label]"
+				else
+					items_text += "<font color='#8a8'>[needed] [label]</font>"
+			contents += "Items: [items_text]<BR>"
+			if(O.unfulfillable)
+				contents += "<i>(unfulfillable - region blockaded)</i><BR>"
+			else if(can_fulfill)
+				contents += "<a href='?src=\ref[src];fulfill_order=\ref[O]'><font color='#5cb85c'>\[Fulfill\]</font></a><BR>"
+			else
+				contents += "<font color='#888'>\[Fulfill\] (insufficient: [shortfall_text])</font><BR>"
+			contents += "<BR>"
+
+	contents += "--------------<BR>"
+	var/market_tab_label = trade_subtab == "market" ? "<b>\[Market\]</b>" : "\[Market\]"
+	var/regions_tab_label = trade_subtab == "regions" ? "<b>\[Regions\]</b>" : "\[Regions\]"
+	contents += "<center><a href='?src=\ref[src];trade_subtab=market'>[market_tab_label]</a> <a href='?src=\ref[src];trade_subtab=regions'>[regions_tab_label]</a></center><BR>"
+
+	if(trade_subtab == "market")
+		contents += get_trade_market_view()
+	else
+		contents += get_trade_regions_view()
+
+	return contents
+
+/obj/structure/roguemachine/steward/proc/get_trade_market_view()
+	var/contents = "<center><b>MARKET (auto-routed best region)</b></center><BR>"
+	for(var/good_id in GLOB.trade_goods)
+		var/datum/trade_good/tg = GLOB.trade_goods[good_id]
+		if(!tg)
+			continue
+		var/datum/roguestock/entry = SSeconomy.find_stockpile_by_trade_good(good_id)
+		if(!entry)
+			continue
+		if(!entry.accept_toggle_enabled)
+			continue
+		var/stock = entry.stockpile_amount
+		contents += "<b>[tg.name]</b> (Stock: [stock]/[entry.stockpile_limit])<BR>"
+		if(!tg.importable)
+			contents += "&nbsp;&nbsp;<i>not importable</i><BR>"
+		else
+			var/list/import_info = SSeconomy.get_best_import_region(good_id, exclude_blockaded = FALSE)
+			if(import_info)
+				var/datum/economic_region/region = GLOB.economic_regions[import_info["region_id"]]
+				var/blockade_tag = import_info["is_blockaded"] ? " <font color='#c44'>(BLOCKADED - [BLOCKADE_IMPORT_MULT]x cost)</font>" : ""
+				contents += "&nbsp;&nbsp;Buy: [region ? region.name : import_info["region_id"]] @ [import_info["unit_price"]]m/u[blockade_tag] <a href='?src=\ref[src];trade_import=1;region_id=[import_info["region_id"]];good_id=[good_id]'>\[Import\]</a><BR>"
+			else
+				contents += "&nbsp;&nbsp;Buy: <i>no producing region</i><BR>"
+		var/list/export_info = SSeconomy.get_best_export_region(good_id, exclude_blockaded = FALSE)
+		if(export_info)
+			var/datum/economic_region/region = GLOB.economic_regions[export_info["region_id"]]
+			var/blockade_tag = export_info["is_blockaded"] ? " <font color='#c44'>(BLOCKADED - [BLOCKADE_EXPORT_MULT]x revenue)</font>" : ""
+			contents += "&nbsp;&nbsp;Sell: [region ? region.name : export_info["region_id"]] @ [export_info["unit_price"]]m/u[blockade_tag] <a href='?src=\ref[src];trade_export=1;region_id=[export_info["region_id"]];good_id=[good_id]'>\[Export\]</a><BR>"
+		else
+			contents += "&nbsp;&nbsp;Sell: <i>no demanding region</i><BR>"
+		contents += "<BR>"
+	return contents
+
+/obj/structure/roguemachine/steward/proc/get_trade_regions_view()
+	var/contents = "<center><b>REGIONS (browse all)</b></center><BR>"
+	for(var/region_id in GLOB.economic_regions)
+		var/datum/economic_region/region = GLOB.economic_regions[region_id]
+		var/blockade_tag = region.is_region_blockaded ? " <font color='#c44'>(BLOCKADED)</font>" : ""
+		contents += "<b>[region.name]</b>[blockade_tag]<BR>"
+		if(region.description)
+			contents += "<i>[region.description]</i><BR>"
+		if(length(region.produces))
+			var/prod_text = "Produces: "
+			var/first = TRUE
+			for(var/good_id in region.produces)
+				var/datum/trade_good/tg = GLOB.trade_goods[good_id]
+				if(!tg)
+					continue
+				if(!first)
+					prod_text += ", "
+				first = FALSE
+				var/total = region.produces[good_id]
+				var/today = region.produces_today[good_id] || 0
+				prod_text += "[tg.name] [total]/day ([today] today)"
+			contents += "[prod_text]<BR>"
+		if(length(region.demands))
+			var/dem_text = "Demands: "
+			var/first = TRUE
+			for(var/good_id in region.demands)
+				var/datum/trade_good/tg = GLOB.trade_goods[good_id]
+				if(!tg)
+					continue
+				if(!first)
+					dem_text += ", "
+				first = FALSE
+				var/total = region.demands[good_id]
+				var/today = region.demands_today[good_id] || 0
+				dem_text += "[tg.name] [total]/day ([today] today)"
+			contents += "[dem_text]<BR>"
+		var/actions = ""
+		if(length(region.produces))
+			actions += "<a href='?src=\ref[src];trade_region_import=[region_id]'>\[Import from [region.name]\]</a> "
+		if(length(region.demands))
+			actions += "<a href='?src=\ref[src];trade_region_export=[region_id]'>\[Export to [region.name]\]</a>"
+		if(actions != "")
+			contents += "[actions]<BR>"
+		contents += "<BR>"
+	return contents
 
 /obj/structure/roguemachine/steward/proc/job_filter(advj, j, compact = FALSE)
 	if(advj in excluded_jobs)
@@ -852,3 +1156,4 @@
 #undef TAB_LOG
 #undef TAB_FISCAL
 #undef TAB_PAYDAY
+#undef TAB_TRADE

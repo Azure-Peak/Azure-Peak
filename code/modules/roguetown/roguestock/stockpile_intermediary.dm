@@ -17,6 +17,7 @@
 	importexport_amt = 5
 	stockpile_limit = 15
 	category = "Refined"
+	accept_toggle_enabled = FALSE
 
 /datum/roguestock/stockpile/tin_ingot
 	name = "Tin Ingot"
@@ -27,6 +28,7 @@
 	importexport_amt = 5
 	stockpile_limit = 15
 	category = "Refined"
+	accept_toggle_enabled = FALSE
 
 /datum/roguestock/stockpile/steel_ingot
 	name = "Steel Ingot"
@@ -47,6 +49,7 @@
 	importexport_amt = 5
 	stockpile_limit = 8
 	category = "Refined"
+	accept_toggle_enabled = FALSE
 
 /datum/roguestock/stockpile/silver_ingot
 	name = "Silver Ingot"
@@ -57,3 +60,4 @@
 	importexport_amt = 5
 	stockpile_limit = 8
 	category = "Refined"
+	accept_toggle_enabled = FALSE

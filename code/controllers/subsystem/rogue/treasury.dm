@@ -365,11 +365,34 @@ SUBSYSTEM_DEF(treasury)
 			continue
 		if((autoexport_percentage * D.stockpile_limit) >= D.stockpile_amount)
 			continue
-		if(D.get_export_price() <= (D.payout_price * D.importexport_amt))
+		// Unpegged trade-good entries are Steward's manual territory.
+		if(D.trade_good_id && !D.pegged)
 			continue
-		if(D.stockpile_amount >= D.importexport_amt)
-			var/exported = do_export(D, TRUE)
-			total_value_exported += exported
+		// Legacy entries (no trade_good_id) keep the old profitability guard.
+		if(!D.trade_good_id)
+			if(D.get_export_price() <= (D.payout_price * D.importexport_amt))
+				continue
+			if(D.stockpile_amount >= D.importexport_amt)
+				total_value_exported += do_export(D, TRUE)
+			continue
+		// Trade-good entries: clear surplus only up to the best region's remaining daily
+		// demand. No escalation, no profit required - this is a market pressure valve.
+		var/surplus = D.stockpile_amount - round(autoexport_percentage * D.stockpile_limit)
+		if(surplus <= 0)
+			continue
+		var/list/best = SSeconomy.get_best_export_region(D.trade_good_id)
+		if(!best || !best["region_id"])
+			continue
+		var/datum/economic_region/region = GLOB.economic_regions[best["region_id"]]
+		if(!region)
+			continue
+		var/remaining_demand = region.demands_today[D.trade_good_id] || 0
+		if(remaining_demand <= 0)
+			continue
+		var/export_qty = min(surplus, remaining_demand)
+		var/revenue = SSeconomy.manual_export(null, region.region_id, D.trade_good_id, export_qty)
+		if(revenue)
+			total_value_exported += revenue
 	if(total_value_exported >= EXPORT_ANNOUNCE_THRESHOLD)
 		scom_announce("Azure Peak exports [total_value_exported] mammons of surplus goods.")
 

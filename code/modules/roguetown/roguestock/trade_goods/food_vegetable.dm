@@ -1,11 +1,11 @@
-/datum/trade_good/herbs
-	id = TRADE_GOOD_HERBS
-	name = "Herbs"
+/datum/trade_good/calendula
+	id = TRADE_GOOD_CALENDULA
+	name = "Calendula"
 	category = TRADE_CATEGORY_VEGETABLE
 	behavior = TRADE_BEHAVIOR_RAW
-	base_price = SELLPRICE_HERBS
+	base_price = SELLPRICE_CALENDULA
 	source_region_id = TRADE_REGION_ROCKHILL
-	item_type = /obj/item/reagent_containers/food/snacks/grown/manabloom
+	item_type = /obj/item/alch/calendula
 
 /datum/trade_good/poppy
 	id = TRADE_GOOD_POPPY
