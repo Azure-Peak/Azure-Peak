@@ -1,13 +1,9 @@
-/datum/roguestock/import
-	import_only = TRUE
-	stable_price = TRUE
-
-/datum/roguestock/import/crackers
+/datum/crown_import/crackers
 	name = "Bin of Rations"
 	desc = "Low moisture bread that keeps well."
 	item_type = /obj/item/roguebin/crackers
-	export_price = 100
-	importexport_amt = 1
+	base_cost = 100
+	source_region_id = TRADE_REGION_KINGSFIELD
 
 /obj/item/roguebin/crackers/Initialize()
 	. = ..()
@@ -27,12 +23,12 @@
 	locked = TRUE
 	masterkey = TRUE
 
-/datum/roguestock/import/redpotion
+/datum/crown_import/redpotion
 	name = "Crate of Health Potions"
 	desc = "Red that keeps men alive."
 	item_type = /obj/structure/closet/crate/chest/steward/redpotion
-	export_price = 100
-	importexport_amt = 1
+	base_cost = 100
+	source_region_id = TRADE_REGION_ROCKHILL
 
 /obj/structure/closet/crate/chest/steward/redpotion/Initialize()
 	. = ..()
@@ -42,91 +38,90 @@
 	new /obj/item/reagent_containers/glass/bottle/rogue/healthpot(src)
 	new /obj/item/reagent_containers/glass/bottle/rogue/healthpot(src)
 
-/datum/roguestock/import/rotpotion
+/datum/crown_import/rotpotion
 	name = "Crate of Rot Cure Potions"
 	desc = "A sought-after crate of rare potions of rot-curing."
 	item_type = /obj/structure/closet/crate/chest/steward/rotpotion
-	export_price = 400		//Expensive, 200 each roughly. Four uses total, as only 5u needed to reverse rot. Each bottle is 10u.
-	importexport_amt = 1
+	base_cost = 400		//Expensive, 200 each roughly. Four uses total, as only 5u needed to reverse rot. Each bottle is 10u.
+	source_region_id = TRADE_REGION_ROCKHILL
 
 /obj/structure/closet/crate/chest/steward/rotpotion/Initialize()
 	. = ..()
 	new /obj/item/reagent_containers/glass/bottle/alchemical/rogue/rotcure(src)
 	new /obj/item/reagent_containers/glass/bottle/alchemical/rogue/rotcure(src)
 
-/datum/roguestock/import/saigabuck
+/datum/crown_import/saigabuck
 	name = "Saigabuck"
 	desc = "One Saigabuck tamed with a saddle from a far away land."
 	item_type = /obj/structure/closet/crate/chest/steward/saigabuck
-	export_price = 100
-	importexport_amt = 1
+	base_cost = 100
 
 /obj/structure/closet/crate/chest/steward/saigabuck/Initialize()
 	. = ..()
 	new /mob/living/simple_animal/hostile/retaliate/rogue/saiga/saigabuck/tame/saddled(src)
 	new /obj/item/caparison/azure(src)
 
-/datum/roguestock/import/cow
+/datum/crown_import/cow
 	name = "Cow"
 	desc = "Farmer's best friend, reliable provider of milk and meat."
 	item_type = /obj/structure/closet/crate/chest/steward/cow
-	export_price = 100
-	importexport_amt = 1
+	base_cost = 100
+	source_region_id = TRADE_REGION_KINGSFIELD
 
 /obj/structure/closet/crate/chest/steward/cow/Initialize()
 	. = ..()
 	new /mob/living/simple_animal/hostile/retaliate/rogue/cow(src)
 
-/datum/roguestock/import/bull
+/datum/crown_import/bull
 	name = "Bull"
 	desc = "Horned and aggressive, required to start a herd."
 	item_type = /obj/structure/closet/crate/chest/steward/bull
-	export_price = 100
-	importexport_amt = 1
+	base_cost = 100
+	source_region_id = TRADE_REGION_KINGSFIELD
 
 /obj/structure/closet/crate/chest/steward/bull/Initialize()
 	. = ..()
 	new /mob/living/simple_animal/hostile/retaliate/rogue/bull(src)
 
-/datum/roguestock/import/goat
+/datum/crown_import/goat
 	name = "Doe Goat"
 	desc = "An all-purpose source of milk, hide and fat."
 	item_type = /obj/structure/closet/crate/chest/steward/goat
-	export_price = 100
-	importexport_amt = 1
+	base_cost = 100
+	source_region_id = TRADE_REGION_KINGSFIELD
 
 /obj/structure/closet/crate/chest/steward/goat/Initialize()
 	. = ..()
 	new /mob/living/simple_animal/hostile/retaliate/rogue/goat(src)
 
-/datum/roguestock/import/goatmale
+/datum/crown_import/goatmale
 	name = "Billy Goat"
 	desc = "Bearded, male goat capable of saddling."
 	item_type = /obj/structure/closet/crate/chest/steward/goatmale
-	export_price = 100
-	importexport_amt = 1
+	base_cost = 100
+	source_region_id = TRADE_REGION_KINGSFIELD
 
 /obj/structure/closet/crate/chest/steward/goatmale/Initialize()
 	. = ..()
 	new /mob/living/simple_animal/hostile/retaliate/rogue/goatmale(src)
 
-/datum/roguestock/import/chicken
+/datum/crown_import/chicken
 	name = "Chicken"
 	desc = "A reliable source of egg and meat."
 	item_type = /obj/structure/closet/crate/chest/steward/chicken
-	export_price = 50
-	importexport_amt = 1
+	base_cost = 50
+	source_region_id = TRADE_REGION_KINGSFIELD
 
 /obj/structure/closet/crate/chest/steward/chicken/Initialize()
 	. = ..()
 	new /mob/living/simple_animal/hostile/retaliate/rogue/chicken(src)
 
-/datum/roguestock/import/farmequip
+/datum/crown_import/farmequip
 	name = "Farm Equipment Crate"
 	desc = "A crate with a pitchfork, sickle, hoe and some seeds."
 	item_type = /obj/structure/closet/crate/chest/steward/farmequip
-	export_price = 100
-	importexport_amt = 1
+	base_cost = 100
+	source_region_id = TRADE_REGION_KINGSFIELD
 
 /obj/structure/closet/crate/chest/steward/farmequip/Initialize()
 	. = ..()
@@ -137,12 +132,12 @@
 	new /obj/item/seeds/wheat(src)
 	new /obj/item/seeds/berryrogue(src)
 
-/datum/roguestock/import/blacksmith
+/datum/crown_import/blacksmith
 	name = "Smith Crate"
 	desc = "Stone, coal , iron ingot, wood bin, bucket with hammer and tongs."
 	item_type = /obj/structure/closet/crate/chest/steward/blacksmith
-	export_price = 100
-	importexport_amt = 1
+	base_cost = 100
+	source_region_id = TRADE_REGION_DAFTSMARCH
 
 /obj/structure/closet/crate/chest/steward/blacksmith/Initialize()
 	. = ..()
@@ -162,12 +157,12 @@
 	new /obj/item/roguebin(src)
 	new /obj/item/reagent_containers/glass/bucket(src)
 
-/datum/roguestock/import/craftsman
+/datum/crown_import/craftsman
 	name = "Craftsman Crate"
 	desc = "Handsaw, chisel, hammer."
 	item_type = /obj/structure/closet/crate/chest/steward/craftsman
-	export_price = 60
-	importexport_amt = 1
+	base_cost = 60
+	source_region_id = TRADE_REGION_ROSAWOOD
 
 /obj/structure/closet/crate/chest/steward/craftsman/Initialize()
 	. = ..()
@@ -175,12 +170,12 @@
 	new /obj/item/rogueweapon/chisel(src)
 	new /obj/item/rogueweapon/handsaw(src)
 
-/datum/roguestock/import/glasscrate
+/datum/crown_import/glasscrate
 	name = "Glass Crate"
 	desc = "A crate full of glass for windows, repairs, and works of art.."
 	item_type = /obj/structure/closet/crate/chest/steward/glasscrate
-	export_price = 150
-	importexport_amt = 1
+	base_cost = 150
+	source_region_id = TRADE_REGION_DAFTSMARCH
 
 /obj/structure/closet/crate/chest/steward/glasscrate/Initialize()
 	. = ..()
@@ -190,12 +185,12 @@
 	new /obj/item/natural/glass(src)
 	new /obj/item/natural/glass(src)
 
-/datum/roguestock/import/tailor
+/datum/crown_import/tailor
 	name = "Tailor Crate"
 	desc = "A crate with basic tailoring tools."
 	item_type = /obj/structure/closet/crate/chest/steward/tailor
-	export_price = 150
-	importexport_amt = 1
+	base_cost = 150
+	source_region_id = TRADE_REGION_ROSAWOOD
 
 /obj/structure/closet/crate/chest/steward/tailor/Initialize()
 	. = ..()
@@ -204,15 +199,14 @@
 	new /obj/item/grown/log/tree/small(src)
 	new /obj/item/grown/log/tree/small(src)
 	new /obj/item/natural/bundle/fibers(src)
-	new /obj/item/grown/log/tree/stick(src)	
+	new /obj/item/grown/log/tree/stick(src)
 	new /obj/item/grown/log/tree/stick(src)
 
-/datum/roguestock/import/alcoholset
+/datum/crown_import/alcoholset
 	name = "Alcohol Crate"
 	desc = "A crate with a selection of beers and liquors, fit for a party."
 	item_type = /obj/structure/closet/crate/chest/steward/alcoholset
-	export_price = 800
-	importexport_amt = 1
+	base_cost = 800
 
 /obj/structure/closet/crate/chest/steward/alcoholset/Initialize()
 	. = ..()
@@ -230,12 +224,12 @@
 	new /obj/item/reagent_containers/glass/bottle/rogue/beer/kgunshochu(src)
 	new /obj/item/reagent_containers/glass/bottle/rogue/beer/apfelweinheim(src)
 
-/datum/roguestock/import/minecarttracks
+/datum/crown_import/minecarttracks
 	name = "Minecart Tracks"
 	desc = "A crate with One hundred minecart tracks and four break tracks"
 	item_type = /obj/structure/closet/crate/chest/steward/minecarttracks
-	export_price = 310
-	importexport_amt = 1
+	base_cost = 310
+	source_region_id = TRADE_REGION_DAFTSMARCH
 
 /obj/structure/closet/crate/chest/steward/minecarttracks/Initialize()
 	. = ..()
@@ -244,12 +238,12 @@
 	for(var/i = 1 to 4)
 		new /obj/item/rotation_contraption/minecart_rail/railbreak(src)
 
-/datum/roguestock/import/rotationalnetwork
+/datum/crown_import/rotationalnetwork
 	name = "Rotational Network"
 	desc = "A crate of ten large gears, sixteen small gears, three gearboxes, three verticle gearboxes, and twenty shafts"
 	item_type = /obj/structure/closet/crate/chest/steward/rotationalnetwork
-	export_price = 362
-	importexport_amt = 1
+	base_cost = 362
+	source_region_id = TRADE_REGION_DAFTSMARCH
 
 /obj/structure/closet/crate/chest/steward/rotationalnetwork/Initialize()
 	. = ..()
@@ -264,48 +258,47 @@
 	for(var/i = 1 to 20)
 		new /obj/item/rotation_contraption/shaft(src)
 
-/datum/roguestock/import/waterwheels
+/datum/crown_import/waterwheels
 	name = "Waterwheels"
 	desc = "A crate of five waterwheels"
 	item_type = /obj/structure/closet/crate/chest/steward/waterwheels
-	export_price = 75
-	importexport_amt = 1
+	base_cost = 75
+	source_region_id = TRADE_REGION_ROSAWOOD
 
 /obj/structure/closet/crate/chest/steward/waterwheels/Initialize()
 	. = ..()
 	for(var/i = 1 to 5)
 		new /obj/item/rotation_contraption/waterwheel(src)
 
-/datum/roguestock/import/stoneblocks
+/datum/crown_import/stoneblocks
 	name = "Stoneblocks"
 	desc = "A crate of twenty Stoneblocks, useful in building"
 	item_type = /obj/structure/closet/crate/chest/steward/stoneblocks
-	export_price = 40
-	importexport_amt = 1
+	base_cost = 40
+	source_region_id = TRADE_REGION_DAFTSMARCH
 
 /obj/structure/closet/crate/chest/steward/stoneblocks/Initialize()
 	. = ..()
 	for(var/i = 1 to 20)
 		new /obj/item/natural/stoneblock(src)
 
-/datum/roguestock/import/planks
+/datum/crown_import/planks
 	name = "Planks"
 	desc = "A crate of twenty planks, useful in building"
 	item_type = /obj/structure/closet/crate/chest/steward/planks
-	export_price = 60
-	importexport_amt = 1
+	base_cost = 60
+	source_region_id = TRADE_REGION_ROSAWOOD
 
 /obj/structure/closet/crate/chest/steward/planks/Initialize()
 	. = ..()
 	for(var/i = 1 to 20)
 		new /obj/item/natural/wood/plank(src)
 
-/datum/roguestock/import/keyringsset
+/datum/crown_import/keyringsset
 	name = "Man-At-Arms Keyring Set Crate"
 	desc = "A set of keys for new hires."
 	item_type = /obj/structure/closet/crate/chest/steward/keyringsset
-	export_price = 100
-	importexport_amt = 1
+	base_cost = 100
 
 /obj/structure/closet/crate/chest/steward/keyringsset/Initialize()
 	. = ..()
@@ -314,12 +307,11 @@
 	new /obj/item/storage/keyring/manatarms(src)
 	new /obj/item/storage/keyring/manatarms(src)
 
-/datum/roguestock/import/crossbow
+/datum/crown_import/crossbow
 	name = "Crossbows Crate"
 	desc = "A crate with 3 crossbows with 3 full quivers."
 	item_type = /obj/structure/closet/crate/chest/steward/crossbow
-	export_price = 300
-	importexport_amt = 1
+	base_cost = 300
 
 /obj/structure/closet/crate/chest/steward/crossbow/Initialize()
 	. = ..()
@@ -330,12 +322,12 @@
 	new /obj/item/quiver/bolt/standard(src)
 	new /obj/item/quiver/bolt/standard(src)
 
-/datum/roguestock/import/warden
+/datum/crown_import/warden
 	name = "Warden Equipment Crate"
 	desc = "Equipment kit for a warden."
 	item_type = /obj/structure/closet/crate/chest/steward/warden
-	export_price = 300
-	importexport_amt = 1
+	base_cost = 300
+	source_region_id = TRADE_REGION_ROSAWOOD
 
 /obj/structure/closet/crate/chest/steward/warden/Initialize()
 	. = ..()
@@ -354,12 +346,11 @@
 	new /obj/item/storage/belt/rogue/leather(src)
 	new /obj/item/storage/keyring/warden(src)//Different ring to the rest
 
-/datum/roguestock/import/manatarms
+/datum/crown_import/manatarms
 	name = "Man-at-Arms Equipment Crate"
 	desc = "Equipment kit for an armsman."
 	item_type = /obj/structure/closet/crate/chest/steward/manatarms
-	export_price = 300
-	importexport_amt = 1
+	base_cost = 300
 
 /obj/structure/closet/crate/chest/steward/manatarms/Initialize()
 	. = ..()
@@ -376,12 +367,11 @@
 	new /obj/item/rogueweapon/scabbard/gwstrap(src)
 	new /obj/item/rogueweapon/halberd(src)
 
-/datum/roguestock/import/knight
+/datum/crown_import/knight
 	name = "Knight Equipment Crate"
 	desc = "Equipment kit for a dismounted knight."
 	item_type = /obj/structure/closet/crate/chest/steward/knight
-	export_price = 500
-	importexport_amt = 1
+	base_cost = 500
 
 /obj/structure/closet/crate/chest/steward/knight/Initialize()
 	. = ..()

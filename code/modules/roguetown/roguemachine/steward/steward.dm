@@ -26,7 +26,7 @@
 	var/total_deposit = 0
 	var/list/excluded_jobs = list("Wretch","Vagabond","Adventurer")
 	var/current_category = "Raw Materials"
-	var/list/categories = list("Raw Materials", "Fruit", "Vegetable", "Animal","Seafood")
+	var/list/categories = list("Raw Materials", "Fruit", "Vegetable", "Animal", "Seafood", "Precious")
 	var/list/daily_payments = list() // Associative list: job name -> payment amount
 	var/residency_print_cooldown = 0
 
@@ -138,7 +138,7 @@
 	if(href_list["switchtab"])
 		current_tab = text2num(href_list["switchtab"])
 	if(href_list["import"])
-		var/datum/roguestock/D = locate(href_list["import"]) in SStreasury.stockpile_datums
+		var/datum/crown_import/D = locate(href_list["import"]) in GLOB.crown_imports
 		if(!D)
 			return
 		var/amt = D.get_import_price()
@@ -163,6 +163,11 @@
 		if(!D)
 			return
 		D.withdraw_disabled = !D.withdraw_disabled
+	if(href_list["toggleaccept"])
+		var/datum/roguestock/D = locate(href_list["toggleaccept"]) in SStreasury.stockpile_datums
+		if(!D)
+			return
+		D.accept_toggle_enabled = !D.accept_toggle_enabled
 	if(href_list["setbounty"])
 		var/datum/roguestock/D = locate(href_list["setbounty"]) in SStreasury.stockpile_datums
 		if(!D)
@@ -430,11 +435,11 @@
 	
 	return attack_hand(usr)
 
-/obj/structure/roguemachine/steward/proc/do_import(datum/roguestock/D,number)
+/obj/structure/roguemachine/steward/proc/do_import(datum/crown_import/D, number)
 	if(!D)
 		return
 	D = new D
-	if(number > D.importexport_amt)
+	if(number > D.import_amt)
 		return
 
 	if(!number)
@@ -544,6 +549,7 @@
 					contents += " | SELL: <a href='?src=\ref[src];setbounty=\ref[A]'>[A.payout_price]m</a>"
 					contents += " / BUY: <a href='?src=\ref[src];setprice=\ref[A]'>[A.withdraw_price]m</a>"
 					contents += " / LIMIT: <a href='?src=\ref[src];setlimit=\ref[A]'>[A.stockpile_limit]</a>"
+					contents += " <a href='?src=\ref[src];toggleaccept=\ref[A]'>\[[A.accept_toggle_enabled ? "ACCEPT: ON" : "ACCEPT: OFF"]\]</a>"
 					if(!A.export_only)
 						if(A.importexport_amt)
 							contents += " <a href='?src=\ref[src];import=\ref[A]'>\[IMP [A.importexport_amt] ([A.get_import_price()])\]</a> <a href='?src=\ref[src];export=\ref[A]'>\[EXP [A.importexport_amt] ([A.get_export_price()])\]</a> <BR>"
@@ -576,7 +582,7 @@
 					else
 						if(A.importexport_amt)
 							contents += " <a href='?src=\ref[src];export=\ref[A]'>\[Export [A.importexport_amt] ([A.get_export_price()])\]</a> <BR>"
-					contents += "<a href='?src=\ref[src];togglewithdraw=\ref[A]'>\[[A.withdraw_disabled ? "Enable" : "Disable"] Withdrawing\]</a><BR><BR>"
+					contents += "<a href='?src=\ref[src];togglewithdraw=\ref[A]'>\[[A.withdraw_disabled ? "Enable" : "Disable"] Withdrawing\]</a> <a href='?src=\ref[src];toggleaccept=\ref[A]'>\[Accept Deposits: [A.accept_toggle_enabled ? "ON" : "OFF"]\]</a><BR><BR>"
 		if(TAB_IMPORT)
 			contents += "<a href='?src=\ref[src];switchtab=[TAB_MAIN]'>\[Return\]</a>"
 			contents += " <a href='?src=\ref[src];compact=1'>\[Compact: [compact? "ENABLED" : "DISABLED"]\]</a><BR>"
@@ -584,17 +590,16 @@
 			contents += "--------------<BR>"
 			if(compact)
 				contents += "Treasury: [SStreasury.discretionary_fund.balance]m</center><BR>"
-				for(var/datum/roguestock/import/A in SStreasury.stockpile_datums)
-					contents += "<b>[A.name]:</b>"
-					contents += " <a href='?src=\ref[src];import=\ref[A]'>\[Import [A.importexport_amt] ([A.get_import_price()])\]</a><BR><BR>"
+				for(var/datum/crown_import/A in GLOB.crown_imports)
+					var/blockade_tag = A.is_blockaded() ? " <font color='#c44'>[BLOCKADED]</font>" : ""
+					contents += "<b>[A.name][blockade_tag]:</b>"
+					contents += " <a href='?src=\ref[src];import=\ref[A]'>\[Import [A.import_amt] ([A.get_import_price()])\]</a><BR><BR>"
 			else
 				contents += "Treasury: [SStreasury.discretionary_fund.balance]m</center><BR>"
-				for(var/datum/roguestock/import/A in SStreasury.stockpile_datums)
-					contents += "[A.name]<BR>"
+				for(var/datum/crown_import/A in GLOB.crown_imports)
+					contents += "[A.name][A.is_blockaded() ? " <font color='#c44'>[BLOCKADED - 2x COST]</font>" : ""]<BR>"
 					contents += "[A.desc]<BR>"
-					if(!A.stable_price)
-						contents += "Demand: [A.demand2word()]<BR>"
-					contents += "<a href='?src=\ref[src];import=\ref[A]'>\[Import [A.importexport_amt] ([A.get_import_price()])\]</a><BR><BR>"
+					contents += "<a href='?src=\ref[src];import=\ref[A]'>\[Import [A.import_amt] ([A.get_import_price()])\]</a><BR><BR>"
 		if(TAB_BOUNTIES)
 			contents += "<a href='?src=\ref[src];switchtab=[TAB_MAIN]'>\[Return\]</a>"
 			contents += "<center>Bounties<BR>"

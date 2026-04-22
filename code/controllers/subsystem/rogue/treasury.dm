@@ -91,9 +91,6 @@ SUBSYSTEM_DEF(treasury)
 	for(var/path in subtypesof(/datum/roguestock/stockpile))
 		var/datum/D = new path
 		stockpile_datums += D
-	for(var/path in subtypesof(/datum/roguestock/import))
-		var/datum/D = new path
-		stockpile_datums += D
 	return ..()
 
 /datum/controller/subsystem/treasury/fire(resumed = 0)

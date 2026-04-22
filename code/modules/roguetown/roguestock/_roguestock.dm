@@ -15,11 +15,18 @@
 	var/stockpile_limit = 100 // Limit beyond which the stockpile will just eat your things for free. Very high limit just to be safe you should define it directly.
 	//how many of the items are consumed/spawned when exporting/importing
 	var/importexport_amt = 10
-	var/import_only = FALSE //for importing crackers, etc
 	var/export_only = FALSE
 	var/stable_price = FALSE
 	var/percent_bounty = FALSE
 	var/category = "Raw Materials" // Category for the stockpile
+	/// Links this stockpile entry to a /datum/trade_good for region-based pricing and events.
+	/// If set, deposit pricing uses trade_good.base_price * TRADE_STOCKPILE_BUY_DISCOUNT
+	/// modulated by trade_good.global_price_mod. If null, uses legacy static payout_price.
+	var/trade_good_id
+	/// Steward-controlled toggle. When FALSE, the stockpile refuses deposits of this item
+	/// with a "Crown has no interest" say() message. Default TRUE for raw/intermediary,
+	/// FALSE for gems (via override in the concrete gem entries).
+	var/accept_toggle_enabled = TRUE
 
 /datum/roguestock/New()
 	..()
@@ -31,8 +38,6 @@
 	return payout_price
 
 /datum/roguestock/proc/check_item(obj/item/I) //for checking monster heads if they belong to monsters and other stuff
-	if(import_only) //so you can't submit crackers to stockpile
-		return FALSE
 	//To stop people selling half-eaten food and rotten meat to the stockpile
 	if(istype(I, /obj/item/reagent_containers/food/snacks))
 		var/obj/item/reagent_containers/food/snacks/food = I

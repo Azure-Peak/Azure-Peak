@@ -50,5 +50,9 @@
 
 #define TRADE_STOCKPILE_BUY_DISCOUNT 0.75
 
+// Each subsequent import of the same crown_import in one day adds this much to the price.
+// Resets when SSeconomy daily tick fires.
+#define CROWN_IMPORT_ELASTICITY 0.1
+
 #define REGION_POP_SCALE_PER_PLAYER 0.025
 #define REGION_POP_SCALE_MAX 3.0
