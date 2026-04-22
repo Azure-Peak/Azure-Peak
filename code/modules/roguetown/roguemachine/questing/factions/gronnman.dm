@@ -4,6 +4,7 @@
 	name_plural = "Gronnic raiders"
 	group_word = "warband"
 	faction_tag = FACTION_GRONNMEN
+	can_blockade = TRUE
 	mob_types = list(
 		/mob/living/carbon/human/species/human/northern/searaider/ambush = 100,
 	)

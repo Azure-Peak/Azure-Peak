@@ -25,6 +25,22 @@ GLOBAL_LIST_EMPTY(active_economic_events)
 		var/datum/trade_good/tg = GLOB.trade_goods[good_id]
 		if(tg && price_mod != 0)
 			tg.global_price_mod /= price_mod
+	// Oversupply events drag pegged stockpile payouts down permanently via the
+	// asymmetric peg. When a glut expires, rebase the pegged payout for each affected
+	// good back to current market so the commodity feels alive again.
+	if(event_type == ECON_EVENT_OVERSUPPLY)
+		for(var/good_id in affected_goods)
+			var/datum/trade_good/tg = GLOB.trade_goods[good_id]
+			if(!tg)
+				continue
+			for(var/datum/roguestock/entry as anything in SStreasury.stockpile_datums)
+				if(entry.trade_good_id != good_id)
+					continue
+				if(!entry.pegged)
+					continue
+				var/market_now = max(1, round(tg.base_price * TRADE_STOCKPILE_BUY_DISCOUNT * tg.global_price_mod))
+				if(market_now > entry.payout_price)
+					entry.payout_price = market_now
 
 
 // ============================================================================
@@ -33,8 +49,8 @@ GLOBAL_LIST_EMPTY(active_economic_events)
 
 /datum/economic_event/black_oak_rebellion
 	name = "BLACK OAK REBELLION"
-	description = "Loggers of Rosawood have refused to cut a single tree, protesting a hated magistrate."
-	announcement = "<font color='#c44'>BLACK OAK REBELLION: Loggers strike across Rosawood. Wood prices surge.</font>"
+	description = "The Black Oaks have risen in Rosawood again - loggers found nailed to trees, woodcutters refuse to enter the deep groves without Crown escort."
+	announcement = "<font color='#c44'>BLACK OAK REBELLION: Rosawood's logging camps lie abandoned. Wood prices surge.</font>"
 	affected_goods = list(TRADE_GOOD_WOOD)
 	price_mod = 1.8
 	event_type = ECON_EVENT_SHORTAGE
@@ -102,7 +118,7 @@ GLOBAL_LIST_EMPTY(active_economic_events)
 
 /datum/economic_event/bumper_harvest
 	name = "BUMPER HARVEST"
-	description = "Kingsfield reports its finest grain harvest in a generation - granaries overflow."
+	description = "Kingsfield reports its finest grain harvest - granaries overflow."
 	announcement = "<font color='#5cb85c'>BUMPER HARVEST: Grain and oats flood the markets. Prices collapse.</font>"
 	affected_goods = list(TRADE_GOOD_GRAIN, TRADE_GOOD_OATS)
 	price_mod = 0.55

@@ -4,6 +4,7 @@
 	name_plural = "orcs"
 	group_word = "warband"
 	faction_tag = FACTION_ORCS
+	can_blockade = TRUE
 	mob_types = list(
 		/mob/living/carbon/human/species/orc/npc/footsoldier = 40,
 		/mob/living/carbon/human/species/orc/npc/berserker = 22,

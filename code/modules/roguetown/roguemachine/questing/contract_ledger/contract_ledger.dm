@@ -92,6 +92,7 @@
 		data["defense_regions_by_type"] = build_defense_regions_by_type()
 		data["defense_destinations"] = build_rumor_destinations()
 		data["defense_log"] = SStreasury.defense_log
+		data["blockade_global_busy"] = SSeconomy.any_blockade_quest_active() ? TRUE : FALSE
 	return data
 
 /// Return the dynamic-tab role key for this user, or null. Extend here when a new job earns its

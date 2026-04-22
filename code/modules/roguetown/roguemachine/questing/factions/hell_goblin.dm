@@ -4,6 +4,7 @@
 	name_plural = "hell goblins"
 	group_word = "warband"
 	faction_tag = FACTION_INFERNAL
+	can_blockade = TRUE
 	mob_types = list(
 		/mob/living/carbon/human/species/goblin/npc/ambush/hell = 55,
 		/mob/living/simple_animal/hostile/retaliate/rogue/infernal/imp = 15,

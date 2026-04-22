@@ -19,11 +19,17 @@ type StewardData = {
   defense_regions_by_type: Record<string, string[]>;
   defense_destinations: string[];
   defense_log: DefenseLogEntry[];
+  blockade_global_busy: number | boolean;
 };
 
 type SubTab = 'compose' | 'history';
 const RECOVERY_TYPE = 'Recovery';
+const BLOCKADE_TYPE = 'Blockade Defense';
 const DISPATCH_DEBOUNCE_MS = 500;
+
+const COMMISSION_LABELS: Record<string, string> = {
+  'Blockade Defense': 'Clear Blockade',
+};
 
 const coin = (n: number) => `${n}m`;
 
@@ -149,6 +155,8 @@ const ComposeView = () => {
   const regionsForType = data.defense_regions_by_type?.[type] || [];
   const cost = data.defense_costs?.[type] ?? 0;
   const needsDestination = type === RECOVERY_TYPE;
+  const isBlockade = type === BLOCKADE_TYPE;
+  const blockadeBusy = !!data.blockade_global_busy;
 
   const onTypeChange = (next: string) => {
     setType(next);
@@ -161,13 +169,17 @@ const ComposeView = () => {
     ? 'Drafting...'
     : !type
       ? 'Pick a commission type.'
-      : !region
-        ? 'Pick a region.'
-        : needsDestination && !destination
-          ? 'Pick the shipment destination.'
-          : data.pledge_balance < cost
-            ? `Insufficient Pledge (need ${coin(cost)}, have ${coin(data.pledge_balance)}).`
-            : undefined;
+      : isBlockade && blockadeBusy
+        ? 'Another blockade writ is already in circulation.'
+        : !region
+          ? isBlockade
+            ? 'No blockade to clear.'
+            : 'Pick a region.'
+          : needsDestination && !destination
+            ? 'Pick the shipment destination.'
+            : data.pledge_balance < cost
+              ? `Insufficient Pledge (need ${coin(cost)}, have ${coin(data.pledge_balance)}).`
+              : undefined;
 
   const dispatch = () => {
     if (disabledReason) return;
@@ -176,8 +188,9 @@ const ComposeView = () => {
       type,
       region,
       destination: needsDestination ? destination : null,
-      in_hands: mode === 'hands' ? 1 : 0,
-      levy_exempt: levyExempt ? 1 : 0,
+      // Blockade writs are always bearer-bond; ignore the mode/levy controls.
+      in_hands: isBlockade ? 1 : mode === 'hands' ? 1 : 0,
+      levy_exempt: isBlockade ? 0 : levyExempt ? 1 : 0,
     });
     setTimeout(() => setInflight(false), DISPATCH_DEBOUNCE_MS);
   };
@@ -196,20 +209,24 @@ const ComposeView = () => {
         >
           {typeOptions.map((t) => (
             <option key={t} value={t}>
-              {t} ({coin(data.defense_costs[t])})
+              {COMMISSION_LABELS[t] || t} ({coin(data.defense_costs[t])})
             </option>
           ))}
         </select>
       </FormRow>
 
-      <FormRow label="Region">
+      <FormRow label={isBlockade ? 'Blockaded Region' : 'Region'}>
         <Select
           value={region}
           onChange={setRegion}
           options={regionsForType}
-          placeholder="- pick a region -"
+          placeholder={isBlockade ? '- pick a blockade -' : '- pick a region -'}
           disabled={regionsForType.length === 0}
-          disabledPlaceholder="No region will host this type"
+          disabledPlaceholder={
+            isBlockade
+              ? 'No blockades are active.'
+              : 'No region will host this type'
+          }
         />
       </FormRow>
 
@@ -224,33 +241,44 @@ const ComposeView = () => {
         </FormRow>
       )}
 
-      <FormRow label="Deliver As">
-        <div className="ContractLedger__InnkeeperModeRow">
-          <ModeRadio
-            value="board"
-            selected={mode}
-            onChange={setMode}
-            label="Post on public board"
-          />
-          <ModeRadio
-            value="hands"
-            selected={mode}
-            onChange={setMode}
-            label="Put in my hands"
-          />
-        </div>
-      </FormRow>
+      {!isBlockade && (
+        <>
+          <FormRow label="Deliver As">
+            <div className="ContractLedger__InnkeeperModeRow">
+              <ModeRadio
+                value="board"
+                selected={mode}
+                onChange={setMode}
+                label="Post on public board"
+              />
+              <ModeRadio
+                value="hands"
+                selected={mode}
+                onChange={setMode}
+                label="Put in my hands"
+              />
+            </div>
+          </FormRow>
 
-      <FormRow label="Levy Stamp">
-        <label>
-          <input
-            type="checkbox"
-            checked={levyExempt}
-            onChange={(e) => setLevyExempt(e.target.checked)}
-          />
-          &nbsp;Stamp as LEVY EXEMPT (waive Crown's Contract Levy)
-        </label>
-      </FormRow>
+          <FormRow label="Levy Stamp">
+            <label>
+              <input
+                type="checkbox"
+                checked={levyExempt}
+                onChange={(e) => setLevyExempt(e.target.checked)}
+              />
+              &nbsp;Stamp as LEVY EXEMPT (waive Crown's Contract Levy)
+            </label>
+          </FormRow>
+        </>
+      )}
+      {isBlockade && (
+        <div className="ContractLedger__InnkeeperFlavor">
+          Blockade writs are always drawn to your hand. Pin to a notice
+          board to require a Fellowship of three; keep in hand to dispatch a
+          trusted party directly.
+        </div>
+      )}
 
       <div className="ContractLedger__InnkeeperFormFooter">
         <button
@@ -260,7 +288,7 @@ const ComposeView = () => {
           title={disabledReason}
           onClick={dispatch}
         >
-          Commission ({coin(cost)})
+          {isBlockade ? 'Print Writ' : 'Commission'} ({coin(cost)})
         </button>
       </div>
     </>

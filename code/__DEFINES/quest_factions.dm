@@ -17,3 +17,4 @@
 #define QUEST_FACTION_MOUNT_REAVER "mount_reaver"
 #define QUEST_FACTION_MADMAN "madman"
 #define QUEST_FACTION_DROW "drow"
+#define QUEST_FACTION_BLEAKISLE_REAVER "bleakisle_reaver"

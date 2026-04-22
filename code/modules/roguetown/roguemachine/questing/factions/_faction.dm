@@ -11,6 +11,9 @@ GLOBAL_LIST_EMPTY(quest_factions)
 	var/list/boss_mob_types = list()
 	var/list/boss_title_templates = list()
 	var/boss_name_file
+	/// Blockade defense pool. Bestial factions stay out — multi-wave timed fights need
+	/// mobs that can pathfind and coordinate.
+	var/can_blockade = FALSE
 
 /datum/quest_faction/New()
 	if(!id)

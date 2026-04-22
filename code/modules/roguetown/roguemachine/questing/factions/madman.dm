@@ -4,6 +4,7 @@
 	name_plural = "madmen"
 	group_word = "madness"
 	faction_tag = FACTION_MADMEN
+	can_blockade = TRUE
 	mob_types = list(
 		/mob/living/carbon/human/species/human/northern/mad_touched_treasure_hunter/ambush = 100,
 	)

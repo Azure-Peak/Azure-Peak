@@ -4,6 +4,7 @@
 	name_plural = "bogmen"
 	group_word = "warband"
 	faction_tag = FACTION_BANDITS
+	can_blockade = TRUE
 	mob_types = list(
 		/mob/living/carbon/human/species/human/northern/bog_deserters/ambush = 80,
 		/mob/living/carbon/human/species/human/northern/bog_deserters/better_gear/ambush = 30,

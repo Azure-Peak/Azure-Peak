@@ -269,6 +269,47 @@ SUBSYSTEM_DEF(questpool)
 	log_event("generate", "[in_hands ? "defense-in-hands" : "defense-pool"] [Q.quest_difficulty] [type] at [Q.target_spawn_area || "unknown"] (reward [Q.reward_amount])")
 	return Q
 
+/// Bearer-bond scroll is spawned straight into the Steward's hand. Wave 1 materializes
+/// on first scroll-open, not at issue time — see quest_scroll_blockade.attack_self.
+/datum/controller/subsystem/questpool/proc/issue_blockade_defense_quest(datum/blockade/B, mob/living/carbon/human/steward)
+	if(!B || !steward)
+		return null
+	if(B.has_active_scroll())
+		return null
+	if(SSeconomy.any_blockade_quest_active())
+		return null
+	var/datum/economic_region/ER = B.get_region()
+	var/datum/threat_region/TR = B.get_threat_region()
+	if(!ER || !TR)
+		return null
+	var/datum/quest/kill/blockade_defense/Q = new()
+	Q.blockade_ref = WEAKREF(B)
+	Q.quest_difficulty = QUEST_DIFFICULTY_HARD
+	Q.source = QUEST_SOURCE_BLOCKADE
+	Q.created_at = world.time
+	Q.issued_day = GLOB.dayspassed
+	Q.quest_giver_name = steward.real_name
+	Q.deposit_amount = 0
+	var/obj/effect/landmark/quest_spawner/landmark = find_quest_landmark(QUEST_BLOCKADE_DEFENSE, TR.region_name)
+	if(!landmark)
+		qdel(Q)
+		return null
+	if(!Q.preview(landmark))
+		qdel(Q)
+		return null
+	Q.reward_amount = BLOCKADE_SCROLL_REWARD
+	var/obj/item/paper/scroll/quest/blockade/scroll = new(get_turf(steward))
+	scroll.base_icon_state = Q.get_scroll_icon()
+	scroll.assigned_quest = Q
+	Q.quest_scroll = scroll
+	Q.quest_scroll_ref = WEAKREF(scroll)
+	scroll.update_quest_text()
+	steward.put_in_hands(scroll)
+	B.active_scroll_ref = WEAKREF(scroll)
+	record_round_statistic(STATS_CONTRACTS_GENERATED)
+	log_event("generate", "blockade-defense in-hand for [ER.name] (faction [Q.faction_id], reward [Q.reward_amount])")
+	return Q
+
 /datum/controller/subsystem/questpool/proc/generate_one(type, datum/threat_region/preferred_region, is_replacement = FALSE)
 	var/datum/quest/Q = instantiate_quest_of_type(type)
 	if(!Q)
@@ -329,6 +370,8 @@ SUBSYSTEM_DEF(questpool)
 			return new /datum/quest/kill/bounty()
 		if(QUEST_RECOVERY)
 			return new /datum/quest/kill/recovery()
+		if(QUEST_BLOCKADE_DEFENSE)
+			return new /datum/quest/kill/blockade_defense()
 	return null
 
 /datum/controller/subsystem/questpool/proc/claim(datum/quest/Q, mob/user)

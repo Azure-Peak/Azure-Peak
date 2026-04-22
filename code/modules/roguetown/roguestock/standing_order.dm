@@ -9,7 +9,6 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 	var/day_issued = 0
 	var/day_expires = 0
 	var/is_fulfilled = FALSE
-	var/unfulfillable = FALSE
 
 /// Returns assoc list of trade_good_id -> quantity. Randomized mix.
 /datum/standing_order/proc/generate_item_mix()

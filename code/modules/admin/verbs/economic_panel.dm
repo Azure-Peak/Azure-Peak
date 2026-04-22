@@ -68,6 +68,21 @@ GLOBAL_DATUM_INIT(economic_panel, /datum/economic_panel, new)
 	data["simulated_player_scalar"] = SSeconomy?.simulated_player_scalar || 0
 	data["effective_player_count"] = SSeconomy?.get_effective_player_count() || 0
 	data["live_player_count"] = get_active_player_count()
+
+	var/list/blockades = list()
+	for(var/datum/blockade/B as anything in GLOB.active_blockades)
+		var/datum/economic_region/ER = B.get_region()
+		var/datum/quest_faction/F = B.get_faction()
+		blockades += list(list(
+			"region_id" = B.region_id,
+			"region_name" = ER ? ER.name : B.region_id,
+			"threat_region" = B.threat_region_name,
+			"faction_name" = F ? F.name_plural : B.faction_id,
+			"day_started" = B.day_started,
+			"has_active_scroll" = B.has_active_scroll() ? TRUE : FALSE,
+			"ref" = "\ref[B]",
+		))
+	data["blockades"] = blockades
 	return data
 
 /datum/economic_panel/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)
@@ -127,6 +142,26 @@ GLOBAL_DATUM_INIT(economic_panel, /datum/economic_panel, new)
 				amt = 0
 			SSeconomy.simulated_player_scalar = round(amt)
 			admin_log_fiscal("set simulated player scalar to [SSeconomy.simulated_player_scalar] (0 = use live count)", "Set Simulated Population")
+			return TRUE
+		if("fire_blockade_roll")
+			if(!SSeconomy)
+				return TRUE
+			var/datum/blockade/B = SSeconomy.roll_blockade()
+			if(B)
+				var/datum/economic_region/ER = B.get_region()
+				admin_log_fiscal("rolled a blockade on [ER ? ER.name : B.region_id] ([B.faction_id])", "Fire Blockade Roll")
+			else
+				to_chat(usr, span_warning("No eligible region available to blockade."))
+			return TRUE
+		if("clear_blockade")
+			if(!SSeconomy)
+				return TRUE
+			var/datum/blockade/B = locate(params["ref"]) in GLOB.active_blockades
+			if(!B)
+				return TRUE
+			var/datum/economic_region/ER = B.get_region()
+			SSeconomy.clear_blockade(B, "admin")
+			admin_log_fiscal("force-cleared blockade on [ER ? ER.name : "unknown"]", "Clear Blockade")
 			return TRUE
 		if("mint_discretionary")
 			var/amt = text2num(params["amount"])

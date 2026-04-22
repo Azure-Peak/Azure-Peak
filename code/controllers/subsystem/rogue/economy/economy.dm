@@ -7,6 +7,9 @@ SUBSYSTEM_DEF(economy)
 	/// Admin override for the effective player count used by pop scaling.
 	/// 0 = use the live count. Set via Economic Panel.
 	var/simulated_player_scalar = 0
+	/// Populated during daily_tick; written to the Steward's morning report at the end
+	/// of the tick. Null between ticks.
+	var/list/daily_report_diff = null
 
 /// Single source of truth for pop-scaled economy math. Admin override beats the live count.
 /datum/controller/subsystem/economy/proc/get_effective_player_count()
@@ -17,6 +20,7 @@ SUBSYSTEM_DEF(economy)
 /datum/controller/subsystem/economy/Initialize()
 	populate_standing_order_templates()
 	roundstart_events()
+	roundstart_blockades()
 	return ..()
 
 /datum/controller/subsystem/economy/proc/populate_standing_order_templates()
@@ -78,6 +82,16 @@ SUBSYSTEM_DEF(economy)
 		return
 	last_processed_day = GLOB.dayspassed
 
+	daily_report_diff = list(
+		"day" = GLOB.dayspassed,
+		"events_fired" = list(),
+		"events_expired" = list(),
+		"blockades_fired" = list(),
+		"blockades_cleared" = list(),
+		"orders_rolled" = 0,
+		"urgent_rolled" = 0,
+	)
+
 	// Pop-scaled daily reset: larger rounds have proportionally more commerce.
 	var/effective_pop = get_effective_player_count()
 	var/pop_mult = min(REGION_POP_SCALE_MAX, 1.0 + (effective_pop * REGION_POP_SCALE_PER_PLAYER))
@@ -105,43 +119,44 @@ SUBSYSTEM_DEF(economy)
 
 	expire_economic_events()
 	roll_economic_events()
+	tick_scheduled_blockades()
 
-	if(GLOB.standing_order_pool.len >= STANDING_ORDERS_POOL_CAP)
-		return
+	if(GLOB.standing_order_pool.len < STANDING_ORDERS_POOL_CAP)
+		var/total_to_roll = min(STANDING_ORDERS_MAX_PER_DAY, STANDING_ORDERS_BASE_PER_DAY + round(effective_pop * STANDING_ORDERS_PER_ACTIVE_PLAYER))
+		for(var/i in 1 to total_to_roll)
+			if(GLOB.standing_order_pool.len >= STANDING_ORDERS_POOL_CAP)
+				break
+			var/list/eligible_ids = list()
+			for(var/region_id in GLOB.economic_regions)
+				var/datum/economic_region/region = GLOB.economic_regions[region_id]
+				if(!length(region.possible_standing_order_types))
+					continue
+				var/active_count = 0
+				for(var/datum/standing_order/O as anything in GLOB.standing_order_pool)
+					if(O.region_id == region_id)
+						active_count++
+				if(active_count < STANDING_ORDERS_MAX_PER_REGION)
+					eligible_ids += region_id
+			if(!length(eligible_ids))
+				break
+			var/chosen_region_id = pick(eligible_ids)
+			var/datum/economic_region/region = GLOB.economic_regions[chosen_region_id]
+			var/template = pick(region.possible_standing_order_types)
+			var/datum/standing_order/O = new template()
+			O.region_id = region.region_id
+			O.required_items = O.generate_item_mix()
+			for(var/good_id in O.required_items)
+				O.required_items[good_id] = max(1, round(O.required_items[good_id] * order_size_mult))
+			O.name = O.generate_name(region)
+			O.description = O.generate_description(region)
+			O.day_issued = GLOB.dayspassed
+			O.day_expires = GLOB.dayspassed + STANDING_ORDER_DURATION
+			O.total_payout = compute_order_payout(O, region)
+			GLOB.standing_order_pool += O
+			daily_report_diff["orders_rolled"] = (daily_report_diff["orders_rolled"] || 0) + 1
 
-	var/total_to_roll = min(STANDING_ORDERS_MAX_PER_DAY, STANDING_ORDERS_BASE_PER_DAY + round(effective_pop * STANDING_ORDERS_PER_ACTIVE_PLAYER))
-	for(var/i in 1 to total_to_roll)
-		if(GLOB.standing_order_pool.len >= STANDING_ORDERS_POOL_CAP)
-			break
-		var/list/eligible_ids = list()
-		for(var/region_id in GLOB.economic_regions)
-			var/datum/economic_region/region = GLOB.economic_regions[region_id]
-			if(!length(region.possible_standing_order_types))
-				continue
-			var/active_count = 0
-			for(var/datum/standing_order/O as anything in GLOB.standing_order_pool)
-				if(O.region_id == region_id)
-					active_count++
-			if(active_count < STANDING_ORDERS_MAX_PER_REGION)
-				eligible_ids += region_id
-		if(!length(eligible_ids))
-			break
-		var/chosen_region_id = pick(eligible_ids)
-		var/datum/economic_region/region = GLOB.economic_regions[chosen_region_id]
-		var/template = pick(region.possible_standing_order_types)
-		var/datum/standing_order/O = new template()
-		O.region_id = region.region_id
-		O.required_items = O.generate_item_mix()
-		for(var/good_id in O.required_items)
-			O.required_items[good_id] = max(1, round(O.required_items[good_id] * order_size_mult))
-		O.name = O.generate_name(region)
-		O.description = O.generate_description(region)
-		O.day_issued = GLOB.dayspassed
-		O.day_expires = GLOB.dayspassed + STANDING_ORDER_DURATION
-		O.total_payout = compute_order_payout(O, region)
-		if(region.is_region_blockaded)
-			O.unfulfillable = TRUE
-		GLOB.standing_order_pool += O
+	print_steward_report(daily_report_diff)
+	daily_report_diff = null
 
 /datum/controller/subsystem/economy/proc/roundstart_events()
 	if(roundstart_events_fired)
@@ -187,6 +202,9 @@ SUBSYSTEM_DEF(economy)
 	GLOB.active_economic_events += E
 	E.on_apply()
 	record_round_statistic(STATS_ECON_EVENTS_FIRED, 1)
+	if(daily_report_diff)
+		var/list/fired = daily_report_diff["events_fired"]
+		fired += "[E.name] ([E.event_type == ECON_EVENT_SHORTAGE ? "shortage" : "glut"])"
 	if(E.event_type == ECON_EVENT_SHORTAGE)
 		spawn_urgent_for_event(E)
 	return TRUE
@@ -223,7 +241,22 @@ SUBSYSTEM_DEF(economy)
 	var/list/mix = list()
 	var/order_size_mult = min(STANDING_ORDER_POP_SCALE_MAX, 1.0 + (get_effective_player_count() * STANDING_ORDER_POP_SCALE_PER_PLAYER))
 	for(var/good in E.affected_goods)
-		mix[good] = max(1, round(rand(6, 14) * order_size_mult))
+		var/datum/trade_good/tg = GLOB.trade_goods[good]
+		// Scale qty inversely with base_price so high-value goods (gems, dendor) land
+		// in small order sizes instead of blowing out the payout math.
+		var/base = tg ? tg.base_price : 5
+		var/qty_lo
+		var/qty_hi
+		if(base >= 30)
+			qty_lo = 2
+			qty_hi = 4
+		else if(base >= 15)
+			qty_lo = 3
+			qty_hi = 6
+		else
+			qty_lo = 6
+			qty_hi = 14
+		mix[good] = max(1, round(rand(qty_lo, qty_hi) * order_size_mult))
 	O.required_items = mix
 	O.name = O.generate_name(region)
 	O.description = O.generate_description(region)
@@ -243,6 +276,9 @@ SUBSYSTEM_DEF(economy)
 		E.on_expire()
 		GLOB.active_economic_events -= E
 		record_round_statistic(STATS_ECON_EVENTS_EXPIRED, 1)
+		if(daily_report_diff)
+			var/list/ended = daily_report_diff["events_expired"]
+			ended += E.name
 		var/datum/standing_order/urgent/O = E.urgent_order_ref?.resolve()
 		if(O && !O.is_fulfilled)
 			GLOB.standing_order_pool -= O
@@ -289,9 +325,10 @@ SUBSYSTEM_DEF(economy)
 /datum/controller/subsystem/economy/proc/fulfill_order(mob/user, datum/standing_order/order)
 	if(!order || order.is_fulfilled)
 		return FALSE
-	if(order.unfulfillable)
+	var/datum/economic_region/ER = GLOB.economic_regions[order.region_id]
+	if(ER?.is_region_blockaded)
 		if(user)
-			to_chat(user, span_warning("This order is unfulfillable (region blockaded)."))
+			to_chat(user, span_warning("[ER.name] is blockaded — the order cannot be delivered until the road is cleared."))
 		return FALSE
 
 	for(var/good_id in order.required_items)
@@ -407,11 +444,6 @@ SUBSYSTEM_DEF(economy)
 	if(user)
 		log_game("MANUAL EXPORT by [user.ckey]: [quantity] [tg.name] to [region.name] (revenue [total_revenue]m)")
 	return total_revenue
-
-/datum/controller/subsystem/economy/proc/cancel_orders_for_region(region_id)
-	for(var/datum/standing_order/O as anything in GLOB.standing_order_pool)
-		if(O.region_id == region_id)
-			O.unfulfillable = TRUE
 
 /datum/controller/subsystem/economy/proc/get_best_import_region(good_id, exclude_blockaded = TRUE)
 	var/datum/trade_good/tg = GLOB.trade_goods[good_id]

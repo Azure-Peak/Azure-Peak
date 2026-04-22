@@ -68,6 +68,16 @@ type Charter = {
   cooldown_remaining: number;
 };
 
+type Blockade = {
+  region_id: string;
+  region_name: string;
+  threat_region: string;
+  faction_name: string;
+  day_started: number;
+  has_active_scroll: BooleanLike;
+  ref: string;
+};
+
 type Data = {
   dashboard: Dashboard;
   filter: Filter;
@@ -79,6 +89,7 @@ type Data = {
   simulated_player_scalar: number;
   effective_player_count: number;
   live_player_count: number;
+  blockades: Blockade[];
 };
 
 const STATUS_LABELS: Record<string, string> = {
@@ -118,6 +129,7 @@ export const EconomicPanel = () => {
     simulated_player_scalar,
     effective_player_count,
     live_player_count,
+    blockades,
   } = data;
 
   const [searchDraft, setSearchDraft] = useState(filter.search);
@@ -275,6 +287,53 @@ export const EconomicPanel = () => {
                   </Button>
                 </Stack.Item>
               </Stack>
+            </Section>
+          </Stack.Item>
+
+          <Stack.Item>
+            <Section title={`Blockades (${blockades.length} active)`}>
+              <Stack wrap mb={1}>
+                <Stack.Item>
+                  <Button.Confirm onClick={() => act('fire_blockade_roll')}>
+                    Fire Blockade Roll
+                  </Button.Confirm>
+                </Stack.Item>
+              </Stack>
+              {blockades.length === 0 ? (
+                <Box italic color="gray">
+                  No blockades active. Trade roads run clear.
+                </Box>
+              ) : (
+                <Table>
+                  <Table.Row header>
+                    <Table.Cell>Region</Table.Cell>
+                    <Table.Cell>Threat</Table.Cell>
+                    <Table.Cell>Faction</Table.Cell>
+                    <Table.Cell>Day</Table.Cell>
+                    <Table.Cell>Writ?</Table.Cell>
+                    <Table.Cell>&nbsp;</Table.Cell>
+                  </Table.Row>
+                  {blockades.map((b) => (
+                    <Table.Row key={b.ref}>
+                      <Table.Cell>{b.region_name}</Table.Cell>
+                      <Table.Cell>{b.threat_region}</Table.Cell>
+                      <Table.Cell>{b.faction_name}</Table.Cell>
+                      <Table.Cell>D{b.day_started}</Table.Cell>
+                      <Table.Cell>{b.has_active_scroll ? 'yes' : '-'}</Table.Cell>
+                      <Table.Cell>
+                        <Button.Confirm
+                          color="bad"
+                          onClick={() =>
+                            act('clear_blockade', { ref: b.ref })
+                          }
+                        >
+                          Force Clear
+                        </Button.Confirm>
+                      </Table.Cell>
+                    </Table.Row>
+                  ))}
+                </Table>
+              )}
             </Section>
           </Stack.Item>
 

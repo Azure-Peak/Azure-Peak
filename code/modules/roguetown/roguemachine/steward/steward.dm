@@ -1020,7 +1020,7 @@
 				continue
 			var/datum/economic_region/order_region = GLOB.economic_regions[O.region_id]
 			var/region_name = order_region ? order_region.name : O.region_id
-			var/blockade_tag = (order_region?.is_region_blockaded || O.unfulfillable) ? " <font color='#c44'>(BLOCKADED)</font>" : ""
+			var/blockade_tag = order_region?.is_region_blockaded ? " <font color='#c44'>(BLOCKADED)</font>" : ""
 			var/days_left = max(0, O.day_expires - GLOB.dayspassed)
 			contents += "<b>[O.name]</b> - [region_name][blockade_tag] - [days_left]d left - Payout: [O.total_payout]m<BR>"
 			var/items_text = ""
@@ -1045,8 +1045,8 @@
 				else
 					items_text += "<font color='#8a8'>[needed] [label]</font>"
 			contents += "Items: [items_text]<BR>"
-			if(O.unfulfillable)
-				contents += "<i>(unfulfillable - region blockaded)</i><BR>"
+			if(order_region?.is_region_blockaded)
+				contents += "<font color='#c84'>\[Fulfill\] - [order_region.name] is blockaded, the road must be cleared first.</font><BR>"
 			else if(can_fulfill)
 				contents += "<a href='?src=\ref[src];fulfill_order=\ref[O]'><font color='#5cb85c'>\[Fulfill\]</font></a><BR>"
 			else

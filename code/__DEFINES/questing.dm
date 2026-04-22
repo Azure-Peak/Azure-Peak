@@ -9,6 +9,7 @@
 #define QUEST_RAID "Raid"
 #define QUEST_BOUNTY "Bounty"
 #define QUEST_RECOVERY "Recovery"
+#define QUEST_BLOCKADE_DEFENSE "Blockade Defense"
 
 GLOBAL_LIST_INIT(defense_quest_tier_costs, list(
 	QUEST_KILL_EASY = BURGHER_PLEDGE_COST_TRIVIAL,
@@ -16,6 +17,7 @@ GLOBAL_LIST_INIT(defense_quest_tier_costs, list(
 	QUEST_RECOVERY = BURGHER_PLEDGE_COST_STANDARD,
 	QUEST_BOUNTY = BURGHER_PLEDGE_COST_MAJOR,
 	QUEST_RAID = BURGHER_PLEDGE_COST_MAJOR,
+	QUEST_BLOCKADE_DEFENSE = BLOCKADE_SCROLL_PLEDGE_COST,
 ))
 
 // Multipliers applied to spawned mob `threat_point` when computing kill quest additional reward.
@@ -113,6 +115,8 @@ GLOBAL_LIST_INIT(defense_quest_tier_costs, list(
 #define QUEST_SOURCE_RUMOR "rumor"
 // Steward-issued defense quest. Spent from Burgher Pledge authority.
 #define QUEST_SOURCE_DEFENSE "defense"
+// Steward-issued blockade defense quest. Three waves, timed, bearer-bond scroll.
+#define QUEST_SOURCE_BLOCKADE "blockade"
 // Towner-posted private bounty. Bypasses the crown levy — it is a peer-to-peer contract, not
 // a guild-certified one. Reserved for Module 6.
 #define QUEST_SOURCE_TOWNER "towner"

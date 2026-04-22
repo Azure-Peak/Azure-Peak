@@ -4,6 +4,7 @@
 	name_plural = "lich-bound deadites"
 	group_word = "horde"
 	faction_tag = FACTION_LICH
+	can_blockade = TRUE
 	mob_types = list(
 		/mob/living/carbon/human/species/skeleton/npc/mediumspread = 50,
 		/mob/living/carbon/human/species/skeleton/npc/hardspread = 50,

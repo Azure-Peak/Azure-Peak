@@ -18,9 +18,14 @@ GLOBAL_LIST_INIT(economic_regions, init_economic_regions())
 	var/list/possible_standing_order_types = list()
 	var/associated_marker_id
 	var/is_region_blockaded = FALSE
+	/// Null = this region cannot be blockaded.
+	var/threat_region_id
 
 	var/list/produces_today = list()
 	var/list/demands_today = list()
+
+	/// -1 = never cleared. Otherwise the cooldown window runs from this day.
+	var/day_last_cleared = -1
 
 /datum/economic_region/New()
 	. = ..()
@@ -32,6 +37,7 @@ GLOBAL_LIST_INIT(economic_regions, init_economic_regions())
 /datum/economic_region/kingsfield
 	region_id = TRADE_REGION_KINGSFIELD
 	name = "Kingsfield"
+	threat_region_id = THREAT_REGION_AZURE_BASIN
 	produces = list(
 		TRADE_GOOD_GRAIN = 8,
 		TRADE_GOOD_OATS = 4,
@@ -91,6 +97,7 @@ GLOBAL_LIST_INIT(economic_regions, init_economic_regions())
 /datum/economic_region/rosawood
 	region_id = TRADE_REGION_ROSAWOOD
 	name = "Rosawood"
+	threat_region_id = THREAT_REGION_AZURE_GROVE
 	produces = list(
 		TRADE_GOOD_WOOD = 10,
 		TRADE_GOOD_FIBERS = 8,
@@ -107,6 +114,7 @@ GLOBAL_LIST_INIT(economic_regions, init_economic_regions())
 /datum/economic_region/rockhill
 	region_id = TRADE_REGION_ROCKHILL
 	name = "Rockhill"
+	threat_region_id = THREAT_REGION_MOUNT_DECAP
 	produces = list(
 		TRADE_GOOD_APPLE = 4,
 		TRADE_GOOD_PEAR = 3,
@@ -123,6 +131,7 @@ GLOBAL_LIST_INIT(economic_regions, init_economic_regions())
 /datum/economic_region/daftsmarch
 	region_id = TRADE_REGION_DAFTSMARCH
 	name = "Daftsmarch"
+	threat_region_id = THREAT_REGION_UNDERDARK
 	produces = list(
 		TRADE_GOOD_IRON_ORE = 6,
 		TRADE_GOOD_COPPER_ORE = 4,
@@ -143,6 +152,7 @@ GLOBAL_LIST_INIT(economic_regions, init_economic_regions())
 /datum/economic_region/blackholt
 	region_id = TRADE_REGION_BLACKHOLT
 	name = "Blackholt"
+	threat_region_id = THREAT_REGION_TERRORBOG
 	produces = list(
 		TRADE_GOOD_SILK = 3,
 		TRADE_GOOD_VISCERA = 3,
@@ -157,6 +167,7 @@ GLOBAL_LIST_INIT(economic_regions, init_economic_regions())
 /datum/economic_region/saltwick
 	region_id = TRADE_REGION_SALTWICK
 	name = "Saltwick"
+	threat_region_id = THREAT_REGION_AZUREAN_COAST
 	produces = list(
 		TRADE_GOOD_FISH_FILET = 6,
 		TRADE_GOOD_FISH_MINCE = 4,
@@ -181,6 +192,7 @@ GLOBAL_LIST_INIT(economic_regions, init_economic_regions())
 /datum/economic_region/bleakcoast
 	region_id = TRADE_REGION_BLEAKCOAST
 	name = "Bleakcoast"
+	threat_region_id = THREAT_REGION_AZUREAN_COAST
 	produces = list()
 	demands = list(
 		TRADE_GOOD_STEEL_INGOT = 3,
@@ -210,6 +222,7 @@ GLOBAL_LIST_INIT(economic_regions, init_economic_regions())
 /datum/economic_region/northfort
 	region_id = TRADE_REGION_NORTHFORT
 	name = "Northfort"
+	threat_region_id = THREAT_REGION_MOUNT_DECAP
 	produces = list()
 	demands = list(
 		TRADE_GOOD_IRON_INGOT = 2,
@@ -240,6 +253,7 @@ GLOBAL_LIST_INIT(economic_regions, init_economic_regions())
 /datum/economic_region/heartfelt
 	region_id = TRADE_REGION_HEARTFELT
 	name = "Heartfelt"
+	threat_region_id = THREAT_REGION_AZURE_GROVE
 	produces = list()
 	demands = list(
 		TRADE_GOOD_STEEL_INGOT = 3,

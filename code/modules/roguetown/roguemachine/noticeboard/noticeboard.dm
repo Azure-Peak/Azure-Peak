@@ -10,7 +10,7 @@
 	layer = ABOVE_MOB_LAYER
 	plane = GAME_PLANE_UPPER
 	var/current_category = "Postings"
-	var/list/categories = list("Postings", "Premium Postings", "Scout Report", "Mercenary Roster", "Charters", "Trade Orders", "Economic Events")
+	var/list/categories = list("Postings", "Premium Postings", "Scout Report", "Mercenary Roster", "Charters", "Trade Orders", "Economic Events", "Blockades")
 
 /obj/structure/roguemachine/noticeboard/get_mechanics_examine(mob/user)
 	. = ..()
@@ -21,10 +21,23 @@
 	. += span_info("'Charters' display the current state of Azuria's four foundational Charters.")
 	. += span_info("'Trade Orders' list standing trade demands from every region. Speak with the Steward if you wish to help fulfill one.")
 	. += span_info("'Economic Events' warn of active shortages and gluts affecting trade prices across the realm.")
+	. += span_info("'Blockades' list regions where trade roads are cut by raiders. Pin a Steward's blockade writ here to open it to a Fellowship of three.")
 
 /obj/structure/roguemachine/noticeboard/Initialize()
 	. = ..()
 	SSroguemachine.noticeboards += src
+
+/obj/structure/roguemachine/noticeboard/attackby(obj/item/P, mob/living/carbon/human/user, params)
+	if(istype(P, /obj/item/paper/scroll/quest/blockade))
+		var/obj/item/paper/scroll/quest/blockade/B = P
+		if(B.assigned_quest?.required_fellowship_size >= BLOCKADE_FELLOWSHIP_REQUIREMENT)
+			to_chat(user, span_warning("This writ is already posted publicly."))
+			return
+		B.promote_to_board_gated()
+		to_chat(user, span_notice("You pin the [B.name] to the board. Any who take it must have a fellowship of [BLOCKADE_FELLOWSHIP_REQUIREMENT]."))
+		playsound(src, 'sound/items/inqslip_sealed.ogg', 50, TRUE, -1)
+		return
+	return ..()
 
 /datum/noticeboardpost
 	var/title
@@ -171,7 +184,7 @@
 			contents += "<div style='margin-bottom:10px'>"
 			if(is_urgent)
 				contents += "<font color='#c44'><b>URGENT</b></font> "
-			if(O.unfulfillable)
+			if(region?.is_region_blockaded)
 				contents += "<font color='#c44'><b>BLOCKADED</b></font> "
 			contents += "<b>[O.name]</b> &mdash; [region_name] &mdash; [days_left]d remaining<br>"
 			if(O.description)
@@ -192,6 +205,27 @@
 			contents += "<br><span class='notice'>No standing orders currently posted. Check back later.</span>"
 		else
 			contents += "<div style='margin-top:8px'><i>Speak with the Steward or Clerk at the Nerve Master to help fulfill an order.</i></div>"
+	else if(current_category == "Blockades")
+		contents += "<h2>Regional Blockades</h2>"
+		contents += "<hr></center>"
+		if(!length(GLOB.active_blockades))
+			contents += "<br><span class='notice'>No blockades are active. The trade roads run clear.</span>"
+		else
+			for(var/datum/blockade/B as anything in GLOB.active_blockades)
+				var/datum/economic_region/ER = B.get_region()
+				var/datum/quest_faction/F = B.get_faction()
+				var/region_label = ER ? ER.name : B.region_id
+				var/faction_label = F ? "[F.group_word] of [F.name_plural]" : B.faction_id
+				var/days_active = GLOB.dayspassed - B.day_started
+				contents += "<div style='margin-bottom:10px'>"
+				contents += "<font color='#c44'><b>BLOCKADED</b></font> <b>[region_label]</b> &mdash; [days_active]d active<br>"
+				contents += "Raiders: <i>[faction_label]</i><br>"
+				if(B.has_active_scroll())
+					contents += "<font color='#5cb85c'>A defense writ is in circulation - seek the bearer.</font><br>"
+				else
+					contents += "<i>Awaiting a Steward's defense writ.</i><br>"
+				contents += "</div><hr>"
+			contents += "<div style='margin-top:8px'><i>Defense writs are drafted by the Steward from the Contract Ledger. Pinning a writ here binds it to a Fellowship of [BLOCKADE_FELLOWSHIP_REQUIREMENT].</i></div>"
 	else if(current_category == "Economic Events")
 		contents += "<h2>Economic Events</h2>"
 		contents += "<hr></center>"
