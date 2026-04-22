@@ -171,7 +171,6 @@ SUBSYSTEM_DEF(treasury)
 	return FLOOR(balance * cap_rate, 1)
 
 /datum/controller/subsystem/treasury/proc/award_savings_goals()
-	var/threshold = SAVINGS_GOAL_THRESHOLD
 	var/met = 0
 	var/missed = 0
 	for(var/key in bank_accounts)
@@ -181,17 +180,27 @@ SUBSYSTEM_DEF(treasury)
 		var/mob/living/owner = account.get_owner()
 		if(!owner || !owner.mind)
 			continue
-		var/on_person = 0
-		on_person = get_mammons_in_atom(owner) || 0
+		var/threshold = SAVINGS_GOAL_THRESHOLD
+		var/list/modifiers = list()
+		if(HAS_TRAIT(owner, TRAIT_NOBLE))
+			threshold += SAVINGS_GOAL_NOBLE_BUMP
+			modifiers += "noble"
+		if(ishuman(owner))
+			var/mob/living/carbon/human/H = owner
+			if(istype(H.charflaw, /datum/charflaw/greedy))
+				threshold += SAVINGS_GOAL_GREEDY_BUMP
+				modifiers += "greedy"
+		var/modifier_text = length(modifiers) ? " as [jointext(modifiers, ", ")]" : ""
+		var/on_person = get_mammons_in_atom(owner) || 0
 		var/in_bank = account.balance
 		var/total = on_person + in_bank
 		if(total >= threshold)
 			owner.mind.adjust_triumphs(3)
 			met++
-			to_chat(owner, "<font color='purple'>You met the Savings Goal ([total]m total)! +3 TRIUMPHS awarded.</font>")
+			to_chat(owner, "<font color='purple'>You met your Savings Goal ([total]m total, needed [threshold]m[modifier_text])! +3 TRIUMPHS awarded.</font>")
 		else
 			missed++
-			to_chat(owner, "<font color='gray'>You fell short of the Savings Goal (had [total]m, needed [threshold]m).</font>")
+			to_chat(owner, "<font color='gray'>You fell short of your Savings Goal (had [total]m, needed [threshold]m[modifier_text]).</font>")
 	record_round_statistic(STATS_SAVINGS_GOAL_MET, met)
 	record_round_statistic(STATS_SAVINGS_GOAL_MISSED, missed)
 	return list("met" = met, "missed" = missed)
