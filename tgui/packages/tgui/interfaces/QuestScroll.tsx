@@ -21,7 +21,6 @@ type QuestScrollData = {
   levy_exempt?: BooleanLike;
   is_rumor?: BooleanLike;
   is_defense?: BooleanLike;
-  giver_name_for_return?: string | null;
 };
 
 const parchment: React.CSSProperties = {
@@ -237,18 +236,6 @@ export const QuestScroll = () => {
               >
                 Place it on the marked area next to the book.
               </div>
-              {data.giver_name_for_return && (
-                <div
-                  style={{
-                    textAlign: 'center',
-                    fontStyle: 'italic',
-                    marginTop: '8px',
-                  }}
-                >
-                  Return this to <b>{data.giver_name_for_return}</b> for
-                  increased pay.
-                </div>
-              )}
             </>
           ) : (
             <>
@@ -263,18 +250,6 @@ export const QuestScroll = () => {
               >
                 The magic in this scroll will update as you progress.
               </div>
-              {data.giver_name_for_return && (
-                <div
-                  style={{
-                    textAlign: 'center',
-                    fontStyle: 'italic',
-                    marginTop: '8px',
-                  }}
-                >
-                  Returning this to <b>{data.giver_name_for_return}</b> upon
-                  completion will yield increased pay.
-                </div>
-              )}
             </>
           )}
 

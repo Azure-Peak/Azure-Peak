@@ -198,7 +198,6 @@ GLOBAL_LIST_EMPTY(quest_scrolls)
 	data["progress_required"] = assigned_quest.progress_required
 	data["is_rumor"] = assigned_quest.source == QUEST_SOURCE_RUMOR
 	data["is_defense"] = assigned_quest.source == QUEST_SOURCE_DEFENSE
-	data["giver_name_for_return"] = assigned_quest.quest_giver_reference ? assigned_quest.quest_giver_name : null
 	return data
 
 /obj/item/paper/scroll/quest/ui_data(mob/user)
@@ -243,12 +242,8 @@ GLOBAL_LIST_EMPTY(quest_scrolls)
 		scroll_text += "<br><center><b>CONTRACT COMPLETE</b></center>"
 		scroll_text += "<br><b>Return this scroll to the Notice Board to claim your reward!</b>"
 		scroll_text += "<br><i>Place it on the marked area next to the book.</i>"
-		if(assigned_quest.quest_giver_reference)
-			scroll_text += "<br><br><i>Return this to [assigned_quest.quest_giver_name] for increased pay!</i>"
 	else
 		scroll_text += "<br><i>The magic in this scroll will update as you progress.</i>"
-		if(assigned_quest.quest_giver_reference)
-			scroll_text += "<br><br><i>Returning this to [assigned_quest.quest_giver_name] upon completion will yield increased pay!</i>"
 
 	if(assigned_quest.levy_exempt)
 		scroll_text += "<br><br><center><i>By Royal Seal and Ducal Prerogative, the bearer of this contract is held exempt from the Crown's Levy upon its reward.</i></center>"

@@ -60,7 +60,6 @@ GLOBAL_LIST_INIT(defense_quest_tier_costs, list(
 #define QUEST_DEPOSIT_MEDIUM 10
 #define QUEST_DEPOSIT_HARD 20
 
-#define QUEST_HANDLER_REWARD_MULTIPLIER 2
 
 // Jobs may override via /datum/job.max_active_quests.
 #define QUEST_MAX_ACTIVE_PER_PLAYER 2

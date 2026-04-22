@@ -62,9 +62,7 @@
 
 	var/base_reward = scroll.assigned_quest.reward_amount
 	var/deposit_return = scroll.assigned_quest.calculate_deposit()
-	var/datum/job/mob_job = user.job ? SSjob.GetJob(user.job) : null
-	var/gross_reward = (mob_job?.is_quest_giver ? base_reward * QUEST_HANDLER_REWARD_MULTIPLIER : base_reward) + deposit_return
-	gross_reward = round(gross_reward)
+	var/gross_reward = round(base_reward + deposit_return)
 	var/original_reward = base_reward + deposit_return
 
 	var/datum/quest/completed_quest = scroll.assigned_quest
