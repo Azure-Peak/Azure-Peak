@@ -211,6 +211,11 @@ export const EconomicPanel = () => {
                     Award Savings Goals (test)
                   </Button.Confirm>
                 </Stack.Item>
+                <Stack.Item>
+                  <Button.Confirm onClick={() => act('fire_economy_tick')}>
+                    Fire Economy Tick
+                  </Button.Confirm>
+                </Stack.Item>
               </Stack>
             </Section>
           </Stack.Item>

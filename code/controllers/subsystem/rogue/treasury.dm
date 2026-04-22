@@ -323,6 +323,9 @@ SUBSYSTEM_DEF(treasury)
 				if(give_money_account(payment_amount, H, "Daily Wage"))
 					record_round_statistic(STATS_WAGES_PAID)
 
+	if(SSeconomy)
+		SSeconomy.daily_tick()
+
 /datum/controller/subsystem/treasury/proc/tick_rumor_points()
 	var/active = get_active_player_count()
 	var/refill = RUMOR_POINTS_BASE_REFILL + (RUMOR_POINTS_PER_PLAYER * active)
