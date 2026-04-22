@@ -2,31 +2,26 @@
 	var/name = ""
 	var/desc = ""
 	var/item_type = null
-	/// Units currently held in the local stockpile. Replaces the legacy `held_items` list.
 	var/stockpile_amount = 0
+	/// Single price for both deposit (Crown pays player) and withdraw (player pays Crown).
+	/// Crown no longer profits from internal arbitrage - margin comes from external trade.
 	var/payout_price = 1
-	var/withdraw_price = 1
 	var/withdraw_disabled = FALSE
 	var/demand = 100
-	// If the type of item is a mint item it will be reminted into coins
 	var/mint_item = FALSE
-	var/export_price = 1
-	// Limit for stockpile. Only accounted for if it is not mint_item
-	var/stockpile_limit = 100 // Limit beyond which the stockpile will just eat your things for free. Very high limit just to be safe you should define it directly.
-	//how many of the items are consumed/spawned when exporting/importing
+	var/stockpile_limit = 100
 	var/importexport_amt = 10
 	var/export_only = FALSE
 	var/stable_price = FALSE
 	var/percent_bounty = FALSE
-	var/category = "Raw Materials" // Category for the stockpile
+	var/category = "Raw Materials"
 	/// Links this stockpile entry to a /datum/trade_good for region-based pricing and events.
-	/// If set, deposit pricing uses trade_good.base_price * TRADE_STOCKPILE_BUY_DISCOUNT
-	/// modulated by trade_good.global_price_mod. If null, uses legacy static payout_price.
 	var/trade_good_id
-	/// Steward-controlled toggle. When FALSE, the stockpile refuses deposits of this item
-	/// with a "Crown has no interest" say() message. Default TRUE for raw/intermediary,
-	/// FALSE for gems (via override in the concrete gem entries).
+	/// Steward toggle. When FALSE, stockpile refuses deposits with a say() message.
 	var/accept_toggle_enabled = TRUE
+	/// When TRUE, payout_price auto-follows trade_good.base_price * TRADE_STOCKPILE_BUY_DISCOUNT * global_price_mod.
+	/// When FALSE, payout_price stays at whatever the Steward set. Steward "set price" UI unpegs automatically.
+	var/pegged = TRUE
 
 /datum/roguestock/New()
 	..()
@@ -49,17 +44,29 @@
 			return FALSE
 	return TRUE
 
-/datum/roguestock/proc/get_export_price()
-	var/spread = SStreasury.trade_spread
-	var/amount = round((export_price*importexport_amt) * (demand/100))
-	amount = amount - round(spread*amount)
-	return max(amount, 0)
+/// Refresh payout_price from the trade_good catalog when pegged. Called before every transaction.
+/// No-op for unpegged entries or entries without a trade_good_id.
+/datum/roguestock/proc/refresh_pegged_price()
+	if(!pegged || !trade_good_id)
+		return
+	var/datum/trade_good/tg = GLOB.trade_goods[trade_good_id]
+	if(!tg)
+		return
+	payout_price = max(1, round(tg.base_price * TRADE_STOCKPILE_BUY_DISCOUNT * tg.global_price_mod))
 
+/// Legacy export price, now computed via SSeconomy best-export-region routing if a trade_good is attached.
+/// Falls back to payout_price * importexport_amt for entries without trade_good linkage.
+/datum/roguestock/proc/get_export_price()
+	if(trade_good_id && SSeconomy)
+		var/list/best = SSeconomy.get_best_export_region(trade_good_id)
+		if(best && best["unit_price"])
+			return round(best["unit_price"] * importexport_amt)
+	return payout_price * importexport_amt
+
+/// Legacy import price, used by a handful of UIs. Crown imports via region now route through SSeconomy;
+/// this remains a fallback reading payout_price directly.
 /datum/roguestock/proc/get_import_price()
-	var/spread = SStreasury.trade_spread
-	var/amount = round((export_price*importexport_amt) * (demand/100))
-	amount = amount + round(spread*amount)
-	return max(amount, 5)
+	return payout_price * importexport_amt
 
 /datum/roguestock/proc/lower_demand()
 	if(stable_price)

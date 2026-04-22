@@ -7,7 +7,7 @@
 	blade_dulling = DULLING_BASH
 	pixel_y = 32
 	var/current_category = "Raw Materials"
-	var/list/categories = list("Raw Materials", "Fruit", "Vegetable", "Animal","Seafood")
+	var/list/categories = list("Raw Materials", "Refined", "Alchemy", "Fruit", "Vegetable", "Animal", "Seafood", "Precious")
 	var/datum/withdraw_tab/withdraw_tab = null
 
 /obj/structure/roguemachine/stockpile/get_mechanics_examine(mob/user)
@@ -165,23 +165,30 @@
 		if(istype(I, /obj/item/natural/bundle))
 			var/obj/item/natural/bundle/B = I
 			if(B.stacktype == R.item_type)
+				if(!R.accept_toggle_enabled)
+					if(message)
+						say("The Crown has no interest in [R.name] at this time.")
+					return
 				if(below_floor && !R.mint_item)
 					if(message)
 						say("The Crown's ledger is thin. No purchases today.")
 					return
+				var/bundle_amt = B.amount
 				var/nopay = R.stockpile_amount >= R.stockpile_limit // Check whether it is overflowed BEFORE nopaying them
-				R.stockpile_amount += B.amount
+				R.stockpile_amount += bundle_amt
 				if(message == TRUE)
-					stock_announce("[B.amount] units of [R.name] has been stockpiled.")
+					stock_announce("[bundle_amt] units of [R.name] has been stockpiled.")
 				qdel(B)
 				if(sound == TRUE)
 					playsound(loc, 'sound/misc/hiss.ogg', 100, FALSE, -1)
+				R.refresh_pegged_price()
+				var/per_unit = R.payout_price
 				if(nopay)
-					SStreasury.economic_output += R.export_price * B.amount // Still count
+					SStreasury.economic_output += per_unit * bundle_amt // Still count
 					say("Stockpile is full, no payment.")
 				else
-					var/amt = R.payout_price * B.amount
-					SStreasury.economic_output += R.export_price * B.amount
+					var/amt = per_unit * bundle_amt
+					SStreasury.economic_output += amt
 					SStreasury.give_money_account(amt, H, "+[amt] from [R.name] bounty")
 					record_round_statistic(STATS_STOCKPILE_EXPANSES, amt)
 			continue
@@ -193,11 +200,39 @@
 				if(message)
 					say("This is town property, it cannot be minted here.")
 				return
+			// Steward-controlled accept toggle.
+			// - For mint_eligible goods (gems): falls through to the /bounty/treasure datum later in
+			//   the loop, so rejected gems still mint as treasure instead of bouncing back to the player.
+			// - For other goods (raw, refined, alchemy): refuses with a message. Item stays in hand.
+			if(!R.accept_toggle_enabled)
+				var/datum/trade_good/tg_reject = R.trade_good_id ? GLOB.trade_goods[R.trade_good_id] : null
+				if(tg_reject && tg_reject.mint_eligible)
+					continue
+				if(message)
+					say("The Crown has no interest in [R.name] at this time.")
+				return
 			// Treasure / mint items bypass the purchase floor - they generate mammon rather than spending it.
 			if(below_floor && !R.mint_item)
 				if(message)
 					say("The Crown's ledger is thin. No purchases today.")
 				return
+			// Trade-good overflow mint branch. If this entry is linked to a mint_eligible
+			// trade good (gems) and the stockpile is at limit, overflow mints to Crown's Purse
+			// using the existing treasure-mint path. Takes precedence over no-pay overflow.
+			if(R.trade_good_id && !R.mint_item && R.stockpile_amount >= R.stockpile_limit)
+				var/datum/trade_good/tg_overflow = GLOB.trade_goods[R.trade_good_id]
+				if(tg_overflow && tg_overflow.mint_eligible)
+					var/mint_amt = round(tg_overflow.base_price * SStreasury.mint_multiplier)
+					SStreasury.minted += mint_amt
+					SStreasury.mint(SStreasury.discretionary_fund, mint_amt, "Gem overflow mint: [tg_overflow.name]")
+					record_round_statistic(STATS_MINTED_TREASURE_GROSS, mint_amt)
+					qdel(I)
+					if(sound == TRUE)
+						playsound(loc, 'sound/misc/hiss.ogg', 100, FALSE, -1)
+						playsound(loc, 'sound/misc/disposalflush.ogg', 100, FALSE, -1)
+					say("[tg_overflow.name] overflow - minted to Crown's Purse.")
+					return
+			R.refresh_pegged_price()
 			var/amt = R.get_payout_price(I)
 			var/true_value = I.get_real_price()
 			var/nopay = !R.mint_item && R.stockpile_amount >= R.stockpile_limit // Check whether it is overflowed BEFORE nopaying them

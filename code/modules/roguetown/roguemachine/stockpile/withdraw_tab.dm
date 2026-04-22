@@ -2,7 +2,7 @@
 	var/budget = 0
 	var/compact = TRUE
 	var/current_category = "Raw Materials"
-	var/list/categories = list("Raw Materials", "Fruit", "Vegetable", "Animal","Seafood")
+	var/list/categories = list("Raw Materials", "Refined", "Alchemy", "Fruit", "Vegetable", "Animal", "Seafood", "Precious")
 	var/obj/structure/roguemachine/parent_structure = null
 
 /datum/withdraw_tab/New(obj/structure/roguemachine/structure_param)
@@ -33,8 +33,9 @@
 		for(var/datum/roguestock/stockpile/A in SStreasury.stockpile_datums)
 			if(A.category != current_category)
 				continue
+			A.refresh_pegged_price()
 			if(!A.withdraw_disabled)
-				contents += "<b>[A.name] (Max: [A.stockpile_limit]):</b> <a href='?src=[REF(parent_structure)];withdraw=[REF(A)]'>[A.stockpile_amount] at [A.withdraw_price]m</a><BR>"
+				contents += "<b>[A.name] (Max: [A.stockpile_limit]):</b> <a href='?src=[REF(parent_structure)];withdraw=[REF(A)]'>[A.stockpile_amount] at [A.payout_price]m</a><BR>"
 			else
 				contents += "<b>[A.name]:</b> Withdrawing Disabled..."
 
@@ -42,11 +43,12 @@
 		for(var/datum/roguestock/stockpile/A in SStreasury.stockpile_datums)
 			if(A.category != current_category)
 				continue
+			A.refresh_pegged_price()
 			contents += "[A.name]<BR>"
 			contents += "[A.desc]<BR>"
 			contents += "Stockpiled Amount: [A.stockpile_amount]<BR>"
 			if(!A.withdraw_disabled)
-				contents += "<a href='?src=[REF(parent_structure)];withdraw=[REF(A)]'>\[Withdraw ([A.withdraw_price])\]</a><BR><BR>"
+				contents += "<a href='?src=[REF(parent_structure)];withdraw=[REF(A)]'>\[Withdraw ([A.payout_price])\]</a><BR><BR>"
 			else
 				contents += "Withdrawing Disabled...<BR><BR>"
 
@@ -55,10 +57,11 @@
 /datum/withdraw_tab/proc/perform_action(href, href_list)
 	if(href_list["withdraw"])
 		var/datum/roguestock/D = locate(href_list["withdraw"]) in SStreasury.stockpile_datums
-		var/total_price = D.withdraw_price
-
 		if(!D)
 			return FALSE
+		D.refresh_pegged_price()
+		var/total_price = D.payout_price
+
 		if(D.withdraw_disabled)
 			return FALSE
 		if(D.stockpile_amount <= 0)
@@ -80,9 +83,8 @@
 		else
 			D.stockpile_amount--
 			budget -= total_price
-			SStreasury.economic_output -= D.export_price // Prevent GDP double counting
-			SStreasury.mint(SStreasury.discretionary_fund, D.withdraw_price, "stockpile withdraw")
-			record_round_statistic(STATS_STOCKPILE_REVENUE, D.withdraw_price)
+			SStreasury.mint(SStreasury.discretionary_fund, total_price, "stockpile withdraw")
+			record_round_statistic(STATS_STOCKPILE_REVENUE, total_price)
 			var/obj/item/I = new D.item_type(parent_structure.loc)
 			var/mob/user = usr
 			if(!user.put_in_hands(I))

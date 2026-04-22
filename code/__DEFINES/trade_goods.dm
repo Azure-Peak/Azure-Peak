@@ -21,7 +21,6 @@
 #define TRADE_GOOD_STEEL_INGOT "STEEL_INGOT"
 #define TRADE_GOOD_GOLD_INGOT "GOLD_INGOT"
 #define TRADE_GOOD_SILVER_INGOT "SILVER_INGOT"
-#define TRADE_GOOD_QUICKSILVER "QUICKSILVER"
 
 #define TRADE_GOOD_TOPER "TOPER"
 #define TRADE_GOOD_GEMERALD "GEMERALD"
@@ -81,10 +80,10 @@
 
 // ---- Sellprices ----
 // Minerals
-#define SELLPRICE_IRON_ORE 5
-#define SELLPRICE_COPPER_ORE 3
-#define SELLPRICE_TIN_ORE 4
-#define SELLPRICE_COAL 1
+#define SELLPRICE_IRON_ORE 8
+#define SELLPRICE_COPPER_ORE 6
+#define SELLPRICE_TIN_ORE 7
+#define SELLPRICE_COAL 4
 #define SELLPRICE_STONE 1
 #define SELLPRICE_CINNABAR 5
 #define SELLPRICE_SALT 4
@@ -92,16 +91,16 @@
 
 // Precious ores
 #define SELLPRICE_GOLD_ORE 50
-#define SELLPRICE_SILVER_ORE 75
+#define SELLPRICE_SILVER_ORE 80
 
-// Intermediaries
-#define SELLPRICE_IRON_INGOT 15
-#define SELLPRICE_COPPER_INGOT 10
-#define SELLPRICE_TIN_INGOT 15
-#define SELLPRICE_STEEL_INGOT 20
-#define SELLPRICE_GOLD_INGOT 100
+// Intermediaries - priced just above their ore so smelting-to-stockpile is unprofitable for
+// purchased ore but still worthwhile for looted/scavenged ore (e.g. bog iron from mob drops).
+#define SELLPRICE_IRON_INGOT 10
+#define SELLPRICE_COPPER_INGOT 7
+#define SELLPRICE_TIN_INGOT 8
+#define SELLPRICE_STEEL_INGOT 14
+#define SELLPRICE_GOLD_INGOT 60
 #define SELLPRICE_SILVER_INGOT 80
-#define SELLPRICE_QUICKSILVER 15
 
 // Gems
 #define SELLPRICE_TOPER 34

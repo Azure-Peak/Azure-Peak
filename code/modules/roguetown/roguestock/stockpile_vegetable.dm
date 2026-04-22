@@ -7,9 +7,8 @@
 	name = "Grain"
 	desc = "Spelt grain."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/wheat
+	trade_good_id = TRADE_GOOD_GRAIN
 	payout_price = 2
-	withdraw_price = 2
-	export_price = 3
 	importexport_amt = 10
 	stockpile_limit = 50
 	category = "Vegetable" //Not entirely accurate but it looks prettier in UI
@@ -18,9 +17,8 @@
 	name = "Oats"
 	desc = "A cereal grain."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/oat
+	trade_good_id = TRADE_GOOD_OATS
 	payout_price = 2
-	withdraw_price = 2
-	export_price = 3
 	importexport_amt = 10
 	stockpile_limit = 50
 	category = "Vegetable"
@@ -29,9 +27,8 @@
 	name = "Rice"
 	desc = "A grain used for cooking."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/rice
+	trade_good_id = TRADE_GOOD_RICE
 	payout_price = 2
-	withdraw_price = 2
-	export_price = 3
 	importexport_amt = 10
 	stockpile_limit = 50
 	category = "Vegetable"
@@ -40,9 +37,8 @@
 	name = "Cabbage"
 	desc = "A leafy vegetable."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/cabbage/rogue
+	trade_good_id = TRADE_GOOD_CABBAGE
 	payout_price = 2
-	withdraw_price = 2
-	export_price = 3
 	importexport_amt = 10
 	stockpile_limit = 50
 	category = "Vegetable"
@@ -51,9 +47,8 @@
 	name = "Potato"
 	desc = "An interesting tuber."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/potato/rogue
+	trade_good_id = TRADE_GOOD_POTATO
 	payout_price = 2
-	withdraw_price = 2
-	export_price = 3
 	importexport_amt = 10
 	stockpile_limit = 50
 	category = "Vegetable"
@@ -62,9 +57,8 @@
 	name = "Onion"
 	desc = "A bulb vegetable."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/onion/rogue
+	trade_good_id = TRADE_GOOD_ONION
 	payout_price = 2
-	withdraw_price = 2
-	export_price = 3
 	importexport_amt = 10
 	stockpile_limit = 50
 	category = "Vegetable"
@@ -74,8 +68,6 @@
 	desc = "A pungent root vegetable."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/garlick/rogue
 	payout_price = 2
-	withdraw_price = 2
-	export_price = 3
 	importexport_amt = 10
 	stockpile_limit = 50
 	category = "Vegetable"
@@ -84,9 +76,8 @@
 	name = "Turnip"
 	desc = "A hardy root vegetable suitable for soups. Favored by the poor"
 	item_type = /obj/item/reagent_containers/food/snacks/grown/vegetable/turnip
+	trade_good_id = TRADE_GOOD_TURNIP
 	payout_price = 2
-	withdraw_price = 2
-	export_price = 3
 	importexport_amt = 10
 	stockpile_limit = 50
 	category = "Vegetable"
@@ -95,9 +86,8 @@
 	name = "Carrot"
 	desc = "A long vegetable said to help with eyesight."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/carrot
+	trade_good_id = TRADE_GOOD_CARROT
 	payout_price = 2
-	withdraw_price = 2
-	export_price = 3
 	importexport_amt = 10
 	stockpile_limit = 50
 	category = "Vegetable"
@@ -107,8 +97,6 @@
 	desc = "A refreshing, long and green vegetable."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/cucumber
 	payout_price = 2
-	withdraw_price = 2
-	export_price = 3
 	importexport_amt = 10
 	stockpile_limit = 50
 	category = "Vegetable"
@@ -118,8 +106,6 @@
 	desc = "A large, purple vegetable with a mild taste."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/eggplant
 	payout_price = 2
-	withdraw_price = 2
-	export_price = 3
 	importexport_amt = 10
 	stockpile_limit = 50
 	category = "Vegetable"
@@ -132,8 +118,6 @@
 	export_only = TRUE
 
 	payout_price = 4
-	withdraw_price = 10
-	export_price = 6
 	importexport_amt = 10
 	stockpile_limit = 50
 	category = "Vegetable"
@@ -143,8 +127,6 @@
 	desc = "The seed of the coffee plant, used to make a stimulating drink."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/coffeebeans
 	payout_price = 3
-	withdraw_price = 3
-	export_price = 3
 	importexport_amt = 10
 	stockpile_limit = 50
 	category = "Vegetable"
@@ -154,8 +136,6 @@
 	desc = "Dried tea leaves from the tea plant. Can be grounded and brewed to make tea."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/rogue/tealeaves_dry
 	payout_price = 3
-	withdraw_price = 3
-	export_price = 3
 	importexport_amt = 10
 	stockpile_limit = 50
 	category = "Vegetable"
@@ -164,9 +144,8 @@
 	name = "Poppy"
 	desc = "A seed with a sedative effect."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/rogue/poppy
+	trade_good_id = TRADE_GOOD_POPPY
 	payout_price = 2
-	withdraw_price = 2
-	export_price = 4
 	importexport_amt = 10
 	stockpile_limit = 50
 	category = "Vegetable"
@@ -179,8 +158,6 @@
 	export_only = TRUE
 
 	payout_price = 2
-	withdraw_price = 6
-	export_price = 4
 	importexport_amt = 10
 	stockpile_limit = 50
 	category = "Vegetable"

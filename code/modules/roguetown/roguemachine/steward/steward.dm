@@ -26,7 +26,7 @@
 	var/total_deposit = 0
 	var/list/excluded_jobs = list("Wretch","Vagabond","Adventurer")
 	var/current_category = "Raw Materials"
-	var/list/categories = list("Raw Materials", "Fruit", "Vegetable", "Animal", "Seafood", "Precious")
+	var/list/categories = list("Raw Materials", "Refined", "Alchemy", "Fruit", "Vegetable", "Animal", "Seafood", "Precious")
 	var/list/daily_payments = list() // Associative list: job name -> payment amount
 	var/residency_print_cooldown = 0
 
@@ -183,6 +183,7 @@
 				if(newtax > D.payout_price)
 					scom_announce("The bounty for [D.name] was increased.")
 				D.payout_price = newtax
+				D.pegged = FALSE
 		else
 			var/newtax = input(usr, "Set a new percent for [D.name]", src, D.payout_price) as null|num
 			if(newtax)
@@ -194,21 +195,38 @@
 				if(newtax > D.payout_price)
 					scom_announce("The bounty for [D.name] was increased.")
 				D.payout_price = newtax
-	if(href_list["setprice"])
-		var/datum/roguestock/D = locate(href_list["setprice"]) in SStreasury.stockpile_datums
+				D.pegged = FALSE
+	if(href_list["togglepeg"])
+		var/datum/roguestock/D = locate(href_list["togglepeg"]) in SStreasury.stockpile_datums
 		if(!D)
 			return
-		if(!D.percent_bounty)
-			var/newtax = input(usr, "Set a new price to withdraw [D.name]", src, D.withdraw_price) as null|num
-			if(newtax)
-				if(!usr.canUseTopic(src, BE_CLOSE) || locked)
-					return
-				if(findtext(num2text(newtax), "."))
-					return
-				newtax = CLAMP(newtax, 0, 999)
-				if(newtax < D.withdraw_price)
-					scom_announce("The withdraw price for [D.name] was decreased.")
-				D.withdraw_price = newtax
+		D.pegged = !D.pegged
+		if(D.pegged)
+			D.refresh_pegged_price()
+	if(href_list["pegall"])
+		for(var/datum/roguestock/stockpile/A in SStreasury.stockpile_datums)
+			A.pegged = TRUE
+			A.refresh_pegged_price()
+		scom_announce("All stockpile prices re-pegged to market.")
+	if(href_list["priceallmult"])
+		var/mult = input(usr, "Multiply ALL stockpile prices by (e.g. 1.2 for +20%). Unpegs each entry.", src, 1.0) as null|num
+		if(mult && mult > 0)
+			for(var/datum/roguestock/stockpile/A in SStreasury.stockpile_datums)
+				A.refresh_pegged_price()
+				A.payout_price = max(1, round(A.payout_price * mult))
+				A.pegged = FALSE
+			scom_announce("Steward adjusted all stockpile prices by x[mult].")
+	if(href_list["pricecatmult"])
+		var/catname = href_list["pricecatmult"]
+		var/mult = input(usr, "Multiply [catname] category prices by (e.g. 1.2 for +20%). Unpegs each entry.", src, 1.0) as null|num
+		if(mult && mult > 0)
+			for(var/datum/roguestock/stockpile/A in SStreasury.stockpile_datums)
+				if(A.category != catname)
+					continue
+				A.refresh_pegged_price()
+				A.payout_price = max(1, round(A.payout_price * mult))
+				A.pegged = FALSE
+			scom_announce("Steward adjusted [catname] stockpile prices by x[mult].")
 	if(href_list["setlimit"])
 		var/datum/roguestock/D = locate(href_list["setlimit"]) in SStreasury.stockpile_datums
 		if(!D)
@@ -529,60 +547,49 @@
 			contents += " <a href='?src=\ref[src];compact=1'>\[Compact: [compact? "ENABLED" : "DISABLED"]\]</a><BR>"
 			contents += "<center>Stockpile<BR>"
 			contents += "--------------<BR>"
+			// Refresh pegged prices so display and action read the current market value.
+			for(var/datum/roguestock/stockpile/A in SStreasury.stockpile_datums)
+				A.refresh_pegged_price()
+			contents += "Treasury: [SStreasury.discretionary_fund.balance]m</center><BR>"
+			contents += "<center>Auto Export Stockpile Above: "
+			contents += "<a href='?src=\ref[src];changeautoexport=1'>[SStreasury.autoexport_percentage * 100]%</a></center><BR>"
+			contents += "<center><a href='?src=\ref[src];pegall=1'>\[Peg All\]</a> <a href='?src=\ref[src];priceallmult=1'>\[Global Margin x\]</a> <a href='?src=\ref[src];pricecatmult=[current_category]'>\[[current_category] Margin x\]</a></center><BR>"
+			var/selection = "<center>Categories: "
+			for(var/category in categories)
+				if(category == current_category)
+					selection += "<b>[current_category]</b> "
+				else
+					selection += "<a href='?src=[REF(src)];changecat=[category]'>[category]</a> "
+			contents += selection + "<BR>"
+			contents += "--------------</center><BR>"
 			if(compact)
-				contents += "Treasury: [SStreasury.discretionary_fund.balance]m</center><BR>"
-				contents += "<center>Auto Export Stockpile Above: "
-				contents += "<a href='?src=\ref[src];changeautoexport=1'>[SStreasury.autoexport_percentage * 100]%</a></center><BR>"
-				var/selection = "<center>Categories: "
-				for(var/category in categories)
-					if(category == current_category)
-						selection += "<b>[current_category]</b> "
-					else
-						selection += "<a href='?src=[REF(src)];changecat=[category]'>[category]</a> "
-				contents += selection + "<BR>"
-				contents += "--------------</center><BR>"
 				for(var/datum/roguestock/stockpile/A in SStreasury.stockpile_datums)
 					if(A.category != current_category)
 						continue
+					if(!A.accept_toggle_enabled)
+						contents += "<font color='#888'><b>[A.name]:</b> NOT ACCEPTED</font> <a href='?src=\ref[src];toggleaccept=\ref[A]'>\[Enable\]</a><BR>"
+						continue
+					var/peg_tag = A.pegged ? "<font color='#8a8'>(P)</font>" : "<font color='#c84'>(U)</font>"
 					contents += "<b>[A.name]:</b>"
 					contents += " [A.stockpile_amount]"
-					contents += " | SELL: <a href='?src=\ref[src];setbounty=\ref[A]'>[A.payout_price]m</a>"
-					contents += " / BUY: <a href='?src=\ref[src];setprice=\ref[A]'>[A.withdraw_price]m</a>"
+					contents += " | PRICE: <a href='?src=\ref[src];setbounty=\ref[A]'>[A.payout_price]m</a> [peg_tag] <a href='?src=\ref[src];togglepeg=\ref[A]'>\[[A.pegged ? "Unpeg" : "Peg"]\]</a>"
 					contents += " / LIMIT: <a href='?src=\ref[src];setlimit=\ref[A]'>[A.stockpile_limit]</a>"
-					contents += " <a href='?src=\ref[src];toggleaccept=\ref[A]'>\[[A.accept_toggle_enabled ? "ACCEPT: ON" : "ACCEPT: OFF"]\]</a>"
-					if(!A.export_only)
-						if(A.importexport_amt)
-							contents += " <a href='?src=\ref[src];import=\ref[A]'>\[IMP [A.importexport_amt] ([A.get_import_price()])\]</a> <a href='?src=\ref[src];export=\ref[A]'>\[EXP [A.importexport_amt] ([A.get_export_price()])\]</a> <BR>"
-					else
-						if(A.importexport_amt)
-							contents += " <a href='?src=\ref[src];export=\ref[A]'>\[EXP [A.importexport_amt] ([A.get_export_price()])\]</a> <BR>"
-			
+					contents += " <a href='?src=\ref[src];toggleaccept=\ref[A]'>\[ACCEPT: ON\]</a><BR>"
 			else
-				contents += "Treasury: [SStreasury.discretionary_fund.balance]m</center><BR>"
-				var/selection = "<center>Categories: "
-				for(var/category in categories)
-					if(category == current_category)
-						selection += "<b>[current_category]</b> "
-					else
-						selection += "<a href='?src=[REF(src)];changecat=[category]'>[category]</a> "
-				contents += selection + "<BR>"
-				contents += "--------------</center><BR>"
 				for(var/datum/roguestock/stockpile/A in SStreasury.stockpile_datums)
 					if(A.category != current_category)
 						continue
+					if(!A.accept_toggle_enabled)
+						contents += "<font color='#888'>[A.name] - NOT ACCEPTED</font><BR>"
+						contents += "<font color='#888'>[A.desc]</font><BR>"
+						contents += "<a href='?src=\ref[src];toggleaccept=\ref[A]'>\[Enable Accepting\]</a><BR><BR>"
+						continue
+					var/peg_tag = A.pegged ? "<font color='#8a8'>PEGGED</font>" : "<font color='#c84'>UNPEGGED</font>"
 					contents += "[A.name]<BR>"
 					contents += "[A.desc]<BR>"
-					contents += "Stockpiled Amount: [A.stockpile_amount]<BR>"
-					contents += "Bounty Price: <a href='?src=\ref[src];setbounty=\ref[A]'>[A.payout_price]</a><BR>"
-					contents += "Withdraw Price: <a href='?src=\ref[src];setprice=\ref[A]'>[A.withdraw_price]</a><BR>"
-					contents += "Demand: [A.demand2word()]<BR>"
-					if(!A.export_only)
-						if(A.importexport_amt)
-							contents += "<a href='?src=\ref[src];import=\ref[A]'>\[Import [A.importexport_amt] ([A.get_import_price()])\]</a> <a href='?src=\ref[src];export=\ref[A]'>\[Export [A.importexport_amt] ([A.get_export_price()])\]</a> <BR>"
-					else
-						if(A.importexport_amt)
-							contents += " <a href='?src=\ref[src];export=\ref[A]'>\[Export [A.importexport_amt] ([A.get_export_price()])\]</a> <BR>"
-					contents += "<a href='?src=\ref[src];togglewithdraw=\ref[A]'>\[[A.withdraw_disabled ? "Enable" : "Disable"] Withdrawing\]</a> <a href='?src=\ref[src];toggleaccept=\ref[A]'>\[Accept Deposits: [A.accept_toggle_enabled ? "ON" : "OFF"]\]</a><BR><BR>"
+					contents += "Stockpiled Amount: [A.stockpile_amount] / <a href='?src=\ref[src];setlimit=\ref[A]'>[A.stockpile_limit]</a><BR>"
+					contents += "Price: <a href='?src=\ref[src];setbounty=\ref[A]'>[A.payout_price]m</a> [peg_tag] <a href='?src=\ref[src];togglepeg=\ref[A]'>\[[A.pegged ? "Unpeg" : "Peg"]\]</a><BR>"
+					contents += "<a href='?src=\ref[src];togglewithdraw=\ref[A]'>\[[A.withdraw_disabled ? "Enable" : "Disable"] Withdrawing\]</a> <a href='?src=\ref[src];toggleaccept=\ref[A]'>\[Accept Deposits: ON\]</a><BR><BR>"
 		if(TAB_IMPORT)
 			contents += "<a href='?src=\ref[src];switchtab=[TAB_MAIN]'>\[Return\]</a>"
 			contents += " <a href='?src=\ref[src];compact=1'>\[Compact: [compact? "ENABLED" : "DISABLED"]\]</a><BR>"
@@ -591,13 +598,14 @@
 			if(compact)
 				contents += "Treasury: [SStreasury.discretionary_fund.balance]m</center><BR>"
 				for(var/datum/crown_import/A in GLOB.crown_imports)
-					var/blockade_tag = A.is_blockaded() ? " <font color='#c44'>[BLOCKADED]</font>" : ""
+					var/blockade_tag = A.is_blockaded() ? " <font color='#c44'>(BLOCKADED)</font>" : ""
 					contents += "<b>[A.name][blockade_tag]:</b>"
 					contents += " <a href='?src=\ref[src];import=\ref[A]'>\[Import [A.import_amt] ([A.get_import_price()])\]</a><BR><BR>"
 			else
 				contents += "Treasury: [SStreasury.discretionary_fund.balance]m</center><BR>"
 				for(var/datum/crown_import/A in GLOB.crown_imports)
-					contents += "[A.name][A.is_blockaded() ? " <font color='#c44'>[BLOCKADED - 2x COST]</font>" : ""]<BR>"
+					var/blockade_tag_full = A.is_blockaded() ? " <font color='#c44'>(BLOCKADED - 2x COST)</font>" : ""
+					contents += "[A.name][blockade_tag_full]<BR>"
 					contents += "[A.desc]<BR>"
 					contents += "<a href='?src=\ref[src];import=\ref[A]'>\[Import [A.import_amt] ([A.get_import_price()])\]</a><BR><BR>"
 		if(TAB_BOUNTIES)
