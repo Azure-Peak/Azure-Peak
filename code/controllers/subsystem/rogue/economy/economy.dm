@@ -19,6 +19,18 @@ SUBSYSTEM_DEF(economy)
 
 /datum/controller/subsystem/economy/Initialize()
 	populate_standing_order_templates()
+	// Allocate the diff so roundstart events/blockades are captured. The first daily_tick
+	// appends to it (rather than resetting) so the Steward's first morning report covers
+	// Day 0's rolls too.
+	daily_report_diff = list(
+		"day" = GLOB.dayspassed,
+		"events_fired" = list(),
+		"events_expired" = list(),
+		"blockades_fired" = list(),
+		"blockades_cleared" = list(),
+		"orders_rolled" = 0,
+		"urgent_rolled" = 0,
+	)
 	roundstart_events()
 	roundstart_blockades()
 	return ..()
@@ -32,6 +44,8 @@ SUBSYSTEM_DEF(economy)
 			/datum/standing_order/demand_exotic,
 			/datum/standing_order/demand_fishery,
 			/datum/standing_order/demand_orchard,
+			/datum/standing_order/demand_equipment_armaments,
+			/datum/standing_order/demand_equipment_armor,
 		),
 		TRADE_REGION_ROSAWOOD = list(
 			/datum/standing_order/demand_construction,
@@ -58,17 +72,23 @@ SUBSYSTEM_DEF(economy)
 			/datum/standing_order/demand_armaments,
 			/datum/standing_order/demand_fishery,
 			/datum/standing_order/demand_construction,
+			/datum/standing_order/demand_equipment_armaments,
+			/datum/standing_order/demand_equipment_armor,
 		),
 		TRADE_REGION_NORTHFORT = list(
 			/datum/standing_order/demand_rations,
 			/datum/standing_order/demand_armaments,
 			/datum/standing_order/demand_construction,
+			/datum/standing_order/demand_equipment_armaments,
+			/datum/standing_order/demand_equipment_armor,
 		),
 		TRADE_REGION_HEARTFELT = list(
 			/datum/standing_order/demand_rations,
 			/datum/standing_order/demand_armaments,
 			/datum/standing_order/demand_textile,
 			/datum/standing_order/demand_orchard,
+			/datum/standing_order/demand_equipment_armaments,
+			/datum/standing_order/demand_equipment_armor,
 		),
 	)
 	for(var/region_id in mapping)
@@ -82,15 +102,18 @@ SUBSYSTEM_DEF(economy)
 		return
 	last_processed_day = GLOB.dayspassed
 
-	daily_report_diff = list(
-		"day" = GLOB.dayspassed,
-		"events_fired" = list(),
-		"events_expired" = list(),
-		"blockades_fired" = list(),
-		"blockades_cleared" = list(),
-		"orders_rolled" = 0,
-		"urgent_rolled" = 0,
-	)
+	// Roundstart Initialize pre-allocates the diff so Day 0 rolls are captured. Subsequent
+	// ticks allocate a fresh diff here. Either way, the day is stamped to the current one.
+	if(!daily_report_diff)
+		daily_report_diff = list(
+			"events_fired" = list(),
+			"events_expired" = list(),
+			"blockades_fired" = list(),
+			"blockades_cleared" = list(),
+			"orders_rolled" = 0,
+			"urgent_rolled" = 0,
+		)
+	daily_report_diff["day"] = GLOB.dayspassed
 
 	// Pop-scaled daily reset: larger rounds have proportionally more commerce.
 	var/effective_pop = get_effective_player_count()
@@ -120,6 +143,7 @@ SUBSYSTEM_DEF(economy)
 	expire_economic_events()
 	roll_economic_events()
 	tick_scheduled_blockades()
+	tick_banditry_drain()
 
 	if(GLOB.standing_order_pool.len < STANDING_ORDERS_POOL_CAP)
 		var/total_to_roll = min(STANDING_ORDERS_MAX_PER_DAY, STANDING_ORDERS_BASE_PER_DAY + round(effective_pop * STANDING_ORDERS_PER_ACTIVE_PLAYER))
@@ -331,6 +355,9 @@ SUBSYSTEM_DEF(economy)
 			to_chat(user, span_warning("[ER.name] is blockaded — the order cannot be delivered until the road is cleared."))
 		return FALSE
 
+	if(order_is_equipment(order))
+		return fulfill_equipment_order(user, order)
+
 	for(var/good_id in order.required_items)
 		var/required = order.required_items[good_id]
 		var/datum/roguestock/stockpile_entry = find_stockpile_by_trade_good(good_id)
@@ -351,6 +378,70 @@ SUBSYSTEM_DEF(economy)
 	GLOB.standing_order_pool -= order
 	if(user)
 		log_game("STANDING ORDER FULFILLED by [user.ckey]: [order.name] (+[order.total_payout]m)")
+	return TRUE
+
+/datum/controller/subsystem/economy/proc/order_is_equipment(datum/standing_order/order)
+	for(var/good_id in order.required_items)
+		var/datum/trade_good/tg = GLOB.trade_goods[good_id]
+		if(tg?.behavior == TRADE_BEHAVIOR_EQUIPMENT)
+			return TRUE
+	return FALSE
+
+/// Scans the 3x3 around every registered steward_export machine for finished equipment,
+/// two-pass: count first, then consume only if everything required is present.
+/datum/controller/subsystem/economy/proc/fulfill_equipment_order(mob/user, datum/standing_order/order)
+	if(!length(GLOB.steward_export_machines))
+		if(user)
+			to_chat(user, span_warning("No warehouse dock manifest is registered. Cannot fulfill equipment orders."))
+		return FALSE
+
+	var/list/found_by_good = list()
+	var/list/matched_items_by_good = list()
+	for(var/good_id in order.required_items)
+		found_by_good[good_id] = 0
+		matched_items_by_good[good_id] = list()
+
+	for(var/obj/structure/roguemachine/steward_export/M as anything in GLOB.steward_export_machines)
+		if(QDELETED(M))
+			continue
+		for(var/obj/item/I in view(1, M))
+			for(var/good_id in order.required_items)
+				var/datum/trade_good/tg = GLOB.trade_goods[good_id]
+				if(!tg || tg.behavior != TRADE_BEHAVIOR_EQUIPMENT)
+					continue
+				if(!tg.item_type || !istype(I, tg.item_type))
+					continue
+				// Exact-type match (not subtypes) to avoid counting donator/unique subtypes
+				// against Crown manifest orders.
+				if(I.type != tg.item_type)
+					continue
+				if(found_by_good[good_id] >= order.required_items[good_id])
+					continue
+				found_by_good[good_id]++
+				matched_items_by_good[good_id] += I
+				break
+
+	for(var/good_id in order.required_items)
+		var/need = order.required_items[good_id]
+		var/have = found_by_good[good_id]
+		if(have < need)
+			var/datum/trade_good/tg = GLOB.trade_goods[good_id]
+			var/label = tg ? tg.name : good_id
+			if(user)
+				to_chat(user, span_warning("Warehouse short on [label]: have [have], need [need]."))
+			return FALSE
+
+	for(var/good_id in order.required_items)
+		for(var/obj/item/I as anything in matched_items_by_good[good_id])
+			qdel(I)
+
+	SStreasury.mint(SStreasury.discretionary_fund, order.total_payout, "Standing Order: [order.name]")
+	record_round_statistic(STATS_STANDING_ORDER_REVENUE, order.total_payout)
+	record_round_statistic(STATS_STANDING_ORDERS_FULFILLED, 1)
+	order.is_fulfilled = TRUE
+	GLOB.standing_order_pool -= order
+	if(user)
+		log_game("STANDING ORDER (EQUIPMENT) FULFILLED by [user.ckey]: [order.name] (+[order.total_payout]m)")
 	return TRUE
 
 /datum/controller/subsystem/economy/proc/find_stockpile_by_trade_good(good_id)

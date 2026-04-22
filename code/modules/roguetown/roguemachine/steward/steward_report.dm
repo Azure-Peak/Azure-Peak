@@ -27,6 +27,8 @@
 	var/list/events_expired = diff["events_expired"]
 	var/list/blockades_fired = diff["blockades_fired"]
 	var/list/blockades_cleared = diff["blockades_cleared"]
+	var/list/banditry_lines = diff["banditry_drain_lines"]
+	var/banditry_total = diff["banditry_drain_total"] || 0
 	var/orders_rolled = diff["orders_rolled"] || 0
 	var/urgent_rolled = diff["urgent_rolled"] || 0
 	var/day = diff["day"] || GLOB.dayspassed
@@ -54,12 +56,17 @@
 		for(var/line in events_expired)
 			body += "&nbsp;&nbsp;- [line]<br>"
 		body += "<br>"
+	if(banditry_total > 0)
+		body += "<b>Financial losses from banditry:</b> <font color='#c44'>-[banditry_total]m</font><br>"
+		for(var/line in banditry_lines)
+			body += "&nbsp;&nbsp;- [line]<br>"
+		body += "<br>"
 	if(orders_rolled)
 		body += "<b>Standing orders posted this morning:</b> [orders_rolled]"
 		if(urgent_rolled)
 			body += " ([urgent_rolled] urgent)"
 		body += "<br><br>"
-	if(!length(blockades_fired) && !length(blockades_cleared) && !length(events_fired) && !length(events_expired) && !orders_rolled)
+	if(!length(blockades_fired) && !length(blockades_cleared) && !length(events_fired) && !length(events_expired) && !orders_rolled && banditry_total <= 0)
 		body += "<i>The roads are quiet. No shipment was disturbed overnight.</i><br>"
 
 	body += "<hr><center><i>Consult the Contract Ledger to commission a response.</i></center>"

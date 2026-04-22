@@ -186,6 +186,8 @@
 				contents += "<font color='#c44'><b>URGENT</b></font> "
 			if(region?.is_region_blockaded)
 				contents += "<font color='#c44'><b>BLOCKADED</b></font> "
+			if(SSeconomy.order_is_equipment(O))
+				contents += "<font color='#88c'><b>WAREHOUSE</b></font> "
 			contents += "<b>[O.name]</b> &mdash; [region_name] &mdash; [days_left]d remaining<br>"
 			if(O.description)
 				contents += "<i>[O.description]</i><br>"
@@ -204,7 +206,7 @@
 		if(!orders_shown)
 			contents += "<br><span class='notice'>No standing orders currently posted. Check back later.</span>"
 		else
-			contents += "<div style='margin-top:8px'><i>Speak with the Steward or Clerk at the Nerve Master to help fulfill an order.</i></div>"
+			contents += "<div style='margin-top:8px'><i>Speak with the Steward or Clerk at the Nerve Master to fulfill a stockpile order. WAREHOUSE-tagged orders require finished goods to be left at the dock manifest for Crown collection.</i></div>"
 	else if(current_category == "Blockades")
 		contents += "<h2>Regional Blockades</h2>"
 		contents += "<hr></center>"

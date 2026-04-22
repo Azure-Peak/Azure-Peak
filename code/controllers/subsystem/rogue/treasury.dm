@@ -79,8 +79,12 @@ SUBSYSTEM_DEF(treasury)
 	var/list/defense_log = list()
 
 /datum/controller/subsystem/treasury/Initialize()
-	// Roundstart Crown's Purse = purchase floor + random buffer so deposits are immediately possible.
-	discretionary_fund = new("Crown's Purse", null, STOCKPILE_CROWN_PURCHASE_FLOOR_DEFAULT + rand(500, 1500), CURRENCY_MAMMON)
+	// Roundstart Crown's Purse = purchase floor + random buffer + pop-scaled seed. Pop scaling
+	// covers the payroll burden (highpop full-roster = ~600m/day) so a low-rolled purse
+	// at full garrison doesn't trigger immediate insolvency.
+	var/roundstart_pop = get_active_player_count()
+	var/seed = STOCKPILE_CROWN_PURCHASE_FLOOR_DEFAULT + rand(500, 1500) + (roundstart_pop * CROWN_PURSE_SEED_PER_PLAYER)
+	discretionary_fund = new("Crown's Purse", null, seed, CURRENCY_MAMMON)
 	burgher_pledge_fund = new("Burgher Pledge", null, BURGHER_PLEDGE_BASE_REFILL * BURGHER_PLEDGE_ROUNDSTART_MULTIPLIER, CURRENCY_BURGHER_PLEDGE)
 	force_set_round_statistic(STATS_STARTING_TREASURY, discretionary_fund.balance)
 	init_decrees()

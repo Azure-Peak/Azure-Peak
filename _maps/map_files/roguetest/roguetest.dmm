@@ -1583,6 +1583,10 @@
 "YX" = (
 /turf/open/floor/rogue/ruinedwood/herringbone,
 /area/rogue/indoors)
+"YZ" = (
+/obj/structure/roguemachine/steward_export,
+/turf/open/floor/rogue/dirt/road,
+/area/rogue/outdoors)
 "Zu" = (
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/warehouse)
@@ -3019,7 +3023,7 @@ rT
 rb
 rT
 rT
-rT
+YZ
 rT
 Yf
 hq

@@ -274,3 +274,119 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 	if(E)
 		return "<b>URGENT:</b> [region.name] is suffering from [E.name]. [buyer] are paying a premium to resolve the crisis."
 	return "<b>URGENT:</b> [buyer] in [region.name] have declared an emergency requisition."
+
+
+// ============================================================================
+// demand_equipment_armaments - finished weapons for a garrison
+// ============================================================================
+/datum/standing_order/demand_equipment_armaments
+	var/list/project_by_region = list(
+		TRADE_REGION_BLEAKCOAST = list("the admiralty", "the coastal garrison", "the navy armory"),
+		TRADE_REGION_NORTHFORT = list("the border guard", "the northern garrison", "the tarichean watch"),
+		TRADE_REGION_HEARTFELT = list("the march guard", "the retinue", "the garrison armory"),
+		TRADE_REGION_KINGSFIELD = list("the Crown's armory", "a local armsmaster"),
+	)
+	var/list/one_ingot_pool = list(
+		TRADE_GOOD_STEEL_ARMING_SWORD,
+		TRADE_GOOD_STEEL_SHORTSWORD,
+		TRADE_GOOD_STEEL_FALCHION,
+		TRADE_GOOD_STEEL_MESSER,
+		TRADE_GOOD_STEEL_SABRE,
+		TRADE_GOOD_STEEL_MACE,
+		TRADE_GOOD_STEEL_FLANGED_MACE,
+		TRADE_GOOD_STEEL_FLAIL,
+	)
+	var/list/two_ingot_pool = list(
+		TRADE_GOOD_STEEL_LONGSWORD,
+		TRADE_GOOD_STEEL_BROADSWORD,
+		TRADE_GOOD_STEEL_WARHAMMER,
+		TRADE_GOOD_STEEL_BATTLEAXE,
+		TRADE_GOOD_HURLBAT,
+	)
+
+/datum/standing_order/demand_equipment_armaments/generate_item_mix()
+	var/list/mix = list()
+	var/primary_one = pick(one_ingot_pool)
+	mix[primary_one] = rand(3, 5)
+	if(prob(55))
+		var/secondary_two = pick(two_ingot_pool)
+		mix[secondary_two] = rand(1, 2)
+	// Bows are cheap and plentiful — garrison archer lines want quivers of them.
+	if(prob(55))
+		mix[TRADE_GOOD_RECURVE_BOW] = rand(4, 8)
+	return mix
+
+/datum/standing_order/demand_equipment_armaments/generate_name(datum/economic_region/region)
+	return "[uppertext(region.name)] - ARMS ORDER"
+
+/datum/standing_order/demand_equipment_armaments/generate_description(datum/economic_region/region)
+	var/list/projects = project_by_region[region.region_id]
+	if(length(projects))
+		return "[capitalize(pick(projects))] at [region.name] requires finished arms, to be left at the warehouse."
+	return "A garrison at [region.name] requires finished arms, to be left at the warehouse."
+
+
+// ============================================================================
+// demand_equipment_armor - finished armor for a garrison
+// ============================================================================
+/datum/standing_order/demand_equipment_armor
+	var/list/project_by_region = list(
+		TRADE_REGION_BLEAKCOAST = list("the admiralty", "the coastal garrison", "the navy armory"),
+		TRADE_REGION_NORTHFORT = list("the border guard", "the northern garrison", "the tarichean watch"),
+		TRADE_REGION_HEARTFELT = list("the march guard", "the retinue", "the garrison armory"),
+		TRADE_REGION_KINGSFIELD = list("the Crown's armory", "a knightly house"),
+	)
+	var/list/soft_pool = list(
+		TRADE_GOOD_PADDED_GAMBESON,
+		TRADE_GOOD_HEAVY_LEATHER_COAT,
+	)
+	var/list/chain_pool = list(
+		TRADE_GOOD_STEEL_CHAINMAIL,
+		TRADE_GOOD_STEEL_HAUBERK,
+		TRADE_GOOD_BRIGANDINE,
+		TRADE_GOOD_BRIGANDINE_HEAVY,
+	)
+	var/list/plate_pool = list(
+		TRADE_GOOD_STEEL_CUIRASS,
+		TRADE_GOOD_STEEL_COATPLATES,
+		TRADE_GOOD_STEEL_HALFPLATE,
+		TRADE_GOOD_STEEL_FULLPLATE,
+	)
+	var/list/helm_pool = list(
+		TRADE_GOOD_STEEL_HELM_KNIGHT,
+		TRADE_GOOD_STEEL_HELM_BASCINET,
+		TRADE_GOOD_STEEL_HELM_KETTLE,
+	)
+	var/list/extremity_pool = list(
+		TRADE_GOOD_STEEL_MASK,
+		TRADE_GOOD_CHAIN_GLOVES,
+		TRADE_GOOD_PLATE_GAUNTLETS,
+		TRADE_GOOD_STEEL_PLATE_LEGS,
+	)
+
+/datum/standing_order/demand_equipment_armor/generate_item_mix()
+	var/list/mix = list()
+	// Armor orders stay small in qty — a garrison outfits a handful of soldiers per order,
+	// not a whole company. Payout per piece is high enough that 1-2 units is valuable.
+	var/chain_or_plate = prob(60) ? chain_pool : plate_pool
+	var/core = pick(chain_or_plate)
+	mix[core] = rand(1, 2)
+	if(prob(60))
+		var/soft = pick(soft_pool)
+		mix[soft] = rand(1, 2)
+	if(prob(55))
+		var/helm = pick(helm_pool)
+		mix[helm] = rand(1, 2)
+	if(prob(45))
+		var/extremity = pick(extremity_pool)
+		mix[extremity] = rand(1, 3)
+	return mix
+
+/datum/standing_order/demand_equipment_armor/generate_name(datum/economic_region/region)
+	return "[uppertext(region.name)] - HARNESS ORDER"
+
+/datum/standing_order/demand_equipment_armor/generate_description(datum/economic_region/region)
+	var/list/projects = project_by_region[region.region_id]
+	if(length(projects))
+		return "[capitalize(pick(projects))] at [region.name] requires finished harness, to be left at the warehouse."
+	return "A garrison at [region.name] requires finished harness, to be left at the warehouse."

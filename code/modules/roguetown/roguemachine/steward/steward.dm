@@ -996,6 +996,13 @@
 	if(length(blockaded_names))
 		contents += "<center><font color='#c44'><b>BLOCKADED REGIONS: [jointext(blockaded_names, ", ")]</b></font></center><BR>"
 
+	// Projected banditry drain (next daily tick).
+	var/list/banditry_preview = SSeconomy.preview_banditry_drain()
+	if(banditry_preview["total"] > 0)
+		contents += "<center><font color='#c44'><b>PROJECTED BANDITRY LOSSES: -[banditry_preview["total"]]m next dawn</b></font></center><BR>"
+		for(var/line in banditry_preview["lines"])
+			contents += "<center><font color='#c84'>[line]</font></center><BR>"
+
 	// Active economic events banner
 	if(length(GLOB.active_economic_events))
 		contents += "<center><b>ACTIVE ECONOMIC EVENTS</b><BR>"
@@ -1022,31 +1029,39 @@
 			var/region_name = order_region ? order_region.name : O.region_id
 			var/blockade_tag = order_region?.is_region_blockaded ? " <font color='#c44'>(BLOCKADED)</font>" : ""
 			var/days_left = max(0, O.day_expires - GLOB.dayspassed)
-			contents += "<b>[O.name]</b> - [region_name][blockade_tag] - [days_left]d left - Payout: [O.total_payout]m<BR>"
+			var/is_equipment = SSeconomy.order_is_equipment(O)
+			var/equipment_tag = is_equipment ? " <font color='#88c'>(WAREHOUSE)</font>" : ""
+			contents += "<b>[O.name]</b> - [region_name][blockade_tag][equipment_tag] - [days_left]d left - Payout: [O.total_payout]m<BR>"
 			var/items_text = ""
 			var/first = TRUE
 			var/can_fulfill = TRUE
 			var/shortfall_text = ""
 			for(var/good_id in O.required_items)
 				var/needed = O.required_items[good_id]
-				var/datum/roguestock/entry = SSeconomy.find_stockpile_by_trade_good(good_id)
-				var/have = entry ? entry.stockpile_amount : 0
 				var/datum/trade_good/tg = GLOB.trade_goods[good_id]
 				var/label = tg ? tg.name : good_id
 				if(!first)
 					items_text += ", "
 				first = FALSE
-				if(have < needed)
-					items_text += "<font color='#c44'>[needed] [label] ([have])</font>"
-					can_fulfill = FALSE
-					if(shortfall_text != "")
-						shortfall_text += ", "
-					shortfall_text += "need [needed - have] more [label]"
-				else
+				if(is_equipment)
+					// No stockpile inventory for equipment goods; items live on the warehouse floor.
 					items_text += "<font color='#8a8'>[needed] [label]</font>"
+				else
+					var/datum/roguestock/entry = SSeconomy.find_stockpile_by_trade_good(good_id)
+					var/have = entry ? entry.stockpile_amount : 0
+					if(have < needed)
+						items_text += "<font color='#c44'>[needed] [label] ([have])</font>"
+						can_fulfill = FALSE
+						if(shortfall_text != "")
+							shortfall_text += ", "
+						shortfall_text += "need [needed - have] more [label]"
+					else
+						items_text += "<font color='#8a8'>[needed] [label]</font>"
 			contents += "Items: [items_text]<BR>"
 			if(order_region?.is_region_blockaded)
 				contents += "<font color='#c84'>\[Fulfill\] - [order_region.name] is blockaded, the road must be cleared first.</font><BR>"
+			else if(is_equipment)
+				contents += "<a href='?src=\ref[src];fulfill_order=\ref[O]'><font color='#5cb85c'>\[Fulfill from Warehouse\]</font></a><BR>"
 			else if(can_fulfill)
 				contents += "<a href='?src=\ref[src];fulfill_order=\ref[O]'><font color='#5cb85c'>\[Fulfill\]</font></a><BR>"
 			else

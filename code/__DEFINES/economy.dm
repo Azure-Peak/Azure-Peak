@@ -16,6 +16,8 @@
 #define TRADE_BEHAVIOR_RAW "raw"
 #define TRADE_BEHAVIOR_INTERMEDIARY "intermediary"
 #define TRADE_BEHAVIOR_GEM "gem"
+// Finished equipment. Fulfilled via warehouse tiles, not stockpile deposits.
+#define TRADE_BEHAVIOR_EQUIPMENT "equipment"
 
 #define TRADE_REGION_KINGSFIELD "kingsfield"
 #define TRADE_REGION_ROSAWOOD "rosawood"
@@ -80,6 +82,15 @@
 #define ECON_EVENT_NARRATIVE "narrative"
 #define ECON_EVENT_TARGET_COUNT 5
 #define ECON_EVENT_ROUNDSTART_COUNT 3
+
+// Banditry drain — TEMPORARY consequence for neglected threat regions.
+// Each Dangerous / Bleak region bleeds a percentage of Crown's Purse per daily tick.
+// Percentage (not flat) so a rich Crown feels the hit while a poor Crown is never
+// driven to insolvency by banditry alone. No pop scaling — the percentage of purse
+// already self-adjusts (lowpop round = poor purse = small absolute drain).
+// TODO: Stand-in for proper raid/siege mechanics. Delete this system when raids ship.
+#define BANDITRY_DRAIN_DANGEROUS_PCT 0.06
+#define BANDITRY_DRAIN_BLEAK_PCT 0.12
 
 // Blockades
 #define BLOCKADE_ROUNDSTART_COUNT_MIN 2

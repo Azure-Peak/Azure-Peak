@@ -70570,6 +70570,10 @@
 /obj/machinery/light/rogue/candle,
 /turf/open/floor/carpet/purple,
 /area/rogue/indoors/town/church/basement)
+"oLk" = (
+/obj/structure/roguemachine/steward_export,
+/turf/open/floor/rogue/blocks/newstone/alt,
+/area/rogue/indoors/town/warehouse)
 "oLm" = (
 /obj/structure/bars/cemetery,
 /turf/open/floor/rogue/grass,
@@ -277609,7 +277613,7 @@ rKJ
 lrx
 qLE
 neg
-neg
+oLk
 neg
 qLE
 els
