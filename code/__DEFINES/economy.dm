@@ -29,11 +29,26 @@
 
 #define STANDING_ORDER_DURATION 2
 
+// Order count is NOT pop-scaled. Each order's size scales with pop instead via
+// STANDING_ORDER_POP_SCALE_PER_PLAYER - this avoids drowning a single Steward in
+// order-count triage while still proportioning Crown throughput to the player economy.
 #define STANDING_ORDERS_BASE_PER_DAY 2
-#define STANDING_ORDERS_PER_ACTIVE_PLAYER 0.05
+#define STANDING_ORDERS_PER_ACTIVE_PLAYER 0
 #define STANDING_ORDERS_MAX_PER_DAY 10
 #define STANDING_ORDERS_POOL_CAP 10
 #define STANDING_ORDERS_MAX_PER_REGION 2
+
+// Additive payout bonuses over base_price. Regular standing orders pay base * (1 + BASE_BONUS)
+// per unit; urgent orders pay base * (1 + BASE_BONUS + URGENT_EXTRA) per unit. No multiplier
+// stacking. Event price_mod applies on top as a separate multiplicand.
+#define STANDING_ORDER_BASE_BONUS 0.75
+#define URGENT_ORDER_EXTRA_BONUS 0.75
+
+// Standing order size scales with active player count so the Crown's throughput matches
+// the player economy. Size scales (not count) - a single Steward can only triage so many
+// orders per day, but each one getting bigger keeps the scope per action manageable.
+#define STANDING_ORDER_POP_SCALE_PER_PLAYER 0.03
+#define STANDING_ORDER_POP_SCALE_MAX 3.0
 
 // Per-unit price escalation past a region's daily production/demand.
 // Import is the baseline: import_unit = base_price * (1 + overshoot * slope) * global_price_mod * blockade_mult.
@@ -56,3 +71,13 @@
 
 #define REGION_POP_SCALE_PER_PLAYER 0.025
 #define REGION_POP_SCALE_MAX 3.0
+
+// Economic events: shortage/oversupply surges that bend trade_good.global_price_mod
+// for a fixed window. Shortages also spawn a single bonus-pay urgent standing order.
+#define ECON_EVENT_DURATION 2
+#define ECON_EVENT_SHORTAGE "shortage"
+#define ECON_EVENT_OVERSUPPLY "oversupply"
+#define ECON_EVENT_NARRATIVE "narrative"
+#define ECON_EVENT_TARGET_COUNT 3
+#define ECON_EVENT_ROUNDSTART_COUNT 2
+

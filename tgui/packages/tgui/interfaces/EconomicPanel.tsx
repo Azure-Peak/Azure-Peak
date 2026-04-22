@@ -76,6 +76,9 @@ type Data = {
   selected: PlayerRow | null;
   day: number;
   charters: Charter[];
+  simulated_player_scalar: number;
+  effective_player_count: number;
+  live_player_count: number;
 };
 
 const STATUS_LABELS: Record<string, string> = {
@@ -104,7 +107,18 @@ const CATEGORY_LABELS: Record<string, string> = {
 
 export const EconomicPanel = () => {
   const { act, data } = useBackend<Data>();
-  const { dashboard, filter, filter_options, players, selected, day, charters } = data;
+  const {
+    dashboard,
+    filter,
+    filter_options,
+    players,
+    selected,
+    day,
+    charters,
+    simulated_player_scalar,
+    effective_player_count,
+    live_player_count,
+  } = data;
 
   const [searchDraft, setSearchDraft] = useState(filter.search);
   const [mintAmount, setMintAmount] = useState(100);
@@ -112,6 +126,7 @@ export const EconomicPanel = () => {
   const [bulkAdvanceDays, setBulkAdvanceDays] = useState(1);
   const [playerAdvanceDays, setPlayerAdvanceDays] = useState(1);
   const [playerMintAmount, setPlayerMintAmount] = useState(50);
+  const [simPop, setSimPop] = useState(simulated_player_scalar);
 
   const applyFilter = (overrides: Partial<Filter> = {}) => {
     act('set_filter', {
@@ -215,6 +230,49 @@ export const EconomicPanel = () => {
                   <Button.Confirm onClick={() => act('fire_economy_tick')}>
                     Fire Economy Tick
                   </Button.Confirm>
+                </Stack.Item>
+              </Stack>
+            </Section>
+          </Stack.Item>
+
+          <Stack.Item>
+            <Section title="Simulated Population (economy pop scaling)">
+              <Box mb={1} color="label">
+                Live active players: <b>{live_player_count}</b>.
+                Effective count used by economy pop scaling:{' '}
+                <b>{effective_player_count}</b>
+                {simulated_player_scalar > 0 ? ' (admin override)' : ' (live)'}.
+                Set 0 to use the live count.
+              </Box>
+              <Stack align="center">
+                <Stack.Item>Simulated:</Stack.Item>
+                <Stack.Item>
+                  <NumberInput
+                    step={1}
+                    minValue={0}
+                    maxValue={500}
+                    value={simPop}
+                    onChange={(v: number) => setSimPop(v)}
+                  />
+                </Stack.Item>
+                <Stack.Item>
+                  <Button.Confirm
+                    onClick={() =>
+                      act('set_simulated_population', { amount: simPop })
+                    }
+                  >
+                    Apply
+                  </Button.Confirm>
+                </Stack.Item>
+                <Stack.Item>
+                  <Button
+                    onClick={() => {
+                      setSimPop(0);
+                      act('set_simulated_population', { amount: 0 });
+                    }}
+                  >
+                    Clear override
+                  </Button>
                 </Stack.Item>
               </Stack>
             </Section>

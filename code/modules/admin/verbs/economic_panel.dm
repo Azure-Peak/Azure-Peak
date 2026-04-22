@@ -65,6 +65,9 @@ GLOBAL_DATUM_INIT(economic_panel, /datum/economic_panel, new)
 				break
 	data["day"] = GLOB.dayspassed
 	data["charters"] = SStreasury.compute_charter_states()
+	data["simulated_player_scalar"] = SSeconomy?.simulated_player_scalar || 0
+	data["effective_player_count"] = SSeconomy?.get_effective_player_count() || 0
+	data["live_player_count"] = get_active_player_count()
 	return data
 
 /datum/economic_panel/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)
@@ -115,6 +118,15 @@ GLOBAL_DATUM_INIT(economic_panel, /datum/economic_panel, new)
 				SSeconomy.last_processed_day = 0
 				SSeconomy.daily_tick()
 				admin_log_fiscal("forced economy daily tick (regenerated produces/demands, rolled orders, rolled events)", "Fire Economy Tick")
+			return TRUE
+		if("set_simulated_population")
+			if(!SSeconomy)
+				return TRUE
+			var/amt = text2num(params["amount"])
+			if(!isnum(amt) || amt < 0)
+				amt = 0
+			SSeconomy.simulated_player_scalar = round(amt)
+			admin_log_fiscal("set simulated player scalar to [SSeconomy.simulated_player_scalar] (0 = use live count)", "Set Simulated Population")
 			return TRUE
 		if("mint_discretionary")
 			var/amt = text2num(params["amount"])

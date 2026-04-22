@@ -88,7 +88,7 @@
 		if(R.category != current_category)
 			continue
 		R.refresh_pegged_price()
-		contents += "[R.name] - [R.payout_price][R.get_market_delta_tag()] - ([R.stockpile_amount]/[R.stockpile_limit]) - [R.demand2word()]"
+		contents += "[R.name] - [R.payout_price][R.get_market_delta_tag_for("deposit")] - ([R.stockpile_amount]/[R.stockpile_limit]) - [R.demand2word()]"
 		contents += "<BR>"
 
 	return contents

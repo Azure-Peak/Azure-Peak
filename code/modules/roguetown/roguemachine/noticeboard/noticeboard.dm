@@ -10,7 +10,7 @@
 	layer = ABOVE_MOB_LAYER
 	plane = GAME_PLANE_UPPER
 	var/current_category = "Postings"
-	var/list/categories = list("Postings", "Premium Postings", "Scout Report", "Mercenary Roster", "Charters")
+	var/list/categories = list("Postings", "Premium Postings", "Scout Report", "Mercenary Roster", "Charters", "Trade Orders", "Economic Events")
 
 /obj/structure/roguemachine/noticeboard/get_mechanics_examine(mob/user)
 	. = ..()
@@ -19,6 +19,8 @@
 	. += span_info("'Scout Reports' detail how dangerous the ambushes in Azuria's many regions might be. The more dangerous a region is, the more numerous and lethal its ambushers will be.")
 	. += span_info("'Mercenary Rosters' list the names and detailings of all Mercenaries currently registered to Azuria's Mercenary Guild.")
 	. += span_info("'Charters' display the current state of Azuria's four foundational Charters.")
+	. += span_info("'Trade Orders' list standing trade demands from every region. Speak with the Steward if you wish to help fulfill one.")
+	. += span_info("'Economic Events' warn of active shortages and gluts affecting trade prices across the realm.")
 
 /obj/structure/roguemachine/noticeboard/Initialize()
 	. = ..()
@@ -154,6 +156,68 @@
 			contents += "<b>[D.name]</b> <i>of [D.year]</i> &mdash; <font color='[state_color]'>[state_label]</font><br>"
 			contents += "<div style='white-space:pre-wrap;margin-top:4px'>[D.flavor_text]</div>"
 			contents += "</div><hr>"
+	else if(current_category == "Trade Orders")
+		contents += "<h2>Standing Trade Orders</h2>"
+		contents += "<hr></center>"
+		var/orders_shown = 0
+		for(var/datum/standing_order/O as anything in GLOB.standing_order_pool)
+			if(O.is_fulfilled)
+				continue
+			orders_shown++
+			var/datum/economic_region/region = GLOB.economic_regions[O.region_id]
+			var/region_name = region ? region.name : O.region_id
+			var/days_left = max(0, O.day_expires - GLOB.dayspassed)
+			var/is_urgent = istype(O, /datum/standing_order/urgent)
+			contents += "<div style='margin-bottom:10px'>"
+			if(is_urgent)
+				contents += "<font color='#c44'><b>URGENT</b></font> "
+			if(O.unfulfillable)
+				contents += "<font color='#c44'><b>BLOCKADED</b></font> "
+			contents += "<b>[O.name]</b> &mdash; [region_name] &mdash; [days_left]d remaining<br>"
+			if(O.description)
+				contents += "<i>[O.description]</i><br>"
+			contents += "Requires: "
+			var/first = TRUE
+			for(var/good_id in O.required_items)
+				var/datum/trade_good/tg = GLOB.trade_goods[good_id]
+				var/label = tg ? tg.name : good_id
+				if(!first)
+					contents += ", "
+				first = FALSE
+				contents += "[O.required_items[good_id]] [label]"
+			contents += "<br>"
+			contents += "Payout: <b>[O.total_payout]m</b><br>"
+			contents += "</div><hr>"
+		if(!orders_shown)
+			contents += "<br><span class='notice'>No standing orders currently posted. Check back later.</span>"
+		else
+			contents += "<div style='margin-top:8px'><i>Speak with the Steward or Clerk at the Nerve Master to help fulfill an order.</i></div>"
+	else if(current_category == "Economic Events")
+		contents += "<h2>Economic Events</h2>"
+		contents += "<hr></center>"
+		if(!length(GLOB.active_economic_events))
+			contents += "<br><span class='notice'>The realm's trade is calm. No events are currently disturbing the market.</span>"
+		else
+			for(var/datum/economic_event/E as anything in GLOB.active_economic_events)
+				var/days_left = max(0, E.day_expires - GLOB.dayspassed)
+				var/color = (E.event_type == ECON_EVENT_SHORTAGE) ? "#c44" : "#5cb85c"
+				var/type_label = (E.event_type == ECON_EVENT_SHORTAGE) ? "SHORTAGE" : "GLUT"
+				contents += "<div style='margin-bottom:10px'>"
+				contents += "<font color='[color]'><b>[type_label]</b></font> &mdash; <b>[E.name]</b> &mdash; forecast to return to normal within [days_left]d<br>"
+				if(E.description)
+					contents += "<i>[E.description]</i><br>"
+				if(length(E.affected_goods))
+					contents += "Affected goods: "
+					var/first = TRUE
+					for(var/good_id in E.affected_goods)
+						var/datum/trade_good/tg = GLOB.trade_goods[good_id]
+						var/label = tg ? tg.name : good_id
+						if(!first)
+							contents += ", "
+						first = FALSE
+						contents += label
+					contents += "<br>"
+				contents += "</div><hr>"
 	var/datum/browser/popup = new(user, "NOTICEBOARD", "", 800, 650)
 	popup.set_content(contents)
 	popup.open()

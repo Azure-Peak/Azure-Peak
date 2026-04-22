@@ -2813,6 +2813,7 @@
 #include "code\modules\roguetown\roguestock\_roguestock.dm"
 #include "code\modules\roguetown\roguestock\bounties.dm"
 #include "code\modules\roguetown\roguestock\crown_imports.dm"
+#include "code\modules\roguetown\roguestock\economic_events.dm"
 #include "code\modules\roguetown\roguestock\standing_order.dm"
 #include "code\modules\roguetown\roguestock\stockpile_alchemy.dm"
 #include "code\modules\roguetown\roguestock\stockpile_animal.dm"

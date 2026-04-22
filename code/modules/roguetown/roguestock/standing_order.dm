@@ -38,11 +38,11 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 
 /datum/standing_order/demand_rations/generate_item_mix()
 	var/list/mix = list()
-	mix[TRADE_GOOD_GRAIN] = rand(15, 25)
-	if(prob(40))
-		mix[TRADE_GOOD_MEAT] = rand(5, 10)
-	if(prob(30))
-		mix[TRADE_GOOD_CHEESE] = rand(3, 8)
+	mix[TRADE_GOOD_GRAIN] = rand(25, 40)
+	if(prob(60))
+		mix[TRADE_GOOD_MEAT] = rand(6, 12)
+	if(prob(60))
+		mix[TRADE_GOOD_CHEESE] = rand(4, 10)
 	return mix
 
 /datum/standing_order/demand_rations/generate_name(datum/economic_region/region)
@@ -67,11 +67,11 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 
 /datum/standing_order/demand_armaments/generate_item_mix()
 	var/list/mix = list()
-	mix[TRADE_GOOD_IRON_INGOT] = rand(5, 10)
-	if(prob(50))
-		mix[TRADE_GOOD_STEEL_INGOT] = rand(2, 5)
-	if(prob(50))
-		mix[TRADE_GOOD_CURED_LEATHER] = rand(3, 6)
+	mix[TRADE_GOOD_IRON_INGOT] = rand(8, 14)
+	if(prob(60))
+		mix[TRADE_GOOD_STEEL_INGOT] = rand(3, 7)
+	if(prob(60))
+		mix[TRADE_GOOD_CURED_LEATHER] = rand(5, 10)
 	return mix
 
 /datum/standing_order/demand_armaments/generate_name(datum/economic_region/region)
@@ -95,9 +95,9 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 
 /datum/standing_order/demand_textile/generate_item_mix()
 	var/list/mix = list()
-	mix[TRADE_GOOD_CLOTH] = rand(10, 20)
-	if(prob(50))
-		mix[TRADE_GOOD_FIBERS] = rand(5, 10)
+	mix[TRADE_GOOD_CLOTH] = rand(30, 50)
+	if(prob(75))
+		mix[TRADE_GOOD_FIBERS] = rand(15, 30)
 	return mix
 
 /datum/standing_order/demand_textile/generate_name(datum/economic_region/region)
@@ -121,9 +121,9 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 
 /datum/standing_order/demand_smithing/generate_item_mix()
 	var/list/mix = list()
-	mix[TRADE_GOOD_IRON_INGOT] = rand(5, 10)
-	if(prob(50))
-		mix[TRADE_GOOD_COPPER_INGOT] = rand(3, 6)
+	mix[TRADE_GOOD_IRON_INGOT] = rand(8, 14)
+	if(prob(70))
+		mix[TRADE_GOOD_COPPER_INGOT] = rand(5, 10)
 	return mix
 
 /datum/standing_order/demand_smithing/generate_name(datum/economic_region/region)
@@ -154,11 +154,11 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 
 /datum/standing_order/demand_construction/generate_item_mix()
 	var/list/mix = list()
-	mix[TRADE_GOOD_STONE] = rand(10, 20)
-	if(prob(60))
-		mix[TRADE_GOOD_WOOD] = rand(5, 15)
-	if(prob(30))
-		mix[TRADE_GOOD_IRON_INGOT] = rand(2, 5)
+	mix[TRADE_GOOD_STONE] = rand(40, 70)
+	if(prob(70))
+		mix[TRADE_GOOD_WOOD] = rand(12, 25)
+	if(prob(50))
+		mix[TRADE_GOOD_IRON_INGOT] = rand(3, 7)
 	return mix
 
 /datum/standing_order/demand_construction/generate_name(datum/economic_region/region)
@@ -182,11 +182,11 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 
 /datum/standing_order/demand_exotic/generate_item_mix()
 	var/list/mix = list()
-	mix[TRADE_GOOD_DENDOR_ESSENCE] = rand(1, 3)
-	if(prob(40))
-		mix[TRADE_GOOD_SILK] = rand(2, 5)
-	if(prob(40))
-		mix[TRADE_GOOD_VISCERA] = rand(3, 8)
+	mix[TRADE_GOOD_DENDOR_ESSENCE] = rand(3, 6)
+	if(prob(60))
+		mix[TRADE_GOOD_SILK] = rand(8, 15)
+	if(prob(60))
+		mix[TRADE_GOOD_VISCERA] = rand(8, 15)
 	return mix
 
 /datum/standing_order/demand_exotic/generate_name(datum/economic_region/region)
@@ -211,11 +211,11 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 
 /datum/standing_order/demand_fishery/generate_item_mix()
 	var/list/mix = list()
-	mix[TRADE_GOOD_FISH_FILET] = rand(10, 20)
-	if(prob(60))
-		mix[TRADE_GOOD_SALT] = rand(5, 10)
-	if(prob(30))
-		mix[TRADE_GOOD_SALMON] = rand(3, 6)
+	mix[TRADE_GOOD_FISH_FILET] = rand(25, 40)
+	if(prob(80))
+		mix[TRADE_GOOD_SALT] = rand(8, 15)
+	if(prob(50))
+		mix[TRADE_GOOD_SALMON] = rand(5, 10)
 	return mix
 
 /datum/standing_order/demand_fishery/generate_name(datum/economic_region/region)
@@ -240,11 +240,11 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 
 /datum/standing_order/demand_orchard/generate_item_mix()
 	var/list/mix = list()
-	mix[TRADE_GOOD_APPLE] = rand(10, 20)
-	if(prob(50))
-		mix[TRADE_GOOD_JACKSBERRY] = rand(8, 15)
-	if(prob(50))
-		mix[TRADE_GOOD_CALENDULA] = rand(3, 8)
+	mix[TRADE_GOOD_APPLE] = rand(25, 45)
+	if(prob(70))
+		mix[TRADE_GOOD_JACKSBERRY] = rand(15, 28)
+	if(prob(60))
+		mix[TRADE_GOOD_CALENDULA] = rand(5, 12)
 	return mix
 
 /datum/standing_order/demand_orchard/generate_name(datum/economic_region/region)
@@ -255,3 +255,23 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 	if(length(projects))
 		return "[capitalize(pick(projects))] at [region.name] needs orchard produce and healing calendula."
 	return "A preserver or apothecary in [region.name] is buying orchard goods."
+
+
+// ============================================================================
+// urgent - emergency requisition spawned by a shortage economic event.
+// Carries a weakref to its source event; item mix and payout are set by
+// SSeconomy.spawn_urgent_for_event() from the event's affected_goods.
+// ============================================================================
+/datum/standing_order/urgent
+	var/datum/weakref/source_event_ref
+
+/datum/standing_order/urgent/generate_name(datum/economic_region/region)
+	return "[uppertext(region.name)] - URGENT REQUISITION"
+
+/datum/standing_order/urgent/generate_description(datum/economic_region/region)
+	var/list/buyers = list("Local notables", "A merchants' consortium", "The guild elders", "A desperate burgher", "Local magnates")
+	var/buyer = pick(buyers)
+	var/datum/economic_event/E = source_event_ref?.resolve()
+	if(E)
+		return "<b>URGENT:</b> [region.name] is suffering from [E.name]. [buyer] are paying a premium to resolve the crisis."
+	return "<b>URGENT:</b> [buyer] in [region.name] have declared an emergency requisition."

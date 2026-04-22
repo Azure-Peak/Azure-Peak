@@ -35,7 +35,7 @@
 				continue
 			A.refresh_pegged_price()
 			if(!A.withdraw_disabled)
-				contents += "<b>[A.name] (Max: [A.stockpile_limit]):</b> <a href='?src=[REF(parent_structure)];withdraw=[REF(A)]'>[A.stockpile_amount] at [A.payout_price]m</a>[A.get_market_delta_tag()]<BR>"
+				contents += "<b>[A.name] (Max: [A.stockpile_limit]):</b> <a href='?src=[REF(parent_structure)];withdraw=[REF(A)]'>[A.stockpile_amount] at [A.payout_price]m</a>[A.get_market_delta_tag_for("withdraw")]<BR>"
 			else
 				contents += "<b>[A.name]:</b> Withdrawing Disabled..."
 
@@ -48,7 +48,7 @@
 			contents += "[A.desc]<BR>"
 			contents += "Stockpiled Amount: [A.stockpile_amount]<BR>"
 			if(!A.withdraw_disabled)
-				contents += "<a href='?src=[REF(parent_structure)];withdraw=[REF(A)]'>\[Withdraw ([A.payout_price])\]</a>[A.get_market_delta_tag()]<BR><BR>"
+				contents += "<a href='?src=[REF(parent_structure)];withdraw=[REF(A)]'>\[Withdraw ([A.payout_price])\]</a>[A.get_market_delta_tag_for("withdraw")]<BR><BR>"
 			else
 				contents += "Withdrawing Disabled...<BR><BR>"
 

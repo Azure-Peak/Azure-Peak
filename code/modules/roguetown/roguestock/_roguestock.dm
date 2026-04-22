@@ -59,8 +59,6 @@
 	return max(1, round(tg.base_price * TRADE_STOCKPILE_BUY_DISCOUNT * tg.global_price_mod))
 
 /datum/roguestock/proc/get_market_delta_tag()
-	if(pegged)
-		return ""
 	if(!trade_good_id)
 		return ""
 	var/market = get_market_price()
@@ -73,6 +71,37 @@
 		return " <font color='#8a8'>(+[delta_pct]% vs market)</font>"
 	else
 		return " <font color='#c84'>([delta_pct]% vs market)</font>"
+
+/// Context-aware variant. `side` is "deposit" or "withdraw".
+/// A positive delta is a premium when depositing (you get more than market), markup when withdrawing (Crown charges more than market).
+/// A negative delta is a discount when withdrawing (cheaper than market), lowball when depositing.
+/datum/roguestock/proc/get_market_delta_tag_for(side)
+	if(!trade_good_id)
+		return ""
+	var/market = get_market_price()
+	if(market <= 0 || market == payout_price)
+		return ""
+	var/delta_pct = round(((payout_price - market) / market) * 100)
+	if(delta_pct == 0)
+		return ""
+	var/sign_str = delta_pct > 0 ? "+[delta_pct]" : "[delta_pct]"
+	var/label
+	var/color
+	if(side == "withdraw")
+		if(delta_pct > 0)
+			label = "markup"
+			color = "#c84"
+		else
+			label = "discount"
+			color = "#8a8"
+	else // deposit
+		if(delta_pct > 0)
+			label = "premium"
+			color = "#8a8"
+		else
+			label = "underpaid"
+			color = "#c84"
+	return " <font color='[color]'>([sign_str]% [label])</font>"
 
 /datum/roguestock/proc/get_export_price()
 	if(trade_good_id && SSeconomy)

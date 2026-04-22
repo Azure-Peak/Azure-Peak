@@ -110,6 +110,9 @@
 #define STATS_STANDING_ORDER_REVENUE "standing_order_revenue"
 #define STATS_STANDING_ORDERS_FULFILLED "standing_orders_fulfilled"
 #define STATS_STANDING_ORDERS_EXPIRED "standing_orders_expired"
+#define STATS_ECON_EVENTS_FIRED "econ_events_fired"
+#define STATS_ECON_EVENTS_EXPIRED "econ_events_expired"
+#define STATS_URGENT_ORDERS_SPAWNED "urgent_orders_spawned"
 
 // Influence related statistics
 
@@ -443,6 +446,9 @@ GLOBAL_LIST_INIT(azure_round_stats, list(
 	STATS_STANDING_ORDER_REVENUE = 0,
 	STATS_STANDING_ORDERS_FULFILLED = 0,
 	STATS_STANDING_ORDERS_EXPIRED = 0,
+	STATS_ECON_EVENTS_FIRED = 0,
+	STATS_ECON_EVENTS_EXPIRED = 0,
+	STATS_URGENT_ORDERS_SPAWNED = 0,
 ))
 
 GLOBAL_LIST_EMPTY(patron_follower_counts)

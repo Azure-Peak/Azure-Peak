@@ -996,6 +996,16 @@
 	if(length(blockaded_names))
 		contents += "<center><font color='#c44'><b>BLOCKADED REGIONS: [jointext(blockaded_names, ", ")]</b></font></center><BR>"
 
+	// Active economic events banner
+	if(length(GLOB.active_economic_events))
+		contents += "<center><b>ACTIVE ECONOMIC EVENTS</b><BR>"
+		contents += "--------------</center><BR>"
+		for(var/datum/economic_event/E as anything in GLOB.active_economic_events)
+			var/days_left = max(0, E.day_expires - GLOB.dayspassed)
+			var/color = E.event_type == ECON_EVENT_SHORTAGE ? "#c44" : "#5cb85c"
+			contents += "<font color='[color]'><b>[E.name]</b></font> ([days_left]d left) - [E.description]<BR>"
+		contents += "<BR>"
+
 	var/active_order_count = 0
 	for(var/datum/standing_order/O as anything in GLOB.standing_order_pool)
 		if(!O.is_fulfilled)
@@ -1057,6 +1067,11 @@
 
 /obj/structure/roguemachine/steward/proc/get_trade_market_view()
 	var/contents = "<center><b>MARKET (auto-routed best region)</b></center><BR>"
+	// Build a good_id -> event_type map so affected goods get a visible tag.
+	var/list/event_tag_by_good = list()
+	for(var/datum/economic_event/E as anything in GLOB.active_economic_events)
+		for(var/gid in E.affected_goods)
+			event_tag_by_good[gid] = E.event_type
 	for(var/good_id in GLOB.trade_goods)
 		var/datum/trade_good/tg = GLOB.trade_goods[good_id]
 		if(!tg)
@@ -1067,7 +1082,12 @@
 		if(!entry.accept_toggle_enabled)
 			continue
 		var/stock = entry.stockpile_amount
-		contents += "<b>[tg.name]</b> (Stock: [stock]/[entry.stockpile_limit])<BR>"
+		var/event_tag = ""
+		if(event_tag_by_good[good_id] == ECON_EVENT_SHORTAGE)
+			event_tag = " <font color='#c44'>(SHORTAGE)</font>"
+		else if(event_tag_by_good[good_id] == ECON_EVENT_OVERSUPPLY)
+			event_tag = " <font color='#5cb85c'>(GLUT)</font>"
+		contents += "<b>[tg.name]</b>[event_tag] (Stock: [stock]/[entry.stockpile_limit])<BR>"
 		if(!tg.importable)
 			contents += "&nbsp;&nbsp;<i>not importable</i><BR>"
 		else
