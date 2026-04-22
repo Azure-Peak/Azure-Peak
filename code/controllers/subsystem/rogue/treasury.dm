@@ -185,11 +185,9 @@ SUBSYSTEM_DEF(treasury)
 		if(HAS_TRAIT(owner, TRAIT_NOBLE))
 			threshold += SAVINGS_GOAL_NOBLE_BUMP
 			modifiers += "noble"
-		if(ishuman(owner))
-			var/mob/living/carbon/human/H = owner
-			if(istype(H.charflaw, /datum/charflaw/greedy))
-				threshold += SAVINGS_GOAL_GREEDY_BUMP
-				modifiers += "greedy"
+		if(owner.get_flaw(/datum/charflaw/greedy))
+			threshold += SAVINGS_GOAL_GREEDY_BUMP
+			modifiers += "greedy"
 		var/modifier_text = length(modifiers) ? " as [jointext(modifiers, ", ")]" : ""
 		var/on_person = get_mammons_in_atom(owner) || 0
 		var/in_bank = account.balance
