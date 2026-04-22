@@ -22,6 +22,7 @@
 	advclass_cat_rolls = list(CTAG_CLERK = 2)
 
 	job_traits = list(TRAIT_SEEPRICES)
+	virtue_restrictions = list(/datum/virtue/utility/skilled, /datum/virtue/utility/apprentice) //Commerce role, not a craftsman.
 	job_subclasses = list(
 		/datum/advclass/clerk
 	)

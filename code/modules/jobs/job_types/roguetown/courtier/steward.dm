@@ -23,6 +23,7 @@
 
 	job_traits = list(TRAIT_NOBLE, TRAIT_SEEPRICES)
 	vice_restrictions = list(/datum/charflaw/mute, /datum/charflaw/unintelligible) //Needs to use the throat - sometimes
+	virtue_restrictions = list(/datum/virtue/utility/skilled, /datum/virtue/utility/apprentice) //Commerce role, not a craftsman.
 	job_subclasses = list(
 		/datum/advclass/steward
 	)
