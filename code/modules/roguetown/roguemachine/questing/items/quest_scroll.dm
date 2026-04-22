@@ -101,6 +101,9 @@ GLOBAL_LIST_EMPTY(quest_scrolls)
 	if(istype(P, /obj/item/paper)) // Prevent merging with other papers/scrolls
 		to_chat(user, span_warning("The magical energies prevent you from combining this with other scrolls."))
 		return
+	if(istype(P, /obj/item/clothing/ring/signet))
+		stamp_with_signet(P, user)
+		return
 	if(istype(P, /obj/item/natural/thorn) || istype(P, /obj/item/natural/feather))
 		if(!open)
 			to_chat(user, span_warning("You need to open the scroll first."))
@@ -109,6 +112,22 @@ GLOBAL_LIST_EMPTY(quest_scrolls)
 			to_chat(user, span_warning("This contract scroll doesn't accept modifications."))
 			return
 	..()
+
+/obj/item/paper/scroll/quest/proc/stamp_with_signet(obj/item/clothing/ring/signet/ring, mob/living/carbon/human/user)
+	if(!assigned_quest)
+		to_chat(user, span_warning("The scroll bears no active contract to stamp."))
+		return
+	if(!(user.job in list("Steward", "Clerk", "Grand Duke")))
+		to_chat(user, span_warning("Only a Steward, Clerk, or the Grand Duke may stamp a writ in the Crown's name."))
+		return
+	if(assigned_quest.levy_exempt)
+		to_chat(user, span_warning("This contract already bears the levy-exempt stamp."))
+		return
+	assigned_quest.levy_exempt = TRUE
+	update_quest_text()
+	playsound(src, 'sound/items/inqslip_sealed.ogg', 75, TRUE, 4)
+	log_game("[key_name(user)] stamped quest \"[assigned_quest.title || assigned_quest.quest_type]\" as LEVY EXEMPT via signet ring.")
+	to_chat(user, span_notice("You press the signet into the scroll. The Crown's seal glows faintly - this contract is now levy-exempt."))
 
 /obj/item/paper/scroll/quest/proc/get_quest_assignees(var/mob/user, var/include_giver = FALSE)
 	var/list/assignees = list()
@@ -193,6 +212,9 @@ GLOBAL_LIST_EMPTY(quest_scrolls)
 		scroll_text += "<br><i>The magic in this scroll will update as you progress.</i>"
 		if(assigned_quest.quest_giver_reference)
 			scroll_text += "<br><br><i>Returning this to [assigned_quest.quest_giver_name] upon completion will yield increased pay!</i>"
+
+	if(assigned_quest.levy_exempt)
+		scroll_text += "<br><br><center><i>By Royal Seal and Ducal Prerogative, the bearer of this contract is held exempt from the Crown's Levy upon its reward.</i></center>"
 
 	info = scroll_text
 	update_icon()

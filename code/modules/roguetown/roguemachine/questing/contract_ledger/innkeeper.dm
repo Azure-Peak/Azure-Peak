@@ -106,13 +106,16 @@
 	var/mob/living/carbon/human/innkeeper = find_active_innkeeper()
 	var/datum/fund/inn_account = innkeeper ? SStreasury.get_account(innkeeper) : null
 	var/guild_paid = 0
-	var/guild_fee = round(gross_reward * GUILD_REFERRAL_FEE_PCT)
-	if(guild_fee > 0 && user_account)
-		if(inn_account)
-			if(SStreasury.transfer(user_account, inn_account, guild_fee, "Guild Cut - [completed_quest.quest_type]"))
+	// Commissioned (Crown-issued) quests skip the Guild Cut - the Crown does not pay
+	// the Mercenary Guild a booking fee for contracts it authored itself.
+	if(completed_quest.source != QUEST_SOURCE_DEFENSE)
+		var/guild_fee = round(gross_reward * GUILD_REFERRAL_FEE_PCT)
+		if(guild_fee > 0 && user_account)
+			if(inn_account)
+				if(SStreasury.transfer(user_account, inn_account, guild_fee, "Guild Cut - [completed_quest.quest_type]"))
+					guild_paid = guild_fee
+			else if(SStreasury.burn(user_account, guild_fee, "Guild Cut - [completed_quest.quest_type]"))
 				guild_paid = guild_fee
-		else if(SStreasury.burn(user_account, guild_fee, "Guild Cut - [completed_quest.quest_type]"))
-			guild_paid = guild_fee
 	if(completed_quest.source == QUEST_SOURCE_RUMOR && inn_account)
 		var/rumor_fee = round(gross_reward * RUMOR_CONTACT_FEE_PCT)
 		if(rumor_fee > 0)

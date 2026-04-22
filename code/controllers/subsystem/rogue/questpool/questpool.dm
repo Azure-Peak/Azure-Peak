@@ -1,3 +1,6 @@
+/proc/defense_quest_tier_cost(quest_type)
+	return GLOB.defense_quest_tier_costs[quest_type] || 0
+
 SUBSYSTEM_DEF(questpool)
 	name = "Quest Pool"
 	wait = QUEST_POOL_REGEN_INTERVAL
@@ -213,6 +216,55 @@ SUBSYSTEM_DEF(questpool)
 	record_round_statistic(STATS_CONTRACTS_GENERATED)
 	record_round_statistic(STATS_CONTRACTS_GENERATED_RUMOR)
 	log_event("generate", "rumor-pool [Q.quest_difficulty] [type] at [Q.target_spawn_area || "unknown"] (reward [Q.reward_amount])")
+	return Q
+
+/datum/controller/subsystem/questpool/proc/issue_defense_quest(type, datum/threat_region/preferred_region, area/override_destination, in_hands = FALSE, mob/living/carbon/human/steward = null)
+	if(!type || !(type in GLOB.defense_quest_tier_costs))
+		return null
+	if(in_hands && !steward)
+		return null
+	var/datum/quest/Q = instantiate_quest_of_type(type)
+	if(!Q)
+		return null
+	Q.quest_difficulty = difficulty_for_type(type)
+	Q.source = QUEST_SOURCE_DEFENSE
+	Q.created_at = world.time
+	if(steward)
+		Q.quest_giver_name = steward.real_name
+	Q.deposit_amount = Q.calculate_deposit()
+	if(override_destination && istype(Q, /datum/quest/kill/recovery))
+		var/datum/quest/kill/recovery/RQ = Q
+		RQ.override_destination = override_destination
+	if(!preferred_region)
+		preferred_region = SSregionthreat.pick_region_for_quest(type)
+	var/region_name = preferred_region?.region_name
+	var/obj/effect/landmark/quest_spawner/landmark = find_quest_landmark(type, region_name)
+	if(!landmark)
+		qdel(Q)
+		return null
+	if(!Q.preview(landmark))
+		qdel(Q)
+		return null
+	var/turf/landmark_turf = get_turf(landmark)
+	var/turf/origin = get_nearest_ledger_turf(landmark_turf) || landmark_turf
+	Q.reward_amount = Q.calculate_reward(origin, landmark_turf)
+
+	if(in_hands)
+		if(!Q.materialize(landmark))
+			qdel(Q)
+			return null
+		var/obj/item/paper/scroll/quest/scroll = new(get_turf(steward))
+		scroll.base_icon_state = Q.get_scroll_icon()
+		scroll.assigned_quest = Q
+		Q.quest_scroll = scroll
+		Q.quest_scroll_ref = WEAKREF(scroll)
+		scroll.update_quest_text()
+		steward.put_in_hands(scroll)
+	else
+		pool += Q
+	record_round_statistic(STATS_CONTRACTS_GENERATED)
+	record_round_statistic(STATS_CONTRACTS_GENERATED_DEFENSE)
+	log_event("generate", "[in_hands ? "defense-in-hands" : "defense-pool"] [Q.quest_difficulty] [type] at [Q.target_spawn_area || "unknown"] (reward [Q.reward_amount])")
 	return Q
 
 /datum/controller/subsystem/questpool/proc/generate_one(type, datum/threat_region/preferred_region, is_replacement = FALSE)

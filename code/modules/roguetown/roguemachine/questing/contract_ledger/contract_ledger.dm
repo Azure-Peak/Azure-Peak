@@ -74,6 +74,15 @@
 		data["rumor_regions_by_type"] = build_rumor_regions_by_type()
 		data["rumor_destinations"] = build_rumor_destinations()
 		data["rumor_log"] = SStreasury.rumor_log
+	if(data["dynamic_role"] == "steward")
+		data["pledge_balance"] = SStreasury.burgher_pledge_fund ? SStreasury.burgher_pledge_fund.balance : 0
+		data["pledge_refill_base"] = BURGHER_PLEDGE_BASE_REFILL
+		data["pledge_refill_per_player"] = BURGHER_PLEDGE_PER_PLAYER
+		data["pledge_active_players"] = get_active_player_count()
+		data["defense_costs"] = GLOB.defense_quest_tier_costs.Copy()
+		data["defense_regions_by_type"] = build_defense_regions_by_type()
+		data["defense_destinations"] = build_rumor_destinations()
+		data["defense_log"] = SStreasury.defense_log
 	return data
 
 /// Return the dynamic-tab role key for this user, or null. Extend here when a new job earns its
@@ -82,6 +91,8 @@
 	switch(user?.job)
 		if("Innkeeper")
 			return "innkeeper"
+		if("Steward")
+			return "steward"
 	return null
 
 /obj/structure/roguemachine/contractledger/proc/build_region_listing()
@@ -112,6 +123,7 @@
 			"threat_bands" = threat_bands,
 			"levy_exempt" = Q.levy_exempt,
 			"is_rumor" = Q.source == QUEST_SOURCE_RUMOR,
+			"is_defense" = Q.source == QUEST_SOURCE_DEFENSE,
 		))
 	return listing
 
@@ -169,4 +181,7 @@
 			return TRUE
 		if("compose_rumor")
 			compose_rumor_from_tgui(user, params)
+			return TRUE
+		if("commission_defense")
+			commission_defense_from_tgui(user, params)
 			return TRUE

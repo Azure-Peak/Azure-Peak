@@ -46,15 +46,15 @@ A well-played Steward becomes a useful economic actor. A careless or greedy one 
 | In-game day | 30 real minutes |
 | Week | 7 days (3.5 hours) |
 | Starting Crown's Purse | 2000 mammon |
-| Burgher Pledge base (daily refill) | 200m (+4m per active player) |
+| Burgher Pledge base (daily refill) | 250m (+2m per active player) |
 | Burgher Pledge roundstart balance | 2× daily refill |
 | Burgher Pledge max carryover | 200% of daily refill (clawback on tick) |
-| Burgher Pledge cost: Trivial quest (kill-easy / clear-out / courier / retrieval) | 100m |
-| Burgher Pledge cost: Standard quest (kill-medium / harder clear-out) | 250m |
-| Burgher Pledge cost: Major quest (Raid / Outlaw) | 500m |
-| Rumor Points starting balance | 6 points (2x base) |
-| Rumor Points daily refill (base) | 3 points |
-| Rumor Points per-player bonus | +0.1 / active player / day |
+| Burgher Pledge cost: Trivial quest (Kill / Clear Out) | 50m |
+| Burgher Pledge cost: Standard quest (Recovery / Bounty) | 125m |
+| Burgher Pledge cost: Major quest (Raid) | 250m |
+| Rumor Points starting balance | 16 points (2x base) |
+| Rumor Points daily refill (base) | 8 points |
+| Rumor Points per-player bonus | +0.04 / active player / day |
 | Rumor Points quest cost (Retrieval / Courier / Kill Easy) | 2 points |
 | Rumor Points quest cost (Clear Out / Recovery) | 4 points |
 | Rumor Points quest cost (Raid / Bounty) | 6 points |
@@ -94,14 +94,14 @@ Owned by the crown. `SStreasury.discretionary` → integer balance. Steward with
 **Crown's Purse funds every physical crown expense**: keep salaries, import/export purchases, any bespoke Steward spending. Steward *can* voluntarily fund a quest from Crown's Purse but it competes directly with payroll — every mammon spent here is a mammon not paying next week's wages. That's an intentional political tradeoff, not a default action; most Stewards will use Burgher Pledge authority to fund quests instead.
 
 ### Burgher Pledge (authority, pooled, mammon-denominated)
-Owned by the Steward. `SStreasury.burgher_pledge_fund` → `/datum/fund` in `CURRENCY_BURGHER_PLEDGE`. Denominated in mammons so the Steward can reason about "I can afford three major quests or ten trivial ones," but it does *not* leave the authority layer — not withdrawable, not robbable, not transferable to Crown's Purse. Issuance costs a flat tier amount (see "Steward Defense Quests" section). Completion mint is separate from and independent of the tier cost; the two mammon-denominated numbers do not need to balance. Roundstart balance is `2× daily refill` so the Steward has a buffer at the beginning of the round. Replenishes daily (gated on the Golden Bull of Kingsfield being active) to `200 + 4 * active_player_count`. Surplus beyond 200% of that daily refill is clawed back at each daily tick.
+Owned by the Steward. `SStreasury.burgher_pledge_fund` → `/datum/fund` in `CURRENCY_BURGHER_PLEDGE`. Denominated in mammons so the Steward can reason about "I can afford three major quests or ten trivial ones," but it does *not* leave the authority layer — not withdrawable, not robbable, not transferable to Crown's Purse. Issuance costs a flat tier amount (see "Steward Defense Quests" section). Completion mint is separate from and independent of the tier cost; the two mammon-denominated numbers do not need to balance. Roundstart balance is `2× daily refill` so the Steward has a buffer at the beginning of the round. Replenishes daily (gated on the Golden Bull of Kingsfield being active) to `100 + 2 * active_player_count`. Surplus beyond 200% of that daily refill is clawed back at each daily tick.
 
 On quest completion, the reward mints coins into the adventurer's hands (and Innkeeper's account for the Guild's Cut). Mint events are logged.
 
 ### Rumor Points (authority, Innkeeper-only)
-Realm-scoped pool owned by whoever holds the Innkeeper role this round. `SStreasury.rumor_points` → float (stored as float so the per-player fractional accrual is lossless across many days; UI rounds to integer for display). Decrements on Innkeeper quest issuance. Cannot be transferred.
+Realm-scoped pool owned by whoever holds the Innkeeper role this week. `SStreasury.rumor_points` → float (stored as float so the per-player fractional accrual is lossless across many days; UI rounds to integer for display). Decrements on Innkeeper quest issuance. Cannot be transferred.
 
-**Accrual:** Starts at 6 points at round start (two days' base). Daily refill at dawn = 3 + (0.1 × active_player_count). `active_player_count` is the existing `/proc/get_active_player_count()` helper: connected-and-minded players, excluding lobby and players who started as observers. Same call Burgher Pledge refill uses, so scaling is consistent across the module. At 100 players × 7 days ≈ 84 points total; at 150 × 7 ≈ 114 points.
+**Accrual:** Starts at 16 points at round start (two days' base). Daily refill at dawn = 8 + (0.04 × active_player_count). `active_player_count` is the existing `/proc/get_active_player_count()` helper: connected-and-minded players, excluding lobby and players who started as observers. Same base-heavy scaling as the Steward's Pledge — a sparse server still hums, a packed server doesn't flood. At 100 players × 7 days ≈ 100 points total; at 20 × 7 ≈ 68 points.
 
 **Costs:** Tiered by quest type — Retrieval/Courier/Kill Easy 2, Clear Out/Recovery 4, Raid/Bounty 6. Target: ~20 Rumor-issued quests per full round at 100 players, scaling roughly symmetrically with the Steward's Burgher Pledge output. Retrieval is the *primary* channel because it's the type the Innkeeper is best placed to flavor ("I heard the apothecary's lost locket is at X") — see "Innkeeper — Rumor Quests" below.
 
@@ -194,8 +194,8 @@ The point: decree protection is broad and automatic, but grant protection is **p
 
 | Granter | Grant type | Slots | Revocation cooldown | Flavor |
 |---------|-----------|-------|---------------------|--------|
-| **Church clergy** | Declared Churchite | 3 per round | 5-10 minutes | Pastoral inclusion — "you are under the Temple's protection" |
-| **Inquisitor** | Declared Psydonite | 3 per round | 5-10 minutes | Diplomatic orthodoxy — "you are a sanctioned ally of the Faith" |
+| **Church clergy** | Declared Churchite | 3 per week | 5-10 minutes | Pastoral inclusion — "you are under the Temple's protection" |
+| **Inquisitor** | Declared Psydonite | 3 per week | 5-10 minutes | Diplomatic orthodoxy — "you are a sanctioned ally of the Faith" |
 | **Steward** | Burgher / Resident status | Unlimited, but per-grant cooldown | 5-10 minutes | Civic enfranchisement — "you are now chartered as a resident of Azuria" |
 
 #### Common mechanics across all three
@@ -233,7 +233,7 @@ The adventurer / mercenary player sits at the center of this — they have *thre
 
 This design makes the Lord more politically central, not less. The Steward manages the crown's fiscal day-to-day; the Lord holds the keys to *which factions are fair game for taxation*. A cautious Lord leaves decrees in place and forces the Steward to make do. An aggressive Lord revokes decrees to fund expensive military projects, eating the political fallout. A corrupt Lord revokes Concordat specifically to fine the Church during a crisis, producing an IC conflict even if no one's playing antagonist.
 
-The agent critique flagged this: "you've moved autocracy from Steward to Lord-via-Decree." The cooldowns mitigate the *speed* of Lord abuse (max 3 revocation windows per round per decree), but the political weight is the feature — the Lord's decree power is meant to be dramatic, visible, and contestable by in-character politics. Future work (Estates General, council consent) can add institutional checks if playtest shows the Lord's unilateral authority is too strong.
+The agent critique flagged this: "you've moved autocracy from Steward to Lord-via-Decree." The cooldowns mitigate the *speed* of Lord abuse (max 3 revocation windows per week per decree), but the political weight is the feature — the Lord's decree power is meant to be dramatic, visible, and contestable by in-character politics. Future work (Estates General, council consent) can add institutional checks if playtest shows the Lord's unilateral authority is too strong.
 
 ## Fine system
 
@@ -382,14 +382,19 @@ Dissonance: spending 100m of Pledge may produce a quest that mints 80m or 140m. 
 
 | Tier | Quest types | Pledge cost | Notes |
 |------|-------------|-------------|-------|
-| Trivial | Kill (easy), Clear Out, Courier, Retrieval | 100m | Bulk of Steward issuance |
-| Standard | Kill (medium), harder Clear Out | 250m | Meaningful spend |
-| Major | Raid, Outlaw | 500m | Rare; fellowship-gated in M2-C4 |
+| Trivial | Kill (easy), Clear Out | 50m | Bulk of Steward issuance |
+| Standard | Recovery, Bounty | 125m | Meaningful spend |
+| Major | Raid | 250m | Rare; fellowship-gated in M2-C4 |
+
+Courier and Retrieval are **not** Pledge-commissionable — those are peacetime civilian errands and belong to the Innkeeper's Rumor channel or the passive pool. The Burgher Pledge funds *defense* only.
 
 Budget math (7-day round):
-- 100 active players: 200 + 400 = 600/day refill, roundstart 1,200. Total round budget 4,800 → ~19 quests at avg 250.
-- 150 players: 800/day, start 1,600. Total 6,400 → ~26 quests.
-- 70 players: 480/day, start 960. Total 3,840 → ~15 quests.
+Base-heavy scaling — a sparse server still feels active, a packed server doesn't drown in Pledge. Range compresses deliberately: 3x player population yields roughly 2x quest output.
+
+- 20 players: 290/day, roundstart 580. Total round ~2,300 → ~18 quests at avg 125 (~2.5/day).
+- 70 players: 390/day, start 780. Total ~3,100 → ~25 quests (~3.5/day).
+- 100 players: 450/day, start 900. Total ~3,600 → ~28 quests (~4/day).
+- 150 players: 550/day, start 1,100. Total ~4,400 → ~35 quests (~5/day).
 
 Design target: ~60% passive pool + ~20% Rumor (Innkeeper) + ~20% Defense (Steward). Steward and Innkeeper scale roughly symmetrically with player count.
 
@@ -420,7 +425,7 @@ Innkeeper has their own Rumor Points pool (see "Rumor Points" above). Issuing a 
 - **Region** — which internal region the rumor points to. Drives marker selection.
 - **Retrieval item** (Retrieval-only) — which specific item is "rumored to be at X." The Innkeeper's narrative flavor. Other quest types don't need this extra param.
 
-**UI surface:** New Innkeeper-exclusive tab on the Grand Contract Ledger (the existing contract ledger that every quest-source posts through). Tab shows remaining Rumor Points, a "Compose Rumor" form with the parameters above, and a history of Innkeeper-issued quests this round.
+**UI surface:** New Innkeeper-exclusive tab on the Grand Contract Ledger (the existing contract ledger that every quest-source posts through). Tab shows remaining Rumor Points, a "Compose Rumor" form with the parameters above, and a history of Innkeeper-issued quests this week.
 
 **Retrieval-as-Innkeeper-staple:** Retrieval is priced cheapest (1 point) and the Innkeeper will issue most of them. Passive pool may still emit retrieval quests — this is not mechanically exclusive — but in practice retrieval supply shifts heavily toward the Innkeeper when the job is played, which is the intended flavor shift ("I heard..." vs. silent spawn).
 
@@ -432,30 +437,6 @@ Innkeeper has their own Rumor Points pool (see "Rumor Points" above). Issuing a 
 
 Target: passive pool generates 50-60% of round quest volume, Rumor-issued 40-50% (when Innkeeper is played). If no Innkeeper, passive pool is 100% and threat supply drops — an intentional consequence of the job being unfilled.
 
-## Poll Tax opt-out via Well Off virtue
-
-Some players come to this game to RP in the tavern without interacting with Crown fiscal systems at all. The Poll Tax as currently designed is *everyone pays* (minus Charter exemptions), which is correct for the economic tension of the round but hostile to this playstyle.
-
-The opt-out lives on the **Well Off** utility virtue (`/datum/virtue/utility/notable` in `code/modules/virtues/utility.dm`), as a fifth sub-option alongside Beauty, Stash, Residency, and Shrewd. The virtue uses `max_choices = 2`, so picking this opt-out costs the player one of their two Well Off slots — a real tradeoff, not free immunity.
-
-### Mechanic
-
-New sub-option `NOTABLE_TITHED` ("Paid Tithes" or similar IC name) — "I have squared my civic debts at the outset. The Crown has no claim on my purse."
-
-Implementation: on virtue application, set `SStreasury.poll_tax_days_paid[recipient] = 999`. This re-uses the existing grace-days mechanism already built for the ATM-prepay flow — no new trait or exemption channel needed. The Steward's UI, once built, will show these players as "999 days grace" which is clear signal that they're IC-exempt via prior settlement rather than Charter-protected. Note the 7-day prepay cap (`POLL_TAX_MAX_GRACE_DAYS`, below) applies only to `poll_tax_prepay_days()` — direct assignment from the virtue bypasses it intentionally. This is why the virtue writes to the list directly rather than calling the prepay proc.
-
-### Why this design
-
-- **Re-uses existing plumbing.** Grace days already short-circuit `tick_poll_tax` cleanly; no new code paths to test.
-- **Steward can still see them.** They appear on any future Fiscal tab as "tithed" rather than being invisible. This matters — the Steward shouldn't be surprised.
-- **Costs a virtue slot.** The player forgoes Beauty / Stash / Residency / Shrewd for the peace-of-mind option. Non-trivial.
-- **IC-legitimate.** Well-off burghers historically paid civic dues up-front in many medieval economies; this is period-appropriate.
-- **Does not interact with debtor tracking.** Grace covers current-day obligation only; if these players somehow accrue arrears (e.g. from a period when they were briefly non-grace), debtor escalation still works as designed. But in practice they never accrue arrears because the 999-day buffer outlasts any round.
-
-### Commit target
-
-Lands in M3-C13 alongside Rumor Points, since both touch the Innkeeper/Towner axis of the system. Small enough to bundle without decomposing.
-
 ## Poll Tax prepay cap (7 days)
 
 `POLL_TAX_MAX_GRACE_DAYS = 7` caps the amount of prepaid grace any single mob can hold via the `poll_tax_prepay_days()` proc. The cap is a single round's worth — typical rounds don't last longer than that, so in practice a burgher who prepays the full 7 is covered for the rest of the round at the rate that obtained at prepay time.
@@ -464,7 +445,6 @@ Why 7:
 - A typical round is 3-5 in-game days. 7 days comfortably covers any round that actually happens.
 - The cap exists to prevent rich players from hoarding grace across Steward rate changes ("buy 100 days at 1m/day before the Steward raises the rate") while still allowing "buy enough that I don't think about this again for the round."
 - The effective rate at prepay *does* still respect in-game modifiers (Charter exemption → can't prepay at all, Golden Bull → burgher rate capped at 25m). `get_poll_tax_rate_for()` is the single source of truth for the charged rate in both the tick and the prepay paths.
-- Virtue-granted grace (NOTABLE_TITHED, sets `poll_tax_days_paid[H] = 999`) bypasses the cap by writing to the list directly. The cap is a prepay-path concern, not a grace-storage concern.
 
 ATM UI: the Meister's prepay flow clamps max days by both balance AND grace headroom, and surfaces current grace in the prompt so players can see why they're capped.
 
@@ -506,7 +486,7 @@ This is fine from an RP-object standpoint (each machine has its own IC identity)
 - **Rates**: all 5 tax categories (Contract Levy, Headeater Levy, Import Tariff, Export Duty, Fine) + all 11 poll tax rates, displayed with Charter overlay (which are currently exempt/capped)
 - **Loans**: outstanding loans with debtor name, principal, remaining due, days-until-default
 - **Debtors**: list of TRAIT_DEBTOR holders with reason (loan default / poll tax arrears)
-- **Poll Tax tracking**: per-category head count, total collected this round, who's in grace and who's in arrears
+- **Poll Tax tracking**: per-category head count, total collected this week, who's in grace and who's in arrears
 - **Decree status**: the four Charters' active/suspended state with day-counter to next revocation slot
 
 Write-side actions stay on their current surfaces (TaxSetter for rates, Nerve Master for salaries, etc.) — the Fiscal tab is **read-only** so the Steward can see the whole picture at once without a new permission model.
@@ -566,7 +546,7 @@ Steward verb (via Nerve Master) to issue Directives: unfunded, no-deposit, narro
 Hook into quest completion flow. Credit Innkeeper's account. Handle "no Innkeeper exists" case.
 
 ### M3-C13 — Innkeeper Rumor Points + Rumor Quest issuance + Well Off poll-tax opt-out
-`SStreasury.rumor_points` (float pool, start 12, daily 6 + 0.25/player). Tiered costs: Retrieval 1 / Kill+Courier+Clear Out 2 / Raid+Outlaw 3. Innkeeper-exclusive tab on the Grand Contract Ledger with Type / Region / (Retrieval) item parameters. `QUEST_SOURCE_RUMOR` tag; 25% mint on completion. Also in this commit: add `NOTABLE_TITHED` sub-option to `/datum/virtue/utility/notable` that sets `poll_tax_days_paid[H] = 999` on application (re-using grace-days plumbing, no new trait).
+`SStreasury.rumor_points` (float pool, start 12, daily 6 + 0.25/player). Tiered costs: Retrieval 1 / Kill+Courier+Clear Out 2 / Raid+Outlaw 3. Innkeeper-exclusive tab on the Grand Contract Ledger with Type / Region / (Retrieval) item parameters. `QUEST_SOURCE_RUMOR` tag; 25% mint on completion.
 
 ### M3-C14a — Admin Economic Panel (shipped)
 Admin-only TGUI panel for inspecting and manipulating the fiscal system. Dashboard aggregates, filtered player table, per-player + bulk actions, tick triggers, charter toggles, Crown's Purse mint/burn. Every write action logged via shared `admin_log_fiscal` helper. Aggregator procs (`compute_fiscal_snapshot`, `compute_charter_states`, `compute_filtered_players`) live on `SStreasury` and are reused by M3-C14b.
@@ -819,6 +799,90 @@ Contracts Completed: 22  (Pool 12 / Rumor 7 / Defense 3)
 ```
 
 Use the first 2-3 rounds of real play to validate the 60/20/20 split and retune if drift is substantial.
+
+## Deferred: M5 — Institutional Credit (post-M3 PR, requires New Church map)
+
+Three additional loan origins beyond the Crown: **Church**, **Azurian Trading Company (ATC, formerly "Merchant")**, **Bathmaster**. Each owns a hidden jawbank fund (`is_visible = FALSE`, excluded from Steward dashboards). The point of the mechanic is to bridge the wealth/skill caste divide: roundstart adventurers need capital but have none; burghers/clergy/ATC have capital but can't fight. Loans connect them.
+
+### Starting capital
+
+- Church: 1500m (locked — see below)
+- ATC: 250m (immediate)
+- Bathmaster: 250m (immediate)
+
+ATC and Bathmaster already have stocks to sell for active income, so their jawbanks are seeded low. The Church has no revenue stream — starting capital + outbound-loan interest *is* their economic engine.
+
+### Church-specific canonical laws
+
+Two hard constraints are the entire mechanic:
+
+1. **Day-3 withdrawal gate** — Bishop/Martyr cannot pull mammon out of the church jawbank until `GLOB.dayspassed >= 3`. IC: *"Canonical laws prohibit the withdrawal of church funds this early in the week. It is kept for the common usage of all."* Loans can still be issued before day 3; only direct withdrawal is gated.
+2. **No loans to church members** — cannot issue loans to `GLOB.church_positions` OR holders of `TRAIT_DECLARED_BENEFACTOR`. IC: *"Canonical laws says that church's fund is held in trust for the goods of Astrata's flocks. The gods provide, and one shall never lend to one who has taken the vow of poverty."*
+
+Together these force the Church to find outside borrowers or sit on dead capital for two days. Metagaming via sympathetic peasants who take-and-default is not mechanically blocked — caught via admin log pattern matching instead.
+
+### Loan cap raise
+
+Raise from 50m-250m to 50m-1000m, allowing Duke-scale emergency loans that create real political conflict. Existing 25% flat + 25%/day interest math stays; auto-charge and default cascade need a test pass at higher magnitudes.
+
+### One loan across all origins
+
+Hard invariant: a debtor can hold exactly one active loan at any time, regardless of origin. Prevents 3× stacking exploit (someone taking one loan from each of Crown/Church/ATC for 3000m total roundstart capital).
+
+### Debt tags (examine-visible, audience-scoped)
+
+- **"Default Debtor of the Crown"** — existing `TRAIT_DEBTOR`; visible to everyone
+- **"Default Debtor of the Church"** — visible to `GLOB.church_positions` only
+- **"Default Debtor of the Azurian Trading Company"** — visible to Merchant + any mercenary with the Company Employee patronage
+- **"Default Debtor of the Bathhouse"** — visible to bath staff
+
+### Company Employee patronage (Mercenary variant)
+
+Mercenary-selectable patronage that does two things:
+- Adds "An employee of the Most Honorable Azurian Trading Company" to examine
+- Makes ATC debtor tags appear as outlaw markers to that mercenary, legitimizing pursuit
+
+Creates a paid paramilitary class. Historically accurate (VOC, Hudson's Bay Company). Gives Mercenary an RP reason to care about someone else's debt.
+
+### Forgiveness
+
+Any origin can forgive loans it issued. Forgiveness of amounts **> 500m** triggers a priority announce with the institutional invocation:
+
+- **Church**: *"By Astrata's Mercy..."*
+- **ATC**: *"By the Honor of the Company..."* (cannot invoke Matthios — heretical)
+- **Bathmaster**: *"By Eora's Love..."*
+
+Below the 500m threshold, forgiveness happens silently (small-amount forgiveness shouldn't burn priority-announce attention). Forgiveness is per-origin — the Church cannot forgive an ATC loan.
+
+### Hidden accounts are untaxed by intent
+
+Interest earned by the three institutional jawbanks is NOT subject to crown levies. This is deliberate — the Charters' whole point is that these institutions sit outside the Crown's fiscal reach. Documented as a feature.
+
+### Nerve Master access
+
+Church adds a Nerve Master in the chapel/cathedral for Bishop/Martyr (and possibly Priest) to issue and forgive loans. ATC and Bathmaster use their existing counters / surfaces.
+
+### Logging
+
+Every institutional loan issuance logs at both `log_admin` and `log_game` levels with issuer role, issuer ckey, debtor real_name, debtor ckey, amount, term, rate, origin:
+
+```
+[INSTITUTIONAL LOAN] origin=Church issuer=Bishop ([ckey]) → debtor_name ([ckey]) amount=1500m term=3d rate=25%
+```
+
+This is the **only** mechanism for catching round-to-round metagame patterns (same ckey repeatedly taking and defaulting on loans). No runtime gate; admins pattern-match.
+
+### Dependencies
+
+- **New Church map** (for Church Nerve Master + jawbank placement)
+- Jawbank `is_visible` flag
+- Company Employee patronage variant
+- Three-way loan origin selector in the loan issuance flow
+- Per-origin TRAIT_DEBTOR_* traits with audience-scoped examine
+
+### Why deferred
+
+Too much map-side work to fit the 4/22 PR. Parked until New Church lands. Captures the design thoroughly so next session can pick it up without re-deriving.
 
 ## Open items / flagged for later
 

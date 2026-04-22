@@ -74,6 +74,7 @@ SUBSYSTEM_DEF(treasury)
 	var/rumor_points = RUMOR_POINTS_START
 	var/list/rumor_log = list()
 	var/list/rumor_issued_today = list()
+	var/list/defense_log = list()
 
 /datum/controller/subsystem/treasury/Initialize()
 	discretionary_fund = new("Crown's Purse", null, rand(1000, 2000), CURRENCY_MAMMON)

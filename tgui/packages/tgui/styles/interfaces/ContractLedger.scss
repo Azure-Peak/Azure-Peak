@@ -158,21 +158,36 @@
 .ContractLedger__Pin--medium { background-color: hsl(44, 80%, 52%); }
 .ContractLedger__Pin--hard   { background-color: hsl(0, 65%, 44%); }
 
-.ContractLedger__RumorStamp {
+.ContractLedger__Stamp {
   position: absolute;
-  top: 6px;
   right: -4px;
-  padding: 1px 8px;
-  font-size: 0.72em;
+  padding: 0 6px;
+  font-size: 0.62em;
   font-weight: bold;
-  letter-spacing: 2px;
-  color: hsl(42, 80%, 92%);
-  background-color: hsl(280, 45%, 28%);
-  border: 1px solid hsl(280, 50%, 18%);
+  letter-spacing: 1.5px;
+  line-height: 14px;
   transform: rotate(6deg);
   box-shadow: 0 2px 3px hsla(0, 0%, 0%, 0.45);
   text-shadow: 1px 1px 0 hsla(0, 0%, 0%, 0.35);
   z-index: 3;
+}
+
+.ContractLedger__Stamp--rumor {
+  color: hsl(42, 80%, 92%);
+  background-color: hsl(280, 45%, 28%);
+  border: 1px solid hsl(280, 50%, 18%);
+}
+
+.ContractLedger__Stamp--commissioned {
+  color: hsl(42, 80%, 92%);
+  background-color: hsl(38, 70%, 32%);
+  border: 1px solid hsl(38, 72%, 20%);
+}
+
+.ContractLedger__Stamp--exempt {
+  color: hsl(42, 80%, 92%);
+  background-color: hsl(130, 45%, 28%);
+  border: 1px solid hsl(130, 52%, 18%);
 }
 
 .ContractLedger__CardTitle {
@@ -191,18 +206,31 @@
 .ContractLedger__CardRow {
   display: flex;
   justify-content: space-between;
+  align-items: flex-start;
+  gap: 6px;
   font-size: 0.9em;
   margin: 2px 0;
 }
 
 .ContractLedger__CardLabel {
+  flex-shrink: 0;
   color: hsl(30, 35%, 35%);
   font-style: italic;
 }
 
 .ContractLedger__CardValue {
+  flex: 1;
+  min-width: 0;
   color: hsl(28, 52%, 20%);
   font-weight: bold;
+  text-align: right;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  line-height: 1.15em;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .ContractLedger__CardObjective {

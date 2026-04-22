@@ -2762,6 +2762,7 @@
 #include "code\modules\roguetown\roguemachine\questing\questing_components.dm"
 #include "code\modules\roguetown\roguemachine\questing\questing_decals.dm"
 #include "code\modules\roguetown\roguemachine\questing\questing_landmarks.dm"
+#include "code\modules\roguetown\roguemachine\questing\contract_ledger\steward.dm"
 #include "code\modules\roguetown\roguemachine\questing\factions\_faction.dm"
 #include "code\modules\roguetown\roguemachine\questing\factions\bog_deadite.dm"
 #include "code\modules\roguetown\roguemachine\questing\factions\bogman.dm"

@@ -62,9 +62,8 @@
 <p>Certain high offices may extend the protection of their Charter to named individuals, making them <i>declared</i> members of the protected class. Such grants require the recipient's consent and are publicly announced. They may be revoked at any time by the granter.</p>
 
 <ul>
-<li>The <b>Bishop</b> may declare up to <b>three Churchites</b> per round, under the Zenitstadt Concordat.</li>
-<li>The <b>Inquisitor</b> may declare up to <b>three Psydonites</b> per round, under the Otavan Accords.</li>
-<li>The <b>Steward</b> prints <b>Letters of Residency</b> at the Nerve Master (one every minute), which grant the bearer the Golden Bull's protection when claimed.</li>
+<li>The <b>Bishop</b> may declare up to <b>twenty benefactors</b> per week, under the Zenitstadt Concordat.</li>
+<li>The <b>Steward</b> prints <b>Letters of Citizenry</b> at the Nerve Master (one every minute), which grant the bearer the Golden Bull's protection when claimed.</li>
 </ul>
 
 <p><i>If the backing Charter is suspended, the declared member's protection lapses while the suspension stands, and returns upon restoration.</i></p>

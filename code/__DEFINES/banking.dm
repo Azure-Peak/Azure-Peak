@@ -2,19 +2,19 @@
 #define CURRENCY_BURGHER_PLEDGE "burgher_pledge"
 
 /// Floor amount of Burgher Pledge authority refilled per day regardless of population (lowpop safety).
-#define BURGHER_PLEDGE_BASE_REFILL 200
+#define BURGHER_PLEDGE_BASE_REFILL 250
 /// Additional Burgher Pledge authority granted per active player per day.
-#define BURGHER_PLEDGE_PER_PLAYER 4
+#define BURGHER_PLEDGE_PER_PLAYER 2
 /// Clawback ceiling — any Burgher Pledge balance above this multiple of the daily refill is skimmed at each daily tick.
 #define BURGHER_PLEDGE_CLAWBACK_MULTIPLIER 2
 /// Roundstart balance is this multiple of the daily refill, giving the Steward a buffer at the start.
 #define BURGHER_PLEDGE_ROUNDSTART_MULTIPLIER 2
-/// Pledge cost of issuing a Trivial-tier defense quest (kill-easy / clear-out / courier / retrieval).
-#define BURGHER_PLEDGE_COST_TRIVIAL 100
-/// Pledge cost of issuing a Standard-tier defense quest (kill-medium / harder clear-out).
-#define BURGHER_PLEDGE_COST_STANDARD 250
-/// Pledge cost of issuing a Major-tier defense quest (raid / outlaw).
-#define BURGHER_PLEDGE_COST_MAJOR 500
+/// Pledge cost of issuing a Trivial-tier defense quest (kill-easy / clear-out).
+#define BURGHER_PLEDGE_COST_TRIVIAL 50
+/// Pledge cost of issuing a Standard-tier defense quest (recovery / bounty).
+#define BURGHER_PLEDGE_COST_STANDARD 125
+/// Pledge cost of issuing a Major-tier defense quest (raid).
+#define BURGHER_PLEDGE_COST_MAJOR 250
 
 #define TAX_CATEGORY_CONTRACT_LEVY "contract levy"
 #define TAX_CATEGORY_HEADEATER_LEVY "headeater levy"

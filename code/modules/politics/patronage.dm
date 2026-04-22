@@ -93,7 +93,7 @@ GLOBAL_LIST_EMPTY(declared_benefactors)
 	if(!SStreasury.can_issue_patronage(granter))
 		var/count = SStreasury.get_patronage_count(granter)
 		if(count >= PATRONAGE_CAP_PER_ROUND)
-			to_chat(granter, span_warning("I have already extended patronage to as many as I may this round."))
+			to_chat(granter, span_warning("I have already extended patronage to as many as I may this week."))
 		else
 			var/remaining = SStreasury.patronage_cooldown_remaining(granter)
 			to_chat(granter, span_warning("I must wait [round(remaining / 10)]s before extending further patronage."))

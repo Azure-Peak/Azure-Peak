@@ -10,6 +10,14 @@
 #define QUEST_BOUNTY "Bounty"
 #define QUEST_RECOVERY "Recovery"
 
+GLOBAL_LIST_INIT(defense_quest_tier_costs, list(
+	QUEST_KILL_EASY = BURGHER_PLEDGE_COST_TRIVIAL,
+	QUEST_CLEAR_OUT = BURGHER_PLEDGE_COST_TRIVIAL,
+	QUEST_RECOVERY = BURGHER_PLEDGE_COST_STANDARD,
+	QUEST_BOUNTY = BURGHER_PLEDGE_COST_STANDARD,
+	QUEST_RAID = BURGHER_PLEDGE_COST_MAJOR,
+))
+
 // Multipliers applied to spawned mob `threat_point` when computing kill quest additional reward.
 // Kill mult of 1.0 keeps the reward equal to the TP of mobs actually slain.
 #define QUEST_KILL_THREAT_MULT 1.0

@@ -1,33 +1,31 @@
 import { type ReactNode, useState } from 'react';
-import type { BooleanLike } from 'tgui-core/react';
 
 import { useBackend } from '../backend';
 
-type RumorLogEntry = {
+type DefenseLogEntry = {
   title: string;
   type: string;
   region: string;
-  in_hands: BooleanLike;
+  cost: number;
   day: number;
 };
 
-type InnkeeperData = {
-  rumor_points: number;
-  rumor_refill_base: number;
-  rumor_refill_per_player: number;
-  rumor_active_players: number;
-  rumor_costs: Record<string, number>;
-  rumor_regions_by_type: Record<string, string[]>;
-  rumor_destinations: string[];
-  rumor_log: RumorLogEntry[];
+type StewardData = {
+  pledge_balance: number;
+  pledge_refill_base: number;
+  pledge_refill_per_player: number;
+  pledge_active_players: number;
+  defense_costs: Record<string, number>;
+  defense_regions_by_type: Record<string, string[]>;
+  defense_destinations: string[];
+  defense_log: DefenseLogEntry[];
 };
 
-type DispatchMode = 'board' | 'hands';
 type SubTab = 'compose' | 'history';
 const RECOVERY_TYPE = 'Recovery';
 const DISPATCH_DEBOUNCE_MS = 500;
 
-const pts = (n: number) => `${n}\u00A0pt${n === 1 ? '' : 's'}`;
+const coin = (n: number) => `${n}m`;
 
 const FormRow = (props: { label: string; children: ReactNode }) => (
   <div className="ContractLedger__InnkeeperFormRow">
@@ -63,30 +61,13 @@ const Select = (props: {
   </select>
 );
 
-const ModeRadio = (props: {
-  value: DispatchMode;
-  selected: DispatchMode;
-  onChange: (v: DispatchMode) => void;
-  label: string;
-}) => (
-  <label>
-    <input
-      type="radio"
-      name="rumorMode"
-      checked={props.selected === props.value}
-      onChange={() => props.onChange(props.value)}
-    />
-    &nbsp;{props.label}
-  </label>
-);
-
 const SubTabBar = (props: {
   active: SubTab;
   onSelect: (t: SubTab) => void;
   historyCount: number;
 }) => {
   const tabs: { id: SubTab; label: string }[] = [
-    { id: 'compose', label: 'Compose' },
+    { id: 'compose', label: 'Commission' },
     { id: 'history', label: `History (${props.historyCount})` },
   ];
   return (
@@ -109,11 +90,11 @@ const SubTabBar = (props: {
   );
 };
 
-const HistoryView = (props: { log: RumorLogEntry[] }) => {
+const HistoryView = (props: { log: DefenseLogEntry[] }) => {
   if (!props.log.length) {
     return (
       <div className="ContractLedger__InnkeeperEmpty">
-        No rumors whispered yet this week.
+        No commissions have been drawn against the Pledge this week.
       </div>
     );
   }
@@ -127,7 +108,7 @@ const HistoryView = (props: { log: RumorLogEntry[] }) => {
           </span>
           <span className="ContractLedger__InnkeeperHistoryMeta">
             {r.type} &middot; {r.region} &middot; day {r.day} &middot;{' '}
-            {r.in_hands ? 'in hands' : 'on board'}
+            {coin(r.cost)}
           </span>
         </div>
       ))}
@@ -135,47 +116,68 @@ const HistoryView = (props: { log: RumorLogEntry[] }) => {
   );
 };
 
-const ComposeView = () => {
-  const { act, data } = useBackend<InnkeeperData>();
+type DispatchMode = 'board' | 'hands';
 
-  const typeOptions = Object.keys(data.rumor_costs || {});
+const ModeRadio = (props: {
+  value: DispatchMode;
+  selected: DispatchMode;
+  onChange: (v: DispatchMode) => void;
+  label: string;
+}) => (
+  <label>
+    <input
+      type="radio"
+      name="defenseMode"
+      checked={props.selected === props.value}
+      onChange={() => props.onChange(props.value)}
+    />
+    &nbsp;{props.label}
+  </label>
+);
+
+const ComposeView = () => {
+  const { act, data } = useBackend<StewardData>();
+
+  const typeOptions = Object.keys(data.defense_costs || {});
   const [type, setType] = useState<string>(typeOptions[0] || '');
   const [region, setRegion] = useState<string>('');
   const [destination, setDestination] = useState<string>('');
   const [mode, setMode] = useState<DispatchMode>('board');
+  const [levyExempt, setLevyExempt] = useState<boolean>(false);
   const [inflight, setInflight] = useState<boolean>(false);
 
-  const regionsForType = data.rumor_regions_by_type?.[type] || [];
-  const cost = data.rumor_costs?.[type] ?? 0;
+  const regionsForType = data.defense_regions_by_type?.[type] || [];
+  const cost = data.defense_costs?.[type] ?? 0;
   const needsDestination = type === RECOVERY_TYPE;
 
   const onTypeChange = (next: string) => {
     setType(next);
-    const newRegions = data.rumor_regions_by_type?.[next] || [];
+    const newRegions = data.defense_regions_by_type?.[next] || [];
     if (!newRegions.includes(region)) setRegion('');
     if (next !== RECOVERY_TYPE) setDestination('');
   };
 
   const disabledReason = inflight
-    ? 'Whispering...'
+    ? 'Drafting...'
     : !type
-      ? 'Pick a rumor type.'
+      ? 'Pick a commission type.'
       : !region
         ? 'Pick a region.'
         : needsDestination && !destination
-          ? "Pick whose shipment it's rumored to be."
-          : data.rumor_points < cost
-            ? `Insufficient Rumor Points (need ${cost}, have ${data.rumor_points}).`
+          ? 'Pick the shipment destination.'
+          : data.pledge_balance < cost
+            ? `Insufficient Pledge (need ${coin(cost)}, have ${coin(data.pledge_balance)}).`
             : undefined;
 
   const dispatch = () => {
     if (disabledReason) return;
     setInflight(true);
-    act('compose_rumor', {
+    act('commission_defense', {
       type,
       region,
       destination: needsDestination ? destination : null,
       in_hands: mode === 'hands' ? 1 : 0,
+      levy_exempt: levyExempt ? 1 : 0,
     });
     setTimeout(() => setInflight(false), DISPATCH_DEBOUNCE_MS);
   };
@@ -183,11 +185,10 @@ const ComposeView = () => {
   return (
     <>
       <div className="ContractLedger__InnkeeperFlavor">
-        A whisper to the Guild carries weight. Select a rumor to pass along;
-        point cost scales with the trouble it will bring.
+        Commission adventurers against the Realm's enemies.
       </div>
 
-      <FormRow label="Rumor Type">
+      <FormRow label="Commission Type">
         <select
           className="ContractLedger__InnkeeperSelect"
           value={type}
@@ -195,7 +196,7 @@ const ComposeView = () => {
         >
           {typeOptions.map((t) => (
             <option key={t} value={t}>
-              {t} ({pts(data.rumor_costs[t])})
+              {t} ({coin(data.defense_costs[t])})
             </option>
           ))}
         </select>
@@ -206,19 +207,19 @@ const ComposeView = () => {
           value={region}
           onChange={setRegion}
           options={regionsForType}
-          placeholder="— pick a region —"
+          placeholder="- pick a region -"
           disabled={regionsForType.length === 0}
           disabledPlaceholder="No region will host this type"
         />
       </FormRow>
 
       {needsDestination && (
-        <FormRow label="Rumored Shipment">
+        <FormRow label="Shipment Destination">
           <Select
             value={destination}
             onChange={setDestination}
-            options={data.rumor_destinations || []}
-            placeholder="— pick a destination —"
+            options={data.defense_destinations || []}
+            placeholder="- pick a destination -"
           />
         </FormRow>
       )}
@@ -240,6 +241,17 @@ const ComposeView = () => {
         </div>
       </FormRow>
 
+      <FormRow label="Levy Stamp">
+        <label>
+          <input
+            type="checkbox"
+            checked={levyExempt}
+            onChange={(e) => setLevyExempt(e.target.checked)}
+          />
+          &nbsp;Stamp as LEVY EXEMPT (waive Crown's Contract Levy)
+        </label>
+      </FormRow>
+
       <div className="ContractLedger__InnkeeperFormFooter">
         <button
           type="button"
@@ -248,41 +260,35 @@ const ComposeView = () => {
           title={disabledReason}
           onClick={dispatch}
         >
-          Whisper Rumor ({pts(cost)})
+          Commission ({coin(cost)})
         </button>
       </div>
     </>
   );
 };
 
-export const InnkeeperRumorPanel = () => {
-  const { data } = useBackend<InnkeeperData>();
+export const StewardDefensePanel = () => {
+  const { data } = useBackend<StewardData>();
   const [subTab, setSubTab] = useState<SubTab>('compose');
+
+  const dailyRefill =
+    data.pledge_refill_base +
+    data.pledge_refill_per_player * data.pledge_active_players;
 
   return (
     <div className="ContractLedger__Innkeeper">
       <div className="ContractLedger__InnkeeperHeader">
         <div className="ContractLedger__InnkeeperTitle">
-          So I have heard&hellip;
+          By the Pledge of the Burghers&hellip;
         </div>
         <div className="ContractLedger__InnkeeperBalance">
-          Rumor Points:&nbsp;<b>{data.rumor_points}</b>
+          Burgher Pledge:&nbsp;<b>{coin(data.pledge_balance)}</b>
           <span className="ContractLedger__InnkeeperBalanceFormula">
             {' '}
-            (+{data.rumor_refill_base} base, +
-            {data.rumor_refill_per_player.toFixed(2)}/player &times;{' '}
-            {data.rumor_active_players} ={' '}
-            {(
-              data.rumor_refill_base +
-              data.rumor_refill_per_player * data.rumor_active_players
-            ).toFixed(2)}
-            /day, cap{' '}
-            {Math.round(
-              2 *
-                (data.rumor_refill_base +
-                  data.rumor_refill_per_player * data.rumor_active_players),
-            )}
-            )
+            (+{coin(data.pledge_refill_base)} base, +
+            {coin(data.pledge_refill_per_player)}/player &times;{' '}
+            {data.pledge_active_players} = {coin(dailyRefill)}/day, cap{' '}
+            {coin(2 * dailyRefill)})
           </span>
         </div>
       </div>
@@ -290,13 +296,13 @@ export const InnkeeperRumorPanel = () => {
       <SubTabBar
         active={subTab}
         onSelect={setSubTab}
-        historyCount={(data.rumor_log || []).length}
+        historyCount={(data.defense_log || []).length}
       />
 
       {subTab === 'compose' ? (
         <ComposeView />
       ) : (
-        <HistoryView log={data.rumor_log || []} />
+        <HistoryView log={data.defense_log || []} />
       )}
     </div>
   );

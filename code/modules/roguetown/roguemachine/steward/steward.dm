@@ -4,7 +4,7 @@
 #define TAB_IMPORT 4
 #define TAB_BOUNTIES 5
 #define TAB_LOG 6
-#define TAB_STATISTICS 7
+#define TAB_FISCAL 7
 #define TAB_PAYDAY 8
 
 /obj/structure/roguemachine/steward
@@ -113,6 +113,7 @@
 	contract.total_due = FLOOR(amount * (1 + (contract.interest_rate * term)), 1)
 	playsound(src, 'sound/misc/coindispense.ogg', 60, FALSE, -1)
 	say("Loan Contract for [debtor.real_name] issued: [amount]m over [term] day\s, signed by [user.real_name].")
+
 
 /obj/structure/roguemachine/steward/attackby(obj/item/P, mob/user, params)
 	if(istype(P, /obj/item/roguekey))
@@ -481,7 +482,7 @@
 			contents += "<a href='?src=\ref[src];switchtab=[TAB_BOUNTIES]'>\[Bounties\]</a><BR>"
 			contents += "<a href='?src=\ref[src];switchtab=[TAB_PAYDAY]'>\[Daily Payments\]</a><BR>"
 			contents += "<a href='?src=\ref[src];switchtab=[TAB_LOG]'>\[Log\]</a><BR>"
-			contents += "<a href='?src=\ref[src];switchtab=[TAB_STATISTICS]'>\[Statistics\]</a><BR>"
+			contents += "<a href='?src=\ref[src];switchtab=[TAB_FISCAL]'>\[Fiscal Ledger\]</a><BR>"
 			contents += "<a href='?src=\ref[src];printresidency=1'>\[Print Letter of Citizenry\]</a><BR>"
 			var/loan_gate_ok = (GLOB.dayspassed <= SStreasury.loan_max_issuance_day)
 			if(loan_gate_ok)
@@ -622,18 +623,76 @@
 			for(var/i = SStreasury.ledger.len to 1 step -1)
 				var/datum/treasury_entry/entry = SStreasury.ledger[i]
 				contents += "<span class='info'>[entry.format()]</span><BR>"
-		if(TAB_STATISTICS)
+		if(TAB_FISCAL)
 			contents += "<a href='?src=\ref[src];switchtab=[TAB_MAIN]'>\[Return\]</a><BR>"
-			contents += "<center>Statistics:<BR>"
-			contents += "Known Economic Output: [SStreasury.economic_output]m<BR>"
-			contents += "Total Rural Tax: [SStreasury.total_rural_tax]m<BR>"
-			contents += "Total Deposit Tax: [SStreasury.total_deposit_tax]m<BR>"
-			contents += "Total Noble Estate Income: [SStreasury.total_noble_income]m<BR>"
-			contents += "Total Import: [SStreasury.total_import]m<BR>"
-			contents += "Total Export: [SStreasury.total_export]m<BR>"
-			contents += "Total Mammons Minted: [SStreasury.minted]m<BR>"
+			var/list/snap = SStreasury.compute_fiscal_snapshot()
+			var/list/charters = SStreasury.compute_charter_states()
+			contents += "<center>Fiscal Ledger - Day [GLOB.dayspassed]<BR>"
+			contents += "--------------</center><BR>"
+
+			contents += "<b>Balances</b><BR>"
+			contents += "Crown's Purse: [snap["discretionary"]]m<BR>"
+			contents += "Burgher Pledge: [snap["burgher_pledge"]]m<BR>"
+			contents += "Total Bank Coin: [snap["total_bank"]]m across [snap["held_accounts"]] accounts (avg [snap["avg_balance"]]m)<BR>"
+			contents += "Under 50m: [snap["under_50m"]] accounts<BR><BR>"
+
+			contents += "<b>Revenue This Week</b><BR>"
+			contents += "Rural Tax: [SStreasury.total_rural_tax]m<BR>"
+			contents += "Noble Estate Income: [SStreasury.total_noble_income]m<BR>"
+			contents += "Poll Tax: [GLOB.azure_round_stats[STATS_POLL_TAX_COLLECTED]]m<BR>"
+			contents += "Fines: [GLOB.azure_round_stats[STATS_FINES_INCOME]]m<BR>"
+			contents += "Contract Levy: [GLOB.azure_round_stats[STATS_REVENUE_CONTRACT_LEVY]]m<BR>"
+			contents += "Headeater Levy: [GLOB.azure_round_stats[STATS_REVENUE_HEADEATER_LEVY]]m<BR>"
+			contents += "Import Tariff: [GLOB.azure_round_stats[STATS_REVENUE_IMPORT_TARIFF]]m<BR>"
+			contents += "Export Duty: [GLOB.azure_round_stats[STATS_REVENUE_EXPORT_DUTY]]m<BR>"
+			contents += "Stockpile Exports: [SStreasury.total_export]m<BR>"
+			contents += "Stockpile Imports: [SStreasury.total_import]m (cost)<BR>"
 			contents += "Trade Balance: [SStreasury.total_export - SStreasury.total_import]m<BR>"
-			contents  += "</center><BR>"
+			contents += "Known Economic Output: [SStreasury.economic_output]m<BR>"
+			contents += "Total Mammons Minted: [SStreasury.minted]m<BR>"
+			contents += "Deposit Tax: [SStreasury.total_deposit_tax]m<BR><BR>"
+
+			contents += "<b>Tax Rates</b><BR>"
+			for(var/cat in SStreasury.tax_rates)
+				if(cat == TAX_CATEGORY_FINE)
+					continue
+				contents += "[SStreasury.get_tax_category_pretty_name(cat)]: [round(SStreasury.tax_rates[cat] * 100)]%<BR>"
+			contents += "<BR><b>Poll Tax Rates (daily)</b><BR>"
+			for(var/pcat in SStreasury.poll_tax_rates)
+				var/rate = SStreasury.poll_tax_rates[pcat]
+				var/pretty = SStreasury.get_poll_tax_category_pretty_name(pcat)
+				contents += "[pretty]: [rate]m"
+				if(pcat == POLL_TAX_CAT_BURGHER)
+					var/datum/decree/golden = SStreasury.get_decree(DECREE_GOLDEN_BULL)
+					if(golden?.active && rate > GOLDEN_BULL_POLL_CAP)
+						contents += " <i>(capped at [GOLDEN_BULL_POLL_CAP]m by Golden Bull)</i>"
+				contents += "<BR>"
+			contents += "<BR>"
+
+			contents += "<b>Charters</b><BR>"
+			for(var/entry in charters)
+				var/cooldown_left = entry["cooldown_remaining"]
+				var/cd_text = cooldown_left > 0 ? " (cooldown: [round(cooldown_left / 600, 0.1)]min)" : ""
+				contents += "[entry["name"]]: [entry["active"] ? "<font color='#5cb85c'>ACTIVE</font>" : "<font color='#d9534f'>SUSPENDED</font>"][cd_text]<BR>"
+			contents += "<BR>"
+
+			contents += "<b>Debt &amp; Loans</b><BR>"
+			contents += "Accounts in Arrears: [snap["in_arrears"]]<BR>"
+			contents += "Accounts with Grace Paid: [snap["in_grace"]]<BR>"
+			contents += "Default Debtors (TRAIT_DEBTOR): [snap["debtor_count"]]<BR>"
+			contents += "Loans Outstanding: [snap["loans_outstanding"]] ([snap["loan_exposure"]]m exposure)<BR><BR>"
+
+			contents += "<b>Contracts This Week</b><BR>"
+			var/gen_total = GLOB.azure_round_stats[STATS_CONTRACTS_GENERATED]
+			var/taken_total = GLOB.azure_round_stats[STATS_CONTRACTS_TAKEN]
+			var/comp_total = GLOB.azure_round_stats[STATS_CONTRACTS_COMPLETED]
+			contents += "Generated: [gen_total] (Pool [GLOB.azure_round_stats[STATS_CONTRACTS_GENERATED_POOL]] / Rumor [GLOB.azure_round_stats[STATS_CONTRACTS_GENERATED_RUMOR]] / Defense [GLOB.azure_round_stats[STATS_CONTRACTS_GENERATED_DEFENSE]])<BR>"
+			contents += "Taken: [taken_total] (Pool [GLOB.azure_round_stats[STATS_CONTRACTS_TAKEN_POOL]] / Rumor [GLOB.azure_round_stats[STATS_CONTRACTS_TAKEN_RUMOR]] / Defense [GLOB.azure_round_stats[STATS_CONTRACTS_TAKEN_DEFENSE]])<BR>"
+			contents += "Completed: [comp_total] (Pool [GLOB.azure_round_stats[STATS_CONTRACTS_COMPLETED_POOL]] / Rumor [GLOB.azure_round_stats[STATS_CONTRACTS_COMPLETED_RUMOR]] / Defense [GLOB.azure_round_stats[STATS_CONTRACTS_COMPLETED_DEFENSE]])<BR><BR>"
+
+			contents += "<b>Payroll</b><BR>"
+			contents += "Wages Paid: [GLOB.azure_round_stats[STATS_WAGES_PAID]]m<BR>"
+			contents += "Treasury Transfers: [GLOB.azure_round_stats[STATS_DIRECT_TREASURY_TRANSFERS]]m<BR>"
 		if(TAB_PAYDAY)
 			contents += "<a href='?src=\ref[src];switchtab=[TAB_MAIN]'>\[Return\]</a><BR>"
 			contents += "<center>Daily Payments<BR>"
@@ -690,5 +749,5 @@
 #undef TAB_IMPORT
 #undef TAB_BOUNTIES
 #undef TAB_LOG
-#undef TAB_STATISTICS
+#undef TAB_FISCAL
 #undef TAB_PAYDAY

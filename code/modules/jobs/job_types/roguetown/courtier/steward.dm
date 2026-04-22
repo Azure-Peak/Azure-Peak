@@ -82,6 +82,7 @@
 		SStreasury.grant_savings(ECONOMIC_RICH, H)
 	backpack_contents = list(
 		/obj/item/mini_flagpole/steward = 1,
+		/obj/item/clothing/ring/signet = 1,
 	)
 
 /mob/living/carbon/human/proc/adjust_taxes()

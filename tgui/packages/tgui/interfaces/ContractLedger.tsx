@@ -5,6 +5,7 @@ import type { BooleanLike } from 'tgui-core/react';
 import { useBackend } from '../backend';
 import { Window } from '../layouts';
 import { InnkeeperRumorPanel } from './ContractLedgerInnkeeper';
+import { StewardDefensePanel } from './ContractLedgerSteward';
 
 type Contract = {
   ref: string;
@@ -20,6 +21,7 @@ type Contract = {
   threat_bands: number;
   levy_exempt: BooleanLike;
   is_rumor: BooleanLike;
+  is_defense: BooleanLike;
 };
 
 type ActiveContract = {
@@ -59,12 +61,15 @@ type LedgerMode = 'contracts' | 'dynamic';
 
 const DYNAMIC_TAB_LABELS: Record<string, string> = {
   innkeeper: 'Rumors',
+  steward: 'Commissions',
 };
 
 const renderDynamicPanel = (role: string) => {
   switch (role) {
     case 'innkeeper':
       return <InnkeeperRumorPanel />;
+    case 'steward':
+      return <StewardDefensePanel />;
     default:
       return null;
   }
@@ -225,13 +230,29 @@ const ContractCard = (props: { contract: Contract }) => {
     : cantAfford
       ? `Requires ${c.deposit} mammon in your account.`
       : undefined;
+  const stamps: { label: string; modifier: string }[] = [];
+  if (c.is_rumor) stamps.push({ label: 'RUMORED!', modifier: 'rumor' });
+  if (c.is_defense) stamps.push({ label: 'COMMISSIONED', modifier: 'commissioned' });
+  if (c.levy_exempt) stamps.push({ label: 'LEVY EXEMPT', modifier: 'exempt' });
+  const contentTopPad = stamps.length > 0 ? 8 + stamps.length * 16 : 0;
   return (
     <div className="ContractLedger__Card">
       <div className={difficultyPinClass(c.difficulty)} />
-      {!!c.is_rumor && (
-        <div className="ContractLedger__RumorStamp">RUMORED!</div>
-      )}
-      <div className="ContractLedger__CardTitle">{c.title}</div>
+      {stamps.map((s, i) => (
+        <div
+          key={s.modifier}
+          className={`ContractLedger__Stamp ContractLedger__Stamp--${s.modifier}`}
+          style={{ top: `${6 + i * 16}px` }}
+        >
+          {s.label}
+        </div>
+      ))}
+      <div
+        className="ContractLedger__CardTitle"
+        style={{ marginTop: `${contentTopPad}px` }}
+      >
+        {c.title}
+      </div>
       <div className="ContractLedger__CardRow">
         <span className="ContractLedger__CardLabel">Locale</span>
         <span className="ContractLedger__CardValue">
@@ -252,7 +273,7 @@ const ContractCard = (props: { contract: Contract }) => {
       </div>
       {(() => {
         const levyRate = c.levy_exempt ? 0 : data.tax_rate;
-        const guildRate = data.guild_cut_rate || 0;
+        const guildRate = c.is_defense ? 0 : data.guild_cut_rate || 0;
         const levy = Math.round(c.reward * levyRate);
         const guild = Math.round(c.reward * guildRate);
         const purse = c.reward - levy - guild;
@@ -265,14 +286,6 @@ const ContractCard = (props: { contract: Contract }) => {
                 </span>
                 <span className="ContractLedger__CardValue" style={{ color: '#c44' }}>
                   -{levy}
-                </span>
-              </div>
-            )}
-            {!!c.levy_exempt && (
-              <div className="ContractLedger__CardRow">
-                <span className="ContractLedger__CardLabel">Stamp</span>
-                <span className="ContractLedger__CardValue" style={{ color: '#4a4' }}>
-                  LEVY EXEMPT
                 </span>
               </div>
             )}
