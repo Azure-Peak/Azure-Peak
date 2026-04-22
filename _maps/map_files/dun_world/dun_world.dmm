@@ -20322,7 +20322,7 @@
 "eiF" = (
 /obj/structure/closet/crate/chest/neu_fancy{
 	locked = 1;
-	lockid = "priest";
+	lockid = "church";
 	name = "Church Tithes"
 	},
 /obj/item/roguecoin/copper/pile,
@@ -39424,7 +39424,7 @@
 /obj/item/rogueore/silver,
 /obj/structure/closet/crate/chest/neu_iron{
 	locked = 1;
-	lockid = "priest";
+	lockid = "church";
 	name = "Ecclesiastical Silver"
 	},
 /turf/open/floor/rogue/metal,
@@ -94139,7 +94139,7 @@
 /area/rogue/indoors/shelter/woods)
 "sRH" = (
 /obj/structure/mineral_door/bars{
-	lockid = "priest";
+	lockid = "church";
 	locked = 1
 	},
 /obj/structure/fluff/littlebanners/greenwhite{
@@ -115386,7 +115386,7 @@
 /obj/structure/mineral_door/wood/donjon/stone/highsecurity{
 	name = "Holy Reliquaries";
 	locked = 1;
-	lockid = "priest"
+	lockid = "church"
 	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/church/chapel)
