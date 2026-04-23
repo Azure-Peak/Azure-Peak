@@ -21,7 +21,7 @@
 	if(!ishuman(user))
 		return
 	var/mob/living/carbon/human/steward = user
-	if(steward.job != "Steward")
+	if(!(steward.job in GLOB.contract_ledger_commission_roles))
 		return
 	if(!steward.Adjacent(src))
 		return

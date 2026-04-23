@@ -114,14 +114,24 @@
 		data["directives_issued_today"] = directives_issued_today
 	return data
 
+/// Jobs that can access the Steward commission panel. The Steward is the primary commissioner;
+/// the rest are substitutes so that blockade defense doesn't get crippled when the Steward is
+/// absent, dead, or otherwise occupied. Expand here if more authority roles need standing.
+GLOBAL_LIST_INIT(contract_ledger_commission_roles, list(
+	"Steward",
+	"Grand Duke",
+	"Hand",
+	"Clerk",
+	"Marshal",
+))
+
 /// Return the dynamic-tab role key for this user, or null. Extend here when a new job earns its
 /// own ledger panel (e.g. steward).
 /obj/structure/roguemachine/contractledger/proc/resolve_dynamic_role(mob/user)
-	switch(user?.job)
-		if("Innkeeper")
-			return "innkeeper"
-		if("Steward")
-			return "steward"
+	if(user?.job == "Innkeeper")
+		return "innkeeper"
+	if(user?.job in GLOB.contract_ledger_commission_roles)
+		return "steward"
 	return null
 
 /obj/structure/roguemachine/contractledger/proc/build_region_listing()
