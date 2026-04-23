@@ -15,7 +15,8 @@
 	reason = entry_reason
 	from_name = from_fund ? from_fund.name : "void"
 	to_name = to_fund ? to_fund.name : "void"
-	currency = (from_fund || to_fund)?.currency
+	var/datum/fund/source = from_fund || to_fund
+	currency = source?.currency
 
 /datum/treasury_entry/proc/format()
 	var/suffix = reason ? " ([reason])" : ""

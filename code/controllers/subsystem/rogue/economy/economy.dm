@@ -95,7 +95,8 @@ SUBSYSTEM_DEF(economy)
 		var/datum/economic_region/region = GLOB.economic_regions[region_id]
 		if(!region)
 			continue
-		region.possible_standing_order_types = mapping[region_id].Copy()
+		var/list/templates = mapping[region_id]
+		region.possible_standing_order_types = templates.Copy()
 
 /datum/controller/subsystem/economy/proc/daily_tick()
 	if(GLOB.dayspassed <= last_processed_day)
