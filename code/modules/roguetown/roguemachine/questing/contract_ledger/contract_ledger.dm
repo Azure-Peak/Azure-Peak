@@ -106,7 +106,7 @@
 		data["defense_log"] = SStreasury.defense_log
 		data["blockade_global_busy"] = SSeconomy.any_blockade_quest_active() ? TRUE : FALSE
 		refresh_directive_quota()
-		data["directives_per_day"] = COMMISSION_DIRECTIVES_PER_DAY
+		data["directives_per_day"] = COMMISSION_REQUESTS_PER_DAY
 		data["directives_issued_today"] = directives_issued_today
 	return data
 

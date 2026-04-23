@@ -6,6 +6,7 @@
 #define TAB_LOG 6
 #define TAB_FISCAL 7
 #define TAB_PAYDAY 8
+#define TAB_DEBT 9
 
 /obj/structure/roguemachine/steward
 	name = "nerve master"
@@ -634,6 +635,7 @@
 			contents += "<a href='?src=\ref[src];switchtab=[TAB_PAYDAY]'>\[Daily Payments\]</a><BR>"
 			contents += "<a href='?src=\ref[src];switchtab=[TAB_LOG]'>\[Log\]</a><BR>"
 			contents += "<a href='?src=\ref[src];switchtab=[TAB_FISCAL]'>\[Fiscal Ledger\]</a><BR>"
+			contents += "<a href='?src=\ref[src];switchtab=[TAB_DEBT]'>\[Debts &amp; Arrears\]</a><BR>"
 			contents += "<a href='?src=\ref[src];printresidency=1'>\[Print Letter of Citizenry\]</a><BR>"
 			var/loan_gate_ok = (GLOB.dayspassed <= SStreasury.loan_max_issuance_day)
 			if(loan_gate_ok)
@@ -642,8 +644,6 @@
 				contents += "<font color='gray'>\[Issue Loan - closed after day [SStreasury.loan_max_issuance_day]\]</font><BR>"
 			contents += "<a href='?src=\ref[src];setloanrate=1'>\[Loan Rate: [round(SStreasury.loan_interest_rate * 100)]%/day\]</a><BR>"
 			contents += "<a href='?src=\ref[src];setpurchasefloor=1'>\[Purchase Floor: [SStreasury.stockpile_purchase_floor]m\]</a><BR>"
-			contents += "<a href='?src=\ref[src];clearloandebtor=1'>\[Clear Defaulter Mark\]</a><BR>"
-			contents += "<font color='gray'><i>(A defaulter's mark lifts automatically when they settle the outstanding debt at a MEISTER. Use this to forgive the debt entirely.)</i></font><BR>"
 			contents += "</center>"
 		if(TAB_BANK)
 			contents += "<a href='?src=\ref[src];switchtab=[TAB_MAIN]'>\[Return\]</a>"
@@ -651,33 +651,86 @@
 			contents += "<center>Bank<BR>"
 			contents += "--------------<BR>"
 			contents += "Treasury: [SStreasury.discretionary_fund.balance]m</center><BR>"
-			if(length(SStreasury.loans))
-				contents += "<center>Active Loans ([length(SStreasury.loans)]):</center><BR>"
-				for(var/datum/loan/L in SStreasury.loans)
-					contents += "<span class='info'>[L.format()]</span><BR>"
-				contents += "<BR>"
 			contents += "<a href='?src=\ref[src];payroll=1'>\[Pay by Class\]</a><BR><BR>"
+			// Collect all accounts, sort debtors/arrears first, then rest.
+			var/list/priority_accounts = list() // debtors or in arrears
+			var/list/normal_accounts = list()
 			for(var/mob/living/carbon/human/A in SStreasury.bank_accounts)
+				var/owed = SStreasury.poll_tax_owed[A] || 0
+				var/is_debtor = HAS_TRAIT(A, TRAIT_DEBTOR)
+				if(is_debtor || owed > 0)
+					priority_accounts += A
+				else
+					normal_accounts += A
+			for(var/mob/living/carbon/human/A in priority_accounts + normal_accounts)
 				var/balance = SStreasury.get_balance(A)
 				var/max_fine = SStreasury.get_max_fine_for(A)
 				var/wage_status_short = HAS_TRAIT(A, TRAIT_WAGES_SUSPENDED) ? "UNSUSPEND" : "SUSPEND"
 				var/wage_status_long = HAS_TRAIT(A, TRAIT_WAGES_SUSPENDED) ? "Unsuspend Wages" : "Suspend Wages"
 				var/fine_label = max_fine > 0 ? "FINE (Max [max_fine]m)" : "FINE (exempt)"
 				var/fine_long_label = max_fine > 0 ? "Fine Account (Max [max_fine]m)" : "Fine Account (exempt)"
+				var/poll_owed = SStreasury.poll_tax_owed[A] || 0
+				var/overdue_days = SStreasury.poll_tax_debt_days[A] || 0
+				var/a_is_debtor = HAS_TRAIT(A, TRAIT_DEBTOR)
+				var/debt_tag = ""
+				if(a_is_debtor)
+					var/owed_str = poll_owed > 0 ? ", owes [poll_owed]m" : ""
+					debt_tag = " <font color='#d9534f'>\[DEBTOR[owed_str]\]</font>"
+				else if(poll_owed > 0)
+					debt_tag = " <font color='#e07b39'>\[ARREARS: [poll_owed]m, [overdue_days] day[overdue_days == 1 ? "" : "s"]\]</font>"
 				if(compact)
 					if(ishuman(A))
 						var/mob/living/carbon/human/tmp = A
-						contents += "[tmp.real_name] ([job_filter(tmp.advjob, tmp.job, compact)]) - [balance]m"
+						contents += "[tmp.real_name] ([job_filter(tmp.advjob, tmp.job, compact)]) - [balance]m[debt_tag]"
 					else
-						contents += "[A.real_name] - [balance]m"
+						contents += "[A.real_name] - [balance]m[debt_tag]"
 					contents += " / <a href='?src=\ref[src];givemoney=\ref[A]'>\[PAY\]</a> <a href='?src=\ref[src];fineaccount=\ref[A]'>\[[fine_label]\]</a> <a href='?src=\ref[src];togglewages=\ref[A]'>\[[wage_status_short]\]</a><BR><BR>"
 				else
 					if(ishuman(A))
 						var/mob/living/carbon/human/tmp = A
-						contents += "[tmp.real_name] ([job_filter(tmp.advjob, tmp.job, compact)]) - [balance]m<BR>"
+						contents += "[tmp.real_name] ([job_filter(tmp.advjob, tmp.job, compact)]) - [balance]m[debt_tag]<BR>"
 					else
-						contents += "[A.real_name] - [balance]m<BR>"
+						contents += "[A.real_name] - [balance]m[debt_tag]<BR>"
 					contents += "<a href='?src=\ref[src];givemoney=\ref[A]'>\[Give Money\]</a> <a href='?src=\ref[src];fineaccount=\ref[A]'>\[[fine_long_label]\]</a> <a href='?src=\ref[src];togglewages=\ref[A]'>\[[wage_status_long]\]</a><BR><BR>"
+		if(TAB_DEBT)
+			contents += "<a href='?src=\ref[src];switchtab=[TAB_MAIN]'>\[Return\]</a><BR>"
+			contents += "<center>Debts &amp; Arrears<BR>"
+			contents += "--------------<BR>"
+			contents += "Treasury: [SStreasury.discretionary_fund.balance]m</center><BR>"
+			// ── Active Loans ──────────────────────────────────────────────────
+			if(length(SStreasury.loans))
+				contents += "<b>Active Loans ([length(SStreasury.loans)]):</b><BR>"
+				for(var/datum/loan/L in SStreasury.loans)
+					var/loan_color = L.defaulted ? "#d9534f" : "#e07b39"
+					contents += "<font color='[loan_color]'>[L.format()]</font><BR>"
+				contents += "<BR>"
+			else
+				contents += "<i>No active loans.</i><BR><BR>"
+			// ── Poll Tax Arrears & Debtors ────────────────────────────────────
+			var/list/debt_rows = list()
+			for(var/mob/living/carbon/human/A in SStreasury.bank_accounts)
+				var/poll_owed = SStreasury.poll_tax_owed[A] || 0
+				var/is_debtor = HAS_TRAIT(A, TRAIT_DEBTOR)
+				if(poll_owed > 0 || is_debtor)
+					debt_rows += A
+			if(length(debt_rows))
+				contents += "<b>Poll Tax Debtors / Arrears ([length(debt_rows)]):</b><BR>"
+				for(var/mob/living/carbon/human/A in debt_rows)
+					var/poll_owed = SStreasury.poll_tax_owed[A] || 0
+					var/overdue_days = SStreasury.poll_tax_debt_days[A] || 0
+					var/is_debtor = HAS_TRAIT(A, TRAIT_DEBTOR)
+					var/balance = SStreasury.get_balance(A)
+					if(is_debtor)
+						var/owed_str = poll_owed > 0 ? ", owes [poll_owed]m" : ""
+						contents += "<font color='#d9534f'><b>[A.real_name]</b> \[DEBTOR[owed_str]\]</font> - balance: [balance]m"
+					else
+						contents += "<font color='#e07b39'><b>[A.real_name]</b> \[ARREARS: [poll_owed]m, [overdue_days] day[overdue_days == 1 ? "" : "s"]\]</font> - balance: [balance]m"
+					contents += "<BR>"
+				contents += "<BR>"
+			else
+				contents += "<i>No poll tax arrears.</i><BR><BR>"
+			contents += "<a href='?src=\ref[src];clearloandebtor=1'>\[Clear Defaulter Mark\]</a><BR>"
+			contents += "<font color='gray'><i>(Forgives outstanding debt entirely and lifts the defaulter mark.)</i></font><BR>"
 		if(TAB_STOCK)
 			contents += "<a href='?src=\ref[src];switchtab=[TAB_MAIN]'>\[Return\]</a>"
 			contents += " <a href='?src=\ref[src];compact=1'>\[Compact: [compact? "ENABLED" : "DISABLED"]\]</a><BR>"
@@ -903,7 +956,7 @@
 			contents += "<b><font color='#e07b39'>DEBT &amp; LOANS</font></b>"
 			contents += "<table width='100%' cellspacing='0' cellpadding='2'>"
 			contents += "<tr><td>Accounts in Arrears</td><td align='right'><font color='#e07b39'>[snap["in_arrears"]]</font></td>"
-			contents += "<td>Accounts in Grace</td><td align='right'>[snap["in_grace"]]</td></tr>"
+			contents += "<td>Accounts in Advance</td><td align='right'>[snap["in_advance"]]</td></tr>"
 			contents += "<tr><td>Default Debtors</td><td align='right'><font color='#d9534f'>[snap["debtor_count"]]</font></td>"
 			contents += "<td>Loans Outstanding</td><td align='right'>[snap["loans_outstanding"]] ([snap["loan_exposure"]]m)</td></tr>"
 			contents += "</table><br>"

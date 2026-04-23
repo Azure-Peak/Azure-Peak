@@ -15,6 +15,12 @@
 		ui = new(user, src, "TaxSetter", "Set Crown Levies")
 		ui.open()
 
+/datum/taxsetter/ui_data(mob/user)
+	return list(
+		"levyCooldown" = (GLOB.dayspassed <= SStreasury.levy_rates_changed_day),
+		"pollCooldown" = (GLOB.dayspassed <= SStreasury.poll_rates_changed_day),
+	)
+
 /datum/taxsetter/ui_static_data(mob/user)
 	var/list/category_rates = list()
 	for(var/category in SStreasury.tax_rates)

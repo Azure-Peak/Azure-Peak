@@ -52,8 +52,8 @@
 			source_fund = SStreasury.discretionary_fund
 		if("directive")
 			refresh_directive_quota()
-			if(directives_issued_today >= COMMISSION_DIRECTIVES_PER_DAY)
-				to_chat(steward, span_warning("You have exhausted today's request quota ([COMMISSION_DIRECTIVES_PER_DAY]/day)."))
+			if(directives_issued_today >= COMMISSION_REQUESTS_PER_DAY)
+				to_chat(steward, span_warning("You have exhausted today's request quota ([COMMISSION_REQUESTS_PER_DAY]/day)."))
 				return
 			is_directive = TRUE
 			cost = 0

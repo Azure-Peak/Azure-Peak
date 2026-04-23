@@ -70,7 +70,8 @@ SUBSYSTEM_DEF(treasury)
 	var/list/poll_tax_advance_days = list()
 	var/list/poll_tax_owed = list()
 	var/list/poll_tax_debt_days = list()
-	var/poll_tax_announce_used_day = -1
+	var/levy_rates_changed_day = -1
+	var/poll_rates_changed_day = -1
 	/// Steward-settable floor. Stockpile refuses purchases when Crown's Purse would drop below this.
 	var/stockpile_purchase_floor = STOCKPILE_CROWN_PURCHASE_FLOOR_DEFAULT
 	var/rumor_points = RUMOR_POINTS_START
@@ -409,6 +410,9 @@ SUBSYSTEM_DEF(treasury)
 	return TRUE
 
 /datum/controller/subsystem/treasury/proc/apply_rate_adjustments(list/adjustments, good_announcement_text, bad_announcement_text)
+	if(GLOB.dayspassed <= levy_rates_changed_day)
+		to_chat(usr, span_warning("Crown levies have already been adjusted today - come back tomorrow."))
+		return
 	var/list/lines = list()
 	var/bad_guy = FALSE
 	for(var/entry in adjustments)
@@ -433,12 +437,16 @@ SUBSYSTEM_DEF(treasury)
 	if(!length(lines))
 		return
 
+	levy_rates_changed_day = GLOB.dayspassed
 	var/final_text = jointext(lines, "<br>")
 	var/final_announcement_text = bad_guy ? bad_announcement_text : good_announcement_text
 	priority_announce(final_text, final_announcement_text, pick('sound/misc/royal_decree.ogg', 'sound/misc/royal_decree2.ogg'), "Captain", strip_html = FALSE)
 	log_game("TAX RATES: [usr ? key_name(usr) : "system"] changed levy rates - [jointext(lines, " | ")]")
 
 /datum/controller/subsystem/treasury/proc/apply_poll_rate_adjustments(list/adjustments, good_announcement_text, bad_announcement_text)
+	if(GLOB.dayspassed <= poll_rates_changed_day)
+		to_chat(usr, span_warning("Poll tax rates have already been adjusted today - come back tomorrow."))
+		return
 	if(!islist(adjustments))
 		return
 	var/list/lines = list()
@@ -462,9 +470,7 @@ SUBSYSTEM_DEF(treasury)
 
 	if(!length(lines))
 		return
-	if(GLOB.dayspassed <= poll_tax_announce_used_day)
-		return
-	poll_tax_announce_used_day = GLOB.dayspassed
+	poll_rates_changed_day = GLOB.dayspassed
 	var/final_text = jointext(lines, "<br>")
 	var/final_announcement_text = bad_guy ? bad_announcement_text : good_announcement_text
 	priority_announce(final_text, final_announcement_text, pick('sound/misc/royal_decree.ogg', 'sound/misc/royal_decree2.ogg'), "Captain", strip_html = FALSE)
