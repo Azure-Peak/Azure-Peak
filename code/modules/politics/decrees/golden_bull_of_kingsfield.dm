@@ -6,12 +6,14 @@
 	name = "The Golden Bull of Kingsfield"
 	/// Tracks fines taken per player per day. Key = ckey, value = list("day", "total").
 	var/list/fine_daily_ledger = list()
-	flavor_text = {"Under Astrata's Sun, with Ravox as witness, be it known that the Crown shall impose no tax or levy upon the Burghers of Azuria save by consent of a Council of Notables and Burghers assembled; nor shall any Burgher be deprived of his wealth but by the law of the land.
+	flavor_text = {"This Golden Bull of Kingsfield, sealed under Astrata's Sun and with Ravox as witness, witnesseth that the Crown shall impose no tax nor levy upon the Burghers of Azuria, save by the consent of a Council of Notables and Burghers duly assembled; nor shall any Burgher be deprived of his wealth but by the law of the land.
 
-In return, the Burghers of Azuria undertake to furnish, for the common defense of the Realm against pirates, brigands, and such other malefactors as do threaten the peace, a yearly Budget, the sum collected from amongst their members according to wealth and apportioned by their own assembly.
+In return, the Burghers of Azuria shall undertake to furnish, for the common defense of the Realm against pirates, brigands, and such other malefactors as do threaten the peace, a yearly Budget - the sum collected from amongst their members according to their wealth, and apportioned by their own assembly.
 
-Should the Crown violate this Charter, the Burghers are absolved of their obligation, that the Realm may know the cost of breaking faith with its makers of wealth."}
-	revoke_text = "The %RULER% has suspended the Golden Bull of Kingsfield. The burghers stand exposed to the Crown's full levy, and the outraged merchants shall contribute no more to the common defense of the realm."
+And should the Crown violate this Charter, the Burghers are absolved of their obligation, that the Realm may know the cost of breaking faith with its makers of wealth.
+
+Yeven under the seal of the Crown."}
+	revoke_text = "The %RULER% has suspended the Golden Bull of Kingsfield. The burghers stand exposed to the Crown's full levy, and the outraged merchants shall contribute no more to the common defense of the Realm."
 	restore_text = "The %RULER% has restored the Golden Bull of Kingsfield. The compact stands renewed, and the burghers resume their tribute to the common defense."
 
 /datum/decree/golden_bull/roll_initial_year()

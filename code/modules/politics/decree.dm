@@ -29,6 +29,12 @@
 /datum/decree/proc/apply_poll_tax_cap(mob/living/payer, poll_category, current_rate)
 	return current_rate
 
+/datum/decree/proc/apply_wage_floor(job_title, current_floor)
+	return current_floor
+
+/datum/decree/proc/wage_floored_jobs()
+	return list()
+
 /// Returns the updated daily fine ceiling (in mammon) for this payer. Decrees may narrow it.
 /datum/decree/proc/apply_daily_fine_cap(mob/living/payer, current_remaining)
 	return current_remaining

@@ -638,6 +638,25 @@ SUBSYSTEM_DEF(treasury)
 		rate = D.apply_poll_tax_cap(H, category, rate)
 	return rate
 
+/datum/controller/subsystem/treasury/proc/get_wage_floor(job_title)
+	var/floor = 0
+	for(var/id in decrees)
+		var/datum/decree/D = decrees[id]
+		if(!D?.active)
+			continue
+		floor = D.apply_wage_floor(job_title, floor)
+	return floor
+
+/datum/controller/subsystem/treasury/proc/enumerate_wage_floored_jobs()
+	var/list/out = list()
+	for(var/id in decrees)
+		var/datum/decree/D = decrees[id]
+		if(!D?.active)
+			continue
+		for(var/job in D.wage_floored_jobs())
+			out |= job
+	return out
+
 /datum/controller/subsystem/treasury/proc/poll_tax_pay_advance(mob/living/H, days)
 	if(!H || days <= 0)
 		return FALSE

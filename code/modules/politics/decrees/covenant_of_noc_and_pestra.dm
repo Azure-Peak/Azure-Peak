@@ -12,11 +12,20 @@
 		"Apothecary",
 		"Head Physician",
 	)
-	flavor_text = {"Under the watchful eye of Noc and the merciful hand of Pestra, be it known that the scholars of the University and the healers of the Apothecary shall bear no greater levy than the lightest measure.
+	var/static/list/wage_floors = list(
+		"Court Magician" = 40,
+		"Archivist" = 20,
+		"Magicians Associate" = 10,
+		"Head Physician" = 80,
+		"Apothecary" = 40,
+	)
+	flavor_text = {"This Covenant of Noc & Pestra, sworne under the watchful eye of Noc and the merciful hand of Pestra, witnesseth that the scholars of the University and the healers of the Apothecary shall bear no greater levy than the lightest measure upon their heads, and shall be paid from the Crown's purse an honest minimum of their due whilst this Covenant standeth.
 
-In exchange, the chartered scholars of the University shall keep the lore and knowledge of the Realm, preserve it, and teach it to those worthy and of bright minds, for Noc granted humen the gift of magick and wisdom so we may pass it on. And the chartered healers of the Apothecary, agents of Pestra, shall tend the hurt of every subject who comes to their door, be they beggar or burgher, and shall never refuse the wounded for want of coin, for Pestra is merciful and taught us medicine so that we may care for each other."}
-	revoke_text = "The %RULER% has suspended the Covenant of Noc & Pestra. The scholars and healers of Azuria now bear the Crown's common levy in full."
-	restore_text = "The %RULER% has affirmed the Covenant of Noc & Pestra. The scholars and healers of Azuria resume their sheltered station."
+In exchange, the chartered scholars of the University shall keep the lore and knowledge of the Realm, preserve it, and teach it unto those worthy and of bright minds, for Noc granted humen the gift of magick and wisdom that we may pass it on. And the chartered healers of the Apothecary, agents of Pestra, shall tend the hurt of every subject who cometh to their door, be they beggar or burgher, and shall never refuse the wounded for want of coin, for Pestra is merciful and taught us medicine that we may care for one another.
+
+Yeven under the seal of the Crown, in witness of Noc and Pestra."}
+	revoke_text = "The %RULER% has suspended the Covenant of Noc & Pestra. The scholars and healers of Azuria now bear the Crown's common levy in full - and Noc and Pestra may reckon how long their mercy lasts without their chartered hands."
+	restore_text = "The %RULER% has affirmed the Covenant of Noc & Pestra. The scholars and healers of Azuria resume their sheltered station, that the Realm may keep both its lore and its mercy."
 
 /datum/decree/noc_pestra_covenant/roll_initial_year()
 	return CALENDAR_EPOCH_YEAR - rand(20, 60)
@@ -33,9 +42,18 @@ In exchange, the chartered scholars of the University shall keep the lore and kn
 		return TRUE
 	return FALSE
 
-/// Cap poll tax at NOC_PESTRA_POLL_CAP for covered jobs. Applied after the base category rate and
-/// any other decree adjustments (so this stacks as the tighter of whatever came before).
 /datum/decree/noc_pestra_covenant/apply_poll_tax_cap(mob/living/payer, poll_category, current_rate)
 	if(!is_protected(payer))
 		return current_rate
 	return min(current_rate, NOC_PESTRA_POLL_CAP)
+
+/datum/decree/noc_pestra_covenant/apply_wage_floor(job_title, current_floor)
+	var/mandated = wage_floors[job_title] || 0
+	return max(current_floor, mandated)
+
+/datum/decree/noc_pestra_covenant/wage_floored_jobs()
+	return wage_floors
+
+/datum/decree/noc_pestra_covenant/on_restore()
+	. = ..()
+	SStreasury.steward_machine?.enforce_wage_floors()

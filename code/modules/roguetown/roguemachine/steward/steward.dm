@@ -52,6 +52,22 @@
 	daily_payments["Court Magician"] = 40 //University
 	daily_payments["Archivist"] = 20
 	daily_payments["Magicians Associate"] = 10
+	enforce_wage_floors()
+
+/// Walks every job currently on the payroll and every job newly floored by an active charter,
+/// then raises any below-floor wages up to the floor. Called at machine init and whenever a
+/// flooring charter activates. Safe to call multiple times.
+/obj/structure/roguemachine/steward/proc/enforce_wage_floors()
+	// Bump jobs already on the payroll if they're now below floor.
+	for(var/job in daily_payments)
+		var/floor = SStreasury.get_wage_floor(job)
+		if(floor > 0 && (daily_payments[job] || 0) < floor)
+			daily_payments[job] = floor
+	// Jobs the payroll doesn't know about but a charter floors (e.g., Knight, Marshal) need to
+	// be seeded at the floor so they actually receive pay.
+	for(var/job in SStreasury.enumerate_wage_floored_jobs())
+		if(isnull(daily_payments[job]))
+			daily_payments[job] = SStreasury.get_wage_floor(job)
 
 /obj/structure/roguemachine/steward/proc/issue_loan_dialog(mob/living/carbon/human/user)
 	if(!istype(user))
@@ -470,7 +486,9 @@
 			return
 		if(!usr.canUseTopic(src, BE_CLOSE) || locked)
 			return
-		var/amount_to_pay = input(usr, "Set daily payment for [job_to_pay] (0 to remove)", src, daily_payments[job_to_pay] ? daily_payments[job_to_pay] : 0) as null|num
+		var/wage_floor = SStreasury.get_wage_floor(job_to_pay)
+		var/prompt = wage_floor > 0 ? "Set daily payment for [job_to_pay] (floor: [wage_floor]m by Charter; 0 not permitted)" : "Set daily payment for [job_to_pay] (0 to remove)"
+		var/amount_to_pay = input(usr, prompt, src, daily_payments[job_to_pay] ? daily_payments[job_to_pay] : wage_floor) as null|num
 		if(!usr.canUseTopic(src, BE_CLOSE) || locked)
 			return
 		if(findtext(num2text(amount_to_pay), "."))
@@ -478,6 +496,9 @@
 		if(isnull(amount_to_pay))
 			return
 		amount_to_pay = CLAMP(amount_to_pay, 0, 999)
+		if(wage_floor > 0 && amount_to_pay < wage_floor)
+			amount_to_pay = wage_floor
+			say("By Charter, [job_to_pay]'s wage may not fall below [wage_floor]m. Payment set to the floor.")
 		if(amount_to_pay == 0)
 			daily_payments -= job_to_pay
 			say("Daily payment for [job_to_pay] removed.")
@@ -486,8 +507,13 @@
 			say("Daily payment for [job_to_pay] set to [amount_to_pay]m.")
 	if(href_list["removedailypay"])
 		var/job_to_remove = href_list["removedailypay"]
-		daily_payments -= job_to_remove
-		say("Daily payment for [job_to_remove] removed.")
+		var/removal_floor = SStreasury.get_wage_floor(job_to_remove)
+		if(removal_floor > 0)
+			daily_payments[job_to_remove] = removal_floor
+			say("By Charter, [job_to_remove]'s wage cannot be removed. Payment held at the floor of [removal_floor]m.")
+		else
+			daily_payments -= job_to_remove
+			say("Daily payment for [job_to_remove] removed.")
 	if(href_list["togglewages"])
 		var/X = locate(href_list["togglewages"])
 		if(!X)
@@ -1084,7 +1110,10 @@
 					for(var/mob/living/carbon/human/H in GLOB.human_list)
 						if(H.job == job_name && !HAS_TRAIT(H, TRAIT_WAGES_SUSPENDED))
 							count++
+					var/job_floor = SStreasury.get_wage_floor(job_name)
 					contents += "<b>[job_name]:</b> [amt]m/day"
+					if(job_floor > 0)
+						contents += " <font color='#e07b39'>\[FLOORED [job_floor]m by Charter\]</font>"
 					if(count > 0)
 						contents += " ([count] employed, [amt * count]m total/day)"
 					contents += " <a href='?src=\ref[src];removedailypay=[job_name]'>\[Remove\]</a><BR>"

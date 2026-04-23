@@ -24,9 +24,11 @@
 
 <p><b>The Golden Bull of Kingsfield.</b> The burghers and chartered residents of Azuria, and all the settled commons, shall bear no greater than a quarter portion in any levy or fine. They in turn furnish a common Budget for the defense of the Realm, apportioned amongst themselves by their own assembly.</p>
 
-<p><b>The Covenant of Noc & Pestra.</b> The scholars of the University (Court Magician, Archivist, and Magicians Associate) and the healers of the Apothecary (Apothecary and Head Physician) shall bear no poll tax greater than the lightest measure. They in turn keep the lore and tend the hurt of every subject who comes to their door.</p>
+<p><b>The Covenant of Noc & Pestra.</b> The scholars of the University (Court Magician, Archivist, and Magicians Associate) and the healers of the Apothecary (Apothecary and Head Physician) shall bear no poll tax greater than the lightest measure, and shall receive an honest minimum wage from the Crown's payroll while the Covenant stands. They in turn keep the lore and tend the hurt of every subject who comes to their door.</p>
 
 <p><b>The Guild Charter of Arms.</b> The Crown recognises the Guild of Arms as a chartered foreign body; its sworn mercenaries shall bear no poll tax beyond a light head-count. The Guild in turn remits a daily tribute to the Burgher Pledge as a gesture of good coin, owing the Crown no oath of service.</p>
+
+<p><b>The Indenture of War.</b> The Crown's armed men - Marshals, Knights, Sergeants, Men-at-Arms, Wardens, and Squires - shall bear the Crown's service only upon honest coin, and shall not be paid below the rank-by-rank floor set by the Indenture while it stands. They in turn keep the peace of the Realm and stand ready in every hour the Crown has need of arms.</p>
 
 <p><i>Each Charter, once suspended or restored by the Lord, may not again be revised for thirty minutes. Moreover, no more than one suspension and one restoration may be proclaimed in a single day. Let the Crown rule with patience.</i></p>
 
