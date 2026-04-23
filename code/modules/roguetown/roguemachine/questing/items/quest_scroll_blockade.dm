@@ -84,7 +84,10 @@
 		scroll_text += "<center><font color='#c44'><b>BLOCKADE HELD. THE WRIT HAS LAPSED.</b></font></center>"
 	else if(Q.complete)
 		scroll_text += "<center><font color='#5cb85c'><b>THE BLOCKADE IS BROKEN.</b></font></center><br>"
-		scroll_text += "The Crown has deposited [BLOCKADE_SCROLL_REWARD] mammon to the bearer's account."
+		if(Q.reward_amount > 0)
+			scroll_text += "The Crown has deposited [Q.reward_amount] mammon to the bearer's account."
+		else
+			scroll_text += "This was a Request — no reward was due."
 	else if(Q.armed)
 		scroll_text += "<b>Objective:</b> Travel to [region_label]. The raiders will descend upon your arrival.<br>"
 		if(last_compass_direction)
@@ -92,7 +95,10 @@
 			if(last_z_level_hint)
 				scroll_text += "([last_z_level_hint])"
 			scroll_text += "<br>"
-		scroll_text += "<b>Reward:</b> [BLOCKADE_SCROLL_REWARD] mammon to the lead bearer on breaking the third wave.<br>"
+		if(Q.reward_amount > 0)
+			scroll_text += "<b>Reward:</b> [Q.reward_amount] mammon to the lead bearer on breaking the third wave.<br>"
+		else
+			scroll_text += "<b>Reward:</b> None — issued as a Request.<br>"
 		scroll_text += "<br><i>Three waves descend once you reach the blockade. Each wave must fall within five minutes, or the writ is forfeit.</i>"
 	else
 		scroll_text += "<b>Objective:</b> [Q.get_objective_text()]<br>"
@@ -103,7 +109,10 @@
 			if(last_z_level_hint)
 				scroll_text += "([last_z_level_hint])"
 			scroll_text += "<br>"
-		scroll_text += "<b>Reward:</b> [BLOCKADE_SCROLL_REWARD] mammon to the lead bearer on breaking the third wave.<br>"
+		if(Q.reward_amount > 0)
+			scroll_text += "<b>Reward:</b> [Q.reward_amount] mammon to the lead bearer on breaking the third wave.<br>"
+		else
+			scroll_text += "<b>Reward:</b> None — issued as a Request.<br>"
 
 	info = scroll_text
 	update_icon()

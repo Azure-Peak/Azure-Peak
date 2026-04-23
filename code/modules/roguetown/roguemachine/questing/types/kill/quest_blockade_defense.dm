@@ -178,13 +178,17 @@
 		B.active_scroll_ref = null
 		SSeconomy.clear_blockade(B, "cleared")
 	var/mob/lead = quest_receiver_reference?.resolve()
-	if(lead && SStreasury.has_account(lead))
-		SStreasury.mint(SStreasury.get_account(lead), BLOCKADE_SCROLL_REWARD, "Blockade defense reward ([quest_giver_name || "Crown"] -> [lead.real_name])")
-		record_round_statistic(STATS_BLOCKADE_REWARDS_PAID, BLOCKADE_SCROLL_REWARD)
-		announce_to_bearer("The final wave breaks. The rewards, if any, have been transferred to your account.")
+	var/payout = reward_amount
+	if(payout > 0)
+		if(lead && SStreasury.has_account(lead))
+			SStreasury.mint(SStreasury.get_account(lead), payout, "Blockade defense reward ([quest_giver_name || "Crown"] -> [lead.real_name])")
+			record_round_statistic(STATS_BLOCKADE_REWARDS_PAID, payout)
+			announce_to_bearer("The final wave breaks. The rewards have been transferred to your account.")
+		else
+			SStreasury.mint(SStreasury.discretionary_fund, payout, "Blockade defense reward (unbanked bearer)")
+			announce_to_bearer("The final wave breaks. The Crown holds your share — return to the Nerve Master to collect.")
 	else
-		SStreasury.mint(SStreasury.discretionary_fund, BLOCKADE_SCROLL_REWARD, "Blockade defense reward (unbanked bearer)")
-		announce_to_bearer("The final wave breaks. The Crown holds your share — return to the Nerve Master to collect.")
+		announce_to_bearer("The final wave breaks. This was a Request — no reward is due.")
 	var/obj/item/paper/scroll/quest/S = quest_scroll
 	if(S && !QDELETED(S))
 		qdel(S)
