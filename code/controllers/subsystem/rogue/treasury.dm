@@ -25,8 +25,8 @@ SUBSYSTEM_DEF(treasury)
 	var/list/tax_rates = list(
 		TAX_CATEGORY_CONTRACT_LEVY = 0.20,
 		TAX_CATEGORY_HEADEATER_LEVY = 0.20,
-		TAX_CATEGORY_IMPORT_TARIFF = 0.20,
-		TAX_CATEGORY_EXPORT_DUTY = 0.20,
+		TAX_CATEGORY_IMPORT_TARIFF = 0.15,
+		TAX_CATEGORY_EXPORT_DUTY = 0.15,
 		TAX_CATEGORY_FINE = 1.0,
 	)
 	var/trade_spread = 0.10
@@ -369,11 +369,18 @@ SUBSYSTEM_DEF(treasury)
 	if(!golden?.active)
 		return
 	var/refill = BURGHER_PLEDGE_BASE_REFILL + (get_active_player_count() * BURGHER_PLEDGE_PER_PLAYER)
-	var/ceiling = refill * BURGHER_PLEDGE_CLAWBACK_MULTIPLIER
+	// The Guild of Arms' reciprocal contribution, when their charter is active. Minted as a
+	// separate ledger entry so the tribute is visible in the treasury log distinct from the
+	// burghers' own pledge.
+	var/datum/decree/arms_charter = get_decree(DECREE_GUILD_CHARTER_OF_ARMS)
+	var/guild_bonus = (arms_charter?.active) ? GUILD_CHARTER_OF_ARMS_PLEDGE_BONUS : 0
+	var/ceiling = (refill + guild_bonus) * BURGHER_PLEDGE_CLAWBACK_MULTIPLIER
 	if(burgher_pledge_fund.balance > ceiling)
 		var/surplus = burgher_pledge_fund.balance - ceiling
 		burn(burgher_pledge_fund, surplus, "Burgher Pledge clawback")
 	mint(burgher_pledge_fund, refill, "Burgher Pledge replenishment")
+	if(guild_bonus > 0)
+		mint(burgher_pledge_fund, guild_bonus, "Guild of Arms tribute (Charter of Arms)")
 
 /datum/controller/subsystem/treasury/proc/do_export(var/datum/roguestock/D, silent = FALSE)
 	if(D.stockpile_amount < D.importexport_amt)
@@ -622,10 +629,13 @@ SUBSYSTEM_DEF(treasury)
 	if(H && is_poll_tax_charter_exempt(H, category))
 		return 0
 	var/rate = poll_tax_rates[category] || 0
-	if(category == POLL_TAX_CAT_BURGHER)
-		var/datum/decree/golden = get_decree(DECREE_GOLDEN_BULL)
-		if(golden?.active)
-			rate = min(rate, GOLDEN_BULL_POLL_CAP)
+	// Let every active decree narrow the rate. Each decree decides whether THIS payer/category
+	// combination is relevant — the base proc just returns current_rate unchanged.
+	for(var/id in decrees)
+		var/datum/decree/D = decrees[id]
+		if(!D?.active)
+			continue
+		rate = D.apply_poll_tax_cap(H, category, rate)
 	return rate
 
 /datum/controller/subsystem/treasury/proc/poll_tax_pay_advance(mob/living/H, days)
@@ -672,6 +682,8 @@ SUBSYSTEM_DEF(treasury)
 		return
 	poll_tax_owed -= H
 	poll_tax_debt_days -= H
+	if(HAS_TRAIT(H, TRAIT_ARREARS))
+		REMOVE_TRAIT(H, TRAIT_ARREARS, TRAIT_GENERIC)
 
 /datum/controller/subsystem/treasury/proc/tick_poll_tax()
 	for(var/key in bank_accounts)
@@ -727,9 +739,7 @@ SUBSYSTEM_DEF(treasury)
 			poll_tax_owed[owner] = owed_this_tick
 			poll_tax_debt_days[owner] = (poll_tax_debt_days[owner] || 0) + 1
 			to_chat(owner, span_danger("<b>POLL TAX:</b> You owe the Crown [owed_this_tick]m. [poll_tax_debt_days[owner]] day\s overdue."))
-			if(poll_tax_debt_days[owner] >= POLL_TAX_DEBT_DAYS_TO_DEBTOR)
-				if(!HAS_TRAIT(owner, TRAIT_DEBTOR))
-					ADD_TRAIT(owner, TRAIT_DEBTOR, TRAIT_GENERIC)
-					to_chat(owner, span_danger("<b>You have been marked a DEBTOR of the Crown for unpaid Poll Tax.</b>"))
+			if(poll_tax_debt_days[owner] >= POLL_TAX_DEBT_DAYS_TO_DEBTOR && !HAS_TRAIT(owner, TRAIT_ARREARS))
+				ADD_TRAIT(owner, TRAIT_ARREARS, TRAIT_GENERIC)
 		else
 			clear_poll_tax_debt(owner)

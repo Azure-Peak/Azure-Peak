@@ -51,7 +51,7 @@
 
 /datum/controller/subsystem/treasury/proc/compute_charter_states()
 	var/list/out = list()
-	for(var/id in list(DECREE_GREAT_WRIT, DECREE_ZENITSTADT_CONCORDAT, DECREE_OTAVAN_ACCORDS, DECREE_GOLDEN_BULL))
+	for(var/id in list(DECREE_GREAT_WRIT, DECREE_ZENITSTADT_CONCORDAT, DECREE_OTAVAN_ACCORDS, DECREE_GOLDEN_BULL, DECREE_NOC_PESTRA_COVENANT, DECREE_GUILD_CHARTER_OF_ARMS))
 		var/datum/decree/D = get_decree(id)
 		if(!D)
 			continue
@@ -64,7 +64,9 @@
 	return out
 
 /// status values: "arrears" owed>0, "advance" advance_days>0, "debtor" TRAIT_DEBTOR, "low_balance" <50m, "exempt" charter-exempt.
-/datum/controller/subsystem/treasury/proc/compute_filtered_players(category_filter, status_filter, search_str)
+/// `include_details` toggles the per-row expensive bits (on_person inventory walk, has_loan lookup).
+/// The list view doesn't need them - the detail panel calls back in with TRUE for the selected row.
+/datum/controller/subsystem/treasury/proc/compute_filtered_players(category_filter, status_filter, search_str, include_details = FALSE)
 	var/list/out = list()
 	var/search_lower = lowertext(search_str || "")
 	for(var/key in bank_accounts)
@@ -110,7 +112,11 @@
 				continue
 
 		var/rate = category ? get_poll_tax_rate_for(owner, category) : 0
-		var/on_person = get_mammons_in_atom(owner) || 0
+		// Inventory walk is per-row expensive (recurses through every bag/pocket). Skip it unless
+		// the caller asked for details - the list view doesn't show on_person anymore, only the
+		// detail pane for the selected player does. get_loan_for is cheap (iterates SS.loans, ~5
+		// entries), so the L-marker in the list view stays accurate.
+		var/on_person = include_details ? (get_mammons_in_atom(owner) || 0) : 0
 		var/has_loan = !isnull(get_loan_for(owner))
 
 		out += list(list(

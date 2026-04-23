@@ -368,6 +368,73 @@
 		say("[target.real_name]'s debtor mark has been cleared; all Crown debts forgiven.")
 		log_game("DEBT FORGIVEN: [key_name(usr)] cleared debtor mark on [key_name(target)][loan_amt ? " (wrote off [loan_amt]m loan)" : ""]")
 		to_chat(target, span_notice("The Stewardry has cleared the defaulter mark from my name. My debts to the Crown are forgiven."))
+	if(href_list["clearpolltax"])
+		if(!usr.canUseTopic(src, BE_CLOSE) || locked)
+			return
+		var/list/in_arrears = list()
+		for(var/mob/living/carbon/human/H in GLOB.human_list)
+			if(SStreasury.poll_tax_owed[H] || SStreasury.poll_tax_debt_days[H] || HAS_TRAIT(H, TRAIT_ARREARS))
+				in_arrears["[H.real_name]"] = H
+		if(!length(in_arrears))
+			say("No poll tax arrears on the ledger.")
+			return
+		var/pick = input(usr, "Clear poll tax arrears for which subject?", src) as null|anything in in_arrears
+		if(!pick)
+			return
+		if(!usr.canUseTopic(src, BE_CLOSE) || locked)
+			return
+		var/mob/living/carbon/human/target = in_arrears[pick]
+		if(!target)
+			return
+		var/was_owed = SStreasury.poll_tax_owed[target] || 0
+		var/was_overdue = SStreasury.poll_tax_debt_days[target] || 0
+		SStreasury.clear_poll_tax_debt(target)
+		say("[target.real_name]'s poll tax arrears have been cleared.")
+		log_game("POLL TAX CLEARED: [key_name(usr)] cleared [was_owed]m poll tax arrears on [key_name(target)] ([was_overdue] day\s overdue)")
+		to_chat(target, span_notice("The Stewardry has cleared my poll tax arrears. The Crown's ledger on my head is wiped clean."))
+	if(href_list["imposepolltax"])
+		if(!usr.canUseTopic(src, BE_CLOSE) || locked)
+			return
+		var/list/candidates = list()
+		for(var/mob/living/carbon/human/H in GLOB.human_list)
+			if(!H.real_name)
+				continue
+			if(!SStreasury.has_account(H))
+				continue
+			candidates["[H.real_name]"] = H
+		if(!length(candidates))
+			say("No valid subjects on the ledger.")
+			return
+		var/pick = input(usr, "Impose poll tax arrears on which subject?", src) as null|anything in candidates
+		if(!pick)
+			return
+		if(!usr.canUseTopic(src, BE_CLOSE) || locked)
+			return
+		var/mob/living/carbon/human/target = candidates[pick]
+		if(!target)
+			return
+		var/category = SStreasury.get_poll_tax_category(target)
+		if(!category)
+			say("[target.real_name] is outside the Crown's poll tax ledger.")
+			return
+		var/rate = SStreasury.get_poll_tax_rate_for(target, category)
+		if(rate <= 0)
+			say("[target.real_name]'s category bears no poll tax at present.")
+			return
+		var/days = input(usr, "Impose how many days of poll tax arrears? (Rate: [rate]m/day.)", src) as null|num
+		if(!days || days <= 0)
+			return
+		if(!usr.canUseTopic(src, BE_CLOSE) || locked)
+			return
+		days = round(days)
+		var/imposed = rate * days
+		SStreasury.poll_tax_owed[target] = (SStreasury.poll_tax_owed[target] || 0) + imposed
+		SStreasury.poll_tax_debt_days[target] = (SStreasury.poll_tax_debt_days[target] || 0) + days
+		if(SStreasury.poll_tax_debt_days[target] >= POLL_TAX_DEBT_DAYS_TO_DEBTOR && !HAS_TRAIT(target, TRAIT_ARREARS))
+			ADD_TRAIT(target, TRAIT_ARREARS, TRAIT_GENERIC)
+		say("[target.real_name] has been assessed [imposed]m in poll tax arrears ([days] day\s).")
+		log_game("POLL TAX IMPOSED: [key_name(usr)] imposed [imposed]m ([days] day\s) poll tax arrears on [key_name(target)]")
+		to_chat(target, span_danger("<b>POLL TAX:</b> The Stewardry has imposed [days] day\s of back-poll-tax upon me ([imposed]m)."))
 	if(href_list["payroll"])
 		var/list/L = list(GLOB.noble_positions) + list(GLOB.retinue_positions) + list(GLOB.garrison_positions) + list(GLOB.courtier_positions) + list(GLOB.church_positions) + list(GLOB.burgher_positions) + list(GLOB.peasant_positions) + list(GLOB.sidefolk_positions) + list(GLOB.inquisition_positions)
 		var/list/things = list()
@@ -730,7 +797,10 @@
 			else
 				contents += "<i>No poll tax arrears.</i><BR><BR>"
 			contents += "<a href='?src=\ref[src];clearloandebtor=1'>\[Clear Defaulter Mark\]</a><BR>"
-			contents += "<font color='gray'><i>(Forgives outstanding debt entirely and lifts the defaulter mark.)</i></font><BR>"
+			contents += "<font color='gray'><i>(Forgives outstanding loans entirely and lifts the defaulter mark.)</i></font><BR>"
+			contents += "<a href='?src=\ref[src];clearpolltax=1'>\[Clear Poll Tax Obligation\]</a> "
+			contents += "<a href='?src=\ref[src];imposepolltax=1'>\[Impose Poll Tax Arrears\]</a><BR>"
+			contents += "<font color='gray'><i>(Clear wipes a subject's poll tax arrears. Impose adds days of overdue poll tax to their record.)</i></font><BR>"
 		if(TAB_STOCK)
 			contents += "<a href='?src=\ref[src];switchtab=[TAB_MAIN]'>\[Return\]</a>"
 			contents += " <a href='?src=\ref[src];compact=1'>\[Compact: [compact? "ENABLED" : "DISABLED"]\]</a><BR>"
@@ -914,6 +984,10 @@
 			contents += "<table width='100%' cellspacing='0' cellpadding='2'>"
 			var/datum/decree/golden = SStreasury.get_decree(DECREE_GOLDEN_BULL)
 			var/golden_active = golden?.active
+			var/datum/decree/covenant = SStreasury.get_decree(DECREE_NOC_PESTRA_COVENANT)
+			var/covenant_active = covenant?.active
+			var/datum/decree/merc_charter = SStreasury.get_decree(DECREE_GUILD_CHARTER_OF_ARMS)
+			var/merc_charter_active = merc_charter?.active
 			var/list/poll_entries = list()
 			for(var/pcat in SStreasury.poll_tax_rates)
 				var/rate = SStreasury.poll_tax_rates[pcat]
@@ -921,6 +995,8 @@
 				var/rate_display = "[rate]m"
 				if(pcat == POLL_TAX_CAT_BURGHER && golden_active && rate > GOLDEN_BULL_POLL_CAP)
 					rate_display = "<font color='#e07b39'>[GOLDEN_BULL_POLL_CAP]m</font> (raw [rate]m, capped)"
+				else if(pcat == POLL_TAX_CAT_MERCENARY && merc_charter_active && rate > GUILD_CHARTER_OF_ARMS_POLL_CAP)
+					rate_display = "<font color='#e07b39'>[GUILD_CHARTER_OF_ARMS_POLL_CAP]m</font> (raw [rate]m, capped)"
 				poll_entries += "<td>[pretty]</td><td align='right'>[rate_display]</td>"
 			for(var/i = 1, i <= length(poll_entries), i += 2)
 				contents += "<tr>"
@@ -930,7 +1006,10 @@
 				else
 					contents += "<td></td><td></td>"
 				contents += "</tr>"
-			contents += "</table><br>"
+			contents += "</table>"
+			if(covenant_active)
+				contents += "<i><font color='#e07b39'>Covenant of Noc & Pestra in force: University and Apothecary pay no more than [NOC_PESTRA_POLL_CAP]m/day regardless of category rate.</font></i><br>"
+			contents += "<br>"
 
 			// Charters (two-column)
 			contents += "<b>CHARTERS</b>"

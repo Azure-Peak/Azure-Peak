@@ -469,7 +469,6 @@ export const EconomicPanel = () => {
                       <Table.Cell>Category</Table.Cell>
                       <Table.Cell>Rate</Table.Cell>
                       <Table.Cell>Balance</Table.Cell>
-                      <Table.Cell>Coin</Table.Cell>
                       <Table.Cell>Advance</Table.Cell>
                       <Table.Cell>Owed</Table.Cell>
                       <Table.Cell>Overdue</Table.Cell>
@@ -489,7 +488,6 @@ export const EconomicPanel = () => {
                           {p.rate}m{p.raw_rate !== p.rate ? ` (raw ${p.raw_rate}m)` : ''}
                         </Table.Cell>
                         <Table.Cell>{p.balance}m</Table.Cell>
-                        <Table.Cell>{p.on_person}m</Table.Cell>
                         <Table.Cell>{p.advance}</Table.Cell>
                         <Table.Cell>{p.owed}m</Table.Cell>
                         <Table.Cell>{p.overdue}</Table.Cell>

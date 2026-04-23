@@ -62,10 +62,20 @@
 
 /// Max poll tax per category, per day, in mammon.
 #define POLL_TAX_MAX_RATE 40
-/// Days consecutively owing before TRAIT_DEBTOR is applied.
+/// Days consecutively owing before TRAIT_ARREARS is stamped on the subject. TRAIT_DEBTOR is
+/// reserved for loan defaulters; TRAIT_ARREARS is the softer mark for poll-tax-behind subjects.
 #define POLL_TAX_DEBT_DAYS_TO_DEBTOR 2
 /// Golden Bull of Kingsfield caps burgher poll tax at this flat amount when in force.
 #define GOLDEN_BULL_POLL_CAP 20
+/// Covenant of Noc & Pestra caps the poll tax of University (Court Magician, Archivist,
+/// Magicians Associate) and Apothecary roster (Apothecary, Head Physician) at this flat amount.
+#define NOC_PESTRA_POLL_CAP 10
+/// Guild Charter of Arms caps Mercenary poll tax at this flat amount when in force.
+#define GUILD_CHARTER_OF_ARMS_POLL_CAP 15
+/// The Guild of Arms' reciprocal contribution to the common defense budget: the Burgher Pledge
+/// daily refill gains this flat bonus while the charter is in force. Paralleled with the Golden
+/// Bull's Burgher Pledge - both charters feed the same "common defense" pool.
+#define GUILD_CHARTER_OF_ARMS_PLEDGE_BONUS 100
 #define POLL_TAX_ADVANCE_LOCKOUT (10 MINUTES)
 #define POLL_TAX_MAX_ADVANCE_DAYS 7
 #define POLL_TAX_ADVANCE_FALLBACK_RATE 10

@@ -99,6 +99,10 @@
 		data["pledge_refill_per_player"] = BURGHER_PLEDGE_PER_PLAYER
 		data["pledge_active_players"] = get_active_player_count()
 		data["pledge_available"] = SStreasury.burgher_pledge_fund ? TRUE : FALSE
+		// Guild Charter of Arms tribute contributes a flat bonus to the Pledge refill when active.
+		var/datum/decree/arms_charter = SStreasury.get_decree(DECREE_GUILD_CHARTER_OF_ARMS)
+		data["pledge_guild_bonus"] = (arms_charter?.active) ? GUILD_CHARTER_OF_ARMS_PLEDGE_BONUS : 0
+		data["pledge_golden_active"] = SStreasury.get_decree(DECREE_GOLDEN_BULL)?.active ? TRUE : FALSE
 		data["crown_purse_balance"] = SStreasury?.discretionary_fund?.balance || 0
 		data["defense_costs"] = GLOB.defense_quest_tier_costs.Copy()
 		data["defense_regions_by_type"] = build_defense_regions_by_type()

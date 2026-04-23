@@ -22,6 +22,12 @@ Should the Crown violate this Charter, the Burghers are absolved of their obliga
 		return current_cap
 	return min(current_cap, GOLDEN_BULL_BURGHER_CAP)
 
+/// Cap the Burgher poll-tax daily charge at GOLDEN_BULL_POLL_CAP.
+/datum/decree/golden_bull/apply_poll_tax_cap(mob/living/payer, poll_category, current_rate)
+	if(poll_category != POLL_TAX_CAT_BURGHER)
+		return current_rate
+	return min(current_rate, GOLDEN_BULL_POLL_CAP)
+
 /// Returns TRUE if the payer is currently shielded by the Golden Bull.
 /datum/decree/golden_bull/proc/is_protected_by_bull(mob/living/payer)
 	if(!active)

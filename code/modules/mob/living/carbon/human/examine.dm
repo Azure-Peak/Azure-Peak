@@ -169,12 +169,20 @@
 			. += span_notice("A chartered resident of Azuria.")
 
 		if(HAS_TRAIT(src, TRAIT_DEBTOR))
-			// Defaulted-debtor status is Crown ledger information, not public gossip. Only
-			// authority roles see it; commoners get no signal either way.
+			// Defaulted-loan debtor: a serious civic brand. Authority roles see the full banner.
 			if(ishuman(user))
 				var/mob/living/carbon/human/viewer = user
 				if((viewer.job in GLOB.garrison_positions) || (viewer.job in GLOB.retinue_positions) || (viewer.job in GLOB.courtier_positions) || (viewer.job in GLOB.noble_positions))
 					. += span_userdanger("DEFAULT DEBTOR OF THE CROWN!")
+
+		if(HAS_TRAIT(src, TRAIT_ARREARS))
+			// Poll-tax arrears: a soft mark. Authority roles (garrison, retinue, courtier, noble)
+			// can read it off a subject, but only as a hint - the actual amount owed lives with
+			// the Steward, and enforcement is up to whoever spots it.
+			if(ishuman(user))
+				var/mob/living/carbon/human/viewer = user
+				if((viewer.job in GLOB.garrison_positions) || (viewer.job in GLOB.retinue_positions) || (viewer.job in GLOB.courtier_positions) || (viewer.job in GLOB.noble_positions))
+					. += span_smallred("Destitute..")
 
 		if(src.job in GLOB.church_positions)
 			. += span_notice("A member of the Church of Azuria.")

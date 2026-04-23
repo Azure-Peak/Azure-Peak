@@ -56,11 +56,16 @@ GLOBAL_DATUM_INIT(economic_panel, /datum/economic_panel, new)
 		"status" = filter_status,
 		"search" = filter_search,
 	)
-	data["players"] = SStreasury.compute_filtered_players(filter_category, filter_status, filter_search)
+	data["players"] = SStreasury.compute_filtered_players(filter_category, filter_status, filter_search, FALSE)
 	data["selected"] = null
 	if(selected_ref)
+		// Locate the selected row in the list, then patch in on_person for just that one row.
+		// Keeps the list cheap (no inventory walk per row) while the detail pane still shows it.
 		for(var/entry in data["players"])
 			if(entry["ref"] == selected_ref)
+				var/mob/living/selected_mob = locate(selected_ref)
+				if(selected_mob)
+					entry["on_person"] = get_mammons_in_atom(selected_mob) || 0
 				data["selected"] = entry
 				break
 	data["day"] = GLOB.dayspassed
