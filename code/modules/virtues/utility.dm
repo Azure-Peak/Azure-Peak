@@ -210,6 +210,7 @@
 			else if(choice == "Second Voice")
 				recipient.verbs += /mob/living/carbon/human/proc/changevoice
 				recipient.verbs += /mob/living/carbon/human/proc/swapvoice
+				recipient.AddComponent(/datum/component/voice_handler)
 
 /datum/virtue/utility/performer
 	name = "Performer"

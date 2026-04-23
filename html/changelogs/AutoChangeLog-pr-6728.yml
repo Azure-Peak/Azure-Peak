@@ -1,5 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - rscadd: "Implemented a loot pool system, through which loot on most legacy / old dungeons has been increased and Tomb of Alotheos decreased"
-  - balance: "Painting value decreased by 10x and no longer sell for a ransom at 200 / 100. Stick to portable dungeon loot instead."

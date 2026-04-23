@@ -6,6 +6,27 @@
 	else
 		. = ..()
 
+//Will drop or destroy items depending on their allowed status within the proc
+/mob/living/carbon/human/proc/wildshape_drop_items()
+
+	var/list/disallowed_equipment_Type = list(	/obj/item/storage,
+											/obj/item/rogueweapon,
+											)
+
+	var/list/allowed_equipment_Type = list(	/obj/item/rogueweapon/woodstaff,
+											/obj/item/storage/belt
+											)
+	
+	drop_all_held_items() //Drop what were in your hands
+
+	for(var/obj/item/I in src)
+		if(is_type_in_list(I, allowed_equipment_Type)) //Allow items of allowed type no matter what
+			continue
+		if(is_type_in_list(I, disallowed_equipment_Type)) //Drops all items of the disallowed type
+			dropItemToGround(I)
+		else if(I.has_armor_value()) //Drop armor
+			dropItemToGround(I)
+
 /mob/living/carbon/human/proc/wildshape_transformation(shapepath)
 	if(!mind)
 		log_runtime("NO MIND ON [src.name] WHEN TRANSFORMING")
@@ -13,9 +34,11 @@
 	//before we shed our items, save our neck and ring, if we have any, so we can quickly rewear them
 	var/obj/item/stored_neck = wear_neck
 	var/obj/item/stored_ring = wear_ring
-	for(var/obj/item/I in src)
-		if (I != underwear && I != cloak && I != legwear_socks) // keep underwear (+ socks) and our cloak, even if said cloak remains inaccessible.
-			dropItemToGround(I)
+	dropItemToGround(stored_neck)
+	dropItemToGround(stored_ring)
+
+	wildshape_drop_items()
+
 	regenerate_icons()
 	icon = null
 	var/oldinv = invisibility
@@ -109,8 +132,11 @@
 	// as before, save our worn stuff and prepare to move it back to the mob
 	var/obj/item/stored_neck = wear_neck
 	var/obj/item/stored_ring = wear_ring
-	for(var/obj/item/W in src)
-		dropItemToGround(W)
+	dropItemToGround(stored_neck)
+	dropItemToGround(stored_ring)
+
+	wildshape_drop_items()
+
 	icon = null
 	invisibility = INVISIBILITY_MAXIMUM
 

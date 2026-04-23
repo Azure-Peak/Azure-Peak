@@ -27,11 +27,18 @@
 	for(var/turf/open/floor/T in view(7, src))
 		if(T.density || istransparentturf(T))
 			continue
-		for(var/obj/O in get_turf(T))
-			if(O.density)
-				continue
-		if(get_area(T) != get_area(src))
+
+		if(get_area(T) != get_area(selected_landmark)) //No more spawning in guild room...
 			continue
+
+		var/blocked = FALSE
+		for(var/obj/O in T)
+			if(O.density) //No more spawning in metal bars or trees...
+				blocked = TRUE
+				break
+		if(blocked)
+			continue
+
 		possible_turfs += T
 	return length(possible_turfs) ? pick(possible_turfs) : get_turf(src)
 

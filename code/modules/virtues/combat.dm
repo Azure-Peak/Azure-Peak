@@ -160,6 +160,12 @@
 	custom_text = "Obfuscates information about you from all sorts of effects, including patron abilities & passives, Assess and other virtues."
 	added_traits = list(TRAIT_DECEIVING_MEEKNESS)
 
+/datum/virtue/combat/guarded/apply_to_human(mob/living/carbon/human/recipient)
+	. = ..()
+	recipient.verbs += /mob/living/carbon/human/proc/toggle_descriptors
+	recipient.verbs += /mob/living/carbon/human/proc/emote_ffsalute
+
+
 /datum/virtue/combat/rotcured
 	name = "Rotcured"
 	desc = "I was once afflicted with the accursed rot, and was cured. It has left me changed: my limbs are weaker, but I feel no pain and have no need to breathe..."

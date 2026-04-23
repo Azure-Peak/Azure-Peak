@@ -1,0 +1,4 @@
+author: "PatapoIIIa"
+delete-after: True
+changes:
+  - bugfix: "fix vis_content visual"

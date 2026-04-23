@@ -60,6 +60,8 @@
 	/// TRUE if the Steward issued this as a free-labor Directive (no funding, zero reward,
 	/// hand-carried only, not promotable to the public noticeboard).
 	var/is_directive = FALSE
+	/// Weakrefs to this quest's `/obj/effect/quest_spawn` pods — used to pop the whole encounter at once.
+	var/list/datum/weakref/spawners = list()
 
 /datum/quest/Destroy()
 	// Clean up mobs with quest components
@@ -113,6 +115,19 @@
 /datum/quest/proc/finalize_preview_title()
 	if(!title)
 		title = get_title()
+
+/// Registers a quest_spawn pod so pop_all_spawners() can trigger the whole encounter at once.
+/datum/quest/proc/register_spawner(obj/effect/quest_spawn/spawner)
+	spawners += WEAKREF(spawner)
+
+/// Materializes every live spawner belonging to this quest. Called when any one of them triggers.
+/datum/quest/proc/pop_all_spawners()
+	for(var/datum/weakref/ref in spawners)
+		var/obj/effect/quest_spawn/spawner = ref.resolve()
+		if(QDELETED(spawner) || !spawner.contained_atom)
+			continue
+		spawner.reveal_contained()
+	spawners.Cut()
 
 /// World-mutating generation: spawn mobs, items, parcels. Called by SSquestpool.claim when the
 /// contract is actually signed. Subtypes override to do their specific spawns.

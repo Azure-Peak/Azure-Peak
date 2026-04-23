@@ -116,3 +116,9 @@
 	result = list(/obj/item/clothing/neck/roguetown/psicross/hag = 1)
 	reqs = list(/obj/item/alch/hag_moss/grief = 1, /obj/item/grown/log/tree/small = 1, /obj/item/natural/cloth = 1)
 	craftdiff = 6
+
+/datum/crafting_recipe/roguetown/alchemy/hag/lux_moss
+	name = "lux moss"
+	result = list(/obj/item/reagent_containers/lux/moss = 1)
+	reqs = list(/obj/item/leechtick_bloated = 2)
+	craftdiff = 6

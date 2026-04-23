@@ -758,7 +758,6 @@ GLOBAL_LIST(teleport_runes)
 	var/datum/map_template/template
 	var/fortress = /datum/map_template/arcyne_fortress
 	var/list/barriers = list()
-	rituals = list(/datum/runeritual/other/wall/t3::name = /datum/runeritual/other/wall/t3)
 
 /obj/effect/decal/cleanable/roguerune/arcyne/wallgreater/New()
 	. = ..()
@@ -766,7 +765,6 @@ GLOBAL_LIST(teleport_runes)
 
 /obj/effect/decal/cleanable/roguerune/arcyne/wallgreater/proc/get_template(/datum/map_template/arcyne_fortress/fortress)
 
-	to_chat(usr, span_hierophant_warning("template retrieving"))
 	var/datum/map_template/temporary = new fortress
 	template = SSmapping.map_templates[temporary.id]
 	if(!template)
@@ -783,7 +781,6 @@ GLOBAL_LIST(teleport_runes)
 	get_template(template)
 
 	template.load(deploy_location, centered = TRUE)
-	to_chat(usr, span_hierophant_warning("template.load complete"))
 	if(ritual_result)
 		pickritual.cleanup_atoms(selected_atoms)
 	invoke_cleanup()

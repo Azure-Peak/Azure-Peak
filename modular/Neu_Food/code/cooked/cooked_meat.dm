@@ -280,6 +280,50 @@
 	fried_type = null
 	cooked_type = null
 
+/* .............   Fried Rous   ................ */
+/obj/item/reagent_containers/food/snacks/rogue/meat/steak/rat/fried
+	eat_effect = null
+	slices_num = 0
+	name = "fried rous"
+	desc = "A small, chewy chunk of rous meat. Certain races loves this, others... Not so much."
+	icon = 'modular/Neu_Food/icons/cooked/cooked_meat.dmi'
+	icon_state = "rat"
+	bonus_reagents = list(/datum/reagent/consumable/nutriment = MEATSLAB_NUTRITION)
+	faretype = FARE_POOR
+	rotprocess = SHELFLIFE_DECENT
+	fried_type = null
+	cooked_type = null
+
+/* .............   Fried Bear   ................ */
+/obj/item/reagent_containers/food/snacks/rogue/meat/steak/bear/fried
+	eat_effect = null
+	slices_num = 0
+	bitesize = 4
+	name = "T-bone bear steak"
+	desc = "Real meat, for real men."
+	icon = 'modular/Neu_Food/icons/cooked/cooked_meat.dmi'
+	icon_state = "bear"
+	bonus_reagents = list(/datum/reagent/consumable/nutriment = SNACK_CHUNKY)
+	faretype = FARE_NEUTRAL
+	rotprocess = SHELFLIFE_DECENT
+	fried_type = null
+	cooked_type = null
+
+/* .............   Fried Troll   ................ */
+/obj/item/reagent_containers/food/snacks/rogue/meat/steak/troll/fried
+	eat_effect = /datum/status_effect/debuff/uncookedfood
+	slices_num = 0
+	bitesize = 5
+	name = "chewy troll blubber"
+	desc = "Cooking it seems to have only caused the meat to toughen up. It is vile, disgusting, like partially hardened jello with greasy chunks hidden within."
+	icon = 'modular/Neu_Food/icons/cooked/cooked_meat.dmi'
+	icon_state = "troll"
+	bonus_reagents = list(/datum/reagent/consumable/nutriment = SNACK_POOR)
+	faretype = FARE_IMPOVERISHED
+	rotprocess = SHELFLIFE_EXTREME
+	fried_type = null
+	cooked_type = null
+
 /obj/item/reagent_containers/food/snacks/rogue/meat/steak/wolf/fried/attackby(obj/item/I, mob/living/user, params)
 	var/found_table = locate(/obj/structure/table) in (loc)
 	update_cooktime(user)

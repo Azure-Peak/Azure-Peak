@@ -53,7 +53,8 @@ SUBSYSTEM_DEF(statpanel)
 	td_info_text = "TIME DILATION: [round(SStime_track.time_dilation_current,1)]% \
 	AVG:([round(SStime_track.time_dilation_avg_fast,1)]%, \
 	[round(SStime_track.time_dilation_avg,1)]%, \
-	[round(SStime_track.time_dilation_avg_slow,1)]%)"
+	[round(SStime_track.time_dilation_avg_slow,1)]%) \
+	MAPTICK: [round(world.map_cpu,1)]%"
 	mc_info_text = list()
 
 	mc_info_text += "CPU: [world.cpu]"

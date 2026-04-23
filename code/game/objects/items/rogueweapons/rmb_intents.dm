@@ -228,7 +228,7 @@
 	if(!prob(perc)) //feint intent increases the immobilize duration significantly
 		playsound(user, 'sound/combat/feint.ogg', 100, TRUE)
 		if(user.client?.prefs.showrolls)
-			to_chat(user, span_warning("[L.p_they(TRUE)] did not fall for my feint... [perc]%"))
+			to_chat(user, span_warning("[L.p_they(TRUE)] did not fall for my feint... [HAS_TRAIT(L, TRAIT_DECEIVING_MEEKNESS) ? "???" : perc]%"))
 		user.apply_status_effect(/datum/status_effect/debuff/feintcd, newcd)
 		if(special_msg)
 			to_chat(user, special_msg)

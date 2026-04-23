@@ -380,6 +380,7 @@
 	var/is_stupid = FALSE
 	var/is_smart = FALSE
 	var/is_normal = FALSE
+	var/guarded = FALSE
 	if(ishuman(user))
 		var/mob/living/carbon/human/H = user
 
@@ -389,6 +390,10 @@
 			is_stupid = TRUE
 		if(((H?.STAINT - 10) + (H?.STAPER - 10) + H.get_skill_level(/datum/skill/misc/reading)) >= 5)
 			is_normal = TRUE
+
+		if(user != src)
+			if(HAS_TRAIT(src, TRAIT_DECEIVING_MEEKNESS))
+				guarded = TRUE
 
 	if(user != src)
 		var/datum/mind/Umind = user.mind
@@ -403,7 +408,7 @@
 
 	if(wear_shirt && !(SLOT_SHIRT in obscured))
 		var/str = "[m3] [wear_shirt.generate_tooltip(wear_shirt.get_examine_string(user))]. "
-		str += "[wear_shirt.integrity_check(is_smart)]"
+		str += "[wear_shirt.integrity_check(is_smart, guarded)]"
 		if(is_stupid)
 			str = "[m3] some kind of shirt!"
 		. += str
@@ -418,7 +423,7 @@
 				accessory_msg += " with [icon2html(U.attached_accessory, user)] \a [U.attached_accessory]"
 		var/str = "[m3] [wear_pants.generate_tooltip(wear_pants.get_examine_string(user))][accessory_msg]. "
 		if(!wear_armor)
-			str += wear_pants.integrity_check(is_smart)
+			str += wear_pants.integrity_check(is_smart, guarded)
 		if(is_stupid)
 			str = "[m3] a pair of some pants! "
 		. += str
@@ -439,7 +444,7 @@
 	if(wear_armor && !(SLOT_ARMOR in obscured))
 		var/str = "[m3] [wear_armor.generate_tooltip(wear_armor.get_examine_string(user))]. "
 		if(is_smart || is_normal)
-			str += wear_armor.integrity_check(is_smart)
+			str += wear_armor.integrity_check(is_smart, guarded)
 		else if (is_stupid)
 			if(istype(wear_armor, /obj/item/clothing/suit/roguetown/armor))
 				var/obj/item/clothing/suit/roguetown/armor/examined_armor = wear_armor
@@ -470,7 +475,7 @@
 			str = "[m3] [CL.generate_tooltip(CL.get_examine_string(user))] on [m2] shoulders. "
 		else
 			str = "[m3] [cloak.get_examine_string(user)] on [m2] shoulders. "
-		str += cloak.integrity_check(is_smart)
+		str += cloak.integrity_check(is_smart, guarded)
 		if (is_stupid)					//So they can tell the named RG tabards. If they can read them, anyway.
 			if(!istype(cloak, /obj/item/clothing/cloak/tabard/stabard) && user.get_skill_level(/datum/skill/misc/reading) == 0)
 				str = "[m3] some kinda clothy thing on [m2] shoulders!"
@@ -479,27 +484,27 @@
 	//right back
 	if(backr && !(SLOT_BACK_R in obscured))
 		var/str = "[m3] [backr.get_examine_string(user)] on [m2] back. "
-		str += backr.integrity_check(is_smart)
+		str += backr.integrity_check(is_smart, guarded)
 		. += str
 
 	//left back
 	if(backl && !(SLOT_BACK_L in obscured))
 		var/str = "[m3] [backl.get_examine_string(user)] on [m2] back. "
-		str += backl.integrity_check(is_smart)
+		str += backl.integrity_check(is_smart, guarded)
 		. += str
 
 	//Hands
 	for(var/obj/item/I in held_items)
 		if(!(I.item_flags & ABSTRACT))
 			var/str = "[m1] holding [I.get_examine_string(user)] in [m2] [get_held_index_name(get_held_index_of_item(I))]. "
-			str += I.integrity_check(is_smart)
+			str += I.integrity_check(is_smart, guarded)
 			. += str
 
 	var/datum/component/forensics/FR = GetComponent(/datum/component/forensics)
 	//gloves
 	if(gloves && !(SLOT_GLOVES in obscured))
 		var/str = "[m3] [gloves.generate_tooltip(gloves.get_examine_string(user))] on [m2] hands. "
-		str += gloves.integrity_check(is_smart)
+		str += gloves.integrity_check(is_smart, guarded)
 		if(is_stupid)
 			str = "[m3] a pair of gloves of some kind!"
 		. += str
@@ -514,13 +519,13 @@
 	//belt
 	if(belt && !(SLOT_BELT in obscured))
 		var/str = "[m3] [belt.get_examine_string(user)] about [m2] waist. "
-		str += belt.integrity_check(is_smart)
+		str += belt.integrity_check(is_smart, guarded)
 		. += str
 
 	//right belt
 	if(beltr && !(SLOT_BELT_R in obscured))
 		var/str = "[m3] [beltr.get_examine_string(user)] on [m2] belt. "
-		str += beltr.integrity_check(is_smart)
+		str += beltr.integrity_check(is_smart, guarded)
 		. += str
 
 	//left belt
@@ -532,7 +537,7 @@
 	//shoes
 	if(shoes && !(SLOT_SHOES in obscured))
 		var/str = "[m3] [shoes.generate_tooltip(shoes.get_examine_string(user))] on [m2] feet. "
-		str += shoes.integrity_check(is_smart)
+		str += shoes.integrity_check(is_smart, guarded)
 		if(is_stupid)
 			str = "[m3] some shoes on [m2] feet!"
 		. += str
@@ -540,7 +545,7 @@
 	//mask
 	if(wear_mask && !(SLOT_WEAR_MASK in obscured))
 		var/str = "[m3] [wear_mask.generate_tooltip(wear_mask.get_examine_string(user))] on [m2] face. "
-		str += wear_mask.integrity_check(is_smart)
+		str += wear_mask.integrity_check(is_smart, guarded)
 		if(is_stupid)
 			str = "[m3] some kinda thing on [m2] face!"
 		. += str
@@ -553,7 +558,7 @@
 			str = "[m3] [CM.generate_tooltip(CM.get_examine_string(user))] in [m2] mouth. "
 		else
 			"[m3] [mouth.get_examine_string(user)] in [m2] mouth. "
-		str += mouth.integrity_check(is_smart)
+		str += mouth.integrity_check(is_smart, guarded)
 		if(is_stupid)
 			str = "[m3] some kinda thing on [m2] mouth!"
 		. += str
@@ -561,7 +566,7 @@
 	//neck
 	if(wear_neck && !(SLOT_NECK in obscured))
 		var/str = "[m3] [wear_neck.generate_tooltip(wear_neck.get_examine_string(user))] around [m2] neck. "
-		str += wear_neck.integrity_check(is_smart)
+		str += wear_neck.integrity_check(is_smart, guarded)
 		if (is_stupid)
 			str = "[m3] something on [m2] neck!"
 		. += str
@@ -594,7 +599,7 @@
 	//wrists
 	if(wear_wrists && !(SLOT_WRISTS in obscured))
 		var/str = "[m3] [wear_wrists.generate_tooltip(wear_wrists.get_examine_string(user))] on [m2] wrists."
-		str += wear_wrists.integrity_check(is_smart)
+		str += wear_wrists.integrity_check(is_smart, guarded)
 		if (is_stupid)
 			str = "[m3] something on [m2] wrists!"
 		. += str
@@ -603,7 +608,7 @@
 	if(istype(skin_armor, /obj/item/clothing/suit/roguetown/armor/manual/arcyne_ward))
 		var/obj/item/clothing/suit/roguetown/armor/manual/arcyne_ward/ward = skin_armor
 		var/str = "[m3] <font color='[ward.ward_color]'>[ward.generate_tooltip(ward.get_examine_string(user))] shimmering around [user == src ? "me" : p_them()].</font>"
-		str += ward.integrity_check(is_smart)
+		str += ward.integrity_check(is_smart, guarded)
 		if (is_stupid)
 			str = "[m3] some weird shiny thing!"
 		. += str
@@ -860,20 +865,59 @@
 	if((user != src) && isliving(user))
 		var/mob/living/L = user
 		var/final_str = STASTR
+		var/final_con = STACON
 		if(HAS_TRAIT(src, TRAIT_DECEIVING_MEEKNESS))
 			final_str = L.STASTR - rand(1,2)
+			final_con = L.STACON - rand(1,2)
 		var/strength_diff = final_str - L.STASTR
+		var/con_diff = final_con - L.STACON
+
+		var/str_desc
+		var/str_extreme = FALSE
 		switch(strength_diff)
 			if(5 to INFINITY)
-				. += span_warning("<B>[t_He] look[p_s()] much stronger than I.</B>")
+				str_desc = "much stronger"
+				str_extreme = TRUE
 			if(1 to 5)
-				. += span_warning("[t_He] look[p_s()] stronger than I.")
-			if(0)
-				. += "[t_He] look[p_s()] about as strong as I."
+				str_desc = "stronger"
 			if(-5 to -1)
-				. += span_warning("[t_He] look[p_s()] weaker than I.")
+				str_desc = "weaker"
 			if(-INFINITY to -5)
-				. += span_warning("<B>[t_He] look[p_s()] much weaker than I.</B>")
+				str_desc = "much weaker"
+				str_extreme = TRUE
+
+		var/con_desc
+		var/con_extreme = FALSE
+		switch(con_diff)
+			if(5 to INFINITY)
+				con_desc = "much tougher"
+				con_extreme = TRUE
+			if(1 to 5)
+				con_desc = "tougher"
+			if(-5 to -1)
+				con_desc = "frailer"
+			if(-INFINITY to -5)
+				con_desc = "much frailer"
+				con_extreme = TRUE
+
+		var/is_extreme = str_extreme || con_extreme
+		var/phys_msg
+		if(str_desc && con_desc)
+			var/connector = ((strength_diff > 0) == (con_diff > 0)) ? "and" : "but"
+			phys_msg = "[t_He] look[p_s()] [str_desc] [connector] [con_desc] than me."
+		else if(str_desc)
+			phys_msg = "[t_He] look[p_s()] [str_desc] than me."
+		else if(con_desc)
+			phys_msg = "[t_He] look[p_s()] [con_desc] than me."
+		else
+			phys_msg = "[t_He] look[p_s()] about as strong as I."
+
+		if(is_extreme)
+			. += span_warning("<B>[phys_msg]</B>")
+		else if(str_desc || con_desc)
+			. += span_warning(phys_msg)
+		else
+			. += phys_msg
 
 	if((HAS_TRAIT(user,TRAIT_INTELLECTUAL)))
 		var/mob/living/L = user
@@ -883,13 +927,13 @@
 		var/int_diff = final_int - L.STAINT
 		switch(int_diff)
 			if(5 to INFINITY)
-				. += span_revenwarning("[t_He] look[p_s()] far more intelligent than I.")
+				. += span_revenwarning("[t_He] look[p_s()] far more intelligent than me.")
 			if(2 to 5)
-				. += span_revenminor("[t_He] look[p_s()] smarter than I.")
+				. += span_revenminor("[t_He] look[p_s()] smarter than me.")
 			if(-1 to 1)
 				. += "[t_He] look[p_s()] about as intelligent as I."
 			if(-5 to -2)
-				. += span_revennotice("[t_He] look[p_s()] dumber than I.")
+				. += span_revennotice("[t_He] look[p_s()] dumber than me.")
 			if(-INFINITY to -5)
 				. += span_revennotice("[t_He] look[p_s()] as blunt-minded as a rock.")
 
@@ -974,24 +1018,25 @@
 				. += "<span class='info' style='color: #313131ff'>[m1] wearing black lipstick.</span>"
 
 
-	var/list/lines
-	if((get_face_name() != real_name) && !observer_privilege)
-		lines = build_cool_description_unknown(get_mob_descriptors_unknown(obscure_name, user), src)
-	else
-		lines = build_cool_description(get_mob_descriptors(obscure_name, user), src)
+	if(show_descriptors)
+		var/list/lines
+		if((get_face_name() != real_name) && !observer_privilege)
+			lines = build_cool_description_unknown(get_mob_descriptors_unknown(obscure_name, user), src)
+		else
+			lines = build_cool_description(get_mob_descriptors(obscure_name, user), src)
 
-	var/app_str
-	if(!(user.client?.prefs?.full_examine))
-		app_str = "<details><summary>[span_info("Details")]</summary>"
+		var/app_str
+		if(!(user.client?.prefs?.full_examine))
+			app_str = "<details><summary>[span_info("Details")]</summary>"
 
-	for(var/line in lines)
-		app_str += span_info(line)
-		app_str += "<br>"
-	if(!(user.client?.prefs?.full_examine))
-		if(length(lines))
-			app_str += "</details>"
+		for(var/line in lines)
+			app_str += span_info(line)
+			app_str += "<br>"
+		if(!(user.client?.prefs?.full_examine))
+			if(length(lines))
+				app_str += "</details>"
 
-	. += app_str
+		. += app_str
 
 	// Characters with the hunted flaw will freak out if they can't see someone's face.
 	if(!appears_dead)

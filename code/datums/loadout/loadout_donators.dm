@@ -27,6 +27,12 @@
 	ckeywhitelist = list("eekasqueak")
 	sort_category = "Donator"
 
+/datum/loadout_item/donator/ketrai
+	name = "Octopus hat"
+	path = /obj/item/clothing/head/roguetown/octopus
+	ckeywhitelist = list("ketrai", "alfalah")
+	sort_category = "Donator"
+
 /datum/loadout_item/donator/strudel1
 	name = "Donator Kit - Grenzelhoftian Mage Vest"
 	path = /obj/item/enchantingkit/strudel1

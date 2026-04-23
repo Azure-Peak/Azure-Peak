@@ -266,7 +266,7 @@ GLOBAL_LIST_INIT(averse_factions, list(
 /datum/charflaw/lonely/flaw_on_life(mob/user)
 	if(!user)
 		return
-	if(is_active)
+	if(is_active && user.stat == CONSCIOUS)
 		if(world.time > next_check)
 			next_check = world.time + interval
 			var/cnt = 0
@@ -307,7 +307,7 @@ GLOBAL_LIST_INIT(averse_factions, list(
 	if(stacks >= 2)
 		to_chat(L, span_info("Oh thank [L.patron?.name]! A person!"))
 	if(stacks > 1)
-		L.remove_stress_list(/datum/stressevent/lonely_one, /datum/stressevent/lonely_two, /datum/stressevent/lonely_three, /datum/stressevent/lonely_max)
+		L.remove_stress_list(list(/datum/stressevent/lonely_one, /datum/stressevent/lonely_two, /datum/stressevent/lonely_three, /datum/stressevent/lonely_max))
 	stacks = 0
 
 /datum/charflaw/clingy

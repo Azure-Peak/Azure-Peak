@@ -82,7 +82,6 @@
 		H = hud_used.hand_slots["[held_index]"]
 		if(H)
 			H.update_hand_vis()
-		H = hud_used.action_intent
 	oactive = FALSE
 	update_a_intents()
 	return TRUE

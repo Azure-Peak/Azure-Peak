@@ -304,7 +304,7 @@ It is ruled not by a man, but a dragon: an ancient megabeast who's power has all
 	</details>
 
 	<details>
-		<summary><strong> KAZENGUN-LINGYUE </strong></summary>
+		<summary><strong> KAZENGUN & LINGYUE </strong></summary>
 		<br>
 		<em>The Dynasty, Sister-Kingdoms of Mystique</em>
 		<br><br>
@@ -355,29 +355,29 @@ Though similar in size to Azuria, its self-contained nature means that it is mor
 		<br>
 		<em>The Republic, Cultivators of the Weeping God's Order</em>
 		<br><br>
-		Valoria is a lesser kingdom that straddles the western coasts, just a stone's throw away from Lyndvhar. They practice an optimistic variant of the Orthodoxy, and - though largely independent from Otava's influence - often helps out whenever the Archbishop calls for holy warfare. 
+		Valoria is a lesser kingdom that straddles the western coasts, just a stone's throw away from Zyndvhartia. They practice an optimistic variant of the Orthodoxy, and - though largely independent from Otava's influence - often helps out whenever the Archbishop calls for holy warfare. 
 <br><br>
 Residing within Valoria's walls is the Order of the Silver Psycross: a faith-militance that's renowned for its intoxicating mirth, adherence to chivalry, and remarkably delicious handpies. 
 		<br>
 	</details>
 
 	<details>
-		<summary><strong> LYNDVHAR </strong></summary>
+		<summary><strong> ZYNDVHARTIA </strong></summary>
 		<br>
 		<em>The Port, Receiver of Psydonia's Merchant-Fleets</em>
 		<br><br>
-		Lyndvhar might be similar in size to Azuria, but has a far more vital presence in Psydonia's economic affairs. Due to their positioning on the western coast, they're considered the closest - and most neutral - port for nearly every major kingdom with a mercantile fleet. 
+		Zyndvhartia might be similar in size to Azuria, but has a far more vital presence in Psydonia's economic affairs. Due to their positioning on the western coast, they're considered the closest - and most neutral - port for nearly every major kingdom with a mercantile fleet. 
 <br><br>
-Fried salmoncakes, jellied eels, and pints of Fjall-iced liquor keep Lyndvhar's dockworkers strong: both when laboring at the harbor, and when rioting against the wealthy elite after a particularly close game of lampternball.
+Fried salmoncakes, jellied eels, and pints of Fjall-iced liquor keep Zyndvhartia's dockworkers strong: both when laboring at the harbor, and when rioting against nobility after a particularly close game of lampternball.
 		<br>
 	</details>
 
 	<details>
-		<summary><strong> VANDERLIN </strong></summary>
+		<summary><strong> DAFTMARSH </strong></summary>
 		<br>
-		<em>The Progressive, Harnessers of Artificery</em>
+		<em>The Compact, Harnessers of Artificery</em>
 		<br><br>
-		Vanderlin - like Hammerhold - is one of the few kingdoms that has dabbled in the oft-misunderstood techniques of artificery. It's rumored that their plumbing exceeds even Grenzelhoft's own in terms of cleanliness, and that bronze spigots can ferry water where no bucket could normally reach in a timely manner.
+		Daftmarsh - like Hammerhold - is one of the few kingdoms that has dabbled in the oft-misunderstood techniques of artificery. It's rumored that their plumbing exceeds even Grenzelhoft's own in terms of cleanliness, and that bronze spigots can ferry water where no bucket could normally reach in a timely manner.
 <br><br>
 Standing far above the king's manor is a massive clocktower, allegedly powered by a strange crystal that had been unearthed within their copper-and-tin mines.
 		<br>
@@ -417,28 +417,6 @@ Mostly known for its exportation of the fogbeast: a prized hybrid of the saiga a
 	</details>
 
 	<details>
-		<summary><strong> BLACKSTONE </strong></summary>
-		<br>
-		<em>The Crater, Hole of Naught But Dust-And-Echoes</em>
-		<br><br>
-		While not originally named 'Blackstone', this fief was retroactively termed as such following a minor incident which - involving the accidental collision of two Syonic fragments in transit - had resulted it being completely vaporized. 
-<br><br>
-The remaining crater had left a curious surprise, however, for its survivors: a glassy surface, not unlike obsidian, that seems to glimmer with unnatural energy. As of now, a sect of the Holy Psydonic Inquisition garrisons the crater.
-		<br>
-	</details>
-
-	<details>
-		<summary><strong> ROTWOOD </strong></summary>
-		<br>
-		<em>The Vale, Laborers of the Terrorbog</em>
-		<br><br>
-		Originally formed as a camp for those overlooking the Terrorbog, the 'Rotwood Vale' - as it's most commonly known as now - has since grown into a lesser kingdom, renowned for hosting some of Psydonia's most battle-hardened Wardens. 
-<br><br>
-Their proximity to the Terrorbog, however, means that they're also oft-beleaguered by deadly plagues: a matter that has only served to further enforce the unusually high level of segregation between the noblemen and their peasantry.
-		<br>
-	</details>
-
-	<details>
 		<summary><strong> HEARTFELT </strong></summary>
 		<br>
 		<em>The Branchbearer, Kingdom of the Borderland</em>
@@ -450,11 +428,22 @@ Trouble has recently tickled its underbelly, however, with the steadying presenc
 	</details>
 
 	<details>
+		<summary><strong> LAKKARI </strong></summary>
+		<br>
+		<em>The Parish, Bayou of Innovation</em>
+		<br><br>
+		Nestled along the swamps of Naledi's northeasternly edge, Lakkari is a lesser kingdom that has long-dabbled in the arts of metallurgy and medicine. In ancient tymes, they held renown for being among the first surfacedwellers to solve the riddle of steel; now, they're more commonly praised for pioneering the Pestran art of surgery.
+<br><br>
+Intermingleance with Otavan refugees and Ranesheni freemen, throughout the centuries, has given rise to a richly diverse culture - and more importantly, some of the finest cuisine in Psydonia's southern reaches. Pestra, Malum and Necra are worshipped with reverance in Lakkari; a facet only strengthened in the face of a recent outbreak, pitting the pious against hordes of uniquely virulent deadites.
+		<br>
+	</details>
+
+	<details>
 		<summary><strong> RUDMARSCH </strong></summary>
 		<br>
-		<em>The Reach, Fallen Kingdom of Sanguine Fields</em>
+		<em>The Reach, Fallen Kingdom of Crimson Fields</em>
 		<br><br>
-		Colloquially known as the 'Scarlet Reach', this lesser kingdom once had the misfortune of being in the middle of a century-long war between Grenzelhoft and Otava. While the fighting has long since ceased, its fields have forever retained an unnaturally red hue. 
+		Colloquially known as the 'Sanguine Reach', this lesser kingdom once had the misfortune of being in the middle of a century-long war between Grenzelhoft and Otava. While the fighting has long since ceased, its fields have forever retained an unnaturally red hue. 
 <br><br>
 		Now, there is nothing left. 
 <br><br>
@@ -486,10 +475,19 @@ Trouble has recently tickled its underbelly, however, with the steadying presenc
 		<p><strong> Underworld </strong> - Hell. A spiteful inversion of reality, created by the Archdevil. It is the home of devils, demons, and taxmen. </p>
 		<p><strong> Holy See </strong> - The premiere worshippers of the Pantheon, and the governing body of the Church. Ruled by a Pope.</p>
 		<p><strong> Ecclesial </strong> - A splinter-faction of the Holy See, which has instead embraced the Ascendants. Sporadically present in hidden enclaves. </p>
-		<p><strong> Orthodoxy </strong> - The Holy See's rival and occasional ally, whom gives praise to Psydon. Ruled by an Archbishop.</p>
+		<p><strong> Orthodoxy </strong> - The Holy See's eternal rival, whom gives praise to the ancient God of Psydon. Ruled by the High Scholar of Otava.</p>
+		<p><strong> Inquisition </strong> - The militant arm of the Orthodoxy, notorious for hunting both nitebeasts and suspected worshippers with overzealous impunity. </p>
+		<p><strong> Duchy </strong> - Azuria's royal family, and the rulers of the Azure Peak. Traditionally helmed by a Grand Duke or Grand Duchess. </p>
 		<p><strong> Alotheos </strong> - A labyrinthian tomb, located within Azuria. Though its origins aren't known, its said to hold untold riches within. </p>
 		<p><strong> Arcyne </strong> - Magicka. A blessing of Noc, which allows for the manipulation of Psydonia's latent energies. </p>
 		<p><strong> Leyline </strong> - Channels of pure magicka, running across Psydonia like the arteries in a body. Most arcyne acts draw from these veins. </p>
+		<p><strong> Phlogiston </strong> - The star-speckled space that cradles the Sun, the Moon, Psydonia, and all the various astralities surrounding them. </p>
+		<p><strong> Murderwood </strong> - Azuria's northern forests, better known in the current dae as the 'Grove'. Temperate, but teeming with brigandry.</p>
+		<p><strong> Terrorbog </strong> - Azuria's western swamps, notoriously difficult to traverse and hazardous to even the most well-seasoned Adventurers.</p>
+		<p><strong> Coast </strong> - Azuria's eastern coastline. It usually refers to its most popular point of entry, sandwiched between the Grove and Hamlet.</p>
+		<p><strong> Hamlet </strong> - The northernmost point of Azuria's reach; a former settlement that has recently fallen to ducal neglect.</p>
+		<p><strong> Keep </strong> - The seat of power, located to the east of Azuria's town square. It is inhabited by the Duchy's royal family, court, and guardsmen.</p>
+		<p><strong> Church </strong> - The seat of faith, located to the west of Azuria's town square. It preaches the glory of the Pantheon to Azuria's faithful.</p>
 		<br>
 	</details>
 
@@ -501,11 +499,18 @@ Trouble has recently tickled its underbelly, however, with the steadying presenc
 		<p><strong> Deadite </strong> - Luxless corpses, resurrected through unholy means. Interchangeably used to describe both zombies and skeletons. </p>
 		<p><strong> Nitebeast </strong> - Monsters who rely on night-and-darkness to prowl. Primarily references werewolves, but can reference vampires as well. </p>
 		<p><strong> Lycker </strong> - Vampires. These luxless revenants are said to drink the blood of the living, and are empowered with unholy magicks. </p>
+		<p><strong> Gnoll </strong> - Lesser nitebeasts, borne of Graggar's malice towards the worthiest - or most valuable - prey. Like verevolves, they were once men; unlike them, they embrace their inhumenity. </p>
+		<p><strong> Verevolf </strong> - Greater nitebeasts, said to've been caused by Dendor's curses. When nite comes, even the meekest blightee turns into a fierce beast. </p>
+		<p><strong> Lich </strong> - Necromancers, ancient and well-versed in unholy magicka. They serve as the self-proclaimed lieutenants of Zizo, and are one of Azuria's gravest threats. </p>
+		<p><strong> Vampyre-Lord </strong> - Lords of lyckerdom, thought only to be restricted to the legends of antiquity. Should one resurface, terrible events are surely to follow. </p>
 		<p><strong> Avantyne </strong> - A so-called 'evil' alloy, wielded by Zizo's most devoted worshippers. More commonly known as 'darksteel'.</p>
+		<p><strong> Inquisitor </strong> - Eesoteric lieutenants of the Orthodoxy's militant branch, equally respected and reviled for their techniques in handling the unholiest-of-foes. </p>
+		<p><strong> Taff </strong> - A profanity that happens to be quite popular amongst the peasantry. In the crudest terms, it refers to intercourse or despair.</p>
 		<p><strong> Saiga </strong> - Large antelopes, and Psydonia's most popular choice for cavalrymen and travelers. Analogous to the far-rarer horse. </p>
+		<p><strong> Fogbeast </strong> - Horses. A rarely-seen alternative to the Saiga, due to its regional exclusivity to a few specific plains in Psydonia. </p>
 		<p><strong> Red </strong> - A healing potion - specifically, the regenerative juices inside. Additionally known as 'lifeblood'.  </p>
 		<p><strong> Blue </strong> - A fatigue potion - or, rather, the energy-boosting juices inside. Additionally known as 'manna'. </p>
-		<p><strong> Cackleberry </strong> - Eggs. The favored pronunciation amongst the peasantry and antiquated. </p>
+		<p><strong> Cackleberry </strong> - Eggs. The favored pronunciation amongst the peasantry and antiquated. Doubles as an allusion to one's lowest-hanging fruits. </p>
 		<p><strong> Mammon </strong> - Currency. A copper zenny is one mammon, a silver ziliquae is five mammons, and a gold zenar is ten mammons. </p>
 		<p><strong> Scom </strong> - A rous-powered communication machine. Also functions as a verb, when used to describe 'calling' or 'contacting' someone. </p>
 		<p><strong> Meister </strong> - A coinage-machine that - with the cost of a bloodied finger - allows one to access their personal reserve of mammons. </p>
