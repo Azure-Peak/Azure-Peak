@@ -168,6 +168,22 @@
 		qdel(I)
 		return TRUE
 
+	// === WOOD === 
+	if(istype(I, /obj/item/grown/log/tree))
+		var/obj/item/natural/rock/S = I
+		user.visible_message(
+			span_notice("[user] offers the [S] to [M]'s mouth, and they chomp it in two!"),
+			span_notice("I chomp the [S] down, splitting it in two!")
+		)
+		playsound(S.loc,'sound/misc/eat.ogg', rand(60,100), TRUE)
+		sleep(4)
+		playsound(user.loc, 'sound/misc/woodhit.ogg', 30)
+		qdel(I)
+		new /obj/item/grown/log/tree/small(get_turf(user.loc))
+		new /obj/item/grown/log/tree/small(get_turf(user.loc))
+		new /obj/effect/decal/cleanable/debris/woody(get_turf(user))
+		return TRUE
+
 	// === ROCK === 
 	if(istype(I, /obj/item/natural/rock))
 		var/obj/item/natural/rock/S = I
@@ -227,7 +243,6 @@
 		return TRUE
 
 	return FALSE
-
 
 /obj/structure/flora/newtree/Bumped(atom/movable/AM)
 	. = ..()

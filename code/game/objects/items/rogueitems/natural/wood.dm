@@ -87,6 +87,16 @@
 		return TRUE
 	..()
 
+//wood munching
+/obj/item/grown/log/tree/attack(mob/living/M, mob/user)
+	if(!user.cmode)
+		if(try_construct_consume(src, M, user))
+			return
+		else
+			return ..()
+	else
+		return ..()
+
 /obj/item/grown/log/tree/small
 	name = "small log"
 	desc = "Piece of lumber cut from a larger log. Suitable for building."
