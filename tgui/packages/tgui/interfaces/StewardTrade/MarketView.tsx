@@ -101,6 +101,22 @@ export const MarketView = (props: { data: Data }) => {
                           <span style={{ color: SEAL_AMBER }}>
                             {row.import_unit_price}m/u
                           </span>
+                          {row.import_capacity_total > 0 && (
+                            <span
+                              title="Units still available today at this price. Buying beyond this exhausts the region's daily production and the price climbs."
+                              style={{
+                                color:
+                                  row.import_capacity_today <= 0
+                                    ? INK_FAINT
+                                    : SEAL_BLUE,
+                                marginLeft: '4px',
+                                fontSize: '11px',
+                              }}
+                            >
+                              [{row.import_capacity_today}/
+                              {row.import_capacity_total}]
+                            </span>
+                          )}
                         </span>
                         {!!row.import_blockaded && (
                           <span style={badgeStyle(SEAL_RED)}>BLOCKADED</span>
@@ -140,6 +156,22 @@ export const MarketView = (props: { data: Data }) => {
                         <span style={{ color: SEAL_AMBER }}>
                           {row.export_unit_price}m/u
                         </span>
+                        {row.export_capacity_total > 0 && (
+                          <span
+                            title="Units the buyer still wants today at this price. Selling beyond this saturates the demand and the price drops."
+                            style={{
+                              color:
+                                row.export_capacity_today <= 0
+                                  ? INK_FAINT
+                                  : SEAL_GREEN,
+                              marginLeft: '4px',
+                              fontSize: '11px',
+                            }}
+                          >
+                            [{row.export_capacity_today}/
+                            {row.export_capacity_total}]
+                          </span>
+                        )}
                       </span>
                       {!!row.export_blockaded && (
                         <span style={badgeStyle(SEAL_RED)}>BLOCKADED</span>

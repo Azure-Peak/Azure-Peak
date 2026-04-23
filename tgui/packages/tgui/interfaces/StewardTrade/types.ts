@@ -61,9 +61,13 @@ export type MarketRow = {
   import_region_id: string | null;
   import_unit_price: number | null;
   import_blockaded: BooleanLike;
+  import_capacity_today: number;
+  import_capacity_total: number;
   export_region_id: string | null;
   export_unit_price: number | null;
   export_blockaded: BooleanLike;
+  export_capacity_today: number;
+  export_capacity_total: number;
 };
 
 export type RegionFlow = {

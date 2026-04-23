@@ -149,9 +149,13 @@
 			"import_region_id" = null,
 			"import_unit_price" = null,
 			"import_blockaded" = FALSE,
+			"import_capacity_today" = 0,
+			"import_capacity_total" = 0,
 			"export_region_id" = null,
 			"export_unit_price" = null,
 			"export_blockaded" = FALSE,
+			"export_capacity_today" = 0,
+			"export_capacity_total" = 0,
 		)
 
 		if(tg.importable)
@@ -160,12 +164,20 @@
 				row["import_region_id"] = import_info["region_id"]
 				row["import_unit_price"] = import_info["unit_price"]
 				row["import_blockaded"] = import_info["is_blockaded"] ? TRUE : FALSE
+				var/datum/economic_region/import_region = GLOB.economic_regions[import_info["region_id"]]
+				if(import_region)
+					row["import_capacity_today"] = import_region.produces_today[good_id] || 0
+					row["import_capacity_total"] = import_region.produces[good_id] || 0
 
 		var/list/export_info = SSeconomy.get_best_export_region(good_id, exclude_blockaded = FALSE)
 		if(export_info)
 			row["export_region_id"] = export_info["region_id"]
 			row["export_unit_price"] = export_info["unit_price"]
 			row["export_blockaded"] = export_info["is_blockaded"] ? TRUE : FALSE
+			var/datum/economic_region/export_region = GLOB.economic_regions[export_info["region_id"]]
+			if(export_region)
+				row["export_capacity_today"] = export_region.demands_today[good_id] || 0
+				row["export_capacity_total"] = export_region.demands[good_id] || 0
 
 		market_rows += list(row)
 	data["market_rows"] = market_rows
