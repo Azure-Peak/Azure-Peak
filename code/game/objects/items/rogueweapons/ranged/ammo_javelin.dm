@@ -5,6 +5,7 @@
 	force = 14
 	throw_speed = 4
 	ammo_weight = 5 // Javelins are bulky — 5 weight each in a javelinbag
+	flags_ai_inventory = AI_ITEM_THROWING
 	name = "iron javelin"
 	desc = "A tool used for centuries, as early as recorded history. This one is tipped with a iron head; standard among militiamen and irregulars alike."
 	icon_state = "ijavelin"

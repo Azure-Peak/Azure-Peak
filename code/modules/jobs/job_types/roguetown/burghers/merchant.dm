@@ -86,4 +86,6 @@
 		SStreasury.give_money_account(ECONOMIC_RICH, H, "Savings.")
 	backpack_contents = list(
 		/obj/item/mini_flagpole/merchant = 1,
+		// For selling
+		/obj/item/hunting_map/white_stag = 1,
 	)

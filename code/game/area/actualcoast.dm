@@ -1,6 +1,7 @@
 // Actual coastal coastal area - this is for the harbour, which has no ambushes.
 /area/rogue/outdoors/beach
 	name = "City Harbor"
+	loot_budget = LOOT_BUDGET_AZURE_COAST
 	icon_state = "beach"
 	warden_area = TRUE
 	ambientsounds = AMB_BEACH

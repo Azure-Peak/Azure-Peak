@@ -198,6 +198,8 @@
 	var/datum/job/wretch_job = SSjob.GetJob("Wretch")
 	if(!wretch_job)
 		return
+	if(wretch_job.admin_slot_override)
+		return
 	var/list/scaling = calculate_wretch_scaling(override_player_count)
 	var/slots = max(0, scaling["final_slots"])
 	// Never reduce below current occupancy

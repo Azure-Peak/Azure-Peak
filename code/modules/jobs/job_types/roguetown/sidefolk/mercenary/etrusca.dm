@@ -1,9 +1,9 @@
-/datum/advclass/mercenary/etrusca/condottiero
+/datum/advclass/mercenary/etrusca_condottiero
 	name = "Condottiero Ringleader"
 	tutorial = "Hailing from the Kingdom of Etrusca, you are a Condotierro - an upstart mercenary, dedicated to leading a group of trained soldiers of fortune oft found in the employ of powerful merchants and lords for your efficiency and grace. Without a war to fight back home, the Grand Duchy has become a much-needed source of contracts. Afterall, this land is rich in coin yet poor in manpower..."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
-	outfit = /datum/outfit/job/roguetown/mercenary/etrusca/condottiero
+	outfit = /datum/outfit/job/roguetown/mercenary/etrusca_condottiero
 	class_select_category = CLASS_CAT_ETRUSCA
 	category_tags = list(CTAG_MERCENARY)
 	subclass_languages = list(/datum/language/etruscan, /datum/language/thievescant)
@@ -32,7 +32,7 @@
 		/datum/skill/misc/medicine = SKILL_LEVEL_APPRENTICE,
 	)
 
-/datum/outfit/job/roguetown/mercenary/etrusca/condottiero/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/roguetown/mercenary/etrusca_condottiero/pre_equip(mob/living/carbon/human/H)
 	..()
 	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/iron
 	cloak = /obj/item/clothing/cloak/tabard/blkknight //Aura farming
@@ -74,12 +74,12 @@
 				l_hand = /obj/item/rogueweapon/sword/short
 	H.merctype = 3
 
-/datum/advclass/mercenary/etrusca/balestrieri
+/datum/advclass/mercenary/etrusca_balestrieri
 	name = "Balestriero Guildsman"
 	tutorial = "You are a Balestriero - one of many loyal crossbowmen who work under the Condotierro. Armed with your trusty arbalest and navaja, a single volley from the balestrieri are said to be more lethal than a thousand cuts of a blade."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
-	outfit = /datum/outfit/job/roguetown/mercenary/etrusca/balestrieri
+	outfit = /datum/outfit/job/roguetown/mercenary/etrusca_balestrieri
 	class_select_category = CLASS_CAT_ETRUSCA
 	category_tags = list(CTAG_MERCENARY)
 	subclass_languages = list(/datum/language/etruscan, /datum/language/thievescant)
@@ -109,7 +109,7 @@
 		/datum/skill/craft/sewing = SKILL_LEVEL_APPRENTICE,
 	)
 
-/datum/outfit/job/roguetown/mercenary/etrusca/balestrieri/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/roguetown/mercenary/etrusca_balestrieri/pre_equip(mob/living/carbon/human/H)
 	..()
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
 	cloak = /obj/item/clothing/cloak/thief_cloak

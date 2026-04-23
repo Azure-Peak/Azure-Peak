@@ -21,6 +21,7 @@
 	smeltresult = /obj/item/ingot/iron
 	associated_skill = /datum/skill/combat/axes		//Not an axe but fuck it - you're logging anyway.
 	max_blade_int = 300
+	is_tool = TRUE
 
 /obj/item/rogueweapon/handsaw/bronze
 	name = "bronze handsaw"

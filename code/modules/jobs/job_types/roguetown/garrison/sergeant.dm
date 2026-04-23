@@ -8,7 +8,7 @@
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = ACCEPTED_RACES
 	allowed_ages = list(AGE_ADULT, AGE_MIDDLEAGED, AGE_OLD)
-	tutorial = "You are the most experienced of the Crown's Soldiery, leading the men-at-arms in maintaining order and attending to threats and crimes below the court's attention. \
+	tutorial = "You are the most experienced of the Crown's Soldiery, leading the Watch in maintaining order and attending to threats and crimes below the court's attention. \
 				See to those under your command and fill in the gaps knights leave in their wake. Obey the orders of your Marshal and the Crown."
 	display_order = JDO_SERGEANT
 	selection_color = JCOLOR_GARRISON

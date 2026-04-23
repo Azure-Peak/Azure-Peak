@@ -1488,7 +1488,7 @@
 
 /datum/emote/living/fsalute/run_emote(mob/living/user, params, type_override, intentional, targetted, animal)
 	. = ..()
-	if(. && !isnull(user.patron) && !HAS_TRAIT(user, TRAIT_DECEIVING_MEEKNESS))	//Guarded doesn't show an icon to anyone.
+	if(. && !isnull(user.patron))
 		user.play_overhead_indicator('icons/mob/overhead_effects.dmi', "stress", 15, MUTATIONS_LAYER, private = user.patron.type, soundin = 'sound/magic/holyshield.ogg', y_offset = 32)
 
 /mob/living/carbon/human/verb/emote_fsalute()

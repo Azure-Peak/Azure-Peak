@@ -45,7 +45,8 @@
 	name = "silver bowl"
 	icon_state = "bowl_silver"
 	sellprice = 60
-	is_silver = FALSE //temporary measure to prevent people from easily metachecking vampyres. Replace with a more sophisticated alternative if-or-when available.
+	is_silver = TRUE
+	is_lesser_silver = TRUE
 
 /obj/item/reagent_containers/glass/bowl/carved
 	name = "carved bowl"

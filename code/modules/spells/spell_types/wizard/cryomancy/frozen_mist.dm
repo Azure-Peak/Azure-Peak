@@ -110,7 +110,7 @@
 				continue
 			if(source_spell?.spell_guard_check(L))
 				continue
-			apply_frost_stack(L, 3)
+			apply_frost_stack(L, 1)
 
 /obj/effect/frozen_mist/Destroy()
 	caster = null
@@ -143,7 +143,7 @@
 				continue
 			if(source_spell?.spell_guard_check(L))
 				continue
-			apply_frost_stack(L, 3)
+			apply_frost_stack(L, 1)
 			var/actual_damage = rand(5, tick_damage)
 			if(ishuman(L) && ishuman(caster))
 				arcyne_strike(caster, L, null, actual_damage, BODY_ZONE_CHEST, \

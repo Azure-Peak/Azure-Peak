@@ -62,6 +62,10 @@
 	anvilrepair = /datum/skill/craft/armorsmithing
 //	block2add = FOV_BEHIND
 
+/obj/item/clothing/mask/rogue/faceveil
+	name = "simple veil"
+	icon_state = "faceveil"
+	desc = "A remarkably plain veil meant to conceal ones face... if you wore this, a gust of wind would be all it takes to reveal your identity."
 /obj/item/clothing/mask/rogue/spectacles/inq
 	name = "otavan nocshade lens-pair"
 	icon_state = "bglasses"
@@ -699,3 +703,13 @@
 	smeltresult = null
 	anvilrepair = /datum/skill/craft/ceramics
 	sellprice = 0
+
+/obj/item/clothing/mask/rogue/xylixmask/weathered
+	name = "weathered mask"
+	item_state = "xylix_weathered"
+	icon_state = "xylix_weathered"
+	desc = "An ancient ceramic face. It looks weathered, the sort molded by Xylixian worshippers of many yils past. Even when cast aside, it feels like the hardened clay has never left your hands. As if it always finds a way back into your palms."
+	// No armor anyways
+	max_integrity = 200
+	// Not messing with jester mask, but again, it has no armor. many other masks also don't block vision.
+	block2add = FOV_DEFAULT

@@ -44,7 +44,7 @@
 	movement_type = UNSTOPPABLE
 	guard_deflectable = TRUE
 	light_color = LIGHT_COLOR_WHITE
-	damage = 40
+	damage = 45
 	npc_simple_damage_mult = 2
 	damage_type = BURN
 	accuracy = 40

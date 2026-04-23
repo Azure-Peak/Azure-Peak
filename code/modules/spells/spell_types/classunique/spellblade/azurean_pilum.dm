@@ -82,7 +82,7 @@
 	npc_simple_damage_mult = 1.5
 	hitsound = 'sound/combat/hits/bladed/genthrust (1).ogg'
 	/// How many frost stacks to apply on hit
-	var/frost_stacks = 2
+	var/frost_stacks = 1
 
 /obj/projectile/energy/azurean_pilum/on_hit(target)
 	. = ..()
@@ -105,8 +105,10 @@
 
 /obj/projectile/energy/azurean_pilum/arc
 	name = "Arced Azurean Pilum"
+	damage = 26
 	arcshot = TRUE
 
 /obj/projectile/energy/azurean_pilum/empowered/arc
 	name = "Empowered Arced Azurean Pilum"
+	damage = 26
 	arcshot = TRUE

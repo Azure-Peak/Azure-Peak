@@ -13,6 +13,8 @@
 	var/climb_offset = 0 //offset up when climbed
 	var/mob/living/structureclimber
 	var/hammer_repair
+	var/hidingspot = FALSE //safety measures, dw about it
+	var/occupied = FALSE
 //	move_resist = MOVE_FORCE_STRONG
 
 /obj/structure/Initialize()
@@ -67,6 +69,9 @@
 
 
 /obj/structure/Destroy()
+	if(hidingspot) //if I don't do this, it deletes the player too
+		for(var/mob/living/M in src)
+			M.forceMove(get_turf(src))
 	if(isturf(loc))
 		for(var/mob/living/user in loc)
 			if(climb_offset)
@@ -226,6 +231,14 @@
 
 /obj/structure/examine(mob/user)
 	. = ..()
+
+	if(in_range(user, src))
+		if(occupied)
+			var/mob/living/M = locate() in src
+			if(M)
+				M.forceMove(get_turf(src))
+				occupied = FALSE
+
 	if(!(resistance_flags & INDESTRUCTIBLE))
 		if(obj_broken)
 			. += span_notice("It appears to be broken.")

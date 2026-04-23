@@ -94,7 +94,7 @@
 		to_chat(H, span_warning("I need a target to focus my storm on!"))
 		return FALSE
 
-	H.say(start_invocation, forced = "spell")
+	H.say(start_invocation, forced = "spell", language = /datum/language/common)
 
 	var/turf/start = get_turf(H)
 	var/facing = get_dir(start, get_turf(preferred_target)) || H.dir

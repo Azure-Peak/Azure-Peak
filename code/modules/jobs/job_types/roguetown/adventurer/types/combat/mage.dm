@@ -67,7 +67,7 @@
 		STATKEY_CON = 1,
 		STATKEY_WIL = 1,
 	)
-	subclass_mage_aspects = list("mastery" = FALSE, "major" = 0, "minor" = 0, "utilities" = 4, "ward" = TRUE)
+	subclass_mage_aspects = list("mastery" = FALSE, "major" = 0, "minor" = 0, "utilities" = 4)
 	subclass_skills = list(
 		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/shields = SKILL_LEVEL_APPRENTICE,
@@ -136,7 +136,7 @@
 				H.mind.AddSpell(new /datum/action/cooldown/spell/advance)
 				H.mind.AddSpell(new /datum/action/cooldown/spell/gate_of_reckoning)
 			if("macebearer")
-				H.mind.AddSpell(new /datum/action/cooldown/spell/shatter)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/kastvyl)
 				H.mind.AddSpell(new /datum/action/cooldown/spell/tremor)
 				H.mind.AddSpell(new /datum/action/cooldown/spell/charge)
 				H.mind.AddSpell(new /datum/action/cooldown/spell/cataclysm)
@@ -188,14 +188,26 @@
 					armor = /obj/item/clothing/suit/roguetown/armor/basiceast
 			H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_JOURNEYMAN, TRUE)
 		if("macebearer")
-			var/mace_weapons = list("Mace", "Warhammer")
+			var/mace_weapons = list("Mace", "Warhammer", "Goedendag", "Iron Axe", "Greataxe")
 			var/mace_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in mace_weapons
+			var/picked_axe = FALSE
 			switch(mace_choice)
 				if("Mace")
 					r_hand = /obj/item/rogueweapon/mace
 				if("Warhammer")
 					r_hand = /obj/item/rogueweapon/mace/warhammer
-			H.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_JOURNEYMAN, TRUE)
+				if("Goedendag")
+					r_hand = /obj/item/rogueweapon/mace/goden
+				if("Iron Axe")
+					r_hand = /obj/item/rogueweapon/stoneaxe/woodcut
+					picked_axe = TRUE
+				if("Greataxe")
+					r_hand = /obj/item/rogueweapon/greataxe
+					picked_axe = TRUE
+			if(picked_axe)
+				H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_JOURNEYMAN, TRUE)
+			else
+				H.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_JOURNEYMAN, TRUE)
 
 	H.cmode_music = 'sound/music/cmode/adventurer/combat_outlander3.ogg'
 	switch(H.patron?.type)
@@ -213,7 +225,7 @@
 		STATKEY_WIL = 1,
 	)
 	// TODO // FULL ON REWORK Bard.
-	subclass_mage_aspects = list("mastery" = FALSE, "major" = 0, "minor" = 2, "utilities" = 6, "ward" = TRUE)
+	subclass_mage_aspects = list("mastery" = FALSE, "major" = 0, "minor" = 2, "utilities" = 6)
 	subclass_skills = list(
 		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/music = SKILL_LEVEL_EXPERT,
@@ -247,7 +259,7 @@
 	if(H.mind)
 		H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/vicious_mockery)
 		H.mind.AddSpell(new /datum/action/cooldown/spell/arcyne_forge)
-		var/list/poke_options = list("Spitfire", "Frost Bolt", "Arc Bolt", "Gravel Blast", "Stygian Efflorescence", "Arcyne Lance")
+		var/list/poke_options = list("Spitfire", "Frost Bolt", "Arc Bolt", "Greater Arcyne Bolt", "Stygian Efflorescence", "Arcyne Lance", "Lesser Gravel Blast")
 		var/poke_choice = input(H, "Choose your offensive cantrip.", "Arcyne Training") as anything in poke_options
 		switch(poke_choice)
 			if("Spitfire")
@@ -256,12 +268,14 @@
 				H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/frost_bolt)
 			if("Arc Bolt")
 				H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/arc_bolt)
-			if("Gravel Blast")
-				H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/gravel_blast)
+			if("Greater Arcyne Bolt")
+				H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/greater_arcyne_bolt)
 			if("Stygian Efflorescence")
 				H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/stygian_efflorescence)
 			if("Arcyne Lance")
 				H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/arcyne_lance)
+			if("Lesser Gravel Blast")
+				H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/gravel_blast/lesser)
 	H.cmode_music = 'sound/music/cmode/adventurer/combat_outlander3.ogg'
 	switch(H.patron?.type)
 		if(/datum/patron/inhumen/zizo)
@@ -301,7 +315,7 @@
 		STATKEY_PER = 2,
 		STATKEY_CON = 1
 	)
-	subclass_mage_aspects = list("mastery" = FALSE, "major" = 0, "minor" = 0, "utilities" = 4, "ward" = TRUE)
+	subclass_mage_aspects = list("mastery" = FALSE, "major" = 0, "minor" = 0, "utilities" = 4)
 	subclass_skills = list(
 		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
@@ -340,6 +354,7 @@
 		/obj/item/rogueweapon/scabbard/sheath = 1,
 		(naledi_book) = 1,
 		/obj/item/book/spellbook = 1,
+		/obj/item/chalk = 1,
 	)
 
 	var/origin = input(H, "Did you study under the Naledi Yogis?", "ORIGIN") as anything in list("Yes", "No")

@@ -81,10 +81,19 @@
 			H.put_in_hands(new /obj/item/rogueweapon/sword/long/elvish)
 			H.equip_to_slot_or_del(new /obj/item/rogueweapon/scabbard/sword, SLOT_BACK_R, TRUE)
 
-/datum/advclass/mercenary/blackoak/ranger
+/datum/advclass/mercenary/blackoak_ranger
 	name = "Black Oaken Ranger"
 	tutorial = "A shady ranger of the Black Oaks. Half mercenary band, half irregular militia fighting for control of their ancestral elven homeland of the Peaks. Thankfully, you are not here today to shed the blood of the Duke's men — unless someone pays you to..."
+	allowed_sexes = list(MALE, FEMALE)
+	allowed_races = list(
+		/datum/species/human/halfelf,
+		/datum/species/elf/wood,
+		/datum/species/elf/dark,
+	)
 	outfit = /datum/outfit/job/roguetown/mercenary/blackoak_ranger
+	class_select_category = CLASS_CAT_RACIAL
+	category_tags = list(CTAG_MERCENARY)
+	cmode_music = 'sound/music/combat_blackoak.ogg'
 	traits_applied = list(TRAIT_AZURENATIVE, TRAIT_OUTDOORSMAN, TRAIT_BLACKOAK, TRAIT_DODGEEXPERT, TRAIT_WOODWALKER)
 	subclass_stats = list(
 		STATKEY_SPD = 3,
@@ -150,14 +159,14 @@
 			H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE) //Still 4 defence, fair enough
 			H.put_in_hands(new /obj/item/rogueweapon/sword/short/elvish)
 			H.equip_to_slot_or_del(new /obj/item/rogueweapon/scabbard/sword, SLOT_BELT_R, TRUE)
-	var/armors = list("Trophy Fur Robes", "Elven Cuirass")
+	var/armors = list("Woad Elven Maille", "Trophy Fur Robes")
 	var/armor_choice = input(H, "Choose your ARMOR.", "THE FOREST CLOAKS YOU.") as anything in armors
 	switch(armor_choice)
+		if("Woad Elven Maille")
+			REMOVE_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
+			H.equip_to_slot_or_del(new /obj/item/clothing/suit/roguetown/armor/plate/elven_plate/light, SLOT_ARMOR, TRUE)
 		if("Trophy Fur Robes")
 			H.equip_to_slot_or_del(new /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat/trophyfur, SLOT_ARMOR, TRUE)
-		if("Elven Cuirass")
-			REMOVE_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
-			H.equip_to_slot_or_del(new /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fencer/elven, SLOT_ARMOR, TRUE)
 	var/helmets = list("Woad Elven Barbute", "Elven Barbute", "Winged Elven Barbute")
 	var/helmet_choice = input(H, "Choose your HELMET.", "LEAVES OVER STEEL.") as anything in helmets
 	switch(helmet_choice)
@@ -168,10 +177,19 @@
 		if("Winged Elven Barbute")
 			H.equip_to_slot_or_del(new /obj/item/clothing/head/roguetown/helmet/elvenbarbute/winged/blackoak, SLOT_HEAD, TRUE)
 
-/datum/advclass/mercenary/blackoak/adept
+/datum/advclass/mercenary/blackoak_adept
 	name = "Black Oaken Adept"
 	tutorial = "A spellblade of the Black Oaks. Half mercenary band, half irregular militia fighting for control of their ancestral elven homeland of the Peaks. You have honed the ancient Azurean art of spellbladery - an art that is yours and your people's alone. Thankfully, you are not here today to shed the blood of the Duke's men - unless someone pays you to..."
+	allowed_sexes = list(MALE, FEMALE)
+	allowed_races = list(
+		/datum/species/human/halfelf,
+		/datum/species/elf/wood,
+		/datum/species/elf/dark,
+	)
 	outfit = /datum/outfit/job/roguetown/mercenary/blackoak_adept
+	class_select_category = CLASS_CAT_RACIAL
+	category_tags = list(CTAG_MERCENARY)
+	cmode_music = 'sound/music/combat_blackoak.ogg'
 	class_select_category = CLASS_CAT_RACIAL
 	traits_applied = list(TRAIT_AZURENATIVE, TRAIT_OUTDOORSMAN, TRAIT_BLACKOAK, TRAIT_ARCYNE, TRAIT_WOODWALKER)
 	subclass_stats = list(
@@ -181,7 +199,7 @@
 		STATKEY_CON = 1,
 		STATKEY_WIL = 1,
 	)
-	subclass_mage_aspects = list("mastery" = FALSE, "major" = 0, "minor" = 0, "utilities" = 4, "ward" = TRUE)
+	subclass_mage_aspects = list("mastery" = FALSE, "major" = 0, "minor" = 0, "utilities" = 4)
 	subclass_skills = list(
 		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
@@ -233,6 +251,7 @@
 		/obj/item/flashlight/flare/torch = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1,
 		/obj/item/book/spellbook = 1,
+		/obj/item/chalk = 1,
 		)
 
 	to_chat(H, span_warning("You start with Bind Weapon. Remember to Bind your weapon so you can use your abilities and build up Arcyne Momentum."))
@@ -267,7 +286,7 @@
 				H.mind.AddSpell(new /datum/action/cooldown/spell/advance)
 				H.mind.AddSpell(new /datum/action/cooldown/spell/gate_of_reckoning)
 			if("macebearer")
-				H.mind.AddSpell(new /datum/action/cooldown/spell/shatter)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/kastvyl)
 				H.mind.AddSpell(new /datum/action/cooldown/spell/tremor)
 				H.mind.AddSpell(new /datum/action/cooldown/spell/charge)
 				H.mind.AddSpell(new /datum/action/cooldown/spell/cataclysm)
@@ -306,14 +325,26 @@
 			H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_EXPERT, TRUE)
 		if("macebearer")
 			backr = /obj/item/rogueweapon/shield/wood
-			var/mace_weapons = list("Steel Mace", "Steel Warhammer")
+			var/mace_weapons = list("Steel Mace", "Steel Warhammer", "Grand Mace", "Battle Axe", "Steel Greataxe")
 			var/mace_choice = input(H, "Choose your WEAPON.", "FOR THE OAKS AND THE PEAKS.") as anything in mace_weapons
+			var/picked_axe = FALSE
 			switch(mace_choice)
 				if("Steel Mace")
 					r_hand = /obj/item/rogueweapon/mace/steel
 				if("Steel Warhammer")
 					r_hand = /obj/item/rogueweapon/mace/warhammer/steel
-			H.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_EXPERT, TRUE)
+				if("Grand Mace")
+					r_hand = /obj/item/rogueweapon/mace/goden/steel
+				if("Battle Axe")
+					r_hand = /obj/item/rogueweapon/stoneaxe/battle
+					picked_axe = TRUE
+				if("Steel Greataxe")
+					r_hand = /obj/item/rogueweapon/greataxe/steel
+					picked_axe = TRUE
+			if(picked_axe)
+				H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_EXPERT, TRUE)
+			else
+				H.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_EXPERT, TRUE)
 
 	var/helmets = list("Woad Elven Barbute", "Elven Barbute", "Winged Elven Barbute")
 	var/helmet_choice = input(H, "Choose your HELMET.", "LEAVES OVER STEEL.") as anything in helmets

@@ -8,7 +8,8 @@
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = ACCEPTED_RACES // same as town guard
 	allowed_ages = list(AGE_ADULT, AGE_MIDDLEAGED)
-	tutorial = "Responsible for the safety of the town and the enforcement of the Grand Duke's law, you are the vanguard of the city faced with punishing those who defy his Royal Majesty. Though you've many lords to obey, as both the Church and the Bailiff have great sway over your life."
+	tutorial = "You are the club in the dark for the Crown, patrolling the streets of Azure Peak dae and nite on the lookout for knaves and vagabonds looking to cause trouble. \
+				Obey the Sergeant, Marshal and the Crown for their own your lyfe, don't forget to ask the men-at-arms for help should you need it either."//Theoretically nobody will ever see this but yknow
 	display_order = JDO_WATCHMAN
 	whitelist_req = TRUE
 

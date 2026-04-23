@@ -20,6 +20,7 @@
 	max_blade_int = 300
 	grid_width = 32
 	grid_height = 96
+	is_tool = TRUE // if i see a familiar fragging out with a silver shovel i will be very upset but also like lmao
 
 /obj/item/rogueweapon/shovel/get_mechanics_examine(mob/user)
 	. = ..()

@@ -1,7 +1,7 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/revenant/wolf
 	name = "volf revenant"
 	desc = "A snarling beast of mangy fur and yellowed teeth. This one's hunger has outlasted its life, returning as a shimmering predator in the fog."
-	icon = 'icons/roguetown/mob/monster/vol.dmi'
+	icon = 'icons/roguetown/mob/monster/volf.dmi'
 	icon_state = "revenant"
 	icon_living = "revenant"
 	icon_dead = "revenant"
@@ -28,7 +28,7 @@
 	defprob = 40
 	dodgetime = 30
 
-	faction = list("revenants", "wolfs")
+	faction = list(FACTION_REVENANTS, FACTION_WOLFS)
 	ai_controller = /datum/ai_controller/volf
 	base_intents = list(/datum/intent/simple/bite/volf)
 	melee_cooldown = WOLF_ATTACK_SPEED

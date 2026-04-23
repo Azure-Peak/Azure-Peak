@@ -179,4 +179,5 @@
 		/datum/crafting_recipe/roguetown/alchemy/hag/wyrd_axe,
 		/datum/crafting_recipe/roguetown/alchemy/hag/wyrd_sword,
 		/datum/crafting_recipe/roguetown/alchemy/hag/wyrd_spear,
+		/datum/crafting_recipe/roguetown/alchemy/hag/lux_moss,
 	)

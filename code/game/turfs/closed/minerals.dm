@@ -203,15 +203,15 @@
 
 /turf/closed/mineral/proc/gets_drilled(mob/living/user, triggered_by_explosion = FALSE, give_exp = TRUE)
 	new /obj/item/natural/stone(src)
+	var/autodestroy = FALSE
+	if(!isnull(user))
+		var/held = user.get_active_held_item()
+		if(istype(held, /obj/item/rogueweapon/pick))
+			var/obj/item/rogueweapon/pick/P = held
+			autodestroy = P.auto_boulder
 	if(prob(30))
 		new /obj/item/natural/stone(src)
 	if (mineralType && (mineralAmt > 0))
-		var/autodestroy = FALSE
-		if(!isnull(user))
-			var/held = user.get_active_held_item()
-			if(istype(held, /obj/item/rogueweapon/pick))
-				var/obj/item/rogueweapon/pick/P = held
-				autodestroy = P.auto_boulder
 		if(prob(33)) //chance to spawn ore directly
 			new mineralType(src)
 		if(rockType) //always spawn at least 1 rock
@@ -222,7 +222,7 @@
 	else if(user?.goodluck(2))
 		var/newthing = pickweight(list(/obj/item/natural/rock/salt = 2, /obj/item/natural/rock/iron = 1, /obj/item/natural/rock/coal = 2))
 //		to_chat(user, "<span class='notice'>Bonus ducks!</span>")
-		new newthing(src)
+		new newthing(src, autodestroy)
 	var/flags = NONE
 	if(defer_change) // TODO: make the defer change var a var for any changeturf flag
 		flags = CHANGETURF_DEFER_CHANGE

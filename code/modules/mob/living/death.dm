@@ -90,7 +90,7 @@ GLOBAL_LIST_EMPTY(last_words)
 
 /mob/living/death(gibbed, nocutscene = FALSE)
 	var/was_dead_before = stat == DEAD
-	stat = DEAD
+	set_stat(DEAD)
 	unset_machine()
 	timeofdeath = world.time
 	tod = station_time_timestamp()

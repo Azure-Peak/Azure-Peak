@@ -60,7 +60,7 @@
 
 /obj/item/clothing/suit/roguetown/armor/plate/elven_plate
 	name = "woad elven plate"
-	desc = "An assembly of thickly woven trunk, woven by song and tool of the oldest elven druids. It still creaks and weeps with forlorn reminiscence of a bygone era. It looks like only Elves can fit in it."
+	desc = "An assembly of thickly woven trunk, bound together by ancient song and tool of the oldest elven druids. It still creaks and weeps with forlorn reminiscence of a bygone era. It looks like only Elves can fit in it."
 	allowed_race = list(/datum/species/elf/wood, /datum/species/human/halfelf, /datum/species/elf/dark)
 	armor = ARMOR_BLACKOAK
 	body_parts_covered = COVERAGE_ALL_BUT_HANDFEET
@@ -72,8 +72,16 @@
 	smeltresult = /obj/item/rogueore/coal
 	smelt_bar_num = 4
 	blocksound = SOFTHIT
-	armor_class = ARMOR_CLASS_MEDIUM
 
 /obj/item/clothing/suit/roguetown/armor/plate/elven_plate/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/item_equipped_movement_rustle, SFX_WOOD_ARMOR, 10)
+
+/obj/item/clothing/suit/roguetown/armor/plate/elven_plate/light
+	name = "woad elven maille"
+	desc = "An assembly of woven trunk, bound together by ancient song and tool of the oldest elven druids. It still creaks and weeps with forlorn reminiscence of a bygone era. It looks like only Elves can fit in it."
+	icon_state = "welfchestalt"
+	item_state = "welfchestalt"
+	armor_class = ARMOR_CLASS_LIGHT
+	max_integrity = ARMOR_INT_CHEST_LIGHT_MEDIUM //-27 % durability hit
+	body_parts_covered = CHEST | VITALS | LEGS

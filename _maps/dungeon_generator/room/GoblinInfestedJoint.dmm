@@ -100,7 +100,7 @@
 	pixel_x = 8;
 	pixel_y = -1
 	},
-/obj/item/reagent_containers/food/snacks/rogue/breadslice,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/tomb/indoors)
 "do" = (
@@ -375,7 +375,7 @@
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/under/tomb/indoors)
 "mg" = (
-/obj/item/reagent_containers/food/snacks/smallrat,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/under/tomb)
 "mt" = (
@@ -399,7 +399,7 @@
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/tomb/cave/spider)
 "nj" = (
-/obj/item/reagent_containers/food/snacks/smallrat,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
 /turf/open/floor/rogue/rooftop,
 /area/rogue/under/tomb/cave/spider)
 "nq" = (
@@ -859,10 +859,6 @@
 /obj/effect/spawner/lootdrop/roguetown/dungeon/weapons,
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/tomb/indoors)
-"Gf" = (
-/obj/item/reagent_containers/food/snacks/smallrat,
-/turf/open/floor/rogue/cobble,
-/area/rogue/under/tomb/indoors)
 "Gy" = (
 /obj/item/reagent_containers/food/snacks/rogue/friedrat{
 	pixel_y = -6;
@@ -1189,7 +1185,7 @@
 /turf/open/floor/rogue/dirt,
 /area/rogue/under/tomb)
 "VB" = (
-/obj/item/reagent_containers/food/snacks/rogue/meat/mince,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/under/tomb/indoors)
 "VC" = (
@@ -1212,7 +1208,7 @@
 /turf/open/floor/rogue/ruinedwood/turned,
 /area/rogue/under/tomb/indoors)
 "Wq" = (
-/obj/item/reagent_containers/food/snacks/smallrat,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
 /turf/open/floor/rogue/blocks,
 /area/rogue/under/tomb)
 "Wr" = (
@@ -1300,7 +1296,7 @@
 /turf/open/floor/rogue/grass,
 /area/rogue/under/tomb)
 "Zp" = (
-/obj/item/roguegem/random{
+/obj/effect/spawner/lootdrop/random_gem{
 	pixel_x = 0;
 	pixel_y = 0
 	},
@@ -2127,7 +2123,7 @@ lS
 wJ
 vh
 Hm
-Gf
+cf
 Hm
 ql
 At

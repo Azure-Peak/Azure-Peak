@@ -40,7 +40,7 @@
 	hitscan = TRUE
 	movement_type = UNSTOPPABLE
 	light_color = LIGHT_COLOR_WHITE
-	damage = 30
+	damage = 35
 	npc_simple_damage_mult = 2
 	damage_type = BURN
 	woundclass = BCLASS_BURN
@@ -53,7 +53,7 @@
 
 /obj/projectile/magic/arc_bolt/arc
 	name = "arced arc bolt"
-	damage = 22
+	damage = 26
 	arcshot = TRUE
 
 /obj/projectile/magic/arc_bolt/on_hit(target)

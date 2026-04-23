@@ -3,7 +3,7 @@
 	desc = "In the old tongue, caedo - to strike or to cut down. Dash forward at blinding speed, \
 		leaving afterimages that strike every enemy in your path. \
 		Empowered (3 Momentum): Consumes 3 stacks to strike twice. \
-		If any of them defend against the strike, you will be left exposed at the end of your dash!"
+		If any of them defend against the strike, you will be left exposed and slowed!"
 	button_icon = 'icons/mob/actions/classuniquespells/spellblade.dmi'
 	button_icon_state = "caedo"
 	sound = 'sound/magic/blink.ogg'
@@ -20,11 +20,11 @@
 
 	charge_required = TRUE
 	weapon_cast_penalized = FALSE
-	charge_time = 1
+	charge_time = CHARGETIME_POKE
 	charge_drain = 0
 	charge_slowdown = CHARGING_SLOWDOWN_NONE
 	charge_sound = 'sound/magic/charging.ogg'
-	cooldown_time = 16 SECONDS
+	cooldown_time = 12 SECONDS
 
 	associated_skill = /datum/skill/magic/arcane
 	spell_tier = 2
@@ -123,7 +123,9 @@
 		if(QDELETED(victim) || victim.stat == DEAD)
 			continue
 		if(spell_guard_check(victim, FALSE, deflected ? null : user))
-			deflected = TRUE
+			if(!deflected)
+				deflected = TRUE
+				user.Slowdown(2)
 			continue
 		var/total_damage = strike_damage
 		arcyne_strike(user, victim, weapon, total_damage, def_zone, spell_name = "Caedo", skip_animation = TRUE)

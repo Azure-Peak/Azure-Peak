@@ -63,7 +63,9 @@
 /datum/ai_behavior/basic_melee_attack/finish_action(datum/ai_controller/controller, succeeded, target_key, targetting_datum_key, hiding_location_key)
 	. = ..()
 	if(!succeeded)
-		controller.clear_blackboard_key(target_key)
+		// Don't clear target if the aggro board still tracks a valid threat — let find_aggro re-evaluate instead
+		if(!controller.blackboard[BB_HIGHEST_THREAT_MOB])
+			controller.clear_blackboard_key(target_key)
 
 /datum/ai_behavior/basic_ranged_attack
 	action_cooldown = 0.6 SECONDS

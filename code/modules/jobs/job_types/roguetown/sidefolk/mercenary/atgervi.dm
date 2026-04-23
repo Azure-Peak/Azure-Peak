@@ -80,12 +80,16 @@
 		)
 	H.merctype = 1
 
-/datum/advclass/mercenary/atgervi/shaman
+/datum/advclass/mercenary/atgervi_shaman
 	name = "Atgervi Shaman"
 	tutorial = "You are a Shaman of the Fjall, The Northern Empty. Shamans are savage combatants who commune with the Ecclesical Beast Gods through ritualistic violence, rather than idle prayer."
-	outfit = /datum/outfit/job/roguetown/mercenary/atgervishaman
+	allowed_sexes = list(MALE, FEMALE)
+	allowed_races = RACES_ALL_KINDS
+	outfit = /datum/outfit/job/roguetown/mercenary/atgervi_shaman
 	subclass_languages = list(/datum/language/gronnic)
 	cmode_music = 'sound/music/combat_shaman2.ogg'
+	class_select_category = CLASS_CAT_GRONN
+	category_tags = list(CTAG_MERCENARY)
 	traits_applied = list(TRAIT_STRONGBITE, TRAIT_CIVILIZEDBARBARIAN, TRAIT_IGNOREDAMAGESLOWDOWN, TRAIT_NOPAINSTUN, TRAIT_BLOOD_RESISTANCE)
 	subclass_stats = list(
 		STATKEY_STR = 3,
@@ -107,10 +111,10 @@
 		/datum/skill/magic/holy = SKILL_LEVEL_JOURNEYMAN,
 	)
 
-/datum/outfit/job/roguetown/mercenary/atgervishaman
+/datum/outfit/job/roguetown/mercenary/atgervi_shaman
 	allowed_patrons = ALL_GRONNIC_PATRONS //Subvariant of the 'ALL_INHUMEN_PATRONS' tag, with Abyssor and Dendor as situational additions. Do not add any more to this, no matter what.
 
-/datum/outfit/job/roguetown/mercenary/atgervishaman/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/roguetown/mercenary/atgervi_shaman/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.set_blindness(0)
 	to_chat(H, span_warning("You are a Shaman of the Fjall, The Northern Empty. Shamans are savage combatants who commune with the Ecclesical Beast gods through ritualistic violence, rather than idle prayer."))
@@ -146,7 +150,6 @@
 		else
 			id = /obj/item/clothing/neck/roguetown/psicross/inhumen/gronn/special //Failsafe. Gives a specially-fluffed version of Zizo's talisman, which can be reinterpreted as needed.
 
-
 	var/techniques = list("Dropkick - Pushback + Extra Damage", "Chokeslam - Stamina Damage", "Stunner - Dazed Debuff", "Headbutt - Vulnerable Debuff") // cool wrestling moves
 	var/technique_choice = input(H,"Choose your TECHNIQUE.", "TOSS THEM.") as anything in techniques
 	switch(technique_choice)
@@ -159,8 +162,6 @@
 		if("Headbutt - Vulnerable Debuff")
 			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/headbutt)
 
-
-
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T2, passive_gain = CLERIC_REGEN_WEAK, devotion_limit = CLERIC_REQ_1)	//Capped to T2 miracles.
 	backpack_contents = list(
@@ -169,7 +170,6 @@
 		/obj/item/rogueweapon/scabbard/sheath = 1
 		)
 	H.merctype = 1
-
 
 /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/atgervi
 	name = "varangian hauberk"
@@ -260,7 +260,7 @@
 				return list("shrink" = 0.7,"sx" = -17,"sy" = -15,"nx" = -15,"ny" = -15,"wx" = -12,"wy" = -15,"ex" = -18,"ey" = -15,"nturn" = 0,"sturn" = 0,"wturn" = 180,"eturn" = 0,"nflip" = 8,"sflip" = 0,"wflip" = 1,"eflip" = 0,"northabove" = 1,"southabove" = 0,"eastabove" = 0,"westabove" = 0)
 
 /obj/item/rogueweapon/stoneaxe/woodcut/steel/atgervi
-	name = "Bearded Axe"
+	name = "bearded axe"
 	desc = "A large axe easily wielded in one hand or two, with a large, hooked axehead, designed for the brutal ripping and tearing of flesh and armor alike."
 	icon_state = "atgervi_axe"
 	item_state = "atgervi_axe"

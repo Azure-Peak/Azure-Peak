@@ -83,7 +83,7 @@ SUBSYSTEM_DEF(nightshift)
 		if(!cmode)
 			SSdroning.play_area_sound(areal, src.client)
 		SSdroning.play_loop(areal, src.client)
-	if(mode != NPC_AI_OFF)
+	if(ai_controller)
 		return
 	switch(todd)
 		if("day")

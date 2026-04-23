@@ -209,29 +209,6 @@
 	sheathe_icon = "eirensword"
 	bigboy = TRUE
 
-/obj/item/clothing/head/roguetown/helmet/heavy/knight/armet/eiren_helmet
-	name = "strigidae armet"
-	desc = "An armet of distinct bird like design with a pronounced beak. \
-		Close to the teachings of Noc himself, it shields the curious gaze of the one wearing it. \
-		This one has seen some use and may be fitted with a great plume atop, to bear heraldic colors."
-	icon_state = "armetowl"
-	icon = 'icons/clothing/donor_clothes.dmi'
-	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
-
-/obj/item/clothing/head/roguetown/helmet/heavy/knight/armet/eiren_helmet/attackby(obj/item/W, mob/living/user, params)
-	..()
-	if(!(istype(W, /obj/item/natural/feather) && !detail_tag))
-		return
-	var/choice = input(user, "Choose a color.", "Plume") as anything in COLOR_MAP
-	user.visible_message(span_warning("[user] adds [W] to [src]."))
-	user.transferItemToLoc(W, src, FALSE, FALSE)
-	detail_color = COLOR_MAP[choice]
-	detail_tag = "_detail"
-	update_icon()
-	if(loc == user && ishuman(user))
-		var/mob/living/carbon/H = user
-		H.update_inv_head()
-
 /obj/item/clothing/head/roguetown/duelhat/pretzel
 	name = "rethrifted gravedigger's hat"
 	desc = "A gravetender's dark leather slouch, refitted with a golden dragon-sigil. Who needs a steel skullcap when you have dumb luck? <br> \
@@ -336,6 +313,34 @@
 		The cup guard has been forged, in lieu of its natural shape, into a blooming rosa - genteel and pleasant in view for a weapon of war."
 	icon = 'icons/obj/items/donor_weapons_64.dmi'
 	icon_state = "dasfox_lance"
+
+//IamCrystalClear
+/obj/item/clothing/mask/rogue/iamcrystalclear
+	name = "porcelain mask"
+	desc = "A porcelain mask with black eyes and no mouth."
+	icon = 'icons/clothing/donor_clothes.dmi'
+	icon_state = "porc_mask"
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+	adjustable = CAN_CADJUST
+	var/list/toggles = list(
+		"porc_mask",
+		"porc_mask_red",
+		"porc_mask_blue"
+		)
+
+/obj/item/clothing/mask/rogue/iamcrystalclear/AdjustClothes(mob/user)
+	for(var/i in 1 to length(toggles))
+		if(toggles[i] == icon_state)
+			if(i == length(toggles))
+				icon_state = toggles[1]
+			else
+				icon_state = toggles[i+1]
+			break
+	to_chat(user, span_info("My mask shifts its contours."))
+	update_icon()
+	user.update_inv_head()
+	user.update_inv_wear_mask()
+	
 
 
 //RYAN180602
@@ -548,11 +553,11 @@
 	AddComponent(/datum/component/ignitable/fluff/sci_sand)
 
 /obj/item/rogueweapon/wand/aisu
-    base_implement_name = "crystalline wand"
-    name = "crystalline wand"
-    desc = "A crystalline wand, born from a single tear and weeks of prayers and enchantments, Oh my guiding Moonlight!"
-    icon_state = "aisuwand"
-    icon = 'icons/obj/items/donor_weapons.dmi'
+	base_implement_name = "crystalline wand"
+	name = "crystalline wand"
+	desc = "A crystalline wand, born from a single tear and weeks of prayers and enchantments, Oh my guiding Moonlight!"
+	icon_state = "aisuwand"
+	icon = 'icons/obj/items/donor_weapons.dmi'
 
 /obj/item/rogueweapon/wand/aisu/getonmobprop(tag)
 	. = ..()
@@ -582,3 +587,39 @@
 	icon = 'icons/obj/items/donor_weapons_64.dmi'
 	icon_state = "aeternum"
 	bigboy = TRUE
+
+//KETRAI
+
+/obj/item/clothing/head/roguetown/octopus
+	name = "octopus hat"
+	desc = "A deep red, slimy cephalopod that clings to your scalp. Its tentacles can be adjusted."
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+	icon_state = "octopus"
+	adjustable = CAN_CADJUST
+	flags_inv = HIDEEARS|HIDEFACE|HIDEHAIR
+	body_parts_covered = HEAD|EARS|HAIR
+	armor = null 
+	resistance_flags = FIRE_PROOF
+	sellprice = 30
+
+/obj/item/clothing/head/roguetown/octopus/ComponentInitialize()
+	..()
+	AddComponent(/datum/component/adjustable_clothing, \
+		(HEAD|EARS|HAIR), \
+		(HIDEEARS|HIDEFACE|HIDEHAIR),\
+		null, \
+		'sound/magic/slimesquish.ogg', \
+		null, \
+		UPD_HEAD)
+
+/obj/item/clothing/head/roguetown/octopus/MiddleClick(mob/user)
+	if(!ishuman(user))
+		return
+	if(flags_inv & HIDEHAIR)
+		flags_inv &= ~HIDEHAIR
+		to_chat(user, span_info("You pull your hair out from under the [src]."))
+	else
+		flags_inv |= HIDEHAIR
+		to_chat(user, span_info("You tuck your hair under the [src]."))
+	user.update_inv_head()

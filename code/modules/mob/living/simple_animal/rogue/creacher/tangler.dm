@@ -3,7 +3,7 @@
 	desc = "Green, spiky and....I think I saw it move!"
 	icon = 'icons/roguetown/mob/monster/tangler.dmi'
 	icon_state = "tangler_hidden"
-	var/faction = list("plants")
+	var/faction = list(FACTION_PLANTS)
 
 /obj/structure/flora/grass/tangler/update_icon()
 	return

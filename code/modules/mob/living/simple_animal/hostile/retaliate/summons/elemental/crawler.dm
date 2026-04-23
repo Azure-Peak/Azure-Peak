@@ -16,7 +16,7 @@
 	base_intents = list(/datum/intent/simple/elemental_unarmed)
 	butcher_results = list()
 	death_loot = list(/obj/item/magic/elemental/mote = 4)
-	faction = list("elemental")
+	faction = list(FACTION_ELEMENTAL)
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
 	health = 120
 	maxHealth = 120

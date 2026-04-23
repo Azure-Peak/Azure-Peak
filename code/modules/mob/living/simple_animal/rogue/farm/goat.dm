@@ -91,7 +91,7 @@
 	footstep_type = FOOTSTEP_MOB_SHOE
 	pooptype = /obj/item/natural/poo/horse
 	milkies = TRUE
-	faction = list("goats")
+	faction = list(FACTION_GOATS)
 	attack_verb_continuous = "headbutts"
 	attack_verb_simple = "headbutt"
 	melee_damage_lower = 10
@@ -229,7 +229,7 @@
 						/obj/item/natural/fur/goat = 1,
 						/obj/item/natural/bundle/bone/full = 1, /obj/item/alch/sinew = 4, /obj/item/alch/bone = 1, /obj/item/alch/viscera = 2)
 	head_butcher = /obj/item/natural/head/goat
-	faction = list("goats")
+	faction = list(FACTION_GOATS)
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
 	attack_verb_continuous = "headbutts"
 	attack_verb_simple = "headbutt"

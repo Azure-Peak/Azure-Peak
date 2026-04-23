@@ -59,6 +59,10 @@
 	var/can_run_post_roundstart = TRUE
 	/// If set then the type or list of types of storytellers we are restricted to being trigged by
 	var/list/allowed_storytellers
+	/// Shared storyteller antag classification used by storyteller blocking/conflict helpers.
+	var/storyteller_antag_flags = STORYTELLER_ANTAG_NONE
+	/// Storyteller-specific guaranteed role mapping for antagonist events.
+	var/storyteller_guarantee_flags = STORYTELLER_FAVOR_NONE
 
 
 /datum/round_event_control/proc/valid_for_map()
@@ -68,7 +72,8 @@
 	var/string
 	if(roundstart && (world.time-SSticker.round_start_time >= 2 MINUTES))
 		string += "Roundstart"
-	if(length(allowed_storytellers) && !(SSgamemode.current_storyteller.type in allowed_storytellers))
+	var/current_storyteller_type = SSgamemode?.get_storyteller_type(roundstart)
+	if(length(allowed_storytellers) && !(current_storyteller_type in allowed_storytellers))
 		if(string)
 			string += ","
 		string += "Wrong God"
@@ -123,7 +128,8 @@
 	if(length(todreq) && !(GLOB.tod in todreq))
 		return FALSE
 	if(length(allowed_storytellers))
-		if(!(SSgamemode.current_storyteller.type in allowed_storytellers))
+		var/current_storyteller_type = SSgamemode?.get_storyteller_type(roundstart)
+		if(!(current_storyteller_type in allowed_storytellers))
 			return FALSE
 	if(req_omen)
 		if(!GLOB.badomens.len)

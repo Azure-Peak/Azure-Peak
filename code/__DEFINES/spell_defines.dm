@@ -132,6 +132,7 @@
 #define ASPECT_NAME_FERRAMANCY  "Metal"
 #define ASPECT_NAME_AUGMENTATION "Enhancement"
 #define ASPECT_NAME_BATTLEWARDRY "Wards"
+#define ASPECT_NAME_TELOMANCY   "Trajectory"
 
 // Arcyne ward tier hierarchy - higher tier wards override lower, equal or lower cannot override
 #define ARCYNE_WARD_TIER_OTHER   1 // Other Ward (cast on allies)
@@ -143,6 +144,10 @@
 
 // Weapon-in-hand casting penalty — applied when casting a penalized spell while holding a non-implement rogueweapon
 #define WEAPON_CAST_PENALTY 0.3
+
+// Leyline teleportation matrix passenger limits
+#define TELEPORT_MAX_PASSENGERS 5
+#define TELEPORT_MAX_NONMAGES 2
 
 // Spell implement tiers and multipliers
 #define IMPLEMENT_TIER_LESSER  1

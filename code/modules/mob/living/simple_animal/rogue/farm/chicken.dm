@@ -14,7 +14,7 @@
 	base_intents = list(/datum/intent/simple/claw)
 	speak_chance = 2
 	turns_per_move = 5
-	faction = list("chickens")
+	faction = list(FACTION_CHICKENS)
 	botched_butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/poultry = 1)
 	butcher_results = list(/obj/item/reagent_containers/food/snacks/fat = 1,
 		/obj/item/reagent_containers/food/snacks/rogue/meat/poultry = 1,

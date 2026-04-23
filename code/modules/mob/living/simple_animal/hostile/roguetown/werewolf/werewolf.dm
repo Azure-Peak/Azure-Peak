@@ -15,7 +15,7 @@
 	move_to_delay = 8
 	base_intents = list(/datum/intent/simple/claw/simplewwnpc)
 	head_butcher = /obj/item/natural/head/volf
-	faction = list("wolfs")
+	faction = list(FACTION_WOLFS)
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
 	health = 333
 	maxHealth = 333
@@ -66,10 +66,10 @@
 
 /mob/living/simple_animal/hostile/retaliate/rogue/werewolf_npc/Initialize()
 	. = ..()
+	AddComponent(/datum/component/ai_aggro_system)
 	regenerate_icons()
 	ADD_TRAIT(src, TRAIT_SIMPLE_WOUNDS, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_SILVER_WEAK, TRAIT_GENERIC)
-	AddElement(/datum/element/ai_retaliate)
 	update_icon()
 	ai_controller.set_blackboard_key(BB_BASIC_FOODS, food_type)
 

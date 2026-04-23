@@ -28,6 +28,13 @@ GLOBAL_LIST_EMPTY(antagonists)
 	///flags used by storytellers
 	var/antag_flags = NONE
 	var/has_tempo = FALSE
+	var/storyteller_antag_flags = STORYTELLER_ANTAG_NONE
+	var/storyteller_favor_flags = STORYTELLER_FAVOR_NONE
+	var/storyteller_slot_scaling = 1
+	var/storyteller_slot_default_cap = 0
+	var/list/storyteller_maxcaps
+	var/storyteller_min_players = 0
+	var/override_candidatereq = FALSE
 
 /datum/antagonist/New()
 	GLOB.antagonists += src

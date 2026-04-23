@@ -12,7 +12,7 @@
 	var/joker = input(user, "Say something funny!", "Comedia")
 	if(!joker)
 		return FALSE
-	user.say(joker, forced = "spell")
+	user.say(joker, forced = "spell", language = /datum/language/common)
 	sleep(20)
 	playsound(get_turf(user), 'sound/magic/comedy.ogg', 100)
 	for(var/mob/living/carbon/CA in view(range, get_turf(user)))
@@ -48,7 +48,7 @@
 	var/joker = input(user, "Say something sad!", "Tragedia")
 	if(!joker)
 		return FALSE
-	user.say(joker, forced = "spell")
+	user.say(joker, forced = "spell", language = /datum/language/common)
 	sleep(20)
 	playsound(get_turf(user), 'sound/magic/tragedy.ogg', 100)
 	for(var/mob/living/carbon/CA in view(range, get_turf(user)))

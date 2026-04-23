@@ -334,6 +334,13 @@
 	force = 27	//Its thrust will be able to pen 80 stab armor if the wielder has 17 STR. (With softcap)
 	max_integrity = 80
 
+/obj/item/rogueweapon/katar/ravox
+	name = "arbiter"
+	desc = "A deadly claw fashioned for justicars. It's cuts strike deep into one's soul."
+	icon_state = "ravoxclaw"
+	force = 27
+	max_integrity = 80
+
 /obj/item/rogueweapon/katar/bronze
 	name = "bronze katar"
 	desc = "A bronze blade that sits above the user's fist. Commonly used by those proficient at unarmed fighting."
@@ -784,10 +791,10 @@
 /obj/item/rogueweapon/sword/falchion/militia/bronze
 	name = "kopis"
 	desc = "The falchion's ancient predecessor, veiled in bronze - yet no less lethal against an awaiting trunk. The curved grip snuggly fits in the wielder's hand, allowing their will to be imposed upon assailant-and-archdevil alike with terrible force."
-	possible_item_intents = list(/datum/intent/sword/cut, /datum/intent/sword/chop/militia, /datum/intent/sword/thrust/krieg, /datum/intent/sword/strike)
+	possible_item_intents = list(/datum/intent/sword/cut, /datum/intent/sword/chop/militia, /datum/intent/sword/thrust/long/deep, /datum/intent/sword/strike)
 	icon_state = "kopis"
 	sheathe_icon = "kopis"
-	gripped_intents = list(/datum/intent/rend, /datum/intent/sword/chop/militia, /datum/intent/sword/thrust/krieg, /datum/intent/sword/strike)
+	gripped_intents = list(/datum/intent/rend, /datum/intent/sword/chop/militia, /datum/intent/sword/thrust/long/deep, /datum/intent/sword/strike)
 	force = 20
 	force_wielded = 27 // +2/3ish over the Maciejowski. A proper killing machine.
 	max_integrity = 175

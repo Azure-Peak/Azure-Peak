@@ -18,6 +18,7 @@
 	sewrepair = TRUE
 	grid_width = 32
 	grid_height = 64
+	var/matthios_chains = FALSE
 
 /obj/item/rope/Initialize()
 	. = ..()
@@ -89,6 +90,10 @@
 	if(C.handcuffed)
 		return
 
+	if(src.matthios_chains && HAS_TRAIT(C, TRAIT_FREEMAN))
+		to_chat(user, span_warning("[C] shall not be bound by this, for they walk among the ordained free."))
+		return
+
 	if(!user.Adjacent(C))
 		return
 
@@ -103,6 +108,8 @@
 	var/surrender_mod = 1
 	if(C.compliance || C.surrendering || HAS_TRAIT(C, TRAIT_BAGGED))
 		surrender_mod = 0.5	
+	if(src.matthios_chains && HAS_TRAIT(C, TRAIT_NOBLE))
+		surrender_mod = 0.5
 
 	C.visible_message(span_warning("[user] is trying to tie [C]'s arms with [src.name]!"), \
 						span_userdanger("[user] is trying to tie my arms with [src.name]!"))
@@ -125,6 +132,10 @@
 	if(C.legcuffed)
 		return
 
+	if(src.matthios_chains && HAS_TRAIT(C, TRAIT_FREEMAN))
+		to_chat(user, span_warning("[C] shall not be bound by this, for they walk among the ordained free."))
+		return
+
 	if(!user.Adjacent(C))
 		return
 
@@ -138,6 +149,8 @@
 
 	var/surrender_mod = 1
 	if(C.compliance || C.surrendering)
+		surrender_mod = 0.5
+	if(src.matthios_chains && HAS_TRAIT(C, TRAIT_NOBLE))
 		surrender_mod = 0.5
 
 	C.visible_message(span_warning("[user] is trying to tie [C]'s legs with [src.name]!"), \

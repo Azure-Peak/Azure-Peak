@@ -29,7 +29,7 @@
 
 	var/mob/living/carbon/human/H = owner.current
 	H.cmode_music = 'sound/music/combat_cult.ogg'
-	H.faction = list("undead")
+	H.faction = list(FACTION_UNDEAD)
 	H.equipOutfit(/datum/outfit/job/roguetown/unbound_deathknight)
 
 /datum/antagonist/unbound_death_knight/greet()

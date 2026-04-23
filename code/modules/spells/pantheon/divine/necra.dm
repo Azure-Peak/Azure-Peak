@@ -457,7 +457,7 @@ var/global/mob/_corpse_sort_ref = null
 	if(!target || QDELETED(target))
 		return
 
-	user.say("#Undermaiden, guide my hand to those who have lost their way...")
+	user.say("#Undermaiden, guide my hand to those who have lost their way...", language = /datum/language/common)
 
 	var/score = get_necra_score(target)
 	var/judgement = get_necra_judgement(target)

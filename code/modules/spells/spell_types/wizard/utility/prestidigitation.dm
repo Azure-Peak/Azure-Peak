@@ -235,12 +235,16 @@
 	cleanspeed = initial(cleanspeed) * get_int_speed_mult(user)
 
 	if(istype(target, /obj/effect/decal/cleanable))
+		if(!should_clean_rune(target))
+			user.visible_message(span_notice("[user] gestures at \the [target.name]... but the active rune's arcyne power rebukes [user.p_them()]!"), span_notice("I attempt to scour \the [target.name] away with my arcyne power, but the active ritual prevents me!"))
+			return FALSE
 		user.visible_message(span_notice("[user] gestures at \the [target.name]. Arcyne power slowly scours it away..."), span_notice("I begin to scour \the [target.name] away with my arcyne power..."))
 		if(do_after(user, src.cleanspeed, target = target))
 			var/turf/T = get_turf(target)
 			new /obj/effect/temp_visual/cleaning_pulse(T)
 			for(var/obj/effect/decal/cleanable/C in T)
-				wash_atom(C, CLEAN_MEDIUM)
+				if(!should_clean_rune(target))
+					return FALSE
 			wash_atom(T, CLEAN_MEDIUM)
 			to_chat(user, span_notice("I expunge \the [target.name] with my mana."))
 			return TRUE
@@ -251,12 +255,20 @@
 		if(do_after(user, src.cleanspeed, target = target))
 			var/turf/T = get_turf(target)
 			new /obj/effect/temp_visual/cleaning_pulse(T)
-			wash_atom(target, CLEAN_MEDIUM)
 			for(var/obj/effect/decal/cleanable/C in T)
-				wash_atom(C, CLEAN_MEDIUM)
+				if(!should_clean_rune(C))
+					return FALSE
+			wash_atom(target, CLEAN_MEDIUM)
 			to_chat(user, span_notice("I render [clean_name] clean."))
 			return TRUE
 		return FALSE
+
+// we have to do this here because wash_turf just qdels cleanable decals instead of checking their wash_act
+/obj/item/melee/new_touch_attack/prestidigitation/proc/should_clean_rune(obj/effect/decal/cleanable/C)
+	var/obj/effect/decal/cleanable/roguerune/rune = C
+	if(istype(rune) && rune.active)
+		return FALSE
+	return TRUE
 
 /obj/effect/wisp/prestidigitation
 	name = "minor magelight mote"

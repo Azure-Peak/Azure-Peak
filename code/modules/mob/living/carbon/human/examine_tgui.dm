@@ -1,6 +1,6 @@
 /datum/examine_panel
-	/// Mob that the examine panel belongs to.
-	var/mob/living/carbon/human/holder
+	/// Mob that the examine panel belongs to. Will not always be a human.
+	var/mob/living/holder
 	/// The screen containing the appearance of the mob
 	var/atom/movable/screen/map_view/examine_panel_screen/examine_panel_screen
 
@@ -50,14 +50,18 @@
 	var/is_naked = FALSE
 	var/obscured = FALSE
 
+	var/mob/living/simple_animal/pet/familiar/fam = holder
 	var/datum/preferences/prefs = holder.client?.prefs
 	var/datum/familiar_prefs/fam_pref = prefs?.familiar_prefs
 
-	flavor_text = fam_pref.familiar_flavortext_display
-	ooc_notes = fam_pref.familiar_ooc_notes_display
-	headshot = fam_pref.familiar_headshot_link
-	char_name = fam_pref.familiar_name
-	song_url = prefs.ooc_extra
+	if(!fam_pref.familiar_headshot_link) // prefs object from the dev period before we had examines; update that shit
+		fam_pref.instantiate_examine_prefs()
+
+	flavor_text = fam_pref.familiar_flavortext_display[fam.planar_origin]
+	ooc_notes = fam_pref.familiar_ooc_notes_display[fam.planar_origin]
+	headshot = fam_pref.familiar_headshot_link[fam.planar_origin]
+	char_name = fam_pref.familiar_names[fam.planar_origin]
+	song_url = fam_pref.familiar_ooc_extra[fam.planar_origin]
 	is_vet = viewing.check_agevet()
 	if(!headshot)
 		headshot = "headshot_red.png"
@@ -80,6 +84,7 @@
 		"nsfw_img_gallery" = nsfw_img_gallery,
 		"has_song" = has_song,
 		"is_vet" = is_vet,
+		"is_donator" = is_donator(holder.ckey),
 		"is_naked" = is_naked,
 	)
 
@@ -111,26 +116,26 @@
 
 	if(ishuman(holder))
 		var/mob/living/carbon/human/holder_human = holder
-		if(!(holder.wear_armor && holder.wear_armor.flags_inv) && !(holder.wear_shirt && holder.wear_shirt.flags_inv))
+		if(!(holder_human.wear_armor && holder_human.wear_armor.flags_inv) && !(holder_human.wear_shirt && holder_human.wear_shirt.flags_inv))
 			is_naked = TRUE
 		obscured = ((!isobserver(user)) && !holder_human.client?.prefs?.masked_examine) && ((holder_human.wear_mask && (holder_human.wear_mask.flags_inv & HIDEFACE)) || (holder_human.head && (holder_human.head.flags_inv & HIDEFACE)))
-		flavor_text = obscured ? "Obscured" : holder.flavortext_cached
-		flavor_text_nsfw = obscured ? "Obscured" : holder.nsfwflavortext_cached
-		ooc_notes += holder.ooc_notes_cached
-		ooc_notes_nsfw += holder.erpprefs_cached
-		char_name = holder.name
-		song_url = holder.ooc_extra
-		is_vet = holder.check_agevet()
+		flavor_text = obscured ? "Obscured" : holder_human.flavortext_cached
+		flavor_text_nsfw = obscured ? "Obscured" : holder_human.nsfwflavortext_cached
+		ooc_notes += holder_human.ooc_notes_cached
+		ooc_notes_nsfw += holder_human.erpprefs_cached
+		char_name = holder_human.name
+		song_url = holder_human.ooc_extra
+		is_vet = holder_human.check_agevet()
 		if(!obscured)
-			if(vampireplayer && (!SEND_SIGNAL(holder, COMSIG_DISGUISE_STATUS))&& !isnull(holder.vampire_headshot_link)) //vampire with their disguise down and a valid headshot
-				headshot = holder.vampire_headshot_link
-			else if (lichplayer && !isnull(holder.lich_headshot_link))//Lich with a valid headshot
-				headshot = holder.lich_headshot_link
+			if(vampireplayer && (!SEND_SIGNAL(holder_human, COMSIG_DISGUISE_STATUS))&& !isnull(holder_human.vampire_headshot_link)) //vampire with their disguise down and a valid headshot
+				headshot = holder_human.vampire_headshot_link
+			else if (lichplayer && !isnull(holder_human.lich_headshot_link))//Lich with a valid headshot
+				headshot = holder_human.lich_headshot_link
 			else
-				headshot = holder.headshot_link
-			img_gallery = holder.img_gallery
+				headshot = holder_human.headshot_link
+			img_gallery = holder_human.img_gallery
 			if(is_naked)
-				nsfw_img_gallery = holder.nsfw_img_gallery
+				nsfw_img_gallery = holder_human.nsfw_img_gallery
 		if(!headshot)
 			headshot = "headshot_red.png"
 
@@ -162,7 +167,8 @@
 	// Examine theme override — use the viewed character's preference
 	var/char_examine_theme
 	if(ishuman(holder))
-		char_examine_theme = holder.examine_theme
+		var/mob/living/carbon/human/holder_human = holder
+		char_examine_theme = holder_human.examine_theme
 	else if(pref)
 		char_examine_theme = pref.examine_theme
 	// Validate — reject meme themes and unknown keys, fall back to default
@@ -186,6 +192,7 @@
 		"nsfw_img_gallery" = nsfw_img_gallery,
 		"has_song" = has_song,
 		"is_vet" = is_vet,
+		"is_donator" = is_donator(holder.ckey),
 		"is_naked" = is_naked,
 		"examine_theme" = char_examine_theme,
 	)
@@ -215,10 +222,11 @@
 	C = viewing.client
 
 	if(ishuman(holder))
-		web_sound_url = holder.ooc_extra
-		if(holder.song_artist)
-			artist_name = holder.song_artist
-		song_title = holder.song_title
+		var/mob/living/carbon/human/human_holder = holder
+		web_sound_url = human_holder.ooc_extra
+		if(human_holder.song_artist)
+			artist_name = human_holder.song_artist
+		song_title = human_holder.song_title
 
 	else if(pref)
 		web_sound_url= pref.ooc_extra
@@ -247,6 +255,9 @@
 			return TRUE
 		if("vet_chat")
 			to_chat(viewing, span_boldgreen("This player is age-verified!"))
+			return TRUE
+		if("donator_chat")
+			to_chat(viewing, span_boldgreen("This player is a donator!"))
 			return TRUE
 
 /datum/examine_panel/ui_close()

@@ -135,8 +135,6 @@
 		return
 	if(user.incapacitated())
 		return
-	if(!user.mind)
-		return
 	if(user.has_status_effect(/datum/status_effect/debuff/specialcd))
 		return
 
@@ -190,8 +188,6 @@
 		return
 	if(user.incapacitated())
 		return
-	if(!user.mind)
-		return
 	if(user.has_status_effect(/datum/status_effect/debuff/feintcd))
 		return
 	var/mob/living/L = target
@@ -218,6 +214,11 @@
 	if(L.has_status_effect(/datum/status_effect/debuff/exposed) || L.has_status_effect(/datum/status_effect/debuff/vulnerable))
 		perc = 0
 
+	if(L.has_status_effect(/datum/status_effect/buff/weapon_binded))
+		perc = 0
+		special_msg = span_warning("They had my tricks figured out and are too aware!")
+		newcd = 10 SECONDS
+
 	if(L.has_status_effect(/datum/status_effect/debuff/feinted))
 		perc = 0
 		special_msg = span_warning("Too soon! They were expecting it!")
@@ -229,10 +230,16 @@
 
 	perc = CLAMP(perc, 0, 90)
 
+	if(L.has_status_effect(/datum/status_effect/buff/clash))
+		L.remove_status_effect(/datum/status_effect/buff/clash)
+		to_chat(user, span_notice("[L.p_their(TRUE)] Guard disrupted!"))
+		newcd = ((BASE_RCLICK_CD + 10 SECONDS) - user.get_tempo_bonus(TEMPO_TAG_RCLICK_CD_BONUS))
+		perc = 100
+
 	if(!prob(perc)) //feint intent increases the immobilize duration significantly
 		playsound(user, 'sound/combat/feint.ogg', 100, TRUE)
 		if(user.client?.prefs.showrolls)
-			to_chat(user, span_warning("[L.p_they(TRUE)] did not fall for my feint... [perc]%"))
+			to_chat(user, span_warning("[L.p_they(TRUE)] did not fall for my feint... [HAS_TRAIT(L, TRAIT_DECEIVING_MEEKNESS) ? "???" : perc]%"))
 		user.apply_status_effect(/datum/status_effect/debuff/feintcd, newcd)
 		if(special_msg)
 			to_chat(user, special_msg)
@@ -240,10 +247,6 @@
 			L.changeNext_def(clamp(L.dodgetime - 2, 0, CLICK_CD_DODGE))
 			L.changeMaxDodge(-2)
 		return
-
-	if(L.has_status_effect(/datum/status_effect/buff/clash))
-		L.remove_status_effect(/datum/status_effect/buff/clash)
-		to_chat(user, span_notice("[L.p_their(TRUE)] Guard disrupted!"))
 	
 	var/effect_to_apply = (L.mind ? /datum/status_effect/debuff/vulnerable : /datum/status_effect/debuff/exposed)
 

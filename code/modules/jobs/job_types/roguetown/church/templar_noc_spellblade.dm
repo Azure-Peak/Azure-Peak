@@ -18,7 +18,7 @@
 		STATKEY_CON = 1,
 		STATKEY_WIL = 2,
 	)
-	subclass_mage_aspects = list("mastery" = FALSE, "major" = 0, "minor" = 0, "utilities" = 6, "ward" = TRUE)
+	subclass_mage_aspects = list("mastery" = FALSE, "major" = 0, "minor" = 0, "utilities" = 6)
 	subclass_skills = list(
 		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/shields = SKILL_LEVEL_JOURNEYMAN,
@@ -46,7 +46,6 @@
 
 	// Equipment — medium armor templar with Noc theming
 	wrists = /obj/item/clothing/neck/roguetown/psicross/noc
-	head = /obj/item/clothing/head/roguetown/helmet/heavy/nochelm
 	cloak = /obj/item/clothing/cloak/tabard/devotee/noc
 	armor = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy
@@ -99,7 +98,7 @@
 				H.mind.AddSpell(new /datum/action/cooldown/spell/advance)
 				H.mind.AddSpell(new /datum/action/cooldown/spell/gate_of_reckoning)
 			if("macebearer")
-				H.mind.AddSpell(new /datum/action/cooldown/spell/shatter)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/kastvyl)
 				H.mind.AddSpell(new /datum/action/cooldown/spell/tremor)
 				H.mind.AddSpell(new /datum/action/cooldown/spell/charge)
 				H.mind.AddSpell(new /datum/action/cooldown/spell/cataclysm)
@@ -109,6 +108,12 @@
 		H.mind.AddSpell(new /datum/action/cooldown/spell/bind_weapon)
 		H.mind.AddSpell(new /datum/action/cooldown/spell/mending)
 
+		var/helmets = list(
+			"Greatplumed Owl Armet" = /obj/item/clothing/head/roguetown/helmet/heavy/knight/armet/owl,
+			"Noc Helmet"			= /obj/item/clothing/head/roguetown/helmet/heavy/nochelm
+		)
+		var/helmchoice = input(H, "Choose your Helm.", "REFLECTION OF PALE LIGHT") as anything in helmets
+		head = helmets[helmchoice]
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_1, start_maxed = TRUE)
 
@@ -120,7 +125,7 @@
 
 	switch(subclass_selected)
 		if("blade")
-			var/list/weapons = list("Moonlight Khopesh", "Moonlight Kriegmesser", "Longsword", "Rapier", "Sabre", "Steel Arming Sword", "Steel Greatsword", "Steel Dagger")
+			var/list/weapons = list("Moonlight Khopesh", "Moonlight Kriegmesser", "Longsword", "Rapier", "Sabre", "Steel Arming Sword", "Steel Greatsword", "Steel Dagger", "Twilight Fang")
 			var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 			switch(weapon_choice)
 				if("Moonlight Khopesh")
@@ -146,7 +151,9 @@
 					H.put_in_hands(new /obj/item/rogueweapon/scabbard/gwstrap(H))
 				if("Steel Dagger")
 					H.equip_to_slot_or_del(new /obj/item/rogueweapon/huntingknife/idagger/steel(H), SLOT_BELT_R, TRUE)
-			if(weapon_choice == "Steel Dagger")
+				if("Twilight Fang")
+					H.equip_to_slot_or_del(new /obj/item/rogueweapon/huntingknife/idagger/steel/noc_twilight(H), SLOT_BELT_R, TRUE)
+			if(weapon_choice == "Steel Dagger" || weapon_choice == "Twilight Fang")
 				H.adjust_skillrank_up_to(/datum/skill/combat/knives, SKILL_LEVEL_EXPERT, TRUE)
 			else
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
@@ -170,14 +177,25 @@
 					H.put_in_hands(new /obj/item/rogueweapon/scabbard/gwstrap(H))
 			H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_EXPERT, TRUE)
 		if("macebearer")
-			var/mace_weapons = list("Steel Mace", "Steel Warhammer", "Grand Mace")
+			var/mace_weapons = list("Steel Mace", "Steel Warhammer", "Grand Mace", "Battle Axe", "Steel Greataxe")
 			var/mace_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in mace_weapons
+			var/picked_axe = FALSE
 			switch(mace_choice)
 				if("Steel Mace")
 					H.put_in_hands(new /obj/item/rogueweapon/mace/steel(H))
 				if("Steel Warhammer")
 					H.put_in_hands(new /obj/item/rogueweapon/mace/warhammer/steel(H))
 				if("Grand Mace")
-					H.put_in_hands(new /obj/item/rogueweapon/mace/maul/grand(H))
+					H.put_in_hands(new /obj/item/rogueweapon/mace/goden/steel(H))
 					H.put_in_hands(new /obj/item/rogueweapon/scabbard/gwstrap(H))
-			H.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_EXPERT, TRUE)
+				if("Battle Axe")
+					H.put_in_hands(new /obj/item/rogueweapon/stoneaxe/battle(H))
+					picked_axe = TRUE
+				if("Steel Greataxe")
+					H.put_in_hands(new /obj/item/rogueweapon/greataxe/steel(H))
+					H.put_in_hands(new /obj/item/rogueweapon/scabbard/gwstrap(H))
+					picked_axe = TRUE
+			if(picked_axe)
+				H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_EXPERT, TRUE)
+			else
+				H.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_EXPERT, TRUE)

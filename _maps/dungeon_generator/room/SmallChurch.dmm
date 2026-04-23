@@ -596,7 +596,7 @@
 /area/rogue/under/tomb/indoors/church)
 "wa" = (
 /obj/structure/closet/crate/chest/wicker,
-/obj/item/reagent_containers/food/snacks/rogue/meat/mince,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
 /obj/item/reagent_containers/food/snacks/rogue/meat/bacon,
 /turf/open/floor/rogue/churchmarble,
 /area/rogue/under/tomb/indoors/church)
@@ -755,7 +755,7 @@
 /area/rogue/under/tomb/indoors/church)
 "Dn" = (
 /obj/structure/closet/crate/chest/wicker,
-/obj/item/reagent_containers/food/snacks/rogue/meat/sausage,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
 /obj/item/reagent_containers/food/snacks/rogue/meat/poultry,
 /turf/open/floor/rogue/churchmarble,
 /area/rogue/under/tomb/indoors/church)

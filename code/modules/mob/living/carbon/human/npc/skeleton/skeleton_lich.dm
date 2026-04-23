@@ -18,8 +18,8 @@
 	H.STACON = 20
 	H.STAWIL = 20
 	H.STAINT = 1
-	H.faction = list("lich")
-	H.wander = FALSE
+	H.faction = list(FACTION_LICH)
+
 
 	H.adjust_skillrank_up_to(/datum/skill/craft/carpentry, 1, TRUE)
 	H.adjust_skillrank_up_to(/datum/skill/craft/masonry, 1, TRUE)

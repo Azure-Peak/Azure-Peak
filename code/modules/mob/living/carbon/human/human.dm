@@ -101,8 +101,6 @@
 	breath_remaining = 10
 	addtimer(CALLBACK(src, PROC_REF(update_breath_hud)), 1)
 
-	our_cells = new(interesting_dist, interesting_dist, 1)
-	set_new_cells()
 
 /mob/living/carbon/human/ZImpactDamage(turf/T, levels)
 	var/obj/item/bodypart/affecting
@@ -144,7 +142,6 @@
 	dna.initialize_dna()
 
 /mob/living/carbon/human/Destroy()
-	STOP_PROCESSING(SShumannpc, src)
 	QDEL_NULL(physiology)
 	QDEL_NULL(sunder_light_obj)
 	GLOB.human_list -= src
@@ -1060,6 +1057,16 @@
 	. = ..()
 	if(race)
 		set_species(race)
+
+/mob/living/carbon/human/species/LateInitialize()
+	. = ..()
+	var/turf/turf = get_turf(loc)
+	if(turf)
+		if(!("[turf.z]" in GLOB.weatherproof_z_levels))
+			if(SSmapping.level_has_any_trait(turf.z, list(ZTRAIT_IGNORE_WEATHER_TRAIT)))
+				GLOB.weatherproof_z_levels |= "[turf.z]"
+		if("[turf.z]" in GLOB.weatherproof_z_levels)
+			SSmatthios_mobs.register_mob(src)
 
 //Vrell - Moving this here to fix load order bugs
 /mob/living/carbon/human/has_penis()

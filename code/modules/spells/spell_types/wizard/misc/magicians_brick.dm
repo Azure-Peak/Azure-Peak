@@ -76,5 +76,5 @@
 	implement_tier = IMPLEMENT_TIER_LESSER
 	implement_multiplier = IMPLEMENT_MULT_LESSER
 	possible_item_intents = list(/datum/intent/mace/strike) // Not giving it smash so it don't become competetive with conjure weapon (as a melee weapon)
-	associated_skill = /datum/skill/combat/maces // If it was tied to Arcyne it'd be too strong
+	associated_skill = /datum/skill/magic/arcane // what could go wrong...
 	hitsound = list('sound/combat/hits/blunt/brick.ogg')

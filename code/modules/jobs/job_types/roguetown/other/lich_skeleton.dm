@@ -145,7 +145,7 @@ LICH SKELETONS
 		/obj/item/ammo_casing/caseless/rogue/heavy_bolt = 1
 	)
 	H.adjust_blindness(-3)
-	var/weapons = list("Bow & 20 Arrows", "Longbow & 20 Arrows", "Crossbow & 16 Bolts", "Sling")
+	var/weapons = list("Bow & 20 Arrows", "Bow & 20 Broadheads", "Longbow & 20 Arrows", "Longbow & 20 Broadheads", "Crossbow & 16 Bolts", "Sling")
 	var/weapon_choice = input(H, "Choose your MISSILE.", "CONDEMN THE LYVING FROM AFAR.") as anything in weapons
 	H.set_blindness(0)
 	switch(weapon_choice)
@@ -153,9 +153,17 @@ LICH SKELETONS
 			l_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
 			beltl = /obj/item/quiver/paalloy
 			H.adjust_skillrank(/datum/skill/combat/bows, 1, TRUE)
+		if("Bow & 20 Broadheads")
+			l_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
+			beltl = /obj/item/quiver/broadhead_aalloy
+			H.adjust_skillrank(/datum/skill/combat/bows, 1, TRUE)
 		if("Longbow & 20 Arrows")
 			l_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/longbow
 			beltl = /obj/item/quiver/paalloy
+			H.adjust_skillrank(/datum/skill/combat/bows, 1, TRUE)
+		if("Longbow & 20 Broadheads")
+			l_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/longbow
+			beltl = /obj/item/quiver/broadhead_aalloy
 			H.adjust_skillrank(/datum/skill/combat/bows, 1, TRUE)
 		if("Crossbow & 16 Bolts")
 			l_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
@@ -562,7 +570,7 @@ LICH SKELETONS
 				H.mind.AddSpell(new /datum/action/cooldown/spell/advance)
 				H.mind.AddSpell(new /datum/action/cooldown/spell/gate_of_reckoning)
 			if("macebearer")
-				H.mind.AddSpell(new /datum/action/cooldown/spell/shatter)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/kastvyl)
 				H.mind.AddSpell(new /datum/action/cooldown/spell/tremor)
 				H.mind.AddSpell(new /datum/action/cooldown/spell/charge)
 				H.mind.AddSpell(new /datum/action/cooldown/spell/cataclysm)
@@ -571,7 +579,7 @@ LICH SKELETONS
 		H.mind.AddSpell(new /datum/action/cooldown/spell/empower_weapon)
 		H.mind.AddSpell(new /datum/action/cooldown/spell/bind_weapon)
 		H.mind.AddSpell(new /datum/action/cooldown/spell/mending)
-		H.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 0, "minor" = 0, "utilities" = 4, "ward" = TRUE))
+		H.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 0, "minor" = 0, "utilities" = 4))
 
 	H.adjust_blindness(-3)
 	switch(subclass_selected)
@@ -598,14 +606,26 @@ LICH SKELETONS
 					backr = /obj/item/rogueweapon/scabbard/gwstrap
 			H.adjust_skillrank_up_to(/datum/skill/combat/polearms, 4, TRUE)
 		if("macebearer")
-			var/weapons = list("Ancient Mace", "Ancient Warhammer")
+			var/weapons = list("Ancient Mace", "Ancient Warhammer", "Ancient Grand Mace", "Ancient Alloy Axe", "Steel Greataxe")
 			var/weapon_choice = input(H, "Choose your WEAPON.", "RAGE AGAINST THE LYVING.") as anything in weapons
+			var/picked_axe = FALSE
 			switch(weapon_choice)
 				if("Ancient Mace")
 					beltr = /obj/item/rogueweapon/mace/steel/palloy
 				if("Ancient Warhammer")
 					beltr = /obj/item/rogueweapon/mace/warhammer/steel/paalloy
-			H.adjust_skillrank_up_to(/datum/skill/combat/maces, 4, TRUE)
+				if("Ancient Grand Mace")
+					r_hand = /obj/item/rogueweapon/mace/goden/steel/paalloy
+				if("Ancient Alloy Axe")
+					beltr = /obj/item/rogueweapon/stoneaxe/woodcut/steel/paaxe
+					picked_axe = TRUE
+				if("Steel Greataxe")
+					r_hand = /obj/item/rogueweapon/greataxe/steel
+					picked_axe = TRUE
+			if(picked_axe)
+				H.adjust_skillrank_up_to(/datum/skill/combat/axes, 4, TRUE)
+			else
+				H.adjust_skillrank_up_to(/datum/skill/combat/maces, 4, TRUE)
 	H.set_blindness(0)
 
 	// Hack for ordering
