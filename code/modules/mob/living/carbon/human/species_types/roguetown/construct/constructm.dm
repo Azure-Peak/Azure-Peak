@@ -158,7 +158,6 @@
 		M.energy_add(1 + (S.magic_power * 3))
 		M.adjustBruteLoss(-brute_heal)
 		M.adjustFireLoss(-fire_heal)
-		to_chat(user, "DEBUG: [brute_heal] brute/[fire_heal] fire healed.")
 		user.visible_message(
 			span_notice("[user] offers the [I] to [M]'s mouth, and they crunch it down instinctively."),
 			span_notice("I crunch the [I] down and swallow it effortlessly.")
