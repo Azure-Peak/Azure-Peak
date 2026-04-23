@@ -623,3 +623,16 @@
 		flags_inv |= HIDEHAIR
 		to_chat(user, span_info("You tuck your hair under the [src]."))
 	user.update_inv_head()
+
+// CASTORTROY23
+
+/obj/item/rogueweapon/example/darling 
+	name = "Darling"
+	desc = "<i>'... since this is the basic tenet of swordsmanship: that a man is always in motion and never at rest.'</i> <br> \
+	Elaborately forged at the edge, reinforced at the tip, and restrained at the handle with fine leathers and coiling of taut sylveren wire, \
+	this sleek longsword is a most modern marvel of metallurgy blended with one of the oldest symbols of majesty, its blade boasting a diamond cross section \
+	and a thin fuller to boot. The color and insignia on the fine silken cloth wrapped around its ricasso does not quite seem to fit with the wielder's own."
+	icon = 'icons/obj/items/donor_weapons_64.dmi'
+	icon_state = "darling" 
+	sheathe_icon = "darling"
+	bigboy = TRUE

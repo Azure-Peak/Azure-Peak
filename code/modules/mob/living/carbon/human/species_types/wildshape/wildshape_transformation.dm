@@ -80,13 +80,21 @@
 		var/obj/item/bodypart/bp = W.get_bodypart(old_wound.bodypart_owner.body_zone)
 		bp?.remove_wound(old_wound.type)
 
-	var/list/datum/wound/woundlist = get_wounds()
+	var/list/datum/wound/woundlist = src.get_wounds()
 	if(woundlist.len)
 		for(var/datum/wound/wound in woundlist)
-			var/obj/item/bodypart/c_BP = get_bodypart(wound.bodypart_owner.body_zone)
-			var/obj/item/bodypart/w_BP = W.get_bodypart(wound.bodypart_owner.body_zone)
-			w_BP.add_wound(wound.type)
-			c_BP.remove_wound(wound.type)
+			if (istype(wound, /datum/wound/dismemberment))
+				continue				
+			var/target_zone = wound.bodypart_owner.body_zone
+			if (target_zone == BODY_ZONE_TAUR)
+				target_zone = pick(BODY_ZONE_L_LEG, BODY_ZONE_R_LEG)
+			
+			var/bleedrate = wound.bleed_rate
+			var/obj/item/bodypart/w_bp = W.get_bodypart(target_zone)
+			
+			wound.apply_to_bodypart(w_bp, silent = TRUE, crit_message = FALSE)
+			wound.set_bleed_rate(bleedrate) // restore bleed rate, since apply_to_bodypart resets it.
+
 
 	W.adjustBruteLoss(getBruteLoss())
 	W.adjustFireLoss(getFireLoss())
@@ -95,11 +103,8 @@
 	src.adjustBruteLoss(-src.getBruteLoss())
 	src.adjustFireLoss(-src.getFireLoss())
 	src.adjustOxyLoss(-src.getOxyLoss())
+
 	W.blood_volume = blood_volume
-	W.bleed_rate = bleed_rate
-	W.bleedsuppress = bleedsuppress
-	bleed_rate = 0
-	bleedsuppress = TRUE
 	W.set_nutrition(nutrition)
 	W.set_hydration(hydration)
 
@@ -167,10 +172,13 @@
 	var/list/datum/wound/woundlist = get_wounds()
 	if(woundlist.len)
 		for(var/datum/wound/wound in woundlist)
-			var/obj/item/bodypart/c_BP = get_bodypart(wound.bodypart_owner.body_zone)
-			var/obj/item/bodypart/w_BP = W.get_bodypart(wound.bodypart_owner.body_zone)
-			w_BP.add_wound(wound.type)
-			c_BP.remove_wound(wound.type)
+			var/target_zone = wound.bodypart_owner.body_zone
+			
+			var/bleedrate = wound.bleed_rate
+			var/obj/item/bodypart/w_bp = W.get_bodypart(target_zone)
+			
+			wound.apply_to_bodypart(w_bp, silent = TRUE, crit_message = FALSE)
+			wound.set_bleed_rate(bleedrate)
 
 	W.adjustBruteLoss(getBruteLoss())
 	W.adjustFireLoss(getFireLoss())
@@ -180,8 +188,7 @@
 	src.adjustFireLoss(-src.getFireLoss())
 	src.adjustOxyLoss(-src.getOxyLoss())
 	W.blood_volume = blood_volume
-	W.bleed_rate = bleed_rate
-	W.bleedsuppress = bleedsuppress
+
 	W.set_nutrition(nutrition)
 	W.set_hydration(hydration)
 

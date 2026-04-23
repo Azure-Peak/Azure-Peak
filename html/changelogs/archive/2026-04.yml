@@ -849,3 +849,21 @@
   ToasterStrudes:
   - bugfix: Fixes Prestidigitation not being able to clean things/people. Wizards
       no longer need baths again.
+2026-04-23:
+  7erracotta:
+  - rscadd: added new forgeable items
+  FreeStylaLT:
+  - rscadd: Guarded virtue can now toggle their own anonimity with a button in the
+      Virtue tab, appearing with fewer identifying features.
+  - refactor: Guarded virtue no longer has a forcefully blank faith salute, it works
+      like normal now. Instead, Guarded gets a Fake Faith Salute emote.
+  - balance: Guarded virtue now obscures worn armor integrity values unless broken.
+  - balance: Guarded virtue now obscures dodge / feint / parry values for the defender.
+  - balance: Guarded virtue now prevents showing any identifiable healing miracle
+      text to the target.
+  Ketrai:
+  - rscadd: You can now fish up octopus to put on your head
+  - rscadd: Second voice now lets you pick a voice descriptor for the second voice
+  - rscadd: Advanced mirror magic hag boon & hag feature
+  PatapoIIIa:
+  - bugfix: fix vis_content visual

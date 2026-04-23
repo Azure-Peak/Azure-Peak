@@ -414,3 +414,10 @@
 		/obj/item/rogueweapon/greatsword/grenz/flamberge/blacksteel
 	)
 	result_item = /obj/item/rogueweapon/example/aeternum
+
+/obj/item/enchantingkit/weapon/darling
+	name = "'Darling' morphing elixir"
+	target_items = list(
+		/obj/item/rogueweapon/sword/long
+	)
+	result_item = /obj/item/rogueweapon/example/darling

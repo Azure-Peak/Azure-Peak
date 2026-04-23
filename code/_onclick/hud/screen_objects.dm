@@ -2186,6 +2186,14 @@
 	else
 		..()
 
+/atom/movable/screen/feint
+	name = "feint"
+	icon_state = "feintbar0"
+	icon = 'icons/mob/roguefeint.dmi'
+	screen_loc = rogueui_feint
+	layer = HUD_LAYER+0.1
+	mouse_opacity = 0
+
 /atom/movable/screen/heatstamover
 	name = ""
 	mouse_opacity = 0

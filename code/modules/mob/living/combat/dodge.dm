@@ -290,6 +290,7 @@
 
 		if(!dodge_status)
 			return FALSE
+
 		if(!UH?.mind) // For NPC, reduce the drained to 5 stamina
 			drained = drained_npc
 

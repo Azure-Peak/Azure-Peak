@@ -1,0 +1,9 @@
+author: "FreeStylaLT"
+delete-after: True
+changes:
+  - rscadd: "Added Weapon Binds. Targeting a precise zone (hands, feet, eyes) while the defender is targeting the same or large limb equivalent (arm for hands, leg for feet, head for eyes) will bind the weapons and provide the defender with a temporary defensive boost. Only works on parries."
+  - balance: "For the purposes of baiting (and binding) skull is now the same as head. This means baiting Head is the same as baiting every part above the neck."
+  - balance: "Minimum feint% increased to 10% from 0%."
+  - balance: "Feinting an active riposte will always succeed, but will put feint on a longer cooldown."
+  - balance: "Bait cooldown reduced to 20 seconds from 30 seconds."
+  - balance: "Freifechters no longer gain any benefits from using swift-balanced weapons."

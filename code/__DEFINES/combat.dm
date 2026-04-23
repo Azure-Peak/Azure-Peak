@@ -364,7 +364,15 @@ GLOBAL_LIST_INIT(shove_disarming_types, typecacheof(list(
 #define EXPOSED_INTEG_MOD 2.5	//Multiplier for integrity damage if we hit an Exposed target.
 #define VULN_INTEG_MOD 1.3		//Multiplier for integrity damage if we hit a Vulnerable target.
 #define BASE_RCLICK_CD 30 SECONDS
+#define BAIT_RCLICK_CD 20 SECONDS
+#define BIND_CD 15 SECONDS
 #define FEINT_RCLICK_CD 20 SECONDS
+
+#define BIND_HANDS 1
+#define BIND_FEET 2
+#define BIND_HEAD 3
+#define BIND_TORSO 4
+#define BIND_NECK 5
 
 /* TEMPO DEFINES */
 #define TEMPO_CULL_DELAY 	12 SECONDS	//Interval for checking our tempo lists. Only relevant to player mobs with TRAIT_TEMPO
@@ -391,7 +399,7 @@ GLOBAL_LIST_INIT(shove_disarming_types, typecacheof(list(
 	#define TEMPO_DODGE_LOSS_NORMAL 0
 	#define TEMPO_DODGE_LOSS_LESS 1
 	#define TEMPO_DODGE_LOSS_NONE 2
-
+#define TEMPO_TAG_BINDABLE "defbindable"
 
 /*
 Medical defines
