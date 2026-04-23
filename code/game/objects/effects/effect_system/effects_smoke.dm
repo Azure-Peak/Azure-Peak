@@ -150,6 +150,8 @@
 	if(..())
 		if(HAS_TRAIT(M, TRAIT_HOLDBREATH))
 			return FALSE
+		if(HAS_TRAIT(M, TRAIT_NOBREATH))
+			return FALSE
 		M.adjustToxLoss(20, 0)
 		M.emote("cough")
 		return TRUE
@@ -169,6 +171,8 @@
 /obj/effect/particle_effect/smoke/healing_gas/smoke_mob(mob/living/carbon/M)
 	if(..())
 		if(HAS_TRAIT(M, TRAIT_HOLDBREATH))
+			return FALSE
+		if(HAS_TRAIT(M, TRAIT_NOBREATH))
 			return FALSE
 		M.adjustBruteLoss(-5, 0)
 		M.adjustFireLoss(-2, 0)
@@ -214,6 +218,8 @@
 	if(..())
 		if(HAS_TRAIT(M, TRAIT_HOLDBREATH))
 			return FALSE
+		if(HAS_TRAIT(M, TRAIT_NOBREATH))
+			return FALSE
 		M.adjust_blurriness(3)
 		M.adjust_blindness(3)
 		M.emote("cry")
@@ -235,6 +241,8 @@
 	if(..())
 		if(HAS_TRAIT(M, TRAIT_HOLDBREATH))
 			return FALSE
+		if(HAS_TRAIT(M, TRAIT_NOBREATH))
+			return FALSE
 		M.silent = max(M.silent, 8)
 		return TRUE
 
@@ -252,6 +260,8 @@
 /obj/effect/particle_effect/smoke/sleeping/smoke_mob(mob/living/carbon/M)
 	if(..())
 		if(HAS_TRAIT(M, TRAIT_HOLDBREATH))
+			return FALSE
+		if(HAS_TRAIT(M, TRAIT_NOBREATH))
 			return FALSE
 		M.Sleeping(200)
 		M.emote("cough")
