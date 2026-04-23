@@ -396,6 +396,7 @@
 	damfactor = 1.2
 	chargedrain = 2
 	intent_intdamage_factor = 1.2
+
 //Banded iron sword intents
 /datum/intent/sword/chop/powerstrike
 	name = "power strike"
