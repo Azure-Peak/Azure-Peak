@@ -319,6 +319,9 @@
 
 //Return TRUE to get whatever mob this is in to update health.
 /obj/item/bodypart/proc/on_life(stam_regen)
+	if(!can_bleed())
+		normalize_bleeding()
+
 	if(stamina_dam > DAMAGE_PRECISION && stam_regen)					//DO NOT update health here, it'll be done in the carbon's life.
 		heal_damage(0, 0, INFINITY, null, FALSE)
 		. |= BODYPART_LIFE_UPDATE_HEALTH
@@ -432,6 +435,20 @@
 	if(include_stamina)
 		total = max(total, stamina_dam)
 	return total
+
+// banzai attempt to improve NOBLOOD
+/obj/item/bodypart/proc/can_bleed()
+	if(!owner)
+		return FALSE
+	return !(NOBLOOD in owner.dna?.species?.species_traits)
+
+/obj/item/bodypart/proc/normalize_bleeding()
+	if(can_bleed())
+		return
+	bleeding = 0
+	for(var/datum/wound/W as anything in wounds)
+		if(!isnull(W.bleed_rate))
+			W.bleed_rate = 0
 
 //Checks disabled status thresholds
 /obj/item/bodypart/proc/update_disabled()

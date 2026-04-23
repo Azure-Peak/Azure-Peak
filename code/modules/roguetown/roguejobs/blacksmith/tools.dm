@@ -198,37 +198,44 @@
 
 	var/mob/living/carbon/human/H = M
 
-	// Tool gate for complex wounds
 	var/has_complex_wounds = FALSE
 	for(var/datum/wound/W in H.get_wounds())
 		if(W.severity >= WOUND_SEVERITY_MODERATE)
 			has_complex_wounds = TRUE
 			break
 
-	var/has_tool = FALSE
-	for(var/obj/item/I in user.held_items)
-		if(istype(I, /obj/item/rogueweapon/tongs) || istype(I, /obj/item/contraption/linker))
-			has_tool = TRUE
-			break
+	var/has_tongs = FALSE
+	var/has_wrench = FALSE
 
-	if(has_complex_wounds && !has_tool)
+	for(var/obj/item/I in user.held_items)
+		if(istype(I, /obj/item/rogueweapon/tongs))
+			has_tongs = TRUE
+		if(istype(I, /obj/item/contraption/linker))
+			has_wrench = TRUE
+
+	if(has_complex_wounds && !(has_tongs || has_wrench))
 		to_chat(user, span_warning("These injuries are too severe to hammer safely! You need proper tools like tongs or a wrench."))
 		return
 
 	do
+		if(!user || !M || user.resting || get_dist(user, M) > 1)
+			break
+
 		var/used_time = 100
 
 		if(user.mind)
 			used_time -= (user.get_skill_level(/datum/skill/craft/engineering) * 10)
 
-		if(has_tool)
-			used_time *= 0.5
+		if(has_tongs)
+			used_time *= 0.75
+
+		if(has_wrench)
+			used_time *= 0.25
 
 		used_time = max(used_time, 5)
 
 		var/list/wCount = H.get_wounds()
 
-		// dynamic targeting each loop (highest damage + wound priority)
 		var/obj/item/bodypart/affecting
 		var/highest_priority = 0
 
@@ -251,7 +258,6 @@
 		if(!affecting)
 			break
 
-		// tool-based audio feedback
 		if(has_complex_wounds)
 			playsound(loc, 'sound/misc/ratchet.ogg', 80, FALSE)
 			spawn(rand(5,20))
@@ -259,15 +265,22 @@
 		else
 			playsound(loc, 'sound/items/bsmith1.ogg', 100, FALSE)
 
-		if(!do_mob(user, M, used_time))
+		if(!do_after(user, M, used_time))
 			return
+
+		if(!user || !M || user.resting || get_dist(user, M) > 1)
+			break
 
 		playsound(loc, 'sound/items/bsmith4.ogg', 100, FALSE)
 
-		// healing
-		H.adjustBruteLoss(-14)
-		H.adjustFireLoss(-14)
-		H.update_damage_overlays()
+		if(M == user)
+			H.adjustBruteLoss(-7)
+			H.adjustFireLoss(-7)
+			H.update_damage_overlays()
+		else
+			H.adjustBruteLoss(-14)
+			H.adjustFireLoss(-14)
+			H.update_damage_overlays()
 
 		if(wCount.len > 0)
 			if(M == user)
@@ -277,7 +290,6 @@
 
 			H.update_damage_overlays()
 
-		// flavor text per target
 		if(M == user)
 			user.visible_message(
 				span_notice("[user] repairs [user.p_their()] [affecting]."),
@@ -289,7 +301,6 @@
 				span_notice("I repair [M]'s [affecting].")
 			)
 
-		// loop exit conditions
 		if(!ishuman(M))
 			break
 

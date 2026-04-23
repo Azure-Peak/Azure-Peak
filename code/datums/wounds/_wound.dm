@@ -271,6 +271,10 @@ GLOBAL_LIST_INIT(primordial_wounds, init_primordial_wounds())
 	if(!owner.loc)
 		return FALSE
 
+	var/mob/living/carbon/O = owner
+	if(O.dna?.species && (NOBLOOD in O.dna.species.species_traits))
+		set_bleed_rate(0)
+
 	if(!isnull(clotting_threshold) && clotting_rate && (bleed_rate > clotting_threshold))
 		set_bleed_rate(max(clotting_threshold, bleed_rate - clotting_rate))
 		if(!owner || QDELETED(owner) || QDELETED(src))
@@ -280,7 +284,7 @@ GLOBAL_LIST_INIT(primordial_wounds, init_primordial_wounds())
 		heal_wound(0.6)
 		if(!owner || QDELETED(owner) || QDELETED(src))
 			return FALSE
-
+	
 	if(passive_healing && owner && owner.stat != DEAD)
 		heal_wound(passive_healing)
 
@@ -291,6 +295,10 @@ GLOBAL_LIST_INIT(primordial_wounds, init_primordial_wounds())
 	// for optimization's sake, only do dead wound healing if the mob has a client.
 	if (!owner.client)
 		return
+
+	var/mob/living/carbon/O = owner
+	if(O.dna?.species && (NOBLOOD in O.dna.species.species_traits))
+		set_bleed_rate(0)
 
 	if (HAS_TRAIT(owner, TRAIT_PSYDONITE) && !passive_healing)
 		heal_wound(0.6) // psydonites are supposed to apparently slightly heal wounds whether dead or alive

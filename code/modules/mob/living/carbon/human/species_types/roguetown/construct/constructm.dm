@@ -25,7 +25,8 @@
 	liked_food = NONE
 	inherent_traits = list(
 		TRAIT_IRONMAN, // this will help define better construct flags around the code, also bloodloss immunity and deathless are redundant due to NOBLOOD anyway, trait should also bar you from being infected now, same for Rotman
-		TRAIT_NOHUNGER,
+		TRAIT_NOPAIN, // oh boi here we go, but Ironman now fully prevents anything above Light Armor from being equipped.
+		TRAIT_NOHUNGER, // consum rocke
 		TRAIT_NOBREATH, // nobreath should make it so snoring doesn't make noises anymore, sleep away, brothers
 		TRAIT_TOXIMMUNE, // legit once got poisoned for eating bad food LOL, fixed
 		TRAIT_ZOMBIE_IMMUNE, // Much as I wish I could simplify it, this is best centralized
@@ -142,17 +143,44 @@
 	if(istype(I, /obj/item/natural/stone))
 		var/obj/item/natural/stone/S = I
 		power = S.magic_power + 1
-		M.energy_add(S.magic_power)
-		M.adjustBruteLoss(-power/2)
-		M.adjustFireLoss(-power/2)
+		M.energy_add(1 + (S.magic_power * 3))
+
+		var/brute = M.getBruteLoss()
+		var/fire = M.getFireLoss()
+		var/MAX_DMG = 200 // scales from 1000% to a mere 10% about this makes rock heal miserably low, in other words: hammer time if wound is at mangled+
+		var/brute_ratio = round(min(brute / MAX_DMG, 1))
+		var/fire_ratio  = round(min(fire / MAX_DMG, 1))
+		var/brute_scale = 0.1 + (1 - brute_ratio) * (10.0 - 0.1) // 10.0 at 0 damage to 0.1 at max damage
+		var/fire_scale  = 0.1 + (1 - fire_ratio)  * (10.0 - 0.1) // 10.0 at 0 damage to 0.1 at max damage
+		var/brute_heal = round(1 + ((1 + power) * brute_scale))
+		var/fire_heal  = round(1 + ((1 + power) * fire_scale))
+
+		M.energy_add(1 + (S.magic_power * 3))
+		M.adjustBruteLoss(-brute_heal)
+		M.adjustFireLoss(-fire_heal)
+		to_chat(user, "DEBUG: [brute_heal] brute/[fire_heal] fire healed.")
 		user.visible_message(
 			span_notice("[user] offers the [I] to [M]'s mouth, and they crunch it down instinctively."),
 			span_notice("I crunch the [I] down and swallow it effortlessly.")
 		)
 		playsound(M.loc,'sound/misc/eat.ogg', rand(60,100), TRUE)
-		sleep(5)
-		playsound(user.loc, 'sound/foley/smash_rock.ogg', 25)
+		sleep(4)
+		playsound(user.loc, 'sound/foley/smash_rock.ogg', 30)
 		qdel(I)
+		return TRUE
+
+	// === ROCK === 
+	if(istype(I, /obj/item/natural/rock))
+		var/obj/item/natural/rock/S = I
+		user.visible_message(
+			span_notice("[user] offers the [S] to [M]'s mouth, and they crunch it to bits instinctively."),
+			span_notice("I crunch the [S] down, breaking it to fine smithereens!")
+		)
+		playsound(S.loc,'sound/misc/eat.ogg', rand(60,100), TRUE)
+		sleep(4)
+		playsound(user.loc, 'sound/foley/smash_rock.ogg', 30)
+		user.drop_all_held_items()
+		S.deconstruct(FALSE)
 		return TRUE
 
 	// === ORE === 
@@ -164,8 +192,8 @@
 			span_notice("I crunch the [I] down and swallow it effortlessly. This one is good stuff.")
 		)
 		playsound(M.loc,'sound/misc/eat.ogg', rand(60,100), TRUE)
-		sleep(5)
-		playsound(user.loc, 'sound/foley/smash_rock.ogg', 25)
+		sleep(4)
+		playsound(user.loc, 'sound/foley/smash_rock.ogg', 30)
 		qdel(I)
 		return TRUE
 
@@ -200,3 +228,135 @@
 		return TRUE
 
 	return FALSE
+
+
+/obj/structure/flora/newtree/Bumped(atom/movable/AM)
+	. = ..()
+	if(!ishuman(AM))
+		return
+	var/mob/living/carbon/human/user = AM
+	if(HAS_TRAIT(user, TRAIT_IRONMAN) && user.cmode && istype(user.rmb_intent, /datum/rmb_intent/strong) && !user.resting && user.stat == CONSCIOUS)
+		src.ironman_mine(user)
+
+/obj/structure/flora/roguetree/Bumped(atom/movable/AM)
+	. = ..()
+	if(!ishuman(AM))
+		return
+	var/mob/living/carbon/human/user = AM
+	if(HAS_TRAIT(user, TRAIT_IRONMAN) && user.cmode && istype(user.rmb_intent, /datum/rmb_intent/strong) && !user.resting && user.stat == CONSCIOUS)
+		src.ironman_mine(user)
+
+/turf/closed/Bumped(atom/movable/AM)
+	. = ..()
+	if(!ishuman(AM))
+		return
+	var/mob/living/carbon/human/user = AM
+	if(HAS_TRAIT(user, TRAIT_IRONMAN) && user.cmode && istype(user.rmb_intent, /datum/rmb_intent/strong) && !user.resting && user.stat == CONSCIOUS)
+		src.ironman_mine(user)
+
+/atom/proc/ironman_mine(mob/living/user)
+	if(!user || !isliving(user) || user.resting || user.doing || !user.Adjacent(src))
+		return
+	if(!density)
+		return
+
+	var/obj/item/bodypart/l_arm = user.get_bodypart(BODY_ZONE_L_ARM)
+	var/obj/item/bodypart/r_arm = user.get_bodypart(BODY_ZONE_R_ARM)
+
+	var/l_bad = (!l_arm || l_arm.disabled != BODYPART_NOT_DISABLED)
+	var/r_bad = (!r_arm || r_arm.disabled != BODYPART_NOT_DISABLED)
+
+	if(l_bad && r_bad)
+		to_chat(user, span_warning("Both of my arms are too ruined to smash anything."))
+		return
+
+	if(isturf(src))
+		var/turf/T = src
+		if(T.turf_integrity > 3000)
+			to_chat(user, span_warning("This is too hard!!"))
+			return
+
+	else if(isobj(src))
+		var/obj/O = src
+		if(O.obj_integrity > 3000)
+			to_chat(user, span_warning("This is too hard!!"))
+			return
+
+	user.visible_message(span_warning("[user] winds back [user.p_their()] arm, locking in..."), span_warning("I wind back my arm, preparing to demolish [src]..."))
+
+	if(!do_after(user, 1 SECONDS, TRUE, src, TRUE, null, TRUE))
+		return
+
+	while(src && density && user && user.Adjacent(src) && !user.resting)
+		l_arm = user.get_bodypart(BODY_ZONE_L_ARM)
+		r_arm = user.get_bodypart(BODY_ZONE_R_ARM)
+
+		l_bad = (!l_arm || l_arm.disabled != BODYPART_NOT_DISABLED)
+		r_bad = (!r_arm || r_arm.disabled != BODYPART_NOT_DISABLED)
+
+		if(l_bad && r_bad)
+			to_chat(user, span_warning("My arms give out!"))
+			break
+
+		if(!do_after(user, 0.4 SECONDS, TRUE, src))
+			break
+
+		var/obj/item/bodypart/BP
+		if(!l_bad && !r_bad)
+			BP = pick(l_arm, r_arm)
+		else if(!l_bad)
+			BP = l_arm
+		else
+			BP = r_arm
+
+		var/brutedmg = rand(1,4)
+		var/firedmg = prob(40) ? rand(1,10) : 0
+		var/totaldmg = (brutedmg + firedmg) * 6
+
+		if(isturf(src))
+			var/turf/T = src
+			var/damage_to_deal = totaldmg
+
+			if(istype(T, /turf/closed/mineral))
+				damage_to_deal *= 4 
+
+			if(T.turf_integrity)
+				T.turf_integrity -= damage_to_deal
+				if(T.turf_integrity <= 0)
+					T.turf_destruction("blunt")
+
+		else if(isobj(src))
+			var/obj/O = src
+
+			if(istype(O, /obj/structure/flora/newtree))
+				var/obj/structure/flora/newtree/TR = O
+				TR.take_damage(totaldmg, BRUTE, "blunt", FALSE)
+
+			else if(istype(O, /obj/structure/flora/roguetree))
+				var/obj/structure/flora/roguetree/RT = O
+				RT.take_damage(totaldmg, BRUTE, "blunt", FALSE)
+
+			else
+				if(O.obj_integrity)
+					O.obj_integrity -= totaldmg
+					if(O.obj_integrity <= 0)
+						qdel(O)
+
+		BP.receive_damage(brutedmg, 0, 0, 0, TRUE)
+
+		if(firedmg)
+			user.adjustFireLoss(firedmg)
+
+		user.stamina_add(-15)
+
+		var/bongo = pick('sound/combat/hits/armor/plate_blunt (1).ogg','sound/combat/hits/armor/plate_blunt (2).ogg','sound/combat/hits/armor/plate_blunt (3).ogg')
+
+		shake_camera(user, 1, 1)
+		playsound(user.loc, 'sound/combat/wooshes/punch/punchwoosh (1).ogg', rand(60,100), TRUE)
+		playsound(user.loc, bongo, rand(60,100), TRUE)
+
+		if(QDELETED(src) || !density)
+			playsound(user.loc, 'sound/foley/smash_rock.ogg', rand(60,100), TRUE)
+			break
+
+		user.visible_message(span_danger("[user] slams [user.p_their()] metal fist into [src]!"), span_danger("I pound [src] again and again!"))

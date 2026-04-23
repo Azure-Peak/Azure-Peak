@@ -410,6 +410,16 @@ GLOBAL_LIST_INIT(stone_personality_descs, list(
 			L.consider_ambush(always = TRUE)
 	..()
 
+//le rocke CRUSHER
+/obj/item/natural/rock/attack(mob/living/M, mob/user)
+	if(!user.cmode)
+		if(try_construct_consume(src, M, user))
+			return
+		else // if theyre not a construct, but we're not in cmode, beat them 2 death with rocks.
+			return ..()
+	else // if we're in cmode, beat them to death with rocks.
+		return ..()
+
 /obj/item/natural/rock/attacked_by(obj/item/I, mob/living/user)
 	var/was_destroyed = obj_destroyed
 	. = ..()

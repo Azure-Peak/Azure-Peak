@@ -112,7 +112,7 @@
 	name = "severed etheric conduit"
 	check_name = span_artery("<B>ETHERIC CONDUIT</B>")
 	severity = WOUND_SEVERITY_CRITICAL
-	crit_message = "Arcane energy violently sprays from %VICTIM's %BODYPART!"
+	crit_message = "Arcane energy violently bursts out from %VICTIM's %BODYPART!"
 	sound_effect = 'sound/combat/crit.ogg'
 	whp = 50
 	sewn_whp = 20
@@ -166,6 +166,18 @@
 	. = ..()
 	REMOVE_TRAIT(affected, TRAIT_GARGLE_SPEECH, "[type]")
 
+/datum/wound/integrity/neck/on_life()
+	. = ..()
+	if(!iscarbon(owner))
+		return
+	var/mob/living/carbon/carbon_owner = owner
+	if(!carbon_owner.stat && prob(25))
+		carbon_owner.Jitter(30)
+		carbon_owner.electrocute_act(25, carbon_owner)
+
+	if(carbon_owner.stat && prob(4))
+		carbon_owner.electrocute_act(10, carbon_owner)
+
 /datum/wound/integrity/chest
 	name = "core lattice rupture"
 	check_name = span_artery("<B>CORE LATTICE</B>")
@@ -195,13 +207,8 @@
 	if(!iscarbon(owner))
 		return
 	var/mob/living/carbon/carbon_owner = owner
-	if(!carbon_owner.stat && prob(5))
-		carbon_owner.Jitter(30)
-		carbon_owner.electrocute_act(10, carbon_owner)
-
-	if(carbon_owner.stat && prob(5))
-		carbon_owner.electrocute_act(10, carbon_owner)
-
+	if(prob(20))
+		carbon_owner.electrocute_act(50, carbon_owner)
 
 /datum/wound/integrity/reattachment
 	name = "replantation"
