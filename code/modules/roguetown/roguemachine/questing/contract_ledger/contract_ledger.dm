@@ -199,11 +199,6 @@
 		if("abandon")
 			abandon_by_ref(user, params["ref"])
 			return TRUE
-		if("print_active")
-			var/datum/job/mob_job = user?.job ? SSjob.GetJob(user.job) : null
-			if(mob_job?.is_quest_giver)
-				print_contracts(user)
-			return TRUE
 		if("compose_rumor")
 			compose_rumor_from_tgui(user, params)
 			return TRUE

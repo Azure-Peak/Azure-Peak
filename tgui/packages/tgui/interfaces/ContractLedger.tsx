@@ -414,17 +414,6 @@ const ActiveStrip = (props: {
           </div>
         ))
       )}
-      {!!data.is_handler && (
-        <div style={{ marginTop: '8px' }}>
-          <Button
-            icon="print"
-            color="transparent"
-            onClick={() => act('print_active')}
-          >
-            Print Active Contracts
-          </Button>
-        </div>
-      )}
     </div>
   );
 };

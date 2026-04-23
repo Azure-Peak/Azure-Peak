@@ -134,33 +134,4 @@
 	qdel(matched_quest)
 	qdel(matched_scroll)
 
-/obj/structure/roguemachine/contractledger/proc/print_contracts(mob/user)
-	var/list/active_quests = list()
-	for(var/obj/item/paper/scroll/quest/quest_scroll in GLOB.quest_scrolls)
-		if(quest_scroll.assigned_quest && !quest_scroll.assigned_quest.complete)
-			active_quests += quest_scroll
 
-	if(!length(active_quests))
-		say("No active contracts found.")
-		return
-
-	var/obj/item/paper/scroll/report = new(get_turf(src))
-	report.name = "Guild Contract Report"
-	report.desc = "A list of currently active contracts issued by the Mercenary's Guild."
-
-	var/report_text = "<center><b>MERCENARY'S GUILD - ACTIVE CONTRACTS</b></center><br><br>"
-	report_text += "<i>Generated on [station_time_timestamp()]</i><br><br>"
-
-	for(var/obj/item/paper/scroll/quest/quest_scroll in active_quests)
-		var/datum/quest/quest = quest_scroll.assigned_quest
-		var/area/quest_area = get_area(quest_scroll)
-		report_text += "<b>Title:</b> [quest.title].<br>"
-		report_text += "<b>Issuer:</b> [quest.quest_giver_name ? quest.quest_giver_name : "Mercenary's Guild"].<br>"
-		report_text += "<b>Recipient:</b> [quest.quest_receiver_name ? quest.quest_receiver_name : "Unclaimed"].<br>"
-		report_text += "<b>Type:</b> [quest.quest_type].<br>"
-		report_text += "<b>Difficulty:</b> [quest.quest_difficulty].<br>"
-		report_text += "<b>Last Known Location:</b> [quest_area ? quest_area.name : "Unknown Location"].<br>"
-		report_text += "<b>Reward:</b> [quest.reward_amount] mammons.<br><br>"
-
-	report.info = report_text
-	say("Contract report printed.")
