@@ -1,0 +1,5 @@
+author: "hazelrat"
+delete-after: True
+changes:
+  - rscadd: "Implemented a remap for the city church, increasing its size substantially."
+  - rscadd: "Added a new towner house straight east from the inquisitorial manor."
