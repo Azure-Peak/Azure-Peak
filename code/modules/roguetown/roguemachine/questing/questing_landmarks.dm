@@ -28,7 +28,7 @@
 		if(T.density || istransparentturf(T))
 			continue
 
-		if(get_area(T) != get_area(selected_landmark)) //No more spawning in guild room...
+		if(get_area(T) != get_area(src)) //No more spawning in guild room...
 			continue
 
 		var/blocked = FALSE

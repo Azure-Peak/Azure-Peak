@@ -10,11 +10,11 @@
 /// Roundstart balance is this multiple of the daily refill, giving the Steward a buffer at the start.
 #define BURGHER_PLEDGE_ROUNDSTART_MULTIPLIER 2
 /// Pledge cost of issuing a Trivial-tier defense quest (kill-easy / clear-out).
-#define BURGHER_PLEDGE_COST_TRIVIAL 50
+#define BURGHER_PLEDGE_COST_TRIVIAL 50  // 1 band
 /// Pledge cost of issuing a Standard-tier defense quest (recovery / bounty).
-#define BURGHER_PLEDGE_COST_STANDARD 125
+#define BURGHER_PLEDGE_COST_STANDARD 100 // 2 bands
 /// Pledge cost of issuing a Major-tier defense quest (raid).
-#define BURGHER_PLEDGE_COST_MAJOR 250
+#define BURGHER_PLEDGE_COST_MAJOR 200    // 3 bands
 
 /// Directive fallback: unfunded, zero-reward commission. The Steward is commanding the
 /// retinue/garrison they already pay wages to. Capped per day so it can't be spammed to
