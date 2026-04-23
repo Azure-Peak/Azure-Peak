@@ -181,7 +181,7 @@
 	if(lead && SStreasury.has_account(lead))
 		SStreasury.mint(SStreasury.get_account(lead), BLOCKADE_SCROLL_REWARD, "Blockade defense reward ([quest_giver_name || "Crown"] -> [lead.real_name])")
 		record_round_statistic(STATS_BLOCKADE_REWARDS_PAID, BLOCKADE_SCROLL_REWARD)
-		announce_to_bearer("The final wave breaks. [BLOCKADE_SCROLL_REWARD] mammon has been deposited to your account.")
+		announce_to_bearer("The final wave breaks. The rewards, if any, have been transferred to your account.")
 	else
 		SStreasury.mint(SStreasury.discretionary_fund, BLOCKADE_SCROLL_REWARD, "Blockade defense reward (unbanked bearer)")
 		announce_to_bearer("The final wave breaks. The Crown holds your share — return to the Nerve Master to collect.")
