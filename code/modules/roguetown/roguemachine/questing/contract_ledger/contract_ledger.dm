@@ -41,7 +41,7 @@
 	. += span_info("Retrieval-quest items should be <b>dropped onto the marked tile</b> in front of the ledger.")
 	. += span_info("Abandoning a contract forfeits its deposit to the treasury and places you under a brief guild cooldown before you may abandon another.")
 	. += span_info("The <b>Innkeeper</b> may compose rumor contracts here, spending Rumor Points to seed retrieval, courier, and light kill jobs across the realm.")
-	. += span_info("The <b>[english_list(GLOB.contract_ledger_commission_roles)]</b> may commission defense writs here - paid from the Burgher Pledge, the Crown's Purse, or issued as an unfunded Request. The Steward is the primary commissioner; the others substitute if the Steward is absent.")
+	. += span_info("The <b>[english_list(GLOB.contract_ledger_commission_roles)]</b> may commission defense writs here - paid from the Burgher Pledge, the Crown's Purse, or issued as an unfunded Request. The Steward is the primary commissioner; the others substitute if the Steward is absent. A Regent sitting in the Lord's absence inherits commission authority for the duration of their regency.")
 
 /obj/structure/roguemachine/contractledger/attackby(obj/item/P, mob/living/carbon/human/user, params)
 	. = ..()
@@ -128,12 +128,24 @@ GLOBAL_LIST_INIT(contract_ledger_commission_roles, list(
 	"Councillor",
 ))
 
+/// TRUE if the user has standing to commission defense writs - either by job, or by sitting as
+/// the current Regent (Regent inherits commission authority for the duration of their regency,
+/// so a Consort or Prince crowned by the Titan gains access they wouldn't otherwise have).
+/obj/structure/roguemachine/contractledger/proc/can_commission(mob/user)
+	if(!user)
+		return FALSE
+	if(user.job in GLOB.contract_ledger_commission_roles)
+		return TRUE
+	if(SSticker?.regentmob == user)
+		return TRUE
+	return FALSE
+
 /// Return the dynamic-tab role key for this user, or null. Extend here when a new job earns its
 /// own ledger panel (e.g. steward).
 /obj/structure/roguemachine/contractledger/proc/resolve_dynamic_role(mob/user)
 	if(user?.job == "Innkeeper")
 		return "innkeeper"
-	if(user?.job in GLOB.contract_ledger_commission_roles)
+	if(can_commission(user))
 		return "steward"
 	return null
 
