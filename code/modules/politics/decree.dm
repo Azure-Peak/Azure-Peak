@@ -24,6 +24,14 @@
 /datum/decree/proc/apply_rate_cap(mob/living/payer, tax_category, current_cap)
 	return current_cap
 
+/// Returns the updated daily fine ceiling (in mammon) for this payer. Decrees may narrow it.
+/datum/decree/proc/apply_daily_fine_cap(mob/living/payer, current_remaining)
+	return current_remaining
+
+/// Called after a fine is actually transferred, so decrees can track running totals.
+/datum/decree/proc/on_fine_applied(mob/living/payer, amount)
+	return
+
 /datum/decree/proc/on_revoke()
 	return
 

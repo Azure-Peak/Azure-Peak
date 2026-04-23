@@ -166,6 +166,25 @@ SUBSYSTEM_DEF(treasury)
 	var/cap_rate = get_rate_cap(target, TAX_CATEGORY_FINE)
 	return FLOOR(balance * cap_rate, 1)
 
+/// Returns the maximum mammon that can still be fined from payer today across all active decrees.
+/datum/controller/subsystem/treasury/proc/get_daily_fine_remaining(mob/living/payer)
+	if(!payer || HAS_TRAIT(payer, TRAIT_OUTLAW))
+		return 999999
+	var/datum/fund/account = get_account(payer)
+	var/remaining = account ? account.balance : 0
+	for(var/id in decrees)
+		var/datum/decree/D = decrees[id]
+		remaining = D.apply_daily_fine_cap(payer, remaining)
+	return remaining
+
+/// Notifies all active decrees that a fine was successfully applied, so they can update tracking.
+/datum/controller/subsystem/treasury/proc/notify_fine_applied(mob/living/payer, amount)
+	if(!payer || amount <= 0)
+		return
+	for(var/id in decrees)
+		var/datum/decree/D = decrees[id]
+		D.on_fine_applied(payer, amount)
+
 /datum/controller/subsystem/treasury/proc/award_savings_goals()
 	var/met = 0
 	var/missed = 0
@@ -241,6 +260,7 @@ SUBSYSTEM_DEF(treasury)
 		if(fine_owner)
 			var/cap_rate = get_rate_cap(fine_owner, TAX_CATEGORY_FINE)
 			var/max_fine = FLOOR(account.balance * cap_rate, 1)
+			max_fine = min(max_fine, get_daily_fine_remaining(fine_owner))
 			if(fine_amt > max_fine)
 				record_tax_exemption(TAX_CATEGORY_FINE, fine_amt - max_fine)
 				fine_amt = max_fine
@@ -253,6 +273,8 @@ SUBSYSTEM_DEF(treasury)
 		record_round_statistic(STATS_FINES_INCOME, -fine_amt)
 		send_ooc_note(source ? "<b>MEISTER:</b> You were fined [fine_amt]m. ([source])" : "<b>MEISTER:</b> You were fined [fine_amt]m.", name = target_name)
 		log_game("FINE: [usr ? key_name(usr) : "system"] fined [istype(target, /mob/living) ? key_name(target) : target_name] [fine_amt]m via [source || "unknown"]")
+		if(fine_owner)
+			notify_fine_applied(fine_owner, fine_amt)
 
 	return TRUE
 
