@@ -105,12 +105,6 @@ SUBSYSTEM_DEF(treasury)
 			if(!initial_payment_done)
 				initial_payment_done = TRUE
 				distribute_daily_payments()
-			for(var/datum/roguestock/X in stockpile_datums)
-				if(!X.stable_price && !X.mint_item)
-					if(X.demand < initial(X.demand))
-						X.demand += rand(5,15)
-					if(X.demand > initial(X.demand))
-						X.demand -= rand(5,15)
 		var/area/A = GLOB.areas_by_type[/area/rogue/indoors/town/vault]
 		for(var/obj/structure/roguemachine/vaultbank/VB in A)
 			if(istype(VB))
@@ -360,7 +354,6 @@ SUBSYSTEM_DEF(treasury)
 	record_round_statistic(STATS_STOCKPILE_EXPORTS_VALUE, amt)
 	if(!silent && amt >= EXPORT_ANNOUNCE_THRESHOLD)
 		scom_announce("Azure Peak exports [D.name] for [amt] mammon.")
-	D.lower_demand()
 	return amt
 
 /datum/controller/subsystem/treasury/proc/auto_export()

@@ -35,7 +35,10 @@
 				continue
 			A.refresh_pegged_price()
 			if(!A.withdraw_disabled)
-				contents += "<b>[A.name][A.get_event_tag()] (Max: [A.stockpile_limit]):</b> <a href='?src=[REF(parent_structure)];withdraw=[REF(A)]'>[A.stockpile_amount] at [A.payout_price]m</a>[A.get_market_delta_tag_for("withdraw")]<BR>"
+				contents += "<b>[A.name][A.get_event_tag()] (Max: [A.stockpile_limit]):</b> <a href='?src=[REF(parent_structure)];withdraw=[REF(A)]'>[A.stockpile_amount] at [A.payout_price]m</a>[A.get_market_delta_tag_for("withdraw")]"
+				if(!A.accept_toggle_enabled)
+					contents += " <font color='#888'>(NOT ACCEPTING DEPOSITS)</font>"
+				contents += "<BR>"
 			else
 				contents += "<b>[A.name]:</b> Withdrawing Disabled..."
 
@@ -47,7 +50,8 @@
 			contents += "[A.name][A.get_event_tag()]<BR>"
 			contents += "[A.desc]<BR>"
 			contents += "Stockpiled Amount: [A.stockpile_amount]<BR>"
-			contents += "Demand: [A.demand2word()]<BR>"
+			if(!A.accept_toggle_enabled)
+				contents += "<font color='#888'>NOT ACCEPTING DEPOSITS</font><BR>"
 			if(!A.withdraw_disabled)
 				contents += "<a href='?src=[REF(parent_structure)];withdraw=[REF(A)]'>\[Withdraw ([A.payout_price])\]</a>[A.get_market_delta_tag_for("withdraw")]<BR><BR>"
 			else

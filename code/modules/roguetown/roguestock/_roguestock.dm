@@ -5,12 +5,10 @@
 	var/stockpile_amount = 0
 	var/payout_price = 1
 	var/withdraw_disabled = FALSE
-	var/demand = 100
 	var/mint_item = FALSE
 	var/stockpile_limit = 100
 	var/importexport_amt = 10
 	var/export_only = FALSE
-	var/stable_price = FALSE
 	var/percent_bounty = FALSE
 	var/category = "Raw Materials"
 	var/trade_good_id
@@ -19,8 +17,6 @@
 
 /datum/roguestock/New()
 	..()
-	if(!stable_price)
-		demand = rand(60,140)
 	// Peg payout_price to the trade good catalog at roundstart. Subtypes that need a
 	// manual override can still set payout_price directly; most should just inherit.
 	if(trade_good_id)
@@ -139,29 +135,4 @@
 /datum/roguestock/proc/get_import_price()
 	return payout_price * importexport_amt
 
-/datum/roguestock/proc/lower_demand()
-	if(stable_price)
-		return
-	demand = max(demand-3,10)
 
-/datum/roguestock/proc/raise_demand()
-	if(stable_price)
-		return
-	demand = min(demand+1,200)
-
-/datum/roguestock/proc/demand2word()
-	switch(demand)
-		if(160 to 200)
-			return "Scarce"
-		if(130 to 160)
-			return "High"
-		if(110 to 130)
-			return "Growing"
-		if(90 to 110)
-			return "Normal"
-		if(70 to 90)
-			return "Falling"
-		if(40 to 70)
-			return "Low"
-		if(1 to 40)
-			return "Excess"

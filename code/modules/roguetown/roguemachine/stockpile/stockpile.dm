@@ -88,7 +88,10 @@
 		if(R.category != current_category)
 			continue
 		R.refresh_pegged_price()
-		contents += "[R.name][R.get_event_tag()] - [R.payout_price][R.get_market_delta_tag_for("deposit")] - ([R.stockpile_amount]/[R.stockpile_limit]) - [R.demand2word()]"
+		if(!R.accept_toggle_enabled)
+			contents += "<font color='#888'>[R.name][R.get_event_tag()] - NOT ACCEPTING - ([R.stockpile_amount]/[R.stockpile_limit])</font>"
+		else
+			contents += "[R.name][R.get_event_tag()] - [R.payout_price][R.get_market_delta_tag_for("deposit")] - ([R.stockpile_amount]/[R.stockpile_limit])"
 		contents += "<BR>"
 
 	return contents
@@ -263,6 +266,10 @@
 			record_round_statistic(STATS_STOCKPILE_EXPANSES, amt) // Unlike deposit, a treasure minting is equal to both expending and profiting at the same time
 			record_round_statistic(STATS_STOCKPILE_REVENUE, true_value)
 			return
+
+	// Nothing in the stockpile accepted this item
+	if(message)
+		say("[I.name] is not accepted here.")
 
 /obj/structure/roguemachine/stockpile/attackby(obj/item/P, mob/user, params)
 	if(istype(P, /obj/item/roguecoin/aalloy))
