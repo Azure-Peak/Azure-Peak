@@ -61,11 +61,11 @@
 #define POLL_TAX_CAT_PEASANT "poll_peasant"
 
 /// Max poll tax per category, per day, in mammon.
-#define POLL_TAX_MAX_RATE 50
+#define POLL_TAX_MAX_RATE 40
 /// Days consecutively owing before TRAIT_DEBTOR is applied.
 #define POLL_TAX_DEBT_DAYS_TO_DEBTOR 2
 /// Golden Bull of Kingsfield caps burgher poll tax at this flat amount when in force.
-#define GOLDEN_BULL_POLL_CAP 25
+#define GOLDEN_BULL_POLL_CAP 20
 #define POLL_TAX_ADVANCE_LOCKOUT (10 MINUTES)
 #define POLL_TAX_MAX_ADVANCE_DAYS 7
 #define POLL_TAX_ADVANCE_FALLBACK_RATE 10
