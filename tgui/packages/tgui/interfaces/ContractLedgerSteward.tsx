@@ -306,7 +306,7 @@ const ComposeView = () => {
 
       {funding === 'directive' && (
         <div className="ContractLedger__InnkeeperFlavor">
-          A Request calls upon the retinue or garrison you already pay to
+          A Request calls upon someone to
           answer out of duty. No coin changes hands; the scroll is drawn to
           your hand and must be given directly to whoever will honour it.
         </div>
