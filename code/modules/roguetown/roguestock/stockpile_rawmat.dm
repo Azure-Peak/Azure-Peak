@@ -4,7 +4,6 @@
 	item_type = /obj/item/grown/log/tree/small
 	trade_good_id = TRADE_GOOD_WOOD
 	stockpile_amount = 2
-	payout_price = 3
 	importexport_amt = 10
 	stockpile_limit = 50
 
@@ -14,7 +13,6 @@
 	item_type = /obj/item/rogueore/coal
 	trade_good_id = TRADE_GOOD_COAL
 	stockpile_amount = 5
-	payout_price = 4
 	importexport_amt = 10
 	stockpile_limit = 50
 
@@ -24,7 +22,6 @@
 	item_type = /obj/item/natural/stone
 	trade_good_id = TRADE_GOOD_STONE
 	stockpile_amount = 10
-	payout_price = 1
 	importexport_amt = 10
 	stockpile_limit = 50 // Allow a small amount of stones to be sold for chiselling
 
@@ -34,7 +31,6 @@
 	item_type = /obj/item/reagent_containers/powder/salt
 	trade_good_id = TRADE_GOOD_SALT
 	stockpile_amount = 2
-	payout_price = 4
 	importexport_amt = 5
 	stockpile_limit = 25
 
@@ -44,7 +40,6 @@
 	item_type = /obj/item/natural/clay/glassbatch
 	trade_good_id = TRADE_GOOD_GLASS_BATCH
 	stockpile_amount = 5
-	payout_price = 4
 	importexport_amt = 5
 	stockpile_limit = 25
 
@@ -54,7 +49,6 @@
 	item_type = /obj/item/rogueore/iron
 	trade_good_id = TRADE_GOOD_IRON_ORE
 	stockpile_amount = 6
-	payout_price = 5
 	importexport_amt = 10
 	stockpile_limit = 50
 
@@ -64,9 +58,8 @@
 	item_type = /obj/item/rogueore/copper
 	trade_good_id = TRADE_GOOD_COPPER_ORE
 	stockpile_amount = 6
-	payout_price = 3
 	importexport_amt = 10
-	stockpile_limit = 50
+	stockpile_limit = 25
 
 /datum/roguestock/stockpile/tin
 	name = "Raw Tin"
@@ -74,16 +67,14 @@
 	item_type = /obj/item/rogueore/tin
 	trade_good_id = TRADE_GOOD_TIN_ORE
 	stockpile_amount = 6
-	payout_price = 4
 	importexport_amt = 10
-	stockpile_limit = 50
+	stockpile_limit = 25
 
 /datum/roguestock/stockpile/gold
 	name = "Raw Gold"
 	desc = "Chunks of unrefined gold."
 	item_type = /obj/item/rogueore/gold
 	trade_good_id = TRADE_GOOD_GOLD_ORE
-	payout_price = 50
 	stockpile_limit = 50
 	importexport_amt = 10
 
@@ -92,7 +83,6 @@
 	desc = "Chunks of unrefined silver."
 	item_type = /obj/item/rogueore/silver
 	trade_good_id = TRADE_GOOD_SILVER_ORE
-	payout_price = 75
 	export_only = TRUE
 	stockpile_limit = 25
 	importexport_amt = 5
@@ -102,7 +92,6 @@
 	desc = "A red mineral used to make quicksilver."
 	item_type = /obj/item/rogueore/cinnabar
 	trade_good_id = TRADE_GOOD_CINNABAR
-	payout_price = 5
 	stockpile_limit = 50
 	importexport_amt = 5
 
@@ -111,7 +100,6 @@
 	desc = "Lengths of cloth for sewing and tailoring."
 	item_type = /obj/item/natural/cloth
 	trade_good_id = TRADE_GOOD_CLOTH
-	payout_price = 3
 	importexport_amt = 10
 	stockpile_limit = 100
 
@@ -120,7 +108,6 @@
 	desc = "Strands used to make cloth and other items."
 	item_type = /obj/item/natural/fibers
 	trade_good_id = TRADE_GOOD_FIBERS
-	payout_price = 1
 	importexport_amt = 10
 	stockpile_limit = 50
 
@@ -129,7 +116,6 @@
 	desc = "Strands of spider silk used to make exotic clothes."
 	item_type = /obj/item/natural/silk
 	trade_good_id = TRADE_GOOD_SILK
-	payout_price = 2
 	importexport_amt = 5
 	stockpile_limit = 25
 
@@ -140,7 +126,6 @@
 	item_type = /obj/item/natural/hide/cured
 	trade_good_id = TRADE_GOOD_CURED_LEATHER
 	stockpile_amount = 2
-	payout_price = 3
 	importexport_amt = 10
 	stockpile_limit = 50
 
@@ -149,7 +134,6 @@
 	desc = "Stripped hide from animals."
 	item_type = /obj/item/natural/hide
 	trade_good_id = TRADE_GOOD_HIDE
-	payout_price = 8
 	importexport_amt = 5
 	stockpile_limit = 25
 
@@ -158,6 +142,5 @@
 	desc = "Hide with a long winter coat from animals."
 	item_type = /obj/item/natural/fur
 	trade_good_id = TRADE_GOOD_FUR
-	payout_price = 10
 	importexport_amt = 5
 	stockpile_limit = 25

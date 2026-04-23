@@ -7,7 +7,6 @@
 	desc = "A yellow gemstone. Common."
 	item_type = /obj/item/roguegem/yellow
 	trade_good_id = TRADE_GOOD_TOPER
-	payout_price = SELLPRICE_TOPER
 	importexport_amt = 1
 	stockpile_limit = 4
 	accept_toggle_enabled = FALSE
@@ -18,7 +17,6 @@
 	desc = "A green gemstone. Common."
 	item_type = /obj/item/roguegem/green
 	trade_good_id = TRADE_GOOD_GEMERALD
-	payout_price = SELLPRICE_GEMERALD
 	importexport_amt = 1
 	stockpile_limit = 4
 	accept_toggle_enabled = FALSE
@@ -29,7 +27,6 @@
 	desc = "A violet gemstone. Rare."
 	item_type = /obj/item/roguegem/violet
 	trade_good_id = TRADE_GOOD_SAFFIRA
-	payout_price = SELLPRICE_SAFFIRA
 	importexport_amt = 1
 	stockpile_limit = 3
 	accept_toggle_enabled = FALSE
@@ -40,7 +37,6 @@
 	desc = "A blue gemstone. Rare."
 	item_type = /obj/item/roguegem/blue
 	trade_good_id = TRADE_GOOD_BLORTZ
-	payout_price = SELLPRICE_BLORTZ
 	importexport_amt = 1
 	stockpile_limit = 3
 	accept_toggle_enabled = FALSE
@@ -51,7 +47,6 @@
 	desc = "A diamond. Legendary."
 	item_type = /obj/item/roguegem/diamond
 	trade_good_id = TRADE_GOOD_DORPEL
-	payout_price = SELLPRICE_DORPEL
 	importexport_amt = 1
 	stockpile_limit = 2
 	accept_toggle_enabled = FALSE
@@ -62,7 +57,6 @@
 	desc = "A crimson gemstone. Legendary."
 	item_type = /obj/item/roguegem/blood_diamond
 	trade_good_id = TRADE_GOOD_BLOOD_DIAMOND
-	payout_price = SELLPRICE_BLOOD_DIAMOND
 	importexport_amt = 1
 	stockpile_limit = 2
 	accept_toggle_enabled = FALSE

@@ -329,9 +329,9 @@ SUBSYSTEM_DEF(economy)
 	return max(round(export_price), tg.low_price)
 
 /datum/controller/subsystem/economy/proc/compute_order_payout(datum/standing_order/order, datum/economic_region/region)
-	// Flat additive payout. Regular orders pay base_price * (1 + STANDING_ORDER_BASE_BONUS);
-	// urgent orders pass extra_bonus_mult for an additional (1 + URGENT_ORDER_EXTRA_BONUS) flat bump.
-	// Event price_mod multiplies on top of the flat payout.
+	// Flat additive payout. Regular = base_price * 1.75; urgent = base_price * 2.5.
+	// Event price_mod does NOT stack here - urgent orders are ALREADY the shortage's premium
+	// payout; letting the shortage mod multiply again compounds into absurd numbers.
 	var/is_urgent = istype(order, /datum/standing_order/urgent)
 	var/bonus_mult = 1 + STANDING_ORDER_BASE_BONUS + (is_urgent ? URGENT_ORDER_EXTRA_BONUS : 0)
 	var/total = 0
@@ -342,7 +342,7 @@ SUBSYSTEM_DEF(economy)
 			continue
 		// CEILING: low-base goods (stone=1) must not collapse to parity with the raw qty count
 		// after BYOND's floor-round. Guarantees standing orders always beat stockpile sell-back.
-		var/unit = CEILING(tg.base_price * bonus_mult * tg.global_price_mod, 1)
+		var/unit = CEILING(tg.base_price * bonus_mult, 1)
 		total += unit * quantity
 	return round(total)
 
@@ -377,6 +377,7 @@ SUBSYSTEM_DEF(economy)
 	order.is_fulfilled = TRUE
 	GLOB.standing_order_pool -= order
 	if(user)
+		to_chat(user, span_notice("Order Fulfilled: [order.total_payout]m paid to the Crown's Purse."))
 		log_game("STANDING ORDER FULFILLED by [user.ckey]: [order.name] (+[order.total_payout]m)")
 	return TRUE
 
@@ -441,6 +442,7 @@ SUBSYSTEM_DEF(economy)
 	order.is_fulfilled = TRUE
 	GLOB.standing_order_pool -= order
 	if(user)
+		to_chat(user, span_notice("Order Fulfilled: [order.total_payout]m paid to the Crown's Purse."))
 		log_game("STANDING ORDER (EQUIPMENT) FULFILLED by [user.ckey]: [order.name] (+[order.total_payout]m)")
 	return TRUE
 

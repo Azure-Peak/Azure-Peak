@@ -3,7 +3,6 @@
 	desc = "Harvested produce."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/apple
 	trade_good_id = TRADE_GOOD_APPLE
-	payout_price = 2
 	importexport_amt = 10
 	stockpile_limit = 50
 	category = "Fruit"
@@ -13,7 +12,6 @@
 	desc = "Too sweet for many, a favored treat for little ones. Dwarves do love them."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/fruit/pear
 	trade_good_id = TRADE_GOOD_PEAR
-	payout_price = 2
 	importexport_amt = 5
 	stockpile_limit = 25
 	category = "Fruit"
@@ -23,7 +21,6 @@
 	desc = "Sweet berries, prime for winemaking."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/berries/rogue
 	trade_good_id = TRADE_GOOD_JACKSBERRY
-	payout_price = 2
 	importexport_amt = 10
 	stockpile_limit = 50 // Jackberries are used to mass produce raisins so higher limit
 	category = "Fruit"
@@ -36,7 +33,6 @@
 
 	export_only = TRUE
 
-	payout_price = 4
 	importexport_amt = 5
 	stockpile_limit = 25
 	category = "Fruit"
@@ -49,7 +45,6 @@
 
 	export_only = TRUE
 
-	payout_price = 4
 	importexport_amt = 5
 	stockpile_limit = 25
 	category = "Fruit"
@@ -62,7 +57,6 @@
 
 	export_only = TRUE
 
-	payout_price = 4
 	importexport_amt = 5
 	stockpile_limit = 25
 	category = "Fruit"
@@ -75,7 +69,6 @@
 
 	export_only = TRUE
 
-	payout_price = 4
 	importexport_amt = 5
 	stockpile_limit = 25
 	category = "Fruit"
@@ -88,7 +81,6 @@
 
 	export_only = TRUE
 
-	payout_price = 4
 	importexport_amt = 5
 	stockpile_limit = 25
 	category = "Fruit"
@@ -101,7 +93,6 @@
 
 	export_only = TRUE
 
-	payout_price = 4
 	importexport_amt = 5
 	stockpile_limit = 25
 	category = "Fruit"
@@ -114,7 +105,6 @@
 
 	export_only = TRUE
 
-	payout_price = 4
 	importexport_amt = 5
 	stockpile_limit = 25
 	category = "Fruit"
@@ -124,7 +114,6 @@
 	desc = "A red fruit that is often mistaken for a vegetable. It is commonly used in salads and sauces."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/fruit/tomato
 	trade_good_id = TRADE_GOOD_TOMATO
-	payout_price = 3
 	importexport_amt = 5
 	stockpile_limit = 25
 	category = "Fruit"
@@ -134,7 +123,6 @@
 	desc = "The thick pumpkin rind shields a surprisingly dense fleshy interior."
 	item_type = /obj/item/natural/shellplant/pumpkin
 	trade_good_id = TRADE_GOOD_PUMPKIN
-	payout_price = 3
 	importexport_amt = 5
 	stockpile_limit = 25
 	category = "Fruit"

@@ -21,6 +21,12 @@
 	..()
 	if(!stable_price)
 		demand = rand(60,140)
+	// Peg payout_price to the trade good catalog at roundstart. Subtypes that need a
+	// manual override can still set payout_price directly; most should just inherit.
+	if(trade_good_id)
+		var/datum/trade_good/tg = GLOB.trade_goods[trade_good_id]
+		if(tg)
+			payout_price = max(1, round(tg.base_price * TRADE_STOCKPILE_BUY_DISCOUNT))
 	return
 
 /datum/roguestock/proc/get_payout_price(obj/item/I)

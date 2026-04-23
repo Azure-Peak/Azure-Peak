@@ -16,6 +16,11 @@
 /// Pledge cost of issuing a Major-tier defense quest (raid).
 #define BURGHER_PLEDGE_COST_MAJOR 250
 
+/// Directive fallback: unfunded, zero-reward commission. The Steward is commanding the
+/// retinue/garrison they already pay wages to. Capped per day so it can't be spammed to
+/// saturate the quest pool with free work.
+#define COMMISSION_DIRECTIVES_PER_DAY 2
+
 #define TAX_CATEGORY_CONTRACT_LEVY "contract levy"
 #define TAX_CATEGORY_HEADEATER_LEVY "headeater levy"
 #define TAX_CATEGORY_IMPORT_TARIFF "import tariff"

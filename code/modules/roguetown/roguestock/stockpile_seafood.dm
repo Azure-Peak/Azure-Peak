@@ -3,7 +3,6 @@
 	desc = "Descaled and ground fish meat."
 	item_type = /obj/item/reagent_containers/food/snacks/rogue/meat/mince/fish
 	trade_good_id = TRADE_GOOD_FISH_MINCE
-	payout_price = 2
 	importexport_amt = 10
 	stockpile_limit = 50
 	category = "Seafood"
@@ -13,7 +12,6 @@
 	desc = "Descaled fish meat."
 	item_type = /obj/item/reagent_containers/food/snacks/rogue/meat/fish
 	trade_good_id = TRADE_GOOD_FISH_FILET
-	payout_price = 3
 	importexport_amt = 10
 	stockpile_limit = 50
 	category = "Seafood"
@@ -26,7 +24,6 @@
 
 	export_only = TRUE
 
-	payout_price = 4
 	importexport_amt = 10
 	stockpile_limit = 10
 	category = "Seafood"
@@ -39,7 +36,6 @@
 
 	export_only = TRUE
 
-	payout_price = 4
 	importexport_amt = 10
 	stockpile_limit = 10
 	category = "Seafood"
@@ -52,7 +48,6 @@
 
 	export_only = TRUE
 
-	payout_price = 4
 	importexport_amt = 10
 	stockpile_limit = 15
 	category = "Seafood"
@@ -65,7 +60,6 @@
 
 	export_only = TRUE
 
-	payout_price = 4
 	importexport_amt = 10
 	stockpile_limit = 10
 	category = "Seafood"
@@ -78,7 +72,6 @@
 
 	export_only = TRUE
 
-	payout_price = 4
 	importexport_amt = 10
 	stockpile_limit = 10
 	category = "Seafood"
@@ -91,7 +84,6 @@
 
 	export_only = TRUE
 
-	payout_price = 4
 	importexport_amt = 10
 	stockpile_limit = 10
 	category = "Seafood"
@@ -104,7 +96,6 @@
 
 	export_only = TRUE
 
-	payout_price = 4
 	importexport_amt = 10
 	stockpile_limit = 10
 	category = "Seafood"
@@ -117,7 +108,6 @@
 
 	export_only = TRUE
 
-	payout_price = 4
 	importexport_amt = 10
 	stockpile_limit = 10
 	category = "Seafood"
@@ -130,7 +120,6 @@
 
 	export_only = TRUE
 
-	payout_price = 4
 	importexport_amt = 10
 	stockpile_limit = 10
 	category = "Seafood"

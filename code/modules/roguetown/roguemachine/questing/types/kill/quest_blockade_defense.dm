@@ -10,6 +10,9 @@
 	var/datum/weakref/wave_landmark_ref
 	var/datum/weakref/blockade_ref
 	var/failed = FALSE
+	/// TRUE after materialize() arms the quest and before the bearer has triggered wave 1
+	/// by entering the landmark's proximity. Prevents double-fire via check_arrival.
+	var/armed = FALSE
 	var/list/wave_budgets = list(BLOCKADE_WAVE_1_TP, BLOCKADE_WAVE_2_TP, BLOCKADE_WAVE_3_TP)
 
 /// Faction is forced by the blockade, not rolled from threat weights.
@@ -59,13 +62,36 @@
 /datum/quest/kill/blockade_defense/calculate_reward(turf/origin_turf, turf/target_turf)
 	return BLOCKADE_SCROLL_REWARD
 
+/// Materialize arms the quest but does NOT spawn wave 1. The scroll's process() tick polls
+/// check_arrival() and fires wave 1 once the bearer is in proximity to the landmark.
 /datum/quest/kill/blockade_defense/materialize(obj/effect/landmark/quest_spawner/landmark)
 	..()
 	if(!landmark)
 		return FALSE
 	wave_landmark_ref = WEAKREF(landmark)
-	spawn_wave(1)
+	armed = TRUE
 	return TRUE
+
+/// Called from the scroll's process tick. Tests bearer proximity; fires wave 1 on arrival.
+/datum/quest/kill/blockade_defense/proc/check_arrival(mob/bearer)
+	if(!armed || failed || complete)
+		return
+	if(!bearer)
+		return
+	var/obj/effect/landmark/quest_spawner/landmark = wave_landmark_ref?.resolve()
+	if(!landmark)
+		return
+	var/turf/bearer_turf = get_turf(bearer)
+	var/turf/landmark_turf = get_turf(landmark)
+	if(!bearer_turf || !landmark_turf)
+		return
+	if(bearer_turf.z != landmark_turf.z)
+		return
+	if(get_dist(bearer_turf, landmark_turf) > 7)
+		return
+	armed = FALSE
+	announce_to_bearer("<b>You have reached the blockade.</b> Ready yourselves.")
+	spawn_wave(1)
 
 /datum/quest/kill/blockade_defense/proc/spawn_wave(wave_num)
 	if(failed || complete)
@@ -88,9 +114,7 @@
 	if(wave_timer_id)
 		deltimer(wave_timer_id)
 	wave_timer_id = addtimer(CALLBACK(src, PROC_REF(on_wave_timeout), wave_num), BLOCKADE_WAVE_TIMER_DS, TIMER_STOPPABLE)
-	var/datum/economic_region/ER = blockade_ref?.resolve()?.get_region()
-	var/region_label = ER ? ER.name : "the blockade"
-	announce_to_bearer("<b>Wave [wave_num]/[BLOCKADE_TOTAL_WAVES]</b> descends on [region_label]. You have five minutes.")
+	announce_to_bearer("<b>Wave [wave_num]/[BLOCKADE_TOTAL_WAVES]</b> descends on you. You have five minutes.")
 	quest_scroll?.update_quest_text()
 
 /datum/quest/kill/blockade_defense/on_progress_update()

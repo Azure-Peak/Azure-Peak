@@ -20,7 +20,7 @@
 			return
 		Q.quest_receiver_reference = WEAKREF(user)
 		Q.quest_receiver_name = user.real_name
-		to_chat(user, span_notice("You take up the blockade writ. The waves will begin shortly — reach the marked region."))
+		to_chat(user, span_notice("You take up the blockade writ. Travel to the marked region — the waves will begin when you arrive."))
 		var/obj/effect/landmark/quest_spawner/landmark = Q.pending_landmark_ref?.resolve()
 		if(landmark)
 			Q.materialize(landmark)
@@ -29,6 +29,31 @@
 	update_icon_state()
 	refresh_compass(user)
 	ui_interact(user)
+
+/// Piggybacks on the base scroll's whisper tick. Once the bearer is near the landmark,
+/// fire wave 1 via the quest's check_arrival helper. Before arrival the quest is armed
+/// but dormant - no mobs spawned, no timer ticking.
+/obj/item/paper/scroll/quest/blockade/process()
+	. = ..()
+	var/datum/quest/kill/blockade_defense/Q = assigned_quest
+	if(!Q || !Q.armed)
+		return
+	var/mob/bearer = Q.quest_receiver_reference?.resolve()
+	if(!bearer)
+		return
+	// Only count the bearer as "arrived" if they physically hold the scroll.
+	var/atom/loc_chain = src.loc
+	var/found_bearer = FALSE
+	while(loc_chain)
+		if(loc_chain == bearer)
+			found_bearer = TRUE
+			break
+		if(isturf(loc_chain))
+			break
+		loc_chain = loc_chain.loc
+	if(!found_bearer)
+		return
+	Q.check_arrival(bearer)
 
 /obj/item/paper/scroll/quest/blockade/proc/promote_to_board_gated()
 	if(!assigned_quest)
@@ -60,6 +85,15 @@
 	else if(Q.complete)
 		scroll_text += "<center><font color='#5cb85c'><b>THE BLOCKADE IS BROKEN.</b></font></center><br>"
 		scroll_text += "The Crown has deposited [BLOCKADE_SCROLL_REWARD] mammon to the bearer's account."
+	else if(Q.armed)
+		scroll_text += "<b>Objective:</b> Travel to [region_label]. The raiders will descend upon your arrival.<br>"
+		if(last_compass_direction)
+			scroll_text += "<b>Direction:</b> The raiders are[last_compass_direction]. "
+			if(last_z_level_hint)
+				scroll_text += "([last_z_level_hint])"
+			scroll_text += "<br>"
+		scroll_text += "<b>Reward:</b> [BLOCKADE_SCROLL_REWARD] mammon to the lead bearer on breaking the third wave.<br>"
+		scroll_text += "<br><i>Three waves descend once you reach the blockade. Each wave must fall within five minutes, or the writ is forfeit.</i>"
 	else
 		scroll_text += "<b>Objective:</b> [Q.get_objective_text()]<br>"
 		if(Q.current_wave > 0)
@@ -70,7 +104,6 @@
 				scroll_text += "([last_z_level_hint])"
 			scroll_text += "<br>"
 		scroll_text += "<b>Reward:</b> [BLOCKADE_SCROLL_REWARD] mammon to the lead bearer on breaking the third wave.<br>"
-		scroll_text += "<br><i>Three waves descend once you reach the blockade. Each wave must fall within five minutes, or the writ is forfeit.</i>"
 
 	info = scroll_text
 	update_icon()

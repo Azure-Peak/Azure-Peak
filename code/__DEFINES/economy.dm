@@ -103,7 +103,7 @@
 #define BLOCKADE_WAVE_TIMER_DS (5 MINUTES)
 // Wave composition arrays in quest_blockade_defense.dm assume exactly 3 waves.
 #define BLOCKADE_TOTAL_WAVES 3
-#define BLOCKADE_WAVE_1_TP 60
+#define BLOCKADE_WAVE_1_TP 90
 #define BLOCKADE_WAVE_2_TP 90
 #define BLOCKADE_WAVE_3_TP 130
 

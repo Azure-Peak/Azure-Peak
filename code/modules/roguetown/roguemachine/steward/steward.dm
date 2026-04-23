@@ -465,7 +465,7 @@
 		new_autoexport = round(new_autoexport)
 		SStreasury.autoexport_percentage = new_autoexport * 0.01
 	if(href_list["trade_tgui"])
-		ui_interact(usr)
+		open_trade_tgui(usr)
 		return
 
 	return attack_hand(usr)
@@ -505,6 +505,7 @@
 	if(spent > 0)
 		scom_announce("Azure Peak imports [quantity] [tg.name] from [region.name] for [spent] mammon.")
 		playsound(src, 'sound/misc/coininsert.ogg', 100, FALSE, -1)
+	SStgui.update_uis(src)
 
 /obj/structure/roguemachine/steward/proc/handle_trade_export(mob/user, region_id, good_id)
 	if(!user.canUseTopic(src, BE_CLOSE) || locked)
@@ -545,6 +546,7 @@
 	if(gained > 0)
 		scom_announce("Azure Peak exports [quantity] [tg.name] to [region.name] for [gained] mammon.")
 		playsound(src, 'sound/misc/coindispense.ogg', 60, FALSE, -1)
+	SStgui.update_uis(src)
 
 /obj/structure/roguemachine/steward/proc/handle_trade_region_import(mob/user, region_id)
 	if(!user.canUseTopic(src, BE_CLOSE) || locked)

@@ -11,6 +11,9 @@
 	/// Turf south of the ledger, marked with a drop-here decal. Retrieval-quest items carry a
 	/// component that consumes them on any tile bearing this decal.
 	var/input_point
+	/// Directive quota tracking. Reset when GLOB.dayspassed advances past directives_day_stamp.
+	var/directives_issued_today = 0
+	var/directives_day_stamp = -1
 
 /obj/structure/roguemachine/contractledger/Initialize()
 	. = ..()
@@ -23,6 +26,13 @@
 /obj/structure/roguemachine/contractledger/Destroy()
 	SSquestpool.registered_ledgers -= src
 	return ..()
+
+/// Lazy-reset of the daily directive quota. Called wherever directive state is read or
+/// mutated — cheap comparison, auto-rolls over when GLOB.dayspassed advances.
+/obj/structure/roguemachine/contractledger/proc/refresh_directive_quota()
+	if(directives_day_stamp != GLOB.dayspassed)
+		directives_day_stamp = GLOB.dayspassed
+		directives_issued_today = 0
 
 /obj/structure/roguemachine/contractledger/get_mechanics_examine(mob/user)
 	. = ..()
@@ -88,11 +98,16 @@
 		data["pledge_refill_base"] = BURGHER_PLEDGE_BASE_REFILL
 		data["pledge_refill_per_player"] = BURGHER_PLEDGE_PER_PLAYER
 		data["pledge_active_players"] = get_active_player_count()
+		data["pledge_available"] = SStreasury.burgher_pledge_fund ? TRUE : FALSE
+		data["crown_purse_balance"] = SStreasury?.discretionary_fund?.balance || 0
 		data["defense_costs"] = GLOB.defense_quest_tier_costs.Copy()
 		data["defense_regions_by_type"] = build_defense_regions_by_type()
 		data["defense_destinations"] = build_rumor_destinations()
 		data["defense_log"] = SStreasury.defense_log
 		data["blockade_global_busy"] = SSeconomy.any_blockade_quest_active() ? TRUE : FALSE
+		refresh_directive_quota()
+		data["directives_per_day"] = COMMISSION_DIRECTIVES_PER_DAY
+		data["directives_issued_today"] = directives_issued_today
 	return data
 
 /// Return the dynamic-tab role key for this user, or null. Extend here when a new job earns its

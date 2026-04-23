@@ -15,12 +15,18 @@ type StewardData = {
   pledge_refill_base: number;
   pledge_refill_per_player: number;
   pledge_active_players: number;
+  pledge_available: number | boolean;
+  crown_purse_balance: number;
   defense_costs: Record<string, number>;
   defense_regions_by_type: Record<string, string[]>;
   defense_destinations: string[];
   defense_log: DefenseLogEntry[];
   blockade_global_busy: number | boolean;
+  directives_per_day: number;
+  directives_issued_today: number;
 };
+
+type FundingSource = 'pledge' | 'crown' | 'directive';
 
 type SubTab = 'compose' | 'history';
 const RECOVERY_TYPE = 'Recovery';
@@ -150,6 +156,7 @@ const ComposeView = () => {
   const [destination, setDestination] = useState<string>('');
   const [mode, setMode] = useState<DispatchMode>('board');
   const [levyExempt, setLevyExempt] = useState<boolean>(false);
+  const [funding, setFunding] = useState<FundingSource>('pledge');
   const [inflight, setInflight] = useState<boolean>(false);
 
   const regionsForType = data.defense_regions_by_type?.[type] || [];
@@ -157,6 +164,18 @@ const ComposeView = () => {
   const needsDestination = type === RECOVERY_TYPE;
   const isBlockade = type === BLOCKADE_TYPE;
   const blockadeBusy = !!data.blockade_global_busy;
+  const directivesRemaining =
+    (data.directives_per_day ?? 0) - (data.directives_issued_today ?? 0);
+  const pledgeAvailable = !!data.pledge_available;
+  const effectiveCost = funding === 'directive' ? 0 : cost;
+
+  // If the currently-selected funding disappears (pledge repealed, quota spent), fall back.
+  if (funding === 'pledge' && !pledgeAvailable) {
+    setFunding('crown');
+  }
+  if (funding === 'directive' && directivesRemaining <= 0) {
+    setFunding(pledgeAvailable ? 'pledge' : 'crown');
+  }
 
   const onTypeChange = (next: string) => {
     setType(next);
@@ -164,6 +183,15 @@ const ComposeView = () => {
     if (!newRegions.includes(region)) setRegion('');
     if (next !== RECOVERY_TYPE) setDestination('');
   };
+
+  const fundingDisabledReason =
+    funding === 'pledge' && data.pledge_balance < cost
+      ? `Insufficient Pledge (need ${coin(cost)}, have ${coin(data.pledge_balance)}).`
+      : funding === 'crown' && data.crown_purse_balance < cost
+        ? `Insufficient Crown's Purse (need ${coin(cost)}, have ${coin(data.crown_purse_balance)}).`
+        : funding === 'directive' && directivesRemaining <= 0
+          ? "Today's directive quota is spent."
+          : undefined;
 
   const disabledReason = inflight
     ? 'Drafting...'
@@ -177,20 +205,21 @@ const ComposeView = () => {
             : 'Pick a region.'
           : needsDestination && !destination
             ? 'Pick the shipment destination.'
-            : data.pledge_balance < cost
-              ? `Insufficient Pledge (need ${coin(cost)}, have ${coin(data.pledge_balance)}).`
-              : undefined;
+            : fundingDisabledReason;
 
   const dispatch = () => {
     if (disabledReason) return;
     setInflight(true);
+    const isDirective = funding === 'directive';
     act('commission_defense', {
       type,
       region,
       destination: needsDestination ? destination : null,
-      // Blockade writs are always bearer-bond; ignore the mode/levy controls.
-      in_hands: isBlockade ? 1 : mode === 'hands' ? 1 : 0,
-      levy_exempt: isBlockade ? 0 : levyExempt ? 1 : 0,
+      // Blockade + directive writs are always bearer-bond; ignore the mode control.
+      in_hands: isBlockade || isDirective ? 1 : mode === 'hands' ? 1 : 0,
+      // Directives skip the levy-exempt stamp (no reward to exempt).
+      levy_exempt: isBlockade || isDirective ? 0 : levyExempt ? 1 : 0,
+      funding,
     });
     setTimeout(() => setInflight(false), DISPATCH_DEBOUNCE_MS);
   };
@@ -241,7 +270,49 @@ const ComposeView = () => {
         </FormRow>
       )}
 
-      {!isBlockade && (
+      <FormRow label="Fund">
+        <div className="ContractLedger__InnkeeperModeRow">
+          <label>
+            <input
+              type="radio"
+              name="fundingSource"
+              checked={funding === 'pledge'}
+              disabled={!pledgeAvailable}
+              onChange={() => setFunding('pledge')}
+            />
+            &nbsp;Burgher Pledge ({coin(data.pledge_balance)})
+          </label>
+          <label>
+            <input
+              type="radio"
+              name="fundingSource"
+              checked={funding === 'crown'}
+              onChange={() => setFunding('crown')}
+            />
+            &nbsp;Crown's Purse ({coin(data.crown_purse_balance)})
+          </label>
+          <label>
+            <input
+              type="radio"
+              name="fundingSource"
+              checked={funding === 'directive'}
+              disabled={directivesRemaining <= 0}
+              onChange={() => setFunding('directive')}
+            />
+            &nbsp;Request ({directivesRemaining}/{data.directives_per_day ?? 0} left)
+          </label>
+        </div>
+      </FormRow>
+
+      {funding === 'directive' && (
+        <div className="ContractLedger__InnkeeperFlavor">
+          A Request calls upon the retinue or garrison you already pay to
+          answer out of duty. No coin changes hands; the scroll is drawn to
+          your hand and must be given directly to whoever will honour it.
+        </div>
+      )}
+
+      {!isBlockade && funding !== 'directive' && (
         <>
           <FormRow label="Deliver As">
             <div className="ContractLedger__InnkeeperModeRow">
@@ -272,7 +343,7 @@ const ComposeView = () => {
           </FormRow>
         </>
       )}
-      {isBlockade && (
+      {isBlockade && funding !== 'directive' && (
         <div className="ContractLedger__InnkeeperFlavor">
           Blockade writs are always drawn to your hand. Pin to a notice
           board to require a Fellowship of three; keep in hand to dispatch a
@@ -288,7 +359,11 @@ const ComposeView = () => {
           title={disabledReason}
           onClick={dispatch}
         >
-          {isBlockade ? 'Print Writ' : 'Commission'} ({coin(cost)})
+          {funding === 'directive'
+            ? 'Submit Request'
+            : isBlockade
+              ? `Print Writ (${coin(effectiveCost)})`
+              : `Commission (${coin(effectiveCost)})`}
         </button>
       </div>
     </>
