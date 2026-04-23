@@ -1,9 +1,9 @@
 /obj/structure/roguemachine/steward/ui_state(mob/user)
 	return GLOB.human_adjacent_state
 
-/// Called explicitly from the Topic "trade_tgui=1" branch. We deliberately do NOT override
-/// ui_interact on the Nerve Master — the base parent's attack_hand → ui_interact path would
-/// auto-open this interface on every click, and the Nerve Master is a classic HTML browser.
+/obj/structure/roguemachine/steward/ui_interact(mob/user, datum/tgui/ui)
+	SStgui.try_update_ui(user, src, ui)
+
 /obj/structure/roguemachine/steward/proc/open_trade_tgui(mob/user)
 	if(locked)
 		to_chat(user, span_warning("It's locked. Of course."))
