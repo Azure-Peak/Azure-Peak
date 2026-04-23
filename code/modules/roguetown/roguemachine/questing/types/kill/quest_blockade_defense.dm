@@ -58,6 +58,16 @@
 		return "Blockade reported at the [ER.name] trade road."
 	return ..()
 
+/// Compass target: live wave mobs when present, otherwise the landmark itself. The base impl
+/// iterates tracked_atoms (spawned mobs), which is empty while armed (before wave 1) and between
+/// waves — the scroll would whisper "location unknown" right when the bearer most needs it.
+/datum/quest/kill/blockade_defense/get_target_location()
+	var/turf/from_mobs = ..()
+	if(from_mobs)
+		return from_mobs
+	var/obj/effect/landmark/quest_spawner/landmark = wave_landmark_ref?.resolve()
+	return landmark ? get_turf(landmark) : null
+
 /// Flat reward: the Steward committed a fixed Pledge draw, not TP-scaled.
 /datum/quest/kill/blockade_defense/calculate_reward(turf/origin_turf, turf/target_turf)
 	return BLOCKADE_SCROLL_REWARD
