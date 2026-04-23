@@ -668,20 +668,30 @@ GLOBAL_LIST_INIT(averse_factions, list(
 
 /datum/charflaw/indebted/flaw_on_life(mob/user)
 	. = ..()
-	if(is_active)
-		if(world.time > next_alimony)
-			calculate_childsupport(user)
+	if(!is_active)
+		return
+	if(world.time <= next_alimony)
+		return
+	// Undeath cancels mortal obligations. A vampiric servant has no meister account to speak of
+	// and the repeated fine attempts spam error notes every life tick.
+	if(user?.mind?.has_antag_datum(/datum/antagonist/vampire) || user?.mind?.has_antag_datum(/datum/antagonist/vampire/lord))
+		is_active = FALSE
+		return
+	calculate_childsupport(user)
 
 /datum/charflaw/indebted/proc/calculate_childsupport(mob/deadbeat)
+	// Always reschedule first, regardless of outcome, so a broke debtor doesn't re-enter every
+	// life tick and spam "No fineable amount remains."
+	next_alimony = world.time + interval
 	var/bankamt = SStreasury.get_balance(deadbeat)
 	var/alimony = minimum
 	if(bankamt > minimum)
 		if((bankamt * relative) > minimum)
 			alimony = round(bankamt * relative)
 		SStreasury.give_money_account(-alimony, deadbeat, "Debts")
-		next_alimony = world.time + interval
 	else
-		SStreasury.give_money_account(-bankamt, deadbeat, "Defaulted Debts")
+		if(bankamt > 0)
+			SStreasury.give_money_account(-bankamt, deadbeat, "Defaulted Debts")
 		deadbeat.add_stress(/datum/stressevent/debt)
 		if(!bounty_added)
 			if(ishuman(deadbeat))

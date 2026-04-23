@@ -83476,6 +83476,7 @@
 /obj/machinery/light/rogue/candle{
 	pixel_y = -32
 	},
+/obj/structure/roguemachine/contractledger,
 /turf/open/floor/rogue/ruinedwood/herringbone,
 /area/rogue/indoors/town/tavern)
 "roF" = (

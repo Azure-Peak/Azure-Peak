@@ -9,6 +9,7 @@
 	item_type = /obj/item/reagent_containers/food/snacks/grown/wheat
 	trade_good_id = TRADE_GOOD_GRAIN
 	importexport_amt = 10
+	stockpile_amount = 20
 	stockpile_limit = 50
 	category = "Vegetable" //Not entirely accurate but it looks prettier in UI
 
@@ -18,6 +19,7 @@
 	item_type = /obj/item/reagent_containers/food/snacks/grown/oat
 	trade_good_id = TRADE_GOOD_OATS
 	importexport_amt = 10
+	stockpile_amount = 10
 	stockpile_limit = 50
 	category = "Vegetable"
 
@@ -27,6 +29,7 @@
 	item_type = /obj/item/reagent_containers/food/snacks/grown/rice
 	trade_good_id = TRADE_GOOD_RICE
 	importexport_amt = 10
+	stockpile_amount = 10
 	stockpile_limit = 50
 	category = "Vegetable"
 
