@@ -51,9 +51,14 @@
 
 /datum/controller/subsystem/treasury/proc/compute_charter_states()
 	var/list/out = list()
-	for(var/id in list(DECREE_GREAT_WRIT, DECREE_ZENITSTADT_CONCORDAT, DECREE_OTAVAN_ACCORDS, DECREE_GOLDEN_BULL, DECREE_NOC_PESTRA_COVENANT, DECREE_GUILD_CHARTER_OF_ARMS, DECREE_INDENTURE_OF_WAR))
+	for(var/id in list(DECREE_GREAT_WRIT, DECREE_ZENITSTADT_CONCORDAT, DECREE_OTAVAN_ACCORDS, DECREE_GOLDEN_BULL, DECREE_NOC_PESTRA_COVENANT, DECREE_GUILD_CHARTER_OF_ARMS, DECREE_INDENTURE_OF_WAR, DECREE_MAGNA_CARTA))
 		var/datum/decree/D = get_decree(id)
 		if(!D)
+			continue
+		// Dormant charters never activated this round are hidden from non-Lord audiences. The
+		// Lord still sees them in the Titan's decree_setter panel - that panel doesn't use this
+		// snapshot.
+		if(!D.has_ever_been_active)
 			continue
 		out += list(list(
 			"id" = D.id,

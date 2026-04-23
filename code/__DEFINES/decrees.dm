@@ -5,5 +5,6 @@
 #define DECREE_NOC_PESTRA_COVENANT "noc_pestra_covenant"
 #define DECREE_GUILD_CHARTER_OF_ARMS "guild_charter_of_arms"
 #define DECREE_INDENTURE_OF_WAR "indenture_of_war"
+#define DECREE_MAGNA_CARTA "magna_carta"
 
 #define DECREE_COOLDOWN (30 MINUTES)

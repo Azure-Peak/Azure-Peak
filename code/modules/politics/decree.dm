@@ -7,10 +7,17 @@
 	var/cooldown_expires = 0
 	var/revoke_text
 	var/restore_text
+	/// Set to TRUE the first time this decree is activated in a round. Used to hide never-
+	/// activated dormant charters (e.g., the Magna Carta) from public-facing lists until the
+	/// Lord first presses them. Once revealed, it stays revealed for the rest of the round
+	/// even if suspended again.
+	var/has_ever_been_active = FALSE
 
 /datum/decree/New()
 	. = ..()
 	year = roll_initial_year()
+	if(active)
+		has_ever_been_active = TRUE
 
 /datum/decree/proc/roll_initial_year()
 	return CALENDAR_EPOCH_YEAR
@@ -59,6 +66,7 @@
 	year = CALENDAR_EPOCH_YEAR
 	cooldown_expires = world.time + DECREE_COOLDOWN
 	if(active)
+		has_ever_been_active = TRUE
 		on_restore()
 	else
 		on_revoke()
@@ -70,6 +78,9 @@
 	if(!template)
 		return
 	var/ruler_type = SSticker?.rulertype || "Lord"
+	var/mob/living/ruler_mob = SSticker?.rulermob
+	var/ruler_name = (ruler_mob && !QDELETED(ruler_mob)) ? ruler_mob.real_name : "the Lord"
 	var/body = replacetext(template, "%RULER%", ruler_type)
+	body = replacetext(body, "%RULER_NAME%", ruler_name)
 	var/title = active ? "BY LORDLY MERCY" : "BY LORDLY DECREE"
 	priority_announce(body, title, pick('sound/misc/royal_decree.ogg', 'sound/misc/royal_decree2.ogg'), "Captain", strip_html = FALSE)

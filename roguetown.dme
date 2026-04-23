@@ -2573,6 +2573,8 @@
 #include "code\modules\politics\decrees\great_writ_of_azuria.dm"
 #include "code\modules\politics\decrees\guild_charter_of_arms.dm"
 #include "code\modules\politics\decrees\indenture_of_war.dm"
+#include "code\modules\politics\decrees\magna_carta.dm"
+#include "code\modules\politics\decrees\magna_carta.dm"
 #include "code\modules\politics\decrees\otavan_accords.dm"
 #include "code\modules\politics\decrees\zenitstadt_concordat.dm"
 #include "code\modules\politics\items\loan_contract.dm"

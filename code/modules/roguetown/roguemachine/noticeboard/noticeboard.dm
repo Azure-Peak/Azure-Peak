@@ -166,6 +166,11 @@
 		contents += "<hr></center>"
 		for(var/id in SStreasury.decrees)
 			var/datum/decree/D = SStreasury.decrees[id]
+			// Dormant charters (never activated this round) are hidden from the public Charters
+			// listing. A charter the Lord has never pressed doesn't exist as far as the town is
+			// concerned - the Notice Board only reflects what's in actual force or was recently.
+			if(!D.has_ever_been_active)
+				continue
 			var/state_color = D.active ? "#2a8a2a" : "#8a2a2a"
 			var/state_label = D.active ? "IN FORCE" : "SUSPENDED"
 			contents += "<div style='margin-bottom:10px'>"
