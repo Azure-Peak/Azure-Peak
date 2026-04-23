@@ -143,6 +143,9 @@
 	var/datum/quest/Q = quest_ref?.resolve()
 	if(!Q || Q.complete)
 		return
+	var/datum/quest/kill/KQ = Q
+	if(istype(KQ) && !KQ.kills_count_progress)
+		return
 	Q.progress_current++
 	Q.on_progress_update()
 

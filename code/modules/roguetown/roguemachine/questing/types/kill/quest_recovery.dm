@@ -57,6 +57,7 @@ GLOBAL_LIST_INIT(quest_recovery_shipments, list(
 	quest_type = QUEST_RECOVERY
 	tp_budget = QUEST_TP_BUDGET_RECOVERY
 	threat_bands_cleared = QUEST_BANDS_RECOVERY
+	kills_count_progress = FALSE
 	/// Override destination — Rumor dispatcher can pre-set this. If null, chosen at preview.
 	var/area/override_destination
 	/// Display name of the shipment, set at preview from the picked entry.

@@ -8,6 +8,10 @@
 	var/threat_bands_cleared = 0
 	/// Accumulated TP value of spawned mobs; summed from composition for reward scaling.
 	var/total_spawned_tp = 0
+	/// When TRUE, each guardian death bumps progress_current and spawn_kill_mobs overwrites
+	/// progress_required to match spawn count. Recovery sets this FALSE — kills are just the gate,
+	/// the parcel delivery is the real progress driver.
+	var/kills_count_progress = TRUE
 
 /datum/quest/kill/mark_complete()
 	..()
@@ -115,8 +119,9 @@
 		spawned++
 		sleep(1)
 	// Rewrite progress_required to match what actually spawned. Kill-any-faction tracking means
-	// this is the true completion count.
-	if(spawned > 0)
+	// this is the true completion count — but only for quests where kills ARE the objective.
+	// Recovery keeps its preview-set progress_required (= 1 for the parcel delivery).
+	if(spawned > 0 && kills_count_progress)
 		progress_required = spawned
 
 /// Spend tp_budget picking weighted mob types from faction.mob_types. Returns flat list of mob

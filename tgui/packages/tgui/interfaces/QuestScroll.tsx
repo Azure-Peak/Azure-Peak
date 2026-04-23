@@ -223,7 +223,7 @@ export const QuestScroll = () => {
                 CONTRACT COMPLETE
               </div>
               <div style={{ textAlign: 'center', marginTop: '8px' }}>
-                Return this scroll to the Notice Board to claim your reward.
+                Return this scroll to the Contract Ledger to claim your reward.
               </div>
               <div
                 style={{
