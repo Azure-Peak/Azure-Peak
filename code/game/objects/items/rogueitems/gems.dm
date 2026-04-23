@@ -36,6 +36,9 @@
 	if(!user.cmode)
 		if(try_construct_consume(src, M, user))
 			return
+	else
+		return ..()
+		
 	return ..()
 
 /obj/item/roguegem/green

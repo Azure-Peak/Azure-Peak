@@ -170,19 +170,21 @@
 
 	// === WOOD === 
 	if(istype(I, /obj/item/grown/log/tree))
-		var/obj/item/natural/rock/S = I
-		user.visible_message(
-			span_notice("[user] offers the [S] to [M]'s mouth, and they chomp it in two!"),
-			span_notice("I chomp the [S] down, splitting it in two!")
-		)
-		playsound(S.loc,'sound/misc/eat.ogg', rand(60,100), TRUE)
-		sleep(4)
-		playsound(user.loc, 'sound/misc/woodhit.ogg', 30)
-		qdel(I)
-		new /obj/item/grown/log/tree/small(get_turf(user.loc))
-		new /obj/item/grown/log/tree/small(get_turf(user.loc))
-		new /obj/effect/decal/cleanable/debris/woody(get_turf(user))
-		return TRUE
+		if(I.name == ("log")) // im so fuckign tired manne 
+			user.visible_message(
+				span_notice("[user] offers the [I] to [M]'s mouth, and they chomp it in two!"),
+				span_notice("I chomp the [I] down, splitting it in two!")
+			)
+			playsound(user.loc,'sound/misc/eat.ogg', rand(60,100), TRUE)
+			sleep(4)
+			playsound(user.loc, 'sound/misc/woodhit.ogg', 30)
+			qdel(I)
+			new /obj/item/grown/log/tree/small(get_turf(user.loc))
+			new /obj/item/grown/log/tree/small(get_turf(user.loc))
+			new /obj/effect/decal/cleanable/debris/woody(get_turf(user))
+			return TRUE
+		else
+			return FALSE
 
 	// === ROCK === 
 	if(istype(I, /obj/item/natural/rock))
@@ -244,6 +246,8 @@
 
 	return FALSE
 
+// The permission zone for what Constructs can or not percursively deconstruct. Jakk here. Please don't delete anything, this might be reused for siege weapons in the future. Just comment it out.
+
 /obj/structure/flora/newtree/Bumped(atom/movable/AM)
 	. = ..()
 	if(!ishuman(AM))
@@ -268,17 +272,59 @@
 	if(HAS_TRAIT(user, TRAIT_IRONMAN) && user.cmode && istype(user.rmb_intent, /datum/rmb_intent/strong) && !user.resting && user.stat == CONSCIOUS)
 		src.ironman_mine(user)
 
-/atom/proc/ironman_mine(mob/living/user)
-	if(!user || !isliving(user) || user.resting || user.doing || !user.Adjacent(src))
+/obj/structure/roguewindow/Bumped(atom/movable/AM)
+	. = ..()
+	if(!ishuman(AM))
 		return
+	var/mob/living/carbon/human/user = AM
+	if(HAS_TRAIT(user, TRAIT_IRONMAN) && user.cmode && istype(user.rmb_intent, /datum/rmb_intent/strong) && !user.resting && user.stat == CONSCIOUS)
+		src.ironman_mine(user)
+
+/obj/structure/mineral_door/Bumped(atom/movable/AM)
+	. = ..()
+	if(!ishuman(AM))
+		return
+	var/mob/living/carbon/human/user = AM
+	if(HAS_TRAIT(user, TRAIT_IRONMAN) && user.cmode && istype(user.rmb_intent, /datum/rmb_intent/strong) && !user.resting && user.stat == CONSCIOUS)
+		src.ironman_mine(user)
+
+/obj/structure/closet/Bumped(atom/movable/AM)
+	. = ..()
+	if(!ishuman(AM))
+		return
+	var/mob/living/carbon/human/user = AM
+	if(HAS_TRAIT(user, TRAIT_IRONMAN) && user.cmode && istype(user.rmb_intent, /datum/rmb_intent/strong) && !user.resting && user.stat == CONSCIOUS)
+		src.ironman_mine(user)
+
+#define IRONMAN_MAX_HARDNESS 3000
+#define IRONMAN_STARTUP_TIME 1 SECONDS
+#define IRONMAN_SWING_TIME 0.4 SECONDS
+#define IRONMAN_MAX_SWINGS 50
+
+/atom/proc/ironman_mine(mob/living/user)
+	if(!user || !isliving(user))
+		return
+
+	if(user.resting || user.doing || user.stat)
+		return
+
+	if(!user.Adjacent(src))
+		return
+
+	if(QDELETED(src))
+		return
+
+	if(!isturf(src) && !isobj(src))
+		return
+
 	if(!density)
 		return
 
 	var/obj/item/bodypart/l_arm = user.get_bodypart(BODY_ZONE_L_ARM)
 	var/obj/item/bodypart/r_arm = user.get_bodypart(BODY_ZONE_R_ARM)
 
-	var/l_bad = (!l_arm || l_arm.disabled != BODYPART_NOT_DISABLED)
-	var/r_bad = (!r_arm || r_arm.disabled != BODYPART_NOT_DISABLED)
+	var/l_bad = (!l_arm || QDELETED(l_arm) || l_arm.disabled != BODYPART_NOT_DISABLED)
+	var/r_bad = (!r_arm || QDELETED(r_arm) || r_arm.disabled != BODYPART_NOT_DISABLED)
 
 	if(l_bad && r_bad)
 		to_chat(user, span_warning("Both of my arms are too ruined to smash anything."))
@@ -286,82 +332,135 @@
 
 	if(isturf(src))
 		var/turf/T = src
-		if(T.turf_integrity > 3000)
+		if(!isnull(T.turf_integrity) && T.turf_integrity > IRONMAN_MAX_HARDNESS)
 			to_chat(user, span_warning("This is too hard!!"))
 			return
 
 	else if(isobj(src))
 		var/obj/O = src
-		if(O.obj_integrity > 3000)
+		if(!isnull(O.obj_integrity) && O.obj_integrity > IRONMAN_MAX_HARDNESS)
 			to_chat(user, span_warning("This is too hard!!"))
 			return
 
-	user.visible_message(span_warning("[user] winds back [user.p_their()] arm, locking in..."), span_warning("I wind back my arm, preparing to demolish [src]..."))
+	user.visible_message(
+		span_warning("[user] winds back [user.p_their()] arm, locking in..."),
+		span_warning("I wind back my arm, preparing to demolish [src]...")
+	)
 
-	if(!do_after(user, 1 SECONDS, TRUE, src, TRUE, null, TRUE))
+	if(!do_after(user, IRONMAN_STARTUP_TIME, TRUE, src, TRUE, null, TRUE))
 		return
 
-	while(src && density && user && user.Adjacent(src) && !user.resting)
+	var/swings = 0
+
+	while(src && !QDELETED(src) && density && user && !QDELETED(user) && user.Adjacent(src) && !user.resting && !user.stat)
+		swings++
+		if(swings > IRONMAN_MAX_SWINGS)
+			user.visible_message(span_danger("[user] overheats from excess kinetic force!"),span_danger("I overheat, magic steam exhuding from my limbs..."))
+			user.Stun(50)
+			user.OffBalance(50)
+			new /obj/effect/particle_effect/steam(get_turf(user))
+			playsound(user, 'sound/items/steamrelease.ogg', 100, FALSE, -1)
+			break
+
 		l_arm = user.get_bodypart(BODY_ZONE_L_ARM)
 		r_arm = user.get_bodypart(BODY_ZONE_R_ARM)
 
-		l_bad = (!l_arm || l_arm.disabled != BODYPART_NOT_DISABLED)
-		r_bad = (!r_arm || r_arm.disabled != BODYPART_NOT_DISABLED)
+		l_bad = (!l_arm || QDELETED(l_arm) || l_arm.disabled != BODYPART_NOT_DISABLED)
+		r_bad = (!r_arm || QDELETED(r_arm) || r_arm.disabled != BODYPART_NOT_DISABLED)
 
 		if(l_bad && r_bad)
-			to_chat(user, span_warning("My arms give out!"))
+			user.visible_message(
+				span_danger("[user]'s metal arms rupture in a violent burst of sparks!"),
+				span_danger("My metal arms crack apart with a catastrophic snap!")
+			)
+
+			flick("flintstrike", user)
+
+			for(var/dir in GLOB.cardinals)
+				var/turf/T = get_step(user, dir)
+				if(!T)
+					continue
+
+				var/datum/effect_system/spark_spread/S = new()
+				S.set_up(3, TRUE, T)
+				S.start()
+
+			playsound(user.loc, 'sound/foley/breaksound.ogg', 100, FALSE, -1)
+			shake_camera(user, 2, 1)
 			break
 
-		if(!do_after(user, 0.4 SECONDS, TRUE, src))
+		if(!do_after(user, IRONMAN_SWING_TIME, TRUE, src))
 			break
 
-		var/obj/item/bodypart/BP
-		if(!l_bad && !r_bad)
-			BP = pick(l_arm, r_arm)
-		else if(!l_bad)
-			BP = l_arm
-		else
-			BP = r_arm
+		if(QDELETED(src) || !density)
+			playsound(user.loc, 'sound/foley/smash_rock.ogg', rand(60,100), TRUE)
+			break
+
+		var/list/usable_arms = list()
+		if(!l_bad)
+			usable_arms += l_arm
+		if(!r_bad)
+			usable_arms += r_arm
+
+		if(!length(usable_arms))
+			break
+
+		var/obj/item/bodypart/BP = pick(usable_arms)
 
 		var/brutedmg = rand(1,4)
 		var/firedmg = prob(40) ? rand(1,10) : 0
-		var/totaldmg = (brutedmg + firedmg) * 6
+		var/totaldmg = (brutedmg + firedmg) * 3
 
 		if(isturf(src))
 			var/turf/T = src
 			var/damage_to_deal = totaldmg
 
 			if(istype(T, /turf/closed/mineral))
-				damage_to_deal *= 4 
+				damage_to_deal *= 12
 
-			if(T.turf_integrity)
+			if(!isnull(T.turf_integrity))
 				T.turf_integrity -= damage_to_deal
+
 				if(T.turf_integrity <= 0)
 					T.turf_destruction("blunt")
 
 		else if(isobj(src))
 			var/obj/O = src
+			var/damage_to_deal = totaldmg
 
 			if(istype(O, /obj/structure/flora/newtree))
 				var/obj/structure/flora/newtree/TR = O
-				TR.take_damage(totaldmg, BRUTE, "blunt", FALSE)
+				TR.take_damage(damage_to_deal * 6, BRUTE, "blunt", FALSE)
 
 			else if(istype(O, /obj/structure/flora/roguetree))
 				var/obj/structure/flora/roguetree/RT = O
-				RT.take_damage(totaldmg, BRUTE, "blunt", FALSE)
+				RT.take_damage(damage_to_deal * 6, BRUTE, "blunt", FALSE)
 
-			else
-				if(O.obj_integrity)
-					O.obj_integrity -= totaldmg
-					if(O.obj_integrity <= 0)
-						qdel(O)
+			else if(istype(O, /obj/structure/roguewindow))
+				var/obj/structure/roguewindow/RW = O
+				RW.take_damage(damage_to_deal, BRUTE, "blunt", FALSE)
 
-		BP.receive_damage(brutedmg, 0, 0, 0, TRUE)
+			else if(istype(O, /obj/structure/mineral_door))
+				var/obj/structure/mineral_door/MD = O
+				MD.take_damage(damage_to_deal, BRUTE, "blunt", FALSE)
+
+			else if(istype(O, /obj/structure/closet))
+				var/obj/structure/closet/CL = O
+				CL.take_damage(damage_to_deal, BRUTE, "blunt", FALSE)
+
+			else if(!isnull(O.obj_integrity))
+				O.obj_integrity -= damage_to_deal
+
+				if(O.obj_integrity <= 0)
+					qdel(O)
+
+		if(BP && !QDELETED(BP))
+			BP.receive_damage(brutedmg, 0, 0, 0, TRUE)
 
 		if(firedmg)
 			user.adjustFireLoss(firedmg)
 
-		user.stamina_add(-15)
+		user.stamina_add(5)
 
 		var/bongo = pick('sound/combat/hits/armor/plate_blunt (1).ogg','sound/combat/hits/armor/plate_blunt (2).ogg','sound/combat/hits/armor/plate_blunt (3).ogg')
 
@@ -369,8 +468,10 @@
 		playsound(user.loc, 'sound/combat/wooshes/punch/punchwoosh (1).ogg', rand(60,100), TRUE)
 		playsound(user.loc, bongo, rand(60,100), TRUE)
 
-		if(QDELETED(src) || !density)
-			playsound(user.loc, 'sound/foley/smash_rock.ogg', rand(60,100), TRUE)
-			break
+		if(swings % 3 == 0)
+			user.visible_message(span_danger("[user] slams [user.p_their()] metal fist into [src]!"),span_danger("I slam my fist into [src], again and again!"))
 
-		user.visible_message(span_danger("[user] slams [user.p_their()] metal fist into [src]!"), span_danger("I pound [src] again and again!"))
+#undef IRONMAN_MAX_HARDNESS
+#undef IRONMAN_STARTUP_TIME
+#undef IRONMAN_SWING_TIME
+#undef IRONMAN_MAX_SWINGS

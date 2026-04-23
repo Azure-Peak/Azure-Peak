@@ -174,11 +174,25 @@
 /obj/item/rogueweapon/hammer/attack(mob/living/M, mob/user)
 
 	if(!user.cmode)
-		hammerheal(M, user)
+		var/wCount = M.get_wounds()
+		if((M.getBruteLoss() + M.getFireLoss()) <= 0 && !length(wCount))
+			user.visible_message(
+				span_notice("[M] is good as new!"),
+				span_notice("I am good as new!")
+			)
+			playsound(user.loc, 'sound/items/bsmith4.ogg', 100, FALSE)
+			if(prob(30))
+				M.emote("whimper") // robbit aboose
+			return	
+		else		
+			hammerheal(M, user)
 	else
 		. = ..() //normal hit
 
 /obj/item/rogueweapon/hammer/proc/hammerheal(mob/living/M, mob/living/user)
+	if(!user || !M)
+		return
+
 	if(!M.can_inject(user, TRUE))
 		return
 
@@ -189,37 +203,61 @@
 		to_chat(user, span_warning("They are not made of metal, you can't tinker with that."))
 		return
 
-	if(user != M && (user.get_skill_level(/datum/skill/craft/armorsmithing) >= SKILL_LEVEL_JOURNEYMAN || user.get_skill_level(/datum/skill/craft/engineering) >= SKILL_LEVEL_JOURNEYMAN || user.get_skill_level(/datum/skill/craft/blacksmithing) >= SKILL_LEVEL_JOURNEYMAN))
+	var/qualified = FALSE
+
+	if(user == M)
+		qualified = TRUE
+	else
+		if(user.get_skill_level(/datum/skill/craft/armorsmithing) >= SKILL_LEVEL_JOURNEYMAN)
+			qualified = TRUE
+		if(user.get_skill_level(/datum/skill/craft/engineering) >= SKILL_LEVEL_JOURNEYMAN)
+			qualified = TRUE
+		if(user.get_skill_level(/datum/skill/craft/blacksmithing) >= SKILL_LEVEL_JOURNEYMAN)
+			qualified = TRUE
+
+	if(!qualified)
 		to_chat(user, span_warning("[user] hammers a mean dent into [M]! Do they even know what they're doing...?"))
-		playsound(loc, 'sound/items/bsmith4.ogg', 100, FALSE)
-		if(!HAS_TRAIT(M, (TRAIT_NOPAIN || TRAIT_NOPAINSTUN)))
+		playsound(user.loc, 'sound/items/bsmith4.ogg', 100, FALSE)
+		if(prob(30))
 			M.emote("whimper")
 		return
 
 	var/mob/living/carbon/human/H = M
 
-	var/has_complex_wounds = FALSE
-	for(var/datum/wound/W in H.get_wounds())
-		if(W.severity >= WOUND_SEVERITY_MODERATE)
-			has_complex_wounds = TRUE
-			break
-
-	var/has_tongs = FALSE
-	var/has_wrench = FALSE
-
-	for(var/obj/item/I in user.held_items)
-		if(istype(I, /obj/item/rogueweapon/tongs))
-			has_tongs = TRUE
-		if(istype(I, /obj/item/contraption/linker))
-			has_wrench = TRUE
-
-	if(has_complex_wounds && !(has_tongs || has_wrench))
-		to_chat(user, span_warning("These injuries are too severe to hammer safely! You need proper tools like tongs or a wrench."))
-		return
-
 	do
-		if(!user || !M || user.resting || get_dist(user, M) > 1)
+		if(!user || !M || QDELETED(user) || QDELETED(M))
 			break
+
+		if(user.resting || user.stat)
+			break
+
+		if(get_dist(user, M) > 1)
+			break
+
+		var/has_complex_wounds = FALSE
+		var/list/wCount = H.get_wounds()
+
+		for(var/datum/wound/W in wCount)
+			if(W.severity >= WOUND_SEVERITY_MODERATE)
+				has_complex_wounds = TRUE
+				break
+
+		var/has_tongs = FALSE
+		var/has_wrench = FALSE
+
+		for(var/obj/item/I in user.held_items)
+			if(!I || QDELETED(I))
+				continue
+
+			if(istype(I, /obj/item/rogueweapon/tongs))
+				has_tongs = TRUE
+
+			if(istype(I, /obj/item/contraption/linker))
+				has_wrench = TRUE
+
+		if(has_complex_wounds && !(has_tongs || has_wrench))
+			to_chat(user, span_warning("These injuries are too severe to hammer safely! You need proper tools like tongs or a wrench."))
+			return
 
 		var/used_time = 100
 
@@ -230,17 +268,15 @@
 			used_time *= 0.75
 
 		if(has_wrench)
-			used_time *= 0.25
+			used_time *= 0.50
 
-		used_time = max(used_time, 5)
-
-		var/list/wCount = H.get_wounds()
+		used_time = round(max(used_time, 5))
 
 		var/obj/item/bodypart/affecting
-		var/highest_priority = 0
+		var/highest_priority = -1
 
 		for(var/obj/item/bodypart/BP in H.bodyparts)
-			if(!BP)
+			if(!BP || QDELETED(BP))
 				continue
 
 			var/priority = BP.brute_dam + BP.burn_dam
@@ -259,46 +295,43 @@
 			break
 
 		if(has_complex_wounds)
-			playsound(loc, 'sound/misc/ratchet.ogg', 80, FALSE)
-			spawn(rand(5,20))
-				playsound(loc, 'sound/items/bsmith1.ogg', 100, FALSE)
+			playsound(user.loc, 'sound/misc/ratchet.ogg', 80, FALSE)
 		else
-			playsound(loc, 'sound/items/bsmith1.ogg', 100, FALSE)
+			playsound(user.loc, 'sound/items/bsmith1.ogg', 100, FALSE)
 
-		if(!do_after(user, M, used_time))
+		if(!do_after(user, used_time, TRUE, M))
 			return
 
-		if(!user || !M || user.resting || get_dist(user, M) > 1)
+		if(!user || !M || QDELETED(user) || QDELETED(M))
 			break
 
-		playsound(loc, 'sound/items/bsmith4.ogg', 100, FALSE)
+		if(user.resting || user.stat || get_dist(user, M) > 1)
+			break
+
+		playsound(user.loc, 'sound/items/bsmith4.ogg', 100, FALSE)
 
 		if(M == user)
 			H.adjustBruteLoss(-7)
 			H.adjustFireLoss(-7)
-			H.update_damage_overlays()
+			if(has_tongs || has_wrench)
+				H.heal_wounds(2)
 		else
 			H.adjustBruteLoss(-14)
 			H.adjustFireLoss(-14)
-			H.update_damage_overlays()
-
-		if(wCount.len > 0)
-			if(M == user)
-				H.heal_wounds(2)
-			else
+			if(has_tongs || has_wrench)
 				H.heal_wounds(8)
 
-			H.update_damage_overlays()
+		H.update_damage_overlays()
 
 		if(M == user)
 			user.visible_message(
-				span_notice("[user] repairs [user.p_their()] [affecting]."),
-				span_notice("I repair my [affecting].")
+				span_notice("[user] repairs [user.p_their()] [affecting.name]."),
+				span_notice("I repair my [affecting.name].")
 			)
 		else
 			user.visible_message(
-				span_notice("[user] repairs [M]'s [affecting]."),
-				span_notice("I repair [M]'s [affecting].")
+				span_notice("[user] repairs [M]'s [affecting.name]."),
+				span_notice("I repair [M]'s [affecting.name].")
 			)
 
 		if(!ishuman(M))
@@ -307,14 +340,16 @@
 		if(!HAS_TRAIT(M, TRAIT_IRONMAN))
 			break
 
-		if((M.getBruteLoss() + M.getFireLoss()) == 0 && wCount.len == 0)
+		wCount = H.get_wounds()
+
+		if((M.getBruteLoss() + M.getFireLoss()) <= 0 && !length(wCount))
 			user.visible_message(
-				span_notice("[user] is good as new!"),
-				span_notice("I am as good as new!")
+				span_notice("[M] is good as new!"),
+				span_notice("I am good as new!")
 			)
 			break
 
-	while(do_after(user, CLICK_CD_MELEE, target = M))
+	while(do_after(user, CLICK_CD_MELEE, TRUE, M))
 
 /obj/item/rogueweapon/hammer/wood	// wood hammer (mallet)
 	name = "wooden mallet"
