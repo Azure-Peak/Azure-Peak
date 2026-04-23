@@ -1,0 +1,4 @@
+author: "NalimaTheWitch"
+delete-after: True
+changes:
+  - bugfix: "Fixed being able to unbuckle people from beds."
