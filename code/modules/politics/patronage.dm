@@ -169,3 +169,6 @@ GLOBAL_LIST_EMPTY(declared_benefactors)
 		return FALSE
 	revoke_patronage(granter, target, trait_id, revoke_proclamation)
 	return TRUE
+
+#undef PATRONAGE_GRANT_COOLDOWN
+#undef PATRONAGE_CAP_PER_ROUND

@@ -1040,3 +1040,4 @@
 #undef TAB_LOG
 #undef TAB_FISCAL
 #undef TAB_PAYDAY
+#undef TAB_DEBT

@@ -33,3 +33,5 @@
 	ADD_TRAIT(user, TRAIT_RESIDENT, TRAIT_CITIZENRY_LETTER)
 	playsound(get_turf(user), 'sound/misc/gold_license.ogg', 60, FALSE, -1)
 	qdel(src)
+
+#undef TRAIT_CITIZENRY_LETTER
