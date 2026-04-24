@@ -166,3 +166,83 @@
 					/obj/item/seeds/nut,
 					/obj/item/seeds/nut,
 				)
+
+/datum/supply_pack/rogue/seeds/oat
+	name = "Oats"
+	cost = 3
+	contains = list(
+					/obj/item/seeds/wheat/oat,
+					/obj/item/seeds/wheat/oat,
+				)
+
+/datum/supply_pack/rogue/seeds/rice
+	name = "Rice"
+	cost = 3
+	contains = list(
+					/obj/item/seeds/rice,
+					/obj/item/seeds/rice,
+				)
+
+/datum/supply_pack/rogue/seeds/pear
+	name = "Pear"
+	cost = 3
+	contains = list(
+					/obj/item/seeds/pear,
+					/obj/item/seeds/pear,
+				)
+
+/datum/supply_pack/rogue/seeds/tomato
+	name = "Tomato"
+	cost = 3
+	contains = list(
+					/obj/item/seeds/tomato,
+					/obj/item/seeds/tomato,
+				)
+
+/datum/supply_pack/rogue/seeds/turnip
+	name = "Turnip"
+	cost = 3
+	contains = list(
+					/obj/item/seeds/turnip,
+					/obj/item/seeds/turnip,
+				)
+
+/datum/supply_pack/rogue/seeds/sunflower
+	name = "Sunflower"
+	cost = 3
+	contains = list(
+					/obj/item/seeds/sunflower,
+					/obj/item/seeds/sunflower,
+				)
+
+/datum/supply_pack/rogue/seeds/garlick
+	name = "Garlick"
+	cost = 3
+	contains = list(
+					/obj/item/seeds/garlick,
+					/obj/item/seeds/garlick,
+				)
+
+/datum/supply_pack/rogue/seeds/pumpkin
+	name = "Pumpkin"
+	cost = 3
+	contains = list(
+					/obj/item/seeds/pumpkin,
+					/obj/item/seeds/pumpkin,
+				)
+
+/datum/supply_pack/rogue/seeds/carrot
+	name = "Carrot"
+	cost = 3
+	contains = list(
+					/obj/item/seeds/carrot,
+					/obj/item/seeds/carrot,
+				)
+
+/datum/supply_pack/rogue/seeds/eggplant
+	name = "Eggplant"
+	cost = 3
+	contains = list(
+					/obj/item/seeds/eggplant,
+					/obj/item/seeds/eggplant,
+				)
