@@ -171,8 +171,42 @@
 	"}
 
 
+/datum/book_entry/treasury/auto_import
+	name = "09. Of Standing Imports"
+
+/datum/book_entry/treasury/auto_import/inner_book_html(mob/user)
+	return {"
+		<div>
+		<p>The Crown may set itself to top up essential goods each dawn, sparing the Steward the drudgery of hand-importing the same basics day after day. Placed goods stand on the list until struck from it.</p>
+
+		<h3>Essentials</h3>
+		<p>Four goods stand on standing import by default: <b>coal, wood, grain, and iron ore</b>. The Steward may strike any of them from the list at the Nerve Master's <b>Auto-Import</b> tab. They return on re-marking.</p>
+
+		<h3>Adding Other Goods</h3>
+		<p>Any importable good with an active producing region may be placed on standing import. The Steward marks them in the same tab, grouped by category.</p>
+
+		<h3>Rules of the Tick</h3>
+		<p>Each dawn, for each good on the list:</p>
+		<ul>
+			<li>If the stockpile already holds [AUTO_IMPORT_FLOOR] or more units, no import is made.</li>
+			<li>Otherwise, the Crown buys [AUTO_IMPORT_BATCH] units from the cheapest producing region.</li>
+			<li>The import is skipped if a unit would cost more than [AUTO_IMPORT_MAX_PRICE_MULT]x the good's base price. Shortage events push prices past this cap; standing import yields rather than emptying the Purse at panic rates.</li>
+			<li>The import is skipped if it would drop the Crown's Purse below the Steward's <b>purse floor</b> (default [AUTO_IMPORT_PURSE_FLOOR_DEFAULT]m, adjustable from the tab).</li>
+		</ul>
+
+		<h3>Visibility</h3>
+		<p>Successful imports announce on the Steward Comm channel with an <i>(auto)</i> tag and are spoken aloud at the Nerve Master. Skipped days (stockpile full, price spike, purse floor breach) leave a note in the Recent Activity readout instead - the channel is not spammed with non-events. The panel retains the last [AUTO_IMPORT_HISTORY_DAYS] days of standing-import activity.</p>
+
+		<h3>Kill Switch</h3>
+		<p><b>Strike All</b> in the tab suspends every standing import at once, essentials and other goods alike. Goods return on individual re-marking.</p>
+
+		<p>Standing imports draw from the Crown's Purse only. They are not part of any Alderman warrant.</p>
+		</div>
+	"}
+
+
 /datum/book_entry/treasury/supply
-	name = "09. Of Supply and Demand"
+	name = "10. Of Supply and Demand"
 
 /datum/book_entry/treasury/supply/inner_book_html(mob/user)
 	return {"
@@ -190,7 +224,7 @@
 
 
 /datum/book_entry/treasury/standing_orders
-	name = "10. Of Standing Orders"
+	name = "11. Of Standing Orders"
 
 /datum/book_entry/treasury/standing_orders/inner_book_html(mob/user)
 	return {"
@@ -212,7 +246,7 @@
 
 
 /datum/book_entry/treasury/warehouse
-	name = "11. Of the Crown's Warehouse"
+	name = "12. Of the Crown's Warehouse"
 
 /datum/book_entry/treasury/warehouse/inner_book_html(mob/user)
 	return {"
@@ -229,7 +263,7 @@
 
 
 /datum/book_entry/treasury/assembly
-	name = "12. The City Assembly"
+	name = "13. The City Assembly"
 
 /datum/book_entry/treasury/assembly/inner_book_html(mob/user)
 	return {"
@@ -279,7 +313,7 @@
 
 
 /datum/book_entry/treasury/insolvent
-	name = "13. The Crown Insolvent"
+	name = "14. The Crown Insolvent"
 
 /datum/book_entry/treasury/insolvent/inner_book_html(mob/user)
 	return {"

@@ -308,14 +308,13 @@
 			"active" = SStreasury.is_auto_import_active(good_id) ? TRUE : FALSE,
 			"stock" = entry.stockpile_amount,
 		))
-
-	// Shape the history list so the TGUI doesn't need to Copy() nested lists itself.
 	var/list/history = list()
 	for(var/list/entry as anything in SStreasury.auto_import_daily_history)
+		var/list/lines = entry["lines"]
 		history += list(list(
 			"day" = entry["day"],
 			"spent" = entry["spent"],
-			"lines" = (entry["lines"] || list()).Copy(),
+			"lines" = lines || list(),
 		))
 
 	return list(
