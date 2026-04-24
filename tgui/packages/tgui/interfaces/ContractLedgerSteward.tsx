@@ -34,6 +34,7 @@ type StewardData = {
   defense_log: DefenseLogEntry[];
   blockade_recall_list: BlockadeRecallEntry[];
   blockade_recall_window_seconds: number;
+  bonus_pay_mult: number;
   directives_per_day: number;
   directives_issued_today: number;
 };
@@ -168,6 +169,7 @@ const ComposeView = () => {
   const [destination, setDestination] = useState<string>('');
   const [mode, setMode] = useState<DispatchMode>('board');
   const [levyExempt, setLevyExempt] = useState<boolean>(false);
+  const [bonusPay, setBonusPay] = useState<boolean>(false);
   const [funding, setFunding] = useState<FundingSource>('pledge');
   const [inflight, setInflight] = useState<boolean>(false);
 
@@ -186,7 +188,12 @@ const ComposeView = () => {
   const directivesRemaining =
     (data.directives_per_day ?? 0) - (data.directives_issued_today ?? 0);
   const pledgeAvailable = !!data.pledge_available;
-  const effectiveCost = funding === 'directive' ? 0 : cost;
+  const bonusMult = data.bonus_pay_mult ?? 1.5;
+  // Bonus Pay is disabled for Requests (no reward to sweeten, no coin to burn).
+  const bonusPayEligible = funding !== 'directive';
+  const bonusPayActive = bonusPay && bonusPayEligible;
+  const scaledCost = bonusPayActive ? Math.round(cost * bonusMult) : cost;
+  const effectiveCost = funding === 'directive' ? 0 : scaledCost;
 
   // If the currently-selected funding disappears (pledge repealed, quota spent), fall back.
   if (funding === 'pledge' && !pledgeAvailable) {
@@ -204,10 +211,10 @@ const ComposeView = () => {
   };
 
   const fundingDisabledReason =
-    funding === 'pledge' && data.pledge_balance < cost
-      ? `Insufficient Pledge (need ${coin(cost)}, have ${coin(data.pledge_balance)}).`
-      : funding === 'crown' && data.crown_purse_balance < cost
-        ? `Insufficient Crown's Purse (need ${coin(cost)}, have ${coin(data.crown_purse_balance)}).`
+    funding === 'pledge' && data.pledge_balance < scaledCost
+      ? `Insufficient Pledge (need ${coin(scaledCost)}, have ${coin(data.pledge_balance)}).`
+      : funding === 'crown' && data.crown_purse_balance < scaledCost
+        ? `Insufficient Crown's Purse (need ${coin(scaledCost)}, have ${coin(data.crown_purse_balance)}).`
         : funding === 'directive' && directivesRemaining <= 0
           ? "Today's directive quota is spent."
           : undefined;
@@ -238,6 +245,8 @@ const ComposeView = () => {
       in_hands: isBlockade || isDirective ? 1 : mode === 'hands' ? 1 : 0,
       // Directives skip the levy-exempt stamp (no reward to exempt).
       levy_exempt: isBlockade || isDirective ? 0 : levyExempt ? 1 : 0,
+      // Bonus Pay forced off for Requests (directive) server-side as well.
+      bonus_pay: bonusPayActive ? 1 : 0,
       funding,
     });
     setTimeout(() => setInflight(false), DISPATCH_DEBOUNCE_MS);
@@ -329,6 +338,19 @@ const ComposeView = () => {
           answer out of duty. No coin changes hands; the scroll is drawn to
           your hand and must be given directly to whoever will honour it.
         </div>
+      )}
+
+      {bonusPayEligible && (
+        <FormRow label="Bonus Pay">
+          <label>
+            <input
+              type="checkbox"
+              checked={bonusPay}
+              onChange={(e) => setBonusPay(e.target.checked)}
+            />
+            &nbsp;Add Bonus Pay (x{bonusMult} cost, x{bonusMult} reward) - entice takers for dangerous work.
+          </label>
+        </FormRow>
       )}
 
       {!isBlockade && funding !== 'directive' && (

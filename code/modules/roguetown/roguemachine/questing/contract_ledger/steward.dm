@@ -87,6 +87,13 @@
 		return
 
 	var/cost = GLOB.defense_quest_tier_costs[chosen_type]
+	// Bonus Pay: optional sweetener. Multiplies cost and reward by COMMISSION_BONUS_PAY_MULT.
+	// Not permitted on Requests (no reward to sweeten, no coin to burn).
+	var/bonus_pay = params["bonus_pay"] ? TRUE : FALSE
+	if(funding == "directive")
+		bonus_pay = FALSE
+	if(bonus_pay)
+		cost = round(cost * COMMISSION_BONUS_PAY_MULT)
 	var/datum/fund/source_fund
 	var/is_directive = FALSE
 	switch(funding)
@@ -121,7 +128,7 @@
 			return
 
 	if(chosen_type == QUEST_BLOCKADE_DEFENSE)
-		commission_blockade_defense(steward, params, cost, source_fund, is_directive)
+		commission_blockade_defense(steward, params, cost, source_fund, is_directive, bonus_pay)
 		if(is_alderman_acting)
 			SScity_assembly.consume_defense(cost, steward, "blockade defense commission")
 		return
@@ -170,6 +177,8 @@
 		return
 	if(levy_exempt)
 		dispatched.levy_exempt = TRUE
+	if(bonus_pay)
+		dispatched.reward_amount = round(dispatched.reward_amount * COMMISSION_BONUS_PAY_MULT)
 	if(is_directive)
 		// Zero out the reward. The quest datum was built assuming a funded commission;
 		// we strip the payout so the scroll promises nothing but duty.
@@ -183,21 +192,23 @@
 		"cost" = cost,
 		"in_hands" = in_hands,
 		"levy_exempt" = levy_exempt,
+		"bonus_pay" = bonus_pay,
 		"funding" = funding,
 		"day" = GLOB.dayspassed,
 	))
-	SSquestpool.log_event("defense_issue", "[steward.real_name] commissioned [dispatched.quest_difficulty] [chosen_type] in [chosen_region.region_name] for [cost]m ([funding])[levy_exempt ? " (levy-exempt)" : ""][in_hands ? " (in hand)" : ""]")
+	SSquestpool.log_event("defense_issue", "[steward.real_name] commissioned [dispatched.quest_difficulty] [chosen_type] in [chosen_region.region_name] for [cost]m ([funding])[levy_exempt ? " (levy-exempt)" : ""][bonus_pay ? " (bonus pay)" : ""][in_hands ? " (in hand)" : ""]")
 	playsound(src, 'sound/misc/coindispense.ogg', 60, FALSE, -1)
 	var/source_label = is_directive ? "as a Request" : (funding == "crown" ? "from Crown's Purse" : "from the Pledge")
+	var/bonus_label = bonus_pay ? " - <i>bonus pay</i>" : ""
 	if(in_hands)
-		to_chat(steward, span_notice("Commission drafted [source_label] to your hand: <b>[dispatched.title || dispatched.quest_type]</b> in [chosen_region.region_name][levy_exempt ? " - <i>levy-exempt</i>" : ""]."))
+		to_chat(steward, span_notice("Commission drafted [source_label] to your hand: <b>[dispatched.title || dispatched.quest_type]</b> in [chosen_region.region_name][levy_exempt ? " - <i>levy-exempt</i>" : ""][bonus_label]."))
 	else
-		to_chat(steward, span_notice("Commission posted [source_label]: <b>[dispatched.title || dispatched.quest_type]</b> in [chosen_region.region_name][levy_exempt ? " - <i>levy-exempt</i>" : ""]."))
+		to_chat(steward, span_notice("Commission posted [source_label]: <b>[dispatched.title || dispatched.quest_type]</b> in [chosen_region.region_name][levy_exempt ? " - <i>levy-exempt</i>" : ""][bonus_label]."))
 
 /// Blockade commissions bypass the threat-region picker entirely — region param is the
 /// economic region name, resolved to a live /datum/blockade. Multiple writs may be in
 /// circulation concurrently, one per blockaded region.
-/obj/structure/roguemachine/contractledger/proc/commission_blockade_defense(mob/living/carbon/human/steward, list/params, cost, datum/fund/source_fund, is_directive)
+/obj/structure/roguemachine/contractledger/proc/commission_blockade_defense(mob/living/carbon/human/steward, list/params, cost, datum/fund/source_fund, is_directive, bonus_pay = FALSE)
 	var/region_name = params["region"]
 	var/datum/blockade/chosen
 	for(var/datum/blockade/B as anything in GLOB.active_blockades)
@@ -221,6 +232,8 @@
 		SSquestpool.log_event("defense_refund", "landmark failure blockade [region_name] refunded [cost]m")
 		to_chat(steward, span_warning("No landmark could bear that writ. Funds refunded."))
 		return
+	if(bonus_pay)
+		Q.reward_amount = round(Q.reward_amount * COMMISSION_BONUS_PAY_MULT)
 	if(is_directive)
 		Q.reward_amount = 0
 		Q.is_directive = TRUE
@@ -233,14 +246,15 @@
 		"cost" = cost,
 		"in_hands" = TRUE,
 		"levy_exempt" = FALSE,
+		"bonus_pay" = bonus_pay,
 		"funding" = funding,
 		"day" = GLOB.dayspassed,
 	))
-	SSquestpool.log_event("defense_issue", "[steward.real_name] commissioned blockade defense on [region_name] (faction [Q.faction_id]) for [cost]m ([funding])")
-	scom_announce("A blockade defense writ has been issued for [region_name].")
+	SSquestpool.log_event("defense_issue", "[steward.real_name] commissioned blockade defense on [region_name] (faction [Q.faction_id]) for [cost]m ([funding])[bonus_pay ? " (bonus pay)" : ""]")
+	scom_announce("A blockade defense writ has been issued for [region_name][bonus_pay ? " - bonus pay attached" : ""].")
 	playsound(src, 'sound/misc/coindispense.ogg', 60, FALSE, -1)
 	var/source_label = is_directive ? "as a Request" : (funding == "crown" ? "from Crown's Purse" : "from the Pledge")
-	to_chat(steward, span_notice("Blockade writ drafted [source_label] to your hand: <b>[Q.get_title()]</b>."))
+	to_chat(steward, span_notice("Blockade writ drafted [source_label] to your hand: <b>[Q.get_title()]</b>[bonus_pay ? " - <i>bonus pay</i>" : ""]."))
 
 /// Steward recall: cancels a still-armed writ within the recall window and refunds the draft.
 /// Region param is the economic region name — same selector used for issuance.

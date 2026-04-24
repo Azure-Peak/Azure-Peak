@@ -138,6 +138,9 @@
 			<li><b>Requests</b> - daily quota of [COMMISSION_REQUESTS_PER_DAY] reward-less commissions, Steward-only.</li>
 		</ul>
 
+		<h3>Bonus Pay</h3>
+		<p>Either a Defense Commission or a Blockade Writ may be issued with <b>Bonus Pay</b>, multiplying both the draft cost and the bearer's reward by x[COMMISSION_BONUS_PAY_MULT]. A tool to entice takers for dangerous regions, where normal pay would see the contract languish on the board. Not available on Requests.</p>
+
 		<p>Multiple blockades may stand at once. One writ per blockade at a time.</p>
 		</div>
 	"}

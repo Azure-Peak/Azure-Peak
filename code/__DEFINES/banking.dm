@@ -2,9 +2,9 @@
 #define CURRENCY_BURGHER_PLEDGE "burgher_pledge"
 
 /// Floor amount of Burgher Pledge authority refilled per day regardless of population (lowpop safety).
-#define BURGHER_PLEDGE_BASE_REFILL 250
+#define BURGHER_PLEDGE_BASE_REFILL 375
 /// Additional Burgher Pledge authority granted per active player per day.
-#define BURGHER_PLEDGE_PER_PLAYER 2
+#define BURGHER_PLEDGE_PER_PLAYER 3
 /// Clawback ceiling — any Burgher Pledge balance above this multiple of the daily refill is skimmed at each daily tick.
 #define BURGHER_PLEDGE_CLAWBACK_MULTIPLIER 2
 /// Roundstart balance is this multiple of the daily refill, giving the Steward a buffer at the start.

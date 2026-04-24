@@ -105,6 +105,10 @@
 #define BLOCKADE_RECLEAR_COOLDOWN 1
 #define BLOCKADE_SCROLL_PLEDGE_COST 500
 #define BLOCKADE_SCROLL_REWARD 500
+/// Steward-selectable "Bonus Pay" sweetener on defense commissions and blockade writs.
+/// Multiplies both the draft cost (burned from Pledge or Purse) and the quest's reward.
+/// Not available on Requests, which have no reward to sweeten.
+#define COMMISSION_BONUS_PAY_MULT 1.5
 #define BLOCKADE_FELLOWSHIP_REQUIREMENT 3
 #define BLOCKADE_WAVE_TIMER_DS (7 MINUTES)
 // Recall policy: the bearer gets BLOCKADE_RECALL_WINDOW_DS to reach the blockade.
