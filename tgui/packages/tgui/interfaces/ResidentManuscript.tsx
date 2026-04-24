@@ -4,15 +4,17 @@ import type { BooleanLike } from 'tgui-core/react';
 
 import { useBackend } from '../backend';
 import { Window } from '../layouts';
-
-type OwnerStatusKey = 'commoner' | 'noble';
-type VerificationResult = 'none' | 'unknown' | 'real' | 'fake';
+import {
+  getResidentManuscriptTexts,
+  type OwnerStatusKey,
+  type VerificationResult,
+} from './ResidentManuscript/localization';
 
 type OwnerData = {
   name: string | null;
   age: string | number | null;
   class: string | null;
-  status: string | null;
+  status: OwnerStatusKey | null;
   status_key: OwnerStatusKey;
 };
 
@@ -28,9 +30,9 @@ type SealData = {
 type VerificationData = {
   done: BooleanLike;
   result: VerificationResult;
-  note: string;
-  defect_note: string;
-  defect_notes: string[];
+  note_key: string | null;
+  defect_note_key: string | null;
+  defect_note_keys: string[];
 };
 
 type PermissionsData = {
@@ -42,61 +44,8 @@ type PermissionsData = {
   stamp_key: string | null;
 };
 
-type ManuscriptTexts = {
-  window_title: string;
-  title: string;
-  subtitle_prefix: string;
-  description: string;
-  labels: {
-    owner: string;
-    age: string;
-    class: string;
-    status: string;
-    expires: string;
-    issued: string;
-    seals: string;
-    verification: string;
-    defects: string;
-  };
-  buttons: {
-    save: string;
-    inspect: string;
-    stamp: string;
-    claim: string;
-    bind: string;
-  };
-  tooltips: {
-    save: string;
-    inspect: string;
-    stamp: string;
-    claim: string;
-    bind: string;
-  };
-  placeholders: {
-    owner: string;
-    age: string;
-    class: string;
-  };
-  owner_status_options: Record<OwnerStatusKey, string>;
-  states: {
-    owner: string;
-    other: string;
-    unbound: string;
-    blank_hint: string;
-    fake_edit_hint: string;
-    seal_missing: string;
-    empty: string;
-    unknown: string;
-  };
-  verification: Record<VerificationResult, string>;
-  aria: {
-    seal: string;
-  };
-};
-
 type ResidentManuscriptData = {
-  language: string;
-  texts: ManuscriptTexts;
+  language: string | null;
   owner: OwnerData;
   issued_place: string | null;
   expiry_date: string | null;
@@ -122,7 +71,7 @@ const displayValue = (
 export const ResidentManuscript = () => {
   const { act, data } = useBackend<ResidentManuscriptData>();
   const {
-    texts,
+    language,
     owner,
     issued_place,
     expiry_date,
@@ -134,17 +83,30 @@ export const ResidentManuscript = () => {
     permissions,
   } = data;
 
+  const texts = getResidentManuscriptTexts(language);
+  const ownerStatusKey: OwnerStatusKey =
+    owner.status_key === 'noble' ? 'noble' : 'commoner';
   const [ownerName, setOwnerName] = useState(owner.name ?? '');
   const [ownerAge, setOwnerAge] = useState(String(owner.age ?? ''));
   const [ownerClass, setOwnerClass] = useState(owner.class ?? '');
   const [ownerStatus, setOwnerStatus] = useState<OwnerStatusKey>(
-    owner.status_key === 'noble' ? 'noble' : 'commoner',
+    ownerStatusKey,
   );
 
   const canEdit = !!permissions.can_edit;
-  const defectNotes = verification.defect_notes ?? [];
+  const defectNotes = (verification.defect_note_keys ?? []).map(
+    (key) => texts.defects[key] || key,
+  );
+  const validationNote = verification.note_key
+    ? texts.validation_notes[verification.note_key]
+    : '';
   const verificationText =
-    verification.note || texts.verification[verification.result];
+    validationNote ||
+    texts.verification[verification.result] ||
+    texts.verification.none;
+  const ownerStatusLabel =
+    texts.owner_status_options[ownerStatusKey] ||
+    texts.owner_status_options.commoner;
 
   return (
     <Window width={760} height={860} title={texts.window_title} theme="grimoire">
@@ -219,7 +181,7 @@ export const ResidentManuscript = () => {
                     </Button>
                   </div>
                 ) : (
-                  displayValue(owner.status, texts.states.empty)
+                  displayValue(ownerStatusLabel, texts.states.empty)
                 )}
               </ManuscriptField>
 

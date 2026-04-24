@@ -237,109 +237,8 @@ UNDER NO CIRCUMSTANCE SHOULD ANY OF THE BOOKS BE GIVEN OUT INTO SPAWNERS OR TO B
 		icon_state = "scroll"
 		user.visible_message(span_warning("[src] has had its magic ink ripped from the scroll!"))
 
-#define RESIDENT_MANUSCRIPT_STATUS_COMMONER "commoner"
-#define RESIDENT_MANUSCRIPT_STATUS_NOBLE "noble"
-#define RESIDENT_MANUSCRIPT_VERIFICATION_NONE "none"
-#define RESIDENT_MANUSCRIPT_VERIFICATION_UNKNOWN "unknown"
-#define RESIDENT_MANUSCRIPT_VERIFICATION_REAL "real"
-#define RESIDENT_MANUSCRIPT_VERIFICATION_FAKE "fake"
-#define RESIDENT_MANUSCRIPT_SPECIAL_ITEM_NAME "Resident Manuscript"
-#define RESIDENT_MANUSCRIPT_FAKE_DEFECT_CHANCE 65
-#define RESIDENT_MANUSCRIPT_MIN_DEFECTS 3
-#define RESIDENT_MANUSCRIPT_MAX_DEFECTS 5
-
-/proc/build_resident_manuscript_ui_texts()
-	return list(
-		"window_title" = "Resident Manuscript",
-		"title" = "Resident Manuscript",
-		"subtitle_prefix" = "Under the Crown's Hand",
-		"labels" = list(
-			"owner" = "Name",
-			"age" = "Age",
-			"class" = "Vocation",
-			"status" = "Estate",
-			"expires" = "Valid until",
-			"issued" = "Issued at",
-			"seals" = "Seals",
-			"verification" = "Authenticity",
-			"defects" = "Observed defects",
-		),
-		"buttons" = list(
-			"save" = "Save",
-			"inspect" = "Inspect",
-			"stamp" = "Stamp",
-			"claim" = "Claim residency",
-			"bind" = "Bind",
-		),
-		"tooltips" = list(
-			"save" = "Save the completed forgery.",
-			"inspect" = "Quietly inspect the manuscript for forgery.",
-			"stamp" = "Apply the official seal available to you.",
-			"claim" = "Use the manuscript as proof of residency.",
-			"bind" = "Bind the manuscript to your name.",
-		),
-		"placeholders" = list(
-			"owner" = "Owner name",
-			"age" = "Age",
-			"class" = "Vocation or station",
-		),
-		"owner_status_options" = list(
-			RESIDENT_MANUSCRIPT_STATUS_COMMONER = "Unproven",
-			RESIDENT_MANUSCRIPT_STATUS_NOBLE = "Under Astrata's grace",
-		),
-		"states" = list(
-			"owner" = "This manuscript is recognized as yours.",
-			"other" = "This manuscript belongs to another.",
-			"unbound" = "This manuscript is not yet bound to an owner.",
-			"blank_hint" = "The blank must be filled with a feather.",
-			"fake_edit_hint" = "The suspicious blank waits for an inscribed name.",
-			"seal_missing" = "not sealed",
-			"empty" = "-",
-			"unknown" = "Unknown",
-		),
-		"verification" = list(
-			"fake" = "The manuscript appears to be forged.",
-			"real" = "The manuscript appears authentic.",
-			"unknown" = "The manuscript shows no obvious cause for suspicion.",
-			"none" = "Authenticity has not been inspected.",
-		),
-		"aria" = list(
-			"seal" = "Seal",
-		),
-		"description" = "Let it be known: by the Crown's will and the Council's oversight, the bearer of this document is recognized as a lawful resident of these lands and stands beneath the shelter of common law. Every rank and office is charged to acknowledge the bearer as a faithful subject and to place no unjust obstacle in their path.",
-		"defects" = list(
-			"ink_blot" = "A faint ink blot marks one corner of the parchment.",
-			"seal_smudge" = "The ink around one seal is slightly smeared.",
-			"owner_wobble" = "One letter in the owner's name was written with an unsteady hand.",
-			"ragged_edge" = "The parchment edge has been cut unevenly.",
-			"uncertain_hand" = "The signature lacks a confident hand.",
-			"stale_smell" = "The parchment carries a stale smell.",
-			"misaligned_initial" = "The lapis initial falls out of line and dried over the main text.",
-			"fresh_pricking" = "Fresh ruling pricks on the lower margin do not match the written lines.",
-			"cut_gilding" = "The gilded edge lies over a fresh cut in places.",
-			"rethreaded_cord" = "The silk-gold cord was threaded again; broken fibers show around the holes.",
-			"reheated_wax" = "One wax seal is warmer in color and shines as though recently remelted.",
-			"blue_halo" = "The ink casts a blue halo mid-line, as if mixed with different water.",
-			"corrected_date" = "One stroke in the date was crossed out too cleanly for a chancery hand.",
-			"heretical_marginalia" = "A foreign marginal note shows between the lines: 'Zizo keeps the whisper, Graggar waits for blood, Matthios weighs the debt.'",
-		),
-		"validation_notes" = list(
-			"steady_seals" = "The seals sit evenly, the ink is sure, and the cord bears no sign of being threaded again.",
-			"proper_ruling" = "The ruling, pricks, and lines agree with one another; this is a proper manuscript.",
-			"matched_hand" = "The hand, seals, and gilded edge agree. There is no obvious reason to doubt the document.",
-			"deep_wax" = "The wax took its impression deeply and cleanly, and the lines show no foreign hand.",
-			"proper_rite" = "The document appears to have been prepared according to chancery rite.",
-		),
-	)
-
 /proc/get_resident_manuscript_ui_language(mob/user)
-	return DEFAULT_PREFERRED_UI_LANGUAGE
-
-/proc/get_resident_manuscript_ui_texts(mob/user)
-	var/static/list/text_cache
-	if(!text_cache)
-		text_cache = build_resident_manuscript_ui_texts()
-	return text_cache
+	return user?.client?.get_preferred_ui_language() || DEFAULT_PREFERRED_UI_LANGUAGE
 
 /proc/grant_roundstart_resident_manuscript(mob/living/carbon/human/recipient, manuscript_type = /obj/item/book/granter/resident_manuscript/roundstart)
 	if(!ishuman(recipient) || !recipient.mind)
@@ -533,11 +432,6 @@ UNDER NO CIRCUMSTANCE SHOULD ANY OF THE BOOKS BE GIVEN OUT INTO SPAWNERS OR TO B
 		return RESIDENT_MANUSCRIPT_STATUS_NOBLE
 	return RESIDENT_MANUSCRIPT_STATUS_COMMONER
 
-/obj/item/book/granter/resident_manuscript/proc/get_status_text(mob/user)
-	var/list/texts = get_resident_manuscript_ui_texts(user)
-	var/list/status_options = texts["owner_status_options"]
-	return status_options?[owner_status_key] || status_options?[RESIDENT_MANUSCRIPT_STATUS_COMMONER] || owner_status_key
-
 /obj/item/book/granter/resident_manuscript/proc/bind_to_holder(mob/living/carbon/human/target)
 	if(is_bound || !ishuman(target))
 		return FALSE
@@ -669,23 +563,6 @@ UNDER NO CIRCUMSTANCE SHOULD ANY OF THE BOOKS BE GIVEN OUT INTO SPAWNERS OR TO B
 	if(length(defect_note_keys) >= RESIDENT_MANUSCRIPT_MIN_DEFECTS)
 		return
 	defect_note_keys = generate_defect_note_keys()
-
-/obj/item/book/granter/resident_manuscript/proc/localized_defect_notes(mob/user)
-	var/list/result = list()
-	if(!length(defect_note_keys))
-		return result
-	var/list/texts = get_resident_manuscript_ui_texts(user)
-	var/list/defect_texts = texts["defects"]
-	for(var/defect_key in defect_note_keys)
-		result += defect_texts?[defect_key] || defect_key
-	return result
-
-/obj/item/book/granter/resident_manuscript/proc/localized_validation_note(mob/user, note_key)
-	if(!note_key)
-		return ""
-	var/list/texts = get_resident_manuscript_ui_texts(user)
-	var/list/validation_notes = texts["validation_notes"]
-	return validation_notes?[note_key] || ""
 
 /obj/item/book/granter/resident_manuscript/proc/can_edit_fake_manuscript(mob/living/carbon/human/user)
 	return ishuman(user) && is_fake && !is_bound
@@ -843,14 +720,12 @@ UNDER NO CIRCUMSTANCE SHOULD ANY OF THE BOOKS BE GIVEN OUT INTO SPAWNERS OR TO B
 /obj/item/book/granter/resident_manuscript/ui_interact(mob/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
-		var/list/texts = get_resident_manuscript_ui_texts(user)
-		ui = new(user, src, "ResidentManuscript", texts["window_title"])
+		ui = new(user, src, "ResidentManuscript", "Resident Manuscript")
 		ui.open()
 
 /obj/item/book/granter/resident_manuscript/ui_static_data(mob/user)
 	var/list/data = list()
 	data["language"] = get_resident_manuscript_ui_language(user)
-	data["texts"] = get_resident_manuscript_ui_texts(user)
 	return data
 
 /obj/item/book/granter/resident_manuscript/ui_data(mob/user)
@@ -871,25 +746,24 @@ UNDER NO CIRCUMSTANCE SHOULD ANY OF THE BOOKS BE GIVEN OUT INTO SPAWNERS OR TO B
 	var/list/verification = list(
 		"done" = FALSE,
 		"result" = RESIDENT_MANUSCRIPT_VERIFICATION_NONE,
-		"note" = "",
-		"defect_note" = "",
-		"defect_notes" = list(),
+		"note_key" = null,
+		"defect_note_key" = null,
+		"defect_note_keys" = list(),
 	)
 	if(detection_key && LAZYACCESS(detection_attempts, detection_key))
 		var/result = LAZYACCESS(detection_results, detection_key) || RESIDENT_MANUSCRIPT_VERIFICATION_UNKNOWN
 		verification["done"] = TRUE
 		verification["result"] = result
 		if(result == RESIDENT_MANUSCRIPT_VERIFICATION_FAKE)
-			var/list/notes = localized_defect_notes(user)
-			verification["defect_notes"] = notes
-			verification["defect_note"] = length(notes) ? notes[1] : ""
+			verification["defect_note_keys"] = defect_note_keys || list()
+			verification["defect_note_key"] = length(defect_note_keys) ? defect_note_keys[1] : null
 		else
-			verification["note"] = localized_validation_note(user, LAZYACCESS(detection_note_keys, detection_key))
+			verification["note_key"] = LAZYACCESS(detection_note_keys, detection_key)
 	data["owner"] = list(
 		"name" = owner_name,
 		"age" = owner_age,
 		"class" = owner_class,
-		"status" = get_status_text(user),
+		"status" = owner_status_key,
 		"status_key" = owner_status_key,
 	)
 	data["issued_place"] = issued_place
@@ -955,14 +829,3 @@ UNDER NO CIRCUMSTANCE SHOULD ANY OF THE BOOKS BE GIVEN OUT INTO SPAWNERS OR TO B
 	can_grant_residence = FALSE
 	expiry_year_bonus_min = 5
 	expiry_year_bonus_max = 10
-
-#undef RESIDENT_MANUSCRIPT_STATUS_COMMONER
-#undef RESIDENT_MANUSCRIPT_STATUS_NOBLE
-#undef RESIDENT_MANUSCRIPT_VERIFICATION_NONE
-#undef RESIDENT_MANUSCRIPT_VERIFICATION_UNKNOWN
-#undef RESIDENT_MANUSCRIPT_VERIFICATION_REAL
-#undef RESIDENT_MANUSCRIPT_VERIFICATION_FAKE
-#undef RESIDENT_MANUSCRIPT_SPECIAL_ITEM_NAME
-#undef RESIDENT_MANUSCRIPT_FAKE_DEFECT_CHANCE
-#undef RESIDENT_MANUSCRIPT_MIN_DEFECTS
-#undef RESIDENT_MANUSCRIPT_MAX_DEFECTS
