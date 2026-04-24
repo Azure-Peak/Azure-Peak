@@ -125,6 +125,78 @@
 	if(!HAS_TRAIT(M, TRAIT_IRONMAN))
 		return FALSE
 
+	if(M.stat == DEAD)
+		to_chat(user, span_warning("They are dead."))
+		return FALSE
+
+	// INTEGRITY DAMAGE OVERRIDE
+	var/has_integrity = FALSE
+	var/list/integ = M.get_wounds()
+	for(var/datum/wound/W in integ)
+		if(istype(W, /datum/wound/integrity))
+			has_integrity = TRUE
+			break
+
+	if(has_integrity)
+		if(M == user)
+			if(!do_after(user, 4 SECONDS))
+				return
+		
+		if(M.has_status_effect(/datum/status_effect/debuff/integrity_rig))
+			to_chat(user, span_warning("The jury rigged integrity repairs are still holding, for now..."))
+			return
+
+		if(I.name == "stick")
+			qdel(I)
+			M.apply_status_effect(/datum/status_effect/debuff/integrity_rig, 3 MINUTES)
+			playsound(M, 'sound/combat/hits/blunt/woodblunt (2).ogg', 100, TRUE)
+			user.visible_message(
+				span_notice("[user] wedges the stick into [M]'s damaged lattice, crudely pinning it in place."),
+				span_notice("A weak brace holds my damaged integrity together. It might not last")
+			)
+			return TRUE
+
+		if(I.name == "small log")
+			qdel(I)
+			M.apply_status_effect(/datum/status_effect/debuff/integrity_rig, 6 MINUTES)
+			playsound(M, 'sound/combat/hits/blunt/woodblunt (2).ogg', 100, TRUE)
+			user.visible_message(
+				span_notice("[user] jams the small log into [M]'s exposed conduit, safely reinforcing the fracture."),
+				span_notice("The wooden brace steadies my damaged integrity.")
+			)
+			return TRUE
+
+		if(istype(I, /obj/item/natural/stone))
+			qdel(I)
+			M.apply_status_effect(/datum/status_effect/debuff/integrity_rig, 9 MINUTES)
+			playsound(M, pick('sound/combat/hits/onmetal/sheet (1).ogg', 'sound/combat/hits/onmetal/sheet (2).ogg', 'sound/combat/hits/onmetal/grille (1).ogg', 'sound/combat/hits/onmetal/grille (2).ogg', 'sound/combat/hits/onmetal/grille (3).ogg'), 100, TRUE)
+			user.visible_message(
+				span_warning("[user] forces the stone into [M]'s ruptured lattice. Sparks violently erupt!"),
+				span_notice("A dense mineral brace locks my damaged integrity into place.")
+			)
+			explosion(M, 0, 0, 0, 0, FALSE, FALSE, 0, FALSE, FALSE)
+			for(var/mob/living/L in range(2, M))
+				L.electrocute_act(10, L)
+
+			return TRUE
+
+		if(istype(I, /obj/item/ingot))
+			qdel(I)
+			M.apply_status_effect(/datum/status_effect/debuff/integrity_rig, 20 MINUTES)
+			playsound(M, pick('sound/combat/hits/onmetal/sheet (1).ogg', 'sound/combat/hits/onmetal/sheet (2).ogg', 'sound/combat/hits/onmetal/grille (1).ogg', 'sound/combat/hits/onmetal/grille (2).ogg', 'sound/combat/hits/onmetal/grille (3).ogg'), 100, TRUE)
+			user.visible_message(
+				span_warning("[user] appends the ingot into [M]'s ruptured lattice, stabilizing it properly."),
+				span_notice("A refined mineral brace locks my damaged integrity into place, for now.")
+			)
+			return TRUE
+
+		to_chat(user, span_warning("That material cannot stabilize exposed integrity damage."))
+		return TRUE
+
+	if(M.stat != CONSCIOUS)
+		to_chat(user, span_warning("They are in no condition to do this."))
+		return FALSE
+
 	// === PROCESSING LOCKOUT ===
 	if(M.has_status_effect(/datum/status_effect/buff/ingotmuncher) \
 	|| M.has_status_effect(/datum/status_effect/buff/oremuncher) \
@@ -139,45 +211,64 @@
 
 	var/power = 1
 
-	// === STONE === 
+		
+	// === STONE ===
 	if(istype(I, /obj/item/natural/stone))
 		var/obj/item/natural/stone/S = I
 		power = S.magic_power + 1
-		M.energy_add(1 + (S.magic_power * 3))
 
 		var/brute = M.getBruteLoss()
 		var/fire = M.getFireLoss()
-		var/MAX_DMG = 200 // scales from 1000% to a mere 10% about this makes rock heal miserably low, in other words: hammer time if wound is at mangled+
-		var/brute_ratio = round(min(brute / MAX_DMG, 1))
-		var/fire_ratio  = round(min(fire / MAX_DMG, 1))
-		var/brute_scale = 0.1 + (1 - brute_ratio) * (10.0 - 0.1) // 10.0 at 0 damage to 0.1 at max damage
-		var/fire_scale  = 0.1 + (1 - fire_ratio)  * (10.0 - 0.1) // 10.0 at 0 damage to 0.1 at max damage
-		var/brute_heal = round(1 + ((1 + power) * brute_scale))
-		var/fire_heal  = round(1 + ((1 + power) * fire_scale))
 
-		M.energy_add(1 + (S.magic_power * 3))
+		var/MAX_DMG = 100 // anything past this will be 1 brute/fire
+		var/MULT = 10 // basically, this helps stones heal scratches better, but not real wounds
+
+		var/brute_ratio = min(brute / MAX_DMG, 1)
+		var/fire_ratio  = min(fire / MAX_DMG, 1)
+
+		var/brute_factor
+		var/fire_factor
+
+		if(brute_ratio <= 0.5)
+			brute_factor = 1 - (0.2 * brute_ratio)
+		else
+			var/t = (brute_ratio - 0.5) / 0.5
+			brute_factor = 0.9 * (1 - (t * t * t))
+		if(fire_ratio <= 0.5)
+			fire_factor = 1 - (0.2 * fire_ratio)
+		else
+			var/t2 = (fire_ratio - 0.5) / 0.5
+			fire_factor = 0.9 * (1 - (t2 * t2 * t2))
+
+		var/brute_heal = max(1, round(power * MULT * brute_factor))
+		var/fire_heal  = max(1, round(power * MULT * fire_factor))
+
+		M.energy_add(5 + (S.magic_power * 10))
 		M.adjustBruteLoss(-brute_heal)
 		M.adjustFireLoss(-fire_heal)
+
 		user.visible_message(
 			span_notice("[user] offers the [I] to [M]'s mouth, and they crunch it down instinctively."),
 			span_notice("I crunch the [I] down and swallow it effortlessly.")
 		)
-		playsound(M.loc,'sound/misc/eat.ogg', rand(60,100), TRUE)
+
+		playsound(M.loc, 'sound/misc/eat.ogg', rand(60,100), TRUE)
 		sleep(4)
 		playsound(user.loc, 'sound/foley/smash_rock.ogg', 30)
+		new /obj/effect/decal/cleanable/debris/stony(get_turf(user))
 		qdel(I)
 		return TRUE
 
-	// === WOOD === 
+	// === LOG === 
 	if(istype(I, /obj/item/grown/log/tree))
 		if(I.name == ("log")) // im so fuckign tired manne 
 			user.visible_message(
-				span_notice("[user] offers the [I] to [M]'s mouth, and they chomp it in two!"),
-				span_notice("I chomp the [I] down, splitting it in two!")
+				span_notice("[user] presses the [I] to [M]'s arms, and they crush it in two!"),
+				span_notice("I crush the [I] down, splitting it in two!")
 			)
-			playsound(user.loc,'sound/misc/eat.ogg', rand(60,100), TRUE)
-			sleep(4)
 			playsound(user.loc, 'sound/misc/woodhit.ogg', 30)
+			sleep(4)
+			playsound(user, 'sound/combat/hits/blunt/woodblunt (2).ogg', 100, TRUE)
 			qdel(I)
 			new /obj/item/grown/log/tree/small(get_turf(user.loc))
 			new /obj/item/grown/log/tree/small(get_turf(user.loc))
@@ -186,27 +277,47 @@
 		else
 			return FALSE
 
+	// === WOOD === 
+	if(istype(I, /obj/item/grown/log/tree))
+		if(I.name == ("small log"))
+			user.visible_message(
+				span_notice("[user] offers the [I] to [M]'s mouth, as they blow arcyne steam at it!"),
+				span_notice("I puff arcyne steam at the [I], combusting it to charcoal!")
+			)
+			new /obj/effect/particle_effect/thick_steam(get_turf(user))
+			playsound(user, 'sound/items/steamrelease.ogg', 50, FALSE, -1)
+			sleep(4)
+			playsound(user.loc, 'sound/magic/fireball.ogg', 30)
+			qdel(I)
+			new /obj/item/rogueore/coal/charcoal(get_turf(user.loc))
+			new /obj/item/ash(get_turf(user.loc))
+			new /obj/item/ash(get_turf(user.loc))
+			return TRUE
+		else
+			return FALSE
+
 	// === ROCK === 
 	if(istype(I, /obj/item/natural/rock))
 		var/obj/item/natural/rock/S = I
 		user.visible_message(
-			span_notice("[user] offers the [S] to [M]'s mouth, and they crunch it to bits instinctively."),
-			span_notice("I crunch the [S] down, breaking it to fine smithereens!")
+			span_notice("[user] presses the [I] to [M]'s arms, and they crush it in two!"),
+			span_notice("I crush the [S] down, breaking it to fine smithereens!")
 		)
-		playsound(S.loc,'sound/misc/eat.ogg', rand(60,100), TRUE)
+		playsound(user.loc, 'sound/misc/woodhit.ogg', 30)
 		sleep(4)
 		playsound(user.loc, 'sound/foley/smash_rock.ogg', 30)
 		user.drop_all_held_items()
 		S.deconstruct(FALSE)
+		new /obj/effect/decal/cleanable/debris/stony(get_turf(user))
 		return TRUE
 
 	// === ORE === 
 	if(istype(I, /obj/item/rogueore))
-		power = 2 + I.sellprice / 2
+		power = 2 + I.sellprice
 		M.apply_status_effect(/datum/status_effect/buff/oremuncher, power)
 		user.visible_message(
 			span_notice("[user] offers the [I] to [M]'s mouth, and they crunch it down instinctively."),
-			span_notice("I crunch the [I] down and swallow it effortlessly. This one is good stuff.")
+			span_notice("I crunch the [I] down and swallow it effortlessly. This one is good stuff!")
 		)
 		playsound(M.loc,'sound/misc/eat.ogg', rand(60,100), TRUE)
 		sleep(4)
@@ -220,7 +331,7 @@
 
 	// === INGOT === 
 	if(istype(I, /obj/item/ingot))
-		power = 4 + I.sellprice / 2
+		power = 4 + I.sellprice
 		M.apply_status_effect(/datum/status_effect/buff/oremuncher, power)
 		user.visible_message(
 			span_notice("[user] presses the [I] into their form. It fuses seamlessly, spreading throughout their shell."),
@@ -233,7 +344,7 @@
 
 	// === GEM ===
 	if(istype(I, /obj/item/roguegem))
-		power = 6 + I.sellprice / 2
+		power = 6 + I.sellprice
 		M.apply_status_effect(/datum/status_effect/buff/gemmuncher, power)
 		user.visible_message(
 			span_notice("[user] embeds the [I] into their core. It crackles, then vanishes within."),
@@ -247,6 +358,22 @@
 	return FALSE
 
 // The permission zone for what Constructs can or not percursively deconstruct. Jakk here. Please don't delete anything, this might be reused for siege weapons in the future. Just comment it out.
+
+/obj/structure/bars/Bumped(atom/movable/AM)
+	. = ..()
+	if(!ishuman(AM))
+		return
+	var/mob/living/carbon/human/user = AM
+	if(HAS_TRAIT(user, TRAIT_IRONMAN) && user.cmode && istype(user.rmb_intent, /datum/rmb_intent/strong) && !user.resting && user.stat == CONSCIOUS)
+		src.ironman_mine(user)
+
+/obj/structure/flora/rogueshroom/Bumped(atom/movable/AM)
+	. = ..()
+	if(!ishuman(AM))
+		return
+	var/mob/living/carbon/human/user = AM
+	if(HAS_TRAIT(user, TRAIT_IRONMAN) && user.cmode && istype(user.rmb_intent, /datum/rmb_intent/strong) && !user.resting && user.stat == CONSCIOUS)
+		src.ironman_mine(user)
 
 /obj/structure/flora/newtree/Bumped(atom/movable/AM)
 	. = ..()
@@ -299,7 +426,7 @@
 #define IRONMAN_MAX_HARDNESS 3000
 #define IRONMAN_STARTUP_TIME 1 SECONDS
 #define IRONMAN_SWING_TIME 0.4 SECONDS
-#define IRONMAN_MAX_SWINGS 50
+#define IRONMAN_MAX_SWINGS 30
 
 /atom/proc/ironman_mine(mob/living/user)
 	if(!user || !isliving(user))
@@ -358,7 +485,7 @@
 			user.visible_message(span_danger("[user] overheats from excess kinetic force!"),span_danger("I overheat, magic steam exhuding from my limbs..."))
 			user.Stun(50)
 			user.OffBalance(50)
-			new /obj/effect/particle_effect/steam(get_turf(user))
+			new /obj/effect/particle_effect/thick_steam(get_turf(user))
 			playsound(user, 'sound/items/steamrelease.ogg', 100, FALSE, -1)
 			break
 
@@ -475,3 +602,71 @@
 #undef IRONMAN_STARTUP_TIME
 #undef IRONMAN_SWING_TIME
 #undef IRONMAN_MAX_SWINGS
+
+/datum/stressevent/fleshlingdepression
+	stressadd = 3
+	desc = span_boldred("I look ridiculous while dressed in metal. Like a fleshling.")
+	timer = 999 MINUTES
+
+/datum/stressevent/integrity_rig
+	stressadd = 20
+	desc = span_boldred("FUCK! FUCK! FUUUUUUUUUUCK! OW! FUCK! SHIT! THIS IS WORSE THAN PAIN! MAKE IT STOP! TERMINATE ME ALREADY!")
+	timer = 999 MINUTES
+
+/datum/stressevent/constructendvre
+	stressadd = -9
+	desc = span_blue("I don't feel any different, but well... It's the thought that matters! I shall ENDURE, for HIM!")
+	timer = 1 MINUTES
+
+/atom/movable/screen/alert/status_effect/debuff/integrity_rig
+	name = "Jury Rigged"
+	desc = "Your damaged lattice has been temporarily stabilized, at a heavy cost of your performance."
+	icon_state = "muscles"
+
+/datum/status_effect/debuff/integrity_rig
+	id = "integrity_rig"
+	duration = 1 MINUTES
+	status_type = STATUS_EFFECT_REPLACE
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/integrity_rig
+	effectedstats = list(STATKEY_STR = -7, STATKEY_WIL = -7, STATKEY_LCK = -7)
+
+/datum/status_effect/debuff/integrity_rig/on_creation(mob/living/new_owner, custom_duration)
+	if(custom_duration)
+		duration = custom_duration
+	return ..()
+
+/datum/status_effect/debuff/integrity_rig/on_apply()
+	owner.add_stress(/datum/stressevent/integrity_rig)
+	. = ..()
+	
+/datum/status_effect/debuff/integrity_rig/on_remove()
+	owner.remove_stress(/datum/stressevent/integrity_rig)
+	. = ..()
+
+/datum/status_effect/debuff/ironman_medium
+	id = "ironman_medium"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/ironman_medium
+	effectedstats = list(STATKEY_CON = -2, STATKEY_WIL = -2, STATKEY_SPD = -3, STATKEY_LCK = -2)
+/atom/movable/screen/alert/status_effect/debuff/ironman_medium
+	name = "Metal Fatigue I"
+	desc = "My frame bears needless burden. Additional metal drags at my joints and dulls the rhythm of my workings."
+	icon_state = "muscles"
+
+/datum/status_effect/debuff/ironman_heavy
+	id = "ironman_heavy"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/ironman_heavy
+	effectedstats = list(STATKEY_CON = -3, STATKEY_WIL = -4, STATKEY_SPD = -5, STATKEY_LCK = -4)
+/atom/movable/screen/alert/status_effect/debuff/ironman_heavy
+	name = "Metal Fatigue II"
+	desc = "My body labors under excess weight. Every motion grinds, every step strains, and my inner workings falter beneath the load."
+	icon_state = "muscles"
+
+/obj/effect/particle_effect/thick_steam
+	name = "steam"
+	icon_state = "smoke"
+	density = FALSE
+	layer = 5
+
+/obj/effect/particle_effect/thick_steam/Initialize()
+	. = ..()
+	QDEL_IN(src, 20)

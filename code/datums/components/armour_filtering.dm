@@ -156,11 +156,21 @@ TRAIT UNIQUE PROCS
 		return
 
 	if(HAS_TRAIT(user, TRAIT_IRONMAN))
-		if(!positive)
-			user.dropItemToGround(parent, TRUE, TRUE)
-			if(!HAS_TRAIT(user, TRAIT_ARMOUR_DISLIKED))
-				return
-			REMOVE_TRAIT(user, TRAIT_ARMOUR_DISLIKED, TRAIT_GENERIC)
+		spawn(0)
+			user.remove_status_effect(/datum/status_effect/debuff/ironman_medium)
+			user.remove_status_effect(/datum/status_effect/debuff/ironman_heavy)
+			user.remove_stress(/datum/stressevent/fleshlingdepression)
+
+			var/highest_ac = user.highest_ac_worn(FALSE)
+
+			switch(highest_ac)
+				if(ARMOR_CLASS_MEDIUM)
+					user.apply_status_effect(/datum/status_effect/debuff/ironman_medium)
+					user.add_stress(/datum/stressevent/fleshlingdepression)
+
+				if(ARMOR_CLASS_HEAVY)
+					user.apply_status_effect(/datum/status_effect/debuff/ironman_heavy)
+					user.add_stress(/datum/stressevent/fleshlingdepression)
 		return
 
 	if(HAS_TRAIT(user, TRAIT_PSYDONIAN_GRIT) && id == "ornate_plate")
@@ -202,4 +212,21 @@ TRAIT UNIQUE PROCS
 			user.add_stress(/datum/stressevent/naledimasklost)
 		return
 
-	return
+	if(HAS_TRAIT(user, TRAIT_IRONMAN))
+		spawn(0)
+			user.remove_status_effect(/datum/status_effect/debuff/ironman_medium)
+			user.remove_status_effect(/datum/status_effect/debuff/ironman_heavy)
+			user.remove_stress(/datum/stressevent/fleshlingdepression)
+
+			var/highest_ac = user.highest_ac_worn(FALSE)
+
+			switch(highest_ac)
+				if(ARMOR_CLASS_MEDIUM)
+					user.apply_status_effect(/datum/status_effect/debuff/ironman_medium)
+					user.add_stress(/datum/stressevent/fleshlingdepression)
+
+				if(ARMOR_CLASS_HEAVY)
+					user.apply_status_effect(/datum/status_effect/debuff/ironman_heavy)
+					user.add_stress(/datum/stressevent/fleshlingdepression)
+		return
+

@@ -97,9 +97,23 @@
 			if(-INFINITY to -5)
 				. += span_warning("<B>[t_He] look[p_s()] much weaker than I.</B>")
 
-	if((user != src) && isliving(user))
-		if(blood_volume <= BLOOD_VOLUME_BAD && !(HAS_TRAIT(src, TRAIT_NOBREATH)||HAS_TRAIT(src, TRAIT_NOBREATH)||HAS_TRAIT(src, TRAIT_DEATHLESS)))
-			. += span_blue("<B>[t_He] seems to be suffocating from blood loss!</B>")
+	if(user != src && isliving(user))
+		if(blood_volume <= BLOOD_VOLUME_SURVIVE && !(HAS_TRAIT(src, TRAIT_NOBREATH) || HAS_TRAIT(src, TRAIT_DEATHLESS)))
+			. += span_blue("<B>[t_He] might be suffocating from blood loss!</B>")
+
+	if(user != src && isliving(user) && user.get_skill_level(/datum/skill/craft/engineering) >= SKILL_LEVEL_APPRENTICE)
+		var/list/meinewoundes = src.get_wounds()
+		var/found_integrity = FALSE
+
+		for(var/datum/wound/W in meinewoundes)
+			if(istype(W, /datum/wound/integrity))
+				found_integrity = TRUE
+
+		if(found_integrity)
+			if(src.has_status_effect(/datum/status_effect/debuff/integrity_rig))
+				. += span_warning("<B>Their integrity has been crudely stabilized, but remains critically damaged.</B>")
+			else
+				. += span_boldred("<B>Their integrity is compromised! They are melting down!</B> Stones, sticks, wood, or ingots may crudely stabilize it. Repair is still needed!")
 
 	if(Adjacent(user))
 		if(has_simple_wounds)

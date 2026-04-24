@@ -370,7 +370,8 @@
 				used += 10
 		if(prob(used))
 			if(zone_precise == BODY_ZONE_PRECISE_STOMACH)
-				attempted_wounds += /datum/wound/slash/disembowel
+				if(!HAS_TRAIT(owner, TRAIT_IRONMAN)) // pointless to disembowel them, as they don't die to tox anyway
+					attempted_wounds += /datum/wound/slash/disembowel
 			if(owner.has_wound(/datum/wound/fracture/chest) || (bclass in GLOB.artery_heart_bclasses) || HAS_TRAIT(owner, TRAIT_CRITICAL_WEAKNESS))
 				if(HAS_TRAIT(owner, TRAIT_IRONMAN))			
 					attempted_wounds += /datum/wound/integrity/chest

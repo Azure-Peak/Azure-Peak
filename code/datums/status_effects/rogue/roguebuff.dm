@@ -902,7 +902,7 @@
 	owner.adjustOrganLoss(ORGAN_SLOT_BRAIN, 0.15*-healing_on_tick)
 	owner.adjustCloneLoss(0.4*-healing_on_tick, 0)
 	owner.energy_add(50)
-	owner.stamina_add(-50)
+	owner.stamina_add(-10)
 
 /datum/status_effect/buff/gemmuncher/on_apply()
 	var/filter = owner.get_filter(ROCKEATER_AURA)

@@ -96,7 +96,8 @@
 			user.playsound_local(user, 'sound/misc/zizo.ogg', 25, FALSE)
 			user.adjustBruteLoss(25)		
 			return FALSE
-
+		if(HAS_TRAIT(target, TRAIT_IRONMAN) && istype(target.patron, /datum/patron/old_god))
+			target.add_stress(/datum/stressevent/constructendvre)
 		target.apply_status_effect(/datum/status_effect/buff/psyhealing, psyhealing)
 		return TRUE
 
@@ -420,11 +421,28 @@
 
 /obj/effect/proc_holder/spell/self/psydonprayer/cast(mob/living/carbon/human/user) ///Lesser version of 'RESPITE' and 'PERSIST', T1. Self-regenerative.
 	. = ..()
-	if(!ishuman(user))
+	if(!ishuman(user) || user.devotion && user.devotion.devotion >= 50)
 		revert_cast()
 		return FALSE
 
 	var/mob/living/carbon/human/H = user
+	if(HAS_TRAIT(H, TRAIT_IRONMAN))
+		to_chat(H, span_info("I take a moment to collect myself..."))
+		while(H.devotion && H.devotion.devotion >= 25)
+			if(!do_after(H, 50))
+				break
+			var/percent = H.max_energy * 0.05
+			H.add_stress(/datum/stressevent/meditation_ironman)
+			H.add_stress(/datum/stressevent/constructendvre)
+			H.energy_add(percent)
+			playsound(H, 'sound/magic/psydonrespite.ogg', 100, TRUE)
+			new /obj/effect/temp_visual/psyheal_rogue(get_turf(H), "#e4e4e4")
+			new /obj/effect/temp_visual/psyheal_rogue(get_turf(H), "#e4e4e4")
+			H.devotion.update_devotion(-15)
+			to_chat(H, span_info("My worries gives way to a sense of furthered clarity before returning again, eased."))
+		to_chat(H, span_warning("My thoughts and sense of quiet escape me."))
+		playsound(H, 'sound/misc/machineyes.ogg', 25)
+		return
 	to_chat(H, span_info("I take a moment to collect myself..."))
 
 	for(var/i in 1 to 10)
@@ -528,11 +546,28 @@
 
 /obj/effect/proc_holder/spell/self/psydonrespite/cast(mob/living/carbon/human/user) // Greater version of 'PRAYER', T2. Requires the 'Devotee' virtue to unlock, if not playing as an Orthodoxist or Missionary.
 	. = ..()
-	if(!ishuman(user))
+	if(!ishuman(user) || user.devotion && user.devotion.devotion >= 50)
 		revert_cast()
 		return FALSE
 
 	var/mob/living/carbon/human/H = user
+	if(HAS_TRAIT(H, TRAIT_IRONMAN))
+		to_chat(H, span_info("I take a moment to collect myself..."))
+		while(H.devotion && H.devotion.devotion >= 25)
+			if(!do_after(H, 50))
+				break
+			var/percent = H.max_energy * 0.05
+			H.add_stress(/datum/stressevent/meditation_ironman)
+			H.add_stress(/datum/stressevent/constructendvre)
+			H.energy_add(percent)
+			playsound(H, 'sound/magic/psydonrespite.ogg', 100, TRUE)
+			new /obj/effect/temp_visual/psyheal_rogue(get_turf(H), "#e4e4e4")
+			new /obj/effect/temp_visual/psyheal_rogue(get_turf(H), "#e4e4e4")
+			H.devotion.update_devotion(-25)
+			to_chat(H, span_info("My worries gives way to a sense of furthered clarity before returning again, eased."))
+		to_chat(H, span_warning("My thoughts and sense of quiet escape me."))
+		playsound(H, 'sound/misc/machineyes.ogg', 25)		
+		return
 	to_chat(H, span_info("I take a moment to collect myself..."))
 
 	for(var/i in 1 to 10)
@@ -636,11 +671,28 @@
 
 /obj/effect/proc_holder/spell/self/psydonpersist/cast(mob/living/carbon/human/user) // Greater version of 'PRAYER' and 'RESPITE', T4. Inherently restricted to the Absolver, but potentially(?) achievable as a Missionary with the 'Devotee' virtue.
 	. = ..()
-	if(!ishuman(user))
+	if(!ishuman(user) || user.devotion && user.devotion.devotion >= 50)
 		revert_cast()
 		return FALSE
 
 	var/mob/living/carbon/human/H = user
+	if(HAS_TRAIT(H, TRAIT_IRONMAN))
+		to_chat(H, span_info("I take a moment to collect myself..."))
+		while(H.devotion && H.devotion.devotion >= 25)
+			if(!do_after(H, 50))
+				break
+			var/percent = H.max_energy * 0.05
+			H.add_stress(/datum/stressevent/meditation_ironman)
+			H.add_stress(/datum/stressevent/constructendvre)
+			H.energy_add(percent)
+			playsound(H, 'sound/magic/psydonrespite.ogg', 100, TRUE)
+			new /obj/effect/temp_visual/psyheal_rogue(get_turf(H), "#e4e4e4")
+			new /obj/effect/temp_visual/psyheal_rogue(get_turf(H), "#e4e4e4")
+			user.devotion.update_devotion(-50)
+			to_chat(H, span_info("My worries gives way to a sense of furthered clarity before returning again, eased."))
+		to_chat(H, span_warning("My thoughts and sense of quiet escape me."))
+		playsound(H, 'sound/misc/machineyes.ogg', 25)
+		return
 	to_chat(H, span_info("I take a moment to collect myself..."))
 
 	for(var/i in 1 to 10)

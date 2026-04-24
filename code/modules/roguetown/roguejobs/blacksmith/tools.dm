@@ -216,8 +216,10 @@
 			qualified = TRUE
 
 	if(!qualified)
-		to_chat(user, span_warning("[user] hammers a mean dent into [M]! Do they even know what they're doing...?"))
+		visible_message(span_warning("[user] hammers a mean dent into [M]! Do they even know what they're doing...?"), span_warning("You hammer a mean dent into [M]! Where do I even start...?"))
 		playsound(user.loc, 'sound/items/bsmith4.ogg', 100, FALSE)
+		shake_camera(M, 2, 1)
+		shake_camera(user, 2, 1)
 		if(prob(30))
 			M.emote("whimper")
 		return
@@ -228,7 +230,7 @@
 		if(!user || !M || QDELETED(user) || QDELETED(M))
 			break
 
-		if(user.resting || user.stat)
+		if(user.stat != CONSCIOUS)
 			break
 
 		if(get_dist(user, M) > 1)
