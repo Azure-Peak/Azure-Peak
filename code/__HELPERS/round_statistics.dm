@@ -78,8 +78,6 @@
 #define STATS_RURAL_TAXES_COLLECTED "rural_taxes_collected" // Azure only. Lowpop safety
 #define STATS_LOANS_ISSUED "loans_issued"
 #define STATS_LOANS_DEFAULTED "loans_defaulted"
-#define STATS_SAVINGS_GOAL_MET "savings_goal_met"
-#define STATS_SAVINGS_GOAL_MISSED "savings_goal_missed"
 #define STATS_POLL_TAX_COLLECTED "poll_tax_collected"
 // Poll tax revenue split by civic category, so tuning can see which classes are carrying the levy.
 #define STATS_POLL_TAX_NOBLE "poll_tax_noble"
@@ -421,8 +419,6 @@ GLOBAL_LIST_INIT(azure_round_stats, list(
 	STATS_CONTRACT_MAMMONS_PAID = 0,
 	STATS_CONTRACT_MAMMONS_TAXED = 0,
 	STATS_CONTRACT_MAMMONS_FORFEITED = 0,
-	STATS_SAVINGS_GOAL_MET = 0,
-	STATS_SAVINGS_GOAL_MISSED = 0,
 	STATS_POLL_TAX_COLLECTED = 0,
 	STATS_POLL_TAX_NOBLE = 0,
 	STATS_POLL_TAX_CLERGY = 0,

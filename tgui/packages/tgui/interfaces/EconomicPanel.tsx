@@ -250,11 +250,6 @@ export const EconomicPanel = () => {
                   </Button.Confirm>
                 </Stack.Item>
                 <Stack.Item>
-                  <Button.Confirm onClick={() => act('fire_savings_goal')}>
-                    Award Savings Goals (test)
-                  </Button.Confirm>
-                </Stack.Item>
-                <Stack.Item>
                   <Button.Confirm onClick={() => act('fire_economy_tick')}>
                     Fire Economy Tick
                   </Button.Confirm>

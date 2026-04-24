@@ -30,23 +30,11 @@
 /// Maximum fraction of a target's balance a single levy/fine can take. Decrees may narrow this further.
 #define GENERIC_RATE_CAP 0.75
 
-/// Savings Goal tiers. Flat across all stations - round-end balance (on-person + bank) awards
-/// triumphs at each step. The top tier awards its full triumph count (tiers don't stack -
-/// reaching tier 3 earns 3, not 6).
-#define SAVINGS_GOAL_TIER1 50
-#define SAVINGS_GOAL_TIER2 100
-#define SAVINGS_GOAL_TIER3 150
-/// Kept as an alias for callsites that still read the "main" goal threshold (announcements, etc.).
-#define SAVINGS_GOAL_THRESHOLD SAVINGS_GOAL_TIER3
 /// Default Crown's Purse floor below which the stockpile refuses purchases. Steward-settable.
 #define STOCKPILE_CROWN_PURCHASE_FLOOR_DEFAULT 1000
 /// Per-active-player mammon added to the Crown's Purse roundstart seed. Scales initial
 /// treasury against expected payroll (highpop full Crown-salary roster = ~600m/day).
 #define CROWN_PURSE_SEED_PER_PLAYER 35
-/// Extra savings required of a noble - aristocratic duty to be comfortable. Shifts every tier.
-#define SAVINGS_GOAL_NOBLE_BUMP 100
-/// Extra savings required of the Greedy - a self-declared flaw. Shifts every tier.
-#define SAVINGS_GOAL_GREEDY_BUMP 100
 
 // Poll Tax categories - flat per-head daily levy by civic class.
 #define POLL_TAX_CAT_NOBLE "poll_noble"

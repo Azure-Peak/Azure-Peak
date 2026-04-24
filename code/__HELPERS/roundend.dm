@@ -153,11 +153,6 @@
 					add_roundpoints(job.round_contrib_points, H.ckey)
 	add_roundplayed(key_list)
 
-	if(SStreasury)
-		var/list/savings_tally = SStreasury.award_savings_goals()
-		if(savings_tally && (savings_tally["met"] || savings_tally["missed"]))
-			to_chat(world, span_notice("<b>SAVINGS GOAL:</b> [savings_tally["met"]] players met the Savings Goal (tiered: [SAVINGS_GOAL_TIER1]m/[SAVINGS_GOAL_TIER2]m/[SAVINGS_GOAL_TIER3]m on hand or in bank for 1/2/3 triumphs). [savings_tally["missed"]] fell short."))
-
 	update_god_rankings()
 	
 	for(var/mob/M in GLOB.mob_list)

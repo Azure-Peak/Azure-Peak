@@ -205,49 +205,6 @@ SUBSYSTEM_DEF(treasury)
 		var/datum/decree/D = decrees[id]
 		D.on_fine_applied(payer, amount)
 
-/datum/controller/subsystem/treasury/proc/award_savings_goals()
-	var/met = 0
-	var/missed = 0
-	for(var/key in bank_accounts)
-		var/datum/fund/account = bank_accounts[key]
-		if(!account || account.currency != CURRENCY_MAMMON)
-			continue
-		var/mob/living/owner = account.get_owner()
-		if(!owner || !owner.mind)
-			continue
-		var/bump = 0
-		var/list/modifiers = list()
-		if(HAS_TRAIT(owner, TRAIT_NOBLE))
-			bump += SAVINGS_GOAL_NOBLE_BUMP
-			modifiers += "noble"
-		if(owner.get_flaw(/datum/charflaw/greedy))
-			bump += SAVINGS_GOAL_GREEDY_BUMP
-			modifiers += "greedy"
-		var/modifier_text = length(modifiers) ? " as [jointext(modifiers, ", ")]" : ""
-		var/tier1 = SAVINGS_GOAL_TIER1 + bump
-		var/tier2 = SAVINGS_GOAL_TIER2 + bump
-		var/tier3 = SAVINGS_GOAL_TIER3 + bump
-		var/on_person = get_mammons_in_atom(owner) || 0
-		var/in_bank = account.balance
-		var/total = on_person + in_bank
-		var/triumphs = 0
-		if(total >= tier3)
-			triumphs = 3
-		else if(total >= tier2)
-			triumphs = 2
-		else if(total >= tier1)
-			triumphs = 1
-		if(triumphs > 0)
-			owner.mind.adjust_triumphs(triumphs)
-			met++
-			to_chat(owner, "<font color='purple'>You met your Savings Goal ([total]m total[modifier_text]). +[triumphs] TRIUMPH[triumphs == 1 ? "" : "S"] awarded. Tiers: [tier1]m / [tier2]m / [tier3]m.</font>")
-		else
-			missed++
-			to_chat(owner, "<font color='gray'>You fell short of your Savings Goal (had [total]m[modifier_text], needed [tier1]m for the first tier).</font>")
-	record_round_statistic(STATS_SAVINGS_GOAL_MET, met)
-	record_round_statistic(STATS_SAVINGS_GOAL_MISSED, missed)
-	return list("met" = met, "missed" = missed)
-
 /datum/controller/subsystem/treasury/proc/grant_savings(amt, mob/living/target)
 	if(!amt || !target)
 		return FALSE

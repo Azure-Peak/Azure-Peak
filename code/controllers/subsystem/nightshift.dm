@@ -106,7 +106,5 @@ SUBSYSTEM_DEF(nightshift)
 	if(!mind)
 		return
 	allmig_reward++
-	// Per-night triumph, capped at 4 nights per round.
-	if(allmig_reward <= 4)
-		adjust_triumphs(1)
+	adjust_triumphs(1)
 	to_chat(src, span_danger("Days Survived: \Roman[allmig_reward]"))

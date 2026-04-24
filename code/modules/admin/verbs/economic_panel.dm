@@ -146,10 +146,6 @@ GLOBAL_DATUM_INIT(economic_panel, /datum/economic_panel, new)
 			SStreasury.distribute_daily_payments()
 			admin_log_fiscal("distributed daily payments", "Distribute Payroll")
 			return TRUE
-		if("fire_savings_goal")
-			SStreasury.award_savings_goals()
-			admin_log_fiscal("awarded savings goals (test)", "Award Savings Goals")
-			return TRUE
 		if("fire_economy_tick")
 			if(SSeconomy)
 				SSeconomy.last_processed_day = 0
