@@ -165,6 +165,11 @@ SUBSYSTEM_DEF(economy)
 	tick_scheduled_blockades()
 	tick_banditry_drain()
 
+	// Runs after events/blockades so auto-import sees the day's fresh price_mods, blockade
+	// flags, and produces_today values. Happens before standing-order rolls - the rolls
+	// don't consult produces_today, so order matters only for bookkeeping ordering.
+	SStreasury.run_auto_import_tick()
+
 	if(GLOB.standing_order_pool.len < STANDING_ORDERS_POOL_CAP)
 		var/total_to_roll = min(STANDING_ORDERS_MAX_PER_DAY, STANDING_ORDERS_BASE_PER_DAY + round(effective_pop * STANDING_ORDERS_PER_ACTIVE_PLAYER))
 		for(var/i in 1 to total_to_roll)

@@ -25,6 +25,18 @@
 /datum/decree/proc/get_display_name()
 	return "[name] of [year]"
 
+/// flavor_text with %RULER% / %RULER_NAME% filled in. Safe for all decrees - if the
+/// template has no placeholders, the replacetext calls are no-ops.
+/datum/decree/proc/get_display_flavor_text()
+	if(!flavor_text)
+		return null
+	var/ruler_type = SSticker?.rulertype || "Lord"
+	var/mob/living/ruler_mob = SSticker?.rulermob
+	var/ruler_name = (ruler_mob && !QDELETED(ruler_mob)) ? ruler_mob.real_name : "the Lord"
+	var/text = replacetext(flavor_text, "%RULER%", ruler_type)
+	text = replacetext(text, "%RULER_NAME%", ruler_name)
+	return text
+
 /datum/decree/proc/apply_exemption(mob/living/payer, tax_category)
 	return FALSE
 

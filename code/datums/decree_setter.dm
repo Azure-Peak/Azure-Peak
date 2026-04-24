@@ -6,7 +6,10 @@
 		ui = new(user, src, "DecreeSetter", "Charters of the Realm")
 		ui.open()
 
-/datum/decree_setter/ui_static_data(mob/user)
+/datum/decree_setter/ui_data(mob/user)
+	// Flavor text lives in ui_data (not ui_static_data) because the Magna Carta now
+	// interpolates the current ruler's name into its charter - and ruler identity can
+	// change mid-round via succession.
 	var/list/decree_list = list()
 	for(var/id in SStreasury.decrees)
 		var/datum/decree/D = SStreasury.decrees[id]
@@ -14,11 +17,8 @@
 			"id" = D.id,
 			"name" = D.name,
 			"year" = D.year,
-			"flavor" = D.flavor_text,
+			"flavor" = D.get_display_flavor_text(),
 		))
-	return list("decrees" = decree_list)
-
-/datum/decree_setter/ui_data(mob/user)
 	var/list/states = list()
 	for(var/id in SStreasury.decrees)
 		var/datum/decree/D = SStreasury.decrees[id]
@@ -29,6 +29,7 @@
 			"cooldown_left" = round(cooldown_left / 10),
 		))
 	return list(
+		"decrees" = decree_list,
 		"states" = states,
 		"revoke_used_today" = SStreasury.decree_revoke_used_day == GLOB.dayspassed,
 		"restore_used_today" = SStreasury.decree_restore_used_day == GLOB.dayspassed,

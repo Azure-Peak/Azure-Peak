@@ -265,7 +265,69 @@
 		))
 	data["region_rows"] = region_rows
 
+	data["auto_import"] = build_auto_import_data()
+
 	return data
+
+/obj/structure/roguemachine/steward/proc/build_auto_import_data()
+	var/list/essentials = list()
+	for(var/good_id in AUTO_IMPORT_ESSENTIALS)
+		var/datum/trade_good/tg = GLOB.trade_goods[good_id]
+		if(!tg)
+			continue
+		var/datum/roguestock/entry = SSeconomy.find_stockpile_by_trade_good(good_id)
+		essentials += list(list(
+			"good_id" = good_id,
+			"active" = SStreasury.is_auto_import_active(good_id) ? TRUE : FALSE,
+			"stock" = entry ? entry.stockpile_amount : 0,
+		))
+
+	// "Other goods" shown in the tab: importable trade goods the Crown can actually deposit
+	// (has a stockpile entry that accepts them) and that have at least one producing region.
+	// Essentials are filtered out because they appear in the top panel.
+	var/list/others = list()
+	for(var/good_id in GLOB.trade_goods)
+		if(good_id in AUTO_IMPORT_ESSENTIALS)
+			continue
+		var/datum/trade_good/tg = GLOB.trade_goods[good_id]
+		if(!tg || !tg.importable)
+			continue
+		var/datum/roguestock/entry = SSeconomy.find_stockpile_by_trade_good(good_id)
+		if(!entry || !entry.accept_toggle_enabled)
+			continue
+		var/has_producer = FALSE
+		for(var/region_id in GLOB.economic_regions)
+			var/datum/economic_region/region = GLOB.economic_regions[region_id]
+			if(region.produces[good_id])
+				has_producer = TRUE
+				break
+		if(!has_producer)
+			continue
+		others += list(list(
+			"good_id" = good_id,
+			"active" = SStreasury.is_auto_import_active(good_id) ? TRUE : FALSE,
+			"stock" = entry.stockpile_amount,
+		))
+
+	// Shape the history list so the TGUI doesn't need to Copy() nested lists itself.
+	var/list/history = list()
+	for(var/list/entry as anything in SStreasury.auto_import_daily_history)
+		history += list(list(
+			"day" = entry["day"],
+			"spent" = entry["spent"],
+			"lines" = (entry["lines"] || list()).Copy(),
+		))
+
+	return list(
+		"today_spent" = SStreasury.auto_import_daily_spent,
+		"purse_floor" = SStreasury.auto_import_purse_floor,
+		"floor_target" = AUTO_IMPORT_FLOOR,
+		"batch_size" = AUTO_IMPORT_BATCH,
+		"max_price_mult" = AUTO_IMPORT_MAX_PRICE_MULT,
+		"essentials" = essentials,
+		"others" = others,
+		"history" = history,
+	)
 
 /obj/structure/roguemachine/steward/ui_act(action, list/params)
 	. = ..()
@@ -300,5 +362,21 @@
 			return TRUE
 		if("trade_region_export")
 			handle_trade_region_export(usr, params["region_id"])
+			SStgui.update_uis(src)
+			return TRUE
+		if("toggle_auto_import")
+			var/good_id = params["good_id"]
+			if(good_id)
+				SStreasury.set_auto_import(good_id, !SStreasury.is_auto_import_active(good_id))
+			SStgui.update_uis(src)
+			return TRUE
+		if("kill_switch_auto_import")
+			SStreasury.kill_switch_auto_import()
+			SStgui.update_uis(src)
+			return TRUE
+		if("set_auto_import_purse_floor")
+			var/amount = text2num("[params["amount"]]")
+			if(!isnull(amount))
+				SStreasury.set_auto_import_purse_floor(amount)
 			SStgui.update_uis(src)
 			return TRUE

@@ -17,6 +17,12 @@ export const TabBar = (props: {
       <div style={tabStyle(tab === 'regions')} onClick={() => onSwitch('regions')}>
         Regions
       </div>
+      <div
+        style={tabStyle(tab === 'auto_import')}
+        onClick={() => onSwitch('auto_import')}
+      >
+        Auto-Import
+      </div>
     </div>
   );
 };

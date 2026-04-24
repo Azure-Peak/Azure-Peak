@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 import { useBackend } from '../backend';
 import { Window } from '../layouts';
+import { AutoImportView } from './StewardTrade/AutoImportView';
 import { BanditryBanner } from './StewardTrade/BanditryBanner';
 import { BlockadeBanner } from './StewardTrade/BlockadeBanner';
 import { EventsBanner } from './StewardTrade/EventsBanner';
@@ -85,6 +86,7 @@ export const StewardTrade = () => {
           {tab === 'orders' && <OrdersView data={data} />}
           {tab === 'market' && <MarketView data={data} />}
           {tab === 'regions' && <RegionsView data={data} />}
+          {tab === 'auto_import' && <AutoImportView data={data} />}
         </div>
       </Window.Content>
     </Window>

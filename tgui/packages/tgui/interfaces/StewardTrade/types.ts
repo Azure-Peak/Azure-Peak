@@ -90,6 +90,29 @@ export type AldermanWarrant = {
   defense_remaining: number;
 };
 
+export type AutoImportRow = {
+  good_id: string;
+  active: BooleanLike;
+  stock: number;
+};
+
+export type AutoImportHistoryEntry = {
+  day: number;
+  spent: number;
+  lines: string[];
+};
+
+export type AutoImportData = {
+  today_spent: number;
+  purse_floor: number;
+  floor_target: number;
+  batch_size: number;
+  max_price_mult: number;
+  essentials: AutoImportRow[];
+  others: AutoImportRow[];
+  history: AutoImportHistoryEntry[];
+};
+
 export type Data = StaticData & {
   treasury: number;
   day: number;
@@ -101,6 +124,7 @@ export type Data = StaticData & {
   region_rows: RegionRow[];
   is_alderman_acting: BooleanLike;
   alderman_warrant: AldermanWarrant | null;
+  auto_import: AutoImportData;
 };
 
-export type TabKey = 'orders' | 'market' | 'regions';
+export type TabKey = 'orders' | 'market' | 'regions' | 'auto_import';

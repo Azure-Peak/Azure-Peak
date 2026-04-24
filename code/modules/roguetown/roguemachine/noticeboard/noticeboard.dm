@@ -178,7 +178,7 @@
 			var/state_label = D.active ? "IN FORCE" : "SUSPENDED"
 			contents += "<div style='margin-bottom:10px'>"
 			contents += "<b>[D.name]</b> <i>of [D.year]</i> &mdash; <font color='[state_color]'>[state_label]</font><br>"
-			contents += "<div style='white-space:pre-wrap;margin-top:4px'>[D.flavor_text]</div>"
+			contents += "<div style='white-space:pre-wrap;margin-top:4px'>[D.get_display_flavor_text()]</div>"
 			contents += "</div><hr>"
 	else if(current_category == "Trade Orders")
 		contents += "<h2>Standing Trade Orders</h2>"
