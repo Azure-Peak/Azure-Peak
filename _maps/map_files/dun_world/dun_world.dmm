@@ -72327,13 +72327,6 @@
 /obj/effect/decal/cleanable/blood/gibs/limb,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/mountains/decap)
-"ozH" = (
-/obj/structure/roguemachine/contractledger{
-	density = 0;
-	pixel_y = 8
-	},
-/turf/open/floor/rogue/carpet,
-/area/rogue/indoors/town/shop)
 "ozI" = (
 /obj/machinery/light/rogue/cauldron,
 /turf/open/floor/rogue/dirt,
@@ -276533,7 +276526,7 @@ dGW
 oti
 oti
 jUR
-ozH
+tvm
 tvm
 ocU
 eZd
