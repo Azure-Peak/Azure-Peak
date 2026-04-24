@@ -53,21 +53,23 @@ export type BanditryProjection = {
   lines: string[];
 };
 
+export type MarketRegionOption = {
+  region_id: string;
+  unit_price: number;
+  capacity_today: number;
+  capacity_total: number;
+  is_blockaded: BooleanLike;
+};
+
 export type MarketRow = {
   good_id: string;
   stock: number;
   stock_limit: number;
   event_tag: string;
-  import_region_id: string | null;
-  import_unit_price: number | null;
-  import_blockaded: BooleanLike;
-  import_capacity_today: number;
-  import_capacity_total: number;
-  export_region_id: string | null;
-  export_unit_price: number | null;
-  export_blockaded: BooleanLike;
-  export_capacity_today: number;
-  export_capacity_total: number;
+  // Sorted: import_regions ascending by unit_price (best buy first),
+  // export_regions descending (best sell first). Entry [0] is the auto-routed default.
+  import_regions: MarketRegionOption[];
+  export_regions: MarketRegionOption[];
 };
 
 export type RegionFlow = {

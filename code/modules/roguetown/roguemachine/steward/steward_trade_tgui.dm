@@ -198,38 +198,9 @@
 			"stock" = entry.stockpile_amount,
 			"stock_limit" = entry.stockpile_limit,
 			"event_tag" = event_tag,
-			"import_region_id" = null,
-			"import_unit_price" = null,
-			"import_blockaded" = FALSE,
-			"import_capacity_today" = 0,
-			"import_capacity_total" = 0,
-			"export_region_id" = null,
-			"export_unit_price" = null,
-			"export_blockaded" = FALSE,
-			"export_capacity_today" = 0,
-			"export_capacity_total" = 0,
+			"import_regions" = tg.importable ? build_market_import_regions(good_id) : list(),
+			"export_regions" = build_market_export_regions(good_id),
 		)
-
-		if(tg.importable)
-			var/list/import_info = SSeconomy.get_best_import_region(good_id, exclude_blockaded = FALSE)
-			if(import_info)
-				row["import_region_id"] = import_info["region_id"]
-				row["import_unit_price"] = import_info["unit_price"]
-				row["import_blockaded"] = import_info["is_blockaded"] ? TRUE : FALSE
-				var/datum/economic_region/import_region = GLOB.economic_regions[import_info["region_id"]]
-				if(import_region)
-					row["import_capacity_today"] = import_region.produces_today[good_id] || 0
-					row["import_capacity_total"] = import_region.produces[good_id] || 0
-
-		var/list/export_info = SSeconomy.get_best_export_region(good_id, exclude_blockaded = FALSE)
-		if(export_info)
-			row["export_region_id"] = export_info["region_id"]
-			row["export_unit_price"] = export_info["unit_price"]
-			row["export_blockaded"] = export_info["is_blockaded"] ? TRUE : FALSE
-			var/datum/economic_region/export_region = GLOB.economic_regions[export_info["region_id"]]
-			if(export_region)
-				row["export_capacity_today"] = export_region.demands_today[good_id] || 0
-				row["export_capacity_total"] = export_region.demands[good_id] || 0
 
 		market_rows += list(row)
 	data["market_rows"] = market_rows
@@ -268,6 +239,63 @@
 	data["auto_import"] = build_auto_import_data()
 
 	return data
+
+/// Enumerates every region producing good_id, with current next-unit import price and
+/// capacity. Sorted ascending by price so entry 1 is the "best buy." Blockade multiplier
+/// is baked into unit_price (no separate flag needed for ranking), but is_blockaded is
+/// still exposed so the UI can badge it.
+/obj/structure/roguemachine/steward/proc/build_market_import_regions(good_id)
+	var/list/out = list()
+	for(var/rid in GLOB.economic_regions)
+		var/datum/economic_region/r = GLOB.economic_regions[rid]
+		var/pace = r.produces[good_id] || 0
+		if(pace <= 0)
+			continue
+		var/today = r.produces_today[good_id] || 0
+		var/starting_index = max(0, pace - today)
+		var/price = SSeconomy.compute_import_unit_price(good_id, r, starting_index + 1)
+		out += list(list(
+			"region_id" = rid,
+			"unit_price" = price,
+			"capacity_today" = today,
+			"capacity_total" = pace,
+			"is_blockaded" = r.is_region_blockaded ? TRUE : FALSE,
+		))
+	// Insertion sort by unit_price ascending. At most ~9 entries so O(n^2) is negligible.
+	for(var/i in 1 to length(out) - 1)
+		for(var/j in (i + 1) to length(out))
+			if(out[j]["unit_price"] < out[i]["unit_price"])
+				var/list/swap = out[i]
+				out[i] = out[j]
+				out[j] = swap
+	return out
+
+/// As above, but for export destinations. Sorted descending by price (best sell first).
+/obj/structure/roguemachine/steward/proc/build_market_export_regions(good_id)
+	var/list/out = list()
+	for(var/rid in GLOB.economic_regions)
+		var/datum/economic_region/r = GLOB.economic_regions[rid]
+		var/pace = r.demands[good_id] || 0
+		if(pace <= 0)
+			continue
+		var/today = r.demands_today[good_id] || 0
+		var/starting_index = max(0, pace - today)
+		var/price = SSeconomy.compute_export_unit_price(good_id, r, starting_index + 1)
+		out += list(list(
+			"region_id" = rid,
+			"unit_price" = price,
+			"capacity_today" = today,
+			"capacity_total" = pace,
+			"is_blockaded" = r.is_region_blockaded ? TRUE : FALSE,
+		))
+	// Descending by unit_price (highest = best sell).
+	for(var/i in 1 to length(out) - 1)
+		for(var/j in (i + 1) to length(out))
+			if(out[j]["unit_price"] > out[i]["unit_price"])
+				var/list/swap = out[i]
+				out[i] = out[j]
+				out[j] = swap
+	return out
 
 /obj/structure/roguemachine/steward/proc/build_auto_import_data()
 	var/list/essentials = list()
