@@ -54,28 +54,29 @@ const COMMISSION_LABELS: Record<string, string> = {
 
 const coin = (n: number) => `${n}m`;
 
-// Turns a region's TP multiplier into a short medieval-flavored line explaining how
-// the bearer's payout relates to the Crown's draft. Returns null for baseline (mult=1)
-// so the UI doesn't clutter itself with "nothing special" chrome.
-const regionRewardFlavor = (mult: number | undefined): string | null => {
+// Reduces a decimal (like 0.5, 0.2, 0.25) to a simple X/Y fraction via gcd on
+// percentage integers. Works cleanly for the multipliers we ship (0.75, 1.2, 1.5).
+const toSimpleFraction = (decimal: number): { num: number; denom: number } => {
+  const whole = Math.round(decimal * 100);
+  const gcd = (a: number, b: number): number => (b === 0 ? a : gcd(b, a % b));
+  const g = gcd(Math.abs(whole), 100) || 1;
+  return { num: Math.abs(whole) / g, denom: 100 / g };
+};
+
+// Turns a region's TP multiplier into a short flavor line. Returns null for baseline
+// (mult=1) so the UI doesn't clutter itself with "nothing special" chrome.
+const regionRewardFlavor = (
+  regionName: string,
+  mult: number | undefined,
+): string | null => {
   if (typeof mult !== 'number' || mult === 1) return null;
   if (mult > 1) {
-    const match = Math.round((mult - 1) * 10);
-    if (match <= 0) return null;
     const descriptor = mult >= 1.4 ? 'bleak' : 'dangerous';
-    return `A ${descriptor} region - the burghers shall match ${match} mammons for every 10 the Crown sends for the commission.`;
+    const { num, denom } = toSimpleFraction(mult - 1);
+    return `${regionName} is a ${descriptor} region - contracts from that region tend to be ${num}/${denom} more lucrative.`;
   }
-  // mult < 1: tamed region, bearer claims less than the Crown commits.
-  const take = mult * 10;
-  let takeText: string;
-  if (Number.isInteger(take)) {
-    takeText = String(take);
-  } else if (take % 1 === 0.5) {
-    takeText = `${Math.floor(take)} and a half`;
-  } else {
-    takeText = take.toFixed(1);
-  }
-  return `A settled region, less dangerous than is usual - the bearer claims but ${takeText} mammons for every 10 the Crown sends.`;
+  const { num, denom } = toSimpleFraction(1 - mult);
+  return `${regionName} is a settled region - contracts from that region tend to be ${num}/${denom} less lucrative.`;
 };
 
 const FormRow = (props: { label: string; children: ReactNode }) => (
@@ -368,7 +369,10 @@ const ComposeView = () => {
       {!isBlockade &&
         region &&
         (() => {
-          const flavor = regionRewardFlavor(data.region_tp_multipliers?.[region]);
+          const flavor = regionRewardFlavor(
+            region,
+            data.region_tp_multipliers?.[region],
+          );
           if (!flavor) return null;
           return (
             <div

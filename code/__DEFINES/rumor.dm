@@ -5,7 +5,7 @@
 
 #define GUILD_REFERRAL_FEE_PCT 0.05
 #define RUMOR_CONTACT_FEE_PCT 0.25
-
+#define RUMOR_LUCRATIVE_MULT 1.5
 #define RUMOR_THREAT_GATE_MIN 0.20
 
 GLOBAL_LIST_INIT(rumor_threat_gated_types, list(

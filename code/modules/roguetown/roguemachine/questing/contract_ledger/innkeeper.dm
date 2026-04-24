@@ -35,7 +35,9 @@
 	if(!(chosen_type in GLOB.rumor_point_costs))
 		to_chat(innkeeper, span_warning("That rumor type is not one the Guild accepts."))
 		return
-	var/cost = GLOB.rumor_point_costs[chosen_type]
+	var/lucrative = params["lucrative"] ? TRUE : FALSE
+	var/base_cost = GLOB.rumor_point_costs[chosen_type]
+	var/cost = lucrative ? round(base_cost * RUMOR_LUCRATIVE_MULT) : base_cost
 	if(SStreasury.rumor_points < cost)
 		to_chat(innkeeper, span_warning("Insufficient Rumor Points. Need [cost], have [round(SStreasury.rumor_points, 0.1)]."))
 		return
@@ -77,20 +79,24 @@
 		SStreasury.rumor_points += cost
 		to_chat(innkeeper, span_warning("No landmark could bear that rumor. Try another region or type."))
 		return
+	if(lucrative)
+		dispatched.reward_amount = round(dispatched.reward_amount * RUMOR_LUCRATIVE_MULT)
 	SStreasury.rumor_issued_today[dup_key] = GLOB.dayspassed
 	SStreasury.rumor_log += list(list(
 		"title" = dispatched.title || dispatched.quest_type,
 		"type" = dispatched.quest_type,
 		"region" = chosen_region.region_name,
 		"in_hands" = in_hands,
+		"lucrative" = lucrative,
 		"day" = GLOB.dayspassed,
 	))
 	playsound(src, 'sound/misc/coindispense.ogg', 60, FALSE, -1)
+	var/lucrative_tail = lucrative ? " - <i>lucrative</i>" : ""
 	if(in_hands)
-		to_chat(innkeeper, span_notice("A scroll of the rumor is placed in your hands: <b>[dispatched.title || dispatched.quest_type]</b>. Pass it to whomever you see fit."))
+		to_chat(innkeeper, span_notice("A scroll of the rumor is placed in your hands: <b>[dispatched.title || dispatched.quest_type]</b>[lucrative_tail]. Pass it to whomever you see fit."))
 	else
 		say("\"So I have heard...\" A rumor is whispered into the Guild's ledger.")
-		to_chat(innkeeper, span_notice("Rumor posted to the board: <b>[dispatched.title || dispatched.quest_type]</b>."))
+		to_chat(innkeeper, span_notice("Rumor posted to the board: <b>[dispatched.title || dispatched.quest_type]</b>[lucrative_tail]."))
 
 /obj/structure/roguemachine/contractledger/proc/find_active_innkeeper()
 	for(var/mob/living/carbon/human/H in GLOB.human_list)

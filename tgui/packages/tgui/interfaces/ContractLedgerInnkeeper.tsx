@@ -20,6 +20,7 @@ type InnkeeperData = {
   rumor_regions_by_type: Record<string, string[]>;
   rumor_destinations: string[];
   rumor_log: RumorLogEntry[];
+  rumor_lucrative_mult: number;
 };
 
 type DispatchMode = 'board' | 'hands';
@@ -143,10 +144,13 @@ const ComposeView = () => {
   const [region, setRegion] = useState<string>('');
   const [destination, setDestination] = useState<string>('');
   const [mode, setMode] = useState<DispatchMode>('board');
+  const [lucrative, setLucrative] = useState<boolean>(false);
   const [inflight, setInflight] = useState<boolean>(false);
 
   const regionsForType = data.rumor_regions_by_type?.[type] || [];
-  const cost = data.rumor_costs?.[type] ?? 0;
+  const baseCost = data.rumor_costs?.[type] ?? 0;
+  const lucrativeMult = data.rumor_lucrative_mult ?? 1.5;
+  const cost = lucrative ? Math.round(baseCost * lucrativeMult) : baseCost;
   const needsDestination = type === RECOVERY_TYPE;
 
   const onTypeChange = (next: string) => {
@@ -176,6 +180,7 @@ const ComposeView = () => {
       region,
       destination: needsDestination ? destination : null,
       in_hands: mode === 'hands' ? 1 : 0,
+      lucrative: lucrative ? 1 : 0,
     });
     setTimeout(() => setInflight(false), DISPATCH_DEBOUNCE_MS);
   };
@@ -206,7 +211,7 @@ const ComposeView = () => {
           value={region}
           onChange={setRegion}
           options={regionsForType}
-          placeholder="— pick a region —"
+          placeholder="- pick a region -"
           disabled={regionsForType.length === 0}
           disabledPlaceholder="No region will host this type"
         />
@@ -218,7 +223,7 @@ const ComposeView = () => {
             value={destination}
             onChange={setDestination}
             options={data.rumor_destinations || []}
-            placeholder="— pick a destination —"
+            placeholder="- pick a destination -"
           />
         </FormRow>
       )}
@@ -240,6 +245,19 @@ const ComposeView = () => {
         </div>
       </FormRow>
 
+      <FormRow label="Lucrative">
+        <label>
+          <input
+            type="checkbox"
+            checked={lucrative}
+            onChange={(e) => setLucrative(e.target.checked)}
+          />
+          &nbsp;Spend {pts(Math.round(baseCost * lucrativeMult))} instead of{' '}
+          {pts(baseCost)} for a x{lucrativeMult} reward. Your referral cut grows
+          with the payout.
+        </label>
+      </FormRow>
+
       <div className="ContractLedger__InnkeeperFormFooter">
         <button
           type="button"
@@ -249,6 +267,7 @@ const ComposeView = () => {
           onClick={dispatch}
         >
           Whisper Rumor ({pts(cost)})
+          {lucrative ? ' - lucrative' : ''}
         </button>
       </div>
     </>
