@@ -3,7 +3,7 @@
 	desc = "Wooden logs cut short for transport."
 	item_type = /obj/item/grown/log/tree/small
 	trade_good_id = TRADE_GOOD_WOOD
-	stockpile_amount = 2
+	stockpile_amount = 10
 	importexport_amt = 10
 	stockpile_limit = 50
 
@@ -12,7 +12,7 @@
 	desc = "Chunks of coal used for fuel and alloying."
 	item_type = /obj/item/rogueore/coal
 	trade_good_id = TRADE_GOOD_COAL
-	stockpile_amount = 5
+	stockpile_amount = 10
 	importexport_amt = 10
 	stockpile_limit = 50
 
@@ -57,7 +57,7 @@
 	desc = "Chunks of iron used for smithing."
 	item_type = /obj/item/rogueore/iron
 	trade_good_id = TRADE_GOOD_IRON_ORE
-	stockpile_amount = 6
+	stockpile_amount = 15
 	importexport_amt = 10
 	stockpile_limit = 50
 
