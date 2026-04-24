@@ -102,6 +102,11 @@
 	cost = 220
 	contains = list(/obj/item/clothing/ring/signet)
 
+/datum/supply_pack/rogue/luxury/resident_manuscript_blank
+	name = "Blank Resident Manuscript"
+	cost = 80
+	contains = list(/obj/item/book/granter/resident_manuscript/blank)
+
 /datum/supply_pack/rogue/luxury/manaflower
 	name = "Manabloom Flowers"
 	cost = 55

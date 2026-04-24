@@ -51,6 +51,7 @@
 				recipient.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/appraise/secular)
 			if(NOTABLE_RESIDENCY)
 				ADD_TRAIT(recipient, TRAIT_RESIDENT, TRAIT_VIRTUE)
+				grant_roundstart_resident_manuscript(recipient)
 				var/mapswitch = 0
 				if(SSmapping.config.map_name == "Dun World")
 					mapswitch = 1

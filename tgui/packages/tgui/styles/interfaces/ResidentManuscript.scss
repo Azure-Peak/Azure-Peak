@@ -1,0 +1,182 @@
+.ResidentManuscript {
+  min-height: 100%;
+  padding: 14px;
+  background: #201913;
+  color: #25180f;
+
+  &__sheet {
+    min-height: 100%;
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 26px 30px;
+    border: 1px solid #8b5e2f;
+    border-radius: 2px;
+    background:
+      linear-gradient(90deg, rgba(79, 51, 26, 0.12), transparent 9%, transparent 91%, rgba(79, 51, 26, 0.12)),
+      #d8c190;
+    box-shadow: inset 0 0 0 1px rgba(255, 238, 181, 0.42);
+  }
+
+  &__header {
+    text-align: center;
+    padding-bottom: 14px;
+    margin-bottom: 16px;
+    border-bottom: 2px solid rgba(83, 48, 19, 0.38);
+  }
+
+  &__subtitle {
+    color: #684222;
+    font-size: 11px;
+    text-transform: uppercase;
+  }
+
+  &__title {
+    color: #27160d;
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 30px;
+    line-height: 1.15;
+    margin-top: 5px;
+  }
+
+  &__bodyText {
+    color: #2d1d12;
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 15px;
+    line-height: 1.55;
+    margin-bottom: 18px;
+  }
+
+  &__fields {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px 16px;
+    margin-bottom: 14px;
+  }
+
+  &__field {
+    min-width: 0;
+    border-bottom: 1px solid rgba(82, 48, 22, 0.35);
+    padding-bottom: 5px;
+  }
+
+  &__fieldLabel {
+    color: #65411f;
+    font-size: 10px;
+    text-transform: uppercase;
+  }
+
+  &__fieldValue {
+    min-height: 24px;
+    color: #24160d;
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 15px;
+    overflow-wrap: anywhere;
+  }
+
+  &__statusButtons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+
+  &__notice,
+  &__note {
+    border-left: 3px solid #8b5e2f;
+    padding: 7px 10px;
+    margin: 8px 0;
+    background: rgba(71, 43, 20, 0.08);
+    color: #322014;
+    font-style: italic;
+  }
+
+  &__sectionTitle {
+    color: #563618;
+    font-size: 12px;
+    margin: 16px 0 8px;
+    text-transform: uppercase;
+  }
+
+  &__seals {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(96px, 1fr));
+    gap: 8px;
+  }
+
+  &__seal {
+    min-height: 76px;
+    border: 1px dashed rgba(91, 51, 23, 0.45);
+    border-radius: 2px;
+    padding: 9px;
+    background: rgba(255, 242, 194, 0.18);
+  }
+
+  &__seal--stamped {
+    border: 1px solid #7a2d26;
+    background: rgba(109, 28, 22, 0.12);
+  }
+
+  &__sealName {
+    color: #29170e;
+    font-weight: bold;
+    overflow-wrap: anywhere;
+  }
+
+  &__sealMark {
+    margin-top: 7px;
+    color: #783329;
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 13px;
+    font-style: italic;
+    overflow-wrap: anywhere;
+  }
+
+  &__verification {
+    margin-top: 12px;
+  }
+
+  &__verificationText {
+    padding: 9px 10px;
+    border: 1px solid rgba(88, 54, 25, 0.28);
+    background: rgba(255, 246, 210, 0.2);
+    color: #2a1a10;
+    line-height: 1.45;
+  }
+
+  &__verificationText--fake {
+    border-color: rgba(122, 38, 30, 0.62);
+    color: #67231d;
+  }
+
+  &__verificationText--real {
+    border-color: rgba(58, 94, 63, 0.62);
+    color: #284d30;
+  }
+
+  &__defects {
+    margin-top: 8px;
+    padding: 10px;
+    background: rgba(89, 38, 29, 0.08);
+  }
+
+  &__defectTitle {
+    color: #5f2a22;
+    font-size: 11px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  &__defect {
+    margin-top: 4px;
+    line-height: 1.35;
+  }
+
+  &__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    margin-top: 20px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(83, 48, 19, 0.32);
+  }
+}

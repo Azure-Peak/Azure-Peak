@@ -97,3 +97,8 @@
 	name = "Golden Hairpin"
 	cost =	100
 	contains = list(/obj/item/lockpick/goldpin)
+
+/datum/supply_pack/rogue/blackmarket_diplomacy/fake_resident_manuscript
+	name = "Suspicious Resident Manuscript"
+	cost = 110
+	contains = list(/obj/item/book/granter/resident_manuscript/fake)
