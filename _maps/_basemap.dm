@@ -1,5 +1,5 @@
 #include "map_files\generic\CentCom.dmm"
-#define LOWMEMORYMODE
+
 #ifndef LOWMEMORYMODE
 	#ifdef ALL_MAPS
 		#include "map_files\dun_world\dun_world.dmm"
