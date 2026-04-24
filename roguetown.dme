@@ -3218,6 +3218,7 @@
 #include "modular\code\modules\crafting\lewd\dildo_crafting.dm"
 #include "modular\code\modules\jobs\job_types\roguetown\roguetown.dm"
 #include "modular\code\modules\living\emote.dm"
+#include "modular\code\modules\living\preffered_language.dm"
 #include "modular\code\modules\living\say.dm"
 #include "modular\code\modules\maturity-prompt\code\client.dm"
 #include "modular\code\modules\maturity-prompt\code\config_entries.dm"

@@ -1,5 +1,0 @@
-author: "ReezeBL"
-delete-after: True
-changes:
-  - bugfix: "taur druid wildshape bug"
-  - refactor: "wildshape wound transfer logic should be more stable"
