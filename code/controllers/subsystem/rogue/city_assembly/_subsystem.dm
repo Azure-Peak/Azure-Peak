@@ -81,7 +81,6 @@ SUBSYSTEM_DEF(city_assembly)
 		log_game("CITY ASSEMBLY: session [S.number] below quorum ([voter_count]/[ASSEMBLY_QUORUM_VOTERS]). Status quo retained.")
 		summary["rendered_text"] = build_summary_text(summary)
 		history += list(summary)
-		announce_session_summary(summary)
 		refresh_warrant()
 		open_session()
 		return
