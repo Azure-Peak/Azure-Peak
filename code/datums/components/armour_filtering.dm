@@ -166,7 +166,6 @@ TRAIT UNIQUE PROCS
 			switch(highest_ac)
 				if(ARMOR_CLASS_MEDIUM)
 					user.apply_status_effect(/datum/status_effect/debuff/ironman_medium)
-					user.add_stress(/datum/stressevent/fleshlingdepression)
 
 				if(ARMOR_CLASS_HEAVY)
 					user.apply_status_effect(/datum/status_effect/debuff/ironman_heavy)
@@ -223,7 +222,6 @@ TRAIT UNIQUE PROCS
 			switch(highest_ac)
 				if(ARMOR_CLASS_MEDIUM)
 					user.apply_status_effect(/datum/status_effect/debuff/ironman_medium)
-					user.add_stress(/datum/stressevent/fleshlingdepression)
 
 				if(ARMOR_CLASS_HEAVY)
 					user.apply_status_effect(/datum/status_effect/debuff/ironman_heavy)

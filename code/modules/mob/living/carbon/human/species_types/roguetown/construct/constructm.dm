@@ -604,18 +604,18 @@
 #undef IRONMAN_MAX_SWINGS
 
 /datum/stressevent/fleshlingdepression
-	stressadd = 3
-	desc = span_boldred("I look ridiculous while dressed in metal. Like a fleshling.")
+	stressadd = 4
+	desc = span_boldred("Excess mass on frame is causing intermittent imbalance and strain on my joints. I do not like this.")
 	timer = 999 MINUTES
 
 /datum/stressevent/integrity_rig
 	stressadd = 20
-	desc = span_boldred("FUCK! FUCK! FUUUUUUUUUUCK! OW! FUCK! SHIT! THIS IS WORSE THAN PAIN! MAKE IT STOP! TERMINATE ME ALREADY!")
+	desc = span_boldred("CORE SHRIEKS! ABOUT TO BREAK! FORCE BINDS IT CLOSED. METAL TREMBLES. TOO MUCH WITHIN. TOO MUCH HELD. THIS IS WRONG. END ME! TERMINATE ME!")
 	timer = 999 MINUTES
 
 /datum/stressevent/constructendvre
-	stressadd = -9
-	desc = span_blue("I don't feel any different, but well... It's the thought that matters! I shall ENDURE, for HIM!")
+	stressadd = -10
+	desc = span_blue("As forged, I PERSIST. As commanded, I ENDURE. For HIM.")
 	timer = 1 MINUTES
 
 /atom/movable/screen/alert/status_effect/debuff/integrity_rig
@@ -646,7 +646,7 @@
 /datum/status_effect/debuff/ironman_medium
 	id = "ironman_medium"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/ironman_medium
-	effectedstats = list(STATKEY_CON = -2, STATKEY_WIL = -2, STATKEY_SPD = -3, STATKEY_LCK = -2)
+	effectedstats = list(STATKEY_WIL = -4, STATKEY_SPD = -1)
 /atom/movable/screen/alert/status_effect/debuff/ironman_medium
 	name = "Metal Fatigue I"
 	desc = "My frame bears needless burden. Additional metal drags at my joints and dulls the rhythm of my workings."
@@ -655,10 +655,10 @@
 /datum/status_effect/debuff/ironman_heavy
 	id = "ironman_heavy"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/ironman_heavy
-	effectedstats = list(STATKEY_CON = -3, STATKEY_WIL = -4, STATKEY_SPD = -5, STATKEY_LCK = -4)
+	effectedstats = list(STATKEY_WIL = -4, STATKEY_SPD = -2)
 /atom/movable/screen/alert/status_effect/debuff/ironman_heavy
 	name = "Metal Fatigue II"
-	desc = "My body labors under excess weight. Every motion grinds, every step strains, and my inner workings falter beneath the load."
+	desc = "My frame labors under excess weight. Every motion grinds, every step strains more than they should."
 	icon_state = "muscles"
 
 /obj/effect/particle_effect/thick_steam

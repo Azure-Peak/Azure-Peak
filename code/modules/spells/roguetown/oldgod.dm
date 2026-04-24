@@ -421,20 +421,22 @@
 
 /obj/effect/proc_holder/spell/self/psydonprayer/cast(mob/living/carbon/human/user) ///Lesser version of 'RESPITE' and 'PERSIST', T1. Self-regenerative.
 	. = ..()
-	if(!ishuman(user) || user.devotion && user.devotion.devotion >= 50)
+	if(!ishuman(user) || !(user.devotion && user.devotion.devotion > 15))
 		revert_cast()
 		return FALSE
 
 	var/mob/living/carbon/human/H = user
 	if(HAS_TRAIT(H, TRAIT_IRONMAN))
 		to_chat(H, span_info("I take a moment to collect myself..."))
-		while(H.devotion && H.devotion.devotion >= 25)
+		while(H.devotion && H.devotion.devotion >= 15)
 			if(!do_after(H, 50))
 				break
 			var/percent = H.max_energy * 0.05
 			H.add_stress(/datum/stressevent/meditation_ironman)
 			H.add_stress(/datum/stressevent/constructendvre)
 			H.energy_add(percent)
+			H.adjustBruteLoss(-3)
+			H.adjustFireLoss(-3)
 			playsound(H, 'sound/magic/psydonrespite.ogg', 100, TRUE)
 			new /obj/effect/temp_visual/psyheal_rogue(get_turf(H), "#e4e4e4")
 			new /obj/effect/temp_visual/psyheal_rogue(get_turf(H), "#e4e4e4")
@@ -546,7 +548,7 @@
 
 /obj/effect/proc_holder/spell/self/psydonrespite/cast(mob/living/carbon/human/user) // Greater version of 'PRAYER', T2. Requires the 'Devotee' virtue to unlock, if not playing as an Orthodoxist or Missionary.
 	. = ..()
-	if(!ishuman(user) || user.devotion && user.devotion.devotion >= 50)
+	if(!ishuman(user) || !(user.devotion && user.devotion.devotion > 25))
 		revert_cast()
 		return FALSE
 
@@ -556,10 +558,12 @@
 		while(H.devotion && H.devotion.devotion >= 25)
 			if(!do_after(H, 50))
 				break
-			var/percent = H.max_energy * 0.05
+			var/percent = H.max_energy * 0.1
 			H.add_stress(/datum/stressevent/meditation_ironman)
 			H.add_stress(/datum/stressevent/constructendvre)
 			H.energy_add(percent)
+			H.adjustBruteLoss(-5)
+			H.adjustFireLoss(-5)
 			playsound(H, 'sound/magic/psydonrespite.ogg', 100, TRUE)
 			new /obj/effect/temp_visual/psyheal_rogue(get_turf(H), "#e4e4e4")
 			new /obj/effect/temp_visual/psyheal_rogue(get_turf(H), "#e4e4e4")
@@ -568,6 +572,7 @@
 		to_chat(H, span_warning("My thoughts and sense of quiet escape me."))
 		playsound(H, 'sound/misc/machineyes.ogg', 25)		
 		return
+
 	to_chat(H, span_info("I take a moment to collect myself..."))
 
 	for(var/i in 1 to 10)
@@ -671,20 +676,22 @@
 
 /obj/effect/proc_holder/spell/self/psydonpersist/cast(mob/living/carbon/human/user) // Greater version of 'PRAYER' and 'RESPITE', T4. Inherently restricted to the Absolver, but potentially(?) achievable as a Missionary with the 'Devotee' virtue.
 	. = ..()
-	if(!ishuman(user) || user.devotion && user.devotion.devotion >= 50)
+	if(!ishuman(user) || !(user.devotion && user.devotion.devotion > 50))
 		revert_cast()
 		return FALSE
 
 	var/mob/living/carbon/human/H = user
 	if(HAS_TRAIT(H, TRAIT_IRONMAN))
 		to_chat(H, span_info("I take a moment to collect myself..."))
-		while(H.devotion && H.devotion.devotion >= 25)
+		while(H.devotion && H.devotion.devotion >= 50)
 			if(!do_after(H, 50))
 				break
-			var/percent = H.max_energy * 0.05
+			var/percent = H.max_energy * 0.15
 			H.add_stress(/datum/stressevent/meditation_ironman)
 			H.add_stress(/datum/stressevent/constructendvre)
 			H.energy_add(percent)
+			H.adjustBruteLoss(-7) // same as hammerheal
+			H.adjustFireLoss(-7)
 			playsound(H, 'sound/magic/psydonrespite.ogg', 100, TRUE)
 			new /obj/effect/temp_visual/psyheal_rogue(get_turf(H), "#e4e4e4")
 			new /obj/effect/temp_visual/psyheal_rogue(get_turf(H), "#e4e4e4")
