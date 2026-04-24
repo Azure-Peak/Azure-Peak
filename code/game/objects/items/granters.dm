@@ -358,7 +358,6 @@ UNDER NO CIRCUMSTANCE SHOULD ANY OF THE BOOKS BE GIVEN OUT INTO SPAWNERS OR TO B
 	var/owner_character_key
 	var/owner_name
 	var/owner_age
-	var/owner_class
 	var/owner_status_key = RESIDENT_MANUSCRIPT_STATUS_COMMONER
 	var/expiry_date
 	var/issued_place
@@ -422,11 +421,6 @@ UNDER NO CIRCUMSTANCE SHOULD ANY OF THE BOOKS BE GIVEN OUT INTO SPAWNERS OR TO B
 		return "[user.mobid]"
 	return user.real_name || user.name
 
-/obj/item/book/granter/resident_manuscript/proc/get_owner_class_label(mob/living/carbon/human/target)
-	if(!ishuman(target))
-		return null
-	return target.advjob || target.job || target.mind?.assigned_role || null
-
 /obj/item/book/granter/resident_manuscript/proc/status_key_for(mob/living/carbon/human/target)
 	if(HAS_TRAIT(target, TRAIT_NOBLE))
 		return RESIDENT_MANUSCRIPT_STATUS_NOBLE
@@ -438,7 +432,6 @@ UNDER NO CIRCUMSTANCE SHOULD ANY OF THE BOOKS BE GIVEN OUT INTO SPAWNERS OR TO B
 	owner_character_key = get_detection_character_key(target)
 	owner_name = target.real_name
 	owner_age = target.age
-	owner_class = get_owner_class_label(target)
 	owner_status_key = status_key_for(target)
 	is_bound = TRUE
 	name = "Resident Manuscript"
@@ -616,7 +609,6 @@ UNDER NO CIRCUMSTANCE SHOULD ANY OF THE BOOKS BE GIVEN OUT INTO SPAWNERS OR TO B
 	owner_character_key = null
 	owner_name = sanitize_manuscript_field(params["owner_name"], MAX_NAME_LEN, "Unknown")
 	owner_age = sanitize_manuscript_field(params["owner_age"], MAX_NAME_LEN, "")
-	owner_class = sanitize_manuscript_field(params["owner_class"], MAX_NAME_LEN, "")
 	owner_status_key = normalize_status_key(params["owner_status_key"])
 	is_bound = TRUE
 	name = "Resident Manuscript"
@@ -762,7 +754,6 @@ UNDER NO CIRCUMSTANCE SHOULD ANY OF THE BOOKS BE GIVEN OUT INTO SPAWNERS OR TO B
 	data["owner"] = list(
 		"name" = owner_name,
 		"age" = owner_age,
-		"class" = owner_class,
 		"status" = owner_status_key,
 		"status_key" = owner_status_key,
 	)

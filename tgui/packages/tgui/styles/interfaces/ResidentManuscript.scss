@@ -5,6 +5,7 @@
   color: #25180f;
 
   &__sheet {
+    position: relative;
     min-height: 100%;
     max-width: 700px;
     margin: 0 auto;
@@ -15,6 +16,33 @@
       linear-gradient(90deg, rgba(79, 51, 26, 0.12), transparent 9%, transparent 91%, rgba(79, 51, 26, 0.12)),
       #d8c190;
     box-shadow: inset 0 0 0 1px rgba(255, 238, 181, 0.42);
+    overflow: hidden;
+  }
+
+  &__sheet > :not(.ResidentManuscript__defectOverlay) {
+    position: relative;
+    z-index: 2;
+  }
+
+  &__sheet--defective {
+    box-shadow:
+      inset 0 0 0 1px rgba(255, 238, 181, 0.42),
+      inset 0 0 42px rgba(111, 38, 23, 0.14);
+  }
+
+  &__sheet--stale_smell {
+    background:
+      radial-gradient(circle at 17% 28%, rgba(82, 55, 25, 0.18) 0 8%, transparent 15%),
+      radial-gradient(circle at 78% 72%, rgba(94, 58, 28, 0.14) 0 7%, transparent 14%),
+      linear-gradient(90deg, rgba(79, 51, 26, 0.12), transparent 9%, transparent 91%, rgba(79, 51, 26, 0.12)),
+      #d2b981;
+  }
+
+  &__sheet--blue_halo &__bodyText {
+    background:
+      radial-gradient(ellipse at 48% 52%, rgba(37, 73, 145, 0.18) 0 18%, transparent 42%),
+      rgba(255, 246, 210, 0.16);
+    box-shadow: inset 0 0 30px rgba(35, 69, 142, 0.2);
   }
 
   &__header {
@@ -66,11 +94,26 @@
   }
 
   &__fieldValue {
+    display: block;
     min-height: 24px;
     color: #24160d;
     font-family: Georgia, 'Times New Roman', serif;
     font-size: 15px;
     overflow-wrap: anywhere;
+  }
+
+  &__field--ownerWobble &__fieldValue {
+    color: #5f1f18;
+    text-decoration: underline wavy rgba(122, 38, 30, 0.8);
+    text-underline-offset: 3px;
+    transform: rotate(-0.5deg);
+  }
+
+  &__field--correctedDate &__fieldValue {
+    color: #5f1f18;
+    text-decoration: line-through rgba(122, 38, 30, 0.75);
+    text-decoration-thickness: 2px;
+    transform: rotate(0.7deg);
   }
 
   &__statusButtons {
@@ -103,11 +146,13 @@
   }
 
   &__seal {
-    min-height: 76px;
+    position: relative;
+    min-height: 126px;
     border: 1px dashed rgba(91, 51, 23, 0.45);
     border-radius: 2px;
     padding: 9px;
     background: rgba(255, 242, 194, 0.18);
+    text-align: center;
   }
 
   &__seal--stamped {
@@ -121,6 +166,71 @@
     overflow-wrap: anywhere;
   }
 
+  &__waxSeal {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 58px;
+    height: 58px;
+    margin: 8px auto 7px;
+    border-radius: 46% 54% 48% 52%;
+    background:
+      radial-gradient(circle at 35% 30%, rgba(255, 154, 112, 0.35), transparent 28%),
+      radial-gradient(circle at 60% 65%, #5b1110 0, #7b1d18 52%, #4c0d0d 100%);
+    box-shadow:
+      0 2px 3px rgba(43, 16, 10, 0.35),
+      inset 0 0 0 3px rgba(91, 13, 12, 0.5),
+      inset 0 0 11px rgba(255, 178, 127, 0.2);
+    color: #e6b077;
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 27px;
+    font-weight: bold;
+    transform: rotate(-7deg);
+  }
+
+  &__waxSeal::before {
+    content: '';
+    position: absolute;
+    inset: -6px;
+    z-index: -1;
+    border-radius: 52% 43% 55% 45%;
+    background:
+      radial-gradient(circle, rgba(123, 29, 24, 0.96) 0 58%, transparent 60%),
+      repeating-conic-gradient(from 9deg, #7a1b17 0deg 10deg, #58100f 10deg 20deg);
+    filter: drop-shadow(0 1px 2px rgba(58, 16, 12, 0.35));
+  }
+
+  &__waxSeal::after {
+    content: '';
+    position: absolute;
+    inset: 11px;
+    border: 1px solid rgba(235, 165, 103, 0.36);
+    border-radius: 50%;
+  }
+
+  &__waxSealMark {
+    position: relative;
+    z-index: 1;
+    text-shadow: 0 1px 0 rgba(55, 6, 6, 0.8);
+  }
+
+  &__waxSealCrown {
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    width: 46px;
+    height: 46px;
+    z-index: 2;
+    pointer-events: none;
+    transform: rotate(7deg);
+    filter: drop-shadow(0 1px 0 rgba(60, 20, 12, 0.6));
+  }
+
+  &__waxSeal--royal &__waxSealMark {
+    display: none;
+  }
+
   &__sealMark {
     margin-top: 7px;
     color: #783329;
@@ -128,6 +238,47 @@
     font-size: 13px;
     font-style: italic;
     overflow-wrap: anywhere;
+  }
+
+  &__sealMissing {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 82px;
+    color: rgba(45, 29, 18, 0.55);
+    font-style: italic;
+  }
+
+  &__seal--suspicious &__waxSeal {
+    background:
+      radial-gradient(circle at 37% 30%, rgba(255, 169, 115, 0.26), transparent 30%),
+      radial-gradient(circle at 58% 63%, #6c1a17 0, #8a2c23 52%, #4e1110 100%);
+    transform: rotate(-11deg);
+  }
+
+  &__seal--smudged &__waxSeal {
+    filter: blur(0.45px);
+    transform: rotate(-15deg) skewX(-5deg);
+  }
+
+  &__seal--smudged &__waxSeal::before {
+    box-shadow: 10px 5px 7px rgba(94, 18, 16, 0.3);
+  }
+
+  &__seal--reheated &__waxSeal {
+    background:
+      radial-gradient(circle at 32% 22%, rgba(255, 200, 130, 0.55), transparent 27%),
+      radial-gradient(circle at 61% 66%, #8d2c1f 0, #9d3a27 50%, #5c1511 100%);
+    box-shadow:
+      0 2px 3px rgba(43, 16, 10, 0.35),
+      inset 0 0 0 3px rgba(91, 13, 12, 0.45),
+      inset 0 0 16px rgba(255, 199, 121, 0.38);
+  }
+
+  &__seal--uncertain &__sealMark {
+    text-decoration: underline wavy rgba(122, 38, 30, 0.62);
+    text-underline-offset: 3px;
+    transform: rotate(-1.5deg);
   }
 
   &__verification {
@@ -178,5 +329,150 @@
     margin-top: 20px;
     padding-top: 14px;
     border-top: 1px solid rgba(83, 48, 19, 0.32);
+  }
+
+  &__defectOverlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  &__visualDefect {
+    position: absolute;
+  }
+
+  &__visualDefect--inkBlot {
+    top: 39%;
+    left: 12%;
+    width: 62px;
+    height: 38px;
+    border-radius: 52% 48% 61% 39%;
+    background:
+      radial-gradient(circle at 42% 48%, rgba(51, 18, 13, 0.5) 0 20%, transparent 42%),
+      radial-gradient(circle at 68% 36%, rgba(64, 21, 14, 0.28) 0 15%, transparent 38%),
+      radial-gradient(circle at 28% 64%, rgba(48, 16, 12, 0.25) 0 14%, transparent 36%);
+    opacity: 0.8;
+    transform: rotate(-18deg);
+  }
+
+  &__visualDefect--raggedEdge {
+    top: 56px;
+    right: 14px;
+    width: 18px;
+    height: calc(100% - 112px);
+    pointer-events: none;
+    opacity: 0.78;
+  }
+
+  &__visualDefect--misalignedInitial {
+    top: 132px;
+    left: 38px;
+    color: rgba(28, 55, 132, 0.34);
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 58px;
+    font-weight: bold;
+    transform: rotate(-8deg) translateY(8px);
+  }
+
+  &__visualDefect--freshPricking {
+    left: 72px;
+    bottom: 154px;
+    width: 168px;
+    height: 42px;
+    pointer-events: none;
+    transform: rotate(-5deg);
+  }
+
+  &__freshPrickingLine {
+    position: absolute;
+    left: 6px;
+    right: 4px;
+    top: 14px;
+    border-top: 1px solid rgba(92, 56, 20, 0.32);
+    transform: rotate(2deg);
+  }
+
+  &__freshPrickingLine--bottom {
+    left: 14px;
+    right: 0;
+    top: 28px;
+    border-top-color: rgba(92, 56, 20, 0.24);
+    transform: rotate(-1deg);
+  }
+
+  &__visualDefect--freshPricking span {
+    position: absolute;
+    bottom: 0;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: rgba(92, 56, 20, 0.42);
+    box-shadow: 0 0 3px rgba(92, 56, 20, 0.18);
+  }
+
+  &__visualDefect--cutGilding {
+    left: 24px;
+    top: 26px;
+    width: calc(100% - 48px);
+    height: 28px;
+    pointer-events: none;
+  }
+
+  &__visualDefect--rethreadedCord {
+    left: 50%;
+    bottom: 112px;
+    width: 118px;
+    height: 34px;
+    margin-left: -59px;
+    pointer-events: none;
+    transform: rotate(2deg);
+  }
+
+  &__rethreadedCordLine {
+    position: absolute;
+    left: 10px;
+    top: 12px;
+    width: 96px;
+    border-top: 2px dashed rgba(124, 94, 26, 0.58);
+  }
+
+  &__visualDefect--rethreadedCord span {
+    position: absolute;
+    top: 6px;
+    width: 12px;
+    height: 12px;
+    border: 2px solid rgba(92, 56, 20, 0.58);
+    border-radius: 50%;
+    box-shadow: 0 0 0 3px rgba(138, 26, 26, 0.08);
+  }
+
+  &__visualDefect--staleSmell {
+    inset: 22px;
+    pointer-events: none;
+    background:
+      radial-gradient(circle at 14% 18%, rgba(76, 47, 17, 0.11) 0 5%, transparent 12%),
+      radial-gradient(circle at 82% 28%, rgba(82, 48, 20, 0.1) 0 4%, transparent 10%),
+      radial-gradient(circle at 38% 86%, rgba(50, 35, 18, 0.09) 0 6%, transparent 14%);
+    mix-blend-mode: multiply;
+  }
+
+  &__visualDefect--hereticalMarginalia {
+    right: 38px;
+    top: 158px;
+    width: 132px;
+    pointer-events: none;
+    color: rgba(92, 25, 20, 0.72);
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 12px;
+    font-style: italic;
+    line-height: 1.35;
+    text-align: center;
+    transform: rotate(9deg);
+    text-shadow: 0 0 1px rgba(74, 7, 7, 0.25);
+  }
+
+  &__visualDefect--hereticalMarginalia > div {
+    display: block;
   }
 }

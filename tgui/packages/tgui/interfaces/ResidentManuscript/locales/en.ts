@@ -7,7 +7,6 @@ export const residentManuscriptEn: ResidentManuscriptTexts = {
   labels: {
     owner: 'Name',
     age: 'Age',
-    class: 'Vocation',
     status: 'Estate',
     expires: 'Valid until',
     issued: 'Issued at',
@@ -32,7 +31,6 @@ export const residentManuscriptEn: ResidentManuscriptTexts = {
   placeholders: {
     owner: 'Owner name',
     age: 'Age',
-    class: 'Vocation or station',
   },
   owner_status_options: {
     commoner: 'Unproven',
@@ -82,6 +80,14 @@ export const residentManuscriptEn: ResidentManuscriptTexts = {
       'One stroke in the date was crossed out too cleanly for a chancery hand.',
     heretical_marginalia:
       "A foreign marginal note shows between the lines: 'Zizo keeps the whisper, Graggar waits for blood, Matthios weighs the debt.'",
+  },
+  visual_hints: {
+    heretical_marginalia_lines: [
+      'Zizo keeps the whisper',
+      'Graggar waits for blood',
+      'Matthios weighs the debt',
+    ],
+    misaligned_initial: 'R',
   },
   validation_notes: {
     steady_seals:

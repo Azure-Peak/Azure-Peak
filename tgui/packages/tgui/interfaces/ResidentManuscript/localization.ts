@@ -11,7 +11,6 @@ export type ResidentManuscriptTexts = {
   labels: {
     owner: string;
     age: string;
-    class: string;
     status: string;
     expires: string;
     issued: string;
@@ -36,7 +35,6 @@ export type ResidentManuscriptTexts = {
   placeholders: {
     owner: string;
     age: string;
-    class: string;
   };
   owner_status_options: Record<OwnerStatusKey, string>;
   states: {
@@ -54,6 +52,10 @@ export type ResidentManuscriptTexts = {
     seal: string;
   };
   defects: Record<string, string>;
+  visual_hints: {
+    heretical_marginalia_lines: string[];
+    misaligned_initial: string;
+  };
   validation_notes: Record<string, string>;
 };
 
