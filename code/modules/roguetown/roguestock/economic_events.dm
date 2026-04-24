@@ -58,16 +58,16 @@ GLOBAL_LIST_EMPTY(active_economic_events)
 /datum/economic_event/ironmongers_strike
 	name = "IRONMONGERS' STRIKE"
 	description = "The ironmongers' guild has walked out over unpaid commissions - smelters sit cold."
-	announcement = "<font color='#c44'>IRONMONGERS' STRIKE: Iron ore supply chokes. Prices double.</font>"
-	affected_goods = list(TRADE_GOOD_IRON_ORE)
+	announcement = "<font color='#c44'>IRONMONGERS' STRIKE: Iron ore supply chokes. Smelted stock commands a premium.</font>"
+	affected_goods = list(TRADE_GOOD_IRON_ORE, TRADE_GOOD_IRON_INGOT, TRADE_GOOD_STEEL_INGOT)
 	price_mod = 5.0
 	event_type = ECON_EVENT_SHORTAGE
 
 /datum/economic_event/daftsmarch_cavein
 	name = "DAFTSMARCH CAVE-IN"
 	description = "A deep shaft collapse in Daftsmarch has shut mining operations across three veins."
-	announcement = "<font color='#c44'>DAFTSMARCH CAVE-IN: Mines shuttered. Iron, coal, and stone grow scarce.</font>"
-	affected_goods = list(TRADE_GOOD_IRON_ORE, TRADE_GOOD_COAL, TRADE_GOOD_STONE)
+	announcement = "<font color='#c44'>DAFTSMARCH CAVE-IN: Mines shuttered. Iron, coal, stone, and smelted stock all grow scarce.</font>"
+	affected_goods = list(TRADE_GOOD_IRON_ORE, TRADE_GOOD_COAL, TRADE_GOOD_STONE, TRADE_GOOD_IRON_INGOT, TRADE_GOOD_STEEL_INGOT)
 	price_mod = 3.75
 	event_type = ECON_EVENT_SHORTAGE
 
@@ -82,16 +82,16 @@ GLOBAL_LIST_EMPTY(active_economic_events)
 /datum/economic_event/saltwick_storm
 	name = "SALTWICK STORM"
 	description = "A vicious gale has battered the Saltwick wharves - fishing fleets are grounded for days."
-	announcement = "<font color='#c44'>SALTWICK STORM: Fishing fleets grounded. Fish prices surge.</font>"
-	affected_goods = list(TRADE_GOOD_FISH_FILET, TRADE_GOOD_COD, TRADE_GOOD_SALMON)
+	announcement = "<font color='#c44'>SALTWICK STORM: Fishing fleets grounded. Fresh and cured fish alike grow dear.</font>"
+	affected_goods = list(TRADE_GOOD_FISH_FILET, TRADE_GOOD_COD, TRADE_GOOD_SALMON, TRADE_GOOD_DRIED_FISH, TRADE_GOOD_FISH_MINCE)
 	price_mod = 4.5
 	event_type = ECON_EVENT_SHORTAGE
 
 /datum/economic_event/fur_trapping_frost
 	name = "TRAPPERS' FROST"
 	description = "An unseasonal freeze has driven the game deep into the wilds - trappers return empty-handed."
-	announcement = "<font color='#c44'>TRAPPERS' FROST: Fur and hide supply dries up. Tanners panic.</font>"
-	affected_goods = list(TRADE_GOOD_FUR, TRADE_GOOD_HIDE)
+	announcement = "<font color='#c44'>TRAPPERS' FROST: Fur, hide, and worked leather supply dries up. Tanners panic.</font>"
+	affected_goods = list(TRADE_GOOD_FUR, TRADE_GOOD_HIDE, TRADE_GOOD_CURED_LEATHER)
 	price_mod = 4.0
 	event_type = ECON_EVENT_SHORTAGE
 
@@ -135,8 +135,8 @@ GLOBAL_LIST_EMPTY(active_economic_events)
 /datum/economic_event/herring_swarm
 	name = "HERRING SWARM"
 	description = "A titanic shoal of fish has wandered into Saltwick waters - the nets come up full."
-	announcement = "<font color='#5cb85c'>HERRING SWARM: Saltwick nets bursting. Fish sells for pennies.</font>"
-	affected_goods = list(TRADE_GOOD_FISH_FILET)
+	announcement = "<font color='#5cb85c'>HERRING SWARM: Saltwick nets bursting. Fresh and cured fish both sell for pennies.</font>"
+	affected_goods = list(TRADE_GOOD_FISH_FILET, TRADE_GOOD_DRIED_FISH, TRADE_GOOD_FISH_MINCE)
 	price_mod = 0.5
 	event_type = ECON_EVENT_OVERSUPPLY
 
@@ -164,8 +164,8 @@ GLOBAL_LIST_EMPTY(active_economic_events)
 /datum/economic_event/murrain
 	name = "CATTLE MURRAIN"
 	description = "A wasting sickness has swept the herds of the Kingsfield pastures. Meat and dairy turn scarce."
-	announcement = "<font color='#c44'>CATTLE MURRAIN: Herds sicken across the pastures. Meat and dairy grow dear.</font>"
-	affected_goods = list(TRADE_GOOD_MEAT, TRADE_GOOD_BUTTER, TRADE_GOOD_CHEESE)
+	announcement = "<font color='#c44'>CATTLE MURRAIN: Herds sicken across the pastures. Meat, dairy, and cured sausage all grow dear.</font>"
+	affected_goods = list(TRADE_GOOD_MEAT, TRADE_GOOD_BUTTER, TRADE_GOOD_CHEESE, TRADE_GOOD_SAUSAGE)
 	price_mod = 4.5
 	event_type = ECON_EVENT_SHORTAGE
 
@@ -180,8 +180,8 @@ GLOBAL_LIST_EMPTY(active_economic_events)
 /datum/economic_event/copper_tin_embargo
 	name = "COPPER AND TIN EMBARGO"
 	description = "A foreign crown has barred the export of its copper and tin. Bronze-smiths scramble."
-	announcement = "<font color='#c44'>COPPER AND TIN EMBARGO: Foreign shipments halted. Alloying metals grow scarce.</font>"
-	affected_goods = list(TRADE_GOOD_COPPER_ORE, TRADE_GOOD_TIN_ORE)
+	announcement = "<font color='#c44'>COPPER AND TIN EMBARGO: Foreign shipments halted. Ore and smelted ingots alike grow scarce.</font>"
+	affected_goods = list(TRADE_GOOD_COPPER_ORE, TRADE_GOOD_TIN_ORE, TRADE_GOOD_COPPER_INGOT, TRADE_GOOD_TIN_INGOT)
 	price_mod = 4.25
 	event_type = ECON_EVENT_SHORTAGE
 
@@ -265,8 +265,8 @@ GLOBAL_LIST_EMPTY(active_economic_events)
 /datum/economic_event/fat_hog_season
 	name = "FAT HOG SEASON"
 	description = "The pig farmers have slaughtered early - pork and fat are cheap this week."
-	announcement = "<font color='#5cb85c'>FAT HOG SEASON: Pork and fat go cheap. Butchers work through the night.</font>"
-	affected_goods = list(TRADE_GOOD_PORK, TRADE_GOOD_FAT, TRADE_GOOD_TALLOW)
+	announcement = "<font color='#5cb85c'>FAT HOG SEASON: Pork, fat, and cured swine-meats all go cheap. Butchers work through the night.</font>"
+	affected_goods = list(TRADE_GOOD_PORK, TRADE_GOOD_FAT, TRADE_GOOD_TALLOW, TRADE_GOOD_SAUSAGE, TRADE_GOOD_SALUMOI)
 	price_mod = 0.6
 	event_type = ECON_EVENT_OVERSUPPLY
 
