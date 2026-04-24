@@ -12,9 +12,14 @@ SUBSYSTEM_DEF(questpool)
 	var/list/recent_takes = list()
 	var/list/event_log = list()
 	var/list/registered_ledgers = list()
+	var/list/kill_count_by_region = list()
+	var/list/evergreen_count_by_region = list()
+	var/list/landmarks_by_type = list()
 
 /datum/controller/subsystem/questpool/Initialize()
 	init_quest_factions()
+	for(var/obj/effect/landmark/quest_spawner/landmark as anything in GLOB.quest_landmarks_list)
+		register_landmark(landmark)
 	// Front-load every region to its full target so roundstart has a healthy mix.
 	regen_kill_targets(total_kill_target())
 	regen_fetch_targets()
@@ -36,9 +41,57 @@ SUBSYSTEM_DEF(questpool)
 	return closest
 
 /datum/controller/subsystem/questpool/fire(resumed)
+	// Reset region counts from the current pool state. reroll_stale / regen_kill_targets
+	// / regen_fetch_targets then maintain them incrementally through pool adds/removes.
+	rebuild_region_counts()
 	reroll_stale()
 	regen_kill_targets(QUEST_KILL_REGEN_PER_TICK)
 	regen_fetch_targets()
+
+/datum/controller/subsystem/questpool/proc/rebuild_region_counts()
+	kill_count_by_region.Cut()
+	evergreen_count_by_region.Cut()
+	for(var/datum/quest/Q as anything in pool)
+		adjust_region_count(Q, 1)
+
+/// Bumps the region count for Q's kind by delta. Called whenever a quest enters
+/// or leaves the pool so count_*_in stays O(1). No-op if Q has no region set.
+/datum/controller/subsystem/questpool/proc/adjust_region_count(datum/quest/Q, delta)
+	if(!Q?.region || !delta)
+		return
+	if(is_kill_type(Q.quest_type))
+		var/new_count = (kill_count_by_region[Q.region] || 0) + delta
+		if(new_count <= 0)
+			kill_count_by_region -= Q.region
+		else
+			kill_count_by_region[Q.region] = new_count
+	else if(is_evergreen_type(Q.quest_type))
+		var/new_count = (evergreen_count_by_region[Q.region] || 0) + delta
+		if(new_count <= 0)
+			evergreen_count_by_region -= Q.region
+		else
+			evergreen_count_by_region[Q.region] = new_count
+
+/datum/controller/subsystem/questpool/proc/register_landmark(obj/effect/landmark/quest_spawner/landmark)
+	if(!landmark?.quest_type)
+		return
+	for(var/qtype in landmark.quest_type)
+		var/list/bucket = landmarks_by_type[qtype]
+		if(!bucket)
+			bucket = list()
+			landmarks_by_type[qtype] = bucket
+		bucket |= landmark
+
+/datum/controller/subsystem/questpool/proc/unregister_landmark(obj/effect/landmark/quest_spawner/landmark)
+	if(!landmark?.quest_type)
+		return
+	for(var/qtype in landmark.quest_type)
+		var/list/bucket = landmarks_by_type[qtype]
+		if(!bucket)
+			continue
+		bucket -= landmark
+		if(!length(bucket))
+			landmarks_by_type -= qtype
 
 /// Sum of per-region kill targets across all regions.
 /datum/controller/subsystem/questpool/proc/total_kill_target()
@@ -49,24 +102,10 @@ SUBSYSTEM_DEF(questpool)
 	return total
 
 /datum/controller/subsystem/questpool/proc/count_kill_quests_in(region_name)
-	var/count = 0
-	for(var/datum/quest/Q as anything in pool)
-		if(Q.region != region_name)
-			continue
-		if(!is_kill_type(Q.quest_type))
-			continue
-		count++
-	return count
+	return kill_count_by_region[region_name] || 0
 
 /datum/controller/subsystem/questpool/proc/count_evergreen_quests_in(region_name)
-	var/count = 0
-	for(var/datum/quest/Q as anything in pool)
-		if(Q.region != region_name)
-			continue
-		if(!is_evergreen_type(Q.quest_type))
-			continue
-		count++
-	return count
+	return evergreen_count_by_region[region_name] || 0
 
 /proc/is_kill_type(quest_type)
 	return quest_type == QUEST_KILL_EASY || quest_type == QUEST_CLEAR_OUT || quest_type == QUEST_RAID || quest_type == QUEST_BOUNTY || quest_type == QUEST_RECOVERY
@@ -150,6 +189,7 @@ SUBSYSTEM_DEF(questpool)
 		if(Q.created_at >= cutoff)
 			continue
 		var/was_kill = is_kill_type(Q.quest_type)
+		adjust_region_count(Q, -1)
 		pool -= Q
 		log_event("reroll", "stale [Q.quest_difficulty] [Q.quest_type]")
 		qdel(Q)
@@ -214,6 +254,7 @@ SUBSYSTEM_DEF(questpool)
 		return Q
 
 	pool += Q
+	adjust_region_count(Q, 1)
 	record_round_statistic(STATS_CONTRACTS_GENERATED)
 	record_round_statistic(STATS_CONTRACTS_GENERATED_RUMOR)
 	log_event("generate", "rumor-pool [Q.quest_difficulty] [type] at [Q.target_spawn_area || "unknown"] (reward [Q.reward_amount])")
@@ -264,6 +305,7 @@ SUBSYSTEM_DEF(questpool)
 		steward.put_in_hands(scroll)
 	else
 		pool += Q
+		adjust_region_count(Q, 1)
 	record_round_statistic(STATS_CONTRACTS_GENERATED)
 	record_round_statistic(STATS_CONTRACTS_GENERATED_DEFENSE)
 	log_event("generate", "[in_hands ? "defense-in-hands" : "defense-pool"] [Q.quest_difficulty] [type] at [Q.target_spawn_area || "unknown"] (reward [Q.reward_amount])")
@@ -335,6 +377,7 @@ SUBSYSTEM_DEF(questpool)
 	var/turf/origin = get_nearest_ledger_turf(landmark_turf) || landmark_turf
 	Q.reward_amount = Q.calculate_reward(origin, landmark_turf)
 	pool += Q
+	adjust_region_count(Q, 1)
 	// Skip the generation counter when this is a stale-reroll replacement - reroll already bumped STATS_CONTRACTS_REROLLED.
 	if(!is_replacement)
 		record_round_statistic(STATS_CONTRACTS_GENERATED)
@@ -388,10 +431,12 @@ SUBSYSTEM_DEF(questpool)
 	// sleep(1) per spawn), and a double-click ui_act can otherwise re-enter this proc, pass the
 	// `Q in pool` check, and materialize the same quest twice (double scrolls, double mob waves).
 	pool -= Q
+	adjust_region_count(Q, -1)
 	if(!Q.materialize(landmark))
 		// Materialize failed during setup — put it back so someone else (or a retry) can take it.
 		if(!(Q in pool))
 			pool += Q
+			adjust_region_count(Q, 1)
 		log_event("claim_failed", "materialize failed for [Q.quest_difficulty] [Q.quest_type]")
 		return FALSE
 	Q.on_claim(user)

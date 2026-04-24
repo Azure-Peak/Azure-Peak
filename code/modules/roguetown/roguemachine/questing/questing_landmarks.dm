@@ -12,9 +12,14 @@
 		var/area/A = get_area(src)
 		if(A)
 			region = A.threat_region
+	// Register in the per-type index so find_quest_landmark can skip the full-list scan.
+	// If SSquestpool hasn't come up yet (landmarks mapload before subsystems init), it
+	// backfills from GLOB.quest_landmarks_list in its own Initialize().
+	SSquestpool?.register_landmark(src)
 
 /obj/effect/landmark/quest_spawner/Destroy()
 	GLOB.quest_landmarks_list -= src
+	SSquestpool?.unregister_landmark(src)
 	return ..()
 
 /obj/effect/landmark/quest_spawner/proc/add_quest_faction_to_nearby_mobs(turf/center)
@@ -67,12 +72,17 @@
 	icon_state = "quest_marker_high"
 
 /proc/find_quest_landmark(type, region = null)
-	GLOB.quest_landmarks_list = shuffle(GLOB.quest_landmarks_list)
+	// Pre-filtered by type via the landmarks_by_type index. The type-in-landmark.quest_type
+	// check from the old passes is now implicit in the index membership, and pick() at the
+	// end of each pass randomizes without shuffling the full global list every call.
+	var/list/candidates = SSquestpool?.landmarks_by_type?[type]
+	if(!length(candidates))
+		return null
 
 	if(region)
 		var/list/region_matches = list()
-		for(var/obj/effect/landmark/quest_spawner/landmark in GLOB.quest_landmarks_list)
-			if(!(type in landmark.quest_type))
+		for(var/obj/effect/landmark/quest_spawner/landmark as anything in candidates)
+			if(QDELETED(landmark))
 				continue
 			if(landmark.region != region)
 				continue
@@ -86,8 +96,8 @@
 	// generated for Basin from falling through to Coast (which forbids Easy) just because
 	// Coast landmarks also accept the type on the landmark side.
 	var/list/type_matches = list()
-	for(var/obj/effect/landmark/quest_spawner/landmark in GLOB.quest_landmarks_list)
-		if(!(type in landmark.quest_type))
+	for(var/obj/effect/landmark/quest_spawner/landmark as anything in candidates)
+		if(QDELETED(landmark))
 			continue
 		if(!landmark_region_allows_type(landmark, type))
 			continue
@@ -98,8 +108,8 @@
 		return pick(type_matches)
 
 	var/list/any_type_match = list()
-	for(var/obj/effect/landmark/quest_spawner/landmark in GLOB.quest_landmarks_list)
-		if(!(type in landmark.quest_type))
+	for(var/obj/effect/landmark/quest_spawner/landmark as anything in candidates)
+		if(QDELETED(landmark))
 			continue
 		if(!landmark_region_allows_type(landmark, type))
 			continue
