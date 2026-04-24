@@ -1793,6 +1793,7 @@
 #include "code\modules\crafting\recipe_books\book_entries\cooking\book_entry_brewing.dm"
 #include "code\modules\crafting\recipe_books\book_entries\mage\mage_basic.dm"
 #include "code\modules\crafting\recipe_books\book_entries\miracles\miracle_compendium.dm"
+#include "code\modules\crafting\recipe_books\book_entries\treasury\treasury_chapters.dm"
 #include "code\modules\deathsdoor\deathsdoor.dm"
 #include "code\modules\detectivework\detective_work.dm"
 #include "code\modules\detectivework\footprints_and_rag.dm"

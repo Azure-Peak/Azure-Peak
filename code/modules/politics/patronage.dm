@@ -1,6 +1,3 @@
-#define PATRONAGE_GRANT_COOLDOWN (5 MINUTES)
-#define PATRONAGE_CAP_PER_ROUND 20
-
 /// Global roll of current Ecclesiastical Benefactors. Iterated for revocation, inspection, and decree-revoke cleanup.
 GLOBAL_LIST_EMPTY(declared_benefactors)
 
@@ -170,5 +167,3 @@ GLOBAL_LIST_EMPTY(declared_benefactors)
 	revoke_patronage(granter, target, trait_id, revoke_proclamation)
 	return TRUE
 
-#undef PATRONAGE_GRANT_COOLDOWN
-#undef PATRONAGE_CAP_PER_ROUND

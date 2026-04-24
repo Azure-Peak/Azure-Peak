@@ -78,6 +78,8 @@ SUBSYSTEM_DEF(treasury)
 	var/list/rumor_log = list()
 	var/list/rumor_issued_today = list()
 	var/list/defense_log = list()
+	var/list/fined_today_names = list()
+	var/fined_today_day = -1
 
 /datum/controller/subsystem/treasury/Initialize()
 	// Roundstart Crown's Purse = purchase floor + random buffer + pop-scaled seed. Pop scaling
@@ -167,9 +169,13 @@ SUBSYSTEM_DEF(treasury)
 	return FLOOR(balance * cap_rate, 1)
 
 /// Returns the maximum mammon that can still be fined from payer today across all active decrees.
+/// Outlaws are uncapped. Otherwise, once a subject has already been fined today, returns 0 -
+/// the one-fine-per-subject-per-day rule is absolute, regardless of amount taken.
 /datum/controller/subsystem/treasury/proc/get_daily_fine_remaining(mob/living/payer)
 	if(!payer || HAS_TRAIT(payer, TRAIT_OUTLAW))
 		return 999999
+	if(has_been_fined_today(payer))
+		return 0
 	var/datum/fund/account = get_account(payer)
 	var/remaining = account ? account.balance : 0
 	for(var/id in decrees)
@@ -177,10 +183,24 @@ SUBSYSTEM_DEF(treasury)
 		remaining = D.apply_daily_fine_cap(payer, remaining)
 	return remaining
 
+/datum/controller/subsystem/treasury/proc/has_been_fined_today(mob/living/payer)
+	if(!payer?.real_name)
+		return FALSE
+	if(fined_today_day != GLOB.dayspassed)
+		fined_today_names.Cut()
+		fined_today_day = GLOB.dayspassed
+	return (payer.real_name in fined_today_names)
+
 /// Notifies all active decrees that a fine was successfully applied, so they can update tracking.
+/// Also records the subject in today's one-fine-per-day ledger (keyed by real_name).
 /datum/controller/subsystem/treasury/proc/notify_fine_applied(mob/living/payer, amount)
 	if(!payer || amount <= 0)
 		return
+	if(payer.real_name && !HAS_TRAIT(payer, TRAIT_OUTLAW))
+		if(fined_today_day != GLOB.dayspassed)
+			fined_today_names.Cut()
+			fined_today_day = GLOB.dayspassed
+		fined_today_names |= payer.real_name
 	for(var/id in decrees)
 		var/datum/decree/D = decrees[id]
 		D.on_fine_applied(payer, amount)
@@ -275,7 +295,10 @@ SUBSYSTEM_DEF(treasury)
 				record_tax_exemption(TAX_CATEGORY_FINE, fine_amt - max_fine)
 				fine_amt = max_fine
 		if(fine_amt <= 0)
-			send_ooc_note("<b>MEISTER:</b> Error: No fineable amount remains.", name = target_name)
+			if(fine_owner && has_been_fined_today(fine_owner))
+				send_ooc_note("<b>MEISTER:</b> Error: They have already been fined today.", name = target_name)
+			else
+				send_ooc_note("<b>MEISTER:</b> Error: No fineable amount remains.", name = target_name)
 			return FALSE
 		if(!transfer(account, discretionary_fund, fine_amt, "[TAX_CATEGORY_FINE] ([source])"))
 			send_ooc_note("<b>MEISTER:</b> Error: Insufficient funds in the account to complete the fine.", name = target_name)

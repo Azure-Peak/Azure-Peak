@@ -8,3 +8,13 @@
 #define DECREE_MAGNA_CARTA "magna_carta"
 
 #define DECREE_COOLDOWN (30 MINUTES)
+
+/// Balance-rate cap applied to Golden-Bull-protected subjects when fined or levied.
+#define GOLDEN_BULL_BURGHER_CAP 0.25
+/// Absolute mammon ceiling on any single fine levied against a Bull-protected subject.
+#define GOLDEN_BULL_DAILY_FINE_CAP 50
+
+/// How many patronage benefactors a single granter may hold declared at one time.
+#define PATRONAGE_CAP_PER_ROUND 20
+/// Cooldown between patronage grants by the same granter.
+#define PATRONAGE_GRANT_COOLDOWN (5 MINUTES)

@@ -74,4 +74,5 @@
 		SStreasury.grant_savings(ECONOMIC_UPPER_MIDDLE_CLASS, H)
 	backpack_contents = list(
 		/obj/item/mini_flagpole/steward = 1,
+		/obj/item/recipe_book/treasury_primer = 1,
 	)

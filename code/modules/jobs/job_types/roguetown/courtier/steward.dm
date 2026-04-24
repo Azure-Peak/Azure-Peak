@@ -84,6 +84,7 @@
 	backpack_contents = list(
 		/obj/item/mini_flagpole/steward = 1,
 		/obj/item/clothing/ring/signet = 1,
+		/obj/item/recipe_book/treasury_primer = 1,
 	)
 
 /mob/living/carbon/human/proc/adjust_taxes()
