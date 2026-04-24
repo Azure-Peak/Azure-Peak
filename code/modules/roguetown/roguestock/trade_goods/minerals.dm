@@ -43,6 +43,15 @@
 	source_region_id = TRADE_REGION_DAFTSMARCH
 	item_type = /obj/item/natural/stone
 
+/datum/trade_good/clay
+	id = TRADE_GOOD_CLAY
+	name = "Clay"
+	category = TRADE_CATEGORY_BASIC_MINERAL
+	behavior = TRADE_BEHAVIOR_RAW
+	base_price = SELLPRICE_CLAY
+	source_region_id = TRADE_REGION_BLACKHOLT
+	item_type = /obj/item/natural/clay
+
 /datum/trade_good/cinnabar
 	id = TRADE_GOOD_CINNABAR
 	name = "Cinnabar"

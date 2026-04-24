@@ -25,6 +25,15 @@
 	importexport_amt = 10
 	stockpile_limit = 50 // Allow a small amount of stones to be sold for chiselling
 
+/datum/roguestock/stockpile/clay
+	name = "Clay"
+	desc = "Damp clay dug from bog sediment, ready to be shaped or fired."
+	item_type = /obj/item/natural/clay
+	trade_good_id = TRADE_GOOD_CLAY
+	stockpile_amount = 10
+	importexport_amt = 10
+	stockpile_limit = 50
+
 /datum/roguestock/stockpile/salt//Comes from rocks not a farm
 	name = "Salt"
 	desc = "Rock salt useful for curing and cooking."
