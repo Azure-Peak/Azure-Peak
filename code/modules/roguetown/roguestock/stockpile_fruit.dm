@@ -4,6 +4,7 @@
 	item_type = /obj/item/reagent_containers/food/snacks/grown/apple
 	trade_good_id = TRADE_GOOD_APPLE
 	importexport_amt = 10
+	stockpile_amount = 10
 	stockpile_limit = 50
 	category = "Fruit"
 
@@ -13,6 +14,7 @@
 	item_type = /obj/item/reagent_containers/food/snacks/grown/fruit/pear
 	trade_good_id = TRADE_GOOD_PEAR
 	importexport_amt = 5
+	stockpile_amount = 5
 	stockpile_limit = 25
 	category = "Fruit"
 
@@ -22,6 +24,7 @@
 	item_type = /obj/item/reagent_containers/food/snacks/grown/berries/rogue
 	trade_good_id = TRADE_GOOD_JACKSBERRY
 	importexport_amt = 10
+	stockpile_amount = 10
 	stockpile_limit = 50 // Jackberries are used to mass produce raisins so higher limit
 	category = "Fruit"
 
@@ -34,6 +37,7 @@
 	export_only = TRUE
 
 	importexport_amt = 5
+	stockpile_amount = 5
 	stockpile_limit = 25
 	category = "Fruit"
 
@@ -46,6 +50,7 @@
 	export_only = TRUE
 
 	importexport_amt = 5
+	stockpile_amount = 5
 	stockpile_limit = 25
 	category = "Fruit"
 
@@ -58,6 +63,7 @@
 	export_only = TRUE
 
 	importexport_amt = 5
+	stockpile_amount = 5
 	stockpile_limit = 25
 	category = "Fruit"
 
@@ -70,6 +76,7 @@
 	export_only = TRUE
 
 	importexport_amt = 5
+	stockpile_amount = 5
 	stockpile_limit = 25
 	category = "Fruit"
 
@@ -82,6 +89,7 @@
 	export_only = TRUE
 
 	importexport_amt = 5
+	stockpile_amount = 5
 	stockpile_limit = 25
 	category = "Fruit"
 
@@ -94,6 +102,7 @@
 	export_only = TRUE
 
 	importexport_amt = 5
+	stockpile_amount = 5
 	stockpile_limit = 25
 	category = "Fruit"
 
@@ -106,6 +115,7 @@
 	export_only = TRUE
 
 	importexport_amt = 5
+	stockpile_amount = 5
 	stockpile_limit = 25
 	category = "Fruit"
 
@@ -115,6 +125,7 @@
 	item_type = /obj/item/reagent_containers/food/snacks/grown/fruit/tomato
 	trade_good_id = TRADE_GOOD_TOMATO
 	importexport_amt = 5
+	stockpile_amount = 5
 	stockpile_limit = 25
 	category = "Fruit"
 
@@ -124,5 +135,6 @@
 	item_type = /obj/item/natural/shellplant/pumpkin
 	trade_good_id = TRADE_GOOD_PUMPKIN
 	importexport_amt = 5
+	stockpile_amount = 5
 	stockpile_limit = 25
 	category = "Fruit"

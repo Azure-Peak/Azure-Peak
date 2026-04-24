@@ -39,6 +39,7 @@
 	item_type = /obj/item/reagent_containers/food/snacks/grown/cabbage/rogue
 	trade_good_id = TRADE_GOOD_CABBAGE
 	importexport_amt = 10
+	stockpile_amount = 10
 	stockpile_limit = 50
 	category = "Vegetable"
 
@@ -48,6 +49,7 @@
 	item_type = /obj/item/reagent_containers/food/snacks/grown/potato/rogue
 	trade_good_id = TRADE_GOOD_POTATO
 	importexport_amt = 10
+	stockpile_amount = 10
 	stockpile_limit = 50
 	category = "Vegetable"
 
@@ -57,6 +59,7 @@
 	item_type = /obj/item/reagent_containers/food/snacks/grown/onion/rogue
 	trade_good_id = TRADE_GOOD_ONION
 	importexport_amt = 10
+	stockpile_amount = 10
 	stockpile_limit = 50
 	category = "Vegetable"
 
@@ -66,6 +69,7 @@
 	item_type = /obj/item/reagent_containers/food/snacks/grown/garlick/rogue
 	trade_good_id = TRADE_GOOD_GARLICK
 	importexport_amt = 10
+	stockpile_amount = 10
 	stockpile_limit = 50
 	category = "Vegetable"
 
@@ -75,6 +79,7 @@
 	item_type = /obj/item/reagent_containers/food/snacks/grown/vegetable/turnip
 	trade_good_id = TRADE_GOOD_TURNIP
 	importexport_amt = 10
+	stockpile_amount = 10
 	stockpile_limit = 50
 	category = "Vegetable"
 
@@ -84,6 +89,7 @@
 	item_type = /obj/item/reagent_containers/food/snacks/grown/carrot
 	trade_good_id = TRADE_GOOD_CARROT
 	importexport_amt = 10
+	stockpile_amount = 10
 	stockpile_limit = 50
 	category = "Vegetable"
 
@@ -93,6 +99,7 @@
 	item_type = /obj/item/reagent_containers/food/snacks/grown/cucumber
 	trade_good_id = TRADE_GOOD_CUCUMBER
 	importexport_amt = 10
+	stockpile_amount = 10
 	stockpile_limit = 50
 	category = "Vegetable"
 
@@ -102,6 +109,7 @@
 	item_type = /obj/item/reagent_containers/food/snacks/grown/eggplant
 	trade_good_id = TRADE_GOOD_EGGPLANT
 	importexport_amt = 10
+	stockpile_amount = 10
 	stockpile_limit = 50
 	category = "Vegetable"
 
@@ -114,6 +122,7 @@
 	export_only = TRUE
 
 	importexport_amt = 10
+	stockpile_amount = 5
 	stockpile_limit = 50
 	category = "Vegetable"
 
@@ -123,6 +132,7 @@
 	item_type = /obj/item/reagent_containers/food/snacks/grown/coffeebeans
 	trade_good_id = TRADE_GOOD_COFFEE
 	importexport_amt = 10
+	stockpile_amount = 10
 	stockpile_limit = 50
 	category = "Vegetable"
 
@@ -132,6 +142,7 @@
 	item_type = /obj/item/reagent_containers/food/snacks/grown/rogue/tealeaves_dry
 	trade_good_id = TRADE_GOOD_TEA
 	importexport_amt = 10
+	stockpile_amount = 10
 	stockpile_limit = 50
 	category = "Vegetable"
 
@@ -141,6 +152,7 @@
 	item_type = /obj/item/reagent_containers/food/snacks/grown/rogue/poppy
 	trade_good_id = TRADE_GOOD_POPPY
 	importexport_amt = 10
+	stockpile_amount = 10
 	stockpile_limit = 50
 	category = "Vegetable"
 
@@ -153,5 +165,6 @@
 	export_only = TRUE
 
 	importexport_amt = 10
+	stockpile_amount = 5
 	stockpile_limit = 50
 	category = "Vegetable"

@@ -84,6 +84,7 @@
 	item_type = /obj/item/rogueore/silver
 	trade_good_id = TRADE_GOOD_SILVER_ORE
 	export_only = TRUE
+	stockpile_amount = 0 // Explicitly empty - players must produce their own silver.
 	stockpile_limit = 25
 	importexport_amt = 5
 
