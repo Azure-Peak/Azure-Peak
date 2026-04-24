@@ -104,7 +104,7 @@
 
 /datum/supply_pack/rogue/luxury/resident_manuscript_blank
 	name = "Blank Resident Manuscript"
-	cost = 80
+	cost = 35
 	contains = list(/obj/item/book/granter/resident_manuscript/blank)
 
 /datum/supply_pack/rogue/luxury/manaflower
