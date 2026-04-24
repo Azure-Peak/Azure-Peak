@@ -232,3 +232,8 @@
 /datum/loadout_item/donator/maesune/sabre
 	name = "Donator Kit - Decorated Sabre"
 	path = /obj/item/enchantingkit/weapon/maesune_sabre
+
+/datum/loadout_item/donator/nekosam
+	name = "Donator Kit - Cloak of the Wyrd"
+	path = /obj/item/clothing/suit/roguetown/armor/longcoat/wyrd_cloak
+	ckeywhitelist = list("nekosam")
