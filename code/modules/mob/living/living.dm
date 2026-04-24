@@ -2178,7 +2178,7 @@
 					break
 			if(!can_see_ht)
 				continue
-			found_ping(get_turf(HT), client, "hidden")
+			found_ping(get_turf(HT), client, "paws")
 			var/dist = get_dist(src, HT)
 			if(dist < min_dist)
 				min_dist = dist

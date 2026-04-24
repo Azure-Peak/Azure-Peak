@@ -642,9 +642,19 @@
 /obj/item/rogueweapon/example/sumquoderis
 	name = "Sum Quod Eris"
 	desc = "<b>'I AM AS YOU WERE. YOU WILL BE AS I AM NOW.'</b> <br> \
-	A staggeringly large executioner's sword, wreathed in blood-red thorns sprouting from hollows within the crossguard. Crimson ichor drips from the vines, \
-	but the weapon is otherwise entirely without adornment. A surprisingly heavy pommel allows for deceptively quick strikes, but the grotesque weight of the blade \
-	is capable of cleaving bodies in twain. When you fall, leave behind a beautiful corpse. Do not die of decay."
+	A staggeringly large executioner's sword seemingly formed from one great slab of metal. A horrific implement for a singular task. \
+	The handle of the blade is wreathed in blood-red vines sprouting from hollows within the crossguard. Crimson ichor drips from the thorns. \
+	A surprisingly heavy pommel allows for deceptively quick strikes, but the grotesque weight of the blade is capable of cleaving bodies in twain. \
+	The weapon is entirely without adornment, bare metal facing the world. <i>When you fall, leave behind a beautiful corpse. Do not die of decay.</i>"
 	icon = 'icons/obj/items/donor_weapons_64.dmi'
 	icon_state = "sumquoderis"
 	bigboy = TRUE
+
+/obj/item/rogueweapon/example/euthanasia
+	name = "Euthanasia"
+	desc = "A curved, flowing dagger of dappled steel, formed in one piece as if born, not made. <br> \
+	Strings of rough, red hemp-rope tie in tight coils around the haft and crossguard, forming a surprisingly makeshift grip. \
+	No adornments or inscription lies on the blade. Its purpose is fulfilled intrinsically, a sarkic weapon, fit for one sole purpose. \
+	<i>Take the instrument into your hands, O murderer mine. The garden is on fire, and soon the stars must go out.</i>"
+	icon = 'icons/obj/items/donor_weapons.dmi'
+	icon_state = "euthanasia"
