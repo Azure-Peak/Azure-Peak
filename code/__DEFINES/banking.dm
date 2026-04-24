@@ -30,11 +30,12 @@
 /// Maximum fraction of a target's balance a single levy/fine can take. Decrees may narrow this further.
 #define GENERIC_RATE_CAP 0.75
 
-/// Savings Goal tiers. Round-end balance (on-person + bank) awards triumphs at each step;
-/// the top tier awards its full triumph count (tiers don't stack - reaching tier 3 earns 3, not 6).
-#define SAVINGS_GOAL_TIER1 100
-#define SAVINGS_GOAL_TIER2 150
-#define SAVINGS_GOAL_TIER3 200
+/// Savings Goal tiers. Flat across all stations - round-end balance (on-person + bank) awards
+/// triumphs at each step. The top tier awards its full triumph count (tiers don't stack -
+/// reaching tier 3 earns 3, not 6).
+#define SAVINGS_GOAL_TIER1 50
+#define SAVINGS_GOAL_TIER2 100
+#define SAVINGS_GOAL_TIER3 150
 /// Kept as an alias for callsites that still read the "main" goal threshold (announcements, etc.).
 #define SAVINGS_GOAL_THRESHOLD SAVINGS_GOAL_TIER3
 /// Default Crown's Purse floor below which the stockpile refuses purchases. Steward-settable.

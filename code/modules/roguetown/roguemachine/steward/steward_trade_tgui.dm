@@ -1,17 +1,40 @@
 /obj/structure/roguemachine/steward/ui_state(mob/user)
+	// The sitting Alderman acts remotely from the Notice Board - they cannot physically reach the
+	// locked Stewardry. For them, swap adjacency for a conscious-and-alive check; access is gated
+	// at every action by alderman_has_access() checking trait + warrant. Everyone else needs to
+	// be standing at the Nerve Master itself.
+	if(SScity_assembly?.is_alderman(user))
+		return GLOB.conscious_state
 	return GLOB.human_adjacent_state
 
 /obj/structure/roguemachine/steward/ui_interact(mob/user, datum/tgui/ui)
 	SStgui.try_update_ui(user, src, ui)
 
 /obj/structure/roguemachine/steward/proc/open_trade_tgui(mob/user)
-	if(locked)
+	if(locked && !alderman_has_access(user))
 		to_chat(user, span_warning("It's locked. Of course."))
 		return
 	var/datum/tgui/ui = SStgui.try_update_ui(user, src, null)
 	if(!ui)
 		ui = new(user, src, "StewardTrade")
 		ui.open()
+
+/obj/structure/roguemachine/steward/proc/alderman_has_access(mob/user)
+	if(!user || !SScity_assembly)
+		return FALSE
+	if(!SScity_assembly.is_alderman(user))
+		return FALSE
+	if(!SScity_assembly.current_warrant)
+		return FALSE
+	return (SScity_assembly.current_warrant.trade_remaining > 0)
+
+/// Adjacency/topic check that yields to the Alderman. The Alderman acts remotely from the Notice
+/// Board and never stands at the Stewardry; every trade-path callsite should use this instead of
+/// calling canUseTopic directly. Returns TRUE if the user may proceed.
+/obj/structure/roguemachine/steward/proc/user_can_act(mob/user)
+	if(SScity_assembly?.is_alderman(user))
+		return TRUE
+	return user.canUseTopic(src, BE_CLOSE)
 
 /// Catalog data — doesn't change mid-session. Trade good names, region names/descriptions,
 /// hardcoded caps, importability flags. TGUI caches this and doesn't re-ship it per tick.
@@ -219,7 +242,11 @@
 	. = ..()
 	if(.)
 		return
-	if(!usr.canUseTopic(src, BE_CLOSE) || locked)
+	// Adjacency gate yields to the Alderman - they act remotely from the Notice Board. All trade
+	// actions still re-check alderman_has_access() (trait + warrant) below.
+	if(!user_can_act(usr))
+		return TRUE
+	if(locked && !alderman_has_access(usr))
 		return TRUE
 	switch(action)
 		if("fulfill_order")

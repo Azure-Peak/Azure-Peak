@@ -34,8 +34,23 @@
 		to_chat(steward, span_warning("That quest type is not one the Crown commissions."))
 		return
 
+	// Alderman status is computed up front so funding and levy-exempt gates can reference it.
+	// Stewards who happen to also be the Alderman act as Steward for the purposes of these gates -
+	// the Steward's own authority is strictly broader.
+	var/is_alderman_acting = SScity_assembly?.is_alderman(steward)
+	if(is_alderman_acting && steward.job == "Steward")
+		is_alderman_acting = FALSE
+
 	// funding source: "pledge" (default), "crown" (discretionary fund), "directive" (free, capped).
+	// Aldermen are restricted to "pledge" - they cannot draw Crown's Purse (the Assembly's warrant
+	// is denominated in Pledge authority, and letting them also drain the Crown's coin double-dips
+	// the realm's budget against the Commons' allowance) and cannot issue Requests (directive is
+	// the Steward's administrative prerogative, a Crown officer commanding the staff it pays).
 	var/funding = params["funding"] || "pledge"
+	if(is_alderman_acting && funding != "pledge")
+		to_chat(steward, span_warning("The Alderman's commission is paid from the Assembly's Pledge warrant alone. The Crown's Purse and the Steward's Request are not yours to command."))
+		return
+
 	var/cost = GLOB.defense_quest_tier_costs[chosen_type]
 	var/datum/fund/source_fund
 	var/is_directive = FALSE
@@ -65,8 +80,15 @@
 		to_chat(steward, span_warning("Insufficient [source_fund.name]. Need [cost]m, have [source_fund.balance]m."))
 		return
 
+	if(is_alderman_acting)
+		if(!SScity_assembly.can_consume_defense(cost))
+			to_chat(steward, span_warning("Your defense warrant cannot cover this commission. Remaining: [SScity_assembly.current_warrant.defense_remaining]p."))
+			return
+
 	if(chosen_type == QUEST_BLOCKADE_DEFENSE)
 		commission_blockade_defense(steward, params, cost, source_fund, is_directive)
+		if(is_alderman_acting)
+			SScity_assembly.consume_defense(cost, steward, "blockade defense commission")
 		return
 
 	var/region_name = params["region"]
@@ -94,12 +116,16 @@
 	if(source_fund && cost > 0 && !SStreasury.burn(source_fund, cost, "Defense commission ([chosen_type] in [chosen_region.region_name])"))
 		to_chat(steward, span_warning("The [source_fund.name] refused the draft."))
 		return
+	if(is_alderman_acting && cost > 0)
+		SScity_assembly.consume_defense(cost, steward, "[chosen_type] defense commission in [chosen_region.region_name]")
 	var/in_hands = params["in_hands"] ? TRUE : FALSE
 	// Directives are always drafted to the Steward's hand - they don't get posted publicly
 	// because they carry no reward and nobody signs free work off a board.
 	if(is_directive)
 		in_hands = TRUE
-	var/levy_exempt = params["levy_exempt"] ? TRUE : FALSE
+	// Levy exemption is the Steward's sole prerogative - a Crown officer can waive the Crown's
+	// tax revenue. The Alderman speaks for the Commons, not the Crown, and has no such authority.
+	var/levy_exempt = (!is_alderman_acting && params["levy_exempt"]) ? TRUE : FALSE
 	var/datum/quest/dispatched = SSquestpool.issue_defense_quest(chosen_type, chosen_region, chosen_destination, in_hands, steward)
 	if(!dispatched)
 		if(source_fund && cost > 0)

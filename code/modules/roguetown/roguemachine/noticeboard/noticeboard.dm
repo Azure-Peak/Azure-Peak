@@ -10,7 +10,7 @@
 	layer = ABOVE_MOB_LAYER
 	plane = GAME_PLANE_UPPER
 	var/current_category = "Postings"
-	var/list/categories = list("Postings", "Premium Postings", "Scout Report", "Mercenary Roster", "Charters", "Trade Orders", "Economic Events", "Blockades")
+	var/list/categories = list("Postings", "Premium Postings", "Scout Report", "Mercenary Roster", "Charters", "Trade Orders", "Economic Events", "Blockades", "City Assembly")
 
 /obj/structure/roguemachine/noticeboard/get_mechanics_examine(mob/user)
 	. = ..()
@@ -91,6 +91,9 @@
 	if(href_list["authorityremovepost"])
 		authority_removepost(usr)
 		return attack_hand(usr)
+	if(href_list["open_assembly"])
+		open_assembly_tgui(usr)
+		return
 
 	return attack_hand(usr)
 
@@ -262,6 +265,8 @@
 						contents += label
 					contents += "<br>"
 				contents += "</div><hr>"
+	else if(current_category == "City Assembly")
+		contents += build_assembly_summary_html()
 	var/datum/browser/popup = new(user, "NOTICEBOARD", "", 800, 650)
 	popup.set_content(contents)
 	popup.open()

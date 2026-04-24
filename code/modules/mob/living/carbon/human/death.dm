@@ -32,7 +32,13 @@
 		return
 	if(QDELETED(src) || !loc)
 		return
-		
+
+	if(SScity_assembly?.is_alderman(src))
+		var/departing_name = real_name
+		var/departing_job = job
+		SScity_assembly.demote_alderman("Alderman has died")
+		SScity_assembly.notify_alderman_lost_ref(departing_name, departing_job, "died")
+
 	var/area/A = get_area(src)
 	dna?.species?.stop_wagging_tail(src)
 

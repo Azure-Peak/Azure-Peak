@@ -565,7 +565,10 @@
 	return attack_hand(usr)
 
 /obj/structure/roguemachine/steward/proc/handle_trade_import(mob/user, region_id, good_id)
-	if(!user.canUseTopic(src, BE_CLOSE) || locked)
+	if(!user_can_act(user))
+		return
+	var/is_alderman_acting = (locked && alderman_has_access(user))
+	if(locked && !is_alderman_acting)
 		return
 	var/datum/economic_region/region = GLOB.economic_regions[region_id]
 	var/datum/trade_good/tg = GLOB.trade_goods[good_id]
@@ -574,7 +577,9 @@
 	var/quantity = input(user, "How many [tg.name] to import from [region.name]?", src, 1) as null|num
 	if(!quantity || quantity < 1)
 		return
-	if(!user.canUseTopic(src, BE_CLOSE) || locked)
+	if(!user_can_act(user))
+		return
+	if(locked && !alderman_has_access(user))
 		return
 	if(findtext(num2text(quantity), "."))
 		return
@@ -590,19 +595,32 @@
 		total += SSeconomy.compute_import_unit_price(good_id, region, starting_index + i)
 	var/balance = SStreasury.discretionary_fund.balance
 	var/blockade_note = region.is_region_blockaded ? "\n(BLOCKADED - [BLOCKADE_IMPORT_MULT]x cost)" : ""
-	var/confirm = alert(user, "Import [quantity] [tg.name] from [region.name]?\nTotal cost: [total]m\nCrown's Purse after: [balance - total]m[blockade_note]", "Confirm Import", "Yes", "No")
+	var/warrant_note = ""
+	if(is_alderman_acting && SScity_assembly?.current_warrant)
+		warrant_note = "\n(Warrant: [SScity_assembly.current_warrant.trade_remaining]m of [SScity_assembly.current_warrant.trade_daily_cap]m remaining)"
+	var/confirm = alert(user, "Import [quantity] [tg.name] from [region.name]?\nTotal cost: [total]m\nCrown's Purse after: [balance - total]m[blockade_note][warrant_note]", "Confirm Import", "Yes", "No")
 	if(confirm != "Yes")
 		return
-	if(!user.canUseTopic(src, BE_CLOSE) || locked)
+	if(!user_can_act(user))
+		return
+	if(locked && !alderman_has_access(user))
+		return
+	if(is_alderman_acting && !SScity_assembly.can_consume_trade(total))
+		to_chat(user, span_warning("Your warrant cannot cover this trade. Remaining: [SScity_assembly.current_warrant.trade_remaining]m."))
 		return
 	var/spent = SSeconomy.manual_import(user, region_id, good_id, quantity)
 	if(spent > 0)
+		if(is_alderman_acting)
+			SScity_assembly.consume_trade(spent, user, "import [quantity] [tg.name] from [region.name]")
 		scom_announce("Azure Peak imports [quantity] [tg.name] from [region.name] for [spent] mammon.")
 		playsound(src, 'sound/misc/coininsert.ogg', 100, FALSE, -1)
 	SStgui.update_uis(src)
 
 /obj/structure/roguemachine/steward/proc/handle_trade_export(mob/user, region_id, good_id)
-	if(!user.canUseTopic(src, BE_CLOSE) || locked)
+	if(!user_can_act(user))
+		return
+	var/is_alderman_acting = (locked && alderman_has_access(user))
+	if(locked && !is_alderman_acting)
 		return
 	var/datum/economic_region/region = GLOB.economic_regions[region_id]
 	var/datum/trade_good/tg = GLOB.trade_goods[good_id]
@@ -611,7 +629,9 @@
 	var/quantity = input(user, "How many [tg.name] to export to [region.name]?", src, 1) as null|num
 	if(!quantity || quantity < 1)
 		return
-	if(!user.canUseTopic(src, BE_CLOSE) || locked)
+	if(!user_can_act(user))
+		return
+	if(locked && !alderman_has_access(user))
 		return
 	if(findtext(num2text(quantity), "."))
 		return
@@ -631,19 +651,31 @@
 		total += SSeconomy.compute_export_unit_price(good_id, region, starting_index + i)
 	var/balance = SStreasury.discretionary_fund.balance
 	var/blockade_note = region.is_region_blockaded ? "\n(BLOCKADED - [BLOCKADE_EXPORT_MULT]x revenue)" : ""
-	var/confirm = alert(user, "Export [quantity] [tg.name] to [region.name]?\nTotal revenue: [total]m\nCrown's Purse after: [balance + total]m[blockade_note]", "Confirm Export", "Yes", "No")
+	var/warrant_note = ""
+	if(is_alderman_acting && SScity_assembly?.current_warrant)
+		warrant_note = "\n(Warrant: [SScity_assembly.current_warrant.trade_remaining]m of [SScity_assembly.current_warrant.trade_daily_cap]m remaining)"
+	var/confirm = alert(user, "Export [quantity] [tg.name] to [region.name]?\nTotal revenue: [total]m\nCrown's Purse after: [balance + total]m[blockade_note][warrant_note]", "Confirm Export", "Yes", "No")
 	if(confirm != "Yes")
 		return
-	if(!user.canUseTopic(src, BE_CLOSE) || locked)
+	if(!user_can_act(user))
+		return
+	if(locked && !alderman_has_access(user))
+		return
+	if(is_alderman_acting && !SScity_assembly.can_consume_trade(total))
+		to_chat(user, span_warning("Your warrant cannot cover this trade. Remaining: [SScity_assembly.current_warrant.trade_remaining]m."))
 		return
 	var/gained = SSeconomy.manual_export(user, region_id, good_id, quantity)
 	if(gained > 0)
+		if(is_alderman_acting)
+			SScity_assembly.consume_trade(gained, user, "export [quantity] [tg.name] to [region.name]")
 		scom_announce("Azure Peak exports [quantity] [tg.name] to [region.name] for [gained] mammon.")
 		playsound(src, 'sound/misc/coindispense.ogg', 60, FALSE, -1)
 	SStgui.update_uis(src)
 
 /obj/structure/roguemachine/steward/proc/handle_trade_region_import(mob/user, region_id)
-	if(!user.canUseTopic(src, BE_CLOSE) || locked)
+	if(!user_can_act(user))
+		return
+	if(locked && !alderman_has_access(user))
 		return
 	var/datum/economic_region/region = GLOB.economic_regions[region_id]
 	if(!region)
@@ -663,7 +695,9 @@
 	handle_trade_import(user, region_id, options[pick_name])
 
 /obj/structure/roguemachine/steward/proc/handle_trade_region_export(mob/user, region_id)
-	if(!user.canUseTopic(src, BE_CLOSE) || locked)
+	if(!user.canUseTopic(src, BE_CLOSE))
+		return
+	if(locked && !alderman_has_access(user))
 		return
 	var/datum/economic_region/region = GLOB.economic_regions[region_id]
 	if(!region)
@@ -708,6 +742,9 @@
 /obj/structure/roguemachine/steward/attack_hand(mob/living/user)
 	. = ..()
 	if(.)
+		return
+	if(locked && alderman_has_access(user))
+		open_trade_tgui(user)
 		return
 	if(locked)
 		to_chat(user, span_warning("It's locked. Of course."))

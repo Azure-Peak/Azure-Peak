@@ -139,6 +139,8 @@ GLOBAL_LIST_INIT(contract_ledger_commission_roles, list(
 		return TRUE
 	if(SSticker?.regentmob == user)
 		return TRUE
+	if(SScity_assembly?.is_alderman(user) && SScity_assembly.current_warrant?.defense_remaining > 0)
+		return TRUE
 	return FALSE
 
 /// Return the dynamic-tab role key for this user, or null. Extend here when a new job earns its

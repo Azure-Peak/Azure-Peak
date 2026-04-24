@@ -88,6 +88,23 @@ GLOBAL_DATUM_INIT(economic_panel, /datum/economic_panel, new)
 			"ref" = "\ref[B]",
 		))
 	data["blockades"] = blockades
+
+	var/list/assembly = list()
+	if(SScity_assembly)
+		var/mob/alderman = SScity_assembly.resolve_get_alderman()
+		assembly["session_number"] = SScity_assembly.session_counter
+		assembly["alderman_name"] = alderman ? alderman.real_name : null
+		assembly["alderman_ckey"] = alderman ? alderman.ckey : null
+		assembly["history_count"] = length(SScity_assembly.history)
+		assembly["censured_count"] = length(SScity_assembly.censured_refs)
+		var/datum/assembly_warrant/W = SScity_assembly.current_warrant
+		if(W)
+			assembly["trade_cap"] = W.trade_daily_cap
+			assembly["trade_remaining"] = W.trade_remaining
+			assembly["defense_cap"] = W.defense_daily_cap
+			assembly["defense_remaining"] = W.defense_remaining
+	data["assembly"] = assembly
+
 	return data
 
 /datum/economic_panel/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)
@@ -254,6 +271,88 @@ GLOBAL_DATUM_INIT(economic_panel, /datum/economic_panel, new)
 			SStreasury.burn(account, amt, "admin burn by [key_name(usr)]")
 			admin_log_fiscal("burned [amt]m from [key_name(target)]", "Burn from Account")
 			return TRUE
+		if("assembly_resolve")
+			if(SScity_assembly)
+				SScity_assembly.resolve_session("admin panel")
+				admin_log_fiscal("forced City Assembly resolution (silent)", "Assembly Resolve")
+			return TRUE
+		if("assembly_resolve_skip_quorum")
+			if(SScity_assembly)
+				SScity_assembly.resolve_session("admin panel (quorum bypassed)", null, TRUE)
+				admin_log_fiscal("forced City Assembly resolution with quorum bypass", "Assembly Resolve Skip Quorum")
+			return TRUE
+		if("assembly_divine_complete")
+			if(SScity_assembly)
+				SScity_assembly.resolve_session(
+					"admin divine",
+					"COMPLETED BY DIVINE INTERVENTION - the gods have hastened the Assembly's deliberations.",
+				)
+				admin_log_fiscal("force-completed City Assembly session (divine intervention flavor)", "Assembly Divine Complete")
+			return TRUE
+		if("assembly_refresh_warrant")
+			if(SScity_assembly)
+				SScity_assembly.refresh_warrant()
+				admin_log_fiscal("refreshed Alderman warrant", "Assembly Warrant Refresh")
+			return TRUE
+		if("assembly_drain_warrant")
+			if(SScity_assembly?.current_warrant)
+				SScity_assembly.current_warrant.trade_remaining = 0
+				SScity_assembly.current_warrant.defense_remaining = 0
+				admin_log_fiscal("drained Alderman warrant", "Drain Warrant")
+			return TRUE
+		if("assembly_set_trade_cap")
+			var/amt = text2num(params["amount"])
+			if(!isnum(amt) || amt < 0)
+				return TRUE
+			SScity_assembly?.current_warrant?.set_trade_cap(round(amt))
+			SScity_assembly?.current_warrant?.refresh_for_day()
+			admin_log_fiscal("set Alderman trade cap to [amt]m", "Set Trade Cap")
+			return TRUE
+		if("assembly_set_defense_cap")
+			var/amt = text2num(params["amount"])
+			if(!isnum(amt) || amt < 0)
+				return TRUE
+			SScity_assembly?.current_warrant?.set_defense_cap(round(amt))
+			SScity_assembly?.current_warrant?.refresh_for_day()
+			admin_log_fiscal("set Alderman defense cap to [amt]p", "Set Defense Cap")
+			return TRUE
+		if("assembly_promote_alderman")
+			if(!SScity_assembly)
+				return TRUE
+			var/mob/target = locate(params["ref"])
+			if(!istype(target))
+				return TRUE
+			SScity_assembly.promote_to_alderman(target)
+			admin_log_fiscal("force-promoted [key_name(target)] to Alderman", "Force Alderman")
+			return TRUE
+		if("assembly_demote_alderman")
+			if(!SScity_assembly)
+				return TRUE
+			var/mob/living/carbon/human/outgoing = SScity_assembly.resolve_get_alderman()
+			var/departing_name = istype(outgoing) ? outgoing.real_name : null
+			var/departing_job = istype(outgoing) ? outgoing.job : null
+			SScity_assembly.demote_alderman("admin removal")
+			SScity_assembly.notify_alderman_lost_ref(departing_name, departing_job, "admin")
+			admin_log_fiscal("force-demoted current Alderman", "Force Demote")
+			return TRUE
+		if("assembly_censure")
+			if(!SScity_assembly)
+				return TRUE
+			var/mob/target = locate(params["ref"])
+			if(!istype(target))
+				return TRUE
+			SScity_assembly.apply_censure(target)
+			admin_log_fiscal("censured [key_name(target)]", "Assembly Censure")
+			return TRUE
+		if("assembly_clear_censure")
+			if(!SScity_assembly)
+				return TRUE
+			var/mob/target = locate(params["ref"])
+			if(!istype(target))
+				return TRUE
+			REMOVE_TRAIT(target, TRAIT_ALDERMAN_CENSURED, "assembly")
+			admin_log_fiscal("cleared censure on [key_name(target)]", "Clear Censure")
+			return TRUE
 		if("bulk_clear_debt")
 			var/list/matches = SStreasury.compute_filtered_players(filter_category, filter_status, filter_search)
 			var/count = 0
@@ -282,3 +381,4 @@ GLOBAL_DATUM_INIT(economic_panel, /datum/economic_panel, new)
 	log_admin("[key_name(usr)] [detail]")
 	message_admins(span_adminnotice("[key_name_admin(usr)] [detail]."))
 	SSblackbox.record_feedback("tally", "admin_verb", 1, tally_label)
+

@@ -78,6 +78,18 @@ type Blockade = {
   ref: string;
 };
 
+type Assembly = {
+  session_number?: number;
+  alderman_name?: string | null;
+  alderman_ckey?: string | null;
+  history_count?: number;
+  censured_count?: number;
+  trade_cap?: number;
+  trade_remaining?: number;
+  defense_cap?: number;
+  defense_remaining?: number;
+};
+
 type Data = {
   dashboard: Dashboard;
   filter: Filter;
@@ -90,6 +102,7 @@ type Data = {
   effective_player_count: number;
   live_player_count: number;
   blockades: Blockade[];
+  assembly: Assembly;
 };
 
 const STATUS_LABELS: Record<string, string> = {
@@ -130,6 +143,7 @@ export const EconomicPanel = () => {
     effective_player_count,
     live_player_count,
     blockades,
+    assembly,
   } = data;
 
   const [searchDraft, setSearchDraft] = useState(filter.search);
@@ -139,6 +153,8 @@ export const EconomicPanel = () => {
   const [playerAdvanceDays, setPlayerAdvanceDays] = useState(1);
   const [playerMintAmount, setPlayerMintAmount] = useState(50);
   const [simPop, setSimPop] = useState(simulated_player_scalar);
+  const [assemblyTradeCap, setAssemblyTradeCap] = useState(300);
+  const [assemblyDefenseCap, setAssemblyDefenseCap] = useState(500);
 
   const applyFilter = (overrides: Partial<Filter> = {}) => {
     act('set_filter', {
@@ -334,6 +350,123 @@ export const EconomicPanel = () => {
                   ))}
                 </Table>
               )}
+            </Section>
+          </Stack.Item>
+
+          <Stack.Item>
+            <Section
+              title={`City Assembly  -  Session #${assembly.session_number || 0}`}
+            >
+              <Stack>
+                <Stack.Item grow>
+                  <LabeledList>
+                    <LabeledList.Item label="Alderman">
+                      {assembly.alderman_name || '(vacant)'}
+                    </LabeledList.Item>
+                    <LabeledList.Item label="Trade Warrant">
+                      {assembly.trade_remaining ?? 0}m / {assembly.trade_cap ?? 0}m
+                    </LabeledList.Item>
+                    <LabeledList.Item label="Defense Warrant">
+                      {assembly.defense_remaining ?? 0}p / {assembly.defense_cap ?? 0}p
+                    </LabeledList.Item>
+                    <LabeledList.Item label="Censured">
+                      {assembly.censured_count ?? 0}
+                    </LabeledList.Item>
+                    <LabeledList.Item label="Sessions Resolved">
+                      {assembly.history_count ?? 0}
+                    </LabeledList.Item>
+                  </LabeledList>
+                </Stack.Item>
+                <Stack.Item grow>
+                  <Stack vertical>
+                    <Stack.Item>
+                      <Button.Confirm
+                        onClick={() => act('assembly_resolve')}
+                      >
+                        Resolve Now (silent)
+                      </Button.Confirm>
+                      <Button.Confirm
+                        ml={1}
+                        onClick={() => act('assembly_resolve_skip_quorum')}
+                      >
+                        Resolve, Skip Quorum
+                      </Button.Confirm>
+                      <Button.Confirm
+                        ml={1}
+                        onClick={() => act('assembly_divine_complete')}
+                      >
+                        Divine Intervention
+                      </Button.Confirm>
+                    </Stack.Item>
+                    <Stack.Item>
+                      <Button onClick={() => act('assembly_refresh_warrant')}>
+                        Refresh Warrant
+                      </Button>
+                      <Button.Confirm
+                        ml={1}
+                        color="bad"
+                        onClick={() => act('assembly_drain_warrant')}
+                      >
+                        Drain Warrant
+                      </Button.Confirm>
+                    </Stack.Item>
+                    {assembly.alderman_ckey ? (
+                      <Stack.Item>
+                        <Button.Confirm
+                          color="bad"
+                          onClick={() => act('assembly_demote_alderman')}
+                        >
+                          Demote Alderman
+                        </Button.Confirm>
+                      </Stack.Item>
+                    ) : null}
+                  </Stack>
+                </Stack.Item>
+              </Stack>
+              <Stack align="center" mt={1}>
+                <Stack.Item>Trade cap:</Stack.Item>
+                <Stack.Item>
+                  <NumberInput
+                    step={50}
+                    minValue={0}
+                    maxValue={10000}
+                    value={assemblyTradeCap}
+                    onChange={(v: number) => setAssemblyTradeCap(v)}
+                  />
+                </Stack.Item>
+                <Stack.Item>
+                  <Button
+                    onClick={() =>
+                      act('assembly_set_trade_cap', { amount: assemblyTradeCap })
+                    }
+                  >
+                    Set
+                  </Button>
+                </Stack.Item>
+                <Stack.Item>Defense cap:</Stack.Item>
+                <Stack.Item>
+                  <NumberInput
+                    step={50}
+                    minValue={0}
+                    maxValue={10000}
+                    value={assemblyDefenseCap}
+                    onChange={(v: number) => setAssemblyDefenseCap(v)}
+                  />
+                </Stack.Item>
+                <Stack.Item>
+                  <Button
+                    onClick={() =>
+                      act('assembly_set_defense_cap', { amount: assemblyDefenseCap })
+                    }
+                  >
+                    Set
+                  </Button>
+                </Stack.Item>
+              </Stack>
+              <Box italic color="gray" mt={1}>
+                To promote or censure a specific player, select them in the player
+                list below and use the Alderman buttons in the detail pane.
+              </Box>
             </Section>
           </Stack.Item>
 
@@ -597,6 +730,37 @@ export const EconomicPanel = () => {
                       }
                     >
                       Toggle TRAIT_DEBTOR
+                    </Button.Confirm>
+                  </Stack.Item>
+                </Stack>
+
+                <Stack mt={1} wrap>
+                  <Stack.Item>
+                    <Button.Confirm
+                      onClick={() =>
+                        act('assembly_promote_alderman', { ref: selected.ref })
+                      }
+                    >
+                      Appoint Alderman
+                    </Button.Confirm>
+                  </Stack.Item>
+                  <Stack.Item>
+                    <Button.Confirm
+                      color="bad"
+                      onClick={() =>
+                        act('assembly_censure', { ref: selected.ref })
+                      }
+                    >
+                      Censure
+                    </Button.Confirm>
+                  </Stack.Item>
+                  <Stack.Item>
+                    <Button.Confirm
+                      onClick={() =>
+                        act('assembly_clear_censure', { ref: selected.ref })
+                      }
+                    >
+                      Clear Censure
                     </Button.Confirm>
                   </Stack.Item>
                 </Stack>

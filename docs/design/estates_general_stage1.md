@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 # Estates General — Stage 1 Implementation Brief
 
 ## Goal (verbatim from the designer)
@@ -179,11 +180,164 @@ the Steward. On execute:
 
 The scroll is printed at the Estates machine (not the Contract Ledger). Same
 quest scroll type otherwise.
+=======
+# City Assembly - Stage 1 Implementation Brief
+
+## Goal
+
+The City Assembly is the lowpop economic escape hatch. When the Steward is absent, incompetent, or deadlocked, the citizenry can elect an **Alderman** who gains bounded authority to spend the Crown's Purse on trade and Burgher Pledge on defense commissions. The Assembly doesn't mint mammon - warrants are ceilings on spending the Crown's existing funds.
+
+Stage 2 (not in scope) splits the body into Commons / Peers / Synod chambers, adds revolt mechanics (estate-based ultimatums with mechanical lock-in), and veto powers.
+
+## One-line summary
+
+> A fixed slate of motions resolves at scheduled ticks; the body elects a single Alderman who, while holding office, can use the Steward's trade UI and Contract Ledger up to a voter-set daily cap.
+
+---
+
+## Fixed motion slate
+
+Each session resolves these standing motions. There is no propose/queue machinery - the slate is the same every session.
+
+### 1. Speaker Election (always present)
+
+Any non-outlawed, non-censured mob may **declare candidacy** during the voting window, attaching a free-form "statute" pledge (text, shown to voters).
+
+Each voter picks **one** candidate (or a special "NO SPEAKER" option). Highest weight wins. The sitting Alderman is implicitly a candidate unless they resign or are recalled.
+
+Winner receives TRAIT_ALDERMAN. Previous Alderman loses it (if different mob).
+
+### 2. Authorization to Trade on Behalf of the Crown (bracket vote)
+
+Brackets: `NAE / 0 / 150 / 300 / 450 / 600 / 750 / 900` mammon per day.
+
+Voting method: **max-acceptable**. Each voter picks the highest amount they'd accept. A vote for `600` counts as support for `0, 150, 300, 450, 600` (not 750 or 900).
+
+Resolution: highest bracket with >= 50% cumulative weight wins. **If NAE >= 50% of cast weight, authorization is vetoed entirely for this session**, overriding any bracket outcome.
+
+Result sets the Alderman's `trade_authority_daily_cap`. Applied at next day-tick refresh.
+
+### 3. Authorization to Issue Defense on Behalf of the Crown (bracket vote)
+
+Brackets: `NAE / 0 / 250 / 500 / 750 / 1000` Burgher Pledge equivalent per day.
+
+Same max-acceptable voting method. Same NAE veto rule.
+
+Result sets the Alderman's `defense_authority_daily_cap`.
+
+### 4. Poll Tax Levy for the Common Defense (bracket vote)
+
+Brackets: `NAE / 0 / 5 / 10 / 15 / 20` mammon.
+
+Same voting method. On pass: levied against each affording citizen's bank account (skippable - those who can't pay don't pay). Collected amount is multiplied 2x on entry into the Burgher Pledge fund. **Net mammon-minting**; this is an intentional inflationary knob for commons-directed defense.
+
+### 5. Recall (conditional - only if a Speaker holds office)
+
+Single YAE/NAE/abstain vote. Passes if:
+- YAE weight >= 50% of cast weight (of ballots that picked YAE or NAE - abstentions excluded)
+- AND total cast weight >= `ASSEMBLY_REMOVAL_WEIGHT_FLOOR` (4)
+- AND number of cast votes >= `ASSEMBLY_REMOVAL_MOB_FLOOR` (2)
+
+On pass: current Alderman loses the seat immediately. Does NOT bar them from re-election.
+
+### 6. Censure (conditional - only if a Speaker holds office)
+
+Single YAE/NAE/abstain vote. Passes if:
+- YAE weight >= 66% of cast weight
+- AND total cast weight >= 4
+- AND number of cast votes >= 2
+
+On pass: target mob gains TRAIT_ALDERMAN_CENSURED for the rest of the round. They cannot hold office or be issued any warrant. Alderman seat vacates if they held it.
+
+---
+
+## Session schedule
+
+Resolutions fire at:
+
+1. **10 minutes after round start** (roundstart session - urgency because of the roundstart blockade).
+2. **30 minutes after round start** (second roundstart session).
+3. **Every economic day-tick thereafter** (dawn transition; `GLOB.dayspassed++` edge).
+
+Voting window: continuous between resolutions. There is no "open/close" gating - votes can be cast at any time and are overwritten by later votes from the same mob.
+
+At resolution:
+- Tally all motions.
+- Announce outcomes via `priority_announce` with title "CITY ASSEMBLY" and appropriate fanfare.
+- Apply side effects (elect, recall, censure, set caps, levy tax).
+- Clear vote state **except Speaker identity, warrant caps, and censure list**.
+- Open the next session.
+
+---
+
+## Vote weights
+
+The Assembly is Commons-only: every townie votes except Keep members, Inquisition, and the civic-dead (no job / Wretch / outlaw). Grouping is done by `assembly_department(job)` in [motions.dm](../../code/controllers/subsystem/rogue/city_assembly/motions.dm), which maps each job title to a department symbol. Weight then follows from the department.
+
+| Department | Weight | Jobs (examples) |
+|------------|--------|------|
+| `KEEP` | 0 (no vote) | Crown nobility (Duke, Consort, Prince, Princess, Regent, Lord, Lady); Retinue (Hand, Clerk, Councillor, Seneschal, Steward, Suitor, Servant, Knight, Marshal, Squire); Garrison (Sergeant, Man at Arms, Warden, Watchman, Veteran) |
+| `INQUISITION` | 0 (no vote) | Inquisitor, Absolutionist, Orthodoxist |
+| `EXCLUDED` | 0 (no vote) | Wretch, Bandit, Assassin, Lunatic |
+| `NONE` (no job or unknown) | 0 (no vote) | - |
+| `TOWN_TRANSIENT` | 1 (2 with TRAIT_RESIDENT) | Adventurer, Mercenary (all mercenary-guild subjobs), Trader, Pilgrim, Villager, Sellsword |
+| `TOWN_PEASANT` | 1.5 (2 with TRAIT_RESIDENT) | Peasant, Towner, Sidefolk, Serf, Vagabond |
+| `TOWN_BURGHER` | 2 | Innkeeper, Guildsman, Archivist, Apothecary, Tailor, Crier, Physician, Tradesmith, Magicians Associate, Jester, Burgher, Resident, Keeper |
+| `TOWN_CLERGY` | 2 | Priest, Acolyte, Druid, Sexton, Templar, Martyr |
+| `TOWN_NOTABLE` | 4 | Court Magician, Merchant, Guildmaster, Bishop, Bathmaster, Head Physician, Town Elder |
+
+Weights stored as `display * 2` internally (1.5 becomes 3). Residency uplift (TRAIT_RESIDENT) raises any sub-2 weight to a flat 2 - letters of citizenry grant full burgher voice. Outlaws always return 0 regardless of job.
+
+## Quorum
+
+A session must register at least **3 distinct voters** (across any motions) for its results to apply. Below that, the session resolves as **status quo** - no election change, no warrant cap change, no levy, no recall/censure. The announcement notes the quorum failure.
+
+This blocks a single heavyweight voter from pushing motions through in a dead session.
+
+Internally weights are stored as `int * 2` so fractional 1.5 becomes 3. All math operates on doubled integers; display divides by 2.
+
+**Eligibility**:
+- `HAS_TRAIT(user, TRAIT_OUTLAW)` -> weight 0, cannot vote or hold office.
+- `stat == DEAD` -> cannot vote; cannot hold office.
+- No client connection -> cannot vote (but mob still "holds" the seat if Alderman; see resignation rules).
+
+---
+
+## Warrant mechanics
+
+The Alderman holds a `/datum/assembly_warrant` referenced on `SScity_assembly.current_warrant`. The warrant tracks:
+
+```
+trade_authority_daily_cap     - set by last session's Trade Auth vote
+trade_authority_remaining     - decremented by manual_import/export burn
+defense_authority_daily_cap   - set by last session's Defense Auth vote
+defense_authority_remaining   - decremented by contract ledger burns
+```
+
+At each day-tick, `remaining = daily_cap` (full refresh; unused evaporates).
+
+**Alderman uses existing UIs**. Trade goes through Steward trade UI at the Nerve Master. Defense commissions go through the Contract Ledger. Both gates add a branch: "authorized if Steward/Regent/etc. OR Alderman with remaining warrant."
+
+**Zero mammon minting**. Burns still come from Crown's Purse (trade) and Burgher Pledge (defense) - the warrant is a parallel ceiling, not a new currency. Only the Poll Tax 2x multiplier mints new Pledge.
+
+**Mob-tracked** (weakref). Mob destroy/ghost/dead -> auto-resign (seat vacates, announcement fires).
+
+**Far-travel exploit**: intentionally unguarded. Admin logs catch alt-scumming per user directive.
+
+---
+
+## Steward vs Alderman coexistence
+
+Both draw from the same Crown's Purse / Pledge fund. If Steward spends first, less is available for the Alderman. No veto, no exclusion code.
+
+Censured mobs cannot hold office, cannot be issued warrants. Censure persists round-long.
+>>>>>>> Stashed changes
 
 ---
 
 ## Hard implementation rules
 
+<<<<<<< Updated upstream
 - **Vote by ckey, not by mob.** Every vote callsite: `session.votes[user.ckey] = choice`.
 - **Outlaws cannot vote, propose, or be Speaker.** `HAS_TRAIT(user, TRAIT_OUTLAW)` is the check.
 - **All fund moves route through `SStreasury.mint()` / `burn()` / `transfer()`.** Never touch `fund.balance` directly except to read.
@@ -242,10 +396,49 @@ tgui/interfaces/EstatesAssembly.tsx
   - Active vote panel
   - History panel
   - Propose form
+=======
+- **Never mint mammon from Assembly votes** except the explicit Poll Tax 2x path.
+- **All Crown's Purse / Pledge moves through `SStreasury.burn/mint/transfer`** - never touch `fund.balance` directly except reads.
+- **All stockpile actions through `SSeconomy.manual_import/manual_export`** - do NOT reimplement.
+- **Warrant decrements happen on successful burn**, not on attempt. Use the proc's return value.
+- **Mob weakrefs for all Assembly state**. Hook Destroy/death/ghost to auto-resign.
+- **Vote overwrites are idempotent** - same mob voting twice just replaces their ballot.
+- **No propose-queue code.** The motion slate is hard-coded.
+
+---
+
+## Architecture
+
+```
+/code/__DEFINES/city_assembly.dm                    - constants, brackets, weights, timings
+/code/controllers/subsystem/rogue/city_assembly/
+  _subsystem.dm                                      - SScity_assembly singleton
+  session.dm                                         - /datum/assembly_session
+  warrant.dm                                         - /datum/assembly_warrant
+  vote.dm                                            - tally helpers
+  motions.dm                                         - motion resolution procs
+/code/modules/roguetown/roguemachine/noticeboard/
+  assembly_floor.dm                                  - TGUI wrapper on the noticeboard
+/tgui/packages/tgui/interfaces/CityAssembly.tsx      - voting UI
+
+// Edits
+/code/__DEFINES/traits.dm                            - TRAIT_ALDERMAN, TRAIT_ALDERMAN_CENSURED
+/code/modules/roguetown/roguemachine/steward/steward.dm
+                                                     - trade handlers respect Alderman warrant
+/code/modules/roguetown/roguemachine/questing/contract_ledger/contract_ledger.dm
+                                                     - can_commission respects Alderman warrant
+/code/modules/roguetown/roguemachine/questing/contract_ledger/steward.dm
+                                                     - decrement Alderman warrant on commission
+/code/modules/roguetown/roguemachine/noticeboard/noticeboard.dm
+                                                     - Assembly category
+/code/__HELPERS/time.dm                              - day-tick hook -> SScity_assembly.on_day_tick()
+/code/modules/admin/verbs/economic_panel.dm          - test actions
+>>>>>>> Stashed changes
 ```
 
 ---
 
+<<<<<<< Updated upstream
 ## Files to read first (conventions to mirror)
 
 - `code/modules/politics/decree.dm` + `decree_api.dm` + `decrees/*.dm` — datum lifecycle pattern
@@ -320,3 +513,26 @@ Single commit, body has a short testing checklist.
   Assembly, stop.** Just one currency: `CURRENCY_ASSEMBLY`.
 - **If scope creeps into Stage 2 (revolt, charter toggles, vetoes), stop.**
   Write a note in a `## Stage 2 Ideas` section of this doc instead.
+=======
+## Testing checklist
+
+Exposed via admin Economic Panel:
+
+1. **Advance session** - skip to next resolution without waiting.
+2. **Seed test votes** - spawn N phantom ballots on each motion to verify tally math.
+3. **Force elect** - bypass vote; promote a selected mob to Alderman.
+4. **Drain warrant** - zero out remaining authority to test exhaustion path.
+5. **Refresh warrant** - reset caps without day-tick.
+6. **Censure mob** - apply TRAIT_ALDERMAN_CENSURED to a selected mob.
+7. **Levy poll tax** - run the levy without a session vote.
+
+---
+
+## Stage 2 Ideas (DO NOT IMPLEMENT)
+
+- Multi-chamber split: Commons / Peers / Synod.
+- Revolt ultimatums: anonymous ballot listing estate demands; if Crown rejects, antag datums auto-apply to supporting estates; Crown mechanically cannot revoke acceptance mid-round.
+- Veto powers: Grand Duke / Regent can veto Assembly outcomes at Pledge cost.
+- Co-sponsor path for player-proposed motions (replacing fixed slate with optional extras).
+- Per-chamber vote weights and chamber-specific motion types.
+>>>>>>> Stashed changes
