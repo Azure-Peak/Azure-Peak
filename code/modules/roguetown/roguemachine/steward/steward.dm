@@ -567,7 +567,9 @@
 /obj/structure/roguemachine/steward/proc/handle_trade_import(mob/user, region_id, good_id)
 	if(!user_can_act(user))
 		return
-	var/is_alderman_acting = (locked && alderman_has_access(user))
+	// Alderman-acting is determined by trait+warrant, not by the machine's locked state. An
+	// Alderman trading through an unlocked machine still draws from their warrant.
+	var/is_alderman_acting = alderman_has_access(user)
 	if(locked && !is_alderman_acting)
 		return
 	var/datum/economic_region/region = GLOB.economic_regions[region_id]
@@ -619,7 +621,8 @@
 /obj/structure/roguemachine/steward/proc/handle_trade_export(mob/user, region_id, good_id)
 	if(!user_can_act(user))
 		return
-	var/is_alderman_acting = (locked && alderman_has_access(user))
+	// Alderman-acting is determined by trait+warrant, not by the machine's locked state.
+	var/is_alderman_acting = alderman_has_access(user)
 	if(locked && !is_alderman_acting)
 		return
 	var/datum/economic_region/region = GLOB.economic_regions[region_id]

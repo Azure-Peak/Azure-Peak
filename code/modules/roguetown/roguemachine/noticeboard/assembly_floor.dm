@@ -123,21 +123,34 @@
 
 	return data
 
+/// Real-world seconds until the next Assembly resolution. Before Session 1 fires, this is
+/// the countdown to the scheduled first-session timer; after, it's time until the next
+/// in-game dawn (when day-tick resolutions fire).
 /obj/structure/roguemachine/noticeboard/proc/build_next_resolution_seconds()
 	if(!SScity_assembly)
 		return 0
-	var/at = SScity_assembly.next_resolution_at
-	if(!at || at <= world.time)
+	// Pre-first-session: use the first-session timer anchor if it's armed.
+	if(SScity_assembly.first_session_resolve_at > world.time)
+		return round((SScity_assembly.first_session_resolve_at - world.time) / 10)
+	// Otherwise countdown to the next dawn (when day-tick resolutions fire).
+	if(!SSnightshift || !SSticker)
 		return 0
-	return round((at - world.time) / 10)
+	var/current_station_time = station_time()
+	var/dawn_at = SSnightshift.nightshift_dawn_start
+	var/game_ds_until_dawn
+	if(current_station_time < dawn_at)
+		game_ds_until_dawn = dawn_at - current_station_time
+	else
+		// Already past today's dawn; next dawn is tomorrow.
+		game_ds_until_dawn = (864000 - current_station_time) + dawn_at
+	var/rate = SSticker.station_time_rate_multiplier || 1
+	if(rate <= 0)
+		rate = 1
+	return round((game_ds_until_dawn / rate) / 10)
 
 /obj/structure/roguemachine/noticeboard/proc/build_next_resolution_label()
-	if(!SScity_assembly)
-		return "unknown"
-	if(SScity_assembly.session_counter <= 1)
-		return "the [ASSEMBLY_SESSION_FIRST_MINUTES]-minute mark"
-	if(SScity_assembly.session_counter == 2)
-		return "the [ASSEMBLY_SESSION_SECOND_MINUTES]-minute mark"
+	if(SScity_assembly?.first_session_resolve_at > world.time)
+		return "the first session (~[ASSEMBLY_FIRST_SESSION_MINUTES]m post roundstart)"
 	return "the next dawn"
 
 /obj/structure/roguemachine/noticeboard/ui_act(action, list/params)

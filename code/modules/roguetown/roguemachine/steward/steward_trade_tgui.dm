@@ -7,6 +7,18 @@
 		return GLOB.conscious_state
 	return GLOB.human_adjacent_state
 
+/// The sitting Alderman's remote trade access bypasses `/atom/ui_status`'s can_interact clamp
+/// (which enforces physical adjacency and would downgrade UI_INTERACTIVE to UI_UPDATE, painting
+/// the whole window grey). Authority is already enforced by alderman_has_access() on every
+/// ui_act. Pull the status straight from state.can_use_topic without the adjacency filter.
+/obj/structure/roguemachine/steward/ui_status(mob/user, datum/ui_state/state)
+	if(SScity_assembly?.is_alderman(user))
+		. = UI_CLOSE
+		if(state)
+			. = max(., state.can_use_topic(src, user))
+		return
+	return ..()
+
 /obj/structure/roguemachine/steward/ui_interact(mob/user, datum/tgui/ui)
 	SStgui.try_update_ui(user, src, ui)
 
@@ -69,6 +81,24 @@
 	var/list/data = list()
 	data["treasury"] = SStreasury?.discretionary_fund?.balance || 0
 	data["day"] = GLOB.dayspassed
+
+	// Alderman-acting view: expose the warrant so the TGUI can render it prominently. Only
+	// populated when the viewer is the sitting Alderman - the Steward doesn't need a warrant
+	// display in their own machine view.
+	data["is_alderman_acting"] = SScity_assembly?.is_alderman(user) ? TRUE : FALSE
+	if(data["is_alderman_acting"])
+		var/datum/assembly_warrant/W = SScity_assembly.current_warrant
+		if(W)
+			data["alderman_warrant"] = list(
+				"trade_cap" = W.trade_daily_cap,
+				"trade_remaining" = W.trade_remaining,
+				"defense_cap" = W.defense_daily_cap,
+				"defense_remaining" = W.defense_remaining,
+			)
+		else
+			data["alderman_warrant"] = null
+	else
+		data["alderman_warrant"] = null
 
 	var/list/blockaded = list()
 	for(var/region_id in GLOB.economic_regions)

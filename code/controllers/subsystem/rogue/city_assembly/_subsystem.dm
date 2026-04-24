@@ -1,6 +1,7 @@
 SUBSYSTEM_DEF(city_assembly)
 	name = "City Assembly"
-	flags = SS_NO_FIRE
+	// Wakes up only until the first-session timer is armed post-round-start; see fire().
+	wait = 10 SECONDS
 	var/datum/assembly_session/current_session
 	var/datum/assembly_warrant/current_warrant
 	/// The sitting Alderman is the MOB, not the ckey. A body swap or re-spawn is a new person
@@ -10,27 +11,31 @@ SUBSYSTEM_DEF(city_assembly)
 	var/list/censured_refs = list()
 	var/list/history = list()
 	var/session_counter = 0
-	var/first_timer_id
-	var/second_timer_id
-	var/initialized_sessions = FALSE
-	/// Absolute world.time of the next scheduled resolution. 0 = no schedule (wait for day-tick).
-	var/next_resolution_at = 0
 	/// Cached preview_tallies() output; null when dirty. Invalidated by writes.
 	var/list/cached_tallies = null
+	/// Set TRUE once the first-session kickoff timer is armed. Prevents double-arming.
+	var/first_session_armed = FALSE
+	/// world.time at which Session 1 will resolve automatically. 0 if not yet armed.
+	var/first_session_resolve_at = 0
 
 /datum/controller/subsystem/city_assembly/Initialize()
 	current_warrant = new /datum/assembly_warrant()
 	open_session()
-	schedule_roundstart_sessions()
+	// Don't schedule timers here - Initialize predates round-start. fire() arms the first-
+	// session timer the moment it observes GAME_STATE_PLAYING, anchoring to the real start.
+	// Subsequent sessions resolve on the day-tick (on_day_tick proc from time.dm).
 	return ..()
 
-/datum/controller/subsystem/city_assembly/proc/schedule_roundstart_sessions()
-	if(initialized_sessions)
+/datum/controller/subsystem/city_assembly/fire(resumed = FALSE)
+	if(first_session_armed)
+		can_fire = FALSE
 		return
-	initialized_sessions = TRUE
-	first_timer_id = addtimer(CALLBACK(src, PROC_REF(resolve_session), "roundstart_1"), ASSEMBLY_SESSION_FIRST_MINUTES MINUTES, TIMER_STOPPABLE)
-	second_timer_id = addtimer(CALLBACK(src, PROC_REF(resolve_session), "roundstart_2"), ASSEMBLY_SESSION_SECOND_MINUTES MINUTES, TIMER_STOPPABLE)
-	next_resolution_at = world.time + (ASSEMBLY_SESSION_FIRST_MINUTES MINUTES)
+	if(!SSticker || SSticker.current_state != GAME_STATE_PLAYING)
+		return
+	first_session_armed = TRUE
+	first_session_resolve_at = world.time + (ASSEMBLY_FIRST_SESSION_MINUTES MINUTES)
+	addtimer(CALLBACK(src, PROC_REF(resolve_session), "first_session", null, FALSE), ASSEMBLY_FIRST_SESSION_MINUTES MINUTES, TIMER_STOPPABLE)
+	can_fire = FALSE
 
 /datum/controller/subsystem/city_assembly/proc/open_session()
 	session_counter++
@@ -48,7 +53,9 @@ SUBSYSTEM_DEF(city_assembly)
 	cached_tallies = null
 
 /datum/controller/subsystem/city_assembly/proc/on_day_tick()
-	if(!initialized_sessions)
+	// Don't convene during round init. settod() can flip GLOB.tod to "dawn" as SSnightshift
+	// initializes, which would fire a zero-voter session before the round is even open.
+	if(!SSticker || SSticker.current_state != GAME_STATE_PLAYING)
 		return
 	resolve_session("day_tick")
 
@@ -76,7 +83,6 @@ SUBSYSTEM_DEF(city_assembly)
 		history += list(summary)
 		announce_session_summary(summary)
 		refresh_warrant()
-		advance_next_resolution()
 		open_session()
 		return
 
@@ -114,18 +120,7 @@ SUBSYSTEM_DEF(city_assembly)
 	history += list(summary)
 	announce_session_summary(summary)
 	refresh_warrant()
-	advance_next_resolution()
 	open_session()
-
-/datum/controller/subsystem/city_assembly/proc/advance_next_resolution()
-	// First two sessions are timer-scheduled. After that, day-tick drives resolutions —
-	// which we can't precisely forecast from here, so flag it as "next dawn."
-	if(session_counter >= 2)
-		next_resolution_at = 0
-	else if(session_counter == 1)
-		next_resolution_at = world.time + ((ASSEMBLY_SESSION_SECOND_MINUTES - ASSEMBLY_SESSION_FIRST_MINUTES) MINUTES)
-	else
-		next_resolution_at = 0
 
 /datum/controller/subsystem/city_assembly/proc/resolve_get_alderman()
 	var/mob/M = alderman_ref?.resolve()

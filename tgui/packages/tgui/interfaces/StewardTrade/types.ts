@@ -83,6 +83,13 @@ export type RegionRow = {
   demands: RegionFlow[];
 };
 
+export type AldermanWarrant = {
+  trade_cap: number;
+  trade_remaining: number;
+  defense_cap: number;
+  defense_remaining: number;
+};
+
 export type Data = StaticData & {
   treasury: number;
   day: number;
@@ -92,6 +99,8 @@ export type Data = StaticData & {
   active_orders: Order[];
   market_rows: MarketRow[];
   region_rows: RegionRow[];
+  is_alderman_acting: BooleanLike;
+  alderman_warrant: AldermanWarrant | null;
 };
 
 export type TabKey = 'orders' | 'market' | 'regions';

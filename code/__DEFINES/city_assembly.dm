@@ -1,6 +1,7 @@
-// Session schedule (world.time deltas from round start, or day-tick driven after the 2nd).
-#define ASSEMBLY_SESSION_FIRST_MINUTES 10
-#define ASSEMBLY_SESSION_SECOND_MINUTES 30
+// First Assembly session fires N minutes after GAME_STATE_PLAYING (not after Initialize).
+// This guarantees an early election even on rounds where the first dawn is >20min away.
+// Subsequent sessions resolve on the in-game day-tick (dawn).
+#define ASSEMBLY_FIRST_SESSION_MINUTES 10
 
 // Weights are stored internally as (display * 2) so fractional 1.5 becomes integer 3.
 // Display in UI divides by 2. All thresholds and tallies operate on the doubled values.
