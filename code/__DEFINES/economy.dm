@@ -115,8 +115,14 @@
 #define BLOCKADE_SCROLL_PLEDGE_COST 500
 #define BLOCKADE_SCROLL_REWARD 500
 /// Steward-selectable "Bonus Pay" sweetener on defense commissions and blockade writs.
-/// Multiplies both the draft cost (burned from Pledge or Purse) and the quest's reward.
-/// Not available on Requests, which have no reward to sweeten.
+/// Tri-state: NONE (1.0x), LIGHT (1.25x), FULL (1.5x). The Steward picks a level per
+/// commission; LIGHT lets a budget-constrained Steward nudge a contract without a full
+/// 50% draft increase. Multiplies both the draft cost and the quest's reward by the
+/// selected multiplier. Not available on Requests, which have no reward to sweeten.
+#define COMMISSION_BONUS_PAY_NONE 0
+#define COMMISSION_BONUS_PAY_LIGHT 1
+#define COMMISSION_BONUS_PAY_FULL 2
+#define COMMISSION_BONUS_PAY_LIGHT_MULT 1.25
 #define COMMISSION_BONUS_PAY_MULT 1.5
 #define BLOCKADE_FELLOWSHIP_REQUIREMENT 3
 #define BLOCKADE_WAVE_TIMER_DS (7 MINUTES)

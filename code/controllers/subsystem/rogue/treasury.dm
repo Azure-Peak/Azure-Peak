@@ -72,6 +72,14 @@ SUBSYSTEM_DEF(treasury)
 	var/list/poll_tax_debt_days = list()
 	var/levy_rates_changed_day = -1
 	var/poll_rates_changed_day = -1
+	/// Cached per-tick projection of poll-tax flow. Keys: "income" (mammon the Crown collects
+	/// per tick), "subsidy" (mammon the Crown pays out per tick), "net" (income - subsidy),
+	/// "by_category" (list of per-category entries for UI display), "headcount" (total bank
+	/// accounts counted). Charter exemption is respected for tax income but NOT for subsidies -
+	/// subsidies reach even protected classes, matching the Crown's ability to extend
+	/// generosity. Invalidated by rate changes and account create/destroy; rebuilt lazily on read.
+	var/list/cached_poll_projection = null
+	var/poll_projection_dirty = TRUE
 	/// Steward-settable floor. Stockpile refuses purchases when Crown's Purse would drop below this.
 	var/stockpile_purchase_floor = STOCKPILE_CROWN_PURCHASE_FLOOR_DEFAULT
 	var/rumor_points = RUMOR_POINTS_START
@@ -153,6 +161,7 @@ SUBSYSTEM_DEF(treasury)
 		return
 	var/datum/fund/account = new(owner.real_name, owner, 0, CURRENCY_MAMMON)
 	bank_accounts[owner] = account
+	poll_projection_dirty = TRUE
 	if(initial_deposit > 0)
 		mint(account, initial_deposit, "Initial endowment")
 	return TRUE
@@ -419,6 +428,7 @@ SUBSYSTEM_DEF(treasury)
 	poll_tax_advance_days -= person
 	poll_tax_owed -= person
 	poll_tax_debt_days -= person
+	poll_projection_dirty = TRUE
 	return TRUE
 
 /datum/controller/subsystem/treasury/proc/apply_rate_adjustments(list/adjustments, good_announcement_text, bad_announcement_text)
@@ -455,6 +465,23 @@ SUBSYSTEM_DEF(treasury)
 	priority_announce(final_text, final_announcement_text, pick('sound/misc/royal_decree.ogg', 'sound/misc/royal_decree2.ogg'), "Captain", strip_html = FALSE)
 	log_game("TAX RATES: [usr ? key_name(usr) : "system"] changed levy rates - [jointext(lines, " | ")]")
 
+/// Phrasing helper for poll-rate change announcements. Distinguishes positive tax adjustments
+/// from crossing-the-zero (tax → subsidy or vice versa) so the announcement reads correctly.
+/datum/controller/subsystem/treasury/proc/describe_rate_change(old_rate, new_rate)
+	if(old_rate == 0 && new_rate < 0)
+		return "subsidy set at [-new_rate]m/day"
+	if(old_rate < 0 && new_rate == 0)
+		return "subsidy ended"
+	if(old_rate < 0 && new_rate > 0)
+		return "subsidy replaced by a [new_rate]m/day tax"
+	if(old_rate > 0 && new_rate < 0)
+		return "tax replaced by a [-new_rate]m/day subsidy"
+	if(old_rate < 0 && new_rate < 0)
+		var/verb = (-new_rate) > (-old_rate) ? "increased" : "reduced"
+		return "subsidy [verb] from [-old_rate]m/day to [-new_rate]m/day"
+	var/verb = new_rate > old_rate ? "raised" : "reduced"
+	return "tax [verb] from [old_rate]m/day to [new_rate]m/day"
+
 /datum/controller/subsystem/treasury/proc/apply_poll_rate_adjustments(list/adjustments, good_announcement_text, bad_announcement_text)
 	if(GLOB.dayspassed <= poll_rates_changed_day)
 		to_chat(usr, span_warning("Poll tax rates have already been adjusted today - come back tomorrow."))
@@ -469,16 +496,20 @@ SUBSYSTEM_DEF(treasury)
 		var/category = entry["category"]
 		if(!(category in poll_tax_rates))
 			continue
-		var/new_rate = CLAMP(entry["rate"], 0, POLL_TAX_MAX_RATE)
+		var/new_rate = CLAMP(entry["rate"], -POLL_TAX_MAX_SUBSIDY, POLL_TAX_MAX_RATE)
 		var/old_rate = poll_tax_rates[category] || 0
 		if(new_rate == old_rate)
 			continue
 		poll_tax_rates[category] = new_rate
-		if(new_rate > old_rate)
+		// "bad guy" = strictly making the burden heavier. Crossing into subsidy (negative)
+		// or deepening one is generous; retreating from subsidy toward zero is neutral; any
+		// move up into positive tax territory or pushing existing tax higher is the tyrannical
+		// announcement.
+		if(new_rate > old_rate && new_rate > 0)
 			bad_guy = TRUE
+		poll_projection_dirty = TRUE
 		var/pretty = get_poll_tax_category_pretty_name(category)
-		var/verb = new_rate > old_rate ? "raised" : "reduced"
-		lines += "[pretty] poll tax [verb] from [old_rate]m/day to [new_rate]m/day."
+		lines += "[pretty] poll [describe_rate_change(old_rate, new_rate)]."
 
 	if(!length(lines))
 		return
@@ -606,17 +637,84 @@ SUBSYSTEM_DEF(treasury)
 /datum/controller/subsystem/treasury/proc/get_poll_tax_rate_for(mob/living/H, category)
 	if(!category)
 		return 0
-	if(H && is_poll_tax_charter_exempt(H, category))
-		return 0
 	var/rate = poll_tax_rates[category] || 0
+	// Charter exemption zeroes out TAX only. Subsidies (negative rates) reach protected
+	// classes too - nobles under the Great Writ, clergy under the Concordat. Semantically:
+	// the Crown does not impose on them, but may still extend generosity.
+	if(H && rate > 0 && is_poll_tax_charter_exempt(H, category))
+		return 0
 	// Let every active decree narrow the rate. Each decree decides whether THIS payer/category
-	// combination is relevant — the base proc just returns current_rate unchanged.
+	// combination is relevant — the base proc just returns current_rate unchanged. Existing
+	// caps use min(current_rate, CAP) with positive CAPs, so negative rates pass through.
 	for(var/id in decrees)
 		var/datum/decree/D = decrees[id]
 		if(!D?.active)
 			continue
 		rate = D.apply_poll_tax_cap(H, category, rate)
 	return rate
+
+/// Per-category headcount + per-tick poll mammon flow, cached on the subsystem. Rebuilds
+/// only when poll_projection_dirty is set (rate change, account add/remove). Deliberately
+/// skips per-account balance / advance / debt inspection - this is a gross projection of
+/// "if every eligible subject pays or receives the raw rate, what moves per tick" and the
+/// point is to stay fast even on large rosters. Steward displays want a steady indicator,
+/// not an exact realtime number.
+/datum/controller/subsystem/treasury/proc/get_poll_tax_projection()
+	if(cached_poll_projection && !poll_projection_dirty)
+		return cached_poll_projection
+	var/list/headcounts = list()
+	var/total_head = 0
+	for(var/key in bank_accounts)
+		var/datum/fund/account = bank_accounts[key]
+		if(!account)
+			continue
+		var/mob/living/owner = account.get_owner()
+		if(!owner)
+			continue
+		var/category = get_poll_tax_category(owner)
+		if(!category)
+			continue
+		// Charter exemption applies to TAX ONLY. A subsidy reaches protected classes too -
+		// see get_poll_tax_rate_for for the symmetric rule. We therefore bucket heads into
+		// two counts per category: taxable (non-exempt) and subsidy-eligible (all).
+		headcounts[category] = (headcounts[category] || 0) + 1
+		if(!is_poll_tax_charter_exempt(owner, category))
+			var/tkey = "[category]|taxable"
+			headcounts[tkey] = (headcounts[tkey] || 0) + 1
+		total_head++
+
+	var/income = 0
+	var/subsidy = 0
+	var/list/by_category = list()
+	for(var/category in poll_tax_rates)
+		var/rate = poll_tax_rates[category] || 0
+		var/total = headcounts[category] || 0
+		var/taxable = headcounts["[category]|taxable"] || 0
+		var/per_tick_flow = 0
+		if(rate > 0)
+			per_tick_flow = rate * taxable
+			income += per_tick_flow
+		else if(rate < 0)
+			// Subsidies reach every eligible subject, including charter-protected ones.
+			per_tick_flow = rate * total   // negative total = subsidy out of Purse
+			subsidy += -per_tick_flow
+		by_category += list(list(
+			"category" = category,
+			"rate" = rate,
+			"heads" = total,
+			"taxable" = taxable,
+			"per_tick" = per_tick_flow,
+		))
+
+	cached_poll_projection = list(
+		"income" = income,
+		"subsidy" = subsidy,
+		"net" = income - subsidy,
+		"headcount" = total_head,
+		"by_category" = by_category,
+	)
+	poll_projection_dirty = FALSE
+	return cached_poll_projection
 
 /datum/controller/subsystem/treasury/proc/get_wage_floor(job_title)
 	var/floor = 0
@@ -654,7 +752,10 @@ SUBSYSTEM_DEF(treasury)
 		to_chat(H, span_warning("Your class is exempt from poll tax by decree."))
 		return FALSE
 	var/rate = get_poll_tax_rate_for(H, category)
-	if(rate <= 0)
+	if(rate < 0)
+		to_chat(H, span_warning("Your class currently receives a Crown subsidy - there is nothing to advance."))
+		return FALSE
+	if(rate == 0)
 		rate = POLL_TAX_ADVANCE_FALLBACK_RATE
 	var/existing_advance = poll_tax_advance_days[H] || 0
 	var/room = POLL_TAX_MAX_ADVANCE_DAYS - existing_advance
@@ -695,16 +796,30 @@ SUBSYSTEM_DEF(treasury)
 		var/category = get_poll_tax_category(owner)
 		if(!category)
 			continue
-		if(is_poll_tax_charter_exempt(owner, category))
-			var/exempted_rate = poll_tax_rates[category] || 0
-			if(exempted_rate > 0)
-				record_round_statistic(STATS_EXEMPTED_POLL_TAX, exempted_rate)
-			continue
-		var/rate = get_poll_tax_rate_for(owner, category)
+
 		var/raw_rate = poll_tax_rates[category] || 0
-		if(raw_rate > rate)
+		// get_poll_tax_rate_for already zeroes out tax for charter-exempt subjects while
+		// letting subsidies (negative rates) pass through to protected classes.
+		var/rate = get_poll_tax_rate_for(owner, category)
+
+		// Exempted / capped tax recording - only meaningful for the tax (positive) side.
+		if(raw_rate > 0 && rate < raw_rate)
 			record_round_statistic(STATS_EXEMPTED_POLL_TAX, raw_rate - rate)
-		if(rate <= 0)
+
+		if(rate == 0)
+			continue
+
+		if(rate < 0)
+			// Subsidy branch: Crown pays the subject. No advance/debt machinery applies -
+			// subsidies can't be prepaid and can't accumulate as arrears. If the Crown is
+			// insolvent for this head's subsidy, silently skip this tick.
+			var/subsidy = -rate
+			if(discretionary_fund.balance < subsidy)
+				continue
+			if(!transfer(discretionary_fund, account, subsidy, "Poll Subsidy ([category])"))
+				continue
+			record_round_statistic(STATS_POLL_TAX_COLLECTED, -subsidy)
+			to_chat(owner, span_notice("<b>POLL SUBSIDY:</b> [subsidy]m granted by the Crown."))
 			continue
 
 		var/advance = poll_tax_advance_days[owner] || 0

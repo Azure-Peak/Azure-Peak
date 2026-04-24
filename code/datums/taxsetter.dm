@@ -16,9 +16,11 @@
 		ui.open()
 
 /datum/taxsetter/ui_data(mob/user)
+	var/list/projection = SStreasury.get_poll_tax_projection()
 	return list(
 		"levyCooldown" = (GLOB.dayspassed <= SStreasury.levy_rates_changed_day),
 		"pollCooldown" = (GLOB.dayspassed <= SStreasury.poll_rates_changed_day),
+		"pollProjection" = projection,
 	)
 
 /datum/taxsetter/ui_static_data(mob/user)
@@ -56,6 +58,7 @@
 		"categoryRates" = category_rates,
 		"pollTaxRates" = poll_tax_rates_out,
 		"pollTaxMax" = POLL_TAX_MAX_RATE,
+		"pollTaxMin" = -POLL_TAX_MAX_SUBSIDY,
 	)
 
 /datum/taxsetter/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)

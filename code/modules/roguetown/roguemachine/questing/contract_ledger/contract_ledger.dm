@@ -109,11 +109,13 @@
 		data["crown_purse_balance"] = SStreasury?.discretionary_fund?.balance || 0
 		data["defense_costs"] = GLOB.defense_quest_tier_costs.Copy()
 		data["defense_regions_by_type"] = build_defense_regions_by_type()
+		data["region_tp_multipliers"] = build_region_tp_multipliers()
 		data["defense_destinations"] = build_rumor_destinations()
 		data["defense_log"] = SStreasury.defense_log
 		data["blockade_recall_list"] = build_blockade_recall_list()
 		data["blockade_recall_window_seconds"] = BLOCKADE_RECALL_WINDOW_DS / 10
-		data["bonus_pay_mult"] = COMMISSION_BONUS_PAY_MULT
+		data["bonus_pay_light_mult"] = COMMISSION_BONUS_PAY_LIGHT_MULT
+		data["bonus_pay_full_mult"] = COMMISSION_BONUS_PAY_MULT
 		refresh_directive_quota()
 		data["directives_per_day"] = COMMISSION_REQUESTS_PER_DAY
 		data["directives_issued_today"] = directives_issued_today

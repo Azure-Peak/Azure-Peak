@@ -2,19 +2,19 @@
 #define CURRENCY_BURGHER_PLEDGE "burgher_pledge"
 
 /// Floor amount of Burgher Pledge authority refilled per day regardless of population (lowpop safety).
-#define BURGHER_PLEDGE_BASE_REFILL 375
+#define BURGHER_PLEDGE_BASE_REFILL 500
 /// Additional Burgher Pledge authority granted per active player per day.
-#define BURGHER_PLEDGE_PER_PLAYER 3
+#define BURGHER_PLEDGE_PER_PLAYER 4
 /// Clawback ceiling — any Burgher Pledge balance above this multiple of the daily refill is skimmed at each daily tick.
 #define BURGHER_PLEDGE_CLAWBACK_MULTIPLIER 2
 /// Roundstart balance is this multiple of the daily refill, giving the Steward a buffer at the start.
 #define BURGHER_PLEDGE_ROUNDSTART_MULTIPLIER 2
 /// Pledge cost of issuing a Trivial-tier defense quest (kill-easy / clear-out).
-#define BURGHER_PLEDGE_COST_TRIVIAL 50  // 1 band
-/// Pledge cost of issuing a Standard-tier defense quest (recovery / bounty).
-#define BURGHER_PLEDGE_COST_STANDARD 100 // 2 bands
+#define BURGHER_PLEDGE_COST_TRIVIAL 38  // 1 band
+/// Pledge cost of issuing a Standard-tier defense quest (bounty / clear-out).
+#define BURGHER_PLEDGE_COST_STANDARD 75 // 2 bands
 /// Pledge cost of issuing a Major-tier defense quest (raid).
-#define BURGHER_PLEDGE_COST_MAJOR 200    // 3 bands
+#define BURGHER_PLEDGE_COST_MAJOR 150    // 3 bands
 
 /// Directive fallback: unfunded, zero-reward commission. The Steward is commanding the
 /// retinue/garrison they already pay wages to. Capped per day so it can't be spammed to
@@ -51,6 +51,7 @@
 
 /// Max poll tax per category, per day, in mammon.
 #define POLL_TAX_MAX_RATE 40
+#define POLL_TAX_MAX_SUBSIDY 60
 /// Days consecutively owing before TRAIT_ARREARS is stamped on the subject. TRAIT_DEBTOR is
 /// reserved for loan defaulters; TRAIT_ARREARS is the softer mark for poll-tax-behind subjects.
 #define POLL_TAX_DEBT_DAYS_TO_DEBTOR 2

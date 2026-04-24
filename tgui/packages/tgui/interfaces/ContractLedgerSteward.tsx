@@ -30,11 +30,13 @@ type StewardData = {
   crown_purse_balance: number;
   defense_costs: Record<string, number>;
   defense_regions_by_type: Record<string, string[]>;
+  region_tp_multipliers: Record<string, number>;
   defense_destinations: string[];
   defense_log: DefenseLogEntry[];
   blockade_recall_list: BlockadeRecallEntry[];
   blockade_recall_window_seconds: number;
-  bonus_pay_mult: number;
+  bonus_pay_light_mult: number;
+  bonus_pay_full_mult: number;
   directives_per_day: number;
   directives_issued_today: number;
 };
@@ -52,11 +54,64 @@ const COMMISSION_LABELS: Record<string, string> = {
 
 const coin = (n: number) => `${n}m`;
 
+// Turns a region's TP multiplier into a short medieval-flavored line explaining how
+// the bearer's payout relates to the Crown's draft. Returns null for baseline (mult=1)
+// so the UI doesn't clutter itself with "nothing special" chrome.
+const regionRewardFlavor = (mult: number | undefined): string | null => {
+  if (typeof mult !== 'number' || mult === 1) return null;
+  if (mult > 1) {
+    const match = Math.round((mult - 1) * 10);
+    if (match <= 0) return null;
+    const descriptor = mult >= 1.4 ? 'bleak' : 'dangerous';
+    return `A ${descriptor} region - the burghers shall match ${match} mammons for every 10 the Crown sends for the commission.`;
+  }
+  // mult < 1: tamed region, bearer claims less than the Crown commits.
+  const take = mult * 10;
+  let takeText: string;
+  if (Number.isInteger(take)) {
+    takeText = String(take);
+  } else if (take % 1 === 0.5) {
+    takeText = `${Math.floor(take)} and a half`;
+  } else {
+    takeText = take.toFixed(1);
+  }
+  return `A settled region, less dangerous than is usual - the bearer claims but ${takeText} mammons for every 10 the Crown sends.`;
+};
+
 const FormRow = (props: { label: string; children: ReactNode }) => (
   <div className="ContractLedger__InnkeeperFormRow">
     <label className="ContractLedger__InnkeeperLabel">{props.label}</label>
     {props.children}
   </div>
+);
+
+const BonusPayOption = (props: {
+  active: boolean;
+  onClick: () => void;
+  label: string;
+  sublabel: string;
+}) => (
+  <button
+    type="button"
+    onClick={props.onClick}
+    style={{
+      padding: '3px 10px',
+      border: `1px solid ${props.active ? '#7a5616' : '#8a7250'}`,
+      background: props.active ? 'rgba(200,170,100,0.25)' : 'transparent',
+      color: props.active ? '#3a2a14' : '#6b4e2a',
+      fontWeight: props.active ? 'bold' : 'normal',
+      cursor: 'pointer',
+      borderRadius: '2px',
+      fontSize: '12px',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      minWidth: '60px',
+    }}
+  >
+    <span>{props.label}</span>
+    <span style={{ fontSize: '10px', color: '#8a7250' }}>{props.sublabel}</span>
+  </button>
 );
 
 const Select = (props: {
@@ -169,7 +224,8 @@ const ComposeView = () => {
   const [destination, setDestination] = useState<string>('');
   const [mode, setMode] = useState<DispatchMode>('board');
   const [levyExempt, setLevyExempt] = useState<boolean>(false);
-  const [bonusPay, setBonusPay] = useState<boolean>(false);
+  // 0 = none, 1 = light (1.25x), 2 = full (1.5x). Matches COMMISSION_BONUS_PAY_* defines.
+  const [bonusPayLevel, setBonusPayLevel] = useState<0 | 1 | 2>(0);
   const [funding, setFunding] = useState<FundingSource>('pledge');
   const [inflight, setInflight] = useState<boolean>(false);
 
@@ -188,11 +244,14 @@ const ComposeView = () => {
   const directivesRemaining =
     (data.directives_per_day ?? 0) - (data.directives_issued_today ?? 0);
   const pledgeAvailable = !!data.pledge_available;
-  const bonusMult = data.bonus_pay_mult ?? 1.5;
+  const bonusLightMult = data.bonus_pay_light_mult ?? 1.25;
+  const bonusFullMult = data.bonus_pay_full_mult ?? 1.5;
   // Bonus Pay is disabled for Requests (no reward to sweeten, no coin to burn).
   const bonusPayEligible = funding !== 'directive';
-  const bonusPayActive = bonusPay && bonusPayEligible;
-  const scaledCost = bonusPayActive ? Math.round(cost * bonusMult) : cost;
+  const effectiveLevel = bonusPayEligible ? bonusPayLevel : 0;
+  const bonusMult =
+    effectiveLevel === 2 ? bonusFullMult : effectiveLevel === 1 ? bonusLightMult : 1;
+  const scaledCost = effectiveLevel !== 0 ? Math.round(cost * bonusMult) : cost;
   const effectiveCost = funding === 'directive' ? 0 : scaledCost;
 
   // If the currently-selected funding disappears (pledge repealed, quota spent), fall back.
@@ -246,7 +305,7 @@ const ComposeView = () => {
       // Directives skip the levy-exempt stamp (no reward to exempt).
       levy_exempt: isBlockade || isDirective ? 0 : levyExempt ? 1 : 0,
       // Bonus Pay forced off for Requests (directive) server-side as well.
-      bonus_pay: bonusPayActive ? 1 : 0,
+      bonus_pay_level: effectiveLevel,
       funding,
     });
     setTimeout(() => setInflight(false), DISPATCH_DEBOUNCE_MS);
@@ -273,19 +332,58 @@ const ComposeView = () => {
       </FormRow>
 
       <FormRow label={isBlockade ? 'Blockaded Region' : 'Region'}>
-        <Select
+        <select
+          className="ContractLedger__InnkeeperSelect"
           value={region}
-          onChange={setRegion}
-          options={regionsForType}
-          placeholder={isBlockade ? '- pick a blockade -' : '- pick a region -'}
+          onChange={(e) => setRegion(e.target.value)}
           disabled={regionsForType.length === 0}
-          disabledPlaceholder={
-            isBlockade
-              ? 'No blockades are active.'
-              : 'No region will host this type'
-          }
-        />
+        >
+          <option value="">
+            {regionsForType.length === 0
+              ? isBlockade
+                ? 'No blockades are active.'
+                : 'No region will host this type'
+              : isBlockade
+                ? '- pick a blockade -'
+                : '- pick a region -'}
+          </option>
+          {regionsForType.map((r) => {
+            const mult = data.region_tp_multipliers?.[r];
+            // Only annotate non-blockade regions - blockade rows route through economic
+            // regions, which don't carry a TP multiplier.
+            const suffix =
+              !isBlockade && typeof mult === 'number' && mult !== 1
+                ? ` (×${mult} reward)`
+                : '';
+            return (
+              <option key={r} value={r}>
+                {r}
+                {suffix}
+              </option>
+            );
+          })}
+        </select>
       </FormRow>
+
+      {!isBlockade &&
+        region &&
+        (() => {
+          const flavor = regionRewardFlavor(data.region_tp_multipliers?.[region]);
+          if (!flavor) return null;
+          return (
+            <div
+              style={{
+                fontSize: '11px',
+                fontStyle: 'italic',
+                color: '#6b4e2a',
+                padding: '2px 0 6px 0',
+                marginLeft: '6px',
+              }}
+            >
+              {flavor}
+            </div>
+          );
+        })()}
 
       {needsDestination && (
         <FormRow label="Shipment Destination">
@@ -342,14 +440,26 @@ const ComposeView = () => {
 
       {bonusPayEligible && (
         <FormRow label="Bonus Pay">
-          <label>
-            <input
-              type="checkbox"
-              checked={bonusPay}
-              onChange={(e) => setBonusPay(e.target.checked)}
+          <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
+            <BonusPayOption
+              active={bonusPayLevel === 0}
+              onClick={() => setBonusPayLevel(0)}
+              label="None"
+              sublabel="x1.0"
             />
-            &nbsp;Add Bonus Pay (x{bonusMult} cost, x{bonusMult} reward) - entice takers for dangerous work.
-          </label>
+            <BonusPayOption
+              active={bonusPayLevel === 1}
+              onClick={() => setBonusPayLevel(1)}
+              label="Light"
+              sublabel={`x${bonusLightMult}`}
+            />
+            <BonusPayOption
+              active={bonusPayLevel === 2}
+              onClick={() => setBonusPayLevel(2)}
+              label="Full"
+              sublabel={`x${bonusFullMult}`}
+            />
+          </div>
         </FormRow>
       )}
 

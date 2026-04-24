@@ -11,10 +11,13 @@
 #define QUEST_RECOVERY "Recovery"
 #define QUEST_BLOCKADE_DEFENSE "Blockade Defense"
 
+// Recovery is intentionally omitted - the Steward cannot directly commission recoveries.
+// Those spawn from the pool (SSquestpool.regen_kill_targets) and from Innkeeper rumors only.
+// The rationale is roleplay: a Recovery is "a caravan was lost, find the cargo" - a rumor
+// reaching the Innkeeper's ear, not a Crown directive.
 GLOBAL_LIST_INIT(defense_quest_tier_costs, list(
 	QUEST_KILL_EASY = BURGHER_PLEDGE_COST_TRIVIAL,
 	QUEST_CLEAR_OUT = BURGHER_PLEDGE_COST_STANDARD,
-	QUEST_RECOVERY = BURGHER_PLEDGE_COST_STANDARD,
 	QUEST_BOUNTY = BURGHER_PLEDGE_COST_MAJOR,
 	QUEST_RAID = BURGHER_PLEDGE_COST_MAJOR,
 	QUEST_BLOCKADE_DEFENSE = BLOCKADE_SCROLL_PLEDGE_COST,

@@ -44,10 +44,12 @@
 		var/poll_exempt = poll_category ? SStreasury.is_poll_tax_charter_exempt(H, poll_category) : FALSE
 		if(!poll_category)
 			to_chat(H, span_info("<b>MEISTER:</b> There is no poll tax for your class."))
-		else if(poll_exempt)
+		else if(poll_exempt && poll_rate >= 0)
 			to_chat(H, span_info("<b>MEISTER:</b> You are exempt from poll tax by decree."))
 		else if(poll_rate > 0)
 			to_chat(H, span_info("<b>MEISTER:</b> Poll tax for your class ([SStreasury.get_poll_tax_category_pretty_name(poll_category)]) is [poll_rate]m per day."))
+		else if(poll_rate < 0)
+			to_chat(H, span_info("<b>MEISTER:</b> The Crown extends a [-poll_rate]m daily subsidy to your class ([SStreasury.get_poll_tax_category_pretty_name(poll_category)])."))
 		else
 			to_chat(H, span_info("<b>MEISTER:</b> No poll tax is currently levied on your class ([SStreasury.get_poll_tax_category_pretty_name(poll_category)]). Advance payment may be made at a presumed rate of [POLL_TAX_ADVANCE_FALLBACK_RATE]m per day."))
 		var/amt = SStreasury.get_balance(H)
@@ -64,7 +66,7 @@
 				choicez += "REPAY DEBT ([active_loan.get_remaining_due()]m owed to the Crown)"
 			else
 				choicez += "REPAY LOAN ([active_loan.get_remaining_due()]m due, [active_loan.days_until_due()]d left)"
-		if(amt > 0 && poll_category && !poll_exempt)
+		if(amt > 0 && poll_category && !poll_exempt && poll_rate >= 0)
 			var/existing_advance = SStreasury.poll_tax_advance_days[H] || 0
 			var/advance_rate = poll_rate > 0 ? poll_rate : POLL_TAX_ADVANCE_FALLBACK_RATE
 			var/rate_suffix = poll_rate > 0 ? "m/d" : "m/d presumed"

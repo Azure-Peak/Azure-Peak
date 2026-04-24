@@ -43,9 +43,14 @@
 		</ul>
 
 		<h3>Poll Tax</h3>
-		<p>Daily per-head tax by category: noble, clergy, inquisition, courtier, garrison, guild, merchant, burgher, adventurer, mercenary, peasant. Rates set at the Nerve Master, each capped at a daily ceiling. Charters override: Writ and Concordat exempt entirely; Golden Bull caps burghers at the lightest rate; Covenant does the same for scholars and healers.</p>
+		<p>Daily per-head tax by category: noble, clergy, inquisition, courtier, garrison, guild, merchant, burgher, adventurer, mercenary, peasant. Rates set at the Nerve Master, each capped at [POLL_TAX_MAX_RATE]m/day. Charters override: Writ and Concordat exempt entirely; Golden Bull caps burghers at the lightest rate; Covenant does the same for scholars and healers.</p>
 
 		<p>Unpaid poll tax accumulates arrears. After [POLL_TAX_DEBT_DAYS_TO_DEBTOR] day(s) of arrears, the subject is marked <b>destitute</b>. This does not give you valid permission to kill or attack them on sight - roleplay accordingly and try to recover the mammons as reasonable.</p>
+
+		<h3>Subsidy</h3>
+		<p>A category's rate may be set as far as <b>-[POLL_TAX_MAX_SUBSIDY]m/day</b>. A negative rate is a <b>Crown subsidy</b>: each tick, the Crown's Purse pays that mammon to every subject of the category, reaching even charter-protected classes. If the Purse is insolvent for the tick, that head's subsidy silently skips. No advance, no arrears - subsidies are live per-tick generosity only.</p>
+
+		<p>The Nerve Master's tax setter shows a projected per-tick income, subsidy cost, and net flow based on current heads, so the Steward can see the budget impact before committing. The projection ignores balance and advance state - it is the gross rate × eligible head count.</p>
 
 		<p>Meister deposits are not taxed.</p>
 		</div>
@@ -139,7 +144,10 @@
 		</ul>
 
 		<h3>Bonus Pay</h3>
-		<p>Either a Defense Commission or a Blockade Writ may be issued with <b>Bonus Pay</b>, multiplying both the draft cost and the bearer's reward by x[COMMISSION_BONUS_PAY_MULT]. A tool to entice takers for dangerous regions, where normal pay would see the contract languish on the board. Not available on Requests.</p>
+		<p>Either a Defense Commission or a Blockade Writ may be issued with <b>Bonus Pay</b> at one of three levels: <b>None</b> (x1.0), <b>Light</b> (x[COMMISSION_BONUS_PAY_LIGHT_MULT]), or <b>Full</b> (x[COMMISSION_BONUS_PAY_MULT]). The chosen multiplier applies to both the draft cost and the bearer's reward. Light is the budget-conscious nudge; Full is the full-throated entreaty for takers in dangerous regions. Not available on Requests.</p>
+
+		<h3>Region and Reward</h3>
+		<p>Defense commissions pay out in proportion to the threat they spawn. Each threat region carries a <b>reward multiplier</b> (surfaced in the commission UI beside the region name): Azure Basin at x0.75, Azure Grove at x1.0, Azurean Coast at x1.2, Terrorbog / Mount Decapitation / Underdark at x1.5. A Bounty in Terrorbog costs the same draft as a Bounty in Azure Basin - but the Terrorbog commission pays the bearer roughly twice as much. The Steward can use this to steer adventurers toward regions the realm most needs cleared.</p>
 
 		<p>Multiple blockades may stand at once. One writ per blockade at a time.</p>
 		</div>
