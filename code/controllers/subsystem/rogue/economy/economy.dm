@@ -44,6 +44,8 @@ SUBSYSTEM_DEF(economy)
 			/datum/standing_order/demand_exotic,
 			/datum/standing_order/demand_fishery,
 			/datum/standing_order/demand_orchard,
+			/datum/standing_order/demand_salt,
+			/datum/standing_order/demand_alchemical,
 			/datum/standing_order/demand_equipment_armaments,
 			/datum/standing_order/demand_equipment_armor,
 		),
@@ -58,20 +60,26 @@ SUBSYSTEM_DEF(economy)
 		TRADE_REGION_DAFTSMARCH = list(
 			/datum/standing_order/demand_construction,
 			/datum/standing_order/demand_smithing,
+			/datum/standing_order/demand_victualling_mines,
 		),
 		TRADE_REGION_BLACKHOLT = list(
 			/datum/standing_order/demand_exotic,
 			/datum/standing_order/demand_construction,
+			/datum/standing_order/demand_alchemical,
 		),
 		TRADE_REGION_SALTWICK = list(
 			/datum/standing_order/demand_fishery,
 			/datum/standing_order/demand_construction,
+			/datum/standing_order/demand_salt,
+			/datum/standing_order/demand_victualling_fleet,
 		),
 		TRADE_REGION_BLEAKCOAST = list(
 			/datum/standing_order/demand_rations,
 			/datum/standing_order/demand_armaments,
 			/datum/standing_order/demand_fishery,
 			/datum/standing_order/demand_construction,
+			/datum/standing_order/demand_victualling_garrison,
+			/datum/standing_order/demand_alchemical,
 			/datum/standing_order/demand_equipment_armaments,
 			/datum/standing_order/demand_equipment_armor,
 		),
@@ -79,6 +87,8 @@ SUBSYSTEM_DEF(economy)
 			/datum/standing_order/demand_rations,
 			/datum/standing_order/demand_armaments,
 			/datum/standing_order/demand_construction,
+			/datum/standing_order/demand_victualling_garrison,
+			/datum/standing_order/demand_alchemical,
 			/datum/standing_order/demand_equipment_armaments,
 			/datum/standing_order/demand_equipment_armor,
 		),
@@ -87,16 +97,25 @@ SUBSYSTEM_DEF(economy)
 			/datum/standing_order/demand_armaments,
 			/datum/standing_order/demand_textile,
 			/datum/standing_order/demand_orchard,
+			/datum/standing_order/demand_victualling_garrison,
+			/datum/standing_order/demand_alchemical,
 			/datum/standing_order/demand_equipment_armaments,
 			/datum/standing_order/demand_equipment_armor,
 		),
 	)
+	// possible_standing_order_types is an assoc list of template_path -> roll_weight,
+	// so the daily roller can pickweight() finished-goods orders more often than raws.
 	for(var/region_id in mapping)
 		var/datum/economic_region/region = GLOB.economic_regions[region_id]
 		if(!region)
 			continue
 		var/list/templates = mapping[region_id]
-		region.possible_standing_order_types = templates.Copy()
+		var/list/weighted = list()
+		for(var/datum/standing_order/template as anything in templates)
+			var/datum/standing_order/probe = new template()
+			weighted[template] = probe.roll_weight
+			qdel(probe)
+		region.possible_standing_order_types = weighted
 
 /datum/controller/subsystem/economy/proc/daily_tick()
 	if(GLOB.dayspassed <= last_processed_day)
@@ -166,7 +185,7 @@ SUBSYSTEM_DEF(economy)
 				break
 			var/chosen_region_id = pick(eligible_ids)
 			var/datum/economic_region/region = GLOB.economic_regions[chosen_region_id]
-			var/template = pick(region.possible_standing_order_types)
+			var/template = pickweight(region.possible_standing_order_types)
 			var/datum/standing_order/O = new template()
 			O.region_id = region.region_id
 			O.required_items = O.generate_item_mix()
@@ -286,7 +305,7 @@ SUBSYSTEM_DEF(economy)
 	O.name = O.generate_name(region)
 	O.description = O.generate_description(region)
 	O.day_issued = GLOB.dayspassed
-	O.day_expires = GLOB.dayspassed + STANDING_ORDER_DURATION
+	O.day_expires = GLOB.dayspassed + URGENT_ORDER_DURATION
 	O.total_payout = compute_order_payout(O, region)
 	GLOB.standing_order_pool += O
 	E.urgent_order_ref = WEAKREF(O)
@@ -358,6 +377,8 @@ SUBSYSTEM_DEF(economy)
 
 	if(order_is_equipment(order))
 		return fulfill_equipment_order(user, order)
+	if(order_is_alchemical(order))
+		return fulfill_alchemical_order(user, order)
 
 	for(var/good_id in order.required_items)
 		var/required = order.required_items[good_id]
@@ -388,6 +409,75 @@ SUBSYSTEM_DEF(economy)
 		if(tg?.behavior == TRADE_BEHAVIOR_EQUIPMENT)
 			return TRUE
 	return FALSE
+
+/datum/controller/subsystem/economy/proc/order_is_alchemical(datum/standing_order/order)
+	for(var/good_id in order.required_items)
+		var/datum/trade_good/tg = GLOB.trade_goods[good_id]
+		if(tg?.behavior == TRADE_BEHAVIOR_POTION)
+			return TRUE
+	return FALSE
+
+/// Warehouse scan that counts DELIVERED REAGENT VOLUME, not container count. A bottle
+/// of 50u healthpot satisfies one unit; a 100u flask satisfies two. Any reagent container
+/// works — player brewers use a grab-bag of bottles, flasks, and pouches. Matched
+/// containers are consumed in full on fulfillment (simpler than metering a draw).
+/datum/controller/subsystem/economy/proc/fulfill_alchemical_order(mob/user, datum/standing_order/order)
+	if(!length(GLOB.steward_export_machines))
+		if(user)
+			to_chat(user, span_warning("No warehouse dock manifest is registered. Cannot fulfill alchemical orders."))
+		return FALSE
+
+	var/list/required_volume_by_good = list()
+	var/list/found_volume_by_good = list()
+	var/list/matched_containers_by_good = list()
+	for(var/good_id in order.required_items)
+		var/datum/trade_good/tg = GLOB.trade_goods[good_id]
+		if(!tg || tg.behavior != TRADE_BEHAVIOR_POTION)
+			continue
+		required_volume_by_good[good_id] = order.required_items[good_id] * tg.required_volume
+		found_volume_by_good[good_id] = 0
+		matched_containers_by_good[good_id] = list()
+
+	for(var/obj/structure/roguemachine/steward_export/M as anything in GLOB.steward_export_machines)
+		if(QDELETED(M))
+			continue
+		for(var/obj/item/reagent_containers/RC in view(1, M))
+			if(!RC.reagents)
+				continue
+			for(var/good_id in required_volume_by_good)
+				if(found_volume_by_good[good_id] >= required_volume_by_good[good_id])
+					continue
+				var/datum/trade_good/tg = GLOB.trade_goods[good_id]
+				var/contained = RC.reagents.get_reagent_amount(tg.reagent_type)
+				if(contained <= 0)
+					continue
+				found_volume_by_good[good_id] += contained
+				matched_containers_by_good[good_id] += RC
+				break
+
+	for(var/good_id in required_volume_by_good)
+		var/need = required_volume_by_good[good_id]
+		var/have = found_volume_by_good[good_id]
+		if(have < need)
+			var/datum/trade_good/tg = GLOB.trade_goods[good_id]
+			var/label = tg ? tg.name : good_id
+			if(user)
+				to_chat(user, span_warning("Warehouse short on [label]: have [have]u, need [need]u."))
+			return FALSE
+
+	for(var/good_id in matched_containers_by_good)
+		for(var/obj/item/I as anything in matched_containers_by_good[good_id])
+			qdel(I)
+
+	SStreasury.mint(SStreasury.discretionary_fund, order.total_payout, "Standing Order: [order.name]")
+	record_round_statistic(STATS_STANDING_ORDER_REVENUE, order.total_payout)
+	record_round_statistic(STATS_STANDING_ORDERS_FULFILLED, 1)
+	order.is_fulfilled = TRUE
+	GLOB.standing_order_pool -= order
+	if(user)
+		to_chat(user, span_notice("Order Fulfilled: [order.total_payout]m paid to the Crown's Purse."))
+		log_game("STANDING ORDER (ALCHEMICAL) FULFILLED by [user.ckey]: [order.name] (+[order.total_payout]m)")
+	return TRUE
 
 /// Scans the 3x3 around every registered steward_export machine for finished equipment,
 /// two-pass: count first, then consume only if everything required is present.

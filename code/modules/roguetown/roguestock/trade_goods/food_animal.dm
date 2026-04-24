@@ -78,3 +78,37 @@
 	base_price = SELLPRICE_TALLOW
 	source_region_id = TRADE_REGION_KINGSFIELD
 	item_type = /obj/item/reagent_containers/food/snacks/tallow
+
+// Preserved meats — raw-behavior stockpile goods produced from raw meat + salt.
+// Standing orders (victualling) demand these in bulk; the warehouse scales accept
+// them the same as any other foodstuff. Salumoi's path is /meat/salami (legacy),
+// while its in-world name is "salumoi"; matching item_type binds correctly.
+/datum/trade_good/salumoi
+	id = TRADE_GOOD_SALUMOI
+	name = "Salumoi"
+	category = TRADE_CATEGORY_ANIMAL
+	behavior = TRADE_BEHAVIOR_RAW
+	base_price = SELLPRICE_SALUMOI
+	source_region_id = TRADE_REGION_KINGSFIELD
+	item_type = /obj/item/reagent_containers/food/snacks/rogue/meat/salami
+
+// Cooked sausage — player-crafted butcher good. Coppiette was excluded from the trade
+// pool because it's merchant-purchasable in bulk (arbitrage risk); salumoi and sausage
+// are player-crafted only, keeping the Crown's larder honest.
+/datum/trade_good/sausage
+	id = TRADE_GOOD_SAUSAGE
+	name = "Sausage"
+	category = TRADE_CATEGORY_ANIMAL
+	behavior = TRADE_BEHAVIOR_RAW
+	base_price = SELLPRICE_SAUSAGE
+	source_region_id = TRADE_REGION_KINGSFIELD
+	item_type = /obj/item/reagent_containers/food/snacks/rogue/meat/sausage/cooked
+
+/datum/trade_good/dried_fish
+	id = TRADE_GOOD_DRIED_FISH
+	name = "Dried Fish Filet"
+	category = TRADE_CATEGORY_SEAFOOD
+	behavior = TRADE_BEHAVIOR_RAW
+	base_price = SELLPRICE_DRIED_FISH
+	source_region_id = TRADE_REGION_SALTWICK
+	item_type = /obj/item/reagent_containers/food/snacks/rogue/meat/driedfishfilet

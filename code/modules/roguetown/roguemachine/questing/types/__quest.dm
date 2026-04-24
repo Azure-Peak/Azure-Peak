@@ -153,6 +153,11 @@
 		return list(list("Region", "[target_spawn_area]"))
 	return list(list("Location", "Unknown"))
 
+/// Hook for subtypes that need to stream live fields into the TGUI scroll view (e.g.
+/// blockade's wave timer). Subtypes mutate the passed list. Base does nothing.
+/datum/quest/proc/populate_scroll_ui_data(list/data)
+	return
+
 /// Check if quest objectives are complete
 /datum/quest/proc/check_completion()
 	return progress_current >= progress_required

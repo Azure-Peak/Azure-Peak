@@ -1,9 +1,20 @@
+/// Formats a deciseconds value as M:SS for the scroll's live countdown.
+/proc/format_blockade_time(deciseconds)
+	if(deciseconds <= 0)
+		return "0:00"
+	var/total_seconds = round(deciseconds / 10)
+	var/minutes = round(total_seconds / 60)
+	var/seconds = total_seconds % 60
+	return "[minutes]:[seconds < 10 ? "0[seconds]" : "[seconds]"]"
+
 /obj/item/paper/scroll/quest/blockade
 	name = "blockade defense writ"
 	desc = "A stout writ sealed by the Steward, calling for armed answer to a trade blockade. \
 	The bearer is enjoined to travel to the blockaded region and break three successive waves \
-	of raiders. Hand this writ over to a fellow-adventurer and they may initiate the contract; \
-	post it on a notice board and it will demand a full Fellowship of three."
+	of raiders - each wave must fall within seven minutes, and the writ lapses entirely if the \
+	bearer dawdles too long before reaching the blockade. Hand this writ over to a \
+	fellow-adventurer and they may initiate the contract; post it on a notice board and it \
+	will demand a full Fellowship of three."
 	icon_state = "scroll_quest_info"
 	base_icon_state = "scroll_quest"
 
@@ -36,7 +47,13 @@
 /obj/item/paper/scroll/quest/blockade/process()
 	. = ..()
 	var/datum/quest/kill/blockade_defense/Q = assigned_quest
-	if(!Q || !Q.armed)
+	if(!Q)
+		return
+	// Refresh the scroll's text each tick while a timer is running so the M:SS readout
+	// stays close to live. Cheap - timeleft() + string build.
+	if(Q.arm_timer_id || Q.wave_timer_id)
+		update_quest_text()
+	if(!Q.armed)
 		return
 	var/mob/bearer = Q.quest_receiver_reference?.resolve()
 	if(!bearer)
@@ -99,11 +116,23 @@
 			scroll_text += "<b>Reward:</b> [Q.reward_amount] mammon to the lead bearer on breaking the third wave.<br>"
 		else
 			scroll_text += "<b>Reward:</b> None — issued as a Request.<br>"
-		scroll_text += "<br><i>Three waves descend once you reach the blockade. Each wave must fall within five minutes, or the writ is forfeit.</i>"
+		if(Q.arm_timer_id)
+			var/arm_left = timeleft(Q.arm_timer_id)
+			if(arm_left > 0)
+				scroll_text += "<b>Arrive within:</b> <font color='#c44'>[format_blockade_time(arm_left)]</font> before the writ lapses.<br>"
+		else
+			scroll_text += "<b>Deadline:</b> Reach the blockade within [BLOCKADE_ARM_TIMEOUT_DS / 600] minutes of this writ being drafted, or it lapses.<br>"
+		scroll_text += "<br><i>Three waves descend once you reach the blockade. Each wave must fall within [BLOCKADE_WAVE_TIMER_DS / 600] minutes, or the writ is forfeit.</i>"
 	else
 		scroll_text += "<b>Objective:</b> [Q.get_objective_text()]<br>"
 		if(Q.current_wave > 0)
 			scroll_text += "<b>Wave progress:</b> [Q.progress_current]/[Q.progress_required] felled this wave.<br>"
+			if(Q.wave_timer_id)
+				var/wave_left = timeleft(Q.wave_timer_id)
+				if(wave_left > 0)
+					scroll_text += "<b>Time remaining:</b> <font color='#c44'>[format_blockade_time(wave_left)]</font><br>"
+			else
+				scroll_text += "<b>Wave deadline:</b> [BLOCKADE_WAVE_TIMER_DS / 600] minutes per wave - the writ is forfeit if any wave is not cleared in time.<br>"
 		if(last_compass_direction)
 			scroll_text += "<b>Direction:</b> The raiders are[last_compass_direction]. "
 			if(last_z_level_hint)

@@ -210,6 +210,7 @@ GLOBAL_LIST_EMPTY(quest_scrolls)
 	data["progress_current"] = assigned_quest.progress_current
 	data["complete"] = assigned_quest.complete
 	data["levy_exempt"] = assigned_quest.levy_exempt
+	assigned_quest.populate_scroll_ui_data(data)
 	return data
 
 /obj/item/paper/scroll/quest/proc/update_quest_text()

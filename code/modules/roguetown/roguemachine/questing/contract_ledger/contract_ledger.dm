@@ -111,7 +111,8 @@
 		data["defense_regions_by_type"] = build_defense_regions_by_type()
 		data["defense_destinations"] = build_rumor_destinations()
 		data["defense_log"] = SStreasury.defense_log
-		data["blockade_global_busy"] = SSeconomy.any_blockade_quest_active() ? TRUE : FALSE
+		data["blockade_recall_list"] = build_blockade_recall_list()
+		data["blockade_recall_window_seconds"] = BLOCKADE_RECALL_WINDOW_DS / 10
 		refresh_directive_quota()
 		data["directives_per_day"] = COMMISSION_REQUESTS_PER_DAY
 		data["directives_issued_today"] = directives_issued_today
@@ -236,4 +237,7 @@ GLOBAL_LIST_INIT(contract_ledger_commission_roles, list(
 			return TRUE
 		if("commission_defense")
 			commission_defense_from_tgui(user, params)
+			return TRUE
+		if("recall_blockade_writ")
+			recall_blockade_writ_from_tgui(user, params)
 			return TRUE

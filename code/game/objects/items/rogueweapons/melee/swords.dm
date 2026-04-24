@@ -410,6 +410,16 @@
 	max_integrity = 999
 	max_blade_int = 9999
 
+/obj/item/rogueweapon/sword/long/judgement/ascendant/tester
+	name = "DEBUG TEST SWORD - DO NOT USE IN ROUND"
+	desc = "A ridiculous admin-spawn test weapon that one-shots anything. If you are holding this in a real round, something has gone badly wrong."
+	force = 999
+	force_wielded = 999
+	max_integrity = 999
+	max_blade_int = 9999
+	sellprice = 0
+	static_price = TRUE
+
 /obj/item/rogueweapon/sword/long/judgement/vlord
 	name = "\"Ichor Fang\""
 	desc = "An unholy longsword, who's crystalline blade radiates with insurmountable sharpness. It has been brought forth unto this world for a singular purpose; not to bring peace, but to dominate all who'd dare to oppose the coming darkness. ‎</br>‎‎ </br>'And I looked, and beheld a pale horse - the name that sat upon Her was Death, and Hell followed with them.'"

@@ -53,6 +53,9 @@
 #define TRADE_GOOD_CHEESE "CHEESE"
 #define TRADE_GOOD_FAT "FAT"
 #define TRADE_GOOD_TALLOW "TALLOW"
+#define TRADE_GOOD_SALUMOI "SALUMOI"
+#define TRADE_GOOD_SAUSAGE "SAUSAGE"
+#define TRADE_GOOD_DRIED_FISH "DRIED_FISH"
 
 #define TRADE_GOOD_APPLE "APPLE"
 #define TRADE_GOOD_PEAR "PEAR"
@@ -131,6 +134,13 @@
 #define TRADE_GOOD_PLATE_GAUNTLETS "PLATE_GAUNTLETS"
 #define TRADE_GOOD_STEEL_PLATE_LEGS "STEEL_PLATE_LEGS"
 
+// Potions (finished alchemy, fulfilled via warehouse by reagent volume, any container)
+#define TRADE_GOOD_HEALTH_POTION "HEALTH_POTION"
+#define TRADE_GOOD_STRONG_HEALTH_POTION "STRONG_HEALTH_POTION"
+#define TRADE_GOOD_MANA_POTION "MANA_POTION"
+#define TRADE_GOOD_STAM_POTION "STAM_POTION"
+#define TRADE_GOOD_ANTIDOTE_POTION "ANTIDOTE_POTION"
+
 // ---- Sellprices ----
 // Minerals
 #define SELLPRICE_IRON_ORE 8
@@ -191,6 +201,14 @@
 #define SELLPRICE_CHEESE 3
 #define SELLPRICE_FAT 3
 #define SELLPRICE_TALLOW 2
+// Preserved meats (raw meat + salt, hand-processed — cheap per bite but orders want a lot).
+// Coppiette is intentionally NOT a trade good — it's a merchant-purchasable bulk pack
+// (see code/modules/cargo/packsrogue/), which would let the Steward arbitrage buy-to-sell
+// against the Crown. Keep player-crafted preserves (salumoi, dried fish) as the only
+// paths into the Crown's larder.
+#define SELLPRICE_SALUMOI 9
+#define SELLPRICE_SAUSAGE 7
+#define SELLPRICE_DRIED_FISH 7
 
 // Fruits
 #define SELLPRICE_APPLE 3
@@ -236,3 +254,12 @@
 #define SELLPRICE_CLAM 4
 #define SELLPRICE_LOBSTER 4
 #define SELLPRICE_SHRIMP 4
+
+// Potions (50dr bottle = one base unit). Priced below steel-ingot / armor pieces since
+// alchemy is faster and materially cheaper than smithing. The 1.75x order bonus brings
+// per-order payout into the same ballpark as a raw-goods basket.
+#define SELLPRICE_HEALTH_POTION 18
+#define SELLPRICE_STRONG_HEALTH_POTION 40
+#define SELLPRICE_MANA_POTION 22
+#define SELLPRICE_STAM_POTION 14
+#define SELLPRICE_ANTIDOTE_POTION 25

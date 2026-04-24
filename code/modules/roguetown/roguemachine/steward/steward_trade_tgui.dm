@@ -128,7 +128,7 @@
 			continue
 		var/datum/economic_region/order_region = GLOB.economic_regions[O.region_id]
 		var/is_blockaded = order_region?.is_region_blockaded ? TRUE : FALSE
-		var/is_equipment = SSeconomy.order_is_equipment(O) ? TRUE : FALSE
+		var/is_warehouse = (SSeconomy.order_is_equipment(O) || SSeconomy.order_is_alchemical(O)) ? TRUE : FALSE
 		var/days_left = max(0, O.day_expires - GLOB.dayspassed)
 
 		var/list/items = list()
@@ -137,8 +137,7 @@
 		for(var/good_id in O.required_items)
 			var/needed = O.required_items[good_id]
 			var/have = 0
-			if(is_equipment)
-				// Equipment goods live on the warehouse floor; stockpile count not meaningful.
+			if(is_warehouse)
 				have = needed
 			else
 				var/datum/roguestock/entry = SSeconomy.find_stockpile_by_trade_good(good_id)
@@ -161,7 +160,7 @@
 			"name" = O.name,
 			"region_id" = O.region_id,
 			"region_blockaded" = is_blockaded,
-			"is_equipment" = is_equipment,
+			"is_equipment" = is_warehouse,
 			"days_left" = days_left,
 			"payout" = O.total_payout,
 			"items" = items,

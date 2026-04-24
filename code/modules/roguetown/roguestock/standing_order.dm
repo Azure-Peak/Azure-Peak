@@ -9,6 +9,10 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 	var/day_issued = 0
 	var/day_expires = 0
 	var/is_fulfilled = FALSE
+	/// Relative weight when the daily roller picks a template from a region's pool. Finished-
+	/// goods orders (equipment, potions) are more interesting than raw stockpile baskets, so
+	/// they weight higher. Raw-goods subtypes keep the default 1.
+	var/roll_weight = 1
 
 /// Returns assoc list of trade_good_id -> quantity. Randomized mix.
 /datum/standing_order/proc/generate_item_mix()
@@ -280,6 +284,7 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 // demand_equipment_armaments - finished weapons for a garrison
 // ============================================================================
 /datum/standing_order/demand_equipment_armaments
+	roll_weight = 3
 	var/list/project_by_region = list(
 		TRADE_REGION_BLEAKCOAST = list("the admiralty", "the coastal garrison", "the navy armory"),
 		TRADE_REGION_NORTHFORT = list("the border guard", "the northern garrison", "the tarichean watch"),
@@ -330,6 +335,7 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 // demand_equipment_armor - finished armor for a garrison
 // ============================================================================
 /datum/standing_order/demand_equipment_armor
+	roll_weight = 3
 	var/list/project_by_region = list(
 		TRADE_REGION_BLEAKCOAST = list("the admiralty", "the coastal garrison", "the navy armory"),
 		TRADE_REGION_NORTHFORT = list("the border guard", "the northern garrison", "the tarichean watch"),
@@ -390,3 +396,160 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 	if(length(projects))
 		return "[capitalize(pick(projects))] at [region.name] requires finished harness, to be left at the warehouse."
 	return "A garrison at [region.name] requires finished harness, to be left at the warehouse."
+
+
+// ============================================================================
+// demand_salt - bulk salt requisition for the salting-houses
+// Only ever rolls for Saltwick (producer) and Kingsfield (major consumer).
+// ============================================================================
+/datum/standing_order/demand_salt
+	var/list/project_by_region = list(
+		TRADE_REGION_SALTWICK = list("the salting-houses", "the curing sheds", "the preservers' guild"),
+		TRADE_REGION_KINGSFIELD = list("a market preserver", "a village smokehouse", "the chapel almoners"),
+	)
+
+/datum/standing_order/demand_salt/generate_item_mix()
+	var/list/mix = list()
+	mix[TRADE_GOOD_SALT] = rand(30, 55)
+	return mix
+
+/datum/standing_order/demand_salt/generate_name(datum/economic_region/region)
+	return "[uppertext(region.name)] - SALT REQUISITION"
+
+/datum/standing_order/demand_salt/generate_description(datum/economic_region/region)
+	var/list/projects = project_by_region[region.region_id]
+	if(length(projects))
+		return "[capitalize(pick(projects))] at [region.name] require salt in bulk for the preserving of flesh and fish."
+	return "Preservers in [region.name] require salt in bulk."
+
+
+// ============================================================================
+// demand_victualling_fleet - Saltwick fishing fleet's ration stores
+// ============================================================================
+/datum/standing_order/demand_victualling_fleet
+	roll_weight = 2
+
+/datum/standing_order/demand_victualling_fleet/generate_item_mix()
+	var/list/mix = list()
+	mix[TRADE_GOOD_GRAIN] = rand(20, 35)
+	mix[TRADE_GOOD_DRIED_FISH] = rand(4, 7)
+	if(prob(70))
+		mix[TRADE_GOOD_MEAT] = rand(5, 10)
+	if(prob(60))
+		mix[TRADE_GOOD_CHEESE] = rand(4, 8)
+	return mix
+
+/datum/standing_order/demand_victualling_fleet/generate_name(datum/economic_region/region)
+	return "[uppertext(region.name)] - FLEET VICTUALLING"
+
+/datum/standing_order/demand_victualling_fleet/generate_description(datum/economic_region/region)
+	var/list/flavors = list(
+		"The fishing fleet at [region.name] lays in stores for the season's run.",
+		"The wharvesmen at [region.name] need victuals sufficient for a month at sea.",
+		"A captain at [region.name] takes on stores before his vessel sails.",
+	)
+	return pick(flavors)
+
+
+// ============================================================================
+// demand_victualling_garrison - preserved rations for the garrisons
+// ============================================================================
+/datum/standing_order/demand_victualling_garrison
+	roll_weight = 2
+	var/list/project_by_region = list(
+		TRADE_REGION_NORTHFORT = list("the border garrison", "the tarichean watch", "the northern keep"),
+		TRADE_REGION_BLEAKCOAST = list("the admiralty stores", "the coastal garrison", "the navy quartermaster"),
+		TRADE_REGION_HEARTFELT = list("the march garrison", "the retinue", "the chapel guard"),
+	)
+
+/datum/standing_order/demand_victualling_garrison/generate_item_mix()
+	var/list/mix = list()
+	mix[TRADE_GOOD_SALUMOI] = rand(4, 7)
+	if(prob(70))
+		mix[TRADE_GOOD_SAUSAGE] = rand(4, 7)
+	if(prob(70))
+		mix[TRADE_GOOD_GRAIN] = rand(15, 25)
+	if(prob(50))
+		mix[TRADE_GOOD_CHEESE] = rand(4, 8)
+	return mix
+
+/datum/standing_order/demand_victualling_garrison/generate_name(datum/economic_region/region)
+	return "[uppertext(region.name)] - GARRISON VICTUALLING"
+
+/datum/standing_order/demand_victualling_garrison/generate_description(datum/economic_region/region)
+	var/list/projects = project_by_region[region.region_id]
+	if(length(projects))
+		return "[capitalize(pick(projects))] at [region.name] calls for preserved rations that will last the garrison."
+	return "A garrison at [region.name] lays in preserved rations for the next rotation."
+
+
+// ============================================================================
+// demand_victualling_mines - Daftsmarch miners' long-shift provisions
+// ============================================================================
+/datum/standing_order/demand_victualling_mines
+	roll_weight = 2
+
+/datum/standing_order/demand_victualling_mines/generate_item_mix()
+	var/list/mix = list()
+	mix[TRADE_GOOD_SALUMOI] = rand(4, 7)
+	if(prob(70))
+		mix[TRADE_GOOD_OATS] = rand(15, 25)
+	if(prob(55))
+		mix[TRADE_GOOD_SAUSAGE] = rand(4, 7)
+	if(prob(45))
+		mix[TRADE_GOOD_BUTTER] = rand(2, 4)
+	return mix
+
+/datum/standing_order/demand_victualling_mines/generate_name(datum/economic_region/region)
+	return "[uppertext(region.name)] - MINERS' VICTUALLING"
+
+/datum/standing_order/demand_victualling_mines/generate_description(datum/economic_region/region)
+	var/list/flavors = list(
+		"The foremen at [region.name] feed the miners through the long night-shifts underground.",
+		"The mineworks at [region.name] need stout fare to see their crews through the week.",
+		"A shift-boss at [region.name] lays in dry goods that will not spoil in the shafts.",
+	)
+	return pick(flavors)
+
+
+// ============================================================================
+// demand_alchemical - finished potions for a chapel infirmary, conclave, or watch
+// Delivered to the warehouse: any container holding the right reagent at the right
+// volume satisfies a unit. Matched containers are consumed in full.
+// ============================================================================
+/datum/standing_order/demand_alchemical
+	roll_weight = 3
+	var/list/project_by_region = list(
+		TRADE_REGION_HEARTFELT = list("the chapel infirmary", "the pilgrim hostel", "the garrison surgeon"),
+		TRADE_REGION_BLACKHOLT = list("the wizards' conclave", "the lexicarium", "the archmagi's household"),
+		TRADE_REGION_BLEAKCOAST = list("the admiralty surgeon", "the coastal garrison", "the navy apothecary"),
+		TRADE_REGION_NORTHFORT = list("the border surgeon", "the northern garrison", "the tarichean watch"),
+		TRADE_REGION_KINGSFIELD = list("a market apothecary", "a village healer"),
+	)
+	var/list/medicinal_pool = list(
+		TRADE_GOOD_HEALTH_POTION,
+		TRADE_GOOD_STAM_POTION,
+		TRADE_GOOD_ANTIDOTE_POTION,
+	)
+	var/list/premium_pool = list(
+		TRADE_GOOD_STRONG_HEALTH_POTION,
+		TRADE_GOOD_MANA_POTION,
+	)
+
+/datum/standing_order/demand_alchemical/generate_item_mix()
+	var/list/mix = list()
+	var/primary = pick(medicinal_pool)
+	mix[primary] = rand(3, 5)
+	if(prob(50))
+		var/premium = pick(premium_pool)
+		mix[premium] = rand(1, 2)
+	return mix
+
+/datum/standing_order/demand_alchemical/generate_name(datum/economic_region/region)
+	return "[uppertext(region.name)] - APOTHECARY ORDER"
+
+/datum/standing_order/demand_alchemical/generate_description(datum/economic_region/region)
+	var/list/projects = project_by_region[region.region_id]
+	if(length(projects))
+		return "[capitalize(pick(projects))] at [region.name] requires finished potions, to be left at the warehouse."
+	return "An apothecary at [region.name] will pay the Crown for finished potions, left at the warehouse."

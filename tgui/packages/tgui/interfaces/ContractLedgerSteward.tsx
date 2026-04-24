@@ -10,6 +10,15 @@ type DefenseLogEntry = {
   day: number;
 };
 
+type BlockadeRecallEntry = {
+  region: string;
+  recall_eligible: number | boolean;
+  recall_blocker: string | null;
+  seconds_until_recallable: number;
+  refund: number;
+  refund_fund: string | null;
+};
+
 type StewardData = {
   pledge_balance: number;
   pledge_refill_base: number;
@@ -23,7 +32,8 @@ type StewardData = {
   defense_regions_by_type: Record<string, string[]>;
   defense_destinations: string[];
   defense_log: DefenseLogEntry[];
-  blockade_global_busy: number | boolean;
+  blockade_recall_list: BlockadeRecallEntry[];
+  blockade_recall_window_seconds: number;
   directives_per_day: number;
   directives_issued_today: number;
 };
@@ -165,7 +175,14 @@ const ComposeView = () => {
   const cost = data.defense_costs?.[type] ?? 0;
   const needsDestination = type === RECOVERY_TYPE;
   const isBlockade = type === BLOCKADE_TYPE;
-  const blockadeBusy = !!data.blockade_global_busy;
+  // The picked blockade's recall entry, if any. Present when a writ is already in
+  // circulation for that region - the entry tells us whether it is still recallable
+  // and drives the Recall button below.
+  const recallEntry =
+    isBlockade && region
+      ? (data.blockade_recall_list || []).find((e) => e.region === region)
+      : undefined;
+  const regionHasActiveWrit = !!recallEntry;
   const directivesRemaining =
     (data.directives_per_day ?? 0) - (data.directives_issued_today ?? 0);
   const pledgeAvailable = !!data.pledge_available;
@@ -199,12 +216,12 @@ const ComposeView = () => {
     ? 'Drafting...'
     : !type
       ? 'Pick a commission type.'
-      : isBlockade && blockadeBusy
-        ? 'Another blockade writ is already in circulation.'
-        : !region
-          ? isBlockade
-            ? 'No blockade to clear.'
-            : 'Pick a region.'
+      : !region
+        ? isBlockade
+          ? 'No blockade to clear.'
+          : 'Pick a region.'
+        : isBlockade && regionHasActiveWrit
+          ? 'A writ is already in circulation for this blockade.'
           : needsDestination && !destination
             ? 'Pick the shipment destination.'
             : fundingDisabledReason;
@@ -353,6 +370,18 @@ const ComposeView = () => {
         </div>
       )}
 
+      {isBlockade && recallEntry && (
+        <div className="ContractLedger__InnkeeperFlavor">
+          {recallEntry.recall_eligible
+            ? `A writ is in circulation for ${recallEntry.region} and has gone unanswered. It can be recalled now${
+                recallEntry.refund > 0 && recallEntry.refund_fund
+                  ? ` (refunds ${coin(recallEntry.refund)} to ${recallEntry.refund_fund})`
+                  : ''
+              }.`
+            : `A writ is in circulation for ${recallEntry.region}. It cannot be recalled: ${recallEntry.recall_blocker ?? 'unknown reason'}.`}
+        </div>
+      )}
+
       <div className="ContractLedger__InnkeeperFormFooter">
         <button
           type="button"
@@ -367,6 +396,16 @@ const ComposeView = () => {
               ? `Print Writ (${coin(effectiveCost)})`
               : `Commission (${coin(effectiveCost)})`}
         </button>
+        {isBlockade && recallEntry?.recall_eligible && (
+          <button
+            type="button"
+            className="ContractLedger__SignButton"
+            onClick={() => act('recall_blockade_writ', { region })}
+          >
+            Recall Writ
+            {recallEntry.refund > 0 ? ` (refund ${coin(recallEntry.refund)})` : ''}
+          </button>
+        )}
       </div>
     </>
   );

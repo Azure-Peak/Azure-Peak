@@ -12,6 +12,10 @@
 	var/global_price_mod = 1.0
 	var/mint_eligible = FALSE
 	var/crown_accepts = TRUE
+	// Potion-only: alchemical orders match any reagent container holding at least
+	// required_volume units of reagent_type. The container is consumed on fulfillment.
+	var/reagent_type
+	var/required_volume = 0
 
 /datum/trade_good/New()
 	. = ..()

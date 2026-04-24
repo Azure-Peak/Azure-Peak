@@ -78,3 +78,21 @@
 	importexport_amt = 5
 	stockpile_limit = 25
 	category = "Animal"
+
+/datum/roguestock/stockpile/salumoi
+	name = "Salumoi"
+	desc = "Dwarven smoked sausage, cured against ten yils of spoilage."
+	item_type = /obj/item/reagent_containers/food/snacks/rogue/meat/salami
+	trade_good_id = TRADE_GOOD_SALUMOI
+	importexport_amt = 3
+	stockpile_limit = 20
+	category = "Animal"
+
+/datum/roguestock/stockpile/sausage
+	name = "Sausage"
+	desc = "Cooked flesh stuffed into intestine casing, shelf-stable for the season."
+	item_type = /obj/item/reagent_containers/food/snacks/rogue/meat/sausage/cooked
+	trade_good_id = TRADE_GOOD_SAUSAGE
+	importexport_amt = 3
+	stockpile_limit = 20
+	category = "Animal"

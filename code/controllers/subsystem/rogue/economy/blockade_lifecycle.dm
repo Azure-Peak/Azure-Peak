@@ -1,11 +1,3 @@
-/// Global concurrency: only one blockade-defense scroll may be in circulation at a time
-/// across the whole server, regardless of how many blockades are active.
-/datum/controller/subsystem/economy/proc/any_blockade_quest_active()
-	for(var/datum/blockade/B as anything in GLOB.active_blockades)
-		if(B.has_active_scroll())
-			return TRUE
-	return FALSE
-
 /datum/controller/subsystem/economy/proc/find_blockade_for_region(region_id)
 	for(var/datum/blockade/B as anything in GLOB.active_blockades)
 		if(B.region_id == region_id)

@@ -2859,6 +2859,7 @@
 #include "code\modules\roguetown\roguestock\trade_goods\gems.dm"
 #include "code\modules\roguetown\roguestock\trade_goods\intermediaries.dm"
 #include "code\modules\roguetown\roguestock\trade_goods\minerals.dm"
+#include "code\modules\roguetown\roguestock\trade_goods\potions.dm"
 #include "code\modules\roguetown\roguestock\trade_goods\precious.dm"
 #include "code\modules\roguetown\roguestock\trade_goods\seafood.dm"
 #include "code\modules\roguetown\roguestock\trade_goods\textile.dm"

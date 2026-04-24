@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { useBackend } from '../backend';
 import { Window } from '../layouts';
 import type { BooleanLike } from 'tgui-core/react';
@@ -21,6 +22,49 @@ type QuestScrollData = {
   levy_exempt?: BooleanLike;
   is_rumor?: BooleanLike;
   is_defense?: BooleanLike;
+  blockade_timer_label?: string;
+  blockade_timer_seconds?: number;
+  blockade_current_wave?: number;
+  blockade_total_waves?: number;
+  blockade_armed?: BooleanLike;
+  blockade_failed?: BooleanLike;
+};
+
+const formatMinSec = (totalSeconds: number) => {
+  if (totalSeconds <= 0) return '0:00';
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = totalSeconds % 60;
+  return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+};
+
+// Client-side tick so the countdown ticks every second between backend refreshes.
+// Resets whenever the server pushes a new baseline.
+const BlockadeTimer = (props: { label: string; seconds: number }) => {
+  const [remaining, setRemaining] = useState(props.seconds);
+  useEffect(() => {
+    setRemaining(props.seconds);
+  }, [props.seconds]);
+  useEffect(() => {
+    if (remaining <= 0) return;
+    const t = setTimeout(() => setRemaining((s) => Math.max(0, s - 1)), 1000);
+    return () => clearTimeout(t);
+  }, [remaining]);
+  const danger = remaining <= 30;
+  return (
+    <div style={rowStyle}>
+      <span style={rowLabel}>{props.label}</span>
+      <span
+        style={{
+          ...rowValue,
+          fontSize: '1.2em',
+          color: danger ? 'hsl(0, 65%, 35%)' : 'hsl(25, 55%, 22%)',
+          fontFamily: "'Courier New', monospace",
+        }}
+      >
+        {formatMinSec(remaining)}
+      </span>
+    </div>
+  );
 };
 
 const parchment: React.CSSProperties = {
@@ -192,6 +236,25 @@ export const QuestScroll = () => {
               <Field key={`loc-${i}`} label={label} value={value} />
             ))}
             {compassText && <Field label="Direction" value={compassText} />}
+            {data.blockade_timer_label &&
+              (data.blockade_timer_seconds ?? 0) > 0 && (
+                <BlockadeTimer
+                  label={data.blockade_timer_label}
+                  seconds={data.blockade_timer_seconds ?? 0}
+                />
+              )}
+            {!!data.blockade_armed && !data.blockade_timer_label && (
+              <div
+                style={{
+                  fontStyle: 'italic',
+                  fontSize: '0.9em',
+                  color: 'hsl(30, 35%, 40%)',
+                  marginTop: '6px',
+                }}
+              >
+                Travel to the blockade - waves descend on arrival.
+              </div>
+            )}
           </div>
 
           <div style={prominentBlock}>
@@ -235,6 +298,20 @@ export const QuestScroll = () => {
                 }}
               >
                 Place it on the marked area next to the book.
+              </div>
+            </>
+          ) : data.blockade_failed ? (
+            <>
+              <hr style={divider} />
+              <div
+                style={{
+                  textAlign: 'center',
+                  fontWeight: 'bold',
+                  color: 'hsl(0, 55%, 32%)',
+                  fontSize: '1.1em',
+                }}
+              >
+                BLOCKADE HELD - THE WRIT HAS LAPSED
               </div>
             </>
           ) : (

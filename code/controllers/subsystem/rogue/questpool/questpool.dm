@@ -271,12 +271,10 @@ SUBSYSTEM_DEF(questpool)
 
 /// Bearer-bond scroll is spawned straight into the Steward's hand. Wave 1 materializes
 /// on first scroll-open, not at issue time — see quest_scroll_blockade.attack_self.
-/datum/controller/subsystem/questpool/proc/issue_blockade_defense_quest(datum/blockade/B, mob/living/carbon/human/steward)
+/datum/controller/subsystem/questpool/proc/issue_blockade_defense_quest(datum/blockade/B, mob/living/carbon/human/steward, datum/fund/source_fund, cost = 0)
 	if(!B || !steward)
 		return null
 	if(B.has_active_scroll())
-		return null
-	if(SSeconomy.any_blockade_quest_active())
 		return null
 	var/datum/economic_region/ER = B.get_region()
 	var/datum/threat_region/TR = B.get_threat_region()
@@ -298,6 +296,9 @@ SUBSYSTEM_DEF(questpool)
 		qdel(Q)
 		return null
 	Q.reward_amount = BLOCKADE_SCROLL_REWARD
+	Q.funding_fund = source_fund
+	Q.funding_cost = cost
+	Q.issued_at = world.time
 	var/obj/item/paper/scroll/quest/blockade/scroll = new(get_turf(steward))
 	scroll.base_icon_state = Q.get_scroll_icon()
 	scroll.assigned_quest = Q

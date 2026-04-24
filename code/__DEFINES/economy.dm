@@ -12,12 +12,15 @@
 #define TRADE_CATEGORY_GEM_COMMON "gem_common"
 #define TRADE_CATEGORY_GEM_RARE "gem_rare"
 #define TRADE_CATEGORY_GEM_LEGENDARY "gem_legendary"
+#define TRADE_CATEGORY_POTION "potion"
 
 #define TRADE_BEHAVIOR_RAW "raw"
 #define TRADE_BEHAVIOR_INTERMEDIARY "intermediary"
 #define TRADE_BEHAVIOR_GEM "gem"
 // Finished equipment. Fulfilled via warehouse tiles, not stockpile deposits.
 #define TRADE_BEHAVIOR_EQUIPMENT "equipment"
+// Finished potions. Fulfilled via warehouse tiles by reagent + volume, any container.
+#define TRADE_BEHAVIOR_POTION "potion"
 
 #define TRADE_REGION_KINGSFIELD "kingsfield"
 #define TRADE_REGION_ROSAWOOD "rosawood"
@@ -30,15 +33,18 @@
 #define TRADE_REGION_HEARTFELT "heartfelt"
 
 #define STANDING_ORDER_DURATION 2
+// Urgent orders (spawned by shortage events) pay a premium but expire the very next dawn,
+// so "urgent" actually bites — the Crown is not patient when a shortage is on.
+#define URGENT_ORDER_DURATION 1
 
 // Order count is NOT pop-scaled. Each order's size scales with pop instead via
 // STANDING_ORDER_POP_SCALE_PER_PLAYER - this avoids drowning a single Steward in
 // order-count triage while still proportioning Crown throughput to the player economy.
-#define STANDING_ORDERS_BASE_PER_DAY 2
-#define STANDING_ORDERS_PER_ACTIVE_PLAYER 0
-#define STANDING_ORDERS_MAX_PER_DAY 10
-#define STANDING_ORDERS_POOL_CAP 10
-#define STANDING_ORDERS_MAX_PER_REGION 2
+#define STANDING_ORDERS_BASE_PER_DAY 3
+#define STANDING_ORDERS_PER_ACTIVE_PLAYER 0.05
+#define STANDING_ORDERS_MAX_PER_DAY 13
+#define STANDING_ORDERS_POOL_CAP 13
+#define STANDING_ORDERS_MAX_PER_REGION 3
 
 // Additive payout bonuses over base_price. Regular standing orders pay base * (1 + BASE_BONUS)
 // per unit; urgent orders pay base * (1 + BASE_BONUS + URGENT_EXTRA) per unit. No multiplier
@@ -100,7 +106,12 @@
 #define BLOCKADE_SCROLL_PLEDGE_COST 500
 #define BLOCKADE_SCROLL_REWARD 500
 #define BLOCKADE_FELLOWSHIP_REQUIREMENT 3
-#define BLOCKADE_WAVE_TIMER_DS (5 MINUTES)
+#define BLOCKADE_WAVE_TIMER_DS (7 MINUTES)
+// Recall policy: the bearer gets BLOCKADE_RECALL_WINDOW_DS to reach the blockade.
+// Only AFTER that elapsed time (and while still armed) may the Steward recall the writ.
+// If nobody acts, BLOCKADE_ARM_TIMEOUT_DS is a backstop that auto-fails the writ.
+#define BLOCKADE_ARM_TIMEOUT_DS (30 MINUTES)
+#define BLOCKADE_RECALL_WINDOW_DS (15 MINUTES)
 // Wave composition arrays in quest_blockade_defense.dm assume exactly 3 waves.
 #define BLOCKADE_TOTAL_WAVES 3
 #define BLOCKADE_WAVE_1_TP 90

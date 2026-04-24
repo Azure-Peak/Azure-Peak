@@ -1,11 +1,46 @@
+/// Snapshot of each blockade that currently has a writ in circulation, with recall eligibility.
+/// Used by ContractLedgerSteward.tsx to show a "Recall Writ" button when the Steward picks
+/// a blockaded region that still has an armed, pre-wave writ within the recall window.
+/obj/structure/roguemachine/contractledger/proc/build_blockade_recall_list()
+	var/list/out = list()
+	for(var/datum/blockade/B as anything in GLOB.active_blockades)
+		var/obj/item/paper/scroll/quest/S = B.active_scroll_ref?.resolve()
+		if(!S || QDELETED(S))
+			continue
+		var/datum/quest/kill/blockade_defense/Q = S.assigned_quest
+		if(!istype(Q))
+			continue
+		var/datum/economic_region/ER = B.get_region()
+		var/reason = Q.recall_blocker()
+		var/recall_eligible = isnull(reason) ? TRUE : FALSE
+		// Seconds until the recall window opens (issue + BLOCKADE_RECALL_WINDOW_DS).
+		// Zero once the window is open or the writ has failed/engaged.
+		var/seconds_until_recallable = 0
+		if(Q.current_wave == 0 && !Q.failed && !Q.complete && Q.issued_at)
+			var/elapsed = world.time - Q.issued_at
+			var/until_open = BLOCKADE_RECALL_WINDOW_DS - elapsed
+			if(until_open > 0)
+				seconds_until_recallable = round(until_open / 10)
+		out += list(list(
+			"region" = ER ? ER.name : B.region_id,
+			"recall_eligible" = recall_eligible,
+			"recall_blocker" = reason,
+			"seconds_until_recallable" = seconds_until_recallable,
+			"refund" = Q.funding_cost,
+			"refund_fund" = Q.funding_fund ? Q.funding_fund.name : null,
+		))
+	return out
+
 /obj/structure/roguemachine/contractledger/proc/build_defense_regions_by_type()
 	var/list/out = list()
 	for(var/qtype in GLOB.defense_quest_tier_costs)
 		var/list/regions = list()
 		if(qtype == QUEST_BLOCKADE_DEFENSE)
+			// All active blockades are listed regardless of scroll state. Regions with a
+			// writ already out are still shown so the Steward can pick them to recall.
+			// The UI decides whether the primary button says "Print Writ" or "Recall Writ"
+			// based on the blockade_recall_list entry for that region.
 			for(var/datum/blockade/B as anything in GLOB.active_blockades)
-				if(B.has_active_scroll())
-					continue
 				var/datum/economic_region/ER = B.get_region()
 				if(ER)
 					regions += ER.name
@@ -160,12 +195,9 @@
 		to_chat(steward, span_notice("Commission posted [source_label]: <b>[dispatched.title || dispatched.quest_type]</b> in [chosen_region.region_name][levy_exempt ? " - <i>levy-exempt</i>" : ""]."))
 
 /// Blockade commissions bypass the threat-region picker entirely — region param is the
-/// economic region name, resolved to a live /datum/blockade. Only one blockade writ may
-/// be in circulation at a time across the whole server.
+/// economic region name, resolved to a live /datum/blockade. Multiple writs may be in
+/// circulation concurrently, one per blockaded region.
 /obj/structure/roguemachine/contractledger/proc/commission_blockade_defense(mob/living/carbon/human/steward, list/params, cost, datum/fund/source_fund, is_directive)
-	if(SSeconomy.any_blockade_quest_active())
-		to_chat(steward, span_warning("Another blockade writ is already in circulation. Only one at a time."))
-		return
 	var/region_name = params["region"]
 	var/datum/blockade/chosen
 	for(var/datum/blockade/B as anything in GLOB.active_blockades)
@@ -182,7 +214,7 @@
 	if(source_fund && cost > 0 && !SStreasury.burn(source_fund, cost, "Blockade defense writ ([region_name])"))
 		to_chat(steward, span_warning("The [source_fund.name] refused the draft."))
 		return
-	var/datum/quest/kill/blockade_defense/Q = SSquestpool.issue_blockade_defense_quest(chosen, steward)
+	var/datum/quest/kill/blockade_defense/Q = SSquestpool.issue_blockade_defense_quest(chosen, steward, is_directive ? null : source_fund, is_directive ? 0 : cost)
 	if(!Q)
 		if(source_fund && cost > 0)
 			SStreasury.mint(source_fund, cost, "Blockade defense writ refund (issue failure)")
@@ -209,3 +241,53 @@
 	playsound(src, 'sound/misc/coindispense.ogg', 60, FALSE, -1)
 	var/source_label = is_directive ? "as a Request" : (funding == "crown" ? "from Crown's Purse" : "from the Pledge")
 	to_chat(steward, span_notice("Blockade writ drafted [source_label] to your hand: <b>[Q.get_title()]</b>."))
+
+/// Steward recall: cancels a still-armed writ within the recall window and refunds the draft.
+/// Region param is the economic region name — same selector used for issuance.
+/obj/structure/roguemachine/contractledger/proc/recall_blockade_writ_from_tgui(mob/user, list/params)
+	if(!ishuman(user))
+		return
+	var/mob/living/carbon/human/steward = user
+	if(!can_commission(steward))
+		return
+	if(!steward.Adjacent(src))
+		return
+	if(SSticker.current_state != GAME_STATE_PLAYING)
+		to_chat(steward, span_warning("The ledger is not yet open."))
+		return
+	var/region_name = params["region"]
+	if(!region_name)
+		return
+	var/datum/blockade/chosen
+	for(var/datum/blockade/B as anything in GLOB.active_blockades)
+		var/datum/economic_region/ER = B.get_region()
+		if(ER?.name == region_name)
+			chosen = B
+			break
+	if(!chosen)
+		to_chat(steward, span_warning("That region is not currently blockaded."))
+		return
+	var/obj/item/paper/scroll/quest/S = chosen.active_scroll_ref?.resolve()
+	if(!S || QDELETED(S))
+		to_chat(steward, span_warning("No writ is in circulation for that blockade."))
+		return
+	var/datum/quest/kill/blockade_defense/Q = S.assigned_quest
+	if(!istype(Q))
+		to_chat(steward, span_warning("That writ cannot be recalled."))
+		return
+	var/blocker = Q.recall_blocker()
+	if(blocker)
+		to_chat(steward, span_warning("The writ cannot be recalled: [blocker]."))
+		return
+	var/refund = Q.funding_cost
+	var/datum/fund/refund_fund = Q.funding_fund
+	if(!Q.recall(steward))
+		to_chat(steward, span_warning("The writ could not be recalled."))
+		return
+	SSquestpool.log_event("defense_recall", "[steward.real_name] recalled blockade writ on [region_name][refund > 0 && refund_fund ? " (refunded [refund]m to [refund_fund.name])" : ""]")
+	scom_announce("The blockade defense writ for [region_name] has been recalled.")
+	playsound(src, 'sound/items/inqslip_sealed.ogg', 50, FALSE, -1)
+	if(refund > 0 && refund_fund)
+		to_chat(steward, span_notice("Writ recalled. [refund]m returned to [refund_fund.name]."))
+	else
+		to_chat(steward, span_notice("Writ recalled."))
