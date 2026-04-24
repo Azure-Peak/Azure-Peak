@@ -342,10 +342,14 @@ SUBSYSTEM_DEF(economy)
 	if(!tg || !region)
 		return 0
 	var/daily_pace = max(1, region.demands[good_id] || 0)
+	// Oversupply DECAY (not the import-side escalation). When the Steward floods a region past
+	// its daily demand, each additional unit fetches a diminishing price: price is divided by
+	// (1 + overshoot * slope). At demand = 3 and exported = 12, overshoot = 3 -> unit price
+	// falls to 1/4. low_price floor still applies via the max() below.
 	var/overshoot = max(0, (unit_index - daily_pace) / daily_pace)
+	var/oversupply_mult = 1 / (1 + overshoot * TRADE_ESCALATION_SLOPE)
 	var/blockade_mult = region.is_region_blockaded ? BLOCKADE_EXPORT_MULT : 1.0
-	var/import_baseline = tg.base_price * (1 + overshoot * TRADE_ESCALATION_SLOPE) * tg.global_price_mod
-	var/export_price = import_baseline * (1 - IMPORT_EXPORT_SPREAD) * blockade_mult
+	var/export_price = tg.base_price * tg.global_price_mod * oversupply_mult * (1 - IMPORT_EXPORT_SPREAD) * blockade_mult
 	return max(round(export_price), tg.low_price)
 
 /datum/controller/subsystem/economy/proc/compute_order_payout(datum/standing_order/order, datum/economic_region/region)

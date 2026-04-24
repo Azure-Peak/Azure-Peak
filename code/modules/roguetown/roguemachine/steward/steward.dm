@@ -614,7 +614,9 @@
 	if(spent > 0)
 		if(is_alderman_acting)
 			SScity_assembly.consume_trade(spent, user, "import [quantity] [tg.name] from [region.name]")
-		scom_announce("Azure Peak imports [quantity] [tg.name] from [region.name] for [spent] mammon.")
+		var/msg = "Azure Peak imports [quantity] [tg.name] from [region.name] for [spent] mammon."
+		scom_announce(msg)
+		say(msg)
 		playsound(src, 'sound/misc/coininsert.ogg', 100, FALSE, -1)
 	SStgui.update_uis(src)
 
@@ -671,7 +673,9 @@
 	if(gained > 0)
 		if(is_alderman_acting)
 			SScity_assembly.consume_trade(gained, user, "export [quantity] [tg.name] to [region.name]")
-		scom_announce("Azure Peak exports [quantity] [tg.name] to [region.name] for [gained] mammon.")
+		var/msg = "Azure Peak exports [quantity] [tg.name] to [region.name] for [gained] mammon."
+		scom_announce(msg)
+		say(msg)
 		playsound(src, 'sound/misc/coindispense.ogg', 60, FALSE, -1)
 	SStgui.update_uis(src)
 

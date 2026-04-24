@@ -58,11 +58,15 @@
 #define STANDING_ORDER_POP_SCALE_PER_PLAYER 0.03
 #define STANDING_ORDER_POP_SCALE_MAX 3.0
 
-// Per-unit price escalation past a region's daily production/demand.
-// Import is the baseline: import_unit = base_price * (1 + overshoot * slope) * global_price_mod * blockade_mult.
-// Export is derived: export_unit = import_unit * (1 - IMPORT_EXPORT_SPREAD), floored at low_price.
-// The spread guarantees buy-then-sell is always a loss: Crown profits only from held stockpile
-// accumulated through player deposits, shortage-held inventory, or standing order bonuses.
+// Per-unit price behavior past a region's daily production/demand.
+// Import escalates: import_unit = base_price * (1 + overshoot * slope) * global_price_mod * blockade_mult.
+//   Overshoot = how far past the region's daily PRODUCTION the Crown is buying. Scarcity pressure.
+// Export decays:  export_unit = base_price * global_price_mod * (1 / (1 + overshoot * slope))
+//                                * (1 - IMPORT_EXPORT_SPREAD) * blockade_mult, floored at low_price.
+//   Overshoot = how far past the region's daily DEMAND the Crown is selling. Oversupply pressure.
+// The spread + oversupply decay together guarantee buy-then-sell is always a loss. Crown profits
+// only from held stockpile accumulated through player deposits, shortage-held inventory, or
+// standing order bonuses.
 #define TRADE_ESCALATION_SLOPE 1.0
 #define IMPORT_EXPORT_SPREAD 0.25
 
