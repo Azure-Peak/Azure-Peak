@@ -57,7 +57,7 @@
 	desc = "Chunks of copper used for smithing and alloying."
 	item_type = /obj/item/rogueore/copper
 	trade_good_id = TRADE_GOOD_COPPER_ORE
-	stockpile_amount = 6
+	stockpile_amount = 12
 	importexport_amt = 10
 	stockpile_limit = 25
 
@@ -66,7 +66,7 @@
 	desc = "Chunks of tin used for smithing and alloying."
 	item_type = /obj/item/rogueore/tin
 	trade_good_id = TRADE_GOOD_TIN_ORE
-	stockpile_amount = 6
+	stockpile_amount = 12
 	importexport_amt = 10
 	stockpile_limit = 25
 
@@ -125,7 +125,7 @@
 	desc = "Cured Leather ready to be worked."
 	item_type = /obj/item/natural/hide/cured
 	trade_good_id = TRADE_GOOD_CURED_LEATHER
-	stockpile_amount = 2
+	stockpile_amount = 15
 	importexport_amt = 10
 	stockpile_limit = 50
 
