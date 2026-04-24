@@ -100,6 +100,9 @@
 		else
 			// handle just the oxyloss, and then abort. nothing else in here is relevant to us
 			adjustOxyLoss(blood_volume <= BLOOD_VOLUME_SURVIVE ? 3 : 1)
+			if(prob(40) && !HAS_TRAIT(src, TRAIT_NOBREATH))
+				if(!stat == CONSCIOUS || !stat == DEAD)
+					emote("gasp")			
 			return
 
 	//Blood regeneration if there is some space
@@ -172,12 +175,11 @@
 			if(blood_volume <= BLOOD_VOLUME_BAD)
 				adjustOxyLoss(blood_volume <= BLOOD_VOLUME_SURVIVE ? 3 : 1)
 				if(prob(40) && !HAS_TRAIT(src, TRAIT_NOBREATH))
-					emote("gasp")
+					if(stat != DEAD)
+						emote("gasp")
 			else if((blood_volume > BLOOD_VOLUME_SURVIVE) || HAS_TRAIT(src, TRAIT_BLOODLOSS_IMMUNE))
 				if(getOxyLoss())
 					adjustOxyLoss(-1.6)
-					if(prob(40) && !HAS_TRAIT(src, TRAIT_NOBREATH))
-						emote("gasp")
 
 	//Bleeding out
 	bleed_rate = get_bleed_rate() // expensive proc, but we zero it on bled-out mobs
