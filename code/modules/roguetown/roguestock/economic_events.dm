@@ -52,7 +52,7 @@ GLOBAL_LIST_EMPTY(active_economic_events)
 	description = "The Black Oaks have risen in Rosawood again - loggers found nailed to trees, woodcutters refuse to enter the deep groves without Crown escort."
 	announcement = "<font color='#c44'>BLACK OAK REBELLION: Rosawood's logging camps lie abandoned. Wood prices surge.</font>"
 	affected_goods = list(TRADE_GOOD_WOOD)
-	price_mod = 1.8
+	price_mod = 4.5
 	event_type = ECON_EVENT_SHORTAGE
 
 /datum/economic_event/ironmongers_strike
@@ -60,7 +60,7 @@ GLOBAL_LIST_EMPTY(active_economic_events)
 	description = "The ironmongers' guild has walked out over unpaid commissions - smelters sit cold."
 	announcement = "<font color='#c44'>IRONMONGERS' STRIKE: Iron ore supply chokes. Prices double.</font>"
 	affected_goods = list(TRADE_GOOD_IRON_ORE)
-	price_mod = 2.0
+	price_mod = 5.0
 	event_type = ECON_EVENT_SHORTAGE
 
 /datum/economic_event/daftsmarch_cavein
@@ -68,7 +68,7 @@ GLOBAL_LIST_EMPTY(active_economic_events)
 	description = "A deep shaft collapse in Daftsmarch has shut mining operations across three veins."
 	announcement = "<font color='#c44'>DAFTSMARCH CAVE-IN: Mines shuttered. Iron, coal, and stone grow scarce.</font>"
 	affected_goods = list(TRADE_GOOD_IRON_ORE, TRADE_GOOD_COAL, TRADE_GOOD_STONE)
-	price_mod = 1.5
+	price_mod = 3.75
 	event_type = ECON_EVENT_SHORTAGE
 
 /datum/economic_event/wheat_blight
@@ -76,7 +76,7 @@ GLOBAL_LIST_EMPTY(active_economic_events)
 	description = "A black rot has crept through the grain stores of the Kingsfield farmsteads."
 	announcement = "<font color='#c44'>WHEAT BLIGHT: Grain and oats rot in the silos. Bread prices soar.</font>"
 	affected_goods = list(TRADE_GOOD_GRAIN, TRADE_GOOD_OATS)
-	price_mod = 2.0
+	price_mod = 5.0
 	event_type = ECON_EVENT_SHORTAGE
 
 /datum/economic_event/saltwick_storm
@@ -84,7 +84,7 @@ GLOBAL_LIST_EMPTY(active_economic_events)
 	description = "A vicious gale has battered the Saltwick wharves - fishing fleets are grounded for days."
 	announcement = "<font color='#c44'>SALTWICK STORM: Fishing fleets grounded. Fish prices surge.</font>"
 	affected_goods = list(TRADE_GOOD_FISH_FILET, TRADE_GOOD_COD, TRADE_GOOD_SALMON)
-	price_mod = 1.8
+	price_mod = 4.5
 	event_type = ECON_EVENT_SHORTAGE
 
 /datum/economic_event/fur_trapping_frost
@@ -92,7 +92,7 @@ GLOBAL_LIST_EMPTY(active_economic_events)
 	description = "An unseasonal freeze has driven the game deep into the wilds - trappers return empty-handed."
 	announcement = "<font color='#c44'>TRAPPERS' FROST: Fur and hide supply dries up. Tanners panic.</font>"
 	affected_goods = list(TRADE_GOOD_FUR, TRADE_GOOD_HIDE)
-	price_mod = 1.6
+	price_mod = 4.0
 	event_type = ECON_EVENT_SHORTAGE
 
 /datum/economic_event/cloth_smuggler_purge
@@ -100,7 +100,7 @@ GLOBAL_LIST_EMPTY(active_economic_events)
 	description = "A crown crackdown on black-market cloth has choked the legitimate supply as well."
 	announcement = "<font color='#c44'>CLOTH SMUGGLER PURGE: Cloth and fibers seized from wagons. Tailors despair.</font>"
 	affected_goods = list(TRADE_GOOD_CLOTH, TRADE_GOOD_FIBERS)
-	price_mod = 1.7
+	price_mod = 4.25
 	event_type = ECON_EVENT_SHORTAGE
 
 /datum/economic_event/essence_scarcity
@@ -108,7 +108,7 @@ GLOBAL_LIST_EMPTY(active_economic_events)
 	description = "The essence harvests in the Terrorbog have faltered - arcane reagents grow dear."
 	announcement = "<font color='#c44'>ESSENCE SCARCITY: Dendor's essence and viscera run short. Wizards fume.</font>"
 	affected_goods = list(TRADE_GOOD_DENDOR_ESSENCE, TRADE_GOOD_VISCERA)
-	price_mod = 2.2
+	price_mod = 5.5
 	event_type = ECON_EVENT_SHORTAGE
 
 
@@ -166,7 +166,7 @@ GLOBAL_LIST_EMPTY(active_economic_events)
 	description = "A wasting sickness has swept the herds of the Kingsfield pastures. Meat and dairy turn scarce."
 	announcement = "<font color='#c44'>CATTLE MURRAIN: Herds sicken across the pastures. Meat and dairy grow dear.</font>"
 	affected_goods = list(TRADE_GOOD_MEAT, TRADE_GOOD_BUTTER, TRADE_GOOD_CHEESE)
-	price_mod = 1.8
+	price_mod = 4.5
 	event_type = ECON_EVENT_SHORTAGE
 
 /datum/economic_event/saltmine_flooding
@@ -174,7 +174,7 @@ GLOBAL_LIST_EMPTY(active_economic_events)
 	description = "Groundwater has broken through the Daftsmarch salt workings, drowning the lower galleries."
 	announcement = "<font color='#c44'>SALT-MINE FLOODING: The Daftsmarch galleries drown. Salt grows precious.</font>"
 	affected_goods = list(TRADE_GOOD_SALT)
-	price_mod = 2.0
+	price_mod = 5.0
 	event_type = ECON_EVENT_SHORTAGE
 
 /datum/economic_event/copper_tin_embargo
@@ -182,7 +182,7 @@ GLOBAL_LIST_EMPTY(active_economic_events)
 	description = "A foreign crown has barred the export of its copper and tin. Bronze-smiths scramble."
 	announcement = "<font color='#c44'>COPPER AND TIN EMBARGO: Foreign shipments halted. Alloying metals grow scarce.</font>"
 	affected_goods = list(TRADE_GOOD_COPPER_ORE, TRADE_GOOD_TIN_ORE)
-	price_mod = 1.7
+	price_mod = 4.25
 	event_type = ECON_EVENT_SHORTAGE
 
 /datum/economic_event/tanners_plague
@@ -190,7 +190,7 @@ GLOBAL_LIST_EMPTY(active_economic_events)
 	description = "A skin-rotting sickness has forced the tanneries to dump half-cured hides for burning."
 	announcement = "<font color='#c44'>TANNERS' PLAGUE: Hides burned by the wagonload. Leather grows dear.</font>"
 	affected_goods = list(TRADE_GOOD_CURED_LEATHER, TRADE_GOOD_HIDE)
-	price_mod = 1.9
+	price_mod = 4.75
 	event_type = ECON_EVENT_SHORTAGE
 
 /datum/economic_event/glass_furnace_failure
@@ -198,7 +198,7 @@ GLOBAL_LIST_EMPTY(active_economic_events)
 	description = "The great furnace at the glassworks has cracked. The craft has halted until it is rebuilt."
 	announcement = "<font color='#c44'>GLASS FURNACE FAILURE: The great glassworks go dark. Glass batch grows rare.</font>"
 	affected_goods = list(TRADE_GOOD_GLASS_BATCH)
-	price_mod = 1.9
+	price_mod = 4.75
 	event_type = ECON_EVENT_SHORTAGE
 
 /datum/economic_event/orchard_locusts
@@ -206,7 +206,7 @@ GLOBAL_LIST_EMPTY(active_economic_events)
 	description = "A swarm has stripped the Rockhill orchards bare. What little remains is sold at ransom."
 	announcement = "<font color='#c44'>ORCHARD LOCUSTS: The orchards stripped bare. Apples and berries grow costly.</font>"
 	affected_goods = list(TRADE_GOOD_APPLE, TRADE_GOOD_PEAR, TRADE_GOOD_JACKSBERRY)
-	price_mod = 1.7
+	price_mod = 4.25
 	event_type = ECON_EVENT_SHORTAGE
 
 /datum/economic_event/gem_cartel_squeeze
@@ -214,7 +214,7 @@ GLOBAL_LIST_EMPTY(active_economic_events)
 	description = "The merchant houses have cornered the cut-stone market. Toper and gemerald prices jump overnight."
 	announcement = "<font color='#c44'>GEM CARTEL SQUEEZE: Merchants corner the gem market. Common gems grow dearer.</font>"
 	affected_goods = list(TRADE_GOOD_TOPER, TRADE_GOOD_GEMERALD)
-	price_mod = 1.8
+	price_mod = 4.5
 	event_type = ECON_EVENT_SHORTAGE
 
 /datum/economic_event/silk_moth_collapse
@@ -222,7 +222,7 @@ GLOBAL_LIST_EMPTY(active_economic_events)
 	description = "Blackholt's spider-silk harvest has collapsed. Arachnological misfortune, the conclave says."
 	announcement = "<font color='#c44'>SILK MOTH COLLAPSE: Blackholt's silk harvest fails. Tailors grind their teeth.</font>"
 	affected_goods = list(TRADE_GOOD_SILK)
-	price_mod = 2.1
+	price_mod = 5.25
 	event_type = ECON_EVENT_SHORTAGE
 
 

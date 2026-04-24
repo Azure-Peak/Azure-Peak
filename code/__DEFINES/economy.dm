@@ -55,7 +55,12 @@
 // Standing order size scales with active player count so the Crown's throughput matches
 // the player economy. Size scales (not count) - a single Steward can only triage so many
 // orders per day, but each one getting bigger keeps the scope per action manageable.
-#define STANDING_ORDER_POP_SCALE_PER_PLAYER 0.03
+// Pop scaling for standing-order size is disabled. Order quantities stay at the template's
+// rolled face value regardless of player count - a full round was scaling to 100+ stone /
+// 50+ wood orders that Stewards couldn't reasonably coordinate and outsiders wouldn't engage
+// with. The COUNT scalar (STANDING_ORDERS_PER_ACTIVE_PLAYER) still applies; more players
+// still get more distinct orders, just not each one inflated.
+#define STANDING_ORDER_POP_SCALE_PER_PLAYER 0
 #define STANDING_ORDER_POP_SCALE_MAX 3.0
 
 // Per-unit price behavior past a region's daily production/demand.
@@ -122,7 +127,7 @@
 #define BLOCKADE_RECALL_WINDOW_DS (15 MINUTES)
 // Wave composition arrays in quest_blockade_defense.dm assume exactly 3 waves.
 #define BLOCKADE_TOTAL_WAVES 3
-#define BLOCKADE_WAVE_1_TP 90
-#define BLOCKADE_WAVE_2_TP 90
-#define BLOCKADE_WAVE_3_TP 130
+#define BLOCKADE_WAVE_1_TP 72
+#define BLOCKADE_WAVE_2_TP 72
+#define BLOCKADE_WAVE_3_TP 104
 
