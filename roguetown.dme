@@ -163,6 +163,7 @@
 #include "code\__DEFINES\time.dm"
 #include "code\__DEFINES\tools.dm"
 #include "code\__DEFINES\trade_goods.dm"
+#include "code\__DEFINES\trade_volumes.dm"
 #include "code\__DEFINES\traits.dm"
 #include "code\__DEFINES\treasury.dm"
 #include "code\__DEFINES\turf.dm"
