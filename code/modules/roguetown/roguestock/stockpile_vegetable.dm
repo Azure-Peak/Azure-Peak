@@ -118,9 +118,6 @@
 	desc = "A sweet powder milled from sugarcane"
 	item_type = /obj/item/reagent_containers/food/snacks/sugar
 	trade_good_id = TRADE_GOOD_SUGAR
-
-	export_only = TRUE
-
 	importexport_amt = 10
 	stockpile_amount = 5
 	stockpile_limit = 50
@@ -161,9 +158,6 @@
 	desc = "A nut with mild stimulant properties."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/nut
 	trade_good_id = TRADE_GOOD_ROCKNUT
-
-	export_only = TRUE
-
 	importexport_amt = 10
 	stockpile_amount = 5
 	stockpile_limit = 50

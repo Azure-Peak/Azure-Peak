@@ -33,9 +33,6 @@
 	desc = "A small, dark fruit with a sweet and slightly tart taste. It is often used in desserts."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/fruit/blackberry
 	trade_good_id = TRADE_GOOD_BLACKBERRY
-
-	export_only = TRUE
-
 	importexport_amt = 5
 	stockpile_amount = 5
 	stockpile_limit = 25
@@ -46,9 +43,6 @@
 	desc = "A small, red fruit with a sweet and slightly tart taste. It is often used in desserts."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/fruit/raspberry
 	trade_good_id = TRADE_GOOD_RASPBERRY
-
-	export_only = TRUE
-
 	importexport_amt = 5
 	stockpile_amount = 5
 	stockpile_limit = 25
@@ -59,9 +53,6 @@
 	desc = "A small, red fruit with a sweet taste. It is often used in desserts."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/fruit/strawberry
 	trade_good_id = TRADE_GOOD_STRAWBERRY
-
-	export_only = TRUE
-
 	importexport_amt = 5
 	stockpile_amount = 5
 	stockpile_limit = 25
@@ -72,9 +63,6 @@
 	desc = "Too sweet for many, a favored treat for little ones. Dwarves do love them."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/fruit/lemon
 	trade_good_id = TRADE_GOOD_LEMON
-
-	export_only = TRUE
-
 	importexport_amt = 5
 	stockpile_amount = 5
 	stockpile_limit = 25
@@ -85,9 +73,6 @@
 	desc = "Too sweet for many, a favored treat for little ones. Dwarves do love them."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/fruit/lime
 	trade_good_id = TRADE_GOOD_LIME
-
-	export_only = TRUE
-
 	importexport_amt = 5
 	stockpile_amount = 5
 	stockpile_limit = 25
@@ -98,9 +83,6 @@
 	desc = "Too sweet for many, a favored treat for little ones. Dwarves do love them."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/fruit/tangerine
 	trade_good_id = TRADE_GOOD_TANGERINE
-
-	export_only = TRUE
-
 	importexport_amt = 5
 	stockpile_amount = 5
 	stockpile_limit = 25
@@ -111,9 +93,6 @@
 	desc = "Too sweet for many, a favored treat for little ones. Dwarves do love them."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/fruit/plum
 	trade_good_id = TRADE_GOOD_PLUM
-
-	export_only = TRUE
-
 	importexport_amt = 5
 	stockpile_amount = 5
 	stockpile_limit = 25

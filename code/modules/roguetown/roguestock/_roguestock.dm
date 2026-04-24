@@ -8,7 +8,6 @@
 	var/mint_item = FALSE
 	var/stockpile_limit = 100
 	var/importexport_amt = 10
-	var/export_only = FALSE
 	var/percent_bounty = FALSE
 	var/category = "Raw Materials"
 	var/trade_good_id
