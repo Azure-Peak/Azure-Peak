@@ -104,8 +104,8 @@
 // driven to insolvency by banditry alone. No pop scaling — the percentage of purse
 // already self-adjusts (lowpop round = poor purse = small absolute drain).
 // TODO: Stand-in for proper raid/siege mechanics. Delete this system when raids ship.
-#define BANDITRY_DRAIN_DANGEROUS_PCT 0.06
-#define BANDITRY_DRAIN_BLEAK_PCT 0.12
+#define BANDITRY_DRAIN_DANGEROUS_PCT 0.03
+#define BANDITRY_DRAIN_BLEAK_PCT 0.06
 
 // Blockades
 #define BLOCKADE_ROUNDSTART_COUNT_MIN 2
