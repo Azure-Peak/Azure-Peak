@@ -44,10 +44,7 @@
 	// seat. Dead, outlawed, or censured front-runners fall through to whoever the Assembly
 	// ranked next. NO_ALDERMAN terminates the walk: if it out-ranks every eligible candidate,
 	// the Commons has chosen nobody.
-	var/list/sorted_keys = list()
-	for(var/key in tally)
-		sorted_keys += key
-	sortTim(sorted_keys, /proc/cmp_sorted_keys_by_tally, list_to_sort = tally)
+	var/list/sorted_keys = sortTim(tally.Copy(), /proc/cmp_numeric_dsc, associative = TRUE)
 
 	for(var/key in sorted_keys)
 		if(key == "NO_ALDERMAN")
@@ -90,11 +87,6 @@
 	// Walked every candidate, none eligible. The seat remains as it was; note the skipped
 	// names for the summary.
 	return out
-
-/// Sort helper: compare two keys by their value in the referenced tally list, descending.
-/// sortTim passes arbitrary extra args as the `list_to_sort` parameter.
-/proc/cmp_sorted_keys_by_tally(key_a, key_b, list/list_to_sort)
-	return (list_to_sort[key_b] || 0) - (list_to_sort[key_a] || 0)
 
 /datum/controller/subsystem/city_assembly/proc/resolve_bracket_motion(datum/assembly_session/S, motion_id, list/brackets)
 	var/list/tally_by_choice = list()
