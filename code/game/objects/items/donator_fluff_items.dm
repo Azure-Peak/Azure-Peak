@@ -218,6 +218,32 @@
 	icon = 'icons/clothing/donor_clothes.dmi'
 	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
 
+// NekoSam
+/obj/item/clothing/cloak/raincloak/wyrd_cloak
+    name = "Cloak of the Wyrd"
+    desc = "Sewn by ways unknown to the land, what may have been garbs fitting for royalty once now lays aged beyond measure. However, it would surely provide much needed warmth for the cold and uncaring bog..."
+    icon_state = "wyrd_cloak"
+    item_state = "wyrd_cloak"
+    icon = 'icons/clothing/donor_clothes.dmi'
+    mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+    boobed = FALSE
+    toggle_icon_state = FALSE
+    sleeved = 'icons/clothing/onmob/donor_sleeves_armor.dmi'
+    sleevetype = "feather_cloak"
+    hoodtype = /obj/item/clothing/head/hooded/rainhood/wyrd_hood
+/obj/item/clothing/head/hooded/rainhood/wyrd_hood
+    name = "Hood of the Wyrd"
+    desc = "Heavy is the head that hides beneath this shadowy hood, for what knowledge lays inside ought to never come into the light..."
+    icon_state = "wyrd_hood"
+    item_state = "wyrd_hood"
+    slot_flags = ITEM_SLOT_HEAD
+    dynamic_hair_suffix = ""
+    edelay_type = 1
+    body_parts_covered = HEAD
+    flags_inv = HIDEEARS|HIDEFACE|HIDEHAIR|HIDEFACIALHAIR|HIDETAIL
+    block2add = FOV_BEHIND
+    icon = 'icons/clothing/donor_clothes.dmi'
+    mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
 // DASFOX
 /obj/item/clothing/head/roguetown/helmet/heavy/knight/armet/dasfox
 	name = "archaic ceremonial valkyrhelm"
