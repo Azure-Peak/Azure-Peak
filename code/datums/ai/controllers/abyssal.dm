@@ -276,7 +276,6 @@
 	ai_movement = /datum/ai_movement/hybrid_pathing
 
 	planning_subtrees = list(
-		/datum/ai_planning_subtree/simple_find_target/closest,
 		/datum/ai_planning_subtree/attack_obstacle_in_path,
 		/datum/ai_planning_subtree/blink_if_far,
 		/datum/ai_planning_subtree/aggro_find_target,
@@ -293,7 +292,6 @@
 	ai_movement = /datum/ai_movement/hybrid_pathing
 
 	planning_subtrees = list(
-        /datum/ai_planning_subtree/simple_find_target/closest,
 		/datum/ai_planning_subtree/attack_obstacle_in_path,
 		/datum/ai_planning_subtree/blink_if_far,
 		/datum/ai_planning_subtree/aggro_find_target,

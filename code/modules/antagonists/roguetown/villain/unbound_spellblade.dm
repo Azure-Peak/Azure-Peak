@@ -268,6 +268,7 @@
 		existing_eyes.Insert(H)
 
 	H.energy = H.max_energy
+	H.select_skeleton_features()
 
 /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/black
 	color = CLOTHING_BLACK
