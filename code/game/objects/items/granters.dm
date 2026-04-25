@@ -334,6 +334,36 @@ UNDER NO CIRCUMSTANCE SHOULD ANY OF THE BOOKS BE GIVEN OUT INTO SPAWNERS OR TO B
 	en_stamper = "Hand"
 	job_types = list(/datum/job/roguetown/hand)
 
+/datum/resident_manuscript_seal_rule/sergeant
+	key = "sergeant"
+	en_title = "Sergeant"
+	en_stamper = "Sergeant of the Watch"
+	job_types = list(/datum/job/roguetown/sergeant)
+
+/datum/resident_manuscript_seal_rule/marshal
+	key = "marshal"
+	en_title = "Marshal"
+	en_stamper = "Marshal"
+	job_types = list(/datum/job/roguetown/marshal)
+
+/datum/resident_manuscript_seal_rule/bishop
+	key = "bishop"
+	en_title = "Bishop"
+	en_stamper = "Bishop"
+	job_types = list(/datum/job/roguetown/priest)
+
+/datum/resident_manuscript_seal_rule/guild_leader
+	key = "guild_leader"
+	en_title = "Guild Leader"
+	en_stamper = "Guild Leader"
+	advclass_types = list(/datum/advclass/guildmaster)
+
+/datum/resident_manuscript_seal_rule/inquisitor
+	key = "inquisitor"
+	en_title = "Inquisitor"
+	en_stamper = "Inquisitor"
+	job_types = list(/datum/job/roguetown/inquisitor)
+
 /proc/get_resident_manuscript_seal_rules()
 	var/static/list/seal_rules
 	if(!seal_rules)
@@ -355,6 +385,10 @@ UNDER NO CIRCUMSTANCE SHOULD ANY OF THE BOOKS BE GIVEN OUT INTO SPAWNERS OR TO B
 	drop_sound = 'sound/foley/dropsound/paper_drop.ogg'
 	pickup_sound = 'sound/blank.ogg'
 	pages_to_mastery = 0
+	/// Document profile id (selects faction theme/seals/flavor).
+	var/document_profile_id = "resident"
+	/// Resolved profile datum cache. Populated in Initialize().
+	var/tmp/datum/resident_document_profile/document_profile
 	var/owner_character_key
 	var/owner_name
 	var/owner_age
@@ -378,6 +412,9 @@ UNDER NO CIRCUMSTANCE SHOULD ANY OF THE BOOKS BE GIVEN OUT INTO SPAWNERS OR TO B
 
 /obj/item/book/granter/resident_manuscript/Initialize()
 	. = ..()
+	document_profile = get_resident_document_profile(document_profile_id)
+	if(document_profile?.en_display_name)
+		name = document_profile.en_display_name
 	issued_place = SSticker?.realm_name || "Azure Peak"
 	expiry_date = compute_expiry_date()
 	initialize_seals()
@@ -388,9 +425,14 @@ UNDER NO CIRCUMSTANCE SHOULD ANY OF THE BOOKS BE GIVEN OUT INTO SPAWNERS OR TO B
 	if(auto_stamp_seals)
 		stamp_all_seals()
 
+/obj/item/book/granter/resident_manuscript/proc/get_profile_seal_keys()
+	if(document_profile && document_profile.allowed_seals)
+		return document_profile.allowed_seals
+	return list()
+
 /obj/item/book/granter/resident_manuscript/proc/initialize_seals()
 	seals = list()
-	for(var/seal_key in get_resident_manuscript_seal_rules())
+	for(var/seal_key in get_profile_seal_keys())
 		seals[seal_key] = null
 
 /obj/item/book/granter/resident_manuscript/proc/compute_expiry_date()
@@ -474,7 +516,7 @@ UNDER NO CIRCUMSTANCE SHOULD ANY OF THE BOOKS BE GIVEN OUT INTO SPAWNERS OR TO B
 /obj/item/book/granter/resident_manuscript/proc/get_seal_key_for_user(mob/living/carbon/human/user)
 	if(!ishuman(user))
 		return null
-	for(var/seal_key in get_resident_manuscript_seal_rules())
+	for(var/seal_key in get_profile_seal_keys())
 		var/datum/resident_manuscript_seal_rule/rule = get_seal_rule(seal_key)
 		if(!rule)
 			continue
@@ -499,13 +541,13 @@ UNDER NO CIRCUMSTANCE SHOULD ANY OF THE BOOKS BE GIVEN OUT INTO SPAWNERS OR TO B
 	return TRUE
 
 /obj/item/book/granter/resident_manuscript/proc/stamp_all_seals()
-	for(var/seal_key in get_resident_manuscript_seal_rules())
+	for(var/seal_key in get_profile_seal_keys())
 		if(!seals[seal_key])
 			stamp_seal(seal_key, null, FALSE)
 
 /obj/item/book/granter/resident_manuscript/proc/generate_fake_seals()
 	var/list/available_seals = list()
-	for(var/seal_key in get_resident_manuscript_seal_rules())
+	for(var/seal_key in get_profile_seal_keys())
 		available_seals += seal_key
 		if(prob(70))
 			stamp_seal(seal_key, null, TRUE)
@@ -538,7 +580,7 @@ UNDER NO CIRCUMSTANCE SHOULD ANY OF THE BOOKS BE GIVEN OUT INTO SPAWNERS OR TO B
 
 /obj/item/book/granter/resident_manuscript/proc/get_seals_for_ui(mob/user)
 	var/list/result = list()
-	for(var/seal_key in get_resident_manuscript_seal_rules())
+	for(var/seal_key in get_profile_seal_keys())
 		result += list(seal_entry(seal_key, user))
 	return result
 
@@ -583,7 +625,18 @@ UNDER NO CIRCUMSTANCE SHOULD ANY OF THE BOOKS BE GIVEN OUT INTO SPAWNERS OR TO B
 	return FALSE
 
 /obj/item/book/granter/resident_manuscript/proc/can_claim_residence(mob/living/carbon/human/user)
-	return can_grant_residence && ishuman(user) && owner_character_key && get_detection_character_key(user) == owner_character_key && !HAS_TRAIT(user, TRAIT_RESIDENT) && !is_barred_from_residence(user) && !is_fake && has_any_seal()
+	if(!can_grant_residence || !ishuman(user) || !owner_character_key || is_fake)
+		return FALSE
+	if(get_detection_character_key(user) != owner_character_key)
+		return FALSE
+	if(HAS_TRAIT(user, TRAIT_RESIDENT) || is_barred_from_residence(user))
+		return FALSE
+	var/needs_seal = TRUE
+	if(document_profile && !document_profile.requires_seal_for_claim)
+		needs_seal = FALSE
+	if(needs_seal && !has_any_seal())
+		return FALSE
+	return TRUE
 
 /obj/item/book/granter/resident_manuscript/proc/is_ruling_authority(mob/living/carbon/human/user)
 	if(!ishuman(user))
@@ -763,6 +816,13 @@ UNDER NO CIRCUMSTANCE SHOULD ANY OF THE BOOKS BE GIVEN OUT INTO SPAWNERS OR TO B
 	data["is_fake"] = is_fake
 	data["is_blank"] = requires_feather_to_bind && !is_bound
 	data["is_owner"] = is_owner_viewing
+	data["profile"] = list(
+		"id" = document_profile?.id || "resident",
+		"paper_color" = document_profile?.paper_color,
+		"ink_color" = document_profile?.ink_color,
+		"accent_color" = document_profile?.accent_color,
+		"seal_color" = document_profile?.seal_color,
+	)
 	data["seals"] = get_seals_for_ui(user)
 	data["verification"] = verification
 	data["permissions"] = list(
@@ -820,3 +880,79 @@ UNDER NO CIRCUMSTANCE SHOULD ANY OF THE BOOKS BE GIVEN OUT INTO SPAWNERS OR TO B
 	can_grant_residence = FALSE
 	expiry_year_bonus_min = 5
 	expiry_year_bonus_max = 10
+
+// ----- Faction profile subtypes ----------------------------------------------
+// Each profile gets a base/blank/fake variant. They only set the profile id;
+// all behavior comes from the base + profile filter on allowed_seals.
+
+/obj/item/book/granter/resident_manuscript/guards
+	desc = "An azure mandate of the Azurian watch, granting the bearer authority of city order under the Crown."
+	document_profile_id = "guards"
+
+/obj/item/book/granter/resident_manuscript/blank/guards
+	desc = "A blank Azurian Warden mandate. Fill it with a feather, then bring it to the proper authorities for seals."
+	document_profile_id = "guards"
+
+/obj/item/book/granter/resident_manuscript/fake/guards
+	desc = "An Azurian mandate whose provenance is best left unmentioned."
+	document_profile_id = "guards"
+
+/obj/item/book/granter/resident_manuscript/church
+	desc = "An ecclesiastical writ of the Tenfold Church, recognizing the bearer as a faithful child of the faith."
+	document_profile_id = "church"
+
+/obj/item/book/granter/resident_manuscript/blank/church
+	desc = "A blank ecclesiastical writ. Fill it with a feather, then bring it for the bishop's seal."
+	document_profile_id = "church"
+
+/obj/item/book/granter/resident_manuscript/fake/church
+	desc = "An ecclesiastical writ whose provenance is best left unmentioned."
+	document_profile_id = "church"
+
+/obj/item/book/granter/resident_manuscript/craftsmen
+	desc = "An artisan guild charter, recognizing the bearer's standing among the city's masterly estate."
+	document_profile_id = "craftsmen"
+
+/obj/item/book/granter/resident_manuscript/blank/craftsmen
+	desc = "A blank artisan guild charter. Fill it with a feather, then bring it to the proper authorities for seals."
+	document_profile_id = "craftsmen"
+
+/obj/item/book/granter/resident_manuscript/fake/craftsmen
+	desc = "A guild charter whose provenance is best left unmentioned."
+	document_profile_id = "craftsmen"
+
+/obj/item/book/granter/resident_manuscript/commoner
+	desc = "A modest gray commoner manuscript, attesting only that the bearer is a lawful subject."
+	document_profile_id = "commoner"
+
+/obj/item/book/granter/resident_manuscript/blank/commoner
+	desc = "A blank commoner manuscript. Fill it with a feather to claim plain residence."
+	document_profile_id = "commoner"
+
+/obj/item/book/granter/resident_manuscript/fake/commoner
+	desc = "A commoner manuscript whose provenance is best left unmentioned."
+	document_profile_id = "commoner"
+
+/obj/item/book/granter/resident_manuscript/mercenary
+	desc = "A purple mercenary compact, recognizing the bearer as a free blade of standing."
+	document_profile_id = "mercenary"
+
+/obj/item/book/granter/resident_manuscript/blank/mercenary
+	desc = "A blank mercenary compact. Fill it with a feather, then bring it to the proper authorities for seals."
+	document_profile_id = "mercenary"
+
+/obj/item/book/granter/resident_manuscript/fake/mercenary
+	desc = "A mercenary compact whose provenance is best left unmentioned."
+	document_profile_id = "mercenary"
+
+/obj/item/book/granter/resident_manuscript/otava
+	desc = "A silver-gold edict of the Otavan inquisition, empowering the bearer in matters of truth and faith."
+	document_profile_id = "otava"
+
+/obj/item/book/granter/resident_manuscript/blank/otava
+	desc = "A blank Otavan edict. Fill it with a feather, then bring it for the inquisitor's seal."
+	document_profile_id = "otava"
+
+/obj/item/book/granter/resident_manuscript/fake/otava
+	desc = "An Otavan edict whose provenance is best left unmentioned."
+	document_profile_id = "otava"

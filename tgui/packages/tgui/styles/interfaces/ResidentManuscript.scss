@@ -1,8 +1,16 @@
 .ResidentManuscript {
+  // Profile theme variables. DM provides paper/ink/accent/seal hex colors via
+  // inline `style={{ '--rm-paper': ..., ... }}` on the root. Fallbacks here
+  // recreate the original "resident" cream/red palette.
+  --rm-paper: #d8c190;
+  --rm-ink: #25180f;
+  --rm-accent: #8b5e2f;
+  --rm-seal: #7b1d18;
+
   min-height: 100%;
   padding: 14px;
   background: #201913;
-  color: #25180f;
+  color: var(--rm-ink);
 
   &__sheet {
     position: relative;
@@ -10,11 +18,11 @@
     max-width: 700px;
     margin: 0 auto;
     padding: 26px 30px;
-    border: 1px solid #8b5e2f;
+    border: 1px solid var(--rm-accent);
     border-radius: 2px;
     background:
       linear-gradient(90deg, rgba(79, 51, 26, 0.12), transparent 9%, transparent 91%, rgba(79, 51, 26, 0.12)),
-      #d8c190;
+      var(--rm-paper);
     box-shadow: inset 0 0 0 1px rgba(255, 238, 181, 0.42);
     overflow: hidden;
   }
@@ -49,17 +57,17 @@
     text-align: center;
     padding-bottom: 14px;
     margin-bottom: 16px;
-    border-bottom: 2px solid rgba(83, 48, 19, 0.38);
+    border-bottom: 2px solid var(--rm-accent);
   }
 
   &__subtitle {
-    color: #684222;
+    color: var(--rm-accent);
     font-size: 11px;
     text-transform: uppercase;
   }
 
   &__title {
-    color: #27160d;
+    color: var(--rm-ink);
     font-family: Georgia, 'Times New Roman', serif;
     font-size: 30px;
     line-height: 1.15;
@@ -67,7 +75,7 @@
   }
 
   &__bodyText {
-    color: #2d1d12;
+    color: var(--rm-ink);
     font-family: Georgia, 'Times New Roman', serif;
     font-size: 15px;
     line-height: 1.55;
@@ -88,7 +96,7 @@
   }
 
   &__fieldLabel {
-    color: #65411f;
+    color: var(--rm-accent);
     font-size: 10px;
     text-transform: uppercase;
   }
@@ -96,7 +104,7 @@
   &__fieldValue {
     display: block;
     min-height: 24px;
-    color: #24160d;
+    color: var(--rm-ink);
     font-family: Georgia, 'Times New Roman', serif;
     font-size: 15px;
     overflow-wrap: anywhere;
@@ -124,16 +132,16 @@
 
   &__notice,
   &__note {
-    border-left: 3px solid #8b5e2f;
+    border-left: 3px solid var(--rm-accent);
     padding: 7px 10px;
     margin: 8px 0;
     background: rgba(71, 43, 20, 0.08);
-    color: #322014;
+    color: var(--rm-ink);
     font-style: italic;
   }
 
   &__sectionTitle {
-    color: #563618;
+    color: var(--rm-accent);
     font-size: 12px;
     margin: 16px 0 8px;
     text-transform: uppercase;
@@ -156,12 +164,12 @@
   }
 
   &__seal--stamped {
-    border: 1px solid #7a2d26;
+    border: 1px solid var(--rm-seal);
     background: rgba(109, 28, 22, 0.12);
   }
 
   &__sealName {
-    color: #29170e;
+    color: var(--rm-ink);
     font-weight: bold;
     overflow-wrap: anywhere;
   }
@@ -175,14 +183,17 @@
     height: 58px;
     margin: 8px auto 7px;
     border-radius: 46% 54% 48% 52%;
+    // The wax body is the profile seal color tinted with white highlight and
+    // a darker inner wash. Profile palette controls the dominant tone.
     background:
-      radial-gradient(circle at 35% 30%, rgba(255, 154, 112, 0.35), transparent 28%),
-      radial-gradient(circle at 60% 65%, #5b1110 0, #7b1d18 52%, #4c0d0d 100%);
+      radial-gradient(circle at 35% 30%, rgba(255, 255, 255, 0.28), transparent 32%),
+      radial-gradient(circle at 60% 65%, rgba(0, 0, 0, 0.32), transparent 60%),
+      var(--rm-seal);
     box-shadow:
-      0 2px 3px rgba(43, 16, 10, 0.35),
-      inset 0 0 0 3px rgba(91, 13, 12, 0.5),
-      inset 0 0 11px rgba(255, 178, 127, 0.2);
-    color: #e6b077;
+      0 2px 3px rgba(20, 10, 6, 0.4),
+      inset 0 0 0 3px rgba(0, 0, 0, 0.35),
+      inset 0 0 11px rgba(255, 255, 255, 0.15);
+    color: var(--rm-accent);
     font-family: Georgia, 'Times New Roman', serif;
     font-size: 27px;
     font-weight: bold;
@@ -196,23 +207,23 @@
     z-index: -1;
     border-radius: 52% 43% 55% 45%;
     background:
-      radial-gradient(circle, rgba(123, 29, 24, 0.96) 0 58%, transparent 60%),
-      repeating-conic-gradient(from 9deg, #7a1b17 0deg 10deg, #58100f 10deg 20deg);
-    filter: drop-shadow(0 1px 2px rgba(58, 16, 12, 0.35));
+      radial-gradient(circle, var(--rm-seal) 0 58%, transparent 60%);
+    filter: drop-shadow(0 1px 2px rgba(20, 10, 6, 0.4));
+    opacity: 0.95;
   }
 
   &__waxSeal::after {
     content: '';
     position: absolute;
     inset: 11px;
-    border: 1px solid rgba(235, 165, 103, 0.36);
+    border: 1px solid rgba(255, 255, 255, 0.28);
     border-radius: 50%;
   }
 
   &__waxSealMark {
     position: relative;
     z-index: 1;
-    text-shadow: 0 1px 0 rgba(55, 6, 6, 0.8);
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.65);
   }
 
   &__waxSealCrown {
@@ -233,7 +244,7 @@
 
   &__sealMark {
     margin-top: 7px;
-    color: #783329;
+    color: var(--rm-seal);
     font-family: Georgia, 'Times New Roman', serif;
     font-size: 13px;
     font-style: italic;

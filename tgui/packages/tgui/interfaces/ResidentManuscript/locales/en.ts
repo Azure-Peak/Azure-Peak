@@ -4,6 +4,50 @@ export const residentManuscriptEn: ResidentManuscriptTexts = {
   window_title: 'Resident Manuscript',
   title: 'Resident Manuscript',
   subtitle_prefix: "Under the Crown's Hand",
+  profiles: {
+    resident: {
+      display_name: 'Resident Manuscript',
+      subtitle: "Under the Crown's Hand",
+      description:
+        "Let it be known: by the Crown's will and the Council's oversight, the bearer of this document is recognized as a lawful resident of these lands and stands beneath the shelter of common law. Every rank and office is charged to acknowledge the bearer as a faithful subject and to place no unjust obstacle in their path.",
+    },
+    guards: {
+      display_name: 'Azurian Warden Mandate',
+      subtitle: 'By the Watch and the Crown',
+      description:
+        'Let it be known: the bearer is a sworn warden of Azuria, charged with the keeping of city order, the law of the Crown, and the silver discipline of the watch. Wardens act in the name of public peace and lawful arrest, under command of the Marshal and the Council.',
+    },
+    church: {
+      display_name: 'Ecclesiastical Writ of Faith',
+      subtitle: 'Beneath the Tenfold Light',
+      description:
+        'Let it be known: the bearer is a recognized child of the Tenfold Church, walking under the protection of the sacred light, and is to be received as a faithful soul in matters of doctrine and rite. Every congregation and shrine is charged to grant the bearer the courtesy due to a confirmed believer.',
+    },
+    craftsmen: {
+      display_name: 'Artisan Guild Charter',
+      subtitle: 'By Honest Hand and Bronze',
+      description:
+        'Let it be known: the bearer is a recognized artisan of the city guilds, holding the right to honest work, fair price, and the standing of the masterly estate. The bearer is bound by guild oath and protected by guild law in matters of contract and trade.',
+    },
+    commoner: {
+      display_name: 'Commoner Manuscript',
+      subtitle: 'Under the Common Law',
+      description:
+        'Let it be known: the bearer is recognized as a lawful commoner of these lands, neither titled nor accused, owing no duties beyond those due from any subject. No high authority is invoked here — only the modest shelter of the common law.',
+    },
+    mercenary: {
+      display_name: 'Mercenary Compact',
+      subtitle: 'By the Coin, the Steel, and the Word',
+      description:
+        'Let it be known: the bearer is a free blade of recognized standing, bound by the compact of coin and steel, and sworn to the company that brought them under purple banner. The bearer answers to contract and to captain, and may not be molested in the lawful pursuit of either.',
+    },
+    otava: {
+      display_name: 'Inquisitorial Edict',
+      subtitle: 'By Truth, Inquest, and the Cleansing Flame',
+      description:
+        "Let it be known: by the silver edict of Otava, the bearer is empowered to act in the name of truth, to question and to seek, and to call forth the cleansing flame against heresy. Every faithful soul is charged to render the bearer such aid as the matter demands, and to obstruct them is to obstruct the Church's justice.",
+    },
+  },
   labels: {
     owner: 'Name',
     age: 'Age',

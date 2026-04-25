@@ -3,11 +3,27 @@ import { residentManuscriptEn } from './locales/en';
 export type OwnerStatusKey = 'commoner' | 'noble';
 export type VerificationResult = 'none' | 'unknown' | 'real' | 'fake';
 
+export type DocumentProfileId =
+  | 'resident'
+  | 'guards'
+  | 'church'
+  | 'craftsmen'
+  | 'commoner'
+  | 'mercenary'
+  | 'otava';
+
+export type DocumentProfileTexts = {
+  display_name: string;
+  subtitle: string;
+  description: string;
+};
+
 export type ResidentManuscriptTexts = {
   window_title: string;
   title: string;
   subtitle_prefix: string;
   description: string;
+  profiles: Record<DocumentProfileId, DocumentProfileTexts>;
   labels: {
     owner: string;
     age: string;

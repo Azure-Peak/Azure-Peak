@@ -1,10 +1,12 @@
-import { type ReactNode, useState } from 'react';
+import { type CSSProperties, type ReactNode, useState } from 'react';
 import { Button, Input } from 'tgui-core/components';
 import type { BooleanLike } from 'tgui-core/react';
 
 import { useBackend } from '../backend';
 import { Window } from '../layouts';
 import {
+  type DocumentProfileId,
+  type DocumentProfileTexts,
   getResidentManuscriptTexts,
   type OwnerStatusKey,
   type ResidentManuscriptTexts,
@@ -44,6 +46,14 @@ type PermissionsData = {
   stamp_key: string | null;
 };
 
+type ProfileData = {
+  id: DocumentProfileId | string | null;
+  paper_color: string | null;
+  ink_color: string | null;
+  accent_color: string | null;
+  seal_color: string | null;
+};
+
 type ResidentManuscriptData = {
   language: string | null;
   owner: OwnerData;
@@ -53,9 +63,50 @@ type ResidentManuscriptData = {
   is_fake: BooleanLike;
   is_blank: BooleanLike;
   is_owner: BooleanLike;
+  profile?: ProfileData;
   seals: SealData[];
   verification: VerificationData;
   permissions: PermissionsData;
+};
+
+type ThemeStyle = CSSProperties & {
+  '--rm-paper'?: string;
+  '--rm-ink'?: string;
+  '--rm-accent'?: string;
+  '--rm-seal'?: string;
+};
+
+const PROFILE_FALLBACK: DocumentProfileId = 'resident';
+
+const resolveProfileId = (
+  profile: ProfileData | undefined,
+  texts: ResidentManuscriptTexts,
+): DocumentProfileId => {
+  const candidate = (profile?.id as DocumentProfileId) ?? PROFILE_FALLBACK;
+  return candidate in texts.profiles ? candidate : PROFILE_FALLBACK;
+};
+
+const resolveProfileTexts = (
+  texts: ResidentManuscriptTexts,
+  id: DocumentProfileId,
+): DocumentProfileTexts =>
+  texts.profiles[id] ?? texts.profiles[PROFILE_FALLBACK];
+
+const buildThemeStyle = (profile: ProfileData | undefined): ThemeStyle => {
+  const style: ThemeStyle = {};
+  if (profile?.paper_color) {
+    style['--rm-paper'] = profile.paper_color;
+  }
+  if (profile?.ink_color) {
+    style['--rm-ink'] = profile.ink_color;
+  }
+  if (profile?.accent_color) {
+    style['--rm-accent'] = profile.accent_color;
+  }
+  if (profile?.seal_color) {
+    style['--rm-seal'] = profile.seal_color;
+  }
+  return style;
 };
 
 const displayValue = (
@@ -87,12 +138,17 @@ export const ResidentManuscript = () => {
     is_bound,
     is_blank,
     is_owner,
+    profile,
     seals = [],
     verification,
     permissions,
   } = data;
 
   const texts = getResidentManuscriptTexts(language);
+  const profileId = resolveProfileId(profile, texts);
+  const profileTexts = resolveProfileTexts(texts, profileId);
+  const themeStyle = buildThemeStyle(profile);
+  const profileClassName = `ResidentManuscript--profile-${profileId}`;
   const ownerStatusKey: OwnerStatusKey =
     owner.status_key === 'noble' ? 'noble' : 'commoner';
   const [ownerName, setOwnerName] = useState(owner.name ?? '');
@@ -122,20 +178,30 @@ export const ResidentManuscript = () => {
   );
 
   return (
-    <Window width={760} height={860} title={texts.window_title} theme="grimoire">
+    <Window
+      width={760}
+      height={860}
+      title={profileTexts.display_name || texts.window_title}
+      theme="grimoire"
+    >
       <Window.Content scrollable>
-        <div className="ResidentManuscript">
+        <div
+          className={classes('ResidentManuscript', profileClassName)}
+          style={themeStyle}
+        >
           <div className={sheetClassName}>
             <DefectOverlay defectKeys={defectKeys} texts={texts} />
             <header className="ResidentManuscript__header">
               <div className="ResidentManuscript__subtitle">
-                {texts.subtitle_prefix}
+                {profileTexts.subtitle}
               </div>
-              <div className="ResidentManuscript__title">{texts.title}</div>
+              <div className="ResidentManuscript__title">
+                {profileTexts.display_name}
+              </div>
             </header>
 
             <div className="ResidentManuscript__bodyText">
-              {texts.description}
+              {profileTexts.description}
             </div>
 
             <section className="ResidentManuscript__fields">
