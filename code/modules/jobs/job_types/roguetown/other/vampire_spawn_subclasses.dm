@@ -303,7 +303,7 @@
 	beltl = /obj/item/rogueweapon/sword/sabre/dec //fancy blade, sabre too. Not a bad weapon. Starts on hip since you always get it regardless so you don't hit your vlord with it like I did picking disguise + bow
 	backl = /obj/item/storage/backpack/rogue/satchel/black
 	backpack_contents = list(
-		/obj/item/storage/belt/rogue/pouch/coins/veryrich = 1, //Spy shennagions, lets them cause problems for their lord. Also a rare sole, so fuck it. They can have obscene amounts of coin to do stuff with.
+		/obj/item/storage/belt/rogue/pouch/coins/veryrich = 1, //Spy shennagions, lets them cause problems for their lord. Also a rare role, so fuck it. They can have obscene amounts of coin to do stuff with.
 		/obj/item/rope/chain = 1,
 		/obj/item/reagent_containers/glass/bottle/rogue/poison = 1, //Lets kill someone, maybe? Literally killer's ice.
 		/obj/item/rogueweapon/huntingknife/idagger/steel = 1,

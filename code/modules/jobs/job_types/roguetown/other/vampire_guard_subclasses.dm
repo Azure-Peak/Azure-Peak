@@ -328,7 +328,7 @@
 //A bunch of motherfuckin' draculas and they're all playin' flute. Buff-class lite duelist, doesn't perform as well as duelist in tradeoff for being able to buff up their teammates with music and perform vicious mockery.
 /datum/advclass/vampbard
 	name = "Vampiric Bard"
-	tutorial = "Through your blood, you can recount upon memories naught quite your own of tymes long past, tales and songs worthy of legends as though you were there for as long as you can remember through your unlyfe, betwixt an occasional visit to a brothel, tavern or flophouse for your thirst for blood; yet now you've a prophecy to fulfil. Your lord's will be done."
+	tutorial = "Betwixt an occasional visit to a brothel, tavern or flophouse for your thirst for blood, you once told legends and myths of yills untold. One that someone could only dream of lyving, except you; yet now you've a prophecy to fulfil. Your lord's will be done."
 	outfit = /datum/outfit/job/roguetown/other/vampbard
 	traits_applied = list(TRAIT_STEELHEARTED, TRAIT_DODGEEXPERT, TRAIT_GOODLOVER, TRAIT_EMPATH) //Keeping good lover, its funny.
 	category_tags = list(CTAG_VAMPGUARD)
@@ -356,7 +356,7 @@
 
 /datum/outfit/job/roguetown/other/vampbard/pre_equip(mob/living/carbon/human/H)
 	..()
-	to_chat(H, span_warning("Through your blood, you can recount upon memories naught quite your own of tymes long past, tales and songs worthy of legends as though you were there for as long as you can remember through your unlyfe, betwixt an occasional visit to a brothel, tavern or flophouse for your thirst for blood; yet now you've a prophecy to fulfil. Your lord's will be done."))
+	to_chat(H, span_warning("Betwixt an occasional visit to a brothel, tavern or flophouse for your thirst for blood, you once told legends and myths of yills untold. One that someone could only dream of lyving, except you; yet now you've a prophecy to fulfil. Your lord's will be done."))
 	head = /obj/item/clothing/head/roguetown/bardhat //Thou hath nae hat then thou art nae bard O' myne.
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
 	neck = /obj/item/clothing/neck/roguetown/chaincoif/paalloy //Covers head, also semi-noticable
