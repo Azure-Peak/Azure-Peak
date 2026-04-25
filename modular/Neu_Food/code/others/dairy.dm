@@ -65,7 +65,7 @@
 			qdel(I)
 			qdel(src)
 			return
-	if(istype(I, /obj/item/grown/log/tree/stick))
+	if(istype(I, /obj/item/grown/log/tree/stake))
 		playsound(get_turf(user), 'sound/foley/dropsound/gen_drop.ogg', 30, TRUE, -1)
 		if(do_after(user,short_cooktime, target = src))
 			add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)

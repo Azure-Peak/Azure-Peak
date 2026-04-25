@@ -1307,11 +1307,11 @@
 	foodtype = GRAIN
 
 /obj/item/reagent_containers/food/snacks/rogue/challah_slice_ritual
-	name = "sliced salted challah"
-	desc = "Some would dip the slice into salt to complete the bread at this point, but it is what it is."
+	name = "salted challah"
+	desc = "A slice of challah, seasoned with coarse salt. To remind some of their covenant with Them. </br>'Even if it may kill us, we must endure their hatred."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_baked.dmi'
 	icon_state = "challah_slice"
-	faretype = FARE_NEUTRAL
+	faretype = FARE_FINE // Nobles tend to be are religious, and this is a ritual food.
 	w_class = WEIGHT_CLASS_NORMAL
 	tastes = list("soft, pillowy eggdough" = 1)
 	list_reagents = list(/datum/reagent/consumable/nutriment = SMALLDOUGH_NUTRITION)
@@ -1320,7 +1320,7 @@
 	dropshrink = 0.8
 	foodtype = GRAIN
 
-/obj/item/reagent_containers/food/snacks/rogue/challah_slice_ritual/On_Consume(mob/living/eater)
+/obj/item/reagent_containers/food/snacks/rogue/challah_slice_ritual/On_Consume(mob/living/eater) //Only Raneshen Psydonites can make the covenant of salt. Only Non-Sun Elf Raneshen can partake properly.
 	..()
 	var/client/player = eater?.client
 	if((bitecount == 1) & istype(player.prefs.virtue_origin, /datum/virtue/origin/raneshen) & !issunelf(eater))

@@ -1101,7 +1101,7 @@
 /obj/item/reagent_containers/food/snacks/rogue/eggdough/attackby(obj/item/I, mob/living/user, params)
 	var/found_table = locate(/obj/structure/table) in (loc)
 	update_cooktime(user)
-// This is to remind people that we have a unused challah dough sprite if they add variants! I actually don't know if we NEED a psydonic variant though.
+// This is to remind people that we have a unused challah dough sprite if they add variants!  We do not NEED a psydonic variant though.
 //	if(istype(I, /obj/item/reagent_containers/powder/salt)
 //		if(isturf(loc)&& (found_table))
 //			playsound(get_turf(user), 'sound/foley/dropsound/food_drop.ogg', 40, TRUE, -1)
