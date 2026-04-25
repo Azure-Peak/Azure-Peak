@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useBackend } from '../backend';
 import { Window } from '../layouts';
 import type { BooleanLike } from 'tgui-core/react';
+import { WaxSeal, type WaxSealColor } from './common/WaxSeal';
 
 type QuestScrollData = {
   empty?: BooleanLike;
@@ -68,8 +69,6 @@ const BlockadeTimer = (props: { label: string; seconds: number }) => {
 };
 
 const parchment: React.CSSProperties = {
-  background:
-    'linear-gradient(180deg, hsl(40, 40%, 88%) 0%, hsl(38, 36%, 82%) 100%)',
   color: 'hsl(28, 42%, 18%)',
   fontFamily: "Georgia, 'Palatino Linotype', Palatino, serif",
   padding: '24px 28px',
@@ -108,35 +107,43 @@ const prominentBlock: React.CSSProperties = {
   margin: '12px 0',
 };
 
-const stampBase: React.CSSProperties = {
-  display: 'inline-block',
-  padding: '3px 10px',
-  fontSize: '0.8em',
-  fontWeight: 'bold',
+type SealBanner = { mark: string; label: string; color: WaxSealColor };
+
+const COMMISSION_SEAL: SealBanner = {
+  mark: 'C',
+  label: 'Commissioned',
+  color: 'amber',
+};
+const EXEMPT_SEAL: SealBanner = {
+  mark: 'E',
+  label: 'Levy Exempt',
+  color: 'green',
+};
+
+const sealBannerStyle: React.CSSProperties = {
+  display: 'inline-flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  gap: '2px',
+  margin: '0 8px',
+};
+
+const sealCaptionStyle: React.CSSProperties = {
+  fontVariant: 'small-caps',
   letterSpacing: '2px',
-  color: 'hsl(42, 80%, 92%)',
-  textShadow: '1px 1px 0 hsla(0, 0%, 0%, 0.35)',
-  boxShadow: '0 1px 2px hsla(0, 0%, 0%, 0.4)',
-  transform: 'rotate(-3deg)',
-  marginRight: '6px',
+  fontSize: '0.72em',
+  color: 'hsl(28, 50%, 25%)',
+  fontWeight: 'bold',
 };
 
-const rumorStamp: React.CSSProperties = {
-  ...stampBase,
-  backgroundColor: 'hsl(280, 45%, 28%)',
-  border: '1px solid hsl(280, 50%, 18%)',
-};
-
-const commissionStamp: React.CSSProperties = {
-  ...stampBase,
-  backgroundColor: 'hsl(38, 70%, 32%)',
-  border: '1px solid hsl(38, 72%, 20%)',
-};
-
-const exemptStamp: React.CSSProperties = {
-  ...stampBase,
-  backgroundColor: 'hsl(130, 45%, 28%)',
-  border: '1px solid hsl(130, 52%, 18%)',
+const SealBannerView = (props: { seal: SealBanner }) => {
+  const { seal } = props;
+  return (
+    <div style={sealBannerStyle}>
+      <WaxSeal mark={seal.mark} label={seal.label} color={seal.color} size={48} />
+      <div style={sealCaptionStyle}>{seal.label}</div>
+    </div>
+  );
 };
 
 const rowStyle: React.CSSProperties = {
@@ -179,7 +186,7 @@ export const QuestScroll = () => {
 
   if (data.empty) {
     return (
-      <Window title="Contract Scroll" width={480} height={520}>
+      <Window title="Contract Scroll" width={480} height={520} theme="parchment">
         <Window.Content scrollable>
           <div style={parchment}>
             <div style={{ textAlign: 'center', fontStyle: 'italic' }}>
@@ -200,26 +207,14 @@ export const QuestScroll = () => {
     ? `${data.compass_direction}${data.z_hint ? ` (${data.z_hint})` : ''}`
     : null;
 
-  const has_banner = !!(data.is_rumor || data.is_defense || data.levy_exempt);
+  const has_banner = !!(data.is_defense || data.levy_exempt);
 
   return (
-    <Window title="Contract Scroll" width={480} height={620}>
+    <Window title="Contract Scroll" width={480} height={620} theme="parchment">
       <Window.Content scrollable>
         <div style={parchment}>
           <div style={headline}>HELP NEEDED</div>
           <div style={titleStyle}>{data.title}</div>
-
-          {has_banner && (
-            <div style={{ textAlign: 'center', marginBottom: '10px' }}>
-              {data.is_rumor ? <span style={rumorStamp}>RUMORED</span> : null}
-              {data.is_defense ? (
-                <span style={commissionStamp}>COMMISSIONED</span>
-              ) : null}
-              {data.levy_exempt ? (
-                <span style={exemptStamp}>LEVY EXEMPT</span>
-              ) : null}
-            </div>
-          )}
 
           <hr style={divider} />
 
@@ -347,6 +342,21 @@ export const QuestScroll = () => {
               </div>
             </>
           ) : null}
+
+          {has_banner && (
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'flex-start',
+                gap: '4px',
+                marginTop: '18px',
+              }}
+            >
+              {data.is_defense && <SealBannerView seal={COMMISSION_SEAL} />}
+              {data.levy_exempt && <SealBannerView seal={EXEMPT_SEAL} />}
+            </div>
+          )}
         </div>
       </Window.Content>
     </Window>
