@@ -80,7 +80,7 @@
 			break
 
 /datum/controller/subsystem/economy/proc/tick_scheduled_blockades()
-	if(!(GLOB.dayspassed in BLOCKADE_SCHEDULED_DAYS))
+	if(GLOB.dayspassed != scheduled_blockade_day)
 		return
 	roll_blockade()
 

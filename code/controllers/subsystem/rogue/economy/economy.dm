@@ -10,6 +10,7 @@ SUBSYSTEM_DEF(economy)
 	/// Populated during daily_tick; written to the Steward's morning report at the end
 	/// of the tick. Null between ticks.
 	var/list/daily_report_diff = null
+	var/scheduled_blockade_day = 0
 
 /// Single source of truth for pop-scaled economy math. Admin override beats the live count.
 /datum/controller/subsystem/economy/proc/get_effective_player_count()
@@ -31,6 +32,7 @@ SUBSYSTEM_DEF(economy)
 		"orders_rolled" = 0,
 		"urgent_rolled" = 0,
 	)
+	scheduled_blockade_day = rand(BLOCKADE_SCHEDULED_DAY_MIN, BLOCKADE_SCHEDULED_DAY_MAX)
 	roundstart_events()
 	roundstart_blockades()
 	return ..()
