@@ -471,3 +471,8 @@
 	slices_num = 2
 	slice_path = null
 	tastes = list("hog" = 1)
+
+/obj/item/reagent_containers/food/snacks/rogue/meat/ham/boar
+	name = "raw boar ham"
+	desc = "A bramblesnout that is no longer trying to end you. raw and ready to be steamed."
+	icon_state = "ham_boar"

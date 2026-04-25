@@ -34,6 +34,7 @@
 #define FACTION_PRIMORDIAL "primordial"
 
 #define FACTION_ROGUEANIMAL "rogueanimal"
+#define FACTION_BOARS "boars"
 #define FACTION_WOLFS "wolfs"
 #define FACTION_BEARS "bears"
 #define FACTION_SAIGA "saiga"
