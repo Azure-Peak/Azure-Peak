@@ -38,10 +38,3 @@
 	category = TRADE_CATEGORY_GEM_LEGENDARY
 	base_price = SELLPRICE_DORPEL
 	item_type = /obj/item/roguegem/diamond
-
-/datum/trade_good/gem/blood_diamond
-	id = TRADE_GOOD_BLOOD_DIAMOND
-	name = "Blood Diamond"
-	category = TRADE_CATEGORY_GEM_LEGENDARY
-	base_price = SELLPRICE_BLOOD_DIAMOND
-	item_type = /obj/item/roguegem/blood_diamond

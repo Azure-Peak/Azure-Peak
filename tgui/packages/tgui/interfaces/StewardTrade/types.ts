@@ -30,6 +30,7 @@ export type OrderItem = {
 export type Order = {
   ref: string;
   name: string;
+  description: string;
   region_id: string;
   region_blockaded: BooleanLike;
   is_equipment: BooleanLike;

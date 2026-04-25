@@ -52,12 +52,3 @@
 	accept_toggle_enabled = FALSE
 	category = "Precious"
 
-/datum/roguestock/stockpile/gem_blood_diamond
-	name = "Blood Diamond"
-	desc = "A crimson gemstone. Legendary."
-	item_type = /obj/item/roguegem/blood_diamond
-	trade_good_id = TRADE_GOOD_BLOOD_DIAMOND
-	importexport_amt = 1
-	stockpile_limit = 2
-	accept_toggle_enabled = FALSE
-	category = "Precious"

@@ -276,8 +276,8 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 	var/buyer = pick(buyers)
 	var/datum/economic_event/E = source_event_ref?.resolve()
 	if(E)
-		return "<b>URGENT:</b> [region.name] is suffering from [E.name]. [buyer] are paying a premium to resolve the crisis."
-	return "<b>URGENT:</b> [buyer] in [region.name] have declared an emergency requisition."
+		return "[region.name] is suffering from [E.name]. [buyer] are paying a premium to resolve the crisis."
+	return "[buyer] in [region.name] have declared an emergency requisition."
 
 
 // ============================================================================
@@ -289,7 +289,7 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 		TRADE_REGION_BLEAKCOAST = list("the admiralty", "the coastal garrison", "the navy armory"),
 		TRADE_REGION_NORTHFORT = list("the border guard", "the northern garrison", "the tarichean watch"),
 		TRADE_REGION_HEARTFELT = list("the march guard", "the retinue", "the garrison armory"),
-		TRADE_REGION_KINGSFIELD = list("the Crown's armory", "a local armsmaster"),
+		TRADE_REGION_KINGSFIELD = list("a market armsmaster", "a local armsmaster"),
 	)
 	var/list/one_ingot_pool = list(
 		TRADE_GOOD_STEEL_ARMING_SWORD,
@@ -340,7 +340,7 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 		TRADE_REGION_BLEAKCOAST = list("the admiralty", "the coastal garrison", "the navy armory"),
 		TRADE_REGION_NORTHFORT = list("the border guard", "the northern garrison", "the tarichean watch"),
 		TRADE_REGION_HEARTFELT = list("the march guard", "the retinue", "the garrison armory"),
-		TRADE_REGION_KINGSFIELD = list("the Crown's armory", "a knightly house"),
+		TRADE_REGION_KINGSFIELD = list("a market armsmaster", "a knightly house"),
 	)
 	var/list/soft_pool = list(
 		TRADE_GOOD_PADDED_GAMBESON,
@@ -445,7 +445,7 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 /datum/standing_order/demand_victualling_fleet/generate_description(datum/economic_region/region)
 	var/list/flavors = list(
 		"The fishing fleet at [region.name] lays in stores for the season's run.",
-		"The wharvesmen at [region.name] need victuals sufficient for a month at sea.",
+		"The wharvesmen at [region.name] need victuals for a month at sea.",
 		"A captain at [region.name] takes on stores before his vessel sails.",
 	)
 	return pick(flavors)
@@ -530,6 +530,7 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 		TRADE_GOOD_HEALTH_POTION,
 		TRADE_GOOD_STAM_POTION,
 		TRADE_GOOD_ANTIDOTE_POTION,
+		TRADE_GOOD_MANA_POTION,
 	)
 	var/list/premium_pool = list(
 		TRADE_GOOD_STRONG_HEALTH_POTION,
@@ -539,10 +540,10 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 /datum/standing_order/demand_alchemical/generate_item_mix()
 	var/list/mix = list()
 	var/primary = pick(medicinal_pool)
-	mix[primary] = rand(3, 5)
-	if(prob(50))
+	mix[primary] = rand(5, 10)
+	if(prob(60))
 		var/premium = pick(premium_pool)
-		mix[premium] = rand(1, 2)
+		mix[premium] = rand(2, 5)
 	return mix
 
 /datum/standing_order/demand_alchemical/generate_name(datum/economic_region/region)
@@ -552,4 +553,398 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 	var/list/projects = project_by_region[region.region_id]
 	if(length(projects))
 		return "[capitalize(pick(projects))] at [region.name] requires finished potions, to be left at the warehouse."
-	return "An apothecary at [region.name] will pay the Crown for finished potions, left at the warehouse."
+	return "An apothecary at [region.name] will pay handsomely for finished potions, left at the warehouse."
+
+
+// ============================================================================
+// demand_birthday_gift - a named noble's name-day gift basket
+// ============================================================================
+/datum/standing_order/demand_birthday_gift
+	roll_weight = 2
+	var/list/celebrants_by_region = list(
+		TRADE_REGION_KINGSFIELD = list(
+			"Lady Marisol of Cherrybrook",
+			"Lord Berenger the Younger",
+			"Dame Vesalia Sundermark",
+			"Sir Aldwin of Aubergrove",
+		),
+		TRADE_REGION_ROCKHILL = list(
+			"Lord Hadrius Vespermill",
+			"Lady Aurinde Greengable",
+		),
+		TRADE_REGION_HEARTFELT = list(
+			"Count Eduard Harlause",
+			"Sir Ardent of the March",
+		),
+		TRADE_REGION_ROSAWOOD = list("Lady Sylvarine Briarmoss"),
+		TRADE_REGION_DAFTSMARCH = list("Lord Korgrad of Pickleridge"),
+		TRADE_REGION_BLEAKCOAST = list("Lord Captain Vesarion of Saltreef"),
+		TRADE_REGION_BLACKHOLT = list("Huntsmarshal Ostran"),
+	)
+	var/list/jewelry_pool = list(
+		TRADE_GOOD_AMBER_RING,
+		TRADE_GOOD_GOLD_RING,
+		TRADE_GOOD_AMBER_AMULET,
+		TRADE_GOOD_JADE_AMULET,
+	)
+	var/list/garment_pool = list(
+		TRADE_GOOD_NOBLECOAT,
+		TRADE_GOOD_SILK_TUNIC,
+		TRADE_GOOD_SEASONAL_GOWN,
+	)
+
+/datum/standing_order/demand_birthday_gift/generate_item_mix()
+	var/list/mix = list()
+	mix[TRADE_GOOD_SILK] = rand(3, 6)
+	mix[TRADE_GOOD_JACKSBERRY] = rand(8, 14)
+	if(prob(70))
+		var/exotic = pick(TRADE_GOOD_LEMON, TRADE_GOOD_LIME, TRADE_GOOD_TANGERINE, TRADE_GOOD_PLUM)
+		mix[exotic] = rand(3, 6)
+	if(prob(70))
+		var/jewel = pick(jewelry_pool)
+		mix[jewel] = 1
+	if(prob(60))
+		var/garment = pick(garment_pool)
+		mix[garment] = 1
+	return mix
+
+/datum/standing_order/demand_birthday_gift/generate_name(datum/economic_region/region)
+	return "[uppertext(region.name)] - BIRTHDAY TRIBUTE"
+
+/datum/standing_order/demand_birthday_gift/generate_description(datum/economic_region/region)
+	var/list/celebrants = celebrants_by_region[region.region_id]
+	if(length(celebrants))
+		return "A name-day approaches for [pick(celebrants)] of [region.name]. Their household commissions a fitting tribute."
+	return "A noble of [region.name] keeps a name-day. Their household commissions a fitting tribute."
+
+
+// ============================================================================
+// demand_great_feast - heavy butter + meat feast spread, 1/3 chance Lord Harlause
+// ============================================================================
+/datum/standing_order/demand_great_feast
+	roll_weight = 2
+	var/list/feast_for_by_region = list(
+		TRADE_REGION_KINGSFIELD = list("a market town's harvest feast", "the manor of a country knight", "a wedding banquet"),
+		TRADE_REGION_HEARTFELT = list("the count's high table", "a chapter feast of the march guard"),
+		TRADE_REGION_BLEAKCOAST = list("the admiralty's mess at high table", "a captains' banquet"),
+		TRADE_REGION_NORTHFORT = list("the garrison's midwinter feast", "a watchcommander's table"),
+		TRADE_REGION_ROCKHILL = list("the orchard-masters' harvest hall", "a press-house celebration"),
+	)
+
+/datum/standing_order/demand_great_feast/generate_item_mix()
+	var/list/mix = list()
+	mix[TRADE_GOOD_BUTTER] = rand(8, 15)
+	mix[TRADE_GOOD_GRAIN] = rand(30, 50)
+	mix[TRADE_GOOD_MEAT] = rand(15, 25)
+	mix[TRADE_GOOD_CHEESE] = rand(8, 15)
+	if(prob(70))
+		var/fruit = pick(TRADE_GOOD_APPLE, TRADE_GOOD_PEAR, TRADE_GOOD_JACKSBERRY)
+		mix[fruit] = rand(8, 14)
+	if(prob(50))
+		mix[TRADE_GOOD_POULTRY] = rand(5, 10)
+	if(prob(40))
+		mix[TRADE_GOOD_PORK] = rand(5, 10)
+	return mix
+
+/datum/standing_order/demand_great_feast/generate_name(datum/economic_region/region)
+	return "[uppertext(region.name)] - THE GREAT FEAST"
+
+/datum/standing_order/demand_great_feast/generate_description(datum/economic_region/region)
+	if(prob(33))
+		return "Lord Harlause sets the table at [region.name]. His house calls for butter, beef, and bread."
+	var/list/feasts = feast_for_by_region[region.region_id]
+	if(length(feasts))
+		return "[capitalize(pick(feasts))] at [region.name] calls for butter, beef, and bread."
+	return "A great feast at [region.name] calls for butter, beef, and bread."
+
+
+// ============================================================================
+// demand_frontier_gear - finished light/medium kit for the wardens and watch
+// ============================================================================
+/datum/standing_order/demand_frontier_gear
+	roll_weight = 3
+	var/list/project_by_region = list(
+		TRADE_REGION_NORTHFORT = list("the border watch", "the tarichean march", "the northern garrison's reservists"),
+		TRADE_REGION_BLEAKCOAST = list("the harbor watch", "the coastal patrol"),
+		TRADE_REGION_HEARTFELT = list("the march wardens", "the chapel guard"),
+		TRADE_REGION_KINGSFIELD = list("a country sheriff's posse", "a local muster"),
+	)
+	var/list/body_pool = list(
+		TRADE_GOOD_PADDED_GAMBESON,
+		TRADE_GOOD_HEAVY_LEATHER_COAT,
+	)
+	var/list/helm_pool = list(
+		TRADE_GOOD_STEEL_HELM_KETTLE,
+	)
+	var/list/extremity_pool = list(
+		TRADE_GOOD_CHAIN_GLOVES,
+	)
+
+/datum/standing_order/demand_frontier_gear/generate_item_mix()
+	var/list/mix = list()
+	mix[pick(body_pool)] = rand(2, 4)
+	if(prob(70))
+		mix[pick(helm_pool)] = rand(2, 4)
+	if(prob(55))
+		mix[pick(extremity_pool)] = rand(2, 4)
+	if(prob(45))
+		mix[TRADE_GOOD_RECURVE_BOW] = rand(3, 6)
+	return mix
+
+/datum/standing_order/demand_frontier_gear/generate_name(datum/economic_region/region)
+	return "[uppertext(region.name)] - FRONTIER GARRISON KIT"
+
+/datum/standing_order/demand_frontier_gear/generate_description(datum/economic_region/region)
+	var/list/projects = project_by_region[region.region_id]
+	if(length(projects))
+		return "[capitalize(pick(projects))] at [region.name] requires light kit fit for irregular service."
+	return "A frontier muster at [region.name] requires light kit for the watch."
+
+
+// ============================================================================
+// demand_court_finery - finished tailoring for the court and its lesser houses
+// ============================================================================
+/datum/standing_order/demand_court_finery
+	roll_weight = 2
+	var/list/project_by_region = list(
+		TRADE_REGION_KINGSFIELD = list("a noble household", "the court tailors", "a market tailor"),
+		TRADE_REGION_HEARTFELT = list("the count's wardrobe", "a march house investiture"),
+		TRADE_REGION_ROCKHILL = list("a country estate's spring wardrobe", "a noble's name-day finery"),
+	)
+	var/list/finery_pool = list(
+		TRADE_GOOD_NOBLECOAT,
+		TRADE_GOOD_SILK_TUNIC,
+		TRADE_GOOD_SEASONAL_GOWN,
+		TRADE_GOOD_MAID_DRESS,
+	)
+
+/datum/standing_order/demand_court_finery/generate_item_mix()
+	var/list/mix = list()
+	mix[pick(finery_pool)] = rand(2, 4)
+	if(prob(50))
+		var/second = pick(finery_pool)
+		mix[second] = rand(1, 3)
+	if(prob(20))
+		mix[TRADE_GOOD_ROYAL_DRESS] = 1
+	return mix
+
+/datum/standing_order/demand_court_finery/generate_name(datum/economic_region/region)
+	return "[uppertext(region.name)] - COURT FINERY ORDER"
+
+/datum/standing_order/demand_court_finery/generate_description(datum/economic_region/region)
+	var/list/projects = project_by_region[region.region_id]
+	if(length(projects))
+		return "[capitalize(pick(projects))] at [region.name] commissions finished tailoring for the season."
+	return "A noble household at [region.name] commissions finished tailoring."
+
+
+// ============================================================================
+// demand_fine_joinery - wood + leather + iron + cloth, joiner's commission
+// ============================================================================
+/datum/standing_order/demand_fine_joinery
+	var/list/project_by_region = list(
+		TRADE_REGION_KINGSFIELD = list("a country estate's joiner", "a manor house refurnish", "a chapel furnishings order"),
+		TRADE_REGION_ROSAWOOD = list("a master joiner's atelier", "a master joiner's house"),
+		TRADE_REGION_ROCKHILL = list("an orchard estate's joiner", "a press-house refit"),
+		TRADE_REGION_HEARTFELT = list("the count's hall furnishings", "a garrison hall refit"),
+	)
+
+/datum/standing_order/demand_fine_joinery/generate_item_mix()
+	var/list/mix = list()
+	mix[TRADE_GOOD_WOOD] = rand(15, 28)
+	mix[TRADE_GOOD_CLOTH] = rand(6, 12)
+	if(prob(70))
+		mix[TRADE_GOOD_IRON_INGOT] = rand(3, 6)
+	if(prob(55))
+		mix[TRADE_GOOD_CURED_LEATHER] = rand(4, 8)
+	return mix
+
+/datum/standing_order/demand_fine_joinery/generate_name(datum/economic_region/region)
+	return "[uppertext(region.name)] - JOINER'S COMMISSION"
+
+/datum/standing_order/demand_fine_joinery/generate_description(datum/economic_region/region)
+	var/list/projects = project_by_region[region.region_id]
+	if(length(projects))
+		return "[capitalize(pick(projects))] at [region.name] requires joinery materials - wood, cloth, and iron."
+	return "A joiner at [region.name] requires materials for fine furnishings."
+
+
+// ============================================================================
+// demand_artificery - mixed engineering bundle: glass, copper, tin, coal, mess kit
+// ============================================================================
+/datum/standing_order/demand_artificery
+	roll_weight = 2
+	var/list/project_by_region = list(
+		TRADE_REGION_DAFTSMARCH = list("the foundry's artificers' hall", "the master smiths' workshop"),
+		TRADE_REGION_KINGSFIELD = list("a court artificer's atelier", "a guild engineer's workshop"),
+		TRADE_REGION_BLACKHOLT = list("the conclave's contraption shop", "an arcane engineer's workshop"),
+		TRADE_REGION_NORTHFORT = list("the garrison's engineer", "a siege artificer at the keep"),
+	)
+
+/datum/standing_order/demand_artificery/generate_item_mix()
+	var/list/mix = list()
+	mix[TRADE_GOOD_COPPER_INGOT] = rand(6, 12)
+	mix[TRADE_GOOD_TIN_INGOT] = rand(4, 8)
+	mix[TRADE_GOOD_COAL] = rand(8, 14)
+	if(prob(70))
+		mix[TRADE_GOOD_GLASS_BATCH] = rand(3, 6)
+	if(prob(45))
+		mix[TRADE_GOOD_MESS_KIT] = rand(2, 4)
+	return mix
+
+/datum/standing_order/demand_artificery/generate_name(datum/economic_region/region)
+	return "[uppertext(region.name)] - ARTIFICER'S WORKSHOP"
+
+/datum/standing_order/demand_artificery/generate_description(datum/economic_region/region)
+	var/list/projects = project_by_region[region.region_id]
+	if(length(projects))
+		return "[capitalize(pick(projects))] at [region.name] requires bronze-stock and tin for the next batch."
+	return "An artificer at [region.name] is buying bronze-stock and tin."
+
+
+// ============================================================================
+// demand_jewelry - jeweler's stocking order, mixed rings and amulets
+// ============================================================================
+/datum/standing_order/demand_jewelry
+	roll_weight = 2
+	var/list/project_by_region = list(
+		TRADE_REGION_KINGSFIELD = list("the court jeweler", "a master goldsmith", "a noble household's wardrobe"),
+		TRADE_REGION_HEARTFELT = list("the count's jeweler", "a chapel reliquary"),
+		TRADE_REGION_ROCKHILL = list("a country estate's jeweler"),
+	)
+	var/list/jewelry_pool = list(
+		TRADE_GOOD_AMBER_RING,
+		TRADE_GOOD_GOLD_RING,
+		TRADE_GOOD_EMERALD_RING,
+		TRADE_GOOD_AMBER_AMULET,
+		TRADE_GOOD_JADE_AMULET,
+	)
+
+/datum/standing_order/demand_jewelry/generate_item_mix()
+	var/list/mix = list()
+	mix[pick(jewelry_pool)] = rand(2, 4)
+	if(prob(60))
+		var/second = pick(jewelry_pool)
+		mix[second] = rand(1, 3)
+	if(prob(15))
+		mix[TRADE_GOOD_DIAMOND_RING] = 1
+	return mix
+
+/datum/standing_order/demand_jewelry/generate_name(datum/economic_region/region)
+	return "[uppertext(region.name)] - JEWELERS' COMMISSION"
+
+/datum/standing_order/demand_jewelry/generate_description(datum/economic_region/region)
+	var/list/projects = project_by_region[region.region_id]
+	if(length(projects))
+		return "[capitalize(pick(projects))] at [region.name] requires finished rings and amulets for their stock."
+	return "A jeweler at [region.name] is buying finished rings and amulets."
+
+
+// ============================================================================
+// demand_prosthetic_run - chapel/infirmary order: prosthetics + healing potions
+// ============================================================================
+/datum/standing_order/demand_prosthetic_run
+	roll_weight = 2
+	var/list/project_by_region = list(
+		TRADE_REGION_HEARTFELT = list("the chapel infirmary", "the pilgrim hostel", "the wounded-house"),
+		TRADE_REGION_NORTHFORT = list("the border surgeon", "the garrison infirmary"),
+		TRADE_REGION_BLEAKCOAST = list("the admiralty surgeon", "the harbor wounded-house"),
+	)
+
+/datum/standing_order/demand_prosthetic_run/generate_item_mix()
+	var/list/mix = list()
+	var/primary_prosthetic = pick(TRADE_GOOD_BRONZE_PROSTHETIC, TRADE_GOOD_IRON_PROSTHETIC)
+	mix[primary_prosthetic] = rand(2, 3)
+	if(prob(35))
+		mix[TRADE_GOOD_STEEL_PROSTHETIC] = 1
+	mix[TRADE_GOOD_HEALTH_POTION] = rand(4, 7)
+	if(prob(60))
+		mix[TRADE_GOOD_CURED_LEATHER] = rand(4, 8)
+	return mix
+
+/datum/standing_order/demand_prosthetic_run/generate_name(datum/economic_region/region)
+	return "[uppertext(region.name)] - INFIRMARY'S ORDER"
+
+/datum/standing_order/demand_prosthetic_run/generate_description(datum/economic_region/region)
+	var/list/projects = project_by_region[region.region_id]
+	if(length(projects))
+		return "[capitalize(pick(projects))] at [region.name] tends many wounded - prosthetics and draughts are needed."
+	return "An infirmary at [region.name] tends to wounded soldiers and pilgrims."
+
+
+// ============================================================================
+// demand_artificed_panoply - rare premium order: artificed plate + voltic gauntlets
+// ============================================================================
+/datum/standing_order/demand_artificed_panoply
+	roll_weight = 1
+	var/list/project_by_region = list(
+		TRADE_REGION_KINGSFIELD = list("a duke's master-of-arms", "a knight-artificer's commission"),
+		TRADE_REGION_DAFTSMARCH = list("the foundry's signature contract", "a master smith's masterpiece"),
+		TRADE_REGION_HEARTFELT = list("the count's chosen retinue"),
+	)
+
+/datum/standing_order/demand_artificed_panoply/generate_item_mix()
+	var/list/mix = list()
+	mix[TRADE_GOOD_ARTIFICED_HALFPLATE] = 1
+	if(prob(55))
+		mix[TRADE_GOOD_VOLTIC_GAUNTLETS] = 1
+	mix[TRADE_GOOD_STEEL_INGOT] = rand(8, 14)
+	if(prob(50))
+		mix[TRADE_GOOD_GOLD_INGOT] = rand(2, 4)
+	return mix
+
+/datum/standing_order/demand_artificed_panoply/generate_name(datum/economic_region/region)
+	return "[uppertext(region.name)] - ARTIFICED PANOPLY"
+
+/datum/standing_order/demand_artificed_panoply/generate_description(datum/economic_region/region)
+	var/list/projects = project_by_region[region.region_id]
+	if(length(projects))
+		return "[capitalize(pick(projects))] at [region.name] commissions a panoply of artificed plate. Masterwork pays masterwork's price."
+	return "A patron at [region.name] commissions a panoply of artificed plate."
+
+
+// ============================================================================
+// demand_tournament_supply - single fat composite order, deliberately challenging
+// ============================================================================
+/datum/standing_order/demand_tournament_supply
+	roll_weight = 2
+	var/list/project_by_region = list(
+		TRADE_REGION_KINGSFIELD = list("the Tournament of the Three Hills", "the lists at Cherrybrook", "a knight-errants' convocation"),
+		TRADE_REGION_HEARTFELT = list("the March Tourney", "the count's lists at Heartfelt"),
+		TRADE_REGION_ROCKHILL = list("the Orchard Lists", "a midsummer tourney at Vespermill"),
+	)
+	var/list/weapon_pool = list(
+		TRADE_GOOD_STEEL_ARMING_SWORD,
+		TRADE_GOOD_STEEL_LONGSWORD,
+		TRADE_GOOD_STEEL_MACE,
+		TRADE_GOOD_STEEL_SABRE,
+	)
+	var/list/armor_pool = list(
+		TRADE_GOOD_STEEL_CHAINMAIL,
+		TRADE_GOOD_STEEL_HAUBERK,
+		TRADE_GOOD_BRIGANDINE,
+	)
+
+/datum/standing_order/demand_tournament_supply/generate_item_mix()
+	var/list/mix = list()
+	mix[pick(weapon_pool)] = rand(3, 5)
+	mix[pick(armor_pool)] = rand(2, 3)
+	mix[TRADE_GOOD_HEALTH_POTION] = rand(6, 10)
+	mix[TRADE_GOOD_MANA_POTION] = rand(3, 5)
+	mix[TRADE_GOOD_GRAIN] = rand(20, 35)
+	mix[TRADE_GOOD_MEAT] = rand(10, 18)
+	mix[TRADE_GOOD_BUTTER] = rand(5, 10)
+	if(prob(60))
+		mix[TRADE_GOOD_NOBLECOAT] = rand(1, 2)
+	if(prob(50))
+		mix[TRADE_GOOD_RECURVE_BOW] = rand(3, 5)
+	return mix
+
+/datum/standing_order/demand_tournament_supply/generate_name(datum/economic_region/region)
+	return "[uppertext(region.name)] - TOURNAMENT PROVISION"
+
+/datum/standing_order/demand_tournament_supply/generate_description(datum/economic_region/region)
+	var/list/projects = project_by_region[region.region_id]
+	if(length(projects))
+		return "[capitalize(pick(projects))] at [region.name] requires arms, armor, draughts, and feast-fare. The patrons pay accordingly."
+	return "A great tournament at [region.name] requires arms, armor, draughts, and feast-fare. The patrons pay accordingly."

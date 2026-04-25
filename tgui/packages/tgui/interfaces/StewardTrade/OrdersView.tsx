@@ -61,6 +61,18 @@ export const OrdersView = (props: { data: Data }) => {
                   <span style={badgeStyle(SEAL_RED_SOFT)}>URGENT</span>
                 )}
               </div>
+              {o.description && (
+                <div
+                  style={{
+                    color: INK_SOFT,
+                    fontSize: '12px',
+                    fontStyle: 'italic',
+                    marginBottom: '4px',
+                  }}
+                >
+                  {o.description}
+                </div>
+              )}
               <div style={{ color: INK_SOFT, fontSize: '12px' }}>
                 {region_catalog[o.region_id]?.name ?? o.region_id} &middot;{' '}
                 {o.days_left}d left &middot; Payout:{' '}

@@ -158,6 +158,7 @@
 		orders += list(list(
 			"ref" = REF(O),
 			"name" = O.name,
+			"description" = O.description,
 			"region_id" = O.region_id,
 			"region_blockaded" = is_blockaded,
 			"is_equipment" = is_warehouse,
