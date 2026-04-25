@@ -1,4 +1,0 @@
-author: "Ketrai"
-delete-after: True
-changes:
-  - balance: "Medical EXP scales with sew time & wound severity now."

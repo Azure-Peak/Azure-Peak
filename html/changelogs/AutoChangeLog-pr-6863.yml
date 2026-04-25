@@ -1,4 +1,0 @@
-author: "BICLOGAN"
-delete-after: True
-changes:
-  - bugfix: "Apothecaries now can lock clinic's silverface as well"
