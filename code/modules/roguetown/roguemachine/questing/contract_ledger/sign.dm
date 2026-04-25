@@ -1,15 +1,21 @@
+/obj/structure/roguemachine/contractledger/proc/play_reject_sound()
+	playsound(src, 'sound/misc/machineno.ogg', 80, FALSE, -1)
+
 /obj/structure/roguemachine/contractledger/proc/sign_contract(mob/user, ref)
 	if(!ref)
 		return
 	if(!SStreasury.has_account(user))
 		say("[user.real_name] has no bank account on record.")
+		play_reject_sound()
 		return
 	var/datum/quest/Q = locate(ref) in SSquestpool.pool
 	if(!Q)
 		say("That contract is no longer available.")
+		play_reject_sound()
 		return
 	if(Q.quest_giver_name && Q.quest_giver_name == user.real_name)
 		say("You cannot sign a contract you yourself put on the board.")
+		play_reject_sound()
 		return
 
 	var/role = user.mind?.assigned_role
@@ -18,30 +24,36 @@
 		if(elapsed < CONTRACT_TOWNIE_GATE_TIME)
 			var/remaining_min = round((CONTRACT_TOWNIE_GATE_TIME - elapsed) / (1 MINUTES))
 			say("This contract is reserved for sellswords. Members of the town may sign after [remaining_min]m.")
+			play_reject_sound()
 			return
 
 	var/datum/job/mob_job = user.job ? SSjob.GetJob(user.job) : null
 	var/active_cap = mob_job?.max_active_quests || QUEST_MAX_ACTIVE_PER_PLAYER
 	if(count_user_active_contracts(user) >= active_cap)
 		say("You are already committed to [active_cap] contracts. Complete one before signing another.")
+		play_reject_sound()
 		return
 
 	if(SSquestpool.is_on_take_cooldown(user))
 		var/remaining_seconds = round(SSquestpool.take_cooldown_remaining(user) / 10)
 		say("You have taken your fill of contracts. Wait [remaining_seconds]s before signing another.")
+		play_reject_sound()
 		return
 
 	var/deposit = Q.deposit_amount
 	if(SStreasury.get_balance(user) < deposit)
 		say("Insufficient balance. This contract requires a [deposit] mammon deposit.")
+		play_reject_sound()
 		return
 
 	if(!Q.can_claim(user))
 		say(Q.claim_failure_reason(user))
+		play_reject_sound()
 		return
 
 	if(!SSquestpool.claim(Q, user))
 		say("That contract could not be dispatched. Try another.")
+		play_reject_sound()
 		return
 
 	SSquestpool.mark_taken(user)

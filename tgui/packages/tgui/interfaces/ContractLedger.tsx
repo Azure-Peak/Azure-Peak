@@ -45,6 +45,7 @@ type ContractLedgerData = {
   active_max: number;
   townie_gate_remaining: number;
   take_cooldown_remaining: number;
+  user_fellowship_size: number;
   pool: Contract[];
   active: ActiveContract[];
   regions: string[];
@@ -231,19 +232,29 @@ const ContractCard = (props: { contract: Contract }) => {
   const takeCooldown = data.take_cooldown_remaining || 0;
   const atCap = data.active_count >= data.active_max;
   const cantAfford = data.balance < c.deposit;
+  const fellowshipShort =
+    c.required_fellowship_size > 0 &&
+    (data.user_fellowship_size || 0) < c.required_fellowship_size;
   const disabled =
-    noAccount || gateRemaining > 0 || takeCooldown > 0 || atCap || cantAfford;
+    noAccount ||
+    gateRemaining > 0 ||
+    takeCooldown > 0 ||
+    atCap ||
+    cantAfford ||
+    fellowshipShort;
   const title = noAccount
     ? 'No bank account. Register with a Meister first.'
     : gateRemaining > 0
       ? `Reserved for sellswords. Town may sign in ${Math.ceil(gateRemaining / 60)}m.`
       : takeCooldown > 0
-        ? `Guild cooldown — wait ${takeCooldown}s before signing another.`
+        ? `Guild cooldown, wait ${takeCooldown}s before signing another.`
         : atCap
           ? `You already hold ${data.active_max} contracts.`
           : cantAfford
             ? `Requires ${c.deposit} mammon in your account.`
-            : undefined;
+            : fellowshipShort
+              ? `Requires a Fellowship of ${c.required_fellowship_size}, you have ${data.user_fellowship_size || 0}.`
+              : undefined;
   const stamps: { label: string; modifier: string }[] = [];
   if (c.is_rumor) stamps.push({ label: 'RUMORED!', modifier: 'rumor' });
   if (c.is_defense) stamps.push({ label: 'COMMISSIONED', modifier: 'commissioned' });
@@ -286,9 +297,13 @@ const ContractCard = (props: { contract: Contract }) => {
           <span className="ContractLedger__CardLabel">Fellowship</span>
           <span
             className="ContractLedger__CardValue"
-            style={{ color: '#8b1a1a', fontWeight: 'bold' }}
+            style={{
+              color: fellowshipShort ? '#c44' : '#8b1a1a',
+              fontWeight: 'bold',
+            }}
           >
-            min {c.required_fellowship_size}
+            {data.user_fellowship_size || 0} / {c.required_fellowship_size}
+            {fellowshipShort ? ' (short)' : ''}
           </span>
         </div>
       )}
