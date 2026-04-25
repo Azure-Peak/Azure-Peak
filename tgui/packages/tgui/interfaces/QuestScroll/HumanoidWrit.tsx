@@ -195,14 +195,40 @@ export const RecoveryAddendum = (props: {
   shipment?: string | null;
   destination?: string | null;
   circumstance?: string;
+  category?: string | null;
 }) => {
-  const { shipment, destination, circumstance } = props;
+  const { shipment, destination, circumstance, category } = props;
   const what = shipment ? <b>{shipment}</b> : <>the lost goods</>;
   const dest = destination || 'their rightful keeping';
+  let lead: React.ReactNode;
+  switch (category) {
+    case 'beast':
+      lead = (
+        <>
+          And further: scattered where the beast attacked lies {what}, fallen
+          from lawful carriage.
+        </>
+      );
+      break;
+    case 'undead':
+      lead = (
+        <>
+          And further: strewn where the dead now wander lies {what}, dropped
+          in the breaking of lawful carriage.
+        </>
+      );
+      break;
+    default:
+      lead = (
+        <>
+          And further: among the spoils of this band lies {what}, taken from
+          lawful carriage.
+        </>
+      );
+  }
   return (
     <p style={writParagraph}>
-      And further: among the spoils of this band lies {what}, taken from
-      lawful carriage. Recover the sealed parcel and bear it unto <b>{dest}</b>.
+      {lead} Recover the sealed parcel and bear it unto <b>{dest}</b>.
       {circumstance ? <> {circumstance}</> : null}
     </p>
   );
@@ -259,6 +285,7 @@ export const HumanoidWrit = (props: {
         shipment={props.recoveryShipment}
         destination={props.recoveryDestination}
         circumstance={props.recoveryCircumstance}
+        category="humanoid"
       />
     )}
     <SealLine

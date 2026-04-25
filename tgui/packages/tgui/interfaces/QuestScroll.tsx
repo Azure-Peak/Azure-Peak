@@ -2,6 +2,9 @@ import { useBackend } from '../backend';
 import { Window } from '../layouts';
 import { BeastWrit } from './QuestScroll/BeastWrit';
 import { CarriageWrit } from './QuestScroll/CarriageWrit';
+import { DrowWrit } from './QuestScroll/DrowWrit';
+import { GoblinoidWrit } from './QuestScroll/GoblinoidWrit';
+import { GronnWrit } from './QuestScroll/GronnWrit';
 import { HumanoidWrit } from './QuestScroll/HumanoidWrit';
 import {
   BlockadeTimer,
@@ -20,6 +23,10 @@ import {
   completionStamp,
   divider,
   FACTION_CAT_BEAST,
+  FACTION_CAT_DROW,
+  FACTION_CAT_GOBLINOID,
+  FACTION_CAT_GRONN,
+  FACTION_CAT_UNDEAD,
   failedStamp,
   marginaliaLine,
   parchment,
@@ -27,8 +34,156 @@ import {
   WRIT_TYPE_CARRIAGE,
   WRIT_TYPE_RECOVERY,
   writBody,
-  writParagraph,
 } from './QuestScroll/shared';
+import { UndeadWrit } from './QuestScroll/UndeadWrit';
+
+type WritBodyProps = {
+  data: QuestScrollData;
+  realm: string;
+  rulerTitle: string;
+  reward: number;
+  levyRate: number;
+  levyExempt: boolean;
+  bearer?: string;
+  issuedBy?: string;
+  crimes: string[];
+  hasRecoveryAddendum: boolean;
+};
+
+const WritBody = (props: WritBodyProps) => {
+  const {
+    data,
+    realm,
+    rulerTitle,
+    reward,
+    levyRate,
+    levyExempt,
+    bearer,
+    issuedBy,
+    crimes,
+    hasRecoveryAddendum,
+  } = props;
+  const sealProps = {
+    rulerTitle,
+    issuedBy,
+    issuedOn: data.issued_on,
+    bearer,
+  };
+  const factionGroupProps = {
+    groupWord: data.faction_group_word,
+    namePlural: data.faction_name_plural,
+  };
+  const namedProps = {
+    named: data.named_target,
+    ringleader: data.band_leader,
+  };
+  const rewardProps = { reward, levyRate, levyExempt };
+  const recoveryProps = {
+    hasRecoveryAddendum,
+    recoveryShipment: data.recovery_shipment,
+    recoveryDestination: data.delivery_destination,
+    recoveryCircumstance: data.circumstance,
+  };
+
+  if (data.writ_type === WRIT_TYPE_RECOVERY) {
+    return (
+      <RecoveryWrit
+        realm={realm}
+        circumstance={data.circumstance}
+        pickupRegion={data.pickup_region}
+        fetchItem={data.fetch_item}
+        fetchCount={data.fetch_count}
+        {...rewardProps}
+        {...sealProps}
+      />
+    );
+  }
+  if (data.writ_type === WRIT_TYPE_CARRIAGE) {
+    return (
+      <CarriageWrit
+        realm={realm}
+        circumstance={data.circumstance}
+        pickupRegion={data.pickup_region}
+        destination={data.delivery_destination}
+        deliveryItem={data.delivery_item}
+        {...rewardProps}
+        {...sealProps}
+      />
+    );
+  }
+  switch (data.faction_category) {
+    case FACTION_CAT_BEAST:
+      return (
+        <BeastWrit
+          nameSingular={data.faction_name_singular}
+          realm={realm}
+          crimes={crimes}
+          {...rewardProps}
+          {...sealProps}
+          {...recoveryProps}
+        />
+      );
+    case FACTION_CAT_UNDEAD:
+      return (
+        <UndeadWrit
+          realm={realm}
+          {...factionGroupProps}
+          {...rewardProps}
+          {...sealProps}
+          {...recoveryProps}
+        />
+      );
+    case FACTION_CAT_GOBLINOID:
+      return (
+        <GoblinoidWrit
+          realm={realm}
+          {...factionGroupProps}
+          {...rewardProps}
+          {...sealProps}
+          {...recoveryProps}
+        />
+      );
+    case FACTION_CAT_GRONN:
+      return (
+        <GronnWrit
+          realm={realm}
+          crimes={crimes}
+          {...namedProps}
+          {...factionGroupProps}
+          {...rewardProps}
+          {...sealProps}
+          {...recoveryProps}
+        />
+      );
+    case FACTION_CAT_DROW:
+      return (
+        <DrowWrit
+          realm={realm}
+          crimes={crimes}
+          {...namedProps}
+          {...factionGroupProps}
+          {...rewardProps}
+          {...sealProps}
+          {...recoveryProps}
+        />
+      );
+    default:
+      return (
+        <HumanoidWrit
+          realm={realm}
+          {...namedProps}
+          {...factionGroupProps}
+          crimes={crimes}
+          sacralInvoked={!!data.sacral_invoked}
+          oathBreach={!!data.oath_breach}
+          condemnation={data.condemnation || undefined}
+          {...recoveryProps}
+          {...rewardProps}
+          {...sealProps}
+        />
+      );
+  }
+};
 
 export const QuestScroll = () => {
   const { data } = useBackend<QuestScrollData>();
@@ -67,13 +222,12 @@ export const QuestScroll = () => {
     hasWhisper || showProgress || hasBlockadeTimer || !!data.blockade_armed;
   const hasSealBanners = !!(data.is_defense || data.levy_exempt);
 
-  const isRecoveryWrit = data.writ_type === WRIT_TYPE_RECOVERY;
-  const isCarriageWrit = data.writ_type === WRIT_TYPE_CARRIAGE;
-  const isOutlawry = !isRecoveryWrit && !isCarriageWrit;
-  const isBeast = isOutlawry && data.faction_category === FACTION_CAT_BEAST;
-  // Anything not BEAST and not a non-outlawry writ falls into the humanoid voice for now.
-  // Bespoke renderers for GRONN/GOBLINOID/DROW/UNDEAD/BOG_DESERTER land later.
-  const isHumanoid = isOutlawry && !isBeast;
+  const isOutlawry =
+    data.writ_type !== WRIT_TYPE_RECOVERY &&
+    data.writ_type !== WRIT_TYPE_CARRIAGE;
+  // BOG_DESERTER falls through to the humanoid renderer. Its distinction is
+  // force_oath_breach set composer-side, which makes the corruption-of-blood clause
+  // always render under the licence-to-slay.
   const hasRecoveryAddendum = isOutlawry && !!data.recovery_shipment;
 
   return (
@@ -83,75 +237,18 @@ export const QuestScroll = () => {
           {data.title && <div style={titleHint}>{data.title}</div>}
 
           <div style={writBody}>
-            {isRecoveryWrit ? (
-              <RecoveryWrit
-                realm={realm}
-                circumstance={data.circumstance}
-                pickupRegion={data.pickup_region}
-                fetchItem={data.fetch_item}
-                fetchCount={data.fetch_count}
-                reward={reward}
-                levyRate={levyRate}
-                levyExempt={levyExempt}
-                rulerTitle={rulerTitle}
-                issuedBy={issuedBy}
-                issuedOn={data.issued_on}
-                bearer={bearer}
-              />
-            ) : isCarriageWrit ? (
-              <CarriageWrit
-                realm={realm}
-                circumstance={data.circumstance}
-                pickupRegion={data.pickup_region}
-                destination={data.delivery_destination}
-                deliveryItem={data.delivery_item}
-                reward={reward}
-                levyRate={levyRate}
-                levyExempt={levyExempt}
-                rulerTitle={rulerTitle}
-                issuedBy={issuedBy}
-                issuedOn={data.issued_on}
-                bearer={bearer}
-              />
-            ) : isBeast ? (
-              <BeastWrit
-                nameSingular={data.faction_name_singular}
-                realm={realm}
-                crimes={crimes}
-                reward={reward}
-                levyRate={levyRate}
-                levyExempt={levyExempt}
-                rulerTitle={rulerTitle}
-                issuedBy={issuedBy}
-                issuedOn={data.issued_on}
-                bearer={bearer}
-              />
-            ) : isHumanoid ? (
-              <HumanoidWrit
-                realm={realm}
-                rulerTitle={rulerTitle}
-                named={data.named_target}
-                ringleader={data.band_leader}
-                groupWord={data.faction_group_word}
-                namePlural={data.faction_name_plural}
-                crimes={crimes}
-                sacralInvoked={!!data.sacral_invoked}
-                oathBreach={!!data.oath_breach}
-                condemnation={data.condemnation || undefined}
-                reward={reward}
-                levyRate={levyRate}
-                levyExempt={levyExempt}
-                hasRecoveryAddendum={hasRecoveryAddendum}
-                recoveryShipment={data.recovery_shipment}
-                recoveryDestination={data.delivery_destination}
-                recoveryCircumstance={data.circumstance}
-                issuedBy={issuedBy}
-                issuedOn={data.issued_on}
-                bearer={bearer}
-              />
-            ) : (
-              <p style={writParagraph}>{data.objective}</p>
-            )}
+            <WritBody
+              data={data}
+              realm={realm}
+              rulerTitle={rulerTitle}
+              reward={reward}
+              levyRate={levyRate}
+              levyExempt={levyExempt}
+              bearer={bearer}
+              issuedBy={issuedBy}
+              crimes={crimes}
+              hasRecoveryAddendum={hasRecoveryAddendum}
+            />
           </div>
 
           {hasMarginalia && (

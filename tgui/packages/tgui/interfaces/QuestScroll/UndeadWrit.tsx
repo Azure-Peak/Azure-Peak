@@ -2,14 +2,14 @@ import { RecoveryAddendum } from './HumanoidWrit';
 import { SealLine } from './Seals';
 import { writParagraph } from './shared';
 
-export const BeastWrit = (props: {
-  nameSingular?: string | null;
+export const UndeadWrit = (props: {
   realm: string;
-  crimes: string[];
+  rulerTitle: string;
+  groupWord?: string | null;
+  namePlural?: string | null;
   reward: number;
   levyRate: number;
   levyExempt: boolean;
-  rulerTitle: string;
   issuedBy?: string;
   issuedOn?: string | null;
   bearer?: string;
@@ -19,13 +19,13 @@ export const BeastWrit = (props: {
   recoveryCircumstance?: string;
 }) => {
   const {
-    nameSingular,
     realm,
-    crimes,
+    rulerTitle,
+    groupWord,
+    namePlural,
     reward,
     levyRate,
     levyExempt,
-    rulerTitle,
     issuedBy,
     issuedOn,
     bearer,
@@ -34,45 +34,47 @@ export const BeastWrit = (props: {
     recoveryDestination,
     recoveryCircumstance,
   } = props;
-  const beast = nameSingular || 'beast';
   const showLevy = !levyExempt && levyRate > 0;
   const net = showLevy ? Math.round(reward * (1 - levyRate)) : reward;
-  const deeds =
-    crimes && crimes.length > 0 ? (
-      <>
-        It hath{' '}
-        {crimes.map((c, i) => (
-          <span key={i}>
-            {c}
-            {i < crimes.length - 2 ? ', ' : i === crimes.length - 2 ? ', and ' : ''}
-          </span>
-        ))}
-        .
-      </>
-    ) : null;
+  const folk = namePlural || 'unquiet dead';
+  const host = groupWord || 'host';
+
   return (
     <>
       <p style={writParagraph}>
-        A {beast} preys upon {realm}, to the great hurt of the country.
+        <i>By writ of the {rulerTitle}, in the keeping of Necra:</i>
       </p>
-      {deeds && <p style={writParagraph}>{deeds}</p>}
       <p style={writParagraph}>
-        The writ knows the beast and shall mark itself when the deed is done.
-        Return it then to the Contract Ledger, and the bounty of{' '}
+        The dead walk again upon {realm}. A {host} of {folk}, denied the rest
+        that is their due, stir from earth and barrow. They bear no name worth
+        speaking, no oath worth breaking, no soul to weigh: only the wound
+        that has not closed.
+      </p>
+      <p style={writParagraph}>
+        <i>
+          Requiem aeternam. They are not to be hated. They are to be put back
+          into the keeping of Necra, that her veil may close over them once
+          more.
+        </i>
+      </p>
+      <p style={writParagraph}>
+        Bring them down with steel, with fire, with prayer. The writ knows
+        their stirring and shall mark itself when peace is restored. Return
+        the writ to the Contract Ledger, that the bounty of{' '}
         <b>{reward} mammon</b>
         {showLevy ? (
           <>
             , <b>{net} mammon</b> after the Crown&apos;s Levy
           </>
         ) : null}{' '}
-        shall be paid.
+        be paid.
       </p>
       {hasRecoveryAddendum && (
         <RecoveryAddendum
           shipment={recoveryShipment}
           destination={recoveryDestination}
           circumstance={recoveryCircumstance}
-          category="beast"
+          category="undead"
         />
       )}
       <SealLine

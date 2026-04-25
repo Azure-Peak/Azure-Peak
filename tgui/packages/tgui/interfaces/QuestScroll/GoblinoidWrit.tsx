@@ -1,15 +1,15 @@
 import { RecoveryAddendum } from './HumanoidWrit';
 import { SealLine } from './Seals';
-import { writParagraph } from './shared';
+import { caputLupinum, writParagraph } from './shared';
 
-export const BeastWrit = (props: {
-  nameSingular?: string | null;
+export const GoblinoidWrit = (props: {
   realm: string;
-  crimes: string[];
+  rulerTitle: string;
+  groupWord?: string | null;
+  namePlural?: string | null;
   reward: number;
   levyRate: number;
   levyExempt: boolean;
-  rulerTitle: string;
   issuedBy?: string;
   issuedOn?: string | null;
   bearer?: string;
@@ -19,13 +19,13 @@ export const BeastWrit = (props: {
   recoveryCircumstance?: string;
 }) => {
   const {
-    nameSingular,
     realm,
-    crimes,
+    rulerTitle,
+    groupWord,
+    namePlural,
     reward,
     levyRate,
     levyExempt,
-    rulerTitle,
     issuedBy,
     issuedOn,
     bearer,
@@ -34,31 +34,28 @@ export const BeastWrit = (props: {
     recoveryDestination,
     recoveryCircumstance,
   } = props;
-  const beast = nameSingular || 'beast';
   const showLevy = !levyExempt && levyRate > 0;
   const net = showLevy ? Math.round(reward * (1 - levyRate)) : reward;
-  const deeds =
-    crimes && crimes.length > 0 ? (
-      <>
-        It hath{' '}
-        {crimes.map((c, i) => (
-          <span key={i}>
-            {c}
-            {i < crimes.length - 2 ? ', ' : i === crimes.length - 2 ? ', and ' : ''}
-          </span>
-        ))}
-        .
-      </>
-    ) : null;
+  const folk = namePlural || 'spawn';
+  const band = groupWord || 'warband';
   return (
     <>
       <p style={writParagraph}>
-        A {beast} preys upon {realm}, to the great hurt of the country.
+        <i>Notice posted by writ of the {rulerTitle}:</i>
       </p>
-      {deeds && <p style={writParagraph}>{deeds}</p>}
       <p style={writParagraph}>
-        The writ knows the beast and shall mark itself when the deed is done.
-        Return it then to the Contract Ledger, and the bounty of{' '}
+        A {band} of <b>{folk}</b> infests the lands of {realm}. Spawn of the
+        dark stars, who sing to false gods and answer to no law. Such things
+        bear no name worth summons, no oath worth breaking, no soul worth
+        weighing.
+      </p>
+      <p style={writParagraph}>
+        <span style={caputLupinum}>SLAY THEM</span>, root and branch, where
+        they nest. The writ knows the brood and shall mark itself when the
+        deed is done.
+      </p>
+      <p style={writParagraph}>
+        Return the writ to the Contract Ledger and the bounty of{' '}
         <b>{reward} mammon</b>
         {showLevy ? (
           <>
@@ -72,7 +69,7 @@ export const BeastWrit = (props: {
           shipment={recoveryShipment}
           destination={recoveryDestination}
           circumstance={recoveryCircumstance}
-          category="beast"
+          category="goblinoid"
         />
       )}
       <SealLine

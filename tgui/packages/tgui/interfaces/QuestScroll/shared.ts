@@ -49,6 +49,11 @@ export type QuestScrollData = {
 
 export const FACTION_CAT_HUMANOID = 'humanoid';
 export const FACTION_CAT_BEAST = 'beast';
+export const FACTION_CAT_BOG_DESERTER = 'bog_deserter';
+export const FACTION_CAT_GRONN = 'gronn';
+export const FACTION_CAT_GOBLINOID = 'goblinoid';
+export const FACTION_CAT_DROW = 'drow';
+export const FACTION_CAT_UNDEAD = 'undead';
 
 export const CONDEMNATION_CAPUT_LUPINUM = 'caput_lupinum';
 export const CONDEMNATION_UTLAGATUS = 'utlagatus';

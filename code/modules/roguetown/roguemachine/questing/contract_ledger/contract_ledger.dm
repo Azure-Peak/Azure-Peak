@@ -80,7 +80,8 @@
 			gate_remaining = round((CONTRACT_TOWNIE_GATE_TIME - elapsed) / 10)
 	data["townie_gate_remaining"] = gate_remaining
 	data["take_cooldown_remaining"] = round(SSquestpool.take_cooldown_remaining(user) / 10)
-	var/datum/fellowship/F = user?.current_fellowship
+	var/mob/living/L = user
+	var/datum/fellowship/F = istype(L) ? L.current_fellowship : null
 	data["user_fellowship_size"] = F ? length(F.get_members()) : 0
 	data["pool"] = build_pool_listing()
 	data["active"] = build_active_listing(user)
