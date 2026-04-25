@@ -891,3 +891,13 @@
   - rscadd: Added a new towner house straight east from the inquisitorial manor.
   nauticall:
   - rscadd: Added donor item 'Darling' to the game.
+2026-04-25:
+  BICLOGAN:
+  - bugfix: Apothecaries now can lock clinic's silverface as well
+  - balance: Apothecary now start with Expert skill in alchemy
+  Ketrai:
+  - balance: Medical EXP scales with sew time & wound severity now.
+  - qol: Hunting tracks are more visible, and have a unique paws icon when looking
+      around
+  PatapoIIIa:
+  - rscadd: Add multy-language TGUI support

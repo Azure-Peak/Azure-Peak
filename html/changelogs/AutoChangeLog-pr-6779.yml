@@ -1,0 +1,8 @@
+author: "FreeStylaLT"
+delete-after: True
+changes:
+  - bugfix: "Fixed a bug that prevented Tempo from counting \"Unknown\" attackers properly."
+  - balance: "Some Red (\"Rigid\") swingdelays now apply a slow down to X SPD for their duration. This was applied to Rapier's Lunge."
+  - balance: "Greataxes had their swingdelays from base intents removed. Instead they had their wdef lowered relative to their non-reach counterparts."
+  - balance: "Riposte no longer works while under the effects of a Red (\"Rigid\") swingdelay."
+  - balance: "Riposte no longer works while Exposed."

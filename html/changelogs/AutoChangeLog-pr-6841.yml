@@ -1,0 +1,6 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Possibly fixed controller of Minotaur, dream fiends, Border reiver, deep one, dire bear, dragon, all primordials (unused), mole, mossback, simple skeletons, troll, volf, spide, mirespider to be more reliable and less erratic when it comes to aggro"
+  - rscadd: "AI's calling for help behaviors range has been reduced from 12 / 13 to 9 to make it a bit fairer without trivializing them"
+  - rscadd: "AI no longer kick someone who is down"

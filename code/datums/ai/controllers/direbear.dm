@@ -12,7 +12,6 @@
 
 	planning_subtrees = list(
 		/datum/ai_planning_subtree/aggro_find_target,
-		/datum/ai_planning_subtree/simple_find_target/closest,
 		/datum/ai_planning_subtree/attack_obstacle_in_path,
 		/datum/ai_planning_subtree/flee_target,
 

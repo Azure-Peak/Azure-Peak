@@ -195,6 +195,13 @@
 	if(istype(active_spell) && (active_spell.currently_charging || active_spell.charged))
 		to_chat(src, span_warning("I can't guard while channeling a spell!"))
 		return FALSE
+
+	if(is_swinging(disrupt_only = TRUE))
+		return FALSE
+
+	if(has_status_effect(/datum/status_effect/debuff/exposed))
+		return FALSE
+
 	apply_status_effect(/datum/status_effect/buff/clash)
 	return TRUE
 
@@ -297,8 +304,8 @@
 	return highest_ac
 
 /mob/living/carbon/human/proc/process_tempo_attack(mob/living/carbon/attacker)
-	if(iscarbon(attacker) && attacker.mind && attacker != src)
-		if(length(tempo_attackers) <= TEMPO_CAP || (attacker in tempo_attackers))	//This list auto-culls so we don't need to flood it. If you're fighting 7 dudes at the same time you've got other problems.
+	if(iscarbon(attacker) && attacker != src && attacker.mind)
+		if(length(tempo_attackers) <= TEMPO_CAP || (REF(attacker) in tempo_attackers))	//This list auto-culls so we don't need to flood it. If you're fighting 7 dudes at the same time you've got other problems.
 			var/newtime
 			var/att_count = length(tempo_attackers)
 			switch(att_count)
@@ -308,7 +315,7 @@
 					newtime = world.time + TEMPO_DELAY_TWO
 				if(TEMPO_MAX to TEMPO_CAP)
 					newtime = world.time + TEMPO_DELAY_MAX
-			tempo_attackers[attacker] = newtime
+			tempo_attackers[REF(attacker)] = newtime
 			next_tempo_cull = world.time + TEMPO_CULL_DELAY	//We reset the autocull timer on a hit from a valid person.
 		manage_tempo()
 

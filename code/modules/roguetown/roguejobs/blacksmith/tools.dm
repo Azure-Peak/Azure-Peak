@@ -114,7 +114,7 @@
 	do
 		var/repair_percent = get_repair_percent(attacked_item)
 		if(user.get_skill_level(attacked_item.anvilrepair) <= 0)
-			if(HAS_TRAIT(user, TRAIT_SQUIRE_REPAIR))
+			if(HAS_TRAIT(user, TRAIT_SQUIRE_REPAIR) || HAS_TRAIT(user, TRAIT_SELF_SUSTENANCE))
 				if(locate(/obj/machinery/anvil) in attacked_item.loc)
 					repair_percent = 0.035
 				//Squires can repair on tables, but less efficiently
