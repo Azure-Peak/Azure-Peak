@@ -65,6 +65,7 @@
 	H.adjust_skillrank_up_to(/datum/skill/combat/maces, 5, TRUE)
 	H.adjust_skillrank_up_to(/datum/skill/combat/polearms, 5, TRUE)
 	H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, 5, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/misc/riding, 4, TRUE) //Journeyman, lets them at least travel like a noble lord.
 	H.adjust_skillrank_up_to(/datum/skill/misc/reading, 5, TRUE)
 	H.adjust_skillrank_up_to(/datum/skill/misc/climbing, 5, TRUE)
 	H.adjust_skillrank_up_to(/datum/skill/misc/athletics, 6, TRUE) //Who said Progress can't have gains?

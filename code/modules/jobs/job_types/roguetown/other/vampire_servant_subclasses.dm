@@ -39,12 +39,12 @@
 		/datum/skill/misc/lockpicking = SKILL_LEVEL_JOURNEYMAN, //Lets them do spy stuff, since they're just a "harmless" maid to most. Still need the actual lockpick set though.
 		//roleplay specialist
 		/datum/skill/craft/crafting = SKILL_LEVEL_EXPERT, //Expert in some labor skills, they are the lich sapper skele equiv-ish, with some cavets
-		/datum/skill/craft/carpentry = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/craft/carpentry = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/music = SKILL_LEVEL_EXPERT, //I mean, its a harmless fluff skill; let them do something while there's nothing to do or entertain the court.
 		/datum/skill/craft/sewing = SKILL_LEVEL_EXPERT,
 		/datum/skill/craft/tanning = SKILL_LEVEL_EXPERT, //Making disguises and style is your speciality
 		/datum/skill/craft/masonry = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/labor/butchering = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/labor/butchering = SKILL_LEVEL_EXPERT,
 		/datum/skill/craft/cooking = SKILL_LEVEL_MASTER, //Go forth and break their kneecaps my child.
 		/datum/skill/labor/farming = SKILL_LEVEL_EXPERT, //Little roundtime to be wasted tending crops, lets them just /get it over with/ so they can continue antagging at the same time. If you want to do a feast gimmic anyway.
 		/datum/skill/labor/lumberjacking = SKILL_LEVEL_EXPERT, //Sunlight limits their time outside, higher than forgemaster so they can supply them better
@@ -108,17 +108,17 @@
 		/datum/skill/combat/axes = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN, //Needed to get into places
+		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN, //Intentionally less-fight capable than maids in exchange for being PURE smith and build.
+		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN, //Needed to get into places or build higher up.
 		//crafting specialist
 		/datum/skill/craft/crafting = SKILL_LEVEL_MASTER,
 		/datum/skill/craft/masonry = SKILL_LEVEL_EXPERT,
 		/datum/skill/craft/carpentry = SKILL_LEVEL_EXPERT,
-		/datum/skill/craft/engineering = SKILL_LEVEL_MASTER, //semi-artificer too, didn't want to go all-in since otherwise they might end up handing out enchantments to vamps, I don't want that to be common
+		/datum/skill/craft/engineering = SKILL_LEVEL_EXPERT, //semi-artificer too, didn't want to go all-in with arcayne skill since otherwise they might end up handing out enchantments to vamps, I don't want that to be common
 		/datum/skill/misc/reading = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/craft/blacksmithing = SKILL_LEVEL_MASTER,
-		/datum/skill/craft/armorsmithing = SKILL_LEVEL_MASTER,
-		/datum/skill/craft/weaponsmithing = SKILL_LEVEL_MASTER,
+		/datum/skill/craft/blacksmithing = SKILL_LEVEL_MASTER, //higher intentionally, for profit making purposes in a round's time.
+		/datum/skill/craft/armorsmithing = SKILL_LEVEL_EXPERT,
+		/datum/skill/craft/weaponsmithing = SKILL_LEVEL_EXPERT,
 		/datum/skill/craft/smelting = SKILL_LEVEL_MASTER,
 		/datum/skill/labor/mining = SKILL_LEVEL_EXPERT,
 		/datum/skill/craft/traps = SKILL_LEVEL_EXPERT, //Another niche in the field, they can disarm traps at least
@@ -167,3 +167,62 @@
 		/obj/item/rogueweapon/tongs = 1,
 		/obj/item/flint = 1
 		)
+
+//Exists so vampires have something to revive people they accidentally kill from feeding, any allies or potentally slip into the clinic and process their vamp allies through. Weakest of laboring outside of their medical niché vs other servants
+/datum/advclass/vampphysician
+	name = "Vampiric Physician"
+	tutorial = "You were promised forever to further your medical research and perfect your art of needle and scapel alike and recieve it at the cost of eternal servitude and a never ending taste for blood. Now you serve your lord eternal, from a fatal feeding frenzy to granting fallen travellers that very same chance you had. Now you'll be sewing and stitching a future, in your lord's vision."
+	allowed_sexes = list(MALE, FEMALE)
+	allowed_races = RACES_ALL_KINDS
+	outfit = /datum/outfit/job/roguetown/other/vampphysician
+	traits_applied = list(TRAIT_MEDICINE_EXPERT, TRAIT_ALCHEMY_EXPERT, TRAIT_NOSTINK, TRAIT_HOMESTEAD_EXPERT, TRAIT_EMPATH, TRAIT_STEELHEARTED) //Medical class, specialises in accidental killings or reviving fallen allies. !!!UNTIL LUX REVIVALS WORK ON VAMPS OR A MAP REWORK HAPPENS. YOU'LL NEED TO EITHER HAVE ZURCH ACCESS OR BREAK INTO THE CLINIC FOR A CHAIR TO REVIVE VAMPS!!!
+	category_tags = list(CTAG_VAMPSERVANT)
+	subclass_stats = list(
+		STATKEY_SPD = 1, //Corpse thievery duty
+		STATKEY_INT = 4,
+		STATKEY_PER = 1,
+		STATKEY_LCK = 1,
+		// 7 weighted statline, non-combat role equiv of barber doc kind of.
+	)
+	subclass_skills = list(
+		/datum/skill/combat/knives = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/wrestling = SKILL_LEVEL_APPRENTICE, //Weaker since non-combat role
+		/datum/skill/craft/crafting = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/reading = SKILL_LEVEL_MASTER,
+		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN, //Needed to follow your allies.
+		/datum/skill/misc/sneaking = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/medicine = SKILL_LEVEL_MASTER, //Your entire shtick, sire. High because vamps accumilate insanely high burns, very fast. So they sort of need the levels.
+		/datum/skill/craft/sewing = SKILL_LEVEL_EXPERT,
+		/datum/skill/craft/alchemy = SKILL_LEVEL_EXPERT, //Decently high, but this is the skill I want grinded a bit
+		/datum/skill/misc/lockpicking = SKILL_LEVEL_JOURNEYMAN, //Needed to get into the clinic to use the chair for fellow vamps or get around.
+		/datum/skill/craft/carpentry = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/craft/masonry = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/labor/lumberjacking = SKILL_LEVEL_JOURNEYMAN, //Decent enough to try to put up a small stall or help your allies and not be completely useless
+		/datum/skill/labor/farming = SKILL_LEVEL_JOURNEYMAN, // Farming for ingredients, maids are better at this. Woe is you.
+	)
+
+
+/datum/outfit/job/roguetown/other/vampphysician/pre_equip(mob/living/carbon/human/H)
+	..()
+	to_chat(H, span_warning("You were promised forever to further your medical research and perfect your art of needle and scapel alike and recieve it at the cost of eternal servitude and a never ending taste for blood. Now you serve your lord eternal, from a fatal feeding frenzy to granting fallen travellers that very same chance you had. Now you'll be sewing and stitching a future, in your lord's vision."))
+	mask = /obj/item/clothing/mask/rogue/physician //intentional look, rest is intentionally closer to barber doc appearance with a mix of the OG court physician getup from old roguetown code.
+	head = /obj/item/clothing/head/roguetown/physician
+	neck = /obj/item/clothing/neck/roguetown/coif //Non-combat role, get it upgraded
+	armor = /obj/item/clothing/suit/roguetown/shirt/robe/physician
+	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/puritan
+	belt = /obj/item/storage/belt/rogue/leather/black
+	beltl = /obj/item/storage/belt/rogue/surgery_bag/full
+	beltr = /obj/item/rogueweapon/huntingknife/chefknife/cleaver // some self defense and tree cutting
+	pants = /obj/item/clothing/under/roguetown/trou/leather/mourning
+	shoes = /obj/item/clothing/shoes/roguetown/boots
+	backl = /obj/item/storage/backpack/rogue/backpack
+	backpack_contents = list(
+		/obj/item/natural/worms/leech/cheele = 1,
+		/obj/item/heart_blood_canister/filled = 4, //Needs more due to not having a stockpiled chest nor a chair.
+		/obj/item/bait/leech = 3,
+		/obj/item/folding_alchcauldron_stored = 1, //Nessessary
+		/obj/item/storage/belt/rogue/pouch/coins/mid = 1
+		)
+	if(H.mind)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/diagnose/secular)

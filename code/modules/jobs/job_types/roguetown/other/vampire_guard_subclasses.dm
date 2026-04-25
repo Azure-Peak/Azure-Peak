@@ -21,7 +21,7 @@
 		STATKEY_INT = 1,
 		STATKEY_CON = 1,
 		STATKEY_PER = 2,
-		// 8 weighted statline, akin to MAA deserter nearly albeit tipped towards the antag-side of scaling.
+		// 8, weighted statline, akin to MAA deserter nearly albeit tipped towards the antag-side of scaling.
 	)
 	subclass_skills = list(
 		/datum/skill/combat/swords = SKILL_LEVEL_JOURNEYMAN,
@@ -29,7 +29,7 @@
 		/datum/skill/combat/maces = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/whipsflails = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/axes = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/combat/knives = SKILL_LEVEL_JOURNEYMAN, //Despite town MAAs getting this, I want duelist to be better in this
+		/datum/skill/combat/knives = SKILL_LEVEL_JOURNEYMAN, //Despite town MAAs getting this at expert, I want duelist to be better in this
 		/datum/skill/combat/shields = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
@@ -236,10 +236,10 @@
 			if("Dual Wield Messers")
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
 				ADD_TRAIT(H, TRAIT_DUALWIELDER, TRAIT_GENERIC)
-				l_hand = /obj/item/rogueweapon/scabbard/sword
-				r_hand = /obj/item/rogueweapon/scabbard/sword
-				beltr = /obj/item/rogueweapon/sword/short/messer/duelist
-				beltl = /obj/item/rogueweapon/sword/short/messer/duelist
+				l_hand = /obj/item/rogueweapon/sword/short/messer/duelist
+				r_hand = /obj/item/rogueweapon/sword/short/messer/duelist
+				beltr = /obj/item/rogueweapon/scabbard/sword
+				beltl = /obj/item/rogueweapon/scabbard/sword
 
 	H.verbs |= /mob/proc/haltyell_exhausting //Soldier gets to halt people
 
@@ -283,7 +283,7 @@
 		STATKEY_SPD = 1,
 		STATKEY_CON = 3, //Trust me, you're going to need it.
 
-		// 6 weighted statline, with a unique backup unarmed choice of just punching people with your bare hands into joining your fold.
+		// 8 weighted statline, with a unique backup unarmed choice of just punching people with your bare hands into joining your fold.
 		// albeit unlike other unarmed classes, you get no special techniques, no skin armor, miracles, nor a lot of strength for it
 	)
 	subclass_skills = list(
@@ -335,8 +335,8 @@
 	subclass_stats = list(
 		STATKEY_INT = 2,
 		STATKEY_SPD = 2,
-		STATKEY_WIL = 1,
-		//5 weighted statline, unchanged from adv. Due to how strong bardic buffs can be in the hands of vampyres now they get numbers (I.E stam regen, health regen, etc) although they do still feel blue bar (excluding vlord) they have to retain being somewhat weak-ish
+		STATKEY_WIL = 2,
+		//6 weighted statline, unchanged from adv save for +1 wil so they last longer in combat with music. Due to how strong bardic buffs can be in the hands of vampyres now they get numbers (I.E stam regen, health regen, etc) although they do still feel blue bar (excluding vlord) they have to retain being somewhat weak-ish
 	)
 	subclass_skills = list(
 		/datum/skill/combat/wrestling = SKILL_LEVEL_APPRENTICE, //Still not amazing, because you can buff up already pretty stacked classes.
@@ -448,7 +448,7 @@
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/studded
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/paalloy //Makes up for no gloves
-	neck = /obj/item/clothing/neck/roguetown/gorget/paalloy //No head armor, intended.
+	neck = /obj/item/clothing/neck/roguetown/gorget/paalloy //No head armor but good anti-decap armor, intended.
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
 	belt = /obj/item/storage/belt/rogue/leather/battleskirt
 	beltl = /obj/item/book/spellbook
