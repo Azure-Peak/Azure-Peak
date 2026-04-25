@@ -1169,7 +1169,7 @@
 	name = "uncooked noodles"
 	desc = "A bundle of soft and wobbly uncooked noodles, ready to make dreams come true."
 	icon = 'modular/Neu_Food/icons/raw/raw_dough.dmi'
-	icon_state = "eggdoughnoodles"
+	icon_state = "eggdoughnoodle"
 	color = "#feffc1"
 	//deep_fried_type = /obj/item/reagent_containers/food/snacks/rogue/justicespagetti (Spaghetti all'assassina but Ravox)
 	boiled_type = /obj/item/reagent_containers/food/snacks/rogue/noodles
@@ -1309,7 +1309,7 @@
 	slices_num = null
 	slice_batch = FALSE
 	slice_path = null
-	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/griddle
+	fried_type = /obj/item/reagent_containers/food/snacks/rogue/griddle
 	w_class = WEIGHT_CLASS_NORMAL
 	slice_sound = TRUE
 
@@ -1393,7 +1393,7 @@
 	slices_num = null
 	slice_batch = FALSE
 	slice_path = null
-	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/griddle/fruit/lemon
+	fried_type = /obj/item/reagent_containers/food/snacks/rogue/griddle/fruit/lemon
 	w_class = WEIGHT_CLASS_NORMAL
 	slice_sound = TRUE
 
@@ -1405,7 +1405,7 @@
 	slices_num = null
 	slice_batch = FALSE
 	slice_path = null
-	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/griddle/fruit/berry
+	fried_type = /obj/item/reagent_containers/food/snacks/rogue/griddle/fruit/berry
 	w_class = WEIGHT_CLASS_NORMAL
 	slice_sound = TRUE
 
@@ -1417,7 +1417,7 @@
 	slices_num = null
 	slice_batch = FALSE
 	slice_path = null
-	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/griddle/fruit/poisonberry
+	fried_type = /obj/item/reagent_containers/food/snacks/rogue/griddle/fruit/poisonberry
 	list_reagents = list(/datum/reagent/berrypoison = 5)
 	w_class = WEIGHT_CLASS_NORMAL
 	slice_sound = TRUE
@@ -1430,6 +1430,6 @@
 	slices_num = null
 	slice_batch = FALSE
 	slice_path = null
-	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/griddle/fruit/apple
+	fried_type = /obj/item/reagent_containers/food/snacks/rogue/griddle/fruit/apple
 	w_class = WEIGHT_CLASS_NORMAL
 	slice_sound = TRUE

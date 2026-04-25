@@ -42,14 +42,14 @@
 		return ..()
 /obj/item/reagent_containers/food/snacks/rogue/sheetnoodles
 	name = "sheet noodles"
-	desc = "Tasteless wet sheetnoodles. Oh. You can't stack cheese or sauce on this... Everyone is going to laugh at you..." // If anyone ever adds a real recipe, change this.
+	desc = "Tasteless wet sheet noodles. Oh. You can't stack cheese or sauce on this... It's ruined." // If anyone ever adds a real recipe, change this.
 	icon = 'modular/Neu_Food/icons/cooked/cooked_pasta.dmi'
 	icon_state = "sheetnoodle"
 	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_DECENT)
 	faretype = FARE_NEUTRAL
 	w_class = WEIGHT_CLASS_TINY
 	foodtype = GRAIN
-	tastes = list("bland dissapointment" = 1)
+	tastes = list("bland disappointment" = 1)
 	bitesize = 2
 	rotprocess = SHELFLIFE_EXTREME
 

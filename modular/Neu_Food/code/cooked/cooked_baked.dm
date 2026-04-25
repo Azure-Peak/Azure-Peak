@@ -1045,7 +1045,7 @@
 	name = "white lasagna"
 	desc = "Stacked pasta sheets layered with béchamel sauce and melted cheese. Lasagna was brought to Valoria by a Montecarinan royal chef, but the price of tomatoes made locals forgo it for a very Otavan white sauce."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_pasta.dmi'
-	icon_state = "lasagna"
+	icon_state = "lasagna_white"
 	faretype = FARE_FINE // Nobles fucking love cheese though.
 	list_reagents = list(/datum/reagent/consumable/nutriment = MEAL_MEAGRE) // It's MORE pasta and sauce.
 	tastes = list("smooth béchamel sauce" = 1, "cheesy noodle sheets" = 1)
@@ -1056,9 +1056,9 @@
 
 /obj/item/reagent_containers/food/snacks/rogue/lasagna_redwhite
 	name = "cheesy lasagna"
-	desc = "Pasta sheets decadently stacked with marinara and cheese, something so simple has no right to be so rich. The condottieri and sailors of Montecarina's royal navy hate leaving port, not knowing when next they can gorge on this soldiery pasta loaf of cheese and sauce."
+	desc = "Pasta sheets decadently stacked with marinara and cheese, something so simple has no right to be so rich. The condottieri and captains of Montecarina's royal navy hate leaving port, not knowing when next they can gorge on this soldiery pasta loaf of cheese and sauce."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_pasta.dmi'
-	icon_state = "lasagna"
+	icon_state = "lasagna_redwhite"
 	faretype = FARE_LAVISH
 	list_reagents = list(/datum/reagent/consumable/nutriment = MEAL_GOOD)
 	tastes = list("richly smooth and salty tomatoes" = 1, "melted cheese between noodle sheets" = 1)
@@ -1071,7 +1071,7 @@
 	name = "pesto lasagna"
 	desc = "Pasta sheets elegantly stacked with pesto neatly spread between. It's taste can only be described as 'zig-like', the rocknut in the pesto seeming to boil from the heat. This version is even more loved by Azurian nobles, though visiting Montecarinan signoria-bloods are known occasionally to be offended at the taste."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_pasta.dmi'
-	icon_state = "lasagna"
+	icon_state = "lasagna_pesto"
 	faretype = FARE_LAVISH
 	list_reagents = list(/datum/reagent/consumable/nutriment = MEAL_MEAGRE, /datum/reagent/consumable/acorn_powder = 4, /datum/reagent/drug/nicotine = 4)
 	tastes = list("richly smooth and salty tomatoes" = 1, "melted cheese between noodle sheets" = 1)
@@ -1114,33 +1114,13 @@
 	icon_state = "griddle"
 	faretype = FARE_NEUTRAL
 	list_reagents = list(/datum/reagent/consumable/nutriment = MEAL_AVERAGE)
-	var/fruittaste
-	var/griddletaste = "fluffy dough"
-	tastes = null
 	w_class = WEIGHT_CLASS_NORMAL
 	bitesize = 4
 	eat_effect = /datum/status_effect/buff/snackbuff
+	tastes = list("fluffy and soft dough" = 1)
 	var/syrup_kind = null
-	var/butter = FALSE
 	var/syrup_overlay_state = FALSE
-
-/obj/item/reagent_containers/food/snacks/rogue/griddle/Initialize()
-	. = ..()
-	rebuild_tastes()
-
-/obj/item/reagent_containers/food/snacks/rogue/griddle/proc/rebuild_tastes()
-	tastes = list()
-	if(griddletaste)
-		tastes[griddletaste] = 1
-	if(fruittaste)
-		tastes[fruittaste] = 1
-	switch(syrup_kind)
-		if("chocolate")
-			tastes["syrupy chocolate"] = 1
-		if("honey")
-			tastes["syrupy honey"] = 1
-	if(butter)
-		tastes["decadent butter"] = 1
+	var/butter = FALSE
 
 /obj/item/reagent_containers/food/snacks/rogue/griddle/proc/rebuild_overlays()
 	cut_overlays()
@@ -1165,7 +1145,6 @@
 /obj/item/reagent_containers/food/snacks/rogue/griddle/proc/finish_topping(obj/item/ingredient)
 	rebuild_overlays()
 	update_faretype()
-	rebuild_tastes()
 	qdel(ingredient)
 
 /obj/item/reagent_containers/food/snacks/rogue/griddle/proc/copy_customization(obj/item/reagent_containers/food/snacks/rogue/griddle/target)
@@ -1173,7 +1152,6 @@
 		return
 	target.syrup_kind = syrup_kind
 	target.butter = butter
-	target.rebuild_tastes()
 	target.rebuild_overlays()
 	target.update_faretype()
 
@@ -1234,7 +1212,7 @@
 	icon_state = "griddlelemon"
 	faretype = FARE_FINE
 	list_reagents = list(/datum/reagent/consumable/nutriment = MEAL_AVERAGE)
-	fruittaste = "sour lemon pulp"
+	tastes = list("soft and fluffy dough" = 1, "sour lemon pulp" = 1)
 
 /obj/item/reagent_containers/food/snacks/rogue/griddle/fruit/berry
 	name = "Berrygriddles"
@@ -1243,7 +1221,7 @@
 	icon_state = "griddleberry"
 	faretype = FARE_FINE
 	list_reagents = list(/datum/reagent/consumable/nutriment = MEAL_AVERAGE)
-	fruittaste = "sweet berry mash"
+	tastes = list("soft and fluffy dough" = 1, "sweet berry mash" = 1)
 
 /obj/item/reagent_containers/food/snacks/rogue/griddle/fruit/poisonberry
 	name = "Berrygriddles"
@@ -1252,7 +1230,7 @@
 	icon_state = "griddleberry"
 	faretype = FARE_FINE
 	list_reagents = list(/datum/reagent/consumable/nutriment = MEAL_AVERAGE, /datum/reagent/berrypoison = 5)
-	fruittaste = "bittersweet berry mash"
+	tastes = list("soft and fluffy dough" = 1, "bitter berry mash" = 1)
 
 /obj/item/reagent_containers/food/snacks/rogue/griddle/fruit/apple
 	name = "Applegriddles"
@@ -1261,7 +1239,7 @@
 	icon_state = "griddleapple"
 	faretype = FARE_FINE
 	list_reagents = list(/datum/reagent/consumable/nutriment = MEAL_AVERAGE)
-	fruittaste = "caramelized apple slices"
+	tastes = list("soft and fluffy dough" = 1, "caramelized apple slices" = 1)
 /*	.................   Challah   ................... */
 /obj/item/reagent_containers/food/snacks/rogue/challah
 	name = "challah loaf"
