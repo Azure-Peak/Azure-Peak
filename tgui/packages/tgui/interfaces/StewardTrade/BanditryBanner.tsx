@@ -1,5 +1,5 @@
 import type { BanditryProjection } from './types';
-import { bannerStyle, SEAL_AMBER, SEAL_RED_SOFT } from './styles';
+import { bannerStyle, SEAL_AMBER, SEAL_RED_SOFT } from '../common/parchment';
 
 export const BanditryBanner = (props: { projection: BanditryProjection }) => {
   const p = props.projection;

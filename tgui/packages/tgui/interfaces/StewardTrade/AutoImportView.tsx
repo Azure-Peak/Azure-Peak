@@ -16,7 +16,7 @@ import {
   sectionHeaderStyle,
   subTabBarStyle,
   subTabStyle,
-} from './styles';
+} from '../common/parchment';
 import type { AutoImportRow, Data } from './types';
 
 export const AutoImportView = (props: { data: Data }) => {

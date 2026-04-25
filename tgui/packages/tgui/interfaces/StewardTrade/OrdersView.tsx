@@ -12,7 +12,7 @@ import {
   SEAL_RED,
   SEAL_RED_SOFT,
   sectionHeaderStyle,
-} from './styles';
+} from '../common/parchment';
 
 // ── Orders view ──────────────────────────────────────────────────
 export const OrdersView = (props: { data: Data }) => {

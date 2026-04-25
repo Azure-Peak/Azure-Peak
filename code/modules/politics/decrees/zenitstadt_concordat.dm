@@ -1,6 +1,8 @@
 /datum/decree/zenitstadt_concordat
 	id = DECREE_ZENITSTADT_CONCORDAT
 	name = "The Zenitstadt Concordat"
+	category = DECREE_CATEGORY_ANCIENT
+	mechanical_text = "Church clergy and declared Benefactors of the Faith pay no taxes."
 	flavor_text = {"This Zenitstadt Concordat, sworne under the Ten's Grace and with Ravox as witness, witnesseth that the Church of Azuria, consecrated beneath the Ten and quickened by Astrata's light, shall keep the peace of the gods upon this land: to pray for the safety and prosperity of the Realm by daye and by night, to maintain the favor of the Ten through proper sacrament and offering, to levy tithe from amongst its own brethren, to shelter the poor and downtrodden, and to furnish its own knightly order of templars that the common defense of the Realm be not wanting.
 
 In exchange, as the sacred envoys of the gods and sworn servants of the Ten, the clergy of the Church of Azuria shall bear no tax nor levy, neither upon their persons nor upon the properties of the Faith; nor shall the Crown intrude upon the internal discipline of the Church, save by lawful counsel taken with the Church of the Ten.

@@ -15,7 +15,7 @@ import {
   SEAL_GREEN,
   SEAL_RED,
   SERIF,
-} from './styles';
+} from '../common/parchment';
 import type { Data, TradeQuote } from './types';
 
 export type TradeModalRequest = {

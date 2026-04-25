@@ -1,6 +1,8 @@
 /datum/decree/guild_charter_of_arms
 	id = DECREE_GUILD_CHARTER_OF_ARMS
 	name = "The Guild Charter of Arms"
+	category = DECREE_CATEGORY_NEW
+	mechanical_text = "Mercenaries get a capped poll tax at 15m; Guild remits a daily tribute to the Burgher Pledge."
 	flavor_text = {"This Guild Charter of Arms, drawn under Ravox's banner and entered unto between the Crown of Azuria and the Guild of Arms, witnesseth that the Crown recognizeth the Guild as a chartered foreign body, self-governing in its own affairs and answerable only to its own captains. Its sworn mercenaries shall bear no common levy save the lightest head-count upon them.
 
 The Crown commandeth no oath of service from the Guild, and oweth it no service in return. The Crown shall not intervene in the contracts the Guild undertaketh, and shall protect its adherents' right to bear arms and to intervene in private warfare as they see fit, so long as the peace of the Realm be not disturbed thereby, and so long as they undertake no contracts of piracy, brigandry, nor such as directly threaten the Crown's interests.

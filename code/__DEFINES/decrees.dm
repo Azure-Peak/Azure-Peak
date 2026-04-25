@@ -9,6 +9,9 @@
 
 #define DECREE_COOLDOWN (30 MINUTES)
 
+#define DECREE_CATEGORY_ANCIENT "ancient"
+#define DECREE_CATEGORY_NEW "new"
+
 /// Balance-rate cap applied to Golden-Bull-protected subjects when fined or levied.
 #define GOLDEN_BULL_BURGHER_CAP 0.25
 /// Absolute mammon ceiling on any single fine levied against a Bull-protected subject.

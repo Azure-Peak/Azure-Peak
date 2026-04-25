@@ -1,6 +1,8 @@
 /datum/decree/golden_bull
 	id = DECREE_GOLDEN_BULL
 	name = "The Golden Bull of Kingsfield"
+	category = DECREE_CATEGORY_ANCIENT
+	mechanical_text = "Burghers and residents are capped at 25% balance-rate on taxes/fines, with daily fine ceiling 50m and a poll-tax cap."
 	flavor_text = {"This Golden Bull of Kingsfield, sealed under Astrata's Sun and with Ravox as witness, witnesseth that the Crown shall impose no tax nor levy upon the Burghers of Azuria, save by the consent of a Council of Notables and Burghers duly assembled; nor shall any Burgher be deprived of his wealth but by the law of the land.
 
 In return, the Burghers of Azuria shall undertake to furnish, for the common defense of the Realm against pirates, brigands, and such other malefactors as do threaten the peace, a yearly Budget - the sum collected from amongst their members according to their wealth, and apportioned by their own assembly.

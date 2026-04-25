@@ -1,6 +1,8 @@
 /datum/decree/indenture_of_war
 	id = DECREE_INDENTURE_OF_WAR
 	name = "The Indenture of War"
+	category = DECREE_CATEGORY_ANCIENT
+	mechanical_text = "Sets minimum daily wages for soldiery: Marshal 60m, Knight/Sergeant 40m, Man-at-Arms/Warden 20m, Squire 10m."
 	/// Per-rank mandated daily wage. Steward cannot set below these amounts while the Indenture
 	/// stands, and any existing below-floor wage is bumped up at activation. Military ranks only -
 	/// courtiers, healers, scholars, and civilian staff are not covered by this charter.

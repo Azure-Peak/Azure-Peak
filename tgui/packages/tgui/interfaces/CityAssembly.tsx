@@ -18,7 +18,7 @@ import {
   SERIF,
   subtitleStyle,
   titleStyle,
-} from './StewardTrade/styles';
+} from './common/parchment';
 
 type Warrant = {
   trade_cap: number;

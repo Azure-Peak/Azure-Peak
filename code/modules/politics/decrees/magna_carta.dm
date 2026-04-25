@@ -1,6 +1,8 @@
 /datum/decree/magna_carta
 	id = DECREE_MAGNA_CARTA
 	name = "The Magna Carta"
+	category = DECREE_CATEGORY_NEW
+	mechanical_text = "Zeroes every Crown levy and poll tax. Fines remain. The Crown collects only voluntary tribute."
 	active = FALSE
 	flavor_text = {"%RULER_NAME%, by the grace of Astrata, %RULER% of Azuria, Count of Kingsfield, Blackholt, and Saltwick, Overlord of Rosawood, Rockhill, and Daftsmarch, Protector of Bleakcoast, Northfort, and Heartfelt, Defender of the Ten, to his archbishops, priests, templars, inquisitors, dukes, princes, consorts, hands, stewards, councillors, clerks, marshals, knights, sergeants, men-at-arms, wardens, squires, court magicians, archivists, apothecaries, head physicians, merchants, innkeepers, bathmasters, guildsmen, burghers, residents, peasants, farmers, cooks, tapsters, bathmaids, servants, soilsons, mercenaries, adventurers, pilgrims, and to all his officials and loyal subjects, Greeting.
 

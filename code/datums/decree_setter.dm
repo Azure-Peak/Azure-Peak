@@ -17,6 +17,8 @@
 			"id" = D.id,
 			"name" = D.name,
 			"year" = D.year,
+			"category" = D.category,
+			"mechanical" = D.mechanical_text,
 			"flavor" = D.get_display_flavor_text(),
 		))
 	var/list/states = list()

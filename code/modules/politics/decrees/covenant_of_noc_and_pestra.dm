@@ -1,6 +1,8 @@
 /datum/decree/noc_pestra_covenant
 	id = DECREE_NOC_PESTRA_COVENANT
 	name = "The Covenant of Noc & Pestra"
+	category = DECREE_CATEGORY_NEW
+	mechanical_text = "Caps poll tax for chartered scholars and apothecary staff, and floors their wages: Court Magician 40m, Archivist 20m, Magicians Associate 10m, Head Physician 80m, Apothecary 40m."
 	/// Jobs covered by the scholarly half of the covenant (Noc's mantle).
 	var/static/list/university_jobs = list(
 		"Court Magician",

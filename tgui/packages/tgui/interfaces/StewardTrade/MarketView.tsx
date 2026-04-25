@@ -16,7 +16,7 @@ import {
   sectionHeaderStyle,
   subTabBarStyle,
   subTabStyle,
-} from './styles';
+} from '../common/parchment';
 
 type Side = 'import' | 'export';
 

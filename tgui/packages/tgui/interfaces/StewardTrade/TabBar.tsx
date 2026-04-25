@@ -1,5 +1,5 @@
 import type { TabKey } from './types';
-import { tabBarStyle, tabStyle } from './styles';
+import { tabBarStyle, tabStyle } from '../common/parchment';
 
 export const TabBar = (props: {
   tab: TabKey;

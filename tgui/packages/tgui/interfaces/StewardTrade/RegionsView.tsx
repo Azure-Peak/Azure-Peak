@@ -14,7 +14,7 @@ import {
   SEAL_GREEN,
   SEAL_RED,
   sectionHeaderStyle,
-} from './styles';
+} from '../common/parchment';
 
 // ── Regions view ─────────────────────────────────────────────────
 export const RegionsView = (props: { data: Data }) => {

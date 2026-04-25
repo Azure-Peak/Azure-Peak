@@ -3,6 +3,8 @@
 	var/name
 	var/year
 	var/flavor_text
+	var/mechanical_text
+	var/category = DECREE_CATEGORY_ANCIENT
 	var/active = TRUE
 	var/cooldown_expires = 0
 	var/revoke_text

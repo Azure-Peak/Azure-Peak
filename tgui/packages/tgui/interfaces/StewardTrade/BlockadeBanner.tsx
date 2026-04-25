@@ -1,4 +1,4 @@
-import { bannerStyle, SEAL_RED } from './styles';
+import { bannerStyle, SEAL_RED } from '../common/parchment';
 
 export const BlockadeBanner = (props: { regions: string[] }) => {
   if (!props.regions || props.regions.length === 0) {

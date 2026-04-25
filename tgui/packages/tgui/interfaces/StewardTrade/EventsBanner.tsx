@@ -6,7 +6,7 @@ import {
   SEAL_GREEN,
   SEAL_RED,
   sectionHeaderStyle,
-} from './styles';
+} from '../common/parchment';
 
 export const EventsBanner = (props: { events: EconomicEvent[] }) => {
   if (!props.events || props.events.length === 0) {

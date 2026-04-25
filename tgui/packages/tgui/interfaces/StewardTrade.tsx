@@ -17,7 +17,7 @@ import {
   SEAL_AMBER,
   subtitleStyle,
   titleStyle,
-} from './StewardTrade/styles';
+} from './common/parchment';
 import { TabBar } from './StewardTrade/TabBar';
 import { TradeModal, type TradeModalRequest } from './StewardTrade/TradeModal';
 import type { Data, TabKey } from './StewardTrade/types';
