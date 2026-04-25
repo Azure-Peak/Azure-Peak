@@ -101,7 +101,7 @@
 
 /datum/advclass/mystic/resilientsoul
 	name = "Sage"
-	tutorial = "I have spent my youth studying both the Arcyne and Miraculous ways, and developed my mastery of shielding and preserving lyfe under my care."
+	tutorial = "I have spent my youth studying both the Arcyne and Miraculous ways, and developed my mastery of shielding and preserving lyfe under my care. 2 statblocks of choice after picking your offensive cantrip: +3 INT +1 CON +2 WIL or +1 INT +3 CON +2 WIL."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
 	outfit = /datum/outfit/job/roguetown/adventurer/resilient
