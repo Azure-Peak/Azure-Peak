@@ -238,12 +238,12 @@ GLOBAL_LIST_EMPTY(active_economic_events)
 	price_mod = 0.6
 	event_type = ECON_EVENT_OVERSUPPLY
 
-/datum/economic_event/ingot_glut
-	name = "INGOT GLUT"
-	description = "Every smithy in the realm seems to have smelted at once. Ingots stack to the rafters."
-	announcement = "<font color='#5cb85c'>INGOT GLUT: Iron and steel pile high in the yards. Smith prices slump.</font>"
-	affected_goods = list(TRADE_GOOD_IRON_INGOT, TRADE_GOOD_STEEL_INGOT)
-	price_mod = 0.65
+/datum/economic_event/foreign_pig_iron_glut
+	name = "FOREIGN PIG-IRON GLUT"
+	description = "A foreign crown has dumped its surplus ore on the open market. Wagons of pig-iron and copper roll in below cost."
+	announcement = "<font color='#5cb85c'>FOREIGN PIG-IRON GLUT: Foreign ore floods the yards. Daftsmarch miners grumble; smiths stockpile cheap.</font>"
+	affected_goods = list(TRADE_GOOD_IRON_ORE, TRADE_GOOD_COPPER_ORE, TRADE_GOOD_TIN_ORE)
+	price_mod = 0.6
 	event_type = ECON_EVENT_OVERSUPPLY
 
 /datum/economic_event/salt_caravan
