@@ -117,9 +117,6 @@
 // Blockades
 #define BLOCKADE_ROUNDSTART_COUNT_MIN 2
 #define BLOCKADE_ROUNDSTART_COUNT_MAX 3
-/// Window for the mid-round scheduled blockade. The day is rolled once at init.
-#define BLOCKADE_SCHEDULED_DAY_MIN 2
-#define BLOCKADE_SCHEDULED_DAY_MAX 5
 #define BLOCKADE_RECLEAR_COOLDOWN 1
 #define BLOCKADE_SCROLL_PLEDGE_COST 500
 #define BLOCKADE_SCROLL_REWARD 500

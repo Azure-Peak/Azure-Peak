@@ -79,11 +79,6 @@
 		if(!roll_blockade())
 			break
 
-/datum/controller/subsystem/economy/proc/tick_scheduled_blockades()
-	if(GLOB.dayspassed != scheduled_blockade_day)
-		return
-	roll_blockade()
-
 /datum/controller/subsystem/economy/proc/announce_blockade_start(datum/blockade/B)
 	var/datum/economic_region/ER = B.get_region()
 	var/datum/quest_faction/F = B.get_faction()
