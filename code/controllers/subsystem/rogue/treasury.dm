@@ -108,7 +108,27 @@ SUBSYSTEM_DEF(treasury)
 	for(var/path in subtypesof(/datum/roguestock/stockpile))
 		var/datum/D = new path
 		stockpile_datums += D
+	autoset_stockpile_limits()
 	return ..()
+
+/datum/controller/subsystem/treasury/proc/autoset_stockpile_limits()
+	var/effective_pop = (SSeconomy && SSeconomy.simulated_player_scalar > 0) ? SSeconomy.simulated_player_scalar : get_active_player_count()
+	var/pop_mult = min(REGION_POP_SCALE_MAX, 1.0 + (effective_pop * REGION_POP_SCALE_PER_PLAYER))
+	for(var/datum/roguestock/D as anything in stockpile_datums)
+		if(!D.automatic_limit)
+			continue
+		if(!D.trade_good_id)
+			D.stockpile_limit = max(STOCKPILE_LIMIT_MIN, D.stockpile_limit)
+			continue
+		var/total_demand = 0
+		for(var/region_id in GLOB.economic_regions)
+			var/datum/economic_region/region = GLOB.economic_regions[region_id]
+			total_demand += region.demands[D.trade_good_id] || 0
+		if(total_demand <= 0)
+			D.stockpile_limit = max(STOCKPILE_LIMIT_MIN, D.stockpile_limit)
+			continue
+		D.stockpile_limit = max(STOCKPILE_LIMIT_MIN, ceil(total_demand * pop_mult * STOCKPILE_AUTO_LIMIT_DAYS))
+		D.automatic_limit = TRUE
 
 /datum/controller/subsystem/treasury/fire(resumed = 0)
 	if(world.time > next_treasury_check)
@@ -398,8 +418,8 @@ SUBSYSTEM_DEF(treasury)
 			continue
 		if((autoexport_percentage * D.stockpile_limit) >= D.stockpile_amount)
 			continue
-		// Unpegged trade-good entries are Steward's manual territory.
-		if(D.trade_good_id && !D.pegged)
+		// Manual-priced trade-good entries are Steward's territory.
+		if(D.trade_good_id && !D.automatic_price)
 			continue
 		// Legacy entries (no trade_good_id) keep the old profitability guard.
 		if(!D.trade_good_id)

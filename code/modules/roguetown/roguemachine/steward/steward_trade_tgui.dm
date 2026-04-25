@@ -181,6 +181,7 @@
 			event_tag_by_good[gid] = E.event_type
 
 	var/list/market_rows = list()
+	var/total_arbitrage_potential = 0
 	for(var/good_id in GLOB.trade_goods)
 		var/datum/trade_good/tg = GLOB.trade_goods[good_id]
 		if(!tg)
@@ -188,14 +189,17 @@
 		var/datum/roguestock/entry = SSeconomy.find_stockpile_by_trade_good(good_id)
 		if(!entry)
 			continue
-		if(!entry.accept_toggle_enabled)
-			continue
+		entry.refresh_auto_price()
 
 		var/event_tag = ""
 		if(event_tag_by_good[good_id] == ECON_EVENT_SHORTAGE)
 			event_tag = "SHORTAGE"
 		else if(event_tag_by_good[good_id] == ECON_EVENT_OVERSUPPLY)
 			event_tag = "GLUT"
+
+		var/margin_per_unit = max(0, entry.withdraw_price - entry.payout_price)
+		var/arbitrage_potential = margin_per_unit * entry.stockpile_amount
+		total_arbitrage_potential += arbitrage_potential
 
 		var/list/row = list(
 			"good_id" = good_id,
@@ -204,10 +208,22 @@
 			"event_tag" = event_tag,
 			"import_regions" = tg.importable ? build_market_import_regions(good_id) : list(),
 			"export_regions" = build_market_export_regions(good_id),
+			// Stockpile management state (read by Steward; visible-only to Alderman).
+			"buy_price" = entry.payout_price,
+			"sell_price" = entry.withdraw_price,
+			"market_buy_price" = entry.get_market_deposit_price(),
+			"market_sell_price" = entry.get_market_withdraw_price(),
+			"automatic_price" = entry.automatic_price ? TRUE : FALSE,
+			"automatic_limit" = entry.automatic_limit ? TRUE : FALSE,
+			"accepting" = entry.accept_toggle_enabled ? TRUE : FALSE,
+			"withdraw_disabled" = entry.withdraw_disabled ? TRUE : FALSE,
+			"margin_per_unit" = margin_per_unit,
+			"arbitrage_potential" = arbitrage_potential,
 		)
 
 		market_rows += list(row)
 	data["market_rows"] = market_rows
+	data["total_arbitrage_potential"] = total_arbitrage_potential
 
 	// Region rows — strip static fields (name, description — come from region_catalog)
 	// and keep only mutable state (blockade flag, produces_today, demands_today).
@@ -419,5 +435,230 @@
 			var/amount = text2num("[params["amount"]]")
 			if(!isnull(amount))
 				SStreasury.set_auto_import_purse_floor(amount)
+			SStgui.update_uis(src)
+			return TRUE
+		// ── Stockpile management. Steward-only — Aldermen see the data but can't edit. ──
+		if("toggle_auto_price")
+			if(SScity_assembly?.is_alderman(usr))
+				return TRUE
+			var/datum/roguestock/D = SSeconomy.find_stockpile_by_trade_good(params["good_id"])
+			if(D)
+				D.automatic_price = !D.automatic_price
+				if(D.automatic_price)
+					D.snap_auto_prices()
+			SStgui.update_uis(src)
+			return TRUE
+		if("toggle_auto_limit")
+			if(SScity_assembly?.is_alderman(usr))
+				return TRUE
+			var/datum/roguestock/D = SSeconomy.find_stockpile_by_trade_good(params["good_id"])
+			if(D)
+				D.automatic_limit = !D.automatic_limit
+				if(D.automatic_limit)
+					// Recompute this one entry from the auto formula.
+					var/effective_pop = (SSeconomy && SSeconomy.simulated_player_scalar > 0) ? SSeconomy.simulated_player_scalar : get_active_player_count()
+					var/pop_mult = min(REGION_POP_SCALE_MAX, 1.0 + (effective_pop * REGION_POP_SCALE_PER_PLAYER))
+					var/total_demand = 0
+					for(var/region_id in GLOB.economic_regions)
+						var/datum/economic_region/region = GLOB.economic_regions[region_id]
+						total_demand += region.demands[D.trade_good_id] || 0
+					if(total_demand > 0)
+						D.stockpile_limit = max(STOCKPILE_LIMIT_MIN, ceil(total_demand * pop_mult * STOCKPILE_AUTO_LIMIT_DAYS))
+					else
+						D.stockpile_limit = max(STOCKPILE_LIMIT_MIN, D.stockpile_limit)
+			SStgui.update_uis(src)
+			return TRUE
+		if("toggle_stockpile_accept")
+			if(SScity_assembly?.is_alderman(usr))
+				return TRUE
+			var/datum/roguestock/D = SSeconomy.find_stockpile_by_trade_good(params["good_id"])
+			if(D)
+				D.accept_toggle_enabled = !D.accept_toggle_enabled
+			SStgui.update_uis(src)
+			return TRUE
+		if("toggle_withdraw_disabled")
+			if(SScity_assembly?.is_alderman(usr))
+				return TRUE
+			var/datum/roguestock/D = SSeconomy.find_stockpile_by_trade_good(params["good_id"])
+			if(D)
+				D.withdraw_disabled = !D.withdraw_disabled
+			SStgui.update_uis(src)
+			return TRUE
+		if("set_buy_price")
+			if(SScity_assembly?.is_alderman(usr))
+				return TRUE
+			var/datum/roguestock/D = SSeconomy.find_stockpile_by_trade_good(params["good_id"])
+			var/price = text2num("[params["price"]]")
+			if(D && !isnull(price))
+				D.payout_price = clamp(round(price), 0, 9999)
+				D.automatic_price = FALSE
+			SStgui.update_uis(src)
+			return TRUE
+		if("set_sell_price")
+			if(SScity_assembly?.is_alderman(usr))
+				return TRUE
+			var/datum/roguestock/D = SSeconomy.find_stockpile_by_trade_good(params["good_id"])
+			var/price = text2num("[params["price"]]")
+			if(D && !isnull(price))
+				D.withdraw_price = clamp(round(price), 0, 9999)
+				D.automatic_price = FALSE
+			SStgui.update_uis(src)
+			return TRUE
+		if("set_stockpile_limit")
+			if(SScity_assembly?.is_alderman(usr))
+				return TRUE
+			var/datum/roguestock/D = SSeconomy.find_stockpile_by_trade_good(params["good_id"])
+			var/lim = text2num("[params["limit"]]")
+			if(D && !isnull(lim))
+				D.stockpile_limit = clamp(round(lim), 0, 9999)
+				D.automatic_limit = FALSE
+			SStgui.update_uis(src)
+			return TRUE
+		if("autoprice_all")
+			if(SScity_assembly?.is_alderman(usr))
+				return TRUE
+			for(var/datum/roguestock/stockpile/A in SStreasury.stockpile_datums)
+				A.automatic_price = TRUE
+				A.snap_auto_prices()
+			scom_announce("All stockpile prices set to automatic.")
+			SStgui.update_uis(src)
+			return TRUE
+		if("autolimit_all")
+			if(SScity_assembly?.is_alderman(usr))
+				return TRUE
+			for(var/datum/roguestock/A in SStreasury.stockpile_datums)
+				A.automatic_limit = TRUE
+			SStreasury.autoset_stockpile_limits()
+			scom_announce("All stockpile limits reset to automatic.")
+			SStgui.update_uis(src)
+			return TRUE
+		if("autoprice_category")
+			if(SScity_assembly?.is_alderman(usr))
+				return TRUE
+			var/category = params["category"]
+			if(!category)
+				return TRUE
+			for(var/datum/roguestock/A in SStreasury.stockpile_datums)
+				if(!A.trade_good_id)
+					continue
+				var/datum/trade_good/tg = GLOB.trade_goods[A.trade_good_id]
+				if(!tg || tg.category != category)
+					continue
+				A.automatic_price = TRUE
+				A.snap_auto_prices()
+			scom_announce("[category] stockpile prices set to automatic.")
+			SStgui.update_uis(src)
+			return TRUE
+		if("autolimit_category")
+			if(SScity_assembly?.is_alderman(usr))
+				return TRUE
+			var/category = params["category"]
+			if(!category)
+				return TRUE
+			for(var/datum/roguestock/A in SStreasury.stockpile_datums)
+				if(!A.trade_good_id)
+					continue
+				var/datum/trade_good/tg = GLOB.trade_goods[A.trade_good_id]
+				if(!tg || tg.category != category)
+					continue
+				A.automatic_limit = TRUE
+			SStreasury.autoset_stockpile_limits()
+			scom_announce("[category] stockpile limits reset to automatic.")
+			SStgui.update_uis(src)
+			return TRUE
+		if("accept_category")
+			if(SScity_assembly?.is_alderman(usr))
+				return TRUE
+			var/category = params["category"]
+			if(!category)
+				return TRUE
+			for(var/datum/roguestock/A in SStreasury.stockpile_datums)
+				if(!A.trade_good_id)
+					continue
+				var/datum/trade_good/tg = GLOB.trade_goods[A.trade_good_id]
+				if(!tg || tg.category != category)
+					continue
+				A.accept_toggle_enabled = TRUE
+			scom_announce("[category] deposits opened.")
+			SStgui.update_uis(src)
+			return TRUE
+		if("reject_category")
+			if(SScity_assembly?.is_alderman(usr))
+				return TRUE
+			var/category = params["category"]
+			if(!category)
+				return TRUE
+			for(var/datum/roguestock/A in SStreasury.stockpile_datums)
+				if(!A.trade_good_id)
+					continue
+				var/datum/trade_good/tg = GLOB.trade_goods[A.trade_good_id]
+				if(!tg || tg.category != category)
+					continue
+				A.accept_toggle_enabled = FALSE
+			scom_announce("[category] deposits closed.")
+			SStgui.update_uis(src)
+			return TRUE
+		if("multiply_all_buy")
+			if(SScity_assembly?.is_alderman(usr))
+				return TRUE
+			var/mult = text2num("[params["multiplier"]]")
+			if(isnull(mult) || mult <= 0)
+				return TRUE
+			for(var/datum/roguestock/stockpile/A in SStreasury.stockpile_datums)
+				A.refresh_auto_price()
+				A.payout_price = max(1, round(A.payout_price * mult))
+				A.automatic_price = FALSE
+			scom_announce("All stockpile buy prices adjusted by x[mult].")
+			SStgui.update_uis(src)
+			return TRUE
+		if("multiply_all_sell")
+			if(SScity_assembly?.is_alderman(usr))
+				return TRUE
+			var/mult = text2num("[params["multiplier"]]")
+			if(isnull(mult) || mult <= 0)
+				return TRUE
+			for(var/datum/roguestock/stockpile/A in SStreasury.stockpile_datums)
+				A.refresh_auto_price()
+				A.withdraw_price = max(1, round(A.withdraw_price * mult))
+				A.automatic_price = FALSE
+			scom_announce("All stockpile sell prices adjusted by x[mult].")
+			SStgui.update_uis(src)
+			return TRUE
+		if("multiply_category_buy")
+			if(SScity_assembly?.is_alderman(usr))
+				return TRUE
+			var/category = params["category"]
+			var/mult = text2num("[params["multiplier"]]")
+			if(!category || isnull(mult) || mult <= 0)
+				return TRUE
+			for(var/datum/roguestock/stockpile/A in SStreasury.stockpile_datums)
+				if(!A.trade_good_id)
+					continue
+				var/datum/trade_good/tg = GLOB.trade_goods[A.trade_good_id]
+				if(!tg || tg.category != category)
+					continue
+				A.refresh_auto_price()
+				A.payout_price = max(1, round(A.payout_price * mult))
+				A.automatic_price = FALSE
+			scom_announce("[category] stockpile buy prices adjusted by x[mult].")
+			SStgui.update_uis(src)
+			return TRUE
+		if("multiply_category_sell")
+			if(SScity_assembly?.is_alderman(usr))
+				return TRUE
+			var/category = params["category"]
+			var/mult = text2num("[params["multiplier"]]")
+			if(!category || isnull(mult) || mult <= 0)
+				return TRUE
+			for(var/datum/roguestock/stockpile/A in SStreasury.stockpile_datums)
+				if(!A.trade_good_id)
+					continue
+				var/datum/trade_good/tg = GLOB.trade_goods[A.trade_good_id]
+				if(!tg || tg.category != category)
+					continue
+				A.refresh_auto_price()
+				A.withdraw_price = max(1, round(A.withdraw_price * mult))
+				A.automatic_price = FALSE
+			scom_announce("[category] stockpile sell prices adjusted by x[mult].")
 			SStgui.update_uis(src)
 			return TRUE

@@ -34,14 +34,14 @@ export const StewardTrade = () => {
 
   return (
     <Window
-      title="Steward's Trade Scroll"
+      title="Market Scroll"
       width={860}
       height={820}
       theme="parchment"
     >
       <Window.Content scrollable>
         <div style={pageStyle}>
-          <div style={titleStyle}>Regions in Trade</div>
+          <div style={titleStyle}>Market & Stockpile</div>
           <div style={subtitleStyle}>
             Day {data.day} &middot; Crown's Purse:{' '}
             <span style={{ color: SEAL_AMBER, fontWeight: 'bold' }}>

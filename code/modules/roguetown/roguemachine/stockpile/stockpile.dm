@@ -87,7 +87,7 @@
 	for(var/datum/roguestock/stockpile/R in SStreasury.stockpile_datums)
 		if(R.category != current_category)
 			continue
-		R.refresh_pegged_price()
+		R.refresh_auto_price()
 		if(!R.accept_toggle_enabled)
 			contents += "<font color='#888'>[R.name][R.get_event_tag()] - NOT ACCEPTING - ([R.stockpile_amount]/[R.stockpile_limit])</font>"
 		else
@@ -185,7 +185,7 @@
 				qdel(B)
 				if(sound == TRUE)
 					playsound(loc, 'sound/misc/hiss.ogg', 100, FALSE, -1)
-				R.refresh_pegged_price()
+				R.refresh_auto_price()
 				var/per_unit = R.payout_price
 				if(nopay)
 					SStreasury.economic_output += per_unit * bundle_amt // Still count
@@ -236,7 +236,7 @@
 						playsound(loc, 'sound/misc/disposalflush.ogg', 100, FALSE, -1)
 					say("[tg_overflow.name] overflow - minted to Crown's Purse.")
 					return
-			R.refresh_pegged_price()
+			R.refresh_auto_price()
 			var/amt = R.get_payout_price(I)
 			var/true_value = I.get_real_price()
 			var/nopay = !R.mint_item && R.stockpile_amount >= R.stockpile_limit // Check whether it is overflowed BEFORE nopaying them

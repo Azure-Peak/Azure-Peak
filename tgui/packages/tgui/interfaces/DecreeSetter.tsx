@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { BooleanLike } from 'tgui-core/react';
 
 import { useBackend } from '../backend';
@@ -123,9 +123,13 @@ type DecreeCardProps = {
   onToggle: () => void;
 };
 
+const CONFIRM_TIMEOUT_MS = 3000;
+
 const DecreeCard = (props: DecreeCardProps) => {
   const { decree, state, revokeUsed, restoreUsed, onToggle } = props;
   const [expanded, setExpanded] = useState(false);
+  const [armed, setArmed] = useState(false);
+  const armedTimerRef = useRef<number | null>(null);
   const active = !!state?.active;
   const cooldownLeft = state?.cooldown_left ?? 0;
   const onCooldown = cooldownLeft > 0;
@@ -137,14 +141,52 @@ const DecreeCard = (props: DecreeCardProps) => {
       ? active
         ? 'A revocation has already been proclaimed today.'
         : 'A restoration has already been proclaimed today.'
-      : active
-        ? 'Suspend this decree'
-        : 'Restore this decree';
+      : armed
+        ? 'Click again to confirm. Auto-cancels in 3 seconds.'
+        : active
+          ? 'Suspend this decree'
+          : 'Restore this decree';
 
   const statusColor = active ? SEAL_GREEN : SEAL_RED;
   const statusLabel = active ? 'In force' : 'Suspended';
-  const buttonLabel = active ? 'Suspend' : 'Restore';
+  const baseLabel = active ? 'Suspend' : 'Restore';
+  const buttonLabel = armed ? `Confirm ${baseLabel}?` : baseLabel;
   const buttonColor = active ? SEAL_RED : SEAL_GREEN;
+
+  useEffect(() => {
+    return () => {
+      if (armedTimerRef.current !== null) {
+        window.clearTimeout(armedTimerRef.current);
+      }
+    };
+  }, []);
+
+  // Re-arm cancellation when state changes (e.g. toggle succeeded, button now means the opposite).
+  useEffect(() => {
+    setArmed(false);
+    if (armedTimerRef.current !== null) {
+      window.clearTimeout(armedTimerRef.current);
+      armedTimerRef.current = null;
+    }
+  }, [active]);
+
+  const handleClick = () => {
+    if (disabled) return;
+    if (!armed) {
+      setArmed(true);
+      armedTimerRef.current = window.setTimeout(() => {
+        setArmed(false);
+        armedTimerRef.current = null;
+      }, CONFIRM_TIMEOUT_MS);
+      return;
+    }
+    if (armedTimerRef.current !== null) {
+      window.clearTimeout(armedTimerRef.current);
+      armedTimerRef.current = null;
+    }
+    setArmed(false);
+    onToggle();
+  };
 
   return (
     <div style={cardStyle}>
@@ -157,7 +199,7 @@ const DecreeCard = (props: DecreeCardProps) => {
           style={inkButtonStyle({ color: buttonColor, disabled })}
           disabled={disabled}
           title={tooltip}
-          onClick={onToggle}
+          onClick={handleClick}
         >
           {buttonLabel}
         </button>

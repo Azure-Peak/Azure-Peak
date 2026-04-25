@@ -4,6 +4,7 @@
 	var/item_type = null
 	var/stockpile_amount = 0
 	var/payout_price = 1
+	var/withdraw_price = 1
 	var/withdraw_disabled = FALSE
 	var/mint_item = FALSE
 	var/stockpile_limit = 100
@@ -12,16 +13,16 @@
 	var/category = "Raw Materials"
 	var/trade_good_id
 	var/accept_toggle_enabled = TRUE
-	var/pegged = TRUE
+	var/automatic_price = TRUE
+	var/automatic_limit = TRUE
 
 /datum/roguestock/New()
 	..()
-	// Peg payout_price to the trade good catalog at roundstart. Subtypes that need a
-	// manual override can still set payout_price directly; most should just inherit.
 	if(trade_good_id)
 		var/datum/trade_good/tg = GLOB.trade_goods[trade_good_id]
 		if(tg)
-			payout_price = max(1, round(tg.base_price * TRADE_STOCKPILE_BUY_DISCOUNT))
+			payout_price = max(1, round(tg.base_price * tg.global_price_mod * (1 - IMPORT_EXPORT_SPREAD)))
+			withdraw_price = max(1, round(tg.base_price * tg.global_price_mod))
 	return
 
 /datum/roguestock/proc/get_payout_price(obj/item/I)
@@ -38,51 +39,67 @@
 			return FALSE
 	return TRUE
 
-// Pegged entries track the market DOWNWARD only. Crown drops its price when the market
-// drops (oversupply events, player depositors got cheap), but holds firm when market rises
-// (shortage events - players trade peer-to-peer or negotiate with Steward for a manual bump).
-/datum/roguestock/proc/refresh_pegged_price()
-	if(!pegged || !trade_good_id)
+/// One-way ratchets: deposit price moves up only, withdraw price moves down only.
+/// Steward must manually unlock either to move the other direction.
+/datum/roguestock/proc/refresh_auto_price()
+	if(!automatic_price || !trade_good_id)
 		return
 	var/datum/trade_good/tg = GLOB.trade_goods[trade_good_id]
 	if(!tg)
 		return
-	var/market_now = max(1, round(tg.base_price * TRADE_STOCKPILE_BUY_DISCOUNT * tg.global_price_mod))
-	if(market_now < payout_price)
-		payout_price = market_now
+	var/deposit_market = max(1, round(tg.base_price * tg.global_price_mod * (1 - IMPORT_EXPORT_SPREAD)))
+	var/withdraw_market = max(1, round(tg.base_price * tg.global_price_mod))
+	if(deposit_market > payout_price)
+		payout_price = deposit_market
+	if(withdraw_market < withdraw_price)
+		withdraw_price = withdraw_market
+
+/datum/roguestock/proc/snap_auto_prices()
+	if(!trade_good_id)
+		return
+	var/datum/trade_good/tg = GLOB.trade_goods[trade_good_id]
+	if(!tg)
+		return
+	payout_price = max(1, round(tg.base_price * tg.global_price_mod * (1 - IMPORT_EXPORT_SPREAD)))
+	withdraw_price = max(1, round(tg.base_price * tg.global_price_mod))
+
+/datum/roguestock/proc/get_market_deposit_price()
+	if(!trade_good_id)
+		return payout_price
+	var/datum/trade_good/tg = GLOB.trade_goods[trade_good_id]
+	if(!tg)
+		return payout_price
+	return max(1, round(tg.base_price * tg.global_price_mod * (1 - IMPORT_EXPORT_SPREAD)))
+
+/datum/roguestock/proc/get_market_withdraw_price()
+	if(!trade_good_id)
+		return withdraw_price
+	var/datum/trade_good/tg = GLOB.trade_goods[trade_good_id]
+	if(!tg)
+		return withdraw_price
+	return max(1, round(tg.base_price * tg.global_price_mod))
 
 /datum/roguestock/proc/get_market_price()
-	if(!trade_good_id)
-		return payout_price
-	var/datum/trade_good/tg = GLOB.trade_goods[trade_good_id]
-	if(!tg)
-		return payout_price
-	return max(1, round(tg.base_price * TRADE_STOCKPILE_BUY_DISCOUNT * tg.global_price_mod))
+	return get_market_deposit_price()
 
 /datum/roguestock/proc/get_market_delta_tag()
-	if(!trade_good_id)
-		return ""
-	var/market = get_market_price()
-	if(market <= 0 || market == payout_price)
-		return ""
-	var/delta_pct = round(((payout_price - market) / market) * 100)
-	if(delta_pct == 0)
-		return ""
-	if(delta_pct > 0)
-		return " <font color='#8a8'>(+[delta_pct]% vs market)</font>"
-	else
-		return " <font color='#c84'>([delta_pct]% vs market)</font>"
+	return get_market_delta_tag_for("deposit")
 
-/// Context-aware variant. `side` is "deposit" or "withdraw".
-/// A positive delta is a premium when depositing (you get more than market), markup when withdrawing (Crown charges more than market).
-/// A negative delta is a discount when withdrawing (cheaper than market), lowball when depositing.
+/// `side` is "deposit" or "withdraw". Compares the active price against its own market anchor.
 /datum/roguestock/proc/get_market_delta_tag_for(side)
 	if(!trade_good_id)
 		return ""
-	var/market = get_market_price()
-	if(market <= 0 || market == payout_price)
+	var/market
+	var/active_price
+	if(side == "withdraw")
+		market = get_market_withdraw_price()
+		active_price = withdraw_price
+	else
+		market = get_market_deposit_price()
+		active_price = payout_price
+	if(market <= 0 || market == active_price)
 		return ""
-	var/delta_pct = round(((payout_price - market) / market) * 100)
+	var/delta_pct = round(((active_price - market) / market) * 100)
 	if(delta_pct == 0)
 		return ""
 	var/sign_str = delta_pct > 0 ? "+[delta_pct]" : "[delta_pct]"
@@ -132,6 +149,6 @@
 	return payout_price * importexport_amt
 
 /datum/roguestock/proc/get_import_price()
-	return payout_price * importexport_amt
+	return withdraw_price * importexport_amt
 
 

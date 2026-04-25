@@ -2,6 +2,7 @@
 	for(var/path in subtypesof(/datum/decree))
 		var/datum/decree/D = new path()
 		decrees[D.id] = D
+	steward_machine?.enforce_wage_floors()
 
 /datum/controller/subsystem/treasury/proc/get_decree(decree_id)
 	return decrees[decree_id]

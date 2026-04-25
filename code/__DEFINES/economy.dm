@@ -89,6 +89,9 @@
 
 #define TRADE_STOCKPILE_BUY_DISCOUNT 0.75
 
+#define STOCKPILE_AUTO_LIMIT_DAYS 2
+#define STOCKPILE_LIMIT_MIN 5
+
 // Each subsequent import of the same crown_import in one day adds this much to the price.
 // Resets when SSeconomy daily tick fires.
 #define CROWN_IMPORT_ELASTICITY 0.1

@@ -1,12 +1,11 @@
 #define TAB_MAIN 1
 #define TAB_BANK 2
-#define TAB_STOCK 3
-#define TAB_IMPORT 4
-#define TAB_BOUNTIES 5
-#define TAB_LOG 6
-#define TAB_FISCAL 7
-#define TAB_PAYDAY 8
-#define TAB_DEBT 9
+#define TAB_IMPORT 3
+#define TAB_BOUNTIES 4
+#define TAB_LOG 5
+#define TAB_FISCAL 6
+#define TAB_PAYDAY 7
+#define TAB_DEBT 8
 
 /obj/structure/roguemachine/steward
 	name = "nerve master"
@@ -26,8 +25,6 @@
 	var/compact = TRUE
 	var/total_deposit = 0
 	var/list/excluded_jobs = list("Wretch","Vagabond","Adventurer")
-	var/current_category = "Raw Materials"
-	var/list/categories = list("Raw Materials", "Refined", "Alchemy", "Fruit", "Vegetable", "Animal", "Seafood", "Precious")
 	var/list/daily_payments = list() // Associative list: job name -> payment amount
 	var/residency_print_cooldown = 0
 	// Last trade-modal quote keyed by ckey. Read by ui_data to round-trip per-user.
@@ -42,13 +39,15 @@
 //	For competence of life I will allow you,
 //	That lack of means enforce you not to evil:
 /obj/structure/roguemachine/steward/proc/setup_default_payments()
-	daily_payments["Sergeant"] = 40 //Garrison
+	daily_payments["Marshal"] = 60 //Garrison
+	daily_payments["Knight"] = 40
+	daily_payments["Sergeant"] = 40
 	daily_payments["Man at Arms"] = 30
 	daily_payments["Warden"] = 20
 	daily_payments["Veteran"] = 20
 	daily_payments["Squire"] = 10
 	daily_payments["Seneschal"] = 40 //Manor-House
-	daily_payments["Servant"] = 20	
+	daily_payments["Servant"] = 20
 	daily_payments["Head Physician"] = 20 //Doctors
 	daily_payments["Apothecary"] = 10
 	daily_payments["Court Magician"] = 40 //University
@@ -56,17 +55,11 @@
 	daily_payments["Magicians Associate"] = 10
 	enforce_wage_floors()
 
-/// Walks every job currently on the payroll and every job newly floored by an active charter,
-/// then raises any below-floor wages up to the floor. Called at machine init and whenever a
-/// flooring charter activates. Safe to call multiple times.
 /obj/structure/roguemachine/steward/proc/enforce_wage_floors()
-	// Bump jobs already on the payroll if they're now below floor.
 	for(var/job in daily_payments)
 		var/floor = SStreasury.get_wage_floor(job)
 		if(floor > 0 && (daily_payments[job] || 0) < floor)
 			daily_payments[job] = floor
-	// Jobs the payroll doesn't know about but a charter floors (e.g., Knight, Marshal) need to
-	// be seeded at the floor so they actually receive pay.
 	for(var/job in SStreasury.enumerate_wage_floored_jobs())
 		if(isnull(daily_payments[job]))
 			daily_payments[job] = SStreasury.get_wage_floor(job)
@@ -177,102 +170,6 @@
 		if(!SStreasury.do_export(D))
 			say("Insufficient stock.")
 			return
-	if(href_list["togglewithdraw"])
-		var/datum/roguestock/D = locate(href_list["togglewithdraw"]) in SStreasury.stockpile_datums
-		if(!D)
-			return
-		D.withdraw_disabled = !D.withdraw_disabled
-	if(href_list["toggleaccept"])
-		var/datum/roguestock/D = locate(href_list["toggleaccept"]) in SStreasury.stockpile_datums
-		if(!D)
-			return
-		D.accept_toggle_enabled = !D.accept_toggle_enabled
-	if(href_list["setbounty"])
-		var/datum/roguestock/D = locate(href_list["setbounty"]) in SStreasury.stockpile_datums
-		if(!D)
-			return
-		if(!D.percent_bounty)
-			var/newtax = input(usr, "Set a new price for [D.name]", src, D.payout_price) as null|num
-			if(newtax)
-				if(!usr.canUseTopic(src, BE_CLOSE) || locked)
-					return
-				if(findtext(num2text(newtax), "."))
-					return
-				newtax = CLAMP(newtax, 0, 999)
-				if(newtax > D.payout_price)
-					scom_announce("The bounty for [D.name] was increased.")
-				D.payout_price = newtax
-				D.pegged = FALSE
-		else
-			var/newtax = input(usr, "Set a new percent for [D.name]", src, D.payout_price) as null|num
-			if(newtax)
-				if(!usr.canUseTopic(src, BE_CLOSE) || locked)
-					return
-				if(findtext(num2text(newtax), "."))
-					return
-				newtax = CLAMP(newtax, 1, 99)
-				if(newtax > D.payout_price)
-					scom_announce("The bounty for [D.name] was increased.")
-				D.payout_price = newtax
-				D.pegged = FALSE
-	if(href_list["togglepeg"])
-		var/datum/roguestock/D = locate(href_list["togglepeg"]) in SStreasury.stockpile_datums
-		if(!D)
-			return
-		D.pegged = !D.pegged
-		if(D.pegged)
-			D.refresh_pegged_price()
-	if(href_list["pegall"])
-		for(var/datum/roguestock/stockpile/A in SStreasury.stockpile_datums)
-			A.pegged = TRUE
-			A.refresh_pegged_price()
-		scom_announce("All stockpile prices re-pegged to market.")
-	if(href_list["priceallmult"])
-		var/mult = input(usr, "Multiply ALL stockpile prices by (e.g. 1.2 for +20%). Unpegs each entry.", src, 1.0) as null|num
-		if(mult && mult > 0)
-			for(var/datum/roguestock/stockpile/A in SStreasury.stockpile_datums)
-				A.refresh_pegged_price()
-				A.payout_price = max(1, round(A.payout_price * mult))
-				A.pegged = FALSE
-			scom_announce("Steward adjusted all stockpile prices by x[mult].")
-	if(href_list["pricecatmult"])
-		var/catname = href_list["pricecatmult"]
-		var/mult = input(usr, "Multiply [catname] category prices by (e.g. 1.2 for +20%). Unpegs each entry.", src, 1.0) as null|num
-		if(mult && mult > 0)
-			for(var/datum/roguestock/stockpile/A in SStreasury.stockpile_datums)
-				if(A.category != catname)
-					continue
-				A.refresh_pegged_price()
-				A.payout_price = max(1, round(A.payout_price * mult))
-				A.pegged = FALSE
-			scom_announce("Steward adjusted [catname] stockpile prices by x[mult].")
-	if(href_list["catacceptall"])
-		var/catname = href_list["catacceptall"]
-		for(var/datum/roguestock/stockpile/A in SStreasury.stockpile_datums)
-			if(A.category != catname)
-				continue
-			A.accept_toggle_enabled = TRUE
-		scom_announce("Steward opened deposits for all [catname] goods.")
-	if(href_list["catacceptnone"])
-		var/catname = href_list["catacceptnone"]
-		for(var/datum/roguestock/stockpile/A in SStreasury.stockpile_datums)
-			if(A.category != catname)
-				continue
-			A.accept_toggle_enabled = FALSE
-		scom_announce("Steward closed deposits for all [catname] goods.")
-	if(href_list["setlimit"])
-		var/datum/roguestock/D = locate(href_list["setlimit"]) in SStreasury.stockpile_datums
-		if(!D)
-			return
-		var/newlimit = input(usr, "Set a new limit for [D.name]", src, D.stockpile_limit) as null|num
-		if(newlimit)
-			if(!usr.canUseTopic(src, BE_CLOSE) || locked)
-				return
-			if(findtext(num2text(newlimit), "."))
-				return
-			newlimit = CLAMP(newlimit, 0, 999)
-			scom_announce("The stockpile limit for [D.name] was changed to [newlimit].")
-			D.stockpile_limit = newlimit
 	if(href_list["givemoney"])
 		var/X = locate(href_list["givemoney"])
 		if(!X)
@@ -545,8 +442,34 @@
 				break
 	if(href_list["compact"])
 		compact = !compact
-	if(href_list["changecat"])
-		current_category = href_list["changecat"]
+	if(href_list["setbounty"])
+		// Bounty-only price setter (the TAB_BOUNTIES tab). Stockpile-good prices are
+		// managed via the StewardTrade TGUI now, not this Topic handler.
+		var/datum/roguestock/bounty/D = locate(href_list["setbounty"]) in SStreasury.stockpile_datums
+		if(!D || !istype(D))
+			return
+		if(!D.percent_bounty)
+			var/newtax = input(usr, "Set a new price for [D.name]", src, D.payout_price) as null|num
+			if(newtax)
+				if(!usr.canUseTopic(src, BE_CLOSE) || locked)
+					return
+				if(findtext(num2text(newtax), "."))
+					return
+				newtax = CLAMP(newtax, 0, 999)
+				if(newtax > D.payout_price)
+					scom_announce("The bounty for [D.name] was increased.")
+				D.payout_price = newtax
+		else
+			var/newtax = input(usr, "Set a new percent for [D.name]", src, D.payout_price) as null|num
+			if(newtax)
+				if(!usr.canUseTopic(src, BE_CLOSE) || locked)
+					return
+				if(findtext(num2text(newtax), "."))
+					return
+				newtax = CLAMP(newtax, 1, 99)
+				if(newtax > D.payout_price)
+					scom_announce("The bounty for [D.name] was increased.")
+				D.payout_price = newtax
 	if(href_list["changeautoexport"])
 		if(!usr.canUseTopic(src, BE_CLOSE) || locked)
 			return
@@ -825,8 +748,7 @@
 			contents += "<center>NERVE MASTER<BR>"
 			contents += "--------------<BR>"
 			contents += "<a href='?src=\ref[src];switchtab=[TAB_BANK]'>\[Bank\]</a><BR>"
-			contents += "<a href='?src=\ref[src];switchtab=[TAB_STOCK]'>\[Stockpile\]</a><BR>"
-			contents += "<a href='?src=\ref[src];trade_tgui=1'>\[Trade\]</a><BR>"
+			contents += "<a href='?src=\ref[src];trade_tgui=1'>\[Trade & Stockpile\]</a><BR>"
 			contents += "<a href='?src=\ref[src];switchtab=[TAB_IMPORT]'>\[Import\]</a><BR>"
 			contents += "<a href='?src=\ref[src];switchtab=[TAB_BOUNTIES]'>\[Bounties\]</a><BR>"
 			contents += "<a href='?src=\ref[src];switchtab=[TAB_PAYDAY]'>\[Daily Payments\]</a><BR>"
@@ -931,54 +853,6 @@
 			contents += "<a href='?src=\ref[src];clearpolltax=1'>\[Clear Poll Tax Obligation\]</a> "
 			contents += "<a href='?src=\ref[src];imposepolltax=1'>\[Impose Poll Tax Arrears\]</a><BR>"
 			contents += "<font color='gray'><i>(Clear wipes a subject's poll tax arrears. Impose adds days of overdue poll tax to their record.)</i></font><BR>"
-		if(TAB_STOCK)
-			contents += "<a href='?src=\ref[src];switchtab=[TAB_MAIN]'>\[Return\]</a>"
-			contents += " <a href='?src=\ref[src];compact=1'>\[Compact: [compact? "ENABLED" : "DISABLED"]\]</a><BR>"
-			contents += "<center>Stockpile<BR>"
-			contents += "--------------<BR>"
-			for(var/datum/roguestock/stockpile/A in SStreasury.stockpile_datums)
-				A.refresh_pegged_price()
-			contents += "Treasury: [SStreasury.discretionary_fund.balance]m</center><BR>"
-			contents += "<center>Auto Export Stockpile Above: "
-			contents += "<a href='?src=\ref[src];changeautoexport=1'>[SStreasury.autoexport_percentage * 100]%</a></center><BR>"
-			contents += "<center><a href='?src=\ref[src];pegall=1'>\[Peg All\]</a> <a href='?src=\ref[src];priceallmult=1'>\[Global Margin x\]</a> <a href='?src=\ref[src];pricecatmult=[current_category]'>\[[current_category] Margin x\]</a></center><BR>"
-			contents += "<center><a href='?src=\ref[src];catacceptall=[current_category]'>\[Accept All [current_category]\]</a> <a href='?src=\ref[src];catacceptnone=[current_category]'>\[Reject All [current_category]\]</a></center><BR>"
-			var/selection = "<center>Categories: "
-			for(var/category in categories)
-				if(category == current_category)
-					selection += "<b>[current_category]</b> "
-				else
-					selection += "<a href='?src=[REF(src)];changecat=[category]'>[category]</a> "
-			contents += selection + "<BR>"
-			contents += "--------------</center><BR>"
-			if(compact)
-				for(var/datum/roguestock/stockpile/A in SStreasury.stockpile_datums)
-					if(A.category != current_category)
-						continue
-					if(!A.accept_toggle_enabled)
-						contents += "<font color='#888'><b>[A.name]:</b> NOT ACCEPTED</font> <a href='?src=\ref[src];toggleaccept=\ref[A]'>\[Enable\]</a><BR>"
-						continue
-					var/peg_tag = A.pegged ? "<font color='#8a8'>(P)</font>" : "<font color='#c84'>(U)</font>"
-					contents += "<b>[A.name]:</b>"
-					contents += " [A.stockpile_amount]"
-					contents += " | PRICE: <a href='?src=\ref[src];setbounty=\ref[A]'>[A.payout_price]m[A.get_market_delta_tag()]</a> [peg_tag] <a href='?src=\ref[src];togglepeg=\ref[A]'>\[[A.pegged ? "Unpeg" : "Peg"]\]</a>"
-					contents += " / LIMIT: <a href='?src=\ref[src];setlimit=\ref[A]'>[A.stockpile_limit]</a>"
-					contents += " <a href='?src=\ref[src];toggleaccept=\ref[A]'>\[ACCEPT: ON\]</a><BR>"
-			else
-				for(var/datum/roguestock/stockpile/A in SStreasury.stockpile_datums)
-					if(A.category != current_category)
-						continue
-					if(!A.accept_toggle_enabled)
-						contents += "<font color='#888'>[A.name] - NOT ACCEPTED</font><BR>"
-						contents += "<font color='#888'>[A.desc]</font><BR>"
-						contents += "<a href='?src=\ref[src];toggleaccept=\ref[A]'>\[Enable Accepting\]</a><BR><BR>"
-						continue
-					var/peg_tag = A.pegged ? "<font color='#8a8'>PEGGED</font>" : "<font color='#c84'>UNPEGGED</font>"
-					contents += "[A.name]<BR>"
-					contents += "[A.desc]<BR>"
-					contents += "Stockpiled Amount: [A.stockpile_amount] / <a href='?src=\ref[src];setlimit=\ref[A]'>[A.stockpile_limit]</a><BR>"
-					contents += "Price: <a href='?src=\ref[src];setbounty=\ref[A]'>[A.payout_price]m[A.get_market_delta_tag()]</a> [peg_tag] <a href='?src=\ref[src];togglepeg=\ref[A]'>\[[A.pegged ? "Unpeg" : "Peg"]\]</a><BR>"
-					contents += "<a href='?src=\ref[src];togglewithdraw=\ref[A]'>\[[A.withdraw_disabled ? "Enable" : "Disable"] Withdrawing\]</a> <a href='?src=\ref[src];toggleaccept=\ref[A]'>\[Accept Deposits: ON\]</a><BR><BR>"
 		if(TAB_IMPORT)
 			contents += "<a href='?src=\ref[src];switchtab=[TAB_MAIN]'>\[Return\]</a>"
 			contents += " <a href='?src=\ref[src];compact=1'>\[Compact: [compact? "ENABLED" : "DISABLED"]\]</a><BR>"
@@ -1246,7 +1120,6 @@
 
 #undef TAB_MAIN
 #undef TAB_BANK
-#undef TAB_STOCK
 #undef TAB_IMPORT
 #undef TAB_BOUNTIES
 #undef TAB_LOG

@@ -71,6 +71,16 @@ export type MarketRow = {
   // export_regions descending (best sell first). Entry [0] is the auto-routed default.
   import_regions: MarketRegionOption[];
   export_regions: MarketRegionOption[];
+  buy_price: number;
+  sell_price: number;
+  market_buy_price: number;
+  market_sell_price: number;
+  automatic_price: BooleanLike;
+  automatic_limit: BooleanLike;
+  accepting: BooleanLike;
+  withdraw_disabled: BooleanLike;
+  margin_per_unit: number;
+  arbitrage_potential: number;
 };
 
 export type RegionFlow = {
@@ -154,6 +164,7 @@ export type Data = StaticData & {
   alderman_warrant: AldermanWarrant | null;
   auto_import: AutoImportData;
   trade_quote: TradeQuote | null;
+  total_arbitrage_potential: number;
 };
 
 export type TabKey = 'orders' | 'market' | 'regions' | 'auto_import';

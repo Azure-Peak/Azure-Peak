@@ -25,22 +25,6 @@ GLOBAL_LIST_EMPTY(active_economic_events)
 		var/datum/trade_good/tg = GLOB.trade_goods[good_id]
 		if(tg && price_mod != 0)
 			tg.global_price_mod /= price_mod
-	// Oversupply events drag pegged stockpile payouts down permanently via the
-	// asymmetric peg. When a glut expires, rebase the pegged payout for each affected
-	// good back to current market so the commodity feels alive again.
-	if(event_type == ECON_EVENT_OVERSUPPLY)
-		for(var/good_id in affected_goods)
-			var/datum/trade_good/tg = GLOB.trade_goods[good_id]
-			if(!tg)
-				continue
-			for(var/datum/roguestock/entry as anything in SStreasury.stockpile_datums)
-				if(entry.trade_good_id != good_id)
-					continue
-				if(!entry.pegged)
-					continue
-				var/market_now = max(1, round(tg.base_price * TRADE_STOCKPILE_BUY_DISCOUNT * tg.global_price_mod))
-				if(market_now > entry.payout_price)
-					entry.payout_price = market_now
 
 
 // ============================================================================

@@ -33,9 +33,9 @@
 		for(var/datum/roguestock/stockpile/A in SStreasury.stockpile_datums)
 			if(A.category != current_category)
 				continue
-			A.refresh_pegged_price()
+			A.refresh_auto_price()
 			if(!A.withdraw_disabled)
-				contents += "<b>[A.name][A.get_event_tag()] (Max: [A.stockpile_limit]):</b> <a href='?src=[REF(parent_structure)];withdraw=[REF(A)]'>[A.stockpile_amount] at [A.payout_price]m</a>[A.get_market_delta_tag_for("withdraw")]"
+				contents += "<b>[A.name][A.get_event_tag()] (Max: [A.stockpile_limit]):</b> <a href='?src=[REF(parent_structure)];withdraw=[REF(A)]'>[A.stockpile_amount] at [A.withdraw_price]m</a>[A.get_market_delta_tag_for("withdraw")]"
 				if(!A.accept_toggle_enabled)
 					contents += " <font color='#888'>(NOT ACCEPTING DEPOSITS)</font>"
 				contents += "<BR>"
@@ -46,14 +46,14 @@
 		for(var/datum/roguestock/stockpile/A in SStreasury.stockpile_datums)
 			if(A.category != current_category)
 				continue
-			A.refresh_pegged_price()
+			A.refresh_auto_price()
 			contents += "[A.name][A.get_event_tag()]<BR>"
 			contents += "[A.desc]<BR>"
 			contents += "Stockpiled Amount: [A.stockpile_amount]<BR>"
 			if(!A.accept_toggle_enabled)
 				contents += "<font color='#888'>NOT ACCEPTING DEPOSITS</font><BR>"
 			if(!A.withdraw_disabled)
-				contents += "<a href='?src=[REF(parent_structure)];withdraw=[REF(A)]'>\[Withdraw ([A.payout_price])\]</a>[A.get_market_delta_tag_for("withdraw")]<BR><BR>"
+				contents += "<a href='?src=[REF(parent_structure)];withdraw=[REF(A)]'>\[Withdraw ([A.withdraw_price])\]</a>[A.get_market_delta_tag_for("withdraw")]<BR><BR>"
 			else
 				contents += "Withdrawing Disabled...<BR><BR>"
 
@@ -64,8 +64,8 @@
 		var/datum/roguestock/D = locate(href_list["withdraw"]) in SStreasury.stockpile_datums
 		if(!D)
 			return FALSE
-		D.refresh_pegged_price()
-		var/total_price = D.payout_price
+		D.refresh_auto_price()
+		var/total_price = D.withdraw_price
 
 		if(D.withdraw_disabled)
 			return FALSE
