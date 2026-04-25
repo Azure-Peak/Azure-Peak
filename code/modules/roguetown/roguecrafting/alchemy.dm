@@ -216,6 +216,30 @@
 	craftdiff = 1 //Hard part's done. Time to break it up!
 	verbage_simple = "transmute"
 
+/datum/crafting_recipe/roguetown/alchemy/cd2coa
+	name = "coal dust to coal"
+	category = "Transmutation"
+	result = list(/obj/item/rogueore/coal = 1)
+	reqs = list(/obj/item/alch/coaldust = 3)
+	craftdiff = 2
+	verbage_simple = "transmute"
+
+/datum/crafting_recipe/roguetown/alchemy/id2irn
+	name = "iron dust to iron"
+	category = "Transmutation"
+	result = list(/obj/item/rogueore/iron = 1)
+	reqs = list(/obj/item/alch/irondust = 3)
+	craftdiff = 3
+	verbage_simple = "transmute"
+
+/datum/crafting_recipe/roguetown/alchemy/gd2gol
+	name = "gold dust to gold"
+	category = "Transmutation"
+	result = list(/obj/item/rogueore/gold = 1)
+	reqs = list(/obj/item/alch/golddust = 3)
+	craftdiff = 4
+	verbage_simple = "transmute"
+
 /datum/crafting_recipe/roguetown/alchemy/frankenbrew
 	name = "reanimation elixir"
 	category = "Table"
