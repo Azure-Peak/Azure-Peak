@@ -302,6 +302,12 @@ SUBSYSTEM_DEF(economy)
 /datum/controller/subsystem/economy/proc/spawn_urgent_for_event(datum/economic_event/E)
 	if(!E || !length(E.affected_goods))
 		return
+	var/current_urgent = 0
+	for(var/datum/standing_order/O as anything in GLOB.standing_order_pool)
+		if(istype(O, /datum/standing_order/urgent))
+			current_urgent++
+	if(current_urgent >= STANDING_ORDERS_MAX_URGENT)
+		return
 	// Pick a region that demands any of the affected goods; fallback to one that produces them.
 	var/list/candidate_regions = list()
 	for(var/region_id in GLOB.economic_regions)

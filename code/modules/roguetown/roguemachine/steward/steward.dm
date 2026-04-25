@@ -30,6 +30,8 @@
 	var/list/categories = list("Raw Materials", "Refined", "Alchemy", "Fruit", "Vegetable", "Animal", "Seafood", "Precious")
 	var/list/daily_payments = list() // Associative list: job name -> payment amount
 	var/residency_print_cooldown = 0
+	// Last trade-modal quote keyed by ckey. Read by ui_data to round-trip per-user.
+	var/list/last_trade_quote = list()
 
 /obj/structure/roguemachine/steward/Initialize()
 	. = ..()
@@ -564,11 +566,98 @@
 
 	return attack_hand(usr)
 
-/obj/structure/roguemachine/steward/proc/handle_trade_import(mob/user, region_id, good_id)
+/obj/structure/roguemachine/steward/proc/quote_trade(mob/user, side, region_id, good_id, quantity)
+	. = list(
+		"ok" = FALSE,
+		"reason" = "",
+	)
+	if(!user_can_act(user))
+		.["reason"] = "out of reach"
+		return
+	var/is_alderman_acting = alderman_has_access(user)
+	if(locked && !is_alderman_acting)
+		.["reason"] = "machine locked"
+		return
+	var/datum/economic_region/region = GLOB.economic_regions[region_id]
+	var/datum/trade_good/tg = GLOB.trade_goods[good_id]
+	if(!region || !tg)
+		.["reason"] = "unknown region or good"
+		return
+	quantity = clamp(round(quantity), 1, TRADE_MAX_BULK_UNITS)
+	var/daily_pace
+	var/used_today
+	if(side == "import")
+		daily_pace = region.produces[good_id] || 0
+		used_today = daily_pace - (region.produces_today[good_id] || 0)
+	else
+		daily_pace = region.demands[good_id] || 0
+		used_today = daily_pace - (region.demands_today[good_id] || 0)
+	if(daily_pace <= 0)
+		.["reason"] = side == "import" ? "region does not produce this" : "region does not demand this"
+		return
+	var/starting_index = max(0, used_today)
+	// Base portion = units priced inside daily capacity (overshoot = 0).
+	// Escalation portion = units priced past capacity.
+	var/base_unit_price = side == "import" \
+		? SSeconomy.compute_import_unit_price(good_id, region, 1) \
+		: SSeconomy.compute_export_unit_price(good_id, region, 1)
+	var/base_subtotal = 0
+	var/escalation_subtotal = 0
+	for(var/i in 1 to quantity)
+		var/idx = starting_index + i
+		var/unit
+		if(side == "import")
+			unit = SSeconomy.compute_import_unit_price(good_id, region, idx)
+		else
+			unit = SSeconomy.compute_export_unit_price(good_id, region, idx)
+		if(idx <= daily_pace)
+			base_subtotal += unit
+		else
+			// Per overshoot unit: import surcharge (unit > base) or export shortfall (unit < base).
+			// Server ships escalation_subtotal as a positive magnitude; the client adds + or −
+			// based on side. total uses the signed delta directly.
+			escalation_subtotal += abs(unit - base_unit_price)
+			base_subtotal += base_unit_price
+	var/total
+	if(side == "import")
+		total = base_subtotal + escalation_subtotal
+	else
+		total = base_subtotal - escalation_subtotal
+	var/balance = SStreasury.discretionary_fund.balance
+	var/can_afford = side == "import" ? (balance >= total) : TRUE
+	var/warrant_remaining = -1
+	var/warrant_ok = TRUE
+	if(is_alderman_acting && SScity_assembly?.current_warrant)
+		warrant_remaining = SScity_assembly.current_warrant.trade_remaining
+		warrant_ok = SScity_assembly.can_consume_trade(total)
+	. = list(
+		"ok" = TRUE,
+		"reason" = "",
+		"side" = side,
+		"region_id" = region_id,
+		"good_id" = good_id,
+		"region_name" = region.name,
+		"good_name" = tg.name,
+		"quantity" = quantity,
+		"max_units" = TRADE_MAX_BULK_UNITS,
+		"daily_pace" = daily_pace,
+		"capacity_today" = max(0, daily_pace - starting_index),
+		"base_unit_price" = base_unit_price,
+		"base_subtotal" = base_subtotal,
+		"escalation_subtotal" = escalation_subtotal,
+		"total" = total,
+		"balance" = balance,
+		"balance_after" = side == "import" ? balance - total : balance + total,
+		"is_blockaded" = region.is_region_blockaded ? 1 : 0,
+		"is_alderman_acting" = is_alderman_acting ? 1 : 0,
+		"warrant_remaining" = warrant_remaining,
+		"warrant_ok" = warrant_ok ? 1 : 0,
+		"can_afford" = can_afford ? 1 : 0,
+	)
+
+/obj/structure/roguemachine/steward/proc/handle_trade_import(mob/user, region_id, good_id, quantity)
 	if(!user_can_act(user))
 		return
-	// Alderman-acting is determined by trait+warrant, not by the machine's locked state. An
-	// Alderman trading through an unlocked machine still draws from their warrant.
 	var/is_alderman_acting = alderman_has_access(user)
 	if(locked && !is_alderman_acting)
 		return
@@ -576,16 +665,9 @@
 	var/datum/trade_good/tg = GLOB.trade_goods[good_id]
 	if(!region || !tg)
 		return
-	var/quantity = input(user, "How many [tg.name] to import from [region.name]?", src, 1) as null|num
-	if(!quantity || quantity < 1)
+	quantity = clamp(round(quantity), 1, TRADE_MAX_BULK_UNITS)
+	if(quantity < 1)
 		return
-	if(!user_can_act(user))
-		return
-	if(locked && !alderman_has_access(user))
-		return
-	if(findtext(num2text(quantity), "."))
-		return
-	quantity = round(quantity)
 	var/daily_pace = region.produces[good_id] || 0
 	if(daily_pace <= 0)
 		to_chat(user, span_warning("[region.name] does not produce [tg.name]."))
@@ -595,18 +677,6 @@
 	var/total = 0
 	for(var/i in 1 to quantity)
 		total += SSeconomy.compute_import_unit_price(good_id, region, starting_index + i)
-	var/balance = SStreasury.discretionary_fund.balance
-	var/blockade_note = region.is_region_blockaded ? "\n(BLOCKADED - [BLOCKADE_IMPORT_MULT]x cost)" : ""
-	var/warrant_note = ""
-	if(is_alderman_acting && SScity_assembly?.current_warrant)
-		warrant_note = "\n(Warrant: [SScity_assembly.current_warrant.trade_remaining]m of [SScity_assembly.current_warrant.trade_daily_cap]m remaining)"
-	var/confirm = alert(user, "Import [quantity] [tg.name] from [region.name]?\nTotal cost: [total]m\nCrown's Purse after: [balance - total]m[blockade_note][warrant_note]", "Confirm Import", "Yes", "No")
-	if(confirm != "Yes")
-		return
-	if(!user_can_act(user))
-		return
-	if(locked && !alderman_has_access(user))
-		return
 	if(is_alderman_acting && !SScity_assembly.can_consume_trade(total))
 		to_chat(user, span_warning("Your warrant cannot cover this trade. Remaining: [SScity_assembly.current_warrant.trade_remaining]m."))
 		return
@@ -620,10 +690,9 @@
 		playsound(src, 'sound/misc/coininsert.ogg', 100, FALSE, -1)
 	SStgui.update_uis(src)
 
-/obj/structure/roguemachine/steward/proc/handle_trade_export(mob/user, region_id, good_id)
+/obj/structure/roguemachine/steward/proc/handle_trade_export(mob/user, region_id, good_id, quantity)
 	if(!user_can_act(user))
 		return
-	// Alderman-acting is determined by trait+warrant, not by the machine's locked state.
 	var/is_alderman_acting = alderman_has_access(user)
 	if(locked && !is_alderman_acting)
 		return
@@ -631,16 +700,9 @@
 	var/datum/trade_good/tg = GLOB.trade_goods[good_id]
 	if(!region || !tg)
 		return
-	var/quantity = input(user, "How many [tg.name] to export to [region.name]?", src, 1) as null|num
-	if(!quantity || quantity < 1)
+	quantity = clamp(round(quantity), 1, TRADE_MAX_BULK_UNITS)
+	if(quantity < 1)
 		return
-	if(!user_can_act(user))
-		return
-	if(locked && !alderman_has_access(user))
-		return
-	if(findtext(num2text(quantity), "."))
-		return
-	quantity = round(quantity)
 	var/daily_pace = region.demands[good_id] || 0
 	if(daily_pace <= 0)
 		to_chat(user, span_warning("[region.name] does not demand [tg.name]."))
@@ -654,18 +716,6 @@
 	var/total = 0
 	for(var/i in 1 to quantity)
 		total += SSeconomy.compute_export_unit_price(good_id, region, starting_index + i)
-	var/balance = SStreasury.discretionary_fund.balance
-	var/blockade_note = region.is_region_blockaded ? "\n(BLOCKADED - [BLOCKADE_EXPORT_MULT]x revenue)" : ""
-	var/warrant_note = ""
-	if(is_alderman_acting && SScity_assembly?.current_warrant)
-		warrant_note = "\n(Warrant: [SScity_assembly.current_warrant.trade_remaining]m of [SScity_assembly.current_warrant.trade_daily_cap]m remaining)"
-	var/confirm = alert(user, "Export [quantity] [tg.name] to [region.name]?\nTotal revenue: [total]m\nCrown's Purse after: [balance + total]m[blockade_note][warrant_note]", "Confirm Export", "Yes", "No")
-	if(confirm != "Yes")
-		return
-	if(!user_can_act(user))
-		return
-	if(locked && !alderman_has_access(user))
-		return
 	if(is_alderman_acting && !SScity_assembly.can_consume_trade(total))
 		to_chat(user, span_warning("Your warrant cannot cover this trade. Remaining: [SScity_assembly.current_warrant.trade_remaining]m."))
 		return
@@ -699,7 +749,12 @@
 	var/pick_name = input(user, "Import what from [region.name]?", src) as null|anything in options
 	if(!pick_name)
 		return
-	handle_trade_import(user, region_id, options[pick_name])
+	var/good_id = options[pick_name]
+	var/datum/trade_good/tg = GLOB.trade_goods[good_id]
+	var/quantity = input(user, "How many [tg.name] to import from [region.name]? (max [TRADE_MAX_BULK_UNITS])", src, 1) as null|num
+	if(!quantity || quantity < 1)
+		return
+	handle_trade_import(user, region_id, good_id, quantity)
 
 /obj/structure/roguemachine/steward/proc/handle_trade_region_export(mob/user, region_id)
 	if(!user.canUseTopic(src, BE_CLOSE))
@@ -721,7 +776,12 @@
 	var/pick_name = input(user, "Export what to [region.name]?", src) as null|anything in options
 	if(!pick_name)
 		return
-	handle_trade_export(user, region_id, options[pick_name])
+	var/good_id = options[pick_name]
+	var/datum/trade_good/tg = GLOB.trade_goods[good_id]
+	var/quantity = input(user, "How many [tg.name] to export to [region.name]? (max [TRADE_MAX_BULK_UNITS])", src, 1) as null|num
+	if(!quantity || quantity < 1)
+		return
+	handle_trade_export(user, region_id, good_id, quantity)
 
 /obj/structure/roguemachine/steward/proc/do_import(datum/crown_import/D, number)
 	if(!D)

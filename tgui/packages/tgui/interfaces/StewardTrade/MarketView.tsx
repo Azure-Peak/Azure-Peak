@@ -20,9 +20,16 @@ import {
 
 type Side = 'import' | 'export';
 
+type OnTrade = (req: {
+  side: Side;
+  regionId: string;
+  goodId: string;
+}) => void;
+
 // ── Market view ──────────────────────────────────────────────────
-export const MarketView = (props: { data: Data }) => {
+export const MarketView = (props: { data: Data; onTrade: OnTrade }) => {
   const { market_rows, good_catalog } = props.data;
+  const { onTrade } = props;
 
   const groups = groupByCategory(market_rows, good_catalog);
   const [activeCategory, setActiveCategory] = useState<string>(
@@ -99,6 +106,7 @@ export const MarketView = (props: { data: Data }) => {
                       goodId={row.good_id}
                       expanded={expanded.has(`${row.good_id}-import`)}
                       onToggle={() => toggleExpanded(`${row.good_id}-import`)}
+                      onTrade={onTrade}
                     />
                     <SideBlock
                       side="export"
@@ -109,6 +117,7 @@ export const MarketView = (props: { data: Data }) => {
                       goodId={row.good_id}
                       expanded={expanded.has(`${row.good_id}-export`)}
                       onToggle={() => toggleExpanded(`${row.good_id}-export`)}
+                      onTrade={onTrade}
                     />
                   </div>
                 );
@@ -131,6 +140,7 @@ const SideBlock = (props: {
   goodId: string;
   expanded: boolean;
   onToggle: () => void;
+  onTrade: OnTrade;
 }) => {
   const {
     side,
@@ -141,6 +151,7 @@ const SideBlock = (props: {
     goodId,
     expanded,
     onToggle,
+    onTrade,
   } = props;
 
   if (regions.length === 0) {
@@ -171,6 +182,7 @@ const SideBlock = (props: {
           region={best}
           goodId={goodId}
           isPrimary
+          onTrade={onTrade}
         />
         <span style={{ color: INK_FAINT, fontSize: '11px', marginLeft: '8px' }}>
           ({regions.length} region{regions.length === 1 ? '' : 's'})
@@ -195,6 +207,7 @@ const SideBlock = (props: {
               region={r}
               goodId={goodId}
               isPrimary={false}
+              onTrade={onTrade}
             />
           </div>
         ))}
@@ -209,14 +222,13 @@ const RegionRow = (props: {
   region: MarketRegionOption;
   goodId: string;
   isPrimary: boolean;
+  onTrade: OnTrade;
 }) => {
-  const { act } = useBackend<Data>();
   const { data } = useBackend<Data>();
   const { region_catalog } = data;
-  const { side, color, region, goodId } = props;
+  const { side, color, region, goodId, onTrade } = props;
   const regionName = region_catalog[region.region_id]?.name ?? region.region_id;
   const saturated = region.capacity_today <= 0;
-  const actionKey = side === 'import' ? 'trade_import' : 'trade_export';
   const actionLabel = side === 'import' ? 'Import' : 'Export';
   const capacityColor = saturated
     ? INK_FAINT
@@ -255,9 +267,10 @@ const RegionRow = (props: {
         type="button"
         style={inkButtonStyle({ color })}
         onClick={() =>
-          act(actionKey, {
-            region_id: region.region_id,
-            good_id: goodId,
+          onTrade({
+            side,
+            regionId: region.region_id,
+            goodId,
           })
         }
       >

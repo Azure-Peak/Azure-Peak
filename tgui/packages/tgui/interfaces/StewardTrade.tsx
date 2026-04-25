@@ -19,11 +19,15 @@ import {
   titleStyle,
 } from './StewardTrade/styles';
 import { TabBar } from './StewardTrade/TabBar';
+import { TradeModal, type TradeModalRequest } from './StewardTrade/TradeModal';
 import type { Data, TabKey } from './StewardTrade/types';
 
 export const StewardTrade = () => {
   const { data } = useBackend<Data>();
   const [tab, setTab] = useState<TabKey>('orders');
+  const [tradeRequest, setTradeRequest] = useState<TradeModalRequest | null>(
+    null,
+  );
 
   const aldermanActing = !!data.is_alderman_acting;
   const warrant = data.alderman_warrant;
@@ -89,10 +93,16 @@ export const StewardTrade = () => {
           <hr style={rulerStyle} />
 
           {tab === 'orders' && <OrdersView data={data} />}
-          {tab === 'market' && <MarketView data={data} />}
+          {tab === 'market' && (
+            <MarketView data={data} onTrade={setTradeRequest} />
+          )}
           {tab === 'regions' && <RegionsView data={data} />}
           {tab === 'auto_import' && <AutoImportView data={data} />}
         </div>
+        <TradeModal
+          request={tradeRequest}
+          onClose={() => setTradeRequest(null)}
+        />
       </Window.Content>
     </Window>
   );

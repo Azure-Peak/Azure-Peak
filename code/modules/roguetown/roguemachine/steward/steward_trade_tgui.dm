@@ -109,6 +109,9 @@
 
 	data["banditry_projection"] = SSeconomy.preview_banditry_drain()
 
+	// Per-user quote response for the trade modal, populated by trade_quote act.
+	data["trade_quote"] = last_trade_quote[user.ckey]
+
 	var/list/events = list()
 	for(var/datum/economic_event/E as anything in GLOB.active_economic_events)
 		events += list(list(
@@ -377,11 +380,21 @@
 			SStgui.update_uis(src)
 			return TRUE
 		if("trade_import")
-			handle_trade_import(usr, params["region_id"], params["good_id"])
+			handle_trade_import(usr, params["region_id"], params["good_id"], params["quantity"])
+			last_trade_quote -= usr.ckey
 			SStgui.update_uis(src)
 			return TRUE
 		if("trade_export")
-			handle_trade_export(usr, params["region_id"], params["good_id"])
+			handle_trade_export(usr, params["region_id"], params["good_id"], params["quantity"])
+			last_trade_quote -= usr.ckey
+			SStgui.update_uis(src)
+			return TRUE
+		if("trade_quote")
+			last_trade_quote[usr.ckey] = quote_trade(usr, params["side"], params["region_id"], params["good_id"], params["quantity"])
+			SStgui.update_uis(src)
+			return TRUE
+		if("trade_quote_close")
+			last_trade_quote -= usr.ckey
 			SStgui.update_uis(src)
 			return TRUE
 		if("trade_region_import")

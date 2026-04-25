@@ -41,11 +41,15 @@
 // Order count is NOT pop-scaled. Each order's size scales with pop instead via
 // STANDING_ORDER_POP_SCALE_PER_PLAYER - this avoids drowning a single Steward in
 // order-count triage while still proportioning Crown throughput to the player economy.
-#define STANDING_ORDERS_BASE_PER_DAY 3
+#define STANDING_ORDERS_BASE_PER_DAY 4
 #define STANDING_ORDERS_PER_ACTIVE_PLAYER 0.05
 #define STANDING_ORDERS_MAX_PER_DAY 13
 #define STANDING_ORDERS_POOL_CAP 13
 #define STANDING_ORDERS_MAX_PER_REGION 3
+// Cap on simultaneous urgent (shortage-spawned) orders in the pool. Shortage events
+// past this cap still apply their price_mod but don't spawn an urgent quest, leaving
+// pool slots for regular standing orders that drive towner/secondary-role play.
+#define STANDING_ORDERS_MAX_URGENT 2
 
 // Additive payout bonuses over base_price. Regular standing orders pay base * (1 + BASE_BONUS)
 // per unit; urgent orders pay base * (1 + BASE_BONUS + URGENT_EXTRA) per unit. No multiplier

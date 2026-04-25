@@ -116,6 +116,31 @@ export type AutoImportData = {
   history: AutoImportHistoryEntry[];
 };
 
+export type TradeQuote = {
+  ok: BooleanLike;
+  reason: string;
+  side: 'import' | 'export';
+  region_id: string;
+  good_id: string;
+  region_name: string;
+  good_name: string;
+  quantity: number;
+  max_units: number;
+  daily_pace: number;
+  capacity_today: number;
+  base_unit_price: number;
+  base_subtotal: number;
+  escalation_subtotal: number;
+  total: number;
+  balance: number;
+  balance_after: number;
+  is_blockaded: BooleanLike;
+  is_alderman_acting: BooleanLike;
+  warrant_remaining: number;
+  warrant_ok: BooleanLike;
+  can_afford: BooleanLike;
+};
+
 export type Data = StaticData & {
   treasury: number;
   day: number;
@@ -128,6 +153,7 @@ export type Data = StaticData & {
   is_alderman_acting: BooleanLike;
   alderman_warrant: AldermanWarrant | null;
   auto_import: AutoImportData;
+  trade_quote: TradeQuote | null;
 };
 
 export type TabKey = 'orders' | 'market' | 'regions' | 'auto_import';
