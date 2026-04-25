@@ -356,7 +356,7 @@
 	var/roster = names.Join(", ")
 
 	for(var/mob/living/M in coven_members)
-		to_chat(M, span_boldnotice("The Coven is formed! Linked minds: [roster]. Use ,y to speak. Use ,mst to break the coven."))
+		to_chat(M, span_boldnotice("The Coven is formed! Linked minds: [roster]. Use ,Y to speak. Use ,mst to break the coven."))
 
 	addtimer(CALLBACK(src, PROC_REF(break_coven), C), link_duration)
 	return TRUE

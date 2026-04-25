@@ -126,8 +126,20 @@
 		return FALSE
 
 	if(M.stat == DEAD)
-		to_chat(user, span_warning("They are dead."))
+		to_chat(user, span_warning("They are dead. Only proper repairs can help now..."))
 		return FALSE
+
+	// === PROCESSING LOCKOUT ===
+	if(M.has_status_effect(/datum/status_effect/buff/ingotmuncher) \
+	|| M.has_status_effect(/datum/status_effect/buff/oremuncher) \
+	|| M.has_status_effect(/datum/status_effect/buff/gemmuncher))
+
+		if(M == user)
+			to_chat(user, span_warning("I am currently processing minerals, and need to wait..."))
+		else
+			to_chat(user, span_warning("[M] seems to be processing minerals on the moment, you need to wait..."))
+
+		return TRUE
 
 	var/power = 1
 
@@ -185,6 +197,18 @@
 			qdel(S)
 			return TRUE
 
+		if(istype(I, /obj/item/scrap))
+			var/obj/item/scrap/S = I
+			M.apply_status_effect(/datum/status_effect/debuff/integrity_rig, 9 MINUTES)
+			playsound(M, pick('sound/combat/hits/onmetal/sheet (1).ogg', 'sound/combat/hits/onmetal/sheet (2).ogg', 'sound/combat/hits/onmetal/grille (1).ogg', 'sound/combat/hits/onmetal/grille (2).ogg', 'sound/combat/hits/onmetal/grille (3).ogg'), 100, TRUE)
+			user.visible_message(
+				span_warning("[user] forces the scrap bits into [M]'s ruptured lattice. Sparks violently erupt, a bit safely!"),
+				span_notice("Odds bits and pieces locks my damaged integrity into place.")
+			)
+			explosion(M, 0, 0, 0, 0, FALSE, FALSE, 0, FALSE, FALSE)
+			qdel(S)
+			return TRUE
+
 		if(istype(I, /obj/item/ingot))
 			qdel(I)
 			M.apply_status_effect(/datum/status_effect/debuff/integrity_rig, 20 MINUTES)
@@ -234,63 +258,50 @@
 		to_chat(user, span_warning("They are in no condition to do this."))
 		return FALSE
 
-	// === PROCESSING LOCKOUT ===
-	if(M.has_status_effect(/datum/status_effect/buff/ingotmuncher) \
-	|| M.has_status_effect(/datum/status_effect/buff/oremuncher) \
-	|| M.has_status_effect(/datum/status_effect/buff/gemmuncher))
-
-		if(M == user)
-			to_chat(user, span_warning("I am currently processing minerals, and need to wait..."))
-		else
-			to_chat(user, span_warning("[M] seems to be processing minerals on the moment, you need to wait..."))
-
-		return TRUE
-
 	// === STONE ===
 	if(istype(I, /obj/item/natural/stone))
 		var/obj/item/natural/stone/S = I
-		power = S.magic_power + 2
-
+		var/pow = S.magic_power + 2
 		var/brute = M.getBruteLoss()
-		var/fire = M.getFireLoss()
-
-		var/MAX_DMG = 100 // anything past this will be 1 brute/fire
-		var/MULT = 10 // basically, this helps stones heal scratches better, but not real wounds
-
-		var/brute_ratio = min(brute / MAX_DMG, 1)
-		var/fire_ratio  = min(fire / MAX_DMG, 1)
-
-		var/brute_factor
-		var/fire_factor
-
-		if(brute_ratio <= 0.5)
-			brute_factor = 1 - (0.2 * brute_ratio)
-		else
-			var/t = (brute_ratio - 0.5) / 0.5
-			brute_factor = 0.9 * (1 - (t * t * t))
-		if(fire_ratio <= 0.5)
-			fire_factor = 1 - (0.2 * fire_ratio)
-		else
-			var/t2 = (fire_ratio - 0.5) / 0.5
-			fire_factor = 0.9 * (1 - (t2 * t2 * t2))
-
-		var/brute_heal = max(1, round(power * MULT * brute_factor))
-		var/fire_heal  = max(1, round(power * MULT * fire_factor))
-
+		var/fire  = M.getFireLoss()
+		var/MAX_DMG = 200
+		var/MULT = 5
+		// Normalize damage
+		var/brute_ratio = clamp(brute / MAX_DMG, 0, 1)
+		var/fire_ratio  = clamp(fire  / MAX_DMG, 0, 1)
+		// Linear 100% to 0% (min 1) effectiveness ratio
+		var/brute_factor = 1 - brute_ratio
+		var/fire_factor  = 1 - fire_ratio
+		// Final healing
+		var/brute_heal = max(1, round(pow * MULT * brute_factor))
+		var/fire_heal  = max(1, round(pow * MULT * fire_factor))
 		M.energy_add(5 + (S.magic_power * 10))
 		M.adjustBruteLoss(-brute_heal)
 		M.adjustFireLoss(-fire_heal)
-
 		user.visible_message(
 			span_notice("[user] offers [I] to [M]'s mouth, and they crunch it down instinctively."),
 			span_notice("I crunch [I] down and swallow it effortlessly.")
 		)
-
 		playsound(M.loc, 'sound/misc/eat.ogg', rand(60,100), TRUE)
 		sleep(4)
 		playsound(user.loc, 'sound/foley/smash_rock.ogg', 30)
 		new /obj/effect/decal/cleanable/debris/stony(get_turf(user))
 		qdel(I)
+		return TRUE
+
+	// === SCRAP === 
+	if(I.type == /obj/item/scrap)
+		var/obj/item/scrap/L = I
+		user.visible_message(
+			span_notice("[user] offers [L] to [M]'s mouth, and they blow arcyne steam at it!"),
+			span_notice("I puff arcyne steam at [L], combusting it into usable slag!")
+		)
+		new /obj/effect/particle_effect/thick_steam(get_turf(user))
+		playsound(user.loc, 'sound/items/steamrelease.ogg', 50, FALSE, -1)
+		sleep(4)
+		playsound(user.loc, 'sound/magic/fireball.ogg', 30)
+		qdel(I)
+		new /obj/item/rogueore/iron(get_turf(user))
 		return TRUE
 
 	// === WOOD === 
@@ -306,8 +317,10 @@
 		playsound(user.loc, 'sound/magic/fireball.ogg', 30)
 		qdel(I)
 		new /obj/item/rogueore/coal/charcoal(get_turf(user))
-		new /obj/item/ash(get_turf(user))
-		new /obj/item/ash(get_turf(user))
+		if(prob(50))
+			new /obj/item/ash(get_turf(user))
+		if(prob(50))
+			new /obj/item/ash(get_turf(user))
 		return TRUE
 
 	// === LOG === 
@@ -493,6 +506,7 @@
 			user.visible_message(span_danger("[user] overheats from excess kinetic force!"),span_danger("I overheat, magic steam exhuding from my limbs..."))
 			user.Stun(50)
 			user.OffBalance(50)
+			user.adjustFireLoss(50)
 			new /obj/effect/particle_effect/thick_steam(get_turf(user))
 			playsound(user, 'sound/items/steamrelease.ogg', 100, FALSE, -1)
 			break
@@ -508,7 +522,6 @@
 				span_danger("[user]'s metal arms rupture in a violent burst of sparks!"),
 				span_danger("My metal arms crack apart with a catastrophic snap!")
 			)
-
 			flick("flintstrike", user)
 
 			for(var/dir in GLOB.cardinals)
