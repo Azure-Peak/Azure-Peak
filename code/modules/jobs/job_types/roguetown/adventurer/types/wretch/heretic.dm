@@ -86,7 +86,7 @@
 
 	// You can convert those the church has shunned.
 	H.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/convert_heretic)
-	H.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/wound_heal)
+	H.mind?.AddSpell(new /datum/action/cooldown/spell/miracle/intervention)
 	if (istype (H.patron, /datum/patron/inhumen/zizo))
 		if(H.mind)
 			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/minion_order)
@@ -368,7 +368,7 @@
 			H.mind?.current.faction += "[H.name]_faction"
 		ADD_TRAIT(H, TRAIT_GRAVEROBBER, TRAIT_GENERIC)
 	H.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/convert_heretic)
-	H.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/wound_heal)
+	H.mind?.AddSpell(new /datum/action/cooldown/spell/miracle/intervention)
 
 /datum/outfit/job/roguetown/wretch/hereticspy/choose_loadout(mob/living/carbon/human/H)
 	. = ..()

@@ -1,103 +1,111 @@
+/datum/action/cooldown/spell/astrata
+	background_icon = 'icons/mob/actions/astratamiracles.dmi'
+	button_icon = 'icons/mob/actions/astratamiracles.dmi'
+	spell_color = GLOW_COLOR_ASTRATA
+
+	attunement_school = null
+
+	primary_resource_type = SPELL_COST_DEVOTION
+
+	secondary_resource_type = SPELL_COST_STAMINA
+
+	ignore_armor_penalty = TRUE
+
+	has_visual_effects = FALSE
+	spell_impact_intensity = SPELL_IMPACT_NONE
+	associated_stat = null
+	associated_skill = /datum/skill/magic/holy
+	spell_tier = 0
+
+	point_cost = 0
+
+	required_items = list(/obj/item/clothing/neck/roguetown/psicross/astrata, /obj/item/clothing/neck/roguetown/psicross/silver/astrata)
+
 ///////////////////////////////////////////////////
 // T0 - Ignition - Ignite a target or an object. //
 ///////////////////////////////////////////////////
 
-/obj/effect/proc_holder/spell/invoked/ignition
+/datum/action/cooldown/spell/astrata/ignition
 	name = "Ignition"
-	desc = "Ignites target, living or object. No cooldown on objects."
-	action_icon = 'icons/mob/actions/astratamiracles.dmi'
-	overlay_icon = 'icons/mob/actions/astratamiracles.dmi'
-	overlay_state = "ignite"
-	releasedrain = 15
-	chargedrain = 0
-	chargetime = 0
-	range = 7
-	warnie = "sydwarning"
-	movement_interrupt = FALSE
-	chargedloop = null
-	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
+	desc = "Ignites target, living or object."
+	fluff_desc = "The first gift to men, a sliver of Her radiance at fingertips of those devoted to Her wae of lyfe. Some sae it was Matthios who forced Astrata's hand in relinquishing such force to lowly mortals."
+	button_icon_state = "ignite"
 	sound = 'sound/items/firelight.ogg'
-	invocations = list(span_astrata("claps hands together, producing sparks."))
-	invocation_type = "emote"
-	associated_skill = /datum/skill/magic/holy
-	antimagic_allowed = TRUE
-	recharge_time = 10 SECONDS
-	miracle = TRUE
-	devotion_cost = 15
-	var/rechargefast = FALSE
+	glow_intensity = GLOW_INTENSITY_LOW
+	sparks_amt = 2
 
-/obj/effect/proc_holder/spell/invoked/ignition/cast(list/targets, mob/user = usr)
-	..()
+	click_to_activate = TRUE
+	cast_range = SPELL_RANGE_GROUND
+	self_cast_possible = FALSE //Why are you trying to set YOURSELF on fire.
+
+	primary_resource_cost = SPELLCOST_MIRACLE_MINOR
+
+	secondary_resource_cost = SPELLCOST_MINOR_PROJECTILE
+
+	invocation_type = INVOCATION_NONE //It has seperate message ON USE
+
+	charge_required = FALSE
+	cooldown_time = 10 SECONDS
+
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
+
+/datum/action/cooldown/spell/astrata/ignition/cast(atom/cast_on)
 	. = ..()
-	rechargefast = FALSE
-	if(isliving(targets[1]))
-		var/mob/living/L = targets[1]
-		user.visible_message("<font color='yellow'>[user] points at [L]!</font>")
-		if(L.anti_magic_check(TRUE, TRUE))
-			return FALSE
-		if(spell_guard_check(L, TRUE))
-			L.visible_message(span_warning("[L] shields against the divine flame!"))
-			return TRUE
-		L.adjust_fire_stacks(2)
-		L.ignite_mob()
+	var/mob/living/carbon/human/H = owner
+	if(!istype(H))
+		return FALSE
 
-		return TRUE
+	var/mob/living/spelltarget = cast_on
 
-	// Spell interaction with ignitable objects (burn wooden things, light torches up)
-	else if(isobj(targets[1]))
-		var/obj/O = targets[1]
-		if(O.fire_act())
-			user.visible_message("<font color='yellow'>[user] points at [O], igniting it with sacred flames!</font>")
-			O.fire_act()
-			rechargefast = TRUE
+	if(!isliving(spelltarget))
+		if(spelltarget.fire_act())
+			owner.visible_message("<font color='yellow'>[owner] engulfs [spelltarget] in sacred flame!</font>")
+			spelltarget.fire_act()
 			return TRUE
 		else
-			to_chat(user, span_warning("You point at [O], but it fails to catch fire."))
+			to_chat(owner, span_warning("You attempt to ignite [spelltarget], but it fails to catch fire."))
 			return FALSE
-	revert_cast()
-	return FALSE
+	else
+		owner.visible_message("<font color='yellow'>[owner] engulfs [spelltarget] in sacred flame!</font>")
+		if(spelltarget.anti_magic_check(TRUE, TRUE))
+			return FALSE
+		if(spell_guard_check(spelltarget, TRUE))
+			spelltarget.visible_message(span_warning("[spelltarget] shields against the divine flame!"))
+			return TRUE
+		spelltarget.adjust_fire_stacks(2)
+		spelltarget.ignite_mob()
+		return TRUE
 
-/obj/effect/proc_holder/spell/invoked/ignition/start_recharge()
-	if(rechargefast)
-		charge_counter = max(recharge_time - (1.5 SECONDS), 0)
-		if(action)
-			action.build_all_button_icons()
-		STOP_PROCESSING(SSfastprocess, src)
-		return
-	. = ..()
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// T0 - Astratan Gaze - Removes cone vision for a dynamic duration. Adds PERCEPTION based on holy skill and time of day. //
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-/obj/effect/proc_holder/spell/invoked/ignition/after_cast(list/targets, mob/user = usr)
-	. = ..()
-	rechargefast = FALSE
-
-//////////////////////////////////////////////////////////////////////
-// T0 - Astratan Gaze - Removes cone vision for a dynamic duration. //
-//////////////////////////////////////////////////////////////////////
-
-/obj/effect/proc_holder/spell/self/astrata_gaze
+/datum/action/cooldown/spell/astrata/astrata_gaze
 	name = "Astratan Gaze"
 	desc = "Removes the limit on your vision, letting you see behind you for a time, lasts longer during the dae and gives a perception bonus to those skilled and holy arts."
-	action_icon = 'icons/mob/actions/astratamiracles.dmi'
-	overlay_icon = 'icons/mob/actions/astratamiracles.dmi'
-	overlay_state = "gaze"
-	releasedrain = 10
-	chargedrain = 0
-	chargetime = 0
-	chargedloop = /datum/looping_sound/invokeholy
+	fluff_desc = "The second gift to men, Her ability to discern evyl hiding in plain sight. Astrata's tireless gaze - a true boon in hands of mortals as well Her misbegotten children."
+	button_icon_state = "gaze"
 	sound = 'sound/magic/astrata_choir.ogg'
-	associated_skill = /datum/skill/magic/holy
-	antimagic_allowed = FALSE
-	invocations = "Astrata show me true."
-	invocation_type = "shout"
-	recharge_time = 90 SECONDS
-	devotion_cost = 30
-	miracle = TRUE
+	spell_color = GLOW_COLOR_BUFF
+	glow_intensity = 0
 
-/obj/effect/proc_holder/spell/self/astrata_gaze/cast(list/targets, mob/user)
-	if(!ishuman(user))
-		revert_cast()
-		return FALSE
-	var/mob/living/carbon/human/H = user
+	click_to_activate = FALSE
+
+	primary_resource_cost = SPELLCOST_MIRACLE
+
+	secondary_resource_cost = SPELLCOST_UTILITY_BUFF
+
+	invocations = list("Astrata show me true.")
+	invocation_type = INVOCATION_WHISPER
+
+	charge_required = FALSE
+	cooldown_time = 2 MINUTES
+
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
+
+/datum/action/cooldown/spell/astrata/astrata_gaze/cast(atom/cast_on)
+	. = ..()
+	var/mob/living/carbon/human/H = owner
 	var/skill_level = H.get_skill_level(associated_skill)
 	H.apply_status_effect(/datum/status_effect/buff/astrata_gaze, skill_level)
 	return TRUE
@@ -160,17 +168,13 @@
 // T1 - Asbestine Cloak - Grant fire resistance to people around caster. //
 ///////////////////////////////////////////////////////////////////////////
 
-/datum/action/cooldown/spell/astrata_firecloak
+/datum/action/cooldown/spell/astrata/astrata_firecloak
 	name = "Asbestine Cloak"
 	desc = "Cover yourself and adjacent targets in fire-resistant cloak."
 	fluff_desc = "Devout of the Sun found themselves combusting during their dae to dae rituals as Her radiance proved too much for most to handle, with it She has granted them a gift of a shroud, so that her subjects may worship her forevermore."
-	background_icon = 'icons/mob/actions/astratamiracles.dmi'
-	button_icon = 'icons/mob/actions/astratamiracles.dmi'
 	button_icon_state = "cloak"
 	sound = 'sound/magic/haste.ogg'
-	spell_color = GLOW_COLOR_BUFF
 	glow_intensity = GLOW_INTENSITY_LOW
-	attunement_school = ASPECT_NAME_AUGMENTATION
 
 	click_to_activate = TRUE
 	self_cast_possible = TRUE
@@ -192,7 +196,6 @@
 	spell_tier = 0
 
 	point_cost = 0
-	spell_impact_intensity = SPELL_IMPACT_NONE
 
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
 
@@ -521,14 +524,13 @@
 		O.fire_act()
 	return ..()
 
-///////////////////
-// T2 - Fortify //
-//////////////////
+///////////////////////////
+// T2 - Astratan Fortify //
+///////////////////////////
 
-/obj/effect/proc_holder/spell/invoked/heal/astrata
-	action_icon = 'icons/mob/actions/astratamiracles.dmi'
-	overlay_icon = 'icons/mob/actions/astratamiracles.dmi'
-	overlay_state = "fortify"
+/datum/action/cooldown/spell/miracle/fortify/astrata
+	background_icon = 'icons/mob/actions/astratamiracles.dmi'
+	button_icon = 'icons/mob/actions/astratamiracles.dmi'
 
 ////////////////////////////////////////////////////////////////
 // T3 - Solar Eruption - Finisher for the rest of the spells. //

@@ -1,3 +1,26 @@
+/datum/action/cooldown/spell/ravox
+	background_icon = 'icons/mob/actions/ravoxmiracles.dmi'
+	button_icon = 'icons/mob/actions/ravoxmiracles.dmi'
+	spell_color = GLOW_COLOR_RAVOX
+
+	ignore_armor_penalty = TRUE
+
+	attunement_school = null
+
+	primary_resource_type = SPELL_COST_DEVOTION
+
+	secondary_resource_type = SPELL_COST_STAMINA
+
+	has_visual_effects = FALSE
+	spell_impact_intensity = SPELL_IMPACT_NONE
+	associated_stat = null
+	associated_skill = /datum/skill/magic/holy
+	spell_tier = 0
+
+	point_cost = 0
+
+	required_items = list(/obj/item/clothing/neck/roguetown/psicross/ravox)
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // T0 - Tug of War- Chain a target to yourself and pull them in, prevents them from leaving your vicinity. //
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -157,7 +180,7 @@
 	associated_skill = /datum/skill/magic/holy
 	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
 	sound = 'sound/magic/battletrance.ogg'
-	invocations = list("By Ravox, stand and fight!")
+	invocations = list("By Ravox, face judgement!")
 	invocation_type = "shout"
 	antimagic_allowed = TRUE
 	miracle = TRUE
@@ -389,31 +412,45 @@
 // T2 - Call to Arms - Warcry that provides buff to DIVINE worshippers and debuff tO ASCENDANTS. //
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-/obj/effect/proc_holder/spell/self/call_to_arms
+/datum/action/cooldown/spell/ravox/ravox_battlecry
 	name = "Call to Arms"
-	desc = "Grants you and all allies nearby a buff to their strength, willpower, and constitution."
-	action_icon = 'icons/mob/actions/ravoxmiracles.dmi'
-	overlay_icon = 'icons/mob/actions/ravoxmiracles.dmi'
-	overlay_state = "call_to_arms"
-	recharge_time = 5 MINUTES
-	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
-	invocations = list("FOR GLORY AND HONOR!")
-	invocation_type = "shout"
+	desc = "Grants you and all allies nearby a buff to their strength, willpower, and constitution while taking away willpower and constitution from ascendant worshippers."
+	fluff_desc = "A yell rings out across the battlefield! Your sergeant bellows a final order before they're claimed by Necra's grasp - leave none standing before the might of Ravox! So long as you draw breath, there shall be no defeat."
+	button_icon_state = "call_to_arms"
 	sound = 'sound/magic/battle_cry.ogg'
-	releasedrain = 30
-	miracle = TRUE
-	devotion_cost = 40
-	range = 3
+	glow_intensity = 0
 
-/obj/effect/proc_holder/spell/self/call_to_arms/cast(list/targets,mob/living/user = usr)
-	for(var/mob/living/carbon/target in view(range, get_turf(user)))
+	click_to_activate = FALSE
+	cast_range = SPELL_RANGE_AURA
+
+	primary_resource_type = SPELL_COST_DEVOTION
+	primary_resource_cost = SPELLCOST_MIRACLE_MAJOR - 10
+
+	secondary_resource_type = SPELL_COST_STAMINA
+	secondary_resource_cost = SPELLCOST_UTILITY_BUFF
+
+	invocations = list("By Ravox, stand and fight!")
+	invocation_type = INVOCATION_SHOUT
+
+	charge_required = FALSE
+	cooldown_time = 5 MINUTES
+
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
+
+/datum/action/cooldown/spell/ravox/ravox_battlecry/cast(atom/cast_on)
+	. = ..()
+	var/mob/living/carbon/human/H = owner
+	if(!istype(H))
+		return FALSE
+
+	for(var/mob/living/carbon/target in view(cast_range, get_turf(owner)))
 		if(istype(target.patron, /datum/patron/inhumen))
 			target.apply_status_effect(/datum/status_effect/debuff/call_to_arms)	//Debuffs inhumen worshipers.
 			continue
 		if(istype(target.patron, /datum/patron/old_god))
 			to_chat(target, span_danger("You feel a hot-wave wash over you, leaving as quickly as it came.."))	//No effect on Psydonians!
 			continue
-		if(!user.faction_check_mob(target))
+		if(!owner.faction_check_mob(target))
 			continue
 		if(target.mob_biotypes & MOB_UNDEAD)
 			continue

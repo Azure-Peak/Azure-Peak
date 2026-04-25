@@ -613,9 +613,8 @@
 	ore. </br>Casting this on an undead or unholy target will smite them with explosive results. </br>Depending on how far gone \
 	the spirit is, the 'Anastasis' blessing might need to be casted multiple times before successfully resurrecting them. </br>Unlike a regular Healing miracle, this \
 	can affect - and resurrect - devout Psydonians as well."
-	required_items = list(
-		/obj/item/rogueore/gold = 1 // Was thinking Eclipsum combo of gold/silver but that'd probably be *too* expensive. Probably the costliest revival, while having a anastasis equal debuff.
-	)
+	recharge_time = 20 MINUTES //Double the cooldown, no more gold cost, it simply doesn't work with the new economy and transmutation changes.
+	required_items = list()
 	debuff_type = /datum/status_effect/debuff/revived
 	sound = 'sound/magic/revive.ogg'
 	action_icon = 'icons/mob/actions/undividedmiracles.dmi'

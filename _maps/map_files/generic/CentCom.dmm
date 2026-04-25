@@ -225,7 +225,6 @@
 /turf/open/floor/rogue/carpet,
 /area/rogue)
 "ay" = (
-/obj/effect/proc_holder/spell/invoked/heal,
 /turf/open/floor/rogue/carpet,
 /area/rogue)
 "az" = (
@@ -719,7 +718,6 @@
 /turf/open/floor/rogue/cobble,
 /area/rogue/indoors/shelter/bog_hag)
 "dZ" = (
-/obj/effect/proc_holder/spell/invoked/heal,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors)
 "es" = (
@@ -1261,7 +1259,6 @@
 /turf/open/floor/rogue/rooftop/green,
 /area/rogue/indoors/eventarea)
 "xi" = (
-/obj/effect/proc_holder/spell/invoked/heal,
 /turf/open/floor/rogue/blocks,
 /area/rogue)
 "xq" = (
@@ -1902,7 +1899,6 @@
 /turf/open/floor/rogue/churchrough,
 /area/rogue/indoors/eventarea)
 "Ut" = (
-/obj/effect/proc_holder/spell/invoked/heal,
 /obj/structure/table/wood{
 	dir = 10;
 	icon_state = "tablewood2"

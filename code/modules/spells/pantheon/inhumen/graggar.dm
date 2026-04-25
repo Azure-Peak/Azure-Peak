@@ -1,3 +1,26 @@
+/datum/action/cooldown/spell/graggar
+	background_icon = 'icons/mob/actions/graggarmiracles.dmi'
+	button_icon = 'icons/mob/actions/graggarmiracles.dmi'
+	spell_color = GLOW_COLOR_GRAGGAR
+
+	ignore_armor_penalty = TRUE
+
+	attunement_school = null
+
+	primary_resource_type = SPELL_COST_DEVOTION
+
+	secondary_resource_type = SPELL_COST_STAMINA
+
+	has_visual_effects = FALSE
+	spell_impact_intensity = SPELL_IMPACT_NONE
+	associated_stat = null
+	associated_skill = /datum/skill/magic/holy
+	spell_tier = 0
+
+	point_cost = 0
+
+	required_items = list(/obj/item/clothing/neck/roguetown/psicross/inhumen/graggar)
+
 //T0: Bloodrage  -- Uncapped STR buff.
 /obj/effect/proc_holder/spell/self/graggar_bloodrage
 	name = "Bloodrage"
@@ -11,7 +34,7 @@
 						"I EMBODY THE MOTIVE FORCE!!") // DO NOT add any ambiguious invocations
 	invocation_type = "shout"
 	sound = 'sound/magic/bloodrage.ogg'
-	releasedrain = 30
+	releasedrain = 10
 	miracle = TRUE
 	devotion_cost = 80
 	antimagic_allowed = FALSE
@@ -49,8 +72,8 @@
 	invocation_type = "shout"
 	sound = 'sound/magic/break_chains.ogg'
 	miracle = TRUE
-	releasedrain = 30
-	devotion_cost = 30
+	releasedrain = 10
+	devotion_cost = 50
 	antimagic_allowed = FALSE
 
 /obj/effect/proc_holder/spell/self/graggar_chainbreak/cast(list/targets, mob/user)
@@ -68,31 +91,44 @@
 		return FALSE
 
 //T1: Call to Slaughter - AoE buff for Inhumen surrounding you, debuff for Pantheoneers
-/obj/effect/proc_holder/spell/self/graggar_call_to_slaughter
+/datum/action/cooldown/spell/graggar/graggar_battlecry
 	name = "Call to Slaughter"
-	desc = "Grants you and all allies nearby a buff to their strength, willpower, and constitution. Debuffs followers of the Ten, but not Psydonites.\
-	Works in a three tile radius around you."
-	action_icon = 'icons/mob/actions/graggarmiracles.dmi'
-	overlay_icon = 'icons/mob/actions/graggarmiracles.dmi'
-	overlay_state = "call_to_slaughter"
-	recharge_time = 5 MINUTES
-	invocations = list("LAMBS TO THE SLAUGHTER!")
-	invocation_type = "shout"
+	desc = "Grants you and all allies nearby a buff to their strength, willpower, and constitution. Debuffs followers of the Ten, but not Psydonites."
+	fluff_desc = "The battlefield quakes with your roar! Shaken to their core, they will prove easy pickings for a worthy champion such as yourself; the power of the Sinistar, unleashed.\
+	SLAUGHTER THE LAMBS - DRINK THEIR MARROW - FEAST UPON THEIR FLESH - LEAVE NO TRACE OF THEIR PATHETIC EXISTENCE! - THE SINISTAR HUNGERS!"
+	button_icon_state = "call_to_slaughter"
 	sound = 'sound/magic/battle_cry_graggar.ogg'
-	releasedrain = 30
-	miracle = TRUE
-	devotion_cost = 40
-	range = 3
+	glow_intensity = 0
 
-/obj/effect/proc_holder/spell/self/graggar_call_to_slaughter/cast(list/targets,mob/living/user = usr)
-	for(var/mob/living/carbon/target in view(range, get_turf(user)))
+	click_to_activate = FALSE
+	cast_range = SPELL_RANGE_AURA
+
+	primary_resource_cost = SPELLCOST_MIRACLE_MAJOR - 10
+
+	secondary_resource_cost = SPELLCOST_UTILITY_BUFF
+
+	invocations = list("LAMBS TO THE SLAUGHTER!")
+	invocation_type = INVOCATION_SHOUT
+
+	charge_required = FALSE
+	cooldown_time = 5 MINUTES
+
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
+
+/datum/action/cooldown/spell/ravox/ravox_battlecry/cast(atom/cast_on)
+	. = ..()
+	var/mob/living/carbon/human/H = owner
+	if(!istype(H))
+		return FALSE
+
+	for(var/mob/living/carbon/target in view(cast_range, get_turf(owner)))
 		if(istype(target.patron, /datum/patron/inhumen))
 			target.apply_status_effect(/datum/status_effect/buff/call_to_slaughter)	//Buffs inhumens
 			continue
 		if(istype(target.patron, /datum/patron/old_god))
 			to_chat(target, span_danger("You feel a surge of cold wash over you; leaving your body as quick as it hit.."))	//No effect on Psydonians!
 			continue
-		if(!user.faction_check_mob(target))
+		if(!owner.faction_check_mob(target))
 			continue
 		if(target.mob_biotypes & MOB_UNDEAD)
 			continue
@@ -107,10 +143,12 @@
 	action_icon = 'icons/mob/actions/graggarmiracles.dmi'
 	overlay_icon = 'icons/mob/actions/graggarmiracles.dmi'
 	overlay_state = "unholy_grab"
+	miracle = TRUE
+	devotion_cost = 50
 	associated_skill = /datum/skill/magic/holy
 	projectile_type = /obj/projectile/magic/unholy_grasp
 	chargedloop = /datum/looping_sound/invokeascendant // this should stand out on a gaggar guy
-	releasedrain = 30
+	releasedrain = 20
 	chargedrain = 0
 	chargetime = 15
 	recharge_time = 40 SECONDS // no running, super slow. this FUCKS people. lower it if 40 is too much.
@@ -147,8 +185,8 @@
 	overlay_icon = 'icons/mob/actions/graggarmiracles.dmi'
 	overlay_state = "unholy_silence"
 	miracle = TRUE
-	devotion_cost = 40
-	releasedrain = 30
+	devotion_cost = 50
+	releasedrain = 20
 	chargedrain = 2
 	chargetime = 3 SECONDS
 	range = 4
