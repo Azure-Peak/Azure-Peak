@@ -69,11 +69,13 @@
 		/mob/living/simple_animal/hostile/retaliate/rogue/saiga/game = 20,
 		/mob/living/simple_animal/hostile/retaliate/rogue/direbear = 5,
 		/mob/living/simple_animal/hostile/retaliate/rogue/troll = 3,
-		/mob/living/simple_animal/hostile/retaliate/rogue/mole = 10
+		/mob/living/simple_animal/hostile/retaliate/rogue/mole = 5,
+		/mob/living/simple_animal/hostile/retaliate/rogue/boar = 5,
 	)
 	preferred_tracks = list(
 		/mob/living/simple_animal/hostile/retaliate/rogue/direbear = "ursine",
-		/mob/living/simple_animal/hostile/retaliate/rogue/saiga/game = "cervine"
+		/mob/living/simple_animal/hostile/retaliate/rogue/saiga/game = "cervine",
+		/mob/living/simple_animal/hostile/retaliate/rogue/boar = "suidae",
 	)
 	preferred_areas = list(
 		/area/rogue/outdoors/woods = 20,
@@ -145,6 +147,8 @@
 		/area/rogue/under/cavewet/bogcaves/coastcaves = 60
 	)
 
+// HUNTING MAP PREFERRED CATEGORIES
+
 /datum/hunting_category/white_stag
 	// Named the same as to make it impossible to tell when a stag is there.
 	name = "Great Beasts"
@@ -156,5 +160,17 @@
 	)
 	preferred_tracks = list(
 		/mob/living/carbon/human/species/wildshape/white_stag = "cervine"
+	)
+	preferred_areas = list()
+
+/datum/hunting_category/boars
+	name = "Fierce Boars"
+	skill_weights = list(1, 1, 1, 1, 1, 1, 1)
+	bonus_animal_amount = 2
+	animals = list(
+		/mob/living/simple_animal/hostile/retaliate/rogue/boar = 1
+	)
+	preferred_tracks = list(
+		/mob/living/simple_animal/hostile/retaliate/rogue/boar = "suidae"
 	)
 	preferred_areas = list()

@@ -195,6 +195,7 @@
 	cloak = /obj/item/clothing/cloak/half/red
 	backpack_contents = list(
 		/obj/item/hunting_map/white_stag = 1,
+		/obj/item/hunting_map/boars = 1,
 		/obj/item/storage/keyring = 1,
 		/obj/item/rogueweapon/huntingknife/idagger/steel = 1,
 	)

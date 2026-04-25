@@ -14,22 +14,35 @@
 	see_in_dark = 6
 	move_to_delay = 5
 	base_intents = list(/datum/intent/simple/claw/boar)
-	botched_butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/steak = 2, /obj/item/alch/viscera = 1)
-	butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/steak = 3,
-						/obj/item/natural/hide = 2,
-						/obj/item/natural/fur = 1,
-						/obj/item/natural/bone = 3,
-						/obj/item/alch/sinew = 3,
-						/obj/item/alch/bone = 1,
-						/obj/item/alch/viscera = 1)
-	perfect_butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/steak = 5,
-						/obj/item/natural/hide = 3,
-						/obj/item/natural/fur = 2,
-						/obj/item/natural/bone = 3,
-						/obj/item/alch/sinew = 3,
-						/obj/item/alch/bone = 1,
-						/obj/item/alch/viscera = 1)
-	head_butcher = /obj/item/natural/head/mole
+	// Like a pig, but some of the meat and fat drops are exchanged for hide instead.
+	botched_butcher_results = list(
+		/obj/item/reagent_containers/food/snacks/rogue/meat/fatty = 2, 
+		/obj/item/alch/sinew = 2, 
+		/obj/item/natural/bone = 4, 
+		/obj/item/alch/viscera = 1,
+		/obj/item/natural/hide = 1,
+	)
+	butcher_results = list(
+		/obj/item/reagent_containers/food/snacks/rogue/meat/fatty = 4,
+		/obj/item/reagent_containers/food/snacks/fat = 2, 
+		/obj/item/natural/bundle/bone/full = 1, 
+		/obj/item/alch/sinew = 3, 
+		/obj/item/alch/bone = 1, 
+		/obj/item/alch/viscera = 2, 
+		/obj/item/reagent_containers/food/snacks/rogue/meat/ham/boar = 2,
+		/obj/item/natural/hide = 2,
+	)
+	perfect_butcher_results = list(
+		/obj/item/reagent_containers/food/snacks/rogue/meat/fatty = 5,
+		/obj/item/reagent_containers/food/snacks/fat = 3, 
+		/obj/item/natural/bundle/bone/full = 1, 
+		/obj/item/alch/sinew = 4, 
+		/obj/item/alch/bone = 1, 
+		/obj/item/alch/viscera = 2, 
+		/obj/item/reagent_containers/food/snacks/rogue/meat/ham/boar = 2,
+		/obj/item/natural/hide = 3,
+	)
+	head_butcher = null
 	faction = list(FACTION_BOARS)
 	threat_point = THREAT_ELITE
 	ambush_faction = "wildlife"
@@ -55,7 +68,7 @@
 	del_on_deaggro = 44 SECONDS
 	retreat_health = 0.3
 	food = 0
-	attack_sound = list('sound/vo/mobs/vw/attack (1).ogg','sound/vo/mobs/vw/attack (2).ogg','sound/vo/mobs/vw/attack (3).ogg','sound/vo/mobs/vw/attack (4).ogg')
+	attack_sound = list('sound/vo/mobs/vw/attack (1).ogg','sound/vo/mobs/boar/boar_attack.ogg','sound/vo/mobs/boar/boar_charge.ogg')
 	dodgetime = 30
 	aggressive = 1
 	remains_type = /obj/effect/decal/remains/mole
@@ -76,18 +89,16 @@
 	..()
 	update_icon()
 
-/mob/living/simple_animal/hostile/retaliate/rogue/boar/get_sound(input)//my media player does not work please add new .ogg
+/mob/living/simple_animal/hostile/retaliate/rogue/boar/get_sound(input)
 	switch(input)
 		if("aggro")
-			return pick('sound/vo/mobs/vw/aggro (1).ogg','sound/vo/mobs/vw/aggro (2).ogg')
+			return pick('modular/Creechers/sound/pighangry.ogg')
 		if("pain")
-			return pick('sound/vo/mobs/vw/pain (1).ogg','sound/vo/mobs/vw/pain (2).ogg','sound/vo/mobs/vw/pain (3).ogg')
+			return pick('modular/Creechers/sound/pighangry.ogg')
 		if("death")
-			return pick('sound/vo/mobs/vw/death (1).ogg','sound/vo/mobs/vw/death (2).ogg','sound/vo/mobs/vw/death (3).ogg','sound/vo/mobs/vw/death (4).ogg','sound/vo/mobs/vw/death (5).ogg')
+			return pick('modular/Creechers/sound/piglin.ogg')
 		if("idle")
-			return pick('sound/vo/mobs/vw/idle (1).ogg','sound/vo/mobs/vw/idle (2).ogg','sound/vo/mobs/vw/idle (3).ogg','sound/vo/mobs/vw/idle (4).ogg')
-		if("cidle")
-			return pick('sound/vo/mobs/vw/bark (1).ogg','sound/vo/mobs/vw/bark (2).ogg','sound/vo/mobs/vw/bark (3).ogg','sound/vo/mobs/vw/bark (4).ogg','sound/vo/mobs/vw/bark (5).ogg','sound/vo/mobs/vw/bark (6).ogg','sound/vo/mobs/vw/bark (7).ogg')
+			return pick('modular/Creechers/sound/pig1.ogg','modular/Creechers/sound/pig2.ogg',)
 
 /mob/living/simple_animal/hostile/retaliate/rogue/boar/taunted(mob/user)
 	emote("aggro")

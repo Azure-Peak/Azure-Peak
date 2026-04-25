@@ -53,19 +53,39 @@
 	finish_action(controller, TRUE)
 
 /datum/ai_behavior/boar_charge/proc/on_charge_end(datum/ai_controller/controller, charge_dir)
-	var/mob/living/L = controller.pawn
-	if(QDELETED(L))
+	var/mob/living/boar = controller.pawn
+	if(QDELETED(boar))
 		return
-	var/turf/T = get_turf(L)
-	var/hit_obstacle = FALSE
-	for(var/dir in GLOB.cardinals)
-		var/turf/neighbor = get_step(T, dir)
-		if(neighbor.is_blocked_turf(exclude_mobs = TRUE))
-			hit_obstacle = TRUE
-			break
-	if(hit_obstacle)
-		L.visible_message("<span class='danger'>[L] slams into the wall and is dazed!</span>")
-		L.Stun(3 SECONDS)
-		playsound(L, 'sound/combat/hits/onwood/fence_hit3.ogg', 75, TRUE)
+	var/turf/landing_turf = get_turf(boar)
+	var/turf/impact_turf = get_step(landing_turf, charge_dir)
+	if(!impact_turf)
+		return
+
+	// DIRECT HIT ON A MOB
+	var/mob/living/victim = locate(/mob/living) in impact_turf
+	if(victim)
+		victim.visible_message(span_userdanger("[boar] gores [victim]!</span>"))
+		if(iscarbon(victim))
+			var/mob/living/carbon/C = victim
+			var/obj/item/bodypart/chest = C.get_bodypart(BODY_ZONE_CHEST)
+			if(chest)
+				chest.add_wound(/datum/wound/slash/boar_gore)
+		victim.Stun(5 SECONDS)
+		boar.Stun(3 SECONDS)
+		victim.adjustBruteLoss(50)
+		playsound(victim, 'sound/combat/crit.ogg', 75, TRUE)
+		return
+	if(impact_turf.is_blocked_turf(exclude_mobs = TRUE))
+		boar.visible_message("<span class='danger'>[boar] slams into [impact_turf] with bone-shattering force!</span>")
+		playsound(boar, 'sound/combat/hits/onwood/fence_hit3.ogg', 100, TRUE)
+		boar.Stun(3 SECONDS)
+		// Anyone within 1 tile of the point of impact gets knocked down and dazed.
+		for(var/mob/living/L in range(1, impact_turf))
+			if(L == boar)
+				continue
+			L.visible_message("<span class='warning'>The shockwave from [boar]'s impact knocks [L] off their feet!</span>")
+			L.Knockdown(3 SECONDS)
+			L.apply_status_effect(/datum/status_effect/debuff/dazed)
+			L.adjustBruteLoss(20)
 
 #undef BB_BOAR_CHARGE_COOLDOWN

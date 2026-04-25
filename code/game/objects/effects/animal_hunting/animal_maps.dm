@@ -79,3 +79,11 @@
 	skill_chances = list(100, 100, 100, 100, 100, 100, 100)
 	uses_left = 99
 	degradation_rate = 0
+
+/obj/item/hunting_map/boars
+	name = "boar signs"
+	desc = "A simple map denoting recent areas where there have been boar attacks. It is easy to use for skilled hunters"
+	target_category = /datum/hunting_category/boars
+	skill_chances = list(10, 20, 30, 40, 45, 50, 55)
+	degradation_rate = 0
+	uses_left = 5

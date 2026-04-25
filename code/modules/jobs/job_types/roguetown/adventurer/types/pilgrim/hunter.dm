@@ -56,7 +56,8 @@
 				/obj/item/recipe_book/survival = 1,
 				/obj/item/recipe_book/leatherworking = 1,
 				/obj/item/rogueweapon/scabbard/sheath = 1,
-				/obj/item/hunting_map/white_stag = 1
+				/obj/item/hunting_map/white_stag = 1,
+				/obj/item/hunting_map/boars = 1,
 				)
 	if(H.mind)
 		SStreasury.give_money_account(ECONOMIC_LOWER_CLASS, H, "Savings.")
@@ -134,6 +135,7 @@
 				/obj/item/recipe_book/leatherworking = 1,
 				/obj/item/rogueweapon/scabbard/sheath = 1,
 				/obj/item/hunting_map/white_stag = 1,
+				/obj/item/hunting_map/boars = 1,
 				)
 	if(H.mind)
 		SStreasury.give_money_account(ECONOMIC_LOWER_CLASS, H, "Savings.")

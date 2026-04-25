@@ -12,7 +12,7 @@
 	var/max_search_attempts = 9
 	/// List of area types this trail is allowed to move into
 	var/list/linked_areas = list()
-	var/static/list/track_types = list("cervine", "small", "ursine", "canine")
+	var/static/list/track_types = list("cervine", "small", "ursine", "canine", "suidae")
 	var/locked_track_icon = null
 	var/track_revealed = FALSE
 	/// Hunt leader or solo hunter
