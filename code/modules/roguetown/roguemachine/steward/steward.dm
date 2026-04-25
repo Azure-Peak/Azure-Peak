@@ -64,6 +64,15 @@
 		if(isnull(daily_payments[job]))
 			daily_payments[job] = SStreasury.get_wage_floor(job)
 
+/obj/structure/roguemachine/steward/proc/has_fiscal_authority(mob/user)
+	if(!user)
+		return FALSE
+	if(user.job == "Steward" || user.job == "Clerk" || user.job == "Grand Duke")
+		return TRUE
+	if(SSticker.regentmob && user == SSticker.regentmob)
+		return TRUE
+	return FALSE
+
 /obj/structure/roguemachine/steward/proc/issue_loan_dialog(mob/living/carbon/human/user)
 	if(!istype(user))
 		return
@@ -191,6 +200,10 @@
 		var/X = locate(href_list["fineaccount"])
 		if(!X)
 			return
+		if(!has_fiscal_authority(usr))
+			say("Only the Steward, Clerk, or Ruler may levy fines.")
+			playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
+			return
 		for(var/mob/living/A in SStreasury.bank_accounts)
 			if(A == X)
 				var/max_fine = SStreasury.get_max_fine_for(A)
@@ -307,49 +320,6 @@
 		say("[target.real_name]'s poll tax arrears have been cleared.")
 		log_game("POLL TAX CLEARED: [key_name(usr)] cleared [was_owed]m poll tax arrears on [key_name(target)] ([was_overdue] day\s overdue)")
 		to_chat(target, span_notice("The Stewardry has cleared my poll tax arrears. The Crown's ledger on my head is wiped clean."))
-	if(href_list["imposepolltax"])
-		if(!usr.canUseTopic(src, BE_CLOSE) || locked)
-			return
-		var/list/candidates = list()
-		for(var/mob/living/carbon/human/H in GLOB.human_list)
-			if(!H.real_name)
-				continue
-			if(!SStreasury.has_account(H))
-				continue
-			candidates["[H.real_name]"] = H
-		if(!length(candidates))
-			say("No valid subjects on the ledger.")
-			return
-		var/pick = input(usr, "Impose poll tax arrears on which subject?", src) as null|anything in candidates
-		if(!pick)
-			return
-		if(!usr.canUseTopic(src, BE_CLOSE) || locked)
-			return
-		var/mob/living/carbon/human/target = candidates[pick]
-		if(!target)
-			return
-		var/category = SStreasury.get_poll_tax_category(target)
-		if(!category)
-			say("[target.real_name] is outside the Crown's poll tax ledger.")
-			return
-		var/rate = SStreasury.get_poll_tax_rate_for(target, category)
-		if(rate <= 0)
-			say("[target.real_name]'s category bears no poll tax at present.")
-			return
-		var/days = input(usr, "Impose how many days of poll tax arrears? (Rate: [rate]m/day.)", src) as null|num
-		if(!days || days <= 0)
-			return
-		if(!usr.canUseTopic(src, BE_CLOSE) || locked)
-			return
-		days = round(days)
-		var/imposed = rate * days
-		SStreasury.poll_tax_owed[target] = (SStreasury.poll_tax_owed[target] || 0) + imposed
-		SStreasury.poll_tax_debt_days[target] = (SStreasury.poll_tax_debt_days[target] || 0) + days
-		if(SStreasury.poll_tax_debt_days[target] >= POLL_TAX_DEBT_DAYS_TO_DEBTOR && !HAS_TRAIT(target, TRAIT_ARREARS))
-			ADD_TRAIT(target, TRAIT_ARREARS, TRAIT_GENERIC)
-		say("[target.real_name] has been assessed [imposed]m in poll tax arrears ([days] day\s).")
-		log_game("POLL TAX IMPOSED: [key_name(usr)] imposed [imposed]m ([days] day\s) poll tax arrears on [key_name(target)]")
-		to_chat(target, span_danger("<b>POLL TAX:</b> The Stewardry has imposed [days] day\s of back-poll-tax upon me ([imposed]m)."))
 	if(href_list["payroll"])
 		var/list/L = list(GLOB.noble_positions) + list(GLOB.retinue_positions) + list(GLOB.garrison_positions) + list(GLOB.courtier_positions) + list(GLOB.church_positions) + list(GLOB.burgher_positions) + list(GLOB.peasant_positions) + list(GLOB.sidefolk_positions) + list(GLOB.inquisition_positions)
 		var/list/things = list()
@@ -419,14 +389,7 @@
 			return
 		for(var/mob/living/carbon/human/A in SStreasury.bank_accounts)
 			if(A == X)
-				// Check if user has permission (Steward, Clerk, Grand Duke, or Regent)
-				var/is_authorized = FALSE
-				if(usr.job == "Steward" || usr.job == "Clerk" || usr.job == "Grand Duke")
-					is_authorized = TRUE
-				if(SSticker.regentmob && usr == SSticker.regentmob)
-					is_authorized = TRUE
-
-				if(!is_authorized)
+				if(!has_fiscal_authority(usr))
 					say("Only the Steward, Clerk, or Ruler may suspend wages.")
 					playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
 					return
@@ -781,6 +744,7 @@
 					priority_accounts += A
 				else
 					normal_accounts += A
+			var/show_fiscal_actions = has_fiscal_authority(user)
 			for(var/mob/living/carbon/human/A in priority_accounts + normal_accounts)
 				var/balance = SStreasury.get_balance(A)
 				var/max_fine = SStreasury.get_max_fine_for(A)
@@ -803,14 +767,20 @@
 						contents += "[tmp.real_name] ([job_filter(tmp.advjob, tmp.job, compact)]) - [balance]m[debt_tag]"
 					else
 						contents += "[A.real_name] - [balance]m[debt_tag]"
-					contents += " / <a href='?src=\ref[src];givemoney=\ref[A]'>\[PAY\]</a> <a href='?src=\ref[src];fineaccount=\ref[A]'>\[[fine_label]\]</a> <a href='?src=\ref[src];togglewages=\ref[A]'>\[[wage_status_short]\]</a><BR><BR>"
+					contents += " / <a href='?src=\ref[src];givemoney=\ref[A]'>\[PAY\]</a>"
+					if(show_fiscal_actions)
+						contents += " <a href='?src=\ref[src];fineaccount=\ref[A]'>\[[fine_label]\]</a> <a href='?src=\ref[src];togglewages=\ref[A]'>\[[wage_status_short]\]</a>"
+					contents += "<BR><BR>"
 				else
 					if(ishuman(A))
 						var/mob/living/carbon/human/tmp = A
 						contents += "[tmp.real_name] ([job_filter(tmp.advjob, tmp.job, compact)]) - [balance]m[debt_tag]<BR>"
 					else
 						contents += "[A.real_name] - [balance]m[debt_tag]<BR>"
-					contents += "<a href='?src=\ref[src];givemoney=\ref[A]'>\[Give Money\]</a> <a href='?src=\ref[src];fineaccount=\ref[A]'>\[[fine_long_label]\]</a> <a href='?src=\ref[src];togglewages=\ref[A]'>\[[wage_status_long]\]</a><BR><BR>"
+					contents += "<a href='?src=\ref[src];givemoney=\ref[A]'>\[Give Money\]</a>"
+					if(show_fiscal_actions)
+						contents += " <a href='?src=\ref[src];fineaccount=\ref[A]'>\[[fine_long_label]\]</a> <a href='?src=\ref[src];togglewages=\ref[A]'>\[[wage_status_long]\]</a>"
+					contents += "<BR><BR>"
 		if(TAB_DEBT)
 			contents += "<a href='?src=\ref[src];switchtab=[TAB_MAIN]'>\[Return\]</a><BR>"
 			contents += "<center>Debts &amp; Arrears<BR>"
@@ -850,9 +820,8 @@
 				contents += "<i>No poll tax arrears.</i><BR><BR>"
 			contents += "<a href='?src=\ref[src];clearloandebtor=1'>\[Clear Defaulter Mark\]</a><BR>"
 			contents += "<font color='gray'><i>(Forgives outstanding loans entirely and lifts the defaulter mark.)</i></font><BR>"
-			contents += "<a href='?src=\ref[src];clearpolltax=1'>\[Clear Poll Tax Obligation\]</a> "
-			contents += "<a href='?src=\ref[src];imposepolltax=1'>\[Impose Poll Tax Arrears\]</a><BR>"
-			contents += "<font color='gray'><i>(Clear wipes a subject's poll tax arrears. Impose adds days of overdue poll tax to their record.)</i></font><BR>"
+			contents += "<a href='?src=\ref[src];clearpolltax=1'>\[Clear Poll Tax Obligation\]</a><BR>"
+			contents += "<font color='gray'><i>(Wipes a subject's poll tax arrears.)</i></font><BR>"
 		if(TAB_IMPORT)
 			contents += "<a href='?src=\ref[src];switchtab=[TAB_MAIN]'>\[Return\]</a>"
 			contents += " <a href='?src=\ref[src];compact=1'>\[Compact: [compact? "ENABLED" : "DISABLED"]\]</a><BR>"
