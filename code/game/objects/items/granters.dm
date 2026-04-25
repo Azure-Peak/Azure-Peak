@@ -282,16 +282,10 @@ UNDER NO CIRCUMSTANCE SHOULD ANY OF THE BOOKS BE GIVEN OUT INTO SPAWNERS OR TO B
 /// Downstream role modules can add seal authority by defining new subtypes.
 /datum/resident_manuscript_seal_rule
 	var/key
-	var/en_title
-	var/en_stamper
+	var/title
+	var/stamper
 	var/list/job_types = list()
 	var/list/advclass_types = list()
-
-/datum/resident_manuscript_seal_rule/proc/title()
-	return en_title || key
-
-/datum/resident_manuscript_seal_rule/proc/stamper()
-	return en_stamper || en_title || key
 
 /datum/resident_manuscript_seal_rule/proc/can_stamp(mob/living/carbon/human/user)
 	if(!ishuman(user))
@@ -312,57 +306,63 @@ UNDER NO CIRCUMSTANCE SHOULD ANY OF THE BOOKS BE GIVEN OUT INTO SPAWNERS OR TO B
 
 /datum/resident_manuscript_seal_rule/chancellor
 	key = "chancellor"
-	en_title = "Chancellor"
-	en_stamper = "Chancellor"
+	title ="Chancellor"
+	stamper ="Chancellor"
 	job_types = list(/datum/job/roguetown/councillor)
 
 /datum/resident_manuscript_seal_rule/elder
 	key = "elder"
-	en_title = "Elder"
-	en_stamper = "Elder"
+	title ="Elder"
+	stamper ="Elder"
 	advclass_types = list(/datum/advclass/elder)
 
 /datum/resident_manuscript_seal_rule/ruler
 	key = "ruler"
-	en_title = "Duke"
-	en_stamper = "Duke"
+	title ="Duke"
+	stamper ="Duke"
 	job_types = list(/datum/job/roguetown/lord)
 
 /datum/resident_manuscript_seal_rule/hand
 	key = "hand"
-	en_title = "Hand"
-	en_stamper = "Hand"
+	title ="Hand"
+	stamper ="Hand"
 	job_types = list(/datum/job/roguetown/hand)
 
 /datum/resident_manuscript_seal_rule/sergeant
 	key = "sergeant"
-	en_title = "Sergeant"
-	en_stamper = "Sergeant of the Watch"
+	title ="Sergeant"
+	stamper ="Sergeant of the Watch"
 	job_types = list(/datum/job/roguetown/sergeant)
 
 /datum/resident_manuscript_seal_rule/marshal
 	key = "marshal"
-	en_title = "Marshal"
-	en_stamper = "Marshal"
+	title ="Marshal"
+	stamper ="Marshal"
 	job_types = list(/datum/job/roguetown/marshal)
 
 /datum/resident_manuscript_seal_rule/bishop
 	key = "bishop"
-	en_title = "Bishop"
-	en_stamper = "Bishop"
+	title ="Bishop"
+	stamper ="Bishop"
 	job_types = list(/datum/job/roguetown/priest)
 
 /datum/resident_manuscript_seal_rule/guild_leader
 	key = "guild_leader"
-	en_title = "Guild Leader"
-	en_stamper = "Guild Leader"
+	title ="Guild Leader"
+	stamper ="Guild Leader"
 	advclass_types = list(/datum/advclass/guildmaster)
 
 /datum/resident_manuscript_seal_rule/inquisitor
 	key = "inquisitor"
-	en_title = "Inquisitor"
-	en_stamper = "Inquisitor"
+	title ="Inquisitor"
+	stamper ="Inquisitor"
 	job_types = list(/datum/job/roguetown/inquisitor)
+
+/datum/resident_manuscript_seal_rule/court_magician
+	key = "court_magician"
+	title ="Court Magician"
+	stamper ="Court Magician"
+	job_types = list(/datum/job/roguetown/magician)
 
 /proc/get_resident_manuscript_seal_rules()
 	var/static/list/seal_rules
@@ -385,9 +385,7 @@ UNDER NO CIRCUMSTANCE SHOULD ANY OF THE BOOKS BE GIVEN OUT INTO SPAWNERS OR TO B
 	drop_sound = 'sound/foley/dropsound/paper_drop.ogg'
 	pickup_sound = 'sound/blank.ogg'
 	pages_to_mastery = 0
-	/// Document profile id (selects faction theme/seals/flavor).
 	var/document_profile_id = "resident"
-	/// Resolved profile datum cache. Populated in Initialize().
 	var/tmp/datum/resident_document_profile/document_profile
 	var/owner_character_key
 	var/owner_name
@@ -401,7 +399,6 @@ UNDER NO CIRCUMSTANCE SHOULD ANY OF THE BOOKS BE GIVEN OUT INTO SPAWNERS OR TO B
 	var/auto_stamp_seals = TRUE
 	var/auto_bind_on_equip = TRUE
 	var/requires_feather_to_bind = FALSE
-	var/can_grant_residence = TRUE
 	var/expiry_year_bonus_min = 0
 	var/expiry_year_bonus_max = 0
 	var/list/seals
@@ -413,8 +410,8 @@ UNDER NO CIRCUMSTANCE SHOULD ANY OF THE BOOKS BE GIVEN OUT INTO SPAWNERS OR TO B
 /obj/item/book/granter/resident_manuscript/Initialize()
 	. = ..()
 	document_profile = get_resident_document_profile(document_profile_id)
-	if(document_profile?.en_display_name)
-		name = document_profile.en_display_name
+	if(document_profile?.display_name)
+		name = document_profile.display_name
 	issued_place = SSticker?.realm_name || "Azure Peak"
 	expiry_date = compute_expiry_date()
 	initialize_seals()
@@ -533,7 +530,7 @@ UNDER NO CIRCUMSTANCE SHOULD ANY OF THE BOOKS BE GIVEN OUT INTO SPAWNERS OR TO B
 	if(!rule)
 		return FALSE
 	seals[seal_key] = list(
-		"stamper" = suspicious ? "Unclear hand" : rule.stamper(),
+		"stamper" = suspicious ? null : (rule.stamper || rule.title || rule.key),
 		"time" = world.time,
 		"suspicious" = suspicious,
 	)
@@ -569,7 +566,7 @@ UNDER NO CIRCUMSTANCE SHOULD ANY OF THE BOOKS BE GIVEN OUT INTO SPAWNERS OR TO B
 	var/list/entry = seals?[seal_key]
 	var/list/result = list(
 		"key" = seal_key,
-		"label" = rule.title(),
+		"label" = rule.title || rule.key,
 		"stamped" = entry ? TRUE : FALSE,
 		"stamper" = entry ? entry["stamper"] : "",
 		"visible" = TRUE,
@@ -625,14 +622,16 @@ UNDER NO CIRCUMSTANCE SHOULD ANY OF THE BOOKS BE GIVEN OUT INTO SPAWNERS OR TO B
 	return FALSE
 
 /obj/item/book/granter/resident_manuscript/proc/can_claim_residence(mob/living/carbon/human/user)
-	if(!can_grant_residence || !ishuman(user) || !owner_character_key || is_fake)
+	if(!ishuman(user) || !owner_character_key || is_fake)
+		return FALSE
+	if(!document_profile?.grants_residence_claim)
 		return FALSE
 	if(get_detection_character_key(user) != owner_character_key)
 		return FALSE
 	if(HAS_TRAIT(user, TRAIT_RESIDENT) || is_barred_from_residence(user))
 		return FALSE
 	var/needs_seal = TRUE
-	if(document_profile && !document_profile.requires_seal_for_claim)
+	if(!document_profile.requires_seal_for_claim)
 		needs_seal = FALSE
 	if(needs_seal && !has_any_seal())
 		return FALSE
@@ -877,13 +876,8 @@ UNDER NO CIRCUMSTANCE SHOULD ANY OF THE BOOKS BE GIVEN OUT INTO SPAWNERS OR TO B
 		ensure_defect_note_keys()
 
 /obj/item/book/granter/resident_manuscript/roundstart
-	can_grant_residence = FALSE
 	expiry_year_bonus_min = 5
 	expiry_year_bonus_max = 10
-
-// ----- Faction profile subtypes ----------------------------------------------
-// Each profile gets a base/blank/fake variant. They only set the profile id;
-// all behavior comes from the base + profile filter on allowed_seals.
 
 /obj/item/book/granter/resident_manuscript/guards
 	desc = "An azure mandate of the Azurian watch, granting the bearer authority of city order under the Crown."

@@ -39,13 +39,13 @@ export const residentManuscriptEn: ResidentManuscriptTexts = {
       display_name: 'Mercenary Compact',
       subtitle: 'By the Coin, the Steel, and the Word',
       description:
-        'Let it be known: the bearer is a free blade of recognized standing, bound by the compact of coin and steel, and sworn to the company that brought them under purple banner. The bearer answers to contract and to captain, and may not be molested in the lawful pursuit of either.',
+        'Let it be known: the bearer is a free blade of recognized standing, bound by the compact of coin and steel, and sworn to the company that brought them to these lands. The bearer answers to contract and to captain, and may not be molested in the lawful pursuit of either.',
     },
     otava: {
       display_name: 'Inquisitorial Edict',
       subtitle: 'By Truth, Inquest, and the Cleansing Flame',
       description:
-        "Let it be known: by the silver edict of Otava, the bearer is empowered to act in the name of truth, to question and to seek, and to call forth the cleansing flame against heresy. Every faithful soul is charged to render the bearer such aid as the matter demands, and to obstruct them is to obstruct the Church's justice.",
+        "Let it be known: by the edict of Otava, the bearer is empowered to act in the name of truth, to question and to seek, and to call forth the cleansing flame against heresy. Every faithful soul is charged to render the bearer such aid as the matter demands, and to obstruct them is to obstruct the Church's justice.",
     },
   },
   labels: {
@@ -89,6 +89,7 @@ export const residentManuscriptEn: ResidentManuscriptTexts = {
     seal_missing: 'not sealed',
     empty: '-',
     unknown: 'Unknown',
+    unclear_hand: 'Unclear hand',
   },
   verification: {
     fake: 'The manuscript appears to be forged.',
@@ -98,6 +99,18 @@ export const residentManuscriptEn: ResidentManuscriptTexts = {
   },
   aria: {
     seal: 'Seal',
+  },
+  seals: {
+    chancellor: { title: 'Chancellor', stamper: 'Chancellor' },
+    elder: { title: 'Elder', stamper: 'Elder' },
+    ruler: { title: 'Duke', stamper: 'Duke' },
+    hand: { title: 'Hand', stamper: 'Hand' },
+    sergeant: { title: 'Sergeant', stamper: 'Sergeant of the Watch' },
+    marshal: { title: 'Marshal', stamper: 'Marshal' },
+    bishop: { title: 'Bishop', stamper: 'Bishop' },
+    guild_leader: { title: 'Guild Leader', stamper: 'Guild Leader' },
+    inquisitor: { title: 'Inquisitor', stamper: 'Inquisitor' },
+    court_magician: { title: 'Court Magician', stamper: 'Court Magician' },
   },
   description:
     "Let it be known: by the Crown's will and the Council's oversight, the bearer of this document is recognized as a lawful resident of these lands and stands beneath the shelter of common law. Every rank and office is charged to acknowledge the bearer as a faithful subject and to place no unjust obstacle in their path.",

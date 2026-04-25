@@ -125,8 +125,28 @@ const classes = (...classNames: Array<string | false | null | undefined>) =>
 const hasDefect = (defectKeys: string[], defectKey: string): boolean =>
   defectKeys.includes(defectKey);
 
-const getSealMark = (seal: SealData): string =>
-  seal.label.trim().slice(0, 1) || seal.key.trim().slice(0, 1);
+const getSealTitle = (
+  seal: SealData,
+  texts: ResidentManuscriptTexts,
+): string => texts.seals[seal.key]?.title || seal.label || seal.key;
+
+const getSealStamper = (
+  seal: SealData,
+  texts: ResidentManuscriptTexts,
+): string => {
+  if (seal.suspicious) {
+    return texts.states.unclear_hand;
+  }
+  return texts.seals[seal.key]?.stamper || seal.stamper || seal.key;
+};
+
+const getSealMark = (
+  seal: SealData,
+  texts: ResidentManuscriptTexts,
+): string => {
+  const title = getSealTitle(seal, texts);
+  return title.trim().slice(0, 1) || seal.key.trim().slice(0, 1);
+};
 
 export const ResidentManuscript = () => {
   const { act, data } = useBackend<ResidentManuscriptData>();
@@ -437,12 +457,15 @@ const ResidentManuscriptSeal = (props: ResidentManuscriptSealProps) => {
       'ResidentManuscript__seal--uncertain',
   );
 
+  const sealTitle = getSealTitle(seal, texts);
+  const sealStamper = getSealStamper(seal, texts);
+
   return (
     <div
       className={sealClassName}
-      aria-label={`${texts.aria.seal}: ${seal.label}`}
+      aria-label={`${texts.aria.seal}: ${sealTitle}`}
     >
-      <div className="ResidentManuscript__sealName">{seal.label}</div>
+      <div className="ResidentManuscript__sealName">{sealTitle}</div>
       {seal.stamped ? (
         <>
           <div
@@ -452,7 +475,7 @@ const ResidentManuscriptSeal = (props: ResidentManuscriptSealProps) => {
             )}
           >
             <span className="ResidentManuscript__waxSealMark">
-              {getSealMark(seal)}
+              {getSealMark(seal, texts)}
             </span>
             {seal.key === 'ruler' && (
               <svg
@@ -476,7 +499,7 @@ const ResidentManuscriptSeal = (props: ResidentManuscriptSealProps) => {
             )}
           </div>
           <div className="ResidentManuscript__sealMark">
-            {displayValue(seal.stamper, texts.states.unknown)}
+            {displayValue(sealStamper, texts.states.unknown)}
           </div>
         </>
       ) : (

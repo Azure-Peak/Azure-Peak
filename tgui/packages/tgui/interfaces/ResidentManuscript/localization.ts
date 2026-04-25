@@ -62,11 +62,13 @@ export type ResidentManuscriptTexts = {
     seal_missing: string;
     empty: string;
     unknown: string;
+    unclear_hand: string;
   };
   verification: Record<VerificationResult, string>;
   aria: {
     seal: string;
   };
+  seals: Record<string, { title: string; stamper: string }>;
   defects: Record<string, string>;
   visual_hints: {
     heretical_marginalia_lines: string[];

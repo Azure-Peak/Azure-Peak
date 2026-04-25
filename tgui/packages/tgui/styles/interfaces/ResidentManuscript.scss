@@ -1,7 +1,4 @@
 .ResidentManuscript {
-  // Profile theme variables. DM provides paper/ink/accent/seal hex colors via
-  // inline `style={{ '--rm-paper': ..., ... }}` on the root. Fallbacks here
-  // recreate the original "resident" cream/red palette.
   --rm-paper: #d8c190;
   --rm-ink: #25180f;
   --rm-accent: #8b5e2f;
@@ -183,8 +180,6 @@
     height: 58px;
     margin: 8px auto 7px;
     border-radius: 46% 54% 48% 52%;
-    // The wax body is the profile seal color tinted with white highlight and
-    // a darker inner wash. Profile palette controls the dominant tone.
     background:
       radial-gradient(circle at 35% 30%, rgba(255, 255, 255, 0.28), transparent 32%),
       radial-gradient(circle at 60% 65%, rgba(0, 0, 0, 0.32), transparent 60%),
