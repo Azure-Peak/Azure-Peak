@@ -36,6 +36,11 @@
 	cost = 25
 	contains = list(/obj/item/reagent_containers/glass/bottle/rogue/antidote)
 
+/datum/supply_pack/rogue/potions/runicflask
+	name = "Runic Tincture Flask"
+	cost = 100
+	contains = list(/obj/item/runicflask/charged)
+
 /datum/supply_pack/rogue/potions/strpot
 	name = "Strength Potion"
 	cost = 50

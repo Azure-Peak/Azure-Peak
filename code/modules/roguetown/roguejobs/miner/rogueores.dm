@@ -254,7 +254,8 @@
 	icon_state = "ingotsilv"
 	smeltresult = /obj/item/ingot/silver
 	sellprice = 80
-	is_silver = FALSE //temporary measure to prevent people from easily metachecking vampyres. Replace with a more sophisticated alternative if-or-when available.
+	is_silver = TRUE
+	is_lesser_silver = TRUE
 
 /obj/item/ingot/steel
 	name = "steel bar"
@@ -288,7 +289,8 @@
 	icon_state = "ingotsilvblessed"
 	smeltresult = /obj/item/ingot/silver //Smelting it removes the blessing
 	sellprice = 100
-	is_silver = FALSE //Ditto.
+	is_silver = TRUE
+	is_lesser_silver = TRUE
 
 /obj/item/ingot/silverblessed/Initialize()
   ..()
@@ -300,7 +302,8 @@
 	icon_state = "ingotsilvblessed_psy"
 	smeltresult = /obj/item/ingot/silverblessed //Minor failsafe to ensure bullion can always be used for blessed silver recipes, in case of a filepath conflict.
 	sellprice = 100
-	is_silver = FALSE
+	is_silver = TRUE
+	is_lesser_silver = TRUE
 
 /obj/item/ingot/aalloy
 	name = "decrepit ingot"

@@ -50,7 +50,8 @@
 	desc = "A ring of silvered glimmerance."
 	icon_state = "ring_s"
 	sellprice = 33
-	is_silver = FALSE //Temporary measure to prevent people from easily metachecking vampyres. Replace with a more sophisticated alternative if-or-when available.
+	is_silver = TRUE
+	is_lesser_silver = TRUE
 
 /obj/item/clothing/ring/silver/cleric
 	name = "clerical silver ring"
@@ -253,7 +254,8 @@
 	icon_state = "signet_silver"
 	desc = "A ring of blessed silver, bearing the Archbishop's symbol. By dipping it in melted redtallow, it can seal writs of religious importance."
 	sellprice = 90
-	is_silver = FALSE //Temporary measure to prevent people from easily metachecking vampyres. Replace with a more sophisticated alternative if-or-when available.
+	is_silver = TRUE
+	is_lesser_silver = TRUE
 
 /obj/item/clothing/ring/signet/silver/get_mechanics_examine(mob/user)
     . = ..()
@@ -281,7 +283,8 @@
 	icon_state = "s_ring_emerald"
 	smeltresult = /obj/item/roguegem/green
 	sellprice = 155
-	is_silver = FALSE //Temporary measure to prevent people from easily metachecking vampyres. Replace with a more sophisticated alternative if-or-when available.
+	is_silver = TRUE
+	is_lesser_silver = TRUE
 
 /obj/item/clothing/ring/rubys
 	name = "silver rontz ring"
@@ -289,7 +292,8 @@
 	icon_state = "s_ring_ruby"
 	smeltresult = /obj/item/roguegem/ruby
 	sellprice = 215
-	is_silver = FALSE //Ditto.
+	is_silver = TRUE
+	is_lesser_silver = TRUE
 
 /obj/item/clothing/ring/topazs
 	name = "silver toper ring"
@@ -297,7 +301,8 @@
 	icon_state = "s_ring_topaz"
 	smeltresult = /obj/item/roguegem/yellow
 	sellprice = 140
-	is_silver = FALSE
+	is_silver = TRUE
+	is_lesser_silver = TRUE
 
 /obj/item/clothing/ring/quartzs
 	name = "silver blortz ring"
@@ -305,7 +310,8 @@
 	icon_state = "s_ring_quartz"
 	smeltresult = /obj/item/roguegem/blue
 	sellprice = 205
-	is_silver = FALSE
+	is_silver = TRUE
+	is_lesser_silver = TRUE
 
 /obj/item/clothing/ring/sapphires
 	name = "silver saffira ring"
@@ -313,7 +319,8 @@
 	icon_state = "s_ring_sapphire"
 	smeltresult = /obj/item/roguegem/violet
 	sellprice = 160
-	is_silver = FALSE
+	is_silver = TRUE
+	is_lesser_silver = TRUE
 
 /obj/item/clothing/ring/diamonds
 	name = "silver dorpel ring"
@@ -321,51 +328,14 @@
 	icon_state = "s_ring_diamond"
 	smeltresult = /obj/item/roguegem/diamond
 	sellprice = 230
-	is_silver = FALSE
+	is_silver = TRUE
+	is_lesser_silver = TRUE
 
 /obj/item/clothing/ring/duelist
 	name = "duelist's ring"
 	desc = "Born out of duelists desire for theatrics, this ring denotes a proposal — an honorable duel, with stakes set ahigh.\nIf both duelists wear this ring, successful baits will off balance them, and clashing disarms will never be unlikely.\n<i>'You shall know his name. You shall know his purpose. You shall die.'</i>"
 	icon_state = "ring_duel"
 	sellprice = 10
-
-/obj/item/clothing/ring/fate_weaver
-	name = "fate weaver"
-	var/obj/effect/proc_holder/spell/self/conjure_armor/linked_conjure_spell
-	desc = "An arcyne creation first theorized by malcontents with the resolution of Xylix's plays. It protects it's wearer by tugging things gently toward less fatal potentials."
-	icon_state = "ring_s"
-	max_integrity = 50
-	body_parts_covered = COVERAGE_ALL_BUT_HANDFEET | COVERAGE_HEAD_NOSE | NECK | HANDS | FEET //field covers the whole body
-	armor = ARMOR_PLATE //even protection against most damage types
-	blade_dulling = DULLING_BASHCHOP
-	slot_flags = ITEM_SLOT_RING
-	blocksound = PLATEHIT
-	break_sound = 'sound/foley/breaksound.ogg'
-	drop_sound = 'sound/foley/dropsound/armor_drop.ogg'
-	armor_class = ARMOR_CLASS_LIGHT
-	unenchantable = TRUE
-
-/obj/item/clothing/ring/fate_weaver/proc/dispel()
-	if(!QDELETED(src))
-		src.visible_message(span_warning("The [src]'s borders begin to shimmer and fade, before it vanishes entirely!"))
-		if(linked_conjure_spell)
-			linked_conjure_spell.start_delayed_recharge()
-		qdel(src)
-
-/obj/item/clothing/ring/fate_weaver/obj_break()
-	. = ..()
-	if(!QDELETED(src))
-		dispel()
-
-/obj/item/clothing/ring/fate_weaver/attack_hand(mob/user)
-	. = ..()
-	if(!QDELETED(src))
-		dispel()
-
-/obj/item/clothing/ring/fate_weaver/dropped()
-	. = ..()
-	if(!QDELETED(src))
-		dispel()
 
 /////////////////////////
 // Wedding Rings/Bands //
@@ -404,6 +374,7 @@
 /obj/item/clothing/ring/band/get_mechanics_examine(mob/user)
     . = ..()
     . += span_info("Right-click to add a custom name and description to the weddingband.")
+    . += span_info("If your character is meant to be already married to someone else, offer the ring to them while they are offering theirs to you. This will mark you as spouses, but will not change your names.")
 
 /obj/item/clothing/ring/band/gold
 	name = "gold weddingband"

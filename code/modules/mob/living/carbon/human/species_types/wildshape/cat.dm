@@ -188,6 +188,7 @@
     desc = "Heal the wounds of somebody"
     overlay_state = "diagnose"
     range = 1
+    include_user = TRUE
     sound = 'sound/gore/flesh_eat_03.ogg'
     associated_skill = /datum/skill/misc/climbing
     recharge_time = 10 SECONDS
@@ -201,14 +202,19 @@
                 to_chat(src, span_warning("I shall not lick it..."))
                 return
             if(target.mind.has_antag_datum(/datum/antagonist/vampire))
-                to_chat(src, span_warning("... What? Its an elder vampire!"))
+                to_chat(src, span_warning("... What? It's an elder vampire!"))
                 return
         (!do_after(user, 7 SECONDS, target = target))
         var/ramount = 20
         var/rid = /datum/reagent/medicine/healthpot
         target.reagents.add_reagent(rid, ramount)
         ramount = 2
-        if(target.mind.has_antag_datum(/datum/antagonist/werewolf))
+        if(target == user)
+            target.visible_message(span_green("[user] licks their own wounds."), span_notice("I lick my own wounds."))
+            ramount = 20
+            rid = /datum/reagent/water
+            target.reagents.add_reagent(rid, ramount)
+        else if(target.mind.has_antag_datum(/datum/antagonist/werewolf))
             target.visible_message(span_green("[user] is licking [target]'s wounds with its tongue!"), span_notice("My kin has covered my wounds..."))
             ramount = 20
             rid = /datum/reagent/water

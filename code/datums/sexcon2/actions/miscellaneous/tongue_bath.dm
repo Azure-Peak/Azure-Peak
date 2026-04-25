@@ -6,8 +6,6 @@
 /datum/sex_action/miscellaneous/tonguebath/shows_on_menu(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	if(user == target)
 		return FALSE
-	if(!check_location_accessible(user, target, BODY_ZONE_PRECISE_GROIN))
-		return FALSE
 	if(!check_location_accessible(user, user, BODY_ZONE_PRECISE_MOUTH))
 		return FALSE
 	return TRUE
@@ -17,8 +15,6 @@
 	if(!.)
 		return FALSE
 	if(user == target)
-		return FALSE
-	if(!check_location_accessible(user, target, BODY_ZONE_PRECISE_GROIN))
 		return FALSE
 	if(!check_location_accessible(user, user, BODY_ZONE_PRECISE_MOUTH))
 		return FALSE
@@ -39,8 +35,26 @@
 
 /datum/sex_action/miscellaneous/tonguebath/on_perform(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	var/datum/sex_session/sex_session = get_sex_session(user, target)
-	user.visible_message(sex_session.spanify_force("[user] [sex_session.get_generic_force_adjective()] bathes [target]'s body with [user.p_their()] tongue..."))
+	var/arousal_amt = 0.1
+	var/body_desc = "body"
+
+	if(check_location_accessible(user, target, BODY_ZONE_PRECISE_EARS))
+		arousal_amt += 0.08
+	if(check_location_accessible(user, target, BODY_ZONE_PRECISE_NECK))
+		arousal_amt += 0.08
+	if(check_location_accessible(user, target, BODY_ZONE_CHEST, TRUE))
+		body_desc = "exposed body"
+		if(target.getorganslot(ORGAN_SLOT_BREASTS) && check_sex_lock(target, ORGAN_SLOT_BREASTS))
+			arousal_amt += 0.1
+	if(check_location_accessible(user, target, BODY_ZONE_PRECISE_STOMACH))
+		arousal_amt += 0.08
+		body_desc = "exposed body"
+	if(check_location_accessible(user, target, BODY_ZONE_PRECISE_GROIN))
+		arousal_amt += 0.16
+		body_desc = "exposed body"
+	
+	user.visible_message(sex_session.spanify_force("[user] [sex_session.get_generic_force_adjective()] bathes [target]'s [body_desc] with [user.p_their()] tongue..."))
 	user.make_sucking_noise()
 
-	sex_session.perform_sex_action(target, 0.5, 0, TRUE)
+	sex_session.perform_sex_action(target, arousal_amt, 0, TRUE)
 	sex_session.handle_passive_ejaculation(target)

@@ -10,10 +10,7 @@
 /atom/proc/reset_grid_inventory()
 	var/drop_location = drop_location()
 	for(var/obj/item/item_in_source in contents)
-		if(drop_location)
-			item_in_source.forceMove(drop_location)
-		else
-			item_in_source.moveToNullspace()
+		SEND_SIGNAL(src, COMSIG_TRY_STORAGE_TAKE, item_in_source, drop_location, TRUE)
 		SEND_SIGNAL(src, COMSIG_TRY_STORAGE_INSERT, item_in_source, null, TRUE, TRUE, FALSE)
 
 /obj/item
@@ -47,10 +44,7 @@
 	//this is stupid shitcode but grid inventory sadly requires it
 	var/drop_location = drop_location()
 	for(var/obj/item/item_in_source in contents)
-		if(drop_location)
-			item_in_source.forceMove(drop_location)
-		else
-			item_in_source.moveToNullspace()
+		SEND_SIGNAL(src, COMSIG_TRY_STORAGE_TAKE, item_in_source, drop_location, TRUE)
 		SEND_SIGNAL(src, COMSIG_TRY_STORAGE_INSERT, item_in_source, null, TRUE, TRUE, FALSE)
 
 /datum/component/storage
@@ -396,7 +390,7 @@
 
 	if((storage_flags & STORAGE_NO_EQUIPPED_ACCESS) && (storing.item_flags & IN_INVENTORY))
 		if(!no_message)
-			to_chat(user, span_warning("[storing] is too bulky! I need to set it down before I can access it's contents!"))
+			to_chat(user, span_warning("[storing] is too bulky! I need to set it down before I can access its contents!"))
 		return FALSE
 	else if((storage_flags & STORAGE_NO_WORN_ACCESS) && (storing.item_flags & IN_INVENTORY) && !(storing in user.held_items))
 		if(!no_message)
@@ -410,7 +404,7 @@
 
 	if(storage_flags & STORAGE_NO_EQUIPPED_ACCESS)
 		if(!no_message)
-			to_chat(user, span_warning("[storing] is too bulky! I need to set it down before I can access it's contents!"))
+			to_chat(user, span_warning("[storing] is too bulky! I need to set it down before I can access its contents!"))
 		return FALSE
 	else if((storage_flags & STORAGE_NO_WORN_ACCESS) && !(storing in user.held_items))
 		if(!no_message)
@@ -627,6 +621,7 @@
 			LAZYINITLIST(item_to_grid_coordinates)
 			LAZYINITLIST(item_to_grid_coordinates[storing])
 			LAZYADD(item_to_grid_coordinates[storing], calculated_coordinates)
+	SEND_SIGNAL(parent, COMSIG_STORAGE_ADDED, storing)
 	return TRUE
 
 /datum/component/storage/proc/grid_remove_item(obj/item/removed)

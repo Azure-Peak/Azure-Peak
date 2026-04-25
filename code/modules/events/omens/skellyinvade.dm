@@ -7,6 +7,8 @@
 	min_players = 0
 	req_omen = TRUE
 	todreq = list("night")
+	announce_text = "The dead walk! Skeletons rise to plague the living!"
+	announce_title = "Skeleton Invasion"
 
 /datum/round_event/skellyinvade
 	announceWhen	= 50

@@ -1,12 +1,19 @@
+/// Static typecache list of things we are interested in
+/// Consider this a union of the for loop and the hearers call from below
+/// Must be kept up to date with the contents of hostile_machines
+GLOBAL_LIST_INIT(target_interested_atoms, typecacheof(list(/mob)))
+
 /datum/ai_behavior/find_potential_targets
 	action_cooldown = 2 SECONDS
 	/// How far can we see stuff?
 	var/vision_range = 9
-	var/tamed_key = BB_BASIC_MOB_TAMED
 
 /datum/ai_behavior/find_potential_targets/perform(seconds_per_tick, datum/ai_controller/controller, target_key, targetting_datum_key, hiding_location_key)
-
+	. = ..()
 	var/mob/living/living_mob = controller.pawn
+	if(living_mob.pet_passive)
+		finish_action(controller, succeeded = FALSE)
+		return
 	var/datum/targetting_datum/targetting_datum = controller.blackboard[targetting_datum_key]
 
 	if(!targetting_datum)
@@ -18,12 +25,12 @@
 		return
 
 	controller.clear_blackboard_key(target_key)
-	if(controller.blackboard[tamed_key]) //they are tamed, thusly pacified and will only retaliate.
-		finish_action(controller, succeeded = FALSE)
-		return
-	var/list/potential_targets = hearers(vision_range, controller.pawn) - living_mob //Remove self, so we don't suicide
 
-	if(!potential_targets.len) // Couldn't find valid targets
+	// Wake/sleep is gated by spatial-grid cell tracking on the base controller.
+	// When no clients are in our cells we don't tick, so scanning here is cheap.
+	var/list/potential_targets = viewers(vision_range, controller.pawn) - living_mob
+
+	if(!potential_targets.len)
 		finish_action(controller, succeeded = FALSE)
 		return
 
@@ -35,6 +42,9 @@
 			continue
 
 	for(var/mob/living/living_target in filtered_targets)
+		if(living_target.stat == DEAD)
+			filtered_targets -= living_target
+			continue
 		if(!living_target.rogue_sneaking)
 			continue
 		var/extra_chance = (living_mob.health <= living_mob.maxHealth * 50) ? 30 : 0 // if we're below half health, we're way more alert
@@ -55,15 +65,18 @@
 
 	finish_action(controller, succeeded = TRUE)
 
-/datum/ai_behavior/find_potential_targets/finish_action(datum/ai_controller/controller, succeeded, ...)
+/datum/ai_behavior/find_potential_targets/finish_action(datum/ai_controller/controller, succeeded, target_key, targeting_strategy_key, hiding_location_key)
 	. = ..()
 	if (succeeded)
-		controller.CancelActions() // On retarget cancel any further queued actions so that they will setup again with new target
+		controller.CancelActions()
+		controller.modify_cooldown(controller, world.time + get_cooldown(controller))
 
 /// Returns the desired final target from the filtered list of targets
 /datum/ai_behavior/find_potential_targets/proc/pick_final_target(datum/ai_controller/controller, list/filtered_targets)
 	return pick(filtered_targets)
 
+/datum/ai_behavior/find_potential_targets/human
+	vision_range = 7
 
 /datum/ai_behavior/find_potential_targets/rat
 	vision_range = 2
@@ -78,9 +91,8 @@
 	. = ..()
 	if (succeeded)
 		controller.CancelActions()
-		var/mob/living/simple_animal/hostile/basic_mob = controller.pawn
-		if(!basic_mob.stat) // if the mimic's not dead
-			basic_mob.Aggro() // wake up the mimic and update their icon
+		var/mob/living/simple_animal/hostile/retaliate/rogue/mimic/mimic_pawn = controller.pawn
+		mimic_pawn.undisguise()
 
 
 /datum/ai_behavior/find_potential_targets/mole
@@ -90,10 +102,11 @@
 	vision_range = 7
 
 /datum/ai_behavior/find_potential_targets/bog_troll
-	vision_range = 2
+	vision_range = 3
 
 /datum/ai_behavior/find_potential_targets/bog_troll/finish_action(datum/ai_controller/controller, succeeded, ...)
 	. = ..()
-	if (succeeded)
-		controller.CancelActions()
-		controller.pawn.icon_state = "Trolla"
+	if(succeeded)
+		if(istype(controller.pawn, /mob/living/simple_animal/hostile/retaliate/rogue/troll))
+			var/mob/living/simple_animal/hostile/retaliate/rogue/troll/mob = controller.pawn
+			mob.ambush()

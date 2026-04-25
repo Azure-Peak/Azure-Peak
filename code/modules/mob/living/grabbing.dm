@@ -86,15 +86,23 @@
 	if(ismob(grabbed))
 		var/mob/M = grabbed
 		LAZYREMOVE(M.grabbedby, src)
-		if(iscarbon(M) && sublimb_grabbed)
+		if(iscarbon(M))
 			var/mob/living/carbon/carbonmob = M
-			var/obj/item/bodypart/part = carbonmob.get_bodypart(sublimb_grabbed)
+			var/obj/item/bodypart/part = limb_grabbed
+			if(!part && sublimb_grabbed)
+				part = carbonmob.get_bodypart(sublimb_grabbed)
 
 			// Edge case: if a weapon becomes embedded in a mob, our "grab" will be destroyed...
 			// In this case, grabbed will be the mob, and sublimb_grabbed will be the weapon, rather than a bodypart
 			// This means we should skip any further processing for the bodypart
 			if(part)
+				var/held_index = part.held_index
+				var/body_zone = part.body_zone
 				LAZYREMOVE(part.grabbedby, src)
+				carbonmob.update_hud_hand_slot(held_index)
+				var/datum/hud/hud_used = carbonmob.hud_used
+				if(hud_used?.zone_select)
+					hud_used.zone_select.update_limb(body_zone)
 				part = null
 				sublimb_grabbed = null
 	if(grabbee)
@@ -156,7 +164,10 @@
 		var/signal_result = SEND_SIGNAL(user, COMSIG_LIVING_GRAB_SELF_ATTEMPT, user, M, sublimb_grabbed, null)
 		if(signal_result & COMPONENT_CANCEL_GRAB_ATTACK)
 			return FALSE
-	user.changeNext_move(CLICK_CD_TRACKING)
+	var/clickcd = CLICK_CD_MELEE
+	if(M.mind && M != user)
+		clickcd = CLICK_CD_WRESTLING
+	user.changeNext_move(clickcd)
 
 	var/skill_diff = 0
 	var/combat_modifier = 1
@@ -204,7 +215,7 @@
 				return FALSE
 			if(user.badluck(5))
 				badluckmessage(user)
-				user.stop_pulling()
+				user.stop_pulling(TRUE)
 				return FALSE
 			if(limb_grabbed && grab_state > 0) //this implies a carbon victim
 				if(iscarbon(M))
@@ -239,7 +250,7 @@
 				return FALSE
 			if(user.badluck(10))
 				badluckmessage(user)
-				user.stop_pulling()
+				user.stop_pulling(TRUE)
 				return FALSE
 			if(limb_grabbed && grab_state > GRAB_PASSIVE) //this implies a carbon victim
 				if(ishuman(M) && M != user)
@@ -262,7 +273,7 @@
 				return FALSE
 			if(user.badluck(5))
 				badluckmessage(user)
-				user.stop_pulling()
+				user.stop_pulling(TRUE)
 				return FALSE
 			if(limb_grabbed && grab_state > 0) //this implies a carbon victim
 				if(iscarbon(M))
@@ -274,7 +285,7 @@
 				return FALSE
 			if(user.badluck(10))
 				badluckmessage(user)
-				user.stop_pulling()
+				user.stop_pulling(TRUE)
 				return FALSE
 			if(limb_grabbed && grab_state > 0) //this implies a carbon victim
 				if(ismob(M))
@@ -286,7 +297,7 @@
 				return FALSE
 			if(user.badluck(10))
 				badluckmessage(user)
-				user.stop_pulling()
+				user.stop_pulling(TRUE)
 				return FALSE
 			user.stamina_add(rand(3,13))
 			if(isitem(sublimb_grabbed))
@@ -299,7 +310,7 @@
 				return FALSE
 			if(user.badluck(10))
 				badluckmessage(user)
-				user.stop_pulling()
+				user.stop_pulling(TRUE)
 				return FALSE
 			if(!(user.mobility_flags & MOBILITY_STAND))
 				to_chat(user, span_warning("I must stand.."))
@@ -336,7 +347,7 @@
 			else
 				if(user.badluck(10))
 					badluckmessage(user)
-					user.stop_pulling()
+					user.stop_pulling(TRUE)
 					return FALSE
 				user.stamina_add(rand(5,15))
 				if(M.compliance || prob(clamp((((4 + (((user.STASTR - M.STASTR)/2) + skill_diff)) * 10 + rand(-5, 5)) * combat_modifier), 5, 95)))
@@ -349,7 +360,7 @@
 		if(/datum/intent/grab/disarm)
 			if(user.badluck(10))
 				badluckmessage(user)
-				user.stop_pulling()
+				user.stop_pulling(TRUE)
 				return FALSE
 			var/obj/item/I
 			if(sublimb_grabbed == BODY_ZONE_PRECISE_L_HAND && M.active_hand_index == 1)
@@ -401,7 +412,7 @@
 /obj/item/grabbing/proc/twistlimb(mob/living/user) //implies limb_grabbed and sublimb are things
 	if(user.badluck(5))
 		badluckmessage(user)
-		user.stop_pulling()
+		user.stop_pulling(TRUE)
 		return
 	var/mob/living/carbon/C = grabbed
 	var/damage = user.get_punch_dmg()
@@ -533,7 +544,7 @@
 		return
 	if(user.badluck(5))
 		badluckmessage(user)
-		user.stop_pulling()
+		user.stop_pulling(TRUE)
 		return
 	user.changeNext_move(CLICK_CD_GRABBING)
 	switch(user.used_intent.type)
@@ -569,7 +580,7 @@
 		return
 	if(user.badluck(5))
 		badluckmessage(user)
-		user.stop_pulling()
+		user.stop_pulling(TRUE)
 		return
 	user.changeNext_move(CLICK_CD_GRABBING)
 	if(user.used_intent.type == /datum/intent/grab/smash)
@@ -589,7 +600,7 @@
 /obj/item/grabbing/proc/smashlimb(atom/A, mob/living/user) //implies limb_grabbed and sublimb are things
 	if(user.badluck(10))
 		badluckmessage(user)
-		user.stop_pulling()
+		user.stop_pulling(TRUE)
 		return
 	var/mob/living/carbon/C = grabbed
 	var/armor_block = C.run_armor_check(limb_grabbed, d_type, armor_penetration = PEN_NONE)

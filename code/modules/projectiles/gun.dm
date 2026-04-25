@@ -43,6 +43,12 @@
 		QDEL_NULL(chambered)
 	return ..()
 
+/obj/item/gun/dropped(mob/user, silent)
+	. = ..()
+	if(isliving(user))
+		var/mob/living/L = user
+		L.apply_status_effect(/datum/status_effect/recent_weapon)
+
 /obj/item/gun/handle_atom_del(atom/A)
 	if(A == chambered)
 		chambered = null

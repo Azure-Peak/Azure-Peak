@@ -52,6 +52,7 @@
 
 /mob/living/simple_animal/hostile/rogue/spirit_vengeance/Initialize(mapload)
 	. = ..()
+	AddComponent(/datum/component/ai_aggro_system)
 	addtimer(CALLBACK(src, TYPE_PROC_REF(/mob/living/simple_animal, death), TRUE), 30 SECONDS)
 
 

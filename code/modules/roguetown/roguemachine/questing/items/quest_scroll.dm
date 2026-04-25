@@ -84,7 +84,7 @@ GLOBAL_LIST_EMPTY(quest_scrolls)
 		message = "[last_compass_direction]"
 		if(last_z_level_hint)
 			message += " ([last_z_level_hint])"
-		to_chat(quest_bearer, span_info("The scroll whispers to you, the target is [message]"))
+		to_chat(quest_bearer, span_info("The scroll whispers to you, the target is[message]"))
 
 /obj/item/paper/scroll/quest/examine(mob/user)
 	. = ..()
@@ -169,7 +169,7 @@ GLOBAL_LIST_EMPTY(quest_scrolls)
 	scroll_text += "<b>Difficulty:</b> [assigned_quest.quest_difficulty].<br><br>"
 
 	if(last_compass_direction)
-		scroll_text += "<b>Direction:</b> The target is [last_compass_direction]. "
+		scroll_text += "<b>Direction:</b> The target is[last_compass_direction]. "
 		if(last_z_level_hint)
 			scroll_text += " ([last_z_level_hint])"
 		scroll_text += "<br>"
@@ -221,18 +221,18 @@ GLOBAL_LIST_EMPTY(quest_scrolls)
 
 	var/turf/user_turf = user ? get_turf(user) : get_turf(src)
 	if(!user_turf)
-		last_compass_direction = "No signal detected"
+		last_compass_direction = " No signal detected"
 		last_z_level_hint = ""
 		return
 
 	// Reset compass values
-	last_compass_direction = "Searching for target..."
+	last_compass_direction = " Searching for target..."
 	last_z_level_hint = ""
 
 	// Get target location from quest datum
 	var/turf/target_turf = assigned_quest.get_target_location()
 	if(!target_turf)
-		last_compass_direction = "location unknown"
+		last_compass_direction = " location unknown"
 		last_z_level_hint = ""
 		return
 
@@ -252,7 +252,7 @@ GLOBAL_LIST_EMPTY(quest_scrolls)
 
 	// If very close, don't show direction
 	if(distance <= 7)
-		last_compass_direction = "is nearby"
+		last_compass_direction = " is nearby"
 		last_z_level_hint = ""
 		return
 
@@ -265,13 +265,13 @@ GLOBAL_LIST_EMPTY(quest_scrolls)
 	var/distance_text
 	switch(distance)
 		if(0 to 14)
-			distance_text = "very close"
+			distance_text = " very close"
 		if(15 to 40)
-			distance_text = "close"
+			distance_text = " close"
 		if(41 to 100)
 			distance_text = ""
 		if(101 to INFINITY)
-			distance_text = "far away"
+			distance_text = " far away"
 
 	last_compass_direction = "[distance_text] to the [direction_text]"
 	if(!last_z_level_hint)

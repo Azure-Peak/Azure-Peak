@@ -62,7 +62,7 @@ GLOBAL_LIST_EMPTY(virtues)
 /datum/virtue/New()
 	. = ..()
 	if (triumph_cost)
-		desc += "<b>Costs [triumph_cost] TRIUMPH.</b>"
+		desc += " <b>Costs [triumph_cost] TRIUMPH[triumph_cost?"S":""].</b>"
 	
 	if(max_choices || length(extra_choices) || length(choice_costs) || length(choice_tooltips))
 		if(max_choices > length(extra_choices))

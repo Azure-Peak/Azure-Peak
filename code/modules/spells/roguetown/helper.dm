@@ -1,14 +1,6 @@
-// Get what tier of spells is the user allowed to access
-/proc/get_user_spell_tier(mob/target)
-	if(HAS_TRAIT(target, TRAIT_ARCYNE_T4))
-		return 4
-	if(HAS_TRAIT(target, TRAIT_ARCYNE_T3))
-		return 3
-	if(HAS_TRAIT(target, TRAIT_ARCYNE_T2))
-		return 2
-	if(HAS_TRAIT(target, TRAIT_ARCYNE_T1))
-		return 1
-	return 0
+// Check if a mob has arcyne training
+/proc/is_user_magic(mob/target)
+	return HAS_TRAIT(target, TRAIT_ARCYNE)
 
 // Get mob's patron and check if eligable for evil spells
 /proc/get_user_evilness(mob/target)
@@ -22,16 +14,4 @@
 		return 1
 	if(HAS_TRAIT(target, TRAIT_WITCH))		//Not evil but you know, witch.
 		return 1
-	return 0
-
-/// dookie proc that serves as an alternative to 5 billion cluttered has_traits. if they have ANY arcyne trait, returns true.
-/proc/is_user_magic(mob/target)
-	if(HAS_TRAIT(target, TRAIT_ARCYNE_T4))
-		return TRUE
-	if(HAS_TRAIT(target, TRAIT_ARCYNE_T3))
-		return TRUE
-	if(HAS_TRAIT(target, TRAIT_ARCYNE_T2))
-		return TRUE
-	if(HAS_TRAIT(target, TRAIT_ARCYNE_T1))
-		return TRUE
 	return 0

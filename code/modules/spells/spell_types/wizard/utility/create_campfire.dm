@@ -1,40 +1,52 @@
-/obj/effect/proc_holder/spell/invoked/create_campfire
+/datum/action/cooldown/spell/create_campfire
+	button_icon = 'icons/mob/actions/roguespells.dmi'
 	name = "Create Campfire"
 	desc = "Creates a magical campfire to cook on. 3 tiles range. Lasts for 10 minutes."
-	overlay_state = "create_campfire"
-	sound = list('sound/magic/whiteflame.ogg')
-
-	releasedrain = SPELLCOST_CANTRIP
-	chargedrain = 1
-	chargetime = 3 SECONDS
-	no_early_release = TRUE
-	recharge_time = 60 SECONDS
-
-	warnie = "spellwarning"
-	no_early_release = TRUE
-	movement_interrupt = TRUE // Kills off mid combat use I think
-	antimagic_allowed = FALSE
-	charging_slowdown = 3
-	cost = 1
-	range = 3
-	spell_tier = 1 // Utility, with situational combat use. Great for fighting trolls..
-	ignore_los = FALSE
-
-	invocations = list("Ignis Castrensis Magicae.") // Literally "Magical Campfire"
-	invocation_type = "shout"
-	glow_color = GLOW_COLOR_FIRE
+	button_icon_state = "create_campfire"
+	sound = 'sound/magic/whiteflame.ogg'
+	spell_color = GLOW_COLOR_FIRE
 	glow_intensity = GLOW_INTENSITY_LOW
 
+	click_to_activate = TRUE
+	self_cast_possible = FALSE
+	cast_range = 3
+
+	primary_resource_type = SPELL_COST_STAMINA
+	primary_resource_cost = SPELLCOST_CANTRIP
+
+	invocations = list("Ignis Castrensis Magicae.")
+	invocation_type = INVOCATION_SHOUT
+
+	charge_required = TRUE
+	charge_time = 3 SECONDS
+	charge_drain = 1
+	charge_slowdown = CHARGING_SLOWDOWN_MEDIUM
+	charge_sound = 'sound/magic/charging.ogg'
+	cooldown_time = 60 SECONDS
+
+	associated_skill = /datum/skill/magic/arcane
+	spell_tier = 1
+	spell_impact_intensity = SPELL_IMPACT_NONE
+
+	point_cost = 1
+
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_NO_MOVE | SPELL_REQUIRES_SAME_Z
+
 	var/fire_type = /obj/machinery/light/rogue/campfire/create_campfire
+	var/static/list/turf_blacklist = list(
+		/turf/open/water,
+		/turf/open/transparent,
+		/turf/closed/transparent,
+		)
 
-// Conjure spell type is not reusable cuz it don't respect invocation so special code it is
-/obj/effect/proc_holder/spell/invoked/create_campfire/cast(list/targets, mob/user = usr)
-	var/turf/target = get_turf(targets[1])
+/datum/action/cooldown/spell/create_campfire/cast(atom/cast_on)
+	. = ..()
+	var/turf/target = get_turf(cast_on)
 
-	if(!target || !target.Enter(user) || istransparentturf(target))
-		to_chat(user, "<span class='warning'>This turf can't be on fiyaaaah! (It's blocked sire.)</span>")
-		revert_cast()
-		return
+	if(!target || !target.Enter(owner) || is_type_in_list(target, turf_blacklist))
+		to_chat(owner, span_warning("This turf can't be on fiyaaaah! (It's blocked sire.)"))
+		return FALSE
+	
 	new /obj/machinery/light/rogue/campfire/create_campfire(target)
 
 	return TRUE

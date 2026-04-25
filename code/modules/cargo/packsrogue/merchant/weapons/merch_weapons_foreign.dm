@@ -32,12 +32,12 @@
 /datum/supply_pack/rogue/merc_weapons/naledistaff
 	name = "Naledi Warstaff"
 	cost = 140
-	contains = list(/obj/item/rogueweapon/woodstaff/naledi)
+	contains = list(/obj/item/rogueweapon/woodstaff/implement/grand/naledi)
 
 /datum/supply_pack/rogue/merc_weapons/grenzelstaff
 	name = "Grenzelhoftian Blacksteel Staff"
 	cost = 140
-	contains = list(/obj/item/rogueweapon/woodstaff/emerald/blacksteelstaff)
+	contains = list(/obj/item/rogueweapon/woodstaff/implement/greater/blacksteel)
 
 /datum/supply_pack/rogue/merc_weapons/glaive
 	name = "Glaive"

@@ -3,7 +3,7 @@
 	desc = "An incomprehensibly powerful necromancer, dressed in the papal garbs of a Rockhillian priest - a glimpse into what once was. The air around you crackles with unholy energy."
 	mob_biotypes = MOB_HUMANOID|MOB_UNDEAD
 	boss_abilities = list(/datum/action/boss/lich_summon_minions)
-	faction = list("lich")
+	faction = list(FACTION_LICH)
 	del_on_death = TRUE
 	icon = 'icons/mob/evilpope.dmi'
 	icon_state = "EvilPope"
@@ -39,7 +39,7 @@
 	/obj/projectile/magic/sickness,
 	/obj/projectile/magic/arcane_barrage, 
 	/obj/projectile/magic/acidsplash,
-	/obj/projectile/magic/aoe/fireball/spitfire)
+	/obj/projectile/magic/spitfire)
 	patron = /datum/patron/inhumen/zizo
 	footstep_type = FOOTSTEP_MOB_SHOE
 	stat_attack = UNCONSCIOUS

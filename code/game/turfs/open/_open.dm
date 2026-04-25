@@ -25,6 +25,11 @@
 		total_slowdown += obj.object_slowdown
 	return total_slowdown
 
+/turf/open/can_traverse_safely(atom/movable/traveler)
+	if(active_hotspot)
+		return FALSE
+	return ..()
+
 /turf
 	var/landsound = null
 

@@ -26,6 +26,48 @@
 	req_bar = /obj/item/ingot/aalloy
 	created_item = /obj/item/roguestatue/aalloy
 
+/datum/anvil_recipe/valuables/noccrossaalloy
+	name = "Amulet of Knowledge, Decrepit"
+	req_bar = /obj/item/ingot/aalloy
+	created_item = /obj/item/clothing/neck/roguetown/psicross/noc/aalloy
+	craftdiff = 3
+
+/datum/anvil_recipe/valuables/noccrosspaalloy
+	name = "Amulet of Knowledge, Ancient"
+	req_bar = /obj/item/ingot/purifiedaalloy
+	created_item = /obj/item/clothing/neck/roguetown/psicross/noc/paalloy
+	craftdiff = 3
+
+/datum/anvil_recipe/valuables/psycrossaalloy
+	name = "Amulet of Psydonia, Decrepit"
+	req_bar = /obj/item/ingot/aalloy
+	created_item = /obj/item/clothing/neck/roguetown/psicross/aalloy
+	craftdiff = 3
+
+/datum/anvil_recipe/valuables/psycrosspaalloy
+	name = "Amulet of Psydonia, Ancient"
+	req_bar = /obj/item/ingot/purifiedaalloy
+	created_item = /obj/item/clothing/neck/roguetown/psicross/paalloy
+	craftdiff = 3
+
+/datum/anvil_recipe/valuables/zcrossaalloy
+	name = "Amulet of Ascension, Decrepit"
+	req_bar = /obj/item/ingot/aalloy
+	created_item = /obj/item/clothing/neck/roguetown/psicross/inhumen/aalloy
+	craftdiff = 3
+
+/datum/anvil_recipe/valuables/zcrosspaalloy
+	name = "Amulet of Ascension, Ancient"
+	req_bar = /obj/item/ingot/purifiedaalloy
+	created_item = /obj/item/clothing/neck/roguetown/psicross/inhumen/paalloy
+	craftdiff = 3
+
+/datum/anvil_recipe/valuables/noccrossbronze
+	name = "Amulet of Knowledge, Bronze"
+	req_bar = /obj/item/ingot/bronze
+	created_item = /obj/item/clothing/neck/roguetown/psicross/noc/bronze
+	craftdiff = 2
+
 /datum/anvil_recipe/valuables/steel
 	name = "Statue, Steel"
 	req_bar = /obj/item/ingot/steel
@@ -68,7 +110,7 @@
 	craftdiff = 2
 
 /datum/anvil_recipe/valuables/zcrossbronze
-	name = "Amulet of Inhumenity, Bronze"
+	name = "Amulet of Ascension, Bronze"
 	req_bar = /obj/item/ingot/bronze
 	created_item = /obj/item/clothing/neck/roguetown/psicross/inhumen/bronze
 	craftdiff = 2
@@ -95,6 +137,12 @@
 	name = "Amulet of Creation, Bronze"
 	req_bar = /obj/item/ingot/bronze
 	created_item = /obj/item/clothing/neck/roguetown/psicross/malum/bronze
+	craftdiff = 2
+
+/datum/anvil_recipe/valuables/noccrossbronze
+	name = "Amulet of Knowledge, Bronze"
+	req_bar = /obj/item/ingot/bronze
+	created_item = /obj/item/clothing/neck/roguetown/psicross/noc/bronze
 	craftdiff = 2
 
 /datum/anvil_recipe/valuables/statuebronze
@@ -128,6 +176,30 @@
 	req_bar = /obj/item/ingot/blacksteel
 	created_item = /obj/item/clothing/ring/blacksteel
 	createditem_num = 3
+
+/datum/anvil_recipe/valuables/weddingrings
+	name = "Weddingbands, Silver (x2)"
+	req_bar = /obj/item/ingot/silver
+	created_item = /obj/item/clothing/ring/band
+	createditem_num = 2
+
+/datum/anvil_recipe/valuables/weddingringg
+	name = "Weddingbands, Gold (x2)"
+	req_bar = /obj/item/ingot/gold
+	created_item = /obj/item/clothing/ring/band/gold
+	createditem_num = 2
+
+/datum/anvil_recipe/valuables/weddingringb
+	name = "Weddingbands, Bronze (x2)"
+	req_bar = /obj/item/ingot/bronze
+	created_item = /obj/item/clothing/ring/band/bronze
+	createditem_num = 2
+
+/datum/anvil_recipe/valuables/weddingringp
+	name = "Weddingbands, Ancient (x2)"
+	req_bar = /obj/item/ingot/purifiedaalloy
+	created_item = /obj/item/clothing/ring/band/paalloy
+	createditem_num = 2
 
 /datum/anvil_recipe/valuables/ornateamulet
 	name = "Ornate Amulet"
@@ -322,3 +394,385 @@
 	i_type = "Weapons"
 	craftdiff = SKILL_LEVEL_LEGENDARY
 	bypass_dupe_test = TRUE
+ 
+
+ // FORGEABLES BABEY!!!
+
+
+ // GOLD
+
+/datum/anvil_recipe/valuables/gold/ashtray
+	name = "Zigtray, Golden"
+	req_bar = /obj/item/ingot/gold
+	created_item = /obj/item/forgeable/gold/ashtray
+	craftdiff = SKILL_LEVEL_EXPERT
+	createditem_num = 2
+
+/datum/anvil_recipe/valuables/gold/urn
+	name = "Urn, Golden"
+	req_bar = /obj/item/ingot/gold
+	created_item = /obj/item/forgeable/gold/urn
+	craftdiff = SKILL_LEVEL_EXPERT
+
+/datum/anvil_recipe/valuables/gold/canister
+	name =  "Canister, Golden"
+	req_bar = /obj/item/ingot/gold
+	created_item = /obj/item/forgeable/gold/canister
+	craftdiff = SKILL_LEVEL_EXPERT
+	
+/datum/anvil_recipe/valuables/gold/bust
+	name = "Bust, Golden"
+	req_bar = /obj/item/ingot/gold
+	created_item = /obj/item/forgeable/gold/bust
+	craftdiff = SKILL_LEVEL_EXPERT
+
+/datum/anvil_recipe/valuables/gold/obelisk
+	name = "Obelisk, Golden"
+	req_bar = /obj/item/ingot/gold
+	created_item = /obj/item/forgeable/gold/obelisk
+	craftdiff = SKILL_LEVEL_EXPERT
+
+/datum/anvil_recipe/valuables/gold/figurine
+	name = "Figurine, Golden"
+	req_bar = /obj/item/ingot/gold
+	created_item = /obj/item/forgeable/gold/figurine
+	craftdiff = SKILL_LEVEL_EXPERT
+	createditem_num = 2
+
+/datum/anvil_recipe/valuables/gold/saiga
+	name = "Saiga Figurine, Golden"
+	req_bar = /obj/item/ingot/gold
+	created_item = /obj/item/forgeable/gold/saiga
+	craftdiff = SKILL_LEVEL_EXPERT
+	createditem_num = 2
+
+/datum/anvil_recipe/valuables/gold/insect
+	name = "Insect Charm, Golden"
+	req_bar = /obj/item/ingot/gold
+	created_item = /obj/item/forgeable/gold/bug
+	craftdiff = SKILL_LEVEL_EXPERT
+	createditem_num = 2
+
+/datum/anvil_recipe/valuables/gold/cameo
+	name = "Cameo, Golden"
+	req_bar = /obj/item/ingot/gold
+	created_item = /obj/item/forgeable/gold/cameo
+	craftdiff = SKILL_LEVEL_EXPERT
+	createditem_num = 2
+
+/datum/anvil_recipe/valuables/gold/duck
+	name = "Duck, Golden"
+	req_bar = /obj/item/ingot/gold
+	created_item = /obj/item/forgeable/gold/duck
+	craftdiff = SKILL_LEVEL_EXPERT
+	createditem_num = 2
+
+/datum/anvil_recipe/valuables/gold/fish
+	name = "Fish Figurine, Golden"
+	req_bar = /obj/item/ingot/gold
+	created_item = /obj/item/forgeable/gold/fish
+	craftdiff = SKILL_LEVEL_EXPERT
+	createditem_num = 2
+
+/datum/anvil_recipe/valuables/gold/comb
+	name = "Comb, Golden"
+	req_bar = /obj/item/ingot/gold
+	created_item = /obj/item/forgeable/gold/comb
+	craftdiff = SKILL_LEVEL_EXPERT
+	createditem_num = 2
+
+/datum/anvil_recipe/valuables/gold/talisman
+	name = "Talisman, Golden"
+	req_bar = /obj/item/ingot/gold
+	created_item = /obj/item/forgeable/gold/talisman
+	craftdiff = SKILL_LEVEL_EXPERT
+	createditem_num = 2
+
+/datum/anvil_recipe/valuables/gold/caryatid
+	name = "Caryatid, Golden"
+	req_bar = /obj/item/ingot/gold
+	created_item = /obj/item/forgeable/gold/caryatid
+	craftdiff = SKILL_LEVEL_EXPERT
+
+/datum/anvil_recipe/valuables/gold/vase
+	name = "Vase, Golden"
+	req_bar = /obj/item/ingot/gold
+	created_item = /obj/item/forgeable/gold/vase
+	craftdiff = SKILL_LEVEL_EXPERT
+
+/datum/anvil_recipe/valuables/gold/scale
+	name = "Scale, Golden"
+	req_bar = /obj/item/ingot/gold
+	created_item = /obj/item/forgeable/gold/scale
+	craftdiff = SKILL_LEVEL_EXPERT
+
+/datum/anvil_recipe/valuables/gold/bigurns
+	name = "Large Urn, Golden (+ Gold Bar)"
+	req_bar = /obj/item/ingot/gold
+	additional_items = (/obj/item/ingot/gold)
+	created_item = /obj/item/forgeable/gold/bigurn
+	craftdiff = SKILL_LEVEL_EXPERT
+
+/datum/anvil_recipe/valuables/gold/tablet
+	name = "Tablet, Golden"
+	req_bar = /obj/item/ingot/gold
+	created_item = /obj/item/forgeable/gold/tablet
+	craftdiff = SKILL_LEVEL_EXPERT
+
+/datum/anvil_recipe/valuables/gold/totem
+	name = "Totem, Golden"
+	req_bar = /obj/item/ingot/gold
+	created_item = /obj/item/forgeable/gold/totem
+	craftdiff = SKILL_LEVEL_EXPERT
+
+//SILVER
+
+/datum/anvil_recipe/valuables/silver/ashtray
+	name = "Zigtray, Silver"
+	req_bar = /obj/item/ingot/silver
+	created_item = /obj/item/forgeable/silver/ashtray
+	craftdiff = SKILL_LEVEL_JOURNEYMAN
+	createditem_num = 2
+
+/datum/anvil_recipe/valuables/silver/urn
+	name = "Urn, Silver"
+	req_bar = /obj/item/ingot/silver
+	created_item = /obj/item/forgeable/silver/urn
+	craftdiff = SKILL_LEVEL_JOURNEYMAN
+
+/datum/anvil_recipe/valuables/silver/canister
+	name =  "Canister, Silver"
+	req_bar = /obj/item/ingot/silver
+	created_item = /obj/item/forgeable/silver/canister
+	craftdiff = SKILL_LEVEL_JOURNEYMAN
+	
+/datum/anvil_recipe/valuables/silver/bust
+	name = "Bust, Silver"
+	req_bar = /obj/item/ingot/silver
+	created_item = /obj/item/forgeable/silver/bust
+	craftdiff = SKILL_LEVEL_JOURNEYMAN
+
+/datum/anvil_recipe/valuables/silver/obelisk
+	name = "Obelisk, Silver"
+	req_bar = /obj/item/ingot/silver
+	created_item = /obj/item/forgeable/silver/obelisk
+	craftdiff = SKILL_LEVEL_JOURNEYMAN
+
+/datum/anvil_recipe/valuables/silver/figurine
+	name = "Figurine, Silver"
+	req_bar = /obj/item/ingot/silver
+	created_item = /obj/item/forgeable/silver/figurine
+	craftdiff = SKILL_LEVEL_JOURNEYMAN
+	createditem_num = 2
+
+/datum/anvil_recipe/valuables/silver/saiga
+	name = "Saiga Figurine, Silver"
+	req_bar = /obj/item/ingot/silver
+	created_item = /obj/item/forgeable/silver/saiga
+	craftdiff = SKILL_LEVEL_JOURNEYMAN
+	createditem_num = 2
+
+/datum/anvil_recipe/valuables/silver/insect
+	name = "Insect Charm, Silver"
+	req_bar = /obj/item/ingot/silver
+	created_item = /obj/item/forgeable/silver/bug
+	craftdiff = SKILL_LEVEL_JOURNEYMAN
+	createditem_num = 2
+
+/datum/anvil_recipe/valuables/silver/cameo
+	name = "Cameo, Silver"
+	req_bar = /obj/item/ingot/silver
+	created_item = /obj/item/forgeable/silver/cameo
+	craftdiff = SKILL_LEVEL_JOURNEYMAN
+	createditem_num = 2
+
+/datum/anvil_recipe/valuables/silver/duck
+	name = "Duck, Silver"
+	req_bar = /obj/item/ingot/silver
+	created_item = /obj/item/forgeable/silver/duck
+	craftdiff = SKILL_LEVEL_JOURNEYMAN
+	createditem_num = 2
+
+/datum/anvil_recipe/valuables/silver/fish
+	name = "Fish Figurine, Silver"
+	req_bar = /obj/item/ingot/silver
+	created_item = /obj/item/forgeable/silver/fish
+	craftdiff = SKILL_LEVEL_JOURNEYMAN
+	createditem_num = 2
+
+/datum/anvil_recipe/valuables/silver/comb
+	name = "Comb, Silver"
+	req_bar = /obj/item/ingot/silver
+	created_item = /obj/item/forgeable/silver/comb
+	craftdiff = SKILL_LEVEL_JOURNEYMAN
+	createditem_num = 2
+
+/datum/anvil_recipe/valuables/silver/talisman
+	name = "Talisman, Silver"
+	req_bar = /obj/item/ingot/silver
+	created_item = /obj/item/forgeable/silver/talisman
+	craftdiff = SKILL_LEVEL_JOURNEYMAN
+	createditem_num = 2
+
+/datum/anvil_recipe/valuables/silver/caryatid
+	name = "Caryatid, Silver"
+	req_bar = /obj/item/ingot/silver
+	created_item = /obj/item/forgeable/silver/caryatid
+	craftdiff = SKILL_LEVEL_JOURNEYMAN
+
+/datum/anvil_recipe/valuables/silver/vase
+	name = "Vase, Silver"
+	req_bar = /obj/item/ingot/silver
+	created_item = /obj/item/forgeable/silver/vase
+	craftdiff = SKILL_LEVEL_JOURNEYMAN
+
+/datum/anvil_recipe/valuables/silver/scale
+	name = "Scale, Silver"
+	req_bar = /obj/item/ingot/silver
+	created_item = /obj/item/forgeable/silver/scale
+	craftdiff = SKILL_LEVEL_JOURNEYMAN
+
+/datum/anvil_recipe/valuables/silver/bigurns
+	name = "Large Urn, Silver (+ silver Bar)"
+	req_bar = /obj/item/ingot/silver
+	additional_items = (/obj/item/ingot/silver)
+	created_item = /obj/item/forgeable/silver/bigurn
+	craftdiff = SKILL_LEVEL_JOURNEYMAN
+
+/datum/anvil_recipe/valuables/silver/tablet
+	name = "Tablet, Silver"
+	req_bar = /obj/item/ingot/silver
+	created_item = /obj/item/forgeable/silver/tablet
+	craftdiff = SKILL_LEVEL_JOURNEYMAN
+
+/datum/anvil_recipe/valuables/silver/totem
+	name = "Totem, Silver"
+	req_bar = /obj/item/ingot/silver
+	created_item = /obj/item/forgeable/silver/totem
+	craftdiff = SKILL_LEVEL_JOURNEYMAN
+
+// BRONZE 
+
+/datum/anvil_recipe/valuables/bronze/ashtray
+	name = "Zigtray, Bronze"
+	req_bar = /obj/item/ingot/bronze
+	created_item = /obj/item/forgeable/bronze/ashtray
+	craftdiff = SKILL_LEVEL_JOURNEYMAN
+	createditem_num = 2
+
+/datum/anvil_recipe/valuables/bronze/urn
+	name = "Urn, Bronze"
+	req_bar = /obj/item/ingot/bronze
+	created_item = /obj/item/forgeable/bronze/urn
+	craftdiff = SKILL_LEVEL_JOURNEYMAN
+
+/datum/anvil_recipe/valuables/bronze/canister
+	name =  "Canister, Bronze"
+	req_bar = /obj/item/ingot/bronze
+	created_item = /obj/item/forgeable/bronze/canister
+	craftdiff = SKILL_LEVEL_JOURNEYMAN
+	
+/datum/anvil_recipe/valuables/bronze/bust
+	name = "Bust, Bronze"
+	req_bar = /obj/item/ingot/bronze
+	created_item = /obj/item/forgeable/bronze/bust
+	craftdiff = SKILL_LEVEL_JOURNEYMAN
+
+/datum/anvil_recipe/valuables/bronze/obelisk
+	name = "Obelisk, Bronze"
+	req_bar = /obj/item/ingot/bronze
+	created_item = /obj/item/forgeable/bronze/obelisk
+	craftdiff = SKILL_LEVEL_JOURNEYMAN
+
+/datum/anvil_recipe/valuables/bronze/figurine
+	name = "Figurine, Bronze"
+	req_bar = /obj/item/ingot/bronze
+	created_item = /obj/item/forgeable/bronze/figurine
+	craftdiff = SKILL_LEVEL_JOURNEYMAN
+	createditem_num = 2
+
+/datum/anvil_recipe/valuables/bronze/saiga
+	name = "Saiga Figurine, Bronze"
+	req_bar = /obj/item/ingot/bronze
+	created_item = /obj/item/forgeable/bronze/saiga
+	craftdiff = SKILL_LEVEL_JOURNEYMAN
+	createditem_num = 2
+
+/datum/anvil_recipe/valuables/bronze/insect
+	name = "Insect Charm, Bronze"
+	req_bar = /obj/item/ingot/bronze
+	created_item = /obj/item/forgeable/bronze/bug
+	craftdiff = SKILL_LEVEL_JOURNEYMAN
+	createditem_num = 2
+
+/datum/anvil_recipe/valuables/bronze/cameo
+	name = "Cameo, Bronze"
+	req_bar = /obj/item/ingot/bronze
+	created_item = /obj/item/forgeable/bronze/cameo
+	craftdiff = SKILL_LEVEL_JOURNEYMAN
+	createditem_num = 2
+
+/datum/anvil_recipe/valuables/bronze/duck
+	name = "Duck, Bronze"
+	req_bar = /obj/item/ingot/bronze
+	created_item = /obj/item/forgeable/bronze/duck
+	craftdiff = SKILL_LEVEL_JOURNEYMAN
+	createditem_num = 2
+
+/datum/anvil_recipe/valuables/bronze/fish
+	name = "Fish Figurine, Bronze"
+	req_bar = /obj/item/ingot/bronze
+	created_item = /obj/item/forgeable/bronze/fish
+	craftdiff = SKILL_LEVEL_JOURNEYMAN
+	createditem_num = 2
+
+/datum/anvil_recipe/valuables/bronze/comb
+	name = "Comb, Bronze"
+	req_bar = /obj/item/ingot/bronze
+	created_item = /obj/item/forgeable/bronze/comb
+	craftdiff = SKILL_LEVEL_JOURNEYMAN
+	createditem_num = 2
+
+/datum/anvil_recipe/valuables/bronze/talisman
+	name = "Talisman, Bronze"
+	req_bar = /obj/item/ingot/bronze
+	created_item = /obj/item/forgeable/bronze/talisman
+	craftdiff = SKILL_LEVEL_JOURNEYMAN
+	createditem_num = 2
+
+/datum/anvil_recipe/valuables/bronze/caryatid
+	name = "Caryatid, Bronze"
+	req_bar = /obj/item/ingot/bronze
+	created_item = /obj/item/forgeable/bronze/caryatid
+	craftdiff = SKILL_LEVEL_JOURNEYMAN
+
+/datum/anvil_recipe/valuables/bronze/vase
+	name = "Vase, Bronze"
+	req_bar = /obj/item/ingot/bronze
+	created_item = /obj/item/forgeable/bronze/vase
+	craftdiff = SKILL_LEVEL_JOURNEYMAN
+
+/datum/anvil_recipe/valuables/bronze/scale
+	name = "Scale, Bronze"
+	req_bar = /obj/item/ingot/bronze
+	created_item = /obj/item/forgeable/bronze/scale
+	craftdiff = SKILL_LEVEL_JOURNEYMAN
+
+/datum/anvil_recipe/valuables/bronze/bigurns
+	name = "Large Urn, Bronze (+ Bronze Bar)"
+	req_bar = /obj/item/ingot/bronze
+	additional_items = (/obj/item/ingot/bronze)
+	created_item = /obj/item/forgeable/bronze/bigurn
+	craftdiff = SKILL_LEVEL_JOURNEYMAN
+
+/datum/anvil_recipe/valuables/bronze/tablet
+	name = "Tablet, Bronze"
+	req_bar = /obj/item/ingot/bronze
+	created_item = /obj/item/forgeable/bronze/tablet
+	craftdiff = SKILL_LEVEL_JOURNEYMAN
+
+/datum/anvil_recipe/valuables/bronze/totem
+	name = "Totem, Bronze"
+	req_bar = /obj/item/ingot/bronze
+	created_item = /obj/item/forgeable/bronze/totem
+	craftdiff = SKILL_LEVEL_JOURNEYMAN

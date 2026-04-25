@@ -27,11 +27,11 @@
 		"Will the rule of mages bring about a new golden age, " + \
 		"or will it be a brief, shining moment before the realm burns in arcane fire?"
 
-/// Any mage with T2+ arcyne training can invoke — no noble blood required.
+/// Any mage with arcyne training can invoke — no noble blood required.
 /datum/usurpation_rite/lunar_ascension/can_invoke(mob/living/carbon/human/user)
 	if(!..())
 		return FALSE
-	if(get_user_spell_tier(user) < 2)
+	if(!HAS_TRAIT(user, TRAIT_ARCYNE))
 		return FALSE
 	return TRUE
 
@@ -53,7 +53,7 @@
 	if(mage == invoker)
 		to_chat(mage, span_warning("You cannot assent to your own claim."))
 		return FALSE
-	if(get_user_spell_tier(mage) < 1)
+	if(!HAS_TRAIT(mage, TRAIT_ARCYNE))
 		to_chat(mage, span_warning("Only those trained in the Arcyne arts may speak assent to this rite."))
 		return FALSE
 	if(assenters[mage])

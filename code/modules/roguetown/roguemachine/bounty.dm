@@ -439,7 +439,7 @@
 
 	if(correct_head)
 		say("A bounty has been sated.")
-		budget2change((reward_amount))
+		budget2change(reward_amount, A, putinhands = FALSE)
 
 		var/obj/item/clothing/neck/old_mask = M.get_item_by_slot(SLOT_NECK)
 		if(old_mask)
@@ -474,53 +474,3 @@
 		log_admin("[M.real_name] opted to die to the EXCIDIUM.")
 		if(M.Adjacent(src))	//No buffering this for later
 			submission = FALSE
-
-/obj/structure/chair/arrestchair/proc/budget2change(budget, mob/user, specify)
-	var/turf/T
-	if(!user || (!ismob(user)))
-		T = get_turf(src)
-	else
-		T = get_turf(user)
-	if(!budget || budget <= 0)
-		return
-	budget = floor(budget)
-	var/type_to_put
-	var/zenars_to_put
-	if(specify)
-		switch(specify)
-			if("GOLD")
-				zenars_to_put = budget/10
-				type_to_put = /obj/item/roguecoin/gold
-			if("SILVER")
-				zenars_to_put = budget/5
-				type_to_put = /obj/item/roguecoin/silver
-			if("BRONZE")
-				zenars_to_put = budget
-				type_to_put = /obj/item/roguecoin/copper
-	else
-		var/highest_found = FALSE
-		var/zenars = floor(budget/10)
-		if(zenars)
-			budget -= zenars * 10
-			highest_found = TRUE
-			type_to_put = /obj/item/roguecoin/gold
-			zenars_to_put = zenars
-		zenars = floor(budget/5)
-		if(zenars)
-			budget -= zenars * 5
-			if(!highest_found)
-				highest_found = TRUE
-				type_to_put = /obj/item/roguecoin/silver
-				zenars_to_put = zenars
-			else
-				new /obj/item/roguecoin/silver(T, zenars)
-		if(budget >= 1)
-			if(!highest_found)
-				type_to_put = /obj/item/roguecoin/copper
-				zenars_to_put = budget
-			else
-				new /obj/item/roguecoin/copper(T, budget)
-	if(!type_to_put || zenars_to_put < 1)
-		return
-	new type_to_put(T, floor(zenars_to_put))
-	playsound(T, 'sound/misc/coindispense.ogg', 100, FALSE, -1)

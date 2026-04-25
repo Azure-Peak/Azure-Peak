@@ -171,6 +171,8 @@
 	for(var/obj/effect/proc_holder/spell/S in owner.mind.spell_list)
 		if(S.action)
 			S.action.build_all_button_icons(UPDATE_BUTTON_STATUS)
+	for(var/datum/action/cooldown/spell/S in owner.mind.spell_list)
+		S.build_all_button_icons(UPDATE_BUTTON_STATUS)
 
 /datum/status_effect/buff/arcyne_momentum/tick()
 	if(stacks > 0 && world.time - last_stack_time >= MOMENTUM_DECAY_DELAY)

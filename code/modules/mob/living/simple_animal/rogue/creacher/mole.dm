@@ -29,7 +29,7 @@
 						/obj/item/alch/bone = 1,
 						/obj/item/alch/viscera = 1)
 	head_butcher = /obj/item/natural/head/mole
-	faction = list("wolfs")
+	faction = list(FACTION_WOLFS)
 	threat_point = THREAT_MODERATE
 	ambush_faction = "wildlife"
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
@@ -78,8 +78,8 @@
 
 /mob/living/simple_animal/hostile/retaliate/rogue/mole/Initialize()
 	. = ..()
+	AddComponent(/datum/component/ai_aggro_system)
 	gender = MALE
-	AddElement(/datum/element/ai_retaliate)
 	if(prob(33))
 		gender = FEMALE
 	update_icon()

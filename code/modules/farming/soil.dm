@@ -177,6 +177,8 @@ GLOBAL_LIST_EMPTY(soil_list)
 		playsound(user, pick_n_take(wash), 100, FALSE)
 		to_chat(user, span_notice("I water the soil."))
 		adjust_water(water_amount)
+		update_icon()
+		needs_icon_update = FALSE
 		return TRUE
 	return FALSE
 
@@ -419,14 +421,14 @@ GLOBAL_LIST_EMPTY(soil_list)
 	process_soil(dt)
 	if(soil_decay_time <= 0)
 		decay_soil()
-	if (plant && needs_icon_update) // only call icon updates if we really need to (aka if we've requested an icon update and if we have a plant)
+	if(needs_icon_update) // only call icon updates if we really need to (aka if we've requested an icon update and if we have a plant)
 		update_icon()
 		needs_icon_update = FALSE
 
 /obj/structure/soil/weather_act_on(weather_trait, severity)
 	if(weather_trait != PARTICLEWEATHER_RAIN)
 		return
-	water = min(MAX_PLANT_WATER, water + min(5, severity / 4))
+	adjust_water(min(5, severity / 4))
 
 /obj/structure/soil/update_icon()
 	. = ..()

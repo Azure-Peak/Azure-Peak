@@ -73,13 +73,13 @@
 		return
 	else
 		active_item = TRUE
-		ADD_TRAIT(user, TRAIT_NOFIRE, "[type]")
+		ADD_TRAIT(user, TRAIT_FIRE_RESIST, "[type]")
 		to_chat(user, span_notice("I feel fire-resistant!"))
 
 /datum/magic_item/superior/fireresist/on_drop(var/obj/item/i, var/mob/living/user)
 	if(active_item)
 		active_item = FALSE
-		REMOVE_TRAIT(user, TRAIT_NOFIRE, "[type]")
+		REMOVE_TRAIT(user, TRAIT_FIRE_RESIST, "[type]")
 		to_chat(user, span_notice("I feel mundane once more"))
 
 /datum/magic_item/superior/climbing
@@ -165,29 +165,6 @@
 				user.adjust_skillrank(/datum/skill/misc/stealing, -2, TRUE)
 		if(!legendlockpick)
 			user.adjust_skillrank(/datum/skill/misc/lockpicking, -1, TRUE)
-		to_chat(user, span_notice("I feel mundane once more"))
-
-/datum/magic_item/superior/trekk
-	name = "Longstriding"
-	description = "It looks like it can be used to move through rough terrain"
-	glow_color = "#8B7355"
-	var/active_item = FALSE
-
-/datum/magic_item/superior/trekk/on_equip(var/obj/item/i, var/mob/living/user, slot)
-	. = ..()
-	if(slot == ITEM_SLOT_HANDS)
-		return
-	if(active_item)
-		return
-	else
-		active_item = TRUE
-		ADD_TRAIT(user, TRAIT_LONGSTRIDER, "[type]")
-		to_chat(user, span_notice("I feel like I can move through rough ground easily!"))
-
-/datum/magic_item/superior/trekk/on_drop(var/obj/item/i, var/mob/living/user)
-	if(active_item)
-		active_item = FALSE
-		REMOVE_TRAIT(user, TRAIT_LONGSTRIDER, "[type]")
 		to_chat(user, span_notice("I feel mundane once more"))
 
 /datum/magic_item/superior/smithing

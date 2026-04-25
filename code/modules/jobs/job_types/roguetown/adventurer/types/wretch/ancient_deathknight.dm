@@ -82,10 +82,11 @@
 	backpack_contents = list(
 		/obj/item/rogueweapon/huntingknife/idagger/steel/corroded = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1,
+		/obj/item/book/spellbook = 1,
 	)
 
 	if(H.mind)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/mending)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/mending)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/suicidebomb/lesser)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/bonemend)
 

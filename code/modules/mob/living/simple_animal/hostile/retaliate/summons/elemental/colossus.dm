@@ -18,7 +18,7 @@
 	base_intents = list(/datum/intent/simple/elementalt2_unarmed)
 	butcher_results = list()
 	death_loot = list(/obj/item/magic/elemental/relic = 1)
-	faction = list("elemental")
+	faction = list(FACTION_ELEMENTAL)
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
 	health = 1500
 	maxHealth = 1500
@@ -135,7 +135,7 @@
 	icon_state = "rock"
 	damage = 30
 	damage_type = BRUTE
-	flag = "magic"
+	flag = "fire"
 	range = 10
 	speed = 16 //higher is slower
 

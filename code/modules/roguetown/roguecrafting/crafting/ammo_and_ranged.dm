@@ -335,6 +335,99 @@
 	craftdiff = 0
 	skillcraft = /datum/skill/craft/engineering
 
+/datum/crafting_recipe/roguetown/survival/iron_slingbullets
+	name = "hammered iron sling bullets (x10)"
+	category = "Ranged"
+	result = list(
+		/obj/item/ammo_casing/caseless/rogue/sling_bullet/iron,
+		/obj/item/ammo_casing/caseless/rogue/sling_bullet/iron,
+		/obj/item/ammo_casing/caseless/rogue/sling_bullet/iron,
+		/obj/item/ammo_casing/caseless/rogue/sling_bullet/iron,
+		/obj/item/ammo_casing/caseless/rogue/sling_bullet/iron,
+		/obj/item/ammo_casing/caseless/rogue/sling_bullet/iron,
+		/obj/item/ammo_casing/caseless/rogue/sling_bullet/iron,
+		/obj/item/ammo_casing/caseless/rogue/sling_bullet/iron,
+		/obj/item/ammo_casing/caseless/rogue/sling_bullet/iron,
+		/obj/item/ammo_casing/caseless/rogue/sling_bullet/iron,
+	)
+	reqs = list(/obj/item/ingot/iron = 1)
+	tools = list(/obj/item/rogueweapon/hammer)
+	req_table = TRUE
+	craftdiff = 2
+	skillcraft = /datum/skill/craft/engineering
+	verbage_simple = "hammer out"
+	verbage = "hammers out"
+
+/datum/crafting_recipe/roguetown/survival/steel_scattershot
+	name = "hammered steel scattershot (x10)"
+	category = "Ranged"
+	result = list(
+		/obj/item/ammo_casing/caseless/rogue/sling_bullet/scattershot,
+		/obj/item/ammo_casing/caseless/rogue/sling_bullet/scattershot,
+		/obj/item/ammo_casing/caseless/rogue/sling_bullet/scattershot,
+		/obj/item/ammo_casing/caseless/rogue/sling_bullet/scattershot,
+		/obj/item/ammo_casing/caseless/rogue/sling_bullet/scattershot,
+		/obj/item/ammo_casing/caseless/rogue/sling_bullet/scattershot,
+		/obj/item/ammo_casing/caseless/rogue/sling_bullet/scattershot,
+		/obj/item/ammo_casing/caseless/rogue/sling_bullet/scattershot,
+		/obj/item/ammo_casing/caseless/rogue/sling_bullet/scattershot,
+		/obj/item/ammo_casing/caseless/rogue/sling_bullet/scattershot,
+	)
+	reqs = list(/obj/item/ingot/steel = 1)
+	tools = list(/obj/item/rogueweapon/hammer)
+	req_table = TRUE
+	craftdiff = 3
+	skillcraft = /datum/skill/craft/engineering
+	verbage_simple = "hammer out"
+	verbage = "hammers out"
+
+/datum/crafting_recipe/roguetown/survival/heavy_sling_bullet
+	name = "heavy sling bullet (x2)"
+	category = "Ranged"
+	result = list(
+		/obj/item/ammo_casing/caseless/rogue/sling_bullet/heavy_sling_bullet,
+		/obj/item/ammo_casing/caseless/rogue/sling_bullet/heavy_sling_bullet,
+	)
+	reqs = list(/obj/item/natural/stone = 3)
+	req_table = TRUE
+	verbage_simple = "shape"
+	verbage = "shapes"
+	craftdiff = 1
+
+/datum/crafting_recipe/roguetown/survival/fire_pot
+	name = "fire pot (x4)"
+	category = "Ranged"
+	result = list(
+		/obj/item/ammo_casing/caseless/rogue/sling_bullet/fire_pot,
+		/obj/item/ammo_casing/caseless/rogue/sling_bullet/fire_pot,
+		/obj/item/ammo_casing/caseless/rogue/sling_bullet/fire_pot,
+		/obj/item/ammo_casing/caseless/rogue/sling_bullet/fire_pot,
+	)
+	reqs = list(
+		/obj/item/alch/firedust = 1,
+		/obj/item/natural/clay = 1,
+	)
+	req_table = TRUE
+	craftdiff = 3
+	skillcraft = /datum/skill/craft/alchemy
+	verbage_simple = "prepare"
+	verbage = "prepares"
+
+/datum/crafting_recipe/roguetown/survival/runicflask
+	name = "runic tincture flask"
+	category = "Ranged"
+	result = /obj/item/runicflask/charged
+	reqs = list(
+		/obj/item/alch/firedust = 2,
+		/obj/item/alch/waterdust = 2,
+		/obj/item/natural/hide/cured = 2,
+	)
+	req_table = TRUE
+	craftdiff = 4
+	skillcraft = /datum/skill/craft/alchemy
+	verbage_simple = "assemble"
+	verbage = "assembles"
+
 /datum/crafting_recipe/roguetown/survival/slingcraft
 	name = "sling"
 	category = "Ranged"

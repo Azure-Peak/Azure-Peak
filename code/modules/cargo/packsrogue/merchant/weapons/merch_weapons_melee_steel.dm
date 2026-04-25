@@ -173,6 +173,13 @@
 					/obj/item/rogueweapon/estoc,
 				)
 
+/datum/supply_pack/rogue/steel_weapons/aplongsword
+	name = "Stecher"
+	cost = 75 // 2 Steel Ingot, 1 Small Log
+	contains = list(
+					/obj/item/rogueweapon/sword/long/ap,
+				)
+
 /datum/supply_pack/rogue/steel_weapons/greataxe
 	name = "Greataxe"
 	cost = 75 // 2 Steel Ingot, 1 Small Log

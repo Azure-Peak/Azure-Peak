@@ -8,6 +8,8 @@
 	req_omen = TRUE
 	todreq = list("dusk", "night", "dawn", "day")
 	earliest_start = 2 HOURS
+	announce_text = "The dead walk! Skeletons rise to plague the living!"
+	announce_title = "Skeleton Omen"
 	var/last_siege = 0
 
 
@@ -102,7 +104,7 @@
 					valid_turfs -= T
 					if(T)
 						var/mob/living/carbon/human/species/skeleton/S = new /mob/living/carbon/human/species/skeleton/npc(T)
-						S.faction = list("skeleton")
+						S.faction = list(FACTION_SKELETON)
 						
 		if(wave < waves)
 			sleep(spawn_delay) // Wait before next wave

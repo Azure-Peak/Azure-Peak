@@ -105,8 +105,14 @@
 	target.update_vision_cone()
 	target.remove_movespeed_modifier(MOVESPEED_ID_LIGHTNINGSTRUCK, TRUE)
 
+/datum/status_effect/buff/lightningstruck/minor
+	duration = 3 SECONDS
+	effectedstats = list("speed" = -1)
 
-
+/datum/status_effect/buff/lightningstruck/minor/on_apply()
+	. = ..()
+	var/mob/living/target = owner
+	target.add_movespeed_modifier(MOVESPEED_ID_LIGHTNINGSTRUCK, update=TRUE, priority=100, multiplicative_slowdown=1, movetypes=GROUND)
 
 
 // arcane marks plus helper procs

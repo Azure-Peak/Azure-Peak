@@ -205,7 +205,7 @@
 	list_reagents = list(/datum/reagent/consumable/nutriment = MEAL_AVERAGE)
 	tastes = list("fried egg" = 1, "sausage" = 1, "bacon" = 1, "toast" = 1)
 	name = "Hammerholdian breakfast"
-	desc = "A classic of the northern fortresses, peeled of it's more exotic ingredients for Azurean kitchens, a true staple of Dwarven diet."
+	desc = "A classic of the northern fortresses, peeled of its more exotic ingredients for Azurean kitchens, a true staple of Dwarven diet."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_egg.dmi'
 	icon_state = "hammerbreak"
 	eat_effect = /datum/status_effect/buff/greatmealbuff

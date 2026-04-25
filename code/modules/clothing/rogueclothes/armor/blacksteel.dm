@@ -28,7 +28,7 @@
 
 /obj/item/clothing/suit/roguetown/armor/plate/blacksteel
 	name = "ancient blacksteel half-plate"
-	desc = "An antiquated blacksteel cuirass, forged in an age when Psydonia's smiths still wrestled with the temperament of this jealous alloy. It's weight settles heavy upon the shoulders, and its pauldrons slope like a knight bowing to fate."
+	desc = "An antiquated blacksteel cuirass, forged in an age when Psydonia's smiths still wrestled with the temperament of this jealous alloy. Its weight settles heavy upon the shoulders, and its pauldrons slope like a knight bowing to fate."
 	body_parts_covered = COVERAGE_ALL_BUT_HANDLEGS
 	icon_state = "bkhalfarmor"
 	item_state = "bkhalfarmor"

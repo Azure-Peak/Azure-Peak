@@ -25,9 +25,11 @@
 @include meta.load-css('./themes/azure_psydonic.scss');
 @include meta.load-css('./themes/azure_lingyue.scss');
 @include meta.load-css('./themes/trey_liam.scss');
+@include meta.load-css('./themes/grimoire.scss');
 
 // Interfaces
 @include meta.load-css('./interfaces/AlertModal.scss');
+@include meta.load-css('./interfaces/AspectPicker.scss');
 @include meta.load-css('./interfaces/Changelog.scss');
 @include meta.load-css('./interfaces/CrewManifest.scss');
 @include meta.load-css('./interfaces/Emojipedia.scss');

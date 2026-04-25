@@ -48,9 +48,25 @@
 	craftdiff = 1
 	sellprice = 30
 
+/datum/crafting_recipe/roguetown/weaving/undividedrobe
+	name = "undivided robes"
+	result = list(/obj/item/clothing/suit/roguetown/shirt/robe/undivided)
+	reqs = list(/obj/item/natural/cloth = 3,
+				/obj/item/natural/silk = 1)
+	craftdiff = 4
+	sellprice = 25
+
 /datum/crafting_recipe/roguetown/weaving/astratarobe
 	name = "astrata robes"
 	result = list(/obj/item/clothing/suit/roguetown/shirt/robe/astrata)
+	reqs = list(/obj/item/natural/cloth = 3,
+				/obj/item/natural/silk = 1)
+	craftdiff = 4
+	sellprice = 25
+
+/datum/crafting_recipe/roguetown/weaving/ravoxrobe
+	name = "ravox robes"
+	result = list(/obj/item/clothing/suit/roguetown/shirt/robe/ravox)
 	reqs = list(/obj/item/natural/cloth = 3,
 				/obj/item/natural/silk = 1)
 	craftdiff = 4
@@ -64,6 +80,14 @@
 	craftdiff = 4
 	sellprice = 25
 
+/datum/crafting_recipe/roguetown/weaving/undividedhood
+	name = "undivided hood"
+	result = list(/obj/item/clothing/head/roguetown/roguehood/undivided)
+	reqs = list(/obj/item/natural/cloth = 2,
+				/obj/item/natural/silk = 1)
+	craftdiff = 3
+	sellprice = 25
+
 /datum/crafting_recipe/roguetown/weaving/abyssorhood
 	name = "abyssor hood"
 	result = list(/obj/item/clothing/head/roguetown/roguehood/abyssor)
@@ -75,6 +99,14 @@
 /datum/crafting_recipe/roguetown/weaving/astratahood
 	name = "solar hood"
 	result = list(/obj/item/clothing/head/roguetown/roguehood/astrata)
+	reqs = list(/obj/item/natural/cloth = 2,
+				/obj/item/natural/silk = 1)
+	craftdiff = 3
+	sellprice = 25
+
+/datum/crafting_recipe/roguetown/weaving/ravoxhood
+	name = "ravox hood"
+	result = list(/obj/item/clothing/head/roguetown/roguehood/ravox)
 	reqs = list(/obj/item/natural/cloth = 2,
 				/obj/item/natural/silk = 1)
 	craftdiff = 3

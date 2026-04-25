@@ -1,11 +1,8 @@
-/obj/effect/proc_holder/spell/invoked/song/furtive_fortissimo
+/datum/action/cooldown/spell/song/furtive_fortissimo
 	name = "Furtive Fortissimo"
-	desc = "With cat like tread, apply light steps to audience members"
-	song_tier = 1
-	invocations = list("plays a sneaky, playful tune. The world draws closer to listen, in on the joke.") 
-	invocation_type = "emote"
-	overlay_state = "bardsong_t1_base"
-	action_icon_state = "bardsong_t1_base"
+	desc = "With cat like tread, apply light steps to audience members."
+	button_icon_state = "bardsong_t1_base"
+	invocations = list("plays a sneaky, playful tune. The world draws closer to listen, in on the joke.")
 	song_effect = /datum/status_effect/buff/playing_melody/furtive_fortissimo
 
 /datum/status_effect/buff/playing_melody/furtive_fortissimo
@@ -32,4 +29,3 @@
 	. = ..()
 	to_chat(owner, span_warning("The playful tune ends. I will have to be careful of ambushes, now."))
 	REMOVE_TRAIT(owner, TRAIT_LIGHT_STEP, id)
-

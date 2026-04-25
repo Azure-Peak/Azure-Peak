@@ -1,30 +1,37 @@
-/obj/effect/proc_holder/spell/invoked/projectile/lesser_fetch
+/datum/action/cooldown/spell/projectile/lesser_fetch
 	name = "Lesser Fetch"
 	desc = "Shoot out a magical bolt that draws in a freestanding item towards the caster. Doesn't work on living targets."
-	clothes_req = FALSE
-	range = 15
-	projectile_type = /obj/projectile/magic/lesser_fetch
-	sound = list('sound/magic/magnet.ogg')
-	active = FALSE
-	releasedrain = SPELLCOST_MINOR_PROJECTILE
-	chargedrain = 0
-	chargetime = 0
-	recharge_time = 8 SECONDS
-	warnie = "spellwarning"
-	overlay_state = "fetch"
-	no_early_release = TRUE
-	charging_slowdown = 1
-	spell_tier = 1
+	button_icon = 'icons/mob/actions/roguespells.dmi'
+	button_icon_state = "fetch"
+	sound = 'sound/magic/magnet.ogg'
+	spell_color = GLOW_COLOR_ARCANE
+	glow_intensity = GLOW_INTENSITY_LOW
+
+	click_to_activate = TRUE
+	cast_range = 15
+
+	primary_resource_type = SPELL_COST_STAMINA
+	primary_resource_cost = SPELLCOST_MINOR_PROJECTILE
+
 	invocations = list("Recolligere Minora")
-	invocation_type = "whisper"
-	hide_charge_effect = TRUE // essential for rogue mage
-	chargedloop = /datum/looping_sound/invokegen
+	invocation_type = INVOCATION_WHISPER
+
+	charge_required = FALSE
+	cooldown_time = 8 SECONDS
+
+	projectile_type = /obj/projectile/magic/lesser_fetch
+
 	associated_skill = /datum/skill/magic/arcane
-	cost = 1
+	spell_tier = 1
+	spell_impact_intensity = SPELL_IMPACT_LOW
+	point_cost = 1
+
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
 
 /obj/projectile/magic/lesser_fetch
 	name = "lesser bolt of fetching"
 	icon_state = "cursehand0"
+	flag = "blunt"
 	range = 15
 	cannot_cross_z = TRUE
 

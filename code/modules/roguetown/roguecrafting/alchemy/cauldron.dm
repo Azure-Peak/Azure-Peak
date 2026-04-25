@@ -189,7 +189,7 @@
 			in_caul.forceMove(get_turf(user))
 	if(reagents)
 		chem_splash(loc, 2, list(reagents))
-	user.visible_message("<span class='info'>[user] kicks [src],spilling it's contents!</span>")
+	user.visible_message("<span class='info'>[user] kicks [src],spilling its contents!</span>")
 	playsound(src, 'sound/items/beartrap2.ogg', 100, FALSE)
 	return ..()
 

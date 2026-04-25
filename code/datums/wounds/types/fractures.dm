@@ -280,7 +280,7 @@
 	check_name = span_bone("<B>NECKSHATTER</B>")
 	crit_message = list(
 		"THE SPINE SHATTERS!", //Me when I use APDS against 89 degree slope instead of 90
-		"THE SPINE SNAPS IN SPECTACULAR WAY!",
+		"THE SPINE SNAPS IN A SPECTACULAR WAY!",
 		"THE SPINE POPS WITH A SICKENING NOISE!",
 	)
 	whp = 100

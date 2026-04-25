@@ -133,7 +133,7 @@
 					picked_message = pick(wonders_of_the_stars)
 				if(3) // HERMES
 					H.apply_status_effect(/datum/status_effect/buff/hermes_trismegistus)
-					picked_message = span_info("Hermes' swifted orbit graces a shadow between Astrata and Noc...")
+					picked_message = span_info("Hermes' swift orbit graces a shadow between Astrata and Noc...")
 					H.playsound_local('sound/items/write.ogg', 40, TRUE)
 				if(4) // NEPOLX OR NEOPLX or NEOPETS
 					picked_message = span_info("Nepolx's saffiric glow wounds the heart with a sense of sudden somberness...")

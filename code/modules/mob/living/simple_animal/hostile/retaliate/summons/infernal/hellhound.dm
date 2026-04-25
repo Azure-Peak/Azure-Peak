@@ -19,7 +19,7 @@
 	base_intents = list(/datum/intent/simple/bite)
 	butcher_results = list()
 	death_loot = list(/obj/item/magic/infernal/fang = 2)
-	faction = list("infernal")
+	faction = list(FACTION_INFERNAL)
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
 	health = 270
 	maxHealth = 270
@@ -71,7 +71,7 @@
 		var/mob/living/targetted = target
 		if(!isliving(target))
 			return
-		targetted.adjust_fire_stacks(5)
+		targetted.adjust_fire_stacks(3)
 		targetted.ignite_mob()
 		targetted.visible_message(span_danger("[src] sets [target] on fire!"))
 		src.flame_cd = world.time

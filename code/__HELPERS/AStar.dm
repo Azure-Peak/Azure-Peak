@@ -181,16 +181,6 @@ Also added 'exclude' turf to avoid travelling over; defaults to null
 	if(!T || T.density)
 		return FALSE
 	if(!T.can_traverse_safely(caller)) // dangerous turf! lava or openspace (or others in the future)
-		// If we can jump, jump over it!
-		if(!ishuman(caller)) // sorry, only humanmobs can jump atm
-			return FALSE
-		var/mob/living/carbon/human/human_caller = caller
-		if(!human_caller.npc_jump_chance) // If we can't jump at all, don't bother.
-			return FALSE
-		var/turf/landing_turf = get_step_away(T, src) // this is the turf we'd want to land on
-		// currently we'll only try to jump 2-tile gaps
-		if(recursive_call < 2 && T.reachableTurftest3d(caller, landing_turf, ID, recursive_call + 1))
-			return TRUE // jumpable
 		return FALSE
 	var/z_distance = abs(T.z - z)
 	if(!z_distance) // standard check for same-z pathing
@@ -214,6 +204,9 @@ Also added 'exclude' turf to avoid travelling over; defaults to null
 	var/rdir = GLOB.reverse_dir[adir]
 	for(var/obj/O in T)
 		if(!O.CanAStarPass(ID, rdir, caller))
+			return TRUE
+	for(var/obj/O in src)
+		if(!O.CanAStarPass(ID, adir, caller))
 			return TRUE
 	for(var/mob/living/M in T)
 		if(!M.CanPass(caller, src))

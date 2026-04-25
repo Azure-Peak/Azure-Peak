@@ -391,6 +391,17 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark)
 	delete_after_roundstart = FALSE
 	jobspawn_override = list("Wretch")
 
+/obj/effect/landmark/start/hag
+	name = "hag"
+	icon_state = "arrow"
+	jobspawn_override = list("Hag")
+
+/obj/effect/landmark/start/haglate
+	name = "hag"
+	icon_state = "arrow"
+	delete_after_roundstart = FALSE
+	jobspawn_override = list("Hag")
+
 /obj/effect/landmark/start/gnoll
 	name = "gnoll"
 	icon_state = "arrow"

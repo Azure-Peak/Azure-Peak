@@ -63,6 +63,36 @@
 		return TRUE
 	return ..()
 
+// This is snowflaked bump code for mineral walls. Bumping into walls allows you to mine them, if you have apprentice+ skill.
+// My wrists hurt. Let us have this. okay?
+/turf/closed/mineral/Bumped(atom/movable/AM)
+	. = ..()
+
+	if(!ishuman(AM))
+		return
+	var/mob/living/carbon/human/user = AM
+	var/obj/item = user.get_active_held_item()
+
+	if(istype(user.used_intent, /datum/intent/pick) && (user.get_skill_level(/datum/skill/labor/mining) >= SKILL_LEVEL_APPRENTICE))
+		if(!do_after(user, 1 SECONDS, TRUE, src, TRUE, null, TRUE))
+			return
+		if(!ismineralturf(src))
+			return
+		attackby(item, user, multiplier = 2)
+	if(user.used_intent.type == /datum/intent/drill && (user.get_skill_level(/datum/skill/labor/mining) >= SKILL_LEVEL_APPRENTICE) && (istype(item, /obj/item/contraption/pick/drill)))
+		var/obj/item/contraption/pick/drill/drillitem = item
+		if(drillitem.current_charge < 10)
+			to_chat(user, span_notice("Not enough fuel!"))
+			return
+		if(!do_after(user, 1 SECONDS, TRUE, src, TRUE, null, TRUE))
+			return
+		if(!ismineralturf(src))
+			return
+		attackby(drillitem, user, multiplier = 2) //higherimpact
+		drillitem.current_charge -= 10
+
+	return
+
 /turf/closed/mineral/attackby(obj/item/I, mob/user, params, multiplier)
 	if (!user.IsAdvancedToolUser())
 		to_chat(usr, span_warning("I don't have the dexterity to do this!"))
@@ -120,18 +150,18 @@
 
 /turf/closed/mineral/attack_right(mob/user)
 	var/obj/item = user.get_active_held_item()
-	if(user.used_intent.type == /datum/intent/pick && (user.get_skill_level(/datum/skill/labor/mining) >= SKILL_LEVEL_JOURNEYMAN))
-		if(do_after(user, 4 SECONDS, TRUE, src))
+	if(istype(user.used_intent, /datum/intent/pick) && (user.get_skill_level(/datum/skill/labor/mining) >= SKILL_LEVEL_APPRENTICE))
+		if(do_after(user, 2 SECONDS, TRUE, src))
 			if(!ismineralturf(src))
 				return
 			src.attackby(item, user, multiplier = 4)
 			user.stamina_add(25)
-	if(user.used_intent.type == /datum/intent/drill && (user.get_skill_level(/datum/skill/craft/engineering) >= SKILL_LEVEL_JOURNEYMAN) && (istype(item, /obj/item/contraption/pick/drill)))
+	if(user.used_intent.type == /datum/intent/drill && (user.get_skill_level(/datum/skill/craft/engineering) >= SKILL_LEVEL_APPRENTICE) && (istype(item, /obj/item/contraption/pick/drill)))
 		var/obj/item/contraption/pick/drill/drillitem = item
 		if(drillitem.current_charge < 10)
 			to_chat(user, span_notice("Not enough fuel!"))
 			return
-		if(do_after(user, 2 SECONDS, TRUE, src))
+		if(do_after(user, 1.5 SECONDS, TRUE, src))
 			if(!ismineralturf(src))
 				return
 			src.attackby(drillitem, user, multiplier = 5) //higherimpact
@@ -173,20 +203,26 @@
 
 /turf/closed/mineral/proc/gets_drilled(mob/living/user, triggered_by_explosion = FALSE, give_exp = TRUE)
 	new /obj/item/natural/stone(src)
+	var/autodestroy = FALSE
+	if(!isnull(user))
+		var/held = user.get_active_held_item()
+		if(istype(held, /obj/item/rogueweapon/pick))
+			var/obj/item/rogueweapon/pick/P = held
+			autodestroy = P.auto_boulder
 	if(prob(30))
 		new /obj/item/natural/stone(src)
 	if (mineralType && (mineralAmt > 0))
 		if(prob(33)) //chance to spawn ore directly
 			new mineralType(src)
 		if(rockType) //always spawn at least 1 rock
-			new rockType(src)
+			new rockType(src, autodestroy)
 			if(prob(23))
-				new rockType(src)
+				new rockType(src, autodestroy)
 		SSblackbox.record_feedback("tally", "ore_mined", mineralAmt, mineralType)
 	else if(user?.goodluck(2))
 		var/newthing = pickweight(list(/obj/item/natural/rock/salt = 2, /obj/item/natural/rock/iron = 1, /obj/item/natural/rock/coal = 2))
 //		to_chat(user, "<span class='notice'>Bonus ducks!</span>")
-		new newthing(src)
+		new newthing(src, autodestroy)
 	var/flags = NONE
 	if(defer_change) // TODO: make the defer change var a var for any changeturf flag
 		flags = CHANGETURF_DEFER_CHANGE

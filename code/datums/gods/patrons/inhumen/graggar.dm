@@ -22,6 +22,7 @@
 		"THE GOD OF CONQUEST DEMANDS BLOOD!",
 	)
 	storyteller = /datum/storyteller/graggar
+	crafting_recipes = list(/datum/crafting_recipe/roguetown/structure/graggar_cross_stone, /datum/crafting_recipe/roguetown/structure/graggar_cross_meat)
 
 /datum/patron/inhumen/graggar/on_lesser_heal(
     mob/living/user,
@@ -71,7 +72,7 @@
 	// Allows prayer near EEEVIL psycross
 	for(var/obj/structure/fluff/psycross/zizocross/cross in view(4, get_turf(follower)))
 		if(cross.divine == TRUE)
-			to_chat(follower, span_danger("That acursed cross interupts my prayers!"))
+			to_chat(follower, span_danger("That accursed cross interupts my prayers!"))
 			return FALSE
 		return TRUE
 	// Allows prayer if actively bleeding.

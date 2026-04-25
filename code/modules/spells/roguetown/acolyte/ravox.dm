@@ -16,7 +16,7 @@
 	chargedloop = null
 	associated_skill = /datum/skill/magic/holy
 	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
-	sound = 'sound/magic/timestop.ogg'
+	sound = 'sound/magic/battletrance.ogg'
 	invocations = list("By Ravox, stand and fight!")
 	invocation_type = "shout"
 	antimagic_allowed = TRUE
@@ -91,7 +91,7 @@
 	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
 	invocations = list("FOR GLORY AND HONOR!")
 	invocation_type = "shout"
-	sound = 'sound/magic/timestop.ogg'
+	sound = 'sound/magic/battle_cry.ogg'
 	releasedrain = 30
 	miracle = TRUE
 	devotion_cost = 40
@@ -125,7 +125,7 @@
 	range = 7
 	warnie = "sydwarning"
 	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
-	sound = 'sound/magic/timestop.ogg'
+	sound = 'sound/magic/persistence.ogg'
 	invocations = list("Ravox deems your persistence worthy!")
 	invocation_type = "shout"
 	associated_skill = /datum/skill/magic/holy
@@ -186,7 +186,7 @@
 /atom/movable/screen/alert/status_effect/buff/divine_strike
 	name = "Divine Strike"
 	desc = "Your next attack slows your target, lowering their WIL and SPD."
-	icon_state = "stressvg"
+	icon_state = "divine_strike"
 
 /obj/effect/proc_holder/spell/invoked/tug_of_war
 	name = "Tug of War"
@@ -202,7 +202,7 @@
 	chargedloop = null
 	associated_skill = /datum/skill/magic/holy
 	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
-	sound = 'sound/magic/timestop.ogg'
+	sound = 'sound/magic/battletrance.ogg'
 	invocations = list("By Ravox, let your sins guide you to justice!")
 	invocation_type = "shout"
 	antimagic_allowed = FALSE
@@ -274,7 +274,7 @@
 	chargedloop = null
 	associated_skill = /datum/skill/magic/holy
 	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
-	sound = 'sound/magic/timestop.ogg'
+	sound = 'sound/magic/battletrance.ogg'
 	invocations = list("By Ravox, I challenge you!!")
 	chargedloop = /datum/looping_sound/invokeholy
 	invocation_type = "shout"
@@ -446,7 +446,7 @@ GLOBAL_LIST_EMPTY(arenafolks) // we're just going to use a list and add to it. S
 	chargedloop = null
 	associated_skill = /datum/skill/magic/holy
 	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
-	sound = 'sound/magic/timestop.ogg'
+	sound = 'sound/magic/battletrance.ogg'
 	invocations = list("I stand, by Ravox!")
 	invocation_type = "shout"
 	antimagic_allowed = TRUE
@@ -497,7 +497,7 @@ GLOBAL_LIST_EMPTY(arenafolks) // we're just going to use a list and add to it. S
 	chargedloop = null
 	associated_skill = /datum/skill/magic/holy
 	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
-	sound = 'sound/magic/timestop.ogg'
+	sound = 'sound/magic/battletrance.ogg'
 	invocations = list("By Ravox, come to me!")
 	invocation_type = "shout"
 	antimagic_allowed = TRUE
@@ -511,12 +511,12 @@ GLOBAL_LIST_EMPTY(arenafolks) // we're just going to use a list and add to it. S
 	var/skill = user.get_skill_level(/datum/skill/magic/holy)
 	var/dist = (3 + skill)
 	for(var/mob/living/mob in view(dist, get_turf(user)))
-		if(!mob.mind)
+		if(!mob.mind && mob.ai_controller)
 			mob.ai_controller.set_blackboard_key(BB_BASIC_MOB_CURRENT_TARGET, user)
-			if(ishuman(mob))
-				var/mob/living/carbon/human/hmob = mob
-				hmob.should_target(user)
-				hmob.validate_path(user)
+			mob.ai_controller.set_blackboard_key(BB_HIGHEST_THREAT_MOB, user)
+			var/datum/component/ai_aggro_system/aggro = mob.GetComponent(/datum/component/ai_aggro_system)
+			if(aggro)
+				aggro.add_threat_to_mob(user, 50)
 			checkgate = TRUE
 	if(checkgate == TRUE)
 		user.apply_status_effect(/datum/status_effect/buff/ravox_provocation, skill)

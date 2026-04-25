@@ -14,6 +14,7 @@
 	refundable = FALSE
 	cost = 6 // 6 points seems relatively fair for a low potency tank simplemobs.
 	spell_tier = 3 // Mage tier
+	spell_impact_intensity = SPELL_IMPACT_NONE
 	chargedloop = /datum/looping_sound/invokegen
 	gesture_required = TRUE // Summon spell
 	associated_skill = /datum/skill/magic/arcane
@@ -103,18 +104,18 @@
 		if(target.mind && target.mind.current)
 			if (faction_tag in target.mind?.current.faction)
 				target.mind?.current.faction -= faction_tag
-				user.say("Hostis declaratus es.")
+				user.say("Hostis declaratus es.", language = /datum/language/common)
 			else
 				target.mind?.current.faction += faction_tag
-				user.say("Amicus declaratus es.")
+				user.say("Amicus declaratus es.", language = /datum/language/common)
 				target.notify_faction_change()
 		else if(istype(target, /mob/living/simple_animal))
 			if (faction_tag in target.faction)
 				target.faction -= faction_tag
-				user.say("Hostis declaratus es.")
+				user.say("Hostis declaratus es.", language = /datum/language/common)
 			else
 				target.faction |= faction_tag
-				user.say("Amicus declaratus es.")
+				user.say("Amicus declaratus es.", language = /datum/language/common)
 				target.notify_faction_change()
 		return TRUE
 	else if(isturf(targets[1]))

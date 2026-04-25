@@ -1,9 +1,11 @@
 
 /obj/item/reagent_containers/glass/bottle/rogue/healthpot
 	list_reagents = list(/datum/reagent/medicine/healthpot = 50)
+	flags_ai_inventory = AI_ITEM_HEALING_DRINK | AI_ITEM_DRINK
 
 /obj/item/reagent_containers/glass/bottle/rogue/healthpotnew
 	list_reagents = list(/datum/reagent/medicine/stronghealth = 50)
+	flags_ai_inventory = AI_ITEM_HEALING_DRINK | AI_ITEM_DRINK
 
 /obj/item/reagent_containers/glass/bottle/rogue/manapot
 	list_reagents = list(/datum/reagent/medicine/manapot = 50)
@@ -16,6 +18,13 @@
 
 /obj/item/reagent_containers/glass/bottle/mercury
 	list_reagents = list(/datum/reagent/mercury = 50)
+
+/obj/item/reagent_containers/glass/bottle/rogue/healthpot/zarum
+	name = "bottle of medicinal fish vinegar"
+	desc = "A bottle with a mudclay cork, tethered to the bottleneck via braided twine. Fermented innard-paste and herbs makes for a \
+	disgustingly cheap medicine; an ancient concoction, resurrected for usage within the gladitorial arenas of Lirvas and Raneshen. </br>A \
+	particular variant of this, made by fermenting zardines in the Terrorbog, happens to be a very popular condiment back in Rockhill."
+	list_reagents = list(/datum/reagent/medicine/healthpot/zarum = 50)
 
 //vanderlin potion stuff//
 /obj/item/reagent_containers/glass/bottle/rogue/strongmanapot
@@ -139,7 +148,7 @@
 	name = "bottle of Aurorian Herbal Beer"
 	icon_state = "beer"
 	list_reagents = list(/datum/reagent/consumable/ethanol/aurorian = 50)
-	desc = "A bottle with the aurorian brewhouse cork-seal. An Elvish beer brewed from an herbal gruit."
+	desc = "A bottle with the Aurorian Brewhouse cork-seal. An Elvish beer brewed from a herbal gruit."
 
 /obj/item/reagent_containers/glass/bottle/rogue/beer/fireleaf
 	name = "bottle of Fireleaf"
@@ -361,3 +370,31 @@
 /obj/item/reagent_containers/glass/bottle/claybottle/whitewine
 	list_reagents = list(/datum/reagent/consumable/ethanol/whitewine = 75)
 	desc = "A bottle with the Otavan Merchant Guild cork-seal. This one appears to be labelled as a sweet wine from the colder northern regions."
+
+/obj/item/reagent_containers/glass/bottle/claybottleclassic/water
+	list_reagents = list(/datum/reagent/water = 75)
+	desc = "A clay bottle bearing the cork-seal of Kingsfield Abbey, an institution known to \
+	bottle and sell water drawn from natural springs under its ownership. While the water inside \
+	these is said to carry particular health benefits, most agree that all water is quite alike."
+
+/obj/item/reagent_containers/glass/bottle/clayvaseclassic/water
+	list_reagents = list(/datum/reagent/water = 65)
+	desc = "A finely crafted ceramic vase designed to carry water; you wonder if it's \
+	good to drink, or if it has been sitting there for weeks."
+
+/obj/item/reagent_containers/glass/bottle/clayvaseclassic/holy_water
+	list_reagents = list(/datum/reagent/water/holywater = 65)
+	desc = "A richly ornamented ceramic vase. The circular cross of the Ten Undivided \
+	adorns its side; whatever is inside must be sacred."
+
+/obj/item/reagent_containers/glass/bottle/clayfancyvaseclassic/water
+	list_reagents = list(/datum/reagent/water = 65)
+	desc = "A broad, large ceramic vase intended to carry water. A classic piece of \
+	ornamentation for any household that wishes to call back to the old Imperial era."
+
+/obj/item/reagent_containers/glass/bottle/clayfancyvaseclassic/sanctified_oil
+	list_reagents = list(/datum/reagent/sanctified_oil = 65)
+	desc = "A fancy ceramic vase. Going off the smell, and the thin film of oil which \
+	seems to cling to its surface, this probably contains oil sanctified for liturgical \
+	- or magical - purposes."
+

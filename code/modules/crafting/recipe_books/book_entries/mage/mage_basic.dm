@@ -76,6 +76,7 @@
 		enchantment scrolls. Third and fourth circle enchantments also require a leyline shard.
 		The Imbuement Array can perform up to third circle enchantments.
 		The Greater Imbuement Array is required for fourth circle enchantments, but can also perform all lower circles.
+		Each item may only hold a single enchantment.
 	</p>
 	<p>
 		<b>Arcanic Melds</b> are crafted by combining one material from each of the three realms at the same tier.

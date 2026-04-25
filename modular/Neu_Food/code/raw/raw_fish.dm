@@ -198,7 +198,7 @@
 
 /obj/item/reagent_containers/food/snacks/fish/creepy_eel/pickup(mob/living/user)
 	if(!was_i_picked_up && ishuman(user))
-		teleport_to_dream(user, 1, 1)
+		teleport_to_dream(user, force = TRUE)
 		was_i_picked_up = TRUE
 		desc = "A slimy eel, you feel a strange mundanity looking at it... You're assured there's nothing weird about it whatsoever. It might as well be the most average thing in the realm."
 	..()
@@ -235,7 +235,7 @@
 
 /obj/item/reagent_containers/food/snacks/fish/creepy_shark
 	name = "iridescent reaver"
-	desc = "It's scales refract light in a strange, unsettling manner."
+	desc = "Its scales refract light in a strange, unsettling manner."
 	icon_state = "creepy_shark"
 	faretype = FARE_IMPOVERISHED
 	no_rarity_sprite = TRUE

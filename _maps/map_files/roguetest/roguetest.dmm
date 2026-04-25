@@ -625,6 +625,10 @@
 	icon_state = "carpet_r"
 	},
 /area/rogue/indoors)
+"va" = (
+/obj/structure/roguemachine/mossmother/travel,
+/turf/open/floor/rogue/grass,
+/area/rogue/outdoors)
 "vf" = (
 /obj/item/roguebin/water/gross,
 /turf/open/floor/rogue/ruinedwood,
@@ -3453,7 +3457,7 @@ Dh
 cL
 RC
 vq
-vq
+va
 vq
 Ln
 Ln

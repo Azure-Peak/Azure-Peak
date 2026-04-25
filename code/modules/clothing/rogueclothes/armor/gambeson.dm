@@ -260,3 +260,22 @@
 	icon_state = "shadowrobe"
 	armor = ARMOR_PADDED
 	max_integrity = ARMOR_INT_CHEST_LIGHT_MEDIUM + 30 //280
+
+//Hand's gambeson, looks fancy
+
+/obj/item/clothing/suit/roguetown/armor/gambeson/heavy/hand
+	name = "hand's gambeson"
+	desc = "Sturdy leather, fine silks and ornaments of gold. Opulent and imperial, for any one who must say <i>\"I am in charge.\"</i> holds no power at all."
+	icon = 'icons/roguetown/clothing/special/hand.dmi'
+	icon_state = "handgambeson"
+	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/hand.dmi'
+	sleeved = 'icons/roguetown/clothing/special/onmob/hand.dmi'
+	detail_tag = "_detail"
+	detail_color = "#6e423a"
+	shiftable = FALSE
+
+/obj/item/clothing/suit/roguetown/armor/gambeson/heavy/hand/advisor
+	detail_color = "#6678c9"
+
+/obj/item/clothing/suit/roguetown/armor/gambeson/heavy/hand/spymaster
+	detail_color = "#742277"

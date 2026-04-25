@@ -83,12 +83,12 @@
 
 /datum/status_effect/buff/alch/fire_resist/on_apply()
 	. = ..()
-	if(!HAS_TRAIT(owner, TRAIT_NOFIRE))
-		ADD_TRAIT(owner, TRAIT_NOFIRE, src)
+	if(!HAS_TRAIT(owner, TRAIT_FIRE_RESIST))
+		ADD_TRAIT(owner, TRAIT_FIRE_RESIST, src)
 
 /datum/status_effect/buff/alch/fire_resist/on_remove()
 	. = ..()
-	REMOVE_TRAIT(owner, TRAIT_NOFIRE, src)
+	REMOVE_TRAIT(owner, TRAIT_FIRE_RESIST, src)
 
 /atom/movable/screen/alert/status_effect/buff/alch/fire_resist
 	name = "Fire Resistance"

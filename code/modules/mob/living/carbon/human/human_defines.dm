@@ -134,6 +134,7 @@
 	/// Per-character theme override for examine panel viewers
 	var/examine_theme
 	var/list/img_gallery = list()
+	var/list/nsfw_img_gallery = list()
 	
 
 	possible_rmb_intents = list(/datum/rmb_intent/feint,\
@@ -180,6 +181,8 @@
 
 	var/list/charflaws = list()
 
+	var/list/feint_list = list()
+
 	// curse list and cooldown
 	var/list/curses = list()
 	COOLDOWN_DECLARE(priest_announcement)
@@ -190,6 +193,7 @@
 	COOLDOWN_DECLARE(priest_excommunicate)
 	COOLDOWN_DECLARE(priest_curse)
 	COOLDOWN_DECLARE(priest_change_miracles)
+	COOLDOWN_DECLARE(hag_transform_lockout)
 
 	// bait stacks for aimed intent
 	var/bait_stacks
@@ -206,3 +210,6 @@
 	var/can_do_sex = TRUE
 
 	fovangle = FOV_DEFAULT
+
+	/// Guarded Virtue (TRAIT_DECEIVING_MEEKNESS) exclusive variable for filtering out our descriptors from examine.
+	var/show_descriptors = TRUE

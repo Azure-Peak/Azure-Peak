@@ -18,7 +18,7 @@
 	base_intents = list(/datum/intent/simple/elementalt2_unarmed)
 	butcher_results = list()
 	death_loot = list(/obj/item/magic/fae/heartwoodcore = 1)
-	faction = list("fae")
+	faction = list(FACTION_FAE)
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
 	health = 650
 	maxHealth = 650
@@ -122,7 +122,7 @@
 	..()
 	for(var/obj/structure/vine/V in view(src))
 		qdel(V)
-	src.visible_message(span_boldwarning("Vines near [src] wither as it returns to it's plane!"))
+	src.visible_message(span_boldwarning("Vines near [src] wither as it returns to its plane!"))
 	update_icon()
 	spill_embedded_objects()
 	qdel(src)

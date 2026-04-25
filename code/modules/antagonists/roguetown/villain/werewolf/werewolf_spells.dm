@@ -109,16 +109,14 @@
 		extended_claw_record[claw_index] = FALSE
 
 
-/obj/effect/proc_holder/spell/invoked/repulse/werewolf
+/datum/action/cooldown/spell/repulse/werewolf
 	name = "Terrifying Howl"
 	desc = "Let loose a howl of dread, repelling anyone around you."
-	overlay_state = "howl"
-	recharge_time = 6 MINUTES
-	ignore_cockblock = TRUE
-	chargetime = 0
-	warnie = null
+	button_icon_state = "howl"
+	cooldown_time = 6 MINUTES
+	charge_required = FALSE
 	showsparkles = FALSE
-	chargedloop = null
-	invocations = null 
-	invocation_type = "none"
-	sound = list('sound/vo/mobs/wwolf/roar.ogg')
+	invocations = null
+	invocation_type = INVOCATION_NONE
+	sound = 'sound/vo/mobs/wwolf/roar.ogg'
+	spell_requirements = NONE

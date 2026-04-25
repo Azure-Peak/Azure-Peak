@@ -200,7 +200,8 @@
 		loc.visible_message(span_warning("The [src] hisses open, <b>finally broken.</b>"))
 		playsound(src, 'sound/misc/DrillDone.ogg', 70, TRUE)
 		icon_state = "[initial(icon_state)]_empty"
-		budget2change(SStreasury.treasury_value, null)
+		var/turf/T = get_turf(src)
+		budget2change(SStreasury.treasury_value, custom_turf = T)
 		SStreasury.treasury_value -= SStreasury.treasury_value
 		playsound(src, 'sound/misc/jawbankhit.ogg', 70, TRUE)
 		shaker = FALSE
@@ -232,7 +233,8 @@
 	spawn(100) // The time it takes to complete an interval. If you adjust this, please adjust the sound too. It's 'about' perfect at 100. Anything less It'll start overlapping.
 		var/taken = min(rand(5, 20), SStreasury.treasury_value)
 		anguish()
-		budget2change(taken, null)
+		var/turf/T = get_turf(src)
+		budget2change(taken, custom_turf = T)
 		SStreasury.treasury_value -= taken
 		visible_message(span_danger("The Crown just drilled [taken] mammon out of [src]!"))
 		drilltime += 3 // Adjust this to increase or decrease how long it'll take to drill open.
@@ -322,7 +324,8 @@
 		return
 
 	playsound(src, 'sound/misc/jawbankhit.ogg', 70, TRUE)
-	budget2change(extorted, null)
+	var/turf/budget_turf = get_turf(src)
+	budget2change(extorted, custom_turf = budget_turf)
 	SStreasury.treasury_value -= extorted
 	visible_message(span_danger("[src] coughed up [extorted] mammon!"))
 	playsound(src, 'sound/misc/coindispense.ogg', 70, TRUE)
@@ -335,7 +338,7 @@
 			resetlump(src)
 			return
 		var/lumpsum = round(SStreasury.treasury_value * rand(10, 20) / 100) // Lump-sum percentage. Adjust as you like.
-		budget2change(lumpsum, null)
+		budget2change(lumpsum, custom_turf = budget_turf)
 		SStreasury.treasury_value -= lumpsum
 		visible_message(span_notice("[src] just spat up a total of [lumpsum] mammon - <b>A lump sum!</b>"))
 		playsound(src, 'sound/misc/coindispense.ogg', 70, TRUE)

@@ -132,3 +132,10 @@
 		/obj/item/ash,
 	/obj/item/ash
 	)
+
+/obj/item/storage/roguebag/leechbait
+	populate_contents = list(
+	/obj/item/bait/leech,
+	/obj/item/bait/leech,
+	/obj/item/bait/leech,
+	)

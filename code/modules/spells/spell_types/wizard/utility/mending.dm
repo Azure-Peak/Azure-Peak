@@ -1,45 +1,62 @@
-/obj/effect/proc_holder/spell/invoked/mending
+/datum/action/cooldown/spell/mending
+	button_icon = 'icons/mob/actions/roguespells.dmi'
 	name = "Mending"
 	desc = "Uses arcyne energy to mend an item. Effect of repair scales off of your Intelligence."
-	overlay_state = "mending"
-	releasedrain = SPELLCOST_CANTRIP
-	chargetime = 5
-	recharge_time = 20 SECONDS
-	warnie = "spellwarning"
-	movement_interrupt = FALSE
-	no_early_release = FALSE
-	chargedloop = null
+	button_icon_state = "mending"
 	sound = 'sound/magic/whiteflame.ogg'
-	cost = 2
-	spell_tier = 1 // Utility. For repair
-	glow_color = GLOW_COLOR_ARCANE
+	spell_color = GLOW_COLOR_BUFF
 	glow_intensity = GLOW_INTENSITY_LOW
-	ignore_los = TRUE // temp. cus it breaks if it doesnt have this maybe
 
-	miracle = FALSE
+	click_to_activate = TRUE
+	self_cast_possible = FALSE
+	cast_range = SPELL_RANGE_GROUND
+	charge_required = FALSE
+
+	primary_resource_type = SPELL_COST_STAMINA
+	primary_resource_cost = SPELLCOST_CANTRIP
 
 	invocations = list("Reficio")
-	invocation_type = "shout" //can be none, whisper, emote and shout
+	invocation_type = INVOCATION_SHOUT
+
+	cooldown_time = 20 SECONDS
+
+	associated_skill = /datum/skill/magic/arcane
+	spell_tier = 1
+	spell_impact_intensity = SPELL_IMPACT_NONE
+
+	point_cost = 2
+
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
 
 	var/repair_percent = 0.20
 	var/int_bonus = 0.00
 
-/obj/effect/proc_holder/spell/invoked/mending/cast(list/targets, mob/living/user)
-	if(!istype(targets[1], /obj/item))
-		to_chat(user, span_warning("There is no item here!"))
-		revert_cast()
-		return
-
-	var/obj/item/I = targets[1]
-
+/datum/action/cooldown/spell/mending/is_valid_target(atom/cast_on)
+	. = ..()
+	if(!.)
+		return FALSE
+	if(!istype(cast_on, /obj/item))
+		if(owner)
+			to_chat(owner, span_warning("I need to target an item!"))
+		return FALSE
+	var/obj/item/I = cast_on
 	if(!I.anvilrepair && !I.sewrepair)
-		to_chat(user, span_warning("Not even magic can mend this item!"))
-		revert_cast()
-		return
+		if(owner)
+			to_chat(owner, span_warning("Not even magic can mend this item!"))
+		return FALSE
 	if(I.obj_integrity >= I.max_integrity && I.body_parts_covered_dynamic == I.body_parts_covered)
-		to_chat(user, span_info("[I] appears to be in perfect condition."))
-		revert_cast()
-		return
+		if(owner)
+			to_chat(owner, span_info("[I] appears to be in perfect condition."))
+		return FALSE
+	return TRUE
+
+/datum/action/cooldown/spell/mending/cast(atom/cast_on)
+	. = ..()
+	var/mob/living/user = owner
+	if(!istype(user))
+		return FALSE
+
+	var/obj/item/I = cast_on
 
 	user.visible_message(
 		span_warning("[user] begins to concentrate on [I]!"),
@@ -47,8 +64,7 @@
 	)
 	if(!do_after(user, 4 SECONDS, TRUE, I, TRUE))
 		to_chat(user, span_warning("My concentration breaks! I could not repair [I]."))
-		revert_cast()
-		return
+		return FALSE
 
 	repair_percent = initial(repair_percent)
 	int_bonus = CLAMP((user.STAINT * 0.01), 0.01, 0.9)
@@ -66,12 +82,10 @@
 			I.repair_coverage()
 			to_chat(user, span_info("[I]'s shorn layers mend together, completely."))
 
-	deactivate(user)
-
 	return TRUE
 
-/obj/effect/proc_holder/spell/invoked/mending/lesser
+/datum/action/cooldown/spell/mending/lesser
 	name = "Lesser Mending"
 	repair_percent = 0.10
-	recharge_time = 30 SECONDS
-	cost = 1
+	cooldown_time = 30 SECONDS
+	point_cost = 1

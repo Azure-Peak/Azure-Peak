@@ -8,7 +8,7 @@
 	if(user == target)
 		return FALSE
 	var/obj/item/held_item = user.get_active_held_item()
-	if(!held_item || !istype(held_item, /obj/item/melee/touch_attack/prestidigitation))
+	if(!held_item || !istype(held_item, /obj/item/melee/new_touch_attack/prestidigitation))
 		return FALSE
 	if(!check_location_accessible(user, target, BODY_ZONE_PRECISE_GROIN, TRUE))
 		return FALSE
@@ -23,7 +23,7 @@
 	if(user == target)
 		return FALSE
 	var/obj/item/held_item = user.get_active_held_item()
-	if(!held_item || !istype(held_item, /obj/item/melee/touch_attack/prestidigitation))
+	if(!held_item || !istype(held_item, /obj/item/melee/new_touch_attack/prestidigitation))
 		return FALSE
 	if(!check_location_accessible(user, target, BODY_ZONE_PRECISE_GROIN, TRUE))
 		return FALSE

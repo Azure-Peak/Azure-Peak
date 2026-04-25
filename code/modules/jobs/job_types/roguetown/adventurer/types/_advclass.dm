@@ -46,11 +46,9 @@
 	/// Subclass virtues.
 	var/list/subclass_virtues
 
-	/// Spellpoints. If More than 0, Gives Prestidigitation & the Learning Spell.
-	var/subclass_spellpoints = 0
-
-	/// Pool-based spell point system. If set, uses pool system instead of flat spellpoints, even if they somehow end up with spellpoints from other sources.
-	var/list/subclass_spell_point_pools
+	/// Mage aspect system config. If set, opens the Grimoire on learnspell.
+	/// Keys: "mastery" (bool), "major" (int), "minor" (int), "utilities" (int)
+	var/list/subclass_mage_aspects
 
 	/// List of items to put in an item stash
 	var/list/subclass_stashed_items = list()
@@ -63,6 +61,9 @@
 
 	/// set to TRUE to reset stats in equipme, clearing any racial bonuses or bonuses the character had before becoming this class
 	var/reset_stats = FALSE
+
+	var/list/virtue_limits = list()
+	var/list/vice_limits = list()
 
 	var/datum/class_age_mod/age_mod = null
 
@@ -121,11 +122,9 @@
 		for(var/skill in subclass_skills)
 			H.adjust_skillrank_up_to(skill, subclass_skills[skill], TRUE)
 
-	// Set up spell point pools / spellpoints before virtues so Arcyne Potential can detect and add to them
-	if(LAZYLEN(subclass_spell_point_pools))
-		H.mind?.set_spell_point_pools(subclass_spell_point_pools)
-	else if(subclass_spellpoints > 0)
-		H.mind?.adjust_spellpoints(subclass_spellpoints)
+	// Set up spell systems before virtues so Arcyne Potential can detect and add to them
+	if(LAZYLEN(subclass_mage_aspects))
+		H.mind?.setup_mage_aspects(subclass_mage_aspects.Copy())
 
 	if(length(subclass_virtues))
 		for(var/virtue in subclass_virtues)
@@ -179,6 +178,17 @@
 
 	if(length(allowed_patrons) && !(H.patron.type in allowed_patrons))
 		return FALSE
+
+	if(length(virtue_limits) && H.client)
+		for(var/virtuetype in virtue_limits)
+			if(istype(H.client.prefs?.virtue, virtuetype) || istype(H.client.prefs?.virtuetwo, virtuetype))
+				return FALSE
+
+	if(length(vice_limits) && H.client)
+		for(var/vicetype in vice_limits)
+			for(var/vice in H.charflaws)
+				if(istype(vice, vicetype))
+					return FALSE
 
 	if(maximum_possible_slots > -1)
 		if(total_slots_occupied >= maximum_possible_slots)

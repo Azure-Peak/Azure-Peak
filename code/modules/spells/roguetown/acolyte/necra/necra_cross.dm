@@ -347,7 +347,6 @@
 
 	switch(buff_tier)
 		if(3) // Master or higher
-			ADD_TRAIT(H, TRAIT_MAGEARMOR, TRAIT_MIRACLE)
 			ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_MIRACLE)
 			speed_buff = 3
 		if(2) // Apprentice to Master
@@ -374,7 +373,6 @@
 	var/mob/living/carbon/human/H = owner
 	if(istype(H))
 		// Remove traits
-		REMOVE_TRAIT(H, TRAIT_MAGEARMOR, TRAIT_MIRACLE)
 		REMOVE_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_MIRACLE)
 		H.remove_filter(NECRAN_MISTS_FILTER)
 	return ..()

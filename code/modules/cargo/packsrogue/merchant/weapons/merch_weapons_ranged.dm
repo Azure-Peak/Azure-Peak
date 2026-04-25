@@ -77,13 +77,6 @@
 					/obj/item/quiver/bodkin,
 				)
 
-/datum/supply_pack/rogue/ranged_weapons/quivers/pyroarrows
-	name = "Quiver of Pyro Arrows"
-	cost = 100
-	contains = list(
-					/obj/item/quiver/pyroarrows,
-				)
-
 /datum/supply_pack/rogue/ranged_weapons/quivers/poisonarrows
 	name = "Quiver of Poison Arrows"
 	cost = 100 
@@ -107,7 +100,7 @@
 
 /datum/supply_pack/rogue/ranged_weapons/quivers/pyrobolts
 	name = "Quiver of Pyroclastic Bolts"
-	cost = 100 // Matching price of steel
+	cost = 100
 	contains = list(
 					/obj/item/quiver/bolt/pyro,
 				)

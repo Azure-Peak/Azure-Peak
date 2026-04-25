@@ -115,7 +115,7 @@
 			return FALSE
 		if(ishuman(usr))
 			if(budget > 0)
-				parent_structure.budget2change(budget, usr)
+				budget2change(budget, usr)
 				budget = 0
 	if(href_list["changecat"])
 		if(!usr.canUseTopic(parent_structure, BE_CLOSE))

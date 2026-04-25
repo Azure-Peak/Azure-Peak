@@ -37,7 +37,8 @@
 /obj/item/kitchen/spoon/silver
 	name = "silver spoon"
 	icon_state = "spoon_silver"
-	is_silver = FALSE //temporary measure to prevent people from easily metachecking vampyres. Replace with a more sophisticated alternative if-or-when available.
+	is_silver = TRUE
+	is_lesser_silver = TRUE
 	sellprice = 20
 
 /obj/item/kitchen/spoon/carved

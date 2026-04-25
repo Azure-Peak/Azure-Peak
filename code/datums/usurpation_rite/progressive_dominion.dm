@@ -43,8 +43,8 @@
 	// Zizite followers can invoke — Zizo is their goddess
 	if(istype(user.patron, /datum/patron/inhumen/zizo))
 		return TRUE
-	// Living need T2+ arcyne training
-	if(get_user_spell_tier(user) >= 2)
+	// Living need arcyne training
+	if(HAS_TRAIT(user, TRAIT_ARCYNE))
 		return TRUE
 	return FALSE
 
@@ -164,7 +164,7 @@
 
 /// Returns TRUE if the mob is a mage (any arcyne training), a Zizite follower, or undead.
 /datum/usurpation_rite/progressive_dominion/proc/is_qualified_voice(mob/living/carbon/human/user)
-	if(get_user_spell_tier(user) >= 1)
+	if(HAS_TRAIT(user, TRAIT_ARCYNE))
 		return TRUE
 	if(istype(user.patron, /datum/patron/inhumen/zizo))
 		return TRUE

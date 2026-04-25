@@ -6,11 +6,21 @@
 	nodamage = TRUE
 	armor_penetration = PEN_NONE // We shouldn't allow any projectile that forget to set to pen all
 	pass_flags = PASSTABLE | PASSGRILLE
-	flag = "magic"
+	flag = "fire"
 	reflectable = REFLECT_NORMAL
 	guard_deflectable = TRUE
 	var/explode_sound = list('sound/misc/explode/incendiary (1).ogg','sound/misc/explode/incendiary (2).ogg')
 	var/mob/living/carbon/human/sender
+	/// Impact visual intensity. SPELL_IMPACT_NONE / SPELL_IMPACT_LOW / SPELL_IMPACT_MEDIUM / SPELL_IMPACT_HIGH
+	var/spell_impact_intensity = SPELL_IMPACT_LOW
+	/// Override color for the impact effect. If null, uses light_color.
+	var/spell_impact_color
+
+/obj/projectile/magic/on_hit(atom/target, blocked = FALSE)
+	. = ..()
+	if(spell_impact_intensity > SPELL_IMPACT_NONE)
+		var/impact_color = spell_impact_color || light_color || "#FFFFFF"
+		new /obj/effect/temp_visual/spell_impact(get_turf(target), impact_color, spell_impact_intensity)
 
 /obj/projectile/magic/death
 	name = "bolt of death"
@@ -158,7 +168,7 @@
 	name = "locker bolt"
 	icon_state = "locker"
 	nodamage = TRUE
-	flag = "magic"
+	flag = "fire"
 	var/weld = TRUE
 	var/created = FALSE //prevents creation of more then one locker if it has multiple hits
 	var/locker_suck = TRUE
