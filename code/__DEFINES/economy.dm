@@ -149,7 +149,7 @@
 // Steward petition for a standing order. Burns Burgher Pledge to roll a category-bound
 // order in a chosen non-blockaded region. Petitioned orders pay PETITION_TAX_MULT of the
 // natural payout - the trade hall shaves margin when it knows you needed it.
-#define PETITIONS_PER_DAY 1
+#define PETITIONS_PER_DAY 2
 #define PETITION_TAX_MULT 0.80
 #define PETITION_BLOCKADE_RECOVERY_DAYS 2
 
