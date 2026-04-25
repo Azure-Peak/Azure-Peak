@@ -267,6 +267,30 @@
 	salvage_result = /obj/item/natural/cloth
 	salvage_amount = 1
 
+/obj/item/clothing/head/roguetown/roguehood/eora
+	name = "eoran hood"
+	desc = "A hood of devotees of Eora, coupled with her silver cabbit mask. Does not pacify the wearer for every rose has it's thorns."
+	color = null
+	icon = 'icons/roguetown/clothing/head.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/64x64/head.dmi'
+	bloody_icon = 'icons/effects/blood64.dmi'
+	worn_x_dimension = 64
+	worn_y_dimension = 64
+	icon_state = "eoramonk"//Stonekeep sprite
+	item_state = "eoramonk"
+	body_parts_covered = NECK
+	slot_flags = ITEM_SLOT_HEAD|ITEM_SLOT_MASK
+	hidesnoutADJ = FALSE
+	flags_inv = HIDEEARS|HIDEHAIR|HIDEFACIALHAIR	//Does not hide face.
+	block2add = null
+	dynamic_hair_suffix = ""
+	edelay_type = 1
+	adjustable = CAN_CADJUST
+	toggle_icon_state = TRUE
+	max_integrity = 180
+	salvage_result = /obj/item/natural/cloth
+	salvage_amount = 1
+
 /obj/item/clothing/head/roguetown/roguehood/ravox
 	name = "ravox hood"
 	desc = "A hood of those devoted to upholding Justicar's will. Justice might be blind but not it's servants."

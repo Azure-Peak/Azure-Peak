@@ -397,12 +397,15 @@
 		if(SWINGDELAY_PENALTY)
 			apply_status_effect(/datum/status_effect/swingdelay/penalty, delay)
 			return TRUE
-		if(SWINGDELAY_CANCEL)
-			apply_status_effect(/datum/status_effect/swingdelay/disrupt, delay)
+		if(SWINGDELAY_CANCEL, SWINGDELAY_CANCELSLOW)
+			apply_status_effect(/datum/status_effect/swingdelay/disrupt, delay, (used_intent.swingdelay_type == SWINGDELAY_CANCELSLOW ? TRUE : FALSE))
 			return TRUE
 
-/mob/living/proc/is_swinging()
-	return (has_status_effect(/datum/status_effect/swingdelay) || has_status_effect(/datum/status_effect/swingdelay/disrupt))
+/mob/living/proc/is_swinging(disrupt_only = FALSE)
+	if(!disrupt_only)
+		return (has_status_effect(/datum/status_effect/swingdelay) || has_status_effect(/datum/status_effect/swingdelay/disrupt))
+	else
+		return (has_status_effect(/datum/status_effect/swingdelay/disrupt))
 
 //Branching path for Adjacent clicks with or without items
 //DOES NOT ACTUALLY KNOW IF YOU'RE ADJACENT, DO NOT CALL ON IT'S OWN

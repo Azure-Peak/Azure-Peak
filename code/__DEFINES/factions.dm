@@ -1,0 +1,110 @@
+#define FACTION_NEUTRAL "neutral"
+#define FACTION_HOSTILE "hostile"
+#define FACTION_STATION "station"
+
+#define FACTION_UNDEAD "undead"
+#define FACTION_DUNDEAD "dundead"
+#define FACTION_LICH "lich"
+#define FACTION_ZOMBIE "zombie"
+#define FACTION_SKELETON "skeleton"
+#define FACTION_CABAL "cabal"
+#define FACTION_REVENANTS "revenants"
+#define FACTION_HERETICAL_FIEND "Heretical_Fiend"
+
+#define FACTION_ORCS "orcs"
+#define FACTION_CAVES "caves"
+#define FACTION_TROLLS "trolls"
+#define FACTION_HAG "hag"
+#define FACTION_GOBLIN "orcs"
+
+#define FACTION_DROW "drow"
+#define FACTION_THIEVES "thieves"
+#define FACTION_BUMS "bums"
+#define FACTION_REIVER "reiver"
+#define FACTION_VIKING "viking"
+#define FACTION_PSY_VAULT_GUARD "psy_vault_guard"
+
+#define FACTION_INFERNAL "infernal"
+#define FACTION_FAE "fae"
+#define FACTION_ELEMENTAL "elemental"
+#define FACTION_ABBERANT "abberant"
+#define FACTION_LEYLINE "leyline"
+#define FACTION_DEEPONE "deepone"
+#define FACTION_DREAM "dream"
+#define FACTION_PRIMORDIAL "primordial"
+
+#define FACTION_ROGUEANIMAL "rogueanimal"
+#define FACTION_WOLFS "wolfs"
+#define FACTION_BEARS "bears"
+#define FACTION_SAIGA "saiga"
+#define FACTION_CRABS "crabs"
+#define FACTION_SPIDERS "spiders"
+#define FACTION_SPIDER_LOWERS "spider_lowers"
+#define FACTION_RATS "rats"
+#define FACTION_MOLES "moles"
+#define FACTION_CABBITS "cabbits"
+#define FACTION_LIZARDS "Lizard"
+#define FACTION_PIGS "pigs"
+#define FACTION_GOATS "goats"
+#define FACTION_COWS "cows"
+#define FACTION_CHICKENS "chickens"
+#define FACTION_HORSE "horse"
+#define FACTION_PLANTS "plants"
+#define FACTION_MINING "mining"
+#define FACTION_MIMIC "mimic"
+#define FACTION_MAD "mad"
+#define FACTION_CULT "cult"
+
+/// List of faction strings exposed to GM spawn UI. Keep alphabetized for the dropdown.
+GLOBAL_LIST_INIT(gm_spawn_factions, list(
+	FACTION_ABBERANT,
+	FACTION_BEARS,
+	FACTION_BUMS,
+	FACTION_CABAL,
+	FACTION_CABBITS,
+	FACTION_CAVES,
+	FACTION_CHICKENS,
+	FACTION_COWS,
+	FACTION_CRABS,
+	FACTION_CULT,
+	FACTION_DEEPONE,
+	FACTION_DREAM,
+	FACTION_DROW,
+	FACTION_DUNDEAD,
+	FACTION_ELEMENTAL,
+	FACTION_FAE,
+	FACTION_GOATS,
+	FACTION_HAG,
+	FACTION_HERETICAL_FIEND,
+	FACTION_HORSE,
+	FACTION_HOSTILE,
+	FACTION_INFERNAL,
+	FACTION_LEYLINE,
+	FACTION_LICH,
+	FACTION_LIZARDS,
+	FACTION_MAD,
+	FACTION_MIMIC,
+	FACTION_MINING,
+	FACTION_MOLES,
+	FACTION_NEUTRAL,
+	FACTION_ORCS,
+	FACTION_PIGS,
+	FACTION_PLANTS,
+	FACTION_PRIMORDIAL,
+	FACTION_PSY_VAULT_GUARD,
+	FACTION_RATS,
+	FACTION_REIVER,
+	FACTION_REVENANTS,
+	FACTION_ROGUEANIMAL,
+	FACTION_SAIGA,
+	FACTION_SKELETON,
+	FACTION_SPIDERS,
+	FACTION_SPIDER_LOWERS,
+	FACTION_STATION,
+	FACTION_THIEVES,
+	FACTION_TROLLS,
+	FACTION_UNDEAD,
+	FACTION_VIKING,
+	FACTION_WOLFS,
+	FACTION_ZOMBIE,
+))

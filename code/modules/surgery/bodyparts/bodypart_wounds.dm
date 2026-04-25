@@ -620,6 +620,9 @@
 		return FALSE
 	bandage = new_bandage
 	new_bandage.forceMove(src)
+	var/datum/hud/hud_used = owner?.hud_used
+	if(hud_used?.zone_select)
+		hud_used.zone_select.update_limb(body_zone)
 	return TRUE
 
 /obj/item/bodypart/proc/process_bandage(bleed_rate)
@@ -654,7 +657,11 @@
 		return FALSE
 	if(owner.stat != DEAD)
 		owner.visible_message(span_warning("Blood soaks through the bandage on [owner]'s [name]."), span_warning("Blood soaks through the bandage on my [name]."), vision_distance = 3)
-	return bandage.add_mob_blood(owner)
+	. = bandage.add_mob_blood(owner)
+	var/datum/hud/hud_used = owner.hud_used
+	if(hud_used?.zone_select)
+		hud_used.zone_select.update_limb(body_zone)
+	return .
 
 /obj/item/bodypart/proc/remove_bandage()
 	if(!bandage)
@@ -666,6 +673,9 @@
 		qdel(bandage)
 	bandage = null
 	owner?.update_damage_overlays()
+	var/datum/hud/hud_used = owner?.hud_used
+	if(hud_used?.zone_select)
+		hud_used.zone_select.update_limb(body_zone)
 	return TRUE
 
 /// Applies a temporary paralysis effect to this bodypart

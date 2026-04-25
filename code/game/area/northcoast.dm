@@ -1,6 +1,8 @@
 // Azure Coast - the northern part of the map - may not be actually coast 
 /area/rogue/outdoors/beach/forest
 	name = "Azure Coast"
+	loot_budget = LOOT_BUDGET_AZURE_COAST
+	loot_pool_key = "azure_coast"
 	icon_state = "beach"
 	icon_state = "woods"
 	ambientsounds = AMB_FORESTDAY
@@ -46,6 +48,7 @@
 
 /area/rogue/under/cave/dukecourt
 	name = "Mad Duke's Manor"
+	loot_budget = LOOT_BUDGET_DUKE_COURT
 	icon_state = "duke"
 	first_time_text = "MAD DUKE'S MANOR"
 	droning_sound = 'sound/music/area/dungeon2.ogg'

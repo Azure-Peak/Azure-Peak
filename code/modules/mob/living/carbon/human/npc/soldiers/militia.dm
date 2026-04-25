@@ -3,7 +3,7 @@
 /mob/living/carbon/human/species/human/northern/militia //weak peasant infantry. Neutral but can be given factions for events. doesn't attack players.
 	ai_controller = /datum/ai_controller/human_npc
 	d_intent = INTENT_PARRY
-	faction = list("neutral")
+	faction = list(FACTION_NEUTRAL)
 	ambushable = FALSE
 	dodgetime = 30
 
@@ -126,7 +126,7 @@
 /mob/living/carbon/human/species/human/northern/militia/deserter // Bad deserter, trash mob
 	threat_point = THREAT_MODERATE
 	ambush_faction = "bandits"
-	faction = list("viking", "station")
+	faction = list(FACTION_VIKING, FACTION_STATION)
 
 /mob/living/carbon/human/species/human/northern/militia/after_creation()
 	..()

@@ -11,7 +11,7 @@ GLOBAL_LIST_INIT(ranger_aggro, list(
 
 /mob/living/carbon/human/species/human/northern/outlaw_ranger
 	ai_controller = /datum/ai_controller/human_npc/archer
-	faction = list("dundead")
+	faction = list(FACTION_DUNDEAD)
 	ambushable = FALSE
 	dodgetime = 25
 	d_intent = INTENT_DODGE

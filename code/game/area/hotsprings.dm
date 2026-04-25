@@ -28,6 +28,7 @@
 
 /area/rogue/indoors/abandonedhotsprings
 	icon_state = "eora"
+	loot_budget = LOOT_BUDGET_HOT_SPRINGS
 	soundenv = 19
 	ambush_times = list("night")
 	droning_sound = 'sound/newmusic/lovecraft2.ogg'

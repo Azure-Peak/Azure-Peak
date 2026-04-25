@@ -44,7 +44,7 @@
 	if(H.buckled)
 		H.buckled.unbuckle_mob(H, TRUE)
 
-	H.say("Impete!", forced = "spell")
+	H.say("Impete!", forced = "spell", language = /datum/language/common)
 	H.visible_message(
 		span_warning("[H] barrels forward!"),
 		span_notice("I charge!"))

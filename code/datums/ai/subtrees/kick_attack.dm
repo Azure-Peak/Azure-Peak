@@ -22,6 +22,9 @@
 		return
 	if(pawn.get_num_legs() < 2)
 		return
+	// Don't kick a downed target you cruel bastard
+	if(!(target.mobility_flags & MOBILITY_STAND))
+		return
 
 	// Cooldown check via blackboard
 	var/next_kick = controller.blackboard[BB_KICK_COOLDOWN]
@@ -81,9 +84,9 @@
 					should_kick = TRUE
 					break
 
-		// Opportunistic - target is vulnerable
+		// Opportunistic - target is vulnerable (prone handled by the global gate above)
 		if(!should_kick)
-			if(target.IsOffBalanced() || !(target.mobility_flags & MOBILITY_STAND) || target.IsStun())
+			if(target.IsOffBalanced() || target.IsStun())
 				if(AI_INT_SCALE_PROB(pawn, KICK_OPPORTUNISTIC_CHANCE))
 					should_kick = TRUE
 

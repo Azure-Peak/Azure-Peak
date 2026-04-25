@@ -30,7 +30,7 @@
 	limb_destroyer = 1
 	d_intent = INTENT_PARRY
 	defprob = 50
-	faction = list("psy_vault_guard")
+	faction = list(FACTION_PSY_VAULT_GUARD)
 	footstep_type = FOOTSTEP_MOB_BAREFOOT
 	del_on_death = FALSE
 

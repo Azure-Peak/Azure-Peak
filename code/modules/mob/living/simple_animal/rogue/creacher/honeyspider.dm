@@ -23,7 +23,7 @@
 							/obj/item/reagent_containers/food/snacks/rogue/honey/spider = 2,
 							/obj/item/alch/viscera = 1)
 	head_butcher = /obj/item/natural/head/honeyspider
-	faction = list("spiders")
+	faction = list(FACTION_SPIDERS)
 	threat_point = THREAT_LOW
 	ambush_faction = "mirespiders"
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST

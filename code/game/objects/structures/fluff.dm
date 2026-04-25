@@ -1111,15 +1111,15 @@
 			if(W.flags_1 & HOARDMASTER_SPAWNED_1)
 				to_chat(user, span_warning("This item is from the Hoard!"))
 				return
-			if(W.sellprice <= 0)
-				to_chat(user, span_warning("This item is worthless."))
-				return
 			var/proceed_with_offer = FALSE
 			for(var/TT in treasuretypes)
 				if(istype(W, TT))
 					proceed_with_offer = TRUE
 					break
 			if(proceed_with_offer)
+				if(W.sellprice <= 0)
+					to_chat(user, span_warning("This item is worthless."))
+					return
 				playsound(loc,'sound/items/carvty.ogg', 50, TRUE)
 				log_admin("[user] ([user?.ckey]) submitted [W] ([W.type]) to the Idol, worth [W.get_real_price()]")
 				qdel(W)
@@ -1131,10 +1131,10 @@
 							bandit_players.favor += donatedamnt
 							bandit_players.totaldonated += donatedamnt
 							to_chat(player, ("<font color='yellow'>[user.name] donates [donatedamnt] to the shrine! You now have [bandit_players.favor] favor.</font>"))
+				return //Do not call base - if item sold/given off then stop attacks/hits/other events from using that item on the statue.
 
 			else
 				to_chat(user, span_warning("This item isn't a good offering."))
-				return
 	..()
 
 /obj/structure/fluff/psycross

@@ -282,7 +282,7 @@
 	H.put_in_hands(I)
 
 	if(lines && lines.len)
-		H.say(pick(lines))
+		H.say(pick(lines), language = /datum/language/common)
 
 	// APPLY COOLDOWN
 	if(m_cd == -1)

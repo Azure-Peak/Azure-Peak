@@ -1,4 +1,7 @@
 /datum/ai_planning_subtree/call_for_help
+	/// Max tiles to scan/respond for allies. Kept deliberately tighter than max_target_distance
+	/// so shouting doesn't drag in mobs from across the map.
+	var/help_range = 9
 
 /datum/ai_planning_subtree/call_for_help/SelectBehaviors(datum/ai_controller/controller, seconds_per_tick)
 	. = ..()
@@ -16,7 +19,7 @@
 	controller.set_blackboard_key("bb_call_for_help_cooldown", world.time + 5 SECONDS)
 
 	var/allowed = FALSE
-	for(var/mob/living/carbon/human/ally in view(controller.max_target_distance - 1, living_pawn))
+	for(var/mob/living/carbon/human/ally in view(help_range, living_pawn))
 		if(ally == living_pawn)
 			continue
 		var/datum/ai_controller/ally_ctrl = ally.ai_controller
@@ -41,7 +44,7 @@
 	living_pawn.visible_message(span_danger("[living_pawn] shouts for aid!"))
 	var/atom/current_target = controller.blackboard[target_key]
 
-	for(var/mob/living/carbon/human/ally in view(controller.max_target_distance - 1, living_pawn))
+	for(var/mob/living/carbon/human/ally in view(9, living_pawn))
 		if(ally == living_pawn)
 			continue
 		var/datum/ai_controller/ally_ctrl = ally.ai_controller
@@ -68,6 +71,5 @@
 		ally_ctrl.set_blackboard_key("bb_last_ranged_attacker", current_target)
 
 		ally_ctrl.CancelActions()
-		ally.visible_message(span_warning("[ally] rushes to aid [living_pawn]!"))
 
 	finish_action(controller, TRUE, target_key)

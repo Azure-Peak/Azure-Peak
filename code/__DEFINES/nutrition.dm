@@ -1,4 +1,8 @@
 /// Nutritionary defines. Essentially used as preset nutrition values.
+// Super meals from hunting legendary creatures
+#define MEAL_GODLIKE 60
+#define MEAL_COMICALLY_FILLING 40
+// Normal meal types
 #define MEAL_FILLING 30
 #define MEAL_GOOD 24
 #define MEAL_AVERAGE 18

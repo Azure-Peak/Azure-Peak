@@ -14,7 +14,7 @@ GLOBAL_LIST_INIT(large_goblin_aggro, list(
 /mob/living/carbon/human/species/goblin/npc/large
 	name = "unusually large goblin"
 	gob_outfit = /datum/outfit/job/roguetown/npc/mini_boss/large_goblin
-	faction = list("dundead")
+	faction = list(FACTION_DUNDEAD, FACTION_ORCS)
 	dodgetime = 20
 	d_intent = INTENT_PARRY
 

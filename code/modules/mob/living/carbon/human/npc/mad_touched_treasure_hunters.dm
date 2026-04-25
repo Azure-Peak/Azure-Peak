@@ -6,7 +6,7 @@
 /mob/living/carbon/human/species/human/northern/mad_touched_treasure_hunter
 	ai_controller = /datum/ai_controller/human_npc
 	d_intent = INTENT_PARRY
-	faction = list("viking", "station")
+	faction = list(FACTION_VIKING, FACTION_STATION)
 	ambushable = FALSE
 	dodgetime = 15
 

@@ -3,7 +3,7 @@ GLOBAL_LIST_INIT(searaider_aggro, world.file2list("strings/rt/searaideraggroline
 /mob/living/carbon/human/species/human/northern/searaider
 	ai_controller = /datum/ai_controller/human_npc
 	d_intent = INTENT_PARRY
-	faction = list("viking", "station")
+	faction = list(FACTION_VIKING, FACTION_STATION)
 	ambushable = FALSE
 	dodgetime = 30
 

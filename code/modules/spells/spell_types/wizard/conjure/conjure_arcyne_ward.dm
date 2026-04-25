@@ -66,7 +66,7 @@
 	// Toggle off - dismiss active ward with proportional cooldown refund
 	if(conjured_ward && !QDELETED(conjured_ward))
 		var/integrity_ratio = conjured_ward.obj_integrity / conjured_ward.max_integrity
-		H.say(dismiss_invocation, forced = "spell")
+		H.say(dismiss_invocation, forced = "spell", language = /datum/language/common)
 		to_chat(owner, span_notice("I dismiss my arcyne ward."))
 		conjured_ward.dismissed = TRUE
 		qdel(conjured_ward)

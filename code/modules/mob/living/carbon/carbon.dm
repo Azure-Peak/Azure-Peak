@@ -82,7 +82,6 @@
 		H = hud_used.hand_slots["[held_index]"]
 		if(H)
 			H.update_hand_vis()
-		H = hud_used.action_intent
 	oactive = FALSE
 	update_a_intents()
 	return TRUE
@@ -756,7 +755,7 @@
 	if(total_burn > 0)
 		var/obj/item/bodypart/chest/C = get_bodypart(BODY_ZONE_CHEST)
 		var/burn_threshold = C ? C.max_damage : FIRE_HARDCRIT_BASE
-		if(HAS_TRAIT(src, TRAIT_NOPAIN) || HAS_TRAIT(src, TRAIT_NOPAINSTUN))
+		if((HAS_TRAIT(src, TRAIT_NOPAIN) || HAS_TRAIT(src, TRAIT_NOPAINSTUN)) && !HAS_TRAIT(src, TRAIT_NOBURN_RESIST))
 			burn_threshold *= FIRE_HARDCRIT_NOPAIN_MULT
 		var/burn_ratio = total_burn / burn_threshold
 		if(!burn_warning_shown)

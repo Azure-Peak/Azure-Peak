@@ -299,7 +299,7 @@
 	if(!get_bodypart(BODY_ZONE_HEAD)) //Decapitated
 		return
 
-	if(client && hud_used && hud_used.inv_slots[SLOT_BACK])
+	if(client && hud_used && hud_used.inv_slots[SLOT_HEAD])
 		var/atom/movable/screen/inventory/inv = hud_used.inv_slots[SLOT_HEAD]
 		inv.update_icon()
 
@@ -335,13 +335,20 @@
 
 //mob HUD updates for items in our inventory
 
+/mob/living/carbon/proc/update_hud_hand_slot(held_index)
+	if(!held_index || !hud_used || !hud_used.hand_slots)
+		return
+	var/atom/movable/screen/inventory/hand/H = hud_used.hand_slots["[held_index]"]
+	if(H)
+		H.update_hand_vis()
+
 //update whether handcuffs appears on our hud.
 /mob/living/carbon/proc/update_hud_handcuffed()
 	if(hud_used)
 		for(var/hand in hud_used.hand_slots)
 			var/atom/movable/screen/inventory/hand/H = hud_used.hand_slots[hand]
 			if(H)
-				H.update_icon()
+				H.update_hand_vis()
 
 //update whether our head item appears on our hud.
 /mob/living/carbon/proc/update_hud_head(obj/item/I)

@@ -139,8 +139,9 @@
 	// Edit - Overwriting the outgoing message here to prevent metagaming faith via message.
 	// Not getting rid of the messages in the code, we might want them for something else later.
 	message_out = span_info("Healing energies envelop [spelltarget]!")
+	if(HAS_TRAIT(owner, TRAIT_DECEIVING_MEEKNESS))
+		message_self = "Healing energies envelop me!"
 	spelltarget.visible_message(message_out, message_self)
-
 	return TRUE
 
 ///////////////////////
