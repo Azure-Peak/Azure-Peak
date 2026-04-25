@@ -60,6 +60,9 @@ export const OrdersView = (props: { data: Data }) => {
                 {isUrgent && !o.region_blockaded && !o.is_equipment && (
                   <span style={badgeStyle(SEAL_RED_SOFT)}>URGENT</span>
                 )}
+                {!!o.petitioned && (
+                  <span style={badgeStyle('#a872c4')}>PETITIONED</span>
+                )}
               </div>
               {o.description && (
                 <div

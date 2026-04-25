@@ -39,6 +39,7 @@ export type Order = {
   items: OrderItem[];
   can_fulfill: BooleanLike;
   shortfall_text: string;
+  petitioned: BooleanLike;
 };
 
 export type EconomicEvent = {
@@ -151,6 +152,22 @@ export type TradeQuote = {
   can_afford: BooleanLike;
 };
 
+export type PetitionCategory = {
+  id: string;
+  label: string;
+  description: string;
+  cost: number;
+};
+
+export type PetitionState = {
+  pledge_balance: number;
+  petitions_remaining: number;
+  is_steward_role: BooleanLike;
+  is_alderman_acting: BooleanLike;
+  // category_id -> region_id -> blocker reason (empty string = eligible)
+  eligibility: Record<string, Record<string, string>>;
+};
+
 export type Data = StaticData & {
   treasury: number;
   day: number;
@@ -165,6 +182,15 @@ export type Data = StaticData & {
   auto_import: AutoImportData;
   trade_quote: TradeQuote | null;
   total_arbitrage_potential: number;
+  petition_categories: PetitionCategory[];
+  petition_tax_pct: number;
+  petitions_per_day: number;
+  petition: PetitionState;
 };
 
-export type TabKey = 'orders' | 'market' | 'regions' | 'auto_import';
+export type TabKey =
+  | 'orders'
+  | 'market'
+  | 'regions'
+  | 'auto_import'
+  | 'petition';

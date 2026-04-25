@@ -10,6 +10,10 @@ SUBSYSTEM_DEF(economy)
 	/// Populated during daily_tick; written to the Steward's morning report at the end
 	/// of the tick. Null between ticks.
 	var/list/daily_report_diff = null
+	/// Day the last petition fired (Steward's PetitionView). Used to gate PETITIONS_PER_DAY.
+	var/last_petition_day = -1
+	/// Petitions consumed today. Reset in daily_tick.
+	var/petitions_today = 0
 
 /// Single source of truth for pop-scaled economy math. Admin override beats the live count.
 /datum/controller/subsystem/economy/proc/get_effective_player_count()
@@ -229,18 +233,7 @@ SUBSYSTEM_DEF(economy)
 			var/chosen_region_id = pick(eligible_ids)
 			var/datum/economic_region/region = GLOB.economic_regions[chosen_region_id]
 			var/template = pickweight(region.possible_standing_order_types)
-			var/datum/standing_order/O = new template()
-			O.region_id = region.region_id
-			O.required_items = O.generate_item_mix()
-			for(var/good_id in O.required_items)
-				O.required_items[good_id] = max(1, round(O.required_items[good_id] * order_size_mult))
-			O.name = O.generate_name(region)
-			O.description = O.generate_description(region)
-			O.day_issued = GLOB.dayspassed
-			O.day_expires = GLOB.dayspassed + STANDING_ORDER_DURATION
-			O.total_payout = compute_order_payout(O, region)
-			GLOB.standing_order_pool += O
-			daily_report_diff["orders_rolled"] = (daily_report_diff["orders_rolled"] || 0) + 1
+			instantiate_standing_order(template, region, order_size_mult)
 
 	print_steward_report(daily_report_diff)
 	daily_report_diff = null
@@ -417,7 +410,33 @@ SUBSYSTEM_DEF(economy)
 		// after BYOND's floor-round. Guarantees standing orders always beat stockpile sell-back.
 		var/unit = CEILING(tg.base_price * bonus_mult, 1)
 		total += unit * quantity
+	if(order.petitioned)
+		total = round(total * PETITION_TAX_MULT)
 	return round(total)
+
+/// Returns the new order, or null if the template's item mix came up empty (caller decides
+/// whether that's a skip or a refund).
+/datum/controller/subsystem/economy/proc/instantiate_standing_order(template, datum/economic_region/region, order_size_mult, petitioned = FALSE)
+	if(!template || !region)
+		return null
+	var/datum/standing_order/O = new template()
+	O.region_id = region.region_id
+	O.petitioned = petitioned
+	O.required_items = O.generate_item_mix()
+	if(!length(O.required_items))
+		qdel(O)
+		return null
+	for(var/good_id in O.required_items)
+		O.required_items[good_id] = max(1, round(O.required_items[good_id] * order_size_mult))
+	O.name = O.generate_name(region)
+	O.description = O.generate_description(region)
+	O.day_issued = GLOB.dayspassed
+	O.day_expires = GLOB.dayspassed + STANDING_ORDER_DURATION
+	O.total_payout = compute_order_payout(O, region)
+	GLOB.standing_order_pool += O
+	if(daily_report_diff)
+		daily_report_diff["orders_rolled"] = (daily_report_diff["orders_rolled"] || 0) + 1
+	return O
 
 /datum/controller/subsystem/economy/proc/fulfill_order(mob/user, datum/standing_order/order)
 	if(!order || order.is_fulfilled)

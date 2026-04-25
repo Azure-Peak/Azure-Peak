@@ -13,6 +13,8 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 	/// goods orders (equipment, potions) are more interesting than raw stockpile baskets, so
 	/// they weight higher. Raw-goods subtypes keep the default 1.
 	var/roll_weight = 1
+	/// Spawned by a Steward petition. Payout is shaved by PETITION_TAX_MULT and the UI tags it.
+	var/petitioned = FALSE
 
 /// Returns assoc list of trade_good_id -> quantity. Randomized mix.
 /datum/standing_order/proc/generate_item_mix()

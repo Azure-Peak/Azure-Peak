@@ -146,3 +146,24 @@
 #define BLOCKADE_WAVE_2_TP 72
 #define BLOCKADE_WAVE_3_TP 104
 
+// Steward petition for a standing order. Burns Burgher Pledge to roll a category-bound
+// order in a chosen non-blockaded region. Petitioned orders pay PETITION_TAX_MULT of the
+// natural payout - the trade hall shaves margin when it knows you needed it.
+#define PETITIONS_PER_DAY 1
+#define PETITION_TAX_MULT 0.80
+#define PETITION_BLOCKADE_RECOVERY_DAYS 2
+
+#define PETITION_CATEGORY_PROVISIONS "provisions"
+#define PETITION_CATEGORY_MATERIALS "materials"
+#define PETITION_CATEGORY_ARMS "arms"
+#define PETITION_CATEGORY_LUXURIES "luxuries"
+#define PETITION_CATEGORY_ALCHEMY "alchemy"
+#define PETITION_CATEGORY_MASTERWORK "masterwork"
+
+#define PETITION_COST_PROVISIONS 200
+#define PETITION_COST_MATERIALS 250
+#define PETITION_COST_ARMS 300
+#define PETITION_COST_LUXURIES 350
+#define PETITION_COST_ALCHEMY 350
+#define PETITION_COST_MASTERWORK 400
+

@@ -23,6 +23,12 @@ export const TabBar = (props: {
       >
         Auto-Import
       </div>
+      <div
+        style={tabStyle(tab === 'petition')}
+        onClick={() => onSwitch('petition')}
+      >
+        Petition
+      </div>
     </div>
   );
 };

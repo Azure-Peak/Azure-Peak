@@ -75,6 +75,19 @@
 		)
 	data["region_catalog"] = region_catalog
 
+	var/list/petition_categories = list()
+	for(var/cat_id in GLOB.petition_categories)
+		var/list/cat = GLOB.petition_categories[cat_id]
+		petition_categories += list(list(
+			"id" = cat_id,
+			"label" = cat["label"],
+			"description" = cat["description"],
+			"cost" = cat["cost"],
+		))
+	data["petition_categories"] = petition_categories
+	data["petition_tax_pct"] = round((1 - PETITION_TAX_MULT) * 100)
+	data["petitions_per_day"] = PETITIONS_PER_DAY
+
 	return data
 
 /obj/structure/roguemachine/steward/ui_data(mob/user)
@@ -170,6 +183,7 @@
 			"items" = items,
 			"can_fulfill" = can_fulfill,
 			"shortfall_text" = shortfall,
+			"petitioned" = O.petitioned ? TRUE : FALSE,
 		))
 	data["active_orders"] = orders
 
@@ -257,6 +271,19 @@
 	data["region_rows"] = region_rows
 
 	data["auto_import"] = build_auto_import_data()
+
+	var/list/petition_state = list()
+	petition_state["pledge_balance"] = SStreasury.burgher_pledge_fund?.balance || 0
+	petition_state["petitions_remaining"] = SSeconomy.petitions_remaining_today()
+	petition_state["is_steward_role"] = (user.job in list("Steward", "Clerk", "Grand Duke")) ? TRUE : FALSE
+	petition_state["is_alderman_acting"] = SScity_assembly?.is_alderman(user) ? TRUE : FALSE
+	var/list/eligibility = list()
+	for(var/cat_id in GLOB.petition_categories)
+		eligibility[cat_id] = list()
+		for(var/region_id in GLOB.economic_regions)
+			eligibility[cat_id][region_id] = SSeconomy.petition_blocker(region_id, cat_id) || ""
+	petition_state["eligibility"] = eligibility
+	data["petition"] = petition_state
 
 	return data
 
@@ -660,5 +687,22 @@
 				A.withdraw_price = max(1, round(A.withdraw_price * mult))
 				A.automatic_price = FALSE
 			scom_announce("[category] stockpile sell prices adjusted by x[mult].")
+			SStgui.update_uis(src)
+			return TRUE
+		if("petition_for_order")
+			if(SScity_assembly?.is_alderman(usr))
+				to_chat(usr, span_warning("The Alderman's writ does not extend to petitioning the trade hall."))
+				return TRUE
+			if(!(usr.job in list("Steward", "Clerk", "Grand Duke")))
+				to_chat(usr, span_warning("Only the Steward's office may petition the trade hall."))
+				return TRUE
+			var/region_id = params["region_id"]
+			var/category_id = params["category_id"]
+			if(SSeconomy.petition_for_order(usr, region_id, category_id))
+				var/list/cat = GLOB.petition_categories[category_id]
+				var/datum/economic_region/region = GLOB.economic_regions[region_id]
+				scom_announce("[usr.real_name] petitioned the trade hall for [cat?["label"]] in [region?.name].")
+				playsound(src, 'sound/items/inqslip_sealed.ogg', 70, FALSE, -1)
+				visible_message(span_notice("[src] stamps a freshly sealed writ. The wax bears the mark of the [region?.name] trade hall."))
 			SStgui.update_uis(src)
 			return TRUE

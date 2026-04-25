@@ -199,6 +199,8 @@
 				contents += "<font color='#c44'><b>BLOCKADED</b></font> "
 			if(SSeconomy.order_is_equipment(O))
 				contents += "<font color='#88c'><b>WAREHOUSE</b></font> "
+			if(O.petitioned)
+				contents += "<font color='#a872c4'><b>STEWARD'S PETITION</b></font> "
 			contents += "<b>[O.name]</b> &mdash; [region_name] &mdash; [days_left]d remaining<br>"
 			if(O.description)
 				contents += "<i>[O.description]</i><br>"

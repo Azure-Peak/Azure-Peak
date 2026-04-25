@@ -8,6 +8,7 @@ import { BlockadeBanner } from './StewardTrade/BlockadeBanner';
 import { EventsBanner } from './StewardTrade/EventsBanner';
 import { MarketView } from './StewardTrade/MarketView';
 import { OrdersView } from './StewardTrade/OrdersView';
+import { PetitionView } from './StewardTrade/PetitionView';
 import { RegionsView } from './StewardTrade/RegionsView';
 import {
   INK,
@@ -98,6 +99,7 @@ export const StewardTrade = () => {
           )}
           {tab === 'regions' && <RegionsView data={data} />}
           {tab === 'auto_import' && <AutoImportView data={data} />}
+          {tab === 'petition' && <PetitionView data={data} />}
         </div>
         <TradeModal
           request={tradeRequest}
