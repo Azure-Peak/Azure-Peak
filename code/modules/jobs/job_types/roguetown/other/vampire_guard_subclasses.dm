@@ -236,8 +236,8 @@
 			if("Dual Wield Messers")
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
 				ADD_TRAIT(H, TRAIT_DUALWIELDER, TRAIT_GENERIC)
-				l_hand = /obj/item/rogueweapon/sword/short
-				r_hand = /obj/item/rogueweapon/sword/short
+				l_hand = /obj/item/rogueweapon/scabbard/sword
+				r_hand = /obj/item/rogueweapon/scabbard/sword
 				beltr = /obj/item/rogueweapon/sword/short/messer/duelist
 				beltl = /obj/item/rogueweapon/sword/short/messer/duelist
 
