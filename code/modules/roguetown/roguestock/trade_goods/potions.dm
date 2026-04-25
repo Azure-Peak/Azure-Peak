@@ -43,3 +43,52 @@
 	base_price = SELLPRICE_ANTIDOTE_POTION
 	reagent_type = /datum/reagent/medicine/antidote
 	required_volume = 50
+
+/datum/trade_good/potion/strongmana
+	id = TRADE_GOOD_STRONG_MANA_POTION
+	name = "Strong Mana Potion - 50dr bottle"
+	base_price = SELLPRICE_STRONG_MANA_POTION
+	reagent_type = /datum/reagent/medicine/strongmana
+	required_volume = 50
+
+/datum/trade_good/potion/strongstam
+	id = TRADE_GOOD_STRONG_STAM_POTION
+	name = "Strong Stamina Potion - 50dr bottle"
+	base_price = SELLPRICE_STRONG_STAM_POTION
+	reagent_type = /datum/reagent/medicine/strongstam
+	required_volume = 50
+
+/datum/trade_good/potion/strongantidote
+	id = TRADE_GOOD_STRONG_ANTIDOTE_POTION
+	name = "Strong Antidote - 50dr bottle"
+	base_price = SELLPRICE_STRONG_ANTIDOTE_POTION
+	reagent_type = /datum/reagent/medicine/strong_antidote
+	required_volume = 50
+
+/datum/trade_good/potion/strength
+	id = TRADE_GOOD_STRENGTH_POTION
+	name = "Strength Potion - 50dr bottle"
+	base_price = SELLPRICE_BUFF_POTION
+	reagent_type = /datum/reagent/buff/strength
+	required_volume = 50
+
+/datum/trade_good/potion/perception
+	id = TRADE_GOOD_PERCEPTION_POTION
+	name = "Perception Potion - 50dr bottle"
+	base_price = SELLPRICE_BUFF_POTION
+	reagent_type = /datum/reagent/buff/perception
+	required_volume = 50
+
+/datum/trade_good/potion/intelligence
+	id = TRADE_GOOD_INTELLIGENCE_POTION
+	name = "Intelligence Potion - 50dr bottle"
+	base_price = SELLPRICE_BUFF_POTION
+	reagent_type = /datum/reagent/buff/intelligence
+	required_volume = 50
+
+/datum/trade_good/potion/speed
+	id = TRADE_GOOD_SPEED_POTION
+	name = "Speed Potion - 50dr bottle"
+	base_price = SELLPRICE_BUFF_POTION
+	reagent_type = /datum/reagent/buff/speed
+	required_volume = 50

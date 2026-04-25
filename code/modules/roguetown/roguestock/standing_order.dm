@@ -528,24 +528,29 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 		TRADE_REGION_NORTHFORT = list("the border surgeon", "the northern garrison", "the tarichean watch"),
 		TRADE_REGION_KINGSFIELD = list("a market apothecary", "a village healer"),
 	)
+	// Mana lives in the premium pool only - keeping it in both used to let a premium roll
+	// overwrite the larger primary qty when the same id was picked twice.
 	var/list/medicinal_pool = list(
 		TRADE_GOOD_HEALTH_POTION,
 		TRADE_GOOD_STAM_POTION,
 		TRADE_GOOD_ANTIDOTE_POTION,
-		TRADE_GOOD_MANA_POTION,
 	)
 	var/list/premium_pool = list(
 		TRADE_GOOD_STRONG_HEALTH_POTION,
+		TRADE_GOOD_STRONG_MANA_POTION,
+		TRADE_GOOD_STRONG_STAM_POTION,
+		TRADE_GOOD_STRONG_ANTIDOTE_POTION,
 		TRADE_GOOD_MANA_POTION,
 	)
 
 /datum/standing_order/demand_alchemical/generate_item_mix()
 	var/list/mix = list()
 	var/primary = pick(medicinal_pool)
-	mix[primary] = rand(5, 10)
+	mix[primary] = rand(6, 12)
 	if(prob(60))
 		var/premium = pick(premium_pool)
-		mix[premium] = rand(2, 5)
+		// max() guard so a colliding pick can never downgrade a larger earlier qty.
+		mix[premium] = max(mix[premium] || 0, rand(3, 6))
 	return mix
 
 /datum/standing_order/demand_alchemical/generate_name(datum/economic_region/region)
@@ -556,6 +561,51 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 	if(length(projects))
 		return "[capitalize(pick(projects))] at [region.name] requires finished potions, to be left at the warehouse."
 	return "An apothecary at [region.name] will pay handsomely for finished potions, left at the warehouse."
+
+// ============================================================================
+// demand_alchemical_warband - elite buff-potion order for adventurers, the conclave,
+// and chosen retinues. Stat-buff potions plus a backbone of strong-* support potions.
+// ============================================================================
+/datum/standing_order/demand_alchemical_warband
+	roll_weight = 1
+	var/list/project_by_region = list(
+		TRADE_REGION_BLACKHOLT = list("the wizards' conclave", "the archmagi's household", "the lexicarium"),
+		TRADE_REGION_HEARTFELT = list("the count's chosen retinue", "the church's champions", "the march guards"),
+		TRADE_REGION_KINGSFIELD = list("a knight-errants' convocation", "a mercenary captain's warband", "a noble's hunting party"),
+		TRADE_REGION_NORTHFORT = list("the tarichean strike-band", "the watch sergeants"),
+	)
+	var/list/buff_pool = list(
+		TRADE_GOOD_STRENGTH_POTION,
+		TRADE_GOOD_PERCEPTION_POTION,
+		TRADE_GOOD_INTELLIGENCE_POTION,
+		TRADE_GOOD_SPEED_POTION,
+	)
+	var/list/support_pool = list(
+		TRADE_GOOD_STRONG_HEALTH_POTION,
+		TRADE_GOOD_STRONG_MANA_POTION,
+		TRADE_GOOD_STRONG_STAM_POTION,
+		TRADE_GOOD_STRONG_ANTIDOTE_POTION,
+	)
+
+/datum/standing_order/demand_alchemical_warband/generate_item_mix()
+	var/list/mix = list()
+	var/buff_primary = pick(buff_pool)
+	mix[buff_primary] = rand(3, 5)
+	if(prob(55))
+		var/buff_secondary = pick(buff_pool)
+		mix[buff_secondary] = max(mix[buff_secondary] || 0, rand(2, 4))
+	var/support = pick(support_pool)
+	mix[support] = max(mix[support] || 0, rand(3, 5))
+	return mix
+
+/datum/standing_order/demand_alchemical_warband/generate_name(datum/economic_region/region)
+	return "[uppertext(region.name)] - WARBAND DRAUGHTS"
+
+/datum/standing_order/demand_alchemical_warband/generate_description(datum/economic_region/region)
+	var/list/projects = project_by_region[region.region_id]
+	if(length(projects))
+		return "[capitalize(pick(projects))] at [region.name] commissions draughts of stat and strong potion."
+	return "An elite party at [region.name] commissions draughts of stat and strong potion."
 
 
 // ============================================================================

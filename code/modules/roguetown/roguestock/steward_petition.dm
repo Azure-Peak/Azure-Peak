@@ -56,6 +56,7 @@ GLOBAL_LIST_INIT(petition_categories, build_petition_categories())
 		"cost" = PETITION_COST_ALCHEMY,
 		"templates" = list(
 			/datum/standing_order/demand_alchemical,
+			/datum/standing_order/demand_alchemical_warband,
 			/datum/standing_order/demand_prosthetic_run,
 			/datum/standing_order/demand_exotic,
 		),
