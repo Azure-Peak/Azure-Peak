@@ -29,6 +29,7 @@
 #define TG_SUPPLY_FISH_BULK          8  // Fish filet from Saltwick
 #define TG_SUPPLY_FISH_MINCE         6  // Fish mince
 #define TG_SUPPLY_FISH_SPECIALTY     6  // Named fish - salmon, cod, crab, bass, carp, sole, clam, lobster, shrimp
+#define TG_SUPPLY_REFINED_INGOTS     6  // Hagenwald's iron/steel/copper/tin ingots
 
 // ---- Demand (what a consuming region buys per day) ----
 // Most categories mirror supply. Some are demand-only (REFINED_INGOTS, GEM, CLOTH, some ESSENCE).
@@ -41,7 +42,7 @@
 #define TG_DEMAND_PRECIOUS_METAL     4  // Kingsfield appetite for gold/silver/cinnabar
 #define TG_DEMAND_SPECIALTY_HERB     4
 #define TG_DEMAND_CLOTH              6  // Demand-only; cloth is crafted from fibers
-#define TG_DEMAND_SILK               3
+#define TG_DEMAND_SILK               4
 #define TG_DEMAND_LEATHER            4
 #define TG_DEMAND_SALT               5
 #define TG_DEMAND_GLASS              3

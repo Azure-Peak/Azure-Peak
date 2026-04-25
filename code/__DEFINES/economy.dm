@@ -31,6 +31,7 @@
 #define TRADE_REGION_BLEAKCOAST "bleakcoast"
 #define TRADE_REGION_NORTHFORT "northfort"
 #define TRADE_REGION_HEARTFELT "heartfelt"
+#define TRADE_REGION_HAGENWALD "hagenwald"
 
 #define STANDING_ORDER_DURATION 2
 // Urgent orders (spawned by shortage events) pay a premium but expire the very next dawn,
@@ -74,6 +75,8 @@
 // standing order bonuses.
 #define TRADE_ESCALATION_SLOPE 1.0
 #define IMPORT_EXPORT_SPREAD 0.25
+
+#define TRADE_MAX_BULK_UNITS 50
 
 // Blockaded regions remain tradeable but at punitive rates.
 // Import costs double, export revenue halves. Blockade-running is a desperate-times option.

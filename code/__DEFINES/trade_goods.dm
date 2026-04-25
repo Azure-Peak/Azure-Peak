@@ -208,7 +208,7 @@
 // Textile / animal products
 #define SELLPRICE_FIBERS 2
 #define SELLPRICE_CLOTH 3
-#define SELLPRICE_SILK 2
+#define SELLPRICE_SILK 4
 #define SELLPRICE_HIDE 8
 #define SELLPRICE_FUR 10
 #define SELLPRICE_CURED_LEATHER 3
