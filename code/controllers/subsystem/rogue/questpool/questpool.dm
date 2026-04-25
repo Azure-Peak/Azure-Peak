@@ -337,7 +337,9 @@ SUBSYSTEM_DEF(questpool)
 	if(!Q.preview(landmark))
 		qdel(Q)
 		return null
-	Q.reward_amount = BLOCKADE_SCROLL_REWARD
+	// Reward scales with the region's TP multiplier — far/dangerous regions print more for
+	// the same Steward draft cost. The mob count itself stays at the fixed wave budgets.
+	Q.reward_amount = round(BLOCKADE_SCROLL_REWARD * TR.tp_budget_multiplier)
 	Q.funding_fund = source_fund
 	Q.funding_cost = cost
 	Q.issued_at = world.time

@@ -103,9 +103,9 @@
 	var/obj/effect/landmark/quest_spawner/landmark = wave_landmark_ref?.resolve()
 	return landmark ? get_turf(landmark) : null
 
-/// Flat reward: the Steward committed a fixed Pledge draw, not TP-scaled.
+/// Reward is set at issue time (BLOCKADE_SCROLL_REWARD × region tp_budget_multiplier).
 /datum/quest/kill/blockade_defense/calculate_reward(turf/origin_turf, turf/target_turf)
-	return BLOCKADE_SCROLL_REWARD
+	return reward_amount
 
 /// Materialize arms the quest but does NOT spawn wave 1. The scroll's process() tick polls
 /// check_arrival() and fires wave 1 once the bearer is in proximity to the landmark.
