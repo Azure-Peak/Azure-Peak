@@ -21,6 +21,13 @@
 	if(!TR)
 		return
 	TR.reduce_latent_ambush(threat_bands_cleared * THREAT_POINTS_PER_BAND)
+	announce_to_bearer("<b>The road breathes easier.</b> This contract has driven [threat_bands_cleared] band(s) of threat from the region.")
+
+/datum/quest/kill/proc/announce_to_bearer(msg)
+	var/mob/bearer = quest_receiver_reference?.resolve()
+	if(!bearer)
+		return
+	to_chat(bearer, span_notice(msg))
 
 /datum/quest/kill/preview(obj/effect/landmark/quest_spawner/landmark)
 	. = ..()

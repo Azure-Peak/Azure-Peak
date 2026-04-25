@@ -2,7 +2,7 @@
 	quest_type = QUEST_BLOCKADE_DEFENSE
 	quest_difficulty = QUEST_DIFFICULTY_HARD
 	tp_budget = BLOCKADE_WAVE_1_TP
-	threat_bands_cleared = QUEST_BANDS_RAID
+	threat_bands_cleared = QUEST_BANDS_RAID * 2
 	required_fellowship_size = 0
 
 	var/current_wave = 0
@@ -319,9 +319,3 @@
 	var/obj/item/paper/scroll/quest/S = quest_scroll
 	if(S && !QDELETED(S))
 		qdel(S)
-
-/datum/quest/kill/blockade_defense/proc/announce_to_bearer(msg)
-	var/mob/bearer = quest_receiver_reference?.resolve()
-	if(!bearer)
-		return
-	to_chat(bearer, span_notice(msg))
