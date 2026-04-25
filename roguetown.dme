@@ -3230,6 +3230,7 @@
 #include "modular\Neu_Food\cooking_helpers.dm"
 #include "modular\Neu_Food\code\NeuFood.dm"
 #include "modular\Neu_Food\code\cooked\cooked_baked.dm"
+#include "modular\Neu_Food\code\cooked\cooked_boiled.dm"
 #include "modular\Neu_Food\code\cooked\cooked_cakes.dm"
 #include "modular\Neu_Food\code\cooked\cooked_deep_fried.dm"
 #include "modular\Neu_Food\code\cooked\cooked_egg.dm"
