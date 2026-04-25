@@ -43,7 +43,7 @@
 			if("onbelt")
 				return list("shrink" = 0.42,"sx" = -3,"sy" = -8,"nx" = 6,"ny" = -8,"wx" = -1,"wy" = -8,"ex" = 3,"ey" = -8,"nturn" = 180,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 1,"sflip" = 0,"wflip" = 0,"eflip" = 8,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
 
-/obj/item/clothing/suit/roguetown/head/helmet/ComponentInitialize()
+/obj/item/clothing/head/roguetown/helmet/ComponentInitialize()
 	AddComponent(/datum/component/armour_filtering/negative, TRAIT_HONORBOUND)
 	AddComponent(/datum/component/armour_filtering/negative, TRAIT_FENCERDEXTERITY)
 
@@ -329,6 +329,17 @@
 	armor = ARMOR_PLATE
 	clothing_flags = 0
 	block2add = FOV_BEHIND
+	detail_tag = "_detail"
+	detail_color = "#FFFFFF"
+
+/obj/item/clothing/head/roguetown/helmet/elvenbarbute/update_icon()
+	cut_overlays()
+	if(get_detail_tag())
+		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))
+		pic.appearance_flags = RESET_COLOR
+		if(get_detail_color())
+			pic.color = get_detail_color()
+		add_overlay(pic)
 
 /obj/item/clothing/head/roguetown/helmet/elvenbarbute/winged
 	name = "winged elven barbute"
@@ -336,13 +347,30 @@
 	icon_state = "elven_barbute_winged"
 	item_state = "elven_barbute_winged"
 
+/obj/item/clothing/head/roguetown/helmet/elvenbarbute/winged/update_icon()
+	cut_overlays()
+	if(get_detail_tag())
+		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))
+		pic.appearance_flags = RESET_COLOR
+		if(get_detail_color())
+			pic.color = get_detail_color()
+		add_overlay(pic)
+
 /obj/item/clothing/head/roguetown/helmet/elvenbarbute/blackoak
 	desc = "An elven barbute with a thin gold plating designed for Elven Woodland guardians."
-	color = COLOR_ASSEMBLY_GOLD
+	detail_color = COLOR_ASSEMBLY_GOLD
+
+/obj/item/clothing/head/roguetown/helmet/elvenbarbute/blackoak/Initialize(mapload)
+    . = ..()
+    update_icon()
 
 /obj/item/clothing/head/roguetown/helmet/elvenbarbute/winged/blackoak
 	desc = "A winged version of the elven barbute with a thin gold plating designed for Elven Woodland guardians."
-	color = COLOR_ASSEMBLY_GOLD
+	detail_color = COLOR_ASSEMBLY_GOLD
+
+/obj/item/clothing/head/roguetown/helmet/elvenbarbute/winged/blackoak/Initialize(mapload)
+    . = ..()
+    update_icon()
 
 /obj/item/clothing/head/roguetown/helmet/bascinet
 	name = "bascinet"
@@ -680,3 +708,21 @@
 		if(get_detail_color())
 			pic.color = get_detail_color()
 		add_overlay(pic)
+
+/obj/item/clothing/head/roguetown/helmet/sallet/iron/banded
+	name = "banded iron helmet"
+	desc = "A menacing horned half-face iron helmet worn primarily by mercenaries hailing from an unaligned conflict-ridden enclave within the Gronn-Hammerhold border. \
+	A helmet of this kind was notoriously worn by an unknown person said to kill the last Great Drakyn inhabiting the mountains of Hammerhold."
+	max_integrity = ARMOR_INT_HELMET_HEAVY_IRON
+	armor_class = ARMOR_CLASS_MEDIUM
+	flags_inv = HIDEEARS|HIDEFACE
+	flags_cover = HEADCOVERSEYES
+	body_parts_covered = HEAD|EARS|HAIR|NOSE|EYES
+	block2add = FOV_BEHIND
+	smelt_bar_num = 1
+	stack_fovs = TRUE
+	icon_state = "ibandedhelm"
+	item_state = "ibandedhelm"
+	drop_sound = 'sound/foley/dropsound/scrap_drop.ogg'
+	pickup_sound = 'sound/foley/equip/scrap_equip.ogg'
+	equip_sound = 'sound/foley/equip/scrap_equip.ogg'

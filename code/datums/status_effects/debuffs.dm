@@ -980,6 +980,21 @@
 	desc = "I have been knocked back recently by an attack and cannot be knocked back again"
 	icon_state = "debuff" // Placeholder
 
+/datum/status_effect/debuff/bindcd
+	id = "bindcd"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/bindcd
+	duration = 15 SECONDS
+
+/datum/status_effect/debuff/bindcd/on_creation(mob/living/new_owner, new_dur)
+	if(new_dur)
+		duration = new_dur
+	return ..()
+
+/atom/movable/screen/alert/status_effect/debuff/bindcd
+	name = "Bind Cooldown"
+	desc = "Can't expect the magic to work every time."
+	icon_state = "bindcd"
+
 /datum/status_effect/debuff/specialcd
 	id = "specialcd"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/specialcd

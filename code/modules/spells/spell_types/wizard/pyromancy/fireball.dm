@@ -59,7 +59,7 @@
 
 /obj/projectile/magic/aoe/fireball/rogue/arc
 	name = "arced fireball"
-	damage = 45 // 25% damage penalty
+	damage = 53 // 25% damage penalty
 	arcshot = TRUE
 
 /obj/projectile/magic/aoe/fireball/rogue/on_hit(target)
@@ -71,6 +71,10 @@
 		playsound(get_turf(target), 'sound/magic/magic_nulled.ogg', 100)
 		qdel(src)
 		return BULLET_ACT_BLOCK
+
+	if(M)
+		M.adjust_fire_stacks(1)
+		M.ignite_mob()
 
 	var/aoe_damage = round(damage * arcyne_aoe_damage_ratio)
 

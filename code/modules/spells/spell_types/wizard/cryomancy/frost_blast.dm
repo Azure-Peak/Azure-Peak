@@ -72,15 +72,25 @@
 	for(var/turf/T in line_turfs)
 		if(blocked)
 			break
-		for(var/mob/living/victim in T)
-			if(victim == H || victim.stat == DEAD || (victim in already_hit))
+		// Extinguish burning objects and hotspots in the blast line
+		for(var/obj/O in T)
+			O.extinguish()
+		var/obj/effect/hotspot/hotspot = (locate(/obj/effect/hotspot) in T)
+		if(hotspot)
+			new /obj/effect/temp_visual/small_smoke(T)
+			qdel(hotspot)
+		var/list/victims_here = list()
+		for(var/mob/living/L in T)
+			victims_here += L
+		for(var/mob/living/victim as anything in victims_here)
+			if(victim == H || (victim in already_hit))
 				continue
 			if(victim.anti_magic_check())
 				victim.visible_message(span_warning("The frost fizzles on contact with [victim]!"))
 				continue
 			if(spell_guard_check(victim, FALSE, H))
 				blocked = TRUE
-				break
+				continue
 			// Shatter frost if target has fire
 			if(victim.on_fire)
 				victim.extinguish_mob()
@@ -91,8 +101,8 @@
 				skip_animation = TRUE)
 			if(!damage_dealt)
 				blocked = TRUE
-				break
-			apply_frost_stack(victim, 2)
+				continue
+			apply_frost_stack(victim, 1)
 			already_hit += victim
 			var/push_dir = get_dir(H, victim)
 			if(!push_dir)

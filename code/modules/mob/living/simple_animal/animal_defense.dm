@@ -13,6 +13,17 @@
 			if(armor > 0)
 				nodmg = TRUE
 				next_attack_msg += VISMSG_ARMOR_BLOCKED
+			// Exposed/vulnerable bonus damage against simple animals
+			if(has_status_effect(/datum/status_effect/debuff/exposed))
+				newforce *= EXPOSED_INTEG_MOD
+				playsound(src, 'sound/combat/exposed_pop.ogg', 100, TRUE)
+				visible_message(span_danger("[src] suffers a savage blow while exposed!"))
+				remove_status_effect(/datum/status_effect/debuff/exposed)
+			else if(has_status_effect(/datum/status_effect/debuff/vulnerable))
+				newforce *= VULN_INTEG_MOD
+				playsound(src, 'sound/combat/vulnerable_pop.ogg', 100, TRUE)
+				visible_message(span_biginfo("[src] is struck while vulnerable!"))
+				remove_status_effect(/datum/status_effect/debuff/vulnerable)
 			apply_damage(newforce, I.damtype, hitlim, armor)
 			I.remove_bintegrity(1)
 			if(I.damtype == BRUTE && !nodmg)

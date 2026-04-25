@@ -9,6 +9,14 @@
 	name = "low tier general loot spawner"
 	icon_state = "genlow"
 	lootcount = 1
+	loot_value = LOOT_VALUE_GENERAL_LOW
+	junk_loot = list(
+		/obj/item/ash = 5,
+		/obj/item/natural/glass_shard = 5,
+		/obj/item/natural/stone = 3,
+		/obj/item/candle/yellow = 3,
+		/obj/item/natural/feather = 3,
+	)
 	loot = list(
 		//mats
 		/obj/item/natural/bundle/stick = 4,
@@ -149,6 +157,14 @@
 	name = "mid tier general loot spawner"
 	icon_state = "genmid"
 	lootcount = 1
+	loot_value = LOOT_VALUE_GENERAL_MID
+	junk_loot = list(
+		/obj/item/ash = 5,
+		/obj/item/natural/glass_shard = 5,
+		/obj/item/natural/stone = 3,
+		/obj/item/candle/yellow = 3,
+		/obj/item/natural/feather = 3,
+	)
 	loot = list(
 		//mats
 		/obj/item/natural/hide/cured = 2,
@@ -308,6 +324,14 @@
 	name = "high tier general loot spawner"
 	icon_state = "genhi"
 	lootcount = 1
+	loot_value = LOOT_VALUE_GENERAL_HI
+	junk_loot = list(
+		/obj/item/ash = 3,
+		/obj/item/natural/glass_shard = 3,
+		/obj/item/candle/yellow = 3,
+		/obj/item/rope = 3,
+		/obj/item/rope/chain = 3,
+	)
 	loot = list(
 		//mats
 		/obj/item/natural/hide/cured = 2,
@@ -446,16 +470,60 @@
 	name = "low tier general loot spawnerx3"
 	icon_state = "genlowx3"
 	lootcount = 3
+	loot_value = LOOT_VALUE_GENERAL_LOW * 3
 
 /obj/effect/spawner/lootdrop/general_loot_mid/x3
 	name = "mid tier general loot spawnerx3"
 	icon_state = "genmidx3"
 	lootcount = 3
+	loot_value = LOOT_VALUE_GENERAL_MID * 3
 
 /obj/effect/spawner/lootdrop/general_loot_hi/x3
 	name = "high tier general loot spawnerx3"
 	icon_state = "genhix3"
 	lootcount = 3
+	loot_value = LOOT_VALUE_GENERAL_HI * 3
+
+/obj/effect/spawner/lootdrop/random_gem
+	name = "random gem spawner"
+	icon_state = "roguegem"
+	lootcount = 1
+	loot_value = LOOT_VALUE_RANDOM_GEM
+	junk_loot = list(/obj/item/natural/stone = 5, /obj/item/natural/glass_shard = 5)
+	loot = list(
+		/obj/item/roguegem/ruby = 5,
+		/obj/item/roguegem/green = 15,
+		/obj/item/roguegem/blue = 10,
+		/obj/item/roguegem/yellow = 20,
+		/obj/item/roguegem/violet = 10,
+		/obj/item/roguegem/diamond = 5,
+		/obj/item/roguegem/onyxa = 5,
+		/obj/item/roguegem/jade = 3,
+		/obj/item/roguegem/coral = 3,
+		/obj/item/roguegem/turq = 3,
+		/obj/item/roguegem/amber = 3,
+		/obj/item/roguegem/opal = 3,
+		/obj/item/roguegem/blood_diamond = 1,
+		/obj/item/rogueore/silver = 3,
+	)
+
+/obj/effect/spawner/lootdrop/spider_cave_loot
+	name = "spider cave loot spawner"
+	icon_state = "genhi"
+	lootcount = 1
+	loot_value = LOOT_VALUE_SPIDER_CAVE_LOOT
+	junk_loot = list(/obj/item/natural/hide = 5, /obj/item/rope/chain = 3)
+	loot = list(
+		/obj/item/clothing/neck/roguetown/leather = 150,
+		/obj/item/clothing/neck/roguetown/chaincoif = 100,
+		/obj/item/clothing/suit/roguetown/armor/plate/cuirass = 50,
+		/obj/item/clothing/head/roguetown/helmet/heavy/volfplate = 100,
+		/obj/item/rogueweapon/mace/warhammer/steel/silver = 100,
+		/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk = 150,
+		/obj/item/clothing/gloves/roguetown/plate = 75,
+		/obj/item/clothing/under/roguetown/platelegs = 75,
+		/obj/item/clothing/head/roguetown/helmet/bascinet = 100,
+	)
 
 /*
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀

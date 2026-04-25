@@ -111,12 +111,21 @@
 	if(is_storyteller_soft_antag_blocked())
 		result["final_slots"] = 0
 		return result
-	result["final_slots"] = 1
+	var/slots = 1
+	if(SSgnoll_scaling)
+		switch(SSgnoll_scaling.get_gnoll_scaling())
+			if(GNOLL_SCALING_FLAT)
+				slots = 2
+			if(GNOLL_SCALING_DYNAMIC)
+				slots = 3
+	result["final_slots"] = slots
 	return result
 
 /proc/gnollslot_update()
 	var/datum/job/gnoll_job = SSjob.GetJob("Gnoll")
 	if(!gnoll_job)
+		return
+	if(gnoll_job.admin_slot_override)
 		return
 	var/list/scaling = gnollslot_calc()
 	var/slots = max(0, scaling["final_slots"])

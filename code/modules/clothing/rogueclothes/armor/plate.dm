@@ -65,12 +65,25 @@
 	armor_class = ARMOR_CLASS_MEDIUM
 	smeltresult = /obj/item/ingot/iron
 
+/obj/item/clothing/suit/roguetown/armor/plate/iron/banded
+	name = "banded iron armor"
+	desc = "An iron chestplate, pauldrons and tassets worn over a fur vest and padded with heavy leathers. It's primarily worn in the cold north, where armor has to sometimes be cobbled together due to logistical shortages. It leaves the stomach exposed for maneuverability."
+	max_integrity = ARMOR_INT_CHEST_PLATE_IRON + 25
+	icon_state = "ibandedarmor"
+	item_state = "ibandedarmor"
+	armor_class = ARMOR_CLASS_HEAVY
+	body_parts_covered = CHEST | ARMS | LEGS | GROIN
+	smelt_bar_num = 1
+	drop_sound = 'sound/foley/dropsound/scrap_drop.ogg'
+	pickup_sound = 'sound/foley/equip/scrap_equip.ogg'
+	equip_sound = 'sound/foley/equip/scrap_equip.ogg'
+
 /obj/item/clothing/suit/roguetown/armor/plate/bronze
 	name = "bronze cuirass"
 	desc = "A chiseled breastplate of bronze, further padded with hide to comfort its championing bod. The plates have been carefully forged to mimic the statuesque physiques of Psydonia's ancient heroes. Wearing it bolsters you with determination."
 	body_parts_covered = CHEST | VITALS | LEGS 
 	icon_state = "bronzecuirass"
-	armor = ARMOR_PLATE
+	armor = ARMOR_BRONZE
 	smeltresult = /obj/item/ingot/bronze
 	max_integrity = ARMOR_INT_CHEST_MEDIUM_BRONZE
 	armor_class = ARMOR_CLASS_MEDIUM
@@ -667,16 +680,11 @@
 	desc = "Shingled copper disks, strapped together to ward the heart from harm. As discovered by its antiquital wearers, it is deceptively protective; yet, its straps can only sustain so much stress before snapping.."
 	icon_state = "copperchest"
 	max_integrity = ARMOR_INT_CHEST_MEDIUM_DECREPIT
-	armor = ARMOR_PLATE
+	armor = ARMOR_BRONZE
 	smeltresult = /obj/item/ingot/copper
 	body_parts_covered = CHEST
 	armor_class = ARMOR_CLASS_LIGHT
 	smelt_bar_num = 1
-
-/obj/item/clothing/suit/roguetown/armor/plate/cuirass/fencer/elven
-	name = "elven cuirass"
-	desc = "A cuirass made of steel with a thin decorative gold plating. Lightweight and durable."
-	color = COLOR_ASSEMBLY_GOLD
 
 /obj/item/clothing/suit/roguetown/armor/plate/silver
 	slot_flags = ITEM_SLOT_ARMOR

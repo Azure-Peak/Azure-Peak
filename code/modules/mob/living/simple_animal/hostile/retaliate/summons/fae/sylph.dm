@@ -18,7 +18,7 @@
 	base_intents = list(/datum/intent/simple/bite)
 	butcher_results = list()
 	death_loot = list(/obj/item/magic/fae/sylvanessence = 1)
-	faction = list("fae")
+	faction = list(FACTION_FAE)
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
 	health = 700
 	maxHealth = 700

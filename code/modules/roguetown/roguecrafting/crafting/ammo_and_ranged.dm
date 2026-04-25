@@ -382,11 +382,9 @@
 	verbage = "hammers out"
 
 /datum/crafting_recipe/roguetown/survival/heavy_sling_bullet
-	name = "heavy sling bullet (x4)"
+	name = "heavy sling bullet (x2)"
 	category = "Ranged"
 	result = list(
-		/obj/item/ammo_casing/caseless/rogue/sling_bullet/heavy_sling_bullet,
-		/obj/item/ammo_casing/caseless/rogue/sling_bullet/heavy_sling_bullet,
 		/obj/item/ammo_casing/caseless/rogue/sling_bullet/heavy_sling_bullet,
 		/obj/item/ammo_casing/caseless/rogue/sling_bullet/heavy_sling_bullet,
 	)

@@ -85,7 +85,7 @@
 		debt_remaining = start_debt * NOBLE_MULTIPLIER
 	else
 		debt_remaining = start_debt
-	RegisterSignal(parent, COMSIG_ITEM_EQUIPPED, .proc/on_equip)
+	RegisterSignal(parent, COMSIG_MOB_EQUIPPED_ITEM, .proc/on_equip)
 
 /datum/component/debt_collector/proc/on_equip(mob/living/carbon/human/H, obj/item/I, slot)
 	SIGNAL_HANDLER

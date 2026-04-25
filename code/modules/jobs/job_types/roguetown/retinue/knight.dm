@@ -14,7 +14,7 @@
 	whitelist_req = TRUE
 	outfit = /datum/outfit/job/roguetown/knight
 	advclass_cat_rolls = list(CTAG_ROYALGUARD = 20)
-	job_traits = list(TRAIT_NOBLE, TRAIT_STEELHEARTED, TRAIT_GUARDSMAN)
+	job_traits = list(TRAIT_NOBLE, TRAIT_STEELHEARTED, TRAIT_GUARDSMAN, TRAIT_EXPERT_HUNTER)
 	give_bank_account = TRUE
 	noble_income = 10
 	min_pq = 8
@@ -104,6 +104,7 @@
 		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE, //This is not saving them considering plate but funny either way.
 		/datum/skill/combat/knives = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/tracking = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/hunting = SKILL_LEVEL_APPRENTICE,
 	)
 
 /datum/outfit/job/roguetown/knight/heavy/pre_equip(mob/living/carbon/human/H)
@@ -113,7 +114,7 @@
 
 	H.adjust_blindness(-3)
 	if(H.mind)
-		var/weapons = list("Claymore","Great Mace","Battle Axe","Poleaxe","Estoc","Lucerne", "Partizan")
+		var/weapons = list("Claymore","Great Mace","Battle Axe","Poleaxe","Estoc","Stecher","Lucerne", "Partizan")
 		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 		H.set_blindness(0)
 		switch(weapon_choice)
@@ -130,6 +131,9 @@
 			if("Estoc")
 				r_hand = /obj/item/rogueweapon/estoc
 				backl = /obj/item/rogueweapon/scabbard/gwstrap
+			if("Stecher")
+				r_hand = /obj/item/rogueweapon/sword/long/ap
+				backl = /obj/item/rogueweapon/scabbard/sword/noble
 			if("Lucerne")
 				r_hand = /obj/item/rogueweapon/eaglebeak/lucerne
 				backl = /obj/item/rogueweapon/scabbard/gwstrap
@@ -208,6 +212,7 @@
 		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/knives = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/tracking = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/hunting = SKILL_LEVEL_APPRENTICE,
 	)
 
 /datum/outfit/job/roguetown/knight/footknight/pre_equip(mob/living/carbon/human/H)
@@ -308,6 +313,7 @@
 		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/knives = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/tracking = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/hunting = SKILL_LEVEL_APPRENTICE,
 	)
 	subclass_virtues = list(
 		/datum/virtue/utility/riding
@@ -431,6 +437,7 @@
 		/datum/skill/misc/sneaking = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/reading = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/tracking = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/hunting = SKILL_LEVEL_APPRENTICE,
 	)
 
 
@@ -441,7 +448,7 @@
 
 	H.adjust_blindness(-3)
 	if(H.mind)
-		var/weapons = list("Rapier + Longbow","Estoc + Recurve Bow","Sabre + Buckler","Whip + Crossbow","Poleaxe + Sling")
+		var/weapons = list("Rapier + Longbow","Estoc + Recurve Bow","Stecher + Recurve Bow","Sabre + Buckler","Whip + Crossbow","Poleaxe + Sling")
 		var/armor_options = list("Light Armor", "Medium Armor", "Medium Cuirass")
 		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 		var/armor_choice = input(H, "Choose your armor.", "TAKE UP ARMS") as anything in armor_options
@@ -456,6 +463,12 @@
 			if("Estoc + Recurve Bow")
 				r_hand = /obj/item/rogueweapon/estoc
 				backl = /obj/item/rogueweapon/scabbard/gwstrap
+				beltr = /obj/item/quiver/arrows
+				beltl = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
+
+			if("Stecher + Recurve Bow")
+				r_hand = /obj/item/rogueweapon/sword/long/ap
+				backl = /obj/item/rogueweapon/scabbard/sword/noble
 				beltr = /obj/item/quiver/arrows
 				beltl = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
 
@@ -561,6 +574,7 @@
 		/datum/skill/combat/crossbows = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/bows = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/hunting = SKILL_LEVEL_APPRENTICE,
 	)
 
 	subclass_virtues = list(
@@ -608,6 +622,7 @@
 		"Battle Axe",
 		"Poleaxe",
 		"Estoc",
+		"Stecher",
 		"Longsword",
 		"Flail",
 		"Sabre",
@@ -633,6 +648,10 @@
 			H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_MASTER, TRUE)
 			r_hand = /obj/item/rogueweapon/estoc
 			backl = /obj/item/rogueweapon/scabbard/gwstrap
+		if("Stecher")
+			H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_MASTER, TRUE)
+			r_hand = /obj/item/rogueweapon/sword/long/ap
+			backl = /obj/item/rogueweapon/scabbard/sword/noble
 		if("Battle Axe")
 			H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_MASTER, TRUE)
 			r_hand = /obj/item/rogueweapon/stoneaxe/battle

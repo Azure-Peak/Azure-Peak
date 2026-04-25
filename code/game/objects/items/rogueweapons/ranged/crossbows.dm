@@ -1,6 +1,13 @@
 
+/obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/get_npc_chargetime(mob/living/user)
+	var/newtime = 40 - (user.get_skill_level(/datum/skill/combat/crossbows) * 4.25) - user.STAPER
+	if(chambered)
+		newtime *= chambered.charge_time_mult
+	return max(1, newtime)
+
 /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
 	name = "crossbow"
+	flags_ai_inventory = AI_ITEM_GUN
 	desc = "A deadly weapon that shoots a bolt with terrific power. Unlike the common bow, \
 	it uses a sophisticated mechanism to renock - and retain - its half-length bolts; a \
 	matter that relies more on raw strength than dexterity to master. </br>A favorite \
@@ -282,7 +289,7 @@
 	swingdelay = 0
 	icon_state = "instrike"
 	item_d_type = "blunt"
-	intent_intdamage_factor = BLUNT_DEFAULT_INT_DAMAGEFACTOR - 50 //Reduces integrity damage modifier to +10%.
+	intent_intdamage_factor = BLUNT_DEFAULT_INT_DAMAGEFACTOR - 0.5 //Reduces integrity damage modifier to +10%.
 
 //
 

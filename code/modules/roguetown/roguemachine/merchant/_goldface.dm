@@ -130,7 +130,7 @@
 
 /obj/structure/roguemachine/goldface/public/apothecary
 	name = "Apothecary's SILVERFACE"
-	lockid = "physician"
+	lockid = "apothecary"
 	profit_id = list("Head Physician","Apothecary")
 	categories = list(
 		"Potions",

@@ -5,8 +5,8 @@
 	name = "Drakian"
 	id = "dracon"
 	is_subrace = TRUE
-	origin_default = /datum/virtue/origin/grenzelhoft
-	origin = "Grenzelhoft"
+	origin_default = /datum/virtue/origin/lirvas
+	origin = "Lirvas"
 	base_name = "Zard"
 	desc = "<b>Drakian</b><br>\
 	Mighty scaled individuals who claim to be descendants of the dragons of yore.<br>\

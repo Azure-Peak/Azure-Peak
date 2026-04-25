@@ -19,7 +19,7 @@
 	base_intents = list(/datum/intent/simple/bite)
 	butcher_results = list()
 	death_loot = list(/obj/item/magic/infernal/fang = 2)
-	faction = list("infernal")
+	faction = list(FACTION_INFERNAL)
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
 	health = 270
 	maxHealth = 270

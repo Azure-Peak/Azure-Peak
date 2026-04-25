@@ -34,6 +34,22 @@
 		setDir(set_dir)
 	. = ..()
 
+/obj/effect/temp_visual/necra_consecrate
+	layer = ABOVE_OPEN_TURF_LAYER
+	icon = 'icons/turf/necra_consecrate_overlay.dmi'
+	randomdir = FALSE
+
+/obj/effect/temp_visual/necra_consecrate/Initialize(mapload, set_dur)
+	if(set_dur)
+		duration = set_dur
+	if(prob(60))
+		icon_state = "burnt"
+	else if(prob(50))
+		icon_state = "cracked"
+	else
+		icon_state = "burnthole"
+	. = ..()
+
 /obj/effect/temp_visual/swingdelay
 	randomdir = FALSE
 	icon = 'icons/effects/effects.dmi'

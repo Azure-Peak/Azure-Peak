@@ -3,6 +3,7 @@
 /// Based on Bay / Eris / Sojourn loadout menu with a different UI but the same save format.
 #define LOADOUT_MAX_POINTS 10
 #define LOADOUT_MAX_DESC_LEN 1024
+#define LOADOUT_TRIUMPH_DISCOUNT 3 // donators get this many triumph points free in loadout
 
 /datum/loadout_menu
 	var/client/owner
@@ -66,6 +67,8 @@
 	data["categories"] = categories
 	data["items"] = items
 	data["max_points"] = LOADOUT_MAX_POINTS
+	data["is_donator"] = is_donator(user.ckey)
+	data["triumph_discount"] = is_donator(user.ckey) ? LOADOUT_TRIUMPH_DISCOUNT : 0
 	return data
 
 /datum/loadout_menu/ui_data(mob/user)
@@ -94,9 +97,11 @@
 			"custom_desc" = meta["custom_desc"]
 		))
 
+	var/triumph_discount = is_donator(user.ckey) ? LOADOUT_TRIUMPH_DISCOUNT : 0
 	data["selected"] = selected
 	data["total_cost"] = total_cost
 	data["total_triumph_cost"] = total_triumph_cost
+	data["effective_triumph_cost"] = max(0, total_triumph_cost - triumph_discount)
 	data["player_triumphs"] = user.get_triumphs() || 0
 	return data
 
@@ -197,3 +202,4 @@
 
 #undef LOADOUT_MAX_POINTS
 #undef LOADOUT_MAX_DESC_LEN
+#undef LOADOUT_TRIUMPH_DISCOUNT

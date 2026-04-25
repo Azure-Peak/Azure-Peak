@@ -26,7 +26,9 @@
 	if (notransform)
 		return
 
-	if(!client && mode == NPC_AI_SLEEP)
+	// Sleep gate: skip Life() for idle NPCs to save cycles, but only if fully conscious.
+	// If not conscious, we must run Life() so update_stat() can transition us back and re-wake the AI.
+	if(!client && stat == CONSCIOUS && ai_controller?.ai_status != AI_STATUS_ON)
 		return
 
 	. = ..()
@@ -35,9 +37,6 @@
 		return 0
 
 	SEND_SIGNAL(src, COMSIG_HUMAN_LIFE)
-
-	if(. && (mode != NPC_AI_OFF))
-		handle_ai()
 
 	if(advsetup)
 		Stun(50)
@@ -76,7 +75,7 @@
 			cf.flaw_on_life(src)
 	if(health <= 0)
 		adjustOxyLoss(0.5)
-	if(mode == NPC_AI_OFF && !client && !HAS_TRAIT(src, TRAIT_NOSLEEP))
+	if(!client && !ai_controller && !HAS_TRAIT(src, TRAIT_NOSLEEP))
 		if(mob_timers["slo"])
 			if(world.time > mob_timers["slo"] + 90 SECONDS)
 				Sleeping(100)

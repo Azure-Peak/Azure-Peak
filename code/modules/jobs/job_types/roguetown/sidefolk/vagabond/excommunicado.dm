@@ -38,7 +38,7 @@
 
 	if (H.mind)
 		var/datum/devotion/C = new /datum/devotion(H, H.patron)
-		C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_MINOR)	//Minor regen, can level up to T4.
+		C.grant_miracles(H, cleric_tier = CLERIC_T4, passive_gain = CLERIC_REGEN_MINOR)
 		GLOB.excommunicated_players += H.real_name // john roguetown, you are EXCOMMUNICADO.
 		H.adjust_skillrank(/datum/skill/magic/holy, rand(1,4), TRUE)
 		H.adjust_skillrank(/datum/skill/craft/cooking, rand(1,4), TRUE)

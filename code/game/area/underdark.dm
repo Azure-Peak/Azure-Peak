@@ -1,5 +1,7 @@
 /area/rogue/under/underdark
 	name = "Central Underdark" // Northern is Sunken City
+	loot_budget = LOOT_BUDGET_UNDERDARK
+	loot_pool_key = "underdark"
 	icon_state = "cavewet"
 	warden_area = FALSE
 	drow_area = TRUE
@@ -31,6 +33,8 @@
 
 /area/rogue/under/underdark/north
 	name = "Melted Undercity"
+	loot_budget = LOOT_BUDGET_MELTED_UNDERCITY
+	loot_pool_key = "melted_undercity"
 	first_time_text = "MELTED UNDERCITY"
 	spookysounds = SPOOKY_MYSTICAL
 	spookynight = SPOOKY_MYSTICAL

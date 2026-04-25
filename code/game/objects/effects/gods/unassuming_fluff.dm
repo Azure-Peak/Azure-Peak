@@ -24,18 +24,19 @@ GLOBAL_LIST_EMPTY(players_in_dream)
 	stressadd = 20
 	desc = span_userdanger("WHAT IS THAT THING?!")
 
-/proc/teleport_to_dream(mob/living/carbon/human/user, base_probability = 10000, probability = 10, weapons = TRUE, duration = 2 MINUTES)
+/proc/teleport_to_dream(mob/living/carbon/human/user, base_probability = 10000, probability = 10, weapons = TRUE, duration = 2 MINUTES, force = FALSE)
 	if(!ishuman(user))
 		return
 
-	var/effective_probability = probability
-	if(user.patron.type == /datum/patron/divine/abyssor)
-		effective_probability *= 5
+	if(!force)
+		var/effective_probability = probability
+		if(user.patron.type == /datum/patron/divine/abyssor)
+			effective_probability *= 5
 
-	// Look kids, if you want accurate probability, don't use fractional numbers. Pickweight is safer and more accurate than prob() here.
-	var/list/options = list("teleport" = effective_probability, "no_teleport" = base_probability - effective_probability)
-	if(pickweight(options) == "no_teleport")
-		return
+		// Look kids, if you want accurate probability, don't use fractional numbers. Pickweight is safer and more accurate than prob() here.
+		var/list/options = list("teleport" = effective_probability, "no_teleport" = max(1, base_probability - effective_probability))
+		if(pickweight(options) == "no_teleport")
+			return
 
 	var/area/dream_area = GLOB.areas_by_type[/area/rogue/underworld/dream]
 	if(!dream_area)

@@ -1,5 +1,6 @@
 /area/rogue/under/cave/fishmandungeon //idk what the fish guys are called in lore
 	name = "deep ones lair"
+	loot_budget = LOOT_BUDGET_FISHMAN_DUNGEON
 	icon_state = "under"
 	first_time_text = "DEEP ONES LAIR"
 	droning_sound = 'sound/music/area/dungeon.ogg'

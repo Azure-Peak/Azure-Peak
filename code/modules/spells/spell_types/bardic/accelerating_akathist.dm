@@ -1,17 +1,15 @@
-/obj/effect/proc_holder/spell/invoked/song/accelakathist
+/datum/action/cooldown/spell/song/accelakathist
 	name = "Accelerating Akathist"
 	desc = "Accelerate your allies with your bardic song!"
-	song_tier = 3
-	invocations = list("plays a blisteringly fast series of notes!") 
-	invocation_type = "emote"
-	overlay_state = "bardsong_t3_base"
-	action_icon_state = "bardsong_t3_base"
+	button_icon_state = "bardsong_t3_base"
+	invocations = list("plays a blisteringly fast series of notes!")
 	song_effect = /datum/status_effect/buff/playing_melody/accelakathist
 
 /datum/status_effect/buff/playing_melody/accelakathist
 	effect = /obj/effect/temp_visual/songs/inspiration_bardsongt3
 	buff_to_apply = /datum/status_effect/buff/song/accelakathist
-	
+	buff_to_apply_full = /datum/status_effect/buff/song/accelakathist/full
+
 /atom/movable/screen/alert/status_effect/buff/song/accelakathist
 	name = "Accelerating Akathist"
 	desc = "I can feel the rhythm!"
@@ -20,11 +18,14 @@
 #define ACCELAKATHIST_FILTER "akathist_glow"
 
 /datum/status_effect/buff/song/accelakathist
-	var/outline_colour ="#F0E68C"
+	var/outline_colour = "#F0E68C"
 	id = "haste"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/song/accelakathist
-	effectedstats = list(STATKEY_SPD = 2)
+	effectedstats = list(STATKEY_SPD = BARD_STAT_LESSER)
 	duration = 15 SECONDS
+
+/datum/status_effect/buff/song/accelakathist/full
+	effectedstats = list(STATKEY_SPD = BARD_STAT_FULL)
 
 /datum/status_effect/buff/song/accelakathist/on_apply()
 	. = ..()

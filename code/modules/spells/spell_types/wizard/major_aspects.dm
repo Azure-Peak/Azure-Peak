@@ -170,6 +170,37 @@
 		),
 	)
 
+/datum/magic_aspect/telomancy
+	name = "Telomancy"
+	latin_name = "Maior Aspectus Teli"
+	desc = "Telomancers consider themselves just a sub branch of Kinesis, and similarly deserving of the title 'Origin School'. \ Indeed, shaping Pure Arcana into ball of magick was probably one of the first spell cast in humenity's history. \
+	Compared to Kinesis, which focuses on both shaping mana and the power of force, Telomancers focuses almost entirely on shaping mana into deadly projectiles"
+	aspect_type = ASPECT_MAJOR
+	attuned_name = ASPECT_NAME_TELOMANCY
+	school_color = GLOW_COLOR_ARCANE
+	binding_chants = list(
+		"Invoco telum destinatum!",
+		"I send my purpose toward its mark, let it arrive.",
+		"Telum, in me ligare!",
+	)
+	unbinding_chants = list(
+		"Solvo telum vinctum!",
+		"I release the mark I had chosen, go free.",
+		"Telum, a me discedere!",
+	)
+	fixed_spells = list(
+		/datum/action/cooldown/spell/projectile/greater_arcyne_bolt,
+		/datum/action/cooldown/spell/projectile/arcyne_salvo,
+		/datum/action/cooldown/spell/energetic_blast,
+		/datum/action/cooldown/spell/projectile/seeker_volley,
+		/datum/action/cooldown/spell/greater_cleaning, // placeholder free utility - replace with Recall once implemented
+	)
+	variants = list(
+		"mastery" = list(
+			VARIANT_ADDITIVE = /datum/action/cooldown/spell/projectile/arcyne_barrage,
+		),
+	)
+
 /datum/magic_aspect/augmentation
 	name = "Augmentation"
 	latin_name = "Maior Aspectus Augmenti"

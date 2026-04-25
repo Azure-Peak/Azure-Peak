@@ -57,7 +57,7 @@
 	icon_state = "ironsplintlegs"
 	item_state = "ironsplintlegs"
 	max_integrity = ARMOR_INT_LEG_IRON_CHAIN
-	armor = ARMOR_PLATE
+	armor = ARMOR_BRIGANDINE
 	blocksound = SOFTHIT
 	anvilrepair = /datum/skill/craft/armorsmithing
 	smeltresult = /obj/item/ingot/iron

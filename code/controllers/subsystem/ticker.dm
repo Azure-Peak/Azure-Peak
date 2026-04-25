@@ -190,7 +190,7 @@ SUBSYSTEM_DEF(ticker)
 			for(var/client/C in GLOB.clients)
 				window_flash(C, ignorepref = TRUE) //let them know lobby has opened up.
 //			to_chat(world, span_boldnotice("Welcome to [station_name()]!"))
-			send2chat(new /datum/tgs_message_content("New round starting on [SSmapping.config.map_name]!"), CONFIG_GET(string/chat_announce_new_game))
+			send2chat(new /datum/tgs_message_content("New round starting on [SSmapping.config.map_name]! (Round ID: [GLOB.round_id])"), CONFIG_GET(string/chat_announce_new_game))
 			current_state = GAME_STATE_PREGAME
 			//Everyone who wants to be an observer is now spawned
 			create_observers()
@@ -414,6 +414,8 @@ SUBSYSTEM_DEF(ticker)
 		if(C.mob)
 			C.mob.playsound_local(C.mob, 'sound/misc/roundstart.ogg', 100, FALSE)
 
+	SSgamemode.roll_roundstart_antag()
+
 //	SEND_SOUND(world, sound('sound/misc/roundstart.ogg'))
 	current_state = GAME_STATE_PLAYING
 
@@ -542,21 +544,11 @@ SUBSYSTEM_DEF(ticker)
 		if(L)
 			L?.notransform = FALSE
 
-/datum/controller/subsystem/ticker/proc/send_tip_of_the_round()
-	return
-/*	var/m
-	if(selected_tip)
-		m = selected_tip
-	else
-		var/list/randomtips = world.file2list("strings/tips.txt")
-//		var/list/memetips = world.file2list("strings/sillytips.txt")
-//		if(randomtips.len && prob(95))
-		m = pick(randomtips)
-//		else if(memetips.len)
-//			m = pick(memetips)
-	if(m)
-		to_chat(world, span_purple("Before we begin, remember: [html_encode(m)]"))
-*/
+/datum/controller/subsystem/ticker/proc/send_tip_of_the_round(input)
+	if(!input)
+		return
+	to_chat(world, fieldset_block(span_purple("<b>Tip of the Round</b>"), span_purple("[html_encode(input)]"), "tipoftheround"))
+
 /datum/controller/subsystem/ticker/proc/check_queue()
 	if(!queued_players.len)
 		return

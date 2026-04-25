@@ -1,0 +1,4 @@
+author: "Quinalion"
+delete-after: True
+changes:
+  - bugfix: "Coifs now allow voice transmission through the SCOM ring while lowered."

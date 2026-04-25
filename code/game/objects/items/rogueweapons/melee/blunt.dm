@@ -229,6 +229,27 @@
 		added_def = 2,\
 	)
 
+/obj/item/rogueweapon/mace/steel/silver/decorated
+	name = "decorated mace"
+	desc = "An ornate mace, inlayed with silver and decorated with golden heraldries. Formally known as a 'gada' amongst the nobility of Naledi, this heftsome scepter \
+	will force anyone to bend the knee; if not through respect, then through a shattered femur."
+	icon_state = "gada"
+	smeltresult = /obj/item/ingot/gold
+	smelt_bar_num = 1
+	sellprice = 150
+	is_silver = TRUE
+
+/obj/item/rogueweapon/mace/steel/silver/decorated/ComponentInitialize()
+	AddComponent(\
+		/datum/component/silverbless,\
+		pre_blessed = BLESSING_NONE,\
+		silver_type = SILVER_TENNITE,\
+		added_force = 0,\
+		added_blade_int = 100,\
+		added_int = 50,\
+		added_def = 2,\
+	)
+
 /obj/item/rogueweapon/mace/gold
 	name = "golden mace"
 	desc = "A heavenly staff of besilked rosawood, crested with the golden sigil of royalty. Like the plump-bellied aristocrats who've surely commissioned this article's design, it is overbearingly heavy."
@@ -241,67 +262,6 @@
 	sellprice = 300
 	smeltresult = /obj/item/ingot/gold
 	unenchantable = TRUE
-
-/obj/item/rogueweapon/mace/gold/lordscepter
-	name = "\"Morningstar\""
-	desc = "A heavenly staff of besilked rosawood, crested with the golden sigil of royalty. Nestled within its glistening bosom is a shard of Astrata's divinity authority; let Her judgement course through those who'd dare to lessen your presence. ‎</br>‎‎ </br>'..The end of the matter - for all has been heard. Fear the Lord and keep their commandments, for this is the whole duty of man.'"
-	possible_item_intents = list(/datum/intent/mace/strike, /datum/intent/mace/strike/dislocate, /datum/intent/lord_electrocute, /datum/intent/lord_silence)
-	gripped_intents = list(/datum/intent/mace/strike, /datum/intent/mace/smash, /datum/intent/effect/daze, /datum/intent/mace/strike/dislocate) 
-	icon_state = "goldmaceking"
-	max_integrity = 300
-	anvilrepair = /datum/skill/craft/weaponsmithing
-	minstr = 7
-	sellprice = 363
-	unenchantable = TRUE
-	COOLDOWN_DECLARE(sceptermace)
-
-/obj/item/rogueweapon/mace/gold/lordscepter/afterattack(atom/target, mob/user, flag)
-	. = ..()
-	if(get_dist(user, target) > 7)
-		return
-	
-	user.changeNext_move(CLICK_CD_MELEE)
-
-	if(ishuman(user))
-		var/mob/living/carbon/human/HU = user
-
-		if(HU.job != "Grand Duke")
-			to_chat(user, span_danger("The mace's divine authority doesn't recognize me."))
-			return
-
-		if(ishuman(target))
-			var/mob/living/carbon/human/H = target
-			var/area/target_area = get_area(H)
-
-			if(!istype(target_area, /area/rogue/indoors/town/manor))
-				to_chat(user, span_danger("The mace's divine authority cannot be invoked on targets outside of the manor!"))
-				return
-
-			if(H == HU)
-				return
-
-			if(!COOLDOWN_FINISHED(src, sceptermace))
-				to_chat(user, span_danger("The [src] is not ready yet! [round(COOLDOWN_TIMELEFT(src, sceptermace) / 10, 1)] seconds left!"))
-				return
-
-			if(H.anti_magic_check())
-				to_chat(user, span_danger("Something is disrupting the mace's divine authority!"))
-				return
-
-			if(istype(user.used_intent, /datum/intent/lord_electrocute))
-				HU.visible_message(span_warning("[HU] electrocutes [H] with the [src]."))
-				user.Beam(target,icon_state="lightning[rand(1,12)]",time=5)
-				H.electrocute_act(5, src)
-				COOLDOWN_START(src, sceptermace, 20 SECONDS)
-				to_chat(H, span_danger("I'm electrocuted by the mace's divine authority!"))
-				return
-
-			if(istype(user.used_intent, /datum/intent/lord_silence))
-				HU.visible_message("<span class='warning'>[HU] silences [H] with \the [src].</span>")
-				H.set_silence(20 SECONDS)
-				COOLDOWN_START(src, sceptermace, 10 SECONDS)
-				to_chat(H, "<span class='danger'>I'm silenced by the mace's divine authority!</span>")
-				return
 
 /obj/item/rogueweapon/mace/woodclub
 	force = 15

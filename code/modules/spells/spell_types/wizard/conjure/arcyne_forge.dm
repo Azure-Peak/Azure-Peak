@@ -60,6 +60,7 @@
 		"Hammer" = /obj/item/rogueweapon/hammer/iron,
 		"Shovel" = /obj/item/rogueweapon/shovel,
 		"Handsaw" = /obj/item/rogueweapon/handsaw,
+		"Scissors" = /obj/item/rogueweapon/huntingknife/scissors,
 		"Fishing Rod" = /obj/item/fishingrod,
 		"Frying Pan" = /obj/item/cooking/pan,
 		"Pot" = /obj/item/reagent_containers/glass/bucket/pot,
@@ -110,6 +111,7 @@
 	return ..()
 
 /datum/action/cooldown/spell/arcyne_forge/miracle
+	invocations = list("Malum, grant me your tool!")//Old incantation
 	point_cost = 0
 	spell_tier = 0
 	associated_skill = /datum/skill/magic/holy

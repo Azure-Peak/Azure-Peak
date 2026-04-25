@@ -44,6 +44,11 @@
 	ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_GOODLOVER, TRAIT_GENERIC)
 
+	var/datum/inspiration/I = new /datum/inspiration(H)
+	I.grant_inspiration(H, bard_tier = BARD_T2)
+	if(H.mind)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/vicious_mockery)
+
 /datum/migrant_role/fablefield/troubadour
 	name = "Fablefield Troubadour"
 	greet_text = "At the last grand festival of tales in Fablefield, you were inspired by a figure who sung of dragons, faeries, gods and heroes. This year, you plan to be the hero of your own story. A talented bard, and good with a blade, you follow your muse with nothing but the highest hopes, although so far Enigma isn't quite what you expected..."
@@ -88,3 +93,8 @@
 	ADD_TRAIT(H, TRAIT_EMPATH, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_GOODLOVER, TRAIT_GENERIC)
+
+	var/datum/inspiration/I = new /datum/inspiration(H)
+	I.grant_inspiration(H, bard_tier = BARD_T2)
+	if(H.mind)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/vicious_mockery)

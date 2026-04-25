@@ -42,7 +42,7 @@
 	H.adjust_skillrank(/datum/skill/misc/lockpicking, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/craft/cooking, rand(1,3), TRUE)
 	var/datum/inspiration/I = new /datum/inspiration(H)
-	I.grant_inspiration(H, bard_tier = BARD_T3)
+	I.grant_inspiration(H, bard_tier = BARD_T2)
 	H.STASTR = rand(1, 21)
 	H.STAWIL = rand(1, 21)
 	H.STACON = rand(1, 21)
@@ -51,6 +51,7 @@
 	H.STALUC = rand(1, 21)
 	H.cmode_music = 'sound/music/combat_jester.ogg'
 	if(H.mind)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/vicious_mockery)
 		// Mime vs Jester.
 		// As a mute jester you cannot cast Tell Joke/Tragedy, so why even have them?
 		if(HAS_TRAIT(H, TRAIT_PERMAMUTE)) // I considered adding a check for Xylix patron but in the off chance there's a mute non-xylix jester I don't want to fuck them over.

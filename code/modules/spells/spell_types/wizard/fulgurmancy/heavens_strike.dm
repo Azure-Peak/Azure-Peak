@@ -60,6 +60,11 @@
 /datum/action/cooldown/spell/heavens_strike/proc/strike_damage(turf/T)
 	new /obj/effect/temp_visual/thunderstrike_actual(T)
 	playsound(T, 'sound/magic/lightning.ogg', 80)
+	// Ignite flammable objects and structures on the struck tile
+	T.fire_act()
+	for(var/atom/A in T.contents)
+		if(!ismob(A))
+			A.fire_act()
 	var/mob/living/carbon/human/caster = owner
 	var/target_zone = caster?.zone_selected || pick(BODY_ZONE_HEAD, BODY_ZONE_L_ARM, BODY_ZONE_R_ARM)
 	for(var/mob/living/L in T.contents)

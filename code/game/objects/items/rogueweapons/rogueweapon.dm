@@ -42,6 +42,9 @@
 	var/datum/special_intent/special
 
 	var/malumblessed_w = FALSE
+	
+	// whether this is actually a tool, like hoes and hammers, not a weapon proper. used to allow TRAIT_TINYPAWS users to conduct repairs and such
+	var/is_tool = FALSE
 
 
 /obj/item/rogueweapon/Initialize()
@@ -90,7 +93,7 @@
 		wdefense /= 2
 	if(wdefense_wbonus)
 		wdefense_wbonus = -3
-	wdefense_dynamic = wdefense
+	update_wdefense_dynamic()
 	if(sharpness & IS_SHARP)
 		sharpness = IS_BLUNT
 	if(can_parry)
@@ -103,21 +106,19 @@
 	armor_penetration = initial(armor_penetration)
 	wdefense = initial(wdefense)
 	wdefense_wbonus = initial(wdefense_wbonus)
-	wdefense_dynamic = wdefense
+	update_wdefense_dynamic()
 	sharpness = initial(sharpness)
 	can_parry = initial(can_parry)
 	..()
 
 /obj/item/rogueweapon/rmb_self(mob/user)
-	if(length(alt_intents))
-		if(altgripped)
-			ungrip(user)
-			return
-		if(wielded)
-			ungrip(user)
-		altgrip(user)
-		user.update_inv_hands()
-	..()
+	if(!has_altgrip_modes())
+		return ..()
+	if(wielded && !altgripped)
+		ungrip(user)
+	altgrip(user)
+	user.update_inv_hands()
+	return ..()
 
 /obj/item/shaft
 	name = "debug shaft"

@@ -34,6 +34,8 @@
 	var/datum/weakref/quest_scroll_ref
 	/// List of weakrefs to actual quest items/mobs for reducing overhead of compass.
 	var/list/datum/weakref/tracked_atoms = list()
+	/// Weakrefs to this quest's `/obj/effect/quest_spawn` pods — used to pop the whole encounter at once.
+	var/list/datum/weakref/spawners = list()
 
 /datum/quest/Destroy()
 	// Clean up mobs with quest components
@@ -70,6 +72,19 @@
 
 /datum/quest/proc/add_tracked_atom(atom/movable/to_track)
 	tracked_atoms += WEAKREF(to_track)
+
+/// Registers a quest_spawn pod so pop_all_spawners() can trigger the whole encounter at once.
+/datum/quest/proc/register_spawner(obj/effect/quest_spawn/spawner)
+	spawners += WEAKREF(spawner)
+
+/// Materializes every live spawner belonging to this quest. Called when any one of them triggers.
+/datum/quest/proc/pop_all_spawners()
+	for(var/datum/weakref/ref in spawners)
+		var/obj/effect/quest_spawn/spawner = ref.resolve()
+		if(QDELETED(spawner) || !spawner.contained_atom)
+			continue
+		spawner.reveal_contained()
+	spawners.Cut()
 
 /// Generate quest content - override in subtypes
 /datum/quest/proc/generate(obj/effect/landmark/quest_spawner/landmark)

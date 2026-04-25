@@ -167,9 +167,18 @@
 		all_selected_spells |= "[S.type]"
 	data["all_selected_spells"] = all_selected_spells
 
-	// Collect spent budget per aspect
+	// Collect spent budget per aspect. We report every aspect with a pointbuy
+	// budget - both aspects with staged selections AND live attuned aspects that
+	// have owned pointbuy spells - so the UI shows the correct used total when
+	// reopening the picker via spellbook.
 	var/list/spent_budgets = list()
+	var/list/budget_aspects = list()
 	for(var/aspect_path_str in pointbuy_selections)
+		budget_aspects |= aspect_path_str
+	for(var/datum/magic_aspect/A in owner.mind.major_aspects + owner.mind.minor_aspects)
+		if(length(A.pointbuy_spells))
+			budget_aspects |= "[A.type]"
+	for(var/aspect_path_str in budget_aspects)
 		var/resolved = text2path(aspect_path_str)
 		if(!resolved)
 			continue
@@ -416,6 +425,15 @@
 				pointbuy_selections[aspect_path] = list()
 			var/list/selections = pointbuy_selections[aspect_path]
 			if(spell_path in selections)
+				// Block deselecting a pointbuy spell the player already owns from a live aspect.
+				// Removing it here would free budget they can't actually refund without unbinding
+				// the whole aspect, enabling infinite re-picks across spellbook sessions.
+				if(!initial_setup)
+					var/resolved_aspect = text2path(aspect_path)
+					var/resolved_spell = text2path(spell_path)
+					if(resolved_aspect && resolved_spell && owner.mind.has_aspect(resolved_aspect) && owner.mind.has_spell(resolved_spell))
+						to_chat(owner, span_warning("This spell is already inscribed. Unbind the whole aspect to reshape it."))
+						return
 				selections -= spell_path
 			else
 				// Check if this spell is already selected in another aspect
@@ -741,14 +759,41 @@
 				return TRUE
 	return FALSE
 
-/// Get total points spent in an aspect's pointbuy selections
+/// Get total points spent in an aspect's pointbuy selections.
+/// Counts staged selections plus already-owned pointbuy spells sourced from this
+/// aspect (identified via spell.source_aspect) so editing via spellbook cannot
+/// refund points the player has already spent. Aspects staged for unbinding
+/// refund their owned spells since confirm will revoke them.
 /datum/aspect_picker/proc/get_pointbuy_spent(aspect_path_str, datum/magic_aspect/aspect)
-	var/list/selections = pointbuy_selections[aspect_path_str]
-	if(!length(selections))
-		return 0
 	var/total = 0
-	for(var/spell_path_str in selections)
-		total += get_spell_cost_from_path(text2path(spell_path_str))
+	var/list/counted_paths = list()
+	var/list/selections = pointbuy_selections[aspect_path_str]
+	if(length(selections))
+		for(var/spell_path_str in selections)
+			total += get_spell_cost_from_path(text2path(spell_path_str))
+			counted_paths |= spell_path_str
+	var/aspect_path = text2path(aspect_path_str)
+	if(!aspect_path || !owner?.mind)
+		return total
+	if(aspect_path in staged_unbind_aspects)
+		return total
+	for(var/datum/action/cooldown/spell/S in owner.mind.spell_list)
+		if(S.source_aspect != aspect_path)
+			continue
+		if(!(S.type in aspect.pointbuy_spells))
+			continue
+		if("[S.type]" in counted_paths)
+			continue
+		total += initial(S.point_cost)
+		counted_paths |= "[S.type]"
+	for(var/obj/effect/proc_holder/spell/S in owner.mind.spell_list)
+		if(S.source_aspect != aspect_path)
+			continue
+		if(!(S.type in aspect.pointbuy_spells))
+			continue
+		if("[S.type]" in counted_paths)
+			continue
+		total += initial(S.cost)
 	return total
 
 /// Get total utility points spent — includes already-known utilities (minus pending unbinds) and staged selections

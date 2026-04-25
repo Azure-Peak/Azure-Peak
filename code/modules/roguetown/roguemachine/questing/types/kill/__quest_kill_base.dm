@@ -19,8 +19,13 @@
 		var/mob/living/new_mob = new target_mob_type(spawn_effect)
 		new_mob.faction |= "quest"
 		new_mob.AddComponent(/datum/component/quest_object/kill, src)
+		// Suppress AI scanning while dormant inside the spawn_effect — without this the AI tries
+		// to build a proximity field while not on a turf, fails, and stays catatonic forever.
+		ADD_TRAIT(new_mob, TRAIT_FRESHSPAWN, "[type]")
+		addtimer(TRAIT_CALLBACK_REMOVE(new_mob, TRAIT_FRESHSPAWN, "[type]"), 60 SECONDS)
 		spawn_effect.contained_atom = new_mob
 		spawn_effect.AddComponent(/datum/component/quest_object/mob_spawner, src)
+		register_spawner(spawn_effect)
 		add_tracked_atom(new_mob)
 		landmark.add_quest_faction_to_nearby_mobs(spawn_turf)
 		sleep(1)

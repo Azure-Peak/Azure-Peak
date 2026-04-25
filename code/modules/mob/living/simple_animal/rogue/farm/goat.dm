@@ -20,27 +20,18 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/goat/tamed()
 	..()
 	deaggroprob = 50
-	if(can_buckle)
-		var/datum/component/riding/D = LoadComponent(/datum/component/riding/no_ocean)
-		D.set_riding_offsets(RIDING_OFFSET_ALL, list(TEXT_NORTH = list(0, 6), TEXT_SOUTH = list(0, 6), TEXT_EAST = list(-2, 6), TEXT_WEST = list(2, 6)))
-		D.set_vehicle_dir_layer(SOUTH, MOB_LAYER+0.1)
-		D.set_vehicle_dir_layer(NORTH, OBJ_LAYER)
-		D.set_vehicle_dir_layer(EAST, OBJ_LAYER)
-		D.set_vehicle_dir_layer(WEST, OBJ_LAYER)
+	setup_mount(
+		list(TEXT_NORTH = list(0, 6), TEXT_SOUTH = list(0, 6), TEXT_EAST = list(-2, 6), TEXT_WEST = list(2, 6)),
+		MOB_LAYER+0.1,
+	)
 
 
 /mob/living/simple_animal/hostile/retaliate/rogue/goat/update_icon()
 	cut_overlays()
 	..()
 	if(stat != DEAD)
-		if(ssaddle)
-			var/mutable_appearance/saddlet = mutable_appearance(icon, "saddle-f-above", 4.3)
-			add_overlay(saddlet)
-			saddlet = mutable_appearance(icon, "saddle-f")
-			add_overlay(saddlet)
-		if(has_buckled_mobs())
-			var/mutable_appearance/mounted = mutable_appearance(icon, "goat_mounted", 4.3)
-			add_overlay(mounted)
+		add_saddleicon("saddle-f-above", "saddle-f")
+		add_ridericon("goat_mounted")
 
 
 
@@ -100,7 +91,7 @@
 	footstep_type = FOOTSTEP_MOB_SHOE
 	pooptype = /obj/item/natural/poo/horse
 	milkies = TRUE
-	faction = list("goats")
+	faction = list(FACTION_GOATS)
 	attack_verb_continuous = "headbutts"
 	attack_verb_simple = "headbutt"
 	melee_damage_lower = 10
@@ -238,7 +229,7 @@
 						/obj/item/natural/fur/goat = 1,
 						/obj/item/natural/bundle/bone/full = 1, /obj/item/alch/sinew = 4, /obj/item/alch/bone = 1, /obj/item/alch/viscera = 2)
 	head_butcher = /obj/item/natural/head/goat
-	faction = list("goats")
+	faction = list(FACTION_GOATS)
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
 	attack_verb_continuous = "headbutts"
 	attack_verb_simple = "headbutt"
@@ -285,25 +276,16 @@
 	cut_overlays()
 	..()
 	if(stat != DEAD)
-		if(ssaddle)
-			var/mutable_appearance/saddlet = mutable_appearance(icon, "saddle-above", 4.3)
-			add_overlay(saddlet)
-			saddlet = mutable_appearance(icon, "saddle")
-			add_overlay(saddlet)
-		if(has_buckled_mobs())
-			var/mutable_appearance/mounted = mutable_appearance(icon, "goatmale_mounted", 4.3)
-			add_overlay(mounted)
+		add_saddleicon("saddle-above", "saddle")
+		add_ridericon("goatmale_mounted")
 
 /mob/living/simple_animal/hostile/retaliate/rogue/goatmale/tamed()
 	..()
 	deaggroprob = 20
-	if(can_buckle)
-		var/datum/component/riding/D = LoadComponent(/datum/component/riding/no_ocean)
-		D.set_riding_offsets(RIDING_OFFSET_ALL, list(TEXT_NORTH = list(0, 6), TEXT_SOUTH = list(0, 6), TEXT_EAST = list(-2, 6), TEXT_WEST = list(2, 6)))
-		D.set_vehicle_dir_layer(SOUTH, MOB_LAYER+0.1)
-		D.set_vehicle_dir_layer(NORTH, OBJ_LAYER)
-		D.set_vehicle_dir_layer(EAST, OBJ_LAYER)
-		D.set_vehicle_dir_layer(WEST, OBJ_LAYER)
+	setup_mount(
+		list(TEXT_NORTH = list(0, 6), TEXT_SOUTH = list(0, 6), TEXT_EAST = list(-2, 6), TEXT_WEST = list(2, 6)),
+		MOB_LAYER+0.1,
+	)
 
 /mob/living/simple_animal/hostile/retaliate/rogue/goatmale/Initialize()
 	. = ..()

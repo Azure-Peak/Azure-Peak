@@ -67,6 +67,16 @@
 		if(/datum/patron/old_god)
 			ADD_TRAIT(recipient, TRAIT_PSYDONITE, TRAIT_GENERIC)
 			recipient.mind?.special_items["Psycross"] = /obj/item/clothing/neck/roguetown/psicross
+		if(/datum/patron/divine/undivided)
+			recipient.mind?.special_items["Tennite Amulet"] = /obj/item/clothing/neck/roguetown/psicross/undivided
+		if(/datum/patron/inhumen/matthios)
+			recipient.mind?.special_items["Matthios Amulet"] = /obj/item/clothing/neck/roguetown/psicross/inhumen/matthios
+		if(/datum/patron/inhumen/graggar)
+			recipient.mind?.special_items["Graggar Amulet"] = /obj/item/clothing/neck/roguetown/psicross/inhumen/graggar
+		if(/datum/patron/inhumen/baotha)
+			recipient.mind?.special_items["Baotha Amulet"] = /obj/item/clothing/neck/roguetown/psicross/inhumen/baotha
+		if(/datum/patron/inhumen/zizo)
+			recipient.mind?.special_items["Inverted Psycross"] = /obj/item/clothing/neck/roguetown/psicross/inhumen/iron
 
 /datum/virtue/combat/devotee/astratan_affinity
 	name = "Astratan Affinity (Racial, Sun Elves)"
@@ -149,6 +159,12 @@
 	desc = "I have long kept my true capabilities and vices a secret. Sometimes being deceptively weak can save one's lyfe."
 	custom_text = "Obfuscates information about you from all sorts of effects, including patron abilities & passives, Assess and other virtues."
 	added_traits = list(TRAIT_DECEIVING_MEEKNESS)
+
+/datum/virtue/combat/guarded/apply_to_human(mob/living/carbon/human/recipient)
+	. = ..()
+	recipient.verbs += /mob/living/carbon/human/proc/toggle_descriptors
+	recipient.verbs += /mob/living/carbon/human/proc/emote_ffsalute
+
 
 /datum/virtue/combat/rotcured
 	name = "Rotcured"

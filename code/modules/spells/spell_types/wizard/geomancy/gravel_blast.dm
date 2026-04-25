@@ -4,7 +4,7 @@
 /datum/action/cooldown/spell/projectile/gravel_blast
 	button_icon = 'icons/mob/actions/mage_geomancy.dmi'
 	name = "Gravel Blast"
-	desc = "Spray a volley of stones at a target. Stones ricochet off walls and become deadlier with each bounce. Subsequent hits on the same target deal reduced damage. \
+	desc = "Spray a volley of stones at a target. Stones ricochet off walls. Subsequent hits on the same target deal reduced damage. \
 	Stones are particularly effective at degrading armor. Deals 2x damage to structures. \
 	Toggle arc mode (Ctrl+G) to lob over obstacles at reduced damage."
 	button_icon_state = "gravel_blast"
@@ -44,6 +44,9 @@
 		base_angle = Get_Angle(user, target)
 	var/center_index = (projectiles_per_fire + 1) / 2
 	to_fire.Angle = base_angle + ((iteration - center_index) * spread_step)
+	// Only the center stone can roll for blunt crit/knockout
+	if(iteration != center_index)
+		to_fire.woundclass = null
 
 /obj/projectile/magic/gravel_blast
 	name = "gravel shot"
@@ -73,7 +76,7 @@
 
 /obj/projectile/magic/gravel_blast/arc
 	name = "arced gravel shot"
-	damage = 16
+	damage = 17
 	arcshot = TRUE
 
 /obj/projectile/magic/gravel_blast/on_hit(target)
@@ -91,6 +94,19 @@
 		else
 			M.mob_timers[MT_ROCKSHOT] = world.time
 	. = ..()
+
+// --- Lesser Gravel Blast: 3-projectile variant for poke option picks ---
+
+/datum/action/cooldown/spell/projectile/gravel_blast/lesser
+	name = "Lesser Gravel Blast"
+	desc = "Spray a trio of stones at a target. Stones ricochet off walls. Subsequent hits on the same target deal reduced damage. \
+	Stones are particularly effective at degrading armor. Deals 2x damage to structures. \
+	Toggle arc mode (Ctrl+G) to lob over obstacles at reduced damage."
+	button_icon_state = "gravel_blast"
+	projectiles_per_fire = 3
+	attunement_school = null
+	spell_tier = 0
+	point_cost = 0
 
 #undef MT_ROCKSHOT
 #undef ROCKSHOT_DR_DURATION

@@ -228,6 +228,6 @@
 	target.visible_message(span_userdanger("[user] banishes [target] into a dark rift!"))
 	to_chat(target, span_userdanger("The world dissolves into mist as you are dragged into a dream!"))
 
-	teleport_to_dream(target, 1, 1, FALSE, 2 MINUTES)
+	teleport_to_dream(target, 1, 1, FALSE, 2 MINUTES, force = TRUE)
 
 	return TRUE

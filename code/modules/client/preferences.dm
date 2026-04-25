@@ -141,6 +141,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/lobbymusicvol = 50
 	var/ambiencevol = 50
 	var/mastervol = 50
+	var/stopdroning = FALSE
 
 	var/anonymize = TRUE
 	var/masked_examine = FALSE
@@ -248,6 +249,9 @@ GLOBAL_LIST_EMPTY(chosen_names)
 
 	/// Per-character theme override for examine panel viewers
 	var/examine_theme
+
+	/// Whether we can see the feint HUD bar.
+	var/feint_hud = FALSE 
 
 /datum/preferences/New(client/C)
 	parent = C
@@ -388,7 +392,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 			dat += "<td style='width:33%;text-align:left'>"
 			dat += "</td>"
 			dat += "<td style='width:33%;text-align:center'>"
-			dat += "<a href='?_src_=prefs;preference=lore_primer'>* Lore Primer *</a>"
+			dat += "<a href='?_src_=prefs;preference=lore_primer'>Lore Primer</a>"
 			dat += "</td>"
 			dat += "<td style='width:33%;text-align:right'>"
 			dat += "</td>"
@@ -572,7 +576,12 @@ GLOBAL_LIST_EMPTY(chosen_names)
 			if(charflaws.len)
 				for(var/i = 1 to charflaws.len)
 					var/datum/charflaw/cf = charflaws[i]
-					dat += " <a href='?_src_=prefs;preference=charflaw;task=remove;index=[i]'>[cf]</a>"
+					if(!cf)
+						continue
+					var/warning = ""
+					if(cf.needs_extra_vice && charflaws.len < 2)
+						warning = "<font color = '#910505'>"
+					dat += "[warning] <a href='?_src_=prefs;preference=charflaw;task=remove;index=[i]'>[cf]</a>[warning ? " (Requires Extra Vice!)</font>" : ""]"
 					if(i < charflaws.len)
 						dat += " |"
 				dat += "<BR>"
@@ -1750,18 +1759,21 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 				// LETHALSTONE EDIT: add statpack selection
 				if ("statpack")
 					var/list/statpacks_available = list()
+					var/list/statpack_descriptions = list()
 					for (var/path as anything in GLOB.statpacks)
 						var/datum/statpack/statpack = GLOB.statpacks[path]
 						if (!statpack.name)
 							continue
 						var/index = statpack.name
 						if(length(statpack.stat_array))
-							index += " \n[statpack.generate_modifier_string()]"
+							var/modifier_string = statpack.generate_modifier_string()
+							index += " [modifier_string]"
+							statpack_descriptions[index] = modifier_string
 						statpacks_available[index] = statpack
 
 					statpacks_available = sort_list(statpacks_available)
 
-					var/statpack_input = tgui_input_list(user, "How shall your strengths manifest?", "STATPACK", statpacks_available, statpack)
+					var/statpack_input = tgui_input_list(user, "How shall your strengths manifest?", "STATPACK", statpacks_available, statpack, descriptions = statpack_descriptions)
 					if (statpack_input)
 						var/datum/statpack/statpack_chosen = statpacks_available[statpack_input]
 						statpack = statpack_chosen
@@ -1781,16 +1793,18 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 						to_chat(user, "<font color='red'><b>Your classes have been reset.</b></font>")
 
 				if ("titles")
-					var/titles_input = tgui_input_list(user, "Choose your character's titles", "TITLES", GLOB.titles_list)
-					if(titles_input)
-						titles_pref = titles_input
-						to_chat(user, "<font color='red'>Your character's titles are now [titles_pref].</font>")
+					if(titles_pref == TITLES_M)
+						titles_pref = TITLES_F
+					else
+						titles_pref = TITLES_M
+					to_chat(user, "<font color='red'>Your character's titles are now [titles_pref].</font>")
 
 				if ("clothespref")
-					var/clothespref_input = tgui_input_list(user, "Choose your character's clothing preference", "CLOTHING", GLOB.clothespref_list)
-					if(clothespref_input)
-						clothes_pref = clothespref_input
-						to_chat(user, "<font color='red'>Your character's titles are now [clothespref_input].</font>")
+					if(clothes_pref == CLOTHES_M)
+						clothes_pref = CLOTHES_F
+					else
+						clothes_pref = CLOTHES_M
+					to_chat(user, "<font color='red'>Your character's titles are now [clothes_pref].</font>")
 				// LETHALSTONE EDIT: add voice type selection
 				if ("voicetype")
 					var voicetype_input = tgui_input_list(user, "Choose your character's voice type", "VOICE TYPE", GLOB.voice_types_list)

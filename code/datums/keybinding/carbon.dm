@@ -136,13 +136,16 @@
 	hotkey_keys = list("G")
 	name = "guard"
 	full_name = "Guard"
-	description = "Enter a defensive stance, guaranteeing the next hit is defended against. Works against most spells, weapon specials and melee attacks."
+	description = "Enter a defensive stance while in combat mode, guaranteeing the next hit is defended against. Works against most spells, weapon specials and melee attacks."
 	category = CATEGORY_CARBON
 
 /datum/keybinding/carbon/guard/down(client/user)
 	if(!ishuman(user.mob))
 		return FALSE
 	var/mob/living/carbon/human/H = user.mob
+	if(!H.cmode)
+		to_chat(H, span_warning("I need to be in combat mode to guard."))
+		return FALSE
 	H.try_guard()
 	return TRUE
 

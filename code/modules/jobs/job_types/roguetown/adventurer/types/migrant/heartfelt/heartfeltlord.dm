@@ -152,6 +152,7 @@
 		/obj/item/paper/scroll = 1,
 		/obj/item/reagent_containers/glass/bottle/alchemical/strongmanapot = 1,
 		/obj/item/reagent_containers/glass/bottle/alchemical/healthpotnew = 1,
+		/obj/item/chalk = 1,
 	)
 	id = /obj/item/scomstone
 	if(H.mind)

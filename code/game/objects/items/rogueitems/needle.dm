@@ -1,3 +1,7 @@
+#define SEW_HP_EXP_NORMALIZER 600
+#define SEW_EXP_PER_STEP 0.05
+#define SEW_EXP_FINISH 2.5
+
 /obj/item/needle
 	name = "needle"
 	icon_state = "needle"
@@ -214,6 +218,8 @@
 				sewing_start_delay = 1 SECONDS
 		if(!do_after(doctor, sewing_start_delay, target = patient))
 			break
+		if(doctor.mind)
+			doctor.mind.add_sleep_experience(/datum/skill/misc/medicine, doctor.STAINT * SEW_EXP_PER_STEP)
 		playsound(loc, 'sound/foley/sewflesh.ogg', 100, TRUE, -2)
 		target_wound.sew_progress = min(target_wound.sew_progress + moveup, target_wound.sew_threshold)
 		var/bleedreduction = max((0.5 * medskill), 0.5)
@@ -238,7 +244,9 @@
 		if(target_wound.sew_progress < target_wound.sew_threshold)
 			continue
 		if(doctor.mind)
-			doctor.mind.add_sleep_experience(/datum/skill/misc/medicine, doctor.STAINT * 2.5)
+			var/exp_scale = target_wound.sew_threshold / SEW_HP_EXP_NORMALIZER
+			var/base_exp = doctor.STAINT * SEW_EXP_FINISH
+			doctor.mind.add_sleep_experience(/datum/skill/misc/medicine, base_exp * exp_scale)
 		use(1)
 		target_wound.sew_wound()
 		if(patient == doctor)
@@ -294,3 +302,7 @@
 	desc = "This decrepit old needle doesn't seem helpful for much."
 	stringamt = 5
 	maxstring = 5
+
+#undef SEW_HP_EXP_NORMALIZER
+#undef SEW_EXP_PER_STEP
+#undef SEW_EXP_FINISH

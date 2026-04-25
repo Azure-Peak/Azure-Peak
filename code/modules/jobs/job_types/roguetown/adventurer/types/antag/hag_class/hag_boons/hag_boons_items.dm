@@ -190,6 +190,7 @@
 	icon_state = "hagsword"
 	item_flags = HAG_ITEM
 	smeltresult = null
+	sheathe_icon = "hagsword"
 
 /obj/item/rogueweapon/halberd/hag
 	max_blade_int = 155

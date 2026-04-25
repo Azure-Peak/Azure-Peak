@@ -9,7 +9,7 @@
 	)
 
 	planning_subtrees = list(
-		/datum/ai_planning_subtree/target_retaliate,
+		/datum/ai_planning_subtree/aggro_find_target,
 		/datum/ai_planning_subtree/simple_find_target,
 		/datum/ai_planning_subtree/attack_obstacle_in_path,
 		/datum/ai_planning_subtree/call_reinforcements,

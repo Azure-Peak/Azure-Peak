@@ -64,6 +64,23 @@
 
 /area/rogue/outdoors/bog/south
 	name = "Southern Terrorbog"
+	loot_budget = LOOT_BUDGET_TERRORBOG_SOUTH
+
+/area/rogue/indoors/shelter/bog/bogmanfort
+	icon_state = "bog"
+	droning_sound = 'sound/music/area/bog.ogg'
+	droning_sound_dusk = null
+	droning_sound_night = null
+	deathsight_message = "a wretched, fetid bog"
+	loot_budget = LOOT_BUDGET_BOGMANFORT
+
+/area/rogue/indoors/shelter/bog/skeletonfort
+	icon_state = "bog"
+	droning_sound = 'sound/music/area/bog.ogg'
+	droning_sound_dusk = null
+	droning_sound_night = null
+	deathsight_message = "a wretched, fetid bog"
+	loot_budget = LOOT_BUDGET_SKELETONFORT
 
 /area/rogue/indoors/shelter/bog_hag
 	name = "Hag hut"
@@ -74,6 +91,11 @@
 	droning_sound_night = null
 	deathsight_message = "a nasty wicked place deep betwixt the roots of the bog"
 	var/list/recent_intruders = list()
+
+/area/rogue/indoors/shelter/bog_hag/root_maze
+	name = "The Deepest Roots"
+	icon_state = "bog"
+	first_time_text = "THE DEEPROOT"
 
 /area/rogue/indoors/shelter/bog_hag/Entered(atom/movable/AM)
 	..()

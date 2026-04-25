@@ -1,9 +1,9 @@
-/mob/living/carbon/human/getarmor(def_zone, type, damage, armor_penetration = PEN_NONE, blade_dulling, intdamfactor, used_weapon)
+/mob/living/carbon/human/getarmor(def_zone, type, damage, armor_penetration = PEN_NONE, blade_dulling, intdamfactor, used_weapon, pen_info)
 	var/armorval = 0
 	var/organnum = 0
 
 	if(def_zone)
-		return checkarmor(def_zone, type, damage, armor_penetration, blade_dulling, intdamfactor, used_weapon)
+		return checkarmor(def_zone, type, damage, armor_penetration, blade_dulling, intdamfactor, used_weapon, pen_info)
 		//If a specific bodypart is targetted, check how that bodypart is protected and return the value.
 
 	//If you don't specify a bodypart, it checks ALL my bodyparts for protection, and averages out the values
@@ -14,7 +14,7 @@
 	return (armorval/max(organnum, 1))
 
 
-/mob/living/carbon/human/proc/checkarmor(def_zone, d_type, damage, armor_penetration = PEN_NONE, blade_dulling, intdamfactor = 1, obj/item/used_weapon)
+/mob/living/carbon/human/proc/checkarmor(def_zone, d_type, damage, armor_penetration = PEN_NONE, blade_dulling, intdamfactor = 1, obj/item/used_weapon, pen_info)
 	if(!d_type)
 		return 0
 	if(isbodypart(def_zone))
@@ -35,15 +35,18 @@
 				playsound(loc, get_armor_sound(used.blocksound, blade_dulling), 100)
 
 			// Tier-based penetration:
-			//   pen > armor  = 100% through (full penetration)
-			//   pen == armor = 20% through (partial penetration)
-			//   pen < armor  = fully blocked
-			if(armor_penetration > protection)
-				consume_debuff = FALSE
-				intdamage = damage * PEN_PASSTHROUGH_OVER
-			else if(armor_penetration == protection)
-				consume_debuff = FALSE
-				intdamage = damage * PEN_PASSTHROUGH_SAME
+			// + 10% damage per "dot" of pen and per relevant stat point.
+			if(d_type != "piercing")
+				if(armor_penetration >= protection)
+					consume_debuff = FALSE
+					intdamage = damage * (1 - (pen_info * PEN_PASSTHROUGH_RATIO))
+			else
+				if(armor_penetration == protection)
+					consume_debuff = FALSE
+					intdamage = damage * PEN_PASSTHROUGH_PROJ_EQUAL
+				if(armor_penetration > protection)
+					consume_debuff = FALSE
+					intdamage = damage * PEN_PASSTHROUGH_PROJ_MORE
 
 			if(intdamfactor != 1)
 				intdamage *= intdamfactor
@@ -187,9 +190,6 @@
 			P.on_hit(src, 100, def_zone)
 			return BULLET_ACT_HIT
 
-	var/mob/living/attacker = P?.firer
-	if(attacker)
-		retaliate(attacker)
 	return ..(P, def_zone)
 
 /mob/living/carbon/human/proc/check_reflect(def_zone) //Reflection checks for anything in my l_hand, r_hand, or wear_armor based on the reflection chance of the object
@@ -245,9 +245,6 @@
 		throwpower = I.throwforce
 		if(I.thrownby == src) //No throwing stuff at myself to trigger hit reactions
 			return ..()
-		else
-			if(ismob(I.thrownby))
-				retaliate(I.thrownby)
 	if(check_shields(AM, throwpower, "\the [AM.name]", THROWN_PROJECTILE_ATTACK))
 		hitpush = FALSE
 		skipcatch = TRUE
@@ -285,7 +282,6 @@
 /mob/living/carbon/human/grippedby(mob/living/user, instant = FALSE)
 	if(wear_pants)
 		wear_pants.add_fingerprint(user)
-	retaliate(user)
 	..()
 
 
@@ -311,16 +307,12 @@
 	SSblackbox.record_feedback("nested tally", "item_used_for_combat", 1, list("[I.force]", "[I.type]"))
 	SSblackbox.record_feedback("tally", "zone_targeted", 1, useder)
 
-	if(I.force)
-		retaliate(user)
-
 	// the attacked_by code varies among species
 	return dna.species.spec_attacked_by(I, user, affecting, used_intent, src, useder)
 
 /mob/living/carbon/human/attack_hand(mob/user)
 	if(..())	//to allow surgery to return properly.
 		return
-	retaliate(user)
 	if(ishuman(user))
 		var/mob/living/carbon/human/H = user
 		dna.species.spec_attack_hand(H, src)
@@ -333,8 +325,6 @@
 	if(M.used_intent.type == INTENT_HELP)
 		..() //shaking
 		return 0
-
-	retaliate(M)
 
 	if(M.used_intent.type == INTENT_DISARM) //Always drop item in hand, if no item, get stunned instead.
 		var/obj/item/I = get_active_held_item()
@@ -402,8 +392,6 @@
 		next_attack_msg.Cut()
 		if(nodmg)
 			return FALSE
-		else
-			retaliate(M)
 
 /mob/living/carbon/human/ex_act(severity, target, epicenter, devastation_range, heavy_impact_range, light_impact_range, flame_range)
 	..()

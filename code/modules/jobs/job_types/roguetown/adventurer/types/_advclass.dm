@@ -62,6 +62,9 @@
 	/// set to TRUE to reset stats in equipme, clearing any racial bonuses or bonuses the character had before becoming this class
 	var/reset_stats = FALSE
 
+	var/list/virtue_limits = list()
+	var/list/vice_limits = list()
+
 	var/datum/class_age_mod/age_mod = null
 
 /datum/advclass/New()
@@ -175,6 +178,17 @@
 
 	if(length(allowed_patrons) && !(H.patron.type in allowed_patrons))
 		return FALSE
+
+	if(length(virtue_limits) && H.client)
+		for(var/virtuetype in virtue_limits)
+			if(istype(H.client.prefs?.virtue, virtuetype) || istype(H.client.prefs?.virtuetwo, virtuetype))
+				return FALSE
+
+	if(length(vice_limits) && H.client)
+		for(var/vicetype in vice_limits)
+			for(var/vice in H.charflaws)
+				if(istype(vice, vicetype))
+					return FALSE
 
 	if(maximum_possible_slots > -1)
 		if(total_slots_occupied >= maximum_possible_slots)
