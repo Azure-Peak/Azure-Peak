@@ -834,6 +834,20 @@ export const EconomicPanel = () => {
                     </Button.Confirm>
                   </Stack.Item>
                 </Stack>
+
+                <Stack mt={1} align="center">
+                  <Stack.Item>Indebted flaw:</Stack.Item>
+                  <Stack.Item>
+                    <Button.Confirm
+                      onClick={() =>
+                        act('player_fire_indebted', { ref: selected.ref })
+                      }
+                      tooltip="Forces an immediate alimony tick on the selected player. Requires the Indebted flaw."
+                    >
+                      Fire Indebted Tick
+                    </Button.Confirm>
+                  </Stack.Item>
+                </Stack>
               </Section>
             </Stack.Item>
           )}

@@ -267,6 +267,18 @@ GLOBAL_DATUM_INIT(economic_panel, /datum/economic_panel, new)
 			SStreasury.burn(account, amt, "admin burn by [key_name(usr)]")
 			admin_log_fiscal("burned [amt]m from [key_name(target)]", "Burn from Account")
 			return TRUE
+		if("player_fire_indebted")
+			var/mob/living/carbon/human/target = locate(params["ref"])
+			if(!istype(target))
+				return TRUE
+			var/datum/charflaw/indebted/I = locate(/datum/charflaw/indebted) in target.charflaws
+			if(!I)
+				to_chat(usr, span_warning("[target.real_name] does not have the Indebted flaw."))
+				return TRUE
+			I.next_alimony = 0
+			I.calculate_childsupport(target)
+			admin_log_fiscal("fired Indebted tick on [key_name(target)]", "Fire Indebted Tick")
+			return TRUE
 		if("assembly_resolve")
 			if(SScity_assembly)
 				SScity_assembly.resolve_session("admin panel")
