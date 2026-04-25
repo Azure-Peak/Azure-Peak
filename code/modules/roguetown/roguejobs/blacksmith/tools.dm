@@ -226,6 +226,27 @@
 
 	var/mob/living/carbon/human/H = M
 
+	// BUILD PRIORITY LIST ONCE
+	var/list/priority_limbs = list()
+
+	for(var/obj/item/bodypart/BP in H.bodyparts)
+		if(!BP || QDELETED(BP))
+			continue
+
+		var/priority = BP.brute_dam + BP.burn_dam
+
+		for(var/datum/wound/W in BP.wounds)
+			if(W.severity >= WOUND_SEVERITY_MODERATE)
+				priority += 20
+			else
+				priority += 10
+
+		if(priority > 0)
+			priority_limbs[BP] = priority
+
+	// sort descending (highest priority first)
+	priority_limbs = sortTim(priority_limbs, GLOBAL_PROC_REF(cmp_numeric_dsc), TRUE)
+
 	do
 		if(!user || !M || QDELETED(user) || QDELETED(M))
 			break
@@ -235,6 +256,15 @@
 
 		if(get_dist(user, M) > 1)
 			break
+
+		if(!priority_limbs.len)
+			break
+
+		var/obj/item/bodypart/affecting = priority_limbs[1]
+
+		if(!affecting || QDELETED(affecting))
+			priority_limbs.Cut(1,2)
+			continue
 
 		var/has_complex_wounds = FALSE
 		var/list/wCount = H.get_wounds()
@@ -261,7 +291,7 @@
 			to_chat(user, span_warning("These injuries are too severe to hammer safely! You need proper tools like tongs or a wrench."))
 			return
 
-		var/used_time = 100
+		var/used_time = 90 
 
 		if(user.mind)
 			used_time -= (user.get_skill_level(/datum/skill/craft/engineering) * 10)
@@ -274,28 +304,6 @@
 
 		used_time = round(max(used_time, 5))
 
-		var/obj/item/bodypart/affecting
-		var/highest_priority = -1
-
-		for(var/obj/item/bodypart/BP in H.bodyparts)
-			if(!BP || QDELETED(BP))
-				continue
-
-			var/priority = BP.brute_dam + BP.burn_dam
-
-			for(var/datum/wound/W in BP.wounds)
-				if(W.severity >= WOUND_SEVERITY_MODERATE)
-					priority += 20
-				else
-					priority += 10
-
-			if(priority > highest_priority)
-				highest_priority = priority
-				affecting = BP
-
-		if(!affecting)
-			break
-
 		if(has_complex_wounds)
 			playsound(user.loc, 'sound/misc/ratchet.ogg', 80, FALSE)
 		else
@@ -307,23 +315,21 @@
 		if(!user || !M || QDELETED(user) || QDELETED(M))
 			break
 
-		if(user.resting || user.stat || get_dist(user, M) > 1)
+		if(user.stat || get_dist(user, M) > 1)
 			break
 
 		playsound(user.loc, 'sound/items/bsmith4.ogg', 100, FALSE)
 
-		if(M == user)
-			H.adjustBruteLoss(-7)
-			H.adjustFireLoss(-7)
-			if(has_tongs || has_wrench)
-				H.heal_wounds(2)
-		else
-			H.adjustBruteLoss(-14)
-			H.adjustFireLoss(-14)
-			if(has_tongs || has_wrench)
-				H.heal_wounds(8)
+		var/brute_heal = (M == user) ? 10 : 25 
+		var/fire_heal = (M == user) ? 10 : 25
+
+		affecting.heal_damage(brute_heal, fire_heal)
+
+		if(has_tongs || has_wrench)
+			H.heal_wounds(5)
 
 		H.update_damage_overlays()
+		user.mind.add_sleep_experience(/datum/skill/craft/engineering, (user.STAINT*2.5))
 
 		if(M == user)
 			user.visible_message(
@@ -336,15 +342,11 @@
 				span_notice("I repair [M]'s [affecting.name].")
 			)
 
-		if(!ishuman(M))
-			break
+		// CHECK IF THIS LIMB IS DONE → MOVE TO NEXT
+		if((affecting.brute_dam + affecting.burn_dam) <= 0 && !length(affecting.wounds))
+			priority_limbs.Cut(1,2)
 
-		if(!HAS_TRAIT(M, TRAIT_IRONMAN))
-			break
-
-		wCount = H.get_wounds()
-
-		if((M.getBruteLoss() + M.getFireLoss()) <= 0 && !length(wCount))
+		if((M.getBruteLoss() + M.getFireLoss()) <= 0 && !length(H.get_wounds()))
 			user.visible_message(
 				span_notice("[M] is good as new!"),
 				span_notice("I am good as new!")

@@ -129,6 +129,8 @@
 		to_chat(user, span_warning("They are dead."))
 		return FALSE
 
+	var/power = 1
+
 	// INTEGRITY DAMAGE OVERRIDE
 	var/has_integrity = FALSE
 	var/list/integ = M.get_wounds()
@@ -146,28 +148,30 @@
 			to_chat(user, span_warning("The jury rigged integrity repairs are still holding, for now..."))
 			return
 
-		if(I.name == "stick")
-			qdel(I)
+		if(I.type == /obj/item/grown/log/tree/stick)
+			var/obj/item/grown/log/tree/stick/S = I
 			M.apply_status_effect(/datum/status_effect/debuff/integrity_rig, 3 MINUTES)
 			playsound(M, 'sound/combat/hits/blunt/woodblunt (2).ogg', 100, TRUE)
 			user.visible_message(
 				span_notice("[user] wedges the stick into [M]'s damaged lattice, crudely pinning it in place."),
 				span_notice("A weak brace holds my damaged integrity together. It might not last")
 			)
+			qdel(S)
 			return TRUE
 
-		if(I.name == "small log")
-			qdel(I)
+		if(I.type == /obj/item/grown/log/tree/small)
+			var/obj/item/grown/log/tree/small/S = I
 			M.apply_status_effect(/datum/status_effect/debuff/integrity_rig, 6 MINUTES)
-			playsound(M, 'sound/combat/hits/blunt/woodblunt (2).ogg', 100, TRUE)
+			playsound(M, 'sound/combat/hits/blunt/woodblunt (1).ogg', 100, TRUE)
 			user.visible_message(
 				span_notice("[user] jams the small log into [M]'s exposed conduit, safely reinforcing the fracture."),
 				span_notice("The wooden brace steadies my damaged integrity.")
 			)
+			qdel(S)
 			return TRUE
 
 		if(istype(I, /obj/item/natural/stone))
-			qdel(I)
+			var/obj/item/natural/stone/S = I
 			M.apply_status_effect(/datum/status_effect/debuff/integrity_rig, 9 MINUTES)
 			playsound(M, pick('sound/combat/hits/onmetal/sheet (1).ogg', 'sound/combat/hits/onmetal/sheet (2).ogg', 'sound/combat/hits/onmetal/grille (1).ogg', 'sound/combat/hits/onmetal/grille (2).ogg', 'sound/combat/hits/onmetal/grille (3).ogg'), 100, TRUE)
 			user.visible_message(
@@ -177,7 +181,8 @@
 			explosion(M, 0, 0, 0, 0, FALSE, FALSE, 0, FALSE, FALSE)
 			for(var/mob/living/L in range(2, M))
 				L.electrocute_act(10, L)
-
+				break
+			qdel(S)
 			return TRUE
 
 		if(istype(I, /obj/item/ingot))
@@ -191,6 +196,38 @@
 			return TRUE
 
 		to_chat(user, span_warning("That material cannot stabilize exposed integrity damage."))
+		return TRUE
+
+	// === INGOT === 
+	if(istype(I, /obj/item/ingot))
+		if(M == user)
+			if(!do_after(user, 12 SECONDS, M))
+				return FALSE
+		power = 5 + I.sellprice * 1.5
+		M.apply_status_effect(/datum/status_effect/buff/ingotmuncher, power)
+		user.visible_message(
+			span_notice("[user] presses [I] into their form. It fuses seamlessly, spreading throughout their shell."),
+			span_notice("I press [I] into my body. It quickly binds and greatly reinforces me.")
+		)
+		playsound(user.loc, 'sound/magic/swap.ogg', 40)
+		playsound(user.loc, 'sound/misc/lava_death.ogg', 40)
+		qdel(I)
+		return TRUE
+
+	// === GEM ===
+	if(istype(I, /obj/item/roguegem))
+		if(M == user)
+			if(!do_after(user, 12 SECONDS, M))
+				return FALSE
+		power = I.sellprice * 2
+		M.apply_status_effect(/datum/status_effect/buff/gemmuncher, power)
+		user.visible_message(
+			span_notice("[user] embeds [I] into their core. It crackles, then vanishes within."),
+			span_notice("I set [I] into my core. It sinks in... and I feel it resonate greatly, restoring me!")
+		)
+		qdel(I)
+		playsound(user.loc, 'sound/magic/swap.ogg', 40)
+		playsound(user.loc, 'sound/misc/lava_death.ogg', 40)
 		return TRUE
 
 	if(M.stat != CONSCIOUS)
@@ -209,13 +246,10 @@
 
 		return TRUE
 
-	var/power = 1
-
-		
 	// === STONE ===
 	if(istype(I, /obj/item/natural/stone))
 		var/obj/item/natural/stone/S = I
-		power = S.magic_power + 1
+		power = S.magic_power + 2
 
 		var/brute = M.getBruteLoss()
 		var/fire = M.getFireLoss()
@@ -248,8 +282,8 @@
 		M.adjustFireLoss(-fire_heal)
 
 		user.visible_message(
-			span_notice("[user] offers the [I] to [M]'s mouth, and they crunch it down instinctively."),
-			span_notice("I crunch the [I] down and swallow it effortlessly.")
+			span_notice("[user] offers [I] to [M]'s mouth, and they crunch it down instinctively."),
+			span_notice("I crunch [I] down and swallow it effortlessly.")
 		)
 
 		playsound(M.loc, 'sound/misc/eat.ogg', rand(60,100), TRUE)
@@ -259,49 +293,45 @@
 		qdel(I)
 		return TRUE
 
-	// === LOG === 
-	if(istype(I, /obj/item/grown/log/tree))
-		if(I.name == ("log")) // im so fuckign tired manne 
-			user.visible_message(
-				span_notice("[user] presses the [I] to [M]'s arms, and they crush it in two!"),
-				span_notice("I crush the [I] down, splitting it in two!")
-			)
-			playsound(user.loc, 'sound/misc/woodhit.ogg', 30)
-			sleep(4)
-			playsound(user, 'sound/combat/hits/blunt/woodblunt (2).ogg', 100, TRUE)
-			qdel(I)
-			new /obj/item/grown/log/tree/small(get_turf(user.loc))
-			new /obj/item/grown/log/tree/small(get_turf(user.loc))
-			new /obj/effect/decal/cleanable/debris/woody(get_turf(user))
-			return TRUE
-		else
-			return FALSE
-
 	// === WOOD === 
-	if(istype(I, /obj/item/grown/log/tree))
-		if(I.name == ("small log"))
-			user.visible_message(
-				span_notice("[user] offers the [I] to [M]'s mouth, as they blow arcyne steam at it!"),
-				span_notice("I puff arcyne steam at the [I], combusting it to charcoal!")
-			)
-			new /obj/effect/particle_effect/thick_steam(get_turf(user))
-			playsound(user, 'sound/items/steamrelease.ogg', 50, FALSE, -1)
-			sleep(4)
-			playsound(user.loc, 'sound/magic/fireball.ogg', 30)
-			qdel(I)
-			new /obj/item/rogueore/coal/charcoal(get_turf(user.loc))
-			new /obj/item/ash(get_turf(user.loc))
-			new /obj/item/ash(get_turf(user.loc))
-			return TRUE
-		else
-			return FALSE
+	if(I.type == /obj/item/grown/log/tree/small)
+		var/obj/item/grown/log/tree/small/L = I
+		user.visible_message(
+			span_notice("[user] offers [L] to [M]'s mouth, and they blow arcyne steam at it!"),
+			span_notice("I puff arcyne steam at [L], combusting it into charcoal!")
+		)
+		new /obj/effect/particle_effect/thick_steam(get_turf(user))
+		playsound(user.loc, 'sound/items/steamrelease.ogg', 50, FALSE, -1)
+		sleep(4)
+		playsound(user.loc, 'sound/magic/fireball.ogg', 30)
+		qdel(I)
+		new /obj/item/rogueore/coal/charcoal(get_turf(user))
+		new /obj/item/ash(get_turf(user))
+		new /obj/item/ash(get_turf(user))
+		return TRUE
+
+	// === LOG === 
+	if(I.type == /obj/item/grown/log/tree)
+		var/obj/item/grown/log/tree/L = I
+		user.visible_message(
+			span_notice("[user] presses [L] to [M]'s arms, and they crush it in two!"),
+			span_notice("I crush [L] down, splitting it in two!")
+		)
+		playsound(user.loc, 'sound/misc/woodhit.ogg', 30)
+		sleep(4)
+		playsound(user, 'sound/combat/hits/blunt/woodblunt (2).ogg', 100, TRUE)
+		qdel(I)
+		new /obj/item/grown/log/tree/small(get_turf(user.loc))
+		new /obj/item/grown/log/tree/small(get_turf(user.loc))
+		new /obj/effect/decal/cleanable/debris/woody(get_turf(user))
+		return TRUE
 
 	// === ROCK === 
 	if(istype(I, /obj/item/natural/rock))
 		var/obj/item/natural/rock/S = I
 		user.visible_message(
-			span_notice("[user] presses the [I] to [M]'s arms, and they crush it in two!"),
-			span_notice("I crush the [S] down, breaking it to fine smithereens!")
+			span_notice("[user] presses [I] to [M]'s arms, and they crush it in two!"),
+			span_notice("I crush [S] down, breaking it to fine smithereens!")
 		)
 		playsound(user.loc, 'sound/misc/woodhit.ogg', 30)
 		sleep(4)
@@ -313,46 +343,16 @@
 
 	// === ORE === 
 	if(istype(I, /obj/item/rogueore))
-		power = 2 + I.sellprice
+		power = 5 + I.sellprice * 1.25
 		M.apply_status_effect(/datum/status_effect/buff/oremuncher, power)
 		user.visible_message(
-			span_notice("[user] offers the [I] to [M]'s mouth, and they crunch it down instinctively."),
-			span_notice("I crunch the [I] down and swallow it effortlessly. This one is good stuff!")
+			span_notice("[user] offers [I] to [M]'s mouth, and they bite it down, munching!"),
+			span_notice("I crunch [I] down and swallow it effortlessly.<br>This is good stuff!")
 		)
 		playsound(M.loc,'sound/misc/eat.ogg', rand(60,100), TRUE)
 		sleep(4)
 		playsound(user.loc, 'sound/foley/smash_rock.ogg', 30)
 		qdel(I)
-		return TRUE
-
-	if(M == user)
-		if(!do_after(user, 12 SECONDS, M))
-			return FALSE
-
-	// === INGOT === 
-	if(istype(I, /obj/item/ingot))
-		power = 4 + I.sellprice
-		M.apply_status_effect(/datum/status_effect/buff/oremuncher, power)
-		user.visible_message(
-			span_notice("[user] presses the [I] into their form. It fuses seamlessly, spreading throughout their shell."),
-			span_notice("I press the [I] into my body. It quickly binds and greatly reinforces me.")
-		)
-		playsound(user.loc, 'sound/magic/swap.ogg', 40)
-		playsound(user.loc, 'sound/misc/lava_death.ogg', 40)
-		qdel(I)
-		return TRUE
-
-	// === GEM ===
-	if(istype(I, /obj/item/roguegem))
-		power = 6 + I.sellprice
-		M.apply_status_effect(/datum/status_effect/buff/gemmuncher, power)
-		user.visible_message(
-			span_notice("[user] embeds the [I] into their core. It crackles, then vanishes within."),
-			span_notice("I set [I] into my core. It sinks in... and I feel it resonate greatly, restoring me!")
-		)
-		qdel(I)
-		playsound(user.loc, 'sound/magic/swap.ogg', 40)
-		playsound(user.loc, 'sound/misc/lava_death.ogg', 40)
 		return TRUE
 
 	return FALSE
@@ -423,10 +423,18 @@
 	if(HAS_TRAIT(user, TRAIT_IRONMAN) && user.cmode && istype(user.rmb_intent, /datum/rmb_intent/strong) && !user.resting && user.stat == CONSCIOUS)
 		src.ironman_mine(user)
 
+/obj/structure/gate/Bumped(atom/movable/AM)
+	. = ..()
+	if(!ishuman(AM))
+		return
+	var/mob/living/carbon/human/user = AM
+	if(HAS_TRAIT(user, TRAIT_IRONMAN) && user.cmode && istype(user.rmb_intent, /datum/rmb_intent/strong) && !user.resting && user.stat == CONSCIOUS)
+		src.ironman_mine(user)
+
 #define IRONMAN_MAX_HARDNESS 3000
 #define IRONMAN_STARTUP_TIME 1 SECONDS
 #define IRONMAN_SWING_TIME 0.4 SECONDS
-#define IRONMAN_MAX_SWINGS 30
+#define IRONMAN_MAX_SWINGS 50
 
 /atom/proc/ironman_mine(mob/living/user)
 	if(!user || !isliving(user))
@@ -536,14 +544,14 @@
 
 		var/brutedmg = rand(1,4)
 		var/firedmg = prob(40) ? rand(1,10) : 0
-		var/totaldmg = (brutedmg + firedmg) * 3
+		var/totaldmg = (brutedmg + firedmg) * 4
 
 		if(isturf(src))
 			var/turf/T = src
 			var/damage_to_deal = totaldmg
 
 			if(istype(T, /turf/closed/mineral))
-				damage_to_deal *= 12
+				damage_to_deal *= 10
 
 			if(!isnull(T.turf_integrity))
 				T.turf_integrity -= damage_to_deal
@@ -587,7 +595,7 @@
 		if(firedmg)
 			user.adjustFireLoss(firedmg)
 
-		user.stamina_add(5)
+		user.stamina_add(1)
 
 		var/bongo = pick('sound/combat/hits/armor/plate_blunt (1).ogg','sound/combat/hits/armor/plate_blunt (2).ogg','sound/combat/hits/armor/plate_blunt (3).ogg')
 
@@ -665,7 +673,7 @@
 	name = "steam"
 	icon_state = "smoke"
 	density = FALSE
-	layer = 5
+	layer = MOB_LAYER+1
 
 /obj/effect/particle_effect/thick_steam/Initialize()
 	. = ..()

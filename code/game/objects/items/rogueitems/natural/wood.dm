@@ -87,8 +87,28 @@
 		return TRUE
 	..()
 
-//wood munching
+//log munching
 /obj/item/grown/log/tree/attack(mob/living/M, mob/user)
+	if(!user.cmode)
+		if(try_construct_consume(src, M, user))
+			return
+		else
+			return ..()
+	else
+		return ..()
+
+//wood vaping
+/obj/item/grown/log/tree/small/attack(mob/living/M, mob/user)
+	if(!user.cmode)
+		if(try_construct_consume(src, M, user))
+			return
+		else
+			return ..()
+	else
+		return ..()
+
+//stick stucking
+/obj/item/grown/log/tree/stick/attack(mob/living/M, mob/user)
 	if(!user.cmode)
 		if(try_construct_consume(src, M, user))
 			return
