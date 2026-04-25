@@ -108,6 +108,10 @@
 #define STATS_STANDING_ORDER_REVENUE "standing_order_revenue"
 #define STATS_STANDING_ORDERS_FULFILLED "standing_orders_fulfilled"
 #define STATS_STANDING_ORDERS_EXPIRED "standing_orders_expired"
+#define STATS_RUMOR_POINTS_GENERATED "rumor_points_generated"
+#define STATS_RUMOR_POINTS_CONSUMED "rumor_points_consumed"
+#define STATS_PLEDGE_GENERATED "pledge_generated"
+#define STATS_PLEDGE_CONSUMED "pledge_consumed"
 #define STATS_ECON_EVENTS_FIRED "econ_events_fired"
 #define STATS_ECON_EVENTS_EXPIRED "econ_events_expired"
 #define STATS_URGENT_ORDERS_SPAWNED "urgent_orders_spawned"
@@ -446,6 +450,10 @@ GLOBAL_LIST_INIT(azure_round_stats, list(
 	STATS_STANDING_ORDER_REVENUE = 0,
 	STATS_STANDING_ORDERS_FULFILLED = 0,
 	STATS_STANDING_ORDERS_EXPIRED = 0,
+	STATS_RUMOR_POINTS_GENERATED = 0,
+	STATS_RUMOR_POINTS_CONSUMED = 0,
+	STATS_PLEDGE_GENERATED = 0,
+	STATS_PLEDGE_CONSUMED = 0,
 	STATS_ECON_EVENTS_FIRED = 0,
 	STATS_ECON_EVENTS_EXPIRED = 0,
 	STATS_URGENT_ORDERS_SPAWNED = 0,

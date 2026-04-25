@@ -181,6 +181,8 @@
 	if(source_fund && cost > 0 && !SStreasury.burn(source_fund, cost, "Defense commission ([chosen_type] in [chosen_region.region_name])"))
 		to_chat(steward, span_warning("The [source_fund.name] refused the draft."))
 		return
+	if(source_fund == SStreasury.burgher_pledge_fund && cost > 0)
+		record_round_statistic(STATS_PLEDGE_CONSUMED, cost)
 	if(is_alderman_acting && cost > 0)
 		SScity_assembly.consume_defense(cost, steward, "[chosen_type] defense commission in [chosen_region.region_name]")
 	var/in_hands = params["in_hands"] ? TRUE : FALSE
@@ -195,6 +197,8 @@
 	if(!dispatched)
 		if(source_fund && cost > 0)
 			SStreasury.mint(source_fund, cost, "Defense commission refund (landmark failure)")
+			if(source_fund == SStreasury.burgher_pledge_fund)
+				record_round_statistic(STATS_PLEDGE_CONSUMED, -cost)
 		SSquestpool.log_event("defense_refund", "landmark failure [chosen_type] in [chosen_region.region_name] refunded [cost]m")
 		to_chat(steward, span_warning("No landmark could bear that commission. Funds refunded."))
 		return
@@ -249,10 +253,14 @@
 	if(source_fund && cost > 0 && !SStreasury.burn(source_fund, cost, "Blockade defense writ ([region_name])"))
 		to_chat(steward, span_warning("The [source_fund.name] refused the draft."))
 		return
+	if(source_fund == SStreasury.burgher_pledge_fund && cost > 0)
+		record_round_statistic(STATS_PLEDGE_CONSUMED, cost)
 	var/datum/quest/kill/blockade_defense/Q = SSquestpool.issue_blockade_defense_quest(chosen, steward, is_directive ? null : source_fund, is_directive ? 0 : cost)
 	if(!Q)
 		if(source_fund && cost > 0)
 			SStreasury.mint(source_fund, cost, "Blockade defense writ refund (issue failure)")
+			if(source_fund == SStreasury.burgher_pledge_fund)
+				record_round_statistic(STATS_PLEDGE_CONSUMED, -cost)
 		SSquestpool.log_event("defense_refund", "landmark failure blockade [region_name] refunded [cost]m")
 		to_chat(steward, span_warning("No landmark could bear that writ. Funds refunded."))
 		return

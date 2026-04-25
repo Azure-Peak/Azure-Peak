@@ -275,6 +275,8 @@
 		B.active_scroll_ref = null
 	if(funding_fund && funding_cost > 0)
 		SStreasury.mint(funding_fund, funding_cost, "Blockade writ recall refund ([recaller ? recaller.real_name : "unknown"])")
+		if(funding_fund == SStreasury.burgher_pledge_fund)
+			record_round_statistic(STATS_PLEDGE_CONSUMED, -funding_cost)
 	var/obj/item/paper/scroll/quest/S = quest_scroll
 	if(S && !QDELETED(S))
 		qdel(S)

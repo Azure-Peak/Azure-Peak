@@ -98,6 +98,8 @@ SUBSYSTEM_DEF(treasury)
 	discretionary_fund = new("Crown's Purse", null, seed, CURRENCY_MAMMON)
 	burgher_pledge_fund = new("Burgher Pledge", null, BURGHER_PLEDGE_BASE_REFILL * BURGHER_PLEDGE_ROUNDSTART_MULTIPLIER, CURRENCY_BURGHER_PLEDGE)
 	force_set_round_statistic(STATS_STARTING_TREASURY, discretionary_fund.balance)
+	record_round_statistic(STATS_PLEDGE_GENERATED, burgher_pledge_fund.balance)
+	record_round_statistic(STATS_RUMOR_POINTS_GENERATED, rumor_points)
 	init_decrees()
 
 	for(var/path in subtypesof(/datum/roguestock/bounty))
@@ -269,7 +271,7 @@ SUBSYSTEM_DEF(treasury)
 		if(!transfer(account, discretionary_fund, fine_amt, "[TAX_CATEGORY_FINE] ([source])"))
 			send_ooc_note("<b>MEISTER:</b> Error: Insufficient funds in the account to complete the fine.", name = target_name)
 			return FALSE
-		record_round_statistic(STATS_FINES_INCOME, -fine_amt)
+		record_round_statistic(STATS_FINES_INCOME, fine_amt)
 		send_ooc_note(source ? "<b>MEISTER:</b> You were fined [fine_amt]m. ([source])" : "<b>MEISTER:</b> You were fined [fine_amt]m.", name = target_name)
 		log_game("FINE: [usr ? key_name(usr) : "system"] fined [istype(target, /mob/living) ? key_name(target) : target_name] [fine_amt]m via [source || "unknown"]")
 		if(fine_owner)
@@ -338,7 +340,7 @@ SUBSYSTEM_DEF(treasury)
 				if(HAS_TRAIT(H, TRAIT_WAGES_SUSPENDED))
 					continue
 				if(give_money_account(payment_amount, H, "Daily Wage"))
-					record_round_statistic(STATS_WAGES_PAID)
+					record_round_statistic(STATS_WAGES_PAID, payment_amount)
 
 	if(SSeconomy)
 		SSeconomy.daily_tick()
@@ -346,10 +348,14 @@ SUBSYSTEM_DEF(treasury)
 /datum/controller/subsystem/treasury/proc/tick_rumor_points()
 	var/active = get_active_player_count()
 	var/refill = RUMOR_POINTS_BASE_REFILL + (RUMOR_POINTS_PER_PLAYER * active)
+	var/before = rumor_points
 	rumor_points += refill
 	var/ceiling = RUMOR_POINTS_CLAWBACK_MULTIPLIER * refill
 	if(rumor_points > ceiling)
 		rumor_points = ceiling
+	// Record the refill that actually stuck after clawback, so the chronicle reflects real
+	// generation rather than the gross theoretical amount.
+	record_round_statistic(STATS_RUMOR_POINTS_GENERATED, rumor_points - before)
 
 /datum/controller/subsystem/treasury/proc/tick_burgher_pledge()
 	if(!burgher_pledge_fund)
@@ -370,6 +376,7 @@ SUBSYSTEM_DEF(treasury)
 	mint(burgher_pledge_fund, refill, "Burgher Pledge replenishment")
 	if(guild_bonus > 0)
 		mint(burgher_pledge_fund, guild_bonus, "Guild of Arms tribute (Charter of Arms)")
+	record_round_statistic(STATS_PLEDGE_GENERATED, refill + guild_bonus)
 
 /datum/controller/subsystem/treasury/proc/do_export(var/datum/roguestock/D, silent = FALSE)
 	if(D.stockpile_amount < D.importexport_amt)
@@ -607,7 +614,9 @@ SUBSYSTEM_DEF(treasury)
 	return capitalize(category)
 
 /datum/controller/subsystem/treasury/proc/record_poll_tax_by_category(category, amount)
-	if(!category || amount <= 0)
+	// Negative amounts are valid: poll-tax subsidies (negative rates) flow Crown -> subject and
+	// must subtract from the running totals so the chronicle reflects net Crown intake per class.
+	if(!category || amount == 0)
 		return
 	record_round_statistic(STATS_POLL_TAX_COLLECTED, amount)
 	switch(category)
@@ -818,7 +827,8 @@ SUBSYSTEM_DEF(treasury)
 				continue
 			if(!transfer(discretionary_fund, account, subsidy, "Poll Subsidy ([category])"))
 				continue
-			record_round_statistic(STATS_POLL_TAX_COLLECTED, -subsidy)
+			// Record as a negative against the category - the breakdown shows net Crown intake.
+			record_poll_tax_by_category(category, -subsidy)
 			to_chat(owner, span_notice("<b>POLL SUBSIDY:</b> [subsidy]m granted by the Crown."))
 			continue
 

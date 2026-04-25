@@ -473,8 +473,8 @@
 			return
 		for(var/mob/living/carbon/human/H in GLOB.human_list)
 			if(H.job == job_to_pay)
-				record_round_statistic(STATS_WAGES_PAID)
-				SStreasury.give_money_account(amount_to_pay, H, "NERVE MASTER")
+				if(SStreasury.give_money_account(amount_to_pay, H, "NERVE MASTER"))
+					record_round_statistic(STATS_WAGES_PAID, amount_to_pay)
 	if(href_list["setdailypay"])
 		var/list/L = list(GLOB.noble_positions) + list(GLOB.retinue_positions) + list(GLOB.garrison_positions) + list(GLOB.courtier_positions) + list(GLOB.church_positions) + list(GLOB.burgher_positions) + list(GLOB.peasant_positions) + list(GLOB.sidefolk_positions) + list(GLOB.inquisition_positions)
 		var/list/things = list()

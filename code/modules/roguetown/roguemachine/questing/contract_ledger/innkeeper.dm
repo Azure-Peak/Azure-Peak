@@ -73,10 +73,12 @@
 		return
 
 	SStreasury.rumor_points -= cost
+	record_round_statistic(STATS_RUMOR_POINTS_CONSUMED, cost)
 	var/in_hands = params["in_hands"] ? TRUE : FALSE
 	var/datum/quest/dispatched = SSquestpool.issue_rumor_quest(chosen_type, chosen_region, chosen_destination, in_hands, innkeeper)
 	if(!dispatched)
 		SStreasury.rumor_points += cost
+		record_round_statistic(STATS_RUMOR_POINTS_CONSUMED, -cost)
 		to_chat(innkeeper, span_warning("No landmark could bear that rumor. Try another region or type."))
 		return
 	if(lucrative)
