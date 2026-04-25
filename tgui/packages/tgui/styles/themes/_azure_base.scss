@@ -33,6 +33,11 @@
   src: url('~roguefont/pterra.ttf');
 }
 
+@font-face {
+  font-family: 'MarkScript';
+  src: url('~roguefont/languages/MarkScript-Regular.ttf');
+}
+
 @mixin azure-theme($colors, $topbar-svg) {
   // ── Core variables ──────────────────────────────────────────────
   --color-base: #{map.get($colors, 'base')};

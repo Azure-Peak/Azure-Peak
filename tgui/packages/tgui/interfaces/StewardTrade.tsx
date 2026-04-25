@@ -29,7 +29,12 @@ export const StewardTrade = () => {
   const warrant = data.alderman_warrant;
 
   return (
-    <Window title="Steward's Trade Scroll" width={860} height={820}>
+    <Window
+      title="Steward's Trade Scroll"
+      width={860}
+      height={820}
+      theme="parchment"
+    >
       <Window.Content scrollable>
         <div style={pageStyle}>
           <div style={titleStyle}>Regions in Trade</div>

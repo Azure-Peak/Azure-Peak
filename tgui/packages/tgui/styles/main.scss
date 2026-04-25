@@ -26,6 +26,7 @@
 @include meta.load-css('./themes/azure_lingyue.scss');
 @include meta.load-css('./themes/trey_liam.scss');
 @include meta.load-css('./themes/grimoire.scss');
+@include meta.load-css('./themes/parchment.scss');
 
 // Interfaces
 @include meta.load-css('./interfaces/AlertModal.scss');

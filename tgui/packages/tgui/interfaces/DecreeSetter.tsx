@@ -46,7 +46,7 @@ export const DecreeSetter = () => {
   const restoreUsed = !!data.restore_used_today;
 
   return (
-    <Window width={560} height={640}>
+    <Window width={560} height={640} title="Royal Decrees" theme="parchment">
       <Window.Content scrollable>
         <Stack vertical>
           {(revokeUsed || restoreUsed) && (
