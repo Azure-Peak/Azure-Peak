@@ -74,6 +74,8 @@
 	)
 	preferred_tracks = list(
 		/mob/living/simple_animal/hostile/retaliate/rogue/direbear = "ursine",
+		/mob/living/simple_animal/hostile/retaliate/rogue/troll = "ursine",
+		/mob/living/simple_animal/hostile/retaliate/rogue/mole = "ursine",
 		/mob/living/simple_animal/hostile/retaliate/rogue/saiga/game = "cervine",
 		/mob/living/simple_animal/hostile/retaliate/rogue/boar = "suidae",
 	)
