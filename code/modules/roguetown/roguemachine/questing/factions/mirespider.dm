@@ -4,6 +4,7 @@
 	name_plural = "mirespiders"
 	group_word = "nest"
 	faction_tag = FACTION_SPIDERS
+	category = FACTION_CAT_BEAST
 	mob_types = list(
 		/mob/living/simple_animal/hostile/retaliate/rogue/spider = 70,
 		/mob/living/simple_animal/hostile/retaliate/rogue/spider/mutated = 20,

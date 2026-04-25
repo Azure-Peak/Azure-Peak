@@ -36,7 +36,7 @@
 	var/quest_icon = "scroll_quest"
 
 	/// Fallback reference to the spawned scroll
-	var/obj/item/paper/scroll/quest/quest_scroll
+	var/obj/item/quest_writ/quest_scroll
 	/// Weak reference to the quest scroll
 	var/datum/weakref/quest_scroll_ref
 	/// List of weakrefs to actual quest items/mobs for reducing overhead of compass.
@@ -62,6 +62,13 @@
 	var/is_directive = FALSE
 	/// Weakrefs to this quest's `/obj/effect/quest_spawn` pods — used to pop the whole encounter at once.
 	var/list/datum/weakref/spawners = list()
+	var/list/rolled_crimes
+	var/sacral_hook = FALSE
+	var/oath_breach = FALSE
+	var/condemnation_variant = ""
+	var/band_leader_name = ""
+	var/writ_type = WRIT_TYPE_OUTLAWRY
+	var/circumstance_text = ""
 
 /datum/quest/Destroy()
 	// Clean up mobs with quest components
@@ -88,7 +95,7 @@
 	// Clean up references
 	quest_scroll = null
 	if(quest_scroll_ref)
-		var/obj/item/paper/scroll/quest/Q = quest_scroll_ref.resolve()
+		var/obj/item/quest_writ/Q = quest_scroll_ref.resolve()
 		if(Q && !QDELETED(Q))
 			Q.assigned_quest = null
 			qdel(Q)
@@ -110,11 +117,28 @@
 	region = landmark.region
 	return TRUE
 
-/// Subtype preview chains call this at the end once target_mob_type / faction / etc. are set,
-/// so get_title() sees a fully populated quest state.
+/// Called by subtypes at end of preview() once faction / target / etc. are set.
 /datum/quest/proc/finalize_preview_title()
 	if(!title)
 		title = get_title()
+	if(!rolled_crimes && faction)
+		faction.compose_preamble(src)
+	if(!circumstance_text)
+		circumstance_text = roll_circumstance()
+
+/datum/quest/proc/roll_circumstance()
+	switch(writ_type)
+		if(WRIT_TYPE_RECOVERY)
+			return pick_recovery_circumstance()
+		if(WRIT_TYPE_CARRIAGE)
+			return pick_carriage_circumstance()
+	return ""
+
+/datum/quest/proc/get_named_target()
+	return null
+
+/datum/quest/proc/get_recovery_shipment_name()
+	return null
 
 /// Registers a quest_spawn pod so pop_all_spawners() can trigger the whole encounter at once.
 /datum/quest/proc/register_spawner(obj/effect/quest_spawn/spawner)
@@ -142,32 +166,24 @@
 /datum/quest/proc/get_objective_text()
 	return "Complete the objective."
 
-/// Get location text for scroll display
-/datum/quest/proc/get_location_text()
-	return target_spawn_area ? "Reported sighting in [target_spawn_area] region." : "Location unknown."
-
-/// Structured location fields for the TGUI scroll: list of list(label, value).
-/// Subtypes override to expose multiple rows (e.g. pickup + destination for Courier).
-/datum/quest/proc/get_location_fields()
-	if(target_spawn_area)
-		return list(list("Region", "[target_spawn_area]"))
-	return list(list("Location", "Unknown"))
-
 /// Hook for subtypes that need to stream live fields into the TGUI scroll view (e.g.
 /// blockade's wave timer). Subtypes mutate the passed list. Base does nothing.
 /datum/quest/proc/populate_scroll_ui_data(list/data)
+	return
+
+/// Static counterpart. Subtypes must pair changes with quest_scroll?.update_quest_text().
+/datum/quest/proc/populate_scroll_ui_static_data(list/data)
 	return
 
 /// Check if quest objectives are complete
 /datum/quest/proc/check_completion()
 	return progress_current >= progress_required
 
-/// Called when progress is updated
+/// Called when progress is updated. progress_current lives in ui_data and streams via
+/// the next TGUI tick — no need to push static data on every kill.
 /datum/quest/proc/on_progress_update()
 	if(check_completion())
 		mark_complete()
-	else
-		quest_scroll?.update_quest_text()
 
 /// Mark quest as complete
 /datum/quest/proc/mark_complete()
@@ -251,7 +267,7 @@
 		if(!F)
 			return "This contract requires a Fellowship of [required_fellowship_size]."
 		if(length(F.get_members()) < required_fellowship_size)
-			return "Your Fellowship is too small — requires [required_fellowship_size] members."
+			return "Your Fellowship is too small - requires [required_fellowship_size] members."
 	return "You cannot sign that contract."
 
 /// Called when quest is claimed by a user

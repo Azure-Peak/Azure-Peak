@@ -21,5 +21,5 @@ GLOBAL_LIST_EMPTY(active_blockades)
 	return get_quest_faction(faction_id)
 
 /datum/blockade/proc/has_active_scroll()
-	var/obj/item/paper/scroll/quest/S = active_scroll_ref?.resolve()
+	var/obj/item/quest_writ/S = active_scroll_ref?.resolve()
 	return !QDELETED(S)

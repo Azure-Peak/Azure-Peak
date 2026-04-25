@@ -14,8 +14,6 @@ export const SEAL_BLUE = '#2e4a78';
 export const SEAL_AMBER = '#7a5616';
 
 export const SERIF = '"Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif';
-export const HANDWRITTEN =
-  'MarkScript, "Segoe Script", "Lucida Calligraphy", "Apple Chancery", cursive';
 
 // ── Shared styles ────────────────────────────────────────────────
 export const pageStyle: CSSProperties = {
@@ -175,12 +173,6 @@ export const fieldValueStyle: CSSProperties = {
   flex: 1,
   fontFamily: SERIF,
   fontSize: '14px',
-};
-
-export const handwrittenValueStyle: CSSProperties = {
-  ...fieldValueStyle,
-  fontFamily: HANDWRITTEN,
-  fontSize: '16px',
 };
 
 export const framedShellStyle: CSSProperties = {

@@ -1,5 +1,6 @@
 /datum/quest/retrieval
 	quest_type = QUEST_RETRIEVAL
+	writ_type = WRIT_TYPE_RECOVERY
 	var/list/fetch_items = list(
 		/obj/item/rogueweapon/huntingknife/throwingknife/steel,
 		/obj/item/rogueweapon/huntingknife,

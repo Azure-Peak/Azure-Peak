@@ -65,20 +65,13 @@
 		return "[wave_label]. Hold the line."
 	return "[wave_label]. Rout the [faction.name_plural]."
 
-/datum/quest/kill/blockade_defense/get_location_text()
-	var/datum/blockade/B = blockade_ref?.resolve()
-	var/datum/economic_region/ER = B?.get_region()
-	if(ER)
-		return "Blockade reported at the [ER.name] trade road."
-	return ..()
-
-/// Streams live wave/arm state into the TGUI scroll view. Read by QuestScroll.tsx to render
-/// the countdown block. Keep cheap - populate_scroll_ui_data is called every ui_data tick.
-/datum/quest/kill/blockade_defense/populate_scroll_ui_data(list/data)
+/datum/quest/kill/blockade_defense/populate_scroll_ui_static_data(list/data)
 	data["blockade_total_waves"] = BLOCKADE_TOTAL_WAVES
 	data["blockade_current_wave"] = current_wave
 	data["blockade_armed"] = armed ? TRUE : FALSE
 	data["blockade_failed"] = failed ? TRUE : FALSE
+
+/datum/quest/kill/blockade_defense/populate_scroll_ui_data(list/data)
 	var/active_timer_id
 	var/label
 	if(armed && arm_timer_id)
@@ -181,7 +174,6 @@
 	if(wave_num != current_wave)
 		return
 	announce_to_bearer("<b>Wave [wave_num]:</b> [label] remaining.")
-	quest_scroll?.update_quest_text()
 
 /datum/quest/kill/blockade_defense/proc/clear_wave_timers()
 	if(wave_timer_id)
@@ -198,7 +190,6 @@
 	if(failed || complete)
 		return
 	if(progress_current < progress_required)
-		quest_scroll?.update_quest_text()
 		return
 	clear_wave_timers()
 	if(current_wave >= BLOCKADE_TOTAL_WAVES)
@@ -228,7 +219,8 @@
 	if(B)
 		B.active_scroll_ref = null
 	despawn_live_wave_mobs()
-	var/obj/item/paper/scroll/quest/S = quest_scroll
+	quest_scroll?.update_quest_text()
+	var/obj/item/quest_writ/S = quest_scroll
 	if(S && !QDELETED(S))
 		qdel(S)
 
@@ -277,7 +269,7 @@
 		SStreasury.mint(funding_fund, funding_cost, "Blockade writ recall refund ([recaller ? recaller.real_name : "unknown"])")
 		if(funding_fund == SStreasury.burgher_pledge_fund)
 			record_round_statistic(STATS_PLEDGE_CONSUMED, -funding_cost)
-	var/obj/item/paper/scroll/quest/S = quest_scroll
+	var/obj/item/quest_writ/S = quest_scroll
 	if(S && !QDELETED(S))
 		qdel(S)
 	return TRUE
@@ -313,9 +305,9 @@
 			announce_to_bearer("The final wave breaks. The rewards have been transferred to your account.")
 		else
 			SStreasury.mint(SStreasury.discretionary_fund, payout, "Blockade defense reward (unbanked bearer)")
-			announce_to_bearer("The final wave breaks. The Crown holds your share — return to the Nerve Master to collect.")
+			announce_to_bearer("The final wave breaks. The Crown holds your share - return to the Nerve Master to collect.")
 	else
-		announce_to_bearer("The final wave breaks. This was a Request — no reward is due.")
-	var/obj/item/paper/scroll/quest/S = quest_scroll
+		announce_to_bearer("The final wave breaks. This was a Request - no reward is due.")
+	var/obj/item/quest_writ/S = quest_scroll
 	if(S && !QDELETED(S))
 		qdel(S)

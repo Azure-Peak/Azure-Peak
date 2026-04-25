@@ -50,6 +50,8 @@
 	if(!target_mob_type)
 		return FALSE
 	progress_required = estimate_mob_count()
+	if(faction.boss_name_file)
+		band_leader_name = faction.generate_boss_name()
 	finalize_preview_title()
 	return TRUE
 

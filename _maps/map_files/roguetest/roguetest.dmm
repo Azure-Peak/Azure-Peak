@@ -922,6 +922,10 @@
 	},
 /turf/open/floor/rogue/blocks/stonered/tiny,
 /area/rogue/indoors)
+"Cz" = (
+/obj/item/rogueweapon/sword/long/judgement/ascendant/tester,
+/turf/open/floor/rogue/dirt/road,
+/area/rogue/outdoors)
 "CB" = (
 /mob/living/simple_animal/hostile/retaliate/rogue/trufflepig,
 /turf/open/floor/rogue/hay,
@@ -3019,7 +3023,7 @@ AX
 Va
 yK
 yK
-rT
+Cz
 rb
 rT
 rT

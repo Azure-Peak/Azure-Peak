@@ -172,7 +172,8 @@
 	var/is_quest_giver = FALSE
 
 	/// How many quests this job can take at once
-	var/max_active_quests = 2
+	// TEMP: bumped from 2 to 12 for writ-system testing - revert before merge.
+	var/max_active_quests = 12
 
 
 /datum/job/proc/special_job_check(mob/dead/new_player/player)

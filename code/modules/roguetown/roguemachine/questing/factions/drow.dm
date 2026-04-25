@@ -5,6 +5,7 @@
 	group_word = "patrol"
 	faction_tag = FACTION_DROW
 	can_blockade = TRUE
+	category = FACTION_CAT_DROW
 	mob_types = list(
 		/mob/living/carbon/human/species/elf/dark/drowraider/ambush = 70,
 		/mob/living/simple_animal/hostile/retaliate/rogue/drider = 15,

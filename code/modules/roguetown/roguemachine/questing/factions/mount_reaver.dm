@@ -5,6 +5,7 @@
 	group_word = "gang"
 	faction_tag = FACTION_BANDITS
 	can_blockade = TRUE
+	category = FACTION_CAT_HUMANOID
 	mob_types = list(
 		/mob/living/carbon/human/species/human/northern/highwayman/mount_reaver = 70,
 		/mob/living/carbon/human/species/human/northern/highwayman/ambush = 30,

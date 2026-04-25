@@ -67,7 +67,8 @@ GLOBAL_LIST_INIT(defense_quest_tier_costs, list(
 
 
 // Jobs may override via /datum/job.max_active_quests.
-#define QUEST_MAX_ACTIVE_PER_PLAYER 2
+// TEMP: bumped from 2 to 12 for writ-system testing - revert before merge.
+#define QUEST_MAX_ACTIVE_PER_PLAYER 12
 
 // Townies (non-Adventurer/Mercenary) can't sign contracts for the first hour.
 // Protects the adventurer niche during the early round.
@@ -90,8 +91,9 @@ GLOBAL_LIST_INIT(defense_quest_tier_costs, list(
 // Per-ckey take cooldown. Once you've taken QUEST_TAKE_COOLDOWN_SLOTS contracts within
 // QUEST_TAKE_COOLDOWN, you must wait for the oldest take to expire before the next sign.
 // Abandoning does not reset this; the deposit forfeit is the abandon penalty.
+// TEMP: slots bumped from 2 to 100 for writ-system testing - revert before merge.
 #define QUEST_TAKE_COOLDOWN (10 MINUTES)
-#define QUEST_TAKE_COOLDOWN_SLOTS 2
+#define QUEST_TAKE_COOLDOWN_SLOTS 100
 
 // Weights for picking which kill / bounty quest type to spawn. Difficulty no longer gates
 // generation — region selection and per-region allowed_quest_types handle that. Raid and

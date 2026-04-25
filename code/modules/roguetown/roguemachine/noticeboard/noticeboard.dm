@@ -28,8 +28,8 @@
 	SSroguemachine.noticeboards += src
 
 /obj/structure/roguemachine/noticeboard/attackby(obj/item/P, mob/living/carbon/human/user, params)
-	if(istype(P, /obj/item/paper/scroll/quest/blockade))
-		var/obj/item/paper/scroll/quest/blockade/B = P
+	if(istype(P, /obj/item/quest_writ/blockade))
+		var/obj/item/quest_writ/blockade/B = P
 		if(B.assigned_quest?.is_directive)
 			to_chat(user, span_warning("A Steward's request is not for public posting - it must be handed directly to the bearer."))
 			return

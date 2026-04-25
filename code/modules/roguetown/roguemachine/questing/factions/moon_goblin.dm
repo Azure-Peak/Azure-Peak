@@ -5,6 +5,7 @@
 	group_word = "warband"
 	faction_tag = FACTION_ORCS
 	can_blockade = TRUE
+	category = FACTION_CAT_GOBLINOID
 	mob_types = list(
 		/mob/living/carbon/human/species/goblin/npc/ambush/moon = 80,
 		/mob/living/simple_animal/hostile/retaliate/rogue/troll/cave = 10,

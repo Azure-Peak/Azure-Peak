@@ -49,7 +49,7 @@
 		return
 
 	var/list/user_scrolls = find_quest_scrolls(user)
-	for(var/obj/item/paper/scroll/quest/scroll in user_scrolls)
+	for(var/obj/item/quest_writ/scroll in user_scrolls)
 		var/datum/quest/user_quest = scroll.assigned_quest
 		if(user_quest && ((user_quest.quest_type == QUEST_RETRIEVAL && istype(parent, user_quest.target_item_type)) || \
 						(user_quest.quest_type == QUEST_COURIER && istype(parent, user_quest.target_delivery_item))))
@@ -64,7 +64,7 @@
 		return
 
 	var/list/user_scrolls = find_quest_scrolls(user)
-	for(var/obj/item/paper/scroll/quest/scroll in user_scrolls)
+	for(var/obj/item/quest_writ/scroll in user_scrolls)
 		var/datum/quest/user_quest = scroll.assigned_quest
 		if(user_quest && (user_quest.quest_type in list(QUEST_KILL_EASY, QUEST_CLEAR_OUT, QUEST_RAID, QUEST_BOUNTY)) && istype(parent, user_quest.target_mob_type))
 			examine_list += span_notice("This looks like the target of your quest: [user_quest.title]!")
@@ -74,7 +74,7 @@
 
 /datum/component/quest_object/proc/find_quest_scrolls(atom/container)
 	var/list/scrolls = list()
-	for(var/obj/item/paper/scroll/quest/Q in container)
+	for(var/obj/item/quest_writ/Q in container)
 		scrolls += Q
 	for(var/obj/item/storage/S in container)
 		scrolls += find_quest_scrolls(S)

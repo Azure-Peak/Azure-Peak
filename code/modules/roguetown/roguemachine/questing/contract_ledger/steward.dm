@@ -23,7 +23,7 @@
 /obj/structure/roguemachine/contractledger/proc/build_blockade_recall_list()
 	var/list/out = list()
 	for(var/datum/blockade/B as anything in GLOB.active_blockades)
-		var/obj/item/paper/scroll/quest/S = B.active_scroll_ref?.resolve()
+		var/obj/item/quest_writ/S = B.active_scroll_ref?.resolve()
 		if(!S || QDELETED(S))
 			continue
 		var/datum/quest/kill/blockade_defense/Q = S.assigned_quest
@@ -315,7 +315,7 @@
 	if(!chosen)
 		to_chat(steward, span_warning("That region is not currently blockaded."))
 		return
-	var/obj/item/paper/scroll/quest/S = chosen.active_scroll_ref?.resolve()
+	var/obj/item/quest_writ/S = chosen.active_scroll_ref?.resolve()
 	if(!S || QDELETED(S))
 		to_chat(steward, span_warning("No writ is in circulation for that blockade."))
 		return

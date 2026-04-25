@@ -46,9 +46,11 @@ GLOBAL_LIST_INIT(quest_bounty_goblin_goons, list(
 			return FALSE
 		boss_name = faction.generate_boss_name()
 	progress_required = 1
-	if(!title)
-		title = get_title()
+	finalize_preview_title()
 	return TRUE
+
+/datum/quest/kill/bounty/get_named_target()
+	return boss_name
 
 /datum/quest/kill/bounty/get_title()
 	if(title)
@@ -61,9 +63,6 @@ GLOBAL_LIST_INIT(quest_bounty_goblin_goons, list(
 	if(!boss_name)
 		return "Slay [initial(target_mob_type.name)]."
 	return "Slay [boss_name] and the gang that shelters them."
-
-/datum/quest/kill/bounty/get_location_text()
-	return target_spawn_area ? "Last seen in [target_spawn_area] region." : "Location unknown."
 
 /datum/quest/kill/bounty/get_additional_reward(turf/origin_turf, turf/target_turf)
 	if(!target_mob_type)

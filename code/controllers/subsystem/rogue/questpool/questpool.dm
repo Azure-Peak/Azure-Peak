@@ -241,7 +241,7 @@ SUBSYSTEM_DEF(questpool)
 		if(!Q.materialize(landmark))
 			qdel(Q)
 			return null
-		var/obj/item/paper/scroll/quest/scroll = new(get_turf(innkeeper))
+		var/obj/item/quest_writ/scroll = new(get_turf(innkeeper))
 		scroll.base_icon_state = Q.get_scroll_icon()
 		scroll.assigned_quest = Q
 		Q.quest_scroll = scroll
@@ -296,7 +296,7 @@ SUBSYSTEM_DEF(questpool)
 		if(!Q.materialize(landmark))
 			qdel(Q)
 			return null
-		var/obj/item/paper/scroll/quest/scroll = new(get_turf(steward))
+		var/obj/item/quest_writ/scroll = new(get_turf(steward))
 		scroll.base_icon_state = Q.get_scroll_icon()
 		scroll.assigned_quest = Q
 		Q.quest_scroll = scroll
@@ -343,7 +343,7 @@ SUBSYSTEM_DEF(questpool)
 	Q.funding_fund = source_fund
 	Q.funding_cost = cost
 	Q.issued_at = world.time
-	var/obj/item/paper/scroll/quest/blockade/scroll = new(get_turf(steward))
+	var/obj/item/quest_writ/blockade/scroll = new(get_turf(steward))
 	scroll.base_icon_state = Q.get_scroll_icon()
 	scroll.assigned_quest = Q
 	Q.quest_scroll = scroll
@@ -534,7 +534,7 @@ SUBSYSTEM_DEF(questpool)
 		return 0
 	var/datum/weakref/user_ref = WEAKREF(user)
 	var/count = 0
-	for(var/obj/item/paper/scroll/quest/scroll in GLOB.quest_scrolls)
+	for(var/obj/item/quest_writ/scroll in GLOB.quest_scrolls)
 		var/datum/quest/Q = scroll.assigned_quest
 		if(!Q || Q.complete)
 			continue

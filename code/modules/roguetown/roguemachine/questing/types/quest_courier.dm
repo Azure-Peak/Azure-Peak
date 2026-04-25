@@ -1,5 +1,6 @@
 /datum/quest/courier
 	quest_type = QUEST_COURIER
+	writ_type = WRIT_TYPE_CARRIAGE
 	var/list/target_delivery_locations = list(
 		/area/rogue/indoors/town/tavern,
 		/area/rogue/indoors/town/church,
@@ -20,20 +21,6 @@
 
 /datum/quest/courier/get_objective_text()
 	return "Deliver [initial(target_delivery_item.name)] to [initial(target_delivery_location.name)]."
-
-/datum/quest/courier/get_location_text()
-	var/text = ""
-	if(target_spawn_area)
-		text += "Pickup location: Reported sighting in [target_spawn_area] region.<br>"
-	text += "Destination: [initial(target_delivery_location.name)]."
-	return text
-
-/datum/quest/courier/get_location_fields()
-	var/list/out = list()
-	if(target_spawn_area)
-		out += list(list("Pickup", "[target_spawn_area] region"))
-	out += list(list("Destination", "[initial(target_delivery_location.name)]"))
-	return out
 
 /datum/quest/courier/get_additional_reward(turf/origin_turf, turf/target_turf)
 	var/distance = CLAMP(get_dist(origin_turf, target_turf), 0, 200)

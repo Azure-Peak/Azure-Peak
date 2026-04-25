@@ -45,7 +45,7 @@
 
 /obj/structure/roguemachine/contractledger/attackby(obj/item/P, mob/living/carbon/human/user, params)
 	. = ..()
-	if(istype(P, /obj/item/paper/scroll/quest))
+	if(istype(P, /obj/item/quest_writ))
 		turn_in_contract(user, P)
 		return
 	return
@@ -193,7 +193,7 @@ GLOBAL_LIST_INIT(contract_ledger_commission_roles, list(
 /obj/structure/roguemachine/contractledger/proc/build_active_listing(mob/user)
 	var/list/listing = list()
 	var/datum/weakref/user_ref = WEAKREF(user)
-	for(var/obj/item/paper/scroll/quest/scroll in GLOB.quest_scrolls)
+	for(var/obj/item/quest_writ/scroll in GLOB.quest_scrolls)
 		var/datum/quest/Q = scroll.assigned_quest
 		if(!Q)
 			continue
@@ -215,7 +215,7 @@ GLOBAL_LIST_INIT(contract_ledger_commission_roles, list(
 /obj/structure/roguemachine/contractledger/proc/count_user_active_contracts(mob/user)
 	var/datum/weakref/user_ref = WEAKREF(user)
 	var/count = 0
-	for(var/obj/item/paper/scroll/quest/scroll in GLOB.quest_scrolls)
+	for(var/obj/item/quest_writ/scroll in GLOB.quest_scrolls)
 		var/datum/quest/Q = scroll.assigned_quest
 		if(!Q || Q.complete)
 			continue

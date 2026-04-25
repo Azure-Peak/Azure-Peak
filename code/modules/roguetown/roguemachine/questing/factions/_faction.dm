@@ -14,6 +14,9 @@ GLOBAL_LIST_EMPTY(quest_factions)
 	/// Blockade defense pool. Bestial factions stay out — multi-wave timed fights need
 	/// mobs that can pathfind and coordinate.
 	var/can_blockade = FALSE
+	var/category = FACTION_CAT_HUMANOID
+	var/list/crime_weights
+	var/progress_noun = "malefactors"
 
 /datum/quest_faction/New()
 	if(!id)
@@ -56,7 +59,63 @@ GLOBAL_LIST_EMPTY(quest_factions)
 		return null
 	return pickweight(mob_types)
 
+/// At least one non-petty crime is guaranteed when any are available, so a writ
+/// composed from a pool that includes petty entries still reads as a real death-warrant.
+/datum/quest_faction/proc/pick_crimes(count = 3)
+	if(!length(crime_weights) || count <= 0)
+		return list()
+	var/list/picked = list()
+	var/list/pool = crime_weights.Copy()
+	var/list/serious_pool = list()
+	for(var/id in pool)
+		var/datum/quest_crime/C = get_quest_crime(id)
+		if(C && C.tier >= CRIME_TIER_COMMON)
+			serious_pool[id] = pool[id]
+	if(length(serious_pool))
+		var/serious_id = pickweight(serious_pool)
+		if(serious_id)
+			picked += serious_id
+			pool -= serious_id
+	while(length(picked) < count && length(pool))
+		var/id = pickweight(pool)
+		if(!id)
+			break
+		picked += id
+		pool -= id
+	return picked
+
+/datum/quest_faction/proc/render_crimes(list/ids)
+	var/list/out = list()
+	for(var/id in ids)
+		var/datum/quest_crime/C = get_quest_crime(id)
+		if(!C)
+			continue
+		var/phrase = C.render()
+		if(phrase)
+			out += phrase
+	return out
+
+/datum/quest_faction/proc/crimes_invoke_tens(list/ids)
+	for(var/id in ids)
+		var/datum/quest_crime/C = get_quest_crime(id)
+		if(!C)
+			continue
+		if(C.tier >= CRIME_TIER_SACRAL)
+			return TRUE
+	return FALSE
+
+/datum/quest_faction/proc/crimes_invoke_oath(list/ids)
+	for(var/id in ids)
+		var/datum/quest_crime/C = get_quest_crime(id)
+		if(!C)
+			continue
+		if(C.tier == CRIME_TIER_OATH)
+			return TRUE
+	return FALSE
+
 /proc/init_quest_factions()
+	init_quest_crimes()
+	init_writ_circumstances()
 	GLOB.quest_factions = list()
 	for(var/path in subtypesof(/datum/quest_faction))
 		var/datum/quest_faction/F = new path()

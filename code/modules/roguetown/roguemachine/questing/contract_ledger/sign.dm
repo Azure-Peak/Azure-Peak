@@ -46,7 +46,7 @@
 
 	SSquestpool.mark_taken(user)
 
-	var/obj/item/paper/scroll/quest/spawned_scroll = new(get_turf(src))
+	var/obj/item/quest_writ/spawned_scroll = new(get_turf(src))
 	user.put_in_hands(spawned_scroll)
 	log_quest(user.ckey, user.mind, user, "Sign [Q.quest_type]")
 	spawned_scroll.base_icon_state = Q.get_scroll_icon()
@@ -57,14 +57,14 @@
 
 	SStreasury.transfer(SStreasury.get_account(user), SStreasury.discretionary_fund, deposit, "quest deposit")
 
-/obj/structure/roguemachine/contractledger/proc/turn_in_contract(mob/user, obj/item/paper/scroll/quest/scroll_in_hand)
+/obj/structure/roguemachine/contractledger/proc/turn_in_contract(mob/user, obj/item/quest_writ/scroll_in_hand)
 	var/list/mob/quest_assignees = scroll_in_hand.get_quest_assignees(user, TRUE)
 	if(!(user in quest_assignees))
 		to_chat(user, span_warning("You are not the assigned quest receiver for this contract!"))
 		return
 	turn_in_scroll(user, scroll_in_hand)
 
-/obj/structure/roguemachine/contractledger/proc/turn_in_scroll(mob/user, obj/item/paper/scroll/quest/scroll)
+/obj/structure/roguemachine/contractledger/proc/turn_in_scroll(mob/user, obj/item/quest_writ/scroll)
 	if(!scroll.assigned_quest?.complete)
 		return
 
@@ -109,9 +109,9 @@
 	if(!ref)
 		return
 	var/datum/weakref/user_ref = WEAKREF(user)
-	var/obj/item/paper/scroll/quest/matched_scroll
+	var/obj/item/quest_writ/matched_scroll
 	var/datum/quest/matched_quest
-	for(var/obj/item/paper/scroll/quest/scroll in GLOB.quest_scrolls)
+	for(var/obj/item/quest_writ/scroll in GLOB.quest_scrolls)
 		var/datum/quest/Q = scroll.assigned_quest
 		if(!Q || Q.quest_receiver_reference != user_ref)
 			continue
