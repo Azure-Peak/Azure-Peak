@@ -22,6 +22,7 @@ type Contract = {
   levy_exempt: BooleanLike;
   is_rumor: BooleanLike;
   is_defense: BooleanLike;
+  required_fellowship_size: number;
 };
 
 type ActiveContract = {
@@ -280,6 +281,17 @@ const ContractCard = (props: { contract: Contract }) => {
         <span className="ContractLedger__CardLabel">Difficulty</span>
         <span className="ContractLedger__CardValue">{c.difficulty}</span>
       </div>
+      {c.required_fellowship_size > 0 && (
+        <div className="ContractLedger__CardRow">
+          <span className="ContractLedger__CardLabel">Fellowship</span>
+          <span
+            className="ContractLedger__CardValue"
+            style={{ color: '#8b1a1a', fontWeight: 'bold' }}
+          >
+            min {c.required_fellowship_size}
+          </span>
+        </div>
+      )}
       <div className="ContractLedger__CardRow">
         <span className="ContractLedger__CardLabel">Reward</span>
         <span className="ContractLedger__CardValue">{c.reward}</span>

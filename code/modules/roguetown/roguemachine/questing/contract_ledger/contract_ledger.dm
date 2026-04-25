@@ -186,6 +186,7 @@ GLOBAL_LIST_INIT(contract_ledger_commission_roles, list(
 			"levy_exempt" = Q.levy_exempt,
 			"is_rumor" = Q.source == QUEST_SOURCE_RUMOR,
 			"is_defense" = Q.source == QUEST_SOURCE_DEFENSE,
+			"required_fellowship_size" = Q.required_fellowship_size,
 		))
 	return listing
 
