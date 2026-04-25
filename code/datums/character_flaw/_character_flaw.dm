@@ -681,17 +681,21 @@ GLOBAL_LIST_INIT(averse_factions, list(
 
 /datum/charflaw/indebted/proc/calculate_childsupport(mob/deadbeat)
 	// Always reschedule first, regardless of outcome, so a broke debtor doesn't re-enter every
-	// life tick and spam "No fineable amount remains."
+	// life tick and spam.
 	next_alimony = world.time + interval
-	var/bankamt = SStreasury.get_balance(deadbeat)
+	// Bypass give_money_account's fine path - Indebted is a personal debt to an NPC creditor, not
+	// a Crown fine, so the per-day fine cap and rate cap added for Steward abuse don't apply.
+	var/datum/fund/account = SStreasury.get_account(deadbeat)
+	var/bankamt = account ? account.balance : 0
 	var/alimony = minimum
 	if(bankamt > minimum)
 		if((bankamt * relative) > minimum)
 			alimony = round(bankamt * relative)
-		SStreasury.give_money_account(-alimony, deadbeat, "Debts")
+		if(SStreasury.burn(account, alimony, "Debts"))
+			send_ooc_note("<b>MEISTER:</b> [alimony]m was taken in debts owed.", name = deadbeat.real_name)
 	else
-		if(bankamt > 0)
-			SStreasury.give_money_account(-bankamt, deadbeat, "Defaulted Debts")
+		if(bankamt > 0 && SStreasury.burn(account, bankamt, "Defaulted Debts"))
+			send_ooc_note("<b>MEISTER:</b> [bankamt]m was taken in defaulted debts.", name = deadbeat.real_name)
 		deadbeat.add_stress(/datum/stressevent/debt)
 		if(!bounty_added)
 			if(ishuman(deadbeat))

@@ -143,8 +143,9 @@
 	desc = "Stripped hide from animals."
 	item_type = /obj/item/natural/hide
 	trade_good_id = TRADE_GOOD_HIDE
+	stockpile_amount = 10
 	importexport_amt = 5
-	stockpile_limit = 25
+	stockpile_limit = 50
 
 /datum/roguestock/stockpile/fur
 	name = "Fur"

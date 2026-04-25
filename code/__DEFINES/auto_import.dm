@@ -8,7 +8,9 @@
 	TRADE_GOOD_COAL,\
 	TRADE_GOOD_WOOD,\
 	TRADE_GOOD_GRAIN,\
-	TRADE_GOOD_IRON_ORE\
+	TRADE_GOOD_IRON_ORE,\
+	TRADE_GOOD_HIDE,\
+	TRADE_GOOD_FAT\
 )
 
 /// Stockpile floor. If stockpile holds fewer than this many units of an auto-imported

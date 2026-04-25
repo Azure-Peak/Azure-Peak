@@ -167,6 +167,7 @@ GLOBAL_LIST_INIT(economic_regions, init_economic_regions())
 		TRADE_GOOD_DENDOR_ESSENCE = 1, // literal: deliberately scarce, not category-bound
 		TRADE_GOOD_CALENDULA = TG_SUPPLY_SPECIALTY_HERB,
 		TRADE_GOOD_CLAY = TG_SUPPLY_CHEAP_RAW_MAT,
+		TRADE_GOOD_HIDE = 2, // literal: bog-game byproduct, backup supply if Rosawood is blockaded
 	)
 	demands = list(
 		TRADE_GOOD_IRON_INGOT = TG_DEMAND_REFINED_INGOTS,

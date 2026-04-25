@@ -39,8 +39,9 @@
 	desc = "Greasy flesh from an animal."
 	item_type = /obj/item/reagent_containers/food/snacks/fat
 	trade_good_id = TRADE_GOOD_FAT
+	stockpile_amount = 10
 	importexport_amt = 5
-	stockpile_limit = 25
+	stockpile_limit = 50
 	category = "Animal"
 
 /datum/roguestock/stockpile/tallow
