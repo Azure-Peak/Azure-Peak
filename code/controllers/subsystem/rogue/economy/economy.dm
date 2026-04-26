@@ -78,6 +78,7 @@ SUBSYSTEM_DEF(economy)
 			/datum/standing_order/demand_fine_joinery,
 			/datum/standing_order/demand_jewelry,
 			/datum/standing_order/demand_tournament_supply,
+			/datum/standing_order/demand_trophy_heads,
 		),
 		TRADE_REGION_DAFTSMARCH = list(
 			/datum/standing_order/demand_construction,
@@ -148,6 +149,7 @@ SUBSYSTEM_DEF(economy)
 			/datum/standing_order/demand_prosthetic_run,
 			/datum/standing_order/demand_artificed_panoply,
 			/datum/standing_order/demand_tournament_supply,
+			/datum/standing_order/demand_trophy_heads,
 		),
 	)
 	// possible_standing_order_types is an assoc list of template_path -> roll_weight,

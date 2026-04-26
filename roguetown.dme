@@ -2878,6 +2878,7 @@
 #include "code\modules\roguetown\roguestock\trade_goods\precious.dm"
 #include "code\modules\roguetown\roguestock\trade_goods\seafood.dm"
 #include "code\modules\roguetown\roguestock\trade_goods\textile.dm"
+#include "code\modules\roguetown\roguestock\trade_goods\trophy_heads.dm"
 #include "code\modules\sexcon\components\arousal.dm"
 #include "code\modules\sexcon\components\knotting.dm"
 #include "code\modules\sexcon\sex_organs\breasts.dm"

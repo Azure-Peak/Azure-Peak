@@ -63,11 +63,12 @@ GLOBAL_LIST_INIT(petition_categories, build_petition_categories())
 	)
 	cats[PETITION_CATEGORY_MASTERWORK] = list(
 		"label" = "Masterwork",
-		"description" = "Showpiece commissions - artificed panoply, tournament provision.",
+		"description" = "Showpiece commissions - artificed panoply, tournament provision, hunt trophies.",
 		"cost" = PETITION_COST_MASTERWORK,
 		"templates" = list(
 			/datum/standing_order/demand_artificed_panoply,
 			/datum/standing_order/demand_tournament_supply,
+			/datum/standing_order/demand_trophy_heads,
 		),
 	)
 	return cats

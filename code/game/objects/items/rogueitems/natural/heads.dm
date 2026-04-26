@@ -70,7 +70,7 @@
 	desc = "The head of a terrifying direbear."
 	icon_state = "direbearhead"
 	layer = 3.1
-	sellprice = 20
+	sellprice = 40
 
 /obj/item/natural/head/mole
 	name = "mole head"

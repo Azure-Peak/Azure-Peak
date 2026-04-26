@@ -160,6 +160,13 @@
 // Trapmaking (finished)
 #define TRADE_GOOD_MANTRAP "MANTRAP"
 
+// Trophy heads (finished, fulfilled via warehouse). Sourced from existing kill quests
+// in the troll/minotaur factions, plus the rare White Stag boss spawn.
+#define TRADE_GOOD_TROPHY_WHITE_STAG "TROPHY_WHITE_STAG"
+#define TRADE_GOOD_TROPHY_MINOTAUR "TROPHY_MINOTAUR"
+#define TRADE_GOOD_TROPHY_DIREBEAR "TROPHY_DIREBEAR"
+#define TRADE_GOOD_TROPHY_TROLL "TROPHY_TROLL"
+
 // Potions (finished alchemy, fulfilled via warehouse by reagent volume, any container)
 #define TRADE_GOOD_HEALTH_POTION "HEALTH_POTION"
 #define TRADE_GOOD_STRONG_HEALTH_POTION "STRONG_HEALTH_POTION"

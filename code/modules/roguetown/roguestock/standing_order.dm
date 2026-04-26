@@ -1000,3 +1000,52 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 	if(length(projects))
 		return "[capitalize(pick(projects))] at [region.name] requires arms, armor, draughts, and feast-fare. The patrons pay accordingly."
 	return "A great tournament at [region.name] requires arms, armor, draughts, and feast-fare. The patrons pay accordingly."
+
+
+/datum/standing_order/demand_trophy_heads
+	roll_weight = 1
+	var/list/project_by_region = list(
+		TRADE_REGION_HEARTFELT = list("the count's manor hall", "a marcher lord's gallery", "the heralds' lodge"),
+		TRADE_REGION_ROCKHILL = list("the orchard-lord's hunt hall", "the master-of-hounds at Vespermill", "a viscount's trophy room"),
+	)
+	/// Variant the order rolled. Set in generate_item_mix and read by generate_description.
+	var/rolled_variant = "minotaur"
+
+/datum/standing_order/demand_trophy_heads/generate_item_mix()
+	var/list/mix = list()
+	var/roll = rand(1, 100)
+	if(roll <= 30)
+		// White Stag — singular, no other heads. The bearer must trigger the boss spawn.
+		rolled_variant = "white_stag"
+		mix[TRADE_GOOD_TROPHY_WHITE_STAG] = 1
+	else if(roll <= 65)
+		// Minotaur + a couple of direbears.
+		rolled_variant = "minotaur"
+		mix[TRADE_GOOD_TROPHY_MINOTAUR] = rand(3, 6)
+		if(prob(60))
+			mix[TRADE_GOOD_TROPHY_DIREBEAR] = rand(1, 2)
+	else
+		// Regular troll heads only — exact-type match excludes axe/cave subtypes.
+		rolled_variant = "troll"
+		mix[TRADE_GOOD_TROPHY_TROLL] = rand(5, 6)
+	return mix
+
+/datum/standing_order/demand_trophy_heads/generate_name(datum/economic_region/region)
+	switch(rolled_variant)
+		if("white_stag")
+			return "[uppertext(region.name)] - WHITE STAG TROPHY"
+		if("troll")
+			return "[uppertext(region.name)] - TROLL HEADS"
+		else
+			return "[uppertext(region.name)] - MANOR TROPHIES"
+
+/datum/standing_order/demand_trophy_heads/generate_description(datum/economic_region/region)
+	var/list/projects = project_by_region[region.region_id]
+	var/patron = length(projects) ? capitalize(pick(projects)) : "A noble house"
+	switch(rolled_variant)
+		if("white_stag")
+			return "[patron] at [region.name] would mount the White Stag's head above their hearth. None other will do."
+		if("troll")
+			return "[patron] at [region.name] would line their hall with troll heads - a warning to any who would test the marches."
+		else
+			return "[patron] at [region.name] commissions trophies for their gallery - heads of the wild brought to heel."
