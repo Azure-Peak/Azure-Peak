@@ -79,6 +79,11 @@
 	if(!scroll.assigned_quest?.complete)
 		return
 
+	var/datum/fund/user_account = SStreasury.get_account(user)
+	if(!user_account)
+		say("No account on record - register with a Meister before turning in the contract.")
+		return
+
 	var/base_reward = scroll.assigned_quest.reward_amount
 	var/deposit_return = scroll.assigned_quest.calculate_deposit()
 	var/gross_reward = round(base_reward + deposit_return)
@@ -88,11 +93,6 @@
 	var/quest_levy_exempt = completed_quest.levy_exempt
 	qdel(scroll.assigned_quest)
 	qdel(scroll)
-
-	var/datum/fund/user_account = SStreasury.get_account(user)
-	if(!user_account)
-		say("No account on record - reward cannot be paid.")
-		return
 
 	SStreasury.mint(user_account, gross_reward, "quest reward - [src.name]")
 
