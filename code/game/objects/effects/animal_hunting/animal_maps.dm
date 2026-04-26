@@ -71,7 +71,7 @@
 	name = "legend of the white stag"
 	desc = "An esoteric map detailed with blessed silver ink. It claims to track the movements of a Great White Stag. Only the best hunters can decipher the signs properly when examining this against an animal track."
 	target_category = /datum/hunting_category/white_stag
-	skill_chances = list(1, 1, 1, 5, 7.5, 10, 12.5)
+	skill_chances = list(1, 1, 5, 10, 14, 18, 20)
 	degradation_rate = 0.1 // 10% drop per use
 	uses_left = 3
 
