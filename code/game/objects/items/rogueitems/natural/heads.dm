@@ -79,6 +79,14 @@
 	layer = 3.1
 	sellprice = 20
 
+/obj/item/natural/head/boar
+	name = "boar head"
+	desc = "The head of a terrifying brambleboar."
+	icon_state = "boarhead"
+	layer = 3.1
+	// Not much to compensate for the fact they already drop a ton of loot
+	sellprice = 20
+
 /obj/item/natural/head/troll
 	name = "troll head"
 	desc = "The head of a giant troll."

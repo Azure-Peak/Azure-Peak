@@ -42,7 +42,7 @@
 		/obj/item/reagent_containers/food/snacks/rogue/meat/ham/boar = 2,
 		/obj/item/natural/hide = 3,
 	)
-	head_butcher = null
+	head_butcher = /obj/item/natural/head/boar
 	faction = list(FACTION_BOARS)
 	threat_point = THREAT_ELITE
 	ambush_faction = "wildlife"
