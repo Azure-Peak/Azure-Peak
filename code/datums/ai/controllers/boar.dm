@@ -1,4 +1,5 @@
 #define BB_BOAR_CHARGE_COOLDOWN "boar_charge_cooldown"
+#define BB_BOAR_CHARGE_ATTEMPTS "boar_charge_attempts"
 
 /datum/ai_controller/boar
 	movement_delay = BOAR_MOVEMENT_SPEED
@@ -7,7 +8,8 @@
 
 	blackboard = list(
 		BB_TARGETTING_DATUM = new /datum/targetting_datum/basic/allow_items(),
-		BB_BOAR_CHARGE_COOLDOWN = 0
+		BB_BOAR_CHARGE_COOLDOWN = 0,
+		BB_BOAR_CHARGE_ATTEMPTS = 0
 	)
 
 	planning_subtrees = list(
@@ -58,12 +60,29 @@
 		return
 	var/turf/landing_turf = get_turf(boar)
 	var/turf/impact_turf = get_step(landing_turf, charge_dir)
+	var/did_hit = FALSE
 	if(!impact_turf)
 		return
+	var/list/turfs_to_check = list(impact_turf)
+	turfs_to_check += get_step(impact_turf, turn(charge_dir, 90))  // Right
+	turfs_to_check += get_step(impact_turf, turn(charge_dir, -90))
+
+	var/swing_sfx = pick('sound/combat/ground_smash_start.ogg', 'sound/combat/flail_sweep_hit_minor.ogg')
+	for(var/turf/T in turfs_to_check)
+		var/delay = 0.5 SECONDS
+		var/obj/effect/temp_visual/special_intent/fx = new (T, delay)
+		fx.icon = 'icons/effects/effects.dmi'
+		fx.icon_state = "sweep_fx"
+	playsound(impact_turf, swing_sfx, 80, TRUE)
 
 	// DIRECT HIT ON A MOB
-	var/mob/living/victim = locate(/mob/living) in impact_turf
+	var/mob/living/victim
+	for(var/turf/check_turf in turfs_to_check)
+		victim = locate(/mob/living) in check_turf
+		if(victim && victim != boar)
+			break // We found a target!
 	if(victim)
+		did_hit = TRUE
 		victim.visible_message(span_userdanger("[boar] gores [victim]!</span>"))
 		if(iscarbon(victim))
 			var/mob/living/carbon/C = victim
@@ -71,11 +90,13 @@
 			if(chest)
 				chest.add_wound(/datum/wound/slash/boar_gore)
 		victim.Stun(5 SECONDS)
+		victim.apply_status_effect(/datum/status_effect/debuff/exposed, 10 SECONDS)
 		boar.Stun(3 SECONDS)
 		victim.adjustBruteLoss(50)
 		playsound(victim, 'sound/combat/crit.ogg', 75, TRUE)
 		return
 	if(impact_turf.is_blocked_turf(exclude_mobs = TRUE))
+		did_hit = TRUE
 		boar.visible_message("<span class='danger'>[boar] slams into [impact_turf] with bone-shattering force!</span>")
 		playsound(boar, 'sound/combat/hits/onwood/fence_hit3.ogg', 100, TRUE)
 		boar.Stun(3 SECONDS)
@@ -87,5 +108,15 @@
 			L.Knockdown(3 SECONDS)
 			L.apply_status_effect(/datum/status_effect/debuff/dazed)
 			L.adjustBruteLoss(20)
+	if(!did_hit)
+		var/attempts = controller.blackboard[BB_BOAR_CHARGE_ATTEMPTS]
+		if(attempts < 1)
+			controller.set_blackboard_key(BB_BOAR_CHARGE_ATTEMPTS, 1)
+			controller.set_blackboard_key(BB_BOAR_CHARGE_COOLDOWN, 0) // Reset cooldown
+			boar.visible_message(span_notice("[boar] skids to a halt and prepares to lunges again!"))
+		else
+			// If they miss the second time, they have to wait for the full cooldown
+			controller.set_blackboard_key(BB_BOAR_CHARGE_ATTEMPTS, 0)
 
 #undef BB_BOAR_CHARGE_COOLDOWN
+#undef BB_BOAR_CHARGE_ATTEMPTS

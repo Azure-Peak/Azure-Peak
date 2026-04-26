@@ -102,15 +102,8 @@
 
 /mob/living/simple_animal/hostile/retaliate/rogue/boar/taunted(mob/user)
 	emote("aggro")
-	Retaliate()
 	GiveTarget(user)
 	return
-
-/mob/living/simple_animal/hostile/retaliate/rogue/boar/Life()
-	..()
-	if(pulledby)
-		Retaliate()
-		GiveTarget(pulledby)
 
 /mob/living/simple_animal/hostile/retaliate/rogue/boar/simple_limb_hit(zone)
 	if(!zone)
