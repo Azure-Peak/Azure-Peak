@@ -151,6 +151,14 @@ GLOBAL_LIST_EMPTY(quest_scrolls)
 	refresh_compass(user)
 	ui_interact(user)
 
+/obj/item/quest_writ/rmb_self(mob/user)
+	if(!assigned_quest || !opened)
+		return
+	opened = FALSE
+	update_icon_state()
+	SStgui.close_uis(src)
+	to_chat(user, span_notice("You roll the scroll shut. The whispering ceases."))
+
 /obj/item/quest_writ/ui_state(mob/user)
 	return GLOB.hold_or_view_state
 
