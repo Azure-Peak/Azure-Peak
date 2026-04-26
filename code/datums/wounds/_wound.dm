@@ -1,5 +1,12 @@
 /// List of "primordial" wounds so that we don't have to create new wound datums when running checks to see if a wound should be applied
 GLOBAL_LIST_INIT(primordial_wounds, init_primordial_wounds())
+GLOBAL_LIST_INIT(ooze_wounds, init_ooze_wounds())
+
+/proc/init_ooze_wounds()
+	var/list/ooze_wounds = list()
+	for(var/wound_type in (typesof(/datum/wound/fracture) + typesof(/datum/wound/slash)))
+		ooze_wounds[wound_type] = new wound_type()
+	return ooze_wounds
 
 /proc/init_primordial_wounds()
 	var/list/primordial_wounds = list()
@@ -454,6 +461,11 @@ GLOBAL_LIST_INIT(primordial_wounds, init_primordial_wounds())
 		clotting_rate = max(0.01, (clotting_rate - CLOT_DECREASE_PER_HIT))
 		clotting_threshold += CLOT_THRESHOLD_INCREASE_PER_HIT
 	..()
+
+/datum/wound/proc/handle_ooze_wound(obj/item/bodypart/affected)
+	if(bodypart_owner || owner || QDELETED(affected) || QDELETED(affected.owner))
+		return FALSE
+	return TRUE
 
 #undef CLOT_THRESHOLD_INCREASE_PER_HIT
 #undef CLOT_DECREASE_PER_HIT
