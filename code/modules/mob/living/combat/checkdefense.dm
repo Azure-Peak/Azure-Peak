@@ -22,6 +22,9 @@
 		if(client.charging && used_intent.tranged && !used_intent.tshield)
 			return FALSE
 
+	if(channeling_spell?.blocks_defense_while_channeling)
+		return FALSE
+
 	if(has_flaw(/datum/charflaw/addiction/thrillseeker))
 		var/datum/component/arousal/CAR = GetComponent(/datum/component/arousal)
 		if(CAR)

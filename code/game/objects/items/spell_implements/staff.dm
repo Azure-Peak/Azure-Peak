@@ -1,41 +1,41 @@
 /obj/item/rogueweapon/woodstaff/implement
 	base_implement_name = "lesser staff"
 	name = "lesser staff"
-	desc = "A mage's staff fitted with a lesser focus-gem. It hums faintly with arcyne energy, empowering the wielder's staple spells."
+	desc = "A mage's staff fitted with a lesser focus-gem. The gem captures excess energy dissipated into the air when a spell is cast, giving a fraction of it back to the wielder."
 	icon = 'icons/obj/items/staffs.dmi'
 	icon_state = "topazstaff"
 	implement_tier = IMPLEMENT_TIER_LESSER
-	implement_multiplier = IMPLEMENT_MULT_LESSER
+	implement_refund = IMPLEMENT_REFUND_LESSER
 	resistance_flags = FIRE_PROOF
 	possible_item_intents = list(SPEAR_BASH)
 	gripped_intents = list(SPEAR_BASH, /datum/intent/mace/smash/wood)
-	max_integrity = 100
+	max_integrity = 150
 	sellprice = 34
 
 /obj/item/rogueweapon/woodstaff/implement/greater
 	base_implement_name = "greater staff"
 	name = "greater staff"
-	desc = "A mage's staff crowned with a quality focus-gem. The arcyne resonance is palpable, strengthening the wielder's staple spells considerably."
+	desc = "A mage's staff crowned with a quality focus-gem. The gem captures excess energy dissipated into the air when a spell is cast, giving a generous share of it back to the wielder."
 	icon_state = "emeraldstaff"
 	implement_tier = IMPLEMENT_TIER_GREATER
-	implement_multiplier = IMPLEMENT_MULT_GREATER
-	max_integrity = 150
+	implement_refund = IMPLEMENT_REFUND_GREATER
+	max_integrity = 200
 	sellprice = 42
 
 /obj/item/rogueweapon/woodstaff/implement/grand
 	base_implement_name = "grand staff"
 	name = "grand staff"
-	desc = "A masterwork staff set with a gem of extraordinary quality. Arcyne power flows through it like a river, devastating in the hands of a skilled mage."
+	desc = "A masterwork staff set with a gem of extraordinary quality. The gem captures excess energy dissipated into the air when a spell is cast, giving most of it back to the wielder - arcyne economy refined to an art."
 	icon_state = "diamondstaff"
 	implement_tier = IMPLEMENT_TIER_GRAND
-	implement_multiplier = IMPLEMENT_MULT_GRAND
-	max_integrity = 200
+	implement_refund = IMPLEMENT_REFUND_GRAND
+	max_integrity = 250
 	sellprice = 121
 
 /obj/item/rogueweapon/woodstaff/implement/examine(mob/user)
 	. = ..()
-	if(implement_multiplier)
-		. += span_notice("This implement empowers staple spells by [round((implement_multiplier - 1) * 100)]% when held.")
+	if(implement_refund)
+		. += span_notice("When held while casting, this implement leaves behind Residual Focus, returning [round(implement_refund * 100)]% of the spell's resource cost as energy over 20 seconds.")
 
 
 /datum/intent/magos_electrocute
@@ -89,7 +89,7 @@
 	name = "blacksteel staff"
 	desc = "A fine wood staff that is reinforced with blacksteel rivets and furnishings often used by War-Magos that have graduated from the Celestial Academy of Magos. Perched atop it is a less efficient though equally beautiful alchemical Dorpel. Perhaps it could be enhanced with a better Dorpel?"
 	icon_state = "blacksteelstaff"
-	max_integrity = 300
+	max_integrity = 250
 
 /obj/item/rogueweapon/woodstaff/implement/grand/blacksteel
 	base_implement_name = "refined blacksteel staff"
@@ -107,7 +107,7 @@
 	gripped_intents = list(/datum/intent/spear/bash/ranged, /datum/intent/mace/smash/wood/ranged)
 	force = 18
 	force_wielded = 22
-	max_integrity = 250
+	max_integrity = 300
 	resistance_flags = FIRE_PROOF
 	sellprice = 40
 

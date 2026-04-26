@@ -1,19 +1,18 @@
 /// Goblin minion pool used by the large-goblin boss variant.
+// Stopgap: archer and slinger removed from the pool because the ranged NPC AI is unreliable.
 GLOBAL_LIST_INIT(quest_outlaw_goblin_goons, list(
 	/mob/living/carbon/human/species/goblin/npc,
 	/mob/living/carbon/human/species/goblin/npc,
 	/mob/living/carbon/human/species/goblin/npc,
-	/mob/living/carbon/human/species/goblin/npc/archer,
-	/mob/living/carbon/human/species/goblin/npc/slinger,
 	/mob/living/carbon/human/species/goblin/npc/bomber,
 ))
 
 /datum/quest/kill/outlaw
 	quest_type = QUEST_OUTLAW
+	// Stopgap: outlaw_ranger removed because it uses the unreliable archer AI controller.
 	mob_types_to_spawn = list(
 		/mob/living/carbon/human/species/human/northern/deranged_knight/hedgeknight,
 		/mob/living/carbon/human/species/human/northern/outlaw_duelist,
-		/mob/living/carbon/human/species/human/northern/outlaw_ranger,
 		/mob/living/carbon/human/species/human/northern/outlaw_tank,
 	)
 	count_min = 1

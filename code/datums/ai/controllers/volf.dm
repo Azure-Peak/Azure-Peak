@@ -21,5 +21,3 @@
 		/datum/ai_planning_subtree/eat_food,
 
 	)
-
-	idle_behavior = /datum/idle_behavior/idle_random_walk

@@ -18,8 +18,6 @@
 		/datum/ai_planning_subtree/eat_food,
 	)
 
-	idle_behavior = /datum/idle_behavior/idle_random_walk
-
 /datum/ai_controller/spider/honeyspider
 	// Same as spider but no obstacle smashing
 	movement_delay = HONEYSPIDER_MOVEMENT_SPEED
@@ -39,5 +37,3 @@
 		/datum/ai_planning_subtree/find_food,
 		/datum/ai_planning_subtree/eat_food,
 	)
-
-	idle_behavior = /datum/idle_behavior/idle_random_walk

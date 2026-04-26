@@ -901,3 +901,33 @@
       around
   PatapoIIIa:
   - rscadd: Add multy-language TGUI support
+2026-04-26:
+  BurpleBineapple:
+  - bugfix: mindlink tells you to use ,Y instead of ,y
+  FreeStylaLT:
+  - bugfix: Fixed a bug that prevented Tempo from counting "Unknown" attackers properly.
+  - balance: Some Red ("Rigid") swingdelays now apply a slow down to X SPD for their
+      duration. This was applied to Rapier's Lunge.
+  - balance: Greataxes had their swingdelays from base intents removed. Instead they
+      had their wdef lowered relative to their non-reach counterparts.
+  - balance: Riposte no longer works while under the effects of a Red ("Rigid") swingdelay.
+  - balance: Riposte no longer works while Exposed.
+  - bugfix: Fixed Guarded anonimity not overriding emote voice colors correctly.
+  Ketrai:
+  - rscadd: Skeleton customization features for certain classes. When they spawn in.
+  Quinalion:
+  - bugfix: Coifs now allow voice transmission through the SCOM ring while lowered.
+  Ryan180602:
+  - code_imp: let ghosts be smooth
+  WeNeedMorePhoron:
+  - rscadd: Possibly fixed controller of Minotaur, dream fiends, Border reiver, deep
+      one, dire bear, dragon, all primordials (unused), mole, mossback, simple skeletons,
+      troll, volf, spide, mirespider to be more reliable and less erratic when it
+      comes to aggro
+  - rscadd: AI's calling for help behaviors range has been reduced from 12 / 13 to
+      9 to make it a bit fairer without trivializing them
+  - rscadd: AI no longer kick someone who is down
+  - rscadd: Add confirmation prompt and log to cancelling vote.
+  borneblood:
+  - balance: Self-Sustenance trait now also behaves like Failed Squire for repair
+      purposes.

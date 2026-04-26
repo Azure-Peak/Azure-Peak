@@ -1,0 +1,9 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "When channeling specific spells (For now, Arcyne Ward & Conjure Aegis), you cannot parry / dodge attacks"
+  - rscadd: "When you are feinted or baited while channeling spells, spell cast will be canceled"
+  - balance: "Arcyne Ward now on a 2 minutes base cooldown instead of 1. costs 70 Stamina upfront and 130 Energy instead of 20 (what, this was not intentional). It will also grants a paired \"Regenerate\" spell that costs proportional amount of stamina to regenerate your existing ward, and always cost 2 minutes of CD. It takes 6 seconds to channel still and makes you unable to parry / dodge."
+  - rscadd: "Staves integrity rate raised to 150 / 200 / 250 for each tier, making them a sidegrade to woodstaff (And a straight upgrade at the highest tier)."
+  - rscadd: "Wand option now instead gives Wand & (Wooden) Shield, and grants Apprentice Shield on choice as an alternative playstyle."
+  - rscadd: "Instead of empowering a staple spell, implement now refunds part of the spell's stamina / energy cost over 20 seconds. It refunds 20 / 27.5 / 35% of the cost as energy into your blue bar, improving your long term endurance without affecting the short terms economy of a mage."

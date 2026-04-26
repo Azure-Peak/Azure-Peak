@@ -825,9 +825,20 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 
 	joblessrole	= sanitize_integer(joblessrole, 1, 3, initial(joblessrole))
 	//Validate job prefs
+	S["topjob"] >> topjob
+	var/topjob_found = FALSE
 	for(var/j in job_preferences)
 		if(job_preferences[j] != JP_LOW && job_preferences[j] != JP_MEDIUM && job_preferences[j] != JP_HIGH)
 			job_preferences -= j
+		if(job_preferences[j] == JP_HIGH)
+			topjob_found = TRUE
+			var/datum/job/prefjob = SSjob.GetJob(j)
+			if(prefjob)
+				topjob = prefjob.title
+			WRITE_FILE(S["topjob"], topjob)
+	if(!topjob_found && topjob)	// Fallback in case we load a slot that had HIGH set but then it got unset / job got altered.
+		topjob = null
+		WRITE_FILE(S["topjob"], topjob)
 
 	all_quirks = SANITIZE_LIST(all_quirks)
 
@@ -885,6 +896,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["taur_type"]			, taur_type)
 	WRITE_FILE(S["taur_color"]			, taur_color)
 	WRITE_FILE(S["culinary_preferences"], culinary_preferences)
+	WRITE_FILE(S["topjob"]				, topjob)
 
 	//Custom names
 	for(var/custom_name_id in GLOB.preferences_custom_names)

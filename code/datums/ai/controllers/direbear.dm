@@ -8,8 +8,6 @@
 
 	)
 
-	idle_behavior = /datum/idle_behavior/idle_random_walk
-
 	planning_subtrees = list(
 		/datum/ai_planning_subtree/aggro_find_target,
 		/datum/ai_planning_subtree/attack_obstacle_in_path,

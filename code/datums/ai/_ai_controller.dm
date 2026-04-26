@@ -68,6 +68,12 @@ have ways of interacting with a specific atom and control it. They posses a blac
 	var/can_idle = TRUE
 	///What distance should we be checking for interesting things when considering idling/deidling? Defaults to AI_DEFAULT_INTERESTING_DIST
 	var/interesting_dist = AI_DEFAULT_INTERESTING_DIST
+	///Whether the pathing layer should fall back to climbing climbable structures when blocked.
+	var/can_climb_structures = TRUE
+	///Earliest world.time the controller may attempt another structure climb.
+	var/next_climb_time = 0
+	///Delay between climb attempts so AI doesn't rapidly hop back and forth across fences.
+	var/climb_interval = 10 SECONDS
 	///
 	var/movement_displacement_time = 0
 
