@@ -667,7 +667,7 @@
 /datum/status_effect/debuff/ironman_medium
 	id = "ironman_medium"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/ironman_medium
-	effectedstats = list(STATKEY_WIL = -4, STATKEY_SPD = -1)
+	effectedstats = list(STATKEY_WIL = -4)
 /atom/movable/screen/alert/status_effect/debuff/ironman_medium
 	name = "Metal Fatigue I"
 	desc = "My frame bears needless burden. Additional metal drags at my joints and dulls the rhythm of my workings."
