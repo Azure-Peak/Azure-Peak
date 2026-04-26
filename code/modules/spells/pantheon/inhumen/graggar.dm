@@ -19,7 +19,7 @@
 
 	point_cost = 0
 
-	required_items = list(/obj/item/clothing/neck/roguetown/psicross/inhumen/graggar)
+	required_items = list(/obj/item/clothing/neck/roguetown/psicross)
 
 //T0: Bloodrage  -- Uncapped STR buff.
 /obj/effect/proc_holder/spell/self/graggar_bloodrage
