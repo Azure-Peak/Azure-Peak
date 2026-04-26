@@ -299,14 +299,14 @@
 // Potions (50dr bottle = one base unit). Priced below steel-ingot / armor pieces since
 // alchemy is faster and materially cheaper than smithing. The 1.75x order bonus brings
 // per-order payout into the same ballpark as a raw-goods basket.
-#define SELLPRICE_HEALTH_POTION 18
-#define SELLPRICE_STRONG_HEALTH_POTION 40
-#define SELLPRICE_MANA_POTION 22
-#define SELLPRICE_STRONG_MANA_POTION 50
-#define SELLPRICE_STAM_POTION 14
-#define SELLPRICE_STRONG_STAM_POTION 30
-#define SELLPRICE_ANTIDOTE_POTION 25
-#define SELLPRICE_STRONG_ANTIDOTE_POTION 50
+#define SELLPRICE_HEALTH_POTION 20
+#define SELLPRICE_STRONG_HEALTH_POTION 30
+#define SELLPRICE_MANA_POTION 20
+#define SELLPRICE_STRONG_MANA_POTION 35
+#define SELLPRICE_STAM_POTION 20
+#define SELLPRICE_STRONG_STAM_POTION 35
+#define SELLPRICE_ANTIDOTE_POTION 20
+#define SELLPRICE_STRONG_ANTIDOTE_POTION 40
 // Stat-buff potions are showpiece alchemy. Uniform price - all four buff this round are
 // of equal mechanical weight, and pricing them differently invites min-maxing the petition.
-#define SELLPRICE_BUFF_POTION 60
+#define SELLPRICE_BUFF_POTION 48
