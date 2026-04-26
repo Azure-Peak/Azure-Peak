@@ -278,7 +278,10 @@
 			r_hand = /obj/item/rogueweapon/mace/bronze
 			gloves = /obj/item/clothing/gloves/roguetown/bandages
 		if("Bronze Spear")
+			// Boar huntah
 			H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_JOURNEYMAN, TRUE)
+			H.adjust_skillrank(/datum/skill/misc/hunting, SKILL_LEVEL_NOVICE, TRUE)
+			ADD_TRAIT(H, TRAIT_EXPERT_HUNTER, TRAIT_GENERIC)
 			head = /obj/item/clothing/head/roguetown/helmet/leather/volfhelm
 			r_hand = /obj/item/rogueweapon/spear/bronze
 			gloves = /obj/item/clothing/gloves/roguetown/bandages
