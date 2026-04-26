@@ -32,7 +32,7 @@
 		wrists = /obj/item/clothing/neck/roguetown/psicross/inhumen/graggar
 		don_pelt(H)
 		var/datum/devotion/C = new /datum/devotion(H, H.patron)
-		C.grant_miracles(H, cleric_tier = CLERIC_T2, passive_gain = CLERIC_REGEN_MINOR, start_maxed = FALSE)
+		C.grant_miracles(H, cleric_tier = CLERIC_T2, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_2, start_maxed = FALSE)
 		H.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/convert_heretic)
 
 /obj/item/clothing/suit/roguetown/armor/regenerating/skin/gnoll_armor/templar

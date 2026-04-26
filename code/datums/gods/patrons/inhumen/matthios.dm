@@ -5,18 +5,18 @@
 	worshippers = "Highwaymen, Alchemists, Downtrodden Peasants, and Merchants"
 	crafting_recipes = list(/datum/crafting_recipe/roguetown/sewing/bandithood, /datum/crafting_recipe/roguetown/structure/matthios_cross_stone, /datum/crafting_recipe/roguetown/structure/matthios_cross_meat)
 	mob_traits = list(TRAIT_FREEMAN, TRAIT_MATTHIOS_EYES, TRAIT_SEEPRICES_SHITTY)
-	miracles = list(/obj/effect/proc_holder/spell/targeted/touch/orison					= CLERIC_ORI,
-					/datum/action/cooldown/spell/freemans_tools							= CLERIC_T0,
-					/obj/effect/proc_holder/spell/invoked/matthios_firebreath			= CLERIC_T0,
+	miracles = list(/datum/action/cooldown/spell/touch/orison					= CLERIC_ORI,
+					/datum/action/cooldown/spell/freemans_tools					= CLERIC_T0,
+					/obj/effect/proc_holder/spell/invoked/matthios_firebreath	= CLERIC_T0,
 					/datum/action/cooldown/spell/miracle/heal 					= CLERIC_T1,
-					/datum/action/cooldown/spell/miracle/bloodmiracle					= CLERIC_T1,
-					/obj/effect/proc_holder/spell/invoked/matthios_transact				= CLERIC_T1, //It says it should be T1
-					/obj/effect/proc_holder/spell/self/skulduggery						= CLERIC_T1, // AAAAAAAAAAA
-					/datum/action/cooldown/spell/mammonite								= CLERIC_T2,
-					/obj/effect/proc_holder/spell/invoked/barter						= CLERIC_T2,
-					/obj/effect/proc_holder/spell/invoked/matthios_equalize				= CLERIC_T2,
-					/obj/effect/proc_holder/spell/invoked/matthios_churn				= CLERIC_T3,
-					/obj/effect/proc_holder/spell/invoked/resurrect/matthios			= CLERIC_T3, // Counterpart to anastasis
+					/datum/action/cooldown/spell/miracle/bloodmiracle			= CLERIC_T1,
+					/obj/effect/proc_holder/spell/invoked/matthios_transact		= CLERIC_T1, //It says it should be T1
+					/obj/effect/proc_holder/spell/self/skulduggery				= CLERIC_T1, // AAAAAAAAAAA
+					/datum/action/cooldown/spell/mammonite						= CLERIC_T2,
+					/obj/effect/proc_holder/spell/invoked/barter				= CLERIC_T2,
+					/obj/effect/proc_holder/spell/invoked/matthios_equalize		= CLERIC_T2,
+					/obj/effect/proc_holder/spell/invoked/matthios_churn		= CLERIC_T3,
+					/obj/effect/proc_holder/spell/invoked/resurrect/matthios	= CLERIC_T3, // Counterpart to anastasis
 	)
 	confess_lines = list(
 		"MATTHIOS STEALS FROM THE WORTHLESS!",

@@ -354,7 +354,7 @@
 
 	var/chosen_bundle
 	var/list/miracle_generalist_bundle = list(
-		/datum/action/cooldown/spell/astrata_firecloak::name				= /datum/action/cooldown/spell/astrata_firecloak,
+		/obj/effect/proc_holder/spell/invoked/moondream::name				= /obj/effect/proc_holder/spell/invoked/moondream,
 		/obj/effect/proc_holder/spell/invoked/spiderspeak::name				= /obj/effect/proc_holder/spell/invoked/spiderspeak,
 		/obj/effect/proc_holder/spell/invoked/invisibility/miracle::name	= /obj/effect/proc_holder/spell/invoked/invisibility/miracle,
 		/obj/effect/proc_holder/spell/targeted/blesscrop::name				= /obj/effect/proc_holder/spell/targeted/blesscrop,
@@ -364,7 +364,6 @@
 	var/list/miracle_acolyte_bundle = list(
 		/obj/effect/proc_holder/spell/invoked/diagnose::name			= /obj/effect/proc_holder/spell/invoked/diagnose,
 		/obj/effect/proc_holder/spell/self/blindnessorsilence::name		= /obj/effect/proc_holder/spell/self/blindnessorsilence,
-		/obj/effect/proc_holder/spell/invoked/moondream::name			= /obj/effect/proc_holder/spell/invoked/moondream,
 		/obj/effect/proc_holder/spell/invoked/bless_food::name			= /obj/effect/proc_holder/spell/invoked/bless_food,
 		/obj/effect/proc_holder/spell/invoked/avert::name				= /obj/effect/proc_holder/spell/invoked/avert,
 		/obj/effect/proc_holder/spell/invoked/attach_bodypart::name		= /obj/effect/proc_holder/spell/invoked/attach_bodypart,
@@ -382,7 +381,7 @@
 	. = ..()
 	var/choice = chosen_bundle
 	if(!chosen_bundle)
-		choice = alert(owner, "What type of miracles did the Ten bless you with?", "CHOOSE PATH", "Generalist", "Acolyte", "Templar")
+		choice = alert(owner, "What type of miracles did the Divines bless you with?", "CHOOSE PATH", "Generalist", "Acolyte", "Templar")
 		chosen_bundle = choice
 	switch(choice)
 		if("Generalist")

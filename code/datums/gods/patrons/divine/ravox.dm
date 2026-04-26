@@ -5,19 +5,19 @@
 	worshippers = "Warriors, Sellswords & those who seek Justice"
 	mob_traits = list(TRAIT_SHARPER_BLADES)
 	traits_tier = list(TRAIT_BATTLEMASTER = CLERIC_T1)
-	miracles = list(/obj/effect/proc_holder/spell/targeted/touch/orison							= CLERIC_ORI,
-					/obj/effect/proc_holder/spell/invoked/tug_of_war							= CLERIC_T0,
-					/obj/effect/proc_holder/spell/self/provocation	       						= CLERIC_T0,
-					/datum/action/cooldown/spell/miracle/heal 							= CLERIC_T1,
-					/datum/action/cooldown/spell/miracle/bloodmiracle							= CLERIC_T1,
-					/obj/effect/proc_holder/spell/self/divine_strike							= CLERIC_T1,
-					/obj/effect/proc_holder/spell/targeted/touch/summonrogueweapon/ravoxgrasp	= CLERIC_T1,
-					/obj/effect/proc_holder/spell/self/balance_immune   						= CLERIC_T2,
-					/datum/action/cooldown/spell/ravox/ravox_battlecry							= CLERIC_T2,
-					/obj/effect/proc_holder/spell/invoked/challenge								= CLERIC_T2,
-					/obj/effect/proc_holder/spell/invoked/persistence							= CLERIC_T3,
-					/obj/effect/proc_holder/spell/invoked/raise_warrior_spirits 				= CLERIC_T3,
-					/obj/effect/proc_holder/spell/invoked/resurrect/ravox						= CLERIC_T4,
+	miracles = list(/datum/action/cooldown/spell/touch/orison						= CLERIC_ORI,
+					/obj/effect/proc_holder/spell/invoked/tug_of_war				= CLERIC_T0,
+					/obj/effect/proc_holder/spell/self/provocation	       			= CLERIC_T0,
+					/datum/action/cooldown/spell/miracle/heal 						= CLERIC_T1,
+					/datum/action/cooldown/spell/miracle/bloodmiracle				= CLERIC_T1,
+					/obj/effect/proc_holder/spell/self/divine_strike				= CLERIC_T1,
+					//datum/action/cooldown/spell/touch/ravox						= CLERIC_T1, //Needs to be fixed.
+					/obj/effect/proc_holder/spell/self/balance_immune   			= CLERIC_T2,
+					/datum/action/cooldown/spell/ravox/ravox_battlecry				= CLERIC_T2,
+					/obj/effect/proc_holder/spell/invoked/challenge					= CLERIC_T2,
+					/obj/effect/proc_holder/spell/invoked/persistence				= CLERIC_T3,
+					/obj/effect/proc_holder/spell/invoked/raise_warrior_spirits 	= CLERIC_T3,
+					/obj/effect/proc_holder/spell/invoked/resurrect/ravox			= CLERIC_T4,
 	)
 	confess_lines = list(
 		"RAVOX IS JUSTICE!",

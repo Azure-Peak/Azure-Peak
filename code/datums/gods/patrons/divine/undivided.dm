@@ -4,7 +4,7 @@
 	desc = "Ten Eternal, Divine Pantheon United, Bulwark against the Darkness. The Ten dilligently watch over their flock granting them potent boons, but not every man catches the attention of merely one. Take lessons from all from them all, for they are your masters and mentors."
 	worshippers = "Commonfolk, Grenzelhoft, Holy See Clergymen, Pragmatists of the Ten."
 	mob_traits = list(TRAIT_UNDIVIDED)
-	miracles = list(/obj/effect/proc_holder/spell/targeted/touch/orison					= CLERIC_ORI,
+	miracles = list(/datum/action/cooldown/spell/touch/orison							= CLERIC_ORI,
 					/datum/action/cooldown/spell/astrata/ignition/undivided				= CLERIC_T0,
 					/datum/action/cooldown/spell/undivided/twinned_gaze					= CLERIC_T0,
 					/datum/action/cooldown/spell/darkvision/miracle/undivided			= CLERIC_T0,

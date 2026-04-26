@@ -4,11 +4,11 @@
 	desc = "The Nite-Scholar, brother and rival to Astrata. His wisdom paves the way in the moonlight. Tales of esoteric magicka at the destination are sung - in the words of decaying scripts."
 	worshippers = "Wizards and Scholars"
 	mob_traits = list(TRAIT_NIGHT_OWL)
-	miracles = list(/obj/effect/proc_holder/spell/targeted/touch/orison			= CLERIC_ORI,
+	miracles = list(/datum/action/cooldown/spell/touch/orison					= CLERIC_ORI,
 					/obj/effect/proc_holder/spell/invoked/noc_sight				= CLERIC_T0,
 					/datum/action/cooldown/spell/darkvision/miracle				= CLERIC_T0,
 					/obj/effect/proc_holder/spell/invoked/moondream             = CLERIC_T0,
-					/datum/action/cooldown/spell/miracle/heal 			= CLERIC_T1,
+					/datum/action/cooldown/spell/miracle/heal 					= CLERIC_T1,
 					/datum/action/cooldown/spell/miracle/bloodmiracle			= CLERIC_T1,
 					/obj/effect/proc_holder/spell/self/wise_moon                = CLERIC_T1,
 					/obj/effect/proc_holder/spell/self/moon_light     			= CLERIC_T1,

@@ -274,24 +274,45 @@
 // T1 - Ravox' Grasp - Summon the Divine Justice from your soul and let it envelop your hand. //
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
-/obj/effect/proc_holder/spell/targeted/touch/summonrogueweapon/ravoxgrasp
-	name = "Ravox' Grasp"
-	desc = "Summon the Divine Justice from your soul and let it envelop your hand. Use on heads of criminals (NPCs only) to convert them into devotion."
-	clothes_req = FALSE
-	drawmessage = "I prepare to perform a divine incantation."
-	dropmessage = "I release my divine focus."
-	overlay_state = "justice_hand"
-	action_icon = 'icons/mob/actions/ravoxmiracles.dmi'
-	overlay_icon = 'icons/mob/actions/ravoxmiracles.dmi'
-	chargedrain = 0
-	chargetime = 0
-	releasedrain = 5 // this influences -every- cost involved in the spell's functionality, if you want to edit specific features, do so in handle_cost
-	recharge_time = 5 MINUTES
-	chargedloop = /datum/looping_sound/invokegen
-	associated_skill = /datum/skill/magic/holy
+/datum/action/cooldown/spell/touch/ravox
+	name = "Justicar's Hand"
+	desc = "Channel arcyne energy through ash to inscribe protective runes upon the ground. The runes trigger when trespassers cross them - but can be circumvented by jumping or flying over them. Includes the following modes:\n \
+	<b>Touch</b>: Draw a rune on the ground using ash from your off-hand. Choose from Stun, Fire, Chill, Damage, or Alarm types.\n \
+	<b>Shove</b>: Scrub an existing rune from the ground. Skilled mages can do this silently.\n \
+	<b>Use</b>: Memorize or forget allies - memorized people will not trigger your runes."
+
+	background_icon = 'icons/mob/actions/ravoxmiracles.dmi'
+	button_icon = 'icons/mob/actions/ravoxmiracles.dmi'
+	button_icon_state = "justice_hand"
+
+	draw_message = span_notice("I shape my focus into a weapon.")
+	drop_message = span_notice("I release my focus.")
+
 	hand_path = /obj/item/melee/touch_attack/rogueweapon/ravoxgrasp
-	devotion_cost = 30
-	miracle = TRUE
+	can_cast_on_self = TRUE
+	infinite_use = TRUE
+	ignore_armor_penalty = TRUE
+
+	primary_resource_type = SPELL_COST_DEVOTION
+	primary_resource_cost = SPELLCOST_MIRACLE
+
+	secondary_resource_type = SPELL_COST_STAMINA
+	secondary_resource_cost = SPELLCOST_CONJURE
+
+	associated_stat = null
+	associated_skill = /datum/skill/magic/holy
+	spell_tier = 0
+	spell_impact_intensity = SPELL_IMPACT_NONE
+
+	point_cost = 0
+
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
+
+	cooldown_time = 30 SECONDS
+
+	attunement_school = null
+
+	required_items = list(/obj/item/clothing/neck/roguetown/psicross/ravox, /obj/item/clothing/neck/roguetown/psicross/undivided, /obj/item/clothing/neck/roguetown/psicross/silver/undivided)
 
 /obj/item/melee/touch_attack/rogueweapon/ravoxgrasp
 	name = "justice hand"
@@ -306,7 +327,7 @@
 	possible_item_intents = list(SHIELD_BLOCK, /datum/intent/use)
 	parrysound = list('sound/magic/magic_nulled.ogg')
 	swingsound = list('sound/magic/churn.ogg')
-	attached_spell = /obj/effect/proc_holder/spell/targeted/touch/summonrogueweapon/ravoxgrasp
+	attached_spell = /datum/action/cooldown/spell/touch/astrata_flamefist
 	force = 0
 	damtype = BURN
 	wdefense = 4//Goes up to 10, a shield
@@ -400,13 +421,16 @@
 		user.apply_status_effect(/datum/status_effect/buff/order/onfeet)
 	return TRUE
 
+/atom/movable/screen/alert/status_effect/buff/balance_immune
+	name = "Withstand"
+	desc = "I hold fast."
+	icon_state = "balance_immune"
+
 /datum/status_effect/balance_immune
 	id = "balance_immune"
 	status_type = STATUS_EFFECT_UNIQUE
 	duration = 10 SECONDS
-	alert_type = /atom/movable/screen/alert/status_effect/buff/divine_strike
-	on_remove_on_mob_delete = TRUE
-	var/datum/weakref/buffed_item
+	alert_type = /atom/movable/screen/alert/status_effect/buff/balance_immune
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // T2 - Call to Arms - Warcry that provides buff to DIVINE worshippers and debuff tO ASCENDANTS. //
@@ -761,7 +785,7 @@ GLOBAL_LIST_EMPTY(arenafolks) // we're just going to use a list and add to it. S
 	hide_charge_effect = TRUE
 	miracle = TRUE
 	devotion_cost = 50
-	invocations = list("Armor-claid faith, enflame myne spirit!!") //I'M A FOOL, I KNOW NOTHING. I TAKE THE ROLE OF A SIILLY CLOOOWN
+	invocations = list("Ravox calls upon you once more!") //I'M A FOOL, I KNOW NOTHING. I TAKE THE ROLE OF A SIILLY CLOOOWN
 	invocation_type = "shout"
 
 /obj/effect/proc_holder/spell/invoked/raise_warrior_spirits/cast(list/targets, mob/living/user)
