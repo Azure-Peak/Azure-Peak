@@ -345,17 +345,17 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 	qdel(src)
 
 ////////////////////
-//Vial of Firstlaw//
-//The core of Malchemy, harsher than the real deal. If you fail to produce the good, you lose all the ingredients.
+// Vial of Firstlaw
+// Accepts basic ingredients related to mining and alchemy, and refines it into raw mammon value. Can also slorp up mammon too.
+////////////////////
 
 /obj/item/matthios_canister/firstlaw
 	name = "vial of firstlaw"
-	desc = "A suffocating pressure coils within the glass, as though something immense has been forced into too small a space. The contents do not slosh nor settle... they weigh upon reality itself."
+	desc = "A suffocating pressure coils within the glass, as though something immense has been forced into too small a space. The contents do not slosh nor settle. They weigh upon reality itself."
 	current_color = "#e100ff"
 	aura_color = "#ff00b3"
 
-	var/stone_progress = 0
-	var/current_choice = null
+	var/stored_value = 0
 
 	required_ingredients = list(
 		/obj/item/natural/dirtclod,
@@ -369,90 +369,91 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 		/obj/item/roguegem/violet,
 		/obj/item/roguegem/blue,
 		/obj/item/roguegem/diamond,
+		/obj/item/riddleofsteel,
+		/obj/item/roguecoin,
 	)
 
 /obj/item/matthios_canister/firstlaw/freeman_truth()
-	return "All things bend to the First Law. Equivalent exchange is not a rule, it is the only truth. To hold it is to feel a principle enforced: nothing is gained, nothing is lost, only exchanged."
+	return "All things bend to the First Law. Nothing is created. Nothing is lost. Value merely changes shape. Where distant alchemists ever sought the truth to turn stone into gold, Malchem at its prime casually achieved. That old truth still lingers within this blessed vial, weakened."
 
 /obj/item/matthios_canister/firstlaw/freeman_progress(mob/user)
-	return "Stored Value: [stone_progress] stone\nChoice: [current_choice ? current_choice : "NONE"]"
+	return "Stored Value: [stored_value]"
 
-/obj/item/matthios_canister/firstlaw/proc/get_stone_value(obj/item/I)
-	if(istype(I, /obj/item/natural/dirtclod)) return 1
-	if(istype(I, /obj/item/natural/clay)) return 1
-	if(istype(I, /obj/item/natural/stone)) return 1
-	if(istype(I, /obj/item/rogueore/coal)) return 4
-	if(istype(I, /obj/item/rogueore/iron)) return 8
-	if(istype(I, /obj/item/rogueore/gold)) return 32
-	if(istype(I, /obj/item/roguegem/yellow)) return 65
-	if(istype(I, /obj/item/roguegem/green)) return 129
-	if(istype(I, /obj/item/roguegem/violet)) return 193
-	if(istype(I, /obj/item/roguegem/blue)) return 257
-	if(istype(I, /obj/item/roguegem/diamond)) return 578
-	if(istype(I, /obj/item/riddleofsteel)) return 1184
+/obj/item/matthios_canister/firstlaw/proc/get_value(obj/item/I)
+	if(istype(I, /obj/item/roguecoin))
+		var/obj/item/roguecoin/C = I
+		return C.get_real_price()
+
+	if(istype(I, /obj/item/natural/dirtclod))		return 1
+	if(istype(I, /obj/item/natural/clay))			return 1
+	if(istype(I, /obj/item/natural/stone))			return 1
+	if(istype(I, /obj/item/rogueore/coal))			return 2
+	if(istype(I, /obj/item/rogueore/iron))			return 5
+	if(istype(I, /obj/item/rogueore/gold))			return 10
+	if(istype(I, /obj/item/roguegem/yellow))		return 56
+	if(istype(I, /obj/item/roguegem/green))			return 88
+	if(istype(I, /obj/item/roguegem/violet))		return 100
+	if(istype(I, /obj/item/roguegem/blue))			return 34
+	if(istype(I, /obj/item/roguegem/diamond))		return 121
+	if(istype(I, /obj/item/riddleofsteel))			return 400
 	return 0
 
-/obj/item/matthios_canister/firstlaw/proc/get_cost(choice)
-	switch(choice)
-		if("Dirt") return 0
-		if("Clay") return 1
-		if("Stone") return 1
-		if("Mortar & Pestle") return 2
-		if("Coal") return 4
-		if("Iron") return 8
-		if("Alchemy Station") return 10
-		if("Cauldron") return 16
-		if("Firstlaw Extract") return 18
-		if("Gold") return 32
-		if("Toper") return 65
-		if("Gemerald") return 129
-		if("Saffira") return 193
-		if("Blortz") return 257
-		if("Dorpel") return 578
-		if("Riddle of Steel") return 1184
+/obj/item/matthios_canister/firstlaw/proc/add_value(amount, mob/user)
+	if(amount <= 0)
+		return
 
-/obj/item/matthios_canister/firstlaw/proc/get_requirement(choice)
-	switch(choice)
-		if("Mortar & Pestle","Alchemy Station","Cauldron","Dirt","Clay","Stone") return SKILL_LEVEL_NONE
-		if("Firstlaw Extract","Coal","Iron") return SKILL_LEVEL_JOURNEYMAN
-		if("Gold","Toper","Gemerald","Saffira","Blortz") return SKILL_LEVEL_EXPERT
-		if("Dorpel","Riddle of Steel") return SKILL_LEVEL_MASTER
+	stored_value += amount
+
+	if(user)
+		to_chat(user, span_warning("The contents compress into entropic dust... <br>(Current Value: [stored_value])"))
+
+	update_icon()
+
+/obj/item/matthios_canister/firstlaw/proc/remove_value(amount, mob/user)
+	if(amount <= 0)
+		return
+
+	stored_value -= amount
+
+	if(user)
+		to_chat(user, span_warning("The entropic dust disappears... <br>(Current Value: [stored_value])"))
+
+	update_icon()
 
 /obj/item/matthios_canister/firstlaw/attackby(obj/item/I, mob/user)
 	if(!HAS_TRAIT(user, TRAIT_MATTHIOS_EYES))
-		to_chat(user, span_warning("The principle escapes me. This is nonsense and heresy."))
+		to_chat(user, span_warning("The principle behind this vial escapes me. This is nonsense and heresy!"))
 		return TRUE
 
 	var/valid = FALSE
-	for(var/T in required_ingredients)
-		if(istype(I, T))
-			valid = TRUE
-			break
+
+	if(istype(I, /obj/item/roguecoin))
+		valid = TRUE
+	else
+		for(var/T in required_ingredients)
+			if(istype(I, T))
+				valid = TRUE
+				break
 
 	if(!valid)
 		return TRUE
 
-	if(do_after(user, 1 SECONDS))
-		var/value = get_stone_value(I)
-		stone_progress += value
-		to_chat(user, span_warning("[I] disintegrates into a refined dust...<br>(Current Value: [stone_progress])"))
-		playsound(user.loc,'sound/misc/smelter_sound.ogg', 50, FALSE)
-		qdel(I)
-		update_icon()
+	if(!do_after(user, 1 SECONDS))
+		return TRUE
 
+	var/value = get_value(I)
+	if(value <= 0)
+		return TRUE
+
+	add_value(value, user)
+
+	playsound(user.loc, 'sound/misc/smelter_sound.ogg', 50, FALSE)
+	qdel(I)
 	return TRUE
 
 /obj/item/matthios_canister/firstlaw/proc/process_stone_batch(mob/user, turf/T)
 	var/level = user.get_skill_level(/datum/skill/magic/holy)
-	var/batch_size = 2 + 2 * level
-
-	var/found_any = FALSE
-	for(var/obj/item/natural/stone/S in T)
-		found_any = TRUE
-		break
-
-	if(!found_any)
-		return FALSE
+	var/batch_size = 2 + (level * 2)
 
 	var/processed_any = FALSE
 
@@ -473,279 +474,135 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 		for(var/obj/item/natural/stone/S in batch)
 			if(QDELETED(S))
 				continue
-			stone_progress += 1
+
 			qdel(S)
+			stored_value++
 			processed_any = TRUE
 
 		playsound(user.loc, 'sound/misc/smelter_sound.ogg', 25, FALSE)
 
 	if(processed_any)
-		to_chat(user, span_warning("You gather the stones together, dissolving them into a pile of fine dust.<br>(Current Value: [stone_progress])"))
+		to_chat(user, span_warning("You gather the stones together, reducing them into entropic dust.<br>(Current Value: [stored_value])"))
 		update_icon()
 
 	return processed_any
 
 /obj/item/matthios_canister/firstlaw/afterattack(atom/target, mob/user, proximity_flag, click_parameters)
-	if(!proximity_flag) return
-	if(!HAS_TRAIT(user, TRAIT_MATTHIOS_EYES)) return
+	if(!proximity_flag)
+		return
+	if(!HAS_TRAIT(user, TRAIT_MATTHIOS_EYES))
+		return
 
 	if(istype(target, /obj/item/natural/stone))
 		var/obj/item/natural/stone/S = target
 		if(do_after(user, 0.5 SECONDS, target = user))
-			stone_progress += 1
 			qdel(S)
-			playsound(user.loc,'sound/misc/smelter_sound.ogg', 50, FALSE)
-			to_chat(user, span_warning("The stone crumbles into dust.<br>(Current Value: [stone_progress])"))
-			update_icon()
+			add_value(1, user)
+			playsound(user.loc, 'sound/misc/smelter_sound.ogg', 25, FALSE)
 		return
 
 	if(istype(target, /obj/item/natural/rock))
 		var/obj/item/natural/rock/R = target
 		if(do_after(user, 2 SECONDS, target = user))
 			var/gain = rand(1,4)
-			stone_progress += gain
-
-			if(prob(4))
-				var/list/ores = list(
-					/obj/item/natural/stone,
-					/obj/item/rogueore/coal,
-					/obj/item/rogueore/iron,
-					/obj/item/rogueore/gold,
-					/obj/item/roguegem/blue,
-					/obj/item/roguegem/yellow,
-					/obj/item/roguegem/green,
-					/obj/item/roguegem/violet,
-				)
-				var/typepath = pick(ores)
-				var/bonus = get_stone_value(new typepath)
-				stone_progress += bonus
-
 			qdel(R)
-			playsound(user.loc,'sound/misc/smelter_sound.ogg', 50, FALSE)
-			to_chat(user, span_warning("The boulder is reduced to dust.<br>(Current Value: [stone_progress])"))
-			update_icon()
+			add_value(gain, user)
+			playsound(user.loc, 'sound/misc/smelter_sound.ogg', 25, FALSE)
 		return
 
 	if(isturf(target))
-		var/turf/T = target
-		process_stone_batch(user, T)
+		process_stone_batch(user, target)
 
 /obj/item/matthios_canister/firstlaw/attack_self(mob/user)
 	if(!HAS_TRAIT(user, TRAIT_MATTHIOS_EYES))
 		to_chat(user, span_warning("This is heresy beyond me."))
 		return
 
-	var/list/options_map = list(
-		"Mortar & Pestle" = list(/obj/item/reagent_containers/glass/mortar, /obj/item/pestle),
-		"Cauldron" = /obj/machinery/light/rogue/cauldron,
-		"Alchemy Station" = /obj/structure/fluff/alch,
-		"Firstlaw Extract" = /obj/item/alchserum/matthios_insight,
-		"Dirt" = /obj/item/natural/dirtclod,
-		"Clay" = /obj/item/natural/clay,
-		"Stone" = /obj/item/natural/stone,
-		"Coal" = /obj/item/rogueore/coal,
-		"Iron" = /obj/item/rogueore/iron,
-		"Gold" = /obj/item/rogueore/gold,
-		"Toper" = /obj/item/roguegem/yellow,
-		"Gemerald" = /obj/item/roguegem/green,
-		"Saffira" = /obj/item/roguegem/violet,
-		"Blortz" = /obj/item/roguegem/blue,
-		"Dorpel" = /obj/item/roguegem/diamond,
-		"Riddle of Steel" = /obj/item/riddleofsteel
+	if(stored_value <= 0)
+		to_chat(user, span_warning("The vial contains no transactable value."))
+		return
+
+	var/list/options = list(
+		"Coin begets Coin!",
+		"Return as Stones",
+		"Cancel"
 	)
 
+	var/choice = input(user, "How shall the First Law resolve?", "First Law") as null|anything in options
+	if(!choice || choice == "Cancel")
+		return
+
+	if(!do_after(user, 2 SECONDS, target = user, same_direction = TRUE))
+		return
+
+	var/turf/T = get_turf(src)
+
+	// Refund into stone
+	if(choice == "Return as Stones")
+		resolve_stones(user, T)
+		return
+
+	// Coin conversion
+	new /obj/effect/temp_visual/barter_fx(T)
+	resolve_coinage(user, T)
+
+/obj/item/matthios_canister/firstlaw/proc/resolve_stones(mob/user, turf/T)
 	var/level = user.get_skill_level(/datum/skill/magic/holy)
+	var/batch_size = 2 + (level * 2)
+	var/resolved_any = FALSE
+	to_chat(user, span_notice("You release the concept of value into a more... solid shape."))
+	while(stored_value > 0)
+		if(!do_after(user, 1 SECONDS, target = user))
+			break
 
-	if(current_choice)
-		var/cost = get_cost(current_choice)
-		var/remaining = max(cost - stone_progress, 0)
+		var/current_batch = min(batch_size, stored_value)
 
-		var/finalize_text = (stone_progress >= cost) ? "Finalize Exchange (Ready!)" : "Finalize Exchange ([remaining] left.)"
-		var/redirect_text = "Redirect Law"
-		var/refund_text = "Refund Stones (75%)"
-		var/nevermind_text = "Nevermind"
+		for(var/i in 1 to current_batch)
+			new /obj/item/natural/stone(T)
 
-		var/list/choices = list(finalize_text, redirect_text, refund_text, nevermind_text)
+		stored_value -= current_batch
+		resolved_any = TRUE
 
-		var/decision = input(user, "The Law is in motion.", "First Law") as null|anything in choices
-		if(!decision || decision == nevermind_text)
-			return
+		playsound(user.loc, 'sound/misc/smelter_sound.ogg', 25, FALSE)
 
-		if(decision == refund_text)
-			var/refund_amt = round(stone_progress * 0.75)
-			for(var/i in 1 to refund_amt)
-				new /obj/item/natural/stone(get_turf(src))
+		if(stored_value <= 0)
+			break
 
-			stone_progress = 0
-			current_choice = null
-			to_chat(user, span_warning("The Law unravels. Most is returned."))
-			update_icon()
-			return
+	if(resolved_any)
+		to_chat(user, span_notice("The First Law loosens its grip, returning value from dust to crude matter.<br>(Remaining Value: [stored_value])"))
+		update_icon()
 
-		if(decision == redirect_text)
-			var/list/display = list()
-			var/list/lookup = list()
+	if(stored_value <= 0)
+		playsound(T, 'sound/foley/glassbreak.ogg', 50, TRUE)
+		funny_smoke(src)
+		qdel(src)
 
-			for(var/K in options_map)
-				var/c = get_cost(K)
-				var/r = get_requirement(K)
+	return resolved_any
+	
+/obj/item/matthios_canister/firstlaw/proc/resolve_coinage(mob/user, turf/T)
+	playsound(T, 'sound/effects/matth_barter.ogg', 100, TRUE)
 
-				if(level >= r)
-					var/entry = "[K] ([c])"
-					display += entry
-					lookup[entry] = K
+	var/level = user.get_skill_level(/datum/skill/magic/holy)
+	var/check = 60 - (level * 10)
 
-			var/pick_choice = input(user, "Redirect the Law?", "First Law") as null|anything in display
-			if(!pick_choice)
-				return
+	var/efficiency = min(100, (20 + (level * 20)))
 
-			var/new_choice = lookup[pick_choice]
-			current_choice = new_choice
-			to_chat(user, span_notice("The Law bends toward [new_choice]."))
+	var/base_mammon = round(stored_value * (efficiency / 100))
+	var/mammon = base_mammon
 
-			var/new_cost = get_cost(new_choice)
+	if(level <= SKILL_LEVEL_JOURNEYMAN)
+		if(prob(check))
+			var/matthiostax = rand(2,10)
+			to_chat(user, span_warning("You sense Matthios claiming a little extra of His due in this deal... (1/[matthiostax] of the value was claimed.)"))
+			mammon = round(base_mammon - (base_mammon / matthiostax))
 
-			if(stone_progress >= new_cost)
-				var/excess = stone_progress - new_cost
-				stone_progress = 0
+	if(mammon > 0)
+		budget2change(mammon, user, putinhands = FALSE, custom_turf = T)
 
-				var/result = options_map[new_choice]
+	to_chat(user, span_notice("The First Law concludes. [stored_value] entropic dust is resolved at [efficiency]% efficiency into [mammon] value in coin."))
 
-				if(islist(result))
-					for(var/typepath in result)
-						if(ispath(typepath))
-							new typepath(get_turf(src))
-				else
-					if(ispath(result))
-						new result(get_turf(src))
-
-				var/half = round(excess / 2)
-				for(var/i in 1 to half)
-					new /obj/item/natural/stone(get_turf(src))
-
-				to_chat(user, span_notice("The Law resolves instantly into [new_choice], for a hefty cost..."))
-				if(isliving(user))
-					var/mob/living/U = user
-					U.adjust_fire_stacks(2)
-					U.adjustFireLoss(125)
-					U.ignite_mob()
-				funny_smoke(src)
-				qdel(src)
-				return
-
-			return
-
-		if(decision == finalize_text)
-			if(stone_progress < cost)
-				to_chat(user, span_warning("The Law demands more value to be transacted."))
-				return
-
-			if(do_after(user, 2.5 SECONDS, target = user, same_direction = TRUE))
-
-				var/list/single_crafts = list(
-					"Mortar & Pestle",
-					"Cauldron",
-					"Alchemy Station",
-					"Firstlaw Extract"
-				)
-
-				var/is_single = (current_choice in single_crafts)
-
-				var/amount
-				var/excess
-
-				if(is_single)
-					amount = 1
-					excess = stone_progress - cost
-				else
-					amount = (cost > 0) ? floor(stone_progress / cost) : 1
-					excess = (cost > 0) ? (stone_progress % cost) : 0
-
-				var/result = options_map[current_choice]
-
-				var/base_fail = min(75, round(cost / 5))
-				var/skill_bonus = level * 5
-
-				var/total_spent = amount * cost
-				var/overpay = max(0, stone_progress - total_spent)
-				var/overpay_ratio = cost > 0 ? (overpay / cost) : 0
-				var/overpay_bonus = round(overpay_ratio * 30)
-
-				var/final_fail = max(0, base_fail - skill_bonus - overpay_bonus)
-				if(final_fail)
-					to_chat(user, span_notice("--[final_fail]% chance of failure per item! Matthios have mercy..."))
-
-				for(var/i in 1 to amount)
-					if(prob(final_fail))
-						if(prob(50))
-							var/list/fail_results = list(/obj/item/ingot/aaslag, /obj/item/scrap)
-							var/typepath = pick(fail_results)
-							new typepath(get_turf(src))
-							to_chat(user, span_notice("The exchange falters..."))
-						else
-							to_chat(user, span_warning("The Law rejects part of the exchange."))
-					else
-						var/turf/spawn_turf = get_turf(src)
-
-						if(is_single)
-							var/turf/front = get_step(user, user.dir)
-
-							if(front && !front.density)
-								var/blocked = FALSE
-								for(var/atom/A in front)
-									if(A.density)
-										blocked = TRUE
-										break
-
-								if(!blocked)
-									spawn_turf = front
-							else
-								spawn_turf = get_turf(src)
-
-						if(islist(result))
-							for(var/typepath in result)
-								if(ispath(typepath))
-									new typepath(spawn_turf)
-						else
-							if(ispath(result))
-								new result(spawn_turf)
-
-
-
-				to_chat(user, span_notice("The exchange concludes. ([amount] attempted)"))
-
-				if(excess > 0)
-					for(var/i in 1 to excess)
-						new /obj/item/natural/stone(get_turf(src))
-
-				stone_progress = 0
-				funny_smoke(src)
-				qdel(src)
-				return
-	else
-		var/list/display = list()
-		var/list/lookup = list()
-
-		for(var/K in options_map)
-			var/cost = get_cost(K)
-			var/req = get_requirement(K)
-
-			if(level >= req)
-				var/entry = "[K] ([cost])"
-				display += entry
-				lookup[entry] = K
-
-		if(!display.len)
-			to_chat(user, span_warning("Nothing may yet be chosen."))
-			return
-
-		var/choice = input(user, "What shall be defined?", "First Law") as null|anything in display
-		if(!choice)
-			return 
-
-		current_choice = lookup[choice]
-		to_chat(user, span_notice("The Law bends toward [current_choice]."))
-
+	funny_smoke(src)
+	qdel(src)
 
 //////////////////////
 //Vial of Kingsfeast//
@@ -1076,15 +933,14 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 	spawn()
 		while(target && target.IsSleeping())
 			target.energy_add(20)
-			target.adjustBruteLoss(2)
 
 			if(target.nutrition > 0)
-				target.adjustBruteLoss(-1)
-				target.adjustFireLoss(-1)
+				target.adjustBruteLoss(-2)
+				target.adjustFireLoss(-2)
 
 			if(target.hydration > 0)
-				target.adjustOxyLoss(-2)
-				target.adjustToxLoss(-1)
+				target.adjustOxyLoss(-4)
+				target.adjustToxLoss(-2)
 
 			sleep(20)
 
@@ -1863,6 +1719,7 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 	name = "Gilded True Sight"
 	desc = "Through Him, all is seen, and no locks shall bar me. Whether that it should be... is another matter."
 	icon_state = "darkvision"
+	color = "#ffe600"
 
 /datum/status_effect/buff/matthios_vision
 	id = "matthios_vision"
@@ -1886,33 +1743,80 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 
 /datum/status_effect/buff/matthios_vision/tick()
 	. = ..()
+
 	var/mob/living/carbon/crazymofo = owner
+	if(!crazymofo)
+		return
+
 	var/pickLV = crazymofo.get_skill_level(/datum/skill/misc/lockpicking)
 	var/miracleLV = crazymofo.get_skill_level(/datum/skill/magic/holy)
-	var/hallucAMT = 62 - (miracleLV * 10)
-	if(miracleLV <= SKILL_LEVEL_JOURNEYMAN || pickLV <= SKILL_LEVEL_JOURNEYMAN)
-		if(prob(hallucAMT))
-			crazymofo.adjustFireLoss(5)
-		if(prob(hallucAMT))
-			crazymofo.adjustFireLoss(10)
-		if(prob(hallucAMT))
-			crazymofo.adjustFireLoss(5)
-		if(prob(hallucAMT))
-			crazymofo.adjustFireLoss(5)
-	if(crazymofo.hallucination < 200)
-		crazymofo.hallucination += rand(1,hallucAMT)
-		to_chat(crazymofo, span_warning(pick("Is this TRVE??","DAFUQ?","I am NOT meant to see this.","What... WHAT is this?","This doesn't make SENSE.","I don't UNDERSTAND.","Why does it LOOK like that?","Something is WRONG here.","I can't make SENSE of this.","This isn't RIGHT.","What am I looking at?","None of THIS adds up.","I shouldn't be SEEING this.","This feels... INCORRECT.","Why is everything like this?","I CAN'T process this.","This ISN'T how it should be.","I don't get it.","What is happening?","This is all WRONG.","I CAN'T tell what's REAL.","Why does it feel off?","I don't recognize this.","This SHOULDN'T exist.","What is THIS supposed to be?","I can't FOLLOW this.","This isn't making sense anymore.","I think SOMETHING is broke.", "Why can't I understand THIS?", "This feels IMPOSSIBLE.", "I don't KNOW what I'm seeing.")))
-		crazymofo.Jitter(5)
-		if(prob(10+hallucAMT))
-			crazymofo.emote(pick("giggle","laugh","chuckle"))
-	if(prob(10+hallucAMT) && crazymofo.hallucination > 100)
-		crazymofo.blur_eyes(5)
-		crazymofo.adjust_blurriness(10)
-		crazymofo.blind_eyes(1.5)
-		crazymofo.adjustBruteLoss(10)
-		if(prob(10))
-			crazymofo.emote("agony")
-		to_chat(crazymofo, span_alert("MY EYES!!! THEY BURN!!!"))
+	var/resistLV = min(pickLV, miracleLV)
+	var/halluc_gain
+	var/pain_chance
+	var/eye_chance
+	var/fire_min
+	var/fire_max
+
+	switch(resistLV)
+		if(SKILL_LEVEL_NOVICE)
+			halluc_gain = 40
+			pain_chance = 60
+			eye_chance = 40
+			fire_min = 10
+			fire_max = 20
+		if(SKILL_LEVEL_APPRENTICE)
+			halluc_gain = 20
+			pain_chance = 40
+			eye_chance = 20
+			fire_min = 5
+			fire_max = 10
+		if(SKILL_LEVEL_JOURNEYMAN)
+			halluc_gain = 15
+			pain_chance = 25
+			eye_chance = 15
+			fire_min = 4
+			fire_max = 8
+		if(SKILL_LEVEL_EXPERT)
+			halluc_gain = 5
+			pain_chance = 10
+			eye_chance = 5
+			fire_min = 1
+			fire_max = 3
+		else
+			halluc_gain = 80
+			pain_chance = 100
+			eye_chance = 80
+			fire_min = 20
+			fire_max = 80
+
+	// Passive mental pressure
+	if(halluc_gain > 0 && crazymofo.hallucination < 200)
+		crazymofo.hallucination += rand(0, halluc_gain)
+
+	// Random discomfort / psychic burn
+	if(prob(pain_chance))
+		var/dmg = rand(fire_min, fire_max)
+		if(dmg > 0)
+			crazymofo.adjustFireLoss(dmg)
+
+		if(prob(35))
+			to_chat(crazymofo, span_warning(pick("This sight was not made for me.","I can feel my thoughts peeling apart.","The world looks wrong.","I should remove this.","My mind recoils from what it sees.","Too much truth presses inward.","Matthios, is this true?!","Matthios, is this TRVE?!","I regret everything.","Something broke.","DAFUQ?","What is that?!","What is this?!","Where am I??","I see it clearly now.","The truth is fine. Everything is fine.","I'm fine... I'm fine... I'm fine...","I can see Matthios. He is grinning.","I can see Astrata. She is furious.","Is this right?","What is wrong?","Behind me.","Behind you.","Free is watching you.","Grand Liege...?","La li lu le lo?","There are too many angles here.","Why does the floor have veins?","I can hear colors.","The walls know my name.","This was hidden for a reason.","I understand less each second.","The shadows are explaining things.","Who moved the horizon?","The stars are too close.","My teeth feel observant.","Why is the silence screaming?","I looked too far.","Everything has a second face.","The room blinked.","Truth tastes metallic.","I can smell geometry.","Someone is standing inside my reflection.","I should not know this.","The corners are whispering.","I remember tomorrow.","My heartbeat is counting backwards.","Why are there footprints on the ceiling?","The light is lying.","There is another sky above this one.","Numbers keep crawling away.","The door was never a door.","I have too many hands.","Did the world always breathe?","I can see where prayers go.","Something old just noticed me.","The dust is watching.","My bones disagree.","Reality feels temporary.","I found the seam.","Don't turn around.","Too late.","I was always behind me.")))
+	
+		if(prob(25))
+			crazymofo.Jitter(3)
+
+	if(prob(eye_chance))
+		crazymofo.blur_eyes(3)
+		crazymofo.adjust_blurriness(5)
+
+		if(prob(50))
+			crazymofo.blind_eyes(1)
+
+		if(prob(35))
+			to_chat(crazymofo, span_alert("My eyes sting!"))
+
+	if(prob(max(1, pain_chance / 4)))
+		crazymofo.emote(pick("shiver","groan","whimper"))
 
 /obj/item/clothing/shoes/roguetown/boots/muffle_matthios //I guess in case someone wants to make generic muffled boots? Change it to muffle/matthios if you do
 	name = "gilded leather boots"
@@ -1950,56 +1854,46 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 		qdel(src)
 		return
 
+	// Affect mobs
 	for(var/mob/living/target in range(3, T))
 
+		if(QDELETED(target))
+			continue
+
 		if(HAS_TRAIT(target, TRAIT_NOBLE) || HAS_TRAIT(target, TRAIT_CLERGY))
-			target.visible_message(span_danger("[target]'s skin begins to SLOUGH AND BURN HORRIFICALLY, glowing like molten metal!"), span_userdanger("MY LIMBS BURN IN AGONY..."))
-			target.Stun(80)
+			target.visible_message(
+				span_danger("[target]'s skin begins to SLOUGH AND BURN HORRIFICALLY, glowing like molten metal!"),
+				span_userdanger("MY LIMBS BURN IN AGONY...")
+			)
+
+			target.Stun(8 SECONDS)
 			target.emote("agony")
 			target.adjustFireLoss(50)
 			target.adjust_fire_stacks(9, /datum/status_effect/fire_handler/fire_stacks/divine)
 			target.ignite_mob()
+
 			playsound(target, 'sound/magic/churn.ogg', 100, TRUE)
 			explosion(get_turf(target), light_impact_range = 1, flame_range = 1, smoke = FALSE)
-			sleep(80)
-			target.visible_message(span_danger("[target]'s limbs REND into coin and gem!"), span_userdanger("WEALTH. POWER. THE FINAL SIGHT UPON MYNE EYE IS A DRAGON'S MAW TEARING ME IN TWAIN. MY ENTRAILS ARE OF GOLD AND SILVER."))  		//this one's actually pretty good. i like this
-			playsound(target, 'sound/magic/churn.ogg', 100, TRUE)
-			playsound(target, 'sound/magic/whiteflame.ogg', 100, TRUE)
-			explosion(get_turf(target), light_impact_range = 1, flame_range = 1, smoke = FALSE)
-			new /obj/item/roguecoin/silver/pile(target.loc)
-			new /obj/item/roguecoin/gold/pile(target.loc)
-			new /obj/item/roguegem/random(target.loc)
-			new /obj/item/roguegem/random(target.loc)
-			var/list/possible_limbs = list()
-			for(var/zone in list(BODY_ZONE_R_ARM, BODY_ZONE_L_ARM, BODY_ZONE_R_LEG, BODY_ZONE_L_LEG))
-				var/obj/item/bodypart/limb = target.get_bodypart(zone)
-				if(limb)
-					possible_limbs += limb
-				var/limbs_to_gib = min(rand(1, 4), possible_limbs.len)
-				for(var/i in 1 to limbs_to_gib)
-					var/obj/item/bodypart/selected_limb = pick(possible_limbs)
-					possible_limbs -= selected_limb
-					if(selected_limb?.drop_limb())
-						var/turf/limb_turf = get_turf(selected_limb) || get_turf(target) || target.drop_location()
-						if(limb_turf)
-							new /obj/effect/decal/cleanable/blood/gibs/limb(limb_turf)
-			target.death()
+
+			addtimer(CALLBACK(src, PROC_REF(truthsnuke_transmute_target), target), 8 SECONDS)
 			continue
 
 		var/is_heretic = HAS_TRAIT(target, TRAIT_FREEMAN) || HAS_TRAIT(target, TRAIT_CABAL) || HAS_TRAIT(target, TRAIT_HORDE) || HAS_TRAIT(target, TRAIT_DEPRAVED)
+
 		target.apply_status_effect(/datum/status_effect/buff/alch/fire_resist)
 
 		if(is_heretic)
 			to_chat(target, span_artery("They called us Inhumen. They called this Heresy. Yet here we stand—unbroken, unburned. Let the world choke on truth."))
 			target.visible_message(span_notice("[target] stands untouched amidst the inferno."))
-
+			target.emote("laugh")
 		else
 			target.emote("agony")
-			target.Stun(2)
-			target.Knockdown(2)
+			target.Stun(2 SECONDS)
+			target.Knockdown(2 SECONDS)
 			target.adjustFireLoss(40)
 			to_chat(target, span_artery("IT BURNS! THE TRUTH! IT BURNS!!!"))
 
+	// Affect structures / turfs
 	for(var/turf/affected in range(3, T))
 
 		for(var/obj/structure/mineral_door/D in affected)
@@ -2009,8 +1903,12 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 		for(var/obj/structure/roguewindow/W in affected)
 			if(!(W.resistance_flags & INDESTRUCTIBLE))
 				qdel(W)
-		
+
 		for(var/obj/O in affected)
+			if(QDELETED(O))
+				continue
+			if(O == src)
+				continue
 			if(!(O.resistance_flags & INDESTRUCTIBLE))
 				O.visible_message(span_danger("[O] is torn apart by the blast!"))
 				qdel(O)
@@ -2024,12 +1922,15 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 			var/turf/open/O = affected
 			O.ChangeTurf(/turf/open/floor/rogue/dirt)
 
-
+	// Throw mobs outward
 	for(var/mob/living/M in range(3, T))
+		if(QDELETED(M))
+			continue
 		var/dir = get_dir(T, M)
 		M.throw_at(get_edge_target_turf(M, dir), 6, 3)
 
-	explosion(T, devastation_range = 0,	heavy_impact_range = 0,	light_impact_range = 4, flame_range = 8, flash_range = 8, smoke = TRUE, soundin = pick('sound/misc/explode/bottlebomb (1).ogg','sound/misc/explode/bottlebomb (2).ogg'))
+	explosion(T,devastation_range = 0,heavy_impact_range = 0,light_impact_range = 4,flame_range = 8,flash_range = 8,smoke = TRUE,soundin = pick('sound/misc/explode/bottlebomb (1).ogg','sound/misc/explode/bottlebomb (2).ogg'))
+
 	qdel(src)
 
 //I'll leave it as an admin spawnable cause why not, but as is right now there's no way anything can get access to this.
@@ -2046,56 +1947,47 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 		qdel(src)
 		return
 
+	// Affect mobs
 	for(var/mob/living/target in range(15, T))
 
+		if(QDELETED(target))
+			continue
+
+		// Nobility / clergy are transmuted violently
 		if(HAS_TRAIT(target, TRAIT_NOBLE) || HAS_TRAIT(target, TRAIT_CLERGY))
-			target.visible_message(span_danger("[target]'s skin begins to SLOUGH AND BURN HORRIFICALLY, glowing like molten metal!"), span_userdanger("MY LIMBS BURN IN AGONY..."))
-			target.Stun(80)
+			target.visible_message(
+				span_danger("[target]'s skin begins to SLOUGH AND BURN HORRIFICALLY, glowing like molten metal!"),
+				span_userdanger("MY LIMBS BURN IN AGONY...")
+			)
+
+			target.Stun(8 SECONDS)
 			target.emote("agony")
 			target.adjustFireLoss(50)
 			target.adjust_fire_stacks(9, /datum/status_effect/fire_handler/fire_stacks/divine)
 			target.ignite_mob()
+
 			playsound(target, 'sound/magic/churn.ogg', 100, TRUE)
 			explosion(get_turf(target), light_impact_range = 1, flame_range = 1, smoke = FALSE)
-			sleep(80)
-			target.visible_message(span_danger("[target]'s limbs REND into coin and gem!"), span_userdanger("WEALTH. POWER. THE FINAL SIGHT UPON MYNE EYE IS A DRAGON'S MAW TEARING ME IN TWAIN. MY ENTRAILS ARE OF GOLD AND SILVER."))  		//this one's actually pretty good. i like this
-			playsound(target, 'sound/magic/churn.ogg', 100, TRUE)
-			playsound(target, 'sound/magic/whiteflame.ogg', 100, TRUE)
-			explosion(get_turf(target), light_impact_range = 1, flame_range = 1, smoke = FALSE)
-			new /obj/item/roguecoin/silver/pile(target.loc)
-			new /obj/item/roguecoin/gold/pile(target.loc)
-			new /obj/item/roguegem/random(target.loc)
-			new /obj/item/roguegem/random(target.loc)
-			var/list/possible_limbs = list()
-			for(var/zone in list(BODY_ZONE_R_ARM, BODY_ZONE_L_ARM, BODY_ZONE_R_LEG, BODY_ZONE_L_LEG))
-				var/obj/item/bodypart/limb = target.get_bodypart(zone)
-				if(limb)
-					possible_limbs += limb
-				var/limbs_to_gib = min(rand(1, 4), possible_limbs.len)
-				for(var/i in 1 to limbs_to_gib)
-					var/obj/item/bodypart/selected_limb = pick(possible_limbs)
-					possible_limbs -= selected_limb
-					if(selected_limb?.drop_limb())
-						var/turf/limb_turf = get_turf(selected_limb) || get_turf(target) || target.drop_location()
-						if(limb_turf)
-							new /obj/effect/decal/cleanable/blood/gibs/limb(limb_turf)
-			target.death()
+
+			addtimer(CALLBACK(src, PROC_REF(truthsnuke_transmute_target), target), 8 SECONDS)
 			continue
 
 		var/is_heretic = HAS_TRAIT(target, TRAIT_FREEMAN) || HAS_TRAIT(target, TRAIT_CABAL) || HAS_TRAIT(target, TRAIT_HORDE) || HAS_TRAIT(target, TRAIT_DEPRAVED)
+
 		target.apply_status_effect(/datum/status_effect/buff/alch/fire_resist)
 
 		if(is_heretic)
 			to_chat(target, span_artery("They called us Inhumen. They called this Heresy. Yet here we stand—unbroken, unburned. Let the world choke on truth."))
 			target.visible_message(span_notice("[target] stands untouched amidst the inferno."))
-
+			target.emote("laugh")
 		else
 			target.emote("agony")
-			target.Stun(2)
-			target.Knockdown(2)
+			target.Stun(2 SECONDS)
+			target.Knockdown(2 SECONDS)
 			target.adjustFireLoss(40)
 			to_chat(target, span_artery("IT BURNS! THE TRUTH! IT BURNS!!!"))
 
+	// Affect structures / turfs
 	for(var/turf/affected in range(15, T))
 
 		for(var/obj/structure/mineral_door/D in affected)
@@ -2105,8 +1997,12 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 		for(var/obj/structure/roguewindow/W in affected)
 			if(!(W.resistance_flags & INDESTRUCTIBLE))
 				qdel(W)
-		
+
 		for(var/obj/O in affected)
+			if(QDELETED(O))
+				continue
+			if(O == src)
+				continue
 			if(!(O.resistance_flags & INDESTRUCTIBLE))
 				O.visible_message(span_danger("[O] is torn apart by the blast!"))
 				qdel(O)
@@ -2120,14 +2016,54 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 			var/turf/open/O = affected
 			O.ChangeTurf(/turf/open/floor/rogue/dirt)
 
-
+	// Throw mobs outward
 	for(var/mob/living/M in range(12, T))
+		if(QDELETED(M))
+			continue
 		var/dir = get_dir(T, M)
 		M.throw_at(get_edge_target_turf(M, dir), 6, 3)
 
-	explosion(T, devastation_range = 0,	heavy_impact_range = 0,	light_impact_range = 10, flame_range = 15, flash_range = 15, smoke = TRUE, soundin = pick('sound/misc/explode/bottlebomb (1).ogg','sound/misc/explode/bottlebomb (2).ogg'))
+	explosion(T,devastation_range = 0,heavy_impact_range = 0,light_impact_range = 10,flame_range = 15,flash_range = 15,smoke = TRUE,soundin = pick('sound/misc/explode/bottlebomb (1).ogg','sound/misc/explode/bottlebomb (2).ogg'))
 
 	qdel(src)
+
+/obj/item/impact_grenade/truthsnuke/proc/truthsnuke_transmute_target(mob/living/target)
+	if(!target || QDELETED(target))
+		return
+
+	var/turf/TT = get_turf(target)
+	if(!TT)
+		return
+
+	target.visible_message(span_danger("[target]'s limbs REND into coin and gem!"),span_userdanger("WEALTH. POWER. THE FINAL SIGHT UPON MYNE EYE IS A DRAGON'S MAW TEARING ME IN TWAIN. MY ENTRAILS ARE OF GOLD AND SILVER."))
+
+	playsound(TT, 'sound/magic/churn.ogg', 100, TRUE)
+	playsound(TT, 'sound/magic/whiteflame.ogg', 100, TRUE)
+	explosion(TT, light_impact_range = 1, flame_range = 1, smoke = FALSE)
+
+	new /obj/item/roguecoin/silver/pile(TT)
+	new /obj/item/roguecoin/gold/pile(TT)
+	new /obj/item/roguegem/random(TT)
+	new /obj/item/roguegem/random(TT)
+
+	var/list/possible_limbs = list()
+
+	for(var/zone in list(BODY_ZONE_R_ARM, BODY_ZONE_L_ARM, BODY_ZONE_R_LEG, BODY_ZONE_L_LEG))
+		var/obj/item/bodypart/limb = target.get_bodypart(zone)
+		if(limb)
+			possible_limbs += limb
+
+	var/limbs_to_gib = min(rand(1,4), possible_limbs.len)
+
+	for(var/i in 1 to limbs_to_gib)
+		var/obj/item/bodypart/selected_limb = pick(possible_limbs)
+		possible_limbs -= selected_limb
+
+		if(selected_limb?.drop_limb())
+			var/turf/limb_turf = get_turf(selected_limb) || TT
+			new /obj/effect/decal/cleanable/blood/gibs/limb(limb_turf)
+
+	target.death()
 
 /obj/item/impact_grenade/pocketsand
 	name = "pocket sand"

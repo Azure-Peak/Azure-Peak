@@ -182,6 +182,7 @@
 	lichman.phylacteries += new_phylactery
 	new_phylactery.possessor = lichman
 	H.equip_to_slot_or_del(new_phylactery,SLOT_IN_BACKPACK, TRUE)
+	H.select_skeleton_features()
 
 /datum/antagonist/lich/proc/consume_phylactery(timer = 10 SECONDS)
 	if(phylacteries.len)

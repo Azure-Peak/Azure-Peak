@@ -867,3 +867,67 @@
   - rscadd: Advanced mirror magic hag boon & hag feature
   PatapoIIIa:
   - bugfix: fix vis_content visual
+2026-04-24:
+  FreeStylaLT:
+  - rscadd: Added Weapon Binds. Targeting a precise zone (hands, feet, eyes) while
+      the defender is targeting the same or large limb equivalent (arm for hands,
+      leg for feet, head for eyes) will bind the weapons and provide the defender
+      with a temporary defensive boost. Only works on parries.
+  - balance: For the purposes of baiting (and binding) skull is now the same as head.
+      This means baiting Head is the same as baiting every part above the neck.
+  - balance: Minimum feint% increased to 10% from 0%.
+  - balance: Feinting an active riposte will always succeed, but will put feint on
+      a longer cooldown.
+  - balance: Bait cooldown reduced to 20 seconds from 30 seconds.
+  - balance: Freifechters no longer gain any benefits from using swift-balanced weapons.
+  NalimaTheWitch:
+  - bugfix: Ghosts can no longer pull people from hiding spots.
+  - bugfix: Fixed being able to unbuckle people from beds.
+  ReezeBL:
+  - bugfix: taur druid wildshape bug
+  - refactor: wildshape wound transfer logic should be more stable
+  hazelrat:
+  - rscadd: Implemented a remap for the city church, increasing its size substantially.
+  - rscadd: Added a new towner house straight east from the inquisitorial manor.
+  nauticall:
+  - rscadd: Added donor item 'Darling' to the game.
+2026-04-25:
+  BICLOGAN:
+  - bugfix: Apothecaries now can lock clinic's silverface as well
+  - balance: Apothecary now start with Expert skill in alchemy
+  Ketrai:
+  - balance: Medical EXP scales with sew time & wound severity now.
+  - qol: Hunting tracks are more visible, and have a unique paws icon when looking
+      around
+  PatapoIIIa:
+  - rscadd: Add multy-language TGUI support
+2026-04-26:
+  BurpleBineapple:
+  - bugfix: mindlink tells you to use ,Y instead of ,y
+  FreeStylaLT:
+  - bugfix: Fixed a bug that prevented Tempo from counting "Unknown" attackers properly.
+  - balance: Some Red ("Rigid") swingdelays now apply a slow down to X SPD for their
+      duration. This was applied to Rapier's Lunge.
+  - balance: Greataxes had their swingdelays from base intents removed. Instead they
+      had their wdef lowered relative to their non-reach counterparts.
+  - balance: Riposte no longer works while under the effects of a Red ("Rigid") swingdelay.
+  - balance: Riposte no longer works while Exposed.
+  - bugfix: Fixed Guarded anonimity not overriding emote voice colors correctly.
+  Ketrai:
+  - rscadd: Skeleton customization features for certain classes. When they spawn in.
+  Quinalion:
+  - bugfix: Coifs now allow voice transmission through the SCOM ring while lowered.
+  Ryan180602:
+  - code_imp: let ghosts be smooth
+  WeNeedMorePhoron:
+  - rscadd: Possibly fixed controller of Minotaur, dream fiends, Border reiver, deep
+      one, dire bear, dragon, all primordials (unused), mole, mossback, simple skeletons,
+      troll, volf, spide, mirespider to be more reliable and less erratic when it
+      comes to aggro
+  - rscadd: AI's calling for help behaviors range has been reduced from 12 / 13 to
+      9 to make it a bit fairer without trivializing them
+  - rscadd: AI no longer kick someone who is down
+  - rscadd: Add confirmation prompt and log to cancelling vote.
+  borneblood:
+  - balance: Self-Sustenance trait now also behaves like Failed Squire for repair
+      purposes.

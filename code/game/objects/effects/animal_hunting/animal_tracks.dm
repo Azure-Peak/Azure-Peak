@@ -248,6 +248,7 @@
 				next_trail.linked_areas = src.linked_areas
 				next_trail.color = "#ff9100" 
 				next_trail.linked_areas = src.linked_areas
+				next_trail.plane = GAME_PLANE_HIGHEST
 				next_trail.setup_hunter_visibility()
 				return TRUE
 	return FALSE
@@ -325,6 +326,7 @@
 	clear_party_images()
 
 	invisibility = 0
+	plane = GAME_PLANE
 	icon_state = locked_track_icon
 	name = "[icon_state] tracks"
 	desc = "Fresh prints leading away into the wilderness."

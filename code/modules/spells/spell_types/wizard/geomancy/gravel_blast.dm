@@ -30,7 +30,6 @@
 	charge_slowdown = CHARGING_SLOWDOWN_NONE
 	charge_sound = 'sound/magic/charging_fire.ogg'
 	cooldown_time = 5.5 SECONDS
-	is_implement_scaled_spell = TRUE
 	attunement_school = ASPECT_NAME_GEOMANCY
 	var/spread_step = 8
 

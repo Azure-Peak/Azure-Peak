@@ -256,3 +256,13 @@
 		voicecolor_override = null
 	else
 		voicecolor_override = "#A0A0A0"
+
+/mob/living/carbon/human/proc/toggle_guarded()
+	set name = "Toggle Guarded"
+	set category = "Virtue"
+
+	if(HAS_TRAIT(src, TRAIT_DECEIVING_MEEKNESS))
+		REMOVE_TRAIT(src, TRAIT_DECEIVING_MEEKNESS, TRAIT_VIRTUE) 
+	else
+		ADD_TRAIT(src, TRAIT_DECEIVING_MEEKNESS, TRAIT_VIRTUE)
+	to_chat(src, "I have [HAS_TRAIT(src, TRAIT_DECEIVING_MEEKNESS) ? "raised" : "lowered"] my guard around others.")

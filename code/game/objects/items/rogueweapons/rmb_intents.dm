@@ -80,6 +80,8 @@
 			fatiguemod = 3
 
 
+	HT.interrupt_spell_channel()
+
 	HT.apply_status_effect(/datum/status_effect/debuff/baited)
 	HT.apply_status_effect(/datum/status_effect/debuff/exposed)
 	HT.apply_status_effect(/datum/status_effect/debuff/clickcd, 5 SECONDS)
@@ -228,7 +230,7 @@
 		newcd = 5 SECONDS
 		special_msg = span_warning("They need to see me for me to feint them!")
 
-	perc = CLAMP(perc, 0, 90)
+	perc = CLAMP(perc, 10, 90)
 
 	if(L.has_status_effect(/datum/status_effect/buff/clash))
 		L.remove_status_effect(/datum/status_effect/buff/clash)
@@ -247,7 +249,10 @@
 			L.changeNext_def(clamp(L.dodgetime - 2, 0, CLICK_CD_DODGE))
 			L.changeMaxDodge(-2)
 		return
-	
+
+	L.interrupt_spell_channel()
+
+
 	var/effect_to_apply = (L.mind ? /datum/status_effect/debuff/vulnerable : /datum/status_effect/debuff/exposed)
 
 	L.apply_status_effect(effect_to_apply, feintdur)

@@ -683,7 +683,7 @@
 	item_state = "staffsheath"
 	valid_blade = /obj/item/rogueweapon/sword/rapier/hand
 	implement_tier = IMPLEMENT_TIER_GREATER
-	implement_multiplier = IMPLEMENT_MULT_GREATER
+	implement_refund = IMPLEMENT_REFUND_GREATER
 	sellprice = 100
 
 /obj/item/rogueweapon/scabbard/sheath/courtphysician/hand/ComponentInitialize()
