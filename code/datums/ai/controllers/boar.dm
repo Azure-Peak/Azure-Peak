@@ -64,8 +64,15 @@
 	if(!impact_turf)
 		return
 	var/list/turfs_to_check = list(impact_turf)
-	turfs_to_check += get_step(impact_turf, turn(charge_dir, 90))  // Right
-	turfs_to_check += get_step(impact_turf, turn(charge_dir, -90))
+	if(charge_dir & (charge_dir - 1)) 
+		// It's diagonal! Add the two cardinal tiles that make up the diagonal.
+		// e.g. If NORTHEAST, this adds NORTH and EAST.
+		turfs_to_check += get_step(landing_turf, (charge_dir & (NORTH|SOUTH)))
+		turfs_to_check += get_step(landing_turf, (charge_dir & (EAST|WEST)))
+	else
+		// It's cardinal! Use the standard turn logic.
+		turfs_to_check += get_step(impact_turf, turn(charge_dir, 90))
+		turfs_to_check += get_step(impact_turf, turn(charge_dir, -90))
 
 	var/swing_sfx = pick('sound/combat/ground_smash_start.ogg', 'sound/combat/flail_sweep_hit_minor.ogg')
 	for(var/turf/T in turfs_to_check)
