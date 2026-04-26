@@ -7,8 +7,6 @@
 	traits_applied = list(TRAIT_NOBLE)
 	class_select_category = CLASS_CAT_NOBLE
 	category_tags = list(CTAG_ADVENTURER, CTAG_COURTAGENT, CTAG_LICKER_WRETCH)
-	townie_contract_gate_exempt = TRUE
-	townie_contract_gate_hide_in_list = TRUE
 
 	cmode_music = 'sound/music/combat_knight.ogg'
 	subclass_stats = list(
@@ -29,6 +27,8 @@
 		/datum/skill/misc/music = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/hunting = SKILL_LEVEL_NOVICE,
 	)
+	townie_contract_gate_exempt = TRUE
+	townie_contract_gate_hide_in_list = TRUE
 
 /datum/outfit/job/roguetown/adventurer/noble/pre_equip(mob/living/carbon/human/H)
 	..()
