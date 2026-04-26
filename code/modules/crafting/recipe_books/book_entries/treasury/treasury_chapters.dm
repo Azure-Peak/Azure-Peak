@@ -149,7 +149,9 @@
 		<h3>Region and Reward</h3>
 		<p>Defense commissions pay out in proportion to the threat they spawn. Each threat region carries a <b>reward multiplier</b> (surfaced in the commission UI beside the region name): Azure Basin at x0.75, Azure Grove at x1.0, Azurean Coast at x1.2, Terrorbog / Mount Decapitation / Underdark at x1.5. A Bounty in Terrorbog costs the same draft as a Bounty in Azure Basin - but the Terrorbog commission pays the bearer roughly twice as much. The Steward can use this to steer adventurers toward regions the realm most needs cleared.</p>
 
-		<p>Multiple blockades may stand at once. One writ per blockade at a time.</p>
+		<p><b>Blockade Writs</b> draw the same flat [BLOCKADE_SCROLL_PLEDGE_COST]m draft regardless of region, but the writ's payout is multiplied by the region's reward multiplier. A Mount Decapitation blockade writ costs [BLOCKADE_SCROLL_PLEDGE_COST]m and pays out [round(BLOCKADE_SCROLL_REWARD * 1.5)]m on completion - profitable for the Crown to commission against far-and-dangerous regions. Closer regions are loss-leaders.</p>
+
+		<p>Multiple blockades may stand at once. One writ per blockade at a time. Blockades are rolled at roundstart only; there is no mid-round scheduled spawn.</p>
 		</div>
 	"}
 
@@ -188,7 +190,7 @@
 		<p>The Market Scroll exposes per-category and global controls: <b>Auto-Price All</b> / <b>Auto-Limit All</b> reset modes; <b>Buy x</b> / <b>Sell x</b> multipliers scale either side of the spread across a category or globally (each multiplier flips affected entries to Manual). <b>Open All</b> / <b>Close All</b> per category open or refuse player deposits in bulk.</p>
 
 		<h3>Imports and the Stockpile</h3>
-		<p>Inter-regional imports enter the Crown's stockpile and feed the garrison and standing orders. The Steward may set a <b>purchase floor</b>: imports are refused when they would drop the Purse below it.</p>
+		<p>Inter-regional imports enter the Crown's stockpile and feed standing orders and the city's economy at large. The Steward may set a <b>purchase floor</b>: imports are refused when they would drop the Purse below it.</p>
 
 		<p>The Alderman's trade warrant is an authorisation, not a purse of its own: it caps how much of the Crown's Purse he may spend on trade each day. Coin flows to and from the Purse as with any Steward-led trade. The Alderman <b>cannot</b> alter stockpile pricing or limits - those remain Steward-only authority.</p>
 		</div>
@@ -255,13 +257,17 @@
 		<div>
 		<h3>Types</h3>
 		<ul>
-			<li><b>Regular</b> - posted daily. [STANDING_ORDER_DURATION]-day lifespan. Payout: base x[1 + STANDING_ORDER_BASE_BONUS] per unit.</li>
-			<li><b>Urgent</b> - spawned only by shortage events. One-day lifespan. Payout: base x[1 + STANDING_ORDER_BASE_BONUS + URGENT_ORDER_EXTRA_BONUS] per unit.</li>
-			<li><b>Warehouse</b> - for finished goods (equipment, potions). Settled from the export warehouse, not the stockpile. See Warehouse.</li>
+			<li><b>Regular</b> - rolled each dawn ([STANDING_ORDERS_BASE_PER_DAY] base, +1 per ~20 active players, capped at [STANDING_ORDERS_MAX_PER_DAY]/day). [STANDING_ORDER_DURATION]-day lifespan. Payout: base x[1 + STANDING_ORDER_BASE_BONUS] per unit.</li>
+			<li><b>Urgent</b> - spawned by shortage events, capped at [STANDING_ORDERS_MAX_URGENT] standing at a time. One-day lifespan. Payout: base x[1 + STANDING_ORDER_BASE_BONUS + URGENT_ORDER_EXTRA_BONUS] per unit.</li>
+			<li><b>Warehouse</b> - for finished goods (equipment, potions, trophy heads). Settled from the export warehouse, not the stockpile. See Warehouse.</li>
+			<li><b>Petitioned</b> - spawned on demand by the Steward burning Burgher Pledge. See <b>Petitions</b> below.</li>
 		</ul>
 
+		<h3>Petitions</h3>
+		<p>The Steward may burn Burgher Pledge to summon a standing order on demand, picking a category and a non-blockaded target region. Petitioned orders are tagged in the UI and pay [round(PETITION_TAX_MULT * 100)]% of a normal roll's payout - the cost of skipping the dawn dice. Daily quota: [PETITIONS_PER_DAY] petitions per round-day. Categories include Provisions, Materials, Arms &amp; Harness, Luxuries, Alchemy &amp; Care, and Masterwork (artificed panoply, tournament provision, hunt trophies).</p>
+
 		<h3>Fulfillment</h3>
-		<p>Stockpile orders: deposit goods, confirm at the Nerve Master, payout minted to the Steward. Warehouse orders: settled automatically on sweep.</p>
+		<p>Stockpile orders: deposit goods, confirm at the Nerve Master, payout minted to the Crown's Purse. Warehouse orders: settled automatically on sweep. <b>The bearer is not paid by the Crown</b> - the Steward holds the coin and decides what to remit.</p>
 
 		<h3>Limits</h3>
 		<p>Max [STANDING_ORDERS_MAX_PER_REGION] orders per region. Max [STANDING_ORDERS_POOL_CAP] orders in the Realm. Blockaded regions can hold orders but cannot be delivered to.</p>
@@ -343,5 +349,37 @@
 	return {"
 		<div>
 		<p>If the Crown's Purse cannot meet daily payroll, the Nerve Master announces the shortfall publicly. There are no direct mechanical consequences, except the shame and dishonor of utter failure.</p>
+		</div>
+	"}
+
+
+/datum/book_entry/treasury/banditry
+	name = "15. Of Banditry and the Roads"
+
+/datum/book_entry/treasury/banditry/inner_book_html(mob/user)
+	return {"
+		<div>
+		<p>Each region untended slips by stages from <b>Quiet</b> to <b>Restive</b>, then to <b>Dangerous</b>, and at last to <b>Bleak</b>. From <b>Dangerous</b> onward, the Crown bleeds coin each dawn for the trade and toll its bandits have stolen on the road.</p>
+
+		<h3>The Bleed</h3>
+		<p>Each contributing region is reckoned per dawn:</p>
+		<ul>
+			<li><b>Dangerous</b>: [BANDITRY_DRAIN_DANGEROUS_FLAT]m base + [BANDITRY_DRAIN_DANGEROUS_PER_PLAYER]m per active subject of the realm.</li>
+			<li><b>Bleak</b>: [BANDITRY_DRAIN_BLEAK_FLAT]m base + [BANDITRY_DRAIN_BLEAK_PER_PLAYER]m per active subject.</li>
+		</ul>
+		<p>The figure is surfaced on the Steward's Trade panel as <i>Projected Banditry Losses</i> with each region's share enumerated in plain coin and showing both the base and the per-head charge.</p>
+
+		<h3>The Floor and the Debt</h3>
+		<p>The Crown's Purse will not be cut below <b>[BANDITRY_DEBT_FLOOR]m</b> by banditry alone. What the dawn cannot take from the Purse becomes <b>banditry debt</b>, an accruing arrears that skims every coin of treasury inflow until paid. Stockpile earnings, taxes, fines, fees, loan repayments, even the gold from sold writs - all are eaten by debt before they reach the Purse.</p>
+
+		<p>The skim runs silently and at full bite: a healthy treasury with mounting debt looks healthy on its face, while in truth no new coin enters until the debt is settled. The outstanding figure stands beside the projection on the Steward's panel.</p>
+
+		<h3>What the Steward Cannot Escape</h3>
+		<p>Embezzling the Purse to a personal account does not blunt the bleed. Banditry damage accrues regardless; what the Crown cannot pay becomes debt, and the debt eats whatever coin you might mint back. Hoarding outside the Crown's keeping is mechanically pointless. Personal accounts and stockpile balances are not directly touched - only inflow into the Crown's Purse is skimmed.</p>
+
+		<h3>What the Steward Can Do</h3>
+		<p>Engage the threat. Issue Defense Commissions and Blockade Writs against the Dangerous and Bleak regions. As threat falls, so does the bleed. The debt does not shrink on its own - it shrinks only as new income is earned and skimmed against it.</p>
+
+		<p><i>This system is a stand-in until proper raid and siege content ships. Expect it to grow teeth, not lose them.</i></p>
 		</div>
 	"}

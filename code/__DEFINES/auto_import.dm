@@ -29,7 +29,7 @@
 /// Purse floor specifically for auto-import. Separate from stockpile_purchase_floor
 /// so auto-import can be more conservative: auto-import will not spend if it would
 /// drop the Purse below this value.
-#define AUTO_IMPORT_PURSE_FLOOR_DEFAULT 1500
+#define AUTO_IMPORT_PURSE_FLOOR_DEFAULT 1000
 
 /// Days of auto-import history retained for the Recent Activity readout.
 #define AUTO_IMPORT_HISTORY_DAYS 7

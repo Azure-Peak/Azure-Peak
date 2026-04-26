@@ -3,12 +3,19 @@ import { bannerStyle, SEAL_AMBER, SEAL_RED_SOFT } from '../common/parchment';
 
 export const BanditryBanner = (props: { projection: BanditryProjection }) => {
   const p = props.projection;
-  if (!p || !p.total || p.total <= 0) {
+  const hasProjection = !!p && p.total > 0;
+  const hasDebt = !!p && p.debt > 0;
+  if (!hasProjection && !hasDebt) {
     return null;
   }
   return (
     <div style={bannerStyle(SEAL_RED_SOFT, true)}>
-      <div>Projected Banditry Losses: -{p.total}m next dawn</div>
+      {hasDebt && (
+        <div>Outstanding Banditry Debt: {p.debt}m skimming all inflow</div>
+      )}
+      {hasProjection && (
+        <div>Projected Banditry Losses: -{p.total}m next dawn</div>
+      )}
       {(p.lines || []).map((line) => (
         <div
           key={line}

@@ -108,14 +108,23 @@
 #define ECON_EVENT_TARGET_COUNT 5
 #define ECON_EVENT_ROUNDSTART_COUNT 3
 
-// Banditry drain — TEMPORARY consequence for neglected threat regions.
-// Each Dangerous / Bleak region bleeds a percentage of Crown's Purse per daily tick.
-// Percentage (not flat) so a rich Crown feels the hit while a poor Crown is never
-// driven to insolvency by banditry alone. No pop scaling — the percentage of purse
-// already self-adjusts (lowpop round = poor purse = small absolute drain).
+// Banditry drain — TEMPORARY consequence for neglected threat regions, per region per
+// daily tick. Drain = base + per_player * active_pop. Drain stops cutting the purse
+// below BANDITRY_DEBT_FLOOR; remainder accrues as debt that skims all future treasury
+// inflow until paid. Personal accounts and stockpile balances are never touched directly
+// — only inflow into the discretionary fund is skimmed.
+// Why flat+pop over percentage: percentage created a perverse incentive to drain the
+// keep into personal accounts before the tick fired. Flat+pop makes hoarding strictly
+// worse (debt accrues regardless and eats anything you try to mint back in later).
 // TODO: Stand-in for proper raid/siege mechanics. Delete this system when raids ship.
-#define BANDITRY_DRAIN_DANGEROUS_PCT 0.03
-#define BANDITRY_DRAIN_BLEAK_PCT 0.06
+#define BANDITRY_DRAIN_DANGEROUS_FLAT 40
+#define BANDITRY_DRAIN_BLEAK_FLAT 80
+#define BANDITRY_DRAIN_DANGEROUS_PER_PLAYER 1
+#define BANDITRY_DRAIN_BLEAK_PER_PLAYER 2
+// Floor sits 500m above the autoimport purse-floor (AUTO_IMPORT_PURSE_FLOOR_DEFAULT,
+// 1000m) so the stockpile can keep auto-trading even when banditry has pushed the
+// treasury down to its floor.
+#define BANDITRY_DEBT_FLOOR 1500
 
 // Blockades
 #define BLOCKADE_ROUNDSTART_COUNT_MIN 2

@@ -53,6 +53,7 @@ export type EconomicEvent = {
 export type BanditryProjection = {
   total: number;
   lines: string[];
+  debt: number;
 };
 
 export type MarketRegionOption = {

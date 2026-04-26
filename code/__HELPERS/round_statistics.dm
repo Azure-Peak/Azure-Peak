@@ -136,6 +136,8 @@
 #define STATS_NOBLE_DEATHS "noble_deaths"
 #define STATS_ASTRATA_REVIVALS "astrata_revivals"
 #define STATS_TAXES_COLLECTED "taxes_collected"
+#define STATS_BANDITRY_LOSSES "banditry_losses"
+#define STATS_BANDITRY_DEBT_OUTSTANDING "banditry_debt_outstanding"
 
 //Noc
 #define STATS_BOOKS_PRINTED "books_printed"
@@ -269,6 +271,8 @@ GLOBAL_LIST_INIT(azure_round_stats, list(
 	STATS_ITEMS_PICKPOCKETED = 0,
 	STATS_MASTERWORKS_FORGED = 0,
 	STATS_TAXES_COLLECTED = 0,
+	STATS_BANDITRY_LOSSES = 0,
+	STATS_BANDITRY_DEBT_OUTSTANDING = 0,
 	STATS_ORGANS_EATEN = 0,
 	STATS_KISSES_MADE = 0,
 	STATS_LAUGHS_MADE = 0,

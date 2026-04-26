@@ -29,6 +29,8 @@
 	var/list/blockades_cleared = diff["blockades_cleared"]
 	var/list/banditry_lines = diff["banditry_drain_lines"]
 	var/banditry_total = diff["banditry_drain_total"] || 0
+	var/banditry_burned = diff["banditry_drain_burned"] || 0
+	var/banditry_debt_accrued = diff["banditry_drain_accrued_debt"] || 0
 	var/orders_rolled = diff["orders_rolled"] || 0
 	var/urgent_rolled = diff["urgent_rolled"] || 0
 	var/day = diff["day"] || GLOB.dayspassed
@@ -60,6 +62,8 @@
 		body += "<b>Financial losses from banditry:</b> <font color='#c44'>-[banditry_total]m</font><br>"
 		for(var/line in banditry_lines)
 			body += "&nbsp;&nbsp;- [line]<br>"
+		if(banditry_debt_accrued > 0)
+			body += "<i>Treasury could not absorb the full hit. <font color='#c44'>[banditry_debt_accrued]m</font> accrued as banditry debt: future inflow shall be skimmed against it until paid. ([banditry_burned]m drawn from purse, [banditry_debt_accrued]m owed.)</i><br>"
 		body += "<br>"
 	if(orders_rolled)
 		body += "<b>Standing orders posted this morning:</b> [orders_rolled]"

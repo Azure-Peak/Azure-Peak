@@ -1,11 +1,25 @@
 /datum/controller/subsystem/treasury/proc/log_fund_entry(datum/treasury_entry/entry)
 	ledger += entry
 
+/// If the destination is the discretionary fund and banditry debt is outstanding, skim the
+/// owed amount off the inflow and shrink the debt. Returns the post-skim amount that should
+/// actually credit the fund. Logged as a separate ledger entry for transparency.
+/datum/controller/subsystem/treasury/proc/skim_for_banditry_debt(datum/fund/to_fund, amount)
+	if(amount <= 0 || banditry_debt <= 0 || to_fund != discretionary_fund)
+		return amount
+	var/skim = min(amount, banditry_debt)
+	banditry_debt -= skim
+	GLOB.azure_round_stats[STATS_BANDITRY_DEBT_OUTSTANDING] = banditry_debt
+	log_fund_entry(new /datum/treasury_entry("burn", to_fund, null, skim, "Banditry debt repayment"))
+	return amount - skim
+
 /datum/controller/subsystem/treasury/proc/mint(datum/fund/to_fund, amount, reason)
 	if(!to_fund || amount <= 0)
 		return FALSE
-	to_fund.balance += amount
-	log_fund_entry(new /datum/treasury_entry("mint", null, to_fund, amount, reason))
+	var/credited = skim_for_banditry_debt(to_fund, amount)
+	if(credited > 0)
+		to_fund.balance += credited
+		log_fund_entry(new /datum/treasury_entry("mint", null, to_fund, credited, reason))
 	return TRUE
 
 /datum/controller/subsystem/treasury/proc/burn(datum/fund/from_fund, amount, reason)
@@ -26,7 +40,8 @@
 	if(from_fund.balance < amount)
 		return FALSE
 	from_fund.balance -= amount
-	to_fund.balance += amount
+	var/credited = skim_for_banditry_debt(to_fund, amount)
+	to_fund.balance += credited
 	log_fund_entry(new /datum/treasury_entry("transfer", from_fund, to_fund, amount, reason))
 	return TRUE
 

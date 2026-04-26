@@ -150,6 +150,10 @@
 	data += "<font color='#c24bc2'><span class='bold'>Drugs Snorted:</span></font> [GLOB.azure_round_stats[STATS_DRUGS_SNORTED]]<br>"
 	data += "<font color='#90a037'><span class='bold'>Laughs Had:</span></font> [GLOB.azure_round_stats[STATS_LAUGHS_MADE]]<br>"
 	data += "<font color='#f5c02e'><span class='bold'>Taxes Collected:</span></font> [GLOB.azure_round_stats[STATS_TAXES_COLLECTED]]<br>"
+	data += "<font color='#c44'><span class='bold'>Banditry Losses:</span></font> [GLOB.azure_round_stats[STATS_BANDITRY_LOSSES]]"
+	if(GLOB.azure_round_stats[STATS_BANDITRY_DEBT_OUTSTANDING] > 0)
+		data += " <i>([GLOB.azure_round_stats[STATS_BANDITRY_DEBT_OUTSTANDING]] still owed)</i>"
+	data += "<br>"
 	data += "</div>"
 
 	// Right column

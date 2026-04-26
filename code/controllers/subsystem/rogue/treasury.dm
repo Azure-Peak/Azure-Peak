@@ -36,6 +36,9 @@ SUBSYSTEM_DEF(treasury)
 	var/list/bank_accounts = list()
 	var/datum/fund/discretionary_fund
 	var/datum/fund/burgher_pledge_fund
+	/// Outstanding banditry shortfall. Positive number means future treasury inflow is
+	/// skimmed against this until it reaches zero. Cleared on round end.
+	var/banditry_debt = 0
 	var/list/ledger = list()
 	var/list/noble_incomes = list()
 	var/list/decrees = list()
