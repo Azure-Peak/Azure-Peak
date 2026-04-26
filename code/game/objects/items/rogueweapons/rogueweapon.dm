@@ -59,7 +59,7 @@
 	. = ..()
 	if(istype(src, /obj/item/rogueweapon/shield))
 		return
-	if(implement_multiplier)
+	if(implement_refund)
 		return
 	if(isliving(user))
 		var/mob/living/L = user

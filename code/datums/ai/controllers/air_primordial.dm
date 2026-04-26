@@ -13,5 +13,4 @@
 		/datum/ai_planning_subtree/basic_melee_attack_subtree,
 		/datum/ai_planning_subtree/simple_self_recovery,
 	)
-	idle_behavior = /datum/idle_behavior/idle_random_walk
 

@@ -45,7 +45,6 @@
 		/datum/ai_planning_subtree/equip_item,
 		/datum/ai_planning_subtree/loot,
 	)
-	idle_behavior = /datum/idle_behavior/idle_random_walk
 
 /datum/ai_controller/human_npc/TryPossessPawn(atom/new_pawn)
 	. = ..()

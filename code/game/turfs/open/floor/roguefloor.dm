@@ -1251,6 +1251,9 @@
 /turf/open/floor/rogue/cobblerock/cardinal_smooth(adjacencies)
 	roguesmooth(adjacencies)
 
+/turf/open/floor/rogue/cobblerock/no_smooth
+	smooth = SMOOTH_FALSE
+
 /obj/effect/decal/cobbleedge
 	name = "old cobble path"
 	desc = "Erosion and time have worn this path to half-scattered rocks slowly sinking back into the earth."
