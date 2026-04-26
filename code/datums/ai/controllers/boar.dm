@@ -100,6 +100,10 @@
 		boar.visible_message("<span class='danger'>[boar] slams into [impact_turf] with bone-shattering force!</span>")
 		playsound(boar, 'sound/combat/hits/onwood/fence_hit3.ogg', 100, TRUE)
 		boar.Stun(3 SECONDS)
+		for(var/turf/T in range(1, impact_turf))
+			var/obj/effect/temp_visual/special_intent/smash = new (T, 0.5 SECONDS)
+			smash.icon = 'icons/effects/effects.dmi'
+			smash.icon_state = "strike"
 		// Anyone within 1 tile of the point of impact gets knocked down and dazed.
 		for(var/mob/living/L in range(1, impact_turf))
 			if(L == boar)
