@@ -3,8 +3,6 @@ GLOBAL_LIST_INIT(quest_bounty_goblin_goons, list(
 	/mob/living/carbon/human/species/goblin/npc,
 	/mob/living/carbon/human/species/goblin/npc,
 	/mob/living/carbon/human/species/goblin/npc,
-	/mob/living/carbon/human/species/goblin/npc/archer,
-	/mob/living/carbon/human/species/goblin/npc/slinger,
 	/mob/living/carbon/human/species/goblin/npc/bomber,
 ))
 

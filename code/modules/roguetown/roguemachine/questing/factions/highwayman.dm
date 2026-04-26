@@ -11,8 +11,7 @@
 		/mob/living/carbon/human/species/human/northern/militia/deserter = 30,
 	)
 	boss_mob_types = list(
-		/mob/living/carbon/human/species/human/northern/outlaw_duelist = 50,
-		/mob/living/carbon/human/species/human/northern/outlaw_ranger = 50,
+		/mob/living/carbon/human/species/human/northern/outlaw_duelist = 100,
 	)
 	boss_title_templates = list(
 		"%N the Cutthroat",
