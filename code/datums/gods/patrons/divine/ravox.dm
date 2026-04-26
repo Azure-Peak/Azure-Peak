@@ -11,7 +11,7 @@
 					/datum/action/cooldown/spell/miracle/heal 						= CLERIC_T1,
 					/datum/action/cooldown/spell/miracle/bloodmiracle				= CLERIC_T1,
 					/obj/effect/proc_holder/spell/self/divine_strike				= CLERIC_T1,
-					//datum/action/cooldown/spell/touch/ravox						= CLERIC_T1, //Needs to be fixed.
+					/datum/action/cooldown/spell/ravox_aegis						= CLERIC_T1,
 					/obj/effect/proc_holder/spell/self/balance_immune   			= CLERIC_T2,
 					/datum/action/cooldown/spell/ravox/ravox_battlecry				= CLERIC_T2,
 					/obj/effect/proc_holder/spell/invoked/challenge					= CLERIC_T2,

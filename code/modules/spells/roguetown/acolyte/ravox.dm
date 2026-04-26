@@ -270,28 +270,24 @@
 		var/mob/living/carbon/C = owner
 		C.remove_movespeed_modifier(MOVESPEED_ID_DAMAGE_SLOWDOWN)
 
-////////////////////////////////////////////////////////////////////////////////////////////////
-// T1 - Ravox' Grasp - Summon the Divine Justice from your soul and let it envelop your hand. //
-////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////
+// T1 - Justicar's Aegis - Summon a shield for yourself. //
+///////////////////////////////////////////////////////////
 
-/datum/action/cooldown/spell/touch/ravox
-	name = "Justicar's Hand"
-	desc = "Channel arcyne energy through ash to inscribe protective runes upon the ground. The runes trigger when trespassers cross them - but can be circumvented by jumping or flying over them. Includes the following modes:\n \
-	<b>Touch</b>: Draw a rune on the ground using ash from your off-hand. Choose from Stun, Fire, Chill, Damage, or Alarm types.\n \
-	<b>Shove</b>: Scrub an existing rune from the ground. Skilled mages can do this silently.\n \
-	<b>Use</b>: Memorize or forget allies - memorized people will not trigger your runes."
-
+/datum/action/cooldown/spell/ravox_aegis
+	name = "Justicar's Aegis"
+	desc = "Conjure a Holy Aegis - a projected shield of divine energy designed to counter projectiles.\n\
+	Less effective against deliberate melee strikes, but excellent against ranged attacks.\n\
+	The shield vanishes when broken or when a new one is conjured."
 	background_icon = 'icons/mob/actions/ravoxmiracles.dmi'
 	button_icon = 'icons/mob/actions/ravoxmiracles.dmi'
-	button_icon_state = "justice_hand"
+	button_icon_state = "aegis"
+	sound = 'sound/magic/whiteflame.ogg'
+	spell_color = GLOW_COLOR_RAVOX
+	glow_intensity = GLOW_INTENSITY_MEDIUM
 
-	draw_message = span_notice("I shape my focus into a weapon.")
-	drop_message = span_notice("I release my focus.")
-
-	hand_path = /obj/item/melee/touch_attack/rogueweapon/ravoxgrasp
-	can_cast_on_self = TRUE
-	infinite_use = TRUE
-	ignore_armor_penalty = TRUE
+	click_to_activate = TRUE
+	self_cast_possible = TRUE
 
 	primary_resource_type = SPELL_COST_DEVOTION
 	primary_resource_cost = SPELLCOST_MIRACLE
@@ -299,86 +295,103 @@
 	secondary_resource_type = SPELL_COST_STAMINA
 	secondary_resource_cost = SPELLCOST_CONJURE
 
+	invocations = list("Ravox, grant me your bulwark!")
+	invocation_type = INVOCATION_SHOUT
+
+	charge_required = TRUE
+	charge_time = 3 SECONDS
+	charge_drain = 1
+	charge_slowdown = CHARGING_SLOWDOWN_HEAVY
+	charge_sound = 'sound/magic/charging.ogg'
+	cooldown_time = 90 SECONDS
+
+	ignore_armor_penalty = TRUE
 	associated_stat = null
 	associated_skill = /datum/skill/magic/holy
 	spell_tier = 0
 	spell_impact_intensity = SPELL_IMPACT_NONE
 
-	point_cost = 0
-
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
 
-	cooldown_time = 30 SECONDS
+	var/obj/item/rogueweapon/shield/ravox_aegis/conjured_shield
 
-	attunement_school = null
-
-	required_items = list(/obj/item/clothing/neck/roguetown/psicross/ravox, /obj/item/clothing/neck/roguetown/psicross/undivided, /obj/item/clothing/neck/roguetown/psicross/silver/undivided)
-
-/obj/item/melee/touch_attack/rogueweapon/ravoxgrasp
-	name = "justice hand"
-	desc = "The Sacred Light of Ravox. \n\
-	click on self to remove it."
-	icon = 'icons/roguetown/misc/miraclestuff.dmi'
-	mob_overlay_icon = 'icons/roguetown/misc/miraclestuff.dmi'
-	lefthand_file = 'icons/roguetown/misc/miraclestuff.dmi'
-	righthand_file = 'icons/roguetown/misc/miraclestuff.dmi'
-	icon_state = "justicei"
-	item_state = "justicei"
-	possible_item_intents = list(SHIELD_BLOCK, /datum/intent/use)
-	parrysound = list('sound/magic/magic_nulled.ogg')
-	swingsound = list('sound/magic/churn.ogg')
-	attached_spell = /datum/action/cooldown/spell/touch/astrata_flamefist
-	force = 0
-	damtype = BURN
-	wdefense = 4//Goes up to 10, a shield
-	can_parry = TRUE
-	associated_skill = /datum/skill/combat/unarmed
-	max_integrity = 200
-
-/obj/item/melee/touch_attack/rogueweapon/ravoxgrasp/Initialize()
+/datum/action/cooldown/spell/ravox_aegis/cast(atom/cast_on)
 	. = ..()
-	addtimer(CALLBACK(src, PROC_REF(skillcheck), src), wait = 1)
-	ADD_TRAIT(src, TRAIT_NODROP, ABSTRACT_ITEM_TRAIT)
+	var/mob/living/carbon/human/H = owner
+	if(!istype(H))
+		return FALSE
 
-/obj/item/melee/touch_attack/rogueweapon/ravoxgrasp/attack(mob/target, mob/living/carbon/user)
-	if(!iscarbon(user)) //Look ma, no hands
-		return
-	if(!(user.mobility_flags & MOBILITY_USE))
-		to_chat(user, "<span class='warning'>I cannot reach out!</span>")
-		return
-	..()
+	if(H.get_num_arms() <= 0)
+		to_chat(H, span_warning("I don't have any usable hands!"))
+		return FALSE
 
-/obj/item/melee/touch_attack/rogueweapon/ravoxgrasp/proc/skillcheck()
-	var/skill = usr.get_skill_level(/datum/skill/magic/holy)
-	wdefense_dynamic += skill
-	wdefense += skill
+	// Destroy previous conjured shield
+	if(conjured_shield && !QDELETED(conjured_shield))
+		conjured_shield.visible_message(span_warning("[conjured_shield] flickers and fades away!"))
+		qdel(conjured_shield)
 
-/obj/item/melee/touch_attack/rogueweapon/ravoxgrasp/afterattack(atom/target, mob/living/carbon/user, params, proximity)
-	if(isobj(target))
-		var/obj/item/O = target
-		var/mob/living/carbon/human/H = usr
-		var/cost = 0
-		var/dist = get_dist(O, user)
-		if(dist > 1)
-			return
-		if(istype(O, /obj/item/natural/head) || istype(O, /obj/item/bodypart/head))
-			if(O.sellprice > 0)
-				cost = 100
-		if(cost >= 100)
-			H.devotion?.update_devotion(cost)
-			to_chat(user, "<font color='purple'>I gain [cost] devotion!</font>")
-			qdel(O)
-		return
-	return
+	var/obj/item/rogueweapon/shield/ravox_aegis/S = new(H.drop_location())
+	S.linked_spell = src
+	S.caster_ref = WEAKREF(H)
+	S.AddComponent(/datum/component/conjured_item, null, TRUE)
+	H.put_in_hands(S)
+	conjured_shield = S
+	H.visible_message("[H] conjures a shimmering shield of arcyne energy!")
+	return TRUE
 
-/obj/item/melee/touch_attack/rogueweapon/ravoxgrasp/pre_attack(atom/target, mob/living/user, params)
-	if(isliving(target))
-		var/mob/living/L = target
-		if (do_after(user, 1 SECONDS, target = L))
-			wash_atom(target, 1)
-			to_chat(user, span_notice("I render \the [target.name] clean."))
-			return TRUE
+/datum/action/cooldown/spell/ravox_aegis/Destroy()
+	if(conjured_shield && !QDELETED(conjured_shield))
+		conjured_shield.visible_message(span_warning("[conjured_shield] flickers and fades away!"))
+		qdel(conjured_shield)
+	conjured_shield = null
 	return ..()
+
+// The conjured shield item
+/obj/item/rogueweapon/shield/ravox_aegis
+	name = "justicar's aegis"
+	desc = "A rare hunk of arcyne energy projected in front of the caster. Slower and more deliberate movement by blades and melee weapons easily pierce through to the squishy Magi behind."
+	icon = 'icons/roguetown/weapons/prismatic_weapons64.dmi'
+	icon_state = "moonlight_shield"
+	pixel_x = -16
+	bigboy = TRUE
+	wdefense = 7
+	coverage = 70
+	max_integrity = 200
+	force = 5
+	unenchantable = TRUE
+	anvilrepair = /datum/skill/magic/holy
+	parrysound = list('sound/combat/parry/shield/magicshield (1).ogg', 'sound/combat/parry/shield/magicshield (2).ogg', 'sound/combat/parry/shield/magicshield (3).ogg')
+	associated_skill = /datum/skill/magic/holy
+	var/datum/action/cooldown/spell/ravox_aegis/linked_spell
+	var/datum/weakref/caster_ref
+
+/obj/item/rogueweapon/shield/ravox_aegis/obj_break()
+	. = ..()
+	if(!QDELETED(src))
+		dispel()
+
+/obj/item/rogueweapon/shield/ravox_aegis/attack_hand(mob/living/user)
+	. = ..()
+	if(!QDELETED(src) && !(user.get_active_held_item() == src || user.get_inactive_held_item() == src))
+		dispel()
+
+/obj/item/rogueweapon/shield/ravox_aegis/dropped(mob/living/user)
+	. = ..()
+	if(QDELETED(src))
+		return
+	var/mob/caster = caster_ref?.resolve()
+	// Only dispel if dropped on the ground (not held by the caster)
+	if(!caster || loc != caster)
+		dispel()
+
+/obj/item/rogueweapon/shield/ravox_aegis/proc/dispel()
+	if(QDELETED(src))
+		return
+	visible_message(span_warning("[src] shatters into motes of divine light!"))
+	playsound(get_turf(src), 'sound/magic/magic_nulled.ogg', 80)
+	if(linked_spell)
+		linked_spell.conjured_shield = null
+	qdel(src)
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // T2 - Withstand - Based on skill provides varying degrees of stun immunity and force push up. //

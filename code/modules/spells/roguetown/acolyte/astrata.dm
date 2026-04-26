@@ -290,7 +290,7 @@
 
 	var/chosen_spell
 	var/solar_blade = /datum/action/cooldown/spell/touch/astrata_scepter
-	var/solar_fist = /datum/action/cooldown/spell/touch/astrata_flamefist
+	var/solar_fist = /datum/action/cooldown/spell/astrata/fist
 	var/choosingspell = FALSE
 
 /datum/intent/mace/strike/astrata
@@ -368,13 +368,14 @@
 	desc = "More a holy tool of ceremony than a weapon of her fury.\
 	  It harshly radiates sacred light, rebuking rot and darkness alike; \
 	  it is a ruler's blade, knight your soldiers and cleanse their wounds."
-	force = 15			//more comparable to a dagger than a sword, for it is ultimately a tool
-	force_wielded = 20
+	force = 10			//more comparable to a dagger than a sword, for it is ultimately a tool
+	force_wielded = 15
+	damtype = BURN
 	possible_item_intents = list(/datum/intent/mace/strike/astrata, /datum/intent/mace/smash/astrata)//Oversized cautery
 	gripped_intents = list(/datum/intent/mace/strike/astrata, /datum/intent/mace/smash/astrata)
 	alt_grips = null
-	max_blade_int = 200
-	max_integrity = 100
+	max_blade_int = 100
+	max_integrity = 50
 	minstr = 6
 	wdefense = 5
 	wdefense_wbonus = 3 //8 total. 1 better than a basic arming sword
@@ -388,28 +389,20 @@
 	. = ..()
 	set_light(5, 4, l_color = LIGHT_COLOR_WHITE)
 
-////////////////////////////
-// T2 - Astrata's Grasp - //
-////////////////////////////
+////////////////////////////////////////////
+// T2 - Solar Fist - Summon a flame fist. //
+////////////////////////////////////////////
 
-/datum/action/cooldown/spell/touch/astrata_flamefist
-	name = "Solar Hand"
-	desc = "Channel arcyne energy through ash to inscribe protective runes upon the ground. The runes trigger when trespassers cross them - but can be circumvented by jumping or flying over them. Includes the following modes:\n \
-	<b>Touch</b>: Draw a rune on the ground using ash from your off-hand. Choose from Stun, Fire, Chill, Damage, or Alarm types.\n \
-	<b>Shove</b>: Scrub an existing rune from the ground. Skilled mages can do this silently.\n \
-	<b>Use</b>: Memorize or forget allies - memorized people will not trigger your runes."
-
-	background_icon = 'icons/mob/actions/astratamiracles.dmi'
-	button_icon = 'icons/mob/actions/astratamiracles.dmi'
+/datum/action/cooldown/spell/astrata/fist
+	name = "Solar Fist"
+	desc = "Conjure a flaming fist of fury to strike down your enemies with, doubles as a cautery and can ignite objects."
 	button_icon_state = "grasp"
+	sound = 'sound/magic/whiteflame.ogg'
+	spell_color = GLOW_COLOR_ASTRATA
+	glow_intensity = GLOW_INTENSITY_MEDIUM
 
-	draw_message = span_notice("I shape my focus into a weapon.")
-	drop_message = span_notice("I release my focus.")
-
-	hand_path = /obj/item/melee/touch_attack/rogueweapon/astratagrasp
-	can_cast_on_self = TRUE
-	infinite_use = TRUE
-	ignore_armor_penalty = TRUE
+	click_to_activate = TRUE
+	self_cast_possible = TRUE
 
 	primary_resource_type = SPELL_COST_DEVOTION
 	primary_resource_cost = SPELLCOST_MIRACLE
@@ -417,24 +410,61 @@
 	secondary_resource_type = SPELL_COST_STAMINA
 	secondary_resource_cost = SPELLCOST_CONJURE
 
+	invocations = list("Astrata, grant me your fury!")
+	invocation_type = INVOCATION_SHOUT
+
+	charge_required = TRUE
+	charge_time = 2 SECONDS
+	charge_drain = 1
+	charge_slowdown = CHARGING_SLOWDOWN_HEAVY
+	charge_sound = 'sound/magic/charging.ogg'
+	cooldown_time = 90 SECONDS
+
+	ignore_armor_penalty = TRUE
 	associated_stat = null
 	associated_skill = /datum/skill/magic/holy
 	spell_tier = 0
 	spell_impact_intensity = SPELL_IMPACT_NONE
 
-	point_cost = 0
-
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
 
-	cooldown_time = 30 SECONDS
+	var/obj/item/rogueweapon/solar_fist/conjured_weapon
 
-	attunement_school = null
+/datum/action/cooldown/spell/astrata/fist/cast(atom/cast_on)
+	. = ..()
+	var/mob/living/carbon/human/H = owner
+	if(!istype(H))
+		return FALSE
 
-	required_items = list(/obj/item/clothing/neck/roguetown/psicross/astrata, /obj/item/clothing/neck/roguetown/psicross/silver/astrata, /obj/item/clothing/neck/roguetown/psicross/undivided, /obj/item/clothing/neck/roguetown/psicross/silver/undivided)
+	if(H.get_num_arms() <= 0)
+		to_chat(H, span_warning("I don't have any usable hands!"))
+		return FALSE
 
-/obj/item/melee/touch_attack/rogueweapon/astratagrasp
-	name = "burning hand"
-	desc = "The Sacred Flame of Astrata"
+	// Destroy previous conjured shield
+	if(conjured_weapon && !QDELETED(conjured_weapon))
+		conjured_weapon.visible_message(span_warning("[conjured_weapon] flickers and fades away!"))
+		qdel(conjured_weapon)
+
+	var/obj/item/rogueweapon/solar_fist/S = new(H.drop_location())
+	S.linked_spell = src
+	S.caster_ref = WEAKREF(H)
+	S.AddComponent(/datum/component/conjured_item, null, TRUE)
+	H.put_in_hands(S)
+	conjured_weapon = S
+	H.visible_message("[H] conjures a shimmering shield of arcyne energy!")
+	return TRUE
+
+/datum/action/cooldown/spell/astrata/fist/Destroy()
+	if(conjured_weapon && !QDELETED(conjured_weapon))
+		conjured_weapon.visible_message(span_warning("[conjured_weapon] flickers and fades away!"))
+		qdel(conjured_weapon)
+	conjured_weapon = null
+	return ..()
+
+// The conjured weapon
+/obj/item/rogueweapon/solar_fist
+	name = "solar fist"
+	desc = "A fist of flames conjured by righteous hatred of its user. Astrata's unbridled rage at display."
 	icon = 'icons/roguetown/misc/miraclestuff.dmi'
 	mob_overlay_icon = 'icons/roguetown/misc/miraclestuff.dmi'
 	lefthand_file = 'icons/roguetown/misc/miraclestuff.dmi'
@@ -443,102 +473,60 @@
 	icon_state = "flamei"
 	item_state = "flameh"
 	color = "#ffbb00ff"
-	possible_item_intents = list(/datum/intent/mace/strike/astrata, /datum/intent/mace/smash/astrata, /datum/intent/use)
-	tool_behaviour = TOOL_CAUTERY
-	parrysound = list('sound/magic/magic_nulled.ogg')
-	swingsound = list('sound/items/firelight.ogg')
-	attached_spell = /datum/action/cooldown/spell/touch/astrata_flamefist
-	force = 0
-	damtype = BURN
-	wdefense = 4
-	associated_skill = /datum/skill/combat/unarmed
+	possible_item_intents = list(/datum/intent/knuckles/sear, /datum/intent/knuckles/strike, /datum/intent/mace/smash, /datum/intent/knuckles/strike/wallop)
+	gripsprite = FALSE
+	wlength = WLENGTH_SHORT
+	w_class = WEIGHT_CLASS_SMALL
+	parrysound = list('sound/combat/hits/punch/punch_hard (1).ogg', 'sound/combat/hits/punch/punch_hard (2).ogg', 'sound/combat/hits/punch/punch_hard (3).ogg')
+	sharpness = IS_BLUNT
 	max_integrity = 100
-	var/takespeed = 5
-	var/fprob = 0
-	var/cooldown = FALSE
+	swingsound = list('sound/combat/wooshes/punch/punchwoosh (1).ogg','sound/combat/wooshes/punch/punchwoosh (2).ogg','sound/combat/wooshes/punch/punchwoosh (3).ogg')
+	associated_skill = /datum/skill/combat/unarmed
+	pickup_sound = 'sound/magic/whiteflame.ogg'
+	force = 25
+	throwforce = 12
+	wdefense = 0	//Meant to be used with bracers
+	wbalance = WBALANCE_NORMAL
+	thrown_bclass = BCLASS_BURN
+	anvilrepair = /datum/skill/magic/holy
+	smeltresult = null
+	tool_behaviour = TOOL_CAUTERY
+	var/datum/action/cooldown/spell/astrata/fist/linked_spell
+	var/datum/weakref/caster_ref
 
-/obj/item/melee/touch_attack/rogueweapon/astratagrasp/Initialize()
+/obj/item/rogueweapon/solar_fist/obj_break()
 	. = ..()
-	addtimer(CALLBACK(src, PROC_REF(skillcheck), src), wait = 1)
-	ADD_TRAIT(src, TRAIT_NODROP, ABSTRACT_ITEM_TRAIT)
-	item_flags |= SURGICAL_TOOL
+	if(!QDELETED(src))
+		dispel()
 
-/obj/item/melee/touch_attack/rogueweapon/astratagrasp/attack(mob/target, mob/living/carbon/user)
-	if(!iscarbon(user)) //Look ma, no hands
+/obj/item/rogueweapon/solar_fist/attack_hand(mob/living/user)
+	. = ..()
+	if(!QDELETED(src) && !(user.get_active_held_item() == src || user.get_inactive_held_item() == src))
+		dispel()
+
+/obj/item/rogueweapon/solar_fist/dropped(mob/living/user)
+	. = ..()
+	if(QDELETED(src))
 		return
-	if(!(user.mobility_flags & MOBILITY_USE))
-		to_chat(user, "<span class='warning'>I cannot reach out!</span>")
+	var/mob/caster = caster_ref?.resolve()
+	// Only dispel if dropped on the ground (not held by the caster)
+	if(!caster || loc != caster)
+		dispel()
+
+/obj/item/rogueweapon/solar_fist/proc/dispel()
+	if(QDELETED(src))
 		return
-	..()
-
-/obj/item/melee/touch_attack/rogueweapon/astratagrasp/proc/skillcheck()
-	var/skill = usr.get_skill_level(/datum/skill/magic/holy)
-	fprob = 10 * skill
-	if(skill <= 4)
-		force = 5 * skill
-	else
-		force = 20
-
-/obj/item/melee/touch_attack/rogueweapon/astratagrasp/attack_self()
-	attached_spell.remove_hand()
+	visible_message(span_warning("[src] shatters into motes of divine light!"))
+	playsound(get_turf(src), 'sound/magic/magic_nulled.ogg', 80)
+	if(linked_spell)
+		linked_spell.conjured_weapon = null
 	qdel(src)
 
-/obj/item/melee/touch_attack/rogueweapon/astratagrasp/proc/cooldown()
-	cooldown = FALSE
+/obj/item/rogueweapon/solar_fist/Initialize()
+	. = ..()
+	item_flags |= SURGICAL_TOOL
 
-/obj/item/melee/touch_attack/rogueweapon/astratagrasp/afterattack(atom/target, mob/living/carbon/user, params, proximity)
-	if(istype(user.a_intent, /datum/intent/use))
-		if(isliving(target))
-			var/mob/living/M = target
-			var/skill = usr.get_skill_level(/datum/skill/magic/holy)
-			if(M.fire_stacks <= 0)
-				return
-			if(cooldown)
-				return
-			if(skill == 1) //Nope, devoute user.
-				return
-			user.visible_message("<font color='yellow'>[user] points at [M], flame rends out!</font>")
-			M.extinguish_mob()
-			cooldown = TRUE
-			addtimer(CALLBACK(src, PROC_REF(cooldown), src), wait = 5 SECONDS)
-		if(isobj(target))
-			var/obj/item/O = target
-			var/mob/living/carbon/human/H = usr
-			var/cost = 0
-			var/dist = get_dist(O, user)
-			if(dist > 1)
-				return
-			if(istype(O, /obj/item/ash))
-				cost = 20
-			if(istype(O, /obj/item/reagent_containers/food/snacks/grown/rogue/fyritius))
-				cost = 50
-			if(istype(O, /obj/item/alch/firedust))
-				cost = 100
-			if(cost >= 20)
-				H.devotion?.update_devotion(cost)
-				to_chat(user, "<font color='purple'>I gain [cost] devotion!</font>")
-				qdel(O)
-		return
-	if(isliving(target))
-		var/mob/living/M = target
-		var/dist = get_dist(M, user)
-		if(dist > 1)
-			return
-		if(istype(user.a_intent, /datum/intent/mace/smash/astrata))
-			var/fire_stacks = M.fire_stacks
-			if(fire_stacks > 4)
-				M.adjustFireLoss(fire_stacks * 5) //i am confident in your ability to kill someone after doing this much damage
-				M.adjust_fire_stacks(-fire_stacks)
-				M.extinguish_mob()
-				return
-		if(prob(fprob))
-			M.adjust_fire_stacks(1)
-			M.ignite_mob()
-	return
-
-/obj/item/melee/touch_attack/rogueweapon/astratagrasp/pre_attack(atom/target, mob/living/user, params)
-	if(!istype(user.a_intent, /datum/intent/use))
-		return ..()
+/obj/item/rogueweapon/solar_fist/pre_attack(atom/target, mob/living/user, params)
 	if(isliving(target))
 		var/mob/living/L = target
 		L.spark_act()
