@@ -184,7 +184,7 @@
 
 			
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
-	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_DEVOTEE, devotion_limit = CLERIC_REQ_1)
+	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_1)
 	if(H.mind)
 		H.mind.RemoveSpell(/obj/effect/proc_holder/spell/invoked/blood_heal)
 	switch(H.patron?.type)
