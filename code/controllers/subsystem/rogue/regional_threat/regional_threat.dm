@@ -16,6 +16,7 @@ SUBSYSTEM_DEF(regionthreat)
 			_min_ambush = 0,
 			_max_ambush = 375,
 			_fixed_ambush = FALSE,
+			_ambush_budget_pct = AMBUSH_BUDGET_PCT_SAFE_REGION,
 			_lowpop_tick = 375 * THREAT_LOWPOP_TICK_RATE,
 			_highpop_tick = 375 * THREAT_HIGHPOP_TICK_RATE,
 			_faction_weights = list(
@@ -34,6 +35,7 @@ SUBSYSTEM_DEF(regionthreat)
 			_min_ambush = 0,
 			_max_ambush = 750,
 			_fixed_ambush = FALSE,
+			_ambush_budget_pct = AMBUSH_BUDGET_PCT_SAFE_REGION,
 			_lowpop_tick = 750 * THREAT_LOWPOP_TICK_RATE,
 			_highpop_tick = 750 * THREAT_HIGHPOP_TICK_RATE,
 			_faction_weights = list(
@@ -49,12 +51,12 @@ SUBSYSTEM_DEF(regionthreat)
 		),
 		new /datum/threat_region(
 			_region_name = THREAT_REGION_TERRORBOG,
-			_latent_ambush = 2250,
+			_latent_ambush = 1500,
 			_min_ambush = 0, // Fully tameable — a warden can engage in a long war to tame the terrorbog.
-			_max_ambush = 2250,
+			_max_ambush = 1500,
 			_fixed_ambush = FALSE,
-			_lowpop_tick = 2250 * THREAT_LOWPOP_TICK_RATE,
-			_highpop_tick = 2250 * THREAT_HIGHPOP_TICK_RATE,
+			_lowpop_tick = 1500 * THREAT_LOWPOP_TICK_RATE,
+			_highpop_tick = 1500 * THREAT_HIGHPOP_TICK_RATE,
 			_faction_weights = list(
 				QUEST_FACTION_BOGMAN = 40,
 				QUEST_FACTION_MIRESPIDER = 25,
@@ -70,12 +72,12 @@ SUBSYSTEM_DEF(regionthreat)
 		// Coast & Decap stay somewhat dangerous no matter what
 		new /datum/threat_region(
 			_region_name = THREAT_REGION_AZUREAN_COAST,
-			_latent_ambush = 750,
+			_latent_ambush = 500,
 			_min_ambush = 225,
-			_max_ambush = 1200,
+			_max_ambush = 800,
 			_fixed_ambush = FALSE,
-			_lowpop_tick = 1200 * THREAT_LOWPOP_TICK_RATE,
-			_highpop_tick = 1200 * THREAT_HIGHPOP_TICK_RATE,
+			_lowpop_tick = 800 * THREAT_LOWPOP_TICK_RATE,
+			_highpop_tick = 800 * THREAT_HIGHPOP_TICK_RATE,
 			_faction_weights = list(
 				QUEST_FACTION_ORC = 25,
 				QUEST_FACTION_GRONNMAN = 20,
@@ -91,12 +93,12 @@ SUBSYSTEM_DEF(regionthreat)
 		),
 		new /datum/threat_region(
 			_region_name = THREAT_REGION_MOUNT_DECAP,
-			_latent_ambush = 750,
+			_latent_ambush = 600,
 			_min_ambush = 300,
-			_max_ambush = 1500,
+			_max_ambush = 1000,
 			_fixed_ambush = FALSE,
-			_lowpop_tick = 1500 * THREAT_LOWPOP_TICK_RATE,
-			_highpop_tick = 1500 * THREAT_HIGHPOP_TICK_RATE,
+			_lowpop_tick = 1000 * THREAT_LOWPOP_TICK_RATE,
+			_highpop_tick = 1000 * THREAT_HIGHPOP_TICK_RATE,
 			_faction_weights = list(
 				QUEST_FACTION_HELL_GOBLIN = 25,
 				QUEST_FACTION_MINOTAUR = 10,
@@ -113,12 +115,12 @@ SUBSYSTEM_DEF(regionthreat)
 		// Underdark cannot be tamed — min_ambush is high, keeping the region permanently dangerous.
 		new /datum/threat_region(
 			_region_name = THREAT_REGION_UNDERDARK,
-			_latent_ambush = 1200,
-			_min_ambush = 600, // Hard floor — drow and spider nests are eternal
-			_max_ambush = 1800,
+			_latent_ambush = 600,
+			_min_ambush = 400, // Hard floor — drow and spider nests are eternal
+			_max_ambush = 1200,
 			_fixed_ambush = FALSE,
-			_lowpop_tick = 1800 * THREAT_LOWPOP_TICK_RATE,
-			_highpop_tick = 1800 * THREAT_HIGHPOP_TICK_RATE,
+			_lowpop_tick = 1200 * THREAT_LOWPOP_TICK_RATE,
+			_highpop_tick = 1200 * THREAT_HIGHPOP_TICK_RATE,
 			_faction_weights = list(
 				QUEST_FACTION_DROW = 30,
 				QUEST_FACTION_MIRESPIDER = 25,
