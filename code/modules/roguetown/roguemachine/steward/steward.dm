@@ -168,8 +168,6 @@
 			return
 		SStreasury.total_import += amt
 		record_round_statistic(STATS_STOCKPILE_IMPORTS_VALUE, amt)
-		if(amt >= 100) //Only announce big spending.
-			scom_announce("Azure Peak imports [D.name] for [amt] mammon.", )
 		D.raise_demand()
 		addtimer(CALLBACK(src, PROC_REF(do_import), D.type), 10 SECONDS)
 	if(href_list["export"])
@@ -557,9 +555,7 @@
 	if(spent > 0)
 		if(is_alderman_acting)
 			SScity_assembly.consume_trade(spent, user, "import [quantity] [tg.name] from [region.name]")
-		var/msg = "Azure Peak imports [quantity] [tg.name] from [region.name] for [spent] mammon."
-		scom_announce(msg)
-		say(msg)
+		say("Azure Peak imports [quantity] [tg.name] from [region.name] for [spent] mammon.")
 		playsound(src, 'sound/misc/coininsert.ogg', 100, FALSE, -1)
 	SStgui.update_uis(src)
 
@@ -596,9 +592,7 @@
 	if(gained > 0)
 		if(is_alderman_acting)
 			SScity_assembly.consume_trade(gained, user, "export [quantity] [tg.name] to [region.name]")
-		var/msg = "Azure Peak exports [quantity] [tg.name] to [region.name] for [gained] mammon."
-		scom_announce(msg)
-		say(msg)
+		say("Azure Peak exports [quantity] [tg.name] to [region.name] for [gained] mammon.")
 		playsound(src, 'sound/misc/coindispense.ogg', 60, FALSE, -1)
 	SStgui.update_uis(src)
 

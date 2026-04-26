@@ -417,8 +417,6 @@ SUBSYSTEM_DEF(treasury)
 	mint(discretionary_fund, amt, "exported [D.name]")
 	SStreasury.total_export += amt
 	record_round_statistic(STATS_STOCKPILE_EXPORTS_VALUE, amt)
-	if(!silent && amt >= EXPORT_ANNOUNCE_THRESHOLD)
-		scom_announce("Azure Peak exports [D.name] for [amt] mammon.")
 	return amt
 
 /datum/controller/subsystem/treasury/proc/auto_export()
