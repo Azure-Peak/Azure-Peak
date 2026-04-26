@@ -77,7 +77,7 @@
 
 /obj/item/hunting_map/white_stag/debug
 	skill_chances = list(100, 100, 100, 100, 100, 100, 100)
-	uses_left = 99
+	uses_left = 1
 	degradation_rate = 0
 
 /obj/item/hunting_map/boars
