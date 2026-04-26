@@ -238,6 +238,7 @@
 		market_rows += list(row)
 	data["market_rows"] = market_rows
 	data["total_arbitrage_potential"] = total_arbitrage_potential
+	data["autoexport_percentage"] = round(SStreasury.autoexport_percentage * 100)
 
 	// Region rows — strip static fields (name, description — come from region_catalog)
 	// and keep only mutable state (blockade flag, produces_today, demands_today).
@@ -687,6 +688,78 @@
 				A.withdraw_price = max(1, round(A.withdraw_price * mult))
 				A.automatic_price = FALSE
 			scom_announce("[category] stockpile sell prices adjusted by x[mult].")
+			SStgui.update_uis(src)
+			return TRUE
+		if("set_autoexport_percentage")
+			if(SScity_assembly?.is_alderman(usr))
+				return TRUE
+			var/pct = text2num("[params["pct"]]")
+			if(isnull(pct))
+				return TRUE
+			pct = clamp(round(pct), 0, 100)
+			SStreasury.autoexport_percentage = pct * 0.01
+			scom_announce("Crown surplus threshold set to [pct]%.")
+			SStgui.update_uis(src)
+			return TRUE
+		if("export_surplus_all")
+			if(SScity_assembly?.is_alderman(usr))
+				return TRUE
+			var/list/result = SStreasury.mass_export_surplus(silent = FALSE)
+			var/units = result["units"]
+			var/revenue = result["revenue"]
+			if(units <= 0)
+				to_chat(usr, span_warning("No surplus to export - either no entry is over its threshold, or every demanding region is saturated for the day."))
+				return TRUE
+			scom_announce("Crown clears surplus stockpile: [units] units exported for [revenue] mammon.")
+			for(var/line in result["lines"])
+				to_chat(usr, span_notice(line))
+			to_chat(usr, span_notice("<b>Total: [units] units exported for [revenue]m.</b>"))
+			playsound(src, 'sound/misc/coindispense.ogg', 60, FALSE, -1)
+			SStgui.update_uis(src)
+			return TRUE
+		if("export_surplus_category")
+			if(SScity_assembly?.is_alderman(usr))
+				return TRUE
+			var/category = params["category"]
+			if(!category)
+				return TRUE
+			// Per-category mass export: identical surplus rules, filtered to one trade-good category.
+			var/total_revenue = 0
+			var/total_units = 0
+			var/list/lines = list()
+			for(var/datum/roguestock/D in SStreasury.stockpile_datums)
+				if(!D.trade_good_id || !D.automatic_price || !D.importexport_amt)
+					continue
+				var/datum/trade_good/tg = GLOB.trade_goods[D.trade_good_id]
+				if(!tg || tg.category != category)
+					continue
+				var/surplus = D.stockpile_amount - round(SStreasury.autoexport_percentage * D.stockpile_limit)
+				if(surplus <= 0)
+					continue
+				var/list/best = SSeconomy.get_best_export_region(D.trade_good_id)
+				if(!best || !best["region_id"])
+					continue
+				var/datum/economic_region/region = GLOB.economic_regions[best["region_id"]]
+				if(!region)
+					continue
+				var/remaining_demand = region.demands_today[D.trade_good_id] || 0
+				if(remaining_demand <= 0)
+					continue
+				var/export_qty = min(surplus, remaining_demand)
+				var/revenue = SSeconomy.manual_export(null, region.region_id, D.trade_good_id, export_qty)
+				if(!revenue)
+					continue
+				total_revenue += revenue
+				total_units += export_qty
+				lines += "[export_qty] [D.name] to [region.name] for [revenue]m"
+			if(total_units <= 0)
+				to_chat(usr, span_warning("No [category] surplus to export."))
+				return TRUE
+			scom_announce("Crown clears [category] surplus: [total_units] units exported for [total_revenue] mammon.")
+			for(var/line in lines)
+				to_chat(usr, span_notice(line))
+			to_chat(usr, span_notice("<b>Total: [total_units] units exported for [total_revenue]m.</b>"))
+			playsound(src, 'sound/misc/coindispense.ogg', 60, FALSE, -1)
 			SStgui.update_uis(src)
 			return TRUE
 		if("petition_for_order")

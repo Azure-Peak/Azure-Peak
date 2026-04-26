@@ -189,6 +189,10 @@
 		<h3>Bulk Operators</h3>
 		<p>The Market Scroll exposes per-category and global controls: <b>Auto-Price All</b> / <b>Auto-Limit All</b> reset modes; <b>Buy x</b> / <b>Sell x</b> multipliers scale either side of the spread across a category or globally (each multiplier flips affected entries to Manual). <b>Open All</b> / <b>Close All</b> per category open or refuse player deposits in bulk.</p>
 
+		<h3>Surplus Exports</h3>
+		<p>Each stockpile entry has a per-day <b>surplus floor</b>: <code>floor = limit x threshold</code>. Stock above the floor is surplus, and the Crown's daily auto-export sweep clears that surplus to the highest-paying region, capped at that region's remaining daily demand. The threshold defaults to 60% and is set globally - lower it to make the Crown more aggressive about turning hoarded stock into mammon, raise it to keep more stock on hand for citizens and standing orders.</p>
+		<p>The Steward may also fire the sweep on demand from the Market Scroll's <b>Export Surplus</b> button (or the per-category equivalent). Once a region's daily demand is saturated, no further units can be exported there until the day rolls over - so spamming the button has no effect beyond the first useful click. <b>Manual-priced entries are skipped</b>: those are the Steward's territory, and the Crown will not auto-route stock the Steward has hand-priced. Hand-export them per-row from the same scroll.</p>
+
 		<h3>Imports and the Stockpile</h3>
 		<p>Inter-regional imports enter the Crown's stockpile and feed standing orders and the city's economy at large. The Steward may set a <b>purchase floor</b>: imports are refused when they would drop the Purse below it.</p>
 

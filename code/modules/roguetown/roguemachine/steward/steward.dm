@@ -433,19 +433,6 @@
 				if(newtax > D.payout_price)
 					scom_announce("The bounty for [D.name] was increased.")
 				D.payout_price = newtax
-	if(href_list["changeautoexport"])
-		if(!usr.canUseTopic(src, BE_CLOSE) || locked)
-			return
-		var/new_autoexport = input(usr, "Set a new autoexport percentage between 0 and 100", src, SStreasury.autoexport_percentage * 100) as null|num
-		if(!new_autoexport && new_autoexport != 0)
-			return
-		if(findtext(num2text(new_autoexport), "."))
-			return
-		if(new_autoexport < 0 || new_autoexport > 100)
-			to_chat(usr, span_warning("Invalid autoexport percentage. Must be between 0 and 100."))
-			return
-		new_autoexport = round(new_autoexport)
-		SStreasury.autoexport_percentage = new_autoexport * 0.01
 	if(href_list["trade_tgui"])
 		open_trade_tgui(usr)
 		return

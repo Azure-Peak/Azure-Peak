@@ -46,7 +46,12 @@ const promptMultiplier = (label: string): number | null => {
 // ── Market view ──────────────────────────────────────────────────
 export const MarketView = (props: { data: Data; onTrade: OnTrade }) => {
   const { act } = useBackend<Data>();
-  const { market_rows, good_catalog, total_arbitrage_potential } = props.data;
+  const {
+    market_rows,
+    good_catalog,
+    total_arbitrage_potential,
+    autoexport_percentage,
+  } = props.data;
   const { onTrade } = props;
 
   const groups = groupByCategory(market_rows, good_catalog);
@@ -91,6 +96,31 @@ export const MarketView = (props: { data: Data; onTrade: OnTrade }) => {
           potential at current prices
         </div>
         <div style={{ display: 'flex', gap: '6px' }}>
+          <button
+            type="button"
+            style={inkButtonStyle({ color: SEAL_AMBER })}
+            onClick={() => {
+              const raw = window.prompt(
+                'Surplus threshold (0-100%). Stock above (limit × threshold) is "surplus" - the daily Crown sweep and the Export Surplus button move that excess to the highest-paying region, capped at that region\'s daily demand. Lower = more aggressive export.',
+                String(autoexport_percentage),
+              );
+              if (raw === null) return;
+              const n = parseInt(raw, 10);
+              if (isNaN(n) || n < 0 || n > 100) return;
+              act('set_autoexport_percentage', { pct: n });
+            }}
+            title={`Surplus threshold: ${autoexport_percentage}%. Click to change.`}
+          >
+            Threshold {autoexport_percentage}%
+          </button>
+          <button
+            type="button"
+            style={inkButtonStyle({ color: SEAL_GREEN })}
+            onClick={() => act('export_surplus_all')}
+            title="Export every auto-priced entry's stock above the threshold to its best-paying region, capped at remaining daily demand. Manual-priced entries are skipped."
+          >
+            Export Surplus
+          </button>
           <button
             type="button"
             style={inkButtonStyle({ color: INK })}
@@ -168,6 +198,18 @@ export const MarketView = (props: { data: Data; onTrade: OnTrade }) => {
                 <span style={{ fontStyle: 'italic' }}>
                   {activeGroup.label}:
                 </span>
+                <button
+                  type="button"
+                  style={inkButtonStyle({ color: SEAL_GREEN })}
+                  onClick={() =>
+                    act('export_surplus_category', {
+                      category: activeGroup.category,
+                    })
+                  }
+                  title={`Export ${activeGroup.label} surplus (stock over threshold) to best-paying regions.`}
+                >
+                  Export Surplus
+                </button>
                 <button
                   type="button"
                   style={inkButtonStyle({ color: INK })}

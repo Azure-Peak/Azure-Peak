@@ -183,6 +183,7 @@ export type Data = StaticData & {
   auto_import: AutoImportData;
   trade_quote: TradeQuote | null;
   total_arbitrage_potential: number;
+  autoexport_percentage: number;
   petition_categories: PetitionCategory[];
   petition_tax_pct: number;
   petitions_per_day: number;

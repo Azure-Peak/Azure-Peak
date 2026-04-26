@@ -43,6 +43,11 @@ SUBSYSTEM_DEF(treasury)
 	var/list/noble_incomes = list()
 	var/list/decrees = list()
 	var/list/stockpile_datums = list()
+	/// good_id -> /datum/roguestock/stockpile. Populated once at Initialize from
+	/// stockpile_datums; the list is never mutated afterward, so this stays valid for
+	/// the round. Lookup callers (find_stockpile_by_trade_good) hit this map - the old
+	/// linear scan was being called ~100x per Steward UI tick.
+	var/list/stockpile_by_trade_good = list()
 	var/decree_revoke_used_day = -1
 	var/decree_restore_used_day = -1
 	var/next_treasury_check = 0
@@ -109,8 +114,10 @@ SUBSYSTEM_DEF(treasury)
 		var/datum/D = new path
 		stockpile_datums += D
 	for(var/path in subtypesof(/datum/roguestock/stockpile))
-		var/datum/D = new path
+		var/datum/roguestock/D = new path
 		stockpile_datums += D
+		if(D.trade_good_id)
+			stockpile_by_trade_good[D.trade_good_id] = D
 	autoset_stockpile_limits()
 	return ..()
 
@@ -416,23 +423,41 @@ SUBSYSTEM_DEF(treasury)
 
 /datum/controller/subsystem/treasury/proc/auto_export()
 	var/total_value_exported = 0
+	// Legacy non-trade-good entries: keep the old profitability guard. Trade-good entries
+	// (the bulk of the warehouse) flow through mass_export_surplus() below.
 	for(var/datum/roguestock/D in stockpile_datums)
-		if(!D.importexport_amt)
+		if(!D.importexport_amt || D.trade_good_id)
 			continue
 		if((autoexport_percentage * D.stockpile_limit) >= D.stockpile_amount)
 			continue
-		// Manual-priced trade-good entries are Steward's territory.
-		if(D.trade_good_id && !D.automatic_price)
+		if(D.get_export_price() <= (D.payout_price * D.importexport_amt))
 			continue
-		// Legacy entries (no trade_good_id) keep the old profitability guard.
+		if(D.stockpile_amount >= D.importexport_amt)
+			total_value_exported += do_export(D, TRUE)
+	var/list/surplus_result = mass_export_surplus(silent = TRUE)
+	total_value_exported += surplus_result["revenue"]
+	if(total_value_exported >= EXPORT_ANNOUNCE_THRESHOLD)
+		scom_announce("Azure Peak exports [total_value_exported] mammons of surplus goods.")
+
+/// Walks every auto-priced trade-good stockpile entry and exports stock above the
+/// daily auto-export floor (limit * autoexport_percentage) to its best-paying region,
+/// capped at that region's remaining demand for the day. The Crown's daily sweep
+/// fires this with silent=TRUE; the Steward's "Export Surplus" button fires it with
+/// silent=FALSE for a per-good chat breakdown.
+///
+/// Returns: list("revenue" = total mammon, "units" = total units exported,
+/// "lines" = list of "[qty] [name] -> [region] for [revenue]m" strings).
+/datum/controller/subsystem/treasury/proc/mass_export_surplus(silent = FALSE)
+	var/total_revenue = 0
+	var/total_units = 0
+	var/list/lines = list()
+	for(var/datum/roguestock/D in stockpile_datums)
 		if(!D.trade_good_id)
-			if(D.get_export_price() <= (D.payout_price * D.importexport_amt))
-				continue
-			if(D.stockpile_amount >= D.importexport_amt)
-				total_value_exported += do_export(D, TRUE)
 			continue
-		// Trade-good entries: clear surplus only up to the best region's remaining daily
-		// demand. No escalation, no profit required - this is a market pressure valve.
+		if(!D.automatic_price)
+			continue
+		if(!D.importexport_amt)
+			continue
 		var/surplus = D.stockpile_amount - round(autoexport_percentage * D.stockpile_limit)
 		if(surplus <= 0)
 			continue
@@ -447,10 +472,13 @@ SUBSYSTEM_DEF(treasury)
 			continue
 		var/export_qty = min(surplus, remaining_demand)
 		var/revenue = SSeconomy.manual_export(null, region.region_id, D.trade_good_id, export_qty)
-		if(revenue)
-			total_value_exported += revenue
-	if(total_value_exported >= EXPORT_ANNOUNCE_THRESHOLD)
-		scom_announce("Azure Peak exports [total_value_exported] mammons of surplus goods.")
+		if(!revenue)
+			continue
+		total_revenue += revenue
+		total_units += export_qty
+		if(!silent)
+			lines += "[export_qty] [D.name] to [region.name] for [revenue]m"
+	return list("revenue" = total_revenue, "units" = total_units, "lines" = lines)
 
 /datum/controller/subsystem/treasury/proc/remove_person(mob/living/person)
 	noble_incomes -= person

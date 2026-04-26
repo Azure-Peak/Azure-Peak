@@ -618,12 +618,7 @@ SUBSYSTEM_DEF(economy)
 /datum/controller/subsystem/economy/proc/find_stockpile_by_trade_good(good_id)
 	if(!good_id)
 		return null
-	for(var/datum/roguestock/entry as anything in SStreasury.stockpile_datums)
-		if(!("trade_good_id" in entry.vars))
-			continue
-		if(entry.vars["trade_good_id"] == good_id)
-			return entry
-	return null
+	return SStreasury.stockpile_by_trade_good[good_id]
 
 /datum/controller/subsystem/economy/proc/manual_import(mob/user, region_id, good_id, quantity)
 	var/datum/economic_region/region = GLOB.economic_regions[region_id]
