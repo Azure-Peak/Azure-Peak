@@ -1,7 +1,7 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/boar
 	icon = 'icons/roguetown/mob/monster/boar.dmi'
 	name = "bramblesnout"
-	desc = "The ever terrifying bramblesnout. Not just large, but its many tusks hook into flesh to create grievous wounds. Being charged is a surefire way to perish."
+	desc = "The ever terrifying bramblesnout. Not just large, but its many tusks hook into flesh to create grievous wounds. Being charged is a surefire way to perish. It is a hulking mass of muscle, yet still nimble. Oft hunted in pairs, with at least one hunter getting their stomach gouged..."
 	icon_state = "boar"
 	icon_living = "boar"
 	icon_dead = "boar_dead"
