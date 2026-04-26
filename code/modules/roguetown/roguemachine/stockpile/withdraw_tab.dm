@@ -40,7 +40,7 @@
 					contents += " <font color='#888'>(NOT ACCEPTING DEPOSITS)</font>"
 				contents += "<BR>"
 			else
-				contents += "<b>[A.name]:</b> Withdrawing Disabled..."
+				contents += "<b>[A.name]:</b> Withdrawing Disabled...<BR>"
 
 	else
 		for(var/datum/roguestock/stockpile/A in SStreasury.stockpile_datums)
