@@ -7,6 +7,7 @@
 	traits_applied = list(TRAIT_HOMESTEAD_EXPERT)
 	cmode_music = 'sound/music/cmode/towner/combat_towner2.ogg'
 	category_tags = list(CTAG_TOWNER)
+	townie_contract_gate_exempt = TRUE
 	maximum_possible_slots = 3 //So you don't get a swarm of ppl
 	subclass_stats = list(
 		STATKEY_CON = 1,

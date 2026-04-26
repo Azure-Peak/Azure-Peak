@@ -3,6 +3,7 @@
 	var/list/classes
 	var/outfit
 	var/tutorial = "Choose me!"
+	var/townie_contract_gate_exempt = FALSE
 	/// Subclass-specific tutorial shown via to_chat on spawn, separate from the class-picker tutorial.
 	var/subclass_tutorial
 	var/list/allowed_sexes

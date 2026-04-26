@@ -1,3 +1,6 @@
+/datum/advclass/thug
+	townie_contract_gate_exempt = TRUE
+
 /datum/advclass/thug/goon
 	name = "Goon"
 	tutorial = "You are a goon, a low-lyfe thug in a painful world - not good enough for war, not smart enough for peace. What you lack in station you make up for in daring."

@@ -44,6 +44,7 @@ type ContractLedgerData = {
   active_count: number;
   active_max: number;
   townie_gate_remaining: number;
+  townie_contract_gate_exempt_jobs: string[];
   take_cooldown_remaining: number;
   user_fellowship_size: number;
   pool: Contract[];
@@ -242,10 +243,11 @@ const ContractCard = (props: { contract: Contract }) => {
     atCap ||
     cantAfford ||
     fellowshipShort;
+  const exemptList = (data.townie_contract_gate_exempt_jobs || []).join(', ');
   const title = noAccount
     ? 'No bank account. Register with a Meister first.'
     : gateRemaining > 0
-      ? `Reserved for sellswords. Town may sign in ${Math.ceil(gateRemaining / 60)}m.`
+      ? `By Guild precedence, the first two daes of a week fall to masterless hands: ${exemptList}. Townfolk in trade or charter may sign in ${Math.ceil(gateRemaining / 60)}m.`
       : takeCooldown > 0
         ? `Guild cooldown, wait ${takeCooldown}s before signing another.`
         : atCap
@@ -388,12 +390,13 @@ const ActiveStrip = (props: {
   const { act, data } = useBackend<ContractLedgerData>();
   const gateRemaining = data.townie_gate_remaining || 0;
   const takeCooldown = data.take_cooldown_remaining || 0;
+  const exemptList = (data.townie_contract_gate_exempt_jobs || []).join(', ');
   const blockReason = !data.has_account
     ? 'You have no bank account. Register with a Meister before signing any contract.'
     : gateRemaining > 0
-      ? `Contracts are reserved for sellswords. Town may sign in ${Math.ceil(gateRemaining / 60)}m.`
+      ? `The Guild observes the precedence of the masterless hand. The first two daes of the week fall to: ${exemptList}. Townfolk in trade or charter may sign in ${Math.ceil(gateRemaining / 60)}m.`
       : takeCooldown > 0
-        ? `Guild cooldown active — wait ${takeCooldown}s before signing another contract.`
+        ? `Guild cooldown active, wait ${takeCooldown}s before signing another contract.`
         : null;
   return (
     <div className="ContractLedger__ActiveStrip">
