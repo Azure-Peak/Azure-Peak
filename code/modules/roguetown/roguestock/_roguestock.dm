@@ -21,7 +21,7 @@
 	if(trade_good_id)
 		var/datum/trade_good/tg = GLOB.trade_goods[trade_good_id]
 		if(tg)
-			payout_price = max(1, round(tg.base_price * tg.global_price_mod * (1 - IMPORT_EXPORT_SPREAD)))
+			payout_price = max(1, round(tg.base_price * (1 - IMPORT_EXPORT_SPREAD)))
 			withdraw_price = max(1, round(tg.base_price * tg.global_price_mod))
 	return
 
@@ -39,18 +39,18 @@
 			return FALSE
 	return TRUE
 
-/// One-way ratchets: deposit price moves up only, withdraw price moves down only.
-/// Steward must manually unlock either to move the other direction.
+/// Deposit auto-price is always anchored at baseline (event mods ignored): the Crown
+/// must not chase shortage prices upward, since it would then buy from players at the
+/// same rate it exports at and earn nothing on the cycle. Withdraw auto-price keeps a
+/// downward-only ratchet against the modulated market, so gluts pass through to citizens.
 /datum/roguestock/proc/refresh_auto_price()
 	if(!automatic_price || !trade_good_id)
 		return
 	var/datum/trade_good/tg = GLOB.trade_goods[trade_good_id]
 	if(!tg)
 		return
-	var/deposit_market = max(1, round(tg.base_price * tg.global_price_mod * (1 - IMPORT_EXPORT_SPREAD)))
 	var/withdraw_market = max(1, round(tg.base_price * tg.global_price_mod))
-	if(deposit_market > payout_price)
-		payout_price = deposit_market
+	payout_price = max(1, round(tg.base_price * (1 - IMPORT_EXPORT_SPREAD)))
 	if(withdraw_market < withdraw_price)
 		withdraw_price = withdraw_market
 
@@ -60,7 +60,7 @@
 	var/datum/trade_good/tg = GLOB.trade_goods[trade_good_id]
 	if(!tg)
 		return
-	payout_price = max(1, round(tg.base_price * tg.global_price_mod * (1 - IMPORT_EXPORT_SPREAD)))
+	payout_price = max(1, round(tg.base_price * (1 - IMPORT_EXPORT_SPREAD)))
 	withdraw_price = max(1, round(tg.base_price * tg.global_price_mod))
 
 /datum/roguestock/proc/get_market_deposit_price()
@@ -69,15 +69,21 @@
 	var/datum/trade_good/tg = GLOB.trade_goods[trade_good_id]
 	if(!tg)
 		return payout_price
-	return max(1, round(tg.base_price * tg.global_price_mod * (1 - IMPORT_EXPORT_SPREAD)))
+	return max(1, round(tg.base_price * (1 - IMPORT_EXPORT_SPREAD)))
 
+/// Withdraw anchor is the *auto-target* the ratchet aims at, not the raw modulated
+/// market: during a shortage the modulated market is high but auto-withdraw refuses
+/// to follow it up, and reporting the inflated number as "market" makes a held-line
+/// price look like a discount when it is just the baseline.
 /datum/roguestock/proc/get_market_withdraw_price()
 	if(!trade_good_id)
 		return withdraw_price
 	var/datum/trade_good/tg = GLOB.trade_goods[trade_good_id]
 	if(!tg)
 		return withdraw_price
-	return max(1, round(tg.base_price * tg.global_price_mod))
+	var/baseline = max(1, round(tg.base_price))
+	var/modulated = max(1, round(tg.base_price * tg.global_price_mod))
+	return min(baseline, modulated)
 
 /datum/roguestock/proc/get_market_price()
 	return get_market_deposit_price()

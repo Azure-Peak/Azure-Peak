@@ -6,6 +6,8 @@
 	outfit = /datum/outfit/job/roguetown/adventurer/mystic
 	class_select_category = CLASS_CAT_MYSTIC
 	category_tags = list(CTAG_ADVENTURER, CTAG_COURTAGENT)
+	townie_contract_gate_exempt = TRUE
+	townie_contract_gate_hide_in_list = TRUE
 	traits_applied = list(TRAIT_SEEDKNOW, TRAIT_ARCYNE)
 	subclass_stats = list( // stat spread of 6 points, lower than the 7 adventurer gets on average
 			STATKEY_INT = 2,

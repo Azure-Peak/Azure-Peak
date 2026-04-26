@@ -25,6 +25,17 @@ GLOBAL_LIST_EMPTY(active_economic_events)
 		var/datum/trade_good/tg = GLOB.trade_goods[good_id]
 		if(tg && price_mod != 0)
 			tg.global_price_mod /= price_mod
+	// Withdraw auto-price ratchets downward only, so a glut that pushed it below
+	// baseline never recovers on its own. When an oversupply ends, snap any
+	// auto-priced stockpile entry back to the restored market.
+	if(event_type != ECON_EVENT_OVERSUPPLY)
+		return
+	for(var/datum/roguestock/D as anything in SStreasury.stockpile_datums)
+		if(!D.automatic_price || !D.trade_good_id)
+			continue
+		if(!(D.trade_good_id in affected_goods))
+			continue
+		D.snap_auto_prices()
 
 
 // ============================================================================

@@ -32,8 +32,11 @@ SUBSYSTEM_DEF(job)
 			townie_contract_gate_exempt_names |= J.title
 	for(var/path in subtypesof(/datum/advclass))
 		var/datum/advclass/AC = path
-		if(initial(AC.townie_contract_gate_exempt) && initial(AC.name))
-			townie_contract_gate_exempt_names |= initial(AC.name)
+		if(!initial(AC.townie_contract_gate_exempt) || !initial(AC.name))
+			continue
+		if(initial(AC.townie_contract_gate_hide_in_list))
+			continue
+		townie_contract_gate_exempt_names |= initial(AC.name)
 	sortTim(townie_contract_gate_exempt_names, /proc/cmp_text_asc)
 
 /datum/controller/subsystem/job/proc/townie_contract_gate_exempt_display_names()
