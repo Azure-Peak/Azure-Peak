@@ -27,6 +27,7 @@
 		/datum/skill/craft/crafting = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/craft/alchemy = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/hunting = SKILL_LEVEL_EXPERT,
+		/datum/skill/labor/butchering = SKILL_LEVEL_APPRENTICE,
 	)
 	category_tags = list(CTAG_GNOLL)
 	cmode_music = 'sound/music/combat_graggar.ogg'
