@@ -4,6 +4,7 @@
 	item_type = /obj/item/reagent_containers/food/snacks/rogue/meat/steak
 	trade_good_id = TRADE_GOOD_MEAT
 	importexport_amt = 10
+	stockpile_amount = 5
 	stockpile_limit = 50
 	category = "Animal"
 
@@ -13,6 +14,7 @@
 	item_type = /obj/item/reagent_containers/food/snacks/rogue/meat/poultry
 	trade_good_id = TRADE_GOOD_POULTRY
 	importexport_amt = 5
+	stockpile_amount = 2
 	stockpile_limit = 25
 	category = "Animal"
 
@@ -22,6 +24,7 @@
 	item_type = /obj/item/reagent_containers/food/snacks/rogue/meat/rabbit
 	trade_good_id = TRADE_GOOD_RABBIT
 	importexport_amt = 5
+	stockpile_amount = 2
 	stockpile_limit = 25
 	category = "Animal"
 
@@ -30,6 +33,7 @@
 	desc = "Edible flesh harvested from swines."
 	item_type = /obj/item/reagent_containers/food/snacks/rogue/meat/fatty
 	trade_good_id = TRADE_GOOD_PORK
+	stockpile_amount = 2
 	importexport_amt = 5
 	stockpile_limit = 25
 	category = "Animal"
@@ -58,6 +62,7 @@
 	desc = "Egg laid by a hen."
 	item_type = /obj/item/reagent_containers/food/snacks/egg
 	trade_good_id = TRADE_GOOD_EGG
+	stockpile_amount = 4
 	importexport_amt = 5
 	stockpile_limit = 25
 	category = "Animal"
@@ -68,6 +73,7 @@
 	item_type = /obj/item/reagent_containers/food/snacks/butter
 	trade_good_id = TRADE_GOOD_BUTTER
 	importexport_amt = 5
+	stockpile_amount = 5
 	stockpile_limit = 25
 	category = "Animal"
 
@@ -76,6 +82,7 @@
 	desc = "The product of milk and salt."
 	item_type = /obj/item/reagent_containers/food/snacks/rogue/cheese
 	trade_good_id = TRADE_GOOD_CHEESE
+	stockpile_amount = 5
 	importexport_amt = 5
 	stockpile_limit = 25
 	category = "Animal"
