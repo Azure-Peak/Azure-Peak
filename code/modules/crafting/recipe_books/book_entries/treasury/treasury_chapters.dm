@@ -160,21 +160,37 @@
 /datum/book_entry/treasury/trade/inner_book_html(mob/user)
 	return {"
 		<div>
-		<p>The Crown trades with nine regions: Kingsfield, Rosawood, Rockhill, Daftsmarch, Blackholt, Saltwick, Bleakcoast, Northfort, Heartfelt. Executed through the Steward's Trade Scroll at the Nerve Master.</p>
+		<p>The Crown trades with nine regions: Kingsfield, Rosawood, Rockhill, Daftsmarch, Blackholt, Saltwick, Bleakcoast, Northfort, Heartfelt. Executed through the <b>Market Scroll</b> at the Nerve Master, which combines the Trade and Stockpile interfaces into a single panel.</p>
 
-		<h3>Pricing</h3>
+		<h3>Inter-Regional Trade Pricing</h3>
 		<ul>
 			<li>Each region has daily production and demand for specific goods. Volumes scale with active player count.</li>
 			<li><b>Import</b> price rises sharply once purchases exceed daily production. Repeat imports of the same good in one day carry a further surcharge.</li>
 			<li><b>Export</b> revenue is always [IMPORT_EXPORT_SPREAD * 100]% less than the matching import price. Buying and re-selling is always a loss.</li>
 			<li><b>Blockade</b>: import x[BLOCKADE_IMPORT_MULT], export x[BLOCKADE_EXPORT_MULT].</li>
 			<li><b>Economic events</b> apply a further multiplier - see Supply and Demand.</li>
+			<li>Each Trade action is capped at [TRADE_MAX_BULK_UNITS] units per click. The trade modal shows a live quote with base subtotal, escalation surcharge, and total before commit.</li>
 		</ul>
 
-		<h3>Stockpile</h3>
-		<p>Imports enter the Crown's stockpile and feed the garrison and standing orders. The Steward may set a <b>purchase floor</b>: imports are refused when they would drop the Purse below it.</p>
+		<h3>Stockpile Pricing - Asymmetric and Self-Ratcheting</h3>
+		<p>Each stockpiled good has two prices: a <b>buy price</b> (Crown pays the depositing player) and a <b>sell price</b> (Crown charges the withdrawing player). The structural [IMPORT_EXPORT_SPREAD * 100]% spread guarantees Crown profit on every cycle.</p>
+		<ul>
+			<li>An entry on <b>Auto</b> mode tracks the global market with one-way ratchets. Buy price moves <b>upward only</b> (shortage drives base up, Crown pays more to attract supply; glut drops base, the Crown holds the old high). Sell price moves <b>downward only</b> (glut drops base, Crown discounts to citizens; shortage drives base up, Crown holds the old low).</li>
+			<li>The Steward may set either price by hand, which switches the entry to <b>Manual</b>. Manual entries do not ratchet; they hold whatever the Steward set until they are restored to Auto. Restoring Auto snaps both prices to the current market, resetting the ratchet anchors.</li>
+			<li>Manual-priced entries are skipped by the Crown's autoexport sweep - manual is the Steward's territory.</li>
+			<li>The Market Scroll surfaces a per-good <b>arbitrage margin</b> column (sell - buy, times current stock) and an aggregate "Crown spread on held stockpile" total at the top, so the Steward can see the realized-on-resale value of the warehouse at a glance.</li>
+		</ul>
 
-		<p>The Alderman's trade warrant is an authorisation, not a purse of its own: it caps how much of the Crown's Purse he may spend on trade each day. Coin flows to and from the Purse as with any Steward-led trade.</p>
+		<h3>Stockpile Limit - Auto and Manual</h3>
+		<p>Each stockpile entry has a per-day limit beyond which deposits no longer pay. Limits start in <b>Auto</b> mode at roundstart, computed as <b>total daily demand across all regions x pop multiplier x [STOCKPILE_AUTO_LIMIT_DAYS] days of headroom</b>, with a [STOCKPILE_LIMIT_MIN]-unit floor for goods that have no demand line (gems, treasures). The Steward may override by setting a limit by hand, which flips the entry to <b>Manual</b>; <b>Auto-Limit All</b> resets every entry back to the formula.</p>
+
+		<h3>Bulk Operators</h3>
+		<p>The Market Scroll exposes per-category and global controls: <b>Auto-Price All</b> / <b>Auto-Limit All</b> reset modes; <b>Buy x</b> / <b>Sell x</b> multipliers scale either side of the spread across a category or globally (each multiplier flips affected entries to Manual). <b>Open All</b> / <b>Close All</b> per category open or refuse player deposits in bulk.</p>
+
+		<h3>Imports and the Stockpile</h3>
+		<p>Inter-regional imports enter the Crown's stockpile and feed the garrison and standing orders. The Steward may set a <b>purchase floor</b>: imports are refused when they would drop the Purse below it.</p>
+
+		<p>The Alderman's trade warrant is an authorisation, not a purse of its own: it caps how much of the Crown's Purse he may spend on trade each day. Coin flows to and from the Purse as with any Steward-led trade. The Alderman <b>cannot</b> alter stockpile pricing or limits - those remain Steward-only authority.</p>
 		</div>
 	"}
 
@@ -222,11 +238,11 @@
 		<p>Economic events last [ECON_EVENT_DURATION] day(s) and are posted on the noticeboard under <b>Economic Events</b>.</p>
 
 		<ul>
-			<li><b>Shortage</b> - affected goods spike in price. One urgent standing order is posted against the afflicted region.</li>
+			<li><b>Shortage</b> - affected goods spike in price. One urgent standing order is posted against the afflicted region, <b>provided fewer than [STANDING_ORDERS_MAX_URGENT] urgent orders are already standing</b>. Past that cap, the shortage's price spike still bites, but no urgent quest is spawned - regular standing orders keep their pool slots.</li>
 			<li><b>Oversupply</b> - affected goods drop in price.</li>
 		</ul>
 
-		<p>The Steward's Trade Scroll at the Nerve Master shows live buy/sell prices for every good in every region.</p>
+		<p>The <b>Market Scroll</b> at the Nerve Master shows live buy/sell prices for every good in every region.</p>
 		</div>
 	"}
 
