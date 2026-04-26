@@ -150,10 +150,6 @@
 	data += "<font color='#c24bc2'><span class='bold'>Drugs Snorted:</span></font> [GLOB.azure_round_stats[STATS_DRUGS_SNORTED]]<br>"
 	data += "<font color='#90a037'><span class='bold'>Laughs Had:</span></font> [GLOB.azure_round_stats[STATS_LAUGHS_MADE]]<br>"
 	data += "<font color='#f5c02e'><span class='bold'>Taxes Collected:</span></font> [GLOB.azure_round_stats[STATS_TAXES_COLLECTED]]<br>"
-	data += "<font color='#c44'><span class='bold'>Banditry Losses:</span></font> [GLOB.azure_round_stats[STATS_BANDITRY_LOSSES]]"
-	if(GLOB.azure_round_stats[STATS_BANDITRY_DEBT_OUTSTANDING] > 0)
-		data += " <i>([GLOB.azure_round_stats[STATS_BANDITRY_DEBT_OUTSTANDING]] still owed)</i>"
-	data += "<br>"
 	data += "</div>"
 
 	// Right column
@@ -582,6 +578,12 @@
 			data += "<div style='margin-bottom: 4px;'><font color='#b6a17f'>Salary Payments: </font>[GLOB.azure_round_stats[STATS_WAGES_PAID]]</div>"
 			data += "<div style='margin-bottom: 4px;'><font color='#aac484'>Treasury Transfers: </font>[GLOB.azure_round_stats[STATS_DIRECT_TREASURY_TRANSFERS]]</div>"
 			data += "<div style='margin-bottom: 4px;'><font color='#db853d'>Stockpile Imports: </font>[GLOB.azure_round_stats[STATS_STOCKPILE_IMPORTS_VALUE]]</div>"
+			var/banditry_losses = GLOB.azure_round_stats[STATS_BANDITRY_LOSSES]
+			var/banditry_owed = GLOB.azure_round_stats[STATS_BANDITRY_DEBT_OUTSTANDING]
+			data += "<div style='margin-bottom: 4px;'><font color='#c44'>Banditry Losses: </font>[banditry_losses]"
+			if(banditry_owed > 0)
+				data += " <span style='color: #888; font-size: 85%;'>([banditry_owed] still owed)</span>"
+			data += "</div>"
 			var/exempt_contract = GLOB.azure_round_stats[STATS_EXEMPTED_CONTRACT_LEVY]
 			var/exempt_headeater = GLOB.azure_round_stats[STATS_EXEMPTED_HEADEATER_LEVY]
 			var/exempt_import = GLOB.azure_round_stats[STATS_EXEMPTED_IMPORT_TARIFF]
@@ -599,7 +601,7 @@
 			data += "Poll Tax [exempt_poll]"
 			data += "</div>"
 			data += "<div style='border-top: 1px solid #555; margin: 8px 0;'></div>"
-			var/total_expenses = GLOB.azure_round_stats[STATS_WAGES_PAID] + GLOB.azure_round_stats[STATS_DIRECT_TREASURY_TRANSFERS] + GLOB.azure_round_stats[STATS_STOCKPILE_IMPORTS_VALUE]
+			var/total_expenses = GLOB.azure_round_stats[STATS_WAGES_PAID] + GLOB.azure_round_stats[STATS_DIRECT_TREASURY_TRANSFERS] + GLOB.azure_round_stats[STATS_STOCKPILE_IMPORTS_VALUE] + banditry_losses
 			data += "<div style='margin-bottom: 4px;'><font color='#c44731'>Total Expenses: </font>[total_expenses]</div>"
 			data += "</td>"
 
