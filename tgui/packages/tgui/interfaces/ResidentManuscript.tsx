@@ -199,220 +199,236 @@ export const ResidentManuscript = () => {
 
   return (
     <Window
-      width={760}
-      height={860}
+      width={820}
+      height={900}
       title={profileTexts.display_name || texts.window_title}
       theme="grimoire"
     >
-      <Window.Content scrollable>
+      <Window.Content className="ResidentManuscriptWindow" scrollable>
         <div
           className={classes('ResidentManuscript', profileClassName)}
           style={themeStyle}
         >
           <div className={sheetClassName}>
             <DefectOverlay defectKeys={defectKeys} texts={texts} />
-            <header className="ResidentManuscript__header">
-              <div className="ResidentManuscript__subtitle">
-                {profileTexts.subtitle}
-              </div>
-              <div className="ResidentManuscript__title">
-                {profileTexts.display_name}
-              </div>
-            </header>
-
-            <div className="ResidentManuscript__bodyText">
-              {profileTexts.description}
-            </div>
-
-            <section className="ResidentManuscript__fields">
-              <ManuscriptField
-                label={texts.labels.owner}
-                className={
-                  hasDefect(defectKeys, 'owner_wobble')
-                    ? 'ResidentManuscript__field--ownerWobble'
-                    : undefined
-                }
-              >
-                {canEdit ? (
-                  <Input
-                    fluid
-                    placeholder={texts.placeholders.owner}
-                    value={ownerName}
-                    onChange={setOwnerName}
-                  />
-                ) : (
-                  displayValue(owner.name, texts.states.empty)
-                )}
-              </ManuscriptField>
-
-              <ManuscriptField label={texts.labels.age}>
-                {canEdit ? (
-                  <Input
-                    fluid
-                    placeholder={texts.placeholders.age}
-                    value={ownerAge}
-                    onChange={setOwnerAge}
-                  />
-                ) : (
-                  displayValue(owner.age, texts.states.empty)
-                )}
-              </ManuscriptField>
-
-              <ManuscriptField label={texts.labels.status}>
-                {canEdit ? (
-                  <div className="ResidentManuscript__statusButtons">
-                    <Button
-                      selected={ownerStatus === 'commoner'}
-                      onClick={() => setOwnerStatus('commoner')}
-                    >
-                      {texts.owner_status_options.commoner}
-                    </Button>
-                    <Button
-                      selected={ownerStatus === 'noble'}
-                      onClick={() => setOwnerStatus('noble')}
-                    >
-                      {texts.owner_status_options.noble}
-                    </Button>
+            <DocumentOrnament position="top" />
+            <main className="ResidentManuscript__body">
+              <header className="ResidentManuscript__header">
+                <DocumentCrest profileId={profileId} />
+                <div className="ResidentManuscript__titleBlock">
+                  <div className="ResidentManuscript__pretitle">
+                    {profileTexts.subtitle}
                   </div>
-                ) : (
-                  displayValue(ownerStatusLabel, texts.states.empty)
-                )}
-              </ManuscriptField>
-
-              <ManuscriptField label={texts.labels.issued}>
-                {displayValue(issued_place, texts.states.empty)}
-              </ManuscriptField>
-
-              <ManuscriptField
-                label={texts.labels.expires}
-                className={
-                  hasDefect(defectKeys, 'corrected_date')
-                    ? 'ResidentManuscript__field--correctedDate'
-                    : undefined
-                }
-              >
-                {displayValue(expiry_date, texts.states.empty)}
-              </ManuscriptField>
-            </section>
-
-            <div className="ResidentManuscript__notice">
-              {!is_bound
-                ? texts.states.unbound
-                : is_owner
-                  ? texts.states.owner
-                  : texts.states.other}
-            </div>
-
-            {!!is_blank && (
-              <div className="ResidentManuscript__note">
-                {texts.states.blank_hint}
-              </div>
-            )}
-
-            {canEdit && (
-              <div className="ResidentManuscript__note">
-                {texts.states.fake_edit_hint}
-              </div>
-            )}
-
-            <section className="ResidentManuscript__sealSection">
-              <div className="ResidentManuscript__sectionTitle">
-                {texts.labels.seals}
-              </div>
-              <div className="ResidentManuscript__seals">
-                {seals
-                  .filter((seal) => !!seal.visible)
-                  .map((seal) => (
-                    <ResidentManuscriptSeal
-                      defectKeys={defectKeys}
-                      key={seal.key}
-                      seal={seal}
-                      texts={texts}
-                    />
-                  ))}
-              </div>
-            </section>
-
-            <section className="ResidentManuscript__verification">
-              <div className="ResidentManuscript__sectionTitle">
-                {texts.labels.verification}
-              </div>
-              <div
-                className={`ResidentManuscript__verificationText ResidentManuscript__verificationText--${verification.result}`}
-              >
-                {verificationText}
-              </div>
-              {verification.result === 'fake' && defectNotes.length > 0 && (
-                <div className="ResidentManuscript__defects">
-                  <div className="ResidentManuscript__defectTitle">
-                    {texts.labels.defects}
+                  <div className="ResidentManuscript__title">
+                    {profileTexts.display_name}
                   </div>
-                  {defectNotes.map((note) => (
-                    <div className="ResidentManuscript__defect" key={note}>
-                      {note}
-                    </div>
-                  ))}
+                  <div className="ResidentManuscript__subtitle">
+                    {texts.subtitle_prefix}
+                  </div>
                 </div>
-              )}
-            </section>
+              </header>
 
-            <div className="ResidentManuscript__actions">
-              {canEdit && (
-                <Button
-                  icon="save"
-                  tooltip={texts.tooltips.save}
-                  onClick={() =>
-                    act('save_fake', {
-                      owner_name: ownerName,
-                      owner_age: ownerAge,
-                      owner_status_key: ownerStatus,
-                    })
+              <div className="ResidentManuscript__divider" />
+
+              <section className="ResidentManuscript__recipientBlock">
+                <div className="ResidentManuscript__fieldLabel">
+                  {texts.labels.owner}
+                </div>
+                <div
+                  className={classes(
+                    'ResidentManuscript__recipient',
+                    hasDefect(defectKeys, 'owner_wobble') &&
+                      'ResidentManuscript__recipient--ownerWobble',
+                  )}
+                >
+                  {canEdit ? (
+                    <Input
+                      fluid
+                      placeholder={texts.placeholders.owner}
+                      value={ownerName}
+                      onChange={setOwnerName}
+                    />
+                  ) : (
+                    displayValue(owner.name, texts.states.empty)
+                  )}
+                </div>
+              </section>
+
+              <div className="ResidentManuscript__bodyText">
+                {profileTexts.description}
+              </div>
+
+              <section className="ResidentManuscript__fields">
+                <ManuscriptField label={texts.labels.age}>
+                  {canEdit ? (
+                    <Input
+                      fluid
+                      placeholder={texts.placeholders.age}
+                      value={ownerAge}
+                      onChange={setOwnerAge}
+                    />
+                  ) : (
+                    displayValue(owner.age, texts.states.empty)
+                  )}
+                </ManuscriptField>
+
+                <ManuscriptField label={texts.labels.status}>
+                  {canEdit ? (
+                    <div className="ResidentManuscript__statusButtons">
+                      <Button
+                        selected={ownerStatus === 'commoner'}
+                        onClick={() => setOwnerStatus('commoner')}
+                      >
+                        {texts.owner_status_options.commoner}
+                      </Button>
+                      <Button
+                        selected={ownerStatus === 'noble'}
+                        onClick={() => setOwnerStatus('noble')}
+                      >
+                        {texts.owner_status_options.noble}
+                      </Button>
+                    </div>
+                  ) : (
+                    displayValue(ownerStatusLabel, texts.states.empty)
+                  )}
+                </ManuscriptField>
+
+                <ManuscriptField label={texts.labels.issued}>
+                  {displayValue(issued_place, texts.states.empty)}
+                </ManuscriptField>
+
+                <ManuscriptField
+                  label={texts.labels.expires}
+                  className={
+                    hasDefect(defectKeys, 'corrected_date')
+                      ? 'ResidentManuscript__field--correctedDate'
+                      : undefined
                   }
                 >
-                  {texts.buttons.save}
-                </Button>
+                  {displayValue(expiry_date, texts.states.empty)}
+                </ManuscriptField>
+              </section>
+
+              <div className="ResidentManuscript__notice">
+                {!is_bound
+                  ? texts.states.unbound
+                  : is_owner
+                    ? texts.states.owner
+                    : texts.states.other}
+              </div>
+
+              {!!is_blank && (
+                <div className="ResidentManuscript__note">
+                  {texts.states.blank_hint}
+                </div>
               )}
 
-              {!!permissions.can_bind && (
-                <Button
-                  icon="signature"
-                  tooltip={texts.tooltips.bind}
-                  onClick={() => act('bind')}
-                >
-                  {texts.buttons.bind}
-                </Button>
+              {canEdit && (
+                <div className="ResidentManuscript__note">
+                  {texts.states.fake_edit_hint}
+                </div>
               )}
 
-              {!!permissions.can_stamp && (
-                <Button
-                  icon="stamp"
-                  tooltip={texts.tooltips.stamp}
-                  onClick={() => act('stamp')}
-                >
-                  {texts.buttons.stamp}
-                </Button>
-              )}
+              <section className="ResidentManuscript__sealSection">
+                <div className="ResidentManuscript__sectionTitle">
+                  {texts.labels.seals}
+                </div>
+                <div className="ResidentManuscript__seals">
+                  {seals
+                    .filter((seal) => !!seal.visible)
+                    .map((seal) => (
+                      <ResidentManuscriptSeal
+                        defectKeys={defectKeys}
+                        key={seal.key}
+                        seal={seal}
+                        texts={texts}
+                      />
+                    ))}
+                </div>
+              </section>
 
-              {!!permissions.can_inspect && (
-                <Button
-                  icon="search"
-                  tooltip={texts.tooltips.inspect}
-                  onClick={() => act('inspect')}
+              <section className="ResidentManuscript__verification">
+                <div className="ResidentManuscript__sectionTitle">
+                  {texts.labels.verification}
+                </div>
+                <div
+                  className={`ResidentManuscript__verificationText ResidentManuscript__verificationText--${verification.result}`}
                 >
-                  {texts.buttons.inspect}
-                </Button>
-              )}
+                  {verificationText}
+                </div>
+                {verification.result === 'fake' && defectNotes.length > 0 && (
+                  <div className="ResidentManuscript__defects">
+                    <div className="ResidentManuscript__defectTitle">
+                      {texts.labels.defects}
+                    </div>
+                    {defectNotes.map((note) => (
+                      <div className="ResidentManuscript__defect" key={note}>
+                        {note}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </section>
 
-              {!!permissions.can_claim && (
-                <Button
-                  icon="key"
-                  tooltip={texts.tooltips.claim}
-                  onClick={() => act('claim_residence')}
-                >
-                  {texts.buttons.claim}
-                </Button>
-              )}
-            </div>
+              <div className="ResidentManuscript__actions">
+                {canEdit && (
+                  <Button
+                    icon="save"
+                    tooltip={texts.tooltips.save}
+                    onClick={() =>
+                      act('save_fake', {
+                        owner_name: ownerName,
+                        owner_age: ownerAge,
+                        owner_status_key: ownerStatus,
+                      })
+                    }
+                  >
+                    {texts.buttons.save}
+                  </Button>
+                )}
+
+                {!!permissions.can_bind && (
+                  <Button
+                    icon="signature"
+                    tooltip={texts.tooltips.bind}
+                    onClick={() => act('bind')}
+                  >
+                    {texts.buttons.bind}
+                  </Button>
+                )}
+
+                {!!permissions.can_stamp && (
+                  <Button
+                    icon="stamp"
+                    tooltip={texts.tooltips.stamp}
+                    onClick={() => act('stamp')}
+                  >
+                    {texts.buttons.stamp}
+                  </Button>
+                )}
+
+                {!!permissions.can_inspect && (
+                  <Button
+                    icon="search"
+                    tooltip={texts.tooltips.inspect}
+                    onClick={() => act('inspect')}
+                  >
+                    {texts.buttons.inspect}
+                  </Button>
+                )}
+
+                {!!permissions.can_claim && (
+                  <Button
+                    icon="key"
+                    tooltip={texts.tooltips.claim}
+                    onClick={() => act('claim_residence')}
+                  >
+                    {texts.buttons.claim}
+                  </Button>
+                )}
+              </div>
+            </main>
+            <DocumentOrnament position="bottom" />
           </div>
         </div>
       </Window.Content>
@@ -424,6 +440,79 @@ type ManuscriptFieldProps = {
   label: string;
   children: ReactNode;
   className?: string;
+};
+
+type DocumentOrnamentProps = {
+  position: 'top' | 'bottom';
+};
+
+const DocumentOrnament = (props: DocumentOrnamentProps) => {
+  const { position } = props;
+
+  return (
+    <div
+      className={classes(
+        'ResidentManuscript__ornament',
+        `ResidentManuscript__ornament--${position}`,
+      )}
+      aria-hidden="true"
+    >
+      <svg viewBox="0 0 760 78" preserveAspectRatio="none">
+        <path
+          className="ResidentManuscript__ornamentGold"
+          d="M30 40 C84 9 147 9 201 39 C244 63 287 63 330 39 C352 27 369 19 380 14 C391 19 408 27 430 39 C473 63 516 63 559 39 C613 9 676 9 730 40"
+          fill="none"
+        />
+        <path
+          className="ResidentManuscript__ornamentBlue"
+          d="M38 52 C86 24 139 24 187 50 M573 50 C621 24 674 24 722 52"
+          fill="none"
+        />
+        <path
+          className="ResidentManuscript__ornamentBlue"
+          d="M238 42 C281 16 329 16 372 42 M388 42 C431 16 479 16 522 42"
+          fill="none"
+        />
+        <path
+          className="ResidentManuscript__ornamentGold"
+          d="M380 9 L390 33 L416 34 L395 49 L402 73 L380 58 L358 73 L365 49 L344 34 L370 33 Z"
+        />
+      </svg>
+    </div>
+  );
+};
+
+type DocumentCrestProps = {
+  profileId: DocumentProfileId;
+};
+
+const DocumentCrest = (props: DocumentCrestProps) => {
+  const { profileId } = props;
+
+  return (
+    <svg
+      className={classes(
+        'ResidentManuscript__crest',
+        `ResidentManuscript__crest--${profileId}`,
+      )}
+      aria-hidden="true"
+      viewBox="0 0 96 112"
+    >
+      <path
+        className="ResidentManuscript__crestShield"
+        d="M48 8 L82 20 V52 C82 76 67 94 48 104 C29 94 14 76 14 52 V20 Z"
+      />
+      <path
+        className="ResidentManuscript__crestQuarter"
+        d="M48 12 V98 M18 52 H78"
+      />
+      <path
+        className="ResidentManuscript__crestRay"
+        d="M48 26 L55 49 L76 49 L59 62 L66 86 L48 72 L30 86 L37 62 L20 49 L41 49 Z"
+      />
+      <circle className="ResidentManuscript__crestGem" cx="48" cy="56" r="8" />
+    </svg>
+  );
 };
 
 const ManuscriptField = (props: ManuscriptFieldProps) => {
@@ -533,6 +622,9 @@ const DefectOverlay = (props: DefectOverlayProps) => {
       )}
       {hasDefect(defectKeys, 'stale_smell') && (
         <div className="ResidentManuscript__visualDefect ResidentManuscript__visualDefect--staleSmell" />
+      )}
+      {hasDefect(defectKeys, 'blue_halo') && (
+        <div className="ResidentManuscript__visualDefect ResidentManuscript__visualDefect--blueHalo" />
       )}
       {hasDefect(defectKeys, 'ragged_edge') && (
         <svg

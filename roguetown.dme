@@ -2543,6 +2543,7 @@
 #include "code\modules\paperwork\contract.dm"
 #include "code\modules\paperwork\paper.dm"
 #include "code\modules\paperwork\paper_premade.dm"
+#include "code\modules\paperwork\resident_document_profiles.dm"
 #include "code\modules\paperwork\rogue.dm"
 #include "code\modules\paperwork\papers\scrap.dm"
 #include "code\modules\photography\_pictures.dm"

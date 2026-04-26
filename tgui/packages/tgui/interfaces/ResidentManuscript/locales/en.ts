@@ -3,7 +3,7 @@ import type { ResidentManuscriptTexts } from '../localization';
 export const residentManuscriptEn: ResidentManuscriptTexts = {
   window_title: 'Resident Manuscript',
   title: 'Resident Manuscript',
-  subtitle_prefix: "Under the Crown's Hand",
+  subtitle_prefix: 'Official writ of lawful standing',
   profiles: {
     resident: {
       display_name: 'Resident Manuscript',
@@ -33,7 +33,7 @@ export const residentManuscriptEn: ResidentManuscriptTexts = {
       display_name: 'Commoner Manuscript',
       subtitle: 'Under the Common Law',
       description:
-        'Let it be known: the bearer is recognized as a lawful commoner of these lands, neither titled nor accused, owing no duties beyond those due from any subject. No high authority is invoked here — only the modest shelter of the common law.',
+        'Let it be known: the bearer is recognized as a lawful commoner of these lands, neither titled nor accused, owing no duties beyond those due from any subject. No high authority is invoked here -- only the modest shelter of the common law.',
     },
     mercenary: {
       display_name: 'Mercenary Compact',

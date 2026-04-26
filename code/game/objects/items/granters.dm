@@ -690,6 +690,12 @@ UNDER NO CIRCUMSTANCE SHOULD ANY OF THE BOOKS BE GIVEN OUT INTO SPAWNERS OR TO B
 	to_chat(user, span_notice("You press your seal into the manuscript."))
 	return TRUE
 
+/obj/item/book/granter/resident_manuscript/proc/log_detection_attempt(mob/living/carbon/human/user, result)
+	var/log_ckey = user.ckey || user.key || "no ckey"
+	var/character_name = user.real_name || user.name || "Unknown"
+	var/scroll_owner_name = owner_name || "Unbound"
+	log_game("RESIDENT MANUSCRIPT: inspect document=[REF(src)] inspector_ckey=[log_ckey] inspector_name=[character_name] result=[result] scroll_owner=[scroll_owner_name]")
+
 /obj/item/book/granter/resident_manuscript/proc/handle_detection(mob/living/carbon/human/user)
 	if(!can_inspect_manuscript(user))
 		return FALSE
@@ -715,6 +721,7 @@ UNDER NO CIRCUMSTANCE SHOULD ANY OF THE BOOKS BE GIVEN OUT INTO SPAWNERS OR TO B
 	else if(is_ruling_authority(user))
 		authority_validated = TRUE
 	LAZYSET(detection_results, detection_key, result)
+	log_detection_attempt(user, result)
 	if(result == RESIDENT_MANUSCRIPT_VERIFICATION_FAKE)
 		to_chat(user, span_warning("You detect signs of forgery in the manuscript."))
 	else
