@@ -177,8 +177,11 @@
 					if(message)
 						say("The Crown's ledger is thin. No purchases today.")
 					return
+				if(R.stockpile_amount >= R.stockpile_limit)
+					if(message)
+						say("The Crown's [R.name] stockpile is full. Take it elsewhere.")
+					return
 				var/bundle_amt = B.amount
-				var/nopay = R.stockpile_amount >= R.stockpile_limit // Check whether it is overflowed BEFORE nopaying them
 				R.stockpile_amount += bundle_amt
 				if(message == TRUE)
 					stock_announce("[bundle_amt] units of [R.name] has been stockpiled.")
@@ -187,14 +190,11 @@
 					playsound(loc, 'sound/misc/hiss.ogg', 100, FALSE, -1)
 				R.refresh_auto_price()
 				var/per_unit = R.payout_price
-				if(nopay)
-					SStreasury.economic_output += per_unit * bundle_amt // Still count
-					say("Stockpile is full, no payment.")
-				else
-					var/amt = per_unit * bundle_amt
-					SStreasury.economic_output += amt
-					SStreasury.give_money_account(amt, H, "+[amt] from [R.name] bounty")
-					record_round_statistic(STATS_STOCKPILE_EXPANSES, amt)
+				var/amt = per_unit * bundle_amt
+				SStreasury.economic_output += amt
+				SStreasury.give_money_account(amt, H, "+[amt] from [R.name] bounty")
+				record_round_statistic(STATS_STOCKPILE_EXPANSES, amt)
+				return
 			continue
 		// Bloc to replace old vault mechanics
 		else if(istype(I,R.item_type))
@@ -236,10 +236,13 @@
 						playsound(loc, 'sound/misc/disposalflush.ogg', 100, FALSE, -1)
 					say("[tg_overflow.name] overflow - minted to Crown's Purse.")
 					return
+			if(!R.mint_item && R.stockpile_amount >= R.stockpile_limit)
+				if(message)
+					say("The Crown's [R.name] stockpile is full. Take it elsewhere.")
+				return
 			R.refresh_auto_price()
 			var/amt = R.get_payout_price(I)
 			var/true_value = I.get_real_price()
-			var/nopay = !R.mint_item && R.stockpile_amount >= R.stockpile_limit // Check whether it is overflowed BEFORE nopaying them
 			if(!R.mint_item)
 				R.stockpile_amount += 1 //stacked logs need to check for multiple
 				qdel(I)
@@ -257,10 +260,7 @@
 				if(sound == TRUE)
 					playsound(loc, 'sound/misc/hiss.ogg', 100, FALSE, -1)
 					playsound(loc, 'sound/misc/disposalflush.ogg', 100, FALSE, -1)
-			if(nopay)
-				SStreasury.economic_output += true_value // Still count as economic output hah
-				say("Stockpile is full, no payment.")
-			else if(amt)
+			if(amt)
 				SStreasury.economic_output += true_value
 				SStreasury.give_money_account(amt, H, "+[amt] from [R.name] bounty")
 			record_round_statistic(STATS_STOCKPILE_EXPANSES, amt) // Unlike deposit, a treasure minting is equal to both expending and profiting at the same time
