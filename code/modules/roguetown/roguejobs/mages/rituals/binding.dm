@@ -166,11 +166,10 @@
 	. = FALSE
 	var/obj/structure/leyline/leyline
 	for(var/obj/structure/leyline/L in range(LEYLINE_TILE_DETECTION_RANGE, loc))
-		if(L.max_tier >= requires_leyline)
-			leyline = L
-			break
+		leyline = L
+		break
 	if(!leyline)
-		to_chat(user, span_warning("There is no leyline of sufficent strength nearby."))
+		to_chat(user, span_warning("There is no leyline nearby. Draw your circle closer to a leyline."))
 		return FALSE
 	for(var/obj/item/magic/familiar/familiar_vestige/vestige in selected_atoms)
 		if(vestige.stored_familiar)

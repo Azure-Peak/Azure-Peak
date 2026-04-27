@@ -65,11 +65,37 @@
 	var/list/valid_healing_items = list() // what planar materials can heal you?
 	var/planar_origin = "void" // what plane are we from? avoids a bunch of istype checks
 	rot_type = null // no rotting inside vestiges please
-	
+
+/datum/status_effect/buff/healing/familiar
+	alert_type = /atom/movable/screen/alert/status_effect/buff/healing/familiar
+
+/atom/movable/screen/alert/status_effect/buff/healing/familiar
+	name = "Planar Respite"
+	desc = "Drawing energy from my home plane to restore myself."
+
+// slight perf gains over list iteration for all types
+/mob/living/simple_animal/pet/familiar/proc/is_aligned_leyline(obj/structure/leyline/ley)
+	return FALSE
+
 //As far as I am aware, you cannot pat out fire as a familiar at least not in time for it to not kill you, this seems fair.
 /mob/living/simple_animal/pet/familiar/fire_act(added, maxstacks)
 	. = ..()
 	addtimer(CALLBACK(src, TYPE_PROC_REF(/mob/living, extinguish_mob)), 1 SECONDS)
+
+// leying down gives healing
+/mob/living/simple_animal/pet/familiar/Life()
+	. = ..()
+	if(!resting || !isturf(loc) || has_status_effect(/datum/status_effect/buff/healing/familiar))
+		return .
+	for(var/obj/structure/leyline/ley in loc)
+		// bog leylines are high-tier healing for all familiars, otherwise you need to use the one aligned to your plane to get the bonus
+		var/is_high_tier = ley.max_tier==5 || is_aligned_leyline(ley)
+		// full recovery takes 20 seconds, or 10 seconds on high tier; we don't want to force people to sit around forever familiars don't have much health anywae
+		var/healing_factor = maxHealth/(is_high_tier?100:200)
+		apply_status_effect(/datum/status_effect/buff/healing/familiar, src, healing_factor)
+		// only do this once; if there are multiple leylines on a tile uh why lol
+		// (checking every leyline for the highest tier healing in this hypothetical scenario would not be worth the performance hit)
+		return .
 
 // if they are within the orb, they should not be able to commit recursion
 /mob/living/simple_animal/pet/familiar/restrained(ignore_grab)
@@ -209,6 +235,9 @@
 	ADD_TRAIT(src, TRAIT_CICERONE, TRAIT_GENERIC) // alchemy familiar
 	ADD_TRAIT(src, TRAIT_KNEESTINGER_IMMUNITY, TRAIT_GENERIC) // they're literally nature spirits
 	ADD_TRAIT(src, TRAIT_KEENEARS, TRAIT_GENERIC) // to fit with their recon focus
+
+/mob/living/simple_animal/pet/familiar/fae/is_aligned_leyline(obj/structure/leyline/ley)
+	return istype(ley, /obj/structure/leyline/normal/grove)
 
 /mob/living/simple_animal/pet/familiar/fae/examine(mob/user)
 	var/list/ret = ..()
@@ -390,6 +419,9 @@
 	if(src.light_system == STATIC_LIGHT)
 		src.update_light()
 
+/mob/living/simple_animal/pet/familiar/infernal/is_aligned_leyline(obj/structure/leyline/ley)
+	return istype(ley, /obj/structure/leyline/normal/decap)
+
 // in case it wasn't obvious enough that this is license for people to be mad at you
 // update 2026-04-16: it wasn't obvious enough STILL. have some role-specific prodding to do some conflict
 /mob/living/simple_animal/pet/familiar/infernal/examine(mob/user)
@@ -502,6 +534,9 @@
 	src.adjust_skillrank_up_to(/datum/skill/craft/blacksmithing, SKILL_LEVEL_APPRENTICE)
 	src.adjust_skillrank_up_to(/datum/skill/craft/sewing, SKILL_LEVEL_APPRENTICE)
 
+/mob/living/simple_animal/pet/familiar/elemental/is_aligned_leyline(obj/structure/leyline/ley)
+	return istype(ley, /obj/structure/leyline/normal/coast)
+
 /mob/living/simple_animal/pet/familiar/void
 	name = "Void Drakeling"
 	desc = "A small draconic being, gazing inquisitively at the world around it. It pulses with an unfamiliar power." // we don't put all the details here bcs this can be seen by nonmages
@@ -516,6 +551,9 @@
 	inherent_spell = list(/obj/effect/proc_holder/spell/invoked/consume)
 	valid_healing_items = list(/obj/item/magic/fae, /obj/item/magic/elemental, /obj/item/magic/infernal) // hungy
 	planar_origin = "void"
+
+/mob/living/simple_animal/pet/familiar/void/is_aligned_leyline(obj/structure/leyline/ley)
+	return !istype(ley, /obj/structure/leyline/tamed)
 
 /mob/living/simple_animal/pet/familiar/void/fire_act(added, maxstacks)
 	if(essences_consumed.Find("infernal"))
