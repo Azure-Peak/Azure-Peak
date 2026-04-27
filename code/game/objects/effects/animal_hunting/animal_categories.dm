@@ -64,7 +64,7 @@
 /datum/hunting_category/high_tier
 	name = "Great Beasts"
 	skill_weights = list(0, 5, 20, 50, 100, 120, 150) // Only highly skilled hunters find these
-	bonus_animal_amount = 2
+	bonus_animal_amount = 5
 	animals = list(
 		/mob/living/simple_animal/hostile/retaliate/rogue/saiga/game = 20,
 		/mob/living/simple_animal/hostile/retaliate/rogue/direbear = 5,
@@ -168,7 +168,7 @@
 /datum/hunting_category/boars
 	name = "Fierce Boars"
 	skill_weights = list(1, 1, 1, 1, 1, 1, 1)
-	bonus_animal_amount = 2
+	bonus_animal_amount = 5
 	animals = list(
 		/mob/living/simple_animal/hostile/retaliate/rogue/boar = 1
 	)
