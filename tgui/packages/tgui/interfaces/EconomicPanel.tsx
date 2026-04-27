@@ -78,6 +78,16 @@ type Blockade = {
   ref: string;
 };
 
+type LedgerEntry = {
+  kind: string;
+  from: string;
+  to: string;
+  amount: number;
+  currency: string | null;
+  reason: string | null;
+  time_label: string;
+};
+
 type Assembly = {
   session_number?: number;
   alderman_name?: string | null;
@@ -103,6 +113,11 @@ type Data = {
   live_player_count: number;
   blockades: Blockade[];
   assembly: Assembly;
+  ledger: LedgerEntry[];
+  ledger_total: number;
+  ledger_cap: number;
+  ledger_full_minted: number;
+  ledger_full_burned: number;
 };
 
 const STATUS_LABELS: Record<string, string> = {
@@ -144,9 +159,46 @@ export const EconomicPanel = () => {
     live_player_count,
     blockades,
     assembly,
+    ledger,
+    ledger_total,
+    ledger_cap,
+    ledger_full_minted,
+    ledger_full_burned,
   } = data;
 
   const [searchDraft, setSearchDraft] = useState(filter.search);
+  const [ledgerKind, setLedgerKind] = useState<
+    'all' | 'mint' | 'burn' | 'transfer'
+  >('all');
+  const [ledgerFund, setLedgerFund] = useState('');
+  const [ledgerReason, setLedgerReason] = useState('');
+  const LEDGER_RENDER_CAP = 200;
+  const filteredLedger = ledger.filter((e) => {
+    if (ledgerKind !== 'all' && e.kind !== ledgerKind) return false;
+    if (ledgerFund) {
+      const needle = ledgerFund.toLowerCase();
+      if (
+        !e.from.toLowerCase().includes(needle) &&
+        !e.to.toLowerCase().includes(needle)
+      ) {
+        return false;
+      }
+    }
+    if (ledgerReason) {
+      const needle = ledgerReason.toLowerCase();
+      if (!(e.reason || '').toLowerCase().includes(needle)) return false;
+    }
+    return true;
+  });
+  const ledgerWindowTotals = filteredLedger.reduce(
+    (acc, e) => {
+      if (e.kind === 'mint') acc.minted += e.amount;
+      else if (e.kind === 'burn') acc.burned += e.amount;
+      return acc;
+    },
+    { minted: 0, burned: 0 },
+  );
+  const ledgerRows = filteredLedger.slice(0, LEDGER_RENDER_CAP);
   const [mintAmount, setMintAmount] = useState(100);
   const [burnAmount, setBurnAmount] = useState(100);
   const [bulkAdvanceDays, setBulkAdvanceDays] = useState(1);
@@ -213,6 +265,144 @@ export const EconomicPanel = () => {
                   </LabeledList>
                 </Stack.Item>
               </Stack>
+            </Section>
+          </Stack.Item>
+
+          <Stack.Item>
+            <Section
+              title={`Treasury Ledger  -  ${ledger_total} entries this round`}
+            >
+              <Stack mb={1}>
+                <Stack.Item grow>
+                  <LabeledList>
+                    <LabeledList.Item label="Round Inflow (mint)">
+                      <b style={{ color: '#5cb85c' }}>{ledger_full_minted}m</b>
+                    </LabeledList.Item>
+                    <LabeledList.Item label="Round Outflow (burn)">
+                      <b style={{ color: '#e07b39' }}>{ledger_full_burned}m</b>
+                    </LabeledList.Item>
+                    <LabeledList.Item label="Round Net">
+                      <b>{ledger_full_minted - ledger_full_burned}m</b>
+                    </LabeledList.Item>
+                  </LabeledList>
+                </Stack.Item>
+                <Stack.Item grow>
+                  <LabeledList>
+                    <LabeledList.Item label="Filtered Inflow">
+                      <b style={{ color: '#5cb85c' }}>
+                        {ledgerWindowTotals.minted}m
+                      </b>
+                    </LabeledList.Item>
+                    <LabeledList.Item label="Filtered Outflow">
+                      <b style={{ color: '#e07b39' }}>
+                        {ledgerWindowTotals.burned}m
+                      </b>
+                    </LabeledList.Item>
+                    <LabeledList.Item label="Filtered Net">
+                      <b>
+                        {ledgerWindowTotals.minted - ledgerWindowTotals.burned}m
+                      </b>
+                    </LabeledList.Item>
+                  </LabeledList>
+                </Stack.Item>
+              </Stack>
+              <Stack align="center" wrap mb={1}>
+                <Stack.Item>Kind:</Stack.Item>
+                {(['all', 'mint', 'burn', 'transfer'] as const).map((k) => (
+                  <Stack.Item key={k}>
+                    <Button
+                      selected={ledgerKind === k}
+                      onClick={() => setLedgerKind(k)}
+                    >
+                      {k}
+                    </Button>
+                  </Stack.Item>
+                ))}
+                <Stack.Item ml={2}>Fund:</Stack.Item>
+                <Stack.Item>
+                  <Input
+                    value={ledgerFund}
+                    onChange={(v: string) => setLedgerFund(v)}
+                    placeholder="e.g. Crown's Purse"
+                  />
+                </Stack.Item>
+                <Stack.Item ml={2}>Reason:</Stack.Item>
+                <Stack.Item grow>
+                  <Input
+                    fluid
+                    value={ledgerReason}
+                    onChange={(v: string) => setLedgerReason(v)}
+                    placeholder="e.g. Standing Order, Manual Import, Payroll"
+                  />
+                </Stack.Item>
+                <Stack.Item>
+                  <Button
+                    onClick={() => {
+                      setLedgerKind('all');
+                      setLedgerFund('');
+                      setLedgerReason('');
+                    }}
+                  >
+                    Clear
+                  </Button>
+                </Stack.Item>
+              </Stack>
+              {ledger_total > ledger_cap && (
+                <Box italic color="gray" mb={1}>
+                  Showing the most recent {ledger_cap} of {ledger_total} entries.
+                  Aggregations above cover the full round.
+                </Box>
+              )}
+              {ledgerRows.length === 0 ? (
+                <Box italic color="gray">
+                  No entries match the current filter.
+                </Box>
+              ) : (
+                <>
+                  <Table>
+                    <Table.Row header>
+                      <Table.Cell>Time</Table.Cell>
+                      <Table.Cell>Kind</Table.Cell>
+                      <Table.Cell>From</Table.Cell>
+                      <Table.Cell>To</Table.Cell>
+                      <Table.Cell>Amount</Table.Cell>
+                      <Table.Cell>Reason</Table.Cell>
+                    </Table.Row>
+                    {ledgerRows.map((e, idx) => (
+                      <Table.Row key={idx}>
+                        <Table.Cell>{e.time_label}</Table.Cell>
+                        <Table.Cell>
+                          <span
+                            style={{
+                              color:
+                                e.kind === 'mint'
+                                  ? '#5cb85c'
+                                  : e.kind === 'burn'
+                                    ? '#e07b39'
+                                    : undefined,
+                            }}
+                          >
+                            {e.kind}
+                          </span>
+                        </Table.Cell>
+                        <Table.Cell>{e.from}</Table.Cell>
+                        <Table.Cell>{e.to}</Table.Cell>
+                        <Table.Cell>
+                          {e.amount}
+                          {e.currency ? e.currency.charAt(0) : ''}
+                        </Table.Cell>
+                        <Table.Cell>{e.reason || ''}</Table.Cell>
+                      </Table.Row>
+                    ))}
+                  </Table>
+                  {filteredLedger.length > LEDGER_RENDER_CAP && (
+                    <Box italic color="gray" mt={1}>
+                      Rendering {LEDGER_RENDER_CAP} of {filteredLedger.length}{' '}
+                      filtered rows. Tighten the filter to see older matches.
+                    </Box>
+                  )}
+                </>
+              )}
             </Section>
           </Stack.Item>
 

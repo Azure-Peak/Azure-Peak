@@ -105,6 +105,40 @@ GLOBAL_DATUM_INIT(economic_panel, /datum/economic_panel, new)
 			assembly["defense_remaining"] = W.defense_remaining
 	data["assembly"] = assembly
 
+	// Aggregation tallies the full ledger so cap-exceeding history still shows up in the
+	// inflow/outflow totals; only the displayed rows are capped to keep the payload bounded.
+	var/list/ledger_serialized = list()
+	var/ledger_total = SStreasury.ledger.len
+	var/cap = 500
+	var/start_idx = max(1, ledger_total - cap + 1)
+	for(var/i = ledger_total to start_idx step -1)
+		var/datum/treasury_entry/E = SStreasury.ledger[i]
+		var/total_seconds = round(E.world_time / 10)
+		var/minutes = round(total_seconds / 60)
+		var/seconds = total_seconds % 60
+		ledger_serialized += list(list(
+			"kind" = E.kind,
+			"from" = E.from_name,
+			"to" = E.to_name,
+			"amount" = E.amount,
+			"currency" = E.currency,
+			"reason" = E.reason,
+			"time_label" = "[minutes]m[seconds]s",
+		))
+	data["ledger"] = ledger_serialized
+	data["ledger_total"] = ledger_total
+	data["ledger_cap"] = cap
+
+	var/full_minted = 0
+	var/full_burned = 0
+	for(var/datum/treasury_entry/E as anything in SStreasury.ledger)
+		if(E.kind == "mint")
+			full_minted += E.amount
+		else if(E.kind == "burn")
+			full_burned += E.amount
+	data["ledger_full_minted"] = full_minted
+	data["ledger_full_burned"] = full_burned
+
 	return data
 
 /datum/economic_panel/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)
