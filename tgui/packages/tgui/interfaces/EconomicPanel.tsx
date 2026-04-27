@@ -172,7 +172,9 @@ export const EconomicPanel = () => {
   >('all');
   const [ledgerFund, setLedgerFund] = useState('');
   const [ledgerReason, setLedgerReason] = useState('');
-  const LEDGER_RENDER_CAP = 200;
+  const [ledgerGroup, setLedgerGroup] = useState(false);
+  const [ledgerPage, setLedgerPage] = useState(0);
+  const LEDGER_PAGE_SIZE = 50;
   const filteredLedger = ledger.filter((e) => {
     if (ledgerKind !== 'all' && e.kind !== ledgerKind) return false;
     if (ledgerFund) {
@@ -198,7 +200,58 @@ export const EconomicPanel = () => {
     },
     { minted: 0, burned: 0 },
   );
-  const ledgerRows = filteredLedger.slice(0, LEDGER_RENDER_CAP);
+  type DisplayRow = LedgerEntry & { count: number };
+  const displayRows: DisplayRow[] = (() => {
+    if (!ledgerGroup) {
+      return filteredLedger.map((e) => ({ ...e, count: 1 }));
+    }
+    const groups = new Map<string, DisplayRow>();
+    for (const e of filteredLedger) {
+      const key = `${e.kind}|${e.from}|${e.to}|${e.reason || ''}`;
+      const existing = groups.get(key);
+      if (existing) {
+        existing.amount += e.amount;
+        existing.count += 1;
+      } else {
+        groups.set(key, { ...e, count: 1 });
+      }
+    }
+    return Array.from(groups.values());
+  })();
+  const totalPages = Math.max(
+    1,
+    Math.ceil(displayRows.length / LEDGER_PAGE_SIZE),
+  );
+  const safePage = Math.min(Math.max(0, ledgerPage), totalPages - 1);
+  const pageRows = displayRows.slice(
+    safePage * LEDGER_PAGE_SIZE,
+    (safePage + 1) * LEDGER_PAGE_SIZE,
+  );
+  const setLedgerKindAndReset = (
+    k: 'all' | 'mint' | 'burn' | 'transfer',
+  ) => {
+    setLedgerKind(k);
+    setLedgerPage(0);
+  };
+  const setLedgerFundAndReset = (v: string) => {
+    setLedgerFund(v);
+    setLedgerPage(0);
+  };
+  const setLedgerReasonAndReset = (v: string) => {
+    setLedgerReason(v);
+    setLedgerPage(0);
+  };
+  const toggleLedgerGroup = () => {
+    setLedgerGroup(!ledgerGroup);
+    setLedgerPage(0);
+  };
+  const clearLedgerFilters = () => {
+    setLedgerKind('all');
+    setLedgerFund('');
+    setLedgerReason('');
+    setLedgerGroup(false);
+    setLedgerPage(0);
+  };
   const [mintAmount, setMintAmount] = useState(100);
   const [burnAmount, setBurnAmount] = useState(100);
   const [bulkAdvanceDays, setBulkAdvanceDays] = useState(1);
@@ -312,7 +365,7 @@ export const EconomicPanel = () => {
                   <Stack.Item key={k}>
                     <Button
                       selected={ledgerKind === k}
-                      onClick={() => setLedgerKind(k)}
+                      onClick={() => setLedgerKindAndReset(k)}
                     >
                       {k}
                     </Button>
@@ -322,7 +375,7 @@ export const EconomicPanel = () => {
                 <Stack.Item>
                   <Input
                     value={ledgerFund}
-                    onChange={(v: string) => setLedgerFund(v)}
+                    onChange={(v: string) => setLedgerFundAndReset(v)}
                     placeholder="e.g. Crown's Purse"
                   />
                 </Stack.Item>
@@ -331,20 +384,21 @@ export const EconomicPanel = () => {
                   <Input
                     fluid
                     value={ledgerReason}
-                    onChange={(v: string) => setLedgerReason(v)}
+                    onChange={(v: string) => setLedgerReasonAndReset(v)}
                     placeholder="e.g. Standing Order, Manual Import, Payroll"
                   />
                 </Stack.Item>
                 <Stack.Item>
                   <Button
-                    onClick={() => {
-                      setLedgerKind('all');
-                      setLedgerFund('');
-                      setLedgerReason('');
-                    }}
+                    selected={ledgerGroup}
+                    tooltip="Collapse rows that share kind, source, destination, and reason."
+                    onClick={toggleLedgerGroup}
                   >
-                    Clear
+                    Group similar
                   </Button>
+                </Stack.Item>
+                <Stack.Item>
+                  <Button onClick={clearLedgerFilters}>Clear</Button>
                 </Stack.Item>
               </Stack>
               {ledger_total > ledger_cap && (
@@ -353,7 +407,7 @@ export const EconomicPanel = () => {
                   Aggregations above cover the full round.
                 </Box>
               )}
-              {ledgerRows.length === 0 ? (
+              {pageRows.length === 0 ? (
                 <Box italic color="gray">
                   No entries match the current filter.
                 </Box>
@@ -366,10 +420,11 @@ export const EconomicPanel = () => {
                       <Table.Cell>From</Table.Cell>
                       <Table.Cell>To</Table.Cell>
                       <Table.Cell>Amount</Table.Cell>
+                      {ledgerGroup && <Table.Cell>Count</Table.Cell>}
                       <Table.Cell>Reason</Table.Cell>
                     </Table.Row>
-                    {ledgerRows.map((e, idx) => (
-                      <Table.Row key={idx}>
+                    {pageRows.map((e, idx) => (
+                      <Table.Row key={safePage * LEDGER_PAGE_SIZE + idx}>
                         <Table.Cell>{e.time_label}</Table.Cell>
                         <Table.Cell>
                           <span
@@ -391,16 +446,61 @@ export const EconomicPanel = () => {
                           {e.amount}
                           {e.currency ? e.currency.charAt(0) : ''}
                         </Table.Cell>
+                        {ledgerGroup && (
+                          <Table.Cell>
+                            {e.count > 1 ? `×${e.count}` : ''}
+                          </Table.Cell>
+                        )}
                         <Table.Cell>{e.reason || ''}</Table.Cell>
                       </Table.Row>
                     ))}
                   </Table>
-                  {filteredLedger.length > LEDGER_RENDER_CAP && (
-                    <Box italic color="gray" mt={1}>
-                      Rendering {LEDGER_RENDER_CAP} of {filteredLedger.length}{' '}
-                      filtered rows. Tighten the filter to see older matches.
-                    </Box>
-                  )}
+                  <Stack align="center" mt={1}>
+                    <Stack.Item grow>
+                      <Box italic color="gray">
+                        Page {safePage + 1} / {totalPages} -{' '}
+                        {displayRows.length}{' '}
+                        {ledgerGroup ? 'groups' : 'rows'}
+                        {ledgerGroup
+                          ? ` (from ${filteredLedger.length} entries)`
+                          : ''}
+                      </Box>
+                    </Stack.Item>
+                    <Stack.Item>
+                      <Button
+                        icon="angle-double-left"
+                        disabled={safePage === 0}
+                        onClick={() => setLedgerPage(0)}
+                        tooltip="First page"
+                      />
+                    </Stack.Item>
+                    <Stack.Item>
+                      <Button
+                        icon="chevron-left"
+                        disabled={safePage === 0}
+                        onClick={() => setLedgerPage(safePage - 1)}
+                      >
+                        Prev
+                      </Button>
+                    </Stack.Item>
+                    <Stack.Item>
+                      <Button
+                        icon="chevron-right"
+                        disabled={safePage >= totalPages - 1}
+                        onClick={() => setLedgerPage(safePage + 1)}
+                      >
+                        Next
+                      </Button>
+                    </Stack.Item>
+                    <Stack.Item>
+                      <Button
+                        icon="angle-double-right"
+                        disabled={safePage >= totalPages - 1}
+                        onClick={() => setLedgerPage(totalPages - 1)}
+                        tooltip="Last page"
+                      />
+                    </Stack.Item>
+                  </Stack>
                 </>
               )}
             </Section>
