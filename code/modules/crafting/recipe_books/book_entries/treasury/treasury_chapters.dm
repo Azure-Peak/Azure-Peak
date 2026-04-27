@@ -285,7 +285,7 @@
 /datum/book_entry/treasury/warehouse/inner_book_html(mob/user)
 	return {"
 		<div>
-		<p>Marked warehouse tiles adjoin the Nerve Master. Finished goods placed on these tiles fulfill warehouse-tagged standing orders on the next sweep.</p>
+		<p>Steward's Export Machine and the surrounding 9 tiles can be used for finished goods to fulfill warehouse-tagged standing orders.</p>
 
 		<h3>Equipment Orders</h3>
 		<p>Swept for exact-type match. Subtypes, variants, and heirlooms are not consumed.</p>

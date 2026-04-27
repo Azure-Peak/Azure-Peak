@@ -499,7 +499,10 @@ SUBSYSTEM_DEF(treasury)
 			continue
 		if(!D.importexport_amt)
 			continue
-		var/surplus = D.stockpile_amount - round(autoexport_percentage * D.stockpile_limit)
+		var/keep = round(autoexport_percentage * D.stockpile_limit)
+		if(is_auto_import_active(D.trade_good_id))
+			keep = max(keep, AUTO_IMPORT_FLOOR)
+		var/surplus = D.stockpile_amount - keep
 		if(surplus <= 0)
 			continue
 		var/list/best = SSeconomy.get_best_export_region(D.trade_good_id)

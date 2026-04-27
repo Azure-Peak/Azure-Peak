@@ -777,7 +777,10 @@ GLOBAL_LIST_INIT(steward_trade_sequestration_locked_actions, list(
 				var/datum/trade_good/tg = GLOB.trade_goods[D.trade_good_id]
 				if(!tg || tg.category != category)
 					continue
-				var/surplus = D.stockpile_amount - round(SStreasury.autoexport_percentage * D.stockpile_limit)
+				var/keep = round(SStreasury.autoexport_percentage * D.stockpile_limit)
+				if(SStreasury.is_auto_import_active(D.trade_good_id))
+					keep = max(keep, AUTO_IMPORT_FLOOR)
+				var/surplus = D.stockpile_amount - keep
 				if(surplus <= 0)
 					continue
 				var/list/best = SSeconomy.get_best_export_region(D.trade_good_id)
