@@ -86,7 +86,6 @@
 	fluff_desc = "The second gift to men, Her ability to discern evyl hiding in plain sight. Astrata's tireless gaze - a true boon in hands of mortals as well Her misbegotten children."
 	button_icon_state = "gaze"
 	sound = 'sound/magic/astrata_choir.ogg'
-	spell_color = GLOW_COLOR_BUFF
 	glow_intensity = 0
 
 	click_to_activate = FALSE

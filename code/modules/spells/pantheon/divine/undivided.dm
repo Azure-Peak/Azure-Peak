@@ -331,7 +331,7 @@
 // T2 - Divine Inspiration - Select your pack of miracles.//
 ////////////////////////////////////////////////////////////
 
-/datum/action/cooldown/spell/undivided/undivided_spellpack //Non functional right now, FIX THIS
+/datum/action/cooldown/spell/undivided/undivided_spellpack
 	name = "Divine Inspiration"
 	desc = "Allows you to pick out miracles from three different sets - Generalist (3 choices) Acolyte (2 choices) Templar (2 choices)."
 	fluff_desc = "They protect against the enroaching darkness, when He abandoned us we wept a thousand tears in His name. They liberated us from the sorrow, gave us a path to absolution denied to us - for this we will be grateful and obedient to Their machinations."
@@ -354,16 +354,16 @@
 
 	var/chosen_bundle
 	var/list/miracle_generalist_bundle = list(
-		/obj/effect/proc_holder/spell/invoked/moondream::name				= /obj/effect/proc_holder/spell/invoked/moondream,
+		/datum/action/cooldown/spell/noc/inspiration::name					= /datum/action/cooldown/spell/noc/inspiration,
 		/obj/effect/proc_holder/spell/invoked/spiderspeak::name				= /obj/effect/proc_holder/spell/invoked/spiderspeak,
-		/obj/effect/proc_holder/spell/invoked/invisibility/miracle::name	= /obj/effect/proc_holder/spell/invoked/invisibility/miracle,
+		/datum/action/cooldown/spell/noc/invisibility::name					= /datum/action/cooldown/spell/noc/invisibility,
 		/obj/effect/proc_holder/spell/targeted/blesscrop::name				= /obj/effect/proc_holder/spell/targeted/blesscrop,
 		/obj/effect/proc_holder/spell/invoked/eora_blessing::name			= /obj/effect/proc_holder/spell/invoked/eora_blessing,
 		/datum/action/cooldown/spell/arcyne_forge/miracle::name				= /datum/action/cooldown/spell/arcyne_forge/miracle,
 	)
 	var/list/miracle_acolyte_bundle = list(
 		/obj/effect/proc_holder/spell/invoked/diagnose::name			= /obj/effect/proc_holder/spell/invoked/diagnose,
-		/obj/effect/proc_holder/spell/self/blindnessorsilence::name		= /obj/effect/proc_holder/spell/self/blindnessorsilence,
+		/datum/action/cooldown/spell/noc/blindness::name				= /datum/action/cooldown/spell/noc/blindness,
 		/obj/effect/proc_holder/spell/invoked/bless_food::name			= /obj/effect/proc_holder/spell/invoked/bless_food,
 		/obj/effect/proc_holder/spell/invoked/avert::name				= /obj/effect/proc_holder/spell/invoked/avert,
 		/obj/effect/proc_holder/spell/invoked/attach_bodypart::name		= /obj/effect/proc_holder/spell/invoked/attach_bodypart,
@@ -372,7 +372,7 @@
 		/obj/effect/proc_holder/spell/invoked/abyssor_undertow::name 		= /obj/effect/proc_holder/spell/invoked/abyssor_undertow,
 		/obj/effect/proc_holder/spell/self/balance_immune::name 			= /obj/effect/proc_holder/spell/self/balance_immune,
 		/obj/effect/proc_holder/spell/invoked/heatmetal::name 				= /obj/effect/proc_holder/spell/invoked/heatmetal,
-		/obj/effect/proc_holder/spell/self/wise_moon::name 					= /obj/effect/proc_holder/spell/self/wise_moon,
+		/datum/action/cooldown/spell/noc/enlightenment::name 				= /datum/action/cooldown/spell/noc/enlightenment,
 		/obj/effect/proc_holder/spell/self/divine_strike/undivided::name 	= /obj/effect/proc_holder/spell/self/divine_strike/undivided,
 		/obj/effect/proc_holder/spell/invoked/vendetta::name 				= /obj/effect/proc_holder/spell/invoked/vendetta,
 	)

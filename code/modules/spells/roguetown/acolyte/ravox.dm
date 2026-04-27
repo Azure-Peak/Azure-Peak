@@ -19,7 +19,7 @@
 
 	point_cost = 0
 
-	required_items = list(/obj/item/clothing/neck/roguetown/psicross/ravox)
+	required_items = list(/obj/item/clothing/neck/roguetown/psicross/ravox, , /obj/item/clothing/neck/roguetown/psicross/undivided, /obj/item/clothing/neck/roguetown/psicross/silver/undivided)
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // T0 - Tug of War- Chain a target to yourself and pull them in, prevents them from leaving your vicinity. //
