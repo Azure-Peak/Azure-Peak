@@ -59,10 +59,9 @@
 /// above this is skimmed against bankruptcy debt instead.
 #define BANKRUPTCY_OPERATING_FLOOR 2500
 
-/// Flat portion of the bankruptcy debt registered on entry.
+/// Bankruptcy debt registered on entry. Flat by design: the operating-floor advance is
+/// flat too, and scaling one without the other reads as arbitrary.
 #define BANKRUPTCY_DEBT_FLAT 5000
-/// Per-active-player surcharge added to the flat debt at bankruptcy entry.
-#define BANKRUPTCY_DEBT_PER_PLAYER 25
 
 /// Auto-export percentage forced while in bankruptcy ("everything must move"). The
 /// Steward-settable percentage is stashed and restored on recovery.

@@ -34,8 +34,9 @@ is declared:
 
 * Crown's Purse is reset to `BANKRUPTCY_OPERATING_FLOOR` = 2500m. Any residual
   balance above the floor is forfeit (logged as a burn). If below, it is topped up.
-* Bankruptcy debt of `BANKRUPTCY_DEBT_FLAT + active_pop * BANKRUPTCY_DEBT_PER_PLAYER`
-  (5000m flat + 25m/player) is added to any existing arrears debt.
+* Bankruptcy debt of `BANKRUPTCY_DEBT_FLAT` (5000m flat) is added to any existing
+  arrears debt. Flat by design: the operating-floor advance is flat too, and scaling
+  one without the other would be arbitrary.
 * Salaries are universally suspended via `TRAIT_WAGES_SUSPENDED` (sourced as
   "bankruptcy" so the recovery path knows what to lift).
 * All charters except Golden Bull of Kingsfield are suspended via `bankruptcy_suspended`.
@@ -95,8 +96,7 @@ All tunables live in `code/__DEFINES/banking.dm`:
 |---|---|---|
 | `TREASURY_ARREARS_LOAN` | 1000 | Minimum size of the arrears advance |
 | `BANKRUPTCY_OPERATING_FLOOR` | 2500 | Crown's Purse cap during receivership |
-| `BANKRUPTCY_DEBT_FLAT` | 5000 | Flat debt added on bankruptcy entry |
-| `BANKRUPTCY_DEBT_PER_PLAYER` | 25 | Per-active-player surcharge |
+| `BANKRUPTCY_DEBT_FLAT` | 5000 | Debt added on bankruptcy entry |
 | `BANKRUPTCY_AUTOEXPORT_PERCENTAGE` | 0.25 | Forced auto-export ratio |
 | `BANKRUPTCY_CONCESSION_PICKS` | 3 | Cooldown-free charter restores on recovery |
 | `BANKRUPTCY_RECOVERY_RESET` | 1500 | Working capital seeded on recovery |

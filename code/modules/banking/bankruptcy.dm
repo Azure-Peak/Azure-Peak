@@ -47,8 +47,7 @@
 
 	// Existing arrears debt is rolled into the new sequestration debt rather than dropped,
 	// so the Crown doesn't escape the smaller obligation by failing harder.
-	var/active_pop = get_active_player_count()
-	var/new_debt = BANKRUPTCY_DEBT_FLAT + (active_pop * BANKRUPTCY_DEBT_PER_PLAYER)
+	var/new_debt = BANKRUPTCY_DEBT_FLAT
 	treasury_debt += new_debt
 	GLOB.azure_round_stats[STATS_TREASURY_DEBT_OUTSTANDING] = treasury_debt
 	treasury_state = TREASURY_BANKRUPTCY

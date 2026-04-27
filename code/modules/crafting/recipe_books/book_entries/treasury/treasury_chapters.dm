@@ -372,7 +372,7 @@
 		<p>By the act of declaration:</p>
 		<ul>
 			<li><b>The Crown's Purse is reset to [BANKRUPTCY_OPERATING_FLOOR]m</b>, the operating floor that keeps the trade-engine running. Any residual above the floor is forfeit to the Company; any deficit below is topped up by them.</li>
-			<li><b>A debt of [BANKRUPTCY_DEBT_FLAT]m + [BANKRUPTCY_DEBT_PER_PLAYER]m per active subject</b> is registered atop any arrears or loan debt already standing.</li>
+			<li><b>A debt of [BANKRUPTCY_DEBT_FLAT]m</b> is registered atop any arrears or loan debt already standing.</li>
 			<li><b>All Crown salaries are suspended</b>. The Lord, the Hand, the Marshal, the Garrison, the Court - all serve without pay until sequestration lifts.</li>
 			<li><b>All Charters but the Golden Bull are suspended</b>. The Lord cannot revive them while the realm is sequestered; they may only be restored by concession upon recovery (see below). The Golden Bull stands and cannot be revoked - the burghers retain their cap and ceiling regardless of the Crown's failure.</li>
 			<li><b>The Steward's discretion over commerce is suspended</b>. Every importable good is placed on standing import; auto-export ratchets to [round(BANKRUPTCY_AUTOEXPORT_PERCENTAGE * 100)]% of stockpile limit. Manual import and export, stockpile pricing, and bulk price multipliers are all locked - the macro-economy runs itself under the Company's hand. The Steward's prior settings are <b>not</b> remembered, and on recovery these settings stand as sequestration left them; they must be re-tuned by hand.</li>
