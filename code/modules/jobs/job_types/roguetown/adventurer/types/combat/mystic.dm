@@ -7,7 +7,7 @@
 	class_select_category = CLASS_CAT_MYSTIC
 	category_tags = list(CTAG_ADVENTURER, CTAG_COURTAGENT)
 	traits_applied = list(TRAIT_SEEDKNOW, TRAIT_ARCYNE, TRAIT_ALCHEMY_EXPERT) //so they can produce red+ and blue+
-	subclass_stats = list( //only class with a 7 point spread since to compensate their offensive cantrip
+	subclass_stats = list( //only class with a 7 point spread to compensate their lack offensive cantrip
 			STATKEY_INT = 3,
 			STATKEY_CON = 2,
 			STATKEY_WIL = 2,
@@ -101,7 +101,7 @@
 
 /datum/advclass/mystic/resilientsoul
 	name = "Sage"
-	tutorial = "I have spent my youth studying both the Arcyne and Miraculous ways, and developed my mastery of shielding and preserving lyfe under my care. 2 statblocks of choice after picking your offensive cantrip: +3 INT +1 CON +2 WIL or +1 INT +3 CON +2 WIL."
+	tutorial = "I have spent my youth studying both the Arcyne and Miraculous ways, and developed my mastery of shielding and preserving lyfe under my care."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
 	outfit = /datum/outfit/job/roguetown/adventurer/resilient
