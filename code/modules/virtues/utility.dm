@@ -9,6 +9,8 @@
 								"Hefty Coinpurse" = /obj/item/storage/belt/rogue/pouch/coins/virtuepouch)
 
 /datum/virtue/utility/noble/apply_to_human(mob/living/carbon/human/recipient)
+	if(HAS_TRAIT(recipient, TRAIT_OUTLAW))
+		return
 	SStreasury.noble_incomes[recipient] = (SStreasury.noble_incomes[recipient] || 0) + 15
 	SStreasury.grant_estate_income(recipient, 15, TRUE)
 

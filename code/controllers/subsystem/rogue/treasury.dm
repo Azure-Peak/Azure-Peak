@@ -340,6 +340,8 @@ SUBSYSTEM_DEF(treasury)
 /datum/controller/subsystem/treasury/proc/grant_estate_income(mob/living/recipient, amount, is_starter = FALSE)
 	if(!recipient || amount <= 0)
 		return FALSE
+	if(HAS_TRAIT(recipient, TRAIT_OUTLAW))
+		return FALSE
 	var/datum/fund/account = get_account(recipient)
 	if(!account)
 		create_bank_account(recipient)

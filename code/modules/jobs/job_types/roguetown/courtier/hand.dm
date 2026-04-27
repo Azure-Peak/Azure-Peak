@@ -34,6 +34,7 @@
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/light //regular
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/hand
 	belt = /obj/item/storage/belt/rogue/leather/steel
+	neck = /obj/item/storage/belt/rogue/pouch/coins/mid
 	id = /obj/item/scomstone/garrison/hand
 	job_bitflag = BITFLAG_ROYALTY
 
@@ -48,7 +49,6 @@
 		if(ishuman(L))
 			var/mob/living/carbon/human/H = L
 			GLOB.court_spymaster += H.real_name
-			..()
 
 ///////////
 //CLASSES//
