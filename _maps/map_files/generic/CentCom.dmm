@@ -1440,10 +1440,6 @@
 "zL" = (
 /turf/open/floor/rogue/rooftop/green/corner1/dirsix,
 /area/rogue/indoors/eventarea)
-"zU" = (
-/obj/item/alch/calendula,
-/turf/closed/mineral/rogue/bedrock,
-/area/rogue/indoors/shelter/bog_hag)
 "zV" = (
 /turf/open/floor/rogue/tile/harem2,
 /area/rogue/indoors/eventarea)
@@ -1873,11 +1869,12 @@
 "Nk" = (
 /obj/structure/closet/crate/roguecloset/inn,
 /obj/item/clothing/suit/roguetown/shirt/robe,
-/obj/item/storage/hip/orestore/bronze,
 /obj/item/ritechalk,
 /obj/item/ritechalk,
 /obj/item/rogueweapon/woodstaff,
 /obj/item/rogueweapon/scabbard/gwstrap,
+/obj/item/storage/magebag,
+/obj/item/storage/magebag,
 /turf/open/floor/rogue/shroud/hag,
 /area/rogue/indoors/shelter/bog_hag)
 "Nm" = (
@@ -6447,7 +6444,7 @@ RQ
 RQ
 rQ
 rQ
-zU
+RQ
 RQ
 RQ
 bC
@@ -6577,7 +6574,7 @@ An
 RQ
 rQ
 rQ
-zU
+RQ
 iU
 Jj
 ur
