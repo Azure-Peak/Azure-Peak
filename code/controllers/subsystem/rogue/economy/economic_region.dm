@@ -160,7 +160,7 @@ GLOBAL_LIST_INIT(economic_regions, init_economic_regions())
 	region_id = TRADE_REGION_BLACKHOLT
 	name = "Blackholt"
 	description = "A settlement at the southern edge of the Terrorbog, part of the Royal Demesne, and the only part the Duke never tours or manages directly. Instead, management is assigned to a special courtier, the Huntsmarshal of Blackholt. It straddles the bog proper and the undrained marshland at its edge. The locals have learned to make a living off the bog's unusual, some say Psydon-blessed yields: silk from its moths, viscera from its inhabitants, and the rare Essence of Dendor that herbalists and mages pay handsomely for. Blackholt itself is a grim, functional place. Nobody moves there. People end up there."
-	threat_region_id = THREAT_REGION_TERRORBOG
+	threat_region_id = THREAT_REGION_AZURE_GROVE
 	produces = list(
 		TRADE_GOOD_SILK = TG_SUPPLY_SILK,
 		TRADE_GOOD_VISCERA = TG_SUPPLY_SPECIALTY_HERB,
