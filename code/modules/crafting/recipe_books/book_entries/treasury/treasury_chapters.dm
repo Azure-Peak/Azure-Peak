@@ -352,7 +352,57 @@
 /datum/book_entry/treasury/insolvent/inner_book_html(mob/user)
 	return {"
 		<div>
-		<p>If the Crown's Purse cannot meet daily payroll, the Nerve Master announces the shortfall publicly. There are no direct mechanical consequences, except the shame and dishonor of utter failure.</p>
+		<p>The Crown's failure to meet payroll is no longer a matter of mere shame. The <b>Azurian Trading Company</b> - the chartered house by which the Burghers of Azuria sit collectively as the Crown's principal creditor - intervenes by stages: first by advance, then, if the Crown fails again, by sequestration of the realm's commerce until the debt is settled.</p>
+
+		<h3>First Failure - Arrears</h3>
+		<p>If the Crown's Purse cannot meet the day's wages, the Burghers advance <b>at least [TREASURY_ARREARS_LOAN]m without interest</b> - enough to cover the day's shortfall in full. Wages pay as they would on any other day. The advance is registered as <b>arrears</b>, and from that moment until the debt is settled, every coin of inflow into the Crown's Purse is skimmed against it before reaching the balance.</p>
+
+		<p>Charters stand. The Steward's trade controls stand. The realm continues as it was - only the Crown is encumbered. If revenue catches up before the next dawn's payroll, the debt is settled silently and the Burghers paid.</p>
+
+		<h3>The Emergency Loan</h3>
+		<p>Before Day [ATC_LOAN_CLOSED_DAY], the Crown may approach the Guilds clerk and draw an outright loan from the Azurian Trading Company - between <b>[ATC_LOAN_MIN_AMOUNT]m and [ATC_LOAN_MAX_AMOUNT]m</b>. The principal is paid into the Crown's Purse at once. The Company charges its <b>customary [round(ATC_LOAN_INTEREST_RATE * 100)]% interest</b>: a draw of [ATC_LOAN_MAX_AMOUNT]m therefore registers a debt of [round(ATC_LOAN_MAX_AMOUNT * (1 + ATC_LOAN_INTEREST_RATE))]m, repaid silently from skimmed inflow as with arrears. Until the debt is settled, no second loan may be drawn.</p>
+
+		<p>Any draw is loudly proclaimed and binds the Crown to a hard rule: <b>the arrears grace is forfeit</b>. Should the Crown miss payroll while the loan stands outstanding - even by a single mammon - the realm enters sequestration without warning. The loan is a "just one more day" instrument, not a free pass.</p>
+
+		<p>From Day [ATC_LOAN_CLOSED_DAY] onward, the Guilds clerk is <i>conveniently out of office</i>. The window is closed; no further loans are advanced. The Burghers will not be cheated of their collection by a swift round-end.</p>
+
+		<h3>Second Failure - Sequestration</h3>
+		<p>If the Crown misses payroll a second consecutive dawn (or once with an outstanding ATC loan), the realm is declared <b>sequestered</b>. The Azurian Trading Company holds the sequestered revenues of the realm and farms the customs and salt tolls in perpetuity until the debt is repaid.</p>
+
+		<p>By the act of declaration:</p>
+		<ul>
+			<li><b>The Crown's Purse is reset to [BANKRUPTCY_OPERATING_FLOOR]m</b>, the operating floor that keeps the trade-engine running. Any residual above the floor is forfeit to the Company; any deficit below is topped up by them.</li>
+			<li><b>A debt of [BANKRUPTCY_DEBT_FLAT]m + [BANKRUPTCY_DEBT_PER_PLAYER]m per active subject</b> is registered atop any arrears or loan debt already standing.</li>
+			<li><b>All Crown salaries are suspended</b>. The Lord, the Hand, the Marshal, the Garrison, the Court - all serve without pay until sequestration lifts.</li>
+			<li><b>All Charters but the Golden Bull are suspended</b>. The Lord cannot revive them while the realm is sequestered; they may only be restored by concession upon recovery (see below). The Golden Bull stands and cannot be revoked - the burghers retain their cap and ceiling regardless of the Crown's failure.</li>
+			<li><b>The Steward's discretion over commerce is suspended</b>. Every importable good is placed on standing import; auto-export ratchets to [round(BANKRUPTCY_AUTOEXPORT_PERCENTAGE * 100)]% of stockpile limit. Manual import and export, stockpile pricing, and bulk price multipliers are all locked - the macro-economy runs itself under the Company's hand. The Steward's prior settings are <b>not</b> remembered, and on recovery these settings stand as sequestration left them; they must be re-tuned by hand.</li>
+		</ul>
+
+		<p>The skim continues during sequestration with one rule: <b>the Crown's Purse may refill up to the [BANKRUPTCY_OPERATING_FLOOR]m operating floor</b> from inflow, so the import-export engine keeps running. Anything above the floor is taken to debt.</p>
+
+		<h3>What the Steward Still Wields</h3>
+		<p>Sequestration punishes the Crown, not the realm. The Steward retains the instruments of taxation and coercion - by which the realm is expected to crawl out of debt:</p>
+		<ul>
+			<li><b>Tax authority</b>: poll tax, contract levy, headeater levy, import tariff, export duty - the Crown may set them as harshly as the cap allows on every category save burghers.</li>
+			<li><b>Fine authority</b>: subject to the usual one-per-day rule and the Golden Bull's cap on burghers.</li>
+			<li><b>The Burgher Pledge</b>: still refills daily, since the Bull stands. Defense commissions, blockade writs, and bounty work may all be issued.</li>
+			<li><b>Petitions for standing orders</b>: the trade hall still hears the Steward's petition. Pledge-funded, the daily quota holds. Coin from fulfillment flows through the skim and pays the Company.</li>
+			<li><b>Standing orders and warehouse rolls</b>: continue as before, payouts skimmed against the debt above the operating floor.</li>
+		</ul>
+
+		<p>What the Steward does <b>not</b> wield is the trade engine - manual imports, exports, stockpile pricing, bulk multipliers, and auto-trade controls are all locked while the Company administers commerce. Taxation and the lash of fines become the only honest paths to recovery.</p>
+
+		<h3>Recovery and the Concession Picks</h3>
+		<p>When the debt at last reaches zero, the realm is released from sequestration. Salaries resume on the morrow. The Crown's Purse is seeded with <b>[BANKRUPTCY_RECOVERY_RESET]m of working capital</b>.</p>
+
+		<p>By ancient prerogative, the Lord may restore <b>up to [BANKRUPTCY_CONCESSION_PICKS] of the suspended Charters at once</b> - the customary span between proclamations waived as a concession to the realm's recovery. Charters not so chosen must wait the standard [DECREE_COOLDOWN / 600]-minute span between revisions, like any other.</p>
+
+		<p>Unused picks do not carry over: a future sequestration resets the count.</p>
+
+		<p>Trade configuration does <b>not</b> reset. The standing-import list, the auto-export ratio, the purse floor - all stand as the Company left them. The Steward must walk the Market Scroll and re-tune what the realm no longer needs forced. This is part of the cost of failure.</p>
+
+		<h3>Twice-Failed Crowns</h3>
+		<p>The realm may enter sequestration a second time in the same round. There is no protection against repeat failure. Each declaration adds a fresh debt; the climb out becomes commensurately steeper.</p>
 		</div>
 	"}
 

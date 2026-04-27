@@ -2,6 +2,8 @@ import { useState } from 'react';
 
 import { useBackend } from '../backend';
 import { Window } from '../layouts';
+import { ArrearsBanner } from './StewardTrade/ArrearsBanner';
+import { ATCLoanBanner } from './StewardTrade/ATCLoanBanner';
 import { AutoImportView } from './StewardTrade/AutoImportView';
 import { BanditryBanner } from './StewardTrade/BanditryBanner';
 import { BlockadeBanner } from './StewardTrade/BlockadeBanner';
@@ -10,6 +12,8 @@ import { MarketView } from './StewardTrade/MarketView';
 import { OrdersView } from './StewardTrade/OrdersView';
 import { PetitionView } from './StewardTrade/PetitionView';
 import { RegionsView } from './StewardTrade/RegionsView';
+import { SequesteredOverlay } from './StewardTrade/SequesteredOverlay';
+import { SequestrationBanner } from './StewardTrade/SequestrationBanner';
 import {
   INK,
   INK_FAINT,
@@ -86,6 +90,9 @@ export const StewardTrade = () => {
             </div>
           )}
 
+          <SequestrationBanner sequestration={data.sequestration} />
+          <ArrearsBanner sequestration={data.sequestration} />
+          <ATCLoanBanner atc_loan={data.atc_loan} />
           <BlockadeBanner regions={data.blockaded_regions} />
           <BanditryBanner projection={data.banditry_projection} />
           <EventsBanner events={data.active_events} />
@@ -95,10 +102,29 @@ export const StewardTrade = () => {
 
           {tab === 'orders' && <OrdersView data={data} />}
           {tab === 'market' && (
-            <MarketView data={data} onTrade={setTradeRequest} />
+            <SequesteredOverlay
+              active={!!data.sequestration?.active}
+              label="Market & Stockpile"
+            >
+              <MarketView data={data} onTrade={setTradeRequest} />
+            </SequesteredOverlay>
           )}
-          {tab === 'regions' && <RegionsView data={data} />}
-          {tab === 'auto_import' && <AutoImportView data={data} />}
+          {tab === 'regions' && (
+            <SequesteredOverlay
+              active={!!data.sequestration?.active}
+              label="Inter-Regional Trade"
+            >
+              <RegionsView data={data} />
+            </SequesteredOverlay>
+          )}
+          {tab === 'auto_import' && (
+            <SequesteredOverlay
+              active={!!data.sequestration?.active}
+              label="Standing Imports"
+            >
+              <AutoImportView data={data} />
+            </SequesteredOverlay>
+          )}
           {tab === 'petition' && <PetitionView data={data} />}
         </div>
         <TradeModal

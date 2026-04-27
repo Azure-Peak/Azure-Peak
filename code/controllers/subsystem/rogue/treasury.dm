@@ -36,9 +36,20 @@ SUBSYSTEM_DEF(treasury)
 	var/list/bank_accounts = list()
 	var/datum/fund/discretionary_fund
 	var/datum/fund/burgher_pledge_fund
-	/// Outstanding banditry shortfall. Positive number means future treasury inflow is
-	/// skimmed against this until it reaches zero. Cleared on round end.
+	/// Banditry shortfall. Skimmed from Crown's Purse inflow until paid down.
 	var/banditry_debt = 0
+	/// One of TREASURY_NORMAL / IN_ARREARS / BANKRUPTCY. Mutate only via bankruptcy.dm helpers.
+	var/treasury_state = TREASURY_NORMAL
+	/// Arrears + sequestration + ATC-loan debt, skimmed against above the state-dependent floor.
+	var/treasury_debt = 0
+	var/bankruptcy_count = 0
+	/// Cooldown-free charter restores remaining after sequestration recovery.
+	var/bankruptcy_concession_picks = 0
+	var/list/bankruptcy_suspended_decree_ids = list()
+	/// TRUE once the Crown has drawn an ATC emergency loan; consumes the arrears grace so the
+	/// next failed payroll skips IN_ARREARS straight to sequestration.
+	var/atc_loan_arrears_consumed = FALSE
+	var/atc_loans_drawn_this_round = 0
 	var/list/ledger = list()
 	var/list/noble_incomes = list()
 	var/list/decrees = list()
@@ -365,15 +376,37 @@ SUBSYSTEM_DEF(treasury)
 	if(!steward_machine || !steward_machine.daily_payments || !steward_machine.daily_payments.len)
 		return
 
+	// Receivership: salaries are universally suspended for the duration of bankruptcy.
+	// SSeconomy.daily_tick() still runs so the economy keeps churning autonomously.
+	if(treasury_state == TREASURY_BANKRUPTCY)
+		if(SSeconomy)
+			SSeconomy.daily_tick()
+		return
+
 	var/projected_total = 0
 	for(var/job_name in steward_machine.daily_payments)
 		var/payment_amount = steward_machine.daily_payments[job_name]
 		for(var/mob/living/carbon/human/H in GLOB.human_list)
 			if(H.job == job_name && !HAS_TRAIT(H, TRAIT_WAGES_SUSPENDED))
 				projected_total += payment_amount
+
+	// Solvency check: NORMAL -> IN_ARREARS (interest-free advance covers today's wages);
+	// IN_ARREARS -> BANKRUPTCY (sequestration, salaries suspended). If the Crown drew an
+	// ATC emergency loan since last solvency, the arrears grace is forfeit and the next
+	// failed payroll skips straight to sequestration.
 	if(discretionary_fund.balance < projected_total)
-		priority_announce("The Crown is Insolvent! Woe betides this land.", "THE CROWN IS INSOLVENT", 'sound/misc/royal_decree2.ogg', "Captain")
-		return
+		if(treasury_state == TREASURY_NORMAL)
+			if(atc_loan_arrears_consumed)
+				enter_bankruptcy()
+				if(SSeconomy)
+					SSeconomy.daily_tick()
+				return
+			enter_arrears(projected_total)
+		else if(treasury_state == TREASURY_IN_ARREARS)
+			enter_bankruptcy()
+			if(SSeconomy)
+				SSeconomy.daily_tick()
+			return
 
 	for(var/job_name in steward_machine.daily_payments)
 		var/payment_amount = steward_machine.daily_payments[job_name]

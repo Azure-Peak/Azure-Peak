@@ -169,6 +169,26 @@ export type PetitionState = {
   eligibility: Record<string, Record<string, string>>;
 };
 
+export type SequestrationState = {
+  active: BooleanLike;
+  in_arrears: BooleanLike;
+  debt: number;
+  state_label: string;
+};
+
+export type AtcLoanState = {
+  available: BooleanLike;
+  can_view: BooleanLike;
+  min: number;
+  max: number;
+  closed_day: number;
+  interest_pct: number;
+  blocker: string;
+  arrears_consumed: BooleanLike;
+  loans_drawn: number;
+  outstanding: number;
+};
+
 export type Data = StaticData & {
   treasury: number;
   day: number;
@@ -188,6 +208,8 @@ export type Data = StaticData & {
   petition_tax_pct: number;
   petitions_per_day: number;
   petition: PetitionState;
+  sequestration: SequestrationState;
+  atc_loan: AtcLoanState;
 };
 
 export type TabKey =

@@ -286,6 +286,27 @@
 	petition_state["eligibility"] = eligibility
 	data["petition"] = petition_state
 
+	data["sequestration"] = list(
+		"active" = SStreasury.is_in_receivership() ? TRUE : FALSE,
+		"in_arrears" = (SStreasury.treasury_state == TREASURY_IN_ARREARS) ? TRUE : FALSE,
+		"debt" = SStreasury.treasury_debt,
+		"state_label" = bankruptcy_state_label(SStreasury.treasury_state),
+	)
+
+	var/can_draw_loan = (user.job in list("Steward", "Clerk", "Grand Duke", "Hand")) && !SScity_assembly?.is_alderman(user)
+	data["atc_loan"] = list(
+		"available" = (can_draw_loan && SStreasury.atc_loan_available()) ? TRUE : FALSE,
+		"can_view" = can_draw_loan ? TRUE : FALSE,
+		"min" = ATC_LOAN_MIN_AMOUNT,
+		"max" = ATC_LOAN_MAX_AMOUNT,
+		"closed_day" = ATC_LOAN_CLOSED_DAY,
+		"interest_pct" = round(ATC_LOAN_INTEREST_RATE * 100),
+		"blocker" = SStreasury.atc_loan_blocker_reason() || "",
+		"arrears_consumed" = SStreasury.atc_loan_arrears_consumed ? TRUE : FALSE,
+		"loans_drawn" = SStreasury.atc_loans_drawn_this_round,
+		"outstanding" = SStreasury.atc_loan_arrears_consumed ? SStreasury.treasury_debt : 0,
+	)
+
 	return data
 
 /// Enumerates every region producing good_id, with current next-unit import price and
@@ -404,15 +425,49 @@
 		"history" = history,
 	)
 
+/// Trade-control actions blocked during sequestration. Petitions, order fulfillment,
+/// and read-only quote actions are deliberately excluded so the Steward can still
+/// crawl out of debt by petitioning, taxing, and fining.
+GLOBAL_LIST_INIT(steward_trade_sequestration_locked_actions, list(
+	"trade_import",
+	"trade_export",
+	"trade_region_import",
+	"trade_region_export",
+	"toggle_auto_import",
+	"kill_switch_auto_import",
+	"set_auto_import_purse_floor",
+	"toggle_auto_price",
+	"toggle_auto_limit",
+	"toggle_stockpile_accept",
+	"toggle_withdraw_disabled",
+	"set_buy_price",
+	"set_sell_price",
+	"set_stockpile_limit",
+	"autoprice_all",
+	"autolimit_all",
+	"autoprice_category",
+	"autolimit_category",
+	"accept_category",
+	"reject_category",
+	"multiply_all_buy",
+	"multiply_all_sell",
+	"multiply_category_buy",
+	"multiply_category_sell",
+	"set_autoexport_percentage",
+	"export_surplus_all",
+	"export_surplus_category",
+))
+
 /obj/structure/roguemachine/steward/ui_act(action, list/params)
 	. = ..()
 	if(.)
 		return
-	// Adjacency gate yields to the Alderman - they act remotely from the Notice Board. All trade
-	// actions still re-check alderman_has_access() (trait + warrant) below.
 	if(!user_can_act(usr))
 		return TRUE
 	if(locked && !alderman_has_access(usr))
+		return TRUE
+	if(SStreasury.is_in_receivership() && (action in GLOB.steward_trade_sequestration_locked_actions))
+		to_chat(usr, span_warning("The Azurian Trading Company holds the Crown's commerce in sequestration. Petition, tax, and fine are your remaining instruments."))
 		return TRUE
 	switch(action)
 		if("fulfill_order")
@@ -761,10 +816,23 @@
 			var/region_id = params["region_id"]
 			var/category_id = params["category_id"]
 			if(SSeconomy.petition_for_order(usr, region_id, category_id))
-				var/list/cat = GLOB.petition_categories[category_id]
 				var/datum/economic_region/region = GLOB.economic_regions[region_id]
-				scom_announce("[usr.real_name] petitioned the trade hall for [cat?["label"]] in [region?.name].")
 				playsound(src, 'sound/items/inqslip_sealed.ogg', 70, FALSE, -1)
 				visible_message(span_notice("[src] stamps a freshly sealed writ. The wax bears the mark of the [region?.name] trade hall."))
+			SStgui.update_uis(src)
+			return TRUE
+		if("take_atc_loan")
+			if(SScity_assembly?.is_alderman(usr))
+				to_chat(usr, span_warning("The Alderman's writ does not extend to drawing loans against the Crown."))
+				return TRUE
+			if(!(usr.job in list("Steward", "Clerk", "Grand Duke", "Hand")))
+				to_chat(usr, span_warning("Only the Crown's office may approach the Guilds clerk."))
+				return TRUE
+			var/amount = text2num("[params["amount"]]")
+			if(!isnum(amount))
+				return TRUE
+			if(SStreasury.take_atc_loan(amount, usr))
+				playsound(src, 'sound/items/inqslip_sealed.ogg', 70, FALSE, -1)
+				visible_message(span_notice("[src] stamps a sealed writ. The wax bears the mark of the Azurian Trading Company."))
 			SStgui.update_uis(src)
 			return TRUE

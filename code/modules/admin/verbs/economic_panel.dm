@@ -105,6 +105,58 @@ GLOBAL_DATUM_INIT(economic_panel, /datum/economic_panel, new)
 			assembly["defense_remaining"] = W.defense_remaining
 	data["assembly"] = assembly
 
+	var/list/bankruptcy = list()
+	bankruptcy["state"] = SStreasury.treasury_state
+	bankruptcy["state_label"] = bankruptcy_state_label(SStreasury.treasury_state)
+	bankruptcy["debt"] = SStreasury.treasury_debt
+	bankruptcy["bankruptcy_count"] = SStreasury.bankruptcy_count
+	bankruptcy["concession_picks"] = SStreasury.bankruptcy_concession_picks
+	bankruptcy["operating_floor"] = BANKRUPTCY_OPERATING_FLOOR
+	bankruptcy["arrears_loan_floor"] = TREASURY_ARREARS_LOAN
+	bankruptcy["recovery_reset"] = BANKRUPTCY_RECOVERY_RESET
+	bankruptcy["autoexport_override"] = round(BANKRUPTCY_AUTOEXPORT_PERCENTAGE * 100)
+	var/list/suspended = list()
+	for(var/decree_id in SStreasury.bankruptcy_suspended_decree_ids)
+		var/datum/decree/D = SStreasury.get_decree(decree_id)
+		if(!D)
+			continue
+		suspended += list(list(
+			"id" = decree_id,
+			"name" = D.name,
+		))
+	bankruptcy["suspended_charters"] = suspended
+	bankruptcy["atc_loan_min"] = ATC_LOAN_MIN_AMOUNT
+	bankruptcy["atc_loan_max"] = ATC_LOAN_MAX_AMOUNT
+	bankruptcy["atc_loan_closed_day"] = ATC_LOAN_CLOSED_DAY
+	bankruptcy["atc_loan_available"] = SStreasury.atc_loan_available() ? TRUE : FALSE
+	bankruptcy["atc_loan_blocker"] = SStreasury.atc_loan_blocker_reason() || ""
+	bankruptcy["atc_loan_arrears_consumed"] = SStreasury.atc_loan_arrears_consumed ? TRUE : FALSE
+	bankruptcy["atc_loans_drawn"] = SStreasury.atc_loans_drawn_this_round
+
+	var/list/daily_payroll = list()
+	var/payroll_total = 0
+	if(SStreasury.steward_machine && SStreasury.steward_machine.daily_payments)
+		for(var/job_name in SStreasury.steward_machine.daily_payments)
+			var/amount = SStreasury.steward_machine.daily_payments[job_name]
+			var/headcount = 0
+			var/suspended_count = 0
+			for(var/mob/living/carbon/human/H in GLOB.human_list)
+				if(H.job == job_name)
+					headcount++
+					if(HAS_TRAIT(H, TRAIT_WAGES_SUSPENDED))
+						suspended_count++
+			daily_payroll += list(list(
+				"job" = job_name,
+				"amount" = amount,
+				"headcount" = headcount,
+				"suspended_count" = suspended_count,
+				"row_total" = amount * (headcount - suspended_count),
+			))
+			payroll_total += amount * (headcount - suspended_count)
+	bankruptcy["daily_payroll"] = daily_payroll
+	bankruptcy["daily_payroll_total"] = payroll_total
+	data["bankruptcy"] = bankruptcy
+
 	// Aggregation tallies the full ledger so cap-exceeding history still shows up in the
 	// inflow/outflow totals; only the displayed rows are capped to keep the payload bounded.
 	var/list/ledger_serialized = list()
@@ -158,7 +210,15 @@ GLOBAL_DATUM_INIT(economic_panel, /datum/economic_panel, new)
 			return TRUE
 		if("advance_day")
 			GLOB.dayspassed++
-			admin_log_fiscal("advanced the day to [GLOB.dayspassed]", "Advance Day")
+			// Run the full dawn cadence so testing matches in-game timing: poll tax, loans,
+			// pledge, estate incomes, then payroll (which itself triggers SSeconomy.daily_tick).
+			// Payroll runs last because it's the call that may transition the solvency state.
+			SStreasury.tick_poll_tax()
+			SStreasury.tick_loans()
+			SStreasury.tick_burgher_pledge()
+			SStreasury.distribute_estate_incomes()
+			SStreasury.distribute_daily_payments()
+			admin_log_fiscal("advanced the day to [GLOB.dayspassed] (full daily tick)", "Advance Day")
 			return TRUE
 		if("fire_poll_tick")
 			SStreasury.tick_poll_tax()
@@ -394,6 +454,53 @@ GLOBAL_DATUM_INIT(economic_panel, /datum/economic_panel, new)
 				return TRUE
 			REMOVE_TRAIT(target, TRAIT_ALDERMAN_CENSURED, "assembly")
 			admin_log_fiscal("cleared censure on [key_name(target)]", "Clear Censure")
+			return TRUE
+		if("force_arrears")
+			if(SStreasury.treasury_state != TREASURY_NORMAL)
+				to_chat(usr, span_warning("Treasury is not currently solvent."))
+				return TRUE
+			var/projected = 0
+			if(SStreasury.steward_machine)
+				for(var/job_name in SStreasury.steward_machine.daily_payments)
+					var/payment = SStreasury.steward_machine.daily_payments[job_name]
+					for(var/mob/living/carbon/human/H in GLOB.human_list)
+						if(H.job == job_name && !HAS_TRAIT(H, TRAIT_WAGES_SUSPENDED))
+							projected += payment
+			SStreasury.enter_arrears(projected)
+			admin_log_fiscal("force-triggered Crown arrears", "Force Arrears")
+			return TRUE
+		if("force_bankruptcy")
+			if(SStreasury.treasury_state == TREASURY_BANKRUPTCY)
+				to_chat(usr, span_warning("Already in receivership."))
+				return TRUE
+			SStreasury.enter_bankruptcy()
+			admin_log_fiscal("force-declared Crown bankruptcy / receivership", "Force Bankruptcy")
+			return TRUE
+		if("force_recovery")
+			if(SStreasury.treasury_state == TREASURY_NORMAL)
+				to_chat(usr, span_warning("Treasury is already solvent."))
+				return TRUE
+			SStreasury.treasury_debt = 0
+			GLOB.azure_round_stats[STATS_TREASURY_DEBT_OUTSTANDING] = 0
+			SStreasury.clear_treasury_debt_state()
+			admin_log_fiscal("force-cleared treasury debt and recovered solvency", "Force Recovery")
+			return TRUE
+		if("concession_restore")
+			var/decree_id = params["decree_id"]
+			if(!decree_id)
+				return TRUE
+			if(SStreasury.bankruptcy_concession_picks <= 0)
+				to_chat(usr, span_warning("No concession picks remaining."))
+				return TRUE
+			if(SStreasury.restore_charter_via_concession(decree_id))
+				admin_log_fiscal("used concession pick to restore [decree_id]", "Concession Restore")
+			return TRUE
+		if("take_atc_loan")
+			var/amount = text2num(params["amount"])
+			if(!isnum(amount))
+				return TRUE
+			if(SStreasury.take_atc_loan(amount, usr))
+				admin_log_fiscal("drew an ATC emergency loan of [amount]m", "ATC Loan")
 			return TRUE
 		if("bulk_clear_debt")
 			var/list/matches = SStreasury.compute_filtered_players(filter_category, filter_status, filter_search)

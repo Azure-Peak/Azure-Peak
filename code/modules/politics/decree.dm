@@ -14,6 +14,11 @@
 	/// Lord first presses them. Once revealed, it stays revealed for the rest of the round
 	/// even if suspended again.
 	var/has_ever_been_active = FALSE
+	/// Set to TRUE when this charter was force-suspended by bankruptcy entry. The Lord/Hand
+	/// cannot mutate it via the standard set_decree_active path while it carries this flag;
+	/// they may only restore it via the concession-pick mechanism after the Crown exits
+	/// receivership. Cleared by exit_bankruptcy or restore_charter_via_concession.
+	var/bankruptcy_suspended = FALSE
 
 /datum/decree/New()
 	. = ..()

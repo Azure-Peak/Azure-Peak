@@ -13,10 +13,42 @@
 	log_fund_entry(new /datum/treasury_entry("burn", to_fund, null, skim, "Banditry debt repayment"))
 	return amount - skim
 
+/// Treasury-debt skim. Runs whenever treasury_debt is outstanding, regardless of state -
+/// so an ATC emergency loan (NORMAL state with non-zero debt) repays itself silently from
+/// inflow just like arrears or sequestration debt. The operating floor differs by state:
+/// 0 in NORMAL or IN_ARREARS (full inflow goes to debt), BANKRUPTCY_OPERATING_FLOOR in
+/// BANKRUPTCY (purse refills up to the floor to keep the trade engine running).
+/// Calls clear_treasury_debt_state when debt reaches zero.
+/datum/controller/subsystem/treasury/proc/skim_for_treasury_debt(datum/fund/to_fund, amount)
+	if(amount <= 0 || treasury_debt <= 0 || to_fund != discretionary_fund)
+		return amount
+	var/floor_value = (treasury_state == TREASURY_BANKRUPTCY) ? BANKRUPTCY_OPERATING_FLOOR : 0
+	var/headroom_below_floor = max(0, floor_value - to_fund.balance)
+	var/amount_above_floor = max(0, amount - headroom_below_floor)
+	if(amount_above_floor <= 0)
+		return amount
+	var/skim = min(amount_above_floor, treasury_debt)
+	treasury_debt -= skim
+	GLOB.azure_round_stats[STATS_TREASURY_DEBT_OUTSTANDING] = treasury_debt
+	record_round_statistic(STATS_TREASURY_DEBT_REPAID, skim)
+	var/reason
+	if(treasury_state == TREASURY_BANKRUPTCY)
+		reason = "Sequestration debt - Azurian Trading Company"
+	else if(treasury_state == TREASURY_IN_ARREARS)
+		reason = "Arrears repayment - Burghers of Azuria"
+	else
+		reason = "ATC loan repayment"
+	log_fund_entry(new /datum/treasury_entry("burn", to_fund, null, skim, reason))
+	if(treasury_debt <= 0)
+		treasury_debt = 0
+		clear_treasury_debt_state()
+	return amount - skim
+
 /datum/controller/subsystem/treasury/proc/mint(datum/fund/to_fund, amount, reason)
 	if(!to_fund || amount <= 0)
 		return FALSE
 	var/credited = skim_for_banditry_debt(to_fund, amount)
+	credited = skim_for_treasury_debt(to_fund, credited)
 	if(credited > 0)
 		to_fund.balance += credited
 		log_fund_entry(new /datum/treasury_entry("mint", null, to_fund, credited, reason))
@@ -41,6 +73,7 @@
 		return FALSE
 	from_fund.balance -= amount
 	var/credited = skim_for_banditry_debt(to_fund, amount)
+	credited = skim_for_treasury_debt(to_fund, credited)
 	to_fund.balance += credited
 	log_fund_entry(new /datum/treasury_entry("transfer", from_fund, to_fund, amount, reason))
 	return TRUE

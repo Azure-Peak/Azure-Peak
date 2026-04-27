@@ -16,6 +16,10 @@
 	var/datum/decree/D = get_decree(decree_id)
 	if(!D)
 		return FALSE
+	// Bankruptcy lock: charters suspended by receivership are immutable through this path,
+	// and the Golden Bull cannot be revoked while the Crown is in receivership.
+	if(!can_mutate_decree(decree_id, new_active))
+		return FALSE
 	if(!D.can_change_state())
 		return FALSE
 	if(D.active == new_active)

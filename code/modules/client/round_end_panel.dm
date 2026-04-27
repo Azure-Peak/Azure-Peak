@@ -584,6 +584,35 @@
 			if(banditry_owed > 0)
 				data += " <span style='color: #888; font-size: 85%;'>([banditry_owed] still owed)</span>"
 			data += "</div>"
+			var/bankruptcy_count = GLOB.azure_round_stats[STATS_BANKRUPTCY_DECLARED]
+			var/arrears_count = GLOB.azure_round_stats[STATS_ARREARS_DECLARED]
+			var/treasury_debt_repaid = GLOB.azure_round_stats[STATS_TREASURY_DEBT_REPAID]
+			var/treasury_debt_owed = GLOB.azure_round_stats[STATS_TREASURY_DEBT_OUTSTANDING]
+			if(bankruptcy_count || arrears_count || treasury_debt_repaid || treasury_debt_owed)
+				var/label_color = bankruptcy_count ? "#c0392b" : "#e07b39"
+				var/label = bankruptcy_count ? "Receivership" : "Arrears"
+				data += "<div style='margin-bottom: 4px;'><font color='[label_color]'>[label]: </font>"
+				if(arrears_count)
+					data += "[arrears_count]x arrears"
+				if(arrears_count && bankruptcy_count)
+					data += ", "
+				if(bankruptcy_count)
+					data += "[bankruptcy_count]x bankruptcy"
+				if(treasury_debt_repaid)
+					data += " <span style='color: #888; font-size: 85%;'>([treasury_debt_repaid] repaid"
+					if(treasury_debt_owed > 0)
+						data += ", [treasury_debt_owed] still owed"
+					data += ")</span>"
+				else if(treasury_debt_owed > 0)
+					data += " <span style='color: #888; font-size: 85%;'>([treasury_debt_owed] still owed)</span>"
+				data += "</div>"
+			var/forfeiture_amount = GLOB.azure_round_stats[STATS_FORFEITURE_AMOUNT]
+			var/forfeiture_count = GLOB.azure_round_stats[STATS_FORFEITURE_COUNT]
+			if(forfeiture_amount || forfeiture_count)
+				data += "<div style='margin-bottom: 4px;'><font color='#8f6f3a'>Forfeitures: </font>[forfeiture_amount]m"
+				if(forfeiture_count)
+					data += " <span style='color: #888; font-size: 85%;'>(from [forfeiture_count] departing Keep insider[forfeiture_count == 1 ? "" : "s"])</span>"
+				data += "</div>"
 			var/exempt_contract = GLOB.azure_round_stats[STATS_EXEMPTED_CONTRACT_LEVY]
 			var/exempt_headeater = GLOB.azure_round_stats[STATS_EXEMPTED_HEADEATER_LEVY]
 			var/exempt_import = GLOB.azure_round_stats[STATS_EXEMPTED_IMPORT_TARIFF]

@@ -40,6 +40,92 @@
 /// (round-start / character-creation). Recurring daily ticks pay the base amount with no bonus.
 #define ESTATE_STARTER_BONUS 30
 
+// ============================================================================
+// Treasury insolvency / bankruptcy / receivership
+// ============================================================================
+/// Treasury solvency states. Drive distribute_daily_payments, the debt skim, and
+/// charter / auto-trade behavior. State transitions in
+/// SStreasury.advance_treasury_state, never assigned directly elsewhere.
+#define TREASURY_NORMAL 0
+#define TREASURY_IN_ARREARS 1
+#define TREASURY_BANKRUPTCY 2
+
+/// Interest-free advance when the Crown first misses payroll. Sized as max(this, shortfall)
+/// so a small overdraft uses the floor and a large one borrows enough to actually cover wages.
+#define TREASURY_ARREARS_LOAN 1000
+
+/// Crown's Purse balance injected at bankruptcy entry to keep auto-import/export functional
+/// during receivership. Also the operating-floor cap: any inflow that would push the purse
+/// above this is skimmed against bankruptcy debt instead.
+#define BANKRUPTCY_OPERATING_FLOOR 2500
+
+/// Flat portion of the bankruptcy debt registered on entry.
+#define BANKRUPTCY_DEBT_FLAT 5000
+/// Per-active-player surcharge added to the flat debt at bankruptcy entry.
+#define BANKRUPTCY_DEBT_PER_PLAYER 25
+
+/// Auto-export percentage forced while in bankruptcy ("everything must move"). The
+/// Steward-settable percentage is stashed and restored on recovery.
+#define BANKRUPTCY_AUTOEXPORT_PERCENTAGE 0.25
+
+/// Concession picks granted on recovery: how many bankruptcy-suspended charters the
+/// Lord/Hand can restore without cooldown. Remaining suspended charters follow normal
+/// DECREE_COOLDOWN rules.
+#define BANKRUPTCY_CONCESSION_PICKS 3
+
+/// Crown's Purse balance reset to this on recovery, replacing whatever sub-floor amount
+/// was held during receivership.
+#define BANKRUPTCY_RECOVERY_RESET 1500
+
+/// Decrees suspended on bankruptcy entry. Golden Bull is intentionally absent - burgher
+/// protection holds, and the Crown cannot revoke it during receivership.
+#define BANKRUPTCY_SUSPENDED_DECREES list( \
+	DECREE_NOC_PESTRA_COVENANT, \
+	DECREE_GREAT_WRIT, \
+	DECREE_GUILD_CHARTER_OF_ARMS, \
+	DECREE_INDENTURE_OF_WAR, \
+	DECREE_MAGNA_CARTA, \
+	DECREE_OTAVAN_ACCORDS, \
+	DECREE_ZENITSTADT_CONCORDAT, \
+)
+
+// ============================================================================
+// ATC Emergency Loan - the early-round "just one more day" tool
+// ============================================================================
+/// Minimum size of an Azurian Trading Company emergency loan.
+#define ATC_LOAN_MIN_AMOUNT 500
+/// Maximum size of an Azurian Trading Company emergency loan.
+#define ATC_LOAN_MAX_AMOUNT 1500
+/// On this day and onward the Guilds clerk is "out of office" and the loan is unavailable.
+/// Prevents the loan from being used as a free emergency cash injection late round when the
+/// debt would not realistically be collectible.
+#define ATC_LOAN_CLOSED_DAY 5
+
+/// Interest the Company charges on every emergency loan. Crown receives the principal but owes
+/// principal * (1 + this) back. Sized to keep the loan a deliberate "last resort" choice rather
+/// than a default-on-cooldown buffer; period-realistic for merchant-house emergency lending.
+#define ATC_LOAN_INTEREST_RATE 0.25
+
+// ============================================================================
+// Far-travel anti-grief: Keep insiders only. Gates the bank-reclaim clawback so we don't
+// punish innocent bailers (burgher/peasant/adventurer FT'ing Day 1 because they hated
+// their slot) but do catch Crown-adjacent power roles who could meaningfully grief by
+// hoarding Crown coin and leaving the round.
+// ============================================================================
+#define KEEP_INSIDER_JOBS list( \
+	"Lord", \
+	"Prince", \
+	"Consort", \
+	"Hand", \
+	"Steward", \
+	"Clerk", \
+	"Seneschal", \
+	"Councillor", \
+	"Suitor", \
+	"Marshal", \
+	"Knight", \
+)
+
 // Poll Tax categories - flat per-head daily levy by civic class.
 #define POLL_TAX_CAT_NOBLE "poll_noble"
 #define POLL_TAX_CAT_CLERGY "poll_clergy"

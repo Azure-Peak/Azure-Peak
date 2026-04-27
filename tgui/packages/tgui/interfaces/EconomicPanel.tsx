@@ -100,6 +100,41 @@ type Assembly = {
   defense_remaining?: number;
 };
 
+type SuspendedCharter = {
+  id: string;
+  name: string;
+};
+
+type DailyPayrollRow = {
+  job: string;
+  amount: number;
+  headcount: number;
+  suspended_count: number;
+  row_total: number;
+};
+
+type Bankruptcy = {
+  state: number;
+  state_label: string;
+  debt: number;
+  bankruptcy_count: number;
+  concession_picks: number;
+  operating_floor: number;
+  arrears_loan_floor: number;
+  recovery_reset: number;
+  autoexport_override: number;
+  suspended_charters: SuspendedCharter[];
+  atc_loan_min: number;
+  atc_loan_max: number;
+  atc_loan_closed_day: number;
+  atc_loan_available: BooleanLike;
+  atc_loan_blocker: string;
+  atc_loan_arrears_consumed: BooleanLike;
+  atc_loans_drawn: number;
+  daily_payroll: DailyPayrollRow[];
+  daily_payroll_total: number;
+};
+
 type Data = {
   dashboard: Dashboard;
   filter: Filter;
@@ -113,6 +148,7 @@ type Data = {
   live_player_count: number;
   blockades: Blockade[];
   assembly: Assembly;
+  bankruptcy: Bankruptcy;
   ledger: LedgerEntry[];
   ledger_total: number;
   ledger_cap: number;
@@ -159,6 +195,7 @@ export const EconomicPanel = () => {
     live_player_count,
     blockades,
     assembly,
+    bankruptcy,
     ledger,
     ledger_total,
     ledger_cap,
@@ -269,10 +306,243 @@ export const EconomicPanel = () => {
     });
   };
 
+  const stateColor =
+    bankruptcy.state === 2
+      ? '#c0392b'
+      : bankruptcy.state === 1
+        ? '#e07b39'
+        : '#5cb85c';
+  const [atcLoanAmount, setAtcLoanAmount] = useState(bankruptcy.atc_loan_min);
+
   return (
     <Window width={1080} height={780}>
       <Window.Content scrollable>
         <Stack vertical>
+          <Stack.Item>
+            <Section
+              title={
+                <span>
+                  Solvency &mdash;{' '}
+                  <span style={{ color: stateColor }}>
+                    {bankruptcy.state_label}
+                  </span>
+                </span>
+              }
+            >
+              <Stack>
+                <Stack.Item grow>
+                  <LabeledList>
+                    <LabeledList.Item label="State">
+                      <b style={{ color: stateColor }}>
+                        {bankruptcy.state_label}
+                      </b>
+                    </LabeledList.Item>
+                    <LabeledList.Item label="Outstanding Debt">
+                      <b style={{ color: stateColor }}>
+                        {bankruptcy.debt}m
+                      </b>
+                    </LabeledList.Item>
+                    <LabeledList.Item label="Bankruptcies This Round">
+                      {bankruptcy.bankruptcy_count}
+                    </LabeledList.Item>
+                    {bankruptcy.concession_picks > 0 && (
+                      <LabeledList.Item label="Concession Picks Remaining">
+                        <b style={{ color: '#5cb85c' }}>
+                          {bankruptcy.concession_picks}
+                        </b>
+                      </LabeledList.Item>
+                    )}
+                  </LabeledList>
+                </Stack.Item>
+                <Stack.Item grow>
+                  <LabeledList>
+                    <LabeledList.Item label="Arrears Loan Floor">
+                      {bankruptcy.arrears_loan_floor}m
+                    </LabeledList.Item>
+                    <LabeledList.Item label="Sequestration Floor">
+                      {bankruptcy.operating_floor}m
+                    </LabeledList.Item>
+                    <LabeledList.Item label="Recovery Reset">
+                      {bankruptcy.recovery_reset}m
+                    </LabeledList.Item>
+                    <LabeledList.Item label="Sequestration Auto-Export">
+                      {bankruptcy.autoexport_override}%
+                    </LabeledList.Item>
+                    <LabeledList.Item label="ATC Loans This Round">
+                      {bankruptcy.atc_loans_drawn}
+                      {!!bankruptcy.atc_loan_arrears_consumed && (
+                        <span style={{ color: '#e07b39', marginLeft: '6px' }}>
+                          - arrears grace forfeit
+                        </span>
+                      )}
+                    </LabeledList.Item>
+                  </LabeledList>
+                </Stack.Item>
+              </Stack>
+              <Box mt={1} mb={1}>
+                <Stack align="center">
+                  <Stack.Item>
+                    <b>ATC Emergency Loan:</b>
+                  </Stack.Item>
+                  <Stack.Item>
+                    <NumberInput
+                      value={atcLoanAmount}
+                      minValue={bankruptcy.atc_loan_min}
+                      maxValue={bankruptcy.atc_loan_max}
+                      step={50}
+                      stepPixelSize={4}
+                      width="80px"
+                      onChange={(v: number) => setAtcLoanAmount(v)}
+                    />
+                  </Stack.Item>
+                  <Stack.Item>
+                    <Button.Confirm
+                      disabled={!bankruptcy.atc_loan_available}
+                      tooltip={
+                        bankruptcy.atc_loan_available
+                          ? `Borrow ${atcLoanAmount}m from the ATC. Consumes the arrears grace.`
+                          : `Loan unavailable: ${bankruptcy.atc_loan_blocker}`
+                      }
+                      onClick={() =>
+                        act('take_atc_loan', { amount: atcLoanAmount })
+                      }
+                    >
+                      Draw Loan
+                    </Button.Confirm>
+                  </Stack.Item>
+                  <Stack.Item color="gray" italic>
+                    {bankruptcy.atc_loan_min}-{bankruptcy.atc_loan_max}m. Closes
+                    on Day {bankruptcy.atc_loan_closed_day}.
+                  </Stack.Item>
+                </Stack>
+              </Box>
+              <Stack mt={1} wrap>
+                <Stack.Item>
+                  <Button.Confirm
+                    disabled={bankruptcy.state !== 0}
+                    onClick={() => act('force_arrears')}
+                  >
+                    Force Arrears
+                  </Button.Confirm>
+                </Stack.Item>
+                <Stack.Item>
+                  <Button.Confirm
+                    disabled={bankruptcy.state === 2}
+                    onClick={() => act('force_bankruptcy')}
+                  >
+                    Force Bankruptcy
+                  </Button.Confirm>
+                </Stack.Item>
+                <Stack.Item>
+                  <Button.Confirm
+                    disabled={bankruptcy.state === 0}
+                    onClick={() => act('force_recovery')}
+                  >
+                    Force Recovery
+                  </Button.Confirm>
+                </Stack.Item>
+              </Stack>
+              {bankruptcy.daily_payroll.length > 0 && (
+                <Box mt={1}>
+                  <Box mb={1}>
+                    <b>Daily Payroll</b> -{' '}
+                    {bankruptcy.state === 2 ? (
+                      <span style={{ color: '#c0392b', fontWeight: 'bold' }}>
+                        SUSPENDED (sequestration)
+                      </span>
+                    ) : (
+                      <span style={{ color: '#888' }}>
+                        {bankruptcy.daily_payroll_total}m total / dawn
+                      </span>
+                    )}
+                  </Box>
+                  <Table>
+                    <Table.Row header>
+                      <Table.Cell>Job</Table.Cell>
+                      <Table.Cell collapsing>Wage</Table.Cell>
+                      <Table.Cell collapsing>Heads</Table.Cell>
+                      <Table.Cell collapsing>Suspended</Table.Cell>
+                      <Table.Cell collapsing>Pays</Table.Cell>
+                    </Table.Row>
+                    {bankruptcy.daily_payroll.map((row) => {
+                      const sequestered = bankruptcy.state === 2;
+                      const allSuspended =
+                        sequestered ||
+                        (row.headcount > 0 &&
+                          row.suspended_count >= row.headcount);
+                      return (
+                        <Table.Row
+                          key={row.job}
+                          style={{
+                            opacity: allSuspended ? 0.55 : 1,
+                            textDecoration: allSuspended
+                              ? 'line-through'
+                              : undefined,
+                          }}
+                        >
+                          <Table.Cell>{row.job}</Table.Cell>
+                          <Table.Cell collapsing>{row.amount}m</Table.Cell>
+                          <Table.Cell collapsing>{row.headcount}</Table.Cell>
+                          <Table.Cell collapsing>
+                            {row.suspended_count > 0 && (
+                              <span style={{ color: '#e07b39' }}>
+                                {row.suspended_count}
+                              </span>
+                            )}
+                          </Table.Cell>
+                          <Table.Cell collapsing>
+                            {sequestered ? (
+                              <span
+                                style={{
+                                  color: '#c0392b',
+                                  fontVariant: 'small-caps',
+                                  fontWeight: 'bold',
+                                  letterSpacing: '1px',
+                                }}
+                              >
+                                suspended
+                              </span>
+                            ) : (
+                              `${row.row_total}m`
+                            )}
+                          </Table.Cell>
+                        </Table.Row>
+                      );
+                    })}
+                  </Table>
+                </Box>
+              )}
+              {bankruptcy.suspended_charters.length > 0 && (
+                <Box mt={1}>
+                  <Box italic color="gray" mb={1}>
+                    Suspended by Sequestration (
+                    {bankruptcy.concession_picks} concession pick
+                    {bankruptcy.concession_picks === 1 ? '' : 's'} remaining):
+                  </Box>
+                  <Stack wrap>
+                    {bankruptcy.suspended_charters.map((c) => (
+                      <Stack.Item key={c.id}>
+                        <Button
+                          disabled={bankruptcy.concession_picks <= 0}
+                          tooltip={
+                            bankruptcy.concession_picks <= 0
+                              ? 'No concession picks remaining'
+                              : `Restore ${c.name} without cooldown`
+                          }
+                          onClick={() =>
+                            act('concession_restore', { decree_id: c.id })
+                          }
+                        >
+                          Restore: {c.name}
+                        </Button>
+                      </Stack.Item>
+                    ))}
+                  </Stack>
+                </Box>
+              )}
+            </Section>
+          </Stack.Item>
+
           <Stack.Item>
             <Section title={`Dashboard  -  Day ${day}`}>
               <Stack>
