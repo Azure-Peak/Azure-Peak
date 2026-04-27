@@ -441,7 +441,7 @@
 		if(spawned_count >= hunt_category.bonus_animal_amount)
 			break
 		var/skill = hunter.get_skill_level(/datum/skill/misc/hunting)
-		var/success_chance = clamp(((skill + 1) * 14) + group_bonus, 0, 100)
+		var/success_chance = clamp(((skill + 1) * 20) + group_bonus, 0, 100)
 		if(prob(success_chance))
 			var/turf/spawn_turf = (nearby_turfs.len) ? pick(nearby_turfs) : T
 			var/bonus_type = pickweight(hunt_category.animals)
