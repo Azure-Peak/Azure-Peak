@@ -52,7 +52,8 @@ SUBSYSTEM_DEF(economy)
 			/datum/standing_order/demand_alchemical,
 			/datum/standing_order/demand_alchemical_warband,
 			/datum/standing_order/demand_equipment_armaments,
-			/datum/standing_order/demand_equipment_armor,
+			/datum/standing_order/demand_equipment_armor_heavy,
+			/datum/standing_order/demand_equipment_armor_light,
 			/datum/standing_order/demand_birthday_gift,
 			/datum/standing_order/demand_great_feast,
 			/datum/standing_order/demand_frontier_gear,
@@ -110,7 +111,8 @@ SUBSYSTEM_DEF(economy)
 			/datum/standing_order/demand_victualling_garrison,
 			/datum/standing_order/demand_alchemical,
 			/datum/standing_order/demand_equipment_armaments,
-			/datum/standing_order/demand_equipment_armor,
+			/datum/standing_order/demand_equipment_armor_heavy,
+			/datum/standing_order/demand_equipment_armor_light,
 			/datum/standing_order/demand_birthday_gift,
 			/datum/standing_order/demand_great_feast,
 			/datum/standing_order/demand_frontier_gear,
@@ -124,7 +126,8 @@ SUBSYSTEM_DEF(economy)
 			/datum/standing_order/demand_alchemical,
 			/datum/standing_order/demand_alchemical_warband,
 			/datum/standing_order/demand_equipment_armaments,
-			/datum/standing_order/demand_equipment_armor,
+			/datum/standing_order/demand_equipment_armor_heavy,
+			/datum/standing_order/demand_equipment_armor_light,
 			/datum/standing_order/demand_great_feast,
 			/datum/standing_order/demand_frontier_gear,
 			/datum/standing_order/demand_artificery,
@@ -139,7 +142,8 @@ SUBSYSTEM_DEF(economy)
 			/datum/standing_order/demand_alchemical,
 			/datum/standing_order/demand_alchemical_warband,
 			/datum/standing_order/demand_equipment_armaments,
-			/datum/standing_order/demand_equipment_armor,
+			/datum/standing_order/demand_equipment_armor_heavy,
+			/datum/standing_order/demand_equipment_armor_light,
 			/datum/standing_order/demand_birthday_gift,
 			/datum/standing_order/demand_great_feast,
 			/datum/standing_order/demand_frontier_gear,
@@ -453,23 +457,49 @@ SUBSYSTEM_DEF(economy)
 			to_chat(user, span_warning("[ER.name] is blockaded — the order cannot be delivered until the road is cleared."))
 		return FALSE
 
-	if(order_is_equipment(order))
-		return fulfill_equipment_order(user, order)
-	if(order_is_alchemical(order))
-		return fulfill_alchemical_order(user, order)
-
+	// Bin required items by behavior so a mixed order (finished equipment + finished
+	// potions + raw stockpile) fulfills in one pass. Each bin's feasibility check
+	// returns a deferred-consume payload; if any bin fails, nothing is consumed.
+	var/list/equip_goods = list()
+	var/list/potion_goods = list()
+	var/list/stock_goods = list()
 	for(var/good_id in order.required_items)
-		var/required = order.required_items[good_id]
-		var/datum/roguestock/stockpile_entry = find_stockpile_by_trade_good(good_id)
-		if(!stockpile_entry || stockpile_entry.stockpile_amount < required)
-			if(user)
-				to_chat(user, span_warning("Insufficient [good_id]: have [stockpile_entry?.stockpile_amount || 0], need [required]."))
+		var/datum/trade_good/tg = GLOB.trade_goods[good_id]
+		if(tg?.behavior == TRADE_BEHAVIOR_EQUIPMENT)
+			equip_goods += good_id
+		else if(tg?.behavior == TRADE_BEHAVIOR_POTION)
+			potion_goods += good_id
+		else
+			// Unknown trade goods fall through to stockpile, which is the historic default
+			// path before the equipment/potion behaviors existed.
+			stock_goods += good_id
+
+	var/list/equip_payload
+	var/list/potion_payload
+	if(length(equip_goods))
+		equip_payload = check_equipment_availability(user, order, equip_goods)
+		if(!equip_payload)
+			return FALSE
+	if(length(potion_goods))
+		potion_payload = check_potion_availability(user, order, potion_goods)
+		if(!potion_payload)
+			return FALSE
+	if(length(stock_goods))
+		if(!check_stockpile_availability(user, order, stock_goods))
 			return FALSE
 
-	for(var/good_id in order.required_items)
-		var/required = order.required_items[good_id]
-		var/datum/roguestock/stockpile_entry = find_stockpile_by_trade_good(good_id)
-		stockpile_entry.stockpile_amount -= required
+	if(equip_payload)
+		for(var/good_id in equip_payload)
+			for(var/obj/item/I as anything in equip_payload[good_id])
+				qdel(I)
+	if(potion_payload)
+		for(var/good_id in potion_payload)
+			for(var/obj/item/I as anything in potion_payload[good_id])
+				qdel(I)
+	if(length(stock_goods))
+		for(var/good_id in stock_goods)
+			var/datum/roguestock/stockpile_entry = find_stockpile_by_trade_good(good_id)
+			stockpile_entry.stockpile_amount -= order.required_items[good_id]
 
 	SStreasury.mint(SStreasury.discretionary_fund, order.total_payout, "Standing Order: [order.name]")
 	record_round_statistic(STATS_STANDING_ORDER_REVENUE, order.total_payout)
@@ -481,37 +511,66 @@ SUBSYSTEM_DEF(economy)
 		log_game("STANDING ORDER FULFILLED by [user.ckey]: [order.name] (+[order.total_payout]m)")
 	return TRUE
 
-/datum/controller/subsystem/economy/proc/order_is_equipment(datum/standing_order/order)
-	for(var/good_id in order.required_items)
-		var/datum/trade_good/tg = GLOB.trade_goods[good_id]
-		if(tg?.behavior == TRADE_BEHAVIOR_EQUIPMENT)
-			return TRUE
-	return FALSE
+/// Returns assoc list good_id -> list(items_to_qdel) on success, null on failure (and
+/// chats the shortage to the user).
+/datum/controller/subsystem/economy/proc/check_equipment_availability(mob/user, datum/standing_order/order, list/goods)
+	if(!length(GLOB.steward_export_machines))
+		if(user)
+			to_chat(user, span_warning("No warehouse dock manifest is registered. Cannot fulfill equipment orders."))
+		return null
 
-/datum/controller/subsystem/economy/proc/order_is_alchemical(datum/standing_order/order)
-	for(var/good_id in order.required_items)
-		var/datum/trade_good/tg = GLOB.trade_goods[good_id]
-		if(tg?.behavior == TRADE_BEHAVIOR_POTION)
-			return TRUE
-	return FALSE
+	var/list/found_by_good = list()
+	var/list/matched_items_by_good = list()
+	for(var/good_id in goods)
+		found_by_good[good_id] = 0
+		matched_items_by_good[good_id] = list()
+
+	for(var/obj/structure/roguemachine/steward_export/M as anything in GLOB.steward_export_machines)
+		if(QDELETED(M))
+			continue
+		for(var/obj/item/I in view(1, M))
+			for(var/good_id in goods)
+				var/datum/trade_good/tg = GLOB.trade_goods[good_id]
+				if(!tg || !tg.item_type || !istype(I, tg.item_type))
+					continue
+				// Exact-type match (not subtypes) to avoid counting donator/unique subtypes
+				// against Crown manifest orders.
+				if(I.type != tg.item_type)
+					continue
+				if(found_by_good[good_id] >= order.required_items[good_id])
+					continue
+				found_by_good[good_id]++
+				matched_items_by_good[good_id] += I
+				break
+
+	for(var/good_id in goods)
+		var/need = order.required_items[good_id]
+		var/have = found_by_good[good_id]
+		if(have < need)
+			var/datum/trade_good/tg = GLOB.trade_goods[good_id]
+			var/label = tg ? tg.name : good_id
+			if(user)
+				to_chat(user, span_warning("Warehouse short on [label]: have [have], need [need]."))
+			return null
+
+	return matched_items_by_good
 
 /// Warehouse scan that counts DELIVERED REAGENT VOLUME, not container count. A bottle
 /// of 50u healthpot satisfies one unit; a 100u flask satisfies two. Any reagent container
 /// works — player brewers use a grab-bag of bottles, flasks, and pouches. Matched
-/// containers are consumed in full on fulfillment (simpler than metering a draw).
-/datum/controller/subsystem/economy/proc/fulfill_alchemical_order(mob/user, datum/standing_order/order)
+/// containers are consumed in full on fulfillment (simpler than metering a draw). Returns
+/// assoc list good_id -> list(containers_to_qdel) on success, null on failure.
+/datum/controller/subsystem/economy/proc/check_potion_availability(mob/user, datum/standing_order/order, list/goods)
 	if(!length(GLOB.steward_export_machines))
 		if(user)
 			to_chat(user, span_warning("No warehouse dock manifest is registered. Cannot fulfill alchemical orders."))
-		return FALSE
+		return null
 
 	var/list/required_volume_by_good = list()
 	var/list/found_volume_by_good = list()
 	var/list/matched_containers_by_good = list()
-	for(var/good_id in order.required_items)
+	for(var/good_id in goods)
 		var/datum/trade_good/tg = GLOB.trade_goods[good_id]
-		if(!tg || tg.behavior != TRADE_BEHAVIOR_POTION)
-			continue
 		required_volume_by_good[good_id] = order.required_items[good_id] * tg.required_volume
 		found_volume_by_good[good_id] = 0
 		matched_containers_by_good[good_id] = list()
@@ -541,79 +600,37 @@ SUBSYSTEM_DEF(economy)
 			var/label = tg ? tg.name : good_id
 			if(user)
 				to_chat(user, span_warning("Warehouse short on [label]: have [have]u, need [need]u."))
-			return FALSE
+			return null
 
-	for(var/good_id in matched_containers_by_good)
-		for(var/obj/item/I as anything in matched_containers_by_good[good_id])
-			qdel(I)
+	return matched_containers_by_good
 
-	SStreasury.mint(SStreasury.discretionary_fund, order.total_payout, "Standing Order: [order.name]")
-	record_round_statistic(STATS_STANDING_ORDER_REVENUE, order.total_payout)
-	record_round_statistic(STATS_STANDING_ORDERS_FULFILLED, 1)
-	order.is_fulfilled = TRUE
-	GLOB.standing_order_pool -= order
-	if(user)
-		to_chat(user, span_notice("Order Fulfilled: [order.total_payout]m paid to the Crown's Purse."))
-		log_game("STANDING ORDER (ALCHEMICAL) FULFILLED by [user.ckey]: [order.name] (+[order.total_payout]m)")
-	return TRUE
-
-/// Scans the 3x3 around every registered steward_export machine for finished equipment,
-/// two-pass: count first, then consume only if everything required is present.
-/datum/controller/subsystem/economy/proc/fulfill_equipment_order(mob/user, datum/standing_order/order)
-	if(!length(GLOB.steward_export_machines))
-		if(user)
-			to_chat(user, span_warning("No warehouse dock manifest is registered. Cannot fulfill equipment orders."))
-		return FALSE
-
-	var/list/found_by_good = list()
-	var/list/matched_items_by_good = list()
-	for(var/good_id in order.required_items)
-		found_by_good[good_id] = 0
-		matched_items_by_good[good_id] = list()
-
-	for(var/obj/structure/roguemachine/steward_export/M as anything in GLOB.steward_export_machines)
-		if(QDELETED(M))
-			continue
-		for(var/obj/item/I in view(1, M))
-			for(var/good_id in order.required_items)
-				var/datum/trade_good/tg = GLOB.trade_goods[good_id]
-				if(!tg || tg.behavior != TRADE_BEHAVIOR_EQUIPMENT)
-					continue
-				if(!tg.item_type || !istype(I, tg.item_type))
-					continue
-				// Exact-type match (not subtypes) to avoid counting donator/unique subtypes
-				// against Crown manifest orders.
-				if(I.type != tg.item_type)
-					continue
-				if(found_by_good[good_id] >= order.required_items[good_id])
-					continue
-				found_by_good[good_id]++
-				matched_items_by_good[good_id] += I
-				break
-
-	for(var/good_id in order.required_items)
-		var/need = order.required_items[good_id]
-		var/have = found_by_good[good_id]
-		if(have < need)
-			var/datum/trade_good/tg = GLOB.trade_goods[good_id]
-			var/label = tg ? tg.name : good_id
+/datum/controller/subsystem/economy/proc/check_stockpile_availability(mob/user, datum/standing_order/order, list/goods)
+	for(var/good_id in goods)
+		var/required = order.required_items[good_id]
+		var/datum/roguestock/stockpile_entry = find_stockpile_by_trade_good(good_id)
+		if(!stockpile_entry || stockpile_entry.stockpile_amount < required)
 			if(user)
-				to_chat(user, span_warning("Warehouse short on [label]: have [have], need [need]."))
+				to_chat(user, span_warning("Insufficient [good_id]: have [stockpile_entry?.stockpile_amount || 0], need [required]."))
 			return FALSE
-
-	for(var/good_id in order.required_items)
-		for(var/obj/item/I as anything in matched_items_by_good[good_id])
-			qdel(I)
-
-	SStreasury.mint(SStreasury.discretionary_fund, order.total_payout, "Standing Order: [order.name]")
-	record_round_statistic(STATS_STANDING_ORDER_REVENUE, order.total_payout)
-	record_round_statistic(STATS_STANDING_ORDERS_FULFILLED, 1)
-	order.is_fulfilled = TRUE
-	GLOB.standing_order_pool -= order
-	if(user)
-		to_chat(user, span_notice("Order Fulfilled: [order.total_payout]m paid to the Crown's Purse."))
-		log_game("STANDING ORDER (EQUIPMENT) FULFILLED by [user.ckey]: [order.name] (+[order.total_payout]m)")
 	return TRUE
+
+/// UI predicate: true if the order contains any finished-equipment item. Mixed orders
+/// (equipment + raw stockpile) still report TRUE — the steward UI uses this to surface
+/// the warehouse-fulfillment hint.
+/datum/controller/subsystem/economy/proc/order_is_equipment(datum/standing_order/order)
+	for(var/good_id in order.required_items)
+		var/datum/trade_good/tg = GLOB.trade_goods[good_id]
+		if(tg?.behavior == TRADE_BEHAVIOR_EQUIPMENT)
+			return TRUE
+	return FALSE
+
+/// UI predicate: true if the order contains any finished-potion item.
+/datum/controller/subsystem/economy/proc/order_is_alchemical(datum/standing_order/order)
+	for(var/good_id in order.required_items)
+		var/datum/trade_good/tg = GLOB.trade_goods[good_id]
+		if(tg?.behavior == TRADE_BEHAVIOR_POTION)
+			return TRUE
+	return FALSE
 
 /datum/controller/subsystem/economy/proc/find_stockpile_by_trade_good(good_id)
 	if(!good_id)

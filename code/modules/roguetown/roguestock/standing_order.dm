@@ -334,19 +334,16 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 
 
 // ============================================================================
-// demand_equipment_armor - finished armor for a garrison
+// demand_equipment_armor_heavy - finished metallic harness for a garrison
+// (smith-fulfillable, no tailor goods required)
 // ============================================================================
-/datum/standing_order/demand_equipment_armor
+/datum/standing_order/demand_equipment_armor_heavy
 	roll_weight = 3
 	var/list/project_by_region = list(
 		TRADE_REGION_BLEAKCOAST = list("the admiralty", "the coastal garrison", "the navy armory"),
 		TRADE_REGION_NORTHFORT = list("the border guard", "the northern garrison", "the tarichean watch"),
 		TRADE_REGION_HEARTFELT = list("the march guard", "the retinue", "the garrison armory"),
 		TRADE_REGION_KINGSFIELD = list("a market armsmaster", "a knightly house"),
-	)
-	var/list/soft_pool = list(
-		TRADE_GOOD_PADDED_GAMBESON,
-		TRADE_GOOD_HEAVY_LEATHER_COAT,
 	)
 	var/list/chain_pool = list(
 		TRADE_GOOD_STEEL_CHAINMAIL,
@@ -372,32 +369,80 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 		TRADE_GOOD_STEEL_PLATE_LEGS,
 	)
 
-/datum/standing_order/demand_equipment_armor/generate_item_mix()
+/datum/standing_order/demand_equipment_armor_heavy/generate_item_mix()
 	var/list/mix = list()
 	// Armor orders stay small in qty — a garrison outfits a handful of soldiers per order,
 	// not a whole company. Payout per piece is high enough that 1-2 units is valuable.
 	var/chain_or_plate = prob(60) ? chain_pool : plate_pool
 	var/core = pick(chain_or_plate)
 	mix[core] = rand(1, 2)
-	if(prob(60))
-		var/soft = pick(soft_pool)
-		mix[soft] = rand(1, 2)
-	if(prob(55))
+	if(prob(65))
 		var/helm = pick(helm_pool)
 		mix[helm] = rand(1, 2)
-	if(prob(45))
+	if(prob(50))
 		var/extremity = pick(extremity_pool)
 		mix[extremity] = rand(1, 3)
 	return mix
 
-/datum/standing_order/demand_equipment_armor/generate_name(datum/economic_region/region)
+/datum/standing_order/demand_equipment_armor_heavy/generate_name(datum/economic_region/region)
 	return "[uppertext(region.name)] - HARNESS ORDER"
 
-/datum/standing_order/demand_equipment_armor/generate_description(datum/economic_region/region)
+/datum/standing_order/demand_equipment_armor_heavy/generate_description(datum/economic_region/region)
 	var/list/projects = project_by_region[region.region_id]
 	if(length(projects))
-		return "[capitalize(pick(projects))] at [region.name] requires finished harness, to be left at the warehouse."
-	return "A garrison at [region.name] requires finished harness, to be left at the warehouse."
+		return "[capitalize(pick(projects))] at [region.name] requires finished plate harness, to be left at the warehouse."
+	return "A garrison at [region.name] requires finished plate harness, to be left at the warehouse."
+
+
+// ============================================================================
+// demand_equipment_armor_light - finished light/leather kit for a company
+// (tailor-fulfillable, no smith goods required). Mixes finished gambesons,
+// hardened-leather pieces, and a small bundle of cured leather + cloth raw
+// stock — orders that the tailor and the leatherworker can cover end-to-end
+// without the smithy.
+// ============================================================================
+/datum/standing_order/demand_equipment_armor_light
+	roll_weight = 3
+	var/list/project_by_region = list(
+		TRADE_REGION_BLEAKCOAST = list("the harbor watch", "the coastal levy", "the marines' company"),
+		TRADE_REGION_NORTHFORT = list("the watchcompany", "the border irregulars", "the keep's reservists"),
+		TRADE_REGION_HEARTFELT = list("the march company", "the chapel guard", "the count's footsergeants"),
+		TRADE_REGION_KINGSFIELD = list("a country muster", "a market company", "a yeomen's company"),
+	)
+	var/list/body_pool = list(
+		TRADE_GOOD_PADDED_GAMBESON,
+		TRADE_GOOD_HEAVY_LEATHER_COAT,
+	)
+
+/datum/standing_order/demand_equipment_armor_light/generate_item_mix()
+	var/list/mix = list()
+	var/primary_body = pick(body_pool)
+	mix[primary_body] = rand(2, 3)
+	if(prob(55))
+		// The other body piece, so a single order can include both gambesons and coats.
+		var/list/secondary_pool = body_pool - primary_body
+		if(length(secondary_pool))
+			mix[pick(secondary_pool)] = rand(1, 2)
+	if(prob(65))
+		mix[TRADE_GOOD_HARDENED_LEATHER_HELMET] = rand(1, 2)
+	if(prob(50))
+		mix[TRADE_GOOD_HARDENED_LEATHER_GORGET] = rand(1, 2)
+	if(prob(45))
+		mix[TRADE_GOOD_HEAVY_LEATHER_GLOVES] = rand(1, 3)
+	if(prob(50))
+		mix[TRADE_GOOD_CURED_LEATHER] = rand(4, 8)
+	if(prob(40))
+		mix[TRADE_GOOD_CLOTH] = rand(4, 8)
+	return mix
+
+/datum/standing_order/demand_equipment_armor_light/generate_name(datum/economic_region/region)
+	return "[uppertext(region.name)] - COMPANY TUNICS"
+
+/datum/standing_order/demand_equipment_armor_light/generate_description(datum/economic_region/region)
+	var/list/projects = project_by_region[region.region_id]
+	if(length(projects))
+		return "[capitalize(pick(projects))] at [region.name] requires sewn and boiled-leather kit, to be left at the warehouse."
+	return "A company at [region.name] requires sewn and boiled-leather kit, to be left at the warehouse."
 
 
 // ============================================================================
@@ -725,20 +770,14 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 		TRADE_GOOD_PADDED_GAMBESON,
 		TRADE_GOOD_HEAVY_LEATHER_COAT,
 	)
-	var/list/helm_pool = list(
-		TRADE_GOOD_STEEL_HELM_KETTLE,
-	)
-	var/list/extremity_pool = list(
-		TRADE_GOOD_CHAIN_GLOVES,
-	)
 
 /datum/standing_order/demand_frontier_gear/generate_item_mix()
 	var/list/mix = list()
 	mix[pick(body_pool)] = rand(2, 4)
 	if(prob(70))
-		mix[pick(helm_pool)] = rand(2, 4)
+		mix[TRADE_GOOD_HARDENED_LEATHER_HELMET] = rand(2, 4)
 	if(prob(55))
-		mix[pick(extremity_pool)] = rand(2, 4)
+		mix[TRADE_GOOD_HEAVY_LEATHER_GLOVES] = rand(2, 4)
 	if(prob(45))
 		mix[TRADE_GOOD_RECURVE_BOW] = rand(3, 6)
 	return mix

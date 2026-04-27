@@ -14,6 +14,24 @@
 	base_price = 65
 	item_type = /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat
 
+/datum/trade_good/equipment/hardened_leather_helmet
+	id = TRADE_GOOD_HARDENED_LEATHER_HELMET
+	name = "hardened leather helmet"
+	base_price = 50
+	item_type = /obj/item/clothing/head/roguetown/helmet/leather/advanced
+
+/datum/trade_good/equipment/hardened_leather_gorget
+	id = TRADE_GOOD_HARDENED_LEATHER_GORGET
+	name = "hardened leather gorget"
+	base_price = 35
+	item_type = /obj/item/clothing/neck/roguetown/leather
+
+/datum/trade_good/equipment/heavy_leather_gloves
+	id = TRADE_GOOD_HEAVY_LEATHER_GLOVES
+	name = "heavy leather gloves"
+	base_price = 35
+	item_type = /obj/item/clothing/gloves/roguetown/angle
+
 // ============================================================================
 // ARMOR - STEEL CHAIN / BRIGANDINE
 // ============================================================================

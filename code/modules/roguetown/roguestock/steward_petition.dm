@@ -35,7 +35,8 @@ GLOBAL_LIST_INIT(petition_categories, build_petition_categories())
 		"templates" = list(
 			/datum/standing_order/demand_armaments,
 			/datum/standing_order/demand_equipment_armaments,
-			/datum/standing_order/demand_equipment_armor,
+			/datum/standing_order/demand_equipment_armor_heavy,
+			/datum/standing_order/demand_equipment_armor_light,
 			/datum/standing_order/demand_frontier_gear,
 		),
 	)
