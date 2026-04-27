@@ -92,9 +92,5 @@
 	set category = "Stewardry"
 	if(stat)
 		return
-	var/lord = find_lord()
-	if(lord)
-		to_chat(src, span_warning("You cannot adjust taxes while the [SSticker.rulertype] is present in the realm. Ask your liege."))
-		return
 	var/datum/taxsetter/taxsetter = new("The Diligent Steward Intervenes", "The Greedy Steward Imposes")
 	taxsetter.ui_interact(src)
