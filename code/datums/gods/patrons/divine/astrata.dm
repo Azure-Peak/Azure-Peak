@@ -12,7 +12,7 @@
 					/datum/action/cooldown/spell/projectile/sacred_flame	= CLERIC_T1,
 					/datum/action/cooldown/spell/astrata/bladeorfist		= CLERIC_T2,
 					/datum/action/cooldown/spell/miracle/fortify/astrata	= CLERIC_T2,
-					/obj/effect/proc_holder/spell/invoked/astrataspark      = CLERIC_T3,
+					/datum/action/cooldown/spell/astrata/miracle_pyre    	= CLERIC_T3,
 					/datum/action/cooldown/spell/astrata/firecloak		    = CLERIC_T3,
 					/obj/effect/proc_holder/spell/invoked/revive			= CLERIC_T3,
 					/obj/effect/proc_holder/spell/invoked/immolation		= CLERIC_T4,
