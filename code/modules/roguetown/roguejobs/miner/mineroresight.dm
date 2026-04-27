@@ -157,3 +157,9 @@
 	duration = 1 SECONDS
 	layer = 18
 
+#undef RANGE_ORE_ONE
+#undef RANGE_ORE_TWO
+#undef RANGE_ORE_THREE
+#undef INTERVAL_ONE
+#undef INTERVAL_TWO
+#undef INTERVAL_THREE
