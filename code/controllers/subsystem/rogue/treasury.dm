@@ -337,18 +337,22 @@ SUBSYSTEM_DEF(treasury)
 		return
 	return TRUE
 
-/datum/controller/subsystem/treasury/proc/grant_estate_income(mob/living/recipient, amount)
+/datum/controller/subsystem/treasury/proc/grant_estate_income(mob/living/recipient, amount, is_starter = FALSE)
 	if(!recipient || amount <= 0)
 		return FALSE
 	var/datum/fund/account = get_account(recipient)
 	if(!account)
+		create_bank_account(recipient)
+		account = get_account(recipient)
+	if(!account)
 		return FALSE
 	var/source = recipient.job == "Merchant" ? "The Guild" : "Noble Estate"
-	if(!mint(account, amount, source))
+	var/payout = is_starter ? amount + ESTATE_STARTER_BONUS : amount
+	if(!mint(account, payout, source))
 		return FALSE
-	record_round_statistic(STATS_NOBLE_INCOME_TOTAL, amount)
-	total_noble_income += amount
-	send_ooc_note("<b>MEISTER:</b> You received [amount]m. ([source])", name = recipient.real_name)
+	record_round_statistic(STATS_NOBLE_INCOME_TOTAL, payout)
+	total_noble_income += payout
+	send_ooc_note("<b>MEISTER:</b> You received [payout]m. ([source])", name = recipient.real_name)
 	return TRUE
 
 /datum/controller/subsystem/treasury/proc/distribute_estate_incomes()

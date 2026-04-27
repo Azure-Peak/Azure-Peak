@@ -158,7 +158,7 @@
 		/obj/item/storage/keyring = 1,
 	)
 	if(H.mind)
-		SStreasury.grant_savings(ECONOMIC_LOWER_MIDDLE_CLASS, H) // lower starting fund, but give them a saiga
+		SStreasury.grant_savings(ECONOMIC_UPPER_MIDDLE_CLASS, H) // bumped from lower-middle so the lowest councillor rung still feels like nobility
 	// give them the shitty see prices trait
 	ADD_TRAIT(H, TRAIT_SEEPRICES_SHITTY, JOB_TRAIT)
 
@@ -199,7 +199,7 @@
 		/obj/item/rogueweapon/huntingknife/idagger/steel = 1,
 	)
 	if(H.mind)
-		SStreasury.grant_savings(ECONOMIC_LOWER_MIDDLE_CLASS, H)
+		SStreasury.grant_savings(ECONOMIC_UPPER_MIDDLE_CLASS, H) // bumped from lower-middle to match councillor floor
 	// give them the shitty see prices trait
 	ADD_TRAIT(H, TRAIT_SEEPRICES_SHITTY, JOB_TRAIT)
 	ADD_TRAIT(H, TRAIT_MASTERFUL_HUNTER, JOB_TRAIT)
@@ -223,7 +223,7 @@
 		/obj/item/storage/keyring = 1,
 	)
 	if(H.mind)
-		SStreasury.grant_savings(ECONOMIC_LOWER_MIDDLE_CLASS, H)
+		SStreasury.grant_savings(ECONOMIC_UPPER_MIDDLE_CLASS, H) // bumped from lower-middle to match councillor floor
 	// give them the good see prices trait
 	ADD_TRAIT(H, TRAIT_SEEPRICES, JOB_TRAIT)
 	// Level past Jman if they want to

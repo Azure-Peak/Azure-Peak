@@ -105,6 +105,7 @@
 
 	if(noble_income)
 		SStreasury.noble_incomes[H] = noble_income
+		SStreasury.grant_estate_income(H, noble_income, TRUE)
 
 	if(adaptive_name)
 		H.adaptive_name = TRUE

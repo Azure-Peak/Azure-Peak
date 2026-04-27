@@ -36,6 +36,10 @@
 /// treasury against expected payroll (highpop full Crown-salary roster = ~600m/day).
 #define CROWN_PURSE_SEED_PER_PLAYER 35
 
+/// Flat bonus minted on top of the recipient's noble_income on their first estate payment
+/// (round-start / character-creation). Recurring daily ticks pay the base amount with no bonus.
+#define ESTATE_STARTER_BONUS 30
+
 // Poll Tax categories - flat per-head daily levy by civic class.
 #define POLL_TAX_CAT_NOBLE "poll_noble"
 #define POLL_TAX_CAT_CLERGY "poll_clergy"
