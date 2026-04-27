@@ -143,7 +143,7 @@
 #define COMMISSION_BONUS_PAY_LIGHT_MULT 1.25
 #define COMMISSION_BONUS_PAY_MULT 1.5
 #define BLOCKADE_FELLOWSHIP_REQUIREMENT 3
-#define BLOCKADE_WAVE_TIMER_DS (7 MINUTES)
+#define BLOCKADE_WAVE_TIMER_DS (10 MINUTES)
 // Recall policy: the bearer gets BLOCKADE_RECALL_WINDOW_DS to reach the blockade.
 // Only AFTER that elapsed time (and while still armed) may the Steward recall the writ.
 // If nobody acts, BLOCKADE_ARM_TIMEOUT_DS is a backstop that auto-fails the writ.
@@ -158,7 +158,7 @@
 // Steward petition for a standing order. Burns Burgher Pledge to roll a category-bound
 // order in a chosen non-blockaded region. Petitioned orders pay PETITION_TAX_MULT of the
 // natural payout - the trade hall shaves margin when it knows you needed it.
-#define PETITIONS_PER_DAY 2
+#define PETITIONS_PER_DAY 3
 #define PETITION_TAX_MULT 0.80
 #define PETITION_BLOCKADE_RECOVERY_DAYS 2
 

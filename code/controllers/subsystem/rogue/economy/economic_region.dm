@@ -57,8 +57,10 @@ GLOBAL_LIST_INIT(economic_regions, init_economic_regions())
 		TRADE_GOOD_ONION = TG_SUPPLY_COMMON_VEG,
 		TRADE_GOOD_CARROT = TG_SUPPLY_COMMON_VEG,
 		TRADE_GOOD_TURNIP = TG_SUPPLY_COMMON_VEG,
+		TRADE_GOOD_PUMPKIN = 2, // literal: trickle supply, not a staple
 	)
 	demands = list(
+		TRADE_GOOD_PUMPKIN = 2, // literal: small local appetite for eating
 		TRADE_GOOD_IRON_INGOT = TG_DEMAND_REFINED_INGOTS,
 		TRADE_GOOD_CLOTH = TG_DEMAND_CLOTH,
 		TRADE_GOOD_SALT = TG_DEMAND_SALT,
@@ -198,6 +200,7 @@ GLOBAL_LIST_INIT(economic_regions, init_economic_regions())
 		TRADE_GOOD_CLOTH = TG_DEMAND_CLOTH,
 		TRADE_GOOD_WOOD = TG_DEMAND_CHEAP_RAW_MAT,
 		TRADE_GOOD_IRON_INGOT = TG_DEMAND_REFINED_INGOTS,
+		TRADE_GOOD_PUMPKIN = 2, // literal: small local appetite for eating
 	)
 
 /datum/economic_region/bleakcoast
