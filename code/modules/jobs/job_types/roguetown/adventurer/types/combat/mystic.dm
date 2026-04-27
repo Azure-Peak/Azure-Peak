@@ -7,8 +7,8 @@
 	class_select_category = CLASS_CAT_MYSTIC
 	category_tags = list(CTAG_ADVENTURER, CTAG_COURTAGENT)
 	traits_applied = list(TRAIT_SEEDKNOW, TRAIT_ARCYNE, TRAIT_ALCHEMY_EXPERT) //so they can produce red+ and blue+
-	subclass_stats = list( // stat spread of 6 points, lower than the 7 adventurer gets on average
-			STATKEY_INT = 2,
+	subclass_stats = list( //only class with a 7 point spread since to compensate their offensive cantrip
+			STATKEY_INT = 3,
 			STATKEY_CON = 2,
 			STATKEY_WIL = 2,
 	)
@@ -109,9 +109,9 @@
 	category_tags = list(CTAG_ADVENTURER, CTAG_COURTAGENT)
 	traits_applied = list(TRAIT_SEEDKNOW, TRAIT_ARCYNE, TRAIT_ALCHEMY_EXPERT)
 	subclass_stats = list(
-			STATKEY_INT = 0,
-			STATKEY_CON = 0,
-			STATKEY_WIL = 0,
+			STATKEY_INT = 2,
+			STATKEY_CON = 2,
+			STATKEY_WIL = 2,
 	)
 	age_mod = /datum/class_age_mod/mystic
 	subclass_mage_aspects = list("mastery" = FALSE, "major" = 0, "minor" = 2, "utilities" = 4, "locked_aspects" = list(/datum/magic_aspect/lesser_augmentation))
@@ -169,19 +169,6 @@
 			H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/arcyne_lance)
 		if("Lesser Gravel Blast")
 			H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/gravel_blast/lesser)
-
-	var/stat_option = list("Great Intellect - +3 INT +1 CON +2 WIL", "Great Vitality - +1 INT +3 CON +2 WIL")
-	var/stat_choice = input(H, "What defines me", "Mind or Body.") as anything in stat_option
-	switch(stat_choice)
-		if("Great Intellect - +3 INT +1 CON +2 WIL")
-			H.change_stat(STATKEY_INT, 3)
-			H.change_stat(STATKEY_CON, 1)
-			H.change_stat(STATKEY_WIL, 2)
-		if("Great Vitality - +1 INT +3 CON +2 WIL")
-			H.change_stat(STATKEY_INT, 1)
-			H.change_stat(STATKEY_CON, 3)
-			H.change_stat(STATKEY_WIL, 2)
-
 			
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_1)
