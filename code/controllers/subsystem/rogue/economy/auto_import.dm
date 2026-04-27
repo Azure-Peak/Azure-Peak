@@ -121,8 +121,4 @@
 		return
 
 	auto_import_daily_spent += spent
-	var/msg = "Azure Peak imports [AUTO_IMPORT_BATCH] [tg.name] from [region.name] for [spent] mammon. (auto)"
-	scom_announce(msg)
-	if(steward_machine)
-		steward_machine.say(msg)
 	today_lines += "[tg.name]: +[AUTO_IMPORT_BATCH] from [region.name] ([spent]m)."

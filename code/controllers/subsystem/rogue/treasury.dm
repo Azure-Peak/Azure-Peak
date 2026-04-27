@@ -434,8 +434,6 @@ SUBSYSTEM_DEF(treasury)
 			total_value_exported += do_export(D, TRUE)
 	var/list/surplus_result = mass_export_surplus(silent = TRUE)
 	total_value_exported += surplus_result["revenue"]
-	if(total_value_exported >= EXPORT_ANNOUNCE_THRESHOLD)
-		scom_announce("Azure Peak exports [total_value_exported] mammons of surplus goods.")
 
 /// Walks every auto-priced trade-good stockpile entry and exports stock above the
 /// daily auto-export floor (limit * autoexport_percentage) to its best-paying region,

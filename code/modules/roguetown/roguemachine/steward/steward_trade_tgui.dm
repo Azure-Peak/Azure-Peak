@@ -548,7 +548,6 @@
 			for(var/datum/roguestock/stockpile/A in SStreasury.stockpile_datums)
 				A.automatic_price = TRUE
 				A.snap_auto_prices()
-			scom_announce("All stockpile prices set to automatic.")
 			SStgui.update_uis(src)
 			return TRUE
 		if("autolimit_all")
@@ -557,7 +556,6 @@
 			for(var/datum/roguestock/A in SStreasury.stockpile_datums)
 				A.automatic_limit = TRUE
 			SStreasury.autoset_stockpile_limits()
-			scom_announce("All stockpile limits reset to automatic.")
 			SStgui.update_uis(src)
 			return TRUE
 		if("autoprice_category")
@@ -574,7 +572,6 @@
 					continue
 				A.automatic_price = TRUE
 				A.snap_auto_prices()
-			scom_announce("[category] stockpile prices set to automatic.")
 			SStgui.update_uis(src)
 			return TRUE
 		if("autolimit_category")
@@ -591,7 +588,6 @@
 					continue
 				A.automatic_limit = TRUE
 			SStreasury.autoset_stockpile_limits()
-			scom_announce("[category] stockpile limits reset to automatic.")
 			SStgui.update_uis(src)
 			return TRUE
 		if("accept_category")
@@ -607,7 +603,6 @@
 				if(!tg || tg.category != category)
 					continue
 				A.accept_toggle_enabled = TRUE
-			scom_announce("[category] deposits opened.")
 			SStgui.update_uis(src)
 			return TRUE
 		if("reject_category")
@@ -623,7 +618,6 @@
 				if(!tg || tg.category != category)
 					continue
 				A.accept_toggle_enabled = FALSE
-			scom_announce("[category] deposits closed.")
 			SStgui.update_uis(src)
 			return TRUE
 		if("multiply_all_buy")
@@ -636,7 +630,6 @@
 				A.refresh_auto_price()
 				A.payout_price = max(1, round(A.payout_price * mult))
 				A.automatic_price = FALSE
-			scom_announce("All stockpile buy prices adjusted by x[mult].")
 			SStgui.update_uis(src)
 			return TRUE
 		if("multiply_all_sell")
@@ -649,7 +642,6 @@
 				A.refresh_auto_price()
 				A.withdraw_price = max(1, round(A.withdraw_price * mult))
 				A.automatic_price = FALSE
-			scom_announce("All stockpile sell prices adjusted by x[mult].")
 			SStgui.update_uis(src)
 			return TRUE
 		if("multiply_category_buy")
@@ -668,7 +660,6 @@
 				A.refresh_auto_price()
 				A.payout_price = max(1, round(A.payout_price * mult))
 				A.automatic_price = FALSE
-			scom_announce("[category] stockpile buy prices adjusted by x[mult].")
 			SStgui.update_uis(src)
 			return TRUE
 		if("multiply_category_sell")
@@ -687,7 +678,6 @@
 				A.refresh_auto_price()
 				A.withdraw_price = max(1, round(A.withdraw_price * mult))
 				A.automatic_price = FALSE
-			scom_announce("[category] stockpile sell prices adjusted by x[mult].")
 			SStgui.update_uis(src)
 			return TRUE
 		if("set_autoexport_percentage")
@@ -698,7 +688,6 @@
 				return TRUE
 			pct = clamp(round(pct), 0, 100)
 			SStreasury.autoexport_percentage = pct * 0.01
-			scom_announce("Crown surplus threshold set to [pct]%.")
 			SStgui.update_uis(src)
 			return TRUE
 		if("export_surplus_all")
