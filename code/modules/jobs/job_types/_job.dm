@@ -289,7 +289,7 @@
 
 		if(noble_income)
 			SStreasury.noble_incomes[H] = noble_income
-			SStreasury.give_money_account(noble_income, H, "Noble Estate")
+			SStreasury.grant_estate_income(H, noble_income)
 
 	if(show_in_credits)
 		SScrediticons.processing += H

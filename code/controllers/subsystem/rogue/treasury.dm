@@ -337,17 +337,23 @@ SUBSYSTEM_DEF(treasury)
 		return
 	return TRUE
 
+/datum/controller/subsystem/treasury/proc/grant_estate_income(mob/living/recipient, amount)
+	if(!recipient || amount <= 0)
+		return FALSE
+	var/datum/fund/account = get_account(recipient)
+	if(!account)
+		return FALSE
+	var/source = recipient.job == "Merchant" ? "The Guild" : "Noble Estate"
+	if(!mint(account, amount, source))
+		return FALSE
+	record_round_statistic(STATS_NOBLE_INCOME_TOTAL, amount)
+	total_noble_income += amount
+	send_ooc_note("<b>MEISTER:</b> You received [amount]m. ([source])", name = recipient.real_name)
+	return TRUE
+
 /datum/controller/subsystem/treasury/proc/distribute_estate_incomes()
 	for(var/mob/living/welfare_dependant in noble_incomes)
-		var/how_much = noble_incomes[welfare_dependant]
-		var/datum/fund/account = get_account(welfare_dependant)
-		if(!account)
-			continue
-		record_round_statistic(STATS_NOBLE_INCOME_TOTAL, how_much)
-		total_noble_income += how_much
-		var/source = welfare_dependant.job == "Merchant" ? "The Guild" : "Noble Estate"
-		mint(account, how_much, source)
-		send_ooc_note("<b>MEISTER:</b> You received [how_much]m. ([source])", name = welfare_dependant.real_name)
+		grant_estate_income(welfare_dependant, noble_incomes[welfare_dependant])
 
 /datum/controller/subsystem/treasury/proc/distribute_daily_payments()
 	if(!steward_machine || !steward_machine.daily_payments || !steward_machine.daily_payments.len)
