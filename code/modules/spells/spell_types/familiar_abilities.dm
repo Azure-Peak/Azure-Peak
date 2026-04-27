@@ -211,7 +211,7 @@
 		span_notice("You attempt to bite [living_target.name]...")
 	)
 	// same do_after time and transfer amount as just walking up with a bottle and feeding them
-	if(do_mob(user, living_target, time = 5 SECONDS) && user.reagents.trans_to(living_target, 5, transfered_by = user))
+	if(do_mob(user, living_target, time = 5 SECONDS, double_progress = TRUE, can_move = FALSE) && user.reagents.trans_to(living_target, 5, transfered_by = user))
 		user.visible_message(
 			span_notice("[user.name] bites [living_target.name], delivering a dose of an alchemical cocktail!"),
 			span_notice("You bite [living_target.name], delivering a dose of your alchemical cocktail!")
