@@ -96,15 +96,17 @@
 
 	SStreasury.mint(user_account, gross_reward, "quest reward - [src.name]")
 
+	// Levy applies only to the base reward, not the returned deposit. The deposit is the
+	// bearer's own money being given back; taxing it would be a hidden levy on principal.
 	var/tax_amt = 0
 	if(!quest_levy_exempt)
-		tax_amt = SStreasury.apply_tax(user_account, gross_reward, TAX_CATEGORY_CONTRACT_LEVY, src.name)
+		tax_amt = SStreasury.apply_tax(user_account, base_reward, TAX_CATEGORY_CONTRACT_LEVY, src.name)
 		if(tax_amt > 0)
 			record_featured_stat(FEATURED_STATS_TAX_PAYERS, user, tax_amt)
 			record_round_statistic(STATS_TAXES_COLLECTED, tax_amt)
 	else
 		var/levy_rate = SStreasury.get_tax_rate(TAX_CATEGORY_CONTRACT_LEVY)
-		SStreasury.record_tax_exemption(TAX_CATEGORY_CONTRACT_LEVY, FLOOR(gross_reward * levy_rate, 1))
+		SStreasury.record_tax_exemption(TAX_CATEGORY_CONTRACT_LEVY, FLOOR(base_reward * levy_rate, 1))
 
 	var/guild_fee_paid = pay_innkeeper_referral_fees(user_account, completed_quest, gross_reward)
 
