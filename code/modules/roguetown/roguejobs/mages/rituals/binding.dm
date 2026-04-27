@@ -105,6 +105,7 @@
 	icon_state = "bluestream_fade"
 
 // some familiar-binders get to aurafarm too. as a treat
+// we need to use the leyline here, so this search logic is in fact different from the generic 'requires leyline' logic
 /datum/runeritual/binding/void/on_finished_recipe(mob/living/user, list/selected_atoms, turf/loc)
 	var/list/chants = list(
 		"Vacuum spectat.",
@@ -157,12 +158,20 @@
 /datum/runeritual/binding/revive_familiar
 	name = "Revive Familiar"
 	desc = "Return a departed familiar to lyfe, so long as they have not yet fully returned to their home plane. Requires the vestige dropped upon their death."
-	required_atoms = list(/obj/item/magic/melded/t1 = 1, /obj/item/magic/familiar/familiar_vestige = 1)
+	required_atoms = list(/obj/item/magic/familiar/familiar_vestige = 1) // free revive as long as you return them to a leyline; no field revivals but no grinding either
 	blacklisted = FALSE
 	invocation = "Redeo, spiritus fidus!" // "return, loyal spirit"
 
 /datum/runeritual/binding/revive_familiar/on_finished_recipe(mob/living/user, list/selected_atoms, turf/loc)
 	. = FALSE
+	var/obj/structure/leyline/leyline
+	for(var/obj/structure/leyline/L in range(LEYLINE_TILE_DETECTION_RANGE, loc))
+		if(L.max_tier >= requires_leyline)
+			leyline = L
+			break
+	if(!leyline)
+		to_chat(user, span_warning("There is no leyline of sufficent strength nearby."))
+		return FALSE
 	for(var/obj/item/magic/familiar/familiar_vestige/vestige in selected_atoms)
 		if(vestige.stored_familiar)
 			if(!vestige.stored_familiar.client)
