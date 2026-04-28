@@ -788,7 +788,7 @@ GLOBAL_LIST_EMPTY(arenafolks) // we're just going to use a list and add to it. S
 	physiology.pain_mod /= 1.5
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-// T3 - Call to Arms - Warcry that provides buff to DIVINE worshippers and debuff tO ASCENDANTS. //
+// T3 - Call to Arms - Warcry that provides buff to DIVINE worshippers and debuff to ASCENDANTS. //
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 /datum/action/cooldown/spell/ravox/battlecry
@@ -902,8 +902,8 @@ GLOBAL_LIST_EMPTY(arenafolks) // we're just going to use a list and add to it. S
 	if(!locate(/obj/effect/proc_holder/spell/invoked/gravemark) in user.mind?.spell_list)
 		user.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/gravemark/no_sprite)
 
-	if(!locate(/obj/effect/proc_holder/spell/invoked/minion_order) in user.mind?.spell_list) 
-		user.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/minion_order)
+	if(!locate(/obj/effect/proc_holder/spell/invoked/minion_order/carbon) in user.mind?.spell_list) 
+		user.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/minion_order/carbon)
 
 	var/time = 1 MINUTES
 
