@@ -40,6 +40,8 @@
 	fueluse = 30 MINUTES
 	crossfire = FALSE
 
+	var/smelt_sfx = 'sound/misc/smelter_sound.ogg'
+
 /obj/machinery/light/rogue/smelter/examine(mob/user, params)
 	. = ..()
 	. += span_info("It can hold up to <b>[max_contained_items] ores at a time</b>.")
@@ -48,6 +50,13 @@
 		. += span_notice("Peeking inside, you can see:")
 		for(var/obj/item/item as anything in contained_items)
 			. += span_info("- [item]")
+
+
+/obj/machinery/light/rogue/smelter/Initialize()
+	. = ..()
+	smelt_sfx = pick('sound/misc/smelter_sound1.ogg', 'sound/misc/smelter_sound2.ogg', 'sound/misc/smelter_sound3.ogg', 'sound/misc/smelter_sound4.ogg')
+	if(prob(10))
+		smelt_sfx = 'sound/misc/smelter_sound.ogg'
 
 /obj/machinery/light/rogue/smelter/attackby(obj/item/attacking_item, mob/living/user, params)
 	if(istype(attacking_item, /obj/item/rogueweapon/tongs))
@@ -207,7 +216,7 @@
 
 	if(smelting_progress < smelting_ticks)
 		smelting_progress++
-		playsound(src.loc,'sound/misc/smelter_sound.ogg', 50, FALSE)
+		playsound(src.loc, smelt_sfx, ((smelt_sfx == 'sound/misc/smelter_sound.ogg') ? 50 : 100), FALSE)
 		actively_smelting = TRUE
 		return
 

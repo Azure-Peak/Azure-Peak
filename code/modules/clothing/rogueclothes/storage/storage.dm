@@ -529,9 +529,6 @@
     . = ..()
     . |= FALL_NO_MESSAGE
 
-#define FILTERLIST_ALL list()
-
-
 /obj/item/storage/hip/orestore/bronze
 	name = "mechanized ore bag"
 	desc = "A becogged bag for sorting and compressing ore, ingots, and gemeralds. It idly ticks to the rhythm of unseen mechanisms, yearning for earthly treats."
