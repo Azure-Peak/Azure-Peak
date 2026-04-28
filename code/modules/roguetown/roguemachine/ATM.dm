@@ -15,15 +15,17 @@
 /obj/structure/roguemachine/atm/get_mechanics_examine(mob/user)
 	. = ..()
 	. += span_info("Left-click with an open hand to check your personal account. If you don't already have an account, left-clicking the MEISTER will make one for you with a single mechanical jab.")
-	. += span_info("The amount of coinage you insert into a MEISTER might be taxed, depending on the whims of the Steward and your position in society. Accounts of nobility, in particular, have passive incomes.")
-	. += span_info("Accounts accrue interest, providing passive income at the start of each dae. The more coinage you have inside of your account, the more income you'll earn through interest.")
+	. += span_info("Deposits are safe from taxation. Income taxes apply at the moment mammon is earned - contract completions, headeater turn-ins, and other Crown-levied events.")
 
 /obj/structure/roguemachine/atm/attack_hand(mob/user)
 	if(!ishuman(user))
 		return
 	var/mob/living/carbon/human/H = user
-	if(HAS_TRAIT(user, TRAIT_OUTLAW))
-		to_chat(H, span_warning("The machine rejects you, sensing your status as an outlaw in these lands."))
+	if(HAS_TRAIT(user, TRAIT_OUTLAW) || HAS_TRAIT(user, TRAIT_TECHNOPHOBE))
+		if(HAS_TRAIT(user, TRAIT_OUTLAW))
+			to_chat(H, span_warning("The machine rejects you, sensing your status as an outlaw in these lands."))
+		else
+			to_chat(H, span_warning("Why would I?"))
 		return
 	if(drilled)
 		if(HAS_TRAIT(H, TRAIT_NOBLE))
@@ -39,30 +41,143 @@
 				say("Blueblood for the Freefolk!")
 				playsound(src, 'sound/vo/mobs/ghost/laugh (5).ogg', 100, TRUE)
 				return	
-	if(H in SStreasury.bank_accounts)
-		var/amt = SStreasury.bank_accounts[H]
-		if(!amt)
+	if(SStreasury.has_account(H))
+		var/poll_category = SStreasury.get_poll_tax_category(H)
+		var/poll_rate = poll_category ? SStreasury.get_poll_tax_rate_for(H, poll_category) : 0
+		var/poll_exempt = poll_category ? SStreasury.is_poll_tax_charter_exempt(H, poll_category) : FALSE
+		if(!poll_category)
+			to_chat(H, span_info("<b>MEISTER:</b> There is no poll tax for your class."))
+		else if(poll_exempt && poll_rate >= 0)
+			to_chat(H, span_info("<b>MEISTER:</b> You are exempt from poll tax by decree."))
+		else if(poll_rate > 0)
+			to_chat(H, span_info("<b>MEISTER:</b> Poll tax for your class ([SStreasury.get_poll_tax_category_pretty_name(poll_category)]) is [poll_rate]m per day."))
+		else if(poll_rate < 0)
+			to_chat(H, span_info("<b>MEISTER:</b> The Crown extends a [-poll_rate]m daily subsidy to your class ([SStreasury.get_poll_tax_category_pretty_name(poll_category)])."))
+		else
+			to_chat(H, span_info("<b>MEISTER:</b> No poll tax is currently levied on your class ([SStreasury.get_poll_tax_category_pretty_name(poll_category)]). Advance payment may be made at a presumed rate of [POLL_TAX_ADVANCE_FALLBACK_RATE]m per day."))
+		var/amt = SStreasury.get_balance(H)
+		var/datum/loan/active_loan = SStreasury.get_loan_for(H)
+		if(!amt && !active_loan)
 			say("Your balance is nothing.")
 			return
 		if(amt < 0)
 			say("Your balance is NEGATIVE.")
 			return
 		var/list/choicez = list()
+		if(active_loan)
+			if(active_loan.defaulted)
+				choicez += "REPAY DEBT ([active_loan.get_remaining_due()]m owed to the Crown)"
+			else
+				choicez += "REPAY LOAN ([active_loan.get_remaining_due()]m due, [active_loan.days_until_due()]d left)"
+		if(amt > 0 && poll_category && !poll_exempt && poll_rate >= 0)
+			var/existing_advance = SStreasury.poll_tax_advance_days[H] || 0
+			var/advance_rate = poll_rate > 0 ? poll_rate : POLL_TAX_ADVANCE_FALLBACK_RATE
+			var/rate_suffix = poll_rate > 0 ? "m/d" : "m/d presumed"
+			choicez += "ADVANCE POLL TAX ([advance_rate][rate_suffix], [existing_advance]d held)"
 		if(amt > 10)
 			choicez += "GOLD"
 		if(amt > 5)
 			choicez += "SILVER"
-		choicez += "BRONZE"
+		if(amt > 0)
+			choicez += "BRONZE"
+		if(!length(choicez))
+			say("Your balance is nothing.")
+			return
 		var/selection = input(user, "Make a Selection", src) as null|anything in choicez
 		if(!selection)
 			return
-		amt = SStreasury.bank_accounts[H]
+		if(active_loan && (copytext(selection, 1, 11) == "REPAY LOAN" || copytext(selection, 1, 11) == "REPAY DEBT"))
+			if(!Adjacent(user))
+				return
+			// Re-resolve in case of dialog churn.
+			active_loan = SStreasury.get_loan_for(H)
+			if(!active_loan)
+				say("No active loan on record.")
+				return
+			var/outstanding = active_loan.get_remaining_due()
+			amt = SStreasury.get_balance(H)
+			var/max_payable = min(outstanding, amt)
+			if(max_payable <= 0)
+				say("You have nothing to repay the loan with.")
+				playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
+				return
+			var/pay_amt = input(user, "Repay how much? Outstanding: [outstanding]m. Your balance: [amt]m. (Maximum [max_payable]m)", src, max_payable) as null|num
+			if(isnull(pay_amt))
+				return
+			pay_amt = round(pay_amt)
+			if(pay_amt < 1)
+				return
+			if(!Adjacent(user))
+				return
+			pay_amt = min(pay_amt, max_payable)
+			var/paid = SStreasury.repay_loan(H, pay_amt)
+			if(!paid)
+				playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
+				say("The ledger refused the transfer.")
+				return
+			playsound(src, 'sound/misc/coininsert.ogg', 100, FALSE, -1)
+			if(!SStreasury.get_loan_for(H))
+				say("Loan repaid in full. [paid]m transferred to the Crown.")
+			else
+				var/datum/loan/still = SStreasury.get_loan_for(H)
+				say("[paid]m transferred. [still.get_remaining_due()]m remains.")
+			return
+		if(copytext(selection, 1, 18) == "ADVANCE POLL TAX ")
+			if(!Adjacent(user))
+				return
+			poll_category = SStreasury.get_poll_tax_category(H)
+			if(!poll_category)
+				say("The Crown does not tax your class.")
+				return
+			if(SStreasury.is_poll_tax_charter_exempt(H, poll_category))
+				say("Your class is exempt from poll tax by decree.")
+				return
+			var/eff_rate = SStreasury.get_poll_tax_rate_for(H, poll_category)
+			var/presumed_rate = FALSE
+			if(eff_rate <= 0)
+				// No rate set — permit advance at the presumed fallback so proactive
+				// payers can settle up front even when the Crown is lazy.
+				eff_rate = POLL_TAX_ADVANCE_FALLBACK_RATE
+				presumed_rate = TRUE
+			amt = SStreasury.get_balance(H)
+			if(amt <= 0)
+				say("Your balance is nothing.")
+				playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
+				return
+			var/existing_advance = SStreasury.poll_tax_advance_days[H] || 0
+			var/advance_remaining = POLL_TAX_MAX_ADVANCE_DAYS - existing_advance
+			if(advance_remaining <= 0)
+				say("You already hold the maximum of [POLL_TAX_MAX_ADVANCE_DAYS] days of advance.")
+				playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
+				return
+			var/max_days = min(floor(amt / eff_rate), advance_remaining)
+			if(max_days < 1)
+				say("You cannot afford a single day at [eff_rate]m.")
+				playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
+				return
+			var/days_to_advance = input(user, "Pay advance on how many days of poll tax? ([eff_rate]m/d[presumed_rate ? " presumed" : ""]) Your balance: [amt]m. (Maximum [max_days] day[max_days == 1 ? "" : "s"]; cap of [POLL_TAX_MAX_ADVANCE_DAYS] days of advance, you hold [existing_advance].)", src, max_days) as null|num
+			if(isnull(days_to_advance))
+				return
+			days_to_advance = round(days_to_advance)
+			if(days_to_advance < 1)
+				return
+			if(!Adjacent(user))
+				return
+			days_to_advance = min(days_to_advance, max_days)
+			if(!SStreasury.poll_tax_pay_advance(H, days_to_advance))
+				playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
+				say("The ledger refused the advance.")
+				return
+			playsound(src, 'sound/misc/coininsert.ogg', 100, FALSE, -1)
+			say("[days_to_advance] day[days_to_advance == 1 ? "" : "s"] of Poll Tax advanced for [H.real_name].")
+			return
+		amt = SStreasury.get_balance(H)
 		var/mod = 1
 		if(selection == "GOLD")
 			mod = 10
 		if(selection == "SILVER")
 			mod = 5
-		var/coin_amt = input(user, "There is [SStreasury.treasury_value] mammon in the treasury. You may withdraw [floor(amt/mod)] [selection] COINS from your account.", src) as null|num
+		var/coin_amt = input(user, "There is [SStreasury.discretionary_fund.balance] mammon in the treasury. You may withdraw [floor(amt/mod)] [selection] COINS from your account.", src) as null|num
 		coin_amt = round(coin_amt)
 		if(coin_amt < 1)
 			return
@@ -72,7 +187,7 @@
 			to_chat(user, span_warning("Maximum withdrawal limit exceeded. You can only withdraw up to [max_coins] coins at once."))
 			playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
 			return
-		amt = SStreasury.bank_accounts[H]
+		amt = SStreasury.get_balance(H)
 		if(!Adjacent(user))
 			return
 		if((coin_amt*mod) > amt)
@@ -117,17 +232,13 @@
 
 		if(istype(P, /obj/item/roguecoin))
 			var/mob/living/carbon/human/H = user
-			if(H in SStreasury.bank_accounts)
+			if(SStreasury.has_account(H))
 
-				var/list/deposit_results = SStreasury.generate_money_account(P.get_real_price(), H)
-				if(islist(deposit_results))
-					record_round_statistic(STATS_MAMMONS_DEPOSITED, deposit_results[1] - deposit_results[2])
-				if(deposit_results[2] != 0)
-					say("Your deposit was taxed [deposit_results[2]] mammon.")
-					record_featured_stat(FEATURED_STATS_TAX_PAYERS, H, deposit_results[2])
-					record_round_statistic(STATS_TAXES_COLLECTED, deposit_results[2])
+				if(SStreasury.generate_money_account(P.get_real_price(), H))
+					record_round_statistic(STATS_MAMMONS_DEPOSITED, P.get_real_price())
 				qdel(P)
 				playsound(src, 'sound/misc/coininsert.ogg', 100, FALSE, -1)
+				SStreasury.clear_poll_tax_debt(H)
 				return
 
 		if(istype(P, /obj/item/coveter))
@@ -142,7 +253,7 @@
 			if(!can_anyone_know)
 				to_chat(user, span_info("There is no one important for the transaction to flow through."))
 				return
-			if(SStreasury.treasury_value <50)
+			if(SStreasury.discretionary_fund.balance <50)
 				to_chat(user, "<font color='red'>These fools are completely broke. We'll get nothing out of this...</font>")
 				return
 			if(mammonsiphoned >499)
@@ -166,18 +277,17 @@
 
 /obj/structure/roguemachine/atm/examine(mob/user)
 	. = ..()
-	. += span_notice("Current rates:")
-	. += span_smallnotice("Interest rate: [(SStreasury.bank_interest_rate) * 100]% per day.")
-	. += span_smallnotice("Nobility tax: [SStreasury.taxation_cat_settings[TAX_CAT_NOBLE]["taxAmount"] ? "[SStreasury.taxation_cat_settings[TAX_CAT_NOBLE]["taxAmount"]]%." : "EXEMPT."]")
-	. += span_smallnotice("Church tax: [SStreasury.taxation_cat_settings[TAX_CAT_CHURCH]["taxAmount"] ? "[SStreasury.taxation_cat_settings[TAX_CAT_CHURCH]["taxAmount"]]%." : "EXEMPT."]")
-	. += span_smallnotice("Burghers tax: [SStreasury.taxation_cat_settings[TAX_CAT_BURGHERS]["taxAmount"] ? "[SStreasury.taxation_cat_settings[TAX_CAT_BURGHERS]["taxAmount"]]%." : "EXEMPT."]")
-	. += span_smallnotice("Peasantry tax: [SStreasury.taxation_cat_settings[TAX_CAT_PEASANTS]["taxAmount"] ? "[SStreasury.taxation_cat_settings[TAX_CAT_PEASANTS]["taxAmount"]]%." : "EXEMPT."]")
+	. += span_notice("Current Crown levies:")
+	. += span_smallnotice("Contract levy: [round(SStreasury.get_tax_rate(TAX_CATEGORY_CONTRACT_LEVY) * 100)]%")
+	. += span_smallnotice("Headeater levy: [round(SStreasury.get_tax_rate(TAX_CATEGORY_HEADEATER_LEVY) * 100)]%")
+	. += span_smallnotice("Import tariff: [round(SStreasury.get_tax_rate(TAX_CATEGORY_IMPORT_TARIFF) * 100)]%")
+	. += span_smallnotice("Export duty: [round(SStreasury.get_tax_rate(TAX_CATEGORY_EXPORT_DUTY) * 100)]%")
 
 
 /obj/structure/roguemachine/atm/proc/drill(obj/structure/roguemachine/atm)
 	if(!drilling)
 		return
-	if(SStreasury.treasury_value <50)
+	if(SStreasury.discretionary_fund.balance <50)
 		new /obj/item/coveter(loc)
 		loc.visible_message(span_warning("The Crown grinds to a halt as the last of the treasury spills from the meister!"))
 		playsound(src, 'sound/misc/DrillDone.ogg', 70, TRUE)
@@ -202,11 +312,10 @@
 		playsound(src, 'sound/misc/TheDrill.ogg', 70, TRUE)
 		spawn(100) // The time it takes to complete an interval. If you adjust this, please adjust the sound too. It's 'about' perfect at 100. Anything less It'll start overlapping.
 			loc.visible_message(span_warning("The meister spills its bounty!"))
-			SStreasury.treasury_value -= 20 // Takes from the treasury
+			SStreasury.burn(SStreasury.discretionary_fund, 20, "ATM drill - Freefolk")
 			mammonsiphoned += 20
 			budget2change(20, null, "SILVER")
 			playsound(src, 'sound/misc/coindispense.ogg', 70, TRUE)
-			SStreasury.log_to_steward("-[20] exported mammon to the Freefolks!")
 			drill(src)
 
 /obj/structure/roguemachine/atm/attack_right(mob/living/carbon/human/user)
@@ -262,15 +371,15 @@
 	if(H.head)
 		to_chat(user,span_info("Their head is covered."))
 		return
-	if(H in SStreasury.bank_accounts)
-		if(SStreasury.bank_accounts[H] > 0)
+	if(SStreasury.has_account(H))
+		if(SStreasury.get_balance(H) > 0)
 			var/turf/T = get_turf(H)
 			var/sum
 			var/choice = alert(user,"How would you like to take it? Fast and Loud or Slow and Quiet?","CHOOSE","Fast","Slow","Nevermind")
 			switch(choice)
 				if("Fast")
 					is_active = TRUE
-					needed_cycles = round(SStreasury.bank_accounts[H] / fast_drain)
+					needed_cycles = round(SStreasury.get_balance(H) / fast_drain)
 					if(needed_cycles == 0)	//If you have less than 50 mammon, you'll still get drained at least once.
 						needed_cycles = 1
 					user.visible_message(span_warn("[user] hastily shoves \the [src] into [H]'s forehead!"))
@@ -279,10 +388,9 @@
 					to_chat(H,span_info("<font color ='red'>Sharp claws dig into your skull. There's a warmth trickling down your head.</font>"))
 					for(var/i = 1,i<=needed_cycles,i++)
 						if(do_after(user, 25))
-							SStreasury.bank_accounts[H] -= fast_drain
+							SStreasury.burn(SStreasury.get_account(H), fast_drain, "Coveter Crown - Freefolk")
 							sum += fast_drain
 							new /obj/item/roguecoin/gold(T, fast_drain / 10)
-							SStreasury.log_to_steward("-[fast_drain] exported mammon to the Freefolks!")
 							if(prob(needed_cycles*2))
 								drain_effect_fast(H)
 							if(i == needed_cycles)	//Last cycle.
@@ -297,7 +405,7 @@
 							break
 				if("Slow")
 					is_active = TRUE
-					needed_cycles = round(SStreasury.bank_accounts[H] / slow_drain)
+					needed_cycles = round(SStreasury.get_balance(H) / slow_drain)
 					if(needed_cycles == 0)	//If you have less than 10 mammon, you'll still get drained at least once.
 						needed_cycles = 1
 					user.visible_message(span_warn("[user] carefully and methodically aligns \the [src] with [H]'s forehead..."))
@@ -309,10 +417,9 @@
 					H.apply_damage(10, BRUTE, head)
 					for(var/i = 1,i<=needed_cycles,i++)
 						if(do_after(user, 10))
-							SStreasury.bank_accounts[H] -= slow_drain
+							SStreasury.burn(SStreasury.get_account(H), slow_drain, "Coveter Crown - Freefolk")
 							sum += slow_drain
 							new /obj/item/roguecoin/gold(T, slow_drain / 10)
-							SStreasury.log_to_steward("-[slow_drain] exported mammon to the Freefolks!")
 							if(prob(needed_cycles*2))
 								drain_effect_fast(H)
 							if(i == needed_cycles)	//Last cycle.

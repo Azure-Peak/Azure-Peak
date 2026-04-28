@@ -50,6 +50,7 @@ GLOBAL_LIST_EMPTY(heretical_players)
 	outfit = /datum/outfit/job/roguetown/priest/basic
 	subclass_languages = list(/datum/language/grenzelhoftian)
 	category_tags = list(CTAG_BISHOP)
+	traits_applied = list(TRAIT_ALCHEMY_EXPERT)
 	subclass_stats = list(
 		STATKEY_INT = 4,
 		STATKEY_WIL = 2,
@@ -112,6 +113,8 @@ GLOBAL_LIST_EMPTY(heretical_players)
 	H.verbs |= /mob/living/carbon/human/proc/churchpriestcurse //snowflake priests button. Will not sacrifice them
 	H.verbs |= /mob/living/carbon/human/proc/churcheapostasy //punish the lamb reward the wolf
 	H.verbs |= /mob/living/carbon/human/proc/completesermon
+	H.verbs |= /mob/living/carbon/human/proc/declare_benefactor
+	H.verbs |= /mob/living/carbon/human/proc/revoke_benefactor
 	H.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/convert_heretic_priest)
 	H.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/revive)
 	if(H.mind)
@@ -691,6 +694,16 @@ code\modules\admin\verbs\divinewrath.dm has a variant with all the gods so keep 
 	return TRUE
 
 #undef PRIEST_ANNOUNCEMENT_COOLDOWN
+/mob/living/carbon/human/proc/declare_benefactor()
+	set name = "Declare Benefactor"
+	set category = "Priest"
+	perform_patronage_grant(src, TRAIT_DECLARED_BENEFACTOR, "a Benefactor of the Church", "a benefactor of the Church of Azuria", "no longer a benefactor of the Church of Azuria")
+
+/mob/living/carbon/human/proc/revoke_benefactor()
+	set name = "Revoke Benefactor"
+	set category = "Priest"
+	perform_patronage_revoke_from_list(src, TRAIT_DECLARED_BENEFACTOR, "no longer a benefactor of the Church of Azuria")
+
 #undef PRIEST_SERMON_COOLDOWN
 #undef PRIEST_APOSTASY_COOLDOWN
 #undef PRIEST_EXCOMMUNICATION_COOLDOWN

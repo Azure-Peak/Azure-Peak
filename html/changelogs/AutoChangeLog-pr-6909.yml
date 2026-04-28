@@ -1,0 +1,8 @@
+author: "Ketrai"
+delete-after: True
+changes:
+  - rscadd: "Technophobe trait to stop meister use. Deprived, Hag"
+  - balance: "Pumpkins now mostly give seeds, rarely whole pumpkins"
+  - balance: "Bait bags attract mostly small game"
+  - balance: "Bait bags require apprentice hunting to craft"
+  - balance: "Hag cannot take saddleborn"

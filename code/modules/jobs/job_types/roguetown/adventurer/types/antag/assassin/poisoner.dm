@@ -5,7 +5,7 @@
 	allowed_races = RACES_ALL_KINDS
 	outfit = /datum/outfit/job/roguetown/assassin/poisoner
 	category_tags = list(CTAG_ASSASSIN)
-	traits_applied = list(TRAIT_NOSTINK)	// Stinky Man - You get tossed a bone around rotting corpses. Plays into the poison and stuff.
+	traits_applied = list(TRAIT_NOSTINK, TRAIT_ALCHEMY_EXPERT)	// Stinky Man - You get tossed a bone around rotting corpses. Plays into the poison and stuff.
 	// Weighted 14
 	subclass_stats = list(
 		STATKEY_PER = 1,

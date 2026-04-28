@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - bugfix: "Possibly fixed TGUI input modal crashing on long text above 2048 characters on older systems or older in built browser such as Wine / Linux emulator by using a feature introduced in 2015 instead of 2025."

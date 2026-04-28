@@ -1,0 +1,7 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Complex NPC AI will now smashes obstacles that is in the way between you and them if they cannot find a better way to get pass"
+  - rscadd: "Hotspot no longer HARDBLOCK an AI from pathing, so they will path through them as a last resort"
+  - rscadd: "Added a slight, intelligence / perception scaled delay to kicking you when they are grabbed"
+  - rscadd: "Window being broken by mobs should no longer spam admin log if there's no ckey"

@@ -901,3 +901,107 @@
       around
   PatapoIIIa:
   - rscadd: Add multy-language TGUI support
+2026-04-26:
+  BurpleBineapple:
+  - bugfix: mindlink tells you to use ,Y instead of ,y
+  FreeStylaLT:
+  - bugfix: Fixed a bug that prevented Tempo from counting "Unknown" attackers properly.
+  - balance: Some Red ("Rigid") swingdelays now apply a slow down to X SPD for their
+      duration. This was applied to Rapier's Lunge.
+  - balance: Greataxes had their swingdelays from base intents removed. Instead they
+      had their wdef lowered relative to their non-reach counterparts.
+  - balance: Riposte no longer works while under the effects of a Red ("Rigid") swingdelay.
+  - balance: Riposte no longer works while Exposed.
+  - bugfix: Fixed Guarded anonimity not overriding emote voice colors correctly.
+  Ketrai:
+  - rscadd: Skeleton customization features for certain classes. When they spawn in.
+  Quinalion:
+  - bugfix: Coifs now allow voice transmission through the SCOM ring while lowered.
+  Ryan180602:
+  - code_imp: let ghosts be smooth
+  WeNeedMorePhoron:
+  - rscadd: Possibly fixed controller of Minotaur, dream fiends, Border reiver, deep
+      one, dire bear, dragon, all primordials (unused), mole, mossback, simple skeletons,
+      troll, volf, spide, mirespider to be more reliable and less erratic when it
+      comes to aggro
+  - rscadd: AI's calling for help behaviors range has been reduced from 12 / 13 to
+      9 to make it a bit fairer without trivializing them
+  - rscadd: AI no longer kick someone who is down
+  - rscadd: Add confirmation prompt and log to cancelling vote.
+  borneblood:
+  - balance: Self-Sustenance trait now also behaves like Failed Squire for repair
+      purposes.
+2026-04-27:
+  Ketrai:
+  - balance: Increase medical EXP from sewing
+  Quinalion:
+  - bugfix: Fixed shield rendering on backs.
+  - bugfix: Corrected sleeves sprites for hauberk, haubergeon, scalemail, and coat
+      of plates.
+  - bugfix: Fixed drider spider sprites.
+  Ryan180602:
+  - code_imp: click optimisations
+  - admin: show-tip is now available to coders.
+  VanessaCoding:
+  - balance: changed the bronze right limb to be equal to the left limb
+  WeNeedMorePhoron:
+  - rscdel: Removed most ranged AI loadout that can randomly spawn until fixed.
+  - rscadd: When channeling specific spells (For now, Arcyne Ward & Conjure Aegis),
+      you cannot parry / dodge attacks
+  - rscadd: When you are feinted or baited while channeling spells, spell cast will
+      be canceled
+  - balance: Arcyne Ward now on a 2 minutes base cooldown instead of 1. costs 70 Stamina
+      upfront and 130 Energy instead of 20 (what, this was not intentional). It will
+      also grants a paired "Regenerate" spell that costs proportional amount of stamina
+      to regenerate your existing ward, and always cost 2 minutes of CD. It takes
+      6 seconds to channel still and makes you unable to parry / dodge.
+  - rscadd: Staves integrity rate raised to 150 / 200 / 250 for each tier, making
+      them a sidegrade to woodstaff (And a straight upgrade at the highest tier).
+  - rscadd: Wand option now instead gives Wand & (Wooden) Shield, and grants Apprentice
+      Shield on choice as an alternative playstyle.
+  - rscadd: Instead of empowering a staple spell, implement now refunds part of the
+      spell's stamina / energy cost over 20 seconds. It refunds 20 / 27.5 / 35% of
+      the cost as energy into your blue bar, improving your long term endurance without
+      affecting the short terms economy of a mage.
+  - rscadd: Animals should now find food and eat them properly
+  - rscadd: All farm animals but goats cannot climb over structure now.
+  - rscadd: Added a cooldown to climbing so that hopefully AI get stuck on climbing
+      over and over railing less
+  - bugfix: Probably fix AI hitting themselves
+  borneblood:
+  - balance: Rebalanced Malchem vials that interact with economy, Mammonite was also
+      beefed a lil, Matthios's Hoardeyes can see from 100+, Gilded Sight is no longer
+      ass
+  - bugfix: Truthsnuke (EM spawnable) should no longer destroy a single target over
+      and over
+  gamevoin:
+  - rscadd: Added new headwings, bird and bat-like, available to Kin, Tiefling, and
+      Aasimar. Also a new regular wing and Aasimar-only 'veil wing'.
+2026-04-28:
+  FreeStylaLT:
+  - bugfix: Fixed Bait Cooldown being set incorrectly at 30 seconds. It is now the
+      intended 20 seconds.
+  - rscadd: Having the Smithing Expert trait will now allow the user to automatically
+      scoop up the next item in a smithing recipe from their own tile, or the anvil's
+      tile.
+  - balance: Gave some Guild roles athletics that were missing it before.
+  - balance: Removed Guildmaster's ability to make Announcements.
+  - balance: Gave Guildmaster a scomstone.
+  - balance: Gave every Guild role a serfstone.
+  Ketrai:
+  - rscadd: Bramblesnout boars
+  - rscadd: New meat sprites for pork and bacon
+  Quinalion:
+  - bugfix: Reduced recent shield-on-back sprite change due to persistent misalignment.
+  VanessaCoding:
+  - balance: gave them Apprentice Smelting, Mining, Blacksmithing, Armorsmithing and
+      Weaponsmithing.
+  Vex8tion:
+  - balance: Added TRAIT_SPELLCOCKBLOCK to Lightning Bolt's status debuff
+  WeNeedMorePhoron:
+  - rscadd: All mindlinks tell you to use ,Y
+  - rscadd: You always gain the arcyne ward paired regeneration spell with gain of
+      any arcyne ward, which should hopefully fixes issues with gaining infinite regen
+      spell and most cases of jankiness
+  borneblood:
+  - bugfix: Restored a missing functionality to spellcasting.

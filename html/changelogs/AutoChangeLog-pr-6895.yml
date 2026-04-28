@@ -1,0 +1,6 @@
+author: "1HoneyDragon"
+delete-after: True
+changes:
+  - rscadd: "Ported two dresses from Scarlet Reach: the noble dress and the velvet dress."
+  - rscadd: "Added the new dresses to the loadout menu"
+  - rscadd: "Added the new dresses to the crafting - sewing tab."

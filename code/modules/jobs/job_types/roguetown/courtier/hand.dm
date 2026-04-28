@@ -34,6 +34,7 @@
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/light //regular
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/hand
 	belt = /obj/item/storage/belt/rogue/leather/steel
+	neck = /obj/item/storage/belt/rogue/pouch/coins/mid
 	id = /obj/item/scomstone/garrison/hand
 	job_bitflag = BITFLAG_ROYALTY
 
@@ -48,7 +49,6 @@
 		if(ishuman(L))
 			var/mob/living/carbon/human/H = L
 			GLOB.court_spymaster += H.real_name
-			..()
 
 ///////////
 //CLASSES//
@@ -101,7 +101,7 @@
 		/obj/item/hunting_map/white_stag = 1,
 	)
 	if(H.mind)
-		SStreasury.give_money_account(ECONOMIC_RICH, H, "Savings.")
+		SStreasury.grant_savings(ECONOMIC_RICH, H)
 
 
 //Spymaster start
@@ -162,7 +162,7 @@
 		backr = /obj/item/storage/backpack/rogue/satchel/black
 		pants = /obj/item/clothing/under/roguetown/tights/black
 	if(H.mind)
-		SStreasury.give_money_account(ECONOMIC_RICH, H, "Savings.")
+		SStreasury.grant_savings(ECONOMIC_RICH, H)
 
 //Advisor Start
 /datum/advclass/hand/advisor
@@ -218,7 +218,7 @@
 		/obj/item/book/spellbook = 1,
 	)
 	if(H.mind)
-		SStreasury.give_money_account(ECONOMIC_RICH, H, "Savings.")
+		SStreasury.grant_savings(ECONOMIC_RICH, H)
 
 ////////////////////
 ///SPELLS & VERBS///

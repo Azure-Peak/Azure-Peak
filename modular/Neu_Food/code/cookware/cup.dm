@@ -208,7 +208,10 @@
 
 /obj/item/reagent_containers/glass/cup/silver/pewter //ugly but better than the alternatives
 	name = "pewter goblet"
-	desc = "A pewter goblet, cheaper than silver, but with a similar shine!"
+	desc = "A pewter goblet, blessed with an alluring shine. Though tin with a sprinkling of silver isn't \
+	particularly valuable on its own, most peasants and foreign noblemen tend to be none-the-wiser."
+	is_silver = FALSE
+	is_lesser_silver = FALSE
 
 /obj/item/reagent_containers/glass/cup/silver/small
 	name = "silver cup"
@@ -230,7 +233,7 @@
 
 /obj/item/reagent_containers/glass/cup/golden/small
 	name = "golden cup"
-	desc = "Adorned with gemstones, this cup radiates opulence and grandeur."
+	desc = "Adorned with gemstones, this cup glimmers with lesser opulence and grandeur."
 	icon_state = "gcup"
 	sellprice = 40
 	force = 5

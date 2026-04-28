@@ -1,4 +1,5 @@
 /mob/living/carbon/human/species/skeleton/npc/dungeon/lich
+	threat_point = THREAT_ELITE
 	skel_fragile = FALSE
 	skel_outfit = /datum/outfit/job/roguetown/npc/skeleton/dungeon/lich
 

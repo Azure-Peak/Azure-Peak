@@ -35,25 +35,25 @@
 /obj/item/roguegem/green
 	name = "gemerald"
 	icon_state = "emerald_cut"
-	sellprice = 42
+	sellprice = SELLPRICE_GEMERALD
 	desc = "Glints with verdant brilliance."
 
 /obj/item/roguegem/blue
 	name = "blortz"
 	icon_state = "quartz_cut"
-	sellprice = 88
+	sellprice = SELLPRICE_BLORTZ
 	desc = "Pale blue, like a frozen tear."
 
 /obj/item/roguegem/yellow
 	name = "toper"
 	icon_state = "topaz_cut"
-	sellprice = 34
+	sellprice = SELLPRICE_TOPER
 	desc = "Its amber hues remind you of the sunset."
 
 /obj/item/roguegem/violet
 	name = "saffira"
 	icon_state = "sapphire_cut"
-	sellprice = 56
+	sellprice = SELLPRICE_SAFFIRA
 	desc = "This gem is admired by many wizards."
 
 /obj/item/roguegem/ruby
@@ -65,7 +65,7 @@
 /obj/item/roguegem/diamond
 	name = "dorpel"
 	icon_state = "diamond_cut"
-	sellprice = 121
+	sellprice = SELLPRICE_DORPEL
 	desc = "Beautifully clear, it demands respect."
 
 /obj/item/roguegem/onyxa
@@ -121,7 +121,7 @@
 /obj/item/roguegem/blood_diamond
 	name = "glut"
 	icon_state = "blood"
-	sellprice = 188
+	sellprice = SELLPRICE_BLOOD_DIAMOND
 	desc = "Something about this gem just doesn't sit right with you. Holding it makes the blood leave your fingertips."
 	smeltresult = /obj/item/ingot/component/glutcrystal
 	dropshrink = 1

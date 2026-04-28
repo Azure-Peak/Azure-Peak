@@ -661,27 +661,41 @@ GLOBAL_LIST_INIT(averse_factions, list(
 
 /datum/charflaw/indebted/proc/setup_self(mob/living/carbon/human/user)
 	if(user.mind)
-		if(!SStreasury.bank_accounts[user.real_name])
-			SStreasury.create_bank_account(user.real_name, minimum)
+		if(!SStreasury.has_account(user))
+			SStreasury.create_bank_account(user, minimum)
 			is_active = TRUE
 			next_alimony = world.time + interval
 
 /datum/charflaw/indebted/flaw_on_life(mob/user)
 	. = ..()
-	if(is_active)
-		if(world.time > next_alimony)
-			calculate_childsupport(user)
+	if(!is_active)
+		return
+	if(world.time <= next_alimony)
+		return
+	// Undeath cancels mortal obligations. A vampiric servant has no meister account to speak of
+	// and the repeated fine attempts spam error notes every life tick.
+	if(user?.mind?.has_antag_datum(/datum/antagonist/vampire) || user?.mind?.has_antag_datum(/datum/antagonist/vampire/lord))
+		is_active = FALSE
+		return
+	calculate_childsupport(user)
 
 /datum/charflaw/indebted/proc/calculate_childsupport(mob/deadbeat)
-	var/bankamt = SStreasury.bank_accounts[deadbeat]
+	// Always reschedule first, regardless of outcome, so a broke debtor doesn't re-enter every
+	// life tick and spam.
+	next_alimony = world.time + interval
+	// Bypass give_money_account's fine path - Indebted is a personal debt to an NPC creditor, not
+	// a Crown fine, so the per-day fine cap and rate cap added for Steward abuse don't apply.
+	var/datum/fund/account = SStreasury.get_account(deadbeat)
+	var/bankamt = account ? account.balance : 0
 	var/alimony = minimum
 	if(bankamt > minimum)
 		if((bankamt * relative) > minimum)
 			alimony = round(bankamt * relative)
-		SStreasury.give_money_account(-alimony, deadbeat, "Debts")
-		next_alimony = world.time + interval
+		if(SStreasury.burn(account, alimony, "Debts"))
+			send_ooc_note("<b>MEISTER:</b> [alimony]m was taken in debts owed.", name = deadbeat.real_name)
 	else
-		SStreasury.give_money_account(-bankamt, deadbeat, "Defaulted Debts")
+		if(bankamt > 0 && SStreasury.burn(account, bankamt, "Defaulted Debts"))
+			send_ooc_note("<b>MEISTER:</b> [bankamt]m was taken in defaulted debts.", name = deadbeat.real_name)
 		deadbeat.add_stress(/datum/stressevent/debt)
 		if(!bounty_added)
 			if(ishuman(deadbeat))

@@ -17,16 +17,17 @@ Hopefully they are more useful than just writing a letter via HERMES.
 
 /obj/structure/roguemachine/talkstatue/mercenary
 	name = "mercenary statue"
-	desc = "A gilbronze warrior erupts from the stone bell that homes them; foreign garb, horns of stone, claws of deathly metals. The perfect central-point of a proud warrior extrinsic to this place and tyme. \n\ \n\ I can place silver in to message one mercenary, and gold for all of them. A faint inscription reads: 'Silver for one, Gold for all.'"
+	desc = "A gilbronze warrior erupts from the stone bell that homes them; foreign garb, horns of stone, claws of deathly metals. The perfect central-point of a proud warrior extrinsic to this place and tyme."
 	var/static/list/mercenary_status = list() // Stores: list(mob.key = list("status" = status, "mob" = mob, "message" = message))
 	var/static/list/pending_registrations = list() // Stores: list(mob.key = mob) for remote registrations that haven't expired
 	var/static/list/pending_message_links = list() // Stores: list(mob.key = mob) for remote message setting that haven't expired
 	var/static/list/pending_broadcast_responses = list() // Stores: list("response_id" = list("responder" = mob, "sender" = mob)) for time-limited broadcast responses
 	var/static/list/pending_direct_responses = list() // Stores: list("response_id" = list("responder" = mob, "sender" = mob)) for time-limited direct message responses
-	var/static/list/sender_cooldowns = list() // Stores: list(sender.key = world.time) for message cooldowns
-	var/message_char_limit = 300 // Character limit for coin messages
+	var/static/list/sender_cooldowns = list() // Compound key: "[sender.key]_[target.key]" for singles, "broadcast_[sender.key]" for broadcasts
+	var/message_char_limit = 300 // Character limit for messages
 	var/response_timeout = 2 MINUTES // How long response links are valid
-	var/sender_cooldown = 30 SECONDS // Cooldown between sending messages
+	var/single_cooldown = 10 MINUTES // Cooldown per sender-target pair
+	var/broadcast_cooldown_time = 20 MINUTES // Cooldown per sender for broadcasts
 	var/static/response_id_counter = 0 // Counter to ensure unique response IDs
 
 /obj/structure/roguemachine/talkstatue/mercenary/Initialize()
@@ -51,31 +52,7 @@ Hopefully they are more useful than just writing a letter via HERMES.
 		// Show read-only UI for non-mercenaries
 		show_mercenary_ui(user, is_mercenary = FALSE)
 
-/obj/structure/roguemachine/talkstatue/mercenary/attackby(obj/item/P, mob/living/carbon/human/user, params)
-	// Proximity check - user must be adjacent to the statue
-	if(!Adjacent(user))
-		to_chat(user, span_warning("I need to be closer to the statue."))
-		return
 
-	if(istype(P, /obj/item/roguecoin/silver))
-		// Silver coin - message a specific mercenary
-		var/obj/item/roguecoin/silver/coin = P
-		if(coin.quantity > 1)
-			to_chat(user, span_warning("I need to use a single ziliqua."))
-			return
-		message_single_mercenary(user, coin)
-		return
-
-	if(istype(P, /obj/item/roguecoin/gold))
-		// Gold coin - broadcast to all mercenaries
-		var/obj/item/roguecoin/gold/coin = P
-		if(coin.quantity > 1)
-			to_chat(user, span_warning("I need to use a single zenar."))
-			return
-		broadcast_to_mercenaries(user, coin)
-		return
-
-	return ..()
 
 /obj/structure/roguemachine/talkstatue/mercenary/proc/cycle_mercenary_status(mob/living/carbon/human/user)
 	// Get or create the status entry for this mercenary
@@ -105,14 +82,7 @@ Hopefully they are more useful than just writing a letter via HERMES.
 	to_chat(user, span_notice("I set my status to: <b>[new_status]</b>"))
 	playsound(loc, 'sound/misc/beep.ogg', 100, FALSE, -1)
 
-/obj/structure/roguemachine/talkstatue/mercenary/proc/message_single_mercenary(mob/living/carbon/human/sender, obj/item/roguecoin/silver/coin)
-	// Check sender cooldown
-	if(sender_cooldowns[sender.key])
-		var/time_left = sender_cooldowns[sender.key] + sender_cooldown - world.time
-		if(time_left > 0)
-			to_chat(sender, span_warning("I need to wait [round(time_left / 10)] seconds before sending another message."))
-			return
-
+/obj/structure/roguemachine/talkstatue/mercenary/proc/message_single_mercenary(mob/living/carbon/human/sender)
 	// Get list of available mercenaries from the status list
 	var/list/available_mercenaries = list()
 
@@ -140,6 +110,15 @@ Hopefully they are more useful than just writing a letter via HERMES.
 
 	var/mob/living/carbon/human/target_merc = available_mercenaries[choice]
 
+	// Check per-target cooldown
+	var/cooldown_key = "[sender.key]_[target_merc.key]"
+	if(sender_cooldowns[cooldown_key])
+		var/time_left = sender_cooldowns[cooldown_key] + single_cooldown - world.time
+		if(time_left > 0)
+			var/mins_left = max(1, round(time_left / 600))
+			to_chat(sender, span_warning("I need to wait [mins_left] minute[mins_left == 1 ? "" : "s"] before contacting [target_merc.real_name] again."))
+			return
+
 	// Proximity check again before allowing message input
 	if(!Adjacent(sender))
 		to_chat(sender, span_warning("I need to stay close to the statue."))
@@ -149,21 +128,13 @@ Hopefully they are more useful than just writing a letter via HERMES.
 	if(!message)
 		return
 
-	// Final proximity and coin checks
+	// Final proximity check
 	if(!Adjacent(sender))
 		to_chat(sender, span_warning("I moved too far from the statue."))
 		return
 
-	if(!(coin in sender.held_items))
-		to_chat(sender, span_warning("I need to hold the ziliqua!"))
-		return
-
-	// Consume the coin
-	qdel(coin)
-	playsound(loc, 'sound/foley/coinphy (1).ogg', 100, FALSE, -1)
-
-	// Set sender cooldown
-	sender_cooldowns[sender.key] = world.time
+	// Set per-target cooldown
+	sender_cooldowns[cooldown_key] = world.time
 
 	// Send the message with time-limited response links
 	response_id_counter++
@@ -180,12 +151,14 @@ Hopefully they are more useful than just writing a letter via HERMES.
 	sender.log_talk(message, LOG_SAY, tag="mercenary statue (to [key_name(target_merc)])")
 	target_merc.log_talk(message, LOG_SAY, tag="mercenary statue (from [key_name(sender)])", log_globally=FALSE)
 
-/obj/structure/roguemachine/talkstatue/mercenary/proc/broadcast_to_mercenaries(mob/living/carbon/human/sender, obj/item/roguecoin/gold/coin)
-	// Check sender cooldown
-	if(sender_cooldowns[sender.key])
-		var/time_left = sender_cooldowns[sender.key] + sender_cooldown - world.time
+/obj/structure/roguemachine/talkstatue/mercenary/proc/broadcast_to_mercenaries(mob/living/carbon/human/sender)
+	// Check broadcast cooldown
+	var/broadcast_key = "broadcast_[sender.key]"
+	if(sender_cooldowns[broadcast_key])
+		var/time_left = sender_cooldowns[broadcast_key] + broadcast_cooldown_time - world.time
 		if(time_left > 0)
-			to_chat(sender, span_warning("I need to wait [round(time_left / 10)] seconds before sending another message."))
+			var/mins_left = max(1, round(time_left / 600))
+			to_chat(sender, span_warning("I need to wait [mins_left] minute[mins_left == 1 ? "" : "s"] before broadcasting again."))
 			return
 
 	// Proximity check before allowing message input
@@ -215,21 +188,13 @@ Hopefully they are more useful than just writing a letter via HERMES.
 	if(!message)
 		return
 
-	// Final proximity and coin checks
+	// Final proximity check
 	if(!Adjacent(sender))
 		to_chat(sender, span_warning("I moved too far from the statue."))
 		return
 
-	if(!(coin in sender.held_items))
-		to_chat(sender, span_warning("I need to hold the zenar!"))
-		return
-
-	// Consume the coin
-	qdel(coin)
-	playsound(loc, 'sound/foley/coinphy (1).ogg', 100, FALSE, -1)
-
-	// Set sender cooldown
-	sender_cooldowns[sender.key] = world.time
+	// Set broadcast cooldown
+	sender_cooldowns[broadcast_key] = world.time
 
 	// Build recipient keys list for logging
 	var/list/recipient_keys = list()
@@ -377,10 +342,9 @@ Hopefully they are more useful than just writing a letter via HERMES.
 
 	contents += "<hr>"
 	if(is_interactive)
-		contents += "<center><i>Silver for one, Gold for all.</i></center>"
+		contents += "<center><a href='?src=[REF(src)];contact_mercenary=1'>\[Contact a Mercenary\]</a> | <a href='?src=[REF(src)];broadcast_all=1'>\[Broadcast to All\]</a></center>"
 	else
-		contents += "<center><i>Visit the Mercenary Statue for further contact.</i><br>"
-		contents += "<i>Silver for one, Gold for all.</i></center>"
+		contents += "<center><i>Visit the Mercenary Statue for further contact.</i></center>"
 
 	return contents
 
@@ -397,6 +361,26 @@ Hopefully they are more useful than just writing a letter via HERMES.
 
 /obj/structure/roguemachine/talkstatue/mercenary/Topic(href, href_list)
 	. = ..()
+
+	if(href_list["contact_mercenary"])
+		if(!ishuman(usr))
+			return
+		var/mob/living/carbon/human/H = usr
+		if(!Adjacent(H))
+			to_chat(H, span_warning("I need to be closer to the statue."))
+			return
+		message_single_mercenary(H)
+		return
+
+	if(href_list["broadcast_all"])
+		if(!ishuman(usr))
+			return
+		var/mob/living/carbon/human/H = usr
+		if(!Adjacent(H))
+			to_chat(H, span_warning("I need to be closer to the statue."))
+			return
+		broadcast_to_mercenaries(H)
+		return
 
 	if(href_list["cycle_status"])
 		// Verify user is a mercenary and close to the statue

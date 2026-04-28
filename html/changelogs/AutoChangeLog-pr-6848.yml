@@ -1,0 +1,5 @@
+author: "Drifter7371"
+delete-after: True
+changes:
+  - rscadd: "Gave Bwanderer a choice between starting with axes or swords."
+  - rscadd: "Swapped a Wilpower point for Constitution for Bwanderer.\n:cl:"

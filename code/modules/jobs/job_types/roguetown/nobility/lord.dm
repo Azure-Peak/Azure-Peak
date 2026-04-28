@@ -30,7 +30,7 @@ GLOBAL_LIST_EMPTY(lord_titles)
 	min_pq = 50 //staff request
 	max_pq = null
 	round_contrib_points = 4
-	give_bank_account = 1000
+	give_bank_account = 250
 	cmode_music = 'sound/music/combat_noble.ogg'
 
 	// Can't use the Throat when you can't talk properly or.. at all for that matter.
@@ -160,6 +160,14 @@ GLOBAL_LIST_EMPTY(lord_titles)
 		/datum/skill/misc/hunting = SKILL_LEVEL_APPRENTICE,
 	)
 
+	subclass_virtues = list(
+		/datum/virtue/utility/riding
+	)
+	
+	subclass_stashed_items = list(
+		"Ducal Caparison (Saiga)" = /obj/item/caparison/azure,
+		"Fogbeast Caparison" = /obj/item/caparison/fogbeast)
+
 /datum/outfit/job/roguetown/lord/warrior/pre_equip(mob/living/carbon/human/H)
 	..()
 	l_hand = /obj/item/rogueweapon/lordscepter
@@ -177,7 +185,7 @@ GLOBAL_LIST_EMPTY(lord_titles)
 	But you have plenty of wealth, keen ears, and know a good deal from a bad one."
 	outfit = /datum/outfit/job/roguetown/lord/merchant
 	category_tags = list(CTAG_LORD)
-	noble_income = 400 // Let's go crazy. This is +400 per day for a total of 2400 per round at the end of a day. This is probably equal to doubling passive incomes of the keep.
+	noble_income = 275 // Decently high but shouldn't remove any need for economic management
 	traits_applied = list(TRAIT_NOBLE, TRAIT_SEEPRICES, TRAIT_CICERONE, TRAIT_KEENEARS, TRAIT_MEDIUMARMOR, TRAIT_DNR)
 	subclass_stats = list(
 		STATKEY_LCK = 5,
@@ -201,6 +209,14 @@ GLOBAL_LIST_EMPTY(lord_titles)
 		/datum/skill/misc/riding = SKILL_LEVEL_APPRENTICE,
 	)
 
+	subclass_virtues = list(
+		/datum/virtue/utility/riding
+	)
+
+	subclass_stashed_items = list(
+		"Ducal Caparison (Saiga)" = /obj/item/caparison/azure,
+		"Fogbeast Caparison" = /obj/item/caparison/fogbeast)
+
 /datum/outfit/job/roguetown/lord/merchant/pre_equip(mob/living/carbon/human/H)
 	..()
 	l_hand = /obj/item/rogueweapon/lordscepter
@@ -221,7 +237,7 @@ GLOBAL_LIST_EMPTY(lord_titles)
 	tutorial = "Despite spending your younger years focused on reading and the wonders of the arcyne, it came the time for you to take the throne. Now you rule not only by crown and steel, but by spell and wit, show those who doubted your time buried in books was well spent how wrong they were."
 	outfit = /datum/outfit/job/roguetown/lord/mage
 	category_tags = list(CTAG_LORD)
-	traits_applied = list(TRAIT_NOBLE, TRAIT_ARCYNE, TRAIT_DNR)
+	traits_applied = list(TRAIT_NOBLE, TRAIT_ARCYNE, TRAIT_ALCHEMY_EXPERT, TRAIT_DNR)
 	subclass_stats = list(
 		STATKEY_LCK = 5,
 		STATKEY_INT = 4,
@@ -241,6 +257,14 @@ GLOBAL_LIST_EMPTY(lord_titles)
 		/datum/skill/magic/arcane = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/craft/alchemy = SKILL_LEVEL_APPRENTICE,
 	)
+
+	subclass_virtues = list(
+		/datum/virtue/utility/riding
+	)
+
+	subclass_stashed_items = list(
+		"Ducal Caparison (Saiga)" = /obj/item/caparison/azure,
+		"Fogbeast Caparison" = /obj/item/caparison/fogbeast)
 
 /datum/outfit/job/roguetown/lord/mage/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -276,6 +300,14 @@ GLOBAL_LIST_EMPTY(lord_titles)
 		/datum/skill/craft/cooking = SKILL_LEVEL_NOVICE,
 		/datum/skill/craft/sewing = SKILL_LEVEL_NOVICE,
 	)
+
+	subclass_virtues = list(
+		/datum/virtue/utility/riding
+	)
+
+	subclass_stashed_items = list(
+		"Ducal Caparison (Saiga)" = /obj/item/caparison/azure,
+		"Fogbeast Caparison" = /obj/item/caparison/fogbeast)
 
 /datum/outfit/job/roguetown/lord/inbred/pre_equip(mob/living/carbon/human/H)
 	..()

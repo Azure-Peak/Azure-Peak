@@ -350,7 +350,7 @@
 		if(!M)
 			to_chat(usr, span_danger("ERROR: Mob not found."))
 			return
-		cmd_show_exp_panel(M.client)
+		show_exp_panel(M.client)
 
 	else if(href_list["toggleexempt"])
 		if(!check_rights(R_ADMIN))

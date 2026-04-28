@@ -579,9 +579,6 @@
 		pickchance *= P.picklvl
 		pickchance = clamp(pickchance, 1, 95)
 
-		if(gildedeyes && picktime <= 30) // MIGHT BE TOO STRONG, BUT WE'LL SEE -- i fuckin knew it ;_;
-			picktime = 30
-
 		if (lockdifficulty > 1) //each time the difficulty goes up, the harder the lock
 			picktime = picktime+(10*lockdifficulty)//add a flat 10 per level
 			pickchance = pickchance/(lockdifficulty*0.75)//reduce the chance by .75 per level
@@ -592,6 +589,9 @@
 			I.take_damage(1, BRUTE, "blunt")
 			to_chat(user, "<span class='warning'>Clack.</span>")
 			return
+
+		if(gildedeyes)
+			picktime = clamp(picktime, 10, 15)
 
 		if(ishuman(user))
 			var/mob/living/carbon/human/H = user

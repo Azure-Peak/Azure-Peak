@@ -26,7 +26,6 @@
 	charge_slowdown = CHARGING_SLOWDOWN_NONE
 	charge_sound = 'sound/magic/charging.ogg'
 	cooldown_time = 6.5 SECONDS
-	is_implement_scaled_spell = TRUE
 	attunement_school = ASPECT_NAME_FULGURMANCY
 
 	associated_skill = /datum/skill/magic/arcane

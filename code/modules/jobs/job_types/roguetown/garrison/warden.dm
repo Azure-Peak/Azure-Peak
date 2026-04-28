@@ -89,7 +89,8 @@
 		/obj/item/flashlight/flare/torch/lantern/prelit = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1,
 		/obj/item/reagent_containers/glass/bottle/rogue/healthpot = 1,
-		/obj/item/signal_horn = 1
+		/obj/item/signal_horn = 1,
+		/obj/item/hunting_map/boars = 1,
 		)
 	H.verbs |= /mob/proc/haltyell
 	H.set_blindness(0)
@@ -144,4 +145,4 @@
 		if(hoodchoice != "None")
 			mask = hoods[hoodchoice]
 	if(H.mind)
-		SStreasury.give_money_account(ECONOMIC_LOWER_MIDDLE_CLASS, H, "Savings.")
+		SStreasury.grant_savings(ECONOMIC_LOWER_MIDDLE_CLASS, H)

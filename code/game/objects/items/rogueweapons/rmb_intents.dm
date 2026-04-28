@@ -80,6 +80,8 @@
 			fatiguemod = 3
 
 
+	HT.interrupt_spell_channel()
+
 	HT.apply_status_effect(/datum/status_effect/debuff/baited)
 	HT.apply_status_effect(/datum/status_effect/debuff/exposed)
 	HT.apply_status_effect(/datum/status_effect/debuff/clickcd, 5 SECONDS)
@@ -247,7 +249,10 @@
 			L.changeNext_def(clamp(L.dodgetime - 2, 0, CLICK_CD_DODGE))
 			L.changeMaxDodge(-2)
 		return
-	
+
+	L.interrupt_spell_channel()
+
+
 	var/effect_to_apply = (L.mind ? /datum/status_effect/debuff/vulnerable : /datum/status_effect/debuff/exposed)
 
 	L.apply_status_effect(effect_to_apply, feintdur)

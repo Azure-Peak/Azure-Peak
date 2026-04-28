@@ -39,7 +39,7 @@
 		r_hand = /obj/item/rogue/instrument/flute
 
 	if(H.mind)
-		SStreasury.give_money_account(ECONOMIC_DESTITUTE, H, "Savings.")
+		SStreasury.grant_savings(ECONOMIC_DESTITUTE, H)
 		H.adjust_skillrank(/datum/skill/misc/riding, rand(1,6), TRUE)//This could potentially be hilarious
 
 /mob/living/simple_animal/hostile/retaliate/rogue/goat/tame/Initialize()

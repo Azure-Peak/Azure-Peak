@@ -252,7 +252,7 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 		charflaws.Remove(cf)
 		QDEL_NULL(cf)
 	update_body()
-	faction = list(FACTION_ORCS)
+	faction |= FACTION_ORCS
 	name = "goblin"
 	real_name = "goblin"
 	ADD_TRAIT(src, TRAIT_NOMOOD, TRAIT_GENERIC)
@@ -327,7 +327,8 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 		H.STAINT = 8
 	else
 		H.STAINT = 4
-	var/loadout = rand(1,8)
+	// Stopgap: bow (was 6) and slinger (was 7) loadouts removed from the random pool because the ranged NPC AI is unreliable. Bomber moved into the freed slot.
+	var/loadout = rand(1,6)
 	switch(loadout)
 		if(1) //tribal spear
 			r_hand = /obj/item/rogueweapon/spear/stone
@@ -369,22 +370,7 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 			if(prob(20))
 				r_hand = /obj/item/rogueweapon/flail
 				l_hand = /obj/item/rogueweapon/shield/wood
-		if(6) // bow archer
-			r_hand = /obj/item/rogueweapon/huntingknife/stoneknife
-			backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow
-			backl = /obj/item/quiver/stonearrows
-			armor = /obj/item/clothing/suit/roguetown/armor/leather/hide/goblin
-			H.STASTR -= 2
-			H.STAPER += 3
-			H.adjust_skillrank(/datum/skill/combat/bows, 2, TRUE)
-			H.upgrade_ai_controller(/datum/ai_controller/human_npc/archer)
-		if(7) // slinger
-			r_hand = /obj/item/rogueweapon/huntingknife/stoneknife
-			wrists = /obj/item/gun/ballistic/revolver/grenadelauncher/sling
-			neck = /obj/item/quiver/sling/stone
-			armor = /obj/item/clothing/suit/roguetown/armor/leather/hide/goblin
-			H.adjust_skillrank(/datum/skill/combat/slings, 2, TRUE)
-		if(8) // bottle bomber
+		if(6) // bottle bomber
 			r_hand = /obj/item/rogueweapon/huntingknife/stoneknife
 			neck = /obj/item/storage/belt/rogue/pouch/bombs
 			armor = /obj/item/clothing/suit/roguetown/armor/leather/hide/goblin

@@ -188,3 +188,54 @@
 // basterd. specifically basterd. it is funnier this way.
 /datum/mob_descriptor/stature/basterd
 	name = "Basterd"
+
+/datum/mob_descriptor/stature/hotspur
+	name = "Hotspur"
+
+/datum/mob_descriptor/stature/pest
+	name = "Pest"
+
+/datum/mob_descriptor/stature/shrew
+	name = "Shrew"
+
+/datum/mob_descriptor/stature/tyrant
+	name = "Tyrant"
+
+/datum/mob_descriptor/stature/virago
+	name = "Virago"
+
+/datum/mob_descriptor/stature/yob
+	name = "Yob"
+
+/datum/mob_descriptor/stature/adversary
+	name = "Adversary"
+
+/datum/mob_descriptor/stature/foe
+	name = "Foe"
+
+/datum/mob_descriptor/stature/gatecrasher
+	name = "Gatecrasher"
+
+/datum/mob_descriptor/stature/idol
+	name = "Idol"
+
+/datum/mob_descriptor/stature/nemesis
+	name = "Nemesis"
+
+/datum/mob_descriptor/stature/eejit
+	name = "Eejit"
+
+/datum/mob_descriptor/stature/crone
+	name = "Crone"
+
+/datum/mob_descriptor/stature/nerdowell
+	name = "Nerdowell"
+
+/datum/mob_descriptor/stature/peon
+	name = "Peon"
+
+/datum/mob_descriptor/stature/scion
+	name = "Scion"
+
+/datum/mob_descriptor/stature/swashbuckler
+	name = "Swashbuckler"

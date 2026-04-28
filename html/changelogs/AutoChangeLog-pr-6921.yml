@@ -1,0 +1,5 @@
+author: "Ketrai"
+delete-after: True
+changes:
+  - qol: "Clarify boar wound message as something you can just sew?"
+  - balance: "Dreamwalker portals allow up to 5 pursuers with halved cooldown between uses."

@@ -1,3 +1,6 @@
+#define PORTAL_PURSUIT_COOLDOWN 7.5 SECONDS
+#define PORTAL_PURSUIT_USES 5
+
 // Scaling (base_antags path, no storyteller slot caps):
 //  Midround event: base=1, denom=80, max=2 → 1-79 pop: 1, 80+: 2
 //  Roundstart (Abyssor only): base=2, max=2 → always 2
@@ -225,7 +228,7 @@
 	max_integrity = 250
 	var/cooldown = 0
 	var/uses = 0
-	var/max_uses = 3
+	var/max_uses = PORTAL_PURSUIT_USES
 	var/turf/linked_turf
 	var/safe_passage = FALSE
 
@@ -255,7 +258,7 @@
 		return
 
 	uses++
-	cooldown = world.time + 15 SECONDS
+	cooldown = world.time + PORTAL_PURSUIT_COOLDOWN
 	// High likelyhood of getting a dreamfiend summon upon non dreamwalkers when used.
 	if(!safe_passage && !HAS_TRAIT(user, TRAIT_DREAMWALKER) && (prob(75)))
 		summon_dreamfiend(
@@ -695,3 +698,6 @@
 /obj/item/clothing/head/roguetown/helmet/bascinet/dreamwalker/Initialize()
 	. = ..()
 	AddComponent(/datum/component/dream_weapon, null, 20 SECONDS)
+
+#undef PORTAL_PURSUIT_COOLDOWN
+#undef PORTAL_PURSUIT_USES

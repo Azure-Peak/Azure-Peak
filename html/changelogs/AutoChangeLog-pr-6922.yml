@@ -1,0 +1,5 @@
+author: "Ollanius"
+delete-after: True
+changes:
+  - bugfix: "Pewter goblets no longer cause vampyres and nitebeasts to spontaneously explode upon contact."
+  - code_imp: "Stages ore and scrap content from PR #6666. This includes the base framework for avantyne wafers and thread, alongside ascendant-specific equipment fragments. Unaccessable in-game."

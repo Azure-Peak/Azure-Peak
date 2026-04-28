@@ -16,6 +16,15 @@
 	var/fixed_tax = 0
 	/// Motto displayed at the top of the vendor interface
 	var/motto = "NAVIGATOR - Your goods, airborne."
+	/// When TRUE, the Crown's export duty is not collected on this navigator's payouts.
+	/// Toggled by the Merchant via right-click; evaded duties are still tallied for audit.
+	var/bypass_export_duty = FALSE
+	/// Jobs whose members may right-click to toggle the tax-dodge.
+	var/list/profit_id = list("Merchant", "Shophand")
+	/// Running tally of Crown export duty actually collected via this specific navigator.
+	var/duty_collected_here = 0
+	/// Running tally of duty owed but dodged. Only shown to Merchant/Shophand.
+	var/duty_evaded_here = 0
 
 /obj/item/roguemachine/navigator/examine()
 	. = ..()
@@ -24,6 +33,18 @@
 	export_time = EXPORT_TIME_TESTING
 	#endif
 	. += span_notice("This machine attracts trading balloons every [DisplayTimeText(export_time)]. Goods are sucked into the air and mammons are dropped after tax has been collected.")
+
+/obj/item/roguemachine/navigator/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Drop items on the tiles around the navigator. Trading balloons arrive periodically and lift the goods away, leaving mammon in change on this tile.")
+	if(fixed_tax > 0)
+		. += span_info("This navigator charges a fixed handler's fee of [fixed_tax * 100]% before any Crown duty. Smuggler-grade.")
+	else
+		. += span_info("The Crown's export duty is applied to the payout at the prevailing rate.")
+	if(ishuman(user))
+		var/mob/living/carbon/human/H = user
+		if(H.job in profit_id)
+			. += span_info("<b>Right-click</b> as [english_list(profit_id)] to toggle the export-duty dodge. Currently: <b>[bypass_export_duty ? "TAX DODGING" : "PAYING"]</b>.")
 
 // 70% taxation and rip off to encourage people to risk it with merchant / others
 /obj/item/roguemachine/navigator/smuggler
@@ -73,13 +94,41 @@
 	contents += "--------------<BR>"
 	if(fixed_tax > 0)
 		contents += "HANDLER'S FEE: [fixed_tax * 100] %<BR>"
-	contents += "Next Balloon: [time2text((next_airlift - world.time), "mm:ss")]</center><BR>"
+	contents += "Next Balloon: [time2text((next_airlift - world.time), "mm:ss")]<BR>"
+
+	// Export duty summary. The rate is public (it's a published law). The paid/evaded
+	// tallies and the TAX DODGING banner are Merchant/Shophand only.
+	var/duty_rate = SStreasury.get_tax_rate(TAX_CATEGORY_EXPORT_DUTY)
+	var/merchant_only = FALSE
+	if(ishuman(user))
+		var/mob/living/carbon/human/H = user
+		merchant_only = (H.job in profit_id)
+	contents += "Crown Export Duty: <b>[round(duty_rate * 100)]%</b>"
+	if(merchant_only && bypass_export_duty)
+		contents += " <font color='#c84'><b>(TAX DODGING)</b></font>"
+	contents += "<br>"
+	if(merchant_only)
+		contents += "<font color='#8a8'>Paid: [duty_collected_here]m</font> &middot; <font color='#c84'>Evaded: [duty_evaded_here]m</font><br>"
+	contents += "</center><BR>"
 
 	if(!user.can_read(src, TRUE))
 		contents = stars(contents)
 	var/datum/browser/popup = new(user, "VENDORTHING", "", 370, 300)
 	popup.set_content(contents)
 	popup.open()
+
+/obj/item/roguemachine/navigator/attack_right(mob/user)
+	if(!anchored || !ishuman(user))
+		return ..()
+	var/mob/living/carbon/human/H = user
+	if(!(H.job in profit_id))
+		to_chat(H, span_warning("Only a Merchant may tamper with the Navigator's toll."))
+		return
+	if(!H.canUseTopic(src, BE_CLOSE))
+		return
+	bypass_export_duty = !bypass_export_duty
+	to_chat(H, span_notice("The Navigator's toll clasp clicks. Export duty: <b>[bypass_export_duty ? "TAX DODGING" : "PAYING"]</b>."))
+	playsound(loc, 'sound/misc/gold_misc.ogg', 80, FALSE, -1)
 
 /obj/item/roguemachine/navigator/update_icon()
 	if(!anchored)
@@ -136,11 +185,35 @@
 			record_round_statistic(STATS_TRADE_VALUE_EXPORTED, budgie)
 			if(budgie > 0)
 				play_sound=TRUE
+				var/duty_amt = apply_export_duty(budgie)
+				var/net_payout = budgie - duty_amt
 				var/turf/budget_turf = get_turf(src)
-				budget2change(budgie, custom_turf = budget_turf)
+				if(net_payout > 0)
+					budget2change(net_payout, custom_turf = budget_turf)
 				budgie = 0
 		if(play_sound)
 			playsound(src.loc, 'sound/misc/hiss.ogg', 100, FALSE, -1)
+
+/// Crown's export duty on legitimate trade. Overridden on smuggler navigator (off-ledger).
+/// Respects the Merchant's right-click bypass: the duty is still computed for the evaded-tax
+/// audit tally but not actually collected, and the Merchant keeps the full payout.
+/obj/item/roguemachine/navigator/proc/apply_export_duty(amount)
+	var/rate = SStreasury.get_tax_rate(TAX_CATEGORY_EXPORT_DUTY)
+	var/duty = round(amount * rate)
+	if(duty <= 0)
+		return 0
+	if(bypass_export_duty)
+		record_round_statistic(STATS_TAXES_EVADED, duty)
+		duty_evaded_here += duty
+		return 0
+	SStreasury.mint(SStreasury.discretionary_fund, duty, "[TAX_CATEGORY_EXPORT_DUTY] ([src.name])")
+	record_round_statistic(STATS_TAXES_COLLECTED, duty)
+	record_round_statistic(STATS_REVENUE_EXPORT_DUTY, duty)
+	duty_collected_here += duty
+	return duty
+
+/obj/item/roguemachine/navigator/smuggler/apply_export_duty(amount)
+	return 0
 
 #undef EXPORT_TIME
 #undef EXPORT_TIME_TESTING

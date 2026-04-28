@@ -1,5 +1,6 @@
 /datum/ai_controller/generic //Placeholder for mobs missing their AI Controller
 	movement_delay = MOLE_MOVEMENT_SPEED
+	can_climb_structures = FALSE //farm animals stay penned
 
 	ai_movement = /datum/ai_movement/hybrid_pathing
 
@@ -20,6 +21,7 @@
 	idle_behavior = /datum/idle_behavior/idle_random_walk/less_walking
 
 /datum/ai_controller/generic/goat
+	can_climb_structures = TRUE //goats are renowned mountaineers
 
 	planning_subtrees = list(
 		/datum/ai_planning_subtree/target_retaliate,

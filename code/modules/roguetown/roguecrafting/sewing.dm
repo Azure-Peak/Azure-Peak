@@ -2138,3 +2138,19 @@
 	)
 	craftdiff = 4
 	category = "Pants"
+/datum/crafting_recipe/roguetown/sewing/velvetdress
+	name = "velvet dress"
+	result = list(/obj/item/clothing/suit/roguetown/shirt/velvetdress)
+	reqs = list(
+		/obj/item/natural/cloth = 3,
+		/obj/item/natural/fibers = 2
+	)
+	craftdiff = 4
+/datum/crafting_recipe/roguetown/sewing/noble
+	name = "velvet dress"
+	result = list(/obj/item/clothing/suit/roguetown/shirt/nobledress)
+	reqs = list(
+		/obj/item/natural/cloth = 3,
+		/obj/item/natural/fibers = 2
+	)
+	craftdiff = 4
