@@ -58,10 +58,11 @@
 				for(var/atom/O in conts)
 					if(!isturf(O.loc))	// We don't want to use the ingot we are actively hammering, which would be in the Anvil's contents.
 						LAZYREMOVE(conts, O)
-				source.attackby(conts[1], user)	//We grab the first one we find.
-				auto_success = TRUE
-				user.visible_message(span_warning("[user] strikes the bar, expertly using a [needed_item_text] on the anvil!"))
-				playsound(source, 'sound/items/bsmithadvance.ogg', 100, TRUE)
+				if(length(conts))
+					user.visible_message(span_warning("[user] strikes the bar, inserting a [needed_item_text] into the recipe!"))
+					source.attackby(conts[conts.len], user)	//We grab the first one we find.
+					auto_success = TRUE
+					playsound(source, 'sound/items/bsmithadvance.ogg', 100, TRUE)
 		if(!auto_success)
 			to_chat(user, span_info("Now it's time to add a [needed_item_text]."))
 			user.visible_message(span_warning("[user] strikes the bar!"))
