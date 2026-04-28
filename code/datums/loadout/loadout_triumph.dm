@@ -128,6 +128,12 @@
 	triumph_cost = 5
 	sort_category = "Triumphs"
 
+/datum/loadout_item/triumph_winterdress
+	name = "Winter Dress"
+	path = /obj/item/clothing/suit/roguetown/armor/armordress/winterdress
+	triumph_cost = 5
+	sort_category = "Triumphs"
+
 /datum/loadout_item/triumph_royalsleeves
 	name = "Royal Sleeves"
 	path = /obj/item/clothing/wrists/roguetown/royalsleeves
