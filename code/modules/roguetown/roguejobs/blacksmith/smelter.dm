@@ -75,7 +75,7 @@
 			if(!length(contained_items))
 				to_chat(user, span_warn("Nothing to retrieve from inside."))
 				return
-			if(length(contained_items) > 1)
+			if(length(contained_items) > 1 && tongs.auto_collect)
 				for(var/obj/item/I in contained_items)
 					var/delay = 1 SECONDS
 					delay -= (user.STASPD - 10)
@@ -85,8 +85,9 @@
 						user.visible_message(span_info("[user] retrieves \the [I] from \the [src]."), span_info("You retrieve \the [I] from \the [src]."))
 						I.forceMove(get_turf(user))
 						playsound(user, pick('sound/items/ingot_collect1.ogg', 'sound/items/ingot_collect2.ogg'), 100, TRUE)
-					if(user.mind && isliving(user) && tongs.hingot?.smeltresult)
-						if(!istype(tongs.hingot, /obj/item/rogueore) && tongs.hingot?.smelted)
+					if(user.mind && isliving(user) && istype(I, /obj/item/ingot))
+						var/obj/item/ingot/ING = I
+						if(ING.smelted)
 							var/mob/living/L = user
 							user.mind.add_sleep_experience(/datum/skill/craft/smelting, L.STAINT * 2, FALSE)
 			else

@@ -406,6 +406,7 @@
 	force = 5
 	smeltresult = null
 	max_integrity = 15
+	auto_collect = FALSE
 
 /obj/item/rogueweapon/tongs/stone/update_icon()
 	. = ..()
@@ -426,6 +427,7 @@
 	max_integrity = 10
 	color = "#bb9696"
 	sellprice = 5
+	auto_collect = FALSE
 
 /obj/item/rogueweapon/tongs/aalloy/update_icon()
 	. = ..()
@@ -446,6 +448,7 @@
 	icon = 'icons/roguetown/weapons/tools.dmi'
 	force = 14
 	max_integrity = 300
+	auto_collect = TRUE
 
 /obj/item/rogueweapon/tongs/bronze/update_icon()
 	. = ..()
@@ -466,6 +469,7 @@
 	smeltresult = /obj/item/ingot/blacksteel
 	force = 20
 	max_integrity = 450
+	auto_collect = TRUE
 
 /obj/item/rogueweapon/tongs/blacksteel/update_icon()
 	. = ..()
