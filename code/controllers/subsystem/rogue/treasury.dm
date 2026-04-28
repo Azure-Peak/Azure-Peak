@@ -373,6 +373,8 @@ SUBSYSTEM_DEF(treasury)
 		grant_estate_income(welfare_dependant, noble_incomes[welfare_dependant])
 
 /datum/controller/subsystem/treasury/proc/distribute_daily_payments()
+	if(!discretionary_fund)
+		return
 	if(!steward_machine || !steward_machine.daily_payments || !steward_machine.daily_payments.len)
 		return
 
