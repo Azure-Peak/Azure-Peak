@@ -66,20 +66,35 @@
 			if(!length(contained_items))
 				to_chat(user, span_warn("Nothing to retrieve from inside."))
 				return
-			var/obj/item/item_to_remove = contained_items[contained_items.len]
-			contained_items -= item_to_remove
-			item_to_remove.forceMove(tongs)
-			tongs.hingot = item_to_remove
-			if(user.mind && isliving(user) && tongs.hingot?.smeltresult) // Prevents an exploit with coal and runtimes with everything else
-				if(!istype(tongs.hingot, /obj/item/rogueore) && tongs.hingot?.smelted) // Burning items to ash won't level smelting.
-					var/mob/living/L = user
-					user.mind.add_sleep_experience(/datum/skill/craft/smelting, L.STAINT * 2, FALSE)// Smelting is already a timesink, this is justified to accelerate levelling
-			user.visible_message(span_info("[user] retrieves \the [item_to_remove] from \the [src]."), span_info("You retrieve \the [item_to_remove] from \the [src]."))
-			if(on)
-				var/tyme = world.time
-				tongs.hott = tyme
-				addtimer(CALLBACK(tongs, TYPE_PROC_REF(/obj/item/rogueweapon/tongs, make_unhot), tyme), 20 SECONDS)
-			tongs.update_icon()
+			if(length(contained_items) > 1)
+				for(var/obj/item/I in contained_items)
+					var/delay = 1 SECONDS
+					delay -= (user.STASPD - 10)
+					delay -= (user.STASTR - 10)
+					delay = max(0.2 SECONDS, delay)
+					if(do_after(user, delay, TRUE, src))
+						user.visible_message(span_info("[user] retrieves \the [I] from \the [src]."), span_info("You retrieve \the [I] from \the [src]."))
+						I.forceMove(get_turf(user))
+						playsound(user, pick('sound/items/ingot_collect1.ogg', 'sound/items/ingot_collect2.ogg'), 100, TRUE)
+					if(user.mind && isliving(user) && tongs.hingot?.smeltresult)
+						if(!istype(tongs.hingot, /obj/item/rogueore) && tongs.hingot?.smelted)
+							var/mob/living/L = user
+							user.mind.add_sleep_experience(/datum/skill/craft/smelting, L.STAINT * 2, FALSE)
+			else
+				var/obj/item/item_to_remove = contained_items[contained_items.len]
+				contained_items -= item_to_remove
+				item_to_remove.forceMove(tongs)
+				tongs.hingot = item_to_remove
+				if(user.mind && isliving(user) && tongs.hingot?.smeltresult) // Prevents an exploit with coal and runtimes with everything else
+					if(!istype(tongs.hingot, /obj/item/rogueore) && tongs.hingot?.smelted) // Burning items to ash won't level smelting.
+						var/mob/living/L = user
+						user.mind.add_sleep_experience(/datum/skill/craft/smelting, L.STAINT * 2, FALSE)// Smelting is already a timesink, this is justified to accelerate levelling
+				user.visible_message(span_info("[user] retrieves \the [item_to_remove] from \the [src]."), span_info("You retrieve \the [item_to_remove] from \the [src]."))
+				if(on)
+					var/tyme = world.time
+					tongs.hott = tyme
+					addtimer(CALLBACK(tongs, TYPE_PROC_REF(/obj/item/rogueweapon/tongs, make_unhot), tyme), 20 SECONDS)
+				tongs.update_icon()
 		return
 
 	if(istype(attacking_item, /obj/item/rogueweapon/hammer))

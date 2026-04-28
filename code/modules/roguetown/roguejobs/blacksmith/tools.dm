@@ -317,16 +317,25 @@
 	grid_width = 32
 	grid_height = 64
 	is_tool = TRUE
+	var/auto_collect = TRUE
 
 /obj/item/rogueweapon/tongs/get_mechanics_examine(mob/user)
 	. = ..()
 	. += span_info("Left-click an ingot to pick it up. When an ingot is held by the tongs, left-clicking a forge will heat it up. Heated-up ingots can then be placed on an anvil and struck with a hammer to smith various items.")
 	. += span_info("Activate in your hand to drop the picked-up ingot.")
+	. += span_info("Right click to toggle auto collection of multiple ingots from furnaces.")
 
 /obj/item/rogueweapon/tongs/examine(mob/user)
 	. = ..()
 	if(hott)
 		. += span_warning("The tip is hot to the touch.")
+	if(auto_collect)
+		. += span_notice("It is set to auto collect multiple ingots from furnaces.")
+
+/obj/item/rogueweapon/tongs/attack_right(mob/user)
+	auto_collect = !auto_collect
+	to_chat(user, span_notice("The tongs will [auto_collect ? "" : "no longer "]automatically collect from furnaces."))
+	. = ..()
 
 /obj/item/rogueweapon/tongs/get_temperature()
 	if(hott)
