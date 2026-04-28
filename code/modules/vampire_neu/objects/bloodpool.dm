@@ -350,7 +350,6 @@
 			for(var/S in MOBSTATS)
 				lord_body.change_stat(S, 2)
 			ADD_TRAIT(lord_body, TRAIT_INFINITE_STAMINA, TRAIT_GENERIC) //I mean, you worked for it. You're now the OG vlord once more, go nuts! The lorde of mass-fragging once more.
-			ADD_TRAIT(lord_body, TRAIT_NOMOOD, TRAIT_GENERIC) //Why should I care for anything, when I am god?
 			lord_body.maxbloodpool += 1000
 			to_chat(user, span_danger("I AM ANCIENT, I AM THE LAND. EVEN THE SUN BOWS TO ME."))
 			to_chat(user, span_warning("I will no longer tire nor feel, stamina will no longer affect me.")) //Trait hints
