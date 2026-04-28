@@ -27,7 +27,31 @@ export const residentManuscriptEn: ResidentManuscriptTexts = {
       display_name: 'Artisan Guild Charter',
       subtitle: 'By Honest Hand and Bronze',
       description:
-        'Let it be known: the bearer is a recognized artisan of the city guilds, holding the right to honest work, fair price, and the standing of the masterly estate. The bearer is bound by guild oath and protected by guild law in matters of contract and trade.',
+        'Let it be known: the bearer is a recognized artisan of the Guild — that band of craftsmen sworn to Malum the Forgefather — holding the right to honest work, fair price, and the standing of the masterly estate. The bearer is bound by guild oath and protected by guild law in matters of contract and trade.',
+    },
+    merchant: {
+      display_name: 'Merchant Shop Charter',
+      subtitle: 'By the Coin and the Tusk',
+      description:
+        "Let it be known: the bearer is a sworn member of the Merchant Shop, the city's licensed house of trade, recognized in matters of fair sale, lawful contract, and the appraisal of treasures and lesser goods. The bearer is owed the courtesies due any honest burgher.",
+    },
+    mages: {
+      display_name: "Mage's Guild Patent",
+      subtitle: "Under the Duchy's Light, by Star and Sigil",
+      description:
+        "Let it be known: by the Duchy's licence and the seal of the Mage's Guild, the bearer is a recognized practitioner of potionmaking, summoning, and the bound arts of the Guild. None may obstruct the bearer in the lawful pursuit of the Guild's craft.",
+    },
+    inn: {
+      display_name: "Innkeep's Writ",
+      subtitle: 'By the Hearth and the Tankard',
+      description:
+        "Let it be known: the bearer is recognized as the Innkeep of the city's central inn, charged with the keeping of the hearth, the lawful sale of board and drink, and the safety of those who lodge beneath this roof.",
+    },
+    bathhouse: {
+      display_name: 'Bathhouse Patent',
+      subtitle: 'Beneath Steam and Lily',
+      description:
+        'Let it be known: the bearer is a recognized proprietor of the Bathhouse, granted leave by the Matron to keep the steam, scent, and lawful trade of the basement beneath the Inn, and to gather such custom as the Matron permits.',
     },
     commoner: {
       display_name: 'Commoner Manuscript',
@@ -111,6 +135,12 @@ export const residentManuscriptEn: ResidentManuscriptTexts = {
     guild_leader: { title: 'Guild Leader', stamper: 'Guild Leader' },
     inquisitor: { title: 'Inquisitor', stamper: 'Inquisitor' },
     court_magician: { title: 'Court Magician', stamper: 'Court Magician' },
+    merchant_master: {
+      title: 'Merchant Master',
+      stamper: 'Merchant Master',
+    },
+    innkeeper: { title: 'Innkeep', stamper: 'Innkeep' },
+    bathmaster: { title: 'Bathmaster', stamper: 'Bathmaster' },
   },
   description:
     "Let it be known: by the Crown's will and the Council's oversight, the bearer of this document is recognized as a lawful resident of these lands and stands beneath the shelter of common law. Every rank and office is charged to acknowledge the bearer as a faithful subject and to place no unjust obstacle in their path.",

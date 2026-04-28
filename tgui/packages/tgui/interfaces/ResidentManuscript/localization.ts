@@ -8,6 +8,10 @@ export type DocumentProfileId =
   | 'guards'
   | 'church'
   | 'craftsmen'
+  | 'merchant'
+  | 'mages'
+  | 'inn'
+  | 'bathhouse'
   | 'commoner'
   | 'mercenary'
   | 'otava';

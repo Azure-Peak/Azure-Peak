@@ -240,17 +240,72 @@ UNDER NO CIRCUMSTANCE SHOULD ANY OF THE BOOKS BE GIVEN OUT INTO SPAWNERS OR TO B
 /proc/get_resident_manuscript_ui_language(mob/user)
 	return user?.client?.get_preferred_ui_language() || DEFAULT_PREFERRED_UI_LANGUAGE
 
+/proc/give_roundstart_manuscript(mob/living/carbon/human/recipient, manuscript_type)
+	if(!ishuman(recipient) || !recipient.mind)
+		return FALSE
+	if(!ispath(manuscript_type, /obj/item/book/granter/resident_manuscript))
+		return FALSE
+	if(!recipient.mind.special_items)
+		recipient.mind.special_items = list()
+	for(var/existing_key in recipient.mind.special_items)
+		var/existing_path = recipient.mind.special_items[existing_key]
+		if(ispath(existing_path, /obj/item/book/granter/resident_manuscript))
+			return FALSE
+	recipient.mind.special_items[RESIDENT_MANUSCRIPT_SPECIAL_ITEM_NAME] = manuscript_type
+	return TRUE
+
+/// Virtue path. Caller has already added TRAIT_RESIDENT; this just stashes
+/// the matching manuscript so the player can retrieve it as identity proof.
 /proc/grant_roundstart_resident_manuscript(mob/living/carbon/human/recipient, manuscript_type = /obj/item/book/granter/resident_manuscript/roundstart)
 	if(!ishuman(recipient) || !recipient.mind)
 		return FALSE
 	if(!HAS_TRAIT(recipient, TRAIT_RESIDENT))
 		return FALSE
-	if(!recipient.mind.special_items)
-		recipient.mind.special_items = list()
-	if(recipient.mind.special_items[RESIDENT_MANUSCRIPT_SPECIAL_ITEM_NAME])
+	return give_roundstart_manuscript(recipient, manuscript_type)
+
+/// Maps a recipient's assigned role to the faction-default manuscript subtype.
+/// Returns null when the role has no obvious faction document — those callers
+/// (admin, cargo, virtue) supply their own type.
+/proc/get_default_manuscript_type_for_job(mob/living/carbon/human/recipient)
+	if(!recipient || !recipient.mind)
+		return null
+	var/job_title = recipient.job || recipient.mind.assigned_role
+	if(!job_title)
+		return null
+	if(job_title == "Merchant")
+		return /obj/item/book/granter/resident_manuscript/merchant
+	if(job_title == "Innkeeper")
+		return /obj/item/book/granter/resident_manuscript/inn
+	if(job_title == "Bathmaster")
+		return /obj/item/book/granter/resident_manuscript/bathhouse
+	if(job_title == "Court Magician" || job_title == "Magicians Associate")
+		return /obj/item/book/granter/resident_manuscript/mages
+	if(job_title == "Mercenary")
+		return /obj/item/book/granter/resident_manuscript/mercenary
+	if(job_title in GLOB.garrison_positions)
+		return /obj/item/book/granter/resident_manuscript/guards
+	if(job_title in GLOB.church_positions)
+		return /obj/item/book/granter/resident_manuscript/church
+	if(job_title in GLOB.inquisition_positions)
+		return /obj/item/book/granter/resident_manuscript/otava
+	if(job_title in GLOB.burgher_positions)
+		return /obj/item/book/granter/resident_manuscript/craftsmen
+	if(job_title in GLOB.peasant_positions)
+		return /obj/item/book/granter/resident_manuscript/commoner
+	if(job_title in GLOB.sidefolk_positions)
+		return /obj/item/book/granter/resident_manuscript/commoner
+	if(job_title in GLOB.wanderer_positions)
+		return /obj/item/book/granter/resident_manuscript/commoner
+	return null
+
+/// Optional outfit hook: places a faction-default manuscript into the
+/// recipient's stash if their role has one. Skips when another manuscript
+/// (virtue, admin, etc.) is already stashed.
+/proc/grant_roundstart_faction_manuscript(mob/living/carbon/human/recipient)
+	var/manuscript_type = get_default_manuscript_type_for_job(recipient)
+	if(!manuscript_type)
 		return FALSE
-	recipient.mind.special_items[RESIDENT_MANUSCRIPT_SPECIAL_ITEM_NAME] = manuscript_type
-	return TRUE
+	return give_roundstart_manuscript(recipient, manuscript_type)
 
 /proc/resident_manuscript_defect_keys()
 	return list(
@@ -363,6 +418,24 @@ UNDER NO CIRCUMSTANCE SHOULD ANY OF THE BOOKS BE GIVEN OUT INTO SPAWNERS OR TO B
 	title ="Court Magician"
 	stamper ="Court Magician"
 	job_types = list(/datum/job/roguetown/magician)
+
+/datum/resident_manuscript_seal_rule/merchant_master
+	key = "merchant_master"
+	title ="Merchant Master"
+	stamper ="Merchant Master"
+	job_types = list(/datum/job/roguetown/merchant)
+
+/datum/resident_manuscript_seal_rule/innkeeper
+	key = "innkeeper"
+	title ="Innkeep"
+	stamper ="Innkeep"
+	job_types = list(/datum/job/roguetown/innkeeper)
+
+/datum/resident_manuscript_seal_rule/bathmaster
+	key = "bathmaster"
+	title ="Bathmaster"
+	stamper ="Bathmaster"
+	job_types = list(/datum/job/roguetown/bathmaster)
 
 /proc/get_resident_manuscript_seal_rules()
 	var/static/list/seal_rules
@@ -957,3 +1030,51 @@ UNDER NO CIRCUMSTANCE SHOULD ANY OF THE BOOKS BE GIVEN OUT INTO SPAWNERS OR TO B
 /obj/item/book/granter/resident_manuscript/fake/otava
 	desc = "An Otavan edict whose provenance is best left unmentioned."
 	document_profile_id = "otava"
+
+/obj/item/book/granter/resident_manuscript/merchant
+	desc = "A Merchant Shop charter, recognizing the bearer's standing in trade and contract."
+	document_profile_id = "merchant"
+
+/obj/item/book/granter/resident_manuscript/blank/merchant
+	desc = "A blank Merchant Shop charter. Fill it with a feather, then bring it for the master's seal."
+	document_profile_id = "merchant"
+
+/obj/item/book/granter/resident_manuscript/fake/merchant
+	desc = "A Merchant Shop charter whose provenance is best left unmentioned."
+	document_profile_id = "merchant"
+
+/obj/item/book/granter/resident_manuscript/mages
+	desc = "A Mage's Guild patent, recognizing the bearer as a licensed practitioner under the Duchy."
+	document_profile_id = "mages"
+
+/obj/item/book/granter/resident_manuscript/blank/mages
+	desc = "A blank Mage's Guild patent. Fill it with a feather, then bring it for the Court Magician's seal."
+	document_profile_id = "mages"
+
+/obj/item/book/granter/resident_manuscript/fake/mages
+	desc = "A Mage's Guild patent whose provenance is best left unmentioned."
+	document_profile_id = "mages"
+
+/obj/item/book/granter/resident_manuscript/inn
+	desc = "An Innkeep's writ, attesting the bearer's lawful keeping of the central inn."
+	document_profile_id = "inn"
+
+/obj/item/book/granter/resident_manuscript/blank/inn
+	desc = "A blank Innkeep's writ. Fill it with a feather, then bring it for the Innkeep's seal."
+	document_profile_id = "inn"
+
+/obj/item/book/granter/resident_manuscript/fake/inn
+	desc = "An Innkeep's writ whose provenance is best left unmentioned."
+	document_profile_id = "inn"
+
+/obj/item/book/granter/resident_manuscript/bathhouse
+	desc = "A Bathhouse patent, granting the bearer leave to keep the steam, scent and trade beneath the inn."
+	document_profile_id = "bathhouse"
+
+/obj/item/book/granter/resident_manuscript/blank/bathhouse
+	desc = "A blank Bathhouse patent. Fill it with a feather, then bring it for the Bathmaster's seal."
+	document_profile_id = "bathhouse"
+
+/obj/item/book/granter/resident_manuscript/fake/bathhouse
+	desc = "A Bathhouse patent whose provenance is best left unmentioned."
+	document_profile_id = "bathhouse"

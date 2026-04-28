@@ -199,8 +199,8 @@ export const ResidentManuscript = () => {
 
   return (
     <Window
-      width={820}
-      height={900}
+      width={720}
+      height={680}
       title={profileTexts.display_name || texts.window_title}
       theme="grimoire"
     >
@@ -486,8 +486,215 @@ type DocumentCrestProps = {
   profileId: DocumentProfileId;
 };
 
+const PROFILE_EMBLEMS: Record<DocumentProfileId, ReactNode> = {
+  resident: (
+    <>
+      <path
+        className="ResidentManuscript__crestRay"
+        d="M48 28 L54 46 L72 46 L57 56 L62 74 L48 64 L34 74 L39 56 L24 46 L42 46 Z"
+      />
+      <rect
+        className="ResidentManuscript__crestEmblem"
+        x="32"
+        y="76"
+        width="32"
+        height="6"
+      />
+      <circle className="ResidentManuscript__crestGem" cx="34" cy="32" r="3" />
+      <circle className="ResidentManuscript__crestGem" cx="48" cy="22" r="3.5" />
+      <circle className="ResidentManuscript__crestGem" cx="62" cy="32" r="3" />
+    </>
+  ),
+  guards: (
+    <>
+      <path
+        className="ResidentManuscript__crestEmblem"
+        d="M48 24 L52 30 L52 78 L48 84 L44 78 L44 30 Z"
+      />
+      <path
+        className="ResidentManuscript__crestEmblem"
+        d="M30 36 L66 36 L66 42 L30 42 Z"
+      />
+      <path
+        className="ResidentManuscript__crestQuarter"
+        d="M22 56 L48 70 L74 56"
+        fill="none"
+      />
+      <circle className="ResidentManuscript__crestGem" cx="48" cy="34" r="3" />
+    </>
+  ),
+  church: (
+    <>
+      <circle
+        className="ResidentManuscript__crestEmblem"
+        cx="48"
+        cy="56"
+        r="14"
+      />
+      <path
+        className="ResidentManuscript__crestRay"
+        d="M48 24 L51 38 L45 38 Z M48 88 L51 74 L45 74 Z M16 56 L30 53 L30 59 Z M80 56 L66 53 L66 59 Z M26 34 L36 42 L32 46 Z M70 34 L60 42 L64 46 Z M26 78 L36 70 L32 66 Z M70 78 L60 70 L64 66 Z"
+      />
+      <circle className="ResidentManuscript__crestGem" cx="48" cy="56" r="5" />
+    </>
+  ),
+  craftsmen: (
+    <>
+      <path
+        className="ResidentManuscript__crestEmblem"
+        d="M22 78 L74 78 L74 72 L62 68 L34 68 L22 72 Z"
+      />
+      <rect
+        className="ResidentManuscript__crestEmblem"
+        x="30"
+        y="58"
+        width="36"
+        height="10"
+      />
+      <path
+        className="ResidentManuscript__crestRay"
+        d="M40 22 L60 22 L60 32 L52 38 L52 56 L44 56 L44 38 L40 32 Z"
+      />
+      <circle className="ResidentManuscript__crestGem" cx="48" cy="48" r="3" />
+    </>
+  ),
+  merchant: (
+    <>
+      <path
+        className="ResidentManuscript__crestEmblem"
+        d="M22 64 Q24 48 36 42 Q40 32 46 30 L56 28 Q62 30 66 36 Q72 40 74 50 L74 60 Q72 70 60 72 L28 72 Q22 70 22 64 Z"
+      />
+      <path
+        className="ResidentManuscript__crestEmblem"
+        d="M44 30 L42 22 L48 26 Z"
+      />
+      <path
+        className="ResidentManuscript__crestRay"
+        d="M70 38 L74 30 M68 44 L74 46"
+        fill="none"
+      />
+      <circle className="ResidentManuscript__crestGem" cx="62" cy="44" r="2" />
+    </>
+  ),
+  mages: (
+    <>
+      <path
+        className="ResidentManuscript__crestRay"
+        d="M48 22 L54 42 L74 42 L58 54 L64 74 L48 62 L32 74 L38 54 L22 42 L42 42 Z"
+      />
+      <ellipse
+        className="ResidentManuscript__crestEmblem"
+        cx="48"
+        cy="50"
+        rx="11"
+        ry="6"
+      />
+      <circle className="ResidentManuscript__crestGem" cx="48" cy="50" r="3" />
+    </>
+  ),
+  inn: (
+    <>
+      <path
+        className="ResidentManuscript__crestEmblem"
+        d="M30 36 L60 36 L62 70 Q62 76 56 76 L34 76 Q28 76 28 70 Z"
+      />
+      <path
+        className="ResidentManuscript__crestQuarter"
+        d="M62 44 Q72 44 72 56 Q72 68 62 68"
+        fill="none"
+      />
+      <path
+        className="ResidentManuscript__crestRay"
+        d="M30 36 Q34 28 38 32 Q42 26 46 32 Q50 26 54 32 Q58 28 60 36"
+        fill="none"
+      />
+      <circle className="ResidentManuscript__crestGem" cx="44" cy="56" r="2.5" />
+    </>
+  ),
+  bathhouse: (
+    <>
+      <path
+        className="ResidentManuscript__crestEmblem"
+        d="M48 22 Q56 38 56 50 Q56 64 48 70 Q40 64 40 50 Q40 38 48 22 Z"
+      />
+      <path
+        className="ResidentManuscript__crestRay"
+        d="M28 40 Q24 56 36 66 Q42 62 42 50 Q40 44 28 40 Z"
+      />
+      <path
+        className="ResidentManuscript__crestRay"
+        d="M68 40 Q72 56 60 66 Q54 62 54 50 Q56 44 68 40 Z"
+      />
+      <circle className="ResidentManuscript__crestGem" cx="48" cy="50" r="3" />
+    </>
+  ),
+  commoner: (
+    <>
+      <path
+        className="ResidentManuscript__crestEmblem"
+        d="M48 26 L48 80"
+        fill="none"
+      />
+      <path
+        className="ResidentManuscript__crestRay"
+        d="M48 28 Q42 32 42 38 Q44 34 48 34 Q52 34 54 38 Q54 32 48 28 Z"
+      />
+      <path
+        className="ResidentManuscript__crestRay"
+        d="M48 40 Q40 44 38 52 Q42 48 48 48 Q54 48 58 52 Q56 44 48 40 Z"
+      />
+      <path
+        className="ResidentManuscript__crestRay"
+        d="M48 52 Q38 56 34 66 Q40 62 48 62 Q56 62 62 66 Q58 56 48 52 Z"
+      />
+      <circle className="ResidentManuscript__crestGem" cx="48" cy="76" r="3" />
+    </>
+  ),
+  mercenary: (
+    <>
+      <path
+        className="ResidentManuscript__crestEmblem"
+        d="M30 30 L48 18 L66 30 L66 50 L60 64 L72 76 L48 70 L24 76 L36 64 L30 50 Z"
+      />
+      <path
+        className="ResidentManuscript__crestQuarter"
+        d="M40 38 L42 42 L40 46 Z M56 38 L54 42 L56 46 Z"
+        fill="none"
+      />
+      <path
+        className="ResidentManuscript__crestRay"
+        d="M44 54 L48 60 L52 54 L51 60 L45 60 Z"
+      />
+      <circle className="ResidentManuscript__crestGem" cx="42" cy="42" r="1.5" />
+      <circle className="ResidentManuscript__crestGem" cx="54" cy="42" r="1.5" />
+    </>
+  ),
+  otava: (
+    <>
+      <path
+        className="ResidentManuscript__crestEmblem"
+        d="M28 56 L36 78 L60 78 L68 56 L66 44 L30 44 Z"
+      />
+      <path
+        className="ResidentManuscript__crestRay"
+        d="M48 18 Q56 30 50 40 Q44 32 48 18 Z"
+      />
+      <path
+        className="ResidentManuscript__crestRay"
+        d="M40 24 Q46 34 42 42 Q38 34 40 24 Z"
+      />
+      <path
+        className="ResidentManuscript__crestRay"
+        d="M56 24 Q54 34 56 42 Q60 34 56 24 Z"
+      />
+      <circle className="ResidentManuscript__crestGem" cx="48" cy="62" r="3" />
+    </>
+  ),
+};
+
 const DocumentCrest = (props: DocumentCrestProps) => {
   const { profileId } = props;
+  const emblem = PROFILE_EMBLEMS[profileId] ?? PROFILE_EMBLEMS.resident;
 
   return (
     <svg
@@ -502,15 +709,7 @@ const DocumentCrest = (props: DocumentCrestProps) => {
         className="ResidentManuscript__crestShield"
         d="M48 8 L82 20 V52 C82 76 67 94 48 104 C29 94 14 76 14 52 V20 Z"
       />
-      <path
-        className="ResidentManuscript__crestQuarter"
-        d="M48 12 V98 M18 52 H78"
-      />
-      <path
-        className="ResidentManuscript__crestRay"
-        d="M48 26 L55 49 L76 49 L59 62 L66 86 L48 72 L30 86 L37 62 L20 49 L41 49 Z"
-      />
-      <circle className="ResidentManuscript__crestGem" cx="48" cy="56" r="8" />
+      {emblem}
     </svg>
   );
 };

@@ -90,6 +90,7 @@
 			if(check_crownlist(H.ckey))
 				H.mind.special_items["Champion Circlet"] = /obj/item/clothing/head/roguetown/crown/sparrowcrown
 			give_special_items(H)
+			grant_roundstart_faction_manuscript(H)
 		// Ensure Wretches are granted their antagonist datum at post-equip
 		if(H.mind.assigned_role == "Wretch" && !H.mind.has_antag_datum(/datum/antagonist/wretch))
 			H.mind.add_antag_datum(/datum/antagonist/wretch)

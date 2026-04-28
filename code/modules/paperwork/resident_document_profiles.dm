@@ -70,12 +70,56 @@
 	display_name = "Commoner Manuscript"
 	subtitle = "Under the Common Law"
 	description = "Let it be known: the bearer is recognized as a lawful commoner of these lands, neither titled nor accused. No high authority is invoked -- only the shelter of the common law."
-	allowed_seals = list("court_magician")
+	allowed_seals = list()
 	paper_color = "#d2bd91"
 	ink_color = "#312215"
 	accent_color = "#806344"
 	seal_color = "#6a3b28"
 	requires_seal_for_claim = FALSE
+
+/datum/resident_document_profile/merchant
+	id = "merchant"
+	display_name = "Merchant Shop Charter"
+	subtitle = "By the Coin and the Tusk"
+	description = "Let it be known: the bearer is a sworn member of the Merchant Shop, recognized in matters of trade, contract and lawful sale, and is owed the courtesies of the burgher estate."
+	allowed_seals = list("merchant_master", "chancellor")
+	paper_color = "#e0c79a"
+	ink_color = "#2a1a10"
+	accent_color = "#a35c2a"
+	seal_color = "#7e2418"
+
+/datum/resident_document_profile/mages
+	id = "mages"
+	display_name = "Mage's Guild Patent"
+	subtitle = "Under the Duchy's Light, by Star and Sigil"
+	description = "Let it be known: by the Duchy's licence and the seal of the Mage's Guild, the bearer is a recognized practitioner of potionmaking, summoning, and the arts of the Guild, bound to its compact and protected by its accord."
+	allowed_seals = list("court_magician")
+	paper_color = "#dccdde"
+	ink_color = "#1c1226"
+	accent_color = "#6a4490"
+	seal_color = "#3d1d5a"
+
+/datum/resident_document_profile/inn
+	id = "inn"
+	display_name = "Innkeep's Writ"
+	subtitle = "By the Hearth and the Tankard"
+	description = "Let it be known: the bearer is recognized as the Innkeep of the city's central inn, charged with the keeping of the hearth, the lawful sale of board and drink, and the safety of those who lodge beneath this roof."
+	allowed_seals = list("innkeeper")
+	paper_color = "#e7caa0"
+	ink_color = "#2a1a10"
+	accent_color = "#b67b3a"
+	seal_color = "#7c3920"
+
+/datum/resident_document_profile/bathhouse
+	id = "bathhouse"
+	display_name = "Bathhouse Patent"
+	subtitle = "Beneath Steam and Lily"
+	description = "Let it be known: the bearer is a recognized proprietor of the Bathhouse, granted leave to keep the steam, scent, and trade of the basement under the Inn, and to gather such custom as the Matron permits."
+	allowed_seals = list("bathmaster")
+	paper_color = "#e6c9d6"
+	ink_color = "#2a1626"
+	accent_color = "#a85878"
+	seal_color = "#6e2a48"
 
 /datum/resident_document_profile/mercenary
 	id = "mercenary"
