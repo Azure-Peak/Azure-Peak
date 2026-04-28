@@ -148,6 +148,9 @@
 			<li><b>Requests</b> - daily quota of [COMMISSION_REQUESTS_PER_DAY] reward-less commissions, Steward-only.</li>
 		</ul>
 
+		<h3>Issue Authority</h3>
+		<p>In addition to the Steward, the Hand, Councillor, Grand Duke / Regent, Marshal and Clerk may also put out commissions and contracts.</p>
+
 		<h3>Direct Commission vs Board:</h3>
 		<p>A commission can be posted to the Grand Contract Ledger, or given directly to a bearer. Posting to the board allows anyone to take it, and follow the Fellowship limit for any party taking it. Handing it directly to a bearer is faster and more certain, but risks it being ignored or wasted on someone who can't complete it. The Steward may not take and claim a scroll they have issued themselves.</p>
 
