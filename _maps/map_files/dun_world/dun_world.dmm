@@ -7932,10 +7932,6 @@
 /obj/structure/table/wood/long_table/mid/alt,
 /turf/open/floor/carpet/royalblack,
 /area/rogue/indoors/town/magician)
-"bHo" = (
-/obj/structure/dungeon_entry/center,
-/turf/closed/mineral/random/rogue,
-/area/rogue/outdoors/mountains/decap)
 "bHq" = (
 /obj/structure/rack/rogue{
 	density = 0;
@@ -15004,6 +15000,9 @@
 /mob/living/simple_animal/hostile/rogue/skeleton/bow,
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/under/underdark/north)
+"dfg" = (
+/turf/open/floor/rogue/cobble,
+/area/rogue/outdoors/woods/southwest)
 "dfi" = (
 /obj/structure/flora/roguetree/burnt,
 /turf/open/floor/rogue/grass,
@@ -21900,6 +21899,10 @@
 	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town)
+"eyw" = (
+/obj/structure/dungeon_entry/center,
+/turf/open/floor/rogue/cobble,
+/area/rogue/indoors/cave)
 "eyz" = (
 /obj/item/reagent_containers/glass/bucket/pot/aalloy,
 /obj/structure/table/wood/poor,
@@ -22969,6 +22972,10 @@
 /obj/machinery/light/rogue/candle/r,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/indoors/town/magician)
+"eKq" = (
+/obj/machinery/light/rogue/firebowl/standing/blue,
+/turf/open/floor/rogue/cobble,
+/area/rogue/outdoors/woods/southwest)
 "eKx" = (
 /obj/structure/closet/crate/drawer,
 /turf/open/floor/rogue/wood,
@@ -32027,10 +32034,6 @@
 	},
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/outdoors/beach/forest/north)
-"gBY" = (
-/obj/machinery/light/rogue/firebowl/standing/blue,
-/turf/open/floor/rogue/cobble,
-/area/rogue/outdoors/mountains/decap)
 "gCc" = (
 /obj/structure/flora/roguegrass/herb/salvia,
 /turf/open/floor/rogue/grassred,
@@ -52493,6 +52496,10 @@
 /obj/structure/fluff/railing/border/north,
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/pestra_sanctum)
+"kDs" = (
+/obj/machinery/light/rogue/firebowl/standing/blue,
+/turf/open/floor/rogue/cobble,
+/area/rogue/indoors/cave)
 "kDw" = (
 /obj/structure/mineral_door/wood/fancywood{
 	locked = 1;
@@ -287288,8 +287295,8 @@ tsB
 tsB
 tsB
 qPv
-qPv
-qPv
+juE
+kDs
 fBu
 oYH
 pzM
@@ -287740,8 +287747,8 @@ tsB
 tsB
 tsB
 qPv
-qPv
-lmS
+juE
+dfg
 oYH
 oYH
 oYH
@@ -288192,8 +288199,8 @@ tsB
 tsB
 tsB
 qPv
-qPv
-lmS
+eyw
+dfg
 vYg
 oYH
 oYH
@@ -288644,8 +288651,8 @@ tsB
 tsB
 tsB
 qPv
-qPv
-vYg
+juE
+dfg
 uhp
 vYg
 oYH
@@ -289096,8 +289103,8 @@ tsB
 tsB
 qPv
 qPv
-qPv
-vYg
+juE
+eKq
 vYg
 fBu
 oYH
@@ -483351,8 +483358,8 @@ fyh
 wHi
 wHi
 oyf
-gBY
-kFV
+oyf
+oyf
 evU
 eAq
 fRR
@@ -483803,8 +483810,8 @@ fyh
 wHi
 wHi
 oyf
-kFV
-kFV
+oyf
+oyf
 eAq
 eAq
 eAq
@@ -484254,9 +484261,9 @@ fyh
 fyh
 wHi
 wHi
-bHo
-kFV
-kFV
+oyf
+oyf
+oyf
 eAq
 eAq
 eAq
@@ -484707,8 +484714,8 @@ fyh
 wHi
 oyf
 oyf
-kFV
-kFV
+oyf
+oyf
 eAq
 eAq
 eAq
@@ -485159,8 +485166,8 @@ frU
 wHi
 oyf
 oyf
-gBY
-kFV
+oyf
+oyf
 evU
 eAq
 eAq
