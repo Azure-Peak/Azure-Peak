@@ -4,6 +4,13 @@
 #define INTERVAL_ONE 3 SECONDS
 #define INTERVAL_TWO 6 SECONDS
 #define INTERVAL_THREE 10 SECONDS
+#define SAFETY_LOOPS_ONE 30
+#define SAFETY_LOOPS_TWO 20
+#define SAFETY_LOOPS_THREE 10
+
+// Component that replaced a spammable spell datum. It auto-refreshes and highlights relevant turfs in a range.
+// Gives the user two verbs to toggle it on / off and to change its range.
+// Has an auto-shutdown feature after a certain amount of blank pulses.
 
 /datum/component/ore_sight
 	var/current_choice_index = 1
@@ -19,6 +26,11 @@
 		INTERVAL_ONE,
 		INTERVAL_TWO,
 		INTERVAL_THREE
+	)
+	var/static/list/lsafetyloops = list(
+		SAFETY_LOOPS_ONE,
+		SAFETY_LOOPS_TWO,
+		SAFETY_LOOPS_THREE
 	)
 	var/is_active = FALSE
 	var/safety_count = 0
@@ -61,7 +73,7 @@
 			if(fxtype)
 				stuff_found = TRUE
 				new fxtype(get_turf(T))
-	for(var/obj/item/natural/rock/boulder in get_hear(range, origin))
+	for(var/obj/item/natural/rock/boulder in get_hear(range, origin))	// We detect boulders and their contents, too.
 		if(boulder)
 			var/obj/effect/temp_visual/fxtype
 			switch(boulder.type)
@@ -79,7 +91,7 @@
 		safety_count++
 	else
 		safety_count = 0
-	if(safety_count >= 6)
+	if(safety_count >= lsafetyloops[current_choice_index])
 		safety_count = 0
 		toggle(force_off = TRUE)
 
@@ -91,11 +103,11 @@
 	var/msg
 	switch(current_choice_index)
 		if(1)
-			msg = "Shortest range (3 tiles), quickest refresh (3 seconds)."
+			msg = "Shortest range ([RANGE_ORE_ONE] tiles), quickest refresh ([(INTERVAL_ONE / 10)] seconds)."
 		if(2)
-			msg = "Medium range (5 tiles), medium refresh (6 seconds)."
+			msg = "Medium range ([RANGE_ORE_TWO] tiles), medium refresh ([(INTERVAL_TWO / 10)] seconds)."
 		if(3)
-			msg = "Maximum range (7 tiles), longest refresh (10 seconds)."
+			msg = "Maximum range ([RANGE_ORE_THREE] tiles), longest refresh ([(INTERVAL_THREE / 10)] seconds)."
 	var/mob/M = parent
 	to_chat(M, span_notice(msg))
 	range = lranges[current_choice_index]
@@ -105,16 +117,19 @@
 	if(force_off)
 		is_active = FALSE
 		STOP_PROCESSING(SSdcs, src)
-		var/mob/M = parent
-		to_chat(M, span_info("No viable rocks detected for several cycles. Switching ore sight off to prevent undue lag."))
+		var/mob/living/L = parent
+		L.remove_status_effect(/datum/status_effect/buff/oresight)
+		to_chat(L, span_info("No viable rocks detected for several cycles. Switching ore sight off to prevent undue lag."))
 		return
 	is_active = !is_active
 	var/msg = span_notice("Toggling Ore Sight [is_active ? "ON" : "OFF"].")
-	var/mob/M = parent
-	to_chat(M, msg)
+	var/mob/living/L = parent
+	to_chat(L, msg)
 	if(is_active)
+		L.apply_status_effect(/datum/status_effect/buff/oresight)
 		START_PROCESSING(SSdcs, src)
 	else
+		L.remove_status_effect(/datum/status_effect/buff/oresight)
 		STOP_PROCESSING(SSdcs, src)
 
 /obj/effect/temp_visual/medqualityore
@@ -163,3 +178,6 @@
 #undef INTERVAL_ONE
 #undef INTERVAL_TWO
 #undef INTERVAL_THREE
+#undef SAFETY_LOOPS_ONE
+#undef SAFETY_LOOPS_TWO
+#undef SAFETY_LOOPS_THREE
