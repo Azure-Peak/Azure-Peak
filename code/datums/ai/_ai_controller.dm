@@ -227,6 +227,8 @@ have ways of interacting with a specific atom and control it. They posses a blac
 		return FALSE
 
 	var/mob/living/living_pawn = pawn
+	if(final_target == living_pawn)
+		return FALSE
 	if(nextmove && living_pawn.next_move > world.time)
 		return FALSE
 

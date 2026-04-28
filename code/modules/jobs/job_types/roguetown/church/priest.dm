@@ -50,6 +50,7 @@ GLOBAL_LIST_EMPTY(heretical_players)
 	outfit = /datum/outfit/job/roguetown/priest/basic
 	subclass_languages = list(/datum/language/grenzelhoftian)
 	category_tags = list(CTAG_BISHOP)
+	traits_applied = list(TRAIT_ALCHEMY_EXPERT)
 	subclass_stats = list(
 		STATKEY_INT = 4,
 		STATKEY_WIL = 2,

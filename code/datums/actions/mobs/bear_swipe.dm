@@ -10,6 +10,8 @@
 	var/swipe_damage = 40
 
 /datum/action/cooldown/mob_cooldown/bear_swipe/Activate(atom/target)
+	if(!target || target == owner)
+		return FALSE
 	var/dist = get_dist(owner, target)
 	if(can_see(owner, target, range) && dist < range && dist <= 1) //can see, in range and adjacent
 		owner.visible_message(span_boldwarning("[owner] rears up to swipe at [target]!"))
@@ -18,6 +20,8 @@
 	return TRUE
 
 /datum/action/cooldown/mob_cooldown/bear_swipe/proc/do_swipe(atom/target, mob/living/L)
+	if(!target || target == owner || QDELETED(target))
+		return
 	var/dist = get_dist(owner, target)
 	if(can_see(owner, target, range) && dist < range && dist <= 1)
 		playsound(owner.loc, 'sound/combat/shieldraise.ogg', 100)

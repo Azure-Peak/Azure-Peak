@@ -1,0 +1,4 @@
+author: "VanessaCoding"
+delete-after: True
+changes:
+  - rscadd: "Chiseling and sawing now keeps going until the turf with the item you targetted runs out of the item."

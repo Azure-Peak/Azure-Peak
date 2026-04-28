@@ -190,6 +190,7 @@
 			H.equip_to_slot_or_del(new /obj/item/clothing/neck/roguetown/psicross/pestra, SLOT_RING, TRUE)
 			H.equip_to_slot_or_del(new /obj/item/clothing/cloak/templar/pestran, SLOT_CLOAK, TRUE)
 			ADD_TRAIT(H, TRAIT_NOSTINK, TRAIT_GENERIC)
+			ADD_TRAIT(H, TRAIT_ALCHEMY_EXPERT, TRAIT_GENERIC)
 			H.adjust_skillrank_up_to(/datum/skill/misc/medicine, 2, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/craft/alchemy, 2, TRUE)
 		if(/datum/patron/divine/eora)
@@ -201,6 +202,7 @@
 		if(/datum/patron/divine/noc)
 			H.equip_to_slot_or_del(new /obj/item/clothing/neck/roguetown/psicross/noc, SLOT_RING, TRUE)
 			H.equip_to_slot_or_del(new /obj/item/clothing/cloak/tabard/crusader/noc, SLOT_CLOAK, TRUE)
+			ADD_TRAIT(H, TRAIT_ALCHEMY_EXPERT, TRAIT_GENERIC)
 			H.adjust_skillrank(/datum/skill/misc/reading, 3, TRUE) // Really good at reading... does this really do anything? No. BUT it's soulful.
 			H.adjust_skillrank(/datum/skill/craft/alchemy, 1, TRUE)
 			H.adjust_skillrank(/datum/skill/magic/arcane, 1, TRUE)
@@ -413,6 +415,7 @@
 		if(/datum/patron/divine/pestra)
 			H.equip_to_slot_or_del(new /obj/item/clothing/neck/roguetown/psicross/pestra, SLOT_RING, TRUE)
 			ADD_TRAIT(H, TRAIT_NOSTINK, TRAIT_GENERIC)
+			ADD_TRAIT(H, TRAIT_ALCHEMY_EXPERT, TRAIT_GENERIC)
 			H.adjust_skillrank_up_to(/datum/skill/misc/medicine, 2, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/craft/alchemy, 2, TRUE)
 		if(/datum/patron/divine/eora)
@@ -421,6 +424,7 @@
 			ADD_TRAIT(H, TRAIT_EMPATH, TRAIT_GENERIC)
 		if(/datum/patron/divine/noc)
 			H.equip_to_slot_or_del(new /obj/item/clothing/neck/roguetown/psicross/noc, SLOT_RING, TRUE)
+			ADD_TRAIT(H, TRAIT_ALCHEMY_EXPERT, TRAIT_GENERIC)
 			H.adjust_skillrank(/datum/skill/misc/reading, 3, TRUE) // Really good at reading... does this really do anything? No. BUT it's soulful.
 			H.adjust_skillrank(/datum/skill/craft/alchemy, 1, TRUE)
 			H.adjust_skillrank(/datum/skill/magic/arcane, 1, TRUE)

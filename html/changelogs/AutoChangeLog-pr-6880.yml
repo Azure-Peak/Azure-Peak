@@ -1,6 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - rscadd: "Animals should now find food and eat them properly"
-  - rscadd: "All farm animals but goats cannot climb over structure now."
-  - rscadd: "Added a cooldown to climbing so that hopefully AI get stuck on climbing over and over railing less"

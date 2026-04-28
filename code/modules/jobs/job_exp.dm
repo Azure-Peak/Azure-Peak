@@ -47,25 +47,28 @@ GLOBAL_PROTECT(exp_to_update)
 	return TRUE
 
 /client/proc/calc_exp_type(exptype)
-	var/list/explist = prefs.exp.Copy()
-	var/amount = 0
 	var/list/typelist = GLOB.exp_jobsmap[exptype]
 	if(!typelist)
 		return -1
+	var/amount = 0
 	for(var/job in typelist["titles"])
-		if(job in explist)
-			amount += explist[job]
+		if(job in prefs.exp)
+			amount += prefs.exp[job]
 	return amount
+
+/client/proc/get_exp_records()
+	var/list/play_records = prefs.exp
+	if(play_records.len)
+		return play_records
+	set_exp_from_db()
+	return prefs.exp
 
 /client/proc/get_exp_report()
 	if(!CONFIG_GET(flag/use_exp_tracking))
 		return "Tracking is disabled in the server configuration file."
-	var/list/play_records = prefs.exp
+	var/list/play_records = get_exp_records()
 	if(!play_records.len)
-		set_exp_from_db()
-		play_records = prefs.exp
-		if(!play_records.len)
-			return "[key] has no records."
+		return "[key] has no records."
 	var/return_text = list()
 	return_text += "<UL>"
 	var/list/exp_data = list()
@@ -121,6 +124,115 @@ GLOBAL_PROTECT(exp_to_update)
 		return_text += "</LI></UL>"
 	return return_text
 
+/client/proc/get_exp_breakdown()
+	if(!CONFIG_GET(flag/use_exp_tracking))
+		return "Tracking is disabled in the server configuration file."
+	var/list/play_records = get_exp_records()
+	if(!play_records.len)
+		return "[key] has no records."
+
+	var/list/return_text = list()
+	var/living_minutes = text2num(play_records[EXP_TYPE_LIVING])
+	var/ghost_minutes = text2num(play_records[EXP_TYPE_GHOST])
+	var/antag_minutes = 0
+	var/role_max = 0
+	var/page_size = 5
+	var/list/role_records = list()
+	var/list/antag_roles = GLOB.exp_specialmap[EXP_TYPE_ANTAG]
+	var/list/excluded = GLOB.exp_jobsmap.Copy()
+	excluded |= GLOB.exp_specialmap.Copy()
+	excluded += EXP_TYPE_ADMIN
+
+	for(var/antag_role in antag_roles)
+		antag_minutes += text2num(play_records[antag_role])
+
+	for(var/role_name in play_records)
+		if(role_name in excluded)
+			continue
+		var/role_minutes = text2num(play_records[role_name])
+		if(role_minutes <= 0)
+			continue
+		role_records[role_name] = role_minutes
+		role_max = max(role_max, role_minutes)
+
+	if(role_records.len > 1)
+		sortTim(role_records, cmp = /proc/cmp_numeric_dsc, associative = TRUE)
+	var/page_total = max(1, ceil(role_records.len / page_size))
+
+	return_text += {"
+	<style>
+		html, body { margin: 0; padding: 0; background: black; color: #e3c06f; }
+		.playtime-shell { font-family: Verdana, sans-serif; color: #e3c06f; background: black; padding: 14px; }
+		.playtime-title { margin: 0 0 12px 0; font-size: 20px; color: #a36c63; letter-spacing: 1px; }
+		.playtime-table { width: 100%; border-collapse: collapse; margin-bottom: 14px; background: #080808; }
+		.playtime-table th, .playtime-table td { padding: 8px 10px; border: 1px solid #511111; }
+		.playtime-table th { text-align: left; background: #160909; color: #a36c63; }
+		.playtime-table td.value { text-align: right; white-space: nowrap; }
+		.playtime-divider { height: 1px; margin: 10px 0 12px 0; background: #511111; }
+		.playtime-empty { padding: 12px; background: #080808; border: 1px solid #511111; color: #e3c06f; }
+		.playtime-nav { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin: 0 0 10px 0; }
+		.playtime-nav-controls { display: flex; gap: 8px; }
+		.playtime-nav-link { display: inline-block; padding: 6px 10px; background: #160909; border: 1px solid #511111; color: #a36c63; text-decoration: none; }
+		.playtime-nav-link:hover { background: #220d0d; }
+		.playtime-nav-label { color: #a36c63; font-size: 12px; }
+		.playtime-bar-track { width: 100%; height: 18px; background: #050505; border: 1px solid #511111; position: relative; }
+		.playtime-bar-fill { height: 100%; background: linear-gradient(90deg, #4c1212 0%, #7a2323 100%); }
+		.playtime-bar-fill.antag { background: linear-gradient(90deg, #5c0c0c 0%, #8a1d1d 100%); }
+		.playtime-bar-label { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: bold; color: #e3c06f; text-shadow: 0 1px 2px #000000; }
+	</style>
+	<script type='text/javascript'>
+		var playtimeCurrentPage = 1;
+		var playtimeTotalPages = [page_total];
+		function showPlaytimePage(page) {
+			if (page < 1 || page > playtimeTotalPages) {
+				return false;
+			}
+			playtimeCurrentPage = page;
+			var rows = document.getElementsByClassName('playtime-role-row');
+			for (var i = 0; i < rows.length; i++) {
+				rows.item(i).style.display = rows.item(i).getAttribute('data-page') == String(page) ? 'table-row' : 'none';
+			}
+			var label = document.getElementById('playtime-page-label');
+			if (label) {
+				label.innerHTML = 'Page ' + page + ' / ' + playtimeTotalPages;
+			}
+			return false;
+		}
+	</script>
+	<div class='playtime-shell'>
+		<h2 class='playtime-title'>PLAYTIME</h2>
+		<table class='playtime-table'>
+			<tr><th>Category</th><th>Hours</th></tr>
+			<tr><td>Living</td><td class='value'>[get_exp_hours_format(living_minutes)]h</td></tr>
+			<tr><td>Ghost</td><td class='value'>[get_exp_hours_format(ghost_minutes)]h</td></tr>
+			<tr><td>Antagonist</td><td class='value'>[get_exp_hours_format(antag_minutes)]h</td></tr>
+		</table>
+		<div class='playtime-divider'></div>
+	"}
+
+	if(role_records.len)
+		if(page_total > 1)
+			return_text += "<div class='playtime-nav'><div class='playtime-nav-controls'><a href='#' class='playtime-nav-link' onclick='return showPlaytimePage(playtimeCurrentPage - 1);'>&lt;</a><a href='#' class='playtime-nav-link' onclick='return showPlaytimePage(playtimeCurrentPage + 1);'>&gt;</a></div><div class='playtime-nav-label' id='playtime-page-label'>Page 1 / [page_total]</div></div>"
+		return_text += "<table class='playtime-table'><tr><th style='width:100%'>Time (Hrs)</th></tr>"
+		var/role_i = 0
+		for(var/role_name in role_records)
+			role_i++
+			var/role_minutes = role_records[role_name]
+			var/page_no = ceil(role_i / page_size)
+			var/bar_pct = role_max ? round((role_minutes / role_max) * 100, 1) : 0
+			var/is_antag = !!antag_roles[role_name]
+			var/bar_css = is_antag ? "playtime-bar-fill antag" : "playtime-bar-fill"
+			var/bar_text = "[role_name]  [get_exp_hours_format(role_minutes)]h"
+			var/show_row = page_no == 1 ? "table-row" : "none"
+			return_text += "<tr class='playtime-role-row' data-page='[page_no]' style='display: [show_row];'><td><div class='playtime-bar-track'><div class='[bar_css]' style='width: [bar_pct]%;'></div><div class='playtime-bar-label'>[bar_text]</div></div></td></tr>"
+		return_text += "</table>"
+	else
+		return_text += "<div class='playtime-empty'>No tracked role playtime yet.</div>"
+
+	return_text += "</div>"
+
+	return return_text
+
 
 /client/proc/get_exp_living()
 	if(!prefs.exp)
@@ -136,18 +248,27 @@ GLOBAL_PROTECT(exp_to_update)
 	else
 		return "0h"
 
+/proc/get_exp_hours_format(expnum)
+	return num2text(round((text2num(expnum) / 60), 0.1))
+
 /datum/controller/subsystem/blackbox/proc/update_exp(mins, ann = FALSE)
 	if(!SSdbcore.Connect())
 		return -1
+	var/should_flush_updates = FALSE
 	for(var/client/L in GLOB.clients)
 		if(L.is_afk())
 			continue
-		L.update_exp_list(mins,ann)
+		if(L.update_exp_list(mins,ann) > 0)
+			should_flush_updates = TRUE
+	if(should_flush_updates)
+		addtimer(CALLBACK(SSblackbox,TYPE_PROC_REF(/datum/controller/subsystem/blackbox, update_exp_db)),20,TIMER_OVERRIDE|TIMER_UNIQUE)
 
 /datum/controller/subsystem/blackbox/proc/update_exp_db()
 	set waitfor = FALSE
 	var/list/old_minutes = GLOB.exp_to_update
 	GLOB.exp_to_update = null
+	if(!old_minutes?.len)
+		return
 	SSdbcore.MassInsert(format_table_name("role_time"), old_minutes, duplicate_key = "ON DUPLICATE KEY UPDATE minutes = minutes + VALUES(minutes)")
 
 //resets a client's exp to what was in the db.
@@ -205,37 +326,36 @@ GLOBAL_PROTECT(exp_to_update)
 /client/proc/update_exp_list(minutes, announce_changes = FALSE)
 	if(!CONFIG_GET(flag/use_exp_tracking))
 		return -1
-	if(!SSdbcore.Connect())
-		return -1
 	if (!isnum(minutes))
 		return -1
+	if(!isliving(mob) && !isobserver(mob))
+		return 0
 	var/list/play_records = list()
+	var/updated_entries = 0
 
 	if(isliving(mob))
 		if(mob.stat != DEAD)
 			var/rolefound = FALSE
+			var/tracked_assigned_role
+			var/tracked_special_role
 			play_records[EXP_TYPE_LIVING] += minutes
 			if(announce_changes)
 				to_chat(src,span_notice("I got: [minutes] Living EXP!"))
 			if(mob.mind.assigned_role)
-				for(var/job in SSjob.name_occupations)
-					if(mob.mind.assigned_role == job)
-						rolefound = TRUE
-						play_records[job] += minutes
-						if(announce_changes)
-							to_chat(src,span_notice("I got: [minutes] [job] EXP!"))
-				if(!rolefound)
-					for(var/role in GLOB.exp_specialmap[EXP_TYPE_SPECIAL])
-						if(mob.mind.assigned_role == role)
-							rolefound = TRUE
-							play_records[role] += minutes
-							if(announce_changes)
-								to_chat(mob,span_notice("I got: [minutes] [role] EXP!"))
-				if(mob.mind.special_role && !(mob.mind.datum_flags & DF_VAR_EDITED))
-					var/trackedrole = mob.mind.special_role
-					play_records[trackedrole] += minutes
+				var/list/role_lookup = get_exp_role_lookup()
+				tracked_assigned_role = role_lookup[mob.mind.assigned_role]
+				if(tracked_assigned_role)
+					rolefound = TRUE
+					play_records[tracked_assigned_role] += minutes
 					if(announce_changes)
-						to_chat(src,span_notice("I got: [minutes] [trackedrole] EXP!"))
+						to_chat(src,span_notice("I got: [minutes] [tracked_assigned_role] EXP!"))
+			if(mob.mind.special_role && !(mob.mind.datum_flags & DF_VAR_EDITED))
+				tracked_special_role = mob.mind.special_role
+				rolefound = TRUE
+				if(tracked_special_role != tracked_assigned_role)
+					play_records[tracked_special_role] += minutes
+					if(announce_changes)
+						to_chat(src,span_notice("I got: [minutes] [tracked_special_role] EXP!"))
 			if(!rolefound)
 				play_records["Unknown"] += minutes
 		else
@@ -251,8 +371,6 @@ GLOBAL_PROTECT(exp_to_update)
 		play_records[EXP_TYPE_GHOST] += minutes
 		if(announce_changes)
 			to_chat(src,span_notice("I got: [minutes] Ghost EXP!"))
-	else if(minutes)	//Let "refresh" checks go through
-		return
 
 	for(var/jtype in play_records)
 		var/jvalue = play_records[jtype]
@@ -260,13 +378,14 @@ GLOBAL_PROTECT(exp_to_update)
 			continue
 		if (!isnum(jvalue))
 			CRASH("invalid job value [jtype]:[jvalue]")
+		updated_entries++
 		LAZYINITLIST(GLOB.exp_to_update)
 		GLOB.exp_to_update.Add(list(list(
 			"job" = "'[jtype]'",
 			"ckey" = "'[ckey]'",
 			"minutes" = jvalue)))
 		prefs.exp[jtype] += jvalue
-	addtimer(CALLBACK(SSblackbox,TYPE_PROC_REF(/datum/controller/subsystem/blackbox, update_exp_db)),20,TIMER_OVERRIDE|TIMER_UNIQUE)
+	return updated_entries
 
 
 //ALWAYS call this at beginning to any proc touching player flags, or your database admin will probably be mad

@@ -44,7 +44,7 @@
 
 /// Public method to add threat to specific mob
 /datum/component/ai_aggro_system/proc/add_threat_to_mob(mob/target, amount)
-	if(!target || !parent)
+	if(!target || !parent || target == parent)
 		return
 
 	var/mob/living/living_mob = parent
@@ -52,7 +52,7 @@
 
 /// Public method to add threat to specific mob
 /datum/component/ai_aggro_system/proc/add_threat_to_mob_capped(mob/target, amount, cap)
-	if(!target || !parent)
+	if(!target || !parent || target == parent)
 		return
 	var/mob/living/living_mob = parent
 	var/list/aggro_table = living_mob.ai_controller.blackboard[BB_MOB_AGGRO_TABLE]
@@ -73,6 +73,9 @@
 		return
 
 	if(!ismob(attacker))
+		return
+
+	if(attacker == victim)
 		return
 
 	// Base threat from being attacked
@@ -102,6 +105,8 @@
 /// Adds or modifies threat level for a specific mob
 /datum/component/ai_aggro_system/proc/add_threat(mob/victim, mob/attacker, amount)
 	if(!victim?.ai_controller || !attacker)
+		return
+	if(attacker == victim)
 		return
 
 	var/list/aggro_table = victim.ai_controller.blackboard[BB_MOB_AGGRO_TABLE]

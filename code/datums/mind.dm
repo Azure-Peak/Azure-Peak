@@ -916,6 +916,7 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 			if(active_ward && !QDELETED(active_ward))
 				new_ward_spell.conjured_ward = active_ward
 				active_ward.linked_spell = new_ward_spell
+				new_ward_spell.regen_action?.build_all_button_icons()
 		else
 			AddSpell(new /datum/action/cooldown/spell/conjure_arcyne_ward)
 	else

@@ -67,7 +67,6 @@
 /obj/item/reagent_containers/food/snacks/rogue/meat/fatty //pork
 	name = "raw pigflesh"
 	icon_state = "pork"
-	color = "#f093c3"
 	fried_type = /obj/item/reagent_containers/food/snacks/rogue/meat/fatty/roast
 	slices_num = 2
 	slice_path = /obj/item/reagent_containers/food/snacks/rogue/meat/bacon
@@ -471,3 +470,8 @@
 	slices_num = 2
 	slice_path = null
 	tastes = list("hog" = 1)
+
+/obj/item/reagent_containers/food/snacks/rogue/meat/ham/boar
+	name = "raw boar ham"
+	desc = "A bramblesnout that is no longer trying to end you. Raw and ready to be steamed."
+	icon_state = "ham_boar"

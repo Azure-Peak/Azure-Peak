@@ -930,6 +930,9 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 	if(dragged && !L[dragged])
 		return
 
+	if(lmb_throttle(object, L))
+		return
+
 	if (object && object == middragatom && L["left"])
 		ab = max(0, 5 SECONDS-(world.time-middragtime)*0.1)
 

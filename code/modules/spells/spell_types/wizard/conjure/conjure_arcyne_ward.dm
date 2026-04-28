@@ -49,7 +49,8 @@
 	var/ward_type = /obj/item/clothing/suit/roguetown/armor/manual/arcyne_ward
 	var/dismiss_invocation = "Aegis Dissipo!"
 	var/regen_invocation = "Aegis Restauro!"
-	/// Regen action granted alongside a live ward and removed on ward destruction — see grant_regen_action().
+	/// Paired regen action - granted alongside the conjure spell itself and lives as long as it does.
+	/// IsAvailable() on the regen gates by ward existence, so it sits inert (red) when no ward is active.
 	var/datum/action/cooldown/spell/regenerate_arcyne_ward/regen_action
 	/// Regen spell path paired with this conjure variant. Children override to their matching regen subtype.
 	var/regen_spell_type = /datum/action/cooldown/spell/regenerate_arcyne_ward
@@ -81,20 +82,19 @@
 		if(adjusted > 0)
 			L.stamina_add(adjusted)
 
-/// Adds the paired regen action to the owner. Called when a ward is conjured.
-/datum/action/cooldown/spell/conjure_arcyne_ward/proc/grant_regen_action()
-	if(regen_action || !owner)
+/datum/action/cooldown/spell/conjure_arcyne_ward/Grant(mob/grant_to)
+	. = ..()
+	if(!owner)
 		return
-	regen_action = new regen_spell_type(owner)
-	regen_action.parent_spell = src
+	if(!regen_action)
+		regen_action = new regen_spell_type(owner)
+		regen_action.parent_spell = src
 	regen_action.Grant(owner)
 
-/// Removes the paired regen action from the owner. Called when a ward is destroyed or dismissed.
-/datum/action/cooldown/spell/conjure_arcyne_ward/proc/revoke_regen_action()
-	if(!regen_action)
-		return
-	regen_action.Remove(owner)
-	QDEL_NULL(regen_action)
+/datum/action/cooldown/spell/conjure_arcyne_ward/Remove(mob/living/remove_from)
+	if(regen_action)
+		regen_action.Remove(remove_from)
+	return ..()
 
 /datum/action/cooldown/spell/conjure_arcyne_ward/cast(atom/cast_on)
 	. = ..()
@@ -130,13 +130,15 @@
 	conjured_ward.setup_ward(H)
 	conjured_ward.linked_spell = src
 	reset_spell_cooldown()
-	grant_regen_action()
+	// Wake the paired regen button up now that there's a live ward to mend
+	regen_action?.build_all_button_icons()
 	return TRUE
 
 /datum/action/cooldown/spell/conjure_arcyne_ward/Destroy()
 	if(conjured_ward && !QDELETED(conjured_ward))
 		conjured_ward.visible_message(span_warning("The arcyne ward flickers and fades!"))
 		qdel(conjured_ward)
+	QDEL_NULL(regen_action)
 	return ..()
 
 /datum/action/cooldown/spell/conjure_arcyne_ward/dragonhide
@@ -236,12 +238,30 @@
 		return FALSE
 	return ..()
 
+/// Fraction of the ward's max integrity that's missing. 0 at full HP, 1 at zero HP.
+/// Drives the proportional resource cost for both check_cost (button state) and before_cast (actual spend).
+/datum/action/cooldown/spell/regenerate_arcyne_ward/proc/get_damage_ratio()
+	var/obj/item/clothing/suit/roguetown/armor/manual/arcyne_ward/ward = parent_spell?.conjured_ward
+	if(!ward || QDELETED(ward) || !ward.max_integrity)
+		return 0
+	return 1 - (ward.obj_integrity / ward.max_integrity)
+
+/datum/action/cooldown/spell/regenerate_arcyne_ward/check_cost(feedback = TRUE)
+	// IsAvailable, and therefore the button's red state, calls into check_cost. Scale the
+	// primary cost the same way before_cast does so the button reflects the real cost, not
+	// the unscaled max - otherwise a half-damaged ward shows red whenever you're below full energy.
+	var/damage_ratio = get_damage_ratio()
+	var/saved_primary = primary_resource_cost
+	primary_resource_cost = round(primary_resource_cost * damage_ratio)
+	. = ..()
+	primary_resource_cost = saved_primary
+
 /datum/action/cooldown/spell/regenerate_arcyne_ward/before_cast(atom/cast_on)
 	var/obj/item/clothing/suit/roguetown/armor/manual/arcyne_ward/ward = parent_spell?.conjured_ward
 	if(!ward || QDELETED(ward))
 		return ..() | SPELL_CANCEL_CAST
 
-	var/damage_ratio = 1 - (ward.obj_integrity / ward.max_integrity)
+	var/damage_ratio = get_damage_ratio()
 	var/saved_upfront = upfront_stamina_cost
 	var/saved_drain = charge_drain
 	var/saved_primary = primary_resource_cost
@@ -400,7 +420,8 @@
 		if(!QDELETED(linked_spell) && !dismissed)
 			linked_spell.StartCooldown(linked_spell.get_adjusted_cooldown())
 		linked_spell.conjured_ward = null
-		linked_spell.revoke_regen_action()
+		// Refresh the paired regen's button state so it goes red now that the ward is gone
+		linked_spell.regen_action?.build_all_button_icons()
 		linked_spell = null
 
 // --- Dragonhide Ward Item ---

@@ -55,7 +55,7 @@
 		"Bag of Smuggling" = list(
 			path = /obj/item/storage/backpack/rogue/backpack/matthios,
 			m_cooldown = -1,
-			m_devotion = 100,
+			m_devotion = 200,
 			m_rank = SKILL_LEVEL_APPRENTICE,
 			category = "Rogue Arts",
 			lines = list("#Let me begin your work!", "#Matthios, protect my well-deserved goods!", "#Grant me protection against those tyrant knaves!", "#Matthios, ordain me your blessed storage!")
@@ -64,7 +64,7 @@
 		"Gilded Dexterous Gloves" = list(
 			path = /obj/item/clothing/gloves/roguetown/fingerless_leather/muffle_matthios,
 			m_cooldown = 5 MINUTES,
-			m_devotion = 200,
+			m_devotion = 100,
 			m_rank = SKILL_LEVEL_JOURNEYMAN,
 			category = "Gilded Tools",
 			lines = list("#Hands of trade, be silent.", "#Let fingers dance for thy amusement.", "#Dexterity bought in faith.")
@@ -78,10 +78,10 @@
 			category = "Gilded Tools",
 			lines = list("#Steps unheard, as I walk in thy shadow.", "#Silent as coin slipping, for thy hoard.", "#No sound, no chain, no better wisdom, O' Lord.")
 		),
-		//enables piss night vision and sets your lockpick timer to 3 secs, makes you insane over time and prolonged use
+		//enables piss night vision and sets your lockpick timer to 1.5 secs, makes you insane over time and prolonged use and ofc, will burn you the fuck down, it will also not really increase success chance only pick speed, and if you break those? rip, no refunds, as HE ordained
 		"Gilded Lockpicking Specs" = list(
 			path = /obj/item/clothing/mask/rogue/spectacles/matthios,
-			m_cooldown = -1, // this is too stronk, so only 1 allowed
+			m_cooldown = -1, // this is too stronk, so only 1 allowed now
 			m_devotion = 200,
 			m_rank = SKILL_LEVEL_EXPERT,
 			category = "Gilded Tools",
@@ -100,7 +100,7 @@
 		"Gilded Amulet of Matthios" = list(
 			path = /obj/item/clothing/neck/roguetown/psicross/inhumen/matthios/gilded,
 			m_cooldown = 30 MINUTES,
-			m_devotion = 100,
+			m_devotion = 50,
 			m_rank = SKILL_LEVEL_NONE,
 			category = "Gilded Tools",
 			lines = list("#Matthios, let thine will be done.", "#Lord of Exchange, my soul is yours.", "#God of the Stolen Fyre, thou will be done.")
@@ -109,7 +109,7 @@
 		"Vial of Firstlaw" = list(
 			path = /obj/item/matthios_canister/firstlaw,
 			m_cooldown = 1 MINUTES,
-			m_devotion = 100,
+			m_devotion = 75,
 			m_rank = SKILL_LEVEL_NOVICE,
 			category = "Malchem Vials",
 			lines = list("#Matthios, provide the base, I shall complete thy work!", "#Matthios! Deliver unto me the truth of alchemy!", "#Lord of Exchange, I shall finish thy work!")
@@ -118,7 +118,7 @@
 		"Vial of Kingsfeast Base" = list(
 			path = /obj/item/matthios_canister/kingsfeast,
 			m_cooldown = 2 MINUTES,
-			m_devotion = 50,
+			m_devotion = 25,
 			m_rank = SKILL_LEVEL_NOVICE,
 			category = "Malchem Vials",
 			lines = list("#Matthios, provide the base, I shall complete thy work!", "#Matthios! Deliver unto me the truth of alchemy!", "#Lord of Exchange, I shall finish thy work!")
@@ -127,7 +127,7 @@
 		"Vial of Kingswine Base" = list(
 			path = /obj/item/matthios_canister/kingswine,
 			m_cooldown = 2 MINUTES,
-			m_devotion = 50,
+			m_devotion = 25,
 			m_rank = SKILL_LEVEL_NOVICE,
 			category = "Malchem Vials",
 			lines = list("#Matthios, provide the base, I shall complete thy work!", "#Matthios! Deliver unto me the truth of alchemy!", "#Lord of Exchange, I shall finish thy work!")
@@ -150,39 +150,6 @@
 			category = "Malchem Vials",
 			lines = list("#Matthios, provide the base, I shall complete thy work!", "#Matthios! Deliver unto me the truth of alchemy!", "#Lord of Exchange, I shall finish thy work!")
 		),
-		// idk what else, but it should be used by baothans, something they'll want a lot
-/*		"Vial of Liquid Desire Base" = list(
-			path = /obj/item/matthios_canister/baotha,
-			m_cooldown = 10 MINUTES,
-			m_rank = SKILL_LEVEL_MASTER,
-			category = "Malchem Vials",
-			lines = list("Matthios, provide the base, I shall complete thy work!", "Matthios! Deliver unto me the truth of alchemy!", "Lord of Exchange, I shall finish thy work!")
-		),
-		// same idea but graggarites
-		"Vial of Liquid Bloodlust Base" = list(
-			path = /obj/item/matthios_canister/graggar,
-			m_cooldown = 10 MINUTES,
-			m_rank = SKILL_LEVEL_MASTER,
-			category = "Malchem Vials",
-			lines = list("Matthios, provide the base, I shall complete thy work!", "Matthios! Deliver unto me the truth of alchemy!", "Lord of Exchange, I shall finish thy work!")
-		),
-		// same idea but zizoids
-		"Vial of Liquid Progress Base" = list(
-			path = /obj/item/matthios_canister/zizo,
-			m_cooldown = 10 MINUTES,
-			m_rank = SKILL_LEVEL_MASTER,
-			category = "Malchem Vials",
-			lines = list("Matthios, provide the base, I shall complete thy work!", "Matthios! Deliver unto me the truth of alchemy!", "Lord of Exchange, I shall finish thy work!")
-		),
-		// the og idea was to make this deconvert nobles but idk now
-		"Vial of Liquid Freedom Base" = list(
-			path = /obj/item/matthios_canister/matthios,
-			m_cooldown = 10 MINUTES,
-			m_rank = SKILL_LEVEL_MASTER,
-			category = "Malchem Vials",
-			lines = list("Matthios, provide the base, I shall complete thy work!", "Matthios! Deliver unto me the truth of alchemy!", "Lord of Exchange, I shall finish thy work!")
-		),*/
-
 		// a spicy, explosive, very, very difficult-to-make revive vial, uses all herbs in the world and 1 of any lux type
 		"Vial of Lyfestruth Base" = list(
 			path = /obj/item/matthios_canister/lyfestruth,
@@ -192,17 +159,6 @@
 			category = "Malchem Vials",
 			lines = list("#Matthios, provide the base, I shall complete thy work!", "#Matthios! Deliver unto me the truth of alchemy!", "#Lord of Exchange, I shall finish thy work!")
 		),
-		// a spicy, explosive grenade that ignites over a massive area, making tennites and nobles roll in agony and go insane
-		// but in my BETTER JUDGEMENT, this is just my early april fools joke, go to sleep my child
-//		"Vial of Truthsnuke Base" = list(
-//			path = /obj/item/matthios_canister/truthsnuke,
-//			m_cooldown = -1, // single use
-//			m_rank = SKILL_LEVEL_MASTER, // exclusive to devotee missionary/heretics
-//			category = "Malchem Vials",
-//			lines = list("Matthios, provide the base, I shall complete thy work!", "Matthios! Deliver unto me the truth of alchemy!", "Lord of Exchange, I shall finish thy work!")
-//		),
-		// MIGHT be enough tools but this thing here lets anyone add anything as much as they want, have fun!
-		// I'll probably reuse this as a template for a Zizo Artificery miracle in the future.
 	)
 
 	var/list/item_cooldowns = list()
