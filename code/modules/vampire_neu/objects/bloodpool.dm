@@ -1,12 +1,12 @@
 #define VAMPCOST_ONE 5000 //heavily chopped down, you're a server-wide antagonist that should be doing stuff, just slightly above your ability to buy roundstart.
 #define VAMPCOST_TWO 6000 //Earlygame finish point, most vlords will end up here less than 30 mins into a round if they're good, 1hr if not.
-#define VAMPCOST_THREE 12000 //Grab immunity, leave high. This is where they become a major threat.
-#define VAMPCOST_FOUR 20000 //Intended to be exorbantly high (T3 vlord has 3000+ vitae pool to 9000, so that's 3 full vitae pool's worth roughly solo. Thralls have 3000 cap each.), they get infinite stamina and a ton of other buffs at this point.
+#define VAMPCOST_THREE 10000 //Grab immunity, leave moderately high. This is where they become a major threat.
+#define VAMPCOST_FOUR 16000 //Intended to be rather high, but I also noticed vamps aren't upgrading their potencies if its too high. YES they get infinite stamina and a ton of other buffs at this point, but I want some leeway so they don't wind up with the whole map already sucked dry or killed by advs and are unable to invest in vamp potencies
 #define ARMOR_COST 8000 //Keep this high, we want to encourage them to take it before T3 power, or get armor smithed earlygame.
-#define SUN_STEAL_COST 9000 //Server wide war declaration, mostly useless for Vitabella. Risk/Reward but we want it to be less earlygame but midgame instead of lategame, so same as armor but higher to nudge them to get that first.
+#define SUN_STEAL_COST 8000 //Server wide war declaration, mostly useless for Vitabella. Risk/Reward but we want it to be less earlygame but midgame instead of lategame.
 #define SERVANT_COST 800 //Keep these low, so people can play as vampires. We want to scoop up observers/lobby joiners before they get bored.
 #define SERVANT_T2_COST 1000 //Same as above, a little bit higher because these roles /can/ actually fight, keep it low so they can get a retinue starting off.
-#define SERVANT_T3_COST 5000 //Keep moderately high, these are rarer classes that can cause problems when spammed en-mass. Expected to show up mid/late game, ideally at (2) upgrades in. Very frag capable on their own.
+#define SERVANT_T3_COST 4000 //Keep moderately high, these are rarer classes that can cause problems when spammed en-mass. Expected to show up mid/late game, ideally at (2) upgrades in. Very frag capable on their own.
 
 #define INITIATE_LORDE 1
 #define INITIATE_ANYONE 2
@@ -285,6 +285,7 @@
 		if(lord && !lord.ascended)
 			var/mob/living/carbon/human/lord_body = user
 			to_chat(user, span_greentext("My power grows through collective sacrifice."))
+			to_chat(user, span_warning("I should grow my dominion, so that I shall gain more power through collective sacrifice.")) //Subtle Que for Newer players, to convert/buy servants
 			for(var/S in MOBSTATS)
 				lord_body.change_stat(S, 2)
 			lord_body.maxbloodpool += 1000
@@ -305,7 +306,7 @@
 		if(lord && !lord.ascended)
 			var/mob/living/carbon/human/lord_body = user
 			to_chat(user, span_greentext("My power grows through collective sacrifice."))
-			to_chat(user, span_warning("I should grow my dominion, so that I shall gain more power through collective sacrifice.")) //Subtle Que for Newer players, to convert/buy servants
+			to_chat(user, span_warning("I should develop my vampiric powers and consider regaining my ancient set of armor, if I have not already.")) //Subtle Que for Newer players, that despite the next upgrade seeming quite close, you should invest into potencies + armor for later.
 			for(var/S in MOBSTATS)
 				lord_body.change_stat(S, 2)
 			lord_body.maxbloodpool += 1000
