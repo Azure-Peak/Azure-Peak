@@ -149,6 +149,7 @@
 		/datum/reagent/consumable/soup/stew/lavishaubergine_soup,
 		/datum/reagent/consumable/soup/stew/thickcarrot_stew,
 		/datum/reagent/consumable/soup/stew/frysquash_soup,
+		/datum/reagent/allspice,
 		
 	)
 
