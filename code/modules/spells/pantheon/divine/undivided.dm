@@ -238,22 +238,6 @@
 
 #undef RECUPERATION_BASE_FILTER
 
-////////////////////////////////////////////////////////////////////////////
-// T1 - Rending Strike - Slow down a target, same as Ravox divine strike. //
-////////////////////////////////////////////////////////////////////////////
-//Heretic + pick from pack
-
-/obj/effect/proc_holder/spell/self/divine_strike/undivided
-	name = "Rending Strike"
-	action_icon = 'icons/mob/actions/undividedmiracles.dmi'
-	overlay_icon = 'icons/mob/actions/undividedmiracles.dmi'
-	overlay_state = "smite"
-
-	releasedrain = 10
-	devotion_cost = 35
-
-	invocations = list("Geleitet meine Hand!") //("Guide my hand!")
-
 ////////////////////////////////////////////////////////////
 // T2 - Perseverance- Seal wounds and calm down a person. //
 ////////////////////////////////////////////////////////////
@@ -370,10 +354,9 @@
 	)
 	var/list/miracle_templar_bundle = list(
 		/obj/effect/proc_holder/spell/invoked/abyssor_undertow::name 		= /obj/effect/proc_holder/spell/invoked/abyssor_undertow,
-		/obj/effect/proc_holder/spell/self/balance_immune::name 			= /obj/effect/proc_holder/spell/self/balance_immune,
+		/datum/action/cooldown/spell/ravox/withstand::name 					= /datum/action/cooldown/spell/ravox/withstand,
 		/obj/effect/proc_holder/spell/invoked/heatmetal::name 				= /obj/effect/proc_holder/spell/invoked/heatmetal,
 		/datum/action/cooldown/spell/noc/enlightenment::name 				= /datum/action/cooldown/spell/noc/enlightenment,
-		/obj/effect/proc_holder/spell/self/divine_strike/undivided::name 	= /obj/effect/proc_holder/spell/self/divine_strike/undivided,
 		/obj/effect/proc_holder/spell/invoked/vendetta::name 				= /obj/effect/proc_holder/spell/invoked/vendetta,
 	)
 

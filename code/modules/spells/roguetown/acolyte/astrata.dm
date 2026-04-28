@@ -268,7 +268,6 @@
 /datum/action/cooldown/spell/astrata/bladeorfist
 	name = "Solar Blade/Fist"
 	desc = "Choose between Solar Blade (SWORD) or Solar Grasp (UNARMED)."
-	fluff_desc = "The first gift to men, a sliver of Her radiance at fingertips of those devoted to Her wae of lyfe. Some sae it was Matthios who forced Astrata's hand in relinquishing such force to lowly mortals."
 	button_icon_state = "blade_grasp"
 	sound = 'sound/items/firelight.ogg'
 	sparks_amt = 2

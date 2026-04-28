@@ -641,12 +641,12 @@
 			new /obj/effect/temp_visual/moon/spell(get_turf(burn))
 			qdel(burn)
 		user.mind.sleep_adv.sleep_adv_points -= item.dreamcost
-		if(item.dreamcost == 3) // this doesnt fucking work. our code doesnt allow for custom recharges to be done 
+/*		if(item.dreamcost == 3) // this doesnt fucking work. our code doesnt allow for custom recharges to be done 
 			cooldown_time = 5 MINUTES // in any convenient way. if you want to fix this later try using a status_effect
 		if(item.dreamcost == 6) // secondary charge system instead of this shit. 
 			cooldown_time = 15 MINUTES // kept in so the intent is understood.
 		if(item.dreamcost >= 9)
-			cooldown_time = 30 MINUTES
+			cooldown_time = 30 MINUTES*/
 		var/obj/item/I = new item (get_turf(user))
 		user.put_in_hands(I)
 		alreadychoosing = FALSE
@@ -660,4 +660,14 @@
 	color = "#1640d7ff"
 	light_color = "#1640d7ff"
 
-GLOBAL_LIST_INIT(noc_scrolls, (list(/obj/item/book/granter/spell/noc/fireball, /obj/item/book/granter/spell/noc/boulder, /obj/item/book/granter/spell/noc/thunderstrike, /obj/item/book/granter/spell/noc/soulshot)))
+GLOBAL_LIST_INIT(noc_scrolls, (list(
+	/obj/item/book/granter/spell/noc/fireball, 
+	/obj/item/book/granter/spell/noc/lbolt, 
+	/obj/item/book/granter/spell/noc/boulderstrike, 
+	/obj/item/book/granter/spell/noc/massgrav,
+	/obj/item/book/granter/spell/noc/message,
+	/obj/item/book/granter/spell/noc/mindlink,
+	/obj/item/book/granter/spell/noc/mending,
+	/obj/item/book/granter/spell/noc/blink,
+	/obj/item/book/granter/spell/noc/repulse
+	)))

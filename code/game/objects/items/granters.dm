@@ -314,24 +314,54 @@ UNDER NO CIRCUMSTANCE SHOULD ANY OF THE BOOKS BE GIVEN OUT INTO SPAWNERS OR TO B
 //Gonna be real these are placeholders until I figure out a normal way to make single - cast spells
 /obj/item/book/granter/spell/noc/fireball
 	name = "Scroll of Fireball"
-	desc = "Teaches you how to cast a Fireball."
+	desc = "Teaches you how to cast Fireball."
 	spell = /datum/action/cooldown/spell/projectile/fireball
 	spellname = "Fireball"
 
-/obj/item/book/granter/spell/noc/boulder
+/obj/item/book/granter/spell/noc/lbolt
+	name = "Scroll of Lighting Bolt"
+	desc = "Teaches you how to cast Lighting Bolt."
+	spell = /datum/action/cooldown/spell/projectile/lightning_bolt
+	spellname = "Lightning Bolt"
+
+/obj/item/book/granter/spell/noc/boulderstrike
 	name = "Scroll of Boulder Strike"
-	desc = "Teaches you how to cast a Boulder Strike."
+	desc = "Teaches you how to cast Boulder Strike."
 	spell = /datum/action/cooldown/spell/projectile/boulder_strike
 	spellname = "Boulder Strike"
 
-/obj/item/book/granter/spell/noc/thunderstrike
-	name = "Scroll of Thunderstrike"
-	desc = "Teaches you how to cast a Thunderstrike."
-	spell = /datum/action/cooldown/spell/thunderstrike
-	spellname = "Thunderstrike"
+/obj/item/book/granter/spell/noc/massgrav
+	name = "Scroll of Mass Gravity"
+	desc = "Teaches you how to cast Mass Gravity."
+	spell = /datum/action/cooldown/spell/mass_gravity
+	spellname = "Mass Gravity"
 
-/obj/item/book/granter/spell/noc/soulshot
-	name = "Scroll of Soul Shot"
-	desc = "Teaches you how to cast a Soul Shot."
-	spell = /datum/action/cooldown/spell/projectile/soulshot
-	spellname = "Soul Shot"
+/obj/item/book/granter/spell/noc/message
+	name = "Scroll of Message"
+	desc = "Teaches you how to cast Message."
+	spell = /datum/action/cooldown/spell/message
+	spellname = "Message"
+
+/obj/item/book/granter/spell/noc/mindlink
+	name = "Scroll of Mindlink"
+	desc = "Teaches you how to cast Mindlink."
+	spell = /datum/action/cooldown/spell/mindlink
+	spellname = "Mindlink"
+
+/obj/item/book/granter/spell/noc/mending
+	name = "Scroll of Mending"
+	desc = "Teaches you how to cast Mending."
+	spell = /datum/action/cooldown/spell/mending
+	spellname = "Mending"
+
+/obj/item/book/granter/spell/noc/blink
+	name = "Scroll of Blink"
+	desc = "Teaches you how to cast Blink."
+	spell = /datum/action/cooldown/spell/blink
+	spellname = "Blink"
+
+/obj/item/book/granter/spell/noc/repulse
+	name = "Scroll of Repulse"
+	desc = "Teaches you how to cast Repulse."
+	spell = /datum/action/cooldown/spell/repulse
+	spellname = "Repulse"

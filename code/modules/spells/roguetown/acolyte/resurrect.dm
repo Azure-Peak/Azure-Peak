@@ -570,6 +570,9 @@
 		/obj/item/natural/bone = 7
 	)
 	debuff_type = /datum/status_effect/debuff/ravox_revival
+	action_icon = 'icons/mob/actions/ravoxmiracles.dmi'
+	overlay_icon = 'icons/mob/actions/ravoxmiracles.dmi'
+	overlay_state = "revive"
 
 /obj/effect/proc_holder/spell/invoked/resurrect/dendor
 	name = "Wild Rite of Anastasis"
