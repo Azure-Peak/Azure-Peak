@@ -153,10 +153,10 @@
 	knockout_on_death = 10 SECONDS
 
 /obj/effect/proc_holder/spell/targeted/shapeshift/witch/cast(list/targets, mob/user = usr)
-	user.visible_message(span_warning("[user] begins to twist and contort!"), span_notice("I begin to transform..."))
 	return ..()
 
 /obj/effect/proc_holder/spell/targeted/shapeshift/witch/Shapeshift(mob/living/caster)
+	caster.visible_message(span_warning("[caster] begins to twist and contort!"), span_notice("I begin to transform into another form..."))
 	// Do-after before transforming
 	if(!do_after(caster, 3 SECONDS, target = caster))
 		to_chat(caster, span_warning("Transformation interrupted!"))
@@ -174,7 +174,7 @@
 		return
 
 	// Add do-after for witches when reverting
-	shape.visible_message(span_warning("[shape] begins to shift back!"), span_notice("I begin to transform..."))
+	shape.visible_message(span_warning("[shape] compresses and takes another form!"), span_notice("I begin to twist back into my normal form..."))
 	if(!do_after(shape, 3 SECONDS, target = shape))
 		to_chat(shape, span_warning("Transformation revert interrupted!"))
 		revert_cast(shape)  // Refund the cooldown

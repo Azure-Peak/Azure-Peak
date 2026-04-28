@@ -12,8 +12,7 @@
 	extra_context = "This subclass, like all wretch subclasses, is still subject to the elevated rules and expectations that wretches must follow. You are held to a higher roleplay standard than everyone else, and your psychosis is not an OOC excuse for your gameplay to exclusively be killing others. Your character might be an insidious killer - but you are merely an actor, sharing the stage with everyone else."
 	subclass_stats = list(
 		STATKEY_STR = 2,
-		STATKEY_SPD = 1,
-    	STATKEY_WIL = 1, //6 stat weight, gains +1 to str or spd later
+		STATKEY_SPD = 1, //5 stat weight, gains +4 from both options, so it's on par with other wretches after they make their choice.
 		STATKEY_INT = -1
 	)
 	subclass_skills = list(
@@ -31,7 +30,8 @@
 		/datum/skill/craft/sewing = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/craft/cooking = SKILL_LEVEL_JOURNEYMAN, //giving them some crafting skills because A) they used to be towners maybe and B) they can't sleep to train themselves + the -1 INT
 		/datum/skill/craft/traps = SKILL_LEVEL_EXPERT,
-		/datum/skill/labor/butchering = SKILL_LEVEL_EXPERT
+		/datum/skill/labor/butchering = SKILL_LEVEL_EXPERT,
+		/datum/skill/misc/hunting = SKILL_LEVEL_EXPERT 
 	)
 	subclass_stashed_items = list(
         "Sewing Kit" =  /obj/item/repair_kit,
@@ -58,29 +58,31 @@
 		/obj/item/rogueweapon/huntingknife/combat = 1 // all of em' get knives! this was a good idea :)
 		)
 	if(H.mind)
-		var/weapons = list("Executioner's Sword", "Cudgel", "Axe")
+		var/weapons = list("Executioner's Sword", "Hammer", "Axe")
 		var/weapon_choice = input(H, "Do you like hurting other people?", "TAKE UP ARMS") as anything in weapons
-		var/specialization = list("Fast (Dodge Expert, Sneaking, +1 SPD)", "Strong (No Pain Stun, Blood Resistance, +1 STR)") //thank you outlaw coders i love you mwah
+		var/specialization = list("Fast (Dodge Expert, Sneaking, +2 SPD)", "Strong (No Pain, Blood Resistance, +1 STR/CON/WIL)") //thank you outlaw coders i love you mwah
 		var/specialization_choice = input(H, "How?", "TAKE UP ARMS") as anything in specialization
 		H.set_blindness(0)
 		switch(weapon_choice)
 			if("Executioner's Sword") // silent hill?
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
 				l_hand = /obj/item/rogueweapon/sword/long/exe
-			if("Cudgel") // token off-meta nonlethal option. ye olde leatherface for when you want em' alive
+			if("Hammer") // token off-meta nonlethal option. ye olde leatherface for when you want em' alive
 				H.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_EXPERT, TRUE)
-				r_hand = /obj/item/rogueweapon/mace/cudgel
+				r_hand = /obj/item/rogueweapon/mace/warhammer/steel
 			if ("Axe") // classic. i killed paul allen with one of these
 				H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_EXPERT, TRUE)
-				l_hand = /obj/item/rogueweapon/stoneaxe/woodcut/steel
+				l_hand = /obj/item/rogueweapon/stoneaxe/woodcut/steel/woodcutter
 		switch(specialization_choice)
-			if("Fast (Dodge Expert, Sneaking, +1 SPD)")
+			if("Fast (Dodge Expert, Sneaking, +2 SPD)") //youfuckinghitmewithaPHONE, DICK!
 				H.adjust_skillrank_up_to(/datum/skill/misc/sneaking, SKILL_LEVEL_MASTER, TRUE)
 				ADD_TRAIT(H, TRAIT_LIGHT_STEP, TRAIT_GENERIC)
 				ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
-				H.change_stat(STATKEY_SPD, 1)
-			if("Strong (No Pain Stun, Blood Resistance, +1 STR)")
-				ADD_TRAIT(H, TRAIT_NOPAINSTUN, TRAIT_GENERIC)
+				H.change_stat(STATKEY_SPD, 2)
+			if("Strong (No Pain, Blood Resistance, +1 STR/CON/WIL)") //kill them, .json
+				ADD_TRAIT(H, TRAIT_NOPAIN, TRAIT_GENERIC)
 				ADD_TRAIT(H, TRAIT_BLOOD_RESISTANCE, TRAIT_GENERIC)
 				H.change_stat(STATKEY_STR, 1)
+				H.change_stat(STATKEY_CON, 1)
+				H.change_stat(STATKEY_WIL, 1)
 		wretch_select_bounty(H)

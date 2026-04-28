@@ -948,6 +948,9 @@
 /datum/action/cooldown/spell/proc/on_start_charge()
 	currently_charging = TRUE
 	if(owner)
+		owner.tempfixeye = TRUE
+		if(!owner.fixedeye)
+			owner.nodirchange = TRUE
 		owner.channeling_spell = src
 	START_PROCESSING(SSfastprocess, src)
 	build_all_button_icons(UPDATE_BUTTON_STATUS|UPDATE_BUTTON_BACKGROUND)
@@ -988,6 +991,10 @@
 /// When finish charging the spell called from set_click_ability or try_casting
 /// This does not mean we succeeded in charging the spell just that we did mouseUp/ended the do_after
 /datum/action/cooldown/spell/proc/on_end_charge(success)
+	if(owner)
+		owner.tempfixeye = FALSE
+		if(!owner.fixedeye)
+			owner.nodirchange = FALSE
 	end_charging()
 	. = success
 	if(success)

@@ -212,6 +212,7 @@
 #define TRAIT_SILVER_BLESSED "Silverblessed"
 #define TRAIT_UNLYCKERABLE "Lycker Immunity"
 #define TRAIT_OUTLAW "Outlaw"
+#define TRAIT_TECHNOPHOBE "Technophobe"
 #define TRAIT_KNOWNCRIMINAL "Known Criminal"
 #define TRAIT_BIGGUY "Big Guy"
 #define TRAIT_RESIDENT "Resident"
@@ -280,7 +281,7 @@
 // Most crafting skills are now gated to Apprentice, unless there's a corresponding trait that unlocks them. These are gained for free by economic roles, and towner jobs
 // Carpentry and Masonry are niche skills used for building and repairing structures, therefore they're not gated.
 #define TRAIT_MEDICINE_EXPERT "Expert Physicker" // Medicine
-#define TRAIT_ALCHEMY_EXPERT "Expert Alchemist" // Alchemy. This is gated to Jman by default.
+#define TRAIT_ALCHEMY_EXPERT "Expert Alchemist" // Alchemy. This is completely gated by default.
 #define TRAIT_SMITHING_EXPERT "Expert Forgehand" // X-Smithing, Smelting, Engineering, Mining, Pottery.
 #define TRAIT_SEWING_EXPERT "Expert Clothier" // Sewing, Skincrafting, Leathercraft and Butchering.
 #define TRAIT_SURVIVAL_EXPERT "Expert Survivalist" // Butchering, Cooking, Fishing & Skincraft, Sewing = Jman.
@@ -303,6 +304,7 @@
 GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_STEELHEARTED = span_info("I have hardened nerves, and do not waiver from the sight of violence in battle."),
 	TRAIT_OUTLAW = span_info("This land's meisters and castificos reject my touch."),
+	TRAIT_TECHNOPHOBE = span_info("I've principles against using some forms of artificed machinery, or perhaps I'm incapable of using them."),
 	TRAIT_LEPROSY = span_necrosis("I'm a disgusting leper..."),
 	TRAIT_UNDIVIDED = span_info("I have seen past petty squabbles, and am a true follower of the Ten Undivided. I feel most comfortable around churchmen."),
 	TRAIT_TAVERN_FIGHTER = span_info("I am vigilant in my duties. The Tavern is my home, none shall dare oppose me or skip out on payment."),

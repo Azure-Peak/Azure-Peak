@@ -12,7 +12,7 @@
 	category_tags = list(CTAG_HFT_RETINUE)
 	class_select_category = CLASS_CAT_HFT_COURT
 
-	traits_applied = list(TRAIT_HEARTFELT, TRAIT_NOSTINK, TRAIT_EMPATH)
+	traits_applied = list(TRAIT_HEARTFELT, TRAIT_NOSTINK, TRAIT_EMPATH, TRAIT_ALCHEMY_EXPERT)
 
 	subclass_stats = list(
 		STATKEY_INT = 3,

@@ -33,7 +33,7 @@
 	parent = P
 	. = ..()
 
-/datum/anvil_recipe/proc/advance(mob/user, breakthrough = FALSE, advance_multiplier = 1)
+/datum/anvil_recipe/proc/advance(mob/user, breakthrough = FALSE, advance_multiplier = 1, obj/machinery/anvil/source)
 	if(!isliving(user))
 		return
 	var/mob/living/L = user
@@ -45,9 +45,27 @@
 		user.visible_message(span_warning("[user] strikes the bar!"))
 		return FALSE
 	if(needed_item)
-		to_chat(user, span_info("Now it's time to add a [needed_item_text]."))
-		user.visible_message(span_warning("[user] strikes the bar!"))
-		return FALSE
+		var/auto_success = FALSE
+		if(source && HAS_TRAIT(user, TRAIT_TRAINED_SMITH))
+			var/turf/T = get_turf(source)
+			var/turf/TU = get_turf(user)
+			var/list/conts = T.GetAllContents(needed_item)
+			if(TU)
+				var/list/contsuser = TU.GetAllContents(needed_item)
+				if(length(contsuser))
+					conts += contsuser
+			if(length(conts))
+				for(var/atom/O in conts)
+					if(!isturf(O.loc))	// We don't want to use the ingot we are actively hammering, which would be in the Anvil's contents.
+						LAZYREMOVE(conts, O)
+				source.attackby(conts[1], user)	//We grab the first one we find.
+				auto_success = TRUE
+				user.visible_message(span_warning("[user] strikes the bar, expertly using a [needed_item_text] on the anvil!"))
+				playsound(source, 'sound/items/bsmithadvance.ogg', 100, TRUE)
+		if(!auto_success)
+			to_chat(user, span_info("Now it's time to add a [needed_item_text]."))
+			user.visible_message(span_warning("[user] strikes the bar!"))
+			return FALSE
 	// Calculate probability of a successful strike, based on smith's skill level
 	if(!skill_level && !craftdiff)
 		proab = 35

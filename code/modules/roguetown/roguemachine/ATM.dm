@@ -22,8 +22,11 @@
 	if(!ishuman(user))
 		return
 	var/mob/living/carbon/human/H = user
-	if(HAS_TRAIT(user, TRAIT_OUTLAW))
-		to_chat(H, span_warning("The machine rejects you, sensing your status as an outlaw in these lands."))
+	if(HAS_TRAIT(user, TRAIT_OUTLAW) || HAS_TRAIT(user, TRAIT_TECHNOPHOBE))
+		if(HAS_TRAIT(user, TRAIT_OUTLAW))
+			to_chat(H, span_warning("The machine rejects you, sensing your status as an outlaw in these lands."))
+		else
+			to_chat(H, span_warning("Why would I?"))
 		return
 	if(drilled)
 		if(HAS_TRAIT(H, TRAIT_NOBLE))

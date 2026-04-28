@@ -977,3 +977,31 @@
   gamevoin:
   - rscadd: Added new headwings, bird and bat-like, available to Kin, Tiefling, and
       Aasimar. Also a new regular wing and Aasimar-only 'veil wing'.
+2026-04-28:
+  FreeStylaLT:
+  - bugfix: Fixed Bait Cooldown being set incorrectly at 30 seconds. It is now the
+      intended 20 seconds.
+  - rscadd: Having the Smithing Expert trait will now allow the user to automatically
+      scoop up the next item in a smithing recipe from their own tile, or the anvil's
+      tile.
+  - balance: Gave some Guild roles athletics that were missing it before.
+  - balance: Removed Guildmaster's ability to make Announcements.
+  - balance: Gave Guildmaster a scomstone.
+  - balance: Gave every Guild role a serfstone.
+  Ketrai:
+  - rscadd: Bramblesnout boars
+  - rscadd: New meat sprites for pork and bacon
+  Quinalion:
+  - bugfix: Reduced recent shield-on-back sprite change due to persistent misalignment.
+  VanessaCoding:
+  - balance: gave them Apprentice Smelting, Mining, Blacksmithing, Armorsmithing and
+      Weaponsmithing.
+  Vex8tion:
+  - balance: Added TRAIT_SPELLCOCKBLOCK to Lightning Bolt's status debuff
+  WeNeedMorePhoron:
+  - rscadd: All mindlinks tell you to use ,Y
+  - rscadd: You always gain the arcyne ward paired regeneration spell with gain of
+      any arcyne ward, which should hopefully fixes issues with gaining infinite regen
+      spell and most cases of jankiness
+  borneblood:
+  - bugfix: Restored a missing functionality to spellcasting.

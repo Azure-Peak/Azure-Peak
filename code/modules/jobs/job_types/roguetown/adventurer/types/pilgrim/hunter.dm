@@ -42,7 +42,7 @@
 	mask = /obj/item/clothing/head/roguetown/roguehood/red
 	neck = /obj/item/storage/belt/rogue/pouch/coins/poor
 	armor = /obj/item/clothing/suit/roguetown/shirt/tunic/green //Can wear this as a cloak too
-	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/green
+	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/light
 	pants = /obj/item/clothing/under/roguetown/tights/green
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
 	backl = /obj/item/storage/backpack/rogue/backpack
@@ -56,7 +56,8 @@
 				/obj/item/recipe_book/survival = 1,
 				/obj/item/recipe_book/leatherworking = 1,
 				/obj/item/rogueweapon/scabbard/sheath = 1,
-				/obj/item/hunting_map/white_stag = 1
+				/obj/item/hunting_map/white_stag = 1,
+				/obj/item/hunting_map/boars = 1,
 				)
 	if(H.mind)
 		SStreasury.give_money_account(ECONOMIC_LOWER_CLASS, H, "Savings.")
@@ -134,6 +135,7 @@
 				/obj/item/recipe_book/leatherworking = 1,
 				/obj/item/rogueweapon/scabbard/sheath = 1,
 				/obj/item/hunting_map/white_stag = 1,
+				/obj/item/hunting_map/boars = 1,
 				)
 	if(H.mind)
 		SStreasury.give_money_account(ECONOMIC_LOWER_CLASS, H, "Savings.")

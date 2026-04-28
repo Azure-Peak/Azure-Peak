@@ -5,7 +5,7 @@
 	allowed_races = RACES_ALL_KINDS
 	outfit = /datum/outfit/job/roguetown/vagabond/scholar
 	category_tags = list(CTAG_VAGABOND)
-	traits_applied = list(TRAIT_CICERONE, TRAIT_SEEDKNOW)
+	traits_applied = list(TRAIT_CICERONE, TRAIT_SEEDKNOW, TRAIT_ALCHEMY_EXPERT)
 	subclass_skills = list(
 		/datum/skill/craft/cooking = SKILL_LEVEL_NOVICE,
 		/datum/skill/craft/crafting = SKILL_LEVEL_NOVICE,

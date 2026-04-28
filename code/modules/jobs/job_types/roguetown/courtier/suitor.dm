@@ -81,7 +81,7 @@
 	name = "Schemer"
 	tutorial = "You're a silver-tongued snake - master of whispers, poison, and perfectly timed accidents. Why win hearts when you can twist them? With rivals removed and secrets weaponized, they will learn your value."
 	outfit = /datum/outfit/job/roguetown/suitor/schemer
-	traits_applied = list(TRAIT_CICERONE, TRAIT_LIGHT_STEP)
+	traits_applied = list(TRAIT_CICERONE, TRAIT_LIGHT_STEP, TRAIT_ALCHEMY_EXPERT)
 	category_tags = list(CTAG_CONSORT)
 	subclass_stats = list(
 		STATKEY_SPD = 3,

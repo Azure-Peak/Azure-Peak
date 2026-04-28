@@ -84,7 +84,7 @@
 	allowed_races = RACES_SHUNNED_UP
 	outfit = /datum/outfit/job/roguetown/adventurer/thug/wiseguy
 	category_tags = list(CTAG_TOWNER)
-	traits_applied = list(TRAIT_SEEPRICES_SHITTY, TRAIT_CICERONE, TRAIT_NUTCRACKER)
+	traits_applied = list(TRAIT_SEEPRICES_SHITTY, TRAIT_CICERONE, TRAIT_NUTCRACKER, TRAIT_ALCHEMY_EXPERT)
 	cmode_music = 'sound/music/combat_bum.ogg'
 	maximum_possible_slots = 2 // i dont want an army of towner thugs
 	category_tags = list(CTAG_PILGRIM, CTAG_TOWNER)

@@ -1,0 +1,11 @@
+author: "Aisu9"
+delete-after: True
+changes:
+  - rscdel: "Deleted Theurgist"
+  - balance: "mix THeurgist's stat spread in the Sage's own stat spread, they loose 1 con and gain 1 int"
+  - balance: "raise Sage's Devotion regen to the same tier as Mystic's"
+  - balance: "Mystic now have apprentice alchemy and alchemy expert trait so they can produce strong potions with some work, move the alchemy supplies and backpack from Sage's loadout to Mystic's, Sage stay at apprentice."
+  - balance: "all mystic classes now enjoy novice wrestling skill, fight back the bullies a little better!"
+  - qol: "Sage's stats is now picked after you take your offensive cantrip"
+  - qol: "Mystic gain blood boon back, holy skill unchanged at apprentice."
+  - qol: "Holyblade, now named Luminary enjoy a  greater weapon loadout and proficiency diversity"

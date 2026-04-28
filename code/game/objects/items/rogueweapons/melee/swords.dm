@@ -1804,15 +1804,19 @@
 	name = "ruma hwando"
 	desc = "A foreign steel single-edged sword with cloud patterns on the groove. The Ruma Clan's insignia is engraved on the blade."
 	icon_state = "eastsword2"
+	force = 27
+	max_integrity = 200
+	sharpness_mod = 2
+	sellprice = 50
 
 /obj/item/rogueweapon/sword/sabre/mulyeog/rumacaptain
-	force = 30
 	name = "samjeongdo"
 	desc = "A gold-stained sword with cloud patterns on the groove. One of a kind. It is a symbol of status within the Ruma clan."
 	icon_state = "eastsword3"
-	max_integrity = 180
+	force = 27
+	max_integrity = 200
 	sharpness_mod = 2
-	wdefense = 4
+	sellprice = 150
 
 /obj/item/rogueweapon/sword/sabre/hook
 	force = 20
