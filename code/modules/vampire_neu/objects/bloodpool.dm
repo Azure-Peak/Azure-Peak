@@ -20,7 +20,7 @@
 	var/list/active_projects = list()
 	var/list/available_project_types = list(
 		/datum/vampire_project/power_growth,
-		/datum/vampire_project/armor_crafting,
+		/datum/vampire_project/armor_crafting, //TODO, future coder me or another. Remove this entirely, make the armor set reteivable inside of a mapped in """container""" that only vlord can access and pull a single set out of.
 		/datum/vampire_project/servant/servant_t1,
 		/datum/vampire_project/servant/servant_t2,
 		/datum/vampire_project/servant/servant_t3,
@@ -364,7 +364,7 @@
 			bloodpool.available_project_types -= /datum/vampire_project/power_growth_4
 			break
 
-/datum/vampire_project/armor_crafting
+/datum/vampire_project/armor_crafting //TODO, future coder me or another. Remove this entirely, make the armor set reteivable inside of a mapped in """container""" that only vlord can access and pull a single set out of.
 	display_name = "Wicked Plate"
 	description = "Summon a complete set of vampiric plate armor from crystallized blood. Let not steel, silver, nor salvation inhibit the Lord's plan."
 	total_cost = ARMOR_COST
