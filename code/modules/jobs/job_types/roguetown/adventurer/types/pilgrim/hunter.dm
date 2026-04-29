@@ -5,6 +5,7 @@
 	allowed_races = RACES_ALL_KINDS
 	outfit = /datum/outfit/job/roguetown/adventurer/hunter
 	traits_applied = list(TRAIT_OUTDOORSMAN, TRAIT_SURVIVAL_EXPERT, TRAIT_MASTERFUL_HUNTER)
+	townie_contract_gate_exempt = TRUE
 	cmode_music = 'sound/music/cmode/towner/combat_towner2.ogg'
 
 	category_tags = list(CTAG_PILGRIM, CTAG_TOWNER)
@@ -42,7 +43,7 @@
 	mask = /obj/item/clothing/head/roguetown/roguehood/red
 	neck = /obj/item/storage/belt/rogue/pouch/coins/poor
 	armor = /obj/item/clothing/suit/roguetown/shirt/tunic/green //Can wear this as a cloak too
-	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/green
+	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/light
 	pants = /obj/item/clothing/under/roguetown/tights/green
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
 	backl = /obj/item/storage/backpack/rogue/backpack
@@ -56,10 +57,11 @@
 				/obj/item/recipe_book/survival = 1,
 				/obj/item/recipe_book/leatherworking = 1,
 				/obj/item/rogueweapon/scabbard/sheath = 1,
-				/obj/item/hunting_map/white_stag = 1
+				/obj/item/hunting_map/white_stag = 1,
+				/obj/item/hunting_map/boars = 1,
 				)
 	if(H.mind)
-		SStreasury.give_money_account(ECONOMIC_LOWER_CLASS, H, "Savings.")
+		SStreasury.grant_savings(ECONOMIC_LOWER_CLASS, H)
 	if(H.mind)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/huntersyell)
 		var/weapons = list("Recurve Bow","Crossbow")
@@ -80,6 +82,7 @@
 	tutorial = "You are a hunter. With your bow you hunt the fauna of the glade, skinning what you kill and cooking any meat left over. The job is dangerous but important in the circulation of clothing and light armor."
 	outfit = /datum/outfit/job/roguetown/adventurer/hunter_spear
 	traits_applied = list(TRAIT_OUTDOORSMAN, TRAIT_SURVIVAL_EXPERT, TRAIT_MASTERFUL_HUNTER)
+	townie_contract_gate_exempt = TRUE
 	cmode_music = 'sound/music/cmode/towner/combat_towner2.ogg'
 	subclass_stats = list(
 		STATKEY_STR = 2,
@@ -134,9 +137,10 @@
 				/obj/item/recipe_book/leatherworking = 1,
 				/obj/item/rogueweapon/scabbard/sheath = 1,
 				/obj/item/hunting_map/white_stag = 1,
+				/obj/item/hunting_map/boars = 1,
 				)
 	if(H.mind)
-		SStreasury.give_money_account(ECONOMIC_LOWER_CLASS, H, "Savings.")
+		SStreasury.grant_savings(ECONOMIC_LOWER_CLASS, H)
 	if(H.mind)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/huntersyell)
 	return

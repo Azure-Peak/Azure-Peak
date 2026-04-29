@@ -3,6 +3,8 @@
 	var/list/classes
 	var/outfit
 	var/tutorial = "Choose me!"
+	var/townie_contract_gate_exempt = FALSE
+	var/townie_contract_gate_hide_in_list = FALSE
 	/// Subclass-specific tutorial shown via to_chat on spawn, separate from the class-picker tutorial.
 	var/subclass_tutorial
 	var/list/allowed_sexes
@@ -103,6 +105,7 @@
 
 	if(noble_income)
 		SStreasury.noble_incomes[H] = noble_income
+		SStreasury.grant_estate_income(H, noble_income, TRUE)
 
 	if(adaptive_name)
 		H.adaptive_name = TRUE

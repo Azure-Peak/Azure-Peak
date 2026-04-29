@@ -414,3 +414,25 @@
 		/obj/item/rogueweapon/greatsword/grenz/flamberge/blacksteel
 	)
 	result_item = /obj/item/rogueweapon/example/aeternum
+
+/obj/item/enchantingkit/weapon/darling
+	name = "'Darling' morphing elixir"
+	target_items = list(
+		/obj/item/rogueweapon/sword/long
+	)
+	result_item = /obj/item/rogueweapon/example/darling
+
+/obj/item/enchantingkit/weapon/sumquoderis
+	name = "'Vial of Crimson Ichor'"
+	target_items = list(
+		/obj/item/rogueweapon/sword/long/exe
+	)
+	result_item = /obj/item/rogueweapon/example/sumquoderis
+
+/obj/item/enchantingkit/weapon/euthanasia
+	name = "'Ritual Dagger Mould'"
+	target_items = list(
+		/obj/item/rogueweapon/huntingknife/combat
+	)
+	result_item = /obj/item/rogueweapon/example/euthanasia
+

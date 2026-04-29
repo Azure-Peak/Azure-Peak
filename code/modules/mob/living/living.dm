@@ -497,6 +497,10 @@
 				O.sublimb_grabbed = item_override
 			else
 				O.sublimb_grabbed = used_limb
+			C.update_hud_hand_slot(BP?.held_index)
+			var/datum/hud/hud_used = C.hud_used
+			if(BP && hud_used?.zone_select)
+				hud_used.zone_select.update_limb(BP.body_zone)
 			put_in_hands(O)
 			O.update_hands(src)
 			if(HAS_TRAIT(src, TRAIT_STRONG_GRABBER) || item_override)
@@ -1255,6 +1259,25 @@
 /mob/living/stop_attack(message = FALSE)
 	..()
 	update_charging_movespeed()
+
+/// Cancels a spell currently being channeled, covering both the old proc_holder system
+/// (which sets client.charging during mouse-hold) and the new spell_cooldown datum system
+/// (tracked via /mob/channeling_spell set in on_start_charge).
+/// Returns TRUE if a channel was actually interrupted.
+/mob/living/proc/interrupt_spell_channel()
+	. = FALSE
+	if(channeling_spell)
+		channeling_spell.cancel_casting()
+		// before_cast drives non-click charge spells through do_after; cancel_casting alone
+		// sets currently_charging=FALSE but the do_after loop only breaks on user.doing=FALSE
+		// or movement, so we need to explicitly break it.
+		stop_all_doing()
+		. = TRUE
+	if(client?.charging && used_intent?.tranged && !used_intent.tshield)
+		stop_attack()
+		. = TRUE
+	if(.)
+		to_chat(src, span_danger("My spell is disrupted!"))
 
 /mob/proc/resist_grab(moving_resist)
 	return TRUE //returning 0 means we successfully broke free
@@ -2162,6 +2185,36 @@
 			found_ping(get_turf(potential_track), client, "hidden")
 			potential_track.handle_revealing(src)
 		//Hearthstone end.
+		// Hunting Tracks Logic
+		var/obj/effect/hunting_track/closest_track
+		var/min_dist = 8
+		for(var/obj/effect/hunting_track/HT in range(7, src))
+			// Check if we are part of the party that can see this track
+			var/can_see_ht = FALSE
+			for(var/datum/weakref/W in HT.party_refs)
+				if(W.resolve() == src)
+					can_see_ht = TRUE
+					break
+			if(!can_see_ht)
+				continue
+			found_ping(get_turf(HT), client, "paws")
+			var/dist = get_dist(src, HT)
+			if(dist < min_dist)
+				min_dist = dist
+				closest_track = HT
+		if(closest_track)
+			var/dir_text = dir2text(get_dir(src, closest_track))
+			var/dist_text = ""
+			switch(min_dist)
+				if(0 to 1)
+					dist_text = "right beneath your feet"
+				if(2 to 3)
+					dist_text = "very close by"
+				if(4 to 5)
+					dist_text = "a few paces away"
+				else
+					dist_text = "in the distance"
+			to_chat(src, span_notice("You spot a faint trail [dist_text] to the [dir_text]."))
 
 
 /proc/found_ping(atom/A, client/C, state)

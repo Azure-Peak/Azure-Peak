@@ -49,7 +49,7 @@
 		return
 
 	var/list/user_scrolls = find_quest_scrolls(user)
-	for(var/obj/item/paper/scroll/quest/scroll in user_scrolls)
+	for(var/obj/item/quest_writ/scroll in user_scrolls)
 		var/datum/quest/user_quest = scroll.assigned_quest
 		if(user_quest && ((user_quest.quest_type == QUEST_RETRIEVAL && istype(parent, user_quest.target_item_type)) || \
 						(user_quest.quest_type == QUEST_COURIER && istype(parent, user_quest.target_delivery_item))))
@@ -64,9 +64,9 @@
 		return
 
 	var/list/user_scrolls = find_quest_scrolls(user)
-	for(var/obj/item/paper/scroll/quest/scroll in user_scrolls)
+	for(var/obj/item/quest_writ/scroll in user_scrolls)
 		var/datum/quest/user_quest = scroll.assigned_quest
-		if(user_quest && (user_quest.quest_type in list(QUEST_KILL_EASY, QUEST_CLEAR_OUT, QUEST_RAID, QUEST_OUTLAW)) && istype(parent, user_quest.target_mob_type))
+		if(user_quest && (user_quest.quest_type in list(QUEST_KILL_EASY, QUEST_CLEAR_OUT, QUEST_RAID, QUEST_BOUNTY)) && istype(parent, user_quest.target_mob_type))
 			examine_list += span_notice("This looks like the target of your quest: [user_quest.title]!")
 			if(Q.target_spawn_area != get_area(get_turf(src)))
 				examine_list += span_notice("It was last reported in the [Q.target_spawn_area] area, however.")
@@ -74,7 +74,7 @@
 
 /datum/component/quest_object/proc/find_quest_scrolls(atom/container)
 	var/list/scrolls = list()
-	for(var/obj/item/paper/scroll/quest/Q in container)
+	for(var/obj/item/quest_writ/Q in container)
 		scrolls += Q
 	for(var/obj/item/storage/S in container)
 		scrolls += find_quest_scrolls(S)
@@ -84,12 +84,11 @@
 	SIGNAL_HANDLER
 
 	var/datum/quest/Q = quest_ref.resolve()
-	if(!Q || Q.complete || !istype(dead_mob, Q.target_mob_type))
+	if(!Q || Q.complete)
 		return
 
 	dead_mob.remove_filter("quest_item_outline")
 
-	// Notify quest of progress
 	Q.progress_current++
 	Q.on_progress_update()
 
@@ -120,11 +119,35 @@
 
 /// Component for kill/clearout/outlaw quests - handles mob death
 /datum/component/quest_object/kill
+	var/counted = FALSE
 
 /datum/component/quest_object/kill/Initialize(datum/quest/target_quest)
 	. = ..()
 	if(. == COMPONENT_INCOMPATIBLE)
 		return
+	RegisterSignal(parent, COMSIG_PARENT_QDELETING, PROC_REF(on_parent_qdel))
+
+/datum/component/quest_object/kill/on_target_death(mob/living/dead_mob, gibbed)
+	dead_mob?.remove_filter("quest_item_outline")
+	count_kill()
+
+/datum/component/quest_object/kill/proc/on_parent_qdel(datum/source)
+	SIGNAL_HANDLER
+	count_kill()
+
+/// Guard against double-counting when a mob both dies and is later qdeleted.
+/datum/component/quest_object/kill/proc/count_kill()
+	if(counted)
+		return
+	counted = TRUE
+	var/datum/quest/Q = quest_ref?.resolve()
+	if(!Q || Q.complete)
+		return
+	var/datum/quest/kill/KQ = Q
+	if(istype(KQ) && !KQ.kills_count_progress)
+		return
+	Q.progress_current++
+	Q.on_progress_update()
 
 /// Component for retrieval quests - handles item collection
 /datum/component/quest_object/retrieval
@@ -174,10 +197,10 @@
 	// Handle parcel delivery
 	if(istype(dropped_item, /obj/item/parcel))
 		var/obj/item/parcel/parcel = dropped_item
-		if(parcel.contained_item && istype(parcel.contained_item, Q.target_delivery_item))
+		if(length(parcel.contained_items) && istype(parcel.contained_items[1], Q.target_delivery_item))
 			parcel.remove_filter(outline_filter_id)
-			if(parcel.contained_item)
-				parcel.contained_item.remove_filter(outline_filter_id)
+			for(var/obj/item/I as anything in parcel.contained_items)
+				I.remove_filter(outline_filter_id)
 
 			// Notify quest of progress
 			Q.progress_current++

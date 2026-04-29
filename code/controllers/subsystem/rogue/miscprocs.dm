@@ -196,29 +196,35 @@
 	set name = "Change Second Voice (Can only use Once!)"
 	set category = "Virtue"
 
+	var/datum/component/voice_handler/V = GetComponent(/datum/component/voice_handler)
+	if(!V)
+		V = AddComponent(/datum/component/voice_handler)
+
 	var/newcolor = input(src, "Choose your character's SECOND voice color:", "VIRTUE","#a0a0a0") as color|null
-	if(newcolor)
-		second_voice = sanitize_hexcolor(newcolor)
-		src.verbs -= /mob/living/carbon/human/proc/changevoice
-		return TRUE
-	else
+	if(!newcolor)
 		return FALSE
+	var/datum/descriptor_choice/VC = DESCRIPTOR_CHOICE(/datum/descriptor_choice/voice)
+	var/list/voice_options = list()
+	for(var/desc_type in VC.descriptors)
+		var/datum/mob_descriptor/D = MOB_DESCRIPTOR(desc_type)
+		if(D)
+			voice_options[D.name] = desc_type
+
+	var/picked_name = input(src, "Choose how your SECOND voice is described:", "VIRTUE") as null|anything in voice_options
+	if(!picked_name)
+		return FALSE
+	V.second_color = sanitize_hexcolor(newcolor)
+	V.second_desc_path = voice_options[picked_name]
+	to_chat(src, span_notice("Second voice configured: Color [V.second_color] with the '[picked_name]' description."))
+	src.verbs -= /mob/living/carbon/human/proc/changevoice
+	return TRUE
 
 /mob/living/carbon/human/proc/swapvoice()
 	set name = "Swap Voice"
 	set category = "Virtue"
 
-	if(!second_voice)
-		to_chat(src, span_info("I haven't decided on my second voice yet."))
-		return FALSE
-	if(voice_color != second_voice)
-		original_voice = voice_color
-		voice_color = second_voice
-		to_chat(src, span_info("I've changed my voice to the second one."))
-	else
-		voice_color = original_voice
-		to_chat(src, span_info("I've returned to my natural voice."))
-	return TRUE
+	var/datum/component/voice_handler/V = GetComponent(/datum/component/voice_handler)
+	V.toggle_voice()
 
 /mob/living/carbon/human/proc/toggleblindness()
 	set name = "Toggle Colorblindness"
@@ -238,3 +244,25 @@
 	else
 		ADD_TRAIT(src, TRAIT_COMBAT_AWARE, TRAIT_VIRTUE)
 	to_chat(src, "I will see [HAS_TRAIT(src, TRAIT_COMBAT_AWARE) ? "more" : "less"] combat information now.")
+
+
+/mob/living/carbon/human/proc/toggle_descriptors()
+	set name = "Toggle Anonimity"
+	set category = "Virtue"
+
+	show_descriptors = !show_descriptors
+	to_chat(src, "My identifying features are [show_descriptors ? "no longer " : ""]obscured.")
+	if(show_descriptors)
+		voicecolor_override = null
+	else
+		voicecolor_override = "#A0A0A0"
+
+/mob/living/carbon/human/proc/toggle_guarded()
+	set name = "Toggle Guarded"
+	set category = "Virtue"
+
+	if(HAS_TRAIT(src, TRAIT_DECEIVING_MEEKNESS))
+		REMOVE_TRAIT(src, TRAIT_DECEIVING_MEEKNESS, TRAIT_VIRTUE) 
+	else
+		ADD_TRAIT(src, TRAIT_DECEIVING_MEEKNESS, TRAIT_VIRTUE)
+	to_chat(src, "I have [HAS_TRAIT(src, TRAIT_DECEIVING_MEEKNESS) ? "raised" : "lowered"] my guard around others.")

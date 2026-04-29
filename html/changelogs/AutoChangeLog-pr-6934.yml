@@ -1,0 +1,5 @@
+author: "1HoneyDragon"
+delete-after: True
+changes:
+  - bugfix: "Fixed noble's pinafore not having the correct name."
+  - balance: "Lowered noble's pinafore recipe skill requirement from Expert to Journeyman."

@@ -186,6 +186,7 @@
 #define rogueui_blood "WEST-1:6,CENTER+4:17"
 #define rogueui_vitae "WEST-5,CENTER+2"
 #define rogueui_breath "WEST,CENTER+2"
+#define rogueui_feint  "WEST-1:-6,SOUTH+10:15"
 
 #define rogueui_cmode "WEST-1:-16,CENTER+1"
 #define rogueui_def "WEST-2,NORTH-5"

@@ -225,8 +225,8 @@
 
 	// If our cooldown action is not a click_to_activate action:
 	// We can just continue on and use the action
-	// the target is the user of the action (often, the owner)
-	return PreActivate(user)
+	// the target is the user of the action (often, the owner) unless explicitly passed
+	return PreActivate(target || user)
 
 /// Intercepts client owner clicks to activate the ability
 /datum/action/cooldown/proc/InterceptClickOn(mob/living/clicker, list/modifiers, atom/target)

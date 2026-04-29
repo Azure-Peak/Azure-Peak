@@ -40,4 +40,4 @@
 		H.change_stat(STATKEY_INT, round(rand(-4,4)))
 
 	if(H.mind)
-		SStreasury.give_money_account(ECONOMIC_DESTITUTE, H, "Savings.")
+		SStreasury.grant_savings(ECONOMIC_DESTITUTE, H)

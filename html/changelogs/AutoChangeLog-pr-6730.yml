@@ -1,6 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - rscadd: "Skeleton archers gain options to use decrepit broadhead arrows, which is now a reflavor of iron broadhead."
-  - balance: "Sling bullets now deal 1.6x damage to integrity"
-  - balance: "Arrows now deals 1.25x damage to integrity"

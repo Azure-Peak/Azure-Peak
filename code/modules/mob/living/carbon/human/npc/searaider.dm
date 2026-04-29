@@ -3,7 +3,7 @@ GLOBAL_LIST_INIT(searaider_aggro, world.file2list("strings/rt/searaideraggroline
 /mob/living/carbon/human/species/human/northern/searaider
 	ai_controller = /datum/ai_controller/human_npc
 	d_intent = INTENT_PARRY
-	faction = list(FACTION_VIKING, FACTION_STATION)
+	faction = list(FACTION_GRONNMEN, FACTION_STATION)
 	ambushable = FALSE
 	dodgetime = 30
 
@@ -101,25 +101,17 @@ GLOBAL_LIST_INIT(searaider_aggro, world.file2list("strings/rt/searaideraggroline
 		neck = /obj/item/clothing/neck/roguetown/gorget
 	if(prob(50))
 		gloves = /obj/item/clothing/gloves/roguetown/leather
-	var/archer_variant = FALSE
-	if(prob(30)) // archer
-		backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
-		backl = /obj/item/quiver/arrows
-		r_hand = /obj/item/rogueweapon/sword/iron
-		H.adjust_skillrank(/datum/skill/combat/bows, 3, TRUE)
-		H.upgrade_ai_controller(/datum/ai_controller/human_npc/archer)
-		archer_variant = TRUE
-	else
-		switch(rand(1, 4))
-			if(1)
-				r_hand = /obj/item/rogueweapon/sword/iron
-				l_hand = /obj/item/rogueweapon/shield/wood
-			if(2)
-				r_hand = /obj/item/rogueweapon/spear
-			if(3)
-				r_hand = /obj/item/rogueweapon/greataxe
-			if(4)
-				r_hand = /obj/item/rogueweapon/greatsword/iron
+	// Stopgap: archer roll removed because the ranged NPC AI is unreliable.
+	switch(rand(1, 4))
+		if(1)
+			r_hand = /obj/item/rogueweapon/sword/iron
+			l_hand = /obj/item/rogueweapon/shield/wood
+		if(2)
+			r_hand = /obj/item/rogueweapon/spear
+		if(3)
+			r_hand = /obj/item/rogueweapon/greataxe
+		if(4)
+			r_hand = /obj/item/rogueweapon/greatsword/iron
 
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
 	H.STASPD = 9
@@ -128,9 +120,6 @@ GLOBAL_LIST_INIT(searaider_aggro, world.file2list("strings/rt/searaideraggroline
 	H.STAPER = 10
 	H.STAINT = 1
 	H.STASTR = 14
-	if(archer_variant)
-		H.STASTR -= 2
-		H.STAPER += 3
 	H.adjust_skillrank(/datum/skill/combat/polearms, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/maces, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/axes, 3, TRUE)

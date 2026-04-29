@@ -85,7 +85,7 @@
 		armor = /obj/item/clothing/suit/roguetown/armor/leather/vest
 		shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/random
 	if(H.mind)
-		SStreasury.give_money_account(ECONOMIC_WORKING_CLASS, H, "Savings.")
+		SStreasury.grant_savings(ECONOMIC_WORKING_CLASS, H)
 	if(H.mind)
 		var/seeds = list(
 			"Berry seeds" = /obj/item/storage/roguebag/farmer_berries,

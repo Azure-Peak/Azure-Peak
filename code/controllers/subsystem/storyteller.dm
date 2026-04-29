@@ -660,8 +660,19 @@ SUBSYSTEM_DEF(gamemode)
 			to_chat(world, span_reallybig("[initialized_storyteller.name] is ascendant!"))
 			to_chat(world, "<br>")
 
-	if(!current_storyteller || current_storyteller.type != selected_storyteller)
-		init_storyteller()
+	// If an admin force-starts the round while the storyteller vote is still running,
+	// resolve it now so selected_storyteller reflects votes cast so far (or falls back
+	// to Astrata via storyteller_vote_result() if no votes were cast).
+	if(SSvote.mode == "storyteller")
+		SSvote.result()
+		for(var/client/C in SSvote.voting)
+			C << browse(null, "window=vote;can_close=0;size=[SSvote.vote_width]x[SSvote.vote_height]")
+		SSvote.reset()
+
+	// Force set_storyteller() unconditionally — the lobby-fire pick_most_influential() may
+	// have seeded current_storyteller from zero-influence coin flips, and we want the
+	// vote result (or Astrata fallback) to win at round start regardless.
+	set_storyteller(selected_storyteller)
 	if(!ispath(roundstart_storyteller, /datum/storyteller))
 		roundstart_storyteller = selected_storyteller
 	calculate_ready_players()
@@ -910,8 +921,11 @@ SUBSYSTEM_DEF(gamemode)
 			matched_storyteller = TRUE
 			SSgnoll_scaling.get_gnoll_scaling() // Calling this here as to make sure scaling holds true as per the roundstart vote, not a latejoin hunted character joining.
 			break
+	// Inconclusive vote (no votes cast, or winner string didn't match any storyteller name)
+	// — fall back to Astrata instead of leaving whatever init-time pick_most_influential() seeded.
 	if(!matched_storyteller)
-		return
+		selected_storyteller = /datum/storyteller/astrata
+		SSgnoll_scaling.get_gnoll_scaling()
 
 	var/datum/storyteller/storytypecasted = selected_storyteller
 	to_chat(world, span_notice("<b>Storyteller is [initial(storytypecasted.name)]!</b>"))

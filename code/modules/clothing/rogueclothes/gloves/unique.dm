@@ -120,3 +120,4 @@
 	desc = "Some times call for a more intimate approach."
 	icon_state = "eoraknuckle"
 	max_integrity = 150
+	unarmed_bonus = 10//So they are better how they used to be

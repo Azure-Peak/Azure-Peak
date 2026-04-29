@@ -12,17 +12,16 @@ GLOBAL_LIST_INIT(large_goblin_aggro, list(
 ))
 
 /mob/living/carbon/human/species/goblin/npc/large
+	threat_point = THREAT_ELITE
 	name = "unusually large goblin"
 	gob_outfit = /datum/outfit/job/roguetown/npc/mini_boss/large_goblin
-	faction = list(FACTION_DUNDEAD)
+	faction = list(FACTION_DUNDEAD, FACTION_ORCS)
 	dodgetime = 20
 	d_intent = INTENT_PARRY
 
 /mob/living/carbon/human/species/goblin/npc/large/after_creation()
 	..()
 	SEND_SIGNAL(src, COMSIG_MOB_MODIFY_AGGRO_LINES, GLOB.large_goblin_aggro, TRUE)
-	name = pick("Big Grug", "Massive Gronk", "Huge Blort", "Giant Snik", "Enormous Gak", "Colossal Muk")
-	real_name = name
 	ADD_TRAIT(src, TRAIT_BIGGUY, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NOMOOD, TRAIT_GENERIC)
@@ -41,6 +40,15 @@ GLOBAL_LIST_INIT(large_goblin_aggro, list(
 	. = ..()
 	if(!gibbed)
 		dust(FALSE, FALSE, TRUE)
+
+/mob/living/carbon/human/species/goblin/npc/large/hell
+	race = /datum/species/goblin/hell
+
+/mob/living/carbon/human/species/goblin/npc/large/moon
+	race = /datum/species/goblin/moon
+
+/mob/living/carbon/human/species/goblin/npc/large/cave
+	race = /datum/species/goblin/cave
 
 /datum/outfit/job/roguetown/npc/mini_boss/large_goblin/pre_equip(mob/living/carbon/human/H)
 	..()

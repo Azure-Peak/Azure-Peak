@@ -6,7 +6,6 @@
 	desc = "Refuge for few, an irrelevance to most."
 	anchored = FALSE
 	density = TRUE
-	opacity = 1
 	resistance_flags = FLAMMABLE
 	max_integrity = 200
 	destroy_sound = 'sound/combat/hits/onwood/destroyfurniture.ogg'

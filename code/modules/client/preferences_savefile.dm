@@ -153,6 +153,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["tgui_fancy"]			>> tgui_fancy
 	S["tgui_lock"]			>> tgui_lock
 	S["tgui_theme"]			>> tgui_theme
+	S["preferred_ui_language"] >> preferred_ui_language
 	S["buttons_locked"]		>> buttons_locked
 	S["windowflash"]		>> windowflashing
 	S["be_special"] 		>> be_special
@@ -161,8 +162,10 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["lobbymusicvol"]		>> lobbymusicvol
 	S["ambiencevol"]		>> ambiencevol
 	S["anonymize"]			>> anonymize
+	S["stopdroning"]		>> stopdroning
 	S["masked_examine"]		>> masked_examine
 	S["full_examine"]		>> full_examine
+	S["feint_hud"]			>> feint_hud
 	S["mute_animal_emotes"]	>> mute_animal_emotes
 	S["autoconsume"]		>> autoconsume
 	S["no_examine_blocks"]	>> no_examine_blocks
@@ -226,6 +229,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	tgui_fancy		= sanitize_integer(tgui_fancy, 0, 1, initial(tgui_fancy))
 	tgui_lock		= sanitize_integer(tgui_lock, 0, 1, initial(tgui_lock))
 	tgui_theme		= sanitize_text(tgui_theme, initial(tgui_theme))
+	preferred_ui_language = sanitize_preferred_ui_language(preferred_ui_language)
 	buttons_locked	= sanitize_integer(buttons_locked, 0, 1, initial(buttons_locked))
 	windowflashing	= sanitize_integer(windowflashing, 0, 1, initial(windowflashing))
 	default_slot	= sanitize_integer(default_slot, 1, max_save_slots, initial(default_slot))
@@ -282,8 +286,10 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["lobbymusicvol"], lobbymusicvol)
 	WRITE_FILE(S["ambiencevol"], ambiencevol)
 	WRITE_FILE(S["anonymize"], anonymize)
+	WRITE_FILE(S["stopdroning"], stopdroning)
 	WRITE_FILE(S["masked_examine"], masked_examine)
 	WRITE_FILE(S["full_examine"], full_examine)
+	WRITE_FILE(S["feint_hud"], feint_hud)
 	WRITE_FILE(S["mute_animal_emotes"], mute_animal_emotes)
 	WRITE_FILE(S["autoconsume"], autoconsume)
 	WRITE_FILE(S["no_examine_blocks"], no_examine_blocks)
@@ -308,6 +314,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["tgui_fancy"], tgui_fancy)
 	WRITE_FILE(S["tgui_lock"], tgui_lock)
 	WRITE_FILE(S["tgui_theme"], tgui_theme)
+	WRITE_FILE(S["preferred_ui_language"], preferred_ui_language)
 	WRITE_FILE(S["buttons_locked"], buttons_locked)
 	WRITE_FILE(S["windowflash"], windowflashing)
 	WRITE_FILE(S["be_special"], be_special)
@@ -366,16 +373,30 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	charflaws = list()
 	var/list/charflaw_types
 	S["charflaws"] >> charflaw_types
+	var/needs_resave = FALSE
 	if(charflaw_types && length(charflaw_types))
 		for(var/flaw_type in charflaw_types)
-			if(flaw_type)
-				charflaws.Add(new flaw_type())
+			if(!ispath(flaw_type, /datum/charflaw))
+				needs_resave = TRUE
+				continue
+			var/datum/charflaw/cf = new flaw_type()
+			if(!cf)
+				needs_resave = TRUE
+				continue
+			charflaws.Add(cf)
 	// Backwards compatibility: load old single charflaw format
 	else
 		var/charflaw_type
 		S["charflaw"] >> charflaw_type
-		if(charflaw_type)
-			charflaws.Add(new charflaw_type())
+		if(ispath(charflaw_type, /datum/charflaw))
+			var/datum/charflaw/cf = new charflaw_type()
+			if(cf)
+				charflaws.Add(cf)
+	if(needs_resave)
+		var/list/cleaned_types = list()
+		for(var/datum/charflaw/cf in charflaws)
+			cleaned_types.Add(cf.type)
+		WRITE_FILE(S["charflaws"], cleaned_types)
 
 /datum/preferences/proc/_load_culinary_preferences(S)
 	var/list/loaded_culinary_preferences
@@ -804,9 +825,20 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 
 	joblessrole	= sanitize_integer(joblessrole, 1, 3, initial(joblessrole))
 	//Validate job prefs
+	S["topjob"] >> topjob
+	var/topjob_found = FALSE
 	for(var/j in job_preferences)
 		if(job_preferences[j] != JP_LOW && job_preferences[j] != JP_MEDIUM && job_preferences[j] != JP_HIGH)
 			job_preferences -= j
+		if(job_preferences[j] == JP_HIGH)
+			topjob_found = TRUE
+			var/datum/job/prefjob = SSjob.GetJob(j)
+			if(prefjob)
+				topjob = prefjob.title
+			WRITE_FILE(S["topjob"], topjob)
+	if(!topjob_found && topjob)	// Fallback in case we load a slot that had HIGH set but then it got unset / job got altered.
+		topjob = null
+		WRITE_FILE(S["topjob"], topjob)
 
 	all_quirks = SANITIZE_LIST(all_quirks)
 
@@ -864,6 +896,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["taur_type"]			, taur_type)
 	WRITE_FILE(S["taur_color"]			, taur_color)
 	WRITE_FILE(S["culinary_preferences"], culinary_preferences)
+	WRITE_FILE(S["topjob"]				, topjob)
 
 	//Custom names
 	for(var/custom_name_id in GLOB.preferences_custom_names)

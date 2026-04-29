@@ -233,7 +233,7 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/swine/Initialize()
 	. = ..()
 	AddElement(/datum/element/ai_retaliate)
-	ai_controller.set_blackboard_key(BB_BASIC_FOODS, food_type)
+	ai_controller.set_blackboard_key(BB_BASIC_FOODS, typecacheof(food_type))
 
 /mob/living/simple_animal/hostile/retaliate/rogue/swine/taunted(mob/user)
 	emote("aggro")

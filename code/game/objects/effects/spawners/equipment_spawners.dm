@@ -355,12 +355,13 @@
 	loot_value = LOOT_VALUE_ELVEN_EQUIPMENT
 	junk_loot = list(/obj/item/natural/feather = 5, /obj/item/ash = 3)
 	loot = list(
-		/obj/item/clothing/suit/roguetown/armor/plate/cuirass/fencer/elven = 1,
+		/obj/item/clothing/suit/roguetown/armor/plate/elven_plate/light = 1,
 		/obj/item/clothing/suit/roguetown/armor/plate/elven_plate = 1,
 		/obj/item/clothing/shoes/roguetown/boots/elven_boots = 1,
 		/obj/item/clothing/gloves/roguetown/elven_gloves = 1,
 		/obj/item/rogueweapon/sword/sabre/elf = 1,
 		/obj/item/rogueweapon/huntingknife/idagger/silver/elvish = 1,
+		/obj/item/clothing/head/roguetown/helmet/heavy/elven_helm/light = 1,
 		/obj/item/clothing/head/roguetown/helmet/heavy/elven_helm = 1,
 		/obj/item/clothing/head/roguetown/helmet/elvenbarbute = 1,
 		/obj/item/clothing/head/roguetown/helmet/elvenbarbute/winged = 1,

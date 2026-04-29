@@ -159,14 +159,14 @@
 			H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE) //Still 4 defence, fair enough
 			H.put_in_hands(new /obj/item/rogueweapon/sword/short/elvish)
 			H.equip_to_slot_or_del(new /obj/item/rogueweapon/scabbard/sword, SLOT_BELT_R, TRUE)
-	var/armors = list("Trophy Fur Robes", "Elven Cuirass")
+	var/armors = list("Woad Elven Maille", "Trophy Fur Robes")
 	var/armor_choice = input(H, "Choose your ARMOR.", "THE FOREST CLOAKS YOU.") as anything in armors
 	switch(armor_choice)
+		if("Woad Elven Maille")
+			REMOVE_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
+			H.equip_to_slot_or_del(new /obj/item/clothing/suit/roguetown/armor/plate/elven_plate/light, SLOT_ARMOR, TRUE)
 		if("Trophy Fur Robes")
 			H.equip_to_slot_or_del(new /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat/trophyfur, SLOT_ARMOR, TRUE)
-		if("Elven Cuirass")
-			REMOVE_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
-			H.equip_to_slot_or_del(new /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fencer/elven, SLOT_ARMOR, TRUE)
 	var/helmets = list("Woad Elven Barbute", "Elven Barbute", "Winged Elven Barbute")
 	var/helmet_choice = input(H, "Choose your HELMET.", "LEAVES OVER STEEL.") as anything in helmets
 	switch(helmet_choice)
