@@ -2,7 +2,7 @@
 #define VAMPCOST_TWO 6000 //Earlygame finish point, most vlords will end up here less than 30 mins into a round if they're good, 1hr if not.
 #define VAMPCOST_THREE 10000 //Grab immunity, leave moderately high. This is where they become a major threat.
 #define VAMPCOST_FOUR 16000 //Intended to be rather high, but I also noticed vamps aren't upgrading their potencies if its too high. YES they get infinite stamina + shock immunity and a ton of other buffs at this point, but I want some leeway so they don't wind up with the whole map already sucked dry or killed by advs and are unable to invest in vamp potencies
-#define ARMOR_COST 8000 //Keep this high, we want to encourage them to take it before T3 power, or get armor smithed earlygame.
+#define ARMOR_COST 6000 //Slightly high. We want this mid-early game. One-Time only ritual.
 #define SUN_STEAL_COST 8000 //Server wide war declaration, mostly useless for Vitabella. Risk/Reward but we want it to be less earlygame but midgame instead of lategame.
 #define SERVANT_COST 800 //Keep these low, so people can play as vampires. We want to scoop up observers/lobby joiners before they get bored.
 #define SERVANT_T2_COST 1000 //Same as above, a little bit higher because these roles /can/ actually fight, keep it low so they can get a retinue starting off.
@@ -20,7 +20,7 @@
 	var/list/active_projects = list()
 	var/list/available_project_types = list(
 		/datum/vampire_project/power_growth,
-		/datum/vampire_project/armor_crafting, //TODO, future coder me or another. Remove this entirely, make the armor set reteivable inside of a mapped in """container""" that only vlord can access and pull a single set out of.
+		/datum/vampire_project/armor_crafting,
 		/datum/vampire_project/servant/servant_t1,
 		/datum/vampire_project/servant/servant_t2,
 		/datum/vampire_project/servant/servant_t3,
@@ -367,7 +367,7 @@
 
 /datum/vampire_project/armor_crafting //TODO, future coder me or another. Remove this entirely, make the armor set reteivable inside of a mapped in """container""" that only vlord can access and pull a single set out of.
 	display_name = "Wicked Plate"
-	description = "Summon a complete set of vampiric plate armor from crystallized blood. Let not steel, silver, nor salvation inhibit the Lord's plan."
+	description = "Summon a complete set of vampiric plate armor from crystallized blood. Let not steel, silver, nor salvation inhibit the Lord's plan. This can only be done once."
 	total_cost = ARMOR_COST
 	completion_sound = 'sound/misc/vcraft.ogg'
 
@@ -381,6 +381,8 @@
 	new /obj/item/clothing/wrists/roguetown/bracers/paalloy/vampire (bloodpool.loc)
 	new /obj/item/clothing/neck/roguetown/gorget/paalloy/vampire (bloodpool.loc)
 	creation_point.visible_message(span_notice("A complete set of plate armor materializes from the crimson crucible."))
+
+	bloodpool.available_project_types -= /datum/vampire_project/armor_crafting //ONE TIME RITUAL ONLY, we do not want this handed out en-mass.
 
 /datum/vampire_project/sunsteal
 	display_name = "Steal the Sun"
