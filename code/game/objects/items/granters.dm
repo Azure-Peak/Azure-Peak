@@ -535,12 +535,13 @@
 	var/is_dominant = dominant_key && dominant_key == seal_key
 	var/dominant_priority = dominant_key ? get_seal_priority(dominant_key) : 0
 	var/is_replaced = dominant_key && rule.priority < dominant_priority
+	var/is_visible = entry && !is_replaced
 	var/list/result = list(
 		"key" = seal_key,
 		"label" = rule.title || rule.key,
 		"stamped" = entry ? TRUE : FALSE,
 		"stamper" = entry ? entry["stamper"] : "",
-		"visible" = !is_replaced,
+		"visible" = is_visible ? TRUE : FALSE,
 		"suspicious" = entry ? entry["suspicious"] : FALSE,
 		"priority" = rule.priority,
 		"dominant" = is_dominant ? TRUE : FALSE,
@@ -964,27 +965,3 @@
 /obj/item/book/granter/resident_manuscript/fake/mages
 	desc = "A Mage's Guild patent whose provenance is best left unmentioned."
 	document_profile_id = "mages"
-
-/obj/item/book/granter/resident_manuscript/inn
-	desc = "An Innkeep's writ, attesting the bearer's lawful keeping of the central inn."
-	document_profile_id = "inn"
-
-/obj/item/book/granter/resident_manuscript/blank/inn
-	desc = "A blank Innkeep's writ. Fill it with a feather, then bring it for the Innkeep's seal."
-	document_profile_id = "inn"
-
-/obj/item/book/granter/resident_manuscript/fake/inn
-	desc = "An Innkeep's writ whose provenance is best left unmentioned."
-	document_profile_id = "inn"
-
-/obj/item/book/granter/resident_manuscript/bathhouse
-	desc = "A Bathhouse patent, granting the bearer leave to keep the steam, scent and trade beneath the inn."
-	document_profile_id = "bathhouse"
-
-/obj/item/book/granter/resident_manuscript/blank/bathhouse
-	desc = "A blank Bathhouse patent. Fill it with a feather, then bring it for the Bathmaster's seal."
-	document_profile_id = "bathhouse"
-
-/obj/item/book/granter/resident_manuscript/fake/bathhouse
-	desc = "A Bathhouse patent whose provenance is best left unmentioned."
-	document_profile_id = "bathhouse"

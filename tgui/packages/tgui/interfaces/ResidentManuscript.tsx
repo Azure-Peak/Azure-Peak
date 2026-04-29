@@ -627,42 +627,6 @@ const PROFILE_EMBLEMS: Record<DocumentProfileId, ReactNode> = {
       <circle className="ResidentManuscript__crestGem" cx="48" cy="50" r="3" />
     </>
   ),
-  inn: (
-    <>
-      <path
-        className="ResidentManuscript__crestEmblem"
-        d="M30 36 L60 36 L62 70 Q62 76 56 76 L34 76 Q28 76 28 70 Z"
-      />
-      <path
-        className="ResidentManuscript__crestQuarter"
-        d="M62 44 Q72 44 72 56 Q72 68 62 68"
-        fill="none"
-      />
-      <path
-        className="ResidentManuscript__crestRay"
-        d="M30 36 Q34 28 38 32 Q42 26 46 32 Q50 26 54 32 Q58 28 60 36"
-        fill="none"
-      />
-      <circle className="ResidentManuscript__crestGem" cx="44" cy="56" r="2.5" />
-    </>
-  ),
-  bathhouse: (
-    <>
-      <path
-        className="ResidentManuscript__crestEmblem"
-        d="M48 22 Q56 38 56 50 Q56 64 48 70 Q40 64 40 50 Q40 38 48 22 Z"
-      />
-      <path
-        className="ResidentManuscript__crestRay"
-        d="M28 40 Q24 56 36 66 Q42 62 42 50 Q40 44 28 40 Z"
-      />
-      <path
-        className="ResidentManuscript__crestRay"
-        d="M68 40 Q72 56 60 66 Q54 62 54 50 Q56 44 68 40 Z"
-      />
-      <circle className="ResidentManuscript__crestGem" cx="48" cy="50" r="3" />
-    </>
-  ),
   commoner: (
     <>
       <path

@@ -10,8 +10,6 @@ export type KnownDocumentProfileId =
   | 'craftsmen'
   | 'merchant'
   | 'mages'
-  | 'inn'
-  | 'bathhouse'
   | 'commoner'
   | 'mercenary'
   | 'otava';

@@ -241,18 +241,6 @@
 	job_types = list(/datum/job/roguetown/merchant)
 	priority = RESIDENT_SEAL_PRIORITY_FACTION_MID
 
-/datum/resident_manuscript_seal_rule/innkeeper
-	key = "innkeeper"
-	title = "Innkeep"
-	stamper = "Innkeep"
-	priority = RESIDENT_SEAL_PRIORITY_FACTION_LOW
-
-/datum/resident_manuscript_seal_rule/bathmaster
-	key = "bathmaster"
-	title = "Bathmaster"
-	stamper = "Bathmaster"
-	priority = RESIDENT_SEAL_PRIORITY_FACTION_LOW
-
 /proc/get_resident_manuscript_seal_rules()
 	var/static/list/seal_rules
 	if(!seal_rules)
@@ -295,6 +283,7 @@
 	id = "resident"
 	display_name = "Resident Manuscript"
 	subtitle = "Under the Crown's Hand"
+	description = "Let it be known: under cold crown-wax and black ink, the bearer is counted among the named souls of these lands. Gate, hearth, and gallows alike must know them until law or death strikes them from the roll."
 	allowed_seals = list("chancellor", "elder", "ruler", "hand")
 	default_commoner_seal_keys = list("chancellor")
 	default_noble_seal_keys = list("ruler")
@@ -308,7 +297,7 @@
 	id = "guards"
 	display_name = "Azurian Warden Mandate"
 	subtitle = "By the Watch and the Crown"
-	description = "Let it be known: the bearer is a sworn warden of Azuria, charged with the keeping of city order, the law of the Crown, and the silver discipline of the watch."
+	description = "Let it be known: the bearer walks as a warden of Azuria, sworn to keep the lanterns burning and the streets obedient. Their word carries iron, and their hand may drag peace from blood, mud, and fear."
 	allowed_seals = list("sergeant", "marshal", "elder")
 	paper_color = "#d9cfb0"
 	ink_color = "#2f3028"
@@ -319,7 +308,7 @@
 	id = "church"
 	display_name = "Ecclesiastical Writ of Faith"
 	subtitle = "Beneath the Tenfold Light"
-	description = "Let it be known: the bearer is a recognized child of the Church, walking under the protection of the Tenfold Light, and is to be received as a faithful soul in matters of doctrine and rite."
+	description = "Let it be known: the bearer is marked beneath the Tenfold Light, where mercy burns as keenly as judgment. Let shrine and altar receive them, unless shadow or heresy claims their name first."
 	allowed_seals = list("bishop")
 	paper_color = "#ead8ad"
 	ink_color = "#322414"
@@ -330,7 +319,7 @@
 	id = "craftsmen"
 	display_name = "Artisan Guild Charter"
 	subtitle = "By Honest Hand and Bronze"
-	description = "Let it be known: the bearer is a recognized artisan of the city guilds, holding the right to honest work, fair price, and the standing of the masterly estate."
+	description = "Let it be known: the bearer is bound to furnace, awl, chisel, and oath. Their work may pass under guild protection, and their debt to craft shall be weighed in coin, sweat, and blood."
 	allowed_seals = list("guild_leader", "chancellor", "elder")
 	paper_color = "#ded1a9"
 	ink_color = "#2f2b19"
@@ -341,7 +330,7 @@
 	id = "commoner"
 	display_name = "Townsfolk Manuscript"
 	subtitle = "By the Towner Elder's mark"
-	description = "Let it be known: the bearer is a plain soul of the town, marked in cheap ink and rough paper. The bearer is counted among lawful folk only so far as elder and chancery will suffer it, without flourish, privilege, or noble courtesy."
+	description = "Let it be known: the bearer is a plain soul of the town, scratched into cheap ink and rag paper. They are suffered among lawful folk without flourish, privilege, or noble mercy."
 	allowed_seals = list("elder", "chancellor", "hand")
 	default_commoner_seal_keys = list("elder", "chancellor")
 	default_noble_seal_keys = list("hand")
@@ -355,7 +344,7 @@
 	id = "merchant"
 	display_name = "Merchant Shop Charter"
 	subtitle = "By the Coin and the Tusk"
-	description = "Let it be known: the bearer is a sworn member of the Merchant Shop, recognized in matters of trade, contract and lawful sale, and is owed the courtesies of the burgher estate."
+	description = "Let it be known: the bearer serves the counting house, where coin is weighed like sin and every bargain has a shadow. Their trade is lawful, their ledgers answerable, and their debts remembered."
 	allowed_seals = list("merchant_master", "chancellor")
 	paper_color = "#e0c79a"
 	ink_color = "#2a1a10"
@@ -366,40 +355,18 @@
 	id = "mages"
 	display_name = "Mage's Guild Patent"
 	subtitle = "Under the Duchy's Light, by Star and Sigil"
-	description = "Let it be known: by the Duchy's licence and the seal of the Mage's Guild, the bearer is a recognized practitioner of potionmaking, summoning, and the arts of the Guild, bound to its compact and protected by its accord."
+	description = "Let it be known: by ducal leave and guild sigil, the bearer may traffic in star, draught, and summoned whisper. Let none hinder their art, unless the art hungers beyond its chain."
 	allowed_seals = list("court_magician")
 	paper_color = "#dccdde"
 	ink_color = "#1c1226"
 	accent_color = "#6a4490"
 	seal_color = "#3d1d5a"
 
-/datum/resident_document_profile/inn
-	id = "inn"
-	display_name = "Innkeep's Writ"
-	subtitle = "By the Hearth and the Tankard"
-	description = "Let it be known: the bearer is recognized as the Innkeep of the city's central inn, charged with the keeping of the hearth, the lawful sale of board and drink, and the safety of those who lodge beneath this roof."
-	allowed_seals = list("innkeeper")
-	paper_color = "#e7caa0"
-	ink_color = "#2a1a10"
-	accent_color = "#b67b3a"
-	seal_color = "#7c3920"
-
-/datum/resident_document_profile/bathhouse
-	id = "bathhouse"
-	display_name = "Bathhouse Patent"
-	subtitle = "Beneath Steam and Lily"
-	description = "Let it be known: the bearer is a recognized proprietor of the Bathhouse, granted leave to keep the steam, scent, and trade of the basement under the Inn, and to gather such custom as the Matron permits."
-	allowed_seals = list("bathmaster")
-	paper_color = "#e6c9d6"
-	ink_color = "#2a1626"
-	accent_color = "#a85878"
-	seal_color = "#6e2a48"
-
 /datum/resident_document_profile/mercenary
 	id = "mercenary"
 	display_name = "Mercenary Contract"
 	subtitle = "By the Coin, the Steel, and the Word"
-	description = "Let it be known: the bearer is a free blade of recognized standing, bound by the contract of coin and steel, sworn to the company that brought them to these lands."
+	description = "Let it be known: the bearer is a blade sold under witness, bound by coin, steel, and the captain's word. They may spill blood by contract, and answer for it when the ink dries."
 	allowed_seals = list("elder", "chancellor", "hand")
 	default_commoner_seal_keys = list("elder", "chancellor")
 	default_noble_seal_keys = list("hand")
@@ -412,7 +379,7 @@
 	id = "otava"
 	display_name = "Inquisitorial Edict"
 	subtitle = "By Truth, Inquest, and the Cleansing Flame"
-	description = "Let it be known: by the silver edict of Otava, the bearer is empowered to act in the name of truth, to question and to seek, and to call forth the cleansing flame against heresy."
+	description = "Let it be known: by Otava's silver edict, the bearer may prise truth from locked mouths and call flame upon the rot of heresy. To bar their path is to stand where ash is due."
 	allowed_seals = list("inquisitor")
 	paper_color = "#d8d1c0"
 	ink_color = "#18130f"

@@ -3,73 +3,61 @@ import type { ResidentManuscriptTexts } from '../localization';
 export const residentManuscriptEn: ResidentManuscriptTexts = {
   window_title: 'Resident Manuscript',
   title: 'Resident Manuscript',
-  subtitle_prefix: 'Official writ of lawful standing',
+  subtitle_prefix: 'Inkbound writ beneath a dying law',
   profiles: {
     resident: {
       display_name: 'Resident Manuscript',
       subtitle: "Under the Crown's Hand",
       description:
-        "Let it be known: by the Crown's will and the Council's oversight, the bearer of this document is recognized as a lawful resident of these lands and stands beneath the shelter of common law. Every rank and office is charged to acknowledge the bearer as a faithful subject and to place no unjust obstacle in their path.",
+        "Let it be known: under cold crown-wax and black ink, the bearer is counted among the named souls of these lands. Gate, hearth, and gallows alike must know them until law or death strikes them from the roll.",
     },
     guards: {
       display_name: 'Azurian Warden Mandate',
       subtitle: 'By the Watch and the Crown',
       description:
-        'Let it be known: the bearer is a sworn warden of Azuria, charged with the keeping of city order, the law of the Crown, and the silver discipline of the watch. Wardens act in the name of public peace and lawful arrest, under command of the Marshal and the Council.',
+        'Let it be known: the bearer walks as a warden of Azuria, sworn to keep the lanterns burning and the streets obedient. Their word carries iron, and their hand may drag peace from blood, mud, and fear.',
     },
     church: {
       display_name: 'Ecclesiastical Writ of Faith',
       subtitle: 'Beneath the Tenfold Light',
       description:
-        'Let it be known: the bearer is a recognized child of the Tenfold Church, walking under the protection of the sacred light, and is to be received as a faithful soul in matters of doctrine and rite. Every congregation and shrine is charged to grant the bearer the courtesy due to a confirmed believer.',
+        'Let it be known: the bearer is marked beneath the Tenfold Light, where mercy burns as keenly as judgment. Let shrine and altar receive them, unless shadow or heresy claims their name first.',
     },
     craftsmen: {
       display_name: 'Artisan Guild Charter',
       subtitle: 'By Honest Hand and Bronze',
       description:
-        'Let it be known: the bearer is a recognized artisan of the Guild — that band of craftsmen sworn to Malum the Forgefather — holding the right to honest work, fair price, and the standing of the masterly estate. The bearer is bound by guild oath and protected by guild law in matters of contract and trade.',
+        'Let it be known: the bearer is bound to furnace, awl, chisel, and oath. Their work may pass under guild protection, and their debt to craft shall be weighed in coin, sweat, and blood.',
     },
     merchant: {
       display_name: 'Merchant Shop Charter',
       subtitle: 'By the Coin and the Tusk',
       description:
-        "Let it be known: the bearer is a sworn member of the Merchant Shop, the city's licensed house of trade, recognized in matters of fair sale, lawful contract, and the appraisal of treasures and lesser goods. The bearer is owed the courtesies due any honest burgher.",
+        'Let it be known: the bearer serves the counting house, where coin is weighed like sin and every bargain has a shadow. Their trade is lawful, their ledgers answerable, and their debts remembered.',
     },
     mages: {
       display_name: "Mage's Guild Patent",
       subtitle: "Under the Duchy's Light, by Star and Sigil",
       description:
-        "Let it be known: by the Duchy's licence and the seal of the Mage's Guild, the bearer is a recognized practitioner of potionmaking, summoning, and the bound arts of the Guild. None may obstruct the bearer in the lawful pursuit of the Guild's craft.",
-    },
-    inn: {
-      display_name: "Innkeep's Writ",
-      subtitle: 'By the Hearth and the Tankard',
-      description:
-        "Let it be known: the bearer is recognized as the Innkeep of the city's central inn, charged with the keeping of the hearth, the lawful sale of board and drink, and the safety of those who lodge beneath this roof.",
-    },
-    bathhouse: {
-      display_name: 'Bathhouse Patent',
-      subtitle: 'Beneath Steam and Lily',
-      description:
-        'Let it be known: the bearer is a recognized proprietor of the Bathhouse, granted leave by the Matron to keep the steam, scent, and lawful trade of the basement beneath the Inn, and to gather such custom as the Matron permits.',
+        'Let it be known: by ducal leave and guild sigil, the bearer may traffic in star, draught, and summoned whisper. Let none hinder their art, unless the art hungers beyond its chain.',
     },
     commoner: {
       display_name: 'Townsfolk Manuscript',
       subtitle: "By the Towner Elder's mark",
       description:
-        'Let it be known: the bearer is a plain soul of the town, marked in cheap ink and rough paper. The bearer is counted among lawful folk only so far as elder and chancery will suffer it, without flourish, privilege, or noble courtesy.',
+        'Let it be known: the bearer is a plain soul of the town, scratched into cheap ink and rag paper. They are suffered among lawful folk without flourish, privilege, or noble mercy.',
     },
     mercenary: {
       display_name: 'Mercenary Contract',
       subtitle: 'By the Coin, the Steel, and the Word',
       description:
-        'Let it be known: the bearer is a free blade of recognized standing, bound by the contract of coin and steel, and sworn to the company that brought them to these lands. The bearer answers to contract and to captain, and may not be molested in the lawful pursuit of either.',
+        "Let it be known: the bearer is a blade sold under witness, bound by coin, steel, and the captain's word. They may spill blood by contract, and answer for it when the ink dries.",
     },
     otava: {
       display_name: 'Inquisitorial Edict',
       subtitle: 'By Truth, Inquest, and the Cleansing Flame',
       description:
-        "Let it be known: by the edict of Otava, the bearer is empowered to act in the name of truth, to question and to seek, and to call forth the cleansing flame against heresy. Every faithful soul is charged to render the bearer such aid as the matter demands, and to obstruct them is to obstruct the Church's justice.",
+        "Let it be known: by Otava's silver edict, the bearer may prise truth from locked mouths and call flame upon the rot of heresy. To bar their path is to stand where ash is due.",
     },
   },
   labels: {
@@ -143,11 +131,9 @@ export const residentManuscriptEn: ResidentManuscriptTexts = {
       title: 'Merchant Master',
       stamper: 'Merchant Master',
     },
-    innkeeper: { title: 'Innkeep', stamper: 'Innkeep' },
-    bathmaster: { title: 'Bathmaster', stamper: 'Bathmaster' },
   },
   description:
-    "Let it be known: by the Crown's will and the Council's oversight, the bearer of this document is recognized as a lawful resident of these lands and stands beneath the shelter of common law. Every rank and office is charged to acknowledge the bearer as a faithful subject and to place no unjust obstacle in their path.",
+    'Let it be known: this writ binds a name to law, wax, and witness beneath a darkening crown.',
   defects: {
     ink_blot: 'A faint ink blot marks one corner of the parchment.',
     seal_smudge: 'The ink around one seal is slightly smeared.',
