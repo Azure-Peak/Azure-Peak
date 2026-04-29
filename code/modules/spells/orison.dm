@@ -37,7 +37,7 @@
 
 	attunement_school = null
 
-	required_items = list(/obj/item/clothing/neck/roguetown/psicross)
+	//required_items = list(/obj/item/clothing/neck/roguetown/psicross)
 
 	var/thaumaturgy_devotion = 10
 	var/light_devotion = 5

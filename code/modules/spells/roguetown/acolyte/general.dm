@@ -20,7 +20,7 @@
 
 	point_cost = 0
 
-	required_items = list(/obj/item/clothing/neck/roguetown/psicross)//Any cross will do it's generic
+	//required_items = list(/obj/item/clothing/neck/roguetown/psicross)//Any cross will do it's generic
 
 ////////////////////
 // MIRACLE - HEAL //
