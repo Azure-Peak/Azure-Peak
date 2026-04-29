@@ -5,6 +5,7 @@
 	// Unique antag weapon, it can be a good deal better
 	max_integrity = 220
 	wdefense = 5
+	special = /datum/special_intent/rot_ring
 
 /obj/item/rogueweapon/huntingknife/idagger/steel/rotfang/Initialize()
 	. = ..()
@@ -95,3 +96,97 @@
 
 /datum/component/ichor_stained/proc/remove_visuals()
 	parent_weapon.icon_state = initial(parent_weapon.icon_state)
+
+/obj/projectile/bullet/rot_bolt
+	name = "rot bolt"
+	desc = "A glob of concentrated black rot."
+	icon = 'icons/obj/structures/heart_items.dmi'
+	icon_state = "ichor_bolt"
+	damage = 0 // No direct damage, only applies status effect
+	damage_type = BRUTE
+	armor_penetration = 100
+	hitsound = 'sound/combat/hits/hi_arrow2.ogg'
+	var/rot_stacks_to_apply = 1
+
+/obj/projectile/bullet/rot_bolt/on_hit(atom/target, blocked)
+	if(blocked)
+		return ..()
+	if(isliving(target))
+		var/mob/living/L = target
+		var/datum/status_effect/black_rot/R = L.has_status_effect(/datum/status_effect/black_rot)
+		var/stacks_to_add = rot_stacks_to_apply
+
+		// Apply scaling logic
+		if(R)
+			// If they have rot, we push them toward thresholds or add chunks
+			if(R.stacks < 33)
+				stacks_to_add = max(11, 33 - R.stacks) // Guarantee at least 11, or push to 33
+			else if(R.stacks < 66)
+				stacks_to_add = 11
+			else
+				stacks_to_add = 5
+			R.add_stack(stacks_to_add)
+		else
+			// Initial infection
+			if(prob(50))
+				L.apply_status_effect(/datum/status_effect/black_rot, 1)
+
+		to_chat(L, span_danger("The rot bolt seeps into your flesh!"))
+	return ..()
+
+/datum/special_intent/rot_ring
+	name = "Rot Ring"
+	desc = "Unleash a ring of black rot projectiles in all directions, starting from where you face and moving clockwise. Each bolt has a chance to inflict, or otherwise worsens black rot. The first bolt fires after a short delay."
+	tile_coordinates = list(list(0,0)) // Dummy, we override deployment
+	use_clickloc = FALSE
+	respect_adjacency = FALSE
+	delay = 0.5 SECONDS // Initial delay before first bolt
+	cooldown = 45 SECONDS
+	stamcost = 35
+	requires_wielding = FALSE // Can be used even if not wielded
+	var/bolt_delay_between = 0.25 SECONDS
+
+/datum/special_intent/rot_ring/process_attack()
+	SHOULD_CALL_PARENT(FALSE) // We handle everything manually
+
+	howner.visible_message(span_warning("[howner]'s [iparent] pulses with dark energy!"))
+	howner.Immobilize(0.5 SECONDS)
+	playsound(howner, 'sound/magic/blade_burst.ogg', 80, TRUE)
+
+	new /obj/effect/temp_visual/rot_ring_tell(get_turf(howner), howner.dir)
+	var/start_angle = dir2angle(howner.dir)
+
+	addtimer(CALLBACK(src, PROC_REF(fire_next_bolt), 1, start_angle), delay)
+	apply_cooldown()
+
+/datum/special_intent/rot_ring/proc/fire_next_bolt(index, start_angle)
+	if(index > 8)
+		return
+
+	var/turf/start_turf = get_turf(howner)
+	if(!start_turf)
+		return
+
+	var/current_angle = (start_angle + ((index - 1) * 45)) % 360
+
+	var/obj/projectile/bullet/rot_bolt/bolt = new(start_turf)
+	bolt.firer = howner
+	bolt.def_zone = howner.zone_selected
+
+	bolt.prepare_direct(start_turf, current_angle)
+
+	// Schedule next bolt
+	if(index < 8)
+		addtimer(CALLBACK(src, PROC_REF(fire_next_bolt), index + 1, start_angle), bolt_delay_between)
+
+/obj/projectile/bullet/rot_bolt/proc/prepare_direct(turf/start_loc, firing_angle)
+	forceMove(start_loc)
+	starting = start_loc
+	setAngle(firing_angle)
+	fire(firing_angle)
+
+/obj/effect/temp_visual/rot_ring_tell
+	icon = 'icons/effects/effects.dmi'
+	icon_state = "rot_tell"
+	duration = 0.5 SECONDS
+	layer = ABOVE_MOB_LAYER

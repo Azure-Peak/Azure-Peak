@@ -103,7 +103,6 @@
 		update_alert()
 
 /datum/status_effect/black_rot/proc/remove_stack(amount = 1)
-	var/old_stacks = stacks
 	stacks -= amount
 	if(stacks <= 0)
 		owner.apply_status_effect(/datum/status_effect/black_rot_debility)

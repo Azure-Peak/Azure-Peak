@@ -27,7 +27,7 @@
 /datum/rot_symptom/vulnerable/activate(mob/living/L, datum/status_effect/black_rot/rot)
 	..()
 	to_chat(L, span_warning("Your joints lock up momentarily, leaving you wide open!"))
-	L.apply_status_effect(/datum/status_effect/debuff/vulnerable, 5 SECONDS)
+	L.apply_status_effect(/datum/status_effect/debuff/vulnerable, 6 SECONDS)
 
 /datum/rot_symptom/chills
 	name = "Chills"
@@ -46,12 +46,14 @@
 /datum/rot_symptom/exposed
 	name = "Exposure"
 	required_tier = 2
+	max_tier = 2
 	cooldown = 30 SECONDS
+	var/exposed_duration = 7 SECONDS
 
 /datum/rot_symptom/exposed/activate(mob/living/L, datum/status_effect/black_rot/rot)
 	..()
 	to_chat(L, span_danger("The rot makes your arms feel numb!"))
-	L.apply_status_effect(/datum/status_effect/debuff/exposed, 15 SECONDS)
+	L.apply_status_effect(/datum/status_effect/debuff/exposed, exposed_duration)
 
 /datum/rot_symptom/vomit
 	name = "Nausea"
@@ -67,6 +69,13 @@
 
 // --- TIER 3 SYMPTOMS ---
 
+/datum/rot_symptom/exposed/greater
+	name = "Greater Exposure"
+	required_tier = 3
+	max_tier = 4
+	cooldown = 30 SECONDS
+	exposed_duration = 15 SECONDS
+
 /datum/rot_symptom/necrosis_flare
 	name = "Necrosis Flare"
 	required_tier = 3
@@ -81,7 +90,7 @@
 /datum/rot_symptom/chest_wound
 	name = "Chest Burst"
 	required_tier = 3
-	cooldown = 60 SECONDS
+	cooldown = 75 SECONDS
 
 /datum/rot_symptom/chest_wound/activate(mob/living/L, datum/status_effect/black_rot/rot)
 	if(!iscarbon(L))
