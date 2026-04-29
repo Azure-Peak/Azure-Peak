@@ -22,8 +22,12 @@
     serif;
   --rm-serif: Georgia, 'Times New Roman', serif;
 
+  box-sizing: border-box;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
   min-height: 100%;
-  padding: 8px;
+  padding: clamp(6px, 1.5vh, 14px);
   color: var(--rm-ink);
   font-family: var(--rm-serif);
 
@@ -61,17 +65,36 @@
   }
 
   &--profile-commoner &__sheet {
-    background: linear-gradient(
-      180deg,
-      var(--rm-paper-light),
-      var(--rm-paper) 50%,
-      var(--rm-paper-dark)
-    );
+    background:
+      radial-gradient(ellipse at 16% 22%, rgba(71, 43, 21, 0.22) 0 6%, transparent 15%),
+      radial-gradient(ellipse at 82% 78%, rgba(75, 45, 22, 0.18) 0 5%, transparent 14%),
+      linear-gradient(90deg, rgba(55, 35, 19, 0.12), transparent 9%, transparent 91%, rgba(55, 35, 19, 0.16)),
+      repeating-linear-gradient(0deg, rgba(62, 42, 22, 0.045) 0, rgba(62, 42, 22, 0.045) 1px, transparent 1px, transparent 6px),
+      linear-gradient(180deg, #d0ba8a, var(--rm-paper) 48%, #9c7c4d);
     border-color: #4d3a22;
     box-shadow:
       inset 0 0 0 1px rgba(255, 240, 210, 0.18),
       inset 0 0 18px rgba(40, 26, 14, 0.4),
       0 6px 14px rgba(0, 0, 0, 0.5);
+    transform: rotate(-0.12deg);
+  }
+
+  &--profile-commoner &__sheet::before {
+    background:
+      linear-gradient(
+        88deg,
+        transparent 0%,
+        transparent 16%,
+        rgba(69, 43, 23, 0.2) 17%,
+        rgba(244, 225, 181, 0.12) 18%,
+        transparent 20%,
+        transparent 63%,
+        rgba(66, 39, 18, 0.16) 64%,
+        rgba(245, 225, 180, 0.1) 65%,
+        transparent 67%
+      ),
+      repeating-linear-gradient(90deg, transparent 0, transparent 22px, rgba(66, 43, 24, 0.035) 23px, transparent 25px);
+    mix-blend-mode: multiply;
   }
 
   &--profile-commoner &__sheet::after {
@@ -82,6 +105,15 @@
 
   &--profile-commoner &__ornament {
     display: none;
+  }
+
+  &--profile-commoner &__body {
+    background:
+      linear-gradient(180deg, rgba(215, 194, 145, 0.36), rgba(165, 134, 80, 0.22)),
+      rgba(198, 171, 116, 0.26);
+    border-color: rgba(77, 58, 34, 0.58);
+    border-style: dashed;
+    box-shadow: inset 0 0 12px rgba(64, 42, 23, 0.2);
   }
 
   &--profile-commoner &__divider {
@@ -107,6 +139,22 @@
   &--profile-commoner &__pretitle,
   &--profile-commoner &__subtitle {
     opacity: 0.7;
+  }
+
+  &--profile-commoner &__bodyText {
+    font-family: var(--rm-serif);
+    font-style: normal;
+    line-height: 1.42;
+    text-align: left;
+  }
+
+  &--profile-commoner &__bodyText::first-letter {
+    color: inherit;
+    font-size: 1.2em;
+  }
+
+  &--profile-commoner &__field {
+    border-bottom-style: dotted;
   }
 
   &--profile-mercenary {
@@ -150,7 +198,11 @@
 
   &__sheet {
     position: relative;
-    max-width: 780px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    width: min(100%, 820px);
+    min-height: min(980px, calc(100vh - 88px));
     margin: 0 auto;
     padding: 8px;
     color: var(--rm-ink);
@@ -278,6 +330,9 @@
   }
 
   &__body {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
     padding: 10px 14px 12px;
     border: 1px solid rgba(67, 47, 31, 0.55);
     background:
@@ -523,7 +578,7 @@
     transform: rotate(0.7deg);
   }
 
-  &__statusButtons {
+  &__choiceButtons {
     display: flex;
     flex-wrap: wrap;
     gap: 5px;
@@ -565,13 +620,17 @@
   }
 
   &__seals {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(96px, 1fr));
+    display: flex;
+    flex-wrap: wrap;
     gap: 8px;
+    justify-content: center;
   }
 
   &__seal {
     position: relative;
+    flex: 1 1 132px;
+    max-width: 168px;
+    min-width: 112px;
     min-height: 100px;
     padding: 6px;
     text-align: center;
@@ -594,7 +653,6 @@
 
   &__seal--dominant {
     z-index: 2;
-    transform: scale(1.08);
     border-color: var(--rm-seal);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
   }
@@ -956,10 +1014,12 @@
 
 @media (max-width: 720px) {
   .ResidentManuscript {
-    padding: 8px;
+    padding: 4px;
 
     &__sheet {
-      padding: 10px;
+      width: 100%;
+      min-height: auto;
+      padding: 6px;
     }
 
     &__ornament {
@@ -998,9 +1058,12 @@
       font-size: 17px;
     }
 
-    &__fields,
-    &__seals {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+    &__fields {
+      grid-template-columns: 1fr;
+    }
+
+    &__seal {
+      flex-basis: 128px;
     }
 
     &__visualDefect--hereticalMarginalia {

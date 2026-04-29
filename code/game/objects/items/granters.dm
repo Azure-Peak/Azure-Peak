@@ -1,14 +1,12 @@
 
-///books that teach things (intrinsic actions like bar flinging, spells like fireball or smoke, or martial arts)///
-
 /obj/item/book/granter
-	due_date = 0 // Game time in deciseconds
-	unique = 1   // 0  Normal book, 1  Should not be treated as normal book, unable to be copied, unable to be modified
-	var/list/remarks = list() //things to read about while learning.
-	var/pages_to_mastery = 3 //Essentially controls how long a mob must keep the book in his hand to actually successfully learn
-	var/reading = FALSE //sanity
-	var/oneuse = TRUE //default this is true, but admins can var this to 0 if we wanna all have a pass around of the rod form book
-	var/used = FALSE //only really matters if oneuse but it might be nice to know if someone's used it for admin investigations perhaps
+	due_date = 0
+	unique = 1
+	var/list/remarks = list()
+	var/pages_to_mastery = 3
+	var/reading = FALSE
+	var/oneuse = TRUE
+	var/used = FALSE
 	var/dreamcost
 
 /obj/item/book/granter/proc/turn_page(mob/user)
@@ -21,7 +19,7 @@
 		return TRUE
 	return FALSE
 
-/obj/item/book/granter/proc/recoil(mob/user) //nothing so some books can just return
+/obj/item/book/granter/proc/recoil(mob/user)
 
 /obj/item/book/granter/proc/already_known(mob/user)
 	return FALSE
@@ -47,10 +45,6 @@
 		return FALSE
 	if(already_known(user))
 		return FALSE
-/*	AZURE PEAK REMOVAL -- UNUSED ANYWAY
-	if(user.STAINT < 12)
-			to_chat(user, span_warning("You can't make sense of the sprawling runes!"))
-			return FALSE */
 	if(used && oneuse)
 		to_chat(user, span_warning("This fount of knowledge was not meant to be sipped from twice!"))
 		recoil(user)
@@ -66,7 +60,7 @@
 		reading = FALSE
 		on_reading_finished(user)
 		return TRUE
-	reading = FALSE //failsafe
+	reading = FALSE
 	return FALSE
 
 /obj/item/book/granter/spell
@@ -104,11 +98,9 @@
 	new real_type(loc)
 	return INITIALIZE_HINT_QDEL
 
-///ACTION BUTTONS///
-
 /obj/item/book/granter/action
 	var/granted_action
-	var/actionname = "catching bugs" //might not seem needed but this makes it so you can safely name action buttons toggle this or that without it fucking up the granter, also caps
+	var/actionname = "catching bugs"
 
 /obj/item/book/granter/action/already_known(mob/user)
 	if(!granted_action)
@@ -147,9 +139,6 @@
 	to_chat(user,span_notice("The book falls apart in my hands."))
 	qdel(src)
 
-/*
-UNDER NO CIRCUMSTANCE SHOULD ANY OF THE BOOKS BE GIVEN OUT INTO SPAWNERS OR TO BE PURCHASABLE, BREAK THAT RULE ON YOUR OWN PERIL
-*/
 /obj/item/book/granter/crafting_recipe/tailor
 	name = "MASTER TAILORING / LEATHERWORKING TOME"
 	desc = "If you got hold of this either spawn system screwed up somewhere or admin is trolling you, report THIS."
@@ -186,12 +175,12 @@ UNDER NO CIRCUMSTANCE SHOULD ANY OF THE BOOKS BE GIVEN OUT INTO SPAWNERS OR TO B
 		/datum/crafting_recipe/roguetown/sewing/tailor/otavangambeson,
 		/datum/crafting_recipe/roguetown/leather/unique/otavanleathergloves,
 		/datum/crafting_recipe/roguetown/leather/unique/otavanleatherpants,
-		/datum/crafting_recipe/roguetown/leather/unique/otavanboots,//Otavan
+		/datum/crafting_recipe/roguetown/leather/unique/otavanboots,
 		/datum/crafting_recipe/roguetown/sewing/tailor/grenzelhat,
 		/datum/crafting_recipe/roguetown/sewing/tailor/grenzelshirt,
 		/datum/crafting_recipe/roguetown/leather/unique/grenzelgloves,
 		/datum/crafting_recipe/roguetown/sewing/tailor/grenzelpants,
-		/datum/crafting_recipe/roguetown/leather/unique/grenzelboots//Grenzel
+		/datum/crafting_recipe/roguetown/leather/unique/grenzelboots
 	)
 
 /obj/item/book/granter/crafting_recipe/tailor/eastern
@@ -203,13 +192,13 @@ UNDER NO CIRCUMSTANCE SHOULD ANY OF THE BOOKS BE GIVEN OUT INTO SPAWNERS OR TO B
 		/datum/crafting_recipe/roguetown/sewing/tailor/monkrobe,
 		/datum/crafting_recipe/roguetown/leather/unique/monkleather,
 		/datum/crafting_recipe/roguetown/sewing/tailor/desertgown,
-		/datum/crafting_recipe/roguetown/leather/unique/baggyleatherpants,//Naledi
+		/datum/crafting_recipe/roguetown/leather/unique/baggyleatherpants,
 		/datum/crafting_recipe/roguetown/sewing/tailor/hgambeson/fencer,
-		/datum/crafting_recipe/roguetown/leather/unique/fencingbreeches,//Aanvr
+		/datum/crafting_recipe/roguetown/leather/unique/fencingbreeches,
 		/datum/crafting_recipe/roguetown/leather/unique/openrobes,
 		/datum/crafting_recipe/roguetown/leather/unique/gronngloves,
 		/datum/crafting_recipe/roguetown/leather/unique/gronnpants,
-		/datum/crafting_recipe/roguetown/leather/unique/gronnboots//Gronn
+		/datum/crafting_recipe/roguetown/leather/unique/gronnboots
 	)
 
 /obj/item/book/granter/spell/bonechill
@@ -248,8 +237,6 @@ UNDER NO CIRCUMSTANCE SHOULD ANY OF THE BOOKS BE GIVEN OUT INTO SPAWNERS OR TO B
 	recipient.mind.special_items[RESIDENT_MANUSCRIPT_SPECIAL_ITEM_NAME] = manuscript_type
 	return TRUE
 
-/// Virtue path. Caller has already added TRAIT_RESIDENT; this just stashes
-/// the matching manuscript so the player can retrieve it as identity proof.
 /proc/grant_roundstart_resident_manuscript(mob/living/carbon/human/recipient, manuscript_type = /obj/item/book/granter/resident_manuscript/roundstart)
 	if(!ishuman(recipient) || !recipient.mind)
 		return FALSE
@@ -257,11 +244,6 @@ UNDER NO CIRCUMSTANCE SHOULD ANY OF THE BOOKS BE GIVEN OUT INTO SPAWNERS OR TO B
 		return FALSE
 	return give_roundstart_manuscript(recipient, manuscript_type)
 
-/// Optional outfit hook: places a faction-default manuscript into the
-/// recipient's stash if a role rule resolves their role. Skips when another
-/// manuscript (virtue, admin, etc.) is already stashed.
-/// `get_default_manuscript_type_for_job()` walks the resident document role
-/// rule registry in priority order.
 /proc/grant_roundstart_faction_manuscript(mob/living/carbon/human/recipient)
 	var/manuscript_type = get_default_manuscript_type_for_job(recipient)
 	if(!manuscript_type)
@@ -295,15 +277,15 @@ UNDER NO CIRCUMSTANCE SHOULD ANY OF THE BOOKS BE GIVEN OUT INTO SPAWNERS OR TO B
 		"proper_rite",
 	)
 
-/// `/datum/resident_manuscript_seal_rule` and the seal registry are compiled
-/// with the resident document profile registry.
-
 /obj/item/book/granter/resident_manuscript
 	name = "Resident Manuscript"
 	desc = "A fine ivory manuscript confirming lawful residence under the Crown."
 	icon = 'icons/roguetown/items/misc.dmi'
 	icon_state = "contractsigned"
 	oneuse = FALSE
+	w_class = WEIGHT_CLASS_SMALL
+	grid_width = 32
+	grid_height = 32
 	drop_sound = 'sound/foley/dropsound/paper_drop.ogg'
 	pickup_sound = 'sound/blank.ogg'
 	pages_to_mastery = 0
@@ -341,7 +323,7 @@ UNDER NO CIRCUMSTANCE SHOULD ANY OF THE BOOKS BE GIVEN OUT INTO SPAWNERS OR TO B
 	detection_attempts = list()
 	detection_results = list()
 	detection_note_keys = list()
-	if(auto_stamp_seals)
+	if(auto_stamp_seals && is_bound)
 		stamp_default_seals()
 
 /obj/item/book/granter/resident_manuscript/proc/get_profile_seal_keys()
@@ -394,7 +376,6 @@ UNDER NO CIRCUMSTANCE SHOULD ANY OF THE BOOKS BE GIVEN OUT INTO SPAWNERS OR TO B
 	owner_name = target.real_name
 	owner_age = target.age
 	owner_status_key = status_key_for(target)
-	maybe_swap_profile_for_status()
 	is_bound = TRUE
 	name = "Resident Manuscript"
 	icon_state = "contractsigned"
@@ -404,28 +385,6 @@ UNDER NO CIRCUMSTANCE SHOULD ANY OF THE BOOKS BE GIVEN OUT INTO SPAWNERS OR TO B
 		handle_post_bind_low_level_seal()
 	return TRUE
 
-/// If the document is using a generic status profile (resident/commoner) but
-/// the recorded owner status disagrees, swap to the matching profile and
-/// re-initialize the seal slots. Faction profiles never swap.
-/obj/item/book/granter/resident_manuscript/proc/maybe_swap_profile_for_status()
-	var/desired_id
-	if(document_profile_id == "resident" && owner_status_key == RESIDENT_MANUSCRIPT_STATUS_COMMONER)
-		desired_id = "commoner"
-	else if(document_profile_id == "commoner" && owner_status_key == RESIDENT_MANUSCRIPT_STATUS_NOBLE)
-		desired_id = "resident"
-	if(!desired_id || desired_id == document_profile_id)
-		return FALSE
-	document_profile_id = desired_id
-	document_profile = get_resident_document_profile(desired_id)
-	if(document_profile?.display_name)
-		name = document_profile.display_name
-	initialize_seals()
-	return TRUE
-
-/// Auto-applies the "Towner Elder" baseline seal when a non-`auto_stamp_seals`
-/// document (a blank) finishes binding to a commoner-profile holder. Higher
-/// authority seals (Chancellor / Hand / Duke) still need a living role to
-/// stamp them through `handle_stamp()`.
 /obj/item/book/granter/resident_manuscript/proc/handle_post_bind_low_level_seal()
 	if(is_fake)
 		return
@@ -459,6 +418,13 @@ UNDER NO CIRCUMSTANCE SHOULD ANY OF THE BOOKS BE GIVEN OUT INTO SPAWNERS OR TO B
 	if(value == RESIDENT_MANUSCRIPT_STATUS_NOBLE)
 		return RESIDENT_MANUSCRIPT_STATUS_NOBLE
 	return RESIDENT_MANUSCRIPT_STATUS_COMMONER
+
+/obj/item/book/granter/resident_manuscript/proc/normalize_age_key(value)
+	if(value == AGE_MIDDLEAGED)
+		return AGE_MIDDLEAGED
+	if(value == AGE_OLD)
+		return AGE_OLD
+	return AGE_ADULT
 
 /obj/item/book/granter/resident_manuscript/proc/get_seal_rule(seal_key)
 	var/rule_type = get_resident_manuscript_seal_rules()[seal_key]
@@ -495,9 +461,6 @@ UNDER NO CIRCUMSTANCE SHOULD ANY OF THE BOOKS BE GIVEN OUT INTO SPAWNERS OR TO B
 	qdel(rule)
 	return result
 
-/// Returns the profile's seal keys sorted by ascending priority (weakest first,
-/// strongest last). UI rendering relies on this order so higher-authority
-/// seals appear later in the DOM and can sit "on top" via z-index.
 /obj/item/book/granter/resident_manuscript/proc/get_sorted_seal_keys()
 	var/list/profile_keys = get_profile_seal_keys()
 	if(!LAZYLEN(profile_keys))
@@ -511,9 +474,6 @@ UNDER NO CIRCUMSTANCE SHOULD ANY OF THE BOOKS BE GIVEN OUT INTO SPAWNERS OR TO B
 		sorted += seal_key
 	return sorted
 
-/// Highest-priority stamped, non-suspicious seal -- the one the UI should
-/// treat as the "dominant" mark of authority. Returns null when nothing is
-/// authentically stamped.
 /obj/item/book/granter/resident_manuscript/proc/get_dominant_seal_key()
 	if(!seals)
 		return null
@@ -543,14 +503,10 @@ UNDER NO CIRCUMSTANCE SHOULD ANY OF THE BOOKS BE GIVEN OUT INTO SPAWNERS OR TO B
 	qdel(rule)
 	return TRUE
 
-/// Stamps the seals listed in `document_profile.get_default_seal_keys()` --
-/// those are the seals considered "pre-issued" with the document, and they are
-/// applied in `Initialize()` for ready manuscripts and in `bind_to_holder()`
-/// once the holder has been resolved.
 /obj/item/book/granter/resident_manuscript/proc/stamp_default_seals()
 	if(!document_profile)
 		return
-	for(var/seal_key in document_profile.get_default_seal_keys())
+	for(var/seal_key in document_profile.get_default_seal_keys(owner_status_key))
 		if(!seals[seal_key])
 			stamp_seal(seal_key, null, FALSE)
 
@@ -576,22 +532,22 @@ UNDER NO CIRCUMSTANCE SHOULD ANY OF THE BOOKS BE GIVEN OUT INTO SPAWNERS OR TO B
 	if(!rule)
 		return null
 	var/list/entry = seals?[seal_key]
+	var/is_dominant = dominant_key && dominant_key == seal_key
+	var/dominant_priority = dominant_key ? get_seal_priority(dominant_key) : 0
+	var/is_replaced = dominant_key && rule.priority < dominant_priority
 	var/list/result = list(
 		"key" = seal_key,
 		"label" = rule.title || rule.key,
 		"stamped" = entry ? TRUE : FALSE,
 		"stamper" = entry ? entry["stamper"] : "",
-		"visible" = TRUE,
+		"visible" = !is_replaced,
 		"suspicious" = entry ? entry["suspicious"] : FALSE,
 		"priority" = rule.priority,
-		"dominant" = (dominant_key && dominant_key == seal_key) ? TRUE : FALSE,
+		"dominant" = is_dominant ? TRUE : FALSE,
 	)
 	qdel(rule)
 	return result
 
-/// Returns the manuscript's seals already sorted by ascending priority and
-/// tagged with `dominant` for the highest-authority stamp. The TGUI is a pure
-/// renderer -- it never reorders or recomputes "important seal" itself.
 /obj/item/book/granter/resident_manuscript/proc/get_seals_for_ui(mob/user)
 	var/dominant_key = get_dominant_seal_key()
 	var/list/result = list()
@@ -680,12 +636,8 @@ UNDER NO CIRCUMSTANCE SHOULD ANY OF THE BOOKS BE GIVEN OUT INTO SPAWNERS OR TO B
 		params = list()
 	owner_character_key = null
 	owner_name = sanitize_manuscript_field(params["owner_name"], MAX_NAME_LEN, "Unknown")
-	owner_age = sanitize_manuscript_field(params["owner_age"], MAX_NAME_LEN, "")
+	owner_age = normalize_age_key(params["owner_age"])
 	owner_status_key = normalize_status_key(params["owner_status_key"])
-	if(maybe_swap_profile_for_status())
-		generate_fake_seals()
-		if(prob(RESIDENT_MANUSCRIPT_FAKE_DEFECT_CHANCE))
-			ensure_defect_note_keys()
 	is_bound = TRUE
 	name = "Resident Manuscript"
 	icon_state = "contractsigned"
@@ -954,27 +906,27 @@ UNDER NO CIRCUMSTANCE SHOULD ANY OF THE BOOKS BE GIVEN OUT INTO SPAWNERS OR TO B
 	document_profile_id = "craftsmen"
 
 /obj/item/book/granter/resident_manuscript/commoner
-	desc = "A modest gray commoner manuscript, attesting only that the bearer is a lawful subject."
+	desc = "A creased commoner manuscript on cheap rag paper, good only for plain standing."
 	document_profile_id = "commoner"
 
 /obj/item/book/granter/resident_manuscript/blank/commoner
-	desc = "A blank commoner manuscript. Fill it with a feather to claim plain residence."
+	desc = "A cheap blank commoner manuscript, thin enough to fold and rough enough to blot."
 	document_profile_id = "commoner"
 
 /obj/item/book/granter/resident_manuscript/fake/commoner
-	desc = "A commoner manuscript whose provenance is best left unmentioned."
+	desc = "A stained commoner manuscript with poor paper and suspiciously fresh ink."
 	document_profile_id = "commoner"
 
 /obj/item/book/granter/resident_manuscript/mercenary
-	desc = "A purple mercenary compact, recognizing the bearer as a free blade of standing."
+	desc = "A purple mercenary contract, recognizing the bearer as a free blade of standing."
 	document_profile_id = "mercenary"
 
 /obj/item/book/granter/resident_manuscript/blank/mercenary
-	desc = "A blank mercenary compact. Fill it with a feather, then bring it to the proper authorities for seals."
+	desc = "A blank mercenary contract. Fill it with a feather, then bring it to the proper authorities for seals."
 	document_profile_id = "mercenary"
 
 /obj/item/book/granter/resident_manuscript/fake/mercenary
-	desc = "A mercenary compact whose provenance is best left unmentioned."
+	desc = "A mercenary contract whose provenance is best left unmentioned."
 	document_profile_id = "mercenary"
 
 /obj/item/book/granter/resident_manuscript/otava

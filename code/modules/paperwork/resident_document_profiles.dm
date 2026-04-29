@@ -1,21 +1,3 @@
-/// Profile metadata for the Resident Manuscript framework.
-/// One TGUI, one DM lifecycle. Profiles only carry id, theme colors, the
-/// list of seal keys that are valid for this faction document, and policy
-/// flags such as whether the document grants residency-claim rights.
-/// Display strings are resolved on the frontend through `texts.profiles[id]`;
-/// the DM-side raw values act as default labels for examine and admin spawn.
-
-/// Role-to-document mapping for the Resident Manuscript framework.
-///
-/// Each rule binds a role-shape (job titles / job paths / advclasses / custom
-/// `matches()` proc) to the document subtype that role should receive at
-/// roundstart. Rules are evaluated in descending `priority` order; the first
-/// rule whose `matches()` returns TRUE wins. Negative priority values make
-/// good catch-all fallbacks.
-///
-/// Adding a new role document = adding a new subtype here. No editing of the
-/// resolver chain required.
-
 /datum/resident_document_role_rule
 	var/document_type
 	var/list/job_titles
@@ -49,12 +31,12 @@
 	priority = 100
 
 /datum/resident_document_role_rule/innkeeper
-	document_type = /obj/item/book/granter/resident_manuscript/inn
+	document_type = /obj/item/book/granter/resident_manuscript/commoner
 	job_titles = list("Innkeeper")
 	priority = 100
 
 /datum/resident_document_role_rule/bathmaster
-	document_type = /obj/item/book/granter/resident_manuscript/bathhouse
+	document_type = /obj/item/book/granter/resident_manuscript/commoner
 	job_titles = list("Bathmaster")
 	priority = 100
 
@@ -108,6 +90,16 @@
 	var/job_title = user.job || user.mind.assigned_role
 	return job_title && (job_title in GLOB.burgher_positions)
 
+/datum/resident_document_role_rule/wanderer
+	document_type = /obj/item/book/granter/resident_manuscript/roundstart
+	priority = 25
+
+/datum/resident_document_role_rule/wanderer/matches(mob/living/carbon/human/user)
+	if(!ishuman(user) || !user.mind)
+		return FALSE
+	var/job_title = user.job || user.mind.assigned_role
+	return job_title && (job_title in GLOB.wanderer_positions)
+
 /datum/resident_document_role_rule/noble_fallback
 	document_type = /obj/item/book/granter/resident_manuscript/roundstart
 	priority = -10
@@ -134,9 +126,6 @@
 /proc/cmp_resident_document_role_rule_priority(datum/resident_document_role_rule/a, datum/resident_document_role_rule/b)
 	return b.priority - a.priority
 
-/// Maps a recipient's assigned role to the faction-default manuscript subtype
-/// by walking the role rule registry in priority order. Returns null when no
-/// rule matches -- callers (admin, cargo) supply their own type.
 /proc/get_default_manuscript_type_for_job(mob/living/carbon/human/recipient)
 	if(!recipient || !recipient.mind)
 		return null
@@ -145,21 +134,6 @@
 			return rule.document_type
 	return null
 
-/// Authority rules for the Resident Manuscript seal stamps.
-///
-/// Each rule binds a seal `key` (matching the keys used in document profiles
-/// and on TGUI side) to:
-///   - human-readable `title` / `stamper` (used as fallback display, the
-///     frontend can override per-locale via texts.seals[key]);
-///   - the `job_types` / `advclass_types` that are allowed to stamp it;
-///   - a `priority` value that defines the seal hierarchy (higher = stronger);
-///   - an optional `allowed_statuses` list that restricts which document
-///     owner statuses the seal can be applied to (e.g. the Duke seal is only
-///     valid on noble documents).
-///
-/// Downstream modules add new seals by defining a new subtype: the registry
-/// below is built from `subtypesof()` and picks up new rules automatically.
-
 /datum/resident_manuscript_seal_rule
 	var/key
 	var/title
@@ -167,8 +141,6 @@
 	var/list/job_types
 	var/list/advclass_types
 	var/priority = 0
-	/// If set, the seal can only be applied to documents whose owner_status_key
-	/// matches one of the listed statuses. null/empty = any status.
 	var/list/allowed_statuses
 
 /datum/resident_manuscript_seal_rule/proc/can_stamp(mob/living/carbon/human/user)
@@ -273,14 +245,12 @@
 	key = "innkeeper"
 	title = "Innkeep"
 	stamper = "Innkeep"
-	job_types = list(/datum/job/roguetown/innkeeper)
 	priority = RESIDENT_SEAL_PRIORITY_FACTION_LOW
 
 /datum/resident_manuscript_seal_rule/bathmaster
 	key = "bathmaster"
 	title = "Bathmaster"
 	stamper = "Bathmaster"
-	job_types = list(/datum/job/roguetown/bathmaster)
 	priority = RESIDENT_SEAL_PRIORITY_FACTION_LOW
 
 /proc/get_resident_manuscript_seal_rules()
@@ -301,10 +271,9 @@
 	var/subtitle
 	var/description
 	var/list/allowed_seals
-	/// Seals auto-stamped when the document is issued ready (auto_stamp_seals).
-	/// When null, falls back to allowed_seals -- preserves the original PR
-	/// behaviour where every faction profile pre-stamped all of its seals.
 	var/list/default_seal_keys
+	var/list/default_commoner_seal_keys
+	var/list/default_noble_seal_keys
 	var/paper_color
 	var/ink_color
 	var/accent_color
@@ -315,7 +284,11 @@
 /datum/resident_document_profile/proc/has_seal(seal_key)
 	return seal_key && (seal_key in allowed_seals)
 
-/datum/resident_document_profile/proc/get_default_seal_keys()
+/datum/resident_document_profile/proc/get_default_seal_keys(status_key)
+	if(status_key == RESIDENT_MANUSCRIPT_STATUS_NOBLE && default_noble_seal_keys)
+		return default_noble_seal_keys
+	if(status_key == RESIDENT_MANUSCRIPT_STATUS_COMMONER && default_commoner_seal_keys)
+		return default_commoner_seal_keys
 	return default_seal_keys || allowed_seals
 
 /datum/resident_document_profile/resident
@@ -323,6 +296,8 @@
 	display_name = "Resident Manuscript"
 	subtitle = "Under the Crown's Hand"
 	allowed_seals = list("chancellor", "elder", "ruler", "hand")
+	default_commoner_seal_keys = list("chancellor")
+	default_noble_seal_keys = list("ruler")
 	paper_color = "#e3d2ad"
 	ink_color = "#3a2518"
 	accent_color = "#8b5e2f"
@@ -366,9 +341,10 @@
 	id = "commoner"
 	display_name = "Townsfolk Manuscript"
 	subtitle = "By the Towner Elder's mark"
-	description = "Let it be known: the bearer is a known face among the townsfolk, vouched for by the Elder of the taun. No high authority is invoked here -- only the modest standing of those who live and labour beneath the common law."
+	description = "Let it be known: the bearer is a plain soul of the town, marked in cheap ink and rough paper. The bearer is counted among lawful folk only so far as elder and chancery will suffer it, without flourish, privilege, or noble courtesy."
 	allowed_seals = list("elder", "chancellor", "hand")
-	default_seal_keys = list("elder")
+	default_commoner_seal_keys = list("elder", "chancellor")
+	default_noble_seal_keys = list("hand")
 	paper_color = "#c4ad81"
 	ink_color = "#352618"
 	accent_color = "#6f5840"
@@ -421,10 +397,12 @@
 
 /datum/resident_document_profile/mercenary
 	id = "mercenary"
-	display_name = "Mercenary Compact"
+	display_name = "Mercenary Contract"
 	subtitle = "By the Coin, the Steel, and the Word"
-	description = "Let it be known: the bearer is a free blade of recognized standing, bound by the compact of coin and steel, sworn to the company that brought them to these lands."
+	description = "Let it be known: the bearer is a free blade of recognized standing, bound by the contract of coin and steel, sworn to the company that brought them to these lands."
 	allowed_seals = list("elder", "chancellor", "hand")
+	default_commoner_seal_keys = list("elder", "chancellor")
+	default_noble_seal_keys = list("hand")
 	paper_color = "#d7b88e"
 	ink_color = "#2c1d16"
 	accent_color = "#8c5b3a"

@@ -57,13 +57,13 @@ export const residentManuscriptEn: ResidentManuscriptTexts = {
       display_name: 'Townsfolk Manuscript',
       subtitle: "By the Towner Elder's mark",
       description:
-        'Let it be known: the bearer is a known face among the townsfolk, vouched for by the Elder of the taun. No high authority is invoked here — only the modest standing of those who live and labour beneath the common law.',
+        'Let it be known: the bearer is a plain soul of the town, marked in cheap ink and rough paper. The bearer is counted among lawful folk only so far as elder and chancery will suffer it, without flourish, privilege, or noble courtesy.',
     },
     mercenary: {
-      display_name: 'Mercenary Compact',
+      display_name: 'Mercenary Contract',
       subtitle: 'By the Coin, the Steel, and the Word',
       description:
-        'Let it be known: the bearer is a free blade of recognized standing, bound by the compact of coin and steel, and sworn to the company that brought them to these lands. The bearer answers to contract and to captain, and may not be molested in the lawful pursuit of either.',
+        'Let it be known: the bearer is a free blade of recognized standing, bound by the contract of coin and steel, and sworn to the company that brought them to these lands. The bearer answers to contract and to captain, and may not be molested in the lawful pursuit of either.',
     },
     otava: {
       display_name: 'Inquisitorial Edict',
@@ -98,7 +98,11 @@ export const residentManuscriptEn: ResidentManuscriptTexts = {
   },
   placeholders: {
     owner: 'Owner name',
-    age: 'Age',
+  },
+  owner_age_options: {
+    Adult: 'Adult',
+    'Middle-Aged': 'Middle-Aged',
+    Old: 'Old',
   },
   owner_status_options: {
     commoner: 'Unproven',

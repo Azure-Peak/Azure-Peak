@@ -3,9 +3,6 @@ import { residentManuscriptEn } from './locales/en';
 export type OwnerStatusKey = 'commoner' | 'noble';
 export type VerificationResult = 'none' | 'unknown' | 'real' | 'fake';
 
-/// Profile ids bundled with the upstream PR. Listed for autocomplete/keys --
-/// the actual `DocumentProfileId` type accepts any string so downstream
-/// modules can introduce new profile ids without breaking TS typing.
 export type KnownDocumentProfileId =
   | 'resident'
   | 'guards'
@@ -59,8 +56,8 @@ export type ResidentManuscriptTexts = {
   };
   placeholders: {
     owner: string;
-    age: string;
   };
+  owner_age_options: Record<string, string>;
   owner_status_options: Record<OwnerStatusKey, string>;
   states: {
     owner: string;

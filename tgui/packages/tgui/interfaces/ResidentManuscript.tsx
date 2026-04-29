@@ -20,6 +20,8 @@ type OwnerData = {
   status_key: OwnerStatusKey;
 };
 
+type OwnerAgeKey = 'Adult' | 'Middle-Aged' | 'Old';
+
 type SealData = {
   key: string;
   label: string;
@@ -27,10 +29,7 @@ type SealData = {
   stamper: string;
   visible: BooleanLike;
   suspicious: BooleanLike;
-  /// Authority rank computed by the DM side -- TGUI never derives this. Used
-  /// only as metadata; the ordering of `seals[]` is already priority-sorted.
   priority: number;
-  /// TRUE for the highest-authority stamped, non-suspicious seal on the doc.
   dominant: BooleanLike;
 };
 
@@ -83,6 +82,7 @@ type ThemeStyle = CSSProperties & {
 };
 
 const PROFILE_FALLBACK: DocumentProfileId = 'resident';
+const OWNER_AGE_OPTIONS: OwnerAgeKey[] = ['Adult', 'Middle-Aged', 'Old'];
 
 const resolveProfileId = (
   profile: ProfileData | undefined,
@@ -131,6 +131,29 @@ const classes = (...classNames: Array<string | false | null | undefined>) =>
 const hasDefect = (defectKeys: string[], defectKey: string): boolean =>
   defectKeys.includes(defectKey);
 
+const toOwnerAgeKey = (
+  value: string | number | null | undefined,
+): OwnerAgeKey | null => {
+  if (value === null || value === undefined) {
+    return null;
+  }
+  const text = String(value);
+  return OWNER_AGE_OPTIONS.includes(text as OwnerAgeKey)
+    ? (text as OwnerAgeKey)
+    : null;
+};
+
+const ownerAgeLabel = (
+  value: string | number | null | undefined,
+  texts: ResidentManuscriptTexts,
+): string => {
+  const key = toOwnerAgeKey(value);
+  if (key) {
+    return texts.owner_age_options[key] || key;
+  }
+  return displayValue(value, texts.states.empty);
+};
+
 const getSealTitle = (
   seal: SealData,
   texts: ResidentManuscriptTexts,
@@ -177,7 +200,9 @@ export const ResidentManuscript = () => {
   const profileClassName = `ResidentManuscript--profile-${profileId}`;
   const ownerStatusKey: OwnerStatusKey = owner.status_key;
   const [ownerName, setOwnerName] = useState(owner.name ?? '');
-  const [ownerAge, setOwnerAge] = useState(String(owner.age ?? ''));
+  const [ownerAge, setOwnerAge] = useState<OwnerAgeKey>(
+    toOwnerAgeKey(owner.age) || 'Adult',
+  );
   const [ownerStatus, setOwnerStatus] = useState<OwnerStatusKey>(
     ownerStatusKey,
   );
@@ -203,8 +228,8 @@ export const ResidentManuscript = () => {
 
   return (
     <Window
-      width={720}
-      height={680}
+      width={820}
+      height={760}
       title={profileTexts.display_name || texts.window_title}
       theme="grimoire"
     >
@@ -265,20 +290,25 @@ export const ResidentManuscript = () => {
               <section className="ResidentManuscript__fields">
                 <ManuscriptField label={texts.labels.age}>
                   {canEdit ? (
-                    <Input
-                      fluid
-                      placeholder={texts.placeholders.age}
-                      value={ownerAge}
-                      onChange={setOwnerAge}
-                    />
+                    <div className="ResidentManuscript__choiceButtons">
+                      {OWNER_AGE_OPTIONS.map((key) => (
+                        <Button
+                          key={key}
+                          selected={ownerAge === key}
+                          onClick={() => setOwnerAge(key)}
+                        >
+                          {texts.owner_age_options[key] || key}
+                        </Button>
+                      ))}
+                    </div>
                   ) : (
-                    displayValue(owner.age, texts.states.empty)
+                    ownerAgeLabel(owner.age, texts)
                   )}
                 </ManuscriptField>
 
                 <ManuscriptField label={texts.labels.status}>
                   {canEdit ? (
-                    <div className="ResidentManuscript__statusButtons">
+                    <div className="ResidentManuscript__choiceButtons">
                       {(
                         Object.keys(
                           texts.owner_status_options,
