@@ -226,4 +226,4 @@
 /atom/movable/screen/alert/status_effect/black_rot_debility
 	name = "Rot-Weakened"
 	desc = "Pestra's skittering ethereal bugs are still knitting my ravaged flesh together. At least I should be immune for a little bit..."
-	icon_state = "debuff_moderate"
+	icon_state = "debuff"

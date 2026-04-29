@@ -7,6 +7,8 @@
 	var/static/list/valid_body_zones = list(
 		BODY_ZONE_L_ARM,
 		BODY_ZONE_R_ARM,
+		BODY_ZONE_L_LEG,
+		BODY_ZONE_R_LEG,
 	)
 
 	// Rot nouveau
@@ -26,7 +28,6 @@
 		symptoms += new V()
 
 	. = ..()
-	update_effects()
 
 /datum/status_effect/black_rot/on_apply()
 	if(owner.has_status_effect(/datum/status_effect/black_rot_debility))
@@ -34,6 +35,8 @@
 		return FALSE
 	to_chat(owner, span_userdanger("A deep, chilling rot begins to spread through my body!"))
 	update_effects()
+	check_thresholds()
+	update_alert()
 	return TRUE
 
 /datum/status_effect/black_rot/proc/update_alert()
@@ -76,8 +79,6 @@
 /datum/status_effect/black_rot/tick()
 	if(!owner || owner.stat == DEAD)
 		return
-	//apply_passive_effects()
-	//check_thresholds()
 	tick_count++
 	if(tick_count >= symptom_interval)
 		tick_count = 0
@@ -98,18 +99,19 @@
 	stacks = clamp(stacks + amount, 1, max_stacks)
 	if(stacks != old_stacks)
 		update_effects()
-		update_alert()
 		check_thresholds()
+		update_alert()
 
 /datum/status_effect/black_rot/proc/remove_stack(amount = 1)
+	var/old_stacks = stacks
 	stacks -= amount
 	if(stacks <= 0)
 		owner.apply_status_effect(/datum/status_effect/black_rot_debility)
 		owner.remove_status_effect(/datum/status_effect/black_rot)
 		return
 	update_effects()
-	update_alert()
 	check_thresholds()
+	update_alert()
 
 /datum/status_effect/black_rot/proc/update_effects()
 	var/list/old_stats = effectedstats.Copy()
@@ -129,12 +131,13 @@
 	reapply_effect(old_stats)
 
 /datum/status_effect/black_rot/proc/check_thresholds()
+	var/old_tier = tier
 	var/new_tier = 0
 	if(stacks >= 100)
 		new_tier = 4
-	else if(stacks >= 75)
+	else if(stacks >= 66)
 		new_tier = 3
-	else if(stacks >= 50)
+	else if(stacks >= 33)
 		new_tier = 2
 	else if(stacks >= 1)
 		new_tier = 1
@@ -166,6 +169,7 @@
 				to_chat(owner, span_info("Your skin feels slightly more stable."))
 			if(3)
 				to_chat(owner, span_info("A small fragment of your spirit returns..."))
+	tier = new_tier
 
 /datum/status_effect/black_rot/on_remove()
 	to_chat(owner, span_good("The black rot is completely purged from my body!"))
@@ -174,7 +178,7 @@
 /atom/movable/screen/alert/status_effect/black_rot
 	name = "Black Rot"
 	desc = "A corrupting darkness spreads through my body."
-	icon_state = "black_rot1"
+	icon_state = "blackrot1"
 
 // Puke when advancing stages, woo
 /datum/status_effect/black_rot/proc/trigger_vomit_fit()

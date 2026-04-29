@@ -2947,6 +2947,7 @@
 #include "code\modules\spells\roguetown\acolyte\pestra\pestra_components.dm"
 #include "code\modules\spells\roguetown\acolyte\pestra\pestra_status_effects.dm"
 #include "code\modules\spells\roguetown\acolyte\pestra\pestra_symptoms.dm"
+#include "code\modules\spells\roguetown\acolyte\pestra\pestra_weapons.dm"
 #include "code\modules\spells\roguetown\necromancer\bone_chill.dm"
 #include "code\modules\spells\roguetown\necromancer\bone_mend.dm"
 #include "code\modules\spells\roguetown\necromancer\eyebite.dm"

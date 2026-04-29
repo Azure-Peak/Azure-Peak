@@ -140,7 +140,7 @@
 
 	if(H.has_status_effect(/datum/status_effect/black_rot))
 		var/datum/status_effect/black_rot/rot = H.has_status_effect(/datum/status_effect/black_rot)
-		rot.remove_stack(2)
+		rot.remove_stack(80)
 		to_chat(H, span_good("The calyx's purifying blood flows through you, cleansing the black rot!"))
 
 	to_chat(H, span_boldnotice("The calyx shudders as tendrils extend to feel up your arms, affectionately carressing your head. You have contributed [points_granted] Echoes."))
