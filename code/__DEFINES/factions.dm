@@ -21,7 +21,9 @@
 #define FACTION_THIEVES "thieves"
 #define FACTION_BUMS "bums"
 #define FACTION_REIVER "reiver"
-#define FACTION_VIKING "viking"
+#define FACTION_BANDITS "bandits"
+#define FACTION_GRONNMEN "gronnmen"
+#define FACTION_MADMEN "madmen"
 #define FACTION_PSY_VAULT_GUARD "psy_vault_guard"
 
 #define FACTION_INFERNAL "infernal"
@@ -34,6 +36,7 @@
 #define FACTION_PRIMORDIAL "primordial"
 
 #define FACTION_ROGUEANIMAL "rogueanimal"
+#define FACTION_BOARS "boars"
 #define FACTION_WOLFS "wolfs"
 #define FACTION_BEARS "bears"
 #define FACTION_SAIGA "saiga"
@@ -58,6 +61,7 @@
 /// List of faction strings exposed to GM spawn UI. Keep alphabetized for the dropdown.
 GLOBAL_LIST_INIT(gm_spawn_factions, list(
 	FACTION_ABBERANT,
+	FACTION_BANDITS,
 	FACTION_BEARS,
 	FACTION_BUMS,
 	FACTION_CABAL,
@@ -74,6 +78,7 @@ GLOBAL_LIST_INIT(gm_spawn_factions, list(
 	FACTION_ELEMENTAL,
 	FACTION_FAE,
 	FACTION_GOATS,
+	FACTION_GRONNMEN,
 	FACTION_HAG,
 	FACTION_HERETICAL_FIEND,
 	FACTION_HORSE,
@@ -83,6 +88,7 @@ GLOBAL_LIST_INIT(gm_spawn_factions, list(
 	FACTION_LICH,
 	FACTION_LIZARDS,
 	FACTION_MAD,
+	FACTION_MADMEN,
 	FACTION_MIMIC,
 	FACTION_MINING,
 	FACTION_MOLES,
@@ -104,7 +110,6 @@ GLOBAL_LIST_INIT(gm_spawn_factions, list(
 	FACTION_THIEVES,
 	FACTION_TROLLS,
 	FACTION_UNDEAD,
-	FACTION_VIKING,
 	FACTION_WOLFS,
 	FACTION_ZOMBIE,
 ))

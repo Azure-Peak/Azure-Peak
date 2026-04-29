@@ -66,6 +66,26 @@
 	GLOB.chosen_names -= departing_mob.real_name
 	LAZYREMOVE(GLOB.actors_list, departing_mob.mobid)
 	LAZYREMOVE(GLOB.roleplay_ads, departing_mob.mobid)
+	// Keep insiders' bank balance forfeits to the Crown's Purse on far-travel (silent OOC).
+	// Day 0 is a grace window so roundstart bailouts don't accidentally hand the Crown a
+	// windfall from a player who never had time to act in role. Loose mammon is tallied
+	// separately for admin review so withdraw-to-pouch patterns leave a paper trail.
+	if(SStreasury)
+		var/recovered = 0
+		var/datum/fund/account = SStreasury.get_account(departing_mob)
+		var/is_keep_insider = (departing_mob.job in KEEP_INSIDER_JOBS)
+		var/post_grace = GLOB.dayspassed >= 1
+		if(account && is_keep_insider && post_grace && account.balance > 0)
+			recovered = account.balance
+			SStreasury.transfer(account, SStreasury.discretionary_fund, recovered, "Crown forfeiture: [departing_mob.real_name] (far-travel)")
+			record_round_statistic(STATS_FORFEITURE_AMOUNT, recovered)
+			record_round_statistic(STATS_FORFEITURE_COUNT, 1)
+		var/loose = 0
+		if(istype(departing_mob, /mob/living))
+			loose = get_mammons_in_atom(departing_mob) || 0
+		if(recovered > 0 || loose > 0 || is_keep_insider)
+			dat += " | Coin at far-travel (day [GLOB.dayspassed]): [recovered]m forfeit from bank, [loose]m loose on person."
+		SStreasury.remove_person(departing_mob)
 	message_admins(dat)
 	log_admin(dat)
 	if(departing_mob.stat == DEAD)

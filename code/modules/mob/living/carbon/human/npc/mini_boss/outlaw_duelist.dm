@@ -15,6 +15,7 @@ GLOBAL_LIST_INIT(duelist_aggro, list(
 	ambushable = FALSE
 	dodgetime = 20
 	d_intent = INTENT_DODGE
+	threat_point = THREAT_ELITE
 
 /mob/living/carbon/human/species/human/northern/outlaw_duelist/Initialize()
 	. = ..()

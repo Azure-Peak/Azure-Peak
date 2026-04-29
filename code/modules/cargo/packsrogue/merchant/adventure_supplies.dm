@@ -93,5 +93,10 @@
 // If adding more, make new category for maps.
 /datum/supply_pack/rogue/adventure_supplies/stag_map
 	name = "White Stag Map"
-	cost = 250
+	cost = 190
 	contains = list(/obj/item/hunting_map/white_stag)
+
+/datum/supply_pack/rogue/adventure_supplies/boar_map
+	name = "Boars Map"
+	cost = 50
+	contains = list(/obj/item/hunting_map/boars)

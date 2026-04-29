@@ -92,6 +92,21 @@
 	customizer_choices = list(/datum/customizer_choice/organ/ears/elf)
 	allows_disabling = TRUE
 
+// --- Aasimar
+/datum/customizer_choice/organ/ears/wings
+	name = "Aasimar Ears"
+	organ_type = /obj/item/organ/ears
+	sprite_accessories = list(
+		/datum/sprite_accessory/ears/elf,
+		/datum/sprite_accessory/ears/elfw,
+		/datum/sprite_accessory/ears/elf_short,
+		/datum/sprite_accessory/ears/wispy,
+		/datum/sprite_accessory/ears/small)
+
+/datum/customizer/organ/ears/wings
+	customizer_choices = list(/datum/customizer_choice/organ/ears/wings)
+	allows_disabling = TRUE
+
 // ---- Goblin
 /datum/customizer_choice/organ/ears/goblin
 	name = "Goblin Ears"
@@ -102,7 +117,7 @@
 		/datum/sprite_accessory/ears/goblin_small,
 		/datum/sprite_accessory/ears/halforc)
 
-/datum/customizer/organ/ears/goblin 
+/datum/customizer/organ/ears/goblin
 	customizer_choices = list(/datum/customizer_choice/organ/ears/goblin)
 	allows_disabling = FALSE
 
@@ -179,7 +194,9 @@
 		/datum/sprite_accessory/ears/big/acrador_short,
 		/datum/sprite_accessory/ears/big/sandfox_large,
 		/datum/sprite_accessory/ears/lynx,
-		/datum/sprite_accessory/ears/zorzor
+		/datum/sprite_accessory/ears/zorzor,
+		/datum/sprite_accessory/ears/wispy,
+		/datum/sprite_accessory/ears/small
 		)
 
 // ---- Anthro
@@ -249,6 +266,8 @@
 		/datum/sprite_accessory/ears/lynx,
 		/datum/sprite_accessory/ears/zorzor,
 		/datum/sprite_accessory/ears/naja_hood,
+		/datum/sprite_accessory/ears/wispy,
+		/datum/sprite_accessory/ears/small
 		)
 
 // ---- Lizard
@@ -271,7 +290,7 @@
 // ---- Tiefling
 /datum/customizer/organ/ears/tiefling
 	customizer_choices = list(/datum/customizer_choice/organ/ears/tiefling)
-	allows_disabling = FALSE
+	allows_disabling = TRUE
 
 /datum/customizer_choice/organ/ears/tiefling
 	name = "Tiefling Ears"

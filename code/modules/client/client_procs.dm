@@ -187,6 +187,17 @@ GLOBAL_LIST_EMPTY(respawncounts)
 
 	show_round_stats(pick_assoc(GLOB.featured_stats))
 
+/client/proc/cmd_admin_view_chronicle()
+	set category = "Debug"
+	set name = "View Chronicle"
+	set desc = "Open the Chronicle / roundend statistics panel without waiting for round end."
+
+	if(!check_rights(R_ADMIN|R_DEBUG))
+		return
+	show_round_stats(pick_assoc(GLOB.featured_stats))
+	log_admin("[key_name(src)] opened the Chronicle preview.")
+	SSblackbox.record_feedback("tally", "admin_verb", 1, "View Chronicle")
+
 /client/proc/is_content_unlocked()
 	if(!prefs.unlock_content)
 		to_chat(src, "Become a BYOND member to access member-perks and features, as well as support the engine that makes this game possible. Only 10 bucks for 3 months! <a href=\"https://secure.byond.com/membership\">Click Here to find out more</a>.")
@@ -917,6 +928,9 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 
 	var/dragged = L["drag"]
 	if(dragged && !L[dragged])
+		return
+
+	if(lmb_throttle(object, L))
 		return
 
 	if (object && object == middragatom && L["left"])

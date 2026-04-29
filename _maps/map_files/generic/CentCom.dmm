@@ -818,23 +818,26 @@
 /area/rogue/indoors/deathsedge)
 "iU" = (
 /obj/structure/table/wood/long_table,
-/obj/item/rogueore/coal{
-	pixel_x = 8;
+/obj/item/alch/calendula,
+/obj/item/alch/calendula{
+	pixel_x = -1;
+	pixel_y = 0
+	},
+/obj/item/alch/calendula{
+	pixel_x = 7;
 	pixel_y = 5
 	},
-/obj/item/rogueore/coal{
-	pixel_x = -7;
-	pixel_y = 6
+/obj/item/alch/calendula{
+	pixel_x = -5;
+	pixel_y = 7
 	},
-/obj/item/rogueore/coal,
-/obj/item/rogueore/tin{
-	pixel_y = 12
+/obj/item/alch/urtica{
+	pixel_x = 2;
+	pixel_y = -5
 	},
-/obj/item/rogueore/tin{
-	pixel_x = -9
-	},
-/obj/item/rogueore/tin{
-	pixel_x = 10
+/obj/item/alch/urtica{
+	pixel_x = 9;
+	pixel_y = -6
 	},
 /turf/open/floor/rogue/twig,
 /area/rogue/indoors/shelter/bog_hag)
@@ -1597,25 +1600,33 @@
 /area/rogue)
 "EB" = (
 /obj/structure/table/wood/long_table/mid/alt,
-/obj/item/rogueore/iron{
-	pixel_x = 9;
-	pixel_y = 7
+/obj/item/alch/hypericum{
+	pixel_x = -2;
+	pixel_y = 10
 	},
-/obj/item/rogueore/iron{
-	pixel_x = -8;
-	pixel_y = 7
+/obj/item/alch/hypericum{
+	pixel_x = -10;
+	pixel_y = 12
 	},
-/obj/item/rogueore/iron,
-/obj/item/rogueore/copper{
-	pixel_x = -9;
-	pixel_y = -2
+/obj/item/alch/matricaria{
+	pixel_x = 8;
+	pixel_y = -5
 	},
-/obj/item/rogueore/copper{
-	pixel_y = 7
+/obj/item/alch/salvia{
+	pixel_x = -4;
+	pixel_y = -3
 	},
-/obj/item/rogueore/copper{
-	pixel_x = 11;
-	pixel_y = -2
+/obj/item/alch/valeriana{
+	pixel_x = -15;
+	pixel_y = -5
+	},
+/obj/item/alch/atropa{
+	pixel_x = -7;
+	pixel_y = 0
+	},
+/obj/item/alch/mentha{
+	pixel_x = 12;
+	pixel_y = 9
 	},
 /turf/open/floor/rogue/twig,
 /area/rogue/indoors/shelter/bog_hag)
@@ -1858,11 +1869,12 @@
 "Nk" = (
 /obj/structure/closet/crate/roguecloset/inn,
 /obj/item/clothing/suit/roguetown/shirt/robe,
-/obj/item/storage/hip/orestore/bronze,
 /obj/item/ritechalk,
 /obj/item/ritechalk,
 /obj/item/rogueweapon/woodstaff,
 /obj/item/rogueweapon/scabbard/gwstrap,
+/obj/item/storage/magebag,
+/obj/item/storage/magebag,
 /turf/open/floor/rogue/shroud/hag,
 /area/rogue/indoors/shelter/bog_hag)
 "Nm" = (

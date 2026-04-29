@@ -401,6 +401,8 @@
 
 
 /mob/living/simple_animal/hostile/proc/AttackingTarget()
+	if(target == src)
+		return FALSE
 	if(SEND_SIGNAL(src, COMSIG_HOSTILE_PRE_ATTACKINGTARGET, target) & COMPONENT_HOSTILE_NO_PREATTACK)
 		return FALSE //but more importantly return before attack_animal called
 	SEND_SIGNAL(src, COMSIG_HOSTILE_ATTACKINGTARGET, target)

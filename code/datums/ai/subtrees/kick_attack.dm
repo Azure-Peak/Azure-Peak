@@ -1,4 +1,6 @@
 #define BB_KICK_COOLDOWN           "bb_kick_cooldown"
+#define BB_GRAB_REACTION_AT        "bb_grab_reaction_at"
+#define BB_GRAB_REACTION_GRABBER   "bb_grab_reaction_grabber"
 #define KICK_COOLDOWN              (20 SECONDS)
 #define KICK_WALLED_CHANCE         30  // target backed against a wall
 #define KICK_CHOKEPOINT_CHANCE     25  // target in a doorway/corridor (2+ dense neighbors)
@@ -7,6 +9,9 @@
 #define KICK_EXHAUSTED_CHANCE      35  // target is fatigued - kick guarantees knockdown
 #define KICK_EXHAUSTED_THRESHOLD   1 // 1 = fully exhausted, guarantees knockdown per species.dm
 #define KICK_CHOKEPOINT_THRESHOLD  2   // minimum dense cardinal neighbors to count as chokepoint
+#define GRAB_REACTION_BASE         20  // deciseconds; reduced by (STAINT + STAPER)
+#define GRAB_REACTION_MIN          3   // floor so even maxed stats can't be frame-perfect
+#define GRAB_REACTION_JITTER       2   // +/- deciseconds of randomness
 
 /datum/ai_planning_subtree/kick_attack
 
@@ -40,9 +45,22 @@
 	var/kick_dir = get_dir(pawn, target)
 	var/should_kick = FALSE
 
-	// Situation 0: Being passive-grabbed - instinctive self-preservation, no gates.
+	// Situation 0: Being passive-grabbed - instinctive self-preservation. Skill-gated
+	// reaction delay so a dim goblin (low INT+PER) is slow to respond; sharp NPCs react fast.
+	var/mob/stored_grabber = controller.blackboard[BB_GRAB_REACTION_GRABBER]
 	if(pawn.pulledby == target && pawn.pulledby.grab_state < GRAB_AGGRESSIVE)
-		should_kick = TRUE
+		if(stored_grabber != pawn.pulledby)
+			// Newly grabbed (or grabber changed) - roll a fresh reaction timer.
+			var/reaction_delay = max(GRAB_REACTION_MIN, GRAB_REACTION_BASE - (pawn.STAINT + pawn.STAPER))
+			reaction_delay += rand(-GRAB_REACTION_JITTER, GRAB_REACTION_JITTER)
+			controller.set_blackboard_key(BB_GRAB_REACTION_AT, world.time + reaction_delay)
+			controller.set_blackboard_key(BB_GRAB_REACTION_GRABBER, pawn.pulledby)
+		else if(world.time >= controller.blackboard[BB_GRAB_REACTION_AT])
+			should_kick = TRUE
+	else if(stored_grabber)
+		// No longer grabbed - clear so next grab gets a fresh roll.
+		controller.clear_blackboard_key(BB_GRAB_REACTION_AT)
+		controller.clear_blackboard_key(BB_GRAB_REACTION_GRABBER)
 
 	// Situation 1: Chokepoint - target in a doorway/corridor (instinctive, no INT gate)
 	var/dense_neighbors = 0
@@ -152,6 +170,8 @@
 		controller.clear_blackboard_key(target_key)
 
 #undef BB_KICK_COOLDOWN
+#undef BB_GRAB_REACTION_AT
+#undef BB_GRAB_REACTION_GRABBER
 #undef KICK_COOLDOWN
 #undef KICK_WALLED_CHANCE
 #undef KICK_CHOKEPOINT_CHANCE
@@ -160,3 +180,6 @@
 #undef KICK_EXHAUSTED_CHANCE
 #undef KICK_EXHAUSTED_THRESHOLD
 #undef KICK_CHOKEPOINT_THRESHOLD
+#undef GRAB_REACTION_BASE
+#undef GRAB_REACTION_MIN
+#undef GRAB_REACTION_JITTER

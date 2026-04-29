@@ -10,6 +10,7 @@
 #define THREAT_REGION_AZUREAN_COAST "Azurean Coast"
 #define THREAT_REGION_MOUNT_DECAP "Mount Decapitation"
 #define THREAT_REGION_TERRORBOG "Terrorbog"
+#define THREAT_REGION_UNDERDARK "Underdark"
 
 #define LOWPOP_THRESHOLD 30 // When do we give highpop tick?
 
@@ -21,3 +22,6 @@
 #define THREAT_TOUGH 25      // Upgraded bog deserter, hard skeleton, orc berserker/marauder, drow raider, deepone spit/wiz
 #define THREAT_DANGEROUS 30  // Troll, bog troll, minotaur, direbear, drider
 #define THREAT_ELITE 50      // Treasure hunter, mirespider lurker/paralytic, dwarf skeleton — boss-tier mobs
+
+/// Conversion: one "band" in the Noticeboard IC description equals this many threat points.
+#define THREAT_POINTS_PER_BAND 50

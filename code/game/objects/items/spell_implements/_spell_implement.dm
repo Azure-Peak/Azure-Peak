@@ -1,17 +1,17 @@
 // Spell Implement System
-// Staves and Wands are spell implements that boost staple spell damage when held.
-// implement_tier and implement_multiplier vars live on /obj/item/rogueweapon, defaulting to 0 (non-implement).
-// The multiplier is applied in ready_projectile() for is_implement_scaled_spell spells.
+// Staves and Wands are spell implements that grant Residual Focus when held while casting.
+// The buff captures the spell's resource cost and returns a tier-dependent fraction as energy
+// over 20 seconds. See residual_focus.dm and spell_cooldown.dm Activate() for the hook.
 //
 // Staff: Two-handed, best durability and parry. Melee defensive option.
 // Wand: One-handed, shield-compatible. Lighter, less durable.
 //
 // Tiers:
-//   Lesser  (Toper/Amethyst gems) - 20% bonus, lowest durability
-//   Greater (Emerald-Ruby gems)   - 22.5% bonus, mid durability
-//   Grand   (Riddle of Steel)     - 25% bonus, highest durability
+//   Lesser  (Toper/Amethyst gems) - 20% refund, lowest durability
+//   Greater (Emerald-Ruby gems)   - 25% refund, mid durability
+//   Grand   (Riddle of Steel)     - 30% refund, highest durability
 //
-// Attunement glow: After the first implement-scaled spell is cast through the implement,
+// Attunement glow: After a spell with an attunement_school is cast through the implement,
 // it takes on the spell's color as a subtle glow. Changes if a different element is cast.
 // Higher tiers glow more intensely. Visual update is throttled to once per minute.
 
@@ -22,7 +22,8 @@
 	var/attuned_color = null
 	var/base_implement_name = null
 	var/implement_tier = 0
-	var/implement_multiplier = 0
+	/// Fraction (0..1) of a spell's resource cost returned by the arcyne refund buff when this item is held.
+	var/implement_refund = 0
 	COOLDOWN_DECLARE(attunement_cd)
 
 /obj/item/rogueweapon/proc/attune_implement(spell_color, spell_name)
@@ -54,15 +55,27 @@
 
 /// Prompts the user to choose between a wand or staff implement of the given tier.
 /// Returns the chosen implement type path, or staff by default.
+/// If Wand is chosen, additionally puts a wooden shield in H's hands and grants
+/// Apprentice-level Shields skill so the wand+shield loadout is actually usable.
 /proc/choose_implement(mob/living/carbon/human/H, tier = "lesser")
-	var/choice = tgui_input_list(H, "Choose your implement.", "IMPLEMENT", list("Staff", "Wand"))
+	var/choice = tgui_input_list(H, "Choose your implement.", "IMPLEMENT", list("Staff", "Wand & Shield"))
 	if(!choice)
 		choice = "Staff"
+	var/implement_path
 	switch(tier)
 		if("lesser")
-			return choice == "Wand" ? /obj/item/rogueweapon/wand : /obj/item/rogueweapon/woodstaff/implement
+			implement_path = choice == "Wand & Shield" ? /obj/item/rogueweapon/wand : /obj/item/rogueweapon/woodstaff/implement
 		if("greater")
-			return choice == "Wand" ? /obj/item/rogueweapon/wand/greater : /obj/item/rogueweapon/woodstaff/implement/greater
+			implement_path = choice == "Wand & Shield" ? /obj/item/rogueweapon/wand/greater : /obj/item/rogueweapon/woodstaff/implement/greater
 		if("grand")
-			return choice == "Wand" ? /obj/item/rogueweapon/wand/grand : /obj/item/rogueweapon/woodstaff/implement/grand
-	return /obj/item/rogueweapon/woodstaff/implement
+			implement_path = choice == "Wand & Shield" ? /obj/item/rogueweapon/wand/grand : /obj/item/rogueweapon/woodstaff/implement/grand
+		else
+			implement_path = /obj/item/rogueweapon/woodstaff/implement
+
+	if(choice == "Wand & Shield" && H)
+		H.put_in_hands(new implement_path(H))
+		H.put_in_hands(new /obj/item/rogueweapon/shield/wood(H))
+		H.adjust_skillrank_up_to(/datum/skill/combat/shields, SKILL_LEVEL_APPRENTICE, TRUE)
+		return null
+
+	return implement_path

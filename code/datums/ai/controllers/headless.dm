@@ -19,5 +19,3 @@
 		/datum/ai_planning_subtree/find_dead_bodies,
 		/datum/ai_planning_subtree/eat_dead_body,
 	)
-
-	idle_behavior = /datum/idle_behavior/idle_random_walk

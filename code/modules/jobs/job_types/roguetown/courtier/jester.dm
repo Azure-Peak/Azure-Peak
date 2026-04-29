@@ -69,5 +69,5 @@
 	else
 		ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC) // Joker >:(
 	if(H.mind)
-		SStreasury.give_money_account(ECONOMIC_LETSGOGAMBLING, H, "Savings.")
+		SStreasury.grant_savings(ECONOMIC_LETSGOGAMBLING, H)
 

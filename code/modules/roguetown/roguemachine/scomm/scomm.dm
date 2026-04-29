@@ -402,9 +402,17 @@
 	dictating = FALSE
 
 /proc/scom_announce(message)
-	for(var/obj/structure/roguemachine/scomm/S in SSroguemachine.scomm_machines)
-		if(S.speaking)
-			S.say(message, spans = list("info"))
+	for(var/atom/S as anything in SSroguemachine.scomm_machines)
+		if(istype(S, /obj/item/scomstone/garrison) || istype(S, /obj/item/scomstone/bad/garrison))
+			continue
+		if(istype(S, /obj/structure/roguemachine/scomm))
+			var/obj/structure/roguemachine/scomm/station = S
+			if(station.speaking)
+				station.say(message, spans = list("info"))
+			continue
+		if(istype(S, /obj/item/scomstone))
+			var/obj/item/scomstone/stone = S
+			stone.repeat_message(message)
 
 #undef NORMAL_SCOM_TRANSMISSION_DELAY
 #undef NORMAL_SCOM_PER_MESSAGE_DELAY

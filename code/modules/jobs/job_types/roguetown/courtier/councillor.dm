@@ -151,14 +151,14 @@
 	saiga_shoes = /obj/item/clothing/shoes/roguetown/horseshoes/steel
 	backl = /obj/item/storage/backpack/rogue/satchel
 	belt = /obj/item/storage/belt/rogue/leather
-	beltl = /obj/item/roguekey/manor
+	beltl = /obj/item/storage/keyring/steward
 	beltr = /obj/item/rogueweapon/huntingknife/idagger/steel
 	cloak = /obj/item/clothing/cloak/half/red
 	backpack_contents = list(
 		/obj/item/storage/keyring = 1,
 	)
 	if(H.mind)
-		SStreasury.give_money_account(ECONOMIC_LOWER_MIDDLE_CLASS, H, "Savings.") // lower starting fund, but give them a saiga
+		SStreasury.grant_savings(ECONOMIC_UPPER_MIDDLE_CLASS, H) // bumped from lower-middle so the lowest councillor rung still feels like nobility
 	// give them the shitty see prices trait
 	ADD_TRAIT(H, TRAIT_SEEPRICES_SHITTY, JOB_TRAIT)
 
@@ -175,7 +175,7 @@
 	beltr = /obj/item/rogueweapon/huntingknife/idagger/steel
 	cloak = /obj/item/clothing/cloak/half/red
 	if(H.mind)
-		SStreasury.give_money_account(ECONOMIC_RICH, H, "Savings.") // wealth beyond measure
+		SStreasury.grant_savings(ECONOMIC_RICH, H) // wealth beyond measure
 	// give them the good see prices trait
 	ADD_TRAIT(H, TRAIT_SEEPRICES, JOB_TRAIT)
 
@@ -190,16 +190,17 @@
 	backl = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
 	backr = /obj/item/storage/backpack/rogue/satchel
 	belt = /obj/item/storage/belt/rogue/leather
-	beltl = /obj/item/roguekey/manor
+	beltl = /obj/item/storage/keyring/steward
 	beltr = /obj/item/quiver/arrows
 	cloak = /obj/item/clothing/cloak/half/red
 	backpack_contents = list(
 		/obj/item/hunting_map/white_stag = 1,
+		/obj/item/hunting_map/boars = 1,
 		/obj/item/storage/keyring = 1,
 		/obj/item/rogueweapon/huntingknife/idagger/steel = 1,
 	)
 	if(H.mind)
-		SStreasury.give_money_account(ECONOMIC_LOWER_MIDDLE_CLASS, H, "Savings.")
+		SStreasury.grant_savings(ECONOMIC_UPPER_MIDDLE_CLASS, H) // bumped from lower-middle to match councillor floor
 	// give them the shitty see prices trait
 	ADD_TRAIT(H, TRAIT_SEEPRICES_SHITTY, JOB_TRAIT)
 	ADD_TRAIT(H, TRAIT_MASTERFUL_HUNTER, JOB_TRAIT)
@@ -223,7 +224,7 @@
 		/obj/item/storage/keyring = 1,
 	)
 	if(H.mind)
-		SStreasury.give_money_account(ECONOMIC_LOWER_MIDDLE_CLASS, H, "Savings.")
+		SStreasury.grant_savings(ECONOMIC_UPPER_MIDDLE_CLASS, H) // bumped from lower-middle to match councillor floor
 	// give them the good see prices trait
 	ADD_TRAIT(H, TRAIT_SEEPRICES, JOB_TRAIT)
 	// Level past Jman if they want to

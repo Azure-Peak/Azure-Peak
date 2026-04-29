@@ -1,13 +1,15 @@
 /obj/item/parcel
 	name = "parcel wrapping paper"
-	desc = "A sturdy piece of paper used to wrap items for secure delivery. The final size of the parcel depends on the size of the original item."
+	desc = "A sturdy piece of paper used to wrap items for secure delivery. The final size of the parcel depends on the size of its contents."
 	icon = 'modular/Neu_Food/icons/cookware/ration.dmi'
 	icon_state = "ration_wrapper"
 	w_class = WEIGHT_CLASS_TINY
 	grid_height = 32
 	grid_width = 32
 	dropshrink = 0.6
-	var/obj/item/contained_item = null
+	/// Items contained in this parcel. Courier quests pack a single item, Recovery quests pack
+	/// 4-6. Released to the turf when an authorized recipient unwraps the seal.
+	var/list/obj/item/contained_items = list()
 	var/list/allowed_jobs = list()
 	var/delivery_area_type
 	var/datum/proximity_monitor/proximity_monitor
@@ -59,6 +61,7 @@
 		/area/rogue/indoors/town/shop = list("Merchant", "Shophand"),
 		/area/rogue/indoors/town/manor = list("Councillor", "Seneschal", "Servant", "Hand", "Knight", "Marshal", "Steward", "Clerk", "Grand Duke"),
 		/area/rogue/indoors/town/magician = list("Court Magician", "Magicians Associate", "Archivist"),
+		/area/rogue/indoors/town/physician = list("Physician", "Apothecary"),
 		/area/rogue/indoors/town = list("Guild Handler")
 	)
 	return area_jobs[area_type] || list("Town Crier", "Steward", "Merchant")
@@ -68,13 +71,13 @@
 	return
 
 /obj/item/parcel/attackby(obj/item/I, mob/user)
-	if(istype(I, /obj/item/parcel) || I.w_class > WEIGHT_CLASS_BULKY || contained_item)
+	if(istype(I, /obj/item/parcel) || I.w_class > WEIGHT_CLASS_BULKY || length(contained_items))
 		to_chat(user, span_warning("You can't wrap this in [src]."))
 		return
 
 	if(do_after(user, 2 SECONDS, target = src))
 		user.transferItemToLoc(I, src)
-		contained_item = I
+		contained_items += I
 		name = "parcel ([I.name])"
 		desc = "A securely wrapped parcel containing [I.name]."
 		icon_state = I.w_class >= WEIGHT_CLASS_NORMAL ? "ration_large" : "ration_small"
@@ -84,7 +87,7 @@
 		to_chat(user, span_notice("You wrap [I] in the parcel wrapper."))
 
 /obj/item/parcel/attack_self(mob/user)
-	if(!contained_item)
+	if(!length(contained_items))
 		return
 
 	if(delivery_area_type)
@@ -93,13 +96,24 @@
 			to_chat(user, span_warning("This parcel is sealed for delivery to [initial(quest_area.name)] and can only be opened by: [english_list(allowed_jobs)]!"))
 			return FALSE
 
-	if(do_after(user, 2 SECONDS, target = src))
-		to_chat(user, span_notice("You unwrap [contained_item] from the parcel."))
-		playsound(get_turf(user), 'sound/foley/dropsound/food_drop.ogg', 40, TRUE, -1)
-		user.put_in_hands(contained_item)
-		contained_item.update_icon()
-		contained_item = null
-		qdel(src)
+	if(!do_after(user, 2 SECONDS, target = src))
+		return
+
+	playsound(get_turf(user), 'sound/foley/dropsound/food_drop.ogg', 40, TRUE, -1)
+	// Single-item parcels go into the opener's hand; multi-item dump on the floor.
+	if(length(contained_items) == 1)
+		var/obj/item/only = contained_items[1]
+		to_chat(user, span_notice("You unwrap [only] from the parcel."))
+		user.put_in_hands(only)
+		only.update_icon()
+	else
+		to_chat(user, span_notice("You unwrap [src] and tip out the contents."))
+		var/turf/drop_loc = get_turf(user)
+		for(var/obj/item/I as anything in contained_items)
+			I.forceMove(drop_loc)
+			I.update_icon()
+	contained_items.Cut()
+	qdel(src)
 
 /obj/item/parcel/examine(mob/user)
 	. = ..()

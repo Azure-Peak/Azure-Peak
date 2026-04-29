@@ -63,7 +63,7 @@ GLOBAL_LIST_INIT(melee_combat_skills, list( \
 		return FALSE
 	return ambushable
 
-/// budget_multiplier_floor: If set, the budget is floored to (budget_multiplier_floor * region max_ambush * AMBUSH_BUDGET_PCT) TP — i.e. N natural ambush equivalents at full pool. Used by signal horn.
+/// budget_multiplier_floor: If set, the budget is floored to (budget_multiplier_floor * region max_ambush * AMBUSH_BUDGET_PCT_REGULAR) TP — i.e. N natural ambush equivalents at full pool. Used by signal horn.
 /mob/living/proc/consider_ambush(always = FALSE, ignore_cooldown = FALSE, min_dist = 1, max_dist = 9, silent = FALSE, budget_multiplier_floor = 0)
 	var/area/AR = get_area(src)
 	if(!AR)
@@ -122,16 +122,16 @@ GLOBAL_LIST_INIT(melee_combat_skills, list( \
 		return FALSE
 
 	// ——— Budget Calculation ———
-	// budget = player_factor * latent_ambush * AMBUSH_BUDGET_PCT
+	// budget = player_factor * latent_ambush * AMBUSH_BUDGET_PCT_REGULAR
 	// At 3%, a solo combat player in Terrorbog (1500) gets 45 TP ≈ 2-3 bogmen.
 	// budget_multiplier_floor guarantees N natural ambush equivalents at the region's full pool.
 	// Minimum budget of 10 so something always spawns.
 	var/latent_pool = 50 // Fallback if no region
 	if(TR)
 		latent_pool = TR.latent_ambush
-	var/budget = player_factor * latent_pool * AMBUSH_BUDGET_PCT
+	var/budget = player_factor * latent_pool * AMBUSH_BUDGET_PCT_REGULAR
 	if(budget_multiplier_floor && TR)
-		budget = max(budget, budget_multiplier_floor * TR.max_ambush * AMBUSH_BUDGET_PCT)
+		budget = max(budget, budget_multiplier_floor * TR.max_ambush * AMBUSH_BUDGET_PCT_REGULAR)
 	budget = max(budget, 10) // Floor: always afford at least one trash mob
 
 	// ——— Purchase Loop ———

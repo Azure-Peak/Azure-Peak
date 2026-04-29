@@ -164,9 +164,6 @@
 	var/charge_target_time = 0
 	/// Whether the spell is currently charged, for cases where you want to keep casting after the initial charge (projectiles).
 	var/charged = FALSE
-	/// If TRUE, this spell benefits from implement damage bonus when the caster holds a spell implement.
-	// Only poke spells (low CD staple spammable projectiles) should ever get this.
-	var/is_implement_scaled_spell = FALSE
 	/// The school this spell attunes to. If set, holding a spell implement while casting will attune it (glow + name).
 	/// Use ASPECT_NAME defines (e.g. ASPECT_NAME_PYROMANCY). Null means no attunement.
 	var/attunement_school
@@ -180,6 +177,7 @@
 	/// If TRUE, spell charges on button press, then waits for a separate middle-click to cast.
 	/// If FALSE (default), spell uses hold-and-release: hold middle-click to charge, release to cast.
 	var/charge_then_click = FALSE
+	var/blocks_defense_while_channeling = FALSE
 
 	/// Lore/flavor text. Shown on hover in spell lists, always shown in detailed examine.
 	var/fluff_desc = ""
@@ -197,6 +195,9 @@
 
 	/// Timer ID for the auto cancel, so we can cancel it
 	var/auto_cancel_timer = null
+	
+	/// A parent variable to store devotion cost. -- Kuan's Note: This is kinda needed if we want to shift Miracles from proc_holder to spell/cooldown
+	var/devotion_cost = null
 
 /datum/action/cooldown/spell/New(Target)
 	. = ..()
@@ -479,6 +480,8 @@
 // Where the cast chain starts
 /datum/action/cooldown/spell/PreActivate(atom/target)
 	charged = FALSE
+	if(owner?.channeling_spell == src)
+		owner.channeling_spell = null
 	if(!is_valid_target(target))
 		if(charge_required && click_to_activate)
 			to_chat(owner, span_warning("I can't cast [src] on [target]!"))
@@ -502,7 +505,7 @@
 		if(istype(held, /obj/item/rogueweapon/shield))
 			continue
 		var/obj/item/rogueweapon/W = held
-		if(W.implement_multiplier)
+		if(W.implement_refund)
 			continue
 		return TRUE
 	if(H.has_status_effect(/datum/status_effect/recent_weapon))
@@ -747,9 +750,12 @@
 		// The entire spell is done, start the actual cooldown at its adjusted duration
 		StartCooldown(get_adjusted_cooldown())
 
+	var/spent = 0
 	if(!(precast_result & SPELL_NO_IMMEDIATE_COST))
 		// Invoke the base cost of the spell based on primary/secondary resource types
-		invoke_cost()
+		spent = invoke_cost()
+
+	apply_residual_focus(spent)
 
 	weapon_penalty_active = FALSE
 
@@ -941,6 +947,11 @@
 /// When we start charging the spell called from set_click_ability or start_casting
 /datum/action/cooldown/spell/proc/on_start_charge()
 	currently_charging = TRUE
+	if(owner)
+		owner.tempfixeye = TRUE
+		if(!owner.fixedeye)
+			owner.nodirchange = TRUE
+		owner.channeling_spell = src
 	START_PROCESSING(SSfastprocess, src)
 	build_all_button_icons(UPDATE_BUTTON_STATUS|UPDATE_BUTTON_BACKGROUND)
 
@@ -980,6 +991,10 @@
 /// When finish charging the spell called from set_click_ability or try_casting
 /// This does not mean we succeeded in charging the spell just that we did mouseUp/ended the do_after
 /datum/action/cooldown/spell/proc/on_end_charge(success)
+	if(owner)
+		owner.tempfixeye = FALSE
+		if(!owner.fixedeye)
+			owner.nodirchange = FALSE
 	end_charging()
 	. = success
 	if(success)
@@ -993,6 +1008,10 @@
 	currently_charging = FALSE
 	charge_started_at = null
 	charge_target_time = null
+	// Only drop the cache if we're not about to enter the "charged, waiting to fire" phase
+	// (charge-then-click spells). Caller sets charged=TRUE after this returns on success.
+	if(owner?.channeling_spell == src && !charged)
+		owner.channeling_spell = null
 	STOP_PROCESSING(SSfastprocess, src)
 	build_all_button_icons(UPDATE_BUTTON_STATUS|UPDATE_BUTTON_BACKGROUND)
 
@@ -1178,6 +1197,8 @@
 	return TRUE
 
 /// Charge the owner with the cost of the spell. Drains both primary and secondary resources.
+/// Returns the sum of stamina + energy spent (devotion/blood are excluded — the return
+/// feeds the implement refund pool, which only tracks the two mundane resource bars).
 /datum/action/cooldown/spell/proc/invoke_cost()
 	if(!owner)
 		return
@@ -1185,10 +1206,42 @@
 	var/primary_spent = invoke_resource_cost(primary_resource_type, primary_resource_cost)
 	var/secondary_spent = invoke_resource_cost(secondary_resource_type, secondary_resource_cost)
 
-	var/total = (primary_spent || 0) + (secondary_spent || 0)
-	if(total <= 0)
+	var/refundable_total = 0
+	if(primary_resource_type == SPELL_COST_STAMINA || primary_resource_type == SPELL_COST_ENERGY)
+		refundable_total += (primary_spent || 0)
+	if(secondary_resource_type == SPELL_COST_STAMINA || secondary_resource_type == SPELL_COST_ENERGY)
+		refundable_total += (secondary_spent || 0)
+	return refundable_total
+
+/// Returns the highest-tier implement currently held by the user, or null.
+/datum/action/cooldown/spell/proc/get_held_implement(mob/user)
+	if(!ishuman(user))
+		return null
+	var/mob/living/carbon/human/H = user
+	var/obj/item/rogueweapon/best
+	for(var/obj/item/held in list(H.get_active_held_item(), H.get_inactive_held_item()))
+		if(!istype(held, /obj/item/rogueweapon))
+			continue
+		var/obj/item/rogueweapon/W = held
+		if(W.implement_refund > (best ? best.implement_refund : 0))
+			best = W
+	return best
+
+/// Apply or extend the residual focus buff based on how much stamina/energy this cast drained
+/// and which implement (if any) the caster is holding. No implement = no refund.
+/datum/action/cooldown/spell/proc/apply_residual_focus(refundable_spent)
+	if(refundable_spent <= 0)
 		return
-	return total
+	var/obj/item/rogueweapon/implement = get_held_implement(owner)
+	if(!implement?.implement_refund)
+		return
+	if(!isliving(owner))
+		return
+	var/pool = refundable_spent * implement.implement_refund
+	if(pool <= 0)
+		return
+	var/mob/living/L = owner
+	L.apply_status_effect(/datum/status_effect/buff/residual_focus, pool)
 
 /// Drain a specific resource type by the given base cost.
 /// INT scaling applies to stamina and energy. Devotion uses raw cost.
