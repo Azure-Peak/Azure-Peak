@@ -40,6 +40,7 @@
 	H.verbs |= /mob/living/carbon/human/proc/demand_submission
 	H.maxbloodpool += 3000
 	H.adjust_bloodpool(3000)
+	H.cmode_music = 'sound/music/cmode/combat_ready_to_die.ogg'
 	for(var/S in MOBSTATS)
 		H.change_stat(S, 2)
 	H.forceMove(pick(GLOB.vlord_starts))
@@ -56,7 +57,7 @@
 /datum/antagonist/vampire/lord/greet()
 	to_chat(owner.current, span_userdanger("I am ancient. I am the Land. And I am now awoken to trespassers upon my domain."))
 	to_chat(owner.current, span_boldwarning("I should check my immedate surroundings, from the bloodstained stone I can recall my Ichor fang at will should I lose it again and from the Crimson Crucible I can begin my various projects of collective sacrifice of vampyric vitae between myself and my servants to reclaim my long-lost power and kingdom."))
-	owner.current.playsound_local(get_turf(owner.current), 'sound/villain/dreamer_warning.ogg', 80, FALSE, pressure_affected = FALSE)
+	owner.current.playsound_local(get_turf(owner.current), 'sound/villain/dreamer_warning.ogg', 80, FALSE, pressure_affected = FALSE) //Extra bit of AURA
 	. = ..()
 
 /datum/outfit/job/vamplord/pre_equip(mob/living/carbon/human/H)
