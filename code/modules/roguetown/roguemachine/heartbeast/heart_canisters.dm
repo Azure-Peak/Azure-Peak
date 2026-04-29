@@ -442,7 +442,7 @@
 			target.visible_message(span_notice("[user] drinks some heartblood."), span_notice("I drink the heartblood, feeling it fight the rot within."))
 		else
 			target.visible_message(span_notice("[user] feeds [target] some heartblood."), span_notice("[user] feeds you some heartblood."))
-		rot.remove_stack(60)
+		rot.remove_stack(67)
 		qdel(src)
 		return TRUE
 	return ..()
@@ -459,7 +459,7 @@
 			target.visible_message(span_notice("[user] drinks some heartblood."), span_notice("I drink the heartblood, feeling it fight the rot within."))
 		else
 			target.visible_message(span_notice("[user] feeds [target] some heartblood."), span_notice("[user] feeds you some heartblood."))
-		rot.remove_stack(20)
+		rot.remove_stack(34)
 		qdel(src)
 		return TRUE
 	return ..()
