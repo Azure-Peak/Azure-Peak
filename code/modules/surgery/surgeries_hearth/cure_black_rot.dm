@@ -19,7 +19,7 @@
 	target_mobtypes = list(/mob/living/carbon/human, /mob/living/carbon/monkey)
 	time = 12 SECONDS
 	surgery_flags = SURGERY_INCISED
-	skill_min = SKILL_LEVEL_EXPERT
+	skill_min = SKILL_LEVEL_APPRENTICE
 	preop_sound = 'sound/surgery/scalpel1.ogg'
 	success_sound = 'sound/surgery/scalpel2.ogg'
 
