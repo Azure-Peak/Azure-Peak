@@ -25,6 +25,8 @@
 	. = ..()
 	addtimer(CALLBACK(owner.current, TYPE_PROC_REF(/mob/living/carbon/human, choose_name_popup), "[name]"), 5 SECONDS)
 
+	greet()
+
 	owner.unknow_all_people()
 	for(var/datum/mind/MF in get_minds())
 		owner.become_unknown_to(MF)
@@ -53,6 +55,8 @@
 
 /datum/antagonist/vampire/lord/greet()
 	to_chat(owner.current, span_userdanger("I am ancient. I am the Land. And I am now awoken to trespassers upon my domain."))
+	to_chat(owner.current, span_boldwarning("I should check my immedate surroundings, from the bloodstained stone I can recall my Ichor fang at will should I lose it again and from the Crimson Crucible I can begin my various projects of collective sacrifice of vampyric vitae between myself and my servants to reclaim my long-lost power and kingdom."))
+	owner.current.playsound_local(get_turf(owner.current), 'sound/villain/dreamer_warning.ogg', 80, FALSE, pressure_affected = FALSE)
 	. = ..()
 
 /datum/outfit/job/vamplord/pre_equip(mob/living/carbon/human/H)
@@ -70,6 +74,7 @@
 	H.adjust_skillrank_up_to(/datum/skill/misc/reading, 5, TRUE)
 	H.adjust_skillrank_up_to(/datum/skill/misc/climbing, 5, TRUE)
 	H.adjust_skillrank_up_to(/datum/skill/misc/athletics, 6, TRUE) //Who said Progress can't have gains?
+
 	pants = /obj/item/clothing/under/roguetown/tights/puritan
 	shirt = /obj/item/clothing/suit/roguetown/shirt/vampire
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass
