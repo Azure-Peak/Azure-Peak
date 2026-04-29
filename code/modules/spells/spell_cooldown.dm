@@ -196,7 +196,7 @@
 	/// Timer ID for the auto cancel, so we can cancel it
 	var/auto_cancel_timer = null
 	
-	/// A parent variable to store devotion cost. -- Kuan's Note: This is kinda needed if we want to shift Miracles from proc_holder to spell/cooldown
+	/// A parent variable to store devotion cost. -- Kuan's Note: This is kinda needed if we want to shift Miracles from proc_holder to spell/cooldown, at least for now as a crutch. Lamos reported that using COST_DEVOTION has been functional but trying to deduct devotion through other means (namely, directly through using this datum as a proxy), needs this thing until the system is fleshed out proper.
 	var/devotion_cost = null
 
 /datum/action/cooldown/spell/New(Target)

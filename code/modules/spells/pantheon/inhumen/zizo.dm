@@ -23,7 +23,7 @@ corpses and discarded junk*/
 	charge_required = FALSE
 	cooldown_time = 10 SECONDS
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
-	var/devotion_cost = 20
+	devotion_cost = 20
 	var/list/options = list(
 
 		"Corrupted Chalk" = list(
@@ -367,7 +367,7 @@ corpses and discarded junk*/
 
 	if(!circle)
 		var/confirm1 = tgui_alert(user,
-			"Attempting a Rituos without a Rune of Progress is suicide.\nProceed anyway?",
+			"Attempting a Rituos without a Rune of Progress is SUICIDE.\nProceed anyway?",
 			"RITUOS WARNING",
 			list("Yes", "No"))
 
