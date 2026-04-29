@@ -1,4 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - rscadd: "Ported TGstation's profiler and initialization profiler subsystem to help us with future profiling efforts."

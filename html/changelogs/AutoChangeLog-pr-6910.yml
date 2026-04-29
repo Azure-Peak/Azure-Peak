@@ -1,4 +1,0 @@
-author: "borneblood"
-delete-after: True
-changes:
-  - bugfix: "shapeshift_holder has been polished, thus fixing problems with its functionality with flying simple_mobs it had for a good long while now. Report any new bugs, please."

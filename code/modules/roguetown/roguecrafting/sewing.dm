@@ -2145,12 +2145,12 @@
 		/obj/item/natural/cloth = 3,
 		/obj/item/natural/fibers = 2
 	)
-	craftdiff = 4
+	craftdiff = 3
 /datum/crafting_recipe/roguetown/sewing/noble
-	name = "velvet dress"
+	name = "noble's pinafore"
 	result = list(/obj/item/clothing/suit/roguetown/shirt/nobledress)
 	reqs = list(
 		/obj/item/natural/cloth = 3,
 		/obj/item/natural/fibers = 2
 	)
-	craftdiff = 4
+	craftdiff = 3

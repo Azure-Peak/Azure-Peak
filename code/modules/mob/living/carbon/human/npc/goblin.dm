@@ -252,7 +252,9 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 		charflaws.Remove(cf)
 		QDEL_NULL(cf)
 	update_body()
-	faction |= FACTION_ORCS
+	faction = list(FACTION_ORCS)
+	if(is_species(src, /datum/species/goblin/hell))
+		faction += FACTION_INFERNAL
 	name = "goblin"
 	real_name = "goblin"
 	ADD_TRAIT(src, TRAIT_NOMOOD, TRAIT_GENERIC)

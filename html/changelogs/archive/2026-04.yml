@@ -1005,3 +1005,87 @@
       spell and most cases of jankiness
   borneblood:
   - bugfix: Restored a missing functionality to spellcasting.
+2026-04-29:
+  1HoneyDragon:
+  - rscadd: 'Ported two dresses from Scarlet Reach: the noble dress and the velvet
+      dress.'
+  - rscadd: Added the new dresses to the loadout menu
+  - rscadd: Added the new dresses to the crafting - sewing tab.
+  Aisu9:
+  - rscdel: Deleted Theurgist
+  - balance: mix THeurgist's stat spread in the Sage's own stat spread, they loose
+      1 con and gain 1 int
+  - balance: raise Sage's Devotion regen to the same tier as Mystic's
+  - balance: Mystic now have apprentice alchemy and alchemy expert trait so they can
+      produce strong potions with some work, move the alchemy supplies and backpack
+      from Sage's loadout to Mystic's, Sage stay at apprentice.
+  - balance: all mystic classes now enjoy novice wrestling skill, fight back the bullies
+      a little better!
+  - qol: Sage's stats is now picked after you take your offensive cantrip
+  - qol: Mystic gain blood boon back, holy skill unchanged at apprentice.
+  - qol: Holyblade, now named Luminary enjoy a  greater weapon loadout and proficiency
+      diversity
+  Drifter7371:
+  - rscadd: Gave Bwanderer a choice between starting with axes or swords.
+  - rscadd: 'Swapped a Wilpower point for Constitution for Bwanderer.
+
+      :cl:'
+  Ketrai:
+  - rscadd: Technophobe trait to stop meister use. Deprived, Hag
+  - balance: Pumpkins now mostly give seeds, rarely whole pumpkins
+  - balance: Bait bags attract mostly small game
+  - balance: Bait bags require apprentice hunting to craft
+  - balance: Hag cannot take saddleborn
+  - rscadd: You can now roast seeds over fires
+  - qol: Clarify boar wound message as something you can just sew?
+  - balance: Dreamwalker portals allow up to 5 pursuers with halved cooldown between
+      uses.
+  Ollanius:
+  - bugfix: Pewter goblets no longer cause vampyres and nitebeasts to spontaneously
+      explode upon contact.
+  - code_imp: 'Stages ore and scrap content from PR #6666. This includes the base
+      framework for avantyne wafers and thread, alongside ascendant-specific equipment
+      fragments. Unaccessable in-game.'
+  Ryan180602:
+  - rscadd: playtime tracker. admins can see another player's through PP.
+  VanessaCoding:
+  - rscadd: Chiseling and sawing now keeps going until the turf with the item you
+      targetted runs out of the item.
+  WeNeedMorePhoron:
+  - rscadd: Complex NPC AI will now smashes obstacles that is in the way between you
+      and them if they cannot find a better way to get pass
+  - rscadd: Hotspot no longer HARDBLOCK an AI from pathing, so they will path through
+      them as a last resort
+  - rscadd: Added a slight, intelligence / perception scaled delay to kicking you
+      when they are grabbed
+  - rscadd: Window being broken by mobs should no longer spam admin log if there's
+      no ckey
+  - rscadd: Ported TGstation's profiler and initialization profiler subsystem to help
+      us with future profiling efforts.
+  - rscadd: You can no longer level up alchemy without having ALCHEMY EXPERT trait
+      at all.
+  - rscadd: 'Alchemy Expert added to: Destitute Scholar, Introverted Bookworm, Nettlesome
+      Scamp, Mage Lord, Schemer, Underdweller, Desert Rider Sahir, Black Venom Pursuer
+      (both), Town Crier, Artificer, Bishop, Druid, Acolyte, Templar (Noc/Pestra),
+      Cleric (Noc), Mystic (all 4), Wiseguy, Heretic (Pestra/Noc, both), Advisor of
+      Heartfelt, Heartfelt Prior, Heartfelt Physician, Poisoner, Lich, Grenzel Envoy
+      Priest, Herbalist, Heretical Fiends'
+  - bugfix: Possibly fixed TGUI input modal crashing on long text above 2048 characters
+      on older systems or older in built browser such as Wine / Linux emulator by
+      using a feature introduced in 2015 instead of 2025.
+  babamandaa:
+  - qol: gives Depraved wretch a lil buff
+  borneblood:
+  - bugfix: shapeshift_holder has been polished, thus fixing problems with its functionality
+      with flying simple_mobs it had for a good long while now. Report any new bugs,
+      please.
+  - bugfix: more matthios maintenance (again)
+  changelingonberry:
+  - rscadd: descriptors
+  nauticall:
+  - rscadd: Added the ability for Dukes to have their own mounts.
+  saltprjak:
+  - balance: Ruma Seonjang and Gun-in weapons nerfed and buffed respectively into
+      a middle-ground. They can now be sold.
+  - balance: Ruma Sasu's iron dagger replaced with a steel tanto.
+  - balance: All Ruma now share pain resistance.
