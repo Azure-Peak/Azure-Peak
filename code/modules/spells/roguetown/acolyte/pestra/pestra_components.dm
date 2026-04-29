@@ -163,7 +163,7 @@
 	var/self_rot_stacks = 1
 	var/no_skill_targets_stacks = 2
 	var/low_skill_target_stacks = 3
-	var/high_skill_target_stacks = 4
+	var/high_skill_target_stacks = 6
 	var/high_skill_level = 5
 
 /datum/component/infestation_black_rot/Initialize()

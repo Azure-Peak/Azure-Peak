@@ -131,7 +131,6 @@
 	reapply_effect(old_stats)
 
 /datum/status_effect/black_rot/proc/check_thresholds()
-	var/old_tier = tier
 	var/new_tier = 0
 	if(stacks >= 100)
 		new_tier = 4

@@ -280,7 +280,7 @@
 	icon = 'icons/roguetown/clothing/armor.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/armor.dmi'
 	icon_state = "physcoat"
-	slot_flags = ITEM_SLOT_ARMOR
+	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_CLOAK
 	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_armor.dmi'
 	boobed = TRUE
 	color = null
