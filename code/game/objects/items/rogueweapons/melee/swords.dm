@@ -449,6 +449,21 @@
 			if("wielded")
 				return list("shrink" = 0.6,"sx" = 5,"sy" = -2,"nx" = -6,"ny" = -2,"wx" = -6,"wy" = -2,"ex" = 7,"ey" = -2,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = -28,"sturn" = 29,"wturn" = -35,"eturn" = 32,"nflip" = 8,"sflip" = 0,"wflip" = 8,"eflip" = 0)
 
+/obj/item/rogueweapon/sword/long/judgement/vlord/pickup(mob/living/user)
+	if(!(user.mind?.has_antag_datum(/datum/antagonist/vampire))) //All vamps can pick it up. If a wretch vamp decides to larp as vander's daywalker. Man I don't care anymore, that's pure Aura.
+		to_chat(user, "<font color='red'>My hands twist unnaturally before the blade falls out of my grip.</font>")
+		user.Stun(20) //Shorter than most cursed weaponry, because you can't break it with its 9999 integ. Also why it doesn't set you on fire.
+	..()
+
+/obj/item/rogueweapon/sword/long/judgement/vlord/examine(mob/user)
+	. = ..()
+	if(user.mind?.has_antag_datum(/datum/antagonist/vampire))
+		. += span_notice("You can feel the unholy blade's enchantment resonate with your cursed nature, anyone that does not bare your curse will be unable to touch it.")
+
+/obj/item/rogueweapon/sword/long/judgement/vlord/Initialize()
+  ..()
+  add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_VAMPIRIC, "alpha" = 120, "size" = 2)) //Its a cursed blade, it gets to glow ominiously now.
+
 /obj/item/rogueweapon/sword/long/marlin
 	name = "shalal saber"
 	desc = "A large yet surprisingly agile curved blade meant to be wielded in two hands. It has a similar composition to northwestern Psydonian longswords, but it's notably lighter."

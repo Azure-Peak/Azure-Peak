@@ -1,7 +1,7 @@
 #define VAMPCOST_ONE 5000 //heavily chopped down, you're a server-wide antagonist that should be doing stuff, just slightly above your ability to buy roundstart.
 #define VAMPCOST_TWO 6000 //Earlygame finish point, most vlords will end up here less than 30 mins into a round if they're good, 1hr if not.
 #define VAMPCOST_THREE 10000 //Grab immunity, leave moderately high. This is where they become a major threat.
-#define VAMPCOST_FOUR 16000 //Intended to be rather high, but I also noticed vamps aren't upgrading their potencies if its too high. YES they get infinite stamina and a ton of other buffs at this point, but I want some leeway so they don't wind up with the whole map already sucked dry or killed by advs and are unable to invest in vamp potencies
+#define VAMPCOST_FOUR 16000 //Intended to be rather high, but I also noticed vamps aren't upgrading their potencies if its too high. YES they get infinite stamina + shock immunity and a ton of other buffs at this point, but I want some leeway so they don't wind up with the whole map already sucked dry or killed by advs and are unable to invest in vamp potencies
 #define ARMOR_COST 8000 //Keep this high, we want to encourage them to take it before T3 power, or get armor smithed earlygame.
 #define SUN_STEAL_COST 8000 //Server wide war declaration, mostly useless for Vitabella. Risk/Reward but we want it to be less earlygame but midgame instead of lategame.
 #define SERVANT_COST 800 //Keep these low, so people can play as vampires. We want to scoop up observers/lobby joiners before they get bored.
