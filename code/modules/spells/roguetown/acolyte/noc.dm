@@ -664,7 +664,6 @@ GLOBAL_LIST_INIT(noc_scrolls, (list(
 	/obj/item/book/granter/spell/noc/fireball, 
 	/obj/item/book/granter/spell/noc/lbolt, 
 	/obj/item/book/granter/spell/noc/boulderstrike, 
-	/obj/item/book/granter/spell/noc/massgrav,
 	/obj/item/book/granter/spell/noc/message,
 	/obj/item/book/granter/spell/noc/mindlink,
 	/obj/item/book/granter/spell/noc/mending,

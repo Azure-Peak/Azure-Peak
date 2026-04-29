@@ -330,12 +330,6 @@ UNDER NO CIRCUMSTANCE SHOULD ANY OF THE BOOKS BE GIVEN OUT INTO SPAWNERS OR TO B
 	spell = /datum/action/cooldown/spell/projectile/boulder_strike
 	spellname = "Boulder Strike"
 
-/obj/item/book/granter/spell/noc/massgrav
-	name = "Scroll of Mass Gravity"
-	desc = "Teaches you how to cast Mass Gravity."
-	spell = /datum/action/cooldown/spell/mass_gravity
-	spellname = "Mass Gravity"
-
 /obj/item/book/granter/spell/noc/message
 	name = "Scroll of Message"
 	desc = "Teaches you how to cast Message."
