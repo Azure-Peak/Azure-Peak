@@ -871,15 +871,15 @@
 	expiry_year_bonus_max = 10
 
 /obj/item/book/granter/resident_manuscript/guards
-	desc = "An azure mandate of the Azurian watch, granting the bearer authority of city order under the Crown."
+	desc = "A garrison soldier writ, naming the bearer as Crown steel on Azurian stone."
 	document_profile_id = "guards"
 
 /obj/item/book/granter/resident_manuscript/blank/guards
-	desc = "A blank Azurian Warden mandate. Fill it with a feather, then bring it to the proper authorities for seals."
+	desc = "A blank garrison soldier writ. Fill it with a feather, then bring it to the proper authorities for seals."
 	document_profile_id = "guards"
 
 /obj/item/book/granter/resident_manuscript/fake/guards
-	desc = "An Azurian mandate whose provenance is best left unmentioned."
+	desc = "A garrison soldier writ whose provenance is best left unmentioned."
 	document_profile_id = "guards"
 
 /obj/item/book/granter/resident_manuscript/church

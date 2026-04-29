@@ -295,9 +295,9 @@
 
 /datum/resident_document_profile/guards
 	id = "guards"
-	display_name = "Azurian Warden Mandate"
-	subtitle = "By the Watch and the Crown"
-	description = "Let it be known: the bearer walks as a warden of Azuria, sworn to keep the lanterns burning and the streets obedient. Their word carries iron, and their hand may drag peace from blood, mud, and fear."
+	display_name = "Garrison Soldier Writ"
+	subtitle = "By the Garrison and the Crown"
+	description = "Let it be known: the bearer stands as a soldier of Azuria's garrison, sworn to hold gate, wall, and street when steel is drawn. Their service is plain iron, paid in watchful nights and blood on stone."
 	allowed_seals = list("sergeant", "marshal", "elder")
 	paper_color = "#d9cfb0"
 	ink_color = "#2f3028"

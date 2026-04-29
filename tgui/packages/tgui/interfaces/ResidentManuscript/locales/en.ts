@@ -12,10 +12,10 @@ export const residentManuscriptEn: ResidentManuscriptTexts = {
         "Let it be known: under cold crown-wax and black ink, the bearer is counted among the named souls of these lands. Gate, hearth, and gallows alike must know them until law or death strikes them from the roll.",
     },
     guards: {
-      display_name: 'Azurian Warden Mandate',
-      subtitle: 'By the Watch and the Crown',
+      display_name: 'Garrison Soldier Writ',
+      subtitle: 'By the Garrison and the Crown',
       description:
-        'Let it be known: the bearer walks as a warden of Azuria, sworn to keep the lanterns burning and the streets obedient. Their word carries iron, and their hand may drag peace from blood, mud, and fear.',
+        "Let it be known: the bearer stands as a soldier of Azuria's garrison, sworn to hold gate, wall, and street when steel is drawn. Their service is plain iron, paid in watchful nights and blood on stone.",
     },
     church: {
       display_name: 'Ecclesiastical Writ of Faith',
