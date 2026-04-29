@@ -13,6 +13,7 @@
 
 /obj/structure/vampire/bloodpool
 	name = "Crimson Crucible"
+	desc = "An ominious bloodstained Crucible, humming with unholy energies and crackling with untold potental. A thick smell of copper invades your nose just looking upon it, is that blood?"
 	icon_state = "vat"
 	var/current = 0
 	var/datum/clan/owner_clan
@@ -35,6 +36,9 @@
 /obj/structure/vampire/bloodpool/examine(mob/user)
 	. = ..()
 	to_chat(user, span_boldnotice("Blood level: [current]"))
+
+	if(user.mind?.has_antag_datum(/datum/antagonist/vampire/lord))
+		. += span_bloody("A Crucible used for your projects, all Vampires can contribute their vitae towards projects you set. Only you can contribute the last 100 needed to finish a project.")
 
 	// Show active projects
 	if(active_projects.len)
