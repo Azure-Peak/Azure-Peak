@@ -45,7 +45,6 @@
 	ADD_TRAIT(H, TRAIT_HEAVYARMOR, TRAIT_GENERIC) //Brute-forced method to ensure that Vampire Lords, no matter what, receive their most important traits.
 	ADD_TRAIT(H, TRAIT_INFINITE_ENERGY, TRAIT_GENERIC) //Playing it safe, with the assumption that Vampire Lords already inherit any traits given to regular Vampires.
 	ADD_TRAIT(H, TRAIT_STRENGTH_UNCAPPED, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_BITERHELM, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_STRONGBITE, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_NOBLE, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)
@@ -183,6 +182,10 @@
 	smeltresult = /obj/item/ingot/draconic //Closest - and most valuable - analogue to obsidian.
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 
+/obj/item/clothing/head/roguetown/vampire/Initialize()
+  ..()
+  add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_VAMPIRIC, "alpha" = 180, "size" = 1.5)) //AURAFARMING BUFF
+
 ////////BROKEN////////
 /obj/item/clothing/suit/roguetown/armor/chainmail/iron/vampire
 	name = "old ancient ceremonial vestments" //Currently invisible, due to the lack of an object sprite. Reinstate once someone adds a 'vunder' icon to the shirt.dmi.
@@ -303,6 +306,7 @@
 	if(slot == SLOT_HEAD)
 		active_item = TRUE
 		ADD_TRAIT(user, TRAIT_BITERHELM, TRAIT_GENERIC)
+		to_chat(user, span_red("The bascinet's visor chitters, and your jaw tightens with symbiotic intent.."))
 
 /obj/item/clothing/head/roguetown/helmet/heavy/vampire/dropped(mob/living/user)
 	..()
@@ -310,3 +314,4 @@
 		return
 	active_item = FALSE
 	REMOVE_TRAIT(user, TRAIT_BITERHELM, TRAIT_GENERIC)
+	to_chat(user, span_red("..and like that, the bascinet's visor goes dormant once more - a strange pressure, relieved from your jaw."))
