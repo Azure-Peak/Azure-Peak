@@ -3,6 +3,7 @@
 	alert_type = /atom/movable/screen/alert/status_effect/black_rot
 	duration = -1 // Permanent until cured
 	tick_interval = 2 SECONDS
+	examine_text = "SUBJECTPRONOUN seems to be rotting alive!"
 
 	var/static/list/valid_body_zones = list(
 		BODY_ZONE_L_ARM,
@@ -180,7 +181,7 @@
 
 // Puke when advancing stages, woo
 /datum/status_effect/black_rot/proc/trigger_vomit_fit()
-	to_chat(owner, span_userdanger("A wave of nausea overwhelms me! IT'S ONLY GETTING WORSE."))
+	to_chat(owner, span_danger("A wave of nausea overwhelms me! IT'S ONLY GETTING WORSE."))
 	for(var/i in 1 to 5)
 		spawn(rand(1 SECONDS, 20 SECONDS))
 			if(owner && !QDELETED(owner) && owner.stat != DEAD)
@@ -195,7 +196,7 @@
 		new /obj/effect/decal/cleanable/black_rot_vomit(vomit_turf)
 	playsound(owner, 'sound/misc/machinevomit.ogg', 50, TRUE)
 	if(prob(10))
-		owner.visible_message(span_warning("[owner] vomits a black, tarry substance!"), span_userdanger("I vomit a black, tarry substance!"))
+		owner.visible_message(span_warning("[owner] vomits a black, tarry substance!"), span_danger("I vomit a black, tarry substance!"))
 
 /obj/effect/decal/cleanable/black_rot_vomit
 	name = "black rot vomit"

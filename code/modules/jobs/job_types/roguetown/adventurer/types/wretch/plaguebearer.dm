@@ -32,6 +32,7 @@
 	)
 	subclass_stashed_items = list(
         "Sewing Kit" =  /obj/item/repair_kit,
+		"Poison Arrows Quiver" = /obj/item/quiver/poisonarrows,
     )
 
 /datum/outfit/job/roguetown/wretch/plaguebearer/pre_equip(mob/living/carbon/human/H)
@@ -56,6 +57,7 @@
 		/obj/item/reagent_containers/glass/bottle/rogue/strongpoison = 1,
 		/obj/item/reagent_containers/glass/bottle/alchemical/healthpot = 1,
 		/obj/item/natural/worms/leech/cheele = 1,
+		/obj/item/reagent_containers/powder/black_ichor = 1,
 		)
 	H.dna.species.soundpack_m = new /datum/voicepack/male/wizard()
 	if(H.mind)
@@ -67,7 +69,7 @@
 		backpack_contents += /obj/item/rogueweapon/huntingknife/idagger/steel/rotfang
 		backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
 		beltr = /obj/item/quiver/poisonarrows
-		beltl = /obj/item/quiver/poisonarrows
+		beltl = /obj/item/storage/magebag
 		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/alchemy/unique/ichor)
 		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/alchemy/unique/ichor_big)
 		wretch_select_bounty(H)

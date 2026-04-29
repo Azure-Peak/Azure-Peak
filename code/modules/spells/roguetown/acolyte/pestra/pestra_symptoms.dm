@@ -79,7 +79,7 @@
 /datum/rot_symptom/necrosis_flare
 	name = "Necrosis Flare"
 	required_tier = 3
-	cooldown = 40 SECONDS
+	cooldown = 75 SECONDS
 
 /datum/rot_symptom/necrosis_flare/activate(mob/living/L, datum/status_effect/black_rot/rot)
 	..()

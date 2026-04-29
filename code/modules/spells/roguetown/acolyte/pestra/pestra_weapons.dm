@@ -11,7 +11,7 @@
 	. = ..()
 	AddComponent(/datum/component/ichor_stained)
 
-/obj/item/reagent_containers/black_ichor
+/obj/item/reagent_containers/powder/black_ichor
 	name = "black ichor"
 	desc = "A malevolent little ball of stabilized black rot, siphoned from the heartbeast."
 	icon = 'icons/obj/structures/heart_items.dmi'
@@ -34,12 +34,27 @@
 
 /datum/component/ichor_stained/proc/on_examine(datum/source, mob/user, list/examine_list)
 	if(charges > 0)
-		examine_list += span_warning("It is coated in [charges] layers of thick, viscous ichor.")
+		examine_list += span_notice("It is coated in [charges] layers of thick, viscous ichor.")
+		examine_list += span_notice("Black rot scales up to 100 stacks.")
+		if(parent_weapon.possible_item_intents && length(parent_weapon.possible_item_intents))
+			examine_list += span_notice("Careful strikes will apply the following rot stacks:")
+			for(var/I_path in parent_weapon.possible_item_intents)
+				if(!ispath(I_path))
+					continue
+				var/intent_name = initial(I_path:name)
+				var/intent_cd = initial(I_path:clickcd)
+				var/intent_delay = initial(I_path:swingdelay)
+				var/predicted_rot = 5
+				if(intent_cd > CLICK_CD_QUICK)
+					predicted_rot += 3
+				if(intent_delay > 5)
+					predicted_rot += 3
+				examine_list += span_info(" - <b>[uppertext(intent_name)]</b>: [predicted_rot] stacks")
 
 /datum/component/ichor_stained/proc/check_dip(obj/item/source, atom/_target, mob/living/attacker, params)
 	SIGNAL_HANDLER
 
-	if(!istype(_target, /obj/item/reagent_containers/black_ichor))
+	if(!istype(_target, /obj/item/reagent_containers/powder/black_ichor))
 		return
 
 	if(charges >= max_charges)
@@ -54,7 +69,7 @@
 /datum/component/ichor_stained/proc/start_dipping(obj/item/_target, mob/living/attacker, params)
 	if(do_after(attacker, 0.4 SECONDS, target = _target))
 		charges = max_charges
-		update_visuals()
+		update_visuals(attacker)
 		to_chat(attacker, span_nicegreen("You coat the blade in a fresh layer of ichor."))
 		qdel(_target)
 
@@ -76,12 +91,12 @@
 		if(I.swingdelay > 5) 
 			rot_to_apply += 3
 
-	to_chat(world, span_notice("[DEBUG] ichor_stained/on_attack_success: [user] hit [target] with [parent_weapon]. Rot to apply: [rot_to_apply], Charges left before hit: [charges] intent is [I]"))
 	apply_black_rot(target, rot_to_apply)
 
 	charges -= rot_to_apply
+	to_chat(user, span_warning("The last of the ichor rubs off onto [target]!"))
 	if(charges <= 0)
-		remove_visuals()
+		remove_visuals(user)
 		to_chat(user, span_warning("The last of the ichor rubs off onto [target]!"))
 
 /datum/component/ichor_stained/proc/apply_black_rot(mob/living/target, amount)
@@ -91,11 +106,13 @@
 	else
 		target.apply_status_effect(/datum/status_effect/black_rot, amount)
 
-/datum/component/ichor_stained/proc/update_visuals()
+/datum/component/ichor_stained/proc/update_visuals(mob/living/attacker)
 	parent_weapon.icon_state = "[initial(parent_weapon.icon_state)]_p"
+	attacker.update_inv_hands()
 
-/datum/component/ichor_stained/proc/remove_visuals()
+/datum/component/ichor_stained/proc/remove_visuals(mob/living/user)
 	parent_weapon.icon_state = initial(parent_weapon.icon_state)
+	user.update_inv_hands()
 
 /obj/projectile/bullet/rot_bolt
 	name = "rot bolt"
