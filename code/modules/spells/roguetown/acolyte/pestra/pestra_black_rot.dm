@@ -1,0 +1,227 @@
+/datum/status_effect/black_rot
+	id = "black_rot"
+	alert_type = /atom/movable/screen/alert/status_effect/black_rot
+	duration = -1 // Permanent until cured
+	tick_interval = 2 SECONDS
+
+	var/static/list/valid_body_zones = list(
+		BODY_ZONE_L_ARM,
+		BODY_ZONE_R_ARM,
+	)
+
+	// Rot nouveau
+	var/highest_threshold_reached = 0
+	var/max_stacks = 100
+	var/stacks = 1
+	var/tier = 1
+	var/list/symptoms = list()
+	var/tick_count = 0
+	// Once every 10 seconds
+	var/symptom_interval = 5
+
+/datum/status_effect/black_rot/on_creation(mob/living/new_owner, initial_stacks = 1)
+	stacks = clamp(initial_stacks, 1, max_stacks)
+
+	for(var/V in subtypesof(/datum/rot_symptom))
+		symptoms += new V()
+
+	. = ..()
+	update_effects()
+
+/datum/status_effect/black_rot/on_apply()
+	if(owner.has_status_effect(/datum/status_effect/black_rot_debility))
+		to_chat(owner, span_warning("My body is still recovering from previous rot and resists new infection!"))
+		return FALSE
+	to_chat(owner, span_userdanger("A deep, chilling rot begins to spread through my body!"))
+	update_effects()
+	return TRUE
+
+/datum/status_effect/black_rot/proc/update_alert()
+	if(!linked_alert)
+		return
+	switch(tier)
+		if(1)
+			linked_alert.name = "Black Rot (Creeping)"
+			linked_alert.desc = "A faint darkness spreads beneath my skin."
+			linked_alert.icon_state = "blackrot1"
+		if(2)
+			linked_alert.name = "Black Rot (Festering)"
+			linked_alert.desc = "My veins run black with corruption. I will surely die if this persists."
+			linked_alert.icon_state = "blackrot2"
+		if(3)
+			linked_alert.name = "Black Rot (Boiling)"
+			linked_alert.desc = "My flesh decays and my bones ache. It feels like my skin is boiling."
+			linked_alert.icon_state = "blackrot3"
+		if(4)
+			linked_alert.name = "Black Rot (Necrosis)"
+			linked_alert.desc = "I am being consumed by the void. I can feel my bones creaking."
+			linked_alert.icon_state = "blackrot4"
+
+/datum/status_effect/black_rot/proc/reapply_effect(list/old_stats)
+	for(var/S in old_stats)
+		owner.change_stat(S, -(old_stats[S]))
+
+	for(var/S in effectedstats)
+		if(effectedstats[S] < 0)
+			if((owner.get_stat(S) + effectedstats[S]) < 1)
+				for(var/i in 1 to abs(effectedstats[S]))
+					if((owner.get_stat(S) + (effectedstats[S] + i)) == 1)
+						effectedstats[S] = (effectedstats[S] + i)
+						break
+		else
+			if((owner.get_stat(S) + effectedstats[S]) > 20)
+				effectedstats[S] = max(((owner.get_stat(S) + effectedstats[S]) - 20), 0)
+		owner.change_stat(S, effectedstats[S])
+
+/datum/status_effect/black_rot/tick()
+	if(!owner || owner.stat == DEAD)
+		return
+	//apply_passive_effects()
+	//check_thresholds()
+	tick_count++
+	if(tick_count >= symptom_interval)
+		tick_count = 0
+		trigger_random_symptom()
+
+/datum/status_effect/black_rot/proc/trigger_random_symptom()
+	var/list/possible = list()
+	for(var/datum/rot_symptom/S in symptoms)
+		if(S.can_trigger(src))
+			possible += S
+
+	if(length(possible))
+		var/datum/rot_symptom/chosen = pick(possible)
+		chosen.activate(owner, src)
+
+/datum/status_effect/black_rot/proc/add_stack(amount = 1)
+	var/old_stacks = stacks
+	stacks = clamp(stacks + amount, 1, max_stacks)
+	if(stacks != old_stacks)
+		update_effects()
+		update_alert()
+		check_thresholds()
+
+/datum/status_effect/black_rot/proc/remove_stack(amount = 1)
+	stacks -= amount
+	if(stacks <= 0)
+		owner.apply_status_effect(/datum/status_effect/black_rot_debility)
+		owner.remove_status_effect(/datum/status_effect/black_rot)
+		return
+	update_effects()
+	update_alert()
+	check_thresholds()
+
+/datum/status_effect/black_rot/proc/update_effects()
+	var/list/old_stats = effectedstats.Copy()
+	effectedstats = list()
+
+	var/con_loss = round(stacks / 20)
+	var/spd_loss = round(stacks / 25)
+	var/str_loss = round(stacks / 33)
+
+	if(con_loss)
+		effectedstats[STATKEY_CON] = -con_loss
+	if(spd_loss)
+		effectedstats[STATKEY_SPD] = -spd_loss
+	if(str_loss)
+		effectedstats[STATKEY_STR] = -str_loss
+
+	reapply_effect(old_stats)
+
+/datum/status_effect/black_rot/proc/check_thresholds()
+	var/new_tier = 0
+	if(stacks >= 100)
+		new_tier = 4
+	else if(stacks >= 75)
+		new_tier = 3
+	else if(stacks >= 50)
+		new_tier = 2
+	else if(stacks >= 1)
+		new_tier = 1
+
+	// If their tier hasn't changed, do nothing.
+	if(new_tier == tier)
+		return
+
+	// Handle TIER INCREASING
+	if(new_tier > tier)
+		switch(new_tier)
+			if(1)
+				to_chat(owner, span_warning("The veins in your arms are turning a bruised purple."))
+			if(2)
+				to_chat(owner, span_danger("You feel a sickening squelch inside your chest!"))
+			if(3)
+				to_chat(owner, span_userdanger("Your flesh begins to slough off in grey flakes!"))
+			if(4)
+				to_chat(owner, span_boldwarning("You are a vessel for the rot. Your soul feels distant."))
+
+	// Handle TIER DECREASING
+	else if(new_tier < tier)
+		switch(new_tier)
+			if(0)
+				to_chat(owner, span_notice("The purple staining in your veins begins to fade."))
+			if(1)
+				to_chat(owner, span_notice("The pressure in your chest eases slightly."))
+			if(2)
+				to_chat(owner, span_info("Your skin feels slightly more stable."))
+			if(3)
+				to_chat(owner, span_info("A small fragment of your spirit returns..."))
+
+/datum/status_effect/black_rot/on_remove()
+	to_chat(owner, span_good("The black rot is completely purged from my body!"))
+	return ..()
+
+/atom/movable/screen/alert/status_effect/black_rot
+	name = "Black Rot"
+	desc = "A corrupting darkness spreads through my body."
+	icon_state = "black_rot1"
+
+// Puke when advancing stages, woo
+/datum/status_effect/black_rot/proc/trigger_vomit_fit()
+	to_chat(owner, span_userdanger("A wave of nausea overwhelms me! IT'S ONLY GETTING WORSE."))
+	for(var/i in 1 to 5)
+		spawn(rand(1 SECONDS, 20 SECONDS))
+			if(owner && !QDELETED(owner) && owner.stat != DEAD)
+				vomit_black_rot()
+
+/datum/status_effect/black_rot/proc/vomit_black_rot()
+	if(!owner || QDELETED(owner) || owner.stat == DEAD)
+		return
+
+	var/turf/vomit_turf = find_vomit_turf()
+	if(vomit_turf)
+		new /obj/effect/decal/cleanable/black_rot_vomit(vomit_turf)
+	playsound(owner, 'sound/misc/machinevomit.ogg', 50, TRUE)
+	if(prob(10))
+		owner.visible_message(span_warning("[owner] vomits a black, tarry substance!"), span_userdanger("I vomit a black, tarry substance!"))
+
+/obj/effect/decal/cleanable/black_rot_vomit
+	name = "black rot vomit"
+	desc = "A foul, tarry black substance. It seems to writhe a little."
+	icon = 'icons/effects/tomatodecal.dmi'
+	icon_state = "smashed_plant"
+	color = "#000000"
+
+/obj/effect/decal/cleanable/black_rot_vomit/Initialize(mapload)
+	. = ..()
+	alpha = rand(180, 255)
+	transform = transform.Scale(rand(8, 12) * 0.1, rand(8, 12) * 0.1)
+
+/datum/status_effect/black_rot/proc/find_vomit_turf()
+	var/turf/owner_turf = get_turf(owner)
+	if(!owner_turf)
+		return null
+
+	// First try the turf in the direction the owner is facing
+	var/turf/front_turf = get_step(owner_turf, owner.dir)
+	if(front_turf && !front_turf.density)
+		return front_turf
+
+	// If front turf is blocked, try adjacent turfs
+	var/list/possible_turfs = list()
+	for(var/turf/adjacent_turf in RANGE_TURFS(1, owner_turf))
+		if(adjacent_turf != owner_turf && !adjacent_turf.density)
+			possible_turfs += adjacent_turf
+	if(possible_turfs.len)
+		return pick(possible_turfs)
+	return owner_turf

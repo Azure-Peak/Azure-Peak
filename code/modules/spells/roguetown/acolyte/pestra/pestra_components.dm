@@ -192,6 +192,10 @@
 	attempt_apply_rot(living_attacker, is_offensive = FALSE)
 
 /datum/component/infestation_black_rot/proc/attempt_apply_rot(mob/living/target, is_offensive)
+	if(parent_mob.has_status_effect(/datum/status_effect/black_rot_debility))
+		to_chat(parent_mob, span_warning("My black rot is surpressed by my immunity!"))
+		return
+
 	if(!isliving(target) || target == parent_mob)
 		return
 
