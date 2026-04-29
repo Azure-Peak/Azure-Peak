@@ -83,6 +83,7 @@
 					delay = max(0.2 SECONDS, delay)
 					if(do_after(user, delay, TRUE, src))
 						user.visible_message(span_info("[user] retrieves \the [I] from \the [src]."), span_info("You retrieve \the [I] from \the [src]."))
+						LAZYREMOVE(contained_items, I)
 						I.forceMove(get_turf(user))
 						playsound(user, pick('sound/items/ingot_collect1.ogg', 'sound/items/ingot_collect2.ogg'), 100, TRUE)
 					if(user.mind && isliving(user) && istype(I, /obj/item/ingot))
