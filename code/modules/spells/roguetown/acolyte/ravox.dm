@@ -28,6 +28,7 @@
 /datum/action/cooldown/spell/ravox/tug
 	name = "Tug of War"
 	desc = "Casts out a chain that tries to pull the target closer."
+	fluff_desc = "One's worth is determined by weight of their soul in the afterlyfe, chains of sin pushing the scale downwards to inevitable pits of damnation."
 	button_icon_state = "ravox_tug"
 	sound = 'sound/magic/battletrance.ogg'
 	glow_intensity = GLOW_INTENSITY_LOW

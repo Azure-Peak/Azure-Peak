@@ -1,6 +1,6 @@
 /datum/patron/divine/noc
 	name = "Noc"
-	domain = "God of the Moon, Night, Knowledge and Arcyne"
+	domain = "God of the Moon, Nite, Knowledge and Arcyne"
 	desc = "The Nite-Scholar, brother and rival to Astrata. His wisdom paves the way in the moonlight. Tales of esoteric magicka at the destination are sung - in the words of decaying scripts."
 	worshippers = "Wizards and Scholars"
 	mob_traits = list(TRAIT_NIGHT_OWL)
