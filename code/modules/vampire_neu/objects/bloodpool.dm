@@ -365,7 +365,7 @@
 			bloodpool.available_project_types -= /datum/vampire_project/power_growth_4
 			break
 
-/datum/vampire_project/armor_crafting //TODO, future coder me or another. Remove this entirely, make the armor set reteivable inside of a mapped in """container""" that only vlord can access and pull a single set out of.
+/datum/vampire_project/armor_crafting
 	display_name = "Wicked Plate"
 	description = "Summon a complete set of vampiric plate armor from crystallized blood. Let not steel, silver, nor salvation inhibit the Lord's plan. This can only be done once."
 	total_cost = ARMOR_COST
