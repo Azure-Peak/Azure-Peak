@@ -5,6 +5,16 @@
 /// Display strings are resolved on the frontend through `texts.profiles[id]`;
 /// the DM-side raw values act as default labels for examine and admin spawn.
 
+// Keep resident manuscript registries visible before granters.dm, without
+// requiring roguetown.dme ordering edits.
+#ifndef RESIDENT_DOCUMENT_RULES_INCLUDED
+#include "resident_document_rules.dm"
+#endif
+
+#ifndef RESIDENT_DOCUMENT_SEALS_INCLUDED
+#include "resident_document_seals.dm"
+#endif
+
 /datum/resident_document_profile
 	var/id
 	var/display_name

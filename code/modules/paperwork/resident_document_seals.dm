@@ -1,3 +1,6 @@
+#ifndef RESIDENT_DOCUMENT_SEALS_INCLUDED
+#define RESIDENT_DOCUMENT_SEALS_INCLUDED
+
 /// Authority rules for the Resident Manuscript seal stamps.
 ///
 /// Each rule binds a seal `key` (matching the keys used in document profiles
@@ -147,3 +150,5 @@
 				continue
 			seal_rules[key] = rule_type
 	return seal_rules
+
+#endif

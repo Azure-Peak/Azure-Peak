@@ -1,3 +1,6 @@
+#ifndef RESIDENT_DOCUMENT_RULES_INCLUDED
+#define RESIDENT_DOCUMENT_RULES_INCLUDED
+
 /// Role-to-document mapping for the Resident Manuscript framework.
 ///
 /// Each rule binds a role-shape (job titles / job paths / advclasses / custom
@@ -137,3 +140,5 @@
 		if(rule.matches(recipient))
 			return rule.document_type
 	return null
+
+#endif
