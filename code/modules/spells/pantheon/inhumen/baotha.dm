@@ -150,7 +150,9 @@
 		/datum/reagent/consumable/soup/stew/thickcarrot_stew,
 		/datum/reagent/consumable/soup/stew/frysquash_soup,
 		/datum/reagent/allspice,
-		
+		/datum/reagent/consumable/ethanol/spicedwine,
+		/datum/reagent/consumable/ethanol/spicedwine/aged,
+		/datum/reagent/consumable/ethanol/spicedwine/delectable,
 	)
 
 // Anything that heals has been restricted - caffeine for the stat buff, golden calendula tea is like a weaker red. This is solely for flavor purposes, effectively.
