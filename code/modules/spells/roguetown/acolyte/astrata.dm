@@ -527,7 +527,7 @@
 	sleeved = 'icons/roguetown/misc/miraclestuff.dmi'
 	icon_state = "flamei"
 	item_state = "flameh"
-	color = "#ffbb00ff"
+	color = GLOW_COLOR_ASTRATA
 	possible_item_intents = list(/datum/intent/knuckles/sear, /datum/intent/knuckles/strike, /datum/intent/mace/smash, /datum/intent/knuckles/strike/wallop)
 	gripsprite = FALSE
 	wlength = WLENGTH_SHORT
@@ -542,6 +542,7 @@
 	throwforce = 12
 	wdefense = 0	//Meant to be used with bracers
 	wbalance = WBALANCE_NORMAL
+	damtype = BURN
 	thrown_bclass = BCLASS_BURN
 	anvilrepair = /datum/skill/magic/holy
 	smeltresult = null
