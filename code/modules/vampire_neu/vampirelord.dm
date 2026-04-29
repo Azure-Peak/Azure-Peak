@@ -40,7 +40,7 @@
 	H.verbs |= /mob/living/carbon/human/proc/demand_submission
 	H.maxbloodpool += 3000
 	H.adjust_bloodpool(3000)
-	H.cmode_music = 'sound/music/cmode/combat_ready_to_die.ogg'
+	H.cmode_music = 'sound/music/cmode/combat_ready_to_die.ogg' //LISTEN TO ME WHETHER YOU WANT TO HEAR IT OR NOT, YOU WEREN'T EVEN BORN WHEN THIS HAPPENED
 	for(var/S in MOBSTATS)
 		H.change_stat(S, 2)
 	H.forceMove(pick(GLOB.vlord_starts))
