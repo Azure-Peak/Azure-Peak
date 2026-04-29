@@ -288,6 +288,7 @@
 	desc = "A grand bascinet of enchanted gilbranze. They erased you from history, they destroyed your kingdom, and they plucked at its remains like vultures-to-carrion. Yet now, they cower in fear of your second coming; for they know that even the Pantheon cannot stop what is coming. </br>Send word - the end is nigh."
 	icon_state = "vhelmet"
 	max_integrity = ARMOR_INT_HELMET_ANTAG
+	armor = ARMOR_VAMP
 	body_parts_inherent = FULL_BODY
 	block2add = FOV_BEHIND
 	stack_fovs = FALSE
