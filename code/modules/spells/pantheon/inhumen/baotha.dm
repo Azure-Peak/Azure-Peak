@@ -67,8 +67,8 @@
 	antimagic_allowed = TRUE
 	recharge_time = 1 MINUTES
 	miracle = TRUE
-	devotion_cost = 10
-	var/duration = 60 SECONDS
+	devotion_cost = 50
+	var/duration = 5 SECONDS
 	var/static/list/reagent_blacklist = list(
 		/datum/reagent/rotcure,
 		/datum/reagent/vitae,
