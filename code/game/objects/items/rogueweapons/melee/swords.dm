@@ -426,6 +426,7 @@
 	static_price = TRUE
 	equip_delay_self = 0
 	unequip_delay_self = 0
+	unenchantable = TRUE //Its a 55 force, antag-only-holdable, glowing weapon as-is. Also you would be wasting your enchantments cause it qdel's the blade anyway on recalling it.
 
 /obj/item/rogueweapon/sword/long/judgement/vlord/Initialize()
 	. = ..()
