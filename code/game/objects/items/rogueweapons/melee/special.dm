@@ -72,7 +72,7 @@
 	clickcd = 8
 	swingdelay = 0
 	icon_state = "incrack"
-	item_d_type = "burn"
+	item_d_type = BURN
 
 /datum/intent/knuckles/strike
 	name = "punch"
