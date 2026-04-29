@@ -4,6 +4,7 @@
 	max_integrity = 999999
 	icon = 'icons/roguetown/items/natural.dmi'
 	icon_state = "stonebig2"
+	color ="#994a4a" // bloodstained look
 
 /obj/structure/ichor_stone/attack_hand(mob/living/carbon/human/user)
 	if(!istype(user))
