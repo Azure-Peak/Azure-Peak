@@ -424,8 +424,6 @@
 		if(HAS_TRAIT(owner, TRAIT_CRITICAL_WEAKNESS)) //skeletons...
 			return
 		ADD_TRAIT(owner, TRAIT_CRITICAL_WEAKNESS, TRAIT_MIRACLE)
-	else
-		ADD_TRAIT(owner, TRAIT_SPELLCOCKBLOCK, TRAIT_MIRACLE)
 
 /datum/status_effect/light_buff/moon/tick()
 	if(!owner.mind || istype(owner, /mob/living/simple_animal)) //AI mobs take 3 burn damage per tick. 45 burn without 15 seconds.
