@@ -798,13 +798,14 @@ SUBSYSTEM_DEF(ticker)
 /datum/controller/subsystem/ticker/proc/on_sunsteal()
 	GLOB.todoverride = "night"
 	settod()
-	priority_announce("The Sun is torn from the sky!", "Terrible Omen", 'sound/misc/astratascream.ogg')
+	priority_announce("The Sun is torn from the sky!", "Terrible Omen", 'sound/music/wolfintro.ogg') //THE WORLD IS DYING, YOU SHOULD BE SCARED
 	addomen(OMEN_SUNSTEAL)
 	SSParticleWeather.run_weather(/datum/particle_weather/fog/blood, TRUE)
 	for(var/mob/living/carbon/human/astrater as anything in GLOB.human_list)
 		if(!istype(astrater.patron, /datum/patron/divine/astrata))
 			continue
 		to_chat(astrater, span_userdanger("You feel the pain of [astrater.patron]!"))
+		astrater.playsound_local(get_turf(astrater), 'sound/misc/astratascream.ogg', 60, FALSE, pressure_affected = FALSE) //Only Astratians can hear their godess scream in agony.
 		astrater.emote("painscream", intentional = FALSE)
 
 	for(var/turf/open/water/W in world)
@@ -815,7 +816,7 @@ SUBSYSTEM_DEF(ticker)
 		CHECK_TICK
 
 	for(var/obj/machinery/light/light in GLOB.machines)
-		if(prob(40))
+		if(prob(70))
 			light.extinguish()
 		else
 			light.flicker(rand(2, 5))

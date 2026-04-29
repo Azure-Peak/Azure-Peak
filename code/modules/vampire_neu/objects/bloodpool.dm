@@ -1,9 +1,9 @@
 #define VAMPCOST_ONE 5000 //heavily chopped down, you're a server-wide antagonist that should be doing stuff, just slightly above your ability to buy roundstart.
 #define VAMPCOST_TWO 6000 //Earlygame finish point, most vlords will end up here less than 30 mins into a round if they're good, 1hr if not.
 #define VAMPCOST_THREE 10000 //Grab immunity, leave moderately high. This is where they become a major threat.
-#define VAMPCOST_FOUR 16000 //Intended to be rather high, but I also noticed vamps aren't upgrading their potencies if its too high. YES they get infinite stamina + shock immunity and a ton of other buffs at this point, but I want some leeway so they don't wind up with the whole map already sucked dry or killed by advs and are unable to invest in vamp potencies
+#define VAMPCOST_FOUR 15000 //Intended to be rather high, but I also noticed vamps aren't upgrading their potencies if its too high. YES they get infinite stamina + shock immunity and a ton of other buffs at this point, but I want some leeway so they don't wind up with the whole map already sucked dry or killed by advs and are unable to invest in vamp potencies
 #define ARMOR_COST 6000 //Slightly high. We want this mid-early game. One-Time only ritual.
-#define SUN_STEAL_COST 8000 //Server wide war declaration, mostly useless for Vitabella. Risk/Reward but we want it to be less earlygame but midgame instead of lategame.
+//#define SUN_STEAL_COST 8000 //Server wide war declaration, mostly useless for Vitabella. Risk/Reward but we want it to be less earlygame but midgame instead of lategame.
 #define SERVANT_COST 800 //Keep these low, so people can play as vampires. We want to scoop up observers/lobby joiners before they get bored.
 #define SERVANT_T2_COST 1000 //Same as above, a little bit higher because these roles /can/ actually fight, keep it low so they can get a retinue starting off.
 #define SERVANT_T3_COST 4000 //Keep moderately high, these are rarer classes that can cause problems when spammed en-mass. Expected to show up mid/late game, ideally at (2) upgrades in. Very frag capable on their own.
@@ -25,7 +25,6 @@
 		/datum/vampire_project/servant/servant_t1,
 		/datum/vampire_project/servant/servant_t2,
 		/datum/vampire_project/servant/servant_t3,
-		/datum/vampire_project/sunsteal,
 	)
 	var/sunstolen = FALSE
 
@@ -342,7 +341,7 @@
 
 /datum/vampire_project/power_growth_4
 	display_name = "Rite of Sovereignty"
-	description = "The Lord is whole. Ancient power saturates every stone and vein, for the Land and its master are one. (+2 to all stats for subordinates +2 to lorde + 1000 lorde vitae pool limit.)"
+	description = "The Lord is whole. Ancient power saturates every stone and vein, for the Land and its master are one. (+2 to all stats for thralls +2 to lorde + 1000 lorde vitae pool limit. Kills the Sun and loudly announces your presence.)"
 	total_cost = VAMPCOST_FOUR
 	completion_sound = 'sound/misc/batsound.ogg'
 
@@ -356,8 +355,9 @@
 				lord_body.change_stat(S, 2)
 			ADD_TRAIT(lord_body, TRAIT_INFINITE_STAMINA, TRAIT_GENERIC) //I mean, you worked for it. You're now the OG vlord once more, go nuts! The lorde of mass-fragging once more.
 			ADD_TRAIT(lord_body, TRAIT_SHOCKIMMUNE, TRAIT_GENERIC) //Kneestinger + other shock sources resistance. Far less hardstuns at this point will stop them.
+			SSticker.sunsteal(initiator_clan?.clan_leader) //Universally ensures the town knows a literal calamity is about to show up.
 			lord_body.maxbloodpool += 1000
-			to_chat(user, span_danger("I AM ANCIENT, I AM THE LAND. EVEN THE SUN BOWS TO ME."))
+			to_chat(user, span_userdanger("I AM ANCIENT, I AM THE LAND. EVEN THE SUN BOWS TO ME.")) //SEND WORD. THE END IS HERE.
 			to_chat(user, span_warning("I will no longer tire nor feel, stamina will no longer affect me, shocks will no longer affect me.")) //Trait hints
 			lord.ascended = TRUE
 			var/list/all_subordinates = user.clan_position.get_all_subordinates()
@@ -388,19 +388,20 @@
 
 	bloodpool.available_project_types -= /datum/vampire_project/armor_crafting //ONE TIME RITUAL ONLY, we do not want this handed out en-mass.
 
-/datum/vampire_project/sunsteal
-	display_name = "Steal the Sun"
-	description = "The scorching gaze of the Sun-Tyrant shall hamper our plans no more. This project can only be initiated by your Lorde. (Permanent night until the lord dies, most may see this as a declaration of war.)"
-	total_cost = SUN_STEAL_COST
-	completion_sound = 'sound/misc/vcraft.ogg'
-	can_be_initiated_by = INITIATE_LORDE
-
-/datum/vampire_project/sunsteal/on_complete(atom/movable/creation_point)
-	var/obj/structure/vampire/bloodpool/bloodpool = creation_point
-	if(!istype(bloodpool))
-		return
-
-	SSticker.sunsteal(initiator_clan?.clan_leader)
+//CURRENTLY DISABLED AS A SEPERATE RITE, MOVED TO FULL POWER
+///datum/vampire_project/sunsteal
+//	display_name = "Steal the Sun"
+//	description = "The scorching gaze of the Sun-Tyrant shall hamper our plans no more. This project can only be initiated by your Lorde. (Permanent night until the lord dies, most may see this as a declaration of war.)"
+//	total_cost = SUN_STEAL_COST
+//	completion_sound = 'sound/misc/vcraft.ogg'
+//	can_be_initiated_by = INITIATE_LORDE
+//
+///datum/vampire_project/sunsteal/on_complete(atom/movable/creation_point)
+//	var/obj/structure/vampire/bloodpool/bloodpool = creation_point
+//	if(!istype(bloodpool))
+//		return
+//
+//	SSticker.sunsteal(initiator_clan?.clan_leader)
 
 /datum/vampire_project/servant/proc/summon(type, atom/feedback_atom)
 	feedback_atom.visible_message("The crucible stirs, summoning a servant from the realms beyond...")
