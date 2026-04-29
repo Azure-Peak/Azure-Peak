@@ -208,7 +208,7 @@
 	max_integrity = ARMOR_INT_CHEST_PLATE_ANTAG
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 	smeltresult = /obj/item/ingot/purifiedaalloy
-	unenchantable = TRUE
+	unenchantable = TRUE //Its pretty much near-perfect protection, you do not need this.
 
 /obj/item/clothing/suit/roguetown/armor/chainmail/iron/vampire/Initialize()
   ..()
@@ -232,7 +232,7 @@
 	equip_delay_self = 40
 	armor_class = ARMOR_CLASS_HEAVY
 	resistance_flags = FIRE_PROOF | ACID_PROOF
-	unenchantable = TRUE
+	unenchantable = TRUE //Its pretty much near-perfect protection, you do not need this.
 
 /obj/item/clothing/suit/roguetown/armor/plate/vampire/Initialize()
   ..()
@@ -246,7 +246,7 @@
 	max_integrity = ARMOR_INT_CHEST_PLATE_ANTAG
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 	smeltresult = /obj/item/ingot/purifiedaalloy
-	unenchantable = TRUE
+	unenchantable = TRUE //Its pretty much near-perfect protection, you do not need this.
 
 /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/paalloy/vampire/Initialize()
   ..()
@@ -266,7 +266,7 @@
 	anvilrepair = /datum/skill/craft/armorsmithing
 	smeltresult = /obj/item/ingot/purifiedaalloy
 	resistance_flags = FIRE_PROOF | ACID_PROOF
-	unenchantable = TRUE
+	unenchantable = TRUE //Its pretty much near-perfect protection, you do not need this.
 
 /obj/item/clothing/under/roguetown/platelegs/vampire/Initialize()
   ..()
@@ -285,7 +285,7 @@
 	armor = ARMOR_VAMP
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 	smeltresult = /obj/item/ingot/purifiedaalloy
-	unenchantable = TRUE
+	unenchantable = TRUE //Its pretty much near-perfect protection, you do not need this.
 
 /obj/item/clothing/shoes/roguetown/boots/armor/vampire/Initialize()
   ..()
@@ -301,7 +301,7 @@
 	smeltresult = /obj/item/ingot/purifiedaalloy
 	body_parts_inherent = FULL_BODY
 	max_integrity = ARMOR_INT_SIDE_ANTAG
-	unenchantable = TRUE
+	unenchantable = TRUE //Its pretty much near-perfect protection, you do not need this.
 
 /obj/item/clothing/gloves/roguetown/chain/vampire/Initialize()
   ..()
@@ -314,7 +314,7 @@
 	smeltresult = /obj/item/ingot/purifiedaalloy
 	armor = ARMOR_VAMP
 	max_integrity = ARMOR_INT_SIDE_ANTAG
-	unenchantable = TRUE
+	unenchantable = TRUE //Its pretty much near-perfect protection, you do not need this.
 
 /obj/item/clothing/wrists/roguetown/bracers/paalloy/vampire/Initialize()
   ..()
@@ -327,7 +327,7 @@
 	smeltresult = /obj/item/ingot/purifiedaalloy
 	armor = ARMOR_VAMP
 	max_integrity = ARMOR_INT_SIDE_ANTAG
-	unenchantable = TRUE
+	unenchantable = TRUE //Its pretty much near-perfect protection, you do not need this.
 
 /obj/item/clothing/neck/roguetown/gorget/paalloy/vampire/Initialize()
   ..()
@@ -345,7 +345,7 @@
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 	smeltresult = /obj/item/ingot/purifiedaalloy
 	var/active_item = FALSE
-	unenchantable = TRUE
+	unenchantable = TRUE //Its pretty much near-perfect protection, you do not need this.
 
 /obj/item/clothing/head/roguetown/helmet/heavy/vampire/Initialize()
   ..()
