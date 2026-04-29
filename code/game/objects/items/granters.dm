@@ -128,8 +128,6 @@
 	G.Grant(user)
 	onlearned(user)
 
-//Crafting Recipe books
-
 /obj/item/book/granter/crafting_recipe
 	var/list/crafting_recipe_types = list()
 	icon = 'icons/roguetown/items/misc.dmi'
@@ -148,10 +146,6 @@
 		to_chat(user,span_notice("I learned how to make [initial(R.name)]."))
 	to_chat(user,span_notice("The book falls apart in my hands."))
 	qdel(src)
-
-/////////////////////
-// TAILORING BOOKS //
-/////////////////////
 
 /*
 UNDER NO CIRCUMSTANCE SHOULD ANY OF THE BOOKS BE GIVEN OUT INTO SPAWNERS OR TO BE PURCHASABLE, BREAK THAT RULE ON YOUR OWN PERIL
@@ -263,44 +257,11 @@ UNDER NO CIRCUMSTANCE SHOULD ANY OF THE BOOKS BE GIVEN OUT INTO SPAWNERS OR TO B
 		return FALSE
 	return give_roundstart_manuscript(recipient, manuscript_type)
 
-/// Maps a recipient's assigned role to the faction-default manuscript subtype.
-/// Returns null when the role has no obvious faction document — those callers
-/// (admin, cargo, virtue) supply their own type.
-/proc/get_default_manuscript_type_for_job(mob/living/carbon/human/recipient)
-	if(!recipient || !recipient.mind)
-		return null
-	var/job_title = recipient.job || recipient.mind.assigned_role
-	if(!job_title)
-		return null
-	if(job_title == "Merchant")
-		return /obj/item/book/granter/resident_manuscript/merchant
-	if(job_title == "Innkeeper")
-		return /obj/item/book/granter/resident_manuscript/inn
-	if(job_title == "Bathmaster")
-		return /obj/item/book/granter/resident_manuscript/bathhouse
-	if(job_title == "Court Magician" || job_title == "Magicians Associate")
-		return /obj/item/book/granter/resident_manuscript/mages
-	if(job_title == "Mercenary")
-		return /obj/item/book/granter/resident_manuscript/mercenary
-	if(job_title in GLOB.garrison_positions)
-		return /obj/item/book/granter/resident_manuscript/guards
-	if(job_title in GLOB.church_positions)
-		return /obj/item/book/granter/resident_manuscript/church
-	if(job_title in GLOB.inquisition_positions)
-		return /obj/item/book/granter/resident_manuscript/otava
-	if(job_title in GLOB.burgher_positions)
-		return /obj/item/book/granter/resident_manuscript/craftsmen
-	if(job_title in GLOB.peasant_positions)
-		return /obj/item/book/granter/resident_manuscript/commoner
-	if(job_title in GLOB.sidefolk_positions)
-		return /obj/item/book/granter/resident_manuscript/commoner
-	if(job_title in GLOB.wanderer_positions)
-		return /obj/item/book/granter/resident_manuscript/commoner
-	return null
-
 /// Optional outfit hook: places a faction-default manuscript into the
-/// recipient's stash if their role has one. Skips when another manuscript
-/// (virtue, admin, etc.) is already stashed.
+/// recipient's stash if a role rule resolves their role. Skips when another
+/// manuscript (virtue, admin, etc.) is already stashed.
+/// `get_default_manuscript_type_for_job()` lives in resident_document_rules.dm
+/// and walks the role rule registry in priority order.
 /proc/grant_roundstart_faction_manuscript(mob/living/carbon/human/recipient)
 	var/manuscript_type = get_default_manuscript_type_for_job(recipient)
 	if(!manuscript_type)
@@ -334,120 +295,8 @@ UNDER NO CIRCUMSTANCE SHOULD ANY OF THE BOOKS BE GIVEN OUT INTO SPAWNERS OR TO B
 		"proper_rite",
 	)
 
-/// Downstream role modules can add seal authority by defining new subtypes.
-/datum/resident_manuscript_seal_rule
-	var/key
-	var/title
-	var/stamper
-	var/list/job_types = list()
-	var/list/advclass_types = list()
-
-/datum/resident_manuscript_seal_rule/proc/can_stamp(mob/living/carbon/human/user)
-	if(!ishuman(user))
-		return FALSE
-	var/datum/job/job = SSjob.GetJob(user.mind?.assigned_role)
-	var/list/valid_jobs = job_types || list()
-	for(var/job_type in valid_jobs)
-		if(istype(job, job_type))
-			return TRUE
-	var/datum/advclass/advclass
-	if(user.advjob)
-		advclass = SSrole_class_handler.get_advclass_by_name(user.advjob)
-	var/list/valid_advclasses = advclass_types || list()
-	for(var/advclass_type in valid_advclasses)
-		if(istype(advclass, advclass_type))
-			return TRUE
-	return FALSE
-
-/datum/resident_manuscript_seal_rule/chancellor
-	key = "chancellor"
-	title ="Chancellor"
-	stamper ="Chancellor"
-	job_types = list(/datum/job/roguetown/councillor)
-
-/datum/resident_manuscript_seal_rule/elder
-	key = "elder"
-	title ="Elder"
-	stamper ="Elder"
-	advclass_types = list(/datum/advclass/elder)
-
-/datum/resident_manuscript_seal_rule/ruler
-	key = "ruler"
-	title ="Duke"
-	stamper ="Duke"
-	job_types = list(/datum/job/roguetown/lord)
-
-/datum/resident_manuscript_seal_rule/hand
-	key = "hand"
-	title ="Hand"
-	stamper ="Hand"
-	job_types = list(/datum/job/roguetown/hand)
-
-/datum/resident_manuscript_seal_rule/sergeant
-	key = "sergeant"
-	title ="Sergeant"
-	stamper ="Sergeant of the Watch"
-	job_types = list(/datum/job/roguetown/sergeant)
-
-/datum/resident_manuscript_seal_rule/marshal
-	key = "marshal"
-	title ="Marshal"
-	stamper ="Marshal"
-	job_types = list(/datum/job/roguetown/marshal)
-
-/datum/resident_manuscript_seal_rule/bishop
-	key = "bishop"
-	title ="Bishop"
-	stamper ="Bishop"
-	job_types = list(/datum/job/roguetown/priest)
-
-/datum/resident_manuscript_seal_rule/guild_leader
-	key = "guild_leader"
-	title ="Guild Leader"
-	stamper ="Guild Leader"
-	advclass_types = list(/datum/advclass/guildmaster)
-
-/datum/resident_manuscript_seal_rule/inquisitor
-	key = "inquisitor"
-	title ="Inquisitor"
-	stamper ="Inquisitor"
-	job_types = list(/datum/job/roguetown/inquisitor)
-
-/datum/resident_manuscript_seal_rule/court_magician
-	key = "court_magician"
-	title ="Court Magician"
-	stamper ="Court Magician"
-	job_types = list(/datum/job/roguetown/magician)
-
-/datum/resident_manuscript_seal_rule/merchant_master
-	key = "merchant_master"
-	title ="Merchant Master"
-	stamper ="Merchant Master"
-	job_types = list(/datum/job/roguetown/merchant)
-
-/datum/resident_manuscript_seal_rule/innkeeper
-	key = "innkeeper"
-	title ="Innkeep"
-	stamper ="Innkeep"
-	job_types = list(/datum/job/roguetown/innkeeper)
-
-/datum/resident_manuscript_seal_rule/bathmaster
-	key = "bathmaster"
-	title ="Bathmaster"
-	stamper ="Bathmaster"
-	job_types = list(/datum/job/roguetown/bathmaster)
-
-/proc/get_resident_manuscript_seal_rules()
-	var/static/list/seal_rules
-	if(!seal_rules)
-		seal_rules = list()
-		for(var/rule_type in subtypesof(/datum/resident_manuscript_seal_rule))
-			var/datum/resident_manuscript_seal_rule/rule = rule_type
-			var/key = initial(rule.key)
-			if(!key)
-				continue
-			seal_rules[key] = rule_type
-	return seal_rules
+/// `/datum/resident_manuscript_seal_rule` and the seal registry live in
+/// `code/modules/paperwork/resident_document_seals.dm`.
 
 /obj/item/book/granter/resident_manuscript
 	name = "Resident Manuscript"
@@ -493,7 +342,7 @@ UNDER NO CIRCUMSTANCE SHOULD ANY OF THE BOOKS BE GIVEN OUT INTO SPAWNERS OR TO B
 	detection_results = list()
 	detection_note_keys = list()
 	if(auto_stamp_seals)
-		stamp_all_seals()
+		stamp_default_seals()
 
 /obj/item/book/granter/resident_manuscript/proc/get_profile_seal_keys()
 	if(document_profile && document_profile.allowed_seals)
@@ -545,12 +394,46 @@ UNDER NO CIRCUMSTANCE SHOULD ANY OF THE BOOKS BE GIVEN OUT INTO SPAWNERS OR TO B
 	owner_name = target.real_name
 	owner_age = target.age
 	owner_status_key = status_key_for(target)
+	maybe_swap_profile_for_status()
 	is_bound = TRUE
 	name = "Resident Manuscript"
 	icon_state = "contractsigned"
 	if(auto_stamp_seals)
-		stamp_all_seals()
+		stamp_default_seals()
+	else
+		handle_post_bind_low_level_seal()
 	return TRUE
+
+/// If the document is using a generic status profile (resident/commoner) but
+/// the recorded owner status disagrees, swap to the matching profile and
+/// re-initialize the seal slots. Faction profiles never swap.
+/obj/item/book/granter/resident_manuscript/proc/maybe_swap_profile_for_status()
+	var/desired_id
+	if(document_profile_id == "resident" && owner_status_key == RESIDENT_MANUSCRIPT_STATUS_COMMONER)
+		desired_id = "commoner"
+	else if(document_profile_id == "commoner" && owner_status_key == RESIDENT_MANUSCRIPT_STATUS_NOBLE)
+		desired_id = "resident"
+	if(!desired_id || desired_id == document_profile_id)
+		return FALSE
+	document_profile_id = desired_id
+	document_profile = get_resident_document_profile(desired_id)
+	if(document_profile?.display_name)
+		name = document_profile.display_name
+	initialize_seals()
+	return TRUE
+
+/// Auto-applies the "Towner Elder" baseline seal when a non-`auto_stamp_seals`
+/// document (a blank) finishes binding to a commoner-profile holder. Higher
+/// authority seals (Chancellor / Hand / Duke) still need a living role to
+/// stamp them through `handle_stamp()`.
+/obj/item/book/granter/resident_manuscript/proc/handle_post_bind_low_level_seal()
+	if(is_fake)
+		return
+	if(document_profile_id != "commoner")
+		return
+	if(seals?["elder"])
+		return
+	stamp_seal("elder", null, FALSE)
 
 /obj/item/book/granter/resident_manuscript/proc/is_owner_viewer(mob/living/carbon/human/user)
 	if(!ishuman(user))
@@ -590,11 +473,61 @@ UNDER NO CIRCUMSTANCE SHOULD ANY OF THE BOOKS BE GIVEN OUT INTO SPAWNERS OR TO B
 		var/datum/resident_manuscript_seal_rule/rule = get_seal_rule(seal_key)
 		if(!rule)
 			continue
-		var/can_stamp = rule.can_stamp(user)
+		var/can_stamp = rule.can_stamp(user) && rule.can_apply_to_status(owner_status_key)
 		qdel(rule)
 		if(can_stamp)
 			return seal_key
 	return null
+
+/obj/item/book/granter/resident_manuscript/proc/get_seal_priority(seal_key)
+	var/datum/resident_manuscript_seal_rule/rule = get_seal_rule(seal_key)
+	if(!rule)
+		return 0
+	var/priority = rule.priority
+	qdel(rule)
+	return priority
+
+/obj/item/book/granter/resident_manuscript/proc/can_apply_seal_to_status(seal_key, status_key)
+	var/datum/resident_manuscript_seal_rule/rule = get_seal_rule(seal_key)
+	if(!rule)
+		return FALSE
+	var/result = rule.can_apply_to_status(status_key)
+	qdel(rule)
+	return result
+
+/// Returns the profile's seal keys sorted by ascending priority (weakest first,
+/// strongest last). UI rendering relies on this order so higher-authority
+/// seals appear later in the DOM and can sit "on top" via z-index.
+/obj/item/book/granter/resident_manuscript/proc/get_sorted_seal_keys()
+	var/list/profile_keys = get_profile_seal_keys()
+	if(!LAZYLEN(profile_keys))
+		return list()
+	var/list/keys_with_priority = list()
+	for(var/seal_key in profile_keys)
+		keys_with_priority[seal_key] = get_seal_priority(seal_key)
+	sortTim(keys_with_priority, GLOBAL_PROC_REF(cmp_numeric_asc), TRUE)
+	var/list/sorted = list()
+	for(var/seal_key in keys_with_priority)
+		sorted += seal_key
+	return sorted
+
+/// Highest-priority stamped, non-suspicious seal -- the one the UI should
+/// treat as the "dominant" mark of authority. Returns null when nothing is
+/// authentically stamped.
+/obj/item/book/granter/resident_manuscript/proc/get_dominant_seal_key()
+	if(!seals)
+		return null
+	var/best
+	var/best_priority = -1
+	for(var/seal_key in seals)
+		var/list/entry = seals[seal_key]
+		if(!entry || entry["suspicious"])
+			continue
+		var/p = get_seal_priority(seal_key)
+		if(p > best_priority)
+			best = seal_key
+			best_priority = p
+	return best
 
 /obj/item/book/granter/resident_manuscript/proc/stamp_seal(seal_key, mob/living/carbon/human/stamper, suspicious = FALSE)
 	if(!seals || !(seal_key in seals) || seals[seal_key])
@@ -610,8 +543,14 @@ UNDER NO CIRCUMSTANCE SHOULD ANY OF THE BOOKS BE GIVEN OUT INTO SPAWNERS OR TO B
 	qdel(rule)
 	return TRUE
 
-/obj/item/book/granter/resident_manuscript/proc/stamp_all_seals()
-	for(var/seal_key in get_profile_seal_keys())
+/// Stamps the seals listed in `document_profile.get_default_seal_keys()` --
+/// those are the seals considered "pre-issued" with the document, and they are
+/// applied in `Initialize()` for ready manuscripts and in `bind_to_holder()`
+/// once the holder has been resolved.
+/obj/item/book/granter/resident_manuscript/proc/stamp_default_seals()
+	if(!document_profile)
+		return
+	for(var/seal_key in document_profile.get_default_seal_keys())
 		if(!seals[seal_key])
 			stamp_seal(seal_key, null, FALSE)
 
@@ -632,7 +571,7 @@ UNDER NO CIRCUMSTANCE SHOULD ANY OF THE BOOKS BE GIVEN OUT INTO SPAWNERS OR TO B
 			return TRUE
 	return FALSE
 
-/obj/item/book/granter/resident_manuscript/proc/seal_entry(seal_key, mob/user)
+/obj/item/book/granter/resident_manuscript/proc/seal_entry(seal_key, mob/user, dominant_key)
 	var/datum/resident_manuscript_seal_rule/rule = get_seal_rule(seal_key)
 	if(!rule)
 		return null
@@ -644,14 +583,22 @@ UNDER NO CIRCUMSTANCE SHOULD ANY OF THE BOOKS BE GIVEN OUT INTO SPAWNERS OR TO B
 		"stamper" = entry ? entry["stamper"] : "",
 		"visible" = TRUE,
 		"suspicious" = entry ? entry["suspicious"] : FALSE,
+		"priority" = rule.priority,
+		"dominant" = (dominant_key && dominant_key == seal_key) ? TRUE : FALSE,
 	)
 	qdel(rule)
 	return result
 
+/// Returns the manuscript's seals already sorted by ascending priority and
+/// tagged with `dominant` for the highest-authority stamp. The TGUI is a pure
+/// renderer -- it never reorders or recomputes "important seal" itself.
 /obj/item/book/granter/resident_manuscript/proc/get_seals_for_ui(mob/user)
+	var/dominant_key = get_dominant_seal_key()
 	var/list/result = list()
-	for(var/seal_key in get_profile_seal_keys())
-		result += list(seal_entry(seal_key, user))
+	for(var/seal_key in get_sorted_seal_keys())
+		var/list/entry = seal_entry(seal_key, user, dominant_key)
+		if(entry)
+			result += list(entry)
 	return result
 
 /obj/item/book/granter/resident_manuscript/proc/generate_defect_note_keys()
@@ -735,6 +682,10 @@ UNDER NO CIRCUMSTANCE SHOULD ANY OF THE BOOKS BE GIVEN OUT INTO SPAWNERS OR TO B
 	owner_name = sanitize_manuscript_field(params["owner_name"], MAX_NAME_LEN, "Unknown")
 	owner_age = sanitize_manuscript_field(params["owner_age"], MAX_NAME_LEN, "")
 	owner_status_key = normalize_status_key(params["owner_status_key"])
+	if(maybe_swap_profile_for_status())
+		generate_fake_seals()
+		if(prob(RESIDENT_MANUSCRIPT_FAKE_DEFECT_CHANCE))
+			ensure_defect_note_keys()
 	is_bound = TRUE
 	name = "Resident Manuscript"
 	icon_state = "contractsigned"
@@ -902,7 +853,14 @@ UNDER NO CIRCUMSTANCE SHOULD ANY OF THE BOOKS BE GIVEN OUT INTO SPAWNERS OR TO B
 		"accent_color" = document_profile?.accent_color,
 		"seal_color" = document_profile?.seal_color,
 	)
-	data["seals"] = get_seals_for_ui(user)
+	var/sorted_seals = get_seals_for_ui(user)
+	var/list/dominant_entry
+	for(var/list/entry as anything in sorted_seals)
+		if(entry["dominant"])
+			dominant_entry = entry
+			break
+	data["seals"] = sorted_seals
+	data["dominant_seal"] = dominant_entry
 	data["verification"] = verification
 	data["permissions"] = list(
 		"can_edit" = can_edit_fake,

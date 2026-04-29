@@ -27,6 +27,11 @@ type SealData = {
   stamper: string;
   visible: BooleanLike;
   suspicious: BooleanLike;
+  /// Authority rank computed by the DM side -- TGUI never derives this. Used
+  /// only as metadata; the ordering of `seals[]` is already priority-sorted.
+  priority: number;
+  /// TRUE for the highest-authority stamped, non-suspicious seal on the doc.
+  dominant: BooleanLike;
 };
 
 type VerificationData = {
@@ -65,6 +70,7 @@ type ResidentManuscriptData = {
   is_owner: BooleanLike;
   profile?: ProfileData;
   seals: SealData[];
+  dominant_seal: SealData | null;
   verification: VerificationData;
   permissions: PermissionsData;
 };
@@ -169,8 +175,7 @@ export const ResidentManuscript = () => {
   const profileTexts = resolveProfileTexts(texts, profileId);
   const themeStyle = buildThemeStyle(profile);
   const profileClassName = `ResidentManuscript--profile-${profileId}`;
-  const ownerStatusKey: OwnerStatusKey =
-    owner.status_key === 'noble' ? 'noble' : 'commoner';
+  const ownerStatusKey: OwnerStatusKey = owner.status_key;
   const [ownerName, setOwnerName] = useState(owner.name ?? '');
   const [ownerAge, setOwnerAge] = useState(String(owner.age ?? ''));
   const [ownerStatus, setOwnerStatus] = useState<OwnerStatusKey>(
@@ -178,8 +183,7 @@ export const ResidentManuscript = () => {
   );
 
   const canEdit = !!permissions.can_edit;
-  const defectKeys =
-    verification.result === 'fake' ? (verification.defect_note_keys ?? []) : [];
+  const defectKeys = verification.defect_note_keys ?? [];
   const defectNotes = defectKeys.map((key) => texts.defects[key] || key);
   const validationNote = verification.note_key
     ? texts.validation_notes[verification.note_key]
@@ -275,18 +279,19 @@ export const ResidentManuscript = () => {
                 <ManuscriptField label={texts.labels.status}>
                   {canEdit ? (
                     <div className="ResidentManuscript__statusButtons">
-                      <Button
-                        selected={ownerStatus === 'commoner'}
-                        onClick={() => setOwnerStatus('commoner')}
-                      >
-                        {texts.owner_status_options.commoner}
-                      </Button>
-                      <Button
-                        selected={ownerStatus === 'noble'}
-                        onClick={() => setOwnerStatus('noble')}
-                      >
-                        {texts.owner_status_options.noble}
-                      </Button>
+                      {(
+                        Object.keys(
+                          texts.owner_status_options,
+                        ) as OwnerStatusKey[]
+                      ).map((key) => (
+                        <Button
+                          key={key}
+                          selected={ownerStatus === key}
+                          onClick={() => setOwnerStatus(key)}
+                        >
+                          {texts.owner_status_options[key]}
+                        </Button>
+                      ))}
                     </div>
                   ) : (
                     displayValue(ownerStatusLabel, texts.states.empty)
@@ -736,6 +741,7 @@ const ResidentManuscriptSeal = (props: ResidentManuscriptSealProps) => {
   const sealClassName = classes(
     'ResidentManuscript__seal',
     !!seal.stamped && 'ResidentManuscript__seal--stamped',
+    !!seal.dominant && 'ResidentManuscript__seal--dominant',
     !!seal.suspicious && 'ResidentManuscript__seal--suspicious',
     hasDefect(defectKeys, 'seal_smudge') &&
       'ResidentManuscript__seal--smudged',

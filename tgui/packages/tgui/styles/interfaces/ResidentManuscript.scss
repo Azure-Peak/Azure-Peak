@@ -48,10 +48,65 @@
   }
 
   &--profile-commoner {
-    --rm-blue: #7c948f;
-    --rm-blue-dark: #506962;
-    --rm-gold: #9e7b47;
-    --rm-seal: #7a4a2f;
+    --rm-paper: #c4ad81;
+    --rm-paper-light: #d4bf95;
+    --rm-paper-dark: #8e7045;
+    --rm-ink: #2a1d12;
+    --rm-ink-muted: #5a4530;
+    --rm-accent: #6f5840;
+    --rm-blue: #6e7e7a;
+    --rm-blue-dark: #4a5953;
+    --rm-gold: #8b7244;
+    --rm-seal: #5e3826;
+  }
+
+  &--profile-commoner &__sheet {
+    background: linear-gradient(
+      180deg,
+      var(--rm-paper-light),
+      var(--rm-paper) 50%,
+      var(--rm-paper-dark)
+    );
+    border-color: #4d3a22;
+    box-shadow:
+      inset 0 0 0 1px rgba(255, 240, 210, 0.18),
+      inset 0 0 18px rgba(40, 26, 14, 0.4),
+      0 6px 14px rgba(0, 0, 0, 0.5);
+  }
+
+  &--profile-commoner &__sheet::after {
+    border: 1px dashed rgba(74, 56, 34, 0.5);
+    box-shadow: none;
+    border-radius: 4px;
+  }
+
+  &--profile-commoner &__ornament {
+    display: none;
+  }
+
+  &--profile-commoner &__divider {
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(74, 56, 34, 0.5),
+      transparent
+    );
+  }
+
+  &--profile-commoner &__crest {
+    opacity: 0.55;
+    transform: scale(0.85);
+  }
+
+  &--profile-commoner &__title {
+    font-family: var(--rm-serif);
+    letter-spacing: 0.5px;
+    font-weight: 600;
+  }
+
+  &--profile-commoner &__pretitle,
+  &--profile-commoner &__subtitle {
+    opacity: 0.7;
   }
 
   &--profile-mercenary {
@@ -535,6 +590,17 @@
     background:
       radial-gradient(circle at 50% 42%, rgba(255, 238, 200, 0.68), transparent 55%),
       linear-gradient(135deg, rgba(145, 52, 44, 0.14), rgba(77, 112, 119, 0.16));
+  }
+
+  &__seal--dominant {
+    z-index: 2;
+    transform: scale(1.08);
+    border-color: var(--rm-seal);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+  }
+
+  &__seal--dominant &__waxSeal {
+    filter: brightness(1.1) saturate(1.1);
   }
 
   &__sealName {

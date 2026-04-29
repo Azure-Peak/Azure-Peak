@@ -54,10 +54,10 @@ export const residentManuscriptEn: ResidentManuscriptTexts = {
         'Let it be known: the bearer is a recognized proprietor of the Bathhouse, granted leave by the Matron to keep the steam, scent, and lawful trade of the basement beneath the Inn, and to gather such custom as the Matron permits.',
     },
     commoner: {
-      display_name: 'Commoner Manuscript',
-      subtitle: 'Under the Common Law',
+      display_name: 'Townsfolk Manuscript',
+      subtitle: "By the Towner Elder's mark",
       description:
-        'Let it be known: the bearer is recognized as a lawful commoner of these lands, neither titled nor accused, owing no duties beyond those due from any subject. No high authority is invoked here -- only the modest shelter of the common law.',
+        'Let it be known: the bearer is a known face among the townsfolk, vouched for by the Elder of the taun. No high authority is invoked here — only the modest standing of those who live and labour beneath the common law.',
     },
     mercenary: {
       display_name: 'Mercenary Compact',

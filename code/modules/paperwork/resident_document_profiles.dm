@@ -11,6 +11,10 @@
 	var/subtitle
 	var/description
 	var/list/allowed_seals
+	/// Seals auto-stamped when the document is issued ready (auto_stamp_seals).
+	/// When null, falls back to allowed_seals -- preserves the original PR
+	/// behaviour where every faction profile pre-stamped all of its seals.
+	var/list/default_seal_keys
 	var/paper_color
 	var/ink_color
 	var/accent_color
@@ -20,6 +24,9 @@
 
 /datum/resident_document_profile/proc/has_seal(seal_key)
 	return seal_key && (seal_key in allowed_seals)
+
+/datum/resident_document_profile/proc/get_default_seal_keys()
+	return default_seal_keys || allowed_seals
 
 /datum/resident_document_profile/resident
 	id = "resident"
@@ -67,14 +74,15 @@
 
 /datum/resident_document_profile/commoner
 	id = "commoner"
-	display_name = "Commoner Manuscript"
-	subtitle = "Under the Common Law"
-	description = "Let it be known: the bearer is recognized as a lawful commoner of these lands, neither titled nor accused. No high authority is invoked -- only the shelter of the common law."
-	allowed_seals = list()
-	paper_color = "#d2bd91"
-	ink_color = "#312215"
-	accent_color = "#806344"
-	seal_color = "#6a3b28"
+	display_name = "Townsfolk Manuscript"
+	subtitle = "By the Towner Elder's mark"
+	description = "Let it be known: the bearer is a known face among the townsfolk, vouched for by the Elder of the taun. No high authority is invoked here -- only the modest standing of those who live and labour beneath the common law."
+	allowed_seals = list("elder", "chancellor", "hand")
+	default_seal_keys = list("elder")
+	paper_color = "#c4ad81"
+	ink_color = "#352618"
+	accent_color = "#6f5840"
+	seal_color = "#5e3826"
 	requires_seal_for_claim = FALSE
 
 /datum/resident_document_profile/merchant
