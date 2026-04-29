@@ -5,15 +5,295 @@
 /// Display strings are resolved on the frontend through `texts.profiles[id]`;
 /// the DM-side raw values act as default labels for examine and admin spawn.
 
-// Keep resident manuscript registries visible before granters.dm, without
-// requiring roguetown.dme ordering edits.
-#ifndef RESIDENT_DOCUMENT_RULES_INCLUDED
-#include "resident_document_rules.dm"
-#endif
+/// Role-to-document mapping for the Resident Manuscript framework.
+///
+/// Each rule binds a role-shape (job titles / job paths / advclasses / custom
+/// `matches()` proc) to the document subtype that role should receive at
+/// roundstart. Rules are evaluated in descending `priority` order; the first
+/// rule whose `matches()` returns TRUE wins. Negative priority values make
+/// good catch-all fallbacks.
+///
+/// Adding a new role document = adding a new subtype here. No editing of the
+/// resolver chain required.
 
-#ifndef RESIDENT_DOCUMENT_SEALS_INCLUDED
-#include "resident_document_seals.dm"
-#endif
+/datum/resident_document_role_rule
+	var/document_type
+	var/list/job_titles
+	var/list/job_types
+	var/list/advclass_types
+	var/priority = 0
+
+/datum/resident_document_role_rule/proc/matches(mob/living/carbon/human/user)
+	if(!ishuman(user) || !user.mind)
+		return FALSE
+	var/job_title = user.job || user.mind.assigned_role
+	if(!job_title)
+		return FALSE
+	if(LAZYLEN(job_titles) && (job_title in job_titles))
+		return TRUE
+	if(LAZYLEN(job_types))
+		var/datum/job/job = SSjob.GetJob(job_title)
+		for(var/job_type in job_types)
+			if(istype(job, job_type))
+				return TRUE
+	if(LAZYLEN(advclass_types) && user.advjob)
+		var/datum/advclass/advclass = SSrole_class_handler.get_advclass_by_name(user.advjob)
+		for(var/advclass_type in advclass_types)
+			if(istype(advclass, advclass_type))
+				return TRUE
+	return FALSE
+
+/datum/resident_document_role_rule/merchant
+	document_type = /obj/item/book/granter/resident_manuscript/merchant
+	job_titles = list("Merchant")
+	priority = 100
+
+/datum/resident_document_role_rule/innkeeper
+	document_type = /obj/item/book/granter/resident_manuscript/inn
+	job_titles = list("Innkeeper")
+	priority = 100
+
+/datum/resident_document_role_rule/bathmaster
+	document_type = /obj/item/book/granter/resident_manuscript/bathhouse
+	job_titles = list("Bathmaster")
+	priority = 100
+
+/datum/resident_document_role_rule/mages
+	document_type = /obj/item/book/granter/resident_manuscript/mages
+	job_titles = list("Court Magician", "Magicians Associate")
+	priority = 100
+
+/datum/resident_document_role_rule/mercenary
+	document_type = /obj/item/book/granter/resident_manuscript/mercenary
+	job_titles = list("Mercenary")
+	priority = 100
+
+/datum/resident_document_role_rule/garrison
+	document_type = /obj/item/book/granter/resident_manuscript/guards
+	priority = 50
+
+/datum/resident_document_role_rule/garrison/matches(mob/living/carbon/human/user)
+	if(!ishuman(user) || !user.mind)
+		return FALSE
+	var/job_title = user.job || user.mind.assigned_role
+	return job_title && (job_title in GLOB.garrison_positions)
+
+/datum/resident_document_role_rule/church
+	document_type = /obj/item/book/granter/resident_manuscript/church
+	priority = 50
+
+/datum/resident_document_role_rule/church/matches(mob/living/carbon/human/user)
+	if(!ishuman(user) || !user.mind)
+		return FALSE
+	var/job_title = user.job || user.mind.assigned_role
+	return job_title && (job_title in GLOB.church_positions)
+
+/datum/resident_document_role_rule/inquisition
+	document_type = /obj/item/book/granter/resident_manuscript/otava
+	priority = 50
+
+/datum/resident_document_role_rule/inquisition/matches(mob/living/carbon/human/user)
+	if(!ishuman(user) || !user.mind)
+		return FALSE
+	var/job_title = user.job || user.mind.assigned_role
+	return job_title && (job_title in GLOB.inquisition_positions)
+
+/datum/resident_document_role_rule/craftsmen
+	document_type = /obj/item/book/granter/resident_manuscript/craftsmen
+	priority = 50
+
+/datum/resident_document_role_rule/craftsmen/matches(mob/living/carbon/human/user)
+	if(!ishuman(user) || !user.mind)
+		return FALSE
+	var/job_title = user.job || user.mind.assigned_role
+	return job_title && (job_title in GLOB.burgher_positions)
+
+/datum/resident_document_role_rule/noble_fallback
+	document_type = /obj/item/book/granter/resident_manuscript/roundstart
+	priority = -10
+
+/datum/resident_document_role_rule/noble_fallback/matches(mob/living/carbon/human/user)
+	return ishuman(user) && HAS_TRAIT(user, TRAIT_NOBLE)
+
+/datum/resident_document_role_rule/commoner_fallback
+	document_type = /obj/item/book/granter/resident_manuscript/commoner
+	priority = -100
+
+/datum/resident_document_role_rule/commoner_fallback/matches(mob/living/carbon/human/user)
+	return ishuman(user) && user.mind
+
+/proc/get_resident_document_role_rules()
+	var/static/list/cached
+	if(!cached)
+		cached = list()
+		for(var/rule_type in subtypesof(/datum/resident_document_role_rule))
+			cached += new rule_type
+		sortTim(cached, GLOBAL_PROC_REF(cmp_resident_document_role_rule_priority))
+	return cached
+
+/proc/cmp_resident_document_role_rule_priority(datum/resident_document_role_rule/a, datum/resident_document_role_rule/b)
+	return b.priority - a.priority
+
+/// Maps a recipient's assigned role to the faction-default manuscript subtype
+/// by walking the role rule registry in priority order. Returns null when no
+/// rule matches -- callers (admin, cargo) supply their own type.
+/proc/get_default_manuscript_type_for_job(mob/living/carbon/human/recipient)
+	if(!recipient || !recipient.mind)
+		return null
+	for(var/datum/resident_document_role_rule/rule as anything in get_resident_document_role_rules())
+		if(rule.matches(recipient))
+			return rule.document_type
+	return null
+
+/// Authority rules for the Resident Manuscript seal stamps.
+///
+/// Each rule binds a seal `key` (matching the keys used in document profiles
+/// and on TGUI side) to:
+///   - human-readable `title` / `stamper` (used as fallback display, the
+///     frontend can override per-locale via texts.seals[key]);
+///   - the `job_types` / `advclass_types` that are allowed to stamp it;
+///   - a `priority` value that defines the seal hierarchy (higher = stronger);
+///   - an optional `allowed_statuses` list that restricts which document
+///     owner statuses the seal can be applied to (e.g. the Duke seal is only
+///     valid on noble documents).
+///
+/// Downstream modules add new seals by defining a new subtype: the registry
+/// below is built from `subtypesof()` and picks up new rules automatically.
+
+/datum/resident_manuscript_seal_rule
+	var/key
+	var/title
+	var/stamper
+	var/list/job_types
+	var/list/advclass_types
+	var/priority = 0
+	/// If set, the seal can only be applied to documents whose owner_status_key
+	/// matches one of the listed statuses. null/empty = any status.
+	var/list/allowed_statuses
+
+/datum/resident_manuscript_seal_rule/proc/can_stamp(mob/living/carbon/human/user)
+	if(!ishuman(user))
+		return FALSE
+	var/datum/job/job = SSjob.GetJob(user.mind?.assigned_role)
+	for(var/job_type in job_types)
+		if(istype(job, job_type))
+			return TRUE
+	var/datum/advclass/advclass
+	if(user.advjob)
+		advclass = SSrole_class_handler.get_advclass_by_name(user.advjob)
+	for(var/advclass_type in advclass_types)
+		if(istype(advclass, advclass_type))
+			return TRUE
+	return FALSE
+
+/datum/resident_manuscript_seal_rule/proc/can_apply_to_status(status_key)
+	if(!LAZYLEN(allowed_statuses))
+		return TRUE
+	return status_key in allowed_statuses
+
+/datum/resident_manuscript_seal_rule/elder
+	key = "elder"
+	title = "Elder"
+	stamper = "Elder"
+	advclass_types = list(/datum/advclass/elder)
+	priority = RESIDENT_SEAL_PRIORITY_ELDER
+
+/datum/resident_manuscript_seal_rule/chancellor
+	key = "chancellor"
+	title = "Chancellor"
+	stamper = "Chancellor"
+	job_types = list(/datum/job/roguetown/councillor)
+	priority = RESIDENT_SEAL_PRIORITY_CHANCELLOR
+
+/datum/resident_manuscript_seal_rule/hand
+	key = "hand"
+	title = "Hand"
+	stamper = "Hand"
+	job_types = list(/datum/job/roguetown/hand)
+	priority = RESIDENT_SEAL_PRIORITY_HAND
+
+/datum/resident_manuscript_seal_rule/ruler
+	key = "ruler"
+	title = "Duke"
+	stamper = "Duke"
+	job_types = list(/datum/job/roguetown/lord)
+	priority = RESIDENT_SEAL_PRIORITY_RULER
+	allowed_statuses = list(RESIDENT_MANUSCRIPT_STATUS_NOBLE)
+
+/datum/resident_manuscript_seal_rule/sergeant
+	key = "sergeant"
+	title = "Sergeant"
+	stamper = "Sergeant of the Watch"
+	job_types = list(/datum/job/roguetown/sergeant)
+	priority = RESIDENT_SEAL_PRIORITY_FACTION_LOW
+
+/datum/resident_manuscript_seal_rule/marshal
+	key = "marshal"
+	title = "Marshal"
+	stamper = "Marshal"
+	job_types = list(/datum/job/roguetown/marshal)
+	priority = RESIDENT_SEAL_PRIORITY_FACTION_MID
+
+/datum/resident_manuscript_seal_rule/bishop
+	key = "bishop"
+	title = "Bishop"
+	stamper = "Bishop"
+	job_types = list(/datum/job/roguetown/priest)
+	priority = RESIDENT_SEAL_PRIORITY_FACTION_MID
+
+/datum/resident_manuscript_seal_rule/guild_leader
+	key = "guild_leader"
+	title = "Guild Leader"
+	stamper = "Guild Leader"
+	advclass_types = list(/datum/advclass/guildmaster)
+	priority = RESIDENT_SEAL_PRIORITY_FACTION_MID
+
+/datum/resident_manuscript_seal_rule/inquisitor
+	key = "inquisitor"
+	title = "Inquisitor"
+	stamper = "Inquisitor"
+	job_types = list(/datum/job/roguetown/inquisitor)
+	priority = RESIDENT_SEAL_PRIORITY_FACTION_MID
+
+/datum/resident_manuscript_seal_rule/court_magician
+	key = "court_magician"
+	title = "Court Magician"
+	stamper = "Court Magician"
+	job_types = list(/datum/job/roguetown/magician)
+	priority = RESIDENT_SEAL_PRIORITY_FACTION_MID
+
+/datum/resident_manuscript_seal_rule/merchant_master
+	key = "merchant_master"
+	title = "Merchant Master"
+	stamper = "Merchant Master"
+	job_types = list(/datum/job/roguetown/merchant)
+	priority = RESIDENT_SEAL_PRIORITY_FACTION_MID
+
+/datum/resident_manuscript_seal_rule/innkeeper
+	key = "innkeeper"
+	title = "Innkeep"
+	stamper = "Innkeep"
+	job_types = list(/datum/job/roguetown/innkeeper)
+	priority = RESIDENT_SEAL_PRIORITY_FACTION_LOW
+
+/datum/resident_manuscript_seal_rule/bathmaster
+	key = "bathmaster"
+	title = "Bathmaster"
+	stamper = "Bathmaster"
+	job_types = list(/datum/job/roguetown/bathmaster)
+	priority = RESIDENT_SEAL_PRIORITY_FACTION_LOW
+
+/proc/get_resident_manuscript_seal_rules()
+	var/static/list/seal_rules
+	if(!seal_rules)
+		seal_rules = list()
+		for(var/rule_type in subtypesof(/datum/resident_manuscript_seal_rule))
+			var/datum/resident_manuscript_seal_rule/rule = rule_type
+			var/key = initial(rule.key)
+			if(!key)
+				continue
+			seal_rules[key] = rule_type
+	return seal_rules
 
 /datum/resident_document_profile
 	var/id

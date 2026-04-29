@@ -260,8 +260,8 @@ UNDER NO CIRCUMSTANCE SHOULD ANY OF THE BOOKS BE GIVEN OUT INTO SPAWNERS OR TO B
 /// Optional outfit hook: places a faction-default manuscript into the
 /// recipient's stash if a role rule resolves their role. Skips when another
 /// manuscript (virtue, admin, etc.) is already stashed.
-/// `get_default_manuscript_type_for_job()` lives in resident_document_rules.dm
-/// and walks the role rule registry in priority order.
+/// `get_default_manuscript_type_for_job()` walks the resident document role
+/// rule registry in priority order.
 /proc/grant_roundstart_faction_manuscript(mob/living/carbon/human/recipient)
 	var/manuscript_type = get_default_manuscript_type_for_job(recipient)
 	if(!manuscript_type)
@@ -295,8 +295,8 @@ UNDER NO CIRCUMSTANCE SHOULD ANY OF THE BOOKS BE GIVEN OUT INTO SPAWNERS OR TO B
 		"proper_rite",
 	)
 
-/// `/datum/resident_manuscript_seal_rule` and the seal registry live in
-/// `code/modules/paperwork/resident_document_seals.dm`.
+/// `/datum/resident_manuscript_seal_rule` and the seal registry are compiled
+/// with the resident document profile registry.
 
 /obj/item/book/granter/resident_manuscript
 	name = "Resident Manuscript"
