@@ -1,8 +1,8 @@
 #define VAMPCOST_ONE 5000 //heavily chopped down, you're a server-wide antagonist that should be doing stuff, just slightly above your ability to buy roundstart.
 #define VAMPCOST_TWO 6000 //Earlygame finish point, most vlords will end up here less than 30 mins into a round if they're good, 1hr if not.
-#define VAMPCOST_THREE 8000 //Grab immunity, leave moderately high. This is where they become a major threat.
-#define VAMPCOST_FOUR 15000 //Intended to be rather high as its hyperwar mode with sunkill, has to be moderately expensive but affordable so vlord can afford it and upgrade their personal powers through using them passively, for the war to come.
-#define ARMOR_COST 5000 //Slightly high. We want this mid-early game. One-Time only ritual. Unlocks at Third Upgrade.
+#define VAMPCOST_THREE 7500 //Grab immunity, leave moderately high. This is where they become a major threat.
+#define VAMPCOST_FOUR 14000 //Intended to be rather high as its hyperwar mode with sunkill, has to be moderately expensive but affordable so vlord can afford it and upgrade their personal powers through using them passively, for the war to come.
+#define ARMOR_COST 5000 //Slightly high. We want this mid-early game. One-Time only ritual. Unlocks at Second Upgrade.
 //#define SUN_STEAL_COST 8000 //Server wide war declaration, mostly useless for Vitabella. Risk/Reward but we want it to be less earlygame but midgame instead of lategame. //MOVED TO AUTOMATIC ON FULLPOWER UPGRADE//
 #define SERVANT_COST 800 //Keep these low, so people can play as vampires. We want to scoop up observers/lobby joiners before they get bored.
 #define SERVANT_T2_COST 1000 //Same as above, a little bit higher because these roles /can/ actually fight, keep it low so they can get a retinue starting off.
@@ -311,6 +311,7 @@
 			for(var/S in MOBSTATS)
 				lord_body.change_stat(S, 2)
 			lord_body.maxbloodpool += 1000
+			bloodpool.available_project_types += /datum/vampire_project/armor_crafting
 			bloodpool.available_project_types += /datum/vampire_project/servant/servant_t3 //Stronger servants at this point.
 			bloodpool.available_project_types -= /datum/vampire_project/power_growth_2
 			bloodpool.available_project_types += /datum/vampire_project/power_growth_3
@@ -334,7 +335,6 @@
 				lord_body.change_stat(S, 2)
 			ADD_TRAIT(lord_body, TRAIT_GRABIMMUNE, TRAIT_GENERIC) //You're reaching solo-antagonist levels of godhood here.
 			lord_body.maxbloodpool += 1000
-			bloodpool.available_project_types += /datum/vampire_project/armor_crafting
 			bloodpool.available_project_types -= /datum/vampire_project/power_growth_3
 			bloodpool.available_project_types += /datum/vampire_project/power_growth_4
 			break
