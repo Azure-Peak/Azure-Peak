@@ -417,7 +417,6 @@
 	AddComponent(/datum/component/cursed_item, TRAIT_CABAL, "ARMOR")
 
 /obj/item/clothing/wrists/roguetown/bracers/avantyne/heavy
-	name = "fused avantyne bracers"
 
 /obj/item/clothing/wrists/roguetown/bracers/avantyne/heavy/Initialize()
 	. = ..()
@@ -435,26 +434,29 @@
 	desc = "Oh, to plunge hands into cold water; to play a melody upon an ivory-keyed piano; to watch steam rise from boiling, twisting entrails.."
 	color = "#ddc0a7"
 
-/obj/item/clothing/wrists/roguetown/bracers/graggar/alt
+/obj/item/clothing/wrists/roguetown/bracers/graggar/Initialize()
+	. = ..()
+	AddComponent(/datum/component/cursed_item, TRAIT_HORDE, "ARMOR", "RENDERED ASUNDER")
+
+/obj/item/clothing/wrists/roguetown/bracers/graggar/heavy
 	name = "vicious wristguards"
-	desc = "Padded with a mixture of twine, leather and entrails. Steel and bone on the outside. It won't survive the onslaught - but it's not meant to."
+	desc = "Swaying chains, padded with a mixture of twine, leather and entrails. Steel and bone on the outside. It won't survive the onslaught - but it's \
+	not meant to. </br>Everything He did, He did for Ravox. To see them squander such power in favor of mortality's chains - it broke Him. Yils of resentment, \
+	of jealousy and frustration; released all at once. Through flowing tears, He disemboweled the divine filament and shattered His chains once and for all.. \
+	for if He would not be loved, then He would settle for hatred instead."
 	icon_state = "graggarplatebracer_heavy"
 	max_integrity = ARMOR_INT_SIDE_ANTAG
 	color = null
 
-/obj/item/clothing/wrists/roguetown/bracers/graggar/alt/Initialize()
+/obj/item/clothing/wrists/roguetown/bracers/graggar/heavy/Initialize()
 	. = ..()
 	ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)
 
-/obj/item/clothing/wrists/roguetown/bracers/graggar/alt/dropped(mob/living/carbon/human/user)
+/obj/item/clothing/wrists/roguetown/bracers/graggar/heavy/dropped(mob/living/carbon/human/user)
 	. = ..()
 	if(QDELETED(src))
 		return
 	qdel(src)
-
-/obj/item/clothing/wrists/roguetown/bracers/graggar/Initialize()
-	. = ..()
-	AddComponent(/datum/component/cursed_item, TRAIT_HORDE, "ARMOR", "RENDERED ASUNDER")
 
 /obj/item/clothing/wrists/roguetown/bracers/hand
 	name = "hand's bracers"

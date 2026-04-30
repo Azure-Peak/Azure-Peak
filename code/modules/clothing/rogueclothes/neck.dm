@@ -1054,7 +1054,6 @@
 	AddComponent(/datum/component/cursed_item, TRAIT_CABAL, "ARMOR")
 
 /obj/item/clothing/neck/roguetown/bevor/avantyne/heavy
-	name = "fused avantyne bevor"
 
 /obj/item/clothing/neck/roguetown/bevor/avantyne/heavy/Initialize()
 	. = ..()
@@ -1073,9 +1072,19 @@
 	desc = "Curled plate, cradling the neck. Once, they were chains - now, they've allowed you to break free."
 	color = "#ddc0a7"
 
-/obj/item/clothing/neck/roguetown/gorget/graggar/Initialize()
+/obj/item/clothing/neck/roguetown/gorget/steel/graggar/Initialize()
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_HORDE, "ARMOR", "RENDERED ASUNDER")
+
+/obj/item/clothing/neck/roguetown/gorget/steel/graggar/heavy/Initialize()
+	. = ..()
+	ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)
+
+/obj/item/clothing/neck/roguetown/gorget/steel/graggar/heavy/dropped(mob/living/carbon/human/user)
+	. = ..()
+	if(QDELETED(src))
+		return
+	qdel(src)
 
 //
 

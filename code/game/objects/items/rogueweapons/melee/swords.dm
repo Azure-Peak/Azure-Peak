@@ -135,8 +135,9 @@
 
 /obj/item/rogueweapon/sword/avantyne
 	name = "avantyne arming sword"
-	desc = "Blade cut straight from earnest avantyne. Imperfections are absent."
-	icon_state = "zeretic_arming"
+	desc = "Anger and spite, channeled into a blade that defies both wisdom and purity. Seldom does such power come without a price, however; are you ready to pay it?"
+	icon_state = "zizoarming"
+	sheathe_icon = "zizoarming"
 	force = 25
 	force_wielded = 30
 
@@ -1514,19 +1515,16 @@
 	item_state = "staffblade"
 	sheathe_icon = "staffblade"
 
-/obj/item/rogueweapon/sword/rapier/zizo
+/obj/item/rogueweapon/sword/rapier/avantyne
 	name = "avantyne rapier"
-	desc = "A cruel imitation of a rapier, it's slender frame bent to no discipline known to man. It rejects the measured art of Destreza, lashing out in uneven, hateful thrusts that defy prediction."
+	desc = "Graceful yet grotesque, this piercing shard of spite ignores the art of fencing in favor of the art of suffering. To wield it is to let your coldest grudges guide your hand."
 	icon_state = "zizorapier"
 	sheathe_icon = "zizorapier"
-	force = 30 //On par with avantyne longsword
-	force_wielded = 30
+	force = 25
 	max_blade_int = 300
 	max_integrity = 200
-	equip_delay_self = 0
-	unequip_delay_self = 0
 
-/obj/item/rogueweapon/sword/rapier/zizo/Initialize()
+/obj/item/rogueweapon/sword/rapier/avantyne/Initialize()
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_CABAL, "RAPIER")
 

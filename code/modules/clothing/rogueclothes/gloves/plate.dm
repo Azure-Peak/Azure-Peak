@@ -61,9 +61,13 @@
 	max_integrity = ARMOR_INT_SIDE_ANTAG
 	icon_state = "graggarplategloves"
 
+/obj/item/clothing/gloves/roguetown/plate/graggar/Initialize()
+	. = ..()
+	AddComponent(/datum/component/cursed_item, TRAIT_HORDE, "ARMOR", "RENDERED ASUNDER")
+
 /obj/item/clothing/gloves/roguetown/plate/graggar/heavy
-	name = "vicious bone-gauntlets"
-	desc = "Steel plated gauntlets overlaid by an ornamental imagery of fractured bone and entrails."
+	name = "vicious plated gauntlets"
+	desc = "Steel plated gauntlets overlaid by an ornamental imagery of fractured bone and entrails. The violet smears; a tether to the lyfe that once was - and now, a stinging reminder of what could've been."
 	icon_state = "graggarplategloves_heavy"
 
 /obj/item/clothing/gloves/roguetown/plate/graggar/heavy/Initialize()
@@ -75,10 +79,6 @@
 	if(QDELETED(src))
 		return
 	qdel(src)
-
-/obj/item/clothing/gloves/roguetown/plate/graggar/Initialize()
-	. = ..()
-	AddComponent(/datum/component/cursed_item, TRAIT_HORDE, "ARMOR", "RENDERED ASUNDER")
 
 /obj/item/clothing/gloves/roguetown/plate/matthios
 	name = "gilded gauntlets"
@@ -99,7 +99,7 @@
 
 /obj/item/clothing/gloves/roguetown/plate/avantyne
 	name = "avantyne gauntlets"
-	desc = "Gauntlets with full range of motion. The fore-arm guards do hurt, if used."
+	desc = "Incongruent silks from a tymeline-most-doomed, woven to cradle the palms of God's successor. Softer than silk, yet unfettered by the blows from those who know no better."
 	icon_state = "zizogauntlets_med"
 	max_integrity = ARMOR_INT_SIDE_STEEL
 	chunkcolor = "#363030"
@@ -107,7 +107,7 @@
 	armor_class = ARMOR_CLASS_MEDIUM
 
 /obj/item/clothing/gloves/roguetown/plate/avantyne/heavy
-	name = "heavy avantyne gauntlets"
+	name = "avantyne plate gauntlets"
 	desc = "Unknowing truths, veiling the hands that prayed. Called forth from the edge of what should be known, in Her name."
 	icon_state = "zizogauntlets"
 	max_integrity = ARMOR_INT_SIDE_ANTAG

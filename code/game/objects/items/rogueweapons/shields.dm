@@ -428,9 +428,11 @@
 	return ..()
 
 /obj/item/rogueweapon/shield/tower/metal/avantyne
-	name = "avantyne darkshield"
-	desc = "A kite-shield, avantyne and darksteel intermingled. The softness on the surface tends to catch hits very well."
-	icon_state = "zeretic_shield"
+	name = "avantyne pavise"
+	desc = "An interloper in causality's ever-so-fragile stream, woven from wafers to ward against those who're not yet ready to comprehend \
+	the gospel of Her disciples. Zizo sought to ward Her children from extinction, but failed; and in the throes of divine mania, She had come \
+	to realize that this world was no longer worth saving."
+	icon_state = "zizoshield"
 
 /obj/item/rogueweapon/shield/tower/metal/avantyne/Initialize()
 	. = ..()
@@ -660,9 +662,11 @@
 	smeltresult = null 
 
 /obj/item/rogueweapon/shield/iron/graggar
-	name = "vicious metal shield"
-	desc = "A viscous, vicious composite of metal, dried blood strengthened with an unknown substance, and bone. It will stand."
-	icon_state = "gheretic_shield"
+	name = "vicious targe"
+	desc = "A decorated targe, splattered and sanctified with the trophies of Psydonia's most dangerous hunters. No matter the icy rains, \
+	no matter the scorching heat – no matter the wrath of their enemies, Graggar never faltered in His arms. When Ravox broke their oath and \
+	rescinded their claim to Godhood, grief could not describe what He had felt."
+	icon_state = "graggarshield"
 	max_integrity = 300
 
 /obj/item/rogueweapon/shield/iron/graggar/Initialize()

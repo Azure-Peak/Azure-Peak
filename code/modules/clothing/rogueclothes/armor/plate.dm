@@ -306,7 +306,7 @@
 
 /obj/item/clothing/suit/roguetown/armor/plate/full/graggar
 	name = "vicious full-plate"
-	desc = "Shorn together plate, curated from hand-crafted bones and ligaments - combined under an unholy spirit of violence. It bleeds."
+	desc = "Shorn together plate, curated from hand-crafted bones and ligaments - combined under an unholy spirit of violence. It drools with the distilled essence of worldlux; the afterbirth of ascensionism."
 	icon_state = "graggarplate_heavy"
 	max_integrity = ARMOR_INT_CHEST_PLATE_ANTAG
 	chunkcolor = "#363030"
@@ -444,7 +444,7 @@
 	icon_state = "ordinatorplate"	
 
 /obj/item/clothing/suit/roguetown/armor/plate/full/matthios
-	name = "gilded fullplate"
+	name = "gilded full-plate"
 	desc = "Often, you have heard that told,"
 	icon_state = "matthiosarmor"
 	max_integrity = ARMOR_INT_CHEST_PLATE_ANTAG
@@ -461,7 +461,7 @@
 
 /obj/item/clothing/suit/roguetown/armor/plate/fluted/avantyne
 	name = "avantyne half-plate"
-	desc = "Pauldrons lyke that of fire. The metal curves and curdles with insidious energies."
+	desc = "Pauldrons lyke that of fire, crested atop a veil of otherworldly maille - impossibly tough, warm to the touch, and crackling with insidious energies."
 	armor_class = ARMOR_CLASS_MEDIUM
 	max_integrity = ARMOR_INT_CHEST_PLATE_STEEL
 	icon_state = "zizoplatechest_med"
@@ -475,7 +475,7 @@
 	return ..()
 
 /obj/item/clothing/suit/roguetown/armor/plate/full/avantyne
-	name = "avantyne fullplate"
+	name = "avantyne full-plate"
 	desc = "Impossible angularities, molded into a form more comprehensible to the layman's eyes. It has been called forth from the edge of what should be known, in Her name."
 	icon_state = "zizoplate"
 	max_integrity = ARMOR_INT_CHEST_PLATE_ANTAG
@@ -485,7 +485,6 @@
 /obj/item/clothing/suit/roguetown/armor/plate/full/avantyne/Initialize()
 	. = ..()
 	ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)
-	AddComponent(/datum/component/cursed_item, TRAIT_CABAL, "ARMOR")
 
 /obj/item/clothing/suit/roguetown/armor/plate/full/avantyne/dropped(mob/living/carbon/human/user)
 	. = ..()
