@@ -365,7 +365,7 @@
 	name = "Moonscorch"
 	desc = "Calls down shimmering moonlight onto those around you in a certain radius, scaling with holy skill. \
 	Mindless creachers will become critically weak. Simple creachers will burn. \
-	Humen are prevented from casting spells for the duration, and does not work during dae nor dawn."
+	Does not work during dae nor dawn."
 	button_icon_state = "moon_light"
 	sound = 'sound/magic/churn.ogg'
 	glow_intensity = GLOW_INTENSITY_LOW
@@ -405,18 +405,18 @@
 		M.apply_status_effect(/datum/status_effect/light_buff/moon, 1)
 	return TRUE
 
-/datum/status_effect/light_buff/moon
-	id = "moon_light_buff"
-	alert_type = /atom/movable/screen/alert/status_effect/light_buff
-	duration = 15 SECONDS
-	color_mob_light = "#3936eacf"
-
 /obj/effect/temp_visual/moon
 	icon_state = "moon"
 	duration = 4 SECONDS
 	layer = MASSIVE_OBJ_LAYER
 	light_outer_range = 3
 	light_color = "#1640d7ff"
+
+/datum/status_effect/light_buff/moon
+	id = "moon_light_buff"
+	alert_type = /atom/movable/screen/alert/status_effect/light_buff
+	duration = 15 SECONDS//This is geniunely permanent, I guess dude?
+	color_mob_light = "#3936eacf"
 
 /datum/status_effect/light_buff/moon/on_apply()
 	..()
@@ -492,12 +492,15 @@
 		if("Magister")
 			add_spells(owner, magister_bundle, grant_all = TRUE)
 			owner.mind?.RemoveSpell(src.type)
+			return TRUE
 		if("Enchanter")
 			add_spells(owner, enchanter_bundle, grant_all = TRUE)
 			owner.mind?.RemoveSpell(src.type)
+			return TRUE
 		if("Seer")
 			add_spells(owner, seer_bundle, grant_all = TRUE)
 			owner.mind?.RemoveSpell(src.type)
+			return TRUE
 		else
 			return FALSE
 

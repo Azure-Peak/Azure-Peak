@@ -257,7 +257,10 @@ UNDER NO CIRCUMSTANCE SHOULD ANY OF THE BOOKS BE GIVEN OUT INTO SPAWNERS OR TO B
 		return FALSE
 	if(already_known(user))
 		return FALSE
-	if(!user.get_skill_level(/datum/skill/misc/reading) >= SKILL_LEVEL_EXPERT)
+	if(!user.get_skill_level(/datum/skill/magic/holy) >= SKILL_LEVEL_EXPERT)
+		to_chat(user, span_warning("The scrolls is blank to your unfaithful eyes!"))
+		return FALSE
+	if(!user.get_skill_level(/datum/skill/misc/reading) > SKILL_LEVEL_EXPERT)
 		to_chat(user, span_warning("You can't make sense of the sprawling runes!"))
 		return FALSE
 	if(used && oneuse)

@@ -370,12 +370,15 @@
 		if("Generalist")
 			add_spells(owner, miracle_generalist_bundle, choice_count = 3)
 			owner.mind?.RemoveSpell(src.type)
+			return TRUE
 		if("Acolyte")
 			add_spells(owner, miracle_acolyte_bundle, choice_count = 2)
 			owner.mind?.RemoveSpell(src.type)
+			return TRUE
 		if("Templar")
 			add_spells(owner, miracle_templar_bundle, choice_count = 2)
 			owner.mind?.RemoveSpell(src.type)
+			return TRUE
 		else
 			return FALSE
 
