@@ -296,7 +296,7 @@
 
 /datum/vampire_project/power_growth_2
 	display_name = "Rite of Reclamation"
-	description = "Strength long sealed returns. The soil, the stone, and the shadows bend again to their rightful master. (+2 to all lorde stats + 1000 lorde vitae pool limit)"
+	description = "Strength long sealed returns. The soil, the stone, and the shadows bend again to their rightful master. (+2 to all lorde stats + 1000 lorde vitae pool limit + Unlocks champions and armor rites.)"
 	total_cost = VAMPCOST_TWO
 	completion_sound = 'sound/misc/batsound.ogg'
 
