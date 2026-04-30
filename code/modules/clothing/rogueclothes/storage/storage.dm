@@ -566,6 +566,11 @@
 			str += "Gems Only"
 	. += span_notice(str)
 
+/obj/item/storage/hip/orestore/bronze/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_notice("Walking over or clicking on the tiles with selected items will automatically scoop them into the bag.")
+	. += span_notice("Right clicking the bag while it's outside of your active hand will toggle through various scoop filters.")
+
 /obj/item/storage/hip/orestore/bronze/attack_right(mob/user)
 	if(current_choice_index < length(filter_options))
 		current_choice_index++
