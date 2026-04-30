@@ -1521,7 +1521,7 @@
 	icon_state = "zizorapier"
 	sheathe_icon = "zizorapier"
 	force = 25
-	max_blade_int = 300
+	max_blade_int = 250
 	max_integrity = 200
 
 /obj/item/rogueweapon/sword/rapier/avantyne/Initialize()
