@@ -427,6 +427,15 @@
 				return list("shrink" = 0.6,"sx" = 1,"sy" = 4,"nx" = 1,"ny" = 2,"wx" = 3,"wy" = 3,"ex" = -3,"ey" = 3,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 8,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 1,"southabove" = 0,"eastabove" = 0,"westabove" = 0)
 	return ..()
 
+/obj/item/rogueweapon/shield/tower/metal/avantyne
+	name = "avantyne darkshield"
+	desc = "A kite-shield, avantyne and darksteel intermingled. The softness on the surface tends to catch hits very well."
+	icon_state = "zeretic_shield"
+
+/obj/item/rogueweapon/shield/tower/metal/avantyne/Initialize()
+	. = ..()
+	AddComponent(/datum/component/cursed_item, TRAIT_CABAL, "SHIELD")
+
 /obj/item/rogueweapon/shield/tower/metal/gold
 	name = "golden shield"
 	desc = "A resplendant kite shield, assembled from six golden plates that've been hooked together by a glimmering holy sigil. Nobility may be fragile, but - so long as its grip remains steadfast - none could ever hope to sever its weakest link."
@@ -649,6 +658,16 @@
 	desc = "If they couldn't protect their previous owners, how confident are you in these bones protecting you?"
 	icon_state = "boneshield"
 	smeltresult = null 
+
+/obj/item/rogueweapon/shield/iron/graggar
+	name = "vicious metal shield"
+	desc = "A viscous, vicious composite of metal, dried blood strengthened with an unknown substance, and bone. It will stand."
+	icon_state = "gheretic_shield"
+	max_integrity = 300
+
+/obj/item/rogueweapon/shield/iron/graggar/Initialize()
+	. = ..()
+	AddComponent(/datum/component/cursed_item, TRAIT_HORDE, "SHIELD", "RENDERED ASUNDER")
 
 #undef SHIELD_BANG_COOLDOWN
 

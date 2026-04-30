@@ -403,22 +403,54 @@
 
 //
 
-/obj/item/clothing/wrists/roguetown/bracers/zizo
+/obj/item/clothing/wrists/roguetown/bracers/avantyne
 	name = "avantyne bracers"
-	desc = "Clasped, yet unburdening. The pursuit of knowledge has led you to this very moment; there is no going back."
+	desc = "Clasped yet practical, these avantyne wristguards are reinforced for the rite without binding themselves to the wearer forever."
 	color = "#c1b18d"
 	chunkcolor = "#363030"
 	material_category = ARMOR_MAT_PLATE
+	max_integrity = ARMOR_INT_SIDE_STEEL
+	armor_class = ARMOR_CLASS_MEDIUM
 
-/obj/item/clothing/wrists/roguetown/bracers/zizo/Initialize()
+/obj/item/clothing/wrists/roguetown/bracers/avantyne/Initialize()
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_CABAL, "ARMOR")
+
+/obj/item/clothing/wrists/roguetown/bracers/avantyne/heavy
+	name = "fused avantyne bracers"
+
+/obj/item/clothing/wrists/roguetown/bracers/avantyne/heavy/Initialize()
+	. = ..()
+	ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)
+
+/obj/item/clothing/wrists/roguetown/bracers/avantyne/heavy/dropped(mob/living/carbon/human/user)
+	. = ..()
+	if(QDELETED(src))
+		return
+	qdel(src)
 //
 
 /obj/item/clothing/wrists/roguetown/bracers/graggar
 	name = "vicious bracers"
 	desc = "Oh, to plunge hands into cold water; to play a melody upon an ivory-keyed piano; to watch steam rise from boiling, twisting entrails.."
 	color = "#ddc0a7"
+
+/obj/item/clothing/wrists/roguetown/bracers/graggar/alt
+	name = "vicious wristguards"
+	desc = "Padded with a mixture of twine, leather and entrails. Steel and bone on the outside. It won't survive the onslaught - but it's not meant to."
+	icon_state = "graggarplatebracer_heavy"
+	max_integrity = ARMOR_INT_SIDE_ANTAG
+	color = null
+
+/obj/item/clothing/wrists/roguetown/bracers/graggar/alt/Initialize()
+	. = ..()
+	ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)
+
+/obj/item/clothing/wrists/roguetown/bracers/graggar/alt/dropped(mob/living/carbon/human/user)
+	. = ..()
+	if(QDELETED(src))
+		return
+	qdel(src)
 
 /obj/item/clothing/wrists/roguetown/bracers/graggar/Initialize()
 	. = ..()

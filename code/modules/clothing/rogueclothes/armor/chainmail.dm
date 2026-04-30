@@ -229,16 +229,29 @@
 
 //
 
-/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/zizo
+/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/avantyne
 	name = "avantyne hauberk"
-	desc = "The rings crackle with unkempt magicka, yearning to enamor the enlightened with avantynic might."
+	desc = "The rings crackle softly with avantynic power, yet this lighter weave can still be taken off without being lost to the rite."
 	color = "#c1b18d"
 	chunkcolor = "#363030"
 	material_category = ARMOR_MAT_CHAINMAIL
 
-/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/zizo/Initialize()
+/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/avantyne/Initialize()
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_CABAL, "ARMOR")
+
+/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/avantyne/heavy
+	name = "fused avantyne hauberk"
+
+/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/avantyne/heavy/Initialize(mapload)
+	. = ..()
+	ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)
+
+/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/avantyne/heavy/dropped(mob/living/carbon/human/user)
+	. = ..()
+	if(QDELETED(src))
+		return
+	qdel(src)
 
 //
 

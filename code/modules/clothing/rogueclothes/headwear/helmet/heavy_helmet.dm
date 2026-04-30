@@ -1237,6 +1237,11 @@
 	active_item = FALSE
 	REMOVE_TRAIT(user, TRAIT_BITERHELM, TRAIT_GENERIC)
 
+/obj/item/clothing/head/roguetown/helmet/heavy/graggar/alt
+	name = "vicious skullhelm"
+	desc = "Nigh lyke a crushed skull worn with pride; as sturdy as one that has seen fractures - and survived them, too."
+	icon_state = "graggarplatehelm_heavy"
+
 /obj/item/clothing/head/roguetown/helmet/heavy/matthios/Initialize()
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_FREEMAN, "VISAGE")
@@ -1255,7 +1260,7 @@
 	icon_state = "zizofrogmouth"
 	name = "avantyne froggemund"
 	desc = "Crystallized inzanity, brought to a lower plane of existence and flared into a wide-collared froggemund. It has been called forth from the edge of reality, in Her name."
-	flags_inv = HIDEFACE|HIDESNOUT|HIDEEARS
+	flags_inv = HIDEFACE|HIDESNOUT|HIDEEARS|HIDEHAIR
 	body_parts_covered = HEAD|EARS|HAIR
 	adjustable = CANT_CADJUST
 
@@ -1264,6 +1269,15 @@
 	desc = "An unholy combination of a bastardised volf-face bascinet, along with avantyne reinforcements. Progress is an agonising process."
 	icon_state = "volfplate_avantyne"
 	item_state = "volfplate_avantyne"
+
+/obj/item/clothing/head/roguetown/helmet/heavy/zizo/bascinet
+	name = "avantyne full-face bascinet"
+	desc = "A bascinet with an unyielding visor stuck to its front. Where does one see out of this?"
+	icon_state = "zizoplatehelm_med"
+	item_state = "zizoplatehelm_med"
+	flags_inv = HIDEFACE|HIDESNOUT|HIDEEARS|HIDEHAIR
+	body_parts_covered = HEAD|EARS|HAIR
+	adjustable = CANT_CADJUST
 
 /obj/item/clothing/head/roguetown/helmet/heavy/zizo/Initialize()
 	. = ..()

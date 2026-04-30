@@ -459,16 +459,16 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 		add_admin_verbs()
 		to_chat(src, get_message_output("memo"))
 		adminGreet()
-	if(mob && reconnecting)
-		var/area/joined_area = get_area(mob.loc)
-		if(joined_area)
-			joined_area.reconnect_game(mob)
-	else if(!BC_IsKeyAllowedToConnect(ckey))
+	if(!BC_IsKeyAllowedToConnect(ckey))
 		src << "Sorry, but the server is currently only accepting whitelisted players.  Please see the discord to be whitelisted."
 		message_admins("[ckey] was denied a connection due to not being whitelisted.")
 		log_admin("[ckey] was denied a connection due to not being whitelisted.")
 		qdel(src)
 		return 0
+	if(mob && reconnecting)
+		var/area/joined_area = get_area(mob.loc)
+		if(joined_area)
+			joined_area.reconnect_game(mob)
 
 	add_verbs_from_config()
 	var/cached_player_age = set_client_age_from_db(tdata) //we have to cache this because other shit may change it and we need it's current value now down below.

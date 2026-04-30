@@ -78,6 +78,10 @@
 /client/MouseDown(object, location, control, params)
 	charge_was_blocked_by_cooldown = FALSE
 	var/list/modifiers = params2list(params)
+
+	if(modifiers["left"] && (!modifiers["shift"] || mob.BehindAtom(object, mob.dir)))
+		mob.face_atom(object, location, control, params)
+
 	if(lmb_throttle(object, modifiers))
 		return
 
@@ -183,13 +187,12 @@
 
 /client/proc/handle_left_click(atom/object, location, control, params, list/modifiers)
 	var/cooldown = (mob.active_hand_index == 1) ? mob.next_lmove : mob.next_rmove
-	if(cooldown > world.time)
-		charge_was_blocked_by_cooldown = TRUE
+
+	if(modifiers["right"])
 		return
 
-	if(!modifiers["shift"] || mob.BehindAtom(object, mob.dir))
-		mob.face_atom(object, location, control, params)
-	if(modifiers["right"])
+	if(cooldown > world.time)
+		charge_was_blocked_by_cooldown = TRUE
 		return
 
 	mob.atkswinging = "left"
