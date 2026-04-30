@@ -2,7 +2,7 @@
 #define VAMPCOST_TWO 6000 //Earlygame finish point, most vlords will end up here less than 30 mins into a round if they're good, 1hr if not.
 #define VAMPCOST_THREE 7500 //Grab immunity, leave moderately high. This is where they become a major threat.
 #define VAMPCOST_FOUR 14000 //Intended to be rather high as its hyperwar mode with sunkill, has to be moderately expensive but affordable so vlord can afford it and upgrade their personal powers through using them passively, for the war to come.
-#define ARMOR_COST 5000 //Slightly high. We want this mid-early game. One-Time only ritual. Unlocks at Second Upgrade.
+#define ARMOR_COST 5000 //Fairly cheap cause it comes behind a rite cost. We want this mid-early game. One-Time only ritual. Unlocks at Second Upgrade.
 //#define SUN_STEAL_COST 8000 //Server wide war declaration, mostly useless for Vitabella. Risk/Reward but we want it to be less earlygame but midgame instead of lategame. //MOVED TO AUTOMATIC ON FULLPOWER UPGRADE//
 #define SERVANT_COST 800 //Keep these low, so people can play as vampires. We want to scoop up observers/lobby joiners before they get bored.
 #define SERVANT_T2_COST 1000 //Same as above, a little bit higher because these roles /can/ actually fight, keep it low so they can get a retinue starting off.
@@ -21,7 +21,7 @@
 	var/list/active_projects = list()
 	var/list/available_project_types = list(
 		/datum/vampire_project/servant/servant_t1,
-		/datum/vampire_project/servant/servant_t2,
+		/datum/vampire_project/servant/servant_t2, //Powerful servants come with second vlord upgrade. Plus armor can be bought at that point.
 		/datum/vampire_project/power_growth,
 	)
 	var/sunstolen = FALSE
@@ -307,12 +307,12 @@
 		if(lord && !lord.ascended)
 			var/mob/living/carbon/human/lord_body = user
 			to_chat(user, span_greentext("My power grows through collective sacrifice."))
-			to_chat(user, span_warning("I should develop my vampiric powers and consider regaining my ancient set of armor, if I have not already.")) //Subtle Que for Newer players, that despite the next upgrade seeming quite close, you should invest into potencies + armor for later.
+			to_chat(user, span_warning("I should further develop my vampiric potencies, arise a champion and perhaps consider regaining my ancient set of armor.")) //Subtle Que for Newer players, that despite the next upgrade seeming quite close, you should invest into potencies + armor for later.
 			for(var/S in MOBSTATS)
 				lord_body.change_stat(S, 2)
 			lord_body.maxbloodpool += 1000
 			bloodpool.available_project_types += /datum/vampire_project/armor_crafting
-			bloodpool.available_project_types += /datum/vampire_project/servant/servant_t3 //Stronger servants at this point.
+			bloodpool.available_project_types += /datum/vampire_project/servant/servant_t3 //Stronger commander roles, cheapened so they're locked behind second upgrade rite.
 			bloodpool.available_project_types -= /datum/vampire_project/power_growth_2
 			bloodpool.available_project_types += /datum/vampire_project/power_growth_3
 			break
@@ -341,7 +341,7 @@
 
 /datum/vampire_project/power_growth_4
 	display_name = "Rite of Sovereignty"
-	description = "The Lord is whole. Ancient power saturates every stone and vein, for the Land and its master are one. (+2 to all stats for thralls +2 to lorde + 1000 lorde vitae pool limit. Kills the Sun and loudly announces your presence.)"
+	description = "The Lord is whole. Ancient power saturates every stone and vein, for the Land and its master are one. (+2 to all stats for thralls +2 to lorde + 1000 lorde and thrall vitae pool limit. Kills the Sun and loudly announces your presence.)"
 	total_cost = VAMPCOST_FOUR
 	completion_sound = 'sound/misc/batsound.ogg'
 

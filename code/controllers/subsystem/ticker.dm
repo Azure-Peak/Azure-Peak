@@ -816,7 +816,7 @@ SUBSYSTEM_DEF(ticker)
 		CHECK_TICK
 
 	for(var/obj/machinery/light/light in GLOB.machines)
-		if(prob(70))
+		if(prob(70)) //Almost every light on the server, pitch blackness
 			light.extinguish()
 		else
 			light.flicker(rand(2, 5))
@@ -847,7 +847,7 @@ SUBSYSTEM_DEF(ticker)
 				if(isfloorturf(_T))
 					new /mob/living/carbon/human/species/skeleton/npc(_T)
 
-/// Returns universe state to normal after the sunstealer has been slain, informs the server that the sun will rise, some neat flavor.
+/// Returns universe state to normal (minus the water) after the sunstealer has been slain, some neat flavor to show its finally over.
 /datum/controller/subsystem/ticker/proc/on_sunstealer_death()
 	GLOB.todoverride = null
 	sunstolen = FALSE
