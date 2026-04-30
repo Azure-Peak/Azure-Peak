@@ -45,7 +45,7 @@
 		//rip the bag of bribery, say hello to pouch of smuggling
 		"Pouch of Smuggling" = list(
 			path = /obj/item/storage/belt/rogue/pouch/matthios,
-			m_cooldown = 10 MINUTES,
+			m_cooldown = -1, // I FUCKING HATE WHEN THEY DON'T REPORT ABUSE CASES MANNNnnnNNNNEEEEE
 			m_devotion = 100,
 			m_rank = SKILL_LEVEL_NOVICE,
 			category = "Rogue Arts",

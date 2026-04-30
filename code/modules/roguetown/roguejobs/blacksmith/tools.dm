@@ -151,6 +151,15 @@
 	while(do_after(user, CLICK_CD_MELEE, target = attacked_item))
 
 /obj/item/rogueweapon/hammer/proc/repair_structure(obj/structure/attacked_structure, mob/living/user)
+	if(istype(attacked_structure, /obj/structure/roguemachine/scomm))
+		var/obj/structure/roguemachine/scomm/S = attacked_structure
+		var/skill = user.get_skill_level(/datum/skill/craft/engineering)
+		if(skill >= SKILL_LEVEL_JOURNEYMAN)
+			if(S.hacked_charges > 0)
+				S.hacked_charges = 0
+				to_chat(user, span_notice("You firmly knock the rous back into line, 'de-progressing' them."))
+				S.visible_message(span_warning("The SCOM lets out a distressed squeak as the rous are disciplined into submission."))
+				shake_camera(user, 1, 1)
 	if(!attacked_structure.hammer_repair || !attacked_structure.max_integrity)
 		return
 	if(user.get_skill_level(attacked_structure.hammer_repair) <= 0)

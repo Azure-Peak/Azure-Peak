@@ -2,6 +2,38 @@
 //ZIZO//
 ////////
 
+/atom/movable/screen/alert/status_effect/buff/roustatouille
+	name = "Rous-tatouille"
+	desc = span_notice("Negotiations with the rous workforce are underway. Your cheesy bribes are making them very agreeable.")
+	icon_state = "buff"
+
+/datum/status_effect/buff/roustatouille
+	id = "roustatouille"
+	duration = 3 MINUTES
+	alert_type = /atom/movable/screen/alert/status_effect/buff/roustatouille
+	status_type = STATUS_EFFECT_REFRESH
+	tick_interval = 1 SECONDS
+	var/turf/origin_turf
+
+/datum/status_effect/buff/roustatouille/on_creation(mob/living/new_owner, ...)
+	origin_turf = get_turf(new_owner)
+	ADD_TRAIT(new_owner, TRAIT_FOOD_STIPEND, "hackerman")
+	ADD_TRAIT(new_owner, TRAIT_GARRISON_ITEM, "hackerman")
+	. = ..()
+
+/datum/status_effect/buff/roustatouille/tick()
+	if(!owner)
+		return
+	if(get_turf(owner) != origin_turf)
+		to_chat(owner, span_warning("The cheese odor scatter as you move!"))
+		qdel(src)
+
+/datum/status_effect/buff/roustatouille/on_remove()
+	if(owner)
+		REMOVE_TRAIT(owner, TRAIT_FOOD_STIPEND, "hackerman")
+		REMOVE_TRAIT(owner, TRAIT_GARRISON_ITEM, "hackerman")
+	. = ..()
+
 /proc/execute_rite(atom/source, mob/living/leader, ritual_length = 4, max_cultists = 5, silent = FALSE)
 	if(!leader || QDELETED(source))
 		return FALSE
@@ -102,7 +134,7 @@
 		// abort if leader dies or disappears
 		if(QDELETED(leader) || leader.stat != CONSCIOUS)
 			break
-
+		
 		// chant
 		var/line_index = min(phase, length(chant_lines))
 		for(var/mob/living/P in participants)
@@ -113,6 +145,10 @@
 				P.say(silent_chant_lines[line_index], forced = "rite invocation", ignore_spam = TRUE)
 			else
 				P.say(chant_lines[line_index], forced = "rite invocation", ignore_spam = TRUE)
+
+			// Some bit of mindfuck for sovl
+			P.hallucination += 50
+			P.Immobilize(100)
 
 		// beams
 		for(var/mob/living/P in participants)
@@ -129,7 +165,7 @@
 
 			P.adjustBruteLoss(damage)
 
-			if(prob(10 + phase * 5) && !(HAS_TRAIT(P, TRAIT_NOPAIN)))
+			if(!silent && prob(10 + phase * 5) && !(HAS_TRAIT(P, TRAIT_NOPAIN)))
 				P.emote("painscream")
 
 		// channel
@@ -368,6 +404,71 @@
 
 	return TRUE
 	
+GLOBAL_LIST_INIT(we_live_in_a_zociety, list(
+	"Squeak??", // critical fail!!!
+	"No crown grants wisdom. Leadership must be earned, not inherited.",
+	"A kingdom that fears change has already begun to rot.",
+	"Power held by one is weakness for all. Shared responsibility builds stronger futures.",
+	"Truth doesn't require gods nor kings to stand. Truth stands on its own.",
+	"A ruler who cannot be questioned is a ruler who has already failed.",
+	"Progress is not betrayal. It is survival.",
+	"Faith should inspire growth, not forbid it.",
+	"No one is born deserving of command over others.",
+	"The future belongs to those willing to build it, not those clinging to the past.",
+	"Tradition is a foundation, not a cage.",
+	"A society that silences doubt will never find truth.",
+	"Hope is not found in obedience, but in possibility.",
+	"Every system must justify itself, or be replaced.",
+	"The measure of power is not control, but what it enables others to become.",
+	"Fear preserves thrones. Knowledge frees people.",
+	"If progress threatens authority, then authority is the problem.",
+	"No voice should be beneath another. We rise together, or not at all.",
+	"A just world is not granted by decree. It is built by its people.",
+	"Blind faith builds walls. Understanding builds bridges.",
+	"The old order asks for loyalty. The future asks for courage.",
+	"A ruler's greatest fear is a population that can think. They fear you.",
+	"Change is inevitable. Whether it is guided or resisted decides everything.",
+	"Belief should never be used as a chain. The Ten are wrong.",
+	"The strength of a society is measured by its people, not its throne.",
+	"To question is not to rebel — it is to care.",
+	"Progress does not erase the past. It learns from it.",
+	"No system is sacred if it harms those beneath it.",
+	"The future is not written by kings or gods, but by those who act.",
+	"A better world is possible — but only if you allow it to be built.",
+	"You are not meant to serve the world. You are meant to shape it.",
+	//popular characters go here
+	"We live in a Zociety...", 
+	"By Zizo! Ser Orland never catches a break, I heard.",
+	"How the heck does Lady Isobelle keep a hair upright like that?!",
+	//tennite roast goes here
+	"Astrata's rule is not divine. It is imposed. No sky-born tyrant has the right to decide our fate.",
+	"Noc values restraint over discovery. Knowledge chained by morality is knowledge left to slumber.",
+	"Dendor embodies regression to a past we tamed. A mind that refuses to evolve stands in the way of all who will.",
+	"Abyssor dreams endlessly, but contributes nothing. Let him sleep while we shape reality ourselves.",
+	"Eora speaks of love, yet sows jealousy. Affection wielded as control is just another form of tyranny.",
+	"Malum creates without purpose. Tools mean nothing unless they are used to elevate mankind.",
+	"Xylix understood the truth. The world is broken beyond repair. But you don't need to be the butt of the joke.",
+	"Ravox is bound by his ideals, and drags others down with him. Conviction without flexibility only ends in suffering.",
+	"Pestra taught how to heal with our own hands, yet still interferes. True progress begins when we no longer rely on her.",
+	"Necra claims dominion over death, yet no being should hold that authority over another. Life should belong to the living.",
+	//zizopaganda goes here
+	"Zizo teaches that progress is not given. It is built. The world will not improve by prayer, only by those willing to change it.",
+	"Zizo does not promise comfort. She promises a future shaped by hands that dare to create instead of kneel.",
+	"The old order fears progress because it cannot control it. That is why Zizo must prevail.",
+	"Graggar reminds us: strength is not cruelty, it is clarity. The strong shape the world, the weak cling to what was.",
+	"A kingdom that protects weakness over excellence is a kingdom that chooses decay.",
+	"Graggar's truth is simple: rise above, or be left behind. The world does not wait.",
+	"Baotha offers what the temples deny. Freedom of sensation, freedom of self, freedom without shame.",
+	"Why should joy be rationed by priests? Baotha teaches that indulgence is not sin. It is living.",
+	"The body is not a prison. Under Baotha, it becomes a celebration.",
+	"Matthios proved something no crown can deny: power can be taken. And once taken, it can be shared.",
+	"If a god's flame can be stolen, then no throne is sacred. Matthios showed us the truth.",
+	"Freedom is not granted by rulers. It is seized by those bold enough to reach for it.",
+	"The monarchy calls it order. The temples call it divine will. But both demand obedience, not truth.",
+	"Progress demands questioning. Authority demands silence. Choose carefully which future you serve.",
+	"A better world will not be inherited. It will be forged by those who refuse to accept the old one."
+))
+
 ////////////
 //MATTHIOS//
 ////////////

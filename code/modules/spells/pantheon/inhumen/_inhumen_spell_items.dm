@@ -94,9 +94,15 @@
 	var/mob/living/L = target
 	if(QDELETED(L))
 		return
+	if(get_dist(user, L) > 6)
+		return FALSE
 
 	var/is_npc = !L.client
 	var/list/cds = get_cd(is_npc)
+
+	if(L.stat == DEAD)
+		L.forceMove(get_turf(user))
+		return
 
 	switch(user.used_intent.type)
 
@@ -104,6 +110,7 @@
 		if(/datum/intent/sans/push)
 			if(world.time < cd_push)
 				return
+			cd_push = world.time + cds["push"]
 
 			var/list/thrown = list(L)
 
@@ -140,13 +147,12 @@
 				span_notice("I violently shove [L] away.")
 			)
 
-			cd_push = world.time + cds["push"]
-
 
 		// PULL (inverse repulse)
 		if(/datum/intent/sans/pull)
 			if(world.time < cd_pull)
 				return
+			cd_pull = world.time + cds["pull"]
 
 			var/list/thrown = list(L)
 
@@ -183,26 +189,22 @@
 				span_notice("I pull [L] toward me.")
 			)
 
-			cd_pull = world.time + cds["pull"]
 		// SLAM
 		if(/datum/intent/sans/slam)
 			if(world.time < cd_slam)
 				to_chat(user, span_warning("The force is still stabilizing."))
 				return
-
-			do_slam(user, L)
-
 			cd_slam = world.time + cds["slam"]
+			do_slam(user, L)
 
 		// BLAST
 		if(/datum/intent/sans/blast)
 			if(world.time < cd_blast)
 				to_chat(user, span_warning("The force is still stabilizing."))
 				return
-
+			cd_blast = world.time + cds["blast"]
 			do_blast(user, L)
 
-			cd_blast = world.time + cds["blast"]
 
 /obj/item/melee/touch_attack/sans_undertale/proc/do_slam(mob/living/user, mob/living/target)
 	if(!target || QDELETED(target))
@@ -549,6 +551,8 @@
 			explosion(O.loc, 0, 0, 0, 0, FALSE, 0, 1, 0, 0)
 			qdel(O)
 
+
+
 /obj/item/rope/zizo
 	name = "profane rope"
 	desc = "A woven hemp rope. Useful for countless crafts, or to tie someone up in a pinch. It hums with a strong aura of hatred for this stagnant world."
@@ -738,35 +742,97 @@
 	var/turf/step_turf = get_step(get_turf(user), user.dir)
 	switch(runeselection)
 		if("Rune of ZIZO")
-			to_chat(user,span_cultsmall("I begin inscribing the rune of Her Knowledge..."))
+			var/compulsion = clamp((100 - user.get_skill_level(/datum/skill/magic/holy * 20)), 0, 100)
+			if(prob(compulsion)) // works in reverse, because real chad veterans know how to revere her better in action, rather than being fanatical cultists
+				user.say("ZIZO!! ZIZO!! ZIZO!!")
+				to_chat(user,span_cultsmall("I begin inscribing the rune of Her Knowledge... Compulsively, I shout for Her name!"))
+			else
+				to_chat(user,span_cultsmall("I begin inscribing the rune of Her Knowledge..."))
 			if(do_after(user, 30, src))
 				playsound(src, 'sound/foley/scribble.ogg', 40, TRUE)
 				new /obj/structure/ritualcircle/zizo(step_turf)
 
 		if("Rite of Profane Melding")
-			to_chat(user,span_cultsmall("I begin inscribing the rune of Enochian melding sorcery..."))
+			to_chat(user,span_cultsmall("I begin inscribing the rune of melding sorcery in Enochian language..."))
 			if(do_after(user, 40, src))
 				playsound(src, 'sound/foley/scribble.ogg', 40, TRUE)
 				new /obj/structure/ritualcircle/profane/melding(step_turf)
 
 		if("Veil-Rending matrix")
-			to_chat(user,span_cultsmall("I begin inscribing the matrix that rends the veil and siphons from the Ley..."))
+			if(user.get_skill_level(/datum/skill/magic/holy) < SKILL_LEVEL_EXPERT)
+				to_chat(user, span_smallred("I require a few more yils studying Enochian language, before I can properly conjure such rite."))
+				return	
+			to_chat(user,span_cultsmall("I begin inscribing the matrix of Ley syphoning in Enochian language..."))
 			if(do_after(user, 40, src)) 
 				playsound(src, 'sound/foley/scribble.ogg', 40, TRUE)
 				new /obj/structure/ritualcircle/profane/leyline(step_turf)
 
 		if("Great Work Rituos")
-			to_chat(user,span_cultsmall("I begin inscribing the runes in raw Enochian language... My fingers twist painfully during it. A replica of Her Great Work..."))
+			if(user.get_skill_level(/datum/skill/magic/holy) < SKILL_LEVEL_EXPERT)
+				to_chat(user, span_smallred("I require a few more yils studying Enochian language, before I can properly conjure such rite."))
+				return	
+			to_chat(user,span_cultsmall("I begin inscribing the methodologic runes of Lux-Vitae syphoning in Enochian language..."))
+			to_chat(user,span_cultsmall("My fingers twist painfully during it. A replica of Her Great Work..."))
+			user.emote("whimper")
 			if(do_after(user, 40, src)) 
 				playsound(src, 'sound/foley/scribble.ogg', 40, TRUE)
 				new /obj/structure/ritualcircle/profane/reaper(step_turf)
+
+/obj/structure/ritualcircle/profane
+	name = "circle of how the fuc is this being seen"
+	desc = "this should not be here dude"
+	icon_state = "zizo_chalky"
+	var/active = FALSE
+	var/purged = FALSE
+	var/stored_value = 0
+
+
+/obj/structure/ritualcircle/profane/attack_right(mob/living/carbon/user)
+	if(active)
+		return
+	if(stored_value)
+		// Cabalist path
+		if(HAS_TRAIT(user, TRAIT_CABAL))
+			var/choice = alert(user, "This rune holds a portion of liquid hatred, making it quite volatile. Are you sure?", "Profane Rune", "Yes", "No")
+			if(choice != "Yes")
+				return
+			user.visible_message(span_warning("[user] begins wiping away the rune."))
+			if(do_after(user, 15))
+				playsound(loc, 'sound/foley/cloth_wipe (1).ogg', 100, TRUE)
+				explosion(src, devastation_range = null, heavy_impact_range = null, light_impact_range = 4, flame_range = 8, smoke = TRUE, soundin = pick('sound/misc/explode/bottlebomb (1).ogg','sound/misc/explode/bottlebomb (2).ogg'))
+				qdel(src)
+			return
+		// Non-cabalist
+		else
+			// Skilled enough to purify
+			if(user.get_skill_level(/datum/skill/magic/holy) >= SKILL_LEVEL_JOURNEYMAN)
+				var/choice = alert(user, "This rune is tainted with dark, primordial energies... Purifying it may take a moment, but you'll be able to safely clean it afterwards.", "Profane Rune", "Yes", "No")
+				if(choice != "Yes")
+					return
+				user.visible_message(span_warning("[user] begins purifying the rune."))
+				if(do_after(user, 30))
+					playsound(loc, 'sound/magic/churn.ogg', 100, TRUE)
+					stored_value = 0
+					color = "#ffffff"
+					purged = TRUE
+					user.visible_message(span_notice("The rune's hatred is purged in [user.patron.name]'s name!"))
+				return
+
+			// Not skilled enough: boom
+			explosion(src, devastation_range = null, heavy_impact_range = null, light_impact_range = 4, flame_range = 8, smoke = TRUE, soundin = pick('sound/misc/explode/bottlebomb (1).ogg','sound/misc/explode/bottlebomb (2).ogg'))
+			qdel(src)
+			return
+
+	user.visible_message(span_warning("[user] begins wiping away the rune."))
+	if(do_after(user, 15))
+		playsound(loc, 'sound/foley/cloth_wipe (1).ogg', 100, TRUE)
+		qdel(src)
 
 /obj/structure/ritualcircle/profane/melding
 	name = "Profane Melding Circle"
 	desc = "A malformed transmutation circle that holds a 'sweet', iron-like scent. Its purpose is unclear, but something about it feels profoundly heretical, beyond the inverted symbol of the Allfather."
 	icon_state = "zizo_chalky"
 	color = "#ff0000"
-	var/stored_value = 0
 
 /obj/structure/ritualcircle/profane/melding/examine(mob/user)
 	. = ..()
@@ -777,6 +843,16 @@
 /obj/structure/ritualcircle/profane/melding/proc/get_Z_item_value(obj/item/I)
 	if(!I)
 		return 0
+	if(I.smeltresult) // oh boi here we go
+		var/obj/item/smelted = I.smeltresult
+		if(istype(smelted, /obj/item/ash) \
+		|| istype(smelted, /obj/item/ingot/aaslag) \
+		|| istype(smelted, /obj/item/ingot/iron) \
+		|| istype(smelted, /obj/item/ingot/bronze) \
+		|| istype(smelted, /obj/item/ingot/copper) \
+		|| istype(smelted, /obj/item/ingot/tin) \
+		|| istype(smelted, /obj/item/ingot/drow))
+			return 2
 	if(istype(I, /obj/item/ingot/aaslag_zizo))
 		var/obj/item/ingot/aaslag_zizo/A = I
 		return max(0, A.value)
@@ -801,6 +877,10 @@
 
 	if((user.patron?.type) != /datum/patron/inhumen/zizo)
 		to_chat(user, span_artery("Foreboding thing... I shouldn't mess with it."))
+		return
+
+	if((user.patron?.type) == /datum/patron/inhumen/zizo && purged)
+		to_chat(user, span_artery("This rune is USELESS now. What a waste!"))
 		return
 
 	var/value = get_Z_item_value(I)
@@ -882,10 +962,10 @@
 			valid_bodies |= C
 
 	if(!valid_bodies.len)
-		to_chat(user, span_warning("A corpse is required, the condition departed, rotting or decrepit."))
+		to_chat(user, span_warning("A corpse is required, its condition either soul-departed, rotting or decrepit."))
 		return
 
-	if(!execute_rite(src, user, 10, 3, TRUE))
+	if(!execute_rite(src, user, 5, 3, TRUE))
 		return
 
 	var/gained = 0
@@ -894,22 +974,37 @@
 	for(var/mob/living/carbon/C in valid_bodies)
 		if(QDELETED(C))
 			continue
-
-		C.dust(drop_items = TRUE)
-		gained += 5
+		var/is_skeleton = TRUE
+		var/is_rotting = FALSE
+		for(var/obj/item/bodypart/BP in C.bodyparts)
+			if(QDELETED(BP))
+				continue
+			if(!BP.skeletonized)
+				is_skeleton = FALSE
+			if(BP.rotted)
+				is_rotting = TRUE
+		// Determine value
+		if(is_skeleton)
+			gained += 1
+		else if(is_rotting)
+			gained += 4
+		else
+			gained += 5
+		C.gib(TRUE, TRUE, TRUE, TRUE)
 
 	// PROCESS DROPPED GEAR
 	for(var/obj/item/I in T)
 		if(QDELETED(I))
 			continue
-
-		if(I.smeltresult == /obj/item/ingot/iron || I.smeltresult == /obj/item/ingot/bronze || I.smeltresult == /obj/item/ingot/aaslag)
-			gained += 1
-			qdel(I)
+		if(I.smeltresult == /obj/item/ash || I.smeltresult == /obj/item/ingot/iron || I.smeltresult == /obj/item/ingot/bronze || I.smeltresult == /obj/item/ingot/aaslag || I.smeltresult == /obj/item/ingot/tin || I.smeltresult == /obj/item/ingot/copper || I.smeltresult == /obj/item/ingot/drow)
+			if(I.sellprice <= 9) // l'clutter muncheur
+				gained += 2
+				qdel(I)
 
 	stored_value += gained
-
-	visible_message("Hooked avantyne chains spring out and latch on the remains, as they soon disintegrate...")
+	playsound(src, 'sound/misc/chains.ogg', 60, TRUE)
+	playsound(src, 'sound/magic/swap.ogg', 60, TRUE)
+	visible_message(span_artery("Hooked avantyne chains spring out and latch on the remains, tearing any useful bits apart and dragging them into the rune..."))
 	to_chat(user, span_artery("+[gained] liquid hatred added. ([stored_value] motes of liquid hatred in the circle.)"))
 
 /obj/structure/ritualcircle/profane/melding/proc/meld_materials(mob/living/user)
@@ -947,6 +1042,9 @@
 		qdel(I)
 
 	stored_value += gained
+	
+	playsound(src, 'sound/misc/chains.ogg', 60, TRUE)
+	playsound(src, 'sound/magic/swap.ogg', 60, TRUE)
 
 	visible_message("Hooked avantyne chains spring out and latch on the materials, as they soon disintegrate...")
 	to_chat(user, span_artery("+[gained] liquid hatred added. ([stored_value] motes of liquid hatred in the circle.)"))
@@ -986,6 +1084,9 @@
 			to_chat(user, span_warning("I cannot shape that much at once. I lack a deeper faith to HER..."))
 			return
 
+		if(!do_after(user, 30, src))
+			return
+
 		for(var/i = 1 to amount)
 			if(choice == "Woods")
 				if(form == "Natural")
@@ -997,7 +1098,8 @@
 					new /obj/item/natural/stone(T)
 				else
 					new /obj/item/natural/stoneblock(T)
-
+		
+		playsound(src, 'sound/magic/swap.ogg', 60, TRUE)
 		stored_value -= amount
 
 		to_chat(user, span_cultsmall("I shape [amount] units of [lowertext(form)] [lowertext(choice)]. Remaining liquid hatred: [stored_value]."))
@@ -1015,9 +1117,10 @@
 			to_chat(user, span_warning("This form is beyond my capability."))
 			return
 
-		if(!execute_rite_lesser(src, user, 2, TRUE))
+		if(!execute_rite_lesser(src, user, 3, TRUE))
 			return
 
+		playsound(src, 'sound/magic/swap.ogg', 60, TRUE)
 		stored_value -= cost
 		new /obj/item/ingot/aaslag_zizo/primed(T)
 
@@ -1050,7 +1153,6 @@
 	icon_state = "zizo_chalky"
 	color = "#00eeff"
 	layer = 1
-	var/active = FALSE
 
 /obj/structure/ritualcircle/profane/leyline/examine(mob/user)
 	. = ..()
@@ -1068,6 +1170,11 @@
 		active = FALSE
 		return
 
+	if(user.has_status_effect(/datum/status_effect/debuff/ritesexpended))
+		to_chat(user, span_smallred("I am too exhausted to perform this rite in particular."))
+		active = FALSE
+		return	
+
 	var/turf/T = get_turf(src)
 	if(!T)
 		active = FALSE
@@ -1076,7 +1183,7 @@
 	var/obj/structure/leyline/L = locate() in T
 
 	if(!L || L.sabotaged)
-		to_chat(user, span_warning("The rite demands a pure leyline. This one has already been reaped—or the circle is misplaced."))
+		to_chat(user, span_warning("The rite demands a pure leyline. This one has already been reaped, or the circle is misplaced."))
 		active = FALSE
 		return
 
@@ -1089,7 +1196,9 @@
 
 	// APPLY SABOTAGE
 	L.apply_sabotage()
-
+	spend_leyline_charge(user)
+	if(!get_leyline_charges(user))
+		user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
 	// GACHA TABLE
 	var/list/loot_table = list(
 		/obj/item/magic/infernal/ash = 40,
@@ -1133,21 +1242,30 @@
 		. += span_artery("A strong reason to believe ZIZO is no myth, for this combined matrix and ritual circle completely written in advanced Enochian is but a thousand steps behind what SHE had attempted, and the heavy cost it took to achieve it. While only but a replica of her Great Work, it still does the trick on the matters of Lux extraction.")
 
 /obj/structure/ritualcircle/profane/reaper/attack_hand(mob/living/user)
+	active = TRUE
 	if(!..())
 		return
+	if(active)
+		return
 
+	// Patron check
 	if((user.patron?.type) != /datum/patron/inhumen/zizo)
 		to_chat(user, span_smallred("This rite is not meant for me..."))
+		active = FALSE
 		return
 
 	var/turf/T = get_turf(src)
 	if(!T)
+		active = FALSE
 		return
 
-	// ACTIVATION REQS
+	// --- ACTIVATION REQS ---
+
 	var/has_bleeding = FALSE
 	for(var/mob/living/carbon/C in view(1, src))
-		if(C.bleed_rate)
+		if(QDELETED(C) || C == user)
+			continue
+		if(C.stat != DEAD && C.bleed_rate > 0)
 			has_bleeding = TRUE
 			break
 
@@ -1168,9 +1286,11 @@
 
 	if(!has_bleeding && !has_blood_cost)
 		to_chat(user, span_warning("The rite demands either a cut wound's fresh blood, or the blood of a heartbeast."))
+		active = FALSE
 		return
 
-	// TARGET COLLECTION
+	// --- TARGET COLLECTION ---
+
 	var/list/valid_targets = list()
 
 	for(var/obj/structure/fluff/psycross/zizocross/C in view(3, src))
@@ -1178,72 +1298,90 @@
 			continue
 
 		for(var/mob/living/L in C.buckled_mobs)
-			if(QDELETED(L))
+			if(QDELETED(L) || L.stat == DEAD)
 				continue
-			valid_targets |= L // avoid duplicates
+			valid_targets |= L // dedupe
 
 	if(!valid_targets.len)
-		to_chat(user, span_warning("The rite demands subjects bound to profane crosses."))
+		to_chat(user, span_warning("The rite demands alive subjects, and they must be bound to a profane cross."))
+		active = FALSE
 		return
 
-	// CONSUME BLOOD (if needed)
+	// --- CONSUME BLOOD (if needed) ---
+
 	if(!has_bleeding)
-		var/needed_vials = 6
-		var/needed_canisters = 2
-
-		// Prefer canisters first (stronger)
-		for(var/obj/item/heart_blood_canister/filled/C in consumables)
-			if(needed_canisters <= 0)
-				break
-			qdel(C)
-			needed_canisters--
-
-		// If still missing, consume vials
-		if(needed_canisters > 0)
-			for(var/obj/item/heart_blood_vial/filled/V in consumables)
-				if(needed_vials <= 0)
+		if(canister_count >= 2)
+			var/used = 0
+			for(var/obj/item/heart_blood_canister/filled/C in consumables)
+				if(used >= 2)
 					break
-				qdel(V)
-				needed_vials--
+				if(!QDELETED(C))
+					qdel(C)
+					used++
+		else
+			var/used = 0
+			for(var/obj/item/heart_blood_vial/filled/V in consumables)
+				if(used >= 6)
+					break
+				if(!QDELETED(V))
+					qdel(V)
+					used++
 
 		playsound(src, 'sound/misc/smelter_sound.ogg', 50, FALSE)
 
-	// RITUAL EXECUTION
+	// --- RITUAL EXECUTION ---
+
 	to_chat(user, span_cultsmall("I begin invoking the Great Work... Yet far beneath Her true design."))
 
 	if(!execute_rite(src, user, 10, 5, TRUE))
+		active = FALSE
 		return
 
-	playsound(src, 'sound/magic/swap.ogg', 70, TRUE)
+	playsound(src, 'sound/magic/churn.ogg', 70, TRUE)
+
+	// --- EFFECT APPLICATION ---
 
 	for(var/mob/living/L in valid_targets)
-		if(QDELETED(L))
+		if(QDELETED(L) || L.stat == DEAD)
 			continue
-		
-		if (!L.has_status_effect(/datum/status_effect/buff/ozium))
-			L.emote("agony")
-		if (L.has_status_effect(/datum/status_effect/debuff/devitalised))
-			L.emote("painscream")
-			continue
-		if(!L.client)
-			L.gib(TRUE, TRUE, FALSE)
-		
-		var/apply_greater
-		if (istype(L, /mob/living/carbon/human) && !(HAS_TRAIT(L, TRAIT_FEYTOUCHED) || HAS_TRAIT(L, TRAIT_DEATHLESS || HAS_TRAIT(L, TRAIT_FAKEDEATH)) ))
+
+		var/apply_greater = FALSE
+
+		if(istype(L, /mob/living/carbon/human) && \
+			!(HAS_TRAIT(L, TRAIT_FEYTOUCHED) || HAS_TRAIT(L, TRAIT_DEATHLESS) || HAS_TRAIT(L, TRAIT_FAKEDEATH)))
+			
 			new /obj/item/reagent_containers/lux(L.loc)
 			apply_greater = TRUE
-		else if (HAS_TRAIT(L, TRAIT_FEYTOUCHED))
+
+		else if(HAS_TRAIT(L, TRAIT_FEYTOUCHED))
 			new /obj/item/reagent_containers/lux_moss(L.loc)
 		else
 			new /obj/item/reagent_containers/lux_impure(L.loc)
 
+		// Emotes (only if alive)
+		if(L.stat != DEAD)
+			if(L.has_status_effect(/datum/status_effect/debuff/devitalised))
+				L.emote("painscream")
+				continue
+			else if(!L.has_status_effect(/datum/status_effect/buff/ozium))
+				L.emote("agony")
+
+		// Apply effects safely
 		SEND_SIGNAL(user, COMSIG_LUX_EXTRACTED, L)
 		record_round_statistic(STATS_LUX_HARVESTED)
-		L.apply_status_effect((apply_greater ? /datum/status_effect/debuff/devitalised/greater : /datum/status_effect/debuff/devitalised))
-		
+
+		if(!QDELETED(L))
+			L.apply_status_effect(apply_greater ? \
+				/datum/status_effect/debuff/devitalised/greater : \
+				/datum/status_effect/debuff/devitalised)
+
+		// Final disposal for NPCs
+		if(!L.client && !QDELETED(L))
+			L.gib(TRUE, TRUE, FALSE)
+
 /obj/item/rogueweapon/huntingknife/idagger/zizo
-	name = "luxdrinker blade"
-	desc = "A profane blade shaped and made from a lesser alloy of avantyne. It does not look very deadly, but it has an odd, necrotic aura about it..."
+	name = "luxdrinker"
+	desc = "A profane blade shaped and made from a lesser alloy of avantyne and raw arcyne. It does not look very deadly, but it has an odd, necrotic aura about it..."
 	force = 10 // this isn't a weapon, good sire
 	max_blade_int = 400 // but you can try shanking someone to death ig, hail zizo
 	max_integrity = 120
@@ -1257,25 +1395,91 @@
 	. = ..()
 	set_light(5, 4, l_color = LIGHT_COLOR_RED)
 
+/obj/item/storage/magebag
+
+/obj/item/contraption/hacker_doohickey/proc/get_cheese_value(obj/item/W)
+	if(istype(W, /obj/item/reagent_containers/food/snacks/rogue/cheese))
+		return -1
+	if(istype(W, /obj/item/reagent_containers/food/snacks/rogue/cheddarwedge))
+		return 1
+	if(istype(W, /obj/item/reagent_containers/food/snacks/rogue/cheddarwedge/aged))
+		return 2
+	if(istype(W, /obj/item/reagent_containers/food/snacks/rogue/cheddar))
+		return 4
+	if(istype(W, /obj/item/reagent_containers/food/snacks/rogue/cheddar/aged))
+		return 8
+	return 0
 
 /obj/item/contraption/hacker_doohickey
 	name = "rouscker device"
-	desc = "A creation of insanity with no exceptions. This curious contraption tampers with the little rous within devices, effectively sabotaging it. Needs cheese wedges!"
+	desc = "A deranged contraption that tampers with the rous inside machines. Requires cheese."
 	icon_state = "metalizer"
 	on_icon = "metalizer_flick"
 	off_icon = "metalizer_off"
 	w_class = WEIGHT_CLASS_NORMAL
 	misfire_chance = 15
-	charge_per_source = 5
-	max_stored_charge = 100
-	grid_height = 64
-	grid_width = 64
+	var/cheese = 0
+	var/max_cheese = 10
+	var/tmp/mob/living/withdraw_user = null
+	var/tmp/turf/withdraw_turf = null
+
+/obj/item/contraption/hacker_doohickey/attackby(obj/item/W, mob/user, params)
+	var/value = get_cheese_value(W)
+	if(value == -1)
+		to_chat(user, span_warning("This cheese needs to mature first, it's not good for the rous' tummy."))
+		return
+	if(value > 0)
+		if(cheese >= max_cheese)
+			to_chat(user, span_warning("The device can't hold more cheese."))
+			return
+		cheese = min(cheese + value, max_cheese)
+		to_chat(user, span_notice("You feed the device. (+[value] cheese) ([cheese]/[max_cheese])"))
+		qdel(W)
+		return
+	..()
 
 /obj/item/contraption/hacker_doohickey/attack_obj(obj/O, mob/living/user)
-	..() // TBD
+	..()
+	if(!cheese)
+		return
+	var/hol_skill = user.get_skill_level(/datum/skill/magic/holy)
+	var/eng_skill = user.get_skill_level(/datum/skill/craft/engineering)
+	var/combined_skill = round((hol_skill * 0.7) + (eng_skill * 0.3))
+	var/delay = max(10, 80 - (combined_skill * 10))
 
-/obj/item/storage/magebag
+	if(istype(O, /obj/structure/roguemachine/scomm))
+		var/obj/structure/roguemachine/scomm/S = O
+		if(!do_after(user, delay, target = O))
+			return
+		S.hacked_charges++
+		cheese--
+		to_chat(user, span_notice("You tamper with the SCOM's inner rous..."))
+		visible_message(span_warning("The SCOM emits frantic scratching noises."))
+		flick(on_icon, src)
+		playsound(src, 'sound/magic/swap.ogg', 100, TRUE)
+		shake_camera(user, 1, 1)
+		return
 
+/obj/item/contraption/hacker_doohickey/attack_self(mob/living/user)
+	if(cheese != max_cheese)
+		to_chat(user, span_warning("Not enough cheese. You need this doohickey topped off."))
+		return
+	var/hol_skill = user.get_skill_level(/datum/skill/magic/holy)
+	var/eng_skill = user.get_skill_level(/datum/skill/craft/engineering)
+	var/combined_skill = round((hol_skill * 0.7) + (eng_skill * 0.3))
+	var/delay = max(10, 80 - (combined_skill * 10))
+
+	to_chat(user, span_notice("You begin fiddling with the doohickey... Make sure there are rous-driven machinery nearby!"))
+	if(!do_after(user, delay, target = user))
+		return
+	cheese = 0
+	to_chat(user, span_notice("A mist of pungent cheese and arcyne dust wraps around your form. Hardworking rous and magitech nearby will be more agreeable to collaborate with your endeavors."))
+	flick(on_icon, src)
+	playsound(src, 'sound/magic/swap.ogg', 100, TRUE)
+	user.stamina_add(80)
+	user.Immobilize(40)
+	user.OffBalance(40)
+	user.apply_status_effect(/datum/status_effect/buff/roustatouille)
 
 ////////////
 //MATTHIOS//
@@ -3459,7 +3663,7 @@ var/global/list/da_bubbles = list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 	AddComponent(/datum/component/cursed_item, (TRAIT_FREEMAN||TRAIT_XYLIX), "BLESSED POUCH")
 
 /obj/item/storage/backpack/rogue/backpack/matthios
-	name = "smuggling bag"
+	name = "gilded rucksack"
 	desc = "A sack tied with some 'blessed' rope. There is a carving of a grinning symbol within the side of it. It has a strange, gilded glow to it."
 	aura_color = "#fff385"
 	icon_state = "rucksack_untied"

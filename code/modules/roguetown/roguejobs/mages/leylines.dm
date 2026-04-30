@@ -32,6 +32,13 @@ GLOBAL_LIST_EMPTY(leyline_activations)
 	var/used = GLOB.leyline_activations[user.real_name] || 0
 	return max(GLOB.dayspassed + 1 - used, 0)
 
+/proc/set_leyline_charges(mob/living/user, value)
+	if(!user || !user.real_name)
+		return
+	if(!isnum(value))
+		return
+	GLOB.leyline_activations[user.real_name] = max(value, 0)
+
 /proc/spend_leyline_charge(mob/living/user)
 	if(!GLOB.leyline_activations[user.real_name])
 		GLOB.leyline_activations[user.real_name] = 0

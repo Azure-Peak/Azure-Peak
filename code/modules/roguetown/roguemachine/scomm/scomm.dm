@@ -30,6 +30,13 @@
 	var/garrisonline = FALSE
 	/// Track whether it was cheesed recently
 	var/last_cheese = 0
+	/// Used by Rousker Device to tamper with SCOMs. Basically an "emag" that can be fixed by someone with sufficient Engineering skill, or by running out.
+	var/hacked_charges = 0
+
+/obj/structure/roguemachine/scomm/examine(mob/user)
+	. = ..()
+	if(hacked_charges)
+		. += span_warning("The rous within seem... strangely sentient. Perhaps a skilled engineer with a hammer could set them straight.")
 
 /obj/structure/roguemachine/scomm/OnCrafted(dirin, mob/user)
 	. = ..()
@@ -333,6 +340,14 @@
 		var/time_remaining = round((last_message + NORMAL_SCOM_PER_MESSAGE_DELAY - world.time) / 10)
 		to_chat(speaker, span_warning("The SCOM's rats are still recovering. Wait [time_remaining] more second[time_remaining != 1 ? "s" : ""]."))
 		return
+	// hackerman
+	if(hacked_charges > 0 && raw_message)
+		hacked_charges--
+		// ...and here's the yapper
+		raw_message = pick(GLOB.we_live_in_a_zociety)
+		playsound(src, 'sound/vo/mobs/rat/rat_life.ogg', 100, TRUE, -1)
+		visible_message(span_warning("The SCOM rattles violently! The rous inside are going berserk!"))
+
 	var/usedcolor = "a0a0a0"
 	if(ishuman(speaker))
 		var/mob/living/carbon/human/H = speaker
