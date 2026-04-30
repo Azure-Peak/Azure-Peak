@@ -419,9 +419,7 @@
 	icon_state = "graggarplatemask_heavy"
 	block2add = null
 
-/obj/item/clothing/mask/rogue/facemask/steel/graggar/Initialize()
-	. = ..()
-	ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)
+/obj/item/clothing/mask/rogue/facemask/steel/graggar/ComponentInitialize()
 	AddComponent(/datum/component/cursed_item, TRAIT_HORDE, "ARMOR", "RENDERED ASUNDER")
 
 /obj/item/clothing/mask/rogue/facemask/steel/paalloy
