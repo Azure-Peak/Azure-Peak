@@ -1592,7 +1592,7 @@
 			var/list/weapon_options = list(
 				"Avantyne Longsword" = image(icon = 'icons/roguetown/weapons/swords64.dmi', icon_state = "zizosword"),
 				"Avantyne Billhook" = image(icon = 'icons/roguetown/weapons/polearms64.dmi', icon_state = "zizobillhook"),
-				"Avantyne Arming Sword and Darkshield" = image(icon = 'icons/roguetown/weapons/shields32.dmi', icon_state = "zizoshield")
+				"Avantyne Arming Sword and Shield" = image(icon = 'icons/roguetown/weapons/shields32.dmi', icon_state = "zizoshield")
 			)
 
 			var/weapon_choice = show_radial_menu(user, src, weapon_options, require_near = TRUE, tooltips = TRUE)
@@ -1683,7 +1683,7 @@
 	head = selected_helm_path
 	neck = /obj/item/clothing/neck/roguetown/bevor/avantyne/heavy
 	switch(selected_weapon_choice)
-		if("Avantyne Arming Sword and Darkshield")
+		if("Avantyne Arming Sword and Shield")
 			r_hand = /obj/item/rogueweapon/sword/avantyne
 			l_hand = /obj/item/rogueweapon/shield/tower/metal/avantyne
 			H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
@@ -1930,7 +1930,7 @@
 
 			var/list/weapon_options = list(
 				"Vicious Greataxe" = image(icon = 'icons/roguetown/weapons/axes64.dmi', icon_state = "graggargaxe"),
-				"Vicious Hand-axe and Shield" = image(icon = 'icons/roguetown/weapons/shields32.dmi', icon_state = "graggarshield"),
+				"Vicious Tomahawk and Shield" = image(icon = 'icons/roguetown/weapons/shields32.dmi', icon_state = "graggarshield"),
 			)
 			var/weapon_choice = show_radial_menu(user, src, weapon_options, require_near = TRUE, tooltips = TRUE)
 			if(!weapon_choice)
@@ -2079,7 +2079,7 @@
 	neck = /obj/item/clothing/neck/roguetown/gorget/steel/graggar
 	cloak = /obj/item/clothing/cloak/graggar
 	switch(selected_weapon_choice)
-		if("Vicious Hand-axe and Shield")
+		if("Vicious Tomahawk and Shield")
 			r_hand = /obj/item/rogueweapon/stoneaxe/woodcut/steel/graggar
 			l_hand = /obj/item/rogueweapon/shield/iron/graggar
 		else
@@ -2100,7 +2100,7 @@
 	neck = /obj/item/clothing/neck/roguetown/gorget/steel/graggar/heavy
 	cloak = /obj/item/clothing/cloak/graggar/heavy
 	switch(selected_weapon_choice)
-		if("Vicious Hand-axe and Shield")
+		if("Vicious Tomahawk and Shield")
 			r_hand = /obj/item/rogueweapon/stoneaxe/woodcut/steel/graggar
 			l_hand = /obj/item/rogueweapon/shield/iron/graggar
 		else
