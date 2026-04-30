@@ -3,7 +3,7 @@
 	alert_type = /atom/movable/screen/alert/status_effect/black_rot
 	duration = -1 // Permanent until cured
 	tick_interval = 2 SECONDS
-	examine_text = "SUBJECTPRONOUN seems to be rotting alive!"
+	examine_text = "SUBJECTPRONOUN seems to be rotting alive! (Creeping)"
 
 	var/static/list/valid_body_zones = list(
 		BODY_ZONE_L_ARM,
@@ -48,18 +48,22 @@
 			linked_alert.name = "Black Rot (Creeping)"
 			linked_alert.desc = "A faint darkness spreads beneath my skin."
 			linked_alert.icon_state = "blackrot1"
+			examine_text = "SUBJECTPRONOUN seems to be rotting alive! (Creeping)"
 		if(2)
 			linked_alert.name = "Black Rot (Festering)"
 			linked_alert.desc = "My veins run black with corruption. I will surely die if this persists."
 			linked_alert.icon_state = "blackrot2"
+			examine_text = "SUBJECTPRONOUN seems to be rotting alive! (Festering)"
 		if(3)
 			linked_alert.name = "Black Rot (Boiling)"
 			linked_alert.desc = "My flesh decays and my bones ache. It feels like my skin is boiling."
 			linked_alert.icon_state = "blackrot3"
+			examine_text = "SUBJECTPRONOUN seems to be rotting alive! (Boiling)"
 		if(4)
 			linked_alert.name = "Black Rot (Necrosis)"
 			linked_alert.desc = "I am being consumed by the void. I can feel my bones creaking."
 			linked_alert.icon_state = "blackrot4"
+			examine_text = "SUBJECTPRONOUN seems to be rotting alive! (Necrosis)"
 
 /datum/status_effect/black_rot/proc/reapply_effect(list/old_stats)
 	for(var/S in old_stats)
@@ -147,6 +151,7 @@
 
 	// Handle TIER INCREASING
 	if(new_tier > tier)
+		owner.visible_message(span_boldnotice("[owner] seems to have the rot creep further over his body!"))
 		switch(new_tier)
 			if(1)
 				to_chat(owner, span_warning("The veins in your arms are turning a bruised purple."))
@@ -159,6 +164,7 @@
 
 	// Handle TIER DECREASING
 	else if(new_tier < tier)
+		owner.visible_message(span_nicegreen("[owner] seems to have the rot recede from his body!"))
 		switch(new_tier)
 			if(0)
 				to_chat(owner, span_notice("The purple staining in your veins begins to fade."))

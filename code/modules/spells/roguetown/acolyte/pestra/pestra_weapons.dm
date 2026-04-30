@@ -94,7 +94,7 @@
 	apply_black_rot(target, rot_to_apply)
 
 	charges -= rot_to_apply
-	to_chat(user, span_warning("The last of the ichor rubs off onto [target]!"))
+	to_chat(user, span_warning("you apply black ichor to [target]!"))
 	if(charges <= 0)
 		remove_visuals(user)
 		to_chat(user, span_warning("The last of the ichor rubs off onto [target]!"))
