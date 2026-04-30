@@ -1134,6 +1134,7 @@
 	bitesize = 4
 	eat_effect = /datum/status_effect/buff/snackbuff
 	tastes = list("fluffy and soft dough" = 1)
+	rotprocess = SHELFLIFE_LONG
 	var/syrup_kind = null
 	var/syrup_overlay_state = FALSE
 	var/butter = FALSE
