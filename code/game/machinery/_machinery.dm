@@ -289,11 +289,18 @@
 		. = step(A,get_dir(A,src.loc))
 		density = TRUE
 
+// Mirrors /obj/structure: A* may path through a climbable dense machinery (hearth, etc.).
+// Without this, A* routes around climbable machinery and the climb-on-step-fail fallback never fires.
+/obj/machinery/CanAStarPass(ID, to_dir, caller)
+	. = climbable || ..()
+
 /obj/machinery/proc/climb_structure(mob/living/user)
 	src.add_fingerprint(user)
 	var/adjusted_climb_time = climb_time
 	if(user.restrained()) //climbing takes twice as long when restrained.
 		adjusted_climb_time *= 2
+	if(!ishuman(user))
+		adjusted_climb_time = 0 //simple mobs instantly climb
 	adjusted_climb_time -= user.STASPD * 2
 	adjusted_climb_time = max(adjusted_climb_time, 0)
 

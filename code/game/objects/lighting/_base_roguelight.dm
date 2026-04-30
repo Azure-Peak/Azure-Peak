@@ -11,7 +11,7 @@
 	var/no_refuel = FALSE // For special holder that don't actually refuel
 	var/cookonme = FALSE
 	var/crossfire = TRUE
-	var/can_damage = FALSE
+	var/can_damage = TRUE
 	var/roundstart_forbid = FALSE
 
 /obj/machinery/light/rogue/Initialize()

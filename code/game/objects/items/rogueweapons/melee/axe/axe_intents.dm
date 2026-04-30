@@ -29,6 +29,19 @@
 	clickcd = CLICK_CD_CHARGED // Effective Shield DPS: 25 / 2.4 = 10.4
 	item_d_type = "slash"
 
+/datum/intent/axe/thrust
+	name = "tip thrust"
+	animname = "stab"
+	icon_state = "instab"
+	warnie = "mobwarning"
+	penfactor = PEN_MEDIUM
+	clickcd = CLICK_CD_CHARGED
+	damfactor = 0.9
+	item_d_type = "stab"
+	hitsound = list('sound/combat/hits/bladed/genstab (1).ogg', 'sound/combat/hits/bladed/genstab (2).ogg', 'sound/combat/hits/bladed/genstab (3).ogg')
+	blade_class = BCLASS_STAB
+	attack_verb = list("thrusts")
+
 /datum/intent/axe/chop/heavy
 	name = "hack"
 	icon_state = "inhack"

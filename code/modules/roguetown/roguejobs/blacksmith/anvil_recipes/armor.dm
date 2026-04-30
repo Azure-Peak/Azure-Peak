@@ -401,6 +401,13 @@
 	created_item = /obj/item/clothing/head/roguetown/helmet/horned
 	craftdiff = 2
 
+/datum/anvil_recipe/armor/iron/headcage
+	name = "Headcage, Iron"
+	req_bar = /obj/item/ingot/iron
+	additional_items = list(/obj/item/ingot/iron, /obj/item/ingot/iron)
+	created_item = /obj/item/clothing/head/roguetown/helmet/headcage
+	craftdiff = 2
+
 /datum/anvil_recipe/armor/iron/mask
 	name = "Mask, Iron"
 	req_bar = /obj/item/ingot/iron

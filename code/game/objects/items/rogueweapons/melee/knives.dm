@@ -553,6 +553,16 @@
 	smeltresult = /obj/item/ingot/drow
 	smelt_bar_num = 1
 
+/obj/item/rogueweapon/huntingknife/idagger/steel/avantyne
+	name = "avantyne dagger"
+	desc = "Made of bleeding avantyne. An unholy jab at the world."
+	icon_state = "zeretic_dagger"
+	sheathe_icon = "sdagger"
+	force = 25
+	max_integrity = 250
+	max_blade_int = 300
+	embedding = list("embedded_pain_multiplier" = 1.2, "embed_chance" = 20, "embedded_fall_chance" = 0) 
+
 /obj/item/rogueweapon/huntingknife/idagger/steel/holysee
 	name = "eclipsum dagger"
 	desc = "A sliver of heaven, shaped into an elegant dagger. The alloy radiates with magnificence: a reminder that no matter how dark the nites grow, there will always be a dawn to follow. Such a dagger is reserved for the Holy See's bishops and priests - both as a symbol of their divine authority, and as a means of ritualistic bloodletting. </br>'..come forth, child o' myne, and be anointed in the Pantheon's light once more..'"
