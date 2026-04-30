@@ -1573,7 +1573,7 @@
 				"Avantyne Barbute" = image(icon = 'icons/roguetown/clothing/head.dmi', icon_state = "zizobarbute"),
 				"Avantyne Froggemund" = image(icon = 'icons/roguetown/clothing/head.dmi', icon_state = "zizofrogmouth"),
 				"Avantyne Volf-Plate" = image(icon = 'icons/roguetown/clothing/head.dmi', icon_state = "volfplate_avantyne"),
-				"Avantyne Bascinet" = image(icon = 'icons/roguetown/clothing/head.dmi', icon_state = "zizoplatehelm_med")
+				"Avantyne Bascinet" = image(icon = 'icons/roguetown/clothing/head.dmi', icon_state = "zizobascinet")
 			)
 
 			var/helm_choice = show_radial_menu(user, src, helm_options, require_near = TRUE, tooltips = TRUE)
@@ -1591,7 +1591,8 @@
 
 			var/list/weapon_options = list(
 				"Avantyne Longsword" = image(icon = 'icons/roguetown/weapons/swords64.dmi', icon_state = "zizosword"),
-				"Avantyne Arming Sword and Darkshield" = image(icon = 'icons/roguetown/weapons/shields32.dmi', icon_state = "zeretic_shield")
+				"Avantyne Billhook" = image(icon = 'icons/roguetown/weapons/polearms64.dmi', icon_state = "zizobillhook"),
+				"Avantyne Arming Sword and Darkshield" = image(icon = 'icons/roguetown/weapons/shields32.dmi', icon_state = "zizoshield")
 			)
 
 			var/weapon_choice = show_radial_menu(user, src, weapon_options, require_near = TRUE, tooltips = TRUE)
@@ -1659,7 +1660,6 @@
 			"r_hand" = target.get_item_for_held_index(2),
 			"l_hand" = target.get_item_for_held_index(1),
 		), list("armor", "shirt", "pants", "shoes", "wrists", "gloves", "head", "neck", "backr", "r_hand", "l_hand"))
-		target.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
 		spawn(40)
 			to_chat(target, span_purple("They are ignorant, backwards, without hope. You. You will be powerful."))
 
@@ -1686,8 +1686,13 @@
 		if("Avantyne Arming Sword and Darkshield")
 			r_hand = /obj/item/rogueweapon/sword/avantyne
 			l_hand = /obj/item/rogueweapon/shield/tower/metal/avantyne
+			H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
+		if("Avantyne Billhook")
+			r_hand = /obj/item/rogueweapon/spear/billhook/avantyne
+			H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_EXPERT, TRUE)
 		else
 			r_hand = /obj/item/rogueweapon/sword/long/avantyne
+			H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
 
 	H.mind.AddSpell(new /datum/action/cooldown/spell/mending/lesser)
 
@@ -1925,7 +1930,7 @@
 
 			var/list/weapon_options = list(
 				"Vicious Greataxe" = image(icon = 'icons/roguetown/weapons/axes64.dmi', icon_state = "graggargaxe"),
-				"Vicious Hand-axe and Shield" = image(icon = 'icons/roguetown/weapons/shields32.dmi', icon_state = "gheretic_shield"),
+				"Vicious Hand-axe and Shield" = image(icon = 'icons/roguetown/weapons/shields32.dmi', icon_state = "graggarshield"),
 			)
 			var/weapon_choice = show_radial_menu(user, src, weapon_options, require_near = TRUE, tooltips = TRUE)
 			if(!weapon_choice)
@@ -1974,7 +1979,7 @@
 		if("Vicious Helmet")
 			helm_path = /obj/item/clothing/head/roguetown/helmet/heavy/graggar
 		if("Vicious Skullhelm")
-			helm_path = /obj/item/clothing/head/roguetown/helmet/heavy/graggar/alt
+			helm_path = /obj/item/clothing/head/roguetown/helmet/heavy/graggar/skull
 	switch(armor_choice)
 		if("Vicious Half-Plate")
 			outfit_path = /datum/outfit/job/roguetown/viciousrite
@@ -2085,14 +2090,14 @@
 /datum/outfit/job/roguetown/viciousrite/heavy/pre_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	..()
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/full/graggar
-	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/graggar
-	pants = /obj/item/clothing/under/roguetown/platelegs/graggar
-	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/graggar
-	wrists = /obj/item/clothing/wrists/roguetown/bracers/graggar/alt
+	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/graggar/heavy
+	pants = /obj/item/clothing/under/roguetown/platelegs/graggar/heavy
+	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/graggar/heavy
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/graggar/heavy
 	gloves = /obj/item/clothing/gloves/roguetown/plate/graggar/heavy
 	head = selected_helm_path
 	mask = /obj/item/clothing/mask/rogue/facemask/steel/graggar
-	neck = /obj/item/clothing/neck/roguetown/gorget/steel/graggar
+	neck = /obj/item/clothing/neck/roguetown/gorget/steel/graggar/heavy
 	cloak = /obj/item/clothing/cloak/graggar/heavy
 	switch(selected_weapon_choice)
 		if("Vicious Hand-axe and Shield")
