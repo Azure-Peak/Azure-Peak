@@ -159,5 +159,5 @@
 		target.add_wound(/datum/wound/fracture/no_bleed)
 	to_chat(L, span_userdanger("My [target.name] twists in an unnatural way as tumors bulge beneath my skin!"))
 	L.Jitter(10)
-	target.receive_damage(brute = 200, updating_health = TRUE)
+	target.receive_damage(brute = 200, updating_health = TRUE, blocked = FALSE)
 	return TRUE

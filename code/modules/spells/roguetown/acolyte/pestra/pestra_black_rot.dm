@@ -151,7 +151,7 @@
 
 	// Handle TIER INCREASING
 	if(new_tier > tier)
-		owner.visible_message(span_boldnotice("[owner] seems to have the rot creep further over his body!"))
+		owner.visible_message(span_boldnotice("[owner] seems to have the rot creep further over their body!"))
 		switch(new_tier)
 			if(1)
 				to_chat(owner, span_warning("The veins in your arms are turning a bruised purple."))
@@ -164,7 +164,7 @@
 
 	// Handle TIER DECREASING
 	else if(new_tier < tier)
-		owner.visible_message(span_nicegreen("[owner] seems to have the rot recede from his body!"))
+		owner.visible_message(span_nicegreen("[owner] seems to have the rot recede from their body!"))
 		switch(new_tier)
 			if(0)
 				to_chat(owner, span_notice("The purple staining in your veins begins to fade."))
