@@ -21,8 +21,11 @@
 	infinite_use = TRUE
 	ignore_armor_penalty = TRUE
 
-	primary_resource_type = SPELL_COST_STAMINA
-	primary_resource_cost = SPELLCOST_CANTRIP
+	primary_resource_type = SPELL_COST_DEVOTION
+	primary_resource_cost = SPELLCOST_MIRACLE_ORISON
+
+	secondary_resource_type = SPELL_COST_STAMINA
+	secondary_resource_cost = SPELLCOST_CANTRIP
 
 	associated_stat = null
 	associated_skill = /datum/skill/magic/holy
@@ -33,7 +36,7 @@
 
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
 
-	cooldown_time = 30 SECONDS
+	cooldown_time = 10 SECONDS
 
 	attunement_school = null
 
@@ -58,34 +61,7 @@
 			qdel(hand)
 			return TRUE
 	return FALSE
-/*
-	var/fatigue_used
-	switch(caster.used_intent.type)
-		if(/datum/intent/use)
-			fatigue_used = cast_light(hand, caster, victim)
-			if(fatigue_used)
-				caster.devotion?.update_devotion(-fatigue_used)
-				qdel(src)
-		if(INTENT_HELP)
-			fatigue_used = thaumaturgy(hand, caster, victim)
-			if(fatigue_used)
-				caster.devotion?.update_devotion(-fatigue_used)
-				qdel(src)
-		if(/datum/intent/fill)
-			fatigue_used = create_water(hand, caster, victim)
-			if(fatigue_used)
-				qdel(src)
-*/
-/* Functional Code (not really)
-	switch(caster.used_intent.type)
-		if(INTENT_HELP)
-			return cast_light(hand, victim, caster)
-		if(/datum/intent/use)
-			return thaumaturgy(hand, victim, caster)
-		if(/datum/intent/fill)
-			return create_water(caster)
-	return FALSE
-*/
+
 // --- Touch Attack Item ---
 
 /obj/item/melee/new_touch_attack/orison
@@ -113,26 +89,6 @@
 		user.remove_status_effect(/datum/status_effect/light_buff)
 		user.visible_message(span_notice("[user] closes [user.p_their()] eyes, and the holy light surrounding them retreats into their chest and disappears."), span_notice("I relinquish the gift of [user.patron.name]'s light."))
 		return
-
-/*
-/obj/item/melee/new_touch_attack/orison/afterattack(atom/target, mob/living/carbon/user, proximity)
-
-	switch (user.used_intent.type)
-		if (/datum/intent/use)
-			fatigue_used = cast_light(hand, victim, caster)
-			if (fatigue_used)
-				user.devotion?.update_devotion(-fatigue_used)
-				qdel(src)
-		if (INTENT_HELP)
-			fatigue_used = thaumaturgy(hand, victim, caster)
-			if (fatigue_used)
-				user.devotion?.update_devotion(-fatigue_used)
-				qdel(src)
-		if (/datum/intent/fill)
-			fatigue_used = create_water(hand, victim, caster)
-			if (fatigue_used)
-				qdel(src)
-*/
 
 ////////////////////
 // ORISON - LIGHT //
@@ -214,8 +170,9 @@
 	var/light_power = clamp(4 + (holy_skill - 3), 4, 7)
 	living_thing.apply_status_effect(/datum/status_effect/light_buff, light_power)
 
-	var/fatigue = get_adjusted_cost(primary_resource_cost)
-	caster.stamina_add(fatigue)
+	/*var/fatigue = get_adjusted_cost(primary_resource_cost)
+	caster.devotion(-fatigue)*/
+	StartCooldown()
 	return light_devotion
 
 #undef BLESSINGOFLIGHT_FILTER
@@ -250,6 +207,7 @@
 			if (do_after(caster, cast_time, target = caster))
 				caster.apply_status_effect(/datum/status_effect/thaumaturgy, holy_skill)
 				caster.visible_message(span_notice("[caster] throws open [caster.p_their()] eyes, suddenly emboldened!"), span_notice("A feeling of power wells up in my throat: speak, and many will hear!"))
+				StartCooldown()
 				return thaumaturgy_devotion
 		else
 			to_chat(caster, span_notice("I'm already empowered with divine thaumaturgy!"))
@@ -269,7 +227,8 @@
 						//caster.devotion?.update_devotion(-1)
 
 			to_chat(caster, span_notice("I direct the weight of my faith towards nearby flames, causing them to flicker!"))
-			
+
+			StartCooldown()
 			return thaumaturgy_devotion
 		else if (isturf(victim))
 
@@ -282,6 +241,7 @@
 			if (did_flicker)
 				to_chat(caster, span_notice("I direct the weight of my faith towards nearby flames, causing them to flicker!"))
 
+				StartCooldown()
 				return thaumaturgy_devotion
 			else
 				to_chat(caster, span_notice("My faith finds no flames to show its passage..."))
