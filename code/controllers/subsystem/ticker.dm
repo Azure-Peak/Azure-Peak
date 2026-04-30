@@ -851,7 +851,7 @@ SUBSYSTEM_DEF(ticker)
 /datum/controller/subsystem/ticker/proc/on_sunstealer_death()
 	GLOB.todoverride = null
 	sunstolen = FALSE
-	priority_announce("The air remains unnaturally cold as a wounded sun rises once more.", "A long night comes to an end", 'sound/magic/PSYDONE.ogg') //THE WORLD IS TORN OPEN, THE ROT TO SEE. WHY DO YOU STILL ENDURE?
+	priority_announce("The air remains unnaturally cold as a wounded sun rises once more.", "A long night comes to an end", 'sound/misc/otavanlament.ogg') //THE WORLD IS TORN OPEN, THE ROT TO SEE. WHY DO YOU STILL ENDURE?
 	settod()
 	SSParticleWeather.run_weather(/datum/particle_weather/rain_gentle, TRUE)
 
