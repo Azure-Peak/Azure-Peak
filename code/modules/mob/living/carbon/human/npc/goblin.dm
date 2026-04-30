@@ -1,5 +1,14 @@
 GLOBAL_LIST_INIT(goblin_aggro, world.file2list("strings/rt/goblinaggrolines.txt"))
 
+GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
+	"SFERA IGNA!",
+	"EVOMOO FLAMAS!",
+	"IGNA EERAY!",
+	"VELUM... VELAM... FIRE CURTAIN THING!",
+	"MAYA SFERA IGNA!",
+	"IGNA SFERA BOMBADA!",
+))
+
 /mob/living/carbon/human/species/goblin
 	name = "goblin"
 
@@ -15,24 +24,20 @@ GLOBAL_LIST_INIT(goblin_aggro, world.file2list("strings/rt/goblinaggrolines.txt"
 	base_intents = list(INTENT_HELP, INTENT_DISARM, INTENT_GRAB, /datum/intent/unarmed/claw)
 	a_intent = INTENT_HELP
 	possible_mmb_intents = list(INTENT_SPECIAL, INTENT_JUMP, INTENT_KICK, INTENT_BITE)
-	possible_rmb_intents = list(/datum/rmb_intent/feint, /datum/rmb_intent/swift, /datum/rmb_intent/riposte, /datum/rmb_intent/weak)
-	flee_in_pain = TRUE
 
 /mob/living/carbon/human/species/goblin/npc
-	aggressive=1
-	mode = NPC_AI_IDLE
-	dodgetime = 30 //they can dodge easily, but have a cooldown on it
-	flee_in_pain = TRUE
-	npc_jump_chance = 60
-	npc_jump_distance = 3 // this might make them concheck more often, but it'll also mean it's easier to kick their legs out from under them
-	rude = TRUE
-	wander = FALSE
+	ai_controller = /datum/ai_controller/human_npc
+	dodgetime = 30
 
 /mob/living/carbon/human/species/goblin/npc/ambush
 	threat_point = THREAT_LOW
 	ambush_faction = "goblins"
-	wander = TRUE
-	attack_speed = 2
+
+/mob/living/carbon/human/species/goblin/npc/archer
+	gob_outfit = /datum/outfit/job/roguetown/npc/goblin/archer
+
+/mob/living/carbon/human/species/goblin/npc/slinger
+	gob_outfit = /datum/outfit/job/roguetown/npc/goblin/slinger
 
 /mob/living/carbon/human/species/goblin/hell
 	name = "hell goblin"
@@ -218,20 +223,14 @@ GLOBAL_LIST_INIT(goblin_aggro, world.file2list("strings/rt/goblinaggrolines.txt"
 	. = ..()
 	addtimer(CALLBACK(src, PROC_REF(after_creation)), 1 SECONDS)
 
-/mob/living/carbon/human/species/goblin/retaliate(mob/living/L)
-	var/newtarg = target
-	. = ..()
-	if(target != newtarg && npc_combat_dialogue(GLOB.goblin_aggro, list("laugh", "giggle", "chuckle", "cackle", "screech", "hiss", "growl"), prob_chance = 10))
-		pointed(target)
 
-
-/mob/living/carbon/human/species/goblin/handle_combat()
-	if(mode == NPC_AI_HUNT)
-		npc_combat_dialogue(GLOB.goblin_aggro, list("laugh", "giggle", "chuckle", "cackle", "screech", "hiss", "growl"), prob_chance = 10)
-	. = ..()
 
 /mob/living/carbon/human/species/goblin/after_creation()
 	..()
+	AddComponent(/datum/component/ai_aggro_system)
+	// Goblins shrug off their own bottle bombs
+	ADD_TRAIT(src, TRAIT_HARDSOLE, INNATE_TRAIT)
+	SEND_SIGNAL(src, COMSIG_MOB_MODIFY_AGGRO_LINES, GLOB.goblin_aggro, TRUE)
 	gender = MALE
 	if(src.dna && src.dna.species)
 		src.dna.species.soundpack_m = new /datum/voicepack/other/goblin()
@@ -253,7 +252,9 @@ GLOBAL_LIST_INIT(goblin_aggro, world.file2list("strings/rt/goblinaggrolines.txt"
 		charflaws.Remove(cf)
 		QDEL_NULL(cf)
 	update_body()
-	faction = list("orcs")
+	faction = list(FACTION_ORCS)
+	if(is_species(src, /datum/species/goblin/hell))
+		faction += FACTION_INFERNAL
 	name = "goblin"
 	real_name = "goblin"
 	ADD_TRAIT(src, TRAIT_NOMOOD, TRAIT_GENERIC)
@@ -266,6 +267,7 @@ GLOBAL_LIST_INIT(goblin_aggro, world.file2list("strings/rt/goblinaggrolines.txt"
 	if(is_species(src, /datum/species/goblin/sea))
 		ADD_TRAIT(src, TRAIT_NOBREATH, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_TOXIMMUNE, TRAIT_GENERIC)
+	AddComponent(/datum/component/npc_death_line, GLOB.npc_death_lines_goblin, 25)
 	if(gob_outfit)
 		var/datum/outfit/O = new gob_outfit
 		if(O)
@@ -316,27 +318,19 @@ GLOBAL_LIST_INIT(goblin_aggro, world.file2list("strings/rt/goblinaggrolines.txt"
 /datum/outfit/job/roguetown/npc/goblin/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.STASTR = 8
-	var/chance_zjumper = 5
-	var/chance_treeclimber = 30
 	if(is_species(H, /datum/species/goblin/moon))
 		H.STASPD = 16
-		chance_zjumper = 20
-		chance_treeclimber = 70
 	else
 		H.STASPD = 14
-	if(prob(chance_zjumper))
-		ADD_TRAIT(H, TRAIT_ZJUMP, TRAIT_GENERIC)
-		H.find_targets_above = TRUE
-	if(prob(chance_treeclimber))
-		H.tree_climber = TRUE
-		H.find_targets_above = TRUE // so they can taunt
-	H.STACON = 6
-	H.STAWIL = 15
+	H.STACON = 4
+	H.STAWIL = 4
+	H.STAPER = 8
 	if(is_species(H, /datum/species/goblin/moon))
 		H.STAINT = 8
 	else
 		H.STAINT = 4
-	var/loadout = rand(1,5)
+	// Stopgap: bow (was 6) and slinger (was 7) loadouts removed from the random pool because the ranged NPC AI is unreliable. Bomber moved into the freed slot.
+	var/loadout = rand(1,6)
 	switch(loadout)
 		if(1) //tribal spear
 			r_hand = /obj/item/rogueweapon/spear/stone
@@ -378,6 +372,13 @@ GLOBAL_LIST_INIT(goblin_aggro, world.file2list("strings/rt/goblinaggrolines.txt"
 			if(prob(20))
 				r_hand = /obj/item/rogueweapon/flail
 				l_hand = /obj/item/rogueweapon/shield/wood
+		if(6) // bottle bomber
+			r_hand = /obj/item/rogueweapon/huntingknife/stoneknife
+			neck = /obj/item/storage/belt/rogue/pouch/bombs
+			armor = /obj/item/clothing/suit/roguetown/armor/leather/hide/goblin
+			H.name = "goblin pyromancer"
+			H.real_name = "goblin pyromancer"
+			SEND_SIGNAL(H, COMSIG_MOB_MODIFY_AGGRO_LINES, GLOB.goblin_pyromancer_aggro, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/polearms, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/maces, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/axes, 2, TRUE)
@@ -387,6 +388,46 @@ GLOBAL_LIST_INIT(goblin_aggro, world.file2list("strings/rt/goblinaggrolines.txt"
 	H.adjust_skillrank(/datum/skill/combat/wrestling, 2, TRUE) // Trash mob
 	H.adjust_skillrank(/datum/skill/misc/swimming, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/climbing, 2, TRUE)
+
+/datum/outfit/job/roguetown/npc/goblin/archer/pre_equip(mob/living/carbon/human/H)
+	..()
+	r_hand = /obj/item/rogueweapon/huntingknife/stoneknife
+	l_hand = null
+	backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow
+	backl = /obj/item/quiver/stonearrows
+	armor = /obj/item/clothing/suit/roguetown/armor/leather/hide/goblin
+	H.STASTR = 6
+	H.STAPER = 11
+	H.adjust_skillrank(/datum/skill/combat/bows, 2, TRUE)
+	H.upgrade_ai_controller(/datum/ai_controller/human_npc/archer)
+
+/datum/outfit/job/roguetown/npc/goblin/slinger/pre_equip(mob/living/carbon/human/H)
+	..()
+	r_hand = /obj/item/rogueweapon/huntingknife/stoneknife
+	l_hand = null
+	backr = null
+	backl = null
+	wrists = /obj/item/gun/ballistic/revolver/grenadelauncher/sling
+	neck = /obj/item/quiver/sling/stone
+	armor = /obj/item/clothing/suit/roguetown/armor/leather/hide/goblin
+	H.adjust_skillrank(/datum/skill/combat/slings, 2, TRUE)
+
+/mob/living/carbon/human/species/goblin/npc/bomber
+	name = "goblin pyromancer"
+	gob_outfit = /datum/outfit/job/roguetown/npc/goblin/bomber
+
+/mob/living/carbon/human/species/goblin/npc/bomber/after_creation()
+	..()
+	SEND_SIGNAL(src, COMSIG_MOB_MODIFY_AGGRO_LINES, GLOB.goblin_pyromancer_aggro, TRUE)
+	name = "goblin pyromancer"
+	real_name = "goblin pyromancer"
+
+/datum/outfit/job/roguetown/npc/goblin/bomber/pre_equip(mob/living/carbon/human/H)
+	..()
+	r_hand = /obj/item/rogueweapon/huntingknife/stoneknife
+	l_hand = null
+	neck = /obj/item/storage/belt/rogue/pouch/bombs
+	armor = /obj/item/clothing/suit/roguetown/armor/leather/hide/goblin
 
 //////////////////   INVADER ZIM	//////////////////
 

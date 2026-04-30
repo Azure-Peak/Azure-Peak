@@ -33,7 +33,7 @@
 						/obj/item/natural/fur/fox = 2,
 						/obj/item/natural/bone = 4)
 	head_butcher = /obj/item/natural/head/fox
-	faction = list("wolfs", "zombie")
+	faction = list(FACTION_WOLFS, FACTION_ZOMBIE)
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
 	remains_type = /obj/effect/decal/remains/fox
 	health = 100
@@ -73,6 +73,10 @@
 	can_have_ai = FALSE
 	ai_controller = /datum/ai_controller/volf
 	melee_cooldown = WOLF_ATTACK_SPEED
+
+/mob/living/simple_animal/hostile/retaliate/rogue/fox/Initialize()
+	. = ..()
+	AddComponent(/datum/component/ai_aggro_system)
 
 /obj/effect/decal/remains/fox
 	name = "remains"

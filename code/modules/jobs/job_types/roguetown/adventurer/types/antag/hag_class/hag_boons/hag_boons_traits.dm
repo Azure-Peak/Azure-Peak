@@ -212,3 +212,8 @@
 	name = "Wyrd Labourer"
 	trait_to_apply = TRAIT_WYRD_LABOURER
 	points = 20
+
+/datum/hag_boon/trait/mirror_magic
+	name = "Wyrd Mirror Magic"
+	trait_to_apply = TRAIT_EDIT_DESCRIPTORS
+	points = 40

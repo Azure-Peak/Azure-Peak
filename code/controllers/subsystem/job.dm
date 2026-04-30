@@ -20,7 +20,27 @@ SUBSYSTEM_DEF(job)
 	if(!occupations.len)
 		SetupOccupations()
 	set_overflow_role(CONFIG_GET(string/overflow_job))
+	build_townie_contract_gate_exempt_cache()
 	return ..()
+
+/datum/controller/subsystem/job/var/list/townie_contract_gate_exempt_names = list()
+
+/datum/controller/subsystem/job/proc/build_townie_contract_gate_exempt_cache()
+	townie_contract_gate_exempt_names = list()
+	for(var/datum/job/J as anything in occupations)
+		if(J.townie_contract_gate_exempt)
+			townie_contract_gate_exempt_names |= J.title
+	for(var/path in subtypesof(/datum/advclass))
+		var/datum/advclass/AC = path
+		if(!initial(AC.townie_contract_gate_exempt) || !initial(AC.name))
+			continue
+		if(initial(AC.townie_contract_gate_hide_in_list))
+			continue
+		townie_contract_gate_exempt_names |= initial(AC.name)
+	sortTim(townie_contract_gate_exempt_names, /proc/cmp_text_asc)
+
+/datum/controller/subsystem/job/proc/townie_contract_gate_exempt_display_names()
+	return townie_contract_gate_exempt_names
 
 /datum/controller/subsystem/job/proc/set_overflow_role(new_overflow_role)
 	var/datum/job/new_overflow = GetJob(new_overflow_role)
@@ -748,9 +768,6 @@ SUBSYSTEM_DEF(job)
 	var/related_policy = get_policy(rank)
 	if(related_policy)
 		to_chat(M,related_policy)
-//	if(ishuman(H))
-//		var/mob/living/carbon/human/wageslave = H
-//		H.add_memory("Your account ID is [wageslave.account_id].")
 	if(job && H)
 		job.after_spawn(H, M, joined_late) // note: this happens before the mob has a key! M will always have a client, H might not.
 

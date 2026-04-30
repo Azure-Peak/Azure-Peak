@@ -29,6 +29,15 @@
 	smeltresult = /obj/item/ingot/iron
 	max_integrity = ARMOR_INT_SIDE_IRON
 
+/obj/item/clothing/gloves/roguetown/plate/iron/banded
+	name = "banded iron gauntlets"
+	desc = "A pair of leather gloves layered under a fur wrap with an iron plate hastily tightened together on both ends. It's primarily worn in the cold north, where armor has to sometimes be cobbled together due to logistical shortages."
+	drop_sound = 'sound/foley/dropsound/scrap_drop.ogg'
+	pickup_sound = 'sound/foley/equip/scrap_equip.ogg'
+	equip_sound = 'sound/foley/equip/scrap_equip.ogg'
+	icon_state = "bandedgloves"
+	item_state = "bandedgloves"
+
 /obj/item/clothing/gloves/roguetown/plate/aalloy
 	name = "decrepit plate gauntlets"
 	desc = "Frayed bronze mechanisms, connected to form the shells of hands. Too clumsy to properly knock a bow, too rigid to comfortably grip a sword; clench those fists any tighter, and the segments'll cut into flesh."
@@ -52,6 +61,21 @@
 	max_integrity = ARMOR_INT_SIDE_ANTAG
 	icon_state = "graggarplategloves"
 
+/obj/item/clothing/gloves/roguetown/plate/graggar/heavy
+	name = "vicious bone-gauntlets"
+	desc = "Steel plated gauntlets overlaid by an ornamental imagery of fractured bone and entrails."
+	icon_state = "graggarplategloves_heavy"
+
+/obj/item/clothing/gloves/roguetown/plate/graggar/heavy/Initialize()
+	. = ..()
+	ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)
+
+/obj/item/clothing/gloves/roguetown/plate/graggar/heavy/dropped(mob/living/carbon/human/user)
+	. = ..()
+	if(QDELETED(src))
+		return
+	qdel(src)
+
 /obj/item/clothing/gloves/roguetown/plate/graggar/Initialize()
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_HORDE, "ARMOR", "RENDERED ASUNDER")
@@ -73,19 +97,33 @@
 	qdel(src)
 
 
-/obj/item/clothing/gloves/roguetown/plate/zizo
+/obj/item/clothing/gloves/roguetown/plate/avantyne
 	name = "avantyne gauntlets"
+	desc = "Gauntlets with full range of motion. The fore-arm guards do hurt, if used."
+	icon_state = "zizogauntlets_med"
+	max_integrity = ARMOR_INT_SIDE_STEEL
+	chunkcolor = "#363030"
+	material_category = ARMOR_MAT_PLATE
+	armor_class = ARMOR_CLASS_MEDIUM
+
+/obj/item/clothing/gloves/roguetown/plate/avantyne/heavy
+	name = "heavy avantyne gauntlets"
 	desc = "Unknowing truths, veiling the hands that prayed. Called forth from the edge of what should be known, in Her name."
 	icon_state = "zizogauntlets"
 	max_integrity = ARMOR_INT_SIDE_ANTAG
-	chunkcolor = "#363030"
-	material_category = ARMOR_MAT_PLATE
 
-/obj/item/clothing/gloves/roguetown/plate/zizo/Initialize()
+/obj/item/clothing/gloves/roguetown/plate/avantyne/Initialize()
+	. = ..()
+	AddComponent(/datum/component/cursed_item, TRAIT_CABAL, "ARMOR")
+
+/obj/item/clothing/gloves/roguetown/plate/avantyne/dropped(mob/living/carbon/human/user)
+	return ..()
+
+/obj/item/clothing/gloves/roguetown/plate/avantyne/heavy/Initialize()
 	. = ..()
 	ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)
 
-/obj/item/clothing/gloves/roguetown/plate/zizo/dropped(mob/living/carbon/human/user)
+/obj/item/clothing/gloves/roguetown/plate/avantyne/heavy/dropped(mob/living/carbon/human/user)
 	. = ..()
 	if(QDELETED(src))
 		return

@@ -27,7 +27,7 @@
 	bonus_tame_chance = 15
 	footstep_type = FOOTSTEP_MOB_SHOE
 	pooptype = /obj/item/natural/poo/horse
-	faction = list("pigs")
+	faction = list(FACTION_PIGS)
 	base_intents = list(/datum/intent/simple/headbutt/saiga)
 	attack_verb_simple = "ram"
 	attack_verb_continuous = "rams"
@@ -141,7 +141,7 @@
 						/obj/item/reagent_containers/food/snacks/fat = 2, /obj/item/natural/bundle/bone/full = 1, /obj/item/alch/sinew = 3, /obj/item/alch/bone = 1, /obj/item/alch/viscera = 2, /obj/item/reagent_containers/food/snacks/rogue/meat/ham = 2)
 	perfect_butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/fatty = 6,
 						/obj/item/reagent_containers/food/snacks/fat = 4, /obj/item/natural/bundle/bone/full = 1, /obj/item/alch/sinew = 4, /obj/item/alch/bone = 1, /obj/item/alch/viscera = 2, /obj/item/reagent_containers/food/snacks/rogue/meat/ham = 2)//We get fat instead of hide - pig hide is terrible for much of anything.
-	faction = list("pigs")
+	faction = list(FACTION_PIGS)
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
 	attack_same = 0
 	base_intents = list(/datum/intent/simple/headbutt/saiga)
@@ -233,7 +233,7 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/swine/Initialize()
 	. = ..()
 	AddElement(/datum/element/ai_retaliate)
-	ai_controller.set_blackboard_key(BB_BASIC_FOODS, food_type)
+	ai_controller.set_blackboard_key(BB_BASIC_FOODS, typecacheof(food_type))
 
 /mob/living/simple_animal/hostile/retaliate/rogue/swine/taunted(mob/user)
 	emote("aggro")

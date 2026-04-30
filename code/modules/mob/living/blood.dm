@@ -49,8 +49,7 @@
 					if(prob(3))
 						blur_eyes(6)
 						to_chat(src, span_warning("I feel faint."))
-					if(prob(3) && !IsUnconscious())
-						Unconscious(rand(5 SECONDS,10 SECONDS))
+					if(prob(3))
 						to_chat(src, span_warning("I feel drained."))
 					remove_status_effect(/datum/status_effect/debuff/bleedingworse)
 					remove_status_effect(/datum/status_effect/debuff/bleeding)
@@ -140,7 +139,6 @@
 						blur_eyes(6)
 						to_chat(src, span_warning("I feel faint."))
 					if(prob(3))
-						Unconscious(rand(5 SECONDS,10 SECONDS))
 						to_chat(src, span_warning("I feel drained."))
 				else
 					current_bleeding_tier = bleeding_tier
@@ -220,7 +218,6 @@
 		conbonus = CONSTITUTION_BLEEDRATE_CAP - 10
 	else if(STACON != 10)
 		conbonus = STACON - 10
-	if(mind)
 		amt -= amt * (conbonus * CONSTITUTION_BLEEDRATE_MOD)
 		if(HAS_TRAIT(src, TRAIT_CRITICAL_RESISTANCE))
 			amt = amt * CRIT_RESISTANCE_EFFECTIVE_BLEEDRATE

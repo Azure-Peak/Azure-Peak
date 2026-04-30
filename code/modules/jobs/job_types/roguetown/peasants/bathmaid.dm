@@ -88,7 +88,7 @@
 	if(H.mind)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/massage)
 	if(H.mind)
-		SStreasury.give_money_account(ECONOMIC_LOWER_CLASS, H, "Savings.")
+		SStreasury.grant_savings(ECONOMIC_LOWER_CLASS, H)
 
 /datum/advclass/bathworker/harlot
 	name = "Harlot"
@@ -152,7 +152,7 @@
 	if(H.mind)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/massage)
 	if(H.mind)
-		SStreasury.give_money_account(ECONOMIC_LOWER_CLASS, H, "Savings.")
+		SStreasury.grant_savings(ECONOMIC_LOWER_CLASS, H)
 
 /datum/advclass/bathworker/courtesan
 	name = "Courtesan"
@@ -243,7 +243,7 @@
 			if("Flute")
 				backr = /obj/item/rogue/instrument/flute
 	if(H.mind)
-		SStreasury.give_money_account(ECONOMIC_UPPER_CLASS, H, "Savings.")
+		SStreasury.grant_savings(ECONOMIC_UPPER_CLASS, H)
 
 /obj/item/soap/bath
 	name = "herbal soap"

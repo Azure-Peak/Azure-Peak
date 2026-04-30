@@ -157,7 +157,7 @@
 			pic.color = get_detail_color()
 		add_overlay(pic)
 
-/obj/item/clothing/cloak/tabard/sleevedtabard
+/obj/item/clothing/cloak/sleevedtabard
 	name = "Sleeved Tabard"
 	desc = " A tabard with a light sleeve and pauldron sewn on, it lacks the explicit detailing of other tabards in exchange."
 	color = null 
@@ -1442,6 +1442,13 @@
 	sleevetype = "shirt"
 	nodismemsleeves = TRUE
 	inhand_mod = TRUE
+
+/obj/item/clothing/cloak/graggar/heavy
+	icon_state = "graggarcloak_heavy"
+
+/obj/item/clothing/cloak/graggar/heavy/Initialize()
+	. = ..()
+	ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)
 
 /obj/item/clothing/cloak/graggar/Initialize()
 	. = ..()

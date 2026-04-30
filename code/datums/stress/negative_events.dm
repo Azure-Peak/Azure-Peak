@@ -389,6 +389,11 @@
 	timer = 999 MINUTES
 	desc = span_green("I'm wielding a BLESSED weapon!")
 
+/datum/stressevent/lesser_silver
+	stressadd = 8
+	timer = 999 MINUTES
+	desc = span_boldred("The silver burns! It claws at the curse within me, and I can scarcely bear its touch!")
+
 /datum/stressevent/naledimasklost
 	stressadd = 3
 	desc = span_boldred("I have lost my mask! Anyone here could be a djinn! I'm dangerously exposed!")

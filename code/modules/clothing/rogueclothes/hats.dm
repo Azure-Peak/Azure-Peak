@@ -9,6 +9,49 @@
 	smeltresult = /obj/item/ingot/steel
 	smelt_bar_num = 2
 
+/obj/item/clothing/head/roguetown/helmet/heavy/astratan/attackby(obj/item/W, mob/living/user, params)
+	..()
+	if(istype(W, /obj/item/natural/cloth) && !detail_tag)
+		var/choice = input(user, "Choose a color.", "Orle") as anything in COLOR_MAP + pridelist
+		user.visible_message(span_warning("[user] adds [W] to [src]."))
+		user.transferItemToLoc(W, src, FALSE, FALSE)
+		detail_color = COLOR_MAP[choice]
+		detail_tag = "_detail"
+		if(choice in pridelist)
+			detail_tag = "_detailp"
+		update_icon()
+		if(loc == user && ishuman(user))
+			var/mob/living/carbon/H = user
+			H.update_inv_head()
+	if(istype(W, /obj/item/clothing/head/roguetown/veiled) && !altdetail_tag)
+		var/choicealt = input(user, "Choose a color.", "Veil") as anything in COLOR_MAP
+		user.visible_message(span_warning("[user] adds [W] to [src]."))
+		user.transferItemToLoc(W, src, FALSE, FALSE)
+		altdetail_color = COLOR_MAP[choicealt]
+		altdetail_tag = "_detailalt"
+		update_icon()
+		if(loc == user && ishuman(user))
+			var/mob/living/carbon/H = user
+			H.update_inv_head()
+
+/obj/item/clothing/head/roguetown/helmet/heavy/astratan/update_icon()
+	cut_overlays()
+	if(get_detail_tag())
+		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))
+		pic.appearance_flags = RESET_COLOR
+		if(get_detail_color())
+			pic.color = get_detail_color()
+		add_overlay(pic)
+	if(get_altdetail_tag())
+		var/mutable_appearance/pic2 = mutable_appearance(icon(icon, "[icon_state][altdetail_tag]"))
+		pic2.appearance_flags = RESET_COLOR
+		if(get_altdetail_color())
+			pic2.color = get_altdetail_color()
+		add_overlay(pic2)
+
+/obj/item/clothing/head/roguetown/helmet/heavy/astratan/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Bucket helmets, Sugarloaf helmets, and their decorated variants can be uniquely decorated with a nurse's veil as well.")
 
 /obj/item/clothing/head/roguetown/helmet/heavy/malum
 	name = "helm of malum"
@@ -70,6 +113,30 @@
 	desc = "A silver-plated jousting helm, and symbol of hope worn by the Azurian Sect of The Undivided. Those who don it have sworn to lay down their lyves for the greater good, for no cost is too great to preserve Their will."
 	icon_state = "silversallet"
 	item_state = "silversallet"
+
+/obj/item/clothing/head/roguetown/helmet/heavy/undivided/attackby(obj/item/W, mob/living/user, params)
+	..()
+	if(istype(W, /obj/item/natural/cloth) && !detail_tag)
+		var/choice = input(user, "Choose a color.", "Orle") as anything in COLOR_MAP + pridelist
+		user.visible_message(span_warning("[user] adds [W] to [src]."))
+		user.transferItemToLoc(W, src, FALSE, FALSE)
+		detail_color = COLOR_MAP[choice]
+		detail_tag = "_detail"
+		if(choice in pridelist)
+			detail_tag = "_detailp"
+		update_icon()
+		if(loc == user && ishuman(user))
+			var/mob/living/carbon/H = user
+			H.update_inv_head()
+
+/obj/item/clothing/head/roguetown/helmet/heavy/undivided/update_icon()
+	cut_overlays()
+	if(get_detail_tag())
+		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))
+		pic.appearance_flags = RESET_COLOR
+		if(get_detail_color())
+			pic.color = get_detail_color()
+		add_overlay(pic)
 
 /obj/item/clothing/head/roguetown/helmet/heavy/undivided_ritual
 	name = "crusader greathelm"

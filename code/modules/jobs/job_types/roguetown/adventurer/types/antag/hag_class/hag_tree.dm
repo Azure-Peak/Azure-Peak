@@ -120,7 +120,7 @@
 		harvesting = TRUE
 		to_chat(usr, span_notice("You begin to carefully knit the moss from the roots..."))
 		
-		if(do_after(usr, 3 SECONDS, target = src))
+		if(do_after(usr, 1 SECONDS, target = src))
 			if(stock[path] > 0)
 				stock[path]--
 				var/obj/structure/roguemachine/mossmother/destination_tree = null
@@ -131,9 +131,10 @@
 						if(istype(A, /area/rogue/indoors/shelter/bog_hag))
 							destination_tree = T
 							break
-				if(is_fey && destination_tree)
+				if((is_fey || is_hag) && destination_tree)
 					new path(get_turf(destination_tree))
-					to_chat(usr, span_notice("The moss dissolves into the roots, flowing back toward the Hag's hearth as a silent tribute..."))
+					if(is_fey && prob(30))
+						to_chat(usr, span_notice("The moss dissolves into the roots, flowing back toward the Hag's hearth as a silent tribute..."))
 					var/obj/effect/temp_visual/heal/H_energy = new /obj/effect/temp_visual/heal_rogue/hag(get_turf(destination_tree))
 					H_energy.color = "#4b5320"
 				else
@@ -337,6 +338,13 @@
 	else
 		stock_to_update[picked_moss] = 1
 
+/obj/item/reagent_containers/lux/moss
+	name = "lux moss"
+	desc = "The stuff of life and souls, a purified imitation made by the forest."
+	icon_state = "moss_blank"
+	icon = 'icons/roguetown/items/hag/hag_items.dmi'
+	color = "#00e2d7"
+
 /obj/item/alch/hag_moss
 	name = "Generic moss"
 	desc = "A bloom of moss."
@@ -500,6 +508,7 @@
 
 /obj/item/alch/hag_moss/enchanted/random/low
 	name = "Faded Moss"
+	desc = "It makes you feel like a different person, ever so slightly."
 	color = "#a9a9a9"
 
 /obj/item/alch/hag_moss/enchanted/random/low/is_in_range(val)
@@ -507,6 +516,7 @@
 
 /obj/item/alch/hag_moss/enchanted/random/mid
 	name = "Lustrous Moss"
+	desc = "It really makes you feel like your skin isn't your own."
 	color = "#3db1ff"
 
 /obj/item/alch/hag_moss/enchanted/random/mid/is_in_range(val)
@@ -514,6 +524,7 @@
 
 /obj/item/alch/hag_moss/enchanted/random/high
 	name = "Prismatic Moss"
+	desc = "The leaves show a different person, you wish you were them, you -could- be them."
 	color = "#ff3de1"
 
 /obj/item/alch/hag_moss/enchanted/random/high/is_in_range(val)

@@ -1091,6 +1091,14 @@ GLOBAL_VAR_INIT(mobids, 1)
 ///Can this mob use storage
 /mob/proc/canUseStorage()
 	return FALSE
+
+/mob/proc/set_stat(new_stat)
+	if(new_stat == stat)
+		return
+	. = stat
+	stat = new_stat
+	SEND_SIGNAL(src, COMSIG_MOB_STATCHANGE, new_stat, .)
+
 /**
  * Check if the other mob has any factions the same as us
  *

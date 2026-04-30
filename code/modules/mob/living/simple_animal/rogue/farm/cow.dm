@@ -30,7 +30,7 @@
 	footstep_type = FOOTSTEP_MOB_SHOE
 	pooptype = /obj/item/natural/poo/cow
 	milkies = TRUE
-	faction = list("cows")
+	faction = list(FACTION_COWS)
 	attack_verb_continuous = "headbutts"
 	attack_verb_simple = "headbutt"
 	melee_damage_lower = 10
@@ -160,7 +160,7 @@
 						/obj/item/natural/hide=1, /obj/item/natural/bundle/bone/full = 1, /obj/item/alch/sinew = 3, /obj/item/alch/bone = 1, /obj/item/alch/viscera = 2)
 	perfect_butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/steak = 6,
 						/obj/item/natural/hide=2, /obj/item/natural/bundle/bone/full = 1, /obj/item/alch/sinew = 4, /obj/item/alch/bone = 1, /obj/item/alch/viscera = 2)
-	faction = list("cows")
+	faction = list(FACTION_COWS)
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
 	attack_same = 0
 	attack_verb_continuous = "headbutts"
@@ -251,7 +251,7 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/bull/Initialize()
 	. = ..()
 	AddElement(/datum/element/ai_retaliate)
-	ai_controller.set_blackboard_key(BB_BASIC_FOODS, food_type)
+	ai_controller.set_blackboard_key(BB_BASIC_FOODS, typecacheof(food_type))
 
 /mob/living/simple_animal/hostile/retaliate/rogue/cow/bullet
 	name = "calf"
@@ -277,6 +277,6 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/cow/Initialize()
 	. = ..()
 	AddElement(/datum/element/ai_retaliate)
-	ai_controller.set_blackboard_key(BB_BASIC_FOODS, food_type)
+	ai_controller.set_blackboard_key(BB_BASIC_FOODS, typecacheof(food_type))
 
 

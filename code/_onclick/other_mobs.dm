@@ -353,6 +353,8 @@
 */
 
 /mob/living/simple_animal/hostile/UnarmedAttack(atom/A)
+	if(A == src)
+		return
 	target = A
 	if(dextrous && !ismob(A))
 		..()

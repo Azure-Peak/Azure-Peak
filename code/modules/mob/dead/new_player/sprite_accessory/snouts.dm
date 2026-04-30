@@ -66,6 +66,12 @@
 	color_keys = 2
 	color_key_names = list("Snout", "Inner")
 
+/datum/sprite_accessory/snout/sharkeyes
+	name = "Shark Eyes"
+	icon_state = "sharkeyes"
+	color_keys = 3
+	color_key_names = list("Snout", "Inner", "Eyes")
+
 /datum/sprite_accessory/snout/bird
 	name = "Beak"
 	icon_state = "bird"
@@ -502,3 +508,9 @@
 	icon_state = "stubbyalt"
 	color_keys = 2
 	color_key_names = list("Snout", "Nose")
+
+/datum/sprite_accessory/snout/masked
+	name = "Winged Veil"
+	icon_state = "masked"
+	color_key_name = "Veil"
+	relevant_layers = list(BODY_ADJ_LAYER, BODY_FRONT_LAYER)

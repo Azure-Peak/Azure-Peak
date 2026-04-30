@@ -34,5 +34,5 @@
 
 /obj/projectile/magic/aoe/fireball/rogue/great/arc
 	name = "arced greater fireball"
-	damage = 70
+	damage = 68
 	arcshot = TRUE

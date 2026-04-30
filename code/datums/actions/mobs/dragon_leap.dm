@@ -9,6 +9,8 @@
 	var/range = 8
 
 /datum/action/cooldown/mob_cooldown/dragon_leap/Activate(atom/target)
+	if(!target || target == owner)
+		return FALSE
 	var/dist = get_dist(owner, target)
 	if(can_see(owner, target, range) && dist < range && dist > 1) //can see, in range and not adjacent
 		owner.visible_message(span_alert("[owner] leans back on its haunches, eyeing [target]."))

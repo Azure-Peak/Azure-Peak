@@ -216,6 +216,26 @@
 /obj/item/clothing/head/roguetown/cap/dwarf
 	color = "#cb3434"
 
+/obj/item/clothing/head/roguetown/tiyon
+	name = "tiyon"
+	desc = "A fancy cloth headdress."
+	icon_state = "tiyon"
+	sewrepair = TRUE
+
+/obj/item/clothing/head/roguetown/durag
+	name = "durag"
+	desc = "A fashionable garment worn to protect one's hair."
+	icon_state = "durag"
+	sewrepair = TRUE
+
+/obj/item/clothing/head/roguetown/longveil
+	name = "long veil"
+	desc = "A long, trailing veil made of cloth meant to conceal ones hair. OFten worn by soilbrides and the devout."
+	icon_state = "headveil"
+	detail_tag = "_detail"
+	detail_color = CLOTHING_CHALK_WHITE
+	sewrepair = TRUE
+
 /obj/item/clothing/head/roguetown/headband
 	name = "headband"
 	desc = "A simple headband to keep sweat out of your eyes."

@@ -5,8 +5,8 @@
 	name = "Fluvian"
 	id = "moth"
 	is_subrace = TRUE
-	origin_default = /datum/virtue/origin/racial/underdark
-	origin = "the Underdark"
+	origin_default = /datum/virtue/origin/unknown
+	origin = "The Seven Winds" // I am going to be doing a larger PR with the permission and use of Sarkness lore. Let us just please get this bug fixed.
 	base_name = "Beastvolk"
 	desc = "Many comparisons have been made to the common moths in an attempt to describe this unique species. From the appetite for clothing to the disconcertingly insectoid appearance, the name 'Moth' is forever stamped onto the common vocabulary. The comparison, however, falls short on the matter of flight.<br>\
 	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b>+1 SPD</b></span><br>"

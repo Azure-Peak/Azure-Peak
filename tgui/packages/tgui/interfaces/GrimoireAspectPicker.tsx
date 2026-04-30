@@ -28,6 +28,7 @@ export const GrimoireAspectPicker = () => {
     locked_aspects = [],
     staged_choices = {},
     pointbuy_selections = {},
+    spent_budgets = {},
     all_selected_spells = [],
     utility_points_spent = 0,
     reset_budget = 4,
@@ -73,6 +74,13 @@ export const GrimoireAspectPicker = () => {
   };
 
   const getPointbuyUsed = (aspect: Aspect): number => {
+    // Prefer the server-computed spent total: it also counts points already spent
+    // on pointbuy spells the player owns from a prior binding, which the local
+    // calculation can't see. Fall back to local math for freshly-added aspects
+    // where the server has nothing to report yet.
+    if (aspect.path in spent_budgets) {
+      return spent_budgets[aspect.path];
+    }
     const selections = pointbuy_selections[aspect.path] || [];
     let total = 0;
     for (const spellPath of selections) {

@@ -12,6 +12,7 @@
 	alpha = 180
 	layer = TURF_LAYER + 0.1
 	max_integrity = 300
+	ai_path_weight = 8
 
 	var/datum/weakref/owner_ref
 	var/datum/weakref/spell_ref
@@ -39,6 +40,8 @@
 			if(L.movement_type & (FLYING|FLOATING))
 				return
 			if(L.is_jumping)
+				return
+			if(L.pulledby) // No grabbing someone into rune
 				return
 			if(L.mob_timers[RUNE_WARD_IMMUNITY_KEY] && world.time < L.mob_timers[RUNE_WARD_IMMUNITY_KEY])
 				return

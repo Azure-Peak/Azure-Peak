@@ -219,11 +219,6 @@
 	)
 	result_item = /obj/item/rogueweapon/eirenxiv/eirensword
 
-/obj/item/enchantingkit/eiren_helmet
-	name = "'strigidae armet' morphing elixir"
-	target_items = list(/obj/item/clothing/head/roguetown/helmet/heavy/knight/armet)
-	result_item = /obj/item/clothing/head/roguetown/helmet/heavy/knight/armet/eiren_helmet
-
 //pretzel - custom steel greatsword. PSYDON LYVES. PSYDON ENDVRES.
 /obj/item/enchantingkit/weapon/waff
 	name = "'Weeper's Lathe' morphing elixir"
@@ -395,3 +390,49 @@
 		/obj/item/rogueweapon/sword/long
 	)
 	result_item = /obj/item/rogueweapon/nerocavalier/flsword
+
+/obj/item/enchantingkit/aisuwand
+    name = "Crystalline Wand morphing elixir"
+    target_items = list(/obj/item/rogueweapon/wand)
+    result_item = /obj/item/rogueweapon/wand/aisu
+
+/obj/item/enchantingkit/weapon/regnum
+	name = "'Regnum' morphing elixir"
+	target_items = list(
+		/obj/item/rogueweapon/sword/long,
+		/obj/item/rogueweapon/sword/long/judgement
+	)
+	result_item = /obj/item/rogueweapon/example/regnum
+
+/obj/item/enchantingkit/weapon/aeternum
+	name = "'Aeternum' morphing elixir"
+	target_items = list(
+		/obj/item/rogueweapon/greatsword,
+		/obj/item/rogueweapon/greatsword/zwei,
+		/obj/item/rogueweapon/greatsword/grenz,
+		/obj/item/rogueweapon/greatsword/grenz/flamberge,
+		/obj/item/rogueweapon/greatsword/grenz/flamberge/blacksteel
+	)
+	result_item = /obj/item/rogueweapon/example/aeternum
+
+/obj/item/enchantingkit/weapon/darling
+	name = "'Darling' morphing elixir"
+	target_items = list(
+		/obj/item/rogueweapon/sword/long
+	)
+	result_item = /obj/item/rogueweapon/example/darling
+
+/obj/item/enchantingkit/weapon/sumquoderis
+	name = "'Vial of Crimson Ichor'"
+	target_items = list(
+		/obj/item/rogueweapon/sword/long/exe
+	)
+	result_item = /obj/item/rogueweapon/example/sumquoderis
+
+/obj/item/enchantingkit/weapon/euthanasia
+	name = "'Ritual Dagger Mould'"
+	target_items = list(
+		/obj/item/rogueweapon/huntingknife/combat
+	)
+	result_item = /obj/item/rogueweapon/example/euthanasia
+

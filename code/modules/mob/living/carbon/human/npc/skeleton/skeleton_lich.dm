@@ -1,4 +1,5 @@
 /mob/living/carbon/human/species/skeleton/npc/dungeon/lich
+	threat_point = THREAT_ELITE
 	skel_fragile = FALSE
 	skel_outfit = /datum/outfit/job/roguetown/npc/skeleton/dungeon/lich
 
@@ -18,8 +19,8 @@
 	H.STACON = 20
 	H.STAWIL = 20
 	H.STAINT = 1
-	H.faction = list("lich")
-	H.wander = FALSE
+	H.faction = list(FACTION_LICH)
+
 
 	H.adjust_skillrank_up_to(/datum/skill/craft/carpentry, 1, TRUE)
 	H.adjust_skillrank_up_to(/datum/skill/craft/masonry, 1, TRUE)

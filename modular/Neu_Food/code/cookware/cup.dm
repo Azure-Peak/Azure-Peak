@@ -201,20 +201,25 @@
 	icon_state = "silver"
 	sellprice = 30
 	last_used = 0
-	is_silver = FALSE //temporary measure to prevent people from easily metachecking vampyres. Replace with a more sophisticated alternative if-or-when available.
+	is_silver = TRUE
+	is_lesser_silver = TRUE
 	force = 10
 	throwforce = 15
 
 /obj/item/reagent_containers/glass/cup/silver/pewter //ugly but better than the alternatives
 	name = "pewter goblet"
-	desc = "A pewter goblet, cheaper than silver, but with a similar shine!"
+	desc = "A pewter goblet, blessed with an alluring shine. Though tin with a sprinkling of silver isn't \
+	particularly valuable on its own, most peasants and foreign noblemen tend to be none-the-wiser."
+	is_silver = FALSE
+	is_lesser_silver = FALSE
 
 /obj/item/reagent_containers/glass/cup/silver/small
 	name = "silver cup"
 	desc = "A silver cup, its surface adorned with intricate carvings and runes."
 	icon_state = "scup"
 	sellprice = 20
-	is_silver = FALSE //Ditto.
+	is_silver = TRUE
+	is_lesser_silver = TRUE
 	force = 5
 	throwforce = 10
 
@@ -228,7 +233,7 @@
 
 /obj/item/reagent_containers/glass/cup/golden/small
 	name = "golden cup"
-	desc = "Adorned with gemstones, this cup radiates opulence and grandeur."
+	desc = "Adorned with gemstones, this cup glimmers with lesser opulence and grandeur."
 	icon_state = "gcup"
 	sellprice = 40
 	force = 5

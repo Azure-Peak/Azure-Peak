@@ -34,7 +34,6 @@
 	charge_slowdown = CHARGING_SLOWDOWN_NONE
 	charge_sound = 'sound/magic/charging.ogg'
 	cooldown_time = 6 SECONDS
-	is_implement_scaled_spell = TRUE
 	attunement_school = ASPECT_NAME_FERRAMANCY
 
 	associated_skill = /datum/skill/magic/arcane
@@ -50,6 +49,9 @@
 		base_angle = Get_Angle(user, target)
 	var/center_index = (projectiles_per_fire + 1) / 2
 	to_fire.Angle = base_angle + ((iteration - center_index) * spread_step)
+	// Only the center shard can roll for stab crit
+	if(iteration != center_index)
+		to_fire.woundclass = null
 
 // --- Stygian projectile ---
 
@@ -67,17 +69,12 @@
 	speed = MAGE_PROJ_SLOW
 	accuracy = 65
 	flag = "piercing"
-	ricochets_max = 4
-	ricochet_chance = 50
-	ricochet_auto_aim_angle = 40
-	ricochet_auto_aim_range = 5
-	ricochet_incidence_leeway = 50
 	hitsound = 'sound/combat/hits/bladed/genstab (1).ogg'
 	var/reduced_damage = 19
 
 /obj/projectile/energy/stygian/arc
 	name = "arced stygian harpe"
-	damage = 29
+	damage = 26
 	arcshot = TRUE
 
 /obj/projectile/energy/stygian/on_hit(target)

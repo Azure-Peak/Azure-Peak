@@ -35,7 +35,7 @@
 
 /datum/status_effect/debuff/hag_curse/rotting_touch/on_apply()
 	. = ..()
-	RegisterSignal(owner, COMSIG_ITEM_EQUIPPED, PROC_REF(handle_touch))
+	RegisterSignal(owner, COMSIG_MOB_EQUIPPED_ITEM, PROC_REF(handle_touch))
 	return TRUE
 
 /datum/status_effect/debuff/hag_curse/rotting_touch/proc/handle_touch(mob/living/L, obj/item/I, slot)
@@ -73,7 +73,7 @@
 	if(curse_points <= 0)
 		to_chat(L, span_notice("The oily, putrid sensation in your hands finally fades."))
 		// Unregistering the signal safely
-		UnregisterSignal(owner, COMSIG_ITEM_EQUIPPED)
+		UnregisterSignal(owner, COMSIG_MOB_EQUIPPED_ITEM)
 		owner.remove_status_effect(src)
 
 /atom/movable/screen/alert/status_effect/debuff/hag_curse/rotting_touch

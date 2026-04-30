@@ -2,7 +2,7 @@
 	button_icon = 'icons/mob/actions/roguespells.dmi'
 	name = "Lesser Knock"
 	desc = "A simple spell used to focus the arcyne into an instrument for lockpicking. Can be dispelled by using it on anything that isn't a locked/unlocked door."
-	button_icon_state = "rune4"
+	button_icon_state = "knock"
 	sound = 'sound/magic/whiteflame.ogg'
 	spell_color = GLOW_COLOR_ARCANE
 	glow_intensity = GLOW_INTENSITY_LOW

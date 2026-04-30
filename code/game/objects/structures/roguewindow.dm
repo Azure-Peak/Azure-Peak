@@ -39,8 +39,9 @@
 		if(new_track)
 			new_track.handle_creation(user)
 
-		message_admins("Window [obj_destroyed ? "destroyed" : "broken"] by [user?.real_name] using [I] [ADMIN_JMP(src)]")
-		log_admin("Window [obj_destroyed ? "destroyed" : "broken"] by [user?.real_name] at X:[src.x] Y:[src.y] Z:[src.z] in area: [get_area(src)]")
+		if(user?.ckey)
+			message_admins("Window [obj_destroyed ? "destroyed" : "broken"] by [user.real_name] using [I] [ADMIN_JMP(src)]")
+			log_admin("Window [obj_destroyed ? "destroyed" : "broken"] by [user.real_name] at X:[src.x] Y:[src.y] Z:[src.z] in area: [get_area(src)]")
 
 /obj/structure/roguewindow/update_icon()
 	if(brokenstate)

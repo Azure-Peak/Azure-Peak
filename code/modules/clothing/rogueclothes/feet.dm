@@ -78,6 +78,7 @@
 	item_state = "psydonboots"
 	sewrepair = TRUE
 	armor = ARMOR_LEATHER
+	max_integrity = ARMOR_INT_SIDE_HARDLEATHER //170 extra hp. stop footfragging my orthos. 
 	salvage_amount = 1
 	salvage_result = /obj/item/natural/hide/cured
 
@@ -370,20 +371,28 @@
 		return
 	qdel(src)
 
-/obj/item/clothing/shoes/roguetown/boots/armor/zizo
-	max_integrity = ARMOR_INT_SIDE_ANTAG
+/obj/item/clothing/shoes/roguetown/boots/armor/avantyne
 	name = "avantyne boots"
-	desc = "Ensnaring paradoxes, rended beneath logic and solidified into tangible footguards. Called forth from the edge of what should be known, in Her name."
+	desc = "Bolstered by threads of avantyne, these lighter sabatons remain practical enough to be removed once the rite is done."
 	icon_state = "zizoboots"
+	max_integrity = ARMOR_INT_SIDE_STEEL
 	chunkcolor = "#363030"
 	material_category = ARMOR_MAT_PLATE
 	armor = ARMOR_PLATE_BSTEEL
+	armor_class = ARMOR_CLASS_MEDIUM
 
-/obj/item/clothing/shoes/roguetown/boots/armor/zizo/Initialize()
+/obj/item/clothing/shoes/roguetown/boots/armor/avantyne/heavy
+	name = "fused avantyne boots"
+
+/obj/item/clothing/shoes/roguetown/boots/armor/avantyne/Initialize(mapload)
+	. = ..()
+	AddComponent(/datum/component/cursed_item, TRAIT_CABAL, "ARMOR")
+
+/obj/item/clothing/shoes/roguetown/boots/armor/avantyne/heavy/Initialize()
 	. = ..()
 	ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)
 
-/obj/item/clothing/shoes/roguetown/boots/armor/zizo/dropped(mob/living/carbon/human/user)
+/obj/item/clothing/shoes/roguetown/boots/armor/avantyne/heavy/dropped(mob/living/carbon/human/user)
 	. = ..()
 	if(QDELETED(src))
 		return
@@ -508,10 +517,11 @@
 
 /obj/item/clothing/shoes/roguetown/boots/otavan/inqboots
 	name = "inquisitorial boots"
-	desc = "Finely crafted boots, made to stomp out darkness."
+	desc = "Finely crafted boots, inlaid with clasps of silver and protective blacksteel insets of the toe and heel, made to stomp out darkness."
 	icon_state = "inqboots"
 	item_state = "inqboots"
 	allowed_race = ALL_RACES_TYPES
+	armor = ARMOR_PLATE
 
 
 // ----------------- BLACKSTEEL -----------------------

@@ -10,7 +10,7 @@
 	layer = ABOVE_MOB_LAYER
 	plane = GAME_PLANE_UPPER
 	var/current_category = "Postings"
-	var/list/categories = list("Postings", "Premium Postings", "Scout Report", "Mercenary Roster")
+	var/list/categories = list("Postings", "Premium Postings", "Scout Report", "Mercenary Roster", "Charters", "Trade Orders", "Economic Events", "Blockades", "City Assembly")
 
 /obj/structure/roguemachine/noticeboard/get_mechanics_examine(mob/user)
 	. = ..()
@@ -18,10 +18,29 @@
 	. += span_info("'Postings' and 'Premium Postings' can host messages of any kind. The zads will audibly notify everyone that a new message has been added to the noticeboard, whenever one is posted.")
 	. += span_info("'Scout Reports' detail how dangerous the ambushes in Azuria's many regions might be. The more dangerous a region is, the more numerous and lethal its ambushers will be.")
 	. += span_info("'Mercenary Rosters' list the names and detailings of all Mercenaries currently registered to Azuria's Mercenary Guild.")
+	. += span_info("'Charters' display the current state of Azuria's four foundational Charters.")
+	. += span_info("'Trade Orders' list standing trade demands from every region. Speak with the Steward if you wish to help fulfill one.")
+	. += span_info("'Economic Events' warn of active shortages and gluts affecting trade prices across the realm.")
+	. += span_info("'Blockades' list regions where trade roads are cut by raiders. Pin a Steward's blockade writ here to open it to a Fellowship of three.")
 
 /obj/structure/roguemachine/noticeboard/Initialize()
 	. = ..()
 	SSroguemachine.noticeboards += src
+
+/obj/structure/roguemachine/noticeboard/attackby(obj/item/P, mob/living/carbon/human/user, params)
+	if(istype(P, /obj/item/quest_writ/blockade))
+		var/obj/item/quest_writ/blockade/B = P
+		if(B.assigned_quest?.is_directive)
+			to_chat(user, span_warning("A Steward's request is not for public posting - it must be handed directly to the bearer."))
+			return
+		if(B.assigned_quest?.required_fellowship_size >= BLOCKADE_FELLOWSHIP_REQUIREMENT)
+			to_chat(user, span_warning("This writ is already posted publicly."))
+			return
+		B.promote_to_board_gated()
+		to_chat(user, span_notice("You pin the [B.name] to the board. Any who take it must have a fellowship of [BLOCKADE_FELLOWSHIP_REQUIREMENT]."))
+		playsound(src, 'sound/items/inqslip_sealed.ogg', 50, TRUE, -1)
+		return
+	return ..()
 
 /datum/noticeboardpost
 	var/title
@@ -72,6 +91,9 @@
 	if(href_list["authorityremovepost"])
 		authority_removepost(usr)
 		return attack_hand(usr)
+	if(href_list["open_assembly"])
+		open_assembly_tgui(usr)
+		return
 
 	return attack_hand(usr)
 
@@ -124,7 +146,11 @@
 		contents += "<hr></center>"
 		for(var/T in regional_threats)
 			var/datum/threat_region_display/TRS = T
-			contents += ("<div>[TRS?.region_name]: <font color=[TRS?.danger_color]>[TRS?.danger_level]</font></div>")
+			var/entry = "<div>[TRS?.region_name]: <font color=[TRS?.danger_color]>[TRS?.danger_level]</font>"
+			if(length(TRS?.ic_description))
+				entry += " &mdash; [jointext(TRS.ic_description, "; ")]"
+			entry += "</div>"
+			contents += entry
 		contents += "<hr>"
 		contents += "Scouts rate how dangerous a region is from Safe -> Low -> Moderate -> Dangerous -> Bleak <br>"
 		contents += "A safe region is safe and travelers are unlikely to be ambushed by common creechurs and brigands. <br>"
@@ -138,6 +164,111 @@
 			contents += SSroguemachine.mercenary_statue.get_readonly_roster_html()
 		else
 			contents += "<br><span class='notice'>The mercenary statue network is not available.</span>"
+	else if(current_category == "Charters")
+		contents += "<h2>Charters of the Realm</h2>"
+		contents += "<hr></center>"
+		for(var/id in SStreasury.decrees)
+			var/datum/decree/D = SStreasury.decrees[id]
+			// Dormant charters (never activated this round) are hidden from the public Charters
+			// listing. A charter the Lord has never pressed doesn't exist as far as the town is
+			// concerned - the Notice Board only reflects what's in actual force or was recently.
+			if(!D.has_ever_been_active)
+				continue
+			var/state_color = D.active ? "#2a8a2a" : "#8a2a2a"
+			var/state_label = D.active ? "IN FORCE" : "SUSPENDED"
+			contents += "<div style='margin-bottom:10px'>"
+			contents += "<b>[D.name]</b> <i>of [D.year]</i> &mdash; <font color='[state_color]'>[state_label]</font><br>"
+			contents += "<div style='white-space:pre-wrap;margin-top:4px'>[D.get_display_flavor_text()]</div>"
+			contents += "</div><hr>"
+	else if(current_category == "Trade Orders")
+		contents += "<h2>Standing Trade Orders</h2>"
+		contents += "<hr></center>"
+		var/orders_shown = 0
+		for(var/datum/standing_order/O as anything in GLOB.standing_order_pool)
+			if(O.is_fulfilled)
+				continue
+			orders_shown++
+			var/datum/economic_region/region = GLOB.economic_regions[O.region_id]
+			var/region_name = region ? region.name : O.region_id
+			var/days_left = max(0, O.day_expires - GLOB.dayspassed)
+			var/is_urgent = istype(O, /datum/standing_order/urgent)
+			contents += "<div style='margin-bottom:10px'>"
+			if(is_urgent)
+				contents += "<font color='#c44'><b>URGENT</b></font> "
+			if(region?.is_region_blockaded)
+				contents += "<font color='#c44'><b>BLOCKADED</b></font> "
+			if(SSeconomy.order_is_equipment(O))
+				contents += "<font color='#88c'><b>WAREHOUSE</b></font> "
+			if(O.petitioned)
+				contents += "<font color='#a872c4'><b>STEWARD'S PETITION</b></font> "
+			contents += "<b>[O.name]</b> &mdash; [region_name] &mdash; [days_left]d remaining<br>"
+			if(O.description)
+				contents += "<i>[O.description]</i><br>"
+			contents += "Requires: "
+			var/first = TRUE
+			for(var/good_id in O.required_items)
+				var/datum/trade_good/tg = GLOB.trade_goods[good_id]
+				var/label = tg ? tg.name : good_id
+				if(!first)
+					contents += ", "
+				first = FALSE
+				contents += "[O.required_items[good_id]] [label]"
+			contents += "<br>"
+			contents += "Payout: <b>[O.total_payout]m</b><br>"
+			contents += "</div><hr>"
+		if(!orders_shown)
+			contents += "<br><span class='notice'>No standing orders currently posted. Check back later.</span>"
+		else
+			contents += "<div style='margin-top:8px'><i>Speak with the Steward or Clerk at the Nerve Master to fulfill a stockpile order. WAREHOUSE-tagged orders require finished goods to be left at the dock manifest for Crown collection.</i></div>"
+	else if(current_category == "Blockades")
+		contents += "<h2>Regional Blockades</h2>"
+		contents += "<hr></center>"
+		if(!length(GLOB.active_blockades))
+			contents += "<br><span class='notice'>No blockades are active. The trade roads run clear.</span>"
+		else
+			for(var/datum/blockade/B as anything in GLOB.active_blockades)
+				var/datum/economic_region/ER = B.get_region()
+				var/datum/quest_faction/F = B.get_faction()
+				var/region_label = ER ? ER.name : B.region_id
+				var/faction_label = F ? "[F.group_word] of [F.name_plural]" : B.faction_id
+				var/days_active = GLOB.dayspassed - B.day_started
+				contents += "<div style='margin-bottom:10px'>"
+				contents += "<font color='#c44'><b>BLOCKADED</b></font> <b>[region_label]</b> &mdash; [days_active]d active<br>"
+				contents += "Raiders: <i>[faction_label]</i><br>"
+				if(B.has_active_scroll())
+					contents += "<font color='#5cb85c'>A defense writ is in circulation - seek the bearer.</font><br>"
+				else
+					contents += "<i>Awaiting a Steward's defense writ.</i><br>"
+				contents += "</div><hr>"
+			contents += "<div style='margin-top:8px'><i>Defense writs are drafted by the Steward from the Contract Ledger. Pinning a writ here binds it to a Fellowship of [BLOCKADE_FELLOWSHIP_REQUIREMENT].</i></div>"
+	else if(current_category == "Economic Events")
+		contents += "<h2>Economic Events</h2>"
+		contents += "<hr></center>"
+		if(!length(GLOB.active_economic_events))
+			contents += "<br><span class='notice'>The realm's trade is calm. No events are currently disturbing the market.</span>"
+		else
+			for(var/datum/economic_event/E as anything in GLOB.active_economic_events)
+				var/days_left = max(0, E.day_expires - GLOB.dayspassed)
+				var/color = (E.event_type == ECON_EVENT_SHORTAGE) ? "#c44" : "#5cb85c"
+				var/type_label = (E.event_type == ECON_EVENT_SHORTAGE) ? "SHORTAGE" : "GLUT"
+				contents += "<div style='margin-bottom:10px'>"
+				contents += "<font color='[color]'><b>[type_label]</b></font> &mdash; <b>[E.name]</b> &mdash; forecast to return to normal within [days_left]d<br>"
+				if(E.description)
+					contents += "<i>[E.description]</i><br>"
+				if(length(E.affected_goods))
+					contents += "Affected goods: "
+					var/first = TRUE
+					for(var/good_id in E.affected_goods)
+						var/datum/trade_good/tg = GLOB.trade_goods[good_id]
+						var/label = tg ? tg.name : good_id
+						if(!first)
+							contents += ", "
+						first = FALSE
+						contents += label
+					contents += "<br>"
+				contents += "</div><hr>"
+	else if(current_category == "City Assembly")
+		contents += build_assembly_summary_html()
 	var/datum/browser/popup = new(user, "NOTICEBOARD", "", 800, 650)
 	popup.set_content(contents)
 	popup.open()

@@ -740,15 +740,24 @@
 	canSmoothWith = list(/turf/open/floor/rogue/dark_ice)
 	slowdown = 50
 
+/turf/open/floor/rogue/underworld/space/dense
+	density = TRUE
+
 /turf/open/floor/rogue/underworld/space/sparkle_quiet
 	name = "void"
 	desc = ""
 	icon_state = "undervoid2"
 
+/turf/open/floor/rogue/underworld/space/sparkle_quiet/dense
+	density = TRUE
+
 /turf/open/floor/rogue/underworld/space/quiet
 	name = "void"
 	desc = ""
 	icon_state = "undervoid3"
+
+/turf/open/floor/rogue/underworld/space/quiet/dense
+	density = TRUE
 
 /turf/open/floor/rogue/underworld/road
 	name = "ash"
@@ -1241,6 +1250,9 @@
 
 /turf/open/floor/rogue/cobblerock/cardinal_smooth(adjacencies)
 	roguesmooth(adjacencies)
+
+/turf/open/floor/rogue/cobblerock/no_smooth
+	smooth = SMOOTH_FALSE
 
 /obj/effect/decal/cobbleedge
 	name = "old cobble path"

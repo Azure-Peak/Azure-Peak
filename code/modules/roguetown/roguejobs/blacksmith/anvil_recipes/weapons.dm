@@ -415,6 +415,12 @@
 	req_bar = /obj/item/ingot/iron
 	created_item = /obj/item/rogueweapon/sword/short/iron
 
+/datum/anvil_recipe/weapons/iron/swordbanded
+	name = "Sword, Banded Iron (+1 Scrap Metal Kit)"
+	req_bar = /obj/item/ingot/iron
+	additional_items = list(/obj/item/repair_kit/metal/bad)
+	created_item = /obj/item/rogueweapon/sword/short/iron/banded
+
 /datum/anvil_recipe/weapons/iron/messer
 	name = "Messer, Iron"
 	req_bar = /obj/item/ingot/iron

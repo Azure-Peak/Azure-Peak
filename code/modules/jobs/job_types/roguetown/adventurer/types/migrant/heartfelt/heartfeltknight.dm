@@ -8,6 +8,7 @@
 	total_positions = 1
 	spawn_positions = 1
 	job_traits = list(TRAIT_NOBLE, TRAIT_HEAVYARMOR, TRAIT_HEARTFELT)
+	noble_income = 15
 	advclass_cat_rolls = list(CTAG_HFT_KNIGHT)
 	job_subclasses = list(
 		/datum/advclass/heartfelt/knight

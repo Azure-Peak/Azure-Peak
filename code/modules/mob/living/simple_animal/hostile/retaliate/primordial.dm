@@ -31,6 +31,7 @@
 	ADD_TRAIT(src, TRAIT_BREADY, TRAIT_GENERIC)
 	src.adjust_skillrank(/datum/skill/combat/unarmed, 3, TRUE)
 	. = ..()
+	AddComponent(/datum/component/ai_aggro_system)
 
 /datum/intent/simple/claw/primordial
 	name = "claw"
@@ -51,7 +52,7 @@
 	icon = 'icons/roguetown/mob/monster/primordial.dmi'
 	AIStatus = AI_OFF
 	can_have_ai = FALSE
-	faction = list("neutral")
+	faction = list(FACTION_NEUTRAL)
 	var/next_ability_use
 	var/ability_cooldown = 30 SECONDS
 

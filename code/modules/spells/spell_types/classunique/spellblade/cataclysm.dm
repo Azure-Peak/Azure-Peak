@@ -88,7 +88,7 @@
 	M.consume_all_stacks()
 	to_chat(H, span_notice("All [stacks] momentum released - cataclysm [empowered ? "fully empowered" : "unleashed"]!"))
 
-	H.say("RUINA CAELI!", forced = "spell")
+	H.say("RUINA CAELI!", forced = "spell", language = /datum/language/common)
 
 	playsound(start, pick('sound/combat/ground_smash1.ogg', 'sound/combat/ground_smash2.ogg', 'sound/combat/ground_smash3.ogg'), 100, TRUE)
 	H.visible_message(span_boldwarning("[H] conjures a massive hammer out of arcyne force!"))

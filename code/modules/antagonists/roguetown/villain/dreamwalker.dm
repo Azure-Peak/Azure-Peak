@@ -1,8 +1,16 @@
+#define PORTAL_PURSUIT_COOLDOWN 7.5 SECONDS
+#define PORTAL_PURSUIT_USES 5
+
+// Scaling (base_antags path, no storyteller slot caps):
+//  Midround event: base=1, denom=80, max=2 → 1-79 pop: 1, 80+: 2
+//  Roundstart (Abyssor only): base=2, max=2 → always 2
 /datum/antagonist/dreamwalker
 	name = "Dreamwalker"
 	roundend_category = "Dreamwalker"
 	antagpanel_category = "Dreamwalker"
 	job_rank = ROLE_DREAMWALKER
+	storyteller_antag_flags = STORYTELLER_ANTAG_SOFT
+	storyteller_favor_flags = STORYTELLER_FAVOR_DREAMWALKER
 	confess_lines = list(
 		"MY VISION ABOVE ALL!",
 		"I'LL TAKE YOU TO MY REALM!",
@@ -124,8 +132,8 @@
 	if(!ishuman(parent))
 		return COMPONENT_INCOMPATIBLE
 	to_chat(parent, span_userdanger("Your body pulses with strange dream energies."))
-	RegisterSignal(parent, COMSIG_ITEM_EQUIPPED, .proc/on_item_equipped)
-	RegisterSignal(parent, COMSIG_ITEM_DROPPED, .proc/on_item_dropped)
+	RegisterSignal(parent, COMSIG_MOB_EQUIPPED_ITEM, .proc/on_item_equipped)
+	RegisterSignal(parent, COMSIG_MOB_DROPITEM, .proc/on_item_dropped)
 	// Register for processing
 	START_PROCESSING(SSprocessing, src)
 
@@ -220,7 +228,7 @@
 	max_integrity = 250
 	var/cooldown = 0
 	var/uses = 0
-	var/max_uses = 3
+	var/max_uses = PORTAL_PURSUIT_USES
 	var/turf/linked_turf
 	var/safe_passage = FALSE
 
@@ -250,7 +258,7 @@
 		return
 
 	uses++
-	cooldown = world.time + 15 SECONDS
+	cooldown = world.time + PORTAL_PURSUIT_COOLDOWN
 	// High likelyhood of getting a dreamfiend summon upon non dreamwalkers when used.
 	if(!safe_passage && !HAS_TRAIT(user, TRAIT_DREAMWALKER) && (prob(75)))
 		summon_dreamfiend(
@@ -690,3 +698,6 @@
 /obj/item/clothing/head/roguetown/helmet/bascinet/dreamwalker/Initialize()
 	. = ..()
 	AddComponent(/datum/component/dream_weapon, null, 20 SECONDS)
+
+#undef PORTAL_PURSUIT_COOLDOWN
+#undef PORTAL_PURSUIT_USES

@@ -30,6 +30,8 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	var/inhand_x_dimension = 64
 	var/inhand_y_dimension = 64
 
+	var/flags_ai_inventory = NONE
+
 	var/no_effect = FALSE
 
 	max_integrity = 200
@@ -145,6 +147,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 
 	var/bigboy = FALSE //used to center screen_loc when in hand
 	var/wielded = FALSE
+
 	var/altgripped = FALSE
 	/// Ordered alternate grip states cycled by right-click while the item is held.
 	var/list/alt_grips
@@ -271,6 +274,9 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	var/smelted = FALSE
 	/// Determines whether this item is silver or not.
 	var/is_silver = FALSE
+	/// "Lesser" silver items still count as silver, but their bite against the silver-weak is muted: no pickup ignition,
+	/// no force-undisguise on hit, and only a slow accumulation of (non-igniting) sunder stacks while held/worn.
+	var/is_lesser_silver = FALSE
 	var/last_used = 0
 	var/toggle_state = null
 	var/icon_x_offset = 0
@@ -278,11 +284,17 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	var/always_destroy = FALSE
 	/// If TRUE, this item is not allowed to be minted. May be useful for other things later.
 	var/is_important = FALSE
+	/// Tagged on mapload-spawned items inside town areas - marks them as town property so they can't be fed to the stockpile for minting.
+	var/unmintable = FALSE
 	/// does this item/weapon circumvent two-stage death during dismemberment? (do not add this to anything but ultra rare shit)
 	var/vorpal = FALSE
 
-/obj/item/Initialize()
+/obj/item/Initialize(mapload)
 	. = ..()
+	if(mapload)
+		var/area/A = get_area(src)
+		if(A && is_type_in_typecache(A, GLOB.roguetown_areas_typecache))
+			unmintable = TRUE
 	if(!pixel_x && !pixel_y && !bigboy)
 		pixel_x = rand(-5,5)
 		pixel_y = rand(-5,5)
@@ -880,7 +892,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 		ungrip(user, FALSE)
 	item_flags &= ~IN_INVENTORY
 	SEND_SIGNAL(src, COMSIG_ITEM_DROPPED,user)
-	SEND_SIGNAL(user, COMSIG_ITEM_DROPPED, src)
+	SEND_SIGNAL(user, COMSIG_MOB_DROPITEM, src)
 	if(!silent)
 		playsound(src, drop_sound, DROP_SOUND_VOLUME, TRUE, ignore_walls = FALSE)
 	user.update_equipment_speed_mods()
@@ -916,7 +928,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 /obj/item/proc/equipped(mob/user, slot, initial = FALSE)
 	SHOULD_CALL_PARENT(TRUE)
 	SEND_SIGNAL(src, COMSIG_ITEM_EQUIPPED, user, slot)
-	SEND_SIGNAL(user, COMSIG_ITEM_EQUIPPED, src, slot)
+	SEND_SIGNAL(user, COMSIG_MOB_EQUIPPED_ITEM, src, slot)
 	for(var/X in actions)
 		var/datum/action/A = X
 		if(item_action_slot_check(slot, user)) //some items only give their actions buttons when in a specific slot.
@@ -959,7 +971,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 //If you are making custom procs but would like to retain partial or complete functionality of this one, include a 'return ..()' to where you want this to happen.
 //Set disable_warning to TRUE if you wish it to not give you outputs.
 /obj/item/proc/mob_can_equip(mob/living/M, mob/living/equipper, slot, disable_warning = FALSE, bypass_equip_delay_self = FALSE)
-	if((is_silver || smeltresult == /obj/item/ingot/silver) && (HAS_TRAIT(M, TRAIT_SILVER_WEAK) &&  !M.has_status_effect(STATUS_EFFECT_ANTIMAGIC)))
+	if((is_silver || smeltresult == /obj/item/ingot/silver) && !is_lesser_silver && (HAS_TRAIT(M, TRAIT_SILVER_WEAK) &&  !M.has_status_effect(STATUS_EFFECT_ANTIMAGIC)))
 		var/datum/antagonist/vampire/V_lord = M.mind?.has_antag_datum(/datum/antagonist/vampire/)
 		if(V_lord?.generation >= GENERATION_METHUSELAH)
 			return
@@ -971,6 +983,11 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 		M.adjust_fire_stacks(3, /datum/status_effect/fire_handler/fire_stacks/sunder)
 		M.ignite_mob()
 		return FALSE
+	if(is_lesser_silver && HAS_TRAIT(M, TRAIT_SILVER_WEAK) && !M.has_status_effect(STATUS_EFFECT_ANTIMAGIC))
+		// Kick off the lesser silver exposure timer. The status effect handles grace period,
+		// stress event, and eventual ignition; it self-removes when no lesser silver remains.
+		if(!M.has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder/lesser))
+			M.apply_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder/lesser, 1)
 	//else if(is_blessed && slot == SLOT_HANDS)
 	//	user.add_stress(/datum/stressevent/blessed_weapon)
 	if(twohands_required)
@@ -1606,6 +1623,15 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 /obj/item/proc/on_embed(obj/item/bodypart/bp)
 	return
 
+/obj/item/proc/has_armor_value()
+	if(istype(src, /obj/item/clothing))
+		var/obj/item/clothing/C = src
+		if(C.armor)
+			var/datum/armor/def_armor = C.armor
+			return def_armor.blunt || def_armor.slash || def_armor.stab || def_armor.piercing
+
+	return FALSE
+
 /obj/item/proc/defense_examine()
 	var/list/str = list()
 	if(istype(src, /obj/item/clothing))
@@ -1664,6 +1690,26 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 			new /obj/item/scrap(get_turf(src))
 			if(prob(20))
 				new /obj/item/scrap(get_turf(src))
+		if(smeltresult == /obj/item/ingot/avantyne) //In short - it checks the item's smeltable result. If it matches what's listed here, it'll spawn something 'new' - scrap, in this case - when destroyed.
+			new /obj/item/ingot/component/zizo(get_turf(src))
+			if(prob(20))
+				new /obj/item/ingot/component/zizo(get_turf(src))
+		if(smeltresult == /obj/item/ingot/component/zizo) //This check's made so that all Ascendant-related items, if stripped and destroyed, spawn unique fragments. Decorative? Useful? Who knows!
+			new /obj/item/ingot/component/zizo(get_turf(src))
+			if(prob(20))
+				new /obj/item/ingot/component/zizo(get_turf(src))
+		if(smeltresult == /obj/item/ingot/component/graggar)
+			new /obj/item/ingot/component/graggar(get_turf(src))
+			if(prob(20))
+				new /obj/item/ingot/component/graggar(get_turf(src))
+		if(smeltresult == /obj/item/ingot/component/matthios)
+			new /obj/item/ingot/component/matthios(get_turf(src))
+			if(prob(20))
+				new /obj/item/ingot/component/matthios(get_turf(src))
+		if(smeltresult == /obj/item/ingot/component/baotha)
+			new /obj/item/ingot/component/baotha(get_turf(src))
+			if(prob(20))
+				new /obj/item/ingot/component/baotha(get_turf(src))
 	if(destroy_sound)
 		playsound(src, destroy_sound, 100, TRUE)
 	if(destroy_message)
@@ -1709,3 +1755,9 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 
 /obj/item/proc/update_wdefense_dynamic()
 	wdefense_dynamic = (wielded ? (wdefense + wdefense_wbonus) : wdefense)
+
+/obj/item/proc/ai_get_custom_inventory()
+	return null
+
+/obj/item/proc/ai_withdraw_item(obj/item/it, mob/living/user)
+	return FALSE

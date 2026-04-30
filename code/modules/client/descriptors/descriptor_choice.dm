@@ -154,6 +154,23 @@
 		/datum/mob_descriptor/stature/wretch,
 		/datum/mob_descriptor/stature/dullard,
 		/datum/mob_descriptor/stature/basterd,
+		/datum/mob_descriptor/stature/hotspur,
+		/datum/mob_descriptor/stature/pest,
+		/datum/mob_descriptor/stature/shrew,
+		/datum/mob_descriptor/stature/tyrant,
+		/datum/mob_descriptor/stature/virago,
+		/datum/mob_descriptor/stature/yob,
+		/datum/mob_descriptor/stature/adversary,
+		/datum/mob_descriptor/stature/foe,
+		/datum/mob_descriptor/stature/gatecrasher,
+		/datum/mob_descriptor/stature/idol,
+		/datum/mob_descriptor/stature/nemesis,
+		/datum/mob_descriptor/stature/eejit,
+		/datum/mob_descriptor/stature/crone,
+		/datum/mob_descriptor/stature/nerdowell,
+		/datum/mob_descriptor/stature/peon,
+		/datum/mob_descriptor/stature/scion,
+		/datum/mob_descriptor/stature/swashbuckler,
 	)
 
 /datum/descriptor_choice/voice
@@ -188,6 +205,10 @@
 		/datum/mob_descriptor/voice/snide,
 		/datum/mob_descriptor/voice/smoker,
 		/datum/mob_descriptor/voice/venomous,
+		/datum/mob_descriptor/voice/hoarse,
+		/datum/mob_descriptor/voice/acerbic,
+		/datum/mob_descriptor/voice/caustic,
+		/datum/mob_descriptor/voice/laconic,
 	)
 
 /datum/descriptor_choice/skin
@@ -314,7 +335,23 @@
 		/datum/mob_descriptor/trait/foreign,
 		/datum/mob_descriptor/trait/rotten,
 		/datum/mob_descriptor/trait/soggy,
-
+		/datum/mob_descriptor/trait/alloyed,
+		/datum/mob_descriptor/trait/hairy,
+		/datum/mob_descriptor/trait/ominous,
+		/datum/mob_descriptor/trait/baleful,
+		/datum/mob_descriptor/trait/putrid,
+		/datum/mob_descriptor/trait/sardonic,
+		/datum/mob_descriptor/trait/sinister,
+		/datum/mob_descriptor/trait/somber,
+		/datum/mob_descriptor/trait/tarnished,
+		/datum/mob_descriptor/trait/unseemly,
+		/datum/mob_descriptor/trait/sideways,
+		/datum/mob_descriptor/trait/depraved,
+		/datum/mob_descriptor/trait/jaundiced,
+		/datum/mob_descriptor/trait/rancorous,
+		/datum/mob_descriptor/trait/sullen,
+		/datum/mob_descriptor/trait/incessant,
+		/datum/mob_descriptor/trait/volfish,
 	)
 
 /datum/descriptor_choice/skin_all

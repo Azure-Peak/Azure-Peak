@@ -83,7 +83,7 @@ SUBSYSTEM_DEF(nightshift)
 		if(!cmode)
 			SSdroning.play_area_sound(areal, src.client)
 		SSdroning.play_loop(areal, src.client)
-	if(mode != NPC_AI_OFF)
+	if(ai_controller)
 		return
 	switch(todd)
 		if("day")
@@ -106,13 +106,5 @@ SUBSYSTEM_DEF(nightshift)
 	if(!mind)
 		return
 	allmig_reward++
-	var/triumphs_to_add = 1
-	var/static/list/towner_jobs
-	towner_jobs = GLOB.peasant_positions | GLOB.burgher_positions
-	if(mind.assigned_role != "Unassigned" && istype(mind.assigned_role, /datum/job) && (mind.assigned_role.title in towner_jobs)) //If you play a towner-related role, you get an additonal triumph
-		triumphs_to_add++
-	if(get_flaw(/datum/charflaw/noflaw))
-		triumphs_to_add = 0
-	if(triumphs_to_add)
-		adjust_triumphs(triumphs_to_add)
+	adjust_triumphs(1)
 	to_chat(src, span_danger("Days Survived: \Roman[allmig_reward]"))

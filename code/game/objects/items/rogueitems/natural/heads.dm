@@ -70,13 +70,21 @@
 	desc = "The head of a terrifying direbear."
 	icon_state = "direbearhead"
 	layer = 3.1
-	sellprice = 20
+	sellprice = 40
 
 /obj/item/natural/head/mole
 	name = "mole head"
 	desc = "The head of a lesser mole."
 	icon_state = "molehead"
 	layer = 3.1
+	sellprice = 20
+
+/obj/item/natural/head/boar
+	name = "boar head"
+	desc = "The head of a terrifying brambleboar."
+	icon_state = "boarhead"
+	layer = 3.1
+	// Not much to compensate for the fact they already drop a ton of loot
 	sellprice = 20
 
 /obj/item/natural/head/troll

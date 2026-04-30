@@ -63,4 +63,4 @@
 		H.STALUC = rand(5, 15)
 		H.STACON = rand(5, 10)
 		H.STAWIL = rand(5, 10)
-		SStreasury.give_money_account(ECONOMIC_DESTITUTE, H, "Savings.")
+		SStreasury.grant_savings(ECONOMIC_DESTITUTE, H)

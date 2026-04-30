@@ -13,6 +13,34 @@
 	reqs = list(/obj/item/natural/cloth = 1)
 	craftdiff = 0
 
+/datum/crafting_recipe/roguetown/sewing/tiyon
+	name = "tiyon"
+	category = "Hats"
+	result = list(/obj/item/clothing/head/roguetown/tiyon)
+	reqs = list(/obj/item/natural/cloth = 2)
+	craftdiff = 0
+
+/datum/crafting_recipe/roguetown/sewing/longveil
+	name = "long veil"
+	category = "Hats"
+	result = list(/obj/item/clothing/head/roguetown/longveil)
+	reqs = list(/obj/item/natural/cloth = 1)
+	craftdiff = 0
+
+/datum/crafting_recipe/roguetown/sewing/durag
+	name = "durag"
+	category = "Hats"
+	result = list(/obj/item/clothing/head/roguetown/durag)
+	reqs = list(/obj/item/natural/cloth = 1)
+	craftdiff = 0
+
+/datum/crafting_recipe/roguetown/sewing/faceveil
+	name = "face veil"
+	category = "Masks"
+	result = list(/obj/item/clothing/mask/rogue/faceveil)
+	reqs = list(/obj/item/natural/cloth = 1)
+	craftdiff = 0
+
 /datum/crafting_recipe/roguetown/sewing/allwrappings
 	name = "cloth wrappings"
 	category = "Bracers"
@@ -92,6 +120,24 @@
 	reqs = list(/obj/item/clothing/head/roguetown/necrahood = 1,
 				/obj/item/natural/bone = 1)
 	craftdiff = 0
+
+/datum/crafting_recipe/roguetown/sewing/physmask
+	name = "plague mask, physicker's"
+	category = "Masks"
+	result = list(/obj/item/clothing/neck/roguetown/collar/surgcollar)
+	reqs = list(/obj/item/natural/cloth = 2,
+				/obj/item/bouquet/calendula = 1,
+				/obj/item/natural/bone = 1)
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/sewing/feldmask
+	name = "plague mask, feldsher's"
+	category = "Masks"
+	result = list(/obj/item/clothing/neck/roguetown/collar/feldcollar)
+	reqs = list(/obj/item/natural/cloth = 2,
+				/obj/item/bouquet/calendula = 1,
+				/obj/item/natural/bone = 1)
+	craftdiff = 4
 
 /datum/crafting_recipe/roguetown/sewing/nurseveil
 	name = "nurse's veil, improvised"
@@ -433,6 +479,22 @@
 				/obj/item/natural/fibers = 1)
 	craftdiff = 3
 
+/datum/crafting_recipe/roguetown/sewing/physcollar
+	name = "collar, physicker's"
+	category = "Coifs"
+	result = list(/obj/item/clothing/neck/roguetown/collar/surgcollar)
+	reqs = list(/obj/item/natural/cloth = 2,
+				/obj/item/natural/fibers = 1)
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/sewing/feldcollar
+	name = "collar, feldsher's"
+	category = "Coifs"
+	result = list(/obj/item/clothing/neck/roguetown/collar/feldcollar)
+	reqs = list(/obj/item/natural/cloth = 2,
+				/obj/item/natural/fibers = 1)
+	craftdiff = 4
+
 /datum/crafting_recipe/roguetown/sewing/tabard
 	name = "tabard"
 	category = "Tabards"
@@ -456,8 +518,6 @@
 	reqs = list(/obj/item/natural/cloth = 3,
 				/obj/item/natural/fibers = 2)
 	craftdiff = 3
-
-
 
 /datum/crafting_recipe/roguetown/sewing/psydon
 	name = "tabard, psydon orthodoxist"
@@ -2110,3 +2170,19 @@
 	)
 	craftdiff = 4
 	category = "Pants"
+/datum/crafting_recipe/roguetown/sewing/velvetdress
+	name = "velvet dress"
+	result = list(/obj/item/clothing/suit/roguetown/shirt/velvetdress)
+	reqs = list(
+		/obj/item/natural/cloth = 3,
+		/obj/item/natural/fibers = 2
+	)
+	craftdiff = 3
+/datum/crafting_recipe/roguetown/sewing/noble
+	name = "noble's pinafore"
+	result = list(/obj/item/clothing/suit/roguetown/shirt/nobledress)
+	reqs = list(
+		/obj/item/natural/cloth = 3,
+		/obj/item/natural/fibers = 2
+	)
+	craftdiff = 3

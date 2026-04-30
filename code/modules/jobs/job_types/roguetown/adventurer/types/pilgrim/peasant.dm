@@ -53,7 +53,7 @@
 	beltl = /obj/item/rogueweapon/sickle
 	backr = /obj/item/rogueweapon/hoe
 	if(H.mind)
-		SStreasury.give_money_account(ECONOMIC_WORKING_CLASS, H, "Savings.")
+		SStreasury.grant_savings(ECONOMIC_WORKING_CLASS, H)
 	if(H.mind)
 		var/seeds = list(
 			"Berry seeds" = /obj/item/storage/roguebag/farmer_berries,

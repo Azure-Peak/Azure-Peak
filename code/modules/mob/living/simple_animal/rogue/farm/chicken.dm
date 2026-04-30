@@ -14,7 +14,7 @@
 	base_intents = list(/datum/intent/simple/claw)
 	speak_chance = 2
 	turns_per_move = 5
-	faction = list("chickens")
+	faction = list(FACTION_CHICKENS)
 	botched_butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/poultry = 1)
 	butcher_results = list(/obj/item/reagent_containers/food/snacks/fat = 1,
 		/obj/item/reagent_containers/food/snacks/rogue/meat/poultry = 1,
@@ -116,7 +116,7 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/chicken/Initialize()
 	. = ..()
 	AddElement(/datum/element/ai_retaliate)
-	ai_controller.set_blackboard_key(BB_BASIC_FOODS, food_type)
+	ai_controller.set_blackboard_key(BB_BASIC_FOODS, typecacheof(food_type))
 	if(!body_color)
 		body_color = pick(validColors)
 	icon_state = "[icon_prefix]_[body_color]"

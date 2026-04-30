@@ -65,6 +65,19 @@
 	armor_class = ARMOR_CLASS_MEDIUM
 	smeltresult = /obj/item/ingot/iron
 
+/obj/item/clothing/suit/roguetown/armor/plate/iron/banded
+	name = "banded iron armor"
+	desc = "An iron chestplate, pauldrons and tassets worn over a fur vest and padded with heavy leathers. It's primarily worn in the cold north, where armor has to sometimes be cobbled together due to logistical shortages. It leaves the stomach exposed for maneuverability."
+	max_integrity = ARMOR_INT_CHEST_PLATE_IRON + 25
+	icon_state = "ibandedarmor"
+	item_state = "ibandedarmor"
+	armor_class = ARMOR_CLASS_HEAVY
+	body_parts_covered = CHEST | ARMS | LEGS | GROIN
+	smelt_bar_num = 1
+	drop_sound = 'sound/foley/dropsound/scrap_drop.ogg'
+	pickup_sound = 'sound/foley/equip/scrap_equip.ogg'
+	equip_sound = 'sound/foley/equip/scrap_equip.ogg'
+
 /obj/item/clothing/suit/roguetown/armor/plate/bronze
 	name = "bronze cuirass"
 	desc = "A chiseled breastplate of bronze, further padded with hide to comfort its championing bod. The plates have been carefully forged to mimic the statuesque physiques of Psydonia's ancient heroes. Wearing it bolsters you with determination."
@@ -291,6 +304,25 @@
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_HORDE, "ARMOR", "RENDERED ASUNDER")
 
+/obj/item/clothing/suit/roguetown/armor/plate/full/graggar
+	name = "vicious full-plate"
+	desc = "Shorn together plate, curated from hand-crafted bones and ligaments - combined under an unholy spirit of violence. It bleeds."
+	icon_state = "graggarplate_heavy"
+	max_integrity = ARMOR_INT_CHEST_PLATE_ANTAG
+	chunkcolor = "#363030"
+	material_category = ARMOR_MAT_PLATE
+
+/obj/item/clothing/suit/roguetown/armor/plate/full/graggar/Initialize()
+	. = ..()
+	ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)
+	AddComponent(/datum/component/cursed_item, TRAIT_HORDE, "ARMOR", "RENDERED ASUNDER")
+
+/obj/item/clothing/suit/roguetown/armor/plate/full/graggar/dropped(mob/living/carbon/human/user)
+	. = ..()
+	if(QDELETED(src))
+		return
+	qdel(src)
+
 /obj/item/clothing/suit/roguetown/armor/plate/fluted/ornate
 	name = "psydonic half-plate"
 	desc = "A beautiful steel cuirass, fitted with tassets and pauldrons for additional coverage. Lesser clerics of Psydon oft-decorate these sets with dyed cloths, so that those who're wounded can still find salvation in the madness of battle. </br>‎  </br>'..the thrumbing of madness, to think that your suffering was all-for-naught to Adonai's sacrifical lamb..'"
@@ -427,7 +459,22 @@
 		return
 	qdel(src)
 
-/obj/item/clothing/suit/roguetown/armor/plate/full/zizo
+/obj/item/clothing/suit/roguetown/armor/plate/fluted/avantyne
+	name = "avantyne half-plate"
+	desc = "Pauldrons lyke that of fire. The metal curves and curdles with insidious energies."
+	armor_class = ARMOR_CLASS_MEDIUM
+	max_integrity = ARMOR_INT_CHEST_PLATE_STEEL
+	icon_state = "zizoplatechest_med"
+	armor = ARMOR_PLATE
+
+/obj/item/clothing/suit/roguetown/armor/plate/fluted/avantyne/Initialize()
+	. = ..()
+	AddComponent(/datum/component/cursed_item, TRAIT_CABAL, "ARMOR")
+
+/obj/item/clothing/suit/roguetown/armor/plate/fluted/avantyne/dropped(mob/living/carbon/human/user)
+	return ..()
+
+/obj/item/clothing/suit/roguetown/armor/plate/full/avantyne
 	name = "avantyne fullplate"
 	desc = "Impossible angularities, molded into a form more comprehensible to the layman's eyes. It has been called forth from the edge of what should be known, in Her name."
 	icon_state = "zizoplate"
@@ -435,16 +482,16 @@
 	chunkcolor = "#363030"
 	material_category = ARMOR_MAT_PLATE
 
-/obj/item/clothing/suit/roguetown/armor/plate/full/zizo/Initialize()
+/obj/item/clothing/suit/roguetown/armor/plate/full/avantyne/Initialize()
 	. = ..()
 	ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)
+	AddComponent(/datum/component/cursed_item, TRAIT_CABAL, "ARMOR")
 
-/obj/item/clothing/suit/roguetown/armor/plate/full/zizo/dropped(mob/living/carbon/human/user)
+/obj/item/clothing/suit/roguetown/armor/plate/full/avantyne/dropped(mob/living/carbon/human/user)
 	. = ..()
 	if(QDELETED(src))
 		return
 	qdel(src)
-
 
 /obj/item/clothing/suit/roguetown/armor/plate/full/bikini
 	name = "full-plate corset"
@@ -672,11 +719,6 @@
 	body_parts_covered = CHEST
 	armor_class = ARMOR_CLASS_LIGHT
 	smelt_bar_num = 1
-
-/obj/item/clothing/suit/roguetown/armor/plate/cuirass/fencer/elven
-	name = "elven cuirass"
-	desc = "A cuirass made of steel with a thin decorative gold plating. Lightweight and durable."
-	color = COLOR_ASSEMBLY_GOLD
 
 /obj/item/clothing/suit/roguetown/armor/plate/silver
 	slot_flags = ITEM_SLOT_ARMOR

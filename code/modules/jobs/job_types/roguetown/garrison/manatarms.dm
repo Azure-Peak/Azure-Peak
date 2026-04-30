@@ -164,7 +164,7 @@
 		if(helmchoice != "None")
 			head = helmets[helmchoice]
 	if(H.mind)
-		SStreasury.give_money_account(ECONOMIC_LOWER_MIDDLE_CLASS, H, "Savings.")
+		SStreasury.grant_savings(ECONOMIC_LOWER_MIDDLE_CLASS, H)
 
 // Ranged weapons and daggers on the side - lighter armor, but fleet!
 /datum/advclass/manorguard/skirmisher
@@ -246,7 +246,7 @@
 		H.verbs |= /mob/proc/haltyell
 
 	if(H.mind)
-		SStreasury.give_money_account(ECONOMIC_LOWER_MIDDLE_CLASS, H, "Savings.")
+		SStreasury.grant_savings(ECONOMIC_LOWER_MIDDLE_CLASS, H)
 
 
 /datum/advclass/manorguard/cavalry
@@ -339,7 +339,7 @@
 			head = helmets[helmchoice]
 
 	if(H.mind)
-		SStreasury.give_money_account(ECONOMIC_LOWER_MIDDLE_CLASS, H, "Savings.")
+		SStreasury.grant_savings(ECONOMIC_LOWER_MIDDLE_CLASS, H)
 
 // Unarmed goon - Dungeoneer replacement
 /datum/advclass/manorguard/bailiff
@@ -401,7 +401,7 @@
 	H.verbs |= /mob/proc/haltyell
 
 	if(H.mind)
-		SStreasury.give_money_account(ECONOMIC_LOWER_MIDDLE_CLASS, H, "Savings.")
+		SStreasury.grant_savings(ECONOMIC_LOWER_MIDDLE_CLASS, H)
 
 // Carries the ducal standard.
 // When carrying it, they're granted a few unique traits;
@@ -486,7 +486,7 @@
 		if(helmchoice != "None")
 			head = helmets[helmchoice]
 	if(H.mind)
-		SStreasury.give_money_account(ECONOMIC_LOWER_MIDDLE_CLASS, H, "Savings.") // It'd be soulful to give them a level up, but that's sergeant's already.
+		SStreasury.grant_savings(ECONOMIC_LOWER_MIDDLE_CLASS, H) // It'd be soulful to give them a level up, but that's sergeant's already.
 
 // These are really hacky, but it works.
 // One proc to moodbuff.

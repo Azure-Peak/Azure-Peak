@@ -116,6 +116,7 @@
 	air_update_turf(1)
 	update_icon()
 	isSwitchingStates = FALSE
+	alert_ai_visibility_change(src)
 
 	if(close_delay != -1)
 		addtimer(CALLBACK(src, PROC_REF(Close)), close_delay)
@@ -302,7 +303,7 @@
 	if(ishuman(user))
 		var/mob/living/carbon/human/human_user = user
 		// must have a client or be trying to pass through the door
-		if(!human_user.client && !length(human_user.myPath))
+		if(!human_user.client && !human_user.ai_controller)
 			return FALSE
 		if(human_user.handcuffed)
 			return FALSE
@@ -331,6 +332,7 @@
 	air_update_turf(1)
 	update_icon()
 	isSwitchingStates = FALSE
+	alert_ai_visibility_change(src)
 
 	if(close_delay != -1)
 		addtimer(CALLBACK(src, PROC_REF(Close)), close_delay)
@@ -563,6 +565,9 @@
 		var/pickchance = 35
 		var/moveup = 10
 
+		var/silentpick = HAS_TRAIT(user, TRAIT_SILENT_LOCKPICK)
+		var/gildedeyes = HAS_TRAIT(user, TRAIT_GILDED_SIGHT)
+
 		picktime -= (pickskill * 10)
 		picktime = clamp(picktime, 10, 70)
 
@@ -585,6 +590,9 @@
 			to_chat(user, "<span class='warning'>Clack.</span>")
 			return
 
+		if(gildedeyes)
+			picktime = clamp(picktime, 10, 15)
+
 		if(ishuman(user))
 			var/mob/living/carbon/human/H = user
 			message_admins("[H.real_name]([key_name(user)]) is attempting to lockpick [src.name]. [ADMIN_JMP(src)]")
@@ -595,7 +603,10 @@
 				break
 			if(prob(pickchance))
 				lockprogress += moveup
-				playsound(src.loc, pick('sound/items/pickgood1.ogg','sound/items/pickgood2.ogg'), 5, TRUE)
+				if(silentpick)
+					playsound(src.loc, pick('sound/items/pickgood1.ogg','sound/items/pickgood2.ogg'), 2, TRUE)
+				else
+					playsound(src.loc, pick('sound/items/pickgood1.ogg','sound/items/pickgood2.ogg'), 5, TRUE)
 				to_chat(user, "<span class='warning'>Click...</span>")
 				if(L.mind)
 					add_sleep_experience(L, /datum/skill/misc/lockpicking, L.STAINT/2)
@@ -614,7 +625,10 @@
 				else
 					continue
 			else
-				playsound(loc, 'sound/items/pickbad.ogg', 40, TRUE)
+				if(silentpick)
+					playsound(loc, 'sound/items/pickbad.ogg', 2, TRUE)
+				else
+					playsound(loc, 'sound/items/pickbad.ogg', 40, TRUE)
 				I.take_damage(1, BRUTE, "blunt")
 				to_chat(user, "<span class='warning'>Clack.</span>")
 				add_sleep_experience(L, /datum/skill/misc/lockpicking, L.STAINT/4)
@@ -627,7 +641,10 @@
 	if(locked)
 		user?.visible_message(span_warning("[user] unlocks [src]."), \
 			span_notice("I unlock [src]."))
-		playsound(src, unlocksound, 100)
+		if(HAS_TRAIT(user, TRAIT_SILENT_LOCKPICK))
+			playsound(src, unlocksound, 25)
+		else
+			playsound(src, unlocksound, 100)
 		locked = 0
 	else
 		user?.visible_message(span_warning("[user] locks [src]."), \

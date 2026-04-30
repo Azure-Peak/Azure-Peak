@@ -8,13 +8,14 @@
 		/datum/species/dwarf/gnome,
 		/datum/species/elf/dark,
 		/datum/species/kobold,
+		/datum/species/moth,				//They are from the Underdark. source: moth.dm
 		/datum/species/goblinp,				//Might be a little weird but goblins do reside in caves, and they could use a unique merc class type.
 		/datum/species/anthromorphsmall,	//Basically all under-ground races. Perfect for cave-clearing.
 	)
 	outfit = /datum/outfit/job/roguetown/mercenary/underdweller
 	class_select_category = CLASS_CAT_RACIAL
 	category_tags = list(CTAG_MERCENARY)
-	traits_applied = list(TRAIT_MEDIUMARMOR, TRAIT_WEBWALK, TRAIT_EXPLOSIVE_SUPPLY, TRAIT_CAVEDWELLER) //No bomb expert, only supply. Axes/mining expert.
+	traits_applied = list(TRAIT_MEDIUMARMOR, TRAIT_WEBWALK, TRAIT_EXPLOSIVE_SUPPLY, TRAIT_CAVEDWELLER, TRAIT_ALCHEMY_EXPERT) //No bomb expert, only supply. Axes/mining expert.
 	subclass_stats = list(
 		STATKEY_CON = 2,
 		STATKEY_WIL = 2,
@@ -40,7 +41,7 @@
 		/datum/skill/craft/smelting = SKILL_LEVEL_APPRENTICE,	//Accompanies mining; they know how to smelt, not make armor though.
 	)
 	subclass_languages = list(/datum/language/undercommon)
-	extra_context = "This subclass is race-limited to: Dwarves, Dark Elves, Kobolds, Goblins & Verminvolk."
+	extra_context = "This subclass is race-limited to: Dwarves, Dark Elves, Fluvians, Kobolds, Goblins & Verminvolk."
 
 /datum/outfit/job/roguetown/mercenary/underdweller/pre_equip(mob/living/carbon/human/H)
 	..()

@@ -27,6 +27,12 @@
 	ckeywhitelist = list("eekasqueak")
 	sort_category = "Donator"
 
+/datum/loadout_item/donator/ketrai
+	name = "Octopus hat"
+	path = /obj/item/clothing/head/roguetown/octopus
+	ckeywhitelist = list("ketrai", "alfalah")
+	sort_category = "Donator"
+
 /datum/loadout_item/donator/strudel1
 	name = "Donator Kit - Grenzelhoftian Mage Vest"
 	path = /obj/item/enchantingkit/strudel1
@@ -111,11 +117,6 @@
 	name = "Donator Kit - Stygian Longsword"
 	path = /obj/item/enchantingkit/weapon/eirensword
 	ckeywhitelist = list("eirenxiv", "muhsollini")
-
-/datum/loadout_item/donator/eiren7
-	name = "Donator Kit - Strigidae Armet"
-	path = /obj/item/enchantingkit/eiren_helmet
-	ckeywhitelist = list("eirenxiv") 
 
 /datum/loadout_item/donator/waff
 	name = "Donator Kit - Weeper's Lathe"
@@ -272,3 +273,43 @@
 	name = "Donator Item - Sandlash"
 	path = /obj/item/enchantingkit/sci_sand
 	ckeywhitelist = list("scidragon")
+
+/datum/loadout_item/donator/aisuwand
+    name = "Donator Kit - Crystalline Wand"
+    path = /obj/item/enchantingkit/aisuwand
+    ckeywhitelist = list("aisu9")
+
+/datum/loadout_item/donator/regnum
+	name = "Donator Item - Regnum"
+	path = /obj/item/enchantingkit/weapon/regnum
+	ckeywhitelist = list("nauticall")
+
+/datum/loadout_item/donator/aeternum
+	name = "Donator Item - Aeternum"
+	path = /obj/item/enchantingkit/weapon/aeternum
+	ckeywhitelist = list("nauticall")
+
+/datum/loadout_item/donator/porcelainmask
+	name = "Donator Item - Porcelain Mask"
+	path = /obj/item/clothing/mask/rogue/iamcrystalclear
+	ckeywhitelist = list("iamcrystalclear")
+
+/datum/loadout_item/donator/darling
+	name = "Donator Item - Darling"
+	path = /obj/item/enchantingkit/weapon/darling
+	ckeywhitelist = list("castortroy23")
+
+/datum/loadout_item/donator/sumquoderis
+	name = "Donator Item - Sum Quod Eris"
+	path = /obj/item/enchantingkit/weapon/sumquoderis
+	ckeywhitelist = list("rivercadaver")
+
+/datum/loadout_item/donator/euthanasia
+	name = "Donator Item - Euthanasia"
+	path = /obj/item/enchantingkit/weapon/euthanasia
+	ckeywhitelist = list("rivercadaver")
+
+/datum/loadout_item/donator/wyrd_cloak
+	name = "Wyrd Cloak"
+	path = /obj/item/clothing/suit/roguetown/armor/longcoat/wyrd_cloak
+	ckeywhitelist = list("nekosam")

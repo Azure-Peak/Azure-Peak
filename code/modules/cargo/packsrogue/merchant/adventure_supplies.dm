@@ -89,3 +89,14 @@
 	name = "Yurt Kit"
 	cost = 200
 	contains = list(/obj/item/tent_kit/yurt)
+
+// If adding more, make new category for maps.
+/datum/supply_pack/rogue/adventure_supplies/stag_map
+	name = "White Stag Map"
+	cost = 190
+	contains = list(/obj/item/hunting_map/white_stag)
+
+/datum/supply_pack/rogue/adventure_supplies/boar_map
+	name = "Boars Map"
+	cost = 50
+	contains = list(/obj/item/hunting_map/boars)

@@ -46,6 +46,10 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 	var/datum/job/assigned_role
 	var/special_role
 	var/list/restricted_roles = list()
+	/// Persisted advclass datum, set when a class-picker resolves. Used by systems that
+	/// need to discriminate within a job's subclasses (e.g. the contract townie gate
+	/// distinguishing Pilgrim/Hunter from Pilgrim/Blacksmith).
+	var/datum/advclass/picked_advclass
 
 	/// Wizard mode & "Give Spell" badmin button.
 	var/list/spell_list = list()
@@ -147,6 +151,7 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 		current.mind = null
 		current = null
 	enslaved_to = null
+	picked_advclass = null
 	QDEL_NULL(sleep_adv)
 	if(islist(antag_datums))
 		QDEL_LIST(antag_datums)
@@ -887,8 +892,9 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 	if(!current || !HAS_TRAIT(current, TRAIT_ARCYNE))
 		return
 
-	// Arcyne Ward - only granted if mage_aspect_config has "ward" = TRUE
-	if(mage_aspect_config && mage_aspect_config["ward"])
+	// Arcyne Ward - only granted to classes whose aspect config explicitly enables it
+	var/allow_ward = mage_aspect_config && mage_aspect_config["ward"]
+	if(allow_ward)
 		var/datum/action/cooldown/spell/conjure_arcyne_ward/base_ward
 		var/datum/action/cooldown/spell/conjure_arcyne_ward/variant_ward
 		for(var/datum/action/cooldown/spell/conjure_arcyne_ward/ward in spell_list)
@@ -900,7 +906,7 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 			if(base_ward)
 				RemoveSpell(base_ward)
 		else if(base_ward)
-			var/obj/item/clothing/suit/roguetown/armor/regenerating/skin/arcyne_ward/active_ward = base_ward.conjured_ward
+			var/obj/item/clothing/suit/roguetown/armor/manual/arcyne_ward/active_ward = base_ward.conjured_ward
 			if(active_ward)
 				base_ward.conjured_ward = null
 				active_ward.linked_spell = null
@@ -910,8 +916,17 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 			if(active_ward && !QDELETED(active_ward))
 				new_ward_spell.conjured_ward = active_ward
 				active_ward.linked_spell = new_ward_spell
+				new_ward_spell.regen_action?.build_all_button_icons()
 		else
 			AddSpell(new /datum/action/cooldown/spell/conjure_arcyne_ward)
+	else
+		// Strip any base arcyne ward the mage no longer qualifies for (e.g. attuned a major aspect)
+		for(var/datum/action/cooldown/spell/conjure_arcyne_ward/ward in spell_list)
+			if(ward.type != /datum/action/cooldown/spell/conjure_arcyne_ward)
+				continue
+			if(ward.conjured_ward && !QDELETED(ward.conjured_ward))
+				qdel(ward.conjured_ward)
+			RemoveSpell(ward)
 
 	// Prestidigitation - always last
 	var/datum/presto = get_spell(/datum/action/cooldown/spell/touch/prestidigitation)

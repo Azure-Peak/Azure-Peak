@@ -1,6 +1,6 @@
 
-/mob/living/proc/run_armor_check(def_zone = null, attack_flag = "blunt", absorb_text = null, soften_text = null, armor_penetration = PEN_NONE, penetrated_text, damage, blade_dulling, intdamfactor, used_weapon = null)
-	var/armor_tier = getarmor(def_zone, attack_flag, damage, armor_penetration, blade_dulling, intdamfactor, used_weapon)
+/mob/living/proc/run_armor_check(def_zone = null, attack_flag = "blunt", absorb_text = null, soften_text = null, armor_penetration = PEN_NONE, penetrated_text, damage, blade_dulling, intdamfactor, used_weapon = null, pen_info)
+	var/armor_tier = getarmor(def_zone, attack_flag, damage, armor_penetration, blade_dulling, intdamfactor, used_weapon, pen_info)
 
 	// Tier-based armor system.
 	// armor_tier and armor_penetration are both tier values (0-4).
@@ -26,26 +26,120 @@
 			blocked = block_damage * (1 - dr_mult)
 	else
 		// Penetration: tier comparison
-		if(armor_tier > 0)
-			if(armor_penetration > armor_tier)
-				// Full penetration — all damage through
-				blocked = block_damage * (1 - PEN_PASSTHROUGH_OVER)
-				if(penetrated_text)
-					to_chat(src, span_danger("[penetrated_text]"))
-			else if(armor_penetration == armor_tier)
-				// Same tier — 20% gets through
-				blocked = block_damage * (1 - PEN_PASSTHROUGH_SAME)
-			else
-				// Fully blocked
-				blocked = block_damage * 10
-				if(absorb_text)
-					to_chat(src, span_notice("[absorb_text]"))
+		if(attack_flag != "piercing")
+			if(armor_tier > 0)
+				if(armor_penetration >= armor_tier)
+					if(pen_info)
+						blocked = block_damage * (1 - (pen_info * PEN_PASSTHROUGH_RATIO)) 
+					if(penetrated_text)
+						to_chat(src, span_danger("[penetrated_text]"))
+				else
+					// Fully blocked
+					blocked = block_damage * 10
+					if(absorb_text)
+						to_chat(src, span_notice("[absorb_text]"))
+		else	// Unfortunate special behaviour for projectiles because they are absent most data pen_info wants (attacker mob ref, weapon sharpness, intent, etc)
+			if(armor_tier > 0)
+				if(armor_penetration == armor_tier)
+					blocked = block_damage * PEN_PASSTHROUGH_PROJ_EQUAL // We block 80% of the damage, letting 20% through to body / into integ.
+					if(penetrated_text)
+						to_chat(src, span_danger("[penetrated_text]"))
+				else if(armor_penetration > armor_tier)
+					blocked = block_damage * PEN_PASSTHROUGH_PROJ_MORE // We block 20% of the damage, letting 80% through to body / into integ.
+					if(penetrated_text)
+						to_chat(src, span_danger("[penetrated_text]"))
+				else
+					// Fully blocked
+					blocked = block_damage * 10
+					if(absorb_text)
+						to_chat(src, span_notice("[absorb_text]"))
+
+	if(used_weapon)
+		if(isitem(used_weapon))
+			var/obj/item/I = used_weapon
+			if(I.sharpness && I.max_blade_int && !(attack_flag in ARMOR_DR_ABSORB_TYPES))
+				var/dullness_ratio = I.blade_int / I.max_blade_int
+				if(dullness_ratio <= SHARPNESS_TIER2_THRESHOLD)	//Our weapon is CHUNKED. What are we PENNING WITH.
+					blocked = block_damage * 10
 
 	if(mob_timers[MT_INVISIBILITY] > world.time)
 		mob_timers[MT_INVISIBILITY] = world.time
 		update_sneak_invis(reset = TRUE)
 	return blocked
 
+#define SHARPNESS_PENALTY_RATIO_ONE 0.7
+#define SHARPNESS_PENALTY_RATIO_TWO 0.6
+#define SHARPNESS_PENALTY_RATIO_THREE 0.5
+#define SHARPNESS_PENALTY_RATIO_FOUR 0.4
+
+/proc/get_pen_info(mob/living/carbon/human/target, mob/living/attacker, obj/item/clothing/used_armor, def_zone, d_type, armor_pen, obj/item/I)
+	if(!target || !def_zone || !d_type || !armor_pen || !ishuman(target))
+		return 1
+	var/pen_total = armor_pen
+	var/protection
+	if(!used_armor)
+		used_armor = target.get_best_worn_armor(def_zone, d_type)
+	if(used_armor)
+		protection = used_armor.armor.getRating(d_type)
+	pen_total -= protection
+	var/balance_bonus = 0
+	var/sharpness_bonus = 0
+	var/damfactor_bonus = 0
+	if(I)
+		var/use_bonus = TRUE
+		if(I.sharpness && I.max_blade_int) 	// IS_BLUNT is 0, so this will be falsy with blunt weapons.
+			var/dullness_ratio = I.blade_int / I.max_blade_int
+
+			if(attacker.used_intent.damfactor != 1)
+				damfactor_bonus += floor(((attacker?.used_intent?.damfactor) - 1) * 10)
+
+			if(dullness_ratio > SHARPNESS_TIER1_THRESHOLD)	// We are above 80% sharpness, so we go along as planned and get a small bonus.
+				sharpness_bonus += 1
+				use_bonus = TRUE
+			else if(dullness_ratio < SHARPNESS_TIER2_THRESHOLD + 0.1)	// We are below sharpness threshold where we use damfactors & STR for damage, so we won't use it for pen either.
+				use_bonus = FALSE
+				if(damfactor_bonus > 0)
+					damfactor_bonus = 0
+			else	// We are inbetween, so we'll apply a penalty.
+				if(dullness_ratio < SHARPNESS_PENALTY_RATIO_ONE)
+					if(damfactor_bonus > 0)
+						damfactor_bonus = max(damfactor_bonus - 1, 0) // -1 from damfactor
+				if(dullness_ratio <= SHARPNESS_PENALTY_RATIO_TWO)
+					sharpness_bonus -= 1	//-1 from the total
+				if(dullness_ratio <= SHARPNESS_PENALTY_RATIO_THREE)
+					if(damfactor_bonus > 0)
+						damfactor_bonus = max(damfactor_bonus - 1, 0) // -2 from damfactor
+				if(dullness_ratio <= SHARPNESS_PENALTY_RATIO_FOUR)
+					sharpness_bonus -= 1	//-2 from the total
+
+		if(use_bonus)
+			switch(I.wbalance)
+				if(WBALANCE_HEAVY)
+					balance_bonus = (attacker.STASTR - 10) + 2
+				if(WBALANCE_NORMAL)
+					balance_bonus = (attacker.STASTR - 10)
+				if(WBALANCE_SWIFT)
+					balance_bonus = (attacker.STASPD - 10)
+
+	else
+		balance_bonus = (attacker.STASTR - 10)	// Unarmed, probably.
+	// If our negative sharpness malus is equal or greater than the balance bonus, we neutralize them both.
+	// This is to prevent edge cases where losing sharpness would -increase- our pen damage.
+	// Fundamentally, we shouldn't be penalized via sharpness beyond what we would've gained from our stats.
+	if(abs(balance_bonus) <= abs(sharpness_bonus) && sharpness_bonus <= 0 && balance_bonus >= 0)	
+		balance_bonus = 0
+		sharpness_bonus = 0
+	pen_total += balance_bonus
+	pen_total += sharpness_bonus
+	// This proc's usage is meant to presume we're in the part of the 
+	// proc pipeline that is already penning, so we give it at least a 1.
+	pen_total = clamp(pen_total, 1, 8)
+	return pen_total
+
+#undef SHARPNESS_PENALTY_RATIO_ONE
+#undef SHARPNESS_PENALTY_RATIO_TWO
+#undef SHARPNESS_PENALTY_RATIO_THREE
+#undef SHARPNESS_PENALTY_RATIO_FOUR
 
 /mob/living/proc/getarmor(def_zone, type, damage, armor_penetration, blade_dulling, intdamfactor, used_weapon)
 	return 0
@@ -80,6 +174,8 @@
 	if(guard)
 		if(P.on_guard_deflect(src))
 			apply_status_effect(/datum/status_effect/buff/parry_buffer)
+			apply_status_effect(/datum/status_effect/buff/adrenaline_rush)
+			guard.deflected_spell = TRUE
 			remove_status_effect(/datum/status_effect/buff/clash)
 			return TRUE
 		return FALSE
@@ -534,9 +630,29 @@
 /mob/living/proc/damage_clothes(damage_amount, damage_type = BRUTE, damage_flag = 0, def_zone)
 	return
 
+/mob/living/proc/do_item_attack_animation_wrapper(atom/A, visual_effect_icon, obj/item/used_item, animation_type, datum/intent/used_intent)
+	if(is_swinging())
+		var/datum/status_effect/swingdelay/disrupt/SW = has_status_effect(/datum/status_effect/swingdelay/disrupt)
+		if(SW)
+			if(SW.is_disrupted())	//We don't want to play an animation on a cancelled swing delay.
+				return
+		do_item_attack_animation(A, visual_effect_icon, used_item, animation_type, used_intent)
 
 /mob/living/do_attack_animation(atom/A, visual_effect_icon, obj/item/used_item, no_effect, item_animation_override = null, datum/intent/used_intent, simplified = TRUE)
 	if(!used_item)
 		used_item = get_active_held_item()
-	..()
+	if(!used_intent)
+		used_intent = src.used_intent
+	var/animation_type
+	if(used_item || !simplified)
+		animation_type = item_animation_override || used_intent?.get_attack_animation_type()
+		if(used_intent.swingdelay && used_intent.swingdelay_type)
+			addtimer(CALLBACK(src, PROC_REF(do_item_attack_animation_wrapper), A, visual_effect_icon, used_item, animation_type, used_intent), used_intent.swingdelay)
+			if(used_intent.reach < 2)	//It'll look confusing otherwise.
+				do_attack_animation_simple(get_step(src, src.dir), visual_effect_icon)
+			wiggle(A)
+		else
+			do_item_attack_animation(A, visual_effect_icon, used_item, animation_type, used_intent)
 	setMovetype(movement_type & ~FLOATING) // If we were without gravity, the bouncing animation got stopped, so we make sure we restart the bouncing after the next movement.
+
+	

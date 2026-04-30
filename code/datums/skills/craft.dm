@@ -171,7 +171,7 @@
 		"...the smell of sulfur singes your nostrils... you taste iron... the smoke clears as you stare down at the reflection in your cauldron... the Queen stares back at you... she looks like she's crying..."
 	)
 	expert_name = "Alchemist"
-	max_untraited_level = SKILL_LEVEL_JOURNEYMAN // Special, we just gate the best potions away
+	max_untraited_level = SKILL_LEVEL_NONE
 	trait_uncap = list(TRAIT_ALCHEMY_EXPERT = SKILL_LEVEL_LEGENDARY)
 
 /datum/skill/craft/alchemy/skill_level_effect(level, datum/mind/mind)

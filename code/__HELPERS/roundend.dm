@@ -111,9 +111,6 @@
 	if(ishostile(src))
 		var/mob/living/simple_animal/hostile/H = src
 		H.LoseTarget()
-	if(ishuman(src))
-		var/mob/living/carbon/human/H = src
-		H.mode = NPC_AI_OFF
 
 /client/proc/show_game_over()
 	var/atom/movable/screen/splash/credits/S = new(src, FALSE)
@@ -155,6 +152,7 @@
 					to_chat(H, "\n<font color='purple'><b>[job.round_contrib_points]</b> ROUND CONTRIBUTOR POINTS AWARDED. Thank you for playing!</font>")
 					add_roundpoints(job.round_contrib_points, H.ckey)
 	add_roundplayed(key_list)
+
 	update_god_rankings()
 	
 	for(var/mob/M in GLOB.mob_list)

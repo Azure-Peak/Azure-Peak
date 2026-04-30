@@ -161,24 +161,54 @@
 			return
 		calculate_weights(track)
 		var/list/valid_events = list()
+		var/list/invalid_reasons = list()
+		var/roundstart_players_amt = get_active_player_count(alive_check = TRUE, afk_check = TRUE, human_check = TRUE)
 		// Determine which events are valid to pick
 		for(var/datum/round_event_control/event as anything in mode.event_pools[track])
-			var/players_amt = get_active_player_count(alive_check = TRUE, afk_check = TRUE, human_check = TRUE)
+			var/players_amt = roundstart_players_amt
 			if(forced)
 				if(QDELETED(event))
 					message_admins("[event.name] was deleted!")
+					if(track == EVENT_TRACK_CHARACTER_INJECTION && !SSticker?.HasRoundStarted())
+						invalid_reasons[event] = "deleted"
 					continue
-				valid_events[event] = round(event.calculated_weight * 10)
+				var/forced_weight = mode.storyteller_event_weight(event, round(event.calculated_weight * 10))
+				if(forced_weight <= 0)
+					if(track == EVENT_TRACK_CHARACTER_INJECTION && !SSticker?.HasRoundStarted())
+						invalid_reasons[event] = mode.antag_roll_reason(event, players_amt)
+					continue
+				valid_events[event] = forced_weight
 			else if(event.canSpawnEvent(players_amt))
 				if(QDELETED(event))
 					message_admins("[event.name] was deleted!")
+					if(track == EVENT_TRACK_CHARACTER_INJECTION && !SSticker?.HasRoundStarted())
+						invalid_reasons[event] = "deleted"
 					continue
-				valid_events[event] = round(event.calculated_weight * 10) //multiply weight by 10 to get first decimal value
+				var/adjusted_weight = mode.storyteller_event_weight(event, round(event.calculated_weight * 10))
+				if(adjusted_weight <= 0)
+					if(track == EVENT_TRACK_CHARACTER_INJECTION && !SSticker?.HasRoundStarted())
+						invalid_reasons[event] = mode.antag_roll_reason(event, players_amt)
+					continue
+				valid_events[event] = adjusted_weight //multiply weight by 10 to get first decimal value
+			else if(track == EVENT_TRACK_CHARACTER_INJECTION && !SSticker?.HasRoundStarted() && istype(event, /datum/round_event_control/antagonist/solo))
+				invalid_reasons[event] = event.return_failure_string(players_amt) || "canSpawnEvent failed"
+		if(track == EVENT_TRACK_CHARACTER_INJECTION && !SSticker?.HasRoundStarted())
+			mode.log_roundstart_antag_pool(valid_events, invalid_reasons)
 		///If we didn't get any events, remove the points inform admins and dont do anything
 		if(!length(valid_events))
 			message_admins("Storyteller failed to pick an event for track of [track].")
 			mode.event_track_points[track] *= TRACK_FAIL_POINT_PENALTY_MULTIPLIER
 			return
+		if(track == EVENT_TRACK_CHARACTER_INJECTION && !SSticker?.HasRoundStarted())
+			var/list/guaranteed_events = mode.storyteller_guaranteed_events(valid_events)
+			if(length(guaranteed_events))
+				var/list/filtered_out_events = list()
+				for(var/datum/round_event_control/antagonist/solo/event as anything in valid_events)
+					if(event in guaranteed_events)
+						continue
+					filtered_out_events[event] = "filtered by guaranteed-only roll"
+				mode.log_roundstart_antag_pool(guaranteed_events, filtered_out_events, guaranteed_only = TRUE)
+				valid_events = guaranteed_events
 		picked_event = pickweight(valid_events)
 		if(!picked_event)
 			if(length(valid_events))
@@ -193,6 +223,8 @@
 				stack_trace("WARNING: Storyteller picked a null from event pool.")
 				SSgamemode.event_track_points[track] = 0
 				return
+		if(track == EVENT_TRACK_CHARACTER_INJECTION && !SSticker?.HasRoundStarted() && istype(picked_event, /datum/round_event_control/antagonist/solo))
+			mode.log_roundstart_antag_pick(picked_event, roundstart_players_amt, "weighted roundstart pool")
 	buy_event(picked_event, track, are_forced)
 	. = TRUE
 

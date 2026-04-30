@@ -511,12 +511,12 @@ GLOBAL_LIST_EMPTY(arenafolks) // we're just going to use a list and add to it. S
 	var/skill = user.get_skill_level(/datum/skill/magic/holy)
 	var/dist = (3 + skill)
 	for(var/mob/living/mob in view(dist, get_turf(user)))
-		if(!mob.mind)
+		if(!mob.mind && mob.ai_controller)
 			mob.ai_controller.set_blackboard_key(BB_BASIC_MOB_CURRENT_TARGET, user)
-			if(ishuman(mob))
-				var/mob/living/carbon/human/hmob = mob
-				hmob.should_target(user)
-				hmob.validate_path(user)
+			mob.ai_controller.set_blackboard_key(BB_HIGHEST_THREAT_MOB, user)
+			var/datum/component/ai_aggro_system/aggro = mob.GetComponent(/datum/component/ai_aggro_system)
+			if(aggro)
+				aggro.add_threat_to_mob(user, 50)
 			checkgate = TRUE
 	if(checkgate == TRUE)
 		user.apply_status_effect(/datum/status_effect/buff/ravox_provocation, skill)

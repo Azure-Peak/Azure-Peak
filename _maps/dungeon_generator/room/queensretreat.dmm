@@ -163,8 +163,8 @@
 /area/rogue/under/tomb/wilds)
 "fm" = (
 /obj/structure/closet/crate/chest/crate,
-/obj/item/reagent_containers/food/snacks/grown/wheat,
-/obj/item/reagent_containers/food/snacks/grown/wheat,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/under/tomb/indoors/royal)
 "fo" = (
@@ -182,8 +182,8 @@
 /area/rogue/under/tomb/indoors/royal)
 "he" = (
 /obj/structure/closet/crate/chest/wicker,
-/obj/item/reagent_containers/food/snacks/egg,
-/obj/item/reagent_containers/food/snacks/egg,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
 /obj/effect/spawner/lootdrop/general_loot_mid,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/under/tomb/indoors/royal)
@@ -261,7 +261,7 @@
 /turf/open/floor/rogue/tile,
 /area/rogue/under/tomb/indoors/royal)
 "jp" = (
-/obj/item/reagent_containers/food/snacks/grown/wheat,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
 /obj/structure/table/wood{
 	icon_state = "longtable"
 	},
@@ -283,7 +283,7 @@
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/under/tomb/wilds)
 "kB" = (
-/obj/item/reagent_containers/food/snacks/smallrat,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
 /obj/structure/fluff/railing/wood{
 	dir = 1
 	},
@@ -519,7 +519,7 @@
 	},
 /area/rogue/under/tomb)
 "un" = (
-/obj/item/reagent_containers/food/snacks/smallrat,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
 /turf/open/floor/carpet/red,
 /area/rogue/under/tomb/indoors/royal)
 "uA" = (
@@ -552,7 +552,7 @@
 	},
 /obj/structure/table/wood,
 /obj/effect/spawner/lootdrop/general_loot_hi,
-/obj/item/roguegem/random,
+/obj/effect/spawner/lootdrop/random_gem,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/tomb/indoors/royal)
 "vK" = (
@@ -609,7 +609,7 @@
 /turf/open/floor/carpet/red,
 /area/rogue/under/tomb/indoors/royal)
 "zx" = (
-/obj/item/reagent_containers/food/snacks/smallrat,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
 /mob/living/carbon/human/species/skeleton/npc/mediumspread,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/under/tomb/indoors/royal)
@@ -992,10 +992,7 @@
 	pixel_x = -5;
 	pixel_y = 31
 	},
-/obj/item/roguegem/violet{
-	pixel_x = 6;
-	pixel_y = 32
-	},
+/obj/effect/spawner/lootdrop/random_gem,
 /obj/structure/fluff/clock,
 /turf/open/floor/carpet/red,
 /area/rogue/under/tomb/indoors/royal)

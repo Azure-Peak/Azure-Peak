@@ -405,6 +405,16 @@
 		/datum/sprite_accessory/hair/head/bubblebraids,
 		/datum/sprite_accessory/hair/head/bubblebraids_v2,
 		/datum/sprite_accessory/hair/head/heiress,
+		/datum/sprite_accessory/hair/head/longbraids,
+		/datum/sprite_accessory/hair/head/knots,
+		/datum/sprite_accessory/hair/head/mediumlocs,
+		/datum/sprite_accessory/hair/head/shortlocs,
+		/datum/sprite_accessory/hair/head/poofycurls,
+		/datum/sprite_accessory/hair/head/messylocs,
+		/datum/sprite_accessory/hair/head/dualtwists,
+		/datum/sprite_accessory/hair/head/twistbun,
+		/datum/sprite_accessory/hair/head/kandake,
+		/datum/sprite_accessory/hair/head/sidebraid,
 		/datum/sprite_accessory/hair/head/playful,
 		/datum/sprite_accessory/hair/head/adventurer,
 		/datum/sprite_accessory/hair/head/amazon_f,
@@ -502,6 +512,7 @@
 		/datum/sprite_accessory/hair/head/hprotagonist,
 		/datum/sprite_accessory/hair/head/alsoprotagonist,
 		/datum/sprite_accessory/hair/head/ghast,
+		/datum/sprite_accessory/hair/head/scruffy,
 		)
 
 /datum/customizer_choice/bodypart_feature/hair/head/humanoid/get_random_accessory(datum/customizer_entry/entry, datum/preferences/prefs)
