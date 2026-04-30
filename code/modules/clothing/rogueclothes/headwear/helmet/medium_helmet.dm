@@ -726,3 +726,15 @@
 	drop_sound = 'sound/foley/dropsound/scrap_drop.ogg'
 	pickup_sound = 'sound/foley/equip/scrap_equip.ogg'
 	equip_sound = 'sound/foley/equip/scrap_equip.ogg'
+
+/obj/item/clothing/head/roguetown/helmet/headcage
+	name = "headcage"
+	desc = "Bars ensnare the practicioner's head; a cumbersome yet clever compromise, to ward off bites from snarling deadites."
+	icon_state = "headcage"
+	item_state = "headcage"
+	smelt_bar_num = 2
+	worn_x_dimension = 64
+	worn_y_dimension = 64
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/64x64/head.dmi'
+	bloody_icon = 'icons/effects/blood64.dmi'
+	smeltresult = /obj/item/ingot/iron

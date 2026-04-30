@@ -546,6 +546,25 @@
 
 /mob/living/simple_animal/hostile/proc/DestroyPathToTarget()
 	var/dir_to_target = get_dir(targets_from, target)
+	// Prefer climbing climbable obstacles over smashing them.
+	// Both /obj/structure (tables) and /obj/machinery (hearths) define climbable separately.
+	var/turf/next_turf = get_step(src, dir_to_target)
+	for(var/obj/structure/S in next_turf)
+		if(S.climbable)
+			S.climb_structure(src)
+			return
+	for(var/obj/machinery/M in next_turf)
+		if(M.climbable)
+			M.climb_structure(src)
+			return
+	for(var/obj/structure/S in get_turf(src))
+		if(S.climbable)
+			S.climb_structure(src)
+			return
+	for(var/obj/machinery/M in get_turf(src))
+		if(M.climbable)
+			M.climb_structure(src)
+			return
 	if(environment_smash)
 		var/turf/V = get_turf(src)
 		for (var/obj/structure/O in V.contents)	//check for if a direction dense structure is on the same tile as the mob
@@ -562,14 +581,6 @@
 			dir_list += dir_to_target
 		for(var/direction in dir_list) //now we hit all of the directions we got in this fashion, since it's the only directions we should actually need
 			DestroyObjectsInDirection(direction)
-	for(var/obj/structure/O in get_step(src,dir_to_target))
-		if(O.climbable)
-			O.climb_structure(src)
-			break
-	for(var/obj/structure/O in get_turf(src))
-		if(O.climbable)
-			O.climb_structure(src)
-			break
 
 /mob/living/simple_animal/hostile/proc/DestroySurroundings() // for use with megafauna destroying everything around them
 	if(environment_smash)

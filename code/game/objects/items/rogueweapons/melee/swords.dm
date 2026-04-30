@@ -133,6 +133,17 @@
 	wdefense = 4
 	sellprice = 10
 
+/obj/item/rogueweapon/sword/avantyne
+	name = "avantyne arming sword"
+	desc = "Blade cut straight from earnest avantyne. Imperfections are absent."
+	icon_state = "zeretic_arming"
+	force = 25
+	force_wielded = 30
+
+/obj/item/rogueweapon/sword/avantyne/Initialize()
+	. = ..()
+	AddComponent(/datum/component/cursed_item, TRAIT_CABAL, "SWORD")
+
 /obj/item/rogueweapon/sword/long
 	name = "longsword"
 	desc = "A lethal and perfectly balanced weapon. The longsword is the protagonist of endless tales and myths \
@@ -349,19 +360,20 @@
 	gripped_intents = list(/datum/intent/sword/cut, /datum/intent/sword/thrust/long, /datum/intent/sword/thrust/long/halfsword/lesser, /datum/intent/sword/chop)
 	wlength = WLENGTH_NORMAL
 
-/obj/item/rogueweapon/sword/long/zizo
+/obj/item/rogueweapon/sword/long/avantyne
 	name = "avantyne longsword"
 	desc = "A wicked, unconventional, and otherwordly blade that was created by no swordsmith - a manifestation of hate for the state of this world that follows no design principles but spite and anger."
 	icon_state = "zizosword"
 	sheathe_icon = "zizosword"
-	force = 30
-	force_wielded = 35
+	force = 35
+	force_wielded = 40
 	max_blade_int = 400
 	max_integrity = 500
 	equip_delay_self = 0
 	unequip_delay_self = 0
+	wdefense_wbonus = 7
 
-/obj/item/rogueweapon/sword/long/zizo/Initialize()
+/obj/item/rogueweapon/sword/long/avantyne/Initialize()
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_CABAL, "SWORD")
 

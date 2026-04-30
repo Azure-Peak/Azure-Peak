@@ -58,7 +58,24 @@
 		playsound(loc, 'sound/foley/cloth_wipe (1).ogg', 100, TRUE)
 		qdel(src)
 
-// This'll be our tutorial ritual for those who want to make more later, let's go into details in comments, mm? - Onutsio
+
+/obj/structure/ritualcircle/proc/tag_kit_items(mob/living/carbon/human/target, list/ritual_items, list/ritual_slot_keys)
+	var/target_ckey = ckey(target?.ckey)
+	if(!target_ckey || !ritual_slot_keys)
+		return
+	for(var/slot_key in ritual_slot_keys)
+		var/obj/item/previous_item = GLOB.kit_registry["[target_ckey]-[slot_key]"]
+		if(previous_item && !QDELETED(previous_item))
+			qdel(previous_item)
+	if(!ritual_items)
+		return
+	for(var/slot_key in ritual_items)
+		var/obj/item/ritual_item = ritual_items[slot_key]
+		if(!ritual_item)
+			continue
+		ritual_item.AddComponent(/datum/component/kit_owner, target_ckey, slot_key)
+
+// This'll be our tutorial ritual for those who want to make more later, let's go into details in comments, mm? - Onutsio 
 /obj/structure/ritualcircle/astrata
 	name = "Rune of the Sun" // defines name of the circle itself
 	icon_state = "astrata_chalky" // the icon state, so, the sprite the runes use on the floor. As of making, we have 6, each needs an active/inactive state. 
@@ -1459,6 +1476,18 @@
 		target.apply_status_effect(/datum/status_effect/buff/guidinglight/undivided)
 		playsound(target, 'sound/magic/undivided_revenge.ogg', 90, FALSE, -1)
 		target.equipOutfit(/datum/outfit/job/roguetown/decarite)
+		tag_kit_items(target, list(
+			"head" = target.get_item_by_slot(SLOT_HEAD),
+			"cloak" = target.get_item_by_slot(SLOT_CLOAK),
+			"armor" = target.get_item_by_slot(SLOT_ARMOR),
+			"gloves" = target.get_item_by_slot(SLOT_GLOVES),
+			"belt" = target.get_item_by_slot(SLOT_BELT),
+			"beltl" = target.get_item_by_slot(SLOT_BELT_L),
+			"pants" = target.get_item_by_slot(SLOT_PANTS),
+			"shoes" = target.get_item_by_slot(SLOT_SHOES),
+			"backl" = target.get_item_by_slot(SLOT_BACK_L),
+			"backr" = target.get_item_by_slot(SLOT_BACK_R),
+		), list("head", "cloak", "armor", "gloves", "belt", "beltl", "pants", "shoes", "backl", "backr"))
 		to_chat(target, span_boldred("This is my only chance at LYFE."))
 		ADD_TRAIT(target, TRAIT_DNR, TRAIT_RITUAL)
 
@@ -1544,11 +1573,30 @@
 				"Avantyne Barbute" = image(icon = 'icons/roguetown/clothing/head.dmi', icon_state = "zizobarbute"),
 				"Avantyne Froggemund" = image(icon = 'icons/roguetown/clothing/head.dmi', icon_state = "zizofrogmouth"),
 				"Avantyne Volf-Plate" = image(icon = 'icons/roguetown/clothing/head.dmi', icon_state = "volfplate_avantyne"),
+				"Avantyne Bascinet" = image(icon = 'icons/roguetown/clothing/head.dmi', icon_state = "zizoplatehelm_med")
 			)
 
-			var/choice = show_radial_menu(user, src, helm_options, require_near = TRUE, tooltips = TRUE)
-			if(!choice)
-				choice = "Avantyne Barbute"
+			var/helm_choice = show_radial_menu(user, src, helm_options, require_near = TRUE, tooltips = TRUE)
+			if(!helm_choice)
+				helm_choice = "Avantyne Barbute"
+
+			var/list/armor_options = list(
+				"Avantyne Half-Plate" = image(icon = 'icons/roguetown/clothing/armor.dmi', icon_state = "zizoplatechest_med"),
+				"Avantyne Fullplate" = image(icon = 'icons/roguetown/clothing/armor.dmi', icon_state = "zizoplate")
+			)
+
+			var/armor_choice = show_radial_menu(user, src, armor_options, require_near = TRUE, tooltips = TRUE)
+			if(!armor_choice)
+				armor_choice = "Avantyne Fullplate"
+
+			var/list/weapon_options = list(
+				"Avantyne Longsword" = image(icon = 'icons/roguetown/weapons/swords64.dmi', icon_state = "zizosword"),
+				"Avantyne Arming Sword and Darkshield" = image(icon = 'icons/roguetown/weapons/shields32.dmi', icon_state = "zeretic_shield")
+			)
+
+			var/weapon_choice = show_radial_menu(user, src, weapon_options, require_near = TRUE, tooltips = TRUE)
+			if(!weapon_choice)
+				weapon_choice = "Avantyne Longsword"
 			user.say("ZIZO! ZIZO! DAME OF PROGRESS!!")
 			if(!do_after(user, 5 SECONDS))
 				return
@@ -1560,22 +1608,32 @@
 				return
 			icon_state = "zizo_active"
 			user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
-			zizoarmaments(target, choice)
+			zizoarmaments(target, helm_choice, armor_choice, weapon_choice)
 			spawn(120)
 				icon_state = "zizo_chalky"
 
-/obj/structure/ritualcircle/zizo/proc/zizoarmaments(mob/living/carbon/human/target, choice)
+/obj/structure/ritualcircle/zizo/proc/zizoarmaments(mob/living/carbon/human/target, helm_choice, armor_choice, weapon_choice)
 	if(!HAS_TRAIT(target, TRAIT_CABAL))
 		loc.visible_message(span_cult("THE RITE REJECTS ONE NOT OF THE CABAL"))
 		return
 	var/obj/item/clothing/head/roguetown/helmet/heavy/helm_path
-	switch(choice)
+	var/outfit_path = /datum/outfit/job/roguetown/darksteelrite
+	switch(helm_choice)
 		if("Avantyne Barbute")
 			helm_path = /obj/item/clothing/head/roguetown/helmet/heavy/zizo
 		if("Avantyne Froggemund")
 			helm_path = /obj/item/clothing/head/roguetown/helmet/heavy/zizo/frogge
 		if("Avantyne Volf-Plate")
 			helm_path = /obj/item/clothing/head/roguetown/helmet/heavy/zizo/volfhelm
+		if("Avantyne Bascinet")
+			helm_path = /obj/item/clothing/head/roguetown/helmet/heavy/zizo/bascinet
+	switch(armor_choice)
+		if("Avantyne Half-Plate")
+			outfit_path = /datum/outfit/job/roguetown/darksteelrite/medium
+		if("Avantyne Fullplate")
+			outfit_path = /datum/outfit/job/roguetown/darksteelrite
+	if(!helm_path)
+		helm_path = /obj/item/clothing/head/roguetown/helmet/heavy/zizo
 	target.Stun(60)
 	target.Knockdown(60)
 	to_chat(target, span_userdanger("UNIMAGINABLE PAIN!"))
@@ -1584,29 +1642,65 @@
 	loc.visible_message(span_cult("Great hooks come from the rune, embedding into [target]'s ankles, pulling them onto the rune. Then, into their wrists. Their lux is torn from their chest, and reforms into armor. "))
 	spawn(20)
 		playsound(loc, 'sound/combat/hits/onmetal/grille (2).ogg', 50)
-		target.equipOutfit(/datum/outfit/job/roguetown/darksteelrite, helm_path)
+		var/datum/outfit/job/roguetown/darksteelrite/ritual_outfit = new outfit_path()
+		ritual_outfit.selected_helm_path = helm_path
+		ritual_outfit.selected_weapon_choice = weapon_choice
+		target.equipOutfit(ritual_outfit)
+		tag_kit_items(target, list(
+			"armor" = target.get_item_by_slot(SLOT_ARMOR),
+			"shirt" = target.get_item_by_slot(SLOT_SHIRT),
+			"pants" = target.get_item_by_slot(SLOT_PANTS),
+			"shoes" = target.get_item_by_slot(SLOT_SHOES),
+			"wrists" = target.get_item_by_slot(SLOT_WRISTS),
+			"gloves" = target.get_item_by_slot(SLOT_GLOVES),
+			"head" = target.get_item_by_slot(SLOT_HEAD),
+			"neck" = target.get_item_by_slot(SLOT_NECK),
+			"backr" = target.get_item_by_slot(SLOT_BACK_R),
+			"r_hand" = target.get_item_for_held_index(2),
+			"l_hand" = target.get_item_for_held_index(1),
+		), list("armor", "shirt", "pants", "shoes", "wrists", "gloves", "head", "neck", "backr", "r_hand", "l_hand"))
 		target.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
 		spawn(40)
 			to_chat(target, span_purple("They are ignorant, backwards, without hope. You. You will be powerful."))
 
-/datum/outfit/job/roguetown/darksteelrite/pre_equip(mob/living/carbon/human/H, obj/item/clothing/head/roguetown/helmet/heavy/helm_path)
+/datum/outfit/job/roguetown/darksteelrite
+	var/obj/item/clothing/head/roguetown/helmet/heavy/selected_helm_path = /obj/item/clothing/head/roguetown/helmet/heavy/zizo
+	var/selected_weapon_choice = "Avantyne Longsword"
+
+/datum/outfit/job/roguetown/darksteelrite/pre_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	..()
 	var/list/items = list()
 	items |= H.get_equipped_items(TRUE)
 	for(var/I in items)
 		H.dropItemToGround(I, TRUE)
 	H.drop_all_held_items()
-	armor = /obj/item/clothing/suit/roguetown/armor/plate/full/zizo
-	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/zizo
-	pants = /obj/item/clothing/under/roguetown/platelegs/zizo
-	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/zizo
-	wrists = /obj/item/clothing/wrists/roguetown/bracers/zizo
-	gloves = /obj/item/clothing/gloves/roguetown/plate/zizo
-	head = helm_path
-	neck = /obj/item/clothing/neck/roguetown/bevor/zizo
-	backr = /obj/item/rogueweapon/sword/long/zizo
+	armor = /obj/item/clothing/suit/roguetown/armor/plate/full/avantyne
+	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/avantyne/heavy
+	pants = /obj/item/clothing/under/roguetown/platelegs/avantyne/heavy
+	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/avantyne/heavy
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/avantyne/heavy
+	gloves = /obj/item/clothing/gloves/roguetown/plate/avantyne/heavy
+	head = selected_helm_path
+	neck = /obj/item/clothing/neck/roguetown/bevor/avantyne/heavy
+	switch(selected_weapon_choice)
+		if("Avantyne Arming Sword and Darkshield")
+			r_hand = /obj/item/rogueweapon/sword/avantyne
+			l_hand = /obj/item/rogueweapon/shield/tower/metal/avantyne
+		else
+			r_hand = /obj/item/rogueweapon/sword/long/avantyne
 
 	H.mind.AddSpell(new /datum/action/cooldown/spell/mending/lesser)
+
+/datum/outfit/job/roguetown/darksteelrite/medium/pre_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
+	..()
+	armor = /obj/item/clothing/suit/roguetown/armor/plate/fluted/avantyne
+	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/avantyne
+	pants = /obj/item/clothing/under/roguetown/platelegs/avantyne
+	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/avantyne
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/avantyne
+	gloves = /obj/item/clothing/gloves/roguetown/plate/avantyne
+	neck = /obj/item/clothing/neck/roguetown/bevor/avantyne
+	H.mind.RemoveSpell(new /datum/action/cooldown/spell/mending/lesser)
 
 
 /obj/structure/ritualcircle/matthios
@@ -1689,6 +1783,17 @@
 	spawn(20)
 		playsound(loc, 'sound/combat/hits/onmetal/grille (2).ogg', 50)
 		target.equipOutfit(/datum/outfit/job/roguetown/gildedrite)
+		tag_kit_items(target, list(
+			"armor" = target.get_item_by_slot(SLOT_ARMOR),
+			"shirt" = target.get_item_by_slot(SLOT_SHIRT),
+			"pants" = target.get_item_by_slot(SLOT_PANTS),
+			"shoes" = target.get_item_by_slot(SLOT_SHOES),
+			"wrists" = target.get_item_by_slot(SLOT_WRISTS),
+			"gloves" = target.get_item_by_slot(SLOT_GLOVES),
+			"head" = target.get_item_by_slot(SLOT_HEAD),
+			"neck" = target.get_item_by_slot(SLOT_NECK),
+			"backr" = target.get_item_by_slot(SLOT_BACK_R),
+		), list("armor", "shirt", "pants", "shoes", "wrists", "gloves", "head", "neck", "backr"))
 		target.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, SKILL_LEVEL_EXPERT, TRUE)
 		spawn(40)
 			to_chat(target, span_cult("More to the maw, this shall help feed our greed."))
@@ -1802,6 +1907,29 @@
 				return
 			if(!do_after(user, 5 SECONDS))
 				return
+			var/list/helm_options = list(
+				"Vicious Helmet" = image(icon = 'icons/roguetown/clothing/head.dmi', icon_state = "graggarplatehelm"),
+				"Vicious Skullhelm" = image(icon = 'icons/roguetown/clothing/head.dmi', icon_state = "graggarplatehelm_heavy"),
+			)
+			var/helm_choice = show_radial_menu(user, src, helm_options, require_near = TRUE, tooltips = TRUE)
+			if(!helm_choice)
+				return
+
+			var/list/armor_options = list(
+				"Vicious Half-Plate" = image(icon = 'icons/roguetown/clothing/armor.dmi', icon_state = "graggarplate"),
+				"Vicious Full-Plate" = image(icon = 'icons/roguetown/clothing/armor.dmi', icon_state = "graggarplate_heavy"),
+			)
+			var/armor_choice = show_radial_menu(user, src, armor_options, require_near = TRUE, tooltips = TRUE)
+			if(!armor_choice)
+				return
+
+			var/list/weapon_options = list(
+				"Vicious Greataxe" = image(icon = 'icons/roguetown/weapons/axes64.dmi', icon_state = "graggargaxe"),
+				"Vicious Hand-axe and Shield" = image(icon = 'icons/roguetown/weapons/shields32.dmi', icon_state = "gheretic_shield"),
+			)
+			var/weapon_choice = show_radial_menu(user, src, weapon_options, require_near = TRUE, tooltips = TRUE)
+			if(!weapon_choice)
+				return
 			user.say("MOTIVE FORCE, OH VIOLENCE!!")
 			if(!do_after(user, 5 SECONDS))
 				return
@@ -1813,7 +1941,7 @@
 				return
 			icon_state = "graggar_active"
 			user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
-			graggararmor(target)
+			graggararmor(target, helm_choice, armor_choice, weapon_choice)
 			spawn(120)
 				icon_state = "graggar_chalky" 
 		if("War Ritual")
@@ -1836,10 +1964,26 @@
 				to_chat(user, span_warning("The ritual fails. A noble, a member of the Inquisition or a Tennite clergy member must be in the center of the circle!"))
 			spawn(120)
 				icon_state = "graggar_chalky" 
-/obj/structure/ritualcircle/graggar/proc/graggararmor(mob/living/carbon/human/target)
+/obj/structure/ritualcircle/graggar/proc/graggararmor(mob/living/carbon/human/target, helm_choice, armor_choice, weapon_choice)
 	if(!HAS_TRAIT(target, TRAIT_HORDE))
 		loc.visible_message(span_cult("THE RITE REJECTS ONE WITHOUT SLAUGHTER IN THEIR HEART!!"))
 		return
+	var/obj/item/clothing/head/roguetown/helmet/heavy/helm_path
+	var/outfit_path
+	switch(helm_choice)
+		if("Vicious Helmet")
+			helm_path = /obj/item/clothing/head/roguetown/helmet/heavy/graggar
+		if("Vicious Skullhelm")
+			helm_path = /obj/item/clothing/head/roguetown/helmet/heavy/graggar/alt
+	switch(armor_choice)
+		if("Vicious Half-Plate")
+			outfit_path = /datum/outfit/job/roguetown/viciousrite
+		if("Vicious Full-Plate")
+			outfit_path = /datum/outfit/job/roguetown/viciousrite/heavy
+	if(!helm_path)
+		helm_path = /obj/item/clothing/head/roguetown/helmet/heavy/graggar
+	if(!outfit_path)
+		outfit_path = /datum/outfit/job/roguetown/viciousrite
 	target.Stun(60)
 	target.Knockdown(60)
 	to_chat(target, span_userdanger("UNIMAGINABLE PAIN!"))
@@ -1848,7 +1992,24 @@
 	loc.visible_message(span_cult("[target]'s lux pours from their nose, into the rune, motive and metals swirl into armor, snug around their form!"))
 	spawn(20)
 		playsound(loc, 'sound/combat/hits/onmetal/grille (2).ogg', 50)
-		target.equipOutfit(/datum/outfit/job/roguetown/viciousrite)
+		var/datum/outfit/job/roguetown/viciousrite/ritual_outfit = new outfit_path()
+		ritual_outfit.selected_helm_path = helm_path
+		ritual_outfit.selected_weapon_choice = weapon_choice
+		target.equipOutfit(ritual_outfit)
+		tag_kit_items(target, list(
+			"armor" = target.get_item_by_slot(SLOT_ARMOR),
+			"shirt" = target.get_item_by_slot(SLOT_SHIRT),
+			"pants" = target.get_item_by_slot(SLOT_PANTS),
+			"shoes" = target.get_item_by_slot(SLOT_SHOES),
+			"wrists" = target.get_item_by_slot(SLOT_WRISTS),
+			"gloves" = target.get_item_by_slot(SLOT_GLOVES),
+			"head" = target.get_item_by_slot(SLOT_HEAD),
+			"mask" = target.get_item_by_slot(SLOT_WEAR_MASK),
+			"neck" = target.get_item_by_slot(SLOT_NECK),
+			"cloak" = target.get_item_by_slot(SLOT_CLOAK),
+			"r_hand" = target.get_item_for_held_index(2),
+			"l_hand" = target.get_item_for_held_index(1),
+		), list("armor", "shirt", "pants", "shoes", "wrists", "gloves", "head", "mask", "neck", "cloak", "r_hand", "l_hand"))
 		target.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_EXPERT, TRUE)
 		spawn(40)
 			to_chat(target, span_cult("Break them."))
@@ -1892,7 +2053,11 @@
 	victim.emote("painscream", forced = TRUE)
 	return TRUE
 
-/datum/outfit/job/roguetown/viciousrite/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/roguetown/viciousrite
+	var/obj/item/clothing/head/roguetown/helmet/heavy/selected_helm_path = /obj/item/clothing/head/roguetown/helmet/heavy/graggar
+	var/selected_weapon_choice = "Vicious Greataxe"
+
+/datum/outfit/job/roguetown/viciousrite/pre_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	..()
 	var/list/items = list()
 	items |= H.get_equipped_items(TRUE)
@@ -1905,10 +2070,38 @@
 	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/graggar
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/graggar
 	gloves = /obj/item/clothing/gloves/roguetown/plate/graggar
-	head = /obj/item/clothing/head/roguetown/helmet/heavy/graggar
+	head = selected_helm_path
 	neck = /obj/item/clothing/neck/roguetown/gorget/steel/graggar
 	cloak = /obj/item/clothing/cloak/graggar
-	r_hand = /obj/item/rogueweapon/greataxe/steel/doublehead/graggar
+	switch(selected_weapon_choice)
+		if("Vicious Hand-axe and Shield")
+			r_hand = /obj/item/rogueweapon/stoneaxe/woodcut/steel/graggar
+			l_hand = /obj/item/rogueweapon/shield/iron/graggar
+		else
+			r_hand = /obj/item/rogueweapon/greataxe/steel/doublehead/graggar
+
+	H.mind.RemoveSpell(new /datum/action/cooldown/spell/mending/lesser)
+
+/datum/outfit/job/roguetown/viciousrite/heavy/pre_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
+	..()
+	armor = /obj/item/clothing/suit/roguetown/armor/plate/full/graggar
+	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/graggar
+	pants = /obj/item/clothing/under/roguetown/platelegs/graggar
+	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/graggar
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/graggar/alt
+	gloves = /obj/item/clothing/gloves/roguetown/plate/graggar/heavy
+	head = selected_helm_path
+	mask = /obj/item/clothing/mask/rogue/facemask/steel/graggar
+	neck = /obj/item/clothing/neck/roguetown/gorget/steel/graggar
+	cloak = /obj/item/clothing/cloak/graggar/heavy
+	switch(selected_weapon_choice)
+		if("Vicious Hand-axe and Shield")
+			r_hand = /obj/item/rogueweapon/stoneaxe/woodcut/steel/graggar
+			l_hand = /obj/item/rogueweapon/shield/iron/graggar
+		else
+			r_hand = /obj/item/rogueweapon/greataxe/steel/doublehead/graggar
+
+	H.mind.AddSpell(new /datum/action/cooldown/spell/mending/lesser)
 
 /obj/effect/decal/cleanable/roguerune/god/baotha
 	name = "Rune of Hedonism"

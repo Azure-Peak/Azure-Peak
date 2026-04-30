@@ -271,6 +271,18 @@
 	smeltresult = /obj/item/ingot/steel
 	wdefense = 3
 
+/obj/item/rogueweapon/stoneaxe/woodcut/steel/graggar
+	name = "vicious hand-axe"
+	icon_state = "gheretic_axe"
+	desc = "A reinforced steel-axe. The edges crave for flesh."
+	possible_item_intents = list(/datum/intent/axe/cut, /datum/intent/axe/chop, /datum/intent/axe/bash, /datum/intent/axe/thrust)
+	force = 30
+	wdefense = 5
+
+/obj/item/rogueweapon/stoneaxe/woodcut/steel/graggar/Initialize()
+	. = ..()
+	AddComponent(/datum/component/cursed_item, TRAIT_HORDE, "AXE", "RENDERED ASUNDER")
+
 /obj/item/rogueweapon/stoneaxe/woodcut/steel/decorated
 	name = "decorated axe"
 	icon_state = "nsapo"
