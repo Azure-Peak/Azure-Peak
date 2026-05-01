@@ -55,7 +55,7 @@ corpses and discarded junk*/
 			lines = list("Ol sonf vorsg, hoath zir.","Madriax soba-lonshi od zorge.","Faxs to faxs-sobol athan.","Velor ixan thrae-zho vel.","Korvath en'zul miraxis thren.","Thren val'kora ix ven.","Zai'ul phoros vekh tor.","Morath xi'en thul var.","Vael kor zin'athra vel.","Thul'kor imnaza vekh dor.","En'ra zolth ix venak.","Zhorath kal'mir vex ul.","Ul ix zizo vel'kra.","Sothra vel ixan thul.","Zor'en valix thrae kor.","Vel'zan morath ix ul.","Threx ul ven'kai zhor.","Ix zol ven'ra thul kor.","Vorath ixen kal zor.","Zizo ul thren val'ix.")		
 		),
 		"Enochian Grasp" = list(
-			path = /obj/item/melee/touch_attack/sans_undertale,
+			path = /obj/item/melee/touch_attack/enochian_force,
 			m_cooldown = 3 MINUTES,
 			m_rank = SKILL_LEVEL_EXPERT,
 			category = "Enochian Artificery",

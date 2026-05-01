@@ -12,7 +12,7 @@
 	. = ..()
 	AddComponent(/datum/component/cursed_item, (TRAIT_CABAL), "BLESSED BAG")
 
-/obj/item/melee/touch_attack/sans_undertale
+/obj/item/melee/touch_attack/enochian_force
 	name = "enochian force"
 	desc = "A coalesced mass of primordial arcyne force, shaped by will and a deeper knowledge of Enochian language. It can let you push, pull, slam or tear open localized leylines at a target."
 	catchphrase = null
@@ -30,26 +30,26 @@
 	var/cd_blast = 0
 	var/deleting = FALSE
 
-/obj/item/melee/touch_attack/sans_undertale/attack_self()
+/obj/item/melee/touch_attack/enochian_force/attack_self()
 	if(deleting)
 		return
 	deleting = TRUE
 	qdel(src)
 
-/obj/item/melee/touch_attack/sans_undertale/dropped(mob/user)
+/obj/item/melee/touch_attack/enochian_force/dropped(mob/user)
 	..()
 	if(deleting)
 		return
 	deleting = TRUE
 	qdel(src)
 
-/obj/item/melee/touch_attack/sans_undertale/Destroy()
+/obj/item/melee/touch_attack/enochian_force/Destroy()
 	if(deleting)
 		return ..()
 	deleting = TRUE
 	return ..()
 
-/obj/item/melee/touch_attack/sans_undertale/afterattack(atom/target, mob/living/user, proximity)
+/obj/item/melee/touch_attack/enochian_force/afterattack(atom/target, mob/living/user, proximity)
 	if(!isliving(target))
 		return
 	if(target == user)
@@ -236,7 +236,7 @@
 		options["Autosmither"] =  /obj/structure/autosmither
 		options["Infernal Engine"] = /obj/structure/infernalengine
 		options["Wood Metalizer"] = /obj/item/contraption/wood_metalizer 
-		options["Rouscker"] = /obj/item/contraption/hacker_doohickey // It hacks Stockpiles and SCOMs, TBD.
+		options["Rouscker"] = /obj/item/contraption/rat_hacker // It hacks Stockpiles and SCOMs, TBD.
 
 	if(!options.len)
 		to_chat(user, span_warning("I lack the knowledge to shape this mass..."))
@@ -771,7 +771,7 @@
 
 /obj/item/storage/magebag
 
-/obj/item/contraption/hacker_doohickey
+/obj/item/contraption/rat_hacker
 	name = "rouscker device"
 	desc = "A deranged contraption that tampers with the rous inside machines. Requires cheese."
 	icon_state = "metalizer"
@@ -784,7 +784,7 @@
 	var/tmp/mob/living/withdraw_user = null
 	var/tmp/turf/withdraw_turf = null
 
-/obj/item/contraption/hacker_doohickey/attackby(obj/item/W, mob/user, params)
+/obj/item/contraption/rat_hacker/attackby(obj/item/W, mob/user, params)
 	var/value = get_cheese_value(W)
 	if(value == -1)
 		to_chat(user, span_warning("This cheese needs to mature first, it's not good for the rous' tummy."))
@@ -799,7 +799,7 @@
 		return
 	..()
 
-/obj/item/contraption/hacker_doohickey/attack_obj(obj/O, mob/living/user)
+/obj/item/contraption/rat_hacker/attack_obj(obj/O, mob/living/user)
 	..()
 	if(!cheese)
 		return
@@ -821,7 +821,7 @@
 		shake_camera(user, 1, 1)
 		return
 
-/obj/item/contraption/hacker_doohickey/attack_self(mob/living/user)
+/obj/item/contraption/rat_hacker/attack_self(mob/living/user)
 	if(cheese != max_cheese)
 		to_chat(user, span_warning("Not enough cheese. You need this doohickey topped off."))
 		return

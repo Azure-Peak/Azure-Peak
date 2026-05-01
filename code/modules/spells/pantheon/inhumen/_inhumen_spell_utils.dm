@@ -335,7 +335,7 @@
 
 	return 0
 
-/obj/item/contraption/hacker_doohickey/proc/get_cheese_value(obj/item/W)
+/obj/item/contraption/rat_hacker/proc/get_cheese_value(obj/item/W)
 	if(istype(W, /obj/item/reagent_containers/food/snacks/rogue/cheese))
 		return -1
 	if(istype(W, /obj/item/reagent_containers/food/snacks/rogue/cheddarwedge))
@@ -381,14 +381,14 @@
 	canparry = FALSE
 	tranged = 1
 
-/obj/item/melee/touch_attack/sans_undertale/proc/get_cd(is_npc, push=0, pull=0, slam=0, blast=0)
+/obj/item/melee/touch_attack/enochian_force/proc/get_cd(is_npc, push=0, pull=0, slam=0, blast=0)
 	if(is_npc)
 		return list(push=2 SECONDS, pull=2 SECONDS, slam=15 SECONDS, blast=30 SECONDS)
 	else
 		return list(push=45 SECONDS, pull=45 SECONDS, slam=120 SECONDS, blast=60 SECONDS)
 
 
-/obj/item/melee/touch_attack/sans_undertale/proc/do_slam(mob/living/user, mob/living/target)
+/obj/item/melee/touch_attack/enochian_force/proc/do_slam(mob/living/user, mob/living/target)
 	if(!target || QDELETED(target))
 		return
 	user.visible_message(
@@ -583,7 +583,7 @@
 
 #undef ENOCHIAN_FILTER
 
-/obj/item/melee/touch_attack/sans_undertale/proc/do_blast(mob/living/user, mob/living/target)
+/obj/item/melee/touch_attack/enochian_force/proc/do_blast(mob/living/user, mob/living/target)
 	if(!target || QDELETED(target))
 		return
 
