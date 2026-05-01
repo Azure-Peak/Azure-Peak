@@ -220,11 +220,14 @@
 /obj/structure/ritualcircle/profane/melding/proc/create_slag(mob/living/user)
 	if(stored_value <= 0)
 		to_chat(user, span_warning("Nothing to extract."))
+		active = FALSE
 		return
 	var/turf/T = get_turf(src)
 	if(!T)
+		active = FALSE
 		return
 	if(!do_after(user, 50, src))
+		active = FALSE
 		return
 	playsound(src, 'sound/magic/swap.ogg', 60, TRUE)
 	var/obj/item/ingot/aaslag_zizo/A = new(T)
@@ -237,19 +240,14 @@
 		return 0
 
 	// HIGH-VALUE ITEMS
-
 	if(istype(I, /obj/item/reagent_containers/lux))
 		return 100
-
 	if(istype(I, /obj/item/reagent_containers/lux_moss))
 		return 100
-
 	if(istype(I, /obj/item/reagent_containers/lux_impure))
 		return 50
-
 	if(istype(I, /obj/item/heart_blood_canister/filled))
 		return 10
-
 	if(istype(I, /obj/item/heart_blood_vial/filled) || istype(I, /obj/item/natural/bundle/bone/full))
 		return 5
 
@@ -261,21 +259,14 @@
 	//SMELT LOGIC
 	if(I.smeltresult)
 		var/path = I.smeltresult
-
-		// always acceptable outputs
-		if(ispath(path, /obj/item/ash) \
-		|| ispath(path, /obj/item/ingot/aaslag) \
-		|| ispath(path, /obj/item/ingot/bronze) \
-		|| ispath(path, /obj/item/ingot/copper) \
-		|| ispath(path, /obj/item/ingot/tin) \
-		|| ispath(path, /obj/item/ingot/drow))
+		if(ispath(path, /obj/item/ash)\
+		|| ispath(path, /obj/item/ingot/aaslag)\
+		|| ispath(path, /obj/item/ingot/bronze)\
+		|| ispath(path, /obj/item/ingot/copper)\
+		|| ispath(path, /obj/item/ingot/tin)\
+		|| ispath(path, /obj/item/ingot/drow)\
+		|| ispath(path, /obj/item/ingot/iron))
 			return 2
-
-		// iron is restricted
-		if(ispath(path, /obj/item/ingot/iron))
-			if(I.sellprice <= 9)
-				return 2
-			return 0
 
 	//LOW VALUE NATURAL / REMAINS
 	if(istype(I, /obj/item/natural/bundle/bone) \
@@ -295,6 +286,22 @@
 	|| istype(I, /obj/item/alch/viscera) \
 	|| istype(I, /obj/item/reagent_containers/food/snacks/rogue/meat/steak))
 		return 2
+	
+	//CLUTTER (basically items we dont care about that litter often)
+	if(istype(I, /obj/item/clothing/suit/roguetown/armor/leather)\
+	|| istype(I, /obj/item/clothing/head/roguetown/helmet/leather)\
+	|| istype(I, /obj/item/clothing/under/roguetown/trou/leather)\
+	|| istype(I, /obj/item/clothing/gloves/roguetown/leather)\
+	|| istype(I, /obj/item/clothing/wrists/roguetown/bracers/leather)\
+	|| istype(I, /obj/item/storage/belt/rogue/pouch)\
+	|| istype(I, /obj/item/storage/belt/rogue/leather)\
+	|| istype(I, /obj/item/clothing/neck/roguetown/leather)\
+	|| istype(I, /obj/item/clothing/neck/roguetown/coif/heavypadding)\
+	|| istype(I, /obj/item/clothing/mask/rogue/ragmask)\
+	|| istype(I, /obj/item/clothing/suit/roguetown/shirt/shadowshirt/elflock/drowraider)\
+	|| istype(I, /obj/item/clothing/under/roguetown/heavy_leather_pants/shadowpants/drowraider)\
+	|| istype(I, /obj/item/clothing/suit/roguetown/armor/leather/heavy/shadowvest/drowraider))
+		return 1
 
 	return 0
 
@@ -800,7 +807,8 @@
 				P.say(chant_lines[i], forced = "rite invocation", ignore_spam = TRUE)
 
 			if(!no_crazy)
-				P.hallucination += 50
+				if(P.hallucination <= 200)
+					P.hallucination += 50
 				ADD_TRAIT(P, TRAIT_PSYCHOSIS, "rite")
 
 		// --- BEAMS RESET ---
@@ -809,7 +817,7 @@
 		active_beams.Cut()
 
 		for(var/mob/living/P in active)
-			active_beams += T.Beam(P, icon_state = "drainbeam", time = 5 SECONDS, maxdistance = 10)
+			active_beams += T.Beam(P, icon_state = "drainbeam", time = 6 SECONDS, maxdistance = 10)
 
 		// --- DAMAGE TARGET SELECTION ---
 		var/mob/living/target = null

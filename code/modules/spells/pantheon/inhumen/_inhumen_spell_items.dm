@@ -60,7 +60,7 @@
 	if(get_dist(user, L) > 6)
 		return FALSE
 
-	var/is_npc = !L.client
+	var/is_npc = (!L.mind && !L.key)
 	var/list/cds = get_cd(is_npc)
 
 	if(L.stat == DEAD)
@@ -462,7 +462,11 @@
 		. += span_cultsmall("[stored_value] motes of liquid hatred sloshes through this circle...")
 
 /obj/structure/ritualcircle/profane/melding/attackby(obj/item/I, mob/living/user)
+	if(active)
+		return
+
 	active = TRUE
+
 	if(!I || !user)
 		active = FALSE
 		return
@@ -501,6 +505,7 @@
 
 /obj/structure/ritualcircle/profane/melding/attack_hand(mob/living/user)
 	if(active)
+		to_chat(user, span_warning("The circle is already in use."))
 		return
 
 	if(!..())
@@ -542,6 +547,8 @@
 
 		if("Create Avantyne Slag")
 			create_slag(user)
+
+	active = FALSE
 
 /obj/structure/ritualcircle/profane/leyline
 	name = "Veilrender Matrix"
@@ -644,7 +651,7 @@
 	active = FALSE
 
 /obj/structure/ritualcircle/profane/reaper
-	name = "Great Work Rituos circle"
+	name = "Greater Rituos circle"
 	desc = "A transmutation circle coated in a bubbling, acidic sheen. The material resembles the acid pools of the Underdark. The heretical symbol feels like an open mockery to all that is righteous."
 	icon_state = "zizo_chalky"
 	color = "#00ff15"
@@ -666,10 +673,12 @@
 
 	if((user.patron?.type) != /datum/patron/inhumen/zizo)
 		to_chat(user, span_smallred("This rite is not meant for me..."))
+		active = FALSE
 		return
 
 	var/turf/T = get_turf(src)
 	if(!T)
+		active = FALSE
 		return
 
 	if(!has_nearby_bleeding(2, FALSE, FALSE))
@@ -691,6 +700,7 @@
 
 	if(!valid_targets.len)
 		to_chat(user, span_warning("The rite demands subjects bound to profane crosses."))
+		active = FALSE
 		return
 
 	// RITUAL EXECUTION
@@ -706,9 +716,11 @@
 
 	if(torture)
 		if(!execute_rite_lesser(src, user, 4, FALSE))
+			active = FALSE
 			return
 	else		
 		if(!execute_rite(src, user, 10, 5, FALSE))
+			active = FALSE
 			return
 	
 	playsound(src, 'sound/magic/churn.ogg', 70, TRUE)
@@ -717,41 +729,58 @@
 	for(var/mob/living/L in valid_targets)
 		if(QDELETED(L))
 			continue
-		
-		if (!L.has_status_effect(/datum/status_effect/buff/ozium))
-			L.visible_message("[L]'s whole existence seizes in undeniable AGONY, as their essence is TORN OFF!", "AGONIZING, EXCRUCIATING PAIN shoots through your body as you feel your essence being TORN OFF!")
-			L.adjustBruteLoss(20)
-			playsound(L, 'sound/combat/dismemberment/dismem (2).ogg', 100)
-			L.emote("paincrit")
-			L.add_stress(/datum/stressevent/tortured)
+		var/is_npc = (!L.mind && !L.key)
+		var/is_devitalised = L.has_status_effect(/datum/status_effect/debuff/devitalised) || L.has_status_effect(/datum/status_effect/debuff/devitalised/greater)
+		var/is_departed = (!L.key && !L.get_ghost(FALSE, TRUE))
 
-		if(!(L.has_status_effect(/datum/status_effect/debuff/devitalised)||L.has_status_effect(/datum/status_effect/debuff/devitalised/greater)))
-			L.visible_message("[L]'s whole existence seizes in undeniable AGONY, transcending their IMMUNITY TO PAIN!", "AGONIZING, EXCRUCIATING PAIN shoots through your body as another attempt to extract your essence is made! This is TORTURE!!")
+		// Already devitalised → just torture
+		if(is_devitalised)
+			L.visible_message(
+				span_artery("[L]'s existence writhes in unbearable AGONY, beyond the limits of pain!"),
+				span_artery("The torment only deepens. This is pure TORTURE!!")
+			)
 			L.adjustBruteLoss(20)
 			playsound(L, 'sound/combat/dismemberment/dismem (2).ogg', 100)
 			L.emote("agony")
 			L.add_stress(/datum/stressevent/tortured)
 			continue
 
-		if(!L.client)
+		// Not devitalised
+		L.visible_message(
+			span_artery("[L]'s Lux essence is violently TORN from their being!"),
+			span_artery("AGONIZING PAIN surges through me as my essence is RIPPED OUT!")
+		)
+
+		L.adjustBruteLoss(20)
+		playsound(L, 'sound/combat/dismemberment/dismem (2).ogg', 100)
+		L.emote("paincrit")
+		L.add_stress(/datum/stressevent/tortured)
+		L.Jitter(150)
+
+		if(is_departed || is_npc)
 			L.emote("agony")
 			sleep(25)
-			L.gib(TRUE, TRUE, FALSE)
-		
-		var/apply_greater = FALSE
-		if(!(L.has_status_effect(/datum/status_effect/debuff/devitalised)||L.has_status_effect(/datum/status_effect/debuff/devitalised/greater)))
-			if (istype(L, /mob/living/carbon/human) && !(HAS_TRAIT(L, TRAIT_FEYTOUCHED) || HAS_TRAIT(L, TRAIT_DEATHLESS || HAS_TRAIT(L, TRAIT_FAKEDEATH)) ))
-				new /obj/item/reagent_containers/lux(L.loc)
-				apply_greater = TRUE
-			else if (HAS_TRAIT(L, TRAIT_FEYTOUCHED))
-				new /obj/item/reagent_containers/lux_moss(L.loc)
-			else
-				new /obj/item/reagent_containers/lux_impure(L.loc)
+			L.gib(FALSE, FALSE, FALSE)
+			continue
 
+		var/apply_greater = FALSE
+
+		if(istype(L, /mob/living/carbon/human) && !(HAS_TRAIT(L, TRAIT_FEYTOUCHED) || HAS_TRAIT(L, TRAIT_DEATHLESS) || HAS_TRAIT(L, TRAIT_FAKEDEATH)))
+			new /obj/item/reagent_containers/lux(L.loc)
 			SEND_SIGNAL(user, COMSIG_LUX_EXTRACTED, L)
 			record_round_statistic(STATS_LUX_HARVESTED)
-		L.apply_status_effect((apply_greater ? /datum/status_effect/debuff/devitalised/greater : /datum/status_effect/debuff/devitalised))
-	
+			apply_greater = TRUE
+		else if(HAS_TRAIT(L, TRAIT_FEYTOUCHED))
+			new /obj/item/reagent_containers/lux_moss(L.loc)
+			SEND_SIGNAL(user, COMSIG_LUX_EXTRACTED, L)
+			record_round_statistic(STATS_LUX_HARVESTED)
+		else
+			new /obj/item/reagent_containers/lux_impure(L.loc)
+			SEND_SIGNAL(user, COMSIG_LUX_EXTRACTED, L)
+			record_round_statistic(STATS_LUX_HARVESTED)
+
+		L.apply_status_effect(apply_greater ? /datum/status_effect/debuff/devitalised/greater : /datum/status_effect/debuff/devitalised)
+
 	active = FALSE
 
 /obj/item/rogueweapon/huntingknife/idagger/zizo
