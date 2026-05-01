@@ -13,7 +13,7 @@
 /obj/structure/vampthrone/examine(mob/user) //Some small neat lore-ish text, I didn't have to. This thing isn't even mapped in but hey, you gotta feel badass with this thing or else it ain't got aura.
 	. = ..()
 	if(user.mind?.has_antag_datum(/datum/antagonist/vampire/lord))
-		. += span_bloody("These were always your lands to rule, let no dull-blooded or otherwise believe naught. This throne was once one to rule these lands, now it will be the one that rules this world. Show them how a lord gets it done.")
+		. += span_bloody("These were always your lands to rule, let no dull-blooded or otherwise believe not. This throne was once one to rule these lands, now it will be the one that rules this world. Show them how a lord gets it done.")
 
 /obj/structure/roguethrone/post_buckle_mob(mob/living/M)
 	..()
