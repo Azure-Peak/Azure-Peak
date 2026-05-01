@@ -7099,9 +7099,7 @@
 /obj/structure/barricade/crude{
 	color = "#635858"
 	},
-/obj/structure/roguewindow/openclose{
-	currently_opened = 1
-	},
+/obj/structure/roguewindow/openclose,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town)
 "byn" = (
@@ -23675,12 +23673,6 @@
 /obj/structure/table/wood/large_table/north_west,
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/cave/orcdungeon)
-"eRO" = (
-/obj/structure/roguewindow/openclose{
-	currently_opened = 1
-	},
-/turf/open/floor/rogue/ruinedwood/herringbone,
-/area/rogue/indoors/town)
 "eRR" = (
 /obj/effect/decal/cobbleedge{
 	dir = 5
@@ -413978,7 +413970,7 @@ aBB
 aBB
 aBB
 aBB
-eRO
+gKh
 kRg
 fPq
 hOK
