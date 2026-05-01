@@ -148,7 +148,6 @@
 
 			// Some bit of mindfuck for sovl
 			P.hallucination += 50
-			P.Immobilize(100)
 
 		// beams
 		for(var/mob/living/P in participants)
@@ -888,8 +887,6 @@ GLOBAL_LIST_INIT(we_live_in_a_zociety, list(
 	H.setDir(get_dir(H, A))
 
 	if(!A.mind)
-		A.Immobilize(8 SECONDS)
-		A.OffBalance(8 SECONDS)
 		A.apply_status_effect(/datum/status_effect/debuff/clickcd, 8 SECONDS)
 		if(A.mob_biotypes != MOB_UNDEAD && prob(25))
 			A.emote("huh")
