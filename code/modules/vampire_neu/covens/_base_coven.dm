@@ -20,7 +20,7 @@
 	///Experience needed to reach next level
 	var/experience_needed = 40
 	///Experience multiplier for each level (gets harder to level)
-	var/experience_multiplier = 1.4
+	var/experience_multiplier = 1.5
 
 	/* BACKEND */
 	///What rank of this Coven is currently being casted.
