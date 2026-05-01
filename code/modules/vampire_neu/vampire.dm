@@ -150,7 +150,7 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 			clan_options[temp_clan.name] = clan_type
 		qdel(temp_clan)
 
-	clan_options["Create Custom Clan"] = "custom"
+	clan_options["Customised Caitiff Clan"] = "custom" //A little clearer you are a CAITIFF clan, NOT fully customised, sire. Encourage people to take pre-built a little more. Instead of lying to a player
 
 	var/choice = input(vampdude, "Choose your vampire clan:", "Clan Selection") as null|anything in clan_options
 
@@ -170,7 +170,7 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 
 /datum/antagonist/vampire/proc/create_custom_clan(mob/living/carbon/human/vampdude)
 	// Get custom clan name
-	custom_clan_name = input(vampdude, "Enter your custom clan name:", "Custom Clan", "Custom Clan") as text|null
+	custom_clan_name = input(vampdude, "Enter your Caitiff clan name:", "Custom Clan", "Custom Clan") as text|null
 	if(!custom_clan_name)
 		custom_clan_name = "Custom Clan"
 
