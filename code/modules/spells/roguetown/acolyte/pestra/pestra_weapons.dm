@@ -1,6 +1,6 @@
 /obj/item/rogueweapon/huntingknife/idagger/steel/rotfang
 	name = "rotfang"
-	desc = "A decorated dagger fabricated using Pestran secrets. In heretical fashion, it is used to spread black rot rather than to contain it. </br>I can coat this dagger in black ichor, giving them black rot on strikes that aren't parried or dodged."
+	desc = "A decorated dagger fabricated using Pestran secrets. In heretical fashion, it is used to spread black rot rather than to contain it. </br>I can coat this dagger in black ichor, giving them black rot on strikes that aren't parried or dodged. </br> I can put this knife in my boot."
 	icon_state = "rotfang"
 	// Unique antag weapon, it can be a good deal better
 	max_integrity = 220

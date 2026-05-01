@@ -67,6 +67,8 @@
 		// These end up in your belt.
 		backpack_contents += /obj/item/rogueweapon/huntingknife/idagger/steel/corroded
 		backpack_contents += /obj/item/rogueweapon/huntingknife/idagger/steel/rotfang
+		backpack_contents += /obj/item/reagent_containers/powder/black_ichor
+		backpack_contents += /obj/item/reagent_containers/powder/black_ichor
 		backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
 		beltr = /obj/item/quiver/poisonarrows
 		beltl = /obj/item/storage/magebag
