@@ -13,7 +13,7 @@
 	// COLLECT VALID CORPSES
 	for(var/mob/living/carbon/C in T)
 
-		var/is_departed = (!key && !get_ghost(FALSE, TRUE)) // should prevent PC corpses from being dusted
+		var/is_departed = (!C.key && !C.get_ghost(FALSE, TRUE)) // should prevent PC corpses from being dusted
 
 		if(C.stat != DEAD)
 			continue
