@@ -110,9 +110,9 @@
 		tele.icon = 'icons/effects/effects.dmi'
 		tele.icon_state = "leylinerupture"
 		tele.duration = 1 SECONDS
-		if(!QDELETED(L))
-			playsound(L.loc, 'sound/magic/swap.ogg', 60, TRUE)
-			L.forceMove(T)
+		playsound(L.loc, 'sound/magic/swap.ogg', 60, TRUE)
+		L.forceMove(get_turf(user))
+		new /obj/effect/temp_visual/cleaning_pulse(get_turf(user))
 		return
 
 	switch(user.used_intent.type)
@@ -262,8 +262,8 @@
 
 /datum/status_effect/slam_rage
 	id = "slam_rage"
-	duration = 5 SECONDS
-	tick_interval = 1 SECONDS
+	duration = 3 SECONDS
+	tick_interval = 0.7 SECONDS
 	alert_type = /atom/movable/screen/alert/status_effect/slam_rage
 	var/outline_color = "#c774ee"
 	var/slam_count = 0
@@ -286,22 +286,19 @@
 	if(slam_count >= max_slams)
 		return
 	slam_count++
-	L.Immobilize(20)
 	// LIFT
-	animate(L, pixel_y = 56, time = 4, easing = SINE_EASING, flags = ANIMATION_RELATIVE | ANIMATION_END_NOW) // 0.4s
+	animate(L, pixel_y = 56, time = 2, easing = SINE_EASING, flags = ANIMATION_RELATIVE | ANIMATION_END_NOW) // 0.4s
 	// HANG 
-	animate(time = 2) // 0.2s
+	animate(time = 2) 
 	// SLAM DOWN 
-	animate(pixel_y = -72, time = 2, easing = QUAD_EASING, flags = ANIMATION_RELATIVE) // 0.2s
-	// RECOVER
-	animate(pixel_y = 16, time = 2, easing = LINEAR_EASING, flags = ANIMATION_RELATIVE) // 0.2s
-
+	animate(pixel_y = -72, time = 1, easing = QUAD_EASING, flags = ANIMATION_RELATIVE) // 0.2s
 	L.flash_fullscreen("redflash3", 1)
 	var/damage = 8 + (slam_count * 4)
 	L.adjustBruteLoss(damage)
-	playsound(L.loc, 'sound/combat/hits/onstone/wallhit.ogg', 80, TRUE)	
 	if(prob(50) && !HAS_TRAIT(L, TRAIT_NOPAIN))
 		L.emote("painscream")
+	// RECOVER
+	animate(pixel_y = 16, time = 1, easing = LINEAR_EASING, flags = ANIMATION_RELATIVE) // 0.2s
 
 	// FINAL SLAM
 	if(slam_count == max_slams)
@@ -313,6 +310,7 @@
 		L.visible_message(span_userdanger("[L] is violently smashed into the ground!"),	span_userdanger("The final impact crushes me into the floor!"))
 		playsound(get_turf(L), 'sound/combat/wooshes/blunt/wooshhuge (2).ogg', 100, FALSE)
 		playsound(get_turf(L), 'sound/combat/tf2crit.ogg', 100, TRUE)
+	playsound(L.loc, 'sound/combat/hits/onstone/wallhit.ogg', 80, TRUE)	
 
 /datum/status_effect/slam_rage/on_remove()
 	if(isliving(owner))
