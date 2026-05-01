@@ -2,6 +2,764 @@
 //ZIZO//
 ////////
 
+
+/obj/structure/ritualcircle/profane/proc/get_valid_leyline_structure(mob/living/user)
+	var/turf/my_turf = get_turf(src)
+	if(!my_turf)
+		return null
+
+	var/obj/structure/leyline/L = null
+
+	for(var/dir in GLOB.cardinals)
+		var/turf/T = get_step(my_turf, dir)
+		if(!T) continue
+
+		L = locate(/obj/structure/leyline) in T
+		if(L)
+			break
+
+	if(!L)
+		to_chat(user, span_warning("The rite requires a leyline adjacent to the circle."))
+		return null
+
+	if(L.sabotaged)
+		to_chat(user, span_warning("This leyline has already been reaped."))
+		return null
+
+	var/rune_count = 0
+
+	for(var/dir in GLOB.cardinals)
+		var/turf/T = get_step(get_turf(L), dir)
+		if(!T) continue
+
+		for(var/obj/structure/ritualcircle/profane/leyline/R in T)
+			rune_count++
+
+	if(rune_count < 4)
+		var/missing = 4 - rune_count
+		to_chat(user, span_warning("The ritual is incomplete. [missing] rune\s missing."))
+		return null
+
+	return L
+
+/obj/structure/ritualcircle/profane/melding/proc/meld_corpse(mob/living/user)
+	var/turf/T = get_turf(src)
+	if(!T)
+		active = FALSE
+		return
+
+	var/list/valid_bodies = list()
+
+	// COLLECT VALID CORPSES
+	for(var/mob/living/carbon/C in T)
+		if(C.stat != DEAD)
+			continue
+
+		if(!C.client || C.mind?.has_antag_datum(/datum/antagonist/skeleton))
+			valid_bodies |= C
+
+	if(!valid_bodies.len)
+		to_chat(user, span_warning("A corpse is required, its condition either soul-departed, rotting or decrepit."))
+		active = FALSE
+		return
+
+	// RITUAL
+	if(!execute_rite_lesser(src, user, ritual_length = 6, silent = TRUE))
+		active = FALSE
+		return
+
+	var/gained = 0
+
+	// PROCESS CORPSES FIRST
+	for(var/mob/living/carbon/C in valid_bodies)
+		if(QDELETED(C))
+			continue
+
+		var/is_skeleton = TRUE
+		var/is_rotting = FALSE
+
+		for(var/obj/item/bodypart/BP in C.bodyparts)
+			if(QDELETED(BP))
+				continue
+			if(!BP.skeletonized)
+				is_skeleton = FALSE
+			if(BP.rotted)
+				is_rotting = TRUE
+
+		if(is_skeleton)
+			gained += 1
+		else if(is_rotting)
+			gained += 5
+		else
+			gained += 10
+
+		C.dust(drop_items = TRUE)
+
+	// SWEEP DROPPED ITEMS
+	for(var/obj/item/I in T)
+		if(QDELETED(I))
+			continue
+
+		var/value = get_Z_item_value(I)
+		if(value <= 0)
+			continue
+
+		gained += value
+		qdel(I)
+
+	// CLEANUP DECALS
+	for(var/obj/effect/decal/remains/human/R in T)
+		if(QDELETED(R))
+			continue
+		qdel(R)
+
+	stored_value += gained
+
+	playsound(src, 'sound/misc/chains.ogg', 60, TRUE)
+	playsound(src, 'sound/magic/swap.ogg', 60, TRUE)
+
+	visible_message(span_artery("Hooked avantyne chains spring out and latch on the remains, disintegrating any useful bits apart and dragging it into the rune..."))
+	to_chat(user, span_artery("+[gained] liquid hatred added. ([stored_value] motes of liquid hatred in the circle.)"))
+
+	active = FALSE
+
+/obj/structure/ritualcircle/profane/melding/proc/meld_materials(mob/living/user)
+	var/turf/T = get_turf(src)
+	if(!T)
+		active = FALSE
+		return
+
+	var/list/valid_items = list()
+
+	// COLLECT VALID ITEMS 
+	for(var/obj/item/I in T)
+		if(QDELETED(I))
+			continue
+
+		var/value = get_Z_item_value(I)
+		if(value > 0)
+			valid_items[I] = value
+
+	if(!valid_items.len)
+		to_chat(user, span_warning("The circle finds nothing of value to consume."))
+		active = FALSE
+		return
+
+	// RITUAL 
+	if(!execute_rite_lesser(src, user, ritual_length = 3, silent = TRUE))
+		active = FALSE
+		return
+
+	var/gained = 0
+
+	// PROCESS ITEMS
+	for(var/obj/item/I in valid_items)
+		if(QDELETED(I))
+			continue
+
+		gained += valid_items[I]
+		qdel(I)
+
+	stored_value += gained
+
+	playsound(src, 'sound/misc/chains.ogg', 60, TRUE)
+	playsound(src, 'sound/magic/swap.ogg', 60, TRUE)
+
+	visible_message("Hooked avantyne chains spring out and latch on the materials, as they soon disintegrate...")
+	to_chat(user, span_artery("+[gained] liquid hatred added. ([stored_value] motes of liquid hatred in the circle.)"))
+
+	active = FALSE
+
+/obj/structure/ritualcircle/profane/melding/proc/shape_avantyne(mob/living/user)
+	if(stored_value == 0)
+		to_chat(user, span_warning("The circle lacks substance."))
+		active = FALSE
+		return
+
+	var/miracle = max(1, user.get_skill_level(/datum/skill/magic/holy))
+	var/turf/T = get_turf(src)
+	if(!T)
+		active = FALSE
+		return
+
+	var/list/options = list("Woods", "Stones", "Shape into Volatile Avantyne")
+	var/choice = input(user, "Shape what?", src) as null|anything in options
+	if(!choice)
+		active = FALSE
+		return
+
+	if(choice == "Woods" || choice == "Stones")
+
+		var/form = input(user, "Natural or processed?", src) as null|anything in list("Natural", "Processed")
+		if(!form)
+			active = FALSE
+			return
+
+		var/amount = round(input(user, "How many units do you want to conjure?", src) as num|null)
+		if(!amount || amount <= 0)
+			active = FALSE
+			return
+
+		var/max_amount = miracle * 5
+
+		if(amount > stored_value)
+			to_chat(user, span_warning("The circle cannot supply that much with its current liquid hatred..."))
+			active = FALSE
+			return
+
+		if(amount > max_amount)
+			to_chat(user, span_warning("I cannot shape that much at once. I lack a deeper faith to HER..."))
+			active = FALSE
+			return
+
+		if(!do_after(user, 30, src))
+			active = FALSE
+			return
+
+		for(var/i = 1 to amount)
+			if(choice == "Woods")
+				if(form == "Natural")
+					new /obj/item/grown/log/tree/small(T)
+				else
+					new /obj/item/natural/wood/plank(T)
+			else
+				if(form == "Natural")
+					new /obj/item/natural/stone(T)
+				else
+					new /obj/item/natural/stoneblock(T)
+
+		playsound(src, 'sound/magic/swap.ogg', 60, TRUE)
+		
+		stored_value -= amount
+		to_chat(user, span_cultsmall("I shape [amount] units of [lowertext(form)] [lowertext(choice)]. Remaining liquid hatred: [stored_value]."))
+		active = FALSE
+		return
+
+	// slag branch
+	if(choice == "Shape into Volatile Avantyne")
+		var/cost = 100
+		if(stored_value < cost)
+			to_chat(user, span_warning("Insufficient value. You need 100 liquid hatred."))
+			active = FALSE
+			return
+		if(miracle < 3)
+			to_chat(user, span_warning("This form is beyond my capability."))
+			active = FALSE
+			return
+		if(!execute_rite_lesser(src, user, ritual_length = 8, silent = TRUE))
+			active = FALSE
+			return
+		playsound(src, 'sound/magic/swap.ogg', 60, TRUE)
+		stored_value -= cost
+		new /obj/item/ingot/aaslag_zizo/primed(T)
+		to_chat(user, span_cultsmall("The mass condenses into a volatile slag, ready to be used. Remaining liquid hatred: [stored_value]."))
+
+/obj/structure/ritualcircle/profane/melding/proc/create_slag(mob/living/user)
+	if(stored_value <= 0)
+		to_chat(user, span_warning("Nothing to extract."))
+		return
+	var/turf/T = get_turf(src)
+	if(!T)
+		return
+	if(!do_after(user, 50, src))
+		return
+	playsound(src, 'sound/magic/swap.ogg', 60, TRUE)
+	var/obj/item/ingot/aaslag_zizo/A = new(T)
+	A.value = stored_value
+	to_chat(user, span_artery("I condense [stored_value] motes of liquid hatred into a single slag, ready for transportation."))
+	stored_value = 0
+
+/obj/structure/ritualcircle/profane/melding/proc/get_Z_item_value(obj/item/I)
+	if(!I || QDELETED(I))
+		return 0
+
+	// HIGH-VALUE ITEMS
+
+	if(istype(I, /obj/item/reagent_containers/lux))
+		return 100
+
+	if(istype(I, /obj/item/reagent_containers/lux_moss))
+		return 100
+
+	if(istype(I, /obj/item/reagent_containers/lux_impure))
+		return 50
+
+	if(istype(I, /obj/item/heart_blood_canister/filled))
+		return 10
+
+	if(istype(I, /obj/item/heart_blood_vial/filled) || istype(I, /obj/item/natural/bundle/bone/full))
+		return 5
+
+	//ZIZO BITCOIN
+	if(istype(I, /obj/item/ingot/aaslag_zizo))
+		var/obj/item/ingot/aaslag_zizo/A = I
+		return max(0, A.value)
+
+	//SMELT LOGIC
+	if(I.smeltresult)
+		var/path = I.smeltresult
+
+		// always acceptable outputs
+		if(ispath(path, /obj/item/ash) \
+		|| ispath(path, /obj/item/ingot/aaslag) \
+		|| ispath(path, /obj/item/ingot/bronze) \
+		|| ispath(path, /obj/item/ingot/copper) \
+		|| ispath(path, /obj/item/ingot/tin) \
+		|| ispath(path, /obj/item/ingot/drow))
+			return 2
+
+		// iron is restricted
+		if(ispath(path, /obj/item/ingot/iron))
+			if(I.sellprice <= 9)
+				return 2
+			return 0
+
+	//LOW VALUE NATURAL / REMAINS
+	if(istype(I, /obj/item/natural/bundle/bone) \
+	|| istype(I, /obj/item/skull) \
+	|| istype(I, /obj/item/natural/bone) \
+	|| istype(I, /obj/item/grown/log/tree/small) \
+	|| istype(I, /obj/item/natural/stone) \
+	|| istype(I, /obj/item/natural/wood/plank) \
+	|| istype(I, /obj/item/natural/stoneblock))
+		return 1
+
+	//GENERAL ORGANIC / MATERIAL VALUE
+	if(istype(I, /obj/item/rogueore) \
+	|| istype(I, /obj/item/roguegem) \
+	|| istype(I, /obj/item/ingot) \
+	|| istype(I, /obj/item/organ) \
+	|| istype(I, /obj/item/alch/viscera) \
+	|| istype(I, /obj/item/reagent_containers/food/snacks/rogue/meat/steak))
+		return 2
+
+	return 0
+
+/obj/item/contraption/hacker_doohickey/proc/get_cheese_value(obj/item/W)
+	if(istype(W, /obj/item/reagent_containers/food/snacks/rogue/cheese))
+		return -1
+	if(istype(W, /obj/item/reagent_containers/food/snacks/rogue/cheddarwedge))
+		return 1
+	if(istype(W, /obj/item/reagent_containers/food/snacks/rogue/cheddarwedge/aged))
+		return 2
+	if(istype(W, /obj/item/reagent_containers/food/snacks/rogue/cheddar))
+		return 4
+	if(istype(W, /obj/item/reagent_containers/food/snacks/rogue/cheddar/aged))
+		return 8
+	return 0
+
+
+/datum/intent/sans/push
+	name = "push"
+	icon_state = "inshove"
+	no_attack = TRUE
+	candodge = FALSE
+	canparry = FALSE
+	tranged = 1
+
+/datum/intent/sans/pull
+	name = "pull"
+	icon_state = "ingrab"
+	no_attack = TRUE
+	candodge = FALSE
+	canparry = FALSE
+	tranged = 1
+
+/datum/intent/sans/slam
+	name = "slam"
+	icon_state = "inpunish"
+	no_attack = TRUE
+	candodge = FALSE
+	canparry = FALSE
+	tranged = 1
+
+/datum/intent/sans/blast
+	name = "blast"
+	icon_state = "insmoke"
+	no_attack = TRUE
+	candodge = FALSE
+	canparry = FALSE
+	tranged = 1
+
+/obj/item/melee/touch_attack/sans_undertale/proc/get_cd(is_npc, push=0, pull=0, slam=0, blast=0)
+	if(is_npc)
+		return list(push=2 SECONDS, pull=2 SECONDS, slam=15 SECONDS, blast=30 SECONDS)
+	else
+		return list(push=45 SECONDS, pull=45 SECONDS, slam=120 SECONDS, blast=60 SECONDS)
+
+
+/obj/item/melee/touch_attack/sans_undertale/proc/do_slam(mob/living/user, mob/living/target)
+	if(!target || QDELETED(target))
+		return
+	user.visible_message(
+		span_userdanger("[user] clenches the air while muttering a dark chant..."),	span_notice("I attempt to seize [target] with primordial arcyne force."))
+	var/mob/living/carbon/C = user
+	var/use_rend = FALSE
+
+	if(istype(C))
+		var/obj/item/bodypart/chest = C.get_bodypart(BODY_ZONE_CHEST)
+		if((chest && chest.skeletonized) && !target.client)
+			use_rend = TRUE
+
+	// === CONTESTED CHECK ===
+	var/user_int = user.get_stat(STATKEY_INT)
+	var/target_wil = target.get_stat(STATKEY_WIL)
+
+	// add swing so it's not static
+	var/user_roll = user_int + rand(-5, 5)
+	var/target_roll = target_wil + rand(-5, 5)
+
+	if(user_roll >= target_roll)
+		// SUCCESS
+		if(use_rend)
+			target.apply_status_effect(/datum/status_effect/enochian_rend)
+		else
+			target.apply_status_effect(/datum/status_effect/slam_rage)
+
+		user.visible_message(
+			span_userdanger("[target] is seized by invisible force!"), span_notice("My will overpowers [target]!"))
+	else
+		// FAILURE (partial effect instead of nothing)
+		target.apply_damage(rand(5, 25), BRUTE)
+		user.visible_message(span_warning("[target] resists the grasp!"), span_notice("[target]'s will pushes back against mine!"))
+
+	playsound(target.loc, 'sound/misc/murderbeast.ogg', 100, FALSE)
+
+#define SLAM_FILTER "slam_rage"
+
+/atom/movable/screen/alert/status_effect/slam_rage
+	name = "Crushing Force"
+	desc = "An unseen force is violently slamming you!"
+
+/datum/status_effect/slam_rage
+	id = "slam_rage"
+	duration = 4 SECONDS
+	tick_interval = 0.7 SECONDS
+	alert_type = /atom/movable/screen/alert/status_effect/slam_rage
+	var/outline_color = "#c774ee"
+	var/slam_count = 0
+	var/max_slams = 5
+
+/datum/status_effect/slam_rage/on_apply()
+	if(!isliving(owner))
+		return FALSE
+	var/mob/living/L = owner
+	L.Immobilize(50)
+	L.add_filter(SLAM_FILTER, 2, list("type" = "outline", "color" = outline_color, "alpha" = 200, "size" = 2))
+	L.update_icon()
+	to_chat(L, span_userdanger("An invisible force seizes me!"))
+	return TRUE
+
+/datum/status_effect/slam_rage/tick()
+	if(!isliving(owner))
+		return
+	var/mob/living/L = owner
+	if(slam_count > max_slams)
+		return
+	L.Immobilize(50)
+	// LIFT
+	animate(L, pixel_y = 56, time = 2, easing = SINE_EASING, flags = ANIMATION_RELATIVE | ANIMATION_END_NOW) // 0.4s
+	// HANG 
+	animate(time = 2) 
+	// SLAM DOWN 
+	animate(pixel_y = -72, time = 1, easing = QUAD_EASING, flags = ANIMATION_RELATIVE) // 0.2s
+	L.flash_fullscreen("redflash3", 1)
+	var/damage = 8 + (slam_count * 4)
+	L.adjustBruteLoss(damage)
+	if(prob(50) && !HAS_TRAIT(L, TRAIT_NOPAIN))
+		L.emote("painscream")
+	// RECOVER
+	animate(pixel_y = 16, time = 1, easing = LINEAR_EASING, flags = ANIMATION_RELATIVE) // 0.2s
+
+	// FINAL SLAM
+	if(slam_count == max_slams)
+		if(!L.client)
+			L.Knockdown(10 SECONDS)
+			L.apply_status_effect(/datum/status_effect/debuff/clickcd, 10 SECONDS)
+		else
+			L.Knockdown(3 SECONDS)
+		L.visible_message(span_userdanger("[L] is violently smashed into the ground!"),	span_userdanger("The final impact crushes me into the floor!"))
+		playsound(get_turf(L), 'sound/combat/wooshes/blunt/wooshhuge (2).ogg', 100, FALSE)
+		playsound(get_turf(L), 'sound/combat/tf2crit.ogg', 100, TRUE)
+		L.adjustBruteLoss(damage)
+	playsound(L.loc, 'sound/combat/hits/onstone/wallhit.ogg', 80, TRUE)	
+	slam_count++
+
+/datum/status_effect/slam_rage/on_remove()
+	if(isliving(owner))
+		var/mob/living/L = owner
+		L.remove_filter(SLAM_FILTER)
+		animate(L, pixel_y = 0, time = 0)
+		L.visible_message(span_danger("The unseen force releases [L]!"), span_notice("The crushing force finally relents."))
+
+#undef SLAM_FILTER
+
+#define ENOCHIAN_FILTER "enochian_rend"
+
+/atom/movable/screen/alert/status_effect/enochian_rend // only works on NPCs!
+	name = "Enochian Rend"
+	desc = "Invisible force grips and tears at my form!"
+
+/datum/status_effect/enochian_rend
+	id = "enochian_rend"
+	duration = 5 SECONDS
+	tick_interval = 1 SECONDS
+	alert_type = /atom/movable/screen/alert/status_effect/enochian_rend
+
+	var/outline_color = "#c774ee"
+	var/limb_removed = FALSE
+
+/datum/status_effect/enochian_rend/on_apply()
+	if(!isliving(owner))
+		return FALSE
+	var/mob/living/L = owner
+	L.Immobilize(duration)
+	L.add_filter(ENOCHIAN_FILTER, 2, list("type" = "outline","color" = outline_color,"alpha" = 210,	"size" = 2))
+	L.update_icon()
+	to_chat(L, span_userdanger("An unseen force seizes me, locking my body in place!"))
+	animate(L, pixel_y = L.pixel_y + 12, time = 0.3 SECONDS, easing = SINE_EASING)
+	return TRUE
+
+/datum/status_effect/enochian_rend/tick()
+	if(!isliving(owner))
+		return
+	var/mob/living/L = owner
+	L.flash_fullscreen("redflash3", 1)
+	L.adjustBruteLoss(12)
+	if(!limb_removed && iscarbon(L))
+		var/mob/living/carbon/C = L
+		remove_limb(C)
+
+/datum/status_effect/enochian_rend/on_remove()
+	if(isliving(owner))
+		var/mob/living/L = owner
+		L.remove_filter(ENOCHIAN_FILTER)
+		animate(L, pixel_y = 0, time = 0.3 SECONDS, easing = SINE_EASING)
+		L.visible_message(span_danger("The unseen force releases [L]!"),span_notice("The pressure suddenly vanishes."))
+
+/datum/status_effect/enochian_rend/proc/remove_limb(mob/living/carbon/C)
+	var/obj/item/bodypart/left_arm = C.get_bodypart(BODY_ZONE_L_ARM)
+	var/obj/item/bodypart/right_arm = C.get_bodypart(BODY_ZONE_R_ARM)
+	var/obj/item/bodypart/left_leg = C.get_bodypart(BODY_ZONE_L_LEG)
+	var/obj/item/bodypart/right_leg = C.get_bodypart(BODY_ZONE_R_LEG)
+
+	if(left_arm || right_arm)
+		if(left_arm)
+			C.visible_message(span_userdanger("[C]'s left arm is torn away by unseen force!"),span_userdanger("My left arm is ripped free!"))
+			left_arm.dismember()
+		if(right_arm)
+			C.visible_message(span_userdanger("[C]'s right arm is torn away by unseen force!"),	span_userdanger("My right arm is ripped free!"))
+			right_arm.dismember()
+		playsound(C.loc, 'sound/magic/repulse.ogg', 70, TRUE)
+		return
+
+	if(left_leg || right_leg)
+		if(left_leg)
+			C.visible_message(span_userdanger("[C]'s left leg is violently removed!"),span_userdanger("My left leg is torn away!"))
+			left_leg.dismember()
+
+		if(right_leg)
+			C.visible_message(span_userdanger("[C]'s right leg is violently removed!"),span_userdanger("My right leg is torn away!"))
+			right_leg.dismember()
+
+		playsound(C.loc, 'sound/magic/repulse.ogg', 80, TRUE)
+		return
+
+	var/obj/item/bodypart/head = C.get_bodypart(BODY_ZONE_HEAD)
+	if(head)
+		C.visible_message(span_userdanger("[C] is overwhelmed by crushing arcyne force!"),span_userdanger("The force around me spikes catastrophically!"))
+		C.emote("agony")
+		head.dismember()
+		C.adjustBruteLoss(200)
+		playsound(C.loc, 'sound/magic/repulse.ogg', 90, TRUE)
+
+/datum/status_effect/enochian_rend/proc/remove_head(mob/living/carbon/C)
+	var/obj/item/bodypart/head = C.get_bodypart(BODY_ZONE_HEAD)
+	if(head)
+		C.visible_message(span_userdanger("[C] is overwhelmed by crushing force!"),	span_userdanger("The force around me spikes catastrophically!"))
+		head.dismember()
+		C.adjustBruteLoss(200)
+		playsound(C.loc, 'sound/magic/repulse.ogg', 90, TRUE)
+
+#undef ENOCHIAN_FILTER
+
+/obj/item/melee/touch_attack/sans_undertale/proc/do_blast(mob/living/user, mob/living/target)
+	if(!target || QDELETED(target))
+		return
+
+	var/turf/center = get_turf(target)
+	if(!center)
+		return
+
+	user.visible_message(
+		span_danger("[user] tears open space as reality fractures around [target]!"),
+		span_warning("I call forth converging voidstone annihilation.")
+	)
+
+	// pick axis directions
+	var/dir_ns = pick(NORTH, SOUTH)
+	var/dir_ew = pick(EAST, WEST)
+
+	var/list/spawn_turfs = list()
+
+	// get positions within 2 tiles
+	var/turf/T1 = get_step(center, dir_ns)
+	if(T1)
+		T1 = get_step(T1, dir_ns)
+
+	var/turf/T2 = get_step(center, dir_ew)
+	if(T2)
+		T2 = get_step(T2, dir_ew)
+
+	if(T1) spawn_turfs += T1
+	if(T2) spawn_turfs += T2
+
+	// TELEGRAPH EFFECT
+	for(var/turf/T in spawn_turfs)
+		if(!T) continue
+		var/obj/effect/temp_visual/tele = new /obj/effect/temp_visual(T)
+		tele.icon = 'icons/effects/effects.dmi'
+		tele.icon_state = "leylinerupture"
+		tele.duration = 1 SECONDS
+
+	// wait for telegraph
+	sleep(1 SECONDS)
+
+	// SPAWN OBELISKS
+	for(var/turf/T in spawn_turfs)
+		if(!T) continue
+
+		var/mob/living/simple_animal/hostile/retaliate/rogue/voidstoneobelisk/O = new(T)
+
+		O.stop_automated_movement = TRUE
+		O.wander = FALSE
+
+		spawn()
+			if(QDELETED(O) || QDELETED(target))
+				return
+
+			O.face_atom(target)
+
+			// charge delay before firing
+			sleep(1 SECONDS)
+
+			if(QDELETED(O) || QDELETED(target))
+				return
+
+			if(O.fire_laser())
+				sleep(23)
+
+			explosion(O.loc, 0, 0, 0, 0, FALSE, 0, 1, 0, 0)
+			qdel(O)
+
+/obj/structure/ritualcircle/profane/leyline/proc/validate_leyline_structure(mob/living/user, list/out_runes)
+	var/turf/my_turf = get_turf(src)
+	if(!my_turf)
+		return null
+
+	var/obj/structure/leyline/L = null
+
+	// Find adjacent leyline
+	for(var/dir in GLOB.cardinals)
+		var/turf/T = get_step(my_turf, dir)
+		if(!T) continue
+
+		L = locate(/obj/structure/leyline) in T
+		if(L)
+			break
+
+	if(!L)
+		to_chat(user, span_warning("The rite requires a leyline adjacent to the circle."))
+		return null
+
+	if(L.sabotaged)
+		to_chat(user, span_warning("This leyline has already been reaped."))
+		return null
+
+	// Collect runes
+	var/list/runes = list()
+
+	for(var/dir in GLOB.cardinals)
+		var/turf/T = get_step(get_turf(L), dir)
+		if(!T) continue
+
+		if(locate(/obj/structure/ritualcircle/profane/leyline) in T)
+			var/obj/structure/ritualcircle/profane/leyline/R = locate(/obj/structure/ritualcircle/profane/leyline) in T
+			runes |= R
+
+	if(runes.len < 4)
+		to_chat(user, span_warning("The ritual circle is incomplete. [4 - runes.len] rune\s missing."))
+		return null
+
+	if(out_runes)
+		out_runes |= runes
+
+	return L
+
+/obj/structure/ritualcircle/profane/leyline/proc/set_runes_active(list/runes, state)
+	for(var/obj/structure/ritualcircle/profane/leyline/R in runes)
+		if(QDELETED(R))
+			continue
+
+		R.active = state
+
+		if(state)
+			R.visible_message(span_cult("The rune hums with power."))
+		else
+			R.visible_message(span_warning("The rune falls silent."))
+
+/obj/structure/ritualcircle/profane/leyline/proc/cleanup_runes(list/runes)
+	for(var/obj/structure/ritualcircle/profane/leyline/R in runes)
+		if(QDELETED(R))
+			continue
+
+		R.active = FALSE
+
+/obj/structure/ritualcircle/profane/proc/has_nearby_bleeding(range = 1, consume = TRUE, can_use_heartblood = TRUE)
+	var/turf/T = get_turf(src)
+	if(!T)
+		return FALSE
+
+	// BLEEDING
+	for(var/mob/living/carbon/C in view(range, src))
+		if(QDELETED(C))
+			continue
+		if(C.bleed_rate > 0)
+			return TRUE
+
+	if(!can_use_heartblood)
+		return FALSE
+
+	// COLLECT OFFERINGS
+	var/list/vials = list()
+	var/list/canisters = list()
+
+	for(var/obj/item/I in T)
+		if(istype(I, /obj/item/heart_blood_vial/filled))
+			vials += I
+		else if(istype(I, /obj/item/heart_blood_canister/filled))
+			canisters += I
+
+	// CANISTERS
+	if(length(canisters) >= 2)
+		if(consume)
+			for(var/i = 1 to 2)
+				var/obj/item/heart_blood_canister/filled/C = canisters[i]
+				if(C && !QDELETED(C))
+					qdel(C)
+		return TRUE
+
+	// VIALS
+	if(length(vials) >= 6)
+		if(consume)
+			for(var/i = 1 to 6)
+				var/obj/item/heart_blood_vial/filled/V = vials[i]
+				if(V && !QDELETED(V))
+					qdel(V)
+		return TRUE
+
+	return FALSE
+
 /atom/movable/screen/alert/status_effect/buff/roustatouille
 	name = "Rous-tatouille"
 	desc = span_notice("Negotiations with the rous workforce are underway. Your cheesy bribes are making them very agreeable.")
@@ -77,12 +835,12 @@
 
 	for(var/phase in 1 to ritual_length)
 
-		// hard fail if leader drops
+		// --- HARD FAIL ---
 		if(QDELETED(leader) || leader.stat != CONSCIOUS)
 			cleanup_rite(participants, active_beams)
 			return FALSE
 
-		// rebuild active list each phase
+		// --- ACTIVE LIST ---
 		var/list/mob/living/active = list()
 		for(var/mob/living/P in participants)
 			if(!QDELETED(P) && P.stat == CONSCIOUS)
@@ -92,9 +850,9 @@
 			cleanup_rite(participants, active_beams)
 			return FALSE
 
-		var/i = min(phase, length(chant_lines))
+		// --- CHANT ---
+		var/i = rand(1, length(chant_lines)) // random now
 
-		// synced chant + effects
 		for(var/mob/living/P in active)
 			if(silent)
 				P.say(silent_chant_lines[i], forced = "rite invocation", ignore_spam = TRUE)
@@ -105,7 +863,7 @@
 				P.hallucination += 50
 				ADD_TRAIT(P, TRAIT_PSYCHOSIS, "rite")
 
-		// reset beams per phase
+		// --- BEAMS RESET ---
 		for(var/datum/beam/B in active_beams)
 			if(B) B.End()
 		active_beams.Cut()
@@ -113,20 +871,41 @@
 		for(var/mob/living/P in active)
 			active_beams += T.Beam(P, icon_state = "drainbeam", time = 5 SECONDS, maxdistance = 10)
 
-		// damage
-		var/dmg = 5 + (phase * 2)
-		for(var/mob/living/P in active)
-			P.adjustBruteLoss(dmg)
-			if(!silent && prob(10 + phase * 5) && !(HAS_TRAIT(P, TRAIT_NOPAIN)))
-				P.emote("painscream")
+		// --- DAMAGE TARGET SELECTION ---
+		var/mob/living/target = null
 
-		// sync gate
+		var/list/mob/living/others = list()
+		for(var/mob/living/P in active)
+			if(P != leader)
+				others += P
+
+		if(length(others))
+			target = pick(others) // random victim
+		else
+			target = leader
+
+		// --- APPLY DAMAGE ---
+		var/dmg = 10 + (phase * 2)
+
+		if(target == leader)
+			ADD_TRAIT(leader, TRAIT_NOPAIN, "rite") // E N D V R E . . .
+			leader.adjustBruteLoss(dmg)
+
+			if(!silent)
+				to_chat(leader, span_warning("I bear the full weight of the rite alone... I must endu-- No. I must proceed."))
+		else
+			target.adjustBruteLoss(dmg)
+
+			if(!silent && !(HAS_TRAIT(target, TRAIT_NOPAIN)))
+				target.emote("painscream")
+
+		// --- SYNC GATE ---
 		if(!do_after(leader, 5 SECONDS, target = source))
 			to_chat(leader, span_warning("The rite collapses before completion."))
 			cleanup_rite(participants, active_beams)
 			return FALSE
 
-	// final cleanup
+	// --- CLEANUP ---
 	cleanup_rite(participants, active_beams)
 	return TRUE
 
@@ -144,22 +923,30 @@
 		return null
 
 	var/list/mob/living/responders = list()
+	var/list/mob/living/pending = list()
 
-	// async consent (no shared removals, no pending list)
+	// build pending list (excluding leader)
 	for(var/mob/living/M in cabalists)
 		if(M == leader)
 			continue
+		pending += M
 
+	// async consent (safe write via |= but we control pending)
+	for(var/mob/living/M in pending)
 		spawn()
 			if(QDELETED(M))
 				return
 			var/choice = alert(M, "Do you wish to contribute to the rite?", "Ritual Invocation", "Yes", "No")
 			if(choice == "Yes")
 				responders |= M
+			pending -= M // safe because only removing self
 
-	sleep(7 SECONDS) // fixed window, avoids race logic
+	// wait up to 7s, but allow early exit
+	var/timeout = world.time + 7 SECONDS
+	while(world.time < timeout && length(pending))
+		sleep(2)
 
-	// build final participant list
+	// build participants
 	var/list/mob/living/participants = list()
 
 	for(var/mob/living/M in responders)
@@ -173,6 +960,10 @@
 	if(!(leader in participants))
 		participants.Insert(1, leader)
 
+	// feedback
+	if(length(participants) == 1)
+		to_chat(leader, span_warning("No others answer the rite. I must bear it alone."))
+
 	return participants
 
 /proc/cleanup_rite(list/mob/living/participants, list/datum/beam/active_beams)
@@ -183,6 +974,7 @@
 	for(var/mob/living/P in participants)
 		if(!QDELETED(P))
 			REMOVE_TRAIT(P, TRAIT_PSYCHOSIS, "rite")
+			REMOVE_TRAIT(P, TRAIT_NOPAIN, "rite")
 
 /proc/execute_rite_lesser(atom/source, mob/living/leader, ritual_length = 4, silent = FALSE)
 	if(!leader || QDELETED(source))
