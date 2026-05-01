@@ -1,0 +1,22 @@
+2026-05-01:
+  FreeStylaLT:
+  - rscdel: Removed Bless Drink miracle.
+  Ollanius:
+  - balance: Plague/strange masks now provide the 'NOSTINK' trait when worn, preventing
+      the accumilation of nausea from miasma.
+  - rscadd: Adds the complete garb of Stonekeep's Feldsher and Physicker roles, craftable
+      for a price.
+  - rscadd: Miscellanious - adds a new shield sprite as well.
+  - code_imp: A bunch of new sprites've been archived and stored for asset-use.
+  Ryan180602:
+  - bugfix: grag cloak can be dropped now
+  - bugfix: let people faceatom during cd
+  - rscadd: New equipment for Zizo/Graggar Heretics.
+  - balance: Ten/Zizo Heretics get the buffs promised.
+  - balance: Longsword now does 35/40 dmg and has +3 wdef.
+  ToasterStrudes:
+  - rscadd: Shift Clicking armor now opens a cosmetic inventory similar to helmet
+      cosmetic inventory. It can take any non-armored shirt/armor/cloak slot item.
+  WeNeedMorePhoron:
+  - rscadd: Adds the Hand to Announce on FT role
+  - bugfix: Ward Regen Spell also works on broken ward

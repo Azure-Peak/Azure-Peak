@@ -7857,10 +7857,6 @@
 /obj/structure/table/wood/long_table/mid/alt,
 /turf/open/floor/carpet/royalblack,
 /area/rogue/indoors/town/magician)
-"bHo" = (
-/obj/structure/dungeon_entry/center,
-/turf/closed/mineral/random/rogue,
-/area/rogue/outdoors/mountains/decap)
 "bHq" = (
 /obj/structure/rack/rogue{
 	density = 0;
@@ -16666,6 +16662,10 @@
 	icon_state = "plating2"
 	},
 /area/rogue/under/cave/taricheamanor)
+"dxS" = (
+/obj/structure/dungeon_entry/center,
+/turf/closed/mineral/rogue/bedrock,
+/area/rogue/indoors/cave)
 "dxT" = (
 /obj/structure/bars/passage/shutter{
 	max_integrity = 999999;
@@ -31855,10 +31855,6 @@
 	},
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/outdoors/beach/forest/north)
-"gBY" = (
-/obj/machinery/light/rogue/firebowl/standing/blue,
-/turf/open/floor/rogue/cobble,
-/area/rogue/outdoors/mountains/decap)
 "gCc" = (
 /obj/structure/flora/roguegrass/herb/salvia,
 /turf/open/floor/rogue/grassred,
@@ -46955,6 +46951,7 @@
 /area/rogue/outdoors/beach/forest/south)
 "jAk" = (
 /obj/structure/fluff/walldeco/chains,
+/mob/living/simple_animal/hostile/retaliate/rogue/cow,
 /turf/open/floor/rogue/hay,
 /area/rogue/indoors/town)
 "jAI" = (
@@ -50976,6 +50973,10 @@
 	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/church/chapel)
+"krC" = (
+/mob/living/simple_animal/hostile/retaliate/rogue/bull,
+/turf/open/floor/rogue/hay,
+/area/rogue/indoors/town)
 "krD" = (
 /turf/closed/wall/mineral/rogue/wooddark/horizontal,
 /area/rogue/indoors/inq/office)
@@ -53066,6 +53067,10 @@
 /obj/structure/fluff/railing/border/east,
 /turf/open/floor/rogue/blocks/stonered/tiny,
 /area/rogue/indoors/town)
+"kMw" = (
+/obj/machinery/light/rogue/firebowl/standing/blue,
+/turf/open/floor/rogue/dirt/road,
+/area/rogue/outdoors/beach/forest/south)
 "kMx" = (
 /turf/open/floor/rogue/tile/masonic/single,
 /area/rogue/indoors/town/manor)
@@ -65835,14 +65840,6 @@
 "noC" = (
 /turf/closed/wall/mineral/rogue/wood,
 /area/rogue/indoors)
-"noD" = (
-/obj/structure/fluff/railing/wood,
-/mob/living/simple_animal/hostile/retaliate/rogue/saiga/tame/saddled,
-/obj/effect/decal/cobbleedge{
-	icon_state = "cobbleedge-sread"
-	},
-/turf/open/floor/rogue/hay,
-/area/rogue/indoors/town)
 "noJ" = (
 /obj/machinery/light/rogue/candle/blue{
 	pixel_y = -32
@@ -85707,10 +85704,6 @@
 /obj/structure/fireaxecabinet/unforgotten/south,
 /turf/open/floor/rogue/tile,
 /area/rogue/indoors/inq/basement)
-"rld" = (
-/mob/living/simple_animal/hostile/retaliate/rogue/saiga/saigabuck/tame/saddled,
-/turf/open/floor/rogue/hay,
-/area/rogue/indoors/town)
 "rlk" = (
 /obj/machinery/light/rogue/candle/off/r,
 /obj/effect/decal/cobbleedge{
@@ -264736,7 +264729,7 @@ oEq
 exD
 exD
 pwp
-sVK
+krC
 bIX
 pcY
 jdu
@@ -265188,7 +265181,7 @@ oEq
 exD
 exD
 gyu
-rld
+sVK
 hLc
 mTU
 sKP
@@ -265641,7 +265634,7 @@ pfQ
 exD
 gyu
 jAk
-noD
+hLc
 soH
 mTU
 srA
@@ -426300,7 +426293,7 @@ tsB
 qPv
 ujm
 ujm
-fSI
+kMw
 eTa
 eTa
 eTa
@@ -426309,7 +426302,7 @@ eTa
 eTa
 aCH
 aCH
-eTa
+tSh
 eTa
 eTa
 fSI
@@ -426754,15 +426747,15 @@ ujm
 ujm
 fSI
 fSI
-eTa
-aCH
-eTa
-eTa
-eTa
-aCH
-eTa
-eTa
-eTa
+fSI
+fSI
+fSI
+fSI
+fSI
+fSI
+fSI
+fSI
+fSI
 fSI
 fSI
 fSI
@@ -427203,18 +427196,18 @@ tsB
 qPv
 ujm
 ujm
-ujm
+dxS
 fSI
 fSI
-eTa
-eTa
-eTa
-eTa
-aCH
-eTa
-eTa
-eTa
-eTa
+fSI
+fSI
+fSI
+fSI
+fSI
+fSI
+fSI
+fSI
+fSI
 fSI
 fSI
 fSI
@@ -427658,15 +427651,15 @@ ujm
 ujm
 fSI
 fSI
-eTa
-eTa
-eTa
-eTa
-eTa
-eTa
-eTa
-eTa
-pVo
+fSI
+fSI
+fSI
+fSI
+fSI
+fSI
+fSI
+fSI
+jRo
 fSI
 fSI
 fSI
@@ -428108,7 +428101,7 @@ qPv
 ujm
 ujm
 ujm
-fSI
+kMw
 eTa
 aCH
 eTa
@@ -428117,7 +428110,7 @@ eTa
 eTa
 aCH
 eTa
-eTa
+tSh
 fSI
 fSI
 fSI
@@ -482765,8 +482758,8 @@ fyh
 wHi
 wHi
 oyf
-gBY
-kFV
+oyf
+oyf
 evU
 eAq
 fRR
@@ -483217,8 +483210,8 @@ fyh
 wHi
 wHi
 oyf
-kFV
-kFV
+oyf
+oyf
 eAq
 eAq
 eAq
@@ -483668,9 +483661,9 @@ fyh
 fyh
 wHi
 wHi
-bHo
-kFV
-kFV
+oyf
+oyf
+oyf
 eAq
 eAq
 eAq
@@ -484121,8 +484114,8 @@ fyh
 wHi
 oyf
 oyf
-kFV
-kFV
+oyf
+oyf
 eAq
 eAq
 eAq
@@ -484573,8 +484566,8 @@ frU
 wHi
 oyf
 oyf
-gBY
-kFV
+oyf
+oyf
 evU
 eAq
 eAq

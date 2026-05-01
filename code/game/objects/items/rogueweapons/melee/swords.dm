@@ -133,16 +133,34 @@
 	wdefense = 4
 	sellprice = 10
 
-/obj/item/rogueweapon/sword/avantyne
+/obj/item/rogueweapon/sword/zizo
 	name = "avantyne arming sword"
-	desc = "Blade cut straight from earnest avantyne. Imperfections are absent."
+	desc = "The cardinal sin, coalesced into a crystalline crucifix. In Her name, your will shall be projected unto the worshippers of lesser gods; and by your \
+	hand, they shall bend the knee to progress."
 	icon_state = "zeretic_arming"
+	sheathe_icon = "zeretic_arming"
 	force = 25
 	force_wielded = 30
+	smeltresult = /obj/item/ingot/component/zizo
 
-/obj/item/rogueweapon/sword/avantyne/Initialize()
+/obj/item/rogueweapon/sword/zizo/Initialize()
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_CABAL, "SWORD")
+
+/obj/item/rogueweapon/sword/avantyne
+	name = "avantyne-threaded arming sword"
+	desc = "Anger and spite, channeled into a blade that defies both wisdom and purity. Seldom does such power come without a price, however; are you ready to pay it?"
+	icon_state = "zeretic_arming"
+	sheathe_icon = "zeretic_arming"
+	possible_item_intents = list(/datum/intent/sword/cut/arming, /datum/intent/sword/thrust/short, /datum/intent/sword/strike)
+	gripped_intents = list(/datum/intent/sword/cut/arming, /datum/intent/sword/thrust/arming, /datum/intent/sword/strike)
+	force = 25
+	force_wielded = 30
+	max_blade_int = 300
+	max_integrity = 300
+	equip_delay_self = 0
+	unequip_delay_self = 0
+	smeltresult = /obj/item/ingot/avantyne
 
 /obj/item/rogueweapon/sword/long
 	name = "longsword"
@@ -360,7 +378,7 @@
 	gripped_intents = list(/datum/intent/sword/cut, /datum/intent/sword/thrust/long, /datum/intent/sword/thrust/long/halfsword/lesser, /datum/intent/sword/chop)
 	wlength = WLENGTH_NORMAL
 
-/obj/item/rogueweapon/sword/long/avantyne
+/obj/item/rogueweapon/sword/long/zizo
 	name = "avantyne longsword"
 	desc = "A wicked, unconventional, and otherwordly blade that was created by no swordsmith - a manifestation of hate for the state of this world that follows no design principles but spite and anger."
 	icon_state = "zizosword"
@@ -372,10 +390,26 @@
 	equip_delay_self = 0
 	unequip_delay_self = 0
 	wdefense_wbonus = 7
+	smeltresult = /obj/item/ingot/component/zizo
 
-/obj/item/rogueweapon/sword/long/avantyne/Initialize()
+/obj/item/rogueweapon/sword/long/zizo/Initialize()
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_CABAL, "SWORD")
+
+/obj/item/rogueweapon/sword/long/avantyne
+	name = "avantyne-threaded longsword"
+	desc = "A parasitic mandate to progress, borne through the cultivation of crystalline metastasis. This otherworldly blade is stronger and sharper than any \
+	mortal-made masterwork, yet comes at a cost that has yet to be realized."
+	icon_state = "zizolongsword"
+	sheathe_icon = "zizolongsword"
+	force = 30
+	force_wielded = 35
+	max_blade_int = 400
+	max_integrity = 400
+	equip_delay_self = 0
+	unequip_delay_self = 0
+	wdefense_wbonus = 5
+	smeltresult = /obj/item/ingot/avantyne
 
 /obj/item/rogueweapon/sword/long/heirloom
 	name = "old longsword"

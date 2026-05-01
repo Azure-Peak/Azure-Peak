@@ -187,14 +187,14 @@ GLOBAL_LIST_INIT(hedgeknight_aggro, world.file2list("strings/rt/hedgeknightaggro
 /datum/outfit/job/roguetown/quest_miniboss/zizo/pre_equip(mob/living/carbon/human/H)
 	. = ..()
 
-	armor = /obj/item/clothing/suit/roguetown/armor/plate/full/avantyne
-	pants = /obj/item/clothing/under/roguetown/platelegs/avantyne/heavy
-	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/avantyne/heavy
+	armor = /obj/item/clothing/suit/roguetown/armor/plate/full/zizo
+	pants = /obj/item/clothing/under/roguetown/platelegs/zizo/heavy
+	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/zizo/heavy
 	wrists = /obj/item/clothing/wrists/roguetown/bracers
-	gloves = /obj/item/clothing/gloves/roguetown/plate/avantyne/heavy
+	gloves = /obj/item/clothing/gloves/roguetown/plate/zizo/heavy
 	head = /obj/item/clothing/head/roguetown/helmet/heavy/zizo
 	neck = /obj/item/clothing/neck/roguetown/gorget/steel
-	r_hand = /obj/item/rogueweapon/sword/long/avantyne
+	r_hand = /obj/item/rogueweapon/sword/long/zizo
 	mask = /obj/item/clothing/mask/rogue/facemask/steel
 
 /datum/outfit/job/roguetown/quest_miniboss/graggar/pre_equip(mob/living/carbon/human/H)

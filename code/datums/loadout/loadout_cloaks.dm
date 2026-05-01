@@ -173,3 +173,8 @@
 	name = "Tabard, Sleeved"
 	path = /obj/item/clothing/cloak/sleevedtabard
 	sort_category = "Cloaks"
+
+/datum/loadout_item/fancymaidapron
+	name = "Fancy Maid Apron"
+	path = /obj/item/clothing/cloak/apron/waist/fancymaid
+	sort_category = "Cloaks"

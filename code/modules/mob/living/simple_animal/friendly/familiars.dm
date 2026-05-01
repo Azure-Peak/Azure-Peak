@@ -64,11 +64,16 @@
 	var/summoning_emote = null
 	var/list/valid_healing_items = list() // what planar materials can heal you?
 	var/planar_origin = "void" // what plane are we from? avoids a bunch of istype checks
+	rot_type = null // no rotting inside vestiges please
 	
 //As far as I am aware, you cannot pat out fire as a familiar at least not in time for it to not kill you, this seems fair.
 /mob/living/simple_animal/pet/familiar/fire_act(added, maxstacks)
 	. = ..()
 	addtimer(CALLBACK(src, TYPE_PROC_REF(/mob/living, extinguish_mob)), 1 SECONDS)
+
+// if they are within the orb, they should not be able to commit recursion
+/mob/living/simple_animal/pet/familiar/restrained(ignore_grab)
+	return !isturf(src.loc)
 
 /mob/living/simple_animal/pet/familiar/Initialize()
 	. = ..()
@@ -82,9 +87,9 @@
 
 /mob/living/simple_animal/pet/familiar/death(gibbed)
 	. = ..(gibbed)
-	var/obj/item/magic/familiar_vestige/vestige = new /obj/item/magic/familiar_vestige(loc)
+	var/obj/item/magic/familiar/familiar_vestige/vestige = new /obj/item/magic/familiar/familiar_vestige(loc)
 	vestige.stored_familiar = src
-	src.loc = vestige
+	src.forceMove(vestige)
 	vestige.desc = "The vestige of [src.name], a fallen [GLOB.familiar_display_names[src.type]]. Likely worth a lot to the magos that summoned [src.p_them()]!"
 
 /mob/living/simple_animal/pet/familiar/proc/TryAddFlight()

@@ -272,12 +272,14 @@
 	wdefense = 3
 
 /obj/item/rogueweapon/stoneaxe/woodcut/steel/graggar
-	name = "vicious hand-axe"
+	name = "vicious tomahawk"
 	icon_state = "gheretic_axe"
-	desc = "A reinforced steel-axe. The edges crave for flesh."
+	desc = "A handaxe of greater stature, intricately decorated with the Sinistar's heraldry. Worshippers wield it to strengthen their soul's connection \
+	to the force of violence; a blessing, before they pursue the most dangerous game of all."
 	possible_item_intents = list(/datum/intent/axe/cut, /datum/intent/axe/chop, /datum/intent/axe/bash, /datum/intent/axe/thrust)
 	force = 30
 	wdefense = 5
+	smeltresult = /obj/item/ingot/component/graggar
 
 /obj/item/rogueweapon/stoneaxe/woodcut/steel/graggar/Initialize()
 	. = ..()
@@ -309,7 +311,7 @@
 	damfactor = 0.8
 	demolition_mod = 1.3
 
-/datum/intent/axe/chop/long/bronze
+/datum/intent/axe/chop/long
 	reach = 2
 	damfactor = 1
 	demolition_mod = 1.5
@@ -522,7 +524,7 @@
 	force = 15
 	force_wielded = 30
 	possible_item_intents = list(/datum/intent/axe/cut, /datum/intent/axe/chop, SPEAR_BASH) //bash is for nonlethal takedowns, only targets limbs
-	gripped_intents = list(/datum/intent/axe/cut/long/bronze, /datum/intent/axe/chop/long/bronze, /datum/intent/axe/chop/heavy, /datum/intent/axe/sweep)
+	gripped_intents = list(/datum/intent/axe/cut/long/bronze, /datum/intent/axe/chop/long, /datum/intent/axe/chop/heavy, /datum/intent/axe/sweep)
 	name = "bronze greataxe"
 	desc = "A massive staff with a bronze axhead mantled onto the wood. It splits and carves from afar with lethal force; be it lumber or limbs."
 	icon_state = "bronzegreataxe"
@@ -630,6 +632,7 @@
 	force_wielded = 40
 	max_blade_int = 270
 	gripped_intents = list(/datum/intent/axe/cut/long, /datum/intent/axe/chop/long, /datum/intent/axe/chop/heavy, /datum/intent/axe/sweep)
+	smeltresult = /obj/item/ingot/component/graggar
 
 /obj/item/rogueweapon/greataxe/steel/doublehead/graggar/Initialize()
 	. = ..()
