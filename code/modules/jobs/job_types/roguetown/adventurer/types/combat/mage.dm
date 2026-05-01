@@ -261,6 +261,7 @@
 	if(H.mind)
 		H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/vicious_mockery)
 		H.mind.AddSpell(new /datum/action/cooldown/spell/arcyne_forge)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/conjure_instrument)
 		var/list/poke_options = list("Spitfire", "Frost Bolt", "Arc Bolt", "Greater Arcyne Bolt", "Stygian Efflorescence", "Arcyne Lance", "Lesser Gravel Blast")
 		var/poke_choice = input(H, "Choose your offensive cantrip.", "Arcyne Training") as anything in poke_options
 		switch(poke_choice)
@@ -282,29 +283,6 @@
 	switch(H.patron?.type)
 		if(/datum/patron/inhumen/zizo)
 			H.cmode_music = 'sound/music/combat_heretic.ogg'
-	if(H.mind)
-		var/weapons = list("Harp","Lute","Accordion","Guitar","Hurdy-Gurdy","Viola","Vocal Talisman", "Psyaltery", "Flute")
-		var/weapon_choice = tgui_input_list(H, "Choose your instrument.", "TAKE UP ARMS", weapons)
-		H.set_blindness(0)
-		switch(weapon_choice)
-			if("Harp")
-				backr = /obj/item/rogue/instrument/harp
-			if("Lute")
-				backr = /obj/item/rogue/instrument/lute
-			if("Accordion")
-				backr = /obj/item/rogue/instrument/accord
-			if("Guitar")
-				backr = /obj/item/rogue/instrument/guitar
-			if("Hurdy-Gurdy")
-				backr = /obj/item/rogue/instrument/hurdygurdy
-			if("Viola")
-				backr = /obj/item/rogue/instrument/viola
-			if("Vocal Talisman")
-				backr = /obj/item/rogue/instrument/vocals
-			if("Psyaltery")
-				backr = /obj/item/rogue/instrument/psyaltery
-			if("Flute")
-				backr = /obj/item/rogue/instrument/flute
 
 /datum/advclass/mage/spellfist
 	name = "Spellfist"
