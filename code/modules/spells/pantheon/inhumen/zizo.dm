@@ -586,20 +586,24 @@ corpses and discarded junk*/
 			ADD_TRAIT(user, TRAIT_SELF_SUSTENANCE, "rituos")
 			ADD_TRAIT(user, TRAIT_STEELHEARTED, "rituos")
 			if(user.mind)
-				user.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 0, "minor" = 2, "utilities" = 6))
+				user.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 0, "minor" = 2, "utilities" = 6)) // bit more candy for your mortality
 				grant_poke_spell(user)
 			user.visible_message(span_boldwarning("Arcyne runes sear themselves across [user]'s skin, glowing with a sickly light before fading beneath the flesh!"), span_notice("THE LESSER WORK IS DONE! Stolen knowledge floods my mind - I can see the threads of magic itself, and progress is all that accurses my mind!"))
 
 		if("Unlife")
 			user.mob_biotypes |= MOB_UNDEAD
 			user.dna.species.species_traits |= NOBLOOD
+			ADD_TRAIT(user, TRAIT_STEELHEARTED, "[type]") // i wanna heal i wanna feel what i thought was never real
 			ADD_TRAIT(user, TRAIT_NOHUNGER, "[type]") // already had
 			ADD_TRAIT(user, TRAIT_NOBREATH, "[type]") // already had
 			ADD_TRAIT(user, TRAIT_FAKEDEATH, "[type]") // for no heartbeat
+			ADD_TRAIT(user, TRAIT_DEATHLESS, "[type]") // NOBLOOD edits are in Construct right now, so this is a temporary padding
+			ADD_TRAIT(user, TRAIT_BLOODLOSS_IMMUNE, "[type]") // NOBLOOD edits are in Construct right now, so this is a temporary padding
 			ADD_TRAIT(user, TRAIT_TOXIMMUNE, "[type]") // there's nothing left to poison
 			ADD_TRAIT(user, TRAIT_LIMBATTACHMENT, "[type]") // you'll need this now that rituos doesn't regrow lost limbs
 			ADD_TRAIT(user, TRAIT_ZOMBIE_IMMUNE, "[type]") // just to make sure
-			ADD_TRAIT(user, TRAIT_SILVER_WEAK, "[type]") // you are 90% undead
+			ADD_TRAIT(user, TRAIT_UNLYCKERABLE, "[type]") // NOBLOOD edits are in Construct right now, so this is a temporary padding
+			ADD_TRAIT(user, TRAIT_SILVER_WEAK, "[type]") // you are 90% undead, good sire
 
 			// got a new transformation cutscene!! thank me later
 			to_chat(user, span_artery("Something is wrong. <i><u>Terribly wrong.</i></u>"))
@@ -676,8 +680,8 @@ corpses and discarded junk*/
 
 			if(user.mind)
 				user.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/bonechill)
-				user.mind.AddSpell(new /datum/action/cooldown/spell/bonemend)
-				user.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 0, "minor" = 2, "utilities" = 6, "ward" = TRUE)) // gets ward, diff from progress
+				user.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/bonemend)
+				user.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 0, "minor" = 2, "utilities" = 4, "ward" = TRUE)) // bit less candy for your immortality
 				grant_poke_spell(user)				
 
 			user.visible_message(
