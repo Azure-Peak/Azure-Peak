@@ -90,7 +90,8 @@
 /obj/item/melee/touch_attack/sans_undertale/afterattack(atom/target, mob/living/user, proximity)
 	if(!isliving(target))
 		return
-
+	if(target == user)
+		return
 	var/mob/living/L = target
 	if(QDELETED(L))
 		return
@@ -101,7 +102,17 @@
 	var/list/cds = get_cd(is_npc)
 
 	if(L.stat == DEAD)
-		L.forceMove(get_turf(user))
+		var/turf/T = get_turf(target)
+		if(!T)
+			return
+		new /obj/effect/temp_visual/cleaning_pulse(T)
+		var/obj/effect/temp_visual/tele = new(T)
+		tele.icon = 'icons/effects/effects.dmi'
+		tele.icon_state = "leylinerupture"
+		tele.duration = 1 SECONDS
+		if(!QDELETED(L))
+			playsound(L.loc, 'sound/magic/swap.ogg', 60, TRUE)
+			L.forceMove(T)
 		return
 
 	switch(user.used_intent.type)
@@ -209,12 +220,8 @@
 /obj/item/melee/touch_attack/sans_undertale/proc/do_slam(mob/living/user, mob/living/target)
 	if(!target || QDELETED(target))
 		return
-
 	user.visible_message(
-		span_userdanger("[user] clenches the air while muttering a dark chant..."),
-		span_notice("I attempt to seize [target] with primordial arcyne force.")
-	)
-
+		span_userdanger("[user] clenches the air while muttering a dark chant..."),	span_notice("I attempt to seize [target] with primordial arcyne force."))
 	var/mob/living/carbon/C = user
 	var/use_rend = FALSE
 
@@ -239,17 +246,11 @@
 			target.apply_status_effect(/datum/status_effect/slam_rage)
 
 		user.visible_message(
-			span_userdanger("[target] is seized by invisible force!"),
-			span_notice("My will overpowers [target]!")
-		)
+			span_userdanger("[target] is seized by invisible force!"), span_notice("My will overpowers [target]!"))
 	else
 		// FAILURE (partial effect instead of nothing)
-		target.apply_damage(rand(1, 25), BRUTE)
-
-		user.visible_message(
-			span_warning("[target] resists the grasp!"),
-			span_notice("[target]'s will pushes back against mine!")
-		)
+		target.apply_damage(rand(5, 25), BRUTE)
+		user.visible_message(span_warning("[target] resists the grasp!"), span_notice("[target]'s will pushes back against mine!"))
 
 	playsound(target.loc, 'sound/misc/murderbeast.ogg', 100, FALSE)
 
@@ -261,10 +262,9 @@
 
 /datum/status_effect/slam_rage
 	id = "slam_rage"
-	duration = 3 SECONDS
-	tick_interval = 0.5 SECONDS
+	duration = 5 SECONDS
+	tick_interval = 1 SECONDS
 	alert_type = /atom/movable/screen/alert/status_effect/slam_rage
-
 	var/outline_color = "#c774ee"
 	var/slam_count = 0
 	var/max_slams = 4
@@ -272,81 +272,54 @@
 /datum/status_effect/slam_rage/on_apply()
 	if(!isliving(owner))
 		return FALSE
-
 	var/mob/living/L = owner
-
 	L.Immobilize(duration)
-
-	L.add_filter(SLAM_FILTER, 2, list(
-		"type" = "outline",
-		"color" = outline_color,
-		"alpha" = 200,
-		"size" = 2
-	))
-
+	L.add_filter(SLAM_FILTER, 2, list("type" = "outline", "color" = outline_color, "alpha" = 200, "size" = 2))
 	L.update_icon()
-
 	to_chat(L, span_userdanger("An invisible force seizes me!"))
-
 	return TRUE
 
 /datum/status_effect/slam_rage/tick()
 	if(!isliving(owner))
 		return
-
 	var/mob/living/L = owner
-	L.Immobilize(8)
-
 	if(slam_count >= max_slams)
 		return
 	slam_count++
-
-	var/base_y = L.pixel_y
-
-	// VIOLENT LIFT (fast, high)
-	animate(L,
-		pixel_y = base_y + 48,
-		time = 0.08 SECONDS,
-		easing = CUBIC_EASING
-	)
-
-	// BRUTAL SLAM (faster, harder)
-	animate(L,
-		pixel_y = base_y - 8,
-		time = 0.06 SECONDS,
-		easing = BOUNCE_EASING
-	)
+	L.Immobilize(20)
+	// LIFT
+	animate(L, pixel_y = 56, time = 4, easing = SINE_EASING, flags = ANIMATION_RELATIVE | ANIMATION_END_NOW) // 0.4s
+	// HANG 
+	animate(time = 2) // 0.2s
+	// SLAM DOWN 
+	animate(pixel_y = -72, time = 2, easing = QUAD_EASING, flags = ANIMATION_RELATIVE) // 0.2s
+	// RECOVER
+	animate(pixel_y = 16, time = 2, easing = LINEAR_EASING, flags = ANIMATION_RELATIVE) // 0.2s
 
 	L.flash_fullscreen("redflash3", 1)
-
 	var/damage = 8 + (slam_count * 4)
 	L.adjustBruteLoss(damage)
-
-	playsound(L.loc, 'sound/combat/hits/onstone/wallhit.ogg', 80, TRUE)
-
-	if(prob(50))
+	playsound(L.loc, 'sound/combat/hits/onstone/wallhit.ogg', 80, TRUE)	
+	if(prob(50) && !HAS_TRAIT(L, TRAIT_NOPAIN))
 		L.emote("painscream")
 
-	// FINAL IMPACT
+	// FINAL SLAM
 	if(slam_count == max_slams)
-		L.Knockdown(3 SECONDS)
-		L.visible_message(
-			span_userdanger("[L] is violently smashed into the ground!"),
-			span_userdanger("The final impact crushes me into the floor!")
-		)
+		if(!L.client)
+			L.Knockdown(7 SECONDS)
+			L.apply_status_effect(/datum/status_effect/debuff/clickcd, 7 SECONDS)
+		else
+			L.Knockdown(3 SECONDS)
+		L.visible_message(span_userdanger("[L] is violently smashed into the ground!"),	span_userdanger("The final impact crushes me into the floor!"))
+		playsound(get_turf(L), 'sound/combat/wooshes/blunt/wooshhuge (2).ogg', 100, FALSE)
+		playsound(get_turf(L), 'sound/combat/tf2crit.ogg', 100, TRUE)
 
 /datum/status_effect/slam_rage/on_remove()
 	if(isliving(owner))
 		var/mob/living/L = owner
-
 		L.remove_filter(SLAM_FILTER)
-
-		animate(L, pixel_y = 0, time = 0.2 SECONDS)
-
-		L.visible_message(
-			span_danger("The unseen force releases [L]!"),
-			span_notice("The crushing force finally relents.")
-		)
+		animate(L, pixel_y = 0, time = 0)
+		L.visible_message(span_danger("The unseen force releases [L]!"), span_notice("The crushing force finally relents."))
 
 #undef SLAM_FILTER
 
@@ -368,35 +341,20 @@
 /datum/status_effect/enochian_rend/on_apply()
 	if(!isliving(owner))
 		return FALSE
-
 	var/mob/living/L = owner
-
 	L.Immobilize(duration)
-
-	L.add_filter(ENOCHIAN_FILTER, 2, list(
-		"type" = "outline",
-		"color" = outline_color,
-		"alpha" = 210,
-		"size" = 2
-	))
-
+	L.add_filter(ENOCHIAN_FILTER, 2, list("type" = "outline","color" = outline_color,"alpha" = 210,	"size" = 2))
 	L.update_icon()
-
 	to_chat(L, span_userdanger("An unseen force seizes me, locking my body in place!"))
-
 	animate(L, pixel_y = L.pixel_y + 12, time = 0.3 SECONDS, easing = SINE_EASING)
-
 	return TRUE
 
 /datum/status_effect/enochian_rend/tick()
 	if(!isliving(owner))
 		return
-
 	var/mob/living/L = owner
-
 	L.flash_fullscreen("redflash3", 1)
 	L.adjustBruteLoss(12)
-
 	if(!limb_removed && iscarbon(L))
 		var/mob/living/carbon/C = L
 		remove_limb(C)
@@ -404,15 +362,9 @@
 /datum/status_effect/enochian_rend/on_remove()
 	if(isliving(owner))
 		var/mob/living/L = owner
-
 		L.remove_filter(ENOCHIAN_FILTER)
-
 		animate(L, pixel_y = 0, time = 0.3 SECONDS, easing = SINE_EASING)
-
-		L.visible_message(
-			span_danger("The unseen force releases [L]!"),
-			span_notice("The pressure suddenly vanishes.")
-		)
+		L.visible_message(span_danger("The unseen force releases [L]!"),span_notice("The pressure suddenly vanishes."))
 
 /datum/status_effect/enochian_rend/proc/remove_limb(mob/living/carbon/C)
 	var/obj/item/bodypart/left_arm = C.get_bodypart(BODY_ZONE_L_ARM)
@@ -422,35 +374,21 @@
 
 	if(left_arm || right_arm)
 		if(left_arm)
-			C.visible_message(
-				span_userdanger("[C]'s left arm is torn away by unseen force!"),
-				span_userdanger("My left arm is ripped free!")
-			)
+			C.visible_message(span_userdanger("[C]'s left arm is torn away by unseen force!"),span_userdanger("My left arm is ripped free!"))
 			left_arm.dismember()
-
 		if(right_arm)
-			C.visible_message(
-				span_userdanger("[C]'s right arm is torn away by unseen force!"),
-				span_userdanger("My right arm is ripped free!")
-			)
+			C.visible_message(span_userdanger("[C]'s right arm is torn away by unseen force!"),	span_userdanger("My right arm is ripped free!"))
 			right_arm.dismember()
-
 		playsound(C.loc, 'sound/magic/repulse.ogg', 70, TRUE)
 		return
 
 	if(left_leg || right_leg)
 		if(left_leg)
-			C.visible_message(
-				span_userdanger("[C]'s left leg is violently removed!"),
-				span_userdanger("My left leg is torn away!")
-			)
+			C.visible_message(span_userdanger("[C]'s left leg is violently removed!"),span_userdanger("My left leg is torn away!"))
 			left_leg.dismember()
 
 		if(right_leg)
-			C.visible_message(
-				span_userdanger("[C]'s right leg is violently removed!"),
-				span_userdanger("My right leg is torn away!")
-			)
+			C.visible_message(span_userdanger("[C]'s right leg is violently removed!"),span_userdanger("My right leg is torn away!"))
 			right_leg.dismember()
 
 		playsound(C.loc, 'sound/magic/repulse.ogg', 80, TRUE)
@@ -458,10 +396,7 @@
 
 	var/obj/item/bodypart/head = C.get_bodypart(BODY_ZONE_HEAD)
 	if(head)
-		C.visible_message(
-			span_userdanger("[C] is overwhelmed by crushing arcyne force!"),
-			span_userdanger("The force around me spikes catastrophically!")
-		)
+		C.visible_message(span_userdanger("[C] is overwhelmed by crushing arcyne force!"),span_userdanger("The force around me spikes catastrophically!"))
 		C.emote("agony")
 		head.dismember()
 		C.adjustBruteLoss(200)
@@ -470,14 +405,9 @@
 /datum/status_effect/enochian_rend/proc/remove_head(mob/living/carbon/C)
 	var/obj/item/bodypart/head = C.get_bodypart(BODY_ZONE_HEAD)
 	if(head)
-		C.visible_message(
-			span_userdanger("[C] is overwhelmed by crushing force!"),
-			span_userdanger("The force around me spikes catastrophically!")
-		)
-
+		C.visible_message(span_userdanger("[C] is overwhelmed by crushing force!"),	span_userdanger("The force around me spikes catastrophically!"))
 		head.dismember()
 		C.adjustBruteLoss(200)
-
 		playsound(C.loc, 'sound/magic/repulse.ogg', 90, TRUE)
 
 #undef ENOCHIAN_FILTER
@@ -546,7 +476,7 @@
 				return
 
 			if(O.fire_laser())
-				sleep(25)
+				sleep(23)
 
 			explosion(O.loc, 0, 0, 0, 0, FALSE, 0, 1, 0, 0)
 			qdel(O)
@@ -742,12 +672,7 @@
 	var/turf/step_turf = get_step(get_turf(user), user.dir)
 	switch(runeselection)
 		if("Rune of ZIZO")
-			var/compulsion = clamp((100 - user.get_skill_level(/datum/skill/magic/holy * 20)), 0, 100)
-			if(prob(compulsion)) // works in reverse, because real chad veterans know how to revere her better in action, rather than being fanatical cultists
-				user.say("ZIZO!! ZIZO!! ZIZO!!")
-				to_chat(user,span_cultsmall("I begin inscribing the rune of Her Knowledge... Compulsively, I shout for Her name!"))
-			else
-				to_chat(user,span_cultsmall("I begin inscribing the rune of Her Knowledge..."))
+			to_chat(user,span_cultsmall("I begin inscribing the rune of Her Knowledge..."))
 			if(do_after(user, 30, src))
 				playsound(src, 'sound/foley/scribble.ogg', 40, TRUE)
 				new /obj/structure/ritualcircle/zizo(step_turf)
@@ -785,7 +710,6 @@
 	var/active = FALSE
 	var/purged = FALSE
 	var/stored_value = 0
-
 
 /obj/structure/ritualcircle/profane/attack_right(mob/living/carbon/user)
 	if(active)
