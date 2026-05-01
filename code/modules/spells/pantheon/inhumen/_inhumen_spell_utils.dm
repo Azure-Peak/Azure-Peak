@@ -2,46 +2,6 @@
 //ZIZO//
 ////////
 
-
-/obj/structure/ritualcircle/profane/proc/get_valid_leyline_structure(mob/living/user)
-	var/turf/my_turf = get_turf(src)
-	if(!my_turf)
-		return null
-
-	var/obj/structure/leyline/L = null
-
-	for(var/dir in GLOB.cardinals)
-		var/turf/T = get_step(my_turf, dir)
-		if(!T) continue
-
-		L = locate(/obj/structure/leyline) in T
-		if(L)
-			break
-
-	if(!L)
-		to_chat(user, span_warning("The rite requires a leyline adjacent to the circle."))
-		return null
-
-	if(L.sabotaged)
-		to_chat(user, span_warning("This leyline has already been reaped."))
-		return null
-
-	var/rune_count = 0
-
-	for(var/dir in GLOB.cardinals)
-		var/turf/T = get_step(get_turf(L), dir)
-		if(!T) continue
-
-		for(var/obj/structure/ritualcircle/profane/leyline/R in T)
-			rune_count++
-
-	if(rune_count < 4)
-		var/missing = 4 - rune_count
-		to_chat(user, span_warning("The ritual is incomplete. [missing] rune\s missing."))
-		return null
-
-	return L
-
 /obj/structure/ritualcircle/profane/melding/proc/meld_corpse(mob/living/user)
 	var/turf/T = get_turf(src)
 	if(!T)
@@ -52,10 +12,13 @@
 
 	// COLLECT VALID CORPSES
 	for(var/mob/living/carbon/C in T)
+
+		var/is_departed = (!key && !get_ghost(FALSE, TRUE)) // should prevent PC corpses from being dusted
+
 		if(C.stat != DEAD)
 			continue
 
-		if(!C.client || C.mind?.has_antag_datum(/datum/antagonist/skeleton))
+		if(is_departed || C.mind?.has_antag_datum(/datum/antagonist/skeleton))
 			valid_bodies |= C
 
 	if(!valid_bodies.len)
@@ -348,7 +311,6 @@
 		return 8
 	return 0
 
-
 /datum/intent/sans/push
 	name = "push"
 	icon_state = "inshove"
@@ -387,7 +349,6 @@
 	else
 		return list(push=45 SECONDS, pull=45 SECONDS, slam=120 SECONDS, blast=60 SECONDS)
 
-
 /obj/item/melee/touch_attack/enochian_force/proc/do_slam(mob/living/user, mob/living/target)
 	if(!target || QDELETED(target))
 		return
@@ -406,8 +367,8 @@
 	var/target_wil = target.get_stat(STATKEY_WIL)
 
 	// add swing so it's not static
-	var/user_roll = user_int + rand(-5, 5)
-	var/target_roll = target_wil + rand(-5, 5)
+	var/user_roll = user_int + rand(-1, 1)
+	var/target_roll = target_wil + rand(-2, 2)
 
 	if(user_roll >= target_roll)
 		// SUCCESS
@@ -436,6 +397,7 @@
 	duration = 4 SECONDS
 	tick_interval = 0.7 SECONDS
 	alert_type = /atom/movable/screen/alert/status_effect/slam_rage
+
 	var/outline_color = "#c774ee"
 	var/slam_count = 0
 	var/max_slams = 5
@@ -443,143 +405,121 @@
 /datum/status_effect/slam_rage/on_apply()
 	if(!isliving(owner))
 		return FALSE
+
 	var/mob/living/L = owner
-	L.Immobilize(50)
-	L.add_filter(SLAM_FILTER, 2, list("type" = "outline", "color" = outline_color, "alpha" = 200, "size" = 2))
+	L.Immobilize(duration)
+	L.add_filter(SLAM_FILTER, 2, list("type"="outline","color"=outline_color,"alpha"=200,"size"=2))
 	L.update_icon()
-	to_chat(L, span_userdanger("An invisible force seizes me!"))
+
+	to_chat(L, span_userdanger("An unseen force lifts me!"))
 	return TRUE
 
 /datum/status_effect/slam_rage/tick()
-	if(!isliving(owner))
+	if(!isliving(owner) || slam_count >= max_slams)
 		return
-	var/mob/living/L = owner
-	if(slam_count > max_slams)
-		return
-	L.Immobilize(50)
-	// LIFT
-	animate(L, pixel_y = 56, time = 2, easing = SINE_EASING, flags = ANIMATION_RELATIVE | ANIMATION_END_NOW) // 0.4s
-	// HANG 
-	animate(time = 2) 
-	// SLAM DOWN 
-	animate(pixel_y = -72, time = 1, easing = QUAD_EASING, flags = ANIMATION_RELATIVE) // 0.2s
-	L.flash_fullscreen("redflash3", 1)
-	var/damage = 8 + (slam_count * 4)
-	L.adjustBruteLoss(damage)
-	if(prob(50) && !HAS_TRAIT(L, TRAIT_NOPAIN))
-		L.emote("painscream")
-	// RECOVER
-	animate(pixel_y = 16, time = 1, easing = LINEAR_EASING, flags = ANIMATION_RELATIVE) // 0.2s
 
-	// FINAL SLAM
+	var/mob/living/L = owner
+
+	// LIFT
+	animate(L, pixel_y = 56, time = 2, easing = SINE_EASING, flags = ANIMATION_RELATIVE | ANIMATION_END_NOW)
+	// HANG
+	animate(time = 2)
+	// SLAM DOWN
+	animate(pixel_y = -72, time = 1, easing = QUAD_EASING, flags = ANIMATION_RELATIVE)
+	// RECOVER
+	animate(pixel_y = 16, time = 1, easing = LINEAR_EASING, flags = ANIMATION_RELATIVE)
+
+	L.flash_fullscreen("redflash3", 1)
+
+	var/damage = 10 + (slam_count * 3)
+	L.adjustBruteLoss(damage)
+
+	if(prob(40) && !HAS_TRAIT(L, TRAIT_NOPAIN))
+		L.emote("painscream")
+
+	playsound(L.loc, 'sound/combat/hits/onstone/wallhit.ogg', 80, TRUE)
+
+	slam_count++
+
 	if(slam_count == max_slams)
-		if(!L.client)
-			L.Knockdown(10 SECONDS)
-			L.apply_status_effect(/datum/status_effect/debuff/clickcd, 10 SECONDS)
-		else
-			L.Knockdown(3 SECONDS)
-		L.visible_message(span_userdanger("[L] is violently smashed into the ground!"),	span_userdanger("The final impact crushes me into the floor!"))
+		L.visible_message(
+			span_userdanger("[L] is brutally smashed into the ground!"),
+			span_userdanger("The final slam crushes me!")
+		)
+
+		L.Knockdown(5 SECONDS)
+		L.apply_status_effect(/datum/status_effect/debuff/clickcd, 5 SECONDS)
+
 		playsound(get_turf(L), 'sound/combat/wooshes/blunt/wooshhuge (2).ogg', 100, FALSE)
 		playsound(get_turf(L), 'sound/combat/tf2crit.ogg', 100, TRUE)
-		L.adjustBruteLoss(damage)
-	playsound(L.loc, 'sound/combat/hits/onstone/wallhit.ogg', 80, TRUE)	
-	slam_count++
 
 /datum/status_effect/slam_rage/on_remove()
 	if(isliving(owner))
 		var/mob/living/L = owner
 		L.remove_filter(SLAM_FILTER)
 		animate(L, pixel_y = 0, time = 0)
-		L.visible_message(span_danger("The unseen force releases [L]!"), span_notice("The crushing force finally relents."))
 
 #undef SLAM_FILTER
 
 #define ENOCHIAN_FILTER "enochian_rend"
 
-/atom/movable/screen/alert/status_effect/enochian_rend // only works on NPCs!
+/atom/movable/screen/alert/status_effect/enochian_rend
 	name = "Enochian Rend"
 	desc = "Invisible force grips and tears at my form!"
 
 /datum/status_effect/enochian_rend
 	id = "enochian_rend"
-	duration = 5 SECONDS
-	tick_interval = 1 SECONDS
+	duration = 3 SECONDS
 	alert_type = /atom/movable/screen/alert/status_effect/enochian_rend
 
-	var/outline_color = "#c774ee"
-	var/limb_removed = FALSE
+	var/outline_color = "#ae00ff"
 
 /datum/status_effect/enochian_rend/on_apply()
-	if(!isliving(owner))
+	if(!iscarbon(owner))
 		return FALSE
-	var/mob/living/L = owner
-	L.Immobilize(duration)
-	L.add_filter(ENOCHIAN_FILTER, 2, list("type" = "outline","color" = outline_color,"alpha" = 210,	"size" = 2))
-	L.update_icon()
-	to_chat(L, span_userdanger("An unseen force seizes me, locking my body in place!"))
-	animate(L, pixel_y = L.pixel_y + 12, time = 0.3 SECONDS, easing = SINE_EASING)
-	return TRUE
 
-/datum/status_effect/enochian_rend/tick()
-	if(!isliving(owner))
-		return
-	var/mob/living/L = owner
-	L.flash_fullscreen("redflash3", 1)
-	L.adjustBruteLoss(12)
-	if(!limb_removed && iscarbon(L))
-		var/mob/living/carbon/C = L
-		remove_limb(C)
+	var/mob/living/carbon/C = owner
+
+	C.Immobilize(duration)
+	C.add_filter(ENOCHIAN_FILTER, 2, list("type"="outline","color"=outline_color,"alpha"=210,"size"=2))
+	C.update_icon()
+
+	to_chat(C, span_userdanger("An unseen force lifts me into the air!"))
+	animate(C, pixel_y = C.pixel_y + 16, time = 0.2 SECONDS)
+
+	var/list/limbs = list(
+		C.get_bodypart(BODY_ZONE_L_ARM),
+		C.get_bodypart(BODY_ZONE_R_ARM),
+		C.get_bodypart(BODY_ZONE_L_LEG),
+		C.get_bodypart(BODY_ZONE_R_LEG)
+	)
+
+	limbs = limbs - null
+
+	var/removed = 0
+	while(limbs.len && removed < 2)
+		var/obj/item/bodypart/B = pick(limbs)
+		limbs -= B
+		B.dismember()
+		removed++
+
+	C.visible_message(span_userdanger("[C] is torn apart by an unseen force!"),
+					 span_userdanger("Something is ripping me apart!"))
+
+	if(limbs.len < 4)
+		var/obj/item/bodypart/head = C.get_bodypart(BODY_ZONE_HEAD)
+		if(head)
+			head.dismember()
+			C.adjustBruteLoss(200)
+			playsound(C.loc, 'sound/magic/repulse.ogg', 90, TRUE)
+
+	return TRUE
 
 /datum/status_effect/enochian_rend/on_remove()
 	if(isliving(owner))
 		var/mob/living/L = owner
 		L.remove_filter(ENOCHIAN_FILTER)
-		animate(L, pixel_y = 0, time = 0.3 SECONDS, easing = SINE_EASING)
-		L.visible_message(span_danger("The unseen force releases [L]!"),span_notice("The pressure suddenly vanishes."))
-
-/datum/status_effect/enochian_rend/proc/remove_limb(mob/living/carbon/C)
-	var/obj/item/bodypart/left_arm = C.get_bodypart(BODY_ZONE_L_ARM)
-	var/obj/item/bodypart/right_arm = C.get_bodypart(BODY_ZONE_R_ARM)
-	var/obj/item/bodypart/left_leg = C.get_bodypart(BODY_ZONE_L_LEG)
-	var/obj/item/bodypart/right_leg = C.get_bodypart(BODY_ZONE_R_LEG)
-
-	if(left_arm || right_arm)
-		if(left_arm)
-			C.visible_message(span_userdanger("[C]'s left arm is torn away by unseen force!"),span_userdanger("My left arm is ripped free!"))
-			left_arm.dismember()
-		if(right_arm)
-			C.visible_message(span_userdanger("[C]'s right arm is torn away by unseen force!"),	span_userdanger("My right arm is ripped free!"))
-			right_arm.dismember()
-		playsound(C.loc, 'sound/magic/repulse.ogg', 70, TRUE)
-		return
-
-	if(left_leg || right_leg)
-		if(left_leg)
-			C.visible_message(span_userdanger("[C]'s left leg is violently removed!"),span_userdanger("My left leg is torn away!"))
-			left_leg.dismember()
-
-		if(right_leg)
-			C.visible_message(span_userdanger("[C]'s right leg is violently removed!"),span_userdanger("My right leg is torn away!"))
-			right_leg.dismember()
-
-		playsound(C.loc, 'sound/magic/repulse.ogg', 80, TRUE)
-		return
-
-	var/obj/item/bodypart/head = C.get_bodypart(BODY_ZONE_HEAD)
-	if(head)
-		C.visible_message(span_userdanger("[C] is overwhelmed by crushing arcyne force!"),span_userdanger("The force around me spikes catastrophically!"))
-		C.emote("agony")
-		head.dismember()
-		C.adjustBruteLoss(200)
-		playsound(C.loc, 'sound/magic/repulse.ogg', 90, TRUE)
-
-/datum/status_effect/enochian_rend/proc/remove_head(mob/living/carbon/C)
-	var/obj/item/bodypart/head = C.get_bodypart(BODY_ZONE_HEAD)
-	if(head)
-		C.visible_message(span_userdanger("[C] is overwhelmed by crushing force!"),	span_userdanger("The force around me spikes catastrophically!"))
-		head.dismember()
-		C.adjustBruteLoss(200)
-		playsound(C.loc, 'sound/magic/repulse.ogg', 90, TRUE)
+		animate(L, pixel_y = 0, time = 0.2 SECONDS)
 
 #undef ENOCHIAN_FILTER
 

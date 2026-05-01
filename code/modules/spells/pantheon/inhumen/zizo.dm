@@ -28,50 +28,50 @@ corpses and discarded junk*/
 
 		"Corrupted Chalk" = list(
 			path = /obj/item/chalk/zizo,
-			m_cooldown = -1, // don't lose it! :D
-			m_rank = SKILL_LEVEL_NONE,
+			m_cooldown = -1, // Only one available, if you lose it, tough luck.
+			m_rank = SKILL_LEVEL_NONE, // This is a normal arcyne chalk, just spooky and red glowy. Requires arcyne trait to use, as you'd expect.
 			category = "Sepulchral Relics",
 			lines = list("Ol sonf vorsg, hoath zir.","Madriax soba-lonshi od zorge.","Faxs to faxs-sobol athan."),
 		),
 		"Profane Rite Chalk" = list(
 			path = /obj/item/ritechalk_zizo,
-			m_cooldown = -1, // don't lose it! :D
-			m_rank = SKILL_LEVEL_NONE,
+			m_cooldown = -1, // Ditto.
+			m_rank = SKILL_LEVEL_NONE, // This is a special chalk that lets you create runes without TRAIT_RITUALIST. In less than Expert+ hands, it's just a grafitti tool, except for the melding ritual.
 			category = "Sepulchral Relics",
 			lines = list("Ol sonf vorsg, hoath zir.","Madriax soba-lonshi od zorge.","Faxs to faxs-sobol athan.","Velor ixan thrae-zho vel.","Korvath en'zul miraxis thren.","Thren val'kora ix ven.","Zai'ul phoros vekh tor.","Morath xi'en thul var.","Vael kor zin'athra vel.","Thul'kor imnaza vekh dor.","En'ra zolth ix venak.","Zhorath kal'mir vex ul.","Ul ix zizo vel'kra.","Sothra vel ixan thul.","Zor'en valix thrae kor.","Vel'zan morath ix ul.","Threx ul ven'kai zhor.","Ix zol ven'ra thul kor.","Vorath ixen kal zor.","Zizo ul thren val'ix.")
 		),
 		"Profane Riteblade" = list(
 			path = /obj/item/rogueweapon/huntingknife/idagger/zizo,
-			m_cooldown = -1, // don't lose it! :D
-			m_rank = SKILL_LEVEL_JOURNEYMAN,
+			m_cooldown = -1, // Ditto, but this might be changed into a touch_attack in the future.
+			m_rank = SKILL_LEVEL_JOURNEYMAN, // It's just a weaker iron dagger that will probably have more to it when I figure out exactly what it should get.
 			category = "Rite Instruments",
 			lines = list("Ol sonf vorsg, hoath zir.","Madriax soba-lonshi od zorge.","Faxs to faxs-sobol athan.","Velor ixan thrae-zho vel.","Korvath en'zul miraxis thren.","Thren val'kora ix ven.","Zai'ul phoros vekh tor.","Morath xi'en thul var.","Vael kor zin'athra vel.","Thul'kor imnaza vekh dor.","En'ra zolth ix venak.","Zhorath kal'mir vex ul.","Ul ix zizo vel'kra.","Sothra vel ixan thul.","Zor'en valix thrae kor.","Vel'zan morath ix ul.","Threx ul ven'kai zhor.","Ix zol ven'ra thul kor.","Vorath ixen kal zor.","Zizo ul thren val'ix.")		
 		),
 		"Enochian Artificer's Bag" = list(
 			path = /obj/item/storage/magebag/zizo,
-			m_cooldown = -1, // don't lose it! :D
-			m_rank = SKILL_LEVEL_NONE,
+			m_cooldown = -1, // And ditto.
+			m_rank = SKILL_LEVEL_NONE, // Spooky glowy Mage's Bag for Artificer/Alchemy ingredients. Nothing out of the world here.
 			category = "Sepulchral Relics",
 			lines = list("Ol sonf vorsg, hoath zir.","Madriax soba-lonshi od zorge.","Faxs to faxs-sobol athan.","Velor ixan thrae-zho vel.","Korvath en'zul miraxis thren.","Thren val'kora ix ven.","Zai'ul phoros vekh tor.","Morath xi'en thul var.","Vael kor zin'athra vel.","Thul'kor imnaza vekh dor.","En'ra zolth ix venak.","Zhorath kal'mir vex ul.","Ul ix zizo vel'kra.","Sothra vel ixan thul.","Zor'en valix thrae kor.","Vel'zan morath ix ul.","Threx ul ven'kai zhor.","Ix zol ven'ra thul kor.","Vorath ixen kal zor.","Zizo ul thren val'ix.")		
 		),
 		"Enochian Grasp" = list(
 			path = /obj/item/melee/touch_attack/enochian_force,
-			m_cooldown = 3 MINUTES,
-			m_rank = SKILL_LEVEL_EXPERT,
+			m_cooldown = 3 MINUTES, // Cooldown should be higher to refresh than waiting it out with it on your hand.
+			m_rank = SKILL_LEVEL_EXPERT, // The main purpose of this is to help move corpses remotely without having to go through the drag game. I added four intents to it to emphasize that Enochian is still magic, in its base.
 			category = "Enochian Artificery",
 			lines = list("Ol sonf vorsg, hoath zir.","Madriax soba-lonshi od zorge.","Faxs to faxs-sobol athan.","Velor ixan thrae-zho vel.","Korvath en'zul miraxis thren.","Thren val'kora ix ven.","Zai'ul phoros vekh tor.","Morath xi'en thul var.","Vael kor zin'athra vel.","Thul'kor imnaza vekh dor.","En'ra zolth ix venak.","Zhorath kal'mir vex ul.","Ul ix zizo vel'kra.","Sothra vel ixan thul.","Zor'en valix thrae kor.","Vel'zan morath ix ul.","Threx ul ven'kai zhor.","Ix zol ven'ra thul kor.","Vorath ixen kal zor.","Zizo ul thren val'ix.")		
 		),
 		"Profane Rope" = list(
-			path = /obj/item/rope/zizo, // the serial eeper disease
-			m_cooldown = 2 MINUTES,
-			m_rank = SKILL_LEVEL_NONE,
+			path = /obj/item/rope/zizo, 
+			m_cooldown = 2 MINUTES, 
+			m_rank = SKILL_LEVEL_NONE, // This is to help capture enemies for certain rituals that require them to be alive. No different than normal rope. Can even be used to make handcards or meathooks!
 			category = "Rite Instruments",
 			lines = list("Ol sonf vorsg, hoath zir.","Madriax soba-lonshi od zorge.","Faxs to faxs-sobol athan.","Velor ixan thrae-zho vel.","Korvath en'zul miraxis thren.","Thren val'kora ix ven.","Zai'ul phoros vekh tor.","Morath xi'en thul var.","Vael kor zin'athra vel.","Thul'kor imnaza vekh dor.","En'ra zolth ix venak.","Zhorath kal'mir vex ul.","Ul ix zizo vel'kra.","Sothra vel ixan thul.","Zor'en valix thrae kor.","Vel'zan morath ix ul.","Threx ul ven'kai zhor.","Ix zol ven'ra thul kor.","Vorath ixen kal zor.","Zizo ul thren val'ix.")		
 		),
 		"Vial of Corrosion" = list(
 			path = /obj/item/matthios_canister/zizo_corrosive,
 			m_cooldown = 5 MINUTES,
-			m_rank = SKILL_LEVEL_EXPERT,
+			m_rank = SKILL_LEVEL_EXPERT, // This is likely going to be removed, it was an in-development vision I had that ended up too close to Matthios. We'll see.
 			category = "Enochian Artificery",
 			lines = list("Ol sonf vorsg, hoath zir.","Madriax soba-lonshi od zorge.","Faxs to faxs-sobol athan.","Velor ixan thrae-zho vel.","Korvath en'zul miraxis thren.","Thren val'kora ix ven.","Zai'ul phoros vekh tor.","Morath xi'en thul var.","Vael kor zin'athra vel.","Thul'kor imnaza vekh dor.","En'ra zolth ix venak.","Zhorath kal'mir vex ul.","Ul ix zizo vel'kra.","Sothra vel ixan thul.","Zor'en valix thrae kor.","Vel'zan morath ix ul.","Threx ul ven'kai zhor.","Ix zol ven'ra thul kor.","Vorath ixen kal zor.","Zizo ul thren val'ix.")		
 		),

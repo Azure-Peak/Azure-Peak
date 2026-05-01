@@ -604,6 +604,7 @@
 
 	// --- APPLY EFFECT ---
 	L.apply_sabotage()
+	L.spawn_hostiles() // now they're your problem too
 
 	spend_leyline_charge(user)
 	if(!get_leyline_charges(user))
