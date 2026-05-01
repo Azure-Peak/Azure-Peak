@@ -367,7 +367,7 @@
 				if(HAS_TRAIT(H, TRAIT_PSYDONIAN_GRIT))
 					l_hand = /obj/item/rogueweapon/huntingknife/idagger/silver/psydagger
 				else if(istype(H.patron, /datum/patron/inhumen/zizo))
-					l_hand = /obj/item/rogueweapon/huntingknife/idagger/steel/avantyne
+					l_hand = /obj/item/rogueweapon/huntingknife/idagger/steel/zizo
 				else
 					l_hand = /obj/item/rogueweapon/huntingknife/idagger/steel
 			if("Crossbow")
@@ -379,7 +379,7 @@
 				if(HAS_TRAIT(H, TRAIT_PSYDONIAN_GRIT))
 					l_hand = /obj/item/rogueweapon/huntingknife/idagger/silver/psydagger
 				else if(istype(H.patron, /datum/patron/inhumen/zizo))
-					l_hand = /obj/item/rogueweapon/huntingknife/idagger/steel/avantyne
+					l_hand = /obj/item/rogueweapon/huntingknife/idagger/steel/zizo
 				else
 					l_hand = /obj/item/rogueweapon/huntingknife/idagger/steel
 			if("Slurbow")
@@ -391,7 +391,7 @@
 				if(HAS_TRAIT(H, TRAIT_PSYDONIAN_GRIT))
 					l_hand = /obj/item/rogueweapon/huntingknife/idagger/silver/psydagger
 				else if(istype(H.patron, /datum/patron/inhumen/zizo))
-					l_hand = /obj/item/rogueweapon/huntingknife/idagger/steel/avantyne
+					l_hand = /obj/item/rogueweapon/huntingknife/idagger/steel/zizo
 				else
 					l_hand = /obj/item/rogueweapon/huntingknife/idagger/steel
 		var/datum/devotion/C = new /datum/devotion(H, H.patron)

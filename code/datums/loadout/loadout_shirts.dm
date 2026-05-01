@@ -177,3 +177,11 @@
 	name = "Noble's Pinafore"
 	path = /obj/item/clothing/suit/roguetown/shirt/nobledress
 	sort_category = "Shirts"
+/datum/loadout_item/formalshirt
+	name = "formal shirt"
+	path = /obj/item/clothing/suit/roguetown/shirt/undershirt/formal
+	sort_category = "Shirts"
+/datum/loadout_item/fancymaiddress
+	name = "maid dress"
+	path = /obj/item/clothing/suit/roguetown/shirt/dress/maidfancy
+	sort_category = "Shirts"

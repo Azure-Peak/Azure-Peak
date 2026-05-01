@@ -82,13 +82,13 @@
 	name = "halfsword thrust"
 	icon_state = "inimpale"
 	clickcd = CLICK_CD_CHARGED
-	penfactor = PEN_HEAVY
+	penfactor = PEN_MEDIUM
 	damfactor = 0.8
-	swingdelay_type = SWINGDELAY_PENALTY
-	swingdelay = 0.7 SECONDS
+	swingdelay = 0.5 SECONDS
 
 /datum/intent/sword/thrust/long/halfsword/jab
 	name = "jab"
+	icon_state = "instab"
 	attack_verb = list("jabs")
 	penfactor = PEN_LIGHT
 	damfactor = 0.8

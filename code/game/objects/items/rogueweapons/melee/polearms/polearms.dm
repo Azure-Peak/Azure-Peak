@@ -612,7 +612,7 @@
 	wdefense = 6
 	throwforce = 15
 
-/obj/item/rogueweapon/spear/billhook/avantyne
+/obj/item/rogueweapon/spear/billhook/zizo
 	name = "avantyne billhook"
 	desc = "A jagged, cruel instrument born of a desire to tear down everything held sacred. It is a weapon of pure upheaval, designed to drag the Psydonia's false idols into the dirt."
 	icon_state = "zizobillhook"
@@ -624,7 +624,7 @@
 	unequip_delay_self = 0
 	slot_flags = ITEM_SLOT_BACK
 
-/obj/item/rogueweapon/spear/billhook/avantyne/Initialize()
+/obj/item/rogueweapon/spear/billhook/zizo/Initialize()
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_CABAL, "BILLHOOK")
 

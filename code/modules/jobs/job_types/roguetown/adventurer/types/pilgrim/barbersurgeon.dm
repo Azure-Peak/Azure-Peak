@@ -28,7 +28,7 @@
 		/datum/skill/misc/sneaking = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/medicine = SKILL_LEVEL_MASTER,
 		/datum/skill/craft/sewing = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/craft/alchemy = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/craft/alchemy = SKILL_LEVEL_JOURNEYMAN,
 	)
 
 /datum/outfit/job/roguetown/adventurer/doctor/pre_equip(mob/living/carbon/human/H)

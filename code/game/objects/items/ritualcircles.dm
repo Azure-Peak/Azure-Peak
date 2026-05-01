@@ -1592,7 +1592,7 @@
 			var/list/weapon_options = list(
 				"Avantyne Longsword" = image(icon = 'icons/roguetown/weapons/swords64.dmi', icon_state = "zizosword"),
 				"Avantyne Billhook" = image(icon = 'icons/roguetown/weapons/polearms64.dmi', icon_state = "zizobillhook"),
-				"Avantyne Arming Sword and Shield" = image(icon = 'icons/roguetown/weapons/shields32.dmi', icon_state = "zizoshield")
+				"Avantyne Arming Sword and Darkshield" = image(icon = 'icons/roguetown/weapons/shields32.dmi', icon_state = "zizoshield")
 			)
 
 			var/weapon_choice = show_radial_menu(user, src, weapon_options, require_near = TRUE, tooltips = TRUE)
@@ -1674,37 +1674,37 @@
 	for(var/I in items)
 		H.dropItemToGround(I, TRUE)
 	H.drop_all_held_items()
-	armor = /obj/item/clothing/suit/roguetown/armor/plate/full/avantyne
-	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/avantyne/heavy
-	pants = /obj/item/clothing/under/roguetown/platelegs/avantyne/heavy
-	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/avantyne/heavy
-	wrists = /obj/item/clothing/wrists/roguetown/bracers/avantyne/heavy
-	gloves = /obj/item/clothing/gloves/roguetown/plate/avantyne/heavy
+	armor = /obj/item/clothing/suit/roguetown/armor/plate/full/zizo
+	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/zizo/heavy
+	pants = /obj/item/clothing/under/roguetown/platelegs/zizo/heavy
+	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/zizo/heavy
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/zizo/heavy
+	gloves = /obj/item/clothing/gloves/roguetown/plate/zizo/heavy
 	head = selected_helm_path
-	neck = /obj/item/clothing/neck/roguetown/bevor/avantyne/heavy
+	neck = /obj/item/clothing/neck/roguetown/bevor/zizo/heavy
 	switch(selected_weapon_choice)
-		if("Avantyne Arming Sword and Shield")
-			r_hand = /obj/item/rogueweapon/sword/avantyne
-			l_hand = /obj/item/rogueweapon/shield/tower/metal/avantyne
+		if("Avantyne Arming Sword and Darkshield")
+			r_hand = /obj/item/rogueweapon/sword/zizo
+			l_hand = /obj/item/rogueweapon/shield/tower/metal/zizo
 			H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
 		if("Avantyne Billhook")
-			r_hand = /obj/item/rogueweapon/spear/billhook/avantyne
+			r_hand = /obj/item/rogueweapon/spear/billhook/zizo
 			H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_EXPERT, TRUE)
 		else
-			r_hand = /obj/item/rogueweapon/sword/long/avantyne
+			r_hand = /obj/item/rogueweapon/sword/long/zizo
 			H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
 
 	H.mind.AddSpell(new /datum/action/cooldown/spell/mending/lesser)
 
 /datum/outfit/job/roguetown/darksteelrite/medium/pre_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	..()
-	armor = /obj/item/clothing/suit/roguetown/armor/plate/fluted/avantyne
-	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/avantyne
-	pants = /obj/item/clothing/under/roguetown/platelegs/avantyne
-	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/avantyne
-	wrists = /obj/item/clothing/wrists/roguetown/bracers/avantyne
-	gloves = /obj/item/clothing/gloves/roguetown/plate/avantyne
-	neck = /obj/item/clothing/neck/roguetown/bevor/avantyne
+	armor = /obj/item/clothing/suit/roguetown/armor/plate/fluted/zizo
+	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/zizo
+	pants = /obj/item/clothing/under/roguetown/platelegs/zizo
+	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/zizo
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/zizo
+	gloves = /obj/item/clothing/gloves/roguetown/plate/zizo
+	neck = /obj/item/clothing/neck/roguetown/bevor/zizo
 	H.mind.RemoveSpell(new /datum/action/cooldown/spell/mending/lesser)
 
 

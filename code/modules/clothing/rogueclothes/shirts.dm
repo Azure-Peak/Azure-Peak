@@ -830,6 +830,7 @@
 /obj/item/clothing/suit/roguetown/shirt/dress/maidfancy
 	name = "maid dress"
 	desc = "A dress befitting the housekeeper of a lord's staff. While not as intricate as a royal's, it is indicative of the house's status."
+	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
 	body_parts_covered = CHEST|GROIN|ARMS|VITALS
 	sleeved = 'icons/roguetown/clothing/special/onmob/sleeves_maids.dmi'
 	r_sleeve_status = SLEEVE_NORMAL

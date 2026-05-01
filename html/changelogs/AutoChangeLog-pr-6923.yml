@@ -1,7 +1,0 @@
-author: "Ollanius"
-delete-after: True
-changes:
-  - balance: "Plague/strange masks now provide the 'NOSTINK' trait when worn, preventing the accumilation of nausea from miasma."
-  - rscadd: "Adds the complete garb of Stonekeep's Feldsher and Physicker roles, craftable for a price."
-  - rscadd: "Miscellanious - adds a new shield sprite as well."
-  - code_imp: "A bunch of new sprites've been archived and stored for asset-use."

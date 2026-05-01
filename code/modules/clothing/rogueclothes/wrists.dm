@@ -396,6 +396,7 @@
 	name = "gilded bracers"
 	desc = "Away with you, vile beggar!"
 	color = "#ffc960"
+	smeltresult = /obj/item/ingot/component/matthios
 
 /obj/item/clothing/wrists/roguetown/bracers/matthios/Initialize()
 	. = ..()
@@ -403,7 +404,7 @@
 
 //
 
-/obj/item/clothing/wrists/roguetown/bracers/avantyne
+/obj/item/clothing/wrists/roguetown/bracers/zizo
 	name = "avantyne bracers"
 	desc = "Clasped yet practical, these avantyne wristguards are reinforced for the rite without binding themselves to the wearer forever."
 	color = "#c1b18d"
@@ -411,18 +412,17 @@
 	material_category = ARMOR_MAT_PLATE
 	max_integrity = ARMOR_INT_SIDE_STEEL
 	armor_class = ARMOR_CLASS_MEDIUM
+	smeltresult = /obj/item/ingot/component/zizo
 
-/obj/item/clothing/wrists/roguetown/bracers/avantyne/Initialize()
+/obj/item/clothing/wrists/roguetown/bracers/zizo/Initialize()
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_CABAL, "ARMOR")
 
-/obj/item/clothing/wrists/roguetown/bracers/avantyne/heavy
-
-/obj/item/clothing/wrists/roguetown/bracers/avantyne/heavy/Initialize()
+/obj/item/clothing/wrists/roguetown/bracers/zizo/heavy/Initialize()
 	. = ..()
 	ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)
 
-/obj/item/clothing/wrists/roguetown/bracers/avantyne/heavy/dropped(mob/living/carbon/human/user)
+/obj/item/clothing/wrists/roguetown/bracers/zizo/heavy/dropped(mob/living/carbon/human/user)
 	. = ..()
 	if(QDELETED(src))
 		return
@@ -433,10 +433,7 @@
 	name = "vicious bracers"
 	desc = "Oh, to plunge hands into cold water; to play a melody upon an ivory-keyed piano; to watch steam rise from boiling, twisting entrails.."
 	color = "#ddc0a7"
-
-/obj/item/clothing/wrists/roguetown/bracers/graggar/Initialize()
-	. = ..()
-	AddComponent(/datum/component/cursed_item, TRAIT_HORDE, "ARMOR", "RENDERED ASUNDER")
+	smeltresult = /obj/item/ingot/component/graggar
 
 /obj/item/clothing/wrists/roguetown/bracers/graggar/heavy
 	name = "vicious wristguards"
@@ -447,6 +444,7 @@
 	icon_state = "graggarplatebracer_heavy"
 	max_integrity = ARMOR_INT_SIDE_ANTAG
 	color = null
+	smeltresult = /obj/item/ingot/component/graggar
 
 /obj/item/clothing/wrists/roguetown/bracers/graggar/heavy/Initialize()
 	. = ..()

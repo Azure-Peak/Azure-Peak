@@ -1,4 +1,0 @@
-author: "ToasterStrudes"
-delete-after: True
-changes:
-  - rscadd: "Shift Clicking armor now opens a cosmetic inventory similar to helmet cosmetic inventory. It can take any non-armored shirt/armor/cloak slot item."
