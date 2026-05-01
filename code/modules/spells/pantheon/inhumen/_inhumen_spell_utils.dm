@@ -34,7 +34,7 @@
 		REMOVE_TRAIT(owner, TRAIT_GARRISON_ITEM, "hackerman")
 	. = ..()
 
-/proc/execute_rite(atom/source, mob/living/leader, ritual_length = 4, max_cultists = 5, silent = FALSE)
+/proc/execute_rite(atom/source, mob/living/leader, ritual_length = 4, max_cultists = 5, silent = FALSE, no_crazy = FALSE)
 	if(!leader || QDELETED(source))
 		return FALSE
 
@@ -42,65 +42,13 @@
 	if(!T)
 		return FALSE
 
-	// GATHER CABALISTS
-	var/list/mob/living/cabalists = list()
-	for(var/mob/living/M in range(1, source))
-		if(HAS_TRAIT(M, TRAIT_CABAL) && M.stat == CONSCIOUS)
-			cabalists += M
-
-	if(HAS_TRAIT(leader, TRAIT_CABAL) && !(leader in cabalists))
-		cabalists += leader
-
-	if(!length(cabalists))
-		to_chat(leader, span_warning("None nearby can answer the rite."))
-		return FALSE
-
-	// CONSENT PHASE
-	var/list/responders = list()
-	var/list/pending = list()
-
-	for(var/mob/living/M in cabalists)
-		if(M == leader)
-			continue
-
-		pending += M
-
-		spawn()
-			if(QDELETED(M))
-				return
-			var/choice = alert(M, "Do you wish to contribute to the rite?", "Ritual Invocation", "Yes", "No")
-			if(choice == "Yes")
-				// safe add
-				responders |= M
-
-	// wait up to 7 seconds, but allow early exit if all responded
-	var/timeout = world.time + 7 SECONDS
-	while(world.time < timeout && length(pending))
-		sleep(2)
-		// remove people who already responded or are invalid
-		for(var/mob/living/M in pending.Copy())
-			if(QDELETED(M))
-				pending -= M
-
-	// BUILD PARTICIPANTS
-	var/list/participants = list()
-
-	for(var/mob/living/M in responders)
-		if(length(participants) >= max_cultists)
-			break
-		if(QDELETED(M) || M.stat != CONSCIOUS)
-			continue
-		participants += M
-
-	// Leader ALWAYS included
-	if(!(leader in participants))
-		participants.Insert(1, leader)
-
-	if(!length(participants))
+	var/list/mob/living/participants = gather_rite_participants(source, leader, max_cultists)
+	if(!participants || !length(participants))
 		to_chat(leader, span_warning("The rite finds no willing voices."))
 		return FALSE
 
-	// CHANTS
+	var/list/datum/beam/active_beams = list()
+
 	var/list/chant_lines = list(
 		"Ol sonf vorsg-hoath iaida.",
 		"Zirdo madriax, soba lonshi.",
@@ -113,6 +61,7 @@
 		"Zai'ul phoros vekh.",
 		"Morath xi'en thul."
 	)
+
 	var/list/silent_chant_lines = list(
 		"#Ol sonf vorsg-hoath iaida.",
 		"#Zirdo madriax, soba lonshi.",
@@ -126,59 +75,114 @@
 		"#Morath xi'en thul."
 	)
 
-	var/list/datum/beam/active_beams = list()
-
-	// RITUAL LOOP
 	for(var/phase in 1 to ritual_length)
 
-		// abort if leader dies or disappears
+		// hard fail if leader drops
 		if(QDELETED(leader) || leader.stat != CONSCIOUS)
-			break
-		
-		// chant
-		var/line_index = min(phase, length(chant_lines))
-		for(var/mob/living/P in participants)
-			if(QDELETED(P) || P.stat != CONSCIOUS)
-				continue
+			cleanup_rite(participants, active_beams)
+			return FALSE
 
+		// rebuild active list each phase
+		var/list/mob/living/active = list()
+		for(var/mob/living/P in participants)
+			if(!QDELETED(P) && P.stat == CONSCIOUS)
+				active += P
+
+		if(!length(active))
+			cleanup_rite(participants, active_beams)
+			return FALSE
+
+		var/i = min(phase, length(chant_lines))
+
+		// synced chant + effects
+		for(var/mob/living/P in active)
 			if(silent)
-				P.say(silent_chant_lines[line_index], forced = "rite invocation", ignore_spam = TRUE)
+				P.say(silent_chant_lines[i], forced = "rite invocation", ignore_spam = TRUE)
 			else
-				P.say(chant_lines[line_index], forced = "rite invocation", ignore_spam = TRUE)
+				P.say(chant_lines[i], forced = "rite invocation", ignore_spam = TRUE)
 
-			// Some bit of mindfuck for sovl
-			P.hallucination += 50
+			if(!no_crazy)
+				P.hallucination += 50
+				ADD_TRAIT(P, TRAIT_PSYCHOSIS, "rite")
 
-		// beams
-		for(var/mob/living/P in participants)
-			if(QDELETED(P))
-				continue
+		// reset beams per phase
+		for(var/datum/beam/B in active_beams)
+			if(B) B.End()
+		active_beams.Cut()
+
+		for(var/mob/living/P in active)
 			active_beams += T.Beam(P, icon_state = "drainbeam", time = 5 SECONDS, maxdistance = 10)
 
-		// scaling cost (ramps each phase)
-		var/damage = 5 + (phase * 2)
-
-		for(var/mob/living/P in participants)
-			if(QDELETED(P))
-				continue
-
-			P.adjustBruteLoss(damage)
-
+		// damage
+		var/dmg = 5 + (phase * 2)
+		for(var/mob/living/P in active)
+			P.adjustBruteLoss(dmg)
 			if(!silent && prob(10 + phase * 5) && !(HAS_TRAIT(P, TRAIT_NOPAIN)))
 				P.emote("painscream")
 
-		// channel
+		// sync gate
 		if(!do_after(leader, 5 SECONDS, target = source))
 			to_chat(leader, span_warning("The rite collapses before completion."))
-			for(var/datum/beam/B in active_beams)
-				if(B) B.End()
+			cleanup_rite(participants, active_beams)
 			return FALSE
 
-	// CLEANUP
-	for(var/datum/beam/B in active_beams)
-		if(B) B.End()
-
+	// final cleanup
+	cleanup_rite(participants, active_beams)
 	return TRUE
+
+/proc/gather_rite_participants(atom/source, mob/living/leader, max_cultists)
+	var/list/mob/living/cabalists = list()
+
+	for(var/mob/living/M in range(1, source))
+		if(HAS_TRAIT(M, TRAIT_CABAL) && M.stat == CONSCIOUS)
+			cabalists += M
+
+	if(HAS_TRAIT(leader, TRAIT_CABAL) && !(leader in cabalists))
+		cabalists += leader
+
+	if(!length(cabalists))
+		return null
+
+	var/list/mob/living/responders = list()
+
+	// async consent (no shared removals, no pending list)
+	for(var/mob/living/M in cabalists)
+		if(M == leader)
+			continue
+
+		spawn()
+			if(QDELETED(M))
+				return
+			var/choice = alert(M, "Do you wish to contribute to the rite?", "Ritual Invocation", "Yes", "No")
+			if(choice == "Yes")
+				responders |= M
+
+	sleep(7 SECONDS) // fixed window, avoids race logic
+
+	// build final participant list
+	var/list/mob/living/participants = list()
+
+	for(var/mob/living/M in responders)
+		if(length(participants) >= max_cultists)
+			break
+		if(QDELETED(M) || M.stat != CONSCIOUS)
+			continue
+		participants += M
+
+	// leader always included
+	if(!(leader in participants))
+		participants.Insert(1, leader)
+
+	return participants
+
+/proc/cleanup_rite(list/mob/living/participants, list/datum/beam/active_beams)
+	for(var/datum/beam/B in active_beams)
+		if(B)
+			B.End()
+
+	for(var/mob/living/P in participants)
+		if(!QDELETED(P))
+			REMOVE_TRAIT(P, TRAIT_PSYCHOSIS, "rite")
 
 /proc/execute_rite_lesser(atom/source, mob/living/leader, ritual_length = 4, silent = FALSE)
 	if(!leader || QDELETED(source))
@@ -238,7 +242,7 @@
 		active_beams += T.Beam(leader, icon_state = "drainbeam", time = 5 SECONDS, maxdistance = 10)
 
 		// channel
-		if(!do_after(leader, 5 SECONDS, target = source))
+		if(!do_after(leader, 3 SECONDS, target = source))
 			to_chat(leader, span_warning("The rite fizzles before completion."))
 			for(var/datum/beam/B in active_beams)
 				if(B) B.End()

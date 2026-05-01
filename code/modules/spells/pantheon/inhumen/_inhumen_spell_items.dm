@@ -903,7 +903,7 @@
 		active = FALSE
 		return
 
-	if(!execute_rite(src, user, ritual_length = 3, max_cultists = 1, silent = TRUE, no_crazy = TRUE))
+	if(!execute_rite_lesser(src, user, ritual_length = 6, silent = TRUE))
 		active = FALSE
 		return
 
@@ -968,7 +968,7 @@
 		active = FALSE
 		return
 
-	if(!execute_rite(src, user, ritual_length = 3, max_cultists = 1, silent = TRUE, no_crazy = TRUE))
+	if(!execute_rite_lesser(src, user, ritual_length = 3, silent = TRUE))
 		active = FALSE
 		return
 
@@ -1048,10 +1048,10 @@
 					new /obj/item/natural/stone(T)
 				else
 					new /obj/item/natural/stoneblock(T)
-		
-		playsound(src, 'sound/magic/swap.ogg', 60, TRUE)
-		stored_value -= amount
 
+		playsound(src, 'sound/magic/swap.ogg', 60, TRUE)
+		
+		stored_value -= amount
 		to_chat(user, span_cultsmall("I shape [amount] units of [lowertext(form)] [lowertext(choice)]. Remaining liquid hatred: [stored_value]."))
 		active = FALSE
 		return
@@ -1059,46 +1059,35 @@
 	// slag branch
 	if(choice == "Primed Avantyne Slag")
 		var/cost = 100
-
 		if(stored_value < cost)
 			to_chat(user, span_warning("Insufficient value."))
 			active = FALSE
 			return
-
 		if(miracle < 3)
 			to_chat(user, span_warning("This form is beyond my capability."))
 			active = FALSE
 			return
-
-		if(!execute_rite(src, user, ritual_length = 8, max_cultists = 1, silent = TRUE, no_crazy = TRUE))
+		if(!execute_rite_lesser(src, user, ritual_length = 8, silent = TRUE))
 			active = FALSE
 			return
-
 		playsound(src, 'sound/magic/swap.ogg', 60, TRUE)
 		stored_value -= cost
 		new /obj/item/ingot/aaslag_zizo/primed(T)
-
 		to_chat(user, span_cultsmall("The mass condenses into a volatile slag, ready to be used. Remaining liquid hatred: [stored_value]."))
 
 /obj/structure/ritualcircle/profane/melding/proc/create_slag(mob/living/user)
 	if(stored_value <= 0)
 		to_chat(user, span_warning("Nothing to extract."))
 		return
-
 	var/turf/T = get_turf(src)
 	if(!T)
 		return
-
 	if(!do_after(user, 50, src))
 		return
-
 	playsound(src, 'sound/magic/swap.ogg', 60, TRUE)
-
 	var/obj/item/ingot/aaslag_zizo/A = new(T)
 	A.value = stored_value
-
-	to_chat(user, span_artery("I condense [stored_value] motes of liquid hatred into a single slag."))
-
+	to_chat(user, span_artery("I condense [stored_value] motes of liquid hatred into a single slag, ready for transportation."))
 	stored_value = 0
 
 /obj/structure/ritualcircle/profane/leyline
@@ -1279,7 +1268,7 @@
 
 	to_chat(user, span_cultsmall("I begin invoking the Great Work... Yet far beneath Her true design."))
 
-	if(!execute_rite(src, user, ritual_length = 10, max_cultists = 5, silent = FALSE, no_crazy = FALSE))
+	if(!execute_rite(src, user, ritual_length = 12, max_cultists = 5, silent = FALSE, no_crazy = FALSE))
 		active = FALSE
 		return
 	playsound(src, 'sound/magic/churn.ogg', 70, TRUE)
