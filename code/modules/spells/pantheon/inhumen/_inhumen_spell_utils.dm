@@ -1047,10 +1047,8 @@ GLOBAL_LIST_INIT(we_live_in_a_zociety, list(
 	"The future is not written by kings or gods, but by those who act.",
 	"A better world is possible — but only if you allow it to be built.",
 	"You are not meant to serve the world. You are meant to shape it.",
-	//popular characters go here
+	//clown emoji
 	"We live in a Zociety...", 
-	"By Zizo! Ser Orland never catches a break, I heard.",
-	"How the heck does Lady Isobelle keep a hair upright like that?!",
 	//tennite roast goes here
 	"Astrata's rule is not divine. It is imposed. No sky-born tyrant has the right to decide our fate.",
 	"Noc values restraint over discovery. Knowledge chained by morality is knowledge left to slumber.",
