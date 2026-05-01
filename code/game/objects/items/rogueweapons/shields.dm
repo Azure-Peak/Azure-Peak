@@ -427,18 +427,33 @@
 				return list("shrink" = 0.6,"sx" = 1,"sy" = 4,"nx" = 1,"ny" = 2,"wx" = 3,"wy" = 3,"ex" = -3,"ey" = 3,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 8,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 1,"southabove" = 0,"eastabove" = 0,"westabove" = 0)
 	return ..()
 
-/obj/item/rogueweapon/shield/tower/metal/avantyne
+/obj/item/rogueweapon/shield/tower/metal/zizo
 	name = "avantyne darkshield"
-	desc = "A kite-shield, avantyne and darksteel intermingled. The softness on the surface tends to catch hits very well."
+	desc = "A threaded purportance, summoned from the interminglance of both avantyne and darksteel. The surface is uncharacteristically soft, not unlike silk \
+	or skin; uncomforting to the unexpecting touch, but more-than-excellent for catching blows."
 	icon_state = "zeretic_shield"
+	smeltresult = /obj/item/ingot/component/zizo
 
-/obj/item/rogueweapon/shield/tower/metal/avantyne/Initialize()
+/obj/item/rogueweapon/shield/tower/metal/zizo/Initialize()
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_CABAL, "SHIELD")
 
+/obj/item/rogueweapon/shield/tower/metal/avantyne
+	name = "avantyne-threaded pavise"
+	desc = "An interloper in causality's ever-so-fragile stream, woven from wafers to ward against those who're not yet ready to comprehend \
+	the gospel of Her disciples. Zizo sought to ward Her children from extinction, but failed; and in the throes of divine mania, She had come \
+	to realize that this world was no longer worth saving."
+	max_integrity = 400
+	force = 25
+	throwforce = 20
+	coverage = 75
+	icon_state = "zeretic_shield"
+	smeltresult = /obj/item/ingot/avantyne
+
 /obj/item/rogueweapon/shield/tower/metal/gold
 	name = "golden shield"
-	desc = "A resplendant kite shield, assembled from six golden plates that've been hooked together by a glimmering holy sigil. Nobility may be fragile, but - so long as its grip remains steadfast - none could ever hope to sever its weakest link."
+	desc = "A resplendant kite shield, assembled from six golden plates that've been hooked together by a glimmering holy sigil. Nobility may be fragile, \
+	but - so long as its grip remains steadfast - none could ever hope to sever its weakest link."
 	icon_state = "goldshield"
 	force = 25
 	throwforce = 35
@@ -458,7 +473,8 @@
 
 /obj/item/rogueweapon/shield/tower/metal/psy
 	name = "Covenant"
-	desc = "A Psydonian endures. A Psydonian preserves themselves. A Psydonian preserves His flock."
+	desc = "'A Psydonian endures. A Psydonian preserves themselves. A Psydonian preserves His flock.' </br>A blessed silver pavise, capable of thwarting the deadliness of \
+	even the hottest balefires. The one who wields it shall never falter; and the ones behind them shall never suffer."
 	icon_state = "psyshield"
 	force = 15
 	throwforce = 5
@@ -489,7 +505,8 @@
 
 /obj/item/rogueweapon/shield/tower/metal/alloy
 	name = "decrepit shield"
-	desc = "A hefty tower shield, wrought from frayed bronze. Looped with dried kelp and reeking of saltwater, you'd assume that this had been fished out from the remains of a long-sunken warship.. alongside its former legionnaire."
+	desc = "A hefty tower shield, wrought from frayed bronze. Looped with dried kelp and reeking of saltwater, you'd assume that this had been fished \
+	out from the remains of a long-sunken warship.. alongside its former legionnaire."
 	max_integrity = 120
 	wdefense = 9
 	icon_state = "ancientsh"
@@ -500,7 +517,8 @@
 
 /obj/item/rogueweapon/shield/tower/metal/palloy
 	name = "ancient shield"
-	desc = "A venerable scutum, plated with polished gilbranze. An undying legionnaire's closest friend; that which rebukes arrow-and-bolt alike with unphasing prejudice. It is a reminder - one of many - that Her progress cannot be stopped."
+	desc = "A venerable scutum, plated with polished gilbranze. An undying legionnaire's closest friend; that which rebukes arrow-and-bolt alike with \
+	unphasing prejudice. It is a reminder - one of many - that Her progress cannot be stopped."
 	icon_state = "ancientsh"
 	smeltresult = /obj/item/ingot/purifiedaalloy
 
@@ -660,8 +678,10 @@
 	smeltresult = null 
 
 /obj/item/rogueweapon/shield/iron/graggar
-	name = "vicious metal shield"
-	desc = "A viscous, vicious composite of metal, dried blood strengthened with an unknown substance, and bone. It will stand."
+	name = "vicious targe"
+	desc = "A decorated targe, splattered and sanctified with the trophies of Psydonia's most dangerous hunters. No matter the icy rains, \
+	no matter the scorching heat – no matter the wrath of their enemies, Graggar never faltered in His arms. When Ravox broke their oath and \
+	rescinded their claim to Godhood, grief could not describe what He had felt."
 	icon_state = "gheretic_shield"
 	max_integrity = 300
 
@@ -699,7 +719,8 @@
 
 /obj/item/rogueweapon/shield/bronze/great
 	name = "hoplon greatshield"
-	desc = "A heavy shield, taller and thicker than most of their contemporaries. It has survived the Calamity, endured the Apotheosis, and blunted the Sundering; and for one final time, it shall ward this dying world from a crueler fate."
+	desc = "A heavy shield, taller and thicker than most of their contemporaries. It has survived the Calamity, endured the Apotheosis, and blunted the Sundering; \
+	and for one final time, it shall ward this dying world from a crueler fate."
 	icon_state = "bronzegreatshield"
 	item_state = "bronzegreatshield"
 	max_integrity = 360 //Highest integrity and passive projectile-blocking chance of most non-unique shields.

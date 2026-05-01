@@ -43,7 +43,7 @@
 		return FALSE
 
 	var/user_z = user.z
-	var/obj/item/magic/familiar_vestige/vestige = fam.loc
+	var/obj/item/magic/familiar/familiar_vestige/vestige = fam.loc
 	if(!istype(vestige))
 		to_chat(user, span_warning("The familiar is not within their vestige. This should not happen!"))
 	var/dist = get_dist(user, vestige)
@@ -123,20 +123,20 @@
 		return FALSE
 	if(isturf(user.loc))
 		// we're on the ground somewhere, so we should become orb
-		var/obj/item/magic/familiar_spirit/spirit = new /obj/item/magic/familiar_spirit(user.loc)
+		var/obj/item/magic/familiar/familiar_spirit/spirit = new /obj/item/magic/familiar/familiar_spirit(user.loc)
 		spirit.icon = user.icon
 		spirit.icon_state = user.icon_living
 		spirit.name = user.name
 		spirit.desc = "A small orb, containing the spirit of [user.name]."
-		user.loc = spirit
+		user.forceMove(spirit)
 		return TRUE
 	else
 		if(user.health<=0) // you shouldn't be able to cast this while dead, but just in case
 			return FALSE
-		var/obj/item/magic/familiar_spirit/spirit = user.loc
+		var/obj/item/magic/familiar/familiar_spirit/spirit = user.loc
 		if(!istype(spirit)) // we might be inside another item like warden tools
 			return FALSE
-		user.loc = get_turf(user)
+		user.forceMove(get_turf(user))
 		qdel(spirit)
 		return TRUE
 
@@ -298,6 +298,8 @@
 		"Spoon" = /obj/item/kitchen/spoon/iron,
 		"Needle" = /obj/item/needle/thorn
 	)
+	cooldown_time = 30 SECONDS
+	charge_required = FALSE
 
 /datum/action/cooldown/spell/arcyne_forge/elemental/cast(atom/cast_on)
 	. = ..()
@@ -307,9 +309,10 @@
 
 	// We're an item. Stop being an item.
 	if(conjured_item && !QDELETED(conjured_item))
-		H.loc = get_turf(H)
-		QDEL_NULL(conjured_item)
+		revert()
 		return FALSE // we don't want to add a cooldown for this case
+	else if (!isturf(H.loc))
+		return FALSE // no casting this from the orb
 
 	var/choice = tgui_input_list(H, "Choose what to conjure", "Earthen Forge", conjure_options)
 	if(!choice)
@@ -330,20 +333,25 @@
 	// Conjured glow
 	R.AddComponent(/datum/component/conjured_item, GLOW_COLOR_EARTHEN)
 	RegisterSignal(R, COMSIG_ITEM_BROKEN, PROC_REF(revert))
-	H.loc = R
+	RegisterSignal(R, COMSIG_ITEM_DROPPED, PROC_REF(revert_perspective))
+	H.forceMove(R)
 	conjured_item = R
 	return TRUE
 
+/datum/action/cooldown/spell/arcyne_forge/elemental/proc/revert_perspective()
+	owner.reset_perspective()
+
 /datum/action/cooldown/spell/arcyne_forge/elemental/proc/revert()
 	if(conjured_item)
-		owner.loc = get_turf(owner)
+		owner.forceMove(get_turf(owner))
 		QDEL_NULL(conjured_item)
 
 /datum/action/cooldown/spell/arcyne_forge/elemental/t2
 	name = "Greater Earthen Shaping"
 	desc = "Shape a weapon or tool of your choice out of raw earth. Conjured items have halved durability.\n\
 	Only one conjured item can exist at a time - conjuring a new one destroys the old."
-
+	cooldown_time = 5 MINUTES
+	charge_required = TRUE
 
 /datum/action/cooldown/spell/arcyne_forge/elemental/t2/cast(atom/cast_on)
 	. = ..()

@@ -439,6 +439,43 @@
 		added_def = 2,\
 	)
 
+/obj/item/rogueweapon/handclaw/steel/graggaredged
+	name = "vicious sickleclaw"
+	desc = "A tainted mimicry of Ravox's falx, forever stained with the blood of the one they both cherished above all else. The fury of God, for \
+	just a moment, wilted before the sorrow of Man; before the wounded champion lept forth and drove His blade straight into the Sinistar's eye."
+	icon_state = "gheretic_patasickle"
+	icon = 'icons/roguetown/weapons/unarmed32.dmi'
+	wdefense = 3
+	force = 35
+	possible_item_intents = list(/datum/intent/claw/cut/steel, /datum/intent/claw/lunge/steel, /datum/intent/claw/rend/steel)
+	wbalance = WBALANCE_HEAVY
+	max_blade_int = 333
+	max_integrity = 333
+	sharpness_mod = 2
+	smeltresult = /obj/item/ingot/component/graggar
+
+/obj/item/rogueweapon/handclaw/steel/graggaredged/Initialize()
+	. = ..()
+	AddComponent(/datum/component/cursed_item, TRAIT_HORDE, "GAUNTLET", "RENDERED ASUNDER")
+
+/obj/item/rogueweapon/handclaw/steel/graggarblunt
+	name = "vicious mantlebreaker"
+	desc = "A tainted mimicry of Astrata's staff, studded with the remains of divine bone and gristle. By His command, the Apotheosis rose; and with His \
+	final heartbeat, the Sinistar fell. How little He could've known, that it would ultimately be a tragedy without purpose - a war without reason."
+	icon_state = "gheretic_pataclub"
+	icon = 'icons/roguetown/weapons/unarmed32.dmi'
+	wdefense = 3
+	force = 35
+	possible_item_intents = list(/datum/intent/mace/strike, /datum/intent/mace/smash)
+	wbalance = WBALANCE_HEAVY
+	max_blade_int = 333
+	max_integrity = 333
+	smeltresult = /obj/item/ingot/component/graggar
+
+/obj/item/rogueweapon/handclaw/steel/graggarblunt/Initialize()
+	. = ..()
+	AddComponent(/datum/component/cursed_item, TRAIT_HORDE, "GAUNTLET", "RENDERED ASUNDER")
+
 ///Peasantry / Militia Weapon Pack///
 
 /obj/item/rogueweapon/woodstaff/militia

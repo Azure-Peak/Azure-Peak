@@ -100,7 +100,7 @@
 
 /datum/loadout_item/donator/eiren3
 	name = "Donator Kit - Cinis"
-	path = /obj/item/enchantingkit/eirensabre2
+	path = /obj/item/enchantingkit/weapon/eirensabre2
 	ckeywhitelist = list("eirenxiv")
 
 /datum/loadout_item/donator/eiren4
@@ -310,6 +310,11 @@
 	ckeywhitelist = list("rivercadaver")
 
 /datum/loadout_item/donator/wyrd_cloak
-	name = "Wyrd Cloak"
+	name = "Donator Item - Wyrd Cloak"
 	path = /obj/item/clothing/suit/roguetown/armor/longcoat/wyrd_cloak
 	ckeywhitelist = list("nekosam")
+
+/datum/loadout_item/donator/dark_delight
+	name = "Donator Item - Dark Delight"
+	path = /obj/item/enchantingkit/weapon/nicksonessang
+	ckeywhitelist = list("nicksone")

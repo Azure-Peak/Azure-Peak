@@ -1,0 +1,4 @@
+author: "BICLOGAN"
+delete-after: True
+changes:
+  - balance: "Barber Surgeon now starts with Journeyman Alchemy instead of Apprentice"

@@ -124,20 +124,22 @@
 /datum/crafting_recipe/roguetown/sewing/physmask
 	name = "plague mask, physicker's"
 	category = "Masks"
-	result = list(/obj/item/clothing/neck/roguetown/collar/surgcollar)
+	result = list(/obj/item/clothing/mask/rogue/physician/phys)
 	reqs = list(/obj/item/natural/cloth = 2,
 				/obj/item/bouquet/calendula = 1,
 				/obj/item/natural/bone = 1)
 	craftdiff = 3
+	bypass_dupe_test = TRUE
 
 /datum/crafting_recipe/roguetown/sewing/feldmask
 	name = "plague mask, feldsher's"
 	category = "Masks"
-	result = list(/obj/item/clothing/neck/roguetown/collar/feldcollar)
+	result = list(/obj/item/clothing/mask/rogue/physician/feld)
 	reqs = list(/obj/item/natural/cloth = 2,
 				/obj/item/bouquet/calendula = 1,
 				/obj/item/natural/bone = 1)
 	craftdiff = 4
+	bypass_dupe_test = TRUE
 
 /datum/crafting_recipe/roguetown/sewing/nurseveil
 	name = "nurse's veil, improvised"

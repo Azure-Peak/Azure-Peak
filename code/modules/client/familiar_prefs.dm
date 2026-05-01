@@ -81,7 +81,7 @@
 			if (lore_blurb)
 				dat += "<br><i><b>Lore inspiration:</b> [lore_blurb]</i>"
 		dat += "<br><b>Examine settings:</b> <a href='?_src_=familiar_prefs;preference=familiar_examine;task=select;planar_origin=[planar_origin]'>Open</a>"
-
+	dat += "<br><br><i>Press this button to send a hint to all arcyne users that you are available and wish to be summoned:</i> <a href='?_src_=familiar_prefs;preference=pulse'>Pulse</a>"
 	var/datum/browser/popup = new(client?.mob, "Familiar Preferences", "<center>Familiar Preferences</center>", 900, 900)
 	popup.set_window_options("can_close=1")
 	popup.set_content(dat.Join())
@@ -234,8 +234,25 @@
 			setup_examine_window(user,planar_origin)
 			return
 
+		if("pulse")
+			if(user.ckey in GLOB.familiar_advertised)
+				to_chat(user, span_info("You have already advertised your presence recently; have patience."))
+				return
+			for(var/mob/living/carbon/human/advertisee in GLOB.alive_mob_list)
+				if(!advertisee.client)
+					continue
+				if(HAS_TRAIT(advertisee, TRAIT_ARCYNE))
+					to_chat(advertisee, span_info("The leylines pulse beneath your feet... a new familiar strains against the veil, seeking to be summoned!"))
+			to_chat(user, span_notice("All alive arcyne users have been notified; you may send out another pulse in 10 minutes."))
+			GLOB.familiar_advertised += user.ckey
+			addtimer(CALLBACK(src, PROC_REF(remove_ckey), user.ckey), 10 MINUTES)
+
 	if(user.client)
 		fam_show_ui()
+
+// because you can't add a callback to list.operator--, apparently. woe
+/datum/familiar_prefs/proc/remove_ckey(ckey)
+	GLOB.familiar_advertised -= ckey
 
 // used for updating old objects without wiping the rest of the prefs
 /datum/familiar_prefs/proc/instantiate_examine_prefs()

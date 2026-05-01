@@ -47,6 +47,10 @@
 	abstract_type = /datum/anvil_recipe/weapons/blacksteel
 	craftdiff = SKILL_LEVEL_MASTER
 
+/datum/anvil_recipe/weapons/avantyne
+	abstract_type = /datum/anvil_recipe/weapons/avantyne
+	craftdiff = SKILL_LEVEL_MASTER
+
 /datum/anvil_recipe/weapons/gold
 	abstract_type = /datum/anvil_recipe/weapons/gold
 	craftdiff = SKILL_LEVEL_LEGENDARY
@@ -1626,6 +1630,36 @@
 	req_bar = /obj/item/ingot/blacksteel
 	additional_items = list(/obj/item/ingot/blacksteel, /obj/item/roguegem/ruby, /obj/item/natural/silk)
 	created_item = /obj/item/rogueweapon/greatsword/grenz/flamberge/blacksteel
+
+// AVANTYNE
+
+/datum/anvil_recipe/weapons/avantyne/dagger
+	name = "Dagger, Avantyne"
+	req_bar = /obj/item/ingot/avantyne
+	created_item = /obj/item/rogueweapon/huntingknife/idagger/avantyne
+
+/datum/anvil_recipe/weapons/avantyne/sword
+	name = "Arming Sword, Avantyne"
+	req_bar = /obj/item/ingot/avantyne
+	created_item = /obj/item/rogueweapon/sword/avantyne
+
+/datum/anvil_recipe/weapons/avantyne/longsword
+	name = "Longsword, Avantyne (+1 A. Wafer)"
+	req_bar = /obj/item/ingot/avantyne
+	additional_items = list(/obj/item/ingot/avantyne)
+	created_item = /obj/item/rogueweapon/sword/long/avantyne
+
+/datum/anvil_recipe/weapons/avantyne/greatsword
+	name = "Greatsword, Avantyne (+2 A. Wafer)"
+	req_bar = /obj/item/ingot/avantyne
+	additional_items = list(/obj/item/ingot/avantyne, /obj/item/ingot/avantyne)
+	created_item = /obj/item/rogueweapon/greatsword/avantyne
+
+/datum/anvil_recipe/weapons/avantyne/shield
+	name = "Shield, Avantyne (+1 A. Wafer, +1 Cured Leather)"
+	req_bar = /obj/item/ingot/avantyne
+	additional_items = list(/obj/item/ingot/avantyne, /obj/item/natural/hide/cured)
+	created_item = /obj/item/rogueweapon/shield/tower/metal/avantyne
 
 // GOLD
 
