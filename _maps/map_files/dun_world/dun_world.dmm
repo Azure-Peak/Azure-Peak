@@ -93912,12 +93912,6 @@
 	},
 /turf/open/floor/rogue/cobble,
 /area/rogue/indoors/town/manor)
-"sOy" = (
-/obj/structure/roguewindow/openclose{
-	currently_opened = 1
-	},
-/turf/open/floor/rogue/ruinedwood,
-/area/rogue/indoors/town)
 "sOz" = (
 /obj/structure/fluff/railing/border/west,
 /turf/open/floor/rogue/dirt/road,
@@ -423905,7 +423899,7 @@ aBB
 aBB
 nRO
 nRO
-sOy
+epg
 sWP
 kdB
 ssZ
