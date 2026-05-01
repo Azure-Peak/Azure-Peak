@@ -60,7 +60,7 @@
 		/datum/action/cooldown/spell/frost_blast,
 		/datum/action/cooldown/spell/projectile/ice_burst,
 		/datum/action/cooldown/spell/snap_freeze,
-		/datum/action/cooldown/spell/chill_food,
+		/datum/action/cooldown/spell/fridigitation,
 	)
 	variants = list(
 		"mastery" = list(
@@ -283,6 +283,7 @@
 		/datum/action/cooldown/spell/projectile/iron_tempest,
 		/datum/action/cooldown/spell/iron_skin,
 		/datum/action/cooldown/spell/arcyne_forge,
+		/datum/action/cooldown/spell/readomen,
 	)
 	choice_spells = list(
 		/datum/action/cooldown/spell/projectile/stygian_efflorescence,
