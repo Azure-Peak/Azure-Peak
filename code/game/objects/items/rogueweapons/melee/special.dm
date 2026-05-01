@@ -443,7 +443,7 @@
 	name = "vicious sickleclaw"
 	desc = "A tainted mimicry of Ravox's falx, forever stained with the blood of the one they both cherished above all else. The fury of God, for \
 	just a moment, wilted before the sorrow of Man; before the wounded champion lept forth and drove His blade straight into the Sinistar's eye."
-	icon_state = "gheretic_patasickle"
+	icon_state = "graggarpatasickle"
 	icon = 'icons/roguetown/weapons/unarmed32.dmi'
 	wdefense = 3
 	force = 35
@@ -462,7 +462,7 @@
 	name = "vicious mantlebreaker"
 	desc = "A tainted mimicry of Astrata's staff, studded with the remains of divine bone and gristle. By His command, the Apotheosis rose; and with His \
 	final heartbeat, the Sinistar fell. How little He could've known, that it would ultimately be a tragedy without purpose - a war without reason."
-	icon_state = "gheretic_pataclub"
+	icon_state = "graggarpataclub"
 	icon = 'icons/roguetown/weapons/unarmed32.dmi'
 	wdefense = 3
 	force = 35

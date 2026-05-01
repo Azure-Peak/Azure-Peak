@@ -150,8 +150,8 @@
 /obj/item/rogueweapon/sword/avantyne
 	name = "avantyne-threaded arming sword"
 	desc = "Anger and spite, channeled into a blade that defies both wisdom and purity. Seldom does such power come without a price, however; are you ready to pay it?"
-	icon_state = "zeretic_arming"
-	sheathe_icon = "zeretic_arming"
+	icon_state = "zizoarming"
+	sheathe_icon = "zizoarming"
 	possible_item_intents = list(/datum/intent/sword/cut/arming, /datum/intent/sword/thrust/short, /datum/intent/sword/strike)
 	gripped_intents = list(/datum/intent/sword/cut/arming, /datum/intent/sword/thrust/arming, /datum/intent/sword/strike)
 	force = 25
