@@ -760,33 +760,33 @@
 
 	return FALSE
 
-/atom/movable/screen/alert/status_effect/buff/roustatouille
-	name = "Rous-tatouille"
-	desc = span_notice("Negotiations with the rous workforce are underway. Your cheesy bribes are making them very agreeable.")
+/atom/movable/screen/alert/status_effect/buff/rat_hack
+	name = "Rous Bribling"
+	desc = span_notice("Negotiations with the rous workforce are underway. Your cheesy bribes are making them very agreeable on the moment.")
 	icon_state = "buff"
 
-/datum/status_effect/buff/roustatouille
-	id = "roustatouille"
+/datum/status_effect/buff/rat_hack
+	id = "rat_hack"
 	duration = 3 MINUTES
-	alert_type = /atom/movable/screen/alert/status_effect/buff/roustatouille
+	alert_type = /atom/movable/screen/alert/status_effect/buff/rat_hack
 	status_type = STATUS_EFFECT_REFRESH
 	tick_interval = 1 SECONDS
 	var/turf/origin_turf
 
-/datum/status_effect/buff/roustatouille/on_creation(mob/living/new_owner, ...)
+/datum/status_effect/buff/rat_hack/on_creation(mob/living/new_owner, ...)
 	origin_turf = get_turf(new_owner)
 	ADD_TRAIT(new_owner, TRAIT_FOOD_STIPEND, "hackerman")
 	ADD_TRAIT(new_owner, TRAIT_GARRISON_ITEM, "hackerman")
 	. = ..()
 
-/datum/status_effect/buff/roustatouille/tick()
+/datum/status_effect/buff/rat_hack/tick()
 	if(!owner)
 		return
 	if(get_turf(owner) != origin_turf)
-		to_chat(owner, span_warning("The cheese odor scatter as you move!"))
+		to_chat(owner, span_warning("You hastily pull the doohickey away, scattering some cheese around!"))
 		qdel(src)
 
-/datum/status_effect/buff/roustatouille/on_remove()
+/datum/status_effect/buff/rat_hack/on_remove()
 	if(owner)
 		REMOVE_TRAIT(owner, TRAIT_FOOD_STIPEND, "hackerman")
 		REMOVE_TRAIT(owner, TRAIT_GARRISON_ITEM, "hackerman")

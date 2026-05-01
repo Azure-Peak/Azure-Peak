@@ -840,7 +840,7 @@
 	user.stamina_add(80)
 	user.Immobilize(40)
 	user.OffBalance(40)
-	user.apply_status_effect(/datum/status_effect/buff/roustatouille)
+	user.apply_status_effect(/datum/status_effect/buff/rat_hack)
 
 ////////////
 //MATTHIOS//

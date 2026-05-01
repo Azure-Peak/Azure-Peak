@@ -343,7 +343,7 @@ LICH SKELETONS
 			mask = /obj/item/clothing/cloak/tabard/stabard/guardhood/lich
 	if(H.mind) // giving them access to Enochian
 		var/datum/devotion/new_faith = new /datum/devotion(H, H.patron)
-		new_faith.grant_miracles(recipient, cleric_tier = CLERIC_T0, passive_gain = CLERIC_REGEN_DEVOTEE, devotion_limit = (CLERIC_REQ_1 - 10))
+		new_faith.grant_miracles(H, cleric_tier = CLERIC_T0, passive_gain = CLERIC_REGEN_DEVOTEE, devotion_limit = (CLERIC_REQ_1 - 10))
 
 	H.energy = H.max_energy
 
