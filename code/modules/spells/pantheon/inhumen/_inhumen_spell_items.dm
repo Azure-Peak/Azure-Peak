@@ -660,7 +660,7 @@
  	// used to convert various things, mainly ancient slag, into bronze or other useful things for artificery
 	ritechoices+="Rite of Profane Melding"
 
-	// used to sabotage leylines and get free mats out of them, including something that outright destroys the leyline but lets you use the following
+	// used to sabotage leylines and get free mats out of them
 	ritechoices+="Veil-Rending matrix" 
 
 	// used to extract lux without medicine, pretty simple thing. traumatizes PCs, gibs NPCs
@@ -682,8 +682,8 @@
 				new /obj/structure/ritualcircle/profane/melding(step_turf)
 
 		if("Veil-Rending matrix")
-			if(user.get_skill_level(/datum/skill/magic/holy) < SKILL_LEVEL_EXPERT)
-				to_chat(user, span_smallred("I require a few more yils studying Enochian language, before I can properly conjure such rite."))
+			if(user.get_skill_level(/datum/skill/magic/holy) < SKILL_LEVEL_JOURNEYMAN)
+				to_chat(user, span_smallred("I require a few more months studying Enochian language, before I can properly conjure such rite."))
 				return	
 			to_chat(user,span_cultsmall("I begin inscribing the matrix of Ley syphoning in Enochian language..."))
 			if(do_after(user, 40, src)) 
@@ -794,27 +794,33 @@
 	return 0
 
 /obj/structure/ritualcircle/profane/melding/attackby(obj/item/I, mob/living/user)
+	active = TRUE
 	if(!I || !user)
+		active = FALSE
 		return
 
 	if((user.patron?.type) != /datum/patron/inhumen/zizo)
 		to_chat(user, span_artery("Foreboding thing... I shouldn't mess with it."))
+		active = FALSE
 		return
 
 	if((user.patron?.type) == /datum/patron/inhumen/zizo && purged)
 		to_chat(user, span_artery("This rune is USELESS now. What a waste!"))
+		active = FALSE
 		return
 
 	var/value = get_Z_item_value(I)
 	if(value <= 0)
+		active = FALSE
 		return
 
 	to_chat(user, span_artery("I begin feeding the circle..."))
-
 	if(!do_after(user, 20, src))
+		active = FALSE
 		return
 
 	if(QDELETED(I))
+		active = FALSE
 		return
 
 	stored_value += value
@@ -826,11 +832,17 @@
 	qdel(I)
 
 /obj/structure/ritualcircle/profane/melding/attack_hand(mob/living/user)
+	if(active)
+		return
+
 	if(!..())
 		return
 
+	active = TRUE
+
 	if((user.patron?.type) != /datum/patron/inhumen/zizo)
 		to_chat(user, span_smallred("This rite is not meant for me..."))
+		active = FALSE
 		return
 
 	// bleeding check (simplified)
@@ -842,17 +854,19 @@
 
 	if(!has_bleeding)
 		to_chat(user, span_warning("The circle remains inert. It demands fresh blood from bleeding wounds."))
+		active = FALSE
 		return
 
 	var/list/choices = list(
 		"Meld Corpse",
 		"Meld Materials",
-		"Shape Molten Avantyne",
+		"Shape into Volatile Avantyne",
 		"Create Avantyne Slag"
 	)
 
 	var/selection = input(user, "Choose rite", src) as null|anything in choices
 	if(!selection)
+		active = FALSE
 		return
 
 	switch(selection)
@@ -862,7 +876,7 @@
 		if("Meld Materials")
 			meld_materials(user)
 
-		if("Shape Molten Avantyne")
+		if("Shape into Volatile Avantyne")
 			shape_avantyne(user)
 
 		if("Create Avantyne Slag")
@@ -871,6 +885,7 @@
 /obj/structure/ritualcircle/profane/melding/proc/meld_corpse(mob/living/user)
 	var/turf/T = get_turf(src)
 	if(!T)
+		active = FALSE
 		return
 
 	var/list/valid_bodies = list()
@@ -885,9 +900,11 @@
 
 	if(!valid_bodies.len)
 		to_chat(user, span_warning("A corpse is required, its condition either soul-departed, rotting or decrepit."))
+		active = FALSE
 		return
 
-	if(!execute_rite(src, user, 5, 3, TRUE))
+	if(!execute_rite(src, user, ritual_length = 3, max_cultists = 1, silent = TRUE, no_crazy = TRUE))
+		active = FALSE
 		return
 
 	var/gained = 0
@@ -932,6 +949,7 @@
 /obj/structure/ritualcircle/profane/melding/proc/meld_materials(mob/living/user)
 	var/turf/T = get_turf(src)
 	if(!T)
+		active = FALSE
 		return
 
 	var/list/valid_items = list()
@@ -947,9 +965,11 @@
 
 	if(!valid_items.len)
 		to_chat(user, span_warning("The circle finds nothing of value to consume."))
+		active = FALSE
 		return
 
-	if(!execute_rite(src, user, 10, 3, TRUE))
+	if(!execute_rite(src, user, ritual_length = 3, max_cultists = 1, silent = TRUE, no_crazy = TRUE))
+		active = FALSE
 		return
 
 	var/gained = 0
@@ -974,39 +994,47 @@
 /obj/structure/ritualcircle/profane/melding/proc/shape_avantyne(mob/living/user)
 	if(stored_value == 0)
 		to_chat(user, span_warning("The circle lacks substance."))
+		active = FALSE
 		return
 
 	var/miracle = max(1, user.get_skill_level(/datum/skill/magic/holy))
 	var/turf/T = get_turf(src)
 	if(!T)
+		active = FALSE
 		return
 
 	var/list/options = list("Woods", "Stones", "Primed Avantyne Slag")
 	var/choice = input(user, "Shape what?", src) as null|anything in options
 	if(!choice)
+		active = FALSE
 		return
 
 	if(choice == "Woods" || choice == "Stones")
 
 		var/form = input(user, "Natural or processed?", src) as null|anything in list("Natural", "Processed")
 		if(!form)
+			active = FALSE
 			return
 
 		var/amount = round(input(user, "How many units do you want to conjure?", src) as num|null)
 		if(!amount || amount <= 0)
+			active = FALSE
 			return
 
 		var/max_amount = miracle * 5
 
 		if(amount > stored_value)
 			to_chat(user, span_warning("The circle cannot supply that much with its current liquid hatred..."))
+			active = FALSE
 			return
 
 		if(amount > max_amount)
 			to_chat(user, span_warning("I cannot shape that much at once. I lack a deeper faith to HER..."))
+			active = FALSE
 			return
 
 		if(!do_after(user, 30, src))
+			active = FALSE
 			return
 
 		for(var/i = 1 to amount)
@@ -1025,6 +1053,7 @@
 		stored_value -= amount
 
 		to_chat(user, span_cultsmall("I shape [amount] units of [lowertext(form)] [lowertext(choice)]. Remaining liquid hatred: [stored_value]."))
+		active = FALSE
 		return
 
 	// slag branch
@@ -1033,13 +1062,16 @@
 
 		if(stored_value < cost)
 			to_chat(user, span_warning("Insufficient value."))
+			active = FALSE
 			return
 
 		if(miracle < 3)
 			to_chat(user, span_warning("This form is beyond my capability."))
+			active = FALSE
 			return
 
-		if(!execute_rite_lesser(src, user, 3, TRUE))
+		if(!execute_rite(src, user, ritual_length = 8, max_cultists = 1, silent = TRUE, no_crazy = TRUE))
+			active = FALSE
 			return
 
 		playsound(src, 'sound/magic/swap.ogg', 60, TRUE)
@@ -1082,10 +1114,13 @@
 		. += span_artery("An advanced Artificery matrix, enhanced by Enochian language. For those backward mages, having to expose oneself to harm's way is part of the procedure, but for a Cabalist? Another's job, not theirs.")
 
 /obj/structure/ritualcircle/profane/leyline/attack_hand(mob/living/user)
-	active = TRUE
-	if(!..())
-		active = FALSE
+	if(active)
 		return
+
+	if(!..())
+		return
+
+	active = TRUE
 
 	if((user.patron?.type) != /datum/patron/inhumen/zizo)
 		to_chat(user, span_smallred("I cannot comprehend this structure's purpose... I feel a horrible sensation upon me."))
@@ -1110,7 +1145,7 @@
 		return
 
 	// RITUAL EXECUTION
-	if(!execute_rite(src, user, 5, 3))
+	if(!execute_rite(src, user, ritual_length = 10, max_cultists = 5, silent = FALSE, no_crazy = FALSE))
 		active = FALSE
 		return
 
@@ -1164,13 +1199,14 @@
 		. += span_artery("A strong reason to believe ZIZO is no myth, for this combined matrix and ritual circle completely written in advanced Enochian is but a thousand steps behind what SHE had attempted, and the heavy cost it took to achieve it. While only but a replica of her Great Work, it still does the trick on the matters of Lux extraction.")
 
 /obj/structure/ritualcircle/profane/reaper/attack_hand(mob/living/user)
-	active = TRUE
-	if(!..())
-		return
 	if(active)
 		return
 
-	// Patron check
+	if(!..())
+		return
+
+	active = TRUE
+
 	if((user.patron?.type) != /datum/patron/inhumen/zizo)
 		to_chat(user, span_smallred("This rite is not meant for me..."))
 		active = FALSE
@@ -1181,8 +1217,6 @@
 		active = FALSE
 		return
 
-	// --- ACTIVATION REQS ---
-
 	var/has_bleeding = FALSE
 	for(var/mob/living/carbon/C in view(1, src))
 		if(QDELETED(C) || C == user)
@@ -1191,7 +1225,6 @@
 			has_bleeding = TRUE
 			break
 
-	// Count blood resources on tile
 	var/vial_count = 0
 	var/canister_count = 0
 	var/list/consumables = list()
@@ -1205,31 +1238,24 @@
 			consumables += I
 
 	var/has_blood_cost = (canister_count >= 2) || (vial_count >= 6)
-
 	if(!has_bleeding && !has_blood_cost)
 		to_chat(user, span_warning("The rite demands either a cut wound's fresh blood, or the blood of a heartbeast."))
 		active = FALSE
 		return
 
-	// --- TARGET COLLECTION ---
-
 	var/list/valid_targets = list()
-
 	for(var/obj/structure/fluff/psycross/zizocross/C in view(3, src))
 		if(!C.buckled_mobs || !C.buckled_mobs.len)
 			continue
-
 		for(var/mob/living/L in C.buckled_mobs)
 			if(QDELETED(L) || L.stat == DEAD)
 				continue
-			valid_targets |= L // dedupe
+			valid_targets |= L 
 
 	if(!valid_targets.len)
 		to_chat(user, span_warning("The rite demands alive subjects, and they must be bound to a profane cross."))
 		active = FALSE
 		return
-
-	// --- CONSUME BLOOD (if needed) ---
 
 	if(!has_bleeding)
 		if(canister_count >= 2)
@@ -1251,17 +1277,12 @@
 
 		playsound(src, 'sound/misc/smelter_sound.ogg', 50, FALSE)
 
-	// --- RITUAL EXECUTION ---
-
 	to_chat(user, span_cultsmall("I begin invoking the Great Work... Yet far beneath Her true design."))
 
-	if(!execute_rite(src, user, 10, 5, TRUE))
+	if(!execute_rite(src, user, ritual_length = 10, max_cultists = 5, silent = FALSE, no_crazy = FALSE))
 		active = FALSE
 		return
-
 	playsound(src, 'sound/magic/churn.ogg', 70, TRUE)
-
-	// --- EFFECT APPLICATION ---
 
 	for(var/mob/living/L in valid_targets)
 		if(QDELETED(L) || L.stat == DEAD)
@@ -1271,7 +1292,7 @@
 
 		if(istype(L, /mob/living/carbon/human) && \
 			!(HAS_TRAIT(L, TRAIT_FEYTOUCHED) || HAS_TRAIT(L, TRAIT_DEATHLESS) || HAS_TRAIT(L, TRAIT_FAKEDEATH)))
-			
+
 			new /obj/item/reagent_containers/lux(L.loc)
 			apply_greater = TRUE
 
@@ -1280,15 +1301,15 @@
 		else
 			new /obj/item/reagent_containers/lux_impure(L.loc)
 
-		// Emotes (only if alive)
 		if(L.stat != DEAD)
 			if(L.has_status_effect(/datum/status_effect/debuff/devitalised))
-				L.emote("painscream")
+				L.emote("agony")
+				L.add_stress(/datum/stressevent/tortured)
 				continue
 			else if(!L.has_status_effect(/datum/status_effect/buff/ozium))
 				L.emote("agony")
+				L.add_stress(/datum/stressevent/tortured)
 
-		// Apply effects safely
 		SEND_SIGNAL(user, COMSIG_LUX_EXTRACTED, L)
 		record_round_statistic(STATS_LUX_HARVESTED)
 
@@ -1297,9 +1318,10 @@
 				/datum/status_effect/debuff/devitalised/greater : \
 				/datum/status_effect/debuff/devitalised)
 
-		// Final disposal for NPCs
 		if(!L.client && !QDELETED(L))
 			L.gib(TRUE, TRUE, FALSE)
+
+	active = FALSE
 
 /obj/item/rogueweapon/huntingknife/idagger/zizo
 	name = "luxdrinker"
