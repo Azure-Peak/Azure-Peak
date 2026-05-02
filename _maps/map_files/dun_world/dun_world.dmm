@@ -87144,7 +87144,7 @@
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/under/cave)
 "rvB" = (
-/obj/structure/mineral_door/wood/towner/generic/two_keys,
+/obj/structure/mineral_door/wood/towner/generic/two_keys/noble,
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town)
 "rvI" = (
