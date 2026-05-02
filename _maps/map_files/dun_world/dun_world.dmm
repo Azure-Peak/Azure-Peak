@@ -15447,6 +15447,12 @@
 /obj/machinery/light/rogue/oven/north,
 /turf/closed/wall/mineral/rogue/decowood,
 /area/rogue/indoors/town)
+"dkq" = (
+/obj/structure/mineral_door/wood/towner/generic/two_keys{
+	locked = 0
+	},
+/turf/open/floor/rogue/ruinedwood/spiral,
+/area/rogue/indoors/town)
 "dkv" = (
 /obj/structure/flora/hotspring_rocks/small/three,
 /obj/structure/flora/roguegrass,
@@ -295537,7 +295543,7 @@ byl
 dra
 dra
 bCa
-aBQ
+dkq
 rZO
 tsB
 tsB
