@@ -363,10 +363,11 @@
 		span_userdanger("[user] clenches the air while muttering a dark chant..."),	span_notice("I attempt to seize [target] with primordial arcyne force."))
 	var/mob/living/carbon/C = user
 	var/use_rend = FALSE
+	var/is_npc = (!target.mind && !target.key)
 
 	if(istype(C))
 		var/obj/item/bodypart/chest = C.get_bodypart(BODY_ZONE_CHEST)
-		if((chest && chest.skeletonized) && !target.client)
+		if((chest && chest.skeletonized) && is_npc)
 			use_rend = TRUE
 
 	// === CONTESTED CHECK ===
@@ -477,9 +478,11 @@
 /datum/status_effect/enochian_rend
 	id = "enochian_rend"
 	duration = 3 SECONDS
+	tick_interval = 1 SECONDS
 	alert_type = /atom/movable/screen/alert/status_effect/enochian_rend
 
 	var/outline_color = "#ae00ff"
+	var/limbs_removed = FALSE
 
 /datum/status_effect/enochian_rend/on_apply()
 	if(!iscarbon(owner))
@@ -492,41 +495,67 @@
 	C.update_icon()
 
 	to_chat(C, span_userdanger("An unseen force lifts me into the air!"))
-	animate(C, pixel_y = C.pixel_y + 16, time = 0.2 SECONDS)
-
-	var/list/limbs = list(
-		C.get_bodypart(BODY_ZONE_L_ARM),
-		C.get_bodypart(BODY_ZONE_R_ARM),
-		C.get_bodypart(BODY_ZONE_L_LEG),
-		C.get_bodypart(BODY_ZONE_R_LEG)
-	)
-
-	limbs = limbs - null
-
-	var/removed = 0
-	while(limbs.len && removed < 2)
-		var/obj/item/bodypart/B = pick(limbs)
-		limbs -= B
-		B.dismember()
-		removed++
-
-	C.visible_message(span_userdanger("[C] is torn apart by an unseen force!"),
-					 span_userdanger("Something is ripping me apart!"))
-
-	if(limbs.len < 4)
-		var/obj/item/bodypart/head = C.get_bodypart(BODY_ZONE_HEAD)
-		if(head)
-			head.dismember()
-			C.adjustBruteLoss(200)
-			playsound(C.loc, 'sound/magic/repulse.ogg', 90, TRUE)
+	animate(C, pixel_y = 56, time = 2, easing = SINE_EASING, flags = ANIMATION_RELATIVE | ANIMATION_END_NOW)
 
 	return TRUE
+
+/datum/status_effect/enochian_rend/tick()
+	if(!iscarbon(owner))
+		return
+
+	var/mob/living/carbon/C = owner
+
+	C.flash_fullscreen("redflash3", 1)
+	C.adjustBruteLoss(20)
+
+	if(!limbs_removed)
+		remove_limbs(C)
 
 /datum/status_effect/enochian_rend/on_remove()
 	if(isliving(owner))
 		var/mob/living/L = owner
 		L.remove_filter(ENOCHIAN_FILTER)
 		animate(L, pixel_y = 0, time = 0.2 SECONDS)
+
+	owner.visible_message(span_danger("The unseen force releases [owner]!"))
+
+/datum/status_effect/enochian_rend/proc/remove_limbs(mob/living/carbon/C)
+	if(limbs_removed)
+		return
+
+	var/obj/item/bodypart/l_arm = C.get_bodypart(BODY_ZONE_L_ARM)
+	var/obj/item/bodypart/r_arm = C.get_bodypart(BODY_ZONE_R_ARM)
+	var/obj/item/bodypart/l_leg = C.get_bodypart(BODY_ZONE_L_LEG)
+	var/obj/item/bodypart/r_leg = C.get_bodypart(BODY_ZONE_R_LEG)
+
+	var/has_arms = (l_arm && r_arm)
+	var/has_legs = (l_leg && r_leg)
+
+	if(has_arms)
+		C.visible_message(span_userdanger("[C]'s arms are violently torn off by an unseen force!"))
+		l_arm.dismember()
+		sleep(2)
+		r_arm.dismember()
+
+	else if(has_legs)
+		C.visible_message(span_userdanger("[C]'s legs are violently torn off by an unseen force!"))
+		l_leg.dismember()
+		sleep(2)
+		r_leg.dismember()
+
+	else
+		var/obj/item/bodypart/head = C.get_bodypart(BODY_ZONE_HEAD)
+		if(head)
+			C.visible_message(span_userdanger("[C]'s head is ripped clean off by the unseen force!"))
+			head.dismember()
+			C.adjustBruteLoss(200)
+
+	var/obj/effect/temp_visual/dir_setting/bloodsplatter/splatter = new(get_turf(C), pick(GLOB.cardinals))
+	splatter.color = "#880000"
+
+	playsound(C.loc, 'sound/magic/repulse.ogg', 90, TRUE)
+
+	limbs_removed = TRUE
 
 #undef ENOCHIAN_FILTER
 

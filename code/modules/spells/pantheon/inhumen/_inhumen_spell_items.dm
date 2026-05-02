@@ -503,6 +503,8 @@
 
 	qdel(I)
 
+	active = FALSE
+
 /obj/structure/ritualcircle/profane/melding/attack_hand(mob/living/user)
 	if(active)
 		to_chat(user, span_warning("The circle is already in use."))
@@ -729,11 +731,12 @@
 	for(var/mob/living/L in valid_targets)
 		if(QDELETED(L))
 			continue
+
 		var/is_npc = (!L.mind && !L.key)
 		var/is_devitalised = L.has_status_effect(/datum/status_effect/debuff/devitalised) || L.has_status_effect(/datum/status_effect/debuff/devitalised/greater)
 		var/is_departed = (!L.key && !L.get_ghost(FALSE, TRUE))
 
-		// Already devitalised → just torture
+		// skip lux if devitalised
 		if(is_devitalised)
 			L.visible_message(
 				span_artery("[L]'s existence writhes in unbearable AGONY, beyond the limits of pain!"),
@@ -745,7 +748,7 @@
 			L.add_stress(/datum/stressevent/tortured)
 			continue
 
-		// Not devitalised
+		// suffer
 		L.visible_message(
 			span_artery("[L]'s Lux essence is violently TORN from their being!"),
 			span_artery("AGONIZING PAIN surges through me as my essence is RIPPED OUT!")
@@ -756,12 +759,6 @@
 		L.emote("paincrit")
 		L.add_stress(/datum/stressevent/tortured)
 		L.Jitter(150)
-
-		if(is_departed || is_npc)
-			L.emote("agony")
-			sleep(25)
-			L.gib(FALSE, FALSE, FALSE)
-			continue
 
 		var/apply_greater = FALSE
 
@@ -779,6 +776,13 @@
 			SEND_SIGNAL(user, COMSIG_LUX_EXTRACTED, L)
 			record_round_statistic(STATS_LUX_HARVESTED)
 
+		// should have been put here it wasnt spawning lux ffs
+		if(is_departed || is_npc)
+			L.emote("agony")
+			L.gib(FALSE, FALSE, FALSE)
+			continue
+
+		// Apply debuff only if they survive
 		L.apply_status_effect(apply_greater ? /datum/status_effect/debuff/devitalised/greater : /datum/status_effect/debuff/devitalised)
 
 	active = FALSE
