@@ -245,7 +245,7 @@
 				return thaumaturgy_devotion
 			else
 				to_chat(caster, span_notice("My faith finds no flames to show its passage..."))
-				qdel(src)
+				return
 		else if (isliving(victim))
 
 			var/mob/living/living_thing = victim
