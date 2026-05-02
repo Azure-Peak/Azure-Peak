@@ -1,14 +1,18 @@
 /datum/species/ooze
-	name = "Murkborne"
+	name = "Murkling"
 	id = "ooze"
-	desc = "<b>Murkborne</b><br>\
-	The Murkborne are gelatinous life-forms created when a wild ooze-creature fuses with disembodied lux.  \
-	This process can take several weeks, \
-	and begins with the formation of a thick, reinforced viscous membrane that protects their goopy insides, \
-	followed by rapid intellectual development as their neural core and interior organs take shape. \
-	These beings can vary in color and size, \
-	but typically shape themselves to resemble humens - a crude imitation of Psydonia's most common species."
-
+	desc = "<b>Murkling</b><br>\
+	A curious, 'young' species typically associated with Pestra due to their inclinations to the goddess of plague and healing.  \
+	Some say they’re older than most races in Psydonia, \
+	but they’ve only just recently evolved into something considered potentially ‘humen’. \
+	Little is known about where the Murklings come from, but their unique biology makes them dangerously adaptive. \
+	Newly-sprouting colonies have been found anywhere from the freezing mountains of Hammerhold to the desert sands of Naledi, \
+	though they are most commonly associated with the underdark - their first recorded sightings in its suffocating, lightless depths.<br>\
+	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b> +1 CON | -1 INT | Easy Dismember | Limb Regrowth </b></span><br><br>"
+	base_name = "Godtouched"
+	is_subrace = TRUE
+	origin_default = /datum/virtue/origin/racial/underdark
+	origin = "Underdark"
 	default_color = "79F299"
 	species_traits = list(EYECOLOR,HAIR,FACEHAIR,LIPS,MUTCOLORS,NOBLOOD)
 	default_features = MANDATORY_FEATURE_LIST
@@ -36,7 +40,7 @@
 		OFFSET_SHIRT_F = list(0,0), OFFSET_ARMOR_F = list(0,0), OFFSET_UNDIES_F = list(0,-1), \
 		OFFSET_TAUR = list(-16,0), OFFSET_TAUR_F = list(-16,0), \
 		)
-	race_bonus = list(STAT_CONSTITUTION = 2)
+	race_bonus = list(STAT_CONSTITUTION = 1, STAT_INTELLIGENCE = -1)
 	inherent_traits = list(
 						TRAIT_EASYDISMEMBER,
 						TRAIT_REGROW_LIMBS,

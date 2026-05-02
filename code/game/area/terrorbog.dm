@@ -19,6 +19,7 @@
 				/mob/living/carbon/human/species/goblin/npc/ambush/cave = 30,
 				/mob/living/carbon/human/species/human/northern/bog_deserters/ambush = 15,
 				/mob/living/carbon/human/species/human/northern/bog_deserters/better_gear/ambush = 10,
+				/mob/living/simple_animal/hostile/retaliate/rogue/ooze_blob = 5,
 				// Packs — big-ticket purchases for high budgets
 				new /datum/ambush_config/bog_guard_deserters = 50,
 				new /datum/ambush_config/bog_guard_deserters/hard = 25,

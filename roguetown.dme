@@ -2374,8 +2374,8 @@
 #include "code\modules\mob\living\carbon\human\species_types\roguetown\other\aasimar.dm"
 #include "code\modules\mob\living\carbon\human\species_types\roguetown\other\gnoll.dm"
 #include "code\modules\mob\living\carbon\human\species_types\roguetown\other\halfelf.dm"
-#include "code\modules\mob\living\carbon\human\species_types\roguetown\other\ooze.dm"
 #include "code\modules\mob\living\carbon\human\species_types\roguetown\other\halforc.dm"
+#include "code\modules\mob\living\carbon\human\species_types\roguetown\other\ooze.dm"
 #include "code\modules\mob\living\carbon\human\species_types\roguetown\other\orc.dm"
 #include "code\modules\mob\living\carbon\human\species_types\roguetown\other\tiefling.dm"
 #include "code\modules\mob\living\carbon\human\species_types\roguetown\other\werewolf.dm"
@@ -3286,4 +3286,5 @@
 #include "modular\piercing\piercings.dm"
 #include "modular\piercing\supply.dm"
 #include "modular\ze_genesis_call\genesis_call.dm"
+#include "code\modules\mob\living\simple_animal\rogue\creacher\ooze_blob.dm"
 // END_INCLUDE
