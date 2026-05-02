@@ -104,7 +104,7 @@
 	name = "avantyne gauntlets"
 	desc = "A razor-tipped finger was all it took to splay the divine fillament; now, it is time to bring down the wrath of God's hand in full. </br> Do mind the forearm's guards, however - they \
 	tend to leave a stinging bruise, whenever used to parry an incoming strike."
-	icon_state = "zizogauntlets_med"
+	icon_state = "zizoplategauntlets_med"
 	max_integrity = ARMOR_INT_SIDE_STEEL
 	chunkcolor = "#363030"
 	material_category = ARMOR_MAT_PLATE

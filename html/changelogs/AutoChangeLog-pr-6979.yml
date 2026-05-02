@@ -1,0 +1,4 @@
+author: "SpartanBobby"
+delete-after: True
+changes:
+  - rscadd: "Medium armour MAA Skirmisher now has expert swords instead of expert knives, light armour retains expert knives."

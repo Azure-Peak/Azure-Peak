@@ -1,6 +1,0 @@
-author: "Ryan180602"
-delete-after: True
-changes:
-  - balance: "halfsword thrust is 0.5s delay without penalty. medium pen."
-  - balance: "halfswording gives you +5 force alongside the +2 wdef"
-  - balance: "greataxe chop is now 2-tile."
