@@ -23,13 +23,12 @@ corpses and discarded junk*/
 	charge_required = FALSE
 	cooldown_time = 10 SECONDS
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
-	devotion_cost = 20
 	var/list/options = list(
-
 		"Corrupted Chalk" = list(
 			path = /obj/item/chalk/zizo,
 			m_cooldown = -1, // Only one available, if you lose it, tough luck.
 			m_rank = SKILL_LEVEL_NONE, // This is a normal arcyne chalk, just spooky and red glowy. Requires arcyne trait to use, as you'd expect.
+			m_devotion = 100,
 			category = "Sepulchral Relics",
 			lines = list("Ol sonf vorsg, hoath zir.","Madriax soba-lonshi od zorge.","Faxs to faxs-sobol athan."),
 		),
@@ -37,6 +36,7 @@ corpses and discarded junk*/
 			path = /obj/item/ritechalk_zizo,
 			m_cooldown = -1, // Ditto.
 			m_rank = SKILL_LEVEL_NONE, // This is a special chalk that lets you create runes without TRAIT_RITUALIST. In less than Expert+ hands, it's just a grafitti tool, except for the melding ritual.
+			m_devotion = 100,
 			category = "Sepulchral Relics",
 			lines = list("Ol sonf vorsg, hoath zir.","Madriax soba-lonshi od zorge.","Faxs to faxs-sobol athan.","Velor ixan thrae-zho vel.","Korvath en'zul miraxis thren.","Thren val'kora ix ven.","Zai'ul phoros vekh tor.","Morath xi'en thul var.","Vael kor zin'athra vel.","Thul'kor imnaza vekh dor.","En'ra zolth ix venak.","Zhorath kal'mir vex ul.","Ul ix zizo vel'kra.","Sothra vel ixan thul.","Zor'en valix thrae kor.","Vel'zan morath ix ul.","Threx ul ven'kai zhor.","Ix zol ven'ra thul kor.","Vorath ixen kal zor.","Zizo ul thren val'ix.")
 		),
@@ -44,6 +44,7 @@ corpses and discarded junk*/
 			path = /obj/item/rogueweapon/huntingknife/idagger/zizo,
 			m_cooldown = -1, // Ditto, but this might be changed into a touch_attack in the future.
 			m_rank = SKILL_LEVEL_JOURNEYMAN, // It's just a weaker iron dagger that will probably have more to it when I figure out exactly what it should get.
+			m_devotion = 50,
 			category = "Rite Instruments",
 			lines = list("Ol sonf vorsg, hoath zir.","Madriax soba-lonshi od zorge.","Faxs to faxs-sobol athan.","Velor ixan thrae-zho vel.","Korvath en'zul miraxis thren.","Thren val'kora ix ven.","Zai'ul phoros vekh tor.","Morath xi'en thul var.","Vael kor zin'athra vel.","Thul'kor imnaza vekh dor.","En'ra zolth ix venak.","Zhorath kal'mir vex ul.","Ul ix zizo vel'kra.","Sothra vel ixan thul.","Zor'en valix thrae kor.","Vel'zan morath ix ul.","Threx ul ven'kai zhor.","Ix zol ven'ra thul kor.","Vorath ixen kal zor.","Zizo ul thren val'ix.")		
 		),
@@ -51,6 +52,7 @@ corpses and discarded junk*/
 			path = /obj/item/storage/magebag/zizo,
 			m_cooldown = -1, // And ditto.
 			m_rank = SKILL_LEVEL_NONE, // Spooky glowy Mage's Bag for Artificer/Alchemy ingredients. Nothing out of the world here.
+			m_devotion = 50,
 			category = "Sepulchral Relics",
 			lines = list("Ol sonf vorsg, hoath zir.","Madriax soba-lonshi od zorge.","Faxs to faxs-sobol athan.","Velor ixan thrae-zho vel.","Korvath en'zul miraxis thren.","Thren val'kora ix ven.","Zai'ul phoros vekh tor.","Morath xi'en thul var.","Vael kor zin'athra vel.","Thul'kor imnaza vekh dor.","En'ra zolth ix venak.","Zhorath kal'mir vex ul.","Ul ix zizo vel'kra.","Sothra vel ixan thul.","Zor'en valix thrae kor.","Vel'zan morath ix ul.","Threx ul ven'kai zhor.","Ix zol ven'ra thul kor.","Vorath ixen kal zor.","Zizo ul thren val'ix.")		
 		),
@@ -58,6 +60,7 @@ corpses and discarded junk*/
 			path = /obj/item/melee/touch_attack/enochian_force,
 			m_cooldown = 3 MINUTES, // Cooldown should be higher to refresh than waiting it out with it on your hand.
 			m_rank = SKILL_LEVEL_EXPERT, // The main purpose of this is to help move corpses remotely without having to go through the drag game. I added four intents to it to emphasize that Enochian is still magic, in its base.
+			m_devotion = 200,
 			category = "Enochian Artificery",
 			lines = list("Ol sonf vorsg, hoath zir.","Madriax soba-lonshi od zorge.","Faxs to faxs-sobol athan.","Velor ixan thrae-zho vel.","Korvath en'zul miraxis thren.","Thren val'kora ix ven.","Zai'ul phoros vekh tor.","Morath xi'en thul var.","Vael kor zin'athra vel.","Thul'kor imnaza vekh dor.","En'ra zolth ix venak.","Zhorath kal'mir vex ul.","Ul ix zizo vel'kra.","Sothra vel ixan thul.","Zor'en valix thrae kor.","Vel'zan morath ix ul.","Threx ul ven'kai zhor.","Ix zol ven'ra thul kor.","Vorath ixen kal zor.","Zizo ul thren val'ix.")		
 		),
@@ -65,6 +68,7 @@ corpses and discarded junk*/
 			path = /obj/item/rope/zizo, 
 			m_cooldown = 2 MINUTES, 
 			m_rank = SKILL_LEVEL_NONE, // This is to help capture enemies for certain rituals that require them to be alive. No different than normal rope. Can even be used to make handcards or meathooks!
+			m_devotion = 100,
 			category = "Rite Instruments",
 			lines = list("Ol sonf vorsg, hoath zir.","Madriax soba-lonshi od zorge.","Faxs to faxs-sobol athan.","Velor ixan thrae-zho vel.","Korvath en'zul miraxis thren.","Thren val'kora ix ven.","Zai'ul phoros vekh tor.","Morath xi'en thul var.","Vael kor zin'athra vel.","Thul'kor imnaza vekh dor.","En'ra zolth ix venak.","Zhorath kal'mir vex ul.","Ul ix zizo vel'kra.","Sothra vel ixan thul.","Zor'en valix thrae kor.","Vel'zan morath ix ul.","Threx ul ven'kai zhor.","Ix zol ven'ra thul kor.","Vorath ixen kal zor.","Zizo ul thren val'ix.")		
 		),
@@ -72,6 +76,7 @@ corpses and discarded junk*/
 			path = /obj/item/matthios_canister/zizo_corrosive,
 			m_cooldown = 5 MINUTES,
 			m_rank = SKILL_LEVEL_EXPERT, // This is likely going to be removed, it was an in-development vision I had that ended up too close to Matthios. We'll see.
+			m_devotion = 200,
 			category = "Enochian Artificery",
 			lines = list("Ol sonf vorsg, hoath zir.","Madriax soba-lonshi od zorge.","Faxs to faxs-sobol athan.","Velor ixan thrae-zho vel.","Korvath en'zul miraxis thren.","Thren val'kora ix ven.","Zai'ul phoros vekh tor.","Morath xi'en thul var.","Vael kor zin'athra vel.","Thul'kor imnaza vekh dor.","En'ra zolth ix venak.","Zhorath kal'mir vex ul.","Ul ix zizo vel'kra.","Sothra vel ixan thul.","Zor'en valix thrae kor.","Vel'zan morath ix ul.","Threx ul ven'kai zhor.","Ix zol ven'ra thul kor.","Vorath ixen kal zor.","Zizo ul thren val'ix.")		
 		),
@@ -81,7 +86,6 @@ corpses and discarded junk*/
 
 /datum/action/cooldown/spell/enochian/cast(atom/cast_on)
 	. = ..()
-
 	var/mob/living/carbon/human/H = owner
 	if(!istype(H))
 		return FALSE
@@ -97,43 +101,48 @@ corpses and discarded junk*/
 			valid[name] = entry
 
 	if(!valid.len)
-		to_chat(H, span_warning("You lack the knowledge to invoke this rite."))
 		return FALSE
 
 	var/list/categories = list(
-		"Sepulchral Relics",
+		"Enochian Artificery",
 		"Rite Instruments",
-		"Enochian Artificery"
+		"Sepulchral Relics"
 	)
 
-	var/category = tgui_input_list(H, "Choose your rite", name, categories)
+	var/category = tgui_input_list(H, "Choose your path", "Enochian", categories)
 	if(!category)
 		return FALSE
 
 	var/list/display = list()
 
-	for(var/entry_name in valid)
-		var/list/entry = valid[entry_name]
+	for(var/name in valid)
+		var/list/entry = valid[name]
 
 		if(entry["category"] != category)
 			continue
 
-		var/cd = item_cooldowns[entry_name] || 0
+		var/cd = item_cooldowns[name]
 		var/display_name
 
-		if(cd == -1)
-			display_name = "[entry_name] (UNAVAILABLE)"
-		else
-			var/time_left = max(0, cd - world.time)
-			display_name = time_left > 0 ? "[entry_name] ([round(time_left/10, 1)]s)" : entry_name
+		var/devotion_cost = entry["m_devotion"] || 0
 
-		display[display_name] = entry_name
+		if(!cd)
+			display_name = "[name] (UNAVAILABLE)"
+		else
+			var/time_left = cd ? max(0, cd - world.time) : 0
+			if(time_left > 0)
+				display_name = "[name] ([round(time_left/10, 1)]s | [devotion_cost] Devotion)"
+			else
+				display_name = "[name] ([devotion_cost] Devotion)"
+
+		display[display_name] = name
 
 	if(!display.len)
-		to_chat(H, span_warning("Nothing answers from this rite."))
+		to_chat(H, span_warning("Nothing available in this category."))
 		return FALSE
 
-	var/choice_display = tgui_input_list(H, "Choose your implement", name, display)
+	// CHOICE
+	var/choice_display = tgui_input_list(H, "Choose your tool", "Freeman's Tools", display)
 	if(!choice_display)
 		return FALSE
 
@@ -145,18 +154,28 @@ corpses and discarded junk*/
 	var/item_path = entry["path"]
 	var/m_cd = entry["m_cooldown"]
 	var/list/lines = entry["lines"]
+	var/devotion_cost = entry["m_devotion"] || 0
 
 	if(!item_path)
 		return FALSE
 
-	if(item_cooldowns[choice] == -1)
-		to_chat(H, span_warning("[choice] will work again."))
+	// COOLDOWN CHECK
+	if(!item_cooldowns[choice])
+		to_chat(H, span_warning("[choice] cannot be used again."))
 		return FALSE
 
 	if(item_cooldowns[choice] && world.time < item_cooldowns[choice])
-		to_chat(H, span_warning("[choice] is on cooldown for [round((item_cooldowns[choice] - world.time)/10, 1)]s."))
+		to_chat(H, span_warning("[choice] is on cooldown for [round((item_cooldowns[choice] - world.time)/10, 1)] seconds."))
 		return FALSE
 
+	// DEVOTION CHECK
+	if(devotion_cost > 0)
+		src.devotion_cost = devotion_cost
+		if(!H.devotion?.check_devotion(src))
+			to_chat(H, span_warning("Your connection to the Free God is faint. Don't ask favors you cannot pay for."))
+			return FALSE
+
+	// SPAWN ITEM
 	var/obj/item/I = new item_path(H.drop_location())
 	if(!I)
 		return FALSE
@@ -164,8 +183,13 @@ corpses and discarded junk*/
 	H.put_in_hands(I)
 
 	if(lines && lines.len)
-		H.say(pick(lines))
+		H.say(pick(lines), language = /datum/language/common)
 
+	// APPLY DEVOTION COST
+	if(devotion_cost > 0)
+		H.devotion.update_devotion(-devotion_cost)
+
+	// APPLY COOLDOWN
 	if(m_cd == -1)
 		item_cooldowns[choice] = -1
 	else
@@ -592,11 +616,9 @@ corpses and discarded junk*/
 
 		if("Unlife")
 			user.mob_biotypes |= MOB_UNDEAD
-			user.dna.species.species_traits |= NOBLOOD
 			ADD_TRAIT(user, TRAIT_STEELHEARTED, "[type]") // i wanna heal i wanna feel what i thought was never real
 			ADD_TRAIT(user, TRAIT_NOHUNGER, "[type]") // already had
 			ADD_TRAIT(user, TRAIT_NOBREATH, "[type]") // already had
-			ADD_TRAIT(user, TRAIT_FAKEDEATH, "[type]") // for no heartbeat
 			ADD_TRAIT(user, TRAIT_DEATHLESS, "[type]") // NOBLOOD edits are in Construct right now, so this is a temporary padding
 			ADD_TRAIT(user, TRAIT_BLOODLOSS_IMMUNE, "[type]") // NOBLOOD edits are in Construct right now, so this is a temporary padding
 			ADD_TRAIT(user, TRAIT_TOXIMMUNE, "[type]") // there's nothing left to poison
@@ -650,7 +672,7 @@ corpses and discarded junk*/
 					span_boldwarning("Rotting strands slough away from [user]'s [part.name], dissolving into a sickly haze."),
 					span_userdanger(msg)
 				)
-				sleep(35)
+				sleep(25)
 
 			if(user && !QDELETED(user))
 				user.visible_message(span_boldwarning("[user] convulses violently as something within their chest shifts."), span_userdanger("My heart— my LUX— something is inside—!!"))

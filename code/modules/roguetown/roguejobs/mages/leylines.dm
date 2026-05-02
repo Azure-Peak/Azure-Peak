@@ -121,7 +121,7 @@ GLOBAL_LIST_EMPTY(leyline_activations)
 	var/turf/T = get_turf(src)
 	if(!T) return
 
-	var/count = rand(10, 25)
+	var/count = rand(4, 10)
 
 	for(var/i = 1 to count)
 		switch(rand(1,6))
