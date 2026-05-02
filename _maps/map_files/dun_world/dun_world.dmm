@@ -15447,9 +15447,6 @@
 /obj/machinery/light/rogue/oven/north,
 /turf/closed/wall/mineral/rogue/decowood,
 /area/rogue/indoors/town)
-"dkq" = (
-/turf/open/floor/rogue/concrete,
-/area/rogue/outdoors/rtfield)
 "dkv" = (
 /obj/structure/flora/hotspring_rocks/small/three,
 /obj/structure/flora/roguegrass,
@@ -314964,7 +314961,7 @@ fVo
 fVo
 hPs
 fVo
-dkq
+rZO
 rZO
 aoe
 aoe
