@@ -689,7 +689,7 @@
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_HORDE, "SHIELD", "RENDERED ASUNDER")
 
-	#undef SHIELD_BANG_COOLDOWN
+#undef SHIELD_BANG_COOLDOWN
 
 /obj/item/rogueweapon/shield/bronze
 	name = "hoplon shield"
