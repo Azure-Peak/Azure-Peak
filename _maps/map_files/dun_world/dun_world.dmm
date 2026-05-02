@@ -95159,9 +95159,6 @@
 	},
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/under/underdark/north)
-"taq" = (
-/turf/closed/wall/mineral/rogue/decowood/vert,
-/area/rogue/outdoors/mountains)
 "tar" = (
 /obj/effect/decal/remains/human,
 /obj/effect/decal/cleanable/blood/old,
@@ -418037,7 +418034,7 @@ aBB
 aBB
 aBB
 aBB
-gjS
+aBB
 aBB
 aBB
 aBB
@@ -419390,7 +419387,7 @@ aBB
 aBB
 aBB
 aBB
-taq
+aBB
 aBB
 aBB
 aBB
