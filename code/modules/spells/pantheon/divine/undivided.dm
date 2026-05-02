@@ -52,7 +52,7 @@
 /datum/action/cooldown/spell/undivided/twinned_gaze
 	name = "Twinned Gaze"
 	desc = "Removes the limit on your vision, letting you see behind you for a time, as well varying degrees of night vision. Duration & Darksight scales off holy skill and time of dae."
-	fluff_desc = "Astrata's gift altered by Noc's meddling piercing through dae and nite with ease, rival siblings sharing Their powers to lowly mortars in hopes that they succeed in their duty."
+	fluff_desc = "Astrata's gift altered by Noc's meddling piercing through dae and nite with ease, rival siblings sharing Their powers to lowly mortals in hopes that they succeed in their duty."
 	button_icon_state = "twinned_gaze"
 	sound = 'sound/magic/undivided_bless.ogg'
 	glow_intensity = 0
