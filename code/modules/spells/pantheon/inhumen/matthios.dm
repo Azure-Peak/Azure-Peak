@@ -45,7 +45,7 @@
 		//rip the bag of bribery, say hello to pouch of smuggling
 		"Pouch of Smuggling" = list(
 			path = /obj/item/storage/belt/rogue/pouch/matthios,
-			m_cooldown = -1, // I FUCKING HATE WHEN THEY DON'T REPORT ABUSE CASES MANNNnnnNNNNEEEEE
+			m_cooldown = 0, // I FUCKING HATE WHEN THEY DON'T REPORT ABUSE CASES MANNNnnnNNNNEEEEE
 			m_devotion = 100,
 			m_rank = SKILL_LEVEL_NOVICE,
 			category = "Rogue Arts",
@@ -54,7 +54,7 @@
 		//like a pouch of smuggling, but smugglier
 		"Bag of Smuggling" = list(
 			path = /obj/item/storage/backpack/rogue/backpack/matthios,
-			m_cooldown = -1,
+			m_cooldown = 0,
 			m_devotion = 200,
 			m_rank = SKILL_LEVEL_APPRENTICE,
 			category = "Rogue Arts",
@@ -81,7 +81,7 @@
 		//enables piss night vision and sets your lockpick timer to 1.5 secs, makes you insane over time and prolonged use and ofc, will burn you the fuck down, it will also not really increase success chance only pick speed, and if you break those? rip, no refunds, as HE ordained
 		"Gilded Lockpicking Specs" = list(
 			path = /obj/item/clothing/mask/rogue/spectacles/matthios,
-			m_cooldown = -1, // this is too stronk, so only 1 allowed now
+			m_cooldown = 0, // this is too stronk, so only 1 allowed now
 			m_devotion = 200,
 			m_rank = SKILL_LEVEL_EXPERT,
 			category = "Gilded Tools",
@@ -272,7 +272,7 @@
 		H.devotion.update_devotion(-devotion_cost)
 
 	// APPLY COOLDOWN
-	if(m_cd == -1)
+	if(m_cd == 0) // if this is 0, it means it can only be used once then becomes 'unavailable'.
 		item_cooldowns[choice] = -1
 	else
 		item_cooldowns[choice] = world.time + m_cd

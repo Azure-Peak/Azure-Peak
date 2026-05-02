@@ -26,7 +26,7 @@ corpses and discarded junk*/
 	var/list/options = list(
 		"Corrupted Chalk" = list(
 			path = /obj/item/chalk/zizo,
-			m_cooldown = -1, // Only one available, if you lose it, tough luck.
+			m_cooldown = 0, // Only one available, if you lose it, tough luck.
 			m_rank = SKILL_LEVEL_NONE, // This is a normal arcyne chalk, just spooky and red glowy. Requires arcyne trait to use, as you'd expect.
 			m_devotion = 100,
 			category = "Sepulchral Relics",
@@ -34,7 +34,7 @@ corpses and discarded junk*/
 		),
 		"Profane Rite Chalk" = list(
 			path = /obj/item/ritechalk_zizo,
-			m_cooldown = -1, // Ditto.
+			m_cooldown = 0, // Ditto.
 			m_rank = SKILL_LEVEL_NONE, // This is a special chalk that lets you create runes without TRAIT_RITUALIST. In less than Expert+ hands, it's just a grafitti tool, except for the melding ritual.
 			m_devotion = 100,
 			category = "Sepulchral Relics",
@@ -42,7 +42,7 @@ corpses and discarded junk*/
 		),
 		"Profane Riteblade" = list(
 			path = /obj/item/rogueweapon/huntingknife/idagger/zizo,
-			m_cooldown = -1, // Ditto, but this might be changed into a touch_attack in the future.
+			m_cooldown = 0, // Ditto, but this might be changed into a touch_attack in the future.
 			m_rank = SKILL_LEVEL_JOURNEYMAN, // It's just a weaker iron dagger that will probably have more to it when I figure out exactly what it should get.
 			m_devotion = 50,
 			category = "Rite Instruments",
@@ -50,7 +50,7 @@ corpses and discarded junk*/
 		),
 		"Enochian Artificer's Bag" = list(
 			path = /obj/item/storage/magebag/zizo,
-			m_cooldown = -1, // And ditto.
+			m_cooldown = 0, // And ditto.
 			m_rank = SKILL_LEVEL_NONE, // Spooky glowy Mage's Bag for Artificer/Alchemy ingredients. Nothing out of the world here.
 			m_devotion = 50,
 			category = "Sepulchral Relics",
@@ -126,7 +126,7 @@ corpses and discarded junk*/
 
 		var/devotion_cost = entry["m_devotion"] || 0
 
-		if(!cd)
+		if(cd == -1)
 			display_name = "[name] (UNAVAILABLE)"
 		else
 			var/time_left = cd ? max(0, cd - world.time) : 0
@@ -142,7 +142,7 @@ corpses and discarded junk*/
 		return FALSE
 
 	// CHOICE
-	var/choice_display = tgui_input_list(H, "Choose your tool", "Freeman's Tools", display)
+	var/choice_display = tgui_input_list(H, "Choose your tool", "Enochian", display)
 	if(!choice_display)
 		return FALSE
 
@@ -160,7 +160,7 @@ corpses and discarded junk*/
 		return FALSE
 
 	// COOLDOWN CHECK
-	if(!item_cooldowns[choice])
+	if(item_cooldowns[choice] == -1)
 		to_chat(H, span_warning("[choice] cannot be used again."))
 		return FALSE
 
@@ -172,7 +172,7 @@ corpses and discarded junk*/
 	if(devotion_cost > 0)
 		src.devotion_cost = devotion_cost
 		if(!H.devotion?.check_devotion(src))
-			to_chat(H, span_warning("Your connection to the Free God is faint. Don't ask favors you cannot pay for."))
+			to_chat(H, span_warning("Your connection to the Lady of Progress is faint. Don't ask favors you cannot commit to."))
 			return FALSE
 
 	// SPAWN ITEM
@@ -190,7 +190,7 @@ corpses and discarded junk*/
 		H.devotion.update_devotion(-devotion_cost)
 
 	// APPLY COOLDOWN
-	if(m_cd == -1)
+	if(m_cd == 0) // if this is 0, it means it can only be used once then becomes 'unavailable'.
 		item_cooldowns[choice] = -1
 	else
 		item_cooldowns[choice] = world.time + m_cd
