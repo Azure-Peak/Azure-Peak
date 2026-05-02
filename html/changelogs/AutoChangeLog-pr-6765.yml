@@ -1,5 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - rscadd: "Onehanding a polearm while off Cmode no longer give you longstrider advantage (ignore mud slowdown)"
-  - rscadd: "Mud slowdown reduced from 2 to 1"

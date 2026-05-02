@@ -1,9 +1,0 @@
-author: "Ollanius"
-delete-after: True
-changes:
-  - rscadd: "Destroying Ascendant-related equipment now drops fragments; remnants of their otherworldly alloys. Collectable as a trophy, or for some yet-unseen purpose."
-  - rscadd: "The 'Avantyne' alloy tier. Equivalent to Blacksteel, handleable by all, but borne of unholy circumstance. Distinguished as being 'Avantyne-Threaded', these items are currently inaccessible through normal means."
-  - rscadd: "Adds the Avantyne-Threaded Dagger, Arming Sword, Longsword, Greatsword, Pavise, Helmet, Maille, Gloves, Fauldcoat, and Sabatons. Light yet impossibly strong. Likewise, inaccessable through normal means.. for now."
-  - rscadd: "Adds additional descriptions to Ascendant- and Psydonic-related equipment."
-  - code_imp: "Adds more \\-ings to long descriptions, in order to tidy things up."
-  - code_imp: "Distinguishes summoned Avantyne from crafted Avantyne. All summoned variants of Avantyne have been repathed to '/zizo',  similar to how other Ascendant-related items are pathed. Ritual circles and minibosses have been accordingly changed to accomadate this; if you notice anything strange or off, contact @Dongwaiver on the 'cord for a hotfix."

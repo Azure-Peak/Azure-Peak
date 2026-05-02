@@ -20,3 +20,65 @@
   WeNeedMorePhoron:
   - rscadd: Adds the Hand to Announce on FT role
   - bugfix: Ward Regen Spell also works on broken ward
+2026-05-02:
+  1HoneyDragon:
+  - rscadd: Added Fancy Servantry Clothing to the Loadout.
+  BICLOGAN:
+  - balance: Barber Surgeon now starts with Journeyman Alchemy instead of Apprentice
+  CometBlaze:
+  - bugfix: Avantyne medium gauntlets now properly show their onmob sprite.
+  KatTheFox:
+  - rscadd: Familiars can now advertise their presence to arcyne users like they could
+      in my old PR
+  - bugfix: Familiars no longer rot, delete themselves by committing recursion, lose
+      hearing when carried in item form, or permanently delete name slots when freed.
+  - qol: Familiar revival now needs to be near a leyline, but costs no materials other
+      than the vestige
+  - bugfix: Reagent bite can now be cancelled by the target moving (which was always
+      intended to be the case)
+  - bugfix: Updated encyclopedia to reflect binding changes
+  - bugfix: Familiars can now read parchments and noticeboards
+  Ketrai:
+  - rscadd: You can now slap each other with fish. (Or yourself, you freak)
+  Ollanius:
+  - bugfix: Readds homelessness to the Revenant species; rejoice, for they can be
+      Vagabonds once more!
+  - bugfix: Headcages should now be visible in the inventory.
+  - bugfix: Crafting a plague mask - either type - should no longer inexplicably give
+      a collar.
+  - rscadd: Destroying Ascendant-related equipment now drops fragments; remnants of
+      their otherworldly alloys. Collectable as a trophy, or for some yet-unseen purpose.
+  - rscadd: The 'Avantyne' alloy tier. Equivalent to Blacksteel, handleable by all,
+      but borne of unholy circumstance. Distinguished as being 'Avantyne-Threaded',
+      these items are currently inaccessible through normal means.
+  - rscadd: Adds the Avantyne-Threaded Dagger, Arming Sword, Longsword, Greatsword,
+      Pavise, Helmet, Maille, Gloves, Fauldcoat, and Sabatons. Light yet impossibly
+      strong. Likewise, inaccessable through normal means.. for now.
+  - rscadd: Adds additional descriptions to Ascendant- and Psydonic-related equipment.
+  - code_imp: Adds more \-ings to long descriptions, in order to tidy things up.
+  - code_imp: Distinguishes summoned Avantyne from crafted Avantyne. All summoned
+      variants of Avantyne have been repathed to '/zizo',  similar to how other Ascendant-related
+      items are pathed. Ritual circles and minibosses have been accordingly changed
+      to accomadate this; if you notice anything strange or off, contact @Dongwaiver
+      on the 'cord for a hotfix.
+  Ryan180602:
+  - rscadd: hair customiser
+  - balance: halfsword thrust is 0.5s delay without penalty. medium pen.
+  - balance: halfswording gives you +5 force alongside the +2 wdef
+  - balance: greataxe chop is now 2-tile.
+  SnaxMang:
+  - code_imp: Made weather longer.
+  SnubbyNotSorry:
+  - rscadd: Gives Blacksmith Apprentice a hammer and tongs to their stash
+  WeNeedMorePhoron:
+  - rscadd: Increased loot pool value from 14k to 20k on Alotheos
+  - rscadd: Moved Alotheos from knee deep in decap to The Coast
+  - rscadd: Jak orc dungeon loot pool from 900 to 1400
+  - rscadd: Onehanding a polearm while off Cmode no longer give you longstrider advantage
+      (ignore mud slowdown)
+  - rscadd: Mud slowdown reduced from 2 to 1
+  - bugfix: Railing climbing respects density
+  - rscadd: Fixes z level transitioning logic for AI and tree climbing logic such
+      that they will attempt to climb trees and go up stairs to hit you.
+  - rscadd: Replaced the saigas in soilson stables with more cows to lower soilson
+      and their animals mortality rate

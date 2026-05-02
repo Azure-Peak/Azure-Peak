@@ -1,0 +1,5 @@
+author: "SpartanBobby"
+delete-after: True
+changes:
+  - rscadd: "Added Peasant cap to loadout menu"
+  - rscadd: "Peasant cap can now be worn on mask, similarly to its armoured versions"
