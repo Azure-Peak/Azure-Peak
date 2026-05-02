@@ -571,7 +571,7 @@
 
 /obj/item/rogueweapon/huntingknife/idagger/avantyne
 	name = "avantyne-threaded dagger"
-	desc = "An otherworldly misericorde, defying rhyme-and-reason in favor of unholy lethality. The jagged edge continuously remorphs itself, \
+	desc = "An darksteel misericorde, defying rhyme-and-reason in favor of unholy lethality. The jagged edge continuously remorphs itself, \
 	yearning to disembowel the divine filament once more; though for now, it will settle with the bellies of blunderous bastards."
 	icon_state = "zizodagger"
 	sheathe_icon = "zizodagger"

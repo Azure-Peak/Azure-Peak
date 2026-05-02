@@ -687,6 +687,11 @@
 
 /obj/item/rogueweapon/shield/iron/graggar/Initialize()
 	. = ..()
+	AddComponent(/datum/component/cursed_item, TRAIT_HORDE, "SHIELD", "RENDERED ASUNDER")
+
+	#undef SHIELD_BANG_COOLDOWN
+
+/obj/item/rogueweapon/shield/bronze
 	name = "hoplon shield"
 	desc = "The finest companion to a javelin, gladius, and warclub; a thick-yet-sturdy shield of bronze."
 	icon_state = "bronzeshield"
