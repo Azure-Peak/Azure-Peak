@@ -190,7 +190,7 @@ SUBSYSTEM_DEF(city_assembly)
 			if(choice == "NO_ALDERMAN")
 				return TRUE
 			for(var/datum/weakref/wr in current_session.candidates)
-				if("[wr]" == choice)
+				if(REF(wr) == choice)
 					return TRUE
 			return FALSE
 		if(ASSEMBLY_MOTION_TRADE_AUTH)

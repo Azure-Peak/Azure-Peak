@@ -4,7 +4,7 @@
 	name_plural = "feral goblins"
 	group_word = "band"
 	faction_tag = FACTION_ORCS
-	can_blockade = TRUE
+	can_blockade = FALSE
 	category = FACTION_CAT_GOBLINOID
 	mob_types = list(
 		/mob/living/carbon/human/species/goblin/npc/ambush = 90,

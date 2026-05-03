@@ -99,6 +99,7 @@ GLOBAL_VAR_INIT(date_override_offset, 0)
 		if(GLOB.tod == "dawn")
 			GLOB.dayspassed++
 			if(SStreasury?.initialized)
+				SStreasury.tick_rural_tax()
 				SStreasury.distribute_estate_incomes()
 				SStreasury.distribute_daily_payments()
 				SStreasury.tick_burgher_pledge()

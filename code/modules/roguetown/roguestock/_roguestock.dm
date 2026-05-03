@@ -21,12 +21,7 @@
 	if(trade_good_id)
 		var/datum/trade_good/tg = GLOB.trade_goods[trade_good_id]
 		if(tg)
-			var/payout_target = tg.base_price * (1 - IMPORT_EXPORT_SPREAD)
-			if(tg.global_price_mod < 1.0)
-				payout_target *= tg.global_price_mod
-			payout_price = max(1, FLOOR(payout_target, 1))
-			var/min_margin = max(1, round(tg.base_price * 0.1))
-			withdraw_price = max(payout_price + min_margin, round(tg.base_price * tg.global_price_mod))
+			compute_auto_prices(tg)
 	return
 
 /datum/roguestock/proc/get_payout_price(obj/item/I)
@@ -43,30 +38,33 @@
 			return FALSE
 	return TRUE
 
-/// Deposit auto-price tracks gluts downward but ignores shortage upticks: the Crown must
-/// not chase shortage prices up (it would buy at export parity and earn nothing on the
-/// cycle), but during a glut the wider market is paying less, so the Crown should too.
-/// Withdraw auto-price keeps a downward-only ratchet against the modulated market so
-/// gluts pass through to citizens at the till.
+/// Auto-pricing pegs to the global pre-blockade reference for each side, so the Crown
+/// always profits at least 1m on any single transaction cycle:
+///   buy  = min(0.75 * export_ref, export_ref - 1m), floored at 1m
+///   sell = max(1.25 * import_ref, import_ref + 1m), floored at 1m
+/// where import_ref = base * global_price_mod and export_ref = import_ref * (1 - SPREAD).
+/// Buy uses min so the Crown skims at least 25% off export at scale; sell uses max so the
+/// Crown marks up at least 25% over import at scale. At small base prices the +/-1m bound
+/// dominates; at larger base prices the 25% bound takes over. No regional lookup, no
+/// blockade dependency - stewards manually intervene during regional shortages or
+/// blockades if they want to fine-tune.
+/datum/roguestock/proc/compute_auto_prices(datum/trade_good/tg)
+	if(!tg)
+		return
+	var/import_ref = max(1, round(tg.base_price * tg.global_price_mod))
+	var/export_ref = max(1, round(tg.base_price * tg.global_price_mod * (1 - IMPORT_EXPORT_SPREAD)))
+	var/buy_target = min(round(export_ref * (1 - IMPORT_EXPORT_SPREAD)), export_ref - 1)
+	payout_price = max(1, buy_target)
+	var/sell_target = max(round(import_ref * (1 + IMPORT_EXPORT_SPREAD)), import_ref + 1)
+	withdraw_price = max(1, sell_target)
+
 /datum/roguestock/proc/refresh_auto_price()
 	if(!automatic_price || !trade_good_id)
 		return
 	var/datum/trade_good/tg = GLOB.trade_goods[trade_good_id]
 	if(!tg)
 		return
-	var/withdraw_market = max(1, round(tg.base_price * tg.global_price_mod))
-	var/payout_target = tg.base_price * (1 - IMPORT_EXPORT_SPREAD)
-	if(tg.global_price_mod < 1.0)
-		payout_target *= tg.global_price_mod
-	payout_price = max(1, FLOOR(payout_target, 1))
-	// Auto-ratchet must clear payout by a minimum margin, or the Crown earns nothing on
-	// the cycle. Stewards can still manually undercut. Margin is 10% of base, min 1.
-	var/min_margin = max(1, round(tg.base_price * 0.1))
-	var/withdraw_floor = payout_price + min_margin
-	if(withdraw_market < withdraw_floor)
-		withdraw_market = withdraw_floor
-	if(withdraw_market < withdraw_price)
-		withdraw_price = withdraw_market
+	compute_auto_prices(tg)
 
 /datum/roguestock/proc/snap_auto_prices()
 	if(!trade_good_id)
@@ -74,12 +72,7 @@
 	var/datum/trade_good/tg = GLOB.trade_goods[trade_good_id]
 	if(!tg)
 		return
-	var/payout_target = tg.base_price * (1 - IMPORT_EXPORT_SPREAD)
-	if(tg.global_price_mod < 1.0)
-		payout_target *= tg.global_price_mod
-	payout_price = max(1, FLOOR(payout_target, 1))
-	var/min_margin = max(1, round(tg.base_price * 0.1))
-	withdraw_price = max(payout_price + min_margin, round(tg.base_price * tg.global_price_mod))
+	compute_auto_prices(tg)
 
 /datum/roguestock/proc/get_market_deposit_price()
 	if(!trade_good_id)
@@ -87,24 +80,17 @@
 	var/datum/trade_good/tg = GLOB.trade_goods[trade_good_id]
 	if(!tg)
 		return payout_price
-	var/payout_target = tg.base_price * (1 - IMPORT_EXPORT_SPREAD)
-	if(tg.global_price_mod < 1.0)
-		payout_target *= tg.global_price_mod
-	return max(1, FLOOR(payout_target, 1))
+	var/export_ref = max(1, round(tg.base_price * tg.global_price_mod * (1 - IMPORT_EXPORT_SPREAD)))
+	return max(1, min(round(export_ref * (1 - IMPORT_EXPORT_SPREAD)), export_ref - 1))
 
-/// Withdraw anchor is the *auto-target* the ratchet aims at, not the raw modulated
-/// market: during a shortage the modulated market is high but auto-withdraw refuses
-/// to follow it up, and reporting the inflated number as "market" makes a held-line
-/// price look like a discount when it is just the baseline.
 /datum/roguestock/proc/get_market_withdraw_price()
 	if(!trade_good_id)
 		return withdraw_price
 	var/datum/trade_good/tg = GLOB.trade_goods[trade_good_id]
 	if(!tg)
 		return withdraw_price
-	var/baseline = max(1, round(tg.base_price))
-	var/modulated = max(1, round(tg.base_price * tg.global_price_mod))
-	return min(baseline, modulated)
+	var/import_ref = max(1, round(tg.base_price * tg.global_price_mod))
+	return max(1, max(round(import_ref * (1 + IMPORT_EXPORT_SPREAD)), import_ref + 1))
 
 /datum/roguestock/proc/get_market_price()
 	return get_market_deposit_price()

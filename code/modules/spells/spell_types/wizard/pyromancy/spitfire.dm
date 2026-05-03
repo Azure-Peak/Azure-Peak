@@ -37,7 +37,7 @@
 	light_color = "#f8af07"
 	light_outer_range = 2
 	speed = MAGE_PROJ_MEDIUM
-	damage = 30
+	damage = 36
 	npc_simple_damage_mult = 2
 	accuracy = 40
 	damage_type = BURN
@@ -48,7 +48,7 @@
 
 /obj/projectile/magic/spitfire/arc
 	name = "arced spitfire"
-	damage = 23
+	damage = 27
 	arcshot = TRUE
 
 /obj/projectile/magic/spitfire/on_hit(target)

@@ -7,7 +7,7 @@
 	if(!job)
 		return "NONE"
 	switch(job)
-		if("Grand Duke", "Consort", "Prince", "Princess", "Regent", "Lord", "Lady", "Duke", "Duchess", "Count", "Countess", "Noble")
+		if("Grand Duke", "Consort", "Prince", "Princess", "Regent", "Lord", "Lady", "Lord Castellan", "Duke", "Duchess", "Count", "Countess", "Noble")
 			return "KEEP"
 		if("Hand", "Clerk", "Councillor", "Seneschal", "Steward", "Suitor", "Servant")
 			return "KEEP"
@@ -19,13 +19,13 @@
 			return "INQUISITION"
 		if("Wretch", "Bandit", "Assassin", "Lunatic")
 			return "EXCLUDED"
-		if("Adventurer", "Mercenary", "Hangyaku", "Lirvan", "Routier", "Seonjang", "Slayer", "Trader", "Pilgrim", "Villager", "Sellsword")
+		if("Adventurer", "Court Agent", "Mercenary", "Hangyaku", "Lirvan", "Routier", "Seonjang", "Slayer", "Trader", "Pilgrim", "Villager", "Sellsword")
 			return "TOWN_TRANSIENT"
-		if("Peasant", "Towner", "Sidefolk", "Serf", "Vagabond")
+		if("Peasant", "Towner", "Sidefolk", "Serf", "Vagabond", "Bathhouse Attendant", "Cook", "Tapster", "Soilson")
 			return "TOWN_PEASANT"
-		if("Innkeeper", "Guildsman", "Archivist", "Apothecary", "Tailor", "Crier", "Physician", "Tradesmith", "Magicians Associate", "Jester", "Burgher", "Resident", "Keeper")
+		if("Innkeeper", "Guildsman", "Archivist", "Apothecary", "Tailor", "Town Crier", "Physician", "Tradesmith", "Magicians Associate", "Jester", "Burgher", "Resident", "Keeper")
 			return "TOWN_BURGHER"
-		if("Priest", "Acolyte", "Druid", "Sexton", "Templar", "Martyr", "Clergy")
+		if("Priest", "Vice Priest", "Acolyte", "Druid", "Sexton", "Templar", "Martyr", "Clergy")
 			return "TOWN_CLERGY"
 		if("Court Magician", "Merchant", "Guildmaster", "Bishop", "Bathmaster", "Head Physician", "Town Elder")
 			return "TOWN_NOTABLE"

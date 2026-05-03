@@ -139,6 +139,10 @@
 		dest = src.loc
 	if(!dest)
 		return
+	if(dest.is_blocked_turf(source_atom = A))
+		if(ismob(A))
+			to_chat(A, span_warning("Something is blocking the way."))
+		return
 	. = A.forceMove(dest)
 
 /obj/structure/fluff/railing/Initialize()

@@ -19,6 +19,11 @@
 	path = /obj/item/clothing/head/roguetown/archercap
 	sort_category = "Hats"
 
+/datum/loadout_item/cap
+	name = "Cap"
+	path = /obj/item/clothing/head/roguetown/cap
+	sort_category = "Hats"
+
 /datum/loadout_item/tiyon
 	name = "Tiyon"
 	path = /obj/item/clothing/head/roguetown/tiyon
@@ -199,3 +204,12 @@
 	path = /obj/item/clothing/head/roguetown/jester
 	sort_category = "Hats"
 
+/datum/loadout_item/maidband
+	name = "Maid Headdress"
+	path = /obj/item/clothing/head/roguetown/maidhead
+	sort_category = "Hats"
+
+/datum/loadout_item/maidbandfancy
+	name = "Valorian Maid Headband"
+	path = /obj/item/clothing/head/roguetown/maidband
+	sort_category = "Hats"

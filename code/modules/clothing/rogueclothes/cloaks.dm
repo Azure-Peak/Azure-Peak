@@ -1446,10 +1446,6 @@
 /obj/item/clothing/cloak/graggar/heavy
 	icon_state = "graggarcloak_heavy"
 
-/obj/item/clothing/cloak/graggar/heavy/Initialize()
-	. = ..()
-	ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)
-
 /obj/item/clothing/cloak/graggar/Initialize()
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_HORDE, "CLOAK", "RENDERED ASUNDER")

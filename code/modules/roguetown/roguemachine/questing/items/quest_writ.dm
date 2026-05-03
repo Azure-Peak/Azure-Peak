@@ -141,6 +141,9 @@ GLOBAL_LIST_EMPTY(quest_scrolls)
 		if(assigned_quest.quest_giver_name && assigned_quest.quest_giver_name == user.real_name)
 			to_chat(user, span_warning("You cannot take a contract you yourself issued."))
 			return
+		if(!SStreasury.has_account(user))
+			to_chat(user, span_warning("No account on record - register with a Meister before taking a contract, lest there be no purse to pay you."))
+			return
 		assigned_quest.quest_receiver_reference = WEAKREF(user)
 		assigned_quest.quest_receiver_name = user.real_name
 		to_chat(user, span_notice("You claim this contract for yourself!"))
@@ -195,6 +198,7 @@ GLOBAL_LIST_EMPTY(quest_scrolls)
 	data["writ_type"] = Q.writ_type
 	data["circumstance"] = Q.circumstance_text
 	data["pickup_region"] = Q.target_spawn_area
+	data["target_region"] = Q.region
 	data["delivery_destination"] = Q.target_delivery_location ? initial(Q.target_delivery_location.name) : null
 	data["delivery_item"] = Q.target_delivery_item ? initial(Q.target_delivery_item.name) : null
 	data["fetch_item"] = Q.target_item_type ? initial(Q.target_item_type.name) : null

@@ -222,6 +222,7 @@
 	name = "gilded hauberk"
 	desc = "All that glimmers is gold; yet only shining stars shalt break the mold.."
 	color = "#ffc960"
+	smeltresult = /obj/item/ingot/component/matthios
 
 /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/matthios/Initialize()
 	. = ..()
@@ -229,25 +230,26 @@
 
 //
 
-/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/avantyne
+/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/zizo
 	name = "avantyne hauberk"
 	desc = "The rings crackle softly with avantynic power, yet this lighter weave can still be taken off without being lost to the rite."
 	color = "#c1b18d"
 	chunkcolor = "#363030"
 	material_category = ARMOR_MAT_CHAINMAIL
+	smeltresult = /obj/item/ingot/component/zizo
 
-/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/avantyne/Initialize()
+/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/zizo/Initialize()
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_CABAL, "ARMOR")
 
-/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/avantyne/heavy
+/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/zizo/heavy
 	name = "fused avantyne hauberk"
 
-/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/avantyne/heavy/Initialize(mapload)
+/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/zizo/heavy/Initialize(mapload)
 	. = ..()
 	ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)
 
-/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/avantyne/heavy/dropped(mob/living/carbon/human/user)
+/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/zizo/heavy/dropped(mob/living/carbon/human/user)
 	. = ..()
 	if(QDELETED(src))
 		return
@@ -259,6 +261,7 @@
 	name = "vicious hauberk"
 	desc = "The blessing of a Martyr is nothing, when put before the Sinistar's rage."
 	color = "#ddc0a7"
+	smeltresult = /obj/item/ingot/component/graggar
 
 /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/graggar/Initialize()
 	. = ..()

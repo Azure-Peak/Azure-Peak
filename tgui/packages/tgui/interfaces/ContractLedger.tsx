@@ -43,6 +43,8 @@ type ContractLedgerData = {
   has_account: BooleanLike;
   active_count: number;
   active_max: number;
+  active_max_base: number;
+  active_fellowship_bonus: number;
   townie_gate_remaining: number;
   townie_contract_gate_exempt_jobs: string[];
   take_cooldown_remaining: number;
@@ -398,11 +400,27 @@ const ActiveStrip = (props: {
       : takeCooldown > 0
         ? `Guild cooldown active, wait ${takeCooldown}s before signing another contract.`
         : null;
+  const fellowshipBonus = data.active_fellowship_bonus || 0;
+  const fellowshipNote =
+    fellowshipBonus > 0
+      ? `+${fellowshipBonus} from leading your Fellowship`
+      : 'Lead a Fellowship of 2+ for more contract slots (+1 at 2 members, +2 at 3+).';
   return (
     <div className="ContractLedger__ActiveStrip">
       <div className="ContractLedger__ActiveStripHeader">
         <span>
           Your Contracts ({props.active.length} / {props.activeMax})
+          <span
+            style={{
+              marginLeft: '10px',
+              fontStyle: 'italic',
+              fontSize: '0.85em',
+              color: fellowshipBonus > 0 ? '#2a6b2a' : '#7a6a4a',
+              fontWeight: 'normal',
+            }}
+          >
+            {fellowshipNote}
+          </span>
         </span>
         <span>Balance: {props.balance} mammon</span>
       </div>

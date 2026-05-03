@@ -6,6 +6,7 @@ GLOBAL_LIST_INIT(drowraider_aggro, world.file2list("strings/rt/drowaggrolines.tx
 	ambushable = FALSE
 	dodgetime = 30
 	d_intent = INTENT_DODGE
+	blood_toll_bucket = STATS_KILLED_DROWS
 
 
 /mob/living/carbon/human/species/elf/dark/drowraider/ambush

@@ -418,9 +418,7 @@
 	desc = "Shattered jaws, chipped teeth, sunken metal - fit for a skull of the same."
 	icon_state = "graggarplatemask_heavy"
 
-/obj/item/clothing/mask/rogue/facemask/steel/graggar/Initialize()
-	. = ..()
-	ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)
+/obj/item/clothing/mask/rogue/facemask/steel/graggar/ComponentInitialize()
 	AddComponent(/datum/component/cursed_item, TRAIT_HORDE, "ARMOR", "RENDERED ASUNDER")
 
 /obj/item/clothing/mask/rogue/facemask/steel/paalloy

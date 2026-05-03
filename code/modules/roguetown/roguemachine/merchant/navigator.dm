@@ -55,7 +55,7 @@
 
 /obj/item/roguemachine/navigator/smuggler/examine(mob/user)
 	. = ..()
-	. += span_notice("The rates here are disastrous. Having a facilitator from the bathhouse nearby might improve them.")
+	. += span_notice("The rates here are disastrous. Having a facilitator from the bathhouse nearby might improve them to 100%.")
 	if(fixed_tax <= 0.5)
 		. += span_notice("A facilitator is present. Current handler's fee: [fixed_tax * 100]%.")
 	else
@@ -71,7 +71,7 @@
 			if(H.stat != DEAD && (H.job in GLOB.bathhouse_positions))
 				bath_nearby = TRUE
 				break
-		fixed_tax = bath_nearby ? 0.5 : 0.7
+		fixed_tax = bath_nearby ? 0.0 : 0.7
 	return ..()
 
 /obj/structure/roguemachine/balloon_pad

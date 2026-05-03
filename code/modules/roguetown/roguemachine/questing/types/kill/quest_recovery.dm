@@ -65,6 +65,9 @@ GLOBAL_LIST_INIT(quest_recovery_shipments, list(
 	/// Count of items actually packed (4-6).
 	var/shipment_count = 0
 
+/datum/quest/kill/recovery/get_base_reward()
+	return QUEST_REWARD_BASE_RECOVERY
+
 /datum/quest/kill/recovery/roll_circumstance()
 	return pick_recovery_bandits_circumstance()
 
@@ -114,7 +117,11 @@ GLOBAL_LIST_INIT(quest_recovery_shipments, list(
 	// Distance reward from the delivery leg.
 	var/distance = CLAMP(get_dist(origin_turf, target_turf), 0, 200)
 	var/distance_reward = (distance / QUEST_DELIVERY_DISTANCE_DIVISOR) * QUEST_DELIVERY_DISTANCE_BONUS
-	return ROUND_UP(combat_reward + distance_reward)
+	var/threat_bonus = 0
+	var/datum/threat_region/TR = SSregionthreat.get_region(region)
+	if(TR)
+		threat_bonus = max(0, (TR.delivery_reward_multiplier - 1.0) * QUEST_DELIVERY_THREAT_BONUS)
+	return ROUND_UP(combat_reward + distance_reward + threat_bonus)
 
 /datum/quest/kill/recovery/materialize(obj/effect/landmark/quest_spawner/landmark)
 	..()

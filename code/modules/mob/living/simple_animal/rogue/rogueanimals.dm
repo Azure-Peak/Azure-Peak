@@ -11,6 +11,7 @@
 	response_harm_continuous = "kicks"
 	response_harm_simple = "kick"
 	faction = list(FACTION_ROGUEANIMAL)
+	blood_toll_bucket = STATS_KILLED_LESSER_BEASTS
 	robust_searching = 1
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
 	attack_sound = PUNCHWOOSH
