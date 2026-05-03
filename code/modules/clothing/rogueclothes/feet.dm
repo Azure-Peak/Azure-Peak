@@ -354,11 +354,21 @@
 	max_integrity = ARMOR_INT_SIDE_ANTAG
 	armor = ARMOR_PLATE_BSTEEL
 	icon_state = "graggarplateboots"
+	smeltresult = /obj/item/ingot/component/graggar
 
 /obj/item/clothing/shoes/roguetown/boots/armor/graggar/Initialize()
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_HORDE, "ARMOR", "RENDERED ASUNDER")
 
+/obj/item/clothing/shoes/roguetown/boots/armor/graggar/heavy/Initialize()
+	. = ..()
+	ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)
+
+/obj/item/clothing/shoes/roguetown/boots/armor/graggar/heavy/dropped(mob/living/carbon/human/user)
+	. = ..()
+	if(QDELETED(src))
+		return
+	qdel(src)
 
 /obj/item/clothing/shoes/roguetown/boots/armor/matthios
 	max_integrity = ARMOR_INT_SIDE_ANTAG
@@ -366,6 +376,7 @@
 	desc = "Gilded tombs do worm enfold."
 	icon_state = "matthiosboots"
 	armor = ARMOR_PLATE_BSTEEL
+	smeltresult = /obj/item/ingot/component/matthios
 
 /obj/item/clothing/shoes/roguetown/boots/armor/matthios/Initialize()
 	. = ..()
@@ -377,7 +388,7 @@
 		return
 	qdel(src)
 
-/obj/item/clothing/shoes/roguetown/boots/armor/avantyne
+/obj/item/clothing/shoes/roguetown/boots/armor/zizo
 	name = "avantyne boots"
 	desc = "Bolstered by threads of avantyne, these lighter sabatons remain practical enough to be removed once the rite is done."
 	icon_state = "zizoboots"
@@ -386,23 +397,33 @@
 	material_category = ARMOR_MAT_PLATE
 	armor = ARMOR_PLATE_BSTEEL
 	armor_class = ARMOR_CLASS_MEDIUM
+	smeltresult = /obj/item/ingot/component/zizo
 
-/obj/item/clothing/shoes/roguetown/boots/armor/avantyne/heavy
-	name = "fused avantyne boots"
-
-/obj/item/clothing/shoes/roguetown/boots/armor/avantyne/Initialize(mapload)
+/obj/item/clothing/shoes/roguetown/boots/armor/zizo/Initialize()
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_CABAL, "ARMOR")
 
-/obj/item/clothing/shoes/roguetown/boots/armor/avantyne/heavy/Initialize()
+/obj/item/clothing/shoes/roguetown/boots/armor/zizo/heavy/Initialize()
 	. = ..()
 	ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)
 
-/obj/item/clothing/shoes/roguetown/boots/armor/avantyne/heavy/dropped(mob/living/carbon/human/user)
+/obj/item/clothing/shoes/roguetown/boots/armor/zizo/heavy/dropped(mob/living/carbon/human/user)
 	. = ..()
 	if(QDELETED(src))
 		return
 	qdel(src)
+
+/obj/item/clothing/shoes/roguetown/boots/armor/avantyne
+	name = "avantyne-threaded sabatons"
+	desc = "Marrow, flesh, ash; the bedrock of a new reality, fated to suffer until the final breath. It is this prognosis that commands Her disciples to \
+	work towards ascensionism - for no sacrifice is too great, in the pursuit of bringing lyfe back to this dying world."
+	icon_state = "zizoboots"
+	max_integrity = ARMOR_INT_SIDE_STEEL
+	chunkcolor = "#363030"
+	material_category = ARMOR_MAT_PLATE
+	armor = ARMOR_PLATE_BSTEEL
+	armor_class = ARMOR_CLASS_MEDIUM
+	smeltresult = /obj/item/ingot/avantyne
 
 /obj/item/clothing/shoes/roguetown/boots/armor/iron
 	name = "light plated boots"

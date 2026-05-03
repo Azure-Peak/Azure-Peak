@@ -1034,6 +1034,7 @@
 	name = "gilded chain mantle"
 	desc = "The world is yours, as they say - yet, why doth the Gods still led us astray?"
 	color = "#ffc960"
+	smeltresult = /obj/item/ingot/component/matthios
 
 /obj/item/clothing/neck/roguetown/chaincoif/chainmantle/matthios/Initialize()
 	. = ..()
@@ -1041,26 +1042,24 @@
 
 //
 
-/obj/item/clothing/neck/roguetown/bevor/avantyne
+/obj/item/clothing/neck/roguetown/bevor/zizo
 	name = "avantyne bevor"
 	desc = "An avantyne neckguard cut for the medium rite, still protective without becoming impossible to remove."
 	color = "#c1b18d"
 	chunkcolor = "#363030"
 	material_category = ARMOR_MAT_PLATE
 	armor_class = ARMOR_CLASS_MEDIUM
+	smeltresult = /obj/item/ingot/component/zizo
 
-/obj/item/clothing/neck/roguetown/bevor/avantyne/Initialize()
+/obj/item/clothing/neck/roguetown/bevor/zizo/Initialize()
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_CABAL, "ARMOR")
 
-/obj/item/clothing/neck/roguetown/bevor/avantyne/heavy
-	name = "fused avantyne bevor"
-
-/obj/item/clothing/neck/roguetown/bevor/avantyne/heavy/Initialize()
+/obj/item/clothing/neck/roguetown/bevor/zizo/heavy/Initialize()
 	. = ..()
 	ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)
 
-/obj/item/clothing/neck/roguetown/bevor/avantyne/heavy/dropped(mob/living/carbon/human/user)
+/obj/item/clothing/neck/roguetown/bevor/zizo/heavy/dropped(mob/living/carbon/human/user)
 	. = ..()
 	if(QDELETED(src))
 		return
@@ -1072,10 +1071,21 @@
 	name = "vicious gorget"
 	desc = "Curled plate, cradling the neck. Once, they were chains - now, they've allowed you to break free."
 	color = "#ddc0a7"
+	smeltresult = /obj/item/ingot/component/graggar
 
-/obj/item/clothing/neck/roguetown/gorget/graggar/Initialize()
+/obj/item/clothing/neck/roguetown/gorget/steel/graggar/Initialize()
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_HORDE, "ARMOR", "RENDERED ASUNDER")
+
+/obj/item/clothing/neck/roguetown/gorget/steel/graggar/heavy/Initialize()
+	. = ..()
+	ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)
+
+/obj/item/clothing/neck/roguetown/gorget/steel/graggar/heavy/dropped(mob/living/carbon/human/user)
+	. = ..()
+	if(QDELETED(src))
+		return
+	qdel(src)
 
 //
 

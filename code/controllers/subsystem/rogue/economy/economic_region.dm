@@ -74,7 +74,8 @@ GLOBAL_LIST_INIT(economic_regions, init_economic_regions())
 		TRADE_GOOD_COAL = TG_DEMAND_CHEAP_RAW_MAT,
 		TRADE_GOOD_STONE = TG_DEMAND_CHEAP_RAW_MAT,
 		TRADE_GOOD_CLAY = TG_DEMAND_CHEAP_RAW_MAT,
-		TRADE_GOOD_CINNABAR = TG_DEMAND_PRECIOUS_METAL,
+		TRADE_GOOD_CINNABAR = TG_DEMAND_IRON,
+		TRADE_GOOD_SILVER_INGOT = TG_DEMAND_PRECIOUS_METAL,
 		TRADE_GOOD_GOLD_ORE = TG_DEMAND_PRECIOUS_METAL,
 		TRADE_GOOD_SILK = TG_DEMAND_SILK,
 		TRADE_GOOD_CALENDULA = TG_DEMAND_SPECIALTY_HERB,
@@ -140,13 +141,16 @@ GLOBAL_LIST_INIT(economic_regions, init_economic_regions())
 		TRADE_GOOD_SILK = TG_DEMAND_SILK,
 		TRADE_GOOD_GRAIN = TG_DEMAND_LOCAL_GRAIN,
 		TRADE_GOOD_CLAY = TG_DEMAND_CHEAP_RAW_MAT,
+		TRADE_GOOD_SAFFIRA = 2,
+		TRADE_GOOD_BLORTZ = 2,
+		TRADE_GOOD_DORPEL = 1,
 	)
 
 /datum/economic_region/daftsmarch
 	region_id = TRADE_REGION_DAFTSMARCH
 	name = "Daftsmarch"
 	subtitle = "The Mining March, Ores of the Mount"
-	description = "The County of Daftsmarch is the heart of Azuria's mining industry, a long strip of land hugging the southern end of Mount Decapitation. It produces most of the raw ore and salt that Azuria depends on. The work pays well, and the veins are plentiful. But Daftsmarch sits uncomfortably close to the ruins of Tarichea, and the various denizens of the Underdark. The dangers posed by the drows and their ilk are a constant threat - many of them seeing Daftsmarch as a convenient source of slaves. But the ore vein are even richer - and the Crown is loathe to keep them up - sending adventurers, mercenaries and garrison alike to do battle with the Underdark's denizens and keep them at bay."
+	description = "The County of Daftsmarch is the heart of Azuria's mining industry, a long strip of land hugging the southern end of Mount Decapitation. It produces most of the raw ore and salt that Azuria depends on. The work pays well, and the veins are plentiful. But Daftsmarch sits uncomfortably close to the ruins of Tarichea, and the various denizens of the Underdark. The dangers posed by the drows and their ilk are a constant threat - many of them seeing Daftsmarch as a convenient source of slaves. But the ore vein are even richer - and the Crown is loathe to keep them unused - sending adventurers, mercenaries and garrison alike to do battle with the Underdark's denizens and keep them at bay."
 	threat_region_id = THREAT_REGION_UNDERDARK
 	produces = list(
 		TRADE_GOOD_IRON_ORE = TG_SUPPLY_IRON,
@@ -188,7 +192,7 @@ GLOBAL_LIST_INIT(economic_regions, init_economic_regions())
 	region_id = TRADE_REGION_SALTWICK
 	name = "Saltwick"
 	subtitle = "The Coastal Town, Fisheries of the Realm"
-	description = "A settlement southeast of Azure Peak, around a day's ride. Located along the Azurian coast, it was settled first by immigrants from Hammerhold and later by settlers from southern Gronn. The town is divided starkly into two parts: The curing houses and salt farms owned mostly by the town's dwarven and Hammerholdian settlers, while those of Gronnic descent makes up most of the fishermen and sailors. The two groups marry eachother rarely and argue often - but coexists somewhat harmoniously in the same town either way. Of course, Hammerholdian and Gronnmen are not the only inhabitants - many people down on their luck or seeking work also reside. Salt is imported from Daftsmarch, used to preserve the fish caught by local fishermen, and then exported throughout Azuria and Psydonia."
+	description = "A settlement southeast of Azure Peak, around a day's ride away, located on the coast of Kingsfield. It was settled first by immigrants from Hammerhold and later by settlers from southern Gronn. The town is divided starkly into two parts: The curing houses and salt farms owned mostly by the town's dwarven and Hammerholdian settlers, while those of Gronnic descent makes up most of the fishermen and sailors. The two groups marry eachother rarely and argue often - but coexists somewhat harmoniously in the same town either way. Of course, Hammerholdian and Gronnmen are not the only inhabitants - many people down on their luck or seeking work also reside. Salt is imported from Daftsmarch, used to preserve the fish caught by local fishermen, and then exported throughout Azuria and Psydonia."
 	threat_region_id = THREAT_REGION_AZUREAN_COAST
 	produces = list(
 		TRADE_GOOD_FISH_FILET = TG_SUPPLY_FISH_BULK,
@@ -288,6 +292,7 @@ GLOBAL_LIST_INIT(economic_regions, init_economic_regions())
 	demands = list(
 		TRADE_GOOD_STEEL_INGOT = TG_DEMAND_REFINED_INGOTS,
 		TRADE_GOOD_IRON_INGOT = TG_DEMAND_REFINED_INGOTS,
+		TRADE_GOOD_SILVER_INGOT = TG_DEMAND_PRECIOUS_METAL,
 		TRADE_GOOD_MEAT = TG_DEMAND_MEAT_BULK,
 		TRADE_GOOD_POULTRY = TG_DEMAND_MEAT_STAPLE,
 		TRADE_GOOD_RABBIT = TG_DEMAND_MEAT_STAPLE,
@@ -325,6 +330,8 @@ GLOBAL_LIST_INIT(economic_regions, init_economic_regions())
 		TRADE_GOOD_IRON_ORE = TG_DEMAND_IRON,
 		TRADE_GOOD_COPPER_ORE = TG_DEMAND_TIN_BRONZE,
 		TRADE_GOOD_TIN_ORE = TG_DEMAND_TIN_BRONZE,
+		TRADE_GOOD_SILVER_ORE = TG_DEMAND_PRECIOUS_METAL,
+		TRADE_GOOD_CINNABAR = TG_DEMAND_IRON,
 		TRADE_GOOD_WOOD = TG_DEMAND_CHEAP_RAW_MAT,
 		TRADE_GOOD_GRAIN = TG_DEMAND_LOCAL_GRAIN,
 		TRADE_GOOD_MEAT = TG_DEMAND_MEAT_BULK,

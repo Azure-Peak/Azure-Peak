@@ -415,12 +415,11 @@
 
 /obj/item/clothing/mask/rogue/facemask/steel/graggar
 	name = "vicious jawmask"
-	desc = "Shattered jaws, chipped teeth, sunken metal - fit for a skull of the same."
+	desc = "Shattered jaws, chipped teeth, sunken metal - fit for a skull of the same. It snarls in mimicry of the Sinistar's visage."
 	icon_state = "graggarplatemask_heavy"
+	block2add = null
 
-/obj/item/clothing/mask/rogue/facemask/steel/graggar/Initialize()
-	. = ..()
-	ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)
+/obj/item/clothing/mask/rogue/facemask/steel/graggar/ComponentInitialize()
 	AddComponent(/datum/component/cursed_item, TRAIT_HORDE, "ARMOR", "RENDERED ASUNDER")
 
 /obj/item/clothing/mask/rogue/facemask/steel/paalloy

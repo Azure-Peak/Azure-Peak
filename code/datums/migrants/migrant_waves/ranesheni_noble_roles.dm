@@ -200,6 +200,7 @@
 			if("Spear")
 				H.adjust_skillrank_up_to(/datum/skill/combat/polearms, 4, TRUE)
 				r_hand = /obj/item/rogueweapon/spear/boar
+				l_hand = /obj/item/rogueweapon/scabbard/gwstrap
 
 /datum/migrant_role/ranesheni/advisor
 	name = "Advisor"

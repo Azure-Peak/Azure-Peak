@@ -200,6 +200,9 @@
 /obj/item/clothing/head/roguetown/cap
 	name = "cap"
 	desc = "A light cap made of cloth, usually worn under a helmet."
+	slot_flags = ITEM_SLOT_MASK|ITEM_SLOT_HEAD //Meant to be worn under helmets pmuch
+	icon = 'icons/roguetown/clothing/head.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/head.dmi' //Overrides slot icon behavior
 	icon_state = "armingcap"
 	item_state = "armingcap"
 	flags_inv = HIDEEARS
@@ -625,7 +628,7 @@
 		add_overlay(pic)
 
 /obj/item/clothing/head/roguetown/maidband
-	name = "maid headband"
+	name = "valorian maid headband"
 	desc = "A pleated cloth headband. It has gained widespread popularity from Valorian nobles travelling with their servants."
 	icon_state = "maidband"
 	body_parts_covered = NONE

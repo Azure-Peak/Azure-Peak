@@ -9,6 +9,10 @@
 	var/importable = TRUE
 	var/source_region_id
 	var/item_type
+	/// Equipment-behavior only: when TRUE, fulfillment accepts any subtype of item_type
+	/// (not just exact matches). Used for goods that have many cosmetic/mechanical variants
+	/// that should all count as the same shipment - e.g. enchantment scrolls.
+	var/accept_subtypes = FALSE
 	var/global_price_mod = 1.0
 	var/mint_eligible = FALSE
 	var/crown_accepts = TRUE

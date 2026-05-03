@@ -55,6 +55,7 @@
 	icon_dead = "goat_dead"
 	icon_gib = "goat_gib"
 	gender = FEMALE
+	blood_toll_bucket = STATS_KILLED_LIVESTOCK
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
 	emote_see = list("shakes her head.", "chews her cud.")
 	speak_chance = 1

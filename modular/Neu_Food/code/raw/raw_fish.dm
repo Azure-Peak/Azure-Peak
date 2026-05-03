@@ -20,6 +20,20 @@
 	slice_path = /obj/item/reagent_containers/food/snacks/rogue/meat/fish
 	eat_effect = /datum/status_effect/debuff/uncookedfood
 	cooked_smell = /datum/pollutant/food/cooked_fish
+	possible_item_intents = list(/datum/intent/food, /datum/intent/mace/slap)
+	force = 8
+
+/datum/intent/mace/slap
+	name = "slap"
+	blade_class = BCLASS_PUNCH
+	attack_verb = list("slaps", "smacks", "wallops", "chastises")
+	hitsound = list('sound/foley/slap.ogg', 'modular/Neu_Food/sound/meatslap.ogg', 'sound/misc/mat/sex_clap/hard/SexSmack21.ogg', 'sound/misc/mat/sex_clap/hard/SexSmack24.ogg')
+	chargetime = 1
+	penfactor = PEN_NONE
+	swingdelay = 0
+	icon_state = "fish"
+	item_d_type = "blunt"
+	intent_intdamage_factor = BLUNT_DEFAULT_INT_DAMAGEFACTOR
 
 /obj/item/reagent_containers/food/snacks/fish/dead
 	dead = TRUE

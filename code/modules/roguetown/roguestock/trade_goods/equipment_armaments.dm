@@ -119,5 +119,5 @@
 /datum/trade_good/equipment/recurve_bow
 	id = TRADE_GOOD_RECURVE_BOW
 	name = "recurve bow"
-	base_price = 25
+	base_price = 30
 	item_type = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve

@@ -6,6 +6,7 @@ GLOBAL_LIST_INIT(searaider_aggro, world.file2list("strings/rt/searaideraggroline
 	faction = list(FACTION_GRONNMEN, FACTION_STATION)
 	ambushable = FALSE
 	dodgetime = 30
+	blood_toll_bucket = STATS_KILLED_GRONNMEN
 
 
 /mob/living/carbon/human/species/human/northern/searaider/ambush

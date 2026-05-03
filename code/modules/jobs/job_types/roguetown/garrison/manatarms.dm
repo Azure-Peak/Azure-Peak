@@ -181,7 +181,6 @@
 		STATKEY_WIL = 1
 	)
 	subclass_skills = list(
-		/datum/skill/combat/knives = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/maces = SKILL_LEVEL_APPRENTICE, 		// Still have a cugel.
 		/datum/skill/combat/crossbows = SKILL_LEVEL_MASTER,		//Only effects draw and reload time.
 		/datum/skill/combat/bows = SKILL_LEVEL_MASTER,			//Only effects draw times.
@@ -228,12 +227,14 @@
 				armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy
 				wrists = /obj/item/clothing/wrists/roguetown/bracers
 				pants = /obj/item/clothing/under/roguetown/heavy_leather_pants
+				H.adjust_skillrank(/datum/skill/combat/knives, SKILL_LEVEL_EXPERT, TRUE)
 				ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
 			if("Brigandine Armor") //New MAA skirmisher
 				head = /obj/item/clothing/head/roguetown/helmet/kettle
 				armor = /obj/item/clothing/suit/roguetown/armor/brigandine/light/retinue
 				wrists = /obj/item/clothing/wrists/roguetown/bracers/brigandine
 				pants = /obj/item/clothing/under/roguetown/brigandinelegs
+				H.adjust_skillrank(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
 				ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
 
 		backpack_contents = list(

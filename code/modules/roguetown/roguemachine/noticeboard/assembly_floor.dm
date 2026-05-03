@@ -98,7 +98,7 @@
 			var/cand_job = cand.job || "no station"
 			var/list/pledge_entry = S.candidates[wr]
 			candidates += list(list(
-				"ref" = "[wr]",
+				"ref" = REF(wr),
 				"name" = pledge_entry["name"],
 				"job" = cand_job,
 				"pledge" = pledge_entry["pledge"],
