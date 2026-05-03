@@ -479,6 +479,7 @@
 /datum/status_effect/debuff/gallowshumor/on_apply()
 	. = ..()
 	ADD_TRAIT(owner, TRAIT_BAD_MOOD, TRAIT_MIRACLE)
+	owner.update_stress()
 
 /datum/status_effect/debuff/gallowshumor/on_remove()
 	REMOVE_TRAIT(owner, TRAIT_BAD_MOOD, TRAIT_MIRACLE)

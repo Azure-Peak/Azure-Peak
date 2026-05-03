@@ -146,6 +146,7 @@
 /datum/action/cooldown/spell/touch/orison/proc/cast_light(obj/item/melee/new_touch_attack/hand, atom/victim, mob/living/carbon/caster, list/modifiers)
 	var/holy_skill = caster.get_skill_level(/datum/skill/magic/holy)
 	var/cast_time = 35 - (holy_skill * 3)
+	var/mob/living/carbon/human/H = caster
 	if (!victim.Adjacent(caster))
 		to_chat(caster, span_info("I need to be next to [victim] to channel a blessing of light!"))
 		return
@@ -170,8 +171,7 @@
 	var/light_power = clamp(4 + (holy_skill - 3), 4, 7)
 	living_thing.apply_status_effect(/datum/status_effect/light_buff, light_power)
 
-	/*var/fatigue = get_adjusted_cost(primary_resource_cost)
-	caster.devotion(-fatigue)*/
+	H.devotion?.update_devotion(-SPELLCOST_MIRACLE_MINOR)
 	StartCooldown()
 	return light_devotion
 
