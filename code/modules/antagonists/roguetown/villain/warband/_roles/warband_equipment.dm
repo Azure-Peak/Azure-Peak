@@ -50,7 +50,6 @@
 /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/rival
 	color = "#2b292e"
 
-
 /obj/item/clothing/head/roguetown/roguehood/shalal/hijab/down/blue
 	color = "#4756d8"
 
@@ -109,7 +108,7 @@
 	item_state = "shalal_t"
 	alternate_worn_layer = 6
 	layer = 6
-	armor = ARMOR_PADDED_GOOD
+	armor = ARMOR_PADDED
 	max_integrity = ARMOR_INT_HELMET_CLOTH
 	adjustable = CAN_CADJUST
 	sewrepair = TRUE
@@ -156,9 +155,8 @@
 	name = "prophet's shroud"
 	desc = "It's a shroud. All-concealing, all-protecting."
 	body_parts_covered = COVERAGE_FULL
-	armor = ARMOR_LEATHER_STUDDED
+	armor = ARMOR_LEATHER
 	max_integrity = ARMOR_INT_CHEST_PLATE_STEEL
-	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_CHOP, BCLASS_BLUNT, BCLASS_TWIST)
 
 /obj/item/clothing/cloak/prophet
 	name = "prophet's shortcloak"
@@ -226,4 +224,27 @@
 /obj/item/clothing/wrists/roguetown/allwrappings/npc
 	color = CLOTHING_BLACK
 
+/obj/item/rogueweapon/woodstaff/implement/greater/alt_icon
+	icon_state = "rubystaff"
 
+/obj/item/clothing/head/roguetown/helmet/heavy/frogmouth/cursed
+	var/active_item = FALSE
+
+/obj/item/clothing/head/roguetown/helmet/heavy/frogmouth/cursed/Initialize()
+	. = ..()
+	ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)
+
+/obj/item/clothing/head/roguetown/helmet/heavy/frogmouth/cursed/equipped(mob/living/user, slot)
+	. = ..()
+	if(active_item)
+		return
+	if(slot == SLOT_HEAD)
+		active_item = TRUE
+		ADD_TRAIT(user, TRAIT_BITERHELM, TRAIT_GENERIC)
+
+/obj/item/clothing/head/roguetown/helmet/heavy/frogmouth/cursed/dropped(mob/living/user)
+	..()
+	if(!active_item)
+		return
+	active_item = FALSE
+	REMOVE_TRAIT(user, TRAIT_BITERHELM, TRAIT_GENERIC)

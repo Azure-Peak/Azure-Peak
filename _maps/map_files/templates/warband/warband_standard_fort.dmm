@@ -1173,7 +1173,7 @@
 /obj/machinery/light/rogue/torchholder{
 	dir = 4
 	},
-/obj/structure/roguemachine/scomm,
+/obj/structure/roguemachine/scomm/receive_only,
 /turf/open/floor/rogue/concrete{
 	dir = 1
 	},
@@ -1507,7 +1507,7 @@
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/warcamp)
 "BS" = (
-/obj/structure/roguemachine/scomm{
+/obj/structure/roguemachine/scomm/receive_only{
 	pixel_y = -32
 	},
 /turf/open/floor/rogue/blocks/stonered/tiny,
@@ -2344,7 +2344,7 @@
 /turf/open/floor/rogue/metal,
 /area/rogue/indoors/warcamp/fort)
 "Rh" = (
-/obj/structure/roguemachine/scomm,
+/obj/structure/roguemachine/scomm/receive_only,
 /turf/open/floor/rogue/concrete{
 	dir = 1
 	},
@@ -2700,8 +2700,8 @@
 /obj/structure/table/wood{
 	icon_state = "tablewood1"
 	},
-/obj/item/quiver/bolts,
-/obj/item/quiver/bolts,
+/obj/item/quiver/bolt/standard,
+/obj/item/quiver/bolt/standard,
 /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow,
 /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow,
 /obj/machinery/light/rogue/candle/weak{
@@ -2867,7 +2867,7 @@
 /turf/open/floor/rogue/dirt,
 /area/rogue/indoors/warcamp/fort)
 "YC" = (
-/obj/structure/roguemachine/scomm{
+/obj/structure/roguemachine/scomm/receive_only{
 	pixel_y = -32
 	},
 /turf/open/floor/rogue/cobble,

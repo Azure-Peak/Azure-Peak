@@ -106,7 +106,7 @@ export const Window = (props: Props) => {
   const dispatch = globalStore.dispatch;
   const fancy = config.window?.fancy;
   const currentTheme = theme || config.window?.theme;
-  const useTreatyDecor = currentTheme === 'azure_treaty';
+  const useTreatyDecor = currentTheme === 'treaty';
 
   // Determine when to show dimmer
   const showDimmer =

@@ -126,7 +126,7 @@ export const WarbandCreation = () => {
   );
 
   return (
-    <Window theme="azure_default" width={1380} height={710}>
+    <Window theme="azure_warband" width={1380} height={710}>
       <Window.Content style={{ background: 'linear-gradient(to left, #000000 0%, #1d0505ff 100%)' }}>
         <style>{sectionHeaderStyle}</style>
         <Stack style={{ gap: 0, marginBottom: '8px' }}>

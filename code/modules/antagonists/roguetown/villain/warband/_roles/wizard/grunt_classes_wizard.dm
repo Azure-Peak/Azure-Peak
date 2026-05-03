@@ -2,7 +2,7 @@
 /////////////////////////////////// LAYMAN
 /*
 	dude w/a mace & heavy armor
-	given a single buff spell of their choice + Mending
+	given a single buff spell of their choice + Mending & Aegis
 */
 /datum/advclass/warband/wizard/grunt/layman
 	title = "LAYMAN"
@@ -56,22 +56,23 @@
 		)
 
 	if(H.mind)
-		H.mind.AddSpell(new	/obj/effect/proc_holder/spell/invoked/mending)
+		H.mind.AddSpell(new	/datum/action/cooldown/spell/mending)
+		H.mind.AddSpell(new	/datum/action/cooldown/spell/conjure_aegis)
 		var/coverclass = list("Guidance","Hawk's Eyes","Giant's Strength","Stoneskin","Fortitude","Haste")
-		var/coverclass_choice = input("I was taught a single spell to aid our efforts!", "I REMEMBER") as anything in coverclass
+		var/coverclass_choice = input("I was taught a simple spell to aid our efforts!", "I REMEMBER") as anything in coverclass
 		switch(coverclass_choice)
 			if("Guidance")
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/guidance)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/guidance)
 			if("Hawk's Eyes")
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/hawks_eyes)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/hawks_eyes)
 			if("Giant's Strength")
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/giants_strength)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/giants_strength)
 			if("Stoneskin")
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/stoneskin)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/stoneskin)
 			if("Fortitude")
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/fortitude)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/fortitude)
 			if("Haste")
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/haste)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/haste)
 
 ///////////////////////////////////////////
 /////////////////////////////////// STALKER
@@ -125,12 +126,11 @@
 	if(H.mind)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/invisibility)
 		H.mind.AddSpell(new	/obj/effect/proc_holder/spell/invoked/invisibility)
-		H.mind.AddSpell(new	/obj/effect/proc_holder/spell/invoked/blink)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/fetch)		
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/counterspell)
-		H.mind.AddSpell(new	/obj/effect/proc_holder/spell/targeted/touch/nondetection)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/mirror_transform)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/touch/prestidigitation)
+		H.mind.AddSpell(new	/datum/action/cooldown/spell/blink)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/fetch)
+		H.mind.AddSpell(new	/datum/action/cooldown/spell/nondetection)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/mirror_transform)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/touch/prestidigitation)
 
 
 ///////////////////////////////////////////
@@ -145,7 +145,7 @@
 	name = "Warlock"
 	tutorial = "Guilty of divine thievery, the WARLOCK finds themselves cursed. Their future is short, and should be suffered at one's own peril."
 	outfit = /datum/outfit/job/roguetown/warband/wizard/grunt/warlock
-	traits_applied = list(TRAIT_STEELHEARTED, TRAIT_FORMATIONFIGHTER, TRAIT_RITUALIST, TRAIT_ARCYNE_T2)
+	traits_applied = list(TRAIT_STEELHEARTED, TRAIT_FORMATIONFIGHTER, TRAIT_RITUALIST, TRAIT_ARCYNE)
 	subclass_stats = list(
 		STATKEY_SPD = 2,
 		STATKEY_CON = -2,
@@ -195,9 +195,9 @@
 		)
 
 	if(H.mind)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/touch/prestidigitation)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/arcynebolt)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/enchant_weapon)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/touch/prestidigitation)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/soulshot)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/conjure_aegis)
 		if(H.patron.type == /datum/patron/divine/undivided || H.patron.type == /datum/patron/old_god || \
 		   H.patron.type == /datum/patron/inhumen/matthios || H.patron.type == /datum/patron/inhumen/graggar || \
 		   H.patron.type == /datum/patron/inhumen/baotha)	// if their current patron lacks a spellset, they choose one from the list
@@ -220,50 +220,48 @@
 				H.set_patron(selected_patron_type)
 		
 		if(H.patron.type == /datum/patron/divine/astrata)
-			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/fireball)
-			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/fireball)
-			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/fireball)
-			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/spitfire)
+			H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/fireball)
+			H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/fireball)
+			H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/fireball)
+			H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/spitfire)
 		
 		else if(H.patron.type == /datum/patron/divine/abyssor)
-			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/snap_freeze)
-			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/frostbolt)
-			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/frostbolt)
+			H.mind.AddSpell(new /datum/action/cooldown/spell/snap_freeze)
+			H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/frost_bolt)
+			H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/frost_bolt)
 		
 		else if(H.patron.type == /datum/patron/divine/noc)
 			ADD_TRAIT(H, TRAIT_ANTIMAGIC, TRAIT_GENERIC)
 		
 		else if(H.patron.type == /datum/patron/divine/ravox)
-			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/giants_strength)
-			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/blade_burst)
-			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/blade_burst)
+			H.mind.AddSpell(new /datum/action/cooldown/spell/giants_strength)
+			H.mind.AddSpell(new /datum/action/cooldown/spell/blade_burst)
+			H.mind.AddSpell(new /datum/action/cooldown/spell/blade_burst)
 		
 		else if(H.patron.type == /datum/patron/divine/necra)
-			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/wither)
-			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/wither)
+			H.mind.AddSpell(new /datum/action/cooldown/spell/wither)
+			H.mind.AddSpell(new /datum/action/cooldown/spell/wither)
 		
 		else if(H.patron.type == /datum/patron/divine/xylix)
-			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/haste)
+			H.mind.AddSpell(new /datum/action/cooldown/spell/haste)
 			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/invisibility)
 			ADD_TRAIT(H, TRAIT_ZJUMP, TRAIT_GENERIC)
 		
 		else if(H.patron.type == /datum/patron/divine/pestra)
-			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/aerosolize)
-			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/acidsplash)
-			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/acidsplash)
+			H.mind.AddSpell(new /datum/action/cooldown/spell/wither)
 		
 		else if(H.patron.type == /datum/patron/divine/malum)
-			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/fortitude)
-			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/stoneskin)
-			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/gravity)
-			H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/magicians_brick)
-			H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/magicians_brick)
-			H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/magicians_brick)
+			H.mind.AddSpell(new /datum/action/cooldown/spell/fortitude)
+			H.mind.AddSpell(new /datum/action/cooldown/spell/stoneskin)
+			H.mind.AddSpell(new /datum/action/cooldown/spell/gravity)
+			H.mind.AddSpell(new /datum/action/cooldown/spell/magicians_brick)
+			H.mind.AddSpell(new /datum/action/cooldown/spell/magicians_brick)
+			H.mind.AddSpell(new /datum/action/cooldown/spell/magicians_brick)
 		
 		else if(H.patron.type == /datum/patron/divine/eora)
-			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/ensnare)
-			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/ensnare)
-			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/mindlink)
+			H.mind.AddSpell(new /datum/action/cooldown/spell/ensnare)
+			H.mind.AddSpell(new /datum/action/cooldown/spell/ensnare)
+			H.mind.AddSpell(new /datum/action/cooldown/spell/mindlink)
 		
 		else if(H.patron.type == /datum/patron/inhumen/zizo)
 			ADD_TRAIT(H, TRAIT_ANTIMAGIC, TRAIT_GENERIC)

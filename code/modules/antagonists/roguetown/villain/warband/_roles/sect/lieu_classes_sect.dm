@@ -96,7 +96,7 @@
 				r_hand = /obj/item/rogueweapon/katar/abyssor
 		head = /obj/item/clothing/head/roguetown/helmet/sallet/visored
 		id = /obj/item/clothing/neck/roguetown/psicross/abyssor
-		cloak = /obj/item/clothing/cloak/tabard/abyssortabard
+		cloak = /obj/item/clothing/cloak/tabard/abyssorite
 
 	if(H.patron.type == /datum/patron/divine/ravox)
 		head = /obj/item/clothing/head/roguetown/helmet/sallet/visored
@@ -114,10 +114,10 @@
 		var/weapons = list("HEARTSTRING","CLOSE CARESS")
 		var/weapon_choice = input("Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 		switch(weapon_choice)
-			if("TIDECLEAVER")
+			if("HEARTSTRING")
 				r_hand = /obj/item/rogueweapon/sword/rapier/eora
 			if("CLOSE CARESS")
-				r_hand = /obj/item/rogueweapon/knuckles/eora
+				gloves = /obj/item/clothing/gloves/roguetown/knuckles/eora
 		head = /obj/item/clothing/head/roguetown/helmet/sallet/eoran
 		mask = /obj/item/clothing/mask/rogue/facemask/steel
 		id = /obj/item/clothing/neck/roguetown/psicross/eora
@@ -328,7 +328,7 @@
 		cloak = /obj/item/clothing/cloak/tabard/psydontabard
 
 	var/datum/inspiration/I = new /datum/inspiration(H)
-	I.grant_inspiration(H, bard_tier = BARD_T3)
+	I.grant_inspiration(H, bard_tier = BARD_T2)
 	H.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/sweep)
 
 ////////////////////////////////////////////
@@ -364,7 +364,7 @@
 
 /datum/outfit/job/roguetown/warband/sect/lieutenant/sentinel/pre_equip(mob/living/carbon/human/H)
 	..()
-	head = /obj/item/clothing/head/roguetown/helmet/heavy/frogmouth
+	head = /obj/item/clothing/head/roguetown/helmet/heavy/frogmouth/cursed
 	backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/longbow
 	neck = /obj/item/clothing/neck/roguetown/coif/heavypadding
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/full/fluted
@@ -397,7 +397,7 @@
 
 	if(H.patron.type == /datum/patron/divine/abyssor)
 		id = /obj/item/clothing/neck/roguetown/psicross/abyssor
-		cloak = /obj/item/clothing/cloak/tabard/abyssortabard
+		cloak = /obj/item/clothing/cloak/tabard/abyssorite
 
 	if(H.patron.type == /datum/patron/divine/ravox)
 		id = /obj/item/clothing/neck/roguetown/psicross/ravox

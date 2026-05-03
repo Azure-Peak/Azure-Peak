@@ -1,5 +1,6 @@
 /datum/component/squad_controller
-	var/list/mob/living/carbon/human/species/human/northern/goon/followers = list()
+	var/list/mob/living/carbon/human/species/human/northern/goon/members = list()	// all goons spawned & associated with the squad leader
+	var/list/mob/living/carbon/human/species/human/northern/goon/followers = list()	// goons currently following via the waypoint system
 	var/list/turf/waypoints = list()	// 	as the leader moves, they mark the turfs they pass over as 'waypoints'
 	var/max_waypoints = 40				//	followers move along said waypoints
 
@@ -7,7 +8,8 @@
 	RegisterSignal(parent, COMSIG_MOVABLE_MOVED, PROC_REF(on_leader_moved))
 
 /datum/component/squad_controller/Destroy()
-	disband_squad()
+	clear_followers()
+	members = null
 	followers = null
 	waypoints = null
 	return ..()
@@ -24,27 +26,36 @@
 	
 	move_squad_waypoint()
 
-/datum/component/squad_controller/proc/add_member(mob/living/carbon/human/species/human/northern/goon/new_member)
-	followers |= new_member
+/datum/component/squad_controller/proc/add_follower(mob/living/carbon/human/species/human/northern/goon/new_member)
+	members |= new_member	// permanently record them as part of this leader's squad
+	followers |= new_member	// mark them as an active waypoint follower
 	new_member.squad_leader = parent
-	new_member.mode = NPC_AI_FOLLOW
+	RegisterSignal(new_member, COMSIG_ATOM_WAS_ATTACKED, PROC_REF(remove_follower))
+
 	var/mob/living/carbon/human/leader = parent
 	var/distance = get_dist(new_member, leader)
 
-	if(distance > 2)
-		new_member.target = leader
-		new_member.start_pathing_to(leader, force = TRUE)
+	if(distance > 2) // if they're initially far away, we turn on the AI for a brief second so they can get closer
+		new_member.ai_controller?.set_blackboard_key(BB_TRAVEL_DESTINATION, get_turf(leader))
+		new_member.ai_controller?.CancelActions()
 
 	return
 
-/datum/component/squad_controller/proc/remove_member(mob/living/carbon/human/species/human/northern/goon/member)
+// the mob stops following the leader
+// beyond that, they stay in the Members list of the squad
+/datum/component/squad_controller/proc/remove_follower(mob/living/carbon/human/species/human/northern/goon/member)
+	if(!(member in followers))
+		return
 	followers -= member
 	member.squad_leader = null
-	member.mode = NPC_AI_IDLE
+	UnregisterSignal(member, COMSIG_ATOM_WAS_ATTACKED, PROC_REF(remove_follower))
+	member.ai_controller?.clear_blackboard_key(BB_TRAVEL_DESTINATION)
+	member.ai_controller?.set_ai_status(AI_STATUS_ON)
+	member.ai_controller?.CancelActions()
 
-/datum/component/squad_controller/proc/disband_squad()
+/datum/component/squad_controller/proc/clear_followers()
 	for(var/mob/living/carbon/human/M in followers)
-		remove_member(M)
+		remove_follower(M)
 
 /datum/component/squad_controller/proc/move_squad_waypoint()
 	var/list/sorted_followers = list()
@@ -60,7 +71,7 @@
 	sorted_followers = sortTim(sorted_followers, GLOBAL_PROC_REF(cmp_dist_to_atom_dsc), leader)
 
 	for(var/mob/living/carbon/human/species/human/northern/goon/goon in sorted_followers)
-		goon.clear_path()
+		goon.ai_controller?.CancelActions()
 		var/turf/target_waypoint = next_best_waypoint(goon)
 		
 		if(!target_waypoint)
@@ -91,7 +102,7 @@
 				if(goon.warband_ID == other.warband_ID)
 					if(goon.squad_leader != other.squad_leader)
 						continue  // if another goon is in the same warband but inside a different squad, they can pass through one another during a Follow Command
-		
+			
 			return FALSE
 	
 	return step(goon, move_dir)
@@ -141,15 +152,15 @@
 /datum/component/squad_controller/proc/teleport_squad(turf/destination, max_range = 5)
 	var/list/qualified = get_qualified_members(max_range)
 	
-	// teleport qualified members
+	// teleport qualified followers
 	for(var/mob/living/carbon/human/species/human/northern/goon/goon in qualified)
 		goon.forceMove(destination)
 		goon.recent_travel = world.time
 	
-	// if a squadmate didn't qualify for the TP, we remove them from the squad
+	// if a follower didn't qualify for the TP, drop them as a follower
 	for(var/mob/living/carbon/human/species/human/northern/goon/goon in followers)
 		if(!(goon in qualified))
-			remove_member(goon)
+			remove_follower(goon)
 
 
 /datum/component/squad_controller/proc/get_qualified_members(max_range = 5)

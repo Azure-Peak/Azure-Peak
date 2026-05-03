@@ -1,21 +1,6 @@
-///////////////////////////////////////////////////////
-///////////////////////////////////////////////// VERBS
-/*
-	1 - Abandon Envoy			// returns an envoy's client to their original character
-	2 - Communicate				// warband comms
-	3 - Abandon Warband			// desertion mechanic for Lieutenants 
-	4 - Take Shortcut			// allows for a quick teleport over to the warcamp
-	5 - Connect Warcamp			// connects the Warcamp Z-Level to the main map by spawning both an Outskirts & Intermission map and chaining everything together with travel tiles
-	6 - Accept Kick				// when a lieutenant's subordinate is kicked by their warlord, they can choose to remain associated with them
-	7 - Enlighten				//
-
-*/
-
-
-// 1
 ///////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////// ABANDON ENVOY
-/* 1
+/*
 	a verb to manually perform the return_envoy proc in emergencies
 	abandons a character's envoy & sends them back to their stored character w/return_envoy
 */
@@ -38,8 +23,8 @@
 
 	switch(style_choice)
 		if("POISON TOOTH")
-			ADD_TRAIT(src, TRAIT_NOSSDINDICATOR, TRAIT_GENERIC)
-			ADD_TRAIT(src, TRAIT_DNR, TRAIT_GENERIC)
+			ADD_TRAIT(src, TRAIT_NOSSDINDICATOR, TRAIT_GENERIC) // for immersion's sake
+			ADD_TRAIT(src, TRAIT_DNR, TRAIT_GENERIC) // they get dnr'd either way, so this should be fine ^
 			src.visible_message(span_boldred("[src] suddenly seizes up, blood-laced foam bubbling from the corners of their mouth!"))
 			src.mind.warband_manager.return_envoy(src, abandoned = TRUE)
 			src.adjustOxyLoss(200)
@@ -96,10 +81,9 @@
 			qdel(head)
 		return TRUE
 
-// 2
 /////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////// COMMUNICATE
-/* 2
+/*
 	cross-map communication between warband characters
 */
 /mob/living/carbon/human/proc/communicate()
@@ -146,10 +130,9 @@
 	else
 		to_chat(src, span_bold("I'll need to be outside."))
 
-// 3
 /////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////// ABANDON WARBAND
-/* 3
+/*
 	handles both desertions & exiles
 
 	both aspirant & regular lieutenants can do this - aspirant lieutenants just do so to greater effect
@@ -244,6 +227,9 @@
 // effects of desertion take place
 /mob/living/carbon/human/proc/desertion_results(stolen_troops, troops_available, old_faction_string, initial_ID)
 	var/extra_item = FALSE	// for schism variants
+	var/datum/component/squad_controller/squad_manager = src.GetComponent(/datum/component/squad_controller)
+	if(!squad_manager)
+		squad_manager = src.AddComponent(/datum/component/squad_controller)
 	troops_available = src.mind.warband_manager.spawns // reaffirm the available troops | could've changed while a manual desertion message was being typed
 	if(stolen_troops > troops_available)
 		stolen_troops = troops_available
@@ -269,13 +255,15 @@
 		if(faction.owner == src.real_name)
 			personal_faction = faction
 			break
+
 	if(personal_faction)
 		new_warband_manager.linked_faction = personal_faction
 
-	for(var/mob/living/carbon/human/species/human/northern/goon/goon in src.friends)
+	for(var/mob/living/carbon/human/species/human/northern/goon/goon in squad_manager.members)
 		goon.faction.Remove(old_faction_string)
 		goon.faction |= list("warband_[src.mind.warband_ID]")
 		goon.warband_ID = src.mind.warband_ID
+	
 	new_warband_manager.members += src
 	SSwarbands.warband_managers += new_warband_manager
 
@@ -293,13 +281,9 @@
 
 		if("Magician") // a magician in schism (potentially) creates a sorcerer-king 
 			if(src.mind.warband_manager.disorder >= 5)
-				if(istype(src.get_active_held_item(), /obj/item/rogueweapon/woodstaff/riddle_of_steel) || istype(src.get_inactive_held_item(), /obj/item/rogueweapon/woodstaff/riddle_of_steel))
-					extra_item = TRUE
-				else
-					for(var/obj/item/potential_rod in src.contents)
-						if(istype(potential_rod, /obj/item/rogueweapon/woodstaff/riddle_of_steel))
-							extra_item = TRUE
-							break
+				for(var/obj/item/equipped_item in get_equipped_items() + held_items)
+					if(istype(equipped_item, /obj/item/rogueweapon/woodstaff/implement/grand))
+						extra_item = TRUE
 			if(extra_item == TRUE)
 				new_warband_manager.selected_warband = new /datum/warbands/storyteller/wizard
 				to_chat(src, span_boldred("I feel a shift in destiny's tides with my declaration. <span style='color:#801d1d'>The Wandering Tower calls to me.</span>"))
@@ -334,7 +318,7 @@
 	new_warband_manager.spawns -= WARBAND_BASE_RESPAWNS	// we want their respawns to ONLY!! be drawn from the number of stolen troops
 	new_warband_manager.spawns += stolen_troops
 	new_warband_manager.finalized = TRUE
-	new_warband_manager.creation_stage = 2
+	new_warband_manager.creation_stage = 3
 	new_warband_manager.warlord_spawned = TRUE
 	new_warband_manager.stop_creation_timer()
 	if(new_warband_manager.has_compatible_cache(src.mind.warband_manager))
@@ -347,10 +331,9 @@
 	src.mind.warband_manager = new_warband_manager
 	src.mind.warband_manager.determine_squad_size(src)
 
-// 4
 ///////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////// TAKE SHORTCUT
-/* 4
+/*
 	teleports someone to their camp's Shortcut Tile
 	FAILS IF:
 		they aren't near an existing travel tile. any will do
@@ -396,10 +379,9 @@
 
 	return TRUE
 
-// 5
 /////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////// CONNECT WARCAMP
-/* 5
+/*
 	spawns a travel tile to a newly spawned set of intermission & outskirts maps, which connect to the warcamp
 	the spawned maps vary depending on where the travel tile is spawned
 	
@@ -426,6 +408,7 @@
 	var/list/allowed_area_types = list(
 		/area/rogue/under/underdark,
 		/area/rogue/under/cave,
+		/area/rogue/indoors/cave,
 		/area/rogue/under/cavewet,
 		/area/rogue/outdoors/woods,
 		/area/rogue/outdoors/bog,
@@ -434,7 +417,8 @@
 		/area/rogue/outdoors/mountains
 	)
 	var/list/blacklisted_area_types = list(
-		/area/rogue/outdoors/beach/forest/hamlet
+		/area/rogue/outdoors/beach/forest/hamlet,
+		/area/rogue/indoors/cave/underhamlet,
 	)
 
 	var/is_allowed = FALSE
@@ -596,10 +580,9 @@
 
 	return TRUE
 
-// 6
 /////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////// ACCEPT KICK
-/* 6
+/*
 	when a lieutenant's subordinate is exiled by their warlord, they are given a choice
 
 	DEFY EXILE
@@ -680,10 +663,9 @@
 	else
 		return
 
-// 7
 ///////////////////////////////////////////////////////////
 ///////////////////////////////////////////////// ENLIGHTEN
-/* 7
+/*
 	allows the Prophet to grant "enlightenment" to another character
 	converts them to the Prophet's patron and grants T4 Cleric powers
 	cannot convert characters who already have devotion

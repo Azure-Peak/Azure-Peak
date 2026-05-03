@@ -144,6 +144,7 @@
 #define BB_MUG_DEMAND_ELAPSED "mug_elapsed_time"
 #define BB_MUG_TARGET "mug_target"
 #define BB_MUG_TARGET_ITEM "mug_rootbeer"
+#define BB_MOVEMENT_PATH_PROTECTED "movement_path_protected" // boolean used to lock a mob to a path/prevent paths from being cleared
 
 #define ARCHER_NPC_EQUIPMENT_CACHE_TIME (40 SECONDS)
 #define ARCHER_NPC_MIN_RANGE            3   // tiles - closer than this, prefer melee

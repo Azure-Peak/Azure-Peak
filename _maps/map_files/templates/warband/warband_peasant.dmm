@@ -144,8 +144,8 @@
 	dir = 10;
 	icon_state = "cobbleedge-w"
 	},
-/obj/structure/roguemachine/scomm{
-	scom_tag = "Inn - Lobby"
+/obj/structure/roguemachine/scomm/receive_only{
+	scom_tag = "Distant Inn"
 	},
 /turf/open/floor/rogue/wood/nosmooth,
 /area/rogue/indoors/warcamp)
@@ -285,16 +285,16 @@
 /obj/structure/table/wood{
 	icon_state = "tablewood1"
 	},
-/obj/item/quiver/bolts,
-/obj/item/quiver/bolts,
-/obj/item/quiver/bolts,
-/obj/item/quiver/bolts,
-/obj/item/quiver/bolts,
-/obj/item/quiver/bolts,
-/obj/item/quiver/bolts,
-/obj/item/quiver/bolts,
-/obj/item/quiver/bolts,
-/obj/item/quiver/bolts,
+/obj/item/quiver/bolt/standard,
+/obj/item/quiver/bolt/standard,
+/obj/item/quiver/bolt/standard,
+/obj/item/quiver/bolt/standard,
+/obj/item/quiver/bolt/standard,
+/obj/item/quiver/bolt/standard,
+/obj/item/quiver/bolt/standard,
+/obj/item/quiver/bolt/standard,
+/obj/item/quiver/bolt/standard,
+/obj/item/quiver/bolt/standard,
 /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow,
 /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow,
 /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow,
@@ -739,7 +739,7 @@
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/outdoors/warcamp)
 "oz" = (
-/obj/structure/roguemachine/scomm{
+/obj/structure/roguemachine/scomm/receive_only{
 	pixel_y = -32
 	},
 /turf/open/floor/rogue/dirt/road,
@@ -1495,7 +1495,7 @@
 /area/rogue/indoors/warcamp)
 "FW" = (
 /obj/effect/decal/cleanable/blood/splatter,
-/obj/structure/roguemachine/scomm{
+/obj/structure/roguemachine/scomm/receive_only{
 	pixel_y = -32
 	},
 /turf/open/floor/rogue/wood/herringbone,

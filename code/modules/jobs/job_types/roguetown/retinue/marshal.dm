@@ -125,6 +125,8 @@
 		/datum/skill/misc/hunting = SKILL_LEVEL_APPRENTICE,
 	)
 
+	age_mod = /datum/class_age_mod/marshal_kcommander
+
 /datum/outfit/job/roguetown/marshal/kcommander/pre_equip(mob/living/carbon/human/H)
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/scale/marshal
 	backr = /obj/item/rogueweapon/sword/long/oathkeeper

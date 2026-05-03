@@ -282,10 +282,12 @@
 ///////////////
 ///////////////
 ///////////////
-/datum/antagonist/warlord_lieutenant/proc/forge_objectives()
-	var/datum/objective/warband/aspirant/greatergood/base_objective = new
-	base_objective.owner = owner
-	objectives += base_objective
+/datum/antagonist/warlord_lieutenant/proc/forge_objectives(envy_reroll = FALSE)
+	if(!envy_reroll)
+		var/datum/objective/warband/aspirant/greatergood/base_objective = new
+		base_objective.owner = owner
+		objectives += base_objective
+
 	if(src.aspirant)
 		var/list/aspirant_objectives = list(
 			/datum/objective/warband/aspirant/wormtongue,
@@ -294,11 +296,18 @@
 			/datum/objective/warband/aspirant/standard,
 			/datum/objective/warband/aspirant/coin
 		)
+		if(envy_reroll)
+			for(var/datum/objective/existing_obj in objectives)
+				for(var/obj_type in aspirant_objectives)
+					if(istype(existing_obj, obj_type))
+						aspirant_objectives -= obj_type
+						break
 		var/chosen_type = pick(aspirant_objectives)
 		var/datum/objective/warband/aspirant/aspirant_objective = new chosen_type
 		aspirant_objective.owner = owner
 		objectives += aspirant_objective
-	owner.announce_objectives()
+	if(!envy_reroll)
+		owner.announce_objectives()
 
 
 /datum/objective/warband/aspirant/greatergood

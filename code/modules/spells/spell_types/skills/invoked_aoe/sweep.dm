@@ -43,6 +43,9 @@
 	var/list/viable_targets = list()
 	var/atom/throwtarget
 	var/base_recharge = initial(recharge_time)
+	var/datum/component/squad_controller/manager = user.GetComponent(/datum/component/squad_controller)
+	if(!manager)
+		manager = user.AddComponent(/datum/component/squad_controller)
 
 	for(var/mob/living/carbon/AM in view(push_range, user))
 		if(AM == user || AM.anchored)
@@ -51,7 +54,7 @@
 			continue				// allies aren't foes
 		if(AM.stat != CONSCIOUS) 	
 			continue				// corpses aren't foes
-		if(AM in user.friends) 		
+		if(AM in manager.members) 		
 			continue				// friends aren't foes
 		viable_targets += AM
 

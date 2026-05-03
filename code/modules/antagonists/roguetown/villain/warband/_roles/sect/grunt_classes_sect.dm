@@ -11,11 +11,10 @@
 	traits_applied = list(TRAIT_HEAVYARMOR, TRAIT_STEELHEARTED, TRAIT_FORMATIONFIGHTER)
 	subclass_stats = list(
 		STATKEY_STR = 4,
-		STATKEY_INT = -1,
+		STATKEY_INT = -2,
 		STATKEY_CON = 4,
 		STATKEY_WIL = 4,
 		STATKEY_SPD = -3,
-		STATKEY_PER = 1,
 	)
 	subclass_skills = list(
 		/datum/skill/combat/polearms = SKILL_LEVEL_EXPERT,
@@ -175,10 +174,10 @@
 
 	traits_applied = list(TRAIT_NOPAIN, TRAIT_IGNOREDAMAGESLOWDOWN, TRAIT_STEELHEARTED, TRAIT_FORMATIONFIGHTER)
 	subclass_stats = list(
-		STATKEY_STR = 6,
+		STATKEY_STR = 3,
 		STATKEY_CON = 6,
 		STATKEY_WIL = 6,
-		STATKEY_INT = -2,
+		STATKEY_INT = -4,
 		STATKEY_PER = -4,
 	)
 
@@ -302,7 +301,7 @@
 		STATKEY_SPD = 3,
 		STATKEY_PER = 2,
 		STATKEY_STR = -1,
-		STATKEY_CON = -1,
+		STATKEY_CON = -2,
 	)
 
 	subclass_skills = list(

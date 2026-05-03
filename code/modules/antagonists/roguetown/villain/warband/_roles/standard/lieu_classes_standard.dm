@@ -76,7 +76,7 @@
 		ADD_TRAIT(H, TRAIT_NOSTINK, TRAIT_GENERIC)
 		ADD_TRAIT(H, TRAIT_SOUL_EXAMINE, TRAIT_GENERIC)
 	if(H.patron.type == /datum/patron/divine/abyssor)
-		cloak = /obj/item/clothing/cloak/tabard/abyssortabard
+		cloak = /obj/item/clothing/cloak/tabard/abyssorite
 		wrists = /obj/item/clothing/neck/roguetown/psicross/abyssor
 		ADD_TRAIT(H, TRAIT_WATERBREATHING, TRAIT_GENERIC)
 	if(H.patron.type == /datum/patron/divine/dendor)
@@ -309,7 +309,7 @@
 	name = "Wizard"
 	tutorial = "A battlefield is no place for a MAGICIAN. Unfortunately for them, their sage mind and vast knowledge of the arcane makes them indispensible."
 	outfit = /datum/outfit/job/roguetown/warband/standard/lieutenant/magician
-	traits_applied = list(TRAIT_ARCYNE_T4, TRAIT_MAGEARMOR, TRAIT_FORMATIONFIGHTER, TRAIT_LAWEXPERT)
+	traits_applied = list(TRAIT_ARCYNE, TRAIT_ALCHEMY_EXPERT, TRAIT_FORMATIONFIGHTER, TRAIT_LAWEXPERT)
 	subclass_stats = list(
 		STATKEY_STR = -2,
 		STATKEY_CON = 2,
@@ -333,7 +333,7 @@
 		/datum/skill/misc/athletics = SKILL_LEVEL_NOVICE,
 		/datum/skill/craft/crafting = SKILL_LEVEL_NOVICE,
 	)
-
+	subclass_mage_aspects = list("mastery" = FALSE, "major" = 2, "minor" = 3, "utilities" = 9, "ward" = TRUE)
 
 /datum/outfit/job/roguetown/warband/standard/lieutenant/magician/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -356,6 +356,3 @@
 		/obj/item/book/spellbook,
 		/obj/item/rogueweapon/huntingknife/idagger/silver/arcyne
 	)
-	if(H.mind)
-		H.mind.adjust_spellpoints(26)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/sweep)

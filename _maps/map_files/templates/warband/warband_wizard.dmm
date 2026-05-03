@@ -549,7 +549,7 @@
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/indoors/warcamp/wizard)
 "ih" = (
-/obj/structure/roguemachine/scomm,
+/obj/structure/roguemachine/scomm/receive_only,
 /obj/structure/fluff/railing/border/west,
 /turf/open/floor/rogue/tile/harem1,
 /area/rogue/indoors/warcamp/wizard)
@@ -3125,7 +3125,7 @@
 /turf/open/lava/mana,
 /area/rogue/indoors/warcamp/wizard)
 "Qd" = (
-/obj/structure/roguemachine/scomm{
+/obj/structure/roguemachine/scomm/receive_only{
 	pixel_y = -32
 	},
 /turf/open/floor/rogue/ruinedwood/spiral,

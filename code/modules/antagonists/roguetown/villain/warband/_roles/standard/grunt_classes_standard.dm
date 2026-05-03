@@ -75,7 +75,7 @@
 	title = "SCOUT"
 	name = "Scout"
 	tutorial = "The SCOUT relies on a swift pair of legs and keen eyes. Should they find themselves cornered into a proper fight, they'll have hell to pay."
-	traits_applied = list(TRAIT_DODGEEXPERT, TRAIT_STEELHEARTED, TRAIT_MEDIUMARMOR, TRAIT_WOODWALKER, TRAIT_LONGSTRIDER, TRAIT_FORMATIONFIGHTER, TRAIT_KEENEARS)
+	traits_applied = list(TRAIT_STEELHEARTED, TRAIT_MEDIUMARMOR, TRAIT_WOODWALKER, TRAIT_LONGSTRIDER, TRAIT_FORMATIONFIGHTER, TRAIT_KEENEARS)
 	subclass_stats = list(
 		STATKEY_SPD = 3,
 		STATKEY_CON = -4,
@@ -109,7 +109,7 @@
 	cloak = /obj/item/clothing/cloak/tabard/stabard/warband
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/studded
-	wrists = /obj/item/clothing/wrists/roguetown/splintarms
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/brigandine
 	beltr = /obj/item/quiver/bodkin
 	beltl = /obj/item/quiver/bodkin
 	backl = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
@@ -248,14 +248,14 @@
 /datum/outfit/job/roguetown/warband/standard/grunt/sapper/pre_equip(mob/living/carbon/human/H)
 	..()
 	r_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
-	backr = /obj/item/quiver/bolts
+	backr = /obj/item/quiver/bolt/standard
 	belt = /obj/item/storage/belt/rogue/leather
 	beltr = /obj/item/rogueweapon/stoneaxe/woodcut/steel
 	beltl = /obj/item/rogueweapon/pick/steel
 	backl = /obj/item/storage/backpack/rogue/satchel
 	mask = /obj/item/clothing/mask/rogue/spectacles/golden
 	armor = /obj/item/clothing/suit/roguetown/armor/brigandine/light
-	wrists = /obj/item/clothing/wrists/roguetown/splintarms
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/brigandine
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
 	pants = /obj/item/clothing/under/roguetown/splintlegs
 	neck = /obj/item/clothing/neck/roguetown/gorget

@@ -32,7 +32,7 @@ SUBSYSTEM_DEF(warbands)
 	// npc cache
 	// we're spawning large groups of complex mobs at once (especially during outskirts fights), so this is softens the lag spikes
 	var/list/unassigned_mob_cache = list()	
-	var/max_unassigned_cache = 145			// max size for the unassigned goon cache
+	var/max_unassigned_cache = 100			// max size for the unassigned goon cache
 	var/ticks_between_equip = 6
 	var/grunt_equip_timer = 0
 	var/current_warband_index = 1			// when equipping goons in the cache, we determine which warband receives a cache refill in a Round Robin style
@@ -120,7 +120,7 @@ SUBSYSTEM_DEF(warbands)
 				cached_classes[class_type] = new class_type()
 
 // cycles through phases each time it fires
-// 	phases: 0 (equip a mob) -> 1 (create an unassigned mob) -> 2 (create a lobby mob) -> repeat
+// 	phases: 0 (equip a mob) -> 1 (create a fresh, unassigned mob) -> 2 (create a fresh lobby mob) -> repeat until the caches are full
 /datum/controller/subsystem/warbands/fire(resumed = FALSE)
 	if(!resumed)
 		currentrun_encounters = list()
@@ -241,7 +241,6 @@ SUBSYSTEM_DEF(warbands)
 				return
 			continue
 		encounter.check_wave_integrity()
-		encounter.process_duties()
 		encounter.process_cleanup_queue()
 
 
@@ -255,8 +254,8 @@ SUBSYSTEM_DEF(warbands)
 			continue // skip incomplete warbands
 		if(warband.cache_source)
 			continue // skip warbands that are sharing a cache with another
-		if(warband.assigned_grunt_cache.len >= 200)
-			continue // skip warbands with 200 mobs in their assigned cache
+		if(warband.assigned_grunt_cache.len >= 100)
+			continue // skip warbands with 100 mobs in their assigned cache
 		viable += warband
 	return viable
 
@@ -303,8 +302,7 @@ SUBSYSTEM_DEF(warbands)
 	
 	var/mob/living/carbon/human/species/human/northern/goon/cached_grunt = new()
 	unassigned_mob_cache += cached_grunt
-	cached_grunt.mode = NPC_AI_SLEEP
-	STOP_PROCESSING(SShumannpc, cached_grunt)
+	cached_grunt.ai_controller?.set_ai_status(AI_STATUS_OFF)
 	grunts_to_create--
 	return TRUE
 
@@ -322,7 +320,7 @@ SUBSYSTEM_DEF(warbands)
 	
 	var/mob/living/carbon/human/species/human/northern/cached_mob = new()
 	lobby_mob_cache += cached_mob
-	cached_mob.mode = NPC_AI_SLEEP
+	cached_mob.ai_controller?.set_ai_status(AI_STATUS_OFF)
 	return TRUE
 
 
@@ -331,7 +329,8 @@ SUBSYSTEM_DEF(warbands)
 /*
 	handles cache processing during initial burst mode
 	during burst mode, we only want to equip grunts and (if necessary) refill the lobby cache
-	
+
+	since we're not using an initial unequipped cache anymore this is hardly gonna be used, but it's nice to have
 */
 /datum/controller/subsystem/warbands/proc/process_burst_mode()
 	if(grunt_processing_phase == 0)
@@ -384,13 +383,13 @@ SUBSYSTEM_DEF(warbands)
 	for(var/i = 1 to cache_size)
 		var/mob/living/carbon/human/species/human/northern/cached_mob = new()
 		lobby_mob_cache += cached_mob
-		cached_mob.mode = NPC_AI_SLEEP
+		cached_mob.ai_controller?.set_ai_status(AI_STATUS_OFF)
 
 /datum/controller/subsystem/warbands/proc/get_lobby_mob()
 	if(lobby_mob_cache.len)
 		var/mob/living/carbon/human/cached_mob = lobby_mob_cache[1]
 		lobby_mob_cache -= cached_mob
-		cached_mob.mode = NPC_AI_OFF
+		cached_mob.ai_controller?.set_ai_status(AI_STATUS_OFF)
 		return cached_mob
 	else // if the cache is empty fall back to creating a fresh mob
 		var/mob/living/carbon/human/species/human/northern/new_mob = new() 
@@ -400,5 +399,4 @@ SUBSYSTEM_DEF(warbands)
 	for(var/i = 1 to max_unassigned_cache)
 		var/mob/living/carbon/human/species/human/northern/goon/cached_grunt = new()
 		unassigned_mob_cache += cached_grunt
-		cached_grunt.mode = NPC_AI_SLEEP
-		STOP_PROCESSING(SShumannpc, cached_grunt)
+		cached_grunt.ai_controller?.set_ai_status(AI_STATUS_OFF)

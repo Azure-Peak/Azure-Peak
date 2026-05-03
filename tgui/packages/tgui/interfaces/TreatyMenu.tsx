@@ -124,7 +124,7 @@ export const TreatyMenu = () => {
   };
 
   return (
-    <Window theme="azure_treaty" width={950} height={62}>
+    <Window theme="treaty" width={950} height={62}>
       <Window.Content>
         <Stack fill>
           <Stack.Item grow={1} basis={0} order={0}>

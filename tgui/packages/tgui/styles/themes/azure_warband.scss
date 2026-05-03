@@ -1,0 +1,24 @@
+@use 'azure_base' as *;
+
+.theme-azure_warband:root {
+  @include azure-theme((
+    'base':            #000000,
+    'base-light':      #1d0505,
+    'base-dark':       #000000,
+    'section':         hsla(0, 0%, 0%, 0.33),
+    'section-title':   #7a2525,
+    'text':            #897472,
+    'label':           #897472,
+    'accent':          #511111,
+    'accent-bright':   #7a2525,
+    'border':          #511111,
+    'btn-text':        #897472,
+    'btn-selected':    #7a2020,
+    'btn-disabled':    #5e5959,
+    'scrollbar-thumb': #511111,
+    'glow':            transparent,
+    'link':            #892a2b,
+    'link-visited':    #e19d9e,
+    'link-hover':      #c94f51,
+  ), '../assets/azure_default/topbar_red.svg');
+}

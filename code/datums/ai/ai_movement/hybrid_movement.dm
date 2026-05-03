@@ -15,11 +15,15 @@
 
 	// Variables for asynchronous path generation
 	var/repath_anticipation_distance = 5 // Start generating new path when this close to the end
+	var/repath_distance_tolerance = 3 // how many tiles the target can move from the path's endpoint before a new path is generated
+	var/repath_cooldown_duration = 0.5 SECONDS
+	var/repath_anticipation_cooldown_duration = 0.3 SECONDS	
 	var/future_path_blackboard_key = BB_FUTURE_MOVEMENT_PATH
 
 	var/next_resolve = 0
 	var/max_basic_failures = 3 // How many consecutive basic movement failures before switching to A*
 	var/always_advanced = FALSE
+	var/always_start_dumb = FALSE // by default, a* is always used against cliented mobs. if you want to override that, flip this to TRUE
 
 /datum/ai_movement/hybrid_pathing/process(delta_time)
 	if(world.time < next_resolve)
@@ -85,8 +89,12 @@
 						fallback_fail[weak] = FALSE
 					continue
 
+		// allow subtypes to inject an additional, pre-movement tier before basic_avoidance kicks in
+		if(pre_movement_hook(controller, movable_pawn, target_turf))
+			continue
+
 		// Basic movement for targets on the same z-level with no existing path
-		if(end_turf?.z == movable_pawn?.z && !length(controller.movement_path) && !cliented && !always_advanced)
+		if(end_turf?.z == movable_pawn?.z && !length(controller.movement_path) && (always_start_dumb || !cliented) && !always_advanced)
 			advanced = FALSE
 			var/can_move = controller.can_move()
 
@@ -195,7 +203,7 @@
 						climb_target?.climb_structure(movable_pawn)
 
 				// Check if target has moved significantly from the end of our path
-				if(last_turf != get_turf(controller.current_movement_target))
+				if(get_dist(last_turf, get_turf(controller.current_movement_target)) > repath_distance_tolerance)
 					// If we have a pre-generated future path and it's relevant, use it
 					if(future_path && length(future_path) && future_path[length(future_path)] == get_turf(controller.current_movement_target))
 						controller.movement_path = future_path.Copy()
@@ -243,7 +251,7 @@
 					// Target doesnt exist anymore or we picked it up already
 					if(QDELETED(controller.current_movement_target) || controller.current_movement_target.loc == movable_pawn)
 						continue
-					COOLDOWN_START(controller, repath_cooldown, 0.3 SECONDS) // AP: aggressive anticipatory repath
+					COOLDOWN_START(controller, repath_cooldown, repath_anticipation_cooldown_duration) // AP: aggressive anticipatory repath
 					// Generate the future path and store it in the controller's blackboard
 					var/list/new_future_path = get_path_to(movable_pawn, controller.current_movement_target, TYPE_PROC_REF(/turf, Heuristic_cardinal_3d),
 						max_path_distance + 1, max_path_distance + 1, minimum_distance, id=controller.get_access())
@@ -266,7 +274,7 @@
 				// Target doesnt exist anymore or we picked it up already
 				if(QDELETED(controller.current_movement_target) || controller.current_movement_target.loc == movable_pawn)
 					continue
-				COOLDOWN_START(controller, repath_cooldown, 0.5 SECONDS) // AP: aggressive repath
+				COOLDOWN_START(controller, repath_cooldown, repath_cooldown_duration) // AP: aggressive repath
 				controller.movement_path = get_path_to(movable_pawn, controller.current_movement_target, TYPE_PROC_REF(/turf, Heuristic_cardinal_3d),
 					max_path_distance + 1, max_path_distance + 1, minimum_distance, id=controller.get_access())
 				// AStar includes the caller's current turf as path[1] — strip it so path[1] is
@@ -275,3 +283,10 @@
 					controller.movement_path.Cut(1, 2)
 				controller.clear_blackboard_key(future_path_blackboard_key) // Clear any future path as we have a fresh main path
 				SEND_SIGNAL(controller.pawn, COMSIG_AI_PATH_GENERATED, controller.movement_path)
+
+// called AFTER z-level path validation but BEFORE the basic_avoidance and A* blocks run
+// used to inject additional movement tiers (see dumb_hybrid_movement.dm)
+// returning TRUE performs the hooked movement tree & skips the rest of the processing
+// returning FALSE allows hybrid_pathing to proceed normally
+/datum/ai_movement/hybrid_pathing/proc/pre_movement_hook(datum/ai_controller/controller, atom/movable/movable_pawn, turf/target_turf)
+	return FALSE

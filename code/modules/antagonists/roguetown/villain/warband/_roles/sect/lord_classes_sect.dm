@@ -14,7 +14,6 @@
 		STATKEY_LCK = 3,
 		STATKEY_WIL = 6,
 		STATKEY_PER = 6,
-		STATKEY_CON = 3,
 		STATKEY_INT = 3,
 	)
 	subclass_skills = list(

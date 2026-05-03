@@ -10,12 +10,12 @@
 	outfit = /datum/outfit/job/roguetown/warband/rebellion/warlord/ringleader
 	traits_applied = list(TRAIT_MEDIUMARMOR, TRAIT_FORMATIONFIGHTER, TRAIT_STEELHEARTED, TRAIT_LAWEXPERT, TRAIT_LONGSTRIDER)
 	subclass_stats = list(
-		STATKEY_LCK = 5,
+		STATKEY_LCK = 3,
 		STATKEY_WIL = 8,
-		STATKEY_PER = 4,
-		STATKEY_SPD = 4,
-		STATKEY_STR = 3,
-		STATKEY_CON = 3,
+		STATKEY_PER = 1,
+		STATKEY_SPD = 3,
+		STATKEY_STR = 2,
+		STATKEY_CON = 1,
 	)
 
 	subclass_skills = list(

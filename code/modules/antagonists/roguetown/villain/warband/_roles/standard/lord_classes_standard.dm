@@ -32,7 +32,7 @@
 
 /datum/outfit/job/roguetown/warband/standard/warlord/lord/pre_equip(mob/living/carbon/human/H)
 	..()
-	head = /obj/item/clothing/head/roguetown/helmet/blacksteel/modern/armet
+	head = /obj/item/clothing/head/roguetown/helmet/blacksteel/modern
 	neck = /obj/item/clothing/neck/roguetown/coif/heavypadding
 	beltr = /obj/item/rogueweapon/sword/long/dec
 	beltl = /obj/item/rogueweapon/scabbard/sword
@@ -40,10 +40,10 @@
 	id = /obj/item/clothing/ring/statrontz
 	wrists = /obj/item/clothing/wrists/roguetown/bracers
 	pants = /obj/item/clothing/under/roguetown/platelegs/blacksteel/modern
-	shoes = /obj/item/clothing/shoes/roguetown/boots/blacksteel/modern/plateboots
+	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/blacksteel/modern
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/rival
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/full/blacksteel/modern
-	gloves = /obj/item/clothing/gloves/roguetown/blacksteel/modern/plategloves
+	gloves = /obj/item/clothing/gloves/roguetown/plate/blacksteel/modern
 	backr = /obj/item/clothing/cloak/volfmantle
 	backl = /obj/item/storage/backpack/rogue/satchel
 	backpack_contents = list(

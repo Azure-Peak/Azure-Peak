@@ -3,7 +3,7 @@
 	title = "SORCERER-KING"
 	name = "Sorcerer-King"
 	tutorial = ""
-	traits_applied = list(TRAIT_FORMATIONFIGHTER, TRAIT_LAWEXPERT, TRAIT_ARCYNE_T4, TRAIT_MEDIUMARMOR)
+	traits_applied = list(TRAIT_COUNTERCOUNTERSPELL, TRAIT_FORMATIONFIGHTER, TRAIT_LAWEXPERT, TRAIT_ARCYNE, TRAIT_ALCHEMY_EXPERT, TRAIT_MEDIUMARMOR)
 	subclass_stats = list(
 		STATKEY_LCK = 3,
 		STATKEY_WIL = 4,
@@ -26,7 +26,7 @@
 	)
 
 	outfit = /datum/outfit/job/roguetown/warband/wizard/warlord/sorcerer
-
+	subclass_mage_aspects = list("mastery" = TRUE, "major" = 2, "minor" = 3, "utilities" = 9, "ward" = TRUE)
 
 /datum/outfit/job/roguetown/warband/wizard/warlord/sorcerer/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -45,13 +45,13 @@
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk
 	pants = /obj/item/clothing/under/roguetown/chainlegs/skirt
 	wrists = /obj/item/clothing/wrists/roguetown/bracers
-	gloves = /obj/item/clothing/gloves/roguetown/blacksteel/modern/plategloves
-	shoes = /obj/item/clothing/shoes/roguetown/boots/blacksteel/modern/plateboots
+	gloves = /obj/item/clothing/gloves/roguetown/plate/blacksteel/modern
+	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/blacksteel/modern
 	belt = /obj/item/storage/belt/rogue/leather/plaquesilver
 	beltr = /obj/item/rogueweapon/scabbard/sword
 	beltl = /obj/item/storage/magebag
 	id = /obj/item/clothing/ring/statdorpel // Necessary 4 Sauron Gameplay
-	r_hand = /obj/item/rogueweapon/woodstaff/riddle_of_steel
+	r_hand = /obj/item/rogueweapon/woodstaff/implement/grand
 	l_hand = /obj/item/rogueweapon/sword/decorated
 	backl = /obj/item/storage/backpack/rogue/satchel
 	backpack_contents = list(
@@ -61,6 +61,3 @@
 		/obj/item/book/spellbook,
 		/obj/item/rogueweapon/huntingknife/idagger/silver/arcyne
 	)
-
-	if(H.mind)
-		H.mind.adjust_spellpoints(36)

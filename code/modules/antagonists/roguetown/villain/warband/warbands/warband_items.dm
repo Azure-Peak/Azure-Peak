@@ -196,7 +196,7 @@
 		if(do_after(user, 90, target = src))
 			src.disabled = TRUE
 			src.alpha = 50
-			to_chat(user, span_userdanger("I've driven off the sentries defending the Shortcut."))
+			to_chat(user, span_userdanger("The coast is clear. We won't be flanked from this Shortcut."))
 			return
 
 /obj/structure/fluff/warband/warband_recruit/proc/summon_lieutenant(mob/user)
@@ -232,7 +232,6 @@
 
 	to_chat(user, span_green("My summons are answered. I must simply spare them a moment to arm themselves."))
 	var/mob/living/carbon/human/target = SSwarbands.get_lobby_mob()
-	// GLOB.mob_living_list |= target
 	target.forceMove(spawnpoint)
 	target.invisibility = INVISIBILITY_MAXIMUM
 	target.set_blindness(3 HOURS)
@@ -300,7 +299,6 @@
 	SSjob.AssignRole(envoy, "Warlord's Envoy")
 	envoy.mind.special_role = "Warlord's Envoy"
 	src.contents += user
-	user.mode = NPC_AI_SLEEP
 	return envoy
 
 /obj/structure/fluff/warband/warband_recruit/proc/transfer_treaties(mob/living/carbon/human/from_mob, mob/living/carbon/human/to_mob)
@@ -477,7 +475,10 @@
 						return
 					
 					var/squad_deployed
-					for(var/mob/friend in user.friends)
+					var/datum/component/squad_controller/manager = user.GetComponent(/datum/component/squad_controller)
+					if(!manager)
+						manager = user.AddComponent(/datum/component/squad_controller)
+					for(var/mob/friend in manager.members)
 						if(istype(friend, /mob/living/carbon/human/species/human/northern/goon))
 							squad_deployed = TRUE
 							break
@@ -492,26 +493,22 @@
 						var/abandon_choice = input(user, "You've already deployed a squad. Abandon them?", "Warband Recruitment") as anything in choices
 						switch(abandon_choice)
 							if("ABANDON OLD SQUAD")
-								for(var/mob/living/carbon/human/species/human/northern/goon/abandoned_grunt in user.friends)
+								for(var/mob/living/carbon/human/species/human/northern/goon/abandoned_grunt in manager.members)
 									if(!abandoned_grunt)
-										user.friends -= abandoned_grunt
+										manager.members -= abandoned_grunt
 										continue
 									abandoned_grunt.abandonevent()
-									user.friends -= abandoned_grunt
+									manager.members -= abandoned_grunt
 							if("CANCEL")
 								return
 						return
 					else if(src.linked_warband.spawns > 0)
-						if(!user.GetComponent(/datum/component/squad_controller))
-							user.AddComponent(/datum/component/squad_controller, user)
-						
 						for(var/grunts_spawned = 1, grunts_spawned <= user.mind.squad_size && src.linked_warband.spawns > 0, grunts_spawned++)
 							var/mob/living/carbon/human/species/human/northern/goon/new_grunt = src.linked_warband.get_cached_grunt(src.loc, user)
 							new_grunt.patron = user.patron
 							new_grunt.faction |= list("warband_[src.warband_ID]", "[user.real_name]_faction")
 							new_grunt.warband_ID = user.mind.warband_ID
-							user.friends += new_grunt
-							new_grunt.friends += user
+							manager.members |= new_grunt
 							src.linked_warband.spawns--
 						to_chat(user, span_userdanger("There are [src.linked_warband.spawns] soldiers remaining."))
 						COOLDOWN_START(user.mind, squad_spawn_cooldown, 2 MINUTES)

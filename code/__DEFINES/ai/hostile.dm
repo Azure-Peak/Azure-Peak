@@ -71,3 +71,15 @@
 #define BB_REINFORCEMENTS_SAY "BB_basic_mob_reinforcement_say"
 #define BB_REINFORCEMENTS_EMOTE "BB_basic_mob_reinforcement_emote"
 #define BB_BASIC_MOB_REINFORCEMENTS_COOLDOWN "BB_basic_mob_reinforcement_cooldown"
+
+// outskirts BB keys
+#define BB_OUTSKIRTS_OBJECTIVE "outskirts_objective"
+#define BB_OUTSKIRTS_START_TIME "outskirts_start_time"
+#define BB_OUTSKIRTS_REACHED "outskirts_reached"
+#define BB_OUTSKIRTS_ENCOUNTER "outskirts_encounter"
+#define BB_OUTSKIRTS_OBJECTIVE_REF "outskirts_objective_ref"
+#define BB_OUTSKIRTS_CACHED_PATH "outskirts_cached_path"
+#define BB_OUTSKIRTS_REACHED_OBJECTIVE "outskirts_reached_objective"
+#define BB_OUTSKIRTS_MOVEMENT_START "outskirts_movement_start"
+#define BB_OUTSKIRTS_BESIEGING_MOBS "outskirts_besieging_mobs"
+#define BB_OUTSKIRTS_NEXT_TARGET_ATTEMPT "outskirts_next_target_attempt"

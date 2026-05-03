@@ -1,20 +1,5 @@
 ///////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////// SPECIAL WAVES
-/* 
-	npc pools only take complex mobs at the moment
-
-*/
-/datum/outskirts_wave/ascendant
-	wave_alert_phrase = list(
-		"Fanatics emerge from the shadows!",
-		"Heathen altars call for my blood!"
-	)
-	npc_pool = list(
-		/mob/living/carbon/human/species/human/northern/deranged_knight/hedgeknight
-	)
-	special_npc_chance = 15
-
-
 /datum/outskirts_wave
 	var/list/wave_alert_phrase = list(
 		"The enemy sallies forth!",
@@ -24,6 +9,15 @@
 	var/list/npc_pool = list()
 	var/special_npc_chance = 15
 
+/datum/outskirts_wave/ascendant
+	wave_alert_phrase = list(
+		"Fanatics emerge from the shadows!",
+		"Heathen altars call for my blood!"
+	)
+	npc_pool = list(
+		/mob/living/carbon/human/species/human/northern/deranged_knight/hedgeknight
+	)
+	special_npc_chance = 15
 
 /datum/outskirts_wave/feud
 
@@ -36,8 +30,8 @@
 /*
 	calculates the status of the current defender wave
 	counts total spawned mobs and those that are alive
-	for simple animals: counts as alive if not dead/unconscious (this also doesn't really matter atm since we're no longer spawning them)
-	for complex mobs: counts as alive if not dead/unconscious/fleeing
+	for simple animals: counts as alive if not dead/unconscious
+	for complex mobs: counts as alive if not dead/unconscious/fleeing (BB_BASIC_MOB_FLEEING)
 	returns integrity percentage (alive / total spawned * 100)
 
 */
@@ -53,7 +47,7 @@
 				total_alive++
 		else if(istype(M, /mob/living/carbon/human))
 			var/mob/living/carbon/human/H = M
-			if(H.stat != DEAD && H.stat != UNCONSCIOUS && H.mode != NPC_AI_FLEE)
+			if(H.stat != DEAD && H.stat != UNCONSCIOUS && !(H.ai_controller?.blackboard[BB_BASIC_MOB_FLEEING]))
 				total_alive++
 	
 	var/integrity = 0
@@ -73,7 +67,7 @@
 */
 /datum/outskirts_encounter/proc/calculate_attacker_integrity()
 	if(initial_besieger_count == 0)
-		return 0
+		return FALSE
 	
 	var/total_effective = 0
 
@@ -161,7 +155,7 @@
 /*
 	spawns wave_size mobs at defender entry point
 	deducts spawned mobs from warband spawn pool
-	assigns duties to every spawned mobs
+	assigns duties to every spawned mob
 	if this is the first wave, it also records the initial_besieger_count based off of the incoming_mobs
 	also checks victory conditions:
 		- max waves reached: defender rout
@@ -175,7 +169,7 @@
 		for(var/mob/living/carbon/human/attacker in linked_warband.besieging_mobs)
 			if(!attacker || !attacker.mind)
 				continue
-			if(attacker && attacker.stat != DEAD && attacker.stat != UNCONSCIOUS && !(HAS_TRAIT(attacker, TRAIT_ZOMBIE_SPEECH)))
+			if(attacker && attacker.stat != DEAD && !(HAS_TRAIT(attacker, TRAIT_ZOMBIE_SPEECH)))
 				attackers_alive = TRUE
 				break
 		
@@ -232,7 +226,6 @@
 		initial_besieger_count = attackers.len
 	
 	wave_number++
-	process_duties()
 	if(processing_cleanup) // if a wave spawns during a rout, we want to make sure they're scheduled to recycle themselves
 		for(var/mob/M in newly_spawned)
 			pending_cleanup += M
@@ -286,25 +279,18 @@
 ///////////////////////////////////////////////// SPAWN GRUNT MOB
 /*
 	spawns and returns a standard grunt defender
-	prioritizes any recycled special mobs from previous waves
-	if no recycled mobs are available, it pulls from warband's cache
 
 */
 /datum/outskirts_encounter/proc/spawn_grunt_mob(turf/spawn_location)
 	var/mob/living/carbon/human/species/human/northern/goon/new_grunt = linked_warband.get_cached_grunt(spawn_location)
-	new_grunt.aggressive = TRUE
-	new_grunt.wander = TRUE
 	new_grunt.faction = list("warband_[linked_warband.warband_ID]")
+	var/datum/ai_controller/controller = new_grunt.ai_controller
+	controller?.can_idle = FALSE
+	controller?.set_ai_status(AI_STATUS_ON)
+	controller?.set_blackboard_key(BB_OUTSKIRTS_CACHED_PATH, src.cached_objective_path)
+	controller?.set_blackboard_key(BB_OUTSKIRTS_BESIEGING_MOBS, linked_warband.besieging_mobs)
 	return new_grunt
 
 /datum/outskirts_encounter/proc/assign_mob_duty(mob/spawned)
-	var/duty_type
-	
-	if(istype(spawned, /mob/living/simple_animal))
-		duty_type = DUTY_SIMPLEMOB
-	else
-		duty_type = DUTY_ATTACK
-	
-	var/datum/npc_duty/new_duty = new(spawned, objective, src, duty_type)
-	active_duties += new_duty
-	new_duty.process_duty()
+	spawned.ai_controller.set_blackboard_key(BB_OUTSKIRTS_OBJECTIVE_REF, objective)
+	attack_npcs += spawned

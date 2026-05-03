@@ -5,9 +5,7 @@
 	if(attacker_rout_active)
 		return
 	
-	attacker_rout_active = TRUE
 	rout_start_time = world.time
-	objective.reset_position()
 	
 	if(type == "attacker")
 		handle_attacker_rout()
@@ -50,7 +48,7 @@
 	addtimer(CALLBACK(src, PROC_REF(trapped_warning)), 60 SECONDS)
 	addtimer(CALLBACK(src, PROC_REF(end_attacker_rout)), 7 MINUTES)
 	addtimer(CALLBACK(src, PROC_REF(reset_encounter)), 7 MINUTES)
-	addtimer(CALLBACK(src, PROC_REF(force_end_cleanup)), 7 MINUTES) // if the cleanup isn't over by this point (likely via interruptions) we want to pretend it is
+	addtimer(CALLBACK(src, PROC_REF(complete_cleanup_sequence)), 7 MINUTES) // if the cleanup isn't over by this point (likely via interruptions) we want to pretend it is
 
 /datum/outskirts_encounter/proc/trapped_warning()
 	var/sound/S = sound('sound/misc/surrender.ogg', repeat = 0, wait = 0, channel = 0, volume = 100)
@@ -132,7 +130,7 @@
 ///////////////////////////////////////////////// ATTEMPT DEFENDER CLEANUP
 /*
 	dead/unconscious defenders are skipped and removed from the wave list
-	performs 6-second do_after for departure
+	cancels AI actions and performs a 6-second do_after for departure
 
 	on success: finalizes cleanup
 	on failure: adds mob back to pending queue for retry
@@ -144,10 +142,9 @@
 		check_cleanup_completion()
 		return
 
-	M.mode = NPC_AI_IDLE
-	M.target = null
-	M.wander = FALSE
-	M.clear_path()
+	M.ai_controller?.clear_blackboard_key(BB_BASIC_MOB_CURRENT_TARGET)
+	M.ai_controller?.clear_blackboard_key(BB_TRAVEL_DESTINATION)
+	M.ai_controller?.CancelActions()
 	M.visible_message(span_warning("[M] begins to depart the battlefield..."))
 
 	var/success = do_after(M, 6 SECONDS, target = M)
@@ -226,8 +223,4 @@
 	processing_cleanup = FALSE
 	rout_wave_spawned = FALSE
 	pending_cleanup = list()
-	clear_wave()
-
-/datum/outskirts_encounter/proc/force_end_cleanup()
-	if(processing_cleanup)
-		complete_cleanup_sequence()
+	current_wave = list()

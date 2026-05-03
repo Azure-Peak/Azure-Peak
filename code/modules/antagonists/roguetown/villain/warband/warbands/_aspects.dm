@@ -61,10 +61,14 @@
 ////////////
 //////////////////////// MERCENARIES
 ////////////
+// for mercenaries, something in gruntclasses is ALSO available as a "multiclass" for the lieutenants & the warlord
+// if their own class list is filled, however, anything provided from gruntclasses will be overridden & unselectable 
+
+// also: if you're adding a merc subtype here, don't forget to add it to the WARBAND_MERCENARIES define list
 
 /datum/warbands/subtypes/northmen
 	title = "NORTHMEN"
-	warlordclasses = list(/datum/advclass/mercenary/gronnheavy, /datum/advclass/mercenary/atgervi/shaman)
+	warlordclasses = list(/datum/advclass/mercenary/gronn_heavy, /datum/advclass/mercenary/atgervi_shaman)
 	lieutenantclasses = list(/datum/advclass/mercenary/atgervi)
 	gruntclasses = list(/datum/advclass/mercenary/gronn)
 	combatmusic = list('sound/music/combat_shaman2.ogg')
@@ -82,26 +86,29 @@
 	title = "BLACK OAK"
 	treaty_name = "Azuria-in-Exile"
 	racelock = list(/datum/species/human/halfelf, /datum/species/elf/wood, /datum/species/elf/dark)
-	warlordclasses = list(/datum/advclass/wretch/blackoakwyrm)
-	lieutenantclasses = list(/datum/advclass/wretch/blackoakwyrm)
-	gruntclasses = list(/datum/advclass/mercenary/blackoak, /datum/advclass/mercenary/blackoak/ranger)
+	warlordclasses = list(/datum/advclass/wretch/pariah, /datum/advclass/mercenary/blackoak, /datum/advclass/mercenary/blackoak_ranger)
+	lieutenantclasses = list(/datum/advclass/wretch/pariah, /datum/advclass/mercenary/blackoak, /datum/advclass/mercenary/blackoak_ranger)
+	gruntclasses = list(/datum/advclass/mercenary/blackoak, /datum/advclass/mercenary/blackoak_ranger)
 	combatmusic = list('sound/music/combat_blackoak.ogg')
 
 /datum/warbands/subtypes/condottiero
 	title = "CONDOTTIERO"
-	warlordclasses = list(/datum/advclass/mercenary/etrusca/condottiero)
-	gruntclasses = list(/datum/advclass/mercenary/etrusca/balestrieri)
+	warlordclasses = list(/datum/advclass/mercenary/etrusca_condottiero)
+	lieutenantclasses = list(/datum/advclass/mercenary/etrusca_condottiero)
+	gruntclasses = list(/datum/advclass/mercenary/etrusca_balestrieri)
 	combatmusic = list('sound/music/combat_condottiero.ogg')
 
 /datum/warbands/subtypes/raneshen
 	title = "DESERT RIDERS"
-	gruntclasses = list(/datum/advclass/mercenary/desert_rider, /datum/advclass/mercenary/desert_rider/zeybek, /datum/advclass/mercenary/desert_rider/almah)
+	warlordclasses = list(/datum/advclass/mercenary/desert_rider)
+	lieutenantclasses = list(/datum/advclass/mercenary/desert_rider)
+	gruntclasses = list(/datum/advclass/mercenary/desert_rider_sahir, /datum/advclass/mercenary/desert_rider_almah, /datum/advclass/mercenary/desert_rider_zeybek)
 	combatmusic = list('sound/music/combat_desertrider.ogg')
 
 /datum/warbands/subtypes/ruma
 	title = "RUMA CLAN"
 	warlordclasses = list(/datum/advclass/mercenary/seonjang)
-	gruntclasses = list(/datum/advclass/mercenary/rumaclan, /datum/advclass/mercenary/rumaclan/sasu)
+	gruntclasses = list(/datum/advclass/mercenary/rumaclan, /datum/advclass/mercenary/rumaclan_sasu)
 	combatmusic = list('sound/music/combat_kazengite.ogg')
 
 /datum/warbands/subtypes/forlorn
@@ -112,7 +119,7 @@
 /datum/warbands/subtypes/grudgebearer
 	title = "DWARVEN GRUDGEBEARERS"
 	racelock = list(/datum/species/dwarf/mountain)
-	gruntclasses = list(/datum/advclass/mercenary/grudgebearer/soldier, /datum/advclass/mercenary/grudgebearer)
+	gruntclasses = list(/datum/advclass/mercenary/grudgebearer_soldier, /datum/advclass/mercenary/grudgebearer)
 	combatmusic = list('sound/music/combat_dwarf.ogg')
 
 /datum/warbands/subtypes/steppesman
@@ -124,14 +131,14 @@
 	title = "GRENZELHOFTIAN"
 	quote = "''Fought with him for fifteen yils, and I honest to Gods couldn't tell you a damn thing about him. When you hire his kind you're paying for the sword, not the man.''"
 	quote_followup = "- The Count of Morngrove, recalling his long-time guardian and companion."
-	gruntclasses = list(/datum/advclass/mercenary/grenzelhoft, /datum/advclass/mercenary/grenzelhoft/halberdier, /datum/advclass/mercenary/grenzelhoft/crossbowman, /datum/advclass/mercenary/grenzelhoft/mage)
+	gruntclasses = list(/datum/advclass/mercenary/grenzelhoft, /datum/advclass/mercenary/grenzelhoft_halberdier, /datum/advclass/mercenary/grenzelhoft_crossbowman, /datum/advclass/mercenary/grenzelhoft_mage)
 	combatmusic = list('sound/music/combat_grenzelhoft.ogg')
 
 /datum/warbands/subtypes/warscholar
 	title = "WARSCHOLARS"
 	quote = "''For if Endurance - if lyfe itself - is prayer, so must we prepare for death. We should hope to unravel His mysteries with what little time we're spared, 'fore we join Him.''"
 	quote_followup = "- A dramatic Warscholar, upon chipping his mask."
-	gruntclasses = list(/datum/advclass/mercenary/warscholar, /datum/advclass/mercenary/warscholar/pontifex, /datum/advclass/mercenary/warscholar/vizier)
+	gruntclasses = list(/datum/advclass/mercenary/warscholar, /datum/advclass/mercenary/warscholar_pontifex, /datum/advclass/mercenary/warscholar_vizier)
 	faithlock = list(/datum/patron/old_god)
 	combatmusic = list('sound/music/warscholar.ogg')
 
@@ -142,9 +149,9 @@
 	combatmusic = list('sound/music/combat_delf.ogg')
 
 /datum/warbands/subtypes/anthrax
-	title = "VENOM"
+	title = "ANTHRAXI"
 	racelock =	list(/datum/species/elf/dark)
-	gruntclasses = list(/datum/advclass/mercenary/anthrax, /datum/advclass/mercenary/anthrax/assasin)
+	gruntclasses = list(/datum/advclass/mercenary/anthrax, /datum/advclass/mercenary/anthrax_assassin)
 	combatmusic = list('sound/music/combat_delf.ogg')
 
 // vaquero feel like solo mercenaries, but the idea of a cowboy army is too good to pass up. Get In There, Partner
@@ -157,14 +164,20 @@
 /datum/warbands/subtypes/freifechter
 	title = "FREIFECTHERS"
 	treaty_name = "The Freifechters of Aavnar"
-	gruntclasses = list(/datum/advclass/mercenary/freelancer, /datum/advclass/mercenary/freelancer/lancer)
-	combatmusic = list('sound/music/combat_noble.ogg')
+	gruntclasses = list(/datum/advclass/mercenary/freelancer, /datum/advclass/mercenary/freelancer_lancer, /datum/advclass/mercenary/freelancer_sabrist)
+	combatmusic = list('sound/music/frei_fencer.ogg')
 
 /datum/warbands/subtypes/hangyaku
 	title = "HANGYAKU"
 	gruntclasses = list(/datum/advclass/mercenary/hangyaku, /datum/advclass/mercenary/chonin)
 	combatmusic = list('sound/music/combat_kazengite.ogg')
 
+/datum/warbands/subtypes/tithebound
+	title = "TITHEBOUND"
+	racelock = list(/datum/species/dracon, /datum/species/lizardfolk, /datum/species/kobold)
+	faithlock = list(/datum/patron/divine/astrata, /datum/patron/inhumen/matthios)
+	gruntclasses = list(/datum/advclass/mercenary/lirvanmerc)
+	combatmusic = list('sound/music/combat_matthios.ogg')
 
 ////////////
 //////////////////////// SECTS

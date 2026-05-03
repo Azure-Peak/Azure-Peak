@@ -4,7 +4,7 @@
 }
 
 
-.theme-azure_treaty:root {
+.theme-treaty:root {
   --color-base: #64533a;
   --color-label: #b1a390;
 
@@ -28,11 +28,8 @@
     right: 0;
   }
 
-  // ideally we'd also have a nice background for the treaty rather than a flat color
-  // but we've got places to be
-  // this is fine atm
   .TopDecorLeft {
-    background-image: url('../assets/azure_treaty/leftknob.svg');
+    background-image: url('../assets/treaty/leftknob.svg');
     background-repeat: no-repeat;
     pointer-events: none;
     background-size: 64px;
@@ -46,7 +43,7 @@
   }
 
   .TopDecorRight {
-    background-image: url('../assets/azure_treaty/rightknob.svg');
+    background-image: url('../assets/treaty/rightknob.svg');
     background-repeat: no-repeat;
     pointer-events: none;
     background-size: 64px;
@@ -61,7 +58,7 @@
   }
 
   .TopDecorMiddle {
-    background-image: url('../assets/azure_treaty/roll.svg');
+    background-image: url('../assets/treaty/roll.svg');
     background-repeat: repeat-x;
     pointer-events: none;
     height: 128px;
@@ -78,7 +75,7 @@
 
 
   .LowerDecorMiddle {
-    background-image: url('../assets/azure_treaty/roll.svg');
+    background-image: url('../assets/treaty/roll.svg');
     background-repeat: repeat-x;
     height: 31px;
     background-size: 178px;
@@ -94,7 +91,7 @@
   }
 
     .LowerDecorRight {
-    background-image: url('../assets/azure_treaty/rightknob.svg');
+    background-image: url('../assets/treaty/rightknob.svg');
     background-repeat: no-repeat;
     pointer-events: none;
     background-size: 64px;
@@ -109,7 +106,7 @@
   }
 
     .LowerDecorLeft {
-    background-image: url('../assets/azure_treaty/leftknob.svg');
+    background-image: url('../assets/treaty/leftknob.svg');
     background-repeat: no-repeat;
     background-size: 64px;
     background-color: #290d09;

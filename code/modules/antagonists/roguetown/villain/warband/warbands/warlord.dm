@@ -6,13 +6,9 @@
 	min_pq = null
 	max_pq = null
 	announce_latejoin = FALSE
-
-
-
 	show_in_credits = FALSE
 	give_bank_account = FALSE
 	hidden_job = TRUE
-
 
 /datum/antagonist/warlord
 	name = "Warlord"
@@ -25,7 +21,6 @@
 		"I AM OWED!",
 	)
 	rogue_enabled = TRUE
-
 
 //////////////////////////////////////////////////////
 /////////////////////////////////// CANCEL CLASS MENUS
@@ -93,7 +88,6 @@
 	replacement_mob.real_name = "Warlord"
 	SSwarbands.replaced_mobs += new_warlord
 	GLOB.mob_living_list -= new_warlord
-	new_warlord.mode = NPC_AI_OFF
 	new_warlord.real_name = "replacedmob"
 	new_warlord.alpha = 0
 	new_warlord.moveToNullspace()
@@ -185,7 +179,6 @@
 /datum/objective/warband/warlord
 	name = "Find Common Ground"
 	explanation_text = "Sign a Treaty that benefits the Warband."
-
 
 /datum/objective/survive/warband
 	name = "Survive"

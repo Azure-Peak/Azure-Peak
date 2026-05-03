@@ -178,10 +178,13 @@
 		var/mob/living/target = targets[1]
 		var/faction_tag = "warband_[user.mind.warband_ID]"
 		var/personal_faction_tag = "[user.real_name]_faction"
+		var/datum/component/squad_controller/manager = user.GetComponent(/datum/component/squad_controller)
+
 		if(target == user)
 			to_chat(user, span_warning("I cannot be further associated with myself than I already am."))
 			return FALSE
-		if(target in user.friends)
+	
+		if(target in manager.members)
 			to_chat(user, span_warning("[target.name] would follow me to the Underworld and back. Declaring them a mere 'associate' would be an insult."))
 			return FALSE
 
@@ -467,61 +470,59 @@
 		return
 
 	var/datum/component/squad_controller/manager = caster.GetComponent(/datum/component/squad_controller)
-	if(!manager && order_type == "follow")
-		manager = caster.AddComponent(/datum/component/squad_controller, caster)
+	if(!manager)
+		manager = caster.AddComponent(/datum/component/squad_controller)
 
-	for(var/mob/other_mob in caster.friends)
+	for(var/mob/other_mob in manager.members)
 		if(!other_mob)
-			caster.friends -= other_mob
+			manager.members -= other_mob
 			continue
 		if(get_dist(caster, other_mob) >= 15)
 			continue
 		if(istype(other_mob, /mob/living/carbon/human/species/human/northern/goon) && !other_mob.client)
 			var/mob/living/carbon/human/species/human/northern/goon/grunt = other_mob
-			if(grunt.mode == NPC_AI_FLEE)
+			if(grunt.ai_controller?.blackboard[BB_BASIC_MOB_FLEEING])
 				continue
-			if(!grunt.stat == CONSCIOUS)
+			if(grunt.stat != CONSCIOUS)
 				continue
 
 			count += 1
 			switch(order_type)
 				if("charge")
-					if(manager)
-						manager.disband_squad()
-					grunt.back_to_idle()
-					grunt.start_pathing_to(target_location, force = TRUE)
+					manager.clear_followers()
+					grunt.pet_passive = FALSE
+					grunt.ai_controller?.clear_blackboard_key(BB_BASIC_MOB_CURRENT_TARGET)
+					grunt.ai_controller?.clear_blackboard_key(BB_HIGHEST_THREAT_MOB)
+					if(grunt.ai_controller?.blackboard[BB_MOB_AGGRO_TABLE])
+						grunt.ai_controller.blackboard[BB_MOB_AGGRO_TABLE] = list()
+					grunt.ai_controller?.CancelActions()
+					grunt.ai_controller?.set_blackboard_key(BB_TRAVEL_DESTINATION, get_turf(target_location))
 					msg = "<span style='color:#ec3333'>charge.</span>"
-					grunt.target = null
-					grunt.next_seek = 0
-					grunt.aggressive = TRUE
-					grunt.wander = TRUE
-					
+		
 				if("follow")
-					if(manager)
-						manager.add_member(grunt)
-					
-					grunt.mode = NPC_AI_FOLLOW
-					grunt.target = target
-					grunt.aggressive = FALSE
-					grunt.wander = FALSE
+					manager.add_follower(grunt)	// adds to both members and followers
 					msg = "<span style='color:#57536e'>follow me.</span>"
 					
 				if("neutral")
-					if(manager)
-						manager.disband_squad()
-					grunt.mode = NPC_AI_IDLE
-					grunt.target = null
-					grunt.aggressive = FALSE
+					manager.clear_followers()
+					grunt.pet_passive = TRUE
+					grunt.ai_controller?.clear_blackboard_key(BB_BASIC_MOB_CURRENT_TARGET)
+					grunt.ai_controller?.clear_blackboard_key(BB_HIGHEST_THREAT_MOB)
+					grunt.ai_controller?.clear_blackboard_key(BB_TRAVEL_DESTINATION)
+					if(grunt.ai_controller?.blackboard[BB_MOB_AGGRO_TABLE])
+						grunt.ai_controller.blackboard[BB_MOB_AGGRO_TABLE] = list()
+					grunt.ai_controller?.CancelActions()
 					msg = "<span style='color:#747474'>stand at ease.</span>"
-					grunt.wander = TRUE
 
 				if("fight")
 					cooldown = TRUE
+					grunt.pet_passive = FALSE
 					grunt.apply_status_effect(/datum/status_effect/buff/warband_attack)
 					msg = "<span style='color:#ff0000'>give 'em hell.</span>"
 					
 				if("survive")
 					cooldown = TRUE
+					grunt.pet_passive = FALSE
 					grunt.apply_status_effect(/datum/status_effect/buff/warband_defend)
 					msg = "<span style='color:#ea76d9'>hold fast.</span>"
 

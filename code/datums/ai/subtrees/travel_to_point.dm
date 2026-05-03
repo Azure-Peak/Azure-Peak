@@ -22,3 +22,13 @@
 
 /datum/ai_planning_subtree/travel_to_point/and_clear_target/wander
 	location_key = BB_WANDER_POINT
+
+/datum/ai_behavior/travel_towards/outskirts_travel
+
+/datum/ai_behavior/travel_towards/outskirts_travel/perform(seconds_per_tick, datum/ai_controller/controller, target_key)
+	if(!length(controller.movement_path))
+		var/list/cached = controller.blackboard[BB_OUTSKIRTS_CACHED_PATH]
+		if(cached && length(cached))
+			controller.movement_path = cached.Copy()
+			controller.clear_blackboard_key(BB_OUTSKIRTS_CACHED_PATH)
+	. = ..()

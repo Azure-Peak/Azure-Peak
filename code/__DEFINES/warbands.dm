@@ -26,11 +26,12 @@
 #define WARBAND_MERC_WARSCHOLAR		/datum/warbands/subtypes/warscholar
 #define WARBAND_MERC_DROW			/datum/warbands/subtypes/anthrax
 #define WARBAND_MERC_HANGYAKU		/datum/warbands/subtypes/hangyaku
+#define WARBAND_MERC_TITHEBOUND 	/datum/warbands/subtypes/tithebound
 
 #define WARBAND_MERCENARIES list(WARBAND_MERC_NORTHMEN, WARBAND_MERC_GRENZEL, WARBAND_MERC_BLACKOAK, WARBAND_MERC_CONDO, \
                             WARBAND_MERC_DESERTRIDER, WARBAND_MERC_FORLORN, WARBAND_MERC_FREI, WARBAND_MERC_GRUDGE, \
                             WARBAND_MERC_ROUTIER, WARBAND_MERC_RUMA, WARBAND_MERC_STEPPE, WARBAND_MERC_WARSCHOLAR, \
-                            WARBAND_MERC_VAQUERO, WARBAND_MERC_UNDERDWELLER, WARBAND_MERC_DROW, WARBAND_MERC_HANGYAKU)
+                            WARBAND_MERC_VAQUERO, WARBAND_MERC_UNDERDWELLER, WARBAND_MERC_DROW, WARBAND_MERC_HANGYAKU, WARBAND_MERC_TITHEBOUND)
 
 #define WARBAND_SECT_TEN 		/datum/warbands/subtypes/ten 
 #define WARBAND_SECT_FOUR		/datum/warbands/subtypes/ascendant

@@ -186,4 +186,5 @@
 		if("Winged Elven Barbute")
 			H.equip_to_slot_or_del(new /obj/item/clothing/head/roguetown/helmet/elvenbarbute/winged/blackoak, SLOT_HEAD, TRUE)
 
-	wretch_select_bounty(H)
+	if(H.mind.warband_ID == 0) // this class is shared with the Black Oak Warband, whom we don't want to be giving bounties
+		wretch_select_bounty(H)

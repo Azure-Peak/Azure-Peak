@@ -15,11 +15,10 @@
 		grunt = cache_to_use[1]
 		cache_to_use -= grunt
 		grunt.forceMove(spawn_location)
-		grunt.mode = NPC_AI_IDLE
 		grunt.warband_ID = src.warband_ID
 		grunt.faction = list()  // clear any old factions
 		grunt.faction |= list("warband_[src.warband_ID]")
-		START_PROCESSING(SShumannpc, grunt)
+		grunt.ai_controller?.set_ai_status(AI_STATUS_IDLE)
 	else
 		grunt = new /mob/living/carbon/human/species/human/northern/goon(spawn_location)
 		grunt.warband = src.selected_warband

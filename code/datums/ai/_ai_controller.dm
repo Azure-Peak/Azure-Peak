@@ -402,6 +402,8 @@ have ways of interacting with a specific atom and control it. They posses a blac
 		return AI_STATUS_OFF
 
 	var/turf/pawn_turf = get_turf(mob_pawn)
+	if(!pawn_turf)
+		return AI_STATUS_OFF  // never activate in nullspace
 #ifdef TESTING
 	if(!pawn_turf)
 		CRASH("AI controller [src] controlling pawn ([pawn]) is not on a turf.")

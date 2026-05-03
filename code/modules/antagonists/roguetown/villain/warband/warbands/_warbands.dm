@@ -13,7 +13,7 @@
 			'/obj/structure/fluff/warband/warband_recruit'				| a recruitment point
 			'/obj/effect/solid_invisible_barrier/warband_spawnbarrier'	| this thing blocking the spawn room's exit
 			'/obj/structure/fluff/warband/campaign_planner'				| this thing
-			'/obj/structure/fluff/traveltile/warband/camp_to_outskirts' | an entrance
+			'/obj/structure/fluff/traveltile/warband/camp_to_outskirts' | an exit
 			'/obj/structure/fluff/warband/shortcut' 					| an emergency entrance
 
 		!VERY IMPORTANT!

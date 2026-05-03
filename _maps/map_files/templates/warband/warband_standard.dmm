@@ -402,10 +402,10 @@
 /obj/structure/table/wood{
 	icon_state = "tablewood1"
 	},
-/obj/item/quiver/bolts,
-/obj/item/quiver/bolts,
-/obj/item/quiver/bolts,
-/obj/item/quiver/bolts,
+/obj/item/quiver/bolt/standard,
+/obj/item/quiver/bolt/standard,
+/obj/item/quiver/bolt/standard,
+/obj/item/quiver/bolt/standard,
 /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow,
 /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow,
 /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow,

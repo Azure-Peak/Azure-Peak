@@ -47,7 +47,7 @@
 	desc = "It is the year 1513, and within the ruins of the Holy Land there yet stands a Grand Duchy."
 	job_owner = /datum/job/roguetown/lord
 	territories = list(FIEF_PASS, FIEF_KINGSFIELD, FIEF_TERRORBOG)
-	icon = 'icons/roguetown/weapons/shield_heraldry.dmi'
+	icon = 'icons/roguetown/weapons/legacy_shield_heraldry.dmi'
 	icon_state = "ironsh_azure peak"
 
 /datum/territory_faction/heartfelt
@@ -56,7 +56,7 @@
 	job_owner = /datum/migrant_role/heartfelt/lord
 	vault = 2 /// https://media.tenor.com/aj47iJzWZgwAAAAM
 	territories = list(FIEF_HEARTFELT)
-	icon = 'icons/roguetown/weapons/shield_heraldry.dmi'
+	icon = 'icons/roguetown/weapons/legacy_shield_heraldry.dmi'
 	icon_state = "woodsh_peacemaker"
 
 /datum/territory_faction/church
@@ -71,7 +71,7 @@
 /datum/territory_faction/orthodoxy
 	name = "The Orthodoxy"
 	desc = "Deep within old halls, older men weep in memory of the eldest God."
-	job_owner = /datum/job/roguetown/puritan
+	job_owner = /datum/job/roguetown/inquisitor
 	vault = 700
 	territories = list()
 	icon = 'icons/roguetown/weapons/shields32.dmi'
@@ -82,6 +82,8 @@
 	desc = "Several families of land-tending yeomen, graciously granted workable soil by the Crown."
 	vault = 1500
 	job_owner = /datum/job/roguetown/farmer
+	icon = 'icons/roguetown/weapons/shields32.dmi'
+	icon_state = "deprived"
 	territories = list(FIEF_HIGHLANDS)
 
 // guildmaster is given a territory with a randomized Prized Good (limited to materials)
@@ -92,6 +94,8 @@
 	vault = 1500
 	job_owner = /datum/job/roguetown/guildmaster
 	territories = list(FIEF_GUILD)
+	icon = 'icons/roguetown/weapons/shields32.dmi'
+	icon_state = "artificershield"
 
 // merchant is given a territory with a randomized Prized Good (any)
 /datum/territory_faction/merchant
@@ -100,6 +104,8 @@
 	vault = 2000
 	job_owner = /datum/job/roguetown/merchant
 	territories = list(FIEF_MERCHANT)
+	icon = 'icons/roguetown/weapons/shields32.dmi'
+	icon_state = "bronzeshield"
 
 //////////// TERRITORIES
 /datum/territory
@@ -431,7 +437,7 @@
 	name = "Arms"
 	items = list(/obj/item/rogueweapon/sword/saber/iron, /obj/item/rogueweapon/sword/iron, /obj/item/rogueweapon/sword/short/iron/chipped, /obj/item/rogueweapon/sword/short/messer/iron, /obj/item/rogueweapon/spear, /obj/item/rogueweapon/shield/heater, \
 	/obj/item/rogueweapon/sword/decorated, /obj/item/rogueweapon/halberd, /obj/item/rogueweapon/huntingknife/idagger/silver, /obj/item/rogueweapon/huntingknife/idagger, /obj/item/rogueweapon/greatsword/zwei, /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow, \
-	/obj/item/rogueweapon/eaglebeak/lucerne, /obj/item/quiver/bolts, /obj/item/rogueweapon/mace, /obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron, /obj/item/clothing/neck/roguetown/gorget/steel, /obj/item/rogueweapon/sword/short/messer/iron, \
+	/obj/item/rogueweapon/eaglebeak/lucerne, /obj/item/quiver/bolt/standard, /obj/item/rogueweapon/mace, /obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron, /obj/item/clothing/neck/roguetown/gorget/steel, /obj/item/rogueweapon/sword/short/messer/iron, \
 	/obj/item/rogueweapon/flail, /obj/item/rogueweapon/halberd/bardiche, /obj/item/clothing/head/roguetown/helmet/kettle/iron, /obj/item/clothing/neck/roguetown/chaincoif/iron, /obj/item/clothing/suit/roguetown/armor/gambeson/heavy, /obj/item/reagent_containers/food/snacks/squiresdelight)
 
 

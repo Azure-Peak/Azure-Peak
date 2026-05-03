@@ -349,13 +349,11 @@
 					stored_character.forceMove(return_recruitmentpoint.loc)
 					returning_character.forceMove(return_recruitmentpoint.loc)					
 					returning_character.key = ghost.key
-			stored_character.mode = NPC_AI_OFF
 
 	// USING A LINKED MOB
 	// aka: envoy -> home
 	else
 		var/mob/living/carbon/human/target_character = envoy?.mind.original_char
-		target_character.mode = NPC_AI_OFF
 		target_character.key = envoy.key
 		target_character.forceMove(target_character.loc.loc)
 		src.members -= envoy
@@ -435,6 +433,10 @@
 	var/faction_tag = "warband_[src.warband_ID]"
 	var/personal_faction_tag
 	var/mob/exiled_creecher = initial_target
+	var/datum/component/squad_controller/manager = user.GetComponent(/datum/component/squad_controller)
+	if(!manager)
+		manager = user.AddComponent(/datum/component/squad_controller)
+
 	if(menu_name)	// get the mob w/the name given from the exile menu
 		for(var/mob/living/member in src.members)
 			if(member.real_name == menu_name)
@@ -455,7 +457,7 @@
 		to_chat(user, span_warning("No point in killing the messenger."))
 		return
 
-	if(exiled_creecher in user.friends) // against one of your own NPCs
+	if(exiled_creecher in manager.members) // against one of your own NPCs
 		to_chat(user, span_warning("[exiled_creecher.name] is one of my finest soldiers! I could never consider such a thing..."))
 		return FALSE
 

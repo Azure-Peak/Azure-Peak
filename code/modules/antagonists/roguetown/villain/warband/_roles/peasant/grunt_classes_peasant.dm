@@ -225,248 +225,78 @@
 /datum/outfit/job/roguetown/warband/rebellion/grunt/conspirator/pre_equip(mob/living/carbon/human/H)
 	..()
 
-	var/coverclass = list("Servant","Churchling","Guildsman","Farmer","Surgeon")
+	var/coverclass = list("Servant","Sexton","Guildsman","Farmer","Surgeon")
 	var/coverclass_choice = input("Before I was inspired to join the Rebellion, I was an unremarkable...", "I REMEMBER") as anything in coverclass
 	switch(coverclass_choice)
 		if("Servant")
-			if(should_wear_femme_clothes(H))
-				head = /obj/item/clothing/head/roguetown/armingcap
-				armor = /obj/item/clothing/suit/roguetown/shirt/dress/gen/black
-				shoes = /obj/item/clothing/shoes/roguetown/simpleshoes
-				cloak = /obj/item/clothing/cloak/apron/waist
-				H.job = "Maid"
-				H.advjob = "Maid"
-			else
-				pants = /obj/item/clothing/under/roguetown/trou
-				shoes = /obj/item/clothing/shoes/roguetown/shortboots
-				armor = /obj/item/clothing/suit/roguetown/armor/workervest
-				gloves = /obj/item/clothing/gloves/roguetown/fingerless
-				H.job = "Servant"
-				H.advjob = "Servant"
-			shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/guard
-			backl = /obj/item/storage/backpack/rogue/satchel
-			belt = /obj/item/storage/belt/rogue/leather
-			beltr = /obj/item/storage/keyring/servant
-			beltl = /obj/item/storage/belt/rogue/pouch/coins/poor
+			H.adjust_skillrank_up_to(/datum/skill/craft/cooking, 3, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/craft/crafting, 3, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/craft/sewing, 3, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/misc/medicine, 1, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/misc/reading, 1, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/labor/farming, 2, TRUE)
+			var/subclass = list("Butler","Maid","Servant")
+			var/subclass_choice = input("They still know me as a...", "I REMEMBER") as anything in subclass
+			switch(subclass_choice)
+				if("Butler")
+					var/datum/outfit/job/roguetown/servant/butler/towner_outfit = new()
+					towner_outfit.pre_equip(H)
+					H.job = "Manservant"
+					H.advjob = "Manservant"
 
-			H.adjust_skillrank_up_to(/datum/skill/craft/cooking = 3, TRUE)
-			H.adjust_skillrank_up_to(/datum/skill/craft/crafting = 3, TRUE)
-			H.adjust_skillrank_up_to(/datum/skill/craft/sewing = 3, TRUE)
+				if("Maid")
+					var/datum/outfit/job/roguetown/servant/maid/towner_outfit = new()
+					towner_outfit.pre_equip(H)
+					H.job = "Maid"
+					H.advjob = "Maid"
+
+				if("Servant")
+					var/datum/outfit/job/roguetown/servant/servant/towner_outfit = new()
+					towner_outfit.pre_equip(H)
+					H.job = "Servant"
+					H.advjob = "Servant"
+
+		if("Sexton")
+			var/datum/outfit/job/roguetown/sexton/groundskeeper/towner_outfit = new()
+			towner_outfit.pre_equip(H)
+			H.job = "Sexton"
+			H.advjob = "Sexton"
 			H.adjust_skillrank_up_to(/datum/skill/misc/medicine = 1, TRUE)
-			H.adjust_skillrank_up_to(/datum/skill/misc/reading = 1, TRUE)
-			H.change_stat("intelligence", 1)
-			H.change_stat("perception", 2)
-			ADD_TRAIT(H, TRAIT_CICERONE, TRAIT_GENERIC)
-
-
-		if("Churchling")
-			if(H.patron.type == /datum/patron/divine/undivided)
-				neck = /obj/item/clothing/neck/roguetown/psicross/undivided
-			if(H.patron.type == /datum/patron/divine/astrata)
-				neck = /obj/item/clothing/neck/roguetown/psicross/astrata
-			if(H.patron.type == /datum/patron/divine/noc)
-				neck = /obj/item/clothing/neck/roguetown/psicross/noc
-				backpack_contents = (/obj/item/reagent_containers/glass/bottle/rogue/strongmanapot)
-			if(H.patron.type == /datum/patron/divine/ravox)
-				neck = /obj/item/clothing/neck/roguetown/psicross/ravox
-				backpack_contents = (/obj/item/book/rogue/law)
-			if(H.patron.type == /datum/patron/divine/necra)
-				neck = /obj/item/clothing/neck/roguetown/psicross/necra
-				backpack_contents = list(/obj/item/rogueweapon/shovel/small, /obj/item/natural/bundle/stick)
-			if(H.patron.type == /datum/patron/divine/abyssor)
-				neck = /obj/item/clothing/neck/roguetown/psicross/abyssor
-			if(H.patron.type == /datum/patron/divine/dendor)
-				neck = /obj/item/clothing/neck/roguetown/psicross/dendor
-			if(H.patron.type == /datum/patron/divine/malum)
-				neck = /obj/item/clothing/neck/roguetown/psicross/malum
-			if(H.patron.type == /datum/patron/divine/xylix)
-				neck = /obj/item/clothing/neck/roguetown/luckcharm
-			if(H.patron.type == /datum/patron/divine/eora)
-				neck = /obj/item/clothing/neck/roguetown/psicross/eora
-			if(H.patron.type == /datum/patron/divine/pestra)
-				neck = /obj/item/clothing/neck/roguetown/psicross/pestra
-				backpack_contents = list(/obj/item/natural/bundle/cloth, /obj/item/needle)
-			if(H.patron.type == /datum/patron/inhumen/zizo)
-				neck = /obj/item/clothing/neck/roguetown/psicross
-			if(H.patron.type == /datum/patron/inhumen/graggar)
-				neck = /obj/item/clothing/neck/roguetown/psicross
-			if(H.patron.type == /datum/patron/inhumen/matthios)
-				neck = /obj/item/clothing/neck/roguetown/psicross
-			if(H.patron.type == /datum/patron/inhumen/baotha)
-				neck = /obj/item/clothing/neck/roguetown/psicross
-			if(H.patron.type == /datum/patron/old_god)
-				neck = /obj/item/clothing/neck/roguetown/psicross
-			var/datum/devotion/C = new /datum/devotion(H, H.patron)
-			C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_3)
-			if(should_wear_femme_clothes(H))
-				head = /obj/item/clothing/head/roguetown/armingcap
-				armor = /obj/item/clothing/suit/roguetown/shirt/dress/gen/random
-				shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt
-			else
-				armor = /obj/item/clothing/suit/roguetown/shirt/robe
-				shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt
-				pants = /obj/item/clothing/under/roguetown/tights
-			
-			backl = /obj/item/storage/backpack/rogue/satchel
-			belt = /obj/item/storage/belt/rogue/leather/rope
-			shoes = /obj/item/clothing/shoes/roguetown/simpleshoes
-			beltl = /obj/item/storage/keyring/churchie
-			H.adjust_skillrank_up_to(/datum/skill/misc/medicine = 1, TRUE)
-			H.adjust_skillrank_up_to(/datum/skill/magic/holy = 3, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/magic/holy = 2, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/craft/sewing = 2, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/misc/reading = 1, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/craft/crafting = 1, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/craft/cooking = 1, TRUE)
-			H.job = "Churchling"
-			H.advjob = "Churchling"
 
 		if("Guildsman")
 			var/guild = list("Smith","Artificer","Architect")
 			var/guild_choice = input("I was a...", "I REMEMBER") as anything in guild
 			switch(guild_choice)
 				if("Smith")
-					if(prob(50))
-						head = /obj/item/clothing/head/roguetown/hatblu
-					H.adjust_skillrank_up_to(/datum/skill/craft/crafting = 3, TRUE)
-					H.adjust_skillrank_up_to(/datum/skill/combat/wrestling = 3, TRUE)
-					H.adjust_skillrank_up_to(/datum/skill/craft/blacksmithing = 5, TRUE)
-					H.adjust_skillrank_up_to(/datum/skill/craft/armorsmithing = 5, TRUE)
-					H.adjust_skillrank_up_to(/datum/skill/craft/weaponsmithing = 5, TRUE)
-					H.adjust_skillrank_up_to(/datum/skill/craft/smelting = 4, TRUE)
-					H.adjust_skillrank_up_to(/datum/skill/craft/engineering = 1, TRUE)
-					H.adjust_skillrank_up_to(/datum/skill/misc/reading = 2, TRUE)
-					ADD_TRAIT(H, TRAIT_TRAINED_SMITH, TRAIT_GENERIC)				
-					if(should_wear_femme_clothes(H))
-						armor = /obj/item/clothing/suit/roguetown/shirt/dress/gen/random
-						shoes = /obj/item/clothing/shoes/roguetown/shortboots
-					else if(should_wear_masc_clothes(H))
-						shoes = /obj/item/clothing/shoes/roguetown/boots/leather
-						shirt = /obj/item/clothing/suit/roguetown/shirt/shortshirt
-					pants = /obj/item/clothing/under/roguetown/trou
-					belt = /obj/item/storage/belt/rogue/leather
-					beltl = /obj/item/storage/belt/rogue/pouch/coins/poor
-					beltr = /obj/item/roguekey/crafterguild
-					cloak = /obj/item/clothing/cloak/apron/blacksmith
-					backr = /obj/item/storage/backpack/rogue/satchel
-					backpack_contents = list(
-						/obj/item/rogueweapon/hammer/iron = 1,
-						/obj/item/rogueweapon/tongs = 1,
-						/obj/item/recipe_book/blacksmithing = 1,
-						)
+					var/datum/outfit/job/roguetown/guildsman/blacksmith/towner_outfit = new()
+					towner_outfit.pre_equip(H)
 					H.job = "Guild Blacksmith"
 					H.advjob = "Guild Blacksmith"
 				if("Artificer")
-					H.adjust_skillrank_up_to(/datum/skill/craft/crafting = 4, TRUE)
-					H.adjust_skillrank_up_to(/datum/skill/craft/smelting = 4, TRUE)
-					H.adjust_skillrank_up_to(/datum/skill/craft/engineering = 4, TRUE)
-					H.adjust_skillrank_up_to(/datum/skill/craft/ceramics = 3, TRUE)
-					H.adjust_skillrank_up_to(/datum/skill/craft/blacksmithing = 2, TRUE)
-					H.adjust_skillrank_up_to(/datum/skill/craft/armorsmithing = 2, TRUE)
-					H.adjust_skillrank_up_to(/datum/skill/craft/weaponsmithing = 2, TRUE)
-					H.adjust_skillrank_up_to(/datum/skill/magic/arcane = 2, TRUE)
-					H.adjust_skillrank_up_to(/datum/skill/craft/traps = 2, TRUE)
-					H.adjust_skillrank_up_to(/datum/skill/misc/reading = 2, TRUE)
-
-					head = /obj/item/clothing/head/roguetown/articap
-					armor = /obj/item/clothing/suit/roguetown/armor/leather/jacket/artijacket
-					cloak = /obj/item/clothing/cloak/apron/waist/brown
-					gloves = /obj/item/clothing/gloves/roguetown/angle/grenzelgloves/blacksmith
-					pants = /obj/item/clothing/under/roguetown/trou/artipants
-					shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/artificer
-					shoes = /obj/item/clothing/shoes/roguetown/boots/leather
-					belt = /obj/item/storage/belt/rogue/leather
-					beltr = /obj/item/storage/belt/rogue/pouch/coins/mid
-					beltl = /obj/item/roguekey/crafterguild
-					backl = /obj/item/storage/backpack/rogue/backpack
-					backpack_contents = list(
-						/obj/item/rogueweapon/hammer/steel = 1,
-						/obj/item/lockpickring/mundane = 1,
-						/obj/item/recipe_book/blacksmithing = 1,
-						/obj/item/recipe_book/engineering = 1,
-						/obj/item/recipe_book/ceramics = 1,
-						/obj/item/recipe_book/builder = 1,
-						/obj/item/recipe_book/survival = 1,
-						/obj/item/clothing/mask/rogue/spectacles/golden = 1,
-						/obj/item/contraption/linker = 1,
-						)
-					if(H.mind)
-						H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/touch/prestidigitation)
-						H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/enchant_weapon)
-					ADD_TRAIT(H, TRAIT_ARCYNE_T1, TRAIT_GENERIC)
-					H.change_stat("strength", 1)
-					H.change_stat("intelligence", 3)
-					H.change_stat("endurance", 2)
-					H.change_stat("constitution", 1)
-					H.change_stat("perception", 1)
+					var/datum/outfit/job/roguetown/guildsman/artificer/towner_outfit = new()
+					towner_outfit.pre_equip(H)
 					H.job = "Artificer"
 					H.advjob = "Artificer"
 				if("Architect")
-					H.adjust_skillrank_up_to(/datum/skill/misc/athletics = 4, TRUE)
-					H.adjust_skillrank_up_to(/datum/skill/craft/crafting = 4, TRUE)
-					H.adjust_skillrank_up_to(/datum/skill/craft/carpentry = 4, TRUE)
-					H.adjust_skillrank_up_to(/datum/skill/craft/masonry = 4, TRUE)
-					H.adjust_skillrank_up_to(/datum/skill/craft/engineering = 4, TRUE)
-					H.adjust_skillrank_up_to(/datum/skill/labor/lumberjacking = 3, TRUE)
-					H.adjust_skillrank_up_to(/datum/skill/labor/mining = 3, TRUE)
-					H.adjust_skillrank_up_to(/datum/skill/misc/swimming = 2, TRUE)
-					H.adjust_skillrank_up_to(/datum/skill/craft/traps = 2, TRUE)
-					H.adjust_skillrank_up_to(/datum/skill/misc/reading = 2, TRUE)
-					H.adjust_skillrank_up_to(/datum/skill/craft/ceramics = 2, TRUE)
-					head = /obj/item/clothing/head/roguetown/hatblu
-					armor = /obj/item/clothing/suit/roguetown/armor/leather/vest
-					cloak = /obj/item/clothing/cloak/apron/waist/bar
-					pants = /obj/item/clothing/under/roguetown/trou
-					shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/random
-					shoes = /obj/item/clothing/shoes/roguetown/boots/leather
-					belt = /obj/item/storage/belt/rogue/leather
-					beltr = /obj/item/flashlight/flare/torch/lantern
-					beltl = /obj/item/rogueweapon/pick/steel
-					backr = /obj/item/rogueweapon/stoneaxe/woodcut/steel/woodcutter
-					backl = /obj/item/storage/backpack/rogue/backpack
-					backpack_contents = list(
-						/obj/item/rogueweapon/hammer/steel = 1,
-						/obj/item/rogueweapon/handsaw = 1,
-						/obj/item/storage/belt/rogue/pouch/coins/mid = 1,
-						/obj/item/rogueweapon/chisel = 1,
-						/obj/item/flashlight/flare/torch = 1,
-						/obj/item/flint = 1,
-						/obj/item/rogueweapon/huntingknife = 1,
-						/obj/item/rogueweapon/handsaw = 1,
-						/obj/item/dye_brush = 1,
-						/obj/item/recipe_book/engineering = 1,
-						/obj/item/recipe_book/builder = 1,
-						/obj/item/recipe_book/survival = 1,
-						/obj/item/roguekey/crafterguild = 1
-						)
-					H.change_stat("strength", 1)
-					H.change_stat("intelligence", 2)
-					H.change_stat("endurance", 2)
-					H.change_stat("constitution", 1)
-					H.change_stat("fortune", 2)
+					var/datum/outfit/job/roguetown/guildsman/architect/towner_outfit = new()
+					towner_outfit.pre_equip(H)
 					H.job = "Architect"
 					H.advjob = "Architect"
+
 		if("Farmer")
+			var/datum/outfit/job/roguetown/farmer/towner_outfit = new()
+			towner_outfit.pre_equip(H)
 			if(should_wear_femme_clothes(H))
-				armor = /obj/item/clothing/suit/roguetown/shirt/dress/gen/random
-				shirt = /obj/item/clothing/suit/roguetown/shirt/tunic/random
-				cloak = /obj/item/clothing/cloak/apron/brown
 				H.job = "Soilbride"
-				H.advjob = "Soilbride"				
+				H.advjob = "Soilbride"
 			else
-				pants = /obj/item/clothing/under/roguetown/tights/random
-				armor = /obj/item/clothing/suit/roguetown/armor/leather/vest
-				shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/random
 				H.job = "Soilson"
-				H.advjob = "Soilson"	
-			head = /obj/item/clothing/head/roguetown/armingcap
-			mask = /obj/item/clothing/head/roguetown/roguehood
-			neck = /obj/item/storage/belt/rogue/pouch/coins/poor
-			wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
-			shoes = /obj/item/clothing/shoes/roguetown/boots/leather
-			belt = /obj/item/storage/belt/rogue/leather/rope
-			beltr = /obj/item/storage/keyring/soilson
-			backr = /obj/item/storage/backpack/rogue/satchel
-			backpack_contents = list(/obj/item/recipe_book/survival = 1, /obj/item/flashlight/flare/torch = 1, /obj/item/rogueweapon/huntingknife = 1, /obj/item/flint = 1)
+				H.advjob = "Soilson"
 			H.adjust_skillrank_up_to(/datum/skill/labor/farming = 4, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/labor/butchering = 4, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/combat/wrestling = 3, TRUE)
@@ -477,7 +307,6 @@
 			H.adjust_skillrank_up_to(/datum/skill/craft/crafting = 2, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/craft/carpentry = 2, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails = 1, TRUE)
-			H.adjust_skillrank_up_to(/datum/skill/combat/knives = 1, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/misc/medicine = 1, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/craft/sewing = 1, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/craft/cooking = 1, TRUE)
@@ -487,24 +316,11 @@
 			H.change_stat("constitution", 1)
 			ADD_TRAIT(H, TRAIT_SEEDKNOW, TRAIT_GENERIC)
 			ADD_TRAIT(H, TRAIT_NOSTINK, TRAIT_GENERIC)
-		if("Surgeon")
-			head = /obj/item/clothing/head/roguetown/roguehood/black
-			pants = /obj/item/clothing/under/roguetown/trou/apothecary
-			shirt = /obj/item/clothing/suit/roguetown/shirt/apothshirt
-			armor = /obj/item/clothing/suit/roguetown/shirt/robe/black
-			belt = /obj/item/storage/belt/rogue/leather/rope
-			neck = /obj/item/storage/belt/rogue/pouch/coins/poor
-			beltl = /obj/item/storage/belt/rogue/surgery_bag/full/physician
-			beltr = /obj/item/roguekey/physician
-			id = /obj/item/scomstone/bad
-			r_hand = /obj/item/rogueweapon/woodstaff/
-			shoes = /obj/item/clothing/shoes/roguetown/boots/leather
-			backr = /obj/item/storage/backpack/rogue/satchel
-			backpack_contents = list(
-				/obj/item/natural/worms/leech/cheele = 1,
-				/obj/item/recipe_book/alchemy = 1,
-				/obj/item/clothing/mask/rogue/physician = 1,
-			)
+		if("Apothecary")
+			var/datum/outfit/job/roguetown/apothecary/basic/towner_outfit = new()
+			towner_outfit.pre_equip(H)
+			H.job = "Apothecary"
+			H.advjob = "Apothecary"			
 			H.adjust_skillrank_up_to(/datum/skill/misc/medicine = 4, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/misc/reading = 3, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/craft/alchemy = 3, TRUE)
@@ -516,7 +332,6 @@
 			H.change_stat("intelligence", 3)
 			H.change_stat("perception", 2)
 			ADD_TRAIT(H, TRAIT_NOSTINK, TRAIT_GENERIC)
-			if(H.mind)
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/diagnose/secular)	
-			H.job = "Apothecary"
-			H.advjob = "Apothecary"
+			ADD_TRAIT(H, TRAIT_MEDICINE_EXPERT, TRAIT_GENERIC)
+			ADD_TRAIT(H, TRAIT_ALCHEMY_EXPERT, TRAIT_GENERIC)
+			ADD_TRAIT(H, TRAIT_EMPATH, TRAIT_GENERIC)

@@ -2,6 +2,7 @@
 	var/target_age = null
 	var/list/stat_mods = list()
 	var/list/skill_mods = list()
+	var/list/trait_mods = list()
 	var/minor_mod = 0
 	var/utility_mod = 0
 
@@ -14,6 +15,9 @@
 			for(var/S in skill_mods)
 				var/datum/skill/skill = S
 				H.adjust_skillrank_up_to(skill, skill_mods[S], TRUE)
+		if(length(trait_mods))
+			for(var/trait in trait_mods)
+				ADD_TRAIT(H, trait, TRAIT_GENERIC)
 		if(LAZYLEN(H.mind?.mage_aspect_config))
 			if(minor_mod)
 				H.mind.mage_aspect_config["minor"] += minor_mod
@@ -35,6 +39,11 @@
 		for(var/S in skill_mods)
 			var/datum/skill/skill = S
 			str += "<br><font color ='#ad9152'>[initial(skill.name)] — [SSskills.level_names[skill_mods[S]]]</font>"
+		str += "<br><font color ='#7a4d0a'>-----</font>"
+	if(length(trait_mods))
+		for(var/trait in trait_mods)
+			str += "<br><details><summary><i><font color ='#ccbb82'>[trait]</font></i></summary>"
+			str += "<i><font color = '#a3ffe0'>[GLOB.roguetraits[trait]]</font></i></details>"
 		str += "<br><font color ='#7a4d0a'>-----</font>"
 	if(minor_mod)
 		str += "<br><font color = '#a3a7e0'>Additional Minor Aspects: <b>[minor_mod]</b></font>"
@@ -414,3 +423,8 @@
 		STATKEY_INT = 1,
 		STATKEY_SPD = -1
 	)
+
+/datum/class_age_mod/marshal_kcommander
+	target_age = AGE_OLD
+	trait_mods = list(TRAIT_LAWEXPERT)
+

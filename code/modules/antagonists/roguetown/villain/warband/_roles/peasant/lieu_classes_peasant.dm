@@ -110,7 +110,7 @@
 	name = "Firebrand"
 	tutorial = "It's said that the FIREBRAND was once a gentle, well-learned tinkerer. The revolution's crucible melted his innocence, forging him into a butcher."
 	outfit = /datum/outfit/job/roguetown/warband/rebellion/lieutenant/firebrand
-	traits_applied = list(TRAIT_LAWEXPERT, TRAIT_FORMATIONFIGHTER, TRAIT_ARCYNE_T1, TRAIT_LONGSTRIDER)
+	traits_applied = list(TRAIT_LAWEXPERT, TRAIT_FORMATIONFIGHTER, TRAIT_LONGSTRIDER)
 	subclass_stats = list(
 		STATKEY_INT = 3,
 		STATKEY_WIL = 2,

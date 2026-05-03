@@ -9,7 +9,7 @@
 	name = "Pyromancer"
 	tutorial = ""
 	outfit = /datum/outfit/job/roguetown/warband/wizard/lieutenant/pyromancer
-	traits_applied = list(TRAIT_ARCYNE_T3, TRAIT_MAGEARMOR, TRAIT_FORMATIONFIGHTER, TRAIT_LAWEXPERT)
+	traits_applied = list(TRAIT_ARCYNE, TRAIT_ALCHEMY_EXPERT, TRAIT_FORMATIONFIGHTER, TRAIT_LAWEXPERT)
 	subclass_stats = list(
 		STATKEY_STR = -2,
 		STATKEY_CON = -2,
@@ -33,7 +33,7 @@
 		/datum/skill/misc/athletics = SKILL_LEVEL_NOVICE,
 		/datum/skill/craft/crafting = SKILL_LEVEL_NOVICE,
 	)
-
+	subclass_mage_aspects = list("mastery" = TRUE, "major" = 2, "minor" = 3, "utilities" = 9, "ward" = TRUE)
 
 /datum/outfit/job/roguetown/warband/wizard/lieutenant/pyromancer/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -45,7 +45,7 @@
 	shoes = /obj/item/clothing/shoes/roguetown/shortboots
 	belt = /obj/item/storage/belt/rogue/leather/battleskirt/black
 	beltl = /obj/item/storage/magebag
-	r_hand = /obj/item/rogueweapon/woodstaff/ruby
+	r_hand = /obj/item/rogueweapon/woodstaff/implement/greater/alt_icon
 	backl = /obj/item/storage/backpack/rogue/satchel
 	backpack_contents = list(
 		/obj/item/flashlight/flare/torch/lantern/prelit,
@@ -56,15 +56,13 @@
 		/obj/item/rogueweapon/huntingknife/idagger/silver/arcyne
 	)
 	if(H.mind)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/meteor_storm)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/fireball/artillery)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/fireball/artillery)
-		H.mind.AddSpell(new	/obj/effect/proc_holder/spell/invoked/projectile/fireball/greater)
-		H.mind.AddSpell(new	/obj/effect/proc_holder/spell/invoked/projectile/fireball/greater)
-		H.mind.AddSpell(new	/obj/effect/proc_holder/spell/self/conjure_armor/dragonhide)	
-		H.mind.AddSpell(new	/obj/effect/proc_holder/spell/invoked/projectile/spitfire)
-		H.mind.AddSpell(new	/obj/effect/proc_holder/spell/invoked/rebuke)
-		H.mind.AddSpell(new	/obj/effect/proc_holder/spell/self/light)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/fireball/artillery)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/fireball/artillery)
+		H.mind.AddSpell(new	/datum/action/cooldown/spell/projectile/fireball/greater)
+		H.mind.AddSpell(new	/datum/action/cooldown/spell/fire_curtain)
+		H.mind.AddSpell(new	/datum/action/cooldown/spell/conjure_arcyne_ward/dragonhide)	
+		H.mind.AddSpell(new	/datum/action/cooldown/spell/projectile/spitfire)
+		H.mind.AddSpell(new	/datum/action/cooldown/spell/light)
 
 
 ///////////////////////////////////////////////
@@ -79,7 +77,7 @@
 	name = "Stormcaller"
 	tutorial = ""
 	outfit = /datum/outfit/job/roguetown/warband/wizard/lieutenant/stormcaller
-	traits_applied = list(TRAIT_FORMATIONFIGHTER, TRAIT_LAWEXPERT, TRAIT_ARCYNE_T3, TRAIT_MAGEARMOR, TRAIT_DUALWIELDER)
+	traits_applied = list(TRAIT_FORMATIONFIGHTER, TRAIT_LAWEXPERT, TRAIT_ARCYNE, TRAIT_ALCHEMY_EXPERT, TRAIT_DUALWIELDER)
 	subclass_stats = list(
 		STATKEY_STR = 2,
 		STATKEY_CON = -2,
@@ -94,6 +92,7 @@
 		/datum/skill/craft/alchemy = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/craft/crafting = SKILL_LEVEL_APPRENTICE,
 	)
+	subclass_mage_aspects = list("mastery" = TRUE, "major" = 2, "minor" = 3, "utilities" = 9, "ward" = TRUE)
 
 
 /datum/outfit/job/roguetown/warband/wizard/lieutenant/stormcaller/pre_equip(mob/living/carbon/human/H)
@@ -111,31 +110,29 @@
 	beltl = /obj/item/storage/magebag
 	if(H.mind)
 		if(H.patron.type == /datum/patron/inhumen/zizo)
-			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/bloodlightning)
+			H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/blood_bolt)
 		else
-			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/lightningbolt)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/sundering_lightning)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/sundering_lightning)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/thunderstrike)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/thunderstrike)
-		H.mind.AddSpell(new	/obj/effect/proc_holder/spell/invoked/blink)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/leap)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/gravity)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/haste)
+			H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/lightning_bolt)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/thunderstrike)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/thunderstrike)
+		H.mind.AddSpell(new	/datum/action/cooldown/spell/blink)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/leap)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/gravity)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/haste)
 
 
 
 ////////////////////////////////////////////
-/////////////////////////////////// CONJURER
+/////////////////////////////////// GAOLER
 /*
 
 */
 /datum/advclass/warband/wizard/lieutenant/conjurer
-	title = "CONJURER"
-	name = "Conjurer"
+	title = "GAOLER"
+	name = "Gaoler"
 	tutorial = ""
 	outfit = /datum/outfit/job/roguetown/warband/wizard/lieutenant/conjurer
-	traits_applied = list(TRAIT_ARCYNE_T4, TRAIT_MAGEARMOR, TRAIT_FORMATIONFIGHTER, TRAIT_LAWEXPERT)
+	traits_applied = list(TRAIT_ARCYNE, TRAIT_ALCHEMY_EXPERT, TRAIT_FORMATIONFIGHTER, TRAIT_LAWEXPERT)
 	subclass_stats = list(
 		STATKEY_STR = -2,
 		STATKEY_CON = 6,
@@ -158,7 +155,7 @@
 		/datum/skill/misc/athletics = SKILL_LEVEL_NOVICE,
 		/datum/skill/craft/crafting = SKILL_LEVEL_NOVICE,
 	)
-
+	subclass_mage_aspects = list("mastery" = TRUE, "major" = 2, "minor" = 3, "utilities" = 9, "ward" = TRUE)
 
 /datum/outfit/job/roguetown/warband/wizard/lieutenant/conjurer/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -170,7 +167,7 @@
 	shoes = /obj/item/clothing/shoes/roguetown/shortboots
 	belt = /obj/item/storage/belt/rogue/leather/battleskirt/black
 	beltl = /obj/item/storage/magebag
-	r_hand = /obj/item/rogueweapon/woodstaff/toper
+	r_hand = /obj/item/rogueweapon/woodstaff/implement
 	backl = /obj/item/storage/backpack/rogue/satchel
 	backpack_contents = list(
 		/obj/item/flashlight/flare/torch/lantern/prelit,
@@ -180,7 +177,8 @@
 		/obj/item/alch/firedust,
 		/obj/item/rogueweapon/huntingknife/idagger/silver/arcyne
 	)
-	if(H.mind) // who gives a fuck anymore bro
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/forcewall/greater)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/forcewall/greater)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/forcewall/greater)
+	if(H.mind)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/forcewall)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/forcewall)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/gravity_anchor)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/battle_ward)

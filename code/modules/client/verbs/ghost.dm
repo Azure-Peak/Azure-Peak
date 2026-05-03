@@ -46,7 +46,7 @@ GLOBAL_LIST_INIT(ghost_verbs, list(
 
 	if(mob.stat == DEAD && isliving(mob))
 		if(mob.mind && mob.mind.warband_ID != 0)
-			if(mob.mind.original_char)
+			if(mob.mind.original_char) // warband characters with an Original Mob are returned to their original body, first
 				mob.mind.warband_manager.return_envoy(mob, abandoned = TRUE)
 				return
 		message_admins("[key_name_admin(usr)] is ghosting from their dead body.")

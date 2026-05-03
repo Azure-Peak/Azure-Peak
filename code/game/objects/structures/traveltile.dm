@@ -176,7 +176,7 @@
 		
 		for(var/mob/living/carbon/human/species/human/northern/goon/goon in squad.followers)
 			if(!(goon in qualified_squad))
-				squad.remove_member(goon)
+				squad.remove_follower(goon)
 	
 
 	return
@@ -580,7 +580,6 @@
 	var/obj/structure/fluff/warband/warband_recruit/rally_point = get_random_recruit_point()
 	if(rally_point)
 		rally_point.contents += user
-		user.mode = NPC_AI_SLEEP
 	return envoy
 	
 /obj/structure/fluff/traveltile/warband/camp_to_outskirts/proc/equip_envoy_traveltile(mob/envoy, used_slot)
@@ -627,9 +626,12 @@
 		organ_eyes.accessory_colors = picked_eye_color + picked_eye_color
 
 /obj/structure/fluff/traveltile/warband/proc/summon_grunt_squad_at_tile(mob/living/carbon/human/user)
-	var/atom/movable/screen/warband/manager/user_warband = user.mind.warband_manager	
+	var/atom/movable/screen/warband/manager/user_warband = user.mind.warband_manager
+	var/datum/component/squad_controller/squad_manager = user.GetComponent(/datum/component/squad_controller)
+	if(!squad_manager)
+		squad_manager = user.AddComponent(/datum/component/squad_controller)
 	var/squad_deployed = FALSE
-	for(var/mob/friend in user.friends)
+	for(var/mob/friend in squad_manager.members)
 		if(istype(friend, /mob/living/carbon/human/species/human/northern/goon))
 			squad_deployed = TRUE
 			break
@@ -644,12 +646,12 @@
 		return FALSE
 
 	if(squad_deployed)
-		for(var/mob/living/carbon/human/species/human/northern/goon/abandoned_grunt in user.friends)
+		for(var/mob/living/carbon/human/species/human/northern/goon/abandoned_grunt in squad_manager.members)
 			if(!abandoned_grunt)
-				user.friends -= abandoned_grunt
+				squad_manager.members -= abandoned_grunt
 				continue
 			abandoned_grunt.abandonevent()
-			user.friends -= abandoned_grunt
+			squad_manager.members -= abandoned_grunt
 		to_chat(user, span_warning("My previous squad has been abandoned."))
 
 	for(var/grunts_spawned = 1, grunts_spawned <= user.mind.squad_size && user_warband.spawns > 0, grunts_spawned++)
@@ -658,7 +660,7 @@
 		var/mob/living/carbon/human/species/human/northern/goon/new_grunt = user_warband.get_cached_grunt(src.loc, user)
 		new_grunt.patron = user.patron
 		new_grunt.faction |= list("warband_[user_warband.warband_ID]", "[user.real_name]_faction")
-		user.friends += new_grunt
+		squad_manager.members += new_grunt
 		user_warband.spawns -= 2 // summoning via a travel tile costs twice as many spawns
 
 	to_chat(user, span_warning("There are [user_warband.spawns] soldiers remaining. Summoning my men so far from the Camp has incurred additional attrition."))

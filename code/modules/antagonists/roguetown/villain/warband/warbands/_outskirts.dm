@@ -5,7 +5,7 @@
 ///////////////////////////////////////////////////////////////
 /datum/outskirts_encounter
 	// cranked up for stress testing, set back
-	var/min_wave_size = 40 // deletenote: set back to 10
+	var/min_wave_size = 10 // deletenote: set back to 10
 	var/max_wave_size = 50 // deletenote: reset back to 30-40
 	var/max_waves = 5
 	var/wave_number = 0
@@ -32,11 +32,13 @@
 	var/march_timer
 
 	var/datum/outskirts_wave/custom_wave
-	var/list/active_duties = list()	
 	var/atom/movable/screen/warband/manager/linked_warband	
 	var/obj/effect/landmark/outskirts_objective/objective
 	var/obj/structure/fluff/traveltile/warband/outskirts_to_intermission/attacker_entry
-	var/obj/structure/fluff/traveltile/warband/outskirts_to_camp/defender_entry	
+	var/obj/structure/fluff/traveltile/warband/outskirts_to_camp/defender_entry
+
+	var/list/attack_npcs = list()	// defending npcs going through the 'attack' loop in their decision tree
+	var/list/cached_objective_path
 
 //////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////// CANCEL MARCH
@@ -142,7 +144,6 @@
 	if(!prep_started)
 		return
 
-
 	for(var/mob/living/carbon/human/attacker in linked_warband.incoming_mobs)
 		if(!attacker || !attacker.mind)
 			continue
@@ -162,30 +163,8 @@
 	next_integrity_check = world.time + 70 SECONDS
 	spawn_defender_wave()
 	
-////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////// PROCESS DUTIES
-/*
-	called from the subsystem (warbands.dm)
-	manages NPC behavior in an encounter (which is kinda pointless since the objective was scrapped, but Y'Know)
-	clears out duties that return FALSE from process_duty()
-
-*/
-/datum/outskirts_encounter/proc/process_duties()
-	if(!active_duties?.len)
-		return
-	
-	for(var/datum/npc_duty/duty in active_duties)
-		if(!duty.process_duty())
-			active_duties -= duty
-			qdel(duty)
-
-/datum/outskirts_encounter/proc/clear_wave()
-	current_wave = list()
-	
-	for(var/datum/npc_duty/duty in active_duties)
-		qdel(duty)
-	active_duties = list()
-
+/////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////// RESET ENCOUNTER
 /datum/outskirts_encounter/proc/reset_encounter()
 	wave_number = 0
 	initial_besieger_count = 0
@@ -194,3 +173,53 @@
 	linked_warband.outskirts_prep_timer = 0
 	rout_wave_spawned = FALSE
 	processing_cleanup = FALSE
+	attack_npcs = list()
+
+////////////////////////////////////////////////////////////
+///////////////////////////////////////////////// OBJECTIVES
+/* 
+	the objective isn't actually an objective at the moment
+	it just exists as a waypoint for NPCs, essentially
+
+	there was some attempt to set up a 'king of the hill' / 'tug of war' minigame
+	but it's been simplified to 'just kill them' (via the failure conditions in the spawn_defender_wave proc)
+	either way, the base combat mechanics are developed enough that a full minigame on top of them would probably just be overwhelming
+
+*/
+
+/obj/effect/landmark/outskirts_objective
+	var/attacker_goal
+	var/defender_goal
+	var/datum/outskirts_encounter/linked_encounter
+	var/turf/starting_position
+
+/obj/effect/landmark/outskirts_objective/threshold
+	name = "threshold"
+
+/obj/effect/landmark/outskirts_objective/Destroy()
+	linked_encounter.objective = null
+	linked_encounter = null
+	starting_position = null
+	return ..()
+
+// gets the middle point between the attacker & defender spawn
+/datum/outskirts_encounter/proc/spawn_objective()
+	var/turf/attacker_turf = get_turf(attacker_entry)
+	var/turf/defender_turf = get_turf(defender_entry)
+	var/list/path = get_path_to(attacker_turf, defender_turf, TYPE_PROC_REF(/turf, Heuristic_cardinal_3d), 200, 200, 1, adjacent = TYPE_PROC_REF(/turf, reachableTurftest3d))
+	var/midpoint = round(path.len / 2)
+	var/turf/spawn_turf = path[midpoint]
+	for(var/turf/open/candidate in range(3, spawn_turf))
+		if(!candidate.density)
+			objective = new /obj/effect/landmark/outskirts_objective/threshold(candidate)
+			objective.linked_encounter = src
+			objective.attacker_goal = attacker_turf
+			objective.defender_goal = defender_turf
+			objective.starting_position = candidate
+
+			// slice off the defender-side half, then reverse it
+			var/list/slice = path.Copy(midpoint, 0)
+			cached_objective_path = list()
+			for(var/i = slice.len, i >= 1, i--) // cache that as an a* route for freshly spawned defender mobs
+				cached_objective_path += slice[i]
+			return
