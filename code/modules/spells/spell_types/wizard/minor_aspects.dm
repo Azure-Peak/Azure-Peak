@@ -139,6 +139,7 @@
 		/datum/action/cooldown/spell/light,
 		/datum/action/cooldown/spell/mending,
 		/datum/action/cooldown/spell/create_campfire,
+		/datum/action/cooldown/spell/create_hearth,
 	)
 
 /datum/magic_aspect/illusion
@@ -176,6 +177,7 @@
 	fixed_spells = list(
 		/datum/action/cooldown/spell/great_shelter,
 		/datum/action/cooldown/spell/create_campfire,
+		/datum/action/cooldown/spell/create_hearth,
 	)
 
 /datum/magic_aspect/hex
