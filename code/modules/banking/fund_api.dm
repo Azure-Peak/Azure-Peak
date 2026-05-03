@@ -1,6 +1,15 @@
 /datum/controller/subsystem/treasury/proc/log_fund_entry(datum/treasury_entry/entry)
 	ledger += entry
 
+/datum/controller/subsystem/treasury/proc/get_outstanding_principal_from_fund(datum/fund/F)
+	if(!F)
+		return 0
+	. = 0
+	for(var/datum/loan/L in loans)
+		if(L.source_fund != F)
+			continue
+		. += max(0, L.principal - L.repaid_so_far)
+
 /datum/controller/subsystem/treasury/proc/resolve_fund_by_id(fund_id)
 	switch(fund_id)
 		if("crown")
@@ -187,4 +196,3 @@
 			record_round_statistic(STATS_EXEMPTED_EXPORT_DUTY, amount)
 		if(TAX_CATEGORY_FINE)
 			record_round_statistic(STATS_EXEMPTED_FINE, amount)
-

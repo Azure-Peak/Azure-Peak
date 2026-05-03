@@ -2600,6 +2600,7 @@
 #include "code\modules\politics\decrees\zenitstadt_concordat.dm"
 #include "code\modules\politics\items\loan_contract.dm"
 #include "code\modules\politics\items\citizenry_letter.dm"
+#include "code\modules\politics\items\patronage_writ.dm"
 #include "code\modules\procedural_mapping\mapGenerator.dm"
 #include "code\modules\procedural_mapping\mapGeneratorModule.dm"
 #include "code\modules\procedural_mapping\mapGeneratorObj.dm"

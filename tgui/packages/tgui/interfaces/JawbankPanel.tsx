@@ -24,11 +24,17 @@ type IndentureTarget = {
   label: string;
 };
 
+type Patron = {
+  ref: string;
+  name: string;
+  job: string;
+};
+
 type Data = {
   fund_name: string;
   fund_id: string;
   faction_label: string;
-  bash_floor: number;
+  withdraw_rule: string;
   balance: number;
   can_withdraw: boolean;
   can_issue_loan: boolean;
@@ -36,9 +42,13 @@ type Data = {
   day: number;
   max_issuance_day: number;
   indenture_targets: IndentureTarget[];
+  has_patronage: boolean;
+  patron_label: string;
+  patron_cap: number;
+  patrons: Patron[];
 };
 
-type TabKey = 'withdraw' | 'issue';
+type TabKey = 'withdraw' | 'issue' | 'patronage';
 type LoanTier = 'personal' | 'indenture';
 
 type TabProps = {
@@ -76,6 +86,14 @@ export const JawbankPanel = () => {
             >
               Issue Loan
             </div>
+            {!!data.has_patronage && (
+              <div
+                style={tabStyle(tab === 'patronage')}
+                onClick={() => setTab('patronage')}
+              >
+                Patronage ({data.patrons?.length ?? 0}/{data.patron_cap ?? 0})
+              </div>
+            )}
           </div>
 
           {tab === 'withdraw' && (
@@ -83,6 +101,9 @@ export const JawbankPanel = () => {
           )}
           {tab === 'issue' && (
             <IssueTab data={data} act={act} />
+          )}
+          {tab === 'patronage' && !!data.has_patronage && (
+            <PatronageTab data={data} act={act} />
           )}
         </div>
       </Window.Content>
@@ -104,10 +125,18 @@ const WithdrawTab = ({ data, act }: TabProps) => {
           Withdrawal is not available to you at this jawbank.
         </div>
       )}
-      <div style={fieldRowStyle}>
-        <div style={fieldLabelStyle}>Reserve</div>
-        <div style={fieldValueStyle}>{data.bash_floor}m kept by force</div>
-      </div>
+      {data.withdraw_rule && (
+        <div
+          style={{
+            color: SEAL_AMBER,
+            fontStyle: 'italic',
+            marginBottom: 8,
+            fontSize: '12px',
+          }}
+        >
+          {data.withdraw_rule}
+        </div>
+      )}
       <div style={fieldRowStyle}>
         <div style={fieldLabelStyle}>Amount</div>
         <div style={fieldValueStyle}>
@@ -304,6 +333,59 @@ const IssueTab = ({ data, act }: TabProps) => {
           }}
         >
           Stamp Writ
+        </button>
+      </div>
+    </div>
+  );
+};
+
+const PatronageTab = ({ data, act }: TabProps) => {
+  const enrolled = data.patrons?.length ?? 0;
+  const cap = data.patron_cap ?? 0;
+  const full = enrolled >= cap;
+  const issueDisabled = !data.can_issue_loan || full;
+
+  return (
+    <div style={cardStyle}>
+      <div style={sectionHeaderStyle}>{data.patron_label}</div>
+      <div style={fieldRowStyle}>
+        <div style={fieldLabelStyle}>Roster</div>
+        <div style={fieldValueStyle}>
+          {enrolled} / {cap} enrolled
+        </div>
+      </div>
+      {full && (
+        <div style={{ color: SEAL_AMBER, fontStyle: 'italic', marginBottom: 8 }}>
+          The roster is full. Revoke an existing patron before drafting a new
+          writ.
+        </div>
+      )}
+      {data.patrons.map((p) => (
+        <div key={p.ref} style={fieldRowStyle}>
+          <div style={fieldValueStyle}>
+            {p.name}
+            {p.job ? `, the ${p.job}` : ''}
+          </div>
+          <button
+            type="button"
+            style={inkButtonStyle({ disabled: !data.can_issue_loan })}
+            disabled={!data.can_issue_loan}
+            onClick={() =>
+              act('revoke_patronage', { target_ref: p.ref })
+            }
+          >
+            Revoke
+          </button>
+        </div>
+      ))}
+      <div style={{ marginTop: 10, textAlign: 'right' }}>
+        <button
+          type="button"
+          style={inkButtonStyle({ disabled: issueDisabled })}
+          disabled={issueDisabled}
+          onClick={() => act('issue_patronage')}
+        >
+          Draft Writ
         </button>
       </div>
     </div>

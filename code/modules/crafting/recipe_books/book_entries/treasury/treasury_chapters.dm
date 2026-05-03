@@ -14,7 +14,7 @@
 
 		<ul>
 			<li><b>The Great Writ of Azuria</b> - Nobility pays no tax and levy, and cannot be fined.</li>
-			<li><b>The Zenitstadt Concordat</b> - The Church, and any declared benefactors of the Church (Whom the Bishop can grant the status to up to [PATRONAGE_CAP_PER_ROUND] of), pays no taxation and levy.</li>
+			<li><b>The Zenitstadt Concordat</b> - The Church, and any declared benefactors of the Church (Whom the Bishop can grant the status to up to [PATRONAGE_CAP_BENEFACTOR] of), pays no taxation and levy.</li>
 			<li><b>The Otavan Accords</b> - The Inquisition pays no tax and no levy.</li>
 			<li><b>The Golden Bull of Kingsfield</b> - burghers are capped at [GOLDEN_BULL_BURGHER_CAP * 100]% of balance per levy or fine, with a [GOLDEN_BULL_DAILY_FINE_CAP]-mammon ceiling on each fine.</li>
 			<li><b>The Covenant of Noc and Pestra</b> - University members, Apothecary and Head Physician are limited to the lightest poll tax of [NOC_PESTRA_POLL_CAP]m, and a minimum wage from the Crown's payroll.</li>
@@ -99,7 +99,7 @@
 		<div>
 		<p>Patronages let certain roles extend their Charter's protection to other individuals.</p>
 		<ul>
-			<li><b>Bishop</b> - The Bishop may declare up to [PATRONAGE_CAP_PER_ROUND] persons as benefactors of the Church, granting them the same tax and levy exemption as the Church while the Concordat is in force. The Bishop may revoke at will.</li>
+			<li><b>Bishop</b> - The Bishop may declare up to [PATRONAGE_CAP_BENEFACTOR] persons as benefactors of the Church, granting them the same tax and levy exemption as the Church while the Concordat is in force. The Bishop may revoke at will.</li>
 			<li><b>Steward</b> - The Steward may print Letters of Citizenry at the Nerve Master. The bearer gains Golden Bull protections while the Charter is in force. One can be printed every minute.</li>
 		</ul>
 

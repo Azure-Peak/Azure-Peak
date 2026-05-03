@@ -56,8 +56,13 @@
 	if(!SStreasury.has_account(user))
 		to_chat(user, span_warning("I have no Meister account to receive these funds. I must open one first."))
 		return
+	if(source_fund_id == "church" && (user.job in GLOB.church_positions))
+		to_chat(user, span_warning("The Church prohibits usury to its own. Eora's coin is for the poor and the downtrodden, not the faithful."))
+		return
+	var/datum/fund/preview_fund = SStreasury.resolve_fund_by_id(source_fund_id)
+	var/preview_label = preview_fund ? SStreasury.indenture_faction_label(preview_fund) : "an unknown lender"
 	var/pct = round(interest_rate * 100)
-	var/choice = alert(user, "Accept a loan of [principal]m, due in [term_days] day\s at [pct]%/day simple interest? Total due: [total_due]m.", "Loan Contract", "Accept", "Decline")
+	var/choice = alert(user, "Accept a loan of [principal]m from [preview_label], due in [term_days] day\s at [pct]%/day simple interest? Total due: [total_due]m.", "Loan from [preview_label]", "Accept", "Decline")
 	if(choice != "Accept")
 		to_chat(user, span_notice("I set the contract aside, unsigned."))
 		return
@@ -86,10 +91,11 @@
 	var/datum/loan/L = new(user, principal, term_days, interest_rate, issuer_name, issuing_fund)
 	SStreasury.loans += L
 	record_round_statistic(STATS_LOANS_ISSUED, 1)
-	user.visible_message(span_notice("[user] signs the loan contract and pockets the Crown's coin."), \
-		span_notice("I accept the loan of [principal]m, repayable in [term_days] day\s at [pct]%/day. Total due: [total_due]m."))
+	var/lender_label = SStreasury.indenture_faction_label(issuing_fund)
+	user.visible_message(span_notice("[user] signs the loan contract and pockets [lender_label]'s coin."), \
+		span_notice("I accept the loan of [principal]m from [lender_label], repayable in [term_days] day\s at [pct]%/day. Total due: [total_due]m."))
 	playsound(get_turf(user), 'sound/misc/gold_license.ogg', 60, FALSE, -1)
-	send_ooc_note("<b>MEISTER:</b> Loan of [principal]m received. [total_due]m will be collected on day [L.due_on_day].", name = user.real_name)
+	send_ooc_note("<b>MEISTER:</b> Loan of [principal]m received from [lender_label]. [total_due]m will be collected on day [L.due_on_day].", name = user.real_name)
 	qdel(src)
 
 /obj/item/loan_contract/indenture

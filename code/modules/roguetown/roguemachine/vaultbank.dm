@@ -11,6 +11,7 @@
 	animate_dmg = TRUE
 	attacked_sound = list("sound/combat/hits/onmetal/metalimpact (1).ogg", "sound/combat/hits/onmetal/metalimpact (2).ogg")
 	var/datum/fund/linked_fund
+	COOLDOWN_DECLARE(patronage_writ_cooldown)
 	var/fund_warned = FALSE
 	var/alert_jobs = list("Grand Duke", "Steward", "Clerk")
 	var/alert_location = "The Vault"
@@ -397,7 +398,10 @@
 	. += ..()
 	var/datum/fund/F = get_linked_fund()
 	if(F)
-		. += span_notice("[F.name] currently sits at: [F.balance] mammon.")
+		if(Adjacent(user))
+			. += span_notice("[F.name] currently sits at: [F.balance] mammon.")
+		else
+			. += span_notice("[F.name]'s balance is sealed from afar. Step closer to count the coin.")
 	else
 		. += span_warning("This jawbank is unbound to any treasury. Notify staff.")
 	. += span_info("Only [get_authority_label()] may withdraw or draft writs of loan from this jawbank.")
@@ -451,7 +455,7 @@
 	data["fund_name"] = get_linked_fund()?.name || "Unbound"
 	data["fund_id"] = get_fund_id()
 	data["faction_label"] = get_faction_label()
-	data["bash_floor"] = bash_floor
+	data["withdraw_rule"] = get_withdraw_rule_text()
 	var/list/targets = list()
 	for(var/tid in list("crown", "church", "merchant", "bathhouse"))
 		if(tid == get_fund_id())
@@ -463,6 +467,80 @@
 	data["indenture_targets"] = targets
 	return data
 
+/obj/structure/roguemachine/vaultbank/proc/get_withdraw_rule_text()
+	return ""
+
+/obj/structure/roguemachine/vaultbank/proc/get_patronage_writ_path()
+	return null
+
+/obj/structure/roguemachine/vaultbank/proc/get_patron_roster()
+	return null
+
+/obj/structure/roguemachine/vaultbank/proc/get_patron_label()
+	return ""
+
+/obj/structure/roguemachine/vaultbank/proc/get_patron_cap()
+	return 0
+
+/obj/structure/roguemachine/vaultbank/proc/handle_issue_patronage(mob/living/carbon/human/user)
+	if(!istype(user))
+		return
+	var/writ_path = get_patronage_writ_path()
+	if(!writ_path)
+		to_chat(user, span_warning("This jawbank cannot extend patronage."))
+		return
+	if(!COOLDOWN_FINISHED(src, patronage_writ_cooldown))
+		var/wait_seconds = ceil(COOLDOWN_TIMELEFT(src, patronage_writ_cooldown) / 10)
+		to_chat(user, span_warning("The seal is still warm. Wait [wait_seconds]s before drafting another."))
+		return
+	var/list/roster = get_patron_roster()
+	if(isnull(roster))
+		return
+	var/obj/item/patronage_writ/W = new writ_path(get_turf(src))
+	if(length(roster) >= W.roster_cap)
+		to_chat(user, span_warning("[get_patron_label()]'s roll is full - strike a name first."))
+		qdel(W)
+		return
+	W.issuer_name = user.real_name
+	W.issuer_year = CALENDAR_EPOCH_YEAR
+	QDEL_IN(W, 2 MINUTES)
+	COOLDOWN_START(src, patronage_writ_cooldown, PATRONAGE_WRIT_COOLDOWN)
+	playsound(src, 'sound/misc/coindispense.ogg', 60, FALSE, -1)
+	say("[W.name] drafted, signed by [user.real_name].")
+	log_admin("PATRONAGE WRIT: [key_name(user)] drafted [W.name].")
+	message_admins("[key_name_admin(user)] drafted a [W.name].")
+
+/obj/structure/roguemachine/vaultbank/proc/handle_revoke_patronage(mob/living/carbon/human/user, list/params)
+	if(!istype(user))
+		return
+	var/list/roster = get_patron_roster()
+	if(isnull(roster) || !length(roster))
+		return
+	var/target_ref = "[params["target_ref"]]"
+	var/mob/living/carbon/human/target = locate(target_ref) in roster
+	if(!target)
+		to_chat(user, span_warning("That name is no longer on the roll."))
+		return
+	roster -= target
+	var/granted_trait
+	if(istype(src, /obj/structure/roguemachine/vaultbank/merchant))
+		granted_trait = TRAIT_AGENT_MERCHANT
+	else if(istype(src, /obj/structure/roguemachine/vaultbank/bathhouse))
+		granted_trait = TRAIT_AGENT_BATHHOUSE
+	else if(istype(src, /obj/structure/roguemachine/vaultbank/church))
+		granted_trait = TRAIT_AGENT_CHURCH
+	if(granted_trait && !QDELETED(target))
+		REMOVE_TRAIT(target, granted_trait, TRAIT_GENERIC)
+		if(granted_trait == TRAIT_AGENT_MERCHANT)
+			REMOVE_TRAIT(target, TRAIT_RESIDENT, "patronage_[granted_trait]")
+		send_ooc_note("Your patronage to [get_patron_label()] has been revoked.", name = target.real_name)
+	scom_announce("[target.real_name]'s patronage to [get_patron_label()] has been revoked.")
+	log_admin("PATRONAGE REVOKED: [key_name(user)] revoked [key_name(target)] from [get_patron_label()].")
+	message_admins("[key_name_admin(user)] revoked [key_name_admin(target)] from [get_patron_label()].")
+
+/obj/structure/roguemachine/vaultbank/church/get_withdraw_rule_text()
+	return "The Church mandates that loans is to be given to the poor, downtrodden, and malumites. [CHURCH_RESERVE_FLOOR]m must remain reserved for charity, less the principal currently in circulation."
+
 /obj/structure/roguemachine/vaultbank/ui_data(mob/user)
 	var/list/data = list()
 	var/datum/fund/F = get_linked_fund()
@@ -472,6 +550,17 @@
 	data["can_accept_indenture"] = can_accept_indenture(user) ? TRUE : FALSE
 	data["day"] = GLOB.dayspassed
 	data["max_issuance_day"] = SStreasury.loan_max_issuance_day
+	data["has_patronage"] = !isnull(get_patronage_writ_path())
+	data["patron_label"] = get_patron_label()
+	data["patron_cap"] = get_patron_cap()
+	var/list/patrons = list()
+	var/list/roster = get_patron_roster()
+	if(islist(roster))
+		for(var/mob/living/carbon/human/H in roster)
+			if(QDELETED(H))
+				continue
+			patrons += list(list("ref" = REF(H), "name" = H.real_name, "job" = H.job || ""))
+	data["patrons"] = patrons
 	return data
 
 /obj/structure/roguemachine/vaultbank/ui_act(action, list/params)
@@ -484,6 +573,8 @@
 		return TRUE
 	switch(action)
 		if("withdraw")
+			handle_withdraw(usr, params)
+			SStgui.update_uis(src)
 			return TRUE
 		if("issue_personal")
 			handle_issue_personal(usr, params)
@@ -493,6 +584,39 @@
 			handle_issue_indenture(usr, params)
 			SStgui.update_uis(src)
 			return TRUE
+		if("issue_patronage")
+			handle_issue_patronage(usr)
+			SStgui.update_uis(src)
+			return TRUE
+		if("revoke_patronage")
+			handle_revoke_patronage(usr, params)
+			SStgui.update_uis(src)
+			return TRUE
+
+/obj/structure/roguemachine/vaultbank/proc/handle_withdraw(mob/living/carbon/human/user, list/params)
+	if(!istype(user))
+		return
+	var/datum/fund/F = get_linked_fund()
+	if(!F)
+		to_chat(user, span_warning("[src] sits inert - its coffers are unbound. Notify staff."))
+		return
+	var/amount = round(text2num("[params["amount"]]"))
+	if(isnull(amount) || amount <= 0)
+		to_chat(user, span_warning("Name a positive sum."))
+		return
+	if(!can_withdraw(user, amount))
+		to_chat(user, span_warning("[F.name] withholds that sum."))
+		return
+	if(F.balance < amount)
+		to_chat(user, span_warning("[F.name] cannot honor a withdrawal of [amount]m."))
+		return
+	if(!SStreasury.burn(F, amount, "JAWBANK direct withdrawal"))
+		return
+	budget2change(amount, user)
+	playsound(src, 'sound/misc/coindispense.ogg', 60, FALSE, -1)
+	say("[amount]m drawn by [user.real_name].")
+	log_admin("WITHDRAW: [key_name(user)] drew [amount]m from [F.name].")
+	message_admins("[key_name_admin(user)] drew [amount]m from [F.name].")
 
 /obj/structure/roguemachine/vaultbank/proc/handle_issue_personal(mob/living/carbon/human/user, list/params)
 	if(!istype(user))
@@ -614,6 +738,30 @@
 /obj/structure/roguemachine/vaultbank/church/get_authority_label()
 	return "the Bishop or Martyr"
 
+/obj/structure/roguemachine/vaultbank/church/get_patronage_writ_path()
+	return /obj/item/patronage_writ/benefactor
+
+/obj/structure/roguemachine/vaultbank/church/get_patron_roster()
+	return SStreasury?.church_agents
+
+/obj/structure/roguemachine/vaultbank/church/get_patron_label()
+	return "the Church of Azuria"
+
+/obj/structure/roguemachine/vaultbank/church/get_patron_cap()
+	return PATRON_CAP_CHURCH
+
+/obj/structure/roguemachine/vaultbank/church/can_withdraw(mob/user, amount)
+	if(!can_issue_loan(user))
+		return FALSE
+	var/datum/fund/F = get_linked_fund()
+	if(!F)
+		return FALSE
+	var/outstanding = SStreasury.get_outstanding_principal_from_fund(F)
+	var/withdrawable = max(0, F.balance - max(0, CHURCH_RESERVE_FLOOR - outstanding))
+	if(isnull(amount))
+		return withdrawable > 0
+	return amount <= withdrawable
+
 /obj/structure/roguemachine/vaultbank/church/enforce_placement()
 	return
 
@@ -639,6 +787,18 @@
 /obj/structure/roguemachine/vaultbank/merchant/get_authority_label()
 	return "the Merchant"
 
+/obj/structure/roguemachine/vaultbank/merchant/get_patronage_writ_path()
+	return /obj/item/patronage_writ/charter
+
+/obj/structure/roguemachine/vaultbank/merchant/get_patron_roster()
+	return SStreasury?.merchant_agents
+
+/obj/structure/roguemachine/vaultbank/merchant/get_patron_label()
+	return "the Azurian Trading Company"
+
+/obj/structure/roguemachine/vaultbank/merchant/get_patron_cap()
+	return PATRON_CAP_MERCHANT
+
 /obj/structure/roguemachine/vaultbank/merchant/enforce_placement()
 	return
 
@@ -663,6 +823,18 @@
 
 /obj/structure/roguemachine/vaultbank/bathhouse/get_authority_label()
 	return "the Bathmaster"
+
+/obj/structure/roguemachine/vaultbank/bathhouse/get_patronage_writ_path()
+	return /obj/item/patronage_writ/token
+
+/obj/structure/roguemachine/vaultbank/bathhouse/get_patron_roster()
+	return SStreasury?.bathhouse_agents
+
+/obj/structure/roguemachine/vaultbank/bathhouse/get_patron_label()
+	return "the Bathhouse"
+
+/obj/structure/roguemachine/vaultbank/bathhouse/get_patron_cap()
+	return PATRON_CAP_BATHHOUSE
 
 /obj/structure/roguemachine/vaultbank/bathhouse/enforce_placement()
 	return
