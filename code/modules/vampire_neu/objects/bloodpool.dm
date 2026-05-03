@@ -6,7 +6,7 @@
 //#define SUN_STEAL_COST 8000 //Server wide war declaration, mostly useless for Vitabella. Risk/Reward but we want it to be less earlygame but midgame instead of lategame. //MOVED TO AUTOMATIC ON FULLPOWER UPGRADE//
 #define SERVANT_COST 800 //Keep these low, so people can play as vampires. We want to scoop up observers/lobby joiners before they get bored.
 #define SERVANT_T2_COST 1000 //Same as above, a little bit higher because these roles /can/ actually fight, keep it low so they can get a retinue starting off.
-#define SERVANT_T3_COST 3500 //Keep moderately high, these are rarer classes that can cause problems when spammed en-mass. Unlocks at Second Upgrade.
+#define SERVANT_T3_COST 4000 //Keep moderately high, these are rarer classes that can cause problems when spammed en-mass. Unlocks at Second Upgrade.
 
 #define INITIATE_LORDE 1
 #define INITIATE_ANYONE 2
@@ -271,7 +271,7 @@
 // Specific project types
 /datum/vampire_project/power_growth
 	display_name = "Rite of Stirring"
-	description = "The ancient blood stirs once more. Forgotten whispers echo through the marrow of the land. (+2 to all lorde stats + 1000 lorde vitae pool limit)"
+	description = "The ancient blood stirs once more. Forgotten whispers echo through the marrow of the land. (+2 to all lorde stats + 1000 lorde vitae pool limit + Unlocks Champions)"
 	total_cost = VAMPCOST_ONE
 	completion_sound = 'sound/misc/batsound.ogg'
 
@@ -290,13 +290,14 @@
 			for(var/S in MOBSTATS)
 				lord_body.change_stat(S, 2)
 			lord_body.maxbloodpool += 1000
+			bloodpool.available_project_types += /datum/vampire_project/servant/servant_t3 //Stronger commander roles, cheapened so they're locked behind first upgrade rite as to encourage sending them out to thrall people.
 			bloodpool.available_project_types -= /datum/vampire_project/power_growth
 			bloodpool.available_project_types += /datum/vampire_project/power_growth_2
 			break
 
 /datum/vampire_project/power_growth_2
 	display_name = "Rite of Reclamation"
-	description = "Strength long sealed returns. The soil, the stone, and the shadows bend again to their rightful master. (+2 to all lorde stats + 1000 lorde vitae pool limit + Unlocks champions and armor rites.)"
+	description = "Strength long sealed returns. The soil, the stone, and the shadows bend again to their rightful master. (+2 to all lorde stats + 1000 lorde vitae pool limit + Unlocks armor rites.)"
 	total_cost = VAMPCOST_TWO
 	completion_sound = 'sound/misc/batsound.ogg'
 
@@ -307,12 +308,11 @@
 		if(lord && !lord.ascended)
 			var/mob/living/carbon/human/lord_body = user
 			to_chat(user, span_greentext("My power grows through collective sacrifice."))
-			to_chat(user, span_warning("I should further develop my vampiric potencies, arise a champion and perhaps consider regaining my ancient set of armor.")) //Subtle Que for Newer players, that despite the next upgrade seeming quite close, you should invest into potencies + armor for later.
+			to_chat(user, span_warning("I should further develop my vampiric potencies and regain my ancient set of armor.")) //Subtle Que for Newer players, that despite the next upgrade seeming quite close, you should invest into potencies + armor for later.
 			for(var/S in MOBSTATS)
 				lord_body.change_stat(S, 2)
 			lord_body.maxbloodpool += 1000
 			bloodpool.available_project_types += /datum/vampire_project/armor_crafting
-			bloodpool.available_project_types += /datum/vampire_project/servant/servant_t3 //Stronger commander roles, cheapened so they're locked behind second upgrade rite.
 			bloodpool.available_project_types -= /datum/vampire_project/power_growth_2
 			bloodpool.available_project_types += /datum/vampire_project/power_growth_3
 			break
