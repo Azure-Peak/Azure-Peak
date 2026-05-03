@@ -64,7 +64,7 @@
 	/obj/item/rogueweapon/huntingknife/idagger/navaja,
 	/obj/item/lockpick,
 	/obj/item/reagent_containers/glass/bottle/alchemical/strpot,
-	/obj/item/reagent_containers/glass/bottle/alchemical/endpot,
+	/obj/item/reagent_containers/glass/bottle/alchemical/willpot,
 	/obj/item/reagent_containers/glass/bottle/alchemical/conpot,
 	/obj/item/reagent_containers/glass/bottle/alchemical/lucpot,
 	/obj/item/reagent_containers/glass/bottle/rogue/poison,
