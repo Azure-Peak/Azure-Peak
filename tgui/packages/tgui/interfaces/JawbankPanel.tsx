@@ -19,6 +19,11 @@ import {
   titleStyle,
 } from './common/parchment';
 
+type IndentureTarget = {
+  id: string;
+  label: string;
+};
+
 type Data = {
   fund_name: string;
   fund_id: string;
@@ -30,6 +35,7 @@ type Data = {
   can_accept_indenture: boolean;
   day: number;
   max_issuance_day: number;
+  indenture_targets: IndentureTarget[];
 };
 
 type TabKey = 'withdraw' | 'issue';
@@ -118,6 +124,7 @@ const WithdrawTab = ({ data, act }: TabProps) => {
       </div>
       <div style={{ marginTop: 10, textAlign: 'right' }}>
         <button
+          type="button"
           style={inkButtonStyle({ disabled })}
           disabled={disabled}
           onClick={() => {
@@ -140,12 +147,15 @@ const IssueTab = ({ data, act }: TabProps) => {
   const [amount, setAmount] = useState<string>('');
   const [term, setTerm] = useState<number>(2);
   const [rate, setRate] = useState<number>(25);
+  const defaultTarget = data.indenture_targets?.[0]?.id ?? '';
+  const [target, setTarget] = useState<string>(defaultTarget);
 
   const numericAmount = parseInt(amount, 10) || 0;
   const past_window = data.day > data.max_issuance_day;
   const personalValid = numericAmount >= 50 && numericAmount <= 500;
   const indentureValid = numericAmount >= 501 && numericAmount <= 2000;
-  const valid = tier === 'personal' ? personalValid : indentureValid;
+  const targetValid = tier === 'personal' || target !== '';
+  const valid = (tier === 'personal' ? personalValid : indentureValid) && targetValid;
   const disabled = !data.can_issue_loan || past_window || !valid;
 
   return (
@@ -173,17 +183,48 @@ const IssueTab = ({ data, act }: TabProps) => {
       </div>
 
       {tier === 'indenture' && (
-        <div
-          style={{
-            color: SEAL_AMBER,
-            fontStyle: 'italic',
-            textAlign: 'center',
-            marginBottom: 10,
-          }}
-        >
-          Indentures are publicly proclaimed upon acceptance and upon default.
-          The whole realm will hear.
-        </div>
+        <>
+          <div
+            style={{
+              color: SEAL_AMBER,
+              fontStyle: 'italic',
+              textAlign: 'center',
+              marginBottom: 10,
+            }}
+          >
+            Indentures are publicly proclaimed upon acceptance and upon default.
+            The whole realm will hear.
+          </div>
+          <div style={fieldRowStyle}>
+            <div style={fieldLabelStyle}>Target</div>
+            <div style={fieldValueStyle}>
+              {data.indenture_targets?.length ? (
+                data.indenture_targets.map((t) => (
+                  <button
+                    type="button"
+                    key={t.id}
+                    style={{
+                      ...inkButtonStyle({}),
+                      marginRight: 4,
+                      fontWeight: target === t.id ? 'bold' : 'normal',
+                      background:
+                        target === t.id
+                          ? 'rgba(200,170,100,0.4)'
+                          : 'rgba(255,248,220,0.6)',
+                    }}
+                    onClick={() => setTarget(t.id)}
+                  >
+                    {t.label}
+                  </button>
+                ))
+              ) : (
+                <span style={{ color: INK_FAINT, fontStyle: 'italic' }}>
+                  No target institutions available.
+                </span>
+              )}
+            </div>
+          </div>
+        </>
       )}
 
       <div style={fieldRowStyle}>
@@ -208,6 +249,7 @@ const IssueTab = ({ data, act }: TabProps) => {
         <div style={fieldValueStyle}>
           {TERM_OPTIONS.map((t) => (
             <button
+              type="button"
               key={t}
               style={{
                 ...inkButtonStyle({}),
@@ -229,6 +271,7 @@ const IssueTab = ({ data, act }: TabProps) => {
         <div style={fieldValueStyle}>
           {RATE_OPTIONS.map((r) => (
             <button
+              type="button"
               key={r}
               style={{
                 ...inkButtonStyle({}),
@@ -247,6 +290,7 @@ const IssueTab = ({ data, act }: TabProps) => {
 
       <div style={{ marginTop: 10, textAlign: 'right' }}>
         <button
+          type="button"
           style={inkButtonStyle({ disabled })}
           disabled={disabled}
           onClick={() => {
@@ -254,6 +298,7 @@ const IssueTab = ({ data, act }: TabProps) => {
               amount: numericAmount,
               term,
               rate,
+              target: tier === 'indenture' ? target : undefined,
             });
             setAmount('');
           }}

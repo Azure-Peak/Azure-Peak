@@ -62,7 +62,7 @@
 
 	data += "<div style='display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; margin: 0 auto 25px auto; width: 90%;'>"
 
-	data += blood_toll_aggregate_card("HUMEN", total_humen, list("Highwaymen" = highwaymen, "Bogmen" = bogmen, "Gronnmen" = gronnmen, "Drows" = drows), "#c4a47a")
+	data += blood_toll_aggregate_card("HUMEN", total_humen, list("Highwaymen" = highwaymen, "Bogmen" = bogmen, "Gronnmen" = gronnmen, "Drow" = drows), "#c4a47a")
 	data += blood_toll_aggregate_card("GRAGGARSPAWN", total_graggarspawn, list("Orcs" = orcs, "Goblins" = goblins), "#7aa46a")
 	data += blood_toll_aggregate_card("DEADITE", total_deadite, list("Deadites" = deadites), "#9a6abc")
 	data += blood_toll_aggregate_card("SUMMONS", total_summons, list("Infernals" = infernals, "Elementals" = elementals, "Fae" = fae), "#bd5a8a")

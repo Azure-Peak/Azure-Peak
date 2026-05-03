@@ -39,6 +39,7 @@ SUBSYSTEM_DEF(treasury)
 	var/datum/fund/church/church_fund
 	var/datum/fund/merchant/merchant_fund
 	var/datum/fund/bathhouse/bathhouse_fund
+	var/list/jawbanks_by_fund_id = list()
 	/// Banditry shortfall. Skimmed from Crown's Purse inflow until paid down.
 	var/banditry_debt = 0
 	/// One of TREASURY_NORMAL / IN_ARREARS / BANKRUPTCY. Mutate only via bankruptcy.dm helpers.
@@ -74,7 +75,6 @@ SUBSYSTEM_DEF(treasury)
 	var/obj/structure/roguemachine/steward/steward_machine
 	var/initial_payment_done = FALSE
 	var/list/loans = list()
-	var/loan_interest_rate = 0.25
 	var/loan_max_issuance_day = 5
 	var/list/poll_tax_rates = list(
 		POLL_TAX_CAT_NOBLE = 0,

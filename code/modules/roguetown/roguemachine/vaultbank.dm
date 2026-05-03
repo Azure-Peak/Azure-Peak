@@ -34,6 +34,13 @@
 /obj/structure/roguemachine/vaultbank/Initialize()
 	..()
 	enforce_placement()
+	if(SStreasury)
+		SStreasury.jawbanks_by_fund_id[get_fund_id()] = src
+
+/obj/structure/roguemachine/vaultbank/Destroy()
+	if(SStreasury && SStreasury.jawbanks_by_fund_id[get_fund_id()] == src)
+		SStreasury.jawbanks_by_fund_id -= get_fund_id()
+	return ..()
 
 /obj/structure/roguemachine/vaultbank/proc/enforce_placement()
 	var/area/A = GLOB.areas_by_type[/area/rogue/indoors/town/vault]
@@ -445,6 +452,15 @@
 	data["fund_id"] = get_fund_id()
 	data["faction_label"] = get_faction_label()
 	data["bash_floor"] = bash_floor
+	var/list/targets = list()
+	for(var/tid in list("crown", "church", "merchant", "bathhouse"))
+		if(tid == get_fund_id())
+			continue
+		var/datum/fund/tf = SStreasury.resolve_fund_by_id(tid)
+		if(!tf)
+			continue
+		targets += list(list("id" = tid, "label" = SStreasury.indenture_faction_label(tf)))
+	data["indenture_targets"] = targets
 	return data
 
 /obj/structure/roguemachine/vaultbank/ui_data(mob/user)
@@ -470,9 +486,111 @@
 		if("withdraw")
 			return TRUE
 		if("issue_personal")
+			handle_issue_personal(usr, params)
+			SStgui.update_uis(src)
 			return TRUE
 		if("issue_indenture")
+			handle_issue_indenture(usr, params)
+			SStgui.update_uis(src)
 			return TRUE
+
+/obj/structure/roguemachine/vaultbank/proc/handle_issue_personal(mob/living/carbon/human/user, list/params)
+	if(!istype(user))
+		return
+	if(GLOB.dayspassed > SStreasury.loan_max_issuance_day)
+		say("No new loans may be drawn after day [SStreasury.loan_max_issuance_day].")
+		playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
+		return
+	var/datum/fund/F = get_linked_fund()
+	if(!F)
+		to_chat(user, span_warning("[src] sits inert - its coffers are unbound. File a bug report."))
+		return
+	var/amount = round(text2num("[params["amount"]]"))
+	if(isnull(amount) || amount < 50 || amount > 500)
+		to_chat(user, span_warning("A personal loan must name between 50 and 500 mammon."))
+		return
+	var/term = round(text2num("[params["term"]]"))
+	if(!(term in list(1, 2, 3)))
+		to_chat(user, span_warning("Term must be 1, 2, or 3 days."))
+		return
+	var/rate_pct = round(text2num("[params["rate"]]"))
+	if(!(rate_pct in list(10, 15, 20, 25, 50)))
+		to_chat(user, span_warning("Interest must be one of the listed rates."))
+		return
+	if(F.balance < amount)
+		say("[F.name] cannot cover a loan of [amount]m at this time.")
+		playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
+		return
+	var/rate = rate_pct / 100
+	var/obj/item/loan_contract/contract = new(get_turf(src))
+	contract.issuer_name = user.real_name
+	contract.issuer_year = CALENDAR_EPOCH_YEAR
+	contract.principal = amount
+	contract.term_days = term
+	contract.interest_rate = rate
+	contract.principal_due_on_day = GLOB.dayspassed + term
+	contract.total_due = FLOOR(amount * (1 + (rate * term)), 1)
+	contract.source_fund_id = get_fund_id()
+	QDEL_IN(contract, 2 MINUTES)
+	playsound(src, 'sound/misc/coindispense.ogg', 60, FALSE, -1)
+	say("Loan issued: [amount]m over [term] day\s at [rate_pct]%, signed by [user.real_name].")
+	log_admin("LOAN (personal): [key_name(user)] drafted [amount]m over [term]d at [rate_pct]%/day from [F.name].")
+	message_admins("[key_name_admin(user)] drafted a personal loan: [amount]m over [term]d at [rate_pct]%/day from [F.name].")
+
+/obj/structure/roguemachine/vaultbank/proc/handle_issue_indenture(mob/living/carbon/human/user, list/params)
+	if(!istype(user))
+		return
+	if(GLOB.dayspassed > SStreasury.loan_max_issuance_day)
+		say("No new indentures may be drawn after day [SStreasury.loan_max_issuance_day].")
+		playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
+		return
+	var/datum/fund/F = get_linked_fund()
+	if(!F)
+		to_chat(user, span_warning("[src] sits inert - its coffers are unbound. Notify staff."))
+		return
+	var/target_id = "[params["target"]]"
+	if(!(target_id in list("crown", "church", "merchant", "bathhouse")))
+		to_chat(user, span_warning("Choose a valid target institution."))
+		return
+	if(target_id == get_fund_id())
+		to_chat(user, span_warning("An indenture cannot be drawn between an institution and itself."))
+		return
+	var/datum/fund/target_fund = SStreasury.resolve_fund_by_id(target_id)
+	if(!target_fund)
+		to_chat(user, span_warning("The target institution has no recognised coffers."))
+		return
+	var/amount = round(text2num("[params["amount"]]"))
+	if(isnull(amount) || amount < 501 || amount > 2000)
+		to_chat(user, span_warning("An indenture must name between 501 and 2000 mammon."))
+		return
+	var/term = round(text2num("[params["term"]]"))
+	if(!(term in list(1, 2, 3)))
+		to_chat(user, span_warning("Term must be 1, 2, or 3 days."))
+		return
+	var/rate_pct = round(text2num("[params["rate"]]"))
+	if(!(rate_pct in list(10, 15, 20, 25, 50)))
+		to_chat(user, span_warning("Interest must be one of the listed rates."))
+		return
+	if(F.balance < amount)
+		say("[F.name] cannot cover an indenture of [amount]m at this time.")
+		playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
+		return
+	var/rate = rate_pct / 100
+	var/obj/item/loan_contract/indenture/contract = new(get_turf(src))
+	contract.issuer_name = user.real_name
+	contract.issuer_year = CALENDAR_EPOCH_YEAR
+	contract.principal = amount
+	contract.term_days = term
+	contract.interest_rate = rate
+	contract.principal_due_on_day = GLOB.dayspassed + term
+	contract.total_due = FLOOR(amount * (1 + (rate * term)), 1)
+	contract.source_fund_id = get_fund_id()
+	contract.target_fund_id = target_id
+	QDEL_IN(contract, 2 MINUTES)
+	playsound(src, 'sound/misc/coindispense.ogg', 60, FALSE, -1)
+	say("Indenture drafted: [amount]m to [target_fund.name] over [term] day\s at [rate_pct]%, signed by [user.real_name].")
+	log_admin("INDENTURE WRIT: [key_name(user)] drafted [amount]m from [F.name] to [target_fund.name] over [term]d at [rate_pct]%/day.")
+	message_admins("[key_name_admin(user)] drafted an indenture: [amount]m from [F.name] to [target_fund.name] over [term]d at [rate_pct]%/day.")
 
 /obj/structure/roguemachine/vaultbank/church
 	name = "\improper CHURCH JAWBANK"

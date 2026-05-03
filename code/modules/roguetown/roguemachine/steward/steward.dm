@@ -74,44 +74,6 @@
 		return TRUE
 	return FALSE
 
-/obj/structure/roguemachine/steward/proc/issue_loan_dialog(mob/living/carbon/human/user)
-	if(!istype(user))
-		return
-	if(!user.canUseTopic(src, BE_CLOSE) || locked)
-		return
-	if(GLOB.dayspassed > SStreasury.loan_max_issuance_day)
-		say("No new loans may be drawn after day [SStreasury.loan_max_issuance_day].")
-		playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
-		return
-	var/amount = input(user, "Principal (50-250 mammon).", src, 100) as null|num
-	if(isnull(amount))
-		return
-	if(!user.canUseTopic(src, BE_CLOSE) || locked)
-		return
-	if(findtext(num2text(amount), "."))
-		return
-	amount = CLAMP(round(amount), 50, 250)
-	var/term_choice = input(user, "Select term.", src) as null|anything in list("2 days", "3 days")
-	if(!term_choice)
-		return
-	if(!user.canUseTopic(src, BE_CLOSE) || locked)
-		return
-	var/term = (term_choice == "3 days") ? 3 : 2
-	if(SStreasury.discretionary_fund.balance < amount)
-		say("The treasury cannot cover a loan of [amount]m at this time.")
-		playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
-		return
-	var/obj/item/loan_contract/contract = new(get_turf(src))
-	contract.issuer_name = user.real_name
-	contract.issuer_year = CALENDAR_EPOCH_YEAR
-	contract.principal = amount
-	contract.term_days = term
-	contract.interest_rate = SStreasury.loan_interest_rate
-	contract.principal_due_on_day = GLOB.dayspassed + term
-	contract.total_due = FLOOR(amount * (1 + (contract.interest_rate * term)), 1)
-	playsound(src, 'sound/misc/coindispense.ogg', 60, FALSE, -1)
-	say("Bearer Loan Contract issued: [amount]m over [term] day\s, signed by [user.real_name].")
-	log_game("LOAN CONTRACT: [key_name(user)] drafted bearer loan contract - [amount]m over [term] days at [round(contract.interest_rate * 100)]%/day.")
 
 
 /obj/structure/roguemachine/steward/attackby(obj/item/P, mob/user, params)
@@ -238,22 +200,6 @@
 		residency_print_cooldown = world.time + 1 MINUTES
 		playsound(src, 'sound/misc/coindispense.ogg', 60, FALSE, -1)
 		say("Letter of Citizenry issued, signed by [H.real_name].")
-	if(href_list["issueloan"])
-		issue_loan_dialog(usr)
-	if(href_list["setloanrate"])
-		if(!usr.canUseTopic(src, BE_CLOSE) || locked)
-			return
-		var/current_pct = round(SStreasury.loan_interest_rate * 100)
-		var/new_pct = input(usr, "Set daily loan interest rate (percent 0-200)", src, current_pct) as null|num
-		if(isnull(new_pct))
-			return
-		if(!usr.canUseTopic(src, BE_CLOSE) || locked)
-			return
-		if(findtext(num2text(new_pct), "."))
-			return
-		new_pct = CLAMP(new_pct, 0, 200)
-		SStreasury.loan_interest_rate = new_pct / 100
-		say("Default loan rate set to [new_pct]% per day.")
 	if(href_list["setpurchasefloor"])
 		if(!usr.canUseTopic(src, BE_CLOSE) || locked)
 			return
@@ -701,12 +647,6 @@
 			contents += "<a href='?src=\ref[src];switchtab=[TAB_FISCAL]'>\[Fiscal Ledger\]</a><BR>"
 			contents += "<a href='?src=\ref[src];switchtab=[TAB_DEBT]'>\[Debts &amp; Arrears\]</a><BR>"
 			contents += "<a href='?src=\ref[src];printresidency=1'>\[Print Letter of Citizenry\]</a><BR>"
-			var/loan_gate_ok = (GLOB.dayspassed <= SStreasury.loan_max_issuance_day)
-			if(loan_gate_ok)
-				contents += "<a href='?src=\ref[src];issueloan=1'>\[Issue Loan\]</a><BR>"
-			else
-				contents += "<font color='gray'>\[Issue Loan - closed after day [SStreasury.loan_max_issuance_day]\]</font><BR>"
-			contents += "<a href='?src=\ref[src];setloanrate=1'>\[Loan Rate: [round(SStreasury.loan_interest_rate * 100)]%/day\]</a><BR>"
 			contents += "<a href='?src=\ref[src];setpurchasefloor=1'>\[Purchase Floor: [SStreasury.stockpile_purchase_floor]m\]</a><BR>"
 			contents += "</center>"
 		if(TAB_BANK)
