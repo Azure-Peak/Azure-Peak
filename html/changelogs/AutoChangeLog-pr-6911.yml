@@ -1,0 +1,7 @@
+author: "FreeStylaLT"
+delete-after: True
+changes:
+  - refactor: "Gear now bounces off from the attack when struck on the ground."
+  - refactor: "Using a torch (or another source of fire damage) on a broken item will melt it down. This can be used on Iron-scrappable equipment without needing to first break it."
+  - refactor: "Gear & Weapons, once broken, will take minimal damage from direct weapon damage on the ground."
+  - bugfix: "Fixed a bug that did not remove armor coverage once it was broken."

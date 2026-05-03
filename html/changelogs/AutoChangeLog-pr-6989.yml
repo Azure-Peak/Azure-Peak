@@ -1,0 +1,5 @@
+author: "radarseas"
+delete-after: True
+changes:
+  - balance: "Lich can now be examined by deadites and examine them back."
+  - bugfix: "inconsistancy with lich compared to other deadite antagonists."

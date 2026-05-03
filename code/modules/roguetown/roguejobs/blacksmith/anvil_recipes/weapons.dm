@@ -1649,6 +1649,18 @@
 	additional_items = list(/obj/item/ingot/avantyne)
 	created_item = /obj/item/rogueweapon/sword/long/avantyne
 
+/datum/anvil_recipe/weapons/avantyne/rapier
+	name = "Rapier, Avantyne (+1 A. Wafer)"
+	req_bar = /obj/item/ingot/avantyne
+	additional_items = list(/obj/item/ingot/avantyne)
+	created_item = /obj/item/rogueweapon/sword/rapier/avantyne
+
+/datum/anvil_recipe/weapons/avantyne/billhook
+	name = "Billhook, Avantyne (+1 Small Log)"
+	req_bar = /obj/item/ingot/avantyne
+	additional_items = list(/obj/item/grown/log/tree/small)
+	created_item = /obj/item/rogueweapon/spear/billhook/avantyne
+
 /datum/anvil_recipe/weapons/avantyne/greatsword
 	name = "Greatsword, Avantyne (+2 A. Wafer)"
 	req_bar = /obj/item/ingot/avantyne

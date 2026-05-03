@@ -1,0 +1,6 @@
+author: "QuietSymphony"
+delete-after: True
+changes:
+  - rscadd: "Eorans now get a pick between their normal robes and radical, open robes. This almost exists in the right click interaction but it didn't actually change what the outfit exposed."
+  - rscadd: "There is a set of 2 open Eoran robes in the church. Just in case."
+  - bugfix: "Open Eoran Robes (the actual alt item, not the alt wear of the eoran robes) now allows you to have clothed sex and for your genitals to be visible (if you're wearing nothing under it)"

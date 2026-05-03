@@ -1,0 +1,12 @@
+author: "Ketrai"
+delete-after: True
+changes:
+  - rscadd: "rotfang unique dagger for malpractitioner, inflicts black rot"
+  - rscadd: "1 => 2 malpractitioner slots"
+  - qol: "malpractitioner gets a scholar bag now"
+  - balance: "removed killersice from malpractitioner"
+  - balance: "malpractitioner gets near full hardened leather armor coverage now"
+  - balance: "black rot reworked to be far less deadly and slower to build up"
+  - balance: "black rot no longer progresses on its own"
+  - balance: "Heartblood vials and canisters can now be drunk to restore a small amount of blue overtime to make carrying them more useful."
+  - qol: "Tooltips for calyxes, heartblood canisters."

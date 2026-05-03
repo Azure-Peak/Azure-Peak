@@ -8638,6 +8638,8 @@
 /obj/item/rope{
 	pixel_y = 34
 	},
+/obj/item/clothing/suit/roguetown/shirt/robe/eora/alt,
+/obj/item/clothing/suit/roguetown/shirt/robe/eora/alt,
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/church/chapel)
 "bOd" = (

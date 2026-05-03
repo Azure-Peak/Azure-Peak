@@ -1,0 +1,4 @@
+author: "ToasterStrudes"
+delete-after: True
+changes:
+  - bugfix: "Reverts changes made to sleeves that made them not appear for armor/cloaks."

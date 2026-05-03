@@ -63,7 +63,7 @@
 
 	secondary_resource_cost = SPELLCOST_UTILITY_BUFF
 
-	invocations = list("Zwillingslichter, geleitet meinen Blick.")//(Twin lights, guide my gaze)
+	invocations = list("Zwillingslichter, leitet meinen Blick..")//(Twin lights, guide my gaze)
 	invocation_type = INVOCATION_WHISPER
 
 	charge_required = FALSE
@@ -166,7 +166,7 @@
 
 	secondary_resource_cost = SPELLCOST_UTILITY_BUFF
 
-	invocations = list("Setzt eurer großartiges Werk fort.") //(Continue your great work/s)
+	invocations = list("Setzt euer großartiges Werk fort.") //(Continue your great work/s)
 	invocation_type = INVOCATION_SHOUT
 
 	charge_required = TRUE
@@ -259,7 +259,7 @@
 
 	secondary_resource_cost = SPELLCOST_STAT_BUFF - 5
 
-	invocations = list("Die Göttlichen fordern dich auf weiterzukämpfen!") //("The gods demand you to fight on!")
+	invocations = list("Die Götter fordern dich auf weiterzukämpfen!") //("The gods demand you to fight on!")
 	invocation_type = INVOCATION_SHOUT
 
 	charge_required = TRUE

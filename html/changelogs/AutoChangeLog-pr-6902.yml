@@ -1,0 +1,9 @@
+author: "FreeStylaLT"
+delete-after: True
+changes:
+  - refactor: "Reworked Ore Sight to be a toggle that automatically pings at set ranges."
+  - refactor: "Boulders unearthed by Steel Picks are now far more fragile and will be destroyed in just one hit."
+  - refactor: "Tongs can now auto-remove multiple ingots from furnaces. Right click the Tongs to toggle this behaviour off."
+  - refactor: "Mechanized Ore Bags can now toggle through multiple exclusive types to collect. Right click the ore bag to cycle through them."
+  - sound: "Forges make different sounds when smelting now."
+  - balance: "Underdweller Mercenary Class was given Ore Sight."

@@ -137,8 +137,8 @@
 	name = "avantyne arming sword"
 	desc = "The cardinal sin, coalesced into a crystalline crucifix. In Her name, your will shall be projected unto the worshippers of lesser gods; and by your \
 	hand, they shall bend the knee to progress."
-	icon_state = "zeretic_arming"
-	sheathe_icon = "zeretic_arming"
+	icon_state = "zizoarming"
+	sheathe_icon = "zizoarming"
 	force = 25
 	force_wielded = 30
 	smeltresult = /obj/item/ingot/component/zizo
@@ -150,8 +150,8 @@
 /obj/item/rogueweapon/sword/avantyne
 	name = "avantyne-threaded arming sword"
 	desc = "Anger and spite, channeled into a blade that defies both wisdom and purity. Seldom does such power come without a price, however; are you ready to pay it?"
-	icon_state = "zeretic_arming"
-	sheathe_icon = "zeretic_arming"
+	icon_state = "zizoarming"
+	sheathe_icon = "zizoarming"
 	possible_item_intents = list(/datum/intent/sword/cut/arming, /datum/intent/sword/thrust/short, /datum/intent/sword/strike)
 	gripped_intents = list(/datum/intent/sword/cut/arming, /datum/intent/sword/thrust/arming, /datum/intent/sword/strike)
 	force = 25
@@ -1575,6 +1575,16 @@
 	icon_state = "staffblade"
 	item_state = "staffblade"
 	sheathe_icon = "staffblade"
+
+/obj/item/rogueweapon/sword/rapier/avantyne
+	name = "avantyne-threaded rapier"
+	desc = "Graceful yet grotesque, this piercing shard of spite ignores the art of fencing in favor of the art of suffering. To wield it is to let your coldest grudges guide your hand."
+	icon_state = "zizorapier"
+	sheathe_icon = "zizorapier"
+	force = 25
+	max_blade_int = 250
+	max_integrity = 200
+	smeltresult = /obj/item/ingot/avantyne
 
 /obj/item/rogueweapon/sword/cutlass
 	name = "cutlass"
