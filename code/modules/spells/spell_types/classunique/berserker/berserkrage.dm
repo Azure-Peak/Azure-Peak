@@ -4,7 +4,7 @@
 	var/brute = L.getBruteLoss()
 	var/burn = L.getFireLoss()
 	var/ragedmgbuff = 0
-	if(HAS_TRAIT (L, TRAIT_NOPAIN)) //lickers and whatever other things get locked to base buff
+	if(!HAS_TRAIT (L, TRAIT_RAGE)) //anyone without the trait is locked to small rage
 		return 0
 	if(brute + burn > 125)
 		ragedmgbuff = 1

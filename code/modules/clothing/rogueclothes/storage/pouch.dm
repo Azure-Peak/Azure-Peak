@@ -168,6 +168,8 @@
 	. = ..()
 	var/obj/item/roguecoin/copper/pile/H = SSwardrobe.provide_type(/obj/item/roguecoin/copper/pile, loc)
 	if(istype(H))
+		if(H.quantity < 10)
+			H.set_quantity(10)
 		if(!SEND_SIGNAL(src, COMSIG_TRY_STORAGE_INSERT, H, null, TRUE, TRUE))
 			SSwardrobe.recycle_object(H)
 	if(prob(50))
@@ -339,6 +341,13 @@
 	/obj/item/reagent_containers/food/snacks/rogue/handpie/meat,
 	/obj/item/reagent_containers/glass/bottle/rogue/triumphbeer,
 	)
+
+/obj/item/storage/belt/rogue/pouch/bombs
+
+/obj/item/storage/belt/rogue/pouch/bombs/PopulateContents()
+	new /obj/item/bomb(src)
+	new /obj/item/bomb(src)
+	new /obj/item/bomb(src)
 
 /obj/item/storage/belt/rogue/pouch/tailorscrap
 	name = "pouch of tailorscrap"

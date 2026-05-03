@@ -8,6 +8,7 @@
 	pixel_x = -16
 	gender = MALE
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
+	blood_toll_bucket = STATS_KILLED_TROLLMINOTAUR
 	emote_hear = null
 	emote_see = null
 	speak_chance = 1
@@ -26,7 +27,7 @@
 	perfect_butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/steak = 4,
 						/obj/item/natural/hide = 4, /obj/item/natural/bundle/bone/full = 2)
 	head_butcher = /obj/item/natural/head/minotaur
-	faction = list("caves")
+	faction = list(FACTION_CAVES)
 	threat_point = THREAT_DANGEROUS
 	ambush_faction = "wildlife"
 
@@ -66,8 +67,8 @@
 
 /mob/living/simple_animal/hostile/retaliate/rogue/minotaur/Initialize()
 	. = ..()
+	AddComponent(/datum/component/ai_aggro_system)
 	update_icon()
-	AddElement(/datum/element/ai_retaliate)
 	ADD_TRAIT(src, TRAIT_NOPAINSTUN, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_BASHDOORS, TRAIT_GENERIC)
 	ai_controller.set_blackboard_key(BB_BASIC_FOODS, food_type)
@@ -217,4 +218,4 @@
 	icon_state = "chainedminotaur"
 	icon_living = "chainedminotaur"
 	icon_dead = "chainedminotaur_dead"
-	faction = list("orcs", "caves")
+	faction = list(FACTION_ORCS, FACTION_CAVES)

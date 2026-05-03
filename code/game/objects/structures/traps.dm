@@ -463,7 +463,7 @@
 	to_chat(L, span_danger("<B>A cruel joke has been played on you!</B>"))
 	L.add_stress(/datum/stressevent/thefool)
 	playsound(src, 'sound/magic/mockery.ogg', 60, TRUE)
-	L.apply_status_effect(/datum/status_effect/debuff/viciousmockery)
+	L.apply_status_effect(/datum/status_effect/debuff/mockery_stack)
 
 /datum/stressevent/thefool
 	timer = 10 MINUTES

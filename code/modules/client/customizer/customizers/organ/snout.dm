@@ -171,6 +171,7 @@
 		/datum/sprite_accessory/snout/pede,
 		/datum/sprite_accessory/snout/sergal,
 		/datum/sprite_accessory/snout/shark,
+		/datum/sprite_accessory/snout/sharkeyes,
 		/datum/sprite_accessory/snout/toucan,
 		/datum/sprite_accessory/snout/redpanda,
 		/datum/sprite_accessory/snout/redpandaalt,
@@ -329,6 +330,7 @@
 	organ_type = /obj/item/organ/snout/akula
 	sprite_accessories = list(
 		/datum/sprite_accessory/snout/shark,
+		/datum/sprite_accessory/snout/sharkeyes,
 		/datum/sprite_accessory/snout/sergal,
 		/datum/sprite_accessory/snout/sharp,
 		/datum/sprite_accessory/snout/round,
@@ -365,4 +367,18 @@
 		/datum/sprite_accessory/snout/shortnosed,
 		/datum/sprite_accessory/snout/stubby,
 		/datum/sprite_accessory/snout/stubbyalt,
+		)
+
+// --- Aasimar Only
+/datum/customizer/organ/snout/wings
+	customizer_choices = list(/datum/customizer_choice/organ/snout/wings)
+	name = "Veil"
+	allows_disabling = TRUE
+	default_disabled =  TRUE
+
+/datum/customizer_choice/organ/snout/wings
+	name = "Veil"
+	organ_type = /obj/item/organ/snout/anthro
+	sprite_accessories = list(
+	    /datum/sprite_accessory/snout/masked,
 		)

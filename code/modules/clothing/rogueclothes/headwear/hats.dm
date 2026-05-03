@@ -200,6 +200,9 @@
 /obj/item/clothing/head/roguetown/cap
 	name = "cap"
 	desc = "A light cap made of cloth, usually worn under a helmet."
+	slot_flags = ITEM_SLOT_MASK|ITEM_SLOT_HEAD //Meant to be worn under helmets pmuch
+	icon = 'icons/roguetown/clothing/head.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/head.dmi' //Overrides slot icon behavior
 	icon_state = "armingcap"
 	item_state = "armingcap"
 	flags_inv = HIDEEARS
@@ -215,6 +218,26 @@
 
 /obj/item/clothing/head/roguetown/cap/dwarf
 	color = "#cb3434"
+
+/obj/item/clothing/head/roguetown/tiyon
+	name = "tiyon"
+	desc = "A fancy cloth headdress."
+	icon_state = "tiyon"
+	sewrepair = TRUE
+
+/obj/item/clothing/head/roguetown/durag
+	name = "durag"
+	desc = "A fashionable garment worn to protect one's hair."
+	icon_state = "durag"
+	sewrepair = TRUE
+
+/obj/item/clothing/head/roguetown/longveil
+	name = "long veil"
+	desc = "A long, trailing veil made of cloth meant to conceal ones hair. OFten worn by soilbrides and the devout."
+	icon_state = "headveil"
+	detail_tag = "_detail"
+	detail_color = CLOTHING_CHALK_WHITE
+	sewrepair = TRUE
 
 /obj/item/clothing/head/roguetown/headband
 	name = "headband"
@@ -605,7 +628,7 @@
 		add_overlay(pic)
 
 /obj/item/clothing/head/roguetown/maidband
-	name = "maid headband"
+	name = "valorian maid headband"
 	desc = "A pleated cloth headband. It has gained widespread popularity from Valorian nobles travelling with their servants."
 	icon_state = "maidband"
 	body_parts_covered = NONE

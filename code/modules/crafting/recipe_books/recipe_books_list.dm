@@ -220,3 +220,14 @@
 	viewer.ephemeral = TRUE
 	viewer.ui_interact(user)
 	return TRUE
+
+/obj/item/recipe_book/treasury_primer
+	name = "Of Laws, Taxation and the Keeping of the Treasury"
+	desc = "A plain-bound ledger-book, issued to Crown officers on appointment."
+	wiki_name = "Economy"
+	wiki_section = "Guides"
+	icon_state = "basic_book_0"
+	base_icon_state = "basic_book"
+	can_spawn = FALSE
+	wiki_only = TRUE
+	types = list(/datum/book_entry/treasury)

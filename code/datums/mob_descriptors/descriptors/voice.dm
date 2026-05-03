@@ -99,3 +99,15 @@
 
 /datum/mob_descriptor/voice/venomous
 	name = "Venomous"
+
+/datum/mob_descriptor/voice/hoarse
+	name = "Hoarse"
+
+/datum/mob_descriptor/voice/acerbic
+	name = "Acerbic"
+
+/datum/mob_descriptor/voice/caustic
+	name = "Caustic"
+
+/datum/mob_descriptor/voice/laconic
+	name = "Laconic"

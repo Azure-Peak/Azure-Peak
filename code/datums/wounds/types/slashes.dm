@@ -64,19 +64,27 @@
 //Vaguely: Painful, hard to sew, hard to heal, but scales poorly through armor.
 
 #define SLASH_UPG_BLEEDRATE 0.12
-#define SLASH_UPG_WHPRATE 0.6
-#define SLASH_UPG_SEWRATE 1.5
-#define SLASH_UPG_PAINRATE 0.25
-#define SLASH_UPG_CLAMP_ARMORED 1
+#define SLASH_UPG_WHPRATE 1
+#define SLASH_UPG_SEWRATE 2.5
+#define SLASH_UPG_PAINRATE 0.3
+#define SLASH_UPG_CLAMP_ARMORED 1.1
 #define SLASH_UPG_CLAMP_RAW 2.2
 #define SLASH_ARMORED_BLEED_CLAMP 9
 
-/datum/wound/dynamic/slash/upgrade(dam, armor, exposed)
+/datum/wound/dynamic/slash/upgrade(dam, armor, exposed, pen_info)
 	whp += (dam * SLASH_UPG_WHPRATE)
-	var/clamp_max = ((armor > 0) ? SLASH_UPG_CLAMP_ARMORED : SLASH_UPG_CLAMP_RAW)
-	if(exposed)
-		clamp_max = SLASH_UPG_CLAMP_RAW
-	set_bleed_rate(bleed_rate + clamp((dam * SLASH_UPG_BLEEDRATE), 0.1, clamp_max))
+	if((!armor || exposed))
+		set_bleed_rate(bleed_rate + SLASH_UPG_CLAMP_RAW)
+	else
+		switch(pen_info)
+			if(1 to 2)
+				set_bleed_rate(bleed_rate + 0.5)
+			if(3 to 4)
+				set_bleed_rate(bleed_rate + 0.6)
+			if(5 to 6)
+				set_bleed_rate(bleed_rate + 0.7)
+			if(7 to 8)
+				set_bleed_rate(bleed_rate + SLASH_UPG_CLAMP_ARMORED)
 	sew_threshold += (dam * SLASH_UPG_SEWRATE)
 	woundpain += (dam * SLASH_UPG_PAINRATE)
 	armor_check(armor, SLASH_ARMORED_BLEED_CLAMP)
@@ -329,3 +337,22 @@
 	woundpain = 22
 	sewn_woundpain = 14
 	sew_threshold = 95
+
+/datum/wound/slash/boar_gore
+	name = "tusk shaped wound"
+	check_name = span_userdanger("<B>GORED</B>")
+	severity = WOUND_SEVERITY_FATAL
+	crit_message = list(
+		"%VICTIM is gored!",
+	)
+	sound_effect = 'sound/combat/crit2.ogg'
+	whp = 100
+	sewn_whp = 35
+	bleed_rate = 10
+	sewn_bleed_rate = 0.8
+	clotting_rate = 0.02
+	sewn_clotting_rate = 0.02
+	clotting_threshold = 10
+	sewn_clotting_threshold = 0.5
+	sew_threshold = 150
+	critical = TRUE

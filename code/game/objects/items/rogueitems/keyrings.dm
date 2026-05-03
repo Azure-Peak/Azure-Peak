@@ -287,9 +287,9 @@
 /obj/item/storage/keyring/warden //All access to wardens
 	keys = list(/obj/item/roguekey/walls, /obj/item/roguekey/warden)
 
-//////////////
+///////////
 // MANOR //
-//////////////
+///////////
 
 /obj/item/storage/keyring/manor/guest/one // Two Manor Keys, Two Guest Room Keys
 	name = "guest room I keyring"

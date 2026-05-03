@@ -27,7 +27,13 @@
 	ckeywhitelist = list("eekasqueak")
 	sort_category = "Donator"
 
-/datum/loadout_item/donator_strudel1
+/datum/loadout_item/donator/ketrai
+	name = "Octopus hat"
+	path = /obj/item/clothing/head/roguetown/octopus
+	ckeywhitelist = list("ketrai", "alfalah")
+	sort_category = "Donator"
+
+/datum/loadout_item/donator/strudel1
 	name = "Donator Kit - Grenzelhoftian Mage Vest"
 	path = /obj/item/enchantingkit/strudel1
 	ckeywhitelist = list("toasterstrudes")
@@ -73,18 +79,13 @@
 	ckeywhitelist = list("bigfoot02")
 
 /datum/loadout_item/donator/zydrasiconocrown
-	name = "Donator Kit - Iconoclast Crown"
-	path = /obj/item/enchantingkit/zydrasiconocrown
+	name = "Donator Kit - Iron Gardbrace & Fauld"
+	path = /obj/item/enchantingkit/zydrashauberk
 	ckeywhitelist = list("1ceres")
 
-/datum/loadout_item/donator/zydrasiconopauldrons
-	name = "Donator Kit - Iconoclast Pauldrons"
-	path = /obj/item/enchantingkit/zydrasiconopauldrons
-	ckeywhitelist = list("1ceres")
-
-/datum/loadout_item/donator/zydrasiconosash
-	name = "Donator Kit - Iconoclast Sash"
-	path = /obj/item/enchantingkit/zydrasiconosash
+/datum/loadout_item/donator/zydrasgreataxe
+	name = "Donator Kit - Bourreau"
+	path = /obj/item/enchantingkit/zydrasgreataxe
 	ckeywhitelist = list("1ceres")
 
 /datum/loadout_item/donator/eiren
@@ -99,7 +100,7 @@
 
 /datum/loadout_item/donator/eiren3
 	name = "Donator Kit - Cinis"
-	path = /obj/item/enchantingkit/eirensabre2
+	path = /obj/item/enchantingkit/weapon/eirensabre2
 	ckeywhitelist = list("eirenxiv")
 
 /datum/loadout_item/donator/eiren4
@@ -119,7 +120,7 @@
 
 /datum/loadout_item/donator/waff
 	name = "Donator Kit - Weeper's Lathe"
-	path = /obj/item/enchantingkit/waff
+	path = /obj/item/enchantingkit/weapon/waff
 	ckeywhitelist = list("waffai")
 
 /datum/loadout_item/donator/waff2
@@ -263,3 +264,57 @@
 	path = /obj/item/clothing/head/roguetown/mentorhat/walkthewaste
 	ckeywhitelist = list("walkthewaste")
 
+/datum/loadout_item/donator/sci_flamesword
+	name = "Donator Item - Flametongue"
+	path = /obj/item/enchantingkit/sci_flame
+	ckeywhitelist = list("scidragon")
+
+/datum/loadout_item/donator/sci_sandsword
+	name = "Donator Item - Sandlash"
+	path = /obj/item/enchantingkit/sci_sand
+	ckeywhitelist = list("scidragon")
+
+/datum/loadout_item/donator/aisuwand
+    name = "Donator Kit - Crystalline Wand"
+    path = /obj/item/enchantingkit/aisuwand
+    ckeywhitelist = list("aisu9")
+
+/datum/loadout_item/donator/regnum
+	name = "Donator Item - Regnum"
+	path = /obj/item/enchantingkit/weapon/regnum
+	ckeywhitelist = list("nauticall")
+
+/datum/loadout_item/donator/aeternum
+	name = "Donator Item - Aeternum"
+	path = /obj/item/enchantingkit/weapon/aeternum
+	ckeywhitelist = list("nauticall")
+
+/datum/loadout_item/donator/porcelainmask
+	name = "Donator Item - Porcelain Mask"
+	path = /obj/item/clothing/mask/rogue/iamcrystalclear
+	ckeywhitelist = list("iamcrystalclear")
+
+/datum/loadout_item/donator/darling
+	name = "Donator Item - Darling"
+	path = /obj/item/enchantingkit/weapon/darling
+	ckeywhitelist = list("castortroy23")
+
+/datum/loadout_item/donator/sumquoderis
+	name = "Donator Item - Sum Quod Eris"
+	path = /obj/item/enchantingkit/weapon/sumquoderis
+	ckeywhitelist = list("rivercadaver")
+
+/datum/loadout_item/donator/euthanasia
+	name = "Donator Item - Euthanasia"
+	path = /obj/item/enchantingkit/weapon/euthanasia
+	ckeywhitelist = list("rivercadaver")
+
+/datum/loadout_item/donator/wyrd_cloak
+	name = "Donator Item - Wyrd Cloak"
+	path = /obj/item/clothing/suit/roguetown/armor/longcoat/wyrd_cloak
+	ckeywhitelist = list("nekosam")
+
+/datum/loadout_item/donator/dark_delight
+	name = "Donator Item - Dark Delight"
+	path = /obj/item/enchantingkit/weapon/nicksonessang
+	ckeywhitelist = list("nicksone")

@@ -1,13 +1,8 @@
 /mob/living/carbon/human/species/npc/deadite
-	aggressive = TRUE
-	mode = NPC_AI_IDLE
-	npc_jump_chance = 0
-	rude = FALSE // don't taunt people as a deadite
-	tree_climber = FALSE // or climb trees
-	dodgetime = 8 
-	flee_in_pain = FALSE
+	ai_controller = /datum/ai_controller/human_npc
+	d_intent = INTENT_PARRY
+	dodgetime = 8
 	ambushable = FALSE
-	wander = TRUE
 	infected = TRUE
 
 /mob/living/carbon/human/species/npc/deadite/Initialize()
@@ -50,14 +45,6 @@
 	GLOB.antagonists -= zombie_antag
 	update_body()
 
-/mob/living/carbon/human/species/npc/deadite/npc_try_backstep()
-	return FALSE // deadites cannot juke
-
-/mob/living/carbon/human/species/npc/deadite/npc_should_resist(ignore_grab = TRUE)
-	if(!check_mouth_grabbed())
-		ignore_grab ||= TRUE
-	return ..(ignore_grab = ignore_grab)
-
 /datum/outfit/job/roguetown/deadite/pre_equip(mob/living/carbon/human/H)
 	..()
 	head = null
@@ -90,18 +77,6 @@
 	if(!(mobility_flags & MOBILITY_STAND))
 		return rand(1, 2) // Bite their ankles!
 	return pick(rand(11, 13), rand(14, 17), rand(5, 8)) // Chest, neck, and mouth; face and ears; arms and hands.
-
-/mob/living/carbon/human/species/npc/deadite/npc_choose_attack_zone(mob/living/victim)
-	aimheight_change(deadite_get_aimheight(victim))
-
-/mob/living/carbon/human/species/npc/deadite/do_best_melee_attack(mob/living/victim)
-	if(do_deadite_attack(victim))
-		return TRUE
-	return ..() // use grabs and such
-
-/mob/living/carbon/human/species/npc/deadite/handle_ai()
-	. = ..()
-	try_do_deadite_idle() // sort of a misnomer, just handles zombie noises
 
 // This proc exists because non-converted deadites don't have minds and can't have the antag datum
 // So we need two separate entry points for this logic

@@ -35,9 +35,12 @@
 
 	controller.set_blackboard_key(hiding_location_key, hiding_target)
 
-	basic_mob.face_atom()
+	if(target == basic_mob)
+		finish_action(controller, FALSE, target_key)
+		return
+	basic_mob.face_atom(target)
 	basic_mob.a_intent = pick(basic_mob.possible_a_intents) //randomized intent
-	
+
 	if(hiding_target) //Slap it!
 		basic_mob.ClickOn(hiding_target, list())
 	else
@@ -63,7 +66,9 @@
 /datum/ai_behavior/basic_melee_attack/finish_action(datum/ai_controller/controller, succeeded, target_key, targetting_datum_key, hiding_location_key)
 	. = ..()
 	if(!succeeded)
-		controller.clear_blackboard_key(target_key)
+		// Don't clear target if the aggro board still tracks a valid threat — let find_aggro re-evaluate instead
+		if(!controller.blackboard[BB_HIGHEST_THREAT_MOB])
+			controller.clear_blackboard_key(target_key)
 
 /datum/ai_behavior/basic_ranged_attack
 	action_cooldown = 0.6 SECONDS
@@ -89,12 +94,15 @@
 	if(!targetting_datum.can_attack(basic_mob, target))
 		finish_action(controller, FALSE, target_key)
 		return
+	if(target == basic_mob)
+		finish_action(controller, FALSE, target_key)
+		return
 
 	var/atom/hiding_target = targetting_datum.find_hidden_mobs(basic_mob, target) //If this is valid, theyre hidden in something!
 
 	controller.set_blackboard_key(hiding_location_key, hiding_target)
 
-	basic_mob.face_atom()
+	basic_mob.face_atom(target)
 	if(hiding_target) //Shoot it!
 		basic_mob.RangedAttack(hiding_target)
 	else

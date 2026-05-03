@@ -465,12 +465,12 @@
 /datum/status_effect/buff/wardenbuff
 	id = "wardenbuff"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/wardenbuff
-	effectedstats = list(STATKEY_SPD = 1, STATKEY_PER = 3)
+	effectedstats = list(STATKEY_PER = 2, STATKEY_WIL = 1, STATKEY_SPD = 1)
 
 /datum/status_effect/buff/innkeeperbuff
 	id = "innkeeperbuff"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/innkeeperbuff
-	effectedstats = list(STATKEY_CON = 1,STATKEY_WIL = 1, STATKEY_SPD = 1, STATKEY_STR = 3)
+	effectedstats = list(STATKEY_CON = 1, STATKEY_WIL = 1, STATKEY_SPD = 1, STATKEY_STR = 3)
 
 /datum/status_effect/buff/innkeeperbuff/process()
 
@@ -510,14 +510,6 @@
 	if(!(our_area.warden_area))
 		owner.remove_status_effect(/datum/status_effect/buff/wardenbuff)
 
-/datum/status_effect/buff/wardenbuff/on_apply()
-	. = ..()
-	ADD_TRAIT(owner, TRAIT_LONGSTRIDER, id)
-
-/datum/status_effect/buff/wardenbuff/on_remove()
-	. = ..()
-	REMOVE_TRAIT(owner, TRAIT_LONGSTRIDER, id)
-
 // Lesser Miracle effect
 /atom/movable/screen/alert/status_effect/buff/healing
 	name = "Healing Miracle"
@@ -537,7 +529,8 @@
 	var/block_combat_mode = FALSE
 
 /datum/status_effect/buff/healing/on_creation(mob/living/new_owner, new_healing_on_tick, is_inhumen = FALSE)
-	healing_on_tick = new_healing_on_tick
+	if(!isnull(new_healing_on_tick))
+		healing_on_tick = new_healing_on_tick
 	tech_healing_modifier = SSchimeric_tech.get_healing_multiplier()
 	if(is_inhumen)
 		// The penalty/benefit of healing tech is halved for inhumen followers
@@ -1136,7 +1129,7 @@
 
 
 /atom/movable/screen/alert/status_effect/buff/lesserwolf
-	name = "Blessing of the Lesser Wolf"
+	name = "Blessing of the Lesser Volf"
 	desc = "I swell with the embuement of a predator..."
 	icon_state = "buff"
 
@@ -1535,11 +1528,11 @@
 			mob_effect_offset_x = -6
 			mob_effect_offset_y = -9
 
-/datum/status_effect/buff/clash/limbguard/process_attack(mob/living/parent, mob/living/target, mob/user, obj/item/I)
+/datum/status_effect/buff/clash/limbguard/process_attack(mob/living/parent, mob/living/target, mob/user, obj/item/I, zone_override)
 	if(is_active)
 		if(ishuman(user) && target == owner)
 			var/mob/living/carbon/human/HM = user
-			if(check_zone(HM.zone_selected) == protected_zone)	//User has struck the exact limb that was being protected. Bad!
+			if(check_zone(HM.zone_selected) == protected_zone || zone_override == protected_zone)	//User has struck the exact limb that was being protected. Bad!
 				if(ishuman(user))
 					apply_debuffs(HM)
 					perform_disarm(HM)
@@ -2181,7 +2174,7 @@
 
 /atom/movable/screen/alert/status_effect/buff/artificerint
 	name = "Artificer Arcyne"
-	desc = "This armor fills me with arcyne power and knowledge"
+	desc = "This armor fills me with arcyne power and knowledge."
 	icon_state = "buff"
 
 /datum/status_effect/buff/artificerstr
@@ -2191,31 +2184,31 @@
 
 /atom/movable/screen/alert/status_effect/buff/artificerstr
 	name = "Artificer Athletic"
-	desc = "This armor fills me with atheletic power and strength"
+	desc = "This armor fills me with atheletic power and strength."
 	icon_state = "buff"
 
 //construct buffing
 /datum/status_effect/buff/windup
-	id = "windup"
-	alert_type = /atom/movable/screen/alert/status_effect/buff/windup
-	effectedstats = list(STATKEY_SPD = 1, STATKEY_WIL = 1)
-	duration = 15 MINUTES
+    id = "windup"
+    alert_type = /atom/movable/screen/alert/status_effect/buff/windup
+    effectedstats = list(STATKEY_SPD = 1, STATKEY_WIL = 1)
+    duration = 45 MINUTES
 
 /atom/movable/screen/alert/status_effect/buff/windup
-	name = "Drill Windup"
-	desc = "a drill has wound up my core, making me faster"
-	icon_state = "buff"
+    name = "Drill Windup"
+    desc = "Malum's own drill has wound me up. I am faster, now."
+    icon_state = "buff"
 
 /datum/status_effect/buff/tuneup
-	id = "tuneup"
-	alert_type = /atom/movable/screen/alert/status_effect/buff/tuneup
-	effectedstats = list(STATKEY_CON = 1)
-	duration = 15 MINUTES
+    id = "tuneup"
+    alert_type = /atom/movable/screen/alert/status_effect/buff/tuneup
+    effectedstats = list(STATKEY_CON = 1, STATKEY_PER = 1)
+    duration = 45 MINUTES
 
 /atom/movable/screen/alert/status_effect/buff/tuneup
-	name = "Wrench Tuneup"
-	desc = "a wrench has turned me up, helping steel myself for more damage"
-	icon_state = "buff"
+    name = "Wrench Tuneup"
+    desc = "Malum's own wrench powers me. I can withstand more damage, now."
+    icon_state = "buff"
 
 #define ORDERBRINGER_FILTER "orderbringer"
 
@@ -2343,3 +2336,51 @@
 #undef NECRACON_TIER_NORMAL
 #undef NECRACON_TIER_EXPERT
 #undef NECRACON_TIER_MASTER
+
+#define EORANAURA_FILTER "eoranaura"
+
+/datum/status_effect/eoranaura
+	id = "eoranaura"
+	var/outline_colour = "#EEBBBB"
+	duration = -1
+	tick_interval = -1
+	examine_text = span_good("SUBJECTPRONOUN is bathed in Eora's Light!")
+	alert_type = null
+
+/datum/status_effect/eoranaura/on_apply()
+	. = ..()
+
+	owner.visible_message(span_userdanger("A tide of Eoran light surges from [owner], it fills you with peace and hope!"))
+
+	var/filter = owner.get_filter(EORANAURA_FILTER)
+	if(!filter)
+		owner.add_filter(EORANAURA_FILTER, 2, list("type" = "outline", "color" = outline_colour, "alpha" = 60, "size" = 2))
+
+	var/mutable_appearance/effect = mutable_appearance('icons/effects/effects.dmi', "curse", -JOYBRINGER_LAYER, alpha = 128)
+	effect.appearance_flags = RESET_COLOR
+	effect.blend_mode = BLEND_ADD
+	effect.color = "#EEBBBB"
+
+	owner.overlays_standing[EORANAURA_FILTER] = effect
+	owner.apply_overlay(EORANAURA_FILTER)
+
+	RegisterSignal(owner, COMSIG_LIVING_LIFE, PROC_REF(on_life))
+
+/datum/status_effect/eoranaura/on_remove()
+	. = ..()
+
+	owner.remove_filter(EORANAURA_FILTER)
+	owner.remove_overlay(EORANAURA_FILTER)
+
+	UnregisterSignal(owner, COMSIG_LIVING_LIFE)
+
+/datum/status_effect/eoranaura/proc/on_life()
+	SIGNAL_HANDLER
+
+	for(var/mob/living/mob in get_hearers_in_view(2, owner))
+		if(HAS_TRAIT(mob, TRAIT_PSYDONITE))
+			continue
+
+		mob.apply_status_effect(/datum/status_effect/eora_blessing)
+
+#undef EORANAURA_FILTER

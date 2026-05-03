@@ -23,6 +23,8 @@
 		if(obj.obj_flags & BLOCK_Z_OUT_DOWN)
 			return slowdown
 		total_slowdown += obj.object_slowdown
+	if(active_hotspot)
+		total_slowdown += 15
 	return total_slowdown
 
 /turf

@@ -104,14 +104,14 @@
 	* mob/RangedAttack(atom,params) - used only ranged, only used for tk and laser eyes but could be changed
 */
 /mob/proc/ClickOn( atom/A, params )
-	var/list/modifiers = params2list(params)
-
 	if(curplaying)
 		curplaying.on_mouse_up()
 
 	if(world.time <= next_click)
 		return
 	next_click = world.time + 1
+
+	var/list/modifiers = params2list(params)
 
 	last_client_interact = world.time
 
@@ -123,6 +123,11 @@
 
 	if(SEND_SIGNAL(src, COMSIG_MOB_CLICKON, A, params) & COMSIG_MOB_CANCEL_CLICKON)
 		return
+	
+	var/mob/living/L = src
+	if(L?.wallpressed && L.m_intent == MOVE_INTENT_SNEAK && !istype(L.loc, /turf/open/transparent/openspace))
+		to_chat(src, span_warning("You need to step away from the wall first."))
+		return
 
 	if(modifiers["right"] && !modifiers["shift"] && !modifiers["alt"] && !modifiers["ctrl"])
 		if(try_special_attack(A, modifiers))
@@ -130,6 +135,11 @@
 
 	if(next_move > world.time)
 		return
+
+	if(isliving(src))
+		var/mob/living/clicker = src
+		if(clicker.is_swinging())
+			return
 
 	if(modifiers["middle"] && atkswinging == "middle")
 		if(mmb_intent)
@@ -245,6 +255,10 @@
 		return
 
 	var/turf/my_turf = get_turf(src) // For canreach caching purposes
+	if(isopenturf(A) && !in_throw_mode && !used_intent.noaa && !used_intent.tranged && !used_intent.tshield)
+		if(get_dist(my_turf, A) > used_intent.reach && (!W || W.force_dynamic))
+			atkswinging = null
+			return
 
 	// operate three levels deep here (item in backpack in src; item in box in backpack in src, not any deeper)
 	if(!isturf(A) && A == loc || (A in contents) || (A.loc in contents) || (A.loc && (A.loc.loc in contents)))
@@ -260,14 +274,17 @@
 
 	if(W)
 		if(ismob(A))
-			if(CanReach(A,W))
-				var/turf/target_turf = get_turf(A)
-				if(get_dist(my_turf, target_turf) <= used_intent.reach)
-					if(!used_intent.noaa)
-						if(used_intent.cleave)
-							used_intent.cleave.show_cleave_visuals(src, target_turf)
-						else
-							do_attack_animation(target_turf, used_intent.animname, W, used_intent = src.used_intent)
+			var/turf/target_turf = get_turf(A)
+			if(target_turf && get_dist(my_turf, target_turf) > used_intent.reach)
+				resolveRangedClick(A,W,params,used_hand)
+				atkswinging = null
+				return
+			if(target_turf && CanReach(A,W))
+				if(!used_intent.noaa)
+					if(used_intent.cleave)
+						used_intent.cleave.show_cleave_visuals(src, target_turf)
+					else
+						do_attack_animation(target_turf, used_intent.animname, W, used_intent = src.used_intent)
 				resolveAdjacentClick(A,W,params)
 				return
 
@@ -310,7 +327,10 @@
 
 	// Allows you to click on a box's contents, if that box is on the ground, but no deeper than that
 	if(isturf(A) || isturf(A.loc) || (A.loc && isturf(A.loc.loc)))
-		if(CanReach(A) || CanReach(A, W))
+		var/can_reach = CanReach(A)
+		if(!can_reach && W)
+			can_reach = CanReach(A, W)
+		if(can_reach)
 			if(isopenturf(A))
 				var/turf/T = A
 				if(used_intent.noaa)
@@ -324,7 +344,7 @@
 						target = M
 						break
 					if(target)
-						if(target.Adjacent(src) || (CanReach(target, W) && used_intent.effective_range_type))
+						if(target.Adjacent(src) || (used_intent.effective_range_type && CanReach(target, W)))
 							if(used_intent.cleave)
 								used_intent.cleave.show_cleave_visuals(src, T)
 							else
@@ -373,6 +393,30 @@
 	atkswinging = null
 	//update_warning()
 
+
+/mob/living/proc/add_swingdelay(datum/intent/used_intent)
+	if(!used_intent)
+		return FALSE
+	if(!used_intent.swingdelay || !used_intent.swingdelay_type)
+		return FALSE
+	var/delay = used_intent.swingdelay + 2	//We want the status effect to last longer than the delay itself so we'd have 2 tick overhead to check for a cancelled swingdelay.
+	switch(used_intent.swingdelay_type)
+		if(SWINGDELAY_NORMAL)
+			apply_status_effect(/datum/status_effect/swingdelay, delay)
+			return TRUE
+		if(SWINGDELAY_PENALTY)
+			apply_status_effect(/datum/status_effect/swingdelay/penalty, delay)
+			return TRUE
+		if(SWINGDELAY_CANCEL, SWINGDELAY_CANCELSLOW)
+			apply_status_effect(/datum/status_effect/swingdelay/disrupt, delay, (used_intent.swingdelay_type == SWINGDELAY_CANCELSLOW ? TRUE : FALSE))
+			return TRUE
+
+/mob/living/proc/is_swinging(disrupt_only = FALSE)
+	if(!disrupt_only)
+		return (has_status_effect(/datum/status_effect/swingdelay) || has_status_effect(/datum/status_effect/swingdelay/disrupt))
+	else
+		return (has_status_effect(/datum/status_effect/swingdelay/disrupt))
+
 //Branching path for Adjacent clicks with or without items
 //DOES NOT ACTUALLY KNOW IF YOU'RE ADJACENT, DO NOT CALL ON IT'S OWN
 /mob/proc/resolveAdjacentClick(atom/A,obj/item/W,params,used_hand)
@@ -387,7 +431,7 @@
 			if(HAS_TRAIT(L, TRAIT_DUALWIELDER) && L.last_used_double_attack <= world.time)
 				var/obj/item/offh = L.get_inactive_held_item()
 				var/dual_wielding = offh && (istype(W, offh) || istype(offh, W)) && W != offh && !L.check_arm_grabbed(L.get_inactive_hand_index())
-				if(dual_wielding)
+				if(dual_wielding && !L.is_swinging())
 					var/forceoffhand = L.dualwieldpitystacks >= L.dualwieldpitythreshhold
 					if(forceoffhand)
 						L.dualwieldpitystacks = 0
@@ -822,6 +866,13 @@ GLOBAL_LIST_EMPTY(reach_dummy_pool)
 	riding_datum.handle_vehicle_layer()
 	riding_datum.handle_vehicle_offsets()
 
+/client/proc/lmb_throttle(atom/object, list/modifiers, no_swing = FALSE)
+	if(!mob || !modifiers["left"] || world.time > mob.next_click)
+		return FALSE
+	if(no_swing && mob.atkswinging)
+		return FALSE
+	return !istype(object, /atom/movable/screen) || istype(object, /atom/movable/screen/click_catcher)
+
 //debug
 /atom/movable/screen/proc/scale_to(x1,y1)
 	if(!y1)
@@ -879,6 +930,12 @@ GLOBAL_LIST_EMPTY(reach_dummy_pool)
 
 /mob/living/MouseWheelOn(atom/A, delta_x, delta_y, params)
 	var/list/modifiers = params2list(params)
+	if(modifiers["ctrl"])
+		var/obj/item/active_item = get_active_held_item()
+		if(active_item)
+			if(active_item?.has_altgrip_modes())
+				active_item.cycle_altgrip(src, delta_y > 0 ? 1 : -1)
+				return
 	if(modifiers["shift"])
 		if(delta_y > 0)
 			aimheight_change("up")

@@ -21,7 +21,7 @@ A LITTLE MORE CONSISTENT IN HERE. PLEASE DO YOUR BEST. THANKS.
 									)
 
 /datum/supply_pack/rogue/wardrobe/hat/physicianhat
-	name = "Physician's Hat"
+	name = "Doctor's Hat"
 	cost = 25
 	contains = list(
 					/obj/item/clothing/head/roguetown/physician
@@ -35,7 +35,7 @@ A LITTLE MORE CONSISTENT IN HERE. PLEASE DO YOUR BEST. THANKS.
 				)
 
 /datum/supply_pack/rogue/wardrobe/hat/bardhat
-	name = "Minstrel's Hat"
+	name = "Bard's Hat"
 	cost = 25
 	contains = list(
 					/obj/item/clothing/head/roguetown/bardhat,
@@ -292,13 +292,6 @@ A LITTLE MORE CONSISTENT IN HERE. PLEASE DO YOUR BEST. THANKS.
 
 /datum/supply_pack/rogue/wardrobe/cloaks/scarletshroud
 	name = "Tabard, Scarlet Shroud"
-	cost = 30
-	contains = list(
-					/obj/item/clothing/head/roguetown/roguehood/shroudscarlet,
-				)
-
-/datum/supply_pack/rogue/wardrobe/cloaks/blacktabard
-	name = "Shroud, Scarlet Tabard"
 	cost = 30
 	contains = list(
 					/obj/item/clothing/head/roguetown/roguehood/shroudscarlet,

@@ -49,7 +49,8 @@
 	name = "silver fork"
 	icon_state = "fork_silver"
 	sellprice = 20
-	is_silver = FALSE //temporary measure to prevent people from easily metachecking vampyres. Replace with a more sophisticated alternative if-or-when available.
+	is_silver = TRUE
+	is_lesser_silver = TRUE
 
 /obj/item/kitchen/fork/carved
 	name = "carved fork"

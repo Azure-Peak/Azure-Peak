@@ -14,7 +14,7 @@ enum Page {
 
 export const ExaminePanel = (props) => {
   const { act, data } = useBackend<ExaminePanelData>();
-  const { is_vet, character_name, is_playing, has_song, img_gallery, nsfw_img_gallery, examine_theme } = data;
+  const { is_vet, is_donator, character_name, is_playing, has_song, img_gallery, nsfw_img_gallery, examine_theme } = data;
   const [currentPage, setCurrentPage] = useState(Page.FlavorText);
   const hasAnyGalleryImages = img_gallery.length > 0 || nsfw_img_gallery.length > 0;
 
@@ -32,6 +32,15 @@ export const ExaminePanel = (props) => {
   return (
     <Window title={character_name} width={1000} height={700} theme={examine_theme || undefined} buttons={
       <>
+      {!!is_donator && (
+        <Button
+          color="gold"
+          icon="heart"
+          tooltip="This player is a donator!"
+          tooltipPosition="bottom-start"
+          onClick={() => act('donator_chat')}
+        />
+      )}
       {!!is_vet && (
         <Button
           color="gold"

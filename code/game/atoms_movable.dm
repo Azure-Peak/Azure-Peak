@@ -178,7 +178,7 @@
 		if(isliving(src))
 			var/mob/living/L = src
 			if(M.cmode || L.cmode)	//We're in combat, so we apply clickcds
-				var/clickcd = CLICK_CD_TRACKING
+				var/clickcd = CLICK_CD_WRESTLING
 				var/spdbonus = (10 - L.get_stat(STATKEY_SPD)) * 2
 				clickcd -= spdbonus
 				if(M.mind)	//No clickcd if we're grabbing a mindless mob, just frag the stupid AI
@@ -794,17 +794,9 @@ GLOBAL_VAR_INIT(pixel_diff_time, 1)
 /atom/movable/proc/do_attack_animation(atom/A, visual_effect_icon, obj/item/used_item, no_effect, item_animation_override = null, datum/intent/used_intent = null, simplified = FALSE)
 	if(used_item || !simplified)
 		var/animation_type = item_animation_override || used_intent?.get_attack_animation_type()
-		if(used_intent?.swingdelay)
-			//draw_swingdelay(A, used_intent.custom_swingdelay, used_intent.swingdelay)
-			if(isliving(src))
-				var/mob/living/L = src
-				L.play_overhead_indicator_flick('icons/mob/mob_effects.dmi', "eff_swingdelay", used_intent?.swingdelay, MOB_EFFECT_LAYER_SWINGDELAY, y_offset = 3)
-				addtimer(CALLBACK(src, PROC_REF(do_item_attack_animation), A, visual_effect_icon, used_item, animation_type, used_intent), used_intent.swingdelay)
-		else
-			do_item_attack_animation(A, visual_effect_icon, used_item, animation_type = animation_type, used_intent = used_intent)
-			return
+		do_item_attack_animation(A, visual_effect_icon, used_item, animation_type = animation_type, used_intent = used_intent)
+		return
 	wiggle(A)
-
 
 /atom/movable/proc/do_item_attack_animation(atom/A, visual_effect_icon, obj/item/used_item, animation_type = ATTACK_ANIMATION_SWIPE, datum/intent/used_intent)
 	if(used_item)

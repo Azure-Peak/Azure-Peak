@@ -97,11 +97,15 @@
 		examine_list += span_notice("Alt-click to rotate it clockwise.")
 
 /datum/component/simple_rotation/proc/HandRot(datum/source, mob/user, rotation = default_rotation_direction)
+	if(!can_be_rotated || !can_user_rotate)
+		return
 	if(!can_be_rotated.Invoke(user, rotation) || !can_user_rotate.Invoke(user, rotation))
 		return
 	BaseRot(user, rotation)
 
 /datum/component/simple_rotation/proc/WrenchRot(datum/source, obj/item/I, mob/living/user)
+	if(!can_be_rotated || !can_user_rotate)
+		return
 	if(!can_be_rotated.Invoke(user,default_rotation_direction) || !can_user_rotate.Invoke(user,default_rotation_direction))
 		return
 	BaseRot(user,default_rotation_direction)
@@ -111,6 +115,7 @@
 	var/atom/movable/AM = parent
 	if(!AM)
 		return
+	var/datum/callback/rotation_callback = after_rotation
 	var/rot_degree
 	switch(rotation_type)
 		if(ROTATION_CLOCKWISE)
@@ -120,15 +125,23 @@
 		if(ROTATION_FLIP)
 			rot_degree = 180
 	AM.setDir(turn(AM.dir,rot_degree))
-	after_rotation.Invoke(user,rotation_type)
+	if(QDELETED(src) || QDELETED(rotation_callback))
+		return
+	rotation_callback.Invoke(user,rotation_type)
 
 /datum/component/simple_rotation/proc/default_can_user_rotate(mob/living/user, rotation_type)
 	if(!istype(user) || !user.canUseTopic(parent, BE_CLOSE, NO_DEXTERITY))
 		return FALSE
+	if(rotation_flags & ROTATION_REQUIRE_WRENCH)
+		var/obj/item/contraption/linker/linker = user.get_active_held_item()
+		if(!istype(linker))
+			return FALSE
 	return TRUE
 
 /datum/component/simple_rotation/proc/default_can_be_rotated(mob/user, rotation_type)
 	var/atom/movable/AM = parent
+	if(rotation_flags & ROTATION_IGNORE_ANCHORED)
+		return TRUE
 	return !AM.anchored
 
 /datum/component/simple_rotation/proc/default_after_rotation(mob/user, rotation_type)

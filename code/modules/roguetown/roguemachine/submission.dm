@@ -48,7 +48,7 @@ var/global/feeding_hole_reset_timer
 		if(istype(I, /obj/item/natural/bundle))
 			var/obj/item/natural/bundle/B = I
 			if(B.stacktype == R.item_type)
-				R.held_items[1] += B.amount
+				R.stockpile_amount += B.amount
 				qdel(B)
 				if(sound == TRUE)
 					playsound(loc, 'sound/misc/hiss.ogg', 100, FALSE, -1)
@@ -57,7 +57,7 @@ var/global/feeding_hole_reset_timer
 			if(!R.check_item(I))
 				continue
 			if(!R.mint_item)
-				R.held_items[1] += 1 //stacked logs need to check for multiple
+				R.stockpile_amount += 1 //stacked logs need to check for multiple
 				qdel(I)
 				if(sound == TRUE)
 					playsound(loc, 'sound/misc/hiss.ogg', 100, FALSE, -1)

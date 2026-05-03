@@ -9,6 +9,7 @@ GLOBAL_LIST_INIT(valid_fogbeast_colors, list("White" = COLOR_WHITE, "Gray" = COL
 	icon_dead = "fogbeast_dead"
 	icon_gib = "saiga_gib"
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
+	blood_toll_bucket = STATS_KILLED_LIVESTOCK
 	emote_see = list("looks around.", "chews some leaves.", "neighs")
 	speak_chance = 1
 	turns_per_move = 5
@@ -29,7 +30,7 @@ GLOBAL_LIST_INIT(valid_fogbeast_colors, list("White" = COLOR_WHITE, "Gray" = COL
 	bonus_tame_chance = 15
 	footstep_type = FOOTSTEP_MOB_SHOE
 	pooptype = /obj/item/natural/poo/horse
-	faction = list("horse")
+	faction = list(FACTION_HORSE)
 	attack_verb_continuous = "tramples"
 	attack_verb_simple = "kicks"
 	melee_damage_lower = 50
@@ -77,16 +78,8 @@ GLOBAL_LIST_INIT(valid_fogbeast_colors, list("White" = COLOR_WHITE, "Gray" = COL
 	cut_overlays()
 	..()
 	if(stat != DEAD)
-		if(ssaddle)
-			var/mutable_appearance/saddlet = mutable_appearance(icon, "saddle-above", 4.3)
-			saddlet.appearance_flags = RESET_ALPHA|RESET_COLOR
-			add_overlay(saddlet)
-			saddlet = mutable_appearance(icon, "saddle")
-			saddlet.appearance_flags = RESET_ALPHA|RESET_COLOR
-			add_overlay(saddlet)
-		if(has_buckled_mobs())
-			var/mutable_appearance/mounted = mutable_appearance(icon, "[icon_state]_mounted", 4.3)
-			add_overlay(mounted)
+		add_saddleicon("saddle-above", "saddle")
+		add_ridericon("[icon_state]_mounted")
 
 
 /mob/living/simple_animal/hostile/retaliate/rogue/fogbeast/get_sound(input)
@@ -108,7 +101,7 @@ GLOBAL_LIST_INIT(valid_fogbeast_colors, list("White" = COLOR_WHITE, "Gray" = COL
 /mob/living/simple_animal/hostile/retaliate/rogue/fogbeast/tamed()
 	..()
 	deaggroprob = 20
-	setup_mount_riding()
+	setup_mount()
 
 /mob/living/simple_animal/hostile/retaliate/rogue/fogbeast/death()
 	unbuckle_all_mobs()

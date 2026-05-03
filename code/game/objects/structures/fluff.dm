@@ -130,6 +130,21 @@
 	/// Throwing/Flying non mobs can always exit the turf regardless of other flags
 	var/allow_flying_outwards = TRUE
 
+/obj/structure/fluff/railing/do_climb(atom/movable/A)
+	var/turf/climber_turf = get_turf(A)
+	var/turf/dest
+	if(climber_turf == src.loc)
+		dest = get_step(src.loc, dir)
+	else
+		dest = src.loc
+	if(!dest)
+		return
+	if(dest.is_blocked_turf(source_atom = A))
+		if(ismob(A))
+			to_chat(A, span_warning("Something is blocking the way."))
+		return
+	. = A.forceMove(dest)
+
 /obj/structure/fluff/railing/Initialize()
 	. = ..()
 	init_connect_loc_element()
@@ -682,7 +697,7 @@
 
 /obj/structure/fluff/signage
 	name = "sign"
-	desc = ""
+	desc = "It's a sign! It seems to be pointing somewhere."
 	icon = 'icons/roguetown/misc/structure.dmi'
 	icon_state = "shitsign"
 	density = TRUE
@@ -694,41 +709,16 @@
 	destroy_sound = 'sound/combat/hits/onwood/destroyfurniture.ogg'
 	attacked_sound = list('sound/combat/hits/onwood/woodimpact (1).ogg','sound/combat/hits/onwood/woodimpact (2).ogg')
 
-/obj/structure/fluff/signage/examine(mob/user)
-	. = ..()
-	if(!user.is_literate())
-		. += "I have no idea what it says."
-	else
-		. += "It says \"AZURE PEAK\""
-
-/obj/structure/fluff/buysign
+/obj/structure/fluff/sign
 	icon_state = "signwrote"
 	name = "sign"
-	desc = ""
+	desc = "It's a sign! These usually have words carved into them."
 	icon = 'icons/roguetown/misc/structure.dmi'
-/obj/structure/fluff/buysign/examine(mob/user)
-	. = ..()
-	if(!user.is_literate())
-		. += "I have no idea what it says."
-	else
-		. += "It says \"IMPORTS\""
-
-/obj/structure/fluff/sellsign
-	icon_state = "signwrote"
-	name = "sign"
-	desc = ""
-	icon = 'icons/roguetown/misc/structure.dmi'
-/obj/structure/fluff/sellsign/examine(mob/user)
-	. = ..()
-	if(!user.is_literate())
-		. += "I have no idea what it says."
-	else
-		. += "It says \"EXPORTS\""
-
 
 /obj/structure/fluff/customsign
 	name = "sign"
-	desc = ""
+	desc = "It's a sign! It looks like it'd be quite easy to carve your \
+	own message into this one, were you so inclined."
 	icon_state = "sign"
 	var/wrotesign
 	max_integrity = 500
@@ -742,6 +732,10 @@
 			. += "I have no idea what it says."
 		else
 			. += "It says \"[wrotesign]\"."
+
+/obj/structure/fluff/customsign/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Left clicking on the sign with a dagger on STAB intent allows you to carve a message into it!")
 
 /obj/structure/fluff/customsign/attackby(obj/item/W, mob/user, params)
 	if(!user.cmode)
@@ -1100,15 +1094,15 @@
 			if(W.flags_1 & HOARDMASTER_SPAWNED_1)
 				to_chat(user, span_warning("This item is from the Hoard!"))
 				return
-			if(W.sellprice <= 0)
-				to_chat(user, span_warning("This item is worthless."))
-				return
 			var/proceed_with_offer = FALSE
 			for(var/TT in treasuretypes)
 				if(istype(W, TT))
 					proceed_with_offer = TRUE
 					break
 			if(proceed_with_offer)
+				if(W.sellprice <= 0)
+					to_chat(user, span_warning("This item is worthless."))
+					return
 				playsound(loc,'sound/items/carvty.ogg', 50, TRUE)
 				log_admin("[user] ([user?.ckey]) submitted [W] ([W.type]) to the Idol, worth [W.get_real_price()]")
 				qdel(W)
@@ -1120,16 +1114,16 @@
 							bandit_players.favor += donatedamnt
 							bandit_players.totaldonated += donatedamnt
 							to_chat(player, ("<font color='yellow'>[user.name] donates [donatedamnt] to the shrine! You now have [bandit_players.favor] favor.</font>"))
+				return //Do not call base - if item sold/given off then stop attacks/hits/other events from using that item on the statue.
 
 			else
 				to_chat(user, span_warning("This item isn't a good offering."))
-				return
 	..()
 
 /obj/structure/fluff/psycross
-	name = "pantheon cross"
+	name = "stone pantheon cross"
 	desc = "Symbol of the Divine Pantheon, the religion of ten - formerly eleven - deities which reigns throughout most of the known world. Their divine order must be maintained."
-	icon_state = "psycross"
+	icon_state = "cross_undivided_r"
 	icon = 'icons/roguetown/misc/tallstructure.dmi'
 	break_sound = 'sound/combat/hits/onwood/destroyfurniture.ogg'
 	attacked_sound = list('sound/combat/hits/onwood/woodimpact (1).ogg','sound/combat/hits/onwood/woodimpact (2).ogg')
@@ -1198,49 +1192,71 @@
 
 /obj/structure/fluff/psycross/copper
 	name = "pantheon cross"
-	icon_state = "psycrosschurch"
+	icon_state = "cross_undivided_church"
 	break_sound = null
 	attacked_sound = list("sound/combat/hits/onmetal/metalimpact (1).ogg", "sound/combat/hits/onmetal/metalimpact (2).ogg")
 	chance2hear = 66
 
 /obj/structure/fluff/psycross/crafted
 	name = "wooden pantheon cross"
-	icon_state = "psycrosscrafted"
+	icon_state = "cross_undivided"
 	max_integrity = 80
 	chance2hear = 10
 
 /obj/structure/fluff/psycross/psycrucifix
 	name = "wooden psydonic crucifix"
 	desc = "A rarely seen symbol of absolute and devoted certainty, more common in Otava: HE yet lyves. HE yet breathes."
-	icon_state = "psycruci"
+	icon_state = "cross_psy"
 	max_integrity = 80
 	chance2hear = 10
 
 /obj/structure/fluff/psycross/psycrucifix/stone
 	name = "stone psydonic crucifix"
 	desc = "Formed of stone, this great Psycross symbolises that HE is forever ENDURING. Considered a rare sight upon the Peaks."
-	icon_state = "psycruci_r"
+	icon_state = "cross_psy_r"
 	max_integrity = 120
 	chance2hear = 10
 
 /obj/structure/fluff/psycross/psycrucifix/silver
 	name = "silver psydonic crucifix"
-	icon_state = "psycruci_s"
+	icon_state = "cross_psy_s"
 	desc = "Constructed of Blessed Silver, this crucifix symbolises absolute faith in the ONE - For PSYDON WEEPS, for all mortal ilk. PSYDON WEEPS, for all who walk upon the soil. PSYDON WEEPS..."
 	attacked_sound = list("sound/combat/hits/onmetal/metalimpact (1).ogg", "sound/combat/hits/onmetal/metalimpact (2).ogg")
 	max_integrity = 450
 	chance2hear = 10
 
+/obj/structure/fluff/psycross/astrata
+	name = "wooden astratan cross"
+	icon_state = "cross_astrata"
+	desc = "A simple cross of carved wood, raised in quiet devotion to Astrata."
+	max_integrity = 100
+	chance2hear = 20
+
+/obj/structure/fluff/psycross/astrata/stone
+	name = "stone astratan cross"
+	icon_state = "cross_astrata_r"
+	desc = "A towering monument to Astrata. Those who stand beneath it feel the warmth of her light."
+	max_integrity = 140
+	chance2hear = 20
+
+/obj/structure/fluff/psycross/astrata/golden
+	name = "golden astratan cross"
+	icon_state = "cross_astrata_u"
+	desc = "A radiant monument of gold, devoted to Astrata in her full glory. It's surface gleams with an almost blinding brilliance, catching even the faintest light and casting it forth as a warm, unwavering glow."
+	attacked_sound = list("sound/combat/hits/onmetal/metalimpact (1).ogg", "sound/combat/hits/onmetal/metalimpact (2).ogg")
+	max_integrity = 400
+	chance2hear = 20
+
 /obj/structure/fluff/psycross/zizocross
 	name = "inverted cross"
 	desc = "An unholy symbol. Blasphemy for most, reverence for few."
-	icon_state = "invertedcross"
+	icon_state = "cross_zizo"
 	divine = FALSE
 
 /obj/structure/fluff/psycross/zizocross/stone
 	name = "stone inverted cross"
 	desc = "An unholy symbol, the knowledge that something so sturdy was able to be put up in reverence of the dark star, completely unattended... is a difficult anchovy to swallow for many."
-	icon_state = "cross_zizo"
+	icon_state = "cross_zizo_r"
 	divine = FALSE
 	max_integrity = 200
 
@@ -1288,7 +1304,7 @@
 
 /obj/structure/fluff/psycross/baotha/decorated
 	name = "webbed spider cross"
-	desc = "The spider spreads its legs, the web unfurls. Just looking at it makes bad memories surface."
+	desc = "The spider spreads it's legs, the web unfurls. Just looking at it makes bad memories surface."
 	icon_state = "cross_baotha_u"
 	divine = FALSE
 	max_integrity = 350
@@ -1299,87 +1315,71 @@
 		// if there's no bishop inround, you can still get married... as long as there's an eoran. heretics can do it too!
 		if((user.mind.assigned_role == "Bishop") || (istype(living_user) && HAS_TRAIT(living_user, TRAIT_MARRIAGE_CAPABLE) && (living_user.patron.type == /datum/patron/divine/eora)))
 			if(istype(W, /obj/item/reagent_containers/food/snacks/grown/apple))
-				var/marriage
 				var/obj/item/reagent_containers/food/snacks/grown/apple/A = W
 				//The MARRIAGE TEST BEGINS
-				if(A.bitten_names.len)
-					if(A.bitten_names.len == 2)
-						//Groom provides the surname that the bride will take
-						var/mob/living/carbon/human/thegroom
-						var/mob/living/carbon/human/thebride
-						//Did anyone get cold feet on the wedding?
-						for(var/mob/M in viewers(src, 7))
+				if(A.bitten_names.len == 2)
+					// Find the groom and bride from those who bit the apple
+					var/mob/living/carbon/human/thegroom
+					var/mob/living/carbon/human/thebride
+					for(var/mob/M in viewers(src, 7))
+						// You cannot marry an animal, a corpse, a brainless mob, or someone who is already married.
+						if(!ishuman(M)) 
+							continue
+						var/mob/living/carbon/human/C = M
 
-							if(thegroom && thebride)
-								break
-							if(!ishuman(M))
-								continue
-							var/mob/living/carbon/human/C = M
-							/*
-							* This is for making the first biters name
-							* always be applied to the groom.
-							* second. This seems to be the best way
-							* to use the least amount of variables.
-							*/
-							//I think that guy is dead.
-							if(C.stat == DEAD)
-								continue
-							//That person is not a player or afk.
-							if(!C.client)
-								continue
-							//Gotta get a divorce first
-							if(C.marriedto)
-								continue
-							if(C.real_name == A.bitten_names[1])
-								thegroom = C
-							if(C.real_name == A.bitten_names[2])
-								thebride = C
-						//WE FOUND THEM LETS GET THIS SHOW ON THE ROAD!
-						if(!thegroom || !thebride)
-							to_chat(user, span_warn("nonexistent"))
-							return
-						//Alright now for the boring surname formatting.
-						var/surname2use
-						var/index = findtext(thegroom.real_name, " ")
-						var/bridefirst
-						thegroom.original_name = thegroom.real_name
-						thebride.original_name = thebride.real_name
-						if(!index)
-							surname2use = thegroom.dna.species.random_surname()
-						else
-							/*
-							* This code prevents inheriting the last name of
-							* " of wolves" or " the wolf"
-							* remove this if you want "Skibbins of wolves" to
-							* have his bride become "Sarah of wolves".
-							*/
-							if(findtext(thegroom.real_name, " of ") || findtext(thegroom.real_name, " the "))
-								surname2use = thegroom.dna.species.random_surname()
-								thegroom.change_name(copytext(thegroom.real_name, 1,index))
-							else
-								surname2use = copytext(thegroom.real_name, index)
-								thegroom.change_name(copytext(thegroom.real_name, 1,index))
-						index = findtext(thebride.real_name, " ")
-						if(index)
-							thebride.change_name(copytext(thebride.real_name, 1,index))
-						bridefirst = thebride.real_name
-						thegroom.change_name(thegroom.real_name + surname2use)
-						thebride.change_name(thebride.real_name + surname2use)
-						thegroom.marriedto = thebride.real_name
-						thebride.marriedto = thegroom.real_name
-						thegroom.adjust_triumphs(1)
-						thebride.adjust_triumphs(1)
-						//Bite the apple first if you want to be the groom.
-						priority_announce("[thegroom.real_name] has married [bridefirst]!", title = "Holy Union!", sound = 'sound/misc/bell.ogg')
-						record_round_statistic(STATS_MARRIAGES_MADE)
-						marriage = TRUE
-						qdel(A)
+						if(C.stat == DEAD || !C.client || C.marriedto)
+							continue
+						
+						if(C.real_name == A.bitten_names[1])
+							thegroom = C
+						if(C.real_name == A.bitten_names[2])
+							thebride = C
+					
+					if(!thegroom || !thebride)
+						to_chat(user, span_warn("nonexistent"))
+						return
+					
+					// Astounding update: marriage now requires consent (it didn't before)
+					var/groom_confirm = input(thegroom, "Do you want to marry [thebride]?") as null|anything in list("Yes", "No")
+					if(groom_confirm != "Yes")
+						to_chat(user, span_warning("The groom has declined the marriage!"))
+						return ..()
+					
+					var/bride_confirm = input(thebride, "Do you want to marry [thegroom]?") as null|anything in list("Yes", "No")
+					if(bride_confirm != "Yes")
+						to_chat(user, span_warning("The bride has declined the marriage!"))
+						return ..()
+					
+					// Horrible terrible last name necromancy (sometimes works)
+					var/groom_index = findtext(thegroom.real_name, " ")
+					var/bride_index = findtext(thebride.real_name, " ")
+					var/bride_firstname = bride_index ? copytext(thebride.real_name, 1, bride_index) : thebride.real_name
+					
+					// Get groom's surname
+					var/groom_surname = copytext(thegroom.real_name, groom_index + 1)
+					if(!groom_index)
+						groom_surname = null
+					else if(findtext(thegroom.real_name, " of ") || findtext(thegroom.real_name, " the "))
+						groom_surname = null
+					
+					var/final_bride_name
+					// Ask bride if she wants to take the groom's surname
+					if(groom_surname != null)
+						var/bride_surname_choice = input(thebride, "Do you want to take [thegroom]'s surname? (Your new name will be [bride_firstname] [groom_surname])") as null|anything in list("Yes", "No")
+						final_bride_name = (bride_surname_choice == "Yes") ? (bride_firstname + " " + groom_surname) : thebride.real_name
+					
+					// Apply the changes
+					thebride.change_name(final_bride_name)
+			
+					thegroom.marriedto = thebride.real_name
+					thebride.marriedto = thegroom.real_name
 
-				if(!marriage)
-					A.burn()
-					return
+					thegroom.adjust_triumphs(1)
+					thebride.adjust_triumphs(1)
+
+					priority_announce("[thegroom.real_name] has married [thebride.real_name]!", title = "Holy Union!", sound = 'sound/misc/bell.ogg')
+					return ..()
 	return ..()
-
 
 /obj/structure/fluff/psycross/copper/Destroy()
 	addomen("psycross")

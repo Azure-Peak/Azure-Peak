@@ -73,15 +73,18 @@
 	if(scom_number)
 		. += span_smallnotice("Its designation is #[scom_number][scom_tag ? ", labeled as [scom_tag]" : ""].")
 	. += "<a href='?src=[REF(src)];directory=1'>Directory</a>"
-	. += "<b>THE LAWS OF THE LAND:</b>"
 	if(!length(GLOB.laws_of_the_land))
 		. += span_danger("The land has no laws! <b>We are doomed!</b>")
 		return
 	if(!user.is_literate())
+		. += "<b>THE LAWS OF THE LAND:</b>"
 		. += span_warning("Uhhh... I can't read them...")
 		return
+	var/laws_str = "<details><summary><b>THE LAWS OF THE LAND:</b> (Click to expand)</summary>"
 	for(var/i in 1 to length(GLOB.laws_of_the_land))
-		. += span_small("[i]. [GLOB.laws_of_the_land[i]]")
+		laws_str += span_small("[i]. [GLOB.laws_of_the_land[i]]") + "\n"
+	laws_str += "</details>"
+	. += laws_str
 
 /obj/structure/roguemachine/scomm/Topic(href, href_list)
 	..()
@@ -316,7 +319,7 @@
 /obj/structure/roguemachine/scomm/Hear(message, atom/movable/speaker, message_language, raw_message, radio_freq, list/spans, message_mode, original_message)
 	if(speaker.loc != loc)
 		return
-	if(!ishuman(speaker))
+	if(!isliving(speaker))
 		return
 	if(!listening)
 		return
@@ -330,10 +333,12 @@
 		var/time_remaining = round((last_message + NORMAL_SCOM_PER_MESSAGE_DELAY - world.time) / 10)
 		to_chat(speaker, span_warning("The SCOM's rats are still recovering. Wait [time_remaining] more second[time_remaining != 1 ? "s" : ""]."))
 		return
-	var/mob/living/carbon/human/H = speaker
-	var/usedcolor = H.voice_color
-	if(H.voicecolor_override)
-		usedcolor = H.voicecolor_override
+	var/usedcolor = "a0a0a0"
+	if(ishuman(speaker))
+		var/mob/living/carbon/human/H = speaker
+		usedcolor = H.voice_color
+	if(speaker.voicecolor_override)
+		usedcolor = speaker.voicecolor_override
 	// Update last message time
 	last_message = world.time
 	// Feedback to indicate successful sending
@@ -397,9 +402,17 @@
 	dictating = FALSE
 
 /proc/scom_announce(message)
-	for(var/obj/structure/roguemachine/scomm/S in SSroguemachine.scomm_machines)
-		if(S.speaking)
-			S.say(message, spans = list("info"))
+	for(var/atom/S as anything in SSroguemachine.scomm_machines)
+		if(istype(S, /obj/item/scomstone/garrison) || istype(S, /obj/item/scomstone/bad/garrison))
+			continue
+		if(istype(S, /obj/structure/roguemachine/scomm))
+			var/obj/structure/roguemachine/scomm/station = S
+			if(station.speaking)
+				station.say(message, spans = list("info"))
+			continue
+		if(istype(S, /obj/item/scomstone))
+			var/obj/item/scomstone/stone = S
+			stone.repeat_message(message)
 
 #undef NORMAL_SCOM_TRANSMISSION_DELAY
 #undef NORMAL_SCOM_PER_MESSAGE_DELAY

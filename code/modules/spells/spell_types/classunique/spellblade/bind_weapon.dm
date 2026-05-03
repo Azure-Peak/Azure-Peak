@@ -72,7 +72,7 @@
 			if("phalangite")
 				valid_skills = list(/datum/skill/combat/polearms)
 			if("macebearer")
-				valid_skills = list(/datum/skill/combat/maces)
+				valid_skills = list(/datum/skill/combat/maces, /datum/skill/combat/axes)
 		if(valid_skills)
 			valid = (weapon.associated_skill in valid_skills)
 		if(!valid)

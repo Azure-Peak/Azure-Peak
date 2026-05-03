@@ -6,8 +6,7 @@
 	on, and during this time you will be able to earn money, because, unfortunately, the \
 	inhabitants of the upper world refuse to accept spider paws as payment for their services."
 	allowed_races = list(
-		/datum/species/elf/dark,
-		/datum/species/human/halfelf, // Because half-drows are half-elves, guh.
+		/datum/species/elf/dark
 	)
 	outfit = /datum/outfit/job/roguetown/mercenary/anthrax
 	class_select_category = CLASS_CAT_RACIAL
@@ -15,7 +14,7 @@
 
 	cmode_music = 'sound/music/combat_delf.ogg'
 
-	traits_applied = list(TRAIT_DARKVISION, TRAIT_MEDIUMARMOR, TRAIT_ANTHRAXI)
+	traits_applied = list(TRAIT_DARKVISION, TRAIT_MEDIUMARMOR, TRAIT_ANTHRAXI, TRAIT_ALCHEMY_EXPERT)
 	subclass_stats = list(
 		STATKEY_STR = 2,
 		STATKEY_CON = 2,
@@ -92,13 +91,12 @@
 	that your contract is fulfilled and your pockets heavy with mammon."
 	outfit = /datum/outfit/job/roguetown/mercenary/anthrax_assassin
 	allowed_races = list(
-		/datum/species/elf/dark,
-		/datum/species/human/halfelf, // Because half-drows are half-elves, guh.
+		/datum/species/elf/dark
 	)
 	category_tags = list(CTAG_MERCENARY)
 	class_select_category = CLASS_CAT_RACIAL
 	cmode_music = 'sound/music/combat_delf.ogg'
-	traits_applied = list(TRAIT_DARKVISION, TRAIT_DODGEEXPERT, TRAIT_ANTHRAXI)
+	traits_applied = list(TRAIT_DARKVISION, TRAIT_DODGEEXPERT, TRAIT_ANTHRAXI, TRAIT_ALCHEMY_EXPERT)
 	subclass_stats = list(
 		STATKEY_WIL = 2,
 		STATKEY_PER = 2,
@@ -154,10 +152,10 @@
 	H.faction += "spider_lowers"
 
 	if(H.mind)
-		var/weapon = list("Bow and Poisoned Arrows", "Dual Sabres")
+		var/weapon = list("Bow & Poisoned Arrows", "Dual Sabres")
 		var/weaponchoice = input(H, "Choose your WEAPON.", "PICK YOUR INSTRUMENTS.") as anything in weapon
 		switch(weaponchoice)
-			if("Bow and Poisoned Arrows")
+			if("Bow & Poisoned Arrows")
 				backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/short
 				beltr = /obj/item/quiver/poisonarrows
 				H.adjust_skillrank_up_to(/datum/skill/combat/bows, SKILL_LEVEL_EXPERT, TRUE)

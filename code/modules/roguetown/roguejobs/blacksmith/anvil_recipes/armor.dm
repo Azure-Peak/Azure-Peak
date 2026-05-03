@@ -48,6 +48,10 @@
 	abstract_type = /datum/anvil_recipe/armor/blacksteel
 	craftdiff = SKILL_LEVEL_MASTER
 
+/datum/anvil_recipe/armor/avantyne
+	abstract_type = /datum/anvil_recipe/weapons/avantyne
+	craftdiff = SKILL_LEVEL_MASTER
+
 /datum/anvil_recipe/armor/gold
 	abstract_type = /datum/anvil_recipe/armor/gold
 	craftdiff = SKILL_LEVEL_LEGENDARY
@@ -401,6 +405,13 @@
 	created_item = /obj/item/clothing/head/roguetown/helmet/horned
 	craftdiff = 2
 
+/datum/anvil_recipe/armor/iron/headcage
+	name = "Headcage, Iron"
+	req_bar = /obj/item/ingot/iron
+	additional_items = list(/obj/item/ingot/iron, /obj/item/ingot/iron)
+	created_item = /obj/item/clothing/head/roguetown/helmet/headcage
+	craftdiff = 2
+
 /datum/anvil_recipe/armor/iron/mask
 	name = "Mask, Iron"
 	req_bar = /obj/item/ingot/iron
@@ -443,6 +454,12 @@
 	additional_items = list(/obj/item/ingot/iron, /obj/item/ingot/iron, /obj/item/natural/hide/cured)
 	created_item = /obj/item/clothing/suit/roguetown/armor/plate/iron
 
+/datum/anvil_recipe/armor/iron/bandedarmor
+	name = "Banded Armor, Iron (+1 Metal Scrap Kit, +2 Fur, +2 Cured Leather)"
+	req_bar = /obj/item/ingot/iron
+	additional_items = list(/obj/item/repair_kit/metal/bad, /obj/item/natural/fur, /obj/item/natural/fur, /obj/item/natural/hide/cured, /obj/item/natural/hide/cured)
+	created_item = /obj/item/clothing/suit/roguetown/armor/plate/iron/banded
+
 /datum/anvil_recipe/armor/iron/fullplate
 	name = "Full-Plate, Iron (+3 Iron, +1 Cured Leather)"
 	req_bar = /obj/item/ingot/iron
@@ -458,6 +475,12 @@
 	name = "Plate Gauntlets, Iron"
 	req_bar = /obj/item/ingot/iron
 	created_item = /obj/item/clothing/gloves/roguetown/plate/iron
+
+/datum/anvil_recipe/armor/iron/bandedgauntlets
+	name = "Banded Gauntlets, Iron (+2 Fur, + 1 Leather Gloves)"
+	req_bar = /obj/item/ingot/iron
+	additional_items = list(/obj/item/natural/fur, /obj/item/natural/fur, /obj/item/clothing/gloves/roguetown/leather)
+	created_item = /obj/item/clothing/gloves/roguetown/plate/iron/banded
 
 /datum/anvil_recipe/armor/iron/chainleg
 	name = "Chain Chausses, Iron"
@@ -530,6 +553,12 @@
 	name = "Sallet, Iron"
 	req_bar = /obj/item/ingot/iron
 	created_item = /obj/item/clothing/head/roguetown/helmet/sallet/iron
+
+/datum/anvil_recipe/armor/iron/todd
+	name = "Banded Helmet, Iron (+1 Metal Scrap Kit, +2 Bones)"
+	req_bar = /obj/item/ingot/iron
+	additional_items = list(/obj/item/repair_kit/metal/bad, /obj/item/natural/bone, /obj/item/natural/bone)
+	created_item = /obj/item/clothing/head/roguetown/helmet/sallet/iron/banded
 
 /datum/anvil_recipe/armor/iron/sallet/visor
 	name = "Sallet, Visored, Iron (+1 Iron)"
@@ -1067,6 +1096,12 @@
 	additional_items = list(/obj/item/ingot/steelholy, /obj/item/natural/hide/cured)
 	created_item = /obj/item/clothing/head/roguetown/helmet/sallet/eoran
 
+/datum/anvil_recipe/armor/holysteel/undividedhelmtemplar
+	name = "Undivided Templar's Helmet (+1 Holy Steel, +1 Cured Leather)"
+	req_bar = /obj/item/ingot/steelholy
+	additional_items = list(/obj/item/ingot/steelholy, /obj/item/natural/hide/cured)
+	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/undivided
+
 // SILVER
 
 /datum/anvil_recipe/armor/silver/belt
@@ -1304,6 +1339,36 @@
 	name = "Ancient Blacksteel Plate Boots"
 	req_bar = /obj/item/ingot/blacksteel
 	created_item = /obj/item/clothing/shoes/roguetown/boots/armor/blacksteel
+
+// AVANTYNE
+
+/datum/anvil_recipe/armor/avantyne/helmet
+	name = "Veil, Avantyne (+1 A. Wafer)"
+	req_bar = /obj/item/ingot/avantyne
+	additional_items = list(/obj/item/ingot/avantyne)
+	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/avantyne
+
+/datum/anvil_recipe/armor/avantyne/maille
+	name = "Maille, Avantyne (+3 A. Wafer, +1 Cured Leather)"
+	req_bar = /obj/item/ingot/avantyne
+	additional_items = list(/obj/item/ingot/avantyne, /obj/item/ingot/avantyne, /obj/item/ingot/avantyne, /obj/item/natural/hide/cured)
+	created_item = /obj/item/clothing/suit/roguetown/armor/plate/fluted/avantyne
+
+/datum/anvil_recipe/armor/avantyne/faulds
+	name = "Fauldcoat, Avantyne (+1 A. Wafer)"
+	req_bar = /obj/item/ingot/avantyne
+	additional_items = list(/obj/item/ingot/avantyne)
+	created_item = /obj/item/clothing/under/roguetown/platelegs/avantyne
+
+/datum/anvil_recipe/armor/avantyne/gloves
+	name = "Gloves, Avantyne"
+	req_bar = /obj/item/ingot/avantyne
+	created_item = /obj/item/clothing/gloves/roguetown/plate/avantyne
+
+/datum/anvil_recipe/armor/avantyne/boots
+	name = "Sabatons, Avantyne"
+	req_bar = /obj/item/ingot/avantyne
+	created_item = /obj/item/clothing/shoes/roguetown/boots/armor/avantyne
 
 // GOLD
 

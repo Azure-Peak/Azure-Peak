@@ -1,5 +1,285 @@
 #define EQUALIZED_GLOW "equalizer glow"
 
+//////////////////////////
+// T0 - Freeman's Tools //
+//////////////////////////
+// This is a multi-tier miracle that at its base just provides Pocket Sand, a Bread potion and a worse Lesser Knock.
+
+// It provides more and better tools the higher your Miracle tier skill is, all the way to Master/Legendary.
+
+// Most of the things included here envision utility and non-combat applications, and dhe "alchemy" part offers the
+// means to convert discarded adven trash and item clutter into useful things.
+
+/datum/action/cooldown/spell/freemans_tools
+	button_icon = 'icons/mob/actions/matthiosmiracles.dmi'
+	button_icon_state = "lockpick"
+	name = "Freeman's Tools"
+	desc = "A simple prayer to the Free-God Matthios, for tools of liberation or transaction.<br><br>His will manifests in three forms: gutter-born tricks of want, gilded tools of blessed liberation, or by granting the bases of Malchem, a form of primordial alchemy so impossible it is oft mistaken for sorcery."
+	associated_skill = /datum/skill/magic/holy
+	click_to_activate = FALSE
+	self_cast_possible = TRUE
+	primary_resource_type = SPELL_COST_STAMINA
+	primary_resource_cost = SPELLCOST_CANTRIP
+	charge_required = FALSE
+	cooldown_time = 10 SECONDS
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
+	var/list/options = list(
+		//a simple 'blinds u for 1 sec' throwable
+		"Pocket Sand" = list(
+			path = /obj/item/impact_grenade/pocketsand,
+			m_cooldown = 60 SECONDS,
+			m_devotion = 10,
+			m_rank = SKILL_LEVEL_NOVICE,
+			category = "Rogue Arts",
+			lines = list("Dust to blind thee!", "A handful of freedom!", "A gift for thee!", "Mind yer eyes!", "This always works like a miracle!")
+		),
+		//basically just lesser knock
+		"Gilded Lockpick" = list(
+			path = /obj/item/melee/touch_attack/lesserknock/matthios,
+			m_cooldown = 5 SECONDS,
+			m_devotion = 10,
+			m_rank = SKILL_LEVEL_NOVICE,
+			category = "Gilded Tools",
+			lines = list("#By thine hands...", "#No locks shall bar the free!", "#Thine tool shall bring liberation!", "#Matthios, shatter my locks!")
+		),
+		//rip the bag of bribery, say hello to pouch of smuggling
+		"Pouch of Smuggling" = list(
+			path = /obj/item/storage/belt/rogue/pouch/matthios,
+			m_cooldown = 10 MINUTES,
+			m_devotion = 100,
+			m_rank = SKILL_LEVEL_NOVICE,
+			category = "Rogue Arts",
+			lines = list("#Let me begin your work!", "#Matthios, protect my well-deserved goods!", "#Grant me protection against those tyrant knaves!", "#Matthios, ordain me your blessed storage!")
+		),
+		//like a pouch of smuggling, but smugglier
+		"Bag of Smuggling" = list(
+			path = /obj/item/storage/backpack/rogue/backpack/matthios,
+			m_cooldown = -1,
+			m_devotion = 200,
+			m_rank = SKILL_LEVEL_APPRENTICE,
+			category = "Rogue Arts",
+			lines = list("#Let me begin your work!", "#Matthios, protect my well-deserved goods!", "#Grant me protection against those tyrant knaves!", "#Matthios, ordain me your blessed storage!")
+		),
+		//makes failed lockpicking attempts muffled
+		"Gilded Dexterous Gloves" = list(
+			path = /obj/item/clothing/gloves/roguetown/fingerless_leather/muffle_matthios,
+			m_cooldown = 5 MINUTES,
+			m_devotion = 100,
+			m_rank = SKILL_LEVEL_JOURNEYMAN,
+			category = "Gilded Tools",
+			lines = list("#Hands of trade, be silent.", "#Let fingers dance for thy amusement.", "#Dexterity bought in faith.")
+		),
+		//makes your footsteps muffled
+		"Gilded Muffled Boots" = list(
+			path = /obj/item/clothing/shoes/roguetown/boots/muffle_matthios,
+			m_cooldown = 5 MINUTES,
+			m_devotion = 100,
+			m_rank = SKILL_LEVEL_APPRENTICE,
+			category = "Gilded Tools",
+			lines = list("#Steps unheard, as I walk in thy shadow.", "#Silent as coin slipping, for thy hoard.", "#No sound, no chain, no better wisdom, O' Lord.")
+		),
+		//enables piss night vision and sets your lockpick timer to 1.5 secs, makes you insane over time and prolonged use and ofc, will burn you the fuck down, it will also not really increase success chance only pick speed, and if you break those? rip, no refunds, as HE ordained
+		"Gilded Lockpicking Specs" = list(
+			path = /obj/item/clothing/mask/rogue/spectacles/matthios,
+			m_cooldown = -1, // this is too stronk, so only 1 allowed now
+			m_devotion = 200,
+			m_rank = SKILL_LEVEL_EXPERT,
+			category = "Gilded Tools",
+			lines = list("#Guide my sight, O' Matthios.","#Through pins and wards, thy Free eyes see.","#No door shall be between me and truth.")
+		),
+		//normal chains that bind nobility faster
+		"Gilded Chains" = list(
+			path = /obj/item/rope/chain/matthios,
+			m_cooldown = 10 MINUTES,
+			m_devotion = 200,
+			m_rank = SKILL_LEVEL_JOURNEYMAN,
+			category = "Gilded Tools",
+			lines = list("Matthios! Chains for the tyrants!", "Matthios! Transact me thy chains!", "Lord of Freedom, chains for the unworthy!")
+		),
+		//enables thieves' cant when worn on neck
+		"Gilded Amulet of Matthios" = list(
+			path = /obj/item/clothing/neck/roguetown/psicross/inhumen/matthios/gilded,
+			m_cooldown = 30 MINUTES,
+			m_devotion = 50,
+			m_rank = SKILL_LEVEL_NONE,
+			category = "Gilded Tools",
+			lines = list("#Matthios, let thine will be done.", "#Lord of Exchange, my soul is yours.", "#God of the Stolen Fyre, thou will be done.")
+		),
+		//miralchemy mode on
+		"Vial of Firstlaw" = list(
+			path = /obj/item/matthios_canister/firstlaw,
+			m_cooldown = 1 MINUTES,
+			m_devotion = 75,
+			m_rank = SKILL_LEVEL_NOVICE,
+			category = "Malchem Vials",
+			lines = list("#Matthios, provide the base, I shall complete thy work!", "#Matthios! Deliver unto me the truth of alchemy!", "#Lord of Exchange, I shall finish thy work!")
+		),
+		//turns 10 organic items into 1 rich food of choice (that will often be burned mess or bread if you're not starving to death)
+		"Vial of Kingsfeast Base" = list(
+			path = /obj/item/matthios_canister/kingsfeast,
+			m_cooldown = 2 MINUTES,
+			m_devotion = 25,
+			m_rank = SKILL_LEVEL_NOVICE,
+			category = "Malchem Vials",
+			lines = list("#Matthios, provide the base, I shall complete thy work!", "#Matthios! Deliver unto me the truth of alchemy!", "#Lord of Exchange, I shall finish thy work!")
+		),
+		//basically turns water or fruits into wine, if used with blood or lux instead, becomes Kingsblood
+		"Vial of Kingswine Base" = list(
+			path = /obj/item/matthios_canister/kingswine,
+			m_cooldown = 2 MINUTES,
+			m_devotion = 25,
+			m_rank = SKILL_LEVEL_NOVICE,
+			category = "Malchem Vials",
+			lines = list("#Matthios, provide the base, I shall complete thy work!", "#Matthios! Deliver unto me the truth of alchemy!", "#Lord of Exchange, I shall finish thy work!")
+		),
+		//makes you honk shoo mimimi, while restoring energy over time
+		"Vial of Goodnite Base" = list(
+			path = /obj/item/matthios_canister/goodnite,
+			m_cooldown = 2 MINUTES,
+			m_devotion = 50,
+			m_rank = SKILL_LEVEL_APPRENTICE,
+			category = "Malchem Vials",
+			lines = list("#Matthios, provide the base, I shall complete thy work!", "#Matthios! Deliver unto me the truth of alchemy!", "#Lord of Exchange, I shall finish thy work!")
+		),
+		//a 4 use vial of mending
+		"Vial of Warsmith Base" = list(
+			path = /obj/item/matthios_canister/warsmith,
+			m_cooldown = 2 MINUTES,
+			m_devotion = 50,
+			m_rank = SKILL_LEVEL_JOURNEYMAN,
+			category = "Malchem Vials",
+			lines = list("#Matthios, provide the base, I shall complete thy work!", "#Matthios! Deliver unto me the truth of alchemy!", "#Lord of Exchange, I shall finish thy work!")
+		),
+		// a spicy, explosive, very, very difficult-to-make revive vial, uses all herbs in the world and 1 of any lux type
+		"Vial of Lyfestruth Base" = list(
+			path = /obj/item/matthios_canister/lyfestruth,
+			m_cooldown = 30 MINUTES,
+			m_devotion = 100,
+			m_rank = SKILL_LEVEL_EXPERT,
+			category = "Malchem Vials",
+			lines = list("#Matthios, provide the base, I shall complete thy work!", "#Matthios! Deliver unto me the truth of alchemy!", "#Lord of Exchange, I shall finish thy work!")
+		),
+	)
+
+	var/list/item_cooldowns = list()
+
+/datum/action/cooldown/spell/freemans_tools/cast(atom/cast_on)
+	. = ..()
+	var/mob/living/carbon/human/H = owner
+	if(!istype(H))
+		return FALSE
+
+	var/skill = H.get_skill_level(associated_skill)
+
+	// FILTER VALID OPTIONS
+	var/list/valid = list()
+	for(var/name in options)
+		var/list/entry = options[name]
+		if(!islist(entry))
+			continue
+		if(skill >= entry["m_rank"])
+			valid[name] = entry
+
+	if(!valid.len)
+		return FALSE
+
+	// CATEGORY SELECTION
+	var/list/categories = list(
+		"Rogue Arts",
+		"Gilded Tools",
+		"Malchem Vials"
+	)
+
+	var/category = tgui_input_list(H, "Choose your path", "Freeman's Tools", categories)
+	if(!category)
+		return FALSE
+
+	// BUILD DISPLAY LIST
+	var/list/display = list()
+
+	for(var/name in valid)
+		var/list/entry = valid[name]
+
+		if(entry["category"] != category)
+			continue
+
+		var/cd = item_cooldowns[name]
+		var/display_name
+
+		var/devotion_cost = entry["m_devotion"] || 0
+
+		if(cd == -1)
+			display_name = "[name] (UNAVAILABLE)"
+		else
+			var/time_left = cd ? max(0, cd - world.time) : 0
+			if(time_left > 0)
+				display_name = "[name] ([round(time_left/10, 1)]s | [devotion_cost] Devotion)"
+			else
+				display_name = "[name] ([devotion_cost] Devotion)"
+
+		display[display_name] = name
+
+	if(!display.len)
+		to_chat(H, span_warning("Nothing available in this category."))
+		return FALSE
+
+	// CHOICE
+	var/choice_display = tgui_input_list(H, "Choose your tool", "Freeman's Tools", display)
+	if(!choice_display)
+		return FALSE
+
+	var/choice = display[choice_display]
+	if(!choice)
+		return FALSE
+
+	var/list/entry = valid[choice]
+	var/item_path = entry["path"]
+	var/m_cd = entry["m_cooldown"]
+	var/list/lines = entry["lines"]
+	var/devotion_cost = entry["m_devotion"] || 0
+
+	if(!item_path)
+		return FALSE
+
+	// COOLDOWN CHECK
+	if(item_cooldowns[choice] == -1)
+		to_chat(H, span_warning("[choice] cannot be used again."))
+		return FALSE
+
+	if(item_cooldowns[choice] && world.time < item_cooldowns[choice])
+		to_chat(H, span_warning("[choice] is on cooldown for [round((item_cooldowns[choice] - world.time)/10, 1)] seconds."))
+		return FALSE
+
+	// DEVOTION CHECK
+	if(devotion_cost > 0)
+		src.devotion_cost = devotion_cost
+		if(!H.devotion?.check_devotion(src))
+			to_chat(H, span_warning("Your connection to the Free God is faint. Don't ask favors you cannot pay for."))
+			return FALSE
+
+	// SPAWN ITEM
+	var/obj/item/I = new item_path(H.drop_location())
+	if(!I)
+		return FALSE
+
+	H.put_in_hands(I)
+
+	if(lines && lines.len)
+		H.say(pick(lines), language = /datum/language/common)
+
+	// APPLY DEVOTION COST
+	if(devotion_cost > 0)
+		H.devotion.update_devotion(-devotion_cost)
+
+	// APPLY COOLDOWN
+	if(m_cd == -1)
+		item_cooldowns[choice] = -1
+	else
+		item_cooldowns[choice] = world.time + m_cd
+
+	StartCooldown()
+	return TRUE
+
 // T0: Determine the net mammon value of target
 
 /obj/effect/proc_holder/spell/invoked/appraise
@@ -37,19 +317,9 @@
 				to_chat(target, span_warning("A pair of prying eyes were laid on me..."))
 			return
 		var/mammonsonperson = get_mammons_in_atom(target)
-		var/mammonsinbank = SStreasury.bank_accounts[target]
+		var/mammonsinbank = SStreasury.get_balance(target)
 		var/totalvalue = mammonsinbank + mammonsonperson
 		to_chat(user, ("<font color='yellow'>[target] has [mammonsonperson] mammons on them, [mammonsinbank] in their meister, for a total of [totalvalue] mammons.</font>"))
-
-//T0: Summon a lockpick on demand
-/datum/action/cooldown/spell/lesser_knock/miracle
-	name = "Emancipate"
-	desc = "A simple prayer to the free-god that forms into an instrument for lockpicking. Can be dispelled by using it on anything that isn't a locked/unlocked door."
-	button_icon = 'icons/mob/actions/matthiosmiracles.dmi'
-	button_icon_state = "lockpick"
-	invocations = list("Transact me your tools.", "Grant me tools of trade.")
-	invocation_type = INVOCATION_WHISPER
-	associated_skill = /datum/skill/magic/holy
 
 //T0: Firebreath
 /obj/effect/proc_holder/spell/invoked/matthios_firebreath // Shamelessly steals Wither's cool code / Originally from Racial Perk PR for drakians
@@ -127,51 +397,6 @@
 	light_color = "#FF6A00"
 	duration = 1 SECONDS
 
-//T0, Matthiosite thievery boon
-/obj/effect/proc_holder/spell/self/matthios_muffle
-	name = "Muffle"
-	desc = "Bargain for a pair of boots to help you avoid detection of those who would wish harm upon you."
-	clothes_req = FALSE
-	action_icon = 'icons/mob/actions/matthiosmiracles.dmi'
-	overlay_icon = 'icons/mob/actions/matthiosmiracles.dmi'
-	overlay_state = "muffle"
-	miracle = TRUE
-	associated_skill = /datum/skill/magic/holy
-	recharge_time = 45 MINUTES //To avoid spamming this.
-	releasedrain = 40
-	devotion_cost = 40
-
-/obj/effect/proc_holder/spell/self/matthios_muffle/cast(mob/living/user)
-	var/turf/T = get_turf(user)
-	if(!isclosedturf(T))
-		new /obj/item/clothing/shoes/roguetown/boots/muffle_matthios(T)
-		return TRUE
-
-	to_chat(user, span_warning("The targeted location is blocked. His gift cannot be invoked."))
-	revert_cast()
-	return FALSE
-
-/obj/item/clothing/shoes/roguetown/boots/muffle_matthios //I guess in case someone wants to make generic muffled boots? Change it to muffle/matthios if you do
-	name = "gilded leather boots"
-	desc = "Those who bear His fyre often cower in its shadow."
-	icon_state = "matthiosboots"
-	sewrepair = TRUE
-	armor = ARMOR_LEATHER
-
-/obj/item/clothing/shoes/roguetown/boots/muffle_matthios/equipped(mob/living/carbon/human/user, slot)
-	. = ..()
-	if(slot == SLOT_SHOES && HAS_TRAIT(user, TRAIT_FREEMAN))
-		to_chat(user, span_info("Like Him, I slink into the shadows."))
-		ADD_TRAIT(user, TRAIT_SILENT_FOOTSTEPS, "matthiosboon")
-		ADD_TRAIT(user, TRAIT_LIGHT_STEP, "matthiosboon")
-
-/obj/item/clothing/shoes/roguetown/boots/muffle_matthios/dropped(mob/living/carbon/human/user)
-	. = ..()
-	if(istype(user) && user?.shoes == src)
-		to_chat(user, span_info("Once again, I am under Her gaze."))
-		REMOVE_TRAIT(user, TRAIT_SILENT_FOOTSTEPS, "matthiosboon")
-		REMOVE_TRAIT(user, TRAIT_LIGHT_STEP, "matthiosboon")
-
 // T1 - Take value of item in hand, apply that as healing. Destroys item.
 
 /obj/effect/proc_holder/spell/invoked/matthios_transact
@@ -245,6 +470,51 @@
 		return TRUE
 	revert_cast()
 	return FALSE
+
+// T1 - Skulduggery, lets you slip behind people who attack you
+// number of times scales from your miracle tier, then once those "free" dodges are spent, it takes enem skill vs miracle chance
+// can grapple attackers by having throw intent on, if attacked again by your target or someone else, either slam them down, or slam them on the attacker
+
+/obj/effect/proc_holder/spell/self/skulduggery
+	name = "Skulduggery"
+	desc = "Imbue your mind and eyes with the cunning of Matthios, reading strikes before they land and punishing them with brutal efficiency.<br><br>Toggle Throw mode to actively intercept and grapple attacks, otherwise, you'll try to avoid them however you can."
+	action_icon = 'icons/mob/actions/matthiosmiracles.dmi'
+	overlay_icon = 'icons/mob/actions/matthiosmiracles.dmi'
+	overlay_state = "liberate"
+	recharge_time = 120 SECONDS
+	sound = 'sound/magic/haste.ogg'
+	releasedrain = 10
+	miracle = TRUE
+	devotion_cost = 70
+	antimagic_allowed = FALSE
+	range = 0
+
+/obj/effect/proc_holder/spell/self/skulduggery/cast(list/targets, mob/user)
+	. = ..()
+	if(!ishuman(user))
+		revert_cast()
+		return FALSE
+
+	var/mob/living/carbon/human/H = user
+
+	if(!H.cmode)
+		to_chat(H, span_warning("I need some adrenaline pumping for this, my good sire!"))
+		revert_cast() 
+		return FALSE
+
+	if(H.resting)
+		H.set_resting(FALSE, FALSE)
+		H.visible_message(
+			span_warning("[H] kips up!"),
+			span_warning("No rest for the wicked!"))
+
+	H.visible_message(
+		span_notice("[H] shifts their stance into something more relaxed and open! Their eyes glow golden..."),
+		span_notice("My gaze is grafted with truth, my mind wanders in freedom..."))
+	H.apply_status_effect(/datum/status_effect/buff/skulduggery)
+	H.OffBalance(30)
+	return TRUE
+
 
 // T2 We're going to debuff a targets stats = to the difference between us and them in total stats.
 
@@ -359,6 +629,7 @@
 	owner.remove_filter(EQUALIZED_GLOW)
 	to_chat(owner, "<font color='yellow'>My fire returns!</font>")
 
+#undef EQUALIZED_GLOW
 
 /obj/effect/proc_holder/spell/invoked/barter
 	name = "Barter"
@@ -491,7 +762,7 @@
 			target.visible_message(span_warning("[target] resists the weight of their greed!"))
 			return TRUE
 		var/mammonsonperson = get_mammons_in_atom(target)
-		var/mammonsinbank = SStreasury.bank_accounts[target]
+		var/mammonsinbank = SStreasury.get_balance(target)
 		var/totalvalue = mammonsinbank + mammonsonperson
 		if(HAS_TRAIT(target, TRAIT_NOBLE))
 			totalvalue += 101 // We're ALWAYS going to do a medium level smite minimum to nobles.
@@ -582,5 +853,122 @@
 				target.death()
 		return TRUE
 
+////////////////
+//T2 - Mammonite
+//Uses up to 100 Mammon to deal 100 damage with 75% armor penetration on your next strike. Can't get simpler than that.
 
-#undef EQUALIZED_GLOW
+/datum/action/cooldown/spell/mammonite
+	name = "Mammonite"
+	desc = "Invoke Matthios's name and invest 50 to 100 mammon of your own hoard into your next strike. The power of your offering mirrors the wealth spent, drawing even from your bank. Every coin fuels your glory.<br><br>Penetrates armor equal to 75% of the mammon spent."
+	button_icon = 'icons/mob/actions/matthiosmiracles.dmi'
+	button_icon_state = "mammonite"
+	spell_color = "#d4af37"
+	glow_intensity = GLOW_INTENSITY_MEDIUM
+	click_to_activate = FALSE
+	self_cast_possible = TRUE
+	primary_resource_type = SPELL_COST_NONE
+	primary_resource_cost = 0
+	invocation_type = "shout"
+	charge_required = FALSE
+	cooldown_time = 45 SECONDS
+	associated_skill = /datum/skill/magic/holy
+	spell_tier = 0
+	var/min_mammon = 25
+	var/max_mammon = 100
+
+/datum/action/cooldown/spell/mammonite/can_cast_spell(feedback = TRUE)
+	. = ..()
+	if(!.)
+		return FALSE
+	if(!ishuman(owner))
+		return FALSE
+
+	var/mob/living/carbon/human/H = owner
+	if(!H.cmode)
+		return FALSE
+
+	if(!SStreasury.has_account(H))
+		SStreasury.create_bank_account(H, 0)
+
+	var/bank = SStreasury.get_balance(H)
+	var/onhand = get_mammons_in_atom(H)
+	var/total = bank + onhand
+
+	if(total < min_mammon)
+		if(feedback)
+			to_chat(H, span_warning("I lack the wealth to invoke Matthios' favor..."))
+		return FALSE
+
+	return TRUE
+
+/datum/action/cooldown/spell/mammonite/cast(atom/cast_on)
+	. = ..()
+	var/mob/living/carbon/human/H = owner
+	if(!istype(H))
+		return FALSE
+
+	if(!H.cmode)
+		to_chat(H, span_warning("I need some adrenaline pumping for this, my good sire!"))
+		return FALSE
+
+	if(H.has_status_effect(/datum/status_effect/buff/mammonite))
+		to_chat(H, span_warning("Matthios' truth already lays claim to my next strike."))
+		return FALSE
+
+	if(!SStreasury.has_account(H))
+		SStreasury.create_bank_account(H, 0)
+
+	var/bank = SStreasury.get_balance(H)
+	var/onhand = get_mammons_in_atom(H)
+	var/total = bank + onhand
+
+	if(total < min_mammon)
+		to_chat(H, span_warning("I lack the wealth to invoke Matthios' favor..."))
+		return FALSE
+
+	var/mammon_used = clamp(total, min_mammon, max_mammon)
+
+	var/list/invocations = list(
+		"Gold to glory, Matthios guide my hand!",
+		"Wealth be spent, and power be gained!",
+		"My hoard bleeds for strength, in His name!",
+		"Matthios! A king's ransom for a single blow!",
+	)
+	H.say(pick(invocations), forced = invocation_type)
+
+	var/remaining = mammon_used
+
+	var/from_inventory = 0
+	var/from_bank = 0
+
+	var/drained_onhand = min(onhand, remaining)
+	if(drained_onhand > 0)
+		from_inventory = remove_mammons_from_atom(H, drained_onhand)
+		remaining -= from_inventory
+
+	if(remaining > 0)
+		from_bank = min(remaining, SStreasury.get_balance(H))
+		SStreasury.burn(SStreasury.get_account(H), from_bank, "matthios tribute")
+		remaining -= from_bank
+
+	var/datum/status_effect/buff/mammonite/E = H.apply_status_effect(/datum/status_effect/buff/mammonite)
+	if(E)
+		E.bonus_damage = round(mammon_used * 3) // jakk here
+
+	var/source_text = ""
+
+	if(from_inventory > 0 && from_bank > 0)
+		source_text = "MATTHIOS claims [from_inventory] from my possessions, [from_bank] from their wretched Treasury!"
+	else if(from_inventory > 0)
+		source_text = "MATTHIOS, claim [from_inventory] from my possessions!"
+	else if(from_bank > 0)
+		source_text = "MATTHIOS, [from_bank] from their wretched Treasury!"
+
+	H.visible_message(
+		span_danger("[H]'s weapon gleams with a greedy golden light!"),
+		span_notice("I invest [mammon_used] mammon into my next strike. ([source_text])")
+	)
+
+	playsound(get_turf(H), 'sound/magic/antimagic.ogg', 60, TRUE)
+
+	return TRUE

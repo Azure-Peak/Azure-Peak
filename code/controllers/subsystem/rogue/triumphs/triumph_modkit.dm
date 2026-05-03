@@ -4,6 +4,9 @@
 // Special enchanting kits that can be acquired via Triumphs. Refer to 'donator_modkits.dm' for more details and up-to-date examples.
 // Try to keep anything specifically acquired via Triumphs - instead of Donations - here.
 
+//'Replacement' variants. These specifically replace the item-in-question with a whole new instance. More bloatish, but ensures complete adherence to skin restrictions and allows for supplemental tweaks (like new onmobs.)
+// No harm in using these if you prefer, but it's strongly suggested to implement reskins via the 'Skinned' system, below. This works best for clothing (like plate armor) and special weapons (like silver or avantyne.)
+
 /obj/item/enchantingkit/triumph_armorkit
 	name = "'Valorian' armor morphing elixir"
 	desc = "A small container of special morphing dust, perfect to make a specific item. It can restore the original appearance of a Steel Cuirass, a Steel Halfplate, a set of Steel Plate Armor, or a set of Fluted Plate Armor."
@@ -46,15 +49,49 @@
 		)
 	result_item = null
 
-/obj/item/enchantingkit/weapon/triumph_weaponkit_sword
-	name = "'Valorian' sword morphing elixir"
-	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of an Iron Arming Sword, an Iron Dueling Sword, or a Maciejowski."
+/obj/item/enchantingkit/triumph_weaponkit_fancymace
+	name = "'Rungu-Shishpar' mace morphing elixir"
+	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of an Iron Mace, an Iron Warhammer, a Steel Mace, a Steel Warhammer, or a Silver Mace."
 	target_items = list(
-		/obj/item/rogueweapon/sword/iron,
-		/obj/item/rogueweapon/sword/short/messer/iron/virtue,
-		/obj/item/rogueweapon/sword/falchion/militia
+		/obj/item/rogueweapon/mace/warhammer/steel				= /obj/item/rogueweapon/mace/warhammer/steel/shishpar,
+		/obj/item/rogueweapon/mace/warhammer					= /obj/item/rogueweapon/mace/warhammer/shishpar,
+		/obj/item/rogueweapon/mace/steel/silver					= /obj/item/rogueweapon/mace/steel/silver/rungu,
+		/obj/item/rogueweapon/mace/steel						= /obj/item/rogueweapon/mace/steel/rungu,
+		/obj/item/rogueweapon/mace								= /obj/item/rogueweapon/mace/rungu
 		)
-	result_item = /obj/item/rogueweapon/example/valorian_sword
+	result_item = null
+
+/obj/item/enchantingkit/triumph_weaponkit_kris
+	name = "'Kris' dagger morphing elixir"
+	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of a Bauernwehr, a Combat Knife, an Iron Dagger, or a Steel Dagger."
+	target_items = list(
+		/obj/item/rogueweapon/huntingknife/idagger/steel			= /obj/item/rogueweapon/huntingknife/idagger/steel/kris,
+		/obj/item/rogueweapon/huntingknife/idagger					= /obj/item/rogueweapon/huntingknife/idagger/kris,
+		/obj/item/rogueweapon/huntingknife/combat/iron				= /obj/item/rogueweapon/huntingknife/combat/iron/kris,
+		/obj/item/rogueweapon/huntingknife/combat					= /obj/item/rogueweapon/huntingknife/combat/kris
+		)
+	result_item = null
+
+/obj/item/enchantingkit/triumph_weaponkit_njora
+	name = "'Njora' dagger morphing elixir"
+	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of a Steel Dagger, an Iron Dagger, a Hunting Knife, or a Combat Knife."
+	target_items = list(
+		/obj/item/rogueweapon/huntingknife/idagger/steel				= /obj/item/rogueweapon/huntingknife/idagger/steel/njora,
+		/obj/item/rogueweapon/huntingknife/idagger						= /obj/item/rogueweapon/huntingknife/idagger/njora,
+		/obj/item/rogueweapon/huntingknife/combat						= /obj/item/rogueweapon/huntingknife/combat/njora,
+		/obj/item/rogueweapon/huntingknife								= /obj/item/rogueweapon/huntingknife/njora
+		)
+	result_item = null
+
+/obj/item/enchantingkit/triumph_weaponkit_whip
+	name = "'Alloytip' whip morphing elixir"
+	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of a Bronze Whip, a Whip, or a Silver Whip."
+	target_items = list(
+		/obj/item/rogueweapon/whip/silver				= /obj/item/rogueweapon/whip/silver/triumph,
+		/obj/item/rogueweapon/whip/bronze				= /obj/item/rogueweapon/whip/bronze/triumph,
+		/obj/item/rogueweapon/whip						= /obj/item/rogueweapon/whip/triumph
+		)
+	result_item = null
 
 /obj/item/enchantingkit/triumph_weaponkit_tri
 	name = "'Valorian' longsword morphing elixir"
@@ -70,27 +107,6 @@
 		/obj/item/rogueweapon/sword/rapier	  				= /obj/item/rogueweapon/sword/rapier/wideguard
 		)
 	result_item = null
-
-/obj/item/enchantingkit/weapon/triumph_weaponkit_rock
-	name = "'Rockhillian' broadsword morphing elixir"
-	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of a Broadsword, a Steel Broadsword, or an Executioner Sword."
-	target_items = list(
-		/obj/item/rogueweapon/sword/long/broadsword/steel,
-		/obj/item/rogueweapon/sword/long/broadsword,
-		/obj/item/rogueweapon/sword/long/exe
-		)
-	result_item = /obj/item/rogueweapon/example/valorian_broadsword
-
-/obj/item/enchantingkit/weapon/triumph_weaponkit_greatval
-	name = "'Valorian' greatsword morphing elixir"
-	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of a Greatsword, a Claymore, or a Flamberge."
-	target_items = list(
-		/obj/item/rogueweapon/greatsword,
-		/obj/item/rogueweapon/greatsword/iron,
-		/obj/item/rogueweapon/greatsword/zwei,
-		/obj/item/rogueweapon/greatsword/grenz/flamberge
-		)
-	result_item = /obj/item/rogueweapon/example/valorian_greatsword
 
 /obj/item/enchantingkit/triumph_weaponkit_sabre
 	name = "'Sabreguard' longsword morphing elixir"
@@ -120,19 +136,72 @@
 		)
 	result_item = null
 
-/obj/item/enchantingkit/weapon/triumph_weaponkit_wodao
-	name = "'Wodao' sword morphing elixir"
-	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of an Iron Sabre or a Steel Sabre."
+/obj/item/enchantingkit/sci_flame
+	name = "'Flametongue' morphing elixir"
+	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of a Shamshir."
 	target_items = list(
+		/obj/item/rogueweapon/sword/sabre/shamshir = /obj/item/rogueweapon/sword/sabre/shamshir/dono_scidragon_flame
+	)
+	
+
+/obj/item/enchantingkit/sci_sand
+	name = "'Sandlash' morphing elixir"
+	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of a Shamshir."
+	target_items = list(
+		/obj/item/rogueweapon/sword/sabre/shamshir = /obj/item/rogueweapon/sword/sabre/shamshir/dono_scidragon_sand
+	)
+
+//
+//'Skinned' variants. These are less thorough than the 'Replacement' variants, but are cleaner (and lead to a lot less extra instances that can clog up the spawning menu.)
+// Unlike the 'Replacement' variants, these basically just apply a new sprite onto the old item and call it a day. If you need to give custom onmobs to a certain weapon to make it look good, use the former method instead.
+
+/obj/item/enchantingkit/weapon/triumph_weaponkit_sword
+	name = "'Valorian' sword morphing elixir"
+	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of an Iron Arming Sword, an Iron Dueling Sword, or a Maciejowski."
+	target_items = list(
+		/obj/item/rogueweapon/sword/iron,
+		/obj/item/rogueweapon/sword/short/messer/iron/virtue,
+		/obj/item/rogueweapon/sword/falchion/militia
+		)
+	result_item = /obj/item/rogueweapon/example/valorian_sword
+
+/obj/item/enchantingkit/weapon/triumph_weaponkit_rock
+	name = "'Rockhillian' broadsword morphing elixir"
+	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of a Broadsword, a Steel Broadsword, or an Executioner Sword."
+	target_items = list(
+		/obj/item/rogueweapon/sword/long/broadsword/steel,
+		/obj/item/rogueweapon/sword/long/broadsword,
+		/obj/item/rogueweapon/sword/long/exe
+		)
+	result_item = /obj/item/rogueweapon/example/valorian_broadsword
+
+/obj/item/enchantingkit/weapon/triumph_weaponkit_greatval
+	name = "'Valorian' greatsword morphing elixir"
+	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of a Greatsword, a Claymore, or a Flamberge."
+	target_items = list(
+		/obj/item/rogueweapon/greatsword,
+		/obj/item/rogueweapon/greatsword/iron,
+		/obj/item/rogueweapon/greatsword/zwei,
+		/obj/item/rogueweapon/greatsword/grenz/flamberge
+		)
+	result_item = /obj/item/rogueweapon/example/valorian_greatsword
+
+/obj/item/enchantingkit/weapon/triumph_weaponkit_wodao
+	name = "'Wodao' sabre morphing elixir"
+	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of an Iron Sabre, a Steel Sabre, a Cutlass, or a Falchion."
+	target_items = list(
+		/obj/item/rogueweapon/sword/short/falchion,
+		/obj/item/rogueweapon/sword/saber/iron,
 		/obj/item/rogueweapon/sword/sabre,
-		/obj/item/rogueweapon/sword/saber/iron
+		/obj/item/rogueweapon/sword/cutlass
 		)
 	result_item = /obj/item/rogueweapon/example/wodao
 
 /obj/item/enchantingkit/weapon/triumph_weaponkit_dadao
-	name = "'Dadao' sword morphing elixir"
-	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of an Iron Hunting Sword, an Iron Dueling Messer, a Steel Messer, a Steel Hunting Sword, or a Falx."
+	name = "'Dadao' messer morphing elixir"
+	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of an Iron Hunting Sword, an Iron Dueling Messer, a Steel Messer, a Steel Hunting Sword, a Falchion, or a Falx."
 	target_items = list(
+		/obj/item/rogueweapon/sword/short/falchion,
 		/obj/item/rogueweapon/sword/short/messer/iron/virtue,
 		/obj/item/rogueweapon/sword/short/messer/iron,
 		/obj/item/rogueweapon/sword/short/messer/alt,
@@ -149,6 +218,71 @@
 		/obj/item/rogueweapon/sword/long/kriegmesser
 		)
 	result_item = /obj/item/rogueweapon/example/gdadao
+
+/obj/item/enchantingkit/weapon/triumph_weaponkit_kaskara
+	name = "'Kaskara' sword morphing elixir"
+	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of an Iron Arming Sword, a Steel Arming Sword, or a Rapier."
+	target_items = list(
+		/obj/item/rogueweapon/sword/rapier,
+		/obj/item/rogueweapon/sword/iron,
+		/obj/item/rogueweapon/sword
+		)
+	result_item = /obj/item/rogueweapon/example/kaskara
+
+/obj/item/enchantingkit/weapon/triumph_weaponkit_ida
+	name = "'Ida' shortsword morphing elixir"
+	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of an Iron Shortsword or a Steel Shortsword."
+	target_items = list(
+		/obj/item/rogueweapon/sword/short/iron,
+		/obj/item/rogueweapon/sword/short
+		)
+	result_item = /obj/item/rogueweapon/example/ida
+
+/obj/item/enchantingkit/weapon/triumph_weaponkit_hwi
+	name = "'Hwi' messer morphing elixir"
+	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of an Iron Hunting Sword, an Iron Dueling Messer, a Steel Messer, a Steel Hunting Sword, or a Falchion."
+	target_items = list(
+		/obj/item/rogueweapon/sword/short/falchion,
+		/obj/item/rogueweapon/sword/short/messer/iron/virtue,
+		/obj/item/rogueweapon/sword/short/messer/iron,
+		/obj/item/rogueweapon/sword/short/messer/alt,
+		/obj/item/rogueweapon/sword/short/messer,
+		)
+	result_item = /obj/item/rogueweapon/example/hwi
+
+/obj/item/enchantingkit/weapon/triumph_weaponkit_ngombe
+	name = "'Ngombe' axesword morphing elixir"
+	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of a Iron Hunting Sword, an Iron Dueling Messer, a Steel Messer, a Steel Hunting Sword, or a Falchion."
+	target_items = list(
+		/obj/item/rogueweapon/sword/short/falchion,
+		/obj/item/rogueweapon/sword/short/messer/iron/virtue,
+		/obj/item/rogueweapon/sword/short/messer/iron,
+		/obj/item/rogueweapon/sword/short/messer/alt,
+		/obj/item/rogueweapon/sword/short/messer
+		)
+	result_item = /obj/item/rogueweapon/example/ngombe
+
+/obj/item/enchantingkit/weapon/triumph_weaponkit_ada
+	name = "'Ada' sabre morphing elixir"
+	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of an Iron Sabre, a Steel Sabre, a Falx, or a Falchion."
+	target_items = list(
+		/obj/item/rogueweapon/sword/short/falchion,
+		/obj/item/rogueweapon/sword/saber/iron,
+		/obj/item/rogueweapon/sword/sabre,
+		/obj/item/rogueweapon/sword/falx
+		)
+	result_item = /obj/item/rogueweapon/example/ada
+
+/obj/item/enchantingkit/weapon/triumph_weaponkit_sengese
+	name = "'Sengese' sabre morphing elixir"
+	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of an Iron Sabre, a Steel Sabre, a Falx, or a Falchion."
+	target_items = list(
+		/obj/item/rogueweapon/sword/short/falchion,
+		/obj/item/rogueweapon/sword/saber/iron,
+		/obj/item/rogueweapon/sword/sabre,
+		/obj/item/rogueweapon/sword/falx
+		)
+	result_item = /obj/item/rogueweapon/example/sengese
 
 //////////////////////////////
 // TRIUMPH-RESKIN EXAMPLES! //
@@ -202,6 +336,54 @@
 	icon_state = "gdadao"
 	sheathe_icon = "dadao"
 
+/obj/item/rogueweapon/example/kaskara
+	name = "kaskara"
+	icon = 'icons/roguetown/weapons/swords32.dmi'
+	desc = "A heavier arming sword that's popular amongst the southern reaches of Psydonia. The Lakkarians were the first to lovingly assemble \
+	its design, the Naledians were the first to bristle their armies with its blade, and the Ranesheni were the first to make a killing off its exports."
+	icon_state = "kaskara"
+	sheathe_icon = "sbroadsword"
+
+/obj/item/rogueweapon/example/ida
+	name = "ida"
+	icon = 'icons/roguetown/weapons/swords32.dmi'
+	desc = "A heavier alternative to the 'Njora' dagger, lengthened to adopt the more rigorous labors of fighting fiends. These Naledic-Lakkarian shortswords \
+	are said to be the closest inheritors of an ancient design; of the first swords wielded by Man, in the tymes before Syon, against the ultimate evil."
+	icon_state = "ida"
+	sheathe_icon = "sbroadsword"
+
+/obj/item/rogueweapon/example/hwi
+	name = "hwi"
+	icon = 'icons/roguetown/weapons/swords32.dmi'
+	desc = "A cleaving sword with a wide crossguard, curled to protect the wielder's knuckles against harm. Like many weapons hailing from Psydonia's southern \
+	reaches, so too does this one incorporate a sense of ornamentality into the blade. Pieces of metal have been meticulously punched out of the inner spine's \
+	curve, in order to mimic the guise of a gazing saiga."
+	icon_state = "hwi"
+	sheathe_icon = "cutlass"
+
+/obj/item/rogueweapon/example/ngombe
+	name = "ngombe"
+	icon = 'icons/roguetown/weapons/swords32.dmi'
+	desc = "At the height of Naledian indulgance, it was an executioner's honor; a hooked edge, sharp enough to sever a fogbeast's head from its neck without \
+	qualm. Ever since the collapse, however, it has lost all ornamentality. Amongst the sands, it now lyves as a weapon without purpose, wielded for a war without reason."
+	icon_state = "ngombe"
+	sheathe_icon = "sbroadsword"
+
+/obj/item/rogueweapon/example/ada
+	name = "ada"
+	icon = 'icons/roguetown/weapons/swords32.dmi'
+	desc = "Before heraldry was woven into parchment, it was forged into steel. As per ancient traditions, the most important facets of a family would be meticulously \
+	pounded into the surface of a heirloom's blade; such was to ensure that the millennial descendants of its wielder would never lose the truths of their bloodline."
+	icon_state = "ada"
+	sheathe_icon = "sbroadsword"
+
+/obj/item/rogueweapon/example/sengese
+	name = "sengese"
+	icon = 'icons/roguetown/weapons/swords32.dmi'
+	desc = "Hooked swords like these have always been archaic in nature, seldom-favorable for the fields of fire. Then again, even the dullest blade can be turned into \
+	a lethal implement, if entrusted to the hands of a wielder whose skill in swordsmanship lays unmatched."
+	icon_state = "sengese"
+	sheathe_icon = "sgeneric"
 
 ////////////////////////////////////////////////////
 // ! TO BE ARCHIVED / REPLACED WITH BETTER CODE!  //
@@ -384,6 +566,106 @@
 	desc = "A sword possessed of a quite long and tapered blade that is intended to be thrust between the \
 	gaps in an opponent's armor. These are often produced without a cutting edge, especially in munitions grade \
 	examples as weary armorers try and prevent their levies from dulling swords on chopping firewood."
+
+/obj/item/rogueweapon/mace/warhammer/steel/shishpar
+	name = "steel shishpar"
+	desc = "A heavy steel mace with a sword-like handle, fashioned for the hands of Lakkarian shieldbearers. The weight makes it \
+	a little hard to wield, but it nevertheless remains capable of delivering devastating blows."
+	icon_state = "shishpar"
+
+/obj/item/rogueweapon/mace/warhammer/shishpar
+	name = "shishpar"
+	desc = "A heavy mace with a sword-like handle, exported by Lakkaria and oft-wielded by Naledian clerics. The weight makes it \
+	a little hard to wield, but it nevertheless remains capable of delivering devastating blows."
+	icon_state = "ishishpar"
+
+/obj/item/rogueweapon/mace/steel/rungu
+	name = "steel rungu"
+	desc = "A steel craning mace from the southern reaches of Psydonia, following an ancient design that has survived for \
+	centuries-hence. Many-a-fool have been humbled by a fact it professes the most: steel does not discriminate."
+	icon_state = "rungu"
+
+/obj/item/rogueweapon/mace/rungu
+	name = "rungu"
+	desc = "A craning mace from the southern reaches of Psydonia, following an ancient design that has survived for centuries-hence."
+	icon_state = "irungu"
+
+/obj/item/rogueweapon/mace/steel/silver/rungu
+	name = "silver rungu"
+	desc = "A silver craning mace from the southern reaches of Psydonia, following an ancient design that has survived \
+	for centuries-hence. It is cherished by the clerics of Lakkari, Naledi, and Ranenshen."
+	icon_state = "silverrungu"
+
+/obj/item/rogueweapon/huntingknife/combat/iron/kris
+	name = "kris"
+	desc = "A large dagger with a unique, flame-shaped blade. Ancient yet elegant, with a purportedly dark \
+	purpose; to turn the tip of the Archdevil's own designs against itself."
+	icon_state = "ikris"
+	sheathe_icon = "idagger"
+
+/obj/item/rogueweapon/huntingknife/combat/kris
+	name = "steel kris"
+	desc = "A large steel dagger with a unique, flame-shaped blade. It is coveted as a ceremonial tool by Astratan \
+	priests and clerics, especially during rites of sacrifice; symbolically, of course."
+	icon_state = "kris"
+	sheathe_icon = "sdagger"
+
+/obj/item/rogueweapon/huntingknife/idagger/kris
+	name = "kris"
+	desc = "A large dagger with a unique, flame-shaped blade. Ancient yet elegant, with a purportedly dark \
+	purpose; to turn the tip of the Archdevil's own designs against itself."
+	icon_state = "ikris"
+	sheathe_icon = "idagger"
+
+/obj/item/rogueweapon/huntingknife/idagger/steel/kris
+	name = "steel kris"
+	desc = "A large steel dagger with a unique, flame-shaped blade. It is coveted as a ceremonial tool by Astratan \
+	priests and clerics, especially during rites of sacrifice; symbolically, of course."
+	icon_state = "kris"
+	sheathe_icon = "sdagger"
+
+/obj/item/rogueweapon/huntingknife/idagger/steel/njora
+	name = "steel njora"
+	desc = "A guardless dagger with a unique, leaf-shaped blade. As the mythos goes, the Lakkarians were the \
+	first non-dwarven overdwellers to solve the riddle of steel; a solution passed down to their Naledian cousins."
+	icon_state = "njora"
+	sheathe_icon = "sdagger"
+
+/obj/item/rogueweapon/huntingknife/idagger/njora
+	name = "njora"
+	desc = "A guardless dagger with a unique, leaf-shaped blade. Beloved by the peasantry and professional soldiers of \
+	Lakkaria, this ancient-yet-elegant knife excels at both attending to labors and languishing foes."
+	icon_state = "injora"
+	sheathe_icon = "sdagger"
+
+/obj/item/rogueweapon/huntingknife/combat/njora
+	name = "steel mjora"
+	desc = "A guardless dagger with a unique, leaf-shaped blade. As the mythos goes, the Lakkarians were the first \
+	non-dwarven overdwellers to solve the riddle of steel; a solution passed down to their Naledian cousins."
+	icon_state = "njora"
+	sheathe_icon = "sdagger"
+
+/obj/item/rogueweapon/huntingknife/njora
+	name = "njora"
+	desc = "A guardless dagger with a unique, leaf-shaped blade. Beloved by the peasantry and professional soldiers \
+	of Lakkaria, this ancient-yet-elegant knife excels at both attending to labors and languishing foes."
+	icon_state = "injora"
+	sheathe_icon = "sdagger"
+
+/obj/item/rogueweapon/whip/triumph
+	name = "alloy-tipped whip"
+	desc = "'When there's a whip, there's a way!'"
+	icon_state = "whip_iron"
+
+/obj/item/rogueweapon/whip/bronze/triumph
+	name = "bronze-tipped whip"
+	desc = "'A man chooses; a slave obeys! Now, would you kindly.. ?'"
+	icon_state = "whip_bronze"
+
+/obj/item/rogueweapon/whip/silver/triumph
+	name = "silver-tipped whip"
+	desc = "'What is a man, but a miserable pile of secrets? But enough talk - have at you!'"
+	icon_state = "whip_steel"
 
 /obj/item/rogueweapon/stoneaxe/woodcut/triumph
 	name = "valorian axe"

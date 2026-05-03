@@ -1,6 +1,8 @@
 /obj/item/clothing/head/roguetown/armingcap
 	name = "arming cap"
 	desc = "A modest arming cap. It will stop a light blow."
+	icon = 'icons/roguetown/clothing/head.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/head.dmi' //Overrides slot icon behavior
 	icon_state = "armingcap"
 	item_state = "armingcap"
 	sleevetype = null
@@ -33,7 +35,7 @@
 	desc = "A helmet made of leather."
 	body_parts_covered = HEAD|HAIR|EARS|NOSE
 	icon_state = "leatherhelm"
-	armor = ARMOR_LEATHER
+	armor = ARMOR_LEATHER_NPC
 	sellprice = 10
 	anvilrepair = null
 	smeltresult = null
@@ -46,6 +48,7 @@
 	name = "Chapeau a Naled"
 	desc = "A leather cap, armored with layers of especially crafted armored coins each baring wards against supernatural forces. The heavy closeable, face-obscuring flaps are both practical, to protect from sand and dust and frigid nights--and to ensure the Otavan aids were not violating Naledi customs with their uncovered faces.</br>They are heavily associated with the Poet-Historian Aalis Petit and her writings and songs about the campaign into Naledi and through her, adventurous bards of Otava. "
 	icon_state = "chapnaled"
+	armor = ARMOR_LEATHER
 	var/open_wear = TRUE
 	flags_inv = HIDEHAIR
 	body_parts_covered = HEAD|HAIR|EARS
@@ -93,6 +96,7 @@
 	slot_flags = ITEM_SLOT_HEAD|ITEM_SLOT_HIP
 	name = "volf helmet"
 	desc = "A leather helmet fashioned from a volf's head."
+	armor = ARMOR_LEATHER
 	body_parts_covered = HEAD|HAIR|EARS
 	icon_state = "volfhead"
 	item_state = "volfhead"

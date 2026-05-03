@@ -391,6 +391,16 @@
 	if(knives.len)
 		. += span_notice("[knives.len] inside.")
 
+/obj/item/storage/belt/rogue/leather/knifebelt/ai_get_custom_inventory()
+	return knives
+
+/obj/item/storage/belt/rogue/leather/knifebelt/ai_withdraw_item(obj/item/it, mob/living/user)
+	if(it in knives)
+		knives -= it
+		update_icon()
+		return TRUE
+	return FALSE
+
 /obj/item/storage/belt/rogue/leather/knifebelt/iron/Initialize()
 	. = ..()
 	for(var/i in 1 to max_storage)
@@ -534,6 +544,38 @@
 	anvilrepair = /datum/skill/craft/blacksmithing
 	smeltresult = /obj/item/ingot/bronze
 	component_type = /datum/component/storage/concrete/grid/orestore/bronze
+
+// I Do Not 100% understand how this works. This is probably buggy as fuck.
+/obj/item/storage/hip/orestore/bronze/equipped(mob/user, slot)
+	. = ..()
+	// i set override to true bc it kept producing a runtime unless i did. assuming this is fine. idfk.
+	RegisterSignal(user, COMSIG_MOVABLE_MOVED, PROC_REF(on_user_moved), TRUE)
+
+/obj/item/storage/hip/orestore/bronze/dropped(mob/user)
+	. = ..()
+	UnregisterSignal(user, COMSIG_MOVABLE_MOVED)
+
+/obj/item/storage/hip/orestore/bronze/proc/on_user_moved(mob/living/user)
+	SIGNAL_HANDLER
+	var/picked_up = FALSE
+	// sanity check
+	if(user.incapacitated() || !user.canUseStorage())
+		return
+	// ensure the turf is a turf. idk how this would happen but after turf fuckery im scared now.
+	var/turf/T = get_turf(user)
+	if(!T)
+		return
+	// nab the components of the storage device
+	var/datum/component/storage/S = GetComponent(/datum/component/storage)
+	if(!S)
+		return
+
+	for(var/obj/item/I in T)
+		if(S.can_be_inserted(I, TRUE, user))
+			S.handle_item_insertion(I, TRUE, user)
+			picked_up = TRUE
+	if(picked_up)
+		user.visible_message(span_info("[user] picks up the ore beneath them, placing it into the ore bag..."))
 
 /obj/item/storage/belt/rogue/leather/zig_bandolier
 	name = "zig bandolier"

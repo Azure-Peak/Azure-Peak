@@ -1186,6 +1186,46 @@
 	name = "Heiress"
 	icon_state = "heiress"
 
+/datum/sprite_accessory/hair/head/longbraids
+	name = "Long Braids"
+	icon_state = "long_braids"
+
+/datum/sprite_accessory/hair/head/knots
+	name = "Tulip Knots"
+	icon_state = "knots"
+
+/datum/sprite_accessory/hair/head/mediumlocs
+	name = "Medium-Length Locs"
+	icon_state = "medium_locs"
+
+/datum/sprite_accessory/hair/head/shortlocs
+	name = "Short Locs"
+	icon_state = "short_locs"
+
+/datum/sprite_accessory/hair/head/poofycurls
+	name = "Poofy Curls"
+	icon_state = "poofy_curls"
+
+/datum/sprite_accessory/hair/head/messylocs
+	name = "Messy Locs"
+	icon_state = "messy_locs"
+
+/datum/sprite_accessory/hair/head/dualtwists
+	name = "Dual Twists"
+	icon_state = "dual_twists"
+
+/datum/sprite_accessory/hair/head/twistbun
+	name = "Dual Twists (with bun)"
+	icon_state = "twists_bun"
+
+/datum/sprite_accessory/hair/head/kandake
+	name = "Kandake"
+	icon_state = "longest_curls"
+
+/datum/sprite_accessory/hair/head/sidebraid
+	name = "Side Braid"
+	icon_state = "side_braid"
+
 /datum/sprite_accessory/hair/head/playful
 	name = "Playful"
 	icon_state = "playful"
@@ -1569,6 +1609,10 @@
 /datum/sprite_accessory/hair/head/alsoprotagonist
 	name = "Alsoprotagonist"
 	icon_state = "alsoprotagonist"
+
+/datum/sprite_accessory/hair/head/scruffy
+	name = "Scruffy"
+	icon_state = "scruffy"
 
 /datum/sprite_accessory/hair/head/vulpkian
 	abstract_type = /datum/sprite_accessory/hair/head/vulpkian

@@ -5,6 +5,13 @@
 
 /mob/living/Initialize()
 	. = ..()
+	var/turf/turf = get_turf(loc)
+	if(turf)
+		if(!("[turf.z]" in GLOB.weatherproof_z_levels))
+			if(SSmapping.level_has_any_trait(turf.z, list(ZTRAIT_IGNORE_WEATHER_TRAIT)))
+				GLOB.weatherproof_z_levels |= "[turf.z]"
+		if("[turf.z]" in GLOB.weatherproof_z_levels)
+			SSmatthios_mobs.register_mob(src)
 	update_a_intents()
 	swap_rmb_intent(num=1)
 	if(unique_name)
@@ -490,6 +497,10 @@
 				O.sublimb_grabbed = item_override
 			else
 				O.sublimb_grabbed = used_limb
+			C.update_hud_hand_slot(BP?.held_index)
+			var/datum/hud/hud_used = C.hud_used
+			if(BP && hud_used?.zone_select)
+				hud_used.zone_select.update_limb(BP.body_zone)
 			put_in_hands(O)
 			O.update_hands(src)
 			if(HAS_TRAIT(src, TRAIT_STRONG_GRABBER) || item_override)
@@ -500,6 +511,8 @@
 			var/signal_result = SEND_SIGNAL(target, COMSIG_LIVING_GRAB_SELF_ATTEMPT, target, used_limb)
 			if(signal_result & COMPONENT_CANCEL_GRAB_ATTACK)
 				return FALSE
+			if(C.mind && C != src)
+				changeNext_move(CLICK_CD_WRESTLING)
 		else
 			var/obj/item/grabbing/O = new()
 			O.name = "[target.name]"
@@ -658,6 +671,13 @@
 				var/obj/item/grabbing/I = get_inactive_held_item()
 				if(I.grabbed == pulling)
 					dropItemToGround(I, silent = FALSE)
+	else if(forced)
+		if(istype(get_active_held_item(), /obj/item/grabbing))
+			var/obj/item/grabbing/I = get_active_held_item()
+			dropItemToGround(I, silent = FALSE)
+		if(istype(get_inactive_held_item(), /obj/item/grabbing))
+			var/obj/item/grabbing/I = get_inactive_held_item()
+			dropItemToGround(I, silent = FALSE)
 	reset_offsets("pulledby")
 	reset_pull_offsets(src)
 	. = ..()
@@ -893,7 +913,7 @@
 		GLOB.dead_mob_list -= src  //If any more forms of revival are added, better to use a proc to do this - easier to search
 		GLOB.alive_mob_list += src
 		set_suicide(FALSE)
-		stat = CONSCIOUS
+		set_stat(CONSCIOUS)
 		updatehealth() //then we check if the mob should wake up.
 		update_mobility()
 		update_sight()
@@ -1007,7 +1027,6 @@
 	reset_offsets("wall_press")
 	update_wallpress_slowdown()
 
-
 /mob/living/Move(atom/newloc, direct, glide_size_override)
 
 	var/old_direction = dir
@@ -1027,6 +1046,7 @@
 			lying = 270
 		update_transform()
 		lying_prev = lying
+
 	if (buckled && buckled.loc != newloc) //not updating position
 		if (!buckled.anchored)
 			return buckled.Move(newloc, direct, glide_size)
@@ -1109,6 +1129,9 @@
 
 /mob/living/can_resist()
 	return !((next_move > world.time) || incapacitated(ignore_restraints = TRUE, ignore_stasis = TRUE))
+
+/mob/living/proc/execute_resist()
+	resist()
 
 /mob/living/verb/resist()
 	set name = "Resist"
@@ -1237,6 +1260,25 @@
 	..()
 	update_charging_movespeed()
 
+/// Cancels a spell currently being channeled, covering both the old proc_holder system
+/// (which sets client.charging during mouse-hold) and the new spell_cooldown datum system
+/// (tracked via /mob/channeling_spell set in on_start_charge).
+/// Returns TRUE if a channel was actually interrupted.
+/mob/living/proc/interrupt_spell_channel()
+	. = FALSE
+	if(channeling_spell)
+		channeling_spell.cancel_casting()
+		// before_cast drives non-click charge spells through do_after; cancel_casting alone
+		// sets currently_charging=FALSE but the do_after loop only breaks on user.doing=FALSE
+		// or movement, so we need to explicitly break it.
+		stop_all_doing()
+		. = TRUE
+	if(client?.charging && used_intent?.tranged && !used_intent.tshield)
+		stop_attack()
+		. = TRUE
+	if(.)
+		to_chat(src, span_danger("My spell is disrupted!"))
+
 /mob/proc/resist_grab(moving_resist)
 	return TRUE //returning 0 means we successfully broke free
 
@@ -1307,10 +1349,7 @@
 			if(!gcord)
 				gcord = L.get_inactive_held_item()
 			to_chat(pulledby, span_warning("[src] struggles against the [gcord]!"))
-			if(!src.mind) // NPCs do less damage to the garrote
-				gcord.take_damage(10)
-			else
-				gcord.take_damage(25)
+			gcord.take_damage(25)
 		if(!HAS_TRAIT(src, TRAIT_GARROTED))
 			visible_message(span_warning("[src] struggles to break free from [L]'s grip!"), \
 						span_warning("I struggle against [L]'s grip![rchance]"), null, null, L)
@@ -1563,8 +1602,11 @@
 	return TRUE
 
 /mob/living/proc/can_use_guns(obj/item/G)//actually used for more than guns!
+	if(HAS_TRAIT(src, TRAIT_TINYPAWS))
+		to_chat(src, span_warning("I am unable to fire this!"))
+		return FALSE
 	if(G.trigger_guard == TRIGGER_GUARD_NONE)
-		to_chat(src, span_warning("I are unable to fire this!"))
+		to_chat(src, span_warning("I am unable to fire this!"))
 		return FALSE
 	if(G.trigger_guard != TRIGGER_GUARD_ALLOW_ALL && !IsAdvancedToolUser())
 		to_chat(src, span_warning("I try to fire [G], but can't use the trigger!"))
@@ -1670,7 +1712,8 @@
  */
 
 /mob/living/proc/on_fire_stack(seconds_per_tick, datum/status_effect/fire_handler/fire_stacks/fire_handler)
-	adjust_bodytemperature(((fire_handler.stacks * 12)) * 0.5 * seconds_per_tick)
+	var/fire_resist_mult = HAS_TRAIT(src, TRAIT_FIRE_RESIST) ? 0.5 : 1
+	adjust_bodytemperature(((fire_handler.stacks * 12)) * 0.5 * seconds_per_tick * fire_resist_mult)
 
 /**
  * Adjust the amount of fire stacks on a mob
@@ -2112,6 +2155,13 @@
 						found_ping(get_turf(M), client, "hidden")
 
 		for(var/obj/O in view(7,src))
+			if("hiddenguy" in O.vars)
+				var/mob/living/M = O.vars["hiddenguy"]
+				if(M)
+					var/sneak = M.get_skill_level(/datum/skill/misc/sneaking)
+					var/effective_sneak = 8 + (sneak * 2)
+					if(STAPER >= effective_sneak) // skewed towards the hiding player because there's already a separate, guaranteed way to find hiders.
+						found_ping(get_turf(O), client, "hidden")
 			if(istype(O, /obj/item/restraints/legcuffs/beartrap))
 				var/obj/item/restraints/legcuffs/beartrap/M = O
 				if(isturf(M.loc) && M.armed)
@@ -2135,6 +2185,36 @@
 			found_ping(get_turf(potential_track), client, "hidden")
 			potential_track.handle_revealing(src)
 		//Hearthstone end.
+		// Hunting Tracks Logic
+		var/obj/effect/hunting_track/closest_track
+		var/min_dist = 8
+		for(var/obj/effect/hunting_track/HT in range(7, src))
+			// Check if we are part of the party that can see this track
+			var/can_see_ht = FALSE
+			for(var/datum/weakref/W in HT.party_refs)
+				if(W.resolve() == src)
+					can_see_ht = TRUE
+					break
+			if(!can_see_ht)
+				continue
+			found_ping(get_turf(HT), client, "paws")
+			var/dist = get_dist(src, HT)
+			if(dist < min_dist)
+				min_dist = dist
+				closest_track = HT
+		if(closest_track)
+			var/dir_text = dir2text(get_dir(src, closest_track))
+			var/dist_text = ""
+			switch(min_dist)
+				if(0 to 1)
+					dist_text = "right beneath your feet"
+				if(2 to 3)
+					dist_text = "very close by"
+				if(4 to 5)
+					dist_text = "a few paces away"
+				else
+					dist_text = "in the distance"
+			to_chat(src, span_notice("You spot a faint trail [dist_text] to the [dir_text]."))
 
 
 /proc/found_ping(atom/A, client/C, state)
@@ -2163,15 +2243,20 @@
 
 	var/turf/T = get_turf(src)
 	var/turf/ceiling = get_step_multiz(src, UP)
-	var/water_view = istype(T, /turf/open/water) && istype(ceiling, /turf/open/water)
+	var/water_view = (istype(T, /turf/open/water) && istype(ceiling, /turf/open/water))
 
 	changeNext_move(CLICK_CD_MELEE)
 
-	if(m_intent != MOVE_INTENT_SNEAK)
-		if(water_view)
-			visible_message(span_info("[src] peers into the thickness of the water above his head."))
+	if(water_view)
+		if(m_intent != MOVE_INTENT_SNEAK)
+			visible_message(span_info("[src] peers into the thickness of the water above [src.p_their()] head."))
 		else
+			to_chat(src, span_info("[src] peers into the thickness of the water above [src.p_their()] head."))
+	else
+		if(m_intent != MOVE_INTENT_SNEAK)
 			visible_message(span_info("[src] looks up."))
+		else
+			to_chat(src, span_info("[src] looks up."))
 
 	if(!ceiling)
 		if(T.can_see_sky())
@@ -2256,8 +2341,8 @@
 			_y = min(0,_y)
 	else if(STAPER > 11)
 		var/offset = STAPER - 10
-		if(offset > 5)	//Caps the bonus at 15 PER, which is a whole extra screen in an orthogonal direction. Anymore will get disorienting.
-			offset = 5
+		if(offset >= 5)	//Caps the bonus at 15 PER, which is a whole extra screen in an orthogonal direction. Anymore will get disorienting.
+			offset = 4
 		if(STAPER >= 12)
 			message = span_info("[src] easily peers afar.")
 		if(_x > 0)
@@ -2268,10 +2353,13 @@
 			_y += offset
 		else if(_y != 0)
 			_y -= offset
+	if(_y == 0 && _x == 0)
+		message = span_info("[src] oafishly stares in front of themselves.")
+
 	if(m_intent != MOVE_INTENT_SNEAK)
-		if(_y == 0 && _x == 0)	//Their PER was too low to see anything.
-			message = span_info("[src] oafishly stares in front of themselves.")
 		visible_message(message)
+	else
+		to_chat(src, message)
 	animate(client, pixel_x = world.icon_size*_x, pixel_y = world.icon_size*_y, ttime)
 //	RegisterSignal(src, COMSIG_MOVABLE_PRE_MOVE, PROC_REF(stop_looking))
 	update_cone_show()
@@ -2304,6 +2392,8 @@
 
 	if(m_intent != MOVE_INTENT_SNEAK)
 		visible_message(span_info("[src] looks down through [T]."))
+	else
+		to_chat(src, span_info("[src] looks down through [T]."))	
 
 	if(!do_after(src, ttime, target = src))
 		return

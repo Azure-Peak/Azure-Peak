@@ -1,7 +1,7 @@
 /obj/structure/infernalengine
 	icon = 'icons/roguetown/misc/forge.dmi'
 	name = "infernal engine"
-	desc = "This engine uses cycling magma from an internal core to rotate large machinery"
+	desc = "This engine uses cycling magma from an internal core to rotate large machinery."
 	icon_state = "infernal0"
 	var/base_state = "infernal"
 	var/on = FALSE
@@ -13,6 +13,11 @@
 	rotation_structure = TRUE
 	initialize_dirs = CONN_DIR_FORWARD | CONN_DIR_FLIP
 	debris = list(/obj/item/magic/infernal/core = 1)
+
+/obj/structure/infernalengine/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("This engine generates rotational power continuously for connected machinery while it remains active.")
+	. += span_info("Keep it out of wet terrain. Water can extinguish it and stop the engine.")
 
 /obj/structure/infernalengine/find_rotation_network()
 	. = ..()

@@ -6,6 +6,7 @@
 	icon_living = "honeys"
 	icon_dead = "honeys-dead"
 	gender = MALE
+	blood_toll_bucket = STATS_KILLED_GREATER_BEASTS
 	speak_chance = 1
 	turns_per_move = 3
 	see_in_dark = 6
@@ -23,7 +24,7 @@
 							/obj/item/reagent_containers/food/snacks/rogue/honey/spider = 2,
 							/obj/item/alch/viscera = 1)
 	head_butcher = /obj/item/natural/head/honeyspider
-	faction = list("spiders")
+	faction = list(FACTION_SPIDERS)
 	threat_point = THREAT_LOW
 	ambush_faction = "mirespiders"
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
@@ -76,12 +77,12 @@
 
 /mob/living/simple_animal/hostile/retaliate/rogue/spider/Initialize()
 	. = ..()
+	AddComponent(/datum/component/ai_aggro_system)
 	gender = MALE
 	if(prob(33))
 		gender = FEMALE
 	update_icon()
 	ai_controller.set_blackboard_key(BB_BASIC_FOODS, food_type)
-	AddElement(/datum/element/ai_retaliate)
 	ADD_TRAIT(src, TRAIT_KNEESTINGER_IMMUNITY, INNATE_TRAIT)
 
 

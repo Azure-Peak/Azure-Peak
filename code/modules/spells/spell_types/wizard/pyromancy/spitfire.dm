@@ -9,8 +9,8 @@
 	spell_color = GLOW_COLOR_FIRE
 	glow_intensity = GLOW_INTENSITY_LOW
 
-	projectile_type = /obj/projectile/magic/aoe/fireball/spitfire
-	projectile_type_arc = /obj/projectile/magic/aoe/fireball/spitfire/arc
+	projectile_type = /obj/projectile/magic/spitfire
+	projectile_type_arc = /obj/projectile/magic/spitfire/arc
 	cast_range = SPELL_RANGE_PROJECTILE
 
 	primary_resource_type = SPELL_COST_STAMINA
@@ -26,20 +26,18 @@
 	charge_slowdown = CHARGING_SLOWDOWN_NONE
 	charge_sound = 'sound/magic/charging_fire.ogg'
 	cooldown_time = 5.5 SECONDS
-	is_implement_scaled_spell = TRUE
 	attunement_school = ASPECT_NAME_PYROMANCY
 
 	associated_skill = /datum/skill/magic/arcane
 	spell_impact_intensity = SPELL_IMPACT_LOW
 
-/obj/projectile/magic/aoe/fireball/spitfire
+/obj/projectile/magic/spitfire
 	name = "spitfire"
+	icon_state = "fireball"
+	light_color = "#f8af07"
+	light_outer_range = 2
 	speed = MAGE_PROJ_MEDIUM
-	exp_heavy = -1
-	exp_light = -1
-	exp_flash = 0
-	exp_fire = 0
-	damage = 30
+	damage = 36
 	npc_simple_damage_mult = 2
 	accuracy = 40
 	damage_type = BURN
@@ -47,15 +45,19 @@
 	nodamage = FALSE
 	flag = "fire"
 	hitsound = 'sound/blank.ogg'
-	aoe_range = 0
 
-/obj/projectile/magic/aoe/fireball/spitfire/arc
+/obj/projectile/magic/spitfire/arc
 	name = "arced spitfire"
-	damage = 23
+	damage = 27
 	arcshot = TRUE
 
-/obj/projectile/magic/aoe/fireball/spitfire/on_hit(target)
-	. = ..()
+/obj/projectile/magic/spitfire/on_hit(target)
+	..()
+	var/turf/epicenter = get_turf(target)
+	if(epicenter)
+		new /obj/effect/temp_visual/explosion(epicenter)
+		playsound(epicenter, pick('sound/magic/fireball.ogg', 'sound/misc/explode/bottlebomb (2).ogg'), 120, TRUE, 8)
+		playsound(epicenter, pick('sound/misc/explode/incendiary (1).ogg', 'sound/misc/explode/incendiary (2).ogg'), 100, TRUE, 4)
 	if(ismob(target))
 		var/mob/living/M = target
 		if(M.anti_magic_check())

@@ -149,6 +149,12 @@
 	valid_outputs = list(/obj/item/alch/coaldust = 1)
 	bonus_chance_outputs = list(/obj/item/alch/coaldust = 33, /obj/item/alch/firedust = 25)
 
+/datum/alch_grind_recipe/charcoal
+	name = "Charcoal"
+	valid_input = /obj/item/rogueore/coal/charcoal
+	valid_outputs = list(/obj/item/alch/coaldust = 1)
+	bonus_chance_outputs = list(/obj/item/alch/coaldust = 33, /obj/item/alch/firedust = 25)
+
 /datum/alch_grind_recipe/gold_bar
 	name = "Gold Bar"
 	valid_input = /obj/item/ingot/gold

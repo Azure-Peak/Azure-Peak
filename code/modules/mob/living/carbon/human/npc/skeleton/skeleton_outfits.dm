@@ -24,8 +24,17 @@
 	threat_point = THREAT_TOUGH
 	skel_outfit = /datum/outfit/job/roguetown/skeleton/npc/hard
 
+// Medium tier skeleton archer, bow skill 3.
+/mob/living/carbon/human/species/skeleton/npc/archer
+	threat_point = THREAT_LOW
+	skel_outfit = /datum/outfit/job/roguetown/skeleton/npc/archer
+
 // For Duke Manor & Zizo Manor - Ground based spread, so no pirate in pool!
+/mob/living/carbon/human/species/skeleton/npc/mediumspread
+	threat_point = THREAT_MODERATE
+
 /mob/living/carbon/human/species/skeleton/npc/mediumspread/Initialize()
+	// Stopgap: archer outfit (was option 5) removed because the ranged NPC AI is unreliable.
 	var/outfit = rand(1, 4)
 	switch(outfit)
 		if(1)
@@ -39,10 +48,14 @@
 	..()
 
 /mob/living/carbon/human/species/skeleton/npc/mediumspread/lich
-	faction = list("lich")
+	faction = list(FACTION_LICH)
 
 // for Lich Dungeon
+/mob/living/carbon/human/species/skeleton/npc/hardspread
+	threat_point = THREAT_TOUGH
+
 /mob/living/carbon/human/species/skeleton/npc/hardspread/Initialize()
+	// Stopgap: archer outfit (was option 5) removed because the ranged NPC AI is unreliable.
 	var/outfit = rand(1,4)
 	switch(outfit)
 		if(1)
@@ -66,8 +79,8 @@
 	..()
 	H.STASTR = 10
 	H.STASPD = 8
-	H.STACON = 4
-	H.STAWIL = 10
+	H.STACON = 3
+	H.STAWIL = 4
 	H.STAINT = 1
 	name = "Skeleton"
 	if(prob(50))
@@ -103,8 +116,8 @@
 	..()
 	H.STASTR = 9
 	H.STASPD = 8
-	H.STACON = 4 // Same statblock as before easily killed
-	H.STAWIL = 12
+	H.STACON = 3
+	H.STAWIL = 6
 	H.STAINT = 1
 	name = "Skeleton Footsoldier"
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/aalloy
@@ -135,8 +148,8 @@
 	..()
 	H.STASTR = 9
 	H.STASPD = 8
-	H.STACON = 4 // Same statblock as before easily killed
-	H.STAWIL = 12
+	H.STACON = 3
+	H.STAWIL = 6
 	H.STAINT = 1
 	name = "Skeleton Pirate"
 	head =  /obj/item/clothing/head/roguetown/helmet/tricorn
@@ -164,8 +177,8 @@
 	..()
 	H.STASTR = 11
 	H.STASPD = 8
-	H.STACON = 6 // Slightly tougher now!
-	H.STAWIL = 10
+	H.STACON = 5
+	H.STAWIL = 8
 	H.STAINT = 1
 	name = "Skeleton Soldier"
 	cloak = /obj/item/clothing/cloak/tabard/stabard/surcoat/guard // Ooo Spooky Old Dead MAA
@@ -202,8 +215,8 @@
 /datum/outfit/job/roguetown/skeleton/npc/hard/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.STASTR = 12
-	H.STACON = 8 // Woe, actual limb health.
-	H.STAWIL = 12
+	H.STACON = 6
+	H.STAWIL = 10
 	H.STAINT = 1
 	name = "Skeleton Dreadnought"
 	// This combines the khopesh  and withered dreadknight
@@ -250,11 +263,43 @@
 	H.adjust_skillrank(/datum/skill/misc/swimming, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/climbing, 4, TRUE)
 
+/datum/outfit/job/roguetown/skeleton/npc/archer/pre_equip(mob/living/carbon/human/H)
+	..()
+	H.STASTR = 8
+	H.STASPD = 10
+	H.STACON = 5
+	H.STAWIL = 8
+	H.STAPER = 13
+	H.STAINT = 1
+	name = "Skeleton Archer"
+	head = /obj/item/clothing/head/roguetown/helmet/heavy/aalloy
+	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/aalloy
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/aalloy
+	pants = /obj/item/clothing/under/roguetown/chainlegs/kilt/aalloy
+	shoes = /obj/item/clothing/shoes/roguetown/boots/aalloy
+	neck = /obj/item/clothing/neck/roguetown/chaincoif/iron/aalloy
+	gloves = /obj/item/clothing/gloves/roguetown/chain/aalloy
+	backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
+	backl = /obj/item/quiver/arrows
+	r_hand = /obj/item/rogueweapon/mace/alloy
+	H.adjust_skillrank(/datum/skill/combat/bows, 3, TRUE)
+	H.upgrade_ai_controller(/datum/ai_controller/human_npc/archer)
+	H.adjust_skillrank(/datum/skill/combat/polearms, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/maces, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/axes, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/swords, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/knives, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/shields, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/unarmed, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/wrestling, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/swimming, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/climbing, 2, TRUE)
+
 /datum/outfit/job/roguetown/skeleton/npc/vile_doctor/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.STASTR = 12
-	H.STACON = 11 // Woe, actual limb health.
-	H.STAWIL = 12
+	H.STACON = 6
+	H.STAWIL = 10
 	H.STASPD = 14 // that dagger WILL get thru ur parry.
 	H.STAINT = 1
 	name = "Vile Doctor"
@@ -282,8 +327,8 @@
 /datum/outfit/job/roguetown/skeleton/npc/disgraced_noble/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.STASTR = 12 // stabs quick, stabs strong.
-	H.STACON = 11
-	H.STAWIL = 12
+	H.STACON = 6
+	H.STAWIL = 10
 	H.STASPD = 12
 	H.STAINT = 1
 	name = "Disgraced Ancient Noble"

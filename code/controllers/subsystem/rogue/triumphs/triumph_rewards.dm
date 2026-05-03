@@ -8,7 +8,8 @@
 
 /obj/item/reagent_containers/glass/bottle/alchemical/tripot
 	name = "vial of distilled triumphance"
-	desc = "The fruits of your labor, distilled into a sparkling pittance that shimmers with Azurian light. Sipping this tincture will lightly amplify all of your characteristics for a week's tyme."
+	desc = "The fruits of your labor, distilled into a sparkling pittance that shimmers with Azurian light. Sipping this \
+	tincture will lightly amplify all of your characteristics for a week's tyme, as long as you down it all in one gulp."
 	list_reagents = list(/datum/reagent/buff/tri = 10)
 
 /datum/reagent/buff/tri //Keep this restricted to the TRI-locked alchemic reward.
@@ -18,7 +19,8 @@
 	scent_description = "memories of a former triumph"
 
 /datum/reagent/buff/tri/on_mob_life(mob/living/carbon/M)
-	M.apply_status_effect(/datum/status_effect/buff/alch/tripot)
+	if(volume >= 10)  //Ensures that, no matter what, you can only buff one person from one vial.
+		M.apply_status_effect(/datum/status_effect/buff/alch/tripot)
 	return ..()
 
 /datum/status_effect/buff/alch/tripot
@@ -64,8 +66,8 @@
 
 /obj/item/clothing/ring/signet/triumph
 	name = "ornate signet ring"
-	desc = "A ring of opulent gold, bearing the symbol of an aristocratic household. By dipping it in melted redtallow, it can seal writs of religious importance - a matter better known to the Inquisition, rather than the Church or Crown."
-	sellprice = 77 
+	desc = "A ring of opulent gold, bearing the symbol of an aristocratic household. It seals writs of religious importance - a matter better known to the Inquisition, rather than the Church or Crown."
+	sellprice = 77
 
 /obj/item/clothing/ring/gold/triumph
 	name = "ornate gold ring"

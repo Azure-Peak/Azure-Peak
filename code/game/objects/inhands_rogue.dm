@@ -64,6 +64,10 @@ GLOBAL_LIST_INIT(has_behind_cache, list()) // cheaty hack to avoid repeated list
 	addtimer(CALLBACK(src, PROC_REF(fake_throw_at), target_turf, dist, dist, deflector), 0.1 SECONDS)
 
 /obj/item/proc/getonmobprop(tag)
+	if(current_alt_grip)
+		var/list/altgrip_prop = current_alt_grip.getonmobprop(src, tag)
+		if(altgrip_prop)
+			return altgrip_prop
 	if(tag)
 		switch(tag)
 			if("gen")
@@ -103,10 +107,13 @@ GLOBAL_LIST_INIT(has_behind_cache, list()) // cheaty hack to avoid repeated list
 	// --- behind handling + icon_states cache ---
 	if(behind)
 		var/icon_key = "[icon]"
+		var/state_key = "[icon]_[icon_state]"
 		if(!GLOB.IconStates_cache[icon_key])
-			var/list/istates = icon_states(icon)
-			GLOB.IconStates_cache[icon_key] = istates
-			GLOB.has_behind_cache[icon_key] = ("[icon_state]_behind" in istates)
+			GLOB.IconStates_cache[icon_key] = icon_states(icon)
+
+		if(isnull(GLOB.has_behind_cache[state_key]))
+			var/list/istates = GLOB.IconStates_cache[icon_key]
+			GLOB.has_behind_cache[state_key] = ("[icon_state]_behind" in istates)
 
 		if(GLOB.has_behind_cache[icon_key])
 			blended = icon(icon = icon, icon_state = "[icon_state]_behind")

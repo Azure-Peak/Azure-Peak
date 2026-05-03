@@ -78,6 +78,13 @@
 		new /obj/effect/temp_visual/snap_freeze(affected_turf)
 		if(!(affected_turf in get_hear(cast_range, source_turf)))
 			continue
+		// Extinguish burning objects and hotspots in the area
+		for(var/obj/O in affected_turf.contents)
+			O.extinguish()
+		var/obj/effect/hotspot/hotspot = (locate(/obj/effect/hotspot) in affected_turf)
+		if(hotspot)
+			new /obj/effect/temp_visual/small_smoke(affected_turf)
+			qdel(hotspot)
 		for(var/mob/living/L in affected_turf.contents)
 			if(L.anti_magic_check())
 				L.visible_message(span_warning("The ice fades away around [L]!"))

@@ -174,21 +174,16 @@
 	target_items = list(/obj/item/rogueweapon/greataxe/steel)
 	result_item = /obj/item/rogueweapon/greataxe/steel/gilded
 
-//Zydras donator items - Iconoclast pyromaniac
-/obj/item/enchantingkit/zydrasiconocrown
-	name = "Barred Helmet morphing elixir"
-	target_items = list(/obj/item/clothing/head/roguetown/helmet/heavy/sheriff)
-	result_item = /obj/item/clothing/head/roguetown/helmet/heavy/sheriff/zydrasiconocrown
+//Zydras donator items - Ironclad baddie
+/obj/item/enchantingkit/zydrashauberk
+	name = "Mailled Hauberk morphing elixir"
+	target_items = list(/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/iron/heavy)
+	result_item = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/iron/heavy/zycuirass
 
-/obj/item/enchantingkit/zydrasiconopauldrons
-	name = "Light Brigandine morphing elixir"
-	target_items = list(/obj/item/clothing/suit/roguetown/armor/brigandine/light)
-	result_item = /obj/item/clothing/suit/roguetown/armor/brigandine/light/zydrasiconopauldrons
-
-/obj/item/enchantingkit/zydrasiconosash
-	name = "Iron Hauberk morphing elixir"
-	target_items = list(/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/iron)
-	result_item = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/iron/zydrasiconosash
+/obj/item/enchantingkit/zydrasgreataxe
+	name = "Greataxe morphing elixir"
+	target_items = list(/obj/item/rogueweapon/greataxe)
+	result_item = /obj/item/rogueweapon/greataxe/zygreataxe
 
 //Eiren - Zweihander and sabres
 /obj/item/enchantingkit/weapon/eiren
@@ -205,27 +200,27 @@
 	target_items = list(/obj/item/rogueweapon/sword/sabre)
 	result_item = /obj/item/rogueweapon/example/eiren_sabre
 
-/obj/item/enchantingkit/eirensabre2
+/obj/item/enchantingkit/weapon/eirensabre2
 	name = "'Cinis' morphing elixir"
 	target_items = list(/obj/item/rogueweapon/sword/saber)
 	result_item = /obj/item/rogueweapon/example/eiren_sabre_alt
 
 /obj/item/enchantingkit/weapon/eiren_m
-	name = "glintstone longsword"
+	name = "'glintstone longsword' morphing elixir"
 	target_items = list(
 		/obj/item/rogueweapon/sword/long
 	)
 	result_item = /obj/item/rogueweapon/eirenxiv/eiren_m
 
 /obj/item/enchantingkit/weapon/eirensword
-	name = "stygian longsword"
+	name = "'stygian longsword' morphing elixir"
 	target_items = list(
 		/obj/item/rogueweapon/sword/long
 	)
 	result_item = /obj/item/rogueweapon/eirenxiv/eirensword
 
 //pretzel - custom steel greatsword. PSYDON LYVES. PSYDON ENDVRES.
-/obj/item/enchantingkit/waff
+/obj/item/enchantingkit/weapon/waff
 	name = "'Weeper's Lathe' morphing elixir"
 	target_items = list(/obj/item/rogueweapon/greatsword)
 	result_item = /obj/item/rogueweapon/example/waffai_greatsword
@@ -395,3 +390,53 @@
 		/obj/item/rogueweapon/sword/long
 	)
 	result_item = /obj/item/rogueweapon/nerocavalier/flsword
+
+/obj/item/enchantingkit/aisuwand
+    name = "Crystalline Wand morphing elixir"
+    target_items = list(/obj/item/rogueweapon/wand)
+    result_item = /obj/item/rogueweapon/wand/aisu
+
+/obj/item/enchantingkit/weapon/regnum
+	name = "'Regnum' morphing elixir"
+	target_items = list(
+		/obj/item/rogueweapon/sword/long,
+		/obj/item/rogueweapon/sword/long/judgement
+	)
+	result_item = /obj/item/rogueweapon/example/regnum
+
+/obj/item/enchantingkit/weapon/aeternum
+	name = "'Aeternum' morphing elixir"
+	target_items = list(
+		/obj/item/rogueweapon/greatsword,
+		/obj/item/rogueweapon/greatsword/zwei,
+		/obj/item/rogueweapon/greatsword/grenz,
+		/obj/item/rogueweapon/greatsword/grenz/flamberge,
+		/obj/item/rogueweapon/greatsword/grenz/flamberge/blacksteel
+	)
+	result_item = /obj/item/rogueweapon/example/aeternum
+
+/obj/item/enchantingkit/weapon/darling
+	name = "'Darling' morphing elixir"
+	target_items = list(
+		/obj/item/rogueweapon/sword/long
+	)
+	result_item = /obj/item/rogueweapon/example/darling
+
+/obj/item/enchantingkit/weapon/sumquoderis
+	name = "'Vial of Crimson Ichor'"
+	target_items = list(
+		/obj/item/rogueweapon/sword/long/exe
+	)
+	result_item = /obj/item/rogueweapon/example/sumquoderis
+
+/obj/item/enchantingkit/weapon/euthanasia
+	name = "'Ritual Dagger Mould'"
+	target_items = list(
+		/obj/item/rogueweapon/huntingknife/combat
+	)
+	result_item = /obj/item/rogueweapon/example/euthanasia
+
+/obj/item/enchantingkit/weapon/nicksonessang
+	name = "'Dark Delight' morphing elixir"
+	target_items = list(/obj/item/rogueweapon/sword/long/kriegmesser/ssangsudo)
+	result_item = /obj/item/rogueweapon/example/ssangsudo_long

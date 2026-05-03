@@ -14,6 +14,7 @@
 #define GLOW_COLOR_HEARTH "#FF8A65" // Warm hearthfire salmon
 #define GLOW_COLOR_LIGHT "#FFFDE7" // Pale warm white, for light spells
 #define GLOW_COLOR_WARD "#D4A844" // Warm amber-gold, for battlewardry / protective ward spells
+#define GLOW_COLOR_BARDIC "#E8837C" // Warm rose, for bardic songs and cadences
 
 // Constants for spell glow intensity. These are literally 1 2 3 4 but it is for documenting design purposes
 #define GLOW_INTENSITY_LOW 1 // For spam projectiles or generic buffs
@@ -131,6 +132,7 @@
 #define ASPECT_NAME_FERRAMANCY  "Metal"
 #define ASPECT_NAME_AUGMENTATION "Enhancement"
 #define ASPECT_NAME_BATTLEWARDRY "Wards"
+#define ASPECT_NAME_TELOMANCY   "Trajectory"
 
 // Arcyne ward tier hierarchy - higher tier wards override lower, equal or lower cannot override
 #define ARCYNE_WARD_TIER_OTHER   1 // Other Ward (cast on allies)
@@ -143,14 +145,19 @@
 // Weapon-in-hand casting penalty — applied when casting a penalized spell while holding a non-implement rogueweapon
 #define WEAPON_CAST_PENALTY 0.3
 
+// Leyline teleportation matrix passenger limits
+#define TELEPORT_MAX_PASSENGERS 5
+#define TELEPORT_MAX_NONMAGES 2
+
 // Spell implement tiers and multipliers
 #define IMPLEMENT_TIER_LESSER  1
 #define IMPLEMENT_TIER_GREATER 2
 #define IMPLEMENT_TIER_GRAND   3
 
-#define IMPLEMENT_MULT_LESSER  1.2   // 20% poke damage bonus
-#define IMPLEMENT_MULT_GREATER 1.225 // 22.5% poke damage bonus
-#define IMPLEMENT_MULT_GRAND   1.25  // 25% poke damage bonus
+// Fraction of a spell's resource cost that the Residual Focus buff returns over 20 seconds.
+#define IMPLEMENT_REFUND_LESSER  0.20
+#define IMPLEMENT_REFUND_GREATER 0.275
+#define IMPLEMENT_REFUND_GRAND   0.35
 
 // Lightning Specific constants
 #define LIGHTNING_ADAPTATION_COOLDOWN 15 SECONDS

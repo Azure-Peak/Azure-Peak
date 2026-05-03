@@ -108,7 +108,7 @@
 		"Stashed Messer & Parrying Dagger" = list(/obj/item/rogueweapon/sword/short/messer/iron/virtue, /obj/item/rogueweapon/huntingknife/idagger/virtue),
 		"Stashed Shield & Arming Sword" = list(/obj/item/rogueweapon/shield/wood, /obj/item/rogueweapon/sword/iron),
 		"Stashed Quarterstaff & Sling" = list(/obj/item/rogueweapon/woodstaff/quarterstaff/iron, /obj/item/gun/ballistic/revolver/grenadelauncher/sling, /obj/item/quiver/sling/iron),
-		"Stashed Spear & Mace" = list(/obj/item/rogueweapon/spear, /obj/item/rogueweapon/mace),
+		"Stashed Spear & Mace" = list(/obj/item/rogueweapon/spear, /obj/item/rogueweapon/mace, /obj/item/rogueweapon/scabbard/gwstrap),
 		"Stashed Katar & Knuckles" = list(/obj/item/rogueweapon/katar/bronze, /obj/item/clothing/gloves/roguetown/knuckles/bronze),
 		"Stashed Axe & Whip" = list(/obj/item/rogueweapon/stoneaxe/woodcut, /obj/item/rogueweapon/whip)
 	)
@@ -157,8 +157,15 @@
 /datum/virtue/combat/guarded
 	name = "Guarded"
 	desc = "I have long kept my true capabilities and vices a secret. Sometimes being deceptively weak can save one's lyfe."
-	custom_text = "Obfuscates information about you from all sorts of effects, including patron abilities & passives, Assess and other virtues."
+	custom_text = "Obfuscates information about you from all sorts of effects, including patron abilities & passives, combat information, Assess and other virtues."
 	added_traits = list(TRAIT_DECEIVING_MEEKNESS)
+
+/datum/virtue/combat/guarded/apply_to_human(mob/living/carbon/human/recipient)
+	. = ..()
+	recipient.verbs += /mob/living/carbon/human/proc/toggle_descriptors
+	recipient.verbs += /mob/living/carbon/human/proc/emote_ffsalute
+	recipient.verbs += /mob/living/carbon/human/proc/toggle_guarded
+
 
 /datum/virtue/combat/rotcured
 	name = "Rotcured"

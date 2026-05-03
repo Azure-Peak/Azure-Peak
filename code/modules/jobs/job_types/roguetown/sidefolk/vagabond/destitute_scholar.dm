@@ -5,7 +5,7 @@
 	allowed_races = RACES_ALL_KINDS
 	outfit = /datum/outfit/job/roguetown/vagabond/scholar
 	category_tags = list(CTAG_VAGABOND)
-	traits_applied = list(TRAIT_CICERONE, TRAIT_SEEDKNOW)
+	traits_applied = list(TRAIT_CICERONE, TRAIT_SEEDKNOW, TRAIT_ALCHEMY_EXPERT)
 	subclass_skills = list(
 		/datum/skill/craft/cooking = SKILL_LEVEL_NOVICE,
 		/datum/skill/craft/crafting = SKILL_LEVEL_NOVICE,
@@ -33,7 +33,7 @@
 		r_hand = /obj/item/rogue/instrument/flute
 
 	if(H.mind)
-		SStreasury.give_money_account(ECONOMIC_DESTITUTE, H, "Savings.")
+		SStreasury.grant_savings(ECONOMIC_DESTITUTE, H)
 		H.adjust_skillrank(/datum/skill/craft/alchemy, rand(1,4), TRUE)
 		H.adjust_skillrank(/datum/skill/misc/medicine, rand(1,4), TRUE)
 		H.adjust_skillrank(/datum/skill/misc/reading, rand(3,6), TRUE)

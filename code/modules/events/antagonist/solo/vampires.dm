@@ -8,6 +8,8 @@
 	roundstart = TRUE
 	antag_flag = ROLE_NBEAST
 	shared_occurence_type = SHARED_HIGH_THREAT
+	storyteller_antag_flags = STORYTELLER_ANTAG_VILLAIN | STORYTELLER_ANTAG_ROUNDSTART
+	storyteller_guarantee_flags = STORYTELLER_FAVOR_VAMPIRE_LORD
 
 	weight = 4
 	max_occurrences = 1

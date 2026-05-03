@@ -33,8 +33,13 @@
 	//How many players have this job
 	var/current_positions = 0
 
+	/// Admin-manual slot override set via Manage Job Slots for storyteller-capped roles.
+	var/admin_slot_override = FALSE
+
 	//Whether this job clears a slot when you get a rename prompt.
 	var/antag_job = FALSE
+	var/storyteller_antag_flags = STORYTELLER_ANTAG_NONE
+	var/storyteller_midround_antag_flags = STORYTELLER_ANTAG_NONE
 
 	//Supervisors, who this person answers to directly
 	var/supervisors = ""
@@ -62,9 +67,6 @@
 	//The amount of good boy points playing this role will earn you towards a higher chance to roll antagonist next round
 	//can be overridden by antag_rep.txt config
 	var/antag_rep = 10
-
-	var/paycheck = PAYCHECK_MINIMAL
-	var/paycheck_department = ACCOUNT_CIV
 
 	var/display_order = JOB_DISPLAY_ORDER_DEFAULT
 
@@ -170,7 +172,24 @@
 	var/is_quest_giver = FALSE
 
 	/// How many quests this job can take at once
-	var/max_active_quests = 3
+	var/max_active_quests = 2
+
+	var/townie_contract_gate_exempt = FALSE
+
+/// Either flag exempts. Job-level is "this whole job has no town rotation" (Adventurer,
+/// Mercenary, Vagabond, Court Agent). Advclass-level is "this specific subclass deserves
+/// the exemption within an otherwise non-exempt job" (Hunter / Witch / Levy / Thug under
+/// Pilgrim). Pilgrim/Blacksmith etc. land at FALSE on both sides.
+/proc/is_townie_contract_gate_exempt(mob/user)
+	if(!user?.mind)
+		return FALSE
+	var/datum/job/J = user.job ? SSjob.GetJob(user.job) : null
+	if(J?.townie_contract_gate_exempt)
+		return TRUE
+	var/datum/advclass/AC = user.mind.picked_advclass
+	if(!QDELETED(AC) && AC.townie_contract_gate_exempt)
+		return TRUE
+	return FALSE
 
 
 /datum/job/proc/special_job_check(mob/dead/new_player/player)
@@ -192,6 +211,9 @@
 				return FALSE
 				
 	return TRUE
+
+/datum/job/proc/uses_storyteller_slot_caps()
+	return title in list("Wretch", "Gnoll", "Assassin")
 
 /datum/job/proc/get_used_title(mob/player)
 	var/titles = player.titles_pref
@@ -283,7 +305,7 @@
 
 		if(noble_income)
 			SStreasury.noble_incomes[H] = noble_income
-			SStreasury.give_money_account(noble_income, H, "Noble Estate")
+			SStreasury.grant_estate_income(H, noble_income, TRUE)
 
 	if(show_in_credits)
 		SScrediticons.processing += H
@@ -375,11 +397,6 @@
 		if((H.dna.species.id != "human") && (H.dna.species.id != "humen"))
 			H.set_species(/datum/species/human)
 			H.apply_pref_name("human", preference_source)
-	if(!visualsOnly)
-		var/datum/bank_account/bank_account = new(H.real_name, src)
-		bank_account.payday(STARTING_PAYCHECKS, TRUE)
-		H.account_id = bank_account.account_id
-
 	//Equip the rest of the gear
 	H.dna.species.before_equip_job(src, H, visualsOnly)
 	if(!outfit_override && visualsOnly && visuals_only_outfit)
@@ -703,6 +720,43 @@
 		popup.open(FALSE)
 		if(winexists(usr, "subclassslots"))
 			winset(usr, "subclassslots", "focus=true")
+	if(href_list["jobadvincomp"])
+		if(!usr)
+			return
+		if(!isdead(usr))
+			return
+		var/mob/dead/D = usr
+		var/client/player = D.client
+		var/list/dat = list()
+		for(var/adv in job_subclasses)
+			var/advdat = ""
+			var/datum/advclass/subclasspath = adv
+			var/datum/advclass/subclass = SSrole_class_handler.get_advclass_by_name(initial(subclasspath.name))
+			var/found_issue = FALSE
+			if(length(subclass.virtue_limits))
+				for(var/virtuetype in subclass.virtue_limits)
+					if(istype(player.prefs.virtue, virtuetype))
+						advdat += "[player.prefs.virtue.name]<br>"
+						found_issue = TRUE
+					if(istype(player.prefs.virtuetwo, virtuetype))
+						advdat += "[player.prefs.virtuetwo.name]<br>"
+						found_issue = TRUE
+
+			if(length(subclass.vice_limits))
+				for(var/vicetype in subclass.vice_limits)
+					for(var/vice in player.prefs.charflaws)
+						var/datum/charflaw/cf = vice
+						if(istype(vice, vicetype))
+							advdat += "[cf.name]<br>"
+							found_issue = TRUE
+			if(found_issue)
+				dat += "<font color = '#e4e1e1'><b>[subclass::name]</b></font><br>"
+				dat += advdat
+		var/datum/browser/popup = new(usr, "subclassslots", "<div style='text-align: center'>Subclass Incompatibilities</div>", nwidth = 200, nheight = 300)
+		popup.set_content(dat.Join())
+		popup.open(FALSE)
+		if(winexists(usr, "subclassslots"))
+			winset(usr, "subclassslots", "focus=true")
 	. = ..()
 
 /datum/job/proc/has_limited_subclasses()
@@ -713,3 +767,24 @@
 		if(initial(subclass.maximum_possible_slots) != -1)
 			return TRUE
 	return FALSE
+
+/datum/job/proc/prefs_subclass_compatibility(client/player)
+	if(!player)
+		return FALSE
+	if(!player.prefs)
+		return FALSE
+	if(!length(job_subclasses))
+		return FALSE
+	for(var/adv in job_subclasses)
+		var/datum/advclass/subclasspath = adv
+		var/datum/advclass/subclass = SSrole_class_handler.get_advclass_by_name(initial(subclasspath.name))
+		if(length(subclass.virtue_limits))
+			for(var/virtuetype in subclass.virtue_limits)
+				if(istype(player.prefs.virtue, virtuetype) || istype(player.prefs.virtuetwo, virtuetype))
+					return TRUE
+
+		if(length(subclass.vice_limits))
+			for(var/vicetype in subclass.vice_limits)
+				for(var/vice in player.prefs.charflaws)
+					if(istype(vice, vicetype))
+						return TRUE

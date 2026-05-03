@@ -37,9 +37,13 @@
 
 	r_hand = /obj/item/rogueweapon/woodstaff
 	l_hand = /obj/item/book/spellbook
+	backl = /obj/item/storage/backpack/rogue/satchel
+	backpack_contents = list(
+	/obj/item/chalk = 1
+	)
 
 	if(H.mind)
-		SStreasury.give_money_account(ECONOMIC_DESTITUTE, H, "Savings.")
+		SStreasury.grant_savings(ECONOMIC_DESTITUTE, H)
 		H.adjust_skillrank(/datum/skill/craft/alchemy, rand(1,4), TRUE)
 		H.adjust_skillrank(/datum/skill/magic/arcane, rand(1,4), TRUE)
 		H.STAINT = rand(8, 20)

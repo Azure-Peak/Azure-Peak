@@ -497,7 +497,7 @@
 	name = "water"
 	desc = "Clear and shallow water, what a blessing!"
 	icon = 'icons/turf/roguefloor.dmi'
-	icon_state = "rockw2"
+	icon_state = "rockw3"
 	water_level = 2
 	slowdown = 3
 	wash_in = TRUE
@@ -520,7 +520,7 @@
 	swimdir = TRUE
 
 /turf/open/water/river/flow
-	icon_state = "rockwd"
+	icon_state = "rockwd2"
 
 /turf/open/water/river/flow/west
 	dir = 8
@@ -691,8 +691,10 @@
 /turf/open/water/transparent/inner/Initialize()
 	. = ..()
 	
-	if(water_overlay) qdel(water_overlay)
-	if(water_top_overlay) qdel(water_top_overlay)
+	if(water_overlay) 
+		QDEL_NULL(water_overlay)
+	if(water_top_overlay) 
+		QDEL_NULL(water_top_overlay)
 
 /turf/open/water/transparent/inner/Entered(atom/movable/AM, atom/oldLoc)
 	. = ..() 

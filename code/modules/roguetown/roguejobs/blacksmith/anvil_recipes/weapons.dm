@@ -47,6 +47,10 @@
 	abstract_type = /datum/anvil_recipe/weapons/blacksteel
 	craftdiff = SKILL_LEVEL_MASTER
 
+/datum/anvil_recipe/weapons/avantyne
+	abstract_type = /datum/anvil_recipe/weapons/avantyne
+	craftdiff = SKILL_LEVEL_MASTER
+
 /datum/anvil_recipe/weapons/gold
 	abstract_type = /datum/anvil_recipe/weapons/gold
 	craftdiff = SKILL_LEVEL_LEGENDARY
@@ -414,6 +418,12 @@
 	name = "Shortsword, Iron"
 	req_bar = /obj/item/ingot/iron
 	created_item = /obj/item/rogueweapon/sword/short/iron
+
+/datum/anvil_recipe/weapons/iron/swordbanded
+	name = "Sword, Banded Iron (+1 Scrap Metal Kit)"
+	req_bar = /obj/item/ingot/iron
+	additional_items = list(/obj/item/repair_kit/metal/bad)
+	created_item = /obj/item/rogueweapon/sword/short/iron/banded
 
 /datum/anvil_recipe/weapons/iron/messer
 	name = "Messer, Iron"
@@ -899,6 +909,24 @@
 	req_bar = /obj/item/ingot/gold
 	additional_items = list(/obj/item/rogueweapon/mace/warhammer/bronze)
 	created_item = /obj/item/rogueweapon/mace/warhammer/bronze/decorated
+
+/datum/anvil_recipe/weapons/decorated/axe
+	name = "Axe, Decorated (+1 Steel Axe)"
+	req_bar = /obj/item/ingot/gold
+	additional_items = list(/obj/item/rogueweapon/stoneaxe/woodcut/steel)
+	created_item = /obj/item/rogueweapon/stoneaxe/woodcut/steel/decorated
+
+/datum/anvil_recipe/weapons/decorated/swordsil
+	name = "Elegant Axesword, Silvered (+1 Silver Sword)"
+	req_bar = /obj/item/ingot/gold
+	additional_items = list(/obj/item/rogueweapon/sword/silver)
+	created_item = /obj/item/rogueweapon/sword/silver/decorated
+
+/datum/anvil_recipe/weapons/decorated/macesil
+	name = "Elegant Mace, Silvered (+1 Silver Mace)"
+	req_bar = /obj/item/ingot/gold
+	additional_items = list(/obj/item/rogueweapon/mace/steel/silver)
+	created_item = /obj/item/rogueweapon/mace/steel/silver/decorated
 
 /datum/anvil_recipe/weapons/decorated/elfsaber
 	name = "Elegant Sabre, Elvish (+3 Silver)"
@@ -1602,6 +1630,36 @@
 	req_bar = /obj/item/ingot/blacksteel
 	additional_items = list(/obj/item/ingot/blacksteel, /obj/item/roguegem/ruby, /obj/item/natural/silk)
 	created_item = /obj/item/rogueweapon/greatsword/grenz/flamberge/blacksteel
+
+// AVANTYNE
+
+/datum/anvil_recipe/weapons/avantyne/dagger
+	name = "Dagger, Avantyne"
+	req_bar = /obj/item/ingot/avantyne
+	created_item = /obj/item/rogueweapon/huntingknife/idagger/avantyne
+
+/datum/anvil_recipe/weapons/avantyne/sword
+	name = "Arming Sword, Avantyne"
+	req_bar = /obj/item/ingot/avantyne
+	created_item = /obj/item/rogueweapon/sword/avantyne
+
+/datum/anvil_recipe/weapons/avantyne/longsword
+	name = "Longsword, Avantyne (+1 A. Wafer)"
+	req_bar = /obj/item/ingot/avantyne
+	additional_items = list(/obj/item/ingot/avantyne)
+	created_item = /obj/item/rogueweapon/sword/long/avantyne
+
+/datum/anvil_recipe/weapons/avantyne/greatsword
+	name = "Greatsword, Avantyne (+2 A. Wafer)"
+	req_bar = /obj/item/ingot/avantyne
+	additional_items = list(/obj/item/ingot/avantyne, /obj/item/ingot/avantyne)
+	created_item = /obj/item/rogueweapon/greatsword/avantyne
+
+/datum/anvil_recipe/weapons/avantyne/shield
+	name = "Shield, Avantyne (+1 A. Wafer, +1 Cured Leather)"
+	req_bar = /obj/item/ingot/avantyne
+	additional_items = list(/obj/item/ingot/avantyne, /obj/item/natural/hide/cured)
+	created_item = /obj/item/rogueweapon/shield/tower/metal/avantyne
 
 // GOLD
 
