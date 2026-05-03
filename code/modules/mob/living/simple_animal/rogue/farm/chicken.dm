@@ -9,6 +9,7 @@
 
 	gender = FEMALE
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
+	blood_toll_bucket = STATS_KILLED_LIVESTOCK
 	emote_see = list("pecks at the ground.","flaps its wings viciously.")
 	density = FALSE
 	base_intents = list(/datum/intent/simple/claw)

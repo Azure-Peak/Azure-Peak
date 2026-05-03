@@ -12,9 +12,17 @@
 	/// progress_required to match spawn count. Recovery sets this FALSE — kills are just the gate,
 	/// the parcel delivery is the real progress driver.
 	var/kills_count_progress = TRUE
+	var/hunt_timer_id
+	var/hunt_warn_2m_id
+	var/hunt_warn_30s_id
+
+/datum/quest/kill/Destroy()
+	clear_hunt_timers()
+	return ..()
 
 /datum/quest/kill/mark_complete()
 	..()
+	clear_hunt_timers()
 	if(threat_bands_cleared <= 0 || !region)
 		return
 	var/datum/threat_region/TR = SSregionthreat.get_region(region)
@@ -22,6 +30,58 @@
 		return
 	TR.reduce_latent_ambush(threat_bands_cleared * THREAT_POINTS_PER_BAND)
 	announce_to_bearer("<b>The road breathes easier.</b> This contract has driven [threat_bands_cleared] band(s) of threat from the region.")
+
+/datum/quest/kill/on_first_pop()
+	if(hunt_timer_id || complete)
+		return
+	hunt_timer_id = addtimer(CALLBACK(src, PROC_REF(on_hunt_timeout)), QUEST_KILL_HUNT_TIMER, TIMER_STOPPABLE)
+	hunt_warn_2m_id = addtimer(CALLBACK(src, PROC_REF(warn_hunt_time_left), "two minutes"), QUEST_KILL_HUNT_WARN_2M, TIMER_STOPPABLE)
+	hunt_warn_30s_id = addtimer(CALLBACK(src, PROC_REF(warn_hunt_time_left), "thirty seconds"), QUEST_KILL_HUNT_WARN_30S, TIMER_STOPPABLE)
+	announce_to_bearer("<b>The quarry stirs.</b> Finish the work within ten minutes, or they will scatter and the writ will lapse.")
+
+/datum/quest/kill/proc/clear_hunt_timers()
+	if(hunt_timer_id)
+		deltimer(hunt_timer_id)
+		hunt_timer_id = null
+	if(hunt_warn_2m_id)
+		deltimer(hunt_warn_2m_id)
+		hunt_warn_2m_id = null
+	if(hunt_warn_30s_id)
+		deltimer(hunt_warn_30s_id)
+		hunt_warn_30s_id = null
+
+/datum/quest/kill/proc/warn_hunt_time_left(label)
+	if(complete || !hunt_timer_id)
+		return
+	announce_to_bearer("<b>[label] remain</b> before the quarry slips away.")
+
+/datum/quest/kill/proc/on_hunt_timeout()
+	if(complete)
+		return
+	hunt_timer_id = null
+	announce_to_bearer("<b>The quarry has slipped away.</b> The writ smolders and crumbles in your grip.")
+	despawn_live_hunt_mobs()
+	var/obj/item/quest_writ/S = quest_scroll
+	if(S && !QDELETED(S))
+		qdel(S)
+
+/datum/quest/kill/proc/despawn_live_hunt_mobs()
+	for(var/datum/weakref/W in tracked_atoms)
+		var/mob/living/M = W.resolve()
+		if(QDELETED(M))
+			continue
+		if(M.stat == DEAD)
+			continue
+		qdel(M)
+
+/datum/quest/kill/populate_scroll_ui_data(list/data)
+	if(!hunt_timer_id)
+		return
+	var/left = timeleft(hunt_timer_id)
+	if(left <= 0)
+		return
+	data["hunt_timer_label"] = "Quarry slips away in"
+	data["hunt_timer_seconds"] = round(left / 10)
 
 /datum/quest/kill/proc/announce_to_bearer(msg)
 	var/mob/bearer = quest_receiver_reference?.resolve()

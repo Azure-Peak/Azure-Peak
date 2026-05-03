@@ -78,7 +78,7 @@ GLOBAL_LIST_EMPTY(active_economic_events)
 	name = "SALTWICK STORM"
 	description = "A vicious gale has battered the Saltwick wharves - fishing fleets are grounded for days."
 	announcement = "<font color='#c44'>SALTWICK STORM: Fishing fleets grounded. Fresh and cured fish alike grow dear.</font>"
-	affected_goods = list(TRADE_GOOD_FISH_FILET, TRADE_GOOD_COD, TRADE_GOOD_SALMON, TRADE_GOOD_DRIED_FISH, TRADE_GOOD_FISH_MINCE)
+	affected_goods = list(TRADE_GOOD_FISH_FILET, TRADE_GOOD_DRIED_FISH, TRADE_GOOD_FISH_MINCE)
 	price_mod = 4.5
 	event_type = ECON_EVENT_SHORTAGE
 

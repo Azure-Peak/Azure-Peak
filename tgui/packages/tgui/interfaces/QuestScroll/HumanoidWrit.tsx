@@ -110,8 +110,8 @@ const CondemnationCaputLupinum = (props: CondemnationProps) => {
     <p style={writParagraph}>
       By writ of the {rulerTitle}, and by counsel of the estates, {subject}{' '}
       {plural ? 'are' : 'is'} declared{' '}
-      <span style={caputLupinum}>CAPUT LUPINUM</span>, wolf
-      {plural ? "'s heads" : "'s head"}, for that a wolf is a beast hated of
+      <span style={caputLupinum}>CAPUT LUPINUM</span>, volf
+      {plural ? "'s heads" : "'s head"}, for that a volf is a beast hated of
       all folk.
     </p>
   );
@@ -138,7 +138,7 @@ const CondemnationVolkomir = (props: CondemnationProps) => {
   return (
     <p style={writParagraph}>
       By writ of the {rulerTitle}, and by counsel of the estates, let {subject}{' '}
-      be named <span style={caputLupinum}>VOLKOMIR</span>, wolf cast out of the realm&apos;s peace. Driven
+      be named <span style={caputLupinum}>VOLKOMIR</span>, volf cast out of the realm&apos;s peace. Driven
       from every hearth and hall, harboured by no kin, mourned by no friend.
     </p>
   );

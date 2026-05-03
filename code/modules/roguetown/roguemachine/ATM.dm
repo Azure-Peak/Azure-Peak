@@ -277,11 +277,22 @@
 
 /obj/structure/roguemachine/atm/examine(mob/user)
 	. = ..()
-	. += span_notice("Current Crown levies:")
-	. += span_smallnotice("Contract levy: [round(SStreasury.get_tax_rate(TAX_CATEGORY_CONTRACT_LEVY) * 100)]%")
-	. += span_smallnotice("Headeater levy: [round(SStreasury.get_tax_rate(TAX_CATEGORY_HEADEATER_LEVY) * 100)]%")
-	. += span_smallnotice("Import tariff: [round(SStreasury.get_tax_rate(TAX_CATEGORY_IMPORT_TARIFF) * 100)]%")
-	. += span_smallnotice("Export duty: [round(SStreasury.get_tax_rate(TAX_CATEGORY_EXPORT_DUTY) * 100)]%")
+	. += span_smallnotice("Crown levies - Contract: [round(SStreasury.get_tax_rate(TAX_CATEGORY_CONTRACT_LEVY) * 100)]%, Headeater: [round(SStreasury.get_tax_rate(TAX_CATEGORY_HEADEATER_LEVY) * 100)]%, Import: [round(SStreasury.get_tax_rate(TAX_CATEGORY_IMPORT_TARIFF) * 100)]%, Export: [round(SStreasury.get_tax_rate(TAX_CATEGORY_EXPORT_DUTY) * 100)]%")
+	if(ishuman(user))
+		var/mob/living/carbon/human/H = user
+		var/poll_category = SStreasury.get_poll_tax_category(H)
+		if(poll_category)
+			var/pretty = SStreasury.get_poll_tax_category_pretty_name(poll_category)
+			if(SStreasury.is_poll_tax_charter_exempt(H, poll_category))
+				. += span_smallnotice("Poll tax ([pretty]): exempt by decree")
+			else
+				var/rate = SStreasury.get_poll_tax_rate_for(H, poll_category)
+				if(rate > 0)
+					. += span_smallnotice("Poll tax ([pretty]): [rate]m/day")
+				else if(rate < 0)
+					. += span_smallnotice("Poll tax ([pretty]): [-rate]m/day subsidy")
+				else
+					. += span_smallnotice("Poll tax ([pretty]): none")
 
 
 /obj/structure/roguemachine/atm/proc/drill(obj/structure/roguemachine/atm)

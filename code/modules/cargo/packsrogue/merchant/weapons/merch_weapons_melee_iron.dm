@@ -88,6 +88,13 @@
 					/obj/item/rogueweapon/spear,
 				)
 
+/datum/supply_pack/rogue/iron_weapons/dory
+	name = "Dory"
+	cost = 45 // 2 Iron Ingot, 1 Small Log
+	contains = list(
+					/obj/item/rogueweapon/spear/spellblade,
+				)
+
 /datum/supply_pack/rogue/iron_weapons/flail
 	name = "Flail"
 	cost = 25 // 1 Iron Ingot

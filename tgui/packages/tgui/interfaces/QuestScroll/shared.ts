@@ -24,6 +24,7 @@ export type QuestScrollData = {
   writ_type?: string;
   circumstance?: string;
   pickup_region?: string | null;
+  target_region?: string | null;
   delivery_destination?: string | null;
   delivery_item?: string | null;
   fetch_item?: string | null;
@@ -45,6 +46,8 @@ export type QuestScrollData = {
   blockade_total_waves?: number;
   blockade_armed?: BooleanLike;
   blockade_failed?: BooleanLike;
+  hunt_timer_label?: string;
+  hunt_timer_seconds?: number;
 };
 
 export const FACTION_CAT_HUMANOID = 'humanoid';

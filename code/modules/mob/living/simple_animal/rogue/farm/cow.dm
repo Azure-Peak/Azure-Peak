@@ -9,6 +9,7 @@
 	icon_gib = "cow_gib"
 	gender = FEMALE
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
+	blood_toll_bucket = STATS_KILLED_LIVESTOCK
 	emote_hear = list("brays.")
 	emote_see = list("shakes its head.", "chews her cud.")
 	speak_chance = 1

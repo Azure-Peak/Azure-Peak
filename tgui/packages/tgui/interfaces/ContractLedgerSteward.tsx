@@ -39,6 +39,7 @@ type StewardData = {
   bonus_pay_full_mult: number;
   directives_per_day: number;
   directives_issued_today: number;
+  is_alderman_acting: number | boolean;
 };
 
 type FundingSource = 'pledge' | 'crown' | 'directive';
@@ -230,6 +231,7 @@ const ComposeView = () => {
   const [funding, setFunding] = useState<FundingSource>('pledge');
   const [inflight, setInflight] = useState<boolean>(false);
 
+  const aldermanActing = !!data.is_alderman_acting;
   const regionsForType = data.defense_regions_by_type?.[type] || [];
   const cost = data.defense_costs?.[type] ?? 0;
   const needsDestination = type === RECOVERY_TYPE;
@@ -261,6 +263,14 @@ const ComposeView = () => {
   }
   if (funding === 'directive' && directivesRemaining <= 0) {
     setFunding(pledgeAvailable ? 'pledge' : 'crown');
+  }
+  // Aldermen are restricted to the Pledge - if they wandered onto another source via stale state,
+  // snap them back. Server enforces this independently; the UI just keeps the state coherent.
+  if (aldermanActing && funding !== 'pledge') {
+    setFunding('pledge');
+  }
+  if (aldermanActing && levyExempt) {
+    setLevyExempt(false);
   }
 
   const onTypeChange = (next: string) => {
@@ -412,21 +422,44 @@ const ComposeView = () => {
             />
             &nbsp;Burgher Pledge ({coin(data.pledge_balance)})
           </label>
-          <label>
+          <label
+            style={
+              aldermanActing
+                ? { textDecoration: 'line-through', color: '#8a7250' }
+                : undefined
+            }
+            title={
+              aldermanActing
+                ? "The Alderman commissions only against the Commons' Pledge."
+                : undefined
+            }
+          >
             <input
               type="radio"
               name="fundingSource"
               checked={funding === 'crown'}
+              disabled={aldermanActing}
               onChange={() => setFunding('crown')}
             />
             &nbsp;Crown's Purse ({coin(data.crown_purse_balance)})
           </label>
-          <label>
+          <label
+            style={
+              aldermanActing
+                ? { textDecoration: 'line-through', color: '#8a7250' }
+                : undefined
+            }
+            title={
+              aldermanActing
+                ? 'Requests are the Steward&apos;s prerogative, not the Alderman&apos;s.'
+                : undefined
+            }
+          >
             <input
               type="radio"
               name="fundingSource"
               checked={funding === 'directive'}
-              disabled={directivesRemaining <= 0}
+              disabled={aldermanActing || directivesRemaining <= 0}
               onChange={() => setFunding('directive')}
             />
             &nbsp;Request ({directivesRemaining}/{data.directives_per_day ?? 0} left)
@@ -487,13 +520,25 @@ const ComposeView = () => {
           </FormRow>
 
           <FormRow label="Levy Stamp">
-            <label>
+            <label
+              style={
+                aldermanActing
+                  ? { textDecoration: 'line-through', color: '#8a7250' }
+                  : undefined
+              }
+              title={
+                aldermanActing
+                  ? "The Alderman cannot waive the Crown's tax."
+                  : undefined
+              }
+            >
               <input
                 type="checkbox"
                 checked={levyExempt}
+                disabled={aldermanActing}
                 onChange={(e) => setLevyExempt(e.target.checked)}
               />
-              &nbsp;Stamp as LEVY EXEMPT (waive Crown's Contract Levy)
+              &nbsp;Stamp as LEVY EXEMPT (waive Crown&apos;s Contract Levy)
             </label>
           </FormRow>
         </>

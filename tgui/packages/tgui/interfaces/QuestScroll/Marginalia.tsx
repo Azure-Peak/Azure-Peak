@@ -29,6 +29,20 @@ export const ProgressLine = (props: {
   );
 };
 
+export const RetrievalProgressLine = (props: {
+  done: number;
+  total: number;
+  noun: string;
+}) => {
+  const remaining = Math.max(0, props.total - props.done);
+  return (
+    <div style={marginaliaLine}>
+      <span style={marginaliaLabel}>Of the {props.noun} sought,</span>
+      <b>{props.done}</b> lie recovered; <b>{remaining}</b> remain.
+    </div>
+  );
+};
+
 export const BlockadeTimer = (props: { label: string; seconds: number }) => {
   const [remaining, setRemaining] = useState(props.seconds);
   useEffect(() => {

@@ -92,6 +92,7 @@
 	a_intent = INTENT_HELP
 	d_intent = INTENT_PARRY
 	possible_mmb_intents = list(INTENT_BITE, INTENT_JUMP, INTENT_KICK, INTENT_SPECIAL)
+	blood_toll_bucket = STATS_KILLED_BOGMEN
 
 
 /mob/living/carbon/human/species/human/northern/bog_deserters/ambush

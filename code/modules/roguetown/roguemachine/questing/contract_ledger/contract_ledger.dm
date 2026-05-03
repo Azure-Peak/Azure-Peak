@@ -70,7 +70,11 @@
 	data["is_handler"] = !!mob_job?.is_quest_giver
 	data["balance"] = SStreasury.get_balance(user)
 	data["has_account"] = SStreasury.has_account(user)
-	data["active_max"] = mob_job?.max_active_quests || QUEST_MAX_ACTIVE_PER_PLAYER
+	var/active_base = mob_job?.max_active_quests || QUEST_MAX_ACTIVE_PER_PLAYER
+	var/active_bonus = get_active_quest_fellowship_bonus(user)
+	data["active_max"] = active_base + active_bonus
+	data["active_max_base"] = active_base
+	data["active_fellowship_bonus"] = active_bonus
 	data["active_count"] = count_user_active_contracts(user)
 	var/gate_remaining = 0
 	if(!is_townie_contract_gate_exempt(user))
@@ -100,6 +104,10 @@
 		data["rumor_log"] = SStreasury.rumor_log
 		data["rumor_lucrative_mult"] = RUMOR_LUCRATIVE_MULT
 	if(data["dynamic_role"] == "steward")
+		// Alderman acting via the noticeboard is restricted: pledge-only funding, no levy waiver.
+		// Steward retains broader authority even if also seated as Alderman (mirrors the gate at
+		// commission_defense_from_tgui where steward.job == "Steward" demotes alderman_acting).
+		data["is_alderman_acting"] = (SScity_assembly?.is_alderman(user) && user.job != "Steward") ? TRUE : FALSE
 		data["pledge_balance"] = SStreasury.burgher_pledge_fund ? SStreasury.burgher_pledge_fund.balance : 0
 		data["pledge_refill_base"] = BURGHER_PLEDGE_BASE_REFILL
 		data["pledge_refill_per_player"] = BURGHER_PLEDGE_PER_PLAYER
@@ -214,6 +222,25 @@ GLOBAL_LIST_INIT(contract_ledger_commission_roles, list(
 			"complete" = Q.complete,
 		))
 	return listing
+
+/proc/get_active_quest_fellowship_bonus(mob/user)
+	var/mob/living/L = user
+	if(!istype(L))
+		return 0
+	var/datum/fellowship/F = L.current_fellowship
+	if(!F || !F.is_leader(L))
+		return 0
+	var/size = length(F.get_members())
+	if(size >= 3)
+		return QUEST_ACTIVE_FELLOWSHIP_BONUS_BAND
+	if(size >= 2)
+		return QUEST_ACTIVE_FELLOWSHIP_BONUS_PAIR
+	return 0
+
+/proc/get_active_quest_cap(mob/user)
+	var/datum/job/J = user?.job ? SSjob.GetJob(user.job) : null
+	var/base = J?.max_active_quests || QUEST_MAX_ACTIVE_PER_PLAYER
+	return base + get_active_quest_fellowship_bonus(user)
 
 /obj/structure/roguemachine/contractledger/proc/count_user_active_contracts(mob/user)
 	var/datum/weakref/user_ref = WEAKREF(user)

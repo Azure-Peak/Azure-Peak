@@ -27,6 +27,8 @@ type Dashboard = {
   loans_outstanding: number;
   loan_exposure: number;
   rural_tax_total: number;
+  expected_rural_revenue: number;
+  expected_wage_outlay: number;
   noble_income_total: number;
   tax_rates: Record<string, number>;
   poll_tax_rates: Record<string, number>;
@@ -579,6 +581,12 @@ export const EconomicPanel = () => {
                     <LabeledList.Item label="Loans Outstanding">
                       {dashboard.loans_outstanding} ({dashboard.loan_exposure}m exposure)
                     </LabeledList.Item>
+                    <LabeledList.Item label="Expected Rural Revenue">
+                      {dashboard.expected_rural_revenue}m / day
+                    </LabeledList.Item>
+                    <LabeledList.Item label="Expected Wage Outlay">
+                      {dashboard.expected_wage_outlay}m / day
+                    </LabeledList.Item>
                     <LabeledList.Item label="Rural Tax YTD">
                       {dashboard.rural_tax_total}m
                     </LabeledList.Item>
@@ -782,6 +790,11 @@ export const EconomicPanel = () => {
                 <Stack.Item>
                   <Button.Confirm onClick={() => act('advance_day')}>
                     Advance Day
+                  </Button.Confirm>
+                </Stack.Item>
+                <Stack.Item>
+                  <Button.Confirm onClick={() => act('fire_rural_tick')}>
+                    Fire Rural Tick
                   </Button.Confirm>
                 </Stack.Item>
                 <Stack.Item>
