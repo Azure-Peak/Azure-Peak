@@ -17,3 +17,9 @@
 
 /datum/fund/proc/get_owner()
 	return owner_ref?.resolve()
+
+/datum/fund/church
+
+/datum/fund/merchant
+
+/datum/fund/bathhouse

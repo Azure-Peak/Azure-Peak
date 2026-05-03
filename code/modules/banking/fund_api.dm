@@ -1,9 +1,18 @@
 /datum/controller/subsystem/treasury/proc/log_fund_entry(datum/treasury_entry/entry)
 	ledger += entry
 
-/// If the destination is the discretionary fund and banditry debt is outstanding, skim the
-/// owed amount off the inflow and shrink the debt. Returns the post-skim amount that should
-/// actually credit the fund. Logged as a separate ledger entry for transparency.
+/datum/controller/subsystem/treasury/proc/resolve_fund_by_id(fund_id)
+	switch(fund_id)
+		if("crown")
+			return discretionary_fund
+		if("church")
+			return church_fund
+		if("merchant")
+			return merchant_fund
+		if("bathhouse")
+			return bathhouse_fund
+	return null
+
 /datum/controller/subsystem/treasury/proc/skim_for_banditry_debt(datum/fund/to_fund, amount)
 	if(amount <= 0 || banditry_debt <= 0 || to_fund != discretionary_fund)
 		return amount
@@ -13,12 +22,6 @@
 	log_fund_entry(new /datum/treasury_entry("burn", to_fund, null, skim, "Banditry debt repayment"))
 	return amount - skim
 
-/// Treasury-debt skim. Runs whenever treasury_debt is outstanding, regardless of state -
-/// so an ATC emergency loan (NORMAL state with non-zero debt) repays itself silently from
-/// inflow just like arrears or sequestration debt. The operating floor differs by state:
-/// 0 in NORMAL or IN_ARREARS (full inflow goes to debt), BANKRUPTCY_OPERATING_FLOOR in
-/// BANKRUPTCY (purse refills up to the floor to keep the trade engine running).
-/// Calls clear_treasury_debt_state when debt reaches zero.
 /datum/controller/subsystem/treasury/proc/skim_for_treasury_debt(datum/fund/to_fund, amount)
 	if(amount <= 0 || treasury_debt <= 0 || to_fund != discretionary_fund)
 		return amount
@@ -89,7 +92,6 @@
 /datum/controller/subsystem/treasury/proc/is_tax_exempt(mob/living/payer, tax_category)
 	if(!payer)
 		return FALSE
-	// Outlawry is civic death - the Crown's ledger no longer recognises any protection.
 	if(HAS_TRAIT(payer, TRAIT_OUTLAW))
 		return FALSE
 	for(var/id in decrees)
@@ -98,9 +100,6 @@
 			return TRUE
 	return FALSE
 
-/// Returns the tightest rate cap (as a fraction 0-1) applicable to the payer for this category.
-/// Starts at GENERIC_RATE_CAP and lets decrees narrow further via apply_rate_cap.
-/// Outlaws have no cap — their wealth is fully forfeit to the Crown.
 /datum/controller/subsystem/treasury/proc/get_rate_cap(mob/living/payer, tax_category)
 	var/cap = GENERIC_RATE_CAP
 	if(!payer)
@@ -125,7 +124,6 @@
 		rate = min(rate, get_rate_cap(owner, tax_category))
 	if(rate <= 0)
 		return 0
-	// If a rate-cap reduced what the Crown could take, log the gap as exemption.
 	if(rate < base_rate)
 		record_tax_exemption(tax_category, FLOOR(base_amount * (base_rate - rate), 1))
 	payer.tax_debt += base_amount * rate

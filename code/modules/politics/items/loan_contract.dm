@@ -6,20 +6,14 @@
 	w_class = WEIGHT_CLASS_TINY
 	force = 0
 	throwforce = 0
-	/// Steward's real_name as shown on the signature line.
 	var/issuer_name
-	/// Year the loan was signed. Set at spawn.
 	var/issuer_year
-	/// Principal (in mammon) that will be transferred on acceptance.
 	var/principal = 0
-	/// Term length in days (2 or 3).
 	var/term_days = 2
-	/// Simple-interest rate per day, as a fraction (0.25 == 25%). Stamped at issuance.
 	var/interest_rate = 0.25
-	/// Total mammon owed at maturity if not repaid early.
 	var/total_due = 0
-	/// Day on which the Crown will auto-collect (GLOB.dayspassed + term_days).
 	var/principal_due_on_day = 0
+	var/source_fund_id = "crown"
 
 /obj/item/loan_contract/Initialize()
 	. = ..()
@@ -67,7 +61,6 @@
 	if(choice != "Accept")
 		to_chat(user, span_notice("I set the contract aside, unsigned."))
 		return
-	// Re-check gates after the blocking dialog.
 	if(QDELETED(src) || QDELETED(user))
 		return
 	if(HAS_TRAIT(user, TRAIT_DEBTOR))
@@ -80,13 +73,17 @@
 	if(!account)
 		to_chat(user, span_warning("My Meister account is gone."))
 		return
-	if(SStreasury.discretionary_fund.balance < principal)
-		to_chat(user, span_warning("The Crown's coffers are too thin to honor this writ."))
+	var/datum/fund/issuing_fund = SStreasury.resolve_fund_by_id(source_fund_id)
+	if(!issuing_fund)
+		to_chat(user, span_warning("The writ names no recognised lender. The meister cannot honor it."))
 		return
-	if(!SStreasury.transfer(SStreasury.discretionary_fund, account, principal, "Loan principal"))
+	if(issuing_fund.balance < principal)
+		to_chat(user, span_warning("[issuing_fund.name]'s coffers are too thin to honor this writ."))
+		return
+	if(!SStreasury.transfer(issuing_fund, account, principal, "Loan principal"))
 		to_chat(user, span_warning("The meister refuses the transfer."))
 		return
-	var/datum/loan/L = new(user, principal, term_days, interest_rate, issuer_name)
+	var/datum/loan/L = new(user, principal, term_days, interest_rate, issuer_name, issuing_fund)
 	SStreasury.loans += L
 	record_round_statistic(STATS_LOANS_ISSUED, 1)
 	user.visible_message(span_notice("[user] signs the loan contract and pockets the Crown's coin."), \

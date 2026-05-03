@@ -36,6 +36,9 @@ SUBSYSTEM_DEF(treasury)
 	var/list/bank_accounts = list()
 	var/datum/fund/discretionary_fund
 	var/datum/fund/burgher_pledge_fund
+	var/datum/fund/church/church_fund
+	var/datum/fund/merchant/merchant_fund
+	var/datum/fund/bathhouse/bathhouse_fund
 	/// Banditry shortfall. Skimmed from Crown's Purse inflow until paid down.
 	var/banditry_debt = 0
 	/// One of TREASURY_NORMAL / IN_ARREARS / BANKRUPTCY. Mutate only via bankruptcy.dm helpers.
@@ -116,6 +119,9 @@ SUBSYSTEM_DEF(treasury)
 	var/seed = STOCKPILE_CROWN_PURCHASE_FLOOR_DEFAULT + rand(500, 1500) + (roundstart_pop * CROWN_PURSE_SEED_PER_PLAYER)
 	discretionary_fund = new("Crown's Purse", null, seed, CURRENCY_MAMMON)
 	burgher_pledge_fund = new("Burgher Pledge", null, BURGHER_PLEDGE_BASE_REFILL * BURGHER_PLEDGE_ROUNDSTART_MULTIPLIER, CURRENCY_BURGHER_PLEDGE)
+	church_fund = new("Church Fund", null, 0, CURRENCY_MAMMON)
+	merchant_fund = new("Merchant Fund", null, 0, CURRENCY_MAMMON)
+	bathhouse_fund = new("Bathhouse Fund", null, 0, CURRENCY_MAMMON)
 	force_set_round_statistic(STATS_STARTING_TREASURY, discretionary_fund.balance)
 	record_round_statistic(STATS_PLEDGE_GENERATED, burgher_pledge_fund.balance)
 	record_round_statistic(STATS_RUMOR_POINTS_GENERATED, rumor_points)
