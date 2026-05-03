@@ -92,8 +92,10 @@
 	data["regions"] = build_region_listing()
 	data["tax_rate"] = SStreasury.get_tax_rate(TAX_CATEGORY_CONTRACT_LEVY)
 	data["guild_cut_rate"] = GUILD_REFERRAL_FEE_PCT
-	data["dynamic_role"] = resolve_dynamic_role(user)
-	if(data["dynamic_role"] == "innkeeper")
+	var/list/dynamic_roles = resolve_dynamic_roles(user)
+	data["dynamic_roles"] = dynamic_roles
+	data["dynamic_role"] = length(dynamic_roles) ? dynamic_roles[1] : null
+	if("innkeeper" in dynamic_roles)
 		data["rumor_points"] = round(SStreasury.rumor_points, 0.1)
 		data["rumor_refill_base"] = RUMOR_POINTS_BASE_REFILL
 		data["rumor_refill_per_player"] = RUMOR_POINTS_PER_PLAYER
@@ -103,10 +105,7 @@
 		data["rumor_destinations"] = build_rumor_destinations()
 		data["rumor_log"] = SStreasury.rumor_log
 		data["rumor_lucrative_mult"] = RUMOR_LUCRATIVE_MULT
-	if(data["dynamic_role"] == "steward")
-		// Alderman acting via the noticeboard is restricted: pledge-only funding, no levy waiver.
-		// Steward retains broader authority even if also seated as Alderman (mirrors the gate at
-		// commission_defense_from_tgui where steward.job == "Steward" demotes alderman_acting).
+	if("steward" in dynamic_roles)
 		data["is_alderman_acting"] = (SScity_assembly?.is_alderman(user) && user.job != "Steward") ? TRUE : FALSE
 		data["pledge_balance"] = SStreasury.burgher_pledge_fund ? SStreasury.burgher_pledge_fund.balance : 0
 		data["pledge_refill_base"] = BURGHER_PLEDGE_BASE_REFILL
@@ -131,6 +130,12 @@
 		refresh_directive_quota()
 		data["directives_per_day"] = COMMISSION_REQUESTS_PER_DAY
 		data["directives_issued_today"] = directives_issued_today
+	if("towner" in dynamic_roles)
+		data["towner_caravan_eligible"] = user_can_post_towner_caravan(user)
+		data["towner_orevein_eligible"] = user_can_post_towner_orevein(user)
+		data["towner_posting_costs"] = GLOB.towner_posting_tier_costs.Copy()
+		data["towner_caravan_eligible_jobs"] = towner_advclass_names(GLOB.towner_caravan_postable_advclasses)
+		data["towner_orevein_eligible_jobs"] = towner_advclass_names(GLOB.towner_orevein_postable_advclasses)
 	return data
 
 /// Jobs that can access the Steward commission panel. The Steward is the primary commissioner;
@@ -162,11 +167,13 @@ GLOBAL_LIST_INIT(contract_ledger_commission_roles, list(
 /// Return the dynamic-tab role key for this user, or null. Extend here when a new job earns its
 /// own ledger panel (e.g. steward).
 /obj/structure/roguemachine/contractledger/proc/resolve_dynamic_role(mob/user)
+	var/list/roles = list()
 	if(user?.job in GLOB.tavern_positions)
-		return "innkeeper"
+		roles += "innkeeper" Towner Postings tab, costs, and filter improvements with treasury chapters.)
 	if(can_commission(user))
-		return "steward"
-	return null
+		roles += "steward"
+	roles += "towner"
+	return roles
 
 /obj/structure/roguemachine/contractledger/proc/build_region_listing()
 	var/list/known = list()
@@ -197,6 +204,8 @@ GLOBAL_LIST_INIT(contract_ledger_commission_roles, list(
 			"levy_exempt" = Q.levy_exempt,
 			"is_rumor" = Q.source == QUEST_SOURCE_RUMOR,
 			"is_defense" = Q.source == QUEST_SOURCE_DEFENSE,
+			"is_towner" = Q.source == QUEST_SOURCE_TOWNER,
+			"is_standing" = Q.source == QUEST_SOURCE_RUMOR || Q.source == QUEST_SOURCE_DEFENSE || Q.source == QUEST_SOURCE_TOWNER,
 			"required_fellowship_size" = Q.required_fellowship_size,
 		))
 	return listing
@@ -275,4 +284,7 @@ GLOBAL_LIST_INIT(contract_ledger_commission_roles, list(
 			return TRUE
 		if("recall_blockade_writ")
 			recall_blockade_writ_from_tgui(user, params)
+			return TRUE
+		if("compose_towner")
+			compose_towner_from_tgui(user, params)
 			return TRUE

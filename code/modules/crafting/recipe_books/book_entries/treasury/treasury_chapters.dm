@@ -507,3 +507,26 @@
 		<p>On top of the referral fee, a <b>Rumor</b> contract pays the Innkeeper an additional <b>[round(RUMOR_CONTACT_FEE_PCT * 100)]% Contact Referral Fee</b> on completion. The bearer's coin is untouched - this represents fees paid by the contractor. Rumors are therefore the Innkeeper's most profitable product: every completed rumor pays the Innkeeper twice.</p>
 		</div>
 	"}
+
+/datum/book_entry/treasury/towner_contracts
+	name = "18. Towner Contracts"
+
+/datum/book_entry/treasury/towner_contracts/inner_book_html(mob/user)
+	return {"
+		<div>
+		<p>Certain towners and guildsmember can post custom contracts on the Grand Contract Ledger. All of these, by design, requires the involvement of the poster themselves and the poster must pay out of pocket to generate the contract. It is meant to be cooperative, combat oriented content that encourages you to go out of town to resolve a resource shortage together or provide additional roleplay opportunity</p>
+
+		<p>In general, these contracts cost the towner money to post, must have the towner in the fellowship, and require the towner to be present for its full rewards to be claimed. It is up to the towner in question to negotiate how much of these additional, towner-gated rewards they wish to split or not.</p>
+
+		<h3>Posting a Towner Contract</h3>
+		<p>The eligible towner may post at the Grand Contract Ledger's "Postings" tab,
+		they can choose to issue an Easy or a Hard version of their contract. Once posted, it is always posted onto the board instead of in hand. Worry not, the fellowship must includes you before someone can sign up for said contract.</p>
+
+		<p>Towner contracts are exempt from both the Contract Levy and the Guild's referral cut.</p>
+
+		<ul>
+			<li><b>A Caravan Gone Missing</b> - a smith's wagon was ambushed on the road. The fellowship clears the bandits and escorts the smith to the wreck; the smith opens the parcel on turn-in. The fellowship is paid in coin, the smith takes the recovered ingots. Restricted to Azure Grove and Terrorbog (Terrorbog yields double the ingots, but you'll earn it). Accessible by: Adventurer Blacksmith, Guild Blacksmith, Artificer, Guildmaster.</li>
+			<li><b>A Miner's Lead</b> - a miner has heard of an elemental guarded vein. The fellowship clears the guardians and the miner clears the rock. The fellowship is paid in coin, the miner keeps whatever comes out of the stone. Accessible by: Miner, Architect, Guildmaster.</li>
+		</ul>
+		</div>
+	"}

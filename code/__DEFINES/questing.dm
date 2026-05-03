@@ -10,6 +10,16 @@
 #define QUEST_BOUNTY "Bounty"
 #define QUEST_RECOVERY "Recovery"
 #define QUEST_BLOCKADE_DEFENSE "Blockade Defense"
+#define QUEST_TOWNER_SMITH_CARAVAN "Smith Caravan"
+#define QUEST_TOWNER_MINER_OREVEIN "Ore Vein"
+
+#define TOWNER_POSTING_TIER_EASY "easy"
+#define TOWNER_POSTING_TIER_HARD "hard"
+
+#define TOWNER_POSTING_COST_EASY 50
+#define TOWNER_POSTING_COST_HARD 100
+
+#define TOWNER_QUEST_FELLOWSHIP_SIZE 2
 
 // Steward cannot commission Recovery - that is the Innkeeper's niche
 GLOBAL_LIST_INIT(defense_quest_tier_costs, list(

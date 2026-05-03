@@ -57,6 +57,7 @@
 	/// TODO: Implement new taxation mechanics — Module 3/6 will add the stamping UI and towner
 	/// bounty path. Levy rate itself also needs revisiting under the new treasury design.
 	var/levy_exempt = FALSE
+	var/guild_cut_exempt = FALSE
 	/// TRUE if the Steward issued this as a free-labor Directive (no funding, zero reward,
 	/// hand-carried only, not promotable to the public noticeboard).
 	var/is_directive = FALSE

@@ -6,6 +6,7 @@ import { useBackend } from '../backend';
 import { Window } from '../layouts';
 import { InnkeeperRumorPanel } from './ContractLedgerInnkeeper';
 import { StewardDefensePanel } from './ContractLedgerSteward';
+import { TownerPostingPanel } from './ContractLedgerTowner';
 
 type Contract = {
   ref: string;
@@ -22,6 +23,8 @@ type Contract = {
   levy_exempt: BooleanLike;
   is_rumor: BooleanLike;
   is_defense: BooleanLike;
+  is_towner: BooleanLike;
+  is_standing: BooleanLike;
   required_fellowship_size: number;
 };
 
@@ -55,6 +58,7 @@ type ContractLedgerData = {
   tax_rate: number;
   guild_cut_rate: number;
   dynamic_role: string | null;
+  dynamic_roles?: string[];
   rumor_points?: number;
   rumor_costs?: Record<string, number>;
   rumor_regions_by_type?: Record<string, string[]>;
@@ -63,13 +67,16 @@ type ContractLedgerData = {
 
 const ALL_REGIONS = 'All';
 const ALL_DIFFICULTIES = 'All';
+const STANDING_FILTER = 'Standing';
 const DIFFICULTIES = ['Easy', 'Medium', 'Hard'];
+const FILTER_BUTTONS = [ALL_DIFFICULTIES, STANDING_FILTER, ...DIFFICULTIES];
 
-type LedgerMode = 'contracts' | 'dynamic';
+type LedgerMode = { kind: 'contracts' } | { kind: 'dynamic'; role: string };
 
 const DYNAMIC_TAB_LABELS: Record<string, string> = {
   innkeeper: 'Rumors',
   steward: 'Commissions',
+  towner: 'Postings',
 };
 
 const renderDynamicPanel = (role: string) => {
@@ -78,6 +85,8 @@ const renderDynamicPanel = (role: string) => {
       return <InnkeeperRumorPanel />;
     case 'steward':
       return <StewardDefensePanel />;
+    case 'towner':
+      return <TownerPostingPanel />;
     default:
       return null;
   }
@@ -98,25 +107,36 @@ const difficultyPinClass = (difficulty: string) => {
 
 export const ContractLedger = () => {
   const { data } = useBackend<ContractLedgerData>();
-  const [mode, setMode] = useState<LedgerMode>('contracts');
+  const [mode, setMode] = useState<LedgerMode>({ kind: 'contracts' });
   const [activeRegion, setActiveRegion] = useState<string>(ALL_REGIONS);
   const [activeDifficulty, setActiveDifficulty] =
     useState<string>(ALL_DIFFICULTIES);
 
-  const dynamicRole = data.dynamic_role || null;
-  const dynamicLabel = dynamicRole
-    ? DYNAMIC_TAB_LABELS[dynamicRole] || dynamicRole
-    : null;
-  const showingDynamic = mode === 'dynamic' && !!dynamicRole;
+  const dynamicRoles =
+    data.dynamic_roles && data.dynamic_roles.length > 0
+      ? data.dynamic_roles
+      : data.dynamic_role
+        ? [data.dynamic_role]
+        : [];
+  const showingDynamic = mode.kind === 'dynamic';
+  const activeDynamicRole =
+    mode.kind === 'dynamic' ? mode.role : null;
 
   const matchesRegion = (c: Contract) =>
     activeRegion === ALL_REGIONS || c.region === activeRegion;
-  const matchesDifficulty = (c: Contract) =>
-    activeDifficulty === ALL_DIFFICULTIES || c.difficulty === activeDifficulty;
+  const matchesDifficulty = (c: Contract) => {
+    if (activeDifficulty === ALL_DIFFICULTIES) return true;
+    if (activeDifficulty === STANDING_FILTER) return !!c.is_standing;
+    return c.difficulty === activeDifficulty;
+  };
 
-  const filtered = data.pool.filter(
-    (c) => matchesRegion(c) && matchesDifficulty(c),
-  );
+  const filtered = data.pool
+    .filter((c) => matchesRegion(c) && matchesDifficulty(c))
+    .sort((a, b) => {
+      const sa = a.is_standing ? 0 : 1;
+      const sb = b.is_standing ? 0 : 1;
+      return sa - sb;
+    });
 
   const regionTabs = [ALL_REGIONS, ...(data.regions || [])];
 
@@ -130,27 +150,33 @@ export const ContractLedger = () => {
       <Window.Content fitted>
         <div className="ContractLedger">
           <div className="ContractLedger__Header">
-            {dynamicRole ? (
+            {dynamicRoles.length > 0 ? (
               <>
                 <span
                   className={
                     'ContractLedger__HeaderMode' +
                     (!showingDynamic ? ' ContractLedger__HeaderMode--active' : '')
                   }
-                  onClick={() => setMode('contracts')}
+                  onClick={() => setMode({ kind: 'contracts' })}
                 >
                   Grand Contract Ledger
                 </span>
-                <span className="ContractLedger__HeaderSep">|</span>
-                <span
-                  className={
-                    'ContractLedger__HeaderMode' +
-                    (showingDynamic ? ' ContractLedger__HeaderMode--active' : '')
-                  }
-                  onClick={() => setMode('dynamic')}
-                >
-                  {dynamicLabel}
-                </span>
+                {dynamicRoles.map((role) => (
+                  <span key={role}>
+                    <span className="ContractLedger__HeaderSep">|</span>
+                    <span
+                      className={
+                        'ContractLedger__HeaderMode' +
+                        (activeDynamicRole === role
+                          ? ' ContractLedger__HeaderMode--active'
+                          : '')
+                      }
+                      onClick={() => setMode({ kind: 'dynamic', role })}
+                    >
+                      {DYNAMIC_TAB_LABELS[role] || role}
+                    </span>
+                  </span>
+                ))}
               </>
             ) : (
               <span className="ContractLedger__HeaderStatic">
@@ -184,15 +210,21 @@ export const ContractLedger = () => {
 
           {!showingDynamic && (
             <div className="ContractLedger__FilterBar">
-              {[ALL_DIFFICULTIES, ...DIFFICULTIES].map((diff) => {
+              {FILTER_BUTTONS.map((diff) => {
                 const isActive = diff === activeDifficulty;
+                const count = data.pool.filter((c) => {
+                  if (!matchesRegion(c)) return false;
+                  if (diff === ALL_DIFFICULTIES) return true;
+                  if (diff === STANDING_FILTER) return !!c.is_standing;
+                  return c.difficulty === diff;
+                }).length;
                 return (
                   <Button
                     key={diff}
                     selected={isActive}
                     onClick={() => setActiveDifficulty(diff)}
                   >
-                    {diff}
+                    {diff} ({count})
                   </Button>
                 );
               })}
@@ -200,8 +232,8 @@ export const ContractLedger = () => {
           )}
 
           <div className="ContractLedger__Board">
-            {showingDynamic && dynamicRole ? (
-              renderDynamicPanel(dynamicRole)
+            {showingDynamic && activeDynamicRole ? (
+              renderDynamicPanel(activeDynamicRole)
             ) : filtered.length === 0 ? (
               <div className="ContractLedger__Empty">
                 No contracts match this filter. Broaden your search or return
