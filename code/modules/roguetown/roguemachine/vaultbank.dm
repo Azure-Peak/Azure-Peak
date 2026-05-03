@@ -283,7 +283,7 @@
 	. = ..()
 	var/datum/fund/F = get_linked_fund()
 	if(!F)
-		to_chat(user, span_warning("[src] sits inert - its ledger is unbound. Notify staff."))
+		to_chat(user, span_warning("[src] sits inert - its coffers are unbound. Notify staff."))
 		return
 	if(istype(I, /obj/item/coveter))
 		var/mob/living/carbon/human/H = user
@@ -393,10 +393,86 @@
 		. += span_notice("[F.name] currently sits at: [F.balance] mammon.")
 	else
 		. += span_warning("This jawbank is unbound to any treasury. Notify staff.")
+	. += span_info("Only [get_authority_label()] may withdraw or draft writs of loan from this jawbank.")
 	. += span_info("Strike it with any weapon to throttle coins loose - heavier strikes are louder and more reliable. The whole realm hears the chime when coin spills.")
+
+/obj/structure/roguemachine/vaultbank/proc/get_authority_label()
+	return "the Steward, Clerk, Grand Duke, or Regent"
 
 /obj/structure/roguemachine/vaultbank/proc/announce_robbery(amount)
 	loud_message("A loud clattering of coins spilling onto stone echoes", hearing_distance = 14)
+
+/obj/structure/roguemachine/vaultbank/proc/can_issue_loan(mob/user)
+	if(!user)
+		return FALSE
+	if(user.job == "Steward" || user.job == "Clerk" || user.job == "Grand Duke")
+		return TRUE
+	if(SSticker.regentmob && user == SSticker.regentmob)
+		return TRUE
+	return FALSE
+
+/obj/structure/roguemachine/vaultbank/proc/can_withdraw(mob/user, amount)
+	return can_issue_loan(user)
+
+/obj/structure/roguemachine/vaultbank/proc/can_accept_indenture(mob/user)
+	return can_issue_loan(user)
+
+/obj/structure/roguemachine/vaultbank/proc/get_faction_label()
+	return "the Crown"
+
+/obj/structure/roguemachine/vaultbank/attack_hand(mob/user)
+	if(!can_issue_loan(user))
+		return ..()
+	if(!user.canUseTopic(src, BE_CLOSE))
+		return ..()
+	open_management_tgui(user)
+
+/obj/structure/roguemachine/vaultbank/proc/open_management_tgui(mob/user)
+	var/datum/tgui/ui = SStgui.try_update_ui(user, src, null)
+	if(!ui)
+		ui = new(user, src, "JawbankPanel")
+		ui.open()
+
+/obj/structure/roguemachine/vaultbank/ui_state(mob/user)
+	return GLOB.human_adjacent_state
+
+/obj/structure/roguemachine/vaultbank/ui_interact(mob/user, datum/tgui/ui)
+	SStgui.try_update_ui(user, src, ui)
+
+/obj/structure/roguemachine/vaultbank/ui_static_data(mob/user)
+	var/list/data = list()
+	data["fund_name"] = get_linked_fund()?.name || "Unbound"
+	data["fund_id"] = get_fund_id()
+	data["faction_label"] = get_faction_label()
+	data["bash_floor"] = bash_floor
+	return data
+
+/obj/structure/roguemachine/vaultbank/ui_data(mob/user)
+	var/list/data = list()
+	var/datum/fund/F = get_linked_fund()
+	data["balance"] = F?.balance || 0
+	data["can_withdraw"] = can_withdraw(user) ? TRUE : FALSE
+	data["can_issue_loan"] = can_issue_loan(user) ? TRUE : FALSE
+	data["can_accept_indenture"] = can_accept_indenture(user) ? TRUE : FALSE
+	data["day"] = GLOB.dayspassed
+	data["max_issuance_day"] = SStreasury.loan_max_issuance_day
+	return data
+
+/obj/structure/roguemachine/vaultbank/ui_act(action, list/params)
+	. = ..()
+	if(.)
+		return
+	if(!can_issue_loan(usr))
+		return TRUE
+	if(!usr.canUseTopic(src, BE_CLOSE))
+		return TRUE
+	switch(action)
+		if("withdraw")
+			return TRUE
+		if("issue_personal")
+			return TRUE
+		if("issue_indenture")
+			return TRUE
 
 /obj/structure/roguemachine/vaultbank/church
 	name = "\improper CHURCH JAWBANK"
@@ -409,13 +485,24 @@
 /obj/structure/roguemachine/vaultbank/church/get_fund_id()
 	return "church"
 
+/obj/structure/roguemachine/vaultbank/church/get_faction_label()
+	return "the Church of Azuria"
+
+/obj/structure/roguemachine/vaultbank/church/can_issue_loan(mob/user)
+	if(!user)
+		return FALSE
+	return user.job == "Bishop" || user.job == "Martyr"
+
+/obj/structure/roguemachine/vaultbank/church/get_authority_label()
+	return "the Bishop or Martyr"
+
 /obj/structure/roguemachine/vaultbank/church/enforce_placement()
 	return
 
 /obj/structure/roguemachine/vaultbank/merchant
 	name = "\improper MERCHANT JAWBANK"
-	desc = "A biomechanical obselisk that secures the ledgers of the Azurian Trading Company. Throttle it with a strike to spill that which is rightfully yours."
-	alert_jobs = list("Merchant")
+	desc = "A biomechanical obselisk that secures the coffers of the Azurian Trading Company. Throttle it with a strike to spill that which is rightfully yours."
+	alert_jobs = list("Merchant", "Shophand")
 	alert_location = "the Merchant's quarter"
 	bash_floor = 500
 	lump_payout = 100
@@ -423,19 +510,41 @@
 /obj/structure/roguemachine/vaultbank/merchant/get_fund_id()
 	return "merchant"
 
+/obj/structure/roguemachine/vaultbank/merchant/get_faction_label()
+	return "the Azurian Trading Company"
+
+/obj/structure/roguemachine/vaultbank/merchant/can_issue_loan(mob/user)
+	if(!user)
+		return FALSE
+	return user.job == "Merchant"
+
+/obj/structure/roguemachine/vaultbank/merchant/get_authority_label()
+	return "the Merchant"
+
 /obj/structure/roguemachine/vaultbank/merchant/enforce_placement()
 	return
 
 /obj/structure/roguemachine/vaultbank/bathhouse
 	name = "\improper BATHHOUSE JAWBANK"
 	desc = "A biomechanical obselisk that secures the takings of the Azurian Bathhouse. Throttle it with a strike to spill that which is rightfully yours."
-	alert_jobs = list("Bathmaster", "Bathmatron")
+	alert_jobs = list("Bathmaster", "Bathhouse Attendant")
 	alert_location = "the Bathhouse"
 	bash_floor = 500
 	lump_payout = 100
 
 /obj/structure/roguemachine/vaultbank/bathhouse/get_fund_id()
 	return "bathhouse"
+
+/obj/structure/roguemachine/vaultbank/bathhouse/get_faction_label()
+	return "the Bathhouse"
+
+/obj/structure/roguemachine/vaultbank/bathhouse/can_issue_loan(mob/user)
+	if(!user)
+		return FALSE
+	return user.job == "Bathmaster"
+
+/obj/structure/roguemachine/vaultbank/bathhouse/get_authority_label()
+	return "the Bathmaster"
 
 /obj/structure/roguemachine/vaultbank/bathhouse/enforce_placement()
 	return
