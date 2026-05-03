@@ -99,7 +99,9 @@
 			budget -= cost
 			if(!(upgrade_flags & UPGRADE_NOTAX))
 				SStreasury.mint(SStreasury.discretionary_fund, tax_amt, "[TAX_CATEGORY_IMPORT_TARIFF] (brassface)")
-				SStreasury.apply_concordat_tithe(cost, TAX_CATEGORY_IMPORT_TARIFF, "brassface")
+				var/bathhouse_tithe = SStreasury.compute_bathhouse_tithe(cost, BATHHOUSE_BRASSFACE_TITHE_RATE)
+				if(bathhouse_tithe > 0 && SStreasury.discretionary_fund.balance >= bathhouse_tithe)
+					SStreasury.transfer(SStreasury.discretionary_fund, SStreasury.church_fund, bathhouse_tithe, "Bathhouse Agreement tithe (brassface)")
 				record_featured_stat(FEATURED_STATS_TAX_PAYERS, human_mob, tax_amt)
 				record_round_statistic(STATS_TAXES_COLLECTED, tax_amt)
 				record_round_statistic(STATS_REVENUE_IMPORT_TARIFF, tax_amt)
@@ -233,7 +235,7 @@ SUBSYSTEM_DEF(BMtreasury)
 	if(!(world.time > next_treasury_check)) // Skip this fire if it's not time for another check.
 		return
 
-	next_treasury_check = world.time + rand(5 MINUTES, 8 MINUTES) // If we are going through with our check, set the time for the next one 5-8 minutes in the future.
+	next_treasury_check = world.time + 6 MINUTES
 
 	vault_accounting = list()
 	var/amt_to_generate = 0
@@ -252,8 +254,12 @@ SUBSYSTEM_DEF(BMtreasury)
 				amt_to_generate += add_to_vault(item)
 
 	amt_to_generate = round(amt_to_generate, 1)
-	brassface.budget += amt_to_generate // goes directly into BRASSFACE rather than into any account.
-	send_ooc_note("Income from smuggling hoard to the BRASSFACE: +[amt_to_generate]", job = "Bathmaster")
+	var/tithe = SStreasury.compute_bathhouse_tithe(amt_to_generate, BATHHOUSE_VAULT_TITHE_RATE)
+	if(tithe > 0)
+		amt_to_generate -= tithe
+		SStreasury.remit_bathhouse_tithe(tithe, "vault income")
+	brassface.budget += amt_to_generate
+	send_ooc_note("Income from smuggling hoard to the BRASSFACE: +[amt_to_generate][tithe > 0 ? " (after [tithe]m tithe to the Church)" : ""]", job = "Bathmaster")
 	record_round_statistic(STATS_BATHMATRON_VAULT_TOTAL_REVENUE, amt_to_generate)
 
 

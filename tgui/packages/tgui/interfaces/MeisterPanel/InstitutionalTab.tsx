@@ -98,12 +98,65 @@ const FundView = ({
       {!!can_issue_loan && (
         <IssueLoanSection fund={fund} data={data} act={act} />
       )}
+      {fund.id === 'bathhouse' && fund.can_issue && (
+        <BathhouseAgreementSection data={data} act={act} />
+      )}
       {!!view_only && (
         <div style={{ color: INK_FAINT, fontStyle: 'italic', marginTop: 8 }}>
           You may view this institution's coffers, but not act upon them.
         </div>
       )}
       <FundActivity fund={fund} data={data} />
+    </>
+  );
+};
+
+const BathhouseAgreementSection = ({
+  data,
+  act,
+}: {
+  data: TabProps['data'];
+  act: TabProps['act'];
+}) => {
+  const active = !!data.bathhouse_agreement_active;
+  return (
+    <>
+      <div style={sectionHeaderStyle}>Bathhouse Agreement</div>
+      <div style={fieldRowStyle}>
+        <div style={fieldLabelStyle}>Status</div>
+        <div style={fieldValueStyle}>
+          {active ? (
+            <span style={{ color: '#3b6a35', fontWeight: 'bold' }}>
+              ACTIVE
+            </span>
+          ) : (
+            <span style={{ color: '#8b2020', fontWeight: 'bold' }}>
+              SUSPENDED
+            </span>
+          )}
+        </div>
+      </div>
+      <div
+        style={{
+          color: SEAL_AMBER,
+          fontStyle: 'italic',
+          marginBottom: 8,
+          fontSize: '12px',
+        }}
+      >
+        While the Agreement is in force, the Bathhouse tithes 20% of vault
+        income and 10% of brassface tariffs to the Church of Azuria.
+        Suspending the Agreement is publicly proclaimed.
+      </div>
+      <div style={{ marginTop: 6, textAlign: 'right' }}>
+        <button
+          type="button"
+          style={inkButtonStyle({})}
+          onClick={() => act('toggle_bathhouse_agreement')}
+        >
+          {active ? 'Suspend Agreement' : 'Restore Agreement'}
+        </button>
+      </div>
     </>
   );
 };

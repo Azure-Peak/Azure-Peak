@@ -89,6 +89,8 @@
 #define PATRONAGE_FUND_IDS list("merchant", "bathhouse", "church")
 
 #define CONCORDAT_TITHE_RATE 0.05
+#define BATHHOUSE_VAULT_TITHE_RATE 0.20
+#define BATHHOUSE_BRASSFACE_TITHE_RATE 0.10
 
 // Roundstart seeds for non-Crown faction funds.
 #define CHURCH_FUND_SEED 1000

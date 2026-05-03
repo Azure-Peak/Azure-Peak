@@ -100,6 +100,7 @@ export type Data = {
   patron_rosters: Record<string, PatronRoster>;
   patron_rosters_static: Record<string, PatronRosterStatic>;
   personal_log: LogEntry[];
+  bathhouse_agreement_active: boolean;
 };
 
 export type TabKey =

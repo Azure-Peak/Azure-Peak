@@ -42,6 +42,8 @@ SUBSYSTEM_DEF(treasury)
 	var/datum/fund/innkeeper/innkeeper_fund
 	var/list/jawbanks_by_fund_id = list()
 	var/concordat_tithe_debt = 0
+	var/bathhouse_tithe_debt = 0
+	var/bathhouse_agreement_active = TRUE
 	var/list/merchant_agents = list()
 	var/list/bathhouse_agents = list()
 	var/list/church_agents = list()

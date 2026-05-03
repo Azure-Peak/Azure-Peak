@@ -160,6 +160,7 @@
 	data["institutional_logs"] = institutional_logs
 
 	data["personal_log"] = build_log_entries(H.real_name)
+	data["bathhouse_agreement_active"] = SStreasury.bathhouse_agreement_active ? TRUE : FALSE
 
 	var/list/patron_rosters = list()
 	if(has_any_patronage_authority)
@@ -225,6 +226,33 @@
 			handle_revoke_patronage_for_fund(H, params)
 			SStgui.update_uis(src)
 			return TRUE
+		if("toggle_bathhouse_agreement")
+			handle_toggle_bathhouse_agreement(H)
+			SStgui.update_uis(src)
+			return TRUE
+
+// TODO (Module 2 Slice 3): the toggle currently flips a bool from the MEISTER. Replace with a
+// physical writ flow once legal phrasing + sprite work is in. Both Bishop and Bathmaster
+// should hold copies; suspending the Agreement should consume/transform the writ; restoring
+// requires the Bishop reissuing a fresh one. Sprites already acquired.
+/obj/structure/roguemachine/atm/proc/handle_toggle_bathhouse_agreement(mob/living/carbon/human/H)
+	if(!istype(H))
+		return
+	var/obj/structure/roguemachine/vaultbank/V = SStreasury.find_jawbank_for_fund_id("bathhouse")
+	if(!V || !V.can_issue_loan(H))
+		to_chat(H, span_warning("Only the Bathmaster may set the terms of the Bathhouse Agreement."))
+		return
+	SStreasury.bathhouse_agreement_active = !SStreasury.bathhouse_agreement_active
+	var/now_active = SStreasury.bathhouse_agreement_active
+	var/title = now_active ? "Bathhouse Agreement Restored" : "Bathhouse Agreement Suspended"
+	var/msg
+	if(now_active)
+		msg = "The Bathmaster, [H.real_name], has restored the Bathhouse's tithe to the Church of Azuria. Eora's coffers shall be filled once more."
+	else
+		msg = "The Bathmaster, [H.real_name], has SUSPENDED the Bathhouse's tithe to the Church of Azuria. The Church's coffers shall be deprived until the Agreement is restored."
+	priority_announce(msg, title, pick('sound/misc/royal_decree.ogg', 'sound/misc/royal_decree2.ogg'), "Captain", strip_html = FALSE)
+	log_admin("BATHHOUSE AGREEMENT: [key_name(H)] toggled to [now_active ? "ACTIVE" : "SUSPENDED"].")
+	message_admins("[key_name_admin(H)] toggled the Bathhouse Agreement to [now_active ? "ACTIVE" : "SUSPENDED"].")
 
 /obj/structure/roguemachine/atm/proc/handle_withdraw_personal(mob/living/carbon/human/H, list/params)
 	var/coin_amt = round(text2num("[params["amount"]]"))

@@ -215,6 +215,25 @@
 	if(transfer(discretionary_fund, church_fund, skim, "Concordat tithe ([tax_category])"))
 		concordat_tithe_debt -= skim
 
+/datum/controller/subsystem/treasury/proc/compute_bathhouse_tithe(base_amount, rate)
+	if(base_amount <= 0 || rate <= 0)
+		return 0
+	if(!bathhouse_agreement_active)
+		return 0
+	if(!church_fund)
+		return 0
+	bathhouse_tithe_debt += base_amount * rate
+	var/skim = FLOOR(bathhouse_tithe_debt, 1)
+	if(skim <= 0)
+		return 0
+	bathhouse_tithe_debt -= skim
+	return skim
+
+/datum/controller/subsystem/treasury/proc/remit_bathhouse_tithe(amount, reason)
+	if(amount <= 0 || !church_fund)
+		return
+	mint(church_fund, amount, "Bathhouse Agreement tithe ([reason])")
+
 /datum/controller/subsystem/treasury/proc/record_tax_exemption(tax_category, amount)
 	if(amount <= 0)
 		return
