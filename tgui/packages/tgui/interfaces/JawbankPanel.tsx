@@ -160,10 +160,10 @@ const IssueTab = ({ data, act }: TabProps) => {
 
   return (
     <div style={cardStyle}>
-      <div style={sectionHeaderStyle}>Draft a Writ</div>
+      <div style={sectionHeaderStyle}>Draft a Loan</div>
       {past_window && (
         <div style={{ color: INK_FAINT, fontStyle: 'italic', marginBottom: 8 }}>
-          New writs may not be drawn after day {data.max_issuance_day}.
+          New loans may not be drawn after day {data.max_issuance_day}.
         </div>
       )}
 
