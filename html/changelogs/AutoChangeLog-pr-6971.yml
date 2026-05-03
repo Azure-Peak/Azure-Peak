@@ -1,4 +1,0 @@
-author: "FreeStylaLT"
-delete-after: True
-changes:
-  - balance: "Binds now require aiming at the correct limb (left / right) to trigger on hands / feet."

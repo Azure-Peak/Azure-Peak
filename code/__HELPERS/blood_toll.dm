@@ -38,11 +38,11 @@
 	var/greater = stats[STATS_KILLED_GREATER_BEASTS]
 	var/livestock = stats[STATS_KILLED_LIVESTOCK]
 
-	var/total_humen = highwaymen + bogmen + gronnmen + drows
-	var/total_graggarspawn = orcs + goblins
+	var/total_humen = highwaymen + bogmen + drows
+	var/total_graggarites = orcs + goblins + gronnmen
 	var/total_deadite = deadites
 	var/total_summons = infernals + elementals + fae
-	var/grand_total = total_humen + total_graggarspawn + total_deadite + total_summons + trollmino + drakkyn + lesser + greater
+	var/grand_total = total_humen + total_graggarites + total_deadite + total_summons + trollmino + drakkyn + lesser + greater
 
 	var/capita = count_blood_toll_capita()
 	var/per_capita = capita > 0 ? (grand_total / capita) : 0
@@ -62,8 +62,8 @@
 
 	data += "<div style='display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; margin: 0 auto 25px auto; width: 90%;'>"
 
-	data += blood_toll_aggregate_card("HUMEN", total_humen, list("Highwaymen" = highwaymen, "Bogmen" = bogmen, "Gronnmen" = gronnmen, "Drows" = drows), "#c4a47a")
-	data += blood_toll_aggregate_card("GRAGGARSPAWN", total_graggarspawn, list("Orcs" = orcs, "Goblins" = goblins), "#7aa46a")
+	data += blood_toll_aggregate_card("HUMEN", total_humen, list("Highwaymen" = highwaymen, "Bogmen" = bogmen, "Drow" = drows), "#c4a47a")
+	data += blood_toll_aggregate_card("GRAGGARITES", total_graggarites, list("Orcs" = orcs, "Gronnmen" = gronnmen, "Goblins" = goblins), "#7aa46a")
 	data += blood_toll_aggregate_card("DEADITE", total_deadite, list("Deadites" = deadites), "#9a6abc")
 	data += blood_toll_aggregate_card("SUMMONS", total_summons, list("Infernals" = infernals, "Elementals" = elementals, "Fae" = fae), "#bd5a8a")
 

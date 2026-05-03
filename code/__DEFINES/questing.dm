@@ -82,9 +82,9 @@ GLOBAL_LIST_INIT(defense_quest_tier_costs, list(
 // After a quest reroll is generated it is locked for this long to prevent regen
 #define QUEST_LANDMARK_COOLDOWN (5 MINUTES)
 
-#define QUEST_KILL_HUNT_TIMER (10 MINUTES)
-#define QUEST_KILL_HUNT_WARN_2M (8 MINUTES)
-#define QUEST_KILL_HUNT_WARN_30S (9 MINUTES + 30 SECONDS)
+#define QUEST_KILL_HUNT_TIMER (15 MINUTES)
+#define QUEST_KILL_HUNT_WARN_2M (13 MINUTES)
+#define QUEST_KILL_HUNT_WARN_30S (14 MINUTES + 30 SECONDS)
 
 #define QUEST_LANDMARK_MAX_LOCK_DURATION (60 MINUTES)
 

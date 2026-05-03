@@ -305,6 +305,8 @@
 
 /mob/living/carbon/human/proc/process_tempo_attack(mob/living/carbon/attacker)
 	if(iscarbon(attacker) && attacker != src && attacker.mind)
+		if(tempo_faction_flag && (tempo_faction_flag & attacker.tempo_faction_flag))
+			return
 		if(length(tempo_attackers) <= TEMPO_CAP || (REF(attacker) in tempo_attackers))	//This list auto-culls so we don't need to flood it. If you're fighting 7 dudes at the same time you've got other problems.
 			var/newtime
 			var/att_count = length(tempo_attackers)

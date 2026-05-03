@@ -287,6 +287,7 @@
 				H.adjust_skillrank_up_to(/datum/skill/combat/shields, 3, TRUE)
 			if("Spear")
 				r_hand = /obj/item/rogueweapon/spear
+				backr = /obj/item/rogueweapon/scabbard/gwstrap
 				H.adjust_skillrank_up_to(/datum/skill/combat/polearms, 3, TRUE)
 
 	H.dna.species.soundpack_m = new /datum/voicepack/male/wizard()

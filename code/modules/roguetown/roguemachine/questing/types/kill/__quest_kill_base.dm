@@ -37,7 +37,7 @@
 	hunt_timer_id = addtimer(CALLBACK(src, PROC_REF(on_hunt_timeout)), QUEST_KILL_HUNT_TIMER, TIMER_STOPPABLE)
 	hunt_warn_2m_id = addtimer(CALLBACK(src, PROC_REF(warn_hunt_time_left), "two minutes"), QUEST_KILL_HUNT_WARN_2M, TIMER_STOPPABLE)
 	hunt_warn_30s_id = addtimer(CALLBACK(src, PROC_REF(warn_hunt_time_left), "thirty seconds"), QUEST_KILL_HUNT_WARN_30S, TIMER_STOPPABLE)
-	announce_to_bearer("<b>The quarry stirs.</b> Finish the work within ten minutes, or they will scatter and the writ will lapse.")
+	announce_to_bearer("<b>The quarry stirs.</b> Finish the work within fifteen minutes, or they will scatter and the writ will lapse.")
 
 /datum/quest/kill/proc/clear_hunt_timers()
 	if(hunt_timer_id)

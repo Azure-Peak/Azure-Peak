@@ -174,7 +174,7 @@
 	path = /obj/item/clothing/cloak/sleevedtabard
 	sort_category = "Cloaks"
 
-/datum/loadout_item/fancymaidapron
-	name = "Fancy Maid Apron"
+/datum/loadout_item/maidapron
+	name = "Maid Apron"
 	path = /obj/item/clothing/cloak/apron/waist/fancymaid
 	sort_category = "Cloaks"

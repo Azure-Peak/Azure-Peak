@@ -82,3 +82,17 @@
       that they will attempt to climb trees and go up stairs to hit you.
   - rscadd: Replaced the saigas in soilson stables with more cows to lower soilson
       and their animals mortality rate
+2026-05-03:
+  FreeStylaLT:
+  - bugfix: Fixed red swingdelays not getting disrupted under some niche circumstances.
+  - balance: Binds now require aiming at the correct limb (left / right) to trigger
+      on hands / feet.
+  Ryan180602:
+  - balance: training sword intents have now a damfactor of 1.3
+  SpartanBobby:
+  - rscadd: Added Peasant cap to loadout menu
+  - rscadd: Peasant cap can now be worn on mask, similarly to its armoured versions
+  - rscadd: Medium armour MAA Skirmisher now has expert swords instead of expert knives,
+      light armour retains expert knives.
+  - bugfix: Arming cap sprite now works on mask
+  - rscadd: Can put feather on Sallet

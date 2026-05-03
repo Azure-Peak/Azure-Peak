@@ -37,7 +37,7 @@
 /obj/projectile/magic/frostbolt
 	name = "frost bolt"
 	icon_state = "ice_2"
-	damage = 28
+	damage = 33
 	npc_simple_damage_mult = 2
 	damage_type = BURN
 	woundclass = BCLASS_BURN
@@ -49,7 +49,7 @@
 
 /obj/projectile/magic/frostbolt/arc
 	name = "arced frost bolt"
-	damage = 21
+	damage = 25
 	arcshot = TRUE
 
 /obj/projectile/magic/frostbolt/on_hit(target)

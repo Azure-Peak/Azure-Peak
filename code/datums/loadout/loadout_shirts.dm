@@ -169,19 +169,28 @@
 	name = "Bared Robe"
 	path = /obj/item/clothing/suit/roguetown/shirt/robe/bared
 	sort_category = "Shirts"
+
 /datum/loadout_item/velvetdress
 	name = "Velvet Dress"
 	path = /obj/item/clothing/suit/roguetown/shirt/velvetdress
 	sort_category = "Shirts"
+
 /datum/loadout_item/nobledress
 	name = "Noble's Pinafore"
 	path = /obj/item/clothing/suit/roguetown/shirt/nobledress
 	sort_category = "Shirts"
+
 /datum/loadout_item/formalshirt
-	name = "formal shirt"
+	name = "Formal Shirt"
 	path = /obj/item/clothing/suit/roguetown/shirt/undershirt/formal
 	sort_category = "Shirts"
+
 /datum/loadout_item/fancymaiddress
-	name = "maid dress"
+	name = "Valorian Maid Dress"
 	path = /obj/item/clothing/suit/roguetown/shirt/dress/maidfancy
+	sort_category = "Shirts"
+
+/datum/loadout_item/maiddress
+	name = "Maid Dress"
+	path = /obj/item/clothing/suit/roguetown/shirt/dress/maid
 	sort_category = "Shirts"
