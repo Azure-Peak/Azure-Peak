@@ -162,7 +162,7 @@ GLOBAL_LIST_INIT(contract_ledger_commission_roles, list(
 /// Return the dynamic-tab role key for this user, or null. Extend here when a new job earns its
 /// own ledger panel (e.g. steward).
 /obj/structure/roguemachine/contractledger/proc/resolve_dynamic_role(mob/user)
-	if(user?.job == "Innkeeper")
+	if(user?.job in GLOB.tavern_positions)
 		return "innkeeper"
 	if(can_commission(user))
 		return "steward"

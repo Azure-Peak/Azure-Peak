@@ -327,7 +327,7 @@
 	if(istype(I, /obj/item/roguecoin))
 		var/value = I.get_real_price()
 		user.visible_message(span_notice("[user] inserts [value] mammon into [src]."))
-		SStreasury.mint(F, value, "JAWBANK Deposit")
+		SStreasury.mint(F, value, "JAWBANK Deposit by [user.real_name]")
 		update_icon()
 		qdel(I)
 		playsound(src, 'sound/misc/coininsert.ogg', 100, FALSE, -1)
@@ -528,7 +528,7 @@
 	if(F.balance < amount)
 		to_chat(user, span_warning("[F.name] cannot honor a withdrawal of [amount]m."))
 		return
-	if(!SStreasury.burn(F, amount, "JAWBANK direct withdrawal"))
+	if(!SStreasury.burn(F, amount, "MEISTER withdrawal by [user.real_name]"))
 		return
 	budget2change(amount, user)
 	playsound(src, 'sound/misc/coindispense.ogg', 60, FALSE, -1)
@@ -592,7 +592,7 @@
 		to_chat(user, span_warning("[src] sits inert - its coffers are unbound. Notify staff."))
 		return
 	var/target_id = "[params["target"]]"
-	if(!(target_id in list("crown", "church", "merchant", "bathhouse")))
+	if(!(target_id in ALL_FUND_IDS))
 		to_chat(user, span_warning("Choose a valid target institution."))
 		return
 	if(target_id == get_fund_id())
@@ -601,6 +601,10 @@
 	var/datum/fund/target_fund = SStreasury.resolve_fund_by_id(target_id)
 	if(!target_fund)
 		to_chat(user, span_warning("The target institution has no recognised coffers."))
+		return
+	var/obj/structure/roguemachine/vaultbank/target_jawbank = SStreasury.find_jawbank_for_fund_id(target_id)
+	if(target_jawbank && !target_jawbank.supports_loans)
+		to_chat(user, span_warning("[SStreasury.indenture_faction_label(target_fund)] cannot enter into indentures."))
 		return
 	var/amount = round(text2num("[params["amount"]]"))
 	if(isnull(amount) || amount < 501 || amount > 2000)

@@ -12,6 +12,7 @@ import {
   tabBarStyle,
   tabStyle,
 } from '../common/parchment';
+import { PaginatedLog } from './PaginatedLog';
 import { type FundEntry, type TabProps } from './types';
 
 type LoanTier = 'personal' | 'indenture';
@@ -102,6 +103,23 @@ const FundView = ({
           You may view this institution's coffers, but not act upon them.
         </div>
       )}
+      <FundActivity fund={fund} data={data} />
+    </>
+  );
+};
+
+const FundActivity = ({
+  fund,
+  data,
+}: {
+  fund: FundEntry;
+  data: TabProps['data'];
+}) => {
+  const log = data.institutional_logs[fund.id] ?? [];
+  return (
+    <>
+      <div style={sectionHeaderStyle}>Tally</div>
+      <PaginatedLog entries={log} />
     </>
   );
 };
@@ -177,7 +195,9 @@ const IssueLoanSection = ({
   const [amount, setAmount] = useState<string>('');
   const [term, setTerm] = useState<number>(2);
   const [rate, setRate] = useState<number>(25);
-  const indentureTargets = data.funds.filter((f) => f.id !== fund.id);
+  const indentureTargets = data.funds.filter(
+    (f) => f.id !== fund.id && f.supports_loans,
+  );
   const [target, setTarget] = useState<string>(indentureTargets[0]?.id ?? '');
 
   const numeric = parseInt(amount, 10) || 0;

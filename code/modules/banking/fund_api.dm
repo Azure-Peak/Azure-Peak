@@ -1,6 +1,19 @@
 /datum/controller/subsystem/treasury/proc/log_fund_entry(datum/treasury_entry/entry)
 	ledger += entry
 
+/datum/controller/subsystem/treasury/proc/get_account_log(account_name, max_entries = 100)
+	if(!account_name)
+		return list()
+	var/list/out = list()
+	var/total = length(ledger)
+	for(var/i = total to 1 step -1)
+		if(length(out) >= max_entries)
+			break
+		var/datum/treasury_entry/E = ledger[i]
+		if(E.from_name == account_name || E.to_name == account_name)
+			out += E
+	return out
+
 /datum/controller/subsystem/treasury/proc/get_outstanding_principal_from_fund(datum/fund/F)
 	if(!F)
 		return 0

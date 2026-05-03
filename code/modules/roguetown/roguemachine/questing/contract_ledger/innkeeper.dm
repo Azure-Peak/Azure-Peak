@@ -26,7 +26,7 @@
 	if(!ishuman(user))
 		return
 	var/mob/living/carbon/human/innkeeper = user
-	if(innkeeper.job != "Innkeeper")
+	if(!(innkeeper.job in GLOB.tavern_positions))
 		return
 	if(!innkeeper.Adjacent(src))
 		return

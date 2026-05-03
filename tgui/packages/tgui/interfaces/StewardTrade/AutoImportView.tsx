@@ -189,7 +189,7 @@ export const AutoImportView = (props: { data: Data }) => {
       )}
 
       <div style={sectionHeaderStyle}>
-        Recent Activity (last {history.length || 0} day{history.length === 1 ? '' : 's'})
+        Tally (last {history.length || 0} day{history.length === 1 ? '' : 's'})
       </div>
       {history.length === 0 ? (
         <div style={{ textAlign: 'center', fontStyle: 'italic', color: INK_SOFT }}>

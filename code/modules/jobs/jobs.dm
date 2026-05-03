@@ -147,6 +147,12 @@ GLOBAL_LIST_INIT(bathhouse_positions, list(
 	"Bathhouse Attendant",
 ))
 
+GLOBAL_LIST_INIT(tavern_positions, list(
+	"Innkeeper",
+	"Tapster",
+	"Cook",
+))
+
 GLOBAL_LIST_INIT(peasant_positions, list( //Serfs / peasants / generic towners
 	"Bathhouse Attendant",
 	"Cook",

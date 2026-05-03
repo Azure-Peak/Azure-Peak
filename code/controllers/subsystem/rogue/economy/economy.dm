@@ -758,7 +758,9 @@ SUBSYSTEM_DEF(economy)
 			to_chat(user, span_warning("Crown's Purse insufficient: [SStreasury.discretionary_fund.balance]m < [total_cost]m."))
 		return 0
 
-	SStreasury.burn(SStreasury.discretionary_fund, total_cost, "Manual Import: [quantity] [tg.name] from [region.name]")
+	var/actor_suffix = user ? " by [user.real_name]" : ""
+	var/import_label = user ? "Manual Import" : "Auto Import"
+	SStreasury.burn(SStreasury.discretionary_fund, total_cost, "[import_label]: [quantity] [tg.name] from [region.name][actor_suffix]")
 	region.produces_today[good_id] = max(0, produces_today - quantity)
 	var/datum/roguestock/stockpile_entry = find_stockpile_by_trade_good(good_id)
 	if(stockpile_entry)
@@ -803,7 +805,9 @@ SUBSYSTEM_DEF(economy)
 
 	stockpile_entry.stockpile_amount -= quantity
 	region.demands_today[good_id] = max(0, demands_today - quantity)
-	SStreasury.mint(SStreasury.discretionary_fund, total_revenue, "Manual Export: [quantity] [tg.name] to [region.name]")
+	var/actor_suffix = user ? " by [user.real_name]" : ""
+	var/export_label = user ? "Manual Export" : "Auto Export"
+	SStreasury.mint(SStreasury.discretionary_fund, total_revenue, "[export_label]: [quantity] [tg.name] to [region.name][actor_suffix]")
 	SStreasury.total_export += total_revenue
 
 	if(user)

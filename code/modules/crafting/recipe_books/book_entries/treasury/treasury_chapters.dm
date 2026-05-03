@@ -246,7 +246,7 @@
 		</ul>
 
 		<h3>Visibility</h3>
-		<p>Successful imports announce on the Nerve Master with an <i>(auto)</i> tag. Skipped days (stockpile full, price spike, purse floor breach) leave a note in the Recent Activity readout. The panel retains the last [AUTO_IMPORT_HISTORY_DAYS] days of activity.</p>
+		<p>Successful imports announce on the Nerve Master with an <i>(auto)</i> tag. Skipped days (stockpile full, price spike, purse floor breach) leave a note in the Tally readout. The panel retains the last [AUTO_IMPORT_HISTORY_DAYS] days of activity.</p>
 
 		<h3>Kill Switch</h3>
 		<p><b>Strike All</b> in the tab disables every standing import at once, essentials included. Goods can be re-enabled individually.</p>

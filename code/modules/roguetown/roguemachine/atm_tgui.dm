@@ -1,3 +1,28 @@
+/obj/structure/roguemachine/atm/proc/build_log_entries(account_name)
+	var/list/out = list()
+	for(var/datum/treasury_entry/E as anything in SStreasury.get_account_log(account_name))
+		var/direction = "neutral"
+		var/counterparty = ""
+		if(E.kind == "transfer")
+			if(E.from_name == account_name)
+				direction = "out"
+				counterparty = E.to_name
+			else
+				direction = "in"
+				counterparty = E.from_name
+		else if(E.kind == "mint" && E.to_name == account_name)
+			direction = "in"
+		else if(E.kind == "burn" && E.from_name == account_name)
+			direction = "out"
+		out += list(list(
+			"kind" = E.kind,
+			"direction" = direction,
+			"counterparty" = counterparty,
+			"amount" = E.amount,
+			"reason" = E.reason || "",
+		))
+	return out
+
 /obj/structure/roguemachine/atm/proc/open_meister_tgui(mob/user)
 	var/datum/tgui/ui = SStgui.try_update_ui(user, src, null)
 	if(!ui)
@@ -11,9 +36,21 @@
 	SStgui.try_update_ui(user, src, ui)
 
 /obj/structure/roguemachine/atm/ui_static_data(mob/user)
+	var/mob/living/carbon/human/H = user
 	var/list/data = list()
+	data["max_issuance_day"] = SStreasury.loan_max_issuance_day
+	data["poll_tax_static"] = list(
+		"max_advance_days" = POLL_TAX_MAX_ADVANCE_DAYS,
+		"fallback_rate" = POLL_TAX_ADVANCE_FALLBACK_RATE,
+	)
+	var/poll_category = istype(H) ? SStreasury.get_poll_tax_category(H) : null
+	data["poll_tax_user"] = list(
+		"category" = poll_category || "",
+		"category_label" = poll_category ? SStreasury.get_poll_tax_category_pretty_name(poll_category) : "",
+	)
 	var/list/funds = list()
-	for(var/fid in list("crown", "church", "merchant", "bathhouse", "innkeeper"))
+	var/list/patron_rosters_static = list()
+	for(var/fid in ALL_FUND_IDS)
 		var/obj/structure/roguemachine/vaultbank/V = SStreasury.find_jawbank_for_fund_id(fid)
 		var/datum/fund/F = SStreasury.resolve_fund_by_id(fid)
 		if(!F)
@@ -32,7 +69,14 @@
 			"patron_label" = V ? V.get_patron_label() : "",
 			"patron_cap" = V ? V.get_patron_cap() : 0,
 		))
+		if(V && !isnull(V.get_patronage_writ_path()))
+			patron_rosters_static[fid] = list(
+				"label" = V.get_patron_label(),
+				"cap" = V.get_patron_cap(),
+				"can_manage" = V.can_issue_loan(user) ? TRUE : FALSE,
+			)
 	data["funds"] = funds
+	data["patron_rosters_static"] = patron_rosters_static
 	return data
 
 /obj/structure/roguemachine/atm/ui_data(mob/user)
@@ -40,7 +84,6 @@
 	var/list/data = list()
 	data["account_balance"] = SStreasury.get_balance(H)
 	data["day"] = GLOB.dayspassed
-	data["max_issuance_day"] = SStreasury.loan_max_issuance_day
 
 	var/datum/loan/active = SStreasury.get_loan_for(H)
 	if(active)
@@ -62,66 +105,80 @@
 	var/poll_exempt = poll_category ? SStreasury.is_poll_tax_charter_exempt(H, poll_category) : FALSE
 	var/existing_advance = SStreasury.poll_tax_advance_days[H] || 0
 	data["poll_tax"] = list(
-		"category" = poll_category || "",
-		"category_label" = poll_category ? SStreasury.get_poll_tax_category_pretty_name(poll_category) : "",
 		"rate" = poll_rate,
 		"exempt" = poll_exempt ? TRUE : FALSE,
 		"advance_days_held" = existing_advance,
-		"max_advance_days" = POLL_TAX_MAX_ADVANCE_DAYS,
-		"fallback_rate" = POLL_TAX_ADVANCE_FALLBACK_RATE,
 	)
+
+	var/has_any_institutional_access = FALSE
+	var/has_any_patronage_authority = FALSE
+	for(var/fid in ALL_FUND_IDS)
+		var/obj/structure/roguemachine/vaultbank/V = SStreasury.find_jawbank_for_fund_id(fid)
+		if(!V)
+			continue
+		if(V.can_view(user))
+			has_any_institutional_access = TRUE
+		if(V.can_issue_loan(user) && !isnull(V.get_patronage_writ_path()))
+			has_any_patronage_authority = TRUE
 
 	var/list/fund_balances = list()
 	var/list/institutional_loans = list()
-	for(var/fid in list("crown", "church", "merchant", "bathhouse", "innkeeper"))
-		var/datum/fund/F = SStreasury.resolve_fund_by_id(fid)
-		if(!F)
-			continue
-		var/obj/structure/roguemachine/vaultbank/V = SStreasury.find_jawbank_for_fund_id(fid)
-		var/has_access = V && V.can_view(user)
-		fund_balances[fid] = list(
-			"balance" = F.balance,
-			"has_access" = has_access ? TRUE : FALSE,
-			"outstanding_principal" = SStreasury.get_outstanding_principal_from_fund(F),
-		)
-		if(has_access && V.supports_loans)
-			for(var/datum/loan/L in SStreasury.loans)
-				if(L.source_fund != F)
-					continue
-				institutional_loans += list(list(
-					"creditor_id" = fid,
-					"creditor_label" = SStreasury.indenture_faction_label(F),
-					"debtor" = L.debtor_name,
-					"is_institutional" = L.is_institutional ? TRUE : FALSE,
-					"target_label" = L.target_fund ? SStreasury.indenture_faction_label(L.target_fund) : "",
-					"principal" = L.principal,
-					"interest_pct" = round(L.interest_rate * 100),
-					"due_on_day" = L.due_on_day,
-					"days_until_due" = L.days_until_due(),
-					"remaining" = L.get_remaining_due(),
-					"defaulted" = L.defaulted ? TRUE : FALSE,
-				))
+	var/list/institutional_logs = list()
+	if(has_any_institutional_access)
+		for(var/fid in ALL_FUND_IDS)
+			var/datum/fund/F = SStreasury.resolve_fund_by_id(fid)
+			if(!F)
+				continue
+			var/obj/structure/roguemachine/vaultbank/V = SStreasury.find_jawbank_for_fund_id(fid)
+			var/has_access = V && V.can_view(user)
+			if(!has_access)
+				continue
+			fund_balances[fid] = list(
+				"balance" = F.balance,
+				"outstanding_principal" = SStreasury.get_outstanding_principal_from_fund(F),
+			)
+			institutional_logs[fid] = build_log_entries(F.name)
+			if(V.supports_loans)
+				for(var/datum/loan/L in SStreasury.loans)
+					if(L.source_fund != F)
+						continue
+					institutional_loans += list(list(
+						"creditor_id" = fid,
+						"creditor_label" = SStreasury.indenture_faction_label(F),
+						"debtor" = L.debtor_name,
+						"is_institutional" = L.is_institutional ? TRUE : FALSE,
+						"target_label" = L.target_fund ? SStreasury.indenture_faction_label(L.target_fund) : "",
+						"principal" = L.principal,
+						"interest_pct" = round(L.interest_rate * 100),
+						"due_on_day" = L.due_on_day,
+						"days_until_due" = L.days_until_due(),
+						"remaining" = L.get_remaining_due(),
+						"defaulted" = L.defaulted ? TRUE : FALSE,
+					))
 	data["fund_balances"] = fund_balances
 	data["institutional_loans"] = institutional_loans
+	data["institutional_logs"] = institutional_logs
+
+	data["personal_log"] = build_log_entries(H.real_name)
 
 	var/list/patron_rosters = list()
-	for(var/fid in list("merchant", "bathhouse", "church"))
-		var/obj/structure/roguemachine/vaultbank/V = SStreasury.find_jawbank_for_fund_id(fid)
-		if(!V || isnull(V.get_patronage_writ_path()))
-			continue
-		var/list/roster_data = list()
-		var/list/roster = V.get_patron_roster()
-		if(islist(roster))
-			for(var/mob/living/carbon/human/HP in roster)
-				if(QDELETED(HP))
-					continue
-				roster_data += list(list("ref" = REF(HP), "name" = HP.real_name, "job" = HP.job || ""))
-		patron_rosters[fid] = list(
-			"label" = V.get_patron_label(),
-			"cap" = V.get_patron_cap(),
-			"can_manage" = V.can_issue_loan(user) ? TRUE : FALSE,
-			"patrons" = roster_data,
-		)
+	if(has_any_patronage_authority)
+		for(var/fid in PATRONAGE_FUND_IDS)
+			var/obj/structure/roguemachine/vaultbank/V = SStreasury.find_jawbank_for_fund_id(fid)
+			if(!V || isnull(V.get_patronage_writ_path()))
+				continue
+			if(!V.can_issue_loan(user))
+				continue
+			var/list/roster_data = list()
+			var/list/roster = V.get_patron_roster()
+			if(islist(roster))
+				for(var/mob/living/carbon/human/HP in roster)
+					if(QDELETED(HP))
+						continue
+					roster_data += list(list("ref" = REF(HP), "name" = HP.real_name, "job" = HP.job || ""))
+			patron_rosters[fid] = list(
+				"patrons" = roster_data,
+			)
 	data["patron_rosters"] = patron_rosters
 
 	return data

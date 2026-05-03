@@ -14,11 +14,13 @@ import { type TabProps } from './types';
 export const PollTaxTab = ({ data, act }: TabProps) => {
   const [days, setDays] = useState<string>('');
   const tax = data.poll_tax;
+  const taxStatic = data.poll_tax_static;
+  const taxUser = data.poll_tax_user;
   const numericDays = parseInt(days, 10) || 0;
 
-  const effectiveRate = tax.rate > 0 ? tax.rate : tax.fallback_rate;
+  const effectiveRate = tax.rate > 0 ? tax.rate : taxStatic.fallback_rate;
   const presumed = tax.rate <= 0;
-  const capRemaining = tax.max_advance_days - tax.advance_days_held;
+  const capRemaining = taxStatic.max_advance_days - tax.advance_days_held;
   const affordable = Math.floor(data.account_balance / Math.max(1, effectiveRate));
   const maxDays = Math.min(capRemaining, affordable);
 
@@ -28,11 +30,11 @@ export const PollTaxTab = ({ data, act }: TabProps) => {
   } else if (tax.rate < 0) {
     rateLine = `Crown subsidises ${-tax.rate}m per day`;
   } else if (tax.rate === 0) {
-    rateLine = `None levied (advance at presumed ${tax.fallback_rate}m/day)`;
+    rateLine = `None levied (advance at presumed ${taxStatic.fallback_rate}m/day)`;
   }
 
   const advanceBlocked =
-    !tax.category ||
+    !taxUser.category ||
     tax.exempt ||
     tax.rate < 0 ||
     capRemaining <= 0 ||
@@ -46,7 +48,7 @@ export const PollTaxTab = ({ data, act }: TabProps) => {
       <div style={fieldRowStyle}>
         <div style={fieldLabelStyle}>Class</div>
         <div style={fieldValueStyle}>
-          {tax.category_label || 'No taxable class'}
+          {taxUser.category_label || 'No taxable class'}
         </div>
       </div>
       <div style={fieldRowStyle}>
@@ -57,7 +59,7 @@ export const PollTaxTab = ({ data, act }: TabProps) => {
         <div style={fieldLabelStyle}>Held in advance</div>
         <div style={fieldValueStyle}>
           {tax.advance_days_held} day
-          {tax.advance_days_held === 1 ? '' : 's'} (cap {tax.max_advance_days})
+          {tax.advance_days_held === 1 ? '' : 's'} (cap {taxStatic.max_advance_days})
         </div>
       </div>
 

@@ -6,6 +6,7 @@ import {
   INK_FAINT,
   sectionHeaderStyle,
 } from '../common/parchment';
+import { PaginatedLog } from './PaginatedLog';
 import { type TabProps } from './types';
 
 export const LedgerTab = ({ data }: TabProps) => {
@@ -83,6 +84,9 @@ export const LedgerTab = ({ data }: TabProps) => {
           </div>
         </div>
       ))}
+
+      <div style={sectionHeaderStyle}>Tally</div>
+      <PaginatedLog entries={data.personal_log} />
     </div>
   );
 };

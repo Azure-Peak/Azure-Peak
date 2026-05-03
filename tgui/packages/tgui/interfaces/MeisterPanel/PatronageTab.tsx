@@ -12,11 +12,15 @@ import {
   tabBarStyle,
   tabStyle,
 } from '../common/parchment';
-import { type PatronRoster, type TabProps } from './types';
+import {
+  type PatronRoster,
+  type PatronRosterStatic,
+  type TabProps,
+} from './types';
 
 export const PatronageTab = ({ data, act }: TabProps) => {
   const fundsWithPatronage = data.funds.filter(
-    (f) => f.has_patronage && data.patron_rosters[f.id]?.can_manage,
+    (f) => f.has_patronage && data.patron_rosters_static[f.id]?.can_manage,
   );
   const [selectedFundId, setSelectedFundId] = useState<string>(
     fundsWithPatronage[0]?.id ?? '',
@@ -33,6 +37,7 @@ export const PatronageTab = ({ data, act }: TabProps) => {
   }
 
   const roster = data.patron_rosters[selectedFundId];
+  const rosterStatic = data.patron_rosters_static[selectedFundId];
 
   return (
     <div style={cardStyle}>
@@ -49,8 +54,13 @@ export const PatronageTab = ({ data, act }: TabProps) => {
           ))}
         </div>
       )}
-      {!!roster && (
-        <RosterView fundId={selectedFundId} roster={roster} act={act} />
+      {!!roster && !!rosterStatic && (
+        <RosterView
+          fundId={selectedFundId}
+          roster={roster}
+          rosterStatic={rosterStatic}
+          act={act}
+        />
       )}
     </div>
   );
@@ -59,22 +69,24 @@ export const PatronageTab = ({ data, act }: TabProps) => {
 const RosterView = ({
   fundId,
   roster,
+  rosterStatic,
   act,
 }: {
   fundId: string;
   roster: PatronRoster;
+  rosterStatic: PatronRosterStatic;
   act: TabProps['act'];
 }) => {
   const enrolled = roster.patrons.length;
-  const full = enrolled >= roster.cap;
+  const full = enrolled >= rosterStatic.cap;
 
   return (
     <>
-      <div style={sectionHeaderStyle}>{roster.label}</div>
+      <div style={sectionHeaderStyle}>{rosterStatic.label}</div>
       <div style={fieldRowStyle}>
         <div style={fieldLabelStyle}>Roster</div>
         <div style={fieldValueStyle}>
-          {enrolled} / {roster.cap} enrolled
+          {enrolled} / {rosterStatic.cap} enrolled
         </div>
       </div>
       {full && (
