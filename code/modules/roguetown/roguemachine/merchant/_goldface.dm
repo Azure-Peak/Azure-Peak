@@ -252,6 +252,7 @@
 			record_round_statistic(STATS_TRADE_VALUE_IMPORTED, cost)
 			if(!(upgrade_flags & UPGRADE_NOTAX) && !bypass_tax)
 				SStreasury.mint(SStreasury.discretionary_fund, tax_amt, "[TAX_CATEGORY_IMPORT_TARIFF] ([src.name])")
+				SStreasury.apply_concordat_tithe(cost, TAX_CATEGORY_IMPORT_TARIFF, "[src.name]")
 				record_featured_stat(FEATURED_STATS_TAX_PAYERS, human_mob, tax_amt)
 				record_round_statistic(STATS_TAXES_COLLECTED, tax_amt)
 				record_round_statistic(STATS_REVENUE_IMPORT_TARIFF, tax_amt)

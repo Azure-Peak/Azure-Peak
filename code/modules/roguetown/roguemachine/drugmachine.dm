@@ -89,6 +89,7 @@
 				recent_payments += held_items[O]["PRICE"]
 				if(!(drugrade_flags & DRUGRADE_NOTAX))
 					SStreasury.mint(SStreasury.discretionary_fund, tax_amt, "[TAX_CATEGORY_IMPORT_TARIFF] (purity)")
+					SStreasury.apply_concordat_tithe(held_items[O]["PRICE"], TAX_CATEGORY_IMPORT_TARIFF, "purity")
 					record_featured_stat(FEATURED_STATS_TAX_PAYERS, human_mob, tax_amt)
 					record_round_statistic(STATS_TAXES_COLLECTED, tax_amt)
 					record_round_statistic(STATS_REVENUE_IMPORT_TARIFF, tax_amt)

@@ -207,6 +207,7 @@
 		duty_evaded_here += duty
 		return 0
 	SStreasury.mint(SStreasury.discretionary_fund, duty, "[TAX_CATEGORY_EXPORT_DUTY] ([src.name])")
+	SStreasury.apply_concordat_tithe(amount, TAX_CATEGORY_EXPORT_DUTY, "[src.name]")
 	record_round_statistic(STATS_TAXES_COLLECTED, duty)
 	record_round_statistic(STATS_REVENUE_EXPORT_DUTY, duty)
 	duty_collected_here += duty
