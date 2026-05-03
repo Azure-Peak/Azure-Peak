@@ -1582,16 +1582,15 @@
 
 			var/list/armor_options = list(
 				"Avantyne Half-Plate" = image(icon = 'icons/roguetown/clothing/armor.dmi', icon_state = "zizoplatechest_med"),
-				"Avantyne Fullplate" = image(icon = 'icons/roguetown/clothing/armor.dmi', icon_state = "zizoplate")
+				"Avantyne Full-Plate" = image(icon = 'icons/roguetown/clothing/armor.dmi', icon_state = "zizoplate")
 			)
 
 			var/armor_choice = show_radial_menu(user, src, armor_options, require_near = TRUE, tooltips = TRUE)
 			if(!armor_choice)
-				armor_choice = "Avantyne Fullplate"
+				armor_choice = "Avantyne Full-Plate"
 
 			var/list/weapon_options = list(
 				"Avantyne Longsword" = image(icon = 'icons/roguetown/weapons/swords64.dmi', icon_state = "zizosword"),
-				"Avantyne Billhook" = image(icon = 'icons/roguetown/weapons/polearms64.dmi', icon_state = "zizobillhook"),
 				"Avantyne Arming Sword and Darkshield" = image(icon = 'icons/roguetown/weapons/shields32.dmi', icon_state = "zizoshield")
 			)
 
@@ -1631,7 +1630,7 @@
 	switch(armor_choice)
 		if("Avantyne Half-Plate")
 			outfit_path = /datum/outfit/job/roguetown/darksteelrite/medium
-		if("Avantyne Fullplate")
+		if("Avantyne Full-Plate")
 			outfit_path = /datum/outfit/job/roguetown/darksteelrite
 	if(!helm_path)
 		helm_path = /obj/item/clothing/head/roguetown/helmet/heavy/zizo
@@ -1660,6 +1659,7 @@
 			"r_hand" = target.get_item_for_held_index(2),
 			"l_hand" = target.get_item_for_held_index(1),
 		), list("armor", "shirt", "pants", "shoes", "wrists", "gloves", "head", "neck", "backr", "r_hand", "l_hand"))
+		target.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
 		spawn(40)
 			to_chat(target, span_purple("They are ignorant, backwards, without hope. You. You will be powerful."))
 
@@ -1686,13 +1686,8 @@
 		if("Avantyne Arming Sword and Darkshield")
 			r_hand = /obj/item/rogueweapon/sword/zizo
 			l_hand = /obj/item/rogueweapon/shield/tower/metal/zizo
-			H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
-		if("Avantyne Billhook")
-			r_hand = /obj/item/rogueweapon/spear/billhook/zizo
-			H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_EXPERT, TRUE)
 		else
 			r_hand = /obj/item/rogueweapon/sword/long/zizo
-			H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
 
 	H.mind.AddSpell(new /datum/action/cooldown/spell/mending/lesser)
 
@@ -1926,7 +1921,7 @@
 			)
 			var/armor_choice = show_radial_menu(user, src, armor_options, require_near = TRUE, tooltips = TRUE)
 			if(!armor_choice)
-				return
+				armor_choice = "Vicious Full-Plate"
 
 			var/list/weapon_options = list(
 				"Vicious Greataxe" = image(icon = 'icons/roguetown/weapons/axes64.dmi', icon_state = "graggargaxe"),

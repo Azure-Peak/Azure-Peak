@@ -1549,17 +1549,14 @@
 	sheathe_icon = "staffblade"
 
 /obj/item/rogueweapon/sword/rapier/avantyne
-	name = "avantyne rapier"
+	name = "avantyne-threaded rapier"
 	desc = "Graceful yet grotesque, this piercing shard of spite ignores the art of fencing in favor of the art of suffering. To wield it is to let your coldest grudges guide your hand."
 	icon_state = "zizorapier"
 	sheathe_icon = "zizorapier"
 	force = 25
 	max_blade_int = 250
 	max_integrity = 200
-
-/obj/item/rogueweapon/sword/rapier/avantyne/Initialize()
-	. = ..()
-	AddComponent(/datum/component/cursed_item, TRAIT_CABAL, "RAPIER")
+	smeltresult = /obj/item/ingot/avantyne
 
 /obj/item/rogueweapon/sword/cutlass
 	name = "cutlass"
