@@ -1649,7 +1649,7 @@
 	additional_items = list(/obj/item/ingot/avantyne)
 	created_item = /obj/item/rogueweapon/sword/long/avantyne
 
-/datum/anvil_recipe/weapons/avantyne/shield
+/datum/anvil_recipe/weapons/avantyne/rapier
 	name = "Rapier, Avantyne (+1 A. Wafer)"
 	req_bar = /obj/item/ingot/avantyne
 	additional_items = list(/obj/item/ingot/avantyne)
