@@ -88,6 +88,8 @@
 #define ALL_FUND_IDS list("crown", "church", "merchant", "bathhouse", "innkeeper")
 #define PATRONAGE_FUND_IDS list("merchant", "bathhouse", "church")
 
+#define CONCORDAT_TITHE_RATE 0.05
+
 // Roundstart seeds for non-Crown faction funds.
 #define CHURCH_FUND_SEED 1000
 #define MERCHANT_FUND_SEED 500

@@ -186,6 +186,7 @@
 	if(!transfer(payer, discretionary_fund, due, "[tax_category] ([reason])"))
 		return 0
 	payer.tax_debt -= due
+	apply_concordat_tithe(due, tax_category, reason)
 	switch(tax_category)
 		if(TAX_CATEGORY_CONTRACT_LEVY)
 			record_round_statistic(STATS_REVENUE_CONTRACT_LEVY, due)
@@ -196,6 +197,21 @@
 		if(TAX_CATEGORY_EXPORT_DUTY)
 			record_round_statistic(STATS_REVENUE_EXPORT_DUTY, due)
 	return due
+
+/datum/controller/subsystem/treasury/proc/apply_concordat_tithe(due, tax_category, reason)
+	if(due <= 0)
+		return
+	if(tax_category == TAX_CATEGORY_FINE)
+		return
+	var/datum/decree/concordat = get_decree(DECREE_ZENITSTADT_CONCORDAT)
+	if(!concordat?.active)
+		return
+	if(!church_fund || !discretionary_fund)
+		return
+	var/skim = FLOOR(due * CONCORDAT_TITHE_RATE, 1)
+	if(skim <= 0)
+		return
+	transfer(discretionary_fund, church_fund, skim, "Concordat tithe ([tax_category])")
 
 /datum/controller/subsystem/treasury/proc/record_tax_exemption(tax_category, amount)
 	if(amount <= 0)

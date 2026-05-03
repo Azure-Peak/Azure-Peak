@@ -125,6 +125,9 @@
 /obj/structure/roguemachine/atm/examine(mob/user)
 	. = ..()
 	. += span_smallnotice("Crown levies - Contract: [round(SStreasury.get_tax_rate(TAX_CATEGORY_CONTRACT_LEVY) * 100)]%, Headeater: [round(SStreasury.get_tax_rate(TAX_CATEGORY_HEADEATER_LEVY) * 100)]%, Import: [round(SStreasury.get_tax_rate(TAX_CATEGORY_IMPORT_TARIFF) * 100)]%, Export: [round(SStreasury.get_tax_rate(TAX_CATEGORY_EXPORT_DUTY) * 100)]%")
+	var/datum/decree/concordat = SStreasury.get_decree(DECREE_ZENITSTADT_CONCORDAT)
+	if(concordat?.active)
+		. += span_smallnotice("Concordat of Zenitstadt: [round(CONCORDAT_TITHE_RATE * 100)]% of every taxed transaction is tithed to the Church of Azuria, drawn from the Crown's share.")
 	if(ishuman(user))
 		var/mob/living/carbon/human/H = user
 		var/poll_category = SStreasury.get_poll_tax_category(H)
