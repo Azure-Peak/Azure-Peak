@@ -31,6 +31,9 @@
 	if(!granted_trait)
 		to_chat(user, span_warning("The writ names no patronage to grant."))
 		return
+	if(issuer_name && issuer_name == user.real_name)
+		to_chat(user, span_warning("I cannot grant patronage to myself - the writ must pass through another's hand."))
+		return
 	if(HAS_TRAIT(user, granted_trait))
 		to_chat(user, span_warning("I'm already on this roll."))
 		return
@@ -51,7 +54,6 @@
 	playsound(get_turf(user), 'sound/misc/gold_license.ogg', 60, FALSE, -1)
 	scom_announce(redemption_announcement(user))
 	log_admin("PATRONAGE GRANTED: [key_name(user)] enrolled as [granted_trait].")
-	message_admins("[key_name_admin(user)] enrolled as [granted_trait].")
 	qdel(src)
 
 /obj/item/patronage_writ/proc/prune_roster(list/roster)

@@ -148,5 +148,4 @@
 	playsound(get_turf(user), 'sound/misc/gold_license.ogg', 60, FALSE, -1)
 	SStreasury.announce_indenture_acceptance(L, user)
 	log_admin("INDENTURE SEALED: [key_name(user)] accepted [principal]m from [issuing_fund.name] on behalf of [target_fund.name] over [term_days]d at [pct]%/day.")
-	message_admins("[key_name_admin(user)] sealed an indenture: [principal]m from [issuing_fund.name] to [target_fund.name] over [term_days]d at [pct]%/day.")
 	qdel(src)

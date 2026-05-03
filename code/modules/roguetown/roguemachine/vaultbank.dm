@@ -431,42 +431,6 @@
 /obj/structure/roguemachine/vaultbank/proc/get_faction_label()
 	return "the Crown"
 
-/obj/structure/roguemachine/vaultbank/attack_hand(mob/user)
-	if(!can_issue_loan(user))
-		return ..()
-	if(!user.canUseTopic(src, BE_CLOSE))
-		return ..()
-	open_management_tgui(user)
-
-/obj/structure/roguemachine/vaultbank/proc/open_management_tgui(mob/user)
-	var/datum/tgui/ui = SStgui.try_update_ui(user, src, null)
-	if(!ui)
-		ui = new(user, src, "JawbankPanel")
-		ui.open()
-
-/obj/structure/roguemachine/vaultbank/ui_state(mob/user)
-	return GLOB.human_adjacent_state
-
-/obj/structure/roguemachine/vaultbank/ui_interact(mob/user, datum/tgui/ui)
-	SStgui.try_update_ui(user, src, ui)
-
-/obj/structure/roguemachine/vaultbank/ui_static_data(mob/user)
-	var/list/data = list()
-	data["fund_name"] = get_linked_fund()?.name || "Unbound"
-	data["fund_id"] = get_fund_id()
-	data["faction_label"] = get_faction_label()
-	data["withdraw_rule"] = get_withdraw_rule_text()
-	var/list/targets = list()
-	for(var/tid in list("crown", "church", "merchant", "bathhouse"))
-		if(tid == get_fund_id())
-			continue
-		var/datum/fund/tf = SStreasury.resolve_fund_by_id(tid)
-		if(!tf)
-			continue
-		targets += list(list("id" = tid, "label" = SStreasury.indenture_faction_label(tf)))
-	data["indenture_targets"] = targets
-	return data
-
 /obj/structure/roguemachine/vaultbank/proc/get_withdraw_rule_text()
 	return ""
 
@@ -482,7 +446,7 @@
 /obj/structure/roguemachine/vaultbank/proc/get_patron_cap()
 	return 0
 
-/obj/structure/roguemachine/vaultbank/proc/handle_issue_patronage(mob/living/carbon/human/user)
+/obj/structure/roguemachine/vaultbank/proc/draft_patronage_writ(mob/living/carbon/human/user)
 	if(!istype(user))
 		return
 	var/writ_path = get_patronage_writ_path()
@@ -496,7 +460,7 @@
 	var/list/roster = get_patron_roster()
 	if(isnull(roster))
 		return
-	var/obj/item/patronage_writ/W = new writ_path(get_turf(src))
+	var/obj/item/patronage_writ/W = new writ_path(get_turf(user))
 	if(length(roster) >= W.roster_cap)
 		to_chat(user, span_warning("[get_patron_label()]'s roll is full - strike a name first."))
 		qdel(W)
@@ -505,12 +469,14 @@
 	W.issuer_year = CALENDAR_EPOCH_YEAR
 	QDEL_IN(W, 2 MINUTES)
 	COOLDOWN_START(src, patronage_writ_cooldown, PATRONAGE_WRIT_COOLDOWN)
-	playsound(src, 'sound/misc/coindispense.ogg', 60, FALSE, -1)
-	say("[W.name] drafted, signed by [user.real_name].")
+	playsound(get_turf(user), 'sound/misc/coindispense.ogg', 60, FALSE, -1)
+	if(user.put_in_hands(W))
+		to_chat(user, span_notice("A [W.name], signed in your name, slips into my hand."))
+	else
+		to_chat(user, span_notice("A [W.name], signed in your name, materialises at my feet."))
 	log_admin("PATRONAGE WRIT: [key_name(user)] drafted [W.name].")
-	message_admins("[key_name_admin(user)] drafted a [W.name].")
 
-/obj/structure/roguemachine/vaultbank/proc/handle_revoke_patronage(mob/living/carbon/human/user, list/params)
+/obj/structure/roguemachine/vaultbank/proc/revoke_patron(mob/living/carbon/human/user, list/params)
 	if(!istype(user))
 		return
 	var/list/roster = get_patron_roster()
@@ -536,64 +502,12 @@
 		send_ooc_note("Your patronage to [get_patron_label()] has been revoked.", name = target.real_name)
 	scom_announce("[target.real_name]'s patronage to [get_patron_label()] has been revoked.")
 	log_admin("PATRONAGE REVOKED: [key_name(user)] revoked [key_name(target)] from [get_patron_label()].")
-	message_admins("[key_name_admin(user)] revoked [key_name_admin(target)] from [get_patron_label()].")
 
 /obj/structure/roguemachine/vaultbank/church/get_withdraw_rule_text()
 	return "The Church mandates that loans is to be given to the poor, downtrodden, and malumites. [CHURCH_RESERVE_FLOOR]m must remain reserved for charity, less the principal currently in circulation."
 
-/obj/structure/roguemachine/vaultbank/ui_data(mob/user)
-	var/list/data = list()
-	var/datum/fund/F = get_linked_fund()
-	data["balance"] = F?.balance || 0
-	data["can_withdraw"] = can_withdraw(user) ? TRUE : FALSE
-	data["can_issue_loan"] = can_issue_loan(user) ? TRUE : FALSE
-	data["can_accept_indenture"] = can_accept_indenture(user) ? TRUE : FALSE
-	data["day"] = GLOB.dayspassed
-	data["max_issuance_day"] = SStreasury.loan_max_issuance_day
-	data["has_patronage"] = !isnull(get_patronage_writ_path())
-	data["patron_label"] = get_patron_label()
-	data["patron_cap"] = get_patron_cap()
-	var/list/patrons = list()
-	var/list/roster = get_patron_roster()
-	if(islist(roster))
-		for(var/mob/living/carbon/human/H in roster)
-			if(QDELETED(H))
-				continue
-			patrons += list(list("ref" = REF(H), "name" = H.real_name, "job" = H.job || ""))
-	data["patrons"] = patrons
-	return data
 
-/obj/structure/roguemachine/vaultbank/ui_act(action, list/params)
-	. = ..()
-	if(.)
-		return
-	if(!can_issue_loan(usr))
-		return TRUE
-	if(!usr.canUseTopic(src, BE_CLOSE))
-		return TRUE
-	switch(action)
-		if("withdraw")
-			handle_withdraw(usr, params)
-			SStgui.update_uis(src)
-			return TRUE
-		if("issue_personal")
-			handle_issue_personal(usr, params)
-			SStgui.update_uis(src)
-			return TRUE
-		if("issue_indenture")
-			handle_issue_indenture(usr, params)
-			SStgui.update_uis(src)
-			return TRUE
-		if("issue_patronage")
-			handle_issue_patronage(usr)
-			SStgui.update_uis(src)
-			return TRUE
-		if("revoke_patronage")
-			handle_revoke_patronage(usr, params)
-			SStgui.update_uis(src)
-			return TRUE
-
-/obj/structure/roguemachine/vaultbank/proc/handle_withdraw(mob/living/carbon/human/user, list/params)
+/obj/structure/roguemachine/vaultbank/proc/disburse(mob/living/carbon/human/user, list/params)
 	if(!istype(user))
 		return
 	var/datum/fund/F = get_linked_fund()
@@ -616,9 +530,8 @@
 	playsound(src, 'sound/misc/coindispense.ogg', 60, FALSE, -1)
 	say("[amount]m drawn by [user.real_name].")
 	log_admin("WITHDRAW: [key_name(user)] drew [amount]m from [F.name].")
-	message_admins("[key_name_admin(user)] drew [amount]m from [F.name].")
 
-/obj/structure/roguemachine/vaultbank/proc/handle_issue_personal(mob/living/carbon/human/user, list/params)
+/obj/structure/roguemachine/vaultbank/proc/draft_personal_loan(mob/living/carbon/human/user, list/params)
 	if(!istype(user))
 		return
 	if(GLOB.dayspassed > SStreasury.loan_max_issuance_day)
@@ -646,7 +559,7 @@
 		playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
 		return
 	var/rate = rate_pct / 100
-	var/obj/item/loan_contract/contract = new(get_turf(src))
+	var/obj/item/loan_contract/contract = new(get_turf(user))
 	contract.issuer_name = user.real_name
 	contract.issuer_year = CALENDAR_EPOCH_YEAR
 	contract.principal = amount
@@ -656,12 +569,14 @@
 	contract.total_due = FLOOR(amount * (1 + (rate * term)), 1)
 	contract.source_fund_id = get_fund_id()
 	QDEL_IN(contract, 2 MINUTES)
-	playsound(src, 'sound/misc/coindispense.ogg', 60, FALSE, -1)
-	say("Loan issued: [amount]m over [term] day\s at [rate_pct]%, signed by [user.real_name].")
+	playsound(get_turf(user), 'sound/misc/coindispense.ogg', 60, FALSE, -1)
+	if(user.put_in_hands(contract))
+		to_chat(user, span_notice("A loan writ for [amount]m, signed in your name, slips into my hand."))
+	else
+		to_chat(user, span_notice("A loan writ for [amount]m, signed in your name, materialises at my feet."))
 	log_admin("LOAN (personal): [key_name(user)] drafted [amount]m over [term]d at [rate_pct]%/day from [F.name].")
-	message_admins("[key_name_admin(user)] drafted a personal loan: [amount]m over [term]d at [rate_pct]%/day from [F.name].")
 
-/obj/structure/roguemachine/vaultbank/proc/handle_issue_indenture(mob/living/carbon/human/user, list/params)
+/obj/structure/roguemachine/vaultbank/proc/draft_indenture(mob/living/carbon/human/user, list/params)
 	if(!istype(user))
 		return
 	if(GLOB.dayspassed > SStreasury.loan_max_issuance_day)
@@ -700,7 +615,7 @@
 		playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
 		return
 	var/rate = rate_pct / 100
-	var/obj/item/loan_contract/indenture/contract = new(get_turf(src))
+	var/obj/item/loan_contract/indenture/contract = new(get_turf(user))
 	contract.issuer_name = user.real_name
 	contract.issuer_year = CALENDAR_EPOCH_YEAR
 	contract.principal = amount
@@ -711,10 +626,12 @@
 	contract.source_fund_id = get_fund_id()
 	contract.target_fund_id = target_id
 	QDEL_IN(contract, 2 MINUTES)
-	playsound(src, 'sound/misc/coindispense.ogg', 60, FALSE, -1)
-	say("Indenture drafted: [amount]m to [target_fund.name] over [term] day\s at [rate_pct]%, signed by [user.real_name].")
+	playsound(get_turf(user), 'sound/misc/coindispense.ogg', 60, FALSE, -1)
+	if(user.put_in_hands(contract))
+		to_chat(user, span_notice("An indenture for [amount]m to [target_fund.name], signed in your name, slips into my hand."))
+	else
+		to_chat(user, span_notice("An indenture for [amount]m to [target_fund.name], signed in your name, materialises at my feet."))
 	log_admin("INDENTURE WRIT: [key_name(user)] drafted [amount]m from [F.name] to [target_fund.name] over [term]d at [rate_pct]%/day.")
-	message_admins("[key_name_admin(user)] drafted an indenture: [amount]m from [F.name] to [target_fund.name] over [term]d at [rate_pct]%/day.")
 
 /obj/structure/roguemachine/vaultbank/church
 	name = "\improper CHURCH JAWBANK"

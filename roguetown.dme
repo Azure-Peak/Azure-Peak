@@ -2753,6 +2753,7 @@
 #include "code\modules\roguetown\roguejobs\tailor\tanning.dm"
 #include "code\modules\roguetown\roguemachine\_roguemachine.dm"
 #include "code\modules\roguetown\roguemachine\ATM.dm"
+#include "code\modules\roguetown\roguemachine\atm_tgui.dm"
 #include "code\modules\roguetown\roguemachine\bounty.dm"
 #include "code\modules\roguetown\roguemachine\camera.dm"
 #include "code\modules\roguetown\roguemachine\crier.dm"
