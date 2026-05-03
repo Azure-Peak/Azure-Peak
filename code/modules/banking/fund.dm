@@ -23,3 +23,5 @@
 /datum/fund/merchant
 
 /datum/fund/bathhouse
+
+/datum/fund/innkeeper

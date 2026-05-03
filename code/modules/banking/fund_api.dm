@@ -20,6 +20,8 @@
 			return merchant_fund
 		if("bathhouse")
 			return bathhouse_fund
+		if("innkeeper")
+			return innkeeper_fund
 	return null
 
 /datum/controller/subsystem/treasury/proc/find_jawbank_for_fund_id(fund_id)

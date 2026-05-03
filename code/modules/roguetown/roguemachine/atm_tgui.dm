@@ -13,7 +13,7 @@
 /obj/structure/roguemachine/atm/ui_static_data(mob/user)
 	var/list/data = list()
 	var/list/funds = list()
-	for(var/fid in list("crown", "church", "merchant", "bathhouse"))
+	for(var/fid in list("crown", "church", "merchant", "bathhouse", "innkeeper"))
 		var/obj/structure/roguemachine/vaultbank/V = SStreasury.find_jawbank_for_fund_id(fid)
 		var/datum/fund/F = SStreasury.resolve_fund_by_id(fid)
 		if(!F)
@@ -24,6 +24,8 @@
 			"name" = F.name,
 			"can_issue" = (V && V.can_issue_loan(user)) ? TRUE : FALSE,
 			"can_withdraw" = (V && V.can_withdraw(user)) ? TRUE : FALSE,
+			"can_view" = (V && V.can_view(user)) ? TRUE : FALSE,
+			"supports_loans" = V ? (V.supports_loans ? TRUE : FALSE) : TRUE,
 			"authority_label" = V ? V.get_authority_label() : "",
 			"withdraw_rule" = V ? V.get_withdraw_rule_text() : "",
 			"has_patronage" = (V && !isnull(V.get_patronage_writ_path())) ? TRUE : FALSE,
@@ -71,19 +73,18 @@
 
 	var/list/fund_balances = list()
 	var/list/institutional_loans = list()
-	var/list/issued_writs = list()
-	for(var/fid in list("crown", "church", "merchant", "bathhouse"))
+	for(var/fid in list("crown", "church", "merchant", "bathhouse", "innkeeper"))
 		var/datum/fund/F = SStreasury.resolve_fund_by_id(fid)
 		if(!F)
 			continue
 		var/obj/structure/roguemachine/vaultbank/V = SStreasury.find_jawbank_for_fund_id(fid)
-		var/has_access = V && (V.can_issue_loan(user) || V.can_withdraw(user))
+		var/has_access = V && V.can_view(user)
 		fund_balances[fid] = list(
 			"balance" = F.balance,
 			"has_access" = has_access ? TRUE : FALSE,
 			"outstanding_principal" = SStreasury.get_outstanding_principal_from_fund(F),
 		)
-		if(has_access)
+		if(has_access && V.supports_loans)
 			for(var/datum/loan/L in SStreasury.loans)
 				if(L.source_fund != F)
 					continue

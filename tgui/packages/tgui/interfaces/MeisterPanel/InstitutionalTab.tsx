@@ -21,7 +21,7 @@ const RATE_OPTIONS: number[] = [10, 15, 20, 25, 50];
 
 export const InstitutionalTab = ({ data, act }: TabProps) => {
   const accessibleFunds = data.funds.filter(
-    (f) => f.can_issue || f.can_withdraw,
+    (f) => f.can_issue || f.can_withdraw || f.can_view,
   );
   const [selectedFundId, setSelectedFundId] = useState<string>(
     accessibleFunds[0]?.id ?? '',
@@ -67,6 +67,9 @@ const FundView = ({
   const balance = data.fund_balances[fund.id]?.balance ?? 0;
   const outstanding =
     data.fund_balances[fund.id]?.outstanding_principal ?? 0;
+  
+    const view_only = !fund.can_withdraw && !fund.can_issue && fund.can_view;
+    const can_issue_loan = fund.can_issue && fund.supports_loans;
 
   return (
     <>
@@ -88,11 +91,16 @@ const FundView = ({
         <div style={fieldValueStyle}>{fund.authority_label}</div>
       </div>
 
-      {fund.can_withdraw && (
+      {!!fund.can_withdraw && (
         <WithdrawSection fund={fund} balance={balance} act={act} />
       )}
-      {fund.can_issue && (
+      {!!can_issue_loan && (
         <IssueLoanSection fund={fund} data={data} act={act} />
+      )}
+      {!!view_only && (
+        <div style={{ color: INK_FAINT, fontStyle: 'italic', marginTop: 8 }}>
+          You may view this institution's coffers, but not act upon them.
+        </div>
       )}
     </>
   );

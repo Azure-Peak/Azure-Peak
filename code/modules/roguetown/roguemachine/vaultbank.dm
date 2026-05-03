@@ -15,6 +15,7 @@
 	var/fund_warned = FALSE
 	var/alert_jobs = list("Grand Duke", "Steward", "Clerk")
 	var/alert_location = "The Vault"
+	var/supports_loans = TRUE
 	var/bash_floor = 1500
 	var/hits_since_lump = 0
 	var/lump_hit_threshold = 10
@@ -428,6 +429,9 @@
 /obj/structure/roguemachine/vaultbank/proc/can_accept_indenture(mob/user)
 	return can_issue_loan(user)
 
+/obj/structure/roguemachine/vaultbank/proc/can_view(mob/user)
+	return can_withdraw(user) || can_issue_loan(user)
+
 /obj/structure/roguemachine/vaultbank/proc/get_faction_label()
 	return "the Crown"
 
@@ -754,6 +758,40 @@
 	return PATRON_CAP_BATHHOUSE
 
 /obj/structure/roguemachine/vaultbank/bathhouse/enforce_placement()
+	return
+
+/obj/structure/roguemachine/vaultbank/innkeeper
+	name = "\improper TAVERN JAWBANK"
+	desc = "A biomechanical obselisk that hoards the tavern's takings - rumor fees, guild cuts, and whatever else the Innkeeper has earned. Throttle it with a strike to spill that which is rightfully yours."
+	alert_jobs = list("Innkeeper", "Tapster", "Cook")
+	alert_location = "the Tavern"
+	bash_floor = INNKEEPER_BASH_FLOOR
+	lump_payout = INNKEEPER_LUMP_PAYOUT
+	supports_loans = FALSE
+
+/obj/structure/roguemachine/vaultbank/innkeeper/get_fund_id()
+	return "innkeeper"
+
+/obj/structure/roguemachine/vaultbank/innkeeper/get_faction_label()
+	return "the Tavern"
+
+/obj/structure/roguemachine/vaultbank/innkeeper/can_issue_loan(mob/user)
+	return FALSE
+
+/obj/structure/roguemachine/vaultbank/innkeeper/can_withdraw(mob/user, amount)
+	if(!user)
+		return FALSE
+	return user.job == "Innkeeper"
+
+/obj/structure/roguemachine/vaultbank/innkeeper/can_view(mob/user)
+	if(!user)
+		return FALSE
+	return user.job in list("Innkeeper", "Tapster", "Cook")
+
+/obj/structure/roguemachine/vaultbank/innkeeper/get_authority_label()
+	return "the Innkeeper"
+
+/obj/structure/roguemachine/vaultbank/innkeeper/enforce_placement()
 	return
 
 #undef MAMMON_PER_FORCE

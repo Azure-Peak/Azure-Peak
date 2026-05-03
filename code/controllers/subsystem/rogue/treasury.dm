@@ -39,6 +39,7 @@ SUBSYSTEM_DEF(treasury)
 	var/datum/fund/church/church_fund
 	var/datum/fund/merchant/merchant_fund
 	var/datum/fund/bathhouse/bathhouse_fund
+	var/datum/fund/innkeeper/innkeeper_fund
 	var/list/jawbanks_by_fund_id = list()
 	var/list/merchant_agents = list()
 	var/list/bathhouse_agents = list()
@@ -125,6 +126,7 @@ SUBSYSTEM_DEF(treasury)
 	church_fund = new("Church Fund", null, CHURCH_FUND_SEED, CURRENCY_MAMMON)
 	merchant_fund = new("Merchant Fund", null, MERCHANT_FUND_SEED, CURRENCY_MAMMON)
 	bathhouse_fund = new("Bathhouse Fund", null, BATHHOUSE_FUND_SEED, CURRENCY_MAMMON)
+	innkeeper_fund = new("Tavern Earnings", null, INNKEEPER_FUND_SEED, CURRENCY_MAMMON)
 	force_set_round_statistic(STATS_STARTING_TREASURY, discretionary_fund.balance)
 	record_round_statistic(STATS_PLEDGE_GENERATED, burgher_pledge_fund.balance)
 	record_round_statistic(STATS_RUMOR_POINTS_GENERATED, rumor_points)

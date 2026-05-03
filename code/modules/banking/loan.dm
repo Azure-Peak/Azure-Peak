@@ -218,4 +218,6 @@
 		return "the Azurian Trading Company"
 	if(istype(F, /datum/fund/bathhouse))
 		return "the Bathhouse"
+	if(istype(F, /datum/fund/innkeeper))
+		return "the Tavern"
 	return "the Stewardry"

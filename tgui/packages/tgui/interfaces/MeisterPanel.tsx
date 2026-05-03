@@ -23,7 +23,7 @@ export const MeisterPanel = () => {
   const [tab, setTab] = useState<TabKey>('personal');
 
   const accessibleInstitutional = data.funds.some(
-    (f) => f.can_issue || f.can_withdraw,
+    (f) => f.can_issue || f.can_withdraw || f.can_view,
   );
   const accessiblePatronage = data.funds.some(
     (f) => f.has_patronage && data.patron_rosters[f.id]?.can_manage,

@@ -61,7 +61,7 @@ export const PollTaxTab = ({ data, act }: TabProps) => {
         </div>
       </div>
 
-      {tax.exempt && (
+      {!!tax.exempt && (
         <div style={{ color: INK_FAINT, fontStyle: 'italic', marginTop: 8 }}>
           You owe nothing. There is nothing to advance.
         </div>
