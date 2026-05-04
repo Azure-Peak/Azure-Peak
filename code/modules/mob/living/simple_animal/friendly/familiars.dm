@@ -110,6 +110,7 @@
 	AddComponent(/datum/component/footstep, footstep_type)
 	TryAddFlight()
 	icon_dead = icon_living // to prevent sprite updating weirdness with vestige revival
+	grant_all_languages(TRUE) // we're pAI equivalent extraplanar beings and this avoids weird edge cases like infernals not speaking infernal
 
 /mob/living/simple_animal/pet/familiar/death(gibbed)
 	. = ..(gibbed)
@@ -401,10 +402,10 @@
 	speak_emote = list("growls","crackles")
 	tutorial_message = span_notice("As a weaker denizen of the hells, your fire is tame enough to act as a campfire: you can be cooked on, or rested near to aid in recuperation. You also shine with a small amount of light, and flames will not harm you.")
 	tierup_messages = list(
-		span_info("You can now bring a mote of infernal flame to bear with a bite, igniting anything you desire."),
-		span_info("As your flame grows, you can manifest it more directly, surging around you to burn anything unfortunate enough to be nearby.")
+		span_info("You can now breathe flame, conjuring a line of hellfire in front of you."),
+		span_info("As your flame grows, you can manifest it more violently, surging around you to burn anything unfortunate enough to be nearby.")
 	)
-	t1_spell = /obj/effect/proc_holder/spell/invoked/incendiary_bite
+	t1_spell = /obj/effect/proc_holder/spell/invoked/matthios_firebreath/infernal
 	t2_spell = /obj/effect/proc_holder/spell/self/infernal_surge
 	var/healing_range = 1
 	var/static/list/acceptable_beds = list(/obj/structure/bed, /obj/structure/flora/roguetree/stump, /obj/item/bedsheet)
