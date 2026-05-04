@@ -102,6 +102,39 @@
 	to_chat(recipient, span_notice("Though you failed to become a knight, your training in equipment maintenance and repair remains useful."))
 	to_chat(recipient, span_notice("You can retrieve your hammer and polishing tools from a tree, statue, or clock."))
 
+/datum/virtue/utility/failed_attendant
+	name = "Failed Attendant"
+	desc = "I was once a bathhouse attendent, but didn't earn enough to stay afloat. Alongside some pilfered cosmetics, I still know how to give a proper massage."
+	added_traits = list(TRAIT_GOODLOVER)
+
+/datum/virtue/utility/failed_attendant/apply_to_human(mob/living/carbon/human/recipient)
+	if(!recipient.mind?.has_spell(/obj/effect/proc_holder/spell/invoked/massage))
+		recipient.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/massage)
+	addtimer(CALLBACK(src, .proc/failed_attendant_apply, recipient), 50)
+
+/datum/virtue/utility/failed_attendant/proc/failed_attendant_apply(mob/living/carbon/human/recipient) //no mechanical benefit to these cosmetics, just sovl
+	var/cosmetics = list(
+		"Red Lipstick"	= /obj/item/lipstick,
+		"Jade Lipstick"	= /obj/item/lipstick/jade,
+		"Purple Lipstick" = /obj/item/lipstick/purple,
+		"Black Lipstick" = /obj/item/lipstick/black,
+		"Lavender Perfume" = /obj/item/perfume/lavender,
+		"Cherry Perfume" = /obj/item/perfume/cherry,
+		"Rose Perfume" = /obj/item/perfume/rose,
+		"Jasmine Perfume" = /obj/item/perfume/jasmine,
+		"Mint Perfume" = /obj/item/perfume/mint,
+		"Vanilla Perfume" = /obj/item/perfume/vanilla,
+		"Pear Perfume" = /obj/item/perfume/pear,
+		"Strawberry Perfume" = /obj/item/perfume/strawberry,
+		"Cinnamon Perfume" = /obj/item/perfume/cinnamon,
+		"None"
+		)
+
+	var/chosen_cosmetic = input(recipient, "Choose your extra cosmetic.", "A PILFERED LUXURY") as anything in cosmetics
+	if(chosen_cosmetic != "None")
+		var/cosmeticchoice = cosmetics[chosen_cosmetic]
+		recipient.mind?.special_items[chosen_cosmetic] = cosmeticchoice
+
 /datum/virtue/utility/linguist
 	name = "Intellectual"
 	desc = "I've spent my life surrounded by various books or sophisticated foreigners, be it through travel or other fortunes beset on my life. I've picked up several tongues and wits, and keep a journal closeby. I can tell people's exact prowess."

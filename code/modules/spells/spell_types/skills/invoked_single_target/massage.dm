@@ -1,8 +1,8 @@
 //A skill for bath attendants to help their clients relax
 /obj/effect/proc_holder/spell/invoked/massage
 	name = "Massage"
-	desc = "Massage a client, working out the soreness in their muscles"
-	overlay_state = "massage"
+	desc = "Massage a client, working out the soreness in their muscles. Scales with luck slightly."
+	overlay_state = "bliss"
 	releasedrain = 50
 	chargedrain = 0
 	chargetime = 0
