@@ -80,9 +80,9 @@
 	var/mob/living/carbon/human/human_user = user
 	var/can_remove = FALSE
 	var/can_premium = FALSE
-	if(can_addremove && human_user.job in list("Man at Arms","Inquisitor", "Knight", "Sergeant", "Orthodoxist", "Absolver", "Marshal", "Hand", "Grand Duke")) //why was KC here but not marshal ?
+	if(can_addremove && (human_user.job in list("Man at Arms","Inquisitor", "Knight", "Sergeant", "Orthodoxist", "Absolver", "Marshal", "Hand", "Grand Duke"))) //why was KC here but not marshal ?
 		can_remove = TRUE
-	if(can_addremove && human_user.job in list("Bathmaster","Merchant", "Innkeeper", "Steward", "Court Magician", "Town Crier", "Keeper", "Grand Duke"))
+	if(can_addremove && (human_user.job in list("Bathmaster","Merchant", "Innkeeper", "Steward", "Court Magician", "Town Crier", "Keeper", "Grand Duke")))
 		can_premium = TRUE
 	var/contents
 	contents += "<center>NOTICEBOARD<BR>"
