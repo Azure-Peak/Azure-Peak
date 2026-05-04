@@ -1,3 +1,17 @@
+/datum/vampire_clan_i18n
+	var/language_code
+	var/list/strings = list()
+
+GLOBAL_LIST_INIT(vampire_clan_selection_i18n, build_vampire_clan_selection_i18n())
+
+/proc/build_vampire_clan_selection_i18n()
+	. = list()
+	for(var/path in subtypesof(/datum/vampire_clan_i18n))
+		var/datum/vampire_clan_i18n/inst = new path
+		if(inst.language_code && length(inst.strings))
+			.[inst.language_code] = inst.strings.Copy()
+		qdel(inst)
+
 /datum/vampire_clan_selection_menu
 	var/datum/antagonist/vampire/antag
 	var/mob/living/carbon/human/vampdude
@@ -58,11 +72,13 @@
 		"vitaeBonus" = 0
 	))
 
+	var/lang = user?.client?.preferred_ui_language || DEFAULT_PREFERRED_UI_LANGUAGE
 	data["clans"] = clans
 	data["selectedClanId"] = selected_is_custom ? "custom" : "[selected_clan_type]"
 	data["pendingCustomName"] = pending_custom_name
 	data["defaultClanName"] = "Nosferatu"
-	data["warning"] = "If no clan is chosen, Nosferatu will be assigned by default."
+	data["language"] = lang
+	data["i18nOverrides"] = GLOB.vampire_clan_selection_i18n[lang]
 	return data
 
 /datum/vampire_clan_selection_menu/ui_act(action, list/params)
@@ -164,9 +180,9 @@
 	var/list/powers = list()
 
 	if(ispath(C.power_type))
-		var/datum/coven_power/proto = new C.power_type
+		var/datum/coven_power/proto = new C.power_type(C)
 		for(var/power_path in proto.grouped_powers)
-			powers += list(power_to_ui(power_path))
+			powers += list(power_to_ui(power_path, C))
 		qdel(proto)
 
 	var/list/result = list(
@@ -178,12 +194,12 @@
 	qdel(C)
 	return result
 
-/datum/vampire_clan_selection_menu/proc/power_to_ui(power_type)
-	var/datum/coven_power/P = new power_type
+/datum/vampire_clan_selection_menu/proc/power_to_ui(power_type, datum/coven/discipline)
+	var/datum/coven_power/P = new power_type(discipline)
 	var/list/result = list(
 		"name" = P.name,
 		"level" = P.level,
-		"desc" = P.desc
+		"desc" = initial(P.desc)
 	)
 	qdel(P)
 	return result
@@ -202,8 +218,6 @@
 			return "Assassins, warriors, and diablerists"
 	return "An ancient curse carried through blood"
 
-/// Returns the typepath of the clan_leader datum to PREVIEW in the UI.
-/// Avoids changing the runtime `leader` field on the clan itself.
 /datum/vampire_clan_selection_menu/proc/lord_preview_type_for(datum/clan/C)
 	switch(C.name)
 		if("Nosferatu")
@@ -218,7 +232,6 @@
 			return /datum/clan_leader/eoran
 	return C.leader
 
-/// Returns {name, desc} for the lord's signature shapeshift form, or null if none.
 /datum/vampire_clan_selection_menu/proc/lord_form_for(datum/clan_leader/L)
 	if(!L || !length(L.lord_spells))
 		return null

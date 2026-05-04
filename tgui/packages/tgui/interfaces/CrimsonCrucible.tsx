@@ -52,7 +52,82 @@ type CrucibleData = {
   maxCupDeposit: number;
   activeProjects: Project[];
   availableProjects: AvailableProject[];
+  language?: string;
+  i18nOverrides?: Record<string, string> | null;
 };
+
+const FALLBACK_LANG = 'en';
+
+const TRANSLATIONS: Record<string, Record<string, string>> = {
+  en: {
+    windowTitle: 'Crimson Crucible',
+    headerTitle: 'CRIMSON CRUCIBLE',
+    roleLord: 'Right of Dominion',
+    roleVampire: 'Right of Sacrifice',
+    roleMortal: 'Living sacrifice',
+    expand: 'Expand',
+    restore: 'Restore',
+    expandTip: 'Expand window to screen',
+    restoreTip: 'Restore default window size',
+    close: 'Close',
+    closeTip: 'Close window',
+    bloodInCup: 'Blood in cup: {current} / {max}',
+    committed: 'Committed: {n} vitae',
+    pourBlood: 'Pour blood',
+    giveBlood: 'Give blood',
+    availableToPour: 'Available to pour: {n} vitae',
+    activeRituals: 'Active Rituals',
+    newRituals: 'New Rituals',
+    emptyActive: 'The crucible is silent. No ritual has begun.',
+    mortalNote:
+      "The crucible accepts blood into the cup or into rituals already begun. New rites remain the clan's will.",
+    nonLordNote:
+      'Only the Methuselah can begin new rituals. Others may fill the cup and aid rituals already in motion.',
+    noRituals: 'No rituals are available.',
+    direct: 'Direct',
+    contribute: 'Contribute',
+    cancel: 'Cancel',
+    required: 'Required: {n} vitae',
+    collected: 'Collected: {n} vitae',
+    remaining: 'Remaining: {n} vitae',
+    contributors: 'Contributors:',
+    description: 'Description',
+    mechanics: 'Mechanics',
+    cost: 'Cost: {n} vitae',
+    start: 'Start',
+  },
+};
+
+const resolveLang = (raw: string | undefined): string => {
+  if (raw && TRANSLATIONS[raw]) {
+    return raw;
+  }
+  return FALLBACK_LANG;
+};
+
+const makeT =
+  (lang: string, overrides?: Record<string, string> | null) =>
+  (key: string, vars?: Record<string, string | number>): string => {
+    let value: string | undefined = overrides ? overrides[key] : undefined;
+    if (value === undefined) {
+      const dict = TRANSLATIONS[lang] || TRANSLATIONS[FALLBACK_LANG];
+      value = dict[key];
+    }
+    if (value === undefined) {
+      value = TRANSLATIONS[FALLBACK_LANG][key];
+    }
+    if (value === undefined) {
+      return key;
+    }
+    if (vars) {
+      for (const name of Object.keys(vars)) {
+        value = value.replace(`{${name}}`, String(vars[name]));
+      }
+    }
+    return value;
+  };
+
+type Translator = ReturnType<typeof makeT>;
 
 const formatVitae = (value: number) =>
   Math.round(value || 0).toLocaleString('en-US');
@@ -233,12 +308,14 @@ export const CrimsonCrucible = () => {
     activeProjects = [],
     availableProjects = [],
   } = data;
+  const lang = resolveLang(data.language);
+  const t = makeT(lang, data.i18nOverrides);
   const bloodRatio = clampRatio(bloodLevel / Math.max(maxBlood, 1));
   const roleText = isVampire
     ? isLord
-      ? 'Right of Dominion'
-      : 'Right of Sacrifice'
-    : 'Living sacrifice';
+      ? t('roleLord')
+      : t('roleVampire')
+    : t('roleMortal');
   const toggleWindowSize = () => {
     const nextExpanded = !windowExpanded;
     setCrucibleWindowSize(nextExpanded);
@@ -247,7 +324,7 @@ export const CrimsonCrucible = () => {
 
   return (
     <Window
-      title="Crimson Crucible"
+      title={t('windowTitle')}
       width={defaultWindowWidth}
       height={defaultWindowHeight}
       theme="dark"
@@ -262,27 +339,23 @@ export const CrimsonCrucible = () => {
                   fluid
                   color="gold"
                   icon={windowExpanded ? 'compress' : 'expand'}
-                  tooltip={
-                    windowExpanded
-                      ? 'Restore default window size'
-                      : 'Expand window to screen'
-                  }
+                  tooltip={windowExpanded ? t('restoreTip') : t('expandTip')}
                   tooltipPosition="right"
                   onClick={toggleWindowSize}
                   style={windowControlButtonStyle}
                 >
-                  {windowExpanded ? 'Restore' : 'Expand'}
+                  {windowExpanded ? t('restore') : t('expand')}
                 </Button>
                 <Button
                   fluid
                   color="red"
                   icon="times"
-                  tooltip="Close window"
+                  tooltip={t('closeTip')}
                   tooltipPosition="right"
                   onClick={closeCrucibleWindow}
                   style={windowControlButtonStyle}
                 >
-                  Close
+                  {t('close')}
                 </Button>
               </Box>
             </Box>
@@ -294,7 +367,7 @@ export const CrimsonCrucible = () => {
                 textAlign="center"
                 style={{ letterSpacing: '0' }}
               >
-                CRIMSON CRUCIBLE
+                {t('headerTitle')}
               </Box>
               <Box color="#c8878d" textAlign="center" mt={0.3}>
                 {roleText}
@@ -302,7 +375,10 @@ export const CrimsonCrucible = () => {
             </Box>
             <Box>
               <Box color="#e8d0a0" mb={0.4}>
-                Blood in cup: {formatVitae(bloodLevel)} / {formatVitae(maxBlood)}
+                {t('bloodInCup', {
+                  current: formatVitae(bloodLevel),
+                  max: formatVitae(maxBlood),
+                })}
               </Box>
               <ProgressBar
                 value={bloodRatio}
@@ -313,7 +389,7 @@ export const CrimsonCrucible = () => {
                 }}
               />
               <Box color="#b99b7c" mt={0.4}>
-                Committed: {formatVitae(committedVitae)} vitae
+                {t('committed', { n: formatVitae(committedVitae) })}
               </Box>
               <Button
                 fluid
@@ -322,15 +398,15 @@ export const CrimsonCrucible = () => {
                 disabled={!canDepositBlood}
                 onClick={() => act('deposit_blood')}
               >
-                {isVampire ? 'Pour blood' : 'Give blood'}
+                {isVampire ? t('pourBlood') : t('giveBlood')}
               </Button>
               <Box color="#b99b7c" mt={0.4} fontSize={0.9}>
-                Available to pour: {formatVitae(maxCupDeposit)} vitae
+                {t('availableToPour', { n: formatVitae(maxCupDeposit) })}
               </Box>
             </Box>
           </Box>
           <Box style={contentGridStyle}>
-            <Section title="Active Rituals" fill scrollable>
+            <Section title={t('activeRituals')} fill scrollable>
               {activeProjects.length ? (
                 activeProjects.map((project, index) => (
                   <ActiveProjectCard
@@ -340,22 +416,21 @@ export const CrimsonCrucible = () => {
                     project={project}
                     onContribute={() => act('contribute', { ref: project.ref })}
                     onCancel={() => act('cancel_project', { ref: project.ref })}
+                    t={t}
                   />
                 ))
               ) : (
-                <EmptyState text="The crucible is silent. No ritual has begun." />
+                <EmptyState text={t('emptyActive')} />
               )}
             </Section>
-            <Section title="New Rituals" fill scrollable>
+            <Section title={t('newRituals')} fill scrollable>
               {!isVampire ? (
                 <Box color="#c7a97a" italic mb={1}>
-                  The crucible accepts blood into the cup or into rituals already
-                  begun. New rites remain the clan&apos;s will.
+                  {t('mortalNote')}
                 </Box>
               ) : !isLord ? (
                 <Box color="#c7a97a" italic mb={1}>
-                  Only the Methuselah can begin new rituals. Others may fill the
-                  cup and aid rituals already in motion.
+                  {t('nonLordNote')}
                 </Box>
               ) : null}
               {isVampire && isLord && availableProjects.length ? (
@@ -366,10 +441,11 @@ export const CrimsonCrucible = () => {
                     onStart={() =>
                       act('start_project', { type_path: project.type_path })
                     }
+                    t={t}
                   />
                 ))
               ) : isVampire && isLord ? (
-                <EmptyState text="No rituals are available." />
+                <EmptyState text={t('noRituals')} />
               ) : null}
             </Section>
           </Box>
@@ -382,22 +458,23 @@ export const CrimsonCrucible = () => {
 type ProjectCopyProps = {
   description: string;
   mechanics?: string;
+  t: Translator;
 };
 
 const ProjectCopy = (props: ProjectCopyProps) => {
-  const { description, mechanics } = props;
+  const { description, mechanics, t } = props;
 
   return (
     <Box mt={0.7}>
       <Box style={descriptionBlockStyle}>
-        <Box style={labelStyle}>Description</Box>
+        <Box style={labelStyle}>{t('description')}</Box>
         <Box mt={0.2} style={copyStyle}>
           {description}
         </Box>
       </Box>
       {!!mechanics && (
         <Box style={mechanicsBlockStyle}>
-          <Box style={mechanicsLabelStyle}>Mechanics</Box>
+          <Box style={mechanicsLabelStyle}>{t('mechanics')}</Box>
           <Box mt={0.2} style={mechanicsStyle}>
             {mechanics}
           </Box>
@@ -413,10 +490,11 @@ type ActiveProjectCardProps = {
   project: Project;
   onContribute: () => void;
   onCancel: () => void;
+  t: Translator;
 };
 
 const ActiveProjectCard = (props: ActiveProjectCardProps) => {
-  const { index, isLord, project, onContribute, onCancel } = props;
+  const { index, isLord, project, onContribute, onCancel, t } = props;
   const ratio = clampRatio(project.paid / Math.max(project.cost, 1));
 
   return (
@@ -432,6 +510,7 @@ const ActiveProjectCard = (props: ActiveProjectCardProps) => {
           <ProjectCopy
             description={project.description}
             mechanics={project.mechanics}
+            t={t}
           />
         </Stack.Item>
         <Stack.Item width="128px">
@@ -441,11 +520,11 @@ const ActiveProjectCard = (props: ActiveProjectCardProps) => {
             disabled={!project.canContribute}
             onClick={onContribute}
           >
-            {isLord ? 'Direct' : 'Contribute'}
+            {isLord ? t('direct') : t('contribute')}
           </Button>
           {isLord && (
             <Button fluid color="bad" mt={0.5} onClick={onCancel}>
-              Cancel
+              {t('cancel')}
             </Button>
           )}
         </Stack.Item>
@@ -453,9 +532,9 @@ const ActiveProjectCard = (props: ActiveProjectCardProps) => {
       <Divider />
       <Stack>
         <Stack.Item grow>
-          <Box>Required: {formatVitae(project.cost)} vitae</Box>
-          <Box>Collected: {formatVitae(project.paid)} vitae</Box>
-          <Box>Remaining: {formatVitae(project.remaining)} vitae</Box>
+          <Box>{t('required', { n: formatVitae(project.cost) })}</Box>
+          <Box>{t('collected', { n: formatVitae(project.paid) })}</Box>
+          <Box>{t('remaining', { n: formatVitae(project.remaining) })}</Box>
         </Stack.Item>
       </Stack>
       <Box mt={0.8}>
@@ -464,7 +543,7 @@ const ActiveProjectCard = (props: ActiveProjectCardProps) => {
         </ProgressBar>
       </Box>
       <Box color="#563f37" mt={0.5} fontSize={0.9}>
-        Contributors: {project.contributorsText}
+        {t('contributors')} {project.contributorsText}
       </Box>
       {project.canContribute && (
         <Box color="#563f37" mt={0.3} fontSize={0.9}>
@@ -478,10 +557,11 @@ const ActiveProjectCard = (props: ActiveProjectCardProps) => {
 type AvailableProjectCardProps = {
   project: AvailableProject;
   onStart: () => void;
+  t: Translator;
 };
 
 const AvailableProjectCard = (props: AvailableProjectCardProps) => {
-  const { project, onStart } = props;
+  const { project, onStart, t } = props;
 
   return (
     <Box mb={1} style={availableCardStyle}>
@@ -495,10 +575,16 @@ const AvailableProjectCard = (props: AvailableProjectCardProps) => {
           </Box>
         </Stack.Item>
       </Stack>
-      <ProjectCopy description={project.description} mechanics={project.mechanics} />
+      <ProjectCopy
+        description={project.description}
+        mechanics={project.mechanics}
+        t={t}
+      />
       <Stack align="center" mt={0.3}>
         <Stack.Item grow>
-          <Box color="#563f37">Cost: {formatVitae(project.cost)} vitae</Box>
+          <Box color="#563f37">
+            {t('cost', { n: formatVitae(project.cost) })}
+          </Box>
           {!project.canStart && (
             <Box color="#6c1f25" mt={0.4} fontSize={0.9}>
               {project.lockedReason}
@@ -512,7 +598,7 @@ const AvailableProjectCard = (props: AvailableProjectCardProps) => {
             disabled={!project.canStart}
             onClick={onStart}
           >
-            Start
+            {t('start')}
           </Button>
         </Stack.Item>
       </Stack>

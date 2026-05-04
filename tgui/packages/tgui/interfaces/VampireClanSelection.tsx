@@ -57,7 +57,8 @@ type VampireClanSelectionData = {
   selectedClanId: string;
   pendingCustomName: string;
   defaultClanName: string;
-  warning: string;
+  language?: string;
+  i18nOverrides?: Record<string, string> | null;
 };
 
 const DEFAULT_W = 1100;
@@ -67,6 +68,71 @@ const capFirst = (s: string | undefined | null): string => {
   if (!s) return '';
   return s.charAt(0).toUpperCase() + s.slice(1);
 };
+
+const FALLBACK_LANG = 'en';
+
+const TRANSLATIONS: Record<string, Record<string, string>> = {
+  en: {
+    title: 'Clan Selection',
+    subtitle: 'Choose your vampire clan',
+    flavorLine1: 'The Blood remembers.',
+    flavorLine2: 'Choose your lineage.',
+    expand: 'Expand',
+    restore: 'Restore',
+    expandTip: 'Expand window',
+    restoreTip: 'Restore window',
+    availableClans: 'Available Clans',
+    clanName: 'Clan Name',
+    customNamePlaceholder: 'Name your Caitiff bloodline...',
+    customNameHint: 'Leave blank to be known simply as the "Custom Clan".',
+    description: 'Description',
+    curseDownside: 'Curse / Downside',
+    bloodPreference: 'Blood Preference',
+    lordOfClan: 'Lord of the Clan',
+    lordHailedAs: 'Hailed as the',
+    lordVitae: ', blessed with +{vitae} vitae',
+    lordOnlyBoons: 'Lord-only Boons',
+    specialClanTraits: 'Special Clan Traits',
+    disciplinesPowers: 'Disciplines & Powers',
+    caitiffNoDisciplines: 'A Caitiff chooses their own disciplines later.',
+    none: 'None.',
+    unknown: 'Unknown',
+    noPowersDocumented: 'No powers documented.',
+    accept: 'Accept Clan',
+    close: 'Close',
+    warningDefault:
+      'If no clan is chosen, Nosferatu will be assigned by default.',
+  },
+};
+
+const resolveLang = (raw: string | undefined): string => {
+  if (raw && TRANSLATIONS[raw]) {
+    return raw;
+  }
+  return FALLBACK_LANG;
+};
+
+const makeT =
+  (lang: string, overrides?: Record<string, string> | null) =>
+  (key: string, vars?: Record<string, string | number>): string => {
+    let value: string | undefined = overrides ? overrides[key] : undefined;
+    if (value === undefined) {
+      const dict = TRANSLATIONS[lang] || TRANSLATIONS[FALLBACK_LANG];
+      value = dict[key];
+    }
+    if (value === undefined) {
+      value = TRANSLATIONS[FALLBACK_LANG][key];
+    }
+    if (value === undefined) {
+      return key;
+    }
+    if (vars) {
+      for (const name of Object.keys(vars)) {
+        value = value.replace(`{${name}}`, String(vars[name]));
+      }
+    }
+    return value;
+  };
 
 const setVampireClanWindowSize = (expanded: boolean) => {
   if (typeof Byond === 'undefined' || !Byond?.winset) return;
@@ -92,6 +158,9 @@ export const VampireClanSelection = () => {
   const [expandedCovens, setExpandedCovens] = useState<Set<string>>(new Set());
   const [customName, setCustomName] = useState(data.pendingCustomName || '');
   const [windowExpanded, setWindowExpanded] = useState(false);
+
+  const lang = resolveLang(data.language);
+  const t = makeT(lang, data.i18nOverrides);
 
   const selectedClan =
     data.clans.find((clan) => clan.id === data.selectedClanId) || data.clans[0];
@@ -131,33 +200,33 @@ export const VampireClanSelection = () => {
               </Box>
             </Box>
             <Box className="VampireClanSelection__titleBlock">
-              <Box className="VampireClanSelection__title">Clan Selection</Box>
+              <Box className="VampireClanSelection__title">{t('title')}</Box>
               <Box className="VampireClanSelection__subtitle">
-                Choose your vampire clan
+                {t('subtitle')}
               </Box>
             </Box>
             <Box className="VampireClanSelection__windowControls">
               <Button
                 color="transparent"
                 icon={windowExpanded ? 'compress' : 'expand'}
-                tooltip={windowExpanded ? 'Restore window' : 'Expand window'}
+                tooltip={windowExpanded ? t('restoreTip') : t('expandTip')}
                 tooltipPosition="left"
                 onClick={toggleWindow}
                 className="VampireClanSelection__windowButton"
               >
-                {windowExpanded ? 'Restore' : 'Expand'}
+                {windowExpanded ? t('restore') : t('expand')}
               </Button>
             </Box>
             <Box className="VampireClanSelection__flavor">
-              The Blood remembers.
+              {t('flavorLine1')}
               <br />
-              Choose your lineage.
+              {t('flavorLine2')}
             </Box>
           </Box>
 
           <Box className="VampireClanSelection__body">
             <Box className="VampireClanSelection__leftPanel">
-              <Section title="Available Clans" fill scrollable>
+              <Section title={t('availableClans')} fill scrollable>
                 <Stack vertical>
                   {data.clans.map((clan, index) => {
                     const selected = clan.id === selectedClan?.id;
@@ -226,12 +295,12 @@ export const VampireClanSelection = () => {
                             name="pen"
                             className="VampireClanSelection__infoIcon"
                           />
-                          Clan Name
+                          {t('clanName')}
                         </Box>
                         <Input
                           fluid
                           className="VampireClanSelection__customNameInput"
-                          placeholder="Name your Caitiff bloodline..."
+                          placeholder={t('customNamePlaceholder')}
                           value={customName}
                           onChange={onCustomNameChange}
                           maxLength={42}
@@ -240,33 +309,35 @@ export const VampireClanSelection = () => {
                           className="VampireClanSelection__infoText"
                           mt={0.5}
                         >
-                          Leave blank to be known simply as the &quot;Custom
-                          Clan&quot;.
+                          {t('customNameHint')}
                         </Box>
                       </Box>
                     ) : null}
 
                     <InfoBlock
-                      title="Description"
+                      title={t('description')}
                       icon="book"
                       text={capFirst(selectedClan.desc)}
+                      fallback={t('unknown')}
                     />
                     <InfoBlock
-                      title="Curse / Downside"
+                      title={t('curseDownside')}
                       icon="skull"
                       text={capFirst(
                         selectedClan.downside || selectedClan.curse,
                       )}
+                      fallback={t('unknown')}
                     />
                     <InfoBlock
-                      title="Blood Preference"
+                      title={t('bloodPreference')}
                       icon="tint"
                       text={capFirst(selectedClan.bloodPreference)}
+                      fallback={t('unknown')}
                     />
 
-                    <LordBlock clan={selectedClan} />
+                    <LordBlock clan={selectedClan} t={t} />
 
-                    <ClanTraitsBlock traits={selectedClan.clanTraits} />
+                    <ClanTraitsBlock traits={selectedClan.clanTraits} t={t} />
 
                     <Box className="VampireClanSelection__infoBlock">
                       <Box className="VampireClanSelection__infoTitle">
@@ -274,7 +345,7 @@ export const VampireClanSelection = () => {
                           name="fire"
                           className="VampireClanSelection__infoIcon"
                         />
-                        Disciplines &amp; Powers
+                        {t('disciplinesPowers')}
                       </Box>
                       {selectedClan.covens && selectedClan.covens.length > 0 ? (
                         <Stack vertical>
@@ -284,15 +355,14 @@ export const VampireClanSelection = () => {
                                 coven={coven}
                                 expanded={expandedCovens.has(coven.name)}
                                 onToggle={() => toggleCoven(coven.name)}
+                                t={t}
                               />
                             </Stack.Item>
                           ))}
                         </Stack>
                       ) : (
                         <Box className="VampireClanSelection__infoText">
-                          {isCustom
-                            ? 'A Caitiff chooses their own disciplines later.'
-                            : 'None.'}
+                          {isCustom ? t('caitiffNoDisciplines') : t('none')}
                         </Box>
                       )}
                     </Box>
@@ -303,7 +373,9 @@ export const VampireClanSelection = () => {
           </Box>
 
           <Box className="VampireClanSelection__footer">
-            <Box className="VampireClanSelection__warning">{data.warning}</Box>
+            <Box className="VampireClanSelection__warning">
+              {t('warningDefault')}
+            </Box>
             <Stack align="center">
               <Stack.Item grow />
               <Stack.Item>
@@ -313,7 +385,7 @@ export const VampireClanSelection = () => {
                   onClick={() => act('accept_clan')}
                   className="VampireClanSelection__footerAccept"
                 >
-                  Accept Clan
+                  {t('accept')}
                 </Button>
               </Stack.Item>
               <Stack.Item>
@@ -323,7 +395,7 @@ export const VampireClanSelection = () => {
                   onClick={() => act('close')}
                   className="VampireClanSelection__footerClose"
                 >
-                  Close
+                  {t('close')}
                 </Button>
               </Stack.Item>
             </Stack>
@@ -334,7 +406,14 @@ export const VampireClanSelection = () => {
   );
 };
 
-const InfoBlock = (props: { title: string; icon: string; text?: string }) => (
+type Translator = ReturnType<typeof makeT>;
+
+const InfoBlock = (props: {
+  title: string;
+  icon: string;
+  text?: string;
+  fallback?: string;
+}) => (
   <Box className="VampireClanSelection__infoBlock">
     <Box className="VampireClanSelection__infoTitle">
       <Icon
@@ -344,13 +423,13 @@ const InfoBlock = (props: { title: string; icon: string; text?: string }) => (
       {props.title}
     </Box>
     <Box className="VampireClanSelection__infoText">
-      {props.text || 'Unknown'}
+      {props.text || props.fallback || ''}
     </Box>
   </Box>
 );
 
-const LordBlock = (props: { clan: ClanData }) => {
-  const { clan } = props;
+const LordBlock = (props: { clan: ClanData; t: Translator }) => {
+  const { clan, t } = props;
   const hasForm = !!clan.lordForm;
   const hasTraits = clan.lordTraits && clan.lordTraits.length > 0;
   const hasVitae = !!clan.vitaeBonus;
@@ -361,11 +440,11 @@ const LordBlock = (props: { clan: ClanData }) => {
     <Box className="VampireClanSelection__infoBlock">
       <Box className="VampireClanSelection__infoTitle">
         <Icon name="crown" className="VampireClanSelection__infoIcon" />
-        Lord of the Clan
+        {t('lordOfClan')}
       </Box>
       <Box className="VampireClanSelection__lordTitleLine">
-        Hailed as the <b>{clan.lordTitle || 'Lord'}</b>
-        {hasVitae ? `, blessed with +${clan.vitaeBonus} vitae` : null}.
+        {t('lordHailedAs')} <b>{clan.lordTitle || 'Lord'}</b>
+        {hasVitae ? t('lordVitae', { vitae: clan.vitaeBonus }) : null}.
       </Box>
 
       {hasForm ? (
@@ -383,7 +462,7 @@ const LordBlock = (props: { clan: ClanData }) => {
       {hasTraits ? (
         <Box className="VampireClanSelection__traitList">
           <Box className="VampireClanSelection__traitListLabel">
-            Lord-only Boons
+            {t('lordOnlyBoons')}
           </Box>
           {clan.lordTraits.map((trait) => (
             <TraitRow key={`lord-${trait.name}`} trait={trait} />
@@ -394,18 +473,19 @@ const LordBlock = (props: { clan: ClanData }) => {
   );
 };
 
-const ClanTraitsBlock = (props: { traits: TraitData[] }) => {
-  if (!props.traits || props.traits.length === 0) {
+const ClanTraitsBlock = (props: { traits: TraitData[]; t: Translator }) => {
+  const { traits, t } = props;
+  if (!traits || traits.length === 0) {
     return null;
   }
   return (
     <Box className="VampireClanSelection__infoBlock">
       <Box className="VampireClanSelection__infoTitle">
         <Icon name="star" className="VampireClanSelection__infoIcon" />
-        Special Clan Traits
+        {t('specialClanTraits')}
       </Box>
       <Box className="VampireClanSelection__traitList">
-        {props.traits.map((trait) => (
+        {traits.map((trait) => (
           <TraitRow key={`clan-${trait.name}`} trait={trait} />
         ))}
       </Box>
@@ -424,8 +504,9 @@ const CovenCard = (props: {
   coven: CovenData;
   expanded: boolean;
   onToggle: () => void;
+  t: Translator;
 }) => {
-  const { coven, expanded, onToggle } = props;
+  const { coven, expanded, onToggle, t } = props;
   return (
     <Box className="VampireClanSelection__covenCard">
       <Button
@@ -470,7 +551,7 @@ const CovenCard = (props: {
             ))
           ) : (
             <Box className="VampireClanSelection__infoText">
-              No powers documented.
+              {t('noPowersDocumented')}
             </Box>
           )}
         </Box>

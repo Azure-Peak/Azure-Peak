@@ -18,6 +18,20 @@
 #define INITIATE_LORDE 1
 #define INITIATE_ANYONE 2
 
+/datum/crimson_crucible_i18n
+	var/language_code
+	var/list/strings = list()
+
+GLOBAL_LIST_INIT(crimson_crucible_i18n, build_crimson_crucible_i18n())
+
+/proc/build_crimson_crucible_i18n()
+	. = list()
+	for(var/path in subtypesof(/datum/crimson_crucible_i18n))
+		var/datum/crimson_crucible_i18n/inst = new path
+		if(inst.language_code && length(inst.strings))
+			.[inst.language_code] = inst.strings.Copy()
+		qdel(inst)
+
 /obj/structure/vampire/bloodpool
 	name = "Crimson Crucible"
 	desc = "An ominious bloodstained Crucible, humming with unholy energies and crackling with untold potental. A thick smell of copper invades your nose just looking upon it, is that blood?"
@@ -156,6 +170,9 @@
 	data["maxCupDeposit"] = max_cup_deposit
 	data["activeProjects"] = active_project_data
 	data["availableProjects"] = available_project_data
+	var/lang = user?.client?.preferred_ui_language || DEFAULT_PREFERRED_UI_LANGUAGE
+	data["language"] = lang
+	data["i18nOverrides"] = GLOB.crimson_crucible_i18n[lang]
 	return data
 
 /obj/structure/vampire/bloodpool/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)
