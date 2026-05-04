@@ -45,12 +45,17 @@
 		"name" = "Customised Caitiff Clan",
 		"desc" = "Forge your own cursed bloodline outside the ancient houses. The elders will not claim you, but neither will their chains bind you.",
 		"curse" = "Unstable legacy.",
-		"downside" = "have no ancient house to shelter your name",
-		"bloodPreference" = "your hunger is your own",
+		"downside" = "Have no ancient house to shelter your name.",
+		"bloodPreference" = "Your hunger is your own.",
 		"tagline" = "Forge your own cursed bloodline",
 		"icon" = null,
 		"isCustom" = TRUE,
-		"covens" = list()
+		"covens" = list(),
+		"lordTitle" = "Caitiff Lord",
+		"lordForm" = null,
+		"lordTraits" = list(),
+		"clanTraits" = list(),
+		"vitaeBonus" = 0
 	))
 
 	data["clans"] = clans
@@ -124,6 +129,18 @@
 	for(var/coven_type in C.clane_covens)
 		covens += list(coven_to_ui(coven_type))
 
+	var/lord_preview_type = lord_preview_type_for(C)
+	var/datum/clan_leader/L = lord_preview_type ? new lord_preview_type : null
+
+	var/list/lord_form = L ? lord_form_for(L) : null
+	var/list/lord_traits = L ? get_unique_lord_traits(L) : list()
+	var/list/clan_traits = get_unique_clan_traits(C)
+	var/lord_title = (L && L.lord_title) ? L.lord_title : "Lord"
+	var/vitae_bonus = L ? L.vitae_bonus : 0
+
+	if(L)
+		qdel(L)
+
 	return list(
 		"id" = "[clan_type]",
 		"name" = C.name,
@@ -134,7 +151,12 @@
 		"covens" = covens,
 		"icon" = C.clanicon,
 		"tagline" = get_clan_tagline(C),
-		"isCustom" = FALSE
+		"isCustom" = FALSE,
+		"lordTitle" = lord_title,
+		"lordForm" = lord_form,
+		"lordTraits" = lord_traits,
+		"clanTraits" = clan_traits,
+		"vitaeBonus" = vitae_bonus
 	)
 
 /datum/vampire_clan_selection_menu/proc/coven_to_ui(coven_type)
@@ -179,3 +201,146 @@
 		if("Crimson Fang")
 			return "Assassins, warriors, and diablerists"
 	return "An ancient curse carried through blood"
+
+/// Returns the typepath of the clan_leader datum to PREVIEW in the UI.
+/// Avoids changing the runtime `leader` field on the clan itself.
+/datum/vampire_clan_selection_menu/proc/lord_preview_type_for(datum/clan/C)
+	switch(C.name)
+		if("Nosferatu")
+			return /datum/clan_leader/nosferatu
+		if("House Thronleer")
+			return /datum/clan_leader/thronleer
+		if("Children of the Abyss")
+			return /datum/clan_leader/abyss
+		if("Crimson Fang")
+			return /datum/clan_leader/crimson_fang
+		if("Vitabella Family")
+			return /datum/clan_leader/eoran
+	return C.leader
+
+/// Returns {name, desc} for the lord's signature shapeshift form, or null if none.
+/datum/vampire_clan_selection_menu/proc/lord_form_for(datum/clan_leader/L)
+	if(!L || !length(L.lord_spells))
+		return null
+	for(var/spell_type in L.lord_spells)
+		var/list/form = lord_form_label(spell_type)
+		if(form)
+			return form
+	return null
+
+/datum/vampire_clan_selection_menu/proc/lord_form_label(spell_type)
+	switch(spell_type)
+		if(/obj/effect/proc_holder/spell/targeted/shapeshift/rat)
+			return list(
+				"name" = "Sewer Rat Form",
+				"desc" = "Shed your kindred shape for that of a sewer rat — slip through cracks no man could pass."
+			)
+		if(/obj/effect/proc_holder/spell/targeted/shapeshift/vampire/bat)
+			return list(
+				"name" = "Bat Form",
+				"desc" = "Take wing as a winged shadow — quick, elusive, hard to strike."
+			)
+		if(/obj/effect/proc_holder/spell/targeted/shapeshift/gaseousform)
+			return list(
+				"name" = "Gaseous Form",
+				"desc" = "Dissolve into mist — untouchable, but thinly bound to this world."
+			)
+		if(/obj/effect/proc_holder/spell/targeted/shapeshift/cabbit)
+			return list(
+				"name" = "Cabbit Form",
+				"desc" = "A graceful, deceptively meek shape — beauty as camouflage, fang behind a smile."
+			)
+	return null
+
+/datum/vampire_clan_selection_menu/proc/get_unique_clan_traits(datum/clan/C)
+	var/list/base = base_member_traits()
+	return diff_traits_to_ui(C.clane_traits, base)
+
+/datum/vampire_clan_selection_menu/proc/get_unique_lord_traits(datum/clan_leader/L)
+	var/list/base = base_lord_traits()
+	return diff_traits_to_ui(L.lord_traits, base)
+
+/datum/vampire_clan_selection_menu/proc/diff_traits_to_ui(list/source, list/base)
+	var/list/seen = list()
+	var/list/result = list()
+	for(var/trait in source)
+		if(trait in base)
+			continue
+		if(trait in seen)
+			continue
+		seen += trait
+		var/list/label = trait_label(trait)
+		if(label)
+			result += list(label)
+	return result
+
+/datum/vampire_clan_selection_menu/proc/base_member_traits()
+	return list(
+		TRAIT_STRONGBITE,
+		TRAIT_VAMPBITE,
+		TRAIT_NOHUNGER,
+		TRAIT_NOBREATH,
+		TRAIT_DEATHLESS,
+		TRAIT_NOPAIN,
+		TRAIT_TOXIMMUNE,
+		TRAIT_STEELHEARTED,
+		TRAIT_NOSLEEP,
+		TRAIT_VAMP_DREAMS,
+		TRAIT_DARKVISION,
+		TRAIT_LIMBATTACHMENT,
+		TRAIT_SILVER_WEAK,
+		TRAIT_VAMPMANSION
+	)
+
+/datum/vampire_clan_selection_menu/proc/base_lord_traits()
+	return list(
+		TRAIT_HEAVYARMOR,
+		TRAIT_INFINITE_ENERGY,
+		TRAIT_STRENGTH_UNCAPPED
+	)
+
+/datum/vampire_clan_selection_menu/proc/trait_label(trait)
+	switch(trait)
+		if(TRAIT_NASTY_EATER)
+			return list("name" = "Nasty Eater", "desc" = "Stomach grim meals without complaint.")
+		if(TRAIT_ANTISCRYING)
+			return list("name" = "Hidden from Sight", "desc" = "Scrying magics slide off your name.")
+		if(TRAIT_UNSEEMLY)
+			return list("name" = "Unseemly", "desc" = "Twisted features unsettle anyone who sees them.")
+		if(TRAIT_KEENEARS)
+			return list("name" = "Keen Ears", "desc" = "Sounds others miss reach you clearly.")
+		if(TRAIT_JESTERPHOBIA)
+			return list("name" = "Jesterphobia", "desc" = "Mummers, jesters and fools rattle your nerves.")
+		if(TRAIT_BAD_MOOD)
+			return list("name" = "Brooding Soul", "desc" = "Mood debuffs cut deeper than for others.")
+		if(TRAIT_SELF_SUSTENANCE)
+			return list("name" = "Self-Sustenance", "desc" = "Long study has taught you to endure on little.")
+		if(TRAIT_GOODWRITER)
+			return list("name" = "Skilled Hand", "desc" = "Your script is elegant and unforgeable.")
+		if(TRAIT_JACKOFALLTRADES)
+			return list("name" = "Jack of All Trades", "desc" = "Broad aptitude across many crafts.")
+		if(TRAIT_INTELLECTUAL)
+			return list("name" = "Intellectual", "desc" = "Sharper mind for arcane and worldly study.")
+		if(TRAIT_LIGHT_STEP)
+			return list("name" = "Light Step", "desc" = "You move without alerting prey or guards.")
+		if(TRAIT_CICERONE)
+			return list("name" = "Silver Tongue", "desc" = "Speech sways minds others could not move.")
+		if(TRAIT_DEATHSIGHT)
+			return list("name" = "Deathsight", "desc" = "You feel the dying — when and where they fall.")
+		if(TRAIT_BEAUTIFUL)
+			return list("name" = "Beautiful", "desc" = "Inhumanly comely, eyes follow you in any room.")
+		if(TRAIT_EMPATH)
+			return list("name" = "Empath", "desc" = "Read the moods and small lies of others.")
+		if(TRAIT_EXTEROCEPTION)
+			return list("name" = "Exteroception", "desc" = "Heightened sense of bodies and surroundings.")
+		if(TRAIT_HEAVYARMOR)
+			return list("name" = "Heavy Armor Mastery", "desc" = "Plate and chain weigh on you no more.")
+		if(TRAIT_INFINITE_ENERGY)
+			return list("name" = "Infinite Stamina", "desc" = "Toil and battle do not exhaust you.")
+		if(TRAIT_STRENGTH_UNCAPPED)
+			return list("name" = "Uncapped Strength", "desc" = "Your raw might has no mortal ceiling.")
+		if(TRAIT_SEEPRICES)
+			return list("name" = "Appraiser's Eye", "desc" = "You read the worth of any wares at a glance.")
+		if(TRAIT_DECEIVING_MEEKNESS)
+			return list("name" = "Deceiving Meekness", "desc" = "Foes underestimate you until it is too late.")
+	return null
