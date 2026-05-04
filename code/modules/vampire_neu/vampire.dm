@@ -136,43 +136,31 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 		REMOVE_TRAIT(owner, TRAIT_RAGE, null)
 
 /datum/antagonist/vampire/proc/show_clan_selection(mob/living/carbon/human/vampdude)
-	var/list/clan_options = list()
-	var/list/available_clans = list()
+	if(!vampdude)
+		return
 
 	if(vampdude.job == "Wretch")
-		create_custom_clan(vampdude)
+		var/wretch_name = tgui_input_text(vampdude, "Enter your Caitiff clan name:", "Custom Clan", "Custom Clan", MAX_NAME_LEN)
+		create_custom_clan(vampdude, wretch_name)
 		return
 
-	for(var/clan_type in subtypesof(/datum/clan))
-		var/datum/clan/temp_clan = new clan_type
-		if(temp_clan.selectable_by_vampires)
-			available_clans += clan_type
-			clan_options[temp_clan.name] = clan_type
-		qdel(temp_clan)
+	var/datum/vampire_clan_selection_menu/menu = new(src, vampdude)
+	menu.ui_interact(vampdude)
 
-	clan_options["Customised Caitiff Clan"] = "custom" //A little clearer you are a CAITIFF clan, NOT fully customised, sire. Encourage people to take pre-built a little more. Instead of lying to a player
-
-	var/choice = input(vampdude, "Choose your vampire clan:", "Clan Selection") as null|anything in clan_options
-
-	if(!choice)
-		// Default to nosferatu if no choice made
-		default_clan = /datum/clan/nosferatu
-		vampdude.set_clan(default_clan)
-		clan_selected = TRUE
+/datum/antagonist/vampire/proc/finalize_clan_selection(mob/living/carbon/human/vampdude, clan_type)
+	if(clan_selected || !vampdude)
 		return
+	if(!clan_type)
+		clan_type = /datum/clan/nosferatu
+	default_clan = clan_type
+	vampdude.set_clan(default_clan)
+	clan_selected = TRUE
 
-	if(clan_options[choice] == "custom")
-		create_custom_clan(vampdude)
-	else
-		default_clan = clan_options[choice]
-		vampdude.set_clan(default_clan)
-		clan_selected = TRUE
+/datum/antagonist/vampire/proc/finalize_default_clan_selection(mob/living/carbon/human/vampdude)
+	finalize_clan_selection(vampdude, /datum/clan/nosferatu)
 
-/datum/antagonist/vampire/proc/create_custom_clan(mob/living/carbon/human/vampdude)
-	// Get custom clan name
-	custom_clan_name = input(vampdude, "Enter your Caitiff clan name:", "Custom Clan", "Custom Clan") as text|null
-	if(!custom_clan_name)
-		custom_clan_name = "Custom Clan"
+/datum/antagonist/vampire/proc/create_custom_clan(mob/living/carbon/human/vampdude, custom_name = null)
+	custom_clan_name = (istext(custom_name) && length(custom_name)) ? custom_name : "Custom Clan"
 
 	var/datum/clan/custom/new_clan = new /datum/clan/custom()
 	new_clan.name = custom_clan_name
@@ -180,7 +168,6 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 		if(GENERATION_NEONATE, GENERATION_THINBLOOD)
 			new_clan.covens_to_select = COVENS_PER_WRETCH_CLAN
 
-	// Apply the custom clan
 	vampdude.set_clan_direct(new_clan)
 	clan_selected = TRUE
 

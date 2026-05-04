@@ -3144,6 +3144,7 @@
 #include "code\modules\vampire_neu\clan\clan_hierarchy_json.dm"
 #include "code\modules\vampire_neu\clan\clan_leader.dm"
 #include "code\modules\vampire_neu\clan\clan_menu.dm"
+#include "code\modules\vampire_neu\clan\clan_selection_menu.dm"
 #include "code\modules\vampire_neu\clan\heirarchy_interface.dm"
 #include "code\modules\vampire_neu\clan\real_clans\abyss.dm"
 #include "code\modules\vampire_neu\clan\real_clans\crimson_accord.dm"
