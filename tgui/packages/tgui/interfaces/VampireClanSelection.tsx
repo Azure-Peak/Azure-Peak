@@ -90,7 +90,7 @@ const TRANSLATIONS: Record<string, Record<string, string>> = {
     bloodPreference: 'Blood Preference',
     lordOfClan: 'Lord of the Clan',
     lordHailedAs: 'Hailed as the',
-    lordVitae: ', blessed with +{vitae} vitae',
+    lordVitae: ', endowed with an extra +{vitae} vitae',
     lordOnlyBoons: 'Lord-only Boons',
     specialClanTraits: 'Special Clan Traits',
     disciplinesPowers: 'Disciplines & Powers',

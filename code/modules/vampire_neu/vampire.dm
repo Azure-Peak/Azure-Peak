@@ -89,6 +89,7 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 	owner.special_role = name
 	owner.current.adjust_bloodpool()
 	max_thralls = initial(max_thralls)
+	var/clan_setup_deferred = FALSE
 	if(ishuman(owner.current))
 		var/mob/living/carbon/human/vampdude = owner.current
 		vampdude.hud_used?.shutdown_bloodpool()
@@ -116,19 +117,18 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 			ADD_TRAIT(vampdude, TRAIT_DUSTABLE, TRAIT_GENERIC)
 
 		if(!forced)
-			// Show clan selection interface
 			if(!clan_selected)
 				show_clan_selection(vampdude)
+				clan_setup_deferred = TRUE
 			else
-				// Apply the selected clan
 				vampdude.set_clan(default_clan)
 		else
 			vampdude.set_clan_direct(forcing_clan)
 			forcing_clan = null
 
 
-	// The clan system now handles most of the setup, but we can still do antagonist-specific things
-	after_gain()
+	if(!clan_setup_deferred)
+		after_gain()
 	. = ..()
 	equip()
 
@@ -157,6 +157,7 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 	default_clan = clan_type
 	vampdude.set_clan(default_clan)
 	clan_selected = TRUE
+	after_gain()
 
 /datum/antagonist/vampire/proc/finalize_default_clan_selection(mob/living/carbon/human/vampdude)
 	finalize_clan_selection(vampdude, /datum/clan/nosferatu)
@@ -172,6 +173,7 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 
 	vampdude.set_clan_direct(new_clan)
 	clan_selected = TRUE
+	after_gain()
 
 	to_chat(vampdude, span_notice("You are now a member of the [custom_clan_name] clan with [length(selected_covens)] coven(s)."))
 
