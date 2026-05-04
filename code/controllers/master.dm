@@ -33,8 +33,16 @@ GLOBAL_REAL(Master, /datum/controller/master) = new
 	var/init_timeofday
 	var/init_time
 	var/tickdrift = 0
+	/// Tickdrift as of last tick, w no averaging going on
+	var/olddrift = 0
 
 	var/sleep_delta = 1
+
+	/// The last decisecond we force dumped profiling information
+	/// Used to avoid spamming profile reads since they can be expensive (string memes)
+	var/last_profiled = 0
+	/// REALTIMEOFDAY when SStime_track.time_dilation_avg_fast first crossed the sustained threshold, 0 if currently below
+	var/td_elevated_since = 0
 
 	var/make_runtime = 0
 
@@ -314,8 +322,25 @@ GLOBAL_REAL(Master, /datum/controller/master) = new
 	//the actual loop.
 
 	while (1)
-		tickdrift = max(0, MC_AVERAGE_FAST(tickdrift, (((REALTIMEOFDAY - init_timeofday) - (world.time - init_time)) / world.tick_lag)))
+		var/newdrift = ((REALTIMEOFDAY - init_timeofday) - (world.time - init_time)) / world.tick_lag
+		tickdrift = max(0, MC_AVERAGE_FAST(tickdrift, newdrift))
 		var/starting_tick_usage = TICK_USAGE
+
+		if(newdrift - olddrift >= CONFIG_GET(number/drift_dump_threshold))
+			AttemptProfileDump(CONFIG_GET(number/drift_profile_delay), "stall", "drift grew [round(newdrift - olddrift,0.1)] ticks in one MC iteration")
+		olddrift = newdrift
+
+		// Sustained elevated tick dilation: catches the "15-40% TD sustained for N seconds" case.
+		// Uses SStime_track.time_dilation_avg_fast (already a percentage, smoothed over ~few seconds).
+		if(SStime_track && SStime_track.time_dilation_avg_fast >= CONFIG_GET(number/sustained_td_threshold_pct))
+			if(!td_elevated_since)
+				td_elevated_since = REALTIMEOFDAY
+			else if(REALTIMEOFDAY - td_elevated_since >= CONFIG_GET(number/sustained_td_duration))
+				AttemptProfileDump(CONFIG_GET(number/sustained_td_delay), "sustainedTD", "[round(SStime_track.time_dilation_avg_fast,0.1)]% TD sustained for [round((REALTIMEOFDAY - td_elevated_since) * 0.1,1)]s")
+				td_elevated_since = 0
+		else
+			td_elevated_since = 0
+
 		if (processing <= 0)
 			current_ticklimit = TICK_LIMIT_RUNNING
 			sleep(10)
@@ -635,3 +660,17 @@ GLOBAL_REAL(Master, /datum/controller/master) = new
 	for(var/thing in subsystems)
 		var/datum/controller/subsystem/SS = thing
 		SS.OnConfigLoad()
+
+/// Attempts to dump our current profile info into a file, triggered if the MC thinks shit is going down
+/// Accepts a delay in deciseconds of how long ago our last dump can be, this saves causing performance problems ourselves
+/// `reason_tag` is a short filename-safe identifier (e.g. "stall", "sustainedTD").
+/// `reason_detail` is the human-readable explanation shown in logs and admin chat.
+/datum/controller/master/proc/AttemptProfileDump(delay, reason_tag = "emergency", reason_detail = "unspecified")
+	if(REALTIMEOFDAY - last_profiled <= delay)
+		return FALSE
+	last_profiled = REALTIMEOFDAY
+	var/msg = "MC: Emergency profile dump ([reason_tag]: [reason_detail]) at world.time [world.time]"
+	log_world(msg)
+	log_game(msg)
+	message_admins("<span class='boldannounce'>\[PERF] [msg]</span>")
+	SSprofiler.DumpFile(allow_yield = FALSE, reason = reason_tag)

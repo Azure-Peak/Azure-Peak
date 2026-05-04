@@ -1,13 +1,13 @@
 /datum/advclass/mercenary/rumaclan
 	name = "Ruma Clan Gun-in"
-	tutorial = "You are well versed and experienced in swordfighting, you have no problem in taking up most jobs so long as the coin is good, for either yourself or the clan and the seonjang."
+	tutorial = "A swordfighter from a band of Kazengite foreigners. The Ruma Clan were outcasts from the Xinyi Dynasty, believed to be associated with the rebels at the time. The clan departed to avoid repercussion. It is no organized group of soldiers, but rather a loose collection of experienced fighters."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = NON_DWARVEN_RACE_TYPES //no dwarf sprites
 	outfit = /datum/outfit/job/roguetown/mercenary/rumaclan
 	subclass_languages = list(/datum/language/kazengunese)
 	class_select_category = CLASS_CAT_KAZENGUN
 	category_tags = list(CTAG_MERCENARY)
-	traits_applied = list(TRAIT_BLOOD_RESISTANCE, TRAIT_IGNOREDAMAGESLOWDOWN, TRAIT_HONORBOUND)
+	traits_applied = list(TRAIT_BLOOD_RESISTANCE, TRAIT_NOPAINSTUN, TRAIT_HONORBOUND)
 	cmode_music = 'sound/music/combat_Kazengun_Runaway_Chariot.ogg'
 	subclass_stats = list(
 		STATKEY_CON = 3,
@@ -31,7 +31,7 @@
 
 /datum/outfit/job/roguetown/mercenary/rumaclan/pre_equip(mob/living/carbon/human/H)
 	..()
-	to_chat(H, span_warning("You are well versed and experienced in swordfighting, you have no problem in taking up most jobs so long as the coin is good, for either yourself or the clan and the seonjang."))
+	to_chat(H, span_warning("You are a swordfighter of the Clan, peerless with a blade. So long as the coin is good, you have no problem taking up most jobs on behalf of either yourself, your leading Seonjang, or the Clan as a whole."))
 	belt = /obj/item/storage/belt/rogue/leather
 	beltr = /obj/item/rogueweapon/scabbard/sword/kazengun/steel
 	beltl = /obj/item/rogueweapon/sword/sabre/mulyeog/rumahench
@@ -43,22 +43,22 @@
 	gloves = /obj/item/clothing/gloves/roguetown/eastgloves2
 	backr = /obj/item/storage/backpack/rogue/satchel
 	backpack_contents = list(
-		/obj/item/roguekey/mercenary,
-		/obj/item/flashlight/flare/torch/lantern,
-		/obj/item/storage/belt/rogue/pouch/coins/poor,
+		/obj/item/roguekey/mercenary = 1,
+		/obj/item/flashlight/flare/torch/lantern = 1,
+		/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
 		)
 	H.merctype = 9
 
 /datum/advclass/mercenary/rumaclan_sasu
 	name = "Ruma Clan Sasu"
-	tutorial = "A band of foreign outcast Kazengunites. The Ruma Clan were outcasts from the Xinyi Dynasty, believed to be associated with the rebels at the time. The clan departed lest they risked being executed for such suspicions, or worse. It is no organized group of soldiers, but rather a loose collection of experienced fighters."
+	tutorial = "An archer from a band of Kazengite foreigners. The Ruma Clan were outcasts from the Xinyi Dynasty, believed to be associated with the rebels at the time. The clan departed to avoid repercussion. It is no organized group of soldiers, but rather a loose collection of experienced fighters."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = NON_DWARVEN_RACE_TYPES //no dwarf sprites
 	outfit = /datum/outfit/job/roguetown/mercenary/rumaclan_sasu
 	subclass_languages = list(/datum/language/kazengunese)
 	class_select_category = CLASS_CAT_KAZENGUN
 	category_tags = list(CTAG_MERCENARY)
-	traits_applied = list(TRAIT_BLOOD_RESISTANCE, TRAIT_IGNOREDAMAGESLOWDOWN, TRAIT_HONORBOUND)
+	traits_applied = list(TRAIT_BLOOD_RESISTANCE, TRAIT_NOPAINSTUN, TRAIT_HONORBOUND)
 	subclass_stats = list(
 		STATKEY_SPD = 4,
 		STATKEY_PER = 2,
@@ -83,7 +83,7 @@
 /datum/outfit/job/roguetown/mercenary/rumaclan_sasu/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.set_blindness(0)
-	to_chat(H, span_warning("You are an archer of the clan, many have called you an true marksman for your skills with the bow. You have no problem in taking up most jobs so long as the coin is good, for either yourself or the clan and the seonjang."))
+	to_chat(H, span_warning("You are an archer of the Clan, matchless with a bow. So long as the coin is good, you have no problem taking up most jobs on behalf of either yourself, your leading Seonjang, or the Clan as a whole."))
 	belt = /obj/item/storage/belt/rogue/leather
 	beltr = /obj/item/quiver/arrows
 	beltl = /obj/item/flashlight/flare/torch/lantern
@@ -96,9 +96,9 @@
 	backl = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
 	backr = /obj/item/storage/backpack/rogue/satchel
 	backpack_contents = list(
-		/obj/item/roguekey/mercenary,
-		/obj/item/storage/belt/rogue/pouch/coins/poor,
-		/obj/item/rogueweapon/huntingknife/idagger,
-		/obj/item/rogueweapon/scabbard/sheath = 1,
+		/obj/item/roguekey/mercenary = 1,
+		/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
+		/obj/item/rogueweapon/huntingknife/idagger/steel/kazengun = 1,
+		/obj/item/rogueweapon/scabbard/sheath/kazengun = 1,
 		)
 	H.merctype = 9

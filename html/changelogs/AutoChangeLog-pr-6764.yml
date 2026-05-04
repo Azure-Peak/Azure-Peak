@@ -1,5 +1,0 @@
-author: "BurpleBineapple"
-delete-after: True
-changes:
-  - bugfix: "Marriage now requires consent."
-  - bugfix: "The second person who bites the apple can choose if they want the first person's last name or not when being married."

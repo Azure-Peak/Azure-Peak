@@ -9,7 +9,8 @@
 		TRAIT_SMITHING_EXPERT,
 		TRAIT_SEWING_EXPERT,
 		TRAIT_SURVIVAL_EXPERT,
-		TRAIT_HOMESTEAD_EXPERT // No medicine but they get the full package
+		TRAIT_HOMESTEAD_EXPERT, // No medicine but they get the full package
+		// No hunting, as it's a specialty skill.
 	)
 	category_tags = list(CTAG_PILGRIM, CTAG_TOWNER)
 	adaptive_name = TRUE
@@ -40,6 +41,7 @@
 		/datum/skill/misc/lockpicking = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/sneaking = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/riding = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/hunting = SKILL_LEVEL_NOVICE,
 
 		/datum/skill/craft/crafting = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/craft/carpentry = SKILL_LEVEL_APPRENTICE,
@@ -49,10 +51,15 @@
 		/datum/skill/craft/alchemy = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/craft/tanning = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/craft/cooking = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/craft/blacksmithing = SKILL_LEVEL_NOVICE,
+		/datum/skill/craft/armorsmithing = SKILL_LEVEL_NOVICE,
+		/datum/skill/craft/weaponsmithing = SKILL_LEVEL_NOVICE,
+		/datum/skill/craft/smelting = SKILL_LEVEL_NOVICE,
 
 		/datum/skill/labor/lumberjacking = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/labor/fishing = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/labor/butchering = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/labor/mining = SKILL_LEVEL_NOVICE
 	)
 	maximum_possible_slots = 20 // Should not fill, just a hack to make it shows what types of towners are in round
 
@@ -124,4 +131,4 @@
 
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/diagnose/secular)
 	if(H.mind)
-		SStreasury.give_money_account(ECONOMIC_LOWER_CLASS, H, "Savings.")
+		SStreasury.grant_savings(ECONOMIC_LOWER_CLASS, H)

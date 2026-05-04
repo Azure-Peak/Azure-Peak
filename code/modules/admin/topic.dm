@@ -350,7 +350,7 @@
 		if(!M)
 			to_chat(usr, span_danger("ERROR: Mob not found."))
 			return
-		cmd_show_exp_panel(M.client)
+		show_exp_panel(M.client)
 
 	else if(href_list["toggleexempt"])
 		if(!check_rights(R_ADMIN))
@@ -1345,6 +1345,15 @@
 		if (!( where in list("onfloor","frompod","inhand","inmarked") ))
 			where = "onfloor"
 
+		var/faction_override
+		var/faction_preset = href_list["faction_preset"]
+		if(faction_preset == "__custom__")
+			var/custom = trim(href_list["faction_custom"])
+			if(length(custom))
+				faction_override = sanitize(custom)
+		else if(length(faction_preset))
+			faction_override = faction_preset
+
 
 		switch(where)
 			if("inhand")
@@ -1406,6 +1415,16 @@
 									SA.can_have_ai = FALSE
 								if(spawned_mob.ai_controller)
 									QDEL_NULL(spawned_mob.ai_controller)
+							if(faction_override && ismob(O))
+								var/mob/spawned_mob = O
+								spawned_mob.faction = list(faction_override)
+							if((href_list["dust_on_death"] || href_list["dust_leave_head"] || href_list["dust_delete_gear"]) && isliving(O))
+								var/mob/living/living_mob = O
+								ADD_TRAIT(living_mob, TRAIT_DUSTABLE, TRAIT_GENERIC)
+								if(href_list["dust_leave_head"])
+									ADD_TRAIT(living_mob, TRAIT_DUST_LEAVE_HEAD, TRAIT_GENERIC)
+								if(href_list["dust_delete_gear"])
+									ADD_TRAIT(living_mob, TRAIT_DUST_DELETE_GEAR, TRAIT_GENERIC)
 							if(where == "inhand" && isliving(usr) && isitem(O))
 								var/mob/living/L = usr
 								var/obj/item/I = O
@@ -1414,12 +1433,13 @@
 		if(pod)
 			new /obj/effect/DPtarget(target, pod)
 
+		var/faction_suffix = faction_override ? " with faction [faction_override]" : ""
 		if (number == 1)
-			log_admin("[key_name(usr)] created a [english_list(paths)]")
-			spawn_message_admins("[key_name_admin(usr)] created a [english_list(paths)]")
+			log_admin("[key_name(usr)] created a [english_list(paths)][faction_suffix]")
+			spawn_message_admins("[key_name_admin(usr)] created a [english_list(paths)][faction_suffix]")
 		else
-			log_admin("[key_name(usr)] created [number]ea [english_list(paths)]")
-			spawn_message_admins("[key_name_admin(usr)] created [number]ea [english_list(paths)]")
+			log_admin("[key_name(usr)] created [number]ea [english_list(paths)][faction_suffix]")
+			spawn_message_admins("[key_name_admin(usr)] created [number]ea [english_list(paths)][faction_suffix]")
 		return
 
 	else if(href_list["secrets"])

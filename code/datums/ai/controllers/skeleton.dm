@@ -12,12 +12,9 @@
 		/datum/ai_planning_subtree/aggro_find_target,
 		/datum/ai_planning_subtree/basic_melee_attack_subtree,
 		/datum/ai_planning_subtree/attack_obstacle_in_path,
-		/datum/ai_planning_subtree/simple_find_target/closest,
 
-		
+
 	)
-
-	idle_behavior = /datum/idle_behavior/idle_random_walk
 
 
 /datum/ai_controller/skeleton_spear
@@ -32,13 +29,10 @@
 	planning_subtrees = list(
 		/datum/ai_planning_subtree/being_a_minion,
 		/datum/ai_planning_subtree/aggro_find_target,
-		/datum/ai_planning_subtree/simple_find_target/closest,
 		/datum/ai_planning_subtree/attack_obstacle_in_path,
 		/datum/ai_planning_subtree/spacing/melee,
 		/datum/ai_planning_subtree/basic_melee_attack_subtree/spear,
 	)
-
-	idle_behavior = /datum/idle_behavior/idle_random_walk
 
 /datum/ai_controller/skeleton_ranged
 	movement_delay = SKELETON_MOVEMENT_SPEED * 1.2 //ranged malus
@@ -53,10 +47,7 @@
 		/datum/ai_planning_subtree/being_a_minion,
 		/datum/ai_planning_subtree/aggro_find_target,
 		/datum/ai_planning_subtree/basic_ranged_attack_subtree,
-		/datum/ai_planning_subtree/simple_find_target/closest,
 	)
-
-	idle_behavior = /datum/idle_behavior/idle_random_walk
 
 ///Key difference is minion is at the end and that it is an /event, so they will attack on the way there
 /datum/ai_controller/simple_skeleton/event

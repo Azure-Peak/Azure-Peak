@@ -23,6 +23,7 @@
 		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/sneaking = SKILL_LEVEL_EXPERT,
+		/datum/skill/misc/hunting = SKILL_LEVEL_APPRENTICE,
 	)
 	cmode_music = 'sound/music/combat_graggar.ogg'
 

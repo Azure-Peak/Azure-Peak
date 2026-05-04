@@ -3,7 +3,7 @@
 	desc = ""
 	mob_biotypes = MOB_ORGANIC|MOB_HUMANOID
 	boss_abilities = list(/datum/action/boss/lich_summon_minions)
-	faction = list("deepone")
+	faction = list(FACTION_DEEPONE)
 	icon = 'icons/roguetown/mob/monster/pufferboss.dmi'
 	icon_state = "pufferman"
 	wander = 0

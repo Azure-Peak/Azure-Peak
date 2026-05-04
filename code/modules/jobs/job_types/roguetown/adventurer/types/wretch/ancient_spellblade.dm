@@ -16,7 +16,7 @@
 		STATKEY_PER = 1,
 		STATKEY_STR = -1,
 	 ) // Weighted 3 - Loses str because Int makes sense for a caster. 0 CON for limb reattachment tradeoff.
-	subclass_mage_aspects = list("mastery" = FALSE, "major" = 0, "minor" = 0, "utilities" = 4, "ward" = TRUE)
+	subclass_mage_aspects = list("mastery" = FALSE, "major" = 0, "minor" = 0, "utilities" = 4)
 	subclass_skills = list(
 		/datum/skill/combat/shields = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/wrestling = SKILL_LEVEL_APPRENTICE,
@@ -190,3 +190,4 @@
 	H.energy = H.max_energy
 
 	to_chat(H, span_danger("You are playing an Antagonist role. Your very existence is an abomination — everyone is justified in laying you down. You are an ancient warrior risen from death, not a comedic skeleton. Having fun with your character is encouraged, but do not use the role to grief or disregard the setting — play it with gravitas and create memorable moments. Failure to maintain High Roleplay standards may result in punishment."))
+	H.select_skeleton_features()

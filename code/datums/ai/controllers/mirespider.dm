@@ -7,20 +7,18 @@
         BB_TARGETTING_DATUM = new /datum/targetting_datum/basic()
     )
 
-    planning_subtrees = list(
+    planning_subtrees = list(		
+		/datum/ai_planning_subtree/target_retaliate,
         /datum/ai_planning_subtree/aggro_find_target,
-        /datum/ai_planning_subtree/simple_find_target/closest,
 		/datum/ai_planning_subtree/attack_obstacle_in_path,
-        
-        /datum/ai_planning_subtree/basic_melee_attack_subtree,
 
+		/datum/ai_planning_subtree/basic_melee_attack_subtree,
+        
         /datum/ai_planning_subtree/simple_self_recovery,
         /datum/ai_planning_subtree/find_food,
         /datum/ai_planning_subtree/eat_food,
         /datum/ai_planning_subtree/being_a_minion/mirespider
     )
-
-    idle_behavior = /datum/idle_behavior/idle_random_walk
 
 /datum/ai_controller/mirespider_lurker
     movement_delay = MIRESPIDER_MOVEMENT_SPEED
@@ -33,13 +31,10 @@
 
     planning_subtrees = list(
         /datum/ai_planning_subtree/aggro_find_target,
-        /datum/ai_planning_subtree/simple_find_target/closest,
         /datum/ai_planning_subtree/basic_ranged_attack_subtree/mirespider_lurker,
         /datum/ai_planning_subtree/find_cocoon_target,
         /datum/ai_planning_subtree/cocoon_target
     )
-
-    idle_behavior = /datum/idle_behavior/idle_random_walk
 
 /datum/ai_controller/mirespider_paralytic
     movement_delay = MIRESPIDER_MOVEMENT_SPEED
@@ -52,12 +47,9 @@
 
     planning_subtrees = list(
         /datum/ai_planning_subtree/aggro_find_target,
-        /datum/ai_planning_subtree/simple_find_target/closest,
         /datum/ai_planning_subtree/find_cocoon_target,
         /datum/ai_planning_subtree/cocoon_target
     )
-
-    idle_behavior = /datum/idle_behavior/idle_random_walk
 
 /datum/ai_planning_subtree/being_a_minion/mirespider
     /// Blackboard key where we travel a place

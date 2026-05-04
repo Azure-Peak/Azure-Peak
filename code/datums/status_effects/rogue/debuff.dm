@@ -1089,3 +1089,19 @@
 /atom/movable/screen/alert/status_effect/debuff/sensitive_nerves
 	name = "Sensitive Nerves"
 	desc = "IT HURTS!!! MY WOUNDS BITE INTO MY FLESH WITH SUCH RABID FEROCITY!"
+
+/datum/status_effect/debuff/weapon_binded
+	id = "wep_bind_debuff"
+	duration = 5 SECONDS
+	status_type = STATUS_EFFECT_REFRESH
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/weapon_bind_debuff
+
+/datum/status_effect/debuff/weapon_binded/on_apply()
+	. = ..()
+	owner.stamina_add(10)
+
+/atom/movable/screen/alert/status_effect/debuff/weapon_bind_debuff
+	name = "Weapon Binded"
+	desc = "Our weapons binded! That conniving sod knew right where I was aiming! I can't benefit from a weapon bind!"
+	icon = 'icons/mob/combat_debuffs.dmi'
+	icon_state = "weapon_bind_debuff"

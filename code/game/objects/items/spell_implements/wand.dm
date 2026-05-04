@@ -1,7 +1,7 @@
 /obj/item/rogueweapon/wand
 	base_implement_name = "lesser wand"
 	name = "lesser wand"
-	desc = "A slender implement of carved wood tipped with a focus-gem. It channels the caster's attunement, empowering their staple spells. Light enough to wield alongside a shield."
+	desc = "A slender implement of carved wood tipped with a focus-gem. The gem captures excess energy dissipated into the air when a spell is cast, giving a fraction of it back to the wielder. Light enough to wield alongside a shield."
 	icon = 'icons/obj/items/wands.dmi'
 	icon_state = "wand_lesser"
 	lefthand_file = 'icons/obj/items/wands.dmi'
@@ -20,27 +20,27 @@
 	possible_item_intents = list(SPEAR_BASH)
 	sellprice = 34
 	implement_tier = IMPLEMENT_TIER_LESSER
-	implement_multiplier = IMPLEMENT_MULT_LESSER
+	implement_refund = IMPLEMENT_REFUND_LESSER
 
 /obj/item/rogueweapon/wand/greater
 	base_implement_name = "greater wand"
 	name = "greater wand"
-	desc = "A well-crafted wand set with a quality focus-gem. It channels the caster's attunement with notable potency."
+	desc = "A well-crafted wand set with a quality focus-gem. The gem captures excess energy dissipated into the air when a spell is cast, giving a generous share of it back to the wielder."
 	icon_state = "wand_greater"
 	max_integrity = 100
 	sellprice = 42
 	implement_tier = IMPLEMENT_TIER_GREATER
-	implement_multiplier = IMPLEMENT_MULT_GREATER
+	implement_refund = IMPLEMENT_REFUND_GREATER
 
 /obj/item/rogueweapon/wand/grand
 	base_implement_name = "grand wand"
 	name = "grand wand"
-	desc = "A masterwork wand crowned with a gem of extraordinary quality. It channels the caster's attunement with devastating efficiency."
+	desc = "A masterwork wand crowned with a gem of extraordinary quality. The gem captures excess energy dissipated into the air when a spell is cast, giving most of it back to the wielder - arcyne economy refined to an art."
 	icon_state = "wand_grand"
 	max_integrity = 120
 	sellprice = 121
 	implement_tier = IMPLEMENT_TIER_GRAND
-	implement_multiplier = IMPLEMENT_MULT_GRAND
+	implement_refund = IMPLEMENT_REFUND_GRAND
 
 /obj/item/rogueweapon/wand/getonmobprop(tag)
 	. = ..()
@@ -53,6 +53,6 @@
 
 /obj/item/rogueweapon/wand/examine(mob/user)
 	. = ..()
-	if(implement_multiplier)
-		. += span_notice("This implement empowers staple spells by [round((implement_multiplier - 1) * 100)]% when held.")
+	if(implement_refund)
+		. += span_notice("When held while casting, this implement leaves behind Residual Focus, returning [round(implement_refund * 100)]% of the spell's resource cost as energy over 20 seconds.")
 

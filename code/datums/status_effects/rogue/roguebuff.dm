@@ -1155,6 +1155,17 @@
 	desc = "I feel my heart as light as feathers. All my worries have washed away."
 	icon_state = "buff"
 
+/datum/status_effect/buff/oresight
+	id = "oresight"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/oresight
+	duration = 999 MINUTES	// Removed by the Oresight component.
+
+/atom/movable/screen/alert/status_effect/buff/oresight
+	name = "Oresight"
+	desc = "I focus in every few moments and sense the stone around me."
+	icon = 'icons/mob/screen_alert_misc.dmi'
+	icon_state = "oresight"
+
 /datum/status_effect/buff/pacify
 	id = "pacify"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/pacify
@@ -2189,26 +2200,26 @@
 
 //construct buffing
 /datum/status_effect/buff/windup
-    id = "windup"
-    alert_type = /atom/movable/screen/alert/status_effect/buff/windup
-    effectedstats = list(STATKEY_SPD = 1, STATKEY_WIL = 1)
-    duration = 45 MINUTES
+	id = "windup"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/windup
+	effectedstats = list(STATKEY_SPD = 1, STATKEY_WIL = 1)
+	duration = 45 MINUTES
 
 /atom/movable/screen/alert/status_effect/buff/windup
-    name = "Drill Windup"
-    desc = "Malum's own drill has wound me up. I am faster, now."
-    icon_state = "buff"
+	name = "Drill Windup"
+	desc = "Malum's own drill has wound me up. I am faster, now."
+	icon_state = "buff"
 
 /datum/status_effect/buff/tuneup
-    id = "tuneup"
-    alert_type = /atom/movable/screen/alert/status_effect/buff/tuneup
-    effectedstats = list(STATKEY_CON = 1, STATKEY_PER = 1)
-    duration = 45 MINUTES
+	id = "tuneup"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/tuneup
+	effectedstats = list(STATKEY_CON = 1, STATKEY_PER = 1)
+	duration = 45 MINUTES
 
 /atom/movable/screen/alert/status_effect/buff/tuneup
-    name = "Wrench Tuneup"
-    desc = "Malum's own wrench powers me. I can withstand more damage, now."
-    icon_state = "buff"
+	name = "Wrench Tuneup"
+	desc = "Malum's own wrench powers me. I can withstand more damage, now."
+	icon_state = "buff"
 
 #define ORDERBRINGER_FILTER "orderbringer"
 
@@ -2384,3 +2395,71 @@
 		mob.apply_status_effect(/datum/status_effect/eora_blessing)
 
 #undef EORANAURA_FILTER
+
+#define INVIGORATION_FILTER "invigoration_filter"
+
+/atom/movable/screen/alert/status_effect/buff/invigoration
+	name = "Invigoration"
+	desc = "My energy is being replenished."
+	icon_state = "buff"
+
+/datum/status_effect/buff/invigoration
+	id = "invigoration"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/invigoration
+	duration = 10 SECONDS
+	var/outline_colour = "#3a86ff"
+	var/energy_per_tick = 0
+	var/total_to_restore = 0
+	var/currently_restored = 0
+
+/datum/status_effect/buff/invigoration/on_creation(mob/living/new_owner, set_duration = 10 SECONDS, restore_percent_missing = 34, min_restore_percent = 20)
+	if(set_duration)
+		duration = set_duration
+
+	var/missing_energy = new_owner.max_energy - new_owner.energy
+	var/percent_missing = (missing_energy / new_owner.max_energy) * 100
+	var/percent_missing_percent = percent_missing * (restore_percent_missing / 100)
+
+	// either the provided restore missing % or the minimum safety floor
+	var/restore_target_percent = max(percent_missing_percent, min_restore_percent)
+
+	// Total amount we want to restore over the whole duration
+	total_to_restore = (restore_target_percent / 100) * new_owner.max_energy
+
+	// Divide that total by the number of ticks
+	var/tick_interval = 1 SECONDS
+	var/num_ticks = max(round(set_duration / tick_interval), 1)
+	energy_per_tick = total_to_restore / num_ticks
+	return ..()
+
+/datum/status_effect/buff/invigoration/on_apply()
+	owner.add_filter(INVIGORATION_FILTER, 2, list("type" = "outline", "color" = outline_colour, "alpha" = 80, "size" = 1))
+	to_chat(owner, span_notice("A surge of energy begins to circulate through my body!"))
+	return TRUE
+
+/datum/status_effect/buff/invigoration/tick()
+	if(!owner || owner.stat == DEAD)
+		return
+	// Safety measure, this shouldn't ever result in 0 but you never know.
+	var/to_add = min(energy_per_tick, total_to_restore - currently_restored)
+	if(to_add <= 0)
+		return
+	var/obj/effect/temp_visual/heal/H = new /obj/effect/temp_visual/heal_rogue(get_turf(owner))
+	H.color = outline_colour
+	owner.energy_add(to_add)
+	currently_restored += to_add
+
+/datum/status_effect/buff/invigoration/on_remove()
+	// Compensate for lag skipping ticks
+	// Turns out about 20% of all ticks are skipped on status effects, help.
+	// How are we even balancing stuff right :sob:
+	var/remainder = total_to_restore - currently_restored
+	if(remainder > 0 && owner && owner.stat != DEAD)
+		owner.energy_add(remainder)
+		var/obj/effect/temp_visual/heal/H = new /obj/effect/temp_visual/heal_rogue(get_turf(owner))
+		H.color = outline_colour
+
+	owner.remove_filter(INVIGORATION_FILTER)
+	return ..()
+
+#undef INVIGORATION_FILTER

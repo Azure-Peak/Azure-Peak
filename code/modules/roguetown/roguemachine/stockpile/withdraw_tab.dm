@@ -1,14 +1,12 @@
 /datum/withdraw_tab
-	var/stockpile_index = -1
 	var/budget = 0
 	var/compact = TRUE
 	var/current_category = "Raw Materials"
-	var/list/categories = list("Raw Materials", "Fruit", "Vegetable", "Animal","Seafood")
+	var/list/categories = list("Raw Materials", "Refined", "Alchemy", "Fruit", "Vegetable", "Animal", "Seafood", "Precious")
 	var/obj/structure/roguemachine/parent_structure = null
 
-/datum/withdraw_tab/New(stockpile_param, obj/structure/roguemachine/structure_param)
+/datum/withdraw_tab/New(obj/structure/roguemachine/structure_param)
 	. = ..()
-	stockpile_index = stockpile_param
 	parent_structure = structure_param
 
 /datum/withdraw_tab/proc/get_contents(title, show_back)
@@ -35,26 +33,27 @@
 		for(var/datum/roguestock/stockpile/A in SStreasury.stockpile_datums)
 			if(A.category != current_category)
 				continue
-			var/remote_stockpile = stockpile_index == 1 ? 2 : 1
+			A.refresh_auto_price()
 			if(!A.withdraw_disabled)
-				contents += "<b>[A.name] (Max: [A.stockpile_limit]):</b> <a href='?src=[REF(parent_structure)];withdraw=[REF(A)]'>LCL: [A.held_items[stockpile_index]] at [A.withdraw_price]m</a> /"
-				contents += "<a href='?src=[REF(parent_structure)];withdraw=[REF(A)];remote=1'>RMT: [A.held_items[remote_stockpile]] at [A.withdraw_price+A.transport_fee]m</a><BR>"
-
+				contents += "<b>[A.name][A.get_event_tag()] (Max: [A.stockpile_limit]):</b> <a href='?src=[REF(parent_structure)];withdraw=[REF(A)]'>[A.stockpile_amount] at [A.withdraw_price]m</a>[A.get_market_delta_tag_for("withdraw")]"
+				if(!A.accept_toggle_enabled)
+					contents += " <font color='#888'>(NOT ACCEPTING DEPOSITS)</font>"
+				contents += "<BR>"
 			else
-				contents += "<b>[A.name]:</b> Withdrawing Disabled..."
+				contents += "<b>[A.name]:</b> Withdrawing Disabled...<BR>"
 
 	else
 		for(var/datum/roguestock/stockpile/A in SStreasury.stockpile_datums)
 			if(A.category != current_category)
 				continue
-			contents += "[A.name]<BR>"
+			A.refresh_auto_price()
+			contents += "[A.name][A.get_event_tag()]<BR>"
 			contents += "[A.desc]<BR>"
-			contents += "Stockpiled Amount (Local): [A.held_items[stockpile_index]]<BR>"
-			var/remote_stockpile = stockpile_index == 1 ? 2 : 1
-			contents += "Stockpiled Amount (Remote): [A.held_items[remote_stockpile]]<BR>"
+			contents += "Stockpiled Amount: [A.stockpile_amount]<BR>"
+			if(!A.accept_toggle_enabled)
+				contents += "<font color='#888'>NOT ACCEPTING DEPOSITS</font><BR>"
 			if(!A.withdraw_disabled)
-				contents += "<a href='?src=[REF(parent_structure)];withdraw=[REF(A)]'>\[Withdraw Local ([A.withdraw_price])\] </a>"
-				contents += "<a href='?src=[REF(parent_structure)];withdraw=[REF(A)];remote=1'>\[Withdraw Remote ([A.withdraw_price+A.transport_fee])\]</a><BR><BR>"
+				contents += "<a href='?src=[REF(parent_structure)];withdraw=[REF(A)]'>\[Withdraw ([A.withdraw_price])\]</a>[A.get_market_delta_tag_for("withdraw")]<BR><BR>"
 			else
 				contents += "Withdrawing Disabled...<BR><BR>"
 
@@ -63,26 +62,20 @@
 /datum/withdraw_tab/proc/perform_action(href, href_list)
 	if(href_list["withdraw"])
 		var/datum/roguestock/D = locate(href_list["withdraw"]) in SStreasury.stockpile_datums
-
-		var/remote = href_list["remote"]
-		var/source_stockpile = stockpile_index
-		var/total_price = D.withdraw_price
-		if (remote)
-			total_price += D.transport_fee
-			source_stockpile = stockpile_index == 1 ? 2 : 1
-
 		if(!D)
 			return FALSE
+		D.refresh_auto_price()
+		var/total_price = D.withdraw_price
+
 		if(D.withdraw_disabled)
 			return FALSE
-		if(D.held_items[source_stockpile] <= 0)
+		if(D.stockpile_amount <= 0)
 			parent_structure.say("Insufficient stock.")
 		else if(total_price > budget)
 			var/mob/living/user = usr
 			if (user && HAS_TRAIT(user, TRAIT_FOOD_STIPEND))
-				if (SStreasury.treasury_value >= total_price)
-					D.held_items[source_stockpile]--
-					SStreasury.log_to_steward("-[D.withdraw_price]m worth of goods withdrawn direct from vomitorium (keep stipend)")
+				if (SStreasury.burn(SStreasury.discretionary_fund, total_price, "food stipend - vomitorium"))
+					D.stockpile_amount--
 					var/obj/item/I = new D.item_type(parent_structure.loc)
 					to_chat(user, span_info("[parent_structure] chitters and squeaks into the treasury ratlines."))
 					if(!user.put_in_hands(I))
@@ -93,11 +86,10 @@
 			else
 				parent_structure.say("Insufficient mammon.")
 		else
-			D.held_items[source_stockpile]--
+			D.stockpile_amount--
 			budget -= total_price
-			SStreasury.economic_output -= D.export_price // Prevent GDP double counting
-			SStreasury.give_money_treasury(D.withdraw_price, "stockpile withdraw")
-			record_round_statistic(STATS_STOCKPILE_REVENUE, D.withdraw_price)
+			SStreasury.mint(SStreasury.discretionary_fund, total_price, "stockpile withdraw")
+			record_round_statistic(STATS_STOCKPILE_REVENUE, total_price)
 			var/obj/item/I = new D.item_type(parent_structure.loc)
 			var/mob/user = usr
 			if(!user.put_in_hands(I))

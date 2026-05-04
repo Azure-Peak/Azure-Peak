@@ -1,9 +1,6 @@
-#define MT_KASTVYL "kastvyl"
-#define KASTVYL_DR_DURATION 3 SECONDS
-
 /datum/action/cooldown/spell/projectile/kastvyl
 	name = "Kastvyl"
-	desc = "In old Azurian - 'To throw a blade'. Tosses out a bouncing phantom hurlbat that ricochets against solid wall. The damage type changes based on the blade class of your current active intent. Striking the same target twice will deals half damage on the second hit, and a third strike will deal no damage."
+	desc = "In old Azurian - 'To throw a blade'. Tosses out a bouncing phantom hurlbat that ricochets against solid wall. The damage type changes based on the blade class of your current active intent. Striking the same target twice will deal no damage."
 	button_icon = 'icons/mob/actions/classuniquespells/spellblade.dmi'
 	button_icon_state = "kastvyl"
 	sound = 'sound/combat/wooshes/bladed/wooshlarge (1).ogg'
@@ -26,18 +23,18 @@
 	charge_drain = 1
 	charge_slowdown = CHARGING_SLOWDOWN_NONE
 	charge_sound = 'sound/magic/charging.ogg'
-	cooldown_time = 8 SECONDS
+	cooldown_time = 9 SECONDS
 
 	associated_skill = /datum/skill/magic/arcane
 	spell_tier = 2
 	spell_impact_intensity = SPELL_IMPACT_MEDIUM
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN
 
-	var/base_damage = 40
-	var/empowered_damage = 70
+	var/base_damage = 35
+	var/empowered_damage = 60
 	var/momentum_cost = 3
 	var/cached_damage = 0
-	var/cached_woundclass = BCLASS_BLUNT
+	var/cached_woundclass = BCLASS_CUT
 	var/cached_empowered = FALSE
 
 /datum/action/cooldown/spell/projectile/kastvyl/cast(atom/cast_on)
@@ -110,7 +107,7 @@
 	ricochet_decay_damage = 1
 	// Pierce through mobs like Arcyne Lance - the projectile keeps flying onward after each strike.
 	movement_type = UNSTOPPABLE
-	var/reduced_damage_mult = 0.5
+	var/list/hit_targets
 
 /obj/projectile/energy/kastvyl/on_hit(target)
 	if(isliving(target))
@@ -120,36 +117,26 @@
 			playsound(get_turf(L), 'sound/magic/magic_nulled.ogg', 100)
 			qdel(src)
 			return BULLET_ACT_BLOCK
-		var/last_hit = L.mob_timers[MT_KASTVYL]
-		if(last_hit && (world.time < last_hit + KASTVYL_DR_DURATION))
-			// Already struck once recently. Reduce damage; a third strike during the window is blocked.
-			if(L.mob_timers["[MT_KASTVYL]_count"] >= 2)
-				qdel(src)
-				return BULLET_ACT_BLOCK
-			damage = round(damage * reduced_damage_mult)
-			L.mob_timers["[MT_KASTVYL]_count"] = (L.mob_timers["[MT_KASTVYL]_count"] || 1) + 1
-		else
-			L.mob_timers["[MT_KASTVYL]_count"] = 1
-		L.mob_timers[MT_KASTVYL] = world.time
+		LAZYINITLIST(hit_targets)
+		if(hit_targets[REF(L)])
+			return BULLET_ACT_FORCE_PIERCE
+		hit_targets[REF(L)] = TRUE
 		if(firer)
 			log_combat(firer, L, "kastvyl-struck")
 		. = ..()
-		// Tumble onward through this target like Arcyne Lance - the ricochet system still handles wall bounces.
 		return . || BULLET_ACT_FORCE_PIERCE
 	. = ..()
 
 /obj/projectile/energy/kastvyl/empowered
 	name = "empowered phantom hurlbat"
-	icon_state = "kastvyl_empowered"
-	damage = 70
+	damage = 60
 
 /obj/projectile/energy/kastvyl/arc
 	name = "arced phantom hurlbat"
+	damage = 30
 	arcshot = TRUE
 
 /obj/projectile/energy/kastvyl/empowered/arc
 	name = "empowered arced phantom hurlbat"
+	damage = 45
 	arcshot = TRUE
-
-#undef MT_KASTVYL
-#undef KASTVYL_DR_DURATION

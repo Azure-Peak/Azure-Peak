@@ -9,7 +9,7 @@
 
 /obj/item/natural/poo/cow
 	name = "cow pie"
-	desc = "It smells awful, but I know it's just digested grass... Right?"
+	desc = "It smells awful, but I know it's just digested grass... right?"
 	icon_state = "cowpoo"
 
 /obj/item/natural/poo/horse

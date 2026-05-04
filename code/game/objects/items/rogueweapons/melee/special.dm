@@ -151,7 +151,7 @@
 				to_chat(user, span_danger("Something is disrupting the rod's power!"))
 				return
 
-			if(!(H in SStreasury.bank_accounts))
+			if(!SStreasury.has_account(H))
 				to_chat(user, span_danger("The target must have a Meister account!"))
 				return
 
@@ -334,6 +334,13 @@
 	force = 27	//Its thrust will be able to pen 80 stab armor if the wielder has 17 STR. (With softcap)
 	max_integrity = 80
 
+/obj/item/rogueweapon/katar/ravox
+	name = "arbiter"
+	desc = "A deadly claw fashioned for justicars. It's cuts strike deep into one's soul."
+	icon_state = "ravoxclaw"
+	force = 27
+	max_integrity = 80
+
 /obj/item/rogueweapon/katar/bronze
 	name = "bronze katar"
 	desc = "A bronze blade that sits above the user's fist. Commonly used by those proficient at unarmed fighting."
@@ -431,6 +438,43 @@
 		added_int = 50,\
 		added_def = 2,\
 	)
+
+/obj/item/rogueweapon/handclaw/steel/graggaredged
+	name = "vicious sickleclaw"
+	desc = "A tainted mimicry of Ravox's falx, forever stained with the blood of the one they both cherished above all else. The fury of God, for \
+	just a moment, wilted before the sorrow of Man; before the wounded champion lept forth and drove His blade straight into the Sinistar's eye."
+	icon_state = "graggarpatasickle"
+	icon = 'icons/roguetown/weapons/unarmed32.dmi'
+	wdefense = 3
+	force = 35
+	possible_item_intents = list(/datum/intent/claw/cut/steel, /datum/intent/claw/lunge/steel, /datum/intent/claw/rend/steel)
+	wbalance = WBALANCE_HEAVY
+	max_blade_int = 333
+	max_integrity = 333
+	sharpness_mod = 2
+	smeltresult = /obj/item/ingot/component/graggar
+
+/obj/item/rogueweapon/handclaw/steel/graggaredged/Initialize()
+	. = ..()
+	AddComponent(/datum/component/cursed_item, TRAIT_HORDE, "GAUNTLET", "RENDERED ASUNDER")
+
+/obj/item/rogueweapon/handclaw/steel/graggarblunt
+	name = "vicious mantlebreaker"
+	desc = "A tainted mimicry of Astrata's staff, studded with the remains of divine bone and gristle. By His command, the Apotheosis rose; and with His \
+	final heartbeat, the Sinistar fell. How little He could've known, that it would ultimately be a tragedy without purpose - a war without reason."
+	icon_state = "graggarpataclub"
+	icon = 'icons/roguetown/weapons/unarmed32.dmi'
+	wdefense = 3
+	force = 35
+	possible_item_intents = list(/datum/intent/mace/strike, /datum/intent/mace/smash)
+	wbalance = WBALANCE_HEAVY
+	max_blade_int = 333
+	max_integrity = 333
+	smeltresult = /obj/item/ingot/component/graggar
+
+/obj/item/rogueweapon/handclaw/steel/graggarblunt/Initialize()
+	. = ..()
+	AddComponent(/datum/component/cursed_item, TRAIT_HORDE, "GAUNTLET", "RENDERED ASUNDER")
 
 ///Peasantry / Militia Weapon Pack///
 

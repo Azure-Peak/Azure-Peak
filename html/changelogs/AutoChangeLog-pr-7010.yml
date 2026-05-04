@@ -1,0 +1,4 @@
+author: "Drifter7371"
+delete-after: True
+changes:
+  - bugfix: "poor formatting for BW, swords/axes should work properly now."

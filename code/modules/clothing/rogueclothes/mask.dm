@@ -251,6 +251,10 @@
 	if(user.wear_mask == src)
 		worn = TRUE
 
+
+/obj/item/clothing/mask/rogue/facemask/steel/confessor/ComponentInitialize()
+	AddComponent(/datum/component/armour_filtering/positive, TRAIT_NOSTINK, "plague_resistant")
+
 /obj/item/clothing/mask/rogue/facemask/steel/confessor/dropped(mob/user)
 	. = ..()
 	if(worn)
@@ -409,6 +413,15 @@
 	max_integrity = 200
 	smeltresult = /obj/item/ingot/steel
 
+/obj/item/clothing/mask/rogue/facemask/steel/graggar
+	name = "vicious jawmask"
+	desc = "Shattered jaws, chipped teeth, sunken metal - fit for a skull of the same. It snarls in mimicry of the Sinistar's visage."
+	icon_state = "graggarplatemask_heavy"
+	block2add = null
+
+/obj/item/clothing/mask/rogue/facemask/steel/graggar/ComponentInitialize()
+	AddComponent(/datum/component/cursed_item, TRAIT_HORDE, "ARMOR", "RENDERED ASUNDER")
+
 /obj/item/clothing/mask/rogue/facemask/steel/paalloy
 	name = "ancient mask"
 	desc = "Polished gilbranze, molded into an intimidating visage. Touch the cheek; it is warm, \
@@ -500,6 +513,21 @@
 	sewrepair = TRUE
 	salvage_result = /obj/item/natural/hide/cured
 	salvage_amount = 1
+
+/obj/item/clothing/mask/rogue/physician/feld
+	name = "feldsher's mask"
+	desc = "Tragedy, neutrality, and comedy; the guise of a master, tempered against the most sorrowful and sudden consequences of bad medicine."
+	icon_state = "pestramask"
+	item_state = "pestramask"
+
+/obj/item/clothing/mask/rogue/physician/phys
+	name = "physicker's mask"
+	desc = "A beaked guise, stuffed with herbs to keep one's humors unmarred during more grizzlesome labors."
+	icon_state = "feldmask"
+	item_state = "feldmask"
+
+/obj/item/clothing/mask/rogue/physician/ComponentInitialize()
+	AddComponent(/datum/component/armour_filtering/positive, TRAIT_NOSTINK, "plague_resistant")
 
 /obj/item/clothing/mask/rogue/skullmask
 	name = "skull mask"
@@ -613,6 +641,9 @@
 	icon_state = "docmask"
 	item_state = "docmask"
 	salvage_result = /obj/item/natural/bone
+
+/obj/item/clothing/mask/rogue/courtphysician/ComponentInitialize()
+	AddComponent(/datum/component/armour_filtering/positive, TRAIT_NOSTINK, "plague_resistant")
 
 //gemcarved masks from Vanderlin
 

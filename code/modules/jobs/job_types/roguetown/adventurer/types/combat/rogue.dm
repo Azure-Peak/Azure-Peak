@@ -7,6 +7,8 @@
 	cmode_music = 'sound/music/cmode/adventurer/combat_outlander3.ogg'
 	traits_applied = list(TRAIT_DODGEEXPERT, TRAIT_SEEPRICES, TRAIT_GRAVEROBBER)
 	category_tags = list(CTAG_ADVENTURER, CTAG_COURTAGENT, CTAG_LICKER_WRETCH)
+	townie_contract_gate_exempt = TRUE
+	townie_contract_gate_hide_in_list = TRUE
 	class_select_category = CLASS_CAT_ROGUE
 	subclass_stats = list(
 		STATKEY_STR = -1,

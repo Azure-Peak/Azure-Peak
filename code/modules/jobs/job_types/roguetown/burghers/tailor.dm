@@ -72,7 +72,7 @@
 	if(H.mind)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/fittedclothing)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/takeapprentice)
-		SStreasury.give_money_account(ECONOMIC_UPPER_MIDDLE_CLASS, H, "Savings.") //There is a better way to do this, do I care for it - of course not.
+		SStreasury.grant_savings(ECONOMIC_UPPER_MIDDLE_CLASS, H) //There is a better way to do this, do I care for it - of course not.
 		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/sewing/tailor/naledisash)
 		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/sewing/tailor/halfrobe)
 		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/sewing/tailor/monkrobe)

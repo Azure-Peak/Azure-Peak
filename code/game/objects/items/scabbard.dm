@@ -552,7 +552,7 @@
 	force = 20
 	valid_blade = /obj/item/rogueweapon/sword/sabre/mulyeog
 	associated_skill = /datum/skill/combat/swords
-	possible_item_intents = list(SHIELD_BASH, SHIELD_BLOCK)
+	possible_item_intents = list(SHIELD_BASH, SHIELD_SMASH)
 	can_parry = TRUE
 	sewrepair = FALSE
 	wdefense = 8
@@ -586,7 +586,8 @@
 	icon_state = "kazscab_gold"
 	item_state = "kazscab_gold"
 	valid_blade = /obj/item/rogueweapon/sword/sabre/mulyeog/rumacaptain
-	sellprice = 10
+	max_integrity = 220
+	sellprice = 50
 
 /obj/item/rogueweapon/scabbard/sword/kazengun/kodachi
 	name = "plain lacquer scabbard"
@@ -683,7 +684,7 @@
 	item_state = "staffsheath"
 	valid_blade = /obj/item/rogueweapon/sword/rapier/hand
 	implement_tier = IMPLEMENT_TIER_GREATER
-	implement_multiplier = IMPLEMENT_MULT_GREATER
+	implement_refund = IMPLEMENT_REFUND_GREATER
 	sellprice = 100
 
 /obj/item/rogueweapon/scabbard/sheath/courtphysician/hand/ComponentInitialize()

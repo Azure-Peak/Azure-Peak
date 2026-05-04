@@ -114,7 +114,7 @@
 
 	H.Knockdown(10)
 	H.blur_eyes(20)
-	teleport_to_dream(H, 1, 1, FALSE, 40 SECONDS)
+	teleport_to_dream(H, 1, 1, FALSE, 40 SECONDS, force = TRUE)
 
 /datum/status_effect/curse/hag_slumber/on_remove()
 	UnregisterSignal(owner, COMSIG_SLEEPY_TIME)

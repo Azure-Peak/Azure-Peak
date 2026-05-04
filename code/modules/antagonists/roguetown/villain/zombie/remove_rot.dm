@@ -75,10 +75,14 @@
 
 ///Cure bodyparts
 /proc/clean_body_parts(mob/living/carbon/target)
+	var/da_skin = getblock(target.dna.uni_identity, DNA_SKIN_TONE_BLOCK) // copied from mirror transform, think this is where we store skin data(???)
 	for (var/obj/item/bodypart/bodypart in target.bodyparts)
 		bodypart.rotted = FALSE
 		bodypart.skeletonized = FALSE
 		bodypart.update_limb()
 		bodypart.update_disabled()
 
+	if(ishuman(target)) // did you know drunk driving is safer if you do it in a car rather than a bike?
+		var/mob/living/carbon/human/H = target			
+		H.skin_tone = da_skin 
 	target.update_body()

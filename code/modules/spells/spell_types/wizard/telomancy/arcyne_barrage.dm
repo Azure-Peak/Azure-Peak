@@ -32,7 +32,6 @@
 
 	associated_skill = /datum/skill/magic/arcane
 	spell_tier = 4
-	is_implement_scaled_spell = TRUE
 	spell_impact_intensity = SPELL_IMPACT_HIGH
 
 	var/channel_duration = 10 SECONDS
@@ -55,7 +54,7 @@
 	if(!istype(H))
 		return FALSE
 
-	H.say(barrage_invocation, forced = "spell")
+	H.say(barrage_invocation, forced = "spell", language = /datum/language/common)
 
 	var/locked_angle = dir2angle(H.dir)
 	var/end_time = world.time + channel_duration
@@ -124,15 +123,6 @@
 	bolt.bonus_accuracy += (H.STAINT - 8) * 3
 	if(H.mind)
 		bolt.bonus_accuracy += (H.get_skill_level(associated_skill) * 5)
-	var/best_mult = 0
-	for(var/obj/item/held in list(H.get_active_held_item(), H.get_inactive_held_item()))
-		if(!istype(held, /obj/item/rogueweapon))
-			continue
-		var/obj/item/rogueweapon/W = held
-		if(W.implement_multiplier > best_mult)
-			best_mult = W.implement_multiplier
-	if(best_mult)
-		bolt.damage = round(bolt.damage * best_mult)
 	bolt.setAngle(angle)
 	bolt.fire()
 

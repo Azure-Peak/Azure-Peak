@@ -1362,7 +1362,7 @@
 /obj/item/clothing/head/roguetown/wizhat,
 /obj/item/clothing/suit/roguetown/armor/gambeson/shadowrobe,
 /obj/item/clothing/shoes/roguetown/sandals,
-/obj/item/rogueweapon/woodstaff,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/weapons,
 /obj/item/clothing/mask/rogue/facemask/copper,
 /obj/item/clothing/under/roguetown/trou/shadowpants,
 /mob/living/carbon/human/species/skeleton/npc/no_equipment,

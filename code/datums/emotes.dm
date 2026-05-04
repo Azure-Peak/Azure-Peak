@@ -138,7 +138,10 @@
 		// Build the styled name for chat
 		var/styled_name
 		if(human && human.voice_color)
-			styled_name = "<span style='color:#[human.voice_color];text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b>[emotelocation]</b></span>"
+			var/color_to_use = human.voice_color
+			if(human.voicecolor_override)
+				color_to_use = human.voicecolor_override
+			styled_name = "<span style='color:#[color_to_use];text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b>[emotelocation]</b></span>"
 		else
 			styled_name = "<b>[emotelocation]</b>"
 		// If the message contains $n, substitute it with the name instead of prepending
@@ -232,6 +235,10 @@
 				H.last_sound = used_sound
 				return used_sound
 		else
+			// familiars get to do emotes with their weird planar being anatomy, so that they can caw and such
+			if(istype(user, /mob/living/simple_animal/pet/familiar))
+				var/datum/voicepack/pack2use = (user.gender==MALE)? /datum/voicepack/male : /datum/voicepack/female
+				return pack2use.get_sound(key)
 			return user.get_sound(key)
 
 /mob/living/proc/get_sound(input)

@@ -12,16 +12,16 @@ GLOBAL_LIST_INIT(large_goblin_aggro, list(
 ))
 
 /mob/living/carbon/human/species/goblin/npc/large
+	threat_point = THREAT_ELITE
 	name = "unusually large goblin"
 	gob_outfit = /datum/outfit/job/roguetown/npc/mini_boss/large_goblin
-	faction = list("dundead")
-	dodgetime = 50
+	faction = list(FACTION_DUNDEAD, FACTION_ORCS)
+	dodgetime = 20
+	d_intent = INTENT_PARRY
 
 /mob/living/carbon/human/species/goblin/npc/large/after_creation()
 	..()
 	SEND_SIGNAL(src, COMSIG_MOB_MODIFY_AGGRO_LINES, GLOB.large_goblin_aggro, TRUE)
-	name = pick("Big Grug", "Massive Gronk", "Huge Blort", "Giant Snik", "Enormous Gak", "Colossal Muk")
-	real_name = name
 	ADD_TRAIT(src, TRAIT_BIGGUY, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NOMOOD, TRAIT_GENERIC)
@@ -41,31 +41,45 @@ GLOBAL_LIST_INIT(large_goblin_aggro, list(
 	if(!gibbed)
 		dust(FALSE, FALSE, TRUE)
 
+/mob/living/carbon/human/species/goblin/npc/large/hell
+	race = /datum/species/goblin/hell
+
+/mob/living/carbon/human/species/goblin/npc/large/moon
+	race = /datum/species/goblin/moon
+
+/mob/living/carbon/human/species/goblin/npc/large/cave
+	race = /datum/species/goblin/cave
+
 /datum/outfit/job/roguetown/npc/mini_boss/large_goblin/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.STASTR = 16
-	H.STASPD = 10
+	H.STASPD = 12
 	H.STACON = 20
 	H.STAWIL = 12
 	H.STAPER = 6
-	H.STAINT = 2
+	H.STAINT = 8 // I am Evil
 	H.STALUC = 4
-	var/loadout = rand(1, 3)
+	var/loadout = rand(1, 4)
 	switch(loadout)
 		if(1) // mace brute
 			r_hand = /obj/item/rogueweapon/mace
 			l_hand = /obj/item/rogueweapon/shield/wood
-			armor = /obj/item/clothing/suit/roguetown/armor/leather
-			head = /obj/item/clothing/head/roguetown/helmet/leather
+			armor = /obj/item/clothing/suit/roguetown/armor/leather/hide/goblin
+			head = /obj/item/clothing/head/roguetown/helmet/leather/goblin
 		if(2) // greataxe berserker
 			r_hand = /obj/item/rogueweapon/greataxe/militia
-			armor = /obj/item/clothing/suit/roguetown/armor/chainmail/iron
-			head = /obj/item/clothing/head/roguetown/helmet/skullcap
+			armor = /obj/item/clothing/suit/roguetown/armor/leather/hide/goblin
+			head = /obj/item/clothing/head/roguetown/helmet/leather/goblin
 		if(3) // flail and shield
 			r_hand = /obj/item/rogueweapon/flail
 			l_hand = /obj/item/rogueweapon/shield/wood
-			armor = /obj/item/clothing/suit/roguetown/armor/leather
-			head = /obj/item/clothing/head/roguetown/helmet/leather
+			armor = /obj/item/clothing/suit/roguetown/armor/leather/hide/goblin
+			head = /obj/item/clothing/head/roguetown/helmet/leather/goblin
+		if(4) // bottle bomber
+			r_hand = /obj/item/rogueweapon/mace
+			neck = /obj/item/storage/belt/rogue/pouch/bombs
+			armor = /obj/item/clothing/suit/roguetown/armor/leather/hide/goblin
+			head = /obj/item/clothing/head/roguetown/helmet/leather/goblin
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
 	gloves = /obj/item/clothing/gloves/roguetown/leather
 	H.adjust_skillrank(/datum/skill/combat/maces, 4, TRUE)

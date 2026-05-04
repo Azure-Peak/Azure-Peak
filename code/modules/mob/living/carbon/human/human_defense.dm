@@ -843,7 +843,7 @@
 			var/obj/item/clothing/C = bp
 			if(zone2covered(def_zone, C.body_parts_covered_dynamic))
 				if(C.max_integrity)
-					if(C.obj_integrity <= 0)
+					if(C.obj_integrity <= 0 || C.obj_broken)
 						continue
 				var/val = C.armor.getRating(d_type)
 				if(val > 0)
@@ -871,7 +871,7 @@
 			var/obj/item/clothing/C = bp
 			if(zone2covered(def_zone, C.body_parts_covered_dynamic))
 				if(C.max_integrity)
-					if(C.obj_integrity <= 0)
+					if(C.obj_integrity <= 0 || C.obj_broken)
 						continue
 				var/val = C.armor.getRating(d_type)
 				if(val > 0)

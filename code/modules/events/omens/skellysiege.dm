@@ -104,7 +104,7 @@
 					valid_turfs -= T
 					if(T)
 						var/mob/living/carbon/human/species/skeleton/S = new /mob/living/carbon/human/species/skeleton/npc(T)
-						S.faction = list("skeleton")
+						S.faction = list(FACTION_SKELETON)
 						
 		if(wave < waves)
 			sleep(spawn_delay) // Wait before next wave

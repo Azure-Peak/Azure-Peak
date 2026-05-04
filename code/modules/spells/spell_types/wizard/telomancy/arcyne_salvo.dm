@@ -27,7 +27,6 @@
 	charge_slowdown = CHARGING_SLOWDOWN_NONE
 	charge_sound = 'sound/magic/charging.ogg'
 	cooldown_time = 12 SECONDS
-	is_implement_scaled_spell = TRUE
 	attunement_school = ASPECT_NAME_TELOMANCY
 	var/spread_step = 15
 
@@ -72,7 +71,7 @@
 
 /obj/projectile/magic/arcyne_salvo/arc
 	name = "arced arcyne bolt"
-	damage = 22
+	damage = 23
 	arcshot = TRUE
 
 /obj/projectile/magic/arcyne_salvo/on_hit(target)

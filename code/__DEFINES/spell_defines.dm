@@ -145,14 +145,19 @@
 // Weapon-in-hand casting penalty — applied when casting a penalized spell while holding a non-implement rogueweapon
 #define WEAPON_CAST_PENALTY 0.3
 
+// Leyline teleportation matrix passenger limits
+#define TELEPORT_MAX_PASSENGERS 5
+#define TELEPORT_MAX_NONMAGES 2
+
 // Spell implement tiers and multipliers
 #define IMPLEMENT_TIER_LESSER  1
 #define IMPLEMENT_TIER_GREATER 2
 #define IMPLEMENT_TIER_GRAND   3
 
-#define IMPLEMENT_MULT_LESSER  1.2   // 20% poke damage bonus
-#define IMPLEMENT_MULT_GREATER 1.225 // 22.5% poke damage bonus
-#define IMPLEMENT_MULT_GRAND   1.25  // 25% poke damage bonus
+// Fraction of a spell's resource cost that the Residual Focus buff returns over 20 seconds.
+#define IMPLEMENT_REFUND_LESSER  0.20
+#define IMPLEMENT_REFUND_GREATER 0.275
+#define IMPLEMENT_REFUND_GRAND   0.35
 
 // Lightning Specific constants
 #define LIGHTNING_ADAPTATION_COOLDOWN 15 SECONDS

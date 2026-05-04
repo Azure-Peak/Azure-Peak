@@ -82,7 +82,7 @@
 	H.change_stat(STATKEY_PER, 2)
 	H.change_stat(STATKEY_LCK, 5)
 	if(H.mind)
-		SStreasury.give_money_account(ECONOMIC_RICH, H, "Savings.")
+		SStreasury.grant_savings(ECONOMIC_RICH, H)
 		record_round_statistic(STATS_MARRIAGES_MADE)//Terrible way to do this but like, it wouldn't work off the "I'm married proc" so here we are.
 
 /obj/effect/proc_holder/spell/self/convertrole/servant

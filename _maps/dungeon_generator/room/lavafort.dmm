@@ -626,7 +626,7 @@
 /turf/open/floor/rogue/dirt,
 /area/rogue/under/tomb/cave/lava)
 "Pq" = (
-/obj/structure/fluff/buysign{
+/obj/structure/fluff/sign{
 	name = "If you are reading this, the Ten says you are a nerd."
 	},
 /turf/open/floor/rogue/grassred,
@@ -710,10 +710,10 @@
 /obj/machinery/light/rogue/oven/west,
 /obj/structure/closet/crate/chest,
 /obj/item/cooking/pan,
-/obj/item/reagent_containers/food/snacks/rogue/meat/mince,
-/obj/item/reagent_containers/food/snacks/rogue/meat/mince,
-/obj/item/reagent_containers/food/snacks/rogue/meat/mince,
-/obj/item/reagent_containers/food/snacks/rogue/meat/mince,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
 /obj/item/reagent_containers/food/snacks/rogue/meat/poultry,
 /obj/item/reagent_containers/food/snacks/rogue/meat/poultry,
 /turf/open/floor/rogue/hexstone,

@@ -136,7 +136,7 @@
 	if(!length(chant_lines) || chant_lines[1] == "TODO")
 		return TRUE
 	for(var/line in chant_lines)
-		chanter.say(line, forced = "spell")
+		chanter.say(line, forced = "spell", language = /datum/language/common)
 		if(!do_after(chanter, 2 SECONDS, target = chanter))
 			return FALSE
 	return TRUE
