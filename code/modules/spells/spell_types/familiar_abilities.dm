@@ -222,7 +222,7 @@
 		return TRUE
 
 /obj/effect/proc_holder/spell/invoked/matthios_firebreath/infernal
-	name = "Incendiary Bite"
+	name = "Hellfyre Wave"
 	desc = "Manifest your flames in a wave in front of you, burning down all in your path."
 	miracle = FALSE
 

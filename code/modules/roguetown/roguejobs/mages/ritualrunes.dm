@@ -521,6 +521,11 @@ GLOBAL_LIST(teleport_runes)
 					fam.gender=NEUTER
 				else
 					fam.gender=NEUTER
+			// needs 2 be done here because we trans the gender mid-ritual
+			if(fam.gender == MALE)
+				fam.voice_pack = new /datum/voicepack/male
+			else
+				fam.voice_pack = new /datum/voicepack/female
 			src.visible_message(span_notice("[fam.summoning_emote]"))
 
 			if(isnewplayer(chosen))
@@ -536,6 +541,7 @@ GLOBAL_LIST(teleport_runes)
 				to_chat(user, span_warning("Summoning failed: mind transfer failed"))
 				busy = FALSE
 				return
+			fam.client?.verbs -= GLOB.ghost_verbs
 			mind_datum.RemoveAllSpells()
 			mind_datum.AddSpell(new /datum/action/cooldown/spell/message_summoner())
 			mind_datum.AddSpell(new /datum/action/cooldown/spell/familiar_transform())

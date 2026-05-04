@@ -99,7 +99,10 @@ GLOBAL_LIST_EMPTY(leyline_activations)
 	. = ..()
 	if(istype(user, /mob/living/simple_animal/pet/familiar))
 		var/mob/living/simple_animal/pet/familiar/fam = user
-		. += span_info(fam.is_aligned_leyline(src)?"A leyline convergence attuned to my home plane! I could efficiently heal this body by resting within.":"A leyline convergence! I could heal this body by resting within.")
+		if(istype(src, /obj/structure/leyline/powerful))
+			. += span_info("A leyline convergence of singular power! I could efficiently heal this body by resting within.")
+		else
+			. += span_info((fam.is_aligned_leyline(src)?"A leyline convergence attuned to my home plane! I could efficiently heal this body by resting within.":"A leyline convergence! I could heal this body by resting within."))
 		return
 	if(!isarcyne(user))
 		. += span_info("You sense faint energy from the stones, but cannot comprehend its nature.")

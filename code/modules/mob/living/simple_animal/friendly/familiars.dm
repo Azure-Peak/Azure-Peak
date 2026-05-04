@@ -65,6 +65,7 @@
 	var/list/valid_healing_items = list() // what planar materials can heal you?
 	var/planar_origin = "void" // what plane are we from? avoids a bunch of istype checks
 	rot_type = null // no rotting inside vestiges please
+	var/datum/voicepack/voice_pack
 
 /datum/status_effect/buff/healing/familiar
 	alert_type = /atom/movable/screen/alert/status_effect/buff/healing/familiar
@@ -91,8 +92,8 @@
 		// bog leylines are high-tier healing for all familiars, otherwise you need to use the one aligned to your plane to get the bonus
 		var/is_high_tier = ley.max_tier==5 || is_aligned_leyline(ley)
 		// full recovery takes 20 seconds, or 10 seconds on high tier; we don't want to force people to sit around forever familiars don't have much health anywae
-		var/healing_factor = maxHealth/(is_high_tier?100:200)
-		apply_status_effect(/datum/status_effect/buff/healing/familiar, src, healing_factor)
+		var/healing_factor = maxHealth/(is_high_tier ? 100 : 200)
+		apply_status_effect(/datum/status_effect/buff/healing/familiar, healing_factor)
 		// only do this once; if there are multiple leylines on a tile uh why lol
 		// (checking every leyline for the highest tier healing in this hypothetical scenario would not be worth the performance hit)
 		return .
@@ -110,7 +111,36 @@
 	AddComponent(/datum/component/footstep, footstep_type)
 	TryAddFlight()
 	icon_dead = icon_living // to prevent sprite updating weirdness with vestige revival
-	grant_all_languages(TRUE) // we're pAI equivalent extraplanar beings and this avoids weird edge cases like infernals not speaking infernal
+	grant_languages() // we're pAI equivalent extraplanar beings and this avoids weird edge cases like infernals not speaking infernal
+
+// minor bit of organization to not clutter Initialize since uh,
+// there are a lot of languages we do not want to give like (checks) EAL holy shit why is that still in our code???
+// anyway the logic here is anything that's virtue-selectable, plus some more niche languages (undercommon, abyssal, zizochant) but not
+// thieves cant since it's not a language you learn so much as signals for a trade
+/mob/living/simple_animal/pet/familiar/proc/grant_languages()
+	var/static/list/familiar_languages = list(
+		/datum/language/elvish,
+		/datum/language/dwarvish,
+		/datum/language/orcish,
+		/datum/language/hellspeak,
+		/datum/language/draconic,
+		/datum/language/celestial,
+		/datum/language/raneshi,
+		/datum/language/grenzelhoftian,
+		/datum/language/kazengunese,
+		/datum/language/lingyuese,
+		/datum/language/etruscan,
+		/datum/language/gronnic,
+		/datum/language/otavan,
+		/datum/language/aavnic,
+		/datum/language/undercommon,
+		/datum/language/oldazurian,
+		/datum/language/abyssal,
+		/datum/language/beast,
+		/datum/language/undead,
+	)
+	for(var/L in familiar_languages)
+		grant_language(L)
 
 /mob/living/simple_animal/pet/familiar/death(gibbed)
 	. = ..(gibbed)
@@ -308,13 +338,16 @@
 		return TRUE
 	. = ..()
 
-/mob/living/simple_animal/pet/familiar/fae/attack_hand(mob/living/carbon/human/M)
+/mob/living/simple_animal/pet/familiar/fae/attack_hand(mob/living/M)
 	if(ingredients.len)
 		var/obj/item/I = ingredients[ingredients.len]
 		ingredients -= I
 		I.loc = M.loc
 		M.put_in_active_hand(I)
-		M.visible_message("<span class='info'>[src] spits [I] into [M]'s hand.</span>")
+		if(M == src)
+			M.visible_message("<span class='info'>[src] retrieves [I] from [src.p_their()] stomach.</span>")
+		else
+			M.visible_message("<span class='info'>[src] spits [I] into [M]'s hand.</span>")
 		return
 	. = ..()
 

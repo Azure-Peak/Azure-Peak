@@ -234,8 +234,14 @@
 		else
 			// familiars get to do emotes with their weird planar being anatomy, so that they can caw and such
 			if(istype(user, /mob/living/simple_animal/pet/familiar))
-				var/datum/voicepack/pack2use = (user.gender==MALE)? /datum/voicepack/male : /datum/voicepack/female
-				return pack2use.get_sound(key)
+				var/mob/living/simple_animal/pet/familiar/fam = user
+				var/possible_sounds = fam.voice_pack.get_sound(key)
+				var/used_sound
+				if(islist(possible_sounds))
+					used_sound = pick(possible_sounds)
+				else
+					used_sound = possible_sounds
+				return used_sound
 			return user.get_sound(key)
 
 /mob/living/proc/get_sound(input)
