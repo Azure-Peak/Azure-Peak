@@ -8,8 +8,8 @@
 	Little is known about where the Murklings come from, but their unique biology makes them dangerously adaptive. \
 	Newly-sprouting colonies have been found anywhere from the freezing mountains of Hammerhold to the desert sands of Naledi, \
 	though they are most commonly associated with the underdark - their first recorded sightings in its suffocating, lightless depths.<br>\
-	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b>| +1 CON | -1 INT |<br>\
-	| Easy Dismember | Limb Regrowth | No Bones |</b></span><br><br>"
+	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b>+1 CON | -1 INT | -1 SPD<br>\
+	Easy Dismember | Limb Regrowth | No Bones | No Blood</b></span><br><br>"
 	base_name = "Godtouched"
 	is_subrace = TRUE
 	origin_default = /datum/virtue/origin/racial/underdark
@@ -41,11 +41,12 @@
 		OFFSET_SHIRT_F = list(0,0), OFFSET_ARMOR_F = list(0,0), OFFSET_UNDIES_F = list(0,-1), \
 		OFFSET_TAUR = list(-16,0), OFFSET_TAUR_F = list(-16,0), \
 		)
-	race_bonus = list(STAT_CONSTITUTION = 1, STAT_INTELLIGENCE = -1)
+	race_bonus = list(STAT_CONSTITUTION = 1, STAT_INTELLIGENCE = -1, STAT_SPEED = -1)
 	inherent_traits = list(
 						TRAIT_EASYDISMEMBER,
 						TRAIT_REGROW_LIMBS,
-						TRAIT_ZOMBIE_IMMUNE
+						TRAIT_ZOMBIE_IMMUNE,
+						TRAIT_BLOODLOSS_IMMUNE
 						)
 	enflamed_icon = "widefire"
 	customizers = list(
