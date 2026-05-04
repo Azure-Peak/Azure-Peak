@@ -1,10 +1,10 @@
-#define TA_CLAN_HIERARCHY_JSON_VERSION 1
-#define TA_CLAN_HIERARCHY_JSON_MAX_NODES 80
-#define TA_CLAN_HIERARCHY_JSON_MAX_LENGTH 50000
-#define TA_CLAN_HIERARCHY_JSON_SHOW_ACTION "ta_show_clan_hierarchy_json"
-#define TA_CLAN_HIERARCHY_JSON_IMPORT_ACTION "ta_import_clan_hierarchy_json"
+#define CLAN_HIERARCHY_JSON_VERSION 1
+#define CLAN_HIERARCHY_JSON_MAX_NODES 80
+#define CLAN_HIERARCHY_JSON_MAX_LENGTH 50000
+#define CLAN_HIERARCHY_JSON_SHOW_ACTION "show_clan_hierarchy_json"
+#define CLAN_HIERARCHY_JSON_IMPORT_ACTION "import_clan_hierarchy_json"
 
-/datum/clan/proc/ta_collect_hierarchy_export_nodes(datum/clan_hierarchy_node/position, parent_id, list/nodes, list/node_ids)
+/datum/clan/proc/collect_hierarchy_export_nodes(datum/clan_hierarchy_node/position, parent_id, list/nodes, list/node_ids)
 	if(!position || node_ids[position])
 		return
 
@@ -22,54 +22,54 @@
 	))
 
 	for(var/datum/clan_hierarchy_node/subordinate as anything in position.subordinates)
-		ta_collect_hierarchy_export_nodes(subordinate, node_id, nodes, node_ids)
+		collect_hierarchy_export_nodes(subordinate, node_id, nodes, node_ids)
 
-/datum/clan/proc/ta_export_hierarchy_data()
+/datum/clan/proc/export_hierarchy_data()
 	if(!hierarchy_root)
 		initialize_hierarchy()
 
 	var/list/nodes = list()
 	var/list/node_ids = list()
-	ta_collect_hierarchy_export_nodes(hierarchy_root, null, nodes, node_ids)
+	collect_hierarchy_export_nodes(hierarchy_root, null, nodes, node_ids)
 
 	return list(
-		"format" = "twilight_axis_vampire_clan_hierarchy",
-		"version" = TA_CLAN_HIERARCHY_JSON_VERSION,
+		"format" = "vampire_clan_hierarchy",
+		"version" = CLAN_HIERARCHY_JSON_VERSION,
 		"clan_name" = name,
 		"nodes" = nodes,
 	)
 
-/datum/clan/proc/ta_export_hierarchy_json()
-	return json_encode(ta_export_hierarchy_data())
+/datum/clan/proc/export_hierarchy_json()
+	return json_encode(export_hierarchy_data())
 
-/datum/clan/proc/ta_import_cleanup(list/new_positions)
+/datum/clan/proc/import_hierarchy_cleanup(list/new_positions)
 	if(!new_positions)
 		return
 
 	for(var/datum/clan_hierarchy_node/position as anything in new_positions)
 		qdel(position)
 
-/datum/clan/proc/ta_collect_hierarchy_nodes(datum/clan_hierarchy_node/position, list/collected)
+/datum/clan/proc/collect_hierarchy_nodes(datum/clan_hierarchy_node/position, list/collected)
 	if(!position || (position in collected))
 		return
 
 	collected += position
 	for(var/datum/clan_hierarchy_node/subordinate as anything in position.subordinates)
-		ta_collect_hierarchy_nodes(subordinate, collected)
+		collect_hierarchy_nodes(subordinate, collected)
 
-/datum/clan/proc/ta_import_hierarchy_data(list/import_data, mob/living/carbon/human/importing_user)
+/datum/clan/proc/import_hierarchy_data(list/import_data, mob/living/carbon/human/importing_user)
 	if(!islist(import_data))
 		return "Import failed: JSON root must be an object."
 
-	if(import_data["format"] && import_data["format"] != "twilight_axis_vampire_clan_hierarchy")
+	if(import_data["format"] && import_data["format"] != "vampire_clan_hierarchy")
 		return "Import failed: unsupported hierarchy format."
 
 	var/list/nodes = import_data["nodes"]
 	if(!islist(nodes) || !length(nodes))
 		return "Import failed: JSON must contain a non-empty nodes array."
 
-	if(length(nodes) > TA_CLAN_HIERARCHY_JSON_MAX_NODES)
-		return "Import failed: hierarchy has too many nodes. Limit: [TA_CLAN_HIERARCHY_JSON_MAX_NODES]."
+	if(length(nodes) > CLAN_HIERARCHY_JSON_MAX_NODES)
+		return "Import failed: hierarchy has too many nodes. Limit: [CLAN_HIERARCHY_JSON_MAX_NODES]."
 
 	var/list/node_lookup = list()
 	var/list/parent_lookup = list()
@@ -79,17 +79,17 @@
 
 	for(var/node_entry as anything in nodes)
 		if(!islist(node_entry))
-			ta_import_cleanup(new_positions)
+			import_hierarchy_cleanup(new_positions)
 			return "Import failed: every node must be an object."
 
 		var/list/node_data = node_entry
 		var/node_id = node_data["id"]
 		if(!istext(node_id) || !length(node_id))
-			ta_import_cleanup(new_positions)
+			import_hierarchy_cleanup(new_positions)
 			return "Import failed: every node needs a text id."
 
 		if(node_lookup[node_id])
-			ta_import_cleanup(new_positions)
+			import_hierarchy_cleanup(new_positions)
 			return "Import failed: duplicate node id '[node_id]'."
 
 		var/position_name = node_data["name"]
@@ -133,7 +133,7 @@
 			parent_lookup[node_id] = "[parent_id]"
 
 	if(root_count != 1)
-		ta_import_cleanup(new_positions)
+		import_hierarchy_cleanup(new_positions)
 		return "Import failed: hierarchy must have exactly one root node."
 
 	new_root.rank_level = 0
@@ -150,19 +150,19 @@
 		var/parent_id = parent_lookup[node_id]
 		var/datum/clan_hierarchy_node/parent_position = node_lookup[parent_id]
 		if(!parent_position)
-			ta_import_cleanup(new_positions)
+			import_hierarchy_cleanup(new_positions)
 			return "Import failed: node '[node_id]' references missing parent '[parent_id]'."
 
 		if(length(parent_position.subordinates) >= parent_position.max_subordinates)
-			ta_import_cleanup(new_positions)
+			import_hierarchy_cleanup(new_positions)
 			return "Import failed: parent '[parent_position.name]' has more children than max_subordinates allows."
 
 		parent_position.add_subordinate(new_position)
 
 	var/list/reachable = list()
-	ta_collect_hierarchy_nodes(new_root, reachable)
+	collect_hierarchy_nodes(new_root, reachable)
 	if(length(reachable) != length(new_positions))
-		ta_import_cleanup(new_positions)
+		import_hierarchy_cleanup(new_positions)
 		return "Import failed: hierarchy contains disconnected nodes or a cycle."
 
 	var/mob/living/carbon/human/leader_to_restore = (istype(clan_leader) && clan_leader.clan == src) ? clan_leader : importing_user
@@ -180,27 +180,27 @@
 
 	return "Imported [length(new_positions)] hierarchy positions. Member assignments were not imported."
 
-/datum/clan_menu_interface/proc/ta_ensure_hierarchy_interface()
+/datum/clan_menu_interface/proc/ensure_hierarchy_interface()
 	if(!hierarchy_interface && user_clan)
 		hierarchy_interface = new /datum/clan_hierarchy_interface(user)
 	return hierarchy_interface
 
-/datum/clan_menu_interface/proc/ta_can_import_hierarchy()
-	var/datum/clan_hierarchy_interface/interface = ta_ensure_hierarchy_interface()
+/datum/clan_menu_interface/proc/can_import_hierarchy()
+	var/datum/clan_hierarchy_interface/interface = ensure_hierarchy_interface()
 	return interface && interface.can_manage_hierarchy()
 
-/datum/clan_menu_interface/proc/ta_show_hierarchy_json(status_text = null)
+/datum/clan_menu_interface/proc/show_hierarchy_json(status_text = null)
 	if(!user || !user_clan)
 		return
 
-	var/hierarchy_json = user_clan.ta_export_hierarchy_json()
+	var/hierarchy_json = user_clan.export_hierarchy_json()
 	var/status_html = ""
 	if(status_text)
 		status_html = "<div style='margin: 0 0 14px 0; padding: 10px 12px; background: rgba(80, 20, 20, 0.72); border: 1px solid #8B4513; color: #FFD700;'>[html_encode(status_text)]</div>"
 
 	var/import_html = ""
-	if(ta_can_import_hierarchy())
-		import_html = "<a href='byond://?src=[REF(src)];action=[TA_CLAN_HIERARCHY_JSON_IMPORT_ACTION]' class='btn-primary' style='display:inline-block; margin-top:12px; text-decoration:none;'>Import JSON</a>"
+	if(can_import_hierarchy())
+		import_html = "<a href='byond://?src=[REF(src)];action=[CLAN_HIERARCHY_JSON_IMPORT_ACTION]' class='btn-primary' style='display:inline-block; margin-top:12px; text-decoration:none;'>Import JSON</a>"
 	else
 		import_html = "<div style='margin-top:12px; color:#999;'>Only clan leadership can import hierarchy JSON.</div>"
 
@@ -219,47 +219,47 @@
 
 	user << browse(generate_combined_html(content), "window=clan_menu")
 
-/datum/clan_menu_interface/proc/ta_import_hierarchy_prompt()
+/datum/clan_menu_interface/proc/import_hierarchy_prompt()
 	if(!user || !user_clan)
 		return
 
-	if(!ta_can_import_hierarchy())
+	if(!can_import_hierarchy())
 		to_chat(user, span_warning("You do not have permission to import clan hierarchy JSON."))
-		ta_show_hierarchy_json("Import failed: insufficient hierarchy permissions.")
+		show_hierarchy_json("Import failed: insufficient hierarchy permissions.")
 		return
 
 	var/raw_json = input(user, "Paste clan hierarchy JSON. This replaces positions and clears member assignments except the clan leader.", "Import Clan Hierarchy") as null|message
 	if(!raw_json)
-		ta_show_hierarchy_json()
+		show_hierarchy_json()
 		return
 
-	if(!user || user.clan != user_clan || !ta_can_import_hierarchy())
+	if(!user || user.clan != user_clan || !can_import_hierarchy())
 		return
 
 	raw_json = trim(raw_json)
 	if(!length(raw_json))
-		ta_show_hierarchy_json()
+		show_hierarchy_json()
 		return
 
-	if(length(raw_json) > TA_CLAN_HIERARCHY_JSON_MAX_LENGTH)
+	if(length(raw_json) > CLAN_HIERARCHY_JSON_MAX_LENGTH)
 		to_chat(user, span_warning("Clan hierarchy JSON is too large."))
-		ta_show_hierarchy_json("Import failed: JSON is too large.")
+		show_hierarchy_json("Import failed: JSON is too large.")
 		return
 
 	var/list/import_data = safe_json_decode(raw_json)
 	if(!islist(import_data))
 		to_chat(user, span_warning("Clan hierarchy JSON could not be parsed."))
-		ta_show_hierarchy_json("Import failed: invalid JSON.")
+		show_hierarchy_json("Import failed: invalid JSON.")
 		return
 
-	var/import_result = user_clan.ta_import_hierarchy_data(import_data, user)
+	var/import_result = user_clan.import_hierarchy_data(import_data, user)
 	to_chat(user, span_notice(import_result))
 
-	var/datum/clan_hierarchy_interface/interface = ta_ensure_hierarchy_interface()
+	var/datum/clan_hierarchy_interface/interface = ensure_hierarchy_interface()
 	if(interface)
 		interface.selected_position = null
 	interface?.calculate_hierarchy_positions()
-	ta_show_hierarchy_json(import_result)
+	show_hierarchy_json(import_result)
 
 /datum/clan_menu_interface/generate_combined_html(research_content, in_preview = FALSE)
 	. = ..(research_content, in_preview)
@@ -267,7 +267,7 @@
 	var/settings_html = {"
 				<h3>Clan Settings</h3>
 				<ul class=\"coven-list\">
-					<li class=\"coven-item hierarchy-button\" onclick=\"window.location.href='?src=[REF(src)];action=[TA_CLAN_HIERARCHY_JSON_SHOW_ACTION]'\">
+					<li class=\"coven-item hierarchy-button\" onclick=\"window.location.href='byond://?src=[REF(src)];action=[CLAN_HIERARCHY_JSON_SHOW_ACTION]'\">
 						<div class=\"coven-name\">Hierarchy JSON</div>
 						<div class=\"coven-stats\">
 							<span>Export</span>
@@ -281,18 +281,18 @@
 
 /datum/clan_menu_interface/Topic(href, href_list)
 	switch(href_list["action"])
-		if(TA_CLAN_HIERARCHY_JSON_SHOW_ACTION)
-			ta_show_hierarchy_json()
+		if(CLAN_HIERARCHY_JSON_SHOW_ACTION)
+			show_hierarchy_json()
 			return
 
-		if(TA_CLAN_HIERARCHY_JSON_IMPORT_ACTION)
-			ta_import_hierarchy_prompt()
+		if(CLAN_HIERARCHY_JSON_IMPORT_ACTION)
+			import_hierarchy_prompt()
 			return
 
 	return ..(href, href_list)
 
-#undef TA_CLAN_HIERARCHY_JSON_VERSION
-#undef TA_CLAN_HIERARCHY_JSON_MAX_NODES
-#undef TA_CLAN_HIERARCHY_JSON_MAX_LENGTH
-#undef TA_CLAN_HIERARCHY_JSON_SHOW_ACTION
-#undef TA_CLAN_HIERARCHY_JSON_IMPORT_ACTION
+#undef CLAN_HIERARCHY_JSON_VERSION
+#undef CLAN_HIERARCHY_JSON_MAX_NODES
+#undef CLAN_HIERARCHY_JSON_MAX_LENGTH
+#undef CLAN_HIERARCHY_JSON_SHOW_ACTION
+#undef CLAN_HIERARCHY_JSON_IMPORT_ACTION
