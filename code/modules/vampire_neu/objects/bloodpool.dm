@@ -109,6 +109,7 @@
 			"ref" = REF(project),
 			"name" = project.display_name,
 			"description" = project.description,
+			"mechanics" = project.mechanics_description,
 			"cost" = project.total_cost,
 			"paid" = project.paid_amount,
 			"remaining" = remaining,
@@ -133,6 +134,7 @@
 				"type_path" = "[project_type]",
 				"name" = project.display_name,
 				"description" = project.description,
+				"mechanics" = project.mechanics_description,
 				"cost" = project.total_cost,
 				"isLordOnly" = project.can_be_initiated_by == INITIATE_LORDE,
 				"accessText" = project.can_be_initiated_by == INITIATE_LORDE ? "(Methuselah's will)" : "(open)",
@@ -656,6 +658,7 @@
 /datum/vampire_project
 	var/display_name = "Unknown Project"
 	var/description = "A mysterious undertaking."
+	var/mechanics_description = ""
 	var/total_cost = 1000
 	var/paid_amount = 0
 	var/cup_paid_amount = 0
@@ -746,7 +749,8 @@
 // Specific project types
 /datum/vampire_project/power_growth
 	display_name = "Rite of Stirring"
-	description = "The ancient blood stirs once more. Forgotten whispers echo through the marrow of the land. (+2 to all lorde stats + 1000 lorde vitae pool limit + Unlocks Champions)"
+	description = "The ancient blood stirs once more. Forgotten whispers echo through the marrow of the land."
+	mechanics_description = "+2 to all lorde stats + 1000 lorde vitae pool limit + Unlocks Champions"
 	total_cost = VAMPCOST_ONE
 	completion_sound = 'sound/misc/batsound.ogg'
 
@@ -772,7 +776,8 @@
 
 /datum/vampire_project/power_growth_2
 	display_name = "Rite of Reclamation"
-	description = "Strength long sealed returns. The soil, the stone, and the shadows bend again to their rightful master. (+2 to all lorde stats + 1000 lorde vitae pool limit + Unlocks armor rites.)"
+	description = "Strength long sealed returns. The soil, the stone, and the shadows bend again to their rightful master."
+	mechanics_description = "+2 to all lorde stats + 1000 lorde vitae pool limit + Unlocks armor rites."
 	total_cost = VAMPCOST_TWO
 	completion_sound = 'sound/misc/batsound.ogg'
 
@@ -794,7 +799,8 @@
 
 /datum/vampire_project/power_growth_3
 	display_name = "Rite of Dominion"
-	description = "The veil of time shreds. The Elder's will pours forth, binding trespassers within the grasp of the Land. (+2 to all lorde stats + 1000 lorde vitae pool limit.)"
+	description = "The veil of time shreds. The Elder's will pours forth, binding trespassers within the grasp of the Land."
+	mechanics_description = "+2 to all lorde stats + 1000 lorde vitae pool limit."
 	total_cost = VAMPCOST_THREE
 	completion_sound = 'sound/misc/batsound.ogg'
 
@@ -816,7 +822,8 @@
 
 /datum/vampire_project/power_growth_4
 	display_name = "Rite of Sovereignty"
-	description = "The Lord is whole. Ancient power saturates every stone and vein, for the Land and its master are one. (+2 to all stats for thralls +2 to lorde + 1000 lorde and thrall vitae pool limit. Kills the Sun and loudly announces your presence.)"
+	description = "The Lord is whole. Ancient power saturates every stone and vein, for the Land and its master are one."
+	mechanics_description = "+2 to all stats for thralls +2 to lorde + 1000 lorde and thrall vitae pool limit. Kills the Sun and loudly announces your presence."
 	total_cost = VAMPCOST_FOUR
 	completion_sound = 'sound/misc/batsound.ogg'
 
@@ -846,7 +853,8 @@
 
 /datum/vampire_project/armor_crafting
 	display_name = "Wicked Plate"
-	description = "Summon a complete set of vampiric plate armor from crystallized blood. Let not steel, silver, nor salvation inhibit the Lord's plan. This can only be done once."
+	description = "Summon a complete set of vampiric plate armor from crystallized blood. Let not steel, silver, nor salvation inhibit the Lord's plan."
+	mechanics_description = "This can only be done once."
 	total_cost = ARMOR_COST
 	completion_sound = 'sound/misc/vcraft.ogg'
 
@@ -918,7 +926,8 @@
 
 /datum/vampire_project/servant/servant_t1
 	display_name = "Summon Vampyre Servant"
-	description = "A loyal servant to do your chores and labors for you and your thralls, from toiling the forges below, to tending the manor and trivial tasks. (Generation: Neonate - Can sire 1 Thinblood - 9RP)"
+	description = "A loyal servant to do your chores and labors for you and your thralls, from toiling the forges below, to tending the manor and trivial tasks."
+	mechanics_description = "Generation: Neonate - Can sire 1 Thinblood - 9RP"
 	total_cost = SERVANT_COST
 	completion_sound = 'sound/misc/vcraft.ogg'
 
@@ -928,7 +937,8 @@
 
 /datum/vampire_project/servant/servant_t2
 	display_name = "Summon Vampyre Guard"
-	description = "A loyal servant to fight for your cause or defend your manor, be it wit blade and shield, bow and arrow or wit and magicks. (Generation: Neonate - Can sire 1 Thinblood - 9RP)"
+	description = "A loyal servant to fight for your cause or defend your manor, be it wit blade and shield, bow and arrow or wit and magicks."
+	mechanics_description = "Generation: Neonate - Can sire 1 Thinblood - 9RP"
 	total_cost = SERVANT_T2_COST
 	completion_sound = 'sound/misc/vcraft.ogg'
 
@@ -938,7 +948,8 @@
 
 /datum/vampire_project/servant/servant_t3
 	display_name = "Summon Vampyre Champion"
-	description = "A loyal, highly talented and powerful champion to herald your army of darkness, or disrupt mortalkynd from the shadows. (Generation: Ancillae - Can sire 5 Neonites - 17RP)."
+	description = "A loyal, highly talented and powerful champion to herald your army of darkness, or disrupt mortalkynd from the shadows."
+	mechanics_description = "Generation: Ancillae - Can sire 5 Neonites - 17RP."
 	total_cost = SERVANT_T3_COST
 	completion_sound = 'sound/misc/vcraft.ogg'
 
