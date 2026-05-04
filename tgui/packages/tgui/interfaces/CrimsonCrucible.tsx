@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import {
   Box,
   Button,
@@ -7,7 +8,7 @@ import {
   Stack,
 } from 'tgui-core/components';
 
-import { useBackend } from '../backend';
+import { backendSuspendStart, globalStore, useBackend } from '../backend';
 import { Window } from '../layouts';
 
 type Project = {
@@ -63,6 +64,32 @@ const formatPercent = (value: number) =>
 
 const clampRatio = (value: number) => Math.max(0, Math.min(1, value || 0));
 
+const defaultWindowWidth = 1680;
+const defaultWindowHeight = 920;
+
+const setCrucibleWindowSize = (expanded: boolean) => {
+  const scale = window.devicePixelRatio || 1;
+  const screenWidth = Math.floor(window.screen.availWidth * scale);
+  const screenHeight = Math.floor(window.screen.availHeight * scale);
+  const width = expanded
+    ? screenWidth
+    : Math.min(defaultWindowWidth, screenWidth);
+  const height = expanded
+    ? screenHeight
+    : Math.min(defaultWindowHeight, screenHeight);
+  const x = expanded ? 0 : Math.max(Math.floor((screenWidth - width) / 2), 0);
+  const y = expanded ? 0 : Math.max(Math.floor((screenHeight - height) / 2), 0);
+
+  Byond.winset(Byond.windowId, {
+    pos: `${x},${y}`,
+    size: `${width}x${height}`,
+  });
+};
+
+const closeCrucibleWindow = () => {
+  globalStore.dispatch(backendSuspendStart());
+};
+
 const shellStyle = {
   background:
     'linear-gradient(180deg, rgba(24, 3, 5, 0.95), rgba(8, 7, 7, 0.98))',
@@ -86,8 +113,26 @@ const headerGridStyle = {
   alignItems: 'center',
   display: 'grid',
   gap: '16px',
-  gridTemplateColumns: '64px minmax(320px, 1fr) minmax(280px, 340px)',
+  gridTemplateColumns: '210px minmax(320px, 1fr) minmax(280px, 340px)',
   padding: '14px',
+};
+
+const sealControlStyle = {
+  alignItems: 'center',
+  display: 'grid',
+  gap: '10px',
+  gridTemplateColumns: '64px minmax(118px, 1fr)',
+};
+
+const windowControlStackStyle = {
+  display: 'grid',
+  gap: '6px',
+};
+
+const windowControlButtonStyle = {
+  border: '1px solid rgba(232, 208, 160, 0.5)',
+  boxShadow: '0 0 10px rgba(216, 32, 52, 0.2)',
+  fontWeight: 700,
 };
 
 const contentGridStyle = {
@@ -135,16 +180,34 @@ const sealStyle = {
 };
 
 const labelStyle = {
-  color: '#4b332c',
-  fontSize: '12px',
+  color: '#3a2723',
+  fontSize: '11px',
   fontWeight: 700,
   textTransform: 'uppercase' as const,
+};
+
+const descriptionBlockStyle = {
+  borderTop: '1px solid rgba(74, 52, 35, 0.35)',
+  paddingTop: '7px',
 };
 
 const copyStyle = {
   color: '#2f211e',
   lineHeight: 1.35,
   overflowWrap: 'break-word' as const,
+};
+
+const mechanicsBlockStyle = {
+  background:
+    'linear-gradient(90deg, rgba(112, 64, 184, 0.2), rgba(112, 64, 184, 0.06))',
+  borderLeft: '4px solid #7040b8',
+  marginTop: '8px',
+  padding: '7px 9px 7px 10px',
+};
+
+const mechanicsLabelStyle = {
+  ...labelStyle,
+  color: '#5b239b',
 };
 
 const mechanicsStyle = {
@@ -158,6 +221,7 @@ const mechanicsStyle = {
 
 export const CrimsonCrucible = () => {
   const { act, data } = useBackend<CrucibleData>();
+  const [windowExpanded, setWindowExpanded] = useState(false);
   const {
     bloodLevel = 0,
     maxBlood = 20000,
@@ -175,13 +239,53 @@ export const CrimsonCrucible = () => {
       ? 'Right of Dominion'
       : 'Right of Sacrifice'
     : 'Living sacrifice';
+  const toggleWindowSize = () => {
+    const nextExpanded = !windowExpanded;
+    setCrucibleWindowSize(nextExpanded);
+    setWindowExpanded(nextExpanded);
+  };
 
   return (
-    <Window title="Crimson Crucible" width={1680} height={920} theme="dark">
+    <Window
+      title="Crimson Crucible"
+      width={defaultWindowWidth}
+      height={defaultWindowHeight}
+      theme="dark"
+    >
       <Window.Content fitted>
         <Box p={1} style={shellStyle}>
           <Box style={headerGridStyle}>
-            <Box style={sealStyle}>V</Box>
+            <Box style={sealControlStyle}>
+              <Box style={sealStyle}>V</Box>
+              <Box style={windowControlStackStyle}>
+                <Button
+                  fluid
+                  color="gold"
+                  icon={windowExpanded ? 'compress' : 'expand'}
+                  tooltip={
+                    windowExpanded
+                      ? 'Restore default window size'
+                      : 'Expand window to screen'
+                  }
+                  tooltipPosition="right"
+                  onClick={toggleWindowSize}
+                  style={windowControlButtonStyle}
+                >
+                  {windowExpanded ? 'Restore' : 'Expand'}
+                </Button>
+                <Button
+                  fluid
+                  color="red"
+                  icon="times"
+                  tooltip="Close window"
+                  tooltipPosition="right"
+                  onClick={closeCrucibleWindow}
+                  style={windowControlButtonStyle}
+                >
+                  Close
+                </Button>
+              </Box>
+            </Box>
             <Box>
               <Box
                 bold
@@ -285,13 +389,15 @@ const ProjectCopy = (props: ProjectCopyProps) => {
 
   return (
     <Box mt={0.7}>
-      <Box style={labelStyle}>Description</Box>
-      <Box mt={0.2} style={copyStyle}>
-        {description}
+      <Box style={descriptionBlockStyle}>
+        <Box style={labelStyle}>Description</Box>
+        <Box mt={0.2} style={copyStyle}>
+          {description}
+        </Box>
       </Box>
       {!!mechanics && (
-        <Box mt={0.9}>
-          <Box style={labelStyle}>Mechanics</Box>
+        <Box style={mechanicsBlockStyle}>
+          <Box style={mechanicsLabelStyle}>Mechanics</Box>
           <Box mt={0.2} style={mechanicsStyle}>
             {mechanics}
           </Box>

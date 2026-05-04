@@ -104,12 +104,13 @@
 				contributor_name = contributor.name
 			UNTYPED_LIST_ADD(contributor_names, contributor_name)
 
+		var/list/project_copy = get_project_ui_copy(project)
 		committed_vitae += project.paid_amount
 		UNTYPED_LIST_ADD(active_project_data, list(
 			"ref" = REF(project),
 			"name" = project.display_name,
-			"description" = project.description,
-			"mechanics" = project.mechanics_description,
+			"description" = project_copy["description"],
+			"mechanics" = project_copy["mechanics"],
 			"cost" = project.total_cost,
 			"paid" = project.paid_amount,
 			"remaining" = remaining,
@@ -130,11 +131,12 @@
 
 			var/datum/vampire_project/project = new project_type()
 			var/can_start = project.can_start(human_user, src)
+			var/list/project_copy = get_project_ui_copy(project)
 			UNTYPED_LIST_ADD(available_project_data, list(
 				"type_path" = "[project_type]",
 				"name" = project.display_name,
-				"description" = project.description,
-				"mechanics" = project.mechanics_description,
+				"description" = project_copy["description"],
+				"mechanics" = project_copy["mechanics"],
 				"cost" = project.total_cost,
 				"isLordOnly" = project.can_be_initiated_by == INITIATE_LORDE,
 				"accessText" = project.can_be_initiated_by == INITIATE_LORDE ? "(Methuselah's will)" : "(open)",
@@ -345,6 +347,51 @@
 	if(project.start_failure_message)
 		return project.start_failure_message
 	return "The ritual conditions are not fulfilled yet."
+
+/obj/structure/vampire/bloodpool/proc/get_project_ui_copy(datum/vampire_project/project)
+	var/list/project_copy = list(
+		"description" = "",
+		"mechanics" = "",
+	)
+	if(!project)
+		return project_copy
+
+	var/project_description = project.description
+	if(!istext(project_description))
+		project_description = ""
+	var/project_mechanics = project.mechanics_description
+	if(!istext(project_mechanics))
+		project_mechanics = ""
+
+	var/inline_start = 0
+	var/search_start = 1
+	while(TRUE)
+		var/found = findtext(project_description, " (", search_start)
+		if(!found)
+			break
+		inline_start = found
+		search_start = found + 1
+
+	if(inline_start && copytext(project_description, length(project_description), length(project_description) + 1) == ")")
+		var/inline_mechanics = copytext(project_description, inline_start + 2, length(project_description))
+		if(is_project_inline_mechanics(inline_mechanics))
+			if(!project_mechanics)
+				project_mechanics = inline_mechanics
+			project_description = trim(copytext(project_description, 1, inline_start))
+
+	project_copy["description"] = project_description
+	project_copy["mechanics"] = project_mechanics
+	return project_copy
+
+/obj/structure/vampire/bloodpool/proc/is_project_inline_mechanics(inline_text)
+	if(!istext(inline_text) || !length(inline_text))
+		return FALSE
+	return findtext(inline_text, "Generation:") \
+		|| findtext(inline_text, "Can sire") \
+		|| findtext(inline_text, "Unlocks") \
+		|| findtext(inline_text, "vitae pool limit") \
+		|| findtext(inline_text, "This can only") \
+		|| findtext(inline_text, "Permanent night")
 
 /obj/structure/vampire/bloodpool/proc/get_active_project_by_ref(project_ref)
 	if(!istext(project_ref))
