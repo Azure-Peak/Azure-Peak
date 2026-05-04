@@ -25,6 +25,12 @@
 			if(istype(src, /obj/item/rogueweapon) && !istype(src, /obj/item/rogueweapon/werewolf_claw))
 				to_chat(user, span_warning("My fingers are too misshapen to use this puny implement."))
 				return
+		// even less aggressive; allows use of tools but not weapons
+		if(HAS_TRAIT(user, TRAIT_TINYPAWS))
+			var/obj/item/rogueweapon/weapon = src
+			if(istype(weapon) && !weapon.is_tool)
+				to_chat(user, span_warning("I am too small to properly wield a weapon."))
+				return
 	if(tool_behaviour && target.tool_act(user, src, tool_behaviour))
 		return
 	if(pre_attack(target, user, params))
@@ -87,11 +93,6 @@
 		worn_thing.hit_response(src, user) //checks if clothing has hit response. Refer to Items.dm
 	return I.attack(src, user)
 
-/mob/living
-	var/tempatarget = null
-	var/pegleg = 0			//Handles check & slowdown for peglegs. Fuckin' bootleg, literally, but hey it at least works.
-	var/construct = 0
-	var/burialrited = FALSE
 
 /obj/item/proc/attack(mob/living/M, mob/living/user)
 	var/override_status
@@ -509,7 +510,27 @@
 
 /obj/attacked_by(obj/item/I, mob/living/user)
 	user.changeNext_move(CLICK_CD_INTENTCAP)
-	var/newforce = get_complex_damage(I, user, blade_dulling) * user.used_intent.demolition_mod
+
+	if(I.damtype == BURN && (obj_flags & CLAMP_BREAK))
+		var/do_melt = FALSE
+		var/need_scrap = FALSE
+		if(obj_broken)
+			do_melt = TRUE
+		if(isitem(src))
+			var/obj/item/IS = src
+			if(IS.anvilrepair && IS.smeltresult == /obj/item/ingot/iron)
+				do_melt = TRUE
+				need_scrap = TRUE
+		if(do_melt)
+			user.visible_message(span_warningbig("[user] begins melting and deforming \the [src] with [I]!"))
+			if(do_after(user, 8 SECONDS, TRUE, same_direction = TRUE, no_interrupt = TRUE))
+				user.visible_message(span_warning("[user] destroys \the [src] with [I]!"))
+				obj_destruction(need_scrap ? BRUTE : BURN)
+				return
+
+	var/newforce = get_complex_damage(I, user, blade_dulling)
+	if(!(obj_flags & CLAMP_BREAK))
+		newforce *= user.used_intent.demolition_mod
 	if(!newforce)
 		return 0
 	if(newforce < damage_deflection)
@@ -530,6 +551,31 @@
 	take_damage(newforce, I.damtype, I.d_type, 1)
 	if(newforce > 1)
 		I.take_damage(1, BRUTE, I.d_type)
+
+	if((obj_flags & CLAMP_BREAK) && !density && !anchored && isturf(loc))
+		var/sfx = 'sound/items/hit_normalobj.ogg'
+		if(isclothing(src))	// Lazy check for fluffy sparks
+			var/obj/item/clothing/CL = src
+			var/try_sparks = FALSE
+			if(CL.material_category == ARMOR_MAT_PLATE)
+				sfx = pick('sound/items/hit_plateobj1.ogg', 'sound/items/hit_plateobj2.ogg', 'sound/items/hit_plateobj3.ogg')
+				try_sparks = TRUE
+			if(CL.material_category == ARMOR_MAT_CHAINMAIL)
+				sfx = 'sound/items/hit_chainobj.ogg'
+				try_sparks = TRUE
+			if(try_sparks && prob(50))
+				do_sparks(2, TRUE, get_turf(src))
+		var/dist = 1
+		if(istype(user.rmb_intent, /datum/rmb_intent/strong))
+			dist++
+		if(obj_broken)
+			dist++
+		var/current_turf = get_turf(src)
+		var/throwdir = get_dir(get_turf(user), current_turf)
+		var/target_turf = get_ranged_target_turf(current_turf, throwdir, dist)
+		playsound(current_turf, sfx, 100, TRUE)
+		throw_at(target_turf, dist, 12, user, FALSE)
+
 	SEND_SIGNAL(src, COMSIG_ITEM_ATTACK_OBJ, I, user)
 	return TRUE
 

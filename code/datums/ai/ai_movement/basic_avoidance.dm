@@ -21,11 +21,19 @@
 
 		if(target_turf?.can_traverse_safely(movable_pawn))
 			if(istype(movable_pawn, /mob/living/simple_animal))
-				var/dir_to_target = get_dir(current_loc, target_turf)			
-				for(var/obj/structure/O in get_step(movable_pawn, dir_to_target))
-					if(O.density && O.climbable)
-						O.climb_structure(movable_pawn)
+				var/dir_to_target = get_dir(current_loc, target_turf)
+				var/turf/step_turf = get_step(movable_pawn, dir_to_target)
+				var/climbed = FALSE
+				for(var/obj/structure/S in step_turf)
+					if(S.density && S.climbable)
+						S.climb_structure(movable_pawn)
+						climbed = TRUE
 						break
+				if(!climbed)
+					for(var/obj/machinery/M in step_turf)
+						if(M.density && M.climbable)
+							M.climb_structure(movable_pawn)
+							break
 			step_to(movable_pawn, controller.current_movement_target, controller.blackboard[BB_CURRENT_MIN_MOVE_DISTANCE], controller.movement_delay)
 
 		if(current_loc == get_turf(movable_pawn)) //Did we even move after trying to move?

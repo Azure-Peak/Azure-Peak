@@ -56,7 +56,7 @@
 			H.charflaws.Remove(cf)
 			QDEL_NULL(cf)
 		H.update_body()
-		H.faction = list("orcs")
+		H.faction = list(FACTION_ORCS)
 		H.name = "goblin"
 		H.real_name = "goblin"
 		ADD_TRAIT(H, TRAIT_NOMOOD, TRAIT_GENERIC)

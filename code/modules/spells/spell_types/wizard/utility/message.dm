@@ -98,7 +98,7 @@
 				to_chat(user, span_big("You slip a brief vision anonymously into [HL]'s mind: <font color=#[message_color]>\[<b>[message]</b>\]</font>"))
 
 		if(!is_projection)
-			user.whisper(message)
+			user.whisper(message, language = /datum/language/common)
 		else
 			user.emote("me", 1, "silently murmurs something resembling speech...", TRUE, custom_me = TRUE)
 

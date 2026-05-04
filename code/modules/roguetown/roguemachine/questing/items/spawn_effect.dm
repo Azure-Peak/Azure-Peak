@@ -15,9 +15,9 @@
 	proximity_monitor = new(src, 7)
 
 /obj/effect/quest_spawn/Destroy(force)
-	. = ..()
 	QDEL_NULL(contained_atom)
 	proximity_monitor = null
+	. = ..()
 
 /obj/effect/quest_spawn/HasProximity(mob/nearby)
 	if(!contained_atom)
@@ -35,6 +35,14 @@
 		return
 
 	if(get_dist(get_turf(src), get_turf(quest.quest_scroll_ref?.resolve())) > 7)
+		return
+
+	// Pop every spawner this quest owns at once so the whole encounter materializes together.
+	quest.pop_all_spawners()
+
+/// Materializes the contained mob onto our turf with the warning flash + sound.
+/obj/effect/quest_spawn/proc/reveal_contained()
+	if(!contained_atom)
 		return
 
 	var/image/I = image(icon = 'icons/effects/effects.dmi', loc = get_turf(src), icon_state = "mobwarning", layer = 18)

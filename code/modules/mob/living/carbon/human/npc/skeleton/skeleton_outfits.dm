@@ -30,8 +30,12 @@
 	skel_outfit = /datum/outfit/job/roguetown/skeleton/npc/archer
 
 // For Duke Manor & Zizo Manor - Ground based spread, so no pirate in pool!
+/mob/living/carbon/human/species/skeleton/npc/mediumspread
+	threat_point = THREAT_MODERATE
+
 /mob/living/carbon/human/species/skeleton/npc/mediumspread/Initialize()
-	var/outfit = rand(1, 5)
+	// Stopgap: archer outfit (was option 5) removed because the ranged NPC AI is unreliable.
+	var/outfit = rand(1, 4)
 	switch(outfit)
 		if(1)
 			skel_outfit = /datum/outfit/job/roguetown/skeleton/npc/supereasy
@@ -41,16 +45,18 @@
 			skel_outfit = /datum/outfit/job/roguetown/skeleton/npc/medium
 		if(4)
 			skel_outfit = /datum/outfit/job/roguetown/skeleton/npc/hard
-		if(5)
-			skel_outfit = /datum/outfit/job/roguetown/skeleton/npc/archer
 	..()
 
 /mob/living/carbon/human/species/skeleton/npc/mediumspread/lich
-	faction = list("lich")
+	faction = list(FACTION_LICH)
 
 // for Lich Dungeon
+/mob/living/carbon/human/species/skeleton/npc/hardspread
+	threat_point = THREAT_TOUGH
+
 /mob/living/carbon/human/species/skeleton/npc/hardspread/Initialize()
-	var/outfit = rand(1,5)
+	// Stopgap: archer outfit (was option 5) removed because the ranged NPC AI is unreliable.
+	var/outfit = rand(1,4)
 	switch(outfit)
 		if(1)
 			skel_outfit = /datum/outfit/job/roguetown/skeleton/npc/hard
@@ -60,8 +66,6 @@
 			skel_outfit = /datum/outfit/job/roguetown/skeleton/npc/pirate
 		if(4)
 			skel_outfit = /datum/outfit/job/roguetown/skeleton/npc/hard
-		if(5)
-			skel_outfit = /datum/outfit/job/roguetown/skeleton/npc/archer
 	..()
 
 // For Tomb of Matthios/Tomb of Alothesos Supreme Difficulty:TM: encounters.
@@ -261,10 +265,11 @@
 
 /datum/outfit/job/roguetown/skeleton/npc/archer/pre_equip(mob/living/carbon/human/H)
 	..()
-	H.STASTR = 10
+	H.STASTR = 8
 	H.STASPD = 10
 	H.STACON = 5
 	H.STAWIL = 8
+	H.STAPER = 13
 	H.STAINT = 1
 	name = "Skeleton Archer"
 	head = /obj/item/clothing/head/roguetown/helmet/heavy/aalloy
@@ -278,6 +283,7 @@
 	backl = /obj/item/quiver/arrows
 	r_hand = /obj/item/rogueweapon/mace/alloy
 	H.adjust_skillrank(/datum/skill/combat/bows, 3, TRUE)
+	H.upgrade_ai_controller(/datum/ai_controller/human_npc/archer)
 	H.adjust_skillrank(/datum/skill/combat/polearms, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/maces, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/axes, 2, TRUE)

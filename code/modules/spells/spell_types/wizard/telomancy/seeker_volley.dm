@@ -30,7 +30,6 @@
 
 	associated_skill = /datum/skill/magic/arcane
 	spell_tier = 2
-	is_implement_scaled_spell = TRUE
 	attunement_school = ASPECT_NAME_TELOMANCY
 	spell_impact_intensity = SPELL_IMPACT_LOW
 

@@ -3,7 +3,7 @@
 /mob/living/carbon/human/species/lizardfolk/psy_vault_guard
 	race = /datum/species/lizardfolk
 	ai_controller = /datum/ai_controller/human_npc
-	faction = list("psy_vault_guard")
+	faction = list(FACTION_PSY_VAULT_GUARD)
 	ambushable = FALSE
 	cmode = 1
 	setparrytime = 20

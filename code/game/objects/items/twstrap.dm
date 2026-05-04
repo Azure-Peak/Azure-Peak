@@ -156,6 +156,16 @@
 		else
 			icon_state = "[item_state]0"
 
+/obj/item/twstrap/ai_get_custom_inventory()
+	return tweps
+
+/obj/item/twstrap/ai_withdraw_item(obj/item/it, mob/living/user)
+	if(it in tweps)
+		tweps -= it
+		update_icon()
+		return TRUE
+	return FALSE
+
 /obj/item/twstrap/Initialize()
 	. = ..()
 
@@ -172,6 +182,7 @@
 		/obj/item/tntstick,
 		/obj/item/impact_grenade
 	)
+
 
 /obj/item/twstrap/bombstrap/attack_turf(turf/T, mob/living/user)
 	if(tweps.len >= max_storage)

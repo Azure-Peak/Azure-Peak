@@ -309,8 +309,8 @@
 	pixel_x = -5;
 	pixel_y = 8
 	},
-/obj/item/roguegem/random,
-/obj/item/roguegem/random{
+/obj/effect/spawner/lootdrop/random_gem,
+/obj/effect/spawner/lootdrop/random_gem{
 	pixel_x = -11;
 	pixel_y = 11
 	},
@@ -394,7 +394,7 @@
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/tomb)
 "Cw" = (
-/obj/item/rogueweapon/spear,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/weapons,
 /obj/effect/decal/cleanable/blood,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/under/tomb/indoors)
@@ -533,7 +533,7 @@
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/tomb/indoors)
 "QB" = (
-/obj/item/reagent_containers/food/snacks/rogue/cheddarwedge/aged,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
 /obj/structure/table/wood{
 	dir = 1;
 	icon_state = "longtable"

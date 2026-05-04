@@ -32,7 +32,7 @@
 		r_hand = /obj/item/rogue/instrument/flute
 
 	if(H.mind)
-		SStreasury.give_money_account(ECONOMIC_DESTITUTE, H, "Savings.")
+		SStreasury.grant_savings(ECONOMIC_DESTITUTE, H)
 		H.adjust_skillrank(/datum/skill/misc/athletics, rand(2,6), TRUE) //John Madden
 		H.adjust_skillrank(/datum/skill/misc/climbing, rand(2,6), TRUE)
 		H.STASPD = rand(8, 15)

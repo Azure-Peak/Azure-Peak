@@ -14,6 +14,7 @@
 
 /area/rogue/under/town/sewer
 	name = "sewer"
+	loot_budget = LOOT_BUDGET_SEWERS
 	icon_state = "sewer"
 	ambientsounds = AMB_CAVEWATER
 	ambientnight = AMB_CAVEWATER

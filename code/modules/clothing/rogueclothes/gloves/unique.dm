@@ -25,7 +25,6 @@
 	max_integrity = 200
 	resistance_flags = FIRE_PROOF
 	blocksound = SOFTHIT
-	blade_dulling = DULLING_BASHCHOP
 	break_sound = 'sound/foley/cloth_rip.ogg'
 	drop_sound = 'sound/foley/dropsound/cloth_drop.ogg'
 	anvilrepair = null
@@ -120,3 +119,4 @@
 	desc = "Some times call for a more intimate approach."
 	icon_state = "eoraknuckle"
 	max_integrity = 150
+	unarmed_bonus = 10//So they are better how they used to be

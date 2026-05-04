@@ -31,7 +31,7 @@
 						/obj/item/natural/fur/wolf = 2,
 						/obj/item/natural/bone = 4)
 	head_butcher = /obj/item/natural/head/volf
-	faction = list("wolfs", "zombie")
+	faction = list(FACTION_WOLFS, FACTION_ZOMBIE)
 	threat_point = THREAT_LOW
 	ambush_faction = "wildlife"
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST

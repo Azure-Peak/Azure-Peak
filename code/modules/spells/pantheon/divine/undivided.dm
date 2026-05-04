@@ -17,7 +17,7 @@
 
 	sound = 'sound/magic/undivided_bless.ogg'
 	invocation_type = INVOCATION_SHOUT
-	invocations = "Zwillingslichter, geleitet meinen Blick." //(Twin lights, guide my gaze)
+	invocations = "Zwillingslichter, leitet meinen Blick." //(Twin lights, guide my gaze)
 
 	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
 	associated_skill = /datum/skill/magic/holy
@@ -111,7 +111,7 @@
 
 /obj/effect/proc_holder/spell/invoked/recuperation
 	name = "Recuperation"
-	desc = "Restores the targets Energy and provides brief regeneration to it. Twice as effective on target other than yourself."
+	desc = "Restores the targets Energy and provides brief regeneration to it. Twice as effective on a target other than yourself."
 	action_icon = 'icons/mob/actions/undividedmiracles.dmi'
 	overlay_icon = 'icons/mob/actions/undividedmiracles.dmi'
 	overlay_state = "calming_respite"
@@ -127,7 +127,7 @@
 	warnie = "sydwarning"
 
 	sound = 'sound/magic/undivided_recuperation.ogg'
-	invocations = list("Setzt eurer großartiges Werk fort!") //(Continue your great work/s)
+	invocations = list("Setzt euer großartiges Werk fort!") //(Continue your great work/s)
 
 	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
 	associated_skill = /datum/skill/magic/holy
@@ -199,7 +199,7 @@
 	releasedrain = 10
 	devotion_cost = 40
 
-	invocations = list("Geleitet meine Hand!") //("Guide my hand!")
+	invocations = list("Leite meine Hand!") //("Guide my hand!")
 
 ////////////////////////////////////////////////////////////
 // T2 - Perseverance- Seal wounds and calm down a person. //
@@ -224,7 +224,7 @@
 	warnie = "sydwarning"
 
 	sound = 'sound/magic/undivided__perserverance.ogg'
-	invocations = list("Die Göttlichen fordern dich auf weiterzukämpfen!") //("The gods demand you to fight on!")
+	invocations = list("Die Götter fordern dich auf weiterzukämpfen!") //("The gods demand you to fight on!")
 
 	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
 	associated_skill = /datum/skill/magic/holy

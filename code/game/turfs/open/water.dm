@@ -497,7 +497,7 @@
 	name = "water"
 	desc = "Clear and shallow water, what a blessing!"
 	icon = 'icons/turf/roguefloor.dmi'
-	icon_state = "rockw2"
+	icon_state = "rockw3"
 	water_level = 2
 	slowdown = 3
 	wash_in = TRUE
@@ -520,7 +520,7 @@
 	swimdir = TRUE
 
 /turf/open/water/river/flow
-	icon_state = "rockwd"
+	icon_state = "rockwd2"
 
 /turf/open/water/river/flow/west
 	dir = 8

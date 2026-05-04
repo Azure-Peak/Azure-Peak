@@ -9,7 +9,6 @@
 	anvilrepair = /datum/skill/craft/weaponsmithing
 	smeltresult = null
 	associated_skill = /datum/skill/combat/axes
-	blade_dulling = DULLING_BASHCHOP
 	wdefense = 5
 	item_flags = DREAM_ITEM
 	wbalance = WBALANCE_HEAVY

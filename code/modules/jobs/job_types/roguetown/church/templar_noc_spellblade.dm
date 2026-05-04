@@ -18,7 +18,7 @@
 		STATKEY_CON = 1,
 		STATKEY_WIL = 2,
 	)
-	subclass_mage_aspects = list("mastery" = FALSE, "major" = 0, "minor" = 0, "utilities" = 6, "ward" = TRUE)
+	subclass_mage_aspects = list("mastery" = FALSE, "major" = 0, "minor" = 0, "utilities" = 6)
 	subclass_skills = list(
 		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/shields = SKILL_LEVEL_JOURNEYMAN,
@@ -46,7 +46,6 @@
 
 	// Equipment — medium armor templar with Noc theming
 	wrists = /obj/item/clothing/neck/roguetown/psicross/noc
-	head = /obj/item/clothing/head/roguetown/helmet/heavy/nochelm
 	cloak = /obj/item/clothing/cloak/tabard/devotee/noc
 	armor = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy
@@ -109,6 +108,12 @@
 		H.mind.AddSpell(new /datum/action/cooldown/spell/bind_weapon)
 		H.mind.AddSpell(new /datum/action/cooldown/spell/mending)
 
+		var/helmets = list(
+			"Greatplumed Owl Armet" = /obj/item/clothing/head/roguetown/helmet/heavy/knight/armet/owl,
+			"Noc Helmet"			= /obj/item/clothing/head/roguetown/helmet/heavy/nochelm
+		)
+		var/helmchoice = input(H, "Choose your Helm.", "REFLECTION OF PALE LIGHT") as anything in helmets
+		head = helmets[helmchoice]
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_1, start_maxed = TRUE)
 

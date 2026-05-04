@@ -21,6 +21,7 @@
 	icon_state = "[initial(icon_state)]"
 	slowdown = initial(slowdown)
 	body_parts_covered = initial(body_parts_covered)
+	body_parts_covered_dynamic = body_parts_covered
 	flags_inv = initial(flags_inv)
 	flags_cover = initial(flags_cover)
 	block2add = initial(block2add)

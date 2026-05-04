@@ -15,7 +15,6 @@
     l_sleeve_status = SLEEVE_NORMAL
     armor_class = ARMOR_CLASS_LIGHT
     blocksound = SOFTUNDERHIT
-    blade_dulling = DULLING_BASHCHOP
     armor = ARMOR_PADDED
 
     var/repairmsg_end = "My skin has become taut with newfound vigor!"

@@ -33,7 +33,7 @@
 	d_intent = INTENT_DODGE
 	defprob = 50
 	speak_emote = list("burbles")
-	faction = list("deepone")
+	faction = list(FACTION_DEEPONE)
 	threat_point = THREAT_HIGH
 	ambush_faction = "deepones"
 	footstep_type = FOOTSTEP_MOB_BAREFOOT

@@ -225,6 +225,20 @@
 #define BITFLAG_GARRISON (1<<3)
 #define BITFLAG_HALF_COMBATANT (1<<4) // For acolytes only, who are counted as half combatant for the purposes of wretch / antagonist scaling
 
+#define ANNOUNCE_ON_FAR_TRAVEL_ROLES list( \
+	"Grand Duke", \
+	"Marshal", \
+	"Merchant", \
+	"Bathmaster", \
+	"Court Magician", \
+	"Steward", \
+	"Guildsman", \
+	"Guildmaster", \
+	"Hand", \
+	"Bishop", \
+	"Martyr", \
+)
+
 // START OF THE ECONOMY SECTION 
 #define ECONOMIC_RICH rand(120, 140)
 #define ECONOMIC_UPPER_CLASS rand(100, 120)

@@ -2,13 +2,9 @@
 	name = "Apple"
 	desc = "Harvested produce."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/apple
-	held_items = list(0, 0)
-	payout_price = 2
-	withdraw_price = 2
-	transport_fee = 1
-	export_price = 3
+	trade_good_id = TRADE_GOOD_APPLE
 	importexport_amt = 10
-	passive_generation = 3 // Apple here remain a clutch for wandering nobles because of sliced??? So higher amount
+	stockpile_amount = 10
 	stockpile_limit = 50
 	category = "Fruit"
 
@@ -16,12 +12,9 @@
 	name = "Pear"
 	desc = "Too sweet for many, a favored treat for little ones. Dwarves do love them."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/fruit/pear
-	held_items = list(0, 4)
-	payout_price = 2
-	withdraw_price = 2
-	export_price = 3
+	trade_good_id = TRADE_GOOD_PEAR
 	importexport_amt = 5
-	passive_generation = 2
+	stockpile_amount = 5
 	stockpile_limit = 25
 	category = "Fruit"
 
@@ -29,33 +22,19 @@
 	name = "Jacksberries"
 	desc = "Sweet berries, prime for winemaking."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/berries/rogue
-	held_items = list(0, 0)
-	payout_price = 2
-	withdraw_price = 2
-	transport_fee = 1
-	export_price = 3
+	trade_good_id = TRADE_GOOD_JACKSBERRY
 	importexport_amt = 10
+	stockpile_amount = 10
 	stockpile_limit = 50 // Jackberries are used to mass produce raisins so higher limit
-	passive_generation = 2
 	category = "Fruit"
 
 /datum/roguestock/stockpile/blackberry
 	name = "Blackberry"
 	desc = "A small, dark fruit with a sweet and slightly tart taste. It is often used in desserts."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/fruit/blackberry
-
-	held_items = list(0, 0)
-	held_random_upper = 3
-	held_random_lower = 1
-	nothing_chance = 40
-	export_only = TRUE
-
-	payout_price = 2
-	withdraw_price = 6
-	transport_fee = 5
-	export_price = 3
+	trade_good_id = TRADE_GOOD_BLACKBERRY
 	importexport_amt = 5
-	passive_generation = 0
+	stockpile_amount = 5
 	stockpile_limit = 25
 	category = "Fruit"
 
@@ -63,19 +42,9 @@
 	name = "Raspberry"
 	desc = "A small, red fruit with a sweet and slightly tart taste. It is often used in desserts."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/fruit/raspberry
-
-	held_items = list(0, 0)
-	held_random_upper = 3
-	held_random_lower = 1
-	nothing_chance = 40
-	export_only = TRUE
-
-	payout_price = 2
-	withdraw_price = 6
-	transport_fee = 5
-	export_price = 3
+	trade_good_id = TRADE_GOOD_RASPBERRY
 	importexport_amt = 5
-	passive_generation = 0
+	stockpile_amount = 5
 	stockpile_limit = 25
 	category = "Fruit"
 
@@ -83,19 +52,9 @@
 	name = "Strawberry"
 	desc = "A small, red fruit with a sweet taste. It is often used in desserts."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/fruit/strawberry
-
-	held_items = list(0, 0)
-	held_random_upper = 3
-	held_random_lower = 1
-	nothing_chance = 40
-	export_only = TRUE
-
-	payout_price = 2
-	withdraw_price = 6
-	transport_fee = 5
-	export_price = 3
+	trade_good_id = TRADE_GOOD_STRAWBERRY
 	importexport_amt = 5
-	passive_generation = 0
+	stockpile_amount = 5
 	stockpile_limit = 25
 	category = "Fruit"
 
@@ -103,19 +62,9 @@
 	name = "Lemon"
 	desc = "Too sweet for many, a favored treat for little ones. Dwarves do love them."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/fruit/lemon
-
-	held_items = list(0, 0)
-	held_random_upper = 3
-	held_random_lower = 1
-	nothing_chance = 40
-	export_only = TRUE
-
-	payout_price = 2
-	withdraw_price = 6
-	transport_fee = 5
-	export_price = 3
+	trade_good_id = TRADE_GOOD_LEMON
 	importexport_amt = 5
-	passive_generation = 0
+	stockpile_amount = 5
 	stockpile_limit = 25
 	category = "Fruit"
 
@@ -123,19 +72,9 @@
 	name = "Lime"
 	desc = "Too sweet for many, a favored treat for little ones. Dwarves do love them."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/fruit/lime
-
-	held_items = list(0, 0)
-	held_random_upper = 3
-	held_random_lower = 1
-	nothing_chance = 40
-	export_only = TRUE
-
-	payout_price = 2
-	withdraw_price = 6
-	transport_fee = 5
-	export_price = 3
+	trade_good_id = TRADE_GOOD_LIME
 	importexport_amt = 5
-	passive_generation = 0
+	stockpile_amount = 5
 	stockpile_limit = 25
 	category = "Fruit"
 
@@ -143,19 +82,9 @@
 	name = "Tangerine"
 	desc = "Too sweet for many, a favored treat for little ones. Dwarves do love them."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/fruit/tangerine
-
-	held_items = list(0, 0)
-	held_random_upper = 3
-	held_random_lower = 1
-	nothing_chance = 40
-	export_only = TRUE
-
-	payout_price = 2
-	withdraw_price = 6
-	transport_fee = 5
-	export_price = 3
+	trade_good_id = TRADE_GOOD_TANGERINE
 	importexport_amt = 5
-	passive_generation = 0
+	stockpile_amount = 5
 	stockpile_limit = 25
 	category = "Fruit"
 
@@ -163,19 +92,9 @@
 	name = "Plum"
 	desc = "Too sweet for many, a favored treat for little ones. Dwarves do love them."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/fruit/plum
-
-	held_items = list(0, 0)
-	held_random_upper = 3
-	held_random_lower = 1
-	nothing_chance = 40
-	export_only = TRUE
-
-	payout_price = 2
-	withdraw_price = 6
-	transport_fee = 5
-	export_price = 3
+	trade_good_id = TRADE_GOOD_PLUM
 	importexport_amt = 5
-	passive_generation = 0
+	stockpile_amount = 5
 	stockpile_limit = 25
 	category = "Fruit"
 
@@ -183,12 +102,9 @@
 	name = "Tomato"
 	desc = "A red fruit that is often mistaken for a vegetable. It is commonly used in salads and sauces."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/fruit/tomato
-	held_items = list(0, 4)
-	payout_price = 2
-	withdraw_price = 2
-	export_price = 3
+	trade_good_id = TRADE_GOOD_TOMATO
 	importexport_amt = 5
-	passive_generation = 2
+	stockpile_amount = 5
 	stockpile_limit = 25
 	category = "Fruit"
 
@@ -196,11 +112,8 @@
 	name = "Pumpkin"
 	desc = "The thick pumpkin rind shields a surprisingly dense fleshy interior."
 	item_type = /obj/item/natural/shellplant/pumpkin
-	held_items = list(0, 4)
-	payout_price = 2
-	withdraw_price = 3
-	export_price = 4
+	trade_good_id = TRADE_GOOD_PUMPKIN
 	importexport_amt = 5
-	passive_generation = 2
+	stockpile_amount = 0
 	stockpile_limit = 25
 	category = "Fruit"
