@@ -39,51 +39,7 @@ type AvailableProject = {
   lockedReason: string;
 };
 
-type CrucibleTexts = {
-  number_locale: string;
-  window_title: string;
-  header_title: string;
-  seals: {
-    header: string;
-  };
-  sections: {
-    active_projects: string;
-    available_projects: string;
-  };
-  roles: {
-    lord: string;
-    vampire: string;
-    mortal: string;
-  };
-  labels: {
-    cup_blood: string;
-    committed: string;
-    max_deposit: string;
-    required: string;
-    collected: string;
-    remaining: string;
-    contributors: string;
-    cost: string;
-    vitae: string;
-  };
-  actions: {
-    deposit_vampire: string;
-    deposit_mortal: string;
-    contribute_lord: string;
-    contribute_vampire: string;
-    cancel: string;
-    start: string;
-  };
-  states: {
-    no_active_projects: string;
-    no_available_projects: string;
-    nonvampire_info: string;
-    vampire_nonlord_info: string;
-  };
-};
-
 type CrucibleData = {
-  texts: CrucibleTexts;
   bloodLevel: number;
   maxBlood: number;
   committedVitae: number;
@@ -95,54 +51,11 @@ type CrucibleData = {
   availableProjects: AvailableProject[];
 };
 
-const emptyTexts: CrucibleTexts = {
-  number_locale: 'en-US',
-  window_title: '',
-  header_title: '',
-  seals: {
-    header: '',
-  },
-  sections: {
-    active_projects: '',
-    available_projects: '',
-  },
-  roles: {
-    lord: '',
-    vampire: '',
-    mortal: '',
-  },
-  labels: {
-    cup_blood: '',
-    committed: '',
-    max_deposit: '',
-    required: '',
-    collected: '',
-    remaining: '',
-    contributors: '',
-    cost: '',
-    vitae: '',
-  },
-  actions: {
-    deposit_vampire: '',
-    deposit_mortal: '',
-    contribute_lord: '',
-    contribute_vampire: '',
-    cancel: '',
-    start: '',
-  },
-  states: {
-    no_active_projects: '',
-    no_available_projects: '',
-    nonvampire_info: '',
-    vampire_nonlord_info: '',
-  },
-};
+const formatVitae = (value: number) =>
+  Math.round(value || 0).toLocaleString('en-US');
 
-const formatVitae = (value: number, locale: string) =>
-  Math.round(value || 0).toLocaleString(locale || 'en-US');
-
-const formatPercent = (value: number, locale: string) =>
-  `${Number(value || 0).toLocaleString(locale || 'en-US', {
+const formatPercent = (value: number) =>
+  `${Number(value || 0).toLocaleString('en-US', {
     maximumFractionDigits: 1,
   })}%`;
 
@@ -181,7 +94,6 @@ const sealStyle = {
 export const CrimsonCrucible = () => {
   const { act, data } = useBackend<CrucibleData>();
   const {
-    texts = emptyTexts,
     bloodLevel = 0,
     maxBlood = 20000,
     committedVitae = 0,
@@ -193,15 +105,14 @@ export const CrimsonCrucible = () => {
     availableProjects = [],
   } = data;
   const bloodRatio = clampRatio(bloodLevel / Math.max(maxBlood, 1));
-  const locale = texts.number_locale;
   const roleText = isVampire
     ? isLord
-      ? texts.roles.lord
-      : texts.roles.vampire
-    : texts.roles.mortal;
+      ? 'Right of Dominion'
+      : 'Right of Sacrifice'
+    : 'Living sacrifice';
 
   return (
-    <Window title={texts.window_title} width={760} height={580} theme="dark">
+    <Window title="Crimson Crucible" width={760} height={580} theme="dark">
       <Window.Content>
         <Box
           height="100%"
@@ -216,7 +127,7 @@ export const CrimsonCrucible = () => {
               <Box p={1.2} style={frameStyle}>
                 <Stack align="center">
                   <Stack.Item>
-                    <Box style={sealStyle}>{texts.seals.header}</Box>
+                    <Box style={sealStyle}>V</Box>
                   </Stack.Item>
                   <Stack.Item grow>
                     <Box
@@ -226,7 +137,7 @@ export const CrimsonCrucible = () => {
                       textAlign="center"
                       style={{ letterSpacing: '0' }}
                     >
-                      {texts.header_title}
+                      CRIMSON CRUCIBLE
                     </Box>
                     <Box color="#c8878d" textAlign="center" mt={0.3}>
                       {roleText}
@@ -234,9 +145,8 @@ export const CrimsonCrucible = () => {
                   </Stack.Item>
                   <Stack.Item width="230px">
                     <Box color="#e8d0a0" mb={0.4}>
-                      {texts.labels.cup_blood}: {formatVitae(bloodLevel, locale)}
-                      {' / '}
-                      {formatVitae(maxBlood, locale)}
+                      Blood in cup: {formatVitae(bloodLevel)} /{' '}
+                      {formatVitae(maxBlood)}
                     </Box>
                     <ProgressBar
                       value={bloodRatio}
@@ -247,9 +157,7 @@ export const CrimsonCrucible = () => {
                       }}
                     />
                     <Box color="#b99b7c" mt={0.4}>
-                      {texts.labels.committed}: {formatVitae(committedVitae, locale)}
-                      {' '}
-                      {texts.labels.vitae}
+                      Committed: {formatVitae(committedVitae)} vitae
                     </Box>
                     <Button
                       fluid
@@ -258,14 +166,10 @@ export const CrimsonCrucible = () => {
                       disabled={!canDepositBlood}
                       onClick={() => act('deposit_blood')}
                     >
-                      {isVampire
-                        ? texts.actions.deposit_vampire
-                        : texts.actions.deposit_mortal}
+                      {isVampire ? 'Pour blood' : 'Give blood'}
                     </Button>
                     <Box color="#b99b7c" mt={0.4} fontSize={0.9}>
-                      {texts.labels.max_deposit}: {formatVitae(maxCupDeposit, locale)}
-                      {' '}
-                      {texts.labels.vitae}
+                      Available to pour: {formatVitae(maxCupDeposit)} vitae
                     </Box>
                   </Stack.Item>
                 </Stack>
@@ -274,50 +178,48 @@ export const CrimsonCrucible = () => {
             <Stack.Item grow basis={0}>
               <Stack fill>
                 <Stack.Item grow basis={0}>
-                  <Section title={texts.sections.active_projects} fill scrollable>
+                  <Section title="Active Rituals" fill scrollable>
                     {activeProjects.length ? (
                       activeProjects.map((project, index) => (
                         <ActiveProjectCard
                           key={project.ref}
                           index={index}
                           isLord={isLord}
-                          locale={locale}
                           project={project}
-                          texts={texts}
                           onContribute={() => act('contribute', { ref: project.ref })}
                           onCancel={() => act('cancel_project', { ref: project.ref })}
                         />
                       ))
                     ) : (
-                      <EmptyState text={texts.states.no_active_projects} />
+                      <EmptyState text="The crucible is silent. No ritual has begun." />
                     )}
                   </Section>
                 </Stack.Item>
                 <Stack.Item width="338px">
-                  <Section title={texts.sections.available_projects} fill scrollable>
+                  <Section title="New Rituals" fill scrollable>
                     {!isVampire ? (
                       <Box color="#c7a97a" italic mb={1}>
-                        {texts.states.nonvampire_info}
+                        The crucible accepts blood into the cup or into rituals
+                        already begun. New rites remain the clan&apos;s will.
                       </Box>
                     ) : !isLord ? (
                       <Box color="#c7a97a" italic mb={1}>
-                        {texts.states.vampire_nonlord_info}
+                        Only the Methuselah can begin new rituals. Others may
+                        fill the cup and aid rituals already in motion.
                       </Box>
                     ) : null}
                     {isVampire && isLord && availableProjects.length ? (
                       availableProjects.map((project) => (
                         <AvailableProjectCard
                           key={project.type_path}
-                          locale={locale}
                           project={project}
-                          texts={texts}
                           onStart={() =>
                             act('start_project', { type_path: project.type_path })
                           }
                         />
                       ))
                     ) : isVampire && isLord ? (
-                      <EmptyState text={texts.states.no_available_projects} />
+                      <EmptyState text="No rituals are available." />
                     ) : null}
                   </Section>
                 </Stack.Item>
@@ -333,16 +235,13 @@ export const CrimsonCrucible = () => {
 type ActiveProjectCardProps = {
   index: number;
   isLord: boolean;
-  locale: string;
   project: Project;
-  texts: CrucibleTexts;
   onContribute: () => void;
   onCancel: () => void;
 };
 
 const ActiveProjectCard = (props: ActiveProjectCardProps) => {
-  const { index, isLord, locale, project, texts, onContribute, onCancel } =
-    props;
+  const { index, isLord, project, onContribute, onCancel } = props;
   const ratio = clampRatio(project.paid / Math.max(project.cost, 1));
 
   return (
@@ -361,21 +260,9 @@ const ActiveProjectCard = (props: ActiveProjectCardProps) => {
           <Divider />
           <Stack>
             <Stack.Item grow>
-              <Box>
-                {texts.labels.required}: {formatVitae(project.cost, locale)}
-                {' '}
-                {texts.labels.vitae}
-              </Box>
-              <Box>
-                {texts.labels.collected}: {formatVitae(project.paid, locale)}
-                {' '}
-                {texts.labels.vitae}
-              </Box>
-              <Box>
-                {texts.labels.remaining}: {formatVitae(project.remaining, locale)}
-                {' '}
-                {texts.labels.vitae}
-              </Box>
+              <Box>Required: {formatVitae(project.cost)} vitae</Box>
+              <Box>Collected: {formatVitae(project.paid)} vitae</Box>
+              <Box>Remaining: {formatVitae(project.remaining)} vitae</Box>
             </Stack.Item>
             <Stack.Item width="110px">
               <Button
@@ -384,24 +271,22 @@ const ActiveProjectCard = (props: ActiveProjectCardProps) => {
                 disabled={!project.canContribute}
                 onClick={onContribute}
               >
-                {isLord
-                  ? texts.actions.contribute_lord
-                  : texts.actions.contribute_vampire}
+                {isLord ? 'Direct' : 'Contribute'}
               </Button>
               {isLord && (
                 <Button fluid color="bad" mt={0.5} onClick={onCancel}>
-                  {texts.actions.cancel}
+                  Cancel
                 </Button>
               )}
             </Stack.Item>
           </Stack>
           <Box mt={0.8}>
             <ProgressBar value={ratio} color="red">
-              {formatPercent(project.progress, locale)}
+              {formatPercent(project.progress)}
             </ProgressBar>
           </Box>
           <Box color="#563f37" mt={0.5} fontSize={0.9}>
-            {texts.labels.contributors}: {project.contributorsText}
+            Contributors: {project.contributorsText}
           </Box>
           {project.canContribute && (
             <Box color="#563f37" mt={0.3} fontSize={0.9}>
@@ -415,14 +300,12 @@ const ActiveProjectCard = (props: ActiveProjectCardProps) => {
 };
 
 type AvailableProjectCardProps = {
-  locale: string;
   project: AvailableProject;
-  texts: CrucibleTexts;
   onStart: () => void;
 };
 
 const AvailableProjectCard = (props: AvailableProjectCardProps) => {
-  const { locale, project, texts, onStart } = props;
+  const { project, onStart } = props;
 
   return (
     <Box mb={1} p={1} style={parchmentStyle}>
@@ -438,9 +321,7 @@ const AvailableProjectCard = (props: AvailableProjectCardProps) => {
             {project.description}
           </Box>
           <Box color="#563f37" mt={0.5}>
-            {texts.labels.cost}: {formatVitae(project.cost, locale)}
-            {' '}
-            {texts.labels.vitae}
+            Cost: {formatVitae(project.cost)} vitae
           </Box>
           {!project.canStart && (
             <Box color="#6c1f25" mt={0.4} fontSize={0.9}>
@@ -455,7 +336,7 @@ const AvailableProjectCard = (props: AvailableProjectCardProps) => {
             disabled={!project.canStart}
             onClick={onStart}
           >
-            {texts.actions.start}
+            Start
           </Button>
         </Stack.Item>
       </Stack>

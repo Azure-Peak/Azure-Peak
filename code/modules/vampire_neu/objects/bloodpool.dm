@@ -18,228 +18,6 @@
 #define INITIATE_LORDE 1
 #define INITIATE_ANYONE 2
 
-/datum/ui_localization/crimson_crucible
-	supported_languages = list(DEFAULT_PREFERRED_UI_LANGUAGE, "ru")
-
-/datum/ui_localization/crimson_crucible/get_language_texts(language_code)
-	switch(language_code)
-		if("ru")
-			return list(
-				"number_locale" = "ru-RU",
-				"window_title" = "Багровое горнило",
-				"header_title" = "БАГРОВОЕ ГОРНИЛО",
-				"seals" = list(
-					"header" = "V",
-					"lord_only" = "М",
-					"open" = "О",
-				),
-				"sections" = list(
-					"active_projects" = "Активные ритуалы",
-					"available_projects" = "Новые ритуалы",
-				),
-				"roles" = list(
-					"lord" = "Право на власть",
-					"vampire" = "Право на жертву",
-					"mortal" = "Живая жертва",
-				),
-				"labels" = list(
-					"cup_blood" = "Кровь в чаше",
-					"committed" = "Вложено",
-					"max_deposit" = "Можно влить",
-					"required" = "Нужно",
-					"collected" = "Собрано",
-					"remaining" = "Осталось",
-					"contributors" = "Участники",
-					"cost" = "Цена",
-					"vitae" = "витэ",
-				),
-				"actions" = list(
-					"deposit_vampire" = "Влить кровь",
-					"deposit_mortal" = "Отдать кровь",
-					"contribute_lord" = "Направить",
-					"contribute_vampire" = "Пожертвовать",
-					"cancel" = "Отменить",
-					"start" = "Начать",
-				),
-				"states" = list(
-					"no_active_projects" = "Горнило пока молчит. Ни один ритуал не начат.",
-					"no_available_projects" = "Нет доступных ритуалов.",
-					"no_contributors" = "Пока никто",
-					"nonvampire_info" = "Горнило принимает кровь в чашу или уже начатые ритуалы. Новые ритуалы остаются волей клана.",
-					"vampire_nonlord_info" = "Начинать новые ритуалы может только Метсуфелат. Остальным доступны только пожертвования крови в чашу и вложения в уже начатые ритуалы.",
-					"lord_only" = "(воля Метсуфелата)",
-					"open" = "(открытый)",
-				),
-				"messages" = list(
-					"need_adjacent" = "Мне нужно быть рядом с горнилом.",
-					"only_lord_start" = "Только Метсуфелат может начинать новые ритуалы.",
-					"unknown_project" = "Горнило не смогло распознать этот ритуал.",
-					"only_lord_cancel" = "Только Метсуфелат может отменять ритуалы.",
-					"cancel_confirm" = "Отменить ритуал \"{project}\"? Вложенная кровь будет возвращена участникам.",
-					"cancel_confirm_button" = "Отменить ритуал",
-					"cancel_back_button" = "Назад",
-					"start_failure_default" = "Условия ритуала еще не выполнены.",
-					"project_started" = "Ритуал \"{project}\" начат. Теперь горнилу нужна витэ.",
-					"cup_full" = "Чаша горнила уже полна.",
-					"reserve" = "Последние {reserve} витэ нельзя отдать горнилу.",
-					"min_donation" = "Горнило требует не меньше {amount} витэ за раз.",
-					"deposit_prompt" = "Сколько витэ влить в чашу? Максимум: {amount}.",
-					"not_enough_blood" = "Горнило не возьмет столько крови. Мне нужно остаться хотя бы с {amount}.",
-					"deposit_vampire_success" = "Я влил {amount} витэ в чашу горнила. ({current}/{max})",
-					"drain_warning" = "Проклятая магия вытягивает из меня все силы.",
-					"deposit_mortal_success" = "Я отдал свою кровь чаше горнила. Чаша приняла {amount} витэ. ({current}/{max})",
-					"no_contribution" = "Мне нечего пожертвовать этому ритуалу.",
-					"not_enough_vitae" = "Мне не хватает витэ.",
-					"contribute_prompt" = "Сколько витэ пожертвовать в \"{project}\"? Максимум: {amount}.",
-					"contribute_lord_success" = "Я направил {amount} витэ в \"{project}\". Из чаши: {cup}, моей крови: {personal}. ({paid}/{cost})",
-					"contribute_vampire_success" = "Я пожертвовал {amount} витэ в \"{project}\". ({paid}/{cost})",
-					"contribute_mortal_complete" = "Я отдал свои силы для проклятого ритуала! Ритуал \"{project}\" завершен.",
-					"contribute_mortal_progress" = "Я отдал свои силы для проклятого ритуала! Ритуал \"{project}\" прогрессирует. ({paid}/{cost})",
-					"project_complete_announce" = "{project} завершен!",
-					"refund_notice" = "Мне вернулось {amount} витэ из отмененного проекта: {project}",
-				),
-				"contribution" = list(
-					"lord_with_cup" = "Можно направить до {amount} витэ; сначала расходуется чаша",
-					"vampire" = "Можно пожертвовать до {amount} витэ",
-					"mortal" = "Будет пожертвовано: {vitae} витэ и {blood} крови",
-				),
-				"project_names" = list(
-					"Rite of Stirring" = "Обряд пробуждения",
-					"Rite of Reclamation" = "Обряд возвращения",
-					"Rite of Dominion" = "Обряд владычества",
-					"Rite of Sovereignty" = "Обряд суверенитета",
-					"Wicked Plate" = "Порочные латы",
-					"Steal the Sun" = "Украсть солнце",
-					"Summon Vampyre Servant" = "Призвать вампира-слугу",
-					"Summon Vampyre Guard" = "Призвать вампира-стража",
-					"Summon Vampyre Champion" = "Призвать вампира-чемпиона",
-				),
-				"project_descriptions" = list(
-					"Rite of Stirring" = "Древняя кровь вновь шевелится. Забытые шепоты отзываются в костях земли. Владыка рядом с горнилом получает +2 ко всем характеристикам и +1000 к запасу витэ. Открывает чемпионов.",
-					"Rite of Reclamation" = "Запечатанная сила возвращается. Почва, камень и тени вспоминают своего хозяина. Владыка рядом с горнилом получает еще +2 ко всем характеристикам и +1000 к запасу витэ. Открывает ритуалы брони.",
-					"Rite of Dominion" = "Завеса времени рвется. Воля Старшего связывает незваных в хватке Земли. Владыка рядом с горнилом получает еще +2 ко всем характеристикам и +1000 к запасу витэ.",
-					"Rite of Sovereignty" = "Владыка становится целым. Древняя мощь насыщает каждый камень и каждую жилу. Владыка и его подчиненные получают +2 ко всем характеристикам и +1000 к запасу витэ. Солнце умолкает.",
-					"Wicked Plate" = "Полный комплект вампирских лат из кристаллизованной крови. Сталь, серебро и спасение не должны мешать планам Владыки. Ритуал можно провести только один раз.",
-					"Steal the Sun" = "Жгучий взор Солнца-Тирана больше не должен мешать планам клана.",
-					"Summon Vampyre Servant" = "Верный слуга для трудов, кузни, поместья и мелких поручений. Неонит, может обратить одного тонкокровного, 9 RP.",
-					"Summon Vampyre Guard" = "Верный страж для защиты дела или поместья клинком, щитом, луком или магией. Неонит, может обратить одного тонкокровного, 9 RP.",
-					"Summon Vampyre Champion" = "Талантливый и опасный чемпион для армии тьмы или скрытого удара по смертным. Анцилла, может обратить пять неонитов, 17 RP.",
-				),
-				"start_failures" = list(
-					"This project cannot be started." = "Этот ритуал нельзя начать.",
-					"This project can only be initiated by your Lorde." = "Этот ритуал может начать только Метсуфелат.",
-					"This project can only be initiate by your Lorde." = "Этот ритуал может начать только Метсуфелат.",
-				),
-			)
-
-	return list(
-		"number_locale" = "en-US",
-		"window_title" = "Crimson Crucible",
-		"header_title" = "CRIMSON CRUCIBLE",
-		"seals" = list(
-			"header" = "V",
-			"lord_only" = "L",
-			"open" = "O",
-		),
-		"sections" = list(
-			"active_projects" = "Active Rituals",
-			"available_projects" = "New Rituals",
-		),
-		"roles" = list(
-			"lord" = "Right of Dominion",
-			"vampire" = "Right of Sacrifice",
-			"mortal" = "Living sacrifice",
-		),
-		"labels" = list(
-			"cup_blood" = "Blood in cup",
-			"committed" = "Committed",
-			"max_deposit" = "Available to pour",
-			"required" = "Required",
-			"collected" = "Collected",
-			"remaining" = "Remaining",
-			"contributors" = "Contributors",
-			"cost" = "Cost",
-			"vitae" = "vitae",
-		),
-		"actions" = list(
-			"deposit_vampire" = "Pour blood",
-			"deposit_mortal" = "Give blood",
-			"contribute_lord" = "Direct",
-			"contribute_vampire" = "Contribute",
-			"cancel" = "Cancel",
-			"start" = "Start",
-		),
-		"states" = list(
-			"no_active_projects" = "The crucible is silent. No ritual has begun.",
-			"no_available_projects" = "No rituals are available.",
-			"no_contributors" = "No one yet",
-			"nonvampire_info" = "The crucible accepts blood into the cup or into rituals already begun. New rites remain the clan's will.",
-			"vampire_nonlord_info" = "Only the Methuselah can begin new rituals. Others may fill the cup and aid rituals already in motion.",
-			"lord_only" = "(Methuselah's will)",
-			"open" = "(open)",
-		),
-		"messages" = list(
-			"need_adjacent" = "I need to be next to the crucible.",
-			"only_lord_start" = "Only the Methuselah can begin new rituals.",
-			"unknown_project" = "The crucible failed to recognize that ritual.",
-			"only_lord_cancel" = "Only the Methuselah can cancel rituals.",
-			"cancel_confirm" = "Cancel ritual \"{project}\"? Invested blood will be returned to participants.",
-			"cancel_confirm_button" = "Cancel ritual",
-			"cancel_back_button" = "Back",
-			"start_failure_default" = "The ritual conditions are not fulfilled yet.",
-			"project_started" = "Ritual \"{project}\" has begun. The crucible now hungers for vitae.",
-			"cup_full" = "The crucible cup is already full.",
-			"reserve" = "The last {reserve} vitae cannot be given to the crucible.",
-			"min_donation" = "The crucible requires at least {amount} vitae at a time.",
-			"deposit_prompt" = "How much vitae should be poured into the cup? Maximum: {amount}.",
-			"not_enough_blood" = "The crucible will not take that much blood. I must remain with at least {amount}.",
-			"deposit_vampire_success" = "I poured {amount} vitae into the crucible cup. ({current}/{max})",
-			"drain_warning" = "Cursed magic drains my strength.",
-			"deposit_mortal_success" = "I gave my blood to the crucible cup. The cup accepted {amount} vitae. ({current}/{max})",
-			"no_contribution" = "I have nothing to give to that ritual.",
-			"not_enough_vitae" = "I do not have enough vitae.",
-			"contribute_prompt" = "How much vitae should be given to \"{project}\"? Maximum: {amount}.",
-			"contribute_lord_success" = "I directed {amount} vitae into \"{project}\". From the cup: {cup}, from my blood: {personal}. ({paid}/{cost})",
-			"contribute_vampire_success" = "I contributed {amount} vitae to \"{project}\". ({paid}/{cost})",
-			"contribute_mortal_complete" = "I gave my strength to the cursed ritual! Ritual \"{project}\" is complete.",
-			"contribute_mortal_progress" = "I gave my strength to the cursed ritual! Ritual \"{project}\" progresses. ({paid}/{cost})",
-			"project_complete_announce" = "{project} has been completed!",
-			"refund_notice" = "Received {amount} vitae refund from cancelled project: {project}",
-		),
-		"contribution" = list(
-			"lord_with_cup" = "Can direct up to {amount} vitae; the cup is spent first",
-			"vampire" = "Can contribute up to {amount} vitae",
-			"mortal" = "Will sacrifice {vitae} vitae and {blood} blood",
-		),
-		"project_names" = list(
-			"Rite of Stirring" = "Rite of Stirring",
-			"Rite of Reclamation" = "Rite of Reclamation",
-			"Rite of Dominion" = "Rite of Dominion",
-			"Rite of Sovereignty" = "Rite of Sovereignty",
-			"Wicked Plate" = "Wicked Plate",
-			"Steal the Sun" = "Steal the Sun",
-			"Summon Vampyre Servant" = "Summon Vampyre Servant",
-			"Summon Vampyre Guard" = "Summon Vampyre Guard",
-			"Summon Vampyre Champion" = "Summon Vampyre Champion",
-		),
-		"project_descriptions" = list(
-			"Rite of Stirring" = "The ancient blood stirs once more. Forgotten whispers echo through the marrow of the land. The Lorde near the crucible gains +2 to all stats and +1000 vitae pool limit. Unlocks champions.",
-			"Rite of Reclamation" = "Strength long sealed returns. The soil, the stone, and the shadows bend again to their rightful master. The Lorde near the crucible gains another +2 to all stats and +1000 vitae pool limit. Unlocks armor rites.",
-			"Rite of Dominion" = "The veil of time shreds. The Elder's will pours forth, binding trespassers within the grasp of the Land. The Lorde near the crucible gains another +2 to all stats and +1000 vitae pool limit.",
-			"Rite of Sovereignty" = "The Lord is whole. Ancient power saturates every stone and vein. The Lorde and their thralls gain +2 to all stats and +1000 vitae pool limit. The sun falls silent.",
-			"Wicked Plate" = "Summon a complete set of vampiric plate armor from crystallized blood. Let not steel, silver, nor salvation inhibit the Lord's plan. This can only be done once.",
-			"Steal the Sun" = "The scorching gaze of the Sun-Tyrant shall hamper the clan's plans no more.",
-			"Summon Vampyre Servant" = "A loyal servant for chores, forgework, the manor, and trivial tasks. Neonate generation, can sire one Thinblood, 9 RP.",
-			"Summon Vampyre Guard" = "A loyal guard to fight for your cause or defend your manor with blade, shield, bow, or magicks. Neonate generation, can sire one Thinblood, 9 RP.",
-			"Summon Vampyre Champion" = "A loyal, highly talented champion to herald your army of darkness or strike mortalkind from the shadows. Ancillae generation, can sire five Neonites, 17 RP.",
-		),
-		"start_failures" = list(
-			"This project cannot be started." = "This project cannot be started.",
-			"This project can only be initiated by your Lorde." = "This project can only be initiated by your Lorde.",
-			"This project can only be initiate by your Lorde." = "This project can only be initiated by your Lorde.",
-		),
-	)
-
 /obj/structure/vampire/bloodpool
 	name = "Crimson Crucible"
 	desc = "An ominious bloodstained Crucible, humming with unholy energies and crackling with untold potental. A thick smell of copper invades your nose just looking upon it, is that blood?"
@@ -293,14 +71,8 @@
 	remember_nonvampire_vitae(living_user)
 	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
-		var/list/texts = get_crucible_texts(user)
-		ui = new(user, src, "CrimsonCrucible", texts["window_title"])
+		ui = new(user, src, "CrimsonCrucible", "Crimson Crucible")
 		ui.open()
-
-/obj/structure/vampire/bloodpool/ui_static_data(mob/user)
-	var/list/data = ..()
-	data["texts"] = get_crucible_texts(user)
-	return data
 
 /obj/structure/vampire/bloodpool/ui_data(mob/user)
 	var/list/data = ..()
@@ -310,9 +82,6 @@
 		human_user = living_user
 	var/is_lord = is_crucible_lord(living_user)
 	var/is_vampire = is_crucible_vampire(living_user)
-	var/list/texts = get_crucible_texts(user)
-	var/list/states = texts["states"]
-	var/list/seals = texts["seals"]
 	var/list/active_project_data = list()
 	var/list/available_project_data = list()
 	var/committed_vitae = 0
@@ -338,19 +107,19 @@
 		committed_vitae += project.paid_amount
 		UNTYPED_LIST_ADD(active_project_data, list(
 			"ref" = REF(project),
-			"name" = project.ui_project_name(texts),
-			"description" = project.ui_project_description(texts),
+			"name" = project.display_name,
+			"description" = project.description,
 			"cost" = project.total_cost,
 			"paid" = project.paid_amount,
 			"remaining" = remaining,
 			"progress" = project.total_cost ? round((project.paid_amount / project.total_cost) * 100, 0.1) : 100,
 			"isLordOnly" = project.can_be_initiated_by == INITIATE_LORDE,
-			"accessText" = project.can_be_initiated_by == INITIATE_LORDE ? states["lord_only"] : states["open"],
+			"accessText" = project.can_be_initiated_by == INITIATE_LORDE ? "(Methuselah's will)" : "(open)",
 			"canContribute" = can_contribute,
 			"maxContribution" = max_contribution,
 			"maxBloodCost" = is_vampire ? 0 : get_blood_cost_for_vitae(max_contribution),
-			"contributorsText" = length(contributor_names) ? jointext(contributor_names, ", ") : states["no_contributors"],
-			"contributionText" = can_contribute ? get_project_contribution_text(project, max_contribution, is_lord, is_vampire, texts) : "",
+			"contributorsText" = length(contributor_names) ? jointext(contributor_names, ", ") : "No one yet",
+			"contributionText" = can_contribute ? get_project_contribution_text(project, max_contribution, is_lord, is_vampire) : "",
 		))
 
 	if(is_lord && istype(human_user))
@@ -362,14 +131,14 @@
 			var/can_start = project.can_start(human_user, src)
 			UNTYPED_LIST_ADD(available_project_data, list(
 				"type_path" = "[project_type]",
-				"name" = project.ui_project_name(texts),
-				"description" = project.ui_project_description(texts),
+				"name" = project.display_name,
+				"description" = project.description,
 				"cost" = project.total_cost,
 				"isLordOnly" = project.can_be_initiated_by == INITIATE_LORDE,
-				"accessText" = project.can_be_initiated_by == INITIATE_LORDE ? states["lord_only"] : states["open"],
-				"accessSeal" = project.can_be_initiated_by == INITIATE_LORDE ? seals["lord_only"] : seals["open"],
+				"accessText" = project.can_be_initiated_by == INITIATE_LORDE ? "(Methuselah's will)" : "(open)",
+				"accessSeal" = project.can_be_initiated_by == INITIATE_LORDE ? "L" : "O",
 				"canStart" = can_start,
-				"lockedReason" = get_project_locked_reason(project, is_lord, can_start, texts),
+				"lockedReason" = get_project_locked_reason(project, is_lord, can_start),
 			))
 			qdel(project)
 
@@ -393,48 +162,44 @@
 	if(!istype(user))
 		return TRUE
 
-	var/list/texts = get_crucible_texts(user)
-	var/list/messages = texts["messages"]
 	remember_nonvampire_vitae(user)
 	if(get_dist(user, src) > 1)
-		to_chat(user, span_warning(messages["need_adjacent"]))
+		to_chat(user, span_warning("I need to be next to the crucible."))
 		return TRUE
 
 	switch(action)
 		if("start_project")
 			if(!is_crucible_lord(user))
-				to_chat(user, span_warning(messages["only_lord_start"]))
+				to_chat(user, span_warning("Only the Methuselah can begin new rituals."))
 				return TRUE
 			var/project_path = params["type_path"]
 			if(!project_path)
 				project_path = params["typePath"]
 			var/project_type = text2path(project_path)
 			if(!ispath(project_type, /datum/vampire_project) || !(project_type in available_project_types) || (project_type in active_projects))
-				to_chat(user, span_warning(messages["unknown_project"]))
+				to_chat(user, span_warning("The crucible failed to recognize that ritual."))
 				return TRUE
-			start_new_project_tgui(project_type, user, texts)
+			start_new_project_tgui(project_type, user)
 			return TRUE
 		if("contribute")
 			var/datum/vampire_project/project = get_active_project_by_ref(params["ref"])
 			if(!project)
 				return TRUE
-			contribute_to_project(project, user, texts)
+			contribute_to_project(project, user)
 			return TRUE
 		if("deposit_blood")
-			deposit_blood_to_cup(user, texts)
+			deposit_blood_to_cup(user)
 			return TRUE
 		if("cancel_project")
 			if(!is_crucible_lord(user))
-				to_chat(user, span_warning(messages["only_lord_cancel"]))
+				to_chat(user, span_warning("Only the Methuselah can cancel rituals."))
 				return TRUE
 			var/datum/vampire_project/project = get_active_project_by_ref(params["ref"])
 			var/project_type = get_active_project_type(project)
 			if(!project || !project_type)
 				return TRUE
-			var/project_name = project.ui_project_name(texts)
-			var/confirm_message = format_crucible_text(messages["cancel_confirm"], list("project" = project_name))
-			var/cancel_button = messages["cancel_confirm_button"]
-			if(tgui_alert(user, confirm_message, texts["window_title"], list(cancel_button, messages["cancel_back_button"])) != cancel_button)
+			var/cancel_button = "Cancel ritual"
+			if(tgui_alert(user, "Cancel ritual \"[project.display_name]\"? Invested blood will be returned to participants.", "Crimson Crucible", list(cancel_button, "Back")) != cancel_button)
 				return TRUE
 			if(QDELETED(src) || !is_crucible_lord(user) || active_projects[project_type] != project)
 				return TRUE
@@ -442,17 +207,6 @@
 			SStgui.update_uis(src)
 			return TRUE
 	return FALSE
-
-/obj/structure/vampire/bloodpool/proc/get_crucible_texts(mob/user)
-	return get_ui_texts(user, /datum/ui_localization/crimson_crucible)
-
-/obj/structure/vampire/bloodpool/proc/format_crucible_text(message, list/replacements)
-	if(!istext(message) || !islist(replacements))
-		return message
-
-	. = message
-	for(var/key in replacements)
-		. = replacetext(., "{[key]}", "[replacements[key]]")
 
 /obj/structure/vampire/bloodpool/proc/is_crucible_lord(mob/living/user)
 	if(!istype(user))
@@ -469,13 +223,12 @@
 		return FALSE
 	return !!user.mind?.has_antag_datum(/datum/antagonist/vampire)
 
-/obj/structure/vampire/bloodpool/proc/get_project_contribution_text(datum/vampire_project/project, max_contribution, is_lord, is_vampire, list/texts)
-	var/list/contribution_texts = texts["contribution"]
+/obj/structure/vampire/bloodpool/proc/get_project_contribution_text(datum/vampire_project/project, max_contribution, is_lord, is_vampire)
 	if(is_vampire)
 		if(is_lord)
-			return format_crucible_text(contribution_texts["lord_with_cup"], list("amount" = max_contribution))
-		return format_crucible_text(contribution_texts["vampire"], list("amount" = max_contribution))
-	return format_crucible_text(contribution_texts["mortal"], list("vitae" = max_contribution, "blood" = get_blood_cost_for_vitae(max_contribution)))
+			return "Can direct up to [max_contribution] vitae; the cup is spent first"
+		return "Can contribute up to [max_contribution] vitae"
+	return "Will sacrifice [max_contribution] vitae and [get_blood_cost_for_vitae(max_contribution)] blood"
 
 /obj/structure/vampire/bloodpool/proc/get_nonvampire_crucible_bloodpool(mob/living/user, bloodpool_amount)
 	if(!istype(user))
@@ -582,15 +335,14 @@
 		return TRUE
 	return deposit >= CRUCIBLE_MIN_DONATION
 
-/obj/structure/vampire/bloodpool/proc/get_project_locked_reason(datum/vampire_project/project, is_lord, can_start, list/texts)
-	var/list/messages = texts["messages"]
+/obj/structure/vampire/bloodpool/proc/get_project_locked_reason(datum/vampire_project/project, is_lord, can_start)
 	if(!is_lord)
-		return messages["only_lord_start"]
+		return "Only the Methuselah can begin new rituals."
 	if(can_start)
 		return ""
 	if(project.start_failure_message)
-		return project.ui_project_start_failure(texts)
-	return messages["start_failure_default"]
+		return project.start_failure_message
+	return "The ritual conditions are not fulfilled yet."
 
 /obj/structure/vampire/bloodpool/proc/get_active_project_by_ref(project_ref)
 	if(!istext(project_ref))
@@ -649,12 +401,11 @@
 
 	return CEILING((vitae_amount * CRUCIBLE_DONATION_BLOOD) / CRUCIBLE_DONATION_VITAE, 1)
 
-/obj/structure/vampire/bloodpool/proc/start_new_project_tgui(project_type, mob/living/user, list/texts)
+/obj/structure/vampire/bloodpool/proc/start_new_project_tgui(project_type, mob/living/user)
 	if(!ispath(project_type, /datum/vampire_project) || !(project_type in available_project_types) || (project_type in active_projects))
 		return
 
 	var/datum/vampire_project/project = new project_type()
-	var/list/messages = texts["messages"]
 	var/mob/living/carbon/human/human_user
 	if(istype(user))
 		human_user = user
@@ -663,7 +414,7 @@
 		qdel(project)
 		return
 	if(!project.can_start(human_user, src))
-		to_chat(user, span_warning(project.ui_project_start_failure(texts)))
+		to_chat(user, span_warning(project.start_failure_message))
 		qdel(project)
 		return
 
@@ -673,28 +424,27 @@
 	project.on_start(human_user)
 
 	active_projects[project_type] = project
-	to_chat(user, span_greentext(format_crucible_text(messages["project_started"], list("project" = project.ui_project_name(texts)))))
+	to_chat(user, span_greentext("Ritual \"[project.display_name]\" has begun. The crucible now hungers for vitae."))
 	SStgui.update_uis(src)
 
-/obj/structure/vampire/bloodpool/proc/deposit_blood_to_cup(mob/living/user, list/texts)
+/obj/structure/vampire/bloodpool/proc/deposit_blood_to_cup(mob/living/user)
 	if(!istype(user))
 		return
 
-	var/list/messages = texts["messages"]
 	var/is_vampire = is_crucible_vampire(user)
 	var/max_deposit = get_max_cup_deposit(user)
 	if(!can_accept_cup_deposit(user, max_deposit, is_vampire))
 		if(get_cup_space() <= 0)
-			to_chat(user, span_warning(messages["cup_full"]))
+			to_chat(user, span_warning("The crucible cup is already full."))
 		else if(is_vampire)
-			to_chat(user, span_warning(format_crucible_text(messages["reserve"], list("reserve" = CRUCIBLE_VAMPIRE_BLOODPOOL_RESERVE))))
+			to_chat(user, span_warning("The last [CRUCIBLE_VAMPIRE_BLOODPOOL_RESERVE] vitae cannot be given to the crucible."))
 		else
-			to_chat(user, span_warning(format_crucible_text(messages["min_donation"], list("amount" = CRUCIBLE_MIN_DONATION))))
+			to_chat(user, span_warning("The crucible requires at least [CRUCIBLE_MIN_DONATION] vitae at a time."))
 		return
 
 	var/deposit = max_deposit
 	if(is_vampire)
-		deposit = tgui_input_number(user, format_crucible_text(messages["deposit_prompt"], list("amount" = max_deposit)), texts["window_title"], max_deposit, max_deposit, 1)
+		deposit = tgui_input_number(user, "How much vitae should be poured into the cup? Maximum: [max_deposit].", "Crimson Crucible", max_deposit, max_deposit, 1)
 		if(!deposit || QDELETED(src) || QDELETED(user))
 			return
 		if(get_dist(user, src) > 1 || !is_crucible_vampire(user))
@@ -713,7 +463,7 @@
 	else
 		blood_cost = get_blood_cost_for_vitae(deposit)
 		if(user.blood_volume - blood_cost < CRUCIBLE_MIN_DONOR_BLOOD)
-			to_chat(user, span_warning(format_crucible_text(messages["not_enough_blood"], list("amount" = CRUCIBLE_MIN_DONOR_BLOOD))))
+			to_chat(user, span_warning("The crucible will not take that much blood. I must remain with at least [CRUCIBLE_MIN_DONOR_BLOOD]."))
 			return
 		var/bloodpool_cost = get_nonvampire_bloodpool_cost_for_vitae(deposit)
 		user.bloodpool = max(get_nonvampire_crucible_bloodpool(user, user.bloodpool) - bloodpool_cost, 0)
@@ -722,34 +472,33 @@
 
 	current = min(current + deposit, CRUCIBLE_MAX_BLOOD)
 	if(is_vampire)
-		to_chat(user, span_greentext(format_crucible_text(messages["deposit_vampire_success"], list("amount" = deposit, "current" = current, "max" = CRUCIBLE_MAX_BLOOD))))
+		to_chat(user, span_greentext("I poured [deposit] vitae into the crucible cup. ([current]/[CRUCIBLE_MAX_BLOOD])"))
 	else
-		to_chat(user, span_userdanger(messages["drain_warning"]))
-		to_chat(user, span_greentext(format_crucible_text(messages["deposit_mortal_success"], list("amount" = deposit, "current" = current, "max" = CRUCIBLE_MAX_BLOOD))))
+		to_chat(user, span_userdanger("Cursed magic drains my strength."))
+		to_chat(user, span_greentext("I gave my blood to the crucible cup. The cup accepted [deposit] vitae. ([current]/[CRUCIBLE_MAX_BLOOD])"))
 	SStgui.update_uis(src)
 
-/obj/structure/vampire/bloodpool/proc/contribute_to_project(datum/vampire_project/project, mob/living/user, list/texts)
+/obj/structure/vampire/bloodpool/proc/contribute_to_project(datum/vampire_project/project, mob/living/user)
 	var/project_type = get_active_project_type(project)
 	if(!project_type)
 		return
 
-	var/list/messages = texts["messages"]
 	var/max_contribution = get_project_max_contribution(project, user)
 	var/is_vampire = is_crucible_vampire(user)
 	if(!can_accept_vitae_contribution(project, max_contribution, is_vampire))
 		if(is_vampire)
 			if(user.bloodpool <= CRUCIBLE_VAMPIRE_BLOODPOOL_RESERVE)
-				to_chat(user, span_warning(format_crucible_text(messages["reserve"], list("reserve" = CRUCIBLE_VAMPIRE_BLOODPOOL_RESERVE))))
+				to_chat(user, span_warning("The last [CRUCIBLE_VAMPIRE_BLOODPOOL_RESERVE] vitae cannot be given to the crucible."))
 			else
-				to_chat(user, span_warning(messages["no_contribution"]))
+				to_chat(user, span_warning("I have nothing to give to that ritual."))
 		else
-			to_chat(user, span_warning(format_crucible_text(messages["min_donation"], list("amount" = CRUCIBLE_MIN_DONATION))))
+			to_chat(user, span_warning("The crucible requires at least [CRUCIBLE_MIN_DONATION] vitae at a time."))
 		return
 
-	var/project_name = project.ui_project_name(texts)
+	var/project_name = project.display_name
 	var/contribution = max_contribution
 	if(is_vampire)
-		contribution = tgui_input_number(user, format_crucible_text(messages["contribute_prompt"], list("project" = project_name, "amount" = max_contribution)), texts["window_title"], max_contribution, max_contribution, 1)
+		contribution = tgui_input_number(user, "How much vitae should be given to \"[project_name]\"? Maximum: [max_contribution].", "Crimson Crucible", max_contribution, max_contribution, 1)
 		if(!contribution || QDELETED(src) || QDELETED(project))
 			return
 		if(active_projects[project_type] != project || get_dist(user, src) > 1)
@@ -763,11 +512,11 @@
 	if(!is_vampire)
 		blood_cost = get_blood_cost_for_vitae(contribution)
 		if(user.blood_volume - blood_cost < CRUCIBLE_MIN_DONOR_BLOOD)
-			to_chat(user, span_warning(format_crucible_text(messages["not_enough_blood"], list("amount" = CRUCIBLE_MIN_DONOR_BLOOD))))
+			to_chat(user, span_warning("The crucible will not take that much blood. I must remain with at least [CRUCIBLE_MIN_DONOR_BLOOD]."))
 			return
 
 	if(get_available_vitae_for_contribution(user, is_vampire) < contribution)
-		to_chat(user, span_warning(messages["not_enough_vitae"]))
+		to_chat(user, span_warning("I do not have enough vitae."))
 		return
 
 	var/cup_contribution = 0
@@ -778,7 +527,7 @@
 
 	if(is_vampire)
 		if(personal_contribution > get_vampire_personal_vitae_for_crucible(user))
-			to_chat(user, span_warning(messages["not_enough_vitae"]))
+			to_chat(user, span_warning("I do not have enough vitae."))
 			return
 		current = max(current - cup_contribution, 0)
 		if(personal_contribution > 0)
@@ -796,15 +545,15 @@
 
 	if(is_vampire)
 		if(cup_contribution > 0)
-			to_chat(user, span_greentext(format_crucible_text(messages["contribute_lord_success"], list("amount" = contribution, "project" = project_name, "cup" = cup_contribution, "personal" = personal_contribution, "paid" = project.paid_amount, "cost" = project.total_cost))))
+			to_chat(user, span_greentext("I directed [contribution] vitae into \"[project_name]\". From the cup: [cup_contribution], from my blood: [personal_contribution]. ([project.paid_amount]/[project.total_cost])"))
 		else
-			to_chat(user, span_greentext(format_crucible_text(messages["contribute_vampire_success"], list("amount" = contribution, "project" = project_name, "paid" = project.paid_amount, "cost" = project.total_cost))))
+			to_chat(user, span_greentext("I contributed [contribution] vitae to \"[project_name]\". ([project.paid_amount]/[project.total_cost])"))
 	else
-		to_chat(user, span_userdanger(messages["drain_warning"]))
+		to_chat(user, span_userdanger("Cursed magic drains my strength."))
 		if(project.paid_amount >= project.total_cost)
-			to_chat(user, span_greentext(format_crucible_text(messages["contribute_mortal_complete"], list("project" = project_name))))
+			to_chat(user, span_greentext("I gave my strength to the cursed ritual! Ritual \"[project_name]\" is complete."))
 		else
-			to_chat(user, span_greentext(format_crucible_text(messages["contribute_mortal_progress"], list("project" = project_name, "paid" = project.paid_amount, "cost" = project.total_cost))))
+			to_chat(user, span_greentext("I gave my strength to the cursed ritual! Ritual \"[project_name]\" progresses. ([project.paid_amount]/[project.total_cost])"))
 	if(project.paid_amount >= project.total_cost)
 		complete_project(project_type)
 	else
@@ -884,9 +633,7 @@
 		return
 
 	for(var/mob/living/contributor in project.contributors)
-		var/list/texts = get_crucible_texts(contributor)
-		var/list/messages = texts["messages"]
-		to_chat(contributor, span_boldannounce(format_crucible_text(messages["project_complete_announce"], list("project" = project.ui_project_name(texts)))))
+		to_chat(contributor, span_boldannounce("[project.display_name] has been completed!"))
 		contributor.playsound_local(get_turf(src), project.completion_sound, 100, FALSE, pressure_affected = FALSE)
 
 	project.on_complete(src)
@@ -919,30 +666,6 @@
 	var/start_failure_message = "This project cannot be started."
 	var/completion_sound = 'sound/misc/batsound.ogg'
 	var/can_be_initiated_by = INITIATE_LORDE
-
-/datum/vampire_project/proc/ui_project_name(list/texts = null)
-	if(islist(texts))
-		var/list/project_names = texts["project_names"]
-		if(islist(project_names) && project_names[display_name])
-			return project_names[display_name]
-	return display_name
-
-/datum/vampire_project/proc/ui_project_description(list/texts = null)
-	if(islist(texts))
-		var/list/project_descriptions = texts["project_descriptions"]
-		if(islist(project_descriptions) && project_descriptions[display_name])
-			return project_descriptions[display_name]
-	return description
-
-/datum/vampire_project/proc/ui_project_start_failure(list/texts = null)
-	if(islist(texts))
-		var/list/start_failures = texts["start_failures"]
-		if(islist(start_failures) && start_failures[start_failure_message])
-			return start_failures[start_failure_message]
-		var/list/messages = texts["messages"]
-		if(islist(messages) && messages["start_failure_default"])
-			return messages["start_failure_default"]
-	return start_failure_message
 
 /datum/vampire_project/proc/can_start(mob/living/carbon/human/user, obj/structure/vampire/bloodpool/pool, silent = FALSE)
 	if(!istype(user) || !istype(pool))
@@ -1018,12 +741,7 @@
 	var/refund_amount = total_refund / contributors.len
 	for(var/mob/living/contributor in contributors)
 		contributor.adjust_bloodpool(refund_amount)
-		if(istype(bloodpool))
-			var/list/texts = bloodpool.get_crucible_texts(contributor)
-			var/list/messages = texts["messages"]
-			to_chat(contributor, span_notice(bloodpool.format_crucible_text(messages["refund_notice"], list("amount" = refund_amount, "project" = ui_project_name(texts)))))
-		else
-			to_chat(contributor, span_notice("Received [refund_amount] vitae refund from cancelled project: [display_name]"))
+		to_chat(contributor, span_notice("Received [refund_amount] vitae refund from cancelled project: [display_name]"))
 
 // Specific project types
 /datum/vampire_project/power_growth
