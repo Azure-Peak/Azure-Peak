@@ -200,7 +200,7 @@
 
 	var/import_html = ""
 	if(can_import_hierarchy())
-		import_html = "<a href='byond://?src=[REF(src)];action=[CLAN_HIERARCHY_JSON_IMPORT_ACTION]' class='btn-primary' style='display:inline-block; margin-top:12px; text-decoration:none;'>Import JSON</a>"
+		import_html = "<a href='?src=[REF(src)];action=[CLAN_HIERARCHY_JSON_IMPORT_ACTION]' class='btn-primary' style='display:inline-block; margin-top:12px; text-decoration:none;'>Import JSON</a>"
 	else
 		import_html = "<div style='margin-top:12px; color:#999;'>Only clan leadership can import hierarchy JSON.</div>"
 
@@ -212,7 +212,7 @@
 		<textarea readonly rows='24' style='width:100%; box-sizing:border-box; resize:vertical; background:#111; color:#f0e3c4; border:1px solid #8B4513; border-radius:4px; padding:12px; font-family:Consolas, monospace; font-size:12px;'>[html_encode(hierarchy_json)]</textarea>
 		<div>
 			[import_html]
-			<a href='byond://?src=[REF(src)];action=show_hierarchy' class='btn-secondary' style='display:inline-block; margin-top:12px; text-decoration:none;'>View Hierarchy</a>
+			<a href='?src=[REF(src)];action=show_hierarchy' class='btn-secondary' style='display:inline-block; margin-top:12px; text-decoration:none;'>View Hierarchy</a>
 		</div>
 	</div>
 	"}
@@ -267,29 +267,17 @@
 	var/settings_html = {"
 				<h3>Clan Settings</h3>
 				<ul class=\"coven-list\">
-					<li class=\"coven-item hierarchy-button\" onclick=\"window.location.href='byond://?src=[REF(src)];action=[CLAN_HIERARCHY_JSON_SHOW_ACTION]'\">
-						<div class=\"coven-name\">Hierarchy JSON</div>
+					<li class=\"coven-item hierarchy-button\">
+						<a href=\"?src=[REF(src)];action=[CLAN_HIERARCHY_JSON_SHOW_ACTION]\" class=\"coven-name\" style=\"display:block; text-decoration:none; user-select:none;\">Hierarchy JSON</a>
 						<div class=\"coven-stats\">
-							<span>Export</span>
-							<span>Import</span>
+							<a href=\"?src=[REF(src)];action=[CLAN_HIERARCHY_JSON_SHOW_ACTION]\" style=\"color:#FFFFFF; text-decoration:underline; user-select:none;\">Export</a>
+							<a href=\"?src=[REF(src)];action=[CLAN_HIERARCHY_JSON_IMPORT_ACTION]\" style=\"color:#FFFFFF; text-decoration:underline; user-select:none;\">Import</a>
 						</div>
 					</li>
 				</ul>
 	"}
 
 	. = replacetext(., "<h3>Your Covens</h3>", "[settings_html]<h3>Your Covens</h3>")
-
-/datum/clan_menu_interface/Topic(href, href_list)
-	switch(href_list["action"])
-		if(CLAN_HIERARCHY_JSON_SHOW_ACTION)
-			show_hierarchy_json()
-			return
-
-		if(CLAN_HIERARCHY_JSON_IMPORT_ACTION)
-			import_hierarchy_prompt()
-			return
-
-	return ..(href, href_list)
 
 #undef CLAN_HIERARCHY_JSON_VERSION
 #undef CLAN_HIERARCHY_JSON_MAX_NODES
