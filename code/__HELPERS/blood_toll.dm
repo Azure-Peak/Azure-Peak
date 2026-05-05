@@ -1,3 +1,9 @@
+#define BLOOD_TOLL_THRESHOLD_D 2
+#define BLOOD_TOLL_THRESHOLD_C 4
+#define BLOOD_TOLL_THRESHOLD_B 8
+#define BLOOD_TOLL_THRESHOLD_A 12
+#define BLOOD_TOLL_THRESHOLD_S 20
+
 /proc/count_blood_toll_capita()
 	var/count = 0
 	for(var/datum/mind/mind in SSticker.minds)
@@ -6,15 +12,15 @@
 	return count
 
 /proc/blood_toll_score_grade(per_capita)
-	if(per_capita < 1)
+	if(per_capita < BLOOD_TOLL_THRESHOLD_D)
 		return list("grade" = "F", "copy" = "NOTHING EVER HAPPENS", "color" = "#7a7a7a")
-	if(per_capita < 2)
+	if(per_capita < BLOOD_TOLL_THRESHOLD_C)
 		return list("grade" = "D", "copy" = "AZURIA HAS FALLEN", "color" = "#bd1717")
-	if(per_capita < 4)
+	if(per_capita < BLOOD_TOLL_THRESHOLD_B)
 		return list("grade" = "C", "copy" = "AZURIA STUMBLES", "color" = "#c87a3a")
-	if(per_capita < 6)
+	if(per_capita < BLOOD_TOLL_THRESHOLD_A)
 		return list("grade" = "B", "copy" = "AZURIA STANDS FAST", "color" = "#c4b454")
-	if(per_capita < 10)
+	if(per_capita < BLOOD_TOLL_THRESHOLD_S)
 		return list("grade" = "A", "copy" = "AZURIA TRIUMPHS", "color" = "#7ec46a")
 	return list("grade" = "S", "copy" = "AZURIA CAME, SAW AND CONQUERED", "color" = "#e6c060")
 
@@ -103,3 +109,9 @@
 	out += "<div style='color: #e6c060; font-weight: bold; font-size: 1.4em; margin-top: 4px;'>[count]</div>"
 	out += "</div>"
 	return out.Join()
+
+#undef BLOOD_TOLL_THRESHOLD_D
+#undef BLOOD_TOLL_THRESHOLD_C
+#undef BLOOD_TOLL_THRESHOLD_B
+#undef BLOOD_TOLL_THRESHOLD_A
+#undef BLOOD_TOLL_THRESHOLD_S

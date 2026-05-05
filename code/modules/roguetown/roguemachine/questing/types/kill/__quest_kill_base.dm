@@ -37,7 +37,7 @@
 	hunt_timer_id = addtimer(CALLBACK(src, PROC_REF(on_hunt_timeout)), QUEST_KILL_HUNT_TIMER, TIMER_STOPPABLE)
 	hunt_warn_2m_id = addtimer(CALLBACK(src, PROC_REF(warn_hunt_time_left), "two minutes"), QUEST_KILL_HUNT_WARN_2M, TIMER_STOPPABLE)
 	hunt_warn_30s_id = addtimer(CALLBACK(src, PROC_REF(warn_hunt_time_left), "thirty seconds"), QUEST_KILL_HUNT_WARN_30S, TIMER_STOPPABLE)
-	announce_to_bearer("<b>The quarry stirs.</b> Finish the work within fifteen minutes, or they will scatter and the writ will lapse.")
+	announce_to_bearer("<b>The quarry stirs.</b> Finish the work within twenty minutes, or they will scatter and the writ will lapse.")
 
 /datum/quest/kill/proc/clear_hunt_timers()
 	if(hunt_timer_id)
@@ -67,12 +67,33 @@
 
 /datum/quest/kill/proc/despawn_live_hunt_mobs()
 	for(var/datum/weakref/W in tracked_atoms)
-		var/mob/living/M = W.resolve()
-		if(QDELETED(M))
+		var/atom/A = W.resolve()
+		if(QDELETED(A))
 			continue
+		if(!isliving(A))
+			continue
+		var/mob/living/M = A
 		if(M.stat == DEAD)
 			continue
 		qdel(M)
+
+/datum/quest/kill/proc/any_guardians_alive()
+	for(var/datum/weakref/W in tracked_atoms)
+		var/atom/A = W.resolve()
+		if(QDELETED(A))
+			continue
+		if(!isliving(A))
+			continue
+		var/mob/living/M = A
+		if(M.stat == DEAD)
+			continue
+		return TRUE
+	return FALSE
+
+/// Called from the kill component after a guardian dies, before progress tallying.
+/// Subtypes override to react (e.g. recovery halts the hunt timer).
+/datum/quest/kill/proc/on_guardian_killed()
+	return
 
 /datum/quest/kill/populate_scroll_ui_data(list/data)
 	if(!hunt_timer_id)
