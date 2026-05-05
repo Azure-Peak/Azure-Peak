@@ -57,6 +57,9 @@
 			if(blood_volume <= BLOOD_VOLUME_BAD)
 				adjustOxyLoss(1)
 				if(blood_volume <= BLOOD_VOLUME_SURVIVE)
+					balloon_alert_to_viewers("<font color='#5b7ec4'>suffocating!</font>")
+					if(prob(15))
+						emote("gasp")
 					adjustOxyLoss(2)
 		else
 			remove_status_effect(/datum/status_effect/debuff/bleeding)
@@ -167,6 +170,11 @@
 
 			if(blood_volume <= BLOOD_VOLUME_BAD)
 				adjustOxyLoss(blood_volume <= BLOOD_VOLUME_SURVIVE ? 3 : 1)
+				var/le_gasp = pick("gasp", "choke", "gag")
+				if(prob(50))
+					balloon_alert_to_viewers("<font color='#00d9ff'>*[le_gasp]!* (dying)</font>")
+				if(prob(15))
+					emote("gasp")
 			else if((blood_volume > BLOOD_VOLUME_SURVIVE) || HAS_TRAIT(src, TRAIT_BLOODLOSS_IMMUNE))
 				if(getOxyLoss())
 					adjustOxyLoss(-1.6)
