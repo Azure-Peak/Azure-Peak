@@ -170,11 +170,24 @@
 
 			if(blood_volume <= BLOOD_VOLUME_BAD)
 				adjustOxyLoss(blood_volume <= BLOOD_VOLUME_SURVIVE ? 3 : 1)
-				var/le_gasp = pick("gasp", "choke", "gag")
-				if(prob(50))
-					balloon_alert_to_viewers("<font color='#00d9ff'>*[le_gasp]!* (dying)</font>")
-				if(prob(15))
+				if(world.time >= last_gasp)
+					last_gasp = world.time + rand(3 SECONDS, 12 SECONDS)
+					var/le_gasp = pick("gasp","choke","gag","wheeze","gurgle","sputter")
+					var/gasp_color
+					switch(getOxyLoss())
+						if(0 to 20)
+							gasp_color = "#00ff40"
+						if(21 to 40)
+							gasp_color = "#c8ff00" 
+						if(41 to 60)
+							gasp_color = "#eeff00" 
+						if(61 to 80)
+							gasp_color = "#ff9100" 
+						if(81 to INFINITY)
+							gasp_color = "#ff0000" 
+					balloon_alert_to_viewers("<font color='[gasp_color]'>*[le_gasp]!* (dying)</font>")
 					emote("gasp")
+					
 			else if((blood_volume > BLOOD_VOLUME_SURVIVE) || HAS_TRAIT(src, TRAIT_BLOODLOSS_IMMUNE))
 				if(getOxyLoss())
 					adjustOxyLoss(-1.6)
