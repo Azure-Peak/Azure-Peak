@@ -230,11 +230,6 @@
 	round_bathhouse_tithe_total += skim
 	return skim
 
-/datum/controller/subsystem/treasury/proc/remit_bathhouse_tithe(amount, reason)
-	if(amount <= 0 || !church_fund)
-		return
-	mint(church_fund, amount, "Ordinance of the Baths tithe ([reason])")
-
 /datum/controller/subsystem/treasury/proc/record_tax_exemption(tax_category, amount)
 	if(amount <= 0)
 		return

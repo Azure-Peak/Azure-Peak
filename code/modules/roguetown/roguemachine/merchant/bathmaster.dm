@@ -256,10 +256,11 @@ SUBSYSTEM_DEF(BMtreasury)
 
 	amt_to_generate = round(amt_to_generate, 1)
 	var/tithe = SStreasury.compute_bathhouse_tithe(amt_to_generate, BATHHOUSE_VAULT_TITHE_RATE)
-	if(tithe > 0)
+	if(tithe > 0 && SStreasury.church_fund)
 		amt_to_generate -= tithe
-		SStreasury.remit_bathhouse_tithe(tithe, "vault income")
-	SStreasury.mint(SStreasury.bathhouse_fund, amt_to_generate, "Bathhouse smuggling hoard")
-	send_ooc_note("Income from smuggling hoard to the Bathhouse Fund: +[amt_to_generate][tithe > 0 ? " (after [tithe]m tithe to the Church)" : ""]", job = "Bathmaster")
+		SStreasury.church_fund.balance += tithe
+	if(SStreasury.bathhouse_fund)
+		SStreasury.bathhouse_fund.balance += amt_to_generate
+	send_ooc_note("Regular income to the Bathhouse Fund: +[amt_to_generate][tithe > 0 ? " (after [tithe]m tithe to the Church)" : ""]", job = "Bathmaster")
 	record_round_statistic(STATS_BATHMATRON_VAULT_TOTAL_REVENUE, amt_to_generate)
 	return amt_to_generate
