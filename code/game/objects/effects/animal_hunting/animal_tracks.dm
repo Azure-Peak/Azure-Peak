@@ -232,7 +232,8 @@
 					to_chat(user, span_boldwarning("You see your quarry in the distance faintly!"))
 					distribute_party_exp(35)
 					var/mob/living/primary_target = new target_animal_type(T)
-					primary_target.rot_type = /datum/component/rot/simple/hunt
+					if(primary_target.rot_type)
+						primary_target.rot_type = /datum/component/rot/simple/hunt
 					if(spawn_group_bonus_animals(T, primary_target))
 						visible_message(span_boldwarning("There seems to be a herd in the distance!"))
 					return TRUE
@@ -447,7 +448,8 @@
 			var/turf/spawn_turf = (nearby_turfs.len) ? pick(nearby_turfs) : T
 			var/bonus_type = pickweight(hunt_category.animals)
 			var/mob/living/bonus_mob = new bonus_type(spawn_turf)
-			bonus_mob.rot_type = /datum/component/rot/simple/hunt
+			if(bonus_mob.rot_type)
+				bonus_mob.rot_type = /datum/component/rot/simple/hunt
 			if(primary_target.faction?.len)
 				bonus_mob.faction = primary_target.faction.Copy()
 			spawned_count++

@@ -2944,6 +2944,7 @@
 #include "code\modules\spells\roguetown\acolyte\xylix.dm"
 #include "code\modules\spells\roguetown\acolyte\dendor\dendor_travel.dm"
 #include "code\modules\spells\roguetown\acolyte\eora\eora_arils.dm"
+#include "code\modules\spells\roguetown\acolyte\eora\eora_bed.dm"
 #include "code\modules\spells\roguetown\acolyte\eora\eora_components.dm"
 #include "code\modules\spells\roguetown\acolyte\eora\eora_reagents.dm"
 #include "code\modules\spells\roguetown\acolyte\eora\eora_status_effects.dm"
