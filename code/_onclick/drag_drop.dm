@@ -68,6 +68,7 @@
 	var/charge_start_timeofday = 0
 	var/last_cooldown_warn = 0
 	var/charge_was_blocked_by_cooldown = FALSE
+	var/blocked_lmb = FALSE
 
 /atom
 	var/blockscharging = FALSE
@@ -79,11 +80,14 @@
 	charge_was_blocked_by_cooldown = FALSE
 	var/list/modifiers = params2list(params)
 
-	if(modifiers["left"] && (!modifiers["shift"] || mob.BehindAtom(object, mob.dir)))
-		mob.face_atom(object, location, control, params)
-
-	if(lmb_throttle(object, modifiers))
-		return
+	if(modifiers["left"])
+		if(blocked_lmb)
+			return
+		if(lmb_throttle(object, modifiers))
+			blocked_lmb = TRUE
+			return
+		if(!modifiers["shift"] || mob.BehindAtom(object, mob.dir))
+			mob.face_atom(object, location, control, params)
 
 	if(mob.incapacitated())
 		return
@@ -193,6 +197,7 @@
 
 	if(cooldown > world.time)
 		charge_was_blocked_by_cooldown = TRUE
+		blocked_lmb = TRUE
 		return
 
 	mob.atkswinging = "left"
@@ -211,6 +216,9 @@
 
 /client/MouseUp(object, location, control, params)
 	var/list/modifiers = params2list(params)
+	if(modifiers["left"])
+		blocked_lmb = FALSE
+
 	if(lmb_throttle(object, modifiers, no_swing = TRUE))
 		return
 

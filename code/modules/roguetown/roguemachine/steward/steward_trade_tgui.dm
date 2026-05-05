@@ -94,6 +94,8 @@
 	var/list/data = list()
 	data["treasury"] = SStreasury?.discretionary_fund?.balance || 0
 	data["day"] = GLOB.dayspassed
+	data["expected_rural_revenue"] = SStreasury?.get_rural_tax_amount() || 0
+	data["expected_wage_outlay"] = SStreasury?.get_expected_wage_outlay() || 0
 
 	// Alderman-acting view: expose the warrant so the TGUI can render it prominently. Only
 	// populated when the viewer is the sitting Alderman - the Steward doesn't need a warrant
@@ -150,6 +152,7 @@
 		var/list/items = list()
 		var/can_fulfill = TRUE
 		var/shortfall = ""
+		var/delivered_value = 0
 		for(var/good_id in O.required_items)
 			var/needed = O.required_items[good_id]
 			var/have = 0
@@ -165,11 +168,23 @@
 					if(shortfall != "")
 						shortfall += ", "
 					shortfall += "need [needed - have] more [label]"
+				delivered_value += SSeconomy.compute_good_unit_payout(O, good_id) * min(have, needed)
 			items += list(list(
 				"good_id" = good_id,
 				"needed" = needed,
 				"have" = have,
 			))
+
+		var/can_partial = FALSE
+		var/partial_pct = 0
+		var/partial_payout_preview = 0
+		if(!is_warehouse && !can_fulfill && O.total_payout > 0)
+			var/petitioned_value = O.petitioned ? round(delivered_value * PETITION_TAX_MULT) : delivered_value
+			var/coverage = petitioned_value / O.total_payout
+			if(coverage >= STANDING_ORDER_PARTIAL_THRESHOLD)
+				can_partial = TRUE
+				partial_pct = round(coverage * 100)
+				partial_payout_preview = round(petitioned_value * STANDING_ORDER_PARTIAL_PAYOUT_MULT)
 
 		orders += list(list(
 			"ref" = REF(O),
@@ -184,6 +199,9 @@
 			"can_fulfill" = can_fulfill,
 			"shortfall_text" = shortfall,
 			"petitioned" = O.petitioned ? TRUE : FALSE,
+			"can_partial" = can_partial,
+			"partial_pct" = partial_pct,
+			"partial_payout_preview" = partial_payout_preview,
 		))
 	data["active_orders"] = orders
 
@@ -471,11 +489,33 @@ GLOBAL_LIST_INIT(steward_trade_sequestration_locked_actions, list(
 		return TRUE
 	switch(action)
 		if("fulfill_order")
+			if(!COOLDOWN_FINISHED(src, fulfill_retry_cooldown))
+				to_chat(usr, span_warning("The clerks are still tallying the last attempt. Try again in a moment."))
+				return TRUE
 			var/datum/standing_order/O = locate(params["ref"]) in GLOB.standing_order_pool
 			if(O)
-				if(SSeconomy.fulfill_order(usr, O))
-					scom_announce("Standing Order fulfilled: [O.name] (+[O.total_payout]m).")
+				var/wants_partial = !!params["partial"]
+				var/result = SSeconomy.fulfill_order(usr, O, wants_partial)
+				if(result == STANDING_ORDER_FULFILL_NEEDS_PARTIAL_PROMPT)
+					var/list/preview = SSeconomy.preview_partial_fulfillment(O)
+					var/coverage_pct = preview["coverage_pct"]
+					var/preview_payout = preview["payout"]
+					var/missing_text = preview["missing_text"]
+					var/confirm = alert(usr, "Settle [O.name] short? Coverage: [coverage_pct]%. Payout: [preview_payout]m at [round(STANDING_ORDER_PARTIAL_PAYOUT_MULT * 100)]% of the delivered share. Missing: [missing_text].", "Partial Fulfillment", "Yes", "No")
+					if(confirm == "Yes")
+						var/list/partial_result = SSeconomy.fulfill_order(usr, O, TRUE)
+						if(islist(partial_result) && partial_result["status"] == "partial")
+							scom_announce("Standing Order settled (partial): [O.name] (+[partial_result["payout"]]m).")
+							playsound(src, 'sound/misc/coindispense.ogg', 60, FALSE, -1)
+						else
+							COOLDOWN_START(src, fulfill_retry_cooldown, STANDING_ORDER_FULFILL_RETRY_COOLDOWN)
+					SStgui.update_uis(src)
+					return TRUE
+				if(islist(result) && result["status"] == "full")
+					scom_announce("Standing Order fulfilled: [O.name] (+[result["payout"]]m).")
 					playsound(src, 'sound/misc/coindispense.ogg', 60, FALSE, -1)
+				else
+					COOLDOWN_START(src, fulfill_retry_cooldown, STANDING_ORDER_FULFILL_RETRY_COOLDOWN)
 			SStgui.update_uis(src)
 			return TRUE
 		if("trade_import")
@@ -505,16 +545,22 @@ GLOBAL_LIST_INIT(steward_trade_sequestration_locked_actions, list(
 			SStgui.update_uis(src)
 			return TRUE
 		if("toggle_auto_import")
+			if(SScity_assembly?.is_alderman(usr))
+				return TRUE
 			var/good_id = params["good_id"]
 			if(good_id)
 				SStreasury.set_auto_import(good_id, !SStreasury.is_auto_import_active(good_id))
 			SStgui.update_uis(src)
 			return TRUE
 		if("kill_switch_auto_import")
+			if(SScity_assembly?.is_alderman(usr))
+				return TRUE
 			SStreasury.kill_switch_auto_import()
 			SStgui.update_uis(src)
 			return TRUE
 		if("set_auto_import_purse_floor")
+			if(SScity_assembly?.is_alderman(usr))
+				return TRUE
 			var/amount = text2num("[params["amount"]]")
 			if(!isnull(amount))
 				SStreasury.set_auto_import_purse_floor(amount)

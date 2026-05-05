@@ -66,6 +66,8 @@
 		/obj/item/rogueweapon/scabbard/sheath = 1
 		)
 	H.merctype = 12
+	if(H.mind)
+		H.AddComponent(/datum/component/ore_sight)
 
 
 //Clothing here to avoid overcrowding the hats.dm with snowflake gear. It's just a kettle with a light.

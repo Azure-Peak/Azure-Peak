@@ -35,10 +35,10 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 // ============================================================================
 /datum/standing_order/demand_rations
 	var/list/project_by_region = list(
-		TRADE_REGION_BLEAKCOAST = list("the admiralty", "the coastal garrison", "the navy quartermaster"),
-		TRADE_REGION_NORTHFORT = list("the border guard", "the northern garrison", "the tarichean watch"),
-		TRADE_REGION_HEARTFELT = list("the march guard", "the retinue", "the chapel almoners"),
-		TRADE_REGION_KINGSFIELD = list("a market town", "a village feast", "a local granary"),
+		TRADE_REGION_BLEAKCOAST = list("a ship's company victualling", "a privateer's crew", "the harbor watch"),
+		TRADE_REGION_NORTHFORT = list("a frontier garrison", "a watch sergeant restocking", "a militia muster"),
+		TRADE_REGION_HEARTFELT = list("the count's retinue", "a roving warden party", "a local adventuring fellowship"),
+		TRADE_REGION_KINGSFIELD = list("a market town", "a village feast committee", "a granary keeper"),
 	)
 
 /datum/standing_order/demand_rations/generate_item_mix()
@@ -65,9 +65,9 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 // ============================================================================
 /datum/standing_order/demand_armaments
 	var/list/project_by_region = list(
-		TRADE_REGION_BLEAKCOAST = list("the admiralty", "the coastal garrison", "the navy armory"),
-		TRADE_REGION_NORTHFORT = list("the border guard", "the northern garrison", "the tarichean watch"),
-		TRADE_REGION_HEARTFELT = list("the march guard", "the retinue", "the garrison armory"),
+		TRADE_REGION_BLEAKCOAST = list("a galley's fighting men", "a corsair's company outfitting", "the harbor watch"),
+		TRADE_REGION_NORTHFORT = list("a frontier garrison", "a band of border irregulars", "a watch sergeant"),
+		TRADE_REGION_HEARTFELT = list("the count's retinue", "a local mercenary band", "a roving warden party"),
 	)
 
 /datum/standing_order/demand_armaments/generate_item_mix()
@@ -95,7 +95,7 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 /datum/standing_order/demand_textile
 	var/list/project_by_region = list(
 		TRADE_REGION_KINGSFIELD = list("a local tailor", "a market stall", "a travelling merchant"),
-		TRADE_REGION_HEARTFELT = list("chapel vestments", "heraldic tabards", "banner commissions"),
+		TRADE_REGION_HEARTFELT = list("a banner-maker's commission", "a tabard-maker outfitting a retinue", "a name-day wardrobe order"),
 	)
 
 /datum/standing_order/demand_textile/generate_item_mix()
@@ -120,7 +120,7 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 // ============================================================================
 /datum/standing_order/demand_smithing
 	var/list/project_by_region = list(
-		TRADE_REGION_DAFTSMARCH = list("the smiths' guild", "the foundry works", "the master smithy"),
+		TRADE_REGION_DAFTSMARCH = list("the smiths' guild", "the foundry works", "a master smith with a backlog"),
 		TRADE_REGION_KINGSFIELD = list("a village smithy", "a farm-tool maker", "a local farrier"),
 	)
 
@@ -146,15 +146,15 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 // ============================================================================
 /datum/standing_order/demand_construction
 	var/list/project_by_region = list(
-		TRADE_REGION_BLEAKCOAST = list("the coastal garrison", "the harbor works"),
-		TRADE_REGION_NORTHFORT = list("the northern garrison", "the border watchtower"),
-		TRADE_REGION_HEARTFELT = list("the cathedral", "the garrison hall"),
-		TRADE_REGION_KINGSFIELD = list("a market town", "a local granary"),
-		TRADE_REGION_DAFTSMARCH = list("a mine shaft", "the foundry"),
-		TRADE_REGION_ROSAWOOD = list("the lumber mill", "a trade road"),
-		TRADE_REGION_ROCKHILL = list("a terraced wall", "the press house"),
-		TRADE_REGION_BLACKHOLT = list("the conclave tower", "an outer sanctum"),
-		TRADE_REGION_SALTWICK = list("the salt-house", "the wharves"),
+		TRADE_REGION_BLEAKCOAST = list("a harbor wall reinforcement", "a coastal garrison's repairs"),
+		TRADE_REGION_NORTHFORT = list("a frontier garrison expanding its keep", "a watchtower rebuild"),
+		TRADE_REGION_HEARTFELT = list("a cathedral renovation", "a count's hall expansion"),
+		TRADE_REGION_KINGSFIELD = list("a market town's roadworks", "a granary expansion"),
+		TRADE_REGION_DAFTSMARCH = list("a mine shaft reinforcement", "the foundry's expansion"),
+		TRADE_REGION_ROSAWOOD = list("a lumber mill rebuild", "a trade road repair"),
+		TRADE_REGION_ROCKHILL = list("a terraced wall rebuild", "a press house expansion"),
+		TRADE_REGION_BLACKHOLT = list("a tower rebuild after a working went wrong", "an outer sanctum rebuild"),
+		TRADE_REGION_SALTWICK = list("a salt-house rebuild", "wharf reinforcements"),
 	)
 
 /datum/standing_order/demand_construction/generate_item_mix()
@@ -181,8 +181,8 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 // ============================================================================
 /datum/standing_order/demand_exotic
 	var/list/project_by_region = list(
-		TRADE_REGION_BLACKHOLT = list("the wizards' conclave", "the lexicarium"),
-		TRADE_REGION_ROSAWOOD = list("a druidic circle", "a forest hermitage"),
+		TRADE_REGION_BLACKHOLT = list("a wizards' coven", "a hermit reagent-buyer", "an oddly pale aristocrat with academic interests"),
+		TRADE_REGION_ROSAWOOD = list("a druidic circle", "a forest hermit", "a wandering hedge witch"),
 	)
 
 /datum/standing_order/demand_exotic/generate_item_mix()
@@ -209,17 +209,15 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 // ============================================================================
 /datum/standing_order/demand_fishery
 	var/list/project_by_region = list(
-		TRADE_REGION_SALTWICK = list("the fishmongers' guild", "the salting houses", "the drying wharves"),
-		TRADE_REGION_BLEAKCOAST = list("the admiralty", "the navy quartermaster", "the coastal garrison"),
-		TRADE_REGION_KINGSFIELD = list("a market fishmonger", "a village preserver"),
+		TRADE_REGION_SALTWICK = list("the fishmongers' guild", "a salt-curer with a backlog", "a wharf-side preserver"),
+		TRADE_REGION_BLEAKCOAST = list("a ship's company victualling", "a privateer's crew", "the harbor watch"),
+		TRADE_REGION_KINGSFIELD = list("a market fishmonger", "a village preserver", "a travelling fish-trader"),
 	)
 
 /datum/standing_order/demand_fishery/generate_item_mix()
 	var/list/mix = list()
-	mix[TRADE_GOOD_FISH_FILET] = rand(25, 40)
+	mix[TRADE_GOOD_FISH_FILET] = rand(15, 25)
 	mix[TRADE_GOOD_SALT] = rand(8, 15)
-	if(prob(50))
-		mix[TRADE_GOOD_SALMON] = rand(5, 10)
 	return mix
 
 /datum/standing_order/demand_fishery/generate_name(datum/economic_region/region)
@@ -237,9 +235,9 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 // ============================================================================
 /datum/standing_order/demand_orchard
 	var/list/project_by_region = list(
-		TRADE_REGION_ROCKHILL = list("the orchard-masters' hall", "the valley apothecary", "a cider pressing"),
-		TRADE_REGION_KINGSFIELD = list("a market preserver", "a village apothecary"),
-		TRADE_REGION_HEARTFELT = list("the chapel infirmary", "the garrison apothecary", "the pilgrim hostel"),
+		TRADE_REGION_ROCKHILL = list("an orchard-master's harvest", "a valley apothecary", "a cider press"),
+		TRADE_REGION_KINGSFIELD = list("a market preserver", "a village apothecary", "a travelling herbalist"),
+		TRADE_REGION_HEARTFELT = list("a chapel almsgiving", "a garrison apothecary", "a hospitaller buying for the road"),
 	)
 
 /datum/standing_order/demand_orchard/generate_item_mix()
@@ -287,10 +285,10 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 /datum/standing_order/demand_equipment_armaments
 	roll_weight = 3
 	var/list/project_by_region = list(
-		TRADE_REGION_BLEAKCOAST = list("the admiralty", "the coastal garrison", "the navy armory"),
-		TRADE_REGION_NORTHFORT = list("the border guard", "the northern garrison", "the tarichean watch"),
-		TRADE_REGION_HEARTFELT = list("the march guard", "the retinue", "the garrison armory"),
-		TRADE_REGION_KINGSFIELD = list("a market armsmaster", "a local armsmaster"),
+		TRADE_REGION_BLEAKCOAST = list("a privateer captain outfitting", "a corsair's company", "a harbor watch armsmaster"),
+		TRADE_REGION_NORTHFORT = list("a frontier garrison", "a watch sergeant outfitting", "a band of border irregulars"),
+		TRADE_REGION_HEARTFELT = list("the count's retinue", "a local mercenary band", "a warband outfitting for the road"),
+		TRADE_REGION_KINGSFIELD = list("a market armsmaster", "a knight-errant outfitting", "a back-room arms-broker"),
 	)
 	var/list/one_ingot_pool = list(
 		TRADE_GOOD_STEEL_ARMING_SWORD,
@@ -319,7 +317,7 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 		mix[secondary_two] = rand(1, 2)
 	// Bows are cheap and plentiful — garrison archer lines want quivers of them.
 	if(prob(55))
-		mix[TRADE_GOOD_RECURVE_BOW] = rand(4, 8)
+		mix[TRADE_GOOD_RECURVE_BOW] = rand(3, 6)
 	return mix
 
 /datum/standing_order/demand_equipment_armaments/generate_name(datum/economic_region/region)
@@ -339,10 +337,10 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 /datum/standing_order/demand_equipment_armor_heavy
 	roll_weight = 3
 	var/list/project_by_region = list(
-		TRADE_REGION_BLEAKCOAST = list("the admiralty", "the coastal garrison", "the navy armory"),
-		TRADE_REGION_NORTHFORT = list("the border guard", "the northern garrison", "the tarichean watch"),
-		TRADE_REGION_HEARTFELT = list("the march guard", "the retinue", "the garrison armory"),
-		TRADE_REGION_KINGSFIELD = list("a market armsmaster", "a knightly house"),
+		TRADE_REGION_BLEAKCOAST = list("a galley's fighting men", "a privateer captain outfitting", "a harbor watch armsmaster"),
+		TRADE_REGION_NORTHFORT = list("a frontier garrison", "a watch sergeant outfitting", "a relieved company restocking"),
+		TRADE_REGION_HEARTFELT = list("the count's retinue", "a local mercenary band", "a knightly house outfitting"),
+		TRADE_REGION_KINGSFIELD = list("a market armsmaster", "a knightly house", "a tournament-bound knight"),
 	)
 	var/list/chain_pool = list(
 		TRADE_GOOD_STEEL_CHAINMAIL,
@@ -403,10 +401,10 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 /datum/standing_order/demand_equipment_armor_light
 	roll_weight = 3
 	var/list/project_by_region = list(
-		TRADE_REGION_BLEAKCOAST = list("the harbor watch", "the coastal levy", "the marines' company"),
-		TRADE_REGION_NORTHFORT = list("the watchcompany", "the border irregulars", "the keep's reservists"),
-		TRADE_REGION_HEARTFELT = list("the march company", "the chapel guard", "the count's footsergeants"),
-		TRADE_REGION_KINGSFIELD = list("a country muster", "a market company", "a yeomen's company"),
+		TRADE_REGION_BLEAKCOAST = list("the harbor watch", "a coastal levy mustering", "a corsair's company outfitting"),
+		TRADE_REGION_NORTHFORT = list("a watch sergeant outfitting", "a band of border irregulars", "a frontier reservist call-up"),
+		TRADE_REGION_HEARTFELT = list("a roving warden party", "the count's footsergeants", "a local adventuring fellowship"),
+		TRADE_REGION_KINGSFIELD = list("a country muster", "a market company", "a yeoman captain outfitting"),
 	)
 	var/list/body_pool = list(
 		TRADE_GOOD_PADDED_GAMBESON,
@@ -450,8 +448,8 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 // ============================================================================
 /datum/standing_order/demand_salt
 	var/list/project_by_region = list(
-		TRADE_REGION_SALTWICK = list("the salting-houses", "the curing sheds", "the preservers' guild"),
-		TRADE_REGION_KINGSFIELD = list("a market preserver", "a village smokehouse", "the chapel almoners"),
+		TRADE_REGION_SALTWICK = list("a salt-curer's bulk order", "a curing-shed expansion", "the preservers' guild"),
+		TRADE_REGION_KINGSFIELD = list("a market preserver", "a village smokehouse", "a roadside chapmen restocking"),
 	)
 
 /datum/standing_order/demand_salt/generate_item_mix()
@@ -503,9 +501,9 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 /datum/standing_order/demand_victualling_garrison
 	roll_weight = 2
 	var/list/project_by_region = list(
-		TRADE_REGION_NORTHFORT = list("the border garrison", "the tarichean watch", "the northern keep"),
-		TRADE_REGION_BLEAKCOAST = list("the admiralty stores", "the coastal garrison", "the navy quartermaster"),
-		TRADE_REGION_HEARTFELT = list("the march garrison", "the retinue", "the chapel guard"),
+		TRADE_REGION_NORTHFORT = list("a frontier garrison", "a watch sergeant restocking", "a keep's quartermaster"),
+		TRADE_REGION_BLEAKCOAST = list("a ship's company victualling", "a coastal garrison's larder", "a privateer's crew"),
+		TRADE_REGION_HEARTFELT = list("the count's retinue", "a roving warden party", "a local adventuring fellowship"),
 	)
 
 /datum/standing_order/demand_victualling_garrison/generate_item_mix()
@@ -566,11 +564,11 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 /datum/standing_order/demand_alchemical
 	roll_weight = 3
 	var/list/project_by_region = list(
-		TRADE_REGION_HEARTFELT = list("the chapel infirmary", "the pilgrim hostel", "the garrison surgeon"),
-		TRADE_REGION_BLACKHOLT = list("the wizards' conclave", "the lexicarium", "the archmagi's household"),
-		TRADE_REGION_BLEAKCOAST = list("the admiralty surgeon", "the coastal garrison", "the navy apothecary"),
-		TRADE_REGION_NORTHFORT = list("the border surgeon", "the northern garrison", "the tarichean watch"),
-		TRADE_REGION_KINGSFIELD = list("a market apothecary", "a village healer"),
+		TRADE_REGION_HEARTFELT = list("a chapel infirmary", "a hospitaller buying for the road", "a garrison surgeon"),
+		TRADE_REGION_BLACKHOLT = list("a wizards' coven", "a hermit reagent-buyer", "an oddly red-eyed aristocrat"),
+		TRADE_REGION_BLEAKCOAST = list("a galley's surgeon", "a privateer's crew laying in stores", "a coastal garrison's apothecary"),
+		TRADE_REGION_NORTHFORT = list("a frontier surgeon", "a watch sergeant restocking", "a band of border irregulars"),
+		TRADE_REGION_KINGSFIELD = list("a market apothecary", "a village healer", "a travelling herbalist"),
 	)
 	// Mana lives in the premium pool only - keeping it in both used to let a premium roll
 	// overwrite the larger primary qty when the same id was picked twice.
@@ -590,7 +588,7 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 /datum/standing_order/demand_alchemical/generate_item_mix()
 	var/list/mix = list()
 	var/primary = pick(medicinal_pool)
-	mix[primary] = rand(6, 12)
+	mix[primary] = rand(4, 8)
 	if(prob(60))
 		var/premium = pick(premium_pool)
 		// max() guard so a colliding pick can never downgrade a larger earlier qty.
@@ -613,10 +611,10 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 /datum/standing_order/demand_alchemical_warband
 	roll_weight = 1
 	var/list/project_by_region = list(
-		TRADE_REGION_BLACKHOLT = list("the wizards' conclave", "the archmagi's household", "the lexicarium"),
-		TRADE_REGION_HEARTFELT = list("the count's chosen retinue", "the church's champions", "the march guards"),
+		TRADE_REGION_BLACKHOLT = list("a wizards' coven", "a battle-mage's hireling outfit", "a sun-starved aristocrat's hunting party"),
+		TRADE_REGION_HEARTFELT = list("the count's chosen retinue", "a temple's champions", "a roving warden party"),
 		TRADE_REGION_KINGSFIELD = list("a knight-errants' convocation", "a mercenary captain's warband", "a noble's hunting party"),
-		TRADE_REGION_NORTHFORT = list("the tarichean strike-band", "the watch sergeants"),
+		TRADE_REGION_NORTHFORT = list("a frontier strike-band", "a watch sergeant's chosen", "a local adventuring fellowship"),
 	)
 	var/list/buff_pool = list(
 		TRADE_GOOD_STRENGTH_POTION,
@@ -634,12 +632,12 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 /datum/standing_order/demand_alchemical_warband/generate_item_mix()
 	var/list/mix = list()
 	var/buff_primary = pick(buff_pool)
-	mix[buff_primary] = rand(3, 5)
+	mix[buff_primary] = rand(2, 3)
 	if(prob(55))
 		var/buff_secondary = pick(buff_pool)
-		mix[buff_secondary] = max(mix[buff_secondary] || 0, rand(2, 4))
+		mix[buff_secondary] = max(mix[buff_secondary] || 0, rand(2, 3))
 	var/support = pick(support_pool)
-	mix[support] = max(mix[support] || 0, rand(3, 5))
+	mix[support] = max(mix[support] || 0, rand(2, 3))
 	return mix
 
 /datum/standing_order/demand_alchemical_warband/generate_name(datum/economic_region/region)
@@ -722,7 +720,7 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 	var/list/feast_for_by_region = list(
 		TRADE_REGION_KINGSFIELD = list("a market town's harvest feast", "the manor of a country knight", "a wedding banquet"),
 		TRADE_REGION_HEARTFELT = list("the count's high table", "a chapter feast of the march guard"),
-		TRADE_REGION_BLEAKCOAST = list("the admiralty's mess at high table", "a captains' banquet"),
+		TRADE_REGION_BLEAKCOAST = list("a sea-lord's high table", "a captains' banquet aboard the flagship", "a privateer's homecoming feast"),
 		TRADE_REGION_NORTHFORT = list("the garrison's midwinter feast", "a watchcommander's table"),
 		TRADE_REGION_ROCKHILL = list("the orchard-masters' harvest hall", "a press-house celebration"),
 	)
@@ -760,10 +758,10 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 /datum/standing_order/demand_frontier_gear
 	roll_weight = 3
 	var/list/project_by_region = list(
-		TRADE_REGION_NORTHFORT = list("the border watch", "the tarichean march", "the northern garrison's reservists"),
-		TRADE_REGION_BLEAKCOAST = list("the harbor watch", "the coastal patrol"),
-		TRADE_REGION_HEARTFELT = list("the march wardens", "the chapel guard"),
-		TRADE_REGION_KINGSFIELD = list("a country sheriff's posse", "a local muster"),
+		TRADE_REGION_NORTHFORT = list("a watch sergeant outfitting", "a band of border irregulars", "a frontier reservist call-up"),
+		TRADE_REGION_BLEAKCOAST = list("the harbor watch", "a coastal patrol mustering", "a privateer's crew outfitting"),
+		TRADE_REGION_HEARTFELT = list("a roving warden party", "a temple's guard", "a local adventuring fellowship"),
+		TRADE_REGION_KINGSFIELD = list("a country sheriff's posse", "a local muster", "a yeoman captain outfitting"),
 	)
 	var/list/body_pool = list(
 		TRADE_GOOD_PADDED_GAMBESON,
@@ -797,9 +795,9 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 /datum/standing_order/demand_court_finery
 	roll_weight = 2
 	var/list/project_by_region = list(
-		TRADE_REGION_KINGSFIELD = list("a noble household", "the court tailors", "a market tailor"),
-		TRADE_REGION_HEARTFELT = list("the count's wardrobe", "a march house investiture"),
-		TRADE_REGION_ROCKHILL = list("a country estate's spring wardrobe", "a noble's name-day finery"),
+		TRADE_REGION_KINGSFIELD = list("a noble household's wardrobe", "a court tailor's commission", "a market tailor"),
+		TRADE_REGION_HEARTFELT = list("the count's wardrobe", "a noble investiture", "a wedding-bound house"),
+		TRADE_REGION_ROCKHILL = list("a country estate's spring wardrobe", "a noble's name-day finery", "a sun-shy aristocrat's seasonal fitting"),
 	)
 	var/list/finery_pool = list(
 		TRADE_GOOD_NOBLECOAT,
@@ -833,8 +831,8 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 // ============================================================================
 /datum/standing_order/demand_fine_joinery
 	var/list/project_by_region = list(
-		TRADE_REGION_KINGSFIELD = list("a country estate's joiner", "a manor house refurnish", "a chapel furnishings order"),
-		TRADE_REGION_ROSAWOOD = list("a master joiner's atelier", "a master joiner's house"),
+		TRADE_REGION_KINGSFIELD = list("a country estate's joiner", "a manor house refurnish", "a temple's furnishings order"),
+		TRADE_REGION_ROSAWOOD = list("a master joiner's workshop", "a roadside furniture maker"),
 		TRADE_REGION_ROCKHILL = list("an orchard estate's joiner", "a press-house refit"),
 		TRADE_REGION_HEARTFELT = list("the count's hall furnishings", "a garrison hall refit"),
 	)
@@ -865,10 +863,10 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 /datum/standing_order/demand_artificery
 	roll_weight = 2
 	var/list/project_by_region = list(
-		TRADE_REGION_DAFTSMARCH = list("the foundry's artificers' hall", "the master smiths' workshop"),
-		TRADE_REGION_KINGSFIELD = list("a court artificer's atelier", "a guild engineer's workshop"),
-		TRADE_REGION_BLACKHOLT = list("the conclave's contraption shop", "an arcane engineer's workshop"),
-		TRADE_REGION_NORTHFORT = list("the garrison's engineer", "a siege artificer at the keep"),
+		TRADE_REGION_DAFTSMARCH = list("the artificers' guild", "a master smith's workshop", "a foundry-master's commission"),
+		TRADE_REGION_KINGSFIELD = list("a court artificer's workshop", "a guild engineer's workshop", "a back-alley contraption maker"),
+		TRADE_REGION_BLACKHOLT = list("a coven's contraption shop", "an arcane engineer's workshop", "a hermit tinkerer's bulk order"),
+		TRADE_REGION_NORTHFORT = list("a garrison's engineer", "a siege-engineer at the keep", "a frontier sapper outfitting"),
 	)
 
 /datum/standing_order/demand_artificery/generate_item_mix()
@@ -898,9 +896,9 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 /datum/standing_order/demand_jewelry
 	roll_weight = 2
 	var/list/project_by_region = list(
-		TRADE_REGION_KINGSFIELD = list("the court jeweler", "a master goldsmith", "a noble household's wardrobe"),
-		TRADE_REGION_HEARTFELT = list("the count's jeweler", "a chapel reliquary"),
-		TRADE_REGION_ROCKHILL = list("a country estate's jeweler"),
+		TRADE_REGION_KINGSFIELD = list("a court jeweler", "a master goldsmith", "a noble household's wardrobe"),
+		TRADE_REGION_HEARTFELT = list("the count's jeweler", "a temple reliquary's commission", "a wedding-bound house"),
+		TRADE_REGION_ROCKHILL = list("a country estate's jeweler", "a name-day finery commission", "a sun-shy aristocrat's heirloom resetting"),
 	)
 	var/list/jewelry_pool = list(
 		TRADE_GOOD_AMBER_RING,
@@ -936,9 +934,9 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 /datum/standing_order/demand_prosthetic_run
 	roll_weight = 2
 	var/list/project_by_region = list(
-		TRADE_REGION_HEARTFELT = list("the chapel infirmary", "the pilgrim hostel", "the wounded-house"),
-		TRADE_REGION_NORTHFORT = list("the border surgeon", "the garrison infirmary"),
-		TRADE_REGION_BLEAKCOAST = list("the admiralty surgeon", "the harbor wounded-house"),
+		TRADE_REGION_HEARTFELT = list("a chapel infirmary", "a hospitaller's wounded-house", "a battlefield surgeon's bulk order"),
+		TRADE_REGION_NORTHFORT = list("a frontier surgeon", "a garrison infirmary", "a band of border irregulars come back broken"),
+		TRADE_REGION_BLEAKCOAST = list("a galley's surgeon", "a harbor wounded-house", "a privateer's crew limping in"),
 	)
 
 /datum/standing_order/demand_prosthetic_run/generate_item_mix()
@@ -968,9 +966,9 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 /datum/standing_order/demand_artificed_panoply
 	roll_weight = 1
 	var/list/project_by_region = list(
-		TRADE_REGION_KINGSFIELD = list("a duke's master-of-arms", "a knight-artificer's commission"),
-		TRADE_REGION_DAFTSMARCH = list("the foundry's signature contract", "a master smith's masterpiece"),
-		TRADE_REGION_HEARTFELT = list("the count's chosen retinue"),
+		TRADE_REGION_KINGSFIELD = list("a duke's master-of-arms", "a knight-artificer's commission", "a tournament-bound champion"),
+		TRADE_REGION_DAFTSMARCH = list("a master smith's signature contract", "a foundry-master's masterpiece", "a guild's exhibition piece"),
+		TRADE_REGION_HEARTFELT = list("the count's chosen champion", "a knightly investiture", "a roving warden captain"),
 	)
 
 /datum/standing_order/demand_artificed_panoply/generate_item_mix()
@@ -1040,11 +1038,62 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 	return "A great tournament at [region.name] requires arms, armor, draughts, and feast-fare. The patrons pay accordingly."
 
 
+// ============================================================================
+// demand_arcane_commission - enchantment scrolls commissioned by NON-wizard regions.
+// Blackholt is the producer (the conclave) - the demand fires elsewhere, paying the
+// Crown to broker. Rolls one of three tiers, weighted toward routine basic-tier orders.
+// ============================================================================
+/datum/standing_order/demand_arcane_commission
+	roll_weight = 2
+	var/list/project_by_region = list(
+		TRADE_REGION_HEARTFELT = list("a temple's bookbinder", "a knightly house outfitting", "a hospitaller buying for the road"),
+		TRADE_REGION_ROCKHILL = list("a viscount's library", "a country estate's curio collector", "an oddly pale-skinned aristocrat with academic interests"),
+		TRADE_REGION_KINGSFIELD = list("a knight-errant outfitting for the road", "a guild's bulk order", "a market wand-seller"),
+		TRADE_REGION_NORTHFORT = list("a frontier scout-captain", "a band of border irregulars", "a local adventuring fellowship"),
+	)
+	/// Tier the order rolled. Set in generate_item_mix and read by name/description.
+	var/rolled_tier = "basic"
+
+/datum/standing_order/demand_arcane_commission/generate_item_mix()
+	var/list/mix = list()
+	var/roll = rand(1, 100)
+	if(roll <= 55)
+		rolled_tier = "basic"
+		mix[TRADE_GOOD_ENCHSCROLL_BASIC] = rand(3, 6)
+	else if(roll <= 85)
+		rolled_tier = "superior"
+		mix[TRADE_GOOD_ENCHSCROLL_SUPERIOR] = rand(2, 4)
+	else
+		rolled_tier = "greater"
+		mix[TRADE_GOOD_ENCHSCROLL_GREATER] = rand(1, 3)
+	return mix
+
+/datum/standing_order/demand_arcane_commission/generate_name(datum/economic_region/region)
+	switch(rolled_tier)
+		if("superior")
+			return "[uppertext(region.name)] - SUPERIOR ARCANA"
+		if("greater")
+			return "[uppertext(region.name)] - GREATER ARCANA"
+		else
+			return "[uppertext(region.name)] - ARCANE COMMISSION"
+
+/datum/standing_order/demand_arcane_commission/generate_description(datum/economic_region/region)
+	var/list/projects = project_by_region[region.region_id]
+	var/patron = length(projects) ? capitalize(pick(projects)) : "A patron"
+	switch(rolled_tier)
+		if("superior")
+			return "[patron] at [region.name] commissions superior enchantment scrolls - fulfilled at the warehouse, any scrolls will serve."
+		if("greater")
+			return "[patron] at [region.name] commissions greater enchantment scrolls - fulfilled at the warehouse - any types will serve."
+		else
+			return "[patron] at [region.name] commissions basic enchantment scrolls - any school of magic, sealed at the warehouse."
+
+
 /datum/standing_order/demand_trophy_heads
 	roll_weight = 1
 	var/list/project_by_region = list(
-		TRADE_REGION_HEARTFELT = list("the count's manor hall", "a marcher lord's gallery", "the heralds' lodge"),
-		TRADE_REGION_ROCKHILL = list("the orchard-lord's hunt hall", "the master-of-hounds at Vespermill", "a viscount's trophy room"),
+		TRADE_REGION_HEARTFELT = list("the count's manor hall", "a marcher lord's gallery", "a heralds' lodge"),
+		TRADE_REGION_ROCKHILL = list("a hunt-master's trophy hall", "the master-of-hounds at Vespermill", "a viscount's trophy room"),
 	)
 	/// Variant the order rolled. Set in generate_item_mix and read by generate_description.
 	var/rolled_variant = "minotaur"

@@ -82,3 +82,108 @@
       that they will attempt to climb trees and go up stairs to hit you.
   - rscadd: Replaced the saigas in soilson stables with more cows to lower soilson
       and their animals mortality rate
+2026-05-03:
+  FreeStylaLT:
+  - bugfix: Fixed red swingdelays not getting disrupted under some niche circumstances.
+  - balance: Binds now require aiming at the correct limb (left / right) to trigger
+      on hands / feet.
+  Ryan180602:
+  - balance: training sword intents have now a damfactor of 1.3
+  SpartanBobby:
+  - rscadd: Added Peasant cap to loadout menu
+  - rscadd: Peasant cap can now be worn on mask, similarly to its armoured versions
+  - rscadd: Medium armour MAA Skirmisher now has expert swords instead of expert knives,
+      light armour retains expert knives.
+  - bugfix: Arming cap sprite now works on mask
+  - rscadd: Can put feather on Sallet
+2026-05-04:
+  1HoneyDragon:
+  - rscadd: 2 More Loadout Items.
+  FloofyIsNotPoofy:
+  - balance: 'adjusted the damage and arced damage values of every staple Mage spell.
+
+      balance/tweak: adjusted the cooldown and simplemob multiplier of Artillery Fireball
+      to match its baseline counterpart.
+
+      :cl:
+
+      <!-- Both :cl:''s are required for the changelog to work! You can put your name
+      to the right of the first :cl: if you want to overwrite your GitHub username
+      as author ingame. -->
+
+      <!-- You can use multiple of the same prefix (they''re only used for the icon
+      ingame) and delete the unneeded ones. Despite some of the tags, changelogs should
+      generally represent how a player might be affected by the changes rather than
+      a summary of the PR''s contents. -->'
+  FreeStylaLT:
+  - refactor: Gear now bounces off from the attack when struck on the ground.
+  - refactor: Using a torch (or another source of fire damage) on a broken item will
+      melt it down. This can be used on Iron-scrappable equipment without needing
+      to first break it.
+  - refactor: Gear & Weapons, once broken, will take minimal damage from direct weapon
+      damage on the ground.
+  - bugfix: Fixed a bug that did not remove armor coverage once it was broken.
+  - refactor: Reworked Ore Sight to be a toggle that automatically pings at set ranges.
+  - refactor: Boulders unearthed by Steel Picks are now far more fragile and will
+      be destroyed in just one hit.
+  - refactor: Tongs can now auto-remove multiple ingots from furnaces. Right click
+      the Tongs to toggle this behaviour off.
+  - refactor: Mechanized Ore Bags can now toggle through multiple exclusive types
+      to collect. Right click the ore bag to cycle through them.
+  - sound: Forges make different sounds when smelting now.
+  - balance: Underdweller Mercenary Class was given Ore Sight.
+  Ketrai:
+  - rscadd: rotfang unique dagger for malpractitioner, inflicts black rot
+  - rscadd: 1 => 2 malpractitioner slots
+  - qol: malpractitioner gets a scholar bag now
+  - balance: removed killersice from malpractitioner
+  - balance: malpractitioner gets near full hardened leather armor coverage now
+  - balance: black rot reworked to be far less deadly and slower to build up
+  - balance: black rot no longer progresses on its own
+  - balance: Heartblood vials and canisters can now be drunk to restore a small amount
+      of blue overtime to make carrying them more useful.
+  - qol: Tooltips for calyxes, heartblood canisters.
+  QuietSymphony:
+  - rscadd: Eorans now get a pick between their normal robes and radical, open robes.
+      This almost exists in the right click interaction but it didn't actually change
+      what the outfit exposed.
+  - rscadd: There is a set of 2 open Eoran robes in the church. Just in case.
+  - bugfix: Open Eoran Robes (the actual alt item, not the alt wear of the eoran robes)
+      now allows you to have clothed sex and for your genitals to be visible (if you're
+      wearing nothing under it)
+  Quinalion:
+  - bugfix: Fixed avantyne plate gauntlets.
+  Ryan180602:
+  - code_imp: add sleeve details to noble pinafore
+  - bugfix: mousdown during cd to faceatom.
+  SnaxMang:
+  - rscadd: Added neck fluff to half-kin.
+  ToasterStrudes:
+  - bugfix: Reverts changes made to sleeves that made them not appear for armor/cloaks.
+  WeNeedMorePhoron:
+  - rscadd: NPC bottlebombs no longer create shard to reduce clutter
+  - rscadd: Increased kill quest timer to 15 minutes
+  - rscadd: Graggarspawns -> Graggarites after being informed that orcs are actually
+      not graggarspawns
+  - rscdel: MEISTER no longer tell everyone exactly how much money is left in the
+      treasury, that is not relevant.
+  borneblood:
+  - rscadd: Brooms are now more useful for cleaning garbage.
+  - bugfix: Added some missing gear to where they should be, notably,  greatweapon
+      straps for spears.
+  - spellcheck: Fixed a few naming disparities between the new and old and eldest
+      maid dresses we have.
+  changelingonberry:
+  - bugfix: spelling
+  radarseas:
+  - balance: Lich can now be examined by deadites and examine them back.
+  - bugfix: inconsistancy with lich compared to other deadite antagonists.
+2026-05-05:
+  Drifter7371:
+  - bugfix: poor formatting for BW, swords/axes should work properly now.
+  QuietSymphony:
+  - rscadd: Added an Open Eoran Robes crafting recipe
+  - spellcheck: Changed the grammar of the eoran robes entry in weaving, if anyone
+      cares.
+  borneblood:
+  - bugfix: Fixed the greenskin bug (patchwork slop, though!)

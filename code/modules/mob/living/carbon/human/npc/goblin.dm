@@ -16,6 +16,7 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 	icon_state = "goblin"
 	race = /datum/species/goblin
 	gender = MALE
+	blood_toll_bucket = STATS_KILLED_GOBLINS
 	bodyparts = list(/obj/item/bodypart/chest/goblin, /obj/item/bodypart/head/goblin, /obj/item/bodypart/l_arm/goblin,
 					/obj/item/bodypart/r_arm/goblin, /obj/item/bodypart/r_leg/goblin, /obj/item/bodypart/l_leg/goblin)
 	rot_type = /datum/component/rot/corpse/goblin
@@ -30,7 +31,7 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 	dodgetime = 30
 
 /mob/living/carbon/human/species/goblin/npc/ambush
-	threat_point = THREAT_LOW
+	threat_point = THREAT_TRASH
 	ambush_faction = "goblins"
 
 /mob/living/carbon/human/species/goblin/npc/archer
@@ -66,7 +67,7 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 	race = /datum/species/goblin/cave
 
 /mob/living/carbon/human/species/goblin/npc/ambush/cave
-	threat_point = THREAT_LOW
+	threat_point = THREAT_TRASH
 	race = /datum/species/goblin/cave
 
 /datum/species/goblin/cave
@@ -77,11 +78,11 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 	name = "sea goblin"
 	race = /datum/species/goblin/sea
 /mob/living/carbon/human/species/goblin/npc/sea
-	threat_point = THREAT_LOW
+	threat_point = THREAT_TRASH
 	ambush_faction = "goblins"
 	race = /datum/species/goblin/sea
 /mob/living/carbon/human/species/goblin/npc/ambush/sea
-	threat_point = THREAT_LOW
+	threat_point = THREAT_TRASH
 	race = /datum/species/goblin/sea
 /datum/species/goblin/sea
 	raceicon = "goblin_sea"
@@ -93,7 +94,7 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 /mob/living/carbon/human/species/goblin/npc/moon
 	race = /datum/species/goblin/moon
 /mob/living/carbon/human/species/goblin/npc/ambush/moon
-	threat_point = THREAT_LOW
+	threat_point = THREAT_TRASH
 	race = /datum/species/goblin/moon
 /datum/species/goblin/moon
 	id = "goblin_moon"

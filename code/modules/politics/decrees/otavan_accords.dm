@@ -3,9 +3,9 @@
 	name = "The Otavan Accords"
 	category = DECREE_CATEGORY_NEW
 	mechanical_text = "Inquisition members pay no taxes."
-	flavor_text = {"These Otavan Accords, sworne in the name of the Ten and under the Almighty Allfather's watch, witnesseth that the Holy Otavan Inquisition, sworn servants of Psydon and emissaries of the Orthodoxy, shall keep vigil against heresy upon this land: to hunt the Archenemy's servants and the false gods, to stay their hand from subjects of Azuria untainted by heresy, to try only the common folk, and to never try a burgher nor a nobleman - for whose crimes they shall answer before the Church of the Ten.
+	flavor_text = {"In the name of the Ten, under the Almighty Allfather's watch, be it known that the Holy Otavan Inquisition, sworn servants of Psydon and emissaries of the Orthodoxy, shall keep vigil against heresy upon this land: to defend and protect the Duchy of Azuria from those who would do it harm, and to counsel and advise the leaders and peoples of the nation. The Inquisition is hereby granted the right to try foreigners, those sanctioned and outlawed by the Duchy for crimes of high heresy, or those who are handed over by order of Crown and Court. The Holy Inquisition is to be granted permission to aid in trials of citizenry alongside the lawful authorities of the land, save for the Nobility, who must be tried before the Crown.
 
-In exchange, as foreign adherents sanctioned by treaty, the Inquisition shall bear no tax nor levy, neither upon their persons nor upon the instruments of their office; nor shall the Crown hinder their holy duty, save by lawful cause shown before the Church of the Ten.
+In exchange, as foreign adherents sanctioned by treaty, the Inquisition shall bear no tax nor levy, neither upon their persons nor upon the instruments of their office; nor shall the Crown hinder their holy duty, save by lawful cause shown before the Bishop or Council.
 
 Yeven under the seal of the Crown, in witness of Psydon and the Ten."}
 	revoke_text = "The %RULER% has broken the Otavan Accords. The Inquisition is stripped of its treaty protections - and Otava shall not take such an insult lightly."

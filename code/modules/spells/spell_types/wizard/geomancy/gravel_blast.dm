@@ -51,7 +51,7 @@
 	name = "gravel shot"
 	icon = 'icons/obj/magic_projectiles.dmi'
 	icon_state = "stone"
-	damage = 22
+	damage = 26
 	nodamage = FALSE
 	damage_type = BRUTE
 	woundclass = BCLASS_BLUNT
@@ -71,11 +71,11 @@
 	ricochet_incidence_leeway = 40
 	ricochet_decay_chance = 1
 	ricochet_decay_damage = 1
-	var/reduced_damage = 9
+	var/reduced_damage = 11
 
 /obj/projectile/magic/gravel_blast/arc
 	name = "arced gravel shot"
-	damage = 17
+	damage = 20
 	arcshot = TRUE
 
 /obj/projectile/magic/gravel_blast/on_hit(target)

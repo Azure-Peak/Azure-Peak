@@ -40,6 +40,8 @@
 	fueluse = 30 MINUTES
 	crossfire = FALSE
 
+	var/smelt_sfx = 'sound/misc/smelter_sound.ogg'
+
 /obj/machinery/light/rogue/smelter/examine(mob/user, params)
 	. = ..()
 	. += span_info("It can hold up to <b>[max_contained_items] ores at a time</b>.")
@@ -48,6 +50,13 @@
 		. += span_notice("Peeking inside, you can see:")
 		for(var/obj/item/item as anything in contained_items)
 			. += span_info("- [item]")
+
+
+/obj/machinery/light/rogue/smelter/Initialize()
+	. = ..()
+	smelt_sfx = pick('sound/misc/smelter_sound1.ogg', 'sound/misc/smelter_sound2.ogg', 'sound/misc/smelter_sound3.ogg', 'sound/misc/smelter_sound4.ogg')
+	if(prob(10))
+		smelt_sfx = 'sound/misc/smelter_sound.ogg'
 
 /obj/machinery/light/rogue/smelter/attackby(obj/item/attacking_item, mob/living/user, params)
 	if(istype(attacking_item, /obj/item/rogueweapon/tongs))
@@ -66,20 +75,37 @@
 			if(!length(contained_items))
 				to_chat(user, span_warn("Nothing to retrieve from inside."))
 				return
-			var/obj/item/item_to_remove = contained_items[contained_items.len]
-			contained_items -= item_to_remove
-			item_to_remove.forceMove(tongs)
-			tongs.hingot = item_to_remove
-			if(user.mind && isliving(user) && tongs.hingot?.smeltresult) // Prevents an exploit with coal and runtimes with everything else
-				if(!istype(tongs.hingot, /obj/item/rogueore) && tongs.hingot?.smelted) // Burning items to ash won't level smelting.
-					var/mob/living/L = user
-					user.mind.add_sleep_experience(/datum/skill/craft/smelting, L.STAINT * 2, FALSE)// Smelting is already a timesink, this is justified to accelerate levelling
-			user.visible_message(span_info("[user] retrieves \the [item_to_remove] from \the [src]."), span_info("You retrieve \the [item_to_remove] from \the [src]."))
-			if(on)
-				var/tyme = world.time
-				tongs.hott = tyme
-				addtimer(CALLBACK(tongs, TYPE_PROC_REF(/obj/item/rogueweapon/tongs, make_unhot), tyme), 20 SECONDS)
-			tongs.update_icon()
+			if(length(contained_items) > 1 && tongs.auto_collect)
+				for(var/obj/item/I in contained_items)
+					var/delay = 1 SECONDS
+					delay -= (user.STASPD - 10)
+					delay -= (user.STASTR - 10)
+					delay = max(0.2 SECONDS, delay)
+					if(do_after(user, delay, TRUE, src))
+						user.visible_message(span_info("[user] retrieves \the [I] from \the [src]."), span_info("You retrieve \the [I] from \the [src]."))
+						LAZYREMOVE(contained_items, I)
+						I.forceMove(get_turf(user))
+						playsound(user, pick('sound/items/ingot_collect1.ogg', 'sound/items/ingot_collect2.ogg'), 100, TRUE)
+					if(user.mind && isliving(user) && istype(I, /obj/item/ingot))
+						var/obj/item/ingot/ING = I
+						if(ING.smelted && ING.smeltresult)
+							var/mob/living/L = user
+							user.mind.add_sleep_experience(/datum/skill/craft/smelting, L.STAINT * 2, FALSE)
+			else
+				var/obj/item/item_to_remove = contained_items[contained_items.len]
+				contained_items -= item_to_remove
+				item_to_remove.forceMove(tongs)
+				tongs.hingot = item_to_remove
+				if(user.mind && isliving(user) && tongs.hingot?.smeltresult) // Prevents an exploit with coal and runtimes with everything else
+					if(!istype(tongs.hingot, /obj/item/rogueore) && tongs.hingot?.smelted) // Burning items to ash won't level smelting.
+						var/mob/living/L = user
+						user.mind.add_sleep_experience(/datum/skill/craft/smelting, L.STAINT * 2, FALSE)// Smelting is already a timesink, this is justified to accelerate levelling
+				user.visible_message(span_info("[user] retrieves \the [item_to_remove] from \the [src]."), span_info("You retrieve \the [item_to_remove] from \the [src]."))
+				if(on)
+					var/tyme = world.time
+					tongs.hott = tyme
+					addtimer(CALLBACK(tongs, TYPE_PROC_REF(/obj/item/rogueweapon/tongs, make_unhot), tyme), 20 SECONDS)
+				tongs.update_icon()
 		return
 
 	if(istype(attacking_item, /obj/item/rogueweapon/hammer))
@@ -192,7 +218,7 @@
 
 	if(smelting_progress < smelting_ticks)
 		smelting_progress++
-		playsound(src.loc,'sound/misc/smelter_sound.ogg', 50, FALSE)
+		playsound(src.loc, smelt_sfx, ((smelt_sfx == 'sound/misc/smelter_sound.ogg') ? 50 : 100), FALSE)
 		actively_smelting = TRUE
 		return
 

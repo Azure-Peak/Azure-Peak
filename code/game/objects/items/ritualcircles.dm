@@ -116,6 +116,7 @@
 				user.flash_fullscreen("redflash3")
 				user.emote("firescream")
 			guidinglight(src) // Actually starts the proc for applying the buff
+			playsound(user, 'sound/magic/holyshield.ogg', 60, FALSE, -1) // Cool sound! But it blows out eardrums with large groups so we move it here.
 			user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
 			spawn(120)
 				icon_state = "astrata_chalky"
@@ -125,7 +126,6 @@
 	for(var/mob/living/carbon/human/target in ritualtargets) // defines the target as every human in this range
 		target.apply_status_effect(/datum/status_effect/buff/guidinglight) // applies the status effect
 		to_chat(target,span_cultsmall("Astrata's light guides me forward, drawn to me by the Ritualist's pyre!"))
-		playsound(target, 'sound/magic/holyshield.ogg', 80, FALSE, -1) // Cool sound!
 // If you want to review a more complicated one, Undermaiden's Bargain is probs the most complicated of the starting set. - Have fun! - Onutsio 🏳️‍⚧️
 
 
@@ -256,8 +256,7 @@
 	name = "Rune of Plague"
 	desc = "A Holy Rune of Pestra. A sickle to cleanse the weeds, and bring forth life."
 	icon_state = "pestra_chalky"
-	var/plaguerites = list("Flylord's Triage")
-
+	var/plaguerites = list("Flylord's Triage", "Vow of Aesculapius")
 
 /obj/structure/ritualcircle/pestra/attack_hand(mob/living/user)
 	if(!..())
@@ -274,27 +273,49 @@
 	var/riteselection = input(user, "Rituals of Plague", src) as null|anything in plaguerites
 	switch(riteselection) // put ur rite selection here
 		if("Flylord's Triage")
+			if(do_after(user, 50))
+				user.say("Buboes, phlegm, blood and guts!!")
+				if(do_after(user, 50))
+					user.say("Boils, bogeys, rots and pus!!")
+					if(do_after(user, 50))
+						user.say("Blisters, fevers, weeping sores!!")
+						to_chat(user,span_danger("You feel something crawling up your throat, humming and scratching..."))
+						if(do_after(user, 30))
+							icon_state = "pestra_active"
+							user.say("From your wounds, the fester pours!!")
+							to_chat(user,span_cultsmall("My devotion to the Plague Queen allowing, her servants crawl up from my throat. Come now, father fly..."))
+							loc.visible_message(span_warning("[user] opens their mouth, disgorging a great swarm of flies!"))
+							playsound(loc, 'sound/misc/fliesloop.ogg', 100, FALSE, -1)
+							flylordstriage(src)
+							user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
+							spawn(120)
+								icon_state = "pestra_chalky"
+		if("Vow of Aesculapius")//Probably come up with a better name for this ngl?
+			var/onrune = view(1, loc)
+			var/list/folksonrune = list()
+			for(var/mob/living/carbon/human/persononrune in onrune)
+				if(HAS_TRAIT(persononrune, TRAIT_UNDIVIDED))
+					folksonrune += persononrune
+			var/target = input(user, "Choose a host") as null|anything in folksonrune
+			if(!target)
+				return
+			user.say("Before your greatness, I swear a vow!!")
 			if(!do_after(user, 5 SECONDS))
 				return
-			user.say("Buboes, phlegm, blood and guts!!")
+			user.say("To do no harm!!")
 			if(!do_after(user, 5 SECONDS))
 				return
-			user.say("Boils, bogeys, rots and pus!!")
+			user.say("To take care of those in need!!")
 			if(!do_after(user, 5 SECONDS))
 				return
-			user.say("Blisters, fevers, weeping sores!!")
-			to_chat(user,span_danger("You feel something crawling up your throat, humming and scratching..."))
+			user.say("To be your shining beacon in the darkness!!")
 			if(!do_after(user, 5 SECONDS))
 				return
 			icon_state = "pestra_active"
-			user.say("From your wounds, the fester pours!!")
-			to_chat(user,span_cultsmall("My devotion to the Plague Queen allowing, her servants crawl up from my throat. Come now, father fly..."))
-			loc.visible_message(span_warning("[user] opens their mouth, disgorging a great swarm of flies!"))
-			playsound(loc, 'sound/misc/fliesloop.ogg', 100, FALSE, -1)
-			flylordstriage(src)
 			user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
+			pestraaura(target)
 			spawn(120)
-				icon_state = "pestra_chalky"
+				icon_state = "pestra_chalky"						
 
 /obj/structure/ritualcircle/pestra/proc/flylordstriage(src)
 	var/ritualtargets = view(0, loc)
@@ -306,6 +327,27 @@
 		target.Knockdown(200)
 		to_chat(target, span_userdanger("UNIMAGINABLE PAIN!"))
 		target.apply_status_effect(/datum/status_effect/buff/flylordstriage)
+
+/obj/structure/ritualcircle/pestra/proc/pestraaura(mob/living/carbon/human/target)
+	var/pestra_cockblock = target.get_skill_level(/datum/skill/magic/holy)
+	if(!HAS_TRAIT(target, TRAIT_ROT_EATER))
+		loc.visible_message(span_cult("THE RITE REJECTS ONE WITHOUT PURE HEART!!"))
+		return FALSE
+	if(pestra_cockblock < SKILL_LEVEL_JOURNEYMAN)//Only clerics can put it on.
+		loc.visible_message(span_cult("THE RITE REJECTS ONE WITHOUT PURE HEART!!"))
+		return FALSE
+	target.Stun(120)
+	to_chat(target, span_userdanger("UNIMAGINABLE PAIN!"))
+	target.emote("Agony")
+	playsound(loc, 'sound/magic/undivided_bless.ogg', 70)
+	loc.visible_message(span_good("[target]'s form becomes enveloped in rot."))
+	spawn(20)
+		target.apply_status_effect(/datum/status_effect/plaguebringer)
+		playsound(target, 'sound/magic/undivided_solemnity.ogg', 90, FALSE, -1)
+		to_chat(target, span_boldred("I can do no HARM."))
+		ADD_TRAIT(target, TRAIT_PACIFISM, TRAIT_RITUAL)
+		to_chat(target, span_boldred("My body is susceptible to CRITICAL STRIKES."))
+		ADD_TRAIT(target, TRAIT_CRITICAL_WEAKNESS, TRAIT_RITUAL)
 
 /obj/structure/ritualcircle/dendor
 	name = "Rune of Beasts"
@@ -1390,7 +1432,7 @@
 	name = "Rune of Deca Divinity"
 	desc = "A Holy Rune of The Undivided Pantheon"
 	icon_state = "undivided_chalky"
-	var/decarites = list("Crusader's Oath", "Vow of Aesculapius")
+	var/decarites = list("Crusader's Oath")
 
 /obj/structure/ritualcircle/undivided/attack_hand(mob/living/user)
 	if(!..())
@@ -1430,32 +1472,6 @@
 			icon_state = "undivided_active"
 			user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
 			undividedarmaments(target)
-			spawn(120)
-				icon_state = "undivided_chalky"
-		if("Vow of Aesculapius")//Probably come up with a better name for this ngl?
-			var/onrune = view(1, loc)
-			var/list/folksonrune = list()
-			for(var/mob/living/carbon/human/persononrune in onrune)
-				if(HAS_TRAIT(persononrune, TRAIT_UNDIVIDED))
-					folksonrune += persononrune
-			var/target = input(user, "Choose a host") as null|anything in folksonrune
-			if(!target)
-				return
-			user.say("Before your greatness, I swear a vow!!")
-			if(!do_after(user, 5 SECONDS))
-				return
-			user.say("To do no harm!!")
-			if(!do_after(user, 5 SECONDS))
-				return
-			user.say("To take care of those in need!!")
-			if(!do_after(user, 5 SECONDS))
-				return
-			user.say("To be your shining beacon in the darkness!!")
-			if(!do_after(user, 5 SECONDS))
-				return
-			icon_state = "undivided_active"
-			user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
-			undividedaura(target)
 			spawn(120)
 				icon_state = "undivided_chalky"
 
@@ -1511,30 +1527,6 @@
 
 	H.mind.AddSpell(new /datum/action/cooldown/spell/mending/lesser)
 
-/obj/structure/ritualcircle/undivided/proc/undividedaura(mob/living/carbon/human/target)
-	var/undivided_cockblock = target.get_skill_level(/datum/skill/magic/holy)
-	if(!HAS_TRAIT(target, TRAIT_UNDIVIDED))
-		loc.visible_message(span_cult("THE RITE REJECTS ONE WITHOUT PURE HEART!!"))
-		return FALSE
-	if(undivided_cockblock < SKILL_LEVEL_JOURNEYMAN)//Only clerics can put it on.
-		loc.visible_message(span_cult("THE RITE REJECTS ONE WITHOUT PURE HEART!!"))
-		return FALSE
-	target.Stun(120)
-	to_chat(target, span_userdanger("UNIMAGINABLE PAIN!"))
-	target.emote("Agony")
-	playsound(loc, 'sound/magic/undivided_bless.ogg', 70)
-	loc.visible_message(span_good("[target]'s form becomes enveloped in divine aura."))
-	spawn(20)
-		target.apply_status_effect(/datum/status_effect/buff/guidinglight/undivided)
-		target.apply_status_effect(/datum/status_effect/orderbringer)
-		playsound(target, 'sound/magic/undivided_solemnity.ogg', 90, FALSE, -1)
-		to_chat(target, span_boldred("I can do no HARM."))
-		ADD_TRAIT(target, TRAIT_PACIFISM, TRAIT_RITUAL)
-		to_chat(target, span_boldred("This is my only chance at LYFE."))
-		ADD_TRAIT(target, TRAIT_DNR, TRAIT_RITUAL)
-		to_chat(target, span_boldred("My body is susceptible to CRITICAL STRIKES."))
-		ADD_TRAIT(target, TRAIT_CRITICAL_WEAKNESS, TRAIT_RITUAL)
-
 // TIME FOR THE ASCENDANT. These can be stronger. As they are pretty much antag exclusive - Iconoclast for Matthios, Lich for ZIZO. ZIZO!
 
 
@@ -1573,7 +1565,7 @@
 				"Avantyne Barbute" = image(icon = 'icons/roguetown/clothing/head.dmi', icon_state = "zizobarbute"),
 				"Avantyne Froggemund" = image(icon = 'icons/roguetown/clothing/head.dmi', icon_state = "zizofrogmouth"),
 				"Avantyne Volf-Plate" = image(icon = 'icons/roguetown/clothing/head.dmi', icon_state = "volfplate_avantyne"),
-				"Avantyne Bascinet" = image(icon = 'icons/roguetown/clothing/head.dmi', icon_state = "zizoplatehelm_med")
+				"Avantyne Bascinet" = image(icon = 'icons/roguetown/clothing/head.dmi', icon_state = "zizobascinet")
 			)
 
 			var/helm_choice = show_radial_menu(user, src, helm_options, require_near = TRUE, tooltips = TRUE)
@@ -1582,16 +1574,16 @@
 
 			var/list/armor_options = list(
 				"Avantyne Half-Plate" = image(icon = 'icons/roguetown/clothing/armor.dmi', icon_state = "zizoplatechest_med"),
-				"Avantyne Fullplate" = image(icon = 'icons/roguetown/clothing/armor.dmi', icon_state = "zizoplate")
+				"Avantyne Full-Plate" = image(icon = 'icons/roguetown/clothing/armor.dmi', icon_state = "zizoplate")
 			)
 
 			var/armor_choice = show_radial_menu(user, src, armor_options, require_near = TRUE, tooltips = TRUE)
 			if(!armor_choice)
-				armor_choice = "Avantyne Fullplate"
+				armor_choice = "Avantyne Full-Plate"
 
 			var/list/weapon_options = list(
 				"Avantyne Longsword" = image(icon = 'icons/roguetown/weapons/swords64.dmi', icon_state = "zizosword"),
-				"Avantyne Arming Sword and Darkshield" = image(icon = 'icons/roguetown/weapons/shields32.dmi', icon_state = "zeretic_shield")
+				"Avantyne Arming Sword and Darkshield" = image(icon = 'icons/roguetown/weapons/shields32.dmi', icon_state = "zizoshield")
 			)
 
 			var/weapon_choice = show_radial_menu(user, src, weapon_options, require_near = TRUE, tooltips = TRUE)
@@ -1630,7 +1622,7 @@
 	switch(armor_choice)
 		if("Avantyne Half-Plate")
 			outfit_path = /datum/outfit/job/roguetown/darksteelrite/medium
-		if("Avantyne Fullplate")
+		if("Avantyne Full-Plate")
 			outfit_path = /datum/outfit/job/roguetown/darksteelrite
 	if(!helm_path)
 		helm_path = /obj/item/clothing/head/roguetown/helmet/heavy/zizo
@@ -1921,11 +1913,11 @@
 			)
 			var/armor_choice = show_radial_menu(user, src, armor_options, require_near = TRUE, tooltips = TRUE)
 			if(!armor_choice)
-				return
+				armor_choice = "Vicious Full-Plate"
 
 			var/list/weapon_options = list(
 				"Vicious Greataxe" = image(icon = 'icons/roguetown/weapons/axes64.dmi', icon_state = "graggargaxe"),
-				"Vicious Tomahawk and Shield" = image(icon = 'icons/roguetown/weapons/shields32.dmi', icon_state = "gheretic_shield"),
+				"Vicious Tomahawk and Shield" = image(icon = 'icons/roguetown/weapons/shields32.dmi', icon_state = "graggarshield"),
 			)
 			var/weapon_choice = show_radial_menu(user, src, weapon_options, require_near = TRUE, tooltips = TRUE)
 			if(!weapon_choice)
@@ -2085,14 +2077,14 @@
 /datum/outfit/job/roguetown/viciousrite/heavy/pre_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	..()
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/full/graggar
-	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/graggar
-	pants = /obj/item/clothing/under/roguetown/platelegs/graggar
-	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/graggar
+	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/graggar/heavy
+	pants = /obj/item/clothing/under/roguetown/platelegs/graggar/heavy
+	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/graggar/heavy
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/graggar/heavy
 	gloves = /obj/item/clothing/gloves/roguetown/plate/graggar/heavy
 	head = selected_helm_path
 	mask = /obj/item/clothing/mask/rogue/facemask/steel/graggar
-	neck = /obj/item/clothing/neck/roguetown/gorget/steel/graggar
+	neck = /obj/item/clothing/neck/roguetown/gorget/steel/graggar/heavy
 	cloak = /obj/item/clothing/cloak/graggar/heavy
 	switch(selected_weapon_choice)
 		if("Vicious Tomahawk and Shield")
@@ -2185,4 +2177,3 @@
 	user.apply_status_effect(/datum/status_effect/debuff/devitalised/lesser)
 
 	return TRUE
-

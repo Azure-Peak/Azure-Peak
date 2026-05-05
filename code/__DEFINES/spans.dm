@@ -168,6 +168,8 @@
 #define span_beautiful_nb(str) ("<span class='beautifulnb'>" + str + "</span>")
 #define span_orator(str) ("<span class='orator'>" + str + "</span>")
 
+#define span_astrata(str) ("<span class='astrata'>" + str + "</span>")
+#define span_undivided(str) ("<span class='undivided'>" + str + "</span>")
 /// Displays a tooltip. Tooltip is text-only, and HTML will be ignored.
 /// * SPAN_LINKIFY doesn't work here.
 #define SPAN_TOOLTIP(tip, str) ("<span data-component=\"Tooltip\" data-content=\"[html_encode(tip)]\" class=\"tooltip\">[str]</span>")

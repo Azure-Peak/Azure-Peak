@@ -26,6 +26,9 @@
 	data += "<a href='byond://?src=[REF(src)];viewchronicle=1;chronicletab=Villains' style='display: inline-block; width: 100px; padding: 6px 10px; margin: 0 5px; background: linear-gradient(to bottom, #3a1a1a, #1a0a0a); border: 1px solid #5a3a3a; border-bottom: 2px solid #8a6a6a; color: #d4b4b4; font-weight: bold; text-decoration: none; border-radius: 2px; font-size: 0.8em; box-shadow: 0 1px 3px rgba(0,0,0,0.5);'>VILLAINS</a>"
 	data += "<a href='byond://?src=[REF(src)];viewchronicle=1;chronicletab=Outlaws' style='display: inline-block; width: 100px; padding: 6px 10px; margin: 0 5px; background: linear-gradient(to bottom, #5a3a0a, #3a1a0a); border: 1px solid #7a5a2a; border-bottom: 2px solid #aa8a5a; color: #ffd494; font-weight: bold; text-decoration: none; border-radius: 2px; font-size: 0.8em; box-shadow: 0 1px 3px rgba(0,0,0,0.5);'>OUTLAWS</a>"
 	data += "</div>"
+	data += "<div style='width: 100%; text-align: center; margin: 18px 0 15px 0;'>"
+	data += "<a href='byond://?src=[REF(src)];viewchronicle=1;chronicletab=Blood Toll' style='display: inline-block; width: 140px; padding: 7px 12px; margin: 0 5px; background: linear-gradient(to bottom, #8a1010, #3a0606); border: 1px solid #c43030; border-bottom: 2px solid #ff5a5a; color: #ffe0e0; font-weight: bold; text-decoration: none; border-radius: 2px; font-size: 0.85em; letter-spacing: 0.08em; box-shadow: 0 1px 4px rgba(180,30,30,0.4);'>BLOOD TOLL</a>"
+	data += "</div>"
 
 	// Content
 	data += "<div style='margin: 35px;'>"
@@ -248,6 +251,9 @@
 	data += "<a href='byond://?src=[REF(src)];viewchronicle=1;chronicletab=Heroes' style='display: inline-block; width: 100px; padding: 6px 10px; margin: 0 5px; background: linear-gradient(to bottom, #3a4a5a, #1a1b2a); border: 1px solid #6a7b8a; border-bottom: 2px solid #8f9caa; color: #c0c0d0; font-weight: bold; text-decoration: none; border-radius: 2px; font-size: 0.8em; box-shadow: 0 1px 3px rgba(0,0,0,0.5);'>HEROES</a>"
 	data += "<a href='byond://?src=[REF(src)];viewchronicle=1;chronicletab=Villains' style='display: inline-block; width: 100px; padding: 6px 10px; margin: 0 5px; background: linear-gradient(to bottom, #3a1a1a, #1a0a0a); border: 1px solid #5a3a3a; border-bottom: 2px solid #8a6a6a; color: #d4b4b4; font-weight: bold; text-decoration: none; border-radius: 2px; font-size: 0.8em; box-shadow: 0 1px 3px rgba(0,0,0,0.5);'>VILLAINS</a>"
 	data += "<a href='byond://?src=[REF(src)];viewchronicle=1;chronicletab=Outlaws' style='display: inline-block; width: 100px; padding: 6px 10px; margin: 0 5px; background: linear-gradient(to bottom, #5a3a0a, #3a1a0a); border: 1px solid #7a5a2a; border-bottom: 2px solid #aa8a5a; color: #ffd494; font-weight: bold; text-decoration: none; border-radius: 2px; font-size: 0.8em; box-shadow: 0 1px 3px rgba(0,0,0,0.5);'>OUTLAWS</a>"
+	data += "</div>"
+	data += "<div style='width: 100%; text-align: center; margin: 18px 0 15px 0;'>"
+	data += "<a href='byond://?src=[REF(src)];viewchronicle=1;chronicletab=Blood Toll' style='display: inline-block; width: 140px; padding: 7px 12px; margin: 0 5px; background: linear-gradient(to bottom, #8a1010, #3a0606); border: 1px solid #c43030; border-bottom: 2px solid #ff5a5a; color: #ffe0e0; font-weight: bold; text-decoration: none; border-radius: 2px; font-size: 0.85em; letter-spacing: 0.08em; box-shadow: 0 1px 4px rgba(180,30,30,0.4);'>BLOOD TOLL</a>"
 	data += "</div>"
 
 	// Content
@@ -1049,6 +1055,9 @@
 					"}
 
 				data += "</div>"
+
+		if("Blood Toll")
+			data += render_blood_toll_chronicle()
 	data += "</div>"
 
 	src.mob << browse(null, "window=vanderlin_influences")
@@ -1085,6 +1094,9 @@
 	data += "<a href='byond://?src=[REF(src)];viewchronicle=1;chronicletab=Heroes' style='display: inline-block; width: 100px; padding: 6px 10px; margin: 0 5px; background: linear-gradient(to bottom, #3a4a5a, #1a1b2a); border: 1px solid #6a7b8a; border-bottom: 2px solid #8f9caa; color: #c0c0d0; font-weight: bold; text-decoration: none; border-radius: 2px; font-size: 0.8em; box-shadow: 0 1px 3px rgba(0,0,0,0.5);'>HEROES</a>"
 	data += "<a href='byond://?src=[REF(src)];viewchronicle=1;chronicletab=Villains' style='display: inline-block; width: 100px; padding: 6px 10px; margin: 0 5px; background: linear-gradient(to bottom, #3a1a1a, #1a0a0a); border: 1px solid #5a3a3a; border-bottom: 2px solid #8a6a6a; color: #d4b4b4; font-weight: bold; text-decoration: none; border-radius: 2px; font-size: 0.8em; box-shadow: 0 1px 3px rgba(0,0,0,0.5);'>VILLAINS</a>"
 	data += "<a href='byond://?src=[REF(src)];viewchronicle=1;chronicletab=Outlaws' style='display: inline-block; width: 100px; padding: 6px 10px; margin: 0 5px; background: linear-gradient(to bottom, #5a3a0a, #3a1a0a); border: 1px solid #7a5a2a; border-bottom: 2px solid #aa8a5a; color: #ffd494; font-weight: bold; text-decoration: none; border-radius: 2px; font-size: 0.8em; box-shadow: 0 1px 3px rgba(0,0,0,0.5);'>OUTLAWS</a>"
+	data += "</div>"
+	data += "<div style='width: 100%; text-align: center; margin: 18px 0 15px 0;'>"
+	data += "<a href='byond://?src=[REF(src)];viewchronicle=1;chronicletab=Blood Toll' style='display: inline-block; width: 140px; padding: 7px 12px; margin: 0 5px; background: linear-gradient(to bottom, #8a1010, #3a0606); border: 1px solid #c43030; border-bottom: 2px solid #ff5a5a; color: #ffe0e0; font-weight: bold; text-decoration: none; border-radius: 2px; font-size: 0.85em; letter-spacing: 0.08em; box-shadow: 0 1px 4px rgba(180,30,30,0.4);'>BLOOD TOLL</a>"
 	data += "</div>"
 
 	// Content

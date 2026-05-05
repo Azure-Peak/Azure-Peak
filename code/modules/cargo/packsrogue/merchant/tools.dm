@@ -59,12 +59,12 @@
 	contains = list(/obj/item/rogueweapon/tongs)
 
 /datum/supply_pack/rogue/tools/metalkit
-	name = "Steel Armor Plates"
+	name = "Armor Plates"
 	cost = 60 // 1 Steel 0.5 iron 1 leather
 	contains = list(/obj/item/repair_kit/metal)
 
 /datum/supply_pack/rogue/tools/ironpick
-	name = "Iron Pickaxe"
+	name = "Iron Pick"
 	cost = 10
 	contains = list(/obj/item/rogueweapon/pick)
 
@@ -104,7 +104,7 @@
 	contains = list(/obj/item/cooking/pan)
 
 /datum/supply_pack/rogue/tools/bottle_kit
-	name = "Bottle Kit"
+	name = "Bottlin' Kit"
 	cost = 50
 	contains = list(/obj/item/bottle_kit)
 
@@ -141,7 +141,7 @@
 				)
 
 /datum/supply_pack/rogue/tools/paper
-	name = "Paper"
+	name = "Papyrus"
 	cost = 20
 	contains = list(
 					/obj/item/paper/scroll,
@@ -186,7 +186,7 @@
 
 /datum/supply_pack/rogue/tools/alch_bottle
 	name = "Alchemy Bottle"
-	cost = 1
+	cost = 2
 	contains = list(/obj/item/reagent_containers/glass/bottle/alchemical,)
 
 /datum/supply_pack/rogue/tools/alch_bottles

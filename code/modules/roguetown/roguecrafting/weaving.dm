@@ -195,8 +195,16 @@
 	sellprice = 20
 
 /datum/crafting_recipe/roguetown/weaving/eorarobes
-	name = "eora robes"
+	name = "eoran robes"
 	result = list(/obj/item/clothing/suit/roguetown/shirt/robe/eora)
+	reqs = list(/obj/item/natural/cloth = 2,
+				/obj/item/natural/silk = 1)
+	craftdiff = 3
+	sellprice = 20
+
+/datum/crafting_recipe/roguetown/weaving/openeorarobes
+	name = "open eoran robes"
+	result = list(/obj/item/clothing/suit/roguetown/shirt/robe/eora/alt)
 	reqs = list(/obj/item/natural/cloth = 2,
 				/obj/item/natural/silk = 1)
 	craftdiff = 3

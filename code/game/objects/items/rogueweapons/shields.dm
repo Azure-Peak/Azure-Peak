@@ -431,7 +431,7 @@
 	name = "avantyne darkshield"
 	desc = "A threaded purportance, summoned from the interminglance of both avantyne and darksteel. The surface is uncharacteristically soft, not unlike silk \
 	or skin; uncomforting to the unexpecting touch, but more-than-excellent for catching blows."
-	icon_state = "zeretic_shield"
+	icon_state = "zizoshield"
 	smeltresult = /obj/item/ingot/component/zizo
 
 /obj/item/rogueweapon/shield/tower/metal/zizo/Initialize()
@@ -447,7 +447,7 @@
 	force = 25
 	throwforce = 20
 	coverage = 75
-	icon_state = "zeretic_shield"
+	icon_state = "zizoshield"
 	smeltresult = /obj/item/ingot/avantyne
 
 /obj/item/rogueweapon/shield/tower/metal/gold
@@ -682,7 +682,7 @@
 	desc = "A decorated targe, splattered and sanctified with the trophies of Psydonia's most dangerous hunters. No matter the icy rains, \
 	no matter the scorching heat – no matter the wrath of their enemies, Graggar never faltered in His arms. When Ravox broke their oath and \
 	rescinded their claim to Godhood, grief could not describe what He had felt."
-	icon_state = "gheretic_shield"
+	icon_state = "graggarshield"
 	max_integrity = 300
 
 /obj/item/rogueweapon/shield/iron/graggar/Initialize()

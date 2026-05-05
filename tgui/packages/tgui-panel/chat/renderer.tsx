@@ -33,9 +33,14 @@ const logger = createLogger('chatRenderer');
 // We consider this as the smallest possible scroll offset
 // that is still trackable.
 const SCROLL_TRACKING_TOLERANCE_BASE = 24;
+let scrollTrackingTolerance: number | null = null;
 
 const get_scroll_tracking_tolerance = () => {
-  return SCROLL_TRACKING_TOLERANCE_BASE + getRootFontSize();
+  if (scrollTrackingTolerance === null) {
+    scrollTrackingTolerance =
+      SCROLL_TRACKING_TOLERANCE_BASE + getRootFontSize();
+  }
+  return scrollTrackingTolerance;
 };
 
 const getRootFontSize = () => {
@@ -117,11 +122,23 @@ const updateMessageBadge = (message) => {
     // Nothing to update
     return;
   }
-  const foundBadge = node.querySelector('.Chat__badge');
-  const badge = foundBadge || document.createElement('div');
+  let badge = message.badgeNode;
+  if (!badge || badge.parentNode !== node) {
+    badge = node.querySelector('.Chat__badge');
+    message.badgeNode = badge;
+  }
+  const foundBadge = !!badge;
+  if (!badge) {
+    badge = document.createElement('div');
+    message.badgeNode = badge;
+  }
   badge.textContent = times;
   badge.className = classes(['Chat__badge', 'Chat__badge--animate']);
-  requestAnimationFrame(() => {
+  if (message.badgeFrame !== null && message.badgeFrame !== undefined) {
+    cancelAnimationFrame(message.badgeFrame);
+  }
+  message.badgeFrame = requestAnimationFrame(() => {
+    message.badgeFrame = null;
     badge.className = 'Chat__badge';
   });
   if (!foundBadge) {
@@ -140,8 +157,12 @@ class ChatRenderer {
   scrollNode: any;
   scrollTracking: boolean;
   lastScrollHeight: number;
+  scrollFrame: number | null;
+  scrollSettleFrame: number | null;
+  pendingScrollTracking: boolean;
   handleScroll: any;
   ensureScrollTracking: any;
+  requestScrollToBottom: any;
   highlightParsers: any;
   constructor() {
     this.loaded = false;
@@ -157,6 +178,9 @@ class ChatRenderer {
     this.scrollNode = null;
     this.scrollTracking = true;
     this.lastScrollHeight = 0;
+    this.scrollFrame = null;
+    this.scrollSettleFrame = null;
+    this.pendingScrollTracking = false;
     this.handleScroll = (type) => {
       const node = this.scrollNode;
       if (!node) {
@@ -164,8 +188,15 @@ class ChatRenderer {
       }
       const height = node.scrollHeight;
       const bottom = node.scrollTop + node.offsetHeight;
+      const tolerance = get_scroll_tracking_tolerance();
+      const nearCurrentBottom = Math.abs(height - bottom) < tolerance;
+      const nearPreviousBottom =
+        this.lastScrollHeight > 0 &&
+        bottom >= this.lastScrollHeight - tolerance;
       const scrollTracking =
-        Math.abs(height - bottom) < get_scroll_tracking_tolerance() ||
+        this.pendingScrollTracking ||
+        nearCurrentBottom ||
+        nearPreviousBottom ||
         this.lastScrollHeight === 0;
       if (scrollTracking !== this.scrollTracking) {
         this.scrollTracking = scrollTracking;
@@ -177,6 +208,25 @@ class ChatRenderer {
       if (this.scrollTracking) {
         this.scrollToBottom();
       }
+    };
+    this.requestScrollToBottom = () => {
+      this.pendingScrollTracking = true;
+      if (this.scrollSettleFrame !== null) {
+        cancelAnimationFrame(this.scrollSettleFrame);
+        this.scrollSettleFrame = null;
+      }
+      if (this.scrollFrame !== null) {
+        return;
+      }
+      this.scrollFrame = requestAnimationFrame(() => {
+        this.scrollFrame = null;
+        this.ensureScrollTracking();
+        this.scrollSettleFrame = requestAnimationFrame(() => {
+          this.scrollSettleFrame = null;
+          this.pendingScrollTracking = false;
+          this.handleScroll();
+        });
+      });
     };
     // Periodic message pruning
     setInterval(() => this.pruneMessages(), MESSAGE_PRUNE_INTERVAL);
@@ -198,9 +248,7 @@ class ChatRenderer {
     // Find scrollable parent
     this.scrollNode = findNearestScrollableParent(this.rootNode);
     this.scrollNode.addEventListener('scroll', this.handleScroll);
-    setTimeout(() => {
-      this.scrollToBottom();
-    });
+    this.requestScrollToBottom();
     // Flush the queue
     this.tryFlushQueue();
   }
@@ -314,6 +362,12 @@ class ChatRenderer {
     // scrollHeight is always bigger than scrollTop and is
     // automatically clamped to the valid range.
     this.scrollNode.scrollTop = this.scrollNode.scrollHeight;
+    this.lastScrollHeight = this.scrollNode.scrollHeight;
+    if (!this.scrollTracking) {
+      this.scrollTracking = true;
+      this.events.emit('scrollTrackingChanged', true);
+      logger.debug('tracking', this.scrollTracking);
+    }
   }
 
   changePage(page) {
@@ -385,6 +439,7 @@ class ChatRenderer {
     const countByType = {};
     let node: HTMLElement;
     let insertedAnyNode = false;
+    let changedAnyVisibleNode = false;
     for (const payload of batch) {
       const message = createMessage(payload);
       // Combine messages
@@ -392,6 +447,7 @@ class ChatRenderer {
       if (combinable) {
         combinable.times = (combinable.times || 1) + 1;
         updateMessageBadge(combinable);
+        changedAnyVisibleNode = true;
         continue;
       }
       // Reuse message node
@@ -418,76 +474,80 @@ class ChatRenderer {
         } else {
           logger.error('Error: message is missing text payload', message);
         }
-        // Get all nodes in this message that want to be rendered like jsx
-        const nodes = node.querySelectorAll('[data-component]');
-        for (let i = 0; i < nodes.length; i++) {
-          const childNode: Element = nodes[i];
-          const targetName = childNode.getAttribute('data-component');
-          if (targetName === null) {
-            continue;
-          }
-          // Let's pull out the attibute info we need
-          const outputProps = {};
-          for (let j = 0; j < childNode.attributes.length; j++) {
-            const attribute = childNode.attributes[j];
-            if (!attribute.nodeName.startsWith("data-")) {
+        if (message.html && message.html.includes('data-component')) {
+          // Get all nodes in this message that want to be rendered like jsx
+          const nodes = node.querySelectorAll('[data-component]');
+          for (let i = 0; i < nodes.length; i++) {
+            const childNode: Element = nodes[i];
+            const targetName = childNode.getAttribute('data-component');
+            if (targetName === null) {
               continue;
             }
-            let working_value = attribute.nodeValue;
-            if (!working_value) {
-              continue;
-            }
-            let parsed_value: any;
-            // We can't do the "if it has no value it's truthy" trick
-            // Because getAttribute returns "", not null. Hate IE
-            if (working_value === '$true') {
-              parsed_value = true;
-            } else if (working_value === '$false') {
-              parsed_value = false;
-            } else {
-              const parsed_float = parseFloat(working_value);
-              if (!isNaN(parsed_float)) {
-                parsed_value = parsed_float;
+            // Let's pull out the attibute info we need
+            const outputProps = {};
+            for (let j = 0; j < childNode.attributes.length; j++) {
+              const attribute = childNode.attributes[j];
+              if (!attribute.nodeName.startsWith('data-')) {
+                continue;
               }
+              let working_value = attribute.nodeValue;
+              if (!working_value) {
+                continue;
+              }
+              let parsed_value: any;
+              // We can't do the "if it has no value it's truthy" trick
+              // Because getAttribute returns "", not null. Hate IE
+              if (working_value === '$true') {
+                parsed_value = true;
+              } else if (working_value === '$false') {
+                parsed_value = false;
+              } else {
+                const parsed_float = parseFloat(working_value);
+                if (!isNaN(parsed_float)) {
+                  parsed_value = parsed_float;
+                }
+              }
+              // treat as string if doesn't match specials
+              if (!parsed_value) {
+                parsed_value = working_value;
+              }
+              let canon_name = attribute.nodeName.replace('data-', '');
+              // html attributes don't support upper case chars, so we need to map
+              let remapped = TGUI_CHAT_ATTRIBUTE_REMAPS[canon_name];
+              if (remapped) {
+                canon_name = remapped;
+              } else {
+                // pretend - is an upper case
+                canon_name = canon_name.replaceAll(/-([a-z])/g, (_, letter) =>
+                  letter.toUpperCase(),
+                );
+              }
+              outputProps[canon_name] = working_value;
             }
-            // treat as string if doesn't match specials
-            if (!parsed_value) {
-              parsed_value = working_value;
+            const oldHtml = { __html: childNode.innerHTML };
+            while (childNode.firstChild) {
+              childNode.removeChild(childNode.firstChild);
             }
-            let canon_name = attribute.nodeName.replace('data-', '');
-            // html attributes don't support upper case chars, so we need to map
-            let remapped = TGUI_CHAT_ATTRIBUTE_REMAPS[canon_name];
-            if (remapped) {
-              canon_name = remapped;
+            const DataComponent = TGUI_CHAT_COMPONENTS[targetName];
+            const reactRoot = createRoot(childNode);
+            if (DataComponent) {
+              const interior = (
+                // eslint-disable-next-line react/no-danger
+                <span dangerouslySetInnerHTML={oldHtml} />
+              );
+              const rendering = (
+                <DataComponent {...outputProps}>{interior}</DataComponent>
+              );
+              reactRoot.render(rendering);
             } else {
-              // pretend - is an upper case
-              canon_name = canon_name.replaceAll(/-([a-z])/g, (_, letter) => letter.toUpperCase());
+              reactRoot.render(
+                <div>
+                  -- invalid data component &apos;{targetName}&apos;; contact a
+                  coder.
+                </div>,
+              );
             }
-            outputProps[canon_name] = working_value;
           }
-          const oldHtml = { __html: childNode.innerHTML };
-          while (childNode.firstChild) {
-            childNode.removeChild(childNode.firstChild);
-          }
-          // TODO: please type this properly
-          let DataComponent: any = null;
-          const reactRoot = createRoot(childNode);
-          if (Object.keys(TGUI_CHAT_COMPONENTS).includes(targetName)) {
-            DataComponent = TGUI_CHAT_COMPONENTS[targetName];
-            const interior = (
-              // eslint-disable-next-line react/no-danger
-              <span dangerouslySetInnerHTML={oldHtml} />
-            );
-            const rendering = (
-              <DataComponent {...outputProps}>
-                {interior}
-              </DataComponent>
-            );
-            reactRoot.render(rendering);
-          } else {
-            reactRoot.render((
-              <div>-- invalid data component &apos;{targetName}&apos;; contact a coder.</div>
-            ));
         }
 
         // Highlight text
@@ -505,15 +565,30 @@ class ChatRenderer {
           });
         }
         // Linkify text
-        const linkifyNodes = node.querySelectorAll('.linkify');
-        for (let i = 0; i < linkifyNodes.length; ++i) {
-          linkifyNode(linkifyNodes[i]);
+        if (message.html && message.html.includes('linkify')) {
+          const linkifyNodes = node.querySelectorAll('.linkify');
+          for (let i = 0; i < linkifyNodes.length; ++i) {
+            linkifyNode(linkifyNodes[i]);
+          }
         }
         // Assign an image error handler
-        if (now < message.createdAt + IMAGE_RETRY_MESSAGE_AGE) {
+        if (
+          message.html &&
+          message.html.includes('<img') &&
+          now < message.createdAt + IMAGE_RETRY_MESSAGE_AGE
+        ) {
           const imgNodes = node.querySelectorAll('img');
           for (let i = 0; i < imgNodes.length; i++) {
             const imgNode = imgNodes[i];
+            imgNode.addEventListener(
+              'load',
+              () => {
+                if (this.scrollTracking) {
+                  this.requestScrollToBottom();
+                }
+              },
+              { once: true },
+            );
             imgNode.addEventListener('error', handleImageError);
           }
         }
@@ -537,6 +612,7 @@ class ChatRenderer {
       if (canPageAcceptType(this.page, message.type)) {
         fragment.appendChild(node);
         this.visibleMessages.push(message);
+        changedAnyVisibleNode = true;
       }
     }
     if (insertedAnyNode) {
@@ -546,16 +622,15 @@ class ChatRenderer {
       } else {
         this.rootNode.appendChild(fragment);
       }
-      if (this.scrollTracking) {
-        setTimeout(() => this.scrollToBottom());
-      }
+    }
+    if (changedAnyVisibleNode && this.scrollTracking) {
+      this.requestScrollToBottom();
     }
     // Notify listeners that we have processed the batch
     if (notifyListeners) {
       this.events.emit('batchProcessed', countByType);
     }
   }
-}
 
   pruneMessages() {
     if (!this.isReady()) {

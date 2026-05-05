@@ -170,6 +170,12 @@
 #define TRADE_GOOD_TROPHY_DIREBEAR "TROPHY_DIREBEAR"
 #define TRADE_GOOD_TROPHY_TROLL "TROPHY_TROLL"
 
+// Magical (finished arcana, fulfilled via warehouse — any subtype of the tier parent
+// counts as that tier's good).
+#define TRADE_GOOD_ENCHSCROLL_BASIC "ENCHSCROLL_BASIC"
+#define TRADE_GOOD_ENCHSCROLL_SUPERIOR "ENCHSCROLL_SUPERIOR"
+#define TRADE_GOOD_ENCHSCROLL_GREATER "ENCHSCROLL_GREATER"
+
 // Potions (finished alchemy, fulfilled via warehouse by reagent volume, any container)
 #define TRADE_GOOD_HEALTH_POTION "HEALTH_POTION"
 #define TRADE_GOOD_STRONG_HEALTH_POTION "STRONG_HEALTH_POTION"
@@ -313,3 +319,10 @@
 // Stat-buff potions are showpiece alchemy. Uniform price - all four buff this round are
 // of equal mechanical weight, and pricing them differently invites min-maxing the petition.
 #define SELLPRICE_BUFF_POTION 48
+
+// Enchantment scrolls. Tier-priced — basic scrolls are a routine commission, greater
+// scrolls represent serious leyline-tier work. Mythics aren't shippable: they're bespoke
+// gear, not commodity output.
+#define SELLPRICE_ENCHSCROLL_BASIC 50
+#define SELLPRICE_ENCHSCROLL_SUPERIOR 100
+#define SELLPRICE_ENCHSCROLL_GREATER 150

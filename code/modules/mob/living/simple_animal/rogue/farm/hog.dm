@@ -8,6 +8,7 @@
 	icon_gib = "piggie_dead"
 	gender = FEMALE
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
+	blood_toll_bucket = STATS_KILLED_LIVESTOCK
 	emote_see = list("eyes the surroundings.", "flicks its ears.")
 	speak_chance = 1
 	turns_per_move = 5
