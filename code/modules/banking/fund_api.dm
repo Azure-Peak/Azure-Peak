@@ -218,7 +218,7 @@
 /datum/controller/subsystem/treasury/proc/compute_bathhouse_tithe(base_amount, rate)
 	if(base_amount <= 0 || rate <= 0)
 		return 0
-	if(!bathhouse_agreement_active)
+	if(!bathhouse_ordinance_active)
 		return 0
 	if(!church_fund)
 		return 0
@@ -227,12 +227,13 @@
 	if(skim <= 0)
 		return 0
 	bathhouse_tithe_debt -= skim
+	round_bathhouse_tithe_total += skim
 	return skim
 
 /datum/controller/subsystem/treasury/proc/remit_bathhouse_tithe(amount, reason)
 	if(amount <= 0 || !church_fund)
 		return
-	mint(church_fund, amount, "Bathhouse Agreement tithe ([reason])")
+	mint(church_fund, amount, "Ordinance of the Baths tithe ([reason])")
 
 /datum/controller/subsystem/treasury/proc/record_tax_exemption(tax_category, amount)
 	if(amount <= 0)

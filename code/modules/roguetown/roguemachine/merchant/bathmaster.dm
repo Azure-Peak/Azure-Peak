@@ -98,13 +98,15 @@
 		if(budget >= cost)
 			budget -= cost
 			if(!(upgrade_flags & UPGRADE_NOTAX))
-				SStreasury.mint(SStreasury.discretionary_fund, tax_amt, "[TAX_CATEGORY_IMPORT_TARIFF] (brassface)")
-				var/bathhouse_tithe = SStreasury.compute_bathhouse_tithe(cost, BATHHOUSE_BRASSFACE_TITHE_RATE)
-				if(bathhouse_tithe > 0 && SStreasury.discretionary_fund.balance >= bathhouse_tithe)
-					SStreasury.transfer(SStreasury.discretionary_fund, SStreasury.church_fund, bathhouse_tithe, "Bathhouse Agreement tithe (brassface)")
-				record_featured_stat(FEATURED_STATS_TAX_PAYERS, human_mob, tax_amt)
-				record_round_statistic(STATS_TAXES_COLLECTED, tax_amt)
-				record_round_statistic(STATS_REVENUE_IMPORT_TARIFF, tax_amt)
+				if(SStreasury.bathhouse_ordinance_active)
+					var/bathhouse_tithe = SStreasury.compute_bathhouse_tithe(cost, BATHHOUSE_BRASSFACE_TITHE_RATE)
+					if(bathhouse_tithe > 0)
+						SStreasury.mint(SStreasury.church_fund, bathhouse_tithe, "Ordinance of the Baths tithe (brassface)")
+				else
+					SStreasury.mint(SStreasury.discretionary_fund, tax_amt, "[TAX_CATEGORY_IMPORT_TARIFF] (brassface)")
+					record_featured_stat(FEATURED_STATS_TAX_PAYERS, human_mob, tax_amt)
+					record_round_statistic(STATS_TAXES_COLLECTED, tax_amt)
+					record_round_statistic(STATS_REVENUE_IMPORT_TARIFF, tax_amt)
 			else
 				record_round_statistic(STATS_TAXES_EVADED, tax_amt)
 		else
