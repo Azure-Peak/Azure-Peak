@@ -57,9 +57,6 @@
 			if(blood_volume <= BLOOD_VOLUME_BAD)
 				adjustOxyLoss(1)
 				if(blood_volume <= BLOOD_VOLUME_SURVIVE)
-					balloon_alert_to_viewers("<font color='#5b7ec4'>suffocating!</font>")
-					if(prob(15))
-						emote("gasp")
 					adjustOxyLoss(2)
 		else
 			remove_status_effect(/datum/status_effect/debuff/bleeding)
