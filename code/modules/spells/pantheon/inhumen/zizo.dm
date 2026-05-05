@@ -1,5 +1,5 @@
 /*//////////////
-// TO: Enochian
+// T0: Enochian
 A cantrip miracle that lets you delve towards Engineering, Sorcery and (evil) Medicine by using your Holy skill level.
 
 Main ingredients are going to be blood, organs, bones for catalysts, and normal run-up-the-mill ingredients. 
@@ -198,10 +198,10 @@ corpses and discarded junk*/
 	StartCooldown()
 	return TRUE
 
-// T0: Snuffs out fires/lights around area of the caster, greater range with higher HOLY skill
+// T0: Snuffs out fires/lights around area of the caster, greater range with higher HOLY skill. Also made it give you darksight for a few seconds, since I assume this being an escape tool.
 /obj/effect/proc_holder/spell/self/zizo_snuff
 	name = "Snuff Lights"
-	desc = "Extinguish all lights in range, with your Miracles skill increasing range."
+	desc = "Extinguish all lights in range, with your Miracle skill increasing the range."
 	action_icon = 'icons/mob/actions/zizomiracles.dmi'
 	overlay_icon = 'icons/mob/actions/zizomiracles.dmi'
 	overlay_state = "snufflight"
@@ -209,8 +209,6 @@ corpses and discarded junk*/
 	chargedrain = 0
 	chargetime = 0
 	chargedloop = /datum/looping_sound/invokeholy
-	invocations = list("exhales a dark grey smog, choking any lights nearby.")
-	invocation_type = "emote"
 	sound = 'sound/magic/zizo_snuff.ogg'
 	associated_skill = /datum/skill/magic/holy
 	antimagic_allowed = FALSE
@@ -219,24 +217,41 @@ corpses and discarded junk*/
 	devotion_cost = 30
 	range = 2
 
-/obj/effect/proc_holder/spell/self/zizo_snuff/cast(list/targets, mob/user = usr)
+/obj/effect/proc_holder/spell/self/zizo_snuff/cast(list/targets, mob/living/carbon/user = usr)
 	. = ..()
 	if(!ishuman(user))
 		revert_cast()
 		return FALSE
-	var/checkrange = (range + user.get_skill_level(/datum/skill/magic/holy)) //+1 range per holy skill up to a potential of 8.
+
+	var/extinguished_any = FALSE
+	var/checkrange = (range + user.get_skill_level(/datum/skill/magic/holy))
+
 	for(var/obj/O in range(checkrange, user))
-		O.extinguish()
+		if(O.extinguish())
+			extinguished_any = TRUE
+
 	for(var/mob/M in range(checkrange, user))
 		for(var/obj/O in M.contents)
-			O.extinguish()
+			if(O.extinguish())
+				extinguished_any = TRUE
+
+	var/has_buff = user.has_status_effect(/datum/status_effect/buff/shadow_eyes)
+
+	if(has_buff)
+		show_visible_message(user, span_purple("[user] exhales a dark grey smog, choking any lights nearby..."))
+	else if(extinguished_any)
+		show_visible_message(user, span_purple("[user] exhales a dark grey smog, choking any lights nearby... Their pupils dilating unnaturally."))
+	else
+		show_visible_message(user, span_purple("[user]'s opens their eyes wider, their pupils dilating unnaturally."))
+
+	user.apply_status_effect(/datum/status_effect/buff/shadow_eyes) // 15 seconds of improved night vision
+
 	return TRUE
 
-// T1: (fires a bone splinter at a target for brute and bleeding if you're not holding bones in your other hand, fires a significantly stronger bone lance if you are)
-
+// T1: Fires a bone projectile that gets empowered if you are holding, around or have a skeleton nearby, the latter will be damaged/delimbed, made it so missionaries get more juice out of this since they're just sitting ducks
 /obj/effect/proc_holder/spell/invoked/projectile/profane
 	name = "Profane"
-	desc = "Fire forth a splinter of unholy bone, tearing flesh and causing bleeding. If you hold pieces of bone in your other hand, you will coax a much stronger lance of bone into being."
+	desc = "Conjure forth a sharp splinter of necrotic bone. If you have any bones around you, on your hands or a skeleton is nearby, you will coax forth a jagged lance of bone shards instead."
 	clothes_req = FALSE
 	action_icon = 'icons/mob/actions/zizomiracles.dmi'
 	overlay_icon = 'icons/mob/actions/zizomiracles.dmi'
@@ -260,34 +275,25 @@ corpses and discarded junk*/
 /obj/effect/proc_holder/spell/invoked/projectile/profane/fire_projectile(mob/living/user, atom/target)
 	current_amount--
 
-	var/obj/item/held_item = user.get_active_held_item()
-	var/big_cast = FALSE
-	if (istype(held_item, /obj/item/natural/bundle/bone))
-		var/obj/item/natural/bundle/bone/bonez = held_item
-		if (bonez.use(1))
-			projectile_type = /obj/projectile/magic/profane/major
-			big_cast = TRUE
-	else if (istype(held_item, /obj/item/natural/bone))
-		qdel(held_item)
-		projectile_type = /obj/projectile/magic/profane/major
-		big_cast = TRUE
-	else if (istype(held_item, /obj/item/natural/bundle/bone))
-		var/obj/item/natural/bundle/bone/boney_bundle = held_item
-		if (boney_bundle.use(1))
-			projectile_type = /obj/projectile/magic/profane/major
-			big_cast = TRUE
+	var/big_cast = consume_bone_fuel(user, 1)
 
-	var/obj/projectile/P = new projectile_type(user.loc)
+	var/type_to_fire = big_cast ? /obj/projectile/magic/profane/major : /obj/projectile/magic/profane
+
+	var/obj/projectile/magic/profane/P = new type_to_fire(user.loc)
 	P.firer = user
+
+	if(is_missionary(user))
+		P.damage += 10
+		P.embed_prob += 50
+		P.armor_penetration = PEN_LIGHT
+
 	P.preparePixelProjectile(target, user)
 	P.fire()
 
-	if (big_cast)
-		user.visible_message(span_danger("[user] conjures and hurls a vicious lance of bone towards [target]!"), span_notice("I hurl a vicious lance of bone at [target]!")) 						//hehe. vicious lance of bone
+	if(big_cast)
+		user.visible_message(span_danger("[user] conjures and hurls a vicious lance of bone towards [target]!"),span_notice("I hurl a vicious lance of bone at [target]!"))
 	else
-		user.visible_message(span_danger("[user] swings their arm in a wide arc, hurling a splinter of bone towards [target]!"), span_notice("I fling a shard of profaned bone at [target]!"))
-
-	projectile_type = initial(projectile_type)
+		user.visible_message(span_danger("[user] swings their arm in a wide arc, hurling a splinter of bone towards [target]!"),span_notice("I fling a shard of profaned bone at [target]!"))
 
 /obj/projectile/magic/profane
 	name = "profaned bone splinter"
@@ -323,37 +329,38 @@ corpses and discarded junk*/
 	to_chat(user, span_danger("[src] crumbles into dust..."))
 	qdel(src)
 
-// T2: just use lesser animate undead for now
-
-/obj/effect/proc_holder/spell/invoked/raise_undead_formation/miracle
-	action_icon = 'icons/mob/actions/zizomiracles.dmi'
-	overlay_icon = 'icons/mob/actions/zizomiracles.dmi'
-	overlay_state = "skeleton_formation"
-	miracle = TRUE
-	devotion_cost = 75
-	cabal_affine = TRUE
-	to_spawn = 1
-
-// T2: carbon spawn
-
-/obj/effect/proc_holder/spell/invoked/raise_undead_guard/miracle
-	action_icon = 'icons/mob/actions/zizomiracles.dmi'
-	overlay_icon = 'icons/mob/actions/zizomiracles.dmi'
-	overlay_state = "skeleton"
-	name = "Raise Deadite"
-	desc = "Raises a singular, weak deadite."
-	chargetime = 3 SECONDS
-	miracle = TRUE
-	devotion_cost = 75
-
-// T3: tames bio_type = undead mobs
-
+// T2: tames bio_type = undead mobs
 /obj/effect/proc_holder/spell/invoked/tame_undead/miracle
 	action_icon = 'icons/mob/actions/zizomiracles.dmi'
 	overlay_icon = 'icons/mob/actions/zizomiracles.dmi'
 	overlay_state = "deadite_tame"
 	miracle = TRUE
-	devotion_cost = 100
+	devotion_cost = 100 
+	chargetime = 2 SECONDS // turned this into a T2 for now, it's not worthy being a T3 in terms of what it does
+
+// T2: raise simple_animal deadite, way more obedient and less temperamental than carbon
+/obj/effect/proc_holder/spell/invoked/raise_undead_formation/miracle
+	name = "Raise Lesser Deadite"
+	desc = "Reanimates bones from within the area into a single Deadite of a simpler physiology. They are easier to control than their more complex counterparts."
+	action_icon = 'icons/mob/actions/zizomiracles.dmi'
+	overlay_icon = 'icons/mob/actions/zizomiracles.dmi'
+	overlay_state = "skeleton_formation"
+	miracle = TRUE
+	devotion_cost = 60
+	cabal_affine = TRUE
+	to_spawn = 1
+	chargetime = 2 SECONDS // previously, 'to_spawn' spawned 3 of them, so 6 seconds cast time, now it's 1, so /3 is 2, quikmafs.
+
+// T3: carbon spawn, now a T3, I'm going to be hated for this but cest la vie
+/obj/effect/proc_holder/spell/invoked/raise_undead_guard/miracle
+	action_icon = 'icons/mob/actions/zizomiracles.dmi'
+	overlay_icon = 'icons/mob/actions/zizomiracles.dmi'
+	overlay_state = "skeleton"
+	name = "Raise Greater Deadite"
+	desc = "Raises a single skeletal Deadite with a more complex physiology, trading the ability to properly control them for a more robust field asset."
+	chargetime = 3 SECONDS
+	miracle = TRUE
+	devotion_cost = 80
 
 // T3: Rituos - Zizo's Lesser Work. A single painful ritual that grants the caster a choice:
 // Progress: Arcyne knowledge (2 minor aspects, 4 utilities). No skeletonization.

@@ -29,6 +29,7 @@
 	var/cd_slam = 0
 	var/cd_blast = 0
 	var/deleting = FALSE
+	var/mob/living/pending_corpse
 
 /obj/item/melee/touch_attack/enochian_force/attack_self()
 	if(deleting)
@@ -50,127 +51,137 @@
 	return ..()
 
 /obj/item/melee/touch_attack/enochian_force/afterattack(atom/target, mob/living/user, proximity)
-	if(!isliving(target))
-		return
-	if(target == user)
-		return
-	var/mob/living/L = target
-	if(QDELETED(L))
-		return
-	if(get_dist(user, L) > 6)
-		return FALSE
+	// Clean stale corpse reference
+	if(pending_corpse && (QDELETED(pending_corpse) || pending_corpse.stat != DEAD))
+		pending_corpse = null
 
-	var/is_npc = (!L.mind && !L.key)
-	var/list/cds = get_cd(is_npc)
-
-	if(L.stat == DEAD)
-		var/turf/T = get_turf(target)
-		if(!T)
+	// If a corpse is marked and we click a turf -> relocate corpse
+	if(pending_corpse && isturf(target))
+		var/turf/destination = get_turf(target)
+		if(!destination)
+			pending_corpse = null
 			return
-		new /obj/effect/temp_visual/cleaning_pulse(T)
-		var/obj/effect/temp_visual/tele = new(T)
+
+		if(get_dist(user, destination) > 6)
+			to_chat(user, span_warning("That location is too far away."))
+			return
+
+		var/turf/origin = get_turf(pending_corpse)
+
+		if(origin)
+			new /obj/effect/temp_visual/cleaning_pulse(origin)
+
+		var/obj/effect/temp_visual/tele = new(destination)
 		tele.icon = 'icons/effects/effects.dmi'
 		tele.icon_state = "leylinerupture"
 		tele.duration = 1 SECONDS
-		playsound(L.loc, 'sound/magic/swap.ogg', 60, TRUE)
-		L.forceMove(get_turf(user))
-		new /obj/effect/temp_visual/cleaning_pulse(get_turf(user))
+
+		playsound(destination, 'sound/magic/swap.ogg', 60, TRUE)
+
+		pending_corpse.forceMove(destination)
+
+		new /obj/effect/temp_visual/cleaning_pulse(destination)
+
+		to_chat(user, span_notice("You relocate [pending_corpse]."))
+		pending_corpse = null
 		return
 
-	switch(user.used_intent.type)
+	if(!isliving(target) || target == user)
+		return
 
-		// SHOVE
+	var/mob/living/L = target
+	if(QDELETED(L))
+		return
+
+	if(get_dist(user, L) > 6)
+		return FALSE
+
+	// DEAD TARGET LOGIC
+	if(L.stat == DEAD)
+		var/turf/user_turf = get_turf(user)
+		if(!user_turf)
+			pending_corpse = null
+			return
+
+		// Same corpse clicked twice → summon to user
+		if(pending_corpse == L)
+			var/turf/origin = get_turf(L)
+
+			if(origin)
+				new /obj/effect/temp_visual/cleaning_pulse(origin)
+
+			var/obj/effect/temp_visual/tele = new(user_turf)
+			tele.icon = 'icons/effects/effects.dmi'
+			tele.icon_state = "leylinerupture"
+			tele.duration = 1 SECONDS
+
+			playsound(user_turf, 'sound/magic/swap.ogg', 60, TRUE)
+
+			L.forceMove(user_turf)
+
+			new /obj/effect/temp_visual/cleaning_pulse(user_turf)
+
+			to_chat(user, span_notice("You summon [L] to your side."))
+			pending_corpse = null
+			return
+
+		// Different corpse clicked → summon both
+		if(pending_corpse && pending_corpse != L)
+			var/turf/origin_a = get_turf(pending_corpse)
+			var/turf/origin_b = get_turf(L)
+
+			if(origin_a)
+				new /obj/effect/temp_visual/cleaning_pulse(origin_a)
+
+			if(origin_b)
+				new /obj/effect/temp_visual/cleaning_pulse(origin_b)
+
+			var/obj/effect/temp_visual/tele = new(user_turf)
+			tele.icon = 'icons/effects/effects.dmi'
+			tele.icon_state = "leylinerupture"
+			tele.duration = 1 SECONDS
+
+			playsound(user_turf, 'sound/magic/swap.ogg', 60, TRUE)
+
+			pending_corpse.forceMove(user_turf)
+			L.forceMove(user_turf)
+
+			new /obj/effect/temp_visual/cleaning_pulse(user_turf)
+
+			to_chat(user, span_notice("You wrench both corpses to your side."))
+			pending_corpse = null
+			return
+
+		// First corpse click → mark corpse
+		pending_corpse = L
+		to_chat(user, span_notice("You mark [L]. Click them again to summon them, click another corpse to summon both, or click a turf to relocate them."))
+		return
+
+	// LIVING TARGET LOGIC
+	var/is_npc = (!L.mind && !L.key)
+	var/list/cds = get_cd(is_npc)
+
+	switch(user.used_intent.type)
+		// Simple push, more effective vs NPCs
 		if(/datum/intent/sans/push)
 			if(world.time < cd_push)
 				return
 			cd_push = world.time + cds["push"]
-
-			var/list/thrown = list(L)
-
-			for(var/am in thrown)
-				var/atom/movable/AM = am
-				if(AM == user || AM.anchored)
-					continue
-
-				var/turf/throwtarget = get_edge_target_turf(user, get_dir(user, get_step_away(AM, user)))
-				var/dist = get_dist(user, AM)
-
-				if(dist <= 1)
-					if(isliving(AM))
-						var/mob/living/M = AM
-						M.set_resting(TRUE, TRUE)
-						M.adjustBruteLoss(20)
-						to_chat(M, span_danger("You're slammed into the ground by [user]!"))
-				else
-					if(isliving(AM))
-						var/mob/living/M = AM
-						M.set_resting(TRUE, TRUE)
-						to_chat(M, span_danger("You're violently repelled by [user]!"))
-
-					AM.safe_throw_at(
-						throwtarget,
-						CLAMP(6 - (dist - 1), 3, 6),
-						1,
-						user,
-						force = MOVE_FORCE_EXTREMELY_STRONG
-					)
-
-			user.visible_message(
-				span_notice("[user] releases a violent wave of force, repelling [L]!"),
-				span_notice("I violently shove [L] away.")
-			)
-
-
-		// PULL 
+			do_push(user, L)
+		// Simple pull, more effective vs NPCs
 		if(/datum/intent/sans/pull)
 			if(world.time < cd_pull)
 				return
 			cd_pull = world.time + cds["pull"]
-
-			var/list/thrown = list(L)
-
-			for(var/am in thrown)
-				var/atom/movable/AM = am
-				if(AM == user || AM.anchored)
-					continue
-
-				var/turf/throwtarget = get_turf(user)
-				var/dist = get_dist(user, AM)
-
-				if(dist <= 1)
-					if(isliving(AM))
-						var/mob/living/M = AM
-						M.set_resting(TRUE, TRUE)
-						M.adjustBruteLoss(15)
-						to_chat(M, span_danger("You're violently crushed into [user]!"))
-				else
-					if(isliving(AM))
-						var/mob/living/M = AM
-						M.set_resting(TRUE, TRUE)
-						to_chat(M, span_danger("You're dragged toward [user] by unseen force!"))
-
-					AM.safe_throw_at(
-						throwtarget,
-						CLAMP(6 - (dist - 1), 3, 6),
-						1,
-						user,
-						force = MOVE_FORCE_EXTREMELY_STRONG
-					)
-
-			user.visible_message(
-				span_notice("[user] clenches their hand, dragging [L] forward!"),
-				span_notice("I pull [L] toward me.")
-			)
-
-		// SLAM
+			do_pull (user, L)
+		// Grasps remotely and slams down someone, more effective vs NPCs, Unlife path gives a more gruesome version, NPC only
 		if(/datum/intent/sans/slam)
 			if(world.time < cd_slam)
 				to_chat(user, span_warning("The force is still stabilizing."))
 				return
 			cd_slam = world.time + cds["slam"]
 			do_slam(user, L)
-
-		// BLAST
+		// Blasts an enemy with two Void Obelisks, can misfire sometimes lol, feature
 		if(/datum/intent/sans/blast)
 			if(world.time < cd_blast)
 				to_chat(user, span_warning("The force is still stabilizing."))

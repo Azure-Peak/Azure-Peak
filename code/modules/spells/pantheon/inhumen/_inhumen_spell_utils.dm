@@ -2,6 +2,145 @@
 //ZIZO//
 ////////
 
+/atom/movable/screen/alert/status_effect/buff/shadow_eyes
+	name = "Clarity in Darkness"
+	desc = "In shadows, I see the true path to progress."
+	icon_state = "darkvision"
+
+/datum/status_effect/buff/shadow_eyes
+	id = "darkvision"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/shadow_eyes
+	duration = 15 SECONDS 
+	status_type = STATUS_EFFECT_REFRESH
+
+/datum/status_effect/buff/shadow_eyes/on_apply()
+	. = ..()
+	ADD_TRAIT(owner, TRAIT_NITEVISION, "zizosnuff")
+	owner.update_sight()
+
+/datum/status_effect/buff/twinned_gaze/on_remove()
+	. = ..()
+	REMOVE_TRAIT(owner, TRAIT_NITEVISION, "zizosnuff")
+	show_visible_message(owner, "[owner]'s eyes return to normal.", "Your eyes return to normal.")
+	owner.update_sight()
+
+/proc/is_missionary(mob/living/user)
+	if(!istype(user, /mob/living/carbon/human))
+		return FALSE
+
+	var/mob/living/carbon/human/H = user
+	if(!H?.advjob)
+		return FALSE
+
+	var/datum/advclass/A = SSrole_class_handler.get_advclass_by_name(H.advjob)
+	if(istype(A, /datum/advclass/cleric/missionary))
+		return TRUE
+
+	return FALSE
+
+/proc/consume_bone_fuel(mob/living/user, amount)
+	var/available = 0
+
+	var/list/bundles = list()
+	var/list/singles = list()
+	var/list/skeletons = list()
+
+	// on hands
+	for(var/obj/item/I in user.get_equipped_items())
+		if(istype(I, /obj/item/natural/bundle/bone))
+			var/obj/item/natural/bundle/bone/B = I
+			bundles += B
+			available += B.amount
+
+		else if(istype(I, /obj/item/natural/bone))
+			singles += I
+			available++
+
+	// bones on floor, 2 range
+	for(var/obj/item/I in range(2, user))
+		if(I.loc == user)
+			continue
+
+		if(istype(I, /obj/item/natural/bundle/bone))
+			var/obj/item/natural/bundle/bone/B = I
+			bundles += B
+			available += B.amount
+
+		else if(istype(I, /obj/item/natural/bone))
+			singles += I
+			available++
+
+	// uses skeletons too, 3 range
+	for(var/mob/living/S in range(3, user))
+		if(S == user)
+			continue
+
+		if(S.mind && !length(S.faction & user.faction))
+			continue
+
+		if(iscarbon(S))
+			var/mob/living/carbon/C = S
+			var/valid = FALSE
+
+			for(var/obj/item/bodypart/BP in C.bodyparts)
+				if(BP && BP.body_zone != BODY_ZONE_HEAD)
+					valid = TRUE
+					break
+
+			if(!valid)
+				continue
+
+		skeletons += S
+		available++
+
+	// rip
+	if(available < amount)
+		return FALSE
+
+	var/remaining = amount
+
+	// bundle nommer
+	for(var/obj/item/natural/bundle/bone/B in bundles)
+		if(remaining <= 0)
+			break
+
+		var/to_use = min(remaining, B.amount)
+		if(to_use > 0 && B.use(to_use))
+			remaining -= to_use
+
+	// bone nommer
+	for(var/obj/item/natural/bone/B in singles)
+		if(remaining <= 0)
+			break
+
+		qdel(B)
+		remaining--
+
+	// skeleton nommer
+	for(var/mob/living/S in skeletons)
+		if(remaining <= 0)
+			break
+
+		if(iscarbon(S))
+			var/mob/living/carbon/C = S
+			var/list/limbs = list()
+
+			for(var/obj/item/bodypart/BP in C.bodyparts)
+				if(BP && BP.body_zone != BODY_ZONE_HEAD)
+					limbs += BP
+
+			if(length(limbs))
+				var/obj/item/bodypart/L = pick(limbs)
+				L.dismember()
+				user.visible_message(span_purple("[user] violently tears bone from [S]!"),span_purple("I rip a limb from [S]!"))
+				remaining--
+		else
+			S.adjustBruteLoss(90)
+			user.visible_message(span_purple("[user] violently siphons necrotic essence from [S]!"),span_purple("I draw power from [S]!"))
+			remaining--
+
+	return TRUE
+
 /obj/structure/ritualcircle/profane/melding/proc/meld_corpse(mob/living/user)
 	var/turf/T = get_turf(src)
 	if(!T)
@@ -558,6 +697,89 @@
 	limbs_removed = TRUE
 
 #undef ENOCHIAN_FILTER
+
+/obj/item/melee/touch_attack/enochian_force/proc/do_push(mob/living/user, mob/living/target)
+	if(!user || !target)
+		return
+
+	var/list/thrown = list(target)
+
+	for(var/am in thrown)
+		var/atom/movable/AM = am
+		if(AM == user || AM.anchored)
+			continue
+
+		var/turf/throwtarget = get_edge_target_turf(
+			user,
+			get_dir(user, get_step_away(AM, user))
+		)
+
+		var/dist = get_dist(user, AM)
+
+		if(dist <= 1)
+			if(isliving(AM))
+				var/mob/living/M = AM
+				M.set_resting(TRUE, TRUE)
+				M.adjustBruteLoss(20)
+				to_chat(M, span_danger("You're slammed into the ground by [user]!"))
+		else
+			if(isliving(AM))
+				var/mob/living/M = AM
+				M.set_resting(TRUE, TRUE)
+				to_chat(M, span_danger("You're violently repelled by [user]!"))
+
+			AM.safe_throw_at(
+				throwtarget,
+				CLAMP(6 - (dist - 1), 3, 6),
+				1,
+				user,
+				force = MOVE_FORCE_EXTREMELY_STRONG
+			)
+
+	user.visible_message(
+		span_notice("[user] releases a violent wave of force, repelling [target]!"),
+		span_notice("I violently shove [target] away.")
+	)
+
+
+/obj/item/melee/touch_attack/enochian_force/proc/do_pull(mob/living/user, mob/living/target)
+	if(!user || !target)
+		return
+
+	var/list/thrown = list(target)
+
+	for(var/am in thrown)
+		var/atom/movable/AM = am
+		if(AM == user || AM.anchored)
+			continue
+
+		var/turf/throwtarget = get_turf(user)
+		var/dist = get_dist(user, AM)
+
+		if(dist <= 1)
+			if(isliving(AM))
+				var/mob/living/M = AM
+				M.set_resting(TRUE, TRUE)
+				M.adjustBruteLoss(15)
+				to_chat(M, span_danger("You're violently crushed into [user]!"))
+		else
+			if(isliving(AM))
+				var/mob/living/M = AM
+				M.set_resting(TRUE, TRUE)
+				to_chat(M, span_danger("You're dragged toward [user] by unseen force!"))
+
+			AM.safe_throw_at(
+				throwtarget,
+				CLAMP(6 - (dist - 1), 3, 6),
+				1,
+				user,
+				force = MOVE_FORCE_EXTREMELY_STRONG
+			)
+
+	user.visible_message(
+		span_notice("[user] clenches their hand, dragging [target] forward!"),
+		span_notice("I pull [target] toward me.")
+	)
 
 /obj/item/melee/touch_attack/enochian_force/proc/do_blast(mob/living/user, mob/living/target)
 	if(!target || QDELETED(target))
