@@ -41,7 +41,7 @@ GLOBAL_LIST_INIT(vampire_clan_selection_i18n, build_vampire_clan_selection_i18n(
 
 /datum/vampire_clan_selection_menu/ui_close(mob/user)
 	if(antag && !antag.clan_selected)
-		antag.finalize_default_clan_selection(vampdude)
+		INVOKE_ASYNC(antag, TYPE_PROC_REF(/datum/antagonist/vampire, finalize_default_clan_selection), vampdude)
 	qdel(src)
 
 /datum/vampire_clan_selection_menu/ui_data(mob/user)
