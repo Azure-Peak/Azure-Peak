@@ -1,4 +1,0 @@
-author: "borneblood"
-delete-after: True
-changes:
-  - balance: "Self-Sustenance trait now also behaves like Failed Squire for repair purposes."

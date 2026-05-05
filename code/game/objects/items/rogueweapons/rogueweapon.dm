@@ -21,7 +21,7 @@
 	parrysound = list('sound/combat/parry/parrygen.ogg')
 	break_sound = 'sound/foley/breaksound.ogg'
 	anvilrepair = /datum/skill/craft/weaponsmithing
-	obj_flags = CAN_BE_HIT | UNIQUE_RENAME
+	obj_flags = CAN_BE_HIT | UNIQUE_RENAME | CLAMP_BREAK
 	blade_dulling = null
 	max_integrity = 250
 	integrity_failure = 0.2
@@ -59,7 +59,7 @@
 	. = ..()
 	if(istype(src, /obj/item/rogueweapon/shield))
 		return
-	if(implement_multiplier)
+	if(implement_refund)
 		return
 	if(isliving(user))
 		var/mob/living/L = user

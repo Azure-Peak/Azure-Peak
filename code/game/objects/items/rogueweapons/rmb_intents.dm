@@ -41,7 +41,7 @@
 	var/mob/living/carbon/human/HU = user
 	var/target_zone = HT.zone_selected
 	var/user_zone = HU.zone_selected
-	var/newcd = (BASE_RCLICK_CD - HU.get_tempo_bonus(TEMPO_TAG_RCLICK_CD_BONUS))
+	var/newcd = (BAIT_RCLICK_CD - HU.get_tempo_bonus(TEMPO_TAG_RCLICK_CD_BONUS))
 
 	if(HT.has_status_effect(/datum/status_effect/debuff/baited) || user.has_status_effect(/datum/status_effect/debuff/baitcd))
 		return	//We don't do anything if either of us is affected by bait statuses
@@ -79,6 +79,8 @@
 		if(ARMOR_CLASS_HEAVY)
 			fatiguemod = 3
 
+
+	HT.interrupt_spell_channel()
 
 	HT.apply_status_effect(/datum/status_effect/debuff/baited)
 	HT.apply_status_effect(/datum/status_effect/debuff/exposed)
@@ -247,7 +249,10 @@
 			L.changeNext_def(clamp(L.dodgetime - 2, 0, CLICK_CD_DODGE))
 			L.changeMaxDodge(-2)
 		return
-	
+
+	L.interrupt_spell_channel()
+
+
 	var/effect_to_apply = (L.mind ? /datum/status_effect/debuff/vulnerable : /datum/status_effect/debuff/exposed)
 
 	L.apply_status_effect(effect_to_apply, feintdur)

@@ -75,13 +75,13 @@
 		var/datum/antagonist/new_antag = new /datum/antagonist/suitor()
 		H.mind.add_antag_datum(new_antag)*/
 	if(H.mind)
-		SStreasury.give_money_account(ECONOMIC_RICH, H, "Savings.")
+		SStreasury.grant_savings(ECONOMIC_RICH, H)
 
 /datum/advclass/suitor/schemer
 	name = "Schemer"
 	tutorial = "You're a silver-tongued snake - master of whispers, poison, and perfectly timed accidents. Why win hearts when you can twist them? With rivals removed and secrets weaponized, they will learn your value."
 	outfit = /datum/outfit/job/roguetown/suitor/schemer
-	traits_applied = list(TRAIT_CICERONE, TRAIT_LIGHT_STEP)
+	traits_applied = list(TRAIT_CICERONE, TRAIT_LIGHT_STEP, TRAIT_ALCHEMY_EXPERT)
 	category_tags = list(CTAG_CONSORT)
 	subclass_stats = list(
 		STATKEY_SPD = 3,
@@ -126,7 +126,7 @@
 		var/datum/antagonist/new_antag = new /datum/antagonist/suitor()
 		H.mind.add_antag_datum(new_antag)*/
 	if(H.mind)
-		SStreasury.give_money_account(ECONOMIC_RICH, H, "Savings.")
+		SStreasury.grant_savings(ECONOMIC_RICH, H)
 
 /datum/advclass/suitor/gallant
 	name = "Gallant"
@@ -174,7 +174,7 @@
 		var/datum/antagonist/new_antag = new /datum/antagonist/suitor()
 		H.mind.add_antag_datum(new_antag)*/
 	if(H.mind)
-		SStreasury.give_money_account(ECONOMIC_RICH, H, "Savings.")
+		SStreasury.grant_savings(ECONOMIC_RICH, H)
 
 
 /obj/item/clothing/head/roguetown/roguehood/shalal/hijab/gallant

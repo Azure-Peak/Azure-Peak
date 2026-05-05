@@ -16,6 +16,7 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 	icon_state = "goblin"
 	race = /datum/species/goblin
 	gender = MALE
+	blood_toll_bucket = STATS_KILLED_GOBLINS
 	bodyparts = list(/obj/item/bodypart/chest/goblin, /obj/item/bodypart/head/goblin, /obj/item/bodypart/l_arm/goblin,
 					/obj/item/bodypart/r_arm/goblin, /obj/item/bodypart/r_leg/goblin, /obj/item/bodypart/l_leg/goblin)
 	rot_type = /datum/component/rot/corpse/goblin
@@ -30,7 +31,7 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 	dodgetime = 30
 
 /mob/living/carbon/human/species/goblin/npc/ambush
-	threat_point = THREAT_LOW
+	threat_point = THREAT_TRASH
 	ambush_faction = "goblins"
 
 /mob/living/carbon/human/species/goblin/npc/archer
@@ -66,7 +67,7 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 	race = /datum/species/goblin/cave
 
 /mob/living/carbon/human/species/goblin/npc/ambush/cave
-	threat_point = THREAT_LOW
+	threat_point = THREAT_TRASH
 	race = /datum/species/goblin/cave
 
 /datum/species/goblin/cave
@@ -77,11 +78,11 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 	name = "sea goblin"
 	race = /datum/species/goblin/sea
 /mob/living/carbon/human/species/goblin/npc/sea
-	threat_point = THREAT_LOW
+	threat_point = THREAT_TRASH
 	ambush_faction = "goblins"
 	race = /datum/species/goblin/sea
 /mob/living/carbon/human/species/goblin/npc/ambush/sea
-	threat_point = THREAT_LOW
+	threat_point = THREAT_TRASH
 	race = /datum/species/goblin/sea
 /datum/species/goblin/sea
 	raceicon = "goblin_sea"
@@ -93,7 +94,7 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 /mob/living/carbon/human/species/goblin/npc/moon
 	race = /datum/species/goblin/moon
 /mob/living/carbon/human/species/goblin/npc/ambush/moon
-	threat_point = THREAT_LOW
+	threat_point = THREAT_TRASH
 	race = /datum/species/goblin/moon
 /datum/species/goblin/moon
 	id = "goblin_moon"
@@ -253,6 +254,8 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 		QDEL_NULL(cf)
 	update_body()
 	faction = list(FACTION_ORCS)
+	if(is_species(src, /datum/species/goblin/hell))
+		faction += FACTION_INFERNAL
 	name = "goblin"
 	real_name = "goblin"
 	ADD_TRAIT(src, TRAIT_NOMOOD, TRAIT_GENERIC)
@@ -327,7 +330,8 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 		H.STAINT = 8
 	else
 		H.STAINT = 4
-	var/loadout = rand(1,8)
+	// Stopgap: bow (was 6) and slinger (was 7) loadouts removed from the random pool because the ranged NPC AI is unreliable. Bomber moved into the freed slot.
+	var/loadout = rand(1,6)
 	switch(loadout)
 		if(1) //tribal spear
 			r_hand = /obj/item/rogueweapon/spear/stone
@@ -369,22 +373,7 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 			if(prob(20))
 				r_hand = /obj/item/rogueweapon/flail
 				l_hand = /obj/item/rogueweapon/shield/wood
-		if(6) // bow archer
-			r_hand = /obj/item/rogueweapon/huntingknife/stoneknife
-			backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow
-			backl = /obj/item/quiver/stonearrows
-			armor = /obj/item/clothing/suit/roguetown/armor/leather/hide/goblin
-			H.STASTR -= 2
-			H.STAPER += 3
-			H.adjust_skillrank(/datum/skill/combat/bows, 2, TRUE)
-			H.upgrade_ai_controller(/datum/ai_controller/human_npc/archer)
-		if(7) // slinger
-			r_hand = /obj/item/rogueweapon/huntingknife/stoneknife
-			wrists = /obj/item/gun/ballistic/revolver/grenadelauncher/sling
-			neck = /obj/item/quiver/sling/stone
-			armor = /obj/item/clothing/suit/roguetown/armor/leather/hide/goblin
-			H.adjust_skillrank(/datum/skill/combat/slings, 2, TRUE)
-		if(8) // bottle bomber
+		if(6) // bottle bomber
 			r_hand = /obj/item/rogueweapon/huntingknife/stoneknife
 			neck = /obj/item/storage/belt/rogue/pouch/bombs
 			armor = /obj/item/clothing/suit/roguetown/armor/leather/hide/goblin

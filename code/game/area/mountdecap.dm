@@ -6,6 +6,7 @@
 	ambush_mobs = list(
 				// Singles — budget filler across all factions
 				/mob/living/carbon/human/species/human/northern/highwayman/ambush = 15,
+				/mob/living/carbon/human/species/human/northern/highwayman/mount_reaver = 15,
 				/mob/living/carbon/human/species/skeleton/npc/medium = 15,
 				/mob/living/carbon/human/species/skeleton/npc/hard = 10,
 				/mob/living/simple_animal/hostile/retaliate/rogue/direbear = 10,
@@ -30,6 +31,7 @@
 	detail_text = DETAIL_TEXT_DECAP
 
 /area/rogue/indoors/shelter/mountains/decap
+	name = "Mount Decapitation"
 	icon_state = "decap"
 	loot_budget = LOOT_BUDGET_DECAP_SHELTERS
 	loot_pool_key = "decap_shelters"

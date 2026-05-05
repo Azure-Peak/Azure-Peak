@@ -7,6 +7,7 @@
 
 	race = /datum/species/orc
 	gender = MALE
+	blood_toll_bucket = STATS_KILLED_ORCS
 	bodyparts = list(/obj/item/bodypart/chest, /obj/item/bodypart/head, /obj/item/bodypart/l_arm,
 					 /obj/item/bodypart/r_arm, /obj/item/bodypart/r_leg, /obj/item/bodypart/l_leg)
 	ambushable = FALSE

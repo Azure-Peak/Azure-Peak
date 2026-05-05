@@ -543,7 +543,7 @@
 		if(HU.anti_magic_check()) //are we shielded?
 			return
 
-		if(!(HU in SStreasury.bank_accounts)) //first off- do we not have an account? we'll ALWAYS scream if that's the case
+		if(!SStreasury.has_account(HU)) //first off- do we not have an account? we'll ALWAYS scream if that's the case
 			playsound(loc, 'sound/misc/gold_license.ogg', 100, TRUE, -1)
 			say("INTRUS! ARRESTEZ-VOUS! GARDES! GARDES! MAROUFLE A MORTIR!!")
 			next_yap = world.time + 6 SECONDS
@@ -573,7 +573,7 @@
 			next_yap = world.time + 30 SECONDS
 			return
 
-		if((HU in SStreasury.bank_accounts)) //Anyone else
+		if(SStreasury.has_account(HU)) //Anyone else
 			playsound(loc, 'sound/misc/gold_menu.ogg', 100, TRUE, -1)
 			say("[user.real_name] logged entering zone securisee.")
 			return

@@ -7,6 +7,7 @@
 	icon_dead = "skeleton_dead"
 	gender = MALE
 	mob_biotypes = MOB_UNDEAD|MOB_HUMANOID
+	blood_toll_bucket = STATS_KILLED_DEADITES
 	robust_searching = 1
 	turns_per_move = 1
 	move_to_delay = 3

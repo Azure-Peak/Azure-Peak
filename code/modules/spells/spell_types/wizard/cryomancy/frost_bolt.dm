@@ -27,7 +27,6 @@
 	charge_slowdown = CHARGING_SLOWDOWN_NONE
 	charge_sound = 'sound/magic/charging.ogg'
 	cooldown_time = 5.5 SECONDS
-	is_implement_scaled_spell = TRUE
 	attunement_school = ASPECT_NAME_CRYOMANCY
 
 	associated_skill = /datum/skill/magic/arcane
@@ -38,7 +37,7 @@
 /obj/projectile/magic/frostbolt
 	name = "frost bolt"
 	icon_state = "ice_2"
-	damage = 28
+	damage = 33
 	npc_simple_damage_mult = 2
 	damage_type = BURN
 	woundclass = BCLASS_BURN
@@ -50,7 +49,7 @@
 
 /obj/projectile/magic/frostbolt/arc
 	name = "arced frost bolt"
-	damage = 21
+	damage = 25
 	arcshot = TRUE
 
 /obj/projectile/magic/frostbolt/on_hit(target)

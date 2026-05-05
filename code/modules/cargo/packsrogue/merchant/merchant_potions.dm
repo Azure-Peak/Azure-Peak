@@ -51,10 +51,10 @@
 	cost = 50
 	contains = list(/obj/item/reagent_containers/glass/bottle/alchemical/perpot)
 
-/datum/supply_pack/rogue/potions/endpot
+/datum/supply_pack/rogue/potions/willpot
 	name = "Willpower Potion"
 	cost = 50
-	contains = list(/obj/item/reagent_containers/glass/bottle/alchemical/endpot)
+	contains = list(/obj/item/reagent_containers/glass/bottle/alchemical/willpot)
 
 /datum/supply_pack/rogue/potions/conpot
 	name = "Constitution Potion"

@@ -80,4 +80,4 @@
 							/obj/item/rogueweapon/scabbard/sheath = 1
 							)
 	if(H.mind)
-		SStreasury.give_money_account(ECONOMIC_WORKING_CLASS, H, "Savings.")
+		SStreasury.grant_savings(ECONOMIC_WORKING_CLASS, H)

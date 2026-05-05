@@ -68,6 +68,12 @@ have ways of interacting with a specific atom and control it. They posses a blac
 	var/can_idle = TRUE
 	///What distance should we be checking for interesting things when considering idling/deidling? Defaults to AI_DEFAULT_INTERESTING_DIST
 	var/interesting_dist = AI_DEFAULT_INTERESTING_DIST
+	///Whether the pathing layer should fall back to climbing climbable structures when blocked.
+	var/can_climb_structures = TRUE
+	///Earliest world.time the controller may attempt another structure climb.
+	var/next_climb_time = 0
+	///Delay between climb attempts so AI doesn't rapidly hop back and forth across fences.
+	var/climb_interval = 10 SECONDS
 	///
 	var/movement_displacement_time = 0
 
@@ -221,6 +227,8 @@ have ways of interacting with a specific atom and control it. They posses a blac
 		return FALSE
 
 	var/mob/living/living_pawn = pawn
+	if(final_target == living_pawn)
+		return FALSE
 	if(nextmove && living_pawn.next_move > world.time)
 		return FALSE
 
@@ -330,9 +338,7 @@ have ways of interacting with a specific atom and control it. They posses a blac
 
 	if(new_z)
 		GLOB.ai_controllers_by_zlevel[new_z] += src
-		var/new_level_clients = SSmobs.clients_by_zlevel[new_z].len
-		if(new_level_clients)
-			set_ai_status(AI_STATUS_IDLE)
+		reset_ai_status()
 
 ///Abstract proc for initializing the pawn to the new controller
 /datum/ai_controller/proc/TryPossessPawn(atom/new_pawn)

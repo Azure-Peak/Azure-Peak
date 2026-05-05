@@ -100,7 +100,7 @@
 		/obj/item/repair_kit,
 	)
 	if(H.mind)
-		SStreasury.give_money_account(ECONOMIC_WORKING_CLASS, H, "Savings.")
+		SStreasury.grant_savings(ECONOMIC_WORKING_CLASS, H)
 
 /datum/advclass/squire/footman
 	name = "Squire at Arms"
@@ -159,7 +159,7 @@
 			if("Club")
 				beltr = /obj/item/rogueweapon/mace/woodclub
 	if(H.mind)
-		SStreasury.give_money_account(ECONOMIC_WORKING_CLASS, H, "Savings.")
+		SStreasury.grant_savings(ECONOMIC_WORKING_CLASS, H)
 
 /datum/advclass/squire/skirmisher
 	name = "Irregular Squire"
@@ -211,4 +211,4 @@
 		/obj/item/repair_kit,
 		)
 	if(H.mind)
-		SStreasury.give_money_account(ECONOMIC_WORKING_CLASS, H, "Savings.")
+		SStreasury.grant_savings(ECONOMIC_WORKING_CLASS, H)

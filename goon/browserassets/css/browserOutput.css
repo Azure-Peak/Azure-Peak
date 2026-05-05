@@ -619,6 +619,12 @@ h2.alert {
 	color: #bb4e28;
 	font-size: 75%;
 }
+
+.warningbig {
+	color: #ad1f1a;
+	font-size: 110%;
+}
+
 .boldwarning {
 	color: #bb4e28;
 	font-weight: bold;

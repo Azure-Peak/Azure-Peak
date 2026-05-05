@@ -6,7 +6,6 @@
 	mob_traits = list(TRAIT_DEPRAVED, TRAIT_CICERONE)
 	miracles = list(/obj/effect/proc_holder/spell/targeted/touch/orison					= CLERIC_ORI,
 					/obj/effect/proc_holder/spell/invoked/baothavice					= CLERIC_T0,
-					/obj/effect/proc_holder/spell/self/bless_drink						= CLERIC_T0,
 					/obj/effect/proc_holder/spell/invoked/baothablessings				= CLERIC_T0,
 					/obj/effect/proc_holder/spell/self/insufflation						= CLERIC_T1,
 					/obj/effect/proc_holder/spell/targeted/touch/loversruin				= CLERIC_T1,

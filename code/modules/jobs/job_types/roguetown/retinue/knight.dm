@@ -16,7 +16,7 @@
 	advclass_cat_rolls = list(CTAG_ROYALGUARD = 20)
 	job_traits = list(TRAIT_NOBLE, TRAIT_STEELHEARTED, TRAIT_GUARDSMAN, TRAIT_EXPERT_HUNTER)
 	give_bank_account = TRUE
-	noble_income = 10
+	noble_income = 15
 	min_pq = 8
 	max_pq = null
 	round_contrib_points = 2
@@ -182,7 +182,7 @@
 		/obj/item/rogueweapon/scabbard/sheath/noble = 1
 	)
 	if(H.mind)
-		SStreasury.give_money_account(ECONOMIC_UPPER_CLASS, H, "Savings.")
+		SStreasury.grant_savings(ECONOMIC_UPPER_CLASS, H)
 
 /datum/advclass/knight/footknight
 	name = "Foot Knight"
@@ -278,7 +278,7 @@
 		/obj/item/rogueweapon/scabbard/sheath/noble = 1
 	)
 	if(H.mind)
-		SStreasury.give_money_account(ECONOMIC_UPPER_CLASS, H, "Savings.")
+		SStreasury.grant_savings(ECONOMIC_UPPER_CLASS, H)
 
 /datum/advclass/knight/mountedknight
 	name = "Mounted Knight"
@@ -403,7 +403,7 @@
 		/obj/item/rogueweapon/scabbard/sheath/noble = 1
 	)
 	if(H.mind)
-		SStreasury.give_money_account(ECONOMIC_UPPER_CLASS, H, "Savings.")
+		SStreasury.grant_savings(ECONOMIC_UPPER_CLASS, H)
 
 
 /datum/advclass/knight/irregularknight
@@ -532,7 +532,7 @@
 		/obj/item/rogueweapon/scabbard/sheath/noble = 1
 	)
 	if(H.mind)
-		SStreasury.give_money_account(ECONOMIC_UPPER_CLASS, H, "Savings.")
+		SStreasury.grant_savings(ECONOMIC_UPPER_CLASS, H)
 
 
 /datum/advclass/knight/knightchampion
@@ -612,7 +612,7 @@
 		/mob/living/carbon/human/mind/proc/setorders
 	)
 
-	SStreasury.give_money_account(ECONOMIC_RICH, H, "Savings.")
+	SStreasury.grant_savings(ECONOMIC_RICH, H)
 
 	H.adjust_blindness(-3)
 	var/weapons = list(

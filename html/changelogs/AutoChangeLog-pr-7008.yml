@@ -1,0 +1,5 @@
+author: "QuietSymphony"
+delete-after: True
+changes:
+  - rscadd: "Added an Open Eoran Robes crafting recipe"
+  - spellcheck: "Changed the grammar of the eoran robes entry in weaving, if anyone cares."

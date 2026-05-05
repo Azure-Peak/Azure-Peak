@@ -631,7 +631,8 @@
 		"wlength" = WLENGTH_SHORT
 	)
 	additive_var_overrides = list(
-		"wdefense" = 2
+		"wdefense" = 2,
+		"force_wielded" = 5
 	)
 
 /datum/alt_grip/halfsword/frei

@@ -60,7 +60,7 @@
 /obj/item/reagent_containers/glass/bottle/alchemical/perpot
 	list_reagents = list(/datum/reagent/buff/perception = 30)
 
-/obj/item/reagent_containers/glass/bottle/alchemical/endpot
+/obj/item/reagent_containers/glass/bottle/alchemical/willpot
 	list_reagents = list(/datum/reagent/buff/endurance = 30)
 
 /obj/item/reagent_containers/glass/bottle/alchemical/conpot
@@ -176,12 +176,13 @@
 	desc = "A bottle with the House Stoutenson cork-seal. This strange liquid is considered as the most spicy and alcoholic drink in all the Mountainhomes. Bought by nobles of all ages, mostly those with a deathwish."
 
 /obj/item/reagent_containers/glass/bottle/rogue/beer/voddena
+	name = "bottle of Norwandine Voddena"
 	list_reagents = list(/datum/reagent/consumable/ethanol/voddena = 50)
 	desc = "A bottle with the City of Norwandine cork-seal. It contains a respectably pure, clean voddena."
 
 // WINES - Expensive, Nobleblooded
 /obj/item/reagent_containers/glass/bottle/rogue/wine
-	name = "bottle of wine"
+	name = "bottle of Ranesheni wine"
 	icon = 'icons/obj/alcohol.dmi'
 	icon_state = "red_wine"
 	list_reagents = list(/datum/reagent/consumable/ethanol/wine = 50)
@@ -223,7 +224,7 @@
 
 //AZURE DRINKS
 /obj/item/reagent_containers/glass/bottle/rogue/beer/jagdtrunk
-	name = "bottle of Schnapps"
+	name = "bottle of Jagdtrunk Herbal Schnapps"
 	icon_state = "red_wine"
 	list_reagents = list(/datum/reagent/consumable/ethanol/jagdtrunk = 50)
 	desc = "A bottle with a Saigabuck cork-seal. This dark liquid is the strongest alcohol coming out of Grenzelhoft available. A herbal schnapps, sure to burn out any disease."
@@ -253,13 +254,13 @@
 	desc = "A bottle with a Shieldmaiden Berewrey cork-seal. A deep red honey-wine, refined with the red berries native to Gronns highlands."
 
 /obj/item/reagent_containers/glass/bottle/rogue/beer/avarmead
-	name = "bottle of Golden Mead"
+	name = "bottle of Zögiin Bal Mead"
 	icon_state = "plum_wine"
 	list_reagents = list(/datum/reagent/consumable/ethanol/avarmead = 50)
 	desc = "A bottle with a simple cork-seal. A golden honey-wine brewed in the Avar Steppes. Manages to keep a proper taste while staying strong."
 
 /obj/item/reagent_containers/glass/bottle/rogue/beer/avarrice
-	name = "bottle of Aavnic White"
+	name = "bottle of Makkolir"
 	icon_state = "white_wine"
 	list_reagents = list(/datum/reagent/consumable/ethanol/avarrice = 50)
 	desc = "A bottle with a simple cork-seal. A murky, white wine made from rice grown in the steppes of Avar."
@@ -277,13 +278,13 @@
 	desc = "A bottle with a Yamaguchi Brewery cork-seal. A pale lager brewed in the far-away lands of Kazengun, refined with green tea for an unique flavour-profile. Even lighter than elven-brew!"
 
 /obj/item/reagent_containers/glass/bottle/rogue/beer/kgunsake
-	name = "bottle of Golden Swan Sake"
+	name = "bottle of Junmai-Ginjo"
 	icon_state = "white_wine"
 	list_reagents = list(/datum/reagent/consumable/ethanol/kgunsake = 50)
 	desc = "A bottle with a Golden Swan cork-seal. A translucient, pale-blue liquid made from rice. A favourite drink of the warlords and nobles of Kazengun."
 
 /obj/item/reagent_containers/glass/bottle/rogue/beer/kgunplum
-	name = "bottle of Golden Swan Plum Wine"
+	name = "bottle of Umeshu"
 	icon_state = "plum_wine"
 	list_reagents = list(/datum/reagent/consumable/ethanol/kgunplum = 50)
 	desc = "A bottle with a Golden Swan cork-seal. A reddish-golden alcohol made from a fruit commonly found on the Kazengun-isles. A favourite of the commoners."

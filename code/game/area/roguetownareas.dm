@@ -1,6 +1,6 @@
 GLOBAL_LIST_EMPTY(chosen_music)
 
-GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town,/area/rogue/outdoors/town,/area/rogue/under/town)) //hey
+GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(list(/area/rogue/indoors/town, /area/rogue/outdoors/town, /area/rogue/under/town)))
 
 /area/rogue
 	name = "roguetown"

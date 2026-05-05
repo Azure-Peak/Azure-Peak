@@ -1,4 +1,5 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/infernal/imp
+	threat_point = THREAT_LOW
 	icon = 'icons/mob/summonable/32x32.dmi'
 	name = "infernal imp"
 	desc = "This is a diminutive humanoid creature capable of flight. While its claws are sharp and its movements agile, \

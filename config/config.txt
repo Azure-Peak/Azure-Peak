@@ -70,7 +70,7 @@ ENABLE_LOCALHOST_RANK
 #USE_ACCOUNT_AGE_FOR_JOBS
 
 ## Unhash this to track player playtime in the database. Requires database to be enabled.
-#USE_EXP_TRACKING
+USE_EXP_TRACKING
 ## Unhash this to enable playtime requirements for head jobs.
 #USE_EXP_RESTRICTIONS_HEADS
 ## Unhash this to override head jobs' playtime requirements with this number of hours.
@@ -517,6 +517,34 @@ RESUME_AFTER_INITIALIZATIONS
 
 ## Uncomment to set the number of /world/Reboot()s before the DreamDaemon restarts itself. 0 means restart every round. Requires tgstation server tools.
 ROUNDS_UNTIL_HARD_RESTART 0
+
+## Enable automatic profiling - Byond 513.1506 and newer only.
+AUTO_PROFILE
+
+## Clear the profile buffer after each dump. Each file then contains only the activity
+## since the previous dump (window mode), at the cost of not having a single cumulative round file.
+## Comment out to revert to cumulative-round dumps.
+PROFILE_CLEAR_ON_DUMP
+
+## Determines the interval between each saved profiler snapshot (in deciseconds).
+#PROFILER_INTERVAL 3000
+
+## Threshold (in deciseconds) for real time between ticks before we start dumping profiles
+DRIFT_DUMP_THRESHOLD 40
+
+## How long to wait (in deciseconds) after a profile dump before logging another tickdrift sourced one
+DRIFT_PROFILE_DELAY 150
+
+## Tick-dilation percentage over the last 1s above which we start the sustained-TD timer.
+## Measured as (drift growth per real second) × world.tick_lag × 100.
+## 20 means "game advancing <=80% as fast as wall-clock" — egregious by our standards.
+SUSTAINED_TD_THRESHOLD_PCT 20
+
+## How long (in deciseconds) TD% must stay above SUSTAINED_TD_THRESHOLD_PCT before we dump a profile.
+SUSTAINED_TD_DURATION 200
+
+## Minimum gap (in deciseconds) between sustained-TD profile dumps. Set long to avoid the dump itself worsening the stall.
+SUSTAINED_TD_DELAY 1200
 
 
 ##Default view size, in tiles.

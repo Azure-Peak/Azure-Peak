@@ -12,6 +12,8 @@
 	var/lastattacker = null
 	var/lastattackerckey = null
 	var/datum/weakref/lastattacker_weakref = null
+	/// Blood Toll bucket key (STATS_KILLED_*); set on NPC subtypes that should tally on death. See code/__HELPERS/blood_toll.dm
+	var/blood_toll_bucket = null
 
 	//Health and life related vars
 	var/maxHealth = 100 //Maximum health that should be possible.
@@ -143,6 +145,9 @@
 	var/ambushable = 0
 	var/threat_point = 0 // Threat Point cost for the ambush budget system. Set on NPC subtypes.
 	var/ambush_faction = "" // Faction tag for ambush same/wrong-faction purchasing. Separate from mob faction list.
+
+	var/datum/fellowship/current_fellowship
+	var/list/incoming_fellowship_invites = list() // list of /datum/weakref to /datum/fellowship; kept in sync with fellowship.pending_invites
 
 	// Tracks whether mob is in surrendering state (right-click combat button)
 	var/surrendering = 0

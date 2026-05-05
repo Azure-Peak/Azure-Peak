@@ -14,7 +14,7 @@
 
 	cmode_music = 'sound/music/combat_delf.ogg'
 
-	traits_applied = list(TRAIT_DARKVISION, TRAIT_MEDIUMARMOR, TRAIT_ANTHRAXI)
+	traits_applied = list(TRAIT_DARKVISION, TRAIT_MEDIUMARMOR, TRAIT_ANTHRAXI, TRAIT_ALCHEMY_EXPERT)
 	subclass_stats = list(
 		STATKEY_STR = 2,
 		STATKEY_CON = 2,
@@ -96,7 +96,7 @@
 	category_tags = list(CTAG_MERCENARY)
 	class_select_category = CLASS_CAT_RACIAL
 	cmode_music = 'sound/music/combat_delf.ogg'
-	traits_applied = list(TRAIT_DARKVISION, TRAIT_DODGEEXPERT, TRAIT_ANTHRAXI)
+	traits_applied = list(TRAIT_DARKVISION, TRAIT_DODGEEXPERT, TRAIT_ANTHRAXI, TRAIT_ALCHEMY_EXPERT)
 	subclass_stats = list(
 		STATKEY_WIL = 2,
 		STATKEY_PER = 2,

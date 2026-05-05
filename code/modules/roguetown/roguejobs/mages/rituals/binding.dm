@@ -157,13 +157,13 @@
 /datum/runeritual/binding/revive_familiar
 	name = "Revive Familiar"
 	desc = "Return a departed familiar to lyfe, so long as they have not yet fully returned to their home plane. Requires the vestige dropped upon their death."
-	required_atoms = list(/obj/item/magic/melded/t1 = 1, /obj/item/magic/familiar_vestige = 1)
+	required_atoms = list(/obj/item/magic/melded/t1 = 1, /obj/item/magic/familiar/familiar_vestige = 1)
 	blacklisted = FALSE
 	invocation = "Redeo, spiritus fidus!" // "return, loyal spirit"
 
 /datum/runeritual/binding/revive_familiar/on_finished_recipe(mob/living/user, list/selected_atoms, turf/loc)
 	. = FALSE
-	for(var/obj/item/magic/familiar_vestige/vestige in selected_atoms)
+	for(var/obj/item/magic/familiar/familiar_vestige/vestige in selected_atoms)
 		if(vestige.stored_familiar)
 			if(!vestige.stored_familiar.client)
 				to_chat(user, span_warning("[vestige.stored_familiar.name] has fully departed for their home plane... they cannot be revived!"))
@@ -199,6 +199,7 @@
 	to_chat(fam, span_warning("You feel your link with [user.name] break, you are free."))
 
 	fam.familiar_summoner = null
+	GLOB.character_ckey_list -= fam.real_name
 
 	user.mind?.RemoveSpell(/datum/action/cooldown/spell/message_familiar)
 	fam.mind?.RemoveSpell(/datum/action/cooldown/spell/message_summoner)

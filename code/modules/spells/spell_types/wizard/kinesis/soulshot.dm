@@ -28,7 +28,6 @@
 	charge_slowdown = CHARGING_SLOWDOWN_SMALL
 	charge_sound = 'sound/magic/charging.ogg'
 	cooldown_time = 8 SECONDS
-	is_implement_scaled_spell = TRUE
 	attunement_school = ASPECT_NAME_KINESIS
 
 	associated_skill = /datum/skill/magic/arcane
@@ -42,7 +41,7 @@
 	hitscan = TRUE
 	movement_type = UNSTOPPABLE
 	guard_deflectable = TRUE
-	damage = 80
+	damage = 95
 	damage_type = BRUTE
 	woundclass = BCLASS_STAB
 	npc_simple_damage_mult = 1.5

@@ -32,7 +32,7 @@
 /obj/structure/roguemachine/vaultbank/update_icon()
 	if(drilling)
 		return
-	if(!SStreasury.treasury_value)
+	if(!SStreasury.discretionary_fund.balance)
 		icon_state = "[initial(icon_state)]_empty"
 	else
 		icon_state = initial(icon_state)
@@ -201,8 +201,9 @@
 		playsound(src, 'sound/misc/DrillDone.ogg', 70, TRUE)
 		icon_state = "[initial(icon_state)]_empty"
 		var/turf/T = get_turf(src)
-		budget2change(SStreasury.treasury_value, custom_turf = T)
-		SStreasury.treasury_value -= SStreasury.treasury_value
+		var/full_drain = SStreasury.discretionary_fund.balance
+		budget2change(full_drain, custom_turf = T)
+		SStreasury.burn(SStreasury.discretionary_fund, full_drain, "Vaultbank fully drilled")
 		playsound(src, 'sound/misc/jawbankhit.ogg', 70, TRUE)
 		shaker = FALSE
 		drilling = FALSE
@@ -212,12 +213,12 @@
 		drilltime = 0 // Reset the timer, they broke it open.
 		return
 	var/doneness = round(drilltime / drillgoal * 100)
-	if(SStreasury.treasury_value == 0)
+	if(SStreasury.discretionary_fund.balance == 0)
 		drilltime = drillgoal
 		drill(src)
 	loc.visible_message(span_warning("A horrible scraping sound emanates from the Crown as it does its work... (<b>[doneness]%</b>)"))
 	if(!has_reported)
-		if(SStreasury.treasury_value >= 3000) // Adjustable. Mainly for GROSS WEALTH.
+		if(SStreasury.discretionary_fund.balance >= 3000) // Adjustable. Mainly for GROSS WEALTH.
 			if(drilltime >= 50) // Adjust this as you like. Currently, it'll alert once half-way done.
 				src.say("DUCHY ALERTED.")
 				playsound(src, 'sound/misc/jawbankanguish.ogg', 100, FALSE, -1)
@@ -231,11 +232,11 @@
 	
 	playsound(src, 'sound/misc/TheDrill.ogg', 50, TRUE)
 	spawn(100) // The time it takes to complete an interval. If you adjust this, please adjust the sound too. It's 'about' perfect at 100. Anything less It'll start overlapping.
-		var/taken = min(rand(5, 20), SStreasury.treasury_value)
+		var/taken = min(rand(5, 20), SStreasury.discretionary_fund.balance)
 		anguish()
 		var/turf/T = get_turf(src)
 		budget2change(taken, custom_turf = T)
-		SStreasury.treasury_value -= taken
+		SStreasury.burn(SStreasury.discretionary_fund, taken, "Vaultbank drill tick")
 		visible_message(span_danger("The Crown just drilled [taken] mammon out of [src]!"))
 		drilltime += 3 // Adjust this to increase or decrease how long it'll take to drill open.
 		drill(src)
@@ -246,13 +247,13 @@
 		if(!HAS_TRAIT(H, TRAIT_FREEMAN))
 			to_chat(user, "<font color='red'>I don't know what I'm doing with this thing!</font>")
 			return
-		if(SStreasury.treasury_value < 50)
+		if(SStreasury.discretionary_fund.balance < 50)
 			to_chat(user, "<font color='red'>These fools are completely broke. We'll get nothing out of this...</font>")
 			return
 		user.visible_message(span_warning("[user] is mounting the Crown onto [src]!"))
 		if(!do_after(user, 5 SECONDS))
 			return
-		if(SStreasury.treasury_value >= 3000 | !has_reported | !knockedoffbefore)
+		if(SStreasury.discretionary_fund.balance >= 3000 | !has_reported | !knockedoffbefore)
 			loc.visible_message(span_notice("The amount of coin within the treasury slows down [src]'s reaction time!"))
 		if(drilling)
 			return
@@ -274,7 +275,7 @@
 	if(istype(I, /obj/item/roguecoin))
 		var/value = I.get_real_price()
 		user.visible_message(span_notice("[user] inserts [value] mammon into [src]."))
-		SStreasury.give_money_treasury(value, "JAWBANK Deposit")
+		SStreasury.mint(SStreasury.discretionary_fund, value, "JAWBANK Deposit")
 		update_icon()
 		qdel(I)
 		playsound(src, 'sound/misc/coininsert.ogg', 100, FALSE, -1)
@@ -291,9 +292,9 @@
 
 	user.changeNext_move(CLICK_CD_INTENTCAP)
 	if (!og_treasury)
-		og_treasury = SStreasury.treasury_value
+		og_treasury = SStreasury.discretionary_fund.balance
 	var/puke_chance = (I.force > 25) ? 75 : 25
-	var/extorted = min(rand(5, 20), SStreasury.treasury_value)
+	var/extorted = min(rand(5, 20), SStreasury.discretionary_fund.balance)
 	gethit(src)
 	if (drilling)
 		playsound(src, 'sound/misc/drillhit.ogg', 70, TRUE)
@@ -318,7 +319,7 @@
 		user.visible_message(span_warning("..And yet, nothing happens."))
 		return
 
-	if(!SStreasury.treasury_value)
+	if(!SStreasury.discretionary_fund.balance)
 		playsound(src, 'sound/misc/machineno.ogg', 70, TRUE)
 		user.visible_message(span_warning("..But [src] is empty!"))
 		return
@@ -326,25 +327,23 @@
 	playsound(src, 'sound/misc/jawbankhit.ogg', 70, TRUE)
 	var/turf/budget_turf = get_turf(src)
 	budget2change(extorted, custom_turf = budget_turf)
-	SStreasury.treasury_value -= extorted
+	SStreasury.burn(SStreasury.discretionary_fund, extorted, "Vaultbank knock-loose")
 	visible_message(span_danger("[src] coughed up [extorted] mammon!"))
 	playsound(src, 'sound/misc/coindispense.ogg', 70, TRUE)
-	SStreasury.log_to_steward("-[extorted] mammon knocked loose from [src]!")
 	total_extorted += extorted
 	whine()
 
 	if((total_extorted / og_treasury) * 100 >= rand(20, 25))
-		if(SStreasury.treasury_value <= 125)
+		if(SStreasury.discretionary_fund.balance <= 125)
 			resetlump(src)
 			return
-		var/lumpsum = round(SStreasury.treasury_value * rand(10, 20) / 100) // Lump-sum percentage. Adjust as you like.
+		var/lumpsum = round(SStreasury.discretionary_fund.balance * rand(10, 20) / 100) // Lump-sum percentage. Adjust as you like.
 		budget2change(lumpsum, custom_turf = budget_turf)
-		SStreasury.treasury_value -= lumpsum
+		SStreasury.burn(SStreasury.discretionary_fund, lumpsum, "Vaultbank knock-loose lump-sum")
 		visible_message(span_notice("[src] just spat up a total of [lumpsum] mammon - <b>A lump sum!</b>"))
 		playsound(src, 'sound/misc/coindispense.ogg', 70, TRUE)
 		anguish()
 		send_ooc_note("Someone knocked a lump-sum loose from [src] at the Vault!", job = list("Grand Duke", "Steward", "Clerk"))
-		SStreasury.log_to_steward("-[lumpsum] was the lump-sum knocked loose from [src]!")
 		resetlump(src)
 
 	update_icon()
@@ -352,4 +351,4 @@
 
 /obj/structure/roguemachine/vaultbank/examine(mob/user)
 	. += ..()
-	. += span_notice("The treasury currently sits at: [SStreasury.treasury_value] mammon.")
+	. += span_notice("The treasury currently sits at: [SStreasury.discretionary_fund.balance] mammon.")

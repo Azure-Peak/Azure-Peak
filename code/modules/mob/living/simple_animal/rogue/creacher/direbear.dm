@@ -7,6 +7,7 @@
 	icon_dead = "direbear_dead"
 	pixel_x = -16
 	ambushable = FALSE
+	blood_toll_bucket = STATS_KILLED_GREATER_BEASTS
 	base_intents = list(/datum/intent/simple/bite/bear)
 	botched_butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/steak/bear = 1, 
 									/obj/item/natural/hide = 1, 

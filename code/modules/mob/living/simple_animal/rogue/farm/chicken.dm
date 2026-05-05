@@ -9,6 +9,7 @@
 
 	gender = FEMALE
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
+	blood_toll_bucket = STATS_KILLED_LIVESTOCK
 	emote_see = list("pecks at the ground.","flaps its wings viciously.")
 	density = FALSE
 	base_intents = list(/datum/intent/simple/claw)
@@ -116,7 +117,7 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/chicken/Initialize()
 	. = ..()
 	AddElement(/datum/element/ai_retaliate)
-	ai_controller.set_blackboard_key(BB_BASIC_FOODS, food_type)
+	ai_controller.set_blackboard_key(BB_BASIC_FOODS, typecacheof(food_type))
 	if(!body_color)
 		body_color = pick(validColors)
 	icon_state = "[icon_prefix]_[body_color]"

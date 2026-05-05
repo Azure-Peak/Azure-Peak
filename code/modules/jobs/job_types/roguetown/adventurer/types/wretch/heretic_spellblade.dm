@@ -162,7 +162,7 @@
 			beltr = /obj/item/rogueweapon/scabbard/sword
 			switch(weapon_choice)
 				if("Avantyne Longsword")
-					r_hand = /obj/item/rogueweapon/sword/long/zizo
+					r_hand = /obj/item/rogueweapon/sword/long/avantyne
 				if("Kriegmesser")
 					r_hand = /obj/item/rogueweapon/sword/long/kriegmesser
 					backr = /obj/item/rogueweapon/scabbard/gwstrap

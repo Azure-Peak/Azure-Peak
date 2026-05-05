@@ -41,6 +41,7 @@
 		TRAIT_RITUALIST,
 		TRAIT_ARCYNE,
 		TRAIT_SELF_SUSTENANCE,
+		TRAIT_ALCHEMY_EXPERT,
 		TRAIT_SILVER_WEAK
 		)
 
@@ -173,6 +174,17 @@
 		QDEL_NULL(eyes)
 	eyes = new /obj/item/organ/eyes/night_vision/zombie
 	eyes.Insert(L)
+
+/datum/antagonist/lich/examine_friendorfoe(datum/antagonist/examined_datum,mob/examiner,mob/examined)
+	if(istype(examined_datum, /datum/antagonist/vampire))
+		if(!SEND_SIGNAL(examined_datum.owner, COMSIG_DISGUISE_STATUS))
+			return span_boldnotice("Another deadite.")
+	if(istype(examined_datum, /datum/antagonist/zombie))
+		return span_boldnotice("Another deadite.")
+	if(istype(examined_datum, /datum/antagonist/skeleton))
+		return span_boldnotice("Another deadite. My Ally.")
+	if(istype(examined_datum, /datum/antagonist/lich))
+		return span_boldnotice("Another Deadite.")
 
 /datum/outfit/job/roguetown/lich/post_equip(mob/living/carbon/human/H)
 	..()

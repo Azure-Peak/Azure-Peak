@@ -157,7 +157,7 @@
 /datum/advclass/grenzel_priest
 	name = "Envoy Priest"
 	outfit = /datum/outfit/job/roguetown/grenzel/priest
-	traits_applied = list(TRAIT_CHOSEN, TRAIT_RITUALIST, TRAIT_SOUL_EXAMINE, TRAIT_GRAVEROBBER, TRAIT_HOMESTEAD_EXPERT, TRAIT_MEDICINE_EXPERT)
+	traits_applied = list(TRAIT_CHOSEN, TRAIT_RITUALIST, TRAIT_SOUL_EXAMINE, TRAIT_GRAVEROBBER, TRAIT_HOMESTEAD_EXPERT, TRAIT_MEDICINE_EXPERT, TRAIT_ALCHEMY_EXPERT)
 	category_tags = list(CTAG_GRENZEL_PRIEST)
 	subclass_stats = list(
 		STATKEY_STR = -1,

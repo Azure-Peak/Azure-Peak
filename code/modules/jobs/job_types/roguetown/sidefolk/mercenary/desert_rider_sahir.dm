@@ -8,7 +8,7 @@
 	category_tags = list(CTAG_MERCENARY)
 	cmode_music = 'sound/music/combat_desertrider.ogg'
 	subclass_languages = list(/datum/language/raneshi)
-	traits_applied = list(TRAIT_ARCYNE)
+	traits_applied = list(TRAIT_ARCYNE, TRAIT_ALCHEMY_EXPERT)
 	subclass_stats = list(
 		STATKEY_SPD = 1,
 		STATKEY_WIL = 2,

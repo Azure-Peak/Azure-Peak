@@ -45,4 +45,4 @@
 						)
 	ADD_TRAIT(H, TRAIT_CRACKHEAD, TRAIT_GENERIC)
 	if(H.mind)
-		SStreasury.give_money_account(ECONOMIC_LETSGOGAMBLING, H, "Savings.")
+		SStreasury.grant_savings(ECONOMIC_LETSGOGAMBLING, H)

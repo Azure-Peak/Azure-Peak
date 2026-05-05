@@ -21,10 +21,8 @@
 		/datum/ai_planning_subtree/eat_dead_body,
 		/datum/ai_planning_subtree/find_food,
 		/datum/ai_planning_subtree/eat_food,
-	
-	)
 
-	idle_behavior = /datum/idle_behavior/idle_random_walk
+	)
 
 
 /datum/ai_controller/troll_cave
@@ -36,8 +34,6 @@
 		BB_TARGETTING_DATUM = new /datum/targetting_datum/basic/allow_items()
 
 	)
-
-	idle_behavior = /datum/idle_behavior/idle_random_walk
 
 	planning_subtrees = list(
 		/datum/ai_planning_subtree/aggro_find_target,

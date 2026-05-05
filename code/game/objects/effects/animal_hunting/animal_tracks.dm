@@ -12,7 +12,7 @@
 	var/max_search_attempts = 9
 	/// List of area types this trail is allowed to move into
 	var/list/linked_areas = list()
-	var/static/list/track_types = list("cervine", "small", "ursine", "canine")
+	var/static/list/track_types = list("cervine", "small", "ursine", "canine", "suidae")
 	var/locked_track_icon = null
 	var/track_revealed = FALSE
 	/// Hunt leader or solo hunter
@@ -255,7 +255,7 @@
 
 /obj/effect/hunting_track/proc/initialize_hunt_group(mob/living/revealer)
 	var/list/potential_party = list(revealer)
-	for(var/mob/living/L in range(3, src))
+	for(var/mob/living/L in range(5, src))
 		if(L.stat == DEAD || !L.mind)
 			continue
 		potential_party |= L
@@ -284,8 +284,8 @@
 
 	for(var/datum/weakref/W in party_refs)
 		var/mob/living/L = W.resolve()
-		// Cleanup: Remove if deleted, dead, or further than 7 tiles from THIS track
-		if(!L || L.stat == DEAD || get_dist(src, L) > 7)
+		// Cleanup: Remove if deleted, dead, or further than 9 tiles from THIS track
+		if(!L || L.stat == DEAD || get_dist(src, L) > 9)
 			continue
 
 		valid_party |= W
@@ -421,41 +421,35 @@
 
 	var/mob/living/leader = hunter_ref?.resolve()
 	var/spawned_count = 0
-
-	// We start at the target turf and look for nearby spots
+	var/list/valid_hunters = list()
 	for(var/datum/weakref/W in party_refs)
+		var/mob/living/L = W.resolve()
+		if(!L || L.stat == DEAD || L == leader)
+			continue
+		valid_hunters += L
+	if(!valid_hunters.len)
+		return 0
+
+	var/group_bonus = valid_hunters.len * 10 // Flat 10% per person
+	var/list/nearby_turfs = list()
+	for(var/dir in GLOB.alldirs)
+		var/turf/neighbor = get_step(T, dir)
+		if(validate_turf(neighbor))
+			nearby_turfs += neighbor
+
+	for(var/mob/living/hunter in valid_hunters)
 		if(spawned_count >= hunt_category.bonus_animal_amount)
 			break
-
-		var/mob/living/L = W.resolve()
-		if(!L || L == leader || L.stat == DEAD)
-			continue
-
-		var/skill = L.get_skill_level(/datum/skill/misc/hunting)
-		// 14% per skill up to 98%
-		var/success_chance = (skill + 1) * 14
-
+		var/skill = hunter.get_skill_level(/datum/skill/misc/hunting)
+		var/success_chance = clamp(((skill + 1) * 20) + group_bonus, 0, 100)
 		if(prob(success_chance))
-			// Find a nearby valid turf so they aren't stacked
-			var/turf/spawn_turf = T
-			var/list/nearby_turfs = list()
-
-			for(var/dir in GLOB.alldirs)
-				var/turf/neighbor = get_step(T, dir)
-				if(validate_turf(neighbor))
-					nearby_turfs += neighbor
-
-			// If neighbors are clear, pick one. Otherwise, stay on T (last resort)
-			if(nearby_turfs.len)
-				spawn_turf = pick(nearby_turfs)
-
+			var/turf/spawn_turf = (nearby_turfs.len) ? pick(nearby_turfs) : T
 			var/bonus_type = pickweight(hunt_category.animals)
 			var/mob/living/bonus_mob = new bonus_type(spawn_turf)
-
-			// Sync factions so the pack stays friendly
-			if(primary_target.faction && primary_target.faction.len)
+			if(primary_target.faction?.len)
 				bonus_mob.faction = primary_target.faction.Copy()
 			spawned_count++
+
 	return spawned_count
 
 /obj/effect/hunting_track/proc/clear_party_images()

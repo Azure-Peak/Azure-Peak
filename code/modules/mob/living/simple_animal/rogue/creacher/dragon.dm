@@ -9,6 +9,7 @@
 	pixel_y = -16
 	footstep_type = FOOTSTEP_MOB_HEAVY
 	gender = MALE
+	blood_toll_bucket = STATS_KILLED_DRAKKYN
 	emote_hear = null
 	emote_see = null
 	speak_chance = 1

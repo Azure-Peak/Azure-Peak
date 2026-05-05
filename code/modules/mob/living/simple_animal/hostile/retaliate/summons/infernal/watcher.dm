@@ -1,4 +1,5 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/infernal/watcher
+	threat_point = 70
 	icon = 'icons/mob/summonable/32x32.dmi'
 	name = "infernal watcher"
 	icon_state = "watcher"

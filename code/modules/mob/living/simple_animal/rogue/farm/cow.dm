@@ -9,6 +9,7 @@
 	icon_gib = "cow_gib"
 	gender = FEMALE
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
+	blood_toll_bucket = STATS_KILLED_LIVESTOCK
 	emote_hear = list("brays.")
 	emote_see = list("shakes its head.", "chews her cud.")
 	speak_chance = 1
@@ -251,7 +252,7 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/bull/Initialize()
 	. = ..()
 	AddElement(/datum/element/ai_retaliate)
-	ai_controller.set_blackboard_key(BB_BASIC_FOODS, food_type)
+	ai_controller.set_blackboard_key(BB_BASIC_FOODS, typecacheof(food_type))
 
 /mob/living/simple_animal/hostile/retaliate/rogue/cow/bullet
 	name = "calf"
@@ -277,6 +278,6 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/cow/Initialize()
 	. = ..()
 	AddElement(/datum/element/ai_retaliate)
-	ai_controller.set_blackboard_key(BB_BASIC_FOODS, food_type)
+	ai_controller.set_blackboard_key(BB_BASIC_FOODS, typecacheof(food_type))
 
 

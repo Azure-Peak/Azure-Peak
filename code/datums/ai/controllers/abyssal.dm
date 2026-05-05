@@ -15,7 +15,6 @@
 		BB_RETALIATE_COOLDOWN = 0,
 		BB_MAIN_TARGET = null
 	)
-	idle_behavior = /datum/idle_behavior/idle_random_walk
 
 /datum/ai_controller/assassin/ancient
 	movement_delay = ANCIENT_DREAMFIEND_MOVEMENT_SPEED
@@ -35,7 +34,6 @@
 		BB_RETALIATE_COOLDOWN = 0,
 		BB_MAIN_TARGET = null
 	)
-	idle_behavior = /datum/idle_behavior/idle_random_walk
 
 /datum/ai_planning_subtree/basic_melee_attack_subtree/abyssal
 	melee_attack_behavior = /datum/ai_behavior/basic_melee_attack/abyssal
@@ -285,7 +283,6 @@
 		BB_TARGETTING_DATUM = new /datum/targetting_datum/basic(),
 		BB_BASIC_MOB_RETALIATE_LIST = list(),
 	)
-	idle_behavior = /datum/idle_behavior/idle_random_walk
 
 /datum/ai_controller/dreamfiend_unbound_ancient
 	movement_delay = MINOR_DREAMFIEND_MOVEMENT_SPEED
@@ -302,4 +299,3 @@
 		BB_TARGETTING_DATUM = new /datum/targetting_datum/basic(),
 		BB_BASIC_MOB_RETALIATE_LIST = list(),
 	)
-	idle_behavior = /datum/idle_behavior/idle_random_walk

@@ -9,6 +9,7 @@
 	density = TRUE
 	damage_deflection = 25
 	climbable = TRUE
+	pass_flags_self = LETPASSTHROW
 	var/previous_material_quality = 0
 	var/advance_multiplier = 1 //Lower for auto-striking
 
@@ -123,7 +124,7 @@
 					breakthrough = 1
 					hingot.currecipe.numberofbreakthroughs++
 
-				if(!hingot.currecipe.advance(user, breakthrough, advance_multiplier))
+				if(!hingot.currecipe.advance(user, breakthrough, advance_multiplier, src))
 					shake_camera(user, 1, 1)
 					playsound(src,'sound/items/bsmithfail.ogg', 100, FALSE)
 					break
@@ -148,6 +149,10 @@
 
 	if(W.anvilrepair)
 		user.visible_message(span_info("[user] places [W] on the anvil."))
+		W.forceMove(src.loc)
+		return
+
+	if(!user.cmode)
 		W.forceMove(src.loc)
 		return
 

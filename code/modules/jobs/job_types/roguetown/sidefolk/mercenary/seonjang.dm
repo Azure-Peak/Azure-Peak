@@ -1,6 +1,6 @@
-/datum/advclass/mercenary/seonjang //shitcode approved by free
-	name = "Seonjang"
-	tutorial = "The respected leader and singular representative of the Ruma clan, you're an experienced swordsman. It matters not where the coin comes from, so long as you can make enough to support the clan in its survival from the Xinyi Dynasty and its conflicts, now in strange lands."
+/datum/advclass/mercenary/seonjang
+	name = "Ruma Seonjang"
+	tutorial = "A Captain from a band of Kazengite foreigners. The Ruma Clan were outcasts from the Xinyi Dynasty, believed to be associated with the rebels at the time. The clan departed to avoid repercussion. It is no organized group of soldiers, but rather a loose collection of experienced fighters."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = NON_DWARVEN_RACE_TYPES
 	outfit = /datum/outfit/job/roguetown/mercenary/seonjang
@@ -31,6 +31,7 @@
 
 /datum/outfit/job/roguetown/mercenary/seonjang/pre_equip(mob/living/carbon/human/H)
 	..()
+	to_chat(H, span_warning("You are a Captain of the Clan, second to none. The blades and bows of the Ruma look to you for guidance - rally your warriors and lead by example!"))
 	armor = /obj/item/clothing/suit/roguetown/armor/regenerating/skin/easttats
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/eastpants1
 	gloves = /obj/item/clothing/gloves/roguetown/eastgloves2
@@ -40,9 +41,9 @@
 	beltl = /obj/item/rogueweapon/scabbard/sword/kazengun/gold
 	backr = /obj/item/storage/backpack/rogue/satchel
 	backpack_contents = list(
-		/obj/item/roguekey/mercenary,
-		/obj/item/flashlight/flare/torch/lantern,
-		/obj/item/storage/belt/rogue/pouch/coins/rich,
+		/obj/item/roguekey/mercenary = 1,
+		/obj/item/flashlight/flare/torch/lantern = 1,
+		/obj/item/storage/belt/rogue/pouch/coins/rich = 1,
 		)
 	H.adjust_blindness(-3)
 
