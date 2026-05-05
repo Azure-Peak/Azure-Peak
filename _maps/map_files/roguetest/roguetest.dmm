@@ -288,7 +288,6 @@
 /turf/closed/mineral/rogue/bedrock,
 /area/rogue/indoors/cave)
 "kf" = (
-/obj/structure/roguemachine/drugmachine,
 /turf/open/floor/rogue/blocks/newstone/alt,
 /area/rogue/indoors/town/bath)
 "kl" = (
@@ -1106,6 +1105,10 @@
 /obj/structure/fluff/grindwheel,
 /turf/open/floor/rogue/ruinedwood,
 /area/rogue/indoors)
+"Go" = (
+/obj/structure/roguemachine/bathvend,
+/turf/open/floor/rogue/grass,
+/area/rogue/indoors)
 "Gu" = (
 /obj/structure/table/wood{
 	dir = 1;
@@ -1338,10 +1341,6 @@
 /obj/structure/fluff/railing/corner/north_east,
 /turf/closed/mineral/random/rogue,
 /area/rogue/outdoors/rtfield)
-"Og" = (
-/obj/structure/roguemachine/vaultbank/bathhouse,
-/turf/open/floor/rogue/blocks/newstone/alt,
-/area/rogue/indoors/town/manor)
 "Oh" = (
 /obj/structure/table/cooling,
 /obj/item/reagent_containers/glass/mortar,
@@ -1591,6 +1590,10 @@
 /obj/structure/table/wood,
 /turf/open/floor/rogue/tile/harem,
 /area/rogue/indoors)
+"Xb" = (
+/obj/structure/roguemachine/drugmachine,
+/turf/open/floor/rogue/dirt/road,
+/area/rogue/indoors)
 "Xs" = (
 /obj/structure/table/wood{
 	icon_state = "longtable_mid";
@@ -1668,7 +1671,7 @@
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/warehouse)
 "ZE" = (
-/obj/structure/roguemachine/bathvend,
+/obj/structure/roguemachine/vaultbank/bathhouse,
 /turf/open/floor/rogue/blocks/newstone/alt,
 /area/rogue/indoors/town/bath)
 "ZJ" = (
@@ -3294,7 +3297,7 @@ dB
 dB
 "}
 (32,1,1) = {"
-Og
+ev
 ev
 ev
 ev
@@ -3459,7 +3462,7 @@ Hb
 Zu
 rN
 CZ
-CZ
+Xb
 CZ
 SE
 CZ
@@ -3511,7 +3514,7 @@ TN
 Zu
 rN
 ua
-AX
+Go
 AX
 FP
 CZ
