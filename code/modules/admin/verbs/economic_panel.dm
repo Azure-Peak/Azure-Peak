@@ -252,6 +252,11 @@ GLOBAL_DATUM_INIT(economic_panel, /datum/economic_panel, new)
 				SSeconomy.daily_tick()
 				admin_log_fiscal("forced economy daily tick (regenerated produces/demands, rolled orders, rolled events)", "Fire Economy Tick")
 			return TRUE
+		if("fire_brassface_tick")
+			if(SSBMtreasury)
+				var/amt = SSBMtreasury.tick_vault_income()
+				admin_log_fiscal("fired BRASSFACE vault tick (+[amt]m to budget)", "Fire BRASSFACE Tick")
+			return TRUE
 		if("set_simulated_population")
 			if(!SSeconomy)
 				return TRUE

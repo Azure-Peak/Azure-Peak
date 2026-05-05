@@ -827,6 +827,11 @@ export const EconomicPanel = () => {
                     Fire Economy Tick
                   </Button.Confirm>
                 </Stack.Item>
+                <Stack.Item>
+                  <Button.Confirm onClick={() => act('fire_brassface_tick')}>
+                    Fire BRASSFACE Tick
+                  </Button.Confirm>
+                </Stack.Item>
               </Stack>
             </Section>
           </Stack.Item>
