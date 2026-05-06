@@ -90,6 +90,8 @@ GLOBAL_LIST_EMPTY(last_words)
 
 /mob/living/death(gibbed, nocutscene = FALSE)
 	var/was_dead_before = stat == DEAD
+	if(blood_toll_bucket && !was_dead_before && !mind?.assigned_role && !client)
+		record_round_statistic(blood_toll_bucket)
 	set_stat(DEAD)
 	unset_machine()
 	timeofdeath = world.time

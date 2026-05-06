@@ -172,8 +172,7 @@
 	var/is_quest_giver = FALSE
 
 	/// How many quests this job can take at once
-	// TEMP: bumped from 2 to 12 for writ-system testing - revert before merge.
-	var/max_active_quests = 12
+	var/max_active_quests = 2
 
 	var/townie_contract_gate_exempt = FALSE
 

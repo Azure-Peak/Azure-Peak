@@ -242,9 +242,6 @@
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_CABAL, "ARMOR")
 
-/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/zizo/heavy
-	name = "fused avantyne hauberk"
-
 /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/zizo/heavy/Initialize(mapload)
 	. = ..()
 	ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)
@@ -266,3 +263,13 @@
 /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/graggar/Initialize()
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_HORDE, "ARMOR", "RENDERED ASUNDER")
+
+/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/graggar/heavy/Initialize()
+	. = ..()
+	ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)
+
+/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/graggar/heavy/dropped(mob/living/carbon/human/user)
+	. = ..()
+	if(QDELETED(src))
+		return
+	qdel(src)

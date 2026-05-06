@@ -1258,6 +1258,7 @@
 
 /obj/item/clothing/suit/roguetown/armor/plate/full/holysee/ritual
 	name = "crusader silver plate"
+	armor_class = ARMOR_CLASS_MEDIUM
 
 /obj/item/clothing/suit/roguetown/armor/plate/full/holysee/ritual/mob_can_equip(mob/living/M, mob/living/equipper, slot, disable_warning = FALSE, bypass_equip_delay_self = FALSE)
 	return TRUE
@@ -1298,6 +1299,7 @@
 
 /obj/item/clothing/under/roguetown/platelegs/holysee/ritual
 	name = "crusader silver chausses"
+	armor_class = ARMOR_CLASS_MEDIUM
 
 /obj/item/clothing/under/roguetown/platelegs/holysee/ritual/mob_can_equip(mob/living/M, mob/living/equipper, slot, disable_warning = FALSE, bypass_equip_delay_self = FALSE)
 	return TRUE

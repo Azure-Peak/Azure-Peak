@@ -8,6 +8,7 @@
 	pixel_x = -16
 	gender = MALE
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
+	blood_toll_bucket = STATS_KILLED_TROLLMINOTAUR
 	emote_hear = null
 	emote_see = null
 	speak_chance = 1

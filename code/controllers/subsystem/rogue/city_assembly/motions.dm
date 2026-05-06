@@ -60,7 +60,7 @@
 		var/datum/weakref/winner_wr
 		var/list/candidate_info
 		for(var/datum/weakref/wr in S.candidates)
-			if("[wr]" == key)
+			if(REF(wr) == key)
 				winner_wr = wr
 				candidate_info = S.candidates[wr]
 				break

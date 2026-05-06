@@ -210,15 +210,21 @@ GLOBAL_DATUM_INIT(economic_panel, /datum/economic_panel, new)
 			return TRUE
 		if("advance_day")
 			GLOB.dayspassed++
-			// Run the full dawn cadence so testing matches in-game timing: poll tax, loans,
-			// pledge, estate incomes, then payroll (which itself triggers SSeconomy.daily_tick).
-			// Payroll runs last because it's the call that may transition the solvency state.
+			// Run the full dawn cadence so testing matches in-game timing: rural tax, poll tax,
+			// loans, pledge, estate incomes, then payroll (which itself triggers SSeconomy.daily_tick).
+			// Rural mints first so it's in the pool when payroll checks solvency. Payroll runs last
+			// because it's the call that may transition the solvency state.
+			SStreasury.tick_rural_tax()
 			SStreasury.tick_poll_tax()
 			SStreasury.tick_loans()
 			SStreasury.tick_burgher_pledge()
 			SStreasury.distribute_estate_incomes()
 			SStreasury.distribute_daily_payments()
 			admin_log_fiscal("advanced the day to [GLOB.dayspassed] (full daily tick)", "Advance Day")
+			return TRUE
+		if("fire_rural_tick")
+			SStreasury.tick_rural_tax()
+			admin_log_fiscal("fired tick_rural_tax", "Fire Rural Tick")
 			return TRUE
 		if("fire_poll_tick")
 			SStreasury.tick_poll_tax()
@@ -279,14 +285,14 @@ GLOBAL_DATUM_INIT(economic_panel, /datum/economic_panel, new)
 			var/amt = text2num(params["amount"])
 			if(!isnum(amt) || amt <= 0)
 				return TRUE
-			SStreasury.mint(SStreasury.discretionary_fund, amt, "admin mint by [key_name(usr)]")
+			SStreasury.mint(SStreasury.discretionary_fund, amt, "Divine Intervention")
 			admin_log_fiscal("minted [amt]m into Crown's Purse", "Mint Crown's Purse")
 			return TRUE
 		if("burn_discretionary")
 			var/amt = text2num(params["amount"])
 			if(!isnum(amt) || amt <= 0)
 				return TRUE
-			SStreasury.burn(SStreasury.discretionary_fund, amt, "admin burn by [key_name(usr)]")
+			SStreasury.burn(SStreasury.discretionary_fund, amt, "Lost in Transit")
 			admin_log_fiscal("burned [amt]m from Crown's Purse", "Burn Crown's Purse")
 			return TRUE
 		if("toggle_charter")
@@ -345,7 +351,7 @@ GLOBAL_DATUM_INIT(economic_panel, /datum/economic_panel, new)
 			var/datum/fund/account = SStreasury.get_account(target)
 			if(!account)
 				return TRUE
-			SStreasury.mint(account, amt, "admin mint by [key_name(usr)]")
+			SStreasury.mint(account, amt, "Divine Intervention")
 			admin_log_fiscal("minted [amt]m to [key_name(target)]", "Mint to Account")
 			return TRUE
 		if("player_burn_account")
@@ -358,7 +364,7 @@ GLOBAL_DATUM_INIT(economic_panel, /datum/economic_panel, new)
 			var/datum/fund/account = SStreasury.get_account(target)
 			if(!account)
 				return TRUE
-			SStreasury.burn(account, amt, "admin burn by [key_name(usr)]")
+			SStreasury.burn(account, amt, "Lost in Transit")
 			admin_log_fiscal("burned [amt]m from [key_name(target)]", "Burn from Account")
 			return TRUE
 		if("player_fire_indebted")

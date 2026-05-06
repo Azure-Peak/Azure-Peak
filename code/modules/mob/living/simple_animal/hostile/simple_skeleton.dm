@@ -7,6 +7,7 @@
 	icon_dead = "skeleton_dead"
 	gender = MALE
 	mob_biotypes = MOB_UNDEAD|MOB_HUMANOID
+	blood_toll_bucket = STATS_KILLED_DEADITES
 	robust_searching = 1
 	turns_per_move = 1
 	move_to_delay = 3
@@ -233,69 +234,3 @@
 
 /mob/living/simple_animal/hostile/rogue/skeleton/bow/Initialize(mapload, mob/user, cabal_affine = FALSE, is_summoned = FALSE)
     . = ..(mapload, user, cabal_affine, is_summoned)
-
-/mob/living/simple_animal/hostile/rogue/skeleton/ravox_ghost
-	name = "Ravoxian Soul"
-	desc = "A portion of a Ravoxian's soul. Kill it to damage and stun them. Metal."
-	icon = 'icons/roguetown/mob/monster/ravoxghost.dmi'
-	icon_state = "rghost"
-	icon_living = "rghost"
-	STACON = 10
-	STASTR = 10
-	STASPD = 8
-	maxHealth = 60 //summoned with 60 + 10 hp per skill lvl
-	health = 50
-	pixel_x = -16
-	pixel_y = -16
-	harm_intent_damage = 10
-	melee_damage_lower = 25
-	melee_damage_upper = 30
-	icon_dead = ""
-	loot = list(/obj/item/ash,	/obj/item/ash)
-	can_have_ai = FALSE //disable native ai
-	AIStatus = AI_OFF
-	var/buffed_r = FALSE
-	var/mob/living/spirit_owner = null
-
-/mob/living/simple_animal/hostile/rogue/skeleton/ravox_ghost/Initialize(mapload, mob/user, cabal_affine = FALSE, is_summoned = FALSE)
-	. = ..(mapload, user, cabal_affine, is_summoned)
-	if(isliving(user))
-		spirit_owner = user
-
-/mob/living/simple_animal/hostile/rogue/skeleton/ravox_ghost/death(gibbed)
-	if(spirit_owner && isliving(spirit_owner))
-		spirit_owner.adjustBruteLoss(30)
-		spirit_owner.apply_status_effect(/datum/status_effect/debuff/ravox_spirit_backlash)
-		spirit_owner.Immobilize(20)
-		spirit_owner.emote("agony", forced = TRUE)
-	. = ..()
-
-/mob/living/simple_animal/hostile/rogue/skeleton/ravox_ghost/spear
-	icon_state = "rghost_s"
-	icon_living = "rghost_s"
-	attack_sound = 'sound/foley/pierce.ogg'
-	base_intents = list(/datum/intent/simple/spear/skeleton)
-	ai_controller = /datum/ai_controller/skeleton_spear
-
-/mob/living/simple_animal/hostile/rogue/skeleton/ravox_ghost/axe
-	icon_state = "rghost_a"
-	icon_living = "rghost_a"
-	base_intents = list(/datum/intent/simple/axe/skeleton)
-
-/mob/living/simple_animal/hostile/rogue/skeleton/ravox_ghost/sword
-	icon_state = "rghost_sw"
-	icon_living = "rghost_sw"
-	base_intents = list(/datum/intent/simple/axe/skeleton)
-
-/mob/living/simple_animal/hostile/rogue/skeleton/ravox_ghost/get_sound(input)
-	switch(input)
-		if("laugh")
-			return pick('sound/vo/mobs/ghost/laugh (1).ogg','sound/vo/mobs/ghost/laugh (2).ogg','sound/vo/mobs/ghost/laugh (3).ogg','sound/vo/mobs/ghost/laugh (4).ogg','sound/vo/mobs/ghost/laugh (5).ogg','sound/vo/mobs/ghost/laugh (6).ogg')
-		if("moan")
-			return pick('sound/vo/mobs/ghost/moan (1).ogg','sound/vo/mobs/ghost/laugh (2).ogg','sound/vo/mobs/ghost/laugh (3).ogg')
-		if("death")
-			return 'sound/vo/mobs/ghost/death.ogg'
-		if("whisper")
-			return pick('sound/vo/mobs/ghost/whisper (1).ogg','sound/vo/mobs/ghost/whisper (2).ogg','sound/vo/mobs/ghost/whisper (3).ogg')
-		if("aggro")
-			return pick('sound/vo/mobs/ghost/aggro (1).ogg','sound/vo/mobs/ghost/aggro (2).ogg','sound/vo/mobs/ghost/aggro (3).ogg','sound/vo/mobs/ghost/aggro (4).ogg','sound/vo/mobs/ghost/aggro (5).ogg','sound/vo/mobs/ghost/aggro (6).ogg')

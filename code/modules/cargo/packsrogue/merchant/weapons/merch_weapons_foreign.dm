@@ -15,7 +15,7 @@
 	contains = list(/obj/item/rogueweapon/huntingknife/idagger/steel/parrying/vaquero)
 
 /datum/supply_pack/rogue/merc_weapons/erapier
-	name = "Etruscan Rapier"
+	name = "Etruscan Cup-Hilt Rapier"
 	cost = 120
 	contains = list(/obj/item/rogueweapon/sword/rapier/vaquero)
 

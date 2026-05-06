@@ -39,7 +39,7 @@
 	icon = 'icons/obj/magic_projectiles.dmi'
 	icon_state = "arcyne_bolt"
 	guard_deflectable = TRUE
-	damage = 45
+	damage = 54
 	damage_type = BRUTE
 	flag = "blunt"
 	woundclass = BCLASS_BLUNT
@@ -52,7 +52,7 @@
 
 /obj/projectile/magic/greater_arcyne_bolt/arc
 	name = "arced greater arcyne bolt"
-	damage = 34
+	damage = 41
 	arcshot = TRUE
 
 /obj/projectile/magic/greater_arcyne_bolt/on_hit(target)

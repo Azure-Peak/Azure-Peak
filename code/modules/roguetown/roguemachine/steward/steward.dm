@@ -29,6 +29,7 @@
 	var/residency_print_cooldown = 0
 	// Last trade-modal quote keyed by ckey. Read by ui_data to round-trip per-user.
 	var/list/last_trade_quote = list()
+	COOLDOWN_DECLARE(fulfill_retry_cooldown)
 
 /obj/structure/roguemachine/steward/Initialize()
 	. = ..()

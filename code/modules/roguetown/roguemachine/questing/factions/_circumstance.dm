@@ -162,7 +162,7 @@ GLOBAL_LIST_EMPTY(quest_circumstances_recovery_bandits)
 /datum/writ_circumstance/recovery_bandits/raided_tithe
 	phrasings = list(
 		"A tithe-wagon was waylaid and its goods carried into the bandit camp; the parcel must be wrested back.",
-		"The Crown's tithe-bearer was robbed, and the goods sit now in the keeping of the very wolves who took them.",
+		"The Crown's tithe-bearer was robbed, and the goods sit now in the keeping of the very volves who took them.",
 	)
 
 /datum/writ_circumstance/recovery_bandits/captured_courier

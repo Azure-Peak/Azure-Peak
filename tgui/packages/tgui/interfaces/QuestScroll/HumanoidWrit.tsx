@@ -1,3 +1,4 @@
+import { RewardClause } from './RewardClause';
 import { SealLine } from './Seals';
 import {
   capitalize,
@@ -110,8 +111,8 @@ const CondemnationCaputLupinum = (props: CondemnationProps) => {
     <p style={writParagraph}>
       By writ of the {rulerTitle}, and by counsel of the estates, {subject}{' '}
       {plural ? 'are' : 'is'} declared{' '}
-      <span style={caputLupinum}>CAPUT LUPINUM</span>, wolf
-      {plural ? "'s heads" : "'s head"}, for that a wolf is a beast hated of
+      <span style={caputLupinum}>CAPUT LUPINUM</span>, volf
+      {plural ? "'s heads" : "'s head"}, for that a volf is a beast hated of
       all folk.
     </p>
   );
@@ -138,7 +139,7 @@ const CondemnationVolkomir = (props: CondemnationProps) => {
   return (
     <p style={writParagraph}>
       By writ of the {rulerTitle}, and by counsel of the estates, let {subject}{' '}
-      be named <span style={caputLupinum}>VOLKOMIR</span>, wolf cast out of the realm&apos;s peace. Driven
+      be named <span style={caputLupinum}>VOLKOMIR</span>, volf cast out of the realm&apos;s peace. Driven
       from every hearth and hall, harboured by no kin, mourned by no friend.
     </p>
   );
@@ -171,25 +172,21 @@ export const LicenceToSlay = (props: {
   reward: number;
   levyRate: number;
   levyExempt: boolean;
-}) => {
-  const showLevy = !props.levyExempt && props.levyRate > 0;
-  const net = showLevy
-    ? Math.round(props.reward * (1 - props.levyRate))
-    : props.reward;
-  return (
-    <p style={writParagraph}>
-      From this day forward it is lawful for any to slay them as wolves. Upon
-      their death the writ shall fall silent and mark itself; return it then to
-      the Contract Ledger, that the bounty of <b>{props.reward} mammon</b>
-      {showLevy ? (
-        <>
-          , <b>{net} mammon</b> after the Crown&apos;s Levy
-        </>
-      ) : null}{' '}
-      be paid.
-    </p>
-  );
-};
+  guildCutRate: number;
+}) => (
+  <p style={writParagraph}>
+    From this day forward it is lawful for any to slay them as volves. Upon
+    their death the writ shall fall silent and mark itself; return it then to
+    the Contract Ledger, that the bounty of{' '}
+    <RewardClause
+      reward={props.reward}
+      levyRate={props.levyRate}
+      levyExempt={props.levyExempt}
+      guildCutRate={props.guildCutRate}
+    />{' '}
+    be paid.
+  </p>
+);
 
 export const RecoveryAddendum = (props: {
   shipment?: string | null;
@@ -248,6 +245,7 @@ export const HumanoidWrit = (props: {
   reward: number;
   levyRate: number;
   levyExempt: boolean;
+  guildCutRate: number;
   hasRecoveryAddendum: boolean;
   recoveryShipment?: string | null;
   recoveryDestination?: string | null;
@@ -278,6 +276,7 @@ export const HumanoidWrit = (props: {
       reward={props.reward}
       levyRate={props.levyRate}
       levyExempt={props.levyExempt}
+      guildCutRate={props.guildCutRate}
     />
     {props.oathBreach && <CorruptionOfBloodClause />}
     {props.hasRecoveryAddendum && (

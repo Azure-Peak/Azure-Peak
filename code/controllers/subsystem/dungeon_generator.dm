@@ -5,28 +5,41 @@ SUBSYSTEM_DEF(dungeon_generator)
 	name = "Dungeon Generator"
 	init_order = 15
 	runlevels = RUNLEVEL_GAME | RUNLEVEL_INIT | RUNLEVEL_LOBBY | RUNLEVEL_SETUP
-	wait = 1.5 SECONDS 
+	wait = 0.5 SECONDS
 
 	var/list/parent_types = list()
 	var/list/templates_by_category = list() 
+	var/list/templates_by_connection = list()
+	var/list/templates_by_connection_and_depth = list()
+	var/list/filler_templates_by_connection = list()
 	var/list/markers = list() 
 	var/list/failed_markers = list() 
 	var/list/placed_count = list()
 
 	var/generation_stage = STAGE_EXPANSION
+	var/marker_process_limit = 5
 	var/repetition_penalty = 2
 
 	var/target_z = 0
 	var/setup_done = FALSE
+	var/setup_attempts = 0
+	var/max_setup_attempts = 12
 	var/loot_pool_finalized = FALSE
-	var/last_placement_time = 0
-	/// Quiet period (deciseconds) after the last placement before we consider generation done.
-	var/finalize_quiet_period = 30 SECONDS
+	var/generation_complete = FALSE
 
 	var/prot_min_x = 0; var/prot_max_x = 0; var/prot_min_y = 0; var/prot_max_y = 0
 
 /datum/controller/subsystem/dungeon_generator/Initialize(start_timeofday)
 	var/list/dungeon_templates = list()
+	templates_by_connection = list()
+	templates_by_connection_and_depth = list()
+	filler_templates_by_connection = list()
+	for(var/direction in GLOB.cardinals)
+		var/key = direction_key(direction)
+		templates_by_connection[key] = list()
+		templates_by_connection_and_depth[key] = list()
+		filler_templates_by_connection[key] = list()
+
 	for(var/path in subtypesof(/datum/map_template/dungeon))
 		var/datum/map_template/dungeon/path_type = path
 		if(initial(path_type.abstract_type) == path || ispath(path, /datum/map_template/dungeon/entry))
@@ -37,6 +50,7 @@ SUBSYSTEM_DEF(dungeon_generator)
 
 		parent_types[path] = initial(path_type.type_weight) || 10
 		dungeon_templates += T
+		cache_template_connections(T)
 
 	
 	templates_by_category[/datum/map_template/dungeon] = dungeon_templates
@@ -52,7 +66,14 @@ SUBSYSTEM_DEF(dungeon_generator)
 		if(H.z == target_z)
 			found_points += H
 
-	if(!length(found_points)) return
+	if(!length(found_points))
+		setup_attempts++
+		if(setup_attempts >= max_setup_attempts)
+			generation_complete = TRUE
+			can_fire = FALSE
+			return
+		addtimer(CALLBACK(src, .proc/find_initial_map_data), 50)
+		return
 
 	if(SSmapping.z_list.len < target_z + 1)
 		SSmapping.add_new_zlevel("Dungeon Upper Layer", list(ZTRAIT_AWAY = TRUE))
@@ -67,26 +88,27 @@ SUBSYSTEM_DEF(dungeon_generator)
 	
 	markers |= found_points
 	setup_done = TRUE
-	last_placement_time = world.time
+	setup_attempts = 0
 
 /datum/controller/subsystem/dungeon_generator/fire(resumed)
 	if(!setup_done) return
 
-	if(!loot_pool_finalized && (world.time - last_placement_time) >= finalize_quiet_period)
-		loot_pool_finalized = TRUE
-		process_deferred_loot_pool("tomb_of_alotheos")
+	if(generation_complete)
+		can_fire = FALSE
+		return
 
 	if(!length(markers) && !length(failed_markers))
+		finalize_generation()
 		return
 
 	if(generation_stage == STAGE_EXPANSION)
 		if(length(markers))
-			process_markers(10)
+			process_markers(marker_process_limit)
 		else
 			generation_stage = STAGE_CLEANUP
 	else if(generation_stage == STAGE_CLEANUP)
 		if(length(failed_markers))
-			process_failed_markers(10)
+			process_failed_markers(marker_process_limit)
 		else
 			generation_stage = STAGE_EXPANSION
 
@@ -118,13 +140,9 @@ SUBSYSTEM_DEF(dungeon_generator)
 	if(max_dist < 4) return FALSE 
 
 	var/opp_dir = reverse_direction(direction)
-	
-	
-	var/list/all_templates = templates_by_category[/datum/map_template/dungeon]
-	var/list/checking_list = shuffle(all_templates.Copy())
+	var/list/checking_list = get_candidate_templates(opp_dir, max_dist)
 	
 	for(var/datum/map_template/dungeon/T in checking_list)
-		if(T.width > (max_dist * 2) || T.height > (max_dist * 2)) continue
 		var/offset = T.get_dir_offset(opp_dir)
 		if(offset == null) continue
 
@@ -194,7 +212,6 @@ SUBSYSTEM_DEF(dungeon_generator)
 
 /datum/controller/subsystem/dungeon_generator/proc/on_template_placed(datum/map_template/dungeon/T, turf/placement)
 	placed_count[T.type]++
-	last_placement_time = world.time
 
 /datum/controller/subsystem/dungeon_generator/proc/reverse_direction(dir)
 	switch(dir)
@@ -203,6 +220,48 @@ SUBSYSTEM_DEF(dungeon_generator)
 		if(EAST)  return WEST
 		if(WEST)  return EAST
 	return dir
+
+/datum/controller/subsystem/dungeon_generator/proc/direction_key(dir)
+	return "[dir]"
+
+/datum/controller/subsystem/dungeon_generator/proc/cache_template_connections(datum/map_template/dungeon/T)
+	for(var/direction in GLOB.cardinals)
+		if(T.get_dir_offset(direction) == null)
+			continue
+		var/key = direction_key(direction)
+		templates_by_connection[key] += T
+		var/list/depth_buckets = templates_by_connection_and_depth[key]
+		var/required_depth = CEILING(max(T.width, T.height) / 2, 1)
+		var/depth_key = "[required_depth]"
+		if(!depth_buckets[depth_key])
+			depth_buckets[depth_key] = list()
+		depth_buckets[depth_key] += T
+		if(T.width <= 6 && T.height <= 6)
+			filler_templates_by_connection[key] += T
+
+/datum/controller/subsystem/dungeon_generator/proc/get_candidate_templates(direction, max_depth)
+	var/list/depth_buckets = templates_by_connection_and_depth[direction_key(direction)]
+	var/list/candidates = list()
+	for(var/depth in 1 to max_depth)
+		var/list/bucket = depth_buckets["[depth]"]
+		if(length(bucket))
+			candidates += bucket
+	return shuffle(candidates)
+
+/datum/controller/subsystem/dungeon_generator/proc/finalize_loot_pool()
+	if(loot_pool_finalized)
+		return
+	loot_pool_finalized = TRUE
+	process_deferred_loot_pool("tomb_of_alotheos")
+
+/datum/controller/subsystem/dungeon_generator/proc/finalize_generation()
+	if(generation_complete)
+		return
+	finalize_loot_pool()
+	generation_complete = TRUE
+	markers.Cut()
+	failed_markers.Cut()
+	can_fire = FALSE
 
 /datum/map_template/dungeon/proc/get_dir_offset(dir)
 	switch(dir)
@@ -224,13 +283,9 @@ SUBSYSTEM_DEF(dungeon_generator)
 
 /datum/controller/subsystem/dungeon_generator/proc/try_spawn_filler(direction, turf/target_turf)
 	var/opp_dir = reverse_direction(direction)
-	
-	
-	var/list/all_templates = templates_by_category[/datum/map_template/dungeon]
-	var/list/checking_list = shuffle(all_templates.Copy())
+	var/list/checking_list = shuffle(filler_templates_by_connection[direction_key(opp_dir)])
 	
 	for(var/datum/map_template/dungeon/T in checking_list)
-		if(T.width > 6 || T.height > 6) continue 
 		var/offset = T.get_dir_offset(opp_dir)
 		if(offset == null) continue
 		var/spawn_x = target_turf.x; var/spawn_y = target_turf.y

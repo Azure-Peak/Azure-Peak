@@ -4,10 +4,10 @@
 	desc = "A once-mortal snow elf turned god. Her hubris in thinking she could harvest lux from the planet itself led to the elimination of her entire race. Her works are still used to this dae in some cases."
 	worshippers = "Necromancers, Researchers, Warlocks, and the Undead"
 	mob_traits = list(TRAIT_CABAL, TRAIT_ZIZOSIGHT)
-	miracles = list(/obj/effect/proc_holder/spell/targeted/touch/orison					= CLERIC_ORI,
+	miracles = list(/datum/action/cooldown/spell/touch/orison							= CLERIC_ORI,
 					/obj/effect/proc_holder/spell/self/zizo_snuff						= CLERIC_T0,
-					/obj/effect/proc_holder/spell/invoked/lesser_heal 					= CLERIC_T1,
-					/obj/effect/proc_holder/spell/invoked/blood_heal					= CLERIC_T1,
+					/datum/action/cooldown/spell/miracle/heal 							= CLERIC_T1,
+					/datum/action/cooldown/spell/miracle/bloodmiracle					= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/projectile/profane/miracle 	= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/raise_undead_formation/miracle= CLERIC_T2,
 					/obj/effect/proc_holder/spell/invoked/raise_undead_guard/miracle	= CLERIC_T2,

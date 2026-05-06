@@ -95,10 +95,6 @@
 
 //Probabilities end (albeit mud is handled seperately).
 
-//For highlighting tracks
-/mob/living/carbon/human
-	var/mob/living/current_mark
-
 //Analysis levels depending on skillcheck during reveal.
 #define ANALYSIS_TERRIBLE 1
 #define ANALYSIS_BAD 2

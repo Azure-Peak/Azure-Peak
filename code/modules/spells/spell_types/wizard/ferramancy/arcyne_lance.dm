@@ -39,7 +39,7 @@
 	icon = 'icons/obj/magic_projectiles.dmi'
 	icon_state = "air_blade_stab"
 	guard_deflectable = TRUE
-	damage = 55
+	damage = 66
 	damage_type = BRUTE
 	woundclass = BCLASS_STAB
 	npc_simple_damage_mult = 1.5
@@ -57,7 +57,7 @@
 
 /obj/projectile/magic/arcyne_lance/arc
 	name = "arced arcyne lance"
-	damage = 41
+	damage = 50
 	arcshot = TRUE
 	max_hits = 1 // Arced version does not pierce
 

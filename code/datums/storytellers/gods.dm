@@ -632,9 +632,6 @@
 		),
 		"Set 5" = list(
 			STATS_LOCKS_PICKED = list("name" = "Locks picked:", "points" = 3.75, "capacity" = 80),
-		),
-		"Set 6" = list(
-			STATS_GOLD_TRANSMUTED = list("name" = "Gold transmuted:", "points" = 0.77, "capacity" = 60),
 		)
 	)
 

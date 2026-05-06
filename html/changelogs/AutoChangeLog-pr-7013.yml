@@ -1,0 +1,5 @@
+author: "Quinalion"
+delete-after: True
+changes:
+  - bugfix: "Heretic spellblade gets normal avantyne longsword."
+  - bugfix: "Avantyne garments sprite."

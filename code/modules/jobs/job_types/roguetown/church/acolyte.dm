@@ -129,10 +129,16 @@
 			head = /obj/item/clothing/head/roguetown/eoramask
 			neck = /obj/item/clothing/neck/roguetown/psicross/eora
 			shoes = /obj/item/clothing/shoes/roguetown/sandals
-			armor = /obj/item/clothing/suit/roguetown/shirt/robe/eora
 			cloak = /obj/item/clothing/cloak/templar/eoran
 			r_hand = /obj/item/rogueweapon/huntingknife/scissors
 			shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded
+			var/robes = list("Modest","Exposed")
+			var/robe_choice = input(H, "Choose your ROBES.", "TAKE UP ROBES.") as anything in robes
+			switch(robe_choice) // This feels wrong to do but I am unsure how else to do it
+				if("Modest")
+					armor = /obj/item/clothing/suit/roguetown/shirt/robe/eora
+				if("Exposed")
+					armor = /obj/item/clothing/suit/roguetown/shirt/robe/eora/alt
 		if(/datum/patron/divine/malum)
 			head = /obj/item/clothing/head/roguetown/roguehood
 			neck = /obj/item/clothing/neck/roguetown/psicross/malum

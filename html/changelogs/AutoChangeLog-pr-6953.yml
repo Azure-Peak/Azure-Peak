@@ -1,4 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - rscadd: "Fixes z level transitioning logic for AI and tree climbing logic such that they will attempt to climb trees and go up stairs to hit you."

@@ -25,7 +25,11 @@
 /datum/quest/courier/get_additional_reward(turf/origin_turf, turf/target_turf)
 	var/distance = CLAMP(get_dist(origin_turf, target_turf), 0, 200)
 	var/distance_reward = (distance / QUEST_DELIVERY_DISTANCE_DIVISOR) * QUEST_DELIVERY_DISTANCE_BONUS
-	return ROUND_UP(distance_reward + QUEST_COURIER_BONUS_FLAT)
+	var/threat_bonus = 0
+	var/datum/threat_region/TR = SSregionthreat.get_region(region)
+	if(TR)
+		threat_bonus = max(0, (TR.delivery_reward_multiplier - 1.0) * QUEST_DELIVERY_THREAT_BONUS)
+	return ROUND_UP(distance_reward + QUEST_COURIER_BONUS_FLAT + threat_bonus)
 
 /datum/quest/courier/proc/get_area_delivery_items()
 	var/static/list/area_delivery_items = list(

@@ -109,7 +109,10 @@ export const OrdersView = (props: { data: Data }) => {
                 })}
               </div>
               <div style={{ marginTop: '8px' }}>
-                <FulfillButton order={o} onFulfill={() => act('fulfill_order', { ref: o.ref })} />
+                <FulfillButton
+                  order={o}
+                  onFulfill={() => act('fulfill_order', { ref: o.ref })}
+                />
               </div>
             </div>
           );
@@ -154,6 +157,18 @@ const FulfillButton = (props: {
         style={inkButtonStyle({ color: SEAL_GREEN })}
       >
         Fulfill
+      </button>
+    );
+  }
+  if (o.can_partial) {
+    return (
+      <button
+        type="button"
+        onClick={props.onFulfill}
+        title={`Settle short - ${o.partial_pct}% of value covered, paid at 85% of the delivered share. Missing: ${o.shortfall_text}`}
+        style={inkButtonStyle({ color: SEAL_AMBER })}
+      >
+        Fulfill Partial &mdash; {o.partial_pct}% ({o.partial_payout_preview}m)
       </button>
     );
   }

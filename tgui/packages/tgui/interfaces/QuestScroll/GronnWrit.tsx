@@ -1,6 +1,13 @@
 import { RecoveryAddendum } from './HumanoidWrit';
+import { RewardClause } from './RewardClause';
 import { SealLine } from './Seals';
-import { capitalize, caputLupinum, indictmentItem, indictmentList, writParagraph } from './shared';
+import {
+  capitalize,
+  caputLupinum,
+  indictmentItem,
+  indictmentList,
+  writParagraph,
+} from './shared';
 
 export const GronnWrit = (props: {
   realm: string;
@@ -13,6 +20,7 @@ export const GronnWrit = (props: {
   reward: number;
   levyRate: number;
   levyExempt: boolean;
+  guildCutRate: number;
   issuedBy?: string;
   issuedOn?: string | null;
   bearer?: string;
@@ -32,6 +40,7 @@ export const GronnWrit = (props: {
     reward,
     levyRate,
     levyExempt,
+    guildCutRate,
     issuedBy,
     issuedOn,
     bearer,
@@ -40,8 +49,6 @@ export const GronnWrit = (props: {
     recoveryDestination,
     recoveryCircumstance,
   } = props;
-  const showLevy = !levyExempt && levyRate > 0;
-  const net = showLevy ? Math.round(reward * (1 - levyRate)) : reward;
   const folk = namePlural || 'raiders';
   const band = groupWord || 'warband';
 
@@ -88,12 +95,13 @@ export const GronnWrit = (props: {
       </p>
       <p style={writParagraph}>
         Upon their death the writ shall fall silent and mark itself; return it
-        then to the Contract Ledger, that the bounty of <b>{reward} mammon</b>
-        {showLevy ? (
-          <>
-            , <b>{net} mammon</b> after the Crown&apos;s Levy
-          </>
-        ) : null}{' '}
+        then to the Contract Ledger, that the bounty of{' '}
+        <RewardClause
+          reward={reward}
+          levyRate={levyRate}
+          levyExempt={levyExempt}
+          guildCutRate={guildCutRate}
+        />{' '}
         be paid.
       </p>
       {hasRecoveryAddendum && (
