@@ -361,12 +361,18 @@ SUBSYSTEM_DEF(questpool)
 /datum/controller/subsystem/questpool/proc/issue_towner_quest(type, mob/living/carbon/human/poster, posting_tier = TOWNER_POSTING_TIER_HARD)
 	if(!type || !poster)
 		return null
-	var/datum/quest/towner/Q = instantiate_quest_of_type(type)
-	if(!istype(Q))
-		if(Q)
-			qdel(Q)
+	var/datum/quest/Q = instantiate_quest_of_type(type)
+	if(!Q)
 		return null
-	Q.posting_tier = posting_tier
+	if(istype(Q, /datum/quest/kill/recovery/towner_smith_caravan))
+		var/datum/quest/kill/recovery/towner_smith_caravan/SQ = Q
+		SQ.posting_tier = posting_tier
+	else if(istype(Q, /datum/quest/kill/towner_miner_orevein))
+		var/datum/quest/kill/towner_miner_orevein/MQ = Q
+		MQ.posting_tier = posting_tier
+	else
+		qdel(Q)
+		return null
 	Q.source = QUEST_SOURCE_TOWNER
 	Q.created_at = world.time
 	Q.issued_day = GLOB.dayspassed
@@ -455,9 +461,9 @@ SUBSYSTEM_DEF(questpool)
 		if(QUEST_BLOCKADE_DEFENSE)
 			return new /datum/quest/kill/blockade_defense()
 		if(QUEST_TOWNER_SMITH_CARAVAN)
-			return new /datum/quest/towner/smith_caravan()
+			return new /datum/quest/kill/recovery/towner_smith_caravan()
 		if(QUEST_TOWNER_MINER_OREVEIN)
-			return new /datum/quest/towner/miner_orevein()
+			return new /datum/quest/kill/towner_miner_orevein()
 	return null
 
 /datum/controller/subsystem/questpool/proc/claim(datum/quest/Q, mob/user)

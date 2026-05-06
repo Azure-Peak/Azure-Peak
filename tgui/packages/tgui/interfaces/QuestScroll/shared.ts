@@ -48,6 +48,10 @@ export type QuestScrollData = {
   blockade_failed?: BooleanLike;
   hunt_timer_label?: string;
   hunt_timer_seconds?: number;
+  caravan_parcel_spawned?: BooleanLike;
+  caravan_expired?: BooleanLike;
+  caravan_expiry_seconds?: number;
+  caravan_bearer_arrived?: BooleanLike;
 };
 
 export const FACTION_CAT_HUMANOID = 'humanoid';

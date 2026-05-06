@@ -131,11 +131,7 @@
 		data["directives_per_day"] = COMMISSION_REQUESTS_PER_DAY
 		data["directives_issued_today"] = directives_issued_today
 	if("towner" in dynamic_roles)
-		data["towner_caravan_eligible"] = user_can_post_towner_caravan(user)
-		data["towner_orevein_eligible"] = user_can_post_towner_orevein(user)
-		data["towner_posting_costs"] = GLOB.towner_posting_tier_costs.Copy()
-		data["towner_caravan_eligible_jobs"] = towner_advclass_names(GLOB.towner_caravan_postable_advclasses)
-		data["towner_orevein_eligible_jobs"] = towner_advclass_names(GLOB.towner_orevein_postable_advclasses)
+		data["towner_postings"] = build_towner_posting_listing(user)
 	return data
 
 /// Jobs that can access the Steward commission panel. The Steward is the primary commissioner;
@@ -202,6 +198,7 @@ GLOBAL_LIST_INIT(contract_ledger_commission_roles, list(
 			"expected_count" = expected_count,
 			"threat_bands" = threat_bands,
 			"levy_exempt" = Q.levy_exempt,
+			"guild_cut_exempt" = Q.guild_cut_exempt,
 			"is_rumor" = Q.source == QUEST_SOURCE_RUMOR,
 			"is_defense" = Q.source == QUEST_SOURCE_DEFENSE,
 			"is_towner" = Q.source == QUEST_SOURCE_TOWNER,

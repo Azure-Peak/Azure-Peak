@@ -1,19 +1,34 @@
-GLOBAL_LIST_INIT(towner_caravan_postable_advclasses, list(
-	/datum/advclass/blacksmith,
-	/datum/advclass/guildsman/blacksmith,
-	/datum/advclass/guildsman/artificer,
-	/datum/advclass/guildmaster,
-))
-
-GLOBAL_LIST_INIT(towner_orevein_postable_advclasses, list(
-	/datum/advclass/miner,
-	/datum/advclass/guildsman/architect,
-	/datum/advclass/guildmaster,
-))
-
 GLOBAL_LIST_INIT(towner_posting_tier_costs, list(
-	TOWNER_POSTING_TIER_EASY = TOWNER_POSTING_COST_EASY,
+	TOWNER_POSTING_TIER_MEDIUM = TOWNER_POSTING_COST_MEDIUM,
 	TOWNER_POSTING_TIER_HARD = TOWNER_POSTING_COST_HARD,
+))
+
+GLOBAL_LIST_INIT(towner_posting_descriptors, list(
+	QUEST_TOWNER_SMITH_CARAVAN = list(
+		"label" = "A Caravan Gone Missing",
+		"blurb" = "A wagon of yours was lost on the road. Hire hands to escort you to the wreck.",
+		"rules" = list(
+			"You must reach the wreck yourself for the strongbox to surface.",
+			"Once the bearer reaches the wreck, you have 20 minutes to follow.",
+			"If the trail goes cold, your posting fee is refunded.",
+		),
+		"postable_advclasses" = list(
+			/datum/advclass/blacksmith,
+			/datum/advclass/guildsman/blacksmith,
+			/datum/advclass/guildsman/artificer,
+			/datum/advclass/guildmaster,
+		),
+	),
+	QUEST_TOWNER_MINER_OREVEIN = list(
+		"label" = "A Miner's Lead",
+		"blurb" = "You have scented an elemental-guarded vein. Hire hands to clear the guardians while you work the rock.",
+		"rules" = list(),
+		"postable_advclasses" = list(
+			/datum/advclass/miner,
+			/datum/advclass/guildsman/architect,
+			/datum/advclass/guildmaster,
+		),
+	),
 ))
 
 /proc/get_user_advclass_path(mob/user)
@@ -24,20 +39,20 @@ GLOBAL_LIST_INIT(towner_posting_tier_costs, list(
 		return null
 	return AC.type
 
-/proc/user_can_post_towner_caravan(mob/user)
+/proc/user_can_post_towner_type(mob/user, posting_type)
+	var/list/desc = GLOB.towner_posting_descriptors[posting_type]
+	if(!desc)
+		return FALSE
 	var/path = get_user_advclass_path(user)
 	if(!path)
 		return FALSE
-	return (path in GLOB.towner_caravan_postable_advclasses)
-
-/proc/user_can_post_towner_orevein(mob/user)
-	var/path = get_user_advclass_path(user)
-	if(!path)
-		return FALSE
-	return (path in GLOB.towner_orevein_postable_advclasses)
+	return (path in desc["postable_advclasses"])
 
 /proc/user_can_post_any_towner(mob/user)
-	return user_can_post_towner_caravan(user) || user_can_post_towner_orevein(user)
+	for(var/posting_type in GLOB.towner_posting_descriptors)
+		if(user_can_post_towner_type(user, posting_type))
+			return TRUE
+	return FALSE
 
 /proc/towner_advclass_names(list/paths)
 	var/list/out = list()
@@ -46,6 +61,45 @@ GLOBAL_LIST_INIT(towner_posting_tier_costs, list(
 		var/n = initial(AC.name)
 		if(n)
 			out += n
+	return out
+
+/proc/towner_tier_summary(posting_type, tier)
+	switch(posting_type)
+		if(QUEST_TOWNER_SMITH_CARAVAN)
+			var/list/ranges = GLOB.towner_smith_caravan_bundle_ranges[tier]
+			var/poster_summary = "?"
+			if(ranges)
+				poster_summary = "[ranges["iron"][1]]-[ranges["iron"][2]] iron, [ranges["bronze"][1]]-[ranges["bronze"][2]] bronze, [ranges["steel"][1]]-[ranges["steel"][2]] steel"
+			var/bonus = (tier == TOWNER_POSTING_TIER_HARD) ? TOWNER_CARAVAN_FLAT_BONUS_HARD : TOWNER_CARAVAN_FLAT_BONUS_MEDIUM
+			return list(
+				"bearer_summary" = "combat & distance pay + [bonus]m bonus",
+				"poster_summary" = poster_summary,
+			)
+		if(QUEST_TOWNER_MINER_OREVEIN)
+			return list(
+				"bearer_summary" = "combat pay (template not yet operational)",
+				"poster_summary" = "ore vein at the strike site (template not yet operational)",
+			)
+	return list("bearer_summary" = "?", "poster_summary" = "?")
+
+/proc/build_towner_posting_listing(mob/user)
+	var/list/out = list()
+	for(var/posting_type in GLOB.towner_posting_descriptors)
+		var/list/desc = GLOB.towner_posting_descriptors[posting_type]
+		var/list/tiers = list()
+		for(var/tier in list(TOWNER_POSTING_TIER_MEDIUM, TOWNER_POSTING_TIER_HARD))
+			tiers[tier] = towner_tier_summary(posting_type, tier)
+		out += list(list(
+			"type" = posting_type,
+			"label" = desc["label"],
+			"blurb" = desc["blurb"],
+			"rules" = desc["rules"] || list(),
+			"eligible" = user_can_post_towner_type(user, posting_type) ? TRUE : FALSE,
+			"eligible_jobs" = towner_advclass_names(desc["postable_advclasses"]),
+			"cost_medium" = TOWNER_POSTING_COST_MEDIUM,
+			"cost_hard" = TOWNER_POSTING_COST_HARD,
+			"tiers" = tiers,
+		))
 	return out
 
 /obj/structure/roguemachine/contractledger/proc/compose_towner_from_tgui(mob/user, list/params)
@@ -59,19 +113,16 @@ GLOBAL_LIST_INIT(towner_posting_tier_costs, list(
 		return
 
 	var/chosen_type = params["type"]
-	if(chosen_type != QUEST_TOWNER_SMITH_CARAVAN && chosen_type != QUEST_TOWNER_MINER_OREVEIN)
+	if(!(chosen_type in GLOB.towner_posting_descriptors))
 		to_chat(poster, span_warning("That posting type is not one the Guild accepts."))
 		return
 
-	if(chosen_type == QUEST_TOWNER_SMITH_CARAVAN && !user_can_post_towner_caravan(poster))
-		to_chat(poster, span_warning("Only smiths may post a caravan-recovery contract."))
-		return
-	if(chosen_type == QUEST_TOWNER_MINER_OREVEIN && !user_can_post_towner_orevein(poster))
-		to_chat(poster, span_warning("Only miners and their kindred trades may post a vein-strike contract."))
+	if(!user_can_post_towner_type(poster, chosen_type))
+		to_chat(poster, span_warning("Your trade does not post that contract."))
 		return
 
 	var/tier = params["tier"]
-	if(tier != TOWNER_POSTING_TIER_EASY && tier != TOWNER_POSTING_TIER_HARD)
+	if(tier != TOWNER_POSTING_TIER_MEDIUM && tier != TOWNER_POSTING_TIER_HARD)
 		to_chat(poster, span_warning("That posting tier is not recognised."))
 		return
 	var/cost = GLOB.towner_posting_tier_costs[tier]
@@ -92,7 +143,7 @@ GLOBAL_LIST_INIT(towner_posting_tier_costs, list(
 		to_chat(poster, span_warning("The treasury refused the draft."))
 		return
 
-	var/datum/quest/towner/dispatched = SSquestpool.issue_towner_quest(chosen_type, poster, tier)
+	var/datum/quest/dispatched = SSquestpool.issue_towner_quest(chosen_type, poster, tier)
 	if(!dispatched)
 		SStreasury.transfer(SStreasury.discretionary_fund, poster_account, cost, "towner contract posting refund (issue failure)")
 		to_chat(poster, span_warning("No landmark could bear that contract. Funds refunded."))

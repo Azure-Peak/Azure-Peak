@@ -21,6 +21,7 @@ type Contract = {
   expected_count: number;
   threat_bands: number;
   levy_exempt: BooleanLike;
+  guild_cut_exempt: BooleanLike;
   is_rumor: BooleanLike;
   is_defense: BooleanLike;
   is_towner: BooleanLike;
@@ -349,7 +350,7 @@ const ContractCard = (props: { contract: Contract }) => {
       </div>
       {(() => {
         const levyRate = c.levy_exempt ? 0 : data.tax_rate;
-        const guildRate = c.is_defense ? 0 : data.guild_cut_rate || 0;
+        const guildRate = c.is_defense || c.guild_cut_exempt ? 0 : data.guild_cut_rate || 0;
         const levy = Math.round(c.reward * levyRate);
         const guild = Math.round(c.reward * guildRate);
         const purse = c.reward - levy - guild;

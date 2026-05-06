@@ -4,28 +4,28 @@ import type { BooleanLike } from 'tgui-core/react';
 
 import { useBackend } from '../backend';
 
+type Tier = 'medium' | 'hard';
+
+type TierSummary = {
+  bearer_summary: string;
+  poster_summary: string;
+};
+
+type Posting = {
+  type: string;
+  label: string;
+  blurb: string;
+  rules?: string[];
+  eligible: BooleanLike;
+  eligible_jobs: string[];
+  cost_medium: number;
+  cost_hard: number;
+  tiers: Record<Tier, TierSummary>;
+};
+
 type TownerData = {
   balance: number;
-  towner_caravan_eligible: BooleanLike;
-  towner_orevein_eligible: BooleanLike;
-  towner_posting_costs: Record<string, number>;
-  towner_caravan_eligible_jobs: string[];
-  towner_orevein_eligible_jobs: string[];
-};
-
-type PostingType = 'Smith Caravan' | 'Ore Vein';
-type Tier = 'easy' | 'hard';
-
-const POSTING_LABELS: Record<PostingType, string> = {
-  'Smith Caravan': 'A Caravan Gone Missing',
-  'Ore Vein': "A Miner's Lead",
-};
-
-const POSTING_BLURBS: Record<PostingType, string> = {
-  'Smith Caravan':
-    'A wagon of yours was lost on the road. Hire hands to escort you to the wreck.',
-  'Ore Vein':
-    'You have scented an elemental-guarded vein. Hire hands to clear the guardians while you work the rock.',
+  towner_postings: Posting[];
 };
 
 const tierButtonStyle = (selected: boolean): React.CSSProperties =>
@@ -42,39 +42,63 @@ const tierButtonStyle = (selected: boolean): React.CSSProperties =>
         border: '2px solid hsl(28, 40%, 22%)',
       };
 
+const RulesBlock = (props: { rules?: string[] }) => {
+  if (!props.rules || props.rules.length === 0) return null;
+  return (
+    <div
+      className="ContractLedger__CardObjective"
+      style={{ marginTop: 4, fontSize: '0.85em', opacity: 0.8 }}
+    >
+      {props.rules.map((r, i) => (
+        <div key={i}>- {r}</div>
+      ))}
+    </div>
+  );
+};
+
+const TierSummaryBlock = (props: { summary: TierSummary }) => (
+  <div
+    className="ContractLedger__CardObjective"
+    style={{ marginTop: 6, fontSize: '0.9em', opacity: 0.85 }}
+  >
+    <div>
+      <b>To bearer:</b> {props.summary.bearer_summary}.
+    </div>
+    <div>
+      <b>To poster:</b> {props.summary.poster_summary}.
+    </div>
+  </div>
+);
+
 const ActivePostingCard = (props: {
-  postingType: PostingType;
+  posting: Posting;
   balance: number;
-  costs: Record<string, number>;
   onPost: (tier: Tier) => void;
 }) => {
   const [tier, setTier] = useState<Tier>('hard');
-  const cost = props.costs[tier] ?? (tier === 'easy' ? 50 : 100);
-  const easyCost = props.costs.easy ?? 50;
-  const hardCost = props.costs.hard ?? 100;
+  const cost = tier === 'medium' ? props.posting.cost_medium : props.posting.cost_hard;
   const canAfford = props.balance >= cost;
+  const summary = props.posting.tiers[tier];
   return (
-    <div className="ContractLedger__Card">
-      <div className="ContractLedger__CardTitle">
-        {POSTING_LABELS[props.postingType]}
-      </div>
-      <div className="ContractLedger__CardObjective">
-        {POSTING_BLURBS[props.postingType]}
-      </div>
+    <div className="ContractLedger__Card" style={{ width: 300 }}>
+      <div className="ContractLedger__CardTitle">{props.posting.label}</div>
+      <div className="ContractLedger__CardObjective">{props.posting.blurb}</div>
+      <RulesBlock rules={props.posting.rules} />
+      {summary && <TierSummaryBlock summary={summary} />}
       <div className="ContractLedger__CardRow" style={{ marginTop: 8 }}>
         <Button
-          selected={tier === 'easy'}
-          onClick={() => setTier('easy')}
-          style={tierButtonStyle(tier === 'easy')}
+          selected={tier === 'medium'}
+          onClick={() => setTier('medium')}
+          style={tierButtonStyle(tier === 'medium')}
         >
-          Easy ({easyCost}m)
+          Medium ({props.posting.cost_medium}m)
         </Button>
         <Button
           selected={tier === 'hard'}
           onClick={() => setTier('hard')}
           style={tierButtonStyle(tier === 'hard')}
         >
-          Hard ({hardCost}m)
+          Hard ({props.posting.cost_hard}m)
         </Button>
       </div>
       <div className="ContractLedger__CardFooter">
@@ -92,32 +116,31 @@ const ActivePostingCard = (props: {
   );
 };
 
-const ViewOnlyPostingCard = (props: {
-  postingType: PostingType;
-  costs: Record<string, number>;
-  eligibleJobs: string[];
-}) => {
-  const easyCost = props.costs.easy ?? 50;
-  const hardCost = props.costs.hard ?? 100;
+const ViewOnlyPostingCard = (props: { posting: Posting }) => {
   const jobs =
-    props.eligibleJobs.length > 0
-      ? props.eligibleJobs.join(', ')
+    props.posting.eligible_jobs.length > 0
+      ? props.posting.eligible_jobs.join(', ')
       : 'unknown';
   return (
-    <div className="ContractLedger__Card" style={{ opacity: 0.65 }}>
-      <div className="ContractLedger__CardTitle">
-        {POSTING_LABELS[props.postingType]}
+    <div className="ContractLedger__Card" style={{ width: 300, opacity: 0.65 }}>
+      <div className="ContractLedger__CardTitle">{props.posting.label}</div>
+      <div className="ContractLedger__CardObjective">{props.posting.blurb}</div>
+      <RulesBlock rules={props.posting.rules} />
+      <div
+        className="ContractLedger__CardObjective"
+        style={{ marginTop: 6, fontSize: '0.9em', opacity: 0.85 }}
+      >
+        <b>Medium ({props.posting.cost_medium}m):</b>
       </div>
-      <div className="ContractLedger__CardObjective">
-        {POSTING_BLURBS[props.postingType]}
+      <TierSummaryBlock summary={props.posting.tiers.medium} />
+      <div
+        className="ContractLedger__CardObjective"
+        style={{ marginTop: 6, fontSize: '0.9em', opacity: 0.85 }}
+      >
+        <b>Hard ({props.posting.cost_hard}m):</b>
       </div>
+      <TierSummaryBlock summary={props.posting.tiers.hard} />
       <div className="ContractLedger__CardRow" style={{ marginTop: 8 }}>
-        <span className="ContractLedger__CardLabel">Cost:</span>
-        <span className="ContractLedger__CardValue">
-          {easyCost}m or {hardCost}m
-        </span>
-      </div>
-      <div className="ContractLedger__CardRow">
         <span className="ContractLedger__CardLabel">Posted by:</span>
         <span className="ContractLedger__CardValue">{jobs}</span>
       </div>
@@ -127,24 +150,14 @@ const ViewOnlyPostingCard = (props: {
 
 export const TownerPostingPanel = () => {
   const { act, data } = useBackend<TownerData>();
-  const costs = data.towner_posting_costs || { easy: 50, hard: 100 };
+  const postings = data.towner_postings || [];
 
-  const post = (postingType: PostingType, tier: Tier) => {
+  const post = (postingType: string, tier: Tier) => {
     act('compose_towner', { type: postingType, tier });
   };
 
-  const yourPostings: PostingType[] = [];
-  const otherPostings: PostingType[] = [];
-  if (data.towner_caravan_eligible) {
-    yourPostings.push('Smith Caravan');
-  } else {
-    otherPostings.push('Smith Caravan');
-  }
-  if (data.towner_orevein_eligible) {
-    yourPostings.push('Ore Vein');
-  } else {
-    otherPostings.push('Ore Vein');
-  }
+  const yourPostings = postings.filter((p) => !!p.eligible);
+  const otherPostings = postings.filter((p) => !p.eligible);
 
   const sectionStyle: React.CSSProperties = {
     marginTop: 12,
@@ -184,11 +197,10 @@ export const TownerPostingPanel = () => {
           <div className="ContractLedger__Grid">
             {yourPostings.map((p) => (
               <ActivePostingCard
-                key={p}
-                postingType={p}
+                key={p.type}
+                posting={p}
                 balance={data.balance}
-                costs={costs}
-                onPost={(t) => post(p, t)}
+                onPost={(t) => post(p.type, t)}
               />
             ))}
           </div>
@@ -200,16 +212,7 @@ export const TownerPostingPanel = () => {
           <div style={sectionStyle}>OTHER POSTINGS</div>
           <div className="ContractLedger__Grid">
             {otherPostings.map((p) => (
-              <ViewOnlyPostingCard
-                key={p}
-                postingType={p}
-                costs={costs}
-                eligibleJobs={
-                  p === 'Smith Caravan'
-                    ? data.towner_caravan_eligible_jobs || []
-                    : data.towner_orevein_eligible_jobs || []
-                }
-              />
+              <ViewOnlyPostingCard key={p.type} posting={p} />
             ))}
           </div>
         </>

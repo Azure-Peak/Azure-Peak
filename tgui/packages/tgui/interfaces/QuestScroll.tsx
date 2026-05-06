@@ -38,6 +38,97 @@ import {
 } from './QuestScroll/shared';
 import { UndeadWrit } from './QuestScroll/UndeadWrit';
 
+type MarginaliaSectionProps = {
+  data: QuestScrollData;
+  showProgress: boolean;
+  hasWhisper: boolean;
+  hasBlockadeTimer: boolean;
+  hasHuntTimer: boolean;
+  hasCaravanTimer: boolean;
+  hasCaravanAwaitingArrival: boolean;
+};
+
+const MarginaliaSection = (props: MarginaliaSectionProps) => {
+  const {
+    data,
+    showProgress,
+    hasWhisper,
+    hasBlockadeTimer,
+    hasHuntTimer,
+    hasCaravanTimer,
+    hasCaravanAwaitingArrival,
+  } = props;
+  return (
+    <Marginalia>
+      {hasWhisper && (
+        <WhisperLine
+          compass={data.compass_direction || ''}
+          zHint={data.z_hint}
+        />
+      )}
+      {showProgress &&
+        (data.writ_type === WRIT_TYPE_RECOVERY ? (
+          <RetrievalProgressLine
+            done={data.progress_current ?? 0}
+            total={data.progress_required ?? 1}
+            noun={
+              data.fetch_item ? `${data.fetch_item}s` : 'goods of the realm'
+            }
+          />
+        ) : (
+          <ProgressLine
+            done={data.progress_current ?? 0}
+            total={data.progress_required ?? 1}
+            noun={data.faction_progress_noun || 'foes'}
+          />
+        ))}
+      {hasBlockadeTimer && (
+        <BlockadeTimer
+          label={data.blockade_timer_label || ''}
+          seconds={data.blockade_timer_seconds ?? 0}
+        />
+      )}
+      {hasHuntTimer && (
+        <BlockadeTimer
+          label={data.hunt_timer_label || ''}
+          seconds={data.hunt_timer_seconds ?? 0}
+        />
+      )}
+      {!!data.blockade_armed && !data.blockade_timer_label && (
+        <div style={marginaliaLine}>
+          <i>Travel to the blockade, waves descend on arrival.</i>
+        </div>
+      )}
+      {hasCaravanAwaitingArrival && (
+        <div style={marginaliaLine}>
+          <i>Reach the wreck to start the 20-minute clock.</i>
+        </div>
+      )}
+      {hasCaravanTimer && (
+        <>
+          <BlockadeTimer
+            label="Trail goes cold in"
+            seconds={data.caravan_expiry_seconds ?? 0}
+          />
+          <div style={marginaliaLine}>
+            <i>The strongbox stays buried until the smith reaches the wreck.</i>
+          </div>
+        </>
+      )}
+      {!!data.caravan_parcel_spawned && !data.complete && (
+        <div style={marginaliaLine}>
+          <i>The smith has reached the wreck. The strongbox is yours to recover.</i>
+        </div>
+      )}
+      {!!data.caravan_expired && (
+        <div style={marginaliaLine}>
+          <b>The trail has gone cold. The wreck is lost.</b>
+        </div>
+      )}
+    </Marginalia>
+  );
+};
+
 type WritBodyProps = {
   data: QuestScrollData;
   realm: string;
@@ -221,12 +312,24 @@ export const QuestScroll = () => {
     !!data.blockade_timer_label && (data.blockade_timer_seconds ?? 0) > 0;
   const hasHuntTimer =
     !!data.hunt_timer_label && (data.hunt_timer_seconds ?? 0) > 0;
+  const hasCaravanTimer =
+    (data.caravan_expiry_seconds ?? 0) > 0 && !data.caravan_parcel_spawned;
+  const hasCaravanAwaitingArrival =
+    data.caravan_bearer_arrived !== undefined &&
+    !data.caravan_bearer_arrived &&
+    !data.caravan_expired &&
+    !data.caravan_parcel_spawned;
+  const hasCaravanStatus =
+    !!data.caravan_parcel_spawned || !!data.caravan_expired;
   const hasMarginalia =
     hasWhisper ||
     showProgress ||
     hasBlockadeTimer ||
     hasHuntTimer ||
-    !!data.blockade_armed;
+    !!data.blockade_armed ||
+    hasCaravanTimer ||
+    hasCaravanStatus ||
+    hasCaravanAwaitingArrival;
   const hasSealBanners = !!(data.is_defense || data.levy_exempt);
 
   const isOutlawry =
@@ -259,49 +362,15 @@ export const QuestScroll = () => {
           </div>
 
           {hasMarginalia && (
-            <Marginalia>
-              {hasWhisper && (
-                <WhisperLine
-                  compass={data.compass_direction || ''}
-                  zHint={data.z_hint}
-                />
-              )}
-              {showProgress &&
-                (data.writ_type === WRIT_TYPE_RECOVERY ? (
-                  <RetrievalProgressLine
-                    done={data.progress_current ?? 0}
-                    total={data.progress_required ?? 1}
-                    noun={
-                      data.fetch_item
-                        ? `${data.fetch_item}s`
-                        : 'goods of the realm'
-                    }
-                  />
-                ) : (
-                  <ProgressLine
-                    done={data.progress_current ?? 0}
-                    total={data.progress_required ?? 1}
-                    noun={data.faction_progress_noun || 'foes'}
-                  />
-                ))}
-              {hasBlockadeTimer && (
-                <BlockadeTimer
-                  label={data.blockade_timer_label || ''}
-                  seconds={data.blockade_timer_seconds ?? 0}
-                />
-              )}
-              {hasHuntTimer && (
-                <BlockadeTimer
-                  label={data.hunt_timer_label || ''}
-                  seconds={data.hunt_timer_seconds ?? 0}
-                />
-              )}
-              {!!data.blockade_armed && !data.blockade_timer_label && (
-                <div style={marginaliaLine}>
-                  <i>Travel to the blockade, waves descend on arrival.</i>
-                </div>
-              )}
-            </Marginalia>
+            <MarginaliaSection
+              data={data}
+              showProgress={showProgress}
+              hasWhisper={hasWhisper}
+              hasBlockadeTimer={hasBlockadeTimer}
+              hasHuntTimer={hasHuntTimer}
+              hasCaravanTimer={hasCaravanTimer}
+              hasCaravanAwaitingArrival={hasCaravanAwaitingArrival}
+            />
           )}
 
           {data.complete ? (
