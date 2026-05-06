@@ -15,7 +15,7 @@
 					/obj/effect/proc_holder/spell/invoked/hammerfall			= CLERIC_T3,
 					/obj/effect/proc_holder/spell/self/repair                   = CLERIC_T3,
 					/obj/effect/proc_holder/spell/invoked/craftercovenant		= CLERIC_T4,
-					/obj/effect/proc_holder/spell/invoked/resurrect/malum		= CLERIC_T4,
+					/obj/effect/proc_holder/spell/invoked/resurrect/malum		= CLERIC_T3, // changed only the tier so it doesn't mess up with Acolyte's spell lineup, pls don't move this thank u <3
 	)
 	confess_lines = list(
 		"MALUM IS MY MUSE!",
