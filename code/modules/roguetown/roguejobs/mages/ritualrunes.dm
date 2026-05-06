@@ -435,7 +435,7 @@ GLOBAL_LIST(teleport_runes)
 		to_chat(user, "Exception: [e] on [e.file], line [e.line]. This is a code error!")
 
 /obj/effect/decal/cleanable/roguerune/arcyne/binding/proc/summon_mob(mob/living/user)
-	if(summoned_mob && isarcyne(user))
+	if(summoned_mob && ishuman(user))
 		if(busy)
 			to_chat(user, span_warning("I am already attempting to bind this familiar! I must have patience..."))
 			return
