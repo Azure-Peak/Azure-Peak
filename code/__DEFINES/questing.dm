@@ -38,7 +38,6 @@
 #define TOWNER_OREVEIN_FLAT_BONUS_HARD 60
 #define TOWNER_OREVEIN_CLUSTER_COUNT_MEDIUM 4
 #define TOWNER_OREVEIN_CLUSTER_COUNT_HARD 6
-#define TOWNER_OREVEIN_SWINGS_PER_CLUSTER 4
 
 // Recovery is intentionally omitted - the Steward cannot directly commission recoveries.
 // Those spawn from the pool (SSquestpool.regen_kill_targets) and from Innkeeper rumors only.
