@@ -215,12 +215,12 @@
 
 	var/exit_msg
 	if(isdead(fam))
-		var/obj/item/magic/familiar/vestige = fam.loc
-		if(istype(vestige))
-			QDEL_NULL(vestige)
 		exit_msg = "[fam.name]'s vestige vanishes in a puff of smoke."
 	else
 		exit_msg = "[fam.name] looks in the direction of [user.name] one last time, before opening a portal and vanishing into it."
+	var/obj/item/vestige = fam.loc // can actually be a conjured weapon, vestige, or orb
+	if(istype(vestige))
+		QDEL_NULL(vestige)
 	fam.visible_message(span_warning(exit_msg))
 	QDEL_NULL(fam)
 	return TRUE
