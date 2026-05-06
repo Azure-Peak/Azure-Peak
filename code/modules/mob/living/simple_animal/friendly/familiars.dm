@@ -144,6 +144,8 @@
 
 /mob/living/simple_animal/pet/familiar/death(gibbed)
 	. = ..(gibbed)
+	if(gibbed)
+		return .
 	var/obj/item/magic/familiar/familiar_vestige/vestige = new /obj/item/magic/familiar/familiar_vestige(loc)
 	vestige.stored_familiar = src
 	src.forceMove(vestige)

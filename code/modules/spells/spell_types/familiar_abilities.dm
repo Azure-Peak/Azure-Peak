@@ -250,6 +250,7 @@
 /obj/item/rogueweapon/woodstaff/implement/greater/elemental
 	name = "Staff of the Binder"
 	desc = "A mage's staff crowned with the spirit-gem of a familiar. The gem captures excess energy dissipated into the air when a spell is cast, giving a generous share of it back to the wielder."
+	icon_state = "sapphirestaff"
 
 /datum/action/cooldown/spell/arcyne_forge/elemental
 	name = "Earthen Forge"

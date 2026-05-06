@@ -429,10 +429,10 @@ GLOBAL_LIST(teleport_runes)
 
 /obj/effect/decal/cleanable/roguerune/arcyne/binding/attack_hand(mob/living/user)
 	try
-		summon_mob(user)
+		if(summon_mob(user))
+			. = ..()
 	catch(var/exception/e)
 		to_chat(user, "Exception: [e] on [e.file], line [e.line]. This is a code error!")
-	. = ..()
 
 /obj/effect/decal/cleanable/roguerune/arcyne/binding/proc/summon_mob(mob/living/user)
 	if(summoned_mob && isarcyne(user))
@@ -590,6 +590,7 @@ GLOBAL_LIST(teleport_runes)
 		if(!S || QDELETED(S))
 			summoned_mob = null
 			return
+	return TRUE
 
 /obj/effect/decal/cleanable/roguerune/arcyne/binding/attack_right(mob/user)
 	. = ..()
