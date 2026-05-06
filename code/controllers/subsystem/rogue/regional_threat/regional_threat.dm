@@ -20,13 +20,14 @@ SUBSYSTEM_DEF(regionthreat)
 			_lowpop_tick = 375 * THREAT_LOWPOP_TICK_RATE,
 			_highpop_tick = 375 * THREAT_HIGHPOP_TICK_RATE,
 			_faction_weights = list(
-				QUEST_FACTION_HIGHWAYMAN = 60,
-				QUEST_FACTION_FOREST_GOBLIN = 25,
-				QUEST_FACTION_WILD_BEAST = 15,
+				QUEST_FACTION_FOREST_GOBLIN = 60,
+				QUEST_FACTION_SEA_GOBLIN = 40,
+				QUEST_FACTION_HIGHWAYMAN = 5, // basically for blockade only
 			),
 			_tp_budget_multiplier = 0.75,
-			_kill_target_floor = 3,
-			_evergreen_target = 2,
+			_delivery_reward_multiplier = 1.0,
+			_kill_target_floor = 4,
+			_evergreen_target = 3,
 			_allowed_quest_types = list(QUEST_KILL_EASY, QUEST_CLEAR_OUT, QUEST_COURIER, QUEST_RETRIEVAL, QUEST_RECOVERY),
 		),
 		new /datum/threat_region(
@@ -45,8 +46,9 @@ SUBSYSTEM_DEF(regionthreat)
 				QUEST_FACTION_WILD_BEAST = 10,
 			),
 			_tp_budget_multiplier = 1.0,
-			_kill_target_floor = 4,
-			_evergreen_target = 2
+			_delivery_reward_multiplier = 1.5,
+			_kill_target_floor = 5,
+			_evergreen_target = 3
 			// allowed_quest_types: default (all)
 		),
 		new /datum/threat_region(
@@ -65,9 +67,10 @@ SUBSYSTEM_DEF(regionthreat)
 				QUEST_FACTION_FOREST_GOBLIN = 5,
 			),
 			_tp_budget_multiplier = 1.5,
+			_delivery_reward_multiplier = 2.0,
 			_allowed_quest_types = list(QUEST_CLEAR_OUT, QUEST_RAID, QUEST_BOUNTY, QUEST_COURIER, QUEST_RETRIEVAL, QUEST_RECOVERY),
-			_kill_target_floor = 3,
-			_evergreen_target = 2
+			_kill_target_floor = 4,
+			_evergreen_target = 3
 		),
 		// Coast & Decap stay somewhat dangerous no matter what
 		new /datum/threat_region(
@@ -86,8 +89,9 @@ SUBSYSTEM_DEF(regionthreat)
 				QUEST_FACTION_HIGHWAYMAN = 10,
 			),
 			_tp_budget_multiplier = 1.2,
+			_delivery_reward_multiplier = 1.8,
 			_allowed_quest_types = list(QUEST_CLEAR_OUT, QUEST_RAID, QUEST_BOUNTY, QUEST_RECOVERY),
-			_kill_target_floor = 2
+			_kill_target_floor = 3
 		),
 		new /datum/threat_region(
 			_region_name = THREAT_REGION_MOUNT_DECAP,
@@ -107,8 +111,9 @@ SUBSYSTEM_DEF(regionthreat)
 				QUEST_FACTION_MADMAN = 5,
 			),
 			_tp_budget_multiplier = 1.5,
+			_delivery_reward_multiplier = 2.0,
 			_allowed_quest_types = list(QUEST_CLEAR_OUT, QUEST_RAID, QUEST_BOUNTY, QUEST_RECOVERY),
-			_kill_target_floor = 2
+			_kill_target_floor = 3
 		),
 		// Underdark cannot be tamed — min_ambush is high, keeping the region permanently dangerous.
 		new /datum/threat_region(
@@ -127,8 +132,9 @@ SUBSYSTEM_DEF(regionthreat)
 				QUEST_FACTION_MINOTAUR = 10,
 			),
 			_tp_budget_multiplier = 1.5,
+			_delivery_reward_multiplier = 2.0,
 			_allowed_quest_types = list(QUEST_CLEAR_OUT, QUEST_RAID, QUEST_BOUNTY, QUEST_RECOVERY),
-			_kill_target_floor = 2
+			_kill_target_floor = 3
 		)
 	)
 

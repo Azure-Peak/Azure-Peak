@@ -121,14 +121,14 @@ SUBSYSTEM_DEF(treasury)
 	record_round_statistic(STATS_RUMOR_POINTS_GENERATED, rumor_points)
 	init_decrees()
 
-	for(var/path in subtypesof(/datum/roguestock/bounty))
-		var/datum/D = new path
-		stockpile_datums += D
 	for(var/path in subtypesof(/datum/roguestock/stockpile))
 		var/datum/roguestock/D = new path
 		stockpile_datums += D
 		if(D.trade_good_id)
 			stockpile_by_trade_good[D.trade_good_id] = D
+	for(var/path in subtypesof(/datum/roguestock/bounty))
+		var/datum/D = new path
+		stockpile_datums += D
 	autoset_stockpile_limits()
 	return ..()
 
@@ -162,11 +162,30 @@ SUBSYSTEM_DEF(treasury)
 		for(var/obj/structure/roguemachine/vaultbank/VB in A)
 			if(istype(VB))
 				VB.update_icon()
-		mint(discretionary_fund, RURAL_TAX, "Rural Tax Collection")
-		record_round_statistic(STATS_RURAL_TAXES_COLLECTED, RURAL_TAX)
-		total_rural_tax += RURAL_TAX
-	
+
 		auto_export()
+
+/datum/controller/subsystem/treasury/proc/tick_rural_tax()
+	if(!discretionary_fund)
+		return
+	var/rural_tax_amount = get_rural_tax_amount()
+	mint(discretionary_fund, rural_tax_amount, "Rural Tax Collection")
+	record_round_statistic(STATS_RURAL_TAXES_COLLECTED, rural_tax_amount)
+	total_rural_tax += rural_tax_amount
+
+/datum/controller/subsystem/treasury/proc/get_rural_tax_amount()
+	return RURAL_TAX
+
+/datum/controller/subsystem/treasury/proc/get_expected_wage_outlay()
+	if(!steward_machine || !steward_machine.daily_payments)
+		return 0
+	var/total = 0
+	for(var/job_name in steward_machine.daily_payments)
+		var/payment_amount = steward_machine.daily_payments[job_name]
+		for(var/mob/living/carbon/human/H in GLOB.human_list)
+			if(H.job == job_name && !HAS_TRAIT(H, TRAIT_WAGES_SUSPENDED))
+				total += payment_amount
+	return total
 
 /datum/controller/subsystem/treasury/proc/get_account(target)
 	if(!target)
@@ -385,12 +404,7 @@ SUBSYSTEM_DEF(treasury)
 			SSeconomy.daily_tick()
 		return
 
-	var/projected_total = 0
-	for(var/job_name in steward_machine.daily_payments)
-		var/payment_amount = steward_machine.daily_payments[job_name]
-		for(var/mob/living/carbon/human/H in GLOB.human_list)
-			if(H.job == job_name && !HAS_TRAIT(H, TRAIT_WAGES_SUSPENDED))
-				projected_total += payment_amount
+	var/projected_total = get_expected_wage_outlay()
 
 	// Solvency check: NORMAL -> IN_ARREARS (interest-free advance covers today's wages);
 	// IN_ARREARS -> BANKRUPTCY (sequestration, salaries suspended). If the Crown drew an

@@ -446,6 +446,9 @@
 //Food
 #define COMSIG_FOOD_EATEN "food_eaten"		//from base of obj/item/reagent_containers/food/snacks/attack(): (mob/living/eater, mob/feeder)
 
+//Bed
+#define COMSIG_SLEEPING_ON_BED "sleeping_on_bed" //from base of /mob/living/carbon/proc/handle_sleep(): (mob/living/sleeper, obj/structure/bed)
+
 //Gibs
 #define COMSIG_GIBS_STREAK "gibs_streak"						// from base of /obj/effect/decal/cleanable/blood/gibs/streak(): (list/directions, list/diseases)
 

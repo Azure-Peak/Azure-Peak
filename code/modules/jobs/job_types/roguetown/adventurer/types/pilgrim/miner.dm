@@ -64,6 +64,6 @@
 		pants = /obj/item/clothing/under/roguetown/trou
 		shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/random
 	if(H.mind)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/mineroresight)
+		H.AddComponent(/datum/component/ore_sight)
 	if(H.mind)
 		SStreasury.grant_savings(ECONOMIC_WORKING_CLASS, H)

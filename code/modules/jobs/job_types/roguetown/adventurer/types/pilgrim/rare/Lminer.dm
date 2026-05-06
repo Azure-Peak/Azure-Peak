@@ -63,4 +63,4 @@
 						/obj/item/storage/hip/orestore/bronze = 1
 						)
 	if(H.mind)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/mineroresight)
+		H.AddComponent(/datum/component/ore_sight)

@@ -11,8 +11,9 @@
 /datum/virtue/utility/noble/apply_to_human(mob/living/carbon/human/recipient)
 	if(HAS_TRAIT(recipient, TRAIT_OUTLAW))
 		return
+	var/already_has_income = !isnull(SStreasury.noble_incomes[recipient])
 	SStreasury.noble_incomes[recipient] = (SStreasury.noble_incomes[recipient] || 0) + 15
-	SStreasury.grant_estate_income(recipient, 15, TRUE)
+	SStreasury.grant_estate_income(recipient, 15, !already_has_income)
 
 #define NOTABLE_BEAUTY "Beauty"
 #define NOTABLE_STASH "Stashed Riches"

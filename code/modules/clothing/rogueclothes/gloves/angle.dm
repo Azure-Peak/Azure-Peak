@@ -7,7 +7,6 @@
 	blocksound = SOFTHIT
 	max_integrity = ARMOR_INT_SIDE_HARDLEATHER
 	sellprice = 12
-	blade_dulling = DULLING_BASHCHOP
 	break_sound = 'sound/foley/cloth_rip.ogg'
 	drop_sound = 'sound/foley/dropsound/cloth_drop.ogg'
 	anvilrepair = null

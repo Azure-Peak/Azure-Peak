@@ -1,3 +1,4 @@
+import { RewardClause } from './RewardClause';
 import { SealLine } from './Seals';
 import { writParagraph } from './shared';
 
@@ -10,6 +11,7 @@ export const CarriageWrit = (props: {
   reward: number;
   levyRate: number;
   levyExempt: boolean;
+  guildCutRate: number;
   rulerTitle: string;
   issuedBy?: string;
   issuedOn?: string | null;
@@ -24,13 +26,12 @@ export const CarriageWrit = (props: {
     reward,
     levyRate,
     levyExempt,
+    guildCutRate,
     rulerTitle,
     issuedBy,
     issuedOn,
     bearer,
   } = props;
-  const showLevy = !levyExempt && levyRate > 0;
-  const net = showLevy ? Math.round(reward * (1 - levyRate)) : reward;
   const dest = destination || 'its appointed recipient';
   const pickup = pickupRegion || realm;
   const what = deliveryItem ? `a parcel of ${deliveryItem}` : 'a sealed parcel';
@@ -47,12 +48,13 @@ export const CarriageWrit = (props: {
       {circumstance && <p style={writParagraph}>{circumstance}</p>}
       <p style={writParagraph}>
         Deliver the parcel and return this writ unto the Contract Ledger; the
-        bounty of <b>{reward} mammon</b>
-        {showLevy ? (
-          <>
-            , <b>{net} mammon</b> after the Crown&apos;s Levy
-          </>
-        ) : null}{' '}
+        bounty of{' '}
+        <RewardClause
+          reward={reward}
+          levyRate={levyRate}
+          levyExempt={levyExempt}
+          guildCutRate={guildCutRate}
+        />{' '}
         shall be paid.
       </p>
       <p style={writParagraph}>

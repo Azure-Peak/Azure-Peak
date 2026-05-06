@@ -65,6 +65,9 @@
 		return "[wave_label]. Hold the line."
 	return "[wave_label]. Rout the [faction.name_plural]."
 
+/datum/quest/kill/blockade_defense/on_first_pop()
+	return
+
 /datum/quest/kill/blockade_defense/populate_scroll_ui_static_data(list/data)
 	data["blockade_total_waves"] = BLOCKADE_TOTAL_WAVES
 	data["blockade_current_wave"] = current_wave

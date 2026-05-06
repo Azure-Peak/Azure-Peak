@@ -5,6 +5,7 @@
 	icon_state = "mossback"
 	icon_living = "mossback"
 	icon_dead = "mossback_dead"
+	blood_toll_bucket = STATS_KILLED_GREATER_BEASTS
 	speak_emote = list("clicks")
 	emote_hear = list("clicks.")
 	emote_see = list("clacks.")

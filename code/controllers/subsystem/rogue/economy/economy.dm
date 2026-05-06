@@ -4,18 +4,12 @@ SUBSYSTEM_DEF(economy)
 	flags = SS_NO_FIRE
 	var/last_processed_day = 0
 	var/roundstart_events_fired = FALSE
-	/// Admin override for the effective player count used by pop scaling.
-	/// 0 = use the live count. Set via Economic Panel.
 	var/simulated_player_scalar = 0
-	/// Populated during daily_tick; written to the Steward's morning report at the end
-	/// of the tick. Null between ticks.
 	var/list/daily_report_diff = null
-	/// Day the last petition fired (Steward's PetitionView). Used to gate PETITIONS_PER_DAY.
 	var/last_petition_day = -1
-	/// Petitions consumed today. Reset in daily_tick.
 	var/petitions_today = 0
 
-/// Single source of truth for pop-scaled economy math. Admin override beats the live count.
+
 /datum/controller/subsystem/economy/proc/get_effective_player_count()
 	if(simulated_player_scalar > 0)
 		return simulated_player_scalar
@@ -23,9 +17,6 @@ SUBSYSTEM_DEF(economy)
 
 /datum/controller/subsystem/economy/Initialize()
 	populate_standing_order_templates()
-	// Allocate the diff so roundstart events/blockades are captured. The first daily_tick
-	// appends to it (rather than resetting) so the Steward's first morning report covers
-	// Day 0's rolls too.
 	daily_report_diff = list(
 		"day" = GLOB.dayspassed,
 		"events_fired" = list(),
@@ -34,6 +25,8 @@ SUBSYSTEM_DEF(economy)
 		"blockades_cleared" = list(),
 		"orders_rolled" = 0,
 		"urgent_rolled" = 0,
+		"regular_orders_by_region" = list(),
+		"urgent_orders_today" = list(),
 	)
 	roundstart_events()
 	roundstart_blockades()
@@ -63,6 +56,7 @@ SUBSYSTEM_DEF(economy)
 			/datum/standing_order/demand_jewelry,
 			/datum/standing_order/demand_artificed_panoply,
 			/datum/standing_order/demand_tournament_supply,
+			/datum/standing_order/demand_arcane_commission,
 		),
 		TRADE_REGION_ROSAWOOD = list(
 			/datum/standing_order/demand_construction,
@@ -80,6 +74,7 @@ SUBSYSTEM_DEF(economy)
 			/datum/standing_order/demand_jewelry,
 			/datum/standing_order/demand_tournament_supply,
 			/datum/standing_order/demand_trophy_heads,
+			/datum/standing_order/demand_arcane_commission,
 		),
 		TRADE_REGION_DAFTSMARCH = list(
 			/datum/standing_order/demand_construction,
@@ -132,6 +127,7 @@ SUBSYSTEM_DEF(economy)
 			/datum/standing_order/demand_frontier_gear,
 			/datum/standing_order/demand_artificery,
 			/datum/standing_order/demand_prosthetic_run,
+			/datum/standing_order/demand_arcane_commission,
 		),
 		TRADE_REGION_HEARTFELT = list(
 			/datum/standing_order/demand_rations,
@@ -154,6 +150,7 @@ SUBSYSTEM_DEF(economy)
 			/datum/standing_order/demand_artificed_panoply,
 			/datum/standing_order/demand_tournament_supply,
 			/datum/standing_order/demand_trophy_heads,
+			/datum/standing_order/demand_arcane_commission,
 		),
 	)
 	// possible_standing_order_types is an assoc list of template_path -> roll_weight,
@@ -185,6 +182,8 @@ SUBSYSTEM_DEF(economy)
 			"blockades_cleared" = list(),
 			"orders_rolled" = 0,
 			"urgent_rolled" = 0,
+			"regular_orders_by_region" = list(),
+			"urgent_orders_today" = list(),
 		)
 	daily_report_diff["day"] = GLOB.dayspassed
 
@@ -244,6 +243,19 @@ SUBSYSTEM_DEF(economy)
 			var/datum/economic_region/region = GLOB.economic_regions[chosen_region_id]
 			var/template = pickweight(region.possible_standing_order_types)
 			instantiate_standing_order(template, region, order_size_mult)
+
+	var/list/by_region = daily_report_diff["regular_orders_by_region"]
+	if(length(by_region))
+		var/total_regular = 0
+		var/list/region_parts = list()
+		for(var/region_name in by_region)
+			var/count = by_region[region_name]
+			total_regular += count
+			region_parts += "[count] at [region_name]"
+		scom_announce("<font color='#7eb84a'>[total_regular] new standing order\s posted at the noticeboard this dawn: [jointext(region_parts, ", ")].</font>")
+	var/list/urgents_today = daily_report_diff["urgent_orders_today"]
+	for(var/list/U as anything in urgents_today)
+		scom_announce("<font color='#c44'>URGENT at [U["region"]]: [U["items"]]. 1d, [U["payout"]]m.</font>")
 
 	print_steward_report(daily_report_diff)
 	daily_report_diff = null
@@ -343,15 +355,15 @@ SUBSYSTEM_DEF(economy)
 		var/base = tg ? tg.base_price : 5
 		var/qty_lo
 		var/qty_hi
-		if(base >= 30)
-			qty_lo = 2
-			qty_hi = 4
-		else if(base >= 15)
+		if(base >= 40)
 			qty_lo = 3
-			qty_hi = 6
-		else
+			qty_hi = 5
+		else if(base >= 15)
 			qty_lo = 6
-			qty_hi = 14
+			qty_hi = 12
+		else
+			qty_lo = 12
+			qty_hi = 25
 		mix[good] = max(1, round(rand(qty_lo, qty_hi) * order_size_mult))
 	O.required_items = mix
 	O.name = O.generate_name(region)
@@ -362,6 +374,17 @@ SUBSYSTEM_DEF(economy)
 	GLOB.standing_order_pool += O
 	E.urgent_order_ref = WEAKREF(O)
 	record_round_statistic(STATS_URGENT_ORDERS_SPAWNED, 1)
+	if(daily_report_diff)
+		var/list/items_text = list()
+		for(var/good_id in O.required_items)
+			var/datum/trade_good/tg = GLOB.trade_goods[good_id]
+			items_text += "[O.required_items[good_id]] [tg ? tg.name : good_id]"
+		var/list/urgents = daily_report_diff["urgent_orders_today"]
+		urgents += list(list(
+			"region" = region.name,
+			"items" = jointext(items_text, ", "),
+			"payout" = O.total_payout,
+		))
 
 /datum/controller/subsystem/economy/proc/expire_economic_events()
 	var/list/expired = list()
@@ -404,22 +427,21 @@ SUBSYSTEM_DEF(economy)
 	var/export_price = tg.base_price * tg.global_price_mod * oversupply_mult * (1 - IMPORT_EXPORT_SPREAD) * blockade_mult
 	return max(round(export_price), tg.low_price)
 
+/datum/controller/subsystem/economy/proc/compute_good_unit_payout(datum/standing_order/order, good_id)
+	var/datum/trade_good/tg = GLOB.trade_goods[good_id]
+	if(!tg)
+		return 0
+	var/unit_mult
+	if(istype(order, /datum/standing_order/urgent))
+		unit_mult = max(1.0, tg.global_price_mod)
+	else
+		unit_mult = 1 + STANDING_ORDER_BASE_BONUS
+	return CEILING(tg.base_price * unit_mult, 1)
+
 /datum/controller/subsystem/economy/proc/compute_order_payout(datum/standing_order/order, datum/economic_region/region)
-	// Flat additive payout. Regular = base_price * 1.75; urgent = base_price * 2.5.
-	// Event price_mod does NOT stack here - urgent orders are ALREADY the shortage's premium
-	// payout; letting the shortage mod multiply again compounds into absurd numbers.
-	var/is_urgent = istype(order, /datum/standing_order/urgent)
-	var/bonus_mult = 1 + STANDING_ORDER_BASE_BONUS + (is_urgent ? URGENT_ORDER_EXTRA_BONUS : 0)
 	var/total = 0
 	for(var/good_id in order.required_items)
-		var/quantity = order.required_items[good_id]
-		var/datum/trade_good/tg = GLOB.trade_goods[good_id]
-		if(!tg)
-			continue
-		// CEILING: low-base goods (stone=1) must not collapse to parity with the raw qty count
-		// after BYOND's floor-round. Guarantees standing orders always beat stockpile sell-back.
-		var/unit = CEILING(tg.base_price * bonus_mult, 1)
-		total += unit * quantity
+		total += compute_good_unit_payout(order, good_id) * order.required_items[good_id]
 	if(order.petitioned)
 		total = round(total * PETITION_TAX_MULT)
 	return round(total)
@@ -446,9 +468,13 @@ SUBSYSTEM_DEF(economy)
 	GLOB.standing_order_pool += O
 	if(daily_report_diff)
 		daily_report_diff["orders_rolled"] = (daily_report_diff["orders_rolled"] || 0) + 1
+		if(!petitioned)
+			var/list/by_region = daily_report_diff["regular_orders_by_region"]
+			by_region[region.name] = (by_region[region.name] || 0) + 1
 	return O
 
-/datum/controller/subsystem/economy/proc/fulfill_order(mob/user, datum/standing_order/order)
+
+/datum/controller/subsystem/economy/proc/fulfill_order(mob/user, datum/standing_order/order, partial = FALSE)
 	if(!order || order.is_fulfilled)
 		return FALSE
 	var/datum/economic_region/ER = GLOB.economic_regions[order.region_id]
@@ -457,9 +483,6 @@ SUBSYSTEM_DEF(economy)
 			to_chat(user, span_warning("[ER.name] is blockaded — the order cannot be delivered until the road is cleared."))
 		return FALSE
 
-	// Bin required items by behavior so a mixed order (finished equipment + finished
-	// potions + raw stockpile) fulfills in one pass. Each bin's feasibility check
-	// returns a deferred-consume payload; if any bin fails, nothing is consumed.
 	var/list/equip_goods = list()
 	var/list/potion_goods = list()
 	var/list/stock_goods = list()
@@ -470,60 +493,77 @@ SUBSYSTEM_DEF(economy)
 		else if(tg?.behavior == TRADE_BEHAVIOR_POTION)
 			potion_goods += good_id
 		else
-			// Unknown trade goods fall through to stockpile, which is the historic default
-			// path before the equipment/potion behaviors existed.
 			stock_goods += good_id
 
-	var/list/equip_payload
-	var/list/potion_payload
-	if(length(equip_goods))
-		equip_payload = check_equipment_availability(user, order, equip_goods)
-		if(!equip_payload)
-			return FALSE
-	if(length(potion_goods))
-		potion_payload = check_potion_availability(user, order, potion_goods)
-		if(!potion_payload)
-			return FALSE
-	if(length(stock_goods))
-		if(!check_stockpile_availability(user, order, stock_goods))
-			return FALSE
+	if((length(equip_goods) || length(potion_goods)) && !length(GLOB.steward_export_machines))
+		if(user)
+			to_chat(user, span_warning("No warehouse dock manifest is registered. Cannot fulfill warehouse orders."))
+		return FALSE
 
-	if(equip_payload)
-		for(var/good_id in equip_payload)
-			for(var/obj/item/I as anything in equip_payload[good_id])
-				qdel(I)
-	if(potion_payload)
-		for(var/good_id in potion_payload)
-			for(var/obj/item/I as anything in potion_payload[good_id])
-				qdel(I)
-	if(length(stock_goods))
-		for(var/good_id in stock_goods)
-			var/datum/roguestock/stockpile_entry = find_stockpile_by_trade_good(good_id)
-			stockpile_entry.stockpile_amount -= order.required_items[good_id]
+	var/list/equip_avail = length(equip_goods) ? scan_equipment_availability(order, equip_goods) : list()
+	var/list/potion_avail = length(potion_goods) ? scan_potion_availability(order, potion_goods) : list()
+	var/list/stock_avail = length(stock_goods) ? scan_stockpile_availability(order, stock_goods) : list()
 
-	SStreasury.mint(SStreasury.discretionary_fund, order.total_payout, "Standing Order: [order.name]")
-	record_round_statistic(STATS_STANDING_ORDER_REVENUE, order.total_payout)
+	var/missing_count = 0
+	var/list/missing_labels = list()
+	var/delivered_pretax = 0
+	for(var/list/avail_set in list(equip_avail, potion_avail, stock_avail))
+		for(var/good_id in avail_set)
+			var/list/entry = avail_set[good_id]
+			delivered_pretax += compute_good_unit_payout(order, good_id) * entry["delivered_units"]
+			if(!entry["satisfied"])
+				missing_count++
+				var/datum/trade_good/tg = GLOB.trade_goods[good_id]
+				missing_labels += tg ? tg.name : good_id
+
+	if(!missing_count)
+		consume_equipment_payload(equip_avail)
+		consume_potion_payload(potion_avail)
+		consume_stockpile_payload(stock_avail)
+		var/full_payout = order.total_payout
+		SStreasury.mint(SStreasury.discretionary_fund, full_payout, "Standing Order: [order.name]")
+		record_round_statistic(STATS_STANDING_ORDER_REVENUE, full_payout)
+		record_round_statistic(STATS_STANDING_ORDERS_FULFILLED, 1)
+		order.is_fulfilled = TRUE
+		GLOB.standing_order_pool -= order
+		if(user)
+			to_chat(user, span_notice("Order Fulfilled: [full_payout]m paid to the Crown's Purse."))
+			log_game("STANDING ORDER FULFILLED by [user.ckey]: [order.name] (+[full_payout]m)")
+		return list("status" = "full", "payout" = full_payout)
+
+	var/delivered_value = order.petitioned ? round(delivered_pretax * PETITION_TAX_MULT) : delivered_pretax
+	var/total_value = order.total_payout
+	var/coverage = total_value > 0 ? (delivered_value / total_value) : 0
+
+	if(coverage < STANDING_ORDER_PARTIAL_THRESHOLD)
+		if(user)
+			to_chat(user, span_warning("Coverage [round(coverage * 100)]% - below the [round(STANDING_ORDER_PARTIAL_THRESHOLD * 100)]% partial threshold. Short on: [english_list(missing_labels)]."))
+		return FALSE
+
+	if(!partial)
+		return STANDING_ORDER_FULFILL_NEEDS_PARTIAL_PROMPT
+
+	var/payout = round(delivered_value * STANDING_ORDER_PARTIAL_PAYOUT_MULT)
+	consume_equipment_payload(equip_avail)
+	consume_potion_payload(potion_avail)
+	consume_stockpile_payload(stock_avail)
+	SStreasury.mint(SStreasury.discretionary_fund, payout, "Standing Order (Partial): [order.name]")
+	record_round_statistic(STATS_STANDING_ORDER_REVENUE, payout)
 	record_round_statistic(STATS_STANDING_ORDERS_FULFILLED, 1)
 	order.is_fulfilled = TRUE
 	GLOB.standing_order_pool -= order
 	if(user)
-		to_chat(user, span_notice("Order Fulfilled: [order.total_payout]m paid to the Crown's Purse."))
-		log_game("STANDING ORDER FULFILLED by [user.ckey]: [order.name] (+[order.total_payout]m)")
-	return TRUE
+		to_chat(user, span_notice("Order Settled (Partial): [round(coverage * 100)]% coverage, [payout]m paid to the Crown's Purse ([round(STANDING_ORDER_PARTIAL_PAYOUT_MULT * 100)]% of the delivered share)."))
+		log_game("STANDING ORDER PARTIAL FULFILLED by [user.ckey]: [order.name] (+[payout]m, [round(coverage * 100)]% coverage)")
+	return list("status" = "partial", "payout" = payout, "coverage_pct" = round(coverage * 100))
 
-/// Returns assoc list good_id -> list(items_to_qdel) on success, null on failure (and
-/// chats the shortage to the user).
-/datum/controller/subsystem/economy/proc/check_equipment_availability(mob/user, datum/standing_order/order, list/goods)
-	if(!length(GLOB.steward_export_machines))
-		if(user)
-			to_chat(user, span_warning("No warehouse dock manifest is registered. Cannot fulfill equipment orders."))
-		return null
-
+/datum/controller/subsystem/economy/proc/scan_equipment_availability(datum/standing_order/order, list/goods)
+	var/list/out = list()
+	var/list/matched_by_good = list()
 	var/list/found_by_good = list()
-	var/list/matched_items_by_good = list()
 	for(var/good_id in goods)
+		matched_by_good[good_id] = list()
 		found_by_good[good_id] = 0
-		matched_items_by_good[good_id] = list()
 
 	for(var/obj/structure/roguemachine/steward_export/M as anything in GLOB.steward_export_machines)
 		if(QDELETED(M))
@@ -533,39 +573,31 @@ SUBSYSTEM_DEF(economy)
 				var/datum/trade_good/tg = GLOB.trade_goods[good_id]
 				if(!tg || !tg.item_type || !istype(I, tg.item_type))
 					continue
-				// Exact-type match (not subtypes) to avoid counting donator/unique subtypes
-				// against Crown manifest orders.
-				if(I.type != tg.item_type)
+				// Exact-type match by default — avoids counting donator/unique subtypes
+				// against Crown manifest orders. Goods with accept_subtypes set opt out
+				// (e.g. enchantment scrolls — every spell is a distinct subtype, but the
+				// Crown treats each tier as one fungible commodity).
+				if(!tg.accept_subtypes && I.type != tg.item_type)
 					continue
 				if(found_by_good[good_id] >= order.required_items[good_id])
 					continue
 				found_by_good[good_id]++
-				matched_items_by_good[good_id] += I
+				matched_by_good[good_id] += I
 				break
 
 	for(var/good_id in goods)
 		var/need = order.required_items[good_id]
 		var/have = found_by_good[good_id]
-		if(have < need)
-			var/datum/trade_good/tg = GLOB.trade_goods[good_id]
-			var/label = tg ? tg.name : good_id
-			if(user)
-				to_chat(user, span_warning("Warehouse short on [label]: have [have], need [need]."))
-			return null
+		out[good_id] = list(
+			"payload" = matched_by_good[good_id],
+			"delivered_units" = min(have, need),
+			"need_units" = need,
+			"satisfied" = (have >= need),
+		)
+	return out
 
-	return matched_items_by_good
-
-/// Warehouse scan that counts DELIVERED REAGENT VOLUME, not container count. A bottle
-/// of 50u healthpot satisfies one unit; a 100u flask satisfies two. Any reagent container
-/// works — player brewers use a grab-bag of bottles, flasks, and pouches. Matched
-/// containers are consumed in full on fulfillment (simpler than metering a draw). Returns
-/// assoc list good_id -> list(containers_to_qdel) on success, null on failure.
-/datum/controller/subsystem/economy/proc/check_potion_availability(mob/user, datum/standing_order/order, list/goods)
-	if(!length(GLOB.steward_export_machines))
-		if(user)
-			to_chat(user, span_warning("No warehouse dock manifest is registered. Cannot fulfill alchemical orders."))
-		return null
-
+/datum/controller/subsystem/economy/proc/scan_potion_availability(datum/standing_order/order, list/goods)
+	var/list/out = list()
 	var/list/required_volume_by_good = list()
 	var/list/found_volume_by_good = list()
 	var/list/matched_containers_by_good = list()
@@ -592,31 +624,91 @@ SUBSYSTEM_DEF(economy)
 				matched_containers_by_good[good_id] += RC
 				break
 
-	for(var/good_id in required_volume_by_good)
-		var/need = required_volume_by_good[good_id]
-		var/have = found_volume_by_good[good_id]
-		if(have < need)
-			var/datum/trade_good/tg = GLOB.trade_goods[good_id]
-			var/label = tg ? tg.name : good_id
-			if(user)
-				to_chat(user, span_warning("Warehouse short on [label]: have [have]u, need [need]u."))
-			return null
-
-	return matched_containers_by_good
-
-/datum/controller/subsystem/economy/proc/check_stockpile_availability(mob/user, datum/standing_order/order, list/goods)
 	for(var/good_id in goods)
-		var/required = order.required_items[good_id]
-		var/datum/roguestock/stockpile_entry = find_stockpile_by_trade_good(good_id)
-		if(!stockpile_entry || stockpile_entry.stockpile_amount < required)
-			if(user)
-				to_chat(user, span_warning("Insufficient [good_id]: have [stockpile_entry?.stockpile_amount || 0], need [required]."))
-			return FALSE
-	return TRUE
+		var/datum/trade_good/tg = GLOB.trade_goods[good_id]
+		var/need_units = order.required_items[good_id]
+		var/found_volume = found_volume_by_good[good_id]
+		var/delivered_units = min(need_units, round(found_volume / tg.required_volume))
+		out[good_id] = list(
+			"payload" = matched_containers_by_good[good_id],
+			"delivered_units" = delivered_units,
+			"need_units" = need_units,
+			"satisfied" = (delivered_units >= need_units),
+		)
+	return out
 
-/// UI predicate: true if the order contains any finished-equipment item. Mixed orders
-/// (equipment + raw stockpile) still report TRUE — the steward UI uses this to surface
-/// the warehouse-fulfillment hint.
+/datum/controller/subsystem/economy/proc/scan_stockpile_availability(datum/standing_order/order, list/goods)
+	var/list/out = list()
+	for(var/good_id in goods)
+		var/need = order.required_items[good_id]
+		var/datum/roguestock/stockpile_entry = find_stockpile_by_trade_good(good_id)
+		var/have = stockpile_entry ? stockpile_entry.stockpile_amount : 0
+		out[good_id] = list(
+			"payload" = null,
+			"delivered_units" = min(have, need),
+			"need_units" = need,
+			"satisfied" = (have >= need),
+		)
+	return out
+
+/datum/controller/subsystem/economy/proc/consume_equipment_payload(list/avail)
+	for(var/good_id in avail)
+		var/list/entry = avail[good_id]
+		for(var/obj/item/I as anything in entry["payload"])
+			qdel(I)
+
+/datum/controller/subsystem/economy/proc/consume_potion_payload(list/avail)
+	for(var/good_id in avail)
+		var/list/entry = avail[good_id]
+		for(var/obj/item/I as anything in entry["payload"])
+			qdel(I)
+
+/datum/controller/subsystem/economy/proc/consume_stockpile_payload(list/avail)
+	for(var/good_id in avail)
+		var/list/entry = avail[good_id]
+		var/datum/roguestock/stockpile_entry = find_stockpile_by_trade_good(good_id)
+		if(stockpile_entry)
+			stockpile_entry.stockpile_amount -= entry["delivered_units"]
+
+/datum/controller/subsystem/economy/proc/preview_partial_fulfillment(datum/standing_order/order)
+	var/list/equip_goods = list()
+	var/list/potion_goods = list()
+	var/list/stock_goods = list()
+	for(var/good_id in order.required_items)
+		var/datum/trade_good/tg = GLOB.trade_goods[good_id]
+		if(tg?.behavior == TRADE_BEHAVIOR_EQUIPMENT)
+			equip_goods += good_id
+		else if(tg?.behavior == TRADE_BEHAVIOR_POTION)
+			potion_goods += good_id
+		else
+			stock_goods += good_id
+
+	var/list/equip_avail = length(equip_goods) ? scan_equipment_availability(order, equip_goods) : list()
+	var/list/potion_avail = length(potion_goods) ? scan_potion_availability(order, potion_goods) : list()
+	var/list/stock_avail = length(stock_goods) ? scan_stockpile_availability(order, stock_goods) : list()
+
+	var/delivered_pretax = 0
+	var/list/missing_labels = list()
+	for(var/list/avail_set in list(equip_avail, potion_avail, stock_avail))
+		for(var/good_id in avail_set)
+			var/list/entry = avail_set[good_id]
+			delivered_pretax += compute_good_unit_payout(order, good_id) * entry["delivered_units"]
+			if(!entry["satisfied"])
+				var/datum/trade_good/tg = GLOB.trade_goods[good_id]
+				var/short_units = entry["need_units"] - entry["delivered_units"]
+				missing_labels += "[short_units] [tg ? tg.name : good_id]"
+	var/delivered_value = order.petitioned ? round(delivered_pretax * PETITION_TAX_MULT) : delivered_pretax
+	var/total_value = order.total_payout
+	var/coverage = total_value > 0 ? (delivered_value / total_value) : 0
+	var/payout = round(delivered_value * STANDING_ORDER_PARTIAL_PAYOUT_MULT)
+
+	return list(
+		"coverage_pct" = round(coverage * 100),
+		"payout" = payout,
+		"missing_text" = length(missing_labels) ? english_list(missing_labels) : "nothing",
+	)
+
+
 /datum/controller/subsystem/economy/proc/order_is_equipment(datum/standing_order/order)
 	for(var/good_id in order.required_items)
 		var/datum/trade_good/tg = GLOB.trade_goods[good_id]
@@ -624,7 +716,6 @@ SUBSYSTEM_DEF(economy)
 			return TRUE
 	return FALSE
 
-/// UI predicate: true if the order contains any finished-potion item.
 /datum/controller/subsystem/economy/proc/order_is_alchemical(datum/standing_order/order)
 	for(var/good_id in order.required_items)
 		var/datum/trade_good/tg = GLOB.trade_goods[good_id]

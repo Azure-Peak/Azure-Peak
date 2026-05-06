@@ -557,7 +557,7 @@
 	name = "avantyne dagger"
 	desc = "The very moment of sacrifice; that imperceptable difference between a dagger's edge and a heart's chamber, crystallized into \
 	a scalpel of bleeding darksteel. In the hands of Her trusted disciples, it serves as an unholy countermandate against order and sanity."
-	icon_state = "zeretic_dagger"
+	icon_state = "zizodagger"
 	sheathe_icon = "zizodagger"
 	force = 25
 	max_integrity = 250
@@ -565,11 +565,15 @@
 	embedding = list("embedded_pain_multiplier" = 1.2, "embed_chance" = 20, "embedded_fall_chance" = 0) 
 	smeltresult = /obj/item/ingot/component/zizo
 
+/obj/item/rogueweapon/huntingknife/idagger/steel/zizo/Initialize()
+	. = ..()
+	AddComponent(/datum/component/cursed_item, TRAIT_CABAL, "DAGGER")
+
 /obj/item/rogueweapon/huntingknife/idagger/avantyne
 	name = "avantyne-threaded dagger"
-	desc = "An otherworldly misericorde, defying rhyme-and-reason in favor of unholy lethality. The jagged edge continuously remorphs itself, \
+	desc = "An darksteel misericorde, defying rhyme-and-reason in favor of unholy lethality. The jagged edge continuously remorphs itself, \
 	yearning to disembowel the divine filament once more; though for now, it will settle with the bellies of blunderous bastards."
-	icon_state = "zeretic_dagger"
+	icon_state = "zizodagger"
 	sheathe_icon = "zizodagger"
 	force = 25
 	max_integrity = 250

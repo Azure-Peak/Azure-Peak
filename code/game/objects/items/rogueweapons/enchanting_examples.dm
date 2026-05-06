@@ -43,3 +43,11 @@
 	desc = "A heirloom shashka with guardless hilt plated in silver and adorned  with a Mamuk hide grip. A sabre's blade has been added in place of the old one, affording it lethality and reach whilst dismounted."
 	icon_state = "stinketh_shashka"
 	icon = 'icons/obj/items/donor_weapons_64.dmi'
+
+// nicksone
+/obj/item/rogueweapon/example/ssangsudo_long
+	name = "Dark Delight"
+	desc = "A blade fashioned out of blackened steel with a red vein of some foreign material forged into it. An engraving in Kazengunese runs along the back of the blade. 'Relish. Relinquish. Remember.'"
+	icon_state = "sssangsudo_long"
+	icon = 'icons/obj/items/donor_weapons_64.dmi'
+	bigboy = TRUE

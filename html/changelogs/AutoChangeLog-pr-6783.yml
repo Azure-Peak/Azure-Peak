@@ -1,9 +1,0 @@
-author: "KatTheFox"
-delete-after: True
-changes:
-  - rscadd: "Familiars can now advertise their presence to arcyne users like they could in my old PR"
-  - bugfix: "Familiars no longer rot, delete themselves by committing recursion, lose hearing when carried in item form, or permanently delete name slots when freed."
-  - qol: "Familiar revival now needs to be near a leyline, but costs no materials other than the vestige"
-  - bugfix: "Reagent bite can now be cancelled by the target moving (which was always intended to be the case)"
-  - bugfix: "Updated encyclopedia to reflect binding changes"
-  - bugfix: "Familiars can now read parchments and noticeboards"

@@ -4,7 +4,7 @@
 	name_plural = "hell goblins"
 	group_word = "warband"
 	faction_tag = FACTION_INFERNAL
-	can_blockade = TRUE
+	can_blockade = FALSE
 	category = FACTION_CAT_GOBLINOID
 	mob_types = list(
 		/mob/living/carbon/human/species/goblin/npc/ambush/hell = 55,

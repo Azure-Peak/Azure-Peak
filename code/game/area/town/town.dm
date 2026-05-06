@@ -90,7 +90,7 @@
 	detail_text = DETAIL_TEXT_UNIVERSITY_OF_AZURIA
 
 /area/rogue/indoors/town/shop
-	name = "Shop"
+	name = "Merchant"
 	icon_state = "shop"
 	droning_sound = 'sound/music/area/shop.ogg'
 	droning_sound_dusk = null
@@ -156,7 +156,7 @@
 	cell_area = TRUE
 
 /area/rogue/indoors/town/tavern
-	name = "tavern"
+	name = "Azurian Pint"
 	icon_state = "tavern"
 	ambientsounds = AMB_INGEN
 	ambientnight = AMB_INGEN
@@ -174,7 +174,7 @@
 	tavern_area = TRUE
 
 /area/rogue/indoors/town/church
-	name = "church"
+	name = "The House of the Ten"
 	icon_state = "church"
 	droning_sound = 'sound/music/area/church.ogg'
 	droning_sound_dusk = null

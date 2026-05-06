@@ -344,7 +344,6 @@
 			head = /obj/item/clothing/head/roguetown/helmet/heavy/ravoxhelm
 			cloak = /obj/item/clothing/cloak/templar/ravox
 			mask = /obj/item/clothing/head/roguetown/roguehood/ravoxgorget
-			backpack_contents = list(/obj/item/ritechalk, /obj/item/book/rogue/law, /obj/item/rogueweapon/scabbard/sheath, /obj/item/storage/belt/rogue/pouch/coins/mid, /obj/item/storage/keyring/acolyte)
 		if(/datum/patron/divine/malum)
 			wrists = /obj/item/clothing/neck/roguetown/psicross/malum
 			cloak = /obj/item/clothing/cloak/templar/malumite

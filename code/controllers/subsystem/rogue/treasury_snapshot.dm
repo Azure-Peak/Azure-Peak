@@ -44,6 +44,8 @@
 		"loans_outstanding" = length(loans),
 		"loan_exposure" = loan_exposure,
 		"rural_tax_total" = total_rural_tax,
+		"expected_rural_revenue" = get_rural_tax_amount(),
+		"expected_wage_outlay" = get_expected_wage_outlay(),
 		"noble_income_total" = total_noble_income,
 		"tax_rates" = tax_rates.Copy(),
 		"poll_tax_rates" = poll_tax_rates.Copy(),

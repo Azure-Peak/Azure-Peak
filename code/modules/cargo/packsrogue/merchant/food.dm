@@ -27,7 +27,7 @@
 
 
 /datum/supply_pack/rogue/food/raisinbreads
-	name = "Raisin Bread"
+	name = "Raisin Loaf"
 	cost = 30
 	contains = list(
 					/obj/item/reagent_containers/food/snacks/rogue/raisinbread,
@@ -92,7 +92,7 @@
 				)
 
 /datum/supply_pack/rogue/food/pepper
-	name = "Pepper"
+	name = "Pepper Mill"
 	cost = 30
 	contains = list(/obj/item/reagent_containers/peppermill)
 
@@ -107,11 +107,28 @@
 
 /datum/supply_pack/rogue/food/honey
 	name = "Honey"
+	cost = 30
+	contains = list(
+					/obj/item/reagent_containers/food/snacks/rogue/honey,
+					/obj/item/reagent_containers/food/snacks/rogue/honey,
+					/obj/item/reagent_containers/food/snacks/rogue/honey,
+				)
+
+/datum/supply_pack/rogue/food/spiderhoney
+	name = "Spider Honey"
 	cost = 40
 	contains = list(
 					/obj/item/reagent_containers/food/snacks/rogue/honey/spider,
 					/obj/item/reagent_containers/food/snacks/rogue/honey/spider,
 					/obj/item/reagent_containers/food/snacks/rogue/honey/spider,
+				)
+
+/datum/supply_pack/rogue/food/sugar
+	name = "Sugar"
+	cost = 45
+	contains = list(
+					/obj/item/reagent_containers/food/snacks/sugar,
+					/obj/item/reagent_containers/food/snacks/sugar,
 				)
 
 /datum/supply_pack/rogue/food/chocolate

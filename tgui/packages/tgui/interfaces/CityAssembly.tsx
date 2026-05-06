@@ -262,7 +262,7 @@ export const CityAssembly = () => {
   const hasAlderman = !!data.current_alderman;
 
   return (
-    <Window title="The City Assembly" width={780} height={740}>
+    <Window title="The City Assembly" width={780} height={740} theme="parchment">
       <Window.Content scrollable>
         <div style={pageStyle}>
           <div style={titleStyle}>The City Assembly</div>

@@ -78,7 +78,7 @@ GLOBAL_LIST_EMPTY(active_economic_events)
 	name = "SALTWICK STORM"
 	description = "A vicious gale has battered the Saltwick wharves - fishing fleets are grounded for days."
 	announcement = "<font color='#c44'>SALTWICK STORM: Fishing fleets grounded. Fresh and cured fish alike grow dear.</font>"
-	affected_goods = list(TRADE_GOOD_FISH_FILET, TRADE_GOOD_COD, TRADE_GOOD_SALMON, TRADE_GOOD_DRIED_FISH, TRADE_GOOD_FISH_MINCE)
+	affected_goods = list(TRADE_GOOD_FISH_FILET, TRADE_GOOD_DRIED_FISH, TRADE_GOOD_FISH_MINCE)
 	price_mod = 4.5
 	event_type = ECON_EVENT_SHORTAGE
 
@@ -202,14 +202,6 @@ GLOBAL_LIST_EMPTY(active_economic_events)
 	announcement = "<font color='#c44'>ORCHARD LOCUSTS: The orchards stripped bare. Apples and berries grow costly.</font>"
 	affected_goods = list(TRADE_GOOD_APPLE, TRADE_GOOD_PEAR, TRADE_GOOD_JACKSBERRY)
 	price_mod = 4.25
-	event_type = ECON_EVENT_SHORTAGE
-
-/datum/economic_event/gem_cartel_squeeze
-	name = "GEM CARTEL SQUEEZE"
-	description = "The merchant houses have cornered the cut-stone market. Toper and gemerald prices jump overnight."
-	announcement = "<font color='#c44'>GEM CARTEL SQUEEZE: Merchants corner the gem market. Common gems grow dearer.</font>"
-	affected_goods = list(TRADE_GOOD_TOPER, TRADE_GOOD_GEMERALD)
-	price_mod = 4.5
 	event_type = ECON_EVENT_SHORTAGE
 
 /datum/economic_event/silk_moth_collapse

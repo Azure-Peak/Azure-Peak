@@ -26,8 +26,7 @@
 			play_reject_sound()
 			return
 
-	var/datum/job/mob_job = user.job ? SSjob.GetJob(user.job) : null
-	var/active_cap = mob_job?.max_active_quests || QUEST_MAX_ACTIVE_PER_PLAYER
+	var/active_cap = get_active_quest_cap(user)
 	if(count_user_active_contracts(user) >= active_cap)
 		say("You are already committed to [active_cap] contracts. Complete one before signing another.")
 		play_reject_sound()
@@ -66,7 +65,7 @@
 	Q.quest_scroll_ref = WEAKREF(spawned_scroll)
 	spawned_scroll.update_quest_text()
 
-	SStreasury.transfer(SStreasury.get_account(user), SStreasury.discretionary_fund, deposit, "quest deposit")
+	SStreasury.burn(SStreasury.get_account(user), deposit, "quest deposit")
 
 /obj/structure/roguemachine/contractledger/proc/turn_in_contract(mob/user, obj/item/quest_writ/scroll_in_hand)
 	var/list/mob/quest_assignees = scroll_in_hand.get_quest_assignees(user, TRUE)
@@ -86,8 +85,7 @@
 
 	var/base_reward = scroll.assigned_quest.reward_amount
 	var/deposit_return = scroll.assigned_quest.calculate_deposit()
-	var/gross_reward = round(base_reward + deposit_return)
-	var/original_reward = base_reward + deposit_return
+	var/gross_reward = base_reward + deposit_return
 
 	var/datum/quest/completed_quest = scroll.assigned_quest
 	var/quest_levy_exempt = completed_quest.levy_exempt
@@ -113,10 +111,14 @@
 	var/take_home = gross_reward - tax_amt - guild_fee_paid
 	SSquestpool.record_completion(user, completed_quest, take_home, tax_amt)
 
-	if(gross_reward > original_reward)
-		say("Your handler-assisted reward of [gross_reward] mammon has been credited. The difference is [gross_reward - original_reward] mammon. ([tax_amt] taxed.)")
-	else
-		say("Your reward of [gross_reward] mammon has been credited. ([tax_amt] taxed.)")
+	var/list/deductions = list()
+	if(tax_amt > 0)
+		deductions += "[tax_amt] mammon to the Crown's Levy"
+	if(guild_fee_paid > 0)
+		deductions += "[guild_fee_paid] mammon to the Guild's cut"
+	var/deductions_clause = length(deductions) ? ", less [english_list(deductions)]" : ""
+	var/deposit_clause = deposit_return > 0 ? " Your deposit of [deposit_return] mammon is also returned." : ""
+	say("Your reward of [base_reward] mammon has been credited[deductions_clause].[deposit_clause]")
 
 /obj/structure/roguemachine/contractledger/proc/abandon_by_ref(mob/user, ref)
 	if(!ref)
@@ -142,7 +144,7 @@
 	var/forfeited = matched_quest.calculate_deposit()
 	log_quest(user.ckey, user.mind, user, "Abandon [matched_quest.quest_type]")
 	SSquestpool.mark_abandoned(user, matched_quest, forfeited)
-	to_chat(user, span_warning("The contract is voided. Your deposit of [forfeited] mammon is forfeit to the treasury."))
+	to_chat(user, span_warning("The contract is voided. Your deposit of [forfeited] mammon is forfeit."))
 	matched_scroll.assigned_quest = null
 	qdel(matched_quest)
 	qdel(matched_scroll)
