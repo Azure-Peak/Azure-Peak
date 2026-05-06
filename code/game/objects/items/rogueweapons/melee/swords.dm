@@ -510,6 +510,7 @@
 	static_price = TRUE
 	equip_delay_self = 0
 	unequip_delay_self = 0
+	unenchantable = TRUE //Its a 55 force, antag-only-holdable, glowing weapon as-is. Also you would be wasting your enchantments cause it qdel's the blade anyway on recalling it.
 
 /obj/item/rogueweapon/sword/long/judgement/vlord/Initialize()
 	. = ..()
@@ -522,6 +523,31 @@
 
 	src.visible_message(span_warning("\The [src] crumbles to dust, the ashes spiriting away."))
 	qdel(src)
+
+
+/obj/item/rogueweapon/sword/long/judgement/vlord/getonmobprop(tag) //Removed this will be held the wrong way up facing south.
+	. = ..()
+	if(tag)
+		switch(tag)
+			if("gen")
+				return list("shrink" = 0.5,"sx" = -14,"sy" = -8,"nx" = 15,"ny" = -7,"wx" = -10,"wy" = -5,"ex" = 7,"ey" = -6,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = -13,"sturn" = 110,"wturn" = -60,"eturn" = -30,"nflip" = 1,"sflip" = 1,"wflip" = 8,"eflip" = 1)
+			if("wielded")
+				return list("shrink" = 0.6,"sx" = 5,"sy" = -2,"nx" = -6,"ny" = -2,"wx" = -6,"wy" = -2,"ex" = 7,"ey" = -2,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = -28,"sturn" = 29,"wturn" = -35,"eturn" = 32,"nflip" = 8,"sflip" = 0,"wflip" = 8,"eflip" = 0)
+
+/obj/item/rogueweapon/sword/long/judgement/vlord/pickup(mob/living/user)
+	if(!(user.mind?.has_antag_datum(/datum/antagonist/vampire))) //All vamps can pick it up. If a wretch vamp decides to larp as vander's daywalker. Man I don't care anymore, that's pure Aura.
+		to_chat(user, "<font color='red'>My hands twist unnaturally before the blade falls out of my grip.</font>")
+		user.Stun(20) //Shorter than most cursed weaponry, because you can't break it with its 9999 integ. Also why it doesn't set you on fire.
+	..()
+
+/obj/item/rogueweapon/sword/long/judgement/vlord/examine(mob/user)
+	. = ..()
+	if(user.mind?.has_antag_datum(/datum/antagonist/vampire))
+		. += span_notice("You can feel the unholy blade's enchantment resonate with your cursed nature, anyone that does not bare your curse will be unable to touch it.")
+
+/obj/item/rogueweapon/sword/long/judgement/vlord/Initialize()
+  ..()
+  add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_VAMPIRIC, "alpha" = 120, "size" = 2)) //Its a cursed blade, it gets to glow ominiously now.
 
 /obj/item/rogueweapon/sword/long/marlin
 	name = "shalal saber"

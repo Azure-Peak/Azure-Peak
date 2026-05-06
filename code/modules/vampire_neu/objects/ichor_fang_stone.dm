@@ -1,9 +1,19 @@
 /obj/structure/ichor_stone
 	name = "Bloodstained Stone"
-	desc = "Pedestal for your Ichor Fang. It can also recall it!"
+	desc = "A blood soaked rock, seemingly used as a pedestal for a blade, it hums softly with unholy energies."
 	max_integrity = 999999
 	icon = 'icons/roguetown/items/natural.dmi'
 	icon_state = "stonebig2"
+	color ="#994a4a" // bloodstained look
+
+/obj/structure/ichor_stone/Initialize()
+	. = ..()
+	set_light(3, 3, 20, l_color = LIGHT_COLOR_BLOOD_MAGIC) //The funny rock, glows now.
+
+/obj/structure/ichor_stone/examine(mob/user)
+	. = ..()
+	if(user.mind?.has_antag_datum(/datum/antagonist/vampire/lord))
+		. += span_bloody("A pedestal for your Ichor Fang. You can also recall it for 500 vitae, even if it gets destroyed.")
 
 /obj/structure/ichor_stone/attack_hand(mob/living/carbon/human/user)
 	if(!istype(user))

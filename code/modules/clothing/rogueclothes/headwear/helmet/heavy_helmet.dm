@@ -1231,6 +1231,7 @@
 	if(slot == SLOT_HEAD)
 		active_item = TRUE
 		ADD_TRAIT(user, TRAIT_BITERHELM, TRAIT_GENERIC)
+		to_chat(user, span_red("The bascinet's visor chitters, and your jaw tightens with symbiotic intent.."))
 
 /obj/item/clothing/head/roguetown/helmet/heavy/graggar/dropped(mob/living/user)
 	..()
@@ -1238,6 +1239,7 @@
 		return
 	active_item = FALSE
 	REMOVE_TRAIT(user, TRAIT_BITERHELM, TRAIT_GENERIC)
+	to_chat(user, span_red("..and like that, the bascinet's visor goes dormant once more - a strange pressure, relieved from your jaw."))
 
 /obj/item/clothing/head/roguetown/helmet/heavy/graggar/skull
 	name = "vicious skullhelm"

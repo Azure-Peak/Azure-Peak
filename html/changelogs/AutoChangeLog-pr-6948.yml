@@ -1,0 +1,5 @@
+author: "Rannoooo"
+delete-after: True
+changes:
+  - bugfix: "makes gronnic claws do slash pen, as intended."
+  - balance: "iron and steel gronn claw cuts tweaked slightly to provide less focus on swingdelay"
