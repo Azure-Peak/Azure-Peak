@@ -32859,13 +32859,6 @@
 /obj/item/rogueweapon/shovel,
 /turf/open/floor/rogue/dirt,
 /area/rogue/outdoors/beach/central)
-"gLm" = (
-/obj/structure/fluff/traveltile/vampire{
-	aportalgoesto = "vampexitsecond";
-	aportalid = "vampinsecond"
-	},
-/turf/open/floor/rogue/dirt,
-/area/rogue/under/cavewet/bogcaves/south)
 "gLn" = (
 /obj/structure/fluff/railing/border/west,
 /turf/open/floor/rogue/naturalstone,
@@ -55804,6 +55797,13 @@
 /obj/structure/flora/roguetree/pine,
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors/rtfield)
+"liR" = (
+/obj/structure/fluff/traveltile/vampire{
+	aportalgoesto = "vampthirdexit";
+	aportalid = "vampin"
+	},
+/turf/open/floor/rogue/naturalstone,
+/area/rogue/outdoors/mountains)
 "ljc" = (
 /obj/structure/table/wood/long_table/right,
 /turf/open/floor/rogue/naturalstone,
@@ -57408,6 +57408,10 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/mimic/gold,
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/cave/his_vault)
+"lwZ" = (
+/obj/structure/spider/stickyweb,
+/turf/open/floor/rogue/naturalstone,
+/area/rogue/outdoors/mountains)
 "lxa" = (
 /obj/structure/fluff/railing/fence,
 /turf/open/floor/rogue/grasscold,
@@ -73831,13 +73835,6 @@
 	},
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/cave/his_vault)
-"oNy" = (
-/obj/structure/fluff/traveltile/vampire{
-	aportalgoesto = "vampthirdexit";
-	aportalid = "vampin"
-	},
-/turf/open/floor/rogue/naturalstone,
-/area/rogue/outdoors/mountains)
 "oNC" = (
 /obj/structure/bookcase/random/archive,
 /obj/item/book/rogue/abyssor,
@@ -79445,10 +79442,6 @@
 /obj/structure/mineral_door/wood/donjon/stone,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/outdoors/mountains/decap/gunduzirak)
-"pTB" = (
-/obj/structure/spider/stickyweb,
-/turf/open/floor/rogue/naturalstone,
-/area/rogue/outdoors/mountains)
 "pTC" = (
 /obj/effect/decal/cobbleedge{
 	icon_state = "cobbleedge-n"
@@ -119799,6 +119792,13 @@
 /obj/item/reagent_containers/food/snacks/fish/carp,
 /turf/open/floor/rogue/blocks,
 /area/rogue/outdoors/beach/north)
+"xXK" = (
+/obj/structure/fluff/traveltile/vampire{
+	aportalgoesto = "vampexitsecond";
+	aportalid = "vampinsecond"
+	},
+/turf/open/floor/rogue/naturalstone,
+/area/rogue/under/cavewet/bogcaves/south)
 "xXL" = (
 /obj/structure/fluff/railing/corner/south_east,
 /obj/structure/bars/passage/shutter{
@@ -205135,7 +205135,7 @@ jPN
 xRq
 xRq
 xRq
-gLm
+xXK
 wxM
 wxM
 wxM
@@ -205587,8 +205587,8 @@ xRq
 xRq
 xRq
 xRq
-gLm
-wxM
+xXK
+fVm
 wxM
 wxM
 wxM
@@ -206039,8 +206039,8 @@ xRq
 xRq
 xRq
 xRq
-gLm
-wxM
+xXK
+fVm
 wxM
 wxM
 wxM
@@ -206491,9 +206491,9 @@ xRq
 xRq
 xRq
 xRq
-gLm
-wxM
-wxM
+xXK
+fVm
+fVm
 wxM
 wxM
 wxM
@@ -206943,12 +206943,12 @@ jPN
 xRq
 xRq
 xRq
-gLm
-wxM
-wxM
-wxM
-jPN
-jPN
+xXK
+fVm
+fVm
+fVm
+fVm
+xRq
 jPN
 jPN
 jPN
@@ -207396,11 +207396,11 @@ jPN
 xRq
 xRq
 xRq
-jPN
-wxM
-wxM
-jPN
-jPN
+xRq
+fVm
+fVm
+fVm
+xRq
 jPN
 jPN
 jPN
@@ -207849,10 +207849,10 @@ xRq
 xRq
 xRq
 xRq
-wxM
-jPN
-jPN
-jPN
+fVm
+xRq
+xRq
+xRq
 jPN
 jPN
 jPN
@@ -208301,9 +208301,9 @@ jPN
 jPN
 xRq
 xRq
-jPN
-jPN
-jPN
+xRq
+xRq
+xRq
 jPN
 jPN
 jPN
@@ -208752,9 +208752,9 @@ jPN
 jPN
 jPN
 jPN
-jPN
-jPN
-jPN
+xRq
+xRq
+xRq
 jPN
 jPN
 jPN
@@ -352980,11 +352980,11 @@ cxA
 cxA
 cxA
 cxA
-oNy
-oNy
-oNy
-oNy
-oNy
+liR
+liR
+liR
+liR
+liR
 cxA
 cxA
 cxA
@@ -355243,7 +355243,7 @@ qwK
 fZN
 fZN
 fZN
-pTB
+lwZ
 qwK
 qwK
 qwK
@@ -355691,11 +355691,11 @@ qwK
 qwK
 qwK
 qwK
-pTB
+lwZ
 fZN
 fZN
 fZN
-pTB
+lwZ
 qwK
 qwK
 qwK
@@ -356146,7 +356146,7 @@ qwK
 fZN
 fZN
 fZN
-pTB
+lwZ
 qwK
 qwK
 qwK
@@ -357499,7 +357499,7 @@ qwK
 qwK
 qwK
 qwK
-pTB
+lwZ
 fZN
 fZN
 qwK
@@ -357952,7 +357952,7 @@ qwK
 qwK
 qwK
 qwK
-pTB
+lwZ
 fZN
 fZN
 qwK
@@ -358393,7 +358393,7 @@ qwK
 qwK
 qwK
 qwK
-pTB
+lwZ
 fZN
 whu
 fZN
@@ -359301,7 +359301,7 @@ fZN
 fZN
 iss
 fZN
-pTB
+lwZ
 qwK
 qwK
 qwK
@@ -359747,10 +359747,10 @@ qwK
 qwK
 qwK
 qwK
-pTB
-pTB
+lwZ
+lwZ
 fZN
-pTB
+lwZ
 fZN
 fZN
 qwK
@@ -360200,7 +360200,7 @@ qwK
 qwK
 qwK
 qwK
-pTB
+lwZ
 fZN
 qwK
 sga
@@ -361567,7 +361567,7 @@ qwK
 qwK
 qwK
 qwK
-pTB
+lwZ
 qwK
 qwK
 qwK
@@ -362019,7 +362019,7 @@ qwK
 qwK
 qwK
 fZN
-pTB
+lwZ
 qwK
 qwK
 qwK
@@ -362461,7 +362461,7 @@ qwK
 qwK
 qwK
 fZN
-pTB
+lwZ
 qwK
 qwK
 qwK
@@ -362913,15 +362913,15 @@ qwK
 qwK
 qwK
 qwK
-pTB
-pTB
+lwZ
+lwZ
 qwK
 qwK
 qwK
 qwK
 qwK
 qwK
-pTB
+lwZ
 fZN
 qwK
 qwK
@@ -363366,11 +363366,11 @@ qwK
 qwK
 qwK
 qwK
-pTB
-pTB
+lwZ
+lwZ
 fZN
-pTB
-pTB
+lwZ
+lwZ
 fZN
 fZN
 fZN
@@ -364274,7 +364274,7 @@ qwK
 qwK
 fZN
 qwK
-pTB
+lwZ
 fZN
 fZN
 fZN
@@ -364729,9 +364729,9 @@ fZN
 qwK
 qwK
 qwK
-pTB
+lwZ
 fZN
-pTB
+lwZ
 qwK
 qwK
 qwK
