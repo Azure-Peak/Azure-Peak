@@ -55799,8 +55799,8 @@
 /area/rogue/outdoors/rtfield)
 "liR" = (
 /obj/structure/fluff/traveltile/vampire{
-	aportalgoesto = "vampthirdexit";
-	aportalid = "vampin"
+	aportalgoesto = "vampinthird";
+	aportalid = "vampexitthird"
 	},
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/outdoors/mountains)
@@ -119794,8 +119794,8 @@
 /area/rogue/outdoors/beach/north)
 "xXK" = (
 /obj/structure/fluff/traveltile/vampire{
-	aportalgoesto = "vampexitsecond";
-	aportalid = "vampinsecond"
+	aportalgoesto = "vampinsecond";
+	aportalid = "vampexitsecond"
 	},
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cavewet/bogcaves/south)

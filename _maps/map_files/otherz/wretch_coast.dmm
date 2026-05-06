@@ -9880,8 +9880,8 @@
 /area/rogue/indoors/banditcamp)
 "Qh" = (
 /obj/structure/fluff/traveltile/vampire{
-	aportalgoesto = "vampthirdexit";
-	aportalid = "vampin"
+	aportalgoesto = "vampexitthird";
+	aportalid = "vampinthird"
 	},
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/woods/vampire_lair)
