@@ -36,6 +36,7 @@
 	mob_size = MOB_SIZE_SMALL
 	density = FALSE
 	see_in_dark = FAMILIAR_SEE_IN_DARK
+	lighting_alpha = LIGHTING_PLANE_ALPHA_INVISIBLE
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
 	minbodytemp = FAMILIAR_MIN_BODYTEMP
 	maxbodytemp = FAMILIAR_MAX_BODYTEMP

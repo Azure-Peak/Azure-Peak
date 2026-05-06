@@ -129,6 +129,7 @@
 		spirit.name = user.name
 		spirit.desc = "A small orb, containing the spirit of [user.name]."
 		user.forceMove(spirit)
+		user.status_flags |= GODMODE
 		return TRUE
 	else
 		if(user.health<=0) // you shouldn't be able to cast this while dead, but just in case
@@ -137,6 +138,7 @@
 		if(!istype(spirit)) // we might be inside another item like warden tools
 			return FALSE
 		user.forceMove(get_turf(user))
+		user.status_flags &= ~GODMODE
 		qdel(spirit)
 		return TRUE
 
@@ -315,7 +317,7 @@
 	// Halve durability
 	R.max_integrity = round(R.max_integrity * 0.5)
 	R.obj_integrity = R.max_integrity
-
+	owner.status_flags |= GODMODE
 	// Mark as conjured — no salvage, no smelting
 	R.smeltresult = null
 	R.salvage_result = null
@@ -335,6 +337,7 @@
 /datum/action/cooldown/spell/arcyne_forge/elemental/proc/revert()
 	if(conjured_item)
 		owner.forceMove(get_turf(owner))
+		owner.status_flags &= ~GODMODE
 		QDEL_NULL(conjured_item)
 
 /datum/action/cooldown/spell/arcyne_forge/elemental/void // lmao
