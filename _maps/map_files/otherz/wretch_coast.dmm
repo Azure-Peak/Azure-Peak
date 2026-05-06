@@ -6082,11 +6082,10 @@
 /area/rogue/indoors/banditcamp)
 "Ai" = (
 /obj/structure/bars/pipe{
-	dir = 4;
-	pixel_x = 7
+	dir = 4
 	},
-/turf/open/lava/acid,
-/area/rogue/indoors/vampire_manor)
+/turf/closed/mineral/rogue/bedrock,
+/area/rogue/indoors/cave)
 "Ak" = (
 /obj/structure/mineral_door/wood{
 	lockid = "bandit"
@@ -27026,8 +27025,8 @@ PI
 PI
 Xa
 hJ
-Ai
-Ai
+hJ
+hJ
 Xa
 bP
 gK
@@ -27681,8 +27680,8 @@ PI
 PI
 PI
 qg
-PI
-PI
+Ai
+Ai
 hv
 hv
 GC
