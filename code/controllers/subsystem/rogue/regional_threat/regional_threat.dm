@@ -28,7 +28,7 @@ SUBSYSTEM_DEF(regionthreat)
 			_delivery_reward_multiplier = 1.0,
 			_kill_target_floor = 3,
 			_evergreen_target = 2,
-			_allowed_quest_types = list(QUEST_KILL_EASY, QUEST_CLEAR_OUT, QUEST_COURIER, QUEST_RETRIEVAL, QUEST_RECOVERY, QUEST_TOWNER_SMITH_CARAVAN, QUEST_TOWNER_MINER_OREVEIN),
+			_allowed_quest_types = list(QUEST_KILL_EASY, QUEST_CLEAR_OUT, QUEST_COURIER, QUEST_RETRIEVAL, QUEST_RECOVERY),
 		),
 		new /datum/threat_region(
 			_region_name = THREAT_REGION_AZURE_GROVE,

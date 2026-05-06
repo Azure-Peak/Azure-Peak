@@ -13,6 +13,7 @@ import {
   RetrievalProgressLine,
   WhisperLine,
 } from './QuestScroll/Marginalia';
+import { OreVeinWrit } from './QuestScroll/OreVeinWrit';
 import { RecoveryWrit } from './QuestScroll/RecoveryWrit';
 import {
   COMMISSION_SEAL,
@@ -34,6 +35,7 @@ import {
   titleHint,
   WRIT_TYPE_CARRIAGE,
   WRIT_TYPE_RECOVERY,
+  WRIT_TYPE_TOWNER_VEIN,
   writBody,
 } from './QuestScroll/shared';
 import { UndeadWrit } from './QuestScroll/UndeadWrit';
@@ -46,6 +48,8 @@ type MarginaliaSectionProps = {
   hasHuntTimer: boolean;
   hasCaravanTimer: boolean;
   hasCaravanAwaitingArrival: boolean;
+  hasOreveinTimer: boolean;
+  hasOreveinAwaitingArrival: boolean;
 };
 
 const MarginaliaSection = (props: MarginaliaSectionProps) => {
@@ -57,6 +61,8 @@ const MarginaliaSection = (props: MarginaliaSectionProps) => {
     hasHuntTimer,
     hasCaravanTimer,
     hasCaravanAwaitingArrival,
+    hasOreveinTimer,
+    hasOreveinAwaitingArrival,
   } = props;
   return (
     <Marginalia>
@@ -123,6 +129,32 @@ const MarginaliaSection = (props: MarginaliaSectionProps) => {
       {!!data.caravan_expired && (
         <div style={marginaliaLine}>
           <b>The trail has gone cold. The wreck is lost.</b>
+        </div>
+      )}
+      {hasOreveinAwaitingArrival && (
+        <div style={marginaliaLine}>
+          <i>Reach the strike to make the earth erupt. The miner must be at your side.</i>
+        </div>
+      )}
+      {hasOreveinTimer && (
+        <>
+          <BlockadeTimer
+            label="Vein closes in"
+            seconds={data.orevein_expiry_seconds ?? 0}
+          />
+          {(data.orevein_clusters_total ?? 0) > 0 && (
+            <div style={marginaliaLine}>
+              <i>
+                {data.orevein_clusters_remaining ?? 0} of{' '}
+                {data.orevein_clusters_total ?? 0} clusters remain.
+              </i>
+            </div>
+          )}
+        </>
+      )}
+      {!!data.orevein_expired && (
+        <div style={marginaliaLine}>
+          <b>The vein has closed. The earth has reclaimed her own.</b>
         </div>
       )}
     </Marginalia>
@@ -198,6 +230,16 @@ const WritBody = (props: WritBodyProps) => {
         pickupRegion={data.pickup_region}
         destination={data.delivery_destination}
         deliveryItem={data.delivery_item}
+        {...rewardProps}
+        {...sealProps}
+      />
+    );
+  }
+  if (data.writ_type === WRIT_TYPE_TOWNER_VEIN) {
+    return (
+      <OreVeinWrit
+        realm={realm}
+        pickupRegion={data.pickup_region}
         {...rewardProps}
         {...sealProps}
       />
@@ -321,6 +363,15 @@ export const QuestScroll = () => {
     !data.caravan_parcel_spawned;
   const hasCaravanStatus =
     !!data.caravan_parcel_spawned || !!data.caravan_expired;
+  const hasOreveinTimer =
+    (data.orevein_expiry_seconds ?? 0) > 0 &&
+    !!data.orevein_clusters_spawned &&
+    !data.orevein_expired;
+  const hasOreveinAwaitingArrival =
+    data.orevein_bearer_arrived !== undefined &&
+    !data.orevein_clusters_spawned &&
+    !data.orevein_expired;
+  const hasOreveinStatus = !!data.orevein_expired;
   const hasMarginalia =
     hasWhisper ||
     showProgress ||
@@ -329,12 +380,16 @@ export const QuestScroll = () => {
     !!data.blockade_armed ||
     hasCaravanTimer ||
     hasCaravanStatus ||
-    hasCaravanAwaitingArrival;
+    hasCaravanAwaitingArrival ||
+    hasOreveinTimer ||
+    hasOreveinAwaitingArrival ||
+    hasOreveinStatus;
   const hasSealBanners = !!(data.is_defense || data.levy_exempt);
 
   const isOutlawry =
     data.writ_type !== WRIT_TYPE_RECOVERY &&
-    data.writ_type !== WRIT_TYPE_CARRIAGE;
+    data.writ_type !== WRIT_TYPE_CARRIAGE &&
+    data.writ_type !== WRIT_TYPE_TOWNER_VEIN;
   // BOG_DESERTER falls through to the humanoid renderer. Its distinction is
   // force_oath_breach set composer-side, which makes the corruption-of-blood clause
   // always render under the licence-to-slay.
@@ -370,6 +425,8 @@ export const QuestScroll = () => {
               hasHuntTimer={hasHuntTimer}
               hasCaravanTimer={hasCaravanTimer}
               hasCaravanAwaitingArrival={hasCaravanAwaitingArrival}
+              hasOreveinTimer={hasOreveinTimer}
+              hasOreveinAwaitingArrival={hasOreveinAwaitingArrival}
             />
           )}
 

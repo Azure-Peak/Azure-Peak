@@ -55,6 +55,8 @@ GLOBAL_LIST_INIT(towner_smith_caravan_bundle_ranges, list(
 /datum/quest/kill/recovery/towner_smith_caravan/get_title()
 	if(title)
 		return title
+	if(quest_giver_name)
+		return "[quest_giver_name]'s Caravan"
 	return "A Caravan Gone Missing"
 
 /datum/quest/kill/recovery/towner_smith_caravan/get_objective_text()

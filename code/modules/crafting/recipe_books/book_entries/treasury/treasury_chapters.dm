@@ -525,8 +525,8 @@
 		<p>Towner contracts are exempt from both the Contract Levy and the Guild's referral cut.</p>
 
 		<ul>
-			<li><b>A Caravan Gone Missing</b> - a smith's wagon was ambushed on the road. The fellowship clears the bandits and escorts the smith to the wreck; the smith opens the parcel on turn-in. The fellowship is paid in coin, the smith takes the recovered ingots. Restricted to Azure Grove and Terrorbog (Terrorbog yields double the ingots, but you'll earn it). Accessible by: Adventurer Blacksmith, Guild Blacksmith, Artificer, Guildmaster.</li>
-			<li><b>A Miner's Lead</b> - a miner has heard of an elemental guarded vein. The fellowship clears the guardians and the miner clears the rock. The fellowship is paid in coin, the miner keeps whatever comes out of the stone. Accessible by: Miner, Architect, Guildmaster.</li>
+			<li><b>A Caravan Gone Missing</b> - a smith's wagon was ambushed on the road. The fellowship clears the bandits and the smith recover and opens the strongbox. The fellowship is paid in coins while the smith takes the recovered ingots. Restricted to Azure Grove and the Azurean Coast. Accessible by: Adventurer Blacksmith, Guild Blacksmith, Artificer, Guildmaster.</li>
+			<li><b>A Miner's Lead</b> - a miner has prospected an elemental-guarded vein. The vein erupts only when the miner arrives. The fellowship is paid in coin and the ore is the miner's by agreement. Restricted to the Azurean Coast and the Underdark. Accessible by: Miner, Architect, Guildmaster.</li>
 		</ul>
 		</div>
 	"}

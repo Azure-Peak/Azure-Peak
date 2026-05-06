@@ -21,8 +21,13 @@ GLOBAL_LIST_INIT(towner_posting_descriptors, list(
 	),
 	QUEST_TOWNER_MINER_OREVEIN = list(
 		"label" = "A Miner's Lead",
-		"blurb" = "You have scented an elemental-guarded vein. Hire hands to clear the guardians while you work the rock.",
-		"rules" = list(),
+		"blurb" = "You have prospected an elemental guarded vein. Hire hands to clear the guardians while you work the rock.",
+		"rules" = list(
+			"You must reach the vein yourself - the earth only erupts when you arrive.",
+			"Once the bearer reaches the vein, you have 30 minutes before the vein closes.",
+			"The fellowship may help you mine - the ore is yours by agreement, not by enchantment.",
+			"If the vein closes before erupting, your posting fee is refunded.",
+		),
 		"postable_advclasses" = list(
 			/datum/advclass/miner,
 			/datum/advclass/guildsman/architect,
@@ -76,9 +81,16 @@ GLOBAL_LIST_INIT(towner_posting_descriptors, list(
 				"poster_summary" = poster_summary,
 			)
 		if(QUEST_TOWNER_MINER_OREVEIN)
+			var/clusters = (tier == TOWNER_POSTING_TIER_HARD) ? TOWNER_OREVEIN_CLUSTER_COUNT_HARD : TOWNER_OREVEIN_CLUSTER_COUNT_MEDIUM
+			var/bonus = (tier == TOWNER_POSTING_TIER_HARD) ? TOWNER_OREVEIN_FLAT_BONUS_HARD : TOWNER_OREVEIN_FLAT_BONUS_MEDIUM
+			var/poster_summary
+			if(tier == TOWNER_POSTING_TIER_HARD)
+				poster_summary = "[clusters] clusters: each yields cinnabar + iron + a windfall of gold, gems, or a richer iron seam"
+			else
+				poster_summary = "[clusters] clusters: each yields iron + coal, with a chance of gold"
 			return list(
-				"bearer_summary" = "combat pay (template not yet operational)",
-				"poster_summary" = "ore vein at the strike site (template not yet operational)",
+				"bearer_summary" = "combat pay + [bonus]m bonus",
+				"poster_summary" = poster_summary,
 			)
 	return list("bearer_summary" = "?", "poster_summary" = "?")
 

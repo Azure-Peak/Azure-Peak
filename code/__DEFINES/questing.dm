@@ -31,6 +31,15 @@
 #define TOWNER_CARAVAN_TP_BUDGET_MEDIUM 100
 #define TOWNER_CARAVAN_TP_BUDGET_HARD 150
 
+#define TOWNER_OREVEIN_EXPIRY_DS (30 MINUTES)
+#define TOWNER_OREVEIN_TP_BUDGET_MEDIUM 80
+#define TOWNER_OREVEIN_TP_BUDGET_HARD 130
+#define TOWNER_OREVEIN_FLAT_BONUS_MEDIUM 30
+#define TOWNER_OREVEIN_FLAT_BONUS_HARD 60
+#define TOWNER_OREVEIN_CLUSTER_COUNT_MEDIUM 4
+#define TOWNER_OREVEIN_CLUSTER_COUNT_HARD 6
+#define TOWNER_OREVEIN_SWINGS_PER_CLUSTER 4
+
 // Recovery is intentionally omitted - the Steward cannot directly commission recoveries.
 // Those spawn from the pool (SSquestpool.regen_kill_targets) and from Innkeeper rumors only.
 // The rationale is roleplay: a Recovery is "a caravan was lost, find the cargo" - a rumor
