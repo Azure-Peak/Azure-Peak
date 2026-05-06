@@ -552,7 +552,7 @@
 	speak_emote = list ("rumbles", "grinds")
 	inherent_spell = list(/datum/action/cooldown/spell/magicians_stone/elemental) 
 	t1_spell = /datum/action/cooldown/spell/arcyne_forge/elemental
-	t2_spell = /datum/action/cooldown/spell/arcyne_forge/elemental/t2
+	t2_spell = /datum/action/cooldown/spell/arcyne_forge/elementalt2
 	valid_healing_items = list(/obj/item/magic/elemental)
 	tierup_messages = list(
 		span_info("You can now shape your earthen form into tools and weapons, including those capable of repairing equipment."),
@@ -618,12 +618,13 @@
 			to_chat(src, span_notice("As you absorb the essence of the hells, you take on some of their nature. Flames will harm you no more, and you can now manifest an abberant beam to blast your foes."))
 			src.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/fire_obelisk_beam/drakeling)
 		if("elemental") // stat buff, inherits spell
-			to_chat(src, span_notice("As you absorb the essence of the depths, you take on some of its nature. Your body grows sturdier, and you can now tear stones from the earth itself."))
+			to_chat(src, span_notice("As you absorb the essence of the depths, you take on some of its nature. Your body grows sturdier, and you can now tear stones from the earth itself, or reshape your form."))
 			src.maxHealth = WOLF_HEALTH_UNDEAD
 			src.health = WOLF_HEALTH_UNDEAD
 			src.STACON += 2
 			src.STAWIL += 2
 			src.mind.AddSpell(new /datum/action/cooldown/spell/magicians_stone/elemental/void)
+			src.mind.AddSpell(new /datum/action/cooldown/spell/arcyne_forge/elemental/void)
 
 /mob/living/simple_animal/pet/familiar/elemental/pondstone_toad
     name = "Pondstone Toad"

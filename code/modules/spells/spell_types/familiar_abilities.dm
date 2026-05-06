@@ -245,11 +245,17 @@
 	fluff_desc = ""
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_SAME_Z
 
+/obj/item/rogueweapon/woodstaff/implement/greater/elemental
+	name = "Staff of the Binder"
+	desc = "A mage's staff crowned with the spirit-gem of a familiar. The gem captures excess energy dissipated into the air when a spell is cast, giving a generous share of it back to the wielder."
+
 /datum/action/cooldown/spell/arcyne_forge/elemental
 	name = "Earthen Forge"
 	desc = "Shape your earthen form into a tool or weapon. Shaped items have halved durability. When the item breaks, you will revert to your original form. Cast again to manually revert."
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_SAME_Z
 	conjure_options = list(
+		// Staff
+		"Staff of the Binder" = /obj/item/rogueweapon/woodstaff/implement/greater/elemental,
 		// Weapons
 		"Short Sword" = /obj/item/rogueweapon/sword/short/iron,
 		"Hunting Sword" = /obj/item/rogueweapon/sword/short/messer/iron,
@@ -328,14 +334,51 @@
 		owner.forceMove(get_turf(owner))
 		QDEL_NULL(conjured_item)
 
-/datum/action/cooldown/spell/arcyne_forge/elemental/t2
+/datum/action/cooldown/spell/arcyne_forge/elemental/void // lmao
+	name = "Void Forge"
+	desc = "Shape your ever-malleable form into a tool or weapon. Shaped items have halved durability. When the item breaks, you will revert to your original form. Cast again to manually revert."
+
+/datum/action/cooldown/spell/arcyne_forge/elementalt2
 	name = "Greater Earthen Shaping"
 	desc = "Shape a weapon or tool of your choice out of raw earth. Conjured items have halved durability.\n\
 	Only one conjured item can exist at a time - conjuring a new one destroys the old."
 	cooldown_time = 5 MINUTES
 	charge_required = TRUE
+	conjure_options = list(
+		// Weapons
+		"Short Sword" = /obj/item/rogueweapon/sword/short/iron,
+		"Hunting Sword" = /obj/item/rogueweapon/sword/short/messer/iron,
+		"Arming Sword" = /obj/item/rogueweapon/sword/iron,
+		"Cudgel" = /obj/item/rogueweapon/mace/cudgel,
+		"Warhammer" = /obj/item/rogueweapon/mace/warhammer,
+		"Dagger" = /obj/item/rogueweapon/huntingknife/idagger,
+		"Flail" = /obj/item/rogueweapon/flail,
+		"Whip" = /obj/item/rogueweapon/whip,
+		"Wooden Shield" = /obj/item/rogueweapon/shield/wood,
+		// Tools
+		"Axe" = /obj/item/rogueweapon/stoneaxe/woodcut,
+		"Pickaxe" = /obj/item/rogueweapon/pick,
+		"Hoe" = /obj/item/rogueweapon/hoe,
+		"Thresher" = /obj/item/rogueweapon/thresher,
+		"Sickle" = /obj/item/rogueweapon/sickle,
+		"Pitchfork" = /obj/item/rogueweapon/pitchfork,
+		"Tongs" = /obj/item/rogueweapon/tongs,
+		"Hammer" = /obj/item/rogueweapon/hammer/iron,
+		"Shovel" = /obj/item/rogueweapon/shovel,
+		"Handsaw" = /obj/item/rogueweapon/handsaw,
+		"Scissors" = /obj/item/rogueweapon/huntingknife/scissors,
+		"Fishing Rod" = /obj/item/fishingrod,
+		"Frying Pan" = /obj/item/cooking/pan,
+		"Pot" = /obj/item/reagent_containers/glass/bucket/pot,
+		"Bowl" = /obj/item/reagent_containers/glass/bowl,
+		"Fork" = /obj/item/kitchen/fork/iron,
+		"Spoon" = /obj/item/kitchen/spoon/iron,
+		"Needle" = /obj/item/needle
+	)
+	cooldown_time = 30 SECONDS
+	charge_required = FALSE
 
-/datum/action/cooldown/spell/arcyne_forge/elemental/t2/cast(atom/cast_on)
+/datum/action/cooldown/spell/arcyne_forge/elementalt2/cast(atom/cast_on)
 	. = ..()
 	var/mob/living/simple_animal/pet/familiar/elemental/H = owner
 	if(!istype(H))
