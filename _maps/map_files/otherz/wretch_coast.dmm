@@ -5585,7 +5585,7 @@
 /area/rogue/under/cave/inhumen)
 "xW" = (
 /obj/structure/gate{
-	gid = "thronegate";
+	gid = "ancientthronegate";
 	name = "Ancient Throne";
 	redstone_id = "bloodthronegate"
 	},
@@ -8777,8 +8777,8 @@
 "Lx" = (
 /obj/machinery/light/rogue/candle,
 /obj/structure/winch{
-	gid = "thronegate";
-	name = "Ancient Throne gate";
+	gid = "ancientthronegate";
+	name = "Ancient throne gate";
 	redstone_id = "bloodthronegate";
 	dir = 4
 	},
@@ -11227,8 +11227,8 @@
 /area/rogue/indoors/vampire_manor)
 "Wn" = (
 /obj/structure/winch{
-	gid = "thronegate";
-	name = "Ancient Throne gate";
+	gid = "ancientthronegate";
+	name = "Ancient throne gate";
 	redstone_id = "bloodthronegate";
 	dir = 4
 	},
