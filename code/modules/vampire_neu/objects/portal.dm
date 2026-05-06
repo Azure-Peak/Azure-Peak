@@ -1,7 +1,7 @@
 /obj/structure/vampire/portalmaker
 	name = "Rift Gate"
 	icon_state = "obelisk"
-	desc = "A large ominious oblisk of unknown and impossible design, runic letters and shapes flicker before your eyes within an endless void, sometimes stare long enough into the void within and <font color='FF0000'>..and something will stare back.</font>"
+	desc = "A large ominious oblisk of unknown and impossible design, runic letters and shapes flicker before your eyes within an endless void, sometimes stare long enough into the void within <font color='FF0000'>...and something will stare back.</font>"
 	var/sending = FALSE
 
 /obj/structure/vampire/portalmaker/examine(mob/user) //Currently unusable but it still gets text on how it /would/ have been. PLACEHOLDERY for now until someone else fixes this since I don't want to cobble together shitcode that might not work lol. //Sradar

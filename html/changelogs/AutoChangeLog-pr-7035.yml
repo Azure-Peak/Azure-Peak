@@ -1,0 +1,4 @@
+author: "TheNeoGamer42"
+delete-after: True
+changes:
+  - bugfix: "Previously named 'mailled hauberks' have been renamed to 'mailled cuirass' to better reflect what they are. The hauberk IS the maille."

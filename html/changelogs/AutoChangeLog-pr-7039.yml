@@ -1,0 +1,7 @@
+author: "radarseas"
+delete-after: True
+changes:
+  - bugfix: "Bat form not being given by default to lords. AAAAAAAAAA-"
+  - bugfix: "A few poorly explained traits, cicerone and a few others."
+  - bugfix: "A Typo in the vlord warp gate and ..and this time something did not stare back, phew."
+  - bugfix: "Nosferato have undergone Pestrian medical examinations en-mass, they no longer possess 2 extra non-functional eyes on their UI"
