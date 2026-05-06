@@ -2179,7 +2179,9 @@
 /area/rogue/outdoors/woods/vampire_lair)
 "js" = (
 /obj/structure/table/wood/fancy/purple,
-/obj/item/recipe_book/leatherworking,
+/obj/item/candle/candlestick/gold/lit{
+	pixel_y = 23
+	},
 /turf/open/floor/rogue/tile,
 /area/rogue/indoors/vampire_manor)
 "ju" = (
@@ -5001,6 +5003,10 @@
 /area/rogue/outdoors/mountains)
 "vg" = (
 /obj/structure/table/finestone,
+/obj/item/recipe_book/alchemy{
+	pixel_x = -3;
+	pixel_y = 5
+	},
 /turf/open/floor/rogue/cobble,
 /area/rogue/indoors/vampire_manor)
 "vh" = (
@@ -5017,6 +5023,14 @@
 /obj/effect/decal/cleanable/blood,
 /turf/open/floor/rogue/dirt,
 /area/rogue/under/cave/inhumen)
+"vm" = (
+/obj/structure/table/wood/fancy/blue,
+/obj/item/candle/candlestick/gold/lit{
+	pixel_x = -16;
+	pixel_y = 13
+	},
+/turf/open/floor/rogue/tile/bfloorz,
+/area/rogue/indoors/vampire_manor)
 "vo" = (
 /obj/machinery/light/rogue/firebowl/stump,
 /turf/open/floor/rogue/naturalstone,
@@ -7211,6 +7225,7 @@
 "ER" = (
 /obj/structure/table/wood/fancy/purple,
 /obj/item/recipe_book/sewing,
+/obj/item/recipe_book/leatherworking,
 /turf/open/floor/rogue/tile,
 /area/rogue/indoors/vampire_manor)
 "ES" = (
@@ -9231,6 +9246,7 @@
 	pixel_x = 15;
 	pixel_y = 3
 	},
+/obj/item/recipe_book/cooking,
 /turf/open/floor/rogue/tile/bfloorz,
 /area/rogue/indoors/vampire_manor)
 "Nz" = (
@@ -9982,6 +9998,17 @@
 /obj/item/clothing/neck/roguetown/psicross/abyssor,
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/under/cave/inhumen)
+"QF" = (
+/obj/effect/decal/cobbleedge{
+	dir = 6
+	},
+/obj/item/recipe_book/blacksmithing,
+/obj/structure/table/wood{
+	icon_state = "tablewood1"
+	},
+/obj/item/recipe_book/engineering,
+/turf/open/floor/rogue/cobble/mossy,
+/area/rogue/indoors/vampire_manor)
 "QG" = (
 /obj/structure/table/wood/poor,
 /obj/item/natural/bundle/cloth/roll,
@@ -25861,7 +25888,7 @@ PI
 PI
 PI
 ks
-Ch
+QF
 ax
 ax
 ax
@@ -40944,8 +40971,8 @@ KH
 WS
 Fv
 SK
-hm
 lU
+js
 fg
 db
 db
@@ -41074,7 +41101,7 @@ KH
 WS
 Fv
 SK
-js
+hm
 FB
 SK
 SK
@@ -44066,7 +44093,7 @@ Hi
 Qi
 Ga
 Ga
-jx
+vm
 kn
 bB
 Ga
