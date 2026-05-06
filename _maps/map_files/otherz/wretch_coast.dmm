@@ -4849,10 +4849,6 @@
 	},
 /turf/open/floor/carpet/red,
 /area/rogue/under/cave/inhumen)
-"uq" = (
-/obj/structure/fluff/walldeco/psybanner/zizo/red,
-/turf/closed/wall/mineral/rogue/stonebrick,
-/area/rogue/indoors/vampire_manor)
 "ur" = (
 /obj/effect/decal/cleanable/dirt/cobweb{
 	dir = 4
@@ -9370,10 +9366,6 @@
 /obj/structure/mannequin/male/decorative/training_dummy_style,
 /obj/item/clothing/under/roguetown/platelegs/aalloy,
 /turf/open/floor/rogue/tile,
-/area/rogue/indoors/vampire_manor)
-"NX" = (
-/obj/structure/fluff/walldeco/psybanner/zizo/red,
-/turf/closed/wall/mineral/rogue/stone/moss,
 /area/rogue/indoors/vampire_manor)
 "NY" = (
 /obj/structure/table/wood{
@@ -27451,7 +27443,7 @@ PI
 PI
 PI
 PI
-NX
+vX
 sb
 ax
 sv
@@ -58132,7 +58124,7 @@ bv
 bv
 bv
 kn
-uq
+kn
 Cj
 an
 dh
@@ -58269,7 +58261,7 @@ oR
 XW
 Fv
 Lg
-uq
+kn
 kn
 kn
 gY
@@ -58919,7 +58911,7 @@ dz
 Hv
 ZF
 xh
-uq
+kn
 kn
 kn
 kn
@@ -59046,7 +59038,7 @@ kn
 Cj
 Nx
 dh
-uq
+kn
 kn
 kn
 kn
@@ -61518,7 +61510,7 @@ Io
 FY
 Io
 cJ
-uq
+kn
 kn
 kn
 kn
@@ -62162,7 +62154,7 @@ bv
 bv
 kn
 kn
-uq
+kn
 lH
 Fv
 Fv
@@ -62298,7 +62290,7 @@ Fc
 Zs
 Io
 QS
-uq
+kn
 kn
 kn
 kn
