@@ -127,6 +127,10 @@
 "ax" = (
 /turf/open/floor/rogue/cobble,
 /area/rogue/indoors/vampire_manor)
+"ay" = (
+/obj/structure/fluff/walldeco/psybanner/zizo/red,
+/turf/closed/wall/mineral/rogue/decostone/mossy/red/cand,
+/area/rogue/under/cave/inhumen)
 "az" = (
 /turf/open/floor/rogue/dirt,
 /area/rogue/indoors/vampire_manor)
@@ -7615,7 +7619,7 @@
 /area/rogue/indoors/vampire_manor)
 "GB" = (
 /obj/structure/fluff/walldeco/psybanner/zizo/red,
-/turf/closed/wall/mineral/rogue/stone/moss,
+/turf/closed/wall/mineral/rogue/decostone/mossy/red,
 /area/rogue/under/cave/inhumen)
 "GC" = (
 /obj/structure/bars/pipe{
@@ -11429,7 +11433,7 @@
 /area/rogue/under/cave/inhumen)
 "WR" = (
 /obj/structure/fluff/walldeco/psybanner/zizo/red,
-/turf/closed/wall/mineral/rogue/decostone/mossy/red/long,
+/turf/closed/wall/mineral/rogue/decostone,
 /area/rogue/under/cave/inhumen)
 "WS" = (
 /obj/structure/curtain/red,
@@ -12365,11 +12369,11 @@ IL
 IL
 Ic
 WT
-Ic
+WR
 Xo
 Dl
 Lz
-Ic
+WR
 WT
 WT
 Ic
@@ -12625,14 +12629,14 @@ IL
 IL
 Ic
 WT
-Ic
+WR
 CS
 bK
 bK
-Ic
+WR
 WT
 WT
-Ic
+WR
 bK
 bK
 bK
@@ -12766,7 +12770,7 @@ HE
 oe
 qh
 lB
-jh
+ay
 bM
 cW
 bK
@@ -13029,7 +13033,7 @@ Ic
 dj
 dy
 dj
-Ic
+WR
 WT
 WT
 Ic
@@ -13155,7 +13159,7 @@ wG
 vG
 IL
 IL
-NL
+vG
 eh
 dj
 BK
@@ -13269,7 +13273,7 @@ IL
 lB
 mG
 mG
-WR
+mG
 IL
 IL
 IL
@@ -13544,7 +13548,7 @@ IL
 IL
 IL
 IL
-lB
+GB
 Se
 bK
 bK
@@ -13934,7 +13938,7 @@ IL
 IL
 IL
 IL
-Ic
+WR
 dj
 OB
 pc
@@ -13967,7 +13971,7 @@ Or
 tw
 Or
 IL
-aC
+HO
 Sn
 GV
 Zl
@@ -14569,7 +14573,7 @@ IL
 IL
 IL
 mG
-WR
+mG
 mG
 IL
 IL
@@ -15237,7 +15241,7 @@ IL
 IL
 IL
 IL
-UM
+RN
 Zp
 Or
 GG
@@ -15619,7 +15623,7 @@ IL
 IL
 tV
 tV
-GB
+tV
 Xg
 jG
 nC
@@ -16399,7 +16403,7 @@ IL
 IL
 UM
 UM
-GB
+tV
 eA
 Td
 ma
