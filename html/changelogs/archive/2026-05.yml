@@ -187,3 +187,37 @@
       cares.
   borneblood:
   - bugfix: Fixed the greenskin bug (patchwork slop, though!)
+2026-05-06:
+  Ketrai:
+  - rscadd: The ability to cook troll meat into fat by overcooking it.
+  - balance: heads from simple animals have been rebalanced for bears, trolls, and
+      boars.
+  - balance: Head value for bears, trolls reduced, boars increased to reflect danger
+      level.
+  - bugfix: Cookingtime for food is no longer hardcoded, this may affect cooking times
+      for a few rare instances.
+  - bugfix: Hunting rot component not respecting custom rot components for animals.
+  - balance: Bears now drop fat.
+  - rscadd: New Eora T1 - Eora's rest
+  Ketrai, BurpleBineapple:
+  - image: New pollaxe sprite by Ketrai.
+  - rscadd: You can attach a coloured banner to poleaxes by using a cloth.
+  Lamasmaster:
+  - balance: Miracles
+  - image: Miracle Icons
+  Quinalion:
+  - bugfix: Heretic spellblade gets normal avantyne longsword.
+  - bugfix: Avantyne garments sprite.
+  Ryan180602:
+  - bugfix: fix tgui not autoscrolling
+  - code_imp: optimise tgchat
+  - refactor: try optimise tomb generation
+  - bugfix: playtime tracker should work now
+  WeNeedMorePhoron:
+  - rscadd: Greatly lowered the frequency of the rotting process (should not meaningfully
+      affect rotting time), made non-player corpses rot at 5 minutes, skeletonize
+      at 12 and dust in 20. Simple corspe rot in 8, dust in 15 minutes.
+  - rscadd: For **HUNT** spawned animals, the rot timer is far less aggressive and
+      remains at previous level (20 minutes - 35 minutes rot - dust)
+  borneblood:
+  - bugfix: Fixes the bugfix

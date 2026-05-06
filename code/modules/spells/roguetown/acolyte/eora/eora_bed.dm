@@ -113,7 +113,7 @@
 	primary_resource_type = SPELL_COST_STAMINA
 	primary_resource_cost = SPELLCOST_STAT_BUFF
 
-	invocations = list("Eora, provider of beauty-sleeps!")
+	invocations = list("Eora, grant us respite!")
 	invocation_type = INVOCATION_SHOUT
 	charge_required = TRUE
 	charge_time = 1 SECONDS
