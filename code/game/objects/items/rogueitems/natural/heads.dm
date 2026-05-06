@@ -79,6 +79,14 @@
 	layer = 3.1
 	sellprice = 20
 
+/obj/item/natural/head/boar
+	name = "boar head"
+	desc = "The head of a terrifying brambleboar."
+	icon_state = "boarhead"
+	layer = 3.1
+	// More than other animals that drop a significant amount. Boars are harder to kill and more dangerous.
+	sellprice = 45
+
 /obj/item/natural/head/troll
 	name = "troll head"
 	desc = "The head of a giant troll."
@@ -87,18 +95,19 @@
 	w_class = WEIGHT_CLASS_NORMAL // We want them to be placeable in headhook
 	grid_height = 96
 	grid_width = 96
-	sellprice = 80
+	// More than bears because they drop less useful loot.
+	sellprice = 30
 
 /obj/item/natural/head/troll/axe
 	name = "troll head"
 	desc = "The head of a once mighty warrior troll."
 	icon_state = "trollhead_axe"
-	sellprice = 110
+	sellprice = 50
 
 /obj/item/natural/head/troll/cave
 	name = "cave troll head"
 	icon_state = "cavetrollhead"
-	sellprice = 130
+	sellprice = 70
 
 /obj/item/natural/head/minotaur
 	name = "minotaur head"

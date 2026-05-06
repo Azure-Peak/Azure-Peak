@@ -30,7 +30,7 @@
 
 	var/mob/living/carbon/human/H = owner.current
 	H.cmode_music = 'sound/music/combat_cult.ogg'
-	H.faction = list("undead")
+	H.faction = list(FACTION_UNDEAD)
 	H.equipOutfit(/datum/outfit/job/roguetown/unbound_spellblade)
 
 /datum/antagonist/unbound_spellblade/greet()
@@ -226,6 +226,7 @@
 			switch(weapon_choice)
 				if("Spear")
 					r_hand = /obj/item/rogueweapon/spear
+					backr = /obj/item/rogueweapon/scabbard/gwstrap
 				if("Bardiche")
 					r_hand = /obj/item/rogueweapon/halberd/bardiche
 					backr = /obj/item/rogueweapon/scabbard/gwstrap
@@ -268,6 +269,7 @@
 		existing_eyes.Insert(H)
 
 	H.energy = H.max_energy
+	H.select_skeleton_features()
 
 /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/black
 	color = CLOTHING_BLACK

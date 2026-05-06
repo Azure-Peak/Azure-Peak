@@ -15,7 +15,7 @@
 	move_to_delay = 8
 	base_intents = list(/datum/intent/simple/claw/simplewwnpc)
 	head_butcher = /obj/item/natural/head/volf
-	faction = list("wolfs")
+	faction = list(FACTION_WOLFS)
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
 	health = 333
 	maxHealth = 333

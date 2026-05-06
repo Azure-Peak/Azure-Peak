@@ -348,6 +348,12 @@ SUBSYSTEM_DEF(vote)
 			if("storyteller")
 				save_storyteller_vote_log(., "completed")
 				SSgamemode.storyteller_vote_result(.)
+	else if(mode == "storyteller")
+		// No winner (inconclusive / no votes cast). Still run the result hook so
+		// selected_storyteller gets the Astrata fallback instead of whichever
+		// storyteller pick_most_influential() happened to seed at init.
+		save_storyteller_vote_log(null, "completed")
+		SSgamemode.storyteller_vote_result(null)
 
 	if(restart)
 		var/active_admins = 0
@@ -716,12 +722,18 @@ SUBSYSTEM_DEF(vote)
 			return
 		if("cancel")
 			if(usr.client.holder)
+				if(!mode)
+					return
+				if(alert(usr, "Are you sure you want to cancel this [mode] vote?", "Cancel Vote", "Yes", "No") != "Yes")
+					return
+				if(!mode)
+					return
 				if(mode == "storyteller")
 					save_storyteller_vote_log(null, "cancelled")
 				if(mode == "endround")
 					GLOB.round_timer = world.time + ROUND_EXTENSION_TIME // admin cancels an endround, defaults to same as continue playing
-					log_admin("[key_name(usr)] canceled end round vote.")
-					message_admins("[key_name(usr)] canceled end round vote.")
+				log_admin("[key_name(usr)] canceled the [mode] vote.")
+				message_admins("[key_name_admin(usr)] canceled the [mode] vote.")
 				reset()
 
 		if("toggle_restart")

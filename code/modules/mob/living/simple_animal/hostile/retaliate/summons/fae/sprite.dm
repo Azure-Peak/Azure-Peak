@@ -19,7 +19,7 @@
 	base_intents = list(/datum/intent/unarmed/claw)
 	butcher_results = list()
 	death_loot = list(/obj/item/magic/fae/fairydust = 4)
-	faction = list("fae")
+	faction = list(FACTION_FAE)
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
 	health = 50
 	maxHealth = 50

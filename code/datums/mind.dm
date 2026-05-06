@@ -46,6 +46,10 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 	var/datum/job/assigned_role
 	var/special_role
 	var/list/restricted_roles = list()
+	/// Persisted advclass datum, set when a class-picker resolves. Used by systems that
+	/// need to discriminate within a job's subclasses (e.g. the contract townie gate
+	/// distinguishing Pilgrim/Hunter from Pilgrim/Blacksmith).
+	var/datum/advclass/picked_advclass
 
 	/// Wizard mode & "Give Spell" badmin button.
 	var/list/spell_list = list()
@@ -147,6 +151,7 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 		current.mind = null
 		current = null
 	enslaved_to = null
+	picked_advclass = null
 	QDEL_NULL(sleep_adv)
 	if(islist(antag_datums))
 		QDEL_LIST(antag_datums)
@@ -911,6 +916,7 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 			if(active_ward && !QDELETED(active_ward))
 				new_ward_spell.conjured_ward = active_ward
 				active_ward.linked_spell = new_ward_spell
+				new_ward_spell.regen_action?.build_all_button_icons()
 		else
 			AddSpell(new /datum/action/cooldown/spell/conjure_arcyne_ward)
 	else

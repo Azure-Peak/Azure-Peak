@@ -39,13 +39,13 @@
 		/datum/ai_planning_subtree/flee_target,
 		/datum/ai_planning_subtree/tree_climb,
 		/datum/ai_planning_subtree/aggro_find_target,
+		/datum/ai_planning_subtree/attack_obstacle_in_path,
 		/datum/ai_planning_subtree/leap_attack,
 		/datum/ai_planning_subtree/basic_melee_attack_subtree/human_npc,
 		/datum/ai_planning_subtree/find_weapon,
 		/datum/ai_planning_subtree/equip_item,
 		/datum/ai_planning_subtree/loot,
 	)
-	idle_behavior = /datum/idle_behavior/idle_random_walk
 
 /datum/ai_controller/human_npc/TryPossessPawn(atom/new_pawn)
 	. = ..()
@@ -57,9 +57,13 @@
 	new_pawn.AddComponent(/datum/component/combat_vocalizer)
 
 /datum/ai_controller/human_npc/UnpossessPawn(destroy)
+	var/mob/living/living_pawn = pawn
 	UnregisterSignal(pawn, list(
 		COMSIG_MOB_MOVESPEED_UPDATED,
 	))
+	living_pawn.RemoveElement(/datum/element/interrupt_on_damage)
+	qdel(living_pawn.GetComponent(/datum/component/ai_inventory_manager))
+	qdel(living_pawn.GetComponent(/datum/component/combat_vocalizer))
 	return ..()
 
 /datum/ai_controller/human_npc/proc/update_movespeed(mob/living/pawn)
@@ -130,6 +134,7 @@
 		/datum/ai_planning_subtree/archer_base, // Archer only
 		/datum/ai_planning_subtree/ranged_attack_subtree, // Archer only
 		/datum/ai_planning_subtree/aggro_find_target,
+		/datum/ai_planning_subtree/attack_obstacle_in_path,
 		/datum/ai_planning_subtree/leap_attack,
 		/datum/ai_planning_subtree/basic_melee_attack_subtree/human_npc,
 		/datum/ai_planning_subtree/find_weapon,

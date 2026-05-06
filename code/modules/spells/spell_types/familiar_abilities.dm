@@ -32,7 +32,7 @@
 		return FALSE
 	to_chat_immediate(familiar, "Arcane whispers fill the back of my head, resolving into [user]'s voice: <font color=#7246ff>[message]</font>")
 	user.visible_message("[user] mutters an incantation and their mouth briefly flashes white.")
-	user.whisper(message)
+	user.whisper(message, language = /datum/language/common)
 	log_game("[key_name(user)] sent a message to [key_name(familiar)] with contents [message]")
 	return TRUE
 
@@ -99,7 +99,7 @@
 		return FALSE
 	to_chat_immediate(summoner, "Arcane whispers fill the back of my head, resolving into [user.real_name]'s voice: <font color=#7246ff>[message]</font>")
 	user.visible_message("[user.name] mutters an incantation and their mouth briefly flashes white.")
-	user.whisper(message)
+	user.whisper(message, language = /datum/language/common)
 	log_game("[key_name(user)] sent a message to [key_name(summoner)] with contents [message]")
 	return TRUE
 

@@ -43,7 +43,7 @@
 	)
 
 	if(H.mind)
-		SStreasury.give_money_account(ECONOMIC_DESTITUTE, H, "Savings.")
+		SStreasury.grant_savings(ECONOMIC_DESTITUTE, H)
 		H.adjust_skillrank(/datum/skill/craft/alchemy, rand(1,4), TRUE)
 		H.adjust_skillrank(/datum/skill/magic/arcane, rand(1,4), TRUE)
 		H.STAINT = rand(8, 20)

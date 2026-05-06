@@ -32,7 +32,7 @@
 /obj/item/clothing/mask/rogue/facemask,
 /obj/item/organ/heart,
 /obj/effect/decal/cleanable/blood,
-/obj/item/reagent_containers/food/snacks/rogue/crackerscooked,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
 /turf/open/floor/rogue/herringbone,
 /area/rogue/under/tomb)
 "bU" = (
@@ -135,7 +135,7 @@
 /area/rogue/under/tomb)
 "to" = (
 /obj/structure/bed/rogue/inn/hay,
-/obj/item/reagent_containers/food/snacks/rogue/crackerscooked,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
 /obj/effect/decal/cleanable/blood/gibs/old,
 /mob/living/carbon/human/species/skeleton/npc/mediumspread,
 /turf/open/floor/rogue/cobble,
@@ -245,14 +245,8 @@
 	pixel_y = -1;
 	pixel_x = -5
 	},
-/obj/item/reagent_containers/food/snacks/rogue/crackerscooked{
-	pixel_y = 7;
-	pixel_x = 9
-	},
-/obj/item/reagent_containers/food/snacks/rogue/crackerscooked{
-	pixel_y = 7;
-	pixel_x = 9
-	},
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
 /turf/open/floor/rogue/blocks,
 /area/rogue/under/tomb)
 "Tu" = (

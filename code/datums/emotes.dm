@@ -138,7 +138,10 @@
 		// Build the styled name for chat
 		var/styled_name
 		if(human && human.voice_color)
-			styled_name = "<span style='color:#[human.voice_color];text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b>[emotelocation]</b></span>"
+			var/color_to_use = human.voice_color
+			if(human.voicecolor_override)
+				color_to_use = human.voicecolor_override
+			styled_name = "<span style='color:#[color_to_use];text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b>[emotelocation]</b></span>"
 		else
 			styled_name = "<b>[emotelocation]</b>"
 		// If the message contains $n, substitute it with the name instead of prepending

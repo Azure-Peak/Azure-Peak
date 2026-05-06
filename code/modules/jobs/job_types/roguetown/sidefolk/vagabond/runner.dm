@@ -37,4 +37,4 @@
 		r_hand = /obj/item/rogue/instrument/flute
 
 	if(H.mind)
-		SStreasury.give_money_account(ECONOMIC_DESTITUTE, H, "Savings.")
+		SStreasury.grant_savings(ECONOMIC_DESTITUTE, H)

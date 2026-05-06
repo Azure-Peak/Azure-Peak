@@ -83,6 +83,12 @@
 	mob_effect_icon_state = "eff_swingdelay_cancel"
 	var/is_disrupted = FALSE
 
+/datum/status_effect/swingdelay/disrupt/on_creation(mob/living/new_owner, newdur, apply_slow = FALSE)
+	if(apply_slow)
+		var/spd_mod = 10 - new_owner.get_true_stat(STATKEY_SPD)
+		effectedstats = list(STATKEY_SPD = spd_mod)
+	. = ..()
+
 /datum/status_effect/swingdelay/disrupt/proc/attacked()
 	owner.swing_state = FALSE
 	is_disrupted = TRUE

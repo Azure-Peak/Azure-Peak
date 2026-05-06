@@ -404,3 +404,21 @@
 	owner.remove_filter(TEMPO_MAX_FILTER)
 	REMOVE_TRAIT(owner, TRAIT_GRABIMMUNE,  TRAIT_STATUS_EFFECT)
 #undef TEMPO_MAX_FILTER
+
+/datum/status_effect/buff/weapon_binded
+	id = "wep_bind_buff"
+	duration = 10 SECONDS
+	status_type = STATUS_EFFECT_REFRESH
+	alert_type = /atom/movable/screen/alert/status_effect/buff/weapon_bind_buff
+	mob_effect_layer = MOB_EFFECT_LAYER_BINDED
+	mob_effect_icon_state = "eff_binded"
+
+/datum/status_effect/buff/weapon_binded/on_apply()
+	. = ..()
+	owner.stamina_add(-20)
+
+/atom/movable/screen/alert/status_effect/buff/weapon_bind_buff
+	name = "Weapon Bind"
+	desc = "Our weapons binded in my favour! I knew right where they were gonna hit me! My parrying is improved for a short while!"
+	icon = 'icons/mob/combat_debuffs.dmi'
+	icon_state = "weapon_bind_buff"

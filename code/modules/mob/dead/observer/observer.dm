@@ -2,12 +2,13 @@ GLOBAL_LIST_EMPTY(ghost_images_default) //this is a list of the default (non-acc
 GLOBAL_LIST_EMPTY(ghost_images_simple) //this is a list of all ghost images as the simple white ghost
 
 GLOBAL_VAR_INIT(observer_default_invisibility, INVISIBILITY_OBSERVER)
-
+GLOBAL_VAR_CONST(observer_move_delay_multiplier, 0.5)
 /mob/dead/observer
 	name = "ghost"
 	desc = "" //jinkies!
 	icon = 'icons/mob/mob.dmi'
 	icon_state = ""
+	pass_flags = PASS_ALL
 	layer = GHOST_LAYER
 	stat = DEAD
 	density = FALSE
@@ -22,6 +23,7 @@ GLOBAL_VAR_INIT(observer_default_invisibility, INVISIBILITY_OBSERVER)
 	var/can_reenter_corpse
 	var/datum/hud/living/carbon/hud = null // hud
 	var/bootime = 0
+	var/next_gmove = 0
 	var/started_as_observer //This variable is set to 1 when you enter the game as an observer.
 							//If you died in the game and are a ghsot - this will remain as null.
 							//Note that this is not a reliable way to determine if admins started as observers, since they change mobs a lot.
@@ -66,7 +68,6 @@ GLOBAL_VAR_INIT(observer_default_invisibility, INVISIBILITY_OBSERVER)
 //	see_invisible = SEE_INVISIBLE_LIVING
 	sight = 0
 	see_in_dark = 10
-	var/next_gmove
 	var/misting = 0
 	draw_icon = TRUE
 
@@ -444,22 +445,18 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 /mob/dead/observer/Move(NewLoc, direct)
 	if(updatedir)
 		setDir(direct)//only update dir if we actually need it, so overlays won't spin on base sprites that don't have directions of their own
-	var/oldloc = loc
-
 	if(NewLoc)
-		forceMove(NewLoc)
-	else
-		forceMove(get_turf(src))  //Get out of closets and such as a ghost
-		if((direct & NORTH) && y < world.maxy)
-			y++
-		else if((direct & SOUTH) && y > 1)
-			y--
-		if((direct & EAST) && x < world.maxx)
-			x++
-		else if((direct & WEST) && x > 1)
-			x--
-
-	Moved(oldloc, direct)
+		var/turf/target_turf = get_turf(NewLoc)
+		if(target_turf)
+			return forceMove(target_turf)
+		return FALSE
+	var/turf/current_turf = get_turf(src)
+	if(!current_turf)
+		return FALSE
+	var/turf/step_turf = get_step(current_turf, direct)
+	if(step_turf)
+		return forceMove(step_turf)
+	return FALSE
 
 /mob/dead/observer/proc/reenter_corpse()
 	set category = "Ghost"
@@ -840,7 +837,7 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 		return FALSE
 
 	target.key = key
-	target.faction = list("neutral")
+	target.faction = list(FACTION_NEUTRAL)
 	return TRUE
 
 /mob/dead/observer/verb/view_manifest()

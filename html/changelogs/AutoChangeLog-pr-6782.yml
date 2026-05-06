@@ -1,4 +1,0 @@
-author: "ariaworld"
-delete-after: True
-changes:
-  - bugfix: "Inventory being occupied by nothing for coin pouches."

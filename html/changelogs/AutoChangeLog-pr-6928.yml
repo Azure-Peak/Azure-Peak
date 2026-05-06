@@ -1,0 +1,4 @@
+author: "Ryan180602"
+delete-after: True
+changes:
+  - balance: "Crits go through armour under 25% integrity (provided bodypart damage is 90%+)"

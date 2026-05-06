@@ -10,6 +10,8 @@
 	var/rock_damage = 40
 
 /datum/action/cooldown/mob_cooldown/stone_throw/Activate(atom/target)
+	if(!target || target == owner)
+		return FALSE
 	var/dist = get_dist(owner, target)
 	if(can_see(owner, target, range) && dist < range && dist > 1) //can see, in range and not adjacent
 		owner.visible_message(span_alert("[owner] reaches towards the ground, eyeing [target]."))
@@ -18,6 +20,8 @@
 	return TRUE
 
 /datum/action/cooldown/mob_cooldown/stone_throw/proc/prepare_stone(atom/target, mob/living/L)
+	if(!target || target == owner || QDELETED(target))
+		return
 	owner.visible_message(span_alert("[owner] digs into the ground and grabs a massive rock!"))
 	playsound(owner, 'sound/items/dig_shovel.ogg', 100, TRUE)
 	sleep(20)

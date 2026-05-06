@@ -186,17 +186,21 @@
 	if(HAS_TRAIT(user, TRAIT_MASTER_CARPENTER)) //we give extra to those in the role
 		woodtotal += pick(1,2)
 	if(I.tool_behaviour == TOOL_SAW)
-		playsound(get_turf(src.loc), 'sound/foley/sawing.ogg', 100)
 		user.visible_message("<span class='notice'>[user] starts sawing planks from [src].</span>")
-		if(do_after(user, planking_time))
-			if(user.is_holding(src))
-				user.dropItemToGround(src)
-			for(var/i=1, i<=woodtotal, ++i)
-				new /obj/item/natural/wood/plank(get_turf(src.loc))
-			user.mind.add_sleep_experience(/datum/skill/craft/carpentry, (user.STAINT*0.5))
-			new /obj/effect/decal/cleanable/debris/woody(get_turf(src))
-			qdel(src)
-			return
+		var/location = src.loc
+		for(var/obj/item/grown/log/tree/small/S in get_turf(src))
+			playsound(get_turf(location), 'sound/foley/sawing.ogg', 100)
+			if(do_after(user, planking_time))
+				if(user.is_holding(src))
+					user.dropItemToGround(location)
+				for(var/i=1, i<=woodtotal, ++i)
+					new /obj/item/natural/wood/plank(get_turf(location))
+				user.mind.add_sleep_experience(/datum/skill/craft/carpentry, (user.STAINT*0.5))
+				new /obj/effect/decal/cleanable/debris/woody(get_turf(location))
+				qdel(S)
+			else
+				return
+		return
 	..()
 
 /obj/item/grown/log/tree/bowpartial

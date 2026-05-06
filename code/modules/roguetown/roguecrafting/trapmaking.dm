@@ -5,10 +5,7 @@
 
 /datum/crafting_recipe/roguetown/trapmaking/mantrap
 	name = "mantrap"
-	result = list(
-		/obj/item/restraints/legcuffs/beartrap/crafted,
-		/obj/item/restraints/legcuffs/beartrap/crafted,
-		)
+	result = /obj/item/restraints/legcuffs/beartrap/crafted
 	reqs = list(
 		/obj/item/grown/log/tree/small = 1,
 		/obj/item/natural/fibers = 2,
@@ -20,10 +17,7 @@
 
 /datum/crafting_recipe/roguetown/trapmaking/mantrapscrap
 	name = "mantrap (scrap)"
-	result = list(
-		/obj/item/restraints/legcuffs/beartrap/crafted,
-		/obj/item/restraints/legcuffs/beartrap/crafted,
-		)
+	result = /obj/item/restraints/legcuffs/beartrap/crafted
 	reqs = list(
 		/obj/item/grown/log/tree/small = 1,
 		/obj/item/scrap = 4,

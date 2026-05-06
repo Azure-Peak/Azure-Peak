@@ -37,11 +37,6 @@
 /obj/item/alch/waterdust,
 /turf/open/floor/rogue/tile/masonic/spiral,
 /area/rogue/under/tomb/indoors/magic)
-"cc" = (
-/obj/structure/table/wood,
-/obj/item/reagent_containers/food/snacks/rogue/meat/sausage,
-/turf/open/floor/rogue/tile/checker,
-/area/rogue/under/tomb/indoors/magic)
 "cx" = (
 /obj/structure/chair/bench/coucha/r,
 /obj/structure/trap/chill,
@@ -162,7 +157,7 @@
 /turf/open/floor/rogue/tile/checker,
 /area/rogue/under/tomb/indoors/magic)
 "hV" = (
-/obj/item/roguegem/random_gemcraft,
+/obj/effect/spawner/lootdrop/random_gem_gemcraft,
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/under/tomb/cave/wet)
 "hX" = (
@@ -221,7 +216,7 @@
 /turf/open/floor/carpet/royalblack,
 /area/rogue/under/tomb/indoors/magic)
 "jJ" = (
-/obj/item/roguegem/random,
+/obj/effect/spawner/lootdrop/random_gem,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/tomb/cave/wet)
 "jO" = (
@@ -688,7 +683,7 @@
 /area/rogue/under/tomb/indoors/magic)
 "AR" = (
 /obj/structure/table/wood,
-/obj/item/reagent_containers/food/snacks/rogue/breadslice,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
 /turf/open/floor/rogue/tile/checker,
 /area/rogue/under/tomb/indoors/magic)
 "Ba" = (
@@ -1372,7 +1367,7 @@
 /area/rogue/under/tomb/indoors/magic)
 "YL" = (
 /obj/item/natural/rock/dungeon,
-/obj/item/roguegem/random,
+/obj/effect/spawner/lootdrop/random_gem,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/tomb/cave/wet)
 "YS" = (
@@ -2146,7 +2141,7 @@ Bk
 hK
 fB
 uv
-cc
+AR
 TF
 CI
 PP

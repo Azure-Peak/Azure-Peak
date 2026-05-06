@@ -16,6 +16,14 @@
 #define GLOW_COLOR_WARD "#D4A844" // Warm amber-gold, for battlewardry / protective ward spells
 #define GLOW_COLOR_BARDIC "#E8837C" // Warm rose, for bardic songs and cadences
 
+//Gods - Tennite
+#define GLOW_COLOR_UNDIVIDED "#28908C" //Undivided Cyan
+#define GLOW_COLOR_ASTRATA "#F9B362" //Astratan Yellow/Orange
+#define GLOW_COLOR_RAVOX "#7A1E30" //Ravox Crimson
+
+//Gods - Ascendant
+#define GLOW_COLOR_GRAGGAR "#19345E" //Graggar Dark Blue
+
 // Constants for spell glow intensity. These are literally 1 2 3 4 but it is for documenting design purposes
 #define GLOW_INTENSITY_LOW 1 // For spam projectiles or generic buffs
 #define GLOW_INTENSITY_MEDIUM 2 // Anything that would hurt quite a bit
@@ -60,8 +68,14 @@
 #define STAT_BUFF_ALLY_DURATION      2.5 MINUTES
 #define UTILITY_AOE_BUFF_DURATION    15 MINUTES
 
+//Miracle costs in devotion used.
+#define SPELLCOST_MIRACLE_ORISON	 5
+#define SPELLCOST_MIRACLE_MINOR		 15
 #define SPELLCOST_MIRACLE            30
 #define SPELLCOST_MIRACLE_MAJOR      60
+#define SPELLCOST_MIRACLE_LEGENDARY  100 //Highest tiers of miracles should have this.
+
+
 #define SPELLCOST_MINOR_SKILL        30
 #define SPELLCOST_MAJOR_SKILL        50
 
@@ -85,6 +99,8 @@
 // Standardized spell ranges
 #define SPELL_RANGE_PROJECTILE 10  // Standard projectile travel distance and projectile spell cast range
 #define SPELL_RANGE_GROUND     7   // Standard ground-targeted / AOE spell cast range
+#define SPELL_RANGE_AURA	   4   // For 'warcry' type miracles or AOE BUFFS originating on the caster
+#define SPELL_RANGE_ADJACENT   1   // Self explanatory
 
 // Charging slowdown tiers — how much the caster is slowed while charging
 #define CHARGING_SLOWDOWN_NONE 0       // Spellblade abilities, no movement penalty
@@ -146,7 +162,7 @@
 #define WEAPON_CAST_PENALTY 0.3
 
 // Leyline teleportation matrix passenger limits
-#define TELEPORT_MAX_PASSENGERS 5
+#define TELEPORT_MAX_PASSENGERS 6
 #define TELEPORT_MAX_NONMAGES 2
 
 // Spell implement tiers and multipliers
@@ -154,9 +170,10 @@
 #define IMPLEMENT_TIER_GREATER 2
 #define IMPLEMENT_TIER_GRAND   3
 
-#define IMPLEMENT_MULT_LESSER  1.2   // 20% poke damage bonus
-#define IMPLEMENT_MULT_GREATER 1.225 // 22.5% poke damage bonus
-#define IMPLEMENT_MULT_GRAND   1.25  // 25% poke damage bonus
+// Fraction of a spell's resource cost that the Residual Focus buff returns over 20 seconds.
+#define IMPLEMENT_REFUND_LESSER  0.20
+#define IMPLEMENT_REFUND_GREATER 0.275
+#define IMPLEMENT_REFUND_GRAND   0.35
 
 // Lightning Specific constants
 #define LIGHTNING_ADAPTATION_COOLDOWN 15 SECONDS

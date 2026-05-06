@@ -28,7 +28,6 @@
 
 	associated_skill = /datum/skill/magic/arcane
 	spell_tier = 2
-	is_implement_scaled_spell = TRUE
 	spell_impact_intensity = SPELL_IMPACT_MEDIUM
 
 	var/line_length = 4

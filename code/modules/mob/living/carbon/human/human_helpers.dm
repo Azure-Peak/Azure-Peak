@@ -1,6 +1,7 @@
 
 /mob/living/carbon/human/proc/change_name(new_name)
 	real_name = new_name
+	SStreasury?.rename_account(src, new_name)
 
 /mob/living/carbon/human/restrained(ignore_grab = TRUE)
 	. = ((wear_armor && wear_armor.breakouttime) || ..())
@@ -44,6 +45,8 @@
 		return face_name
 	if(id_name)
 		return id_name
+	if(HAS_TRAIT(src, TRAIT_DECEIVING_MEEKNESS) && !show_descriptors)
+		return "Unknown"
 	var/list/d_list = get_mob_descriptors()
 	var/trait_desc = "[capitalize(build_coalesce_description_nofluff(d_list, src, list(MOB_DESCRIPTOR_SLOT_TRAIT), "%DESC1%"))]"
 	var/stature_desc = "[capitalize(build_coalesce_description_nofluff(d_list, src, list(MOB_DESCRIPTOR_SLOT_STATURE), "%DESC1%"))]"
