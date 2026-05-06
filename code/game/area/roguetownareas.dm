@@ -70,9 +70,12 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(list(/area/rogue/indoors
 	droning_sound_dusk = 'sound/music/area/banditcamp.ogg'
 	droning_sound_night = 'sound/music/area/banditcamp.ogg'
 
-/area/rogue/indoors/vampire_manor
+/area/rogue/indoors/vampire_manor //Sovlnuke with a track we didn't use previous.
+	first_time_text = "FORGOTTEN MANOR"
 	name = "Vampire Manor"
-	droning_sound = 'sound/music/area/manor2.ogg'
+	droning_sound = 'sound/music/area/sargoth.ogg'
+	droning_sound_dusk = 'sound/music/area/sargoth.ogg'
+	droning_sound_night = 'sound/music/area/sargoth.ogg'
 
 /area/rogue/indoors/ravoxarena
 	name = "Ravox's Arena"
