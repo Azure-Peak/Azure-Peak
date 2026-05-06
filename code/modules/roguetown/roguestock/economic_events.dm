@@ -204,14 +204,6 @@ GLOBAL_LIST_EMPTY(active_economic_events)
 	price_mod = 4.25
 	event_type = ECON_EVENT_SHORTAGE
 
-/datum/economic_event/gem_cartel_squeeze
-	name = "GEM CARTEL SQUEEZE"
-	description = "The merchant houses have cornered the cut-stone market. Toper and gemerald prices jump overnight."
-	announcement = "<font color='#c44'>GEM CARTEL SQUEEZE: Merchants corner the gem market. Common gems grow dearer.</font>"
-	affected_goods = list(TRADE_GOOD_TOPER, TRADE_GOOD_GEMERALD)
-	price_mod = 4.5
-	event_type = ECON_EVENT_SHORTAGE
-
 /datum/economic_event/silk_moth_collapse
 	name = "SILK MOTH COLLAPSE"
 	description = "Blackholt's spider-silk harvest has collapsed. Arachnological misfortune, the conclave says."

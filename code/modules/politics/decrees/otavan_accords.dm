@@ -12,7 +12,7 @@ Yeven under the seal of the Crown, in witness of Psydon and the Ten."}
 	restore_text = "The %RULER% has affirmed the Otavan Accords. The Holy Otavan Inquisition resumes its duty to purge the land of heretics, free from the Crown's interference."
 
 /datum/decree/otavan_accords/roll_initial_year()
-	return CALENDAR_EPOCH_YEAR - rand(20, 60)
+	return 1492 // Canonical year
 
 /datum/decree/otavan_accords/apply_exemption(mob/living/payer, tax_category)
 	if(!active)

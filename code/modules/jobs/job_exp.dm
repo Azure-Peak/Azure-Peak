@@ -278,15 +278,18 @@ GLOBAL_PROTECT(exp_to_update)
 	if(!SSdbcore.Connect())
 		return -1
 	var/datum/DBQuery/exp_read = SSdbcore.NewQuery(
-		"SELECT job, minutes FROM [format_table_name("role_time")] WHERE ckey = :ckey",
-		list("ckey" = ckey)
+		"SELECT job, minutes FROM [format_table_name("role_time")] WHERE ckey = :ckey OR ckey = :quoted_ckey",
+		list("ckey" = ckey, "quoted_ckey" = "'[ckey]'")
 	)
 	if(!exp_read.Execute(async = TRUE))
 		qdel(exp_read)
 		return -1
 	var/list/play_records = list()
 	while(exp_read.NextRow())
-		play_records[exp_read.item[1]] = text2num(exp_read.item[2])
+		var/job_name = exp_read.item[1]
+		if(istext(job_name) && length(job_name) >= 2 && dd_hasprefix_case(job_name, "'") && dd_hassuffix_case(job_name, "'"))
+			job_name = copytext(job_name, 2, length(job_name))
+		play_records[job_name] += text2num(exp_read.item[2])
 	qdel(exp_read)
 
 	for(var/rtype in SSjob.name_occupations)
@@ -381,8 +384,8 @@ GLOBAL_PROTECT(exp_to_update)
 		updated_entries++
 		LAZYINITLIST(GLOB.exp_to_update)
 		GLOB.exp_to_update.Add(list(list(
-			"job" = "'[jtype]'",
-			"ckey" = "'[ckey]'",
+			"job" = jtype,
+			"ckey" = ckey,
 			"minutes" = jvalue)))
 		prefs.exp[jtype] += jvalue
 	return updated_entries

@@ -545,6 +545,32 @@
 	icon_state = "steelpoleaxe"
 	max_blade_int = 300
 
+/obj/item/rogueweapon/greataxe/steel/knight/attackby(obj/item/W, mob/living/user, params)
+	..()
+	if(istype(W, /obj/item/natural/cloth) && !detail_tag)
+		var/choice = input(user, "Choose a color.", "Banner") as anything in COLOR_MAP
+		user.visible_message(span_warning("[user] adds a banner to [src]."))
+		user.transferItemToLoc(W, src, FALSE, FALSE)
+		detail_color = COLOR_MAP[choice]
+		detail_tag = "detail"
+		update_icon()
+
+
+
+/obj/item/rogueweapon/greataxe/steel/knight/update_icon()
+	cut_overlays()
+	if(get_detail_tag())
+		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))
+		pic.appearance_flags = RESET_COLOR
+		if(get_detail_color())
+			pic.color = get_detail_color()
+		add_overlay(pic)
+
+/obj/item/rogueweapon/greataxe/steel/knight/attack_self(mob/living/user)
+	. = ..()
+	update_icon()
+
+
 /obj/item/rogueweapon/greataxe/silver
 	force = 15
 	force_wielded = 25

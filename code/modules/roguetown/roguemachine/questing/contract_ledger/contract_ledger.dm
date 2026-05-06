@@ -41,7 +41,7 @@
 	. += span_info("Retrieval-quest items should be <b>dropped onto the marked tile</b> in front of the ledger.")
 	. += span_info("Abandoning a contract forfeits its deposit to the treasury and places you under a brief guild cooldown before you may abandon another.")
 	. += span_info("The <b>Innkeeper</b> may compose rumor contracts here, spending Rumor Points to seed retrieval, courier, and light kill jobs across the realm.")
-	. += span_info("The <b>[english_list(GLOB.contract_ledger_commission_roles)]</b> may commission defense writs here - paid from the Burgher Pledge, the Crown's Purse, or issued as an unfunded Request. The Steward is the primary commissioner; the others substitute if the Steward is absent. A Regent sitting in the Lord's absence inherits commission authority for the duration of their regency.")
+	. += span_info("The <b>[english_list(GLOB.crown_authority_roles)]</b> may commission defense writs here - paid from the Burgher Pledge, the Crown's Purse, or issued as an unfunded Request. The Steward is the primary commissioner; the others substitute if the Steward is absent. A Regent sitting in the Lord's absence inherits commission authority for the duration of their regency.")
 
 /obj/structure/roguemachine/contractledger/attackby(obj/item/P, mob/living/carbon/human/user, params)
 	. = ..()
@@ -93,6 +93,8 @@
 	data["tax_rate"] = SStreasury.get_tax_rate(TAX_CATEGORY_CONTRACT_LEVY)
 	data["guild_cut_rate"] = GUILD_REFERRAL_FEE_PCT
 	data["dynamic_role"] = resolve_dynamic_role(user)
+	data["region_tp_multipliers"] = build_region_tp_multipliers()
+	data["region_delivery_multipliers"] = build_region_delivery_multipliers()
 	if(data["dynamic_role"] == "innkeeper")
 		data["rumor_points"] = round(SStreasury.rumor_points, 0.1)
 		data["rumor_refill_base"] = RUMOR_POINTS_BASE_REFILL
@@ -121,7 +123,6 @@
 		data["crown_purse_balance"] = SStreasury?.discretionary_fund?.balance || 0
 		data["defense_costs"] = GLOB.defense_quest_tier_costs.Copy()
 		data["defense_regions_by_type"] = build_defense_regions_by_type()
-		data["region_tp_multipliers"] = build_region_tp_multipliers()
 		data["defense_destinations"] = build_rumor_destinations()
 		data["defense_log"] = SStreasury.defense_log
 		data["blockade_recall_list"] = build_blockade_recall_list()
@@ -133,16 +134,14 @@
 		data["directives_issued_today"] = directives_issued_today
 	return data
 
-/// Jobs that can access the Steward commission panel. The Steward is the primary commissioner;
-/// the rest are substitutes so that blockade defense doesn't get crippled when the Steward is
-/// absent, dead, or otherwise occupied. Expand here if more authority roles need standing.
-GLOBAL_LIST_INIT(contract_ledger_commission_roles, list(
+GLOBAL_LIST_INIT(crown_authority_roles, list(
 	"Steward",
 	"Grand Duke",
 	"Hand",
 	"Clerk",
 	"Marshal",
 	"Councillor",
+	"Prince",
 ))
 
 /// TRUE if the user has standing to commission defense writs - either by job, or by sitting as
@@ -151,7 +150,7 @@ GLOBAL_LIST_INIT(contract_ledger_commission_roles, list(
 /obj/structure/roguemachine/contractledger/proc/can_commission(mob/user)
 	if(!user)
 		return FALSE
-	if(user.job in GLOB.contract_ledger_commission_roles)
+	if(user.job in GLOB.crown_authority_roles)
 		return TRUE
 	if(SSticker?.regentmob == user)
 		return TRUE

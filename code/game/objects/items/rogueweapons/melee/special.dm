@@ -62,6 +62,18 @@
 	tranged = TRUE
 	noaa = TRUE
 
+/datum/intent/knuckles/sear
+	name = "sear"
+	blade_class = BCLASS_BURN
+	attack_verb = list("chars", "sears")
+	hitsound = list('sound/combat/hits/punch/punch_hard (1).ogg', 'sound/combat/hits/punch/punch_hard (2).ogg', 'sound/combat/hits/punch/punch_hard (3).ogg')
+	chargetime = 0
+	penfactor = PEN_NONE
+	clickcd = 8
+	swingdelay = 0
+	icon_state = "incrack"
+	item_d_type = BURN
+
 /datum/intent/knuckles/strike
 	name = "punch"
 	blade_class = BCLASS_BLUNT

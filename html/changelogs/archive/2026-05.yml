@@ -178,3 +178,12 @@
   radarseas:
   - balance: Lich can now be examined by deadites and examine them back.
   - bugfix: inconsistancy with lich compared to other deadite antagonists.
+2026-05-05:
+  Drifter7371:
+  - bugfix: poor formatting for BW, swords/axes should work properly now.
+  QuietSymphony:
+  - rscadd: Added an Open Eoran Robes crafting recipe
+  - spellcheck: Changed the grammar of the eoran robes entry in weaving, if anyone
+      cares.
+  borneblood:
+  - bugfix: Fixed the greenskin bug (patchwork slop, though!)
