@@ -1,4 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - server: "TGS Round Start message now display RoundID (hopefully)"

@@ -258,12 +258,12 @@
 		var/attacker_feedback 
 
 		if(src.client?.prefs.showrolls)
-			var/text = "Roll to dodge... [prob2defend]%"
+			var/text = "Roll to dodge... [HAS_TRAIT(user, TRAIT_DECEIVING_MEEKNESS) ? "???" : prob2defend]%"
 			if((defender_dualw || attacker_dualw))
 				if(defender_dualw && attacker_dualw)
 					text += " Our dual wielding cancels out!"
 				else//If we're defending against or as a dual wielder, we roll disadv. But if we're both dual wielding it cancels out.
-					text += " Twice! Disadvantage! ([(prob2defend / 100) * (prob2defend / 100) * 100]%)"
+					text += " Twice! Disadvantage! [!HAS_TRAIT(user, TRAIT_DECEIVING_MEEKNESS) ? "([(prob2defend / 100) * (prob2defend / 100) * 100]%)" : ""]"
 			to_chat(src, span_info("[text]"))
 
 		if(user.client?.prefs.showrolls && !HAS_TRAIT(src, TRAIT_DECEIVING_MEEKNESS) && has_trait && client)
@@ -290,6 +290,7 @@
 
 		if(!dodge_status)
 			return FALSE
+
 		if(!UH?.mind) // For NPC, reduce the drained to 5 stamina
 			drained = drained_npc
 

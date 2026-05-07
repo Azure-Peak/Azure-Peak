@@ -32,56 +32,57 @@ SUBSYSTEM_DEF(droning)
 	play_area_sound(area_entered, entering)
 
 /datum/controller/subsystem/droning/proc/play_area_sound(area/area_player, client/listener)
+	var/skip_main = (listener && listener.prefs && listener.prefs.stopdroning)
+
 	if(!area_player || !listener)
 		return
 	
-	if(listener && listener.prefs && listener.prefs.stopdroning)
-		return
-	
-	if(SSticker.current_state >= GAME_STATE_FINISHED) //stop drones in round end
-		return
-
-	if(area_player.we_droning_here)
-
-		if(!area_player.droning_sound)
+	if(!skip_main)
+		if(SSticker.current_state >= GAME_STATE_FINISHED) //stop drones in round end
 			return
-		var/used_sound
 
-		if(GLOB.tod == "dawn")
-			if(area_player.droning_sound_dawn)
-				used_sound = area_player.droning_sound_dawn
-			else
-				used_sound = area_player.droning_sound
+		if(area_player.we_droning_here)
 
-		if(GLOB.tod == "day")
-			if(area_player.droning_sound)
-				used_sound = area_player.droning_sound
-			else
-				used_sound = null
+			if(!area_player.droning_sound)
+				return
+			var/used_sound
 
-		if(GLOB.tod == "dusk")
-			if(area_player.droning_sound_dusk)
-				used_sound = area_player.droning_sound_dusk
-			else
-				used_sound = area_player.droning_sound
+			if(GLOB.tod == "dawn")
+				if(area_player.droning_sound_dawn)
+					used_sound = area_player.droning_sound_dawn
+				else
+					used_sound = area_player.droning_sound
 
-		if(GLOB.tod == "night")
-			if(area_player.droning_sound_night)
-				used_sound = area_player.droning_sound_night
-			else
-				used_sound = area_player.droning_sound
+			if(GLOB.tod == "day")
+				if(area_player.droning_sound)
+					used_sound = area_player.droning_sound
+				else
+					used_sound = null
 
-		if(HAS_TRAIT(listener.mob, TRAIT_PSYCHOSIS))
-			used_sound = list('sound/music/asunderedmind.ogg')
-		else if(HAS_TRAIT(listener.mob, TRAIT_DRUQK))
-			used_sound = list('sound/music/spice.ogg', 100)
-		//our music for real
-		area_player.droning_sound_current = used_sound
-		//last phase!
-		if(listener?.mob.cmode)
-			last_phase(area_player, listener, shouldskip = TRUE)
-		else
-			last_phase(area_player, listener, shouldskip = FALSE)
+			if(GLOB.tod == "dusk")
+				if(area_player.droning_sound_dusk)
+					used_sound = area_player.droning_sound_dusk
+				else
+					used_sound = area_player.droning_sound
+
+			if(GLOB.tod == "night")
+				if(area_player.droning_sound_night)
+					used_sound = area_player.droning_sound_night
+				else
+					used_sound = area_player.droning_sound
+
+			if(HAS_TRAIT(listener.mob, TRAIT_PSYCHOSIS))
+				used_sound = list('sound/music/asunderedmind.ogg')
+			else if(HAS_TRAIT(listener.mob, TRAIT_DRUQK))
+				used_sound = list('sound/music/spice.ogg', 100)
+			//our music for real
+			area_player.droning_sound_current = used_sound
+			
+	//last phase!
+	if(listener?.mob.cmode)
+		last_phase(area_player, listener, shouldskip = TRUE)
+	else
+		last_phase(area_player, listener, shouldskip = FALSE)
 
 /datum/controller/subsystem/droning/proc/play_combat_music(music = null, client/dreamer)
 	if(!music || !dreamer)
@@ -112,12 +113,26 @@ SUBSYSTEM_DEF(droning)
 /datum/controller/subsystem/droning/proc/last_phase(area/area_player, client/listener, shouldskip = FALSE)
 	if(!area_player || !listener)
 		return
-	if(listener && listener.prefs && listener.prefs.stopdroning)
-		return
 	if(!listener?.droning_sound)
 		shouldskip = TRUE
 	if(listener?.mob.cmode)
 		shouldskip = TRUE
+	if(listener && listener.prefs && listener.prefs.stopdroning)
+		if(listener.droning_sound)
+			var/sound/sound_killer = sound()
+			sound_killer.channel = listener.droning_sound.channel
+			sound_killer.volume = listener.prefs.musicvol
+
+			while(sound_killer.volume > 0)
+				sound_killer.volume = max(sound_killer.volume - 5, 0)
+				sound_killer.status = SOUND_UPDATE
+				SEND_SOUND(listener, sound_killer)
+				sleep(1)
+
+		listener.droning_sound = null
+		listener.last_droning_sound = null
+		return
+
 	if(shouldskip)
 		var/sound/droning = sound(pick(area_player.droning_sound_current), area_player.droning_repeat, area_player.droning_wait, area_player.droning_channel, listener?.prefs.musicvol)
 

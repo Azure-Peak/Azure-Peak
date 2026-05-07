@@ -1,4 +1,0 @@
-author: "KatTheFox"
-delete-after: True
-changes:
-  - bugfix: "arcyne wall runes can no longer be deleted by prestidigitation while active"

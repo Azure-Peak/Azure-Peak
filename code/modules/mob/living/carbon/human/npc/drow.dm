@@ -6,6 +6,7 @@ GLOBAL_LIST_INIT(drowraider_aggro, world.file2list("strings/rt/drowaggrolines.tx
 	ambushable = FALSE
 	dodgetime = 30
 	d_intent = INTENT_DODGE
+	blood_toll_bucket = STATS_KILLED_DROWS
 
 
 /mob/living/carbon/human/species/elf/dark/drowraider/ambush
@@ -23,6 +24,7 @@ GLOBAL_LIST_INIT(drowraider_aggro, world.file2list("strings/rt/drowaggrolines.tx
 
 // Testing-only subtype: forced spear loadout (reach 2) to verify polearm reach handling.
 /mob/living/carbon/human/species/elf/dark/drowraider/spear_test
+	threat_point = THREAT_TOUGH
 
 /mob/living/carbon/human/species/elf/dark/drowraider/spear_test/after_creation()
 	..()
@@ -32,6 +34,7 @@ GLOBAL_LIST_INIT(drowraider_aggro, world.file2list("strings/rt/drowaggrolines.tx
 
 // Testing-only subtype: forced short sword loadout (reach 1) as a baseline control.
 /mob/living/carbon/human/species/elf/dark/drowraider/sword_test
+	threat_point = THREAT_TOUGH
 
 /mob/living/carbon/human/species/elf/dark/drowraider/sword_test/after_creation()
 	..()
@@ -134,15 +137,8 @@ GLOBAL_LIST_INIT(drowraider_aggro, world.file2list("strings/rt/drowaggrolines.tx
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather/heavy
 	mask = /obj/item/clothing/mask/rogue/facemask
 	neck = /obj/item/clothing/neck/roguetown/coif/heavypadding
-	var/archer_variant = FALSE
-	if(prob(20)) // archer
-		backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
-		backl = /obj/item/quiver/arrows
-		r_hand = /obj/item/rogueweapon/huntingknife/idagger/steel/corroded/dirk
-		H.adjust_skillrank(/datum/skill/combat/bows, 4, TRUE)
-		H.upgrade_ai_controller(/datum/ai_controller/human_npc/archer)
-		archer_variant = TRUE
-	else if(prob(45)) // whip
+	// Stopgap: archer roll removed because the ranged NPC AI is unreliable.
+	if(prob(45)) // whip
 		r_hand = /obj/item/rogueweapon/whip
 	else if(prob(50)) // dual falx
 		r_hand = /obj/item/rogueweapon/sword/falx/stalker
@@ -157,9 +153,6 @@ GLOBAL_LIST_INIT(drowraider_aggro, world.file2list("strings/rt/drowaggrolines.tx
 	H.STAWIL = 8
 	H.STAPER = 10
 	H.STAINT = 10
-	if(archer_variant)
-		H.STASTR -= 2
-		H.STAPER += 3
 	H.adjust_skillrank(/datum/skill/combat/whipsflails, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/maces, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/axes, 4, TRUE)

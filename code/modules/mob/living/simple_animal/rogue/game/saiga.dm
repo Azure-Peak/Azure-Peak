@@ -10,6 +10,7 @@
 	icon_gib = "saiga_gib"
 	gender = FEMALE
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
+	blood_toll_bucket = STATS_KILLED_GREATER_BEASTS
 	emote_see = list("looks around.", "chews some leaves.")
 	speak_chance = 1
 	turns_per_move = 5

@@ -6,6 +6,7 @@
 	icon_living = "lamia_f"
 	icon_dead = "lamia_dead"
 	gender = FEMALE
+	blood_toll_bucket = STATS_KILLED_GREATER_BEASTS
 	emote_hear = null
 	emote_see = null
 	speak_chance = 1

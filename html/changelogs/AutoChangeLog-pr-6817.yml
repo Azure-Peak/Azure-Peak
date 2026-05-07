@@ -1,5 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - bugfix: "Outlaw Goblin's goons are now goblins, and should no longer deliberately beat the large goblin to death"
-  - rscadd: "Quest now spawns in every mob at once instead of based on which spawner is proximate to you or not. Expect higher difficulty. Bring friends and headhook."

@@ -28,7 +28,19 @@
 
 /datum/ai_behavior/attack_obstructions/perform(seconds_per_tick, datum/ai_controller/controller, target_key)
 	. = ..()
-	var/mob/living/simple_animal/basic_mob = controller.pawn
+	var/mob/living/basic_mob = controller.pawn
+	// Humans route through melee_attack_chain which only damages when used_intent is
+	// an attacking intent. Pick one (excluding help/shove/grab) before we click.
+	if(ishuman(basic_mob))
+		var/mob/living/carbon/human/human_pawn = basic_mob
+		var/list/possible_intents = list()
+		for(var/datum/intent/intent as anything in human_pawn.possible_a_intents)
+			if(istype(intent, /datum/intent/unarmed/help) || istype(intent, /datum/intent/unarmed/shove) || istype(intent, /datum/intent/unarmed/grab))
+				continue
+			possible_intents |= intent
+		if(length(possible_intents))
+			human_pawn.a_intent = pick(possible_intents)
+			human_pawn.used_intent = human_pawn.a_intent
 	var/atom/target = controller.blackboard[target_key]
 
 	if (QDELETED(target))
@@ -51,7 +63,7 @@
 			return
 	finish_action(controller, succeeded = TRUE)
 
-/datum/ai_behavior/attack_obstructions/proc/attack_in_direction(datum/ai_controller/controller, mob/living/simple_animal/basic_mob, direction)
+/datum/ai_behavior/attack_obstructions/proc/attack_in_direction(datum/ai_controller/controller, mob/living/basic_mob, direction)
 	var/turf/next_step = get_step(basic_mob, direction)
 	if (!next_step.is_blocked_turf(exclude_mobs = TRUE, source_atom = controller.pawn))
 		return FALSE
@@ -67,7 +79,7 @@
 		return TRUE
 	return FALSE
 
-/datum/ai_behavior/attack_obstructions/proc/can_smash_object(mob/living/simple_animal/basic_mob, obj/object)
+/datum/ai_behavior/attack_obstructions/proc/can_smash_object(mob/living/basic_mob, obj/object)
 	if (!object.density && !can_attack_dense_objects)
 		return FALSE
 	if (object.IsObscured())

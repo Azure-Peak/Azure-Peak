@@ -1,8 +1,0 @@
-author: "Ollanius"
-delete-after: True
-changes:
-  - balance: "Wardens can now pick between their unique bow, or a spear and sling. Choosing the latter slightly alters the statblock as well, giving +I STR at the cost of -I SPD."
-  - balance: "Wardens now have Journeyman-level skills in both ranged weapon types, by default. Picking the Bow gives Master-tier bow skills (like before), while picking the Sling gives Expert-tier sling skills (like before.)"
-  - balance: "Wardens now get leather bracers, like before, if selecting the 'light armored' option. Picking the alternative supplies them with a pair of jackchains, like before."
-  - code_imp: "Touches up a lot of the prompts, descriptors, and tutorials for the Warden role's .dm file."
-  - code_imp: "Adds an 'extra_content' line to the Warden, explaining the nature of how their region-based statboosts work."

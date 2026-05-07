@@ -1,4 +1,0 @@
-author: "Ollanius"
-delete-after: True
-changes:
-  - rscadd: "Aggressively grabbing someone's torso will now let you forcefully push them against a wall, by click-dragging them onto-said wall."

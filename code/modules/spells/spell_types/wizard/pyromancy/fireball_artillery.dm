@@ -14,7 +14,7 @@
 
 	charge_time = CHARGETIME_HEAVY
 	charge_slowdown = CHARGING_SLOWDOWN_HEAVY
-	cooldown_time = 18 SECONDS
+	cooldown_time = 16 SECONDS
 
 	spell_tier = 4
 	point_cost = 9
@@ -28,7 +28,7 @@
 	exp_fire = 1
 	damage = 70
 	damage_type = BURN
-	npc_simple_damage_mult = 2.4
+	npc_simple_damage_mult = 3
 	accuracy = 40
 	nodamage = FALSE
 	flag = "fire"

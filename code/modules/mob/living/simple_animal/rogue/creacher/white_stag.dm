@@ -17,7 +17,9 @@
 		TRAIT_KNEESTINGER_IMMUNITY,
 		TRAIT_NOBREATH,
 		TRAIT_DEATHLESS,
-		TRAIT_BLOOD_RESISTANCE
+		TRAIT_BLOOD_RESISTANCE,
+		// We do not need people farming this for master skills
+		TRAIT_BADTRAINER,
 	)
 	no_equip = list(SLOT_SHIRT, SLOT_HEAD, SLOT_ARMOR, SLOT_WEAR_MASK, SLOT_GLOVES, SLOT_SHOES, SLOT_PANTS, SLOT_CLOAK, SLOT_BELT)
 	nojumpsuit = TRUE
@@ -26,7 +28,7 @@
 	soundpack_f = /datum/voicepack/white_stag
 
 /datum/species/white_stag/regenerate_icons(mob/living/carbon/human/H)
-	H.icon = 'icons/mob/unique_shapeshifts/white_stag_shape.dmi' // Replace with your actual dmi
+	H.icon = 'icons/mob/unique_shapeshifts/white_stag_shape.dmi'
 	H.icon_state = "stag"
 	H.pixel_x = -24
 	return TRUE

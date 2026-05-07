@@ -1,6 +1,0 @@
-author: "Quinalion"
-delete-after: True
-changes:
-  - image: "Resprited Elven Helms."
-  - rscadd: "Elven Maille as replacement for Elven Cuirass."
-  - rscdel: "Removed Elven cuirass."

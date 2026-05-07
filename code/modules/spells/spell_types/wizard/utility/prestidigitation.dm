@@ -243,8 +243,8 @@
 			var/turf/T = get_turf(target)
 			new /obj/effect/temp_visual/cleaning_pulse(T)
 			for(var/obj/effect/decal/cleanable/C in T)
-				if(should_clean_rune(target))
-					wash_atom(C, CLEAN_MEDIUM)
+				if(!should_clean_rune(target))
+					return FALSE
 			wash_atom(T, CLEAN_MEDIUM)
 			to_chat(user, span_notice("I expunge \the [target.name] with my mana."))
 			return TRUE
@@ -256,8 +256,9 @@
 			var/turf/T = get_turf(target)
 			new /obj/effect/temp_visual/cleaning_pulse(T)
 			for(var/obj/effect/decal/cleanable/C in T)
-				if(should_clean_rune(C))
-					wash_atom(C, CLEAN_MEDIUM)
+				if(!should_clean_rune(C))
+					return FALSE
+			wash_atom(target, CLEAN_MEDIUM)
 			to_chat(user, span_notice("I render [clean_name] clean."))
 			return TRUE
 		return FALSE

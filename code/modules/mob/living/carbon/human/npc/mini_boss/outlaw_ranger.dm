@@ -15,6 +15,7 @@ GLOBAL_LIST_INIT(ranger_aggro, list(
 	ambushable = FALSE
 	dodgetime = 25
 	d_intent = INTENT_DODGE
+	threat_point = THREAT_ELITE
 
 /mob/living/carbon/human/species/human/northern/outlaw_ranger/Initialize()
 	. = ..()

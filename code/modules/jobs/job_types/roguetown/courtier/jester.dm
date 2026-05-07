@@ -6,7 +6,7 @@
 	total_positions = 1
 	spawn_positions = 1
 
-	allowed_races = ACCEPTED_RACES
+	forbidden_races = list(RACES_DESPISED)
 
 	tutorial = "The Grenzelhofts were known for their Jesters, wisemen with a tongue just as sharp as their wit. \
 		You command a position of a fool, envious of the position your superiors have upon you. \
@@ -69,5 +69,5 @@
 	else
 		ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC) // Joker >:(
 	if(H.mind)
-		SStreasury.give_money_account(ECONOMIC_LETSGOGAMBLING, H, "Savings.")
+		SStreasury.grant_savings(ECONOMIC_LETSGOGAMBLING, H)
 

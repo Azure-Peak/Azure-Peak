@@ -6,6 +6,7 @@
 	icon_living = "honeys"
 	icon_dead = "honeys-dead"
 	gender = MALE
+	blood_toll_bucket = STATS_KILLED_GREATER_BEASTS
 	speak_chance = 1
 	turns_per_move = 3
 	see_in_dark = 6

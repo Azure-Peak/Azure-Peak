@@ -82,7 +82,6 @@
 		H = hud_used.hand_slots["[held_index]"]
 		if(H)
 			H.update_hand_vis()
-		H = hud_used.action_intent
 	oactive = FALSE
 	update_a_intents()
 	return TRUE
@@ -581,9 +580,6 @@
 		return 0
 	return ..()
 
-/mob/living/carbon
-	var/nausea = 0
-	var/bleeding_tier = 0
 
 /mob/living/carbon/proc/add_nausea(amt)
 	nausea = clamp(nausea + amt, 0, 300)
@@ -784,10 +780,6 @@
 	else
 		remove_movespeed_modifier(MOVESPEED_ID_CARBON_SOFTCRIT, TRUE)
 	SEND_SIGNAL(src, COMSIG_LIVING_HEALTH_UPDATE)
-
-/mob/living/carbon
-	var/lightning_flashing = FALSE
-	var/burn_warning_shown = FALSE
 
 /mob/living/carbon/update_sight()
 	if(!client)

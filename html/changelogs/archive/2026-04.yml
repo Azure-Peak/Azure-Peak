@@ -720,3 +720,388 @@
   - balance: Painting value decreased by 10x and no longer sell for a ransom at 200
       / 100. Stick to portable dungeon loot instead.
   - rscadd: Bear / Mantrap recipe no longer smelt into anything to avoid a dupe exploit.
+2026-04-21:
+  BurpleBineapple:
+  - rscadd: All Eorans (And the Bishop) can now perform the marriage rite. Two people
+      must bite an apple, and the Eoran/Bishop must then offer it to a cross.
+  DeciDesu:
+  - image: 'added new clean water tile for mapping
+
+      :cl:
+
+      <!-- Both :cl:''s are required for the changelog to work! You can put your name
+      to the right of the first :cl: if you want to overwrite your GitHub username
+      as author ingame. -->
+
+      <!-- You can use multiple of the same prefix (they''re only used for the icon
+      ingame) and delete the unneeded ones. Despite some of the tags, changelogs should
+      generally represent how a player might be affected by the changes rather than
+      a summary of the PR''s contents. -->'
+  - rscadd: 'The abandoned Inn across the river has been destroyed, rebuilt by unknown
+      entities and remade in the woods.
+
+      <!-- Both :cl:''s are required for the changelog to work! You can put your name
+      to the right of the first :cl: if you want to overwrite your GitHub username
+      as author ingame. -->
+
+      <!-- You can use multiple of the same prefix (they''re only used for the icon
+      ingame) and delete the unneeded ones. Despite some of the tags, changelogs should
+      generally represent how a player might be affected by the changes rather than
+      a summary of the PR''s contents. -->'
+  KatTheFox:
+  - bugfix: arcyne wall runes can no longer be deleted by prestidigitation while active
+  Kelshark:
+  - balance: wildshape does not drop everything, instead drops selective storage,
+      armor and weapons.
+  Ketrai:
+  - qol: Hag starting equipment has been increased
+  - rscadd: New volf meat sprites.
+  - rscadd: New Rous meat sprites & rous meat type.
+  - balance: Hag mindlink duration 5 => 20 minutes.
+  - balance: Huntmaster councillor butchery Jman => Expert
+  - rscadd: Hags can make pure lux, mosslux, out of bloated leechticks. For the mossmother
+      roots.
+  - qol: Tracking eyeball now gives hunting info.
+  - bugfix: Fixed being able to duplicate hunting trails.
+  Lamasmaster:
+  - rscadd: Economic Roleplay Panel Actions
+  - balance: Thieves' Cant
+  - balance: Templar Monks
+  NalimaTheWitch:
+  - qol: Added a toggle for looping area music. Bathhouse/bandit/etc music loop BEGONE.
+  Ollanius:
+  - rscadd: Replaces the placeholder text in the 'Azurian' origin with something properly
+      sourced from the wiki and community.
+  - rscadd: Touches up the 'Nowhere' option with a little more fluff.
+  - rscadd: Adds more commonly-found words and concepts to the Primer.
+  - bugfix: Mentions of 'Vanderlin' in the code have been appropriately adjusted to
+      the more agnostic term of 'Daftmarsh'.
+  - bugfix: Slightly agnostifies(?) Rudmarsch's maiden name into the 'Sanguine Reach',
+      and the Rotwood Vale into the Rotwoad Vale.
+  - bugfix: Modifies 'Lyndvhar' mention to 'Zyndhardia', at request.
+  - rscadd: Adds 'Lakkari' to the Primer, to avoid any potential confusion regarding
+      some descriptions. Similar to Monkberry's Naledi, this entry has also been co-authored
+      and approved by its original creator, 7erracotta.
+  - rscdel: Mentions of Blackstone - from the Primer - have been fittingly nuked out
+      of existence.
+  - rscdel: Rotwood, likewise, has been left to rot.
+  - rscadd: Aggressively grabbing someone's torso will now let you forcefully push
+      them against a wall, by click-dragging them onto-said wall.
+  - balance: Wardens can now pick between their unique bow, or a spear and sling.
+      Choosing the latter slightly alters the statblock as well, giving +I STR at
+      the cost of -I SPD.
+  - balance: Wardens now have Journeyman-level skills in both ranged weapon types,
+      by default. Picking the Bow gives Master-tier bow skills (like before), while
+      picking the Sling gives Expert-tier sling skills (like before.)
+  - balance: Wardens now get leather bracers, like before, if selecting the 'light
+      armored' option. Picking the alternative supplies them with a pair of jackchains,
+      like before.
+  - code_imp: Touches up a lot of the prompts, descriptors, and tutorials for the
+      Warden role's .dm file.
+  - code_imp: Adds an 'extra_content' line to the Warden, explaining the nature of
+      how their region-based statboosts work.
+  Quinalion:
+  - image: Resprited Elven Helms.
+  - rscadd: Elven Maille as replacement for Elven Cuirass.
+  - rscdel: Removed Elven cuirass.
+  ToasterStrudes:
+  - refactor: Magicians Brick weapon skill moved from maces to arcyne.
+  WeNeedMorePhoron:
+  - rscadd: Examining people also tell you whether they are much tougher or much frailer
+      than you are (CON stats difference)
+  - bugfix: Fixes an issue where revenant who joins as wretch skeleton just dies.
+      By setting them to Godmode, and then swap their species and head out for a normal
+      head and then remove godmode. Yep. (Swapping the head is necessary to prevent
+      runtimes from species swap)
+  - bugfix: Possibly fix an issue where after you die as a wretch skeleton you get
+      a character flaw needs extra vice related runtime that make you completely unable
+      to play the game or rejoin the round
+  - bugfix: When an admin click "Start Now", the storyteller vote automatically resolves
+  - bugfix: When an admin click Start Now and there's no vote, the storyteller vote
+      automatically resolves to Astrata. This means that on localhost I can save some
+      time testing wretch classes and antagonists in general for the general use case,
+      as Psydon is not a likely use case for most developers
+  - bugfix: Outlaw Goblin's goons are now goblins, and should no longer deliberately
+      beat the large goblin to death
+  - rscadd: Quest now spawns in every mob at once instead of based on which spawner
+      is proximate to you or not. Expect higher difficulty. Bring friends and headhook.
+  - server: TGS Round Start message now display RoundID (hopefully)
+  hazelrat:
+  - rscadd: Implemented a remap of the abyssal dream.
+  zeratinoalt:
+  - rscadd: changes the ravox monk tabard to be inline with the templar's
+2026-04-22:
+  Clem-The-Duck:
+  - bugfix: Fixed sleeved tabards weird sleeve layering issue
+  FreeStylaLT:
+  - bugfix: Fixed Lonely Vice working while unconscious / dead.
+  - bugfix: Fixed Lonely Vice stress debuffs not being removed correctly.
+  Ketrai:
+  - bugfix: bear and troll meat now use the correct bitesize
+  - rscadd: Trolls now have their own meat type
+  - rscadd: Bears now have their own meat type
+  - bugfix: tracks not spawning in the hamlet area
+  NalimaTheWitch:
+  - bugfix: Fixed a bug with the ambient music toggle pref
+  Ollanius:
+  - code_imp: Stages all decorated helmet sprites from Stonekeep under the 'special'
+      category for eventual reimplementation.
+  ToasterStrudes:
+  - bugfix: Fixes Prestidigitation not being able to clean things/people. Wizards
+      no longer need baths again.
+2026-04-23:
+  7erracotta:
+  - rscadd: added new forgeable items
+  FreeStylaLT:
+  - rscadd: Guarded virtue can now toggle their own anonimity with a button in the
+      Virtue tab, appearing with fewer identifying features.
+  - refactor: Guarded virtue no longer has a forcefully blank faith salute, it works
+      like normal now. Instead, Guarded gets a Fake Faith Salute emote.
+  - balance: Guarded virtue now obscures worn armor integrity values unless broken.
+  - balance: Guarded virtue now obscures dodge / feint / parry values for the defender.
+  - balance: Guarded virtue now prevents showing any identifiable healing miracle
+      text to the target.
+  Ketrai:
+  - rscadd: You can now fish up octopus to put on your head
+  - rscadd: Second voice now lets you pick a voice descriptor for the second voice
+  - rscadd: Advanced mirror magic hag boon & hag feature
+  PatapoIIIa:
+  - bugfix: fix vis_content visual
+2026-04-24:
+  FreeStylaLT:
+  - rscadd: Added Weapon Binds. Targeting a precise zone (hands, feet, eyes) while
+      the defender is targeting the same or large limb equivalent (arm for hands,
+      leg for feet, head for eyes) will bind the weapons and provide the defender
+      with a temporary defensive boost. Only works on parries.
+  - balance: For the purposes of baiting (and binding) skull is now the same as head.
+      This means baiting Head is the same as baiting every part above the neck.
+  - balance: Minimum feint% increased to 10% from 0%.
+  - balance: Feinting an active riposte will always succeed, but will put feint on
+      a longer cooldown.
+  - balance: Bait cooldown reduced to 20 seconds from 30 seconds.
+  - balance: Freifechters no longer gain any benefits from using swift-balanced weapons.
+  NalimaTheWitch:
+  - bugfix: Ghosts can no longer pull people from hiding spots.
+  - bugfix: Fixed being able to unbuckle people from beds.
+  ReezeBL:
+  - bugfix: taur druid wildshape bug
+  - refactor: wildshape wound transfer logic should be more stable
+  hazelrat:
+  - rscadd: Implemented a remap for the city church, increasing its size substantially.
+  - rscadd: Added a new towner house straight east from the inquisitorial manor.
+  nauticall:
+  - rscadd: Added donor item 'Darling' to the game.
+2026-04-25:
+  BICLOGAN:
+  - bugfix: Apothecaries now can lock clinic's silverface as well
+  - balance: Apothecary now start with Expert skill in alchemy
+  Ketrai:
+  - balance: Medical EXP scales with sew time & wound severity now.
+  - qol: Hunting tracks are more visible, and have a unique paws icon when looking
+      around
+  PatapoIIIa:
+  - rscadd: Add multy-language TGUI support
+2026-04-26:
+  BurpleBineapple:
+  - bugfix: mindlink tells you to use ,Y instead of ,y
+  FreeStylaLT:
+  - bugfix: Fixed a bug that prevented Tempo from counting "Unknown" attackers properly.
+  - balance: Some Red ("Rigid") swingdelays now apply a slow down to X SPD for their
+      duration. This was applied to Rapier's Lunge.
+  - balance: Greataxes had their swingdelays from base intents removed. Instead they
+      had their wdef lowered relative to their non-reach counterparts.
+  - balance: Riposte no longer works while under the effects of a Red ("Rigid") swingdelay.
+  - balance: Riposte no longer works while Exposed.
+  - bugfix: Fixed Guarded anonimity not overriding emote voice colors correctly.
+  Ketrai:
+  - rscadd: Skeleton customization features for certain classes. When they spawn in.
+  Quinalion:
+  - bugfix: Coifs now allow voice transmission through the SCOM ring while lowered.
+  Ryan180602:
+  - code_imp: let ghosts be smooth
+  WeNeedMorePhoron:
+  - rscadd: Possibly fixed controller of Minotaur, dream fiends, Border reiver, deep
+      one, dire bear, dragon, all primordials (unused), mole, mossback, simple skeletons,
+      troll, volf, spide, mirespider to be more reliable and less erratic when it
+      comes to aggro
+  - rscadd: AI's calling for help behaviors range has been reduced from 12 / 13 to
+      9 to make it a bit fairer without trivializing them
+  - rscadd: AI no longer kick someone who is down
+  - rscadd: Add confirmation prompt and log to cancelling vote.
+  borneblood:
+  - balance: Self-Sustenance trait now also behaves like Failed Squire for repair
+      purposes.
+2026-04-27:
+  Ketrai:
+  - balance: Increase medical EXP from sewing
+  Quinalion:
+  - bugfix: Fixed shield rendering on backs.
+  - bugfix: Corrected sleeves sprites for hauberk, haubergeon, scalemail, and coat
+      of plates.
+  - bugfix: Fixed drider spider sprites.
+  Ryan180602:
+  - code_imp: click optimisations
+  - admin: show-tip is now available to coders.
+  VanessaCoding:
+  - balance: changed the bronze right limb to be equal to the left limb
+  WeNeedMorePhoron:
+  - rscdel: Removed most ranged AI loadout that can randomly spawn until fixed.
+  - rscadd: When channeling specific spells (For now, Arcyne Ward & Conjure Aegis),
+      you cannot parry / dodge attacks
+  - rscadd: When you are feinted or baited while channeling spells, spell cast will
+      be canceled
+  - balance: Arcyne Ward now on a 2 minutes base cooldown instead of 1. costs 70 Stamina
+      upfront and 130 Energy instead of 20 (what, this was not intentional). It will
+      also grants a paired "Regenerate" spell that costs proportional amount of stamina
+      to regenerate your existing ward, and always cost 2 minutes of CD. It takes
+      6 seconds to channel still and makes you unable to parry / dodge.
+  - rscadd: Staves integrity rate raised to 150 / 200 / 250 for each tier, making
+      them a sidegrade to woodstaff (And a straight upgrade at the highest tier).
+  - rscadd: Wand option now instead gives Wand & (Wooden) Shield, and grants Apprentice
+      Shield on choice as an alternative playstyle.
+  - rscadd: Instead of empowering a staple spell, implement now refunds part of the
+      spell's stamina / energy cost over 20 seconds. It refunds 20 / 27.5 / 35% of
+      the cost as energy into your blue bar, improving your long term endurance without
+      affecting the short terms economy of a mage.
+  - rscadd: Animals should now find food and eat them properly
+  - rscadd: All farm animals but goats cannot climb over structure now.
+  - rscadd: Added a cooldown to climbing so that hopefully AI get stuck on climbing
+      over and over railing less
+  - bugfix: Probably fix AI hitting themselves
+  borneblood:
+  - balance: Rebalanced Malchem vials that interact with economy, Mammonite was also
+      beefed a lil, Matthios's Hoardeyes can see from 100+, Gilded Sight is no longer
+      ass
+  - bugfix: Truthsnuke (EM spawnable) should no longer destroy a single target over
+      and over
+  gamevoin:
+  - rscadd: Added new headwings, bird and bat-like, available to Kin, Tiefling, and
+      Aasimar. Also a new regular wing and Aasimar-only 'veil wing'.
+2026-04-28:
+  FreeStylaLT:
+  - bugfix: Fixed Bait Cooldown being set incorrectly at 30 seconds. It is now the
+      intended 20 seconds.
+  - rscadd: Having the Smithing Expert trait will now allow the user to automatically
+      scoop up the next item in a smithing recipe from their own tile, or the anvil's
+      tile.
+  - balance: Gave some Guild roles athletics that were missing it before.
+  - balance: Removed Guildmaster's ability to make Announcements.
+  - balance: Gave Guildmaster a scomstone.
+  - balance: Gave every Guild role a serfstone.
+  Ketrai:
+  - rscadd: Bramblesnout boars
+  - rscadd: New meat sprites for pork and bacon
+  Quinalion:
+  - bugfix: Reduced recent shield-on-back sprite change due to persistent misalignment.
+  VanessaCoding:
+  - balance: gave them Apprentice Smelting, Mining, Blacksmithing, Armorsmithing and
+      Weaponsmithing.
+  Vex8tion:
+  - balance: Added TRAIT_SPELLCOCKBLOCK to Lightning Bolt's status debuff
+  WeNeedMorePhoron:
+  - rscadd: All mindlinks tell you to use ,Y
+  - rscadd: You always gain the arcyne ward paired regeneration spell with gain of
+      any arcyne ward, which should hopefully fixes issues with gaining infinite regen
+      spell and most cases of jankiness
+  borneblood:
+  - bugfix: Restored a missing functionality to spellcasting.
+2026-04-29:
+  1HoneyDragon:
+  - rscadd: 'Ported two dresses from Scarlet Reach: the noble dress and the velvet
+      dress.'
+  - rscadd: Added the new dresses to the loadout menu
+  - rscadd: Added the new dresses to the crafting - sewing tab.
+  Aisu9:
+  - rscdel: Deleted Theurgist
+  - balance: mix THeurgist's stat spread in the Sage's own stat spread, they loose
+      1 con and gain 1 int
+  - balance: raise Sage's Devotion regen to the same tier as Mystic's
+  - balance: Mystic now have apprentice alchemy and alchemy expert trait so they can
+      produce strong potions with some work, move the alchemy supplies and backpack
+      from Sage's loadout to Mystic's, Sage stay at apprentice.
+  - balance: all mystic classes now enjoy novice wrestling skill, fight back the bullies
+      a little better!
+  - qol: Sage's stats is now picked after you take your offensive cantrip
+  - qol: Mystic gain blood boon back, holy skill unchanged at apprentice.
+  - qol: Holyblade, now named Luminary enjoy a  greater weapon loadout and proficiency
+      diversity
+  Drifter7371:
+  - rscadd: Gave Bwanderer a choice between starting with axes or swords.
+  - rscadd: 'Swapped a Wilpower point for Constitution for Bwanderer.
+
+      :cl:'
+  Ketrai:
+  - rscadd: Technophobe trait to stop meister use. Deprived, Hag
+  - balance: Pumpkins now mostly give seeds, rarely whole pumpkins
+  - balance: Bait bags attract mostly small game
+  - balance: Bait bags require apprentice hunting to craft
+  - balance: Hag cannot take saddleborn
+  - rscadd: You can now roast seeds over fires
+  - qol: Clarify boar wound message as something you can just sew?
+  - balance: Dreamwalker portals allow up to 5 pursuers with halved cooldown between
+      uses.
+  Ollanius:
+  - bugfix: Pewter goblets no longer cause vampyres and nitebeasts to spontaneously
+      explode upon contact.
+  - code_imp: 'Stages ore and scrap content from PR #6666. This includes the base
+      framework for avantyne wafers and thread, alongside ascendant-specific equipment
+      fragments. Unaccessable in-game.'
+  Ryan180602:
+  - rscadd: playtime tracker. admins can see another player's through PP.
+  VanessaCoding:
+  - rscadd: Chiseling and sawing now keeps going until the turf with the item you
+      targetted runs out of the item.
+  WeNeedMorePhoron:
+  - rscadd: Complex NPC AI will now smashes obstacles that is in the way between you
+      and them if they cannot find a better way to get pass
+  - rscadd: Hotspot no longer HARDBLOCK an AI from pathing, so they will path through
+      them as a last resort
+  - rscadd: Added a slight, intelligence / perception scaled delay to kicking you
+      when they are grabbed
+  - rscadd: Window being broken by mobs should no longer spam admin log if there's
+      no ckey
+  - rscadd: Ported TGstation's profiler and initialization profiler subsystem to help
+      us with future profiling efforts.
+  - rscadd: You can no longer level up alchemy without having ALCHEMY EXPERT trait
+      at all.
+  - rscadd: 'Alchemy Expert added to: Destitute Scholar, Introverted Bookworm, Nettlesome
+      Scamp, Mage Lord, Schemer, Underdweller, Desert Rider Sahir, Black Venom Pursuer
+      (both), Town Crier, Artificer, Bishop, Druid, Acolyte, Templar (Noc/Pestra),
+      Cleric (Noc), Mystic (all 4), Wiseguy, Heretic (Pestra/Noc, both), Advisor of
+      Heartfelt, Heartfelt Prior, Heartfelt Physician, Poisoner, Lich, Grenzel Envoy
+      Priest, Herbalist, Heretical Fiends'
+  - bugfix: Possibly fixed TGUI input modal crashing on long text above 2048 characters
+      on older systems or older in built browser such as Wine / Linux emulator by
+      using a feature introduced in 2015 instead of 2025.
+  babamandaa:
+  - qol: gives Depraved wretch a lil buff
+  borneblood:
+  - bugfix: shapeshift_holder has been polished, thus fixing problems with its functionality
+      with flying simple_mobs it had for a good long while now. Report any new bugs,
+      please.
+  - bugfix: more matthios maintenance (again)
+  changelingonberry:
+  - rscadd: descriptors
+  nauticall:
+  - rscadd: Added the ability for Dukes to have their own mounts.
+  saltprjak:
+  - balance: Ruma Seonjang and Gun-in weapons nerfed and buffed respectively into
+      a middle-ground. They can now be sold.
+  - balance: Ruma Sasu's iron dagger replaced with a steel tanto.
+  - balance: All Ruma now share pain resistance.
+2026-04-30:
+  1HoneyDragon:
+  - bugfix: Fixed noble's pinafore not having the correct name.
+  - balance: Lowered noble's pinafore recipe skill requirement from Expert to Journeyman.
+  WeNeedMorePhoron:
+  - rscadd: Hearth is now climbable for an AI
+  - rscadd: AI will now default to climbing before destroying an obstacle
+  - rscadd: All lights are by default, destructible instead of indestructible.
+  - rscadd: Fixes goblin having wrong faction and not attacking you
+  - rscadd: Grand Duke, Marshal, Bishop, Merchant, Bathmaster, Steward, Guildsman,
+      Guildmaster and Martyr now announce on the SCOM when they far travel so people
+      know an important role is missing.
+  borneblood:
+  - bugfix: Blood Boon no longer targets yourself.
+  zydras:
+  - image: direbear

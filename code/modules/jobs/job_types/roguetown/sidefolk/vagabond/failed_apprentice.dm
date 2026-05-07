@@ -2,7 +2,7 @@
 	name = "Exiled Apprentice"
 	tutorial = "Your master found you talentless, and cast you from their tower with nothing but your staff and dreams of what could've been."
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = RACES_ALL_KINDS
+	
 	outfit = /datum/outfit/job/roguetown/vagabond/mage
 	traits_applied = list(TRAIT_ARCYNE, TRAIT_ALCHEMY_EXPERT)
 	category_tags = list(CTAG_VAGABOND)
@@ -43,7 +43,7 @@
 	)
 
 	if(H.mind)
-		SStreasury.give_money_account(ECONOMIC_DESTITUTE, H, "Savings.")
+		SStreasury.grant_savings(ECONOMIC_DESTITUTE, H)
 		H.adjust_skillrank(/datum/skill/craft/alchemy, rand(1,4), TRUE)
 		H.adjust_skillrank(/datum/skill/magic/arcane, rand(1,4), TRUE)
 		H.STAINT = rand(8, 20)

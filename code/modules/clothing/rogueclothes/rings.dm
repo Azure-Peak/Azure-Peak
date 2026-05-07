@@ -232,27 +232,26 @@
 
 /obj/item/clothing/ring/signet
 	name = "signet ring"
-	icon_state = "signet"
-	desc = "A ring of opulent gold, bearing the Lord's symbol. By dipping it in melted redtallow, it can seal writs of ducal importance."
+	icon_state = "signet_stamp"
+	desc = "A ring of opulent gold, bearing the Lord's symbol. Its face is cut to seal writs of ducal importance, and a fresh bead of redtallow rests in the underside."
 	sellprice = 135
-	var/tallowed = FALSE
 
 /obj/item/clothing/ring/signet/get_mechanics_examine(mob/user)
     . = ..()
-    . += span_info("Left click the ring on a warmed tallowpot - filled with redtallow, specifically - to prepare a stamp.")
-    . += span_info("Certain letters can be folded and stamped with a prepared ring, which proves minor financial benefits.")
+    . += span_info("Certain letters can be folded and stamped with the ring, which proves minor financial benefits.")
+    . += span_info("Pressed upon a quest scroll by a Steward, Clerk, or Grand Duke, the ring stamps it LEVY EXEMPT - waiving the Crown's Contract Levy on its reward.")
 
 
 /obj/item/clothing/ring/signet/alt
 	name = "silver signet ring"
-	icon_state = "signet_alt"
-	desc = "A ring of glistening silver, bearing the Lord's symbol. By dipping it in melted redtallow, it can seal writs of ducal importance."
+	icon_state = "signet_alt_stamp"
+	desc = "A ring of glistening silver, bearing the Lord's symbol. Its face is cut to seal writs of ducal importance, a bead of redtallow nested in the underside."
 	sellprice = 80
 
 /obj/item/clothing/ring/signet/silver
 	name = "blessed silver signet ring"
-	icon_state = "signet_silver"
-	desc = "A ring of blessed silver, bearing the Archbishop's symbol. By dipping it in melted redtallow, it can seal writs of religious importance."
+	icon_state = "signet_silver_stamp"
+	desc = "A ring of blessed silver, bearing the Archbishop's symbol. Its face is cut to seal writs of religious importance, a bead of redtallow nested in the underside."
 	sellprice = 90
 	is_silver = TRUE
 	is_lesser_silver = TRUE
@@ -262,19 +261,6 @@
     . += span_info("Stamping a folded ACCUSATION or CONFESSION will increase the amount of MARQUES it'll reward, once sent through the HERMES.")
     . += span_info("Packing an INDEXER into an ACCUSATION or CONFESSION before folding-and-stamping it will further amplify this financial bonus.")
 
-/obj/item/clothing/ring/signet/attack_right(mob/user)
-	. = ..()
-	if(tallowed)
-		if(alert(user, "SCRAPE THE TALLOW OFF?", "SIGNET RING", "YES", "NO") != "NO")
-			tallowed = FALSE
-			update_icon()
-
-/obj/item/clothing/ring/signet/update_icon()
-	. = ..()
-	if(tallowed)
-		icon_state = "[icon_state]_stamp"
-	else
-		icon_state = initial(icon_state)
 
 //silver rings
 /obj/item/clothing/ring/emeralds

@@ -3,7 +3,7 @@
 	tutorial = "A skilled blacksmith, able to forge capable weapons for warriors in the bog, \
 	only after building a forge for themselves of course"
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = RACES_ALL_KINDS
+	
 	outfit = /datum/outfit/job/roguetown/adventurer/blacksmith
 
 	category_tags = list(CTAG_PILGRIM, CTAG_TOWNER)
@@ -81,4 +81,4 @@
 		armor = /obj/item/clothing/suit/roguetown/shirt/dress/gen/random
 		shoes = /obj/item/clothing/shoes/roguetown/shortboots
 	if(H.mind)
-		SStreasury.give_money_account(ECONOMIC_UPPER_MIDDLE_CLASS, H, "Savings.")
+		SStreasury.grant_savings(ECONOMIC_UPPER_MIDDLE_CLASS, H)

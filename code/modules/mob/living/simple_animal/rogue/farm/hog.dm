@@ -8,6 +8,7 @@
 	icon_gib = "piggie_dead"
 	gender = FEMALE
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
+	blood_toll_bucket = STATS_KILLED_LIVESTOCK
 	emote_see = list("eyes the surroundings.", "flicks its ears.")
 	speak_chance = 1
 	turns_per_move = 5
@@ -233,7 +234,7 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/swine/Initialize()
 	. = ..()
 	AddElement(/datum/element/ai_retaliate)
-	ai_controller.set_blackboard_key(BB_BASIC_FOODS, food_type)
+	ai_controller.set_blackboard_key(BB_BASIC_FOODS, typecacheof(food_type))
 
 /mob/living/simple_animal/hostile/retaliate/rogue/swine/taunted(mob/user)
 	emote("aggro")

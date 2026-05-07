@@ -23,7 +23,7 @@
 		SKILLED_ARTIF,
 	)
 	choice_tooltips = list(
-		SKILLED_BSMITH	= "Grants Expert Forgehand. Weaponsmithing, Armorsmithing, Blacksmithing and Smelting raised to Apprentice.",
+		SKILLED_BSMITH	= "Grants Expert Forgehand. Weaponsmithing, Armorsmithing, Blacksmithing and Smelting raised to Apprentice. Stashed Hammer and Tongs.",
 		SKILLED_TAILOR	= "Grants Expert Clothier. Butchering, Tanning raised to Apprentice. Sewing raised to Journeyman. Stashed Needle & Scissors.",
 		SKILLED_HUNTER	= "Grants Expert Survivalist. Trapping, Tracking, Butchering, Sewing and Tanning raised to Apprentice.",
 		SKILLED_PHYS	= "Grants Expert Physicker and Alchemist. Alchemy and Medicine raised to Apprentice. Grants secular diagnose and a stashed medicine pouch.",
@@ -32,14 +32,16 @@
 	)
 
 /datum/virtue/utility/skilled/on_load()
-	added_skills.Cut()	//This whole datum gets saved, so we need to make sure we aren't infinitely stacking these every time we join / save / load.
+	added_skills.Cut()	// This whole datum gets saved, so we need to make sure we aren't infinitely stacking these every time we join / save / load.
 	added_traits.Cut()
-	added_skills = list(list(/datum/skill/craft/crafting, 2, 2))
 
 /datum/virtue/utility/skilled/apply_to_human(mob/living/carbon/human/recipient)
 	. = ..()
 	if(!triumph_check(recipient))
 		return
+
+	added_skills.Cut()	// We make sure we have clean lists. These are applied later in the virtue proc stack.
+	added_traits.Cut()
 
 	added_skills = list(list(/datum/skill/craft/crafting, 2, 2))
 	for(var/choice in picked_choices)
@@ -50,6 +52,8 @@
 				added_skills.Add(list(list(/datum/skill/craft/blacksmithing, 2, 2)))
 				added_skills.Add(list(list(/datum/skill/craft/smelting, 2, 2)))
 				added_traits.Add(TRAIT_SMITHING_EXPERT)
+				recipient.mind?.special_items["Hammer"] = /obj/item/rogueweapon/hammer/iron
+				recipient.mind?.special_items["Tongs"] = /obj/item/rogueweapon/tongs
 			if(SKILLED_TAILOR)
 				added_skills.Add(list(list(/datum/skill/labor/butchering, 2, 2)))
 				added_skills.Add(list(list(/datum/skill/craft/sewing, 3, 3)))

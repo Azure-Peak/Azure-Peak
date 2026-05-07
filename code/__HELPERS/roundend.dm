@@ -152,6 +152,7 @@
 					to_chat(H, "\n<font color='purple'><b>[job.round_contrib_points]</b> ROUND CONTRIBUTOR POINTS AWARDED. Thank you for playing!</font>")
 					add_roundpoints(job.round_contrib_points, H.ckey)
 	add_roundplayed(key_list)
+
 	update_god_rankings()
 	
 	for(var/mob/M in GLOB.mob_list)

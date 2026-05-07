@@ -2,12 +2,13 @@
 	name = "Hangyaku-Kounen"
 	tutorial = "Rebel. Outlaw. Failure. Once, you served the upper echelons of Kazengun society as more than just a 'knight'- you were a champion, a beacon of virtue, a legend in the making. Now you wander distant Psydonia, seeking a fresh start... or fresh coin, at least."
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = RACES_SHUNNED_UP //do they have constructs in kazengun?
+	forbidden_races = list(RACES_CONSTRUCT RACES_DESPISED) //do they have constructs in kazengun?
 	outfit = /datum/outfit/job/roguetown/mercenary/hangyaku
 	subclass_languages = list(/datum/language/kazengunese)
 	class_select_category = CLASS_CAT_KAZENGUN
 	category_tags = list(CTAG_MERCENARY)
 	traits_applied = list(TRAIT_NOBLE) //i hate nobles but it's thematic
+	noble_income = 15
 	cmode_music = 'sound/music/combat_Kazengun_Firestorm.ogg'
 	maximum_possible_slots = 3
 	subclass_stats = list(  // mounted knight, but slower.
@@ -103,7 +104,7 @@
 	name = "Hangyaku-Chonin"
 	tutorial = "Once, you were a farmer, a miner, a seamstress, a commoner. Now the sword is your plow and war your field. You’ve hammered your scythes into spears and recast your knives into swords. Past the door, your daimyo is calling - and destiny awaits."
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = ALL //do they have constructs in kazengun?
+	forbidden_races = list(RACES_CONSTRUCT)//do they have constructs in kazengun?
 	outfit = /datum/outfit/job/roguetown/mercenary/chonin
 	subclass_languages = list(/datum/language/kazengunese)
 	class_select_category = CLASS_CAT_KAZENGUN
