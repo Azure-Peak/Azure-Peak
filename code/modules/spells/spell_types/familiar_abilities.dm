@@ -236,6 +236,7 @@
 	recharge_time = 15 SECONDS
 	overlay_icon = 'icons/mob/actions/mage_pyromancy.dmi'
 	overlay_icon_state = "fire_curtain"
+	chargetime = 1 SECONDS
 
 /obj/effect/proc_holder/spell/self/infernal_surge/cast(list/targets, mob/user)
 	. = ..()

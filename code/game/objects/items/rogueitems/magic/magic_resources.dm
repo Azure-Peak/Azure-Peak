@@ -26,7 +26,7 @@
 	var/tier = 0 //used for determining potency for mob healing
 
 /obj/item/magic/familiar
-	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | ON_FIRE | UNACIDABLE | ACID_PROOF
+	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF
 	var/mob/living/simple_animal/pet/familiar/stored_familiar
 
 /obj/item/magic/familiar/dropped(mob/user, silent)
