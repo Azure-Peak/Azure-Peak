@@ -39,7 +39,6 @@
 			headdy.sellprice = rand(7,20)
 		H.regenerate_limb(BODY_ZONE_R_ARM)
 		H.regenerate_limb(BODY_ZONE_L_ARM)
-		//H.remove_all_languages() We roleplay in this house.
 		H.base_intents = list(INTENT_HELP, INTENT_DISARM, INTENT_GRAB, /datum/intent/simple/claw)
 		H.update_a_intents()
 		H.set_patron(/datum/patron/inhumen/graggar)

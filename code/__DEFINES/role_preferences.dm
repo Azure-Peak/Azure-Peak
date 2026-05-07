@@ -53,7 +53,7 @@
 #define ROLE_LAVALAND			"Lavaland"
 #define ROLE_INTERNAL_AFFAIRS	"Internal Affairs Agent"
 #define ROLE_NECRO_SKELETON		"Necromancer Skeleton"
-#define ROLE_SEIGE_SKELETON		"Seige Skeleton"
+#define ROLE_SIEGE_SKELETON		"Siege Skeleton"
 #define ROLE_LICH_SKELETON		"Lich Skeleton"
 #define ROLE_CHOSEN				"Chosen"
 #define ROLE_VAMPIRE_SUMMON		"Vampire Summon"

@@ -1,6 +1,6 @@
-/datum/job/roguetown/greater_skeleton/seige_skeleton
+/datum/job/roguetown/greater_skeleton/siege_skeleton
 	advclass_cat_rolls = list(CTAG_SSKELETON = 20) //Unique NPC-esc Disposable roles. 3 classes, intended to show up, lite antagonise and die instantly.
-	title = "Seige Skeleton"
+	title = "Siege Skeleton"
 	flag = SKELETON
 	department_flag = ANTAGONIST
 	faction = "Station"
@@ -24,7 +24,7 @@
 
 ////WARNING, SHITCODE GALORE BELOW, THIS THING IS HELD TOGETHER WITH TAPE AND PRAYERS, IT ALWAYS WAS BUT NOW MORESO////
 
-/datum/outfit/job/roguetown/greater_skeleton/seige_skeleton/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/roguetown/greater_skeleton/siege_skeleton/pre_equip(mob/living/carbon/human/H)
 	..()
 	REMOVE_TRAIT(H, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_CRITICAL_WEAKNESS, TRAIT_GENERIC) // You are disposable, your entire role is to fight and die.
@@ -36,14 +36,14 @@
 
 
 //FOOTSOLDIER, OORAH, OORAH
-/datum/advclass/greater_skeleton/seige_skeleton/feralfootsoldier
+/datum/advclass/greater_skeleton/siege_skeleton/feralfootsoldier
 	name = "Decrepit Feral Footsoldier"
 	tutorial = "You have arisen from unknown means, your tarnished guardsman plate clinging to your form. A single directive fills your once purposeless mind, Slay the ignorant and remake them in her name."
 	outfit = /datum/outfit/job/roguetown/greater_skeleton/seige_skeleton/feralfootsoldier
 
 	category_tags = list(CTAG_SSKELETON)
 
-/datum/outfit/job/roguetown/greater_skeleton/seige_skeleton/feralfootsoldier/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/roguetown/greater_skeleton/siege_skeleton/feralfootsoldier/pre_equip(mob/living/carbon/human/H)
 	..()
 
 	H.STASTR = 12
@@ -121,14 +121,14 @@
 	H.energy = H.max_energy
 
 //ARCHER, TAKE AIM, DRAW, FIRE
-/datum/advclass/greater_skeleton/seige_skeleton/feralarcher
+/datum/advclass/greater_skeleton/siege_skeleton/feralarcher
 	name = "Decrepit Feral Archer"
 	tutorial = "You have arisen from unknown means, your bow still remains in hand and your rotted arrows in a quiver. A single directive fills your once purposeless mind, Slay the ignorant and remake them in her name."
 	outfit = /datum/outfit/job/roguetown/greater_skeleton/seige_skeleton/feralarcher
 
 	category_tags = list(CTAG_SSKELETON)
 
-/datum/outfit/job/roguetown/greater_skeleton/seige_skeleton/feralarcher/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/roguetown/greater_skeleton/siege_skeleton/feralarcher/pre_equip(mob/living/carbon/human/H)
 	..()
 
 	H.STASTR = 9
@@ -178,14 +178,14 @@
 	H.energy = H.max_energy
 
 //BULWARK, YOU'RE UP AGAINST THE WALL, AND I AM THE WALL
-/datum/advclass/greater_skeleton/seige_skeleton/feralbulwark
+/datum/advclass/greater_skeleton/siege_skeleton/feralbulwark
 	name = "Decrepit Feral Bulwark"
 	tutorial = "You have arisen from unknown means, your tarnished rotting plate still clinging to your body. A single directive fills your once purposeless mind, Slay the ignorant and remake them in her name."
 	outfit = /datum/outfit/job/roguetown/greater_skeleton/seige_skeleton/feralbulwark
 
 	category_tags = list(CTAG_SSKELETON)
 
-/datum/outfit/job/roguetown/greater_skeleton/seige_skeleton/feralbulwark/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/roguetown/greater_skeleton/siege_skeleton/feralbulwark/pre_equip(mob/living/carbon/human/H)
 	..()
 
 	H.STASTR = 13
