@@ -468,7 +468,7 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 		to_chat(user, "<span class='danger'>Too many player Goblins.</span>")
 		return
 	playergobs++
-	var/mob/living/carbon/human/species/goblin/npc/N = new (get_turf(src))
+	var/mob/living/carbon/human/species/goblin/N = new (get_turf(src))
 	N.key = user.key
 	N.base_intents = list(INTENT_HELP, INTENT_DISARM, INTENT_GRAB, /datum/intent/simple/claw) //As intended from seige goblins, so it is here.
 	N.update_a_intents()
