@@ -461,7 +461,7 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 		return
 	if(!in_range(src, user))
 		return
-	if(playergobs >= (playermaxgobs+1))
+	if(playergobs >= (maxplayergobs+1))
 		to_chat(user, "<span class='danger'>Too many Goblins.</span>")
 		return
 	playergobs++
