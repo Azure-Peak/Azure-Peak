@@ -14,9 +14,12 @@
 	see_in_dark = 6
 	move_to_delay = 3
 	base_intents = list(/datum/intent/simple/bite/volf)
-	botched_butcher_results = list()
-	butcher_results = list()
-	perfect_butcher_results = list()
+	botched_butcher_results = list(/obj/item/alch/viscera = 1)
+	butcher_results = list(/obj/item/alch/waterdust = 2, 
+							/obj/item/alch/viscera = 2)
+	perfect_butcher_results = list(/obj/item/reagent_containers/lux_impure = 1, 
+									/obj/item/alch/waterdust = 3, 
+									/obj/item/alch/viscera = 3)
 	head_butcher = null
 	faction = list("zombie")
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
