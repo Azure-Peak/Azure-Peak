@@ -351,6 +351,7 @@
 		. += span_warning("<b>Rite of Profane Melding:</b> This rite allows you to recycle ancient corpses, skeletons, bones, organs and so on, into useful bits and pieces for Artificery.")
 		. += span_warning("<b>Veil-Rending matrix:</b> The proper, progressive method to harvest useful materials from Leylines. Surrounding all the cardinals of a Leyline is required. On use, undergo a long, loud and painful ritual, attempting to extract the materials directly from it, destabilizing the natural formation permanently.")
 		. += span_warning("<b>Great Work Rituos:</b> This rite attempts to forcefully tear out Lux from an unwilling subject. They must be crucified to a profane cross for this to work. Very painful and permanently scarring.")
+		. += span_warning("<b>Profane Rebirth:</b> This rite attempts to reanimate the dead, through the use of Lux. Due to the unholy nature of it, the victim will not come back 'right'.")
 
 /obj/item/ritechalk_zizo/attack_self(mob/living/user)
 	if(!HAS_TRAIT(user, TRAIT_CABAL))
