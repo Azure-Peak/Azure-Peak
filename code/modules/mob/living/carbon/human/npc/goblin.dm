@@ -443,6 +443,8 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 	layer = BELOW_OBJ_LAYER
 	var/gobs = 0
 	var/maxgobs = 5
+	var/playergobs = 0
+	var/maxplayergobs = 10 //upped for player shenngions with these.
 	var/datum/looping_sound/boneloop/soundloop
 	var/spawning = FALSE
 	var/moon_goblins = 0
@@ -459,10 +461,10 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 		return
 	if(!in_range(src, user))
 		return
-	if(gobs >= (maxgobs+1))
+	if(playergobs >= (playermaxgobs+1))
 		to_chat(user, "<span class='danger'>Too many Goblins.</span>")
 		return
-	gobs++
+	playergobs++
 	var/mob/living/carbon/human/species/goblin/npc/N = new (get_turf(src))
 	N.key = user.key
 	N.base_intents = list(INTENT_HELP, INTENT_DISARM, INTENT_GRAB, /datum/intent/simple/claw) //As intended from seige goblins, so it is here.
@@ -492,6 +494,12 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 	update_icon()
 	if(living_player_count() < 10)
 		maxgobs = 1
+		maxplayergobs = 1 //One player per portal
+	if(living_player_count() > 10 || < 25) //Lowpop Measures
+		maxgobs = 3
+		maxplayergobs = 3 //Three is generous
+	if(living_player_count() > 25 || < 35) //Midpop Measures
+		maxplayergobs = 6 //A lot of goblins is generous
 	if(gobs < maxgobs)
 		spawn_gob()
 

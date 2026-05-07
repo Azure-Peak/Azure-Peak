@@ -25,7 +25,15 @@
 /datum/outfit/job/roguetown/greater_skeleton/seige_skeleton/pre_equip(mob/living/carbon/human/H)
 	..()
 	REMOVE_TRAIT(H, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
+	ADD_TRAIT(H, TRAIT_CRITICAL_WEAKNESS, TRAIT_GENERIC) // You are disposable, your entire role is to fight and die.
+	ADD_TRAIT(H, TRAIT_DUSTABLE, TRAIT_GENERIC) // No corpse, lets you get back to lobby rapidly.
 	H.cmode_music = 'sound/music/combat_weird.ogg' //Same as regular deadites
+	H.become_skeleton() //Ensures no matter what, we become a skeleton correctly.
+
+	// Skeleton antag datum + patron (matching greater_skeleton setup)
+	H.set_patron(/datum/patron/inhumen/zizo)
+	if(H.mind)
+		H.mind.add_antag_datum(new /datum/antagonist/skeleton())
 
 //SIEGE SKELETONS, THESE ARE INTENTIONALLY VERY THROWAWAY ROLES. DUST ON DEATH + CRIT WEAKNESS + LOW STATS + TERRIBLE DECREPIT GEAR
 //Loyal to nobody, your existance is to fight and die, very very very quickly.
@@ -49,8 +57,6 @@
 	H.STAPER = 10
 	H.STAINT = 1
 
-	ADD_TRAIT(H, TRAIT_CRITICAL_WEAKNESS, TRAIT_GENERIC) // You are disposable, your entire role is to fight and die.
-	ADD_TRAIT(H, TRAIT_DUSTABLE, TRAIT_GENERIC) // No corpse, lets you get back to lobby rapidly.
 	ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
 
 	H.adjust_skillrank(/datum/skill/combat/swords, 2, TRUE)
@@ -111,8 +117,6 @@
 	H.STAPER = 12 //Players are smarter than NPCs, so they don't get much if, any range at all.
 	H.STAINT = 1
 	
-	ADD_TRAIT(H, TRAIT_CRITICAL_WEAKNESS, TRAIT_GENERIC) // You are disposable, your entire role is to fight and die.
-	ADD_TRAIT(H, TRAIT_DUSTABLE, TRAIT_GENERIC) // No corpse, lets you get back to lobby rapidly.
 	ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
 
 	H.adjust_skillrank(/datum/skill/combat/bows, 3, TRUE)
@@ -156,8 +160,6 @@
 	H.STAPER = 9
 	H.STAINT = 1
 
-	ADD_TRAIT(H, TRAIT_CRITICAL_WEAKNESS, TRAIT_GENERIC) // You are disposable, your entire role is to fight and die.
-	ADD_TRAIT(H, TRAIT_DUSTABLE, TRAIT_GENERIC) // No corpse, lets you get back to lobby rapidly.
 	ADD_TRAIT(H, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
 
 	H.adjust_skillrank(/datum/skill/combat/swords, 2, TRUE)
