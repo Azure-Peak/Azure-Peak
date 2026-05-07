@@ -460,7 +460,7 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 	if(!in_range(src, user))
 		return
 	if(gobs >= (maxgobs+1))
-		to_chat(user, "<span class='danger'>Too many Gobs.</span>")
+		to_chat(user, "<span class='danger'>Too many Goblins.</span>")
 		return
 	gobs++
 	var/mob/living/carbon/human/species/goblin/npc/N = new (get_turf(src))
