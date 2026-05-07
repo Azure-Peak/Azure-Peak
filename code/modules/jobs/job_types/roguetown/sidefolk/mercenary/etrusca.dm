@@ -2,7 +2,7 @@
 	name = "Condottiero Ringleader"
 	tutorial = "Hailing from the Kingdom of Etrusca, you are a Condotierro - an upstart mercenary, dedicated to leading a group of trained soldiers of fortune oft found in the employ of powerful merchants and lords for your efficiency and grace. Without a war to fight back home, the Grand Duchy has become a much-needed source of contracts. Afterall, this land is rich in coin yet poor in manpower..."
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = RACES_ALL_KINDS
+	
 	outfit = /datum/outfit/job/roguetown/mercenary/etrusca_condottiero
 	class_select_category = CLASS_CAT_ETRUSCA
 	category_tags = list(CTAG_MERCENARY)
@@ -78,7 +78,7 @@
 	name = "Balestriero Guildsman"
 	tutorial = "You are a Balestriero - one of many loyal crossbowmen who work under the Condotierro. Armed with your trusty arbalest and navaja, a single volley from the balestrieri are said to be more lethal than a thousand cuts of a blade."
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = RACES_ALL_KINDS
+	
 	outfit = /datum/outfit/job/roguetown/mercenary/etrusca_balestrieri
 	class_select_category = CLASS_CAT_ETRUSCA
 	category_tags = list(CTAG_MERCENARY)

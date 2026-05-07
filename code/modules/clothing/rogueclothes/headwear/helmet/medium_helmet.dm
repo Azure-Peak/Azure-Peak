@@ -51,6 +51,7 @@
 	. = ..()
 	. += span_info("Visored helmets can be articulated by right-clicking them. Lifted visors offer a wider field of view, but expose your face to precise strikes.")
 	. += span_info("Certain helmets can be further decorated by left-clicking them with a feather, cloth, or both.")
+	. += span_info("MMB will reveal my character's hair from underneath \the [src].")
 
 /obj/item/clothing/head/roguetown/helmet/skullcap
 	name = "skull cap"

@@ -2,7 +2,7 @@
 	name = "Sorcerer"
 	tutorial = "You are a learned mage and a scholar, having spent your life studying the arcane and its ways."
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = RACES_ALL_KINDS
+	
 	outfit = /datum/outfit/job/roguetown/adventurer/mage
 	class_select_category = CLASS_CAT_MAGE
 	category_tags = list(CTAG_ADVENTURER, CTAG_COURTAGENT)

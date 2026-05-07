@@ -1,4 +1,0 @@
-author: "Ollanius"
-delete-after: True
-changes:
-  - bugfix: "Bone shields, golden shields, and bronze shields should no longer be invisible. Credit to WanderingDeviant for discovering this."
