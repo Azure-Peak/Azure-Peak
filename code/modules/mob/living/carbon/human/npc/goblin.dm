@@ -459,6 +459,11 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 	set_light(3, 2, 20, l_color = "#7b60f3")
 	playsound(loc, 'sound/misc/portalopen.ogg', 100, FALSE, pressure_affected = FALSE)
 
+	var/old_color = color
+	color = "#960000"
+	animate(src, color = old_color, time = 10, flags = ANIMATION_PARALLEL)
+	addtimer(CALLBACK(src, TYPE_PROC_REF(/atom, update_atom_colour)), 10)
+
 /obj/structure/gob_portal/attack_ghost(mob/dead/observer/user)
 	if(QDELETED(user))
 		return
@@ -505,9 +510,9 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 	if(gobs < maxgobs)
 		spawn_gob()
 
-/obj/structure/gob_portal/examine(mob/dead/observer/user)
+/obj/structure/gob_portal/examine(mob/user) //Ghosts only can examine this.
 	. = ..()
-	if(user.mind)
+	if(!isliving(user))
 		. += span_bloody("Graggar demands blood! You can click this portal to join as a goblin if there are open slots. There are [playergobs] out of [maxplayergobs] goblins taken.")
 
 /obj/structure/gob_portal/proc/spawn_gob()
