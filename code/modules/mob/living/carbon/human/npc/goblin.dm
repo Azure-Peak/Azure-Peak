@@ -433,7 +433,6 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 //////////////////   INVADER ZIM	//////////////////
 
 /obj/structure/gob_portal
-	name = "gob portal"
 	name = "goblin portal"
 	desc = "A bright portal torn through the fabric of the world. This can't be good."
 	icon = 'icons/roguetown/misc/structure.dmi'
