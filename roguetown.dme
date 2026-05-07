@@ -1549,6 +1549,7 @@
 #include "code\modules\antagonists\_common\antag_team.dm"
 #include "code\modules\antagonists\brainwashing\brainwashing.dm"
 #include "code\modules\antagonists\greentext\greentext.dm"
+#include "code\modules\antagonists\roguetown\roleobjs\goblin.dm"
 #include "code\modules\antagonists\roguetown\roleobjs\skeleton.dm"
 #include "code\modules\antagonists\roguetown\roleobjs\suitor.dm"
 #include "code\modules\antagonists\roguetown\roleobjs\wretch.dm"

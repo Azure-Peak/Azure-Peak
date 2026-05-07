@@ -29,6 +29,8 @@
 	ADD_TRAIT(H, TRAIT_DUSTABLE, TRAIT_GENERIC) // No corpse, lets you get back to lobby rapidly.
 	H.cmode_music = 'sound/music/combat_weird.ogg' //Same as regular deadites
 	H.become_skeleton() //Ensures no matter what, we become a skeleton correctly.
+	H.choose_name_popup("Decrepit Feral")
+	to_chat(H, span_danger("You are a disposable antagonist, expect to die rather quickly. Now go cause problems and stirr some conflict! Remember to roleplay where possible still."))
 
 	// Skeleton antag datum + patron (matching greater_skeleton setup properly cause it just broke I guess???)
 	if(H.mind)
@@ -59,6 +61,8 @@
 	ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
 
 	H.adjust_skillrank(/datum/skill/combat/swords, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/axes, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/combat/maces, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/whipsflails, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/polearms, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/shields, 3, TRUE)
@@ -69,7 +73,6 @@
 	H.adjust_skillrank(/datum/skill/misc/climbing, 2, TRUE)
 
 	//intentionally decrepit gear, you're going to die rapidly. You're just here to start some fights and do some shennagions.
-	cloak = /obj/item/clothing/cloak/tabard/stabard/surcoat/guard
 	head = /obj/item/clothing/head/roguetown/helmet/heavy/aalloy
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/aalloy
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/aalloy
@@ -80,7 +83,7 @@
 	gloves = /obj/item/clothing/gloves/roguetown/chain/aalloy
 	l_hand = /obj/item/rogueweapon/shield/tower/metal/alloy //guarrenteed ancient shield, its going to break pretty fast.
 	H.adjust_blindness(-3)
-	var/weapons = list("Gladius","Spear","Flail")
+	var/weapons = list("Gladius","Spear","Flail","Khopesh","Axe","Mace")
 	var/weapon_choice = input(H, "Choose your DECREPIT WEAPON.", "RAGE AGAINST THE LYVING.") as anything in weapons
 	H.set_blindness(0)
 	switch(weapon_choice)
@@ -90,9 +93,29 @@
 		if("Spear")
 			r_hand = /obj/item/rogueweapon/spear/aalloy
 			H.adjust_skillrank(/datum/skill/combat/polearms, 1, TRUE)
+		if("Khopesh")
+			beltr = /obj/item/rogueweapon/sword/sabre/alloy
+			H.adjust_skillrank(/datum/skill/combat/swords, 1, TRUE)
+		if("Axe")
+			beltr = /obj/item/rogueweapon/stoneaxe/woodcut/aaxe
+			H.adjust_skillrank(/datum/skill/combat/axes, 1, TRUE)
 		if("Flail")
 			r_hand = /obj/item/rogueweapon/flail/aflail
 			H.adjust_skillrank(/datum/skill/combat/whipsflails, 1, TRUE)
+		if("Mace")
+			beltr = /obj/item/rogueweapon/mace/alloy
+			H.adjust_skillrank(/datum/skill/combat/maces, 1, TRUE)
+
+	var/tabards = list("Black Jupon", "Black Tabard", "Black Cloak")
+	var/tabard_choice = input(H, "Choose your CLOAK.", "BARE YOUR HERALDRY.") as anything in tabards
+	switch(tabard_choice)
+		if("Black Jupon")
+			cloak = /obj/item/clothing/cloak/tabard/stabard/surcoat/lich
+		if("Black Tabard")
+			cloak = /obj/item/clothing/cloak/tabard/lich
+		if("Black Cloak")
+			cloak = /obj/item/clothing/cloak/half/lich
+			mask = /obj/item/clothing/cloak/tabard/stabard/guardhood/lich
 
 	if(H.mind)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/suicidebomb/lesser) //Softlock immunity
@@ -136,6 +159,16 @@
 	l_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve //No picks, you're a minor antagonist and this is already more than enough
 	backl = /obj/item/quiver/broadhead_aalloy
 	beltl = /obj/item/rogueweapon/mace/alloy
+
+	var/tabards = list("Black Jupon", "Black Tabard", "Black Cloak")
+	var/tabard_choice = input(H, "Choose your CLOAK.", "BARE YOUR HERALDRY.") as anything in tabards
+	switch(tabard_choice)
+		if("Black Jupon")
+			cloak = /obj/item/clothing/cloak/tabard/stabard/surcoat/lich
+		if("Black Tabard")
+			cloak = /obj/item/clothing/cloak/tabard/lich
+		if("Black Cloak")
+			cloak = /obj/item/clothing/cloak/half/lich
 
 	if(H.mind)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/suicidebomb/lesser) //Softlock immunity
@@ -190,6 +223,15 @@
 		if("Grand Mace")
 			r_hand = /obj/item/rogueweapon/mace/goden/aalloy
 			H.adjust_skillrank(/datum/skill/combat/maces, 1, TRUE)
+	var/tabards = list("Black Jupon", "Black Tabard", "Black Cloak")
+	var/tabard_choice = input(H, "Choose your CLOAK.", "BARE YOUR HERALDRY.") as anything in tabards
+	switch(tabard_choice)
+		if("Black Jupon")
+			cloak = /obj/item/clothing/cloak/tabard/stabard/surcoat/lich
+		if("Black Tabard")
+			cloak = /obj/item/clothing/cloak/tabard/lich
+		if("Black Cloak")
+			cloak = /obj/item/clothing/cloak/half/lich
 
 	if(H.mind)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/suicidebomb/lesser) //Softlock immunity

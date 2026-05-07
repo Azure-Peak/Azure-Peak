@@ -442,9 +442,9 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 	density = FALSE
 	layer = BELOW_OBJ_LAYER
 	var/gobs = 0
-	var/maxgobs = 5
-	var/playergobs = 0
-	var/maxplayergobs = 10 //upped for player shenngions with these.
+	var/maxgobs = 6 //CHAOS, CHAOS, CHAOS
+	var/playergobs = 0 //Seperate so that goblin NPCs don't hog player slots
+	var/maxplayergobs = 10 //upped for player shenngions with these. Below 30 active living players this will be capped to 5.
 	var/datum/looping_sound/boneloop/soundloop
 	var/spawning = FALSE
 	var/moon_goblins = 0
@@ -455,6 +455,9 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 	soundloop = new(src, FALSE)
 	soundloop.start()
 	spawn_gob()
+
+	set_light(3, 2, 20, l_color = "#7b60f3")
+	playsound(loc, 'sound/misc/portalopen.ogg', 100, FALSE, pressure_affected = FALSE)
 
 /obj/structure/gob_portal/attack_ghost(mob/dead/observer/user)
 	if(QDELETED(user))
@@ -471,6 +474,9 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 	N.update_a_intents()
 	N.set_patron(/datum/patron/inhumen/graggar)
 	N.cmode_music = 'sound/music/combat_graggar.ogg' //GRAGGAR. GRAGGAR. GRAGGAR.
+	if(N.mind)
+		N.mind.add_antag_datum(new /datum/antagonist/goblin()) //Ensures we are in fact, a goblin (so friend/foe examines + admin antag tracking)
+	to_chat(N, span_danger("You are a disposable antagonist, expect to die rather quickly. Now go cause problems and stirr some conflict! Remember to roleplay where possible still."))
 	qdel(user)
 
 
@@ -483,20 +489,25 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 	if(moon_goblins == 0)
 		if(GLOB.tod == "night")
 			if(prob(30))
-				moon_goblins = 1
-			else
 				moon_goblins = 2
+			else
+				moon_goblins = 3
 	if(moon_goblins == 1)
 		new /mob/living/carbon/human/species/goblin/npc/moon(get_turf(src))
 	else
 		new /mob/living/carbon/human/species/goblin/npc(get_turf(src))
 	gobs++
 	update_icon()
-	if(living_player_count() < 25) //Lowpop Measures
-		maxgobs = 3 //Three NPCs at most
-		maxplayergobs = 4 //Four is very generous
+	if(living_player_count() < 30) //Lowpop Measures
+		maxgobs = 3 //Three NPCs at most, like old portals
+		maxplayergobs = 5 //Five is very generous
 	if(gobs < maxgobs)
 		spawn_gob()
+
+/obj/structure/gob_portal/examine(mob/dead/observer/user)
+	. = ..()
+	if(user.mind)
+		. += span_bloody("Graggar demands blood! You can click this portal to join as a goblin if there are open slots. There are [playergobs] out of [maxplayergobs] goblins taken.")
 
 /obj/structure/gob_portal/proc/spawn_gob()
 	if(QDELETED(src))

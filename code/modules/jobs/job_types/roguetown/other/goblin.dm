@@ -44,7 +44,7 @@
 		H.update_a_intents()
 		H.set_patron(/datum/patron/inhumen/graggar)
 		H.cmode_music = 'sound/music/combat_graggar.ogg' //GRAGGAR. GRAGGAR. GRAGGAR.
-
+		to_chat(H, span_danger("You are a disposable antagonist, expect to die rather quickly. Now go cause problems and stirr some conflict! Remember to roleplay where possible still."))
 		var/obj/item/organ/eyes/eyes = H.getorganslot(ORGAN_SLOT_EYES)
 		if(eyes)
 			eyes.Remove(H,1)
@@ -63,3 +63,6 @@
 		ADD_TRAIT(H, TRAIT_NOMOOD, TRAIT_GENERIC)
 		ADD_TRAIT(H, TRAIT_NOHUNGER, TRAIT_GENERIC)
 		ADD_TRAIT(H, TRAIT_CRITICAL_WEAKNESS, TRAIT_GENERIC)
+
+		if(H.mind)
+			H.mind.add_antag_datum(new /datum/antagonist/goblin()) //Ensures we are in fact, a goblin (so friend/foe examines + admin antag tracking)
