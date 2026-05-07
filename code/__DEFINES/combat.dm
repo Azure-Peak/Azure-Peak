@@ -324,9 +324,9 @@ GLOBAL_LIST_INIT(shove_disarming_types, typecacheof(list(
 //We will round to this value in damage calculations.
 #define DAMAGE_PRECISION 0.1
 
-#define STRONG_STANCE_DMG_BONUS 0.1
-#define STRONG_SHP_BONUS 2
-#define STRONG_INTG_BONUS 2
+#define STRONG_STANCE_DMG_BONUS 0.15
+#define STRONG_SHP_BONUS 3
+#define STRONG_INTG_BONUS 3
 
 //bullet_act() return values
 #define BULLET_ACT_HIT				"HIT"		//It's a successful hit, whatever that means in the context of the thing it's hitting.

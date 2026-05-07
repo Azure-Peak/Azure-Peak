@@ -1,0 +1,5 @@
+author: "Juubo"
+delete-after: True
+changes:
+  - qol: "biting and drinking don't travel through floors"
+  - sound: "reduced the bite and drink volumes"
