@@ -1614,38 +1614,6 @@
 	name = "Scruffy"
 	icon_state = "scruffy"
 
-/datum/sprite_accessory/hair/head/vulpkian
-	abstract_type = /datum/sprite_accessory/hair/head/vulpkian
-	icon = 'icons/mob/sprite_accessory/hair/vulpkian_hair.dmi'
-
-/datum/sprite_accessory/hair/head/vulpkian/anita
-	name = "Venardine Anita"
-	icon_state = "anita"
-
-/datum/sprite_accessory/hair/head/vulpkian/jagged
-	name = "Venardine Jagged"
-	icon_state = "jagged"
-
-/datum/sprite_accessory/hair/head/vulpkian/kajam1
-	name = "Venardine Kajam 1"
-	icon_state = "kajam1"
-
-/datum/sprite_accessory/hair/head/vulpkian/kajam2
-	name = "Venardine Kajam 2"
-	icon_state = "kajam2"
-
-/datum/sprite_accessory/hair/head/vulpkian/keid
-	name = "Venardine Keid"
-	icon_state = "keid"
-
-/datum/sprite_accessory/hair/head/vulpkian/mizar
-	name = "Venardine Mizar"
-	icon_state = "mizar"
-
-/datum/sprite_accessory/hair/head/vulpkian/raine
-	name = "Venardine Raine"
-	icon_state = "raine"
-
 /datum/sprite_accessory/hair/facial
 	abstract_type = /datum/sprite_accessory/hair/facial
 	icon = 'icons/mob/sprite_accessory/hair/human_facial_hair.dmi'
