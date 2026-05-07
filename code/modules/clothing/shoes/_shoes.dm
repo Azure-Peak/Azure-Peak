@@ -22,7 +22,6 @@
 
 	grid_width = 32
 	grid_height = 64
-	throw_on_break = TRUE
 
 /obj/item/clothing/shoes/ComponentInitialize()
 	. = ..()
