@@ -626,7 +626,6 @@ corpses and discarded junk*/
 			ADD_TRAIT(user, TRAIT_STEELHEARTED, "[type]") // i wanna heal i wanna feel what i thought was never real
 			ADD_TRAIT(user, TRAIT_NOHUNGER, "[type]") // already had
 			ADD_TRAIT(user, TRAIT_NOBREATH, "[type]") // already had
-			ADD_TRAIT(user, TRAIT_DEATHLESS, "[type]") // NOBLOOD edits are in Construct right now, so this is a temporary padding
 			ADD_TRAIT(user, TRAIT_BLOODLOSS_IMMUNE, "[type]") // NOBLOOD edits are in Construct right now, so this is a temporary padding
 			ADD_TRAIT(user, TRAIT_TOXIMMUNE, "[type]") // there's nothing left to poison
 			ADD_TRAIT(user, TRAIT_LIMBATTACHMENT, "[type]") // you'll need this now that rituos doesn't regrow lost limbs
