@@ -89,7 +89,7 @@
 			H.adjust_skillrank(/datum/skill/combat/swords, 1, TRUE)
 		if("Spear")
 			r_hand = /obj/item/rogueweapon/spear/aalloy
-			H.adjust_skillrank(/datum/skill/combat/swords, 1, TRUE)
+			H.adjust_skillrank(/datum/skill/combat/polearms, 1, TRUE)
 		if("Flail")
 			r_hand = /obj/item/rogueweapon/flail/aflail
 			H.adjust_skillrank(/datum/skill/combat/whipsflails, 1, TRUE)
