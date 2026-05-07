@@ -9,7 +9,7 @@
 	todreq = list("dusk", "night", "dawn", "day")
 	earliest_start = 2 HOURS
 	announce_text = "The dead walk! Skeletons rise to plague the living!"
-	announce_title = "Skeleton Invasion"
+	announce_title = "Skeleton Seige" //The hey there's gonna be players turning up not NPCs
 	var/last_siege = 0
 
 
