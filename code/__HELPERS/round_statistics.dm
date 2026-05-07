@@ -117,6 +117,7 @@
 #define STATS_ECON_EVENTS_FIRED "econ_events_fired"
 #define STATS_ECON_EVENTS_EXPIRED "econ_events_expired"
 #define STATS_URGENT_ORDERS_SPAWNED "urgent_orders_spawned"
+#define STATS_SHORTAGES_ENDED "shortages_ended"
 #define STATS_BLOCKADES_FIRED "blockades_fired"
 #define STATS_BLOCKADES_CLEARED "blockades_cleared"
 #define STATS_BLOCKADE_CONTRACTS_FAILED "blockade_contracts_failed"
@@ -475,6 +476,7 @@ GLOBAL_LIST_INIT(azure_round_stats, list(
 	STATS_ECON_EVENTS_FIRED = 0,
 	STATS_ECON_EVENTS_EXPIRED = 0,
 	STATS_URGENT_ORDERS_SPAWNED = 0,
+	STATS_SHORTAGES_ENDED = 0,
 	STATS_BLOCKADES_FIRED = 0,
 	STATS_BLOCKADES_CLEARED = 0,
 	STATS_BLOCKADE_CONTRACTS_FAILED = 0,

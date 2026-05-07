@@ -9,7 +9,7 @@
 	name = "Heretic Azurcaephan"
 	tutorial = "Branded a heretic for your unorthodox beliefs, you turned to an ancient art native to Azurea — the way of the Azurcaephan, a Spellblade. You combined your patron's gifts with martial discipline, forging yourself into a warrior-mage unlike any other. Unlike other spellblades, you know how to wield such terrifying power together with armor. The Church brands you a heretic, the Necromancers call you a fool, the Oaks see only deviation. Let them. One cut at a time, you shall carve your mark upon this world."
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = RACES_ALL_KINDS
+	
 	allowed_patrons = list(/datum/patron/inhumen/zizo, /datum/patron/divine/noc)
 	outfit = /datum/outfit/job/roguetown/wretch/heretic_spellblade
 	maximum_possible_slots = 2 // Team rocket!!!

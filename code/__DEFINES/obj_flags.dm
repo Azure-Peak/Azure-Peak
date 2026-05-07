@@ -52,3 +52,4 @@
 #define ANTI_TINFOIL_MANEUVER   (1<<12) //Hats with negative effects when worn (i.e the tinfoil hat).
 #define CANT_SLEEP_IN			(1<<13) //Makes you unable to sleep with this on
 #define TAUR_COMPATIBLE			(1<<14) // Clothing that can be worn by taurs
+#define NOT_SHOW_IN_STORAGE	(1<<15)	// Whether we'll show up if we're held in aesthetic storage.

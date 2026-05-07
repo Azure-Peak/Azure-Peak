@@ -1,5 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - rscadd: "Greatly lowered the frequency of the rotting process (should not meaningfully affect rotting time), made non-player corpses rot at 5 minutes, skeletonize at 12 and dust in 20. Simple corspe rot in 8, dust in 15 minutes."
-  - rscadd: "For **HUNT** spawned animals, the rot timer is far less aggressive and remains at previous level (20 minutes - 35 minutes rot - dust)"

@@ -268,13 +268,16 @@
 		STATKEY_CON = -2,
 	)
 	skill_mods = list(
+		/datum/skill/combat/knives = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/swords = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/maces = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/whipsflails = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/axes = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/polearms = SKILL_LEVEL_EXPERT,
-		/datum/skill/combat/staves = SKILL_LEVEL_EXPERT
+		/datum/skill/combat/staves = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/unarmed = SKILL_LEVEL_EXPERT,
 	)
+	//It says in warrior.dm that exorcist should get Expert only in knives and their selected weapon, but it actually gives it to EVERY weapon skill..? Not sure if it needs fixing.
 
 /datum/class_age_mod/barber_surgeon
 	target_age = AGE_OLD

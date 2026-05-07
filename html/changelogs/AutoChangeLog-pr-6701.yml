@@ -1,0 +1,6 @@
+author: "babamandaa"
+delete-after: True
+changes:
+  - balance: "damage amplification for strong intent has gone from 10% to 15%"
+  - balance: "sharpness damage bonus on strong intent has gone from 2 to 3"
+  - balance: "integrity damage bonus on strong intent has gone from 2 to 3"

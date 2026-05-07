@@ -1,9 +1,0 @@
-author: "Ketrai"
-delete-after: True
-changes:
-  - rscadd: "The ability to cook troll meat into fat by overcooking it."
-  - balance: "heads from simple animals have been rebalanced for bears, trolls, and boars."
-  - balance: "Head value for bears, trolls reduced, boars increased to reflect danger level."
-  - bugfix: "Cookingtime for food is no longer hardcoded, this may affect cooking times for a few rare instances."
-  - bugfix: "Hunting rot component not respecting custom rot components for animals."
-  - balance: "Bears now drop fat."

@@ -6,7 +6,7 @@
 	total_positions = 0
 	spawn_positions = 0
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = ACCEPTED_RACES // same as town guard
+	forbidden_races = list(RACES_DESPISED) // same as town guard
 	allowed_ages = list(AGE_ADULT, AGE_MIDDLEAGED)
 	tutorial = "You are the club in the dark for the Crown, patrolling the streets of Azure Peak dae and nite on the lookout for knaves and vagabonds looking to cause trouble. \
 				Obey the Sergeant, Marshal and the Crown for their own your lyfe, don't forget to ask the men-at-arms for help should you need it either."//Theoretically nobody will ever see this but yknow
