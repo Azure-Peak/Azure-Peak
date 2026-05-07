@@ -37,6 +37,8 @@
 
 /datum/outfit/job/roguetown/greater_skeleton/seige_skeleton/feralfootsoldier/pre_equip(mob/living/carbon/human/H)
 	..()
+	to_chat(H, span_warning("You are a disposable Antagonist, go drive up some quick roleplay and conflict, expect to die rapidly!")) //Go forth my Fraggers.
+	to_chat(H, span_narsiesmall("Find... Fight... Destroy..."))
 	H.STASTR = 12
 	H.STASPD = 9
 	H.STACON = 8
@@ -61,19 +63,17 @@
 	H.set_blindness(0)
 	switch(weapon_choice)
 		if("Gladius")
-			handr = /obj/item/rogueweapon/sword/short/gladius/agladius
+			r_hand = /obj/item/rogueweapon/sword/short/gladius/agladius
 			H.adjust_skillrank(/datum/skill/combat/swords, 1, TRUE)
 		if("Spear")
-			handr = /obj/item/rogueweapon/spear/aalloy
+			r_hand = /obj/item/rogueweapon/spear/aalloy
 			H.adjust_skillrank(/datum/skill/combat/swords, 1, TRUE)
 		if("Flail")
-			handr = /obj/item/rogueweapon/flail/aflail
+			r_hand = /obj/item/rogueweapon/flail/aflail
 			H.adjust_skillrank(/datum/skill/combat/whipsflails, 1, TRUE)
 
 	if(H.mind)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/suicidebomb/lesser) //Softlock immunity
-	to_chat(H, span_warning("You are a disposable Antagonist, go drive up some quick roleplay and conflict, expect to die rapidly!")) //Go forth my Fraggers.
-	to_chat(H, span_narsiesmall("Find... Fight... Destroy..."))
 	H.energy = H.max_energy
 
 //ARCHER, TAKE AIM, DRAW, FIRE
@@ -95,6 +95,8 @@
 	)
 /datum/outfit/job/roguetown/greater_skeleton/seige_skeleton/feralarcher/pre_equip(mob/living/carbon/human/H)
 	..()
+	to_chat(H, span_warning("You are a disposable Antagonist, go drive up some quick roleplay and conflict, expect to die rapidly!")) //Go forth my Fraggers.
+	to_chat(H, span_narsiesmall("Find... Fight... Destroy..."))
 	H.STASTR = 9
 	H.STASPD = 9
 	H.STACON = 6
@@ -116,8 +118,6 @@
 
 	if(H.mind)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/suicidebomb/lesser) //Softlock immunity
-	to_chat(H, span_warning("You are a disposable Antagonist, go drive up some quick roleplay and conflict, expect to die rapidly!")) //Go forth my Fraggers.
-	to_chat(H, span_narsiesmall("Find... Fight... Destroy..."))
 	H.energy = H.max_energy
 
 //BULWARK, YOU'RE UP AGAINST THE WALL, AND I AM THE WALL
@@ -140,6 +140,8 @@
 
 /datum/outfit/job/roguetown/greater_skeleton/seige_skeleton/feralbulwark/pre_equip(mob/living/carbon/human/H)
 	..()
+	to_chat(H, span_warning("You are a disposable Antagonist, go drive up some quick roleplay and conflict, expect to die rapidly!")) //Go forth my Fraggers.
+	to_chat(H, span_narsiesmall("Find... Fight... Destroy..."))
 	H.STASTR = 13
 	H.STASPD = 8 //slightly lower and weaker once the armor cracks
 	H.STACON = 7 //Dies as soon as their armor gives in.
@@ -171,6 +173,4 @@
 
 	if(H.mind)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/suicidebomb/lesser) //Softlock immunity
-	to_chat(H, span_warning("You are a disposable Antagonist, go drive up some quick roleplay and conflict, expect to die rapidly!")) //Go forth my Fraggers.
-	to_chat(H, span_narsiesmall("Find... Fight... Destroy..."))
 	H.energy = H.max_energy
