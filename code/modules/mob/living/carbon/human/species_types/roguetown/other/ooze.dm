@@ -43,6 +43,7 @@
 		)
 	race_bonus = list(STAT_CONSTITUTION = 1, STAT_INTELLIGENCE = -1, STAT_SPEED = -1)
 	inherent_traits = list(
+						TRAIT_NASTY_EATER,
 						TRAIT_EASYDISMEMBER,
 						TRAIT_REGROW_LIMBS,
 						TRAIT_ZOMBIE_IMMUNE,

@@ -102,18 +102,22 @@ Balloon Alert / Floating Text defines
 	/datum/species/anthromorph,\
 	/datum/species/demihuman,\
 	/datum/species/halforc,\
-	/datum/species/ooze,\
 
 #define RACES_SHUNNED \
 	/datum/species/anthromorphsmall,\
 	/datum/species/kobold,\
 	/datum/species/goblinp,\
+	/datum/species/ooze,\
 
 #define RACES_DESPISED \
 	/datum/species/dullahan,\
 
 #define RACES_CONSTRUCT \
 	/datum/species/construct/metal,\
+
+#define RACES_OOZE \
+	/datum/species/ooze,\
+
 
 #define RACES_AASIMAR \
 	/datum/species/aasimar, \
@@ -265,7 +269,6 @@ Balloon Alert / Floating Text defines
 	/datum/species/demihuman,\
 	/datum/species/kobold,\
 	/datum/species/goblinp,\
-	/datum/species/ooze,\
 )
 
 #define CLOTHED_RACES_TYPES list(\
