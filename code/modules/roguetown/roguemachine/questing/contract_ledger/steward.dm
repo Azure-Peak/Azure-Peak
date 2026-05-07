@@ -60,6 +60,12 @@
 		out[TR.region_name] = TR.tp_budget_multiplier
 	return out
 
+/obj/structure/roguemachine/contractledger/proc/build_region_delivery_multipliers()
+	var/list/out = list()
+	for(var/datum/threat_region/TR as anything in SSregionthreat.threat_regions)
+		out[TR.region_name] = TR.delivery_reward_multiplier
+	return out
+
 /obj/structure/roguemachine/contractledger/proc/build_defense_regions_by_type()
 	var/list/out = list()
 	for(var/qtype in GLOB.defense_quest_tier_costs)

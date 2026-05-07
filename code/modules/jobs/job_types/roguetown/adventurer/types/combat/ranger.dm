@@ -2,7 +2,7 @@
 	name = "Sentinel"
 	tutorial = "You are a ranger well-versed in traversing untamed lands, with years of experience taking odd jobs as a pathfinder and bodyguard in areas of wilderness untraversable to common soldiery."
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = RACES_ALL_KINDS
+	
 	outfit = /datum/outfit/job/roguetown/adventurer/ranger
 	class_select_category = CLASS_CAT_RANGER
 	cmode_music = 'sound/music/cmode/adventurer/combat_outlander3.ogg'

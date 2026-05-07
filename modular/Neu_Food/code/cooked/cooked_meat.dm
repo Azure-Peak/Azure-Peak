@@ -315,14 +315,16 @@
 	slices_num = 0
 	bitesize = 5
 	name = "chewy troll blubber"
-	desc = "Cooking it seems to have only caused the meat to toughen up. It is vile, disgusting, like partially hardened jello with greasy chunks hidden within."
+	desc = "Cooking it seems to have only caused the meat to toughen up. It is vile, disgusting, like partially hardened jello with greasy chunks hidden within. Perhaps it can be cooked further to stubbornly quell its spirit."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_meat.dmi'
 	icon_state = "troll"
 	bonus_reagents = list(/datum/reagent/consumable/nutriment = SNACK_POOR)
 	faretype = FARE_IMPOVERISHED
 	rotprocess = SHELFLIFE_EXTREME
-	fried_type = null
-	cooked_type = null
+	fried_type = /obj/item/reagent_containers/food/snacks/fat
+	cooked_type = /obj/item/reagent_containers/food/snacks/fat
+	// Takes a really long time unless you're a skilled cook.
+	cooktime = 1500
 
 /obj/item/reagent_containers/food/snacks/rogue/meat/steak/wolf/fried/attackby(obj/item/I, mob/living/user, params)
 	var/found_table = locate(/obj/structure/table) in (loc)

@@ -1,3 +1,4 @@
+import { RewardClause } from './RewardClause';
 import { SealLine } from './Seals';
 import { writParagraph } from './shared';
 
@@ -10,6 +11,7 @@ export const RecoveryWrit = (props: {
   reward: number;
   levyRate: number;
   levyExempt: boolean;
+  guildCutRate: number;
   rulerTitle: string;
   issuedBy?: string;
   issuedOn?: string | null;
@@ -24,13 +26,12 @@ export const RecoveryWrit = (props: {
     reward,
     levyRate,
     levyExempt,
+    guildCutRate,
     rulerTitle,
     issuedBy,
     issuedOn,
     bearer,
   } = props;
-  const showLevy = !levyExempt && levyRate > 0;
-  const net = showLevy ? Math.round(reward * (1 - levyRate)) : reward;
   const region = pickupRegion || realm;
   const itemLabel =
     fetchItem && fetchCount && fetchCount > 1
@@ -47,12 +48,12 @@ export const RecoveryWrit = (props: {
       <p style={writParagraph}>
         Whosoever shall recover {itemLabel} from {region} and bring them unto
         the Contract Ledger shall be paid the bounty of{' '}
-        <b>{reward} mammon</b>
-        {showLevy ? (
-          <>
-            , <b>{net} mammon</b> after the Crown&apos;s Levy
-          </>
-        ) : null}
+        <RewardClause
+          reward={reward}
+          levyRate={levyRate}
+          levyExempt={levyExempt}
+          guildCutRate={guildCutRate}
+        />
         .
       </p>
       <p style={writParagraph}>

@@ -2,7 +2,7 @@
 	name = "Unbound Ancient Death Knight"
 	tutorial = "You were once a Death Knight - a warrior risen from death to serve a master. How long you have been dead - you do not remember anymore. And you find yourself severed from any master's command. Why do you fight? Does it matter? All that you know is to move forward. The world sees you as an abomination. Seek your own path."
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = RACES_ALL_KINDS
+	
 	outfit = /datum/outfit/job/roguetown/wretch/ancient_deathknight
 	class_select_category = CLASS_CAT_ACCURSED
 	category_tags = list(CTAG_WRETCH)

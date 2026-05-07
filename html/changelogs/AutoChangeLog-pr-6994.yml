@@ -1,4 +1,0 @@
-author: "borneblood"
-delete-after: True
-changes:
-  - bugfix: "Fixed the greenskin bug (patchwork slop, though!)"

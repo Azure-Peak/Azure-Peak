@@ -2,7 +2,7 @@
 	name = "Mystic"
 	tutorial = "I have spent my youth deepening my faith, only to be lured by the way of the magi, to the great regret of my family"
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = RACES_ALL_KINDS
+	
 	outfit = /datum/outfit/job/roguetown/adventurer/mystic
 	class_select_category = CLASS_CAT_MYSTIC
 	category_tags = list(CTAG_ADVENTURER, CTAG_COURTAGENT)
@@ -56,7 +56,6 @@
 		)
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_1)
-
 	switch(H.patron?.type)
 		if(/datum/patron/old_god)
 			neck = /obj/item/clothing/neck/roguetown/psicross
@@ -86,15 +85,19 @@
 			neck = /obj/item/clothing/neck/roguetown/psicross/eora
 			H.cmode_music = 'sound/music/cmode/church/combat_eora.ogg'
 		if(/datum/patron/inhumen/zizo)
+			neck = /obj/item/clothing/neck/roguetown/psicross
 			H.cmode_music = 'sound/music/combat_heretic.ogg'
 			ADD_TRAIT(H, TRAIT_HERESIARCH, TRAIT_GENERIC)
 		if(/datum/patron/inhumen/matthios)
+			neck = /obj/item/clothing/neck/roguetown/psicross
 			H.cmode_music = 'sound/music/combat_matthios.ogg'
 			ADD_TRAIT(H, TRAIT_HERESIARCH, TRAIT_GENERIC)
 		if(/datum/patron/inhumen/graggar)
+			neck = /obj/item/clothing/neck/roguetown/psicross
 			H.cmode_music = 'sound/music/combat_graggar.ogg'
 			ADD_TRAIT(H, TRAIT_HERESIARCH, TRAIT_GENERIC)
 		if(/datum/patron/inhumen/baotha)
+			neck = /obj/item/clothing/neck/roguetown/psicross
 			H.cmode_music = 'sound/music/combat_baotha.ogg'
 			ADD_TRAIT(H, TRAIT_HERESIARCH, TRAIT_GENERIC)
 		if(/datum/patron/divine/xylix)
@@ -105,7 +108,7 @@
 	name = "Sage"
 	tutorial = "I have spent my youth studying both the Arcyne and Miraculous ways, and developed my mastery of shielding and preserving lyfe under my care."
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = RACES_ALL_KINDS
+	
 	outfit = /datum/outfit/job/roguetown/adventurer/resilient
 	class_select_category = CLASS_CAT_MYSTIC
 	category_tags = list(CTAG_ADVENTURER, CTAG_COURTAGENT)
@@ -175,7 +178,7 @@
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_1)
 	if(H.mind)
-		H.mind.RemoveSpell(/obj/effect/proc_holder/spell/invoked/blood_heal)
+		H.mind.RemoveSpell(/datum/action/cooldown/spell/miracle/bloodmiracle)
 	switch(H.patron?.type)
 		if(/datum/patron/old_god)
 			neck = /obj/item/clothing/neck/roguetown/psicross
@@ -205,15 +208,19 @@
 			neck = /obj/item/clothing/neck/roguetown/psicross/eora
 			H.cmode_music = 'sound/music/cmode/church/combat_eora.ogg'
 		if(/datum/patron/inhumen/zizo)
+			neck = /obj/item/clothing/neck/roguetown/psicross
 			H.cmode_music = 'sound/music/combat_heretic.ogg'
 			ADD_TRAIT(H, TRAIT_HERESIARCH, TRAIT_GENERIC)
 		if(/datum/patron/inhumen/matthios)
+			neck = /obj/item/clothing/neck/roguetown/psicross
 			H.cmode_music = 'sound/music/combat_matthios.ogg'
 			ADD_TRAIT(H, TRAIT_HERESIARCH, TRAIT_GENERIC)
 		if(/datum/patron/inhumen/graggar)
+			neck = /obj/item/clothing/neck/roguetown/psicross
 			H.cmode_music = 'sound/music/combat_graggar.ogg'
 			ADD_TRAIT(H, TRAIT_HERESIARCH, TRAIT_GENERIC)
 		if(/datum/patron/inhumen/baotha)
+			neck = /obj/item/clothing/neck/roguetown/psicross
 			H.cmode_music = 'sound/music/combat_baotha.ogg'
 			ADD_TRAIT(H, TRAIT_HERESIARCH, TRAIT_GENERIC)
 		if(/datum/patron/divine/xylix)
@@ -224,7 +231,7 @@
 	name = "Luminary"
 	tutorial = "I have spent my youth deepening my faith and one day an azurcaephan was under my care at the church, ever since their recovery i became the pupil of the noccite priests and templars"
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = RACES_ALL_KINDS
+	
 	outfit = /datum/outfit/job/roguetown/adventurer/holyblade
 	class_select_category = CLASS_CAT_MYSTIC
 	category_tags = list(CTAG_ADVENTURER, CTAG_COURTAGENT)
@@ -317,7 +324,7 @@
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_WITCH, devotion_limit = CLERIC_REQ_1)
 	if(H.mind)
-		H.mind.RemoveSpell(/obj/effect/proc_holder/spell/invoked/blood_heal)
+		H.mind.RemoveSpell(/datum/action/cooldown/spell/miracle/bloodmiracle)
 	switch(H.patron?.type)
 		if(/datum/patron/old_god)
 			id = /obj/item/clothing/neck/roguetown/psicross
@@ -347,15 +354,19 @@
 			id = /obj/item/clothing/neck/roguetown/psicross/eora
 			H.cmode_music = 'sound/music/cmode/church/combat_eora.ogg'
 		if(/datum/patron/inhumen/zizo)
+			id = /obj/item/clothing/neck/roguetown/psicross
 			H.cmode_music = 'sound/music/combat_heretic.ogg'
 			ADD_TRAIT(H, TRAIT_HERESIARCH, TRAIT_GENERIC)
 		if(/datum/patron/inhumen/matthios)
+			id = /obj/item/clothing/neck/roguetown/psicross
 			H.cmode_music = 'sound/music/combat_matthios.ogg'
 			ADD_TRAIT(H, TRAIT_HERESIARCH, TRAIT_GENERIC)
 		if(/datum/patron/inhumen/graggar)
+			id = /obj/item/clothing/neck/roguetown/psicross
 			H.cmode_music = 'sound/music/combat_graggar.ogg'
 			ADD_TRAIT(H, TRAIT_HERESIARCH, TRAIT_GENERIC)
 		if(/datum/patron/inhumen/baotha)
+			id = /obj/item/clothing/neck/roguetown/psicross
 			H.cmode_music = 'sound/music/combat_baotha.ogg'
 			ADD_TRAIT(H, TRAIT_HERESIARCH, TRAIT_GENERIC)
 		if(/datum/patron/divine/xylix)

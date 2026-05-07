@@ -181,10 +181,12 @@ SUBSYSTEM_DEF(questpool)
 	return pickweight(weights)
 
 /datum/controller/subsystem/questpool/proc/reroll_stale()
-	var/cutoff = world.time - QUEST_POOL_STALE_THRESHOLD
+	var/pool_cutoff = world.time - QUEST_POOL_STALE_THRESHOLD
+	var/player_cutoff = world.time - QUEST_PLAYER_STALE_THRESHOLD
 	var/list/stale = list()
 	var/kill_replacements_needed = 0
 	for(var/datum/quest/Q as anything in pool)
+		var/cutoff = (Q.source == QUEST_SOURCE_POOL) ? pool_cutoff : player_cutoff
 		if(Q.created_at >= cutoff)
 			continue
 		stale += Q

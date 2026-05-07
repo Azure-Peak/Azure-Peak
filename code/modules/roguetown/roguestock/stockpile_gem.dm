@@ -5,7 +5,7 @@
 	trade_good_id = TRADE_GOOD_TOPER
 	importexport_amt = 1
 	stockpile_limit = 4
-	accept_toggle_enabled = TRUE
+	accept_toggle_enabled = FALSE
 	category = "Precious"
 
 /datum/roguestock/stockpile/gem_gemerald
@@ -15,7 +15,7 @@
 	trade_good_id = TRADE_GOOD_GEMERALD
 	importexport_amt = 1
 	stockpile_limit = 4
-	accept_toggle_enabled = TRUE
+	accept_toggle_enabled = FALSE
 	category = "Precious"
 
 /datum/roguestock/stockpile/gem_saffira
@@ -25,7 +25,7 @@
 	trade_good_id = TRADE_GOOD_SAFFIRA
 	importexport_amt = 1
 	stockpile_limit = 3
-	accept_toggle_enabled = TRUE
+	accept_toggle_enabled = FALSE
 	category = "Precious"
 
 /datum/roguestock/stockpile/gem_blortz
@@ -35,7 +35,7 @@
 	trade_good_id = TRADE_GOOD_BLORTZ
 	importexport_amt = 1
 	stockpile_limit = 3
-	accept_toggle_enabled = TRUE
+	accept_toggle_enabled = FALSE
 	category = "Precious"
 
 /datum/roguestock/stockpile/gem_dorpel
@@ -45,6 +45,6 @@
 	trade_good_id = TRADE_GOOD_DORPEL
 	importexport_amt = 1
 	stockpile_limit = 2
-	accept_toggle_enabled = TRUE
+	accept_toggle_enabled = FALSE
 	category = "Precious"
 

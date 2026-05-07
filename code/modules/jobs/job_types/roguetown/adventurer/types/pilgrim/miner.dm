@@ -3,7 +3,7 @@
 	tutorial = "Swing the pick. Heave. Swing. Heave. Deep underground where the days lose their meaning, the work is grueling, the tunnels cramped, and the stale air full of coal dust, yet tales abound of the lucky few who persevered, and found enough precious gems to set them for life."
 
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = RACES_ALL_KINDS
+	
 	outfit = /datum/outfit/job/roguetown/adventurer/miner
 
 	category_tags = list(CTAG_PILGRIM, CTAG_TOWNER)

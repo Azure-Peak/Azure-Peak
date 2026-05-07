@@ -75,6 +75,8 @@
 
 	if(HAS_TRAIT(victim, TRAIT_CLERGY) || HAS_TRAIT(victim, TRAIT_INQUISITION))
 		blood_handle |= BLOOD_PREFERENCE_HOLY
+	if(HAS_TRAIT(victim, TRAIT_CLERGY) || HAS_TRAIT(victim, TRAIT_INQUISITION) || HAS_TRAIT(victim, TRAIT_NOBLE))
+		blood_handle |= BLOOD_PREFERENCE_FANCY //More variety
 	if(VVictim)
 		blood_handle |= BLOOD_PREFERENCE_KIN
 		blood_handle  &= ~BLOOD_PREFERENCE_LIVING

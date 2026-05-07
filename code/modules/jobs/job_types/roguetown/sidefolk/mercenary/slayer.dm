@@ -1,10 +1,7 @@
 /datum/advclass/mercenary/trollslayer
 	name = "Trollslayer" // barbarian-like subclass with soft-nudist (no armor) and no Fast Reflexes, supposed to soak up damage with their con and skinarmor and chop shit up with class-exclusive axes
 	tutorial = "Atop the windy peaks of the dwarven Mountainhomes, you swore an Oath, vowing to cleanse the land of monsters or die trying. You give yourself wholly to the Battlefather’s judgment, bearing your devotion as armor and your rage as a weapon. No creacher upon this world is safe from your divine wrath."
-	allowed_races = list(
-		/datum/species/dwarf,
-		/datum/species/dwarf/mountain
-		)
+	forbidden_races = list(RACES_GRUDGE)
 	outfit = /datum/outfit/job/roguetown/mercenary/trollslayer
 	category_tags = list(CTAG_MERCENARY)
 	class_select_category = CLASS_CAT_RACIAL

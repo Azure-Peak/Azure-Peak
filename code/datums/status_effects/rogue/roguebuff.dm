@@ -957,9 +957,9 @@
 		owner.add_filter(BLESSINGOFSUN_FILTER, 2, list("type" = "outline", "color" = outline_colour, "alpha" = 60, "size" = 1))
 
 	if(!mob_light_obj || QDELETED(mob_light_obj))
-		mob_light_obj = owner.mob_light("#fdfbd3", 10, 10)
+		mob_light_obj = owner.mob_light("#fdfbd3", 7, 7)
 	else
-		mob_light_obj.set_light(10, null, 10, l_color = "#fdfbd3")
+		mob_light_obj.set_light(7, null, 7, l_color = "#fdfbd3")
 
 	return TRUE
 
@@ -1205,28 +1205,6 @@
 	. = ..()
 	to_chat(owner, span_warning("My mind is clear again, no longer clouded with foggy peace!"))
 	REMOVE_TRAIT(owner, TRAIT_PACIFISM, id)
-
-/datum/status_effect/buff/call_to_arms
-	id = "call_to_arms"
-	alert_type = /atom/movable/screen/alert/status_effect/buff/call_to_arms
-	duration = 2.5 MINUTES
-	effectedstats = list(STATKEY_STR = 1, STATKEY_WIL = 2, STATKEY_CON = 1)
-
-/atom/movable/screen/alert/status_effect/buff/call_to_arms
-	name = "Call to Arms"
-	desc = span_bloody("FOR GLORY AND HONOR!")
-	icon_state = "call_to_arms"
-
-/datum/status_effect/buff/call_to_slaughter
-	id = "call_to_slaughter"
-	alert_type = /atom/movable/screen/alert/status_effect/buff/call_to_slaughter
-	duration = 2.5 MINUTES
-	effectedstats = list(STATKEY_STR = 1, STATKEY_WIL = 2, STATKEY_CON = 1)
-
-/atom/movable/screen/alert/status_effect/buff/call_to_slaughter
-	name = "Call to Slaughter"
-	desc = span_bloody("LAMBS TO THE SLAUGHTER!")
-	icon_state = "call_to_slaughter"
 
 /atom/movable/screen/alert/status_effect/buff/xylix_joy
 	name = "Trickster's Joy"
@@ -1704,7 +1682,7 @@
 /atom/movable/screen/alert/status_effect/buff/sermon
 	name = "sermon"
 	desc = "I feel inspired by the sermon!"
-	icon_state = "buff"
+	icon_state = "divinesermon"
 
 /datum/status_effect/buff/griefflower
 	id = "griefflower"
@@ -2221,44 +2199,44 @@
 	desc = "Malum's own wrench powers me. I can withstand more damage, now."
 	icon_state = "buff"
 
-#define ORDERBRINGER_FILTER "orderbringer"
+#define PLAGUEBRINGER_FILTER "plaguebringer"
 
-/datum/status_effect/orderbringer
-	id = "orderbringer"
-	var/outline_colour = "#6BB7A0"
+/datum/status_effect/plaguebringer
+	id = "plaguebringer"
+	var/outline_colour = "#2C4628"
 	duration = -1
 	tick_interval = -1
-	examine_text = span_good("SUBJECTPRONOUN is bathed in Divine Light!")
+	examine_text = span_good("SUBJECTPRONOUN is emanating Rot!")
 	alert_type = null
 
-/datum/status_effect/orderbringer/on_apply()
+/datum/status_effect/plaguebringer/on_apply()
 	. = ..()
 
-	owner.visible_message(span_userdanger("A tide of divine light surges from [owner], it fills you with determination and hope!"))
+	owner.visible_message(span_userdanger("A putrid stench of rot from [owner] overwhelms your senses!"))
 
-	var/filter = owner.get_filter(ORDERBRINGER_FILTER)
+	var/filter = owner.get_filter(PLAGUEBRINGER_FILTER)
 	if(!filter)
-		owner.add_filter(ORDERBRINGER_FILTER, 2, list("type" = "outline", "color" = outline_colour, "alpha" = 60, "size" = 2))
+		owner.add_filter(PLAGUEBRINGER_FILTER, 2, list("type" = "outline", "color" = outline_colour, "alpha" = 60, "size" = 2))
 
 	var/mutable_appearance/effect = mutable_appearance('icons/effects/effects.dmi', "curse", -JOYBRINGER_LAYER, alpha = 128)
 	effect.appearance_flags = RESET_COLOR
 	effect.blend_mode = BLEND_ADD
-	effect.color = "#6BB7A0"
+	effect.color = "#2C4628"
 
-	owner.overlays_standing[ORDERBRINGER_FILTER] = effect
-	owner.apply_overlay(ORDERBRINGER_FILTER)
+	owner.overlays_standing[PLAGUEBRINGER_FILTER] = effect
+	owner.apply_overlay(PLAGUEBRINGER_FILTER)
 
 	RegisterSignal(owner, COMSIG_LIVING_LIFE, PROC_REF(on_life))
 
-/datum/status_effect/orderbringer/on_remove()
+/datum/status_effect/plaguebringer/on_remove()
 	. = ..()
 
-	owner.remove_filter(ORDERBRINGER_FILTER)
-	owner.remove_overlay(ORDERBRINGER_FILTER)
+	owner.remove_filter(PLAGUEBRINGER_FILTER)
+	owner.remove_overlay(PLAGUEBRINGER_FILTER)
 
 	UnregisterSignal(owner, COMSIG_LIVING_LIFE)
 
-/datum/status_effect/orderbringer/proc/on_life()
+/datum/status_effect/plaguebringer/proc/on_life()
 	SIGNAL_HANDLER
 
 	for(var/mob/living/mob in get_hearers_in_view(2, owner))
@@ -2267,7 +2245,9 @@
 
 		mob.apply_status_effect(/datum/status_effect/buff/fortify)
 
-#undef ORDERBRINGER_FILTER
+#undef PLAGUEBRINGER_FILTER
+
+
 #define NECRACON_FILTER "necra_consecration"
 #define NECRACON_TIER_NORMAL 2
 #define NECRACON_TIER_EXPERT 3

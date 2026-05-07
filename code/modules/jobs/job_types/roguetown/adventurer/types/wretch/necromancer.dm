@@ -2,7 +2,7 @@
 	name = "Necromancer"
 	tutorial = "You have been ostracized and hunted by society for your dark magics and perversion of life."
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = RACES_ALL_KINDS
+	
 	outfit = /datum/outfit/job/roguetown/wretch/necromancer
 	cmode_music = 'sound/music/combat_heretic.ogg'
 	class_select_category = CLASS_CAT_MAGE

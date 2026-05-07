@@ -109,7 +109,7 @@
 /obj/item/clothing/under/roguetown/platelegs/zizo/heavy
 	name = "avantyne garments"
 	desc = "An unstemmable cognitovirus, laminated into thrice-parted leggings worn by only the truest - those, anointed by the Dame of Progress. In Her name."
-	icon_state = "zizocloth"
+	icon_state = "zizoplatelegs"
 	max_integrity = ARMOR_INT_LEG_ANTAG
 
 /obj/item/clothing/under/roguetown/platelegs/zizo/Initialize(mapload)

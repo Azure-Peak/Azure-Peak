@@ -1,5 +1,5 @@
-//Does the line end in any EOL char that isn't appropriate punctuation OR does it end in a chat-formatted markdown sequence (+bold+, etc) without a period?
-GLOBAL_DATUM_INIT(needs_eol_autopunctuation, /regex, regex(@"([a-zA-Z\d]|[^.?!~-][+|_])$"))
+GLOBAL_LIST_INIT(autopunctuation_formatting_chars, list("+" = TRUE, "|" = TRUE, "_" = TRUE))
+GLOBAL_LIST_INIT(autopunctuation_ending_chars, list("." = TRUE, "!" = TRUE, "?" = TRUE, "-" = TRUE, "~" = TRUE, "," = TRUE, ":" = TRUE, ";" = TRUE, "\"" = TRUE, "'" = TRUE))
 
 //All non-capitalized 'i' surrounded with whitespace (aka, 'hello >i< am a cat')
 GLOBAL_DATUM_INIT(noncapital_i, /regex, regex(@"\b[i]\b", "g"))
@@ -8,7 +8,17 @@ GLOBAL_DATUM_INIT(noncapital_i, /regex, regex(@"\b[i]\b", "g"))
 /// If the sentence ends in chat-flavored markdown for bolds, italics or underscores and does not have a preceding period, exclamation mark or other flavored sentence terminator, add a period.
 /// (e.g: 'Borgs are rogue' becomes 'Borgs are rogue.', '+BORGS ARE ROGUE+ becomes '+BORGS ARE ROGUE+.', '+Borgs are rogue~+' is untouched.)
 /proc/autopunct_bare(input_text)
-	if (findtext(input_text, GLOB.needs_eol_autopunctuation))
+	var/final_text_char
+	for(var/index = length(input_text), index > 0, index--)
+		var/current_char = copytext(input_text, index, index + 1)
+		if(current_char == " ")
+			continue
+		if(GLOB.autopunctuation_formatting_chars[current_char])
+			continue
+		final_text_char = current_char
+		break
+
+	if(final_text_char && !GLOB.autopunctuation_ending_chars[final_text_char])
 		input_text += "."
 
 	input_text = replacetext(input_text, GLOB.noncapital_i, "I")
