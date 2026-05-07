@@ -3,6 +3,8 @@
 
 	//Unlike most roles of skeletons, these ones just dust. Rids you instantly out of the round so you can respawn.
 	//These are exclusive to skeleton sieges, they're a threat in numbers but advs can usually kill them with some effort solo by design.
+	//Your entire existance is to pick fights in town or around it and die. Then spawn in and do it over and over until the seige ends.
+
 	tutorial = "You are bygone, your mynd barely above the average feral. Find the lyving and kill. This is a disposable antagonist role, do not expect to last long." //Disposable throwaway antag
 
 	outfit = /datum/outfit/job/roguetown/greater_skeleton/seige_skeleton

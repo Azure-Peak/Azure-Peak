@@ -9,7 +9,7 @@
 	todreq = list("dusk", "night", "dawn", "day")
 	earliest_start = 2 HOURS
 	announce_text = "The dead walk! Skeletons rise to plague the living!"
-	announce_title = "Deadite Invasion" //More Accurate.
+	announce_title = "Skeleton Invasion"
 	var/last_siege = 0
 
 
@@ -20,7 +20,8 @@
 	return
 
 /datum/round_event/skellysiege/start()
-	SSmapping.add_world_trait(/datum/world_trait/skeleton_siege, rand(8 MINUTES, 12 MINUTES)) //A little longer, since skeles take time to get to the town. + Decrepid gear leading to them dying easier.
+	SSmapping.add_world_trait(/datum/world_trait/skeleton_siege, rand(12 MINUTES, 20 MINUTES)) //Larger Varience + More time, these guys literally will fold over to just about anything. So they need to keep spawning in to cause problems.
+	//Lasts roughly up to an ingame day or slightly longer on rare occasions, these guys are genuinely abysmal, dust on death and have terrible stats and... moderately okay skills I guess.
 	for(var/mob/dead/observer/O in GLOB.player_list)
 		addtimer(CALLBACK(O, TYPE_PROC_REF(/mob/dead/observer, horde_respawn)), 1)
 	return
