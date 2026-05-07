@@ -434,6 +434,7 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 
 /obj/structure/gob_portal
 	name = "gob portal"
+	name = "goblin portal"
 	desc = "A bright portal torn through the fabric of the world. This can't be good."
 	icon = 'icons/roguetown/misc/structure.dmi'
 	icon_state = "shitportal"
@@ -443,6 +444,7 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 	layer = BELOW_OBJ_LAYER
 	var/gobs = 0
 	var/maxgobs = 3
+	var/maxgobs = 5
 	var/datum/looping_sound/boneloop/soundloop
 	var/spawning = FALSE
 	var/moon_goblins = 0
@@ -465,6 +467,10 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 	gobs++
 	var/mob/living/carbon/human/species/goblin/npc/N = new (get_turf(src))
 	N.key = user.key
+	N.base_intents = list(INTENT_HELP, INTENT_DISARM, INTENT_GRAB, /datum/intent/simple/claw) //As intended from seige goblins, so it is here.
+	N.update_a_intents()
+	N.set_patron(/datum/patron/inhumen/graggar)
+	N.cmode_music = 'sound/music/combat_graggar.ogg' //GRAGGAR. GRAGGAR. GRAGGAR.
 	qdel(user)
 
 
