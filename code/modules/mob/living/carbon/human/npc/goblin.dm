@@ -473,7 +473,7 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 	N.base_intents = list(INTENT_HELP, INTENT_DISARM, INTENT_GRAB, /datum/intent/simple/claw) //As intended from seige goblins, so it is here.
 	N.update_a_intents()
 	N.set_patron(/datum/patron/inhumen/graggar)
-	N.cmode_music = 'sound/music/combat_gronn.ogg' //GRAGGAR. GRAGGAR. GRAGGAR. (Different to Gnolls/Heretics, you're just a barbaric goblin shocktrooper)
+	N.cmode_music = 'sound/music/combat_shaman2.ogg' //GRAGGAR. GRAGGAR. GRAGGAR. (Different to Gnolls/Heretics, you're just a barbaric goblin shocktrooper)
 	N.choose_name_popup("Goblin") //This is so dumb but funny
 	if(N.mind)
 		N.mind.add_antag_datum(new /datum/antagonist/goblin()) //Ensures we are in fact, a goblin (so friend/foe examines + admin antag tracking)
