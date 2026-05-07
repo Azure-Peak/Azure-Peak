@@ -465,7 +465,7 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 	if(!in_range(src, user))
 		return
 	if(playergobs >= (maxplayergobs+1))
-		to_chat(user, "<span class='danger'>Too many Goblins.</span>")
+		to_chat(user, "<span class='danger'>Too many player Goblins.</span>")
 		return
 	playergobs++
 	var/mob/living/carbon/human/species/goblin/npc/N = new (get_turf(src))
@@ -473,11 +473,11 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 	N.base_intents = list(INTENT_HELP, INTENT_DISARM, INTENT_GRAB, /datum/intent/simple/claw) //As intended from seige goblins, so it is here.
 	N.update_a_intents()
 	N.set_patron(/datum/patron/inhumen/graggar)
-	N.cmode_music = 'sound/music/combat_graggar.ogg' //GRAGGAR. GRAGGAR. GRAGGAR.
+	N.cmode_music = 'sound/music/combat_gronn.ogg' //GRAGGAR. GRAGGAR. GRAGGAR. (Different to Gnolls/Heretics, you're just a barbaric goblin shocktrooper)
 	N.choose_name_popup("Goblin") //This is so dumb but funny
 	if(N.mind)
 		N.mind.add_antag_datum(new /datum/antagonist/goblin()) //Ensures we are in fact, a goblin (so friend/foe examines + admin antag tracking)
-	to_chat(N, span_danger("You are a disposable antagonist, expect to die rather quickly. Now go cause problems and stirr some conflict! Remember to roleplay where possible still."))
+	to_chat(N, span_danger("You are a disposable antagonist, expect to die rather quickly. Now go cause problems and stirr some conflict! Remember to roleplay where possible."))
 	qdel(user)
 
 
