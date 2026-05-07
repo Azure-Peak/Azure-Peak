@@ -31,10 +31,6 @@
 	ADD_TRAIT(H, TRAIT_DUSTABLE, TRAIT_GENERIC) // No corpse, lets you get back to lobby rapidly.
 	H.cmode_music = 'sound/music/combat_weird.ogg' //Same as regular deadites
 
-	// Skeleton antag datum + patron (matching greater_skeleton setup properly cause it just broke I guess???)
-	if(H.mind)
-		H.mind.add_antag_datum(new /datum/antagonist/skeleton()) //Ensures we are in fact, a skeleton.
-
 //SIEGE SKELETONS, THESE ARE INTENTIONALLY VERY THROWAWAY ROLES. DUST ON DEATH + CRIT WEAKNESS + LOW STATS + TERRIBLE DECREPIT GEAR
 //Loyal to nobody, your existance is to fight and die, very very very quickly.
 
