@@ -39,7 +39,7 @@
 /datum/advclass/greater_skeleton/siege_skeleton/feralfootsoldier
 	name = "Decrepit Feral Footsoldier"
 	tutorial = "You have arisen from unknown means, your tarnished guardsman plate clinging to your form. A single directive fills your once purposeless mind, Slay the ignorant and remake them in her name."
-	outfit = /datum/outfit/job/roguetown/greater_skeleton/seige_skeleton/feralfootsoldier
+	outfit = /datum/outfit/job/roguetown/greater_skeleton/siege_skeleton/feralfootsoldier
 
 	category_tags = list(CTAG_SSKELETON)
 
@@ -124,7 +124,7 @@
 /datum/advclass/greater_skeleton/siege_skeleton/feralarcher
 	name = "Decrepit Feral Archer"
 	tutorial = "You have arisen from unknown means, your bow still remains in hand and your rotted arrows in a quiver. A single directive fills your once purposeless mind, Slay the ignorant and remake them in her name."
-	outfit = /datum/outfit/job/roguetown/greater_skeleton/seige_skeleton/feralarcher
+	outfit = /datum/outfit/job/roguetown/greater_skeleton/siege_skeleton/feralarcher
 
 	category_tags = list(CTAG_SSKELETON)
 
@@ -181,7 +181,7 @@
 /datum/advclass/greater_skeleton/siege_skeleton/feralbulwark
 	name = "Decrepit Feral Bulwark"
 	tutorial = "You have arisen from unknown means, your tarnished rotting plate still clinging to your body. A single directive fills your once purposeless mind, Slay the ignorant and remake them in her name."
-	outfit = /datum/outfit/job/roguetown/greater_skeleton/seige_skeleton/feralbulwark
+	outfit = /datum/outfit/job/roguetown/greater_skeleton/siege_skeleton/feralbulwark
 
 	category_tags = list(CTAG_SSKELETON)
 
