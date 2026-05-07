@@ -16,9 +16,9 @@
 
 	tutorial = "You are bygone, your mynd barely above the average feral. Find the lyving and kill. This is a disposable antagonist role, do not expect to last long." //Disposable throwaway antag
 
-	outfit = /datum/outfit/job/roguetown/greater_skeleton/seige_skeleton
+	outfit = /datum/outfit/job/roguetown/greater_skeleton/siege_skeleton
 
-/datum/outfit/job/roguetown/greater_skeleton/seige_skeleton //Basically just NPC skeleton but slightly tuned up for players, with decrepit gear that can't be fixed. YOU WILL DIE.
+/datum/outfit/job/roguetown/greater_skeleton/siege_skeleton //Basically just NPC skeleton but slightly tuned up for players, with decrepit gear that can't be fixed. YOU WILL DIE.
 	belt = /obj/item/storage/belt/rogue/leather //Enough to hold some things, go kill for a satchel, literally.
 	beltr = /obj/item/rogueweapon/huntingknife/idagger/adagger //Softlock protection, can be used as a pick in a pinch.
 
