@@ -441,6 +441,7 @@
 		span_info("You can now breathe flame, conjuring a line of hellfire in front of you."),
 		span_info("As your flame grows, you can manifest it more violently, surging around you to burn anything unfortunate enough to be nearby.")
 	)
+	inherent_spell = list(/obj/effect/proc_holder/spell/invoked/incendiary_bite)
 	t1_spell = /obj/effect/proc_holder/spell/invoked/matthios_firebreath/infernal
 	t2_spell = /obj/effect/proc_holder/spell/self/infernal_surge
 	var/healing_range = 1

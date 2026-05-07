@@ -223,6 +223,29 @@
 		playsound(living_target, 'sound/combat/hits/bladed/genstab (1).ogg', 100, FALSE, -1)
 		return TRUE
 
+/obj/effect/proc_holder/spell/invoked/incendiary_bite
+	name = "Incendiary Bite"
+	desc = "Bite a target, engulfing them in infernal flame."
+	range = 1
+	recharge_time = 10 SECONDS
+	overlay_icon = 'icons/mob/actions/mage_pyromancy.dmi'
+	overlay_icon_state = "spitfire"
+
+/obj/effect/proc_holder/spell/invoked/incendiary_bite/cast(list/targets, mob/living/simple_animal/pet/familiar/infernal/user)
+	. = ..()
+	if(!user) // literally how
+		revert_cast()
+		return FALSE
+	if(!targets.len)
+		to_chat(user, span_notice("I need to select a valid target to bite!"))
+		revert_cast()
+		return FALSE
+	var/atom/target = targets[1]
+	if(!istype(target))
+		revert_cast()
+		return FALSE
+	target.fire_act(1,10) // shouldn't be oppressive by any means it's 1 stack every 10 seconds
+
 /obj/effect/proc_holder/spell/invoked/matthios_firebreath/infernal
 	name = "Hellfyre Wave"
 	desc = "Manifest your flames in a wave in front of you, burning down all in your path."
