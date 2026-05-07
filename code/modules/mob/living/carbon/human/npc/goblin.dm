@@ -443,7 +443,6 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 	density = FALSE
 	layer = BELOW_OBJ_LAYER
 	var/gobs = 0
-	var/maxgobs = 3
 	var/maxgobs = 5
 	var/datum/looping_sound/boneloop/soundloop
 	var/spawning = FALSE
