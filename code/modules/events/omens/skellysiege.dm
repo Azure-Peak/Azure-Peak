@@ -9,7 +9,7 @@
 	todreq = list("dusk", "night", "dawn", "day")
 	earliest_start = 2 HOURS
 	announce_text = "The dead walk! Skeletons rise to plague the living!"
-	announce_title = "Skeleton Omen"
+	announce_title = "Deadite Invasion" //More Accurate.
 	var/last_siege = 0
 
 
@@ -20,7 +20,7 @@
 	return
 
 /datum/round_event/skellysiege/start()
-	SSmapping.add_world_trait(/datum/world_trait/skeleton_siege, rand(4 MINUTES, 8 MINUTES))
+	SSmapping.add_world_trait(/datum/world_trait/skeleton_siege, rand(8 MINUTES, 12 MINUTES)) //A little longer, since skeles take time to get to the town. + Decrepid gear leading to them dying easier.
 	for(var/mob/dead/observer/O in GLOB.player_list)
 		addtimer(CALLBACK(O, TYPE_PROC_REF(/mob/dead/observer, horde_respawn)), 1)
 	return
