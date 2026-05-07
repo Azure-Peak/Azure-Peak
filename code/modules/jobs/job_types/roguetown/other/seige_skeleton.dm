@@ -1,6 +1,14 @@
 /datum/job/roguetown/greater_skeleton/seige_skeleton
 	advclass_cat_rolls = list(CTAG_SSKELETON = 20) //Unique NPC-esc Disposable roles. 3 classes, intended to show up, lite antagonise and die instantly.
 	title = "Seige Skeleton"
+	flag = SKELETON
+	department_flag = ANTAGONIST
+	faction = "Station"
+	total_positions = 0
+	spawn_positions = 0
+	min_pq = null //no pq
+	max_pq = null
+	announce_latejoin = FALSE
 
 	//Unlike most roles of skeletons, these ones just dust. Rids you instantly out of the round so you can respawn.
 	//These are exclusive to skeleton sieges, they're a threat in numbers but advs can usually kill them with some effort solo by design.
