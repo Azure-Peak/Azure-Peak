@@ -438,7 +438,7 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 	desc = "A bright portal torn through the fabric of the world. This can't be good."
 	icon = 'icons/roguetown/misc/structure.dmi'
 	icon_state = "shitportal"
-	max_integrity = 200
+	max_integrity = 250
 	anchored = TRUE
 	density = FALSE
 	layer = BELOW_OBJ_LAYER
