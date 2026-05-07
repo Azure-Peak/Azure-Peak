@@ -66,3 +66,4 @@
 
 		if(H.mind)
 			H.mind.add_antag_datum(new /datum/antagonist/goblin()) //Ensures we are in fact, a goblin (so friend/foe examines + admin antag tracking)
+		H.choose_name_popup("Goblin") //This is so dumb but funny

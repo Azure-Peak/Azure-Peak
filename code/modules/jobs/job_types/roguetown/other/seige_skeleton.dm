@@ -22,15 +22,14 @@
 	belt = /obj/item/storage/belt/rogue/leather //Enough to hold some things, go kill for a satchel, literally.
 	beltr = /obj/item/rogueweapon/huntingknife/idagger/adagger //Softlock protection, can be used as a pick in a pinch.
 
+////WARNING, SHITCODE GALORE BELOW, THIS THING IS HELD TOGETHER WITH TAPE AND PRAYERS, IT ALWAYS WAS BUT NOW MORESO////
+
 /datum/outfit/job/roguetown/greater_skeleton/seige_skeleton/pre_equip(mob/living/carbon/human/H)
 	..()
 	REMOVE_TRAIT(H, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_CRITICAL_WEAKNESS, TRAIT_GENERIC) // You are disposable, your entire role is to fight and die.
 	ADD_TRAIT(H, TRAIT_DUSTABLE, TRAIT_GENERIC) // No corpse, lets you get back to lobby rapidly.
 	H.cmode_music = 'sound/music/combat_weird.ogg' //Same as regular deadites
-	H.become_skeleton() //Ensures no matter what, we become a skeleton correctly.
-	H.choose_name_popup("Decrepit Feral")
-	to_chat(H, span_danger("You are a disposable antagonist, expect to die rather quickly. Now go cause problems and stirr some conflict! Remember to roleplay where possible still."))
 
 	// Skeleton antag datum + patron (matching greater_skeleton setup properly cause it just broke I guess???)
 	if(H.mind)
@@ -53,10 +52,14 @@
 
 	H.STASTR = 12
 	H.STASPD = 9
-	H.STACON = 8
+	H.STACON = 8 //Can put up a decent fight, suffers from not having much special about them.
 	H.STAWIL = 10
 	H.STAPER = 10
 	H.STAINT = 1
+
+	H.become_skeleton() //Ensures no matter what, we become a skeleton correctly.
+	H.choose_name_popup("Decrepit Feral")
+	to_chat(H, span_danger("You are a disposable antagonist, expect to die rather quickly. Now go cause problems and stirr some conflict! Remember to roleplay where possible still."))
 
 	ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
 
@@ -134,10 +137,14 @@
 
 	H.STASTR = 9
 	H.STASPD = 9
-	H.STACON = 6
+	H.STACON = 6 //Dies as soon as their weak armor gives in.
 	H.STAWIL = 10
 	H.STAPER = 12 //Players are smarter than NPCs, so they don't get much if, any range at all.
 	H.STAINT = 1
+
+	H.become_skeleton() //Ensures no matter what, we become a skeleton correctly.
+	H.choose_name_popup("Decrepit Feral")
+	to_chat(H, span_danger("You are a disposable antagonist, expect to die rather quickly. Now go cause problems and stirr some conflict! Remember to roleplay where possible still."))
 	
 	ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
 
@@ -158,7 +165,7 @@
 	gloves = /obj/item/clothing/gloves/roguetown/chain/aalloy
 	l_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve //No picks, you're a minor antagonist and this is already more than enough
 	backl = /obj/item/quiver/broadhead_aalloy
-	beltl = /obj/item/rogueweapon/mace/alloy
+	//Knife is default softlock protection sidearm, difference is you don't suck at it here as much.
 
 	var/tabards = list("Black Jupon", "Black Tabard", "Black Cloak")
 	var/tabard_choice = input(H, "Choose your CLOAK.", "BARE YOUR HERALDRY.") as anything in tabards
@@ -186,11 +193,15 @@
 	..()
 
 	H.STASTR = 13
-	H.STASPD = 8 //slightly lower and weaker once the armor cracks
-	H.STACON = 7 //Dies as soon as their armor gives in.
+	H.STASPD = 6 //slightly slower than their NPC varient and weaker once the armor cracks
+	H.STACON = 6 //Dies as soon as their armor gives in.
 	H.STAWIL = 12
 	H.STAPER = 9
 	H.STAINT = 1
+
+	H.become_skeleton() //Ensures no matter what, we become a skeleton correctly.
+	H.choose_name_popup("Decrepit Feral")
+	to_chat(H, span_danger("You are a disposable antagonist, expect to die rather quickly. Now go cause problems and stirr some conflict! Remember to roleplay where possible still."))
 
 	ADD_TRAIT(H, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
 

@@ -1,5 +1,5 @@
 
-/datum/antagonist/goblin //So admins can track goblins + friend to foe consistancy like goblins/skeletons, not you can actually hide your appearance but whatever
+/datum/antagonist/goblin //So admins can track goblin antags from their spawned in ones as well as friend to foe consistancy like goblins/skeletons, not you can actually hide your appearance but whatever.
 	name = "Goblin"
 	increase_votepwr = FALSE
 
