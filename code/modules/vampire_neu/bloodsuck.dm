@@ -45,7 +45,7 @@
 	victim.blood_volume = max(victim.blood_volume - 5, 0)
 	victim.handle_blood()
 
-	playsound(loc, 'sound/misc/drink_blood.ogg', 100, FALSE, -4)
+	playsound(loc, 'sound/misc/drink_blood.ogg', vol = 50, vary = FALSE, extrarange = -4, ignore_walls = FALSE, quiet = TRUE)
 
 	SEND_SIGNAL(src, COMSIG_LIVING_DRINKED_LIMB_BLOOD, victim)
 	victim.visible_message(span_danger("[src] drinks from [victim]'s [parse_zone(sublimb_grabbed)]!"), \

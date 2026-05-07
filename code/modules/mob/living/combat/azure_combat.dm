@@ -468,6 +468,16 @@
 				return FALSE
 			else
 				return TRUE
+		//Whether we can lose our equipment at all when its integrity breaks.
+		if(TEMPO_TAG_EQUIPTOSS)
+			if(has_status_effect(/datum/status_effect/buff/tempo_one))
+				return FALSE
+			if(has_status_effect(/datum/status_effect/buff/tempo_two))
+				return FALSE
+			if(has_status_effect(/datum/status_effect/buff/tempo_three))
+				return FALSE
+			else
+				return TRUE
 
 
 /// A defensive boon from matching subzones.

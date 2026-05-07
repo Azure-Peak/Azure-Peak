@@ -451,6 +451,8 @@
 	slice_sound = TRUE
 	eat_effect = null
 	tastes = list("hog" = 1)
+	cooked_type = null
+	fried_type = null
 
 /obj/item/reagent_containers/food/snacks/rogue/meat/ham/steamed/update_icon()
 	if(slices_num)

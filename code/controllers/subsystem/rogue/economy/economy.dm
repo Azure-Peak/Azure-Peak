@@ -666,9 +666,11 @@ SUBSYSTEM_DEF(economy)
 /datum/controller/subsystem/economy/proc/consume_stockpile_payload(list/avail)
 	for(var/good_id in avail)
 		var/list/entry = avail[good_id]
+		var/delivered = entry["delivered_units"]
 		var/datum/roguestock/stockpile_entry = find_stockpile_by_trade_good(good_id)
 		if(stockpile_entry)
-			stockpile_entry.stockpile_amount -= entry["delivered_units"]
+			stockpile_entry.stockpile_amount -= delivered
+		credit_economic_event_saturation(good_id, delivered)
 
 /datum/controller/subsystem/economy/proc/preview_partial_fulfillment(datum/standing_order/order)
 	var/list/equip_goods = list()
@@ -805,6 +807,7 @@ SUBSYSTEM_DEF(economy)
 	region.demands_today[good_id] = max(0, demands_today - quantity)
 	SStreasury.mint(SStreasury.discretionary_fund, total_revenue, "Manual Export: [quantity] [tg.name] to [region.name]")
 	SStreasury.total_export += total_revenue
+	credit_economic_event_saturation(good_id, quantity)
 
 	if(user)
 		log_game("MANUAL EXPORT by [user.ckey]: [quantity] [tg.name] to [region.name] (revenue [total_revenue]m)")
