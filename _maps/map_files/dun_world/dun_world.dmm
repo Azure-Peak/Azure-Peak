@@ -10007,6 +10007,10 @@
 /obj/structure/flora/ausbushes/ppflowers,
 /turf/open/floor/rogue/grass,
 /area/rogue/under/cave)
+"cfu" = (
+/obj/structure/roguemachine/noticeboard/wall,
+/turf/closed/wall/mineral/rogue/craftstone,
+/area/rogue/indoors/town/physician)
 "cfw" = (
 /obj/machinery/light/rogue/candle/off/r,
 /turf/open/floor/rogue/ruinedwood,
@@ -15013,6 +15017,7 @@
 "dgH" = (
 /obj/structure/fluff/railing/border/east,
 /obj/machinery/tanningrack,
+/obj/structure/roguemachine/noticeboard/wall,
 /turf/open/floor/rogue/wood,
 /area/rogue/indoors/town/dwarfin)
 "dgM" = (
@@ -89711,6 +89716,7 @@
 "sbG" = (
 /obj/machinery/tanningrack,
 /obj/structure/fluff/railing/border/east,
+/obj/structure/roguemachine/noticeboard/wall,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town)
 "sbP" = (
@@ -99829,6 +99835,10 @@
 /obj/structure/closet/crate/chest/loot_chest/locked,
 /turf/open/floor/rogue/dirt,
 /area/rogue/outdoors/mountains/decap/minotaurfort)
+"ucw" = (
+/obj/structure/roguemachine/noticeboard/wall,
+/turf/closed/wall/mineral/rogue/wooddark,
+/area/rogue/indoors/town/shop)
 "ucz" = (
 /obj/structure/fluff/railing/border/north,
 /obj/structure/closet/crate/chest/crate,
@@ -278349,7 +278359,7 @@ mPk
 xBe
 pwi
 eZd
-mPk
+ucw
 pxc
 pxc
 eKH
@@ -289641,7 +289651,7 @@ sGj
 sGj
 sGj
 sGj
-sGj
+cfu
 sGj
 nTJ
 ukM

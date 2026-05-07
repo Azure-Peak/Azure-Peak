@@ -1,7 +1,7 @@
 /obj/structure/roguemachine/noticeboard
 	name = "Notice Board"
 	desc = "A large wooden notice board, carrying postings from all across Azuria. A ZAD perch sits atop it."
-	icon = 'icons/roguetown/misc/64x64.dmi'
+	icon = 'icons/roguetown/structure/noticeboard64.dmi'
 	icon_state = "noticeboard0"
 	density = TRUE
 	anchored = TRUE
@@ -41,6 +41,26 @@
 		playsound(src, 'sound/items/inqslip_sealed.ogg', 50, TRUE, -1)
 		return
 	return ..()
+
+/obj/structure/roguemachine/noticeboard/wall
+	icon = 'icons/roguetown/structure/noticeboard32.dmi'
+	density = FALSE
+	layer = ABOVE_MOB_LAYER
+	pixel_y = 32
+
+/obj/structure/roguemachine/noticeboard/wall/OnCrafted(dirin, user)
+	pixel_x = 0
+	pixel_y = 0
+	switch(dirin)
+		if(NORTH)
+			pixel_y = 32
+		if(SOUTH)
+			pixel_y = -32
+		if(EAST)
+			pixel_x = 32
+		if(WEST)
+			pixel_x = -32
+	. = ..()
 
 /datum/noticeboardpost
 	var/title
@@ -115,6 +135,7 @@
 /obj/structure/roguemachine/noticeboard/ui_data(mob/user)
 	var/list/data = list()
 	data["realm_name"] = SSticker.realm_name
+	data["scout_regions"] = build_scout_regions()
 	if(!ishuman(user))
 		data["postings"] = list()
 		data["can_post_listing"] = FALSE
@@ -148,6 +169,36 @@
 	data["has_active_notice"] = has_active_notice
 	data["has_active_listing"] = has_active_listing
 	return data
+
+/// Builds per-region scout view for the Avisa Scouts section. Each row merges the warden's danger
+/// reading with any blockade currently sitting on that region (faction, days active, writ status).
+/// Indexed by threat_region.region_name so blockades and threat readings line up cleanly.
+/obj/structure/roguemachine/noticeboard/proc/build_scout_regions()
+	var/list/blockade_by_threat_name = list()
+	for(var/datum/blockade/B as anything in GLOB.active_blockades)
+		if(B.threat_region_name)
+			blockade_by_threat_name[B.threat_region_name] = B
+	var/list/rows = list()
+	for(var/datum/threat_region/TR as anything in SSregionthreat.threat_regions)
+		var/list/row = list()
+		row["region_name"] = TR.region_name
+		row["danger_level"] = TR.get_danger_level()
+		row["danger_color"] = TR.get_danger_color()
+		row["ic_descriptions"] = TR.get_ic_description()
+		var/datum/blockade/B = blockade_by_threat_name[TR.region_name]
+		if(B)
+			var/datum/quest_faction/F = B.get_faction()
+			row["blockaded"] = TRUE
+			row["blockade_writ_out"] = B.has_active_scroll() ? TRUE : FALSE
+			row["blockade_faction_label"] = F ? "[F.group_word] of [F.name_plural]" : (B.faction_id || "")
+			row["blockade_days_active"] = max(0, GLOB.dayspassed - B.day_started)
+		else
+			row["blockaded"] = FALSE
+			row["blockade_writ_out"] = FALSE
+			row["blockade_faction_label"] = ""
+			row["blockade_days_active"] = 0
+		rows += list(row)
+	return rows
 
 /obj/structure/roguemachine/noticeboard/proc/serialize_posting(datum/noticeboard_posting/P, mob/living/carbon/human/viewer, viewer_is_authority)
 	var/list/entry = list()
