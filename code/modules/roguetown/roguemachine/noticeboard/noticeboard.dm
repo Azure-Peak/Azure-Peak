@@ -10,7 +10,7 @@
 	layer = ABOVE_MOB_LAYER
 	plane = GAME_PLANE_UPPER
 	var/current_category = "Postings"
-	var/list/categories = list("Postings", "Premium Postings", "Scout Report", "Mercenary Roster", "Charters", "Trade Orders", "Economic Events", "Blockades", "City Assembly")
+	var/list/categories = list("Postings", "Premium Postings", "Scout Report", "Mercenary Roster", "Charters", "Trade Orders", "Economic Events", "Blockades")
 
 /obj/structure/roguemachine/noticeboard/get_mechanics_examine(mob/user)
 	. = ..()
@@ -62,7 +62,7 @@
 
 /obj/structure/roguemachine/noticeboard/update_icon()
 	. = ..()
-	var/total_length = length(GLOB.noticeboard_posts) + length(GLOB.premium_noticeboardposts)
+	var/total_length = length(GLOB.noticeboard_posts) + length(GLOB.premium_noticeboardposts) + length(GLOB.noticeboard_notices) + length(GLOB.noticeboard_listings)
 	switch(total_length)
 		if(0)
 			icon_state = "noticeboard0"
@@ -81,23 +81,199 @@
 		current_category = href_list["changecategory"]
 	if(href_list["makepost"])
 		make_post(usr)
-		return attack_hand(usr)
+		return show_legacy_html(usr)
 	if(href_list["premiumpost"])
 		premium_post(usr)
-		return attack_hand(usr)
+		return show_legacy_html(usr)
 	if(href_list["removepost"])
 		remove_post(usr)
-		return attack_hand(usr)
+		return show_legacy_html(usr)
 	if(href_list["authorityremovepost"])
 		authority_removepost(usr)
-		return attack_hand(usr)
-	if(href_list["open_assembly"])
-		open_assembly_tgui(usr)
+		return show_legacy_html(usr)
+
+	return show_legacy_html(usr)
+
+/obj/structure/roguemachine/noticeboard/attack_hand(mob/user)
+	. = ..()
+	if(!ishuman(user))
 		return
+	open_noticeboard_tgui(user)
 
-	return attack_hand(usr)
+/obj/structure/roguemachine/noticeboard/proc/open_noticeboard_tgui(mob/user)
+	var/datum/tgui/ui = SStgui.try_update_ui(user, src, null)
+	if(!ui)
+		ui = new(user, src, "Noticeboard")
+		ui.open()
 
-/obj/structure/roguemachine/noticeboard/attack_hand(mob/living/carbon/human/user)
+/obj/structure/roguemachine/noticeboard/ui_state(mob/user)
+	return GLOB.human_adjacent_state
+
+/obj/structure/roguemachine/noticeboard/ui_interact(mob/user, datum/tgui/ui)
+	SStgui.try_update_ui(user, src, ui)
+
+/obj/structure/roguemachine/noticeboard/ui_data(mob/user)
+	var/list/data = list()
+	data["realm_name"] = SSticker.realm_name
+	if(!ishuman(user))
+		data["postings"] = list()
+		data["can_post_listing"] = FALSE
+		data["can_authority_remove"] = FALSE
+		data["user_real_name"] = ""
+		data["user_default_name"] = ""
+		data["user_default_role"] = ""
+		data["has_active_notice"] = FALSE
+		data["has_active_listing"] = FALSE
+		return data
+	var/mob/living/carbon/human/H = user
+	var/can_listing = (H.job in NOTICEBOARD_LISTING_ROLES) ? TRUE : FALSE
+	var/can_auth_remove = (H.job in NOTICEBOARD_AUTHORITY_ROLES) ? TRUE : FALSE
+	var/list/postings = list()
+	var/has_active_listing = FALSE
+	var/has_active_notice = FALSE
+	for(var/datum/noticeboard_posting/P in GLOB.noticeboard_listings)
+		if(P.truename == H.real_name)
+			has_active_listing = TRUE
+		postings += list(serialize_posting(P, H, can_auth_remove))
+	for(var/datum/noticeboard_posting/P in GLOB.noticeboard_notices)
+		if(P.truename == H.real_name)
+			has_active_notice = TRUE
+		postings += list(serialize_posting(P, H, can_auth_remove))
+	data["postings"] = postings
+	data["can_post_listing"] = can_listing
+	data["can_authority_remove"] = can_auth_remove
+	data["user_real_name"] = H.real_name
+	data["user_default_name"] = H.real_name
+	data["user_default_role"] = H.job || ""
+	data["has_active_notice"] = has_active_notice
+	data["has_active_listing"] = has_active_listing
+	return data
+
+/obj/structure/roguemachine/noticeboard/proc/serialize_posting(datum/noticeboard_posting/P, mob/living/carbon/human/viewer, viewer_is_authority)
+	var/list/entry = list()
+	entry["posting_id"] = P.posting_id
+	entry["tier"] = P.tier
+	entry["title"] = P.title
+	entry["body"] = P.body
+	entry["poster_name"] = P.poster_name
+	entry["poster_title"] = P.poster_title
+	entry["poster_job"] = P.poster_job
+	entry["signature_attested"] = P.signature_attested ? TRUE : FALSE
+	entry["posted_at_label"] = format_posted_at_label(P.posted_at)
+	entry["expires_in_label"] = (P.tier == POSTING_TIER_NOTICE) ? format_expires_in_label(P.posted_at) : ""
+	entry["is_own"] = (viewer && P.truename == viewer.real_name) ? TRUE : FALSE
+	entry["can_authority_remove"] = (viewer_is_authority && P.tier == POSTING_TIER_NOTICE) ? TRUE : FALSE
+	return entry
+
+/obj/structure/roguemachine/noticeboard/proc/format_posted_at_label(posted_at)
+	var/elapsed = world.time - posted_at
+	if(elapsed < 1 MINUTES)
+		return "just now"
+	var/minutes = round(elapsed / (1 MINUTES))
+	if(minutes < 60)
+		return "[minutes]m ago"
+	var/hours = round(minutes / 60)
+	return "[hours]h ago"
+
+/obj/structure/roguemachine/noticeboard/proc/format_expires_in_label(posted_at)
+	var/expires_at = posted_at + NOTICEBOARD_NOTICE_LIFETIME
+	var/remaining = expires_at - world.time
+	if(remaining <= 0)
+		return "any moment"
+	var/minutes = CEILING(remaining / (1 MINUTES), 1)
+	return "in [minutes]m"
+
+/obj/structure/roguemachine/noticeboard/ui_act(action, list/params)
+	. = ..()
+	if(.)
+		return
+	var/mob/living/carbon/human/H = usr
+	if(!istype(H))
+		return TRUE
+	if(!H.canUseTopic(src, BE_CLOSE))
+		return TRUE
+	switch(action)
+		if("make_post")
+			handle_make_post(H, params)
+			SStgui.update_uis(src)
+			return TRUE
+		if("remove_post")
+			handle_remove_post(H, params)
+			SStgui.update_uis(src)
+			return TRUE
+		if("authority_remove_post")
+			handle_authority_remove_post(H, params)
+			SStgui.update_uis(src)
+			return TRUE
+		if("open_legacy_board")
+			SStgui.close_uis(src)
+			show_legacy_html(H)
+			return TRUE
+		if("open_assembly")
+			SStgui.close_uis(src)
+			open_assembly_tgui(H)
+			return TRUE
+
+/obj/structure/roguemachine/noticeboard/proc/handle_make_post(mob/living/carbon/human/H, list/params)
+	var/tier = "[params["tier"]]"
+	if(tier != POSTING_TIER_NOTICE && tier != POSTING_TIER_LISTING)
+		to_chat(H, span_warning("Unknown posting kind."))
+		return
+	if(tier == POSTING_TIER_LISTING && !(H.job in NOTICEBOARD_LISTING_ROLES))
+		to_chat(H, span_warning("Only certain offices may pin a Standing Listing."))
+		return
+	var/title = sanitize_input("[params["title"]]", NOTICEBOARD_TITLE_MAX_LENGTH)
+	var/body = sanitize_input("[params["body"]]", NOTICEBOARD_BODY_MAX_LENGTH, multiline = TRUE)
+	var/poster_name = sanitize_input("[params["poster_name"]]", NOTICEBOARD_NAME_MAX_LENGTH)
+	var/poster_title = sanitize_input("[params["poster_title"]]", NOTICEBOARD_ROLE_MAX_LENGTH)
+	if(!title || !body || !poster_name)
+		to_chat(H, span_warning("The posting must bear a title, a body, and a name."))
+		return
+	noticeboard_add_posting(tier, title, body, poster_name, poster_title, H)
+	message_admins("[ADMIN_LOOKUPFLW(H)] has made a [tier] noticeboard post. The message was: [body]")
+
+/obj/structure/roguemachine/noticeboard/proc/handle_remove_post(mob/living/carbon/human/H, list/params)
+	var/posting_id = "[params["posting_id"]]"
+	var/datum/noticeboard_posting/P = noticeboard_find_post_by_id(posting_id)
+	if(!P)
+		return
+	if(P.truename != H.real_name)
+		to_chat(H, span_warning("That posting is not yours to take down."))
+		return
+	playsound(loc, 'sound/foley/dropsound/paper_drop.ogg', 50, FALSE, -1)
+	loc.visible_message(span_smallred("[H] tears down a posting!"))
+	noticeboard_remove_posting(P)
+	message_admins("[ADMIN_LOOKUPFLW(H)] has removed their noticeboard post.")
+
+/obj/structure/roguemachine/noticeboard/proc/handle_authority_remove_post(mob/living/carbon/human/H, list/params)
+	if(!(H.job in NOTICEBOARD_AUTHORITY_ROLES))
+		to_chat(H, span_warning("You hold no authority to take down another's posting."))
+		return
+	var/posting_id = "[params["posting_id"]]"
+	var/datum/noticeboard_posting/P = noticeboard_find_post_by_id(posting_id)
+	if(!P)
+		return
+	if(P.tier == POSTING_TIER_LISTING)
+		to_chat(H, span_warning("A Standing Listing may not be taken down by authority while its issuer lives."))
+		return
+	playsound(loc, 'sound/foley/dropsound/paper_drop.ogg', 50, FALSE, -1)
+	loc.visible_message(span_smallred("[H] tears down a posting!"))
+	noticeboard_remove_posting(P)
+	message_admins("[ADMIN_LOOKUPFLW(H)] has authoritatively removed a noticeboard post by [P.truename].")
+
+/obj/structure/roguemachine/noticeboard/proc/sanitize_input(text, max_length, multiline = FALSE)
+	if(!text || text == "null")
+		return null
+	if(multiline)
+		text = copytext(text, 1, max_length + 1)
+	else
+		text = copytext(text, 1, max_length + 1)
+	text = trim(text)
+	if(!length(text))
+		return null
+	return text
+
+/obj/structure/roguemachine/noticeboard/proc/show_legacy_html(mob/living/carbon/human/user)
 	if(!ishuman(user))
 		return
 	var/can_remove = FALSE
@@ -267,8 +443,6 @@
 						contents += label
 					contents += "<br>"
 				contents += "</div><hr>"
-	else if(current_category == "City Assembly")
-		contents += build_assembly_summary_html()
 	var/datum/browser/popup = new(user, "NOTICEBOARD", "", 800, 650)
 	popup.set_content(contents)
 	popup.open()
