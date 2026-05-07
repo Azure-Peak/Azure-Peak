@@ -434,7 +434,7 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 
 /obj/structure/gob_portal
 	name = "goblin portal"
-	desc = "A bright portal torn through the fabric of the world. This can't be good."
+	desc = "A bright portal torn through the fabric of the world, sounds of marching and goblin warcries can be heard on the other side. This can't be good."
 	icon = 'icons/roguetown/misc/structure.dmi'
 	icon_state = "shitportal"
 	max_integrity = 250
@@ -492,14 +492,9 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 		new /mob/living/carbon/human/species/goblin/npc(get_turf(src))
 	gobs++
 	update_icon()
-	if(living_player_count() < 10)
-		maxgobs = 1
-		maxplayergobs = 1 //One player per portal
-	if(living_player_count() > 10 || < 25) //Lowpop Measures
-		maxgobs = 3
-		maxplayergobs = 3 //Three is generous
-	if(living_player_count() > 25 || < 35) //Midpop Measures
-		maxplayergobs = 6 //A lot of goblins is generous
+	if(living_player_count() < 25) //Lowpop Measures
+		maxgobs = 3 //Three NPCs at most
+		maxplayergobs = 4 //Four is very generous
 	if(gobs < maxgobs)
 		spawn_gob()
 
