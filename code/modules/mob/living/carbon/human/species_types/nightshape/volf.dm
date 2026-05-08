@@ -15,6 +15,7 @@
 		src.adjust_skillrank(/datum/skill/misc/athletics, 3, TRUE)
 		src.adjust_skillrank(/datum/skill/misc/tracking, 4, TRUE)
 		src.adjust_skillrank(/datum/skill/misc/sneaking, 3, TRUE)
+		src.adjust_skillrank(/datum/skill/misc/hunting, 4, TRUE)
 
 		src.STASTR = 7
 		src.STACON = 7

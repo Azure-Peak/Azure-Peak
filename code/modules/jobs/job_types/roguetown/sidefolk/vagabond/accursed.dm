@@ -2,7 +2,6 @@
 	name = "The Accursed"
 	tutorial = "Cursed by the wilds themselves — or by the god who rules them. You do not remember what you did to earn this fate, if anything at all. A hunter's patience, a farmer's grit, these are etched into your bones, but the face you wore before the first transformation has long since blurred."
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = RACES_ALL_KINDS
 	outfit = /datum/outfit/job/roguetown/vagabond/accursed
 	traits_applied = list(TRAIT_HOMESTEAD_EXPERT)
 	maximum_possible_slots = 2
@@ -17,6 +16,7 @@
 		/datum/skill/misc/climbing = SKILL_LEVEL_NOVICE,
 		/datum/skill/craft/carpentry = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/craft/tanning = SKILL_LEVEL_APPRENTICE
+		/datum/skill/misc/hunting = SKILL_LEVEL_APPRENTICE
 	)
 	extra_context = "Contains randomized skills and stats. Transforms into beast under moonlight."
 

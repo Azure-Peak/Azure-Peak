@@ -14,6 +14,7 @@
 		src.adjust_skillrank(/datum/skill/misc/swimming, SKILL_LEVEL_APPRENTICE, TRUE)
 		src.adjust_skillrank(/datum/skill/misc/athletics, SKILL_LEVEL_JOURNEYMAN, TRUE)
 		src.adjust_skillrank(/datum/skill/misc/sneaking, SKILL_LEVEL_EXPERT, TRUE)
+		src.adjust_skillrank(/datum/skill/misc/hunting, SKILL_LEVEL_JOURNEYMAN, TRUE)
 
 		src.STASTR = 8
 		src.STACON = 6
