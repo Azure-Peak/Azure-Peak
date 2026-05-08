@@ -928,7 +928,7 @@
 			if(admin_revive)
 				mind.remove_antag_datum(/datum/antagonist/zombie)
 			for(var/spell as anything in mind.spell_list)
-				var/obj/effect/proc_holder/spell/obj/effect/proc_holder/spell/newspell = spell
+				var/obj/effect/proc_holder/spell/newspell = spell
 				var/datum/action/cooldown/spell/oldspell = spell
 				if(istype(newspell))
 					newspell.action?.build_all_button_icons()
