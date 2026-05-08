@@ -83,12 +83,9 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(list(/area/rogue/indoors
 	droning_sound_dusk = null
 	droning_sound_night = null
 
-/area/rogue/indoors/lich_lair //Sovlnuke with a unique track we didn't use previous I think?
+/area/rogue/indoors/lich_start/lich_lair //Sovlnuke with a unique track we didn't use previous I think?
 	first_time_text = "FORGOTTEN KEEP"
-	name = "Lich Lair"
 	droning_sound = 'sound/music/area/morosewaters.ogg'
-	droning_sound_dusk = null
-	droning_sound_night = null
 
 /area/rogue/indoors/ravoxarena
 	name = "Ravox's Arena"
