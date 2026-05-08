@@ -256,3 +256,31 @@
 		voicecolor_override = null
 	else
 		voicecolor_override = "#A0A0A0"
+
+/mob/living/carbon/human/proc/toggle_guarded()
+	set name = "Toggle Guarded"
+	set category = "Virtue"
+
+	if(HAS_TRAIT(src, TRAIT_DECEIVING_MEEKNESS))
+		REMOVE_TRAIT(src, TRAIT_DECEIVING_MEEKNESS, TRAIT_VIRTUE) 
+	else
+		ADD_TRAIT(src, TRAIT_DECEIVING_MEEKNESS, TRAIT_VIRTUE)
+	to_chat(src, "I have [HAS_TRAIT(src, TRAIT_DECEIVING_MEEKNESS) ? "raised" : "lowered"] my guard around others.")
+
+
+// Not actually a virtue, but kept in the category for convenience. Miner-role only. Component handles all of the messaging and logic, this is just a wrapper, basically.
+/mob/living/carbon/human/proc/toggle_oresight()
+	set name = "Toggle (Ore Sight)"
+	set category = "Virtue"
+
+	var/datum/component/ore_sight/COS = GetComponent(/datum/component/ore_sight)
+	if(COS)
+		COS.toggle()
+
+/mob/living/carbon/human/proc/range_oresight()
+	set name = "Change Range (Ore Sight)"
+	set category = "Virtue"
+
+	var/datum/component/ore_sight/COS = GetComponent(/datum/component/ore_sight)
+	if(COS)
+		COS.change_range()

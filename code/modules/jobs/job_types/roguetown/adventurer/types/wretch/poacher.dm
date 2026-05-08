@@ -2,7 +2,7 @@
 	name = "Poacher"
 	tutorial = "You have rejected society and its laws, choosing life in the wilderness instead. Simple thieving highwayman or freedom fighter, you take from those who have and give to the have-nots. Fancy, how the latter includes yourself!"
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = RACES_ALL_KINDS
+	
 	outfit = /datum/outfit/job/roguetown/wretch/poacher
 	cmode_music = 'sound/music/combat_poacher.ogg'
 	class_select_category = CLASS_CAT_RANGER

@@ -4,7 +4,7 @@
 	if(tame)
 		tamed()
 	AddElement(/datum/element/ai_retaliate)
-	ai_controller.set_blackboard_key(BB_BASIC_FOODS, food_type)
+	ai_controller.set_blackboard_key(BB_BASIC_FOODS, typecacheof(food_type))
 
 /mob/living/simple_animal/hostile/retaliate/rogue/goat/Destroy()
 	GLOB.farm_animals = max(GLOB.farm_animals - 1, 0)
@@ -55,6 +55,7 @@
 	icon_dead = "goat_dead"
 	icon_gib = "goat_gib"
 	gender = FEMALE
+	blood_toll_bucket = STATS_KILLED_LIVESTOCK
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
 	emote_see = list("shakes her head.", "chews her cud.")
 	speak_chance = 1
@@ -293,7 +294,7 @@
 	if(tame)
 		tamed()
 	AddElement(/datum/element/ai_retaliate)
-	ai_controller.set_blackboard_key(BB_BASIC_FOODS, food_type)
+	ai_controller.set_blackboard_key(BB_BASIC_FOODS, typecacheof(food_type))
 
 /mob/living/simple_animal/hostile/retaliate/rogue/goatmale/Destroy()
 	..()

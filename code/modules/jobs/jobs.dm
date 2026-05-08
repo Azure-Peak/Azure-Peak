@@ -249,12 +249,23 @@ GLOBAL_LIST_INIT(exp_jobsmap, list(
 
 GLOBAL_LIST_INIT(exp_specialmap, list(
 	EXP_TYPE_LIVING = list(), // all living mobs
-	EXP_TYPE_ANTAG = list(),
+	EXP_TYPE_ANTAG = list(ROLE_MANIAC, ROLE_PREBEL, ROLE_BANDIT, ROLE_ASPIRANT, ROLE_WEREWOLF, ROLE_NBEAST, ROLE_VAMPIRE, ROLE_LICH, ROLE_DREAMWALKER, ROLE_GNOLL, ROLE_ASSASSIN, ROLE_HAG),
 	EXP_TYPE_SPECIAL = list("Lifebringer","Ash Walker","Exile","Servant Golem","Free Golem","Hermit","Translocated Vet","Escaped Prisoner","Hotel Staff","SuperFriend","Space Syndicate","Ancient Crew","Space Doctor","Space Bartender","Beach Bum","Skeleton","Zombie","Space Bar Patron","Lavaland Syndicate","Ghost Role"), // Ghost roles
 	EXP_TYPE_GHOST = list() // dead people, observers
 ))
+GLOBAL_LIST_EMPTY(exp_role_lookup)
 GLOBAL_PROTECT(exp_jobsmap)
 GLOBAL_PROTECT(exp_specialmap)
+GLOBAL_PROTECT(exp_role_lookup)
+
+/proc/get_exp_role_lookup()
+	if(GLOB.exp_role_lookup.len)
+		return GLOB.exp_role_lookup
+	for(var/job_title in SSjob.name_occupations)
+		GLOB.exp_role_lookup[job_title] = job_title
+	for(var/special_role in GLOB.exp_specialmap[EXP_TYPE_SPECIAL])
+		GLOB.exp_role_lookup[special_role] = special_role
+	return GLOB.exp_role_lookup
 
 /proc/guest_jobbans(job)
 	return ((job in GLOB.command_positions) || (job in GLOB.nonhuman_positions) || (job in GLOB.security_positions))

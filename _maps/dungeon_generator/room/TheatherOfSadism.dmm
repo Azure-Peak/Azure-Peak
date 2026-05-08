@@ -271,7 +271,7 @@
 /turf/open/floor/rogue/blocks/stonered/tiny,
 /area/rogue/under/tomb)
 "qv" = (
-/obj/structure/fluff/sellsign{
+/obj/structure/fluff/sign{
 	name = "INEDIBLE PARTS"
 	},
 /turf/open/floor/rogue/blocks/stonered,

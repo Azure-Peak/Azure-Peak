@@ -493,7 +493,7 @@
 	faction = "Station"
 	tutorial = "Martyrs are hand-picked among the most devout of the Holy See. They are given one of the See's cherished relics to protect the Church, and to inspire hope and lead by example of grace, kindness and vicious intolerance to any who do not share the belief of the Ten. They have sworn an Oath in the sight of the gods, and will fulfill it to the bitter end."
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = RACES_SHUNNED_UP
+	forbidden_races = list(RACES_CONSTRUCT RACES_DESPISED)
 	allowed_patrons = list(/datum/patron/divine/undivided)
 	outfit = /datum/outfit/job/roguetown/martyr
 	min_pq = 10 //Cus it's a Martyr of the Ten. Get it.
@@ -1258,6 +1258,7 @@
 
 /obj/item/clothing/suit/roguetown/armor/plate/full/holysee/ritual
 	name = "crusader silver plate"
+	armor_class = ARMOR_CLASS_MEDIUM
 
 /obj/item/clothing/suit/roguetown/armor/plate/full/holysee/ritual/mob_can_equip(mob/living/M, mob/living/equipper, slot, disable_warning = FALSE, bypass_equip_delay_self = FALSE)
 	return TRUE
@@ -1298,6 +1299,7 @@
 
 /obj/item/clothing/under/roguetown/platelegs/holysee/ritual
 	name = "crusader silver chausses"
+	armor_class = ARMOR_CLASS_MEDIUM
 
 /obj/item/clothing/under/roguetown/platelegs/holysee/ritual/mob_can_equip(mob/living/M, mob/living/equipper, slot, disable_warning = FALSE, bypass_equip_delay_self = FALSE)
 	return TRUE

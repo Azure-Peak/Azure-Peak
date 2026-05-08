@@ -95,3 +95,5 @@ GLOBAL_LIST_INIT(planar_lists, list(
 	"elemental" = GLOB.elemental_familiars,
 	"void" = null
 ))
+
+GLOBAL_LIST_INIT(familiar_advertised, list())

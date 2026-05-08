@@ -1,7 +1,7 @@
 /datum/action/cooldown/spell/mindlink
 	button_icon = 'icons/mob/actions/roguespells.dmi'
 	name = "Mindlink"
-	desc = "Establish a telepathic link with an ally for three minutes. Use ,y before a message to communicate telepathically."
+	desc = "Establish a telepathic link with an ally for three minutes. Use ,Y before a message to communicate telepathically."
 	button_icon_state = "mindlink"
 	sound = 'sound/magic/whiteflame.ogg'
 	spell_color = GLOW_COLOR_ARCANE
@@ -88,8 +88,8 @@
 	var/datum/mindlink/link = new(first_target, second_target)
 	GLOB.mindlinks += link
 
-	to_chat(first_target, span_notice("A mindlink has been established with [second_target]! Use ,y before a message to communicate telepathically. Use ,mst to break the link."))
-	to_chat(second_target, span_notice("A mindlink has been established with [first_target]! Use ,y before a message to communicate telepathically. Use ,mst to break the link."))
+	to_chat(first_target, span_notice("A mindlink has been established with [second_target]! Use ,Y before a message to communicate telepathically. Use ,mst to break the link."))
+	to_chat(second_target, span_notice("A mindlink has been established with [first_target]! Use ,Y before a message to communicate telepathically. Use ,mst to break the link."))
 
 	addtimer(CALLBACK(src, PROC_REF(break_link), link), 3 MINUTES)
 	return TRUE

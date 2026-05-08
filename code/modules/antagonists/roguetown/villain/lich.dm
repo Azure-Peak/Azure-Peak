@@ -41,6 +41,7 @@
 		TRAIT_RITUALIST,
 		TRAIT_ARCYNE,
 		TRAIT_SELF_SUSTENANCE,
+		TRAIT_ALCHEMY_EXPERT,
 		TRAIT_SILVER_WEAK
 		)
 
@@ -174,6 +175,17 @@
 	eyes = new /obj/item/organ/eyes/night_vision/zombie
 	eyes.Insert(L)
 
+/datum/antagonist/lich/examine_friendorfoe(datum/antagonist/examined_datum,mob/examiner,mob/examined)
+	if(istype(examined_datum, /datum/antagonist/vampire))
+		if(!SEND_SIGNAL(examined_datum.owner, COMSIG_DISGUISE_STATUS))
+			return span_boldnotice("Another deadite.")
+	if(istype(examined_datum, /datum/antagonist/zombie))
+		return span_boldnotice("Another deadite.")
+	if(istype(examined_datum, /datum/antagonist/skeleton))
+		return span_boldnotice("Another deadite. My Ally.")
+	if(istype(examined_datum, /datum/antagonist/lich))
+		return span_boldnotice("Another Deadite.")
+
 /datum/outfit/job/roguetown/lich/post_equip(mob/living/carbon/human/H)
 	..()
 	var/datum/antagonist/lich/lichman = H.mind.has_antag_datum(/datum/antagonist/lich)
@@ -182,6 +194,7 @@
 	lichman.phylacteries += new_phylactery
 	new_phylactery.possessor = lichman
 	H.equip_to_slot_or_del(new_phylactery,SLOT_IN_BACKPACK, TRUE)
+	H.select_skeleton_features()
 
 /datum/antagonist/lich/proc/consume_phylactery(timer = 10 SECONDS)
 	if(phylacteries.len)

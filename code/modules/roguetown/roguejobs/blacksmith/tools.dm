@@ -114,7 +114,7 @@
 	do
 		var/repair_percent = get_repair_percent(attacked_item)
 		if(user.get_skill_level(attacked_item.anvilrepair) <= 0)
-			if(HAS_TRAIT(user, TRAIT_SQUIRE_REPAIR))
+			if(HAS_TRAIT(user, TRAIT_SQUIRE_REPAIR) || HAS_TRAIT(user, TRAIT_SELF_SUSTENANCE))
 				if(locate(/obj/machinery/anvil) in attacked_item.loc)
 					repair_percent = 0.035
 				//Squires can repair on tables, but less efficiently
@@ -317,16 +317,25 @@
 	grid_width = 32
 	grid_height = 64
 	is_tool = TRUE
+	var/auto_collect = TRUE
 
 /obj/item/rogueweapon/tongs/get_mechanics_examine(mob/user)
 	. = ..()
 	. += span_info("Left-click an ingot to pick it up. When an ingot is held by the tongs, left-clicking a forge will heat it up. Heated-up ingots can then be placed on an anvil and struck with a hammer to smith various items.")
 	. += span_info("Activate in your hand to drop the picked-up ingot.")
+	. += span_info("Right click to toggle auto collection of multiple ingots from furnaces.")
 
 /obj/item/rogueweapon/tongs/examine(mob/user)
 	. = ..()
 	if(hott)
 		. += span_warning("The tip is hot to the touch.")
+	if(auto_collect)
+		. += span_notice("It is set to auto collect multiple ingots from furnaces.")
+
+/obj/item/rogueweapon/tongs/attack_right(mob/user)
+	auto_collect = !auto_collect
+	to_chat(user, span_notice("The tongs will [auto_collect ? "" : "no longer "]automatically collect from furnaces."))
+	. = ..()
 
 /obj/item/rogueweapon/tongs/get_temperature()
 	if(hott)
@@ -397,6 +406,7 @@
 	force = 5
 	smeltresult = null
 	max_integrity = 15
+	auto_collect = FALSE
 
 /obj/item/rogueweapon/tongs/stone/update_icon()
 	. = ..()
@@ -417,6 +427,7 @@
 	max_integrity = 10
 	color = "#bb9696"
 	sellprice = 5
+	auto_collect = FALSE
 
 /obj/item/rogueweapon/tongs/aalloy/update_icon()
 	. = ..()
@@ -437,6 +448,7 @@
 	icon = 'icons/roguetown/weapons/tools.dmi'
 	force = 14
 	max_integrity = 300
+	auto_collect = TRUE
 
 /obj/item/rogueweapon/tongs/bronze/update_icon()
 	. = ..()
@@ -457,6 +469,7 @@
 	smeltresult = /obj/item/ingot/blacksteel
 	force = 20
 	max_integrity = 450
+	auto_collect = TRUE
 
 /obj/item/rogueweapon/tongs/blacksteel/update_icon()
 	. = ..()

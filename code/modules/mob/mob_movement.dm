@@ -75,13 +75,21 @@
 	facepull = FALSE
 
 /client/Move(n, direct)
-	if(world.time < move_delay) //do not move anything ahead of this check please
+	if(istype(mob, /mob/dead/observer))
+		var/mob/dead/observer/observer = mob
+		if(world.time < observer.next_gmove)
+			return FALSE
+	else if(world.time < move_delay) //do not move anything ahead of this check please
 		return FALSE
-	else
-		next_move_dir_add = 0
-		next_move_dir_sub = 0
+	next_move_dir_add = 0
+	next_move_dir_sub = 0
 	var/old_move_delay = move_delay
-	move_delay = world.time + world.tick_lag //this is here because Move() can now be called mutiple times per tick
+	if(istype(mob, /mob/dead/observer))
+		var/mob/dead/observer/observer = mob
+		observer.next_gmove = world.time + (world.tick_lag * GLOB.observer_move_delay_multiplier)
+		move_delay = world.time
+	else
+		move_delay = world.time + world.tick_lag //this is here because Move() can now be called mutiple times per tick
 	if(!mob || !mob.loc)
 		return FALSE
 	if(!n || !direct)
@@ -764,29 +772,24 @@
 					return FALSE
 	return TRUE
 
-/mob/living/proc/check_dodge_skill()
+/mob/living/proc/check_dodge_skill(check_trait = TRUE)
 	return TRUE
 
-/mob/living/carbon/human/check_dodge_skill()
-	if(!HAS_TRAIT(src, TRAIT_DODGEEXPERT))
-		return FALSE
+/mob/living/carbon/human/check_dodge_skill(check_trait = TRUE)
+	if(check_trait)
+		if(!HAS_TRAIT(src, TRAIT_DODGEEXPERT))
+			return FALSE
 	if(istype(src.wear_armor, /obj/item/clothing))
 		var/obj/item/clothing/CL = src.wear_armor
-		if(CL.armor_class == ARMOR_CLASS_HEAVY)
-			return FALSE
-		if(CL.armor_class == ARMOR_CLASS_MEDIUM)
+		if(CL.armor_class > ARMOR_CLASS_LIGHT)
 			return FALSE
 	if(istype(src.wear_shirt, /obj/item/clothing))
 		var/obj/item/clothing/CL = src.wear_shirt
-		if(CL.armor_class == ARMOR_CLASS_HEAVY)
-			return FALSE
-		if(CL.armor_class == ARMOR_CLASS_MEDIUM)
+		if(CL.armor_class > ARMOR_CLASS_LIGHT)
 			return FALSE
 	if(istype(src.wear_pants, /obj/item/clothing))
 		var/obj/item/clothing/CL = src.wear_pants
-		if(CL.armor_class == ARMOR_CLASS_HEAVY)
-			return FALSE
-		if(CL.armor_class == ARMOR_CLASS_MEDIUM)
+		if(CL.armor_class > ARMOR_CLASS_LIGHT)
 			return FALSE
 	if(istype(src.head, /obj/item/clothing))
 		var/obj/item/clothing/CL = src.head

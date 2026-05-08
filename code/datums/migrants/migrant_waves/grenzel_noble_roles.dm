@@ -5,7 +5,7 @@
 /datum/migrant_role/grenzel/envoy
 	name = "Envoy"
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = RACES_SHUNNED_UP
+	forbidden_races = list(RACES_CONSTRUCT RACES_DESPISED)
 	greet_text = "You are a Grenzelhoftian envoy, traveling with bodyguards and a priest to represent your homeland.\
 	 What exactly you have been sent here to speak about- only you know."
 	advclass_cat_rolls = list(CTAG_GRENZEL_ENVOY = 20)
@@ -69,7 +69,7 @@
 /datum/migrant_role/grenzel/bodyguard
 	name = "Leibwachter"
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = RACES_SHUNNED_UP
+	forbidden_races = list(RACES_CONSTRUCT RACES_DESPISED)
 	advclass_cat_rolls = list(CTAG_GRENZEL_GUARD = 20)
 
 /datum/advclass/grenzel_guard
@@ -151,13 +151,13 @@
 	name = "Envoy Priest"
 	greet_text = "Nominally the envoy's spiritual advisor, your real power extends beyond religious matters. Protect interests of the Holy See of the Ten."
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = RACES_SHUNNED_UP
+	forbidden_races = list(RACES_CONSTRUCT RACES_DESPISED)
 	advclass_cat_rolls = list(CTAG_GRENZEL_PRIEST = 20)
 
 /datum/advclass/grenzel_priest
 	name = "Envoy Priest"
 	outfit = /datum/outfit/job/roguetown/grenzel/priest
-	traits_applied = list(TRAIT_CHOSEN, TRAIT_RITUALIST, TRAIT_SOUL_EXAMINE, TRAIT_GRAVEROBBER, TRAIT_HOMESTEAD_EXPERT, TRAIT_MEDICINE_EXPERT)
+	traits_applied = list(TRAIT_CHOSEN, TRAIT_RITUALIST, TRAIT_SOUL_EXAMINE, TRAIT_GRAVEROBBER, TRAIT_HOMESTEAD_EXPERT, TRAIT_MEDICINE_EXPERT, TRAIT_ALCHEMY_EXPERT)
 	category_tags = list(CTAG_GRENZEL_PRIEST)
 	subclass_stats = list(
 		STATKEY_STR = -1,

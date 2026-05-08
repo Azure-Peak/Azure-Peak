@@ -2,7 +2,7 @@
 	name = "Gnoll Berserker"
 	tutorial = "You are a warrior feared for your brutality, dedicated to using your might for your own gain. Might equals right, and you are the reminder of such a saying."
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = RACES_ALL_KINDS
+	
 	outfit = /datum/outfit/job/roguetown/gnoll/berserker
 	cmode_music = 'sound/music/combat_graggar.ogg'
 	category_tags = list(CTAG_GNOLL)
@@ -16,6 +16,7 @@
 		STATKEY_INT = -3,
 		STATKEY_PER = -1
 	)
+	// Messy butchers, alright hunters
 	subclass_skills = list(
 		/datum/skill/combat/wrestling = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_MASTER,
@@ -23,7 +24,9 @@
 		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/climbing = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/tracking = SKILL_LEVEL_LEGENDARY,
-		/datum/skill/craft/crafting = SKILL_LEVEL_NOVICE
+		/datum/skill/craft/crafting = SKILL_LEVEL_NOVICE,
+		/datum/skill/misc/hunting = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/labor/butchering = SKILL_LEVEL_NOVICE,
 	)
 
 /datum/outfit/job/roguetown/gnoll/berserker/pre_equip(mob/living/carbon/human/H)

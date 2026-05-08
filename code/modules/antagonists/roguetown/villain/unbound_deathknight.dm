@@ -172,6 +172,7 @@
 		/obj/item/rogueweapon/scabbard/sheath = 1
 	)
 	H.set_blindness(0)
+	H.select_skeleton_features()
 
 /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/black
 	color = CLOTHING_BLACK

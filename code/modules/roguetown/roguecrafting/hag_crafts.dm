@@ -12,20 +12,20 @@
 	name = "strange golden varnish"
 	category = "Hag"
 	result = list(/obj/item/hag_catalyst/synth_base/gilded = 1)
-	reqs = list(/obj/item/alch/hag_moss/pride = 1, /obj/item/rogueore/iron = 3, /obj/item/rogueore/coal = 1)
+	reqs = list(/obj/item/alch/hag_moss/pride = 1, /obj/item/alch/calendula = 1, /obj/item/alch/hypericum = 1, /obj/item/alch/salvia = 1)
 	craftdiff = 6
 
 /datum/crafting_recipe/roguetown/alchemy/hag/synth_base
 	name = "strange cataltyst"
 	category = "Hag"
 	result = list(/obj/item/hag_catalyst/synth_base = 1)
-	reqs = list(/obj/item/alch/hag_moss/mercy = 1, /obj/item/rogueore/iron = 3, /obj/item/rogueore/coal = 1)
+	reqs = list(/obj/item/alch/hag_moss/mercy = 1, /obj/item/alch/calendula = 1, /obj/item/alch/matricaria = 1, /obj/item/alch/urtica = 1)
 	craftdiff = 6
 
 /datum/crafting_recipe/roguetown/alchemy/hag/faded_moss
 	name = "moss faded"
 	result = list(/obj/item/alch/hag_moss/enchanted/random/low = 1)
-	reqs = list(/obj/item/alch/hag_moss/sorrow = 1, /obj/item/rogueore/tin = 1)
+	reqs = list(/obj/item/alch/hag_moss/sorrow = 1, /obj/item/alch/valeriana = 1)
 	craftdiff = 4
 
 /datum/crafting_recipe/roguetown/alchemy/hag/crawling_moss
@@ -37,13 +37,13 @@
 /datum/crafting_recipe/roguetown/alchemy/hag/stormy_moss
 	name = "moss stormy"
 	result = list(/obj/item/alch/hag_moss/enchanted/deathless = 1)
-	reqs = list(/obj/item/alch/hag_moss/envy = 1, /obj/item/rogueore/copper = 1)
+	reqs = list(/obj/item/alch/hag_moss/envy = 1, /obj/item/alch/atropa = 1)
 	craftdiff = 5
 
 /datum/crafting_recipe/roguetown/alchemy/hag/corrosive_moss
 	name = "moss corrosive"
 	result = list(/obj/item/alch/hag_moss/enchanted/corrosive = 1)
-	reqs = list(/obj/item/alch/hag_moss/fury = 1, /obj/item/rogueore/iron = 1)
+	reqs = list(/obj/item/alch/hag_moss/fury = 1, /obj/item/alch/urtica = 1)
 	craftdiff = 5
 
 // Mid Rarity Recipes
@@ -76,19 +76,19 @@
 /datum/crafting_recipe/roguetown/alchemy/hag/prismatic_moss
 	name = "moss prismatic"
 	result = list(/obj/item/alch/hag_moss/enchanted/random/high = 1)
-	reqs = list(/obj/item/alch/hag_moss/pride = 1, /obj/item/rogueore/iron = 2)
+	reqs = list(/obj/item/alch/hag_moss/pride = 1, /obj/item/alch/benedictus = 1, /obj/item/alch/rosa = 1)
 	craftdiff = 6
 
 /datum/crafting_recipe/roguetown/alchemy/hag/gilded_moss
 	name = "moss gilded"
 	result = list(/obj/item/alch/hag_moss/enchanted/gilded = 1)
-	reqs = list(/obj/item/alch/hag_moss/pride = 1, /obj/item/rogueore/iron = 1)
+	reqs = list(/obj/item/alch/hag_moss/pride = 1, /obj/item/alch/hypericum = 1)
 	craftdiff = 6
 
 /datum/crafting_recipe/roguetown/alchemy/hag/drowned_moss
 	name = "moss drowned"
 	result = list(/obj/item/alch/hag_moss/enchanted/drowned = 1)
-	reqs = list(/obj/item/alch/hag_moss/lullaby = 1, /obj/item/rogueore/tin = 1, /obj/item/rogueore/copper = 1)
+	reqs = list(/obj/item/alch/hag_moss/lullaby = 1, /obj/item/alch/mentha = 1, /obj/item/alch/symphitum = 1)
 	craftdiff = 6
 
 // Items

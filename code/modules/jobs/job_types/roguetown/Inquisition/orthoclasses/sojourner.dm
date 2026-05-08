@@ -6,7 +6,7 @@
 	Where your fists fall short, your wits prevail. Where your magyck falters, your fists answer. \
 	His will be done."
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = RACES_ALL_KINDS
+	
 	outfit = /datum/outfit/job/roguetown/sojourner
 	subclass_languages = list(/datum/language/otavan, /datum/language/celestial)
 	category_tags = list(CTAG_ORTHODOXIST)

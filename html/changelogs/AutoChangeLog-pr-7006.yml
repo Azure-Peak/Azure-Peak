@@ -1,0 +1,5 @@
+author: "Ollanius"
+delete-after: True
+changes:
+  - code_imp: "Further pre-release tweaks to Avantyne equipment, relating to coverage and performance. A full set of Avantyne-Threaded Armor should now offer complete coverage to the body."
+  - code_imp: "All the descriptions in swords.dmi that were particularly long have now been organized into neat blocks."

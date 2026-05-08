@@ -7,6 +7,9 @@ GLOBAL_LIST_INIT(target_interested_atoms, typecacheof(list(/mob)))
 	action_cooldown = 2 SECONDS
 	/// How far can we see stuff?
 	var/vision_range = 9
+	/// If TRUE, also scan one z-level up through transparent ceilings (treetops, open dungeon floors).
+	/// Sneak detection is skipped for targets found above - you can't passively spot a sneaker through a floor.
+	var/find_targets_above = TRUE
 
 /datum/ai_behavior/find_potential_targets/perform(seconds_per_tick, datum/ai_controller/controller, target_key, targetting_datum_key, hiding_location_key)
 	. = ..()
@@ -29,6 +32,14 @@ GLOBAL_LIST_INIT(target_interested_atoms, typecacheof(list(/mob)))
 	// Wake/sleep is gated by spatial-grid cell tracking on the base controller.
 	// When no clients are in our cells we don't tick, so scanning here is cheap.
 	var/list/potential_targets = viewers(vision_range, controller.pawn) - living_mob
+	var/list/targets_from_above
+	if(find_targets_above)
+		var/turf/turf_above = GET_TURF_ABOVE(get_turf(controller.pawn))
+		if(turf_above && istransparentturf(turf_above))
+			var/list/above_targets = viewers(vision_range, turf_above) - living_mob
+			if(above_targets.len)
+				targets_from_above = above_targets
+				potential_targets |= above_targets
 
 	if(!potential_targets.len)
 		finish_action(controller, succeeded = FALSE)
@@ -46,6 +57,10 @@ GLOBAL_LIST_INIT(target_interested_atoms, typecacheof(list(/mob)))
 			filtered_targets -= living_target
 			continue
 		if(!living_target.rogue_sneaking)
+			continue
+		// Don't passively spot sneakers through a floor - matches old _npc.dm carve-out.
+		if(targets_from_above && (living_target in targets_from_above))
+			filtered_targets -= living_target
 			continue
 		var/extra_chance = (living_mob.health <= living_mob.maxHealth * 50) ? 30 : 0 // if we're below half health, we're way more alert
 		if (!living_mob.npc_detect_sneak(living_target, extra_chance))

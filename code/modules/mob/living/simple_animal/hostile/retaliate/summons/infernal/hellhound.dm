@@ -1,5 +1,6 @@
 
 /mob/living/simple_animal/hostile/retaliate/rogue/infernal/hellhound
+	threat_point = THREAT_MODERATE
 	icon = 'icons/mob/summonable/32x32.dmi'
 	name = "hell hound"
 	desc = "This is a canine-shaped creature formed of billowing heat and snaking flames! Its maw resembles a furnace; \

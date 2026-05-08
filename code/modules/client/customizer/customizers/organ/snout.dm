@@ -368,3 +368,17 @@
 		/datum/sprite_accessory/snout/stubby,
 		/datum/sprite_accessory/snout/stubbyalt,
 		)
+
+// --- Aasimar Only
+/datum/customizer/organ/snout/wings
+	customizer_choices = list(/datum/customizer_choice/organ/snout/wings)
+	name = "Veil"
+	allows_disabling = TRUE
+	default_disabled =  TRUE
+
+/datum/customizer_choice/organ/snout/wings
+	name = "Veil"
+	organ_type = /obj/item/organ/snout/anthro
+	sprite_accessories = list(
+	    /datum/sprite_accessory/snout/masked,
+		)

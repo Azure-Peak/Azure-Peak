@@ -1,13 +1,14 @@
 // Conjure Aegis - Aegiscraft Minor Aspect
 // Conjures an arcyne shield designed to counter projectiles.
-// 200 durability, 70 coverage, 7 WDef.
+// 200 durability, 70 coverage, 9 WDef.
 
 /datum/action/cooldown/spell/conjure_aegis
 	button_icon = 'icons/mob/actions/mage_conjure.dmi'
 	name = "Conjure Aegis"
 	desc = "Conjure an Arcyne Aegis - a projected shield of arcyne energy designed to counter projectiles.\n\
 	Less effective against deliberate melee strikes, but excellent against ranged attacks.\n\
-	The shield vanishes when broken or when a new one is conjured."
+	The shield vanishes when broken or when a new one is conjured.\n\
+	While channeling this spell, I cannot parry or dodge - my focus is entirely on the conjuration."
 	button_icon_state = "conjure_aegis"
 	sound = 'sound/magic/whiteflame.ogg'
 	spell_color = GLOW_COLOR_ARCANE
@@ -28,8 +29,9 @@
 	charge_slowdown = CHARGING_SLOWDOWN_HEAVY
 	charge_sound = 'sound/magic/charging.ogg'
 	cooldown_time = 90 SECONDS
+	blocks_defense_while_channeling = TRUE
 
-	associated_skill = /datum/skill/magic/arcane
+	associated_skill = /datum/skill/combat/shields
 	spell_tier = 2
 	spell_impact_intensity = SPELL_IMPACT_NONE
 
@@ -76,14 +78,14 @@
 	icon_state = "moonlight_shield"
 	pixel_x = -16
 	bigboy = TRUE
-	wdefense = 7
+	wdefense = 9
 	coverage = 70
 	max_integrity = 200
 	force = 5
 	unenchantable = TRUE
 	anvilrepair = /datum/skill/magic/arcane
 	parrysound = list('sound/combat/parry/shield/magicshield (1).ogg', 'sound/combat/parry/shield/magicshield (2).ogg', 'sound/combat/parry/shield/magicshield (3).ogg')
-	associated_skill = /datum/skill/magic/arcane
+	associated_skill = /datum/skill/combat/shields
 	var/datum/action/cooldown/spell/conjure_aegis/linked_spell
 	var/datum/weakref/caster_ref
 
