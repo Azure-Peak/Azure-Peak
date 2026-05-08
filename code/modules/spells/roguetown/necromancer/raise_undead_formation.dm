@@ -1,4 +1,3 @@
-
 /obj/effect/proc_holder/spell/invoked/raise_undead_formation
 	name = "Raise Undead Formation"
 	desc = "Invoke forbidden magicka to summon a cohort of mindless, shambling skeletons. </br>Mindless skeletons can be given orders to guard, patrol, and attack by their \
@@ -37,9 +36,6 @@
 	var/skeleton_roll
 
 	for(var/i = 1 to to_spawn)
-		if(i > to_spawn)
-			i = 1
-
 		if(i > 1)
 			if(user.dir == NORTH || user.dir == SOUTH)
 				if(prob(50))
@@ -56,18 +52,54 @@
 			continue
 
 		new /obj/effect/temp_visual/bluespace_fissure(T)
+
 		skeleton_roll = rand(1,100)
+
+		var/mob/living/simple_animal/hostile/rogue/skeleton/S
+
 		switch(skeleton_roll)
 			if(1 to 20)
-				new /mob/living/simple_animal/hostile/rogue/skeleton/axe(T, user, cabal_affine)
+				S = new /mob/living/simple_animal/hostile/rogue/skeleton/axe(T, user, cabal_affine)
 			if(21 to 40)
-				new /mob/living/simple_animal/hostile/rogue/skeleton/spear(T, user, cabal_affine)
+				S = new /mob/living/simple_animal/hostile/rogue/skeleton/spear(T, user, cabal_affine)
 			if(41 to 60)
-				new /mob/living/simple_animal/hostile/rogue/skeleton/guard(T, user, cabal_affine)
+				S = new /mob/living/simple_animal/hostile/rogue/skeleton/guard(T, user, cabal_affine)
 			if(61 to 80)
-				new /mob/living/simple_animal/hostile/rogue/skeleton/bow(T, user, cabal_affine)
+				S = new /mob/living/simple_animal/hostile/rogue/skeleton/bow(T, user, cabal_affine)
 			if(81 to 100)
-				new /mob/living/simple_animal/hostile/rogue/skeleton(T, user, cabal_affine)
+				S = new /mob/living/simple_animal/hostile/rogue/skeleton/guard(T, user, cabal_affine)
+
+		if(S && miracle)
+			var/holyLV = user.get_skill_level(/datum/skill/magic/holy)
+			var/bonus = max(0, holyLV - 1) * 2
+
+			S.STACON += bonus * 2
+			S.STASTR += bonus
+			S.STASPD += bonus / 2
+
+			to_chat(user, span_notice("Summoned [S] stats: STR [S.STASTR] | CON [S.STACON] | SPD [S.STASPD]"))
+
+			var/aggro_range = 8
+
+			for(var/mob/living/M in view(aggro_range, S))
+				if(M == S)
+					continue
+				if(M.stat == DEAD)
+					continue
+				if(M.mind)
+					continue
+				if(!M.ai_controller)
+					continue
+				if(M.faction_check_mob(S))
+					continue
+
+				M.ai_controller.set_blackboard_key(BB_BASIC_MOB_CURRENT_TARGET, S)
+				M.ai_controller.set_blackboard_key(BB_HIGHEST_THREAT_MOB, S)
+
+				var/datum/component/ai_aggro_system/aggro = M.GetComponent(/datum/component/ai_aggro_system)
+				if(aggro)
+					aggro.add_threat_to_mob(S, 50)
+
 	return TRUE
 
 /obj/effect/proc_holder/spell/invoked/raise_undead_formation/necromancer
@@ -75,5 +107,3 @@
 	is_summoned = TRUE
 	recharge_time = 35 SECONDS
 	to_spawn = 3
-
-

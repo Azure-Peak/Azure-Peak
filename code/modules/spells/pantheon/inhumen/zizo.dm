@@ -297,3 +297,143 @@
 			user.mind.AddSpell(new /datum/action/cooldown/spell/projectile/arcyne_lance)
 		if("Lesser Gravel Blast")
 			user.mind.AddSpell(new /datum/action/cooldown/spell/projectile/gravel_blast/lesser)
+
+/// T3: Bone Cataclysm - Pretty much pops your summons into sad remains of their former selves. Shouldn't do a lot of damage, but it frags someone with bone splinters if they're close enough.
+/datum/action/cooldown/spell/miracle/bone_cataclysm
+	name = "Bone Cataclysm"
+	desc = "Detonate all of your nearby skeletons in a wave of profane bone shrapnel. You and Gravemarked allies will not be harmed by it."
+	fluff_desc = "The dead are tools. Tools are meant to be broken."
+	button_icon_state = "bone_zone"
+	click_to_activate = FALSE
+	self_cast_possible = TRUE
+	charge_required = TRUE
+	charge_time = 4 SECONDS
+	charge_slowdown = 0.5
+	charge_message = "I begin unraveling my undead servants..."
+	cooldown_time = 2 MINUTES
+	primary_resource_type = SPELL_COST_DEVOTION
+	primary_resource_cost = 50
+	invocations = list("Solve ossa. Redite ad pulverem!")
+	invocation_type = INVOCATION_SHOUT
+	sound = 'sound/magic/swap.ogg'
+	spell_color = "#c300ff"
+	glow_intensity = GLOW_INTENSITY_HIGH
+
+/datum/action/cooldown/spell/miracle/bone_cataclysm/cast(atom/cast_on)
+	. = ..()
+	var/list/valid_skeletons = list()
+	var/faction_tag = "[REF(owner)]_faction"
+	for(var/mob/living/L in view(9, owner))
+		if(QDELETED(L))
+			continue
+		if(L.stat == DEAD)
+			continue
+		if(istype(L, /mob/living/simple_animal/hostile/rogue/skeleton))
+			var/mob/living/simple_animal/hostile/rogue/skeleton/S = L
+			if(S.summoner != owner.real_name)
+				continue
+			valid_skeletons += S
+			continue
+
+		if(istype(L, /mob/living/carbon/human/species/skeleton))
+			if(L.mind?.current)
+				if(!(faction_tag in L.mind.current.faction))
+					continue
+			else
+				if(!(faction_tag in L.faction))
+					continue
+			valid_skeletons += L
+
+	if(!valid_skeletons.len)
+		owner.balloon_alert(owner, "No bound skeletons nearby!")
+		return FALSE
+
+	owner.visible_message(span_danger("[owner] raises their hand as nearby skeletons begin violently rattling apart!"),	span_userdanger("I sacrifice my undead servants."))
+
+	for(var/mob/living/S in valid_skeletons)
+		S.Jitter(100)
+		addtimer(CALLBACK(src, PROC_REF(explode_skeleton), S), rand(6, 10))
+		
+	return TRUE
+
+/datum/action/cooldown/spell/miracle/bone_cataclysm/proc/explode_skeleton(mob/living/S)
+	if(!S || QDELETED(S))
+		return
+
+	var/turf/T = get_turf(S)
+	if(!T)
+		return
+
+	var/faction_tag = "[REF(owner)]_faction"
+
+	S.visible_message(span_danger("[S] erupts into a storm of bone fragments!"))
+	new /obj/effect/temp_visual/explosion(T)
+	playsound(T, 'sound/misc/explode/explosion.ogg', 50)
+
+// Repulse copypasta for more chupatz, will affect you too, just not do damage.
+	var/list/thrownatoms = list()
+	for(var/turf/nearby in get_hear(1, T))
+		for(var/atom/movable/AM in nearby)
+			thrownatoms += AM
+	for(var/atom/movable/AM in thrownatoms)
+		if(QDELETED(AM))
+			continue
+		if(AM == S)
+			continue
+		if(AM.anchored)
+			continue
+		if(isliving(AM))
+			var/mob/living/M = AM
+			if(M == owner)
+				continue
+			if(M.mind?.current)
+				if(faction_tag in M.mind.current.faction)
+					continue
+			else
+				if(faction_tag in M.faction)
+					continue
+			M.set_resting(TRUE, TRUE)
+			to_chat(M, span_danger("The blast hurls you backwards!"))
+		var/atom/throwtarget = get_edge_target_turf(T, get_dir(T, get_step_away(AM, T)))
+		AM.safe_throw_at(throwtarget, 2, 1,	owner, force = MOVE_FORCE_EXTREMELY_STRONG)
+
+	for(var/mob/living/carbon/C in view(3, T))
+		if(C.stat == DEAD)
+			continue
+		if(C == owner)
+			continue
+		if(C.mind?.current)
+			if(faction_tag in C.mind.current.faction)
+				continue
+		else
+			if(faction_tag in C.faction)
+				continue
+
+		var/dist = get_dist(C, T)
+		var/min_splinters
+		var/max_splinters
+
+		switch(dist)
+			if(0,1)
+				min_splinters = 2
+				max_splinters = 4
+			if(2)
+				min_splinters = 1
+				max_splinters = 3
+			if(3)
+				min_splinters = 1
+				max_splinters = 2
+			else
+				continue
+		var/splinter_count = rand(min_splinters, max_splinters)
+		C.adjustBruteLoss(rand(10,20))
+
+		for(var/i in 1 to splinter_count)
+			if(!length(C.bodyparts))
+				break
+			var/obj/item/bodypart/limb = pick(C.bodyparts)
+			var/obj/item/bone/splinter/B = new
+			limb.add_embedded_object(B, FALSE, TRUE)
+		to_chat(C, span_userdanger("Bone splinters bury themselves deep into your flesh!"))
+		
+	S.gib()
