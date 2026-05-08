@@ -171,9 +171,9 @@
 					last_gasp = world.time + rand(3 SECONDS, 9 SECONDS)
 					if(ishuman(src))
 						var/mob/living/carbon/human/H = src
-						H.deathgasp_visual()
 						H.deathgasp_noise()
 						if(H.mind || H.mind.key)
+							H.deathgasp_visual()
 							if(prob(50)) // mostly to halve the potential chatlog spam
 								emote(pick("struggles to breathe, deathly pale!"))
 
