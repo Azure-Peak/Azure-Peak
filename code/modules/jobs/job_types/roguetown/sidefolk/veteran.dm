@@ -110,7 +110,7 @@
 
 	H.adjust_blindness(-3)
 	if(H.mind)
-		var/weapons = list("Longsword","Sabre")
+		var/weapons = list("Longsword","Sabre", "Mace")
 		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 		H.set_blindness(0)
 		switch(weapon_choice)
@@ -120,6 +120,8 @@
 			if("Sabre")
 				H.put_in_hands(new /obj/item/rogueweapon/sword/sabre)
 				H.equip_to_slot_or_del(new /obj/item/rogueweapon/scabbard/sword, SLOT_BELT_L)
+			if("Mace")
+				H.put_in_hands(new /obj/item/rogueweapon/mace)
 		var/retirement = list("Pursue Homesteading", "Dabble in Artisan Smithing", "Write an autobiography", "Keep up with your old regimen")
 		var/retirement_choice = input(H, "During your retirement, you decided to...", "PICK A HOBBY.") as anything in retirement
 		switch(retirement_choice)
@@ -554,8 +556,19 @@
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
 	saiga_shoes = /obj/item/clothing/shoes/roguetown/horseshoes
-	beltl = /obj/item/quiver/arrows
-	beltr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
+	var/weapons = list("Recurve Bow", "Slurbow", "Crossbow")
+	var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+	H.set_blindness(0)
+	switch(weapon_choice)
+		if("Recurve Bow")
+			beltl = /obj/item/quiver/arrows
+			beltr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
+		if("Slurbow")
+			beltr = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/slurbow
+			beltl = /obj/item/quiver/bolt/light
+		if("Crossbow")
+			H.put_in_hands(new /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow)
+			beltl = /obj/item/quiver/bolt/standard
 	backr = /obj/item/storage/backpack/rogue/satchel/black
 	backl = /obj/item/rogueweapon/stoneaxe/woodcut/pick
 	belt = /obj/item/storage/belt/rogue/leather/black
