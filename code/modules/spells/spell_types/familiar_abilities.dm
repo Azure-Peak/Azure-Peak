@@ -319,6 +319,7 @@
 	charge_required = FALSE
 
 /datum/action/cooldown/spell/arcyne_forge/elemental/cast(atom/cast_on)
+	. = ..()
 	var/mob/living/simple_animal/pet/familiar/H = owner
 	if(!istype(H))
 		return FALSE
