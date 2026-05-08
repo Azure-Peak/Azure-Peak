@@ -293,3 +293,52 @@
       back, phew.
   - bugfix: Nosferato have undergone Pestrian medical examinations en-mass, they no
       longer possess 2 extra non-functional eyes on their UI
+2026-05-08:
+  FreeStylaLT:
+  - balance: Swift Balance now requires the attacker to be wearing light armor to
+      work.
+  - balance: Parrying with a Swift Balanced weapon while having nothing in the off-hand
+      will give a small boost in defense.
+  - balance: Swift Balance's parry penalty now scales based on the targeting zone
+      of the attacker. The harder it is to hit, the harder it is to defend against.
+  - rscadd: Expanding headshots from RW.
+  Juubo:
+  - qol: biting and drinking don't travel through floors
+  - sound: reduced the bite and drink volumes
+  Kelshark:
+  - rscadd: Added a silver scythe
+  Ketrai:
+  - rscadd: Dream meditation now spawns big dream armor repair shards.
+  - rscadd: Dreamwalker bevor.
+  - rscadd: Dreamwalker hauberk
+  - rscadd: Dreammwalker bracers
+  - balance: Dreamwalkers can sleep, for now.
+  - balance: Dreamwalker armor no longer auto repairs. It now spawns shards that need
+      to be picked up.
+  - image: New dreamwalker gauntlets sprite.
+  - bugfix: Fixed the infinity ham, hams are no longer infinite.
+  Ryan180602:
+  - bugfix: Rituous'd zizites are silver weak, again
+  SnubbyNotSorry:
+  - rscadd: Exorcist can now spawn with a silver katar or silver gronnic claws, sacrificing
+      a specialised weapon skill for +1 athletics (bonus does not apply to old characters)
+  - balance: old exorcist now gets missing expert knifefighting and unarmed skills,
+      in line with their other weapon skills
+  - bugfix: fixed silver katar (not the psydonic one) missing from the silver weapon
+      loot table
+  WeNeedMorePhoron:
+  - rscadd: You can now actively end a shortage by exporting any combination of goods
+      up to 75% of the aggregate demand of the goods across all region, this will
+      reset price back to normal letting the town work together to restore normalcy.
+  - rscadd: Improved the trading modal to show the amount on stockpile
+  - rscadd: Essence of Wilderness demand raised from 1 to 3, it is accepted by stockpile
+      by default now
+  - rscadd: Added fur to auto import list for tailor QOL. Increased stockpile amount.
+  - rscadd: Doubled baseline demand for wood.
+  - rscadd: Autoprice sell price now matches import price exactly.
+  babamandaa:
+  - balance: damage amplification for strong intent has gone from 10% to 15%
+  - balance: sharpness damage bonus on strong intent has gone from 2 to 3
+  - balance: integrity damage bonus on strong intent has gone from 2 to 3
+  gatorceres:
+  - balance: necromancer gets a minor aspect

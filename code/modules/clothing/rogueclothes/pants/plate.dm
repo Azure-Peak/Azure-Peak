@@ -131,8 +131,9 @@
 	qdel(src)
 
 /obj/item/clothing/under/roguetown/platelegs/avantyne
-	name = "avantyne fauldcoat"
-	desc = "Bolstered by threads of avantyne, padded by darksteel. It covers and protects - thought to be impossibly made."
+	name = "avantyne-threaded fauldcoat"
+	desc = "Tassets of threaded darksteel, worn atop a lesser waistcoat. The weightlessness of the alloy is borne from its \
+	unholy imbuement; for lux invigorates metal far greater than even the purest ores."
 	icon_state = "zizoplatelegs_med"
 	max_integrity = ARMOR_INT_LEG_STEEL_PLATE
 	armor_class = ARMOR_CLASS_MEDIUM
