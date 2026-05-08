@@ -10,7 +10,7 @@
 	movement_interrupt = FALSE
 	chargedloop = null
 	antimagic_allowed = TRUE
-	recharge_time = 15 SECONDS
+	recharge_time = 10 SECONDS
 	hide_charge_effect = TRUE
 
 /obj/effect/proc_holder/spell/invoked/gravemark/cast(list/targets, mob/living/user)
