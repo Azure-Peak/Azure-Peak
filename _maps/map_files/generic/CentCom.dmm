@@ -3536,13 +3536,6 @@
 /obj/effect/decal/remains/bear,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/indoors/lich_start/lich_lair)
-"YT" = (
-/obj/item/roguecoin/aalloy/pile,
-/obj/structure/fluff/railing/border{
-	dir = 8
-	},
-/turf/open/water/cleanshallow,
-/area/rogue/indoors/lich_start/lich_lair)
 "YV" = (
 /turf/open/floor/rogue/AzureSand,
 /area/rogue/underworld/dream)
@@ -5008,10 +5001,10 @@ XS
 Zv
 Zv
 nj
-YT
+Fo
 Ji
 gi
-YT
+Fo
 nj
 dQ
 pJ
