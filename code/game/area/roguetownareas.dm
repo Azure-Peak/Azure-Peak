@@ -77,6 +77,12 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(list(/area/rogue/indoors
 	droning_sound_dusk = null
 	droning_sound_night = null
 
+/area/rogue/indoors/lich_start //Sovlnuke with a unique track, lich won't be here too long at least and its very unlikely they'll ever return, so we don't need an area name splash.
+	name = "Lich Spawn Spot"
+	droning_sound = 'sound/music/area/morosewaters.ogg'
+	droning_sound_dusk = null
+	droning_sound_night = null
+
 /area/rogue/indoors/ravoxarena
 	name = "Ravox's Arena"
 	deathsight_message = "an arena of justice"
