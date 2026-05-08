@@ -168,23 +168,15 @@
 			if(blood_volume <= BLOOD_VOLUME_BAD)
 				adjustOxyLoss(blood_volume <= BLOOD_VOLUME_SURVIVE ? 3 : 1)
 				if(world.time >= last_gasp)
-					last_gasp = world.time + rand(3 SECONDS, 12 SECONDS)
-					var/le_gasp = pick("gasp","choke","gag","wheeze","gurgle","sputter")
-					var/gasp_color
-					switch(getOxyLoss())
-						if(0 to 20)
-							gasp_color = "#00ff40"
-						if(21 to 40)
-							gasp_color = "#c8ff00" 
-						if(41 to 60)
-							gasp_color = "#eeff00" 
-						if(61 to 80)
-							gasp_color = "#ff9100" 
-						if(81 to INFINITY)
-							gasp_color = "#ff0000" 
-					balloon_alert_to_viewers("<font color='[gasp_color]'>*[le_gasp]!* (dying)</font>")
-					emote("gasp")
-					
+					last_gasp = world.time + rand(3 SECONDS, 9 SECONDS)
+					if(ishuman(src))
+						var/mob/living/carbon/human/H = src
+						H.deathgasp_visual()
+						H.deathgasp_noise()
+						if(H.mind || H.mind.key)
+							if(prob(50)) // mostly to halve the potential chatlog spam
+								emote(pick("struggles to breathe, deathly pale!"))
+
 			else if((blood_volume > BLOOD_VOLUME_SURVIVE) || HAS_TRAIT(src, TRAIT_BLOODLOSS_IMMUNE))
 				if(getOxyLoss())
 					adjustOxyLoss(-1.6)
@@ -468,3 +460,31 @@
 /mob/living/carbon/human/add_splatter_floor(turf/T, small_drip)
 	if(!(NOBLOOD in dna.species.species_traits))
 		..()
+
+/mob/living/carbon/human/proc/deathgasp_visual()
+	var/le_gasp = pick("gasp", "choke", "gag", "wheeze", "gurgle", "sputter")
+	var/gasp_color = "#ffffff"
+	switch(getOxyLoss())
+		if(0 to 20)
+			gasp_color = "#00ff40"
+		if(21 to 40)
+			gasp_color = "#c8ff00"
+		if(41 to 60)
+			gasp_color = "#eeff00"
+		if(61 to 80)
+			gasp_color = "#ff9100"
+		if(81 to INFINITY)
+			gasp_color = "#ff0000"
+	var/gasptext = "<font color='[gasp_color]'>*[le_gasp]!* (dying)</font>"
+	filtered_balloon_alert(TRAIT_COMBAT_AWARE, gasptext, show_self = FALSE)
+	skill_filtered_balloon_alert(/datum/skill/misc/medicine, SKILL_LEVEL_APPRENTICE, gasptext, 0, 0)
+
+/mob/living/carbon/human/proc/deathgasp_noise()
+	var/ooOOEEUHGHGH = null
+	if(gender == MALE)
+		ooOOEEUHGHGH = pick('sound/vo/male/gen/mchoke1.ogg', 'sound/vo/male/gen/mchoke2.ogg', 'sound/vo/male/gen/mchoke3.ogg', 'sound/vo/male/gen/mchoke4.ogg')
+	else if(gender == FEMALE)
+		ooOOEEUHGHGH = pick('sound/vo/female/gen/femchoke1.ogg', 'sound/vo/female/gen/femchoke2.ogg', 'sound/vo/female/gen/femchoke3.ogg', 'sound/vo/female/gen/femchoke4.ogg')
+
+	if(ooOOEEUHGHGH && !(HAS_TRAIT(src, TRAIT_NOBREATH)))
+		playsound(get_turf(src), ooOOEEUHGHGH, 90, FALSE)
