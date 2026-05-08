@@ -377,7 +377,7 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark)
 
 /obj/effect/landmark/start/lich/Initialize()
 	. = ..()
-	GLOB.lich_start += loc
+	GLOB.lich_starts += loc
 
 /obj/effect/landmark/start/delf
 	name = "delf"
