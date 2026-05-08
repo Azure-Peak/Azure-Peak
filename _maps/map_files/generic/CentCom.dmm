@@ -2805,6 +2805,13 @@
 /obj/effect/landmark/start/lich,
 /turf/open/floor/rogue/churchmarble,
 /area/rogue/indoors/lich_start)
+"Rn" = (
+/obj/structure/fluff/traveltile/lich{
+	aportalgoesto = "lichout";
+	aportalid = "lichin"
+	},
+/turf/open/floor/rogue/naturalstone,
+/area/rogue/indoors/lich_start)
 "Ro" = (
 /turf/open/floor/rogue/rooftop/west,
 /area/rogue/indoors/eventarea)
@@ -4260,7 +4267,7 @@ Qc
 Qc
 st
 wg
-wg
+Rn
 uw
 uw
 uw
@@ -4390,7 +4397,7 @@ Qc
 Qc
 st
 wg
-wg
+Rn
 uw
 uw
 uw
@@ -4520,7 +4527,7 @@ Ib
 Qc
 st
 wg
-wg
+Rn
 uw
 uw
 uw

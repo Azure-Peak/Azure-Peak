@@ -23205,6 +23205,13 @@
 	},
 /turf/open/water/swamp/deep,
 /area/rogue/outdoors/mountains/decap)
+"eMH" = (
+/obj/structure/fluff/traveltile/lich{
+	aportalgoesto = "lichin";
+	aportalid = "lichout"
+	},
+/turf/open/floor/rogue/naturalstone,
+/area/rogue/outdoors/mountains)
 "eMI" = (
 /obj/structure/mineral_door/wood/fancywood{
 	locked = 1;
@@ -515413,8 +515420,8 @@ cxA
 cxA
 cxA
 cxA
-cxA
-cxA
+fZN
+bSX
 cxA
 cxA
 cxA
@@ -515863,13 +515870,13 @@ cxA
 cxA
 cxA
 cxA
-cxA
-cxA
-cxA
-cxA
-cxA
-cxA
-cxA
+eMH
+fZN
+bSX
+bSX
+bSX
+bSX
+bSX
 cxA
 aBB
 aBB
@@ -516315,14 +516322,14 @@ cxA
 cxA
 cxA
 cxA
-cxA
-cxA
-cxA
-cxA
-cxA
-cxA
-cxA
-cxA
+eMH
+fZN
+bSX
+bSX
+bSX
+bSX
+bSX
+bSX
 aBB
 aBB
 aBB
@@ -516767,14 +516774,14 @@ cxA
 cxA
 cxA
 cxA
-cxA
-cxA
-cxA
-cxA
-cxA
-cxA
-cxA
-cxA
+eMH
+fZN
+fZN
+bSX
+bSX
+bSX
+bSX
+bSX
 aBB
 aBB
 aBB
@@ -517219,14 +517226,14 @@ cxA
 cxA
 cxA
 cxA
+eMH
+fZN
+bSX
+bSX
+bSX
 cxA
-cxA
-cxA
-cxA
-cxA
-cxA
-cxA
-cxA
+bSX
+bSX
 aBB
 aBB
 aBB
@@ -517674,8 +517681,8 @@ cxA
 cxA
 cxA
 cxA
-cxA
-cxA
+bSX
+bSX
 cxA
 cxA
 cxA
