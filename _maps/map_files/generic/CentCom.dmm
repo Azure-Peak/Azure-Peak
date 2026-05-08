@@ -1277,6 +1277,10 @@
 "pn" = (
 /turf/open/floor/rogue/dirt,
 /area/rogue/indoors/lich_start)
+"po" = (
+/obj/structure/fluff/psycross/zizocross/stone,
+/turf/open/floor/rogue/naturalstone,
+/area/rogue/indoors/lich_start)
 "pr" = (
 /turf/open/floor/rogue/dirt,
 /area/rogue/outdoors)
@@ -2797,6 +2801,10 @@
 "Rb" = (
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/indoors/eventarea)
+"Rd" = (
+/obj/effect/landmark/start/lich,
+/turf/open/floor/rogue/churchmarble,
+/area/rogue/indoors/lich_start)
 "Ro" = (
 /turf/open/floor/rogue/rooftop/west,
 /area/rogue/indoors/eventarea)
@@ -2911,10 +2919,6 @@
 /obj/item/natural/cloth,
 /turf/open/floor/rogue/cobble,
 /area/rogue/indoors/shelter/bog_hag)
-"TK" = (
-/obj/effect/landmark/start/lich,
-/turf/open/floor/rogue/churchmarble,
-/area/rogue/indoors/lich_start)
 "TT" = (
 /obj/machinery/light/rogue/candle,
 /turf/closed,
@@ -3598,7 +3602,7 @@ Pe
 Pe
 Qq
 GI
-wg
+po
 GI
 ay
 uw
@@ -4347,7 +4351,7 @@ uw
 hQ
 IL
 IS
-TK
+Rd
 VH
 Kn
 Zv
@@ -5151,7 +5155,7 @@ Ai
 Ai
 Ai
 Jt
-ay
+po
 ay
 ay
 Qq
