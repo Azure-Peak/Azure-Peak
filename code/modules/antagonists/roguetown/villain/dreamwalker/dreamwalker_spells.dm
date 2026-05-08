@@ -352,7 +352,7 @@
 //Dream meditation
 /obj/effect/proc_holder/spell/invoked/dream_trance
 	name = "Dream Trance"
-	desc = "Draw dream energy into your being to banish any fatigue."
+	desc = "Draw dream energy into your being to banish any fatigue. Spawns shards that can be picked up with a weapon or by walking over them to repair your armor."
 	chargedrain = 0
 	chargetime = 0
 	recharge_time = 10 SECONDS
@@ -365,12 +365,16 @@
 
 /obj/effect/proc_holder/spell/invoked/dream_trance/cast(list/targets, mob/user)
 	var/mob/living/carbon/human/H = user
+	var/datum/component/dreamwalker_repair/DR = H.GetComponent(/datum/component/dreamwalker_repair)
 
 	to_chat(user, span_info("I begin meditating."))
 	while(TRUE)
 		if(do_after(H, 15 SECONDS, FALSE, H))
 			H.energy_add(0.2 * H.max_energy)
 			H.apply_status_effect(/datum/status_effect/buff/healing, 5)
+			if(DR)
+				DR.spawn_shard(2 MINUTES, 250)
+				to_chat(H, span_nicegreen("A massive fragment of regenerative dream metal crystallizes nearby!"))
 		else
 			to_chat(user, span_info("I must remain still to focus energies and recover."))
 			break

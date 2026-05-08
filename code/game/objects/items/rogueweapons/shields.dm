@@ -734,7 +734,6 @@
 	. = ..()
 	. += span_info("This greatshield has a uniquely high chance to block incoming projectiles, without requiring the active use of the 'BLOCK' intent.")
 
-
 /obj/item/rogueweapon/shield/iron/steppesman
 	name = "steppesman shield"
 	desc = "A banded iron shield decorated with traditional Aavnic colours, often seen in the hands of the Steppesmen."
@@ -749,10 +748,6 @@
 	coverage = 15
 	max_integrity = 200
 	possible_item_intents = list(SHIELD_BLOCK, FENCER_DAZE) */
-
-//////////////
-// SPECIAL! //
-//////////////
 
 /obj/item/rogueweapon/shield/steam
 	name = "steam shield"

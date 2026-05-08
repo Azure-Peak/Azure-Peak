@@ -133,6 +133,14 @@ GLOBAL_LIST_INIT(quest_recovery_shipments, list(
 	spawn_recovery_parcel(landmark)
 	return TRUE
 
+/datum/quest/kill/recovery/on_guardian_killed()
+	if(!hunt_timer_id)
+		return
+	if(any_guardians_alive())
+		return
+	clear_hunt_timers()
+	announce_to_bearer("<b>The guardians are slain.</b> Recover the parcel and deliver it at your leisure.")
+
 /datum/quest/kill/recovery/proc/spawn_recovery_parcel(obj/effect/landmark/quest_spawner/landmark)
 	var/turf/spawn_turf = landmark.get_safe_spawn_turf()
 	if(!spawn_turf)

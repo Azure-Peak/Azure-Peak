@@ -11,6 +11,7 @@
 
 	grid_width = 64
 	grid_height = 32
+	throw_on_break = TRUE
 
 /obj/item/clothing/mask/attack_self(mob/user)
 	if(CHECK_BITFIELD(clothing_flags, VOICEBOX_TOGGLABLE))

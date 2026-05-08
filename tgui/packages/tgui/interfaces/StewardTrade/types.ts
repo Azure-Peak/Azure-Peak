@@ -51,6 +51,8 @@ export type EconomicEvent = {
   event_type: string; // ECON_EVENT_SHORTAGE | ECON_EVENT_OVERSUPPLY
   days_left: number;
   affected_goods: string[];
+  saturation_target: number;
+  saturation_progress: number;
 };
 
 export type BanditryProjection = {
@@ -154,6 +156,8 @@ export type TradeQuote = {
   warrant_remaining: number;
   warrant_ok: BooleanLike;
   can_afford: BooleanLike;
+  stockpile_amount: number;
+  stockpile_after: number;
 };
 
 export type PetitionCategory = {

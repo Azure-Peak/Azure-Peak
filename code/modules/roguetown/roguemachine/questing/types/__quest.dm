@@ -86,13 +86,10 @@
 				if(Q && Q.quest_ref?.resolve() == src)
 					M.remove_filter("quest_item_outline")
 					qdel(Q)
-			// Only delete the item if it's part of a fetch or courier quest.
-			else if(quest_type == QUEST_RETRIEVAL && istype(target_atom, target_item_type))
+			else if(!complete && target_item_type && quest_type == QUEST_RETRIEVAL && istype(target_atom, target_item_type))
 				qdel(target_atom)
-			else if(quest_type == QUEST_COURIER && istype(target_atom, target_delivery_item))
+			else if(!complete && target_delivery_item && quest_type == QUEST_COURIER && istype(target_atom, target_delivery_item))
 				qdel(target_atom)
-
-		qdel(tracked_weakref)
 	tracked_atoms.Cut()
 
 	// Clean up references
@@ -246,6 +243,11 @@
 		var/atom/A = ref.resolve()
 		if(!A || QDELETED(A))
 			continue
+
+		if(isliving(A))
+			var/mob/living/L = A
+			if(L.stat == DEAD)
+				continue
 
 		var/turf/A_turf = get_turf(A)
 		if(!A_turf)

@@ -135,6 +135,8 @@
 			"event_type" = E.event_type,
 			"days_left" = max(0, E.day_expires - GLOB.dayspassed),
 			"affected_goods" = E.affected_goods ? E.affected_goods.Copy() : list(),
+			"saturation_target" = E.saturation_target,
+			"saturation_progress" = E.saturation_progress,
 		))
 	data["active_events"] = events
 
@@ -294,7 +296,7 @@
 	var/list/petition_state = list()
 	petition_state["pledge_balance"] = SStreasury.burgher_pledge_fund?.balance || 0
 	petition_state["petitions_remaining"] = SSeconomy.petitions_remaining_today()
-	petition_state["is_steward_role"] = (user.job in list("Steward", "Clerk", "Grand Duke")) ? TRUE : FALSE
+	petition_state["is_steward_role"] = (user.job in GLOB.crown_authority_roles) ? TRUE : FALSE
 	petition_state["is_alderman_acting"] = SScity_assembly?.is_alderman(user) ? TRUE : FALSE
 	var/list/eligibility = list()
 	for(var/cat_id in GLOB.petition_categories)
@@ -311,7 +313,7 @@
 		"state_label" = bankruptcy_state_label(SStreasury.treasury_state),
 	)
 
-	var/can_draw_loan = (user.job in list("Steward", "Clerk", "Grand Duke", "Hand")) && !SScity_assembly?.is_alderman(user)
+	var/can_draw_loan = (user.job in GLOB.crown_authority_roles) && !SScity_assembly?.is_alderman(user)
 	data["atc_loan"] = list(
 		"available" = (can_draw_loan && SStreasury.atc_loan_available()) ? TRUE : FALSE,
 		"can_view" = can_draw_loan ? TRUE : FALSE,
@@ -859,7 +861,7 @@ GLOBAL_LIST_INIT(steward_trade_sequestration_locked_actions, list(
 			if(SScity_assembly?.is_alderman(usr))
 				to_chat(usr, span_warning("The Alderman's writ does not extend to petitioning the trade hall."))
 				return TRUE
-			if(!(usr.job in list("Steward", "Clerk", "Grand Duke")))
+			if(!(usr.job in GLOB.crown_authority_roles))
 				to_chat(usr, span_warning("Only the Steward's office may petition the trade hall."))
 				return TRUE
 			var/region_id = params["region_id"]
@@ -874,7 +876,7 @@ GLOBAL_LIST_INIT(steward_trade_sequestration_locked_actions, list(
 			if(SScity_assembly?.is_alderman(usr))
 				to_chat(usr, span_warning("The Alderman's writ does not extend to drawing loans against the Crown."))
 				return TRUE
-			if(!(usr.job in list("Steward", "Clerk", "Grand Duke", "Hand")))
+			if(!(usr.job in GLOB.crown_authority_roles))
 				to_chat(usr, span_warning("Only the Crown's office may approach the Guilds clerk."))
 				return TRUE
 			var/amount = text2num("[params["amount"]]")

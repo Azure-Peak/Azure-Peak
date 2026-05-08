@@ -2,7 +2,7 @@
 	title = "Court Agent"
 	flag = COURTAGENT
 	display_order = JDO_COURTAGENT
-	allowed_races = RACES_ALL_KINDS
+	
 	total_positions = 2
 	spawn_positions = 2
 	round_contrib_points = 2

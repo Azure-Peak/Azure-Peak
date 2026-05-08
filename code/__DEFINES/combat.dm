@@ -324,9 +324,9 @@ GLOBAL_LIST_INIT(shove_disarming_types, typecacheof(list(
 //We will round to this value in damage calculations.
 #define DAMAGE_PRECISION 0.1
 
-#define STRONG_STANCE_DMG_BONUS 0.1
-#define STRONG_SHP_BONUS 2
-#define STRONG_INTG_BONUS 2
+#define STRONG_STANCE_DMG_BONUS 0.15
+#define STRONG_SHP_BONUS 3
+#define STRONG_INTG_BONUS 3
 
 //bullet_act() return values
 #define BULLET_ACT_HIT				"HIT"		//It's a successful hit, whatever that means in the context of the thing it's hitting.
@@ -369,6 +369,8 @@ GLOBAL_LIST_INIT(shove_disarming_types, typecacheof(list(
 #define BIND_CD 15 SECONDS
 #define FEINT_RCLICK_CD 20 SECONDS
 
+/* BIND DEFINES */
+
 #define BIND_HAND_L 1
 #define BIND_HAND_R 2
 #define BIND_FOOT_L 3
@@ -376,6 +378,12 @@ GLOBAL_LIST_INIT(shove_disarming_types, typecacheof(list(
 #define BIND_HEAD 5
 #define BIND_TORSO 6
 #define BIND_NECK 7
+
+/* SWIFT BALANCE DEFINES */
+#define SWIFTCAP_CHEST 10
+#define SWIFTCAP_LIMBS 25
+#define SWIFTCAP_PRECISE 45
+#define STAM_DRAIN_PER_STR_DIFF_HEAVY_BAL -2
 
 /* TEMPO DEFINES */
 #define TEMPO_CULL_DELAY 	12 SECONDS	//Interval for checking our tempo lists. Only relevant to player mobs with TRAIT_TEMPO
@@ -403,6 +411,7 @@ GLOBAL_LIST_INIT(shove_disarming_types, typecacheof(list(
 	#define TEMPO_DODGE_LOSS_LESS 1
 	#define TEMPO_DODGE_LOSS_NONE 2
 #define TEMPO_TAG_BINDABLE "defbindable"
+#define TEMPO_TAG_EQUIPTOSS "equiptoss"
 
 #define TEMPO_FACTION_KEEP (1 << 0)
 #define TEMPO_FACTION_WRETCH (1 << 1)
@@ -423,9 +432,10 @@ Medical defines
 /*
  Misc. Category. Spin it out if needed
 */
-#define CRIT_DISMEMBER_DAMAGE_THRESHOLD 0.9 // 90% damage threshold for dismemberment / crit
+#define CRIT_DISMEMBER_DAMAGE_THRESHOLD 0.7 // 90% damage threshold for dismemberment / crit
 #define STANDING_DECAP_GRACE_PERIOD 2 SECONDS // Time after falling prone where you still count as standing for decap purpose
 #define INT_NOISE_DELAY 1 SECONDS
+#define CRIT_ARMOUR_THRESHOLD 0.35 // ratio of obj_integrity and max_integrity for zone armour. Beyond this, crits are prevented.
 
 /*
 	Critical Resistance Defines 
