@@ -370,6 +370,10 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark)
 	. = ..()
 	GLOB.bandit_starts += loc
 
+/obj/effect/landmark/start/lich
+	name = "lich"
+	icon_state = "arrow"
+	delete_after_roundstart = FALSE
 
 /obj/effect/landmark/start/delf
 	name = "delf"
