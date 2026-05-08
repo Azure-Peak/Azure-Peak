@@ -6797,6 +6797,12 @@
 /obj/effect/landmark/chimeric_calyx_spawner/fifteen,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/underdark/north)
+"buB" = (
+/obj/structure/vine{
+	opacity = 1
+	},
+/turf/open/floor/rogue/dirt/road,
+/area/rogue/under/cave)
 "buD" = (
 /obj/structure/chair/bench{
 	dir = 8
@@ -23205,13 +23211,6 @@
 	},
 /turf/open/water/swamp/deep,
 /area/rogue/outdoors/mountains/decap)
-"eMH" = (
-/obj/structure/fluff/traveltile/lich{
-	aportalgoesto = "lichin";
-	aportalid = "lichout"
-	},
-/turf/open/floor/rogue/naturalstone,
-/area/rogue/outdoors/mountains)
 "eMI" = (
 /obj/structure/mineral_door/wood/fancywood{
 	locked = 1;
@@ -49783,6 +49782,10 @@
 /obj/structure/fluff/walldeco/church/line,
 /turf/open/floor/rogue/dirt,
 /area/rogue/under/cave/his_vault)
+"jZr" = (
+/obj/machinery/light/rogue/campfire,
+/turf/open/floor/rogue/naturalstone,
+/area/rogue/under/cave)
 "jZv" = (
 /obj/structure/fluff/railing/corner,
 /obj/structure/fluff/railing/border/east,
@@ -53582,6 +53585,13 @@
 	},
 /turf/open/floor/rogue/ruinedwood,
 /area/rogue/indoors/cave/northern)
+"kMr" = (
+/obj/structure/fluff/traveltile/lich{
+	aportalgoesto = "lichin";
+	aportalid = "lichout"
+	},
+/turf/open/floor/rogue/naturalstone,
+/area/rogue/under/cave)
 "kMu" = (
 /obj/structure/roguewindow/openclose/reinforced{
 	dir = 1
@@ -73552,6 +73562,9 @@
 /obj/effect/landmark/chimeric_calyx_spawner/fifteen,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/indoors/town)
+"oJq" = (
+/turf/closed/wall/mineral/rogue/pipe/line,
+/area/rogue/outdoors/mountains)
 "oJr" = (
 /obj/structure/spider/stickyweb,
 /turf/open/water/swamp,
@@ -86284,6 +86297,10 @@
 /obj/structure/mineral_door/wood/donjon/stone,
 /turf/open/floor/rogue/blocks,
 /area/rogue/outdoors/mountains/decap/gunduzirak)
+"rjh" = (
+/obj/item/clothing/neck/roguetown/psicross/inhumen/aalloy,
+/turf/open/floor/rogue/naturalstone,
+/area/rogue/under/cave)
 "rjj" = (
 /obj/structure/roguemachine/mossmother/travel,
 /turf/open/floor/rogue/dirt/road,
@@ -89521,6 +89538,9 @@
 /obj/structure/chair/bench/coucha/r,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/outdoors/town)
+"rRC" = (
+/turf/closed/wall/mineral/rogue/pipe/corners,
+/area/rogue/outdoors/mountains)
 "rRE" = (
 /obj/structure/fluff/railing/border/north,
 /turf/open/floor/rogue/wood,
@@ -512712,7 +512732,7 @@ cxA
 cxA
 cxA
 cxA
-cxA
+gYq
 cxA
 aBB
 aBB
@@ -513163,8 +513183,8 @@ cxA
 cxA
 cxA
 cxA
-cxA
-cxA
+jZr
+rjh
 cxA
 aBB
 aBB
@@ -513614,9 +513634,9 @@ cxA
 cxA
 cxA
 cxA
-cxA
-cxA
-cxA
+gYq
+toJ
+toJ
 cxA
 aBB
 aBB
@@ -514065,9 +514085,9 @@ cxA
 cxA
 cxA
 cxA
-cxA
-cxA
-cxA
+toJ
+toJ
+toJ
 cxA
 cxA
 aBB
@@ -514518,8 +514538,8 @@ cxA
 cxA
 cxA
 cxA
-cxA
-cxA
+qmg
+gYq
 cxA
 cxA
 aBB
@@ -514969,9 +514989,9 @@ cxA
 cxA
 cxA
 cxA
-cxA
-cxA
-cxA
+qmg
+qmg
+qmg
 cxA
 cxA
 aBB
@@ -515420,9 +515440,9 @@ cxA
 cxA
 cxA
 cxA
-fZN
-bSX
-cxA
+toJ
+qmg
+buB
 cxA
 cxA
 cxA
@@ -515870,13 +515890,13 @@ cxA
 cxA
 cxA
 cxA
-eMH
-fZN
-bSX
-bSX
-bSX
-bSX
-bSX
+kMr
+toJ
+htN
+htN
+htN
+vLe
+vLe
 cxA
 aBB
 aBB
@@ -516322,14 +516342,14 @@ cxA
 cxA
 cxA
 cxA
-eMH
-fZN
-bSX
-bSX
-bSX
-bSX
-bSX
-bSX
+kMr
+toJ
+htN
+htN
+htN
+htN
+htN
+htN
 aBB
 aBB
 aBB
@@ -516774,14 +516794,14 @@ cxA
 cxA
 cxA
 cxA
-eMH
-fZN
-fZN
-bSX
-bSX
-bSX
-bSX
-bSX
+kMr
+toJ
+toJ
+htN
+htN
+htN
+htN
+tum
 aBB
 aBB
 aBB
@@ -517226,14 +517246,14 @@ cxA
 cxA
 cxA
 cxA
-eMH
-fZN
-bSX
-bSX
-bSX
+kMr
+toJ
+htN
+htN
+qmg
 cxA
-bSX
-bSX
+vLe
+tum
 aBB
 aBB
 aBB
@@ -517681,8 +517701,8 @@ cxA
 cxA
 cxA
 cxA
-bSX
-bSX
+qmg
+qmg
 cxA
 cxA
 cxA
@@ -518132,10 +518152,10 @@ cxA
 cxA
 cxA
 cxA
-cxA
-cxA
-cxA
-cxA
+oJq
+oJq
+oJq
+rRC
 cxA
 cxA
 aBB
