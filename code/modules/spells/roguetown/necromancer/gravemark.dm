@@ -14,31 +14,56 @@
 	hide_charge_effect = TRUE
 
 /obj/effect/proc_holder/spell/invoked/gravemark/cast(list/targets, mob/living/user)
-	. = ..()
-	if(isliving(targets[1]))
-		var/mob/living/target = targets[1]
-		var/faction_tag = "[user.mind.current.real_name]_faction"
-		if (target == user)
-			to_chat(user, span_warning("It would be unwise to make an enemy of your own skeletons."))
-			return FALSE
-		if(target.mind && target.mind.current)
-			if (faction_tag in target.mind?.current.faction)
-				target.mind?.current.faction -= faction_tag
-				user.say("Hostis declaratus es.", language = /datum/language/common)
-			else
-				target.mind?.current.faction += faction_tag
-				user.say("Amicus declaratus es.", language = /datum/language/common)
-				target.notify_faction_change()
-		else if(istype(target, /mob/living/simple_animal))
-			if (faction_tag in target.faction)
-				target.faction -= faction_tag
-				user.say("Hostis declaratus es.", language = /datum/language/common)
-			else
-				target.faction |= faction_tag
-				user.say("Amicus declaratus es.", language = /datum/language/common)
-				target.notify_faction_change()
+	if(!length(targets))
+		return FALSE
+
+	var/mob/living/target = targets[1]
+	if(!isliving(target))
+		return FALSE
+
+	var/faction_tag = "[REF(user)]_faction"
+
+	if(target == user) // making it so self-click helps debug or know who you've declared an ally for now, alongside fixing the cooldown oversight that made it quite fuckin annoying to use
+		var/list/allies = list()
+
+		for(var/mob/living/M in world)
+			if(M == user)
+				continue
+
+			if(M.mind?.current)
+				if(faction_tag in M.mind.current.faction)
+					allies += M.real_name
+			else if(istype(M, /mob/living/simple_animal))
+				if(faction_tag in M.faction)
+					allies += M.name
+
+		if(!length(allies))
+			to_chat(user, span_notice("You have declared no allies among the living or dead."))
+		else
+			to_chat(user, span_notice("Those bearing your Gravemark: [english_list(allies)]."))
+
 		return TRUE
-	return FALSE
+
+	var/list/faction_list
+
+	if(target.mind?.current)
+		faction_list = target.mind.current.faction
+	else if(istype(target, /mob/living/simple_animal))
+		faction_list = target.faction
+	else
+		return FALSE
+
+	. = ..()
+
+	if(faction_tag in faction_list)
+		faction_list -= faction_tag
+		user.say("Hostis declaratus es.", language = /datum/language/common)
+	else
+		faction_list += faction_tag
+		user.say("Amicus declaratus es.", language = /datum/language/common)
+
+	target.notify_faction_change()
+	return TRUE
 
 /obj/effect/proc_holder/spell/invoked/gravemark/no_sprite
 	overlay_state = ""

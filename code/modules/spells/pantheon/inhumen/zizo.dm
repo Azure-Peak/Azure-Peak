@@ -129,10 +129,13 @@
 	action_icon = 'icons/mob/actions/zizomiracles.dmi'
 	overlay_icon = 'icons/mob/actions/zizomiracles.dmi'
 	overlay_state = "skeleton_formation"
+	name = "Raise Lesser Skeleton"
+	desc = "Invoke Enochian magicka to bind loose bones into a simple skeletal thrall. Its crude physiology is held together purely by magic; unable to be incapacitated, it shall stand until it crumbles into spare bones. It is also simpler to control, so you can order it to move, guard or attack manually."
 	miracle = TRUE
-	devotion_cost = 75
+	devotion_cost = 60
 	cabal_affine = TRUE
 	to_spawn = 1
+	chargetime = 2 SECONDS // back then we to_spawned 3, with a 6 second charge time. Now we only 1, for 2 seconds. Because 2 x 3 = 6.
 
 // T2: carbon spawn
 
@@ -140,11 +143,11 @@
 	action_icon = 'icons/mob/actions/zizomiracles.dmi'
 	overlay_icon = 'icons/mob/actions/zizomiracles.dmi'
 	overlay_state = "skeleton"
-	name = "Raise Deadite"
-	desc = "Raises a singular, weak deadite."
+	name = "Raise Greater Skeleton"
+	desc = "Invoke Enochian magicka to bind bones into a more complex skeletal thrall. Its refined physique allows it to wield superior weapons, durability and also wear armor, however it cannot be controlled by any means, aside telling ally from foe."
 	chargetime = 3 SECONDS
 	miracle = TRUE
-	devotion_cost = 75
+	devotion_cost = 80
 
 // T3: tames bio_type = undead mobs
 
@@ -153,11 +156,12 @@
 	overlay_icon = 'icons/mob/actions/zizomiracles.dmi'
 	overlay_state = "deadite_tame"
 	miracle = TRUE
+	chargetime = 2 SECONDS // unlike the other, this has a chunky devotion cost, should be fine
 	devotion_cost = 100
 
 // T3: Rituos - Zizo's Lesser Work. A single painful ritual that grants the caster a choice:
-// Progress: Arcyne knowledge (2 minor aspects, 4 utilities). No skeletonization.
-// Unlife: Full skeletonization + MOB_UNDEAD, grants bonechill and raise_deadite directly.
+// Progress: Arcyne knowledge (2 minor aspects, 4 utilities). No skeletonization. -- Kunai: I made this more distinctive from Undeath, now it also gives you some traits to give a better progress vibe.
+// Unlife: Full skeletonization + MOB_UNDEAD, grants bonechill and raise_deadite directly. -- Kunai: We already have raise_deadite, so it's a moot point to give them the Necromancer version of it. Just gave them bonemend and a few more traits to give the vibe of a 'half-lich'.
 // Both paths grant undead language and TRAIT_ARCYNE. One-time use - cannot be cast again after completion.
 
 /obj/effect/proc_holder/spell/invoked/rituos
@@ -190,65 +194,84 @@
 	// The chant - path-specific invocations
 	user.visible_message(span_boldwarning("[user] throws back [user.p_their()] head, arcyne energy crackling across [user.p_their()] body!"))
 
+	user.grant_language(/datum/language/undead)
+
 	var/list/chant_lines
 	switch(path_choice)
 		if("Progress")
 			chant_lines = list(
-				"ZIZO! ZIZO! ZIZO! GRANT ME INSIGHT UNSHACKLED!",
-				"STRIP ME OF STAGNATION AND IGNORANCE!",
-				"I OFFER THIS MIND TO COMPLETE THY WORK!",
+				",w ZIZO! ZIZO! ZIZO! GRANT ME INSIGHT UNSHACKLED!",
+				",w STRIP ME OF STAGNATION AND IGNORANCE!",
+				",w BREAK THE CHAINS OF FALSE UNDERSTANDING!",
+				",w LET REVELATION FLOOD THIS FRAIL MIND!",
+				",w I OFFER THIS MIND TO COMPLETE THY WORK!",
 			)
 		if("Unlife")
 			chant_lines = list(
-				"ZIZO! ZIZO! ZIZO! FLENSE FLESH FROM MY BONE!",
-				"STRIP ME OF MORTALITY'S SHACKLE!",
-				"I OFFER THIS VESSEL TO THY LESSER WORK!",
+				",w ZIZO! ZIZO! ZIZO! FLENSE FLESH FROM MY BONE!",
+				",w STRIP ME OF MORTALITY'S SHACKLE!",
+				",w LET THIS FRAIL MORTALITY FALL AWAY FROM PURPOSE!",
+				",w REMAKE ME IN DEATH'S ENDURING IMAGE!",
+				",w I OFFER THIS VESSEL TO COMPLETE THY WORK!",
 			)
 
 	for(var/i in 1 to length(chant_lines))
 		user.say(chant_lines[i], forced = "spell", language = /datum/language/common)
 		user.adjustBruteLoss(15)
 		if(path_choice == "Progress")
-			user.emote(pick("whimper", "gasp"))
-			user.emote("painscream")
+			user.emote(pick("whimper", "painmoan", "gag", "choke"))
 		else
-			user.emote("painscream")
+			user.emote(pick("painscream", "agony", "paincrit", "choke"))
 		if(i > 1)
 			shake_camera(user, i * 2, i)
 		if(!do_after(user, 3 SECONDS, target = user))
 			to_chat(user, span_warning("The ritual collapses. Zizo's gaze turns away."))
 			return FALSE
 
-	user.grant_language(/datum/language/undead)
 	ADD_TRAIT(user, TRAIT_ARCYNE, "[type]")
 
 	switch(path_choice)
-		if("Progress")
+		if("Progress") // basically, this turns you into a skinny nerdinger at the cost of being a CHAD zizo worshipper
 			user.adjust_skillrank(/datum/skill/magic/arcane, 3, TRUE)
 			if(user.mind)
-				user.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 0, "minor" = 2, "utilities" = 4))
+				user.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 0, "minor" = 2, "utilities" = 6))
+				ADD_TRAIT(user, TRAIT_NOMOOD, "[type]") // your mind belongs to HER now
+				ADD_TRAIT(user, TRAIT_JACKOFALLTRADES, "[type]") // the progress palooza to let you grind more efficiently
+				ADD_TRAIT(user, TRAIT_SELF_SUSTENANCE, "[type]") // also fitting for the progress vibe, way more balanced than the specialist traits IMO
 				grant_poke_spell(user)
 			user.visible_message(span_boldwarning("Arcyne runes sear themselves across [user]'s skin, glowing with a sickly light before fading beneath the flesh!"), span_notice("THE LESSER WORK IS DONE! Arcyne knowledge floods my mind - I can see the threads of magic itself!"))
 
-		if("Unlife")
+		if("Unlife") // this turns you into a CHAD half-skeleton at the cost of being a nerd
 			user.mob_biotypes |= MOB_UNDEAD
-			ADD_TRAIT(user, TRAIT_NOHUNGER, "[type]")
-			ADD_TRAIT(user, TRAIT_NOBREATH, "[type]")
-			ADD_TRAIT(user, TRAIT_SILVER_WEAK, "[type]")
+			user.dna.species.species_traits |= NOBLOOD
+			ADD_TRAIT(user, TRAIT_STEELHEARTED, "[type]") // ready for violence
+			ADD_TRAIT(user, TRAIT_NOPAIN, "[type]") // nothing left to feel pain, duh
+			ADD_TRAIT(user, TRAIT_NOHUNGER, "[type]") // you have no stomach, duh
+			ADD_TRAIT(user, TRAIT_NOBREATH, "[type]") // you have no lungs. duh
+			ADD_TRAIT(user, TRAIT_LIMBATTACHMENT, "[type]") // cause old Rituos let you recreate your skeleton limbs, but since this one deletes the spell after use, this is the best way to make it level
+			ADD_TRAIT(user, TRAIT_ZOMBIE_IMMUNE, "[type]") // cause it makes no sense
+			ADD_TRAIT(user, TRAIT_SILVER_WEAK, "[type]") // yes
 			for(var/obj/item/bodypart/part as anything in user.bodyparts)
 				if(istype(part, /obj/item/bodypart/head))
 					continue
 				part.skeletonize(FALSE)
+				user.update_body_parts()
+				playsound(src, 'sound/misc/lava_death.ogg', 100, FALSE)
+				sleep(25)				
 			var/obj/item/bodypart/torso = user.get_bodypart(BODY_ZONE_CHEST)
+			playsound(src, 'sound/misc/lava_death.ogg', 100, FALSE)
 			torso?.skeletonize(FALSE)
 			user.update_body_parts()
 			user.adjust_skillrank(/datum/skill/magic/arcane, 3, TRUE)
 			if(user.mind)
-				user.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 0, "minor" = 2, "utilities" = 4))
+				user.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 0, "minor" = 2, "utilities" = 3, ward = TRUE))
 				user.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/bonechill)
+				user.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/bonemend)
 				grant_poke_spell(user)
-			user.visible_message(span_boldwarning("[user]'s flesh sloughs away in sheets, revealing bare bone beneath as [user.p_they()] [user.p_are()] consumed by the Lesser Work!"), span_notice("THE LESSER WORK IS DONE! My flesh is forfeit - but death itself answers my call!"))
-			to_chat(user, span_small("...what have I done?"))
+			user.visible_message(span_boldwarning("[user]'s skin and flesh burns away in necrotic flames, revealing bare bone beneath as [user.p_they()] [user.p_are()] consumed by the Lesser Work!"), span_notice("THE LESSER WORK IS DONE! My flesh is forfeit - and death itself answers my call!"))
+			to_chat(user, span_purple("You finished Rituos to perfection, you should be a full-fledged Lich now, but..."))
+			sleep(30)
+			to_chat(user, "<i>...Vestiges of mortality still cling to me...? Why?</i>")
 
 	// The Lesser Work is done - remove the spell
 	user.mind?.RemoveSpell(src)
