@@ -414,8 +414,8 @@
 	wbalance = WBALANCE_HEAVY
 	minstr = 13 //Genuinely need to be a str chud to wield this thing, limits its general capability to be a niche and not a generalist.
 	minstr_req = TRUE //Hit the gym pal
-	force = 14
-	force_wielded = 35
+	force = 20
+	force_wielded = 40 //you're a glass cannon act like one 
 	wlength = WLENGTH_LONG// Not longer then a gsword, but enough to reach
 	swingsound = BLADEWOOSH_HUGE
 	wdefense = 2 //should give +3 wdef when wielded so total 5, least defensive option for a Gsword
