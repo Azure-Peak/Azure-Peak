@@ -7,6 +7,7 @@
 
 	race = /datum/species/orc
 	gender = MALE
+	blood_toll_bucket = STATS_KILLED_ORCS
 	bodyparts = list(/obj/item/bodypart/chest, /obj/item/bodypart/head, /obj/item/bodypart/l_arm,
 					 /obj/item/bodypart/r_arm, /obj/item/bodypart/r_leg, /obj/item/bodypart/l_leg)
 	ambushable = FALSE
@@ -17,7 +18,7 @@
 	possible_mmb_intents = list(INTENT_SPECIAL, INTENT_JUMP, INTENT_KICK, INTENT_BITE)
 
 /mob/living/carbon/human/species/orc/npc
-	faction = list("orcs", "station")
+	faction = list(FACTION_ORCS, FACTION_STATION)
 	ai_controller = /datum/ai_controller/human_npc
 	cmode_music = FALSE
 

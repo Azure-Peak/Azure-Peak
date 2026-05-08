@@ -7,7 +7,7 @@
 	icon_state = "meatslab"
 	slice_batch = TRUE // so it takes more time, changed from FALSE
 	filling_color = "#8f433a"
-	rotprocess = SHELFLIFE_SHORT
+	rotprocess = SHELFLIFE_DECENT
 	chopping_sound = TRUE
 	foodtype = MEAT
 	drop_sound = 'sound/foley/dropsound/gen_drop.ogg'
@@ -67,7 +67,6 @@
 /obj/item/reagent_containers/food/snacks/rogue/meat/fatty //pork
 	name = "raw pigflesh"
 	icon_state = "pork"
-	color = "#f093c3"
 	fried_type = /obj/item/reagent_containers/food/snacks/rogue/meat/fatty/roast
 	slices_num = 2
 	slice_path = /obj/item/reagent_containers/food/snacks/rogue/meat/bacon
@@ -194,6 +193,34 @@
 	slice_path = /obj/item/reagent_containers/food/snacks/rogue/meat/mince/beef		//Honestly, we don't need our own minced type on this one.
 	fried_type = /obj/item/reagent_containers/food/snacks/rogue/meat/steak/wolf/fried
 	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/meat/steak/wolf/fried
+
+/* ............. Rous Meat ................*/
+/obj/item/reagent_containers/food/snacks/rogue/meat/steak/rat
+	name = "raw rous meat"
+	desc = "A delicacy for some races, whilst others will turn up their nose at such... Sewer meat."
+	icon_state = "rat"
+	slice_path = /obj/item/reagent_containers/food/snacks/rogue/meat/mince/beef		//Honestly, we don't need our own minced type on this one.
+	fried_type = /obj/item/reagent_containers/food/snacks/rogue/meat/steak/rat/fried
+	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/meat/steak/rat/fried
+
+/* ............. Bear Meat ................*/
+/obj/item/reagent_containers/food/snacks/rogue/meat/steak/bear
+	name = "raw bear meat"
+	desc = "Grow some hair on yer chest lad!"
+	icon_state = "bear"
+	slice_path = /obj/item/reagent_containers/food/snacks/rogue/meat/mince/beef
+	fried_type = /obj/item/reagent_containers/food/snacks/rogue/meat/steak/bear/fried
+	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/meat/steak/bear/fried
+
+/* ............. Troll Meat ................*/
+/obj/item/reagent_containers/food/snacks/rogue/meat/steak/troll
+	name = "troll blubber"
+	desc = "A rancid reddish blubber. It squelches under the merest touch, wobbling back into shape. It doesn't seem... Quite dead, as it continues to shift even after being sliced free."
+	icon_state = "troll"
+	slice_path = null
+	rotprocess = SHELFLIFE_EXTREME
+	fried_type = /obj/item/reagent_containers/food/snacks/rogue/meat/steak/troll/fried
+	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/meat/steak/troll/fried
 
 /* ............. fish chop ................*/
 /obj/item/reagent_containers/food/snacks/rogue/meat/fish
@@ -443,3 +470,8 @@
 	slices_num = 2
 	slice_path = null
 	tastes = list("hog" = 1)
+
+/obj/item/reagent_containers/food/snacks/rogue/meat/ham/boar
+	name = "raw boar ham"
+	desc = "A bramblesnout that is no longer trying to end you. Raw and ready to be steamed."
+	icon_state = "ham_boar"

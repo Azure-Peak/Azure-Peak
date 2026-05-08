@@ -206,7 +206,7 @@
 			)
 
 	for(var/i in 1 to length(chant_lines))
-		user.say(chant_lines[i], forced = "spell")
+		user.say(chant_lines[i], forced = "spell", language = /datum/language/common)
 		user.adjustBruteLoss(15)
 		if(path_choice == "Progress")
 			user.emote(pick("whimper", "gasp"))
@@ -226,7 +226,7 @@
 		if("Progress")
 			user.adjust_skillrank(/datum/skill/magic/arcane, 3, TRUE)
 			if(user.mind)
-				user.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 0, "minor" = 2, "utilities" = 4, "ward" = TRUE))
+				user.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 0, "minor" = 2, "utilities" = 4))
 				grant_poke_spell(user)
 			user.visible_message(span_boldwarning("Arcyne runes sear themselves across [user]'s skin, glowing with a sickly light before fading beneath the flesh!"), span_notice("THE LESSER WORK IS DONE! Arcyne knowledge floods my mind - I can see the threads of magic itself!"))
 
@@ -234,6 +234,7 @@
 			user.mob_biotypes |= MOB_UNDEAD
 			ADD_TRAIT(user, TRAIT_NOHUNGER, "[type]")
 			ADD_TRAIT(user, TRAIT_NOBREATH, "[type]")
+			ADD_TRAIT(user, TRAIT_SILVER_WEAK, "[type]")
 			for(var/obj/item/bodypart/part as anything in user.bodyparts)
 				if(istype(part, /obj/item/bodypart/head))
 					continue
@@ -243,7 +244,7 @@
 			user.update_body_parts()
 			user.adjust_skillrank(/datum/skill/magic/arcane, 3, TRUE)
 			if(user.mind)
-				user.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 0, "minor" = 2, "utilities" = 4, "ward" = TRUE))
+				user.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 0, "minor" = 2, "utilities" = 4))
 				user.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/bonechill)
 				grant_poke_spell(user)
 			user.visible_message(span_boldwarning("[user]'s flesh sloughs away in sheets, revealing bare bone beneath as [user.p_they()] [user.p_are()] consumed by the Lesser Work!"), span_notice("THE LESSER WORK IS DONE! My flesh is forfeit - but death itself answers my call!"))

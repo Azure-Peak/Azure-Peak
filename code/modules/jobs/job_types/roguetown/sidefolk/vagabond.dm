@@ -5,9 +5,10 @@
 	faction = "Station"
 	total_positions = 12
 	spawn_positions = 12
+	townie_contract_gate_exempt = TRUE
 
 	allowed_ages = list(AGE_ADULT, AGE_MIDDLEAGED, AGE_OLD)
-	allowed_races = ACCEPTED_RACES
+	
 
 	outfit = null
 	outfit_female = null

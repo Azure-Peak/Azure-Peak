@@ -45,6 +45,7 @@
 		if(user.m_intent == MOVE_INTENT_SNEAK)
 			hideinside(user)
 			return
+		return ..()
 
 /obj/structure/chair/bench/proc/hideinside(mob/living/user)
 	var/sneak_level = user.get_skill_level(/datum/skill/misc/sneaking) || 0
@@ -375,8 +376,6 @@
 	buckle_lying = 90
 	sleepy = 3
 	debris = list(/obj/item/grown/log/tree/small = 1)
-	var/broken_matress = FALSE
-	var/broken_percentage = 0
 	hidingspot = TRUE
 	var/mob/living/hiddenguy = null // So we can find them with fixed eye search
 
@@ -391,21 +390,6 @@
 	. += span_info("Note that you can still sleep anywhere you wish, even without a bed, by simply laying down and closing your eyes. While this can work in a pinch to stave off tiredness or bolster your characters to survive a critical wound, it's much less ideal.")
 	. += span_info("Some structures can be used as hiding places. Toggle the 'SNEAK' button on your HUD, then click the structure to hide in it. You can stop hiding by clicking the structure again, or by moving out of it.")
 
-/obj/structure/bed/rogue/proc/damage_bed(dam_value)
-	if(sleepy <= 2) // the bed is already pretty awful and broken (i.e: straw bed/bedroll), so don't break it even further
-		return
-	broken_percentage += dam_value
-	if(!broken_matress && (broken_percentage >= 100))
-		broken_matress = TRUE
-		sleepy = 1 //Worse than a bedroll, better than nothing
-		visible_message(span_warning("\The [src] gives a violent snap. It looks broken!"))
-		playsound(src, 'sound/misc/mat/bed break.ogg', 50, TRUE, ignore_walls = FALSE)
-		desc += " The bed looks stained and has seen better days."
-	else if(broken_percentage >= 100)
-		broken_percentage = 100
-	else
-		playsound(src, pick(list('sound/misc/mat/bed squeak (1).ogg','sound/misc/mat/bed squeak (2).ogg','sound/misc/mat/bed squeak (3).ogg')), 30, TRUE, ignore_walls = FALSE)
-
 /obj/structure/bed/rogue/OnCrafted(dirin)
 	dirin = turn(dirin, 180)
 	. = ..(dirin)
@@ -415,6 +399,7 @@
 	if(user.m_intent == MOVE_INTENT_SNEAK)
 		hideinside(user)
 		return
+	return ..()
 
 /obj/structure/bed/rogue/proc/hideinside(mob/living/user)
 	var/sneak_level = user.get_skill_level(/datum/skill/misc/sneaking) || 0

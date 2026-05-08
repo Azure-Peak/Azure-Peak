@@ -19,10 +19,6 @@ Sunlight System
 				     Emits light to SKY_BLOCKED tiles, and fully white to display the overlay color
 
 */
-/obj
-	var/object_slowdown = 0
-	var/weatherproof = FALSE
-	var/weather = FALSE
 
 /obj/proc/weather_act_on(weather_trait, severity)
 	return

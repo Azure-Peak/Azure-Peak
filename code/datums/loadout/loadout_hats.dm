@@ -19,6 +19,26 @@
 	path = /obj/item/clothing/head/roguetown/archercap
 	sort_category = "Hats"
 
+/datum/loadout_item/cap
+	name = "Cap"
+	path = /obj/item/clothing/head/roguetown/cap
+	sort_category = "Hats"
+
+/datum/loadout_item/tiyon
+	name = "Tiyon"
+	path = /obj/item/clothing/head/roguetown/tiyon
+	sort_category = "Hats"
+
+/datum/loadout_item/longveil
+	name = "Long Veil"
+	path = /obj/item/clothing/head/roguetown/longveil
+	sort_category = "Hats"
+
+/datum/loadout_item/durag
+	name = "Durag"
+	path = /obj/item/clothing/head/roguetown/durag
+	sort_category = "Hats"
+	
 /datum/loadout_item/strawhat
 	name = "Straw Hat"
 	path = /obj/item/clothing/head/roguetown/strawhat
@@ -184,3 +204,17 @@
 	path = /obj/item/clothing/head/roguetown/jester
 	sort_category = "Hats"
 
+/datum/loadout_item/shawl
+	name = "Shawl"
+	path = /obj/item/clothing/head/roguetown/shawl
+	sort_category = "Hats"
+  
+/datum/loadout_item/maidband
+	name = "Maid Headdress"
+	path = /obj/item/clothing/head/roguetown/maidhead
+	sort_category = "Hats"
+
+/datum/loadout_item/maidbandfancy
+	name = "Valorian Maid Headband"
+	path = /obj/item/clothing/head/roguetown/maidband
+	sort_category = "Hats"

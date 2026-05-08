@@ -1,5 +1,0 @@
-author: "Quinalion"
-delete-after: True
-changes:
-  - bugfix: "You no longer trigger maneater with AZURE_NATIVE trait"
-  - bugfix: "Black Oaken Spellblades having chalk"

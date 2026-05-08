@@ -121,8 +121,6 @@
 	var/list/appearance_list = list()
 //	var/specific_layer = aux ? aux_layer : BODYPARTS_LAYER
 	var/specific_layer = aux_layer ? aux_layer : BODYPARTS_LAYER
-	if((specific_layer == HANDS_PART_LAYER) && (human_owner.wear_shirt)) // Arms snowflake check
-		return appearance_list
 	var/specific_render_zone = aux ? aux_zone : body_zone
 	for(var/key in specific_markings)
 		var/color = specific_markings[key]
@@ -711,15 +709,29 @@
 			. += marking_overlays
 
 	// Organ overlays
-	if(!skeletonized && draw_organ_features)
+	if(draw_organ_features)
 		for(var/obj/item/organ/organ as anything in get_visible_organs())
+			if(skeletonized)
+				// Check if this organ has an accessory that persists through skeletonize
+				var/should_draw = FALSE
+				if(organ.accessory_type)
+					var/datum/sprite_accessory/accessory = SPRITE_ACCESSORY(organ.accessory_type)
+					if(accessory && accessory.persists_through_skeletonize)
+						should_draw = TRUE
+				if(!should_draw)
+					continue
 			var/mutable_appearance/organ_appearance = organ.get_bodypart_overlay(src)
 			if(organ_appearance)
 				. += organ_appearance
 
 	// Feature overlays
-	if(!skeletonized && draw_bodypart_features)
+	if(draw_bodypart_features)
 		for(var/datum/bodypart_feature/feature as anything in bodypart_features)
+			// Skip non-persistent features when skeletonized
+			if(skeletonized)
+				var/datum/sprite_accessory/accessory/A = SPRITE_ACCESSORY(feature.accessory_type)
+				if(!A || !A.persists_through_skeletonize)
+					continue
 			var/overlays = feature.get_bodypart_overlay(src)
 			if(!overlays)
 				continue
@@ -822,7 +834,7 @@
 	if(owner.hud_used)
 		var/atom/movable/screen/inventory/hand/L = owner.hud_used.hand_slots["[held_index]"]
 		if(L)
-			L.update_icon()
+			L.update_hand_vis()
 
 /obj/item/bodypart/l_arm/monkey
 	icon = 'icons/mob/animal_parts.dmi'
@@ -879,7 +891,7 @@
 	if(owner.hud_used)
 		var/atom/movable/screen/inventory/hand/R = owner.hud_used.hand_slots["[held_index]"]
 		if(R)
-			R.update_icon()
+			R.update_hand_vis()
 
 /obj/item/bodypart/r_arm/monkey
 	icon = 'icons/mob/animal_parts.dmi'

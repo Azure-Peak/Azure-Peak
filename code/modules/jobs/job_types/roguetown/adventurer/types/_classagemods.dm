@@ -2,6 +2,7 @@
 	var/target_age = null
 	var/list/stat_mods = list()
 	var/list/skill_mods = list()
+	var/list/traits_added = list()
 	var/minor_mod = 0
 	var/utility_mod = 0
 
@@ -14,6 +15,9 @@
 			for(var/S in skill_mods)
 				var/datum/skill/skill = S
 				H.adjust_skillrank_up_to(skill, skill_mods[S], TRUE)
+		if(length(traits_added))
+			for(var/trait in traits_added)
+				ADD_TRAIT(H, trait, TRAIT_GENERIC)
 		if(LAZYLEN(H.mind?.mage_aspect_config))
 			if(minor_mod)
 				H.mind.mage_aspect_config["minor"] += minor_mod
@@ -264,13 +268,16 @@
 		STATKEY_CON = -2,
 	)
 	skill_mods = list(
+		/datum/skill/combat/knives = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/swords = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/maces = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/whipsflails = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/axes = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/polearms = SKILL_LEVEL_EXPERT,
-		/datum/skill/combat/staves = SKILL_LEVEL_EXPERT
+		/datum/skill/combat/staves = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/unarmed = SKILL_LEVEL_EXPERT,
 	)
+	//It says in warrior.dm that exorcist should get Expert only in knives and their selected weapon, but it actually gives it to EVERY weapon skill..? Not sure if it needs fixing.
 
 /datum/class_age_mod/barber_surgeon
 	target_age = AGE_OLD

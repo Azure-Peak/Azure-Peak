@@ -150,13 +150,15 @@
 			acheck_dflag = "fire"
 	if(!armor)
 		armor = owner.run_armor_check(zone_precise, acheck_dflag, damage = 0)
-	if(get_damage() <= (max_damage * CRIT_DISMEMBER_DAMAGE_THRESHOLD)) //No crits unless the limb is at 90%+ damage.
-		do_crit = FALSE
-	if(do_crit && ishuman(owner) && bclass != BCLASS_PICK) // Armor with integrity prevents crits
+	if(ishuman(owner) && bclass != BCLASS_PICK)
 		var/mob/living/carbon/human/H = owner
 		var/obj/item/clothing/worn_armor = H.get_best_worn_armor(zone_precise, acheck_dflag)
-		if(worn_armor)
-			do_crit = FALSE
+		if(worn_armor && !worn_armor.obj_broken)
+			var/ratio = (worn_armor.obj_integrity / worn_armor.max_integrity)
+			if(ratio <= CRIT_ARMOUR_THRESHOLD)
+				do_crit = TRUE
+	if(do_crit && get_damage() <= (max_damage * CRIT_DISMEMBER_DAMAGE_THRESHOLD)) //No crits unless the limb is at 90%+ damage.
+		do_crit = FALSE
 	if(user)
 		if(user.goodluck(2))
 			dam += 10
@@ -620,6 +622,9 @@
 		return FALSE
 	bandage = new_bandage
 	new_bandage.forceMove(src)
+	var/datum/hud/hud_used = owner?.hud_used
+	if(hud_used?.zone_select)
+		hud_used.zone_select.update_limb(body_zone)
 	return TRUE
 
 /obj/item/bodypart/proc/process_bandage(bleed_rate)
@@ -654,7 +659,11 @@
 		return FALSE
 	if(owner.stat != DEAD)
 		owner.visible_message(span_warning("Blood soaks through the bandage on [owner]'s [name]."), span_warning("Blood soaks through the bandage on my [name]."), vision_distance = 3)
-	return bandage.add_mob_blood(owner)
+	. = bandage.add_mob_blood(owner)
+	var/datum/hud/hud_used = owner.hud_used
+	if(hud_used?.zone_select)
+		hud_used.zone_select.update_limb(body_zone)
+	return .
 
 /obj/item/bodypart/proc/remove_bandage()
 	if(!bandage)
@@ -666,6 +675,9 @@
 		qdel(bandage)
 	bandage = null
 	owner?.update_damage_overlays()
+	var/datum/hud/hud_used = owner?.hud_used
+	if(hud_used?.zone_select)
+		hud_used.zone_select.update_limb(body_zone)
 	return TRUE
 
 /// Applies a temporary paralysis effect to this bodypart

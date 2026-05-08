@@ -32,7 +32,13 @@
 		return
 	if(QDELETED(src) || !loc)
 		return
-		
+
+	if(SScity_assembly?.is_alderman(src))
+		var/departing_name = real_name
+		var/departing_job = job
+		SScity_assembly.demote_alderman("Alderman has died")
+		SScity_assembly.notify_alderman_lost_ref(departing_name, departing_job, "died")
+
 	var/area/A = get_area(src)
 	dna?.species?.stop_wagging_tail(src)
 
@@ -40,6 +46,18 @@
 		SSdroning.kill_droning(client)
 		SSdroning.kill_loop(client)
 		SSdroning.kill_rain(client)
+
+	if(!gibbed && HAS_TRAIT(src, TRAIT_DUSTABLE))
+		if(HAS_TRAIT(src, TRAIT_DUST_LEAVE_HEAD))
+			var/obj/item/bodypart/head/head = get_bodypart(BODY_ZONE_HEAD)
+			if(head)
+				head.drop_limb()
+		var/delete_gear = HAS_TRAIT(src, TRAIT_DUST_DELETE_GEAR)
+		if(delete_gear)
+			for(var/obj/item/gear in get_equipped_items(TRUE) + held_items)
+				qdel(gear)
+		dust(just_ash=TRUE, drop_items=!delete_gear)
+		return
 
 	if(mind)
 		if(!gibbed)
@@ -50,11 +68,6 @@
 				var/datum/mind/playermind = mind
 				addtimer(CALLBACK(src, PROC_REF(secondliferespawn), playermind), respawn_time, TIMER_UNIQUE)
 				REMOVE_TRAIT(mind.current,TRAIT_SECONDLIFE,TRAIT_GENERIC)
-
-			var/has_dust_trait = HAS_TRAIT(mind.current, TRAIT_DUSTABLE)
-			if(has_dust_trait)
-				dust(just_ash=TRUE,drop_items=TRUE)
-				return
 
 		var/datum/antagonist/lich/L = mind.has_antag_datum(/datum/antagonist/lich)
 		if (L && !L.out_of_lives)
@@ -111,7 +124,7 @@
 //		else
 //			if(get_triumphs() > 0)
 //				tris2take += -1
-		if(H in SStreasury.bank_accounts)
+		if(SStreasury.has_account(H))
 			for(var/obj/structure/roguemachine/camera/C in view(7, src))
 				var/area_name = A.name
 				var/texty = "<CENTER><B>Death of a Living Being</B><br>---<br></CENTER>"

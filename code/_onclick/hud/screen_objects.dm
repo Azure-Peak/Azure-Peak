@@ -315,9 +315,6 @@
 	active_vis.layer = layer + 0.01
 	vis_contents += active_vis
 
-/atom/movable/screen/inventory/hand/update_overlays()
-	. = ..()
-
 /atom/movable/screen/inventory/hand/proc/update_hand_vis()
 	if(!hud?.mymob)
 		return
@@ -483,13 +480,22 @@
 	vis_contents += slot
 	return slot
 
+/atom/movable/screen/act_intent/rogintent/proc/_clear_intent_vis()
+	intent_vis1.icon = null
+	intent_vis2.icon = null
+	intent_vis3.icon = null
+	intent_vis4.icon = null
+
+/atom/movable/screen/act_intent/rogintent/proc/_clear_border_vis()
+	border_vis1.icon = null
+	border_vis2.icon = null
+
 /atom/movable/screen/act_intent/rogintent/update_icon(list/intentsl,list/intentsr, oactive = FALSE)
 	if(!intentsl || !intentsr || !hud?.mymob)
-		intent_vis1.icon = null
-		intent_vis2.icon = null
-		intent_vis3.icon = null
-		intent_vis4.icon = null
+		_clear_intent_vis()
+		_clear_border_vis()
 		return
+	_clear_intent_vis()
 	var/list/used = intentsr
 	if(hud.mymob.active_hand_index == 1)
 		used = intentsl
@@ -512,12 +518,9 @@
 		slot.icon_state = intenty.icon_state
 		if(lol >= 4)
 			break
-	if(lol < 4)
-		intent_vis4.icon = null
-	if(lol < 3)
-		intent_vis3.icon = null
-	if(lol < 2)
-		intent_vis2.icon = null
+	if(!lol)
+		_clear_border_vis()
+		return
 	if(ismob(usr))
 		var/mob/M = usr
 		switch_intent(M.r_index, M.l_index, oactive)
@@ -527,14 +530,16 @@
 	if(oactive)
 		used = "offintentselected"
 	if(!r_index || !l_index || !hud?.mymob)
-		border_vis1.icon = null
-		border_vis2.icon = null
+		_clear_border_vis()
 		return
 	var/used_index = r_index
 	var/other = l_index
 	if(hud.mymob.active_hand_index == 1)
 		used_index = l_index
 		other = r_index
+	if(used_index < 1 || used_index > 4 || other < 1 || other > 4)
+		_clear_border_vis()
+		return
 	var/static/list/px = list(64, 96, 64, 96)
 	var/static/list/py = list(16, 16, 0, 0)
 	border_vis1.icon = 'icons/mob/roguehud.dmi'
@@ -1063,11 +1068,9 @@
 	name = "damage zone"
 	icon_state = "m-zone_sel"
 	screen_loc = rogueui_targetdoll
-	var/overlay_icon = 'icons/mob/roguehud64.dmi'
 	var/static/list/hover_overlays_cache = list()
 	var/hovering
 	var/obj/effect/overlay/flash_layer
-	var/arrowheight = 0
 	var/list/limb_vis = list()
 	var/list/wound_vis = list()
 	var/list/bleed_vis = list()
@@ -1154,7 +1157,6 @@
 	var/obj/effect/overlay/zone_sel/overlay_object = hover_overlays_cache[choice]
 	if(!overlay_object)
 		overlay_object = new
-//		overlay_object.icon_state = "[basedholder]-[choice]"
 		overlay_object.icon_state = "[choice]"
 		hover_overlays_cache[choice] = overlay_object
 	vis_contents += overlay_object
@@ -1440,6 +1442,23 @@
 	rebuild_limbs()
 	update_selection()
 
+/atom/movable/screen/zone_sel/proc/_has_visible_bleed(obj/item/bodypart/BP)
+	if(!BP)
+		return FALSE
+	var/bleed_rate = BP.bleeding
+	if(BP.bandage && !HAS_BLOOD_DNA(BP.bandage))
+		var/obj/item/natural/cloth/cloth = BP.bandage
+		if(istype(cloth))
+			bleed_rate *= cloth.bandage_effectiveness
+		return bleed_rate > 1
+	for(var/obj/item/embedded as anything in BP.embedded_objects)
+		if(!embedded.embedding?.embedded_bloodloss)
+			continue
+		bleed_rate += embedded.embedding.embedded_bloodloss
+	for(var/obj/item/grabbing/grab as anything in SANITIZE_LIST(BP.grabbedby))
+		bleed_rate *= grab.bleed_suppressing
+	return max(round(bleed_rate, 0.1), 0) > 0
+
 /atom/movable/screen/zone_sel/proc/rebuild_limbs()
 	if(hud.mymob.stat == DEAD || !ishuman(hud.mymob))
 		for(var/zone in limb_vis)
@@ -1473,12 +1492,12 @@
 		if(!BP)
 			_apply_limb_state(zone, "#2f002f", 0, FALSE)
 			continue
-		if(nopain)
-			_apply_limb_state(zone, "#78a8ba", 0, FALSE)
-			continue
 		var/damage = min(BP.burn_dam + BP.brute_dam, BP.max_damage)
 		var/wound_alpha = clamp(round((damage / BP.max_damage) * 510), 0, 255)
-		var/has_bleed = BP.bleeding > 0  // Прямое чтение — get_bleed_rate() вызывает process_bandage → heal_damage → рекурсия
+		var/has_bleed = _has_visible_bleed(BP)
+		if(nopain)
+			_apply_limb_state(zone, (damage || has_bleed) ? "#78a8ba" : null, 0, has_bleed)
+			continue
 		_apply_limb_state(zone, null, wound_alpha, has_bleed)
 
 /// Creates limb/wound/bleed vis objects for a zone if they don't exist
@@ -1533,7 +1552,8 @@
 
 /// Applies visual state to a zone with cache check — skips no-op updates
 /atom/movable/screen/zone_sel/proc/_apply_limb_state(zone, limb_color, wound_alpha, has_bleed)
-	var/cache_key = "[limb_color]|[wound_alpha]|[has_bleed]"
+	var/gender_prefix = hud.mymob.gender == "male" ? "m" : "f"
+	var/cache_key = "[gender_prefix]|[limb_color]|[wound_alpha]|[has_bleed]"
 	if(limb_cache[zone] == cache_key)
 		return
 	limb_cache[zone] = cache_key
@@ -1546,10 +1566,8 @@
 
 	var/obj/effect/overlay/vis/bld = bleed_vis[zone]
 	if(has_bleed)
-		if(!bld.icon)
-			var/gender_prefix = hud.mymob.gender == "male" ? "m" : "f"
-			bld.icon = 'icons/mob/roguehud64.dmi'
-			bld.icon_state = "[gender_prefix]-[zone]-bleed"
+		bld.icon = 'icons/mob/roguehud64.dmi'
+		bld.icon_state = "[gender_prefix]-[zone]-bleed"
 	else
 		if(bld.icon)
 			bld.icon = null
@@ -1561,23 +1579,21 @@
 
 	// Hot path: bodypart exists and vis objects exist — skip expensive checks
 	var/obj/item/bodypart/BP = H.get_bodypart(zone)
+	var/gender_prefix = H.gender == "male" ? "m" : "f"
 	if(BP)
-		if(!limb_vis[zone])
-			// Cold path: first time seeing this zone
-			_ensure_limb_vis(zone, H.gender == "male" ? "m" : "f")
-		var/has_bleed = BP.bleeding > 0  // Прямое чтение — get_bleed_rate() вызывает process_bandage → heal_damage → рекурсия
-		if(HAS_TRAIT(H, TRAIT_NOPAIN))
-			_apply_limb_state(zone, "#78a8ba", 0, has_bleed)
-			return
+		_ensure_limb_vis(zone, gender_prefix)
+		var/has_bleed = _has_visible_bleed(BP)
 		var/damage = min(BP.burn_dam + BP.brute_dam, BP.max_damage)
+		if(HAS_TRAIT(H, TRAIT_NOPAIN))
+			_apply_limb_state(zone, (damage || has_bleed) ? "#78a8ba" : null, 0, has_bleed)
+			return
 		var/wound_alpha = clamp(round((damage / BP.max_damage) * 510), 0, 255)
 		_apply_limb_state(zone, null, wound_alpha, has_bleed)
 		return
 
 	// Cold path: no bodypart — missing limb or cleanup
 	if(zone in H.get_missing_limbs())
-		if(!limb_vis[zone])
-			_ensure_limb_vis(zone, H.gender == "male" ? "m" : "f")
+		_ensure_limb_vis(zone, gender_prefix)
 		_apply_limb_state(zone, "#2f002f", 0, FALSE)
 		return
 
@@ -1990,8 +2006,12 @@
 			desc = L.rmb_intent.desc
 		else
 			intent_icon_vis.icon = null
+			name = initial(name)
+			desc = initial(desc)
 	else
 		intent_icon_vis.icon = null
+		name = initial(name)
+		desc = initial(desc)
 
 /atom/movable/screen/rmbintent/Click(location,control,params)
 	var/list/modifiers = params2list(params)
@@ -2165,6 +2185,14 @@
 		to_chat(user, span_info("<b>Energy:</b> [round(L.energy, 0.1)] / [round(L.max_energy, 0.1)]"))
 	else
 		..()
+
+/atom/movable/screen/feint
+	name = "feint"
+	icon_state = "feintbar0"
+	icon = 'icons/mob/roguefeint.dmi'
+	screen_loc = rogueui_feint
+	layer = HUD_LAYER+0.1
+	mouse_opacity = 0
 
 /atom/movable/screen/heatstamover
 	name = ""

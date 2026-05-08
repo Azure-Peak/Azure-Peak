@@ -4,7 +4,7 @@
 	name = "Heretic Spellfist"
 	tutorial = "You are a Heretic Spellfist, a battlemage that combines arcyne magyck with martial prowess to enhance yourself in unarmed combat. Your art descends from the Pontifexes of Naledi, warrior-monks who first learned to channel arcyne power through their fists — though the technique has since spread to radical Psydonite sects and Lingyuese monasteries alike. In your journey to power, you have managed to gain the blessing of a divine patron, granting you access to miracles to further augment your abilities. Come what may. With Faith, Fists and Magyck, all will be overcome."
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = RACES_ALL_KINDS
+	
 	outfit = /datum/outfit/job/roguetown/wretch/heretic_spellfist
 	maximum_possible_slots = 2
 	class_select_category = CLASS_CAT_BATTLEMAGE
@@ -17,7 +17,7 @@
 		STATKEY_PER = 1,
 		STATKEY_CON = 1
 	)
-	subclass_mage_aspects = list("mastery" = FALSE, "major" = 0, "minor" = 0, "utilities" = 4, "ward" = TRUE)
+	subclass_mage_aspects = list("mastery" = FALSE, "major" = 0, "minor" = 0, "utilities" = 4)
 	subclass_skills = list(
 		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_EXPERT,
@@ -62,6 +62,7 @@
 		/obj/item/reagent_containers/glass/bottle/alchemical/healthpot = 1,
 		(naledi_book) = 1,
 		/obj/item/book/spellbook = 1,
+		/obj/item/chalk = 1,
 	)
 
 	if(H.mind)

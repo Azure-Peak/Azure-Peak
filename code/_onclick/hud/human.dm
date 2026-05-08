@@ -415,6 +415,9 @@
 	energy = new /atom/movable/screen/energy()
 	infodisplay += energy
 
+	feint_bar = new /atom/movable/screen/feint()
+	infodisplay += feint_bar
+
 	breath_bar = new /atom/movable/screen/bloodpool/breath()
 	breath_bar.hud = src
 	static_inventory += breath_bar

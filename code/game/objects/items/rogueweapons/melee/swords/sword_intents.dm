@@ -82,13 +82,13 @@
 	name = "halfsword thrust"
 	icon_state = "inimpale"
 	clickcd = CLICK_CD_CHARGED
-	penfactor = PEN_HEAVY
+	penfactor = PEN_MEDIUM
 	damfactor = 0.8
-	swingdelay_type = SWINGDELAY_PENALTY
-	swingdelay = 0.7 SECONDS
+	swingdelay = 0.5 SECONDS
 
 /datum/intent/sword/thrust/long/halfsword/jab
 	name = "jab"
+	icon_state = "instab"
 	attack_verb = list("jabs")
 	penfactor = PEN_LIGHT
 	damfactor = 0.8
@@ -127,16 +127,16 @@
 	icon_state = "incut"
 	swingdelay_type = SWINGDELAY_PENALTY
 	swingdelay = 1 SECONDS
-	damfactor = 1.7
+	damfactor = 1.3
 
 /datum/intent/sword/strike/cancel
 	name = "sluggish blunted swing"
 	icon_state = "inchop"
 	swingdelay_type = SWINGDELAY_CANCEL
 	swingdelay = 1 SECONDS
-	damfactor = 3
 	canparry = FALSE
 	candodge = FALSE
+	damfactor = 1.3
 
 // Freifechter Longsword intents //
 /datum/intent/sword/cut/master
@@ -390,3 +390,22 @@
 	damfactor = 1.3	//Zwei will still deal ~7-10 more damage at the same range, depending on user's STR.
 	swingdelay = 8
 
+//Banded iron sword intents
+/datum/intent/sword/chop/powerstrike
+	name = "power strike"
+	desc = "Heft your nine-pound iron sword backwards and slam it down into your opponent for a devastating blow... As long as you land it. Keeping the attack ready costs stamina."
+	attack_verb = list("power-strikes")
+	chargetime = 7
+	swingdelay = 9
+	min_intent_damage = 30
+	max_intent_damage = 32
+	penfactor = PEN_MEDIUM
+	chargedrain = 1.2
+
+/datum/intent/sword/cut/short/banded
+	name = "flurry"
+	desc = "Swing your sword wildly without much purpose to deal a static amount of damage."
+	clickcd = 6		//Faster than a sabre
+	damfactor = 2.17	//Base damage of 15
+	max_intent_damage = 16 //Never better than ANY real sword
+	min_intent_damage = 7.5	//I've decided after testing that even with the big sharpness buff you'll still get cucked out of your damage pretty fast. This is a stopgap that leaves you at ~50% minimum damage.

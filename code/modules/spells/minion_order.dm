@@ -91,3 +91,90 @@
 		to_chat(caster, "Ordered [count] minions to " + msg)
 	else
 		to_chat(caster, "We weren't able to order anyone.")
+
+/obj/effect/proc_holder/spell/invoked/minion_order/carbon //Specialized for carbon-based minions.
+	name = "Order Minions"
+	desc = "Cast on turf to head in that direction ignoring all else. \
+	Cast on a minion to set to aggressive, cast on self to passive and follow, cast on target to focus them."
+
+/obj/effect/proc_holder/spell/invoked/minion_order/carbon/cast(list/targets, mob/user)
+	var/mob/caster = user
+	var/target = targets[1]
+	var/faction_tag = "[caster.mind.current.real_name]_faction"
+
+	// Target is one of our own minions
+	if(ismob(target) && istype(target, /mob/living/carbon))
+		var/mob/living/carbon/minion = target
+		if(!minion.client)
+			if(faction_tag in minion.faction)
+				src.process_minions(order_type = "toggle_stance", target = minion, faction_tag = faction_tag)
+				return
+
+	// Minions goto turf
+	if(isturf(target))
+		src.process_minions(order_type = "goto", target_location = target, faction_tag = faction_tag)
+		return
+
+	// Target is the caster (set minions to passive and follow)
+	else if(target == caster)
+		src.process_minions(order_type = "follow", target = caster, faction_tag = faction_tag)
+		return
+
+	// Target is another mob
+	else if(ismob(target))
+		var/mob/living/mob_target = target
+		if(faction_tag in mob_target.faction)
+			src.process_minions(order_type = "aggressive", target = target, faction_tag = faction_tag)
+			return
+		else
+			// Set all minions to focus on the enemy target
+			src.process_minions(order_type = "attack", target = target, faction_tag = faction_tag)
+			return
+	else
+		revert_cast()
+		return
+
+/obj/effect/proc_holder/spell/invoked/minion_order/carbon/process_minions(var/order_type, turf/target_location = null, mob/living/target = null, var/faction_tag = null)
+	var/mob/caster = usr
+	var/count = 0
+	var/msg = ""
+
+	for (var/mob/other_mob in oview(src.order_range, caster))
+		if (istype(other_mob, /mob/living/carbon) && !other_mob.client) // Carbon mobs... maybe?
+			var/mob/living/carbon/minion = other_mob
+
+			if ((faction_ordering && caster.faction_check_mob(minion)) || (!faction_ordering && faction_tag && (faction_tag in minion.faction)))
+				minion.ai_controller.CancelActions()	//this should immediately halt present actions/orders given.
+				minion.ai_controller.clear_blackboard_key(BB_FOLLOW_TARGET)
+				minion.ai_controller.clear_blackboard_key(BB_BASIC_MOB_CURRENT_TARGET)
+				minion.ai_controller.clear_blackboard_key(BB_TRAVEL_DESTINATION)
+				minion.ai_controller.clear_blackboard_key(BB_BASIC_MOB_RETALIATE_LIST)
+				count += 1
+				switch (order_type)
+					if ("goto")
+						minion.ai_controller.set_blackboard_key(BB_TRAVEL_DESTINATION, target_location)
+						minion.ai_controller.queue_behavior(/datum/ai_behavior/travel_towards/stop_on_arrival, BB_TRAVEL_DESTINATION)
+						msg = "go to [target_location]"
+					if ("follow")
+						minion.ai_controller.set_blackboard_key(BB_FOLLOW_TARGET, target)
+						minion.ai_controller.queue_behavior(/datum/ai_behavior/follow_friend, BB_FOLLOW_TARGET)
+						msg = "follow you."
+					if ("aggressive")
+						msg = "roam free."
+					if ("attack")
+						minion.ai_controller.set_blackboard_key(BB_BASIC_MOB_CURRENT_TARGET, target)
+						minion.ai_controller.set_blackboard_key(BB_MAIN_TARGET, target)
+						minion.ai_controller.insert_blackboard_key_lazylist(BB_BASIC_MOB_RETALIATE_LIST, target)
+						msg = "attack [target.name]"
+					if("toggle_stance")
+						if(minion == target) // single minion clicked
+							if("neutral" in minion.faction) // currently passive → switch to aggressive
+								minion.faction -= "neutral"
+								msg = "[minion.name] becomes hostile to nearby strangers."
+							else
+								minion.faction += "neutral"
+								msg = "[minion.name] calms down."
+	if(count>0)
+		to_chat(caster, "Ordered [count] minions to " + msg)
+	else
+		to_chat(caster, "We weren't able to order anyone.")

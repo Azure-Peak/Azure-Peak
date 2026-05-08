@@ -1,6 +1,13 @@
 // Legacy lootspawner from smalldungeons.dm
 /obj/effect/spawner/lootdrop/roguetown/dungeon
 	name = "dungeon spawner"
+	loot_value = LOOT_VALUE_DUNGEON_MIXED
+	junk_loot = list(
+		/obj/item/ash = 5,
+		/obj/item/natural/glass_shard = 5,
+		/obj/item/natural/stone = 3,
+		/obj/item/candle/yellow = 3,
+	)
 	loot = list(
 		// Materials
 		/obj/item/natural/bundle/stick = 2,
@@ -152,6 +159,8 @@
 
 /obj/effect/spawner/lootdrop/roguetown/dungeon/materials
 	icon_state = "material"
+	loot_value = LOOT_VALUE_DUNGEON_MATERIALS
+	junk_loot = list(/obj/item/natural/stone = 5, /obj/item/natural/fibers = 5)
 	loot = list(
 		// Materials
 		/obj/item/natural/bundle/stick = 2,
@@ -168,6 +177,8 @@
 
 /obj/effect/spawner/lootdrop/roguetown/dungeon/clothing
 	icon_state = "clothing"
+	loot_value = LOOT_VALUE_DUNGEON_CLOTHING
+	junk_loot = list(/obj/item/natural/fibers = 5, /obj/item/ash = 5)
 	loot = list(
 		// Clothing
 		/obj/item/clothing/cloak/tabard/stabard = 3,
@@ -188,6 +199,8 @@
 
 /obj/effect/spawner/lootdrop/roguetown/dungeon/money
 	icon_state = "money"
+	loot_value = LOOT_VALUE_DUNGEON_MONEY
+	junk_loot = list(/obj/item/roguecoin/copper = 5, /obj/item/ash = 3)
 	loot = list(
 		// Money
 		/obj/item/roguecoin/copper = 5,
@@ -201,6 +214,7 @@
 
 /obj/effect/spawner/lootdrop/roguetown/dungeon/misc
 	icon_state = "misc"
+	loot_value = LOOT_VALUE_DUNGEON_MISC
 	loot = list(
 		// Garbage and Miscellanous
 		/obj/item/rogue/instrument/flute = 3,
@@ -236,6 +250,8 @@
 
 /obj/effect/spawner/lootdrop/roguetown/dungeon/medical
 	icon_state = "medical"
+	loot_value = LOOT_VALUE_DUNGEON_MEDICAL
+	junk_loot = list(/obj/item/natural/cloth/bandage = 5, /obj/item/ash = 3)
 	loot = list(
 		//medical
 		/obj/item/needle = 4,
@@ -246,6 +262,8 @@
 
 /obj/effect/spawner/lootdrop/roguetown/dungeon/weapons
 	icon_state = "weapon"
+	loot_value = LOOT_VALUE_DUNGEON_WEAPONS
+	junk_loot = list(/obj/item/natural/bundle/stick = 5, /obj/item/natural/stone = 3)
 	loot = list(
 		//weapons
 		/obj/item/rogueweapon/mace = 2,
@@ -281,6 +299,8 @@
 
 /obj/effect/spawner/lootdrop/roguetown/dungeon/tools
 	icon_state = "tools"
+	loot_value = LOOT_VALUE_DUNGEON_TOOLS
+	junk_loot = list(/obj/item/natural/stone = 5, /obj/item/natural/bundle/stick = 5)
 	loot = list(
 		// tools
 		/obj/item/rogueweapon/shovel = 3,
@@ -300,6 +320,8 @@
 
 /obj/effect/spawner/lootdrop/roguetown/dungeon/armor
 	icon_state = "armor"
+	loot_value = LOOT_VALUE_DUNGEON_ARMOR
+	junk_loot = list(/obj/item/natural/hide = 5, /obj/item/natural/fibers = 5)
 	loot = list(
 		//armor
 		/obj/item/clothing/suit/roguetown/armor/leather/studded = 2,
@@ -333,6 +355,8 @@
 
 /obj/effect/spawner/lootdrop/roguetown/dungeon/food
 	icon_state = "food"
+	loot_value = LOOT_VALUE_DUNGEON_FOOD
+	junk_loot = list(/obj/item/ash = 5, /obj/item/natural/stone = 3)
 	loot = list(
 		//food
 		/obj/item/reagent_containers/food/snacks/rogue/crackerscooked = 3,
@@ -344,6 +368,8 @@
 
 /obj/effect/spawner/lootdrop/roguetown/dungeon/spells
 	icon_state = "spells"
+	loot_value = LOOT_VALUE_DUNGEON_SPELLS
+	junk_loot = list(/obj/item/paper/scroll = 5, /obj/item/ash = 3)
 	loot = list(
 		/obj/item/book/granter/arcane_aspect/utility = 5,
 		/obj/item/book/granter/arcane_aspect/minor = 3,

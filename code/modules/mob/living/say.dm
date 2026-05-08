@@ -248,9 +248,7 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 
 	// autopunctuation
 	if(!client?.prefs?.no_autopunctuate)
-		var/ending = copytext(message, length(message), (length(message) + 1))
-		if(ending && !GLOB.correct_punctuation[ending])
-			message += "."
+		message = autopunct_bare(message)
 
 	if(D.flags & SIGNLANG)
 		send_speech_sign(message, message_range, src, bubble_type, spans, language, message_mode, original_message)
@@ -333,6 +331,8 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 	if(ishuman(src))
 		var/mob/living/carbon/human/H = src
 		mob_color = H.voice_color
+		if(H.voicecolor_override)
+			mob_color = H.voicecolor_override
 	var/chatmsg = "<font color = #[mob_color]><b>[src]</b></font> " + sign_verb + "."
 	visible_message(chatmsg, runechat_message = sign_verb, log_seen = SEEN_LOG_EMOTE, ignored_mobs = understanders)
 

@@ -9,8 +9,8 @@
 
 	weather_message = ""
 	weather_overlay = "rain1"
-	weather_duration_lower = 5 MINUTES
-	weather_duration_upper = 12 MINUTES
+	weather_duration_lower = 8 MINUTES
+	weather_duration_upper = 18 MINUTES
 	weather_sound = 'sound/blank.ogg'
 	weather_alpha = 200
 

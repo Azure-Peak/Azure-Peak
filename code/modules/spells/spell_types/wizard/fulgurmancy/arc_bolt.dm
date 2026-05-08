@@ -26,7 +26,6 @@
 	charge_slowdown = CHARGING_SLOWDOWN_NONE
 	charge_sound = 'sound/magic/charging.ogg'
 	cooldown_time = 6.5 SECONDS
-	is_implement_scaled_spell = TRUE
 	attunement_school = ASPECT_NAME_FULGURMANCY
 
 	associated_skill = /datum/skill/magic/arcane
@@ -40,7 +39,7 @@
 	hitscan = TRUE
 	movement_type = UNSTOPPABLE
 	light_color = LIGHT_COLOR_WHITE
-	damage = 35
+	damage = 42
 	npc_simple_damage_mult = 2
 	damage_type = BURN
 	woundclass = BCLASS_BURN
@@ -53,7 +52,7 @@
 
 /obj/projectile/magic/arc_bolt/arc
 	name = "arced arc bolt"
-	damage = 26
+	damage = 32
 	arcshot = TRUE
 
 /obj/projectile/magic/arc_bolt/on_hit(target)

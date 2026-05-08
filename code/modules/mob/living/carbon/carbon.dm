@@ -82,7 +82,6 @@
 		H = hud_used.hand_slots["[held_index]"]
 		if(H)
 			H.update_hand_vis()
-		H = hud_used.action_intent
 	oactive = FALSE
 	update_a_intents()
 	return TRUE
@@ -581,9 +580,6 @@
 		return 0
 	return ..()
 
-/mob/living/carbon
-	var/nausea = 0
-	var/bleeding_tier = 0
 
 /mob/living/carbon/proc/add_nausea(amt)
 	nausea = clamp(nausea + amt, 0, 300)
@@ -756,7 +752,7 @@
 	if(total_burn > 0)
 		var/obj/item/bodypart/chest/C = get_bodypart(BODY_ZONE_CHEST)
 		var/burn_threshold = C ? C.max_damage : FIRE_HARDCRIT_BASE
-		if(HAS_TRAIT(src, TRAIT_NOPAIN) || HAS_TRAIT(src, TRAIT_NOPAINSTUN))
+		if((HAS_TRAIT(src, TRAIT_NOPAIN) || HAS_TRAIT(src, TRAIT_NOPAINSTUN)) && !HAS_TRAIT(src, TRAIT_NOBURN_RESIST))
 			burn_threshold *= FIRE_HARDCRIT_NOPAIN_MULT
 		var/burn_ratio = total_burn / burn_threshold
 		if(!burn_warning_shown)
@@ -784,10 +780,6 @@
 	else
 		remove_movespeed_modifier(MOVESPEED_ID_CARBON_SOFTCRIT, TRUE)
 	SEND_SIGNAL(src, COMSIG_LIVING_HEALTH_UPDATE)
-
-/mob/living/carbon
-	var/lightning_flashing = FALSE
-	var/burn_warning_shown = FALSE
 
 /mob/living/carbon/update_sight()
 	if(!client)

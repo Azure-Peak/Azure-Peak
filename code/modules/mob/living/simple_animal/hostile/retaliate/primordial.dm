@@ -52,7 +52,7 @@
 	icon = 'icons/roguetown/mob/monster/primordial.dmi'
 	AIStatus = AI_OFF
 	can_have_ai = FALSE
-	faction = list("neutral")
+	faction = list(FACTION_NEUTRAL)
 	var/next_ability_use
 	var/ability_cooldown = 30 SECONDS
 

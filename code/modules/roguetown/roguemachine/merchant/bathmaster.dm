@@ -39,6 +39,18 @@
 	set_light(1, 1, 1, l_color = "#1b7bf1")
 	add_overlay(mutable_appearance(icon, "vendor-merch"))
 
+/// Single source of truth for displayed and billed prices. Display-time and buy-time
+/// both route through here so a mid-session edict rate change can never desync the
+/// quoted price from the charged price.
+/obj/structure/roguemachine/bathvend/proc/compute_pack_price(datum/supply_pack/PA)
+	var/cost = PA.cost
+	if(!(upgrade_flags & UPGRADE_NOTAX))
+		cost += compute_pack_tax(PA)
+	return round(cost)
+
+/obj/structure/roguemachine/bathvend/proc/compute_pack_tax(datum/supply_pack/PA)
+	return round(SStreasury.get_tax_rate(TAX_CATEGORY_IMPORT_TARIFF) * PA.cost)
+
 
 /obj/structure/roguemachine/bathvend/attackby(obj/item/P, mob/user, params)
 	if(istype(P, /obj/item/roguekey))
@@ -81,17 +93,17 @@
 			message_admins("silly MOTHERFUCKER [usr.key] IS TRYING TO BUY A [path] WITH THE BRASSFACE")
 			return
 		var/datum/supply_pack/PA = SSmerchant.supply_packs[path]
-		var/cost = PA.cost
-		var/tax_amt=round(SStreasury.tax_value * cost)
-		cost=cost+tax_amt
-		if(upgrade_flags & UPGRADE_NOTAX)
-			cost = PA.cost
+		var/cost = compute_pack_price(PA)
+		var/tax_amt = compute_pack_tax(PA)
 		if(budget >= cost)
 			budget -= cost
 			if(!(upgrade_flags & UPGRADE_NOTAX))
-				SStreasury.give_money_treasury(tax_amt, "brassface import tax")
+				SStreasury.mint(SStreasury.discretionary_fund, tax_amt, "[TAX_CATEGORY_IMPORT_TARIFF] (brassface)")
 				record_featured_stat(FEATURED_STATS_TAX_PAYERS, human_mob, tax_amt)
 				record_round_statistic(STATS_TAXES_COLLECTED, tax_amt)
+				record_round_statistic(STATS_REVENUE_IMPORT_TARIFF, tax_amt)
+			else
+				record_round_statistic(STATS_TAXES_EVADED, tax_amt)
 		else
 			say("Not enough!")
 			return
@@ -166,9 +178,7 @@
 			if(PA.group == current_cat)
 				pax += PA
 		for(var/datum/supply_pack/PA in sortNames(pax))
-			var/costy = PA.cost
-			if(!(upgrade_flags & UPGRADE_NOTAX))
-				costy=round(costy+(SStreasury.tax_value * costy))
+			var/costy = compute_pack_price(PA)
 			contents += "[PA.name] [PA.contains.len > 1?"x[PA.contains.len]":""] - ([costy])<a href='?src=[REF(src)];buy=[PA.type]'>BUY</a><BR>"
 
 	if(!canread)

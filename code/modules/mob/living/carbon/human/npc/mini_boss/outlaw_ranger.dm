@@ -10,11 +10,12 @@ GLOBAL_LIST_INIT(ranger_aggro, list(
 ))
 
 /mob/living/carbon/human/species/human/northern/outlaw_ranger
-	ai_controller = /datum/ai_controller/human_npc
-	faction = list("dundead")
+	ai_controller = /datum/ai_controller/human_npc/archer
+	faction = list(FACTION_DUNDEAD)
 	ambushable = FALSE
 	dodgetime = 25
 	d_intent = INTENT_DODGE
+	threat_point = THREAT_ELITE
 
 /mob/living/carbon/human/species/human/northern/outlaw_ranger/Initialize()
 	. = ..()
@@ -39,6 +40,7 @@ GLOBAL_LIST_INIT(ranger_aggro, list(
 		ADD_TRAIT(held_item, TRAIT_NODROP, TRAIT_GENERIC)
 	update_hair()
 	update_body()
+	AddComponent(/datum/component/npc_death_line)
 
 /mob/living/carbon/human/species/human/northern/outlaw_ranger/death(gibbed, nocutscene = FALSE)
 	. = ..()

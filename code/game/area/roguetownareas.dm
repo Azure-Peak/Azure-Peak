@@ -1,6 +1,6 @@
 GLOBAL_LIST_EMPTY(chosen_music)
 
-GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town,/area/rogue/outdoors/town,/area/rogue/under/town)) //hey
+GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(list(/area/rogue/indoors/town, /area/rogue/outdoors/town, /area/rogue/under/town)))
 
 /area/rogue
 	name = "roguetown"
@@ -23,6 +23,12 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 	var/drow_area = FALSE
 	var/necra_area = FALSE
 	var/ceiling_protected = FALSE //Prevents tunneling into these from above
+	/// Loot pool budget for this area. Spawners compete for mammons - when budget runs out, remaining spawners get junk. 0 = no pool (spawners fire normally).
+	var/loot_budget = 0
+	/// Pool key for grouping multiple sub-areas into one shared pool. Areas with the same key share one budget. Defaults to own type path.
+	var/loot_pool_key
+	/// If TRUE, this area's pool is not auto-processed at SSatoms init. Use for areas built incrementally by the dungeon generator - call process_deferred_loot_pools() once generation finishes.
+	var/loot_pool_deferred = FALSE
 
 /area/rogue/Entered(mob/living/carbon/human/guy)
 	. = ..()
@@ -61,12 +67,15 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 /area/rogue/indoors/banditcamp
 	name = "Bandit Camp"
 	droning_sound = 'sound/music/area/banditcamp.ogg'
-	droning_sound_dusk = 'sound/music/area/banditcamp.ogg'
-	droning_sound_night = 'sound/music/area/banditcamp.ogg'
+	droning_sound_dusk = null
+	droning_sound_night = null
 
-/area/rogue/indoors/vampire_manor
+/area/rogue/indoors/vampire_manor //Sovlnuke with a track we didn't use previous.
+	first_time_text = "FORGOTTEN MANOR"
 	name = "Vampire Manor"
-	droning_sound = 'sound/music/area/manor2.ogg'
+	droning_sound = 'sound/music/area/sargoth.ogg'
+	droning_sound_dusk = null
+	droning_sound_night = null
 
 /area/rogue/indoors/ravoxarena
 	name = "Ravox's Arena"
@@ -151,9 +160,9 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 	soundenv = 19
 	ambush_times = list("night")
 	ambush_mobs = list(
-				/mob/living/simple_animal/hostile/retaliate/rogue/wolf/badger = 10,
-				/mob/living/simple_animal/hostile/retaliate/rogue/wolf/raccoon = 25,
-				/mob/living/simple_animal/hostile/retaliate/rogue/wolf/bobcat = 20,
+				/mob/living/simple_animal/hostile/retaliate/rogue/badger = 10,
+				/mob/living/simple_animal/hostile/retaliate/rogue/raccoon = 25,
+				/mob/living/simple_animal/hostile/retaliate/rogue/bobcat = 20,
 				/mob/living/simple_animal/hostile/retaliate/rogue/wolf = 30,
 				/mob/living/simple_animal/hostile/retaliate/rogue/fox = 30,
 				/mob/living/carbon/human/species/skeleton/npc/supereasy = 30)
@@ -235,6 +244,8 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 
 /area/rogue/under/cave/licharena
 	name = "lich's domain"
+	loot_budget = LOOT_BUDGET_LICH_ARENA
+	loot_pool_key = "lich_arena"
 	icon_state = "under"
 	first_time_text = "LICH'S DOMAIN"
 	droning_sound = 'sound/music/area/dragonden.ogg'
@@ -252,6 +263,7 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 
 /area/rogue/under/cave/undeadmanor
 	name = "skelemansion"
+	loot_budget = LOOT_BUDGET_UNDEAD_MANOR
 	icon_state = "spidercave"
 	first_time_text = "ABANDONED MANOR"
 	droning_sound = 'sound/music/area/dungeon2.ogg'

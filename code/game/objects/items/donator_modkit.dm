@@ -200,7 +200,7 @@
 	target_items = list(/obj/item/rogueweapon/sword/sabre)
 	result_item = /obj/item/rogueweapon/example/eiren_sabre
 
-/obj/item/enchantingkit/eirensabre2
+/obj/item/enchantingkit/weapon/eirensabre2
 	name = "'Cinis' morphing elixir"
 	target_items = list(/obj/item/rogueweapon/sword/saber)
 	result_item = /obj/item/rogueweapon/example/eiren_sabre_alt
@@ -218,11 +218,6 @@
 		/obj/item/rogueweapon/sword/long
 	)
 	result_item = /obj/item/rogueweapon/eirenxiv/eirensword
-
-/obj/item/enchantingkit/eiren_helmet
-	name = "'strigidae armet' morphing elixir"
-	target_items = list(/obj/item/clothing/head/roguetown/helmet/heavy/knight/armet)
-	result_item = /obj/item/clothing/head/roguetown/helmet/heavy/knight/armet/eiren_helmet
 
 //pretzel - custom steel greatsword. PSYDON LYVES. PSYDON ENDVRES.
 /obj/item/enchantingkit/weapon/waff
@@ -419,3 +414,29 @@
 		/obj/item/rogueweapon/greatsword/grenz/flamberge/blacksteel
 	)
 	result_item = /obj/item/rogueweapon/example/aeternum
+
+/obj/item/enchantingkit/weapon/darling
+	name = "'Darling' morphing elixir"
+	target_items = list(
+		/obj/item/rogueweapon/sword/long
+	)
+	result_item = /obj/item/rogueweapon/example/darling
+
+/obj/item/enchantingkit/weapon/sumquoderis
+	name = "'Vial of Crimson Ichor'"
+	target_items = list(
+		/obj/item/rogueweapon/sword/long/exe
+	)
+	result_item = /obj/item/rogueweapon/example/sumquoderis
+
+/obj/item/enchantingkit/weapon/euthanasia
+	name = "'Ritual Dagger Mould'"
+	target_items = list(
+		/obj/item/rogueweapon/huntingknife/combat
+	)
+	result_item = /obj/item/rogueweapon/example/euthanasia
+
+/obj/item/enchantingkit/weapon/nicksonessang
+	name = "'Dark Delight' morphing elixir"
+	target_items = list(/obj/item/rogueweapon/sword/long/kriegmesser/ssangsudo)
+	result_item = /obj/item/rogueweapon/example/ssangsudo_long

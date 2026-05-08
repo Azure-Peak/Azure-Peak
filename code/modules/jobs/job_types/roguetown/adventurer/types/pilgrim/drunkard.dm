@@ -2,7 +2,7 @@
 	name = "Gambler"
 	tutorial = "You are a gambler. Everyone in your life has given up on you, and the stress of losing it all over and over has taken its toll on your body. All you have left to your name are some cards, dice and whatever is in this bottle. At least you're still in Baotha's good graces, whether you reciprocate such feelings or not..."
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = RACES_ALL_KINDS
+	
 	outfit = /datum/outfit/job/roguetown/adventurer/drunkard
 	traits_applied = list(TRAIT_HOMESTEAD_EXPERT)
 
@@ -45,4 +45,4 @@
 						)
 	ADD_TRAIT(H, TRAIT_CRACKHEAD, TRAIT_GENERIC)
 	if(H.mind)
-		SStreasury.give_money_account(ECONOMIC_LETSGOGAMBLING, H, "Savings.")
+		SStreasury.grant_savings(ECONOMIC_LETSGOGAMBLING, H)

@@ -8,10 +8,12 @@
 	throwforce = 0
 	slot_flags = ITEM_SLOT_HIP
 	throw_speed = 0.5
+	flags_ai_inventory = AI_ITEM_THROWING
 	var/fuze = null
 	var/lit = FALSE
 	var/prob2fail = 5
 	var/PVE_damage = 160
+	var/spawn_shard = TRUE
 	grid_width = 32
 	grid_height = 64
 
@@ -71,9 +73,13 @@
 	qdel(src)
 	playsound(T, 'sound/items/firesnuff.ogg', 100)
 	for(var/mob/living/target in range(1, T))
-		if(!target.mind || istype(target, /mob/living/simple_animal))
-			target.adjustFireLoss(PVE_damage) //fireball damage + 40. That
-	new /obj/item/natural/glass_shard(T)
+		if(istype(target, /mob/living/simple_animal))
+			var/mob/living/simple_animal/SA = target
+			if(SA.can_buckle) // rideable/saddleborn animals are excluded
+				continue
+			target.adjustFireLoss(PVE_damage)
+	if(spawn_shard)
+		new /obj/item/natural/glass_shard(T)
 	explosion(T, light_impact_range = 1, flame_range = 2, smoke = TRUE, soundin = pick('sound/misc/explode/bottlebomb (1).ogg','sound/misc/explode/bottlebomb (2).ogg'))
 	return TRUE
 
@@ -129,6 +135,9 @@
 		span_notice("I finish setting up [trip]. I can extend it by one step longer.")
 	)
 	return
+
+/obj/item/bomb/noshard
+	spawn_shard = FALSE
 
 /obj/item/bomb/tripbomb
 	name = "trip bomb"

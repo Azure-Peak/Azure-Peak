@@ -15,6 +15,8 @@
 	ambushable = 1
 
 	voice_pitch = 1
+	/// This is probably dead code, but moved to human_defines and I learned to hate people who deatomize it. It's war now.
+	var/char_accent = "No accent"
 
 	var/footstep_type = FOOTSTEP_MOB_HUMAN
 
@@ -36,7 +38,10 @@
 	var/highlight_color = "#FF0000"
 	var/detail_color = "000"
 
-	var/skin_tone = "caucasian1"	//Skin tone
+	/// This is your skin tone, uses words such as 'caucasian1', but also accepts hexcode strings (without #).
+	var/skin_tone = "caucasian1"
+	/// This is an adaptable backup of skin_tone, because rotting was bugging out. Default value should be null, and only filled if we are rotted.
+	var/original_skin_tone
 
 	var/lip_style = null	//no lipstick by default- arguably misleading, as it could be used for general makeup
 	var/lip_color = "white"
@@ -82,7 +87,6 @@
 	var/static/list/can_ride_typecache = typecacheof(list(/mob/living/carbon/human))
 	var/lastpuke = 0
 	var/last_fire_update
-	var/account_id
 
 	canparry = TRUE
 	candodge = TRUE
@@ -155,7 +159,7 @@
 	var/vampire_eyes = null
 	var/vampire_hair = null
 	var/vampire_ears = null
-	//An alternative headshot link that can be used when users want to use it for a special role like while a vampire, werewolf, bandit, etc.
+	///An alternative headshot link that can be used when users want to use it for a special role like while a vampire, werewolf, bandit, etc.
 	var/vampire_headshot_link
 	var/lich_headshot_link
 	//setting up the hooks for this, but not shown yet
@@ -181,7 +185,9 @@
 
 	var/list/charflaws = list()
 
-	// curse list and cooldown
+	var/list/feint_list = list()
+
+	/// curse list and cooldown
 	var/list/curses = list()
 	COOLDOWN_DECLARE(priest_announcement)
 	COOLDOWN_DECLARE(guildmaster_announcement) //This is not for priest but if you are looking for GUILDMASTER announcements it's here, more so convinence than anything.
@@ -193,18 +199,24 @@
 	COOLDOWN_DECLARE(priest_change_miracles)
 	COOLDOWN_DECLARE(hag_transform_lockout)
 
-	// bait stacks for aimed intent
+	/// bait stacks for aimed intent
 	var/bait_stacks
 
-	// werewolf mob storage (this is bad and probably causes hard dels)
+	/// werewolf mob storage (this is bad and probably causes hard dels)
 	var/mob/stored_mob = null
 
 	var/mob/living/carbon/human/hostagetaker //Stores the person that took us hostage in a var, allows us to force them to attack the mob and such
 	var/mob/living/carbon/human/hostage //What hostage we have
 
-	// Boolean. Usually set only to TRUE for non-Eoran church roles.
+	/// Boolean. Usually set only to TRUE for non-Eoran church roles.
 	var/virginity = FALSE
-	// Used to prevent certain antag from having sex
+	/// Used to prevent certain antag from having sex
 	var/can_do_sex = TRUE
-
+	/// For vision cone, check out mobs.dm defines for values
 	fovangle = FOV_DEFAULT
+
+	/// Guarded Virtue (TRAIT_DECEIVING_MEEKNESS) exclusive variable for filtering out our descriptors from examine.
+	var/show_descriptors = TRUE
+
+	/// This is for highlighting marks in track.dm
+	var/mob/living/current_mark

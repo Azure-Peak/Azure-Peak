@@ -6,7 +6,7 @@
 	total_positions = 1
 	spawn_positions = 1
 
-	allowed_races = RACES_SHUNNED_UP		//Nobility, no construct
+	forbidden_races = list(RACES_CONSTRUCT RACES_DESPISED)		//Nobility, no construct
 	allowed_sexes = list(MALE, FEMALE)
 	spells = list()
 	display_order = JDO_MAGICIAN
@@ -117,7 +117,8 @@
 		/obj/item/reagent_containers/glass/bottle/rogue/poison,
 		/obj/item/reagent_containers/glass/bottle/rogue/healthpot,
 		/obj/item/book/spellbook,
-		/obj/item/rogueweapon/huntingknife/idagger/silver/arcyne
+		/obj/item/rogueweapon/huntingknife/idagger/silver/arcyne,
+		/obj/item/chalk
 	)
 	if(H.mind)
-		SStreasury.give_money_account(ECONOMIC_RICH, H, "Savings.")
+		SStreasury.grant_savings(ECONOMIC_RICH, H)

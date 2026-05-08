@@ -284,11 +284,17 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	var/always_destroy = FALSE
 	/// If TRUE, this item is not allowed to be minted. May be useful for other things later.
 	var/is_important = FALSE
+	/// Tagged on mapload-spawned items inside town areas - marks them as town property so they can't be fed to the stockpile for minting.
+	var/unmintable = FALSE
 	/// does this item/weapon circumvent two-stage death during dismemberment? (do not add this to anything but ultra rare shit)
 	var/vorpal = FALSE
 
-/obj/item/Initialize()
+/obj/item/Initialize(mapload)
 	. = ..()
+	if(mapload)
+		var/area/A = get_area(src)
+		if(A && is_type_in_typecache(A, GLOB.roguetown_areas_typecache))
+			unmintable = TRUE
 	if(!pixel_x && !pixel_y && !bigboy)
 		pixel_x = rand(-5,5)
 		pixel_y = rand(-5,5)
@@ -502,10 +508,13 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 		to_chat(usr, output)
 
 	if(href_list["explainbalance"])
-		var/output = span_info("A heavy weapon is easier to dodge, and inflicts 2 stamina damage per level of strength difference on a parrying defender. \n\
-		A swift balance weapon reduces the enemy's parry chance by 10% per level of speed difference, by up to 30%. \n\
-		If the defender has higher perception however, the penalty is reduced by 10% per point of difference, down to none.\n\
-		Intelligence also reduces the penalty by 3% per point of difference, down to none.")
+		var/output = span_info("A heavy weapon is easier to dodge, and inflicts [STAM_DRAIN_PER_STR_DIFF_HEAVY_BAL] stamina damage per level of strength difference on a parrying defender. \n\
+		A swift balance weapon reduces the enemy's parry chance depending on SPD difference. \n\
+		Targeting harder to hit zones such as hands, feet, stomach or face zones has a defense reduction cap at [SWIFTCAP_PRECISE]%. \n\
+		Targeting large limbs such as arms, head or legs has a defense reduction cap of [SWIFTCAP_LIMBS]%. \n\
+		Targeting the chest only has a cap of [SWIFTCAP_CHEST]% parry reduction. \n\
+		Swift Balance does not work if the attacker is wearing Medium or Heavy AC equipment on their outerwear, innerwear or pants slots. \n\
+		Defender's difference in INT and PER (if higher) may reduce the parry penalty in some circumstances.")
 		if(!usr.client.prefs.no_examine_blocks)
 			output = examine_block(output)
 		to_chat(usr, output)
@@ -1617,6 +1626,15 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 /obj/item/proc/on_embed(obj/item/bodypart/bp)
 	return
 
+/obj/item/proc/has_armor_value()
+	if(istype(src, /obj/item/clothing))
+		var/obj/item/clothing/C = src
+		if(C.armor)
+			var/datum/armor/def_armor = C.armor
+			return def_armor.blunt || def_armor.slash || def_armor.stab || def_armor.piercing
+
+	return FALSE
+
 /obj/item/proc/defense_examine()
 	var/list/str = list()
 	if(istype(src, /obj/item/clothing))
@@ -1675,6 +1693,26 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 			new /obj/item/scrap(get_turf(src))
 			if(prob(20))
 				new /obj/item/scrap(get_turf(src))
+		if(smeltresult == /obj/item/ingot/avantyne) //In short - it checks the item's smeltable result. If it matches what's listed here, it'll spawn something 'new' - scrap, in this case - when destroyed.
+			new /obj/item/ingot/component/zizo(get_turf(src))
+			if(prob(20))
+				new /obj/item/ingot/component/zizo(get_turf(src))
+		if(smeltresult == /obj/item/ingot/component/zizo) //This check's made so that all Ascendant-related items, if stripped and destroyed, spawn unique fragments. Decorative? Useful? Who knows!
+			new /obj/item/ingot/component/zizo(get_turf(src))
+			if(prob(20))
+				new /obj/item/ingot/component/zizo(get_turf(src))
+		if(smeltresult == /obj/item/ingot/component/graggar)
+			new /obj/item/ingot/component/graggar(get_turf(src))
+			if(prob(20))
+				new /obj/item/ingot/component/graggar(get_turf(src))
+		if(smeltresult == /obj/item/ingot/component/matthios)
+			new /obj/item/ingot/component/matthios(get_turf(src))
+			if(prob(20))
+				new /obj/item/ingot/component/matthios(get_turf(src))
+		if(smeltresult == /obj/item/ingot/component/baotha)
+			new /obj/item/ingot/component/baotha(get_turf(src))
+			if(prob(20))
+				new /obj/item/ingot/component/baotha(get_turf(src))
 	if(destroy_sound)
 		playsound(src, destroy_sound, 100, TRUE)
 	if(destroy_message)
@@ -1720,3 +1758,9 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 
 /obj/item/proc/update_wdefense_dynamic()
 	wdefense_dynamic = (wielded ? (wdefense + wdefense_wbonus) : wdefense)
+
+/obj/item/proc/ai_get_custom_inventory()
+	return null
+
+/obj/item/proc/ai_withdraw_item(obj/item/it, mob/living/user)
+	return FALSE

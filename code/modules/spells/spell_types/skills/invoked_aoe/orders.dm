@@ -42,7 +42,7 @@
 			revert_cast()
 			return FALSE
 		else
-			user.say("[msg]")
+			user.say("[msg]", language = /datum/language/common)
 			for(var/mob/living/carbon/target in affectedtargets)
 				target.apply_status_effect(buff_given)
 			return TRUE
@@ -161,7 +161,7 @@
 			to_chat(user, span_alert("I cannot order myself!"))
 			revert_cast()
 			return
-		user.say("[msg]")
+		user.say("[msg]", language = /datum/language/common)
 		target.apply_status_effect(/datum/status_effect/buff/order/onfeet)
 		if(!(target.mobility_flags & MOBILITY_STAND))
 			target.SetUnconscious(0)
