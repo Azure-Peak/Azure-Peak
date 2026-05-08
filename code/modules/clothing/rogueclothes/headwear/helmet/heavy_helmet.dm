@@ -1265,7 +1265,7 @@
 
 /obj/item/clothing/head/roguetown/helmet/heavy/zizo/frogge
 	name = "avantyne froggemund"
-	desc = "A monolithic, suffocating cage of avantyne that narrows one's perspective to a single, hateful point. It grants the wearer the clarity of a predator, blinding them to everything but the object of their malice."
+	desc = "A monolithic, suffocating cage of darksteel that narrows one's perspective to a single, hateful point. It grants the wearer the clarity of a predator, blinding them to everything but the object of their malice."
 	icon_state = "zizofrogmouth"
 	flags_inv = HIDEFACE|HIDESNOUT|HIDEEARS|HIDEHAIR
 	body_parts_covered = HEAD|EARS|HAIR
@@ -1281,7 +1281,7 @@
 
 /obj/item/clothing/head/roguetown/helmet/heavy/zizo/bascinet
 	name = "avantyne bascinet"
-	desc = "A bascinet threaded from an darksteel alloy, perpetually backlit with an eerie crimson haze. Glimpse into the abyss for too long..</br>‎<font color='FF0000'>..and something will look back.</font>"
+	desc = "A darksteeled bascinet, perpetually backlit with an eerie crimson haze. Glimpse into the abyss for too long..</br>‎<font color='FF0000'>..and something will look back.</font>"
 	icon_state = "zizobascinet"
 	item_state = "zizobascinet"
 	flags_inv = HIDEFACE|HIDESNOUT|HIDEEARS|HIDEHAIR
@@ -1298,8 +1298,9 @@
 	AddComponent(/datum/component/adjustable_clothing, (HEAD|EARS|HAIR), (HIDEEARS|HIDEHAIR), null, 'sound/items/visor.ogg', null, UPD_HEAD)	//Standard helmet
 
 /obj/item/clothing/head/roguetown/helmet/heavy/avantyne
-	name = "avantyne veil"
+	name = "avantyne-threaded veil"
 	desc = "A veil threaded from an otherworldly alloy, perpetually backlit with an eerie crimson haze. Glimpse into the abyss for too long.. </br>‎  <font color='FF0000'>..and something will look back.</font>."
+	body_parts_covered = FULL_HEAD|NECK
 	icon_state = "zizoplatehelm_med"
 	item_state = "zizoplatehelm_med"
 	flags_inv = HIDEFACE|HIDESNOUT|HIDEEARS

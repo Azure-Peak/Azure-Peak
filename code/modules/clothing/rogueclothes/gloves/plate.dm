@@ -135,11 +135,12 @@
 	qdel(src)
 
 /obj/item/clothing/gloves/roguetown/plate/avantyne
-	name = "avantyne-threaded gloves"
-	desc = "Incongruent silks from a tymeline-most-doomed, woven to cradle the palms of God's successor. Softer than silk, yet unfettered by the blows from those who know no better."
+	name = "avantyne-threaded sleevegloves"
+	desc = "Incongruent silks from a tymeline-most-doomed, woven by Man to cradle the palms of God's successor. Softer than silk, yet unfettered by the blows from those who know no better."
 	icon_state = "zizoplategauntlets_med"
 	smeltresult = /obj/item/ingot/avantyne
 	armor = ARMOR_PLATE_BSTEEL
+	body_parts_covered = HANDS|ARMS
 
 /obj/item/clothing/gloves/roguetown/plate/shadowgauntlets
 	name = "darkplate gauntlets"
