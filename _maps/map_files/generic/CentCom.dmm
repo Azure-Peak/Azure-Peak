@@ -860,7 +860,6 @@
 /turf/open/floor/rogue/cobble,
 /area/rogue/indoors/shelter/bog_hag)
 "gi" = (
-/obj/structure/fluff/railing/border,
 /obj/structure/fluff/railing/border{
 	dir = 8
 	},
@@ -1036,9 +1035,6 @@
 "jB" = (
 /obj/structure/fluff/statue/femalestatue/zizo{
 	pixel_x = -28
-	},
-/obj/structure/fluff/railing/border{
-	dir = 1
 	},
 /obj/structure/fluff/railing/border{
 	dir = 1
@@ -1406,7 +1402,6 @@
 /turf/open/floor/rogue/dirt,
 /area/rogue/outdoors)
 "ps" = (
-/obj/structure/fluff/railing/border,
 /obj/machinery/light/rogue/candle/floorcandle/pink,
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/lich_start/lich_lair)
@@ -1537,12 +1532,6 @@
 /obj/structure/fluff/railing/border,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/indoors/lich_start/lich_lair)
-"rN" = (
-/obj/structure/fluff/railing/border{
-	dir = 8
-	},
-/turf/open/water/cleanshallow,
-/area/rogue/indoors/lich_start/lich_lair)
 "rQ" = (
 /turf/closed,
 /area/rogue)
@@ -1635,10 +1624,6 @@
 "th" = (
 /turf/open/floor/rogue/woodturned,
 /area/rogue/indoors/eventarea)
-"tq" = (
-/obj/structure/fluff/railing/border,
-/turf/open/floor/rogue/concrete,
-/area/rogue/indoors/lich_start/lich_lair)
 "ts" = (
 /obj/effect/landmark/deaths_door/entry/tr,
 /turf/open/floor/rogue/underworld/road,
@@ -2576,13 +2561,6 @@
 /obj/item/roguecoin/aalloy/pile,
 /turf/open/floor/rogue/carpet,
 /area/rogue/indoors/lich_start/lich_lair)
-"Iz" = (
-/obj/structure/fluff/railing/border{
-	dir = 8
-	},
-/obj/item/roguecoin/aalloy/pile,
-/turf/open/water/cleanshallow,
-/area/rogue/indoors/lich_start/lich_lair)
 "IB" = (
 /obj/structure/table/wood/fancy/black,
 /obj/item/cooking/platter/aalloy,
@@ -2631,9 +2609,6 @@
 /turf/open/floor/rogue/carpet/lord/right,
 /area/rogue/indoors/lich_start)
 "Ji" = (
-/obj/structure/fluff/railing/border{
-	dir = 1
-	},
 /obj/structure/fluff/railing/border{
 	dir = 8
 	},
@@ -2910,9 +2885,6 @@
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/lich_start)
 "NM" = (
-/obj/structure/fluff/railing/border{
-	dir = 1
-	},
 /obj/machinery/light/rogue/candle/floorcandle/pink{
 	pixel_x = -3;
 	pixel_y = -12
@@ -5168,7 +5140,7 @@ YF
 HE
 Fv
 jB
-tq
+IL
 Fv
 HE
 hg
@@ -5427,8 +5399,8 @@ st
 iP
 nj
 xf
-rN
-Iz
+Fv
+Fo
 wC
 nj
 Od
