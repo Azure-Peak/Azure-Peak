@@ -375,6 +375,10 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark)
 	icon_state = "arrow"
 	delete_after_roundstart = FALSE
 
+/obj/effect/landmark/start/lich/Initialize()
+	. = ..()
+	GLOB.lich_start += loc
+
 /obj/effect/landmark/start/delf
 	name = "delf"
 	icon = 'icons/mob/landmarks.dmi'
