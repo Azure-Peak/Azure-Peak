@@ -443,8 +443,8 @@ GLOBAL_LIST_EMPTY(round_join_times)
 #define CTAG_GNOLL_IMPURE	"CAT_GNOLL_IMPURE"	// Reward for beating enough gnolls.
 #define CTAG_HAG			"CAT_HAG"
 
-#define CTAG_BOGGUARD			"CAT_BOGGUARD"			// Levy class - Handles bog guard class selector.
-#define CTAG_BOGMASTER			"CAT_BOGMASTER"		// Bogmaster class - Handles bogmaster class selector.
+#define CTAG_BOGGUARD		"CAT_BOGGUARD"		// Guard Guard class - Handles bog guard class selector.
+#define CTAG_BOGMASTER		"CAT_BOGMASTER"		// Bogmaster class - Handles bogmaster class selector.
 
 #define CTAG_WARDEN			"CAT_WARDEN"		// Warden class - Handles warden class selector.
 #define CTAG_WATCH			"CAT_WATCH"			// Watch class - Handles Town Watch class selector

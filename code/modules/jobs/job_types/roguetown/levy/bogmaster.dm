@@ -9,9 +9,10 @@
 	forbidden_races = list(RACES_DESPISED)
 	allowed_ages = list(AGE_MIDDLEAGED, AGE_OLD) //SOVL
 	tutorial = "You're the most experienced idiot to be conscripted onto the Crown's militia and survive long enough to be put in charge of an understaffed, underfunded garrison overwatching the terrorbogs. Some might call you thugs, other might compare you to brigands, \
-				either way they wouldn't be entirely wrong, you report to the Balliff and the Marshal begrudgingly. Your job is to ensure no levy falls out of line, train those in need of talent to fight and ensure the bogs are safe."
-	display_order = JDO_BOGGUARD
-	selection_color = JCOLOR_BOGGUARD
+				either way they wouldn't be entirely wrong, you report to the Balliff and the Marshal begrudgingly. Your job is to ensure no levy falls out of line, train those in need of talent to fight and ensure the bogs are safe. \
+				Your loyalty to the crown is loose, they've lent you a roof over your head, some coin in your pocket but little else."
+	display_order = JDO_BOGMASTER
+	selection_color = JCOLOR_LEVY
 	whitelist_req = TRUE
 	round_contrib_points = 3
 
@@ -100,6 +101,7 @@
 	pants = /obj/item/clothing/under/roguetown/trou/leather
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
 	backr = /obj/item/storage/backpack/rogue/satchel
+	id = /obj/item/scomstone/bad/garrison //You technically deal with bandits/criminals, but you're loose like the wardens.
 	backpack_contents = list(
 		/obj/item/needle/thorn = 1,
 		/obj/item/natural/cloth = 1,

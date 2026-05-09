@@ -1,4 +1,5 @@
 /datum/job/roguetown/bogguard //Half-competent idiots, unlike wardens/garrison. they're complete underpaid, undertrained idiots that barely know what they're doing.
+//intended that none of these get houndstones, you're severely underfunded. Your bog master is loosely loyal to the crown.
 	title = "Bog Guard"
 	flag = LEVY
 	department_flag = LEVY
@@ -11,7 +12,7 @@
 	tutorial = "When the bailiff came to your household it was the worst dae of your lyfe, dragging you away into service to the Crown with nothing more but whatever household object you managed to piece together into a weapon. \
 				Safeguard your home from the terrors beyond the gates of the bog and those foolish enough to venture further into the terrorbog. You answer to the bogmaster, the smartest idiot out of all of you."
 	display_order = JDO_BOGGUARD
-	selection_color = JCOLOR_BOGGUARD
+	selection_color = JCOLOR_LEVY
 	whitelist_req = TRUE
 	round_contrib_points = 2
 

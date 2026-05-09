@@ -14,6 +14,7 @@ It also includes Bishop (but not underling), and all of the "Burghers leaders" w
 	"Marshal",\
 	"Inquisitor",\
 	"Wretch",\
+	"Bogmaster",\
 	"Merchant",\
 	"Guildmaster",\
 	"Bathmaster",\
