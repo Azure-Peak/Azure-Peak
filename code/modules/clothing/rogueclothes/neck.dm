@@ -280,7 +280,7 @@
 
 /obj/item/clothing/neck/roguetown/gorget
 	name = "gorget"
-	desc = "A series of iron plates designed to protect the neck, traditionally atop a jacket or cuirass. While it lacks a coif's coverage, it is more-than-capable of thwarting a dagger's viscous bite."
+	desc = "A series of iron plates designed to protect the neck, traditionally atop a jacket or cuirass. While it lacks a coif's coverage, it is more-than-capable of thwarting a dagger's vicious bite."
 	icon_state = "gorget"
 	armor = ARMOR_PLATE
 	smeltresult = /obj/item/ingot/iron

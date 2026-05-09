@@ -226,8 +226,8 @@
 	var/is_forsaken = (!is_player)
 	if(minutes_dead < 5 && is_earthbound) // fresh + earthbound = VERY BAD
 		score -= 15
-	if(is_forsaken || is_departed) // forsaken or departed = good, this means it's only 2 minutes till they're valid
-		score += 3
+	if(is_forsaken || is_departed) // forsaken or departed are now instantly valid because dear lord these corpses be vanishin
+		score += 10
 	if(is_skeleton) // skeletons start on neutral, unless they're players
 		score += 2
 
