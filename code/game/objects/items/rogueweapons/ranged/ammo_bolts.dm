@@ -62,7 +62,8 @@
 
 /obj/item/ammo_casing/caseless/rogue/bolt/holy
 	name = "sunderbolt"
-	desc = "A silver-tipped bolt, containing a small vial of holy water. Though it inflicts lesser wounds on living flesh, it exceeds when employed against the unholy; a snap and a crack, followed by a fiery surprise. </br>'One baptism for the remission of sins.'"
+	desc = "A silver-tipped bolt, containing a small vial of holy water. Though it inflicts lesser wounds on living flesh, it exceeds \
+	when employed against the unholy; a snap and a crack, followed by a fiery surprise. </br>'One baptism for the remission of sins.'"
 	projectile_type = /obj/projectile/bullet/reusable/bolt/holy
 	possible_item_intents = list(/datum/intent/dagger/cut, /datum/intent/dagger/thrust)
 	caliber = "regbolt"
@@ -135,6 +136,7 @@
 	embedchance = 100
 	poisontype = /datum/reagent/water/blessed
 	poisonamount = 5
+	is_silver_proj = TRUE //Uniquely deals a 'double whammy', in terms of both applying Sunder and some lingering post-impact damage.
 	npc_simple_damage_mult = 5 //175, compared to the regular bolt's 140. Slightly more damage, as to imitate its anti-unholy properties on mobs who aren't affected by any form of poison.
 
 /obj/projectile/bullet/reusable/bolt/blunt
@@ -279,12 +281,14 @@
 
 /obj/item/ammo_casing/caseless/rogue/bolt/silver
 	name = "silver bolt"
-	desc = "A masterworked bolt of silver, fitted to a winged rod of boswellia wood. Expensive, yet uncompromisingly lethal; the final adjucation of abberants, delivered from afar. </br>'Non timebo mala..' - '..I will fear no evil.'"
+	desc = "A masterworked bolt of silver, fitted to a winged rod of boswellia wood. Expensive, yet uncompromisingly lethal; the \
+	final adjucation of abberants, delivered from afar. </br>'Non timebo mala..' - '..I will fear no evil.'"
 	projectile_type = /obj/projectile/bullet/reusable/bolt/silver
 	possible_item_intents = list(/datum/intent/dagger/cut, /datum/intent/dagger/thrust)
 	caliber = "regbolt"
 	icon_state = "silvbolt"
-	is_silver = FALSE //Ditto.
+	is_silver = TRUE
+	is_lesser_silver = TRUE
 
 /obj/projectile/bullet/reusable/bolt/silver
 	name = "silver bolt"
@@ -294,17 +298,18 @@
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/bolt/silver
 	embedchance = 100
 	npc_simple_damage_mult = 6 //..or 480 damage against a mindless mob. Only if you're desperate.
-	poisontype = /datum/reagent/water/blessed
-	poisonamount = 7
+	is_silver_proj = TRUE
 
 /obj/item/ammo_casing/caseless/rogue/heavy_bolt/silver
 	name = "heavy silver bolt"
-	desc = "A silvered lance, poised to impale the unimaginable. You feel the hands of another guiding your own, as you prepare to load; may it be guidence from a higher power, or your wit upon the verge of breaking? </br>'God, please..'"
+	desc = "A silvered lance, poised to impale the unimaginable. You feel the hands of another guiding your own, as you prepare \
+	to load; may it be guidence from a higher power, or your wit upon the verge of breaking? </br>'God, please..'"
 	projectile_type = /obj/projectile/bullet/reusable/heavy_bolt/silver
 	icon_state = "silvheavybolt"
 	max_integrity = 30
 	force = 12
 	is_silver = TRUE
+	is_lesser_silver = TRUE
 
 /obj/projectile/bullet/reusable/heavy_bolt/silver
 	name = "heavy silver bolt"
@@ -314,8 +319,7 @@
 	icon_state = "silvheavybolt_proj"
 	hitsound = 'sound/combat/hits/hi_bolt (3).ogg'
 	speed = 0.8 //Same speed as a crossbow bolt. 
-	poisontype = /datum/reagent/water/blessed
-	poisonamount = 10
+	is_silver_proj = TRUE
 	npc_simple_damage_mult = 10 //..or 1000 damage against a mindless mob. If you're using this against one, you're either a fool or have no other choice left. Godspeed.
 
 // PYRO AMMO

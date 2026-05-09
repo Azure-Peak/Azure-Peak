@@ -18,6 +18,7 @@
 	var/cabal_affine = FALSE
 	var/is_summoned = FALSE
 	var/to_spawn = 4
+	var/spawn_lifespan
 	hide_charge_effect = TRUE
 
 /obj/effect/proc_holder/spell/invoked/raise_undead_formation/cast(list/targets, mob/living/user)
@@ -100,6 +101,19 @@
 				if(aggro)
 					aggro.add_threat_to_mob(S, 50)
 
+		var/mob/living/skeletonnew
+		switch(skeleton_roll)
+			if(1 to 20)
+				skeletonnew = new /mob/living/simple_animal/hostile/rogue/skeleton/axe(T, user, cabal_affine)
+			if(21 to 40)
+				skeletonnew = new /mob/living/simple_animal/hostile/rogue/skeleton/spear(T, user, cabal_affine)
+			if(41 to 60)
+				skeletonnew = new /mob/living/simple_animal/hostile/rogue/skeleton/guard(T, user, cabal_affine)
+			if(61 to 80)
+				skeletonnew = new /mob/living/simple_animal/hostile/rogue/skeleton/bow(T, user, cabal_affine)
+			if(81 to 100)
+				skeletonnew = new /mob/living/simple_animal/hostile/rogue/skeleton(T, user, cabal_affine)
+		apply_mob_lifespan(skeletonnew, user, spawn_lifespan)
 	return TRUE
 
 /obj/effect/proc_holder/spell/invoked/raise_undead_formation/necromancer

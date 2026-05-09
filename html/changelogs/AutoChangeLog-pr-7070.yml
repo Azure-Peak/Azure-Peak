@@ -1,0 +1,6 @@
+author: "Ollanius"
+delete-after: True
+changes:
+  - code_imp: "CockatriceXD's work on ammunition has been ported over - all credit to them, and all my thanks! Ammunition can now support the infliction of special effects upon impact."
+  - rscadd: "Silver munitions are now counted as 'lesser silver' items, allowing for limited handling by blighted hands."
+  - balance: "Silver munitions now properly inflict Sundering-type debuffs upon impact. To note, this only applies one holy firestack (at the moment?) and cannot induce Sundering-exclusive (and lethal) critical hits."

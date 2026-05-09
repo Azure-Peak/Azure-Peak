@@ -1,0 +1,5 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Order Minions spell now have better description on how it actually works"
+  - rscadd: "When a pet is ordered to go on aggressive mode, it will now attack strangers properly. It will also no longer attack its summoner (in most case)"

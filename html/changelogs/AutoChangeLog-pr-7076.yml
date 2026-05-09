@@ -1,0 +1,4 @@
+author: "BurpleBineapple"
+delete-after: True
+changes:
+  - bugfix: "Pigface bascinets now correctly apply orles and not feather+orle when using cloth on them."
