@@ -70,7 +70,6 @@
 	target_list += new_post
 	if(tier == POSTING_TIER_NOTICE)
 		new_post.expiry_timer_id = addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(noticeboard_remove_posting), new_post), NOTICEBOARD_NOTICE_LIFETIME, TIMER_STOPPABLE)
-	GLOB.board_viewers = list()
 	noticeboard_broadcast_post_change(poster)
 	return new_post
 
