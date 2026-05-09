@@ -8,7 +8,37 @@ import {
   Section,
   Stack,
   Table,
+  Tabs,
 } from 'tgui-core/components';
+
+type EconomicPanelTab =
+  | 'dashboard'
+  | 'solvency'
+  | 'players'
+  | 'charters'
+  | 'assembly'
+  | 'markets'
+  | 'ledger';
+
+const TAB_LABELS: Record<EconomicPanelTab, string> = {
+  dashboard: 'Dashboard',
+  solvency: 'Solvency',
+  players: 'Players',
+  charters: 'Charters',
+  assembly: 'Assembly',
+  markets: 'Markets',
+  ledger: 'Ledger',
+};
+
+const TAB_ORDER: EconomicPanelTab[] = [
+  'dashboard',
+  'solvency',
+  'players',
+  'charters',
+  'assembly',
+  'markets',
+  'ledger',
+];
 import type { BooleanLike } from 'tgui-core/react';
 
 import { useBackend } from '../backend';
@@ -205,6 +235,7 @@ export const EconomicPanel = () => {
     ledger_full_burned,
   } = data;
 
+  const [tab, setTab] = useState<EconomicPanelTab>('dashboard');
   const [searchDraft, setSearchDraft] = useState(filter.search);
   const [ledgerKind, setLedgerKind] = useState<
     'all' | 'mint' | 'burn' | 'transfer'
@@ -320,6 +351,21 @@ export const EconomicPanel = () => {
     <Window width={1080} height={780}>
       <Window.Content scrollable>
         <Stack vertical>
+          <Stack.Item>
+            <Tabs>
+              {TAB_ORDER.map((t) => (
+                <Tabs.Tab
+                  key={t}
+                  selected={tab === t}
+                  onClick={() => setTab(t)}
+                >
+                  {TAB_LABELS[t]}
+                </Tabs.Tab>
+              ))}
+            </Tabs>
+          </Stack.Item>
+
+          {tab === 'solvency' && (
           <Stack.Item>
             <Section
               title={
@@ -544,7 +590,9 @@ export const EconomicPanel = () => {
               )}
             </Section>
           </Stack.Item>
+          )}
 
+          {tab === 'dashboard' && (
           <Stack.Item>
             <Section title={`Dashboard  -  Day ${day}`}>
               <Stack>
@@ -599,6 +647,9 @@ export const EconomicPanel = () => {
             </Section>
           </Stack.Item>
 
+          )}
+
+          {tab === 'ledger' && (
           <Stack.Item>
             <Section
               title={`Treasury Ledger  -  ${ledger_total} entries this round`}
@@ -784,6 +835,9 @@ export const EconomicPanel = () => {
             </Section>
           </Stack.Item>
 
+          )}
+
+          {tab === 'solvency' && (
           <Stack.Item>
             <Section title="Tick Actions">
               <Stack wrap>
@@ -836,6 +890,9 @@ export const EconomicPanel = () => {
             </Section>
           </Stack.Item>
 
+          )}
+
+          {tab === 'solvency' && (
           <Stack.Item>
             <Section title="Simulated Population (economy pop scaling)">
               <Box mb={1} color="label">
@@ -879,6 +936,9 @@ export const EconomicPanel = () => {
             </Section>
           </Stack.Item>
 
+          )}
+
+          {tab === 'markets' && (
           <Stack.Item>
             <Section title={`Blockades (${blockades.length} active)`}>
               <Stack wrap mb={1}>
@@ -925,7 +985,22 @@ export const EconomicPanel = () => {
               )}
             </Section>
           </Stack.Item>
+          )}
 
+          {tab === 'markets' && (
+          <Stack.Item>
+            <Section title="Foreign Trade (Module 6.1+)">
+              <Box italic color="gray">
+                No ships generated yet. Module 6.1 will populate this section
+                with the daily ship roll, dock state, nationality data, and
+                cultural-goods/preferred-imports inspection. Spawn buttons and
+                hail-flow controls will land alongside.
+              </Box>
+            </Section>
+          </Stack.Item>
+          )}
+
+          {tab === 'assembly' && (
           <Stack.Item>
             <Section
               title={`City Assembly  -  Session #${assembly.session_number || 0}`}
@@ -1043,6 +1118,9 @@ export const EconomicPanel = () => {
             </Section>
           </Stack.Item>
 
+          )}
+
+          {tab === 'dashboard' && (
           <Stack.Item>
             <Section title="Crown's Purse Mint / Burn">
               <Stack align="center">
@@ -1084,6 +1162,9 @@ export const EconomicPanel = () => {
             </Section>
           </Stack.Item>
 
+          )}
+
+          {tab === 'charters' && (
           <Stack.Item>
             <Section title="Charters">
               <Stack vertical>
@@ -1102,6 +1183,9 @@ export const EconomicPanel = () => {
             </Section>
           </Stack.Item>
 
+          )}
+
+          {tab === 'players' && (
           <Stack.Item>
             <Section title="Filter">
               <Stack align="center" wrap>
@@ -1159,6 +1243,9 @@ export const EconomicPanel = () => {
             </Section>
           </Stack.Item>
 
+          )}
+
+          {tab === 'players' && (
           <Stack.Item>
             <Section title={`Players (${players.length} matching filter)`}>
               {players.length === 0 ? (
@@ -1244,8 +1331,9 @@ export const EconomicPanel = () => {
               )}
             </Section>
           </Stack.Item>
+          )}
 
-          {selected && (
+          {tab === 'players' && selected && (
             <Stack.Item>
               <Section
                 title={`Detail: ${selected.name} (${selected.job})`}
