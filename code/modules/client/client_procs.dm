@@ -279,6 +279,8 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 	GLOB.clients += src
 	GLOB.directory[ckey] = src
 
+	winset(src, null, "browser-options=find,refresh") // OV Add: correct browser options
+
 	initialize_commandbar_spy()
 
 	GLOB.ahelp_tickets.ClientLogin(src)
@@ -1190,8 +1192,9 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 /client/New()
 	..()
 	fullscreen()
+	/* OV Removal: This should be set in the main client/New
 	if(byond_version >= 516) // Enable 516 compat browser storage mechanisms
-		winset(src, null, "browser-options=find,byondstorage")
+		winset(src, null, "browser-options=find,byondstorage") */
 	// byondstorage,devtools <- other options
 
 /client/proc/give_award(achievement_type, mob/user)

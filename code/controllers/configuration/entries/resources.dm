@@ -38,3 +38,8 @@
 		str_var += "/"
 	return ..(str_var)
 
+// OV Add Start: Byond storage iframe
+/datum/config_entry/string/storage_cdn_iframe
+	protection = CONFIG_ENTRY_LOCKED
+	default = "https://vorestation.github.io/byond-client-storage/iframe.html" // Note: We can use vorestation's without overlap so long as we keep storage.ts's KEY_NAME = "ochre"
+// OV Add End
