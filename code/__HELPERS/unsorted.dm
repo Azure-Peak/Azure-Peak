@@ -1610,6 +1610,7 @@ GLOBAL_LIST_INIT(duplicate_forbidden_vars,list(
 		"Sidefolk" = GLOB.sidefolk_positions,
 		"Inquisition" = GLOB.inquisition_positions,
 		"Wanderer" = GLOB.wanderer_positions,
+		"Levy" = GLOB.levy_positions,
 	)
 
 	for(var/category in categories)

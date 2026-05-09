@@ -118,7 +118,12 @@
 #define GNOLL			(1<<9)
 #define HAG				(1<<10)
 
-#define SLOP				(1<<11)
+#define LEVY				(1<<11) //Underpaid loosely crown loyal faction in charge of fighting in the bogs
+
+#define BOGGUARD		(1<<0)
+#define BOGMASTER		(1<<1)
+
+#define SLOP				(1<<12)
 
 #define TESTER		(1<<0)
 
@@ -129,6 +134,7 @@
 #define JCOLOR_GARRISON "#173266"
 #define JCOLOR_CHURCH "#b0955d"
 #define JCOLOR_BURGHER "#759259"
+#define JCOLOR_BOGGUARD "#ff7b00"
 #define JCOLOR_PEASANT "#685542"
 #define JCOLOR_SIDEFOLK "#aea176"
 #define JCOLOR_WANDERER  "#23763a"
@@ -212,12 +218,16 @@
 #define JDO_ORTHODOXIST 10.1
 #define JDO_ABSOLVER 10.2
 
+// Town Militia - Bog Garrison
+#define JDO_BOGGUARD 11
+#define JDO_BOGMASTER 11.1
+
 // Antagonists
-#define JDO_ASSASSIN 11
-#define JDO_BANDIT 11.1
-#define JDO_WRETCH 11.2
-#define JDO_GNOLL 11.3
-#define JDO_HAG 11.4
+#define JDO_ASSASSIN 12
+#define JDO_BANDIT 12.1
+#define JDO_WRETCH 12.2
+#define JDO_GNOLL 12.3
+#define JDO_HAG 12.4
 
 #define BITFLAG_HOLY_WARRIOR (1<<0)
 #define BITFLAG_ROYALTY (1<<1)

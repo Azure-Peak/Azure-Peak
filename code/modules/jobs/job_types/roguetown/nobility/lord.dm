@@ -19,6 +19,7 @@ GLOBAL_LIST_EMPTY(lord_titles)
 		/obj/effect/proc_holder/spell/self/convertrole/servant,
 		/obj/effect/proc_holder/spell/self/convertrole/guard,
 		/obj/effect/proc_holder/spell/self/grant_nobility,
+		/obj/effect/proc_holder/spell/self/convertrole/warden,
 		/obj/effect/proc_holder/spell/self/convertrole/bog
 	)
 	outfit = /datum/outfit/job/roguetown/lord
@@ -554,10 +555,10 @@ GLOBAL_LIST_EMPTY(lord_titles)
 	refuse_message = "I refuse."
 	recharge_time = 100
 
-/obj/effect/proc_holder/spell/self/convertrole/bog
+/obj/effect/proc_holder/spell/self/convertrole/warden
 	name = "Recruit Warden"
 	new_role = "Warden"
-	recruitment_faction = "Bog Guard"
+	recruitment_faction = "Wardens"
 	recruitment_message = "Serve the Wardens, %RECRUIT!"
 	accept_message = "FOR THE GROVE!"
 	refuse_message = "I refuse."

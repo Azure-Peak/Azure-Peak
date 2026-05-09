@@ -8,6 +8,7 @@
 	valid_positions += GLOB.retinue_positions
 	valid_positions += GLOB.garrison_positions
 	valid_positions += GLOB.peasant_positions
+	valid_positions += GLOB.levy_positions
 	valid_positions += GLOB.burgher_positions
 	valid_positions += GLOB.antagonist_positions
 
