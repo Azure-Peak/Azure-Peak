@@ -19,9 +19,11 @@ export const RosterTab = ({ act }: TabProps) => {
           letterSpacing: '6px',
         }}
       >
+        {/* TODO: flavor */}
         Mercenary Roster
       </div>
       <div style={subtitleStyle}>
+        {/* TODO: flavor */}
         The names and detailings of those registered to the Mercenary Guild
       </div>
       <hr style={rulerStyle} />
@@ -35,6 +37,7 @@ export const RosterTab = ({ act }: TabProps) => {
           fontSize: '13px',
         }}
       >
+        {/* TODO: flavor */}
         - the scribe is yet at work on this section -
       </div>
 
@@ -47,6 +50,7 @@ export const RosterTab = ({ act }: TabProps) => {
           fontSize: '12px',
         }}
       >
+        {/* TODO: flavor */}
         For now, consult the old board for the standing roster.
       </div>
 
@@ -56,6 +60,7 @@ export const RosterTab = ({ act }: TabProps) => {
           style={inkButtonStyle({})}
           onClick={() => act('open_legacy_board')}
         >
+          {/* TODO: flavor */}
           Open the Old Board
         </button>
       </div>

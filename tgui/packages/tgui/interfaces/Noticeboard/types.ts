@@ -20,9 +20,21 @@ export type Posting = {
   can_authority_remove: boolean;
 };
 
+export type ScoutRegion = {
+  region_name: string;
+  danger_level: string;
+  danger_color: string;
+  ic_descriptions: string[];
+  blockaded: boolean;
+  blockade_writ_out: boolean;
+  blockade_faction_label: string;
+  blockade_days_active: number;
+};
+
 export type NoticeboardData = {
   realm_name: string;
   postings: Posting[];
+  scout_regions: ScoutRegion[];
   can_post_listing: boolean;
   can_authority_remove: boolean;
   user_real_name: string;

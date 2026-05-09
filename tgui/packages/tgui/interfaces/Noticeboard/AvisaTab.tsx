@@ -11,6 +11,7 @@ import {
   subtitleStyle,
   titleStyle,
 } from '../common/parchment';
+import { ScoutsSection } from './AvisaSections/ScoutsSection';
 import { type TabProps } from './types';
 
 type AvisaSection =
@@ -18,7 +19,6 @@ type AvisaSection =
   | 'trade_orders'
   | 'scouts'
   | 'events'
-  | 'blockades'
   | 'assembly';
 
 type SectionMeta = {
@@ -27,31 +27,30 @@ type SectionMeta = {
   blurb: string;
 };
 
+// TODO: flavor (every entry's `label` and `blurb`)
 const SECTIONS: SectionMeta[] = [
   {
     key: 'charters',
     label: 'Charters',
-    blurb: "The standing edicts of the Crown - their force, their suspension, and the year of their sealing.",
+    blurb:
+      "The standing edicts of the Crown - their force, their suspension, and the year of their sealing.",
   },
   {
     key: 'trade_orders',
     label: 'Trade Orders',
-    blurb: "Demands of the realm's merchants and stockpiles, awaiting fulfillment.",
+    blurb:
+      "Demands of the realm's merchants and stockpiles, awaiting fulfillment.",
   },
   {
     key: 'scouts',
     label: 'Scouts',
-    blurb: "The wardens' last word on the dangers of each region.",
+    blurb:
+      "The wardens' last word on the dangers of each region. Blockades are noted in row.",
   },
   {
     key: 'events',
     label: 'Events',
     blurb: 'Shortages and gluts now disturbing the markets.',
-  },
-  {
-    key: 'blockades',
-    label: 'Blockades',
-    blurb: 'Where the trade roads are cut, and by whom.',
   },
   {
     key: 'assembly',
@@ -60,12 +59,13 @@ const SECTIONS: SectionMeta[] = [
   },
 ];
 
-export const AvisaTab = ({ act }: TabProps) => {
+export const AvisaTab = ({ data, act }: TabProps) => {
   const [section, setSection] = useState<AvisaSection>('charters');
   const active = SECTIONS.find((s) => s.key === section) ?? SECTIONS[0];
 
   return (
     <>
+      {/* TODO: flavor */}
       <div
         style={{
           ...titleStyle,
@@ -76,6 +76,7 @@ export const AvisaTab = ({ act }: TabProps) => {
       >
         The Azurian Avisa
       </div>
+      {/* TODO: flavor */}
       <div style={subtitleStyle}>
         Tidings, edicts, and trade of the realm
       </div>
@@ -105,21 +106,20 @@ export const AvisaTab = ({ act }: TabProps) => {
         {active.blurb}
       </div>
 
-      {section === 'assembly' ? (
-        <AssemblySection act={act} />
-      ) : (
-        <ScribeStub />
-      )}
+      {section === 'scouts' && <ScoutsSection data={data} />}
+      {section === 'assembly' && <AssemblySection act={act} />}
+      {section !== 'scouts' && section !== 'assembly' && <ScribeStub />}
 
       <hr style={rulerStyle} />
 
-      {section !== 'assembly' && (
+      {section !== 'assembly' && section !== 'scouts' && (
         <div style={{ textAlign: 'center', marginTop: 8 }}>
           <button
             type="button"
             style={inkButtonStyle({})}
             onClick={() => act('open_legacy_board')}
           >
+            {/* TODO: flavor */}
             Open the Old Board
           </button>
         </div>
@@ -138,12 +138,14 @@ const ScribeStub = () => (
       padding: '24px 0',
     }}
   >
+    {/* TODO: flavor */}
     - the scribe is yet at work on this section -
   </div>
 );
 
 const AssemblySection = ({ act }: { act: TabProps['act'] }) => (
   <div style={{ padding: '12px 0', textAlign: 'center' }}>
+    {/* TODO: flavor */}
     <div
       style={{
         color: INK_FAINT,
@@ -159,6 +161,7 @@ const AssemblySection = ({ act }: { act: TabProps['act'] }) => (
       style={inkButtonStyle({})}
       onClick={() => act('open_assembly')}
     >
+      {/* TODO: flavor */}
       Open the Assembly
     </button>
   </div>

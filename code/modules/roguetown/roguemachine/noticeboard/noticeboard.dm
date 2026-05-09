@@ -26,6 +26,7 @@
 /obj/structure/roguemachine/noticeboard/Initialize()
 	. = ..()
 	SSroguemachine.noticeboards += src
+	update_icon()
 
 /obj/structure/roguemachine/noticeboard/attackby(obj/item/P, mob/living/carbon/human/user, params)
 	if(istype(P, /obj/item/quest_writ/blockade))
