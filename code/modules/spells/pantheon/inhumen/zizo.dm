@@ -48,8 +48,8 @@
 	invocation_type = "none"
 	releasedrain = 30
 	chargedrain = 0
-	chargetime = 15
-	recharge_time = 10 SECONDS
+	chargetime = 0
+	recharge_time = 11 SECONDS // moved cast time to cooldown
 	hide_charge_effect = TRUE // Left handed magick babe
 
 /obj/effect/proc_holder/spell/invoked/projectile/profane/miracle
@@ -174,7 +174,7 @@
 	associated_skill = /datum/skill/magic/arcane
 	chargedloop = /datum/looping_sound/invokeholy
 	chargedrain = 0
-	chargetime = 50
+	chargetime = 5 SECONDS
 	releasedrain = 90
 	no_early_release = TRUE
 	movement_interrupt = TRUE
@@ -231,7 +231,7 @@
 	ADD_TRAIT(user, TRAIT_ARCYNE, "[type]")
 
 	switch(path_choice)
-		if("Progress") // basically, this turns you into a skinny nerdinger at the cost of being a CHAD zizo worshipper
+		if("Progress") // support path, your mind is twisted in Her design
 			user.adjust_skillrank(/datum/skill/magic/arcane, 3, TRUE)
 			if(user.mind)
 				user.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 0, "minor" = 2, "utilities" = 6))
@@ -241,23 +241,24 @@
 				grant_poke_spell(user)
 			user.visible_message(span_boldwarning("Arcyne runes sear themselves across [user]'s skin, glowing with a sickly light before fading beneath the flesh!"), span_notice("THE LESSER WORK IS DONE! Arcyne knowledge floods my mind - I can see the threads of magic itself!"))
 
-		if("Unlife") // this turns you into a CHAD half-skeleton at the cost of being a nerd
+		if("Unlife") // combat path, your body is now carries undeath resilience
 			user.mob_biotypes |= MOB_UNDEAD
 			user.dna.species.species_traits |= NOBLOOD
 			ADD_TRAIT(user, TRAIT_STEELHEARTED, "[type]") // ready for violence
-			ADD_TRAIT(user, TRAIT_NOPAIN, "[type]") // nothing left to feel pain, duh
-			ADD_TRAIT(user, TRAIT_NOHUNGER, "[type]") // you have no stomach, duh
-			ADD_TRAIT(user, TRAIT_NOBREATH, "[type]") // you have no lungs. duh
+			ADD_TRAIT(user, TRAIT_NOPAIN, "[type]") // nothing left to feel pain
+			ADD_TRAIT(user, TRAIT_NOHUNGER, "[type]") // you have no stomach
+			ADD_TRAIT(user, TRAIT_NOBREATH, "[type]") // you have no lungs
+			ADD_TRAIT(user, TRAIT_BLOODLOSS_IMMUNE, "[type]") // just in case NOBLOOD is not enough
 			ADD_TRAIT(user, TRAIT_LIMBATTACHMENT, "[type]") // cause old Rituos let you recreate your skeleton limbs, but since this one deletes the spell after use, this is the best way to make it level
 			ADD_TRAIT(user, TRAIT_ZOMBIE_IMMUNE, "[type]") // cause it makes no sense
-			ADD_TRAIT(user, TRAIT_SILVER_WEAK, "[type]") // yes
+			ADD_TRAIT(user, TRAIT_SILVER_WEAK, "[type]") // must have
 			for(var/obj/item/bodypart/part as anything in user.bodyparts)
 				if(istype(part, /obj/item/bodypart/head))
 					continue
 				part.skeletonize(FALSE)
 				user.update_body_parts()
 				playsound(src, 'sound/misc/lava_death.ogg', 100, FALSE)
-				sleep(25)				
+				sleep(25)
 			var/obj/item/bodypart/torso = user.get_bodypart(BODY_ZONE_CHEST)
 			playsound(src, 'sound/misc/lava_death.ogg', 100, FALSE)
 			torso?.skeletonize(FALSE)
@@ -356,7 +357,7 @@
 		for(var/mob/living/S in valid_skeletons)
 			S.Jitter(100)
 			var/datum/beam/B = caster.Beam(S, icon_state = "necra_beam", time = 50, maxdistance = 20)
-			addtimer(CALLBACK(src, PROC_REF(explode_skeleton), S, B), rand(1 SECONDS, 5 SECONDS))
+			addtimer(CALLBACK(src, PROC_REF(explode_skeleton), S, caster, B), rand(1 SECONDS, 5 SECONDS))
 		
 		return TRUE
 
@@ -454,7 +455,7 @@
 		to_chat(C, span_userdanger("Bone splinters bury themselves deep into your flesh!"))
 	qdel(S)
 
-/datum/action/cooldown/spell/miracle/bone_cataclysm/proc/despawn_skeleton(mob/living/S,	mob/living/caster, datum/beam/B)	if(B)
+/datum/action/cooldown/spell/miracle/bone_cataclysm/proc/despawn_skeleton(mob/living/S,	mob/living/caster, datum/beam/B)	
 	if(B)
 		B.End()
 	if(!S || QDELETED(S))
