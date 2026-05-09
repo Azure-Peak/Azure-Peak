@@ -301,7 +301,7 @@
 /// T3: Bone Cataclysm - Pretty much pops your summons into sad remains of their former selves. Shouldn't do a lot of damage, but it frags someone with bone splinters if they're close enough.
 /datum/action/cooldown/spell/miracle/bone_cataclysm
 	name = "Bone Cataclysm"
-	desc = "Detonate all of your nearby skeletons in a wave of profane bone shrapnel. You and Gravemarked allies will not be harmed by it."
+	desc = "Detonate all of your nearby skeletons in a wave of profane bone shrapnel. You and Gravemarked allies will not be harmed by it. If used outside Combat Mode, you will disintegrate them and restore your energy."
 	fluff_desc = "The dead are tools. Tools are meant to be broken."
 	button_icon_state = "bone_zone"
 	click_to_activate = FALSE
@@ -313,6 +313,8 @@
 	cooldown_time = 2 MINUTES
 	primary_resource_type = SPELL_COST_DEVOTION
 	primary_resource_cost = 50
+	secondary_resource_type = SPELL_COST_STAMINA
+	secondary_resource_cost = 75
 	invocations = list("Solve ossa. Redite ad pulverem!")
 	invocation_type = INVOCATION_SHOUT
 	sound = 'sound/magic/swap.ogg'
@@ -348,13 +350,22 @@
 		owner.balloon_alert(owner, "No bound skeletons nearby!")
 		return FALSE
 
-	owner.visible_message(span_danger("[owner] raises their hand as nearby skeletons begin violently rattling apart!"),	span_userdanger("I sacrifice my undead servants."))
+	if(owner.cmode)
+		owner.visible_message(span_danger("[owner] raises their hand as nearby skeletons begin violently rattling apart!"),	span_userdanger("I prime my undead servants to violently explode."))
 
-	for(var/mob/living/S in valid_skeletons)
-		S.Jitter(100)
-		addtimer(CALLBACK(src, PROC_REF(explode_skeleton), S), rand(6, 10))
-		
-	return TRUE
+		for(var/mob/living/S in valid_skeletons)
+			S.Jitter(100)
+			addtimer(CALLBACK(src, PROC_REF(explode_skeleton), S), rand(1 SECONDS, 5 SECONDS))
+			
+		return TRUE
+	else
+		owner.visible_message(span_danger("[owner] raises their hand as nearby skeletons begin calmly rattling apart!"),	span_userdanger("I sacrifice my undead servants, and sap their energy."))
+
+		for(var/mob/living/S in valid_skeletons)
+			S.Jitter(100)
+			addtimer(CALLBACK(src, PROC_REF(despawn_skeleton), S), rand(1 SECONDS, 2 SECONDS))
+			
+		return TRUE
 
 /datum/action/cooldown/spell/miracle/bone_cataclysm/proc/explode_skeleton(mob/living/S)
 	if(!S || QDELETED(S))
@@ -436,4 +447,26 @@
 			limb.add_embedded_object(B, FALSE, TRUE)
 		to_chat(C, span_userdanger("Bone splinters bury themselves deep into your flesh!"))
 		
-	S.gib()
+	S.dust()
+
+/datum/action/cooldown/spell/miracle/bone_cataclysm/proc/despawn_skeleton(mob/living/S)
+	if(!S || QDELETED(S))
+		return
+	if(!owner || QDELETED(owner))
+		return
+	var/turf/T = get_turf(S)
+	if(!T)
+		return
+	S.visible_message(span_warning("[S] crumbles apart into pale dust as its essence is siphoned away!"), span_warning("My body unravels as my master's will consumes me..."))
+	playsound(T, 'sound/magic/holyshield.ogg', 50, TRUE)
+	var/datum/beam/B = owner.Beam(S, icon_state = "necra_beam", time = 10, maxdistance = 20)
+	sleep(3 SECONDS)
+	if(QDELETED(S) || QDELETED(owner))
+		if(B)
+			B.End()
+		return
+	owner.energy_add(50)
+	owner.stamina_add(-50)
+	if(B)
+		B.End()
+	qdel(S)
