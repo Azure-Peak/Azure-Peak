@@ -1,4 +1,0 @@
-author: "nauticall"
-delete-after: True
-changes:
-  - rscadd: "Adds special intents to hand-based intents, i.e. prestidigitation, and to the master's rod."

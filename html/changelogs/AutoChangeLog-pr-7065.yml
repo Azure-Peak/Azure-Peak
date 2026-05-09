@@ -1,0 +1,5 @@
+author: "borneblood"
+delete-after: True
+changes:
+  - qol: "Remains left by corpses who were dusted have a chance to spawn 1 to 3 Lux-Threads, and Necrans won't leave bone remains behind. Locate Corpse's grace period is removed for NPC corpses and departed corpses."
+  - balance: "Tolls are now made from 8 Lux-Threads, from 10."

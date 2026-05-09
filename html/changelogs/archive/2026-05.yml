@@ -342,3 +342,15 @@
   - balance: integrity damage bonus on strong intent has gone from 2 to 3
   gatorceres:
   - balance: necromancer gets a minor aspect
+2026-05-09:
+  KatTheFox:
+  - bugfix: Fixed yet more typos and grammar errors.
+  Ollanius:
+  - code_imp: Further pre-release tweaks to Avantyne equipment, relating to coverage
+      and performance. A full set of Avantyne-Threaded Armor should now offer complete
+      coverage to the body.
+  - code_imp: All the descriptions in swords.dmi that were particularly long have
+      now been organized into neat blocks.
+  nauticall:
+  - rscadd: Adds special intents to hand-based intents, i.e. prestidigitation, and
+      to the master's rod.
