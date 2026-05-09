@@ -13,13 +13,13 @@
 	display_order = JDO_BOGGUARD
 	selection_color = JCOLOR_BOGGUARD
 	whitelist_req = TRUE
-	round_contrib_points = 2
+	round_contrib_points = 3
 
 	spells = list(
 		/obj/effect/proc_holder/spell/self/convertrole/bog
 	)
 
-	outfit = /datum/outfit/job/roguetown/bogguard
+	outfit = /datum/outfit/job/roguetown/bogmaster
 	advclass_cat_rolls = list(CTAG_BOGMASTER = 20)
 
 	give_bank_account = TRUE
@@ -31,8 +31,8 @@
 		/datum/advclass/bogmaster/bogmaster
 	)
 
-/datum/outfit/job/datum/advclass/bogmaster
-	job_bitflag = BITFLAG_GARRISON //Actually a competent fighter, not just a complete dumbass
+/datum/outfit/job/roguetown/bogmaster
+	job_bitflag = BITFLAG_GARRISON //Likely to be pulled in once all-else fails. You're unlikely to be outside of bog though, you have no houndstone or whatever unlike wardens. Crown has to mail orders/show up.
 
 /datum/advclass/bogmaster/bogmaster
 	name = "Bogmaster"
@@ -75,10 +75,6 @@
 
 /datum/job/roguetown/bogmaster/bogmaster/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
 	. = ..()
-	var/prev_real_name = H.real_name
-	var/prev_name = H.name
-	H.real_name = "Bogmaster [prev_real_name]"
-	H.name = "Bogmaster [prev_name]"
 	if(ishuman(L))
 		var/mob/living/carbon/human/H = L
 		if(istype(H.cloak, /obj/item/clothing/cloak/tabard/stabard/bog))
@@ -111,6 +107,11 @@
 		/obj/item/rogueweapon/scabbard/sheath = 1,
 		/obj/item/rogueweapon/huntingknife = 1,
 		)
+
+	var/prev_real_name = H.real_name
+	var/prev_name = H.name
+	H.real_name = "Bogmaster [prev_real_name]"
+	H.name = "Bogmaster [prev_name]"
 
 	H.adjust_blindness(-3)
 	if(H.mind)
