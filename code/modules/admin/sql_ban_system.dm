@@ -238,6 +238,7 @@
 							"Courtiers" = GLOB.courtier_positions,
 							"Retinue" = GLOB.retinue_positions,
 							"Garrison" = GLOB.garrison_positions,
+							"Levy" = GLOB.levy_positions,
 							"Church" = GLOB.church_positions,
 							"Wanderers" = GLOB.wanderer_positions,
 							"Abstract" = list("Appearance", "Emote", "Deadchat", "OOC", "LOOC"))

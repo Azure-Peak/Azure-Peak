@@ -48,6 +48,7 @@
 	daily_payments["Veteran"] = 20
 	daily_payments["Squire"] = 10
 	daily_payments["Bog Guard"] = 5 //Underpaid Levy Force
+	daily_payments["Bogmaster"] = 15
 	daily_payments["Seneschal"] = 40 //Manor-House
 	daily_payments["Servant"] = 20
 	daily_payments["Head Physician"] = 20 //Doctors

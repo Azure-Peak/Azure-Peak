@@ -3,8 +3,8 @@
 	flag = LEVY
 	department_flag = LEVY
 	faction = "Station"
-	total_positions = 3
-	spawn_positions = 3
+	total_positions = 4
+	spawn_positions = 4
 	allowed_sexes = list(MALE, FEMALE)
 	forbidden_races = list(RACES_DESPISED)
 	allowed_ages = list(AGE_ADULT, AGE_MIDDLEAGED, AGE_OLD)
@@ -26,25 +26,25 @@
 	cmode_music = 'sound/music/combat_bog.ogg'
 	job_subclasses = list(
 		/datum/advclass/bogguard/boglevy
+		/datum/advclass/bogguard/bogranger
 	)
 
 /datum/outfit/job/roguetown/bogguard
 	job_bitflag = BITFLAG_HALF_COMBATANT //Likely to be pulled in once all-else fails. You're not a true combatant though, too slow, dumb and untrained to be.
 
 /datum/advclass/bogguard/boglevy
-	name = "Bog Levy"
+	name = "Bog Footman"
 	tutorial = "You're one of many before you, a member of the Bog Guard, the Crown's woefully underpaid militiamen. You have a roof over your head, sometimes you have coin in your pocket, and a thankless job protecting the bog from bandits, deadites and whatever other horrors lie within."
 	allowed_sexes = list(MALE, FEMALE)
 	
 	outfit = /datum/outfit/job/roguetown/bogguard/boglevy
 	traits_applied = list(TRAIT_HOMESTEAD_EXPERT, TRAIT_STEELHEARTED)
 	category_tags = list(CTAG_LEVY)
-	townie_contract_gate_exempt = TRUE //Sure I guess
 	subclass_stats = list(
 		STATKEY_CON = 1,
 		STATKEY_STR = 2,
-		STATKEY_WIL = 2, //buffed up, you're an actual faction now.
-		STATKEY_INT = -1, //BOG! BOG! BOG!
+		STATKEY_WIL = 1,
+		STATKEY_INT = -2, //BOG! BOG! BOG!
 		STATKEY_SPD = -1
 	)
 	subclass_skills = list(
@@ -83,7 +83,7 @@
 /datum/outfit/job/roguetown/bogguard/boglevy/pre_equip(mob/living/carbon/human/H)
 	..()
 	head = /obj/item/clothing/head/roguetown/helmet/kettle/iron
-	neck = /obj/item/clothing/neck/roguetown/coif
+	neck = /obj/item/clothing/neck/roguetown/coif/iron
 	mask = /obj/item/clothing/head/roguetown/armingcap
 	cloak = /obj/item/clothing/cloak/tabard/stabard/bog
 	armor = /obj/item/clothing/suit/roguetown/armor/gambeson
@@ -91,14 +91,14 @@
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
 	gloves = /obj/item/clothing/gloves/roguetown/leather
 	belt = /obj/item/storage/belt/rogue/leather
+	beltl = /obj/item/rogueweapon/mace/cudgel
 	beltr = /obj/item/rogueweapon/stoneaxe/woodcut
 	pants = /obj/item/clothing/under/roguetown/trou/leather
-	shoes = /obj/item/clothing/shoes/roguetown/boots
+	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
 	backr = /obj/item/storage/backpack/rogue/satchel
 	backl = /obj/item/rogueweapon/scabbard/gwstrap
 	backpack_contents = list(
 		/obj/item/flashlight/flare/torch/metal = 1,
-		/obj/item/recipe_book/survival = 1,
 		/obj/item/needle/thorn = 1,
 		/obj/item/natural/cloth = 1,
 		/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
@@ -125,5 +125,96 @@
 			if ("MINE SHOVEL")
 				H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_JOURNEYMAN, TRUE)
 				r_hand = /obj/item/rogueweapon/greataxe/militia
+	if(H.mind)
+		SStreasury.grant_savings(ECONOMIC_DESTITUTE, H)
+
+/datum/advclass/bogguard/bogranger
+	name = "Bog Ranger"
+	tutorial = "You're one of many before you, a member of the Bog Guard, the Crown's woefully underpaid militiamen. You have a roof over your head, sometimes you have coin in your pocket, and a thankless job protecting the bog from bandits, deadites and whatever other horrors lie within."
+	allowed_sexes = list(MALE, FEMALE)
+	
+	outfit = /datum/outfit/job/roguetown/bogguard/bogranger
+	traits_applied = list(TRAIT_HOMESTEAD_EXPERT, TRAIT_STEELHEARTED)
+	category_tags = list(CTAG_LEVY)
+	townie_contract_gate_exempt = TRUE //Sure I guess
+	subclass_stats = list( //buffed up, you're an actual faction now.
+		STATKEY_CON = 1,
+		STATKEY_WIL = 1,
+		STATKEY_PER = 2,
+		STATKEY_INT = -2, //BOG! BOG! BOG!
+		STATKEY_SPD = 1
+	)
+	subclass_skills = list(
+		/datum/skill/combat/bows = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/slings = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/knives = SKILL_LEVEL_NOVICE,
+		/datum/skill/combat/wrestling = SKILL_LEVEL_APPRENTICE, //Ranger
+		/datum/skill/combat/unarmed = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE, //Barely literate
+		/datum/skill/craft/crafting = SKILL_LEVEL_NOVICE,
+		/datum/skill/craft/cooking = SKILL_LEVEL_NOVICE,
+		/datum/skill/craft/sewing = SKILL_LEVEL_NOVICE,
+		/datum/skill/craft/carpentry = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/labor/lumberjacking = SKILL_LEVEL_NOVICE,
+		/datum/skill/labor/farming = SKILL_LEVEL_NOVICE,
+		/datum/skill/misc/hunting = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/medicine = SKILL_LEVEL_NOVICE, //So you can at least attempt to (horribly fail) help stabilise advs from dying.
+	)
+
+/datum/job/roguetown/bogguard/bogranger/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
+	. = ..()
+	if(ishuman(L))
+		var/mob/living/carbon/human/H = L
+		if(istype(H.cloak, /obj/item/clothing/cloak/tabard/stabard/bog))
+			var/obj/item/clothing/S = H.cloak
+			var/index = findtext(H.real_name, " ")
+			if(index)
+				index = copytext(H.real_name, 1,index)
+			if(!index)
+				index = H.real_name
+			S.name = "bog tabard ([index])"
+
+/datum/outfit/job/roguetown/bogguard/bogranger/pre_equip(mob/living/carbon/human/H)
+	..()
+	head = /obj/item/clothing/head/roguetown/helmet/kettle/iron
+	neck = /obj/item/clothing/neck/roguetown/coif
+	mask = /obj/item/clothing/head/roguetown/armingcap
+	cloak = /obj/item/clothing/cloak/tabard/stabard/bog
+	armor = /obj/item/clothing/suit/roguetown/armor/gambeson
+	shirt = /obj/item/clothing/suit/roguetown/shirt/shortshirt/bog
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
+	gloves = /obj/item/clothing/gloves/roguetown/leather
+	belt = /obj/item/storage/belt/rogue/leather
+	beltl = /obj/item/rogueweapon/mace/cudgel
+	pants = /obj/item/clothing/under/roguetown/trou/leather
+	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
+	backr = /obj/item/storage/backpack/rogue/satchel
+	backpack_contents = list(
+		/obj/item/flashlight/flare/torch/metal = 1,
+		/obj/item/needle/thorn = 1,
+		/obj/item/natural/cloth = 1,
+		/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
+		/obj/item/rogueweapon/scabbard/sheath = 1,
+		/obj/item/rogueweapon/huntingknife = 1,
+		)
+
+	H.verbs |= /mob/proc/haltyell
+
+	if(H.mind)
+		var/weapons = list("THE FAMILY BOW","MINE SLING") //No crossbows sadly because slurbows exist and people will ruin the funny gimmic of being a knockoff guardsman
+		var/weapon_choice = input(H, "Choose your weapon.", "WHAT DID YOU TAKE FROM YOUR HOME?") as anything in weapons
+		H.set_blindness(0)
+		switch(weapon_choice)
+			if("THE FAMILY BOW") // They can head down to the armory to sideshift into one of the other bows.
+				H.adjust_skillrank_up_to(/datum/skill/combat/bows, SKILL_LEVEL_EXPERT, TRUE)
+				beltr = /obj/item/quiver/arrows
+				backl = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
+			if("MINE SLING")
+				H.adjust_skillrank_up_to(/datum/skill/combat/slings, SKILL_LEVEL_EXPERT, TRUE)
+				beltr = /obj/item/quiver/sling/iron
+				r_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/sling // Both are belt slots and it's not worth setting where the cugel goes for everyone else, sad.
 	if(H.mind)
 		SStreasury.grant_savings(ECONOMIC_DESTITUTE, H)
