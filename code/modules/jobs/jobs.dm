@@ -238,6 +238,7 @@ GLOBAL_LIST_INIT(job_assignment_order, get_job_assignment_order())
 	sorting_order += GLOB.sidefolk_positions
 	sorting_order += GLOB.antagonist_positions
 	sorting_order += GLOB.inquisition_positions
+	sorting_order += GLOB.levy_positions
 	return sorting_order
 
 GLOBAL_LIST_INIT(exp_jobsmap, list(

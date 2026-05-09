@@ -17,7 +17,7 @@
 
 
 	outfit = /datum/outfit/job/roguetown/bogguard
-	advclass_cat_rolls = list(CTAG_LEVY = 20)
+	advclass_cat_rolls = list(CTAG_BOGGUARD = 20)
 
 	give_bank_account = TRUE
 	min_pq = 1 //Incompetency is kind of sovl for this role, you're literally a trained idiot with a weapon. We want people to sort of know esc though, not first round role.
@@ -25,7 +25,7 @@
 	job_traits = list(TRAIT_HOMESTEAD_EXPERT) //Bare minimal, they're able to homestead. They're just militiamen, not trained or hardened soldiers.
 	cmode_music = 'sound/music/combat_bog.ogg'
 	job_subclasses = list(
-		/datum/advclass/bogguard/boglevy
+		/datum/advclass/bogguard/boglevy,
 		/datum/advclass/bogguard/bogranger
 	)
 
@@ -39,7 +39,7 @@
 	
 	outfit = /datum/outfit/job/roguetown/bogguard/boglevy
 	traits_applied = list(TRAIT_HOMESTEAD_EXPERT, TRAIT_STEELHEARTED)
-	category_tags = list(CTAG_LEVY)
+	category_tags = list(CTAG_BOGGUARD)
 	subclass_stats = list(
 		STATKEY_CON = 1,
 		STATKEY_STR = 2,
@@ -83,7 +83,7 @@
 /datum/outfit/job/roguetown/bogguard/boglevy/pre_equip(mob/living/carbon/human/H)
 	..()
 	head = /obj/item/clothing/head/roguetown/helmet/kettle/iron
-	neck = /obj/item/clothing/neck/roguetown/coif/iron
+	neck = /obj/item/clothing/neck/roguetown/coif/chain/iron
 	mask = /obj/item/clothing/head/roguetown/armingcap
 	cloak = /obj/item/clothing/cloak/tabard/stabard/bog
 	armor = /obj/item/clothing/suit/roguetown/armor/gambeson
@@ -135,7 +135,7 @@
 	
 	outfit = /datum/outfit/job/roguetown/bogguard/bogranger
 	traits_applied = list(TRAIT_HOMESTEAD_EXPERT, TRAIT_STEELHEARTED)
-	category_tags = list(CTAG_LEVY)
+	category_tags = list(CTAG_BOGGUARD)
 	townie_contract_gate_exempt = TRUE //Sure I guess
 	subclass_stats = list( //buffed up, you're an actual faction now.
 		STATKEY_CON = 1,

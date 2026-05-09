@@ -339,6 +339,14 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark)
 	name = "Vagabond"
 	icon_state = "arrow"
 
+/obj/effect/landmark/start/bogguard
+	name = "Bog Guard"
+	icon_state = "arrow"
+
+/obj/effect/landmark/start/bogmaster
+	name = "Bogmaster"
+	icon_state = "arrow"
+
 //Antagonist spawns
 
 /obj/effect/landmark/start/wizard
