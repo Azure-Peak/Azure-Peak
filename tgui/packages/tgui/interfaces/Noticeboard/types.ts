@@ -50,11 +50,44 @@ export type TradeOrder = {
   requirements: TradeOrderRequirement[];
 };
 
+export type Charter = {
+  name: string;
+  year: string | number;
+  active: boolean;
+  flavor_text: string;
+};
+
+export type EconomicEvent = {
+  name: string;
+  description: string;
+  event_type: string;
+  days_left: number;
+  affected_goods: string[];
+};
+
+export type MercenaryEntry = {
+  name: string;
+  advjob: string;
+  message: string;
+};
+
+export type MercenaryRoster = {
+  available: MercenaryEntry[];
+  contracted: MercenaryEntry[];
+  dnd: MercenaryEntry[];
+  available_count: number;
+  contracted_count: number;
+  dnd_count: number;
+};
+
 export type NoticeboardData = {
   realm_name: string;
   postings: Posting[];
   scout_regions: ScoutRegion[];
   trade_orders: TradeOrder[];
+  charters: Charter[];
+  economic_events: EconomicEvent[];
+  mercenary_roster: MercenaryRoster;
   can_post_listing: boolean;
   can_authority_remove: boolean;
   user_real_name: string;

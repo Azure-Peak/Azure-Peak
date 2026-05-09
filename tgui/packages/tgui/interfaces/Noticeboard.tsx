@@ -21,7 +21,7 @@ export const Noticeboard = () => {
 
   // TODO: flavor (window title)
   return (
-    <Window title="Noticeboard" width={620} height={680} theme="parchment">
+    <Window title="Noticeboard" width={1000} height={760} theme="parchment">
       <Window.Content scrollable>
         <div style={pageStyle}>
           {/* TODO: flavor */}

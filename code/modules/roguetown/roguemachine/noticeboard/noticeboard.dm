@@ -142,6 +142,9 @@
 	var/list/data = list()
 	data["scout_regions"] = build_scout_regions()
 	data["trade_orders"] = build_trade_orders()
+	data["charters"] = build_charters()
+	data["economic_events"] = build_economic_events()
+	data["mercenary_roster"] = build_mercenary_roster()
 	if(!ishuman(user))
 		data["postings"] = list()
 		data["can_post_listing"] = FALSE
@@ -236,6 +239,71 @@
 		row["requirements"] = requirements
 		rows += list(row)
 	return rows
+
+/obj/structure/roguemachine/noticeboard/proc/build_charters()
+	var/list/rows = list()
+	for(var/id in SStreasury.decrees)
+		var/datum/decree/D = SStreasury.decrees[id]
+		if(!D.has_ever_been_active)
+			continue
+		rows += list(list(
+			"name" = D.name,
+			"year" = D.year,
+			"active" = D.active ? TRUE : FALSE,
+			"flavor_text" = D.get_display_flavor_text(),
+		))
+	return rows
+
+/obj/structure/roguemachine/noticeboard/proc/build_economic_events()
+	var/list/rows = list()
+	for(var/datum/economic_event/E as anything in GLOB.active_economic_events)
+		var/list/affected = list()
+		for(var/good_id in E.affected_goods)
+			var/datum/trade_good/tg = GLOB.trade_goods[good_id]
+			affected += (tg ? tg.name : good_id)
+		rows += list(list(
+			"name" = E.name,
+			"description" = E.description || "",
+			"event_type" = E.event_type,
+			"days_left" = max(0, E.day_expires - GLOB.dayspassed),
+			"affected_goods" = affected,
+		))
+	return rows
+
+/obj/structure/roguemachine/noticeboard/proc/build_mercenary_roster()
+	var/list/data = list(
+		"available" = list(),
+		"contracted" = list(),
+		"dnd" = list(),
+		"available_count" = 0,
+		"contracted_count" = 0,
+		"dnd_count" = 0,
+	)
+	var/obj/structure/roguemachine/talkstatue/mercenary/statue = SSroguemachine.mercenary_statue
+	if(!statue)
+		return data
+	for(var/merc_key in statue.mercenary_status)
+		var/list/merc_data = statue.mercenary_status[merc_key]
+		var/mob/living/carbon/human/merc = merc_data["mob"]
+		if(!merc)
+			continue
+		var/status = merc_data["status"] || "Available"
+		var/list/entry = list(
+			"name" = merc.real_name,
+			"advjob" = merc.advjob || "Mercenary",
+			"message" = merc_data["message"] || "",
+		)
+		switch(status)
+			if("Available")
+				data["available"] += list(entry)
+				data["available_count"]++
+			if("Contracted")
+				data["contracted"] += list(entry)
+				data["contracted_count"]++
+			if("Do not Disturb")
+				data["dnd"] += list(entry)
+				data["dnd_count"]++
+	return data
 
 /obj/structure/roguemachine/noticeboard/proc/serialize_posting(datum/noticeboard_posting/P, mob/living/carbon/human/viewer, viewer_is_authority)
 	var/list/entry = list()

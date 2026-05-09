@@ -5,12 +5,13 @@ import {
   INK_SOFT,
   inkButtonStyle,
   rulerStyle,
-  SEAL_AMBER,
   subTabBarStyle,
   subTabStyle,
   subtitleStyle,
   titleStyle,
 } from '../common/parchment';
+import { ChartersSection } from './AvisaSections/ChartersSection';
+import { EventsSection } from './AvisaSections/EventsSection';
 import { ScoutsSection } from './AvisaSections/ScoutsSection';
 import { TradeOrdersSection } from './AvisaSections/TradeOrdersSection';
 import { type TabProps } from './types';
@@ -45,8 +46,7 @@ const SECTIONS: SectionMeta[] = [
   {
     key: 'scouts',
     label: 'Scouts',
-    blurb:
-      "The wardens' last word on the dangers of each region. Blockades are noted in row.",
+    blurb: 'The wardens report on the dangers of each region.',
   },
   {
     key: 'events',
@@ -107,47 +107,14 @@ export const AvisaTab = ({ data, act }: TabProps) => {
         {active.blurb}
       </div>
 
-      {section === 'scouts' && <ScoutsSection data={data} />}
+      {section === 'charters' && <ChartersSection data={data} />}
       {section === 'trade_orders' && <TradeOrdersSection data={data} />}
+      {section === 'scouts' && <ScoutsSection data={data} />}
+      {section === 'events' && <EventsSection data={data} />}
       {section === 'assembly' && <AssemblySection act={act} />}
-      {section !== 'scouts' &&
-        section !== 'trade_orders' &&
-        section !== 'assembly' && <ScribeStub />}
-
-      <hr style={rulerStyle} />
-
-      {section !== 'assembly' &&
-        section !== 'scouts' &&
-        section !== 'trade_orders' && (
-          <div style={{ textAlign: 'center', marginTop: 8 }}>
-            <button
-              type="button"
-              style={inkButtonStyle({})}
-              onClick={() => act('open_legacy_board')}
-            >
-              {/* TODO: flavor */}
-              Open the Old Board
-            </button>
-          </div>
-        )}
     </>
   );
 };
-
-const ScribeStub = () => (
-  <div
-    style={{
-      color: SEAL_AMBER,
-      fontStyle: 'italic',
-      fontSize: '12px',
-      textAlign: 'center',
-      padding: '24px 0',
-    }}
-  >
-    {/* TODO: flavor */}
-    - the scribe is yet at work on this section -
-  </div>
-);
 
 const AssemblySection = ({ act }: { act: TabProps['act'] }) => (
   <div style={{ padding: '12px 0', textAlign: 'center' }}>

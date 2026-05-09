@@ -30,11 +30,21 @@ const headerCellStyle: React.CSSProperties = {
   borderBottom: `1px solid ${INK_FAINT}`,
 };
 
+const headerCellWithDivider: React.CSSProperties = {
+  ...headerCellStyle,
+  borderLeft: `1px dashed ${PARCHMENT_SHADOW}`,
+};
+
 const cellStyle: React.CSSProperties = {
   padding: '6px 8px',
   borderBottom: `1px dashed ${PARCHMENT_SHADOW}`,
   verticalAlign: 'top',
   color: INK,
+};
+
+const cellWithDivider: React.CSSProperties = {
+  ...cellStyle,
+  borderLeft: `1px dashed ${PARCHMENT_SHADOW}`,
 };
 
 export const ScoutsSection = ({ data }: { data: NoticeboardData }) => {
@@ -43,30 +53,7 @@ export const ScoutsSection = ({ data }: { data: NoticeboardData }) => {
 
   return (
     <>
-      {regions.length === 0 ? (
-        // TODO: flavor
-        <EmptyMessage text="The wardens have sent no word from the wilds." />
-      ) : (
-        <table style={tableStyle}>
-          <thead>
-            <tr>
-              {/* TODO: flavor */}
-              <th style={headerCellStyle}>Region</th>
-              {/* TODO: flavor */}
-              <th style={headerCellStyle}>Danger</th>
-              {/* TODO: flavor */}
-              <th style={headerCellStyle}>Wardens' Word</th>
-            </tr>
-          </thead>
-          <tbody>
-            {regions.map((r) => (
-              <RegionRow key={r.region_name} region={r} />
-            ))}
-          </tbody>
-        </table>
-      )}
-
-      <div style={{ marginTop: 16 }}>
+      <div style={{ marginBottom: 10 }}>
         <button
           type="button"
           style={{
@@ -81,6 +68,31 @@ export const ScoutsSection = ({ data }: { data: NoticeboardData }) => {
         </button>
         {helpOpen && <HelpPanel />}
       </div>
+
+      {regions.length === 0 ? (
+        // TODO: flavor
+        <EmptyMessage text="The wardens have sent no word from the wilds." />
+      ) : (
+        <table style={tableStyle}>
+          <thead>
+            <tr>
+              {/* TODO: flavor */}
+              <th style={headerCellStyle}>Region</th>
+              {/* TODO: flavor */}
+              <th style={headerCellWithDivider}>Danger</th>
+              {/* TODO: flavor */}
+              <th style={headerCellWithDivider}>Blockade</th>
+              {/* TODO: flavor */}
+              <th style={headerCellWithDivider}>Wardens' Word</th>
+            </tr>
+          </thead>
+          <tbody>
+            {regions.map((r) => (
+              <RegionRow key={r.region_name} region={r} />
+            ))}
+          </tbody>
+        </table>
+      )}
     </>
   );
 };
@@ -90,18 +102,8 @@ const RegionRow = ({ region }: { region: ScoutRegion }) => {
     <tr>
       <td style={cellStyle}>
         <div style={{ fontWeight: 'bold' }}>{region.region_name}</div>
-        {!!region.blockaded && (
-          <div style={{ marginTop: 4 }}>
-            {/* TODO: flavor */}
-            <span style={badgeStyle(SEAL_RED)}>BLOCKADED</span>
-            {!!region.blockade_writ_out && (
-              // TODO: flavor
-              <span style={badgeStyle(SEAL_AMBER)}>WRIT OUT</span>
-            )}
-          </div>
-        )}
       </td>
-      <td style={cellStyle}>
+      <td style={cellWithDivider}>
         <span
           style={{
             color: region.danger_color,
@@ -113,25 +115,36 @@ const RegionRow = ({ region }: { region: ScoutRegion }) => {
           {region.danger_level}
         </span>
       </td>
-      <td style={{ ...cellStyle, fontStyle: 'italic', color: INK_SOFT }}>
-        {region.ic_descriptions.length > 0
-          ? region.ic_descriptions.join('; ')
-          : // TODO: flavor
-            '- the wardens have nothing to add -'}
-        {!!region.blockaded && (
-          <div
-            style={{
-              marginTop: 6,
-              fontStyle: 'normal',
-              color: INK,
-              fontSize: '12px',
-            }}
-          >
-            {/* TODO: flavor */}
-            <b>Blockade:</b>{' '}
-            {region.blockade_faction_label || 'unknown raiders'} ·{' '}
-            {region.blockade_days_active}d active
-            {!region.blockade_writ_out && (
+      <td style={cellWithDivider}>
+        {!!region.blockaded ? (
+          <>
+            <div
+              style={{
+                fontSize: '12px',
+                color: SEAL_RED,
+                fontWeight: 'bold',
+              }}
+            >
+              {region.blockade_faction_label || 'unknown raiders'}
+              <span
+                style={{
+                  marginLeft: 6,
+                  color: INK_SOFT,
+                  fontStyle: 'italic',
+                  fontSize: '11px',
+                  fontWeight: 'normal',
+                }}
+              >
+                {/* TODO: flavor */}
+                {region.blockade_days_active}d
+              </span>
+            </div>
+            {!!region.blockade_writ_out ? (
+              <div style={{ marginTop: 3 }}>
+                {/* TODO: flavor */}
+                <span style={badgeStyle(SEAL_AMBER)}>WRIT OUT</span>
+              </div>
+            ) : (
               <div
                 style={{
                   marginTop: 3,
@@ -141,11 +154,21 @@ const RegionRow = ({ region }: { region: ScoutRegion }) => {
                 }}
               >
                 {/* TODO: flavor */}
-                Awaiting a Steward's defense writ.
+                Awaiting writ
               </div>
             )}
-          </div>
+          </>
+        ) : (
+          <span style={{ color: INK_FAINT, fontStyle: 'italic' }}>-</span>
         )}
+      </td>
+      <td
+        style={{ ...cellWithDivider, fontStyle: 'italic', color: INK_SOFT }}
+      >
+        {region.ic_descriptions.length > 0
+          ? region.ic_descriptions.join('; ')
+          : // TODO: flavor
+            '- the wardens have nothing to add -'}
       </td>
     </tr>
   );

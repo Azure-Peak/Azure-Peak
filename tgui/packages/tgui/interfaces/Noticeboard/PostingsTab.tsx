@@ -22,7 +22,14 @@ import {
 const NAME_MAX = 50;
 const ROLE_MAX = 50;
 const TITLE_MAX = 50;
-const BODY_MAX = 2000;
+const BODY_MAX = 500;
+
+const postingGridStyle: React.CSSProperties = {
+  display: 'grid',
+  gridTemplateColumns: '1fr 1fr',
+  gap: 10,
+  alignItems: 'start',
+};
 
 export const PostingsTab = ({ data, act }: TabProps) => {
   const [showForm, setShowForm] = useState(false);
@@ -70,9 +77,11 @@ export const PostingsTab = ({ data, act }: TabProps) => {
         // TODO: flavor
         <EmptyMessage text="No standing listings have been pinned." />
       ) : (
-        listings.map((p) => (
-          <PostingCard key={p.posting_id} posting={p} act={act} />
-        ))
+        <div style={postingGridStyle}>
+          {listings.map((p) => (
+            <PostingCard key={p.posting_id} posting={p} act={act} />
+          ))}
+        </div>
       )}
 
       <hr style={rulerStyle} />
@@ -83,9 +92,11 @@ export const PostingsTab = ({ data, act }: TabProps) => {
         // TODO: flavor
         <EmptyMessage text="No notices on the board. The wind stirs the empty parchments." />
       ) : (
-        notices.map((p) => (
-          <PostingCard key={p.posting_id} posting={p} act={act} />
-        ))
+        <div style={postingGridStyle}>
+          {notices.map((p) => (
+            <PostingCard key={p.posting_id} posting={p} act={act} />
+          ))}
+        </div>
       )}
     </>
   );
@@ -116,6 +127,7 @@ const PostingCard = ({
     <div
       style={{
         ...cardStyle,
+        marginBottom: 0,
         background: isListing
           ? 'rgba(200,170,100,0.18)'
           : 'rgba(255,248,220,0.45)',

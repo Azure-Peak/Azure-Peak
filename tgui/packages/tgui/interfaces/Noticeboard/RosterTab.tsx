@@ -1,14 +1,26 @@
 import {
+  badgeStyle,
+  cardStyle,
+  INK,
   INK_FAINT,
-  inkButtonStyle,
+  INK_SOFT,
   rulerStyle,
   SEAL_AMBER,
+  SEAL_GREEN,
+  SEAL_RED,
+  SERIF,
   subtitleStyle,
   titleStyle,
 } from '../common/parchment';
-import { type TabProps } from './types';
+import { type MercenaryEntry, type TabProps } from './types';
 
-export const RosterTab = ({ act }: TabProps) => {
+export const RosterTab = ({ data }: TabProps) => {
+  const roster = data.mercenary_roster;
+  const total =
+    (roster?.available_count ?? 0) +
+    (roster?.contracted_count ?? 0) +
+    (roster?.dnd_count ?? 0);
+
   return (
     <>
       <div
@@ -28,42 +40,149 @@ export const RosterTab = ({ act }: TabProps) => {
       </div>
       <hr style={rulerStyle} />
 
-      <div
-        style={{
-          color: SEAL_AMBER,
-          fontStyle: 'italic',
-          textAlign: 'center',
-          padding: '14px 0',
-          fontSize: '13px',
-        }}
-      >
-        {/* TODO: flavor */}
-        - the scribe is yet at work on this section -
-      </div>
+      {!roster || total === 0 ? (
+        // TODO: flavor
+        <EmptyMessage text="No mercenaries have registered yet." />
+      ) : (
+        <>
+          <SummaryLine roster={roster} total={total} />
+          {roster.available.length > 0 && (
+            <RosterGroup
+              label="Available for Contract"
+              color={SEAL_GREEN}
+              entries={roster.available}
+            />
+          )}
+          {roster.contracted.length > 0 && (
+            <RosterGroup
+              label="Currently Contracted"
+              color={SEAL_AMBER}
+              entries={roster.contracted}
+            />
+          )}
+          {roster.dnd.length > 0 && (
+            <RosterGroup
+              label="Do Not Disturb"
+              color={SEAL_RED}
+              entries={roster.dnd}
+            />
+          )}
+        </>
+      )}
 
       <div
         style={{
           color: INK_FAINT,
           fontStyle: 'italic',
           textAlign: 'center',
-          padding: '4px 0 12px 0',
-          fontSize: '12px',
+          padding: '12px 0 4px 0',
+          fontSize: '11px',
         }}
       >
         {/* TODO: flavor */}
-        For now, consult the old board for the standing roster.
-      </div>
-
-      <div style={{ textAlign: 'center', marginTop: 8 }}>
-        <button
-          type="button"
-          style={inkButtonStyle({})}
-          onClick={() => act('open_legacy_board')}
-        >
-          {/* TODO: flavor */}
-          Open the Old Board
-        </button>
+        Visit the Mercenary Statue for further contact.
       </div>
     </>
   );
 };
+
+const SummaryLine = ({
+  roster,
+  total,
+}: {
+  roster: TabProps['data']['mercenary_roster'];
+  total: number;
+}) => (
+  <div
+    style={{
+      textAlign: 'center',
+      fontSize: '12px',
+      color: INK,
+      padding: '4px 0 12px 0',
+    }}
+  >
+    {/* TODO: flavor */}
+    Total: <b>{total}</b>
+    <span style={{ color: INK_FAINT }}> &middot; </span>
+    <span style={{ color: SEAL_GREEN }}>
+      {/* TODO: flavor */}
+      Available: {roster.available_count}
+    </span>
+    <span style={{ color: INK_FAINT }}> &middot; </span>
+    <span style={{ color: SEAL_AMBER }}>
+      {/* TODO: flavor */}
+      Contracted: {roster.contracted_count}
+    </span>
+    <span style={{ color: INK_FAINT }}> &middot; </span>
+    <span style={{ color: SEAL_RED }}>
+      {/* TODO: flavor */}
+      DND: {roster.dnd_count}
+    </span>
+  </div>
+);
+
+const RosterGroup = ({
+  label,
+  color,
+  entries,
+}: {
+  label: string;
+  color: string;
+  entries: MercenaryEntry[];
+}) => (
+  <div style={{ marginBottom: 12 }}>
+    <div style={{ marginBottom: 6 }}>
+      <span style={badgeStyle(color)}>{label}</span>
+    </div>
+    {entries.map((m, i) => (
+      <div
+        key={i}
+        style={{
+          ...cardStyle,
+          paddingTop: 4,
+          paddingBottom: 4,
+          marginBottom: 4,
+        }}
+      >
+        <div style={{ fontFamily: SERIF, fontSize: '13px', color: INK }}>
+          <b>{m.name}</b>
+          <span
+            style={{
+              color: INK_SOFT,
+              fontStyle: 'italic',
+              fontSize: '12px',
+              marginLeft: 6,
+            }}
+          >
+            ({m.advjob})
+          </span>
+        </div>
+        {!!m.message && (
+          <div
+            style={{
+              color: INK_SOFT,
+              fontStyle: 'italic',
+              fontSize: '12px',
+              marginTop: 2,
+            }}
+          >
+            &ldquo;{m.message}&rdquo;
+          </div>
+        )}
+      </div>
+    ))}
+  </div>
+);
+
+const EmptyMessage = ({ text }: { text: string }) => (
+  <div
+    style={{
+      color: INK_FAINT,
+      fontStyle: 'italic',
+      textAlign: 'center',
+      padding: '24px 0',
+    }}
+  >
+    {text}
+  </div>
+);

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 
 import {
   badgeStyle,
@@ -17,20 +17,38 @@ import { type NoticeboardData, type TradeOrder } from '../types';
 
 const PETITION_PURPLE = '#7a3aa6';
 
+const orderGridStyle: React.CSSProperties = {
+  display: 'grid',
+  gridTemplateColumns: '1fr 1fr',
+  gap: 10,
+  alignItems: 'start',
+};
+
+const orderBucket = (o: TradeOrder): number => {
+  if (o.blockaded) return 2;
+  if (o.urgent) return 0;
+  return 1;
+};
+
 export const TradeOrdersSection = ({ data }: { data: NoticeboardData }) => {
-  const orders = data.trade_orders ?? [];
+  const rawOrders = data.trade_orders ?? [];
+  const orders = useMemo(
+    () =>
+      rawOrders.slice().sort((a, b) => {
+        const bucketA = orderBucket(a);
+        const bucketB = orderBucket(b);
+        if (bucketA !== bucketB) {
+          return bucketA - bucketB;
+        }
+        return b.total_payout - a.total_payout;
+      }),
+    [rawOrders],
+  );
   const [helpOpen, setHelpOpen] = useState(false);
 
   return (
     <>
-      {orders.length === 0 ? (
-        // TODO: flavor
-        <EmptyMessage text="No standing orders posted. Check back later." />
-      ) : (
-        orders.map((o, i) => <OrderCard key={i} order={o} />)
-      )}
-
-      <div style={{ marginTop: 16 }}>
+      <div style={{ marginBottom: 10 }}>
         <button
           type="button"
           style={{
@@ -45,13 +63,22 @@ export const TradeOrdersSection = ({ data }: { data: NoticeboardData }) => {
         </button>
         {helpOpen && <HelpPanel />}
       </div>
+
+      {orders.length === 0 ? (
+        // TODO: flavor
+        <EmptyMessage text="No standing orders posted. Check back later." />
+      ) : (
+        <div style={orderGridStyle}>
+          {orders.map((o, i) => <OrderCard key={i} order={o} />)}
+        </div>
+      )}
     </>
   );
 };
 
 const OrderCard = ({ order }: { order: TradeOrder }) => {
   return (
-    <div style={cardStyle}>
+    <div style={{ ...cardStyle, marginBottom: 0, minHeight: 280 }}>
       <div style={{ display: 'flex', alignItems: 'baseline', flexWrap: 'wrap' }}>
         {!!order.urgent && (
           // TODO: flavor
@@ -134,13 +161,14 @@ const OrderCard = ({ order }: { order: TradeOrder }) => {
           marginTop: 8,
           display: 'flex',
           alignItems: 'baseline',
+          gap: 8,
         }}
       >
-        <div style={{ ...fieldLabelStyle, flex: 1 }}>
+        <span style={fieldLabelStyle}>
           {/* TODO: flavor */}
           Payout
-        </div>
-        <div
+        </span>
+        <span
           style={{
             color: SEAL_AMBER,
             fontWeight: 'bold',
@@ -148,7 +176,7 @@ const OrderCard = ({ order }: { order: TradeOrder }) => {
           }}
         >
           {order.total_payout}m
-        </div>
+        </span>
       </div>
     </div>
   );
