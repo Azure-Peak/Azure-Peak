@@ -197,7 +197,7 @@
 			span_notice("You gently bite the top of [targets[1]], filling it with your alchemical cocktail...")
 		)
 		// we're not biting a mob, so we can loop for convenience 
-		while(do_mob(user, targets, 1 SECONDS) && user.reagents.trans_to(targets[1], 5, transfered_by = user))
+		while(do_after(user, 1 SECONDS, FALSE, target) && user.reagents.trans_to(targets[1], 5, transfered_by = user))
 			user.visible_message(
 				span_notice("[user.name] fills [targets[1]] with more of [user.p_their()] alchemical cocktail..."),
 				span_notice("You fill [targets[1]] with more of your alchemical cocktail...")
