@@ -28,47 +28,38 @@
 		to_chat(user, span_userdanger("I reach for outer help, but something rebukes me! This challenge is only for me to overcome!"))
 		revert_cast()
 		return FALSE
-	
+
 	var/turf/T = get_turf(targets[1])
 	if(!isopenturf(T))
 		to_chat(user, span_warning("The targeted location is blocked. My summon fails to come forth."))
 		return FALSE
 
-	var/skeleton_roll
-
 	for(var/i = 1 to to_spawn)
 		if(i > 1)
 			if(user.dir == NORTH || user.dir == SOUTH)
-				if(prob(50))
-					T = get_step(T, EAST)
-				else
-					T = get_step(T, WEST)
+				T = get_step(T, prob(50) ? EAST : WEST)
 			else
-				if(prob(50))
-					T = get_step(T, NORTH)
-				else
-					T = get_step(T, SOUTH)
+				T = get_step(T, prob(50) ? NORTH : SOUTH)
 
 		if(!isopenturf(T))
 			continue
-
 		new /obj/effect/temp_visual/bluespace_fissure(T)
-
-		skeleton_roll = rand(1,100)
-
-		var/mob/living/simple_animal/hostile/rogue/skeleton/S
+		var/skeleton_roll = rand(1,100)
+		var/skeleton_type
 
 		switch(skeleton_roll)
 			if(1 to 20)
-				S = new /mob/living/simple_animal/hostile/rogue/skeleton/axe(T, user, cabal_affine)
-			if(21 to 40)
-				S = new /mob/living/simple_animal/hostile/rogue/skeleton/spear(T, user, cabal_affine)
-			if(41 to 60)
-				S = new /mob/living/simple_animal/hostile/rogue/skeleton/guard(T, user, cabal_affine)
-			if(61 to 80)
-				S = new /mob/living/simple_animal/hostile/rogue/skeleton/bow(T, user, cabal_affine)
-			if(81 to 100)
-				S = new /mob/living/simple_animal/hostile/rogue/skeleton/guard(T, user, cabal_affine)
+				skeleton_type = /mob/living/simple_animal/hostile/rogue/skeleton/axe
+			if(21 to 30)
+				skeleton_type = /mob/living/simple_animal/hostile/rogue/skeleton/spear
+			if(31 to 60)
+				skeleton_type = /mob/living/simple_animal/hostile/rogue/skeleton
+			if(61 to 70)
+				skeleton_type = /mob/living/simple_animal/hostile/rogue/skeleton/bow
+			if(71 to 100)
+				skeleton_type = /mob/living/simple_animal/hostile/rogue/skeleton/guard
+
+		var/mob/living/simple_animal/hostile/rogue/skeleton/S = new skeleton_type(T, user, cabal_affine)
 
 		if(S && miracle)
 			var/holyLV = user.get_skill_level(/datum/skill/magic/holy)
@@ -78,7 +69,7 @@
 			S.STASTR += bonus
 			S.STASPD += bonus / 2
 
-			to_chat(user, span_notice("Summoned [S] stats: STR [S.STASTR] | CON [S.STACON] | SPD [S.STASPD]"))
+//			to_chat(user, span_notice("Summoned [S] stats: STR [S.STASTR] | CON [S.STACON] | SPD [S.STASPD]"))
 
 			var/aggro_range = 8
 
@@ -101,19 +92,8 @@
 				if(aggro)
 					aggro.add_threat_to_mob(S, 50)
 
-		var/mob/living/skeletonnew
-		switch(skeleton_roll)
-			if(1 to 20)
-				skeletonnew = new /mob/living/simple_animal/hostile/rogue/skeleton/axe(T, user, cabal_affine)
-			if(21 to 40)
-				skeletonnew = new /mob/living/simple_animal/hostile/rogue/skeleton/spear(T, user, cabal_affine)
-			if(41 to 60)
-				skeletonnew = new /mob/living/simple_animal/hostile/rogue/skeleton/guard(T, user, cabal_affine)
-			if(61 to 80)
-				skeletonnew = new /mob/living/simple_animal/hostile/rogue/skeleton/bow(T, user, cabal_affine)
-			if(81 to 100)
-				skeletonnew = new /mob/living/simple_animal/hostile/rogue/skeleton(T, user, cabal_affine)
-		apply_mob_lifespan(skeletonnew, user, spawn_lifespan)
+		apply_mob_lifespan(S, user, spawn_lifespan)
+
 	return TRUE
 
 /obj/effect/proc_holder/spell/invoked/raise_undead_formation/necromancer

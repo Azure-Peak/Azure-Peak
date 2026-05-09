@@ -325,6 +325,7 @@
 	. = ..()
 	var/list/valid_skeletons = list()
 	var/faction_tag = "[REF(owner)]_faction"
+	var/mob/living/caster = owner
 	for(var/mob/living/L in view(9, owner))
 		if(QDELETED(L))
 			continue
@@ -351,24 +352,29 @@
 		return FALSE
 
 	if(owner.cmode)
-		owner.visible_message(span_danger("[owner] raises their hand as nearby skeletons begin violently rattling apart!"),	span_userdanger("I prime my undead servants to violently explode."))
-
+		owner.visible_message(span_danger("[owner] raises their hand as nearby skeletons begin violently rattling apart!"), span_userdanger("I prime my undead servants to violently explode."))
 		for(var/mob/living/S in valid_skeletons)
 			S.Jitter(100)
-			addtimer(CALLBACK(src, PROC_REF(explode_skeleton), S), rand(1 SECONDS, 5 SECONDS))
-			
+			var/datum/beam/B = caster.Beam(S, icon_state = "necra_beam", time = 50, maxdistance = 20)
+			addtimer(CALLBACK(src, PROC_REF(explode_skeleton), S, B), rand(1 SECONDS, 5 SECONDS))
+		
 		return TRUE
+
 	else
-		owner.visible_message(span_danger("[owner] raises their hand as nearby skeletons begin calmly rattling apart!"),	span_userdanger("I sacrifice my undead servants, and sap their energy."))
-
+		owner.visible_message(span_danger("[owner] raises their hand as nearby skeletons begin calmly rattling apart!"), span_userdanger("I sacrifice my undead servants, and sap their energy."))
 		for(var/mob/living/S in valid_skeletons)
 			S.Jitter(100)
-			addtimer(CALLBACK(src, PROC_REF(despawn_skeleton), S), rand(1 SECONDS, 2 SECONDS))
-			
+			var/datum/beam/B = caster.Beam(S,icon_state = "necra_beam",	time = 30, maxdistance = 20)
+			addtimer(CALLBACK(src, PROC_REF(despawn_skeleton), S, caster, B), rand(1 SECONDS, 2 SECONDS))
+
 		return TRUE
 
-/datum/action/cooldown/spell/miracle/bone_cataclysm/proc/explode_skeleton(mob/living/S)
+/datum/action/cooldown/spell/miracle/bone_cataclysm/proc/explode_skeleton(mob/living/S, mob/living/caster, datum/beam/B)
+	if(B)
+		B.End()
 	if(!S || QDELETED(S))
+		return
+	if(!caster || QDELETED(caster))
 		return
 
 	var/turf/T = get_turf(S)
@@ -406,7 +412,7 @@
 			M.set_resting(TRUE, TRUE)
 			to_chat(M, span_danger("The blast hurls you backwards!"))
 		var/atom/throwtarget = get_edge_target_turf(T, get_dir(T, get_step_away(AM, T)))
-		AM.safe_throw_at(throwtarget, 2, 1,	owner, force = MOVE_FORCE_EXTREMELY_STRONG)
+		AM.safe_throw_at(throwtarget, 2, 1, owner, force = MOVE_FORCE_EXTREMELY_STRONG)
 
 	for(var/mob/living/carbon/C in view(3, T))
 		if(C.stat == DEAD)
@@ -443,30 +449,23 @@
 			if(!length(C.bodyparts))
 				break
 			var/obj/item/bodypart/limb = pick(C.bodyparts)
-			var/obj/item/bone/splinter/B = new
-			limb.add_embedded_object(B, FALSE, TRUE)
+			var/obj/item/bone/splinter/P = new
+			limb.add_embedded_object(P, FALSE, TRUE)
 		to_chat(C, span_userdanger("Bone splinters bury themselves deep into your flesh!"))
-		
-	S.dust()
+	qdel(S)
 
-/datum/action/cooldown/spell/miracle/bone_cataclysm/proc/despawn_skeleton(mob/living/S)
+/datum/action/cooldown/spell/miracle/bone_cataclysm/proc/despawn_skeleton(mob/living/S,	mob/living/caster, datum/beam/B)	if(B)
+	if(B)
+		B.End()
 	if(!S || QDELETED(S))
 		return
-	if(!owner || QDELETED(owner))
+	if(!caster || QDELETED(caster))
 		return
 	var/turf/T = get_turf(S)
 	if(!T)
 		return
-	S.visible_message(span_warning("[S] crumbles apart into pale dust as its essence is siphoned away!"), span_warning("My body unravels as my master's will consumes me..."))
-	playsound(T, 'sound/magic/holyshield.ogg', 50, TRUE)
-	var/datum/beam/B = owner.Beam(S, icon_state = "necra_beam", time = 10, maxdistance = 20)
-	sleep(3 SECONDS)
-	if(QDELETED(S) || QDELETED(owner))
-		if(B)
-			B.End()
-		return
-	owner.energy_add(50)
-	owner.stamina_add(-50)
-	if(B)
-		B.End()
+	S.visible_message(span_warning("[S] crumbles apart into pale dust as its essence is siphoned away!"), span_warning("Ashes to ashes, dust to dust..."))
+	playsound(T, 'sound/magic/swap.ogg', 50, TRUE)
+	caster.energy_add(50)
+	caster.stamina_add(-50)
 	qdel(S)
