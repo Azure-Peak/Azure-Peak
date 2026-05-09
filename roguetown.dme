@@ -2100,6 +2100,7 @@
 #include "code\modules\jobs\job_types\roguetown\Inquisition\orthoclasses\psyalmist.dm"
 #include "code\modules\jobs\job_types\roguetown\Inquisition\orthoclasses\psydoniantemplar.dm"
 #include "code\modules\jobs\job_types\roguetown\Inquisition\orthoclasses\sojourner.dm"
+#include "code\modules\jobs\job_types\roguetown\levy\levy.dm"
 #include "code\modules\jobs\job_types\roguetown\nobility\consort.dm"
 #include "code\modules\jobs\job_types\roguetown\nobility\lord.dm"
 #include "code\modules\jobs\job_types\roguetown\nobility\prince.dm"
