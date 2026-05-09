@@ -119,6 +119,11 @@ GLOBAL_LIST_INIT(garrison_positions, list( //Guards
 	"Watchman",
 ))
 
+GLOBAL_LIST_INIT(levy_positions, list( //Militiamen
+	"Bog Guard",
+	"Bogmaster",
+))
+
 GLOBAL_LIST_INIT(church_positions, list( //Church of the Ten
 	"Bishop",
 	"Martyr",
