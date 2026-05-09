@@ -32,9 +32,10 @@ export const OrdersView = (props: { data: Data }) => {
       ) : (
         active_orders.map((o) => {
           const isUrgent = o.days_left <= 1;
+          const pureWarehouse = !!o.has_warehouse && !o.has_stockpile;
           const barColor = o.region_blockaded
             ? SEAL_RED
-            : o.is_equipment
+            : pureWarehouse
               ? SEAL_BLUE
               : isUrgent
                 ? SEAL_RED_SOFT
@@ -54,10 +55,13 @@ export const OrdersView = (props: { data: Data }) => {
                 {!!o.region_blockaded && (
                   <span style={badgeStyle(SEAL_RED)}>BLOCKADED</span>
                 )}
-                {!!o.is_equipment && (
+                {!!o.has_warehouse && (
                   <span style={badgeStyle(SEAL_BLUE)}>WAREHOUSE</span>
                 )}
-                {isUrgent && !o.region_blockaded && !o.is_equipment && (
+                {!!o.has_stockpile && (
+                  <span style={badgeStyle(SEAL_GREEN)}>STOCKPILE</span>
+                )}
+                {isUrgent && !o.region_blockaded && !pureWarehouse && (
                   <span style={badgeStyle(SEAL_RED_SOFT)}>URGENT</span>
                 )}
                 {!!o.petitioned && (
@@ -88,7 +92,8 @@ export const OrdersView = (props: { data: Data }) => {
                   Items:{' '}
                 </span>
                 {o.items.map((it, i) => {
-                  const short = !o.is_equipment && it.have < it.needed;
+                  const isStockpileItem = it.route === 'stockpile';
+                  const short = isStockpileItem && it.have < it.needed;
                   const label = good_catalog[it.good_id]?.name ?? it.good_id;
                   return (
                     <span key={it.good_id}>
@@ -99,7 +104,7 @@ export const OrdersView = (props: { data: Data }) => {
                         }}
                       >
                         {it.needed} {label}
-                        {!o.is_equipment && ` (${it.have})`}
+                        {isStockpileItem && ` (${it.have})`}
                       </span>
                       {i < o.items.length - 1 && (
                         <span style={{ color: INK_FAINT }}>, </span>
@@ -138,7 +143,9 @@ const FulfillButton = (props: {
       </button>
     );
   }
-  if (o.is_equipment) {
+  const pureWarehouse = !!o.has_warehouse && !o.has_stockpile;
+  const mixed = !!o.has_warehouse && !!o.has_stockpile;
+  if (pureWarehouse) {
     return (
       <button
         type="button"
@@ -156,7 +163,7 @@ const FulfillButton = (props: {
         onClick={props.onFulfill}
         style={inkButtonStyle({ color: SEAL_GREEN })}
       >
-        Fulfill
+        {mixed ? 'Fulfill (Warehouse + Stockpile)' : 'Fulfill from Stockpile'}
       </button>
     );
   }

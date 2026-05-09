@@ -76,6 +76,7 @@ export const ScoutsSection = ({ data }: { data: NoticeboardData }) => {
           }}
           onClick={() => setHelpOpen((v) => !v)}
         >
+          {/* TODO: flavor */}
           {helpOpen ? 'Hide About Scout Reports' : 'About Scout Reports'}
         </button>
         {helpOpen && <HelpPanel />}
@@ -91,8 +92,10 @@ const RegionRow = ({ region }: { region: ScoutRegion }) => {
         <div style={{ fontWeight: 'bold' }}>{region.region_name}</div>
         {!!region.blockaded && (
           <div style={{ marginTop: 4 }}>
+            {/* TODO: flavor */}
             <span style={badgeStyle(SEAL_RED)}>BLOCKADED</span>
             {!!region.blockade_writ_out && (
+              // TODO: flavor
               <span style={badgeStyle(SEAL_AMBER)}>WRIT OUT</span>
             )}
           </div>

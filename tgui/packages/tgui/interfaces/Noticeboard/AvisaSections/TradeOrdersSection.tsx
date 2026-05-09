@@ -1,0 +1,215 @@
+import { useState } from 'react';
+
+import {
+  badgeStyle,
+  cardStyle,
+  INK,
+  INK_FAINT,
+  INK_SOFT,
+  inkButtonStyle,
+  SEAL_AMBER,
+  SEAL_BLUE,
+  SEAL_GREEN,
+  SEAL_RED,
+  SERIF,
+} from '../../common/parchment';
+import { type NoticeboardData, type TradeOrder } from '../types';
+
+const PETITION_PURPLE = '#7a3aa6';
+
+export const TradeOrdersSection = ({ data }: { data: NoticeboardData }) => {
+  const orders = data.trade_orders ?? [];
+  const [helpOpen, setHelpOpen] = useState(false);
+
+  return (
+    <>
+      {orders.length === 0 ? (
+        // TODO: flavor
+        <EmptyMessage text="No standing orders posted. Check back later." />
+      ) : (
+        orders.map((o, i) => <OrderCard key={i} order={o} />)
+      )}
+
+      <div style={{ marginTop: 16 }}>
+        <button
+          type="button"
+          style={{
+            ...inkButtonStyle({}),
+            fontSize: '11px',
+            padding: '2px 6px',
+          }}
+          onClick={() => setHelpOpen((v) => !v)}
+        >
+          {/* TODO: flavor */}
+          {helpOpen ? 'Hide About Trade Orders' : 'About Trade Orders'}
+        </button>
+        {helpOpen && <HelpPanel />}
+      </div>
+    </>
+  );
+};
+
+const OrderCard = ({ order }: { order: TradeOrder }) => {
+  return (
+    <div style={cardStyle}>
+      <div style={{ display: 'flex', alignItems: 'baseline', flexWrap: 'wrap' }}>
+        {!!order.urgent && (
+          // TODO: flavor
+          <span style={badgeStyle(SEAL_RED)}>URGENT</span>
+        )}
+        {!!order.blockaded && (
+          // TODO: flavor
+          <span style={badgeStyle(SEAL_RED)}>BLOCKADED</span>
+        )}
+        {!!order.warehouse && (
+          // TODO: flavor
+          <span style={badgeStyle(SEAL_BLUE)}>WAREHOUSE</span>
+        )}
+        {!!order.stockpile && (
+          // TODO: flavor
+          <span style={badgeStyle(SEAL_GREEN)}>STOCKPILE</span>
+        )}
+        {!!order.petitioned && (
+          // TODO: flavor
+          <span style={badgeStyle(PETITION_PURPLE)}>STEWARD&apos;S PETITION</span>
+        )}
+      </div>
+
+      <div
+        style={{
+          fontSize: '15px',
+          fontWeight: 'bold',
+          color: INK,
+          fontFamily: SERIF,
+          marginTop: 6,
+        }}
+      >
+        {order.name}
+      </div>
+      <div
+        style={{
+          color: INK_SOFT,
+          fontStyle: 'italic',
+          fontSize: '12px',
+          marginTop: 2,
+        }}
+      >
+        {/* TODO: flavor (region prefix wording) */}
+        {order.region_label} &middot; {order.days_left}d remaining
+      </div>
+
+      {!!order.description && (
+        <div
+          style={{
+            color: INK,
+            fontStyle: 'italic',
+            fontSize: '12px',
+            marginTop: 6,
+            whiteSpace: 'pre-wrap',
+          }}
+        >
+          {order.description}
+        </div>
+      )}
+
+      <div style={{ marginTop: 8 }}>
+        {/* TODO: flavor */}
+        <div style={fieldLabelStyle}>Required</div>
+        <div style={{ marginTop: 2, color: INK }}>
+          {order.requirements.length === 0 ? (
+            // TODO: flavor
+            <span style={{ color: INK_FAINT, fontStyle: 'italic' }}>
+              - nothing on record -
+            </span>
+          ) : (
+            order.requirements
+              .map((r) => `${r.quantity} ${r.label}`)
+              .join(', ')
+          )}
+        </div>
+      </div>
+
+      <div
+        style={{
+          marginTop: 8,
+          display: 'flex',
+          alignItems: 'baseline',
+        }}
+      >
+        <div style={{ ...fieldLabelStyle, flex: 1 }}>
+          {/* TODO: flavor */}
+          Payout
+        </div>
+        <div
+          style={{
+            color: SEAL_AMBER,
+            fontWeight: 'bold',
+            fontSize: '14px',
+          }}
+        >
+          {order.total_payout}m
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const fieldLabelStyle: React.CSSProperties = {
+  fontVariant: 'small-caps',
+  letterSpacing: '2px',
+  color: SEAL_AMBER,
+  fontStyle: 'italic',
+  fontSize: '12px',
+};
+
+const EmptyMessage = ({ text }: { text: string }) => (
+  <div
+    style={{
+      color: INK_FAINT,
+      fontStyle: 'italic',
+      textAlign: 'center',
+      padding: '24px 0',
+    }}
+  >
+    {text}
+  </div>
+);
+
+const HelpPanel = () => (
+  <div
+    style={{
+      marginTop: 8,
+      padding: '8px 12px',
+      background: 'rgba(255,248,220,0.45)',
+      border: `1px solid ${INK_FAINT}`,
+      color: INK_SOFT,
+      fontStyle: 'italic',
+      fontSize: '12px',
+      lineHeight: 1.5,
+    }}
+  >
+    {/* TODO: flavor */}
+    <p style={{ margin: '0 0 6px 0' }}>
+      Standing orders are demands posted by the realm&apos;s stockpiles and
+      merchants. Speak with the Steward or Clerk at the Nerve Master to fulfill
+      a stockpile order.
+    </p>
+    {/* TODO: flavor */}
+    <p style={{ margin: '0 0 6px 0' }}>
+      <b>WAREHOUSE</b>-tagged orders require finished goods to be left at the
+      export machine for collection. Goods that belongs in the stockpile should 
+      still be delivered to the stockpile. 
+    </p>
+    {/* TODO: flavor */}
+    <p style={{ margin: '0 0 6px 0' }}>
+      Orders may be settled short once at least 50% by value is on hand, paid
+      at 85% of the delivered share - the rest is forfeit.
+    </p>
+    {/* TODO: flavor */}
+    <p style={{ margin: 0 }}>
+      <b>BLOCKADED</b> regions cannot be reached by trade caravans until the
+      blockade is lifted; <b>STEWARD&apos;S PETITION</b> orders were directly
+      requested by the Steward and pay out at a reduced rate.
+    </p>
+  </div>
+);

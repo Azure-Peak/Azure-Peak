@@ -12,6 +12,7 @@ import {
   titleStyle,
 } from '../common/parchment';
 import { ScoutsSection } from './AvisaSections/ScoutsSection';
+import { TradeOrdersSection } from './AvisaSections/TradeOrdersSection';
 import { type TabProps } from './types';
 
 type AvisaSection =
@@ -107,23 +108,28 @@ export const AvisaTab = ({ data, act }: TabProps) => {
       </div>
 
       {section === 'scouts' && <ScoutsSection data={data} />}
+      {section === 'trade_orders' && <TradeOrdersSection data={data} />}
       {section === 'assembly' && <AssemblySection act={act} />}
-      {section !== 'scouts' && section !== 'assembly' && <ScribeStub />}
+      {section !== 'scouts' &&
+        section !== 'trade_orders' &&
+        section !== 'assembly' && <ScribeStub />}
 
       <hr style={rulerStyle} />
 
-      {section !== 'assembly' && section !== 'scouts' && (
-        <div style={{ textAlign: 'center', marginTop: 8 }}>
-          <button
-            type="button"
-            style={inkButtonStyle({})}
-            onClick={() => act('open_legacy_board')}
-          >
-            {/* TODO: flavor */}
-            Open the Old Board
-          </button>
-        </div>
-      )}
+      {section !== 'assembly' &&
+        section !== 'scouts' &&
+        section !== 'trade_orders' && (
+          <div style={{ textAlign: 'center', marginTop: 8 }}>
+            <button
+              type="button"
+              style={inkButtonStyle({})}
+              onClick={() => act('open_legacy_board')}
+            >
+              {/* TODO: flavor */}
+              Open the Old Board
+            </button>
+          </div>
+        )}
     </>
   );
 };

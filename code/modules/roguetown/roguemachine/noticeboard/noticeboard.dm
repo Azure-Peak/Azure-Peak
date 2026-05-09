@@ -133,10 +133,15 @@
 /obj/structure/roguemachine/noticeboard/ui_interact(mob/user, datum/tgui/ui)
 	SStgui.try_update_ui(user, src, ui)
 
-/obj/structure/roguemachine/noticeboard/ui_data(mob/user)
+/obj/structure/roguemachine/noticeboard/ui_static_data(mob/user)
 	var/list/data = list()
 	data["realm_name"] = SSticker.realm_name
+	return data
+
+/obj/structure/roguemachine/noticeboard/ui_data(mob/user)
+	var/list/data = list()
 	data["scout_regions"] = build_scout_regions()
+	data["trade_orders"] = build_trade_orders()
 	if(!ishuman(user))
 		data["postings"] = list()
 		data["can_post_listing"] = FALSE
@@ -171,9 +176,6 @@
 	data["has_active_listing"] = has_active_listing
 	return data
 
-/// Builds per-region scout view for the Avisa Scouts section. Each row merges the warden's danger
-/// reading with any blockade currently sitting on that region (faction, days active, writ status).
-/// Indexed by threat_region.region_name so blockades and threat readings line up cleanly.
 /obj/structure/roguemachine/noticeboard/proc/build_scout_regions()
 	var/list/blockade_by_threat_name = list()
 	for(var/datum/blockade/B as anything in GLOB.active_blockades)
@@ -198,6 +200,40 @@
 			row["blockade_writ_out"] = FALSE
 			row["blockade_faction_label"] = ""
 			row["blockade_days_active"] = 0
+		rows += list(row)
+	return rows
+
+/obj/structure/roguemachine/noticeboard/proc/build_trade_orders()
+	var/list/rows = list()
+	for(var/datum/standing_order/O as anything in GLOB.standing_order_pool)
+		if(O.is_fulfilled)
+			continue
+		var/list/row = list()
+		var/datum/economic_region/region = GLOB.economic_regions[O.region_id]
+		row["name"] = O.name
+		row["region_label"] = region ? region.name : O.region_id
+		row["description"] = O.description || ""
+		row["days_left"] = max(0, O.day_expires - GLOB.dayspassed)
+		row["total_payout"] = O.total_payout
+		row["urgent"] = istype(O, /datum/standing_order/urgent) ? TRUE : FALSE
+		row["blockaded"] = (region?.is_region_blockaded) ? TRUE : FALSE
+		row["petitioned"] = O.petitioned ? TRUE : FALSE
+		var/has_warehouse = FALSE
+		var/has_stockpile = FALSE
+		var/list/requirements = list()
+		for(var/good_id in O.required_items)
+			var/datum/trade_good/tg = GLOB.trade_goods[good_id]
+			if(SSeconomy.get_good_route(good_id) == "warehouse")
+				has_warehouse = TRUE
+			else
+				has_stockpile = TRUE
+			requirements += list(list(
+				"label" = tg ? tg.name : good_id,
+				"quantity" = O.required_items[good_id],
+			))
+		row["warehouse"] = has_warehouse
+		row["stockpile"] = has_stockpile
+		row["requirements"] = requirements
 		rows += list(row)
 	return rows
 

@@ -25,6 +25,7 @@ export type OrderItem = {
   good_id: string;
   needed: number;
   have: number;
+  route: 'warehouse' | 'stockpile';
 };
 
 export type Order = {
@@ -33,7 +34,8 @@ export type Order = {
   description: string;
   region_id: string;
   region_blockaded: BooleanLike;
-  is_equipment: BooleanLike;
+  has_warehouse: BooleanLike;
+  has_stockpile: BooleanLike;
   days_left: number;
   payout: number;
   items: OrderItem[];

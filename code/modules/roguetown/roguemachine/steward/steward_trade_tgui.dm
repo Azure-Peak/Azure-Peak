@@ -138,27 +138,29 @@
 		))
 	data["active_events"] = events
 
-	// Active standing orders. Items carry only good_id + counts; the TSX looks up the
-	// good's label/name via the static good_catalog.
 	var/list/orders = list()
 	for(var/datum/standing_order/O as anything in GLOB.standing_order_pool)
 		if(O.is_fulfilled)
 			continue
 		var/datum/economic_region/order_region = GLOB.economic_regions[O.region_id]
 		var/is_blockaded = order_region?.is_region_blockaded ? TRUE : FALSE
-		var/is_warehouse = (SSeconomy.order_is_equipment(O) || SSeconomy.order_is_alchemical(O)) ? TRUE : FALSE
 		var/days_left = max(0, O.day_expires - GLOB.dayspassed)
 
 		var/list/items = list()
 		var/can_fulfill = TRUE
 		var/shortfall = ""
 		var/delivered_value = 0
+		var/has_warehouse = FALSE
+		var/has_stockpile = FALSE
 		for(var/good_id in O.required_items)
 			var/needed = O.required_items[good_id]
 			var/have = 0
-			if(is_warehouse)
+			var/route = SSeconomy.get_good_route(good_id)
+			if(route == "warehouse")
+				has_warehouse = TRUE
 				have = needed
 			else
+				has_stockpile = TRUE
 				var/datum/roguestock/entry = SSeconomy.find_stockpile_by_trade_good(good_id)
 				have = entry ? entry.stockpile_amount : 0
 				if(have < needed)
@@ -173,12 +175,14 @@
 				"good_id" = good_id,
 				"needed" = needed,
 				"have" = have,
+				"route" = route,
 			))
 
+		// Partial settlement applies only to the stockpile portion's coverage; warehouse goods are all-or-nothing.
 		var/can_partial = FALSE
 		var/partial_pct = 0
 		var/partial_payout_preview = 0
-		if(!is_warehouse && !can_fulfill && O.total_payout > 0)
+		if(has_stockpile && !can_fulfill && O.total_payout > 0)
 			var/petitioned_value = O.petitioned ? round(delivered_value * PETITION_TAX_MULT) : delivered_value
 			var/coverage = petitioned_value / O.total_payout
 			if(coverage >= STANDING_ORDER_PARTIAL_THRESHOLD)
@@ -192,7 +196,8 @@
 			"description" = O.description,
 			"region_id" = O.region_id,
 			"region_blockaded" = is_blockaded,
-			"is_equipment" = is_warehouse,
+			"has_warehouse" = has_warehouse,
+			"has_stockpile" = has_stockpile,
 			"days_left" = days_left,
 			"payout" = O.total_payout,
 			"items" = items,

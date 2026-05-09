@@ -722,6 +722,11 @@ SUBSYSTEM_DEF(economy)
 		if(tg?.behavior == TRADE_BEHAVIOR_POTION)
 			return TRUE
 	return FALSE
+/datum/controller/subsystem/economy/proc/get_good_route(good_id)
+	var/datum/trade_good/tg = GLOB.trade_goods[good_id]
+	if(tg?.behavior == TRADE_BEHAVIOR_EQUIPMENT || tg?.behavior == TRADE_BEHAVIOR_POTION)
+		return "warehouse"
+	return "stockpile"
 
 /datum/controller/subsystem/economy/proc/find_stockpile_by_trade_good(good_id)
 	if(!good_id)

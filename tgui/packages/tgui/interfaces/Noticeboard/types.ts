@@ -31,10 +31,30 @@ export type ScoutRegion = {
   blockade_days_active: number;
 };
 
+export type TradeOrderRequirement = {
+  label: string;
+  quantity: number;
+};
+
+export type TradeOrder = {
+  name: string;
+  region_label: string;
+  description: string;
+  days_left: number;
+  total_payout: number;
+  urgent: boolean;
+  blockaded: boolean;
+  warehouse: boolean;
+  stockpile: boolean;
+  petitioned: boolean;
+  requirements: TradeOrderRequirement[];
+};
+
 export type NoticeboardData = {
   realm_name: string;
   postings: Posting[];
   scout_regions: ScoutRegion[];
+  trade_orders: TradeOrder[];
   can_post_listing: boolean;
   can_authority_remove: boolean;
   user_real_name: string;
