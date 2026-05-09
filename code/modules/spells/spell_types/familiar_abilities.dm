@@ -313,7 +313,7 @@
 		"Bowl" = /obj/item/reagent_containers/glass/bowl,
 		"Fork" = /obj/item/kitchen/fork/iron,
 		"Spoon" = /obj/item/kitchen/spoon/iron,
-		"Needle" = /obj/item/needle/thorn
+		"Needle" = /obj/item/needle
 	)
 	cooldown_time = 30 SECONDS
 	charge_required = FALSE
