@@ -407,6 +407,7 @@
 	)
 	cooldown_time = 30 SECONDS
 	charge_required = FALSE
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_SAME_Z
 
 /datum/action/cooldown/spell/arcyne_forge/elementalt2/cast(atom/cast_on)
 	. = ..()
