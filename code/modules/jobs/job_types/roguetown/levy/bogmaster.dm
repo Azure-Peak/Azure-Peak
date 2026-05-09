@@ -75,6 +75,10 @@
 
 /datum/job/roguetown/bogmaster/bogmaster/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
 	. = ..()
+	var/prev_real_name = H.real_name
+	var/prev_name = H.name
+	H.real_name = "Bogmaster [prev_real_name]"
+	H.name = "Bogmaster [prev_name]"
 	if(ishuman(L))
 		var/mob/living/carbon/human/H = L
 		if(istype(H.cloak, /obj/item/clothing/cloak/tabard/stabard/bog))
@@ -100,7 +104,6 @@
 	pants = /obj/item/clothing/under/roguetown/trou/leather
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
 	backr = /obj/item/storage/backpack/rogue/satchel
-	hand_r = /obj/item/rogueweapon/sword //SOVL
 	backpack_contents = list(
 		/obj/item/needle/thorn = 1,
 		/obj/item/natural/cloth = 1,
@@ -141,15 +144,12 @@
 		H.dna.species.soundpack_m = new /datum/voicepack/male/knight()
 	H.verbs |= /mob/proc/haltyell
 
-	H.real_name = "Bogmaster [prev_real_name]"
-	H.name = "Bogmaster [prev_name]"
-
 	if(H.mind)
 		SStreasury.grant_savings(ECONOMIC_DESTITUTE, H)
 
 /obj/effect/proc_holder/spell/self/convertrole/bog //Lets them potentally antagonise a little, by forming their own private army out of a mob and possibly attempting a coup
-	name = "Recruit Levy"
-	new_role = "Levy"
+	name = "Recruit Bog Guard"
+	new_role = "Bog Guard"
 	recruitment_faction = "Bog Guard"
 	recruitment_message = "Serve the bog, %RECRUIT!" //I was going to change but I'm sorry, its perfect already.
 	accept_message = "FOR THE BOG!"
