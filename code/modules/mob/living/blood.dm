@@ -480,11 +480,11 @@
 	skill_filtered_balloon_alert(/datum/skill/misc/medicine, SKILL_LEVEL_APPRENTICE, gasptext, 0, 0)
 
 /mob/living/carbon/human/proc/deathgasp_noise()
-	var/ooOOEEUHGHGH = null
+	var/gaspnoise = null
 	if(gender == MALE)
-		ooOOEEUHGHGH = pick('sound/vo/male/gen/mchoke1.ogg', 'sound/vo/male/gen/mchoke2.ogg', 'sound/vo/male/gen/mchoke3.ogg', 'sound/vo/male/gen/mchoke4.ogg')
+		gaspnoise = pick('sound/vo/male/gen/mchoke1.ogg', 'sound/vo/male/gen/mchoke2.ogg', 'sound/vo/male/gen/mchoke3.ogg', 'sound/vo/male/gen/mchoke4.ogg')
 	else if(gender == FEMALE)
-		ooOOEEUHGHGH = pick('sound/vo/female/gen/femchoke1.ogg', 'sound/vo/female/gen/femchoke2.ogg', 'sound/vo/female/gen/femchoke3.ogg', 'sound/vo/female/gen/femchoke4.ogg')
+		gaspnoise = pick('sound/vo/female/gen/femchoke1.ogg', 'sound/vo/female/gen/femchoke2.ogg', 'sound/vo/female/gen/femchoke3.ogg', 'sound/vo/female/gen/femchoke4.ogg')
 
-	if(ooOOEEUHGHGH && !(HAS_TRAIT(src, TRAIT_NOBREATH)))
-		playsound(get_turf(src), ooOOEEUHGHGH, 90, FALSE)
+	if(gaspnoise && !(HAS_TRAIT(src, TRAIT_NOBREATH)))
+		playsound(get_turf(src), gaspnoise, 90, FALSE)
