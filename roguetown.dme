@@ -2015,7 +2015,6 @@
 #include "code\modules\jobs\job_types\roguetown\adventurer\types\pilgrim\fisher.dm"
 #include "code\modules\jobs\job_types\roguetown\adventurer\types\pilgrim\homesteader.dm"
 #include "code\modules\jobs\job_types\roguetown\adventurer\types\pilgrim\hunter.dm"
-#include "code\modules\jobs\job_types\roguetown\adventurer\types\pilgrim\levy.dm"
 #include "code\modules\jobs\job_types\roguetown\adventurer\types\pilgrim\miner.dm"
 #include "code\modules\jobs\job_types\roguetown\adventurer\types\pilgrim\minstrel.dm"
 #include "code\modules\jobs\job_types\roguetown\adventurer\types\pilgrim\peasant.dm"
