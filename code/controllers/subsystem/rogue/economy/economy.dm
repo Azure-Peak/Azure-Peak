@@ -260,6 +260,9 @@ SUBSYSTEM_DEF(economy)
 	print_steward_report(daily_report_diff)
 	daily_report_diff = null
 
+	if(SSmerchant_trade)
+		SSmerchant_trade.daily_tick()
+
 /datum/controller/subsystem/economy/proc/roundstart_events()
 	if(roundstart_events_fired)
 		return

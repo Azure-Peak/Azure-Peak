@@ -17,7 +17,8 @@ type EconomicPanelTab =
   | 'players'
   | 'charters'
   | 'assembly'
-  | 'markets'
+  | 'internal'
+  | 'foreign'
   | 'ledger';
 
 const TAB_LABELS: Record<EconomicPanelTab, string> = {
@@ -26,7 +27,8 @@ const TAB_LABELS: Record<EconomicPanelTab, string> = {
   players: 'Players',
   charters: 'Charters',
   assembly: 'Assembly',
-  markets: 'Markets',
+  internal: 'Internal',
+  foreign: 'Foreign',
   ledger: 'Ledger',
 };
 
@@ -36,13 +38,15 @@ const TAB_ORDER: EconomicPanelTab[] = [
   'players',
   'charters',
   'assembly',
-  'markets',
+  'internal',
+  'foreign',
   'ledger',
 ];
 import type { BooleanLike } from 'tgui-core/react';
 
 import { useBackend } from '../backend';
 import { Window } from '../layouts';
+import { type ForeignTrade, ForeignTradeView } from './EconomicPanel/ForeignTradeView';
 
 type Dashboard = {
   discretionary: number;
@@ -186,6 +190,7 @@ type Data = {
   ledger_cap: number;
   ledger_full_minted: number;
   ledger_full_burned: number;
+  foreign_trade: ForeignTrade;
 };
 
 const STATUS_LABELS: Record<string, string> = {
@@ -233,6 +238,7 @@ export const EconomicPanel = () => {
     ledger_cap,
     ledger_full_minted,
     ledger_full_burned,
+    foreign_trade,
   } = data;
 
   const [tab, setTab] = useState<EconomicPanelTab>('dashboard');
@@ -938,7 +944,7 @@ export const EconomicPanel = () => {
 
           )}
 
-          {tab === 'markets' && (
+          {tab === 'internal' && (
           <Stack.Item>
             <Section title={`Blockades (${blockades.length} active)`}>
               <Stack wrap mb={1}>
@@ -987,16 +993,9 @@ export const EconomicPanel = () => {
           </Stack.Item>
           )}
 
-          {tab === 'markets' && (
+          {tab === 'foreign' && (
           <Stack.Item>
-            <Section title="Foreign Trade (Module 6.1+)">
-              <Box italic color="gray">
-                No ships generated yet. Module 6.1 will populate this section
-                with the daily ship roll, dock state, nationality data, and
-                cultural-goods/preferred-imports inspection. Spawn buttons and
-                hail-flow controls will land alongside.
-              </Box>
-            </Section>
+            <ForeignTradeView foreignTrade={foreign_trade} act={act} />
           </Stack.Item>
           )}
 

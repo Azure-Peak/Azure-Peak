@@ -157,6 +157,37 @@ GLOBAL_DATUM_INIT(economic_panel, /datum/economic_panel, new)
 	bankruptcy["daily_payroll_total"] = payroll_total
 	data["bankruptcy"] = bankruptcy
 
+	var/list/foreign_trade = list()
+	var/list/nations_data = list()
+	if(SSmerchant_trade)
+		for(var/nat_id in SSmerchant_trade.nations)
+			var/datum/foreign_nation/N = SSmerchant_trade.nations[nat_id]
+			nations_data += list(list(
+				"id" = N.id,
+				"name" = N.name,
+				"auto_discovered" = N.auto_discovered ? TRUE : FALSE,
+				"discovered" = SSmerchant_trade.is_discovered(N.id) ? TRUE : FALSE,
+				"cultural_goods_count" = length(N.cultural_goods),
+				"preferred_imports_count" = length(N.preferred_imports),
+				"preferred_exports_count" = length(N.preferred_exports),
+			))
+		var/list/ships_data = list()
+		for(var/datum/trade_ship/ship in SSmerchant_trade.all_ships)
+			ships_data += list(list(
+				"ship_id" = ship.ship_id,
+				"nationality_id" = ship.nationality_id,
+				"ship_name" = ship.ship_name,
+				"captain_name" = ship.captain_name,
+				"ship_type" = ship.ship_type,
+				"tonnage" = ship.tonnage,
+				"expected_favor" = ship.expected_favor,
+				"dock_state" = ship.dock_state,
+				"favor_earned" = ship.favor_earned,
+			))
+		foreign_trade["ships"] = ships_data
+	foreign_trade["nations"] = nations_data
+	data["foreign_trade"] = foreign_trade
+
 	// Aggregation tallies the full ledger so cap-exceeding history still shows up in the
 	// inflow/outflow totals; only the displayed rows are capped to keep the payload bounded.
 	var/list/ledger_serialized = list()
@@ -523,6 +554,42 @@ GLOBAL_DATUM_INIT(economic_panel, /datum/economic_panel, new)
 				SStreasury.clear_poll_tax_debt(target)
 				count++
 			admin_log_fiscal("bulk-cleared poll-tax debt for [count] players (filter cat=[filter_category] status=[filter_status])", "Bulk Clear Debt")
+			return TRUE
+		if("spawn_trade_ship")
+			if(!SSmerchant_trade)
+				return TRUE
+			var/nat_id = "[params["nationality_id"]]"
+			var/datum/trade_ship/ship = SSmerchant_trade.generate_ship(nat_id)
+			if(ship)
+				admin_log_fiscal("spawned a [nat_id] trade ship: [ship.ship_name] (Captain [ship.captain_name], expected favor [ship.expected_favor])", "Spawn Trade Ship")
+			else
+				to_chat(usr, span_warning("Could not spawn ship - nationality unknown or undiscovered."))
+			return TRUE
+		if("discover_nationality")
+			if(!SSmerchant_trade)
+				return TRUE
+			var/nat_id = "[params["nationality_id"]]"
+			if(SSmerchant_trade.discover_nationality(nat_id))
+				admin_log_fiscal("force-discovered nationality [nat_id]", "Discover Nationality")
+			return TRUE
+		if("clear_trade_ships")
+			if(!SSmerchant_trade)
+				return TRUE
+			var/cleared = length(SSmerchant_trade.all_ships)
+			for(var/datum/trade_ship/ship as anything in SSmerchant_trade.all_ships)
+				qdel(ship)
+			SSmerchant_trade.all_ships.Cut()
+			admin_log_fiscal("cleared [cleared] trade ships from the pool", "Clear Trade Ships")
+			return TRUE
+		if("reroll_trade_ships")
+			if(!SSmerchant_trade)
+				return TRUE
+			var/cleared = length(SSmerchant_trade.all_ships)
+			for(var/datum/trade_ship/ship as anything in SSmerchant_trade.all_ships)
+				qdel(ship)
+			SSmerchant_trade.all_ships.Cut()
+			SSmerchant_trade.roll_daily_pool()
+			admin_log_fiscal("rerolled the daily ship pool (cleared [cleared], rolled [length(SSmerchant_trade.all_ships)] new)", "Reroll Trade Ships")
 			return TRUE
 		if("bulk_add_advance")
 			var/days = text2num(params["days"]) || 1
