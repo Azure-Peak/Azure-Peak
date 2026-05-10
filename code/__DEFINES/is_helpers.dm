@@ -202,4 +202,4 @@ GLOBAL_VAR_INIT(magic_appearance_detecting_image, new /image) // appearances are
 #define isimage(thing) (istype(thing, /image))
 #define isappearance(thing) (!isimage(thing) && !ispath(thing) && istype(GLOB.magic_appearance_detecting_image, thing))
 #define isappearance_or_image(thing) (isimage(thing) || (!ispath(thing) && istype(GLOB.magic_appearance_detecting_image, thing)))
-#define is_ooze_wound(A) (istype(A, /datum/wound/fracture) || istype(A, /datum/wound/slash) || istype(A, /datum/wound/puncture) || istype(A, /datum/wound/artery)) //Defines what kinds of wounds cause ooze limbs to melt.
+#define is_ooze_wound(A) (istype(A, /datum/wound/fracture) || istype(A, /datum/wound/dislocation)) //Defines what kinds of wounds cause ooze limbs to melt.

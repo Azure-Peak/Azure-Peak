@@ -65,7 +65,7 @@
 /obj/item/bodypart/proc/add_wound(datum/wound/wound, silent = FALSE, crit_message = FALSE)
 	if(!wound || !owner || (owner.status_flags & GODMODE))
 		return
-	if(isooze(owner) && wound.severity >= WOUND_SEVERITY_SEVERE) // Handles wounds for murkborne.
+	if(isooze(owner) && wound.severity >= WOUND_SEVERITY_MODERATE) // Handles wounds for murkborne.
 		if(ispath(wound, /datum/wound))
 			wound = new wound()
 		if(is_ooze_wound(wound))
@@ -78,7 +78,7 @@
 		wound = new wound()
 	else if(!istype(wound))
 		return
-	else if(!wound.can_apply_to_bodypart(src))
+	if(!wound.can_apply_to_bodypart(src))
 		qdel(wound)
 		return
 	if(!wound.apply_to_bodypart(src, silent, crit_message))
@@ -226,26 +226,25 @@
 
 /obj/item/bodypart/proc/manage_dynamic_wound(bclass, dam, armor, pen_info)
 	var/woundtype
-	if(isooze(owner)) //If the owner is an ooze, gives them a special dynamic wound instead.
+	switch(bclass)
+		if(BCLASS_BLUNT, BCLASS_SMASH, BCLASS_PUNCH, BCLASS_TWIST)
+			woundtype = /datum/wound/dynamic/bruise
+		if(BCLASS_BITE)
+			woundtype = /datum/wound/dynamic/bite
+		if(BCLASS_CHOP, BCLASS_CUT)
+			woundtype = /datum/wound/dynamic/slash
+		if(BCLASS_STAB)
+			woundtype = /datum/wound/dynamic/puncture
+		if(BCLASS_PICK, BCLASS_PIERCE)
+			woundtype = /datum/wound/dynamic/gouge
+		if(BCLASS_LASHING)
+			woundtype = /datum/wound/dynamic/lashing
+		if(BCLASS_PUNISH)
+			woundtype = /datum/wound/dynamic/punish
+		else	//Wrong bclass type for wounds, skip adding this.
+			return
+	if(isooze(owner) && is_ooze_wound(woundtype))
 		woundtype = /datum/wound/dynamic/ooze
-	else
-		switch(bclass)
-			if(BCLASS_BLUNT, BCLASS_SMASH, BCLASS_PUNCH, BCLASS_TWIST)
-				woundtype = /datum/wound/dynamic/bruise
-			if(BCLASS_BITE)
-				woundtype = /datum/wound/dynamic/bite
-			if(BCLASS_CHOP, BCLASS_CUT)
-				woundtype = /datum/wound/dynamic/slash
-			if(BCLASS_STAB)
-				woundtype = /datum/wound/dynamic/puncture
-			if(BCLASS_PICK, BCLASS_PIERCE)
-				woundtype = /datum/wound/dynamic/gouge
-			if(BCLASS_LASHING)
-				woundtype = /datum/wound/dynamic/lashing
-			if(BCLASS_PUNISH)
-				woundtype = /datum/wound/dynamic/punish
-			else	//Wrong bclass type for wounds, skip adding this.
-				return
 	var/datum/wound/dynwound = has_wound(woundtype)
 	var/exposed = owner.has_status_effect(/datum/status_effect/debuff/exposed)
 	if(!isnull(dynwound))

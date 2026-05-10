@@ -9,8 +9,8 @@
 	Newly-sprouting colonies have been found anywhere from the freezing mountains of Hammerhold to the desert sands of Naledi, \
 	though they are most commonly associated with the underdark - their first recorded sightings in its suffocating, lightless depths.<br>\
 	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b>+1 CON | -1 INT | -1 SPD<br>\
-	Easy Dismember | Limb Regrowth | No Bones | No Blood</b></span><br><br>"
-	blood_color = "#00FFFF" //Default, but we recolor this later to match the slime person's body color.
+	Easy Dismember | Limb Regrowth | No Bones /b></span><br><br>"
+	blood_color = "#00FFFF" //Defaults to blue, but we recolor this later to match the slime person's body color.
 	base_name = "Godtouched"
 	is_subrace = TRUE
 	origin_default = /datum/virtue/origin/racial/underdark
@@ -136,3 +136,9 @@
 
 /datum/species/ooze/check_roundstart_eligible()
 	return TRUE
+
+//Set slime blood color to match body color.
+/datum/species/ooze/on_species_gain(mob/living/carbon/C, datum/species/old_species, datum/preferences/pref_load)
+	. = ..()
+	blood_color = C.dna.features["mcolor"]
+	blood_color = "#[blood_color]"
