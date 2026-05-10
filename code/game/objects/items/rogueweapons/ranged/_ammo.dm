@@ -8,3 +8,19 @@
 	. = ..()
 	. += span_info("Projectiles have maximum and minimum falloff ranges, with particular falloff factors for damage.")
 	. += span_info("If the target is hit between the maximum and minimum tile range, then the full force is delivered.")
+
+//parent variable to projectiles
+/obj/projectile
+  var/is_silver_proj = FALSE //Self-explanatory.
+
+//handles the infliction of special effects upon projectile impact, such as silver-blighting
+/obj/projectile/proc/do_special_projectile_effect(firer, obj/item/bodypart/affecting, mob/living/victim, selzone)
+    SHOULD_CALL_PARENT(TRUE)
+    SEND_SIGNAL(victim, COMSIG_PROJECTILE_ATTACK_EFFECT, firer, affecting, selzone, src)
+    SEND_SIGNAL(src, COMSIG_PROJECTILE_ATTACK_EFFECT_SELF, firer, affecting, victim, selzone)
+
+    if(is_silver_proj && HAS_TRAIT(victim, TRAIT_SILVER_WEAK))
+        SEND_SIGNAL(victim, COMSIG_FORCE_UNDISGUISE)
+        to_chat(victim, span_danger("Silver rebukes my presence! My vitae smolders, and my powers wane!"))
+        victim.adjust_fire_stacks(1, /datum/status_effect/fire_handler/fire_stacks/sunder) // Ammunition can't be blessed.
+        victim.ignite_mob()

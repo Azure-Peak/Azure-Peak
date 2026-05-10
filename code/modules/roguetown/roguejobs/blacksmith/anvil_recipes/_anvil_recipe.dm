@@ -58,6 +58,11 @@
 				for(var/atom/O in conts)
 					if(!isturf(O.loc) || (!istype(O, needed_item) && !istype(O, /obj/item/natural/bundle)))	// We don't want to use the ingot we are actively hammering, which would be in the Anvil's contents.
 						LAZYREMOVE(conts, O)
+						continue
+					if(isitem(O))
+						var/obj/item/IO = O
+						if(!IO.can_craft_with())
+							LAZYREMOVE(conts, O)
 				if(length(conts))
 					var/obj_to_use
 					for(var/candidate in conts)

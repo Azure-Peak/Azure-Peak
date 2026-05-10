@@ -162,6 +162,16 @@
 		)
 	craftdiff = 1
 
+/datum/crafting_recipe/roguetown/survival/peasantry/silverscythe
+	name = "silver scythe"
+	result = /obj/item/rogueweapon/scythe/silver
+	reqs = list(
+		/obj/item/ingot/silver = 1,
+		/obj/item/grown/log/tree/small = 2,
+		/obj/item/rope = 1,
+		)
+	craftdiff = 2
+
 /datum/crafting_recipe/roguetown/survival/peasantry/warflail
 	name = "militia flail"
 	result = /obj/item/rogueweapon/flail/militia

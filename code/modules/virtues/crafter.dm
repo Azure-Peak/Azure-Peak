@@ -32,14 +32,16 @@
 	)
 
 /datum/virtue/utility/skilled/on_load()
-	added_skills.Cut()	//This whole datum gets saved, so we need to make sure we aren't infinitely stacking these every time we join / save / load.
+	added_skills.Cut()	// This whole datum gets saved, so we need to make sure we aren't infinitely stacking these every time we join / save / load.
 	added_traits.Cut()
-	added_skills = list(list(/datum/skill/craft/crafting, 2, 2))
 
 /datum/virtue/utility/skilled/apply_to_human(mob/living/carbon/human/recipient)
 	. = ..()
 	if(!triumph_check(recipient))
 		return
+
+	added_skills.Cut()	// We make sure we have clean lists. These are applied later in the virtue proc stack.
+	added_traits.Cut()
 
 	added_skills = list(list(/datum/skill/craft/crafting, 2, 2))
 	for(var/choice in picked_choices)

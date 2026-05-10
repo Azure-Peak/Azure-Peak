@@ -349,9 +349,22 @@
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/ritesexpended
 	duration = 30 MINUTES
 
+/datum/status_effect/debuff/ritesexpended/heretic
+	duration = 2 HOURS
+
+/datum/status_effect/debuff/lux_exhausted
+	id = "lux_exhausted"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/lux_exhausted
+	effectedstats = list(STATKEY_STR = -2, STATKEY_WIL = -2, STATKEY_LCK = -2)
+	duration = 2 HOURS
+
 /atom/movable/screen/alert/status_effect/debuff/ritesexpended
 	name = "Rites Complete"
 	desc = "It will take time before I can next perform a rite."
+
+/atom/movable/screen/alert/status_effect/debuff/lux_exhausted
+	name = "Lux Exhausted"
+	desc = "My lux is spent, leaving body and will diminished."
 
 /datum/status_effect/debuff/ritesexpended_heavy
 	id = "ritesexpended_heavy"

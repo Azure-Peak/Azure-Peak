@@ -781,6 +781,39 @@
 	candodge = FALSE
 	canparry = FALSE
 
+// Hand intents (i.e. prestidigitation)
+/datum/intent/hand
+	name = "hand"
+	icon_state = "inuse"
+	no_attack = TRUE
+	candodge = FALSE
+	canparry = FALSE
+	noaa = TRUE
+
+/datum/intent/hand/clean
+	name = "clean"
+	icon_state = "inclean"
+
+/datum/intent/hand/voice
+	name = "voice"
+	icon_state = "invoice"
+
+/datum/intent/hand/sense
+	name = "sense"
+	icon_state = "insense"
+
+/datum/intent/hand/draw
+	name = "draw"
+	icon_state = "indraw"
+
+/datum/intent/hand/spark
+	name = "spark"
+	icon_state = "inspark"
+
+/datum/intent/hand/light
+	name = "light"
+	icon_state = "inlight"
+
 /datum/intent/effect
 	blade_class = BCLASS_EFFECT
 

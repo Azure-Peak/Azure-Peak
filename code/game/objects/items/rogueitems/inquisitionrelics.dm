@@ -367,8 +367,11 @@ Inquisitorial armory down here
 				M.update_inv_hands()
 			START_PROCESSING(SSobj, src)
 	else if(fuel <= 0 && user.used_intent.type == /datum/intent/weep)
-		to_chat(user, span_info("It is gone. You weep."))
-		user.emote("cry")
+		if(!HAS_TRAIT(user, TRAIT_NOMOOD))
+			to_chat(user, span_info("It is gone. You weep."))
+			user.emote("cry")
+		else
+			to_chat(user, span_info("It is gone. You feel nothing."))
 
 /obj/item/flashlight/flare/torch/lantern/psycenser/process()
 	if(on && next_smoke < world.time)
