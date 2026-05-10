@@ -920,7 +920,7 @@
 "akr" = (
 /obj/effect/decal/remains/wolf,
 /turf/open/floor/rogue/dirt/road,
-/area/rogue/outdoors/rtfield)
+/area/rogue/outdoors/bog/south)
 "aks" = (
 /obj/structure/fluff/walldeco/church/line,
 /obj/structure/fluff/walldeco/church/line{
@@ -3687,7 +3687,7 @@
 	redstone_id = "boginnergate"
 	},
 /turf/open/floor/rogue/dirt/road,
-/area/rogue/outdoors/rtfield)
+/area/rogue/outdoors/bog/south)
 "aNl" = (
 /obj/effect/decal/cleanable/blood/gibs/up,
 /turf/open/floor/rogue/wood,
@@ -11486,7 +11486,7 @@
 "crZ" = (
 /obj/machinery/light/rogue/firebowl/stump,
 /turf/open/floor/rogue/cobblerock,
-/area/rogue/outdoors/rtfield)
+/area/rogue/outdoors/bog/south)
 "csa" = (
 /obj/structure/flora/newbranch/leafless,
 /turf/open/floor/rogue/grass,
@@ -18914,7 +18914,7 @@
 "dRw" = (
 /obj/item/roguebin/water,
 /turf/open/floor/rogue/cobblerock,
-/area/rogue/outdoors/rtfield)
+/area/rogue/outdoors/bog/south)
 "dRD" = (
 /obj/item/rogueweapon/mace/woodclub,
 /obj/item/reagent_containers/glass/bottle/frankenbrew{
@@ -30870,7 +30870,7 @@
 	pixel_y = 14
 	},
 /turf/open/floor/rogue/dirt/road,
-/area/rogue/outdoors/rtfield)
+/area/rogue/outdoors/bog/south)
 "glv" = (
 /obj/structure/fluff/railing/border/north,
 /obj/structure/fluff/littlebanners/bluewhite{
@@ -48070,7 +48070,7 @@
 	name = "reinforced bars"
 	},
 /turf/open/floor/rogue/dirt/road,
-/area/rogue/outdoors/rtfield)
+/area/rogue/outdoors/bog/south)
 "jFf" = (
 /turf/open/floor/rogue/twig,
 /area/rogue/indoors/cave)
@@ -54736,7 +54736,7 @@
 "kUJ" = (
 /obj/structure/fluff/grindwheel,
 /turf/open/floor/rogue/dirt/road,
-/area/rogue/outdoors/rtfield)
+/area/rogue/outdoors/bog/south)
 "kUK" = (
 /obj/structure/rack/rogue,
 /obj/item/natural/feather{
@@ -66281,7 +66281,7 @@
 	name = "reinforced bars"
 	},
 /turf/open/floor/rogue/grass,
-/area/rogue/outdoors/rtfield)
+/area/rogue/outdoors/bog/south)
 "njs" = (
 /obj/structure/roguemachine/scomm{
 	scom_tag = "Wall Tower - Southwest"
@@ -68740,10 +68740,6 @@
 	},
 /turf/open/floor/rogue/grasscold,
 /area/rogue/outdoors/exposed/magiciantower)
-"nKb" = (
-/obj/effect/decal/cleanable/debris/woody,
-/turf/open/floor/rogue/dirt/road,
-/area/rogue/outdoors/rtfield)
 "nKe" = (
 /obj/structure/flora/roguegrass/herb/random,
 /turf/open/floor/rogue/dirt,
@@ -85475,9 +85471,9 @@
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/exposed/church)
 "qVp" = (
-/obj/structure/fluff/psycross/crafted,
+/obj/effect/landmark/chimeric_calyx_spawner/fifteen,
 /turf/open/floor/rogue/dirt/road,
-/area/rogue/outdoors/rtfield)
+/area/rogue/outdoors/bog/south)
 "qVt" = (
 /obj/structure/flora/roguegrass,
 /obj/structure/flora/ausbushes/ppflowers,
@@ -87585,7 +87581,7 @@
 	redstone_id = "bogoutergate"
 	},
 /turf/open/floor/rogue/cobblerock,
-/area/rogue/outdoors/rtfield)
+/area/rogue/outdoors/bog/south)
 "rsn" = (
 /obj/item/clothing/neck/roguetown/psicross,
 /obj/structure/table/wood/long_table/right,
@@ -99850,7 +99846,7 @@
 /obj/effect/decal/cleanable/debris/woody,
 /obj/item/natural/bundle/plank,
 /turf/open/floor/rogue/dirt/road,
-/area/rogue/outdoors/rtfield)
+/area/rogue/outdoors/bog/south)
 "tOh" = (
 /obj/structure/rack/rogue/shelf,
 /obj/item/alch/salvia{
@@ -104854,7 +104850,7 @@
 	name = "reinforced bars"
 	},
 /turf/open/floor/rogue/dirt,
-/area/rogue/outdoors/rtfield)
+/area/rogue/outdoors/bog/south)
 "uNA" = (
 /obj/structure/table/wood,
 /obj/item/reagent_containers/glass/cup/wooden,
@@ -377075,9 +377071,9 @@ qwK
 qwK
 eGx
 eGx
-cFz
-cFz
-cFz
+aay
+aay
+aay
 eGx
 vvB
 vvB
@@ -377528,8 +377524,8 @@ pmH
 pmH
 ceA
 ceA
-cFz
-rZO
+aay
+mAW
 eGx
 eGx
 vvB
@@ -377980,11 +377976,11 @@ wMt
 xNr
 stg
 ceA
-rZO
-fOn
+mAW
+qVp
 kUJ
-bsL
-bsL
+sxN
+sxN
 vvB
 vvB
 vvB
@@ -378432,12 +378428,12 @@ vKX
 lqm
 lqm
 ceA
-rZO
-qVp
-nKb
+mAW
+gNy
+swa
 tOe
-vwC
-fgt
+ujs
+fjj
 fjj
 ujs
 ujs
@@ -378885,16 +378881,16 @@ ceA
 ceA
 pmH
 glt
-asY
+qbU
 tOe
-rZO
+mAW
 jFe
 dRw
-rZO
-asY
+mAW
+qbU
 dRw
 uNy
-bsL
+sxN
 bsL
 sNZ
 hXR
@@ -379336,17 +379332,17 @@ ceA
 pmH
 pmH
 pmH
-bsL
-rZO
-rZO
-asY
+sxN
+mAW
+mAW
+qbU
 aNb
-rZO
-rZO
-rZO
-asY
+mAW
+mAW
+mAW
+qbU
 rsj
-rZO
+mAW
 rZO
 rZO
 rZO
@@ -379788,17 +379784,17 @@ rXw
 wkr
 kDH
 pmH
-bsL
-rZO
-asY
-rZO
-rZO
-asY
-asY
-asY
+sxN
+mAW
+qbU
+mAW
+mAW
+qbU
+qbU
+qbU
 akr
-asY
-asY
+qbU
+qbU
 rZO
 rZO
 rZO
@@ -380240,17 +380236,17 @@ oFp
 nIm
 ppv
 ceA
-rZO
-asY
-rZO
-rZO
-asY
-rZO
-asY
-asY
-rZO
-rZO
-asY
+mAW
+qbU
+mAW
+mAW
+qbU
+mAW
+qbU
+qbU
+mAW
+mAW
+qbU
 asY
 asY
 pEP
@@ -380692,17 +380688,17 @@ ndK
 nIm
 lcX
 ceA
-rZO
-rZO
-rZO
-asY
+mAW
+mAW
+mAW
+qbU
 uNy
 crZ
-rZO
-rZO
-asY
+mAW
+mAW
+qbU
 njr
-sNZ
+gQq
 wxw
 bsL
 bsL
