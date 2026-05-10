@@ -9,8 +9,8 @@
 	flag = BOGGUARD
 	department_flag = LEVY
 	faction = "Station"
-	total_positions = 4 //I expect you to die, also intended that the bogmaster recruits people.
-	spawn_positions = 4
+	total_positions = 6 //I expect you to die, also intended that the bogmaster recruits people.
+	spawn_positions = 6
 	allowed_sexes = list(MALE, FEMALE)
 	forbidden_races = list(RACES_DESPISED)
 	allowed_ages = list(AGE_ADULT, AGE_MIDDLEAGED, AGE_OLD)
