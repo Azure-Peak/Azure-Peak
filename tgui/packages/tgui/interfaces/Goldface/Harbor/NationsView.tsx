@@ -5,8 +5,8 @@ import {
   sectionHeaderStyle,
   SERIF,
 } from '../../common/parchment';
-import { NationRow } from './NationRow';
 import type { HarborNation } from '../types';
+import { NationRow } from './NationRow';
 
 const HeaderStrip = () => (
   <div

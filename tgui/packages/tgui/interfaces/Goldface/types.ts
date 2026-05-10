@@ -7,6 +7,8 @@ export type HarborShip = {
   nationality_id: string;
   ship_type: string;
   tonnage: number;
+  seconds_until_departure?: number;
+  can_send_away?: BooleanLike;
 };
 
 export type HarborNation = {
@@ -21,6 +23,10 @@ export type HarborData = {
   ships_docked: HarborShip[];
   ships_pool: HarborShip[];
   nations: HarborNation[];
+  hails_remaining: number;
+  hails_per_day: number;
+  dock_spots_used: number;
+  dock_spots_max: number;
 };
 
 export type VendingPack = {

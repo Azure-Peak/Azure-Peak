@@ -342,6 +342,9 @@
 			"tonnage" = ship.tonnage,
 		)
 		if(is_docked)
+			var/seconds_left = max(0, round((ship.dock_expires_at - world.time) / 10))
+			row["seconds_until_departure"] = seconds_left
+			row["can_send_away"] = (world.time >= ship.docked_at + TRADE_SHIP_SEND_AWAY_GRACE) ? TRUE : FALSE
 			docked += list(row)
 		else
 			pool += list(row)
@@ -362,6 +365,10 @@
 		"ships_docked" = docked,
 		"ships_pool" = pool,
 		"nations" = nations,
+		"hails_remaining" = SSmerchant_trade.hails_remaining,
+		"hails_per_day" = TRADE_SHIPS_HAIL_PER_DAY,
+		"dock_spots_used" = length(docked),
+		"dock_spots_max" = SSmerchant_trade.get_dock_spots_max(),
 	)
 
 /obj/structure/roguemachine/goldface/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)
@@ -448,6 +455,46 @@
 			for(var/pathi in PA.contains)
 				new pathi(get_turf(usr))
 			return TRUE
+		if("hail")
+			if(!is_command_center || !(H.job in profit_id) || !SSmerchant_trade)
+				return TRUE
+			var/ship_id = "[params["ship_id"]]"
+			var/datum/trade_ship/target = SSmerchant_trade.find_ship_by_id(ship_id)
+			var/result = SSmerchant_trade.hail_ship(ship_id, usr)
+			handle_hail_result(result, target, usr)
+			return TRUE
+		if("send_away")
+			if(!is_command_center || !(H.job in profit_id) || !SSmerchant_trade)
+				return TRUE
+			var/ship_id = "[params["ship_id"]]"
+			var/result = SSmerchant_trade.send_away_ship(ship_id, usr)
+			handle_send_away_result(result, usr)
+			return TRUE
+
+/obj/structure/roguemachine/goldface/proc/handle_hail_result(result, datum/trade_ship/ship, mob/user)
+	switch(result)
+		if("ok")
+			to_chat(user, span_notice("You signal the [ship.ship_name] to make port. She is being brought in now."))
+		if("ok_first")
+			var/datum/foreign_nation/nation = SSmerchant_trade.nations[ship.nationality_id]
+			var/nation_name = nation ? nation.name : ship.nationality_id
+			to_chat(user, span_notice("You signal the [ship.ship_name] to make port. She is being brought in now."))
+			to_chat(user, span_info("The captain of the [ship.ship_name] is the first of [nation_name] to make port this week. They bring fresh dispatches from [nation_name] - their markets and news are now clear to you."))
+		if("no_hails")
+			to_chat(user, span_warning("You have no hails left to spend today."))
+		if("no_dock_spots")
+			to_chat(user, span_warning("The pier is full. Send a docked vessel away first."))
+		if("ship_gone")
+			to_chat(user, span_warning("That vessel is no longer answering hails."))
+
+/obj/structure/roguemachine/goldface/proc/handle_send_away_result(result, mob/user)
+	switch(result)
+		if("ok")
+			to_chat(user, span_notice("You signal the vessel to cast off. The pier is yours again."))
+		if("early")
+			to_chat(user, span_warning("She has only just tied up. Give the captain a few moments to settle their business."))
+		if("ship_gone")
+			to_chat(user, span_warning("There is no vessel by that name at the pier."))
 
 /obj/structure/roguemachine/goldface/obj_break(damage_flag)
 	..()

@@ -1107,6 +1107,7 @@
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/indoors)
 "Gk" = (
+/obj/structure/roguemachine/scomm,
 /turf/closed/wall/mineral/rogue/decostone/cand,
 /area/rogue/indoors)
 "Gm" = (

@@ -48,7 +48,7 @@ export const Goldface = () => {
         </div>
         {activeTab === 'goods' && <VendingPanel data={data} act={act} />}
         {activeTab === 'harbor' && canSeeHarbor && (
-          <HarborTab harbor={data.harbor} />
+          <HarborTab harbor={data.harbor} act={act} />
         )}
       </Window.Content>
     </Window>
