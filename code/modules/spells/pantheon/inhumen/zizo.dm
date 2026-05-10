@@ -470,6 +470,6 @@
 	playsound(T, 'sound/magic/swap.ogg', 50, TRUE)
 	caster.energy_add(50)
 	caster.stamina_add(-50)
-	new /obj/effect/decal/cleanable/ash(T)
-	new /obj/effect/decal/cleanable/ash(T)
+	new /obj/item/ash(T)
+	new /obj/item/ash(T)
 	qdel(S)
