@@ -152,8 +152,7 @@
 		STATKEY_CON = 1,
 		STATKEY_WIL = 1,
 		STATKEY_PER = 2,
-		STATKEY_INT = -1, //BOG! BOG! BOG!
-		STATKEY_SPD = -1 //Slower outside of the bog.
+		STATKEY_INT = -1 //BOG! BOG! BOG!
 	)
 	subclass_skills = list(
 		/datum/skill/combat/maces = SKILL_LEVEL_APPRENTICE,
