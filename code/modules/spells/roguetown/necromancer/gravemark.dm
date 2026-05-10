@@ -5,12 +5,12 @@
 	will not be targeted nor attacked by any undead creechers under your command. </br>Casting the 'Gravemark' spell on them again will mark them as \
 	an enemy, causing all undead creechers under your command to become hostile against them."
 	overlay_state = "raiseskele"
-	range = 7
+	range = 8
 	warnie = "sydwarning"
 	movement_interrupt = FALSE
 	chargedloop = null
 	antimagic_allowed = TRUE
-	recharge_time = 10 SECONDS
+	recharge_time = 3 SECONDS
 	hide_charge_effect = TRUE
 
 /obj/effect/proc_holder/spell/invoked/gravemark/cast(list/targets, mob/living/user)
@@ -21,7 +21,7 @@
 	if(!isliving(target))
 		return FALSE
 
-	var/faction_tag = "[REF(user)]_faction"
+	var/faction_tag = "[user.real_name]_faction"
 
 	if(target == user) // making it so self-click helps debug or know who you've declared an ally for now, alongside fixing the cooldown oversight that made it quite fuckin annoying to use
 		var/list/allies = list()

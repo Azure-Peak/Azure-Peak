@@ -235,7 +235,7 @@
 			user.adjust_skillrank(/datum/skill/magic/arcane, 3, TRUE)
 			if(user.mind)
 				user.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 0, "minor" = 2, "utilities" = 6))
-				ADD_TRAIT(user, TRAIT_NOMOOD, "[type]") // your mind belongs to HER now
+				ADD_TRAIT(user, TRAIT_STEELHEARTED, "[type]") // so you can commit atrocities with a smile
 				ADD_TRAIT(user, TRAIT_JACKOFALLTRADES, "[type]") // the progress palooza to let you grind more efficiently
 				ADD_TRAIT(user, TRAIT_SELF_SUSTENANCE, "[type]") // also fitting for the progress vibe, way more balanced than the specialist traits IMO
 				grant_poke_spell(user)
@@ -244,8 +244,8 @@
 		if("Unlife") // combat path, your body is now carries undeath resilience
 			user.mob_biotypes |= MOB_UNDEAD
 			user.dna.species.species_traits |= NOBLOOD
-			ADD_TRAIT(user, TRAIT_STEELHEARTED, "[type]") // ready for violence
-			ADD_TRAIT(user, TRAIT_NOPAIN, "[type]") // nothing left to feel pain
+			ADD_TRAIT(user, TRAIT_NOMOOD, "[type]") // undead apathy
+			ADD_TRAIT(user, TRAIT_NOPAIN, "[type]") // you have no flesh
 			ADD_TRAIT(user, TRAIT_NOHUNGER, "[type]") // you have no stomach
 			ADD_TRAIT(user, TRAIT_NOBREATH, "[type]") // you have no lungs
 			ADD_TRAIT(user, TRAIT_BLOODLOSS_IMMUNE, "[type]") // just in case NOBLOOD is not enough
@@ -257,15 +257,15 @@
 					continue
 				part.skeletonize(FALSE)
 				user.update_body_parts()
-				playsound(src, 'sound/misc/lava_death.ogg', 100, FALSE)
-				sleep(25)
+				playsound(user.loc, 'sound/misc/smelter_sound.ogg', 50, FALSE)
+				sleep(15)
 			var/obj/item/bodypart/torso = user.get_bodypart(BODY_ZONE_CHEST)
-			playsound(src, 'sound/misc/lava_death.ogg', 100, FALSE)
+			playsound(user.loc, 'sound/misc/lava_death.ogg', 100, FALSE)
 			torso?.skeletonize(FALSE)
 			user.update_body_parts()
 			user.adjust_skillrank(/datum/skill/magic/arcane, 3, TRUE)
 			if(user.mind)
-				user.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 0, "minor" = 2, "utilities" = 3, ward = TRUE))
+				user.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 0, "minor" = 2, "utilities" = 4, ward = TRUE))
 				user.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/bonechill)
 				user.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/bonemend)
 				grant_poke_spell(user)
@@ -453,6 +453,7 @@
 			var/obj/item/bone/splinter/P = new
 			limb.add_embedded_object(P, FALSE, TRUE)
 		to_chat(C, span_userdanger("Bone splinters bury themselves deep into your flesh!"))
+	new /obj/effect/decal/remains/human(T)
 	qdel(S)
 
 /datum/action/cooldown/spell/miracle/bone_cataclysm/proc/despawn_skeleton(mob/living/S,	mob/living/caster, datum/beam/B)	
@@ -469,4 +470,6 @@
 	playsound(T, 'sound/magic/swap.ogg', 50, TRUE)
 	caster.energy_add(50)
 	caster.stamina_add(-50)
+	new /obj/effect/decal/cleanable/ash(T)
+	new /obj/effect/decal/cleanable/ash(T)
 	qdel(S)

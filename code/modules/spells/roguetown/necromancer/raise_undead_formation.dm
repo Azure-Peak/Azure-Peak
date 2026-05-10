@@ -65,11 +65,10 @@
 			var/holyLV = user.get_skill_level(/datum/skill/magic/holy)
 			var/bonus = max(0, holyLV - 1) * 2
 
-			S.STACON += bonus * 2
 			S.STASTR += bonus
-			S.STASPD += bonus / 2
-
-//			to_chat(user, span_notice("Summoned [S] stats: STR [S.STASTR] | CON [S.STACON] | SPD [S.STASPD]"))
+			S.STASPD += bonus / 2 
+			S.maxHealth += bonus * 50
+			S.health = S.maxHealth
 
 			var/aggro_range = 8
 
