@@ -1,7 +1,10 @@
 /obj/effect/proc_holder/spell/invoked/minion_order
 	name = "Order Minions"
-	desc = "Cast on turf to head in that direction ignoring all else. \
-	Cast on a minion to set to aggressive, cast on self to passive and follow, cast on target to focus them. \
+	desc = "Issues commands to your summoned minions within 12 tiles. \
+	Cast on a turf to send them marching there, ignoring all else along the way. \
+	Cast on yourself to recall them - they will turn passive and follow you. \
+	Cast on an enemy to focus them; minions will pursue and attack that target. \
+	Cast on one of your own minions to toggle its stance: a passive minion becomes hostile and will hunt strangers on its own; a hostile minion calms down and reverts to follow-and-defend. \
 	Does not work on greater skeletons."
 	range = 12
 	associated_skill = /datum/skill/misc/athletics
@@ -83,9 +86,11 @@
 						if(minion == target) // single minion clicked
 							if("neutral" in minion.faction) // currently passive → switch to aggressive
 								minion.faction -= "neutral"
+								minion.pet_passive = FALSE
 								msg = "[minion.name] becomes hostile to nearby strangers."
 							else
 								minion.faction += "neutral"
+								minion.pet_passive = TRUE
 								msg = "[minion.name] calms down."
 	if(count>0)
 		to_chat(caster, "Ordered [count] minions to " + msg)
@@ -94,8 +99,11 @@
 
 /obj/effect/proc_holder/spell/invoked/minion_order/carbon //Specialized for carbon-based minions.
 	name = "Order Minions"
-	desc = "Cast on turf to head in that direction ignoring all else. \
-	Cast on a minion to set to aggressive, cast on self to passive and follow, cast on target to focus them."
+	desc = "Issues commands to your summoned minions within 12 tiles. \
+	Cast on a turf to send them marching there, ignoring all else along the way. \
+	Cast on yourself to recall them - they will turn passive and follow you. \
+	Cast on an enemy to focus them; minions will pursue and attack that target. \
+	Cast on one of your own minions to toggle its stance: a passive minion becomes hostile and will hunt strangers on its own; a hostile minion calms down and reverts to follow-and-defend."
 
 /obj/effect/proc_holder/spell/invoked/minion_order/carbon/cast(list/targets, mob/user)
 	var/mob/caster = user
@@ -170,9 +178,11 @@
 						if(minion == target) // single minion clicked
 							if("neutral" in minion.faction) // currently passive → switch to aggressive
 								minion.faction -= "neutral"
+								minion.pet_passive = FALSE
 								msg = "[minion.name] becomes hostile to nearby strangers."
 							else
 								minion.faction += "neutral"
+								minion.pet_passive = TRUE
 								msg = "[minion.name] calms down."
 	if(count>0)
 		to_chat(caster, "Ordered [count] minions to " + msg)

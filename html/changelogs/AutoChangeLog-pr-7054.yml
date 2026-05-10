@@ -1,0 +1,7 @@
+author: "Quinalion"
+delete-after: True
+changes:
+  - rscadd: "Inspecting a TRAIT_EMPATH target now shows a message indicating they are emotionless."
+  - rscadd: "Exploded Golgatha no longer makes Psydonites with TRAIT_NOMOOD cry."
+  - balance: "Presence discipline abilities (Ave, Dread Gaze) no longer affect TRAIT_NOMOOD targets."
+  - bugfix: "Characters with TRAIT_NOMOOD no longer panic."

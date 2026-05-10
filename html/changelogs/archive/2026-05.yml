@@ -354,3 +354,39 @@
   nauticall:
   - rscadd: Adds special intents to hand-based intents, i.e. prestidigitation, and
       to the master's rod.
+2026-05-10:
+  BurpleBineapple:
+  - balance: Xylix acolyte gets Expert music like other bards.
+  - bugfix: Pigface bascinets now correctly apply orles and not feather+orle when
+      using cloth on them.
+  FreeStylaLT:
+  - rscadd: Added 4 new types of rabbit ears.
+  Ollanius:
+  - code_imp: CockatriceXD's work on ammunition has been ported over - all credit
+      to them, and all my thanks! Ammunition can now support the infliction of special
+      effects upon impact.
+  - rscadd: Silver munitions are now counted as 'lesser silver' items, allowing for
+      limited handling by blighted hands.
+  - balance: Silver munitions now properly inflict Sundering-type debuffs upon impact.
+      To note, this only applies one holy firestack (at the moment?) and cannot induce
+      Sundering-exclusive (and lethal) critical hits.
+  - bugfix: Baking certain pastries should now print the proper smells. Courtesy to
+      Shadowlarkins for discovering the original fix.
+  - rscadd: Lots of new descriptors that can be accessed in the character creation
+      menu, courtesy of ShadowLarkins.
+  Ryan180602:
+  - code_imp: add a mob cull subsystem.
+  - balance: liches get 60mins of mobs. necromancers get 15mins.
+  - balance: heretics giving away zplate now imbues them and the other with 2hr rite
+      cooldown and lux exhaustion.
+  WeNeedMorePhoron:
+  - rscadd: Simple animal rot timer (non hunt) raised to 12 minutes instead of 8 minutes.
+      They still dust at 15 minutes.
+  - rscadd: Order Minions spell now have better description on how it actually works
+  - rscadd: When a pet is ordered to go on aggressive mode, it will now attack strangers
+      properly. It will also no longer attack its summoner (in most case)
+  borneblood:
+  - qol: Remains left by corpses who were dusted have a chance to spawn 1 to 3 Lux-Threads,
+      and Necrans won't leave bone remains behind. Locate Corpse's grace period is
+      removed for NPC corpses and departed corpses.
+  - balance: Tolls are now made from 8 Lux-Threads, from 10.

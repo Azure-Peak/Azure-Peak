@@ -807,6 +807,10 @@
 				if(91.01 to INFINITY)
 					msg += "[m1] a shitfaced, slobbering wreck."
 
+			//Deadened
+			if(HAS_TRAIT(user, TRAIT_EMPATH) && HAS_TRAIT(src, TRAIT_NOMOOD))
+				msg += "[m1] completely hollow inside, radiating a deep, tragic silence."
+
 			//Stress
 			var/stress = get_stress_amount()
 			if(HAS_TRAIT(user, TRAIT_EMPATH))

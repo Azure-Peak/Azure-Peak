@@ -610,6 +610,8 @@
 			revert_cast()
 			return FALSE
 
+		var/list/BPs_to_check = list()
+
 		//Transfer wounds from each bodypart.
 		for(var/datum/wound/targetwound in tw_List)
 			if (istype(targetwound, /datum/wound/dismemberment))
@@ -623,9 +625,34 @@
 			if (istype(targetwound, /datum/wound/cbt/permanent))
 				continue			
 			var/obj/item/bodypart/c_BP = C_caster.get_bodypart(targetwound.bodypart_owner.body_zone)
-			c_BP.add_wound(targetwound.type)
-			var/obj/item/bodypart/t_BP = C_target.get_bodypart(targetwound.bodypart_owner.body_zone)
-			t_BP.remove_wound(targetwound.type)
+			if(c_BP)
+				var/datum/wound/newwound = c_BP.add_wound(targetwound.type)
+				if(newwound)	// We transferred it successfully.
+					targetwound.copy_to(newwound)
+				else
+					c_BP.receive_damage(targetwound.whp)
+					if(!(c_BP in BPs_to_check))
+						LAZYADD(BPs_to_check, c_BP)
+
+				if((HAS_TRAIT(C_caster, TRAIT_NOPAIN) || HAS_TRAIT(C_caster, TRAIT_NOPAINSTUN)) && HAS_TRAIT(C_caster, TRAIT_BLOODLOSS_IMMUNE))
+					if(!(c_BP in BPs_to_check))
+						c_BP.receive_damage(targetwound.whp)
+						LAZYADD(BPs_to_check, c_BP) // This, in essence, checks whether we're a quirky caster that does not bleed (IE constructs).
+				var/obj/item/bodypart/t_BP = C_target.get_bodypart(targetwound.bodypart_owner.body_zone)
+				if(t_BP)
+					t_BP.remove_wound(targetwound.type)
+
+		if(length(BPs_to_check))
+			var/stuntime = 0
+			for(var/obj/item/bodypart/c_BP in BPs_to_check)
+				if(c_BP.get_damage() >= c_BP.max_damage)	// We're some snowflake-ahh Absolver that does not accept regular wounds
+					if(istype(c_BP, /obj/item/bodypart/head) || !c_BP.dismember(skip_checks = TRUE) )	// Our limb can't fall off (or we don't want it to)
+						stuntime += 5 SECONDS
+			if(stuntime)
+				C_caster.Knockdown(stuntime)
+				C_caster.apply_status_effect(/datum/status_effect/debuff/exposed, stuntime)
+				C_caster.emote("pain")
+
 
 	// Transfer blood
 	var/blood_transfer = 0

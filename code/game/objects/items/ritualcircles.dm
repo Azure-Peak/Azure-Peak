@@ -1556,7 +1556,7 @@
 			for(var/mob/living/carbon/human/persononrune in onrune)
 				if(HAS_TRAIT(persononrune, TRAIT_CABAL))
 					folksonrune += persononrune
-			var/target = input(user, "Choose a host") as null|anything in folksonrune
+			var/mob/living/carbon/human/target = input(user, "Choose a host") as null|anything in folksonrune
 			if(!target)
 				return
 			if(!do_after(user, 5 SECONDS))
@@ -1599,7 +1599,14 @@
 			if(!do_after(user, 5 SECONDS))
 				return
 			icon_state = "zizo_active"
-			user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
+			var/rite_cooldown = /datum/status_effect/debuff/ritesexpended
+			var/is_heretic = istype(user.mind?.picked_advclass, /datum/advclass/wretch/heretic)
+			if(is_heretic)
+				rite_cooldown = /datum/status_effect/debuff/ritesexpended/heretic
+			user.apply_status_effect(rite_cooldown)
+			if(is_heretic && target != user)
+				user.apply_status_effect(/datum/status_effect/debuff/lux_exhausted)
+				target.apply_status_effect(/datum/status_effect/debuff/lux_exhausted)
 			zizoarmaments(target, helm_choice, armor_choice, weapon_choice)
 			spawn(120)
 				icon_state = "zizo_chalky"
@@ -1722,7 +1729,7 @@
 			for(var/mob/living/carbon/human/persononrune in onrune)
 				if(HAS_TRAIT(persononrune, TRAIT_FREEMAN))
 					folksonrune += persononrune
-			var/target = input(user, "Choose a host") as null|anything in folksonrune
+			var/mob/living/carbon/human/target = input(user, "Choose a host") as null|anything in folksonrune
 			if(!target)
 				return
 			if(!do_after(user, 5 SECONDS))
@@ -1737,7 +1744,14 @@
 			if(!do_after(user, 5 SECONDS))
 				return
 			icon_state = "matthios_active"
-			user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
+			var/rite_cooldown = /datum/status_effect/debuff/ritesexpended
+			var/is_heretic = istype(user.mind?.picked_advclass, /datum/advclass/wretch/heretic)
+			if(is_heretic)
+				rite_cooldown = /datum/status_effect/debuff/ritesexpended/heretic
+			user.apply_status_effect(rite_cooldown)
+			if(is_heretic && target != user)
+				user.apply_status_effect(/datum/status_effect/debuff/lux_exhausted)
+				target.apply_status_effect(/datum/status_effect/debuff/lux_exhausted)
 			matthiosarmaments(target)
 			spawn(120)
 				icon_state = "matthios_chalky"
@@ -1894,7 +1908,7 @@
 			for(var/mob/living/carbon/human/persononrune in onrune)
 				if(HAS_TRAIT(persononrune, TRAIT_HORDE))
 					folksonrune += persononrune
-			var/target = input(user, "Choose a host") as null|anything in folksonrune
+			var/mob/living/carbon/human/target = input(user, "Choose a host") as null|anything in folksonrune
 			if(!target)
 				return
 			if(!do_after(user, 5 SECONDS))
@@ -1932,7 +1946,14 @@
 			if(!do_after(user, 5 SECONDS))
 				return
 			icon_state = "graggar_active"
-			user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
+			var/rite_cooldown = /datum/status_effect/debuff/ritesexpended
+			var/is_heretic = istype(user.mind?.picked_advclass, /datum/advclass/wretch/heretic)
+			if(is_heretic)
+				rite_cooldown = /datum/status_effect/debuff/ritesexpended/heretic
+			user.apply_status_effect(rite_cooldown)
+			if(is_heretic && target != user)
+				user.apply_status_effect(/datum/status_effect/debuff/lux_exhausted)
+				target.apply_status_effect(/datum/status_effect/debuff/lux_exhausted)
 			graggararmor(target, helm_choice, armor_choice, weapon_choice)
 			spawn(120)
 				icon_state = "graggar_chalky" 

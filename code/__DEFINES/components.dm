@@ -532,3 +532,5 @@
 #define  COMSIG_MOB_KICKED	"mob_kicked"	//from /datum/species/proc/kicked(mob/living/carbon/human/user, mob/living/carbon/human/target). This is for when the mob has BEEN kicked.
 #define COMSIG_STATUS_EFFECT_HAG_CURSE_CLEARED "status_effect_hag_curse_cleared" // Sent when a hag curse is cleared by the curse status effect
 #define COMSIG_SLEEPY_TIME "sleepy_time" // from /mob/living/carbon/human/update_tod(todd)
+#define COMSIG_PROJECTILE_ATTACK_EFFECT "projectile_attack_effect" //Handles the application of specific effects, like silver-based sundering, via ranged damage.
+#define COMSIG_PROJECTILE_ATTACK_EFFECT_SELF "projectile_attack_effect_self" //Ditto.
