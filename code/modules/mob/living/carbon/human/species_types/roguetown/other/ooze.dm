@@ -16,6 +16,8 @@
 	origin = "Underdark"
 	default_color = "79F299"
 	species_traits = list(EYECOLOR,HAIR,FACEHAIR,LIPS,MUTCOLORS,NOBLOOD)
+	restricted_virtues = list(/datum/virtue/utility/feral_appetite)
+	restricted_vices = list()
 	default_features = MANDATORY_FEATURE_LIST
 	use_skintones = FALSE
 	possible_ages = ALL_AGES_LIST
@@ -62,6 +64,9 @@
 		/datum/customizer/organ/breasts/human,
 		/datum/customizer/organ/vagina/human_anthro,
 		/datum/customizer/organ/testicles/anthro,
+		/datum/customizer/organ/snout/anthro/slime,
+		/datum/customizer/organ/tail/slime,
+		/datum/customizer/organ/ears/slime,
 		)
 	body_marking_sets = list(
 		/datum/body_marking_set/none,
