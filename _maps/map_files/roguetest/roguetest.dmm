@@ -144,6 +144,10 @@
 /obj/machinery/light/rogue/candle/r,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/indoors)
+"dZ" = (
+/obj/structure/roguemachine/goldface/public/apothecary,
+/turf/closed/wall/mineral/rogue/stonebrick,
+/area/rogue/indoors)
 "eg" = (
 /obj/structure/fluff/statue/tdummy,
 /turf/open/floor/rogue/grass,
@@ -920,6 +924,10 @@
 "AU" = (
 /turf/closed/mineral/random/rogue,
 /area/rogue/indoors/cave)
+"AV" = (
+/obj/structure/roguemachine/goldface/public,
+/turf/closed/wall/mineral/rogue/stonebrick,
+/area/rogue/indoors)
 "AX" = (
 /turf/open/floor/rogue/grass,
 /area/rogue/indoors)
@@ -1396,6 +1404,10 @@
 /obj/structure/well,
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors)
+"Qe" = (
+/obj/structure/roguemachine/goldface/public/smith,
+/turf/closed/wall/mineral/rogue/stonebrick,
+/area/rogue/indoors)
 "Qg" = (
 /obj/structure/table/wood{
 	icon_state = "longtable_mid";
@@ -1518,6 +1530,11 @@
 /obj/structure/roguemachine/noticeboard,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/indoors)
+"Vk" = (
+/obj/structure/roguemachine/goldface/public/wretch_cat,
+/obj/structure/table/wood/poker,
+/turf/open/floor/rogue/tile/masonic/single,
+/area/rogue/indoors)
 "Vt" = (
 /obj/item/rogueweapon/tongs,
 /obj/item/rogueweapon/hammer/steel,
@@ -1603,6 +1620,10 @@
 /obj/item/rogueweapon/mace,
 /obj/item/rogueweapon/mace,
 /turf/open/floor/rogue/dirt/road,
+/area/rogue/indoors)
+"Xu" = (
+/obj/structure/roguemachine/goldface/public/tailor,
+/turf/closed/wall/mineral/rogue/stonebrick,
 /area/rogue/indoors)
 "XG" = (
 /obj/machinery/light/rogue/oven/south,
@@ -3510,7 +3531,7 @@ ne
 kf
 mP
 dn
-TN
+AV
 Zu
 rN
 ua
@@ -3562,7 +3583,7 @@ oc
 ZE
 eu
 ne
-TN
+dZ
 Zu
 rN
 xt
@@ -3614,7 +3635,7 @@ xX
 jd
 Bf
 ne
-TN
+Qe
 Zu
 rN
 fb
@@ -3667,8 +3688,8 @@ ne
 ne
 ne
 TN
-TN
-TN
+Xu
+Vk
 TN
 EG
 CZ
