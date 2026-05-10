@@ -36,7 +36,7 @@ export const VendingPanel = (props: { data: VendingData; act: ActFn }) => {
   const canRead = !!data.can_read;
   const isPublic = !!data.is_public;
   const locked = !!data.locked;
-  const profitable = !!data.profitable;
+  const isProprietor = !!data.is_proprietor;
   const inSearchMode = !!data.search_mode;
   const browseOnly = isPublic && locked;
 
@@ -52,13 +52,13 @@ export const VendingPanel = (props: { data: VendingData; act: ActFn }) => {
         tariffRatePct={data.tariff_rate_pct}
         tariffPaid={data.tariff_paid}
         tariffEvaded={data.tariff_evaded}
-        profitable={profitable}
+        isProprietor={isProprietor}
         dodging={!!data.dodging}
       />
       <MammonRow
         budget={data.budget}
         canRead={canRead}
-        profitable={profitable}
+        isProprietor={isProprietor}
         isPublic={isPublic}
         act={act}
       />

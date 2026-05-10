@@ -11,13 +11,13 @@ import { starsIfIlliterate } from './util';
 type Props = {
   budget: number;
   canRead: boolean;
-  profitable: boolean;
+  isProprietor: boolean;
   isPublic: boolean;
   act: ActFn;
 };
 
 export const MammonRow = (props: Props) => {
-  const { budget, canRead, profitable, isPublic, act } = props;
+  const { budget, canRead, isProprietor, isPublic, act } = props;
   return (
     <div style={fieldRowStyle}>
       <div
@@ -53,7 +53,7 @@ export const MammonRow = (props: Props) => {
         >
           Withdraw as Coin
         </button>
-        {profitable && !isPublic && (
+        {isProprietor && !isPublic && (
           <button
             type="button"
             style={inkButtonStyle()}

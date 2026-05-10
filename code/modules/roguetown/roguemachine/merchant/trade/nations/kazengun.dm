@@ -18,8 +18,7 @@
 		"Kurogane", "Yamashiro", "Tsukinami", "Koganei", "Akizuki",
 	)
 	ship_types = list(
-		list("name" = "Kobaya", "tonnage" = 20, "weight" = 15),
-		list("name" = "Sekibune", "tonnage" = 90, "weight" = 20),
+		list("name" = "Sekibune", "tonnage" = 90, "weight" = 35),
 		list("name" = "Bezaisen", "tonnage" = 120, "weight" = 40),
 		list("name" = "Shuinsen", "tonnage" = 400, "weight" = 15),
 		list("name" = "Atakebune", "tonnage" = 600, "weight" = 10),

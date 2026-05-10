@@ -28,6 +28,8 @@
 	var/current_cat = ""
 	var/search_query = ""
 	var/static/search_result_cap = 30
+	/// When TRUE, the TGUI exposes the Harbor tab (foreign trade ledger). Goldface only.
+	var/is_command_center = TRUE
 	// Motto displayed at the top of the vendor interface
 	var/motto = "GOLDFACE - In the name of greed."
 	var/lockid = "merchant"
@@ -76,6 +78,7 @@
 	extra_fee = 0.5
 	is_public = TRUE
 	locked = FALSE
+	is_command_center = FALSE
 	motto = "SILVERFACE - Commerce for all."
 	// There's no profit but this is for futureproofing
 	profit_id = list("Merchant", "Shophand")
@@ -264,13 +267,13 @@
 	var/list/data = list()
 	var/mob/living/carbon/human/H = user
 	var/can_read = istype(H) ? H.can_read(src, TRUE) : FALSE
-	var/profitable = istype(H) && (H.job in profit_id)
+	var/is_proprietor = istype(H) && (H.job in profit_id)
 	var/dodging = (upgrade_flags & UPGRADE_NOTAX) || bypass_tax
 	data["motto"] = motto
 	data["budget"] = budget
 	data["locked"] = locked ? TRUE : FALSE
 	data["is_public"] = is_public ? TRUE : FALSE
-	data["profitable"] = profitable ? TRUE : FALSE
+	data["is_proprietor"] = is_proprietor ? TRUE : FALSE
 	data["can_read"] = can_read ? TRUE : FALSE
 	data["tariff_rate_pct"] = round(SStreasury.get_tax_rate(TAX_CATEGORY_IMPORT_TARIFF) * 100)
 	data["tariff_paid"] = tariff_collected_here
@@ -320,7 +323,46 @@
 			packs_data += list(serialize_pack(PA, tariff_active))
 	data["packs"] = packs_data
 	data["total_matches"] = total_matches
+	data["is_command_center"] = is_command_center ? TRUE : FALSE
+	if(is_command_center && SSmerchant_trade)
+		data["harbor"] = build_harbor_data()
 	return data
+
+/obj/structure/roguemachine/goldface/proc/build_harbor_data()
+	var/list/docked = list()
+	var/list/pool = list()
+	for(var/datum/trade_ship/ship in SSmerchant_trade.all_ships)
+		var/is_docked = ship.dock_state == TRADE_SHIP_STATE_DOCKED
+		var/list/row = list(
+			"ship_id" = ship.ship_id,
+			"ship_name" = ship.ship_name,
+			"captain_name" = is_docked ? ship.captain_name : null,
+			"nationality_id" = ship.nationality_id,
+			"ship_type" = ship.ship_type,
+			"tonnage" = ship.tonnage,
+		)
+		if(is_docked)
+			docked += list(row)
+		else
+			pool += list(row)
+	var/list/nations = list()
+	for(var/nat_id in SSmerchant_trade.nations)
+		var/datum/foreign_nation/N = SSmerchant_trade.nations[nat_id]
+		var/discovered = SSmerchant_trade.is_discovered(N.id)
+		var/list/nrow = list(
+			"id" = N.id,
+			"name" = N.name,
+			"discovered" = discovered ? TRUE : FALSE,
+			"cultural_goods" = N.cultural_goods ? N.cultural_goods.Copy() : list(),
+		)
+		if(discovered)
+			nrow["market_conditions"] = list()
+		nations += list(nrow)
+	return list(
+		"ships_docked" = docked,
+		"ships_pool" = pool,
+		"nations" = nations,
+	)
 
 /obj/structure/roguemachine/goldface/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)
 	. = ..()

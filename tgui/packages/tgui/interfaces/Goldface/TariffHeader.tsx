@@ -15,7 +15,7 @@ type Props = {
   tariffRatePct: number;
   tariffPaid: number;
   tariffEvaded: number;
-  profitable: boolean;
+  isProprietor: boolean;
   dodging: boolean;
 };
 
@@ -26,7 +26,7 @@ export const TariffHeader = (props: Props) => {
     tariffRatePct,
     tariffPaid,
     tariffEvaded,
-    profitable,
+    isProprietor,
     dodging,
   } = props;
   return (
@@ -34,13 +34,13 @@ export const TariffHeader = (props: Props) => {
       <div style={titleStyle}>{starsIfIlliterate(motto, canRead)}</div>
       <div style={subtitleStyle}>
         Crown Import Tariff: <b>{tariffRatePct}%</b>
-        {profitable && dodging && (
+        {isProprietor && dodging && (
           <span style={{ color: SEAL_RED, marginLeft: '8px' }}>
             <b>(TAX DODGING)</b>
           </span>
         )}
       </div>
-      {profitable && (
+      {isProprietor && (
         <div
           style={{
             textAlign: 'center',
