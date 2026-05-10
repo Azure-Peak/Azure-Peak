@@ -1,5 +1,0 @@
-author: "Ryan180602"
-delete-after: True
-changes:
-  - code_imp: "add a mob cull subsystem."
-  - balance: "liches get 60mins of mobs. necromancers get 15mins."

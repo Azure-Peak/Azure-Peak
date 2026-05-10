@@ -1,4 +1,0 @@
-author: "Ollanius"
-delete-after: True
-changes:
-  - bugfix: "Baking certain pastries should now print the proper smells. Courtesy to Shadowlarkins for discovering the original fix."

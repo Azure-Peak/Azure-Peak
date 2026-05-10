@@ -1,4 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - rscadd: "Simple animal rot timer (non hunt) raised to 12 minutes instead of 8 minutes. They still dust at 15 minutes."
