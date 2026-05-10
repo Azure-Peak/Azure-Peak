@@ -392,7 +392,6 @@
 		/datum/mob_descriptor/trait/lavish,
 		/datum/mob_descriptor/trait/pompous,
 		/datum/mob_descriptor/trait/dashing,
-		/datum/mob_descriptor/trait/gravid,
 		/datum/mob_descriptor/trait/fecund,
 		/datum/mob_descriptor/trait/vainglorious,
 	)

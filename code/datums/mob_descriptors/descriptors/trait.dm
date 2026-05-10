@@ -279,10 +279,6 @@
 	name = "Dashing"
 	prefix = "%ARE% very"
 
-/datum/mob_descriptor/trait/gravid
-	name = "Gravid"
-	prefix = "%ARE%"
-
 /datum/mob_descriptor/trait/fecund
 	name = "Fecund"
 	prefix = "%ARE%"
