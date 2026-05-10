@@ -346,7 +346,7 @@
 	name = "bogmaster key"
 	desc = "This key opens the bogmaster's quarters."
 	icon_state = "hornkey"
-	lockid = "armory"
+	lockid = "bogmaster"
 
 /obj/item/roguekey/dungeon
 	name = "dungeon key"
