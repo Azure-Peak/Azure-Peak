@@ -25,7 +25,9 @@
 	var/locked = FALSE
 	var/budget = 0
 	var/upgrade_flags
-	var/current_cat = "1"
+	var/current_cat = ""
+	var/search_query = ""
+	var/static/search_result_cap = 30
 	// Motto displayed at the top of the vendor interface
 	var/motto = "GOLDFACE - In the name of greed."
 	var/lockid = "merchant"
@@ -171,20 +173,27 @@
 	. = ..()
 	update_icon()
 
-/// Single source of truth for displayed and billed prices. Computes the total cost of
-/// a supply pack accounting for the guild's handling fee (`extra_fee`) and the Crown's
-/// import tariff if applicable. Display-time and buy-time both route through here so
-/// a mid-session edict rate change can never desync the quoted price from the charged price.
 /obj/structure/roguemachine/goldface/proc/compute_pack_price(datum/supply_pack/PA)
 	var/cost = PA.cost + PA.cost * extra_fee
 	if(!(upgrade_flags & UPGRADE_NOTAX) && !bypass_tax)
 		cost += compute_pack_tax(PA)
 	return round(cost)
 
-/// Crown import tariff on a pack, pre-bypass. Used for both the add-to-cost path (when
-/// tariff applies) and the evaded-tally path (when it's dodged).
 /obj/structure/roguemachine/goldface/proc/compute_pack_tax(datum/supply_pack/PA)
 	return round(SStreasury.get_tax_rate(TAX_CATEGORY_IMPORT_TARIFF) * PA.cost)
+
+/obj/structure/roguemachine/goldface/proc/serialize_pack(datum/supply_pack/PA, tariff_active)
+	var/base = round(PA.cost + PA.cost * extra_fee)
+	var/tariff = tariff_active ? compute_pack_tax(PA) : 0
+	return list(
+		"ref" = "[PA.type]",
+		"name" = PA.name,
+		"category" = PA.group,
+		"qty" = PA.no_name_quantity ? 1 : PA.contains.len,
+		"price_base" = base,
+		"price_tariff" = tariff,
+		"price" = base + tariff,
+	)
 
 /obj/structure/roguemachine/goldface/update_icon()
 	cut_overlays()
@@ -230,76 +239,17 @@
 		return attack_hand(user)
 	..()
 
-/obj/structure/roguemachine/goldface/Topic(href, href_list)
-	. = ..()
-	if(!ishuman(usr))
+/obj/structure/roguemachine/goldface/ui_state(mob/user)
+	return GLOB.human_adjacent_state
+
+/obj/structure/roguemachine/goldface/ui_interact(mob/user, datum/tgui/ui)
+	if(!ishuman(user))
 		return
-	var/mob/living/carbon/human/human_mob = usr
-	if(!usr.canUseTopic(src, BE_CLOSE) || (locked && !is_public))
-		return
-	if(href_list["buy"])
-		var/mob/M = usr
-		var/path = text2path(href_list["buy"])
-		if(!ispath(path, /datum/supply_pack))
-			message_admins("silly MOTHERFUCKER [usr.key] IS TRYING TO BUY A [path] WITH THE [src.name]")
-			return
-		var/datum/supply_pack/PA = SSmerchant.supply_packs[path]
-		var/cost = compute_pack_price(PA)
-		var/tax_amt = compute_pack_tax(PA)
-		if(budget >= cost)
-			budget -= cost
-			record_round_statistic(value_record_key, cost)
-			record_round_statistic(STATS_TRADE_VALUE_IMPORTED, cost)
-			if(!(upgrade_flags & UPGRADE_NOTAX) && !bypass_tax)
-				SStreasury.mint(SStreasury.discretionary_fund, tax_amt, "[TAX_CATEGORY_IMPORT_TARIFF] ([src.name])")
-				SStreasury.apply_concordat_tithe(cost, TAX_CATEGORY_IMPORT_TARIFF, "[src.name]")
-				record_featured_stat(FEATURED_STATS_TAX_PAYERS, human_mob, tax_amt)
-				record_round_statistic(STATS_TAXES_COLLECTED, tax_amt)
-				record_round_statistic(STATS_REVENUE_IMPORT_TARIFF, tax_amt)
-				tariff_collected_here += tax_amt
-			else
-				record_round_statistic(STATS_TAXES_EVADED, tax_amt)
-				tariff_evaded_here += tax_amt
-		else
-			say("Not enough!")
-			return
-		var/shoplength = PA.contains.len
-		var/l
-		for(l=1,l<=shoplength,l++)
-			var/pathi = PA.contains[l]
-			new pathi(get_turf(M))
-	if(href_list["change"])
-		if(budget > 0)
-			budget2change(budget, usr)
-			budget = 0
-	if(href_list["changecat"])
-		current_cat = href_list["changecat"]
-	if(href_list["withdrawgain"])
-		if(!usr.canUseTopic(src, BE_CLOSE))
-			return
-		if(ishuman(usr))
-			var/mob/living/carbon/human/H = usr
-			if(!(H.job in profit_id))
-				return
-	if(href_list["secrets"])
-		var/list/options = list()
-		if(upgrade_flags & UPGRADE_NOTAX)
-			options += "Enable Paying Taxes"
-		else
-			options += "Stop Paying Taxes"
-		var/select = input(usr, "Please select an option.", "", null) as null|anything in options
-		if(!select)
-			return
-		if(!usr.canUseTopic(src, BE_CLOSE) || (locked & !is_public))
-			return
-		switch(select)
-			if("Enable Paying Taxes")
-				upgrade_flags &= ~UPGRADE_NOTAX
-				playsound(loc, 'sound/misc/gold_misc.ogg', 100, FALSE, -1)
-			if("Stop Paying Taxes")
-				upgrade_flags |= UPGRADE_NOTAX
-				playsound(loc, 'sound/misc/gold_misc.ogg', 100, FALSE, -1)
-	return attack_hand(usr)
+	ui = SStgui.try_update_ui(user, src, ui)
+	if(!ui)
+		playsound(loc, 'sound/misc/gold_menu.ogg', 100, FALSE, -1)
+		ui = new(user, src, "Goldface", name)
+		ui.open()
 
 /obj/structure/roguemachine/goldface/attack_hand(mob/living/user)
 	. = ..()
@@ -307,57 +257,57 @@
 		return
 	if(!ishuman(user))
 		return
-	if(locked && !is_public)
-		to_chat(user, span_warning("It's locked. Of course."))
-		return
 	user.changeNext_move(CLICK_CD_INTENTCAP)
-	playsound(loc, 'sound/misc/gold_menu.ogg', 100, FALSE, -1)
-	var/canread = user.can_read(src, TRUE)
-	var/contents
-	contents = "<center>[motto]<BR>"
-	contents += "<a href='?src=[REF(src)];change=1'>MAMMON LOADED:</a> [budget]<BR>"
+	ui_interact(user)
 
+/obj/structure/roguemachine/goldface/ui_data(mob/user)
+	var/list/data = list()
 	var/mob/living/carbon/human/H = user
-	if(H.job in profit_id)
-		if(!is_public)
-			if(canread)
-				contents += "<a href='?src=[REF(src)];secrets=1'>Secrets</a>"
-			else
-				contents += "<a href='?src=[REF(src)];secrets=1'>[stars("Secrets")]</a>"
-	contents += "</center><BR>"
-
-	// Crown import tariff summary. The rate is public (it's a published law). The
-	// paid/evaded tallies and the TAX DODGING banner are Merchant/Shophand only — the
-	// Crown cannot audit the Merchant's own books from the till. The Steward must
-	// compare expected receipts against the Crown's Purse to detect a crooked Merchant.
-	var/tariff_rate = SStreasury.get_tax_rate(TAX_CATEGORY_IMPORT_TARIFF)
-	var/merchant_only = (H.job in profit_id)
+	var/can_read = istype(H) ? H.can_read(src, TRUE) : FALSE
+	var/profitable = istype(H) && (H.job in profit_id)
 	var/dodging = (upgrade_flags & UPGRADE_NOTAX) || bypass_tax
-	contents += "<center>"
-	contents += "Crown Import Tariff: <b>[round(tariff_rate * 100)]%</b>"
-	if(merchant_only && dodging)
-		contents += " <font color='#c84'><b>(TAX DODGING)</b></font>"
-	contents += "<br>"
-	if(merchant_only)
-		contents += "<font color='#8a8'>Paid: [tariff_collected_here]m</font> &middot; <font color='#c84'>Evaded: [tariff_evaded_here]m</font><br>"
-	contents += "</center>"
-
-	if(current_cat == "1")
-		contents += "<table style='width: 100%' line-height: 20px;'>"
-		for(var/i = 1, i <= categories.len, i++)
-			contents += "<tr>"
-			contents += "<td style='width: 50%; text-align: center;'>\
-				<a href='?src=[REF(src)];changecat=[categories[i]]'>[categories[i]]</a>\
-				</td>"
-			if(i <= categories_gamer.len)
-				contents += "<td style='width: 50%; text-align: center;'>\
-					<a href='?src=[REF(src)];changecat=[categories_gamer[i]]'>[categories_gamer[i]]</a>\
-				</td>"
-			contents += "</tr>"
-		contents += "</table>"
-	else
-		contents += "<center>[current_cat]<BR></center>"
-		contents += "<center><a href='?src=[REF(src)];changecat=1'>\[RETURN\]</a><BR><BR></center>"
+	data["motto"] = motto
+	data["budget"] = budget
+	data["locked"] = locked ? TRUE : FALSE
+	data["is_public"] = is_public ? TRUE : FALSE
+	data["profitable"] = profitable ? TRUE : FALSE
+	data["can_read"] = can_read ? TRUE : FALSE
+	data["tariff_rate_pct"] = round(SStreasury.get_tax_rate(TAX_CATEGORY_IMPORT_TARIFF) * 100)
+	data["tariff_paid"] = tariff_collected_here
+	data["tariff_evaded"] = tariff_evaded_here
+	data["dodging"] = dodging ? TRUE : FALSE
+	var/list/all_cats = list()
+	for(var/c in categories)
+		all_cats += c
+	for(var/c in categories_gamer)
+		all_cats += c
+	data["categories"] = all_cats
+	data["current_category"] = current_cat
+	data["search"] = search_query
+	data["search_mode"] = (search_query != "") ? TRUE : FALSE
+	data["result_cap"] = search_result_cap
+	var/list/packs_data = list()
+	var/total_matches = 0
+	var/tariff_active = !(upgrade_flags & UPGRADE_NOTAX) && !bypass_tax
+	if(search_query != "")
+		var/needle = lowertext(search_query)
+		var/list/matches = list()
+		for(var/pack in SSmerchant.supply_packs)
+			var/datum/supply_pack/PA = SSmerchant.supply_packs[pack]
+			if(PA.not_in_public && is_public)
+				continue
+			if(!(PA.group in all_cats))
+				continue
+			if(findtext(lowertext(PA.name), needle) || findtext(lowertext(PA.group), needle))
+				matches += PA
+		total_matches = length(matches)
+		var/shown = 0
+		for(var/datum/supply_pack/PA in sortNames(matches))
+			if(shown >= search_result_cap)
+				break
+			shown++
+			packs_data += list(serialize_pack(PA, tariff_active))
+	else if(current_cat)
 		var/list/pax = list()
 		for(var/pack in SSmerchant.supply_packs)
 			var/datum/supply_pack/PA = SSmerchant.supply_packs[pack]
@@ -365,20 +315,97 @@
 				continue
 			if(PA.group == current_cat)
 				pax += PA
+		total_matches = length(pax)
 		for(var/datum/supply_pack/PA in sortNames(pax))
-			var/costy = compute_pack_price(PA)
-			var/quantified_name = PA.no_name_quantity ? PA.name : "[PA.name] [PA.contains.len > 1?"x[PA.contains.len]":""]"
-			if(is_public && locked) 
-				contents += "[quantified_name]<BR>"
+			packs_data += list(serialize_pack(PA, tariff_active))
+	data["packs"] = packs_data
+	data["total_matches"] = total_matches
+	return data
+
+/obj/structure/roguemachine/goldface/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)
+	. = ..()
+	if(.)
+		return
+	if(!ishuman(usr))
+		return
+	if(locked && !is_public)
+		return
+	var/mob/living/carbon/human/H = usr
+	switch(action)
+		if("changecat")
+			var/cat = "[params["category"]]"
+			if(cat in categories)
+				current_cat = cat
+			else if(cat in categories_gamer)
+				current_cat = cat
+			search_query = ""
+			return TRUE
+		if("set_search")
+			search_query = "[params["search"]]"
+			return TRUE
+		if("clear_search")
+			search_query = ""
+			return TRUE
+		if("change")
+			if(budget > 0)
+				budget2change(budget, usr)
+				budget = 0
+			return TRUE
+		if("secrets")
+			if(!(H.job in profit_id) || is_public)
+				return TRUE
+			var/list/options = list()
+			if(upgrade_flags & UPGRADE_NOTAX)
+				options += "Enable Paying Taxes"
 			else
-				contents += "[quantified_name] - ([costy])<a href='?src=[REF(src)];buy=[PA.type]'>BUY</a><BR>"
-
-	if(!canread)
-		contents = stars(contents)
-
-	var/datum/browser/popup = new(user, "VENDORTHING", "", 500, 800)
-	popup.set_content(contents)
-	popup.open()
+				options += "Stop Paying Taxes"
+			var/select = input(usr, "Please select an option.", "", null) as null|anything in options
+			if(!select)
+				return TRUE
+			if(!usr.canUseTopic(src, BE_CLOSE) || (locked && !is_public))
+				return TRUE
+			switch(select)
+				if("Enable Paying Taxes")
+					upgrade_flags &= ~UPGRADE_NOTAX
+				if("Stop Paying Taxes")
+					upgrade_flags |= UPGRADE_NOTAX
+			playsound(loc, 'sound/misc/gold_misc.ogg', 100, FALSE, -1)
+			return TRUE
+		if("buy")
+			var/path = text2path(params["ref"])
+			if(!ispath(path, /datum/supply_pack))
+				message_admins("silly MOTHERFUCKER [usr.key] IS TRYING TO BUY A [path] WITH THE [src.name]")
+				return TRUE
+			var/datum/supply_pack/PA = SSmerchant.supply_packs[path]
+			if(!PA)
+				return TRUE
+			if(PA.not_in_public && is_public)
+				return TRUE
+			if(!(PA.group in categories) && !(PA.group in categories_gamer))
+				return TRUE
+			if(is_public && locked)
+				return TRUE
+			var/cost = compute_pack_price(PA)
+			var/tax_amt = compute_pack_tax(PA)
+			if(budget < cost)
+				say("Not enough!")
+				return TRUE
+			budget -= cost
+			record_round_statistic(value_record_key, cost)
+			record_round_statistic(STATS_TRADE_VALUE_IMPORTED, cost)
+			if(!(upgrade_flags & UPGRADE_NOTAX) && !bypass_tax)
+				SStreasury.mint(SStreasury.discretionary_fund, tax_amt, "[TAX_CATEGORY_IMPORT_TARIFF] ([src.name])")
+				SStreasury.apply_concordat_tithe(cost, TAX_CATEGORY_IMPORT_TARIFF, "[src.name]")
+				record_featured_stat(FEATURED_STATS_TAX_PAYERS, H, tax_amt)
+				record_round_statistic(STATS_TAXES_COLLECTED, tax_amt)
+				record_round_statistic(STATS_REVENUE_IMPORT_TARIFF, tax_amt)
+				tariff_collected_here += tax_amt
+			else
+				record_round_statistic(STATS_TAXES_EVADED, tax_amt)
+				tariff_evaded_here += tax_amt
+			for(var/pathi in PA.contains)
+				new pathi(get_turf(usr))
+			return TRUE
 
 /obj/structure/roguemachine/goldface/obj_break(damage_flag)
 	..()
