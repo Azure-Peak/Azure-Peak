@@ -10,12 +10,13 @@
 	though they are most commonly associated with the underdark - their first recorded sightings in its suffocating, lightless depths.<br>\
 	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b>+1 CON | -1 INT | -1 SPD<br>\
 	Easy Dismember | Limb Regrowth | No Bones | No Blood</b></span><br><br>"
+	blood_color = "#00FFFF" //Default, but we recolor this later to match the slime person's body color.
 	base_name = "Godtouched"
 	is_subrace = TRUE
 	origin_default = /datum/virtue/origin/racial/underdark
 	origin = "Underdark"
 	default_color = "79F299"
-	species_traits = list(EYECOLOR,HAIR,FACEHAIR,LIPS,MUTCOLORS,NOBLOOD)
+	species_traits = list(EYECOLOR,HAIR,FACEHAIR,LIPS,MUTCOLORS)
 	restricted_virtues = list(/datum/virtue/utility/feral_appetite)
 	restricted_vices = list()
 	default_features = MANDATORY_FEATURE_LIST
@@ -49,7 +50,6 @@
 						TRAIT_EASYDISMEMBER,
 						TRAIT_REGROW_LIMBS,
 						TRAIT_ZOMBIE_IMMUNE,
-						TRAIT_BLOODLOSS_IMMUNE
 						)
 	enflamed_icon = "widefire"
 	customizers = list(
@@ -67,6 +67,7 @@
 		/datum/customizer/organ/snout/anthro/slime,
 		/datum/customizer/organ/tail/slime,
 		/datum/customizer/organ/ears/slime,
+		/datum/customizer/organ/wings/slime,
 		)
 	body_marking_sets = list(
 		/datum/body_marking_set/none,
