@@ -15,8 +15,6 @@
 		/datum/ai_planning_subtree/basic_melee_attack_subtree,
         
         /datum/ai_planning_subtree/simple_self_recovery,
-        /datum/ai_planning_subtree/find_food,
-        /datum/ai_planning_subtree/eat_food,
         /datum/ai_planning_subtree/being_a_minion/mirespider
     )
 
@@ -212,7 +210,7 @@
         // Busy with something
         return
     
-    controller.queue_behavior(behavior, cocoon_target_key, controller.blackboard[BB_BASIC_FOODS], vision_range)
+    controller.queue_behavior(behavior, cocoon_target_key, /mob/living/carbon, vision_range)
 
 /datum/ai_behavior/find_and_set/cocoon_target
     action_cooldown = 20 SECONDS

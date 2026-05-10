@@ -14,7 +14,7 @@
 	if(!flower || damage <= 0)
 		return
 
-	flower.take_damage(damage, damagetype, "none", 0)
+	flower.take_damage(damage, damagetype, null, 0)
 	if(flower.obj_broken)
 		qdel(flower)
 		return
