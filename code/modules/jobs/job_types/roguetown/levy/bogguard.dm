@@ -9,8 +9,8 @@
 	flag = BOGGUARD
 	department_flag = LEVY
 	faction = "Station"
-	total_positions = 6 //I expect you to die, also intended that the bogmaster recruits people.
-	spawn_positions = 6
+	total_positions = 7 //I expect you to die, also intended that the bogmaster recruits people.
+	spawn_positions = 7
 	allowed_sexes = list(MALE, FEMALE)
 	forbidden_races = list(RACES_DESPISED)
 	allowed_ages = list(AGE_ADULT, AGE_MIDDLEAGED, AGE_OLD)
@@ -58,7 +58,7 @@
 	allowed_sexes = list(MALE, FEMALE)
 	
 	outfit = /datum/outfit/job/roguetown/bogguard/boglevy
-	traits_applied = list(TRAIT_MEDIUMARMOR, TRAIT_HOMESTEAD_EXPERT, TRAIT_BOGLEVY)
+	traits_applied = list(TRAIT_HOMESTEAD_EXPERT, TRAIT_BOGLEVY)
 	category_tags = list(CTAG_BOGGUARD)
 	subclass_stats = list(
 		STATKEY_CON = 1,
@@ -73,7 +73,7 @@
 		/datum/skill/combat/polearms = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/axes = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/knives = SKILL_LEVEL_NOVICE,
-		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN, //BOG TACKLE
 		/datum/skill/combat/unarmed = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
@@ -160,7 +160,7 @@
 		/datum/skill/combat/bows = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/slings = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/knives = SKILL_LEVEL_NOVICE,
-		/datum/skill/combat/wrestling = SKILL_LEVEL_APPRENTICE, //Ranger
+		/datum/skill/combat/wrestling = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
@@ -210,7 +210,7 @@
 			if("THE FAMILY BOW") // They can head down to the armory to sideshift into one of the other bows.
 				H.adjust_skillrank_up_to(/datum/skill/combat/bows, SKILL_LEVEL_EXPERT, TRUE)
 				beltr = /obj/item/quiver/arrows
-				backl = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
+				backl = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/short
 			if("MINE SLING")
 				H.adjust_skillrank_up_to(/datum/skill/combat/slings, SKILL_LEVEL_EXPERT, TRUE)
 				beltr = /obj/item/quiver/sling/iron
