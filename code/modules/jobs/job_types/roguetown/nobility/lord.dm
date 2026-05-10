@@ -558,7 +558,7 @@ GLOBAL_LIST_EMPTY(lord_titles)
 /obj/effect/proc_holder/spell/self/convertrole/warden
 	name = "Recruit Warden"
 	new_role = "Warden"
-	recruitment_faction = "Wardens"
+	recruitment_faction = "Warden"
 	recruitment_message = "Serve the Wardens, %RECRUIT!"
 	accept_message = "FOR THE GROVE!"
 	refuse_message = "I refuse."
