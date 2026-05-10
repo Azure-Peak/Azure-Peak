@@ -330,6 +330,24 @@
 	icon_state = "spikekey"
 	lockid = "garrison"
 
+/obj/item/roguekey/boglevy
+	name = "levy barracks key"
+	desc = "This simple key opens the bog levy barracks."
+	icon_state = "spikekey"
+	lockid = "boglevy"
+
+/obj/item/roguekey/boglevyarmory
+	name = "levy armory key"
+	desc = "This simple key opens the bog levy armory."
+	icon_state = "spikekey"
+	lockid = "boglevyarmory"
+
+/obj/item/roguekey/bogmaster
+	name = "bogmaster key"
+	desc = "This key opens the bogmaster's quarters."
+	icon_state = "hornkey"
+	lockid = "armory"
+
 /obj/item/roguekey/dungeon
 	name = "dungeon key"
 	desc = "This key opens the dungeons."

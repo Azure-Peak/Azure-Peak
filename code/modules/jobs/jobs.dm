@@ -119,7 +119,7 @@ GLOBAL_LIST_INIT(garrison_positions, list( //Guards
 	"Watchman",
 ))
 
-GLOBAL_LIST_INIT(levy_positions, list( //Militiamen
+GLOBAL_LIST_INIT(levy_positions, list( //Militiamen, loose garrison, potentally also soft self-antagonists.
 	"Bog Guard",
 	"Bogmaster",
 ))

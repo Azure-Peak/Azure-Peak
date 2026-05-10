@@ -1,10 +1,15 @@
+//FOR THE BOG!
+
+//intended that none of these get houndstones, you're severely underfunded. Your bog master is loosely loyal to the crown and issues orders/gaslights you/informs you on what issues are around.
+
+//They also have lower skills compared to proper garrison, they're on-par with towners outside of the bogs, somewhere between adventurers and mercenaries inside.
+//The idea is that you'll train off of sparring your bogmaster, who'll probably try to convince a knight to train their levy, or the vet. But the crown might not want that either, since you're not the most truthworthy.
 /datum/job/roguetown/bogguard //Half-competent idiots, unlike wardens/garrison. they're complete underpaid, undertrained idiots that barely know what they're doing.
-//intended that none of these get houndstones, you're severely underfunded. Your bog master is loosely loyal to the crown.
 	title = "Bog Guard"
-	flag = LEVY
+	flag = BOGGUARD
 	department_flag = LEVY
 	faction = "Station"
-	total_positions = 4
+	total_positions = 4 //I expect you to die, also intended that the bogmaster recruits people.
 	spawn_positions = 4
 	allowed_sexes = list(MALE, FEMALE)
 	forbidden_races = list(RACES_DESPISED)
@@ -16,14 +21,12 @@
 	whitelist_req = TRUE
 	round_contrib_points = 2
 
-
 	outfit = /datum/outfit/job/roguetown/bogguard
 	advclass_cat_rolls = list(CTAG_BOGGUARD = 20)
 
 	give_bank_account = TRUE
 	min_pq = 1 //Incompetency is kind of sovl for this role, you're literally a trained idiot with a weapon. We want people to sort of know esc though, not first round role.
 	max_pq = null
-	job_traits = list(TRAIT_HOMESTEAD_EXPERT) //Bare minimal, they're able to homestead. They're just militiamen, not trained or hardened soldiers.
 	cmode_music = 'sound/music/combat_bog.ogg'
 	job_subclasses = list(
 		/datum/advclass/bogguard/boglevy,
@@ -31,7 +34,23 @@
 	)
 
 /datum/outfit/job/roguetown/bogguard
-	job_bitflag = BITFLAG_HALF_COMBATANT //Likely to be pulled in once all-else fails. You're not a true combatant though, too slow, dumb and untrained to be.
+	job_bitflag = BITFLAG_HALF_COMBATANT //Likely to be pulled in once all-else fails. You're not a true combatant though, too slow, dumb and untrained to be. You can skill up to be, but you need a vet/knight. Also doesn't have a houndstone.
+
+/datum/outfit/job/roguetown/bogguard
+	cloak = /obj/item/clothing/cloak/tabard/stabard/bog
+
+/datum/job/roguetown/bogguard/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
+	. = ..()
+	if(ishuman(L))
+		var/mob/living/carbon/human/H = L
+		if(istype(H.cloak, /obj/item/clothing/cloak/tabard/stabard/bog))
+			var/obj/item/clothing/S = H.cloak
+			var/index = findtext(H.real_name, " ")
+			if(index)
+				index = copytext(H.real_name, 1,index)
+			if(!index)
+				index = H.real_name
+			S.name = "bogman surcoat ([index])"
 
 /datum/advclass/bogguard/boglevy
 	name = "Bog Footman"
@@ -39,16 +58,18 @@
 	allowed_sexes = list(MALE, FEMALE)
 	
 	outfit = /datum/outfit/job/roguetown/bogguard/boglevy
-	traits_applied = list(TRAIT_HOMESTEAD_EXPERT, TRAIT_STEELHEARTED)
+	traits_applied = list(TRAIT_MEDIUMARMOR, TRAIT_HOMESTEAD_EXPERT, TRAIT_BOGLEVY)
 	category_tags = list(CTAG_BOGGUARD)
 	subclass_stats = list(
 		STATKEY_CON = 1,
 		STATKEY_STR = 2,
 		STATKEY_WIL = 1,
-		STATKEY_INT = -2, //BOG! BOG! BOG!
-		STATKEY_SPD = -1
+		STATKEY_INT = -1, //BOG! BOG! BOG!
+		STATKEY_SPD = -1 //Slower outside of the bog.
 	)
 	subclass_skills = list(
+		/datum/skill/combat/maces = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/combat/shields = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/polearms = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/axes = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/knives = SKILL_LEVEL_NOVICE,
@@ -65,42 +86,27 @@
 		/datum/skill/labor/lumberjacking = SKILL_LEVEL_NOVICE,
 		/datum/skill/labor/farming = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/hunting = SKILL_LEVEL_NOVICE,
-		/datum/skill/misc/medicine = SKILL_LEVEL_NOVICE, //So you can at least attempt to (horribly fail) help stabilise advs from dying.
+		/datum/skill/misc/medicine = SKILL_LEVEL_NOVICE, //So you can at least attempt to (horribly fail to) help stabilise advs from dying.
 	)
-
-/datum/job/roguetown/bogguard/boglevy/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
-	. = ..()
-	if(ishuman(L))
-		var/mob/living/carbon/human/H = L
-		if(istype(H.cloak, /obj/item/clothing/cloak/tabard/stabard/bog))
-			var/obj/item/clothing/S = H.cloak
-			var/index = findtext(H.real_name, " ")
-			if(index)
-				index = copytext(H.real_name, 1,index)
-			if(!index)
-				index = H.real_name
-			S.name = "bog tabard ([index])"
 
 /datum/outfit/job/roguetown/bogguard/boglevy/pre_equip(mob/living/carbon/human/H)
 	..()
 	head = /obj/item/clothing/head/roguetown/helmet/kettle/iron
 	neck = /obj/item/clothing/neck/roguetown/chaincoif/iron
 	mask = /obj/item/clothing/head/roguetown/armingcap
-	cloak = /obj/item/clothing/cloak/tabard/stabard/bog
 	armor = /obj/item/clothing/suit/roguetown/armor/gambeson
 	shirt = /obj/item/clothing/suit/roguetown/shirt/shortshirt/bog
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
 	gloves = /obj/item/clothing/gloves/roguetown/leather
 	belt = /obj/item/storage/belt/rogue/leather
 	beltl = /obj/item/rogueweapon/mace/cudgel
-	beltr = /obj/item/rogueweapon/stoneaxe/woodcut
 	pants = /obj/item/clothing/under/roguetown/trou/leather
-	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
-	backr = /obj/item/storage/backpack/rogue/satchel
-	backl = /obj/item/rogueweapon/scabbard/gwstrap
+	shoes = /obj/item/clothing/shoes/roguetown/boots
+	backr = /obj/item/storage/backpack/rogue/satchel/black
 	backpack_contents = list(
 		/obj/item/flashlight/flare/torch/metal = 1,
 		/obj/item/needle/thorn = 1,
+		/obj/item/storage/keyring/boglevy = 1,
 		/obj/item/natural/cloth = 1,
 		/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1,
@@ -117,15 +123,19 @@
 			if("MINE PITCHFORK")
 				H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_JOURNEYMAN, TRUE)
 				r_hand = /obj/item/rogueweapon/spear/militia
+				backl = /obj/item/rogueweapon/scabbard/gwstrap
 			if("MINE THRESHER")
 				H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, SKILL_LEVEL_JOURNEYMAN, TRUE)
 				r_hand = /obj/item/rogueweapon/flail/militia
+				backl = /obj/item/rogueweapon/shield/wood
 			if ("THE FAMILY SWORD")
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_JOURNEYMAN, TRUE)
 				r_hand = /obj/item/rogueweapon/sword/falchion/militia
+				backl = /obj/item/rogueweapon/shield/wood
 			if ("MINE SHOVEL")
 				H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_JOURNEYMAN, TRUE)
 				r_hand = /obj/item/rogueweapon/greataxe/militia
+				backl = /obj/item/rogueweapon/scabbard/gwstrap
 	if(H.mind)
 		SStreasury.grant_savings(ECONOMIC_DESTITUTE, H)
 
@@ -133,19 +143,20 @@
 	name = "Bog Ranger"
 	tutorial = "You're one of many before you, a member of the Bog Guard, the Crown's woefully underpaid militiamen. You have a roof over your head, sometimes you have coin in your pocket, and a thankless job protecting the bog from bandits, deadites and whatever other horrors lie within."
 	allowed_sexes = list(MALE, FEMALE)
-	
+	traits_applied = list(TRAIT_HOMESTEAD_EXPERT, TRAIT_BOGLEVY)
 	outfit = /datum/outfit/job/roguetown/bogguard/bogranger
-	traits_applied = list(TRAIT_HOMESTEAD_EXPERT, TRAIT_STEELHEARTED)
+	//No special traits sire, you're just a ranger bogman
 	category_tags = list(CTAG_BOGGUARD)
 	townie_contract_gate_exempt = TRUE //Sure I guess
 	subclass_stats = list( //buffed up, you're an actual faction now.
 		STATKEY_CON = 1,
 		STATKEY_WIL = 1,
 		STATKEY_PER = 2,
-		STATKEY_INT = -2, //BOG! BOG! BOG!
-		STATKEY_SPD = 1
+		STATKEY_INT = -1, //BOG! BOG! BOG!
+		STATKEY_SPD = -1 //Slower outside of the bog.
 	)
 	subclass_skills = list(
+		/datum/skill/combat/maces = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/bows = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/slings = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/knives = SKILL_LEVEL_NOVICE,
@@ -165,25 +176,11 @@
 		/datum/skill/misc/medicine = SKILL_LEVEL_NOVICE, //So you can at least attempt to (horribly fail) help stabilise advs from dying.
 	)
 
-/datum/job/roguetown/bogguard/bogranger/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
-	. = ..()
-	if(ishuman(L))
-		var/mob/living/carbon/human/H = L
-		if(istype(H.cloak, /obj/item/clothing/cloak/tabard/stabard/bog))
-			var/obj/item/clothing/S = H.cloak
-			var/index = findtext(H.real_name, " ")
-			if(index)
-				index = copytext(H.real_name, 1,index)
-			if(!index)
-				index = H.real_name
-			S.name = "bog tabard ([index])"
-
 /datum/outfit/job/roguetown/bogguard/bogranger/pre_equip(mob/living/carbon/human/H)
 	..()
 	head = /obj/item/clothing/head/roguetown/helmet/kettle/iron
 	neck = /obj/item/clothing/neck/roguetown/coif
 	mask = /obj/item/clothing/head/roguetown/armingcap
-	cloak = /obj/item/clothing/cloak/tabard/stabard/bog
 	armor = /obj/item/clothing/suit/roguetown/armor/gambeson
 	shirt = /obj/item/clothing/suit/roguetown/shirt/shortshirt/bog
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
@@ -192,11 +189,12 @@
 	beltl = /obj/item/rogueweapon/mace/cudgel
 	pants = /obj/item/clothing/under/roguetown/trou/leather
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
-	backr = /obj/item/storage/backpack/rogue/satchel
+	backr = /obj/item/storage/backpack/rogue/satchel/black
 	backpack_contents = list(
 		/obj/item/flashlight/flare/torch/metal = 1,
 		/obj/item/needle/thorn = 1,
 		/obj/item/natural/cloth = 1,
+		/obj/item/storage/keyring/boglevy = 1,
 		/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1,
 		/obj/item/rogueweapon/huntingknife = 1,

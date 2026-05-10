@@ -287,6 +287,12 @@
 /obj/item/storage/keyring/warden //All access to wardens
 	keys = list(/obj/item/roguekey/walls, /obj/item/roguekey/warden)
 
+/obj/item/storage/keyring/boglevy //All access to bog levy outpost, excluding bogmaster quarters
+	keys = list(/obj/item/roguekey/boglevy, /obj/item/roguekey/boglevyarmory)
+
+/obj/item/storage/keyring/bogmaster //All access to bog levy outpost
+	keys = list(/obj/item/roguekey/boglevy, /obj/item/roguekey/boglevyarmory, /obj/item/roguekey/bogmaster)
+
 ///////////
 // MANOR //
 ///////////

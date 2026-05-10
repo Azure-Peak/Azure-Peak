@@ -509,6 +509,7 @@ GLOBAL_LIST_INIT(roleplay_readme, world.file2list("strings/rt/rp_prompt.txt"))
 	omegalist += list(GLOB.wanderer_positions)
 	omegalist += list(GLOB.inquisition_positions)
 	omegalist += list(GLOB.antagonist_positions)
+	omegalist += list(GLOB.levy_positions)
 
 	for(var/list/category in omegalist)
 		if(!SSjob.name_occupations[category[1]])
@@ -551,6 +552,8 @@ GLOBAL_LIST_INIT(roleplay_readme, world.file2list("strings/rt/rp_prompt.txt"))
 					cat_name = "Wanderers"
 				if (INQUISITION)
 					cat_name = "Inquisition"
+				if (LEVY)
+					cat_name = "Terrorbog Militia"
 				if (ANTAGONIST)
 					cat_name = "Antagonists"
 

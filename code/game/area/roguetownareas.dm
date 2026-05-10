@@ -22,6 +22,7 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(list(/area/rogue/indoors
 	var/cell_area = FALSE
 	var/drow_area = FALSE
 	var/necra_area = FALSE
+	var/bog_area = FALSE
 	var/ceiling_protected = FALSE //Prevents tunneling into these from above
 	/// Loot pool budget for this area. Spawners compete for mammons - when budget runs out, remaining spawners get junk. 0 = no pool (spawners fire normally).
 	var/loot_budget = 0
@@ -34,6 +35,8 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(list(/area/rogue/indoors
 	. = ..()
 	if((src.town_area == TRUE) && HAS_TRAIT(guy, TRAIT_GUARDSMAN) && !guy.has_status_effect(/datum/status_effect/buff/guardbuffone)) //man at arms
 		guy.apply_status_effect(/datum/status_effect/buff/guardbuffone)
+	if((src.bog_area == TRUE) && HAS_TRAIT(guy, TRAIT_BOGLEVY) && !guy.has_status_effect(/datum/status_effect/buff/boglevybuff)) //Bog levies
+		guy.apply_status_effect(/datum/status_effect/buff/boglevybuff)
 	if((src.tavern_area == TRUE) && HAS_TRAIT(guy, TRAIT_TAVERN_FIGHTER) && !guy.has_status_effect(/datum/status_effect/buff/innkeeperbuff)) // THE FIGHTER
 		guy.apply_status_effect(/datum/status_effect/buff/innkeeperbuff)
 	if((src.warden_area == TRUE) && HAS_TRAIT(guy, TRAIT_WOODSMAN) && !guy.has_status_effect(/datum/status_effect/buff/wardenbuff)) // Warden

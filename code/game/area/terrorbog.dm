@@ -58,13 +58,16 @@
 	droning_sound_dusk = null
 	droning_sound_night = null
 	deathsight_message = "a wretched, fetid bog"
+	bog_area = TRUE
 
 /area/rogue/outdoors/bog/north
 	name = "Northern Terrorbog"
+	bog_area = TRUE
 
 /area/rogue/outdoors/bog/south
 	name = "Southern Terrorbog"
 	loot_budget = LOOT_BUDGET_TERRORBOG_SOUTH
+	bog_area = TRUE
 
 /area/rogue/indoors/shelter/bog/bogmanfort
 	icon_state = "bog"
@@ -73,6 +76,15 @@
 	droning_sound_night = null
 	deathsight_message = "a wretched, fetid bog"
 	loot_budget = LOOT_BUDGET_BOGMANFORT
+	bog_area = TRUE
+
+/area/rogue/indoors/shelter/bog/boglevyfort
+	icon_state = "bog"
+	droning_sound = 'sound/music/area/manorgarri.ogg'
+	droning_sound_dusk = null
+	droning_sound_night = null
+	deathsight_message = "a wretched, fetid bog"
+	bog_area = TRUE
 
 /area/rogue/indoors/shelter/bog/skeletonfort
 	icon_state = "bog"
@@ -81,6 +93,7 @@
 	droning_sound_night = null
 	deathsight_message = "a wretched, fetid bog"
 	loot_budget = LOOT_BUDGET_SKELETONFORT
+	bog_area = TRUE
 
 /area/rogue/indoors/shelter/bog_hag
 	name = "Hag hut"

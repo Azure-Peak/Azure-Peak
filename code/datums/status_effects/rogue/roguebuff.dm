@@ -436,6 +436,10 @@
 
 // Featherfall, Darkvision, Longstrider status effects moved to augmentation_status_effects.dm
 
+/atom/movable/screen/alert/status_effect/buff/boglevybuff
+	name = "Bogsman"
+	desc = "I've trekked these bogs for some time now. My senses are sharper and I traverse easier here."
+	icon_state = "guardsman"
 
 /atom/movable/screen/alert/status_effect/buff/guardbuffone
 	name = "Vigilant Guardsman"
@@ -482,7 +486,19 @@
 /datum/status_effect/buff/guardbuffone
 	id = "guardbuffone"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/guardbuffone
-	effectedstats = list(STATKEY_CON = 1,STATKEY_WIL = 1, STATKEY_SPD = 1)
+	effectedstats = list(STATKEY_CON = 1, STATKEY_WIL = 1, STATKEY_SPD = 1)
+
+/datum/status_effect/buff/boglevybuff
+	id = "boglevybuff"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/boglevybuff
+	effectedstats = list(STATKEY_WIL = 1, STATKEY_PER = 1, STATKEY_SPD = 1)
+
+/datum/status_effect/buff/boglevybuff/process()
+
+	.=..()
+	var/area/rogue/our_area = get_area(owner)
+	if(!(our_area.bog_area))
+		owner.remove_status_effect(/datum/status_effect/buff/boglevybuff)
 
 /datum/status_effect/buff/anthraxbuff
 	id = "anthraxbuff"

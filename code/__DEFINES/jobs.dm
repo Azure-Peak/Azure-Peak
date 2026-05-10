@@ -118,7 +118,7 @@
 #define GNOLL			(1<<9)
 #define HAG				(1<<10)
 
-#define LEVY				(1<<11) //Underpaid loosely crown loyal faction in charge of fighting in the bogs
+#define LEVY				(1<<11) //Underpaid loosely crown loyal faction in charge of fighting/forting in the bogs
 
 #define BOGGUARD		(1<<0)
 #define BOGMASTER		(1<<1)

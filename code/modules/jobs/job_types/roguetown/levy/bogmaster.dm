@@ -1,16 +1,16 @@
 /datum/job/roguetown/bogmaster //Half-competent idiot trainer, for the militia, handles recruitment and protection of the bog
 	title = "Bogmaster"
-	flag = LEVY
+	flag = BOGMASTER
 	department_flag = LEVY
 	faction = "Station"
 	total_positions = 1 //THERE CAN BE ONLY ONE
 	spawn_positions = 1
 	allowed_sexes = list(MALE, FEMALE)
 	forbidden_races = list(RACES_DESPISED)
-	allowed_ages = list(AGE_MIDDLEAGED, AGE_OLD) //SOVL
-	tutorial = "You're the most experienced idiot to be conscripted onto the Crown's militia and survive long enough to be put in charge of an understaffed, underfunded garrison overwatching the terrorbogs. Some might call you thugs, other might compare you to brigands, \
-				either way they wouldn't be entirely wrong, you report to the Balliff and the Marshal begrudgingly. Your job is to ensure no levy falls out of line, train those in need of talent to fight and ensure the bogs are safe. \
-				Your loyalty to the crown is loose, they've lent you a roof over your head, some coin in your pocket but little else."
+	allowed_ages = list(AGE_MIDDLEAGED, AGE_OLD) //Sovl, also intended. You've lived long enough to see the crown isn't exactly perfect.
+	tutorial = "You're the most experienced idiot to be conscripted onto the Crown's militia and survive long enough to be put in charge of an understaffed, underfunded garrison overwatching the terrorbogs. \
+				Some might call you thugs, other might compare you to brigands, either way they wouldn't be entirely wrong. Your job is to protect the terrorbogs from threats and deal with the ever-growing number \
+				of banditry and monsters within. Your loyalty to the crown is loose, they've lent you a roof over your head, some coin in your pocket but little else."
 	display_order = JDO_BOGMASTER
 	selection_color = JCOLOR_LEVY
 	whitelist_req = TRUE
@@ -26,33 +26,50 @@
 	give_bank_account = TRUE
 	min_pq = 6 //You need to be semi competent instead of a total VIVA LA REVOLUTION meme. As well as be able to actually lead and teach players.
 	max_pq = null
-	job_traits = list(TRAIT_MEDIUMARMOR, TRAIT_STEELHEARTED) //Bare minimal, they're able to wear armor, they're hardened from age.
+	job_traits = list(TRAIT_MEDIUMARMOR, TRAIT_BOGLEVY, TRAIT_STEELHEARTED) //Bare minimal, they're able to wear armor, they're hardened from age.
 	cmode_music = 'sound/music/combat_bog.ogg'
 	job_subclasses = list(
 		/datum/advclass/bogmaster/bogmaster
 	)
 
 /datum/outfit/job/roguetown/bogmaster
-	job_bitflag = BITFLAG_GARRISON //Likely to be pulled in once all-else fails. You're unlikely to be outside of bog though, you have no houndstone or whatever unlike wardens. Crown has to mail orders/show up.
+	job_bitflag = BITFLAG_GARRISON //Likely to be pulled in once all-else fails. You're unlikely to be outside of bog though, you have no houndstone or whatever unlike wardens. You're also very loosely loyal to the crown, they pay you less than wardens.
+
+/datum/outfit/job/roguetown/bogmaster
+	cloak = /obj/item/clothing/cloak/tabard/stabard/bog
+
+/datum/job/roguetown/bogmaster/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
+	. = ..()
+	if(ishuman(L))
+		var/mob/living/carbon/human/H = L
+		if(istype(H.cloak, /obj/item/clothing/cloak/tabard/stabard/bog))
+			var/obj/item/clothing/S = H.cloak
+			var/index = findtext(H.real_name, " ")
+			if(index)
+				index = copytext(H.real_name, 1,index)
+			if(!index)
+				index = H.real_name
+			S.name = "bogman surcoat ([index])"
 
 /datum/advclass/bogmaster/bogmaster
 	name = "Bogmaster"
 	tutorial = "You've known these bogs as long as you've lived, in charge of a small levy force, you report to the Bailiff and the Marshal. Your job is to ensure no levy falls out of line, train those in need of talent to fight and to ensure the bogs are safe."
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_ages = list(AGE_MIDDLEAGED, AGE_OLD) //SOVL. Intended.
 	//Reworked and brought back as a knockoff vet, unlike vet who's the more elite pricer person who knows what they're doing. You my friend are just the smartest town idiot they throw at the townsfolk for training.
 	outfit = /datum/outfit/job/roguetown/bogmaster/bogmaster
 	category_tags = list(CTAG_BOGMASTER)
-	subclass_stats = list(
+	subclass_stats = list( //5 weighted statline
 		STATKEY_CON = 1,
 		STATKEY_STR = 2, //A bit more of a fight than your average levy.
-		STATKEY_WIL = 1, //+ 1 from middle aged.
+		STATKEY_WIL = 2, //+ 1 from middle aged. Total of +4 in the bogs, granted you are a faction leader this is fine.
 		STATKEY_PER = 1,
 		STATKEY_INT = -1 //You're still an idiot, sire. BOG! BOG! BOG!
 		//No speed loss, since you have -1 from middle aged
 	)
 	subclass_skills = list(
 		/datum/skill/combat/polearms = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/crossbows = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/shields = SKILL_LEVEL_EXPERT, //Your fighting style, nearly-always involves a shield
 		/datum/skill/combat/axes = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/maces = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/swords = SKILL_LEVEL_EXPERT, //We always want to be able to train people to journeyman
@@ -70,44 +87,30 @@
 		/datum/skill/craft/carpentry = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/labor/lumberjacking = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/hunting = SKILL_LEVEL_NOVICE,
-		/datum/skill/misc/riding = SKILL_LEVEL_NOVICE, //Sovl, but I don't want mounted knight lite.
+		/datum/skill/misc/tracking = SKILL_LEVEL_JOURNEYMAN, //Leader role, might as well be competent trying to track people in this hell of a bog.
 		/datum/skill/misc/medicine = SKILL_LEVEL_NOVICE, //So you can at least attempt to help stabilise advs from dying.
 	)
 
-/datum/job/roguetown/bogmaster/bogmaster/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
-	. = ..()
-	if(ishuman(L))
-		var/mob/living/carbon/human/H = L
-		if(istype(H.cloak, /obj/item/clothing/cloak/tabard/stabard/bog))
-			var/obj/item/clothing/S = H.cloak
-			var/index = findtext(H.real_name, " ")
-			if(index)
-				index = copytext(H.real_name, 1,index)
-			if(!index)
-				index = H.real_name
-			S.name = "bog master tabard ([index])"
-
-/datum/outfit/job/roguetown/bogmaster/bogmaster/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/roguetown/bogmaster/bogmaster/pre_equip(mob/living/carbon/human/H) //Only one who can actually afford steel gear.
 	..()
-	head = /obj/item/clothing/head/roguetown/helmet/sallet/visored/iron //Sovl Nuke
-	neck = /obj/item/clothing/neck/roguetown/bevor/iron
+	head = /obj/item/clothing/head/roguetown/helmet/sallet/visored //Sovl Nuke
+	neck = /obj/item/clothing/neck/roguetown/bevor
 	mask = /obj/item/clothing/head/roguetown/armingcap
-	cloak = /obj/item/clothing/cloak/tabard/stabard/bog
-	armor = /obj/item/clothing/suit/roguetown/armor/chainmail/iron
+	armor = /obj/item/clothing/suit/roguetown/armor/chainmail
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
 	wrists = /obj/item/clothing/wrists/roguetown/bracers
 	gloves = /obj/item/clothing/gloves/roguetown/chain
 	belt = /obj/item/storage/belt/rogue/leather
 	pants = /obj/item/clothing/under/roguetown/trou/leather
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
-	backr = /obj/item/storage/backpack/rogue/satchel
+	backr = /obj/item/storage/backpack/rogue/satchel/black
 	id = /obj/item/scomstone/bad/garrison //You technically deal with bandits/criminals, but you're loose like the wardens.
 	backpack_contents = list(
 		/obj/item/needle/thorn = 1,
 		/obj/item/natural/cloth = 1,
+		/obj/item/storage/keyring/bogmaster = 1,
+		/obj/item/rope/chain = 1, //Actual-albeit-loose "Garrison"
 		/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
-		/obj/item/rogueweapon/scabbard/sheath = 1,
-		/obj/item/rogueweapon/huntingknife = 1,
 		)
 
 	var/prev_real_name = H.real_name
@@ -140,8 +143,8 @@
 				beltl = /obj/item/quiver/bolt/standard
 				backl = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
 				r_hand = /obj/item/rogueweapon/sword
-				l_hand = /obj/item/rogueweapon/scabbard/sword
-				H.adjust_skillrank_up_to(/datum/skill/misc/athletics, 4, TRUE)
+				beltr = /obj/item/rogueweapon/scabbard/sword
+				H.adjust_skillrank_up_to(/datum/skill/combat/crossbows, 5, TRUE)
 
 	if(H.dna?.species)
 		H.dna.species.soundpack_m = new /datum/voicepack/male/knight()
@@ -150,7 +153,7 @@
 	if(H.mind)
 		SStreasury.grant_savings(ECONOMIC_DESTITUTE, H)
 
-/obj/effect/proc_holder/spell/self/convertrole/bog //Lets them potentally antagonise a little, by forming their own private army out of a mob and possibly attempting a coup
+/obj/effect/proc_holder/spell/self/convertrole/bog //Recruitment for bogmen, note the bogmaster is intended to be able to recruit. They're loose enough under the crown they don't always follow orders...
 	name = "Recruit Bog Guard"
 	new_role = "Bog Guard"
 	recruitment_faction = "Bog Guard"
