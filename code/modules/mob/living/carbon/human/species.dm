@@ -171,7 +171,6 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 	var/list/languages = list(/datum/language/common)
 
 	var/list/restricted_virtues
-	var/list/restricted_vices
 
 	var/list/custom_selection
 
