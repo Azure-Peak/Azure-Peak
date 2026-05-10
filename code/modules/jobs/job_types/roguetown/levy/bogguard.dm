@@ -91,7 +91,7 @@
 
 /datum/outfit/job/roguetown/bogguard/boglevy/pre_equip(mob/living/carbon/human/H)
 	..()
-	head = /obj/item/clothing/head/roguetown/helmet/kettle/iron
+	head = /obj/item/clothing/head/roguetown/helmet/skullcap
 	neck = /obj/item/clothing/neck/roguetown/chaincoif/iron
 	mask = /obj/item/clothing/head/roguetown/armingcap
 	armor = /obj/item/clothing/suit/roguetown/armor/gambeson
@@ -178,7 +178,7 @@
 
 /datum/outfit/job/roguetown/bogguard/bogranger/pre_equip(mob/living/carbon/human/H)
 	..()
-	head = /obj/item/clothing/head/roguetown/helmet/kettle/iron
+	head = /obj/item/clothing/head/roguetown/helmet/skullcap
 	neck = /obj/item/clothing/neck/roguetown/coif
 	mask = /obj/item/clothing/head/roguetown/armingcap
 	armor = /obj/item/clothing/suit/roguetown/armor/gambeson
