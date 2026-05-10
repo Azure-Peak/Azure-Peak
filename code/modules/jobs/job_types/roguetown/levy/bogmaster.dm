@@ -9,7 +9,7 @@
 	forbidden_races = list(RACES_DESPISED)
 	allowed_ages = list(AGE_MIDDLEAGED, AGE_OLD) //Sovl, also intended. You've lived long enough to see the crown isn't exactly perfect.
 	tutorial = "You're the most experienced idiot to be conscripted onto the Crown's militia and survive long enough to be put in charge of an understaffed, underfunded garrison overwatching the terrorbogs. \
-				Some might call you thugs, other might compare you to brigands, either way they wouldn't be entirely wrong. Your job is to protect the terrorbogs from threats and deal with the ever-growing number \
+				Some might call you thugs, others might compare you to brigands, either way they wouldn't be entirely wrong. Your job is to protect the terrorbogs from threats and deal with the ever-growing number \
 				of banditry and monsters within. Your loyalty to the crown is loose, they've lent you a roof over your head, some coin in your pocket but little else."
 	display_order = JDO_BOGMASTER
 	selection_color = JCOLOR_LEVY
