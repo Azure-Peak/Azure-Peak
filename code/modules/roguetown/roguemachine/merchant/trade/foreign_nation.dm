@@ -2,6 +2,7 @@
 	var/id
 	var/name
 	var/auto_discovered = FALSE
+	var/roll_weight = TRADE_NATION_WEIGHT_DEFAULT
 	var/list/ship_name_words = list()
 	/// If TRUE, compound ship names use a single word instead of two (e.g. "Sakura-Maru" not "Sakura Sora-Maru").
 	var/single_word_base = FALSE

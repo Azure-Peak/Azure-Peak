@@ -2,6 +2,7 @@
 	id = NATIONALITY_GRENZELHOFT
 	name = "Grenzelhoft"
 	auto_discovered = TRUE
+	roll_weight = TRADE_NATION_WEIGHT_NEIGHBOR
 	ship_name_words = list(
 		"Eisernen", "Sturm", "Adler", "Wolf", "Drache",
 		"Schwert", "Bruder", "Krone", "Burg", "Wappen",

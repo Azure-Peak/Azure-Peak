@@ -2,6 +2,7 @@
 	id = NATIONALITY_HAMMERHOLD
 	name = "Hammerhold"
 	auto_discovered = FALSE
+	roll_weight = TRADE_NATION_WEIGHT_DISTANT
 	ship_name_words = list(
 		"Æthel", "Beorht", "Hammer", "Anvil", "Grim",
 		"Wulf", "Stan", "Hild", "Mæst",

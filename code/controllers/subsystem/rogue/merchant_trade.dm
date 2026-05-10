@@ -30,13 +30,14 @@ SUBSYSTEM_DEF(merchant_trade)
 	roll_daily_pool()
 
 /datum/controller/subsystem/merchant_trade/proc/roll_daily_pool()
-	var/list/all_nat_ids = list()
+	var/list/weighted = list()
 	for(var/nat_id in nations)
-		all_nat_ids += nat_id
-	if(!length(all_nat_ids))
+		var/datum/foreign_nation/N = nations[nat_id]
+		weighted[nat_id] = max(1, N.roll_weight)
+	if(!length(weighted))
 		return
 	for(var/i in 1 to TRADE_SHIPS_PER_DAY_ROLL)
-		var/picked = pick(all_nat_ids)
+		var/picked = pickweight(weighted)
 		generate_ship(picked)
 
 /datum/controller/subsystem/merchant_trade/proc/expire_undocked_ships()

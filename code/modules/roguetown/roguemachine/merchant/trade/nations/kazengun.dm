@@ -2,6 +2,7 @@
 	id = NATIONALITY_KAZENGUN
 	name = "Kazengun"
 	auto_discovered = FALSE
+	roll_weight = TRADE_NATION_WEIGHT_DISTANT
 	single_word_base = TRUE
 	ship_name_words = list(
 		"Tsuru", "Hayabusa", "Akatsuki", "Tsuki", "Ame",

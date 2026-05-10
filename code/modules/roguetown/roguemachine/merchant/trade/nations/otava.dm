@@ -2,6 +2,7 @@
 	id = NATIONALITY_OTAVA
 	name = "Otava"
 	auto_discovered = TRUE
+	roll_weight = TRADE_NATION_WEIGHT_NEIGHBOR
 	ship_name_words = list(
 		"Belle", "Coeur", "Lis", "Rose", "Etoile",
 		"Faucon", "Lion", "Couronne", "Dame", "Chevalier",
