@@ -149,6 +149,7 @@
 	if(H.mind)
 		H.mind.AddSpell(new /datum/action/cooldown/spell/mindlink)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/convertrole/zizosquire)
+		//See modules/spells/spell_types/faction for convertrole + objectives
 
 	H.dna.species.soundpack_m = new /datum/voicepack/male/knight()
 	ADD_TRAIT(H, TRAIT_NOBLE, TRAIT_GENERIC)
@@ -158,56 +159,3 @@
 	H.cmode_music = 'sound/music/combat_heretic.ogg'
 	wretch_select_bounty(H)
 
-/obj/effect/proc_holder/spell/self/convertrole/zizosquire
-	name = "Recruit Squire"
-	new_role = "Retainer"
-	overlay_state = "recruit_guard"
-	recruitment_faction = "Retainers"
-	recruitment_message = "Join my service as a retainer, %RECRUIT!"
-	accept_message = "I pledge my service to you!"
-	refuse_message = "I must decline your offer."
-
-/obj/effect/proc_holder/spell/self/convertrole/zizosquire/can_convert(mob/living/carbon/human/recruit)
-	if(QDELETED(recruit))
-		return FALSE
-	if(!(locate(/datum/antagonist/zizo_knight/squire) in recruit?.mind?.antag_datums))
-		return FALSE
-	return TRUE
-
-/obj/effect/proc_holder/spell/self/convertrole/zizosquire/convert(mob/living/carbon/human/recruit, mob/living/carbon/human/recruiter)
-	if(QDELETED(recruit) || QDELETED(recruiter))
-		return FALSE
-
-	var/datum/antagonist/zizo_knight/zk_antag = locate(/datum/antagonist/zizo_knight) in recruiter.mind?.antag_datums
-	var/datum/antagonist/zizo_knight/squire/zs_antag = locate(/datum/antagonist/zizo_knight/squire) in recruit.mind?.antag_datums
-
-	var/datum/objective/dark_itinerant/zizotrain = new /datum/objective/dark_itinerant(null, recruiter.mind)
-	var/datum/objective/dark_itinerant/zizoserve = new /datum/objective/dark_itinerant/squire(null, recruit.mind)
-
-	zizotrain.target = recruit.mind
-	zizotrain.explanation_text = "Train your squire [recruit.real_name] in the field. Show them the ropes. Ensure they survive."
-	zk_antag.objectives += zizotrain
-	zizoserve.target = recruiter.mind
-	zizoserve.explanation_text =  "Serve faithfully to your knight [recruiter.real_name], heed their commands and help them."
-	zs_antag.objectives += zizoserve
-	recruit.mind.announce_objectives()
-	recruiter.mind.announce_objectives()
-
-	. = ..()
-	if(!.)
-		return FALSE
-
-	qdel(src)
-
-/datum/objective/dark_itinerant
-	name = "Train your squire"
-	explanation_text = "Train your squire in the field. Show them the ropes. Ensure they survive."
-	triumph_count = 5
-
-/datum/objective/dark_itinerant/check_completion()
-	return !target || considered_alive(target, enforce_human = TRUE)
-
-/datum/objective/dark_itinerant/squire
-	name = "Serve your Knight"
-	explanation_text = "Serve faithfully to your knight, heed their commands and help them."
-	triumph_count = 5

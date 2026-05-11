@@ -180,7 +180,7 @@
 		/obj/effect/proc_holder/spell/self/grant_nobility,
 		/obj/effect/proc_holder/spell/self/convertrole/servant,
 		/obj/effect/proc_holder/spell/self/convertrole/guard,
-		/obj/effect/proc_holder/spell/self/convertrole/bog,
+		/obj/effect/proc_holder/spell/self/convertrole/warden,
 	)
 
 	var/emeritus_title = "[old_rulertype] Emeritus"
