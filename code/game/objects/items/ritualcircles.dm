@@ -1616,9 +1616,8 @@
 			if(is_heretic && target != user)
 				user.apply_status_effect(/datum/status_effect/debuff/lux_exhausted)
 				target.apply_status_effect(/datum/status_effect/debuff/lux_exhausted)
-			zizoarmaments(target, helm_choice, armor_choice, weapon_choice)
 			message_admins("RITUALS: [user.real_name] ([user.ckey]) has performed an armaments ritual on [target.real_name] ([target.ckey])")
-			log_game("RITUALS: [user.real_name] ([user.ckey]) has performed an armaments ritual on [target.real_name] ([target.ckey]), with choices [armor_choice] and [weapon_choice]")
+			log_game("RITUALS: [user.real_name] ([user.ckey]) has performed an armaments ritual on [target.real_name] ([target.ckey]), with armortype [armor_choice]")
 			//More detailed to not clutter admin logs, includes only important chestplate armor level and weapon type
 			zizoarmaments(target, helm_choice, armor_choice)
 			spawn(120)
@@ -1671,7 +1670,7 @@
 			"l_hand" = target.get_item_for_held_index(1),
 		), list("armor", "shirt", "pants", "shoes", "wrists", "gloves", "head", "neck", "backr", "r_hand", "l_hand"))
 		target.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
-		log_game("RITUALS: [target.real_name] ([target.ckey]) was granted [armor_choice] and [weapon_choice] with expert in sword skill if they lacked beforehand")
+		log_game("RITUALS: [target.real_name] ([target.ckey]) was granted [armor_choice] with expert in sword skill if they lacked beforehand")
 		spawn(40)
 			to_chat(target, span_purple("They are ignorant, backwards, without hope. You. You will be powerful."))
 
@@ -1966,10 +1965,9 @@
 			if(is_heretic && target != user)
 				user.apply_status_effect(/datum/status_effect/debuff/lux_exhausted)
 				target.apply_status_effect(/datum/status_effect/debuff/lux_exhausted)
-			message_admins("RITUALS: [user.real_name] ([user.ckey]) has performed an armaments ritual on [target.real_name] ([target.ckey])")
-			log_game("RITUALS: [user.real_name] ([user.ckey]) has performed an armaments ritual on [target.real_name] ([target.ckey]), with choices [armor_choice] and [weapon_choice]")
-			graggararmor(target, helm_choice, armor_choice, weapon_choice)
 			graggararmor(target, helm_choice, armor_choice)
+			message_admins("RITUALS: [user.real_name] ([user.ckey]) has performed an armaments ritual on [target.real_name] ([target.ckey])")
+			log_game("RITUALS: [user.real_name] ([user.ckey]) has performed an armaments ritual on [target.real_name] ([target.ckey]), with armortype [armor_choice]")
 			spawn(120)
 				icon_state = "graggar_chalky" 
 		if("War Ritual")
@@ -2041,7 +2039,7 @@
 			"l_hand" = target.get_item_for_held_index(1),
 		), list("armor", "shirt", "pants", "shoes", "wrists", "gloves", "head", "mask", "neck", "cloak", "r_hand", "l_hand"))
 		target.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_EXPERT, TRUE)
-		log_game("RITUALS: [target.real_name] ([target.ckey]) was granted [armor_choice] and [weapon_choice] with expert in axe skill if they lacked beforehand")
+		log_game("RITUALS: [target.real_name] ([target.ckey]) was granted [armor_choice] with expert in axe skill if they lacked beforehand")
 		spawn(40)
 			to_chat(target, span_cult("Break them."))
 
