@@ -158,24 +158,24 @@ GLOBAL_DATUM_INIT(economic_panel, /datum/economic_panel, new)
 	data["bankruptcy"] = bankruptcy
 
 	var/list/foreign_trade = list()
-	var/list/nations_data = list()
+	var/list/realms_data = list()
 	if(SSmerchant_trade)
-		for(var/nat_id in SSmerchant_trade.nations)
-			var/datum/foreign_nation/N = SSmerchant_trade.nations[nat_id]
-			nations_data += list(list(
-				"id" = N.id,
-				"name" = N.name,
-				"auto_discovered" = N.auto_discovered ? TRUE : FALSE,
-				"discovered" = SSmerchant_trade.is_discovered(N.id) ? TRUE : FALSE,
-				"cultural_goods_count" = length(N.cultural_goods),
-				"preferred_imports_count" = length(N.preferred_imports),
-				"preferred_exports_count" = length(N.preferred_exports),
+		for(var/realm_id in SSmerchant_trade.realms)
+			var/datum/foreign_realm/R = SSmerchant_trade.realms[realm_id]
+			realms_data += list(list(
+				"id" = R.id,
+				"name" = R.name,
+				"auto_discovered" = R.auto_discovered ? TRUE : FALSE,
+				"discovered" = SSmerchant_trade.is_discovered(R.id) ? TRUE : FALSE,
+				"cultural_goods_count" = length(R.cultural_goods),
+				"bulk_demand_count" = length(R.bulk_demand_pool),
+				"bulk_supply_count" = length(R.bulk_supply_pool),
 			))
 		var/list/ships_data = list()
 		for(var/datum/trade_ship/ship in SSmerchant_trade.all_ships)
 			ships_data += list(list(
 				"ship_id" = ship.ship_id,
-				"nationality_id" = ship.nationality_id,
+				"realm_id" = ship.realm_id,
 				"ship_name" = ship.ship_name,
 				"captain_name" = ship.captain_name,
 				"ship_type" = ship.ship_type,
@@ -185,7 +185,7 @@ GLOBAL_DATUM_INIT(economic_panel, /datum/economic_panel, new)
 				"favor_earned" = ship.favor_earned,
 			))
 		foreign_trade["ships"] = ships_data
-	foreign_trade["nations"] = nations_data
+	foreign_trade["realms"] = realms_data
 	data["foreign_trade"] = foreign_trade
 
 	// Aggregation tallies the full ledger so cap-exceeding history still shows up in the
@@ -558,19 +558,19 @@ GLOBAL_DATUM_INIT(economic_panel, /datum/economic_panel, new)
 		if("spawn_trade_ship")
 			if(!SSmerchant_trade)
 				return TRUE
-			var/nat_id = "[params["nationality_id"]]"
-			var/datum/trade_ship/ship = SSmerchant_trade.generate_ship(nat_id)
+			var/realm_id = "[params["realm_id"]]"
+			var/datum/trade_ship/ship = SSmerchant_trade.generate_ship(realm_id)
 			if(ship)
-				admin_log_fiscal("spawned a [nat_id] trade ship: [ship.ship_name] (Captain [ship.captain_name], expected favor [ship.expected_favor])", "Spawn Trade Ship")
+				admin_log_fiscal("spawned a [realm_id] trade ship: [ship.ship_name] (Captain [ship.captain_name], expected favor [ship.expected_favor])", "Spawn Trade Ship")
 			else
-				to_chat(usr, span_warning("Could not spawn ship - nationality unknown or undiscovered."))
+				to_chat(usr, span_warning("Could not spawn ship - realm unknown or undiscovered."))
 			return TRUE
-		if("discover_nationality")
+		if("discover_realm")
 			if(!SSmerchant_trade)
 				return TRUE
-			var/nat_id = "[params["nationality_id"]]"
-			if(SSmerchant_trade.discover_nationality(nat_id))
-				admin_log_fiscal("force-discovered nationality [nat_id]", "Discover Nationality")
+			var/realm_id = "[params["realm_id"]]"
+			if(SSmerchant_trade.discover_realm(realm_id))
+				admin_log_fiscal("force-discovered realm [realm_id]", "Discover Realm")
 			return TRUE
 		if("clear_trade_ships")
 			if(!SSmerchant_trade)
@@ -590,6 +590,12 @@ GLOBAL_DATUM_INIT(economic_panel, /datum/economic_panel, new)
 			SSmerchant_trade.all_ships.Cut()
 			SSmerchant_trade.roll_daily_pool()
 			admin_log_fiscal("rerolled the daily ship pool (cleared [cleared], rolled [length(SSmerchant_trade.all_ships)] new)", "Reroll Trade Ships")
+			return TRUE
+		if("regen_hails")
+			if(!SSmerchant_trade)
+				return TRUE
+			SSmerchant_trade.hails_remaining = TRADE_SHIPS_HAIL_PER_DAY
+			admin_log_fiscal("regenerated Merchant hails to [TRADE_SHIPS_HAIL_PER_DAY]", "Regen Hails")
 			return TRUE
 		if("bulk_add_advance")
 			var/days = text2num(params["days"]) || 1

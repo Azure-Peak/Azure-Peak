@@ -90,6 +90,7 @@
 	var/list/data = list()
 	data["scout_regions"] = build_scout_regions()
 	data["trade_orders"] = build_trade_orders()
+	data["harbor_demands"] = build_harbor_demands()
 	data["charters"] = build_charters()
 	data["economic_events"] = build_economic_events()
 	data["mercenary_roster"] = build_mercenary_roster()
@@ -186,6 +187,52 @@
 		row["stockpile"] = has_stockpile
 		row["requirements"] = requirements
 		rows += list(row)
+	return rows
+
+/obj/structure/roguemachine/noticeboard/proc/build_harbor_demands()
+	var/list/rows = list()
+	if(!SSmerchant_trade)
+		return rows
+	for(var/datum/trade_ship/ship in SSmerchant_trade.all_ships)
+		if(ship.dock_state != TRADE_SHIP_STATE_DOCKED)
+			continue
+		var/datum/foreign_realm/realm = SSmerchant_trade.realms[ship.realm_id]
+		var/realm_name = realm ? realm.name : ship.realm_id
+		var/seconds_left = max(0, round((ship.dock_expires_at - world.time) / 10))
+		var/list/lines = list()
+		for(var/list/line in ship.bulk_demands)
+			var/remaining = line["qty_target"] - line["qty_fulfilled"]
+			if(remaining <= 0)
+				continue
+			lines += list(list(
+				"good_name" = line["good_name"],
+				"qty_target" = line["qty_target"],
+				"qty_fulfilled" = line["qty_fulfilled"],
+				"qty_remaining" = remaining,
+				"offered_price" = line["offered_price"],
+			))
+		var/list/cultural = list()
+		for(var/list/entry in ship.cultural_stock)
+			if(entry["qty"] <= 0)
+				continue
+			var/discounted = round(entry["base_cost"] * (100 - TRADE_CULTURAL_SHIP_DISCOUNT_PERCENT) / 100)
+			cultural += list(list(
+				"name" = entry["name"],
+				"qty" = entry["qty"],
+				"base_cost" = entry["base_cost"],
+				"price" = discounted,
+			))
+		if(!length(lines) && !length(cultural))
+			continue
+		rows += list(list(
+			"ship_id" = ship.ship_id,
+			"ship_name" = ship.ship_name,
+			"realm_name" = realm_name,
+			"realm_id" = ship.realm_id,
+			"seconds_until_departure" = seconds_left,
+			"lines" = lines,
+			"cultural_stock" = cultural,
+		))
 	return rows
 
 /obj/structure/roguemachine/noticeboard/proc/build_charters()

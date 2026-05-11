@@ -1,8 +1,8 @@
-/datum/foreign_nation/grenzelhoft
-	id = NATIONALITY_GRENZELHOFT
+/datum/foreign_realm/grenzelhoft
+	id = REALM_GRENZELHOFT
 	name = "Grenzelhoft"
 	auto_discovered = TRUE
-	roll_weight = TRADE_NATION_WEIGHT_NEIGHBOR
+	roll_weight = TRADE_REALM_WEIGHT_NEIGHBOR
 	ship_name_words = list(
 		"Eisernen", "Sturm", "Adler", "Wolf", "Drache",
 		"Schwert", "Bruder", "Krone", "Burg", "Wappen",
@@ -30,5 +30,3 @@
 	city_tag_chance = 35
 	city_tag_format = "aus %CITY%"
 	cultural_goods = list()
-	preferred_imports = list()
-	preferred_exports = list()

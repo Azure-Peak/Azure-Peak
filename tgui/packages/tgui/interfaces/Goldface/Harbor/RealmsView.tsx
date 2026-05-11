@@ -5,8 +5,8 @@ import {
   sectionHeaderStyle,
   SERIF,
 } from '../../common/parchment';
-import type { HarborNation } from '../types';
-import { NationRow } from './NationRow';
+import type { HarborRealm } from '../types';
+import { RealmRow } from './RealmRow';
 
 const HeaderStrip = () => (
   <div
@@ -24,17 +24,17 @@ const HeaderStrip = () => (
     }}
   >
     <div style={{ flex: '0 0 16px' }}>&nbsp;</div>
-    <div style={{ flex: '0 0 140px' }}>Nation</div>
-    <div style={{ flex: 1 }}>Cultural Goods</div>
-    <div style={{ flex: '0 0 200px', textAlign: 'right' }}>
+    <div style={{ flex: '0 0 130px' }}>Realm</div>
+    <div style={{ flex: 1 }}>Typical Trade</div>
+    <div style={{ flex: '0 0 180px', textAlign: 'right' }}>
       Market Conditions
     </div>
   </div>
 );
 
-export const NationsView = (props: { nations: HarborNation[] }) => {
-  const { nations } = props;
-  if (nations.length === 0) {
+export const RealmsView = (props: { realms: HarborRealm[] }) => {
+  const { realms } = props;
+  if (realms.length === 0) {
     return (
       <div
         style={{
@@ -44,16 +44,16 @@ export const NationsView = (props: { nations: HarborNation[] }) => {
           color: INK_SOFT,
         }}
       >
-        No foreign nations recorded.
+        No foreign realms recorded.
       </div>
     );
   }
   return (
     <>
-      <div style={sectionHeaderStyle}>Foreign Nations ({nations.length})</div>
+      <div style={sectionHeaderStyle}>Foreign Realms ({realms.length})</div>
       <HeaderStrip />
-      {nations.map((n) => (
-        <NationRow key={n.id} nation={n} />
+      {realms.map((r) => (
+        <RealmRow key={r.id} realm={r} />
       ))}
     </>
   );

@@ -1,8 +1,8 @@
-/datum/foreign_nation
+/datum/foreign_realm
 	var/id
 	var/name
 	var/auto_discovered = FALSE
-	var/roll_weight = TRADE_NATION_WEIGHT_DEFAULT
+	var/roll_weight = TRADE_REALM_WEIGHT_DEFAULT
 	var/list/ship_name_words = list()
 	/// If TRUE, compound ship names use a single word instead of two (e.g. "Sakura-Maru" not "Sakura Sora-Maru").
 	var/single_word_base = FALSE
@@ -17,10 +17,11 @@
 	var/city_tag_chance = 0
 	var/city_tag_format = "of %CITY%"
 	var/list/cultural_goods = list()
-	var/list/preferred_imports = list()
-	var/list/preferred_exports = list()
+	var/list/bulk_demand_pool = list()
+	var/list/bulk_supply_pool = list()
+	var/list/cultural_stock_pool = list()
 
-/datum/foreign_nation/proc/pick_ship_type()
+/datum/foreign_realm/proc/pick_ship_type()
 	if(!length(ship_types))
 		return null
 	var/list/weighted = list()
@@ -28,7 +29,7 @@
 		weighted[entry] = entry["weight"] || 1
 	return pickweight(weighted)
 
-/datum/foreign_nation/proc/generate_ship_name()
+/datum/foreign_realm/proc/generate_ship_name()
 	var/list/picked_prefix = pick_prefix()
 	var/base
 	var/picked_gender
@@ -59,7 +60,7 @@
 		city = " " + replacetext(city_tag_format, "%CITY%", city_name)
 	return "[prefix_text][base][suffix_text][city]"
 
-/datum/foreign_nation/proc/filter_proper_names_for_prefix(list/prefix)
+/datum/foreign_realm/proc/filter_proper_names_for_prefix(list/prefix)
 	var/has_male = !!prefix["text_male"]
 	var/has_female = !!prefix["text_female"]
 	var/has_neutral = !!prefix["text"]
@@ -78,7 +79,7 @@
 			out += list(entry)
 	return out
 
-/datum/foreign_nation/proc/make_compound_name()
+/datum/foreign_realm/proc/make_compound_name()
 	if(!length(ship_name_words))
 		return "Vessel"
 	if(single_word_base || length(ship_name_words) == 1)
@@ -89,7 +90,7 @@
 		word_b = pick(ship_name_words)
 	return "[word_a] [word_b]"
 
-/datum/foreign_nation/proc/pick_prefix()
+/datum/foreign_realm/proc/pick_prefix()
 	if(!length(name_prefixes))
 		return null
 	for(var/list/entry as anything in name_prefixes)
@@ -98,7 +99,7 @@
 			return entry
 	return null
 
-/datum/foreign_nation/proc/roll_simple_affix(list/affixes)
+/datum/foreign_realm/proc/roll_simple_affix(list/affixes)
 	if(!length(affixes))
 		return ""
 	for(var/list/entry as anything in affixes)
@@ -107,7 +108,7 @@
 			return entry["text"]
 	return ""
 
-/datum/foreign_nation/proc/generate_captain_name()
+/datum/foreign_realm/proc/generate_captain_name()
 	var/first = length(captain_first_names) ? pick(captain_first_names) : "Unnamed"
 	var/last = length(captain_last_names) ? pick(captain_last_names) : "Captain"
 	return "[first] [last]"

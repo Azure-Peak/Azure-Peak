@@ -133,21 +133,29 @@
 	name = "Yamaguchi Pale (Kazengun Pale Lager)"
 	cost = 20
 	contains = list(/obj/item/reagent_containers/glass/bottle/rogue/beer/kgunlager)
+	ship_qty_min = 4
+	ship_qty_max = 8
 
 /datum/supply_pack/rogue/alcohol/kgunplum
 	name = "Umeshu (Kazengun Plum Wine)"
 	cost = 40
 	contains = list(/obj/item/reagent_containers/glass/bottle/rogue/beer/kgunplum)
+	ship_qty_min = 3
+	ship_qty_max = 6
 
 /datum/supply_pack/rogue/alcohol/kgunsake
 	name = "Junmai-ginjo"
 	cost = 150
 	contains = list(/obj/item/reagent_containers/glass/bottle/rogue/beer/kgunsake)
+	ship_qty_min = 2
+	ship_qty_max = 4
 
 /datum/supply_pack/rogue/alcohol/kgunshochu
 	name = "Shochu"
 	cost = 150
 	contains = list(/obj/item/reagent_containers/glass/bottle/rogue/beer/kgunshochu)
+	ship_qty_min = 2
+	ship_qty_max = 4
 
 // Zhongese
 /datum/supply_pack/rogue/alcohol/zhonghuangjiu

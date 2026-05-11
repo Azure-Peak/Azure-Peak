@@ -1,21 +1,22 @@
 SUBSYSTEM_DEF(merchant_trade)
 	name = "Merchant Trade"
 	flags = SS_NO_FIRE
+	init_order = INIT_ORDER_MERCHANT_TRADE
 	var/last_processed_day = -1
-	var/list/datum/foreign_nation/nations = list()
-	var/list/discovered_nationalities = list()
+	var/list/datum/foreign_realm/realms = list()
+	var/list/discovered_realms = list()
 	var/list/datum/trade_ship/all_ships = list()
 	var/hails_remaining = 0
 
 /datum/controller/subsystem/merchant_trade/Initialize()
-	for(var/path in subtypesof(/datum/foreign_nation))
-		var/datum/foreign_nation/N = new path
-		if(!N.id)
-			qdel(N)
+	for(var/path in subtypesof(/datum/foreign_realm))
+		var/datum/foreign_realm/R = new path
+		if(!R.id)
+			qdel(R)
 			continue
-		nations[N.id] = N
-		if(N.auto_discovered)
-			discovered_nationalities[N.id] = TRUE
+		realms[R.id] = R
+		if(R.auto_discovered)
+			discovered_realms[R.id] = TRUE
 	hails_remaining = TRADE_SHIPS_HAIL_PER_DAY
 	roll_daily_pool()
 	last_processed_day = GLOB.dayspassed
@@ -31,9 +32,9 @@ SUBSYSTEM_DEF(merchant_trade)
 
 /datum/controller/subsystem/merchant_trade/proc/roll_daily_pool()
 	var/list/weighted = list()
-	for(var/nat_id in nations)
-		var/datum/foreign_nation/N = nations[nat_id]
-		weighted[nat_id] = max(1, N.roll_weight)
+	for(var/realm_id in realms)
+		var/datum/foreign_realm/R = realms[realm_id]
+		weighted[realm_id] = max(1, R.roll_weight)
 	if(!length(weighted))
 		return
 	for(var/i in 1 to TRADE_SHIPS_PER_DAY_ROLL)
@@ -46,25 +47,25 @@ SUBSYSTEM_DEF(merchant_trade)
 			all_ships -= ship
 			qdel(ship)
 
-/datum/controller/subsystem/merchant_trade/proc/get_nation(nationality_id)
-	return nations[nationality_id]
+/datum/controller/subsystem/merchant_trade/proc/get_realm(realm_id)
+	return realms[realm_id]
 
-/datum/controller/subsystem/merchant_trade/proc/is_discovered(nationality_id)
-	return !!discovered_nationalities[nationality_id]
+/datum/controller/subsystem/merchant_trade/proc/is_discovered(realm_id)
+	return !!discovered_realms[realm_id]
 
-/datum/controller/subsystem/merchant_trade/proc/discover_nationality(nationality_id)
-	if(!nations[nationality_id])
+/datum/controller/subsystem/merchant_trade/proc/discover_realm(realm_id)
+	if(!realms[realm_id])
 		return FALSE
-	if(discovered_nationalities[nationality_id])
+	if(discovered_realms[realm_id])
 		return FALSE
-	discovered_nationalities[nationality_id] = TRUE
+	discovered_realms[realm_id] = TRUE
 	return TRUE
 
-/datum/controller/subsystem/merchant_trade/proc/generate_ship(nationality_id)
-	var/datum/foreign_nation/nation = nations[nationality_id]
-	if(!nation)
+/datum/controller/subsystem/merchant_trade/proc/generate_ship(realm_id)
+	var/datum/foreign_realm/realm = realms[realm_id]
+	if(!realm)
 		return null
-	var/datum/trade_ship/ship = new(nation)
+	var/datum/trade_ship/ship = new(realm)
 	all_ships += ship
 	return ship
 
@@ -84,6 +85,16 @@ SUBSYSTEM_DEF(merchant_trade)
 			return ship
 	return null
 
+/datum/controller/subsystem/merchant_trade/proc/consume_cultural_stock(datum/trade_ship/ship, pack_path)
+	if(!ship)
+		return FALSE
+	var/key = "[pack_path]"
+	for(var/list/entry in ship.cultural_stock)
+		if(entry["pack"] == key && entry["qty"] > 0)
+			entry["qty"]--
+			return TRUE
+	return FALSE
+
 /datum/controller/subsystem/merchant_trade/proc/hail_ship(ship_id, mob/hailer)
 	var/datum/trade_ship/ship = find_ship_by_id(ship_id)
 	if(!ship)
@@ -97,11 +108,11 @@ SUBSYSTEM_DEF(merchant_trade)
 	hails_remaining--
 	ship.dock()
 	announce_dock(ship)
-	var/datum/foreign_nation/nation = nations[ship.nationality_id]
-	var/first_of_nation = nation && !is_discovered(nation.id)
-	if(first_of_nation)
-		discover_nationality(nation.id)
-	return first_of_nation ? "ok_first" : "ok"
+	var/datum/foreign_realm/realm = realms[ship.realm_id]
+	var/first_of_realm = realm && !is_discovered(realm.id)
+	if(first_of_realm)
+		discover_realm(realm.id)
+	return first_of_realm ? "ok_first" : "ok"
 
 /datum/controller/subsystem/merchant_trade/proc/send_away_ship(ship_id, mob/sender)
 	var/datum/trade_ship/ship = find_ship_by_id(ship_id)
@@ -116,6 +127,6 @@ SUBSYSTEM_DEF(merchant_trade)
 	return "ok"
 
 /datum/controller/subsystem/merchant_trade/proc/announce_dock(datum/trade_ship/ship)
-	var/datum/foreign_nation/nation = nations[ship.nationality_id]
-	var/nation_name = nation ? nation.name : ship.nationality_id
-	scom_announce("The [ship.ship_type] [ship.ship_name], flying the colors of [nation_name], has made port at the Azurian Docks.")
+	var/datum/foreign_realm/realm = realms[ship.realm_id]
+	var/realm_name = realm ? realm.name : ship.realm_id
+	scom_announce("The [ship.ship_type] [ship.ship_name], flying the colors of [realm_name], has made port at the Azurian Docks.")

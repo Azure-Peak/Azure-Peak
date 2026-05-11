@@ -3,29 +3,51 @@ import { useState } from 'react';
 import { useBackend } from '../backend';
 import { Window } from '../layouts';
 import { tabBarStyle, tabStyle } from './common/parchment';
+import { CulturalStockTab } from './Goldface/CulturalStock/CulturalStockTab';
 import { HarborTab } from './Goldface/Harbor/HarborTab';
+import { MammonRow } from './Goldface/MammonRow';
 import type { VendingData } from './Goldface/types';
 import { VendingPanel } from './Goldface/VendingPanel';
 
-type GoldfaceTab = 'goods' | 'harbor';
+type GoldfaceTab = 'goods' | 'cultural' | 'harbor';
 
 export const Goldface = () => {
   const { act, data } = useBackend<VendingData>();
   const [tab, setTab] = useState<GoldfaceTab>('goods');
   const isCommand = !!data.is_command_center;
+  const canRead = !!data.can_read;
+  const isPublic = !!data.is_public;
+  const isProprietor = !!data.is_proprietor;
+
+  const mammonBar = (
+    <div style={{ padding: '6px 28px 0 28px' }}>
+      <MammonRow
+        budget={data.budget}
+        canRead={canRead}
+        isProprietor={isProprietor}
+        isPublic={isPublic}
+        act={act}
+      />
+    </div>
+  );
 
   if (!isCommand) {
     return (
       <Window width={720} height={800} theme="parchment">
         <Window.Content scrollable>
+          {mammonBar}
           <VendingPanel data={data} act={act} />
         </Window.Content>
       </Window>
     );
   }
 
-  const canSeeHarbor = !!data.is_proprietor;
-  const activeTab = tab === 'harbor' && !canSeeHarbor ? 'goods' : tab;
+  const canSeeHarbor = isProprietor;
+  const culturalStock = data.harbor?.cultural_stock ?? [];
+  const culturalAvailable = culturalStock.length > 0;
+  let activeTab = tab;
+  if (activeTab === 'harbor' && !canSeeHarbor) activeTab = 'goods';
+  if (activeTab === 'cultural' && !culturalAvailable) activeTab = 'goods';
 
   return (
     <Window width={720} height={800} theme="parchment">
@@ -37,6 +59,14 @@ export const Goldface = () => {
           >
             Goods
           </div>
+          {culturalAvailable && (
+            <div
+              style={tabStyle(activeTab === 'cultural')}
+              onClick={() => setTab('cultural')}
+            >
+              Cultural Stock
+            </div>
+          )}
           {canSeeHarbor && (
             <div
               style={tabStyle(activeTab === 'harbor')}
@@ -46,9 +76,17 @@ export const Goldface = () => {
             </div>
           )}
         </div>
+        {mammonBar}
         {activeTab === 'goods' && <VendingPanel data={data} act={act} />}
+        {activeTab === 'cultural' && culturalAvailable && (
+          <CulturalStockTab
+            stock={culturalStock}
+            budget={data.budget}
+            act={act}
+          />
+        )}
         {activeTab === 'harbor' && canSeeHarbor && (
-          <HarborTab harbor={data.harbor} act={act} />
+          <HarborTab harbor={data.harbor} budget={data.budget} act={act} />
         )}
       </Window.Content>
     </Window>

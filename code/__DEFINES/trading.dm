@@ -1,7 +1,7 @@
-#define NATIONALITY_GRENZELHOFT "grenzelhoft"
-#define NATIONALITY_OTAVA "otava"
-#define NATIONALITY_KAZENGUN "kazengun"
-#define NATIONALITY_HAMMERHOLD "hammerhold"
+#define REALM_GRENZELHOFT "grenzelhoft"
+#define REALM_OTAVA "otava"
+#define REALM_KAZENGUN "kazengun"
+#define REALM_HAMMERHOLD "hammerhold"
 
 #define TRADE_SHIP_DOCK_DURATION (60 MINUTES)
 #define TRADE_SHIP_SEND_AWAY_GRACE (20 MINUTES)
@@ -16,11 +16,33 @@
 #define TRADE_SHIP_DEFAULT_TONNAGE 100
 #define TRADE_SHIP_TONNAGE_VARIANCE 0.3
 
-// Pool composition weights. Higher = more frequent arrivals in the daily roll.
-// Geographic + commercial proximity to Azuria should bias this.
-#define TRADE_NATION_WEIGHT_DEFAULT 10
-#define TRADE_NATION_WEIGHT_NEIGHBOR 20
-#define TRADE_NATION_WEIGHT_DISTANT 10
+#define TRADE_REALM_WEIGHT_DEFAULT 10
+#define TRADE_REALM_WEIGHT_NEIGHBOR 20
+#define TRADE_REALM_WEIGHT_DISTANT 10
+
+#define TRADE_SHIP_BULK_LINES_MIN 1
+#define TRADE_SHIP_BULK_LINES_MAX 3
+
+#define BULK_QTY_TINY_MIN 2
+#define BULK_QTY_TINY_MAX 5
+#define BULK_QTY_SMALL_MIN 10
+#define BULK_QTY_SMALL_MAX 20
+#define BULK_QTY_MEDIUM_MIN 15
+#define BULK_QTY_MEDIUM_MAX 35
+#define BULK_QTY_LARGE_MIN 20
+#define BULK_QTY_LARGE_MAX 50
+#define BULK_QTY_HUGE_MIN 25
+#define BULK_QTY_HUGE_MAX 55
+
+#define BULK_PRICE_DEEP_DISCOUNT 0.6
+#define BULK_PRICE_DISCOUNT 0.7
+#define BULK_PRICE_FAIR 0.85
+#define BULK_PRICE_PREMIUM 1.2
+#define BULK_PRICE_EAGER_PREMIUM 1.35
+#define BULK_PRICE_DESPERATE 1.5
+
+#define TRADE_MERCHANT_MIDDLEMAN_CUT_PERCENT 25
+#define TRADE_CULTURAL_SHIP_DISCOUNT_PERCENT 60
 
 // For any upgrades you can buy
 #define ADDITIONAL_PIER_FAVOR 5000

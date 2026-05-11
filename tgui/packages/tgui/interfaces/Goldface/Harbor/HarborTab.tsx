@@ -12,68 +12,74 @@ import {
   subTabStyle,
 } from '../../common/parchment';
 import type { ActFn, HarborData } from '../types';
-import { NationsView } from './NationsView';
+import { RealmsView } from './RealmsView';
 import { ShipsView } from './ShipsView';
 
-type HarborSubTab = 'ships' | 'nations';
+type HarborSubTab = 'ships' | 'realms';
+
+const BudgetPair = (props: { label: string; value: React.ReactNode }) => (
+  <div
+    style={{
+      display: 'flex',
+      alignItems: 'baseline',
+      gap: '8px',
+    }}
+  >
+    <span
+      style={{
+        fontFamily: SERIF,
+        fontVariant: 'small-caps',
+        letterSpacing: '2px',
+        color: SEAL_AMBER,
+        fontStyle: 'italic',
+        fontSize: '11px',
+      }}
+    >
+      {props.label}
+    </span>
+    <span style={{ fontFamily: SERIF, fontSize: '13px', color: INK }}>
+      {props.value}
+    </span>
+  </div>
+);
 
 const BudgetStrip = (props: { harbor: HarborData }) => {
   const { harbor } = props;
   return (
-    <div style={fieldRowStyle}>
-      <div
-        style={{
-          flex: 1,
-          fontFamily: SERIF,
-          fontVariant: 'small-caps',
-          letterSpacing: '2px',
-          color: SEAL_AMBER,
-          fontStyle: 'italic',
-          fontSize: '11px',
-        }}
-      >
-        Hails Today
-      </div>
-      <div
-        style={{
-          flex: '0 0 auto',
-          fontFamily: SERIF,
-          fontSize: '13px',
-          color: INK,
-          marginRight: '20px',
-        }}
-      >
-        <b>{harbor.hails_remaining}</b> / {harbor.hails_per_day}
-      </div>
-      <div
-        style={{
-          flex: 1,
-          fontFamily: SERIF,
-          fontVariant: 'small-caps',
-          letterSpacing: '2px',
-          color: SEAL_AMBER,
-          fontStyle: 'italic',
-          fontSize: '11px',
-        }}
-      >
-        Pier Spots
-      </div>
-      <div
-        style={{
-          flex: '0 0 auto',
-          fontFamily: SERIF,
-          fontSize: '13px',
-          color: INK,
-        }}
-      >
-        <b>{harbor.dock_spots_used}</b> / {harbor.dock_spots_max}
-      </div>
+    <div
+      style={{
+        ...fieldRowStyle,
+        display: 'flex',
+        gap: '32px',
+        justifyContent: 'flex-start',
+      }}
+    >
+      <BudgetPair
+        label="Hails Today"
+        value={
+          <>
+            <b>{harbor.hails_remaining}</b> / {harbor.hails_per_day}
+          </>
+        }
+      />
+      <BudgetPair
+        label="Pier Spots"
+        value={
+          <>
+            <b>{harbor.dock_spots_used}</b> / {harbor.dock_spots_max}
+          </>
+        }
+      />
     </div>
   );
 };
 
-export const HarborTab = (props: { harbor?: HarborData; act: ActFn }) => {
-  const { harbor, act } = props;
+export const HarborTab = (props: {
+  harbor?: HarborData;
+  budget: number;
+  act: ActFn;
+}) => {
+  const { harbor, budget, act } = props;
   const [tab, setTab] = useState<HarborSubTab>('ships');
 
   if (!harbor) {
@@ -106,10 +112,10 @@ export const HarborTab = (props: { harbor?: HarborData; act: ActFn }) => {
         </button>
         <button
           type="button"
-          style={subTabStyle(tab === 'nations')}
-          onClick={() => setTab('nations')}
+          style={subTabStyle(tab === 'realms')}
+          onClick={() => setTab('realms')}
         >
-          Nations
+          Realms
         </button>
       </div>
       {tab === 'ships' && (
@@ -119,10 +125,11 @@ export const HarborTab = (props: { harbor?: HarborData; act: ActFn }) => {
           dockSpotsUsed={harbor.dock_spots_used}
           dockSpotsMax={harbor.dock_spots_max}
           hailsRemaining={harbor.hails_remaining}
+          budget={budget}
           act={act}
         />
       )}
-      {tab === 'nations' && <NationsView nations={harbor.nations} />}
+      {tab === 'realms' && <RealmsView realms={harbor.realms} />}
     </div>
   );
 };

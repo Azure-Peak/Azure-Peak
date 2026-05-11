@@ -12,6 +12,7 @@ import {
 } from '../common/parchment';
 import { ChartersSection } from './AvisaSections/ChartersSection';
 import { EventsSection } from './AvisaSections/EventsSection';
+import { HarborSection } from './AvisaSections/HarborSection';
 import { ScoutsSection } from './AvisaSections/ScoutsSection';
 import { TradeOrdersSection } from './AvisaSections/TradeOrdersSection';
 import { type TabProps } from './types';
@@ -19,6 +20,7 @@ import { type TabProps } from './types';
 type AvisaSection =
   | 'charters'
   | 'trade_orders'
+  | 'harbor'
   | 'scouts'
   | 'events'
   | 'assembly';
@@ -42,6 +44,12 @@ const SECTIONS: SectionMeta[] = [
     label: 'Trade Orders',
     blurb:
       "Demands of the realm's merchants and stockpiles, awaiting fulfillment.",
+  },
+  {
+    key: 'harbor',
+    label: 'Harbor',
+    blurb:
+      'Foreign vessels at the pier - their bulk demands and cultural wares brought ashore.',
   },
   {
     key: 'scouts',
@@ -109,6 +117,7 @@ export const AvisaTab = ({ data, act }: TabProps) => {
 
       {section === 'charters' && <ChartersSection data={data} />}
       {section === 'trade_orders' && <TradeOrdersSection data={data} />}
+      {section === 'harbor' && <HarborSection data={data} />}
       {section === 'scouts' && <ScoutsSection data={data} />}
       {section === 'events' && <EventsSection data={data} />}
       {section === 'assembly' && <AssemblySection act={act} />}

@@ -7,7 +7,6 @@ import {
   subTabStyle,
   titleStyle,
 } from '../common/parchment';
-import { MammonRow } from './MammonRow';
 import { PacksGrid } from './PacksGrid';
 import { SearchBar } from './SearchBar';
 import { TariffHeader } from './TariffHeader';
@@ -54,13 +53,6 @@ export const VendingPanel = (props: { data: VendingData; act: ActFn }) => {
         tariffEvaded={data.tariff_evaded}
         isProprietor={isProprietor}
         dodging={!!data.dodging}
-      />
-      <MammonRow
-        budget={data.budget}
-        canRead={canRead}
-        isProprietor={isProprietor}
-        isPublic={isPublic}
-        act={act}
       />
       <div style={subTabBarStyle}>
         {data.categories.map((cat) => (

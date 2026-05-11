@@ -50,6 +50,31 @@ export type TradeOrder = {
   requirements: TradeOrderRequirement[];
 };
 
+export type HarborDemandLine = {
+  good_name: string;
+  qty_target: number;
+  qty_fulfilled: number;
+  qty_remaining: number;
+  offered_price: number;
+};
+
+export type HarborCulturalEntry = {
+  name: string;
+  qty: number;
+  base_cost: number;
+  price: number;
+};
+
+export type HarborDemand = {
+  ship_id: string;
+  ship_name: string;
+  realm_name: string;
+  realm_id: string;
+  seconds_until_departure: number;
+  lines: HarborDemandLine[];
+  cultural_stock: HarborCulturalEntry[];
+};
+
 export type Charter = {
   name: string;
   year: string | number;
@@ -85,6 +110,7 @@ export type NoticeboardData = {
   postings: Posting[];
   scout_regions: ScoutRegion[];
   trade_orders: TradeOrder[];
+  harbor_demands: HarborDemand[];
   charters: Charter[];
   economic_events: EconomicEvent[];
   mercenary_roster: MercenaryRoster;

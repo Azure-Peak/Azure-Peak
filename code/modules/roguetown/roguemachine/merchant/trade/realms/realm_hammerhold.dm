@@ -1,8 +1,8 @@
-/datum/foreign_nation/hammerhold
-	id = NATIONALITY_HAMMERHOLD
+/datum/foreign_realm/hammerhold
+	id = REALM_HAMMERHOLD
 	name = "Hammerhold"
 	auto_discovered = FALSE
-	roll_weight = TRADE_NATION_WEIGHT_DISTANT
+	roll_weight = TRADE_REALM_WEIGHT_DISTANT
 	ship_name_words = list(
 		"Æthel", "Beorht", "Hammer", "Anvil", "Grim",
 		"Wulf", "Stan", "Hild", "Mæst",
@@ -36,5 +36,3 @@
 	city_tag_chance = 30
 	city_tag_format = "of %CITY%"
 	cultural_goods = list()
-	preferred_imports = list()
-	preferred_exports = list()

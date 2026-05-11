@@ -1479,6 +1479,10 @@
 "TN" = (
 /turf/closed/wall/mineral/rogue/stonebrick,
 /area/rogue/indoors)
+"Ue" = (
+/obj/structure/roguemachine/ship_fulfillment,
+/turf/open/floor/rogue/tile/masonic/single,
+/area/rogue/indoors/town/vault)
 "Ur" = (
 /obj/structure/table/wood{
 	icon_state = "longtable"
@@ -3586,7 +3590,7 @@ eu
 ne
 dZ
 Zu
-rN
+Ue
 xt
 CZ
 AX

@@ -337,7 +337,7 @@
 			"ship_id" = ship.ship_id,
 			"ship_name" = ship.ship_name,
 			"captain_name" = is_docked ? ship.captain_name : null,
-			"nationality_id" = ship.nationality_id,
+			"realm_id" = ship.realm_id,
 			"ship_type" = ship.ship_type,
 			"tonnage" = ship.tonnage,
 		)
@@ -345,31 +345,70 @@
 			var/seconds_left = max(0, round((ship.dock_expires_at - world.time) / 10))
 			row["seconds_until_departure"] = seconds_left
 			row["can_send_away"] = (world.time >= ship.docked_at + TRADE_SHIP_SEND_AWAY_GRACE) ? TRUE : FALSE
+			row["bulk_demands"] = ship.bulk_demands.Copy()
+			row["bulk_supplies"] = ship.bulk_supplies.Copy()
 			docked += list(row)
 		else
 			pool += list(row)
-	var/list/nations = list()
-	for(var/nat_id in SSmerchant_trade.nations)
-		var/datum/foreign_nation/N = SSmerchant_trade.nations[nat_id]
-		var/discovered = SSmerchant_trade.is_discovered(N.id)
-		var/list/nrow = list(
-			"id" = N.id,
-			"name" = N.name,
+	var/list/realms = list()
+	for(var/realm_id in SSmerchant_trade.realms)
+		var/datum/foreign_realm/R = SSmerchant_trade.realms[realm_id]
+		var/discovered = SSmerchant_trade.is_discovered(R.id)
+		var/list/rrow = list(
+			"id" = R.id,
+			"name" = R.name,
 			"discovered" = discovered ? TRUE : FALSE,
-			"cultural_goods" = N.cultural_goods ? N.cultural_goods.Copy() : list(),
+			"cultural_goods" = R.cultural_goods ? R.cultural_goods.Copy() : list(),
+			"basic_buys" = pool_good_names(R.bulk_demand_pool, TRUE),
+			"rare_buys" = pool_good_names(R.bulk_demand_pool, FALSE),
+			"basic_sells" = pool_good_names(R.bulk_supply_pool, TRUE),
+			"rare_sells" = pool_good_names(R.bulk_supply_pool, FALSE),
 		)
 		if(discovered)
-			nrow["market_conditions"] = list()
-		nations += list(nrow)
+			rrow["market_conditions"] = list()
+		realms += list(rrow)
 	return list(
 		"ships_docked" = docked,
 		"ships_pool" = pool,
-		"nations" = nations,
+		"realms" = realms,
 		"hails_remaining" = SSmerchant_trade.hails_remaining,
 		"hails_per_day" = TRADE_SHIPS_HAIL_PER_DAY,
 		"dock_spots_used" = length(docked),
 		"dock_spots_max" = SSmerchant_trade.get_dock_spots_max(),
+		"cultural_stock" = build_cultural_stock_data(),
 	)
+
+/obj/structure/roguemachine/goldface/proc/pool_good_names(list/pool, want_always)
+	var/list/result = list()
+	for(var/list/entry in pool)
+		if(want_always && !entry["always"])
+			continue
+		if(!want_always && entry["always"])
+			continue
+		var/datum/trade_good/TG = GLOB.trade_goods[entry["good"]]
+		if(TG)
+			result += TG.name
+	return result
+
+/obj/structure/roguemachine/goldface/proc/build_cultural_stock_data()
+	var/list/result = list()
+	for(var/datum/trade_ship/ship in SSmerchant_trade.all_ships)
+		if(ship.dock_state != TRADE_SHIP_STATE_DOCKED)
+			continue
+		for(var/list/entry in ship.cultural_stock)
+			if(entry["qty"] <= 0)
+				continue
+			var/discounted = round(entry["base_cost"] * (100 - TRADE_CULTURAL_SHIP_DISCOUNT_PERCENT) / 100)
+			result += list(list(
+				"pack" = entry["pack"],
+				"name" = entry["name"],
+				"qty" = entry["qty"],
+				"base_cost" = entry["base_cost"],
+				"price" = discounted,
+				"ship_id" = ship.ship_id,
+				"ship_name" = ship.ship_name,
+			))
+	return result
 
 /obj/structure/roguemachine/goldface/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)
 	. = ..()
@@ -470,16 +509,114 @@
 			var/result = SSmerchant_trade.send_away_ship(ship_id, usr)
 			handle_send_away_result(result, usr)
 			return TRUE
+		if("cultural_buy")
+			if(!SSmerchant_trade)
+				return TRUE
+			var/path = text2path(params["pack"])
+			if(!ispath(path, /datum/supply_pack))
+				return TRUE
+			var/datum/supply_pack/PA = SSmerchant.supply_packs[path]
+			if(!PA)
+				return TRUE
+			var/ship_id = "[params["ship_id"]]"
+			var/datum/trade_ship/source_ship = SSmerchant_trade.find_ship_by_id(ship_id)
+			if(!source_ship || source_ship.dock_state != TRADE_SHIP_STATE_DOCKED)
+				to_chat(H, span_warning("That vessel is no longer at the pier."))
+				return TRUE
+			var/discounted_base = round(PA.cost * (100 - TRADE_CULTURAL_SHIP_DISCOUNT_PERCENT) / 100)
+			var/tax_amt = round(SStreasury.get_tax_rate(TAX_CATEGORY_IMPORT_TARIFF) * discounted_base)
+			var/total_cost = discounted_base
+			if(!(upgrade_flags & UPGRADE_NOTAX) && !bypass_tax)
+				total_cost += tax_amt
+			if(budget < total_cost)
+				say("Not enough!")
+				return TRUE
+			if(!SSmerchant_trade.consume_cultural_stock(source_ship, path))
+				to_chat(H, span_warning("That stock is no longer available."))
+				return TRUE
+			budget -= total_cost
+			record_round_statistic(value_record_key, total_cost)
+			record_round_statistic(STATS_TRADE_VALUE_IMPORTED, total_cost)
+			if(!(upgrade_flags & UPGRADE_NOTAX) && !bypass_tax)
+				SStreasury.mint(SStreasury.discretionary_fund, tax_amt, "[TAX_CATEGORY_IMPORT_TARIFF] ([src.name])")
+				SStreasury.apply_concordat_tithe(total_cost, TAX_CATEGORY_IMPORT_TARIFF, "[src.name]")
+				record_featured_stat(FEATURED_STATS_TAX_PAYERS, H, tax_amt)
+				record_round_statistic(STATS_TAXES_COLLECTED, tax_amt)
+				record_round_statistic(STATS_REVENUE_IMPORT_TARIFF, tax_amt)
+				tariff_collected_here += tax_amt
+			else
+				record_round_statistic(STATS_TAXES_EVADED, tax_amt)
+				tariff_evaded_here += tax_amt
+			for(var/pathi in PA.contains)
+				new pathi(get_turf(usr))
+			return TRUE
+		if("bulk_buy")
+			if(!is_command_center || !(H.job in profit_id) || !SSmerchant_trade)
+				return TRUE
+			var/ship_id = "[params["ship_id"]]"
+			var/good_id = "[params["good"]]"
+			var/qty = text2num(params["qty"])
+			if(!qty || qty < 1)
+				return TRUE
+			var/datum/trade_ship/source_ship = SSmerchant_trade.find_ship_by_id(ship_id)
+			if(!source_ship || source_ship.dock_state != TRADE_SHIP_STATE_DOCKED)
+				to_chat(H, span_warning("That vessel is no longer at the pier."))
+				return TRUE
+			var/list/line = null
+			for(var/list/L in source_ship.bulk_supplies)
+				if(L["good"] == good_id)
+					line = L
+					break
+			if(!line)
+				to_chat(H, span_warning("That cargo is no longer on offer."))
+				return TRUE
+			var/datum/trade_good/TG = GLOB.trade_goods[good_id]
+			if(!TG || !TG.item_type)
+				to_chat(H, span_warning("That cargo cannot be handled at this pier."))
+				return TRUE
+			qty = min(qty, line["qty_target"] - line["qty_fulfilled"])
+			if(qty < 1)
+				to_chat(H, span_warning("That cargo is sold out."))
+				return TRUE
+			var/unit_cost = line["offered_price"]
+			var/gross = unit_cost * qty
+			var/tariff_active = !(upgrade_flags & UPGRADE_NOTAX) && !bypass_tax
+			var/tariff_float = SStreasury.get_tax_rate(TAX_CATEGORY_IMPORT_TARIFF) * gross
+			var/total_cost = gross + (tariff_active ? round(tariff_float) : 0)
+			if(budget < total_cost)
+				say("Not enough!")
+				return TRUE
+			line["qty_fulfilled"] += qty
+			budget -= total_cost
+			record_round_statistic(value_record_key, total_cost)
+			record_round_statistic(STATS_TRADE_VALUE_IMPORTED, total_cost)
+			if(tariff_active)
+				if(tariff_float > 0)
+					SStreasury.mint_fractional(SStreasury.discretionary_fund, tariff_float, "[TAX_CATEGORY_IMPORT_TARIFF] (bulk import: [TG.name] x[qty])")
+					SStreasury.apply_concordat_tithe(gross, TAX_CATEGORY_IMPORT_TARIFF, "bulk import")
+					record_featured_stat(FEATURED_STATS_TAX_PAYERS, H, round(tariff_float))
+					record_round_statistic(STATS_TAXES_COLLECTED, round(tariff_float))
+					record_round_statistic(STATS_REVENUE_IMPORT_TARIFF, round(tariff_float))
+					tariff_collected_here += round(tariff_float)
+			else
+				record_round_statistic(STATS_TAXES_EVADED, round(tariff_float))
+				tariff_evaded_here += round(tariff_float)
+			var/turf/T = get_turf(src)
+			for(var/i in 1 to qty)
+				new TG.item_type(T)
+			playsound(loc, 'sound/misc/gold_misc.ogg', 70, FALSE, -1)
+			to_chat(H, span_notice("You buy [qty] [TG.name] from [source_ship.ship_name] for [total_cost]m[tariff_active && tariff_float > 0 ? " (incl. [round(tariff_float)]m Crown duty)" : ""]."))
+			return TRUE
 
 /obj/structure/roguemachine/goldface/proc/handle_hail_result(result, datum/trade_ship/ship, mob/user)
 	switch(result)
 		if("ok")
 			to_chat(user, span_notice("You signal the [ship.ship_name] to make port. She is being brought in now."))
 		if("ok_first")
-			var/datum/foreign_nation/nation = SSmerchant_trade.nations[ship.nationality_id]
-			var/nation_name = nation ? nation.name : ship.nationality_id
+			var/datum/foreign_realm/realm = SSmerchant_trade.realms[ship.realm_id]
+			var/realm_name = realm ? realm.name : ship.realm_id
 			to_chat(user, span_notice("You signal the [ship.ship_name] to make port. She is being brought in now."))
-			to_chat(user, span_info("The captain of the [ship.ship_name] is the first of [nation_name] to make port this week. They bring fresh dispatches from [nation_name] - their markets and news are now clear to you."))
+			to_chat(user, span_info("The captain of the [ship.ship_name] is the first of [realm_name] to make port this week. They bring fresh dispatches from [realm_name] - their markets and news are now clear to you."))
 		if("no_hails")
 			to_chat(user, span_warning("You have no hails left to spend today."))
 		if("no_dock_spots")

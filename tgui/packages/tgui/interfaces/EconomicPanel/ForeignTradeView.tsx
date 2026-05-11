@@ -7,19 +7,19 @@ import {
 } from 'tgui-core/components';
 import type { BooleanLike } from 'tgui-core/react';
 
-export type ForeignNation = {
+export type ForeignRealm = {
   id: string;
   name: string;
   auto_discovered: BooleanLike;
   discovered: BooleanLike;
   cultural_goods_count: number;
-  preferred_imports_count: number;
-  preferred_exports_count: number;
+  bulk_demand_count: number;
+  bulk_supply_count: number;
 };
 
 export type TradeShip = {
   ship_id: string;
-  nationality_id: string;
+  realm_id: string;
   ship_name: string;
   captain_name: string;
   ship_type: string;
@@ -30,7 +30,7 @@ export type TradeShip = {
 };
 
 export type ForeignTrade = {
-  nations: ForeignNation[];
+  realms: ForeignRealm[];
   ships?: TradeShip[];
 };
 
@@ -44,7 +44,7 @@ export const ForeignTradeView = (props: {
   return (
     <Stack vertical>
       <Stack.Item>
-        <NationsSection foreignTrade={foreignTrade} act={act} />
+        <RealmsSection foreignTrade={foreignTrade} act={act} />
       </Stack.Item>
       <Stack.Item>
         <ShipsSection foreignTrade={foreignTrade} act={act} />
@@ -53,14 +53,14 @@ export const ForeignTradeView = (props: {
   );
 };
 
-const NationsSection = (props: {
+const RealmsSection = (props: {
   foreignTrade: ForeignTrade;
   act: ActFn;
 }) => {
   const { foreignTrade, act } = props;
   return (
     <Section
-      title="Foreign Trade - Nations"
+      title="Foreign Trade - Realms"
       buttons={
         <Button.Confirm color="bad" onClick={() => act('clear_trade_ships')}>
           Clear All Ships
@@ -69,47 +69,47 @@ const NationsSection = (props: {
     >
       <Table>
         <Table.Row header>
-          <Table.Cell>Nation</Table.Cell>
+          <Table.Cell>Realm</Table.Cell>
           <Table.Cell collapsing>Discovered?</Table.Cell>
           <Table.Cell collapsing>Cultural Goods</Table.Cell>
           <Table.Cell collapsing>Demands / Supplies</Table.Cell>
           <Table.Cell collapsing>&nbsp;</Table.Cell>
         </Table.Row>
-        {foreignTrade.nations.map((n) => (
-          <Table.Row key={n.id}>
+        {foreignTrade.realms.map((r) => (
+          <Table.Row key={r.id}>
             <Table.Cell>
-              <b>{n.name}</b>
+              <b>{r.name}</b>
               <Box italic color="gray" fontSize="11px">
-                {n.id}
+                {r.id}
               </Box>
             </Table.Cell>
             <Table.Cell collapsing>
-              {n.discovered ? (
+              {r.discovered ? (
                 <span style={{ color: '#5cb85c' }}>
-                  {n.auto_discovered ? 'auto' : 'discovered'}
+                  {r.auto_discovered ? 'auto' : 'discovered'}
                 </span>
               ) : (
                 <span style={{ color: '#888' }}>hidden</span>
               )}
             </Table.Cell>
-            <Table.Cell collapsing>{n.cultural_goods_count}</Table.Cell>
+            <Table.Cell collapsing>{r.cultural_goods_count}</Table.Cell>
             <Table.Cell collapsing>
-              {n.preferred_imports_count} / {n.preferred_exports_count}
+              {r.bulk_demand_count} / {r.bulk_supply_count}
             </Table.Cell>
             <Table.Cell collapsing>
               <Button
                 onClick={() =>
-                  act('spawn_trade_ship', { nationality_id: n.id })
+                  act('spawn_trade_ship', { realm_id: r.id })
                 }
               >
                 Spawn Ship
               </Button>
-              {!n.discovered && (
+              {!r.discovered && (
                 <Button
                   ml={1}
                   onClick={() =>
-                    act('discover_nationality', {
-                      nationality_id: n.id,
+                    act('discover_realm', {
+                      realm_id: r.id,
                     })
                   }
                 >
@@ -134,9 +134,12 @@ const ShipsSection = (props: {
     <Section
       title={`Foreign Trade - Ships (${ships.length})`}
       buttons={
-        <Button onClick={() => act('reroll_trade_ships')}>
-          Reroll Daily Pool
-        </Button>
+        <>
+          <Button onClick={() => act('regen_hails')}>Regen Hails</Button>
+          <Button ml={1} onClick={() => act('reroll_trade_ships')}>
+            Reroll Daily Pool
+          </Button>
+        </>
       }
     >
       {ships.length === 0 ? (
@@ -148,7 +151,7 @@ const ShipsSection = (props: {
           <Table.Row header>
             <Table.Cell>Ship</Table.Cell>
             <Table.Cell>Captain</Table.Cell>
-            <Table.Cell collapsing>Nationality</Table.Cell>
+            <Table.Cell collapsing>Realm</Table.Cell>
             <Table.Cell collapsing>Type</Table.Cell>
             <Table.Cell collapsing>Tonnage</Table.Cell>
             <Table.Cell collapsing>State</Table.Cell>
@@ -159,7 +162,7 @@ const ShipsSection = (props: {
             <Table.Row key={s.ship_id}>
               <Table.Cell>{s.ship_name}</Table.Cell>
               <Table.Cell>{s.captain_name}</Table.Cell>
-              <Table.Cell collapsing>{s.nationality_id}</Table.Cell>
+              <Table.Cell collapsing>{s.realm_id}</Table.Cell>
               <Table.Cell collapsing>{s.ship_type}</Table.Cell>
               <Table.Cell collapsing>{s.tonnage}t</Table.Cell>
               <Table.Cell collapsing>{s.dock_state}</Table.Cell>

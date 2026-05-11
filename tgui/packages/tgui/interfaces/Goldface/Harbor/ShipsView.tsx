@@ -26,12 +26,20 @@ type Props = {
   dockSpotsUsed: number;
   dockSpotsMax: number;
   hailsRemaining: number;
+  budget: number;
   act: ActFn;
 };
 
 export const ShipsView = (props: Props) => {
-  const { docked, pool, dockSpotsUsed, dockSpotsMax, hailsRemaining, act } =
-    props;
+  const {
+    docked,
+    pool,
+    dockSpotsUsed,
+    dockSpotsMax,
+    hailsRemaining,
+    budget,
+    act,
+  } = props;
   const dockFull = dockSpotsUsed >= dockSpotsMax;
   const noHails = hailsRemaining <= 0;
   return (
@@ -49,6 +57,8 @@ export const ShipsView = (props: Props) => {
             <ShipRow
               key={s.ship_id}
               ship={s}
+              budget={budget}
+              act={act}
               onSendAway={() => act('send_away', { ship_id: s.ship_id })}
             />
           ))}
@@ -68,6 +78,8 @@ export const ShipsView = (props: Props) => {
             <ShipRow
               key={s.ship_id}
               ship={s}
+              budget={budget}
+              act={act}
               hailDisabled={dockFull || noHails}
               hailDisabledReason={
                 noHails

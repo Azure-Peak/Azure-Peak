@@ -5,6 +5,7 @@
 	var/datum/weakref/owner_ref
 	var/created_at
 	var/tax_debt = 0
+	var/list/pending_micro = list()
 
 /datum/fund/New(fund_name, mob/living/fund_owner, starting_balance = 0, fund_currency = CURRENCY_MAMMON)
 	. = ..()

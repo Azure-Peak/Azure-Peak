@@ -110,6 +110,31 @@
 		log_fund_entry(new /datum/treasury_entry("mint", null, to_fund, credited, reason))
 	return TRUE
 
+/datum/controller/subsystem/treasury/proc/mint_fractional(datum/fund/to_fund, amount, reason, datum/fund/source_fund)
+	if(!to_fund || amount <= 0)
+		return 0
+	to_fund.pending_micro += list(list(
+		"amount" = amount,
+		"source" = source_fund ? WEAKREF(source_fund) : null,
+		"reason" = reason,
+	))
+	var/total = 0
+	for(var/list/entry as anything in to_fund.pending_micro)
+		total += entry["amount"]
+	if(total < 1)
+		return 0
+	var/whole = round(total)
+	var/remainder = total - whole
+	var/contributors = length(to_fund.pending_micro)
+	for(var/list/entry as anything in to_fund.pending_micro)
+		var/datum/fund/source = entry["source"]?.resolve()
+		log_fund_entry(new /datum/treasury_entry("micro", source, to_fund, entry["amount"], entry["reason"]))
+	to_fund.pending_micro = list()
+	if(remainder > 0)
+		to_fund.pending_micro += list(list("amount" = remainder, "source" = null, "reason" = "carryover"))
+	mint(to_fund, whole, "Fractional remit ([whole]m from [contributors] pending entries)")
+	return whole
+
 /datum/controller/subsystem/treasury/proc/burn(datum/fund/from_fund, amount, reason)
 	if(!from_fund || amount <= 0)
 		return FALSE
