@@ -441,9 +441,9 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 			break
 	if(raw_message in GLOB.outlawed_players)
 		GLOB.outlawed_players -= raw_message
+		priority_announce("[raw_message] is no longer an outlaw in [SSticker.realm_name].", "The [SSticker.rulertype] Decrees", 'sound/misc/royal_decree.ogg', "Captain")
 		message_admins("THROAT: [found_human.real_name] ([found_human.ckey]) is no longer an outlaw!")
 		log_game("THROAT: [found_human.real_name] ([found_human.ckey]) is no longer an outlaw!")
-		priority_announce("[raw_message] is no longer an outlaw in [SSticker.realm_name].", "The [SSticker.rulertype] Decrees", 'sound/misc/royal_decree.ogg', "Captain")
 		if(istype(found_human))
 			REMOVE_TRAIT(found_human, TRAIT_OUTLAW, TRAIT_GENERIC)
 			if(HAS_TRAIT(found_human, TRAIT_GUARDSMAN_DISGRACED))
@@ -455,9 +455,9 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 		return FALSE
 	GLOB.outlawed_players += raw_message
 	ADD_TRAIT(found_human, TRAIT_OUTLAW, TRAIT_GENERIC)
+	priority_announce("[raw_message] has been declared an outlaw and must be captured or slain.", "The [SSticker.rulertype] Decrees", 'sound/misc/royal_decree2.ogg', "Captain")
 	message_admins("THROAT: [found_human.real_name] ([found_human.ckey]) was declared an outlaw!")
 	log_game("THROAT: [found_human.real_name] ([found_human.ckey]) was declared an outlaw!")
-	priority_announce("[raw_message] has been declared an outlaw and must be captured or slain.", "The [SSticker.rulertype] Decrees", 'sound/misc/royal_decree2.ogg', "Captain")
 	if(HAS_TRAIT(found_human, TRAIT_GUARDSMAN))
 		REMOVE_TRAIT(found_human, TRAIT_GUARDSMAN, JOB_TRAIT)
 		ADD_TRAIT(found_human, TRAIT_GUARDSMAN_DISGRACED, TRAIT_GENERIC)
