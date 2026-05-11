@@ -1966,13 +1966,10 @@
 			if(is_heretic && target != user)
 				user.apply_status_effect(/datum/status_effect/debuff/lux_exhausted)
 				target.apply_status_effect(/datum/status_effect/debuff/lux_exhausted)
-<<<<<<< RecruitRoles
 			message_admins("RITUALS: [user.real_name] ([user.ckey]) has performed an armaments ritual on [target.real_name] ([target.ckey])")
 			log_game("RITUALS: [user.real_name] ([user.ckey]) has performed an armaments ritual on [target.real_name] ([target.ckey]), with choices [armor_choice] and [weapon_choice]")
 			graggararmor(target, helm_choice, armor_choice, weapon_choice)
-=======
 			graggararmor(target, helm_choice, armor_choice)
->>>>>>> main
 			spawn(120)
 				icon_state = "graggar_chalky" 
 		if("War Ritual")
