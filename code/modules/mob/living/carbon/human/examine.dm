@@ -1108,16 +1108,22 @@
 			heretic_text += "A member of Zizo's cabal."
 			if(HAS_TRAIT(examiner, TRAIT_CABAL))
 				heretic_text += " May their ambitions not interfere with mine."
+		else if(HAS_TRAIT(examiner, TRAIT_CABAL))
+			heretic_text += "Another of the Cabal."
 	else if((HAS_TRAIT(src, TRAIT_HORDE)))
 		if(seer)
 			heretic_text += "Hardened by Graggar's Rituals."
 			if(HAS_TRAIT(examiner, TRAIT_HORDE))
 				heretic_text += " Mine were a glorious memory."
+		else if(HAS_TRAIT(examiner, TRAIT_HORDE))
+			heretic_text += "BLOOD-SIBLING!"
 	else if((HAS_TRAIT(src, TRAIT_DEPRAVED)))
 		if(seer)
 			heretic_text += "Baotha's Touched."
 			if(HAS_TRAIT(examiner, TRAIT_DEPRAVED))
 				heretic_text += " She leads us to the greatest ends."
+		else if(HAS_TRAIT(examiner, TRAIT_DEPRAVED))
+			heretic_text += "Another Broken-Hearted..."
 
 	return heretic_text
 
