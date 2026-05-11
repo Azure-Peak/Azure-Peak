@@ -78,8 +78,8 @@
 		if(!Were && !Vamp)
 			user.visible_message(span_notice("[user] anoints [M]'s brow with [src]."))
 			ADD_TRAIT(M, TRAIT_SILVER_BLESSED, POULTICE_TRAIT)
-			message_admins("DECONVERSION: [M.real_name] ([M.ckey]) was annointed with quicksilver, pre-emptively")
-			log_game("DECONVERSION: [M.real_name] ([M.ckey]) was annointed with quicksilver, pre-emptively")
+			message_admins("DECONVERSION: [ADMIN_LOOKUPFLW(M)] was annointed with quicksilver, pre-emptively by [user.real_name] ([user.ckey]) the [user.job]")
+			log_game("DECONVERSION: [M.real_name] ([M.ckey]) was annointed with quicksilver, pre-emptively by [user.real_name] ([user.ckey]) the [user.job]")
 			success = 1
 		else
 			to_chat(M, span_userdanger("This silver concoction burns! It threatens to undo me!"))
@@ -87,6 +87,8 @@
 			M.adjustFireLoss(25)
 			M.fire_act(3,3) //Not too bad, but not a single pat to put out.
 			user.visible_message(span_danger("[src] bursts into flames on [M]'s brow, yet [user] vies to complete the anointment."))
+			message_admins("DECONVERSION: [ADMIN_LOOKUPFLW(M)] is being deconverted by [user.real_name] ([user.ckey]) the [user.job]")
+			log_game("DECONVERSION: [M.real_name] ([M.ckey]) is being deconverted by [user.real_name] ([user.ckey]) the [user.job]")
 			if(do_after(user, 10 SECONDS, target = M))
 				user.visible_message(span_danger("[user] anoints [M]'s brow with [src]."))
 				success = 1
@@ -118,7 +120,7 @@
 			to_chat(M, span_userdanger("THE FOUL SILVER! MY BODY RENDS ITSELF ASUNDER!"))
 			M.werewolf_untransform()
 			Wereless.on_removal()
-			message_admins("DECONVERSION: [M.real_name] ([M.ckey]) werewolf, was deconverted during wereform")
+			message_admins("DECONVERSION: [ADMIN_LOOKUPFLW(M)] werewolf, was deconverted during wereform")
 			log_game("DECONVERSION: [M.real_name] ([M.ckey]) werewolf, was deconverted during wereform")
 			ADD_TRAIT(I, TRAIT_SILVER_BLESSED, POULTICE_TRAIT)
 			ADD_TRAIT(I, TRAIT_PACIFISM, POULTICE_TRAIT)
@@ -132,7 +134,7 @@
 			M.emote("agony", forced = TRUE)
 			to_chat(M, span_userdanger("THE FOUL SILVER! IT BURNS ME TO MY CORE!"))
 			Were.on_removal()
-			message_admins("DECONVERSION: [M.real_name] ([M.ckey]) werewolf, was deconverted")
+			message_admins("DECONVERSION: [ADMIN_LOOKUPFLW(M)] werewolf, was deconverted")
 			log_game("DECONVERSION: [M.real_name] ([M.ckey]) werewolf, was deconverted")
 			ADD_TRAIT(M, TRAIT_SILVER_BLESSED, POULTICE_TRAIT)
 			M.poultice_pacify()
@@ -160,7 +162,7 @@
 			M.emote("agony", forced = TRUE)
 			to_chat(M, span_userdanger("THE FOUL SILVER! MY STILL HEART QUICKENS ONCE MORE!"))
 			Vamp.on_removal()
-			message_admins("DECONVERSION: [M.real_name] ([M.ckey]) vampire, was deconverted")
+			message_admins("DECONVERSION: [ADMIN_LOOKUPFLW(M)] vampire, was deconverted")
 			log_game("DECONVERSION: [M.real_name] ([M.ckey]) vampire, was deconverted")
 			ADD_TRAIT(M, TRAIT_SILVER_BLESSED, POULTICE_TRAIT)
 			M.poultice_pacify()

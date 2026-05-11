@@ -1221,7 +1221,7 @@
 	if(target.mob_biotypes & MOB_UNDEAD) //positive energy harms the undead
 		target.visible_message(span_danger("[target] is unmade by divine magic! The Toll is accepted, and [target] is dragged to ever-death!"), span_userdanger("I'm unmade by divine magic!"))
 		target.gib()
-		message_admins("RITUALS: [user.real_name] ([user.ckey]) has gibbed [target.real_name] ([target.ckey]) due to being undead via toll revival")
+		message_admins("RITUALS: [ADMIN_LOOKUPFLW(user)] ([user.ckey]) has gibbed [target.real_name] ([target.ckey]) due to being undead via toll revival")
 		log_game("RITUALS: [user.real_name] ([user.ckey]) has gibbed [target.real_name] ([target.ckey]) due to being undead via toll revival")
 		//whoops! likely a mistake but useful to know
 		return
@@ -1483,7 +1483,7 @@
 				return
 			icon_state = "undivided_active"
 			user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
-			message_admins("RITUALS: [user.real_name] ([user.ckey]) has performed an undivided crusader oath ritual")
+			message_admins("RITUALS: [ADMIN_LOOKUPFLW(user)] has performed an undivided crusader oath ritual")
 			log_game("RITUALS: [user.real_name] ([user.ckey]) has performed an undivided crusader oath ritual")
 			//Kind of important we aren't being a dick with this rite, so admins get notified. target.real_name/target.ckey wasn't working for SOME reasoning I guess
 			//fuck my lyfe.
@@ -1616,7 +1616,7 @@
 			if(is_heretic && target != user)
 				user.apply_status_effect(/datum/status_effect/debuff/lux_exhausted)
 				target.apply_status_effect(/datum/status_effect/debuff/lux_exhausted)
-			message_admins("RITUALS: [user.real_name] ([user.ckey]) has performed an armaments ritual on [target.real_name] ([target.ckey])")
+			message_admins("RITUALS: [ADMIN_LOOKUPFLW(user)] has performed an armaments ritual on [target.real_name] ([target.ckey])")
 			log_game("RITUALS: [user.real_name] ([user.ckey]) has performed an armaments ritual on [target.real_name] ([target.ckey]), with armortype [armor_choice]")
 			//More detailed to not clutter admin logs, includes only important chestplate armor level and weapon type
 			zizoarmaments(target, helm_choice, armor_choice)
@@ -1763,7 +1763,7 @@
 				user.apply_status_effect(/datum/status_effect/debuff/lux_exhausted)
 				target.apply_status_effect(/datum/status_effect/debuff/lux_exhausted)
 			matthiosarmaments(target)
-			message_admins("RITUALS: [user.real_name] ([user.ckey]) has performed an armaments ritual on [target.real_name] ([target.ckey])")
+			message_admins("RITUALS: [ADMIN_LOOKUPFLW(user)] has performed an armaments ritual on [target.real_name] ([target.ckey])")
 			log_game("RITUALS: [user.real_name] ([user.ckey]) has performed an armaments ritual on [target.real_name] ([target.ckey])")
 			//Update if this gets several plate-class choices/weaponry choices
 			spawn(120)
@@ -1966,7 +1966,7 @@
 				user.apply_status_effect(/datum/status_effect/debuff/lux_exhausted)
 				target.apply_status_effect(/datum/status_effect/debuff/lux_exhausted)
 			graggararmor(target, helm_choice, armor_choice)
-			message_admins("RITUALS: [user.real_name] ([user.ckey]) has performed an armaments ritual on [target.real_name] ([target.ckey])")
+			message_admins("RITUALS: [ADMIN_LOOKUPFLW(user)] has performed an armaments ritual on [target.real_name] ([target.ckey])")
 			log_game("RITUALS: [user.real_name] ([user.ckey]) has performed an armaments ritual on [target.real_name] ([target.ckey]), with armortype [armor_choice]")
 			spawn(120)
 				icon_state = "graggar_chalky" 
@@ -1986,7 +1986,7 @@
 			icon_state = "graggar_active"
 			if(perform_warritual())
 				user.apply_status_effect(/datum/status_effect/debuff/ritesexpended_heavy)
-				message_admins("RITUALS: [user.real_name] ([user.ckey]) has performed a war ritual")
+				message_admins("RITUALS: [ADMIN_LOOKUPFLW(user)] has performed a war ritual")
 				log_game("RITUALS: [user.real_name] ([user.ckey]) has performed a war ritual")
 			else
 				to_chat(user, span_warning("The ritual fails. A noble, a member of the Inquisition or a Tennite clergy member must be in the center of the circle!"))
@@ -2158,7 +2158,7 @@
 	
 	user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
 	user.apply_status_effect(/datum/status_effect/joybringer)
-	message_admins("RITUALS: [user.real_name] ([user.ckey]) has performed a joybringer ritual")
+	message_admins("RITUALS: [ADMIN_LOOKUPFLW(user)] has performed a joybringer ritual")
 	log_game("RITUALS: [user.real_name] ([user.ckey]) has performed a war joybringer")
 	//Kind of important as they're basically going to get fragged, for being remotely near people.
 
