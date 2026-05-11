@@ -460,7 +460,7 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 /proc/make_law(raw_message)
 	GLOB.laws_of_the_land += raw_message
 	priority_announce("[length(GLOB.laws_of_the_land)]. [raw_message]", "A LAW IS DECLARED", pick('sound/misc/new_law.ogg', 'sound/misc/new_law2.ogg'), "Captain")
-	log_game("THROAT: new law created \"[raw_message]\"")
+	log_game("THROAT: law created \"[raw_message]\"")
 	record_round_statistic(STATS_LAWS_AND_DECREES_MADE)
 
 /proc/remove_law(law_index)
@@ -475,7 +475,7 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 /proc/purge_laws()
 	GLOB.laws_of_the_land = list()
 	priority_announce("All laws of the land have been purged!", "LAWS PURGED", 'sound/misc/lawspurged.ogg', "Captain")
-	log_game("THROAT: new laws purged.")
+	log_game("THROAT: laws purged.")
 
 /proc/purge_decrees()
 	GLOB.lord_decrees = list()

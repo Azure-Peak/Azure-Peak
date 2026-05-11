@@ -67,9 +67,11 @@
 	switch(action)
 		if("set_rates")
 			SStreasury.apply_rate_adjustments(params["categoryRates"], good_announcement_text, bad_announcement_text)
+			log_game("THROAT: taxes adjusted") //TODO, shorthand way to not clutter the logs/ Vague for now.
 			return TRUE
 		if("set_poll_rates")
 			SStreasury.apply_poll_rate_adjustments(params["pollTaxRates"], good_announcement_text, bad_announcement_text)
+			log_game("THROAT: poll taxes adjusted") //TODO, shorthand way to not clutter the logs. Vague for now.
 			return TRUE
 
 /datum/taxsetter/ui_state(mob/user)

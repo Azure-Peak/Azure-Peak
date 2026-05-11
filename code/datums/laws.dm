@@ -79,8 +79,10 @@
 					law_lines += "[i]. [GLOB.laws_of_the_land[i]]"
 				var/law_text = jointext(law_lines, "\n")
 				priority_announce("[ruler_title] [ruler_name] has modified the laws of the land.\n\n[law_text]", change_announcement_text, pick('sound/misc/new_law.ogg', 'sound/misc/new_law2.ogg'), "Captain")
+				log_game("THROAT: laws modified \"[law_text]\"")
 			else
 				priority_announce("All laws of the land have been purged!", purge_announcement_text, 'sound/misc/lawspurged.ogg', "Captain")
+				log_game("THROAT: laws purged.")
 
 			return TRUE
 
@@ -90,6 +92,7 @@
 				return FALSE
 			GLOB.laws_of_the_land = list()
 			priority_announce("All laws of the land have been purged!", purge_announcement_text, 'sound/misc/lawspurged.ogg', "Captain")
+			log_game("THROAT: laws purged.")
 			return TRUE
 
 /datum/laws_menu/ui_state(mob/user)
