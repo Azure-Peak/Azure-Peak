@@ -52,12 +52,12 @@
 	if(GLOB.lord_titles[recruit.real_name])
 		recruiter.say("I HEREBY STRIP YOU, [uppertext(recruit.name)], OF THE TITLE OF [uppertext(GLOB.lord_titles[recruit.real_name])]!")
 		GLOB.lord_titles -= recruit.real_name
-		message_admins("TITLE REVOKED: [recruiter.real_name] ([recruiter.ckey]) has revoked [recruit.real_name] ([recruit.ckey]) the title of [granted_title]")
+		message_admins("TITLE REVOKED: [ADMIN_LOOKUPFLW(recruiter)] has revoked [recruit.real_name] ([recruit.ckey]) the title of [granted_title]")
 		log_game("TITLE REVOKED: [recruiter.real_name] ([recruiter.ckey]) has revoked [recruit.real_name] ([recruit.ckey]) the title of [granted_title]")
 		return FALSE
 	recruiter.say("I HEREBY GRANT YOU, [uppertext(recruit.name)], THE TITLE OF [uppertext(granted_title)]!")
 	GLOB.lord_titles[recruit.real_name] = granted_title
-	message_admins("TITLE GRANTED: [recruiter.real_name] ([recruiter.ckey]) has granted [recruit.real_name] ([recruit.ckey]) the title of [granted_title]")
+	message_admins("TITLE GRANTED: [ADMIN_LOOKUPFLW(recruiter)] has granted [recruit.real_name] ([recruit.ckey]) the title of [granted_title]")
 	log_game("TITLE GRANTED: [recruiter.real_name] ([recruiter.ckey]) has granted [recruit.real_name] ([recruit.ckey]) the title of [granted_title]")
 	return TRUE
 
@@ -113,7 +113,7 @@
 			recruiter.say("I HEREBY STRIP YOU, [uppertext(recruit.name)], OF NOBILITY!!")
 			REMOVE_TRAIT(recruit, TRAIT_NOBLE, TRAIT_GENERIC)
 			REMOVE_TRAIT(recruit, TRAIT_NOBLE, TRAIT_VIRTUE)
-			message_admins("NOBILITY REVOKED: [recruiter.real_name] ([recruiter.ckey]) has revoked [recruit.real_name] ([recruit.ckey]) of nobility]")
+			message_admins("NOBILITY REVOKED: [ADMIN_LOOKUPFLW(recruiter)] has revoked [recruit.real_name] ([recruit.ckey]) of nobility]")
 			log_game("NOBILITY REVOKED: [recruiter.real_name] ([recruiter.ckey]) has revoked [recruit.real_name] ([recruit.ckey]) of nobility]")
 			return FALSE
 		else
@@ -121,6 +121,6 @@
 			return FALSE
 	recruiter.say("I HEREBY GRANT YOU, [uppertext(recruit.name)], NOBILITY!")
 	ADD_TRAIT(recruit, TRAIT_NOBLE, TRAIT_GENERIC)
-	message_admins("NOBILITY GRANTED: [recruiter.real_name] ([recruiter.ckey]) has granted [recruit.real_name] ([recruit.ckey]) nobility]")
+	message_admins("NOBILITY GRANTED: [ADMIN_LOOKUPFLW(recruiter)] has granted [recruit.real_name] ([recruit.ckey]) nobility]")
 	log_game("NOBILITY GRANTED: [recruiter.real_name] ([recruiter.ckey]) has granted [recruit.real_name] ([recruit.ckey]) nobility]")
 	return TRUE
