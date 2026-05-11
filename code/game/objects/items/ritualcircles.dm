@@ -248,6 +248,7 @@
 			playsound(loc, 'sound/magic/holyshield.ogg', 80, FALSE, -1)
 			ravoxvow(target)
 			user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
+			log_game("RITUALS: [user.real_name] ([user.ckey]) has performed vow to Ravox") //Important enough because you set people on fire touching them
 
 /obj/structure/ritualcircle/ravox/proc/ravoxvow(mob/living/carbon/human/target)
 	target.apply_status_effect(/datum/status_effect/buff/ravox_vow)
@@ -637,6 +638,7 @@
 			user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
 			dreamarmor(user)
 			dreamcraft_weapon(user, choice)
+			log_game("RITUALS: [user.real_name] ([user.ckey]) has performed dreamcraft ritual")
 			if(ishuman(user))
 				var/mob/living/carbon/human/H = user
 				if(H.mind)
@@ -690,6 +692,7 @@
 	spawn(20)
 		playsound(loc, 'sound/combat/hits/onmetal/grille (2).ogg', 50)
 		target.equipOutfit(/datum/outfit/job/roguetown/dreamwalker_armorrite)
+		log_game("RITUALS: [target.real_name] ([target.ckey]) was granted dreamwalker armor")
 		spawn(40)
 			to_chat(target, span_purple("Reality is but a fragile dream. You are the dreamer, and your will is law."))
 
@@ -770,6 +773,8 @@
 		if(thrower && HAS_TRAIT(thrower, TRAIT_HERESIARCH) && upgraded_rune_type)
 			rune_type = upgraded_rune_type
 		new rune_type(T)
+		message_admins("ABYSSAL MARKER: [thrower.real_name] ([thrower.ckey]) has thrown an abyssal spire at [T], creating [rune_type]")
+		log_game("ABYSSAL MARKER: [thrower.real_name] ([thrower.ckey]) has thrown an abyssal spire at [T], creating [rune_type]")
 		qdel(src)
 	else
 		return ..()
@@ -798,6 +803,8 @@
 		user.visible_message(span_warning("[user] crushes the [src] in their hands!"))
 		playsound(src, 'sound/magic/lightning.ogg', 50, TRUE)
 		new rune_type(marked_location)
+		message_admins("ABYSSAL MARKER: [user.real_name] ([user.ckey]) has used an abyssal spire at [marked_location], creating [rune_type]")
+		log_game("ABYSSAL MARKER: [user.real_name] ([user.ckey]) has used an abyssal spire at [marked_location], creating [rune_type]")
 		qdel(src)
 
 /obj/item/abyssal_marker/volatile/attack_self(mob/user)
@@ -1214,6 +1221,9 @@
 	if(target.mob_biotypes & MOB_UNDEAD) //positive energy harms the undead
 		target.visible_message(span_danger("[target] is unmade by divine magic! The Toll is accepted, and [target] is dragged to ever-death!"), span_userdanger("I'm unmade by divine magic!"))
 		target.gib()
+		message_admins("RITUALS: [user.real_name] ([user.ckey]) has gibbed [target.real_Name] ([target.ckey]) due to being undead via toll revival")
+		log_game("RITUALS: [user.real_name] ([user.ckey]) has gibbed [target.real_Name] ([target.ckey]) due to being undead via toll revival")
+		//whoops! likely a mistake but useful to know
 		return
 	if(alert(target, "A Toll is being offered for your soul, BREAK FREE?", "Revival", "I need to wake up", "Don't let me go") != "I need to wake up")
 		target.visible_message(span_notice("Nothing happens. They are not being let go."))
@@ -1400,6 +1410,7 @@
 			icon_state = "eora_active"
 			eoranaura(target)
 			user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
+			log_game("RITUALS: [user.real_name] ([user.ckey]) has performed a open hearth ritual on [target.real_Name] ([target.ckey])")
 			spawn(120)
 				icon_state = "eora_chalky"
 
@@ -1472,6 +1483,9 @@
 			icon_state = "undivided_active"
 			user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
 			undividedarmaments(target)
+			message_admins("RITUALS: [user.real_name] ([user.ckey]) has performed an undivided crusader oath ritual on [target.real_Name] ([target.ckey])")
+			log_game("RITUALS: [user.real_name] ([user.ckey]) has performed an undivided crusader oath ritual on [target.real_Name] ([target.ckey])")
+			//Kinda important we don't mass-distribute without reasoning/force people into unstrippable armor on the wrong training, so admins get prompted too.
 			spawn(120)
 				icon_state = "undivided_chalky"
 
@@ -1505,6 +1519,7 @@
 			"backr" = target.get_item_by_slot(SLOT_BACK_R),
 		), list("head", "cloak", "armor", "gloves", "belt", "beltl", "pants", "shoes", "backl", "backr"))
 		to_chat(target, span_boldred("This is my only chance at LYFE."))
+			log_game("RITUALS: [target.real_Name] ([target.ckey]) was granted DNR and undivided crusader armor")
 		ADD_TRAIT(target, TRAIT_DNR, TRAIT_RITUAL)
 
 /datum/outfit/job/roguetown/decarite/pre_equip(mob/living/carbon/human/H)
@@ -1608,6 +1623,9 @@
 				user.apply_status_effect(/datum/status_effect/debuff/lux_exhausted)
 				target.apply_status_effect(/datum/status_effect/debuff/lux_exhausted)
 			zizoarmaments(target, helm_choice, armor_choice, weapon_choice)
+			message_admins("RITUALS: [user.real_name] ([user.ckey]) has performed an armaments ritual on [target.real_Name] ([target.ckey])")
+			log_game("RITUALS: [user.real_name] ([user.ckey]) has performed an armaments ritual on [target.real_Name] ([target.ckey]), with choices [armor_choice] and [weapon_choice]")
+			//More detailed to not clutter admin logs, includes only important chestplate armor level and weapon type
 			spawn(120)
 				icon_state = "zizo_chalky"
 
@@ -1659,6 +1677,7 @@
 			"l_hand" = target.get_item_for_held_index(1),
 		), list("armor", "shirt", "pants", "shoes", "wrists", "gloves", "head", "neck", "backr", "r_hand", "l_hand"))
 		target.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
+		log_game("RITUALS: [target.real_Name] ([target.ckey]) was granted [armor_choice] and [weapon_choice] with expert in sword skill if they lacked beforehand")
 		spawn(40)
 			to_chat(target, span_purple("They are ignorant, backwards, without hope. You. You will be powerful."))
 
@@ -1753,6 +1772,9 @@
 				user.apply_status_effect(/datum/status_effect/debuff/lux_exhausted)
 				target.apply_status_effect(/datum/status_effect/debuff/lux_exhausted)
 			matthiosarmaments(target)
+			message_admins("RITUALS: [user.real_name] ([user.ckey]) has performed an armaments ritual on [target.real_Name] ([target.ckey])")
+			log_game("RITUALS: [user.real_name] ([user.ckey]) has performed an armaments ritual on [target.real_Name] ([target.ckey])")
+			//Update if this gets several plate-class choices/weaponry choices
 			spawn(120)
 				icon_state = "matthios_chalky"
 		if("Defenestration")
@@ -1769,6 +1791,9 @@
 				return
 			icon_state = "matthios_active"
 			if(defenestration())
+				message_admins("RITUALS: [user.real_name] ([user.ckey]) has performed a defenestration ritual")
+				log_game("RITUALS: [user.real_name] ([user.ckey]) has performed a defenestration ritual")
+				//Since you nuke nobility off of someone, useful for lowpop moderation/round escalation judgement
 				to_chat(user, span_cultsmall("The ritual is complete, the noble gift of Astrata has been taken!"))
 				user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
 			else
@@ -1801,6 +1826,8 @@
 			"backr" = target.get_item_by_slot(SLOT_BACK_R),
 		), list("armor", "shirt", "pants", "shoes", "wrists", "gloves", "head", "neck", "backr"))
 		target.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, SKILL_LEVEL_EXPERT, TRUE)
+		log_game("RITUALS: [target.real_Name] ([target.ckey]) was granted guilded armor set with expert in whips/flails skill if they lacked beforehand")
+		//If path gets weapon choices/helm, move the avantyne choice check from above over.
 		spawn(40)
 			to_chat(target, span_cult("More to the maw, this shall help feed our greed."))
 
@@ -1822,6 +1849,7 @@
 
 	playsound(loc, 'sound/combat/gib (1).ogg', 100, FALSE, -1)
 	loc.visible_message(span_cult("[victim]'s lux pours from their nose, into the rune... Transforming into freshly mint zennies!"))
+	log_game("RITUALS: [victim.real_name] ([victim.ckey]) was used as a sacrifice for a defenestration ritual")
 	new /obj/item/roguecoin/gold/virtuepile(get_turf(src))
 	new /obj/item/roguecoin/silver/pile(get_turf(src))
 	new /obj/item/roguecoin/silver/pile(get_turf(src))
@@ -1954,6 +1982,8 @@
 			if(is_heretic && target != user)
 				user.apply_status_effect(/datum/status_effect/debuff/lux_exhausted)
 				target.apply_status_effect(/datum/status_effect/debuff/lux_exhausted)
+			message_admins("RITUALS: [user.real_name] ([user.ckey]) has performed an armaments ritual on [target.real_Name] ([target.ckey])")
+			log_game("RITUALS: [user.real_name] ([user.ckey]) has performed an armaments ritual on [target.real_Name] ([target.ckey]), with choices [armor_choice] and [weapon_choice]")
 			graggararmor(target, helm_choice, armor_choice, weapon_choice)
 			spawn(120)
 				icon_state = "graggar_chalky" 
@@ -1973,6 +2003,8 @@
 			icon_state = "graggar_active"
 			if(perform_warritual())
 				user.apply_status_effect(/datum/status_effect/debuff/ritesexpended_heavy)
+				message_admins("RITUALS: [user.real_name] ([user.ckey]) has performed a war ritual")
+				log_game("RITUALS: [user.real_name] ([user.ckey]) has performed a war ritual")
 			else
 				to_chat(user, span_warning("The ritual fails. A noble, a member of the Inquisition or a Tennite clergy member must be in the center of the circle!"))
 			spawn(120)
@@ -2024,6 +2056,7 @@
 			"l_hand" = target.get_item_for_held_index(1),
 		), list("armor", "shirt", "pants", "shoes", "wrists", "gloves", "head", "mask", "neck", "cloak", "r_hand", "l_hand"))
 		target.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_EXPERT, TRUE)
+		log_game("RITUALS: [target.real_Name] ([target.ckey]) was granted [armor_choice] and [weapon_choice] with expert in axe skill if they lacked beforehand")
 		spawn(40)
 			to_chat(target, span_cult("Break them."))
 
@@ -2048,6 +2081,7 @@
 	to_chat(victim, span_userdanger("UNIMAGINABLE PAIN!"))
 	victim.apply_status_effect(/datum/status_effect/debuff/ritualdefiled)
 	victim.emote("Agony")
+	log_game("RITUALS: [victim.real_name] [victim.job] ([victim.ckey]) was used as a sacrifice for a war ritual")
 	victim.visible_message(
 		span_danger("[victim] writhes in unimaginable pain!"),
 		span_userdanger("IT HURTS! IT BURNS!")
@@ -2151,6 +2185,9 @@
 	
 	user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
 	user.apply_status_effect(/datum/status_effect/joybringer)
+	message_admins("RITUALS: [user.real_name] ([user.ckey]) has performed a joybringer ritual")
+	log_game("RITUALS: [user.real_name] ([user.ckey]) has performed a war joybringer")
+	//Kind of important as they're basically going to get fragged, for being remotely near people.
 
 	return TRUE
 

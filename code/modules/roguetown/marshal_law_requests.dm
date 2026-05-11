@@ -72,8 +72,7 @@
 
 /proc/lord_law_requested(mob/living/bailiff, mob/living/carbon/human/lord, requested_law)
 	var/choice = alert(lord, "The Marshal requests a new law!\n[requested_law]", "MARSHAL LAW REQUEST", "Yes", "No")
-	message_admins("MARSHAL LAW REMOVAL: [bailiff.real_name] ([bailiff.ckey]) has requested law [requested_law]")
-	log_game("MARSHAL LAW REMOVAL: [bailiff.real_name] ([bailiff.ckey]) has requested law [requested_law]")
+	log_game("THROAT: [bailiff.real_name] ([bailiff.ckey]) has requested law [requested_law]")
 	if(choice != "Yes" || QDELETED(lord) || lord.stat > CONSCIOUS)
 		if(bailiff)
 			to_chat(span_warning("The lord has denied the request for a new law!"))
@@ -84,8 +83,7 @@
 	if(!requested_law || !GLOB.laws_of_the_land[requested_law])
 		return
 	var/choice = alert(lord, "The Marshal requests the removal of a law!\n[GLOB.laws_of_the_land[requested_law]]", "MARSHAL LAW REQUEST", "Yes", "No")
-	message_admins("MARSHAL LAW REMOVAL: [bailiff.real_name] ([bailiff.ckey]) has requested a removal of law [requested_law]")
-	log_game("MARSHAL LAW REMOVAL: [bailiff.real_name] ([bailiff.ckey]) has requested a removal of law [requested_law]")
+	log_game("THROAT: [bailiff.real_name] ([bailiff.ckey]) has requested a removal of law [requested_law]")
 	if(choice != "Yes" || QDELETED(lord) || lord.stat > CONSCIOUS)
 		if(bailiff)
 			to_chat(span_warning("The lord has denied the request for a law removal!"))
@@ -94,8 +92,7 @@
 
 /proc/lord_purge_requested(mob/living/bailiff, mob/living/carbon/human/lord)
 	var/choice = alert(lord, "The Marshal requests a purge of all laws!", "MARSHAL PURGE REQUEST", "Yes", "No")
-	message_admins("MARSHAL LAW PURGE: [bailiff.real_name] ([bailiff.ckey]) has requested a law purge")
-	log_game("MARSHAL LAW PURGE: [bailiff.real_name] ([bailiff.ckey]) has requested a law purge")
+	log_game("THROAT: [bailiff.real_name] ([bailiff.ckey]) has requested a law purge")
 	if(choice != "Yes" || QDELETED(lord) || lord.stat > CONSCIOUS)
 		if(bailiff)
 			to_chat(span_warning("The lord has denied the request for a purge of all laws!"))
@@ -105,8 +102,7 @@
 
 /proc/lord_outlaw_requested(mob/living/bailiff, mob/living/carbon/human/lord, requested_outlaw)
 	var/choice = alert(lord, "The Marshal requests to outlaw someone!\n[requested_outlaw]", "MARSHAL OUTLAW REQUEST", "Yes", "No")
-	message_admins("MARSHAL OUTLAW REQUEST: [bailiff.real_name] ([bailiff.ckey]) has requested to outlaw [requested_outlaw]")
-	log_game("MARSHAL OUTLAW REQUEST: [bailiff.real_name] ([bailiff.ckey]) has requested to outlaw [requested_outlaw]")
+	message_admins("THROAT: [bailiff.real_name] ([bailiff.ckey]) has requested to outlaw [requested_outlaw]")
 	if(choice != "Yes" || QDELETED(lord) || lord.stat > CONSCIOUS)
 		if(bailiff)
 			to_chat(span_warning("The lord has denied the request for declaring an outlaw!"))

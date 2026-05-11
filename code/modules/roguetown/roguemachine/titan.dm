@@ -79,6 +79,7 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 		// If no crown exists
 		if(!I)
 			I = summon_crown()
+			log_game("THROAT: crown summoned")
 			return
 
 		var/mob/M = get_containing_mob(I)
@@ -120,6 +121,7 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 				return
 
 		I = summon_crown()
+		log_game("THROAT: crown summoned")
 		return
 
 	if(findtext(message, "summon key"))
@@ -130,6 +132,7 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 		if(!SSroguemachine.key)
 			new /obj/item/roguekey/lord(src.loc)
 			say("The key is summoned!")
+			log_game("THROAT: key summoned")
 			playsound(src, 'sound/misc/machinetalk.ogg', 100, FALSE, -1)
 			playsound(src, 'sound/misc/hiss.ogg', 100, FALSE, -1)
 		if(SSroguemachine.key)
@@ -140,6 +143,7 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 				I.anti_stall()
 				I = new /obj/item/roguekey/lord(src.loc)
 				say("The key is summoned!")
+				log_game("THROAT: key summoned")
 				playsound(src, 'sound/misc/machinetalk.ogg', 100, FALSE, -1)
 				playsound(src, 'sound/misc/hiss.ogg', 100, FALSE, -1)
 				return
@@ -153,6 +157,7 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 					HC.dropItemToGround(I, TRUE) //If you're dead, forcedrop it, then move it.
 			I.forceMove(src.loc)
 			say("The key is summoned!")
+			log_game("THROAT: key summoned")
 			playsound(src, 'sound/misc/machinetalk.ogg', 100, FALSE, -1)
 			playsound(src, 'sound/misc/hiss.ogg', 100, FALSE, -1)
 
@@ -205,6 +210,7 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 				say("All decrees shall be purged!")
 				playsound(src, 'sound/misc/machineyes.ogg', 100, FALSE, -1)
 				purge_decrees()
+				log_game("THROAT: decrees purged")
 				return
 			if(findtext(message, "make law"))
 				if(!SScommunications.can_announce(H))
@@ -399,6 +405,7 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 			SSmapping.retainer.head_rebel_decree = TRUE
 	record_round_statistic(STATS_LAWS_AND_DECREES_MADE)
 	SScommunications.make_announcement(user, TRUE, raw_message)
+	log_game("THROAT: new decree [raw_message]")
 
 /obj/structure/roguemachine/titan/proc/declare_outlaw(mob/living/user, raw_message)
 	if(!SScommunications.can_announce(user))
