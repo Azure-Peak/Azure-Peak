@@ -9,7 +9,7 @@
 	Newly-sprouting colonies have been found anywhere from the freezing mountains of Hammerhold to the desert sands of Naledi, \
 	though they are most commonly associated with the underdark - their first recorded sightings in its suffocating, lightless depths.<br>\
 	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b>+1 CON | -1 SPD<br>\
-	Easy Dismember | Limb Regrowth | No Bones /b></span><br><br>"
+	Easy Dismember | Limb Regrowth | No Bones </span><br><br>"
 	blood_color = "#00FFFF" //Defaults to blue, but we recolor this later to match the slime person's body color.
 	base_name = "Godtouched"
 	is_subrace = TRUE
