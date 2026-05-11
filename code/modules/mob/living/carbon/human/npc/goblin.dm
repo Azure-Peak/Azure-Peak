@@ -437,7 +437,7 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 	desc = "A bright portal torn through the fabric of the world, sounds of marching and goblin warcries can be heard on the other side. This can't be good."
 	icon = 'icons/roguetown/misc/structure.dmi'
 	icon_state = "shitportal"
-	max_integrity = 250
+	max_integrity = 400 //keep it a bit more intact, you'll need an axe to properly take it down quickly.
 	anchored = TRUE
 	density = FALSE
 	layer = BELOW_OBJ_LAYER
@@ -517,7 +517,7 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 		return
 	spawning = TRUE
 	update_icon()
-	addtimer(CALLBACK(src, PROC_REF(creategob)), 2 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(creategob)), 1 SECONDS) //Buffed up to get the immedate buffer, since these spawn in the street.
 
 /obj/structure/gob_portal/Destroy()
 	soundloop.stop()
