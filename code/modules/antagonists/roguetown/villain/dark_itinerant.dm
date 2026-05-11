@@ -149,7 +149,7 @@
 	if(H.mind)
 		H.mind.AddSpell(new /datum/action/cooldown/spell/mindlink)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/convertrole/zizosquire)
-		//See modules/spells/spell_types/faction for convertrole + objectives
+		//See modules/spells/spell_types/skills/invoked_qoe/recruitment for convertrole + objectives
 
 	H.dna.species.soundpack_m = new /datum/voicepack/male/knight()
 	ADD_TRAIT(H, TRAIT_NOBLE, TRAIT_GENERIC)
