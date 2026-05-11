@@ -85,8 +85,8 @@
 				span_danger("[target] is unmade by divine magic!"), 
 				span_userdanger("I'm unmade by divine magic!")
 			)
-			message_admins("RITUALS: [user.real_name] ([user.ckey]) has gibbed [target.real_Name] ([target.ckey]) due to being undead via toll revival")
-			log_game("RITUALS: [user.real_name] ([user.ckey]) has gibbed [target.real_Name] ([target.ckey]) due to being undead via toll revival")
+			message_admins("RITUALS: [user.real_name] ([user.ckey]) has gibbed [target.real_name] ([target.ckey]) due to being undead via toll revival")
+			log_game("RITUALS: [user.real_name] ([user.ckey]) has gibbed [target.real_name] ([target.ckey]) due to being undead via toll revival")
 			//whoops! likely a mistake but useful to know
 			target.gib()
 			return TRUE
