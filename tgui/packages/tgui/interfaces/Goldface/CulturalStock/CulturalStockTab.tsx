@@ -211,7 +211,7 @@ export const CulturalStockTab = (props: Props) => {
         Goods of distinction unloaded by docked vessels. They depart when she
         sails.
       </div>
-      {ships.map(([shipId, info], idx) => (
+      {ships.map(([shipId, info]) => (
         <ShipSection
           key={shipId}
           shipId={shipId}
@@ -219,7 +219,7 @@ export const CulturalStockTab = (props: Props) => {
           entries={info.entries}
           budget={budget}
           act={act}
-          defaultExpanded={idx === 0}
+          defaultExpanded={ships.length === 1}
         />
       ))}
     </div>

@@ -42,12 +42,14 @@ export const Goldface = () => {
     );
   }
 
-  const canSeeHarbor = isProprietor;
+  const canSeeMerchantTabs = isProprietor;
   const culturalStock = data.harbor?.cultural_stock ?? [];
-  const culturalAvailable = culturalStock.length > 0;
   let activeTab = tab;
-  if (activeTab === 'harbor' && !canSeeHarbor) activeTab = 'goods';
-  if (activeTab === 'cultural' && !culturalAvailable) activeTab = 'goods';
+  if (
+    (activeTab === 'harbor' || activeTab === 'cultural') &&
+    !canSeeMerchantTabs
+  )
+    activeTab = 'goods';
 
   return (
     <Window width={720} height={800} theme="parchment">
@@ -59,7 +61,7 @@ export const Goldface = () => {
           >
             Goods
           </div>
-          {culturalAvailable && (
+          {canSeeMerchantTabs && (
             <div
               style={tabStyle(activeTab === 'cultural')}
               onClick={() => setTab('cultural')}
@@ -67,7 +69,7 @@ export const Goldface = () => {
               Cultural Stock
             </div>
           )}
-          {canSeeHarbor && (
+          {canSeeMerchantTabs && (
             <div
               style={tabStyle(activeTab === 'harbor')}
               onClick={() => setTab('harbor')}
@@ -78,14 +80,14 @@ export const Goldface = () => {
         </div>
         {mammonBar}
         {activeTab === 'goods' && <VendingPanel data={data} act={act} />}
-        {activeTab === 'cultural' && culturalAvailable && (
+        {activeTab === 'cultural' && canSeeMerchantTabs && (
           <CulturalStockTab
             stock={culturalStock}
             budget={data.budget}
             act={act}
           />
         )}
-        {activeTab === 'harbor' && canSeeHarbor && (
+        {activeTab === 'harbor' && canSeeMerchantTabs && (
           <HarborTab harbor={data.harbor} budget={data.budget} act={act} />
         )}
       </Window.Content>
