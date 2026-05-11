@@ -1199,7 +1199,6 @@
 							user.say("For this toll, a soul!!")
 							to_chat(user,span_cultsmall("[user] grasps the strands of Lux and attempts to pull a soul through the rift!"))
 							thetoll(target, user)
-							log_game("RITUALS: [user.real_name] ([user.ckey]) has performed a toll revival on [target.real_name] ([target.ckey])")
 							spawn(120)
 								icon_state = "necra_chalky"
 
@@ -1484,10 +1483,11 @@
 				return
 			icon_state = "undivided_active"
 			user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
+			message_admins("RITUALS: [user.real_name] ([user.ckey]) has performed an undivided crusader oath ritual")
+			log_game("RITUALS: [user.real_name] ([user.ckey]) has performed an undivided crusader oath ritual")
+			//Kind of important we aren't being a dick with this rite, so admins get notified. target.real_name/target.ckey wasn't working for SOME reasoning I guess
+			//fuck my lyfe.
 			undividedarmaments(target)
-			message_admins("RITUALS: [user.real_name] ([user.ckey]) has performed an undivided crusader oath ritual on [target.real_name] ([target.ckey])")
-			log_game("RITUALS: [user.real_name] ([user.ckey]) has performed an undivided crusader oath ritual on [target.real_name] ([target.ckey])")
-			//Kinda important we don't mass-distribute without reasoning/force people into unstrippable armor on the wrong training, so admins get prompted too.
 			spawn(120)
 				icon_state = "undivided_chalky"
 
@@ -1679,7 +1679,7 @@
 			"l_hand" = target.get_item_for_held_index(1),
 		), list("armor", "shirt", "pants", "shoes", "wrists", "gloves", "head", "neck", "backr", "r_hand", "l_hand"))
 		target.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
-		log_game("RITUALS: [target.real_Name] ([target.ckey]) was granted [armor_choice] and [weapon_choice] with expert in sword skill if they lacked beforehand")
+		log_game("RITUALS: [target.real_name] ([target.ckey]) was granted [armor_choice] and [weapon_choice] with expert in sword skill if they lacked beforehand")
 		spawn(40)
 			to_chat(target, span_purple("They are ignorant, backwards, without hope. You. You will be powerful."))
 
@@ -2058,7 +2058,7 @@
 			"l_hand" = target.get_item_for_held_index(1),
 		), list("armor", "shirt", "pants", "shoes", "wrists", "gloves", "head", "mask", "neck", "cloak", "r_hand", "l_hand"))
 		target.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_EXPERT, TRUE)
-		log_game("RITUALS: [target.real_Name] ([target.ckey]) was granted [armor_choice] and [weapon_choice] with expert in axe skill if they lacked beforehand")
+		log_game("RITUALS: [target.real_name] ([target.ckey]) was granted [armor_choice] and [weapon_choice] with expert in axe skill if they lacked beforehand")
 		spawn(40)
 			to_chat(target, span_cult("Break them."))
 
