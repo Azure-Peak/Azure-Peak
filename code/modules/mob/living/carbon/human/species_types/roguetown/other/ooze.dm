@@ -8,7 +8,7 @@
 	Little is known about where the Murklings come from, but their unique biology makes them dangerously adaptive. \
 	Newly-sprouting colonies have been found anywhere from the freezing mountains of Hammerhold to the desert sands of Naledi, \
 	though they are most commonly associated with the underdark - their first recorded sightings in its suffocating, lightless depths.<br>\
-	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b>+1 CON | -1 INT | -1 SPD<br>\
+	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b>+1 CON | -1 SPD<br>\
 	Easy Dismember | Limb Regrowth | No Bones /b></span><br><br>"
 	blood_color = "#00FFFF" //Defaults to blue, but we recolor this later to match the slime person's body color.
 	base_name = "Godtouched"
@@ -43,7 +43,7 @@
 		OFFSET_SHIRT_F = list(0,0), OFFSET_ARMOR_F = list(0,0), OFFSET_UNDIES_F = list(0,-1), \
 		OFFSET_TAUR = list(-16,0), OFFSET_TAUR_F = list(-16,0), \
 		)
-	race_bonus = list(STAT_CONSTITUTION = 1, STAT_INTELLIGENCE = -1, STAT_SPEED = -1)
+	race_bonus = list(STAT_CONSTITUTION = 1, STAT_SPEED = -1)
 	inherent_traits = list(
 						TRAIT_NASTY_EATER,
 						TRAIT_EASYDISMEMBER,
