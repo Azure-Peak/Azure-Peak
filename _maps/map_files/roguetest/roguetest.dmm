@@ -197,6 +197,10 @@
 /obj/effect/landmark/quest_spawner/generic,
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/outdoors/bog/north)
+"hV" = (
+/obj/item/rogueweapon/sword/long/judgement/ascendant/tester,
+/turf/open/floor/rogue/dirt/road,
+/area/rogue/indoors)
 "ia" = (
 /obj/structure/table/wood{
 	icon_state = "longtable_mid";
@@ -804,6 +808,10 @@
 /obj/item/quiver/arrows,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/indoors)
+"xv" = (
+/obj/item/quicksilver,
+/turf/open/floor/rogue/dirt/road,
+/area/rogue/indoors)
 "xx" = (
 /obj/structure/closet/crate/coffin/vampire,
 /turf/open/floor/rogue/blocks/stonered,
@@ -850,6 +858,10 @@
 /obj/item/clothing/gloves/roguetown/plate,
 /obj/item/clothing/gloves/roguetown/plate,
 /turf/open/floor/rogue/dirt/road,
+/area/rogue/indoors)
+"yx" = (
+/obj/item/roguemachine/mastermail,
+/turf/closed/wall/mineral/rogue/decostone/long,
 /area/rogue/indoors)
 "yF" = (
 /turf/closed/mineral/rogue/bedrock,
@@ -982,9 +994,9 @@
 /turf/open/floor/rogue/blocks/stonered/tiny,
 /area/rogue/indoors)
 "Cz" = (
-/obj/item/rogueweapon/sword/long/judgement/ascendant/tester,
-/turf/open/floor/rogue/dirt/road,
-/area/rogue/indoors)
+/obj/item/quicksilver,
+/turf/open/floor/rogue/blocks/newstone/alt,
+/area/rogue/indoors/inq/import)
 "CB" = (
 /mob/living/simple_animal/hostile/retaliate/rogue/trufflepig,
 /turf/open/floor/rogue/hay,
@@ -3052,7 +3064,7 @@ cK
 cK
 yK
 yK
-VT
+Cz
 VT
 vq
 vq
@@ -3414,7 +3426,7 @@ xB
 SH
 xy
 CZ
-Cz
+hV
 dE
 rT
 rT
@@ -3462,7 +3474,7 @@ dB
 TN
 TN
 CU
-CU
+yx
 xG
 xy
 tg
@@ -3776,7 +3788,7 @@ AO
 AO
 zo
 yN
-CZ
+xv
 hG
 CZ
 Sf

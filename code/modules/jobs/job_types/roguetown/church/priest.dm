@@ -307,7 +307,6 @@ GLOBAL_LIST_EMPTY(heretical_players)
 			var/treated_input = treat_message(sanitized_input, /datum/language/common)
 			priority_announce("[treated_input]", "The Bishop Preaches", 'sound/misc/bell.ogg', sender = src)
 			COOLDOWN_START(src, priest_announcement, PRIEST_ANNOUNCEMENT_COOLDOWN)
-			log_game("ANNOUNCEMENT: [real_name] ([ckey]) has announced [priest_announcement].")
 		else
 			to_chat(src, span_warning("Your announcement was interrupted!"))
 			return FALSE

@@ -434,6 +434,8 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 			break
 	if(raw_message in GLOB.outlawed_players)
 		GLOB.outlawed_players -= raw_message
+		message_admins("THROAT: [found_human.real_name] ([found_human.ckey]) is no longer an outlaw!")
+		log_game("THROAT: [found_human.real_name] ([found_human.ckey]) is no longer an outlaw!")
 		priority_announce("[raw_message] is no longer an outlaw in [SSticker.realm_name].", "The [SSticker.rulertype] Decrees", 'sound/misc/royal_decree.ogg', "Captain")
 		if(istype(found_human))
 			REMOVE_TRAIT(found_human, TRAIT_OUTLAW, TRAIT_GENERIC)
@@ -446,6 +448,8 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 		return FALSE
 	GLOB.outlawed_players += raw_message
 	ADD_TRAIT(found_human, TRAIT_OUTLAW, TRAIT_GENERIC)
+	message_admins("THROAT: [found_human.real_name] ([found_human.ckey]) was declared an outlaw!")
+	log_game("THROAT: [found_human.real_name] ([found_human.ckey]) was declared an outlaw!")
 	priority_announce("[raw_message] has been declared an outlaw and must be captured or slain.", "The [SSticker.rulertype] Decrees", 'sound/misc/royal_decree2.ogg', "Captain")
 	if(HAS_TRAIT(found_human, TRAIT_GUARDSMAN))
 		REMOVE_TRAIT(found_human, TRAIT_GUARDSMAN, JOB_TRAIT)
@@ -456,6 +460,7 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 /proc/make_law(raw_message)
 	GLOB.laws_of_the_land += raw_message
 	priority_announce("[length(GLOB.laws_of_the_land)]. [raw_message]", "A LAW IS DECLARED", pick('sound/misc/new_law.ogg', 'sound/misc/new_law2.ogg'), "Captain")
+	log_game("THROAT: new law created \"[raw_message]\"")
 	record_round_statistic(STATS_LAWS_AND_DECREES_MADE)
 
 /proc/remove_law(law_index)
@@ -464,18 +469,22 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 	var/law_text = GLOB.laws_of_the_land[law_index]
 	GLOB.laws_of_the_land -= law_text
 	priority_announce("[law_index]. [law_text]", "A LAW IS ABOLISHED", pick('sound/misc/new_law.ogg', 'sound/misc/new_law2.ogg'), "Captain")
+	log_game("THROAT: law removed \"[raw_message]\"")
 	record_round_statistic(STATS_LAWS_AND_DECREES_MADE, -1)
 
 /proc/purge_laws()
 	GLOB.laws_of_the_land = list()
 	priority_announce("All laws of the land have been purged!", "LAWS PURGED", 'sound/misc/lawspurged.ogg', "Captain")
+	log_game("THROAT: new laws purged.")
 
 /proc/purge_decrees()
 	GLOB.lord_decrees = list()
 	priority_announce("All of the land's prior decrees have been purged!", "DECREES PURGED", pick('sound/misc/royal_decree.ogg', 'sound/misc/royal_decree2.ogg'), "Captain")
+	log_game("THROAT: decrees purged.")
 
 /proc/become_regent(mob/living/carbon/human/H)
 	priority_announce("[H.name], the [H.get_role_title()], sits as the regent of the realm.", "A New Regent Resides", pick('sound/misc/royal_decree.ogg', 'sound/misc/royal_decree2.ogg'), "Captain")
+	log_game("THROAT: [H.real_name] ([H.ckey]) has become reagent")
 	SSticker.regentmob = H
 	SSticker.regentday = GLOB.dayspassed
 
@@ -562,6 +571,7 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 	new_rite.begin(user)
 	say("So it begins.")
 	playsound(src, 'sound/misc/machineyes.ogg', 100, FALSE, -1)
+	log_game("THROAT: rite of succession began - CHECK USURPATION logs for more info")
 
 /obj/structure/roguemachine/titan/ui_interact(mob/user, datum/tgui/ui)
 	if(!rite_selection_data)
