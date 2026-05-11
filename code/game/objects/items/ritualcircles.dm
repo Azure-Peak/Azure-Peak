@@ -773,7 +773,7 @@
 		if(thrower && HAS_TRAIT(thrower, TRAIT_HERESIARCH) && upgraded_rune_type)
 			rune_type = upgraded_rune_type
 		new rune_type(T)
-		message_admins("ABYSSAL MARKER: [thrower.real_name] ([thrower.ckey]) has thrown an abyssal spire at [T], creating [rune_type]")
+		message_admins("ABYSSAL MARKER: [thrower.real_name] ([thrower.ckey]) has thrown an abyssal spire at [ADMIN_VERBOSEJMP(T)], creating [rune_type]")
 		log_game("ABYSSAL MARKER: [thrower.real_name] ([thrower.ckey]) has thrown an abyssal spire at [T], creating [rune_type]")
 		qdel(src)
 	else
@@ -803,7 +803,7 @@
 		user.visible_message(span_warning("[user] crushes the [src] in their hands!"))
 		playsound(src, 'sound/magic/lightning.ogg', 50, TRUE)
 		new rune_type(marked_location)
-		message_admins("ABYSSAL MARKER: [user.real_name] ([user.ckey]) has used an abyssal spire at [marked_location], creating [rune_type]")
+		message_admins("ABYSSAL MARKER: [user.real_name] ([user.ckey]) has used an abyssal spire at [ADMIN_VERBOSEJMP(marked_location)], creating [rune_type]")
 		log_game("ABYSSAL MARKER: [user.real_name] ([user.ckey]) has used an abyssal spire at [marked_location], creating [rune_type]")
 		qdel(src)
 
