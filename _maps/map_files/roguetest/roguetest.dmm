@@ -984,7 +984,7 @@
 "Cz" = (
 /obj/item/rogueweapon/sword/long/judgement/ascendant/tester,
 /turf/open/floor/rogue/dirt/road,
-/area/rogue/outdoors)
+/area/rogue/indoors)
 "CB" = (
 /mob/living/simple_animal/hostile/retaliate/rogue/trufflepig,
 /turf/open/floor/rogue/hay,
@@ -1259,9 +1259,6 @@
 	dir = 1;
 	icon_state = "borderfall"
 	},
-/obj/item/roguecoin/inqcoin/pile,
-/obj/item/roguecoin/inqcoin/pile,
-/obj/item/roguecoin/inqcoin/pile,
 /turf/open/floor/rogue/tile/masonic/single,
 /area/rogue/indoors)
 "Mo" = (
@@ -3159,8 +3156,8 @@ AX
 Va
 yK
 yK
-Cz
-rb
+rT
+vq
 rT
 rT
 YZ
@@ -3212,7 +3209,7 @@ CZ
 yK
 yK
 rT
-vq
+rb
 rT
 rT
 rT
@@ -3417,7 +3414,7 @@ xB
 SH
 xy
 CZ
-CZ
+Cz
 dE
 rT
 rT

@@ -229,7 +229,7 @@ GLOBAL_LIST_EMPTY(heretical_players)
 	total_positions = 0
 	spawn_positions = 0
 
-/mob/living/carbon/human/proc/coronate_lord(mob/living/bishop)
+/mob/living/carbon/human/proc/coronate_lord()
 	set name = "Coronate"
 	set category = "Priest"
 	if(!mind)
@@ -243,10 +243,13 @@ GLOBAL_LIST_EMPTY(heretical_players)
 	for(var/mob/living/carbon/human/HU in get_step(src, src.dir))
 		if(!HU.mind)
 			continue
+			//we can't coronate the ruler as the ruler.
 		if(HU.mind.assigned_role == "Grand Duke")
 			continue
+			//they do in fact need a head.
 		if(!HU.head)
 			continue
+			//they need to wear the crown.
 		if(!istype(HU.head, /obj/item/clothing/head/roguetown/crown/serpcrown))
 			continue
 
@@ -263,8 +266,6 @@ GLOBAL_LIST_EMPTY(heretical_players)
 		var/previousjob = HU.job //Keep their prior job for logging
 		HU.mind.assigned_role = "Grand Duke"
 		HU.job = "Grand Duke"
-		message_admins("USURPATION: [bishop.real_name] ([bishop.ckey]) has coronated [HU.real_name] ([HU.ckey]) the [previousjob] as the ruler.")
-		log_game("USURPATION: [bishop.real_name] ([bishop.ckey]) has coronated [HU.real_name] ([HU.ckey]) the [previousjob] as the ruler.")
 		ADD_TRAIT(HU, TRAIT_DNR, TRAIT_GENERIC) // Consequences, Johnathan.
 		SSticker.set_ruler_mob(HU)
 		SSticker.regentmob = null
@@ -274,11 +275,13 @@ GLOBAL_LIST_EMPTY(heretical_players)
 		removeomen(OMEN_NOLORD)
 		say("By the authority of the gods, I pronounce you [ruler_title] of [realm]!")
 		priority_announce("[real_name] the [dispjob] has named [HU.real_name] the [ruler_title] of [realm]!", title = "Long Live [HU.real_name]!", sound = 'sound/misc/bell.ogg')
+		message_admins("USURPATION: [real_name] ([ckey]) has coronated [HU.real_name] ([HU.ckey]) the [previousjob] as the ruler.")
+		log_game("USURPATION: [real_name] ([ckey]) has coronated [HU.real_name] ([HU.ckey]) the [previousjob] as the ruler.")
 		var/datum/job/roguetown/nomoredukes = SSjob.GetJob("Grand Duke")
 		if(nomoredukes)
 			nomoredukes.total_positions = -1000 //We got what we got now.
 
-/mob/living/carbon/human/proc/churchannouncement(mob/living/bishop)
+/mob/living/carbon/human/proc/churchannouncement()
 	set name = "Announcement"
 	set category = "Priest"
 
@@ -304,7 +307,7 @@ GLOBAL_LIST_EMPTY(heretical_players)
 			var/treated_input = treat_message(sanitized_input, /datum/language/common)
 			priority_announce("[treated_input]", "The Bishop Preaches", 'sound/misc/bell.ogg', sender = src)
 			COOLDOWN_START(src, priest_announcement, PRIEST_ANNOUNCEMENT_COOLDOWN)
-			log_game("ANNOUNCEMENT: [bishop.real_name] ([bishop.ckey]) has announced [priest_announcement].")
+			log_game("ANNOUNCEMENT: [real_name] ([ckey]) has announced [priest_announcement].")
 		else
 			to_chat(src, span_warning("Your announcement was interrupted!"))
 			return FALSE
