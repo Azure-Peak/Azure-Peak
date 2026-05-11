@@ -36,9 +36,9 @@
 	return
 
 /datum/hag_boon/spell/spider_speak
-	name = "Boon of Spider Speak"
-	desc = "Allows the bearer to cast spider speak, making spiders friendly with a target for a long while."
-	spell_type = /obj/effect/proc_holder/spell/invoked/spiderspeak
+	name = "Boon of Wild Tongue"
+	desc = "Allows the bearer to cast Wild Speech, making most fauna friendly with a target for a while."
+	spell_type = /datum/action/cooldown/spell/dendor/wildspeak
 	points = 10
 
 /datum/hag_boon/spell/twist_food

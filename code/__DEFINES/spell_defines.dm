@@ -20,6 +20,7 @@
 #define GLOW_COLOR_UNDIVIDED "#28908C" //Undivided Cyan
 #define GLOW_COLOR_ASTRATA "#F9B362" //Astratan Yellow/Orange
 #define GLOW_COLOR_RAVOX "#7A1E30" //Ravox Crimson
+#define GLOW_COLOR_DENDOR "#00ff00" //Dendor Gureen
 
 //Gods - Ascendant
 #define GLOW_COLOR_GRAGGAR "#19345E" //Graggar Dark Blue

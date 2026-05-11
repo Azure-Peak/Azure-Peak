@@ -2,35 +2,63 @@
 // T0 - Spider Speak //
 ///////////////////////
 
-/obj/effect/proc_holder/spell/invoked/spiderspeak
-	name = "Spider Speak"
-	desc = "Makes spiders not attack the target."
-	action_icon = 'icons/mob/actions/dendormiracles.dmi'
-	overlay_icon = 'icons/mob/actions/dendormiracles.dmi'
-	overlay_state = "tamebeast"
-	releasedrain = 15
-	chargedrain = 0
-	chargetime = 1 SECONDS
-	range = 2
-	warnie = "sydwarning"
-	movement_interrupt = FALSE
+/datum/action/cooldown/spell/dendor/wildspeak
+	name = "Wild Speak"
+	desc = "Infuses a target with the mind, scent and instinct of the Wild. Beasts and primordial creatures will recognize them as kin, and they can speak the language of the beasts."
+	fluff_desc = "The oldest druids spoke not with words, but scent, breath, instinct, and spirit. Through Dendor's blessing, the Wild remembers its own."
+	button_icon = 'icons/mob/actions/dendormiracles.dmi'
+	button_icon_state = "tamebeast"
 	sound = 'sound/magic/churn.ogg'
-	invocations = list("Spiders of Psydonia, allow me to pass safely!")
-	invocation_type = "shout"
+	click_to_activate = TRUE
+	cast_range = SPELL_RANGE_GROUND
+	self_cast_possible = TRUE
+	primary_resource_cost = 25
+	secondary_resource_cost = SPELLCOST_CANTRIP
+	invocation_type = INVOCATION_NONE
+	charge_required = FALSE
+	cooldown_time = 30 SECONDS
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
 	associated_skill = /datum/skill/magic/holy
-	recharge_time = 4 SECONDS
-	miracle = TRUE
-	devotion_cost = 25
+	var/duration = 30 MINUTES
 
-/obj/effect/proc_holder/spell/invoked/spiderspeak/cast(list/targets, mob/living/user)
+/datum/action/cooldown/spell/dendor/wildspeak/cast(atom/cast_on)
 	. = ..()
-	if(isliving(targets[1]))
-		var/mob/living/target = targets[1]
-		target.visible_message("<font color='yellow'>[user] infuses [target] with swirling strands of spectral webs!</font>", "<font color='yellow'>You feel your tongue shift strangely, producing odd clicking noises.</font>")
-		target.apply_status_effect(/datum/status_effect/buff/spider_speak)
+
+	var/mob/living/carbon/human/H = owner
+	if(!istype(H))
+		return FALSE
+
+	var/mob/living/spelltarget = cast_on
+
+	if(!isliving(spelltarget))
+		to_chat(H, span_warning("The Wild cannot commune with that."))
+		return FALSE
+
+	if(spelltarget.has_status_effect(/datum/status_effect/buff/wildtongue))
+		to_chat(owner, span_warning("They are already blessed with Wildtongue."))
+		return FALSE
+
+	if(spelltarget != H)
+		H.visible_message(span_green("[H] invokes the ancient voice of the wild upon [spelltarget]!"))
+	else	
+		H.visible_message(span_green("[H] invokes the ancient voice of the wild upon themselves!"))
+
+	if(spelltarget.anti_magic_check(TRUE, TRUE))
+		return FALSE
+
+	if(spell_guard_check(spelltarget, TRUE))
+		spelltarget.visible_message(span_warning("[spelltarget] resists the voice of the Wild!"))
 		return TRUE
-	revert_cast()
-	return FALSE
+
+	spelltarget.apply_status_effect(/datum/status_effect/buff/wildtongue, duration)
+	to_chat(spelltarget,span_green("You feel the scent and instinct of the Wild settle into your spirit."))
+
+	if(spelltarget == H)
+		H.say(pick("Dendor, know me as thy kin.", "Treefather, let the wilds remember my spirit.",	"By fang, feather, soil, and rain! Let no beast raise tooth against me.", "Blessed Wilds, breathe thy scent upon my soul.", "From deepest burrow to eldest grove, let thy children know me in peace."), language = /datum/language/common)
+	else
+		H.say(pick("Dendor, know this soul as thy kin.", "Treefather, let the wilds remember this spirit kindly.", "By fang, feather, soil, and rain! May no beast raise tooth against thee.", "Blessed Wilds, breathe thy scent upon this wandering child.", "From deepest burrow to eldest grove, let thy children know peace with this one."),language = /datum/language/common)
+
+	return TRUE
 
 //////////////////////
 // T0 - Bless Crops //
