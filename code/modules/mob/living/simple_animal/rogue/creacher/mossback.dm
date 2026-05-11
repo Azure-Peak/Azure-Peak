@@ -5,6 +5,7 @@
 	icon_state = "mossback"
 	icon_living = "mossback"
 	icon_dead = "mossback_dead"
+	blood_toll_bucket = STATS_KILLED_GREATER_BEASTS
 	speak_emote = list("clicks")
 	emote_hear = list("clicks.")
 	emote_see = list("clacks.")
@@ -20,7 +21,9 @@
 							/obj/item/alch/viscera = 2)
 	perfect_butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/crab = 5, 
 									/obj/item/alch/viscera = 2)
-	faction = list("crabs")
+	faction = list(FACTION_CRABS)
+	threat_point = THREAT_MODERATE
+	ambush_faction = "wildlife"
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
 	health = MOSSBACK_HEALTH
 	maxHealth = MOSSBACK_HEALTH
@@ -54,12 +57,12 @@
 
 /mob/living/simple_animal/hostile/retaliate/rogue/mossback/Initialize(mapload, mob/user, townercrab = FALSE)
 	. = ..()
-	AddElement(/datum/element/ai_retaliate)
+	AddComponent(/datum/component/ai_aggro_system)
 	ai_controller.set_blackboard_key(BB_BASIC_FOODS, food_type)
 	if(user)
 		summoner = user.mind.current.real_name
 		if (townercrab)
-			faction = list("neutral", "[summoner]_faction")
+			faction = list(FACTION_NEUTRAL, "[summoner]_faction")
 			tamed(user)
 
 /mob/living/simple_animal/hostile/retaliate/rogue/mossback/get_sound(input)

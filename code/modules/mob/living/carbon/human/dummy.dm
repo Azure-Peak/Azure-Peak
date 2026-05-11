@@ -17,6 +17,54 @@ INITIALIZE_IMMEDIATE(/mob/living/carbon/human/dummy)
 /mob/living/carbon/human/dummy/ignite_mob()
 	return FALSE
 
+//delete all equipment without dropping anything
+/mob/living/carbon/human/dummy/delete_equipment()
+	var/list/items_to_check = get_all_slots()
+	var/list/to_nuke = list() //List of items queued for deletion, can't qdel them before iterating their contents in case they hold something
+	///Travel to the bottom of the contents chain, expanding it out
+	for(var/i = 1; i <= length(items_to_check); i++) //Needs to be a c style loop since it can expand
+		var/obj/item/checking = items_to_check[i]
+		if(QDELETED(checking)) //Nulls in the list, depressing
+			continue
+		if(!isitem(checking)) //What the fuck are you on
+			to_nuke += checking
+			continue
+
+		var/list/contents = checking.contents
+		if(length(contents))
+			items_to_check |= contents //Please don't make an infinite loop somehow thx
+			to_nuke += checking //Goodbye
+			continue
+
+		//I'm making the bet that if you're empty of other items you're not going to OOM if reapplied. I assume you're here because I was wrong
+		if(ismob(checking.loc))
+			var/mob/checkings_owner = checking.loc
+			checkings_owner.temporarilyRemoveItemFromInventory(checking, TRUE) //Clear out of there yeah?
+		SSwardrobe.recycle_object(checking)
+
+	for(var/obj/item/delete as anything in to_nuke)
+		qdel(delete)
+
+///Let's extract our dummies organs and limbs for storage, to reduce the cache missed that spamming a dummy cause
+/mob/living/carbon/human/dummy/proc/harvest_organs()
+	for(var/slot in list(ORGAN_SLOT_BRAIN, ORGAN_SLOT_HEART, ORGAN_SLOT_LUNGS, ORGAN_SLOT_APPENDIX, \
+		ORGAN_SLOT_EYES, ORGAN_SLOT_EARS, ORGAN_SLOT_TONGUE, ORGAN_SLOT_LIVER, ORGAN_SLOT_STOMACH))
+		var/obj/item/organ/current_organ = getorganslot(slot) //Time to cache it lads
+		if(current_organ)
+			current_organ.Remove(src, special = TRUE) //Please don't somehow kill our dummy
+			SSwardrobe.recycle_object(current_organ)
+
+	var/datum/species/current_species = dna.species
+	for(var/organ_path in current_species.organs)
+		var/obj/item/organ/current_organ = getorganslot(organ_path)
+		if(current_organ)
+			current_organ.Remove(src, special = TRUE) //Please don't somehow kill our dummy
+			SSwardrobe.recycle_object(current_organ)
+
+/mob/living/carbon/human/dummy/set_species(datum/species/mrace, icon_update = TRUE, datum/preferences/pref_load)
+	harvest_organs()
+	return ..()
+
 /mob/living/carbon/human/dummy/proc/wipe_state()
 	delete_equipment()
 	cut_overlays(TRUE)

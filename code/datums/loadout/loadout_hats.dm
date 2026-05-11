@@ -1,0 +1,220 @@
+//HATS
+/datum/loadout_item/shalal
+	name = "Keffiyeh"
+	path = /obj/item/clothing/head/roguetown/roguehood/shalal
+	sort_category = "Hats"
+
+/datum/loadout_item/tricorn
+	name = "Tricorn Hat"
+	path = /obj/item/clothing/head/roguetown/helmet/tricorn
+	sort_category = "Hats"
+
+/datum/loadout_item/nurseveil
+	name = "Nurse's Veil"
+	path = /obj/item/clothing/head/roguetown/veiled
+	sort_category = "Hats"
+
+/datum/loadout_item/archercap
+	name = "Archer's Cap"
+	path = /obj/item/clothing/head/roguetown/archercap
+	sort_category = "Hats"
+
+/datum/loadout_item/cap
+	name = "Cap"
+	path = /obj/item/clothing/head/roguetown/cap
+	sort_category = "Hats"
+
+/datum/loadout_item/tiyon
+	name = "Tiyon"
+	path = /obj/item/clothing/head/roguetown/tiyon
+	sort_category = "Hats"
+
+/datum/loadout_item/longveil
+	name = "Long Veil"
+	path = /obj/item/clothing/head/roguetown/longveil
+	sort_category = "Hats"
+
+/datum/loadout_item/durag
+	name = "Durag"
+	path = /obj/item/clothing/head/roguetown/durag
+	sort_category = "Hats"
+	
+/datum/loadout_item/strawhat
+	name = "Straw Hat"
+	path = /obj/item/clothing/head/roguetown/strawhat
+	sort_category = "Hats"
+
+/datum/loadout_item/witchhat
+	name = "Witch Hat"
+	path = /obj/item/clothing/head/roguetown/witchhat
+	sort_category = "Hats"
+
+/datum/loadout_item/witchhat/old
+	name = "Witch Hat (Old)"
+	path = /obj/item/clothing/head/roguetown/witchhat/old
+	sort_category = "Hats"
+
+/datum/loadout_item/wizhat
+	name = "Wizard Hat"
+	path = /obj/item/clothing/head/roguetown/wizhat
+	sort_category = "Hats"
+
+/datum/loadout_item/wizhat/red
+	name = "Wizard Hat (Red)"
+	path = /obj/item/clothing/head/roguetown/wizhat/red
+	sort_category = "Hats"
+
+/datum/loadout_item/wizhat/yellow
+	name = "Wizard Hat (Yellow)"
+	path = /obj/item/clothing/head/roguetown/wizhat/yellow
+	sort_category = "Hats"
+
+/datum/loadout_item/wizhat/green
+	name = "Wizard Hat (Green)"
+	path = /obj/item/clothing/head/roguetown/wizhat/green
+	sort_category = "Hats"
+
+/datum/loadout_item/wizhat/black
+	name = "Wizard Hat (Black)"
+	path = /obj/item/clothing/head/roguetown/wizhat/black
+	sort_category = "Hats"
+
+/datum/loadout_item/wizhat/gen
+	name = "Wizard Hat (Generic)"
+	path = /obj/item/clothing/head/roguetown/wizhat/gen
+	sort_category = "Hats"
+
+/datum/loadout_item/chefhat
+	name = "Chef's Hat"
+	path = /obj/item/clothing/head/roguetown/chef
+	sort_category = "Hats"
+
+/datum/loadout_item/bardhat
+	name = "Bard Hat"
+	path = /obj/item/clothing/head/roguetown/bardhat
+	sort_category = "Hats"
+
+/datum/loadout_item/fancyhat
+	name = "Fancy Hat"
+	path = /obj/item/clothing/head/roguetown/fancyhat
+	sort_category = "Hats"
+
+/datum/loadout_item/furhat
+	name = "Fur Hat"
+	path = /obj/item/clothing/head/roguetown/hatfur
+	sort_category = "Hats"
+
+/datum/loadout_item/smokingcap
+	name = "Smoking Cap"
+	path = /obj/item/clothing/head/roguetown/smokingcap
+	sort_category = "Hats"
+
+/datum/loadout_item/headband
+	name = "Headband"
+	path = /obj/item/clothing/head/roguetown/headband
+	sort_category = "Hats"
+
+/datum/loadout_item/buckled_hat
+	name = "Buckled Hat"
+	path = /obj/item/clothing/head/roguetown/puritan
+	sort_category = "Hats"
+
+/datum/loadout_item/folded_hat
+	name = "Folded Hat"
+	path = /obj/item/clothing/head/roguetown/bucklehat
+	sort_category = "Hats"
+
+/datum/loadout_item/duelist_hat
+	name = "Duelist's Hat"
+	path = /obj/item/clothing/head/roguetown/duelhat
+	sort_category = "Hats"
+
+/datum/loadout_item/hood
+	name = "Hood"
+	path = /obj/item/clothing/head/roguetown/roguehood
+	sort_category = "Hats"
+
+/datum/loadout_item/hijab
+	name = "Hijab"
+	path = /obj/item/clothing/head/roguetown/roguehood/shalal/hijab
+	sort_category = "Hats"
+
+/datum/loadout_item/heavyhood
+	name = "Heavy Hood"
+	path = /obj/item/clothing/head/roguetown/roguehood/shalal/heavyhood
+	sort_category = "Hats"
+
+/datum/loadout_item/nunveil
+	name = "Nun Veil"
+	path = /obj/item/clothing/head/roguetown/nun
+	sort_category = "Hats"
+
+/datum/loadout_item/papakha
+	name = "Papakha"
+	path = /obj/item/clothing/head/roguetown/papakha
+	sort_category = "Hats"
+
+/datum/loadout_item/rosa_crown
+	name = "Rosa Crown"
+	path = /obj/item/flowercrown/rosa
+	sort_category = "Hats"
+
+/datum/loadout_item/salvia_crown
+	name = "Salvia Crown"
+	path = /obj/item/flowercrown/salvia
+	sort_category = "Hats"
+
+/datum/loadout_item/matricaria_crown
+	name = "Matricaria Crown"
+	path = /obj/item/flowercrown/matricaria
+	sort_category = "Hats"
+
+/datum/loadout_item/calendula_crown
+	name = "Calendula Crown"
+	path = /obj/item/flowercrown/calendula
+	sort_category = "Hats"
+
+/datum/loadout_item/manabloom_crown
+	name = "Manabloom Crown"
+	path = /obj/item/flowercrown/manabloom
+	sort_category = "Hats"
+
+/datum/loadout_item/briar_crown
+	name = "Briar Thorn Crown"
+	path = /obj/item/flowercrown/briar
+	sort_category = "Hats"
+
+/datum/loadout_item/briarthorns
+	name = "Briar Thorns"
+	path = /obj/item/clothing/head/roguetown/briarthorns
+	sort_category = "Hats"
+
+/datum/loadout_item/deserthood
+	name = "Desert Hood"
+	path = /obj/item/clothing/head/roguetown/deserthood
+	sort_category = "Hats"
+
+/datum/loadout_item/explorerhat
+	name = "Explorer Hat"
+	path = /obj/item/clothing/head/roguetown/explorerhat
+	sort_category = "Hats"
+
+/datum/loadout_item/jesterhat
+	name = "Jester's Hat"
+	path = /obj/item/clothing/head/roguetown/jester
+	sort_category = "Hats"
+
+/datum/loadout_item/shawl
+	name = "Shawl"
+	path = /obj/item/clothing/head/roguetown/shawl
+	sort_category = "Hats"
+  
+/datum/loadout_item/maidband
+	name = "Maid Headdress"
+	path = /obj/item/clothing/head/roguetown/maidhead
+	sort_category = "Hats"
+
+/datum/loadout_item/maidbandfancy
+	name = "Valorian Maid Headband"
+	path = /obj/item/clothing/head/roguetown/maidband
+	sort_category = "Hats"

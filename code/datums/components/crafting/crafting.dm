@@ -27,6 +27,8 @@
 	var/display_craftable_only = TRUE
 	var/display_compact = TRUE
 	var/showonlycraftable = TRUE
+	var/last_surroundings_hash
+	var/list/cached_craftability
 
 
 
@@ -164,9 +166,13 @@
 	return TRUE
 
 /atom/proc/OnCrafted(dirin, mob/user)
-	SEND_SIGNAL(user, COMSIG_ITEM_CRAFTED, user, type)
+	if(user)
+		SEND_SIGNAL(user, COMSIG_ITEM_CRAFTED, user, type)
+		record_featured_stat(FEATURED_STATS_CRAFTERS, user)
+
 	dir = dirin
 	record_featured_stat(FEATURED_STATS_CRAFTERS, user)
+	record_round_statistic(STATS_CRAFTED_ITEMS)
 	record_featured_object_stat(FEATURED_STATS_CRAFTED_ITEMS, name)
 	return
 
@@ -286,7 +292,11 @@
 						var/mob/living/L = user
 						if(L.STAINT > 10)
 							prob2craft += ((10-L.STAINT)*-1)*2
+						if(HAS_TRAIT(L, TRAIT_INTELLECTUAL) && L.STAINT > 8)
+							prob2craft += 5
 					prob2craft = CLAMP(prob2craft, 0, 99)
+					if(i == 100 && prob2craft > 0)
+						prob2craft = 100
 					if(!prob(prob2craft))
 						if(user.client?.prefs.showrolls)
 							to_chat(user, span_danger("I've failed to craft \the [R.name]... [prob2craft]%"))
@@ -319,12 +329,13 @@
 							I.add_fingerprint(user)
 					user.visible_message(span_notice("[user] [R.verbage] \a [R.name]!"), \
 										span_notice("I [R.verbage_simple] \a [R.name]!"))
-					if(user.mind && R.skillcraft)
+					if(user.mind && R.skillcraft && R.xp_modifier > 0)
 						if(isliving(user))
 							var/mob/living/L = user
 							var/amt2raise = L.STAINT * 2// its different over here
 							if(R.craftdiff > 0) //difficult recipe
 								amt2raise += (R.craftdiff * 10) // also gets more
+							amt2raise = round(amt2raise * R.xp_modifier)
 							if(amt2raise > 0)
 								user.mind.add_sleep_experience(R.skillcraft, amt2raise, FALSE)
 					return TRUE
@@ -502,8 +513,16 @@
 /datum/component/personal_crafting/ui_data(mob/user)
 	var/list/data = list()
 	data["busy"] = busy
+	data["showonlycraftable"] = showonlycraftable
 
 	var/list/surroundings = get_surroundings(user)
+	var/new_hash = list2params(surroundings["other"])
+
+	if(new_hash == last_surroundings_hash && cached_craftability)
+		data["craftability"] = cached_craftability
+		return data
+
+	last_surroundings_hash = new_hash
 	var/list/craftability = list()
 	for(var/rec in GLOB.crafting_recipes)
 		var/datum/crafting_recipe/R = rec
@@ -515,33 +534,24 @@
 
 		craftability[R.name] = check_contents(R, surroundings)
 
+	cached_craftability = craftability
 	data["craftability"] = craftability
-	data["showonlycraftable"] = showonlycraftable
 	return data
 
 /datum/component/personal_crafting/ui_static_data(mob/user)
 	var/list/data = list()
 
 	var/list/crafting_recipes = list()
-	for(var/rec in GLOB.crafting_recipes)
-		var/datum/crafting_recipe/R = rec
-
-		if(R.name == "") //This is one of the invalid parents that sneaks in
+	for(var/datum/crafting_recipe/R as anything in GLOB.crafting_recipes)
+		if(!R.name)
 			continue
-
-		if(!R.always_availible && !(R.type in user?.mind?.learned_recipes)) //User doesn't actually know how to make this.
+		if(!R.always_availible && !(R.type in user?.mind?.learned_recipes))
 			continue
 		if(R.required_tech_node && !R.tech_unlocked)
 			continue
-		var/category
-		if(R.skillcraft)
-			var/datum/skill/S = new R.skillcraft()
-			category = S.name
-		else
-			category = "Other"
-		if(isnull(crafting_recipes[category]))
-			crafting_recipes[category] = list()
-		crafting_recipes[category] += list(build_recipe_data(R))
+		if(isnull(crafting_recipes[R.cached_category]))
+			crafting_recipes[R.cached_category] = list()
+		crafting_recipes[R.cached_category] += list(R.cached_display_data)
 
 	data["crafting_recipes"] = crafting_recipes
 	return data
@@ -579,44 +589,6 @@
 			showonlycraftable = params["state"]
 
 
-
-/datum/component/personal_crafting/proc/build_recipe_data(datum/crafting_recipe/R)
-	var/list/data = list()
-	data["name"] = R.name
-	data["ref"] = "[REF(R)]"
-	data["path"] = R.type
-	data["sellprice"] = R.sellprice
-	var/req_text = ""
-	var/tool_text = ""
-	var/catalyst_text = ""
-
-	for(var/a in R.reqs)
-		//We just need the name, so cheat-typecast to /atom for speed (even tho Reagents are /datum they DO have a "name" var)
-		//Also these are typepaths so sadly we can't just do "[a]"
-		var/atom/A = a
-		req_text += " [R.reqs[A]] [initial(A.name)],"
-	req_text = replacetext(req_text,",","",-1)
-	data["req_text"] = req_text
-
-	for(var/a in R.chem_catalysts)
-		var/atom/A = a //cheat-typecast
-		catalyst_text += " [R.chem_catalysts[A]] [initial(A.name)],"
-	catalyst_text = replacetext(catalyst_text,",","",-1)
-	data["catalyst_text"] = catalyst_text
-
-	for(var/a in R.tools)
-		if(ispath(a, /obj/item))
-			var/obj/item/b = a
-			tool_text += " [initial(b.name)],"
-		else
-			tool_text += " [a],"
-	tool_text = replacetext(tool_text,",","",-1)
-	data["tool_text"] = tool_text
-
-	data["craftingdifficulty"] = skill_to_string(R.craftdiff)
-
-
-	return data
 
 //Mind helpers
 

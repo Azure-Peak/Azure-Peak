@@ -20,47 +20,53 @@
 	)
 
 //Dismember a limb
-/obj/item/bodypart/proc/dismember(dam_type = BRUTE, bclass = BCLASS_CUT, mob/living/user, zone_precise = src.body_zone, damage = 0, vorpal = FALSE)
+/obj/item/bodypart/proc/dismember(dam_type = BRUTE, bclass = BCLASS_CUT, mob/living/user, zone_precise = src.body_zone, damage = 0, vorpal = FALSE, skip_checks = FALSE)
 	if(!owner)
 		return FALSE
 	var/mob/living/carbon/C = owner
 	if(!dismemberable)
 		return FALSE
-	if(user && (body_zone == BODY_ZONE_HEAD))
-		if(zone_precise != BODY_ZONE_PRECISE_NECK)
-			return FALSE
-		if(!HAS_TRAIT(C, TRAIT_CRITICAL_WEAKNESS) && !HAS_TRAIT(C, TRAIT_EASYDISMEMBER))	//People with these traits can be decapped standing, or buckled, or however.
-			var/has_mind = TRUE  // DEBUG: Temporarily forced to TRUE for testing
-			var/not_buckled = !C.buckled
 
-			// Check if currently standing OR within grace period after being knocked down
-			var/can_stand = (C.mobility_flags & MOBILITY_STAND)
-			if(!can_stand && C.mob_timers && C.mob_timers["last_standing"])
-				// Within 2 seconds of being knocked down? Still count as standing
-				if(world.time < C.mob_timers["last_standing"] + STANDING_DECAP_GRACE_PERIOD)
-					can_stand = TRUE
-
-			if(has_mind && can_stand && not_buckled) //Only allows upright decapitations if it's not a player. Unless they're buckled.
+	if(!skip_checks)
+		if(user && (body_zone == BODY_ZONE_HEAD))
+			if(zone_precise != BODY_ZONE_PRECISE_NECK)
 				return FALSE
+			if(!HAS_TRAIT(C, TRAIT_CRITICAL_WEAKNESS) && !HAS_TRAIT(C, TRAIT_EASYDISMEMBER))	//People with these traits can be decapped standing, or buckled, or however.
+				var/has_mind = TRUE  // DEBUG: Temporarily forced to TRUE for testing
+				var/not_buckled = !C.buckled
 
-	if(body_zone != BODY_ZONE_HEAD)
-		var/mob/living/carbon/human/victim = owner
-		var/d_type = "slash"
-		if(victim.run_armor_check(zone_precise, d_type, damage = damage))
-			to_chat(victim, span_warning("My armour just saved me from losing my [C.get_bodypart(body_zone).name]!"))
-			return FALSE
+				// Check if currently standing OR within grace period after being knocked down
+				var/can_stand = (C.mobility_flags & MOBILITY_STAND)
+				if(!can_stand && C.mob_timers && C.mob_timers["last_standing"])
+					// Within 2 seconds of being knocked down? Still count as standing
+					if(world.time < C.mob_timers["last_standing"] + STANDING_DECAP_GRACE_PERIOD)
+						can_stand = TRUE
+
+				if(has_mind && can_stand && not_buckled) //Only allows upright decapitations if it's not a player. Unless they're buckled.
+					return FALSE
+
+		if(body_zone != BODY_ZONE_HEAD)
+			var/mob/living/carbon/human/victim = owner
+			var/d_type = "slash"
+			if(victim.run_armor_check(zone_precise, d_type, armor_penetration = PEN_NONE, damage = damage))
+				to_chat(victim, span_warning("My armour just saved me from losing my [C.get_bodypart(body_zone).name]!"))
+				return FALSE
 
 	if(C.status_flags & GODMODE)
 		return FALSE
 	if(HAS_TRAIT(C, TRAIT_NODISMEMBER))
 		return FALSE
+	if(user)
+		if(zone_precise in list(BODY_ZONE_PRECISE_L_FOOT, BODY_ZONE_PRECISE_R_FOOT, BODY_ZONE_PRECISE_R_HAND, BODY_ZONE_PRECISE_L_HAND) && C.mind)
+			return FALSE //No dismemberment on hand/feet on humans, but we do mobs.
 
 	if(SEND_SIGNAL(src, COMSIG_MOB_DISMEMBER, src) & COMPONENT_CANCEL_DISMEMBER)
 		return FALSE //signal handled the dropping
-	
-	if(C.try_resist_critical())
-		C.visible_message(span_danger("Critical resistance! [C]'s [src.name] hangs on by a thread!</span>"))
-		return FALSE
+
+	if(!skip_checks)
+		if(C.try_resist_critical())
+			C.visible_message(span_danger("Critical resistance! [C]'s [src.name] hangs on by a thread!</span>"))
+			return FALSE
 
 	var/obj/item/bodypart/affecting = C.get_bodypart(BODY_ZONE_CHEST)
 	if(affecting && dismember_wound)
@@ -85,14 +91,14 @@
 				C.visible_message(span_danger("<b>[C]'s wrought skull is <span class='crit'>CLEFT NIGH IN TWAIN</span> by a fearsome blow, crumbling into a <span class='crit'>CLOUD of DUST!</span></b>"))
 				C.death()
 				return
-			
+
 			if (skeletonized)
 				C.visible_message(span_danger("<b>[C]'s bony skull is <span class='crit'>MULCHED</span> by a fearsome blow, spalling into a <span class='crit'>CLOUD of SHARDS!</span></b>"))
 				C.death()
 				return
 			else
-				C.visible_message(span_danger("<B>[C] is <span class='crit'>[pick("ENDED", "SLAIN", "SLAUGHTERED","MURDERED","SNUFFED","BUTCHERED","FELLED","FINISHED","FRAGGED")]</span> as their ravaged neck <span class='crit'>BLOSSOMS</span> into petals of <span class='crit'>GORE and BONE!</span></B>"))
-				add_wound(/datum/wound/grievous/pre_decapitation) // this causes a bigass wound, marks the limb as greviously wounded and instantly kills the affected user.
+				C.visible_message(span_danger("<B>[C] is <span class='crit'>[pick("ENDED", "SLAIN", "SLAUGHTERED","MURDERED","SNUFFED","BUTCHERED","FELLED","FINISHED","FRAGGED")]</span> as [C.p_their()] ravaged neck <span class='crit'>BLOSSOMS</span> into petals of <span class='crit'>GORE and BONE!</span></B>"))
+				add_wound(/datum/wound/grievous/pre_decapitation_sharp) // this causes a bigass wound, marks the limb as greviously wounded and instantly kills the affected user.
 				return
 		else
 			// we're greviously wounded OR we don't give a shit about two-stage death (guillotines, npcs, etc)
@@ -159,10 +165,9 @@
 		if(new_turf.density)
 			break
 	throw_at(target_turf, throw_range, throw_speed)
-	owner = C
 	return TRUE
 
-/obj/item/bodypart/chest/dismember(dam_type = BRUTE, bclass = BCLASS_CUT, mob/living/user, zone_precise = src.body_zone, damage = 0, vorpal = FALSE)
+/obj/item/bodypart/chest/dismember(dam_type = BRUTE, bclass = BCLASS_CUT, mob/living/user, zone_precise = src.body_zone, damage = 0, vorpal = FALSE, skip_checks = FALSE)
 	if(!owner)
 		return FALSE
 	var/mob/living/carbon/C = owner
@@ -226,6 +231,9 @@
 
 	update_icon_dropped()
 	was_owner.update_health_hud() //update the healthdoll
+	var/datum/hud/hud_used = was_owner.hud_used
+	if(hud_used?.zone_select)
+		hud_used.zone_select.rebuild_limbs()
 	was_owner.update_body()
 	was_owner.update_hair()
 	was_owner.update_mobility()
@@ -294,7 +302,7 @@
 		if(C.hud_used)
 			var/atom/movable/screen/inventory/hand/R = C.hud_used.hand_slots["[held_index]"]
 			if(R)
-				R.update_icon()
+				R.update_hand_vis()
 		if(C.gloves && (C.get_num_arms(FALSE) < 1))
 			C.dropItemToGround(C.gloves, force = TRUE)
 		C.update_inv_gloves() //to remove the bloody hands overlay
@@ -313,7 +321,7 @@
 		if(C.hud_used)
 			var/atom/movable/screen/inventory/hand/L = C.hud_used.hand_slots["[held_index]"]
 			if(L)
-				L.update_icon()
+				L.update_hand_vis()
 		if(C.gloves && (C.get_num_arms(FALSE) < 1))
 			C.dropItemToGround(C.gloves, force = TRUE)
 		C.update_inv_gloves() //to remove the bloody hands overlay
@@ -416,7 +424,7 @@
 		if(C.hud_used)
 			var/atom/movable/screen/inventory/hand/hand = C.hud_used.hand_slots["[held_index]"]
 			if(hand)
-				hand.update_icon()
+				hand.update_hand_vis()
 		C.update_inv_gloves()
 
 	if(special) //non conventional limb attachment
@@ -447,6 +455,9 @@
 	C.update_hair()
 	C.update_damage_overlays()
 	C.update_mobility()
+	var/datum/hud/hud_used = C.hud_used
+	if(hud_used?.zone_select)
+		hud_used.zone_select.rebuild_limbs()
 	return TRUE
 
 /obj/item/bodypart/head/attach_limb(mob/living/carbon/C, special)

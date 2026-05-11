@@ -172,7 +172,7 @@
 
 	return master
 
-/datum/reagents/proc/trans_to(obj/target, amount = 1, multiplier = 1, preserve_data = TRUE, no_react = FALSE, mob/transfered_by, remove_blacklisted = FALSE, method = null, show_message = TRUE, round_robin = FALSE)
+/datum/reagents/proc/trans_to(obj/target, amount = 1, multiplier = 1, preserve_data = TRUE, no_react = FALSE, mob/transfered_by, remove_blacklisted = FALSE, method = null, show_message = TRUE, round_robin = FALSE, consume_source = TRUE)
 	//if preserve_data=0, the reagents data will be lost. Usefull if you use data for some strange stuff and don't want it to be transferred.
 	//if round_robin=TRUE, so transfer 5 from 15 water, 15 sugar and 15 plasma becomes 10, 15, 15 instead of 13.3333, 13.3333 13.3333. Good if you hate floating point errors
 	var/list/cached_reagents = reagent_list
@@ -208,7 +208,8 @@
 			if(method)
 				R.react_single(T, target_atom, method, part, show_message)
 				T.on_transfer(target_atom, method, transfer_amount * multiplier)
-			remove_reagent(T.type, transfer_amount)
+			if(consume_source)
+				remove_reagent(T.type, transfer_amount)
 			transfer_log[T.type] = transfer_amount
 	else
 		var/to_transfer = amount
@@ -228,7 +229,8 @@
 			if(method)
 				R.react_single(T, target_atom, method, transfer_amount, show_message)
 				T.on_transfer(target_atom, method, transfer_amount * multiplier)
-			remove_reagent(T.type, transfer_amount)
+			if(consume_source)
+				remove_reagent(T.type, transfer_amount)
 			transfer_log[T.type] = transfer_amount
 
 	if(transfered_by && target_atom)

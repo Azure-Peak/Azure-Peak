@@ -27,6 +27,12 @@
 	else
 		..()
 
+/obj/item/fishingrod/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Left-clicking a fishing rod with bait will prepare it for a cast. Worms, leeches, and many other wriggling creechers can attract different fishes to catch.")
+	. += span_info("Once baited, left click the water to begin fishing.")
+	. += span_info("The chances of you catching nothing at all, having your bait stolen, or getting a 'biter' depends on how high your Fishing skill is.")
+	. += span_info("Whenever you get a 'biter', interrupt the ensuing timed action before it can complete to successfully catch a fish.")
 
 /obj/item/fishingrod/attackby(obj/item/I, mob/user, params)
 	if(baited)
@@ -64,7 +70,7 @@
 /obj/item/fishingrod/afterattack(obj/target, mob/user, proximity)
 	var/sl = user.get_skill_level(/datum/skill/labor/fishing) // User's skill level
 	var/ft = 120 //Time to get a catch, in ticks
-	var/fpp =  100 - (40 + (sl * 10)) // Fishing power penalty based on fishing skill level
+	var/fpp =  60 - (sl * 10) // Fishing power penalty based on fishing skill level
 	var/list/modlist
 	if(user.used_intent.type == SPEAR_BASH)
 		return ..()
@@ -148,6 +154,11 @@
 		var/mob/M = loc
 		M.update_inv_hands()
 
+/obj/item/fishingrod/bronze
+	name = "bronze fishing rod"
+	desc = "A tool of religious importance, used by wide-brimmed priests who offer wriggling sacrifices to the endless waves beneath."
+	icon_state = "bronzerod"
+	max_integrity = 200
 
 /obj/item/fishingrod/aalloy
 	name = "decrepit fishing rod"

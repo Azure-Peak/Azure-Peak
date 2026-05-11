@@ -41,7 +41,7 @@
 
 /obj/structure/roguemachine/Hoardmaster/Topic(href, href_list)
 	. = ..()
-	if(!HAS_TRAIT(usr, TRAIT_COMMIE))
+	if(!HAS_TRAIT(usr, TRAIT_FREEMAN))
 		return
 	if(!usr.canUseTopic(src, BE_CLOSE))
 		return
@@ -80,7 +80,7 @@
 	return attack_hand(usr)
 
 /obj/structure/roguemachine/Hoardmaster/attack_hand(mob/living/user)
-	if(!HAS_TRAIT(user, TRAIT_COMMIE))
+	if(!HAS_TRAIT(user, TRAIT_FREEMAN))
 		return
 	var/datum/antagonist/bandit/B = usr.mind.has_antag_datum(/datum/antagonist/bandit)
 	. = ..()
@@ -98,15 +98,13 @@
 	switch(usr.advjob)
 		if("Brigand")
 			unlocked_cats+="Brigand"
-		if("Demolisher")
-			unlocked_cats+="Demolisher"
 		if("Sellsword")
 			unlocked_cats+="Sellsword"
-		if("Sawbones")
-			unlocked_cats+="Sawbones"
+		if("Hedge Alchemist")
+			unlocked_cats+="Alchemist"
 		if("Hedge Knight")
 			unlocked_cats+="Knight"
-		if("Rogue Mage")
+		if("Hedge Mage")
 			unlocked_cats+="Mage"
 		if("Knave")
 			unlocked_cats+="Knave"

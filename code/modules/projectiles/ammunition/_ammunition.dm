@@ -10,7 +10,7 @@
 	var/fire_sound = null						//What sound should play when this ammo is fired
 	var/caliber = null							//Which kind of guns it can be loaded into
 	var/projectile_type = null					//The bullet type to create when New() is called
-	var/obj/projectile/BB = null 			//The loaded bullet
+	var/obj/projectile/BB = null 				//The loaded bullet
 	var/pellets = 1								//Pellets for spreadshot
 	var/variance = 0							//Variance for inaccuracy fundamental to the casing
 	var/randomspread = 0						//Randomspread for automatics
@@ -19,6 +19,7 @@
 	var/firing_effect_type = null	//the visual effect appearing when the ammo is fired.
 	var/heavy_metal = TRUE
 	var/harmful = TRUE //pacifism check for boolet, set to FALSE if bullet is non-lethal
+	var/charge_time_mult = 1 // Multiplier on weapon charge time. <1 = faster, >1 = slower.
 
 /obj/item/ammo_casing/spent
 	name = "spent bullet casing"

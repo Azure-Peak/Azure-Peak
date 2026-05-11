@@ -8,6 +8,8 @@
 	roundstart = TRUE
 	antag_flag = ROLE_NBEAST
 	shared_occurence_type = SHARED_HIGH_THREAT
+	storyteller_antag_flags = STORYTELLER_ANTAG_VILLAIN | STORYTELLER_ANTAG_ROUNDSTART
+	storyteller_guarantee_flags = STORYTELLER_FAVOR_VAMPIRE_LORD
 
 	weight = 4
 	max_occurrences = 1
@@ -23,6 +25,11 @@
 	antag_datum = /datum/antagonist/vampire
 
 	restricted_roles = DEFAULT_ANTAG_BLACKLISTED_ROLES
+
+/datum/round_event_control/antagonist/solo/vampires/preRunEvent()
+	if(is_storyteller_villain_blocked())
+		return EVENT_CANT_RUN
+	return ..()
 
 /datum/round_event/antagonist/solo/vampire
 	var/leader = FALSE

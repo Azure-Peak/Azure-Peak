@@ -1,4 +1,0 @@
-author: "PatapoIIIa"
-delete-after: True
-changes:
-  - bugfix: "Prevent vampires from receiving duplicate Bloodheal coven instances by relying on the base clan grant logic.\n:cl:"

@@ -1,7 +1,7 @@
 /datum/map_template/dungeon/hallway
 	name = "Hall Tile"
 	abstract_type = /datum/map_template/dungeon/hallway
-	type_weight = 5
+	type_weight = 10
 
 /datum/map_template/dungeon/hallway/LturnNorthEast
 	mappath = "_maps/dungeon_generator/hallway/LturnNorthEast.dmm"

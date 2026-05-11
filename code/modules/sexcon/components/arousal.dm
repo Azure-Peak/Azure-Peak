@@ -16,10 +16,6 @@
 	/// Last ejaculation time
 	var/last_ejaculation_time = 0
 
-/datum/component/arousal/Initialize(...)
-	. = ..()
-	START_PROCESSING(SSobj, src)
-
 /datum/component/arousal/Destroy(force)
 	. = ..()
 	STOP_PROCESSING(SSobj, src)
@@ -31,6 +27,8 @@
 	RegisterSignal(parent, COMSIG_SEX_FREEZE_AROUSAL, PROC_REF(freeze_arousal))
 	RegisterSignal(parent, COMSIG_SEX_GET_AROUSAL, PROC_REF(get_arousal))
 	RegisterSignal(parent, COMSIG_SEX_RECEIVE_ACTION, PROC_REF(receive_sex_action))
+	RegisterSignal(parent, COMSIG_MOB_CLIENT_LOGIN, PROC_REF(check_processing))
+	RegisterSignal(parent, COMSIG_MOB_LOGOUT, PROC_REF(check_processing))
 
 /datum/component/arousal/UnregisterFromParent()
 	. = ..()
@@ -39,12 +37,23 @@
 	UnregisterSignal(parent, COMSIG_SEX_FREEZE_AROUSAL)
 	UnregisterSignal(parent, COMSIG_SEX_GET_AROUSAL)
 	UnregisterSignal(parent, COMSIG_SEX_RECEIVE_ACTION)
+	UnregisterSignal(parent, COMSIG_MOB_CLIENT_LOGIN)
+	UnregisterSignal(parent, COMSIG_MOB_LOGOUT)
 
 /datum/component/arousal/process(dt)
 	handle_charge(dt * 1)
 	if(!can_lose_arousal())
 		return
 	adjust_arousal(parent, dt * -1)
+
+/// Checks if our parent has a client and adjusts processing.
+/datum/component/arousal/proc/check_processing()
+	SIGNAL_HANDLER
+	var/mob/parent_mob = parent
+	if(parent_mob.client)
+		START_PROCESSING(SSobj, src)
+	else
+		STOP_PROCESSING(SSobj, src)
 
 /datum/component/arousal/proc/can_lose_arousal()
 	if(last_arousal_increase_time + AROUSAL_TIME_TO_UNHORNY > world.time)
@@ -57,7 +66,7 @@
 	var/clamp_max = MAX_AROUSAL
 	var/mob/user = parent
 	if(user.has_flaw(/datum/charflaw/addiction/thrillseeker))
-		clamp_max = THRILLSEEKER_EJAC_THRESHOLD
+		clamp_max = THRILLSEEKER_THRESHOLD
 		if(forced)
 			clamp_max = 50
 	arousal = clamp(amount, 0, clamp_max)
@@ -72,6 +81,29 @@
 	if(arousal > 0)
 		arousal *= arousal_multiplier
 	return set_arousal(source, arousal + amount, forced)
+
+/datum/component/arousal/proc/adjust_arousal_special(datum/source, amount, forced = FALSE)
+	var/mob/living/mob = parent
+	if(!mob.has_flaw(/datum/charflaw/addiction/thrillseeker))
+		return
+	if(arousal_frozen)
+		return arousal
+	if(arousal > 0)
+		arousal *= arousal_multiplier
+	return set_arousal_special(source, arousal + amount, THRILLSEEKER_THRESHOLD)
+
+/datum/component/arousal/proc/set_arousal_special(datum/source, amount, limit)
+	if(last_ejaculation_time > world.time - (3 MINUTES))	//Short break to not cover the screen in pink too quickly.
+		return
+	if(amount > arousal)
+		last_arousal_increase_time = world.time
+	var/clamp_max = MAX_AROUSAL
+	if(limit)
+		clamp_max = limit
+	arousal = clamp(amount, 0, clamp_max)
+	update_arousal_effects()
+	SEND_SIGNAL(parent, COMSIG_SEX_AROUSAL_CHANGED)
+	return arousal
 
 /datum/component/arousal/proc/freeze_arousal(datum/source, freeze_state = null)
 	var/mob/user = parent
@@ -116,11 +148,7 @@
 	update_erect_state()
 
 /datum/component/arousal/proc/try_ejaculate()
-	var/mob/user = parent
-
-	if(arousal < PASSIVE_EJAC_THRESHOLD && !user.has_flaw(/datum/charflaw/addiction/thrillseeker))
-		return
-	if(user.has_flaw(/datum/charflaw/addiction/thrillseeker) && arousal < THRILLSEEKER_EJAC_THRESHOLD_PASSIVE)
+	if(arousal < PASSIVE_EJAC_THRESHOLD)
 		return
 	if(is_spent())
 		return
@@ -141,9 +169,7 @@
 	else
 		climaxer = highest_priority.user
 		partner = highest_priority.target
-	if(mob.has_flaw(/datum/charflaw/addiction/thrillseeker))
-		after_ejaculation(FALSE, climaxer, partner)
-		return	
+
 	playsound(parent, 'sound/misc/mat/endout.ogg', 50, TRUE, ignore_walls = FALSE)
 	// Special case for when the climaxer has a penis but no testicles
 	if(!mob.getorganslot(ORGAN_SLOT_TESTICLES) && mob.getorganslot(ORGAN_SLOT_PENIS))
@@ -167,6 +193,15 @@
 		if(action.knot_on_finish)
 			action.try_knot_on_climax(mob, partner)
 
+/datum/component/arousal/proc/ejaculate_special()
+	var/mob/living/mob = parent
+	after_ejaculation_special(mob)
+	last_ejaculation_time = world.time
+
+/datum/component/arousal/proc/after_ejaculation_special(mob/living/parent)
+	parent.add_stress(/datum/stressevent/thrill)
+	if(prob(1))
+		parent.emote("groan", forced = TRUE)
 
 /datum/component/arousal/proc/handle_climax(climax_type, mob/living/carbon/human/climaxer, mob/living/carbon/human/partner, action)
 
@@ -193,18 +228,24 @@
 	SEND_SIGNAL(climaxer, COMSIG_SEX_CLIMAX)
 
 	charge = max(0, charge - CHARGE_FOR_CLIMAX)
-	
-	var/intensity = action.intensity
-	if(!action.masturbation) //If the action's masturbation, no good lover bonus
-		if(HAS_TRAIT(partner, TRAIT_GOODLOVER)) //If your partner is a good lover, your climax is more intense
-			intensity += 1
+
+	var/intensity
+	if(action)
+		intensity = action.intensity
+		if(!action.masturbation) //If the action's masturbation, no good lover bonus
+			if(HAS_TRAIT(partner, TRAIT_GOODLOVER)) //If your partner is a good lover, your climax is more intense
+				intensity += 1
+
 	if(climaxer.has_flaw(/datum/charflaw/addiction/thrillseeker))
 		var/datum/charflaw/addiction/thrill = climaxer.get_flaw(/datum/charflaw/addiction/thrillseeker)
 		climaxer.playsound_local(climaxer, 'sound/misc/mat/end.ogg', 100)
 		last_ejaculation_time = world.time
 		if(!thrill.sated)
 			climaxer.add_stress(/datum/stressevent/thrillsex)
+		if(prob(10))
+			climaxer.emote("groan", forced = TRUE)
 		return	
+
 	climaxer.emote("moan", forced = TRUE)
 	climaxer.playsound_local(climaxer, 'sound/misc/mat/end.ogg', 100)
 	last_ejaculation_time = world.time
@@ -212,10 +253,8 @@
 	if(HAS_TRAIT(climaxer, TRAIT_UNSATISFIED)) //Given for 30 seconds when someone sets their arousal, it prevents gaining any benefits from orgasm
 		return
 
-	if(climaxer.has_flaw(/datum/charflaw/addiction/lovefiend))
-		climaxer.sate_addiction()
-	if(partner.has_flaw(/datum/charflaw/addiction/lovefiend))
-		partner.sate_addiction()
+	climaxer.sate_addiction(/datum/charflaw/addiction/lovefiend)
+	partner.sate_addiction(/datum/charflaw/addiction/lovefiend)
 
 	switch(intensity)
 		if(1) //Should only be achievable with masturbation
@@ -313,7 +352,7 @@
 		if(0 to 5)
 			chosen_emote = "sexmoanlight"
 		if(5 to INFINITY)
-			chosen_emote = "sexamoanhvy"
+			chosen_emote = "sexmoanhvy"
 
 	if(pain_amt >= PAIN_MILD_EFFECT)
 		if(giving)

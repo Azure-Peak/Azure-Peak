@@ -5,11 +5,11 @@
 	faction = "Station"
 	total_positions = 4
 	spawn_positions = 4
-	allowed_races = ACCEPTED_RACES
+	forbidden_races = list(RACES_DESPISED)
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_ages = list(AGE_ADULT)
 	advclass_cat_rolls = list(CTAG_SQUIRE = 20)
-	job_traits = list(TRAIT_SQUIRE_REPAIR)
+	job_traits = list(TRAIT_SQUIRE_REPAIR, TRAIT_EXPERT_HUNTER)
 
 	tutorial = "Your folks said you were going to be something, they had better aspirations for you than the life of a peasant. You practiced the basics \
 		in the field alongside your friends, swordfighting with sticks, chasing rabbits with grain flail, and helping around the house lifting heavy \
@@ -36,7 +36,7 @@
 	beltl = /obj/item/storage/keyring/squire
 	cloak = /obj/item/clothing/cloak/tabard/stabard/surcoat/guard
 	id = /obj/item/scomstone/bad/garrison
-	job_bitflag = BITFLAG_GARRISON		//Move this role to garrison section later. Shouldn't be under youngroles for transparancy they are garrison.
+	job_bitflag = BITFLAG_GARRISON
 
 /datum/job/roguetown/squire/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
 	. = ..()
@@ -52,7 +52,7 @@
 			S.name = "squire's tabard ([index])"
 
 /datum/advclass/squire/lancer
-	name = "Lancer Squire"
+	name = "Cavalier Squire"
 	tutorial = "A hopeful for the next generation of knightly mounted lancers and infantry pike specialists, \
 	your training with polearms sets you apart from other squires."
 	outfit = /datum/outfit/job/roguetown/squire/lancer
@@ -79,13 +79,14 @@
 		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/riding = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/hunting = SKILL_LEVEL_NOVICE,
 	)
 
 /datum/outfit/job/roguetown/squire/lancer/pre_equip(mob/living/carbon/human/H)
 	. = ..()
 	H.verbs |= /mob/proc/haltyell_exhausting
-	r_hand = /obj/item/rogueweapon/spear
-	armor = /obj/item/clothing/suit/roguetown/armor/chainmail
+	r_hand = /obj/item/rogueweapon/spear/trainer
+	armor = /obj/item/clothing/suit/roguetown/armor/chainmail/iron
 	gloves = /obj/item/clothing/gloves/roguetown/leather
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
 	pants = /obj/item/clothing/under/roguetown/chainlegs/iron
@@ -93,18 +94,18 @@
 	backl = /obj/item/rogueweapon/scabbard/gwstrap
 	backpack_contents = list(
 		/obj/item/storage/belt/rogue/pouch,
-		/obj/item/clothing/neck/roguetown/chaincoif,
+		/obj/item/clothing/neck/roguetown/chaincoif/iron,
 		/obj/item/reagent_containers/glass/bottle/rogue/healthpot,
 		/obj/item/repair_kit/metal,
 		/obj/item/repair_kit,
 	)
 	if(H.mind)
-		SStreasury.give_money_account(ECONOMIC_WORKING_CLASS, H, "Savings.")
+		SStreasury.grant_savings(ECONOMIC_WORKING_CLASS, H)
 
 /datum/advclass/squire/footman
-	name = "Footman Squire"
-	tutorial = "Your training has been singularly focused on the intricacies of sword, a weapon whose versatility \
-	belies the difficulty of its use."
+	name = "Squire at Arms"
+	tutorial = "Your training has been singularly focused on the fine techniques of melee, suited to to your \
+	future dominance on the battlefield."
 	outfit = /datum/outfit/job/roguetown/squire/footman
 
 	category_tags = list(CTAG_SQUIRE)
@@ -128,36 +129,37 @@
 		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
+		/datum/skill/misc/hunting = SKILL_LEVEL_NOVICE,
 	)
 
 /datum/outfit/job/roguetown/squire/footman/pre_equip(mob/living/carbon/human/H)
 	. = ..()
 	H.verbs |= /mob/proc/haltyell_exhausting
-	armor = /obj/item/clothing/suit/roguetown/armor/chainmail
+	armor = /obj/item/clothing/suit/roguetown/armor/chainmail/iron
 	gloves = /obj/item/clothing/gloves/roguetown/leather
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
 	pants = /obj/item/clothing/under/roguetown/chainlegs/iron
 	backr = /obj/item/storage/backpack/rogue/satchel
 	backpack_contents = list(
 		/obj/item/storage/belt/rogue/pouch,
-		/obj/item/clothing/neck/roguetown/chaincoif,
+		/obj/item/clothing/neck/roguetown/chaincoif/iron,
 		/obj/item/reagent_containers/glass/bottle/rogue/healthpot,
 		/obj/item/repair_kit/metal,
 		/obj/item/repair_kit,
 	)
 	H.adjust_blindness(-3)
 	if(H.mind)
-		var/weapons = list("Iron Sword","Cudgel",)
+		var/weapons = list("Training Sword","Club",)
 		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 		H.set_blindness(0)
 		switch(weapon_choice)
-			if("Iron Sword")
+			if("Training Sword")
 				beltr = /obj/item/rogueweapon/scabbard/sword
-				r_hand = /obj/item/rogueweapon/sword/iron
-			if("Cudgel")
-				beltr = /obj/item/rogueweapon/mace/cudgel
+				r_hand = /obj/item/rogueweapon/sword/long/training
+			if("Club")
+				beltr = /obj/item/rogueweapon/mace/woodclub
 	if(H.mind)
-		SStreasury.give_money_account(ECONOMIC_WORKING_CLASS, H, "Savings.")
+		SStreasury.grant_savings(ECONOMIC_WORKING_CLASS, H)
 
 /datum/advclass/squire/skirmisher
 	name = "Irregular Squire"
@@ -186,26 +188,27 @@
 		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/riding = SKILL_LEVEL_NOVICE,
+		/datum/skill/misc/hunting = SKILL_LEVEL_NOVICE,
 	)
 
 /datum/outfit/job/roguetown/squire/skirmisher/pre_equip(mob/living/carbon/human/H)
 	. = ..()
 	H.verbs |= /mob/proc/haltyell_exhausting
-	beltr = /obj/item/quiver/arrows
-	armor = /obj/item/clothing/suit/roguetown/armor/leather/studded
+	beltr = /obj/item/quiver/sling/iron
+	beltl = /obj/item/gun/ballistic/revolver/grenadelauncher/sling
+	armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy
 	pants = /obj/item/clothing/under/roguetown/trou/leather
-	backl = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
 	gloves = /obj/item/clothing/gloves/roguetown/leather
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
 	backr = /obj/item/storage/backpack/rogue/satchel
 	backpack_contents = list(
-		/obj/item/rogueweapon/huntingknife/idagger,
+		/obj/item/rogueweapon/huntingknife/idagger/steel/trainer,
 		/obj/item/storage/belt/rogue/pouch,
-		/obj/item/clothing/neck/roguetown/chaincoif,
+		/obj/item/clothing/neck/roguetown/chaincoif/iron,
 		/obj/item/rogueweapon/scabbard/sheath,
 		/obj/item/reagent_containers/glass/bottle/rogue/healthpot,
 		/obj/item/repair_kit/metal,
 		/obj/item/repair_kit,
 		)
 	if(H.mind)
-		SStreasury.give_money_account(ECONOMIC_WORKING_CLASS, H, "Savings.")
+		SStreasury.grant_savings(ECONOMIC_WORKING_CLASS, H)

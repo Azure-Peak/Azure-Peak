@@ -314,7 +314,10 @@ const encodedLengthBinarySearch = (haystack: string[], length: number) => {
 
 const chunkSplitter = {
   [Symbol.split]: (string: string) => {
-    const charSeq = string[Symbol.iterator]().toArray();
+    // Array.from over string[Symbol.iterator]().toArray() - the latter needs
+    // the Iterator Helpers proposal (Chrome 122 / Firefox 131 / Safari 18.4),
+    // which older CEF builds and Wine players don't have.
+    const charSeq = Array.from(string);
     const length = charSeq.length;
     const chunks: string[] = [];
     let startIndex = 0;

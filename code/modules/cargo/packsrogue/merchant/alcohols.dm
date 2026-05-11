@@ -24,7 +24,7 @@
 	contains = list(/obj/item/reagent_containers/glass/bottle/rogue/beer/ratkept)
 
 /datum/supply_pack/rogue/alcohol/grenzelbeer
-	name = "Grenzelhoftian Bitter Beer"
+	name = "Grenzelhoftian Hagwood Bitters"
 	cost = 25
 	contains = list(/obj/item/reagent_containers/glass/bottle/rogue/beer/hagwoodbitter)
 
@@ -49,12 +49,12 @@
 	contains = list(/obj/item/reagent_containers/glass/bottle/rogue/beer/stonebeardreserve)
 
 /datum/supply_pack/rogue/alcohol/voddena
-	name = "Hammerhold Voddena"
+	name = "Norwandine Voddena"
 	cost = 25
 	contains = list(/obj/item/reagent_containers/glass/bottle/rogue/beer/voddena)
 
 /datum/supply_pack/rogue/alcohol/sazdistal
-	name = "Saz Distal Chili Liqueur"
+	name = "Stoutenson Sazdistal"
 	cost = 30
 	contains = list(/obj/item/reagent_containers/glass/bottle/rogue/beer/sazdistal)
 
@@ -100,7 +100,7 @@
 	contains = list(/obj/item/reagent_containers/glass/bottle/rogue/beer/apfelweinheim)
 
 /datum/supply_pack/rogue/alcohol/rtoper
-	name = "Rockhill Toper (Lirvas Beer)"
+	name = "Rockhill Toper (Lirvas Cider)"
 	cost = 20
 	contains = list(/obj/item/reagent_containers/glass/bottle/rogue/beer/rtoper)
 
@@ -110,7 +110,7 @@
 	contains = list(/obj/item/reagent_containers/glass/bottle/rogue/beer/nred)
 
 /datum/supply_pack/rogue/alcohol/gronnmead
-	name = "Ragnars Mead"
+	name = "Shieldmaiden Mead"
 	cost = 25
 	contains = list(/obj/item/reagent_containers/glass/bottle/rogue/beer/gronnmead)
 

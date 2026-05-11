@@ -32,6 +32,8 @@
 	var/static/list/accessory_icon_cache = list()
 	/// Whether this specific accessory doesn't allow for coloring
 	var/color_disabled = FALSE
+	/// Whether or not this accessory shows on skeletons for skele-customization
+	var/persists_through_skeletonize = FALSE
 
 /datum/sprite_accessory/New()
 	if(color_keys > 1)
@@ -60,8 +62,6 @@
 			appearance.pixel_y += offset_list[2]
 
 /datum/sprite_accessory/proc/validate_color_keys_for_owner(mob/living/carbon/owner, colors)
-	if(!color_keys)
-		return colors
 	var/list/color_list = color_string_to_list(colors)
 	if(color_list && color_list.len == color_keys)
 		return colors

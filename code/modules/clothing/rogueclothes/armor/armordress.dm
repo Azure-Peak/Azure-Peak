@@ -7,14 +7,12 @@
 	slot_flags = ITEM_SLOT_ARMOR
 	name = "padded dress"
 	desc = "A thick, padded, and comfortable dress popular amongst nobility during winter. An errant gash might reveal a special secret beneath the silk: streaks of concealed leather, treated to disperse killing blows."
-	body_parts_covered = COVERAGE_FULL
+	body_parts_covered = COVERAGE_ALL_BUT_HANDFEET
 	icon_state = "armordress"
 	armor = ARMOR_LEATHER
-	prevent_crits = PREVENT_CRITS_NONE
 	blocksound = SOFTHIT
 	allowed_sex = list(MALE, FEMALE)
 	allowed_race = NON_DWARVEN_RACE_TYPES
-	blade_dulling = DULLING_BASHCHOP
 	break_sound = 'sound/foley/cloth_rip.ogg'
 	drop_sound = 'sound/foley/dropsound/cloth_drop.ogg'
 	sewrepair = TRUE
@@ -32,7 +30,7 @@
 	icon = 'icons/roguetown/clothing/shirts_royalty.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/shirts_royalty.dmi'
 	desc = "A thick, padded, and comfortable dress popular amongst nobility during winter."
-	body_parts_covered = COVERAGE_FULL
+	body_parts_covered = COVERAGE_ALL_BUT_HANDFEET
 	icon_state = "winterdress"
 	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_shirts_royalty.dmi'
 	boobed = TRUE
@@ -53,9 +51,10 @@
 			pic.color = get_detail_color()
 		add_overlay(pic)
 
-/obj/item/clothing/suit/roguetown/armor/armordress/winterdress/monarch //For the duchess nobody else
+/obj/item/clothing/suit/roguetown/armor/armordress/winterdress/monarch //For the consort and apparently one migrant wave
 	desc = "A thick, padded, and comfortable dress to maintain both temperature and safety when leaving the keep."
-	armor = ARMOR_PADDED_GOOD
+	armor = ARMOR_PADDED
+	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER
 
 /obj/item/clothing/suit/roguetown/armor/armordress/winterdress/monarch/lordcolor(primary,secondary)
 	detail_color = primary

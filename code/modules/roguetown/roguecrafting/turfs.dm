@@ -505,7 +505,7 @@
 
 // The 'windows' of the church that almost no one knows exists.
 /datum/crafting_recipe/roguetown/turfs/roguewindow/stone
-	name = "static glass window"
+	name = "static church window"
 	result = /obj/structure/roguewindow/stained/silver
 	reqs = list(/obj/item/natural/stone = 2, /obj/item/natural/glass = 1)
 	skillcraft = /datum/skill/craft/masonry

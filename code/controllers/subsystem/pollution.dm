@@ -1,8 +1,9 @@
 SUBSYSTEM_DEF(pollution)
 	name = "Pollution"
 	init_order = INIT_ORDER_AIR //Before atoms, because the emitters may need to know the singletons
+	flags = SS_BACKGROUND
 	runlevels = RUNLEVEL_GAME | RUNLEVEL_POSTGAME
-	wait = 0.5 SECONDS //2 SECONDS -> 0.5 SECONDS
+	wait = 2 SECONDS
 	/// Currently active pollution
 	var/list/active_pollution = list()
 	/// All pollution in the world
@@ -45,7 +46,7 @@ SUBSYSTEM_DEF(pollution)
 			if(MC_TICK_CHECK)
 				return
 		dissapation_ticker++
-		if(dissapation_ticker >= TICKS_TO_DISSIPATE * 4)
+		if(dissapation_ticker >= TICKS_TO_DISSIPATE)
 			pollution_task = POLLUTION_TASK_DISSIPATE
 			dissapation_ticker = 0
 			current_run_cache = all_polution.Copy()

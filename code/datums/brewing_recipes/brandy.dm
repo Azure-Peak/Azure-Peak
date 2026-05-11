@@ -7,7 +7,7 @@
 	pre_reqs = /datum/reagent/consumable/ethanol/cider
 	brewed_amount = 6
 	brew_time = 4 MINUTES
-	sell_value = 90
+	sell_value = 120
 	heat_required = 360
 
 /datum/brewing_recipe/brandy/pear

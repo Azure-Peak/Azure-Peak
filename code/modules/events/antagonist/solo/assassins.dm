@@ -8,6 +8,8 @@
 	roundstart = TRUE
 	antag_flag = ROLE_ASSASSIN
 	shared_occurence_type = SHARED_MINOR_THREAT
+	storyteller_antag_flags = STORYTELLER_ANTAG_ROUNDSTART | STORYTELLER_ANTAG_SOFT
+	storyteller_guarantee_flags = STORYTELLER_FAVOR_ASSASSIN
 
 	restricted_roles = list(
 		"Grand Duke",
@@ -52,10 +54,20 @@
 	typepath = /datum/round_event/antagonist/solo/assassins
 	antag_datum = /datum/antagonist/assassin
 
+/datum/round_event_control/antagonist/solo/assassins/canSpawnEvent(players_amt, gamemode, fake_check)
+	if(!count_hunted_players())
+		return FALSE
+	return ..()
+
+/datum/round_event_control/antagonist/solo/assassins/preRunEvent()
+	if(is_storyteller_soft_antag_blocked())
+		return EVENT_CANT_RUN
+	return ..()
+
 /datum/round_event/antagonist/solo/assassins/start()
 	var/datum/job/assassin_job = SSjob.GetJob("Assassin")
 	assassin_job.total_positions = length(setup_minds)
-	assassin_job.total_positions = length(setup_minds)
+	assassin_job.spawn_positions = length(setup_minds)
 	for(var/datum/mind/antag_mind as anything in setup_minds)
 		var/datum/job/J = SSjob.GetJob(antag_mind.current?.job)
 		J?.current_positions = max(J?.current_positions-1, 0)
@@ -70,13 +82,11 @@
 
 	SSrole_class_handler.assassins_in_round = TRUE
 
-/datum/round_event_control/antagonist/solo/assassins/canSpawnEvent(players_amt, gamemode, fake_check)
-	. = ..()
-	if(!.)
-		return
-	var/list/candidates = get_candidates()
-
-	if(length(candidates) < 1)
-		return FALSE
-
-	return TRUE
+/proc/count_hunted_players()
+	var/count = 0
+	for(var/mob/living/carbon/human/player as anything in GLOB.human_list)
+		if(!player.mind || !player.client)
+			continue
+		if(player.has_flaw(/datum/charflaw/hunted))
+			count++
+	return count

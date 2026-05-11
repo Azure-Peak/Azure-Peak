@@ -39,7 +39,7 @@
 		if(medskill > SKILL_LEVEL_EXPERT)
 			burndam = 0
 
-	var/datum/antagonist/zombie/was_zombie = target.mind?.has_antag_datum(/datum/antagonist/zombie)
+	var/was_zombie = HAS_TRAIT(target, TRAIT_DEADITE)
 	if(target.infected == FALSE)
 		if(target.stat == DEAD || was_zombie)											//Checks if the target is a dead rotted corpse.
 			target.death()	//Kills the target if they are a zombie as a fail-safe.

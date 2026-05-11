@@ -27,12 +27,14 @@
 			transformed = TRUE // Mark as transformed
 
 		else if (world.time >= transforming + 25 SECONDS) // Stage 2
+			
 			if(H.show_redflash())
 				H.flash_fullscreen("redflash3")
 			H.emote("agony", forced = TRUE)
 			to_chat(H, span_userdanger("UNIMAGINABLE PAIN!"))
 			H.Stun(30)
 			H.Knockdown(30)
+			H.drop_all_held_items()
 
 		else if (world.time >= transforming + 10 SECONDS) // Stage 1
 			H.emote("")
@@ -97,7 +99,9 @@
 		W.name = Were.wolfname
 	W.limb_destroyer = TRUE
 	W.ambushable = FALSE
-	W.cmode_music = 'sound/music/cmode/antag/combat_darkstar.ogg'
+	var/list/dying_world = list('sound/music/cmode/antag/combat_dying_world.ogg' = 1,  // probably best if its not vocals all the time
+							'sound/music/cmode/antag/combat_dying_world_instrumental.ogg' = 3) // 1/4 is good odds for 1/round tho
+	W.cmode_music = pickweight(dying_world)
 	W.skin_armor = new /obj/item/clothing/suit/roguetown/armor/regenerating/skin/werewolf_skin(W)
 	playsound(W.loc, pick('sound/combat/gib (1).ogg','sound/combat/gib (2).ogg'), 200, FALSE, 3)
 	W.spawn_gibs(FALSE)
@@ -121,6 +125,7 @@
 	// temporal traits so our body won't snore
 	ADD_TRAIT(src, TRAIT_NOSLEEP, TRAIT_SOURCE_WEREWOLF)
 	ADD_TRAIT(src, TRAIT_NOBREATH, TRAIT_SOURCE_WEREWOLF)
+	ADD_TRAIT(src, TRAIT_DEATHLESS, TRAIT_SOURCE_WEREWOLF)
 	ADD_TRAIT(src, TRAIT_NOPAIN, TRAIT_SOURCE_WEREWOLF)
 	ADD_TRAIT(src, TRAIT_TOXIMMUNE, TRAIT_SOURCE_WEREWOLF)	
 	ADD_TRAIT(src, TRAIT_NOHUNGER, TRAIT_SOURCE_WEREWOLF)
@@ -141,7 +146,7 @@
 	W.AddSpell(new /obj/effect/proc_holder/spell/self/howl)
 	W.AddSpell(new /obj/effect/proc_holder/spell/self/claws)
 	W.AddSpell(new /obj/effect/proc_holder/spell/targeted/woundlick)
-	W.AddSpell(new /obj/effect/proc_holder/spell/invoked/repulse/werewolf)
+	W.AddSpell(new /datum/action/cooldown/spell/repulse/werewolf)
 	invisibility = oldinv
 
 /mob/living/carbon/human/proc/werewolf_untransform(dead,gibbed)
@@ -164,6 +169,7 @@
 
 	REMOVE_TRAIT(W, TRAIT_NOSLEEP, TRAIT_SOURCE_WEREWOLF)
 	REMOVE_TRAIT(W, TRAIT_NOBREATH, TRAIT_SOURCE_WEREWOLF)
+	REMOVE_TRAIT(W, TRAIT_DEATHLESS, TRAIT_SOURCE_WEREWOLF)
 	REMOVE_TRAIT(W, TRAIT_NOPAIN, TRAIT_SOURCE_WEREWOLF)
 	REMOVE_TRAIT(W, TRAIT_TOXIMMUNE, TRAIT_SOURCE_WEREWOLF)
 	REMOVE_TRAIT(W, TRAIT_NOHUNGER, TRAIT_SOURCE_WEREWOLF)
@@ -180,13 +186,14 @@
 	W.RemoveSpell(new /obj/effect/proc_holder/spell/self/howl)
 	W.RemoveSpell(new /obj/effect/proc_holder/spell/self/claws)
 	W.RemoveSpell(new /obj/effect/proc_holder/spell/targeted/woundlick)
-	W.RemoveSpell(new /obj/effect/proc_holder/spell/invoked/repulse/werewolf)
+	W.RemoveSpell(new /datum/action/cooldown/spell/repulse/werewolf)
 	W.regenerate_icons()
 
 	to_chat(W, span_userdanger("I return to my facade."))
 	playsound(W.loc, pick('sound/combat/gib (1).ogg','sound/combat/gib (2).ogg'), 200, FALSE, 3)
 	W.spawn_gibs(FALSE)
 	W.Knockdown(30)
+	W.drop_all_held_items()
 	W.Stun(30)
 
 	qdel(src)

@@ -3,7 +3,7 @@
 	desc = "Call a high-damage strike of lightning onto an area, followed by lesser aftershocks that ripple outwards in concentric layers."
 	cost = 6 // High damage AOE
 	range = 7
-	releasedrain = 50
+	releasedrain = SPELLCOST_MAJOR_AOE
 	overlay_state = "thunderstrike"
 	chargedrain = 1
 	chargetime = 35
@@ -15,6 +15,7 @@
 	chargedloop = /datum/looping_sound/invokelightning
 	associated_skill = /datum/skill/magic/arcane
 	gesture_required = TRUE
+	human_req = TRUE // Combat spell
 	spell_tier = 3
 	invocations = list("Feri Fulmine Hostem!") // Based on Zeus - Strike the Enemy with Lightning!
 	invocation_type = "shout"
@@ -61,11 +62,13 @@
 	playsound(effect_layer, 'sound/magic/lightning.ogg', 50)
 	for(var/mob/living/L in effect_layer.contents)
 		if(L.anti_magic_check())
-			visible_message(span_warning("The magic fades away around you [L] "))
+			L.visible_message(span_warning("The lightning fades away around [L]!"))
 			playsound(effect_layer, 'sound/magic/magic_nulled.ogg', 100)
 			continue
+		if(spell_guard_check(L, TRUE))
+			L.visible_message(span_warning("[L] weathers the lightning strike!"))
+			continue
 		L.electrocute_act(damage * damage_mod, src, 1, SHOCK_NOSTUN) // Hopefully the SHOCK_NOSTUN handles any CC effects this might otherwise cause
-		return
 
 /obj/effect/temp_visual/trap/thunderstrike
 	icon = 'icons/effects/effects.dmi'

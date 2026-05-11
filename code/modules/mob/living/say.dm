@@ -81,7 +81,7 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 
 	return new_msg
 
-/mob/living/say(message, bubble_type,list/spans = list(), sanitize = TRUE, datum/language/language = null, ignore_spam = FALSE, forced = null, message_mode = null)
+/mob/living/say(message, bubble_type,list/spans = list(), sanitize = TRUE, datum/language/language = null, ignore_spam = FALSE, forced = null, message_mode = null, npc_speech = FALSE)
 	var/static/list/crit_allowed_modes = list(MODE_WHISPER = TRUE, MODE_CHANGELING = TRUE, MODE_ALIEN = TRUE)
 	var/static/list/unconscious_allowed_modes = list(MODE_CHANGELING = TRUE, MODE_ALIEN = TRUE)
 	var/talk_key = get_key(message)
@@ -170,7 +170,6 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 
 	if(!language)
 		language = get_default_language()
-
 	// Detection of language needs to be before inherent channels, because
 	// AIs use inherent channels for the holopad. Most inherent channels
 	// ignore the language argument however.
@@ -198,7 +197,8 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 	if((InCritical() && !fullcrit) || message_mode == MODE_WHISPER)
 		message_range = 1
 		message_mode = MODE_WHISPER
-		src.log_talk(message, LOG_WHISPER)
+		var/whisper_log_type = npc_speech ? LOG_NPC_SAY : LOG_WHISPER
+		src.log_talk(message, whisper_log_type)
 		if(fullcrit)
 			var/health_diff = round(-HEALTH_THRESHOLD_DEAD + health)
 			// If we cut our message short, abruptly end it with a-..
@@ -209,7 +209,8 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 			message_mode = MODE_WHISPER_CRIT
 			succumbed = TRUE
 	else
-		src.log_talk(message, LOG_SAY, forced_by=forced)
+		var/log_type = npc_speech ? LOG_NPC_SAY : LOG_SAY
+		src.log_talk(message, log_type, forced_by=forced)
 
 	if(client)
 		last_words = message
@@ -247,9 +248,7 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 
 	// autopunctuation
 	if(!client?.prefs?.no_autopunctuate)
-		var/ending = copytext(message, length(message), (length(message) + 1))
-		if(ending && !GLOB.correct_punctuation[ending])
-			message += "."
+		message = autopunct_bare(message)
 
 	if(D.flags & SIGNLANG)
 		send_speech_sign(message, message_range, src, bubble_type, spans, language, message_mode, original_message)
@@ -332,6 +331,8 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 	if(ishuman(src))
 		var/mob/living/carbon/human/H = src
 		mob_color = H.voice_color
+		if(H.voicecolor_override)
+			mob_color = H.voicecolor_override
 	var/chatmsg = "<font color = #[mob_color]><b>[src]</b></font> " + sign_verb + "."
 	visible_message(chatmsg, runechat_message = sign_verb, log_seen = SEEN_LOG_EMOTE, ignored_mobs = understanders)
 
@@ -523,7 +524,7 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 				if(Zs_all)
 					chance += 20
 				if(prob(chance))
-					H.sate_addiction()
+					H.sate_addiction(/datum/charflaw/addiction/clamorous)
 		var/atom/movable/tocheck = AM
 		if(isdullahan(AM))
 			var/mob/living/carbon/human/target = AM

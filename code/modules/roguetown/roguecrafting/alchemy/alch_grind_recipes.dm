@@ -149,6 +149,12 @@
 	valid_outputs = list(/obj/item/alch/coaldust = 1)
 	bonus_chance_outputs = list(/obj/item/alch/coaldust = 33, /obj/item/alch/firedust = 25)
 
+/datum/alch_grind_recipe/charcoal
+	name = "Charcoal"
+	valid_input = /obj/item/rogueore/coal/charcoal
+	valid_outputs = list(/obj/item/alch/coaldust = 1)
+	bonus_chance_outputs = list(/obj/item/alch/coaldust = 33, /obj/item/alch/firedust = 25)
+
 /datum/alch_grind_recipe/gold_bar
 	name = "Gold Bar"
 	valid_input = /obj/item/ingot/gold
@@ -223,7 +229,7 @@
 	bonus_chance_outputs = list(/obj/item/alch/waterdust = 66)
 
 /datum/alch_grind_recipe/mineraldustdiamond // costs a whopping 18 gold to make, why are you doing this
-	name = "Mineral Dust (Diamond)"
+	name = "Mineral Dust (Dorpel)"
 	valid_input = /obj/item/roguegem/diamond
 	valid_outputs = list(/obj/item/alch/mineraldust = 1, /obj/item/alch/golddust = 6)
 	bonus_chance_outputs = list(/obj/item/alch/golddust = 66)

@@ -8,6 +8,7 @@
 	pixel_x = -16
 	gender = MALE
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
+	blood_toll_bucket = STATS_KILLED_TROLLMINOTAUR
 	emote_hear = null
 	emote_see = null
 	speak_chance = 1
@@ -22,12 +23,13 @@
 	botched_butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/steak = 1,
 						/obj/item/natural/hide = 1, /obj/item/natural/bundle/bone/full = 2)
 	butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/steak = 2,
-						/obj/item/natural/hide = 2, /obj/item/natural/bundle/bone/full = 2,
-						/obj/item/natural/head/minotaur = 1)
+						/obj/item/natural/hide = 2, /obj/item/natural/bundle/bone/full = 2)
 	perfect_butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/steak = 4,
-						/obj/item/natural/hide = 4, /obj/item/natural/bundle/bone/full = 2,
-						/obj/item/natural/head/minotaur = 1)
-	faction = list("caves")
+						/obj/item/natural/hide = 4, /obj/item/natural/bundle/bone/full = 2)
+	head_butcher = /obj/item/natural/head/minotaur
+	faction = list(FACTION_CAVES)
+	threat_point = THREAT_DANGEROUS
+	ambush_faction = "wildlife"
 
 	health = MINOTAUR_HEALTH
 	maxHealth = MINOTAUR_HEALTH
@@ -65,8 +67,8 @@
 
 /mob/living/simple_animal/hostile/retaliate/rogue/minotaur/Initialize()
 	. = ..()
+	AddComponent(/datum/component/ai_aggro_system)
 	update_icon()
-	AddElement(/datum/element/ai_retaliate)
 	ADD_TRAIT(src, TRAIT_NOPAINSTUN, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_BASHDOORS, TRAIT_GENERIC)
 	ai_controller.set_blackboard_key(BB_BASIC_FOODS, food_type)
@@ -168,7 +170,7 @@
 	blade_class = BCLASS_CUT
 	hitsound = "smallslash"
 	chargetime = 0
-	penfactor = 5
+	penfactor = PEN_NONE
 	swingdelay = 3
 	candodge = TRUE
 	canparry = TRUE
@@ -183,7 +185,7 @@
 	blade_class = BCLASS_CUT
 	hitsound = "genchop"
 	chargetime = 10
-	penfactor = 10
+	penfactor = PEN_NONE
 	swingdelay = 3
 	candodge = TRUE
 	canparry = TRUE
@@ -216,4 +218,4 @@
 	icon_state = "chainedminotaur"
 	icon_living = "chainedminotaur"
 	icon_dead = "chainedminotaur_dead"
-	faction = list("orcs", "caves")
+	faction = list(FACTION_ORCS, FACTION_CAVES)

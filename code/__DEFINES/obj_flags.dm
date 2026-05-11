@@ -14,6 +14,7 @@
 #define BLOCK_Z_IN_DOWN			(1<<10) // Should this object block z falling from above?
 #define BLOCK_Z_IN_UP			(1<<11) // Should this object block z uprise from below?
 #define IGNORE_SINK				(1<<12)
+#define CLAMP_BREAK				(1<<13)	// Should we bypass our break threshold to be destroyed if the damage is big enough? (Having the flag will clamp the damage)
 
 // If you add new ones, be sure to add them to /obj/Initialize as well for complete mapping support
 
@@ -33,6 +34,7 @@
 #define SURGICAL_TOOL			(1<<12)	//Tool commonly used for surgery: won't attack targets in an active surgical operation on help intent (in case of mistakes)
 #define DREAM_ITEM				(1<<13) //Otherworldly items from Abyssor's dream. Tend to have special effects!
 #define FRESH_FOOD_ITEM			(1<<14) // Currently only used for fresh meat from butchering to differentiate it from stockpile magic meat.
+#define HAG_ITEM				(1<<15) // Wyrd hag items, they self repair when on grass tiles!
 
 // Flags for the clothing_flags var on /obj/item/clothing
 
@@ -50,3 +52,4 @@
 #define ANTI_TINFOIL_MANEUVER   (1<<12) //Hats with negative effects when worn (i.e the tinfoil hat).
 #define CANT_SLEEP_IN			(1<<13) //Makes you unable to sleep with this on
 #define TAUR_COMPATIBLE			(1<<14) // Clothing that can be worn by taurs
+#define NOT_SHOW_IN_STORAGE	(1<<15)	// Whether we'll show up if we're held in aesthetic storage.

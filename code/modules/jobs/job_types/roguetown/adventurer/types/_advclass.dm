@@ -3,8 +3,12 @@
 	var/list/classes
 	var/outfit
 	var/tutorial = "Choose me!"
+	var/townie_contract_gate_exempt = FALSE
+	var/townie_contract_gate_hide_in_list = FALSE
+	/// Subclass-specific tutorial shown via to_chat on spawn, separate from the class-picker tutorial.
+	var/subclass_tutorial
 	var/list/allowed_sexes
-	var/list/allowed_races = RACES_ALL_KINDS
+	var/list/forbidden_races
 	var/list/allowed_patrons
 	var/list/allowed_ages
 	var/pickprob = 100
@@ -41,8 +45,12 @@
 	/// Subclass languages.
 	var/list/subclass_languages
 
-	/// Spellpoints. If More than 0, Gives Prestidigitation & the Learning Spell.
-	var/subclass_spellpoints = 0
+	/// Subclass virtues.
+	var/list/subclass_virtues
+
+	/// Mage aspect system config. If set, opens the Grimoire on learnspell.
+	/// Keys: "mastery" (bool), "major" (int), "minor" (int), "utilities" (int)
+	var/list/subclass_mage_aspects
 
 	/// List of items to put in an item stash
 	var/list/subclass_stashed_items = list()
@@ -56,7 +64,12 @@
 	/// set to TRUE to reset stats in equipme, clearing any racial bonuses or bonuses the character had before becoming this class
 	var/reset_stats = FALSE
 
+	var/list/virtue_limits = list()
+	var/list/vice_limits = list()
+
 	var/datum/class_age_mod/age_mod = null
+
+	var/class_tempo_faction = null
 
 /datum/advclass/New()
 	if(ispath(age_mod) && !istype(age_mod))
@@ -94,6 +107,7 @@
 
 	if(noble_income)
 		SStreasury.noble_incomes[H] = noble_income
+		SStreasury.grant_estate_income(H, noble_income, TRUE)
 
 	if(adaptive_name)
 		H.adaptive_name = TRUE
@@ -113,6 +127,14 @@
 		for(var/skill in subclass_skills)
 			H.adjust_skillrank_up_to(skill, subclass_skills[skill], TRUE)
 
+	// Set up spell systems before virtues so Arcyne Potential can detect and add to them
+	if(LAZYLEN(subclass_mage_aspects))
+		H.mind?.setup_mage_aspects(subclass_mage_aspects.Copy())
+
+	if(length(subclass_virtues))
+		for(var/virtue in subclass_virtues)
+			apply_virtue(H, new virtue)
+
 	if(age_mod)
 		if(istype(age_mod))
 			age_mod.apply_age_mod(H)
@@ -122,8 +144,6 @@
 			return
 		for(var/stashed_item in subclass_stashed_items)
 			H.mind?.special_items[stashed_item] = subclass_stashed_items[stashed_item]
-	if(subclass_spellpoints > 0)
-		H.mind?.adjust_spellpoints(subclass_spellpoints)
 
 	// After the end of adv class equipping, apply a SPECIAL trait if able
 
@@ -134,6 +154,8 @@
 	addtimer(CALLBACK(H,TYPE_PROC_REF(/mob/living/carbon/human, add_credit), TRUE), 20)
 	if(cmode_music)
 		H.cmode_music = cmode_music
+	if(class_tempo_faction)
+		H.tempo_faction_flag = class_tempo_faction
 
 /*
 	Whoa! we are checking requirements here!
@@ -155,7 +177,7 @@
 	if(length(local_allowed_sexes) && !(H.gender in local_allowed_sexes))
 		return FALSE
 
-	if(length(allowed_races) && !(H.dna.species.type in allowed_races))
+	if(length(forbidden_races) && (H.dna.species.type in forbidden_races))
 		return FALSE
 
 	if(length(allowed_ages) && !(H.age in allowed_ages))
@@ -163,6 +185,17 @@
 
 	if(length(allowed_patrons) && !(H.patron.type in allowed_patrons))
 		return FALSE
+
+	if(length(virtue_limits) && H.client)
+		for(var/virtuetype in virtue_limits)
+			if(istype(H.client.prefs?.virtue, virtuetype) || istype(H.client.prefs?.virtuetwo, virtuetype))
+				return FALSE
+
+	if(length(vice_limits) && H.client)
+		for(var/vicetype in vice_limits)
+			for(var/vice in H.charflaws)
+				if(istype(vice, vicetype))
+					return FALSE
 
 	if(maximum_possible_slots > -1)
 		if(total_slots_occupied >= maximum_possible_slots)

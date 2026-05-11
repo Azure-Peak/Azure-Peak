@@ -1,4 +1,4 @@
-/proc/create_message(type, target_key, admin_ckey, text, timestamp, server, secret, logged = 1, browse, expiry, note_severity)
+/proc/create_message(type, target_key, admin_ckey, text, timestamp, server, logged = TRUE, browse, expiry, note_severity)
 	if(!SSdbcore.Connect())
 		to_chat(usr, span_danger("Failed to establish database connection."))
 		return
@@ -44,14 +44,7 @@
 		var/ssqlname = CONFIG_GET(string/serversqlname)
 		if (ssqlname)
 			server = ssqlname
-	if(isnull(secret))
-		switch(alert("Hide note from being viewed by players?", "Secret note?","Yes","No","Cancel"))
-			if("Yes")
-				secret = 1
-			if("No")
-				secret = 0
-			else
-				return
+	var/secret = TRUE
 	if(isnull(expiry))
 		if(alert(usr, "Set an expiry time? Expired messages are hidden like deleted ones.", "Expiry time?", "Yes", "No", "Cancel") == "Yes")
 			var/expire_time = input("Set expiry time for [type] as format YYYY-MM-DD HH:MM:SS. All times in server time. HH:MM:SS is optional and 24-hour. Must be later than current time for obvious reasons.", "Set expiry time", SQLtime()) as null|text
@@ -73,9 +66,11 @@
 				expiry = query_validate_expire_time.item[1]
 			qdel(query_validate_expire_time)
 	if(type == "note" && isnull(note_severity))
-		note_severity = input("Set the severity of the note.", "Severity", null, null) as null|anything in list("High", "Medium", "Minor", "None")
+		note_severity = input("Set the severity of the note.", "Severity", null, null) as null|anything in list("high", "medium", "minor", "none")
 		if(!note_severity)
 			return
+	if(type == "note" && !isnull(note_severity))
+		note_severity = lowertext("[note_severity]")
 	var/datum/DBQuery/query_create_message = SSdbcore.NewQuery({"
 		INSERT INTO [format_table_name("messages")] (type, targetckey, adminckey, text, timestamp, server, server_ip, server_port, round_id, secret, expire_timestamp, severity)
 		VALUES (:type, :target_ckey, :admin_ckey, :text, :timestamp, :server, INET_ATON(:internet_address), :port, :round_id, :secret, :expiry, :note_severity)
@@ -109,7 +104,7 @@
 		else
 			browse_messages(target_ckey = target_ckey, agegate = TRUE)
 
-/proc/delete_message(message_id, logged = 1, browse)
+/proc/delete_message(message_id, logged = TRUE, browse)
 	if(!SSdbcore.Connect())
 		to_chat(usr, span_danger("Failed to establish database connection."))
 		return
@@ -487,6 +482,8 @@
 			target_key = query_get_messages.item[10]
 			var/expire_timestamp = query_get_messages.item[11]
 			var/severity = query_get_messages.item[12]
+			if(severity)
+				severity = lowertext("[severity]")
 			var/alphatext = ""
 			var/nsd = CONFIG_GET(number/note_stale_days)
 			var/nfd = CONFIG_GET(number/note_fresh_days)
@@ -698,7 +695,7 @@
 			timestamp = query_convert_time.item[1]
 		qdel(query_convert_time)
 		if(ckey && notetext && timestamp && admin_ckey && server)
-			create_message("note", ckey, admin_ckey, notetext, timestamp, server, 1, 0, null, 0, 0)
+			create_message("note", ckey, admin_ckey, notetext, timestamp, server, logged = FALSE, note_severity = "none")
 	notesfile.cd = "/"
 	notesfile.dir.Remove(ckey)
 

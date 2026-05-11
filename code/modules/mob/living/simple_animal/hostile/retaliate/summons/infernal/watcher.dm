@@ -1,4 +1,5 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/infernal/watcher
+	threat_point = 70
 	icon = 'icons/mob/summonable/32x32.dmi'
 	name = "infernal watcher"
 	icon_state = "watcher"
@@ -17,7 +18,8 @@
 	move_to_delay = 5
 	base_intents = list(/datum/intent/simple/bite)
 	butcher_results = list()
-	faction = list("infernal")
+	death_loot = list(/obj/item/magic/infernal/core = 1)
+	faction = list(FACTION_INFERNAL)
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
 	health = 600
 	maxHealth = 600
@@ -40,7 +42,7 @@
 	canparry = TRUE
 	defprob = 35
 	// del_on_deaggro = 44 SECONDS
-	retreat_health = 0.3
+	retreat_health = 0
 	food = 0
 	attack_sound = list('sound/misc/lava_death.ogg')
 	dodgetime = 30
@@ -61,7 +63,7 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/infernal/watcher/MeleeAction(patience = TRUE)
 	for(var/t in RANGE_TURFS(1, src))
 		new /obj/effect/hotspot(t)
-		src.visible_message(span_danger("[src] emits a burst of flames from it's core!"))
+		src.visible_message(span_danger("[src] emits a burst of flames from its core!"))
 	if(rapid_melee > 1)
 		var/datum/callback/cb = CALLBACK(src, PROC_REF(CheckAndAttack))
 		var/delay = SSnpcpool.wait / rapid_melee
@@ -74,15 +76,6 @@
 
 /mob/living/simple_animal/hostile/retaliate/rogue/infernal/watcher/death(gibbed)
 	..()
-	var/turf/deathspot = get_turf(src)
-	new /obj/item/magic/infernal/core(deathspot)
-	new /obj/item/magic/infernal/core(deathspot)
-	new /obj/item/magic/infernal/fang(deathspot)
-	new /obj/item/magic/infernal/fang(deathspot)
-	new /obj/item/magic/infernal/ash(deathspot)
-	new /obj/item/magic/infernal/ash(deathspot)
-	new /obj/item/magic/melded/t1(deathspot)
-
 	update_icon()
 	spill_embedded_objects()
 	qdel(src)

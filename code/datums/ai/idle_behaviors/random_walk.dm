@@ -6,7 +6,7 @@
 	. = ..()
 	if(controller.blackboard[BB_BASIC_MOB_FOOD_TARGET]) // this means we are likely eating a corpse (maybe also moving)
 		return
-	
+
 	var/mob/living/simple_animal/simple_mob = controller.pawn
 	if(istype(simple_mob) && simple_mob.binded)
 		return FALSE
@@ -18,9 +18,6 @@
 		var/turf/target_turf = get_step(wanderer, move_dir)
 		if(target_turf?.can_traverse_safely(wanderer))
 			step_towards(wanderer, target_turf, wanderer.cached_multiplicative_slowdown)
-
-	if(prob(8))
-		wanderer.emote("idle")
 
 /datum/idle_behavior/idle_random_walk/less_walking
 	walk_chance = 5

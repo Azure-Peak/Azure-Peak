@@ -53,9 +53,10 @@
 	
 	can_sew = TRUE
 	can_cauterize = TRUE
-	severity_names = list(
-		"light" = 5,
-		"deep" = 10,
+	severity_stages = list(
+		"light" = 3,
+		"deep" = 6,
+		"severe" = 10,
 		"gnarly" = 15,
 		"lethal" = 20,
 	)
@@ -64,20 +65,31 @@
 //Vaguely: Painful, hard to sew, hard to heal, but scales poorly through armor.
 
 #define SLASH_UPG_BLEEDRATE 0.12
-#define SLASH_UPG_WHPRATE 0.6
-#define SLASH_UPG_SEWRATE 1.5
-#define SLASH_UPG_PAINRATE 0.25
-#define SLASH_UPG_CLAMP_ARMORED 1
+#define SLASH_UPG_WHPRATE 1
+#define SLASH_UPG_SEWRATE 2.5
+#define SLASH_UPG_PAINRATE 0.3
+#define SLASH_UPG_CLAMP_ARMORED 1.1
 #define SLASH_UPG_CLAMP_RAW 2.2
 #define SLASH_ARMORED_BLEED_CLAMP 9
 
-/datum/wound/dynamic/slash/upgrade(dam, armor)
+/datum/wound/dynamic/slash/upgrade(dam, armor, exposed, pen_info)
 	whp += (dam * SLASH_UPG_WHPRATE)
-	set_bleed_rate(bleed_rate + clamp((dam * SLASH_UPG_BLEEDRATE), 0.1, ((armor > 0) ? SLASH_UPG_CLAMP_ARMORED : SLASH_UPG_CLAMP_RAW)))
+	if((!armor || exposed))
+		set_bleed_rate(bleed_rate + SLASH_UPG_CLAMP_RAW)
+	else
+		switch(pen_info)
+			if(1 to 2)
+				set_bleed_rate(bleed_rate + 0.5)
+			if(3 to 4)
+				set_bleed_rate(bleed_rate + 0.6)
+			if(5 to 6)
+				set_bleed_rate(bleed_rate + 0.7)
+			if(7 to 8)
+				set_bleed_rate(bleed_rate + SLASH_UPG_CLAMP_ARMORED)
 	sew_threshold += (dam * SLASH_UPG_SEWRATE)
 	woundpain += (dam * SLASH_UPG_PAINRATE)
 	armor_check(armor, SLASH_ARMORED_BLEED_CLAMP)
-	update_name()
+	update_stage()
 	..()
 
 #undef SLASH_UPG_BLEEDRATE
@@ -195,9 +207,10 @@
 	mob_overlay = "cut"
 	can_sew = TRUE
 	can_cauterize = FALSE	//Ouch owie oof
-	severity_names = list(
-		"light" = 5,
-		"deep" = 10,
+	severity_stages = list(
+		"light" = 3,
+		"deep" = 6,
+		"severe" = 10,
 		"gnarly" = 15,
 		"lethal" = 20,
 	)
@@ -213,13 +226,16 @@
 #define LASHING_UPG_CLAMP_RAW 3.5
 #define LASHING_ARMORED_BLEED_CLAMP 2
 
-/datum/wound/dynamic/lashing/upgrade(dam, armor)
+/datum/wound/dynamic/lashing/upgrade(dam, armor, exposed)
 	whp += (dam * LASHING_UPG_WHPRATE)
-	set_bleed_rate(bleed_rate + clamp((dam * LASHING_UPG_BLEEDRATE), 0.1, ((armor > 0) ? LASHING_UPG_CLAMP_ARMORED : LASHING_UPG_CLAMP_RAW)))
+	var/clamp_max = ((armor > 0) ? LASHING_UPG_CLAMP_ARMORED : LASHING_UPG_CLAMP_RAW)
+	if(exposed)
+		clamp_max = LASHING_UPG_CLAMP_RAW
+	set_bleed_rate(bleed_rate + clamp((dam * LASHING_UPG_BLEEDRATE), 0.1, clamp_max))
 	sew_threshold += (dam * LASHING_UPG_SEWRATE)
 	woundpain += (dam * LASHING_UPG_PAINRATE)
 	armor_check(armor, LASHING_ARMORED_BLEED_CLAMP)
-	update_name()
+	update_stage()
 	..()
 
 #undef LASHING_UPG_BLEEDRATE
@@ -241,9 +257,10 @@
 	mob_overlay = "cut"
 	can_sew = TRUE
 	can_cauterize = FALSE	//Ouch owie oof
-	severity_names = list(
-		"light" = 5,
-		"deep" = 10,
+	severity_stages = list(
+		"light" = 3,
+		"deep" = 6,
+		"severe" = 10,
 		"gnarly" = 15,
 		"lethal" = 20,
 	)
@@ -267,7 +284,7 @@
 	woundpain += (dam * PUNISH_UPG_PAINRATE)
 	passive_healing += PUNISH_UPG_SELFHEAL
 	armor_check(armor, PUNISH_ARMORED_BLEED_CLAMP)
-	update_name()
+	update_stage()
 	..()
 
 #undef PUNISH_UPG_BLEEDRATE
@@ -323,3 +340,22 @@
 	woundpain = 22
 	sewn_woundpain = 14
 	sew_threshold = 95
+
+/datum/wound/slash/boar_gore
+	name = "tusk shaped wound"
+	check_name = span_userdanger("<B>GORED</B>")
+	severity = WOUND_SEVERITY_FATAL
+	crit_message = list(
+		"%VICTIM is gored!",
+	)
+	sound_effect = 'sound/combat/crit2.ogg'
+	whp = 100
+	sewn_whp = 35
+	bleed_rate = 10
+	sewn_bleed_rate = 0.8
+	clotting_rate = 0.02
+	sewn_clotting_rate = 0.02
+	clotting_threshold = 10
+	sewn_clotting_threshold = 0.5
+	sew_threshold = 150
+	critical = TRUE

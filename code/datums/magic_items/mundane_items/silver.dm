@@ -1,6 +1,7 @@
 /datum/magic_item/mundane/silver
 	name = "Silver"
 	description = "It is made of silver, shiny and pure."
+	glow_color = "#C0C0C0"
 	var/last_used
 
 /datum/magic_item/mundane/silver/on_hit(obj/item/source, atom/target, mob/user, proximity_flag, click_parameters)
@@ -10,7 +11,7 @@
 	if(ishuman(target))
 		var/mob/living/H = target
 		if(HAS_TRAIT(H, TRAIT_SILVER_WEAK) && !H.has_status_effect(STATUS_EFFECT_ANTIMAGIC))
-			H.visible_message("<font color='white'>The unholy strike weakens the curse temporarily!</font>")
+			H.visible_message("<font color='white'>The silver sunders [target]!</font>")
 			to_chat(H, span_userdanger("Silver rebukes my presence! My vitae smolders, and my powers wane!"))
 			H.adjust_fire_stacks(2, /datum/status_effect/fire_handler/fire_stacks/sunder)
 

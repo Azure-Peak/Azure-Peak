@@ -17,7 +17,8 @@
 	move_to_delay = 3
 	base_intents = list(/datum/intent/simple/bite)
 	butcher_results = list()
-	faction = list("fae")
+	death_loot = list(/obj/item/magic/fae/sylvanessence = 1)
+	faction = list(FACTION_FAE)
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
 	health = 700
 	maxHealth = 700
@@ -40,7 +41,7 @@
 	defprob = 50
 	candodge = TRUE
 	// del_on_deaggro = 44 SECONDS
-	retreat_health = 0.3
+	retreat_health = 0
 	food = 0
 	attack_sound = null
 	dodgetime = 40
@@ -97,17 +98,6 @@
 
 /mob/living/simple_animal/hostile/retaliate/rogue/fae/sylph/death(gibbed)
 	..()
-	var/turf/deathspot = get_turf(src)
-	new /obj/item/magic/sylvanessence(deathspot)
-	new /obj/item/magic/iridescentscale(deathspot)
-	new /obj/item/magic/iridescentscale(deathspot)
-	new /obj/item/magic/heartwoodcore(deathspot)
-	new /obj/item/magic/heartwoodcore(deathspot)
-	new /obj/item/magic/fairydust(deathspot)
-	new /obj/item/magic/fairydust(deathspot)
-	new /obj/item/magic/fairydust(deathspot)
-	new /obj/item/magic/fairydust(deathspot)
-	new /obj/item/magic/melded/t2(deathspot)
 	update_icon()
 	spill_embedded_objects()
 	qdel(src)

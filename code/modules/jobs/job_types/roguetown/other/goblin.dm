@@ -9,7 +9,7 @@
 	max_pq = null
 
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = RACES_ALL_KINDS
+	
 	tutorial = "Make Graggar proud or die trying."
 
 	outfit = /datum/outfit/job/roguetown/npc/goblin
@@ -52,10 +52,11 @@
 		eyes.Insert(H)
 		H.ambushable = FALSE
 		H.underwear = "Nude"
-		if(H.charflaw)
-			QDEL_NULL(H.charflaw)
+		for(var/datum/charflaw/cf in H.charflaws)
+			H.charflaws.Remove(cf)
+			QDEL_NULL(cf)
 		H.update_body()
-		H.faction = list("orcs")
+		H.faction = list(FACTION_ORCS)
 		H.name = "goblin"
 		H.real_name = "goblin"
 		ADD_TRAIT(H, TRAIT_NOMOOD, TRAIT_GENERIC)

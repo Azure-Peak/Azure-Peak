@@ -4,15 +4,18 @@
 	desc = "The Laughing God, both famous and infamous for his sway over the forces of luck. Xylix is known for the inspiration of many a bards lyric. Speaks through his gift to man; the Tarot deck."
 	worshippers = "Gamblers, Bards, Artists, and the Silver-Tongued"
 	mob_traits = list(TRAIT_XYLIX)
-	miracles = list(/obj/effect/proc_holder/spell/targeted/touch/orison			= CLERIC_ORI,
+	miracles = list(/datum/action/cooldown/spell/touch/orison					= CLERIC_ORI,
 					/obj/effect/proc_holder/spell/self/xylixslip				= CLERIC_T0,
-					/obj/effect/proc_holder/spell/invoked/lesser_heal 			= CLERIC_T1,
-					/obj/effect/proc_holder/spell/invoked/ventriloquism			= CLERIC_T1,
-					/obj/effect/proc_holder/spell/invoked/blood_heal			= CLERIC_T1,
-					/obj/effect/proc_holder/spell/invoked/wheel					= CLERIC_T1,
-					/obj/effect/proc_holder/spell/invoked/mockery				= CLERIC_T1,
+					/obj/effect/proc_holder/spell/invoked/ventriloquism			= CLERIC_T0,
+					/obj/effect/proc_holder/spell/invoked/mimicry				= CLERIC_T0,
+					/datum/action/cooldown/spell/miracle/heal 					= CLERIC_T1,
+					/datum/action/cooldown/spell/miracle/bloodmiracle			= CLERIC_T1,
+					/obj/effect/proc_holder/spell/invoked/tipscales				= CLERIC_T1,
+					/datum/action/cooldown/spell/projectile/vicious_mockery		= CLERIC_T1,
+					/obj/effect/proc_holder/spell/invoked/vendetta				= CLERIC_T2,
 					/obj/effect/proc_holder/spell/invoked/mastersillusion		= CLERIC_T2,
 					/obj/effect/proc_holder/spell/targeted/touch/parlor_trick	= CLERIC_T3,
+					/obj/effect/proc_holder/spell/invoked/abscond				= CLERIC_T4,
 					/obj/effect/proc_holder/spell/invoked/resurrect/xylix		= CLERIC_T4,
 	)
 	traits_tier = list(TRAIT_XYLIX_DEVOTEE = CLERIC_T0) //Requires a minimal holy skill or the 'Devotee' virtue to unlock. Rerolls luck events

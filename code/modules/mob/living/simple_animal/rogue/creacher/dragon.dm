@@ -9,6 +9,7 @@
 	pixel_y = -16
 	footstep_type = FOOTSTEP_MOB_HEAVY
 	gender = MALE
+	blood_toll_bucket = STATS_KILLED_DRAKKYN
 	emote_hear = null
 	emote_see = null
 	speak_chance = 1
@@ -27,13 +28,12 @@
 	butcher_results = list(
 		/obj/item/reagent_containers/food/snacks/rogue/meat/steak = 4,
 		/obj/item/natural/hide = 4,
-		/obj/item/natural/bundle/bone/full = 4,
-		/obj/item/natural/head/dragon = 1)
+		/obj/item/natural/bundle/bone/full = 4)
 	perfect_butcher_results = list(
 		/obj/item/reagent_containers/food/snacks/rogue/meat/steak = 7, // More than troll. They are more difficult
 		/obj/item/natural/hide = 7,
-		/obj/item/natural/bundle/bone/full = 4,
-		/obj/item/natural/head/dragon = 1)
+		/obj/item/natural/bundle/bone/full = 4)
+	head_butcher = /obj/item/natural/head/dragon
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
 	health = DRAGON_HEALTH
 	maxHealth = DRAGON_HEALTH
@@ -72,6 +72,7 @@
 
 /mob/living/simple_animal/hostile/retaliate/rogue/dragon/Initialize()
 	. = ..()
+	AddComponent(/datum/component/ai_aggro_system)
 	gender = MALE
 	if(prob(33))
 		gender = FEMALE
@@ -97,8 +98,6 @@
 	var/datum/action/cooldown/mob_cooldown/dragon_leap/leap = new(src)
 
 	leap.Grant(src)
-
-	AddElement(/datum/element/ai_retaliate)
 
 	ai_controller.set_blackboard_key(BB_TARGETED_ACTION, leap)
 
@@ -190,7 +189,7 @@
 	reach = 3
 	swingdelay = 2
 	clickcd = DRAGON_ATTACK_SPEED //It is a dragon so it bites slightly faster
-	penfactor = 60 // It is a dragon so it bites hard
+	penfactor = PEN_HEAVY // It is a dragon so it bites hard
 
 /obj/projectile/magic/aoe/dragon_breath
     name = "fire hairball"
@@ -201,7 +200,7 @@
     light_color = "#f8af07"
     light_outer_range = 2
     damage = 40
-    flag = "magic"
+    flag = "fire"
     hitsound = 'sound/blank.ogg'
 
     //explosion values
@@ -228,14 +227,13 @@
 		/obj/item/reagent_containers/food/snacks/rogue/meat/steak = 4,
 		/obj/item/natural/hide = 4,
 		/obj/item/natural/bundle/bone/full = 4,
-		/obj/item/natural/head/dragon/broodmother = 1,
 		/obj/item/clothing/ring/quartz = 1)
 	perfect_butcher_results = list(
 		/obj/item/reagent_containers/food/snacks/rogue/meat/steak = 7, // More than troll. They are more difficult
 		/obj/item/natural/hide = 7,
-		/obj/item/clothing/ring/gold = 4,
-		/obj/item/natural/head/dragon/broodmother = 1)
-	damage_coeff = list(BRUTE = 1, BURN = 0.0, TOX = 1, CLONE = 1, STAMINA = 0, OXY = 1)
+		/obj/item/clothing/ring/gold = 4)
+	head_butcher = /obj/item/natural/head/dragon/broodmother
+	damage_coeff = list(BRUTE = 1, BURN = 1, TOX = 1, CLONE = 1, STAMINA = 0, OXY = 1)
 
 /mob/living/simple_animal/hostile/retaliate/rogue/dragon/broodmother/Initialize()
 	. = ..()
@@ -243,7 +241,6 @@
 	fire_breath = new(src)
 	fire_breath.Grant(src)
 	ai_controller.set_blackboard_key(BB_TARGETED_ACTION, fire_breath)
-	AddComponent(/datum/component/anti_magic, TRUE, TRUE, TRUE, null, null, FALSE) //my brother in Zizo
 
 /mob/living/simple_animal/hostile/retaliate/rogue/dragon/broodmother/Destroy()
 	fire_breath.Remove(src)

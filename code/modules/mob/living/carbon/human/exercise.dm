@@ -54,6 +54,20 @@ Exercise Verbs
 		var/number_words = numberToWords(pushups_in_a_row)
 		balloon_alert_to_viewers(number_words, number_words, 7, y_offset = -12)
 		stamina_add(stamina_loss)
+
+		/// For healable skin armor. This is unideal, but I'm a mapper, sire, and I don't know how signals work.
+		if(pushups_in_a_row % 10 == 0 && !on_knees)
+			var/obj/item/clothing/suit/roguetown/armor/manual/pushups/skin_armor
+			if (istype(wear_shirt, /obj/item/clothing/suit/roguetown/armor/manual/pushups))
+				skin_armor = wear_shirt
+
+			else if (istype(wear_armor, /obj/item/clothing/suit/roguetown/armor/manual/pushups))
+				skin_armor = wear_armor
+
+			if (skin_armor)
+				skin_armor.armour_regen()
+
+
 	to_chat(src, span_warning("You slump down to the floor, too tired to keep going."))
 	stop_pushups()
 
@@ -82,21 +96,31 @@ Exercise Verbs
 
 /mob/living/carbon/human/proc/calculate_stamina_loss_per_pushup(var/on_knees = FALSE)
 	var/stamina_loss = 8 - get_skill_level(/datum/skill/misc/athletics)
-	if(head)
-		if(head.armor_class == ARMOR_CLASS_HEAVY)
-			stamina_loss += 3
-		else if(head.armor_class == ARMOR_CLASS_MEDIUM)
-			stamina_loss += 1
-	if(wear_armor)
-		if(wear_armor.armor_class == ARMOR_CLASS_HEAVY)
-			stamina_loss += 5
-		else if(wear_armor.armor_class == ARMOR_CLASS_MEDIUM)
-			stamina_loss += 2
+
+	if(istype(head, /obj/item/clothing))
+		var/obj/item/clothing/head_cloth = head
+		switch(head_cloth?.armor_class)
+			if(ARMOR_CLASS_HEAVY)
+				stamina_loss += 3
+			if(ARMOR_CLASS_MEDIUM)
+				stamina_loss += 1
+
+	if(istype(wear_armor, /obj/item/clothing))
+		var/obj/item/clothing/armor_cloth = wear_armor
+		switch(armor_cloth?.armor_class)
+			if(ARMOR_CLASS_HEAVY)
+				stamina_loss += 5
+			if(ARMOR_CLASS_MEDIUM)
+				stamina_loss += 2
+
 	if(backr || backl)
 		stamina_loss += 3
+
 	var/painpercent = get_complex_pain() / pain_threshold
 	if(painpercent > 0.5)
 		stamina_loss += 8
+
 	if(on_knees)
 		stamina_loss -= 5
+
 	return max(stamina_loss, 1)

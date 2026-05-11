@@ -35,9 +35,16 @@
 	if(HAS_TRAIT(user, TRAIT_NO_BITE))
 		to_chat(user, span_warning("I can't bite."))
 		return
-	user.changeNext_move(clickcd)
 	if(!user_species || (user_species && !user_species.headless))
 		user.face_atom(target)
+	if(iscarbon(user))
+		var/mob/living/carbon/carbon_user = user
+		if(carbon_user.mouth?.type == /obj/item/grabbing/bite)
+			var/obj/item/grabbing/bite/bitey = carbon_user.mouth
+			bitey.bitelimb(carbon_user)
+			. = ..()
+			return
+	user.changeNext_move(clickcd)
 	target.onbite(user)
 	. = ..()
 	return
@@ -76,7 +83,7 @@
 	next_attack_msg.Cut()
 
 	user.do_attack_animation(src, "bite")
-	playsound(user, 'sound/gore/flesh_eat_01.ogg', 100)
+	playsound(user, 'sound/gore/flesh_eat_01.ogg', vol = 50, vary = FALSE, extrarange = -2, ignore_walls = FALSE, quiet = TRUE)
 	var/nodmg = FALSE
 	var/dam2do = 10*(user.STASTR/20)
 	if(HAS_TRAIT(user, TRAIT_STRONGBITE))
@@ -85,7 +92,7 @@
 		if(!affecting.has_wound(/datum/wound/bite))
 			nodmg = TRUE
 	if(!nodmg)
-		var/armor_block = run_armor_check(user.zone_selected, "stab",blade_dulling=BCLASS_BITE)
+		var/armor_block = run_armor_check(user.zone_selected, "stab", armor_penetration = PEN_NONE, blade_dulling=BCLASS_BITE, damage = dam2do)
 		if(!apply_damage(dam2do, BRUTE, def_zone, armor_block, user))
 			nodmg = TRUE
 			next_attack_msg += VISMSG_ARMOR_BLOCKED
@@ -105,7 +112,7 @@
 //nodmg if we don't have strongbite
 //nodmg if our teeth can't break through their armour
 	if(!nodmg)
-		playsound(src, "smallslash", 100, TRUE, -1)
+		playsound(src, "smallslash", vol = 50, vary = FALSE, extrarange = -1, ignore_walls = FALSE, quiet = TRUE)
 		if(ishuman(src) && user.mind)
 			var/mob/living/carbon/human/bite_victim = src
 			/*
@@ -135,7 +142,7 @@
 		var/used_limb = src.find_used_grab_limb(user)
 		B.name = "[src]'s [parse_zone(used_limb)]"
 		var/obj/item/bodypart/BP = get_bodypart(check_zone(used_limb))
-		BP.grabbedby += B
+		LAZYADD(BP.grabbedby, B)
 		B.grabbed = src
 		B.grabbee = user
 		B.limb_grabbed = BP
@@ -170,6 +177,9 @@
 
 /obj/item/grabbing/bite/valid_check()
 	// We require adjacency to count the grab as valid
+	if(!grabbee)
+		qdel(src)
+		return FALSE
 
 	if(isdullahan(grabbee) && ishuman(grabbed))
 		var/mob/living/carbon/human/target = grabbed
@@ -233,14 +243,14 @@
 
 	user.changeNext_move(CLICK_CD_GRABBING)
 	var/mob/living/carbon/C = grabbed
-	var/armor_block = C.run_armor_check(sublimb_grabbed, d_type, armor_penetration = BLUNT_DEFAULT_PENFACTOR)
 	var/damage = user.get_punch_dmg()
 	if(HAS_TRAIT(user, TRAIT_STRONGBITE))
 		damage = damage*2
+	var/armor_block = C.run_armor_check(sublimb_grabbed, d_type, armor_penetration = PEN_NONE, damage = damage)
 	C.next_attack_msg.Cut()
 	user.do_attack_animation(C, "bite")
 	if(C.apply_damage(damage, BRUTE, limb_grabbed, armor_block))
-		playsound(C.loc, "smallslash", 100, FALSE, -1)
+		playsound(C.loc, "smallslash", vol = 50, vary = FALSE, extrarange = -1, ignore_walls = FALSE, quiet = TRUE)
 		var/datum/wound/caused_wound = limb_grabbed.bodypart_attacked_by(BCLASS_BITE, damage, user, sublimb_grabbed, crit_message = TRUE)
 		if(user.mind && caused_wound)
 			/*
@@ -256,7 +266,7 @@
 			var/datum/antagonist/zombie/zombie_antag = user.mind.has_antag_datum(/datum/antagonist/zombie)
 			if(zombie_antag && zombie_antag.has_turned)
 				var/datum/antagonist/zombie/existing_zombie = C.mind?.has_antag_datum(/datum/antagonist/zombie) //If the bite target is a zombie
-				if(!existing_zombie && caused_wound?.zombie_infect_attempt())   // infect_attempt on wound
+				if(!existing_zombie && caused_wound?.zombie_infect_attempt(user))   // infect_attempt on wound
 					to_chat(user, span_danger("You feel your gift trickling into [C]'s wound...")) //message to the zombie they infected the target
 /*
 	Code below is for a zombie smashing the brains of unit. The code expects the brain to be part of the head which is not the case with AP. Kept for posterity in case it's used in an overhaul.

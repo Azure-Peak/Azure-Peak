@@ -19,4 +19,4 @@
 	pre_reqs = /datum/reagent/consumable/ethanol/ricewine
 	needed_items = null
 	brewed_amount = 4
-	sell_value = 90
+	sell_value = 100

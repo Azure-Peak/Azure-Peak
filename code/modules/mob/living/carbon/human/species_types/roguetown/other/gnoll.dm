@@ -15,7 +15,7 @@
 	gender = FEMALE
 
 /datum/species/gnoll
-	name = "gnoll"
+	name = "Gnoll"
 	id = "gnoll"
 	custom_rotation_icon = TRUE
 	custom_base_icon = "firepelt"
@@ -35,15 +35,15 @@
 		TRAIT_BREADY,
 		TRAIT_STEELHEARTED,
 		TRAIT_BASHDOORS,
-		TRAIT_ZJUMP,
 		TRAIT_STRONGBITE,
 		TRAIT_GNARLYDIGITS,
 		TRAIT_NUDIST,
 		TRAIT_HERESIARCH, //Just because I'm putting their spawns here, that's all.
 		TRAIT_ZURCH,
+		TRAIT_UNLYCKERABLE, //Just stop
+		TRAIT_MASTERFUL_HUNTER
 	)
 	inherent_biotypes = MOB_HUMANOID
-	armor = 30
 	no_equip = list(SLOT_SHIRT, SLOT_HEAD, SLOT_WEAR_MASK, SLOT_ARMOR, SLOT_GLOVES, SLOT_SHOES, SLOT_PANTS, SLOT_CLOAK, SLOT_BELT, SLOT_BACK_R, SLOT_BACK_L, SLOT_S_STORE)
 	nojumpsuit = 1
 	sexes = 1

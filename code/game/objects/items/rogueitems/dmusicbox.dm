@@ -18,7 +18,8 @@
 
 /obj/item/dmusicbox
 	name = "dwarven music box"
-	desc = "It is essential that the deepest caves be tuned to the right frequency of vibrations."
+	desc = "It is essential that the deepest caves be tuned to the right frequency of vibrations. Activated \
+	by the insertion of a copper coin."
 	icon = 'icons/roguetown/misc/machines.dmi'
 	icon_state = "mbox0"
 	gripped_intents = list(INTENT_GENERIC)
@@ -40,6 +41,14 @@
 //	soundloop.start()
 	update_icon()
 	. = ..()
+
+/obj/item/dmusicbox/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("This device can be used to play any song uploaded to it, insofar as it is \
+	within the .ogg format and around six megabytes or less in size.")
+	. += span_info("Load the device by <b>left-clicking</b> it with a copper coin!")
+	. += span_info("This device can be activated with a <b>right click<b>, once it is loaded \
+	with a copper coin!")
 
 /obj/item/dmusicbox/update_icon()
 	if(playing)
@@ -96,7 +105,7 @@
 		to_chat(user, span_warning("SONG MUST BE AN OGG."))
 		return
 	if(file_size > 6485760)
-		to_chat(user, span_warning("TOO BIG. 6 MEGS OR LESS."))
+		to_chat(user, span_warning("TOO BIG. 6 MEGABYTES OR LESS."))
 		return
 	lastfilechange = world.time
 	fcopy(infile,"data/jukeboxuploads/[user.ckey]/[filename]")

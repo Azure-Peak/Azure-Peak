@@ -1,4 +1,5 @@
 /mob/living/carbon/human/species/skeleton/npc/bogguard
+	threat_point = THREAT_MODERATE
 	skel_outfit = /datum/outfit/job/roguetown/npc/skeleton/npc/bogguard
 
 /datum/outfit/job/roguetown/npc/skeleton/npc/bogguard/pre_equip(mob/living/carbon/human/H)
@@ -36,8 +37,8 @@
 			r_hand = /obj/item/rogueweapon/mace
 	H.STASTR = rand(12,14)
 	H.STASPD = 8
-	H.STACON = 4
-	H.STAWIL = 15
+	H.STACON = 3
+	H.STAWIL = 8
 	H.STAINT = 1
 	ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
 	H.adjust_skillrank(/datum/skill/combat/polearms, 2, TRUE)
@@ -63,8 +64,8 @@
 	r_hand = /obj/item/rogueweapon/halberd
 	H.STASTR = 18
 	H.STASPD = 10
-	H.STACON = 10
-	H.STAWIL = 16
+	H.STACON = 8
+	H.STAWIL = 12
 	H.STAINT = 1
 	ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_HEAVYARMOR, TRAIT_GENERIC)

@@ -14,18 +14,24 @@
 		/datum/language/dwarvish,
 		/datum/language/elvish,
 		/datum/language/celestial,
+		/datum/language/raneshi,
 		/datum/language/hellspeak,
 		/datum/language/beast,
 		/datum/language/orcish,
 		/datum/language/draconic,
+		/datum/language/tricksterscant,
 		/datum/language/thievescant,
 		/datum/language/grenzelhoftian,
 		/datum/language/kazengunese,
+		/datum/language/lingyuese,
 		/datum/language/otavan,
 		/datum/language/etruscan,
 		/datum/language/gronnic,
 		/datum/language/aavnic,
-		/datum/language/undead
+		/datum/language/undead,
+		/datum/language/abyssal,
+		/datum/language/oldazurian,
+		/datum/language/undercommon
 	))
 
 /obj/item/organ/tongue/Initialize(mapload)

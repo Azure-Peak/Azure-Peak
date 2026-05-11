@@ -1,7 +1,0 @@
-author: "Ryan180602"
-delete-after: True
-changes:
-  - balance: "Martyr weapons have regular integrity."
-  - balance: "Once a martyr weapon breaks, it reshifts into a random martyr weapon."
-  - balance: "Pulling in a new martyr weapon from a cross carries the old integrity."
-  - balance: "Martyr armour sellprice is 999 mammons."

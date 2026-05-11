@@ -54,6 +54,49 @@
 /obj/item/reagent_containers/glass/cup/wooden/crafted
 	sellprice = 3
 
+/datum/crafting_recipe/roguetown/survival/woodtankard
+	name = "tankards, wooden (x3)"
+	category = "Houseware"
+	result = list(
+		/obj/item/reagent_containers/glass/bucket/pot/kettle/tankard,
+		/obj/item/reagent_containers/glass/bucket/pot/kettle/tankard,
+		/obj/item/reagent_containers/glass/bucket/pot/kettle/tankard,
+		)
+	reqs = list(/obj/item/grown/log/tree/small = 2, /obj/item/ingot/iron = 1)
+	skillcraft = /datum/skill/craft/carpentry
+	craftdiff = 2
+
+/datum/crafting_recipe/roguetown/survival/silvtankard
+	name = "tankards, silver (x2)"
+	category = "Houseware"
+	result = list(
+		/obj/item/reagent_containers/glass/bucket/pot/kettle/tankard/silver,
+		/obj/item/reagent_containers/glass/bucket/pot/kettle/tankard/silver,
+		)
+	reqs = list(/obj/item/grown/log/tree/small = 2, /obj/item/ingot/silver = 1)
+	skillcraft = /datum/skill/craft/carpentry
+	craftdiff = 4
+
+/datum/crafting_recipe/roguetown/survival/blcktankard
+	name = "tankards, blacksteel (x1)"
+	category = "Houseware"
+	result = list(
+		/obj/item/reagent_containers/glass/bucket/pot/kettle/tankard/blacksteel
+		)
+	reqs = list(/obj/item/grown/log/tree/small = 2, /obj/item/ingot/blacksteel = 1)
+	skillcraft = /datum/skill/craft/carpentry
+	craftdiff = 6
+
+/datum/crafting_recipe/roguetown/survival/peppermill
+	name = "peppermill"
+	category = "Houseware"
+	result = list(
+		/obj/item/reagent_containers/peppermill
+		)
+	reqs = list(/obj/item/grown/log/tree/small = 1, /obj/item/natural/whetstone = 1, /obj/item/reagent_containers/food/snacks/pepper = 5) //Currently unrefillable, so see this as an equal exchange.
+	skillcraft = /datum/skill/craft/carpentry //If this feels a bit too oppressive, try reducing the difficulty level a bit. Remember that it shouldn't be easier to obtain than importing, otherwise.
+	craftdiff = 4
+
 /datum/crafting_recipe/roguetown/survival/woodtray
 	name = "wooden trays (x2)"
 	category = "Houseware"

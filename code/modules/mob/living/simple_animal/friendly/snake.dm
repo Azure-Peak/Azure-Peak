@@ -29,7 +29,7 @@
         response_disarm_simple = "shoo"
         response_harm_continuous = "steps on"
         response_harm_simple = "step on"
-        faction = list("hostile")
+        faction = list(FACTION_HOSTILE)
         ventcrawler = VENTCRAWLER_ALWAYS
         density = FALSE
         pass_flags = PASSTABLE | PASSMOB
@@ -54,7 +54,7 @@
 	// if no tasty mice to chase, lets chase any living mob enemies in our vision range
 	if(length(mice) == 0)
 		//Filter living mobs (in range mobs) by those we consider enemies (retaliate behaviour)
-		return  living_mobs & enemies
+		return  living_mobs & resolve_enemies()
 	return mice
 
 /mob/living/simple_animal/hostile/retaliate/poison/snake/AttackingTarget()

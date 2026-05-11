@@ -2,7 +2,7 @@
 	name = "Beggar"
 	tutorial = "You are without coin and without worth. The pity of others is your bread, and their mercy is your butter. Having sat by waystones and watched many a traveller pass in the hopes for alms, you've nursed a surprising talent for thievery, and have even cajoled knowledge of lockpicking out of an especially sentimental rogue."
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = RACES_ALL_KINDS
+	
 	outfit = /datum/outfit/job/roguetown/vagabond/beggar
 	subclass_languages = list(/datum/language/thievescant)
 	category_tags = list(CTAG_VAGABOND)
@@ -16,7 +16,7 @@
 	subclass_skills = list(
 		/datum/skill/misc/stealing = SKILL_LEVEL_EXPERT,
 	)
-	extra_context = "Fortune is randomised."
+	extra_context = "Contains randomized skills and stats."
 
 /datum/outfit/job/roguetown/vagabond/beggar/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -57,9 +57,10 @@
 		l_hand = null
 
 	if (H.mind)
-		H.adjust_skillrank(/datum/skill/misc/sneaking, rand(1,5), TRUE)
-		H.adjust_skillrank(/datum/skill/misc/climbing, rand(1,5), TRUE)
-		H.adjust_skillrank(/datum/skill/misc/lockpicking, pick (1,2,3,4,5), TRUE)
+		H.adjust_skillrank(/datum/skill/misc/sneaking, rand(2,5), TRUE)
+		H.adjust_skillrank(/datum/skill/misc/climbing, rand(2,5), TRUE)
+		H.adjust_skillrank(/datum/skill/misc/lockpicking, rand (2,5), TRUE)
 		H.STALUC = rand(5, 15)
-	if(H.mind)
-		SStreasury.give_money_account(ECONOMIC_DESTITUTE, H, "Savings.")
+		H.STACON = rand(5, 10)
+		H.STAWIL = rand(5, 10)
+		SStreasury.grant_savings(ECONOMIC_DESTITUTE, H)

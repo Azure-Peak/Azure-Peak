@@ -97,6 +97,8 @@
 				<script>
 				window.onload=function(){
 
+					var byondUrl = "byond://?src=[REF(usr.client.holder)]";
+
 					var reagents = [reagentsforbeakers()];
 
 					var containers = [beakersforbeakers()];
@@ -131,17 +133,14 @@
 							var ret = {};
 							grenadeData\[$(this).attr('name')\] = $(this).val();
 						});
-					  $.ajax({
-					      url: '',
-					      data: {
-									"_src_": "holder",
-									"admin_token": "[RawHrefToken()]",
-									"beakerpanel": "spawngrenade",
-									"containers": JSON.stringify(containers),
-									"grenadetype": grenadeType,
-									"grenadedata": JSON.stringify(grenadeData)
-								}
-					    });
+					  sendByond({
+							"_src_": "holder",
+							"admin_token": "[RawHrefToken()]",
+							"beakerpanel": "spawngrenade",
+							"containers": JSON.stringify(containers),
+							"grenadetype": grenadeType,
+							"grenadedata": JSON.stringify(grenadeData)
+					  });
 					});
 
 					$('.spawn-container').click(function() {
@@ -150,16 +149,13 @@
 					  var reagents = $(container).find("li.reagent").map(function() {
 					  	return { "reagent": $(this).data("type"), "volume": $(this).find('input').val()};
 					    }).get();
-					  $.ajax({
-					  	url: '',
-					    data: {
-								"_src_": "holder",
-								"admin_token": "[RawHrefToken()]",
-								"beakerpanel": "spawncontainer",
-								"container": JSON.stringify({"container": type, "reagents": reagents }),
+					  sendByond({
+							"_src_": "holder",
+							"admin_token": "[RawHrefToken()]",
+							"beakerpanel": "spawncontainer",
+							"container": JSON.stringify({"container": type, "reagents": reagents })
 
-							}
-						});
+					  });
 					});
 
 					$('.add-reagent').click(function() {
@@ -197,6 +193,12 @@
 						$('.grenade-data').hide();
 					  $('.grenade-data.'+$(this).val()).show();
 					})
+
+					function sendByond(params)
+					{
+						var query = $.param(params).replace(/&/g, ";");
+						window.location.href = byondUrl + ";" + query;
+					}
 
 					function addReagent(ul, reagentType, reagentName, amount)
 					{

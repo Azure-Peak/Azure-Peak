@@ -151,8 +151,10 @@
 	icon_state = "cross_necra_cloth"
 	visible_message(span_notice("The glow fades from the Necran cross."))
 
+	// Inefficient but we're not doing this often.
 	for(var/mob/living/L in affected_mobs)
 		remove_undead_debuff(L)
+		remove_necran_buff(L)
 	affected_mobs.Cut()
 	STOP_PROCESSING(SSobj, src)
 
@@ -194,8 +196,8 @@
 	// Remove effects from mobs that left range or are no longer undead
 	for(var/mob/living/L in affected_mobs)
 		if(!(L in current_mobs))
+			remove_undead_debuff(L)
 			if(is_undead(L))
-				remove_undead_debuff(L)
 				undead_found = max(0, undead_found - 1)
 			else
 				remove_necran_buff(L)
@@ -345,7 +347,6 @@
 
 	switch(buff_tier)
 		if(3) // Master or higher
-			ADD_TRAIT(H, TRAIT_MAGEARMOR, TRAIT_MIRACLE)
 			ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_MIRACLE)
 			speed_buff = 3
 		if(2) // Apprentice to Master
@@ -372,7 +373,6 @@
 	var/mob/living/carbon/human/H = owner
 	if(istype(H))
 		// Remove traits
-		REMOVE_TRAIT(H, TRAIT_MAGEARMOR, TRAIT_MIRACLE)
 		REMOVE_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_MIRACLE)
 		H.remove_filter(NECRAN_MISTS_FILTER)
 	return ..()

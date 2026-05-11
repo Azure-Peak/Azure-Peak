@@ -23,6 +23,7 @@
 				continue
 			J.current_positions = max(J.current_positions-1, 0)
 			reopened_jobs += L.job
+	enforce_storyteller_soft_antag_slots()
 
 //////////////////////////
 //Reports player logouts//

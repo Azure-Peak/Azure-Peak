@@ -1,0 +1,76 @@
+//MAP CONVERTED BY dmm2tgm.py THIS HEADER COMMENT PREVENTS RECONVERSION, DO NOT REMOVE
+"aa" = (
+/turf/closed/mineral/rogue/bedrock,
+/area/rogue/under/tomb/cave/wet)
+"ac" = (
+/turf/open/floor/rogue/tile/masonic/spiral,
+/area/rogue/under/tomb/indoors/magic)
+"ad" = (
+/obj/effect/dungeon_directional_helper/west,
+/turf/open/floor/rogue/tile/masonic/spiral,
+/area/rogue/under/tomb/indoors/magic)
+"ae" = (
+/obj/structure/rack/rogue/shelf/big,
+/obj/effect/spawner/lootdrop/valuable_clutter_spawner,
+/turf/open/floor/rogue/tile/masonic/spiral,
+/area/rogue/under/tomb/indoors/magic)
+"af" = (
+/obj/structure/closet/crate/chest,
+/obj/effect/spawner/lootdrop/cheap_clutter_spawner,
+/obj/effect/spawner/lootdrop/valuable_jewelry_spawner,
+/obj/effect/spawner/lootdrop/valuable_jewelry_spawner,
+/turf/open/floor/rogue/tile/masonic/spiral,
+/area/rogue/under/tomb/indoors/magic)
+"ag" = (
+/turf/open/transparent/openspace,
+/area/rogue/under/tomb/indoors/magic)
+
+(1,1,1) = {"
+aa
+ad
+ac
+aa
+"}
+(2,1,1) = {"
+aa
+ac
+ac
+aa
+"}
+(3,1,1) = {"
+aa
+ae
+af
+aa
+"}
+(4,1,1) = {"
+aa
+aa
+aa
+aa
+"}
+
+(1,1,2) = {"
+aa
+ag
+ag
+aa
+"}
+(2,1,2) = {"
+aa
+ag
+ag
+aa
+"}
+(3,1,2) = {"
+aa
+ag
+ag
+aa
+"}
+(4,1,2) = {"
+aa
+aa
+aa
+aa
+"}

@@ -1,3 +1,8 @@
+// Scaling (base_antags path, no storyteller slot caps):
+//  base=1, denom=80, max=2
+//  Pop    | Slots
+//  1-79   |  1
+//  80+    |  2
 /datum/antagonist/lich
 	name = "Lich"
 	roundend_category = "Lich"
@@ -17,6 +22,7 @@
 		TRAIT_INFINITE_STAMINA,
 		TRAIT_NOHUNGER,
 		TRAIT_NOBREATH,
+		TRAIT_DEATHLESS,
 		TRAIT_NOPAIN,
 		TRAIT_TOXIMMUNE,
 		TRAIT_STEELHEARTED,
@@ -33,8 +39,9 @@
 		TRAIT_DEATHSIGHT,
 		TRAIT_COUNTERCOUNTERSPELL,
 		TRAIT_RITUALIST,
-		TRAIT_ARCYNE_T3,
+		TRAIT_ARCYNE,
 		TRAIT_SELF_SUSTENANCE,
+		TRAIT_ALCHEMY_EXPERT,
 		TRAIT_SILVER_WEAK
 		)
 
@@ -60,6 +67,7 @@
 /datum/antagonist/lich/greet()
 	to_chat(owner.current, span_userdanger("An immortal king cries for new subjects. Subdue and conquer."))
 	owner.announce_objectives()
+	owner.current.playsound_local(get_turf(owner.current), 'sound/villain/lichintro.ogg', 80, FALSE, pressure_affected = FALSE)
 	..()
 
 /datum/antagonist/lich/proc/save_stats()
@@ -91,10 +99,11 @@
 
 	var/mob/living/carbon/human/L = owner.current
 	L.cmode_music = 'sound/music/combat_heretic.ogg'
-	L.faction = list("undead")
+	L.faction = list(FACTION_UNDEAD)
 
-	if (L.charflaw)
-		QDEL_NULL(L.charflaw)
+	for(var/datum/charflaw/cf in L.charflaws)
+		L.charflaws.Remove(cf)
+		QDEL_NULL(cf)
 
 	L.mob_biotypes |= MOB_UNDEAD
 	replace_eyes(L)
@@ -126,7 +135,7 @@
 	H.adjust_skillrank(/datum/skill/combat/knives, 5, TRUE)
 	H.adjust_skillrank(/datum/skill/craft/crafting, 1, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/medicine, 3, TRUE)
-	H?.mind.adjust_spellpoints(27)
+	H?.mind.setup_mage_aspects(list("mastery" = TRUE, "major" = 2, "minor" = 3, "utilities" = 9, "ward" = TRUE))
 	// Give it decent combat stats to make up for loss of 2 extra lives
 	H.change_stat(STATKEY_STR, 3)
 	H.change_stat(STATKEY_INT, 5)
@@ -135,23 +144,26 @@
 	H.change_stat(STATKEY_SPD, 1)
 
 	H.grant_language(/datum/language/undead)
+	// Grant a spellbook so the lich can pick aspects
+	new /obj/item/book/spellbook(get_turf(H))
 
 	if(H.mind)
+		// Lich-specific spells (not from aspects)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/bonechill)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/raise_undead)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/raise_undead_formation)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/fireball)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/bloodlightning)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/fetch)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/blood_bolt())
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/diagnose/secular)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/minion_order)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/gravemark)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/suicidebomb)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/remotebomb)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/lich_announce)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/convert_heretic)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/tame_undead)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/raise_deadite)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/raise_deadite)
 	H.ambushable = FALSE
+	H.dna.species.soundpack_m = new /datum/voicepack/other/lich()
 
 	addtimer(CALLBACK(H, TYPE_PROC_REF(/mob/living/carbon/human, choose_name_popup), "LICH"), 5 SECONDS)
 
@@ -163,6 +175,17 @@
 	eyes = new /obj/item/organ/eyes/night_vision/zombie
 	eyes.Insert(L)
 
+/datum/antagonist/lich/examine_friendorfoe(datum/antagonist/examined_datum,mob/examiner,mob/examined)
+	if(istype(examined_datum, /datum/antagonist/vampire))
+		if(!SEND_SIGNAL(examined_datum.owner, COMSIG_DISGUISE_STATUS))
+			return span_boldnotice("Another deadite.")
+	if(istype(examined_datum, /datum/antagonist/zombie))
+		return span_boldnotice("Another deadite.")
+	if(istype(examined_datum, /datum/antagonist/skeleton))
+		return span_boldnotice("Another deadite. My Ally.")
+	if(istype(examined_datum, /datum/antagonist/lich))
+		return span_boldnotice("Another Deadite.")
+
 /datum/outfit/job/roguetown/lich/post_equip(mob/living/carbon/human/H)
 	..()
 	var/datum/antagonist/lich/lichman = H.mind.has_antag_datum(/datum/antagonist/lich)
@@ -171,6 +194,7 @@
 	lichman.phylacteries += new_phylactery
 	new_phylactery.possessor = lichman
 	H.equip_to_slot_or_del(new_phylactery,SLOT_IN_BACKPACK, TRUE)
+	H.select_skeleton_features()
 
 /datum/antagonist/lich/proc/consume_phylactery(timer = 10 SECONDS)
 	if(phylacteries.len)
@@ -185,6 +209,7 @@
 /datum/antagonist/lich/proc/equip_and_traits()
 	var/mob/living/carbon/human/body = owner.current
 	var/list/equipment_slots = list(
+		SLOT_HEAD,
 		SLOT_PANTS,
 		SLOT_SHOES,
 		SLOT_NECK,
@@ -202,10 +227,11 @@
 		)
 
 	var/list/equipment_items = list(
+		/obj/item/clothing/head/roguetown/roguehood/unholy/lich,
 		/obj/item/clothing/under/roguetown/chainlegs,
 		/obj/item/clothing/shoes/roguetown/boots,
 		/obj/item/clothing/neck/roguetown/chaincoif,
-		/obj/item/clothing/cloak/raincloak/mortus,
+		/obj/item/clothing/suit/roguetown/shirt/robe/unholy/lich,
 		/obj/item/clothing/suit/roguetown/armor/plate/blacksteel,
 		/obj/item/clothing/suit/roguetown/shirt/tunic/ucolored,
 		/obj/item/clothing/wrists/roguetown/bracers,
@@ -213,7 +239,7 @@
 		/obj/item/storage/belt/rogue/leather/black,
 		/obj/item/reagent_containers/glass/bottle/rogue/manapot,
 		/obj/item/rogueweapon/huntingknife/idagger/steel,
-		/obj/item/rogueweapon/woodstaff/riddle_of_steel,
+		/obj/item/rogueweapon/woodstaff/implement/grand,
 		/obj/item/ritechalk,
 		/obj/item/storage/backpack/rogue/satchel,
 	)
@@ -235,13 +261,14 @@
 
 	old_body.mind.transfer_to(new_body)
 
-	if (new_body.charflaw)
-		QDEL_NULL(new_body.charflaw)
+	for(var/datum/charflaw/cf in new_body.charflaws)
+		new_body.charflaws.Remove(cf)
+		QDEL_NULL(cf)
 
 	new_body.real_name = old_body.name
 	new_body.dna.real_name = old_body.real_name
 	new_body.mob_biotypes |= MOB_UNDEAD
-	new_body.faction = list("undead")
+	new_body.faction = list(FACTION_UNDEAD)
 	new_body.set_patron(/datum/patron/inhumen/zizo)
 	new_body.mind.grab_ghost(force = TRUE)
 
@@ -259,7 +286,7 @@
 
 /obj/item/phylactery
 	name = "phylactery"
-	desc = "Looks like it is filled with some intense power."
+	desc = "An otherworldly crystal that radiates with intense power. </br>Under a light's scrutiny, its crystalline edges refract into the sigil of an inverted psicross. What the hell is this thing.. !?"
 	icon = 'icons/obj/wizard.dmi'
 	icon_state = "soulstone"
 	item_state = "electronic"
@@ -274,9 +301,24 @@
 	var/datum/antagonist/lich/possessor
 	var/datum/mind/mind
 
-/obj/item/phylactery/Initialize(mapload, datum/mind/newmind)
+/obj/item/phylactery/Initialize()
+  ..()
+  add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_VAMPIRIC, "alpha" = 255, "size" = 1))
+
+/obj/item/phylactery/examine(mob/user)
 	. = ..()
-	filters += filter(type="drop_shadow", x=0, y=0, size=1, offset=2, color=rgb(rand(1,255),rand(1,255),rand(1,255)))
+	if(ishuman(user))
+		var/mob/living/carbon/human/H = user
+		if(H.patron.type == /datum/patron/inhumen/zizo)
+			. += span_rose("A crystalline fragment of divinity, used by Lyches to thwart death's grasp. If a Lych's incarnation is slain, they will be resurrected wherever their nearest phylactrey happens to be, destroying it in the process. Lyches can only be slain, permenantly, once all phylactries linked to their spirit have been destroyed.")
+		else if(H.patron.type == /datum/patron/divine/undivided)
+			. += span_rose("A crystalline fragment of divinity, used by Lyches to thwart death's grasp. If a Lych's incarnation is slain, they will be resurrected wherever their nearest phylactrey happens to be, destroying it in the process. Lyches can only be slain, permenantly, once all phylactries linked to their spirit have been destroyed.")
+		else if(H.patron.type == /datum/patron/divine/astrata)
+			. += span_rose("A crystalline fragment of divinity, used by Lyches to thwart death's grasp. If a Lych's incarnation is slain, they will be resurrected wherever their nearest phylactrey happens to be, destroying it in the process. Lyches can only be slain, permenantly, once all phylactries linked to their spirit have been destroyed.")
+		else if(H.patron.type == /datum/patron/divine/necra)
+			. += span_rose("A crystalline fragment of divinity, used by Lyches to thwart death's grasp. If a Lych's incarnation is slain, they will be resurrected wherever their nearest phylactrey happens to be, destroying it in the process. Lyches can only be slain, permenantly, once all phylactries linked to their spirit have been destroyed.")
+		else if(H.patron.type == /datum/patron/old_god)
+			. += span_rose("A crystalline fragment of divinity, used by Lyches to thwart death's grasp. If a Lych's incarnation is slain, they will be resurrected wherever their nearest phylactrey happens to be, destroying it in the process. Lyches can only be slain, permenantly, once all phylactries linked to their spirit have been destroyed.")
 
 /obj/item/phylactery/proc/be_consumed(timer)
 	var/offset = prob(50) ? -2 : 2
@@ -290,7 +332,7 @@
 
 /obj/effect/proc_holder/spell/self/lich_announce
 	name = "Command Will"
-	desc = "Send a booming message to the undead under your will."
+	desc = "Bellow a commandment, which will be heard by all undead creechers - irregardless of their location - underneath your command."
 	recharge_time = 20 SECONDS
 
 /obj/effect/proc_holder/spell/self/lich_announce/cast(list/targets, mob/user)
@@ -301,6 +343,13 @@
 	if(!calltext)
 		return FALSE
 
-	priority_announce("[calltext]", title = "Your Lich King Commands", sound = 'sound/misc/deadbell.ogg', sender = user, receiver = /mob/living/carbon/human/species/skeleton)
+	for(var/datum/antagonist/A in GLOB.antagonists)
+		if(!A.owner)
+			continue
+		if(!istype(A, /datum/antagonist/skeleton) && !istype(A, /datum/antagonist/lich))
+			continue
+		var/datum/mind/skele = A.owner
+		to_chat(skele.current, span_boldannounce("[span_purple(user.real_name)] shrieks out their commandment: [calltext]"))
+		skele.current.playsound_local(get_turf(A.owner), 'sound/misc/deadbell.ogg', 50, FALSE)
 
 	..()

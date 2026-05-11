@@ -20,7 +20,7 @@
 		verbs -= /mob/living/carbon/human/verb/bad_omen
 		return
 		
-	if(!HAS_TRAIT(src, TRAIT_COMMIE) && !HAS_TRAIT(src, TRAIT_CABAL) && !HAS_TRAIT(src, TRAIT_HORDE) && !HAS_TRAIT(src, TRAIT_DEPRAVED))
+	if(!HAS_TRAIT(src, TRAIT_FREEMAN) && !HAS_TRAIT(src, TRAIT_CABAL) && !HAS_TRAIT(src, TRAIT_HORDE) && !HAS_TRAIT(src, TRAIT_DEPRAVED))
 		to_chat(src, span_warning("You have no heretical allegiances to commune with!"))
 		verbs -= /mob/living/carbon/human/verb/commune
 		return
@@ -30,7 +30,7 @@
 	var/nickname = mind.heretic_nickname // Store nickname in the mind
 
 	// Determine the speaker's heretic type and style
-	if(HAS_TRAIT(src, TRAIT_COMMIE))
+	if(HAS_TRAIT(src, TRAIT_FREEMAN))
 		echo_message = "raises a fist and mutters revolutionary phrases"
 		span_class = "bloody"
 	else if(HAS_TRAIT(src, TRAIT_CABAL))
@@ -63,7 +63,7 @@
 	for(var/mob/living/carbon/human/heretic in GLOB.player_list)
 		if(!heretic.client || heretic == src)
 			continue
-		if(HAS_TRAIT(heretic, TRAIT_COMMIE) || HAS_TRAIT(heretic, TRAIT_CABAL) || HAS_TRAIT(heretic, TRAIT_HORDE) || HAS_TRAIT(heretic, TRAIT_DEPRAVED))
+		if(HAS_TRAIT(heretic, TRAIT_FREEMAN) || HAS_TRAIT(heretic, TRAIT_CABAL) || HAS_TRAIT(heretic, TRAIT_HORDE) || HAS_TRAIT(heretic, TRAIT_DEPRAVED))
 			to_chat(heretic, "<span class='[span_class]'><b>\[Commune\]</b></span>")
 			to_chat(heretic, "<span class='[span_class]' style='font-size: 125%;'><b>[nickname]:</b> [msg]</span>")
 
@@ -103,8 +103,8 @@
 	var/my_trait
 	
 	// Determine the viewer's heretic type
-	if(HAS_TRAIT(src, TRAIT_COMMIE))
-		my_trait = TRAIT_COMMIE
+	if(HAS_TRAIT(src, TRAIT_FREEMAN))
+		my_trait = TRAIT_FREEMAN
 	else if(HAS_TRAIT(src, TRAIT_CABAL))
 		my_trait = TRAIT_CABAL
 	else if(HAS_TRAIT(src, TRAIT_HORDE))
@@ -151,7 +151,7 @@
 		verbs -= /mob/living/carbon/human/verb/bad_omen
 		return
 
-	if(!HAS_TRAIT(src, TRAIT_COMMIE) && !HAS_TRAIT(src, TRAIT_CABAL) && !HAS_TRAIT(src, TRAIT_HORDE) && !HAS_TRAIT(src, TRAIT_DEPRAVED))
+	if(!HAS_TRAIT(src, TRAIT_FREEMAN) && !HAS_TRAIT(src, TRAIT_CABAL) && !HAS_TRAIT(src, TRAIT_HORDE) && !HAS_TRAIT(src, TRAIT_DEPRAVED))
 		to_chat(src, span_warning("You have no heretical knowledge of dark chants!"))
 		verbs -= /mob/living/carbon/human/verb/bad_omen
 		return
@@ -171,7 +171,7 @@
 	for(var/mob/living/carbon/human/H in view(3, src))
 		if(H == src || !H.chanting)
 			continue
-		if(!H.mind || (!HAS_TRAIT(H, TRAIT_COMMIE) && !HAS_TRAIT(H, TRAIT_CABAL) && !HAS_TRAIT(H, TRAIT_HORDE) && !HAS_TRAIT(H, TRAIT_DEPRAVED)))
+		if(!H.mind || (!HAS_TRAIT(H, TRAIT_FREEMAN) && !HAS_TRAIT(H, TRAIT_CABAL) && !HAS_TRAIT(H, TRAIT_HORDE) && !HAS_TRAIT(H, TRAIT_DEPRAVED)))
 			continue
 			
 		trigger_omen(src, H)

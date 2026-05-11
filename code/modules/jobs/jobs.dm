@@ -68,7 +68,6 @@ GLOBAL_LIST_INIT(leadership_positions, list( // Used for boldening text primaril
 	"Hand",
 	"Court Magician",
 	"Marshal",
-	"Knight Captain",
 	"Sergeant",
 	"Bishop",
 	"Martyr",
@@ -77,6 +76,7 @@ GLOBAL_LIST_INIT(leadership_positions, list( // Used for boldening text primaril
 	"Head Physician",
 	"Innkeeper",
 	"Bathmaster",
+	"Inquisitor"
 ))
 
 GLOBAL_LIST_INIT(regency_positions, list( // Used to determine elligibility for Regency
@@ -108,7 +108,6 @@ GLOBAL_LIST_INIT(courtier_positions, list( //Anyone that is officially part of t
 
 GLOBAL_LIST_INIT(retinue_positions, list( //Manorites
 	"Marshal",
-	"Knight Captain",
 	"Knight",
 	"Squire",
 ))
@@ -143,6 +142,11 @@ GLOBAL_LIST_INIT(burgher_positions, list( //Artisans, store owners what have you
 	"Magicians Associate",
 ))
 
+GLOBAL_LIST_INIT(bathhouse_positions, list(
+	"Bathmaster",
+	"Bathhouse Attendant",
+))
+
 GLOBAL_LIST_INIT(peasant_positions, list( //Serfs / peasants / generic towners
 	"Bathhouse Attendant",
 	"Cook",
@@ -173,6 +177,7 @@ GLOBAL_LIST_INIT(antagonist_positions, list( //Mostly lesser antagonists
 	"Bandit",
 	"Wretch",
 	"Gnoll",
+	"Hag",
 ))
 
 GLOBAL_LIST_INIT(inquisition_positions, list( //Self explanatory
@@ -180,6 +185,8 @@ GLOBAL_LIST_INIT(inquisition_positions, list( //Self explanatory
 	"Absolver",
 	"Orthodoxist",
 ))
+
+GLOBAL_LIST_INIT(aspirant_eligible_positions, list(ASPIRANT_ELIGIBLE_POSITIONS))
 
 GLOBAL_LIST_INIT(roguewar_positions, list(
 	"Adventurer",
@@ -194,22 +201,6 @@ GLOBAL_LIST_INIT(roguefight_positions, list(
 	"Green Caster",
 	"Green Ranger",
 	"Green Fighter",
-))
-
-GLOBAL_LIST_INIT(rogueantag_positions, list(
-	"Grand Duke",
-	"Consort",
-	"Suitor",
-	"Prince",
-	"Hand",
-	"Marshal",
-	"Knight Captain",
-	"Knight",
-	"Sergeant",
-	"Bishop",
-	"Martyr",
-	"Inquisitor",
-	"Absolver",
 ))
 
 //This list is used to prevent the duke from stripping nobility from certain jobs that aren't intrinsically a part of the town.
@@ -258,12 +249,23 @@ GLOBAL_LIST_INIT(exp_jobsmap, list(
 
 GLOBAL_LIST_INIT(exp_specialmap, list(
 	EXP_TYPE_LIVING = list(), // all living mobs
-	EXP_TYPE_ANTAG = list(),
+	EXP_TYPE_ANTAG = list(ROLE_MANIAC, ROLE_PREBEL, ROLE_BANDIT, ROLE_ASPIRANT, ROLE_WEREWOLF, ROLE_NBEAST, ROLE_VAMPIRE, ROLE_LICH, ROLE_DREAMWALKER, ROLE_GNOLL, ROLE_ASSASSIN, ROLE_HAG),
 	EXP_TYPE_SPECIAL = list("Lifebringer","Ash Walker","Exile","Servant Golem","Free Golem","Hermit","Translocated Vet","Escaped Prisoner","Hotel Staff","SuperFriend","Space Syndicate","Ancient Crew","Space Doctor","Space Bartender","Beach Bum","Skeleton","Zombie","Space Bar Patron","Lavaland Syndicate","Ghost Role"), // Ghost roles
 	EXP_TYPE_GHOST = list() // dead people, observers
 ))
+GLOBAL_LIST_EMPTY(exp_role_lookup)
 GLOBAL_PROTECT(exp_jobsmap)
 GLOBAL_PROTECT(exp_specialmap)
+GLOBAL_PROTECT(exp_role_lookup)
+
+/proc/get_exp_role_lookup()
+	if(GLOB.exp_role_lookup.len)
+		return GLOB.exp_role_lookup
+	for(var/job_title in SSjob.name_occupations)
+		GLOB.exp_role_lookup[job_title] = job_title
+	for(var/special_role in GLOB.exp_specialmap[EXP_TYPE_SPECIAL])
+		GLOB.exp_role_lookup[special_role] = special_role
+	return GLOB.exp_role_lookup
 
 /proc/guest_jobbans(job)
 	return ((job in GLOB.command_positions) || (job in GLOB.nonhuman_positions) || (job in GLOB.security_positions))

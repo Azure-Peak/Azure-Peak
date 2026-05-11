@@ -21,6 +21,9 @@
 /turf/open/floor/rogue/snow
 	track_prob = 20
 
+/turf/open/floor/rogue/snowpatchy
+	track_prob = 10
+
 /turf/open/floor/rogue/AzureSand
 	track_prob = 20
 
@@ -30,7 +33,16 @@
 /turf/open/floor/carpet
 	track_prob = 10
 
+/turf/open/floor/rogue/twig
+	track_prob = 5
+
 /turf/open/floor/rogue/wood
+	track_prob = 5
+
+/turf/open/floor/rogue/woodturned
+	track_prob = 5
+
+/turf/open/floor/rogue/ruinedwood
 	track_prob = 5
 
 /turf/open/floor/rogue/dirt/road
@@ -45,6 +57,9 @@
 /turf/open/floor/rogue/cobble
 	track_prob = 3
 
+/turf/open/floor/rogue/cobble/mossy
+	track_prob = 10
+
 /turf/open/floor/rogue/blocks
 	track_prob = 10
 
@@ -57,8 +72,17 @@
 /turf/open/floor/rogue/hexstone
 	track_prob = 10
 
+/turf/open/floor/rogue/herringbone
+	track_prob = 10
+
 /turf/open/floor/rogue/churchmarble
 	track_prob = 5
+
+/turf/open/floor/rogue/church
+	track_prob = 5
+
+/turf/open/floor/rogue/churchrough
+	track_prob = 10
 
 /turf/open/floor/rogue/churchbrick
 	track_prob = 5
@@ -66,11 +90,10 @@
 /turf/open/floor/rogue/cobblerock
 	track_prob = 10
 
-//Probabilities end (albeit mud is handled seperately).
+/turf/open/floor/rogue/naturalstone
+	track_prob = 10
 
-//For highlighting tracks
-/mob/living/carbon/human
-	var/mob/living/current_mark
+//Probabilities end (albeit mud is handled seperately).
 
 //Analysis levels depending on skillcheck during reveal.
 #define ANALYSIS_TERRIBLE 1
@@ -120,6 +143,11 @@
 	var/markable = TRUE
 	///Base difficulty for noticing these tracks
 	var/base_diff = 11
+
+/obj/effect/track/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Right-clicking the eye on your HUD allows you to check for tracks, alongside hidden ambushes and traps. The effectiveness of each check scales with your character's Perception and Tracking skill.")
+	. += span_info("The higher your Tracking skill is, the more likely you can discover older and hidden tracks. Likewise, higher levels also let you determine how old the tracks are, which direction they've went, and what kinds of footwear or soles made them.")
 
 /obj/effect/track/Initialize()
 	. = ..()

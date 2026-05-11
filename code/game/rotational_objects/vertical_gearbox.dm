@@ -7,6 +7,11 @@
 	stress_use = 12
 	initialize_dirs = CONN_DIR_FORWARD | CONN_DIR_FLIP | CONN_DIR_Z_UP | CONN_DIR_Z_DOWN
 
+/obj/structure/vertical_gearbox/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Transfers rotation vertically between z-levels while still keeping a forward-back connection.")
+	. += span_info("Middle-click it with an engineering wrench to disassemble it.")
+
 /obj/structure/vertical_gearbox/Initialize(mapload, ...)
 	. = ..()
 	AddComponent(/datum/component/simple_rotation, ROTATION_REQUIRE_WRENCH|ROTATION_IGNORE_ANCHORED)

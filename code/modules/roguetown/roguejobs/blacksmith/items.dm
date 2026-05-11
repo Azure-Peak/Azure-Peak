@@ -4,7 +4,7 @@
 	name = "statue"
 	icon_state = ""
 	w_class = WEIGHT_CLASS_NORMAL
-	experimental_inhand = FALSE
+	experimental_inhand = TRUE
 	smeltresult = null
 	grid_width = 32
 	grid_height = 64
@@ -65,6 +65,17 @@
 	. = ..()
 	icon_state = "astatue[pick(1,2)]"
 
+/obj/item/roguestatue/bronze
+	name = "bronze statue"
+	desc = "A statue of sculpted bronze, forged in the visage of an ancient hero."
+	icon_state = "bronzestatue1"
+	smeltresult = /obj/item/ingot/bronze
+	sellprice = 30
+
+/obj/item/roguestatue/bronze/Initialize()
+	. = ..()
+	icon_state = "bronzestatue[pick(1,2,3)]"
+
 /obj/item/roguestatue/iron
 	name = "iron statue"
 	desc = "A forged statue of cast iron!"
@@ -122,7 +133,7 @@
 	var/obj/item/thing = O
 	if(!thing.anvilrepair)
 		return ..()
-	if((HAS_TRAIT(user, TRAIT_SQUIRE_REPAIR) || user.get_skill_level(thing.anvilrepair)) && thing.polished == 0 && obj_integrity <= max_integrity)
+	if((HAS_TRAIT(user, TRAIT_SQUIRE_REPAIR) || HAS_TRAIT(user, TRAIT_SELF_SUSTENANCE) || user.get_skill_level(thing.anvilrepair)) && thing.polished == 0 && obj_integrity <= max_integrity)
 		to_chat(user, span_info("I start applying some compound to \the [thing]..."))
 		if(do_after(user, 50 - user.STASPD*2, target = O))
 			thing.polished = 1
@@ -172,7 +183,7 @@
 		return ..()
 	var/obj/item/thing = O
 	if(thing.polished == 1 && roughness)
-		if((HAS_TRAIT(user, TRAIT_SQUIRE_REPAIR) || user.get_skill_level(thing.anvilrepair)))
+		if((HAS_TRAIT(user, TRAIT_SQUIRE_REPAIR) || HAS_TRAIT(user, TRAIT_SELF_SUSTENANCE) || user.get_skill_level(thing.anvilrepair)))
 			to_chat(user, span_info("I start roughly scrubbing the compound on \the [thing]..."))
 			playsound(loc,"sound/foley/scrubbing[pick(1,2)].ogg", 100, TRUE)
 			if(do_after(user, 50 - user.STASTR*1.5, target = O))
@@ -181,7 +192,7 @@
 				thing.add_atom_colour("#9e9e9e", FIXED_COLOUR_PRIORITY)
 
 	else if(thing.polished == 2 && !roughness)
-		if((HAS_TRAIT(user, TRAIT_SQUIRE_REPAIR) || user.get_skill_level(thing.anvilrepair)))
+		if((HAS_TRAIT(user, TRAIT_SQUIRE_REPAIR) || HAS_TRAIT(user, TRAIT_SELF_SUSTENANCE) || user.get_skill_level(thing.anvilrepair)))
 			to_chat(user, span_info("I start gently scrubbing the edges of \the [thing]..."))
 			playsound(loc,"sound/foley/scrubbing[pick(1,2)].ogg", 100, TRUE)
 			if(do_after(user, 50 - user.STASTR*1.5, target = O))
@@ -196,6 +207,7 @@
 			polished = 0
 			force -= 2
 			force_wielded -= 3
+			update_force_dynamic()
 			max_integrity -= polish_bonus
 			polish_bonus = 0
 			obj_integrity = min(obj_integrity, max_integrity)
@@ -215,6 +227,7 @@
 		obj_integrity += polish_bonus
 		force += 2
 		force_wielded += 3
+		update_force_dynamic()
 		AddComponent(/datum/component/metal_glint)
 		UnregisterSignal(src, COMSIG_COMPONENT_CLEAN_ACT)
 
@@ -265,3 +278,4 @@
 
 /datum/component/metal_glint/proc/stop_process()
 	STOP_PROCESSING(SSobj, src)
+ 

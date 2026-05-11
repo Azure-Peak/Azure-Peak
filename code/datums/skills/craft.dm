@@ -75,13 +75,17 @@
 
 /datum/skill/craft/masonry
 	name = "Masonry"
-	desc = "Determines whether you can craft various stone items and repair them."
+	desc = "Determines whether you can craft various stone items, gems and repair them."
 	dreams = list(
 		"...a fortress. Impenetrable. Everlasting. Brick by brick. Layer by layer. Stone upon stone. This is your magnum opus. This is the way of creation...",
 		"...'3, 4 and 5 lead to the corner of 90.' your master, a wizened old elf adrift in the void, shows you how their mason's square indicates straight and strange corners alike..."
 	)
 	expert_name = "Mason"
-	// Niche skill, no gating
+	// No longer niche with gemcarving etc
+	max_untraited_level = SKILL_LEVEL_APPRENTICE
+	trait_uncap = list(TRAIT_HOMESTEAD_EXPERT = SKILL_LEVEL_LEGENDARY,
+	TRAIT_SMITHING_EXPERT = SKILL_LEVEL_LEGENDARY,
+	TRAIT_SELF_SUSTENANCE = SKILL_LEVEL_JOURNEYMAN)
 
 /datum/skill/craft/traps
 	name = "Trapmaking"
@@ -167,7 +171,7 @@
 		"...the smell of sulfur singes your nostrils... you taste iron... the smoke clears as you stare down at the reflection in your cauldron... the Queen stares back at you... she looks like she's crying..."
 	)
 	expert_name = "Alchemist"
-	max_untraited_level = SKILL_LEVEL_JOURNEYMAN // Special, we just gate the best potions away
+	max_untraited_level = SKILL_LEVEL_NONE
 	trait_uncap = list(TRAIT_ALCHEMY_EXPERT = SKILL_LEVEL_LEGENDARY)
 
 /datum/skill/craft/alchemy/skill_level_effect(level, datum/mind/mind)

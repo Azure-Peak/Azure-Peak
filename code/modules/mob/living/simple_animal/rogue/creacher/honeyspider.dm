@@ -6,6 +6,7 @@
 	icon_living = "honeys"
 	icon_dead = "honeys-dead"
 	gender = MALE
+	blood_toll_bucket = STATS_KILLED_GREATER_BEASTS
 	speak_chance = 1
 	turns_per_move = 3
 	see_in_dark = 6
@@ -15,14 +16,17 @@
 	base_intents = list(/datum/intent/simple/bite/honeyspider)
 	botched_butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/steak = 1)
 	butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/steak = 1,
-							/obj/item/natural/silk = 2, 
-							/obj/item/alch/viscera = 1,
-							/obj/item/natural/head/honeyspider = 1)
-	perfect_butcher_results = list (/obj/item/reagent_containers/food/snacks/rogue/meat/steak = 2,
-							/obj/item/natural/silk = 3, 
-							/obj/item/alch/viscera = 1, 
-							/obj/item/natural/head/honeyspider = 1)
-	faction = list("spiders")
+							/obj/item/natural/silk = 2,
+							/obj/item/reagent_containers/food/snacks/rogue/honey/spider = 1,
+							/obj/item/alch/viscera = 1)
+	perfect_butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/steak = 2,
+							/obj/item/natural/silk = 3,
+							/obj/item/reagent_containers/food/snacks/rogue/honey/spider = 2,
+							/obj/item/alch/viscera = 1)
+	head_butcher = /obj/item/natural/head/honeyspider
+	faction = list(FACTION_SPIDERS)
+	threat_point = THREAT_LOW
+	ambush_faction = "mirespiders"
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
 	attack_sound = 'sound/combat/wooshes/punch/punchwoosh (2).ogg'
 	health = HONEYSPIDER_HEALTH
@@ -57,6 +61,7 @@
 	stat_attack = UNCONSCIOUS
 
 /mob/living/simple_animal/hostile/retaliate/rogue/spider/mutated
+	threat_point = THREAT_HIGH
 	icon = 'icons/roguetown/mob/monster/spider.dmi'
 	name = "skallax spider"
 	desc = "This appears to be a beespider mutated by some unnatural force into a writhing, asymmetrical horror! You should probably put this thing out of its misery."
@@ -64,19 +69,20 @@
 	icon_living = "skallax"
 	icon_dead = "skallax-dead"
 	base_intents = list(/datum/intent/simple/bite)
-	butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/steak = 2,
+	butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/spider = 2,
+					/obj/item/reagent_containers/food/snacks/rogue/honey/spider = 1,
 					/obj/item/natural/hide = 1)
 	health = 130
 	maxHealth = 130
 
 /mob/living/simple_animal/hostile/retaliate/rogue/spider/Initialize()
 	. = ..()
+	AddComponent(/datum/component/ai_aggro_system)
 	gender = MALE
 	if(prob(33))
 		gender = FEMALE
 	update_icon()
 	ai_controller.set_blackboard_key(BB_BASIC_FOODS, food_type)
-	AddElement(/datum/element/ai_retaliate)
 	ADD_TRAIT(src, TRAIT_KNEESTINGER_IMMUNITY, INNATE_TRAIT)
 
 
@@ -127,6 +133,7 @@
 				visible_message(span_alertalien("[src] creates some honey."))
 				var/turf/T = get_turf(src)
 				playsound(T, pick('sound/vo/mobs/spider/speak (1).ogg','sound/vo/mobs/spider/speak (2).ogg','sound/vo/mobs/spider/speak (3).ogg','sound/vo/mobs/spider/speak (4).ogg'), 100, TRUE, -1)
+				new /obj/item/reagent_containers/food/snacks/rogue/honey/spider(T)
 				new /obj/item/reagent_containers/food/snacks/rogue/honey/spider(T)
 	if(pulledby && !tame)
 		if(HAS_TRAIT(pulledby, TRAIT_WEBWALK))

@@ -184,12 +184,14 @@
 #define NUTRITION_LEVEL_FULL 1000
 #define NUTRITION_LEVEL_FAT 800
 #define NUTRITION_LEVEL_WELL_FED 700
+#define NUTRITION_LEVEL_DEATHLESS 700
 #define NUTRITION_LEVEL_FED 500
 #define NUTRITION_LEVEL_HUNGRY 350
 #define NUTRITION_LEVEL_STARVING 100
 
 #define HYDRATION_LEVEL_FULL 1000
 #define HYDRATION_LEVEL_HYDRATED 999
+#define HYDRATION_LEVEL_DEATHLESS 700
 #define HYDRATION_LEVEL_SMALLTHIRST 600
 #define HYDRATION_LEVEL_THIRSTY 350
 #define HYDRATION_LEVEL_DEHYDRATED 100
@@ -281,6 +283,8 @@
 #define SHOCK_ILLUSION (1 << 2)
 ///The shock doesn't stun.
 #define SHOCK_NOSTUN (1 << 3)
+///Visual and sound effects only, no damage applied.
+#define SHOCK_VISUAL_ONLY (1 << 4)
 
 #define INCORPOREAL_MOVE_BASIC 1
 #define INCORPOREAL_MOVE_SHADOW 2 // leaves a trail of shadows
@@ -451,6 +455,18 @@
 #define SKIN_COLOR_TIMBERBORN "5d4c41"
 #define SKIN_COLOR_LOTUS_COAST "eae1C8"
 
+//SUN ELF SKIN TONES
+#define SKIN_COLOR_DAWN "eaCebe"
+#define SKIN_COLOR_MORNING "dbaB8f"
+#define SKIN_COLOR_NOON "be8f73"
+#define SKIN_COLOR_EVENING "a57962"
+#define SKIN_COLOR_SUNSET "7B5752"  
+#define SKIN_COLOR_DUSK "564044" 
+#define SKIN_COLOR_GILDED "e1b772"
+#define SKIN_COLOR_SELFAMBER "c9aa79"
+#define SKIN_COLOR_SELFTOPAZ "b19d68"
+#define SKIN_COLOR_SELFBRASS "d6a35b"
+
 //HUMEN SKIN TONES
 #define SKIN_COLOR_GRENZELHOFT "fff0e9"
 #define SKIN_COLOR_HAMMERHOLD "ffe0d1"
@@ -588,9 +604,17 @@
 
 #define TYPING_INDICATOR_TIMEOUT 20 MINUTES
 
-// NPC Debugging
+// NPC Debugging - uncomment to enable AI debug runechat
+// #define NPC_THINK_DEBUG
 #ifdef NPC_THINK_DEBUG
-#define NPC_THINK(message) visible_message(message, runechat_message = message)
+#define AI_THINK(pawn, message) pawn.visible_message(message, runechat_message = message)
 #else
-#define NPC_THINK(message)
+#define AI_THINK(pawn, message)
+#endif
+
+// #define NPC_THINK_DEBUG_WORLD
+#ifdef NPC_THINK_DEBUG_WORLD
+#define AI_WORLD_THINK(pawn, message) to_chat(world, "<span class='boldannounce'>\[AI-WORLD\] [pawn]: [message]</span>")
+#else
+#define AI_WORLD_THINK(pawn, message)
 #endif

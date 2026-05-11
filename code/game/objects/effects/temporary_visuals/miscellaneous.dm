@@ -6,6 +6,12 @@
 	layer = BELOW_MOB_LAYER
 	plane = GAME_PLANE_FOV_HIDDEN
 	var/splatter_type = "splatter"
+	var/blood_color
+
+/obj/effect/temp_visual/dir_setting/bloodsplatter/proc/set_blood_color(new_blood_color)
+	blood_color = new_blood_color
+	icon = initial(icon)
+	color = blood_color || initial(color)
 
 /obj/effect/temp_visual/dir_setting/bloodsplatter/Initialize(mapload, set_dir)
 	icon_state = "[splatter_type][rand(1, 6)]"
@@ -325,11 +331,7 @@
 	icon_state = "explosion"
 	pixel_x = -32
 	pixel_y = -32
-	duration = 8
-
-/obj/effect/temp_visual/explosion/fast
-	icon_state = "explosionfast"
-	duration = 4
+	duration = 20
 
 /obj/effect/temp_visual/blob
 	name = "blob"

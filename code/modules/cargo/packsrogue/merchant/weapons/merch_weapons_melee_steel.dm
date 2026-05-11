@@ -12,6 +12,26 @@
 					/obj/item/rogueweapon/huntingknife/idagger/steel,
 				)
 
+/datum/supply_pack/rogue/steel_weapons/chefknife
+	name = "Chef's Knife"
+	cost = 40 // 1 Steel Ingot
+	contains = list(
+					/obj/item/rogueweapon/huntingknife/chefknife,
+				)
+
+/datum/supply_pack/rogue/steel_weapons/chefcleaver
+	name = "Chef's Cleaver"
+	cost = 40 // 1 Steel Ingot
+	contains = list(
+					/obj/item/rogueweapon/huntingknife/chefknife/cleaver,
+				)
+
+/datum/supply_pack/rogue/steel_weapons/rondeldagger
+	name = "Rondel Dagger"
+	cost = 70 // 2 Steel Ingots
+	contains = list(
+					/obj/item/rogueweapon/huntingknife/idagger/steel/rondel,
+				)
 
 /datum/supply_pack/rogue/steel_weapons/katar
 	name = "Katar"
@@ -24,7 +44,7 @@
 	name = "Steel Knuckle"
 	cost = 40 // 1 Steel Ingot
 	contains = list(
-					/obj/item/rogueweapon/knuckles
+					/obj/item/clothing/gloves/roguetown/knuckles
 				)
 
 /datum/supply_pack/rogue/steel_weapons/rapier
@@ -69,6 +89,13 @@
 					/obj/item/rogueweapon/sword/short/messer,
 				)
 
+/datum/supply_pack/rogue/steel_weapons/messeralt
+	name = "Hunting Sword"
+	cost = 40 // 1 Steel Ingot
+	contains = list(
+					/obj/item/rogueweapon/sword/short/messer/alt,
+				)
+
 /datum/supply_pack/rogue/steel_weapons/sabre
 	name = "Sabre"
 	cost = 40 // 1 Steel Ingot
@@ -83,11 +110,18 @@
 					/obj/item/rogueweapon/flail/sflail,
 				)
 
-/datum/supply_pack/rogue/steel_weapons/flail
+/datum/supply_pack/rogue/steel_weapons/warhammer
 	name = "Warhammer"
-	cost = 40 // 1 Steel Ingot
+	cost = 70 // 2 Steel Ingots
 	contains = list(
 					/obj/item/rogueweapon/mace/warhammer/steel,
+				)
+
+/datum/supply_pack/rogue/steel_weapons/sflangedmace
+	name = "Flanged Mace"
+	cost = 70 // 2 Steel Ingots
+	contains = list(
+					/obj/item/rogueweapon/mace/cudgel/flanged,
 				)
 
 /datum/supply_pack/rogue/steel_weapons/longsword
@@ -102,6 +136,13 @@
 	cost = 70 // 2 Steel Ingot
 	contains = list(
 					/obj/item/rogueweapon/sword/long/kriegmesser,
+				)
+
+/datum/supply_pack/rogue/steel_weapons/broadsword
+	name = "Broadsword"
+	cost = 75 // 2 Steel Ingot + 1 Small Log
+	contains = list(
+					/obj/item/rogueweapon/sword/long/broadsword/steel,
 				)
 
 /datum/supply_pack/rogue/steel_weapons/battleaxe
@@ -125,25 +166,18 @@
 					/obj/item/rogueweapon/greatsword,
 				)
 
-/datum/supply_pack/rogue/steel_weapons/zweihander
-	name = "Zweihander"
-	cost = 105 // 3 Steel Ingot
-	contains = list(
-					/obj/item/rogueweapon/greatsword/grenz,
-				)
-
-/datum/supply_pack/rogue/steel_weapons/flamberge
-	name = "Steel Flamberge"
-	cost = 105
-	contains = list(
-		/obj/item/rogueweapon/greatsword/grenz/flamberge
-	)
-
 /datum/supply_pack/rogue/steel_weapons/estoc
 	name = "Estoc"
 	cost = 70 // 2 Steel Ingot
 	contains = list(
 					/obj/item/rogueweapon/estoc,
+				)
+
+/datum/supply_pack/rogue/steel_weapons/aplongsword
+	name = "Stecher"
+	cost = 75 // 2 Steel Ingot, 1 Small Log
+	contains = list(
+					/obj/item/rogueweapon/sword/long/ap,
 				)
 
 /datum/supply_pack/rogue/steel_weapons/greataxe
@@ -234,11 +268,4 @@
 	cost = 40 // 1 Steel Ingot
 	contains = list(
 					/obj/item/rogueweapon/sword/falx,
-				)
-
-/datum/supply_pack/rogue/steel_weapons/glaive
-	name = "Glaive"
-	cost = 105 // 3 Steel Ingot, 1 Small Log
-	contains = list(
-					/obj/item/rogueweapon/halberd/glaive,
 				)

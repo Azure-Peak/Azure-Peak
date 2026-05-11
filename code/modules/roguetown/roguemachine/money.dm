@@ -121,10 +121,12 @@ GLOBAL_VAR(moneymaster)
 							budget -= 1
 		update_icon()
 
-/obj/structure/roguemachine/proc/budget2change(budget, mob/user, specify)
+/proc/budget2change(budget, mob/user, specify, putinhands = TRUE, custom_turf = FALSE)
 	var/turf/T
-	if(!user || (!ismob(user)))
-		T = get_turf(src)
+	if(!ismob(user) && !custom_turf)
+		CRASH("budget2change called without a valid user or custom turf.")
+	if(custom_turf)
+		T = custom_turf
 	else
 		T = get_turf(user)
 	if(!budget || budget <= 0)
@@ -166,7 +168,7 @@ GLOBAL_VAR(moneymaster)
 				while(zenars > 0)
 					var/stack_size = min(zenars, 20)
 					var/obj/item/roguecoin/silver_stack = new /obj/item/roguecoin/silver(T, stack_size)
-					if(user && zenars == stack_size) // Only put first stack in hands
+					if(user && zenars == stack_size && putinhands) // Only put first stack in hands
 						user.put_in_hands(silver_stack)
 					zenars -= stack_size
 		if(budget >= 1)
@@ -178,7 +180,7 @@ GLOBAL_VAR(moneymaster)
 				while(budget > 0)
 					var/stack_size = min(budget, 20)
 					var/obj/item/roguecoin/copper_stack = new /obj/item/roguecoin/copper(T, stack_size)
-					if(user && budget == stack_size) // Only put first stack in hands
+					if(user && budget == stack_size && putinhands) // Only put first stack in hands
 						user.put_in_hands(copper_stack)
 					budget -= stack_size
 	if(!type_to_put || zenars_to_put < 1)
@@ -187,7 +189,7 @@ GLOBAL_VAR(moneymaster)
 	while(zenars_to_put > 0)
 		var/stack_size = min(zenars_to_put, 20)
 		var/obj/item/roguecoin/G = new type_to_put(T, stack_size)
-		if(user && zenars_to_put == stack_size) // Only put first stack in hands
+		if(user && zenars_to_put == stack_size && putinhands) // Only put first stack in hands
 			user.put_in_hands(G)
 		zenars_to_put -= stack_size
 	playsound(T, 'sound/misc/coindispense.ogg', 100, FALSE, -1)
@@ -204,7 +206,8 @@ GLOBAL_VAR(moneymaster)
 */
 /obj/structure/roguemachine/money/obj_break(damage_flag)
 	..()
-	budget2change(budget)
+	var/turf/T = get_turf(src)
+	budget2change(budget, custom_turf = T)
 	budget = 0
 	update_icon()
 
@@ -217,7 +220,8 @@ GLOBAL_VAR(moneymaster)
 
 /obj/structure/roguemachine/money/Destroy()
 	set_light(0)
-	budget2change(budget)
+	var/turf/T = get_turf(src)
+	budget2change(budget, custom_turf = T)
 	budget = 0
 	return ..()
 

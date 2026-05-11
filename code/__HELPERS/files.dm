@@ -24,7 +24,7 @@
 	return file2text(filepath)
 
 
-/client/proc/browse_files(root="data/logs/", max_iterations=10, list/valid_extensions=list("txt","log","htm", "html"))
+/client/proc/browse_files(root="data/logs/", max_iterations=10, list/valid_extensions=list("txt","log","htm", "html", "json"))
 	var/path = root
 
 	for(var/i=0, i<max_iterations, i++)

@@ -45,7 +45,7 @@
 	victim.blood_volume = max(victim.blood_volume - 5, 0)
 	victim.handle_blood()
 
-	playsound(loc, 'sound/misc/drink_blood.ogg', 100, FALSE, -4)
+	playsound(loc, 'sound/misc/drink_blood.ogg', vol = 50, vary = FALSE, extrarange = -4, ignore_walls = FALSE, quiet = TRUE)
 
 	SEND_SIGNAL(src, COMSIG_LIVING_DRINKED_LIMB_BLOOD, victim)
 	victim.visible_message(span_danger("[src] drinks from [victim]'s [parse_zone(sublimb_grabbed)]!"), \
@@ -75,6 +75,8 @@
 
 	if(HAS_TRAIT(victim, TRAIT_CLERGY) || HAS_TRAIT(victim, TRAIT_INQUISITION))
 		blood_handle |= BLOOD_PREFERENCE_HOLY
+	if(HAS_TRAIT(victim, TRAIT_CLERGY) || HAS_TRAIT(victim, TRAIT_INQUISITION) || HAS_TRAIT(victim, TRAIT_NOBLE))
+		blood_handle |= BLOOD_PREFERENCE_FANCY //More variety
 	if(VVictim)
 		blood_handle |= BLOOD_PREFERENCE_KIN
 		blood_handle  &= ~BLOOD_PREFERENCE_LIVING
@@ -130,6 +132,12 @@
 					if(HAS_TRAIT_FROM(victim, TRAIT_REFUSED_VAMP_CONVERT, REF(src)))
 						to_chat(src, span_warning("[victim] has already refused your offer to sire them."))
 						return
+
+					if(victim.stat == DEAD) // If you accept the prompt as a corpse, you get turned into a corpse vampire, which RR's you pretty much
+						return FALSE
+
+					if(HAS_TRAIT(victim, TRAIT_UNLYCKERABLE))
+						return FALSE
 
 					var/mob/living/carbon/human/H = victim
 					if(H.vampire_conversion_prompt_active)

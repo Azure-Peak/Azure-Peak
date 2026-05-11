@@ -1,5 +1,6 @@
 
 /mob/living/simple_animal/hostile/retaliate/rogue/infernal/hellhound
+	threat_point = THREAT_MODERATE
 	icon = 'icons/mob/summonable/32x32.dmi'
 	name = "hell hound"
 	desc = "This is a canine-shaped creature formed of billowing heat and snaking flames! Its maw resembles a furnace; \
@@ -18,7 +19,8 @@
 	move_to_delay = 3
 	base_intents = list(/datum/intent/simple/bite)
 	butcher_results = list()
-	faction = list("infernal")
+	death_loot = list(/obj/item/magic/infernal/fang = 2)
+	faction = list(FACTION_INFERNAL)
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
 	health = 270
 	maxHealth = 270
@@ -41,7 +43,7 @@
 	defprob = 40
 	candodge = TRUE
 	// del_on_deaggro = 44 SECONDS
-	retreat_health = 0.3
+	retreat_health = 0
 	food = 0
 	attack_sound = list('sound/vo/mobs/vw/attack (1).ogg','sound/vo/mobs/vw/attack (2).ogg','sound/vo/mobs/vw/attack (3).ogg','sound/vo/mobs/vw/attack (4).ogg')
 	dodgetime = 30
@@ -54,14 +56,6 @@
 
 /mob/living/simple_animal/hostile/retaliate/rogue/infernal/hellhound/death(gibbed)
 	..()
-	var/turf/deathspot = get_turf(src)
-	new /obj/item/magic/infernal/fang(deathspot)
-	new /obj/item/magic/infernal/fang(deathspot)
-	new /obj/item/magic/infernal/fang(deathspot)
-	new /obj/item/magic/infernal/fang(deathspot)
-	new /obj/item/magic/infernal/ash(deathspot)
-	new /obj/item/magic/infernal/ash(deathspot)
-	new /obj/item/magic/infernal/ash(deathspot)
 	update_icon()
 	spill_embedded_objects()
 	qdel(src)
@@ -78,7 +72,7 @@
 		var/mob/living/targetted = target
 		if(!isliving(target))
 			return
-		targetted.adjust_fire_stacks(5)
+		targetted.adjust_fire_stacks(3)
 		targetted.ignite_mob()
 		targetted.visible_message(span_danger("[src] sets [target] on fire!"))
 		src.flame_cd = world.time

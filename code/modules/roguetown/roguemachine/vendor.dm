@@ -1,6 +1,7 @@
 /obj/structure/roguemachine/vendor
 	name = "PEDDLER"
-	desc = "A half-alive magitech vending machine. The stomach of this thing can be stuffed with fun things to buy."
+	desc = "A half-alive magitech vending machine. The stomach of this thing can be stuffed with fun things to buy. Be mindful, however; for while its favorite snack is coinage, the limits of \
+	its diet is set by another."
 	icon = 'icons/roguetown/misc/machines.dmi'
 	icon_state = "streetvendor1"
 	density = TRUE
@@ -17,6 +18,11 @@
 	var/next_hawk = 0
 	var/will_hawk = TRUE
 	var/max_items = 30
+
+/obj/structure/roguemachine/vendor/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Owners of the storefront's PEDDLER can unlock it, allowing them both restock wares and vend whatever coinage might've been earned from completed sales.")
+	. += span_info("Left-clicking a PEDDLER with an open land allows you to browse and purchase its wares. Click on the 'Stored Mammons' option to retrieve any coinage or change left behind.")
 
 /obj/structure/roguemachine/vendor/proc/get_group_items(var/param)
 	// Accepts either:
@@ -276,7 +282,8 @@
 	for(var/obj/item/I in held_items)
 		I.forceMove(src.loc)
 		held_items -= I
-	budget2change(budget)
+	var/turf/T = get_turf(src)
+	budget2change(budget, custom_turf = T)
 	set_light(0)
 	update_icon()
 	icon_state = "streetvendor0"
@@ -423,5 +430,110 @@
 		var/obj/P = new X(src)
 		held_items[P] = list()
 		held_items[P]["NAME"] = P.name
-		held_items[P]["PRICE"] = 30
+		held_items[P]["PRICE"] = 100 // relatively expensive, but cheaper than importing a whole mount
 	update_icon()
+
+/obj/structure/roguemachine/vendor/church_bedroomset_one //contains the keys to the church bedrooms, better visually than having them on a table
+	keycontrol = "priest"
+	will_hawk = FALSE
+
+/obj/structure/roguemachine/vendor/church_bedroomset_one/Initialize()
+	. = ..()
+
+	for (var/X in list(/obj/item/roguekey/church/roomi, /obj/item/roguekey/church/roomii, /obj/item/roguekey/church/roomiii, /obj/item/roguekey/church/roomiv, /obj/item/roguekey/church/roomv))
+		var/obj/P = new X(src)
+		held_items[P] = list()
+		held_items[P]["NAME"] = P.name
+		held_items[P]["PRICE"] = 0
+
+/obj/structure/roguemachine/vendor/church_bedroomset_two //contains the keys to the church bedrooms, better visually than having them on a table
+	keycontrol = "priest"
+	will_hawk = FALSE
+
+/obj/structure/roguemachine/vendor/church_bedroomset_two/Initialize()
+	. = ..()
+
+	for (var/X in list(/obj/item/roguekey/church/roomvi, /obj/item/roguekey/church/roomvii, /obj/item/roguekey/church/roomviii, /obj/item/roguekey/church/roomix, /obj/item/roguekey/church/roomx))
+		var/obj/P = new X(src)
+		held_items[P] = list()
+		held_items[P]["NAME"] = P.name
+		held_items[P]["PRICE"] = 0
+
+/obj/structure/roguemachine/vendor/keep_knights
+	keycontrol = "lord"
+	will_hawk = FALSE
+
+/obj/structure/roguemachine/vendor/keep_knights/Initialize()
+	. = ..()
+
+	for (var/X in list(/obj/item/roguekey/manor/knight, /obj/item/roguekey/manor/knight/two, /obj/item/roguekey/manor/knight/three, /obj/item/roguekey/manor/knight/four))
+		var/obj/P = new X(src)
+		held_items[P] = list()
+		held_items[P]["NAME"] = P.name
+		held_items[P]["PRICE"] = 0
+
+/obj/structure/roguemachine/vendor/keep_princes
+	keycontrol = "lord"
+	will_hawk = FALSE
+
+/obj/structure/roguemachine/vendor/keep_princes/Initialize()
+	. = ..()
+
+	for (var/X in list(/obj/item/roguekey/heir/one, /obj/item/roguekey/heir/two))
+		var/obj/P = new X(src)
+		held_items[P] = list()
+		held_items[P]["NAME"] = P.name
+		held_items[P]["PRICE"] = 0
+
+/obj/structure/roguemachine/vendor/keep_councillors
+	keycontrol = "lord"
+	will_hawk = FALSE
+
+/obj/structure/roguemachine/vendor/keep_councillors/Initialize()
+	. = ..()
+
+	for (var/X in list(/obj/item/roguekey/manor/councillor, /obj/item/roguekey/manor/councillor/two, /obj/item/roguekey/manor/councillor/three))
+		var/obj/P = new X(src)
+		held_items[P] = list()
+		held_items[P]["NAME"] = P.name
+		held_items[P]["PRICE"] = 0
+
+/obj/structure/roguemachine/vendor/keep_guests
+	keycontrol = "lord"
+	will_hawk = FALSE
+
+/obj/structure/roguemachine/vendor/keep_guests/Initialize()
+	. = ..()
+
+	for (var/X in list(/obj/item/storage/keyring/manor/guest/one, /obj/item/storage/keyring/manor/guest/two, /obj/item/storage/keyring/manor/guest/three, /obj/item/storage/keyring/manor/guest/four))
+		var/obj/P = new X(src)
+		held_items[P] = list()
+		held_items[P]["NAME"] = P.name
+		held_items[P]["PRICE"] = 0
+
+/obj/structure/roguemachine/vendor/keep_squire
+	keycontrol = "lord"
+	will_hawk = FALSE
+
+/obj/structure/roguemachine/vendor/keep_squire/Initialize()
+	. = ..()
+
+	for (var/X in list(/obj/item/roguekey/manor/squire, /obj/item/roguekey/manor/squire/two, /obj/item/roguekey/manor/squire/three, /obj/item/roguekey/manor/squire/four))
+		var/obj/P = new X(src)
+		held_items[P] = list()
+		held_items[P]["NAME"] = P.name
+		held_items[P]["PRICE"] = 0
+
+
+/obj/structure/roguemachine/vendor/keep_servant
+	keycontrol = "lord"
+	will_hawk = FALSE
+
+/obj/structure/roguemachine/vendor/keep_servant/Initialize()
+	. = ..()
+
+	for (var/X in list(/obj/item/roguekey/manor/servant, /obj/item/roguekey/manor/servant/two, /obj/item/roguekey/manor/servant/three, /obj/item/roguekey/manor/servant/four, /obj/item/roguekey/manor/servant/five, /obj/item/roguekey/manor/servant/six))
+		var/obj/P = new X(src)
+		held_items[P] = list()
+		held_items[P]["NAME"] = P.name
+		held_items[P]["PRICE"] = 0

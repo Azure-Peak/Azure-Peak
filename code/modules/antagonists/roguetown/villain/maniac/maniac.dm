@@ -25,6 +25,7 @@
 		TRAIT_NOPAINSTUN,
 		TRAIT_STEELHEARTED,
 		TRAIT_NOMOOD,
+		TRAIT_DETACHED,
 		TRAIT_HARDDISMEMBER,
 		TRAIT_NOSLEEP,
 		TRAIT_SHOCKIMMUNE,
@@ -45,7 +46,7 @@
 	var/STAWIL
 	/// Weapons we can give to the dreamer
 	var/static/list/possible_weapons = list(
-		/obj/item/rogueweapon/huntingknife/cleaver,
+		/obj/item/rogueweapon/huntingknife/chefknife/cleaver,
 		/obj/item/rogueweapon/huntingknife/combat,
 		/obj/item/rogueweapon/huntingknife/idagger/steel/special,
 	)

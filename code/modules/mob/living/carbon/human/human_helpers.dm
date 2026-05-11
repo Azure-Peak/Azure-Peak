@@ -1,6 +1,7 @@
 
 /mob/living/carbon/human/proc/change_name(new_name)
 	real_name = new_name
+	SStreasury?.rename_account(src, new_name)
 
 /mob/living/carbon/human/restrained(ignore_grab = TRUE)
 	. = ((wear_armor && wear_armor.breakouttime) || ..())
@@ -44,6 +45,8 @@
 		return face_name
 	if(id_name)
 		return id_name
+	if(HAS_TRAIT(src, TRAIT_DECEIVING_MEEKNESS) && !show_descriptors)
+		return "Unknown"
 	var/list/d_list = get_mob_descriptors()
 	var/trait_desc = "[capitalize(build_coalesce_description_nofluff(d_list, src, list(MOB_DESCRIPTOR_SLOT_TRAIT), "%DESC1%"))]"
 	var/stature_desc = "[capitalize(build_coalesce_description_nofluff(d_list, src, list(MOB_DESCRIPTOR_SLOT_STATURE), "%DESC1%"))]"
@@ -63,7 +66,7 @@
 	if( istype(src, /mob/living/carbon/human/species/skeleton)) //SPOOKY BONES
 		return real_name
 	var/obj/item/bodypart/O = get_bodypart(BODY_ZONE_HEAD)
-	if( !O || (HAS_TRAIT(src, TRAIT_DISFIGURED)) || !real_name || (O.skeletonized && !mind?.has_antag_datum(/datum/antagonist/lich)))	//disfigured. use id-name if possible
+	if( !O || (HAS_TRAIT(src, TRAIT_DISFIGURED)) || !real_name || (O.skeletonized && !HAS_TRAIT(src, TRAIT_FACELESS_KNOWN) && !mind?.has_antag_datum(/datum/antagonist/lich)))	//disfigured. use id-name if possible
 		return if_no_face
 	return real_name
 
@@ -117,28 +120,30 @@
 		return TRUE
 
 /mob/living/carbon/human/get_punch_dmg()
+	var/damage = UNARMED_DAMAGE_DEFAULT
 
-	var/damage
-	if(STASTR > UNARMED_DAMAGE_DEFAULT || STASTR < 10)
-		damage = STASTR
-	else
-		damage = UNARMED_DAMAGE_DEFAULT
+	if(HAS_TRAIT(src, TRAIT_CIVILIZEDBARBARIAN))
+		damage += UNARMED_DAMAGE_CIVILBARB
 
 	var/used_str = STASTR
-
-	var/obj/G = get_item_by_slot(SLOT_GLOVES)
 	if(domhand)
 		used_str = get_str_arms(used_hand)
 
 	if(used_str >= 11)
-		damage = max(damage + (damage * ((used_str - 10) * 0.3)), 1)
-
-	if(used_str <= 9)
+		var/strmod
+		if(used_str > STRENGTH_SOFTCAP && !HAS_TRAIT(src, TRAIT_STRENGTH_UNCAPPED))
+			strmod = ((STRENGTH_SOFTCAP - 10) * STRENGTH_MULT)
+			strmod += ((used_str - STRENGTH_SOFTCAP) * STRENGTH_CAPPEDMULT)
+		else
+			strmod = ((used_str - 10) * STRENGTH_MULT)
+		damage = damage + (damage * strmod)
+	else if(used_str <= 9)
 		damage = max(damage - (damage * ((10 - used_str) * 0.1)), 1)
 
+	var/obj/G = get_item_by_slot(SLOT_GLOVES)
 	if(istype(G, /obj/item/clothing/gloves/roguetown))
 		var/obj/item/clothing/gloves/roguetown/GL = G
-		damage = (damage * GL.unarmed_bonus)
+		damage += GL.unarmed_bonus
 
 	if(mind)
 		if(mind.has_antag_datum(/datum/antagonist/werewolf))

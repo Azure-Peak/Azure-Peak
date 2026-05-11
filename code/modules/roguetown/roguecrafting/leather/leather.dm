@@ -54,6 +54,20 @@
 	sellprice = 20
 	craftdiff = 3
 
+/datum/crafting_recipe/roguetown/leather/heavyglovesphys
+	name = "heavy leather gloves, physicker's"
+	result = /obj/item/clothing/gloves/roguetown/angle/phys
+	reqs = list(/obj/item/natural/fur = 1)
+	sellprice = 30
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/leather/heavyglovesfeld
+	name = "heavy leather gloves, feldsher's"
+	result = /obj/item/clothing/gloves/roguetown/angle/feld
+	reqs = list(/obj/item/natural/fur = 1)
+	sellprice = 30
+	craftdiff = 4
+
 /datum/crafting_recipe/roguetown/leather/fingerless_leather_gloves
 	name = "fingerless leather gloves"
 	result = /obj/item/clothing/gloves/roguetown/fingerless_leather
@@ -244,4 +258,14 @@
 		/obj/item/natural/hide/cured = 2
 	)
 	result = /obj/item/clothing/shoes/courtphysician/female
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/leather/belt
+	name = "suspenders"
+	reqs = list(
+		/obj/item/natural/hide/cured = 1,
+		/obj/item/natural/cloth = 2,
+		/obj/item/natural/fibers = 1,
+	)
+	result = /obj/item/storage/belt/rogue/leather/suspenders
 	craftdiff = 3

@@ -133,7 +133,6 @@
 	l_sleeve_status = SLEEVE_NORMAL
 	armor_class = ARMOR_CLASS_LIGHT
 	blocksound = SOFTUNDERHIT
-	blade_dulling = DULLING_BASHCHOP
 	armor = ARMOR_PADDED
 
 	repairmsg_begin = "My skin begins to slowly mend its abuse.."
@@ -154,12 +153,68 @@
 
 /obj/item/clothing/suit/roguetown/armor/regenerating/skin/disciple
 	name = "disciple's skin"
-	desc = "It's far more than just an oath. </br>'AEON, PSYDON, ADONAI - ENTROPY, HUMENITY, DIVINITY. A TRINITY THAT IS ONE, \
-	YET THREE; KNOWN BY ALL, YET FORGOTTEN TO TYME.' </br>'A CORPSE. \
-	I AM LIVING ON A FUCKING CORPSE. HE IS THE WORLD, AND THE WORLD IS ROTTING AWAY. \
-	HEAVEN CLOSED ITS GATES TO US, LONG AGO.' </br>'YET, HIS CHILDREN PERSIST; AND AS LONG AS THEY DO, SO MUST I. \
-	HAPPINESS MUST BE FOUGHT FOR.'"
-	armor = list("blunt" = 30, "slash" = 50, "stab" = 50, "piercing" = 20, "fire" = 0, "acid" = 0) //Custom value; padded gambeson's slash- and stab- armor.
-	prevent_crits = list(BCLASS_CUT, BCLASS_BLUNT)
-	max_integrity = 300
+	desc = "It's far more than just an oath. \
+	</br>Aeon, Psydon, Adonai. Entropy, Humenity, Divinity; a trinity known to all, yet forgotten to tyme. \
+	</br>A corpse. I am living on a fucking corpse. He is the world, and the world is rotting away. \
+	</br>To give into despair and hopelessness, however, is to rob all meaning from His sacrifice. \
+	</br>Heaven's gate closed to us long ago, yet His children persist; as as long as they do, so must I. \
+	</br>Happiness must be fought for."
+	armor = ARMOR_PADDED
+	max_integrity = 400
 	repair_time = 20 SECONDS
+
+/obj/item/clothing/suit/roguetown/armor/regenerating/skin/iconoclast
+	name = "dragon's skin"
+	desc = "We passed upon the stair, we spoke of was and when.</br> \
+	Although I wasn't there, he said I was his friend.</br> \
+	Which came as some surprise. I spoke into his eyes.</br> \
+	I thought you died alone, a long, long time ago.</br> \
+	Oh no, not me, I never lost control.</br> \
+	You're face to face, with the man who sold the world."
+	armor = ARMOR_DRAGONSKIN
+	max_integrity = 450
+	repair_time = 20 SECONDS
+
+/obj/item/clothing/suit/roguetown/armor/regenerating/skin/disciple/barbarian
+	name = "barbarian's skin"
+	desc = "Toughened from abuse. My mettle remains."
+	max_integrity = 200
+	repair_time = 25 SECONDS
+
+/obj/item/clothing/suit/roguetown/armor/regenerating/skin/disciple/berserker
+	name = "berserker's skin"
+	desc = "I've endured enough. The onslaught has lost its meaning."
+	armor = ARMOR_LEATHER
+
+/obj/item/clothing/suit/roguetown/armor/regenerating/skin/disciple/bailiff
+	name = "executioneer's skin"
+	desc = "Bearing scars of countless whips leaves a gnarly visage. Now it's your time to inflict the same fate upon others."
+	max_integrity = 250
+
+/obj/item/clothing/suit/roguetown/armor/regenerating/skin/easttats
+	name = "bouhoi bujeog tattoos"
+	desc = "A mystic style of tattoos adopted by the Ruma Clan, emulating a practice performed by warrior monks of the Xinyi Dynasty. They are your way of identifying fellow clan members, a sign of companionship and secretive brotherhood. These are styled into the shape of clouds, created by a mystical ink which shifts and moves in ripples like a pond to harden where your skin is struck. Its movement causes you to shudder."
+	resistance_flags = FIRE_PROOF
+	icon_state = "easttats"
+	armor = ARMOR_PLATE
+	body_parts_covered = COVERAGE_NEARLY_FULL
+	body_parts_inherent = COVERAGE_NEARLY_FULL
+	icon = 'icons/roguetown/clothing/shirts.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/shirts.dmi'
+	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_shirts.dmi'
+	allowed_race = NON_DWARVEN_RACE_TYPES
+	max_integrity = 350
+
+	repairmsg_begin = "The tattoos begin to slowly mend their abuse..."
+	repairmsg_continue = "The tattoos mend some of their abuse..."
+	repairmsg_stop = "The tattoos stops mending from the onslaught!"
+	repairmsg_end = "The tattoos flow more calmly, as they finish resting and regain their strength."
+
+	interrupt_damount = 20
+	repair_time = 30 SECONDS
+
+/obj/item/clothing/suit/roguetown/armor/regenerating/skin/disciple/gladiator
+	name = "gladiator's skin"
+	desc = "Are you not entertained?!"
+	max_integrity = 200
+	repair_time = 25 SECONDS

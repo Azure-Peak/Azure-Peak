@@ -10,6 +10,7 @@
 	icon_gib = "saiga_gib"
 	gender = FEMALE
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
+	blood_toll_bucket = STATS_KILLED_GREATER_BEASTS
 	emote_see = list("looks around.", "chews some leaves.")
 	speak_chance = 1
 	turns_per_move = 5
@@ -36,11 +37,11 @@
 						/obj/item/natural/bundle/bone/full = 1,
 						/obj/item/alch/sinew = 3,
 						/obj/item/alch/bone = 1,
-						/obj/item/alch/viscera = 2,
-						/obj/item/natural/head/saiga = 1)
+						/obj/item/alch/viscera = 2)
+	head_butcher = /obj/item/natural/head/saiga
 	base_intents = list(/datum/intent/simple/headbutt/saiga)
-	health = 156
-	maxHealth = 156
+	health = 400
+	maxHealth = 400
 	food_type = list(
 				/obj/item/reagent_containers/food/snacks/grown/wheat,
 				/obj/item/reagent_containers/food/snacks/grown/oat,
@@ -50,11 +51,11 @@
 	bonus_tame_chance = 15
 	footstep_type = FOOTSTEP_MOB_SHOE
 	pooptype = /obj/item/natural/poo/horse
-	faction = list("saiga")
+	faction = list(FACTION_SAIGA)
 	attack_verb_continuous = "headbutts"
 	attack_verb_simple = "headbutt"
-	melee_damage_lower = 10
-	melee_damage_upper = 25
+	melee_damage_lower = 60
+	melee_damage_upper = 90
 	retreat_distance = 10
 	minimum_distance = 10
 	rapid_melee = 1
@@ -70,6 +71,7 @@
 	can_buckle = TRUE
 	buckle_lying = 0
 	can_saddle = TRUE
+	max_buckled_mobs = 2
 	aggressive = 1
 	remains_type = /obj/effect/decal/remains/saiga
 
@@ -112,13 +114,9 @@
 	speak_chance = 1
 	turns_per_move = 3
 	see_in_dark = 6
-	faction = list("saiga")
+	faction = list(FACTION_SAIGA)
 	attack_verb_continuous = "headbutts"
 	attack_verb_simple = "headbutt"
-	health = 400
-	maxHealth = 400
-	melee_damage_lower = 60
-	melee_damage_upper = 90
 	environment_smash = ENVIRONMENT_SMASH_NONE
 	retreat_distance = 0
 	minimum_distance = 0
@@ -184,25 +182,13 @@
 	cut_overlays()
 	..()
 	if(stat != DEAD)
-		if(ssaddle)
-			var/mutable_appearance/saddlet = mutable_appearance(icon, gender == FEMALE ? "saddle-f-above" : "saddle-above", 4.3)
-			add_overlay(saddlet)
-			saddlet = mutable_appearance(icon, gender == FEMALE ? "saddle-f" : "saddle")
-			add_overlay(saddlet)
-		if(has_buckled_mobs())
-			var/mutable_appearance/mounted = mutable_appearance(icon, gender == FEMALE ? "saiga_mounted" : "buck_mounted", 4.3)
-			add_overlay(mounted)
+		add_saddleicon(gender == FEMALE ? "saddle-f-above" : "saddle-above", gender == FEMALE ? "saddle-f" : "saddle")
+		add_ridericon(gender == FEMALE ? "saiga_mounted" : "buck_mounted")
 
 /mob/living/simple_animal/hostile/retaliate/rogue/saiga/tamed()
 	..()
 	deaggroprob = 30
-	if(can_buckle)
-		var/datum/component/riding/D = LoadComponent(/datum/component/riding/no_ocean)
-		D.set_riding_offsets(RIDING_OFFSET_ALL, list(TEXT_NORTH = list(0, 8), TEXT_SOUTH = list(0, 8), TEXT_EAST = list(-2, 8), TEXT_WEST = list(2, 8)))
-		D.set_vehicle_dir_layer(SOUTH, ABOVE_MOB_LAYER)
-		D.set_vehicle_dir_layer(NORTH, OBJ_LAYER)
-		D.set_vehicle_dir_layer(EAST, OBJ_LAYER)
-		D.set_vehicle_dir_layer(WEST, OBJ_LAYER)
+	setup_mount()
 
 /mob/living/simple_animal/hostile/retaliate/rogue/saiga/death()
 	unbuckle_all_mobs()
@@ -215,8 +201,12 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/saiga/proc/check_sprint_dismount()
 	SIGNAL_HANDLER
 	for(var/mob/living/carbon/human/rider in buckled_mobs)
-		if(rider.m_intent == MOVE_INTENT_RUN)
-			violent_dismount(rider)
+		if(rider.m_intent != MOVE_INTENT_RUN)
+			continue
+		var/rider_skill = rider.get_skill_level(/datum/skill/misc/riding)
+		if(rider_skill >= SKILL_LEVEL_MASTER)
+			continue
+		violent_dismount(rider)
 
 /mob/living/simple_animal/hostile/retaliate/rogue/saiga/post_buckle_mob(mob/living/M)
 	. = ..()

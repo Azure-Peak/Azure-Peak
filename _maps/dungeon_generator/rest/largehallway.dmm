@@ -21,7 +21,7 @@
 /turf/open/floor/rogue/ruinedwood/turned,
 /area/rogue/under/tomb/cave)
 "k" = (
-/obj/item/reagent_containers/food/snacks/rogue/crackerscooked,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
 /obj/structure/table/wood{
 	icon_state = "tablewood1"
 	},

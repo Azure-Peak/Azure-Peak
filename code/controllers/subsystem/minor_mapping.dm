@@ -10,14 +10,14 @@ SUBSYSTEM_DEF(minor_mapping)
 //	place_sunlight()
 	return ..()
 
-/proc/find_sun_suitable_turfs()
-	var/list/suitable = list()
+// /proc/find_sun_suitable_turfs()
+// 	var/list/suitable = list()
 
-	for(var/z in SSmapping.levels_by_trait(ZTRAIT_STATION))
-		for(var/t in block(locate(1,1,z), locate(world.maxx,world.maxy,z)))
-			if(isfloorturf(t))
-				var/area/A = get_area(t)
-				if(istype(A, /area/rogue/outdoors))
-					suitable += t
+// 	for(var/z in SSmapping.levels_by_trait(ZTRAIT_STATION))
+// 		for(var/t in block(locate(1,1,z), locate(world.maxx,world.maxy,z)))
+// 			if(isfloorturf(t))
+// 				var/area/A = get_area(t)
+// 				if(istype(A, /area/rogue/outdoors))
+// 					suitable += t
 
-	return shuffle(suitable)
+// 	return shuffle(suitable)

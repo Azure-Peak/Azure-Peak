@@ -2,7 +2,7 @@
 	name = "Confessor"
 	tutorial = "Psydonite hunters, unmatched in the fields of subterfuge and investigation. There is no suspect too powerful to investigate, no room too guarded to infiltrate, and no weakness too hidden to exploit."
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = RACES_ALL_KINDS
+	
 	outfit = /datum/outfit/job/roguetown/confessor
 	category_tags = list(CTAG_ORTHODOXIST)
 	subclass_languages = list(/datum/language/otavan)
@@ -31,6 +31,7 @@
 		/datum/skill/misc/lockpicking = SKILL_LEVEL_MASTER,
 		/datum/skill/misc/tracking = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/crossbows = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/knives = SKILL_LEVEL_EXPERT
 	)
 	subclass_stashed_items = list(
 		"Tome of Psydon" = /obj/item/book/rogue/bibble/psy
@@ -43,21 +44,24 @@
 /datum/outfit/job/roguetown/confessor/pre_equip(mob/living/carbon/human/H, visualsOnly)
 	..()
 	if(H.mind)
-		var/weapons = list("Blessed Psydonic Dagger", "Psydonic Handmace", "Psydonic Shortsword")
+		var/weapons = list("Psydonic Handmace - Swift-Balanced", "Psydonic Rapier", "Psydonic Shortsword", "Psydonic Flanged Mace - Heavy-Balanced")
 		var/weapon_choice = input(H,"Choose your WEAPON.", "TAKE UP PSYDON'S ARMS.") as anything in weapons
 		switch(weapon_choice)
-			if("Blessed Psydonic Dagger")
-				l_hand = /obj/item/rogueweapon/huntingknife/idagger/silver/psydagger
-				r_hand = /obj/item/rogueweapon/scabbard/sheath
-				H.adjust_skillrank_up_to(/datum/skill/combat/knives, 4, TRUE)
-			if("Psydonic Handmace")
-				l_hand = /obj/item/rogueweapon/mace/cudgel/psy
+			if("Psydonic Handmace - Swift-Balanced")
+				l_hand = /obj/item/rogueweapon/mace/cudgel/psyclassic
 				H.adjust_skillrank_up_to(/datum/skill/combat/maces, 4, TRUE)	
+			if("Psydonic Rapier")
+				l_hand = /obj/item/rogueweapon/sword/rapier/psy
+				r_hand = /obj/item/rogueweapon/scabbard/sword
+				H.adjust_skillrank_up_to(/datum/skill/combat/swords, 4, TRUE)
 			if("Psydonic Shortsword")
 				l_hand = /obj/item/rogueweapon/sword/short/psy
 				r_hand = /obj/item/rogueweapon/scabbard/sword
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, 4, TRUE)
-		var/armors = list("Confessor - Slurbow, Leather Maillecoat", "Arbalist - Crossbow, Psydonic Chestplate")
+			if("Psydonic Flanged Mace - Heavy-Balanced")
+				l_hand = /obj/item/rogueweapon/mace/cudgel/psy
+				H.adjust_skillrank_up_to(/datum/skill/combat/maces, 4, TRUE)	
+		var/armors = list("Confessor - Slurbow, Leather Maillecoat", "Arbalist - Crossbow, Psydonic Chestplate, Pushup Armour")
 		var/armor_choice = input(H, "Choose your ARCHETYPE.", "TAKE UP PSYDON'S DUTY.") as anything in armors
 		switch(armor_choice)
 			if("Confessor - Slurbow, Leather Maillecoat")
@@ -65,9 +69,11 @@
 				armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat/confessor
 				shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/inq
 				backl = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/slurbow
-			if("Arbalist - Crossbow, Psydonic Chestplate")
+				beltl = /obj/item/quiver/bolt/light
+			if("Arbalist - Crossbow, Psydonic Chestplate, Pushup Armour")
 				head = /obj/item/clothing/head/roguetown/headband/bloodied
 				armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fencer/psydon
+				shirt = /obj/item/clothing/suit/roguetown/armor/manual/sewable/confessor
 				backl = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
 				REMOVE_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
 				H.adjust_skillrank_up_to(/datum/skill/combat/crossbows, 5, TRUE)
@@ -75,13 +81,13 @@
 				H.change_stat(STATKEY_STR, 2)
 				H.change_stat(STATKEY_PER, 1) //Applies a base statblock of 11/11/11/13 to CON, STR, SPD and PER - compared to the standard 10/9/13/12 + DODGE EXPERT. Physically adept and capable of higher ranged damage..
 				H.change_stat(STATKEY_SPD, -2) //..but with a massive loss to mobility and damage evasion, alongside the naturally low defense of their sidearms.
-		var/quivers = list("Bolts - Steel-Tipped", "Sunderbolts - Silver-Tipped, Halved Damage")
-		var/boltchoice = input(H,"Choose your MUNITIONS.", "TAKE UP PSYDON'S MISSILES.") as anything in quivers
-		switch(boltchoice)
-			if("Bolts - Steel-Tipped")
-				beltl = /obj/item/quiver/bolts
-			if("Sunderbolts - Silver-Tipped, Halved Damage")
-				beltl = /obj/item/quiver/holybolts
+				var/quivers = list("Bolts - Steel-Tipped", "Sunderbolts - Silver-Tipped, Halved Damage")
+				var/boltchoice = input(H,"Choose your MUNITIONS.", "TAKE UP PSYDON'S MISSILES.") as anything in quivers
+				switch(boltchoice)
+					if("Bolts - Steel-Tipped")
+						beltl = /obj/item/quiver/bolt/standard
+					if("Sunderbolts - Silver-Tipped, Halved Damage")
+						beltl = /obj/item/quiver/bolt/holy
 
 	cloak = /obj/item/storage/backpack/rogue/satchel/beltpack
 	wrists = /obj/item/clothing/neck/roguetown/psicross/silver
@@ -101,5 +107,9 @@
 		/obj/item/clothing/head/inqarticles/blackbag = 1,
 		/obj/item/inqarticles/garrote = 1,
 		/obj/item/grapplinghook = 1,
-		/obj/item/paper/inqslip/arrival/ortho = 1
+		/obj/item/paper/inqslip/arrival/ortho = 1,
+		/obj/item/rogueweapon/huntingknife/idagger/silver/psydagger = 1,
+		/obj/item/rogueweapon/scabbard/sheath = 1
 		)
+	
+	change_origin(H, /datum/virtue/origin/otava, "Holy order")

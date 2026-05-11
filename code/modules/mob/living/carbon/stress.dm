@@ -41,7 +41,8 @@ GLOBAL_LIST_INIT(stress_messages, world.file2list("strings/rt/stress_messages.tx
 		if(!event.can_apply(src))
 			return
 
-		if(event.stressadd >= 2 && mind && !stressors[event_type])
+		// If the event is sufficiently severe, show regardless of the message toggle!
+		if(((event.stressadd >= 2 || -2) || src.client?.prefs.chat_toggles & CHAT_MOODMESSAGES) && mind && !stressors[event_type])
 			var/text = ((islist(event.desc)) ? (pick(event.desc)) : (event.desc))
 			to_chat(src, text)
 
@@ -86,6 +87,16 @@ GLOBAL_LIST_INIT(stress_messages, world.file2list("strings/rt/stress_messages.tx
 		add_stress(/datum/stressevent/bleeding)
 	else
 		remove_stress(/datum/stressevent/bleeding)
+
+	// pallid outdoor stress
+	if(HAS_TRAIT(src, TRAIT_PALLID))
+		var/area/A = get_area(src)
+		if(A?.outdoors)
+			add_stress(/datum/stressevent/pallid_outdoors)
+		else
+			remove_stress(/datum/stressevent/pallid_outdoors)
+	else
+		remove_stress(/datum/stressevent/pallid_outdoors)
 
 	var/ascending = (new_stress > oldstress)
 
@@ -205,6 +216,8 @@ GLOBAL_LIST_INIT(stress_messages, world.file2list("strings/rt/stress_messages.tx
 	stress_freakout()
 
 /mob/living/carbon/proc/stress_freakout()
+	if(HAS_TRAIT(src, TRAIT_NOMOOD))
+		return
 	to_chat(src, span_boldred("I PANIC!!!"))
 	Stun(2 SECONDS)
 	blur_eyes(2)

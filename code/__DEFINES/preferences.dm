@@ -31,14 +31,18 @@
 #define TOGGLE_FULLSCREEN		(1<<20)
 #define SCHIZO_VOICE			(1<<21)
 #define ROLEPLAY_ADS			(1<<22)
-#define CMODE_STRIPPING			(1<<23)
 
+#define TOGGLES_DEFAULT (SOUND_ADMINHELP|SOUND_MIDI|SOUND_AMBIENCE|SOUND_LOBBY|MEMBER_PUBLIC|INTENT_STYLE|MIDROUND_ANTAG|SOUND_INSTRUMENTS|SOUND_SHIP_AMBIENCE|SOUND_PRAYERS|SOUND_ANNOUNCEMENTS|TOGGLE_FULLSCREEN)
+
+//Combat toggles
 #define FLOATING_TEXT			(1<<0)
 #define XP_TEXT					(1<<1)
 #define HITZONE_TEXT			(1<<2)
+#define CMODE_STRIPPING			(1<<3)
 #define TOGGLES_TEXT_DEFAULT (FLOATING_TEXT|XP_TEXT|HITZONE_TEXT)
 
-#define TOGGLES_DEFAULT (SOUND_ADMINHELP|SOUND_MIDI|SOUND_AMBIENCE|SOUND_LOBBY|MEMBER_PUBLIC|INTENT_STYLE|MIDROUND_ANTAG|SOUND_INSTRUMENTS|SOUND_SHIP_AMBIENCE|SOUND_PRAYERS|SOUND_ANNOUNCEMENTS|TOGGLE_FULLSCREEN)
+//Ghost toggles
+#define TOGGLE_ANTIGHOST		(1<<0)
 
 //Chat toggles
 #define CHAT_OOC			(1<<0)
@@ -55,19 +59,10 @@
 #define CHAT_ADMINLOOC		(1<<11)
 #define CHAT_ADMINSPAWN		(1<<12)
 #define CHAT_DSAY			(1<<13)
+#define CHAT_MOODMESSAGES	(1<<14)
 
-#define TOGGLES_DEFAULT_CHAT (CHAT_OOC|CHAT_DSAY|CHAT_PRAYER|CHAT_RADIO|CHAT_PULLR|CHAT_GHOSTPDA|CHAT_BANKCARD)
+#define TOGGLES_DEFAULT_CHAT (CHAT_OOC|CHAT_DSAY|CHAT_PRAYER|CHAT_RADIO|CHAT_PULLR|CHAT_GHOSTPDA|CHAT_BANKCARD|CHAT_MOODMESSAGES)
 #define TOGGLES_DEFAULT_CHAT_ADMIN (CHAT_ADMINSPAWN|CHAT_ADMINLOOC)
-
-#define PARALLAX_INSANE -1 //for show offs
-#define PARALLAX_HIGH    0 //default.
-#define PARALLAX_MED     1
-#define PARALLAX_LOW     2
-#define PARALLAX_DISABLE 3 //this option must be the highest number
-
-#define PARALLAX_DELAY_DEFAULT world.tick_lag
-#define PARALLAX_DELAY_MED     1
-#define PARALLAX_DELAY_LOW     2
 
 #define SEC_DEPT_NONE "None"
 #define SEC_DEPT_RANDOM "Random"
@@ -97,6 +92,8 @@
 
 #define DEFAULT_CYBORG_NAME "Default Cyborg Name"
 
+//Vice limit
+#define MAX_VICES 3
 
 //Job preferences levels
 #define JP_LOW 1
@@ -136,13 +133,16 @@
 // Pronouns (LETHALSTONE)
 #define HE_HIM			"he/him"
 #define SHE_HER			"she/her"
-#define THEY_THEM		"they/them (Masc Clothes)"
-#define THEY_THEM_F		"they/them (Femme Clothes)"
+#define THEY_THEM		"they/them"
 #define IT_ITS			"it/its"
-#define HE_HIM_F		"he/him (Femme Clothes)"
-#define SHE_HER_M		"she/her (Masc Clothes)"
 
-GLOBAL_LIST_INIT(pronouns_list, list(HE_HIM, SHE_HER, THEY_THEM, THEY_THEM_F, IT_ITS, HE_HIM_F, SHE_HER_M))
+GLOBAL_LIST_INIT(pronouns_list, list(HE_HIM, SHE_HER, THEY_THEM, IT_ITS))
+
+#define TITLES_M	"Lord / Ser"
+#define TITLES_F	"Lady / Dame"
+
+#define CLOTHES_M "Masculine"
+#define CLOTHES_F "Feminine"
 
 // Voice types (LETHALSTONE)
 
@@ -151,3 +151,45 @@ GLOBAL_LIST_INIT(pronouns_list, list(HE_HIM, SHE_HER, THEY_THEM, THEY_THEM_F, IT
 #define VOICE_TYPE_ANDR	"Androgynous"
 
 GLOBAL_LIST_INIT(voice_types_list, list(VOICE_TYPE_MASC, VOICE_TYPE_FEM, VOICE_TYPE_ANDR))
+
+#define VOICE_PACK_DEFAULT	"Default"
+#define VOICE_PACK_MASC	"Masculine"
+#define VOICE_PACK_MASC_ELF "Elvish (Masc)"
+#define VOICE_PACK_MASC_DWARF "Dwarvish (Masc)"
+#define VOICE_PACK_FOP	"Foppish (Masc)"
+#define VOICE_PACK_STERN "Stern (Masc)"
+#define VOICE_PACK_KNIGHT "Knightly (Masc)"
+#define VOICE_PACK_WARRIOR "Warrior (Masc)"
+#define VOICE_PACK_FEM	"Feminine"
+#define VOICE_PACK_FEM_DAINTY "Dainty (Fem)"
+#define VOICE_PACK_FEM_HAUGHTY "Haughty (Fem)"
+#define VOICE_PACK_FEM_WARRIOR "Warrior (Fem)"
+#define VOICE_PACK_FEM_ELF	"Elvish (Fem)"
+#define VOICE_PACK_FEM_DWARF "Dwarvish (Fem)"
+
+GLOBAL_LIST_INIT(voice_packs_list, list(
+	VOICE_PACK_DEFAULT = null,
+	VOICE_PACK_MASC = /datum/voicepack/male,
+	VOICE_PACK_FOP = /datum/voicepack/male/foppish,
+	VOICE_PACK_STERN = /datum/voicepack/male/stern,
+	VOICE_PACK_KNIGHT = /datum/voicepack/male/knight,
+	VOICE_PACK_WARRIOR = /datum/voicepack/male/warrior,
+	VOICE_PACK_FEM = /datum/voicepack/female,
+	VOICE_PACK_FEM_WARRIOR = /datum/voicepack/female/warrior,
+	VOICE_PACK_FEM_DAINTY = /datum/voicepack/female/dainty,
+	VOICE_PACK_FEM_HAUGHTY = /datum/voicepack/female/haughty,
+))
+
+#define ATTACK_BLIP_PREF_DEFAULT 50
+#define ATTACK_BLIP_PREF_RARELY 25
+#define ATTACK_BLIP_PREF_ALWAYS 100
+#define ATTACK_BLIP_PREF_FREQUENT 75
+#define ATTACK_BLIP_PREF_NEVER 0
+
+GLOBAL_LIST_INIT(attack_blip_pref_list, list(
+	"Always" = ATTACK_BLIP_PREF_ALWAYS,
+	"Frequent" = ATTACK_BLIP_PREF_FREQUENT,
+	"Half the time (Default)" = ATTACK_BLIP_PREF_DEFAULT,
+	"Rarely" = ATTACK_BLIP_PREF_RARELY,
+	"Never" = ATTACK_BLIP_PREF_NEVER
+))

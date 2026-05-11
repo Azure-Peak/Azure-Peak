@@ -22,6 +22,7 @@
 	droning_sound = 'sound/music/area/towngen.ogg'
 	droning_sound_dusk = 'sound/music/area/septimus.ogg'
 	droning_sound_night = 'sound/music/area/sleeping.ogg'
+	fog_protected = TRUE
 
 /area/rogue/outdoors/exposed/town/keep
 	name = "Keep"
@@ -68,16 +69,28 @@
 	keep_area = TRUE
 	detail_text = DETAIL_TEXT_UNIVERSITY_OF_AZURIA
 
+/area/rogue/indoors/town/pestra_sanctum
+	name = "Sanctum of Pestra"
+	icon_state = "pestrasanctum"
+	droning_sound = 'sound/music/area/catacombs.ogg'
+	spookysounds = SPOOKY_MYSTICAL
+	spookynight = SPOOKY_MYSTICAL
+	first_time_text = "THE SANCTUM OF PESTRA"
+	droning_sound_dusk = null
+	droning_sound_night = null
+	keep_area = TRUE
+
 /area/rogue/outdoors/exposed/magiciantower
 	icon_state = "magiciantower"
 	droning_sound = 'sound/music/area/magiciantower.ogg'
 	droning_sound_dusk = null
 	droning_sound_night = null
 	keep_area = TRUE
+	town_area = TRUE
 	detail_text = DETAIL_TEXT_UNIVERSITY_OF_AZURIA
 
 /area/rogue/indoors/town/shop
-	name = "Shop"
+	name = "Merchant"
 	icon_state = "shop"
 	droning_sound = 'sound/music/area/shop.ogg'
 	droning_sound_dusk = null
@@ -98,7 +111,7 @@
 /area/rogue/indoors/town/physician
 	name = "Physician"
 	icon_state = "physician"
-	droning_sound = 'sound/music/area/shop.ogg'
+	droning_sound = 'sound/music/area/magiciantower.ogg'
 	droning_sound_dusk = null
 	droning_sound_night = null
 
@@ -143,7 +156,7 @@
 	cell_area = TRUE
 
 /area/rogue/indoors/town/tavern
-	name = "tavern"
+	name = "Azurian Pint"
 	icon_state = "tavern"
 	ambientsounds = AMB_INGEN
 	ambientnight = AMB_INGEN
@@ -161,7 +174,7 @@
 	tavern_area = TRUE
 
 /area/rogue/indoors/town/church
-	name = "church"
+	name = "The House of the Ten"
 	icon_state = "church"
 	droning_sound = 'sound/music/area/church.ogg'
 	droning_sound_dusk = null
@@ -189,7 +202,7 @@
 	droning_sound = 'sound/music/area/catacombs.ogg'
 	droning_sound_dusk = null
 	droning_sound_night = null
-	first_time_text = "THE CRYPT OF THE TEN"
+	first_time_text = "CATHEDRAL CELLARAGE"
 
 /area/rogue/indoors/town/fire_chamber
 	name = "incinerator"

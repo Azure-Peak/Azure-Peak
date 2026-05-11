@@ -19,6 +19,7 @@ And it also helps for the character set panel
 		TRAIT_VAMPBITE,
 		TRAIT_NOHUNGER,
 		TRAIT_NOBREATH,
+		TRAIT_DEATHLESS,
 		TRAIT_NOPAIN,
 		TRAIT_TOXIMMUNE,
 		TRAIT_STEELHEARTED,
@@ -69,6 +70,7 @@ And it also helps for the character set panel
 	var/selectable_by_vampires = TRUE
 
 	var/covens_to_select = COVENS_PER_CLAN
+	var/handling_organ_loss = FALSE
 
 /datum/clan/proc/get_downside_string()
 	return "burn in sunlight"
@@ -379,11 +381,9 @@ And it also helps for the character set panel
 	//if the character has their vampire skin color set, use that
 	if(!isnull(H.vampire_skin))
 		H.skin_tone = sanitize_hexcolor(H.vampire_skin, 6, FALSE)
-		ears?.accessory_colors = H.vampire_skin
 		breasts?.accessory_colors = H.vampire_skin
 	else
 		H.skin_tone = "c9d3de"
-		ears?.accessory_colors = "#c9d3de"
 		breasts?.accessory_colors = "#c9d3de"
 	//if the character has their vampire hair color set, use that
 	if(!isnull(H.vampire_hair))
@@ -397,6 +397,13 @@ And it also helps for the character set panel
 		H.set_eye_color(H.vampire_eyes, H.vampire_eyes, TRUE)
 	else
 		H.set_eye_color("#FF0000", "#FF0000", TRUE)
+	H.update_body()
+	H.update_body_parts(redraw = TRUE)
+	//if the character has their vampire ear color set, use that
+	if(!isnull(H.vampire_ears))
+		ears?.accessory_colors = H.vampire_ears
+	else
+		ears?.accessory_colors = H.vampire_skin
 	H.update_body()
 	H.update_body_parts(redraw = TRUE)
 
@@ -520,14 +527,31 @@ And it also helps for the character set panel
 
 /// Prevents tongue and eye loss by the vampyre
 /datum/clan/proc/on_organ_loss(mob/living/carbon/lost_organ, obj/item/organ/removed, special, drop_if_replaced)
-	if(!lost_organ || !removed)
+	if(handling_organ_loss)
 		return
+
+	handling_organ_loss = TRUE
+
+	if(!lost_organ || !removed)
+		handling_organ_loss = FALSE
+		return
+
 	if(removed.slot == ORGAN_SLOT_BRAIN)
-		UnregisterSignal(lost_organ, COMSIG_MOB_ORGAN_REMOVED, PROC_REF(on_organ_loss))//Removing the signal check, as they've lost their head
+		UnregisterSignal(lost_organ, COMSIG_MOB_ORGAN_REMOVED, PROC_REF(on_organ_loss))
+		handling_organ_loss = FALSE
+		return
+
 	if(removed.slot == ORGAN_SLOT_EYES)
 		implant_vampire_eyes(lost_organ)
-	else if(removed.slot == ORGAN_SLOT_TONGUE)
+		handling_organ_loss = FALSE
+		return
+
+	if(removed.slot == ORGAN_SLOT_TONGUE)
 		removed.Insert(lost_organ)
+		handling_organ_loss = FALSE
+		return
+
+	handling_organ_loss = FALSE
 
 /datum/clan/proc/open_clan_menu(mob/living/carbon/human/user)
 	if(!user.covens || !length(user.covens))

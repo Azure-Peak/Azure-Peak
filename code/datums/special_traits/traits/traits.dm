@@ -108,7 +108,7 @@
 	character.adjust_skillrank_up_to(/datum/skill/combat/crossbows, 5, TRUE)
 	character.adjust_skillrank_up_to(/datum/skill/combat/bows, 4, TRUE)
 	character.mind.special_items["Crossbow"] = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
-	character.mind.special_items["Bolts"] = /obj/item/quiver/bolts
+	character.mind.special_items["Bolts"] = /obj/item/quiver/bolt/standard
 
 /datum/special_trait/mule
 	name = "Mule"
@@ -181,6 +181,7 @@
 /datum/special_trait/arsonist/on_apply(mob/living/carbon/human/character, silent)
 	character.mind.special_items["Firebomb One"] = /obj/item/bomb
 	character.mind.special_items["Firebomb Two"] = /obj/item/bomb
+	ADD_TRAIT(character, TRAIT_ALCHEMY_EXPERT, TRAIT_GENERIC)
 	character.adjust_skillrank_up_to(/datum/skill/craft/alchemy, 1, TRUE)
 
 /datum/special_trait/pineapple
@@ -545,7 +546,7 @@
 
 /datum/special_trait/my_precious
 	name = "My Precious"
-	greet_text = span_notice("The ring, it's so shiny.. so valuable, I can feel it's power. It's all mine!")
+	greet_text = span_notice("The ring, it's so shiny... so valuable, I can feel it's power. It's all mine!")
 	req_text = "Be a beggar"
 	weight = 50
 

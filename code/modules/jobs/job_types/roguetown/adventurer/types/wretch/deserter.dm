@@ -2,19 +2,21 @@
 	name = "Disgraced Knight"
 	tutorial = "You were once a venerated and revered knight - now, a traitor who abandoned your liege. You lyve the lyfe of an outlaw, shunned and looked down upon by society."
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = RACES_ALL_KINDS
+	
 	outfit = /datum/outfit/job/roguetown/wretch/deserter
-	horse = /mob/living/simple_animal/hostile/retaliate/rogue/saiga/saigabuck/tame/saddled
+	class_select_category = CLASS_CAT_WARRIOR
 	category_tags = list(CTAG_WRETCH)
 	traits_applied = list(TRAIT_HEAVYARMOR, TRAIT_NOBLE)
-	maximum_possible_slots = 2 //Ideal role for fraggers. Better to limit it. 
-	
+	maximum_possible_slots = 2 //Ideal role for fraggers. Better to limit it.
+
 	cmode_music = 'sound/music/cmode/antag/combat_thewall.ogg' // same as new hedgeknight music
 	// Deserter are the knight-equivalence. They get a balanced, straightforward 2 2 3 statspread to endure and overcome.
 	subclass_stats = list(
 		STATKEY_WIL = 3,
 		STATKEY_CON = 2,
-		STATKEY_STR = 2
+		STATKEY_STR = 2,
+		STATKEY_PER = 2,
+		STATKEY_LCK = 1
 	)
 	subclass_skills = list(
 		/datum/skill/combat/polearms = SKILL_LEVEL_EXPERT,
@@ -24,14 +26,21 @@
 		/datum/skill/combat/knives = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/shields = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/whipsflails = SKILL_LEVEL_EXPERT,
-		/datum/skill/combat/wrestling = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/swimming = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/climbing = SKILL_LEVEL_EXPERT,
-		/datum/skill/misc/riding = SKILL_LEVEL_EXPERT,
+		/datum/skill/misc/riding = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/reading = SKILL_LEVEL_JOURNEYMAN,
 	)
+	subclass_virtues = list(
+		/datum/virtue/utility/riding
+	)
+	subclass_stashed_items = list(
+        "Armor Plates" =  /obj/item/repair_kit/metal,
+    )
+
 /datum/outfit/job/roguetown/wretch/deserter/pre_equip(mob/living/carbon/human/H)
 	..()
 	to_chat(H, span_warning("You were once a venerated and revered knight - now, a traitor who abandoned your liege. You lyve the lyfe of an outlaw, shunned and looked down upon by society."))
@@ -46,15 +55,17 @@
 
 		var/weapons = list(
 			"Estoc",
+			"Stecher",
 			"Mace + Shield",
 			"Flail + Shield",
-			"Longsword + Shield", 
+			"Longsword + Shield",
 			"Lucerne",
 			"Battle Axe",
 			"Lance + Kite Shield",
 			"Samshir",
 			"Ssangsudo",
 			"Shashka + Shield",
+			"Steel Poleaxe"
 		)
 		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 		H.set_blindness(0)
@@ -62,6 +73,9 @@
 			if("Estoc")
 				r_hand = /obj/item/rogueweapon/estoc
 				backr = /obj/item/rogueweapon/scabbard/gwstrap
+			if("Stecher")
+				beltr = /obj/item/rogueweapon/scabbard/sword
+				r_hand = /obj/item/rogueweapon/sword/long/ap
 			if("Longsword + Shield")
 				beltr = /obj/item/rogueweapon/scabbard/sword
 				r_hand = /obj/item/rogueweapon/sword/long
@@ -90,13 +104,19 @@
 				r_hand = /obj/item/rogueweapon/sword/sabre/steppesman
 				beltr = /obj/item/rogueweapon/scabbard/sword
 				backr = /obj/item/rogueweapon/shield/iron/steppesman
+			if("Steel Poleaxe")
+				r_hand = /obj/item/rogueweapon/greataxe/steel/knight
+				backr = /obj/item/rogueweapon/scabbard/gwstrap
+
 		var/helmets = list(
 			"Pigface Bascinet" 	= /obj/item/clothing/head/roguetown/helmet/bascinet/pigface,
 			"Guard Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/guard,
 			"Barred Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/sheriff,
 			"Bucket Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/bucket,
-			"Knight's Armet"		= /obj/item/clothing/head/roguetown/helmet/heavy/knight,
-			"Knight's Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/knight/old,
+			"Sugarloaf Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/bucket/crusader,
+			"Knight's Armet"	= /obj/item/clothing/head/roguetown/helmet/heavy/knight,
+			"Knight's Helmet"	= /obj/item/clothing/head/roguetown/helmet/heavy/knight/old,
+			"Knight's Greatplumed Armet"		= /obj/item/clothing/head/roguetown/helmet/heavy/knight/greatplume,
 			"Visored Sallet"			= /obj/item/clothing/head/roguetown/helmet/sallet/visored,
 			"Armet"				= /obj/item/clothing/head/roguetown/helmet/heavy/knight/armet,
 			"Hounskull Bascinet" 		= /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/hounskull,
@@ -105,6 +125,9 @@
 			"Kulah Khud"	= /obj/item/clothing/head/roguetown/helmet/sallet/raneshen,
 			"Kabuto"	= /obj/item/clothing/head/roguetown/helmet/heavy/kabuto, //No mask, fuck you
 			"Shishak"	= /obj/item/clothing/head/roguetown/helmet/sallet/shishak,
+			"Visored Barbute" = /obj/item/clothing/head/roguetown/helmet/heavy/barbute/visor,
+			"Great Barbute" = /obj/item/clothing/head/roguetown/helmet/heavy/barbute/great,
+			"Volf-Face Helm"		= /obj/item/clothing/head/roguetown/helmet/heavy/volfplate,
 			"None"
 		)
 		var/helmchoice = input(H, "Choose your Helm.", "TAKE UP HELMS") as anything in helmets
@@ -113,8 +136,8 @@
 
 		var/armors = list(
 			"Brigandine"		= /obj/item/clothing/suit/roguetown/armor/brigandine,
-			"Coat of Plates"	= /obj/item/clothing/suit/roguetown/armor/brigandine/coatplates,
-			"Steel Cuirass"		= /obj/item/clothing/suit/roguetown/armor/plate/cuirass,				
+			"Coat of Plates"	= /obj/item/clothing/suit/roguetown/armor/brigandine/heavy,
+			"Steel Cuirass"		= /obj/item/clothing/suit/roguetown/armor/plate/cuirass,
 			"Fluted Cuirass"	= /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted,
 			"Lamellar Scalemail"		= /obj/item/clothing/suit/roguetown/armor/plate/scale/steppe,
 			"Haraate Brigandine"		= /obj/item/clothing/suit/roguetown/armor/brigandine/haraate,
@@ -122,7 +145,7 @@
 		var/armorchoice = input(H, "Choose your armor.", "TAKE UP ARMOR") as anything in armors
 		armor = armors[armorchoice]
 		wretch_select_bounty(H)
-	gloves = /obj/item/clothing/gloves/roguetown/plate 
+	gloves = /obj/item/clothing/gloves/roguetown/plate
 	pants = /obj/item/clothing/under/roguetown/chainlegs
 	neck = /obj/item/clothing/neck/roguetown/bevor
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail
@@ -139,12 +162,12 @@
 		/obj/item/reagent_containers/glass/bottle/alchemical/healthpot = 1,	//Small health vial
 		)
 
-/datum/advclass/wretch/deserter/maa
-	name = "Disgraced Man at Arms"
+/datum/advclass/wretch/deserter/generic
+	name = "Deserter"
 	tutorial = "You had your post. You had your duty. Dissatisfied, lacking in morale, or simply thinking yourself better than it. - You decided to walk. Now it follows you everywhere you go."
-	outfit = /datum/outfit/job/roguetown/wretch/desertermaa
-	maximum_possible_slots = 2 //Ideal role for fraggers. Better to limit it. 
-	
+	outfit = /datum/outfit/job/roguetown/wretch/desertergeneric
+	maximum_possible_slots = 2 //Ideal role for fraggers. Better to limit it.
+
 	cmode_music = 'sound/music/cmode/antag/combat_thewall.ogg' // same as new hedgeknight music
 	// Slightly more rounded. These can be nudged as needed.
 	traits_applied = list(TRAIT_MEDIUMARMOR)
@@ -163,7 +186,7 @@
 		/datum/skill/combat/knives = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/whipsflails = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/shields = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/combat/wrestling = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/climbing = SKILL_LEVEL_EXPERT, // Better at climbing away than your average MaA. Only slightly.
 		/datum/skill/misc/swimming = SKILL_LEVEL_JOURNEYMAN, // Worse at swimming than the above class.
@@ -172,10 +195,10 @@
 		/datum/skill/misc/riding = SKILL_LEVEL_JOURNEYMAN, // That saiga was stolen. Probably.
 		/datum/skill/misc/tracking = SKILL_LEVEL_NOVICE,
 	)
-/datum/outfit/job/roguetown/wretch/desertermaa/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/roguetown/wretch/desertergeneric/pre_equip(mob/living/carbon/human/H)
 	..()
 	if(H.mind)
-		var/weapons = list("Warhammer & Shield","Sabre & Shield","Axe & Shield","Billhook","Greataxe","Halberd",)
+		var/weapons = list("Warhammer & Shield","Sabre & Shield","Axe & Shield","Billhook","Greataxe","Halberd","Crossbow")
 		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 		H.set_blindness(0)
 		switch(weapon_choice)
@@ -190,14 +213,18 @@
 				beltr = /obj/item/rogueweapon/stoneaxe/woodcut/steel
 				backl = /obj/item/rogueweapon/shield/iron
 			if("Billhook")
-				r_hand = /obj/item/rogueweapon/spear/billhook 
+				r_hand = /obj/item/rogueweapon/spear/billhook
 				backl = /obj/item/rogueweapon/scabbard/gwstrap
 			if("Halberd")
 				r_hand = /obj/item/rogueweapon/halberd
-				backl = /obj/item/rogueweapon/scabbard/gwstrap	
+				backl = /obj/item/rogueweapon/scabbard/gwstrap
 			if("Greataxe")
 				r_hand = /obj/item/rogueweapon/greataxe
 				backl = /obj/item/rogueweapon/scabbard/gwstrap
+			if("Crossbow")
+				H.adjust_skillrank_up_to(/datum/skill/combat/crossbows, SKILL_LEVEL_EXPERT, TRUE)
+				r_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
+				backl = /obj/item/quiver/bolt/standard
 	H.verbs |= list(/mob/living/carbon/human/mind/proc/setorders)
 	if(H.mind)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/movemovemove)
@@ -206,36 +233,35 @@
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/onfeet)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/convertrole/brotherhood)
 		var/helmets = list(
-		"Simple Helmet" 	= /obj/item/clothing/head/roguetown/helmet,
-		"Kettle Helmet" 	= /obj/item/clothing/head/roguetown/helmet/kettle,
-		"Bascinet Helmet"		= /obj/item/clothing/head/roguetown/helmet/bascinet,
-		"Sallet Helmet"		= /obj/item/clothing/head/roguetown/helmet/sallet,
-		"Winged Helmet" 	= /obj/item/clothing/head/roguetown/helmet/winged,
-		"None"
+			"Pigface Bascinet" 		= /obj/item/clothing/head/roguetown/helmet/bascinet/pigface,
+			"Hounskull Bascinet"	= /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/hounskull,
+			"Klappvisier Bascinet" 	= /obj/item/clothing/head/roguetown/helmet/bascinet/etruscan,
+			"Visored Sallet"		= /obj/item/clothing/head/roguetown/helmet/sallet/visored,
+			"Sugarloaf Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/bucket/crusader,
+			"Knight's Armet"	= /obj/item/clothing/head/roguetown/helmet/heavy/knight,
+			"Knight's Helmet"	= /obj/item/clothing/head/roguetown/helmet/heavy/knight/old,
+			"Knight's Greatplumed Armet"		= /obj/item/clothing/head/roguetown/helmet/heavy/knight/greatplume,
 		)
 		var/helmchoice = input(H, "Choose your Helm.", "TAKE UP HELMS") as anything in helmets
-		if(helmchoice != "None")
-			head = helmets[helmchoice]
+		head = helmets[helmchoice]
 
-		var/masks = list(
-		"Steel Mask"		= /obj/item/clothing/mask/rogue/facemask/steel,
-		"Wildguard"			= /obj/item/clothing/mask/rogue/wildguard,
-		"None"
+		var/armors = list(
+			"Brigandine"		= /obj/item/clothing/suit/roguetown/armor/brigandine,
+			"Half-Plate"		= /obj/item/clothing/suit/roguetown/armor/plate/iron,
+			"Scalemail"			= /obj/item/clothing/suit/roguetown/armor/plate/scale,
 		)
-		var/maskchoice = input(H, "Choose your Mask.", "MASK MASK MASK") as anything in masks // Run from it. MASK. MASK. MASK.
-		if(maskchoice != "None")
-			mask = masks[maskchoice]
-		
+		var/armorchoice = input(H, "Choose your armor.", "TAKE UP ARMOR") as anything in armors
+		armor = armors[armorchoice]
+
 		wretch_select_bounty(H)
 
-	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
-	armor = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk	
+	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk
 	pants = /obj/item/clothing/under/roguetown/chainlegs
-	neck = /obj/item/clothing/neck/roguetown/chaincoif
-	cloak = /obj/item/clothing/cloak/tabard/stabard/surcoat 
+	neck = /obj/item/clothing/neck/roguetown/bevor
+	cloak = /obj/item/clothing/cloak/tabard/stabard/surcoat
 	wrists = /obj/item/clothing/wrists/roguetown/bracers
-	gloves = /obj/item/clothing/gloves/roguetown/chain 
-	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/iron 
+	gloves = /obj/item/clothing/gloves/roguetown/chain
+	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/iron
 	beltl = /obj/item/rogueweapon/mace/cudgel
 	belt = /obj/item/storage/belt/rogue/leather
 	backr = /obj/item/storage/backpack/rogue/satchel

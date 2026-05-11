@@ -79,10 +79,6 @@
 /obj/item/clothing/ring/quartz,
 /turf/open/floor/rogue/tile/masonic/spiral,
 /area/rogue/under/tomb/indoors/church)
-"cR" = (
-/obj/item/natural/rock/dungeon,
-/turf/open/floor/rogue/dirt,
-/area/rogue/under/tomb)
 "da" = (
 /obj/structure/fluff/railing/wood,
 /obj/structure/fluff/railing/wood{
@@ -376,7 +372,7 @@
 /turf/open/floor/rogue/twig,
 /area/rogue/under/tomb)
 "mv" = (
-/mob/living/carbon/human/species/npc/deadite,
+/mob/living/carbon/human/species/skeleton/npc/mediumspread,
 /turf/open/floor/rogue/churchmarble,
 /area/rogue/under/tomb/indoors/church)
 "mw" = (
@@ -403,6 +399,10 @@
 /area/rogue/under/tomb/cave/wet)
 "mZ" = (
 /turf/open/floor/rogue/blocks,
+/area/rogue/under/tomb/indoors/church)
+"nf" = (
+/mob/living/carbon/human/species/skeleton/npc/easy,
+/turf/open/floor/rogue/churchmarble,
 /area/rogue/under/tomb/indoors/church)
 "nm" = (
 /turf/closed/wall/mineral/rogue/decostone/long{
@@ -438,7 +438,6 @@
 /area/rogue/under/tomb/indoors/church)
 "oq" = (
 /obj/item/clothing/head/roguetown/helmet/leather,
-/obj/item/rogueweapon/pick/copper,
 /turf/open/floor/rogue/ruinedwood/turned,
 /area/rogue/under/tomb)
 "oA" = (
@@ -597,7 +596,7 @@
 /area/rogue/under/tomb/indoors/church)
 "wa" = (
 /obj/structure/closet/crate/chest/wicker,
-/obj/item/reagent_containers/food/snacks/rogue/meat/mince,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
 /obj/item/reagent_containers/food/snacks/rogue/meat/bacon,
 /turf/open/floor/rogue/churchmarble,
 /area/rogue/under/tomb/indoors/church)
@@ -656,6 +655,19 @@
 /obj/structure/flora/roguegrass,
 /turf/open/floor/rogue/grass,
 /area/rogue/under/tomb/cave/wet)
+"zd" = (
+/obj/item/rogueweapon/pick/copper,
+/obj/item/natural/stone{
+	pixel_x = 7;
+	pixel_y = -11
+	},
+/obj/item/natural/stone{
+	pixel_x = -5;
+	pixel_y = 8
+	},
+/obj/item/natural/rock/dungeon,
+/turf/open/floor/rogue/naturalstone,
+/area/rogue/under/tomb/cave)
 "zh" = (
 /obj/structure/flora/ausbushes/fullgrass,
 /turf/open/floor/rogue/grass,
@@ -743,16 +755,13 @@
 /area/rogue/under/tomb/indoors/church)
 "Dn" = (
 /obj/structure/closet/crate/chest/wicker,
-/obj/item/reagent_containers/food/snacks/rogue/meat/sausage,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
 /obj/item/reagent_containers/food/snacks/rogue/meat/poultry,
 /turf/open/floor/rogue/churchmarble,
 /area/rogue/under/tomb/indoors/church)
 "Dz" = (
 /turf/open/floor/rogue/herringbone,
 /area/rogue/under/tomb)
-"DM" = (
-/turf/closed/mineral/random,
-/area/rogue/under/tomb/cave)
 "Ep" = (
 /turf/open/floor/rogue/ruinedwood/turned,
 /area/rogue/under/tomb)
@@ -857,7 +866,7 @@
 /turf/open/floor/rogue/dirt,
 /area/rogue/under/tomb/cave)
 "HL" = (
-/turf/closed/mineral,
+/turf/closed/mineral/random/rogue/high,
 /area/rogue/under/tomb/cave)
 "HW" = (
 /obj/machinery/light/rogue/campfire/longlived,
@@ -976,10 +985,22 @@
 /obj/structure/fluff/statue/psy,
 /turf/open/floor/rogue/tile/masonic/spiral,
 /area/rogue/under/tomb/indoors/church)
-"Mr" = (
+"MB" = (
+/obj/item/natural/stone{
+	pixel_x = 7;
+	pixel_y = 9
+	},
+/obj/item/natural/stone{
+	pixel_x = -6;
+	pixel_y = -9
+	},
+/obj/item/natural/stone{
+	pixel_x = -10;
+	pixel_y = 6
+	},
 /obj/item/rogueweapon/pick/copper,
-/turf/open/floor/rogue/dirt,
-/area/rogue/under/tomb)
+/turf/open/floor/rogue/naturalstone,
+/area/rogue/under/tomb/cave)
 "MD" = (
 /turf/open/transparent/openspace,
 /area/rogue/under/tomb)
@@ -2432,8 +2453,8 @@ KK
 "}
 (6,1,2) = {"
 KK
-DM
-DM
+HL
+HL
 KK
 MD
 MD
@@ -2464,9 +2485,9 @@ KK
 "}
 (7,1,2) = {"
 KK
-DM
-DM
-DM
+HL
+HL
+HL
 HL
 MD
 MD
@@ -2496,9 +2517,9 @@ KK
 "}
 (8,1,2) = {"
 KK
-DM
+HL
 lg
-DM
+HL
 HL
 MD
 MD
@@ -2529,8 +2550,8 @@ KK
 (9,1,2) = {"
 KK
 HL
-DM
-DM
+HL
+HL
 MD
 MD
 MD
@@ -2561,7 +2582,7 @@ KK
 (10,1,2) = {"
 KK
 HL
-DM
+HL
 HL
 MD
 MD
@@ -2592,10 +2613,10 @@ KK
 "}
 (11,1,2) = {"
 KK
-DM
-DM
-DM
-DM
+HL
+HL
+HL
+HL
 MD
 MD
 MD
@@ -2624,10 +2645,10 @@ KK
 "}
 (12,1,2) = {"
 KK
-DM
+HL
+MB
 HL
 HL
-DM
 MD
 MD
 MD
@@ -2657,9 +2678,9 @@ KK
 (13,1,2) = {"
 Ye
 Ep
-cR
+UZ
 HL
-DM
+HL
 MD
 MD
 MD
@@ -2688,7 +2709,7 @@ NF
 "}
 (14,1,2) = {"
 UZ
-Mr
+UZ
 Ep
 HL
 MD
@@ -2723,7 +2744,7 @@ UZ
 Xc
 UZ
 HL
-DM
+HL
 MD
 MD
 MD
@@ -2754,8 +2775,8 @@ Dz
 Ye
 Ep
 oq
-DM
-DM
+HL
+HL
 HL
 MD
 MD
@@ -2784,11 +2805,11 @@ pj
 "}
 (17,1,2) = {"
 KK
+zd
 HL
-DM
-DM
-DM
-DM
+HL
+HL
+HL
 MD
 uT
 nm
@@ -2817,9 +2838,9 @@ pj
 (18,1,2) = {"
 KK
 HL
-DM
-DM
-DM
+HL
+HL
+HL
 HL
 MD
 cC
@@ -2849,9 +2870,9 @@ pj
 (19,1,2) = {"
 KK
 jm
-DM
-DM
-DM
+HL
+HL
+HL
 MD
 uT
 nm
@@ -2993,7 +3014,7 @@ Dz
 gY
 nm
 PW
-mv
+nf
 Hu
 Hv
 ol

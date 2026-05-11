@@ -64,6 +64,7 @@
 	twohands_required = TRUE
 	var/datum/looping_sound/psydonmusicboxsound/soundloop
 
+
 /obj/item/psydonmusicbox/examine(mob/user)
 	. = ..()
 	if(HAS_TRAIT(usr, TRAIT_INQUISITION))
@@ -79,7 +80,13 @@
 	cranking = !cranking
 	update_icon()
 	if(cranking)
-		user.apply_status_effect(/datum/status_effect/buff/cranking_soulchurner)
+		if(!HAS_TRAIT(usr, TRAIT_INSPIRING_MUSICIAN))
+			user.apply_status_effect(/datum/status_effect/buff/cranking_soulchurner)
+		else
+			if(alert("Harmonize the voices or let them scream?",, "Harmonize", "Scream") != "Scream")
+				user.apply_status_effect(/datum/status_effect/buff/quelling_soulchurner)
+			else
+				user.apply_status_effect(/datum/status_effect/buff/cranking_soulchurner)	
 		soundloop.start()
 		var/songhearers = view(7, user)
 		for(var/mob/living/carbon/human/target in songhearers)
@@ -87,6 +94,7 @@
 	if(!cranking)
 		soundloop.stop()
 		user.remove_status_effect(/datum/status_effect/buff/cranking_soulchurner)
+		user.remove_status_effect(/datum/status_effect/buff/quelling_soulchurner)
 
 /obj/item/psydonmusicbox/Initialize()
 	soundloop = new(src, FALSE)
@@ -95,7 +103,8 @@
 /obj/item/psydonmusicbox/Destroy()
 	if(soundloop)
 		QDEL_NULL(soundloop)
-	src.visible_message(span_cult("A great deluge of souls escapes the shattered box!"))
+	src.visible_message(span_cult("A great deluge of souls escapes the shattered box! Their wails of vengeance and peace coalesce into an ethereal swan song, as the spirits ascend into the sky.."))
+	src.visible_message(span_hypnophrase("..before, at last, their haunting symphony finally comes to a close."))
 	return ..()
 
 /obj/item/psydonmusicbox/update_icon()
@@ -260,6 +269,34 @@
 						H.add_stress(/datum/stressevent/soulchurner)
 						if(!H.has_status_effect(/datum/status_effect/buff/churnernegative))
 							H.apply_status_effect(/datum/status_effect/buff/churnernegative)
+
+
+/atom/movable/screen/alert/status_effect/buff/quelling_soulchurner
+	name = "Quelling Soulchurner"
+	desc = "I am bringing the twisted device to life, quelling the voices..."
+	icon_state = "buff"
+
+/datum/status_effect/buff/quelling_soulchurner
+	id = "quellchurner"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/quelling_soulchurner
+	var/effect_color
+	var/pulse = 0
+	var/ticks_to_apply = 10
+
+/datum/status_effect/buff/quelling_soulchurner/tick()
+	var/obj/effect/temp_visual/music_rogue/M = new /obj/effect/temp_visual/music_rogue(get_turf(owner))
+	M.color = "#800000"
+	pulse += 1
+	if (pulse >= ticks_to_apply)
+		pulse = 0
+		if(!HAS_TRAIT(owner, TRAIT_INQUISITION))
+			owner.add_stress(/datum/stressevent/soulchurnerhorror)
+		for (var/mob/living/carbon/human/H in hearers(7, owner))
+			if (!H.client)
+				continue
+			if(HAS_TRAIT(H, TRAIT_INQUISITION))
+				H.apply_status_effect(/datum/status_effect/buff/churnerprotection)
+
 /*
 Inquisitorial armory down here
 
@@ -285,7 +322,7 @@ Inquisitorial armory down here
 	item_state = "psycenser"
 	light_outer_range = 8
 	light_color ="#70d1e2"
-	possible_item_intents = list(/datum/intent/mace/smash/flail/golgotha)
+	possible_item_intents = list(/datum/intent/flail/smash/golgotha)
 	fuel = 999 MINUTES
 	force = 30
 	var/next_smoke
@@ -294,8 +331,10 @@ Inquisitorial armory down here
 /obj/item/flashlight/flare/torch/lantern/psycenser/examine(mob/user)
 	. = ..()
 	if(fuel > 0)
-		. += span_info("If opened, it may bless Psydon weapons and those of Psydon faith.")
-		. += span_warning("Smashing a creature with it open will create a devastating explosion and render it useless.")
+		. += span_info("Activate in your hand to open it.")
+		. += span_info("When opened, the 'BLESS' intent can be used to anoint Psydonic silver weaponry. Blessing a Psydonic silver weapon greatly enhances the power of its critical hits and debuffs against sunderable opponents.")
+		. += span_info("Blessing someone else, who happens to be a worshipper of Psydon, will temporarily buff them with increased Willpower and Constitution.")
+		. += span_warning("If the 'SMASH' intent is used while it's opened, the residing shard will violently explode with unimaginable force.")
 	if(fuel <= 0)
 		. += span_info("It is gone.")
 
@@ -312,11 +351,11 @@ Inquisitorial armory down here
 	if(fuel > 0)
 		if(on)
 			turn_off()
-			possible_item_intents = list(/datum/intent/mace/smash/flail/golgotha)
+			possible_item_intents = list(/datum/intent/flail/smash/golgotha)
 			user.update_a_intents()
 		else
 			playsound(src.loc, 'sound/items/censer_on.ogg', 100)
-			possible_item_intents = list(/datum/intent/mace/smash/flail/golgotha, /datum/intent/bless)
+			possible_item_intents = list(/datum/intent/flail/smash/golgotha, /datum/intent/bless)
 			user.update_a_intents()
 			on = TRUE
 			update_brightness()
@@ -328,8 +367,11 @@ Inquisitorial armory down here
 				M.update_inv_hands()
 			START_PROCESSING(SSobj, src)
 	else if(fuel <= 0 && user.used_intent.type == /datum/intent/weep)
-		to_chat(user, span_info("It is gone. You weep."))
-		user.emote("cry")
+		if(!HAS_TRAIT(user, TRAIT_NOMOOD))
+			to_chat(user, span_info("It is gone. You weep."))
+			user.emote("cry")
+		else
+			to_chat(user, span_info("It is gone. You feel nothing."))
 
 /obj/item/flashlight/flare/torch/lantern/psycenser/process()
 	if(on && next_smoke < world.time)
@@ -355,7 +397,7 @@ Inquisitorial armory down here
 
 /obj/item/flashlight/flare/torch/lantern/psycenser/afterattack(atom/movable/A, mob/user, proximity)
 	. = ..()	//We smashed a guy with it turned on. Bad idea!
-	if(ismob(A) && on && (user.used_intent.type == /datum/intent/mace/smash/flail/golgotha) && user.cmode)
+	if(ismob(A) && on && (user.used_intent.type == /datum/intent/flail/smash/golgotha) && user.cmode)
 		user.visible_message(span_warningbig("[user] smashes the exposed [src], shattering the shard of SYON!"))
 		explosion(get_turf(A),devastation_range = 3, heavy_impact_range = 5, light_impact_range = 6, flame_range = 3, flash_range = 6, smoke = FALSE)
 		fuel = 0
@@ -403,7 +445,7 @@ Inquisitorial armory down here
 
 /obj/item/inqarticles/indexer
 	name = "\improper INDEXER"
-	desc = "A blessed ampoule with a retractable bladetip, intended to further information gathering through hematology. Siphon blood from an individual until the INDEXER clicks shut, then mail it back to Otava for cataloguing."
+	desc = "A blessed ampoule with a retractable bladetip, intended to further information gathering through hematology. Siphon blood from an individual until the INDEXER clicks shut, then mail it back to Otava for cataloguing. </br>The retractable bladetip is alloyed in a special variant of blessed silver, alchemically treated to excaberate the smallest differences in a worshipper's blood. While 'false positives' - especially from those who've recieved an Ascendant's miracles - are common, the device has discovered enough heathens and verebeastes to warrant its continued fundage by the Archbishop of Otava."
 	icon = 'icons/roguetown/items/misc.dmi'
 	icon_state = "indexer"
 	item_state = "indexer"
@@ -412,9 +454,9 @@ Inquisitorial armory down here
 	grid_height = 32
 	grid_width = 32
 	throwforce = 15
-	force = 4
+	force = 5
 	tool_behaviour = null
-	possible_item_intents = list(/datum/intent/use)
+	possible_item_intents = list(/datum/intent/use, /datum/intent/dagger/thrust) //Extremely low damage, blocked by anything sturdier than a cloth shirt. Quite funny to imagine it as a shiv, however.
 	slot_flags = ITEM_SLOT_HIP
 	sharpness = IS_SHARP
 	experimental_inhand = TRUE
@@ -425,9 +467,18 @@ Inquisitorial armory down here
 	var/cursedblood	
 	var/active
 	var/mob/living/carbon/subject
+	var/hasSubject = FALSE
 	var/full	
 	var/timestaken
 	var/working
+
+/obj/item/inqarticles/indexer/get_mechanics_examine(mob/user)
+    . = ..()
+    . += span_info("Activate in your hand to toggle the retractable blade.")
+    . += span_info("Left click someone else on the 'USE' intent, while its blade is extended, to begin gathering blood from them.")
+    . += span_info("It takes several cycles to fill the INDEXER with blood - at which point, it will automatically retract the blade and seal itself. This may prove dangerous if used on someone who's already suffering from blood loss.")
+    . += span_info("Once filled, left-clicking the INDEXER on a signed ACCUSATION or CONFESSION will combine them into a foldable package. This package can be then folded, stamped, and mailed back to Otava through the HERMES.")
+    . += span_info("Mailing an INDEXER reveals the worshipped pantheon of whoever's blood was gathered. More MARQUES are rewarded if the INDEXER was filled with the blood of an ASCENDANT, NITEBEASTE, or CURSEBORNED.")
 
 /obj/item/inqarticles/indexer/equipped(mob/living/carbon/human/user, slot)
 	. = ..()
@@ -511,6 +562,7 @@ Inquisitorial armory down here
 	cursedblood = initial(cursedblood)
 	working = initial(working)
 	subject = initial(subject)
+	hasSubject = FALSE
 	full = initial(full)
 	timestaken = initial(timestaken)
 	desc = initial(desc)
@@ -558,6 +610,7 @@ Inquisitorial armory down here
 			if(M.show_redflash())
 				M.flash_fullscreen("redflash3")
 			subject = M
+			hasSubject = TRUE
 			if(!HAS_TRAIT(M, TRAIT_NOPAIN) || !HAS_TRAIT(M, TRAIT_NOPAINSTUN))
 				if(prob(15))
 					M.emote("whimper", forced = TRUE)
@@ -635,7 +688,7 @@ Inquisitorial armory down here
 	var/remaining
 	var/heatedup
 	var/messageshown = 1
-	sellprice = 0
+	sellprice = 15
 
 /obj/item/inqarticles/tallowpot/Initialize(mapload)
 	. = ..()
@@ -683,12 +736,6 @@ Inquisitorial armory down here
 		visible_message(span_info("[user] warms [src] with [I]."))
 		update_icon()
 
-	if(istype(I, /obj/item/clothing/ring/signet))	
-		if(tallow && heatedup)	
-			var/obj/item/clothing/ring/signet/ring = I
-			ring.tallowed = TRUE
-			ring.update_icon()	
-		
 
 /obj/item/inqarticles/tallowpot/update_icon()
 	. = ..()	
@@ -699,6 +746,10 @@ Inquisitorial armory down here
 	else
 		icon_state = "[initial(icon_state)]"
 
+/obj/item/inqarticles/tallowpot/get_mechanics_examine(mob/user)
+    . = ..()
+    . += span_info("Left click with a chunk of redtallow to fill it up.")
+    . += span_info("Once filled, left-clicking the tallowpot with a torch, lamptern, candle, or any other handheld source of heat will temporarily melt the redtallow inside.")
 
 /obj/item/rope/inqarticles/inquirycord
 	name = "inquiry cordage"
@@ -752,7 +803,7 @@ Inquisitorial armory down here
 	slot_flags = ITEM_SLOT_HIP|ITEM_SLOT_WRISTS
 	experimental_inhand = TRUE
 	wieldsound = TRUE
-	max_integrity = 200
+	max_integrity = 300
 	w_class = WEIGHT_CLASS_SMALL
 	can_parry = FALSE
 	break_sound = 'sound/items/garrotebreak.ogg'
@@ -766,6 +817,14 @@ Inquisitorial armory down here
 	integrity_failure = 0.01
 	embedding = null
 	sellprice = 0
+
+/obj/item/inqarticles/garrote/get_mechanics_examine(mob/user)
+    . = ..()
+    . += span_info("Left click with the 'GRAB' intent, while targeting the neck, to lock someone else into a chokehold.")
+    . += span_info("Once locked into a chokehold, the 'CHOKE' intent can be used to rapidly choke the recipient into unconsciousness. Mindless recipients take far more damage when being choked.")
+    . += span_info("Integrity damage is primarily taken whenever the recipient attempts to resist out of a chokehold. Each attempt to resist removes a twelveth of the garrote's total integrity.")
+    . += span_info("Upon taking enough integrity damage, the garrote's cordage is snapped. Left-clicking a spool of inquisitorial cordage on the snapped garrote will fully repair it.")
+    . += span_info("Using this item takes longer than usual, if the handler lacks the necessary trait or training.")
 
 /obj/item/inqarticles/garrote/obj_break(damage_flag)
 	obj_broken = TRUE
@@ -974,6 +1033,14 @@ Inquisitorial armory down here
 	var/bagging = FALSE
 	var/headgear
 
+/obj/item/clothing/head/inqarticles/blackbag/get_mechanics_examine(mob/user)
+    . = ..()
+    . += span_info("Left click while targeting the head to attempt a 'blackbagging', which - if successful - completely blinds the recipient.")
+    . += span_info("While worn, the recipient's head is completely immune to damage.")
+    . += span_info("Blackbagged recipients are subdued far quicker when choked with a garrote.")
+    . += span_info("Unconscious recipients can be blackbagged much faster than if they're fully conscious.")
+    . += span_info("Using this item takes longer than usual, if the handler lacks the necessary trait or training.")
+
 /obj/item/clothing/head/inqarticles/blackbag/proc/bagsound(mob/living/M)
 	if(bagging)
 		playsound(M, pick('sound/misc/blackbag.ogg','sound/misc/blackbag2.ogg','sound/misc/blackbag3.ogg','sound/misc/blackbag4.ogg','sound/misc/blackbag5.ogg'), 100, TRUE, 4)
@@ -1122,9 +1189,15 @@ Inquisitorial armory down here
 /obj/item/inqarticles/bmirror/examine(mob/user)
 	. = ..()
 	if(HAS_TRAIT(usr, TRAIT_INQUISITION))
-		desc = "A mass-produced relic of the Otavan Inquisition. The exact method of the Black Mirror's operation remains a well-kept secret. One worth dying over, supposedly."
+		desc = "A hauntingly beautiful mirror, clasped within a blacksteeled clamshell. It is a hand-produced relic of the Holy Psydonic Inquisition. The exact method of the Black Mirror's operation remains a well-kept secret. One worth dying over, supposedly."
 	else
-		desc = ""
+		desc = "A hauntingly beautiful mirror, clasped within a blacksteeled clamshell. A lone spike awaits at the bottom; but, for what?"
+
+/obj/item/inqarticles/bmirror/get_mechanics_examine(mob/user)
+    . = ..()
+    . += span_info("Right click to open or close the BLACK MIRROR.")
+    . += span_info("Once opened, left-clicking yourself with the BLACK MIRROR will anoint its spike in your blood. This can be dangerous, if used while you're already suffering from blood loss.")
+    . += span_info("Activate the BLACK MIRROR in your hand, once bloodied, to scry whoever's name you enter into the following prompt.")
 
 /obj/item/inqarticles/bmirror/proc/donefixating()
 	bloody = TRUE
@@ -1181,6 +1254,9 @@ Inquisitorial armory down here
 		for(var/mob/living/carbon/human/HL in GLOB.player_list) 
 		//	to_chat(world, "going through mob: [HL] | real_name: [HL.real_name] | input: [input] | [world.time]") Mirror-bugsplatter. Disregard this.
 			if(HL.real_name == input)
+				if(HAS_TRAIT(HL, TRAIT_ANTISCRYING))
+					to_chat(user, span_warning("They are not within the gaze of the Mirror."))
+					return
 				target = HL
 				active = TRUE
 				effect = target.throw_alert("blackmirror", /atom/movable/screen/alert/blackmirror, override = TRUE)
@@ -1326,6 +1402,11 @@ Inquisitorial armory down here
 		QDEL_NULL(soundloop)
 	return ..()
 
+/atom/movable/screen/alert/scryingeye
+	name = "SCRYING EYE"
+	desc = "I SEE YOU."
+	icon_state = "scryingeye"
+	timeout = 8 SECONDS
 
 /atom/movable/screen/alert/blackmirror
 	name = "BLACK EYE"

@@ -2,6 +2,7 @@
 	abstract_type = /datum/sex_action/masturbate
 	intensity = 1 //You're just masturbating
 	masturbation = TRUE
+	debug_erp_panel_verb = TRUE
 
 /datum/sex_action/masturbate/can_perform(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	. = ..()

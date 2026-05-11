@@ -200,7 +200,7 @@
 /mob/living/put_in_hand_check(obj/item/I)
 	if(I.twohands_required && get_inactive_held_item())
 		return FALSE
-	if((I.is_silver || I.smeltresult == /obj/item/ingot/silver) && (HAS_TRAIT(src, TRAIT_SILVER_WEAK) &&  !has_status_effect(STATUS_EFFECT_ANTIMAGIC)))
+	if((I.is_silver || I.smeltresult == /obj/item/ingot/silver) && !I.is_lesser_silver && (HAS_TRAIT(src, TRAIT_SILVER_WEAK) &&  !has_status_effect(STATUS_EFFECT_ANTIMAGIC)))
 		var/datum/antagonist/vampire/V_lord = mind?.has_antag_datum(/datum/antagonist/vampire)
 		if(!istype(V_lord) || V_lord?.generation < GENERATION_METHUSELAH)
 			to_chat(src, span_userdanger("I can't pick up the silver, it is my BANE!"))
@@ -210,6 +210,11 @@
 			adjust_fire_stacks(3, /datum/status_effect/fire_handler/fire_stacks/sunder)
 			ignite_mob()
 			return FALSE
+	if(I.is_lesser_silver && HAS_TRAIT(src, TRAIT_SILVER_WEAK) && !has_status_effect(STATUS_EFFECT_ANTIMAGIC))
+		// Kick off the lesser silver exposure timer. The status effect handles grace period,
+		// stress event, and eventual ignition; it self-removes when no lesser silver remains.
+		if(!has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder/lesser))
+			apply_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder/lesser, 1)
 	if(istype(I) && ((mobility_flags & MOBILITY_PICKUP) || (I.item_flags & ABSTRACT)))
 		return TRUE
 	return FALSE
@@ -333,6 +338,8 @@
 		hud_used.throw_icon?.update_icon()
 		hud_used.give_intent?.update_icon()
 	update_a_intents()
+	SEND_SIGNAL(I, COMSIG_ITEM_POST_UNEQUIP, force, newloc, no_move, invdrop, silent)
+	SEND_SIGNAL(src, COMSIG_MOB_UNEQUIPPED_ITEM, I, force, newloc, no_move, invdrop, silent)
 	return TRUE
 
 //Outdated but still in use apparently. This should at least be a human proc.
@@ -408,29 +415,30 @@
 	var/list/obscured = list()
 	var/hidden_slots = NONE
 
-	for(var/obj/item/I in get_equipped_items())
+	var/list/equipped = get_equipped_items()
+	for(var/obj/item/I as anything in equipped)
 		hidden_slots |= I.flags_inv
 		if(transparent_protection)
 			hidden_slots |= I.transparent_protection
 
 	if(hidden_slots & HIDENECK)
-		obscured |= SLOT_NECK
+		obscured += SLOT_NECK
 	if(hidden_slots & HIDEMASK)
-		obscured |= SLOT_WEAR_MASK
+		obscured += SLOT_WEAR_MASK
 	if(hidden_slots & HIDEEYES)
-		obscured |= SLOT_GLASSES
+		obscured += SLOT_GLASSES
 	if(hidden_slots & HIDEGLOVES)
-		obscured |= SLOT_GLOVES
+		obscured += SLOT_GLOVES
 	if(hidden_slots & HIDEJUMPSUIT)
-		obscured |= SLOT_PANTS
+		obscured += SLOT_PANTS
 	if(hidden_slots & HIDESHOES)
-		obscured |= SLOT_SHOES
+		obscured += SLOT_SHOES
 	if(hidden_slots & HIDEBELT)
-		obscured |= SLOT_BELT_R
-		obscured |= SLOT_BELT_L
-		obscured |= SLOT_BELT
+		obscured += SLOT_BELT_R
+		obscured += SLOT_BELT_L
+		obscured += SLOT_BELT
 	if(hidden_slots & HIDESUITSTORAGE)
-		obscured |= SLOT_S_STORE
+		obscured += SLOT_S_STORE
 
 	return obscured
 

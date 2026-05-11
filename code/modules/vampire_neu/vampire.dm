@@ -1,10 +1,22 @@
 GLOBAL_LIST_EMPTY(vampire_objects)
 #define INITIAL_BLOODPOOL_PERCENTAGE 40
+// Storyteller scaling:
+// scaling=2, min_players=0, default_cap=0
+// On Astrata (cap=2): uses storyteller_scale_slots → always 2 slots at any pop.
+// On others (cap=0): falls through to event control's base_antags path.
+//  Event          | base | denom | max | Formula: base + floor(pop/denom), capped at max
+//  Vampires       |  1   |  80   |  2  | 1-79 pop → 1, 80+ → 2
+//  Masquerade     |  2   |  80   |  4  | 1-79 pop → 2, 80-159 → 3, 160+ → 4
+//  Vamp+Werewolf  |  2   |  80   |  4  | 1-79 pop → 2, 80-159 → 3, 160+ → 4
 /datum/antagonist/vampire
 	name = "Vampire"
 	roundend_category = "Vampires"
 	antagpanel_category = "Vampire"
 	job_rank = ROLE_VAMPIRE
+	storyteller_antag_flags = STORYTELLER_ANTAG_VILLAIN | STORYTELLER_ANTAG_ROUNDSTART
+	storyteller_favor_flags = STORYTELLER_FAVOR_VAMPIRE_LORD | STORYTELLER_FAVOR_MASQUERADE
+	storyteller_slot_scaling = 2
+	storyteller_maxcaps = list(/datum/storyteller/astrata = 2)
 	antag_hud_type = ANTAG_HUD_VAMPIRE
 	antag_hud_name = "Vspawn"
 	confess_lines = list(
@@ -68,6 +80,8 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 		return span_boldnotice("Another deadite.")
 	if(istype(examined_datum, /datum/antagonist/skeleton))
 		return span_boldnotice("Another deadite.")
+	if(istype(examined_datum, /datum/antagonist/lich))
+		return span_boldnotice("Another deadite.")
 
 /datum/antagonist/vampire/on_gain()
 	SSmapping.retainer.vampires |= owner
@@ -75,6 +89,7 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 	owner.special_role = name
 	owner.current.adjust_bloodpool()
 	max_thralls = initial(max_thralls)
+	var/clan_setup_deferred = FALSE
 	if(ishuman(owner.current))
 		var/mob/living/carbon/human/vampdude = owner.current
 		vampdude.hud_used?.shutdown_bloodpool()
@@ -102,63 +117,53 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 			ADD_TRAIT(vampdude, TRAIT_DUSTABLE, TRAIT_GENERIC)
 
 		if(!forced)
-			// Show clan selection interface
 			if(!clan_selected)
 				show_clan_selection(vampdude)
+				clan_setup_deferred = TRUE
 			else
-				// Apply the selected clan
 				vampdude.set_clan(default_clan)
 		else
 			vampdude.set_clan_direct(forcing_clan)
 			forcing_clan = null
 
 
-	// The clan system now handles most of the setup, but we can still do antagonist-specific things
-	after_gain()
+	if(!clan_setup_deferred)
+		after_gain()
 	. = ..()
 	equip()
 
 	if(HAS_TRAIT(owner, TRAIT_CRITICAL_RESISTANCE))
 		REMOVE_TRAIT(owner, TRAIT_CRITICAL_RESISTANCE, null)
+	if(HAS_TRAIT(owner, TRAIT_RAGE))
+		REMOVE_TRAIT(owner, TRAIT_RAGE, null)
 
 /datum/antagonist/vampire/proc/show_clan_selection(mob/living/carbon/human/vampdude)
-	var/list/clan_options = list()
-	var/list/available_clans = list()
+	if(!vampdude)
+		return
 
 	if(vampdude.job == "Wretch")
-		create_custom_clan(vampdude)
+		var/wretch_name = tgui_input_text(vampdude, "Enter your Caitiff clan name:", "Custom Clan", "Custom Clan", MAX_NAME_LEN)
+		create_custom_clan(vampdude, wretch_name)
 		return
 
-	for(var/clan_type in subtypesof(/datum/clan))
-		var/datum/clan/temp_clan = new clan_type
-		if(temp_clan.selectable_by_vampires)
-			available_clans += clan_type
-			clan_options[temp_clan.name] = clan_type
-		qdel(temp_clan)
+	var/datum/vampire_clan_selection_menu/menu = new(src, vampdude)
+	menu.ui_interact(vampdude)
 
-	clan_options["Create Custom Clan"] = "custom"
-
-	var/choice = input(vampdude, "Choose your vampire clan:", "Clan Selection") as null|anything in clan_options
-
-	if(!choice)
-		// Default to nosferatu if no choice made
-		default_clan = /datum/clan/nosferatu
-		vampdude.set_clan(default_clan)
-		clan_selected = TRUE
+/datum/antagonist/vampire/proc/finalize_clan_selection(mob/living/carbon/human/vampdude, clan_type)
+	if(clan_selected || !vampdude)
 		return
+	if(!clan_type)
+		clan_type = /datum/clan/nosferatu
+	default_clan = clan_type
+	vampdude.set_clan(default_clan)
+	clan_selected = TRUE
+	after_gain()
 
-	if(clan_options[choice] == "custom")
-		create_custom_clan(vampdude)
-	else
-		default_clan = clan_options[choice]
-		vampdude.set_clan(default_clan)
-		clan_selected = TRUE
+/datum/antagonist/vampire/proc/finalize_default_clan_selection(mob/living/carbon/human/vampdude)
+	finalize_clan_selection(vampdude, /datum/clan/nosferatu)
 
-/datum/antagonist/vampire/proc/create_custom_clan(mob/living/carbon/human/vampdude)
-	// Get custom clan name
-	custom_clan_name = input(vampdude, "Enter your custom clan name:", "Custom Clan", "Custom Clan") as text|null
-	if(!custom_clan_name)
-		custom_clan_name = "Custom Clan"
+/datum/antagonist/vampire/proc/create_custom_clan(mob/living/carbon/human/vampdude, custom_name = null)
+	custom_clan_name = (istext(custom_name) && length(custom_name)) ? custom_name : "Custom Clan"
 
 	var/datum/clan/custom/new_clan = new /datum/clan/custom()
 	new_clan.name = custom_clan_name
@@ -166,9 +171,9 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 		if(GENERATION_NEONATE, GENERATION_THINBLOOD)
 			new_clan.covens_to_select = COVENS_PER_WRETCH_CLAN
 
-	// Apply the custom clan
 	vampdude.set_clan_direct(new_clan)
 	clan_selected = TRUE
+	after_gain()
 
 	to_chat(vampdude, span_notice("You are now a member of the [custom_clan_name] clan with [length(selected_covens)] coven(s)."))
 

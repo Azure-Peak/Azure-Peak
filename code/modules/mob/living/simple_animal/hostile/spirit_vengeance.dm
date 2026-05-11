@@ -1,6 +1,6 @@
 /mob/living/simple_animal/hostile/rogue/spirit_vengeance
-	name = "Rancor Spirit"
-	desc = ""
+	name = "rancor spirit"
+	desc = "Death is no end, but a fascinating new beginning."
 	icon = 'icons/mob/spirit_vengeance.dmi'
 	icon_state = "spirit_vengeance"
 	icon_living = "spirit_vengeance"
@@ -52,6 +52,7 @@
 
 /mob/living/simple_animal/hostile/rogue/spirit_vengeance/Initialize(mapload)
 	. = ..()
+	AddComponent(/datum/component/ai_aggro_system)
 	addtimer(CALLBACK(src, TYPE_PROC_REF(/mob/living/simple_animal, death), TRUE), 30 SECONDS)
 
 

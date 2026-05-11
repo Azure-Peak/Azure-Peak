@@ -105,6 +105,18 @@
 		return "braies_f"
 	return "braies"
 
+/datum/sprite_accessory/underwear/briefs/eoran
+	name = "Briefs - Eoran"
+	icon_state = "eoran_reg"
+	underwear_type = /obj/item/undies
+
+/datum/sprite_accessory/underwear/briefs/eoran/get_icon_state(obj/item/organ/organ, obj/item/bodypart/bodypart, mob/living/carbon/owner)
+	if(is_species(owner,/datum/species/dwarf))
+		return "eoran_dwarf"
+	if(owner.gender == FEMALE)
+		return "eoran_efl"
+	return "eoran_reg"
+
 /datum/sprite_accessory/legwear
 	abstract_type = /datum/sprite_accessory/legwear
 	icon = 'icons/obj/items/clothes/on_mob/stockings.dmi'
@@ -115,18 +127,17 @@
 	var/hides_breasts = FALSE
 
 /datum/sprite_accessory/legwear/get_icon_state(obj/item/organ/organ, obj/item/bodypart/bodypart, mob/living/carbon/owner)
-    var/tag = icon_state
-    pixel_y = -1
-    if(owner.gender == FEMALE)
-        tag = tag + "_f"
-        pixel_y = 0
-    if(is_species(owner,/datum/species/dwarf))
-        tag = tag + "_dwarf"
-        pixel_y = 0
-    if(is_species(owner,/datum/species/elf) && owner.gender == MALE)
-        tag = tag + "_f"
-        pixel_y = -2
-    return tag
+	var/tag = icon_state
+	pixel_y = -1
+	if(owner.gender == FEMALE)
+		tag = tag + "_f"
+		pixel_y = 0
+	if(is_species(owner,/datum/species/dwarf) || is_species(owner,/datum/species/kobold) || is_species(owner,/datum/species/dwarf/gnome) || is_species(owner,/datum/species/goblinp))
+		pixel_y = 0
+	if(is_species(owner,/datum/species/elf) && owner.gender == MALE)
+		tag = tag + "_f"
+		pixel_y = -2
+	return tag
 
 /datum/sprite_accessory/legwear/adjust_appearance_list(list/appearance_list, obj/item/organ/organ, obj/item/bodypart/bodypart, mob/living/carbon/owner)
 	generic_gender_feature_adjust(appearance_list, organ, bodypart, owner, OFFSET_PANTS, OFFSET_PANTS_F)
@@ -154,7 +165,17 @@
 	icon_state = "thigh"
 	legwear_type = /obj/item/legwears/thigh_high
 
+/datum/sprite_accessory/legwear/stockings/thigh_high_silk
+	name = "thigh-high stockings - silk"
+	icon_state = "thigh_silk"
+	legwear_type = /obj/item/legwears/thigh_high_silk
+
 /datum/sprite_accessory/legwear/stockings/knee_high
 	name = "knee-high stockings"
 	icon_state = "knee"
 	legwear_type = /obj/item/legwears/knee_high
+
+/datum/sprite_accessory/legwear/stockings/knee_high_silk
+	name = "knee-high stockings - silk"
+	icon_state = "knee_silk"
+	legwear_type = /obj/item/legwears/knee_high_silk

@@ -276,7 +276,7 @@
 		var/mob/living/carbon/human/H = src
 		if(!(H.mobility_flags & MOBILITY_STAND))
 			return hide_cone()
-		if(!H.client && (H.mode != NPC_AI_OFF))
+		if(!H.client && H.ai_controller)
 			return hide_cone()
 		if(H.viewcone_override)
 			return hide_cone()
@@ -293,6 +293,10 @@
 
 		var/cyclops_left = HAS_TRAIT(src, TRAIT_CYCLOPS_LEFT) 
 		var/cyclops_right = HAS_TRAIT(src, TRAIT_CYCLOPS_RIGHT)
+
+		if(H.has_status_effect(STATUS_EFFECT_BLINDED))
+			fovangle |= FOV_LEFT
+			fovangle |= FOV_RIGHT
 
 		if(head)
 			cyclops_left = cyclops_left || head.has_wound(/datum/wound/facial/eyes/left)

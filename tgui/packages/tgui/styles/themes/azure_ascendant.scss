@@ -1,0 +1,25 @@
+@use 'azure_base' as *;
+
+// New Ascendant — warm chant-inspired palette with gradients and glow
+.theme-azure_ascendant:root {
+  @include azure-theme((
+    'base':            #140a0a,
+    'base-light':      #1a0e0e,
+    'base-dark':       #0a0505,
+    'section':         rgba(42, 16, 16, 0.45),
+    'section-title':   #c96e6e,
+    'text':            #d4a0a0,
+    'label':           #b08080,
+    'accent':          #8b5555,
+    'accent-bright':   #a06060,
+    'border':          #5a3030,
+    'btn-text':        #d4a0a0,
+    'btn-selected':    #7b4040,
+    'btn-disabled':    #5e4040,
+    'scrollbar-thumb': #8b5555,
+    'glow':            rgba(139, 85, 85, 0.2),
+    'link':            #c96e6e,
+    'link-visited':    #e0b0b0,
+    'link-hover':      #d4a0a0,
+  ), '../assets/azure_default/topbar_red.svg');
+}

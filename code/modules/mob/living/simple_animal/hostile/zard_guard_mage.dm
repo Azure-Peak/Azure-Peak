@@ -30,7 +30,7 @@
 	limb_destroyer = 1
 	d_intent = INTENT_PARRY
 	defprob = 50
-	faction = list("psy_vault_guard")
+	faction = list(FACTION_PSY_VAULT_GUARD)
 	footstep_type = FOOTSTEP_MOB_BAREFOOT
 	del_on_death = FALSE
 
@@ -41,6 +41,10 @@
 
 	projectiletype = /obj/projectile/magic/zardman_jailer_mage/lightning
 	projectilesound = list('sound/magic/charged.ogg')
+
+/mob/living/simple_animal/hostile/rogue/zardman_jailer_mage/Initialize()
+	. = ..()
+	AddComponent(/datum/component/ai_aggro_system)
 
 /obj/projectile/magic/zardman_jailer_mage/lightning/on_hit(target)
 	. = ..()
@@ -69,7 +73,7 @@
 	damage_type = BURN
 	nodamage = FALSE
 	speed = 0.3
-	flag = "magic"
+	flag = "fire"
 	light_color = "#ffffff"
 /obj/projectile/magic/zardman_jailer_mage/lightning/on_hit(target)
 	. = ..()

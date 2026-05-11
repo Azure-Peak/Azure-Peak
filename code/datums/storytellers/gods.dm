@@ -35,6 +35,8 @@
 	always_votable = TRUE
 	color_theme = "#80ced8"
 	preferred_gnoll_mode = GNOLL_SCALING_SINGLE
+	guarantees_roundstart_roleset = FALSE
+	roundstart_prob = 0
 
 	//Has no influence, your actions will not impact him his spawn rates. Cus he's asleep.
 	//Tl;dr - higher event spawn rates to keep stuff interesting, no god intervention, no antags. (Raids and omens will still happen at normal rate.)
@@ -104,6 +106,9 @@
 		"Set 4" = list(
 			STATS_SKILLS_DREAMED = list("name" = "Skills dreamed:", "points" = 0.325, "capacity" = 100),
 		),
+		"Set 5" = list(
+			STATS_VOYEURS = list("name" = "Voyeurs:", "points" = 5, "capacity" = 50),
+		),
 	)
 
 /datum/storyteller/ravox
@@ -143,6 +148,9 @@
 		"Set 4" = list(
 			STATS_YIELDS = list("name" = "Yields made:", "points" = -4.25, "capacity" = -40),
 		),
+		"Set 5" = list(
+			STATS_THRILLSEEKERS = list("name" = "Thrillseekers:", "points" = 5, "capacity" = 50)
+		)
 	)
 
 /datum/storyteller/abyssor
@@ -257,6 +265,8 @@
 		),
 		"Set 5" = list(
 			STATS_VAMPIRES_KILLED = list("name" = "Vampires killed:", "points" = 12.5, "capacity" = 70),
+		),
+		"Set 6" = list(		
 			STATS_SKELETONS_KILLED = list("name" = "Skeletons killed:", "points" = 5, "capacity" = 50),
 		)
 	)
@@ -284,12 +294,14 @@
 		),
 		"Set 3" = list(
 			STATS_LUX_HARVESTED = list("name" = "Lux extracted:", "points" = 8, "capacity" = 70),
-			STATS_LUX_REVIVALS = list("name" = "Lux revivals:", "points" = 16, "capacity" = 70),
 		),
 		"Set 4" = list(
-			STATS_ROT_CURED = list("name" = "Rot cured:", "points" = 5, "capacity" = 70),
+			STATS_LUX_REVIVALS = list("name" = "Lux revivals:", "points" = 16, "capacity" = 70),
 		),
 		"Set 5" = list(
+			STATS_ROT_CURED = list("name" = "Rot cured:", "points" = 5, "capacity" = 70),
+		),
+		"Set 6" = list(
 			STATS_FOOD_ROTTED = list("name" = "Food rotted:", "points" = 0.26, "capacity" = 80),
 		)
 	)
@@ -324,9 +336,12 @@
 			STATS_ROCKS_MINED = list("name" = "Rocks mined:", "points" = 0.26, "capacity" = 100),
 		),
 		"Set 3" = list(
-			STATS_CRAFT_SKILLS = list("name" = "Craft skills learned:", "points" = 0.55, "capacity" = 90),
+			STATS_CRAFT_SKILLS = list("name" = "Craft skills learned:", "points" = 0.4, "capacity" = 80),
 		),
 		"Set 4" = list(
+			STATS_CRAFTED_ITEMS = list("name" = "Crafted items:", "points" = 0.1, "capacity" = 100), //So he doesn't reign every round
+		),
+		"Set 5" = list(
 			STATS_BEARDS_SHAVED = list("name" = "Beards shaved:", "points" = -4, "capacity" = -40),
 			STATS_ALIVE_DWARVES = list("name" = "Number of dwarfs:", "points" = 4, "capacity" = 45),
 		),
@@ -334,11 +349,23 @@
 
 /datum/storyteller/eora
 	name = "Eora"
-	vote_desc = " Love reigns. Positive affairs occur more often, and raids will rarely transpire. Her favor shines upon romance."
-	desc = "Eora hates death and promotes love. Raids will never naturally progress, only death will bring them."
+	vote_desc = " Love reigns. Positive affairs occur more often, and She wills for none to be ill. Her favor shines upon romance."
+	desc = "Eora hates death and promotes love. There is no possibility for ill-will from external forces. Though deaths will anger."
 	welcome_text = "\"Love is in the air? Nay; tis the smell of freshly-baked pies upon the windowsills!\""
 	color_theme = "#9966CC"
 	preferred_gnoll_mode = GNOLL_SCALING_SINGLE
+	guarantees_roundstart_roleset = FALSE
+	roundstart_prob = 0
+
+	starting_point_multipliers = list(
+		EVENT_TRACK_MUNDANE = 1,
+		EVENT_TRACK_PERSONAL = 1,
+		EVENT_TRACK_MODERATE = 1,
+		EVENT_TRACK_INTERVENTION = 1,
+		EVENT_TRACK_CHARACTER_INJECTION = 0,
+		EVENT_TRACK_OMENS = 1,
+		EVENT_TRACK_RAIDS = 1,
+	)
 
 	tag_multipliers = list(
 		TAG_WIDESPREAD = 1.5,
@@ -350,23 +377,26 @@
 		EVENT_TRACK_PERSONAL = 1.4,
 		EVENT_TRACK_MODERATE = 1,
 		EVENT_TRACK_INTERVENTION = 2,
-		EVENT_TRACK_CHARACTER_INJECTION = 1,	//Gaurenteed antagonist spawn
+		EVENT_TRACK_CHARACTER_INJECTION = 0,	//No antagonist spawns.
 		EVENT_TRACK_OMENS = 1,
 		EVENT_TRACK_RAIDS = 0,
 	)
 
 	influence_sets = list(
 		"Set 1" = list(
-			STATS_KISSES_MADE = list("points" = 7, "capacity" = 70),
-		),
-		"Set 2" = list(
-			STATS_PLEASURES = list("name" = "Pleasures had:", "points" = 5, "capacity" = 50),
-		),
-		"Set 3" = list(
 			STATS_HUGS_MADE = list("name" = "Hugs made:", "points" = 2.5, "capacity" = 70),
 		),
-		"Set 4" = list(
+		"Set 2" = list(
+			STATS_KISSES_MADE = list("name" = "Kisses made:", "points" = 7, "capacity" = 70),
+		),
+		"Set 3" = list(
 			STATS_CLINGY_PEOPLE = list("name" = "Clingy people:", "points" = 6.5, "capacity" = 75),
+		),
+		"Set 4" = list(		
+			STATS_BEAUTIFUL_PEOPLE = list("name" = "Beautiful people:", "points" = 9, "capacity" = 50),
+		),
+		"Set 5" = list(
+			STATS_MARRIAGES_MADE = list("name" = "Marriages made:", "points" = 20, "capacity" = 80), //Rare so worth a ton.
 		)
 	)
 
@@ -397,15 +427,17 @@
 	influence_sets = list(
 		"Set 1" = list(
 			STATS_TREES_CUT = list("name" = "Trees felled:", "points" = -0.35, "capacity" = -45),
-
 		),
 		"Set 2" = list(
 			STATS_PLANTS_HARVESTED = list("name" = "Plants harvested:", "points" = 0.75, "capacity" = 100),
 		),
 		"Set 3" = list(
-			STATS_FOREST_DEATHS = list("name" = "Forest deaths:", "points" = 6, "capacity" = 90),
+			STATS_ANIMALS_TAMED = list("name" = "Animals tamed:", "points" = 3, "capacity" = 90),
 		),
 		"Set 4" = list(
+			STATS_FOREST_DEATHS = list("name" = "Forest deaths:", "points" = 6, "capacity" = 90),
+		),
+		"Set 5" = list(
 			STATS_WEREVOLVES = list("name" = "Number of werevolves:", "points" = 12.5, "capacity" = 65),
 		),
 	)
@@ -420,7 +452,7 @@
 	weight = 4
 	always_votable = TRUE
 	color_theme = "#CC4444"
-	preferred_gnoll_mode = GNOLL_SCALING_DYNAMIC
+	preferred_gnoll_mode = GNOLL_SCALING_FLAT
 
 	tag_multipliers = list(
 		TAG_MAGICAL = 1.2,
@@ -443,19 +475,23 @@
 
 	influence_sets = list(
 		"Set 1" = list(
-			STATS_NOBLE_DEATHS = list("name" = "Nobles killed:", "points" = 5.5, "capacity" = 80),
+			STATS_HUMEN_DEATHS = list("name" = "Humen killed:", "points" = 5.5, "capacity" = 80),
+			STATS_CLERGY_DEATHS = list("name" = "Clergy killed:", "points" = 12, "capacity" = 70),
 		),
 		"Set 2" = list(
 			STATS_DEADITES_WOKEN_UP = list("name" = "Deadites woken up:", "points" = 4, "capacity" = 85),
 		),
 		"Set 3" = list(
-			STATS_CLERGY_DEATHS = list("name" = "Clergy killed:", "points" = 12, "capacity" = 70),
+			STATS_DEADITES_ALIVE = list("name" = "Deadites alive:", "points" = 1, "capacity" = 40),
 		),
 		"Set 4" = list(
-			STATS_TORTURES = list("name" = "Tortures performed:", "points" = 5.25, "capacity" = 70),
+			STATS_LUX_HARVESTED = list("name" = "Clergy killed:", "points" = 12, "capacity" = 70),
 		),
 		"Set 5" = list(
-			STATS_BOOKS_BURNED = list("name" = "Books burned:", "points" = -5, "capacity" = -50),
+			STATS_TORTURES = list("name" = "Tortures performed:", "points" = 5.25, "capacity" = 70),
+		),
+		"Set 6" = list(
+			STATS_BOOKS_BURNED = list("name" = "Books burned:", "points" = 5, "capacity" = 50), //We actually gain influence from it
 		),
 	)
 
@@ -489,16 +525,22 @@
 
 	influence_sets = list(
 		"Set 1" = list(
-			STATS_DRUGS_SNORTED = list("name" = "Drugs snorted:", "points" = 4, "capacity" = 85),
+			STATS_JUNKIES = list("name" = "Number of junkies:", "points" = 9, "capacity" = 70),
 		),
 		"Set 2" = list(
-			STATS_ALCOHOL_CONSUMED = list("name" = "Alcohol consumed:", "points" = 0.042, "capacity" = 90),
+			STATS_DRUGS_SNORTED = list("name" = "Drugs snorted:", "points" = 4, "capacity" = 85),
 		),
 		"Set 3" = list(
 			STATS_ALCOHOLICS = list("name" = "Number of alcoholics:", "points" = 3.25, "capacity" = 60),
 		),
 		"Set 4" = list(
-			STATS_JUNKIES = list("name" = "Number of junkies:", "points" = 9, "capacity" = 70),
+			STATS_ALCOHOL_CONSUMED = list("name" = "Alcohol consumed:", "points" = 0.042, "capacity" = 90),
+		),
+		"Set 5" = list(
+			STATS_NYMPHOMANIACS = list("name" = "Number of nymphomaniacs:", "points" = 6, "capacity" = 30),
+		),
+		"Set 6" = list(
+			STATS_PLEASURES = list("name" = "Pleasures had:", "points" = 5, "capacity" = 50),
 		),
 	)
 
@@ -537,9 +579,11 @@
 		),
 		"Set 3" = list(
 			STATS_DEATHS = list("name" = "Deaths:", "points" = 5, "capacity" = 115),
-			STATS_ASSASSINATIONS = list("name" = "Sucessful assassinations:", "points" = 20, "capacity" = 100),
 		),
 		"Set 4" = list(
+			STATS_ASSASSINATIONS = list("name" = "Sucessful assassinations:", "points" = 20, "capacity" = 100),
+		),
+		"Set 5" = list(
 			STATS_PEOPLE_GIBBED = list("name" = "People gibbed:", "points" = 3.5, "capacity" = 55),
 		)
 	)
@@ -574,18 +618,20 @@
 
 	influence_sets = list(
 		"Set 1" = list(
-			STATS_ITEMS_PICKPOCKETED = list("name" = "Items pickpocketed:", "points" = 4.5, "capacity" = 80),
+			STATS_NOBLE_DEATHS = list("name" = "Nobles killed:", "points" = 5.5, "capacity" = 80),
 		),
 		"Set 2" = list(
 			STATS_SHRINE_VALUE = list("name" = "Value offered to his idol:", "points" = 0.08, "capacity" = 70),
 		),
 		"Set 3" = list(
 			STATS_GREEDY_PEOPLE = list("name" = "Number of greedy people:", "points" = 6.5, "capacity" = 70),
-			STATS_KLEPTOMANIACS = list("name"= "Number of kleptomaniacs:", "points" = 5, "capacity" = 25)
+			STATS_INDEBTED = list("name"= "Number of indebted people:", "points" = 5, "capacity" = 25),
 		),
-		"Set 4" = list(
+		"Set 4" = list(		
+			STATS_ITEMS_PICKPOCKETED = list("name" = "Items pickpocketed:", "points" = 4.5, "capacity" = 80),
+		),
+		"Set 5" = list(
 			STATS_LOCKS_PICKED = list("name" = "Locks picked:", "points" = 3.75, "capacity" = 80),
-			STATS_GRAVES_ROBBED = list("name" = "Graves robbed:", "points" = 5.25, "capacity" = 60),
 		)
 	)
 

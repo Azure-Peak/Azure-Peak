@@ -53,19 +53,14 @@
 
 //These procs fetch a cumulative total damage from all bodyparts
 /mob/living/carbon/getBruteLoss()
-	var/amount = 0
-	for(var/X in bodyparts)
-		var/obj/item/bodypart/BP = X
-		amount += BP.brute_dam
-	return amount
+	. = 0
+	for(var/obj/item/bodypart/BP as anything in bodyparts)
+		. += BP.brute_dam
 
 /mob/living/carbon/getFireLoss()
-	var/amount = 0
-	for(var/X in bodyparts)
-		var/obj/item/bodypart/BP = X
-		amount += BP.burn_dam
-	return amount
-
+	. = 0
+	for(var/obj/item/bodypart/BP as anything in bodyparts)
+		. += BP.burn_dam
 
 /mob/living/carbon/adjustBruteLoss(amount, updating_health = TRUE, forced = FALSE, required_status)
 	if(!forced && (status_flags & GODMODE))

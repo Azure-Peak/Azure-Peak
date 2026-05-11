@@ -40,14 +40,9 @@
 	var/lootnumber = 1
 	for(i=0, i<lootnumber, i++)
 		loot.Add(pickweight(list(
-		/obj/item/book/granter/spell/blackstone/fetch = 10,
-		/obj/item/book/granter/spell/blackstone/lightning = 5,
-		/obj/item/book/granter/spell/blackstone/fireball = 5,
-		/obj/item/book/granter/spell/blackstone/sicknessray = 5,
-		/obj/item/book/granter/spell/blackstone/bonechill = 3,
-		/obj/item/book/granter/spell/blackstone/skeleton = 3,
-		/obj/item/book/granter/spell/blackstone/invisibility = 3,
-		/obj/item/book/granter/spell/blackstone/greaterfireball = 2)))
+		/obj/item/book/granter/arcane_aspect/utility = 5,
+		/obj/item/book/granter/arcane_aspect/minor = 3,
+		/obj/item/book/granter/spell/bonechill = 2)))
 	return ..()
 
 /obj/structure/loot/pile/attack_hand(mob/user)

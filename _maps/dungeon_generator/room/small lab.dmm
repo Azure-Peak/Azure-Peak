@@ -41,7 +41,7 @@
 /turf/open/floor/rogue/ruinedwood/turned,
 /area/rogue/under/tomb/indoors)
 "gi" = (
-/obj/item/reagent_containers/food/snacks/rogue/breadslice,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
 /obj/structure/table/wood{
 	dir = 1;
 	icon_state = "longtable_mid"
@@ -61,16 +61,11 @@
 "iB" = (
 /obj/structure/closet/crate/drawer/inn,
 /obj/item/clothing/mask/cigarette/pipe/westman,
-/obj/item/clothing/mask/cigarette/rollie/trippy,
-/obj/item/clothing/mask/cigarette/rollie/trippy,
-/obj/item/clothing/mask/cigarette/rollie/trippy{
-	pixel_y = 8
-	},
-/obj/item/clothing/mask/cigarette/rollie/trippy{
-	pixel_y = 14;
-	pixel_x = -7
-	},
 /obj/item/clothing/mask/rogue/spectacles/golden,
+/obj/item/reagent_containers/food/snacks/grown/rogue/pipeweeddry,
+/obj/item/reagent_containers/food/snacks/grown/rogue/pipeweeddry,
+/obj/item/reagent_containers/food/snacks/grown/rogue/swampweeddry,
+/obj/item/reagent_containers/food/snacks/grown/rogue/swampweeddry,
 /turf/open/floor/rogue/ruinedwood/turned,
 /area/rogue/under/tomb/indoors)
 "iK" = (
@@ -114,8 +109,8 @@
 /area/rogue/under/tomb/indoors)
 "mV" = (
 /obj/structure/closet/crate/chest/wicker,
-/obj/item/reagent_containers/food/snacks/grown/wheat,
-/obj/item/reagent_containers/food/snacks/grown/wheat,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
 /turf/open/floor/rogue/ruinedwood/turned,
 /area/rogue/under/tomb/indoors)
 "qw" = (
@@ -155,7 +150,7 @@
 /turf/open/floor/rogue/ruinedwood/turned,
 /area/rogue/under/tomb/indoors)
 "uk" = (
-/obj/item/reagent_containers/food/snacks/rogue/breadslice,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
 /obj/structure/table/wood{
 	dir = 1;
 	icon_state = "longtable"
@@ -181,15 +176,9 @@
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/under/tomb)
 "wV" = (
-/obj/item/reagent_containers/food/snacks/rogue/breadslice,
-/obj/item/reagent_containers/food/snacks/rogue/breadslice{
-	pixel_y = 3;
-	pixel_x = 2
-	},
-/obj/item/reagent_containers/food/snacks/rogue/breadslice{
-	pixel_y = 7;
-	pixel_x = 3
-	},
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
 /obj/structure/table/wood{
 	icon_state = "longtable"
 	},
@@ -306,10 +295,10 @@
 /area/rogue/under/tomb/indoors)
 "Lq" = (
 /obj/structure/closet/crate/chest/wicker,
-/obj/item/reagent_containers/food/snacks/grown/wheat,
-/obj/item/reagent_containers/food/snacks/grown/wheat,
-/obj/item/reagent_containers/food/snacks/grown/wheat,
-/obj/item/reagent_containers/food/snacks/grown/wheat,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
 /turf/open/floor/rogue/ruinedwood/turned,
 /area/rogue/under/tomb/indoors)
 "Lw" = (
@@ -327,7 +316,7 @@
 /area/rogue/under/tomb/indoors)
 "Nt" = (
 /obj/item/clothing/head/roguetown/hatblu,
-/mob/living/carbon/human/species/npc/deadite,
+/mob/living/carbon/human/species/skeleton/npc/mediumspread,
 /turf/open/floor/rogue/ruinedwood/turned,
 /area/rogue/under/tomb/indoors)
 "NL" = (
@@ -360,11 +349,6 @@
 	pixel_y = 10;
 	pixel_x = -10
 	},
-/obj/item/organ/eyes/night_vision/werewolf,
-/obj/item/organ/eyes/night_vision/werewolf{
-	pixel_y = -6;
-	pixel_x = -12
-	},
 /obj/structure/table/wood/crafted,
 /obj/item/storage/belt/rogue/surgery_bag/full{
 	pixel_x = 7
@@ -386,8 +370,8 @@
 /area/rogue/under/tomb)
 "RK" = (
 /obj/structure/closet/crate/chest/wicker,
-/obj/item/reagent_containers/food/snacks/grown/wheat,
-/obj/item/reagent_containers/food/snacks/grown/wheat,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/food,
 /obj/item/reagent_containers/food/snacks/rogue/raisins,
 /obj/item/reagent_containers/food/snacks/rogue/raisins,
 /turf/open/floor/rogue/ruinedwood/turned,
@@ -421,6 +405,10 @@
 "UM" = (
 /turf/closed/mineral/rogue,
 /area/rogue/under/tomb/indoors)
+"Wc" = (
+/mob/living/carbon/human/species/skeleton/npc/special/vile_doctor,
+/turf/open/floor/rogue/ruinedwood/turned,
+/area/rogue/under/tomb/indoors)
 "Wu" = (
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/under/tomb)
@@ -441,6 +429,7 @@
 /obj/item/reagent_containers/powder/moondust_purest,
 /obj/item/reagent_containers/powder/moondust_purest,
 /obj/item/reagent_containers/powder/moondust_purest,
+/obj/item/organ/eyes/night_vision/werewolf,
 /turf/open/floor/rogue/ruinedwood/turned,
 /area/rogue/under/tomb/indoors)
 "YY" = (
@@ -1013,7 +1002,7 @@ Yi
 Yi
 LG
 tb
-rj
+Wc
 lo
 iK
 LG
@@ -1037,7 +1026,7 @@ LG
 zf
 Yr
 Ra
-iK
+rj
 LG
 Yi
 Yi

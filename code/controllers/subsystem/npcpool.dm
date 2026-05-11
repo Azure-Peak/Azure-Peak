@@ -15,21 +15,19 @@ SUBSYSTEM_DEF(npcpool)
 		var/list/activelist = GLOB.simple_animals[AI_ON]
 		src.currentrun = activelist.Copy()
 
-	//cache for sanic speed (lists are references anyways)
 	var/list/currentrun = src.currentrun
 
 	while(currentrun.len)
 		var/mob/living/simple_animal/SA = currentrun[currentrun.len]
 		--currentrun.len
 
-		if(SA)
-			if(!SA.ckey && !SA.notransform)
-				if(SA.stat != DEAD)
-					SA.handle_automated_action()
-				if(SA.stat != DEAD)
-					SA.handle_automated_movement()
-				if(SA.stat != DEAD)
-					SA.handle_automated_speech()
+		if(!SA || SA.ckey || SA.notransform || SA.stat == DEAD)
+			continue
+		SA.handle_automated_action()
+		if(SA.stat != DEAD)
+			SA.handle_automated_movement()
+		if(SA.stat != DEAD)
+			SA.handle_automated_speech()
 		if (MC_TICK_CHECK)
 			return
 

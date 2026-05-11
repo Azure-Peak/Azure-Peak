@@ -6,10 +6,10 @@
 //--------- TIN RECIPES -----------
 
 /datum/anvil_recipe/engineering/nails
-	name = "5x nails"
+	name = "8x nails"
 	req_bar = /obj/item/ingot/tin
 	created_item = /obj/item/construction/nail
-	createditem_num = 5
+	createditem_num = 8
 	craftdiff = 1
 
 // --------- IRON RECIPES -----------
@@ -30,9 +30,9 @@
 	craftdiff = 0
 
 /datum/anvil_recipe/engineering/mess_kit
-	name = "Mess Kit (+2 Iron)" // 3 Iron, cuz you get a pot, a pan and other things for free.
+	name = "Mess Kit (+2 Tin)"  // reduced cost using tin/pewter
 	req_bar = /obj/item/ingot/iron
-	additional_items = list(/obj/item/ingot/iron, /obj/item/ingot/iron)
+	additional_items = list(/obj/item/ingot/tin, /obj/item/ingot/tin)
 	created_item = /obj/item/storage/gadget/messkit
 	createditem_num = 1
 	craftdiff = 2
@@ -79,17 +79,17 @@
 // --------- BRONZE RECIPES -----------
 
 /datum/anvil_recipe/engineering/bronze/locks
-	name = "Lock (x2)"
+	name = "Lock (x3)"
 	req_bar = /obj/item/ingot/bronze
 	created_item = /obj/item/customlock
-	createditem_num = 2
+	createditem_num = 3
 	craftdiff = 1
 
 /datum/anvil_recipe/engineering/bronze/keys
-	name = "Key (x2)"
+	name = "Key (x3)"
 	req_bar = /obj/item/ingot/bronze
 	created_item = /obj/item/customblank
-	createditem_num = 2
+	createditem_num = 3
 	craftdiff = 1
 
 /datum/anvil_recipe/engineering/bronze/wrench
@@ -187,9 +187,9 @@
 
 //contraptions and tools
 /datum/anvil_recipe/engineering/bronze/autoshears
-	name = "Auto Shears (+2 Bronze, +1 cog)"
+	name = "Auto Shears (+1 Bronze, +1 cog)"
 	req_bar = /obj/item/ingot/bronze
-	additional_items = list(/obj/item/ingot/bronze, /obj/item/ingot/bronze, /obj/item/roguegear)
+	additional_items = list(/obj/item/ingot/bronze, /obj/item/roguegear)
 	created_item = /obj/item/contraption/shears
 	craftdiff = 4
 
@@ -205,6 +205,13 @@
 	req_bar = /obj/item/ingot/bronze
 	additional_items = list(/obj/item/ingot/bronze, /obj/item/roguegear)
 	created_item = /obj/item/contraption/lock_imprinter
+	craftdiff = 4
+
+/datum/anvil_recipe/engineering/bronze/tools/drill
+	name = "Clockwork Drill (+1 iron) (+1 Metal Gear) (+1 Wooden Plank)"
+	req_bar = /obj/item/ingot/bronze
+	additional_items = list(/obj/item/ingot/iron, /obj/item/roguegear, /obj/item/natural/wood/plank)
+	created_item = /obj/item/contraption/pick/drill
 	craftdiff = 4
 
 // ------------ PROSTHETICS ----------------
@@ -268,21 +275,21 @@
 
 //combat gear
 /datum/anvil_recipe/engineering/artificerarmor
-	name = "Artificer armor (+3 ancient alloy ingot)(+2 Bronze gear)"
+	name = "Artificer armor (+2 ancient alloy ingot, +2 Bronze gear)"
 	req_bar = /obj/item/ingot/purifiedaalloy
 	additional_items = list(/obj/item/ingot/purifiedaalloy, /obj/item/ingot/purifiedaalloy, /obj/item/roguegear, /obj/item/roguegear)
 	created_item = /obj/item/clothing/suit/roguetown/armor/plate/paalloy/artificer
 	craftdiff = 4
 
 /datum/anvil_recipe/engineering/volticgauntlet
-	name = "Voltic Gauntlet (+1 Tin ingot)(+2 Bronze gear)(+1 cinnabar ore)"
+	name = "Voltic Gauntlet (+1 Tin ingot, +2 Bronze gear, +1 cinnabar ore)"
 	req_bar = /obj/item/ingot/bronze
 	additional_items = list(/obj/item/roguegear, /obj/item/roguegear, /obj/item/ingot/tin, /obj/item/rogueore/cinnabar)
-	created_item = /obj/item/clothing/gloves/roguetown/contraption/voltic
+	created_item = /obj/item/clothing/gloves/roguetown/chain/contraption/voltic
 	craftdiff = 4
 
 /datum/anvil_recipe/engineering/steamshield
-	name = "Steam Shield (+1 wood plank)(+2 Bronze gear)(+2 bronze ingot)"
+	name = "Steam Shield (+1 wood plank, +2 Bronze gear, +2 bronze ingot)"
 	req_bar = /obj/item/ingot/iron
 	additional_items = list(/obj/item/roguegear, /obj/item/roguegear, /obj/item/natural/wood/plank, /obj/item/ingot/bronze, /obj/item/ingot/bronze)
 	created_item = /obj/item/rogueweapon/shield/steam

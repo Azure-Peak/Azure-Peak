@@ -1,4 +1,0 @@
-author: "ReezeBL"
-delete-after: True
-changes:
-  - bugfix: "silver-blessed wdefense bonus applies correctly now"

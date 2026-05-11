@@ -4,7 +4,7 @@
 	gender = FEMALE
 	desc = "An old, dwarven woman with a malicious stare. Her sallow skin is stretched taut over their skeletal structure. She is dressed in expensive clothes."
 	mob_biotypes = MOB_HUMANOID | MOB_ORGANIC
-	faction = list("dundead")
+	faction = list(FACTION_DUNDEAD)
 	del_on_death = FALSE
 	icon = 'icons/mob/baroness.dmi'
 	icon_state = "baroness"
@@ -117,7 +117,7 @@
 	damage_type = BURN
 	nodamage = FALSE
 	speed = 0.3
-	flag = "magic"
+	flag = "fire"
 	light_color = "#ffffff"
 /obj/projectile/magic/baroness/lightning/on_hit(target)
 	. = ..()
@@ -238,14 +238,13 @@
 	blade_class = BCLASS_CUT
 	hitsound = 'sound/combat/hits/bladed/genchop (1).ogg'
 	chargetime = 15
-	penfactor = 20
+	penfactor = PEN_LIGHT
 	swingdelay = 3
 	candodge = TRUE
 	canparry = TRUE
 	item_d_type = "stab"
 
 /mob/living/carbon/human/species/dwarfskeleton/ambush/knight/summoned
-		del_on_deaggro = TRUE // deletes so consecutive failures dont doom stack dorf knights, can be abused but we're HRP at the end of the day
 
 /obj/effect/oneway
 	name = "one way effect"

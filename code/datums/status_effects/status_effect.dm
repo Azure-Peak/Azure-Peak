@@ -34,7 +34,8 @@
 	var/atom/movable/screen/alert/status_effect/linked_alert = null
 	/// Each entry defines a stat affected by the status effect during its duration.
 	var/list/effectedstats = list()
-
+	/// if TRUE, we will be entered into SSfastprocess for ticking. if the effect is cleared/managed by another source, this should be FALSE.
+	var/needs_processing = TRUE
 
 	///Icon path for this effect's on-mob effect.
 	var/mob_effect_icon = 'icons/mob/mob_effects.dmi'
@@ -82,16 +83,18 @@
 	if(duration != -1)
 		duration = world.time + duration
 	tick_interval = world.time + tick_interval
-	if(alert_type)
+	if(alert_type && owner && !QDELETED(owner) && !QDELING(owner))
 		var/atom/movable/screen/alert/status_effect/A = owner.throw_alert(id, alert_type)
 		A?.attached_effect = src //so the alert can reference us, if it needs to
 		linked_alert = A //so we can reference the alert, if we need to
 
-	START_PROCESSING(SSfastprocess, src)
+	if(needs_processing)
+		START_PROCESSING(SSfastprocess, src)
 	return TRUE
 
 /datum/status_effect/Destroy()
-	STOP_PROCESSING(SSfastprocess, src)
+	if(needs_processing)
+		STOP_PROCESSING(SSfastprocess, src)
 	if(owner)
 		linked_alert = null
 		owner.clear_alert(id)
@@ -104,8 +107,9 @@
 		on_remove()
 		owner = null
 
-	effectedstats = list()
-	return ..()
+	effectedstats = null
+	. = ..()
+	return QDEL_HINT_IWILLGC
 
 /datum/status_effect/process(wait)
 	if(QDELETED(owner))
@@ -116,6 +120,9 @@
 		tick_interval = world.time + initial(tick_interval)
 	if(duration != -1 && duration < world.time)
 		qdel(src)
+		return
+	if(linked_alert && duration != -1)
+		linked_alert.update_countdown(max(duration - world.time, 0))
 
 /datum/status_effect/proc/on_apply() //Called whenever the buff is applied; returning FALSE will cause it to autoremove itself.
 	for(var/S in effectedstats)

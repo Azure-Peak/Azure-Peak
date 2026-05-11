@@ -11,6 +11,7 @@
 	content_overlays = FALSE
 	bloody_icon_state = "bodyblood"
 	sewrepair = TRUE
+	preload = TRUE
 	component_type = /datum/component/storage/concrete/roguetown/surgery_bag
 	populate_contents = list(
 		/obj/item/rogueweapon/surgery/scalpel,
@@ -26,6 +27,28 @@
 		/obj/item/natural/bundle/cloth/bandage/full,
 		/obj/item/needle
 	)
+
+/obj/item/storage/belt/rogue/surgery_bag/PopulateContents()
+	for(var/path in populate_contents)
+		var/obj/item/new_item = SSwardrobe.provide_type(path, loc)
+		if(!SEND_SIGNAL(src, COMSIG_TRY_STORAGE_INSERT, new_item, null, TRUE, TRUE))
+			new_item.inventory_flip(null, TRUE)
+			if(!SEND_SIGNAL(src, COMSIG_TRY_STORAGE_INSERT, new_item, null, TRUE, TRUE))
+
+				SSwardrobe.recycle_object(new_item)
+
+/obj/item/storage/belt/rogue/surgery_bag/get_types_to_preload()
+	return populate_contents
+
+/obj/item/storage/belt/rogue/surgery_bag/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("This bag can contain plenty of tools, useful for advanced medical techniques and surgeries.")
+
+/obj/item/rogueweapon/surgery/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("This tool can be used to perform surgeries and other medical treatments. Click on the 'FEINT' button in your HUD and select the 'WEAK' intent, when performing such techniques, to ensure the highest chance of success.")
+	. += span_info("The chance of successfully performing a step in surgery-or-treatment scales with your character's Medicine skill, and whether the recipient has been properly sedated or not. Ozium, poppymilk, and being unconscious are popular choices for sedation.")
+	. += span_info("Most surgeries and techniques require the recipient to be laying down, at the bare minimum. Resting them on a bed or cot will greatly improve your chances, while also reducing the chance of infection.")
 
 /obj/item/storage/belt/rogue/surgery_bag/full/physician
 	populate_contents = list(
@@ -43,6 +66,12 @@
 	/obj/item/needle/pestra //Gets the special needle!
 	)
 
+/obj/item/storage/belt/rogue/surgery_bag/full/physician/get_types_to_preload()
+	return populate_contents
+
+/obj/item/storage/belt/rogue/surgery_bag/empty
+	preload = FALSE 
+	
 /obj/item/storage/belt/rogue/surgery_bag/empty
 	populate_contents = list(
 	)
@@ -53,3 +82,6 @@
 	/obj/item/natural/bundle/cloth/bandage/full,
 	/obj/item/reagent_containers/glass/bottle/alchemical/healthpot
 	)
+
+/obj/item/storage/belt/rogue/pouch/medicine/get_types_to_preload()
+	return populate_contents

@@ -5,9 +5,10 @@
 	faction = "Station"
 	total_positions = 12
 	spawn_positions = 12
+	townie_contract_gate_exempt = TRUE
 
 	allowed_ages = list(AGE_ADULT, AGE_MIDDLEAGED, AGE_OLD)
-	allowed_races = ACCEPTED_RACES
+	
 
 	outfit = null
 	outfit_female = null
@@ -63,12 +64,3 @@
 	if(prob(33))
 		cloak = /obj/item/clothing/cloak/half/brown
 		gloves = /obj/item/clothing/gloves/roguetown/fingerless
-	H.adjust_skillrank(/datum/skill/misc/sneaking, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/stealing, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/climbing, 4, TRUE)
-	H.STALUC = rand(1, 20)
-	if(prob(10))
-		r_hand = /obj/item/rogue/instrument/flute
-	H.change_stat(STATKEY_INT, round(rand(-4,4)))
-	H.change_stat(STATKEY_CON, -1)
-	H.change_stat(STATKEY_WIL, -1)

@@ -113,7 +113,7 @@ All foods are distributed among various categories. Use common sense.
 /obj/item/reagent_containers/food/snacks/Initialize()
 	if(rotprocess)
 		SSticker.OnRoundstart(CALLBACK(src, PROC_REF(begin_rotting)))
-	if(cooked_type || fried_type)
+	if((cooked_type || fried_type) && !cooktime)
 		cooktime = 30 SECONDS
 	..()
 
@@ -141,6 +141,10 @@ All foods are distributed among various categories. Use common sense.
 	return ..()
 
 /obj/item/reagent_containers/food/snacks/proc/become_rotten(to_color = TRUE, to_rename = TRUE)
+	if(QDELETED(src) || !loc)
+		return FALSE
+
+	var/turf/fallback_turf = get_turf(src)
 	if(isturf(loc) && istype(get_area(src),/area/rogue/under/town/sewer))
 		if(!istype(src,/obj/item/reagent_containers/food/snacks/smallrat))
 			new /obj/item/reagent_containers/food/snacks/smallrat(loc)
@@ -151,11 +155,17 @@ All foods are distributed among various categories. Use common sense.
 		else
 			var/obj/item/reagent_containers/NU = new become_rot_type(loc)
 			var/atom/movable/location = loc
-			NU.reagents.clear_reagents()
-			reagents.trans_to(NU.reagents, reagents.maximum_volume)
+			if(NU.reagents)
+				NU.reagents.clear_reagents()
+			if(reagents && NU.reagents)
+				reagents.trans_to(NU.reagents, reagents.maximum_volume)
 			qdel(src)
 			if(!location || !SEND_SIGNAL(location, COMSIG_TRY_STORAGE_INSERT, NU, null, TRUE, TRUE))
-				NU.forceMove(get_turf(NU.loc))
+				var/turf/T = fallback_turf || get_turf(location)
+				if(T)
+					NU.forceMove(T)
+				else
+					qdel(NU)
 			record_round_statistic(STATS_FOOD_ROTTED)
 			return TRUE
 	else
@@ -206,7 +216,7 @@ All foods are distributed among various categories. Use common sense.
 			result = new /obj/item/reagent_containers/food/snacks/badrecipe(A)
 		initialize_cooked_food(result, 1)
 		return result
-	if(istype(A,/obj/machinery/light/rogue/hearth) || istype(A,/obj/machinery/light/rogue/firebowl) || istype(A,/obj/machinery/light/rogue/campfire) || istype(A,/obj/machinery/light/rogue/hearth/mobilestove))
+	if(istype(A,/obj/machinery/light/rogue/hearth) || istype(A,/obj/machinery/light/rogue/firebowl) || istype(A,/obj/machinery/light/rogue/campfire) || istype(A,/obj/machinery/light/rogue/hearth/mobilestove) || istype(A,/mob/living/simple_animal/pet/familiar/infernal))
 		var/obj/item/result
 		if(fried_type)
 			result = new fried_type(A)
@@ -311,12 +321,14 @@ All foods are distributed among various categories. Use common sense.
 						else
 							if (eater.has_stress_event(/datum/stressevent/noble_impoverished_food))
 								eater.add_stress(/datum/stressevent/noble_desperate)
-							apply_effect = FALSE
+							if(eat_effect != /datum/status_effect/debuff/rotfood && eat_effect != /datum/status_effect/debuff/burnedfood && eat_effect != /datum/status_effect/debuff/uncookedfood)
+								apply_effect = FALSE
 					if (FARE_POOR to FARE_NEUTRAL)
 						eater.add_stress(/datum/stressevent/noble_bland_food)
 						if (prob(25))
 							to_chat(eater, span_red("This is rather bland. I deserve better food than this..."))
-						apply_effect = FALSE
+						if(eat_effect != /datum/status_effect/debuff/rotfood && eat_effect != /datum/status_effect/debuff/burnedfood && eat_effect != /datum/status_effect/debuff/uncookedfood)
+							apply_effect = FALSE
 					if (FARE_FINE)
 						eater.remove_stress(/datum/stressevent/noble_bland_food)
 					if (FARE_LAVISH)
@@ -330,7 +342,8 @@ All foods are distributed among various categories. Use common sense.
 				switch (faretype)
 					if (FARE_IMPOVERISHED)
 						eater.add_stress(/datum/stressevent/noble_bland_food)
-						apply_effect = FALSE
+						if(eat_effect != /datum/status_effect/debuff/rotfood && eat_effect != /datum/status_effect/debuff/burnedfood && eat_effect != /datum/status_effect/debuff/uncookedfood)
+							apply_effect = FALSE
 						if (prob(25))
 							to_chat(eater, span_red("This is rather bland. I deserve better food than this..."))
 					if (FARE_POOR to FARE_LAVISH)
@@ -356,7 +369,7 @@ All foods are distributed among various categories. Use common sense.
 
 
 /obj/item/reagent_containers/food/snacks/attack(mob/living/M, mob/living/user, def_zone)
-	if(user.used_intent.type == INTENT_HARM)
+	if(user.used_intent.type == INTENT_HARM || user.cmode)
 		return ..()
 	if(!eatverb)
 		eatverb = pick("bite","chew","nibble","gnaw","gobble","chomp")
@@ -415,7 +428,7 @@ All foods are distributed among various categories. Use common sense.
 					var/mob/living/carbon/C = M
 					var/obj/item/bodypart/CH = C.get_bodypart(BODY_ZONE_HEAD)
 					if(C.cmode)
-						if(!CH.grabbedby)
+						if(CH && !CH.grabbedby)
 							to_chat(user, span_info("[C.p_they(TRUE)] steals [C.p_their()] face from it."))
 							return FALSE
 				if(!do_mob(user, M, double_progress = TRUE, can_move = FALSE))
@@ -719,7 +732,11 @@ All foods are distributed among various categories. Use common sense.
 	STOP_PROCESSING(SSobj, src)
 	if(contents)
 		for(var/atom/movable/something in contents)
-			something.forceMove(drop_location())
+			var/atom/dest = drop_location() || get_turf(src)
+			if(dest)
+				something.forceMove(dest)
+			else
+				qdel(something)
 	return ..()
 
 /obj/item/reagent_containers/food/snacks/attack_animal(mob/M)
@@ -788,7 +805,7 @@ All foods are distributed among various categories. Use common sense.
 
 /obj/item/reagent_containers/food/snacks/badrecipe
 	name = "burned mess"
-	desc = ""
+	desc = "A craggled affront to the culinary arts."
 	icon_state = "badrecipe"
 	list_reagents = list(/datum/reagent/toxin/bad_food = 30)
 	filling_color = "#8B4513"

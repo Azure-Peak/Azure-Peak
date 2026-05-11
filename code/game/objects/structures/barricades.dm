@@ -10,7 +10,8 @@
 
 /obj/structure/barricade
 	name = "chest high wall"
-	desc = ""
+	desc = "A brutally simple means of fortification which has held true over a \
+	very long time."
 	anchored = TRUE
 	density = TRUE
 	max_integrity = 100
@@ -81,14 +82,12 @@
 
 /obj/structure/barricade/crude
 	name = "crude plank barricade"
-	desc = ""
 	icon_state = "woodenbarricade-old"
 	drop_amount = 1
 	max_integrity = 50
 	proj_pass_rate = 65
 
 /obj/structure/barricade/crude/snow
-	desc = ""
 	icon_state = "woodenbarricade-snow-old"
 	max_integrity = 75
 

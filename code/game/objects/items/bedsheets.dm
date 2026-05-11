@@ -6,7 +6,7 @@ LINEN BINS
 
 /obj/item/bedsheet
 	name = "bedsheet"
-	desc = ""
+	desc = "Sweet dreams."
 	icon_state = "sheetwhite"
 	item_state = "sheetwhite"
 	layer = MOB_LAYER

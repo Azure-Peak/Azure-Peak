@@ -43,5 +43,5 @@
 	GLOB.character_ckey_list[real_name] = ckey
 	log_character("[ckey] - [real_name] - [input]")
 	log_manifest(ckey,mind,src,latejoin = TRUE)
-	for(var/datum/antagonist/A in mind.antag_datums)
+	for(var/datum/antagonist/A as anything in mind.antag_datums)
 		A.after_name_change()

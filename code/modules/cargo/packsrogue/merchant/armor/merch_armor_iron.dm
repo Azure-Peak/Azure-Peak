@@ -16,6 +16,11 @@
 	cost = 40
 	contains = list(/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/iron)
 
+/datum/supply_pack/rogue/armor_iron/brigandine_light//It's made with iron and melts into iron it's not steel.
+	name = "Brigandine, Light"
+	cost = 55 //1 Iron, 1 Leather
+	contains = list(/obj/item/clothing/suit/roguetown/armor/brigandine/light)
+
 /datum/supply_pack/rogue/armor_iron/chaincoif_iron
 	name = "Chain Coif"
 	cost = 25
@@ -39,7 +44,7 @@
 /datum/supply_pack/rogue/armor_iron/halfplate
 	name = "Half-Plate Armor"
 	cost = 75 // Uhhh I don't think I should be selling them for 65 LOL
-	contains = list(/obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron)
+	contains = list(/obj/item/clothing/suit/roguetown/armor/plate/iron)
 
 /datum/supply_pack/rogue/armor_iron/fullplate
 	name = "Full Plate"
@@ -49,7 +54,7 @@
 /datum/supply_pack/rogue/armor_iron/rearbraces
 	name = "Bracers, Splinted"
 	cost = 30 //1 Iron 1 Leather
-	contains = list(/obj/item/clothing/wrists/roguetown/splintarms/iron)
+	contains = list(/obj/item/clothing/wrists/roguetown/bracers/splint)
 
 /datum/supply_pack/rogue/armor_iron/bracers
 	name = "Bracers, Plate"
@@ -66,6 +71,11 @@
 	cost = 20
 	contains = list(/obj/item/clothing/gloves/roguetown/chain/iron)
 
+/datum/supply_pack/rogue/armor_iron/plategloves_iron
+	name = "Gauntlets, Plate"
+	cost = 30
+	contains = list(/obj/item/clothing/gloves/roguetown/plate/iron)
+
 /datum/supply_pack/rogue/armor_iron/chainleg_iron
 	name = "Chausses, Chain"
 	cost = 25
@@ -74,7 +84,7 @@
 /datum/supply_pack/rogue/armor_iron/chausses_brigandine
 	name = "Chausses, Splinted"
 	cost = 35 // 1 Iron 2 Leather
-	contains = list(/obj/item/clothing/under/roguetown/splintlegs/iron)
+	contains = list(/obj/item/clothing/under/roguetown/splintlegs)
 
 /datum/supply_pack/rogue/armor_iron/chausses_plate
 	name = "Chausses, Plate"
@@ -130,6 +140,11 @@
 	name = "Helmet, Armet, Knight's"
 	cost = 40
 	contains = list(/obj/item/clothing/head/roguetown/helmet/heavy/knight/iron)
+
+/datum/supply_pack/rogue/armor_iron/knightarmetgreatplume
+	name = "Helmet, Armet, Greatplumed"
+	cost = 40
+	contains = list(/obj/item/clothing/head/roguetown/helmet/heavy/knight/iron/greatplume)
 
 /datum/supply_pack/rogue/armor_iron/knight
 	name = "Helmet, Knight"

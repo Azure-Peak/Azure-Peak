@@ -5,7 +5,7 @@
 	gender = MALE
 	bodyparts = list(/obj/item/bodypart/chest, /obj/item/bodypart/head, /obj/item/bodypart/l_arm,
 					 /obj/item/bodypart/r_arm, /obj/item/bodypart/r_leg, /obj/item/bodypart/l_leg)
-	faction = list("undead")
+	faction = list(FACTION_UNDEAD)
 	var/skel_outfit = /datum/outfit/job/roguetown/npc/skeleton
 	var/skel_fragile = FALSE
 	ambushable = FALSE
@@ -17,16 +17,12 @@
 	cmode_music = 'sound/music/combat_weird.ogg'
 
 /mob/living/carbon/human/species/skeleton/npc
-	aggressive = 1
-	mode = NPC_AI_IDLE
-	wander = FALSE
+	ambush_faction = "undead"
+	ai_controller = /datum/ai_controller/human_npc
 	skel_fragile = TRUE
-	npc_jump_chance = 0 // no jumping skeletons
-	rude = TRUE
 
 /mob/living/carbon/human/species/skeleton/npc/ambush
-
-	wander = TRUE
+	threat_point = THREAT_MODERATE
 
 /mob/living/carbon/human/species/skeleton/Initialize()
 	. = ..()
@@ -36,12 +32,15 @@
 
 /mob/living/carbon/human/species/skeleton/after_creation()
 	..()
-	if(src.dna && src.dna.species)
-		src.dna.species.species_traits |= NOBLOOD
-		src.dna.species.soundpack_m = new /datum/voicepack/skeleton()
-		src.dna.species.soundpack_f = new /datum/voicepack/skeleton()
-	if(src.charflaw)
-		QDEL_NULL(src.charflaw)
+	if(ai_controller)
+		AddComponent(/datum/component/ai_aggro_system)
+	if(dna && dna.species)
+		dna.species.species_traits |= NOBLOOD
+		dna.species.soundpack_m = new /datum/voicepack/skeleton()
+		dna.species.soundpack_f = new /datum/voicepack/skeleton()
+	for(var/datum/charflaw/cf in charflaws)
+		charflaws.Remove(cf)
+		QDEL_NULL(cf)
 	name = "Skeleton"
 	real_name = "Skeleton"
 	voice_type = VOICE_TYPE_MASC //So that "Unknown Man" properly substitutes in with face cover
@@ -50,7 +49,9 @@
 	ADD_TRAIT(src, TRAIT_NOHUNGER, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_EASYDISMEMBER, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NOBREATH, TRAIT_GENERIC)
+	ADD_TRAIT(src, TRAIT_DEATHLESS, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NOPAIN, TRAIT_GENERIC)
+	ADD_TRAIT(src, TRAIT_NOBURN_RESIST, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_TOXIMMUNE, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_LEECHIMMUNE, INNATE_TRAIT)
 	ADD_TRAIT(src, TRAIT_LIMBATTACHMENT, TRAIT_GENERIC)
@@ -73,28 +74,32 @@
 
 /mob/living/carbon/human/species/skeleton/proc/skeletonize()
 	mob_biotypes |= MOB_UNDEAD
-	var/obj/item/bodypart/O = src.get_bodypart(BODY_ZONE_R_ARM)
+	var/obj/item/bodypart/O = get_bodypart(BODY_ZONE_R_ARM)
 	if(O)
 		O.drop_limb()
 		qdel(O)
-	O = src.get_bodypart(BODY_ZONE_L_ARM)
+	O = get_bodypart(BODY_ZONE_L_ARM)
 	if(O)
 		O.drop_limb()
 		qdel(O)
-	src.regenerate_limb(BODY_ZONE_R_ARM)
-	src.regenerate_limb(BODY_ZONE_L_ARM)
-	var/obj/item/organ/eyes/eyes = src.getorganslot(ORGAN_SLOT_EYES)
+	regenerate_limb(BODY_ZONE_R_ARM)
+	regenerate_limb(BODY_ZONE_L_ARM)
+	var/obj/item/organ/eyes/eyes = getorganslot(ORGAN_SLOT_EYES)
 	if(eyes)
 		eyes.Remove(src,1)
 		QDEL_NULL(eyes)
-	eyes = new /obj/item/organ/eyes/night_vision/zombie
+	eyes = SSwardrobe.provide_type(/obj/item/organ/eyes/night_vision/zombie)
 	eyes.Insert(src)
-	for(var/obj/item/bodypart/B in src.bodyparts)
+	for(var/obj/item/bodypart/B in bodyparts)
 		B.skeletonize(FALSE)
 	update_body()
 
 /mob/living/carbon/human/species/skeleton/npc/no_equipment
 	skel_outfit = null
+
+/mob/living/carbon/human/species/skeleton/npc/no_equipment/after_creation()
+	..()
+	STAINT = 1
 
 /mob/living/carbon/human/species/skeleton/no_equipment
 	skel_outfit = null
@@ -102,9 +107,10 @@
 
 /mob/living/carbon/human/species/skeleton/no_equipment/death(gibbed, nocutscene = FALSE)
 	..()
-	var/obj/item/necro_relics/necro_crystal/active_crystal = crystal.resolve()
-	for(var/datum/weakref/W in active_crystal.active_skeletons)
-		if(W.resolve() == src)
-			active_crystal.active_skeletons -= W
+	var/obj/item/necro_relics/necro_crystal/active_crystal = crystal?.resolve()
+	if(active_crystal)
+		for(var/datum/weakref/W in active_crystal.active_skeletons)
+			if(W.resolve() == src)
+				active_crystal.active_skeletons -= W
 	active_crystal = null
 	gib(no_brain = TRUE, no_organs = TRUE)

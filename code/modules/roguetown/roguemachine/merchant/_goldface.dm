@@ -63,6 +63,11 @@
 	)
 	var/is_public = FALSE // Whether it is a public access vendor.
 	var/extra_fee = 0 // Extra Guild Fees on purchases. Meant to make publicface very unprofitable.
+	/// Running tally of Crown import tariff actually collected via this specific machine.
+	var/tariff_collected_here = 0
+	/// Running tally of Crown import tariff that WOULD have been owed but was dodged
+	/// via the NOTAX flag. Surfaced in-UI for audit transparency.
+	var/tariff_evaded_here = 0
 
 /obj/structure/roguemachine/goldface/public
 	name = "SILVERFACE"
@@ -130,7 +135,7 @@
 
 /obj/structure/roguemachine/goldface/public/apothecary
 	name = "Apothecary's SILVERFACE"
-	lockid = "physician"
+	lockid = "apothecary"
 	profit_id = list("Head Physician","Apothecary")
 	categories = list(
 		"Potions",
@@ -141,9 +146,45 @@
 	. = ..()
 	. += span_info("This can be locked by a physician's key")
 
+/obj/structure/roguemachine/goldface/public/wretch_cat
+	name = "Vile Vheslie"
+	desc = "A ferocious little beast that hoards a mountain of goods under its home. The dreaded creechur is willing to part waes with its lower quality items..for a price."
+	icon = 'icons/roguetown/misc/structure.dmi'
+	icon_state = "vheslie"
+	lockid = "Vheslie"
+	profit_id = list("Guildsman", "Guildmaster", "Tailor")
+	categories = list(
+		"Apparel",
+		"Adventuring Supplies",
+		"Armor (Iron)",
+		"Alcohols",
+		"Consumable",
+		"Drugs",
+		"Potions",
+		"Weapons (Ranged)",
+		"Weapons (Iron and Shields)",
+		"Wardrobe"
+	)
+	categories_gamer = list()
+
 /obj/structure/roguemachine/goldface/Initialize()
 	. = ..()
 	update_icon()
+
+/// Single source of truth for displayed and billed prices. Computes the total cost of
+/// a supply pack accounting for the guild's handling fee (`extra_fee`) and the Crown's
+/// import tariff if applicable. Display-time and buy-time both route through here so
+/// a mid-session edict rate change can never desync the quoted price from the charged price.
+/obj/structure/roguemachine/goldface/proc/compute_pack_price(datum/supply_pack/PA)
+	var/cost = PA.cost + PA.cost * extra_fee
+	if(!(upgrade_flags & UPGRADE_NOTAX) && !bypass_tax)
+		cost += compute_pack_tax(PA)
+	return round(cost)
+
+/// Crown import tariff on a pack, pre-bypass. Used for both the add-to-cost path (when
+/// tariff applies) and the evaded-tally path (when it's dodged).
+/obj/structure/roguemachine/goldface/proc/compute_pack_tax(datum/supply_pack/PA)
+	return round(SStreasury.get_tax_rate(TAX_CATEGORY_IMPORT_TARIFF) * PA.cost)
 
 /obj/structure/roguemachine/goldface/update_icon()
 	cut_overlays()
@@ -157,7 +198,7 @@
 /obj/structure/roguemachine/goldface/attackby(obj/item/P, mob/user, params)
 	if(istype(P, /obj/item/roguekey))
 		var/obj/item/roguekey/K = P
-		if(K.lockid == lockid)
+		if(K.lockid == lockid || istype(K, /obj/item/roguekey/lord) || istype(K, /obj/item/roguekey/skeleton))
 			locked = !locked
 			playsound(loc, 'sound/misc/gold_misc.ogg', 100, FALSE, -1)
 			update_icon()
@@ -168,7 +209,7 @@
 	else if(istype(P, /obj/item/storage/keyring))
 		var/right_key = FALSE
 		for(var/obj/item/roguekey/KE in P.contents)
-			if(KE.lockid == lockid)
+			if(KE.lockid == lockid || istype(KE, /obj/item/roguekey/lord) || istype(KE, /obj/item/roguekey/skeleton))
 				right_key = TRUE
 				locked = !locked
 				playsound(loc, 'sound/misc/gold_misc.ogg', 100, FALSE, -1)
@@ -200,24 +241,24 @@
 		var/mob/M = usr
 		var/path = text2path(href_list["buy"])
 		if(!ispath(path, /datum/supply_pack))
-			message_admins("silly MOTHERFUCKER [usr.key] IS TRYING TO BUY A [path] WITH THE GOLDFACE")
+			message_admins("silly MOTHERFUCKER [usr.key] IS TRYING TO BUY A [path] WITH THE [src.name]")
 			return
 		var/datum/supply_pack/PA = SSmerchant.supply_packs[path]
-		var/cost = PA.cost + PA.cost * extra_fee
-		var/tax_amt = round(SStreasury.tax_value * PA.cost)
-		if(!(upgrade_flags & UPGRADE_NOTAX) && !bypass_tax)
-			cost = cost + tax_amt
-		cost = round(cost)
+		var/cost = compute_pack_price(PA)
+		var/tax_amt = compute_pack_tax(PA)
 		if(budget >= cost)
 			budget -= cost
 			record_round_statistic(value_record_key, cost)
 			record_round_statistic(STATS_TRADE_VALUE_IMPORTED, cost)
 			if(!(upgrade_flags & UPGRADE_NOTAX) && !bypass_tax)
-				SStreasury.give_money_treasury(tax_amt, "goldface import tax")
+				SStreasury.mint(SStreasury.discretionary_fund, tax_amt, "[TAX_CATEGORY_IMPORT_TARIFF] ([src.name])")
 				record_featured_stat(FEATURED_STATS_TAX_PAYERS, human_mob, tax_amt)
 				record_round_statistic(STATS_TAXES_COLLECTED, tax_amt)
+				record_round_statistic(STATS_REVENUE_IMPORT_TARIFF, tax_amt)
+				tariff_collected_here += tax_amt
 			else
 				record_round_statistic(STATS_TAXES_EVADED, tax_amt)
+				tariff_evaded_here += tax_amt
 		else
 			say("Not enough!")
 			return
@@ -284,6 +325,22 @@
 				contents += "<a href='?src=[REF(src)];secrets=1'>[stars("Secrets")]</a>"
 	contents += "</center><BR>"
 
+	// Crown import tariff summary. The rate is public (it's a published law). The
+	// paid/evaded tallies and the TAX DODGING banner are Merchant/Shophand only — the
+	// Crown cannot audit the Merchant's own books from the till. The Steward must
+	// compare expected receipts against the Crown's Purse to detect a crooked Merchant.
+	var/tariff_rate = SStreasury.get_tax_rate(TAX_CATEGORY_IMPORT_TARIFF)
+	var/merchant_only = (H.job in profit_id)
+	var/dodging = (upgrade_flags & UPGRADE_NOTAX) || bypass_tax
+	contents += "<center>"
+	contents += "Crown Import Tariff: <b>[round(tariff_rate * 100)]%</b>"
+	if(merchant_only && dodging)
+		contents += " <font color='#c84'><b>(TAX DODGING)</b></font>"
+	contents += "<br>"
+	if(merchant_only)
+		contents += "<font color='#8a8'>Paid: [tariff_collected_here]m</font> &middot; <font color='#c84'>Evaded: [tariff_evaded_here]m</font><br>"
+	contents += "</center>"
+
 	if(current_cat == "1")
 		contents += "<table style='width: 100%' line-height: 20px;'>"
 		for(var/i = 1, i <= categories.len, i++)
@@ -308,10 +365,7 @@
 			if(PA.group == current_cat)
 				pax += PA
 		for(var/datum/supply_pack/PA in sortNames(pax))
-			var/costy = PA.cost + PA.cost * extra_fee
-			if(!(upgrade_flags & UPGRADE_NOTAX))
-				costy = costy + round(SStreasury.tax_value * PA.cost)
-			costy = round(costy)
+			var/costy = compute_pack_price(PA)
 			var/quantified_name = PA.no_name_quantity ? PA.name : "[PA.name] [PA.contains.len > 1?"x[PA.contains.len]":""]"
 			if(is_public && locked) 
 				contents += "[quantified_name]<BR>"
@@ -327,7 +381,8 @@
 
 /obj/structure/roguemachine/goldface/obj_break(damage_flag)
 	..()
-	budget2change(budget)
+	var/turf/T = get_turf(src)
+	budget2change(budget, custom_turf = T)
 	set_light(0)
 	update_icon()
 	icon_state = "goldvendor0"

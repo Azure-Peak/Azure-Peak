@@ -2,11 +2,16 @@
 	name = "Fuck both their holes"
 	stamina_cost = 1.0
 	intensity = 4
+	debug_erp_panel_verb = FALSE //So all in all so long as it works.
 
 /datum/sex_action/sex/double_penetration/shows_on_menu(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	if(user == target)
 		return FALSE
 	if(!has_double_penis(user))
+		return FALSE
+	if(!check_location_accessible(user, user, BODY_ZONE_PRECISE_GROIN, TRUE))
+		return FALSE
+	if(!check_location_accessible(user, target, BODY_ZONE_PRECISE_GROIN, TRUE))
 		return FALSE
 	if(!target.getorganslot(ORGAN_SLOT_VAGINA))
 		return FALSE
@@ -31,7 +36,7 @@
 	return TRUE
 
 /datum/sex_action/sex/double_penetration/get_start_message(mob/living/carbon/human/user, mob/living/carbon/human/target)
-	return span_warning("[user] slides [user.p_their()] cocks into [target]'s holes!")
+	return span_warning("[user] slides [user.p_their()] pintles into [target]'s holes!")
 
 /datum/sex_action/sex/double_penetration/get_start_sound(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	return list('sound/misc/mat/insert (1).ogg','sound/misc/mat/insert (2).ogg')
@@ -62,7 +67,7 @@
 	return "into"
 
 /datum/sex_action/sex/double_penetration/get_finish_message(mob/living/carbon/human/user, mob/living/carbon/human/target)
-	return span_warning("[user] pulls [user.p_their()] twin cocks out of [target]'s holes.")
+	return span_warning("[user] pulls [user.p_their()] twin pintles out of [target]'s holes.")
 
 /datum/sex_action/sex/double_penetration/get_knot_count()
 	return 2

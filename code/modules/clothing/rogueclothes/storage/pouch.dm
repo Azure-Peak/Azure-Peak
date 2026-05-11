@@ -14,6 +14,8 @@
 	bloody_icon_state = "bodyblood"
 	sewrepair = TRUE
 	resistance_flags = FIRE_PROOF
+	experimental_inhand = TRUE
+	experimental_onhip = TRUE
 	grid_height = 64
 	grid_width = 32
 	component_type = /datum/component/storage/concrete/roguetown/coin_pouch
@@ -125,75 +127,162 @@
 	component_type = /datum/component/storage/concrete/roguetown/coin_pouch/cloth
 
 /obj/item/storage/belt/rogue/pouch/coins
+	preload = TRUE
 
-/obj/item/storage/belt/rogue/pouch/coins/mid/Initialize()
+/obj/item/storage/belt/rogue/pouch/coins/PopulateContents()
+	for(var/path in populate_contents)
+		var/obj/item/new_item = SSwardrobe.provide_type(path, loc)
+		if(!SEND_SIGNAL(src, COMSIG_TRY_STORAGE_INSERT, new_item, null, TRUE, TRUE))
+			new_item.inventory_flip(null, TRUE)
+			if(!SEND_SIGNAL(src, COMSIG_TRY_STORAGE_INSERT, new_item, null, TRUE, TRUE))
+
+				SSwardrobe.recycle_object(new_item)
+
+/obj/item/storage/belt/rogue/pouch/coins/get_types_to_preload()
+	var/list/to_preload = list() 
+	to_preload += /obj/item/roguecoin/copper/pile
+	return to_preload
+
+/obj/item/storage/belt/rogue/pouch/coins/mid/get_types_to_preload()
+	var/list/to_preload = list() 
+	to_preload += /obj/item/roguecoin/silver/pile
+	return to_preload
+
+/obj/item/storage/belt/rogue/pouch/coins/mid/PopulateContents()
 	. = ..()
-	var/obj/item/roguecoin/silver/pile/H = new(loc)
+	var/obj/item/roguecoin/silver/pile/H = SSwardrobe.provide_type(/obj/item/roguecoin/silver/pile, loc)
 	if(istype(H))
 		if(!SEND_SIGNAL(src, COMSIG_TRY_STORAGE_INSERT, H, null, TRUE, TRUE))
-			qdel(H)
-	var/obj/item/roguecoin/copper/pile/C = new(loc)
+			SSwardrobe.recycle_object(H)
+	var/obj/item/roguecoin/copper/pile/C = SSwardrobe.provide_type(/obj/item/roguecoin/copper/pile, loc)
 	if(istype(C))
 		if(!SEND_SIGNAL(src, COMSIG_TRY_STORAGE_INSERT, C, null, TRUE, TRUE))
-			qdel(C)
+			SSwardrobe.recycle_object(C)
 
-/obj/item/storage/belt/rogue/pouch/coins/poor/Initialize()
+/obj/item/storage/belt/rogue/pouch/coins/poor/get_types_to_preload()
+	var/list/to_preload = list() 
+	to_preload += /obj/item/roguecoin/copper/pile
+	return to_preload
+
+/obj/item/storage/belt/rogue/pouch/coins/poor/PopulateContents()
 	. = ..()
-	var/obj/item/roguecoin/copper/pile/H = new(loc)
+	var/obj/item/roguecoin/copper/pile/H = SSwardrobe.provide_type(/obj/item/roguecoin/copper/pile, loc)
 	if(istype(H))
+		if(H.quantity < 10)
+			H.set_quantity(10)
 		if(!SEND_SIGNAL(src, COMSIG_TRY_STORAGE_INSERT, H, null, TRUE, TRUE))
-			qdel(H)
+			SSwardrobe.recycle_object(H)
 	if(prob(50))
-		H = new(loc)
+		H = SSwardrobe.provide_type(/obj/item/roguecoin/copper/pile, loc)
 		if(istype(H))
 			if(!SEND_SIGNAL(src, COMSIG_TRY_STORAGE_INSERT, H, null, TRUE, TRUE))
-				qdel(H)
+				SSwardrobe.recycle_object(H)
 
-/obj/item/storage/belt/rogue/pouch/coins/rich/Initialize()
+/obj/item/storage/belt/rogue/pouch/coins/rich/get_types_to_preload()
+	var/list/to_preload = list() 
+	to_preload += /obj/item/roguecoin/silver/pile
+	return to_preload
+
+/obj/item/storage/belt/rogue/pouch/coins/rich/PopulateContents()
 	. = ..()
-	var/obj/item/roguecoin/silver/pile/H = new(loc)
+	var/obj/item/roguecoin/silver/pile/H = SSwardrobe.provide_type(/obj/item/roguecoin/silver/pile, loc)
 	if(istype(H))
 		if(!SEND_SIGNAL(src, COMSIG_TRY_STORAGE_INSERT, H, null, TRUE, TRUE))
-			qdel(H)
-	H = new(loc)
+			SSwardrobe.recycle_object(H)
+	H = SSwardrobe.provide_type(/obj/item/roguecoin/silver/pile, loc)
 	if(istype(H))
 		if(!SEND_SIGNAL(src, COMSIG_TRY_STORAGE_INSERT, H, null, TRUE, TRUE))
-			qdel(H)
+			SSwardrobe.recycle_object(H)
 	if(prob(50))
-		H = new(loc)
+		H = SSwardrobe.provide_type(/obj/item/roguecoin/silver/pile, loc)
 		if(istype(H))
 			if(!SEND_SIGNAL(src, COMSIG_TRY_STORAGE_INSERT, H, null, TRUE, TRUE))
-				qdel(H)
+				SSwardrobe.recycle_object(H)
 
-/obj/item/storage/belt/rogue/pouch/coins/veryrich/Initialize()
+/obj/item/storage/belt/rogue/pouch/coins/veryrich/get_types_to_preload()
+	var/list/to_preload = list() 
+	to_preload += /obj/item/roguecoin/gold/pile
+	return to_preload
+
+/obj/item/storage/belt/rogue/pouch/coins/veryrich/PopulateContents()
 	. = ..()
-	var/obj/item/roguecoin/gold/pile/H = new(loc)
+	var/obj/item/roguecoin/gold/pile/H = SSwardrobe.provide_type(/obj/item/roguecoin/gold/pile, loc)
 	if(istype(H))
 		if(!SEND_SIGNAL(src, COMSIG_TRY_STORAGE_INSERT, H, null, TRUE, TRUE))
-			qdel(H)
-	H = new(loc)
+			SSwardrobe.recycle_object(H)
+	H = SSwardrobe.provide_type(/obj/item/roguecoin/gold/pile, loc)
 	if(istype(H))
 		if(!SEND_SIGNAL(src, COMSIG_TRY_STORAGE_INSERT, H, null, TRUE, TRUE))
-			qdel(H)
+			SSwardrobe.recycle_object(H)
 	if(prob(50))
-		H = new(loc)
+		H = SSwardrobe.provide_type(/obj/item/roguecoin/gold/pile, loc)
 		if(istype(H))
 			if(!SEND_SIGNAL(src, COMSIG_TRY_STORAGE_INSERT, H, null, TRUE, TRUE))
-				qdel(H)
+				SSwardrobe.recycle_object(H)
 
-/obj/item/storage/belt/rogue/pouch/coins/virtuepouch/Initialize()
+/obj/item/storage/belt/rogue/pouch/coins/aspirantpouch/get_types_to_preload()
+	var/list/to_preload = list() 
+	to_preload += /obj/item/roguecoin/gold/aspirantpile
+	return to_preload
+
+/obj/item/storage/belt/rogue/pouch/coins/aspirantpouch/PopulateContents()
 	. = ..()
-	var/obj/item/roguecoin/gold/virtuepile/H = new(loc)
+	var/obj/item/roguecoin/gold/aspirantpile/H = SSwardrobe.provide_type(/obj/item/roguecoin/gold/aspirantpile, loc)
 	if(istype(H))
 		if(!SEND_SIGNAL(src, COMSIG_TRY_STORAGE_INSERT, H, null, TRUE, TRUE))
-			qdel(H)
+			SSwardrobe.recycle_object(H)
 
-/obj/item/storage/belt/rogue/pouch/coins/readyuppouch/Initialize()
+/obj/item/storage/belt/rogue/pouch/coins/bigandfat/get_types_to_preload()
+	var/list/to_preload = list() 
+	to_preload += /obj/item/roguecoin/gold/aspirantpile
+	return to_preload
+
+/obj/item/storage/belt/rogue/pouch/coins/bigandfat/PopulateContents()
 	. = ..()
-	var/obj/item/roguecoin/silver/pile/readyuppile/H = new(loc)
+	for(var/i in 1 to 4)
+		var/obj/item/roguecoin/gold/aspirantpile/H = SSwardrobe.provide_type(/obj/item/roguecoin/gold/aspirantpile, loc)
+		if(istype(H))
+			if(!SEND_SIGNAL(src, COMSIG_TRY_STORAGE_INSERT, H, null, TRUE, TRUE))
+				SSwardrobe.recycle_object(H)
+				break
+
+/obj/item/storage/belt/rogue/pouch/coins/virtuepouch/get_types_to_preload()
+	var/list/to_preload = list() 
+	to_preload += /obj/item/roguecoin/gold/virtuepile
+	return to_preload
+
+/obj/item/storage/belt/rogue/pouch/coins/virtuepouch/PopulateContents()
+	. = ..()
+	var/obj/item/roguecoin/gold/virtuepile/H = SSwardrobe.provide_type(/obj/item/roguecoin/gold/virtuepile, loc)
 	if(istype(H))
 		if(!SEND_SIGNAL(src, COMSIG_TRY_STORAGE_INSERT, H, null, TRUE, TRUE))
-			qdel(H)
+			SSwardrobe.recycle_object(H)
+
+/obj/item/storage/belt/rogue/pouch/coins/readyuppouch/get_types_to_preload()
+	var/list/to_preload = list() 
+	to_preload += /obj/item/roguecoin/silver/pile/readyuppile
+	return to_preload
+
+/obj/item/storage/belt/rogue/pouch/coins/readyuppouch/PopulateContents()
+	. = ..()
+	var/obj/item/roguecoin/silver/pile/readyuppile/H = SSwardrobe.provide_type(/obj/item/roguecoin/silver/pile/readyuppile, loc)
+	if(istype(H))
+		if(!SEND_SIGNAL(src, COMSIG_TRY_STORAGE_INSERT, H, null, TRUE, TRUE))
+			SSwardrobe.recycle_object(H)
+
+/obj/item/storage/belt/rogue/pouch/coins/aalloy
+
+/obj/item/storage/belt/rogue/pouch/coins/aalloy/get_types_to_preload()
+	var/list/to_preload = list() 
+	to_preload += /obj/item/roguecoin/aalloy/pile
+	return to_preload
+
+/obj/item/storage/belt/rogue/pouch/coins/aalloy/PopulateContents()
+	. = ..()
+	var/obj/item/roguecoin/aalloy/pile/A = SSwardrobe.provide_type(/obj/item/roguecoin/aalloy/pile, loc)
+	if(istype(A))
+		if(!SEND_SIGNAL(src, COMSIG_TRY_STORAGE_INSERT, A, null, TRUE, TRUE))
+			SSwardrobe.recycle_object(A)
 
 /obj/item/storage/belt/rogue/pouch/food/PopulateContents()
 	new /obj/item/reagent_containers/food/snacks/rogue/crackerscooked(src)
@@ -243,3 +332,29 @@
 	new /obj/item/clothing/mask/cigarette/rollie/cannabis(src)
 	new /obj/item/clothing/mask/cigarette/rollie/cannabis(src)
 	new /obj/item/clothing/mask/cigarette/rollie/cannabis(src)
+
+/obj/item/storage/belt/rogue/pouch/triumphlunch
+	name = "pouched luncheon"
+	desc = "A pouch that's been packed for a particularly peckish pilgrim. </br>'I wonder what's for dinner.. !'"
+	populate_contents = list(
+	/obj/item/reagent_containers/food/snacks/rogue/cheddarwedge,
+	/obj/item/reagent_containers/food/snacks/rogue/handpie/meat,
+	/obj/item/reagent_containers/glass/bottle/rogue/triumphbeer,
+	)
+
+/obj/item/storage/belt/rogue/pouch/bombs
+
+/obj/item/storage/belt/rogue/pouch/bombs/PopulateContents()
+	new /obj/item/bomb/noshard(src)
+	new /obj/item/bomb/noshard(src)
+	new /obj/item/bomb/noshard(src)
+
+/obj/item/storage/belt/rogue/pouch/tailorscrap
+	name = "pouch of tailorscrap"
+	desc = "A pouch of iron scrap pieces, perfect for reinforcing leather equipment. Now, where'd you place that hammer.. ?"
+	populate_contents = list(
+	/obj/item/scrap,
+	/obj/item/scrap,
+	/obj/item/scrap,
+	/obj/item/scrap,
+	)

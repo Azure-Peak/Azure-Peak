@@ -143,42 +143,6 @@
 /obj/item/storage/roguebag/crafted
 	sellprice = 4
 
-/datum/crafting_recipe/roguetown/survival/bait
-	name = "bait"
-	result = /obj/item/bait
-	reqs = list(
-		/obj/item/storage/roguebag = 1,
-		/obj/item/reagent_containers/food/snacks/grown/wheat = 2,
-		)
-	subtype_reqs = TRUE
-
-/datum/crafting_recipe/roguetown/survival/sbaita
-	name = "sweetbait (apple)"
-	result = /obj/item/bait/sweet
-	reqs = list(
-		/obj/item/storage/roguebag = 1,
-		/obj/item/reagent_containers/food/snacks/grown/apple = 2,
-		)
-	subtype_reqs = TRUE
-
-/datum/crafting_recipe/roguetown/survival/sbait
-	name = "sweetbait (berry)"
-	result = /obj/item/bait/sweet
-	reqs = list(
-		/obj/item/storage/roguebag = 1,
-		/obj/item/reagent_containers/food/snacks/grown/berries/rogue = 2,
-		)
-	subtype_reqs = TRUE
-
-/datum/crafting_recipe/roguetown/survival/bloodbait
-	name = "bloodbait"
-	result = /obj/item/bait/bloody
-	reqs = list(
-		/obj/item/storage/roguebag = 1,
-		/obj/item/reagent_containers/food/snacks/rogue/meat = 2,
-		)
-	subtype_reqs = TRUE
-
 /datum/crafting_recipe/roguetown/survival/pipe
 	name = "wood pipe"
 	result = /obj/item/clothing/mask/cigarette/pipe/crafted
@@ -439,7 +403,7 @@
 	craftdiff = SKILL_LEVEL_EXPERT
 
 /datum/crafting_recipe/roguetown/survival/purify_lux
-	name = "purifiy lux"
+	name = "purify lux"
 	result = list(
 		/obj/item/heart_blood_canister,
 		/obj/item/reagent_containers/lux,
@@ -452,7 +416,7 @@
 	craftdiff = 2
 
 /datum/crafting_recipe/roguetown/survival/purify_lux_vials
-	name = "purifiy lux (vials)"
+	name = "purify lux (vials)"
 	result = list(
 		/obj/item/reagent_containers/lux,
 		/obj/item/heart_blood_vial,

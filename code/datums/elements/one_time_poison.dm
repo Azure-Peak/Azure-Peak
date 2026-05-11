@@ -25,7 +25,6 @@
 	log_combat(user, victim, "poisoned", addition="with [reagentlog2]")
 	source.reagents.trans_to(victim, source.reagents.total_volume, transfered_by = user)
 	Detach(src, TRUE)
-	qdel(src, TRUE)
 
 /datum/element/one_time_poison/proc/on_examine(atom/movable/source, mob/user, list/examine_list)
 	if(source.reagents.total_volume)

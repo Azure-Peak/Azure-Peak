@@ -7,7 +7,7 @@
 	icon_state = "meatslab"
 	slice_batch = TRUE // so it takes more time, changed from FALSE
 	filling_color = "#8f433a"
-	rotprocess = SHELFLIFE_SHORT
+	rotprocess = SHELFLIFE_DECENT
 	chopping_sound = TRUE
 	foodtype = MEAT
 	drop_sound = 'sound/foley/dropsound/gen_drop.ogg'
@@ -19,7 +19,8 @@
 	eat_effect = /datum/status_effect/debuff/rotfood
 	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_POOR)
 	name = "rotten meat"
-	desc = "This was edible once... To most it's just a putrid mess now."
+	desc = "This was once edible. It is now only a putrid mess, except to the most steadfast \
+	of stomachs."
 	icon = 'modular/Neu_Food/icons/raw/raw_meat.dmi'
 	icon_state = "meat_rotten"
 
@@ -57,12 +58,15 @@
 	slice_path = /obj/item/reagent_containers/food/snacks/rogue/meat/mince/beef
 	slice_bclass = BCLASS_CHOP
 
+/obj/item/reagent_containers/food/snacks/rogue/meat/steak/get_mechanics_examine(mob/user)
+    . = ..()
+    . += span_info("Chopping raw meat on a table with a knife, cleaver, or dagger turns it into mince. Mince can be used for advanced recipes, or used to make 'more out of less' in a stew's broth.")
+    . += span_info("Left-clicking a fire while holding a knife, dagger, or stake in your off-hand allows you to roast raw meat. Roasting meat is quicker than cooking it and can be done without proper cutlery, but has a higher chance of failure.")
 
 /* ............. Pork (Fatty Sprite) ................*/
 /obj/item/reagent_containers/food/snacks/rogue/meat/fatty //pork
 	name = "raw pigflesh"
 	icon_state = "pork"
-	color = "#f093c3"
 	fried_type = /obj/item/reagent_containers/food/snacks/rogue/meat/fatty/roast
 	slices_num = 2
 	slice_path = /obj/item/reagent_containers/food/snacks/rogue/meat/bacon
@@ -128,6 +132,22 @@
 	slice_path = /obj/item/reagent_containers/food/snacks/rogue/meat/mince/poultry
 	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/meat/poultry/cutlet/fried
 
+/obj/item/reagent_containers/food/snacks/rogue/meat/poultry/cutlet/attackby(obj/item/I, mob/living/user)
+	update_cooktime(user)
+	var/found_table = locate(/obj/structure/table) in (loc)
+	if(istype(I, /obj/item/kitchen/rollingpin))
+		if(isturf(loc)&& (found_table))
+			playsound(get_turf(user), 'modular/Neu_Food/sound/rollingpin.ogg', 100, TRUE, -1)
+			to_chat(user, span_notice("Tenderizing [src]."))
+			if(do_after(user,long_cooktime, target = src))
+				add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)
+				new /obj/item/reagent_containers/food/snacks/rogue/foodbase/chickentender(loc)
+				qdel(src)
+		else
+			to_chat(user, span_warning("You need to put [src] on a table to roll it out!"))
+	else
+		return ..()
+
 /* ............. Crab Meat ................*/
 /obj/item/reagent_containers/food/snacks/rogue/meat/crab
 	name = "crab meat"
@@ -173,6 +193,34 @@
 	slice_path = /obj/item/reagent_containers/food/snacks/rogue/meat/mince/beef		//Honestly, we don't need our own minced type on this one.
 	fried_type = /obj/item/reagent_containers/food/snacks/rogue/meat/steak/wolf/fried
 	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/meat/steak/wolf/fried
+
+/* ............. Rous Meat ................*/
+/obj/item/reagent_containers/food/snacks/rogue/meat/steak/rat
+	name = "raw rous meat"
+	desc = "A delicacy for some races, whilst others will turn up their nose at such... Sewer meat."
+	icon_state = "rat"
+	slice_path = /obj/item/reagent_containers/food/snacks/rogue/meat/mince/beef		//Honestly, we don't need our own minced type on this one.
+	fried_type = /obj/item/reagent_containers/food/snacks/rogue/meat/steak/rat/fried
+	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/meat/steak/rat/fried
+
+/* ............. Bear Meat ................*/
+/obj/item/reagent_containers/food/snacks/rogue/meat/steak/bear
+	name = "raw bear meat"
+	desc = "Grow some hair on yer chest lad!"
+	icon_state = "bear"
+	slice_path = /obj/item/reagent_containers/food/snacks/rogue/meat/mince/beef
+	fried_type = /obj/item/reagent_containers/food/snacks/rogue/meat/steak/bear/fried
+	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/meat/steak/bear/fried
+
+/* ............. Troll Meat ................*/
+/obj/item/reagent_containers/food/snacks/rogue/meat/steak/troll
+	name = "troll blubber"
+	desc = "A rancid reddish blubber. It squelches under the merest touch, wobbling back into shape. It doesn't seem... Quite dead, as it continues to shift even after being sliced free."
+	icon_state = "troll"
+	slice_path = null
+	rotprocess = SHELFLIFE_EXTREME
+	fried_type = /obj/item/reagent_containers/food/snacks/rogue/meat/steak/troll/fried
+	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/meat/steak/troll/fried
 
 /* ............. fish chop ................*/
 /obj/item/reagent_containers/food/snacks/rogue/meat/fish
@@ -241,6 +289,17 @@
 				qdel(src)
 		else
 			to_chat(user, span_warning("You need to put [src] on a table to work on it."))
+	if(istype(I, /obj/item/reagent_containers/food/snacks/egg))
+		if(isturf(loc)&& (found_table))
+			to_chat(user, span_notice("Preparing a tartar..."))
+			playsound(get_turf(user), 'sound/foley/dropsound/food_drop.ogg', 40, TRUE, -1)
+			if(do_after(user,long_cooktime, target = src))
+				add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)
+				new /obj/item/reagent_containers/food/snacks/rogue/tartar(loc)
+				qdel(I)
+				qdel(src)
+		else
+			to_chat(user, span_warning("You need to put [src] on a table to work on it."))
 	else
 		return ..()
 
@@ -267,6 +326,22 @@
 	fried_type = /obj/item/reagent_containers/food/snacks/rogue/meat/sausage/cooked
 	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/meat/sausage/cooked
 	cooked_smell = /datum/pollutant/food/fried_sausage
+
+/obj/item/reagent_containers/food/snacks/rogue/meat/sausage/attackby(obj/item/I, mob/living/user)
+	update_cooktime(user)
+	var/found_table = locate(/obj/structure/table) in (loc)
+	if(istype(I, /obj/item/kitchen/rollingpin))
+		if(isturf(loc)&& (found_table))
+			playsound(get_turf(user), 'modular/Neu_Food/sound/rollingpin.ogg', 100, TRUE, -1)
+			to_chat(user, span_notice("Tenderizing [src]."))
+			if(do_after(user,long_cooktime, target = src))
+				add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)
+				new /obj/item/reagent_containers/food/snacks/rogue/foodbase/wienernitzel(loc)
+				qdel(src)
+		else
+			to_chat(user, span_warning("You need to put [src] on a table to roll it out!"))
+	else
+		return ..()
 
 /* ............. fish chop ................*/
 /obj/item/reagent_containers/food/snacks/rogue/meat/fish
@@ -383,3 +458,20 @@
 
 	qdel(user)
 	qdel(src)
+
+/* ............. Raw Ham ................*/
+/obj/item/reagent_containers/food/snacks/rogue/meat/ham
+	name = "raw ham"
+	desc = "Perfect cut of swine flesh, raw and ready to be steamed."
+	icon_state = "ham_raw"
+	rotprocess = SHELFLIFE_DECENT
+	fried_type = /obj/item/reagent_containers/food/snacks/rogue/meat/ham/steamed
+	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/meat/ham/steamed
+	slices_num = 2
+	slice_path = null
+	tastes = list("hog" = 1)
+
+/obj/item/reagent_containers/food/snacks/rogue/meat/ham/boar
+	name = "raw boar ham"
+	desc = "A bramblesnout that is no longer trying to end you. Raw and ready to be steamed."
+	icon_state = "ham_boar"

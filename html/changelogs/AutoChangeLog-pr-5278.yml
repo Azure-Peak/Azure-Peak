@@ -1,6 +1,0 @@
-author: "FreeStylaLT"
-delete-after: True
-changes:
-  - rscadd: "Adds Lonely Vice."
-  - refactor: "Reworks Clingy Vice."
-  - refactor: "Reworks Isolationist Vice. Changed to 'Finicky'."

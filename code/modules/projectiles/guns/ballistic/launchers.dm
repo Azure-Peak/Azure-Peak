@@ -12,7 +12,11 @@
 	istrainable = TRUE // For the moment I'll allow these to be traineable until a proper way to level up bows and crossbows is coded. - Foxtrot
 	var/damfactor = 1 // Multiplier for projectile damage. Used by bows and crossbows.
 	var/accfactor = 1 // Multiplier for projectile accuracy. Used by bows and crossbows.
-	var/penfactor = 1 // Multiplier for projectile penetration. Used by crossbows, meant for any compressed-bow types.
+	var/penfactor = 0 // Additive modifier for projectile PEN tier. Slurbow uses -1 to reduce bolt pen by one tier.
+	var/npc_force_arc = FALSE // Set by AI to force arc shot over allies
+
+/obj/item/gun/ballistic/revolver/grenadelauncher/proc/get_npc_chargetime(mob/living/user)
+	return ARCHER_NPC_SIMULATED_CHARGETIME * ARCHER_NPC_ROF_PENALTY
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/attackby(obj/item/A, mob/user, params)
 	. = ..()

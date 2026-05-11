@@ -97,7 +97,7 @@
 				new /obj/item/reagent_containers/food/snacks/rogue/friedegg/sausagebacon(loc)
 				qdel(I)
 				qdel(src)
-	if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/friedegg))
+	if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/friedegg/fried))
 		if(isturf(loc)&& (found_table))
 			playsound(get_turf(user), 'sound/foley/dropsound/gen_drop.ogg', 30, TRUE, -1)
 			if(do_after(user,short_cooktime, target = src))
@@ -166,18 +166,25 @@
 		else
 			mill.icon_state = "peppermill"
 	else
+		var/found_table = locate(/obj/structure/table) in (loc)
+		update_cooktime(user)
+		if(istype(I, /obj/item/reagent_containers/food/snacks/butter))
+			if(isturf(loc)&& (found_table))
+				playsound(get_turf(user), 'sound/foley/dropsound/gen_drop.ogg', 30, TRUE, -1)
+				to_chat(user, "You start shoving butter into the roasted bird.")
+				if(do_after(user,short_cooktime, target = src))
+					new /obj/item/reagent_containers/food/snacks/rogue/meat/poultry/baked/butter(loc)
+					qdel(I)
+					qdel(src)
+		if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/meat/poultry/baked))
+			if(isturf(loc)&& (found_table))
+				playsound(get_turf(user), 'sound/foley/dropsound/gen_drop.ogg', 30, TRUE, -1)
+				to_chat(user, "You start shoving another bird into the roasted bird - are you sure you want to do this?")
+				if(do_after(user,short_cooktime, target = src))
+					new /obj/item/reagent_containers/food/snacks/rogue/meat/poultry/baked/doublestacked(loc)
+					qdel(I)
+					qdel(src)
 		return ..()
-
-/*	.................  Spiced Baked Poultry  ................... */
-// Leaving it here instead of meal cuz it has no sprite
-/obj/item/reagent_containers/food/snacks/rogue/meat/poultry/baked/spiced
-	name = "spiced bird-roast"
-	desc = "A plump bird, roasted perfection, spiced to taste divine."
-	faretype = FARE_LAVISH
-	portable = FALSE
-	color = "#ffc0c0"
-	tastes = list("spicy birdmeat" = 1)
-	eat_effect = /datum/status_effect/buff/mealbuff
 
 /*	.............   Frybird   ................ */
 /obj/item/reagent_containers/food/snacks/rogue/meat/poultry/cutlet/fried
@@ -245,6 +252,20 @@
 	fried_type = null
 	cooked_type = null
 
+/obj/item/reagent_containers/food/snacks/rogue/meat/rabbit/fried/attackby(obj/item/I, mob/living/user, params)
+	var/found_table = locate(/obj/structure/table) in (loc)
+	update_cooktime(user)
+	if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/veg/garlick_clove))
+		if(isturf(loc)&& (found_table))
+			playsound(get_turf(user), 'sound/foley/dropsound/gen_drop.ogg', 30, TRUE, -1)
+			if(do_after(user,short_cooktime, target = src))
+				add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT * 0.5)
+				new /obj/item/reagent_containers/food/snacks/rogue/meat/rabbit/fried/garlick(loc)
+				qdel(I)
+				qdel(src)
+	else
+		return ..()
+
 /* .............   Fried Volf   ................ */
 /obj/item/reagent_containers/food/snacks/rogue/meat/steak/wolf/fried
 	eat_effect = null
@@ -258,6 +279,66 @@
 	rotprocess = SHELFLIFE_DECENT
 	fried_type = null
 	cooked_type = null
+
+/* .............   Fried Rous   ................ */
+/obj/item/reagent_containers/food/snacks/rogue/meat/steak/rat/fried
+	eat_effect = null
+	slices_num = 0
+	name = "fried rous"
+	desc = "A small, chewy chunk of rous meat. Certain races loves this, others... Not so much."
+	icon = 'modular/Neu_Food/icons/cooked/cooked_meat.dmi'
+	icon_state = "rat"
+	bonus_reagents = list(/datum/reagent/consumable/nutriment = MEATSLAB_NUTRITION)
+	faretype = FARE_POOR
+	rotprocess = SHELFLIFE_DECENT
+	fried_type = null
+	cooked_type = null
+
+/* .............   Fried Bear   ................ */
+/obj/item/reagent_containers/food/snacks/rogue/meat/steak/bear/fried
+	eat_effect = null
+	slices_num = 0
+	bitesize = 4
+	name = "T-bone bear steak"
+	desc = "Real meat, for real men."
+	icon = 'modular/Neu_Food/icons/cooked/cooked_meat.dmi'
+	icon_state = "bear"
+	bonus_reagents = list(/datum/reagent/consumable/nutriment = SNACK_CHUNKY)
+	faretype = FARE_NEUTRAL
+	rotprocess = SHELFLIFE_DECENT
+	fried_type = null
+	cooked_type = null
+
+/* .............   Fried Troll   ................ */
+/obj/item/reagent_containers/food/snacks/rogue/meat/steak/troll/fried
+	eat_effect = /datum/status_effect/debuff/uncookedfood
+	slices_num = 0
+	bitesize = 5
+	name = "chewy troll blubber"
+	desc = "Cooking it seems to have only caused the meat to toughen up. It is vile, disgusting, like partially hardened jello with greasy chunks hidden within. Perhaps it can be cooked further to stubbornly quell its spirit."
+	icon = 'modular/Neu_Food/icons/cooked/cooked_meat.dmi'
+	icon_state = "troll"
+	bonus_reagents = list(/datum/reagent/consumable/nutriment = SNACK_POOR)
+	faretype = FARE_IMPOVERISHED
+	rotprocess = SHELFLIFE_EXTREME
+	fried_type = /obj/item/reagent_containers/food/snacks/fat
+	cooked_type = /obj/item/reagent_containers/food/snacks/fat
+	// Takes a really long time unless you're a skilled cook.
+	cooktime = 1500
+
+/obj/item/reagent_containers/food/snacks/rogue/meat/steak/wolf/fried/attackby(obj/item/I, mob/living/user, params)
+	var/found_table = locate(/obj/structure/table) in (loc)
+	update_cooktime(user)
+	if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/veg/garlick_clove))
+		if(isturf(loc)&& (found_table))
+			playsound(get_turf(user), 'sound/foley/dropsound/gen_drop.ogg', 30, TRUE, -1)
+			if(do_after(user,short_cooktime, target = src))
+				add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT * 0.5)
+				new /obj/item/reagent_containers/food/snacks/rogue/meat/steak/wolf/fried/garlick(loc)
+				qdel(I)
+				qdel(src)
+	else
+		return ..()
 
 /* .............   Seared Gnoll   ................ */
 /obj/item/reagent_containers/food/snacks/rogue/meat/steak/gnoll/seared
@@ -343,7 +424,7 @@
 /obj/item/reagent_containers/food/snacks/rogue/meat/sausage/cooked/attackby(obj/item/I, mob/living/user, params)
 	var/found_table = locate(/obj/structure/table) in (loc)
 	update_cooktime(user)
-	if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/friedegg))
+	if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/friedegg/fried))
 		if(isturf(loc)&& (found_table))
 			playsound(get_turf(user), 'sound/foley/dropsound/gen_drop.ogg', 30, TRUE, -1)
 			if(do_after(user,short_cooktime, target = src))
@@ -353,3 +434,51 @@
 				qdel(src)
 	else
 		return ..()
+
+/*	.............   Cooked Ham   ................ */
+/obj/item/reagent_containers/food/snacks/rogue/meat/ham/steamed
+	name = "steamed ham"
+	desc = "Salted cut of meat ready to be torn into further with a knife. You would be hard pressed to find this lacking in a pantry of anyone with modicum of wealth."
+	icon = 'modular/Neu_Food/icons/cooked/cooked_meat.dmi'
+	icon_state = "ham5"
+	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_CHUNKY)
+	bitesize = 6
+	slice_path = /obj/item/reagent_containers/food/snacks/rogue/meat/ham/sliced
+	faretype = FARE_POOR
+	slices_num = 4
+	slice_batch = FALSE
+	rotprocess = null
+	slice_sound = TRUE
+	eat_effect = null
+	tastes = list("hog" = 1)
+	cooked_type = null
+	fried_type = null
+
+/obj/item/reagent_containers/food/snacks/rogue/meat/ham/steamed/update_icon()
+	if(slices_num)
+		icon_state = "ham[slices_num]"
+	else
+		icon_state = "ham_slice"
+
+/obj/item/reagent_containers/food/snacks/rogue/meat/ham/steamed/On_Consume(mob/living/eater)
+	..()
+	if(slices_num)
+		if(bitecount == 2)
+			slices_num = 4
+		if(bitecount == 3)
+			slices_num = 3
+		if(bitecount == 4)
+			slices_num = 2
+		if(bitecount == 5)
+			changefood(slice_path, eater)
+
+/obj/item/reagent_containers/food/snacks/rogue/meat/ham/sliced
+	name = "sliced ham"
+	icon = 'modular/Neu_Food/icons/cooked/cooked_meat.dmi'
+	icon_state = "ham_slice"
+	bitesize = 2
+	slices_num = FALSE
+	slice_path = FALSE
+	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_POOR)
+	eat_effect = null
+	tastes = list("hog" = 1)

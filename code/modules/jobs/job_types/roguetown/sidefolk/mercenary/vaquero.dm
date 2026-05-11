@@ -3,11 +3,10 @@
 	tutorial = "Originating in the vibrant Kingdom of Etrusca, a 'vaquero' had originally been a mere cattle-driver... Now, though, it has become a title for roaming swashbucklers. Whether they set out as a defender of the commonfolk or a pilferer of purses, the Vaquero is defined by the tale they carve across continents - and more frequently - by their story's violent end."
 	outfit = /datum/outfit/job/roguetown/mercenary/vaquero
 	class_select_category = CLASS_CAT_ETRUSCA
-	horse = /mob/living/simple_animal/hostile/retaliate/rogue/saiga/saigabuck/tame/saddled
 	cmode_music = 'sound/music/combat_vaquero.ogg'
 	category_tags = list(CTAG_MERCENARY)
 	subclass_languages = list(/datum/language/etruscan)
-	traits_applied = list(TRAIT_DODGEEXPERT, TRAIT_DECEIVING_MEEKNESS, TRAIT_MEDIUMARMOR)
+	traits_applied = list(TRAIT_DODGEEXPERT, TRAIT_DECEIVING_MEEKNESS)
 	subclass_stats = list(
 		STATKEY_SPD = 3,
 		STATKEY_INT = 2,
@@ -26,9 +25,12 @@
 		/datum/skill/misc/reading = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/sneaking = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/stealing = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/misc/riding = SKILL_LEVEL_EXPERT,
+		/datum/skill/misc/riding = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/lockpicking = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/music = SKILL_LEVEL_EXPERT,
+	)
+	subclass_virtues = list(
+		/datum/virtue/utility/riding
 	)
 
 /datum/advclass/mercenary/vaquero/equipme(mob/living/carbon/human/H, dummy)
@@ -62,13 +64,11 @@
 					/obj/item/roguekey/mercenary = 1,
 					/obj/item/rogueweapon/scabbard/sheath = 1
 					)
-	var/datum/inspiration/I = new /datum/inspiration(H)
-	I.grant_inspiration(H, bard_tier = BARD_T1)
 	if(H.mind)
-		var/weapons = list("Harp","Lute","Accordion","Guitar","Hurdy-Gurdy","Viola","Vocal Talisman","Flute", "Psyaltery")
-		var/weapon_choice = input(H, "Choose your instrument.", "TAKE UP ARMS") as anything in weapons
+		var/instrument = list("Harp","Lute","Accordion","Guitar","Hurdy-Gurdy","Viola","Vocal Talisman","Flute", "Psyaltery")
+		var/instrument_choice = input(H, "Choose your instrument.", "TAKE UP SONGS") as anything in instrument
 		H.set_blindness(0)
-		switch(weapon_choice)
+		switch(instrument_choice)
 			if("Harp")
 				backr = /obj/item/rogue/instrument/harp
 			if("Lute")
@@ -87,4 +87,12 @@
 				backr = /obj/item/rogue/instrument/flute
 			if("Psyaltery")
 				backr = /obj/item/rogue/instrument/psyaltery
+		var/weapons = list("Maille Training","Bardic Inspiration")
+		var/weapon_choice = input(H, "Choose your discipline.", "TAKE A PATH") as anything in weapons
+		switch(weapon_choice)
+			if("Maille Training")
+				ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
+			if("Bardic Inspiration")
+				var/datum/inspiration/I = new /datum/inspiration(H)
+				I.grant_inspiration(H, bard_tier = BARD_T1)
 	H.merctype = 13

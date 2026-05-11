@@ -4,7 +4,7 @@
 	icon_state = "ore"
 	w_class = WEIGHT_CLASS_NORMAL
 	resistance_flags = FIRE_PROOF
-	experimental_inhand = FALSE
+	experimental_inhand = TRUE
 	grid_width = 64
 	grid_height = 32
 
@@ -13,7 +13,7 @@
 	desc = "A clump of dirty lustrous nuggets!"
 	icon_state = "oregold1"
 	smeltresult = /obj/item/ingot/gold
-	sellprice = 10
+	sellprice = SELLPRICE_GOLD_ORE
 
 /obj/item/rogueore/gold/Initialize()
 	icon_state = "oregold[rand(1,3)]"
@@ -24,8 +24,8 @@
 	name = "raw silver" //Mechanically left unsilverified - like with ziliquae - for the sake of gameplay. Can be handwaved as not being pure enough to directly harm the unholy.
 	desc = "A gleaming ore of moonlight hue."
 	icon_state = "oresilv1"
-	smeltresult = /obj/item/ingot/silver 
-	sellprice = 8
+	smeltresult = /obj/item/ingot/silver
+	sellprice = SELLPRICE_SILVER_ORE
 
 /obj/item/rogueore/silver/Initialize()
 	icon_state = "oresilv[rand(1,3)]"
@@ -37,34 +37,45 @@
 	desc = "A dark ore of rugged strength."
 	icon_state = "oreiron1"
 	smeltresult = /obj/item/ingot/iron
-	sellprice = 5
+	sellprice = SELLPRICE_IRON_ORE
 
 /obj/item/rogueore/iron/Initialize()
 	icon_state = "oreiron[rand(1,3)]"
 	..()
 
+/obj/item/rogueore/iron/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Iron can be alloyed into steel, by smelting a combination of three iron nuggets with a chunk of coal inside of a great furnace.")
 
 /obj/item/rogueore/copper
 	name = "raw copper"
 	desc = "A burnished ore with reddish gleams."
 	icon_state = "orecop1"
 	smeltresult = /obj/item/ingot/copper
-	sellprice = 3
+	sellprice = SELLPRICE_COPPER_ORE
 
 /obj/item/rogueore/copper/Initialize()
 	icon_state = "orecop[rand(1,3)]"
 	..()
+
+/obj/item/rogueore/copper/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Copper and tin can be alloyed into bronze, by smelting a combination of three copper nuggets with a single tin nugget inside of a bronze smelter.")
 
 /obj/item/rogueore/tin
 	name = "raw tin"
 	desc = "A mass of soft, almost malleable white ore."
 	icon_state = "oretin1"
 	smeltresult = /obj/item/ingot/tin
-	sellprice = 4
+	sellprice = SELLPRICE_TIN_ORE
 
 /obj/item/rogueore/tin/Initialize()
 	icon_state = "oretin[rand(1,3)]"
 	..()
+
+/obj/item/rogueore/tin/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Copper and tin can be alloyed into bronze, by smelting a combination of three copper nuggets with a single tin nugget inside of a bronze smelter.")
 
 /obj/item/rogueore/coal
 	name = "coal"
@@ -72,7 +83,7 @@
 	icon_state = "orecoal1"
 	firefuel = 30 MINUTES
 	smeltresult = /obj/item/rogueore/coal
-	sellprice = 1
+	sellprice = SELLPRICE_COAL
 
 /obj/item/rogueore/coal/Initialize()
 	icon_state = "orecoal[rand(1,3)]"
@@ -93,7 +104,7 @@
 	desc = "Red gems that contain the essence of quicksilver."
 	icon_state = "orecinnabar"
 	grind_results = list(/datum/reagent/mercury = 15)
-	sellprice = 5
+	sellprice = SELLPRICE_CINNABAR
 
 /obj/item/rogueore/lithmyc
 	name = "lithmyc"
@@ -101,6 +112,10 @@
 	icon_state = "orelithmyc"
 	sellprice = 100
 	smeltresult = /obj/item/ingot/lithmyc
+
+/obj/item/rogueore/lithmyc/Initialize()
+  ..()
+  add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_BUFF, "alpha" = 100, "size" = 1))
 
 /obj/item/ingot
 	name = "ingot"
@@ -167,7 +182,7 @@
 		QDEL_NULL(currecipe)
 	if(istype(loc, /obj/machinery/anvil))
 		var/obj/machinery/anvil/A = loc
-		A.current_workpiece = null
+		A.hingot = null
 		A.update_icon()
 
 /obj/item/ingot/gold
@@ -175,14 +190,14 @@
 	desc = "Solid wealth in your hands."
 	icon_state = "ingotgold"
 	smeltresult = /obj/item/ingot/gold
-	sellprice = 100
+	sellprice = SELLPRICE_GOLD_INGOT
 
 /obj/item/ingot/iron
 	name = "iron bar"
 	desc = "Forged strength. Essential for crafting."
 	icon_state = "ingotiron"
 	smeltresult = /obj/item/ingot/iron
-	sellprice = 15
+	sellprice = SELLPRICE_IRON_INGOT
 
 /obj/item/ingot/iron/Initialize(mapload, smelt_quality)
 	. = ..()
@@ -200,23 +215,35 @@
 		slapcraft_recipes = slapcraft_recipe_list,\
 		)
 
+/obj/item/ingot/iron/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Iron can be alloyed into steel, by smelting a combination of three iron ingots with a chunk of coal inside of a great furnace.")
+
 /obj/item/ingot/copper
 	name = "copper bar"
 	desc = "This bar causes a gentle tingling sensation when touched."
 	icon_state = "ingotcop"
 	smeltresult = /obj/item/ingot/copper
-	sellprice = 10
+	sellprice = SELLPRICE_COPPER_INGOT
+
+/obj/item/ingot/copper/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Copper and tin can be alloyed into bronze, by smelting a combination of three copper ingots with a single tin ingot inside of a bronze smelter.")
 
 /obj/item/ingot/tin
 	name = "tin bar"
 	desc = "An ingot of strangely soft and malleable essence."
 	icon_state = "ingottin"
 	smeltresult = /obj/item/ingot/tin
-	sellprice = 15
+	sellprice = SELLPRICE_TIN_INGOT
+
+/obj/item/ingot/tin/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Copper and tin can be alloyed into bronze, by smelting a combination of three copper ingots with a single tin ingot inside of a bronze smelter.")
 
 /obj/item/ingot/bronze
 	name = "bronze bar"
-	desc = "An alloy of tin and copper, humming with yet-untapped potential. The fondest friend of tinkerers, engineers, and primitives alike."
+	desc = "An alloy of tin and copper, humming with yet-untapped potential. The fondest friend of tinkerers, homesteaders, and shieldbearers alike."
 	icon_state = "ingotbronze"
 	smeltresult = /obj/item/ingot/bronze
 	sellprice = 25
@@ -226,19 +253,20 @@
 	desc = "This bar radiates purity. Treasured by the realm, and honored for its divine properties."
 	icon_state = "ingotsilv"
 	smeltresult = /obj/item/ingot/silver
-	sellprice = 80
+	sellprice = SELLPRICE_SILVER_INGOT
 	is_silver = TRUE
+	is_lesser_silver = TRUE
 
 /obj/item/ingot/steel
 	name = "steel bar"
 	desc = "This alloy of iron and coal is a stalwart defender of the realm."
 	icon_state = "ingotsteel"
 	smeltresult = /obj/item/ingot/steel
-	sellprice = 20
+	sellprice = SELLPRICE_STEEL_INGOT
 
 /obj/item/ingot/blacksteel
 	name = "blacksteel bar"
-	desc = "Sacrificing the holy elements of silver for raw strength, this strange and powerful ingot's origin carries dark rumors.."
+	desc = "This ingot is both mythical and mysterious; stronger - and more expensive - than any alloy currently known to Psydonia's masses. It thrumbs with an eerie blue glow, catchable for only a blink's tyme. </br>'Sacrificing the holy elements of silver for raw strength, this strange and powerful ingot's origin carries dark rumors.'"
 	icon_state = "ingotblacksteel"
 	smeltresult = /obj/item/ingot/blacksteel
 	sellprice = 100
@@ -251,6 +279,10 @@
 	smeltresult = /obj/item/ingot/steel //Smelting it removes the blessing
 	sellprice = 20
 
+/obj/item/ingot/steelholy/Initialize()
+  ..()
+  add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_LIGHTNING, "alpha" = 100, "size" = 1))
+
 /obj/item/ingot/silverblessed/
 	name = "blessed silver bar"
 	desc = "This bar radiates with blessed purity. It dimly glows with moonlight, even in complete darkness."
@@ -258,6 +290,11 @@
 	smeltresult = /obj/item/ingot/silver //Smelting it removes the blessing
 	sellprice = 100
 	is_silver = TRUE
+	is_lesser_silver = TRUE
+
+/obj/item/ingot/silverblessed/Initialize()
+  ..()
+  add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_ICE, "alpha" = 100, "size" = 1))
 
 /obj/item/ingot/silverblessed/bullion
 	name = "blessed silver bullion"
@@ -266,6 +303,7 @@
 	smeltresult = /obj/item/ingot/silverblessed //Minor failsafe to ensure bullion can always be used for blessed silver recipes, in case of a filepath conflict.
 	sellprice = 100
 	is_silver = TRUE
+	is_lesser_silver = TRUE
 
 /obj/item/ingot/aalloy
 	name = "decrepit ingot"
@@ -284,10 +322,14 @@
 
 /obj/item/ingot/aaslag
 	name = "glimmering slag"
-	desc = "A mass of wrought bronze, rendered lame from the forge's heat. Sometimes, dead is better."
+	desc = "A mass of wrought bronze, rendered lame from the forge's heat. Sometimes, dead is better. </br>Yet, perhaps alloying it in equal parts with another glimmering piece of ore could resurrect its secrets."
 	icon_state = "ancientslag"
 	smeltresult = /obj/item/ingot/aaslag
-	sellprice = 1
+	sellprice = 6
+
+/obj/item/ingot/aaslag/Initialize()
+  ..()
+  add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_FIRE, "alpha" = 50, "size" = 1))
 
 //Anomalous Smeltings
 /obj/item/ingot/weeping
@@ -300,7 +342,7 @@
 
 /obj/item/ingot/weeping/Initialize()
   ..()
-  filter(type="drop_shadow", x=0, y=0, size=1, offset=2, color=rgb(rand(64,65),rand(1,5),rand(1,5)))
+  add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_VAMPIRIC, "alpha" = 100, "size" = 1))
 
 /obj/item/ingot/draconic
 	name = "draconic ingot"
@@ -310,12 +352,27 @@
 	color = "#70b8ff"
 	sellprice = 333
 
+/obj/item/ingot/draconic/Initialize()
+  ..()
+  add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_FIRE, "alpha" = 100, "size" = 1))
+
 /obj/item/ingot/lithmyc
 	name = "lithmyc ingot"
 	desc = "A strange green ingot. It seems to be covered in an oily metal-liquid, though it refuses to leave the ingot-shape no matter how you much you try. No one in the region yet knows what the metal can be shaped into, as it's exceedingly stubborn. But, it sure seems priceless."
 	icon_state = "ingotlithmyc"
 	smeltresult = /obj/item/ingot/lithmyc
 	sellprice = 444
+
+/obj/item/ingot/lithmyc/Initialize()
+  ..()
+  add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_BUFF, "alpha" = 100, "size" = 1))
+
+/obj/item/ingot/ketryl
+	name = "ketryl ingot"
+	desc = "Named after its mythical status, this ingot is forged as per the dwarven standards etched in a small imprint on the ingot's surface. Ketryl is often folded in thin layers, stronger than steel, yet unusually light at the same time."
+	icon_state = "ingotketryl"
+	smeltresult = null
+	sellprice = 555
 
 /obj/item/ingot/drow
 	name = "skikudic ingot"
@@ -324,3 +381,96 @@
 	smeltresult = /obj/item/ingot/iron //Smelting the ingot again 'burns away' the fungal temperance, allowing it to be reused for said recipes.
 	color = "#bc9ab7"
 	sellprice = 30 //Rarer to obtain than iron, and feasible to sell off as salvage.
+
+/obj/item/ingot/avantyne
+	name = "avantyne wafer"
+	desc = "This ingot, though borne of unholy circumstance, rumbles with otherworldly potential. Chiseled onto the darksteel is a forbidden iteration of the psycross; a foreboding sign for those who bow to lesser gods."
+	icon_state = "ingotavantyne"
+	smeltresult = null
+	sellprice = 130
+
+//Components!
+
+/obj/item/ingot/component //Root. Don't use under most circumstances.
+	name = "substanceless presence"
+	desc = "Something that you were likely never meant to see. Pray to a higher presence for assistance, before rendering it asunder in the forge's flames once more."
+	icon_state = "oreada"
+	smeltresult = /obj/item/ingot/iron
+	sellprice = 1
+
+/obj/item/ingot/component/glutcrystal
+	name = "crystalline glut"
+	desc = "Fractal violence, gleaming with a crimson haze that beckons for its final purpose to be accomplished."
+	icon_state = "component_blood"
+	smeltresult = /obj/item/roguegem/blood_diamond //Ensures that it can be reused for any Glut-specific ritual, should one find this in its crystalline form.
+	sellprice = 33
+
+/obj/item/ingot/component/glutcrystal/examine(mob/user)
+	. = ..()
+	if(ishuman(user))
+		var/mob/living/carbon/human/H = user
+		if(H.patron.type == /datum/patron/inhumen/graggar)
+			. += span_danger("You know this gem well. They are born out of great violence, but only if it involves the mightiest of warriors. </br>Fleshcrafting it with the meat of whatever warrior birthed this gem will allow me to summon another of their kind into this world.  </br>Melting away its crystalline shell is ideal, if you wish to ensure no chance for error while conducting such a ritual.")
+
+/obj/item/ingot/component/glutcrystal/Initialize()
+  ..()
+  add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_VAMPIRIC, "alpha" = 120, "size" = 1))
+
+/obj/item/ingot/component/heapofrawiron
+	name = "heap of raw iron"
+	desc = "A massive hunk, born from the incoherent fusion of molten iron. Chunks of ore-and-ingotry peak out from its jagged surface, yearning to be refined - be it into ingots, or something more purposeful."
+	icon_state = "component_berserkheap"
+	smeltresult = /obj/item/rogueore/iron
+	sellprice = 44
+	smelt_bar_num = 4
+
+/obj/item/ingot/component/berserkswordblade
+	name = "blade of the berserkers sword"
+	desc = "A massive blade, forged from a raw heap of iron. The unique spike-styled tang seems to be longer than what'd be seen on most greatswords, stowable only by the innards of a fittingly large handle."
+	icon_state = "component_berserkblade"
+	smeltresult = /obj/item/ingot/iron
+	sellprice = 33
+	smelt_bar_num = 3
+
+/obj/item/ingot/component/berserkswordgrip
+	name = "handle of the berserkers sword"
+	desc = "A massive handle, assembled from the double-handed grip of an Executioner's Sword. The unique crescent-styled crossguard seems to have a slot, fittable only by the tang of a fittingly large blade."
+	icon_state = "component_berserkhandle"
+	smeltresult = /obj/item/ingot/iron
+	sellprice = 33
+
+/obj/item/ingot/component/threadavantyne
+	name = "avantyne thread"
+	desc = "These strands, though borne of unholy circumstance, shimmer with otherworldly potential. Each wire of darksteel seem to twitch with vigor, whenever brought close to another alloy; like a parasite drawn to a host."
+	icon_state = "component_avantynethread"
+	sellprice = 66
+
+/obj/item/ingot/component/threadketryl
+	name = "ketryl thread"
+	desc = "Named after its mythical status, these glimmering strands are stronger than steel, yet unusually light at the same time."
+	icon_state = "component_ketrylthread"
+	sellprice = 111
+
+/obj/item/ingot/component/zizo
+	name = "avantyne fragment"
+	desc = "Whispering fragments of an otherworldly alloy. </br>Power always comes at a price."
+	icon_state = "component_zizo"
+	dropshrink = 0.7
+
+/obj/item/ingot/component/graggar
+	name = "vicious fragment"
+	desc = "Bleeding fragments of an otherworldly alloy. </br>Murder is nothing more than justice without arbitration."
+	icon_state = "component_graggar"
+	dropshrink = 0.7
+
+/obj/item/ingot/component/matthios
+	name = "gilded fragment"
+	desc = "Glimmering fragments of an otherworldly alloy. </br>Wealth drags even the noblest souls down to perdition."
+	icon_state = "component_matthios"
+	dropshrink = 0.7
+
+/obj/item/ingot/component/baotha
+	name = "saccharine fragment"
+	desc = "Aromatic fragments of an otherworldly alloy. </br>Despair is the gravest, most agonizing poison of them all."
+	icon_state = "component_baotha"
+	dropshrink = 0.7

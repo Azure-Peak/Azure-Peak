@@ -109,9 +109,9 @@
 
 /datum/coven_power/demonic/psychomachia/post_gain()
 	. = ..()
-	owner.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/fireball/baali)
+	owner.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/baali_fireball)
 
-/obj/effect/proc_holder/spell/invoked/projectile/fireball/baali
+/obj/effect/proc_holder/spell/invoked/projectile/baali_fireball
 	name = "Infernal Fireball"
 	desc = "This spell fires an explosive fireball at a target."
 	school = "evocation"
@@ -164,6 +164,7 @@
 /obj/item/rogueweapon/gangrel
 	name = "claws"
 	desc = ""
+	experimental_inhand = FALSE
 	item_state = null
 	lefthand_file = null
 	righthand_file = null
@@ -175,7 +176,7 @@
 	max_integrity = 900
 	force = 11
 	wdefense = 9
-	armor_penetration = 100
+	armor_penetration = PEN_BSTEEL
 	block_chance = 20
 	associated_skill = /datum/skill/magic/blood
 	wlength = WLENGTH_NORMAL

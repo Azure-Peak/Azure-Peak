@@ -92,6 +92,7 @@
 #define BODYPART_FEATURE_ACCESSORY "accessory"
 #define BODYPART_FEATURE_FACE_DETAIL "facedetail"
 #define BODYPART_FEATURE_UNDERWEAR "underwear"
+#define BODYPART_FEATURE_PIERCINGS "piercings"
 #define BODYPART_FEATURE_CREST "crest"
 #define BODYPART_FEATURE_LEGWEAR "legwear"
 #define BODYPART_FEATURE_BRAND "brand"
@@ -137,3 +138,8 @@
 #define WOUND_SEVERITY_FATAL 5
 /// This wound has a zombie or werewolf infection
 #define WOUND_SEVERITY_BIOHAZARD 6
+
+/// Wound severity is determined by bleed rate (default)
+#define SEVERITY_TYPE_BLEED "bleed" 
+/// Wound severity is determined by the wound's hp (alternative)
+#define SEVERITY_TYPE_WHP "whp"

@@ -4,6 +4,10 @@
 /datum/species/human/northern
 	name = "Humen"
 	id = "humen"
+	psydonic = TRUE
+	origin_default = /datum/virtue/origin/grenzelhoft
+	origin = "Grenzelhoft"
+	sub_name = "Northern Humen"
 	desc = "<b>Humen</b><br>\
 	Humens (or \"Humans\") are the eldest of the Weeping God's creations. Noted for their \
 	tenacity and overwhelming population, humens are the most commonly seen race across the lands, \
@@ -12,7 +16,7 @@
 	have historically been at odds with one another. Being the eldest creations of the Weeping God, humens \
 	tend to find fortune easier than the other races, and are so diverse that no other racial traits \
 	are dominant in their species.<br>\
-	(+1 Willpower, +1 Intelligence)"
+	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b>+1 INT | +1 WIL</b></span><br>"
 
 	skin_tone_wording = "Ancestry"
 
@@ -52,6 +56,7 @@
 		/datum/customizer/bodypart_feature/face_detail,
 		/datum/customizer/bodypart_feature/underwear,
 		/datum/customizer/bodypart_feature/legwear,
+		/datum/customizer/bodypart_feature/piercing,
 		/datum/customizer/organ/testicles/anthro,
 		/datum/customizer/organ/penis/anthro,
 		/datum/customizer/organ/breasts/human,

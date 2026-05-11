@@ -1,9 +1,10 @@
 /datum/advclass/wretch/munitioneer
 	name = "Munitioneer"
 	tutorial = "You are a true devotee of the God of the Forge; a wandering priest of Malum, your altar an anvil and your prayer the hiss of steam from a fresh-wrought blade. You care little for 'politics' or 'schisms'; you are a hammer in a worlde of nails."
-	allowed_races = RACES_ALL_KINDS
+	
 	outfit = /datum/outfit/job/roguetown/wretch/munitioneer
 	cmode_music = 'sound/music/combat_dwarf.ogg'
+	class_select_category = CLASS_CAT_WARRIOR
 	category_tags = list(CTAG_WRETCH)
 	traits_applied = list(TRAIT_TRAINED_SMITH, TRAIT_SMITHING_EXPERT, TRAIT_RITUALIST)
 	maximum_possible_slots = 1 // do we need TWO antag weapon factories?
@@ -36,7 +37,9 @@
 		/datum/skill/craft/smelting = SKILL_LEVEL_EXPERT,
 		/datum/skill/craft/engineering = SKILL_LEVEL_APPRENTICE
 	)
-
+	subclass_stashed_items = list(
+        "Sewing Kit" =  /obj/item/repair_kit,
+    )
 /datum/outfit/job/roguetown/wretch/munitioneer/pre_equip(mob/living/carbon/human/H)
 	to_chat(H, span_warning("You are a passable warrior- though weak- but your true strength lies in your ability to bend the resources of Azuria to your will."))
 	has_loadout = TRUE
@@ -59,14 +62,14 @@
 		/obj/item/reagent_containers/glass/bottle/alchemical/healthpot = 1,
 		/obj/item/rogueweapon/huntingknife/combat = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1,
+		/obj/item/riddleofsteel = 1
 		)
 
 /datum/outfit/job/roguetown/wretch/munitioneer/choose_loadout(mob/living/carbon/human/H)
 	. = ..()
 	if(H.mind)
-		H.mind?.current.faction += "[H.name]_faction"
 		H.set_patron(/datum/patron/divine/malum)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/mineroresight) // controversial, and powerful, but it means you're spending less Wretch Time just mining.
+		H.AddComponent(/datum/component/ore_sight) // controversial, and powerful, but it means you're spending less Wretch Time just mining.
 	var/weapons = list("Path of the Hammer - Steel Warhammer", "Path of the Crossbow - Crossbow and Bolts", "Path of the Pick - Pulaski Axe")
 	var/weapon_choice = input(H, "Choose your weapon.", "HOT IS THE ANVYL") as anything in weapons
 	switch(weapon_choice)
@@ -76,7 +79,7 @@
 		if("Path of the Crossbow - Crossbow and Bolts")
 			H.adjust_skillrank_up_to(/datum/skill/combat/crossbows, SKILL_LEVEL_EXPERT, TRUE)
 			H.put_in_hands(new /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow)
-			H.equip_to_slot_or_del(new /obj/item/quiver/bolts, SLOT_BELT_L, TRUE)
+			H.equip_to_slot_or_del(new /obj/item/quiver/bolt/standard, SLOT_BELT_L, TRUE)
 		if("Path of the Pick - Pulaski Axe")
 			H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_EXPERT, TRUE)
 			H.put_in_hands(new /obj/item/rogueweapon/stoneaxe/woodcut/pick)

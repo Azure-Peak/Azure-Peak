@@ -6,7 +6,7 @@
 	total_positions = 1
 	spawn_positions = 1
 	f_title = "Bathmatron"
-	allowed_races = ACCEPTED_RACES
+	forbidden_races = list(RACES_DESPISED)
 	tutorial = "You are renting out the bathhouse in a joint operation with the Innkeep. You provide security for the bathwenches and help them to find work--when you're not being a trouble-making rake that others suffer to tolerate."
 	allowed_sexes = list(MALE, FEMALE)
 	outfit = /datum/outfit/job/roguetown/bathmaster
@@ -42,8 +42,8 @@
 		STATKEY_INT = -1
 	)
 	subclass_skills = list(
-		/datum/skill/combat/wrestling = SKILL_LEVEL_EXPERT,
-		/datum/skill/combat/unarmed = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/whipsflails = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/reading = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/sneaking = SKILL_LEVEL_EXPERT,
@@ -76,6 +76,7 @@
 		/obj/item/reagent_containers/food/snacks/grown/rogue/swampweeddry = 2,
 		/obj/item/reagent_containers/powder/moondust = 2,
 		/obj/item/reagent_containers/powder/spice = 1,
+		/obj/item/mini_flagpole/bathhouse,
 		)
 
 	if(should_wear_masc_clothes(H))

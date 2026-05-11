@@ -428,15 +428,15 @@
 	return TRUE
 
 /datum/component/storage/proc/hide_from(mob/M)
+	LAZYREMOVE(is_using, M)
+	if(M.active_storage == src)
+		M.active_storage = null
 	if(!M.client)
 		return TRUE
 	var/atom/real_location = real_location()
 	M.client.screen -= boxes
 	M.client.screen -= closer
 	M.client.screen -= real_location.contents
-	if(M.active_storage == src)
-		M.active_storage = null
-	LAZYREMOVE(is_using, M)
 	return TRUE
 
 /datum/component/storage/proc/close(mob/M)
@@ -649,8 +649,6 @@
 /obj/item/proc/StorageBlock(obj/item/I, mob/user)
 	return FALSE
 
-/obj
-	var/component_block = FALSE
 
 //This proc return 1 if the item can be picked up and 0 if it can't.
 //Set the stop_messages to stop it from printing messages

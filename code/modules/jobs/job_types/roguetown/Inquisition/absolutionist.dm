@@ -5,7 +5,7 @@
 	faction = "Station"
 	total_positions = 1 // THE ONE.
 	spawn_positions = 1
-	allowed_races = RACES_ALL_KINDS
+	
 	allowed_patrons = list(/datum/patron/old_god) //Requires the character to be a practicing Psydonite.
 	tutorial = "Once, you were alone in this monastery; a chapel of stone, protecting a shard of Psydon's divinity. Now, you've a whole sect to shepherd - and their propensity for violence oft-clashes with your own vows of pacifism. Temper the floch with your wisdom, siphon away their wounds with your blessings, and guide the wayard towards absolution."
 	selection_color = JCOLOR_INQUISITION
@@ -68,11 +68,11 @@
 	if(ishuman(L))
 		var/mob/living/carbon/human/H = L
 		if(H.mind)
-			H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/psydonpersist)
+			H.mind.AddSpell(new /datum/action/cooldown/spell/psydon/persist)
 			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/psydonlux_tamper)
 			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/psydonabsolve)
 			// H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/psydondefy) -- not ready yet.
-			H.mind.RemoveSpell(/obj/effect/proc_holder/spell/self/psydonrespite)
+			H.mind.RemoveSpell(/datum/action/cooldown/spell/psydon/respite)
 			H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/alchemy/qsabsolution)
 			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/diagnose/secular)
 			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/convert_psydon)
@@ -107,6 +107,7 @@
 		)
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T4, passive_gain = CLERIC_REGEN_ABSOLVER, start_maxed = TRUE) // PSYDONIAN MIRACLE-WORKER. LUX-MERGING FREEK.
+	change_origin(H, /datum/virtue/origin/otava, "Holy order")
 
 /obj/effect/proc_holder/spell/invoked/convert_psydon
 	name = "Return to Orthodoxy"
@@ -149,7 +150,7 @@
 
 		target.devotion.Destroy()
 		target.mind.RemoveSpell(/obj/effect/proc_holder/spell/invoked/projectile/divineblast)
-		target.mind.RemoveSpell(/obj/effect/proc_holder/spell/invoked/projectile/divineblast/unholyblast)
+		target.mind.RemoveSpell(/obj/effect/proc_holder/spell/invoked/projectile/unholyblast)
 
 	// Convert to PSYDON
 	target.patron = new user.patron.type()

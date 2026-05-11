@@ -138,11 +138,11 @@ SUBSYSTEM_DEF(chimeric_tech)
 
 	if(!recipes_to_unlock)
 		return
-	for(var/rec in recipes_to_unlock)
-		var/datum/crafting_recipe/R = rec
-		R.tech_unlocked = TRUE
-		if(node.recipe_override)
-			R.reqs = node.recipe_override
+	for(var/datum/R in recipes_to_unlock)
+		R:tech_unlocked = TRUE
+		if(node.recipe_override && istype(R, /datum/crafting_recipe))
+			var/datum/crafting_recipe/CR = R
+			CR.reqs = node.recipe_override
 
 /datum/controller/subsystem/chimeric_tech/proc/init_unlockable_recipes()
 	tech_recipe_index = list()
@@ -152,6 +152,12 @@ SUBSYSTEM_DEF(chimeric_tech)
 			if(!tech_recipe_index[R.required_tech_node])
 				tech_recipe_index[R.required_tech_node] = list()
 			tech_recipe_index[R.required_tech_node] += R
+
+	for(var/datum/anvil_recipe/AR in GLOB.anvil_recipes)
+		if(AR.required_tech_node)
+			if(!tech_recipe_index[AR.required_tech_node])
+				tech_recipe_index[AR.required_tech_node] = list()
+			tech_recipe_index[AR.required_tech_node] += AR
 
 /datum/controller/subsystem/chimeric_tech/proc/get_healing_multiplier()
 	var/multiplier = 0.85
@@ -195,6 +201,24 @@ SUBSYSTEM_DEF(chimeric_tech)
 	else if(SSchimeric_tech.get_node_status("INFESTATION_ROT_MULTIPLE_1"))
 		amount = 2
 	return amount
+
+/datum/controller/subsystem/chimeric_tech/proc/admin_force_unlock(var/string_id, var/silent = FALSE)
+	var/datum/chimeric_tech_node/node = all_tech_nodes[string_id]
+
+	if(!node)
+		return "Error: Tech node '[string_id]' not found in master list."
+
+	if(node.unlocked)
+		return "Node '[node.name]' is already unlocked."
+
+	node.unlocked = TRUE
+
+	if(node.is_recipe_node)
+		update_recipes_for_tech(string_id)
+
+	if(!silent)
+		log_admin("Chimeric Tech: Node '[node.name]' ([string_id]) was force-unlocked via proc.")
+	return "Successfully force-unlocked [node.name]."
 
 #undef CHIMERIC_CACHE_TECH
 #undef CHIMERIC_CACHE_ECHOES

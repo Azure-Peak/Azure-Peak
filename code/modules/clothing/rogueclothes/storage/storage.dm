@@ -1,3 +1,4 @@
+
 /obj/item/storage/belt/rogue
 	name = ""
 	desc = ""
@@ -12,7 +13,7 @@
 	equip_sound = 'sound/blank.ogg'
 	content_overlays = FALSE
 	bloody_icon_state = "bodyblood"
-	experimental_inhand = FALSE
+	experimental_inhand = TRUE
 	component_type = /datum/component/storage/concrete/roguetown/belt
 	grid_width = 64
 	grid_height = 64
@@ -36,6 +37,7 @@
 
 /obj/item/storage/belt/rogue/leather/plaquegold
 	name = "plaque belt"
+	desc = "An exquisite belt, decorated with studdings of gold."
 	icon_state = "goldplaque"
 	sellprice = 50
 	sewrepair = FALSE
@@ -52,8 +54,15 @@
 	item_state = "blackbelt"
 	sellprice = 10
 
+/obj/item/storage/belt/rogue/leather/double
+	name = "pair of belts"
+	desc = "A pair of slim black belts worn around the waist."
+	icon_state = "belt_double"
+	item_state = "belt_double"
+
 /obj/item/storage/belt/rogue/leather/plaquesilver
 	name = "plaque belt"
+	desc = "An exquisite belt, decorated with studdings of silver."
 	icon_state = "silverplaque"
 	sellprice = 30
 	sewrepair = FALSE
@@ -61,6 +70,7 @@
 
 /obj/item/storage/belt/rogue/leather/battleskirt
 	name = "cloth military skirt"
+	desc = "A fine leather strap notched with holes for a buckle to secure itself, notched above a flared military skirt."
 	icon_state = "battleskirt"
 	sewrepair = FALSE
 	detail_tag = "_belt"
@@ -80,14 +90,41 @@
 /obj/item/storage/belt/rogue/leather/battleskirt/barbarian
 	color = "#48443b"
 
+/obj/item/storage/belt/rogue/leather/battleskirt/red
+	color = CLOTHING_RED
+
 /obj/item/storage/belt/rogue/leather/battleskirt/faulds
 	name = "belt with faulds"
+	desc = "A fine leather strap notched with holes for a buckle to secure itself, notched above a halved military skirt."
 	icon_state = "faulds"
 	sewrepair = FALSE
 	detail_tag = "_belt"
 
+/obj/item/storage/belt/rogue/leather/battleskirt/faulds/red
+	color = CLOTHING_RED
+
+/obj/item/storage/belt/rogue/leather/battleskirt/breechcloth
+	name = "belt with breechcloth"
+	desc = "A fine leather strap notched with holes for a buckle to secure itself, and nestled above a halved tabard's coverings."
+	icon_state = "breechcloth"
+	flags_inv = HIDECROTCH
+	sewrepair = FALSE
+	detail_tag = "_belt"
+
+/obj/item/storage/belt/rogue/leather/battleskirt/breechcloth/blackbelt
+	name = "black belt with breechcloth"
+	desc = "A fine black-leather strap notched with holes for a buckle to secure itself, and nestled above a halved tabard's coverings."
+	icon_state = "breechclothalt"
+	flags_inv = HIDECROTCH
+	sewrepair = FALSE
+	detail_tag = "_belt"
+
+/obj/item/storage/belt/rogue/leather/battleskirt/breechcloth/red
+	color = CLOTHING_RED
+
 /obj/item/storage/belt/rogue/leather/steel
 	name = "steel belt"
+	desc = "A fine leather belt that's been sleeved within many segments of steel, protecting its delicate innards from prying hands-and-blades."
 	icon_state = "steelplaque"
 	sellprice = 30
 	sewrepair = FALSE
@@ -95,11 +132,11 @@
 
 /obj/item/storage/belt/rogue/leather/steel/tasset
 	name = "tasseted belt"
+	desc = "A fine leather belt that's been sleeved within many segments of steel, and further reinforced with the tassets of a fluted cuirass."
 	icon_state = "steeltasset"
 	sellprice = 35
 	sewrepair = FALSE
 	anvilrepair = /datum/skill/craft/armorsmithing
-
 
 /obj/item/storage/belt/rogue/leather/rope
 	name = "rope belt"
@@ -161,7 +198,7 @@
 
 /obj/item/storage/backpack/rogue/satchel/otavan
 	name = "otavan leather satchel"
-	desc = "A made to last leather bag from the Psydonian heart of Otava. It's Otava's finest."
+	desc = "A sleek, stylish, and surprisingly sturdy satchel that hails straight from the Sovereignty of Otava. It is made to endure, first and foremost."
 	icon_state = "osatchel"
 	item_state = "osatchel"
 
@@ -196,8 +233,8 @@
 /obj/item/storage/backpack/rogue/satchel/beltpack
 	name = "beltpack" //Satchel that fits on the cloak or belt slot. Should be exceptionally rare for on-spawn loadouts, unless a flag's added to make it incompatable with regular satchels.
 	desc = "A lighter satchel that rests against the rump, freeing the shoulders from any weight. It's traditionally worn in place of a belt or cloak."
-	icon_state = "gamesatchel" //Later down the line, take the unused belt-satchel onmob and rename it to 'gamesatchel'.
-	item_state = "satchel"
+	icon_state = "buttpack" //Later down the line, take the unused belt-satchel onmob and rename it to 'gamesatchel'.
+	item_state = "buttpack"
 	icon = 'icons/roguetown/clothing/storage.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/belts.dmi'
 	slot_flags = ITEM_SLOT_CLOAK|ITEM_SLOT_BELT //Implement a check that prevents one from being worn on both slots at once. Another coder's duty, I think.
@@ -354,6 +391,16 @@
 	if(knives.len)
 		. += span_notice("[knives.len] inside.")
 
+/obj/item/storage/belt/rogue/leather/knifebelt/ai_get_custom_inventory()
+	return knives
+
+/obj/item/storage/belt/rogue/leather/knifebelt/ai_withdraw_item(obj/item/it, mob/living/user)
+	if(it in knives)
+		knives -= it
+		update_icon()
+		return TRUE
+	return FALSE
+
 /obj/item/storage/belt/rogue/leather/knifebelt/iron/Initialize()
 	. = ..()
 	for(var/i in 1 to max_storage)
@@ -400,10 +447,10 @@
 		knives += K
 	update_icon()
 
-/obj/item/storage/belt/rogue/leather/exoticsilkbelt
-	name = "exotic silk belt"
+/obj/item/storage/belt/rogue/leather/silkbelt
+	name = "giltsilk belt"
 	desc = "A gold adorned belt with the softest of silks barely concealing one's bits."
-	icon_state = "exoticsilkbelt"
+	icon_state = "silkbelt"
 	var/max_storage = 5
 	sewrepair = TRUE
 
@@ -468,6 +515,7 @@
 	item_flags = ABSTRACT
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF
 	no_effect = TRUE
+	experimental_inhand = FALSE
 
 /obj/item/clothing/wall_grab/dropped(mob/living/carbon/human/user)
 	. = ..()
@@ -496,6 +544,85 @@
 	anvilrepair = /datum/skill/craft/blacksmithing
 	smeltresult = /obj/item/ingot/bronze
 	component_type = /datum/component/storage/concrete/grid/orestore/bronze
+	var/current_choice_index = 1
+	var/static/list/filter_options = list(
+	list(/obj/item/rogueore, /obj/item/ingot, /obj/item/roguegem, /obj/item/riddleofsteel, /obj/item/pearl),
+	list(/obj/item/rogueore),
+	list(/obj/item/ingot),
+	list(/obj/item/roguegem, /obj/item/riddleofsteel, /obj/item/pearl)
+	)
+
+/obj/item/storage/hip/orestore/bronze/examine(mob/user)
+	. = ..()
+	var/str = "The bag is set to collect: "
+	switch(current_choice_index)
+		if(1)
+			str += "Everything"
+		if(2)
+			str += "Ore Only"
+		if(3)
+			str += "Ingots Only"
+		if(4)
+			str += "Gems Only"
+	. += span_notice(str)
+
+/obj/item/storage/hip/orestore/bronze/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_notice("Walking over or clicking on the tiles with selected items will automatically scoop them into the bag.")
+	. += span_notice("Right clicking the bag while it's outside of your active hand will toggle through various scoop filters.")
+
+/obj/item/storage/hip/orestore/bronze/attack_right(mob/user)
+	if(current_choice_index < length(filter_options))
+		current_choice_index++
+	else
+		current_choice_index = 1
+	var/list/filters = filter_options[current_choice_index]
+	var/datum/component/storage/concrete/grid/orestore/OS = GetComponent(/datum/component/storage/concrete/grid/orestore)
+	if(OS)
+		OS.set_holdable(filters)
+	var/str = "\The [src] will now collect: "
+	switch(current_choice_index)
+		if(1)
+			str += "Everything"
+		if(2)
+			str += "Ore Only"
+		if(3)
+			str += "Ingots Only"
+		if(4)
+			str += "Gems Only"
+	to_chat(user, span_notice(str))
+
+// I Do Not 100% understand how this works. This is probably buggy as fuck.
+/obj/item/storage/hip/orestore/bronze/equipped(mob/user, slot)
+	. = ..()
+	// i set override to true bc it kept producing a runtime unless i did. assuming this is fine. idfk.
+	RegisterSignal(user, COMSIG_MOVABLE_MOVED, PROC_REF(on_user_moved), TRUE)
+
+/obj/item/storage/hip/orestore/bronze/dropped(mob/user)
+	. = ..()
+	UnregisterSignal(user, COMSIG_MOVABLE_MOVED)
+
+/obj/item/storage/hip/orestore/bronze/proc/on_user_moved(mob/living/user)
+	SIGNAL_HANDLER
+	var/picked_up = FALSE
+	// sanity check
+	if(user.incapacitated() || !user.canUseStorage())
+		return
+	// ensure the turf is a turf. idk how this would happen but after turf fuckery im scared now.
+	var/turf/T = get_turf(user)
+	if(!T)
+		return
+	// nab the components of the storage device
+	var/datum/component/storage/S = GetComponent(/datum/component/storage)
+	if(!S)
+		return
+
+	for(var/obj/item/I in T)
+		if(S.can_be_inserted(I, TRUE, user))
+			S.handle_item_insertion(I, TRUE, user)
+			picked_up = TRUE
+	if(picked_up)
+		user.visible_message(span_info("[user] picks up the ore beneath them, placing it into the ore bag..."))
 
 /obj/item/storage/belt/rogue/leather/zig_bandolier
 	name = "zig bandolier"
@@ -522,3 +649,15 @@
 	alternate_worn_layer = UNDER_CLOAK_LAYER
 	strip_delay = 20
 	component_type = /datum/component/storage/concrete/roguetown/zig_bandolier
+
+/obj/item/storage/belt/rogue/leather/suspenders
+	name = "suspenders"
+	desc = "A pair of suspenders which go over the shoulders. Used for keeping one's pants in place in an admittably fashionable style."
+	icon_state = "suspenders"
+	alternate_worn_layer = ARMOR_LAYER
+
+/obj/item/storage/belt/rogue/leather/cloth_belt
+	name = "cloth belt"
+	desc = "This belt has been sewn out of cloth, as opposed to tied. Which makes it superior. Obviously."
+	icon_state = "clothsash"
+	salvage_result = /obj/item/natural/cloth

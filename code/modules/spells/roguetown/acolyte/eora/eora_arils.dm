@@ -83,7 +83,7 @@
 	//Instant heal, but you can only eat a couple before the next will make you pass out.
 	var/list/wCount = eater.get_wounds()
 	//No undead because they kinda don't have blood to give for this.
-	if(!eater.construct && !(eater.mob_biotypes & MOB_UNDEAD))
+	if(!user.construct && !(user.mob_biotypes & MOB_UNDEAD))
 		var/current_brute_loss = eater.getBruteLoss()
 		blood_loss += (user.blood_volume * 0.08)
 		if(wCount.len > 0)
@@ -146,7 +146,7 @@
 		var/obj/item/roguegem/ruby/new_gem = new(eater.loc)
 		qdel(G)
 		eater.put_in_hands(new_gem)
-		to_chat(eater, span_notice("The [G] transforms into a rontz in your hand!"))
+		to_chat(eater, span_notice("\The [G] transforms into a rontz in your hand!"))
 		//Probably best not to allow 2 at once...
 		break
 
@@ -157,6 +157,7 @@
 	icon_state = "cerulean"
 	effect_desc = "Excellent fishing bait that attracts treasure."
 	baitpenalty = 5
+	baitresilience = 4
 	isbait = TRUE
 	fishingMods=list(
 		"commonFishingMod" = 0.2,
@@ -295,6 +296,7 @@
 
 		ADD_TRAIT(target, TRAIT_IWASREVIVED, "ochre_aril")
 		target.apply_status_effect(/datum/status_effect/debuff/metabolic_acceleration)
+		target.mind.remove_antag_datum(/datum/antagonist/zombie)
 		return TRUE
 	else
 		target.visible_message(span_warning("The magic falters, and nothing happens."))
