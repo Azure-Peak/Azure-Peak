@@ -2,15 +2,15 @@
 
 //intended that none of these get houndstones, you're severely underfunded. Your bog master is loosely loyal to the crown and issues orders/gaslights you/informs you on what issues are around.
 
-//They also have lower skills compared to proper garrison, they're on-par with towners outside of the bogs, somewhere between adventurers and mercenaries inside.
+//They also have lower skills + stats compared to proper garrison, no dodge expert or armor training, in fact they're on-par with towners outside of the bogs, somewhere between adventurers and mercenaries inside.
 //The idea is that you'll train off of sparring your bogmaster, who'll probably try to convince a knight to train their levy, or the vet. But the crown might not want that either, since you're not the most truthworthy.
 /datum/job/roguetown/bogguard //Half-competent idiots, unlike wardens/garrison. they're complete underpaid, undertrained idiots that barely know what they're doing.
 	title = "Bog Guard"
 	flag = BOGGUARD
 	department_flag = LEVY
 	faction = "Station"
-	total_positions = 7 //I expect you to die, also intended that the bogmaster recruits people.
-	spawn_positions = 7
+	total_positions = 6 //I expect you to die, also intended that the bogmaster recruits people.
+	spawn_positions = 6
 	allowed_sexes = list(MALE, FEMALE)
 	forbidden_races = list(RACES_DESPISED)
 	allowed_ages = list(AGE_ADULT, AGE_MIDDLEAGED, AGE_OLD)
