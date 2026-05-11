@@ -85,6 +85,8 @@
 		start_contesting()
 
 /datum/usurpation_rite/martial_supercession/on_contesting_started()
+	message_admins("USURPATION: [invoker.real_name] ([invoker.ckey]) has started a martial supercession rite.")
+	log_game("USURPATION: [invoker.real_name] ([invoker.ckey]) has started a martial supercession rite.")
 	priority_announce( \
 		"[invoker.real_name] has invoked the Rite of Martial Supercession!\n\n" + \
 		"In the name of Ravox, God of War and Justice, a claim is made upon the throne of [SSticker.realm_name].\n\n" + \
@@ -98,6 +100,8 @@
 /datum/usurpation_rite/martial_supercession/on_complete()
 	var/mob/living/old_ruler = SSticker.rulermob
 	var/old_ruler_name = old_ruler?.real_name || "Their predecessor"
+	message_admins("USURPATION: [invoker.real_name] ([invoker.ckey]) has completed a martial supercession usurpation rite.")
+	log_game("USURPATION: [invoker.real_name] ([invoker.ckey]) has completed a martial supercession usurpation rite.")
 	..()
 	priority_announce( \
 		"Those who fail to defend their throne do not deserve to sit upon it.\n\n" + \

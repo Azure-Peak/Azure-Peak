@@ -93,6 +93,8 @@ The dead has no voice in this. The world is not progressive enough for that.
 		start_contesting()
 
 /datum/usurpation_rite/popular_acclaim/on_contesting_started()
+	message_admins("USURPATION: [invoker.real_name] ([invoker.ckey]) has started a popular acclaim usurpation rite.")
+	log_game("USURPATION: [invoker.real_name] ([invoker.ckey]) has started a popular acclaim usurpation rite.")
 	priority_announce( \
 		"[invoker.real_name] has invoked the Rite of Popular Acclaim!\n\n" + \
 		"The people of [SSticker.realm_name] have spoken — [invoker.real_name] shall step forth as the Tribune of [SSticker.realm_name]. A rule by the people, for the people!\n\n" + \
@@ -105,6 +107,8 @@ The dead has no voice in this. The world is not progressive enough for that.
 /datum/usurpation_rite/popular_acclaim/on_complete()
 	var/mob/living/old_ruler = SSticker.rulermob
 	var/old_ruler_name = old_ruler?.real_name || "Their predecessor"
+	message_admins("USURPATION: [invoker.real_name] ([invoker.ckey]) has completed a popular acclaim usurpation rite.")
+	log_game("USURPATION: [invoker.real_name] ([invoker.ckey]) has completed a popular acclaim usurpation rite.")
 	..()
 	priority_announce( \
 		"A ruler must rule for the benefits of their subjects. And no one is more fit than one elected by their subjects.\n\n" + \

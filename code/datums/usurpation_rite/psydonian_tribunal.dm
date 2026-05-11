@@ -103,6 +103,8 @@ The epilogue implies an impending war with Grenzelhoft - for breaking the status
 		start_contesting()
 
 /datum/usurpation_rite/psydonian_tribunal/on_contesting_started()
+	message_admins("USURPATION: [invoker.real_name] ([invoker.ckey]) has started a psydonian tribunal usurpation rite.")
+	log_game("USURPATION: [invoker.real_name] ([invoker.ckey]) has started a psydonian tribunal usurpation rite.")
 	priority_announce( \
 		"[invoker.real_name] has invoked the Rite of Psydonian Tribunal!\n\n" + \
 		"In the name of Psydon, the Inquisition passes judgment upon the throne of [SSticker.realm_name].\n\n" + \
@@ -116,6 +118,8 @@ The epilogue implies an impending war with Grenzelhoft - for breaking the status
 /datum/usurpation_rite/psydonian_tribunal/on_complete()
 	var/mob/living/old_ruler = SSticker.rulermob
 	var/old_ruler_name = old_ruler?.real_name || "Their predecessor"
+	message_admins("USURPATION: [invoker.real_name] ([invoker.ckey]) has completed a psydonian tribunal usurpation rite.")
+	log_game("USURPATION: [invoker.real_name] ([invoker.ckey]) has completed a psydonian tribunal usurpation rite.")
 	..()
 	priority_announce( \
 		"There are many gods, but only one who was truly, wholly good.\n\n" + \

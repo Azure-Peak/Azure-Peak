@@ -262,6 +262,8 @@ GLOBAL_LIST_EMPTY(heretical_players)
 		//Coronate new King (or Queen)
 		HU.mind.assigned_role = "Grand Duke"
 		HU.job = "Grand Duke"
+		message_admins("USURPATION: [real_name] ([real_name.ckey]) has coronated [HU.real_name] ([HU.ckey]) the [HU.dispjob] as the ruler.")
+		log_game("USURPATION: [real_name] ([real_name.ckey]) has coronated [HU.real_name] ([HU.ckey]) the [HU.dispjob] as the ruler.")
 		ADD_TRAIT(HU, TRAIT_DNR, TRAIT_GENERIC) // Consequences, Johnathan.
 		SSticker.set_ruler_mob(HU)
 		SSticker.regentmob = null
@@ -301,27 +303,10 @@ GLOBAL_LIST_EMPTY(heretical_players)
 			var/treated_input = treat_message(sanitized_input, /datum/language/common)
 			priority_announce("[treated_input]", "The Bishop Preaches", 'sound/misc/bell.ogg', sender = src)
 			COOLDOWN_START(src, priest_announcement, PRIEST_ANNOUNCEMENT_COOLDOWN)
+			log_game("ANNOUNCEMENT: [src.real_name] ([src.ckey]) has announced [priest_announcement].")
 		else
 			to_chat(src, span_warning("Your announcement was interrupted!"))
 			return FALSE
-
-/obj/effect/proc_holder/spell/self/convertrole/templar
-	name = "Recruit Templar"
-	new_role = "Templar"
-	overlay_state = "recruit_templar"
-	recruitment_faction = "Templars"
-	recruitment_message = "Serve the ten, %RECRUIT!"
-	accept_message = "FOR THE TEN!"
-	refuse_message = "I refuse."
-
-/obj/effect/proc_holder/spell/self/convertrole/monk
-	name = "Recruit Acolyte"
-	new_role = "Acolyte"
-	overlay_state = "recruit_acolyte"
-	recruitment_faction = "Church"
-	recruitment_message = "Serve the ten, %RECRUIT!"
-	accept_message = "FOR THE TEN!"
-	refuse_message = "I refuse."
 
 /mob/living/carbon/human/proc/completesermon()
 	set name = "Sermon"

@@ -90,6 +90,8 @@
 		start_contesting()
 
 /datum/usurpation_rite/progressive_dominion/on_contesting_started()
+	message_admins("USURPATION: [invoker.real_name] ([invoker.ckey]) has started a progressive dominion usurpation rite.")
+	log_game("USURPATION: [invoker.real_name] ([invoker.ckey]) has started a progressive dominion usurpation rite.")
 	priority_announce( \
 		"[invoker.real_name] has invoked the Rite of Progressive Dominion!\n\n" + \
 		"In the name of Zizo, Mistress of Progress, a claim is made upon the throne of [SSticker.realm_name].\n\n" + \
@@ -103,6 +105,8 @@
 /datum/usurpation_rite/progressive_dominion/on_complete()
 	var/mob/living/old_ruler = SSticker.rulermob
 	var/old_ruler_name = old_ruler?.real_name || "Their predecessor"
+	message_admins("USURPATION: [invoker.real_name] ([invoker.ckey]) has completed a progressive dominion usurpation rite.")
+	log_game("USURPATION: [invoker.real_name] ([invoker.ckey]) has completed a progressive dominion usurpation rite.")
 	if(HAS_TRAIT(invoker, TRAIT_ROTMAN) || (invoker.mob_biotypes & MOB_UNDEAD))
 		roundend_epilogue = \
 			"One can conquer a realm on a tide of bones. " + \

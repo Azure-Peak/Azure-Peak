@@ -91,6 +91,8 @@
 		start_contesting()
 
 /datum/usurpation_rite/golden_accord/on_contesting_started()
+	message_admins("USURPATION: [invoker.real_name] ([invoker.ckey]) has started a golden accord usurpation rite.")
+	log_game("USURPATION: [invoker.real_name] ([invoker.ckey]) has started a golden accord usurpation rite.")
 	priority_announce( \
 		"[invoker.real_name] has invoked the Rite of Golden Accord!\n\n" + \
 		"The people of [SSticker.realm_name] has spoken — a merchant republic shall be established, and [invoker.real_name] elected its first Chancellor!\n\n" + \
@@ -104,6 +106,8 @@
 /datum/usurpation_rite/golden_accord/on_complete()
 	var/mob/living/old_ruler = SSticker.rulermob
 	var/old_ruler_name = old_ruler?.real_name || "Their predecessor"
+	message_admins("USURPATION: [invoker.real_name] ([invoker.ckey]) has completed a golden accord usurpation rite.")
+	log_game("USURPATION: [invoker.real_name] ([invoker.ckey]) has completed a golden accord usurpation rite.")
 	..()
 	priority_announce( \
 		"Power belongs to those who bring prosperity to the realm.\n\n" + \

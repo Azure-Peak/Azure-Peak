@@ -251,3 +251,25 @@
 	recruitment_message = "We're in this together now, %RECRUIT!"
 	accept_message = "All for one and one for all!"
 	refuse_message = "I refuse."
+
+////////////////////////////////////
+////THE HOLY SEE OF GRENZELHOFT////
+///////////////////////////////////
+
+/obj/effect/proc_holder/spell/self/convertrole/templar
+	name = "Recruit Templar"
+	new_role = "Templar"
+	overlay_state = "recruit_templar"
+	recruitment_faction = "Templars"
+	recruitment_message = "Serve the ten, %RECRUIT!"
+	accept_message = "FOR THE TEN!"
+	refuse_message = "I refuse."
+
+/obj/effect/proc_holder/spell/self/convertrole/monk
+	name = "Recruit Acolyte"
+	new_role = "Acolyte"
+	overlay_state = "recruit_acolyte"
+	recruitment_faction = "Church"
+	recruitment_message = "Serve the ten, %RECRUIT!"
+	accept_message = "FOR THE TEN!"
+	refuse_message = "I refuse."

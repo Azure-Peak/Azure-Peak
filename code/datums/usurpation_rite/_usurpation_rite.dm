@@ -279,6 +279,8 @@
 	return TRUE
 
 /datum/usurpation_rite/proc/on_counter_claim_started(mob/living/carbon/human/claimant)
+	message_admins("USURPATION: [claimant.real_name] ([claimant.ckey]) has halted a usurpation rite.")
+	log_game("USURPATION: [claimant.real_name] ([claimant.ckey]) has halted a usurpation rite.")
 	claimant.visible_message( \
 		span_warning("[claimant.real_name] has taken the throne and declared 'Stop Ascent!' The rite is being contested!"), \
 		span_notice("You have taken the throne. Hold it for [RITE_COUNTER_CLAIM_DURATION / (1 MINUTES)] minute(s) to halt the succession. The rite's timer has been paused."))

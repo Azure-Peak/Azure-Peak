@@ -105,6 +105,8 @@
 		start_contesting()
 
 /datum/usurpation_rite/sacred_supercession/on_contesting_started()
+	message_admins("USURPATION: [invoker.real_name] ([invoker.ckey]) has started a sacred supercession usurpation rite.")
+	log_game("USURPATION: [invoker.real_name] ([invoker.ckey]) has started a sacred supercession usurpation rite.")
 	priority_announce( \
 		"[invoker.real_name] has invoked the Rite of Sacred Supercession!\n\n" + \
 		"In the name of Astrata, Goddess of Order, the Church reluctantly makes a claim upon the throne of [SSticker.realm_name], to restore order and faith!\n\n" + \
@@ -118,6 +120,8 @@
 /datum/usurpation_rite/sacred_supercession/on_complete()
 	var/mob/living/old_ruler = SSticker.rulermob
 	var/old_ruler_name = old_ruler?.real_name || "Their predecessor"
+	message_admins("USURPATION: [invoker.real_name] ([invoker.ckey]) has completed a sacred supercession usurpation rite.")
+	log_game("USURPATION: [invoker.real_name] ([invoker.ckey]) has completed a sacred supercession usurpation rite.")
 	..()
 	priority_announce( \
 		"The sun rises on a new order.\n\n" + \

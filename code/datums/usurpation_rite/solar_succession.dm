@@ -59,6 +59,8 @@ Outlaws and undead are shunned by Astrata outside of her order. They may not inv
 		start_contesting()
 
 /datum/usurpation_rite/solar_succession/on_contesting_started()
+	message_admins("USURPATION: [invoker.real_name] ([invoker.ckey]) has started a solar succession usurpation rite.")
+	log_game("USURPATION: [invoker.real_name] ([invoker.ckey]) has started a solar succession usurpation rite.")
 	priority_announce( \
 		"[invoker.real_name] has invoked the Rite of Solar Succession!\n\n" + \
 		"In the name of Astrata, Goddess of Order, a claim is made upon the throne of [SSticker.realm_name].\n\n" + \
@@ -72,6 +74,8 @@ Outlaws and undead are shunned by Astrata outside of her order. They may not inv
 /datum/usurpation_rite/solar_succession/on_complete()
 	var/mob/living/old_ruler = SSticker.rulermob
 	var/old_ruler_name = old_ruler?.real_name || "Their predecessor"
+	message_admins("USURPATION: [invoker.real_name] ([invoker.ckey]) has completed a solar succession usurpation rite.")
+	log_game("USURPATION: [invoker.real_name] ([invoker.ckey]) has completed a sucession usurpation rite.")
 	..()
 	priority_announce( \
 		"The sun must set so that dawn may come again.\n\n" + \

@@ -77,6 +77,8 @@
 		start_contesting()
 
 /datum/usurpation_rite/lunar_ascension/on_contesting_started()
+	message_admins("USURPATION: [invoker.real_name] ([invoker.ckey]) has started a lunar ascension usurpation rite.")
+	log_game("USURPATION: [invoker.real_name] ([invoker.ckey]) has started a lunar ascension usurpation rite.")
 	priority_announce( \
 		"[invoker.real_name] has invoked the Rite of Lunar Ascension!\n\n" + \
 		"In the name of Noc, God of Magic, a claim is made upon the throne of [SSticker.realm_name], to bring enlightened rule to the realm.\n\n" + \
