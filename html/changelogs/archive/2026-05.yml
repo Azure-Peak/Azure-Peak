@@ -390,3 +390,20 @@
       and Necrans won't leave bone remains behind. Locate Corpse's grace period is
       removed for NPC corpses and departed corpses.
   - balance: Tolls are now made from 8 Lux-Threads, from 10.
+2026-05-11:
+  FreeStylaLT:
+  - qol: Beckoning is now yellow.
+  Quinalion:
+  - rscadd: Inspecting a TRAIT_EMPATH target now shows a message indicating they are
+      emotionless.
+  - rscadd: Exploded Golgatha no longer makes Psydonites with TRAIT_NOMOOD cry.
+  - balance: Presence discipline abilities (Ave, Dread Gaze) no longer affect TRAIT_NOMOOD
+      targets.
+  - bugfix: Characters with TRAIT_NOMOOD no longer panic.
+  Ryan180602:
+  - rscadd: custom species blood colour
+  WeNeedMorePhoron:
+  - bugfix: Conjured items can no longer be used in anvil recipes.
+  borneblood:
+  - balance: Infestation (Pestra) gains additional effects vs NPCs.
+  - rscadd: Added a visual indicator for when someone is crit-to-dying.

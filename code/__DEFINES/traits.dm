@@ -188,6 +188,7 @@
 // Generic
 #define TRAIT_BASHDOORS "Door Basher"
 #define TRAIT_NOMOOD "Moodless"
+#define TRAIT_DETACHED "Detached"
 #define TRAIT_BAD_MOOD "Bad Mood"
 #define TRAIT_NIGHT_OWL "Night Owl"
 #define TRAIT_BEAUTIFUL "Beautiful"
@@ -476,6 +477,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_ARREARS = span_smallred("I am behind on my poll tax. The Stewardry keeps the tally; the garrison may mark my destitution."),
 	TRAIT_LIGHT_STEP = span_info("My steps are light and swift. I make less noise while sneaking and wearing armor, and can sneak much quicker."),
 	TRAIT_NOMOOD = span_info("I feel no sorrow, no joy, and no stress."),
+	TRAIT_DETACHED = span_info("Nothing could move me. Any emotion I show is a facade."),
 	TRAIT_AZURENATIVE = span_info("I've grown up and lived all my lyfe in these lands. I can only trigger ambushes if I sprint through them."),
 	TRAIT_SLEUTH = span_info("I can spot my tracked Mark's trail without needing to approach it, and can spot them at a distance. I can track more frequently, and the act is not impaired by movement. I can examine tracks right away."),
 	TRAIT_HARDSHELL = span_info("The bulk of this armor prevents me from parrying effectively, but I can still move out of the way."),
