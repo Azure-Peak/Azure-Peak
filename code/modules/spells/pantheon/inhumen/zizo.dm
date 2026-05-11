@@ -302,16 +302,16 @@
 /// T3: Bone Cataclysm - Pretty much pops your summons into sad remains of their former selves. Shouldn't do a lot of damage, but it frags someone with bone splinters if they're close enough.
 /datum/action/cooldown/spell/miracle/bone_cataclysm
 	name = "Bone Cataclysm"
-	desc = "Detonate all of your nearby skeletons in a wave of profane bone shrapnel. You and Gravemarked allies will not be harmed by it. If used outside Combat Mode, you will disintegrate them and restore your energy."
-	fluff_desc = "The dead are tools. Tools are meant to be broken."
+	desc = "Detonate all of your nearby skeletons in a wave of profane bone shrapnel. You and Gravemarked allies will not be harmed by it.<br><br>If used outside Combat Mode, you will disintegrate them and restore your energy."
+	fluff_desc = "Zizo taught her faithful that the dead must always serve twice: once in unlife, and once more when their bones are shattered in her name."	
 	button_icon_state = "bone_zone"
 	click_to_activate = FALSE
 	self_cast_possible = TRUE
 	charge_required = TRUE
-	charge_time = 4 SECONDS
+	charge_time = 3 SECONDS
 	charge_slowdown = 0.5
 	charge_message = "I begin unraveling my undead servants..."
-	cooldown_time = 2 MINUTES
+	cooldown_time = 1.5 MINUTES
 	primary_resource_type = SPELL_COST_DEVOTION
 	primary_resource_cost = 50
 	secondary_resource_type = SPELL_COST_STAMINA
@@ -357,7 +357,7 @@
 		for(var/mob/living/S in valid_skeletons)
 			S.Jitter(100)
 			var/datum/beam/B = caster.Beam(S, icon_state = "necra_beam", time = 50, maxdistance = 20)
-			addtimer(CALLBACK(src, PROC_REF(explode_skeleton), S, caster, B), rand(1 SECONDS, 5 SECONDS))
+			addtimer(CALLBACK(src, PROC_REF(explode_skeleton), S, caster, B), rand(3 SECONDS, 6 SECONDS))
 		
 		return TRUE
 
@@ -366,7 +366,7 @@
 		for(var/mob/living/S in valid_skeletons)
 			S.Jitter(100)
 			var/datum/beam/B = caster.Beam(S,icon_state = "necra_beam",	time = 30, maxdistance = 20)
-			addtimer(CALLBACK(src, PROC_REF(despawn_skeleton), S, caster, B), rand(1 SECONDS, 2 SECONDS))
+			addtimer(CALLBACK(src, PROC_REF(despawn_skeleton), S, caster, B), rand(3 SECONDS, 6 SECONDS))
 
 		return TRUE
 
@@ -382,7 +382,7 @@
 	if(!T)
 		return
 
-	var/faction_tag = "[REF(owner)]_faction"
+	var/faction_tag = "[caster.real_name]_faction"
 
 	S.visible_message(span_danger("[S] erupts into a storm of bone fragments!"))
 	new /obj/effect/temp_visual/explosion(T)
@@ -415,8 +415,8 @@
 		var/atom/throwtarget = get_edge_target_turf(T, get_dir(T, get_step_away(AM, T)))
 		AM.safe_throw_at(throwtarget, 2, 1, owner, force = MOVE_FORCE_EXTREMELY_STRONG)
 
-	for(var/mob/living/carbon/C in view(3, T))
-		if(C.stat == DEAD)
+	for(var/mob/living/carbon/C in view(4, T))
+		if(C.stat == DEAD && C.mind)
 			continue
 		if(C == owner)
 			continue
@@ -433,11 +433,11 @@
 
 		switch(dist)
 			if(0,1)
+				min_splinters = 3
+				max_splinters = 6
+			if(2)
 				min_splinters = 2
 				max_splinters = 4
-			if(2)
-				min_splinters = 1
-				max_splinters = 3
 			if(3)
 				min_splinters = 1
 				max_splinters = 2
@@ -452,7 +452,11 @@
 			var/obj/item/bodypart/limb = pick(C.bodyparts)
 			var/obj/item/bone/splinter/P = new
 			limb.add_embedded_object(P, FALSE, TRUE)
+		C.apply_status_effect(/datum/status_effect/debuff/clickcd, 8 SECONDS)
+		C.apply_status_effect(/datum/status_effect/debuff/exposed, 8 SECONDS)
 		to_chat(C, span_userdanger("Bone splinters bury themselves deep into your flesh!"))
+		if(C.resting || C.stat == DEAD && !C.mind) // to finish off NPCs in a cooler way
+			C.gib(TRUE, TRUE, TRUE, FALSE)
 	new /obj/effect/decal/remains/human(T)
 	qdel(S)
 
@@ -468,7 +472,7 @@
 		return
 	S.visible_message(span_warning("[S] crumbles apart into pale dust as its essence is siphoned away!"), span_warning("Ashes to ashes, dust to dust..."))
 	playsound(T, 'sound/magic/swap.ogg', 50, TRUE)
-	caster.energy_add(50)
+	caster.energy_add(100)
 	caster.stamina_add(-50)
 	new /obj/item/ash(T)
 	new /obj/item/ash(T)

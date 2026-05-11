@@ -53,9 +53,11 @@
 			if(21 to 30)
 				skeleton_type = /mob/living/simple_animal/hostile/rogue/skeleton/spear
 			if(31 to 60)
-				skeleton_type = /mob/living/simple_animal/hostile/rogue/skeleton
+//				skeleton_type = /mob/living/simple_animal/hostile/rogue/skeleton
+				skeleton_type = /mob/living/simple_animal/hostile/rogue/skeleton/guard
 			if(61 to 70)
-				skeleton_type = /mob/living/simple_animal/hostile/rogue/skeleton/bow
+//				skeleton_type = /mob/living/simple_animal/hostile/rogue/skeleton/bow
+				skeleton_type = /mob/living/simple_animal/hostile/rogue/skeleton/axe
 			if(71 to 100)
 				skeleton_type = /mob/living/simple_animal/hostile/rogue/skeleton/guard
 
@@ -67,12 +69,12 @@
 
 			S.STASTR += bonus
 			S.STASPD += bonus / 2 
-			S.maxHealth += bonus * 50
+			S.maxHealth += bonus * 75
 			S.health = S.maxHealth
 
 			var/aggro_range = 8
 
-			for(var/mob/living/M in view(aggro_range, S))
+			for(var/mob/living/M in view(aggro_range, 7))
 				if(M == S)
 					continue
 				if(M.stat == DEAD)

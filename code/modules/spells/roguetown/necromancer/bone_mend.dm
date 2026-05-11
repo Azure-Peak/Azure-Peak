@@ -26,7 +26,7 @@
 		return FALSE
 
 	var/mob/living/target = targets[1]
-	if(target.mob_biotypes & MOB_UNDEAD) //positive energy harms the undead
+	if(target.mob_biotypes & MOB_UNDEAD) // bro watch your copypasta, wi wi
 		var/obj/item/bodypart/affecting = target.get_bodypart(check_zone(user.zone_selected))
 		if(affecting && (affecting.heal_damage(50, 50) || affecting.heal_wounds(50)))
 			target.update_damage_overlays()
