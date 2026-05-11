@@ -62,6 +62,8 @@ GLOBAL_LIST_EMPTY(soil_list)
 		/obj/item/rogueweapon/scythe,
 		/obj/item/rogueweapon/halberd/bardiche/scythe
 	)
+	/// Literal aura farming?!
+	var/blessed_aura = FALSE
 
 /obj/structure/soil/Initialize()
 	. = ..()
@@ -311,21 +313,22 @@ GLOBAL_LIST_EMPTY(soil_list)
 	update_icon()
 
 /obj/structure/soil/proc/bless_soil()
-	blessed_time = 15 MINUTES
-	// It's a miracle! Plant comes back to life when blessed by Dendor
+	blessed_time = 30 MINUTES
+	// Keep soil comfortably fertile
+	nutrition = max(nutrition, MAX_PLANT_NUTRITION * 0.5)
+	// Kill existing weeds immediately
+	adjust_weeds(-30)
+	// Enable visual aura
+	blessed_aura = TRUE
+	// Revive dead crops
 	if(plant && plant_dead)
 		plant_dead = FALSE
-		plant_health = 10.0
-		update_icon()
-	// If low on nutrition, Dendor provides
-	if(nutrition < 30)
-		adjust_nutrition(max(30 - nutrition, 0))
-	// If low on water, Dendor provides
-	if(water < 30)
-		adjust_water(max(30 - water, 0))
-	// And it grows a little!
+		plant_health = 10
+	// Bonus growth
 	if(plant)
-		add_growth(2 MINUTES)
+		add_growth(5 MINUTES)
+
+	update_icon()
 
 /obj/structure/soil/proc/fertilize_soil()
 	fertilized_time = 60 MINUTES //Keeps the plant fertilized for a good while
@@ -436,56 +439,77 @@ GLOBAL_LIST_EMPTY(soil_list)
 
 /obj/structure/soil/update_overlays()
 	. = ..()
+
 	// Tilled overlay
 	if(tilled_time > 0)
 		. += "soil-tilled"
+
 	// Water overlay
 	var/mutable_appearance/water_ma = mutable_appearance(icon, "soil-overlay")
 	water_ma.color = "#000033"
+
 	if(water >= MAX_PLANT_WATER * 0.6)
 		water_ma.alpha = 100
-	else if (water >= MAX_PLANT_WATER * 0.15)
+	else if(water >= MAX_PLANT_WATER * 0.15)
 		water_ma.alpha = 50
 	else
 		water_ma.alpha = 0
+
 	. += water_ma
+
 	// Nutriment overlay
 	var/mutable_appearance/nutri_ma = mutable_appearance(icon, "soil-overlay")
 	nutri_ma.color = "#6d3a00"
+
 	if(nutrition >= MAX_PLANT_NUTRITION * 0.6)
 		nutri_ma.alpha = 50
-	else if (nutrition >= MAX_PLANT_NUTRITION * 0.15)
+	else if(nutrition >= MAX_PLANT_NUTRITION * 0.15)
 		nutri_ma.alpha = 25
 	else
 		nutri_ma.alpha = 0
+
 	. += nutri_ma
+
 	// Plant overlay
 	if(plant)
 		var/plant_state
 		var/plant_color
+
 		if(plant_dead == TRUE)
 			plant_color = null
-		else if(plant_health <=  MAX_PLANT_HEALTH * 0.3)
+		else if(plant_health <= MAX_PLANT_HEALTH * 0.3)
 			plant_color = "#9c7b43"
-		else if (plant_health <=  MAX_PLANT_HEALTH * 0.6)
+		else if(plant_health <= MAX_PLANT_HEALTH * 0.6)
 			plant_color = "#d8b573"
+
 		if(plant_dead == TRUE)
 			plant_state = "[plant.icon_state]3"
 		else
 			if(produce_ready)
 				plant_state = "[plant.icon_state]2"
-			else if (matured)
+			else if(matured)
 				plant_state = "[plant.icon_state]1"
 			else
 				plant_state = "[plant.icon_state]0"
+
 		var/mutable_appearance/plant_ma = mutable_appearance(plant.icon, plant_state)
 		plant_ma.color = plant_color
 		. += plant_ma
+
+		// Blessed aura overlay
+		if(blessed_aura)
+			var/mutable_appearance/bless_ma = mutable_appearance(plant.icon, plant_state)
+			bless_ma.appearance_flags = RESET_COLOR
+			bless_ma.alpha = 75
+			bless_ma.filters = list(filter(type="outline", color="#00f73e", size=0.25))
+			. += bless_ma
+
 	// Weeds overlay
 	if(weeds >= MAX_PLANT_WEEDS * 0.6)
 		. += "weeds-2"
-	else if (weeds >= MAX_PLANT_WEEDS * 0.3)
+	else if(weeds >= MAX_PLANT_WEEDS * 0.3)
 		. += "weeds-1"
+
 
 /obj/structure/soil/examine(mob/user)
 	. = ..()
@@ -530,9 +554,9 @@ GLOBAL_LIST_EMPTY(soil_list)
 		. += span_info("The soil is tilled.")
 	// Blessed feedback
 	if(blessed_time > 0)
-		. += span_good("The soil seems blessed.")
+		. += span_green("The soil seems blessed.")
 	if(fertilized_time > 0)
-		. += span_good("The soil has special fertilizer mixed in.")
+		. += span_yellow("The soil has special fertilizer mixed in.")
 	if(pollination_time > 0)
 		. += span_good("The soil has been pollinated.")
 
@@ -546,24 +570,25 @@ GLOBAL_LIST_EMPTY(soil_list)
 #define WEED_NUTRITION_CONSUMPTION_RATE 5 / (1 MINUTES)
 
 /obj/structure/soil/proc/process_weeds(dt)
-	// Blessed soil will have the weeds die
-	if(blessed_time > 0 || fertilized_time > 0)
+	// Blessed soil destroys weeds and prevents regrowth
+	if(blessed_time > 0)
+		adjust_weeds(-dt * BLESSING_WEED_DECAY_RATE)
+		return
+	// Fertilized soil weakens weeds
+	if(fertilized_time > 0)
 		adjust_weeds(-dt * BLESSING_WEED_DECAY_RATE)
 	if(plant && plant.weed_immune)
-		// Weeds die if the plant is immune to them
 		adjust_weeds(-dt * WEED_RESISTANCE_DECAY_RATE)
 		return
 	if(water <= 0)
-		// Weeds die without water in soil
 		adjust_weeds(-dt * WEED_DECAY_RATE)
 		return
-	// Weeds eat water and nutrition to grow
+	// Weeds consume resources to grow
 	var/weed_factor = weeds / MAX_PLANT_WEEDS
 	adjust_water(-dt * weed_factor * WEED_WATER_CONSUMPTION_RATE)
 	adjust_nutrition(-dt * weed_factor * WEED_NUTRITION_CONSUMPTION_RATE)
 	if(nutrition > 0)
 		adjust_weeds(dt * WEED_GROWTH_RATE)
-
 
 #define PLANT_REGENERATION_RATE 10 / (1 MINUTES)
 #define PLANT_DECAY_RATE 10 / (1 MINUTES)
@@ -677,19 +702,27 @@ GLOBAL_LIST_EMPTY(soil_list)
 #define SOIL_NUTRIMENT_DECAY_RATE 0.5 / (1 MINUTES)
 
 /obj/structure/soil/proc/process_soil(dt)
-	// If plant exists and is not dead, nutriment or water is not zero, reset the decay timer
+	// Reset decay timer while active
 	if(nutrition > 0 || water > 0 || (plant != null && plant_health > 0))
 		soil_decay_time = SOIL_DECAY_TIME
 	else
-		// Otherwise, "decay" the soil
 		soil_decay_time = max(soil_decay_time - dt, 0)
-
 	adjust_water(-dt * SOIL_WATER_DECAY_RATE)
-	adjust_nutrition(-dt * SOIL_NUTRIMENT_DECAY_RATE)
+	// Blessed soil never drops below "sated"
+	if(blessed_time > 0)
+		nutrition = max(
+			nutrition - (dt * SOIL_NUTRIMENT_DECAY_RATE), MAX_PLANT_NUTRITION * 0.5)
+	else
+		adjust_nutrition(-dt * SOIL_NUTRIMENT_DECAY_RATE)
 	if(fertilized_time > 0)
 		nutrition = 100
 	tilled_time = max(tilled_time - dt, 0)
 	blessed_time = max(blessed_time - dt, 0)
+	// Remove aura when blessing expires
+	if(blessed_time <= 0 && blessed_aura)
+		blessed_aura = FALSE
+		update_icon()
+
 	pollination_time = max(pollination_time - dt, 0)
 
 /obj/structure/soil/proc/decay_soil()

@@ -1,3 +1,20 @@
+/datum/action/cooldown/spell/dendor
+	sound = 'sound/magic/churn.ogg'
+	charge_sound = 'sound/magic/holycharging.ogg'
+	button_icon = 'icons/mob/actions/dendormiracles.dmi'
+	spell_color = GLOW_COLOR_DENDOR
+	ignore_armor_penalty = TRUE
+	attunement_school = null
+	primary_resource_type = SPELL_COST_DEVOTION
+	secondary_resource_type = SPELL_COST_STAMINA
+	has_visual_effects = FALSE
+	spell_impact_intensity = SPELL_IMPACT_NONE
+	associated_stat = null
+	associated_skill = /datum/skill/magic/holy
+	spell_tier = 0
+	point_cost = 0
+	required_items = list(/obj/item/clothing/neck/roguetown/psicross/dendor, /obj/item/clothing/neck/roguetown/psicross/undivided, /obj/item/clothing/neck/roguetown/psicross/silver/undivided)
+
 ///////////////////////
 // T0 - Spider Speak //
 ///////////////////////
@@ -6,19 +23,15 @@
 	name = "Wild Speak"
 	desc = "Infuses a target with the mind, scent and instinct of the Wild. Beasts and primordial creatures will recognize them as kin, and they can speak the language of the beasts."
 	fluff_desc = "The oldest druids spoke not with words, but scent, breath, instinct, and spirit. Through Dendor's blessing, the Wild remembers its own."
-	button_icon = 'icons/mob/actions/dendormiracles.dmi'
 	button_icon_state = "tamebeast"
-	sound = 'sound/magic/churn.ogg'
 	click_to_activate = TRUE
 	cast_range = SPELL_RANGE_GROUND
 	self_cast_possible = TRUE
 	primary_resource_cost = 25
-	secondary_resource_cost = SPELLCOST_CANTRIP
-	invocation_type = INVOCATION_NONE
+	secondary_resource_cost = 25
 	charge_required = FALSE
 	cooldown_time = 30 SECONDS
-	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
-	associated_skill = /datum/skill/magic/holy
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_SAME_Z
 	var/duration = 30 MINUTES
 
 /datum/action/cooldown/spell/dendor/wildspeak/cast(atom/cast_on)
@@ -64,39 +77,86 @@
 // T0 - Bless Crops //
 //////////////////////
 
-/obj/effect/proc_holder/spell/targeted/blesscrop
+/datum/action/cooldown/spell/dendor/blesscrop
 	name = "Bless Crops"
-	desc = "Bless up to five crops around you. Revives dead plants, gives them nutrition and water if low and boosts their growth."
-	range = 5
-	action_icon = 'icons/mob/actions/dendormiracles.dmi'
-	overlay_icon = 'icons/mob/actions/dendormiracles.dmi'
-	overlay_state = "blesscrop"
-	releasedrain = 30
-	recharge_time = 30 SECONDS
-	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
-	max_targets = 0
-	cast_without_targets = TRUE
-	sound = 'sound/magic/churn.ogg'
-	associated_skill = /datum/skill/magic/holy
-	invocations = list("The Treefather commands thee, be fruitful!")
-	invocation_type = "shout" //can be none, whisper, emote and shout
-	miracle = TRUE
-	devotion_cost = 20
+	desc = "Bless crops in a small area, preventing their condition from decaying for 30 minutes. This revives dead plants, restores nutrition, and accelerates their growth. It does not restore hydration, nor can it be used on crops that are already blessed."
+	fluff_desc = "The Treefather's mere gaze restores life to withered roots and calls bounty from the soil, for this is all within His domain, an extension of His will."
+	button_icon = 'icons/mob/actions/dendormiracles.dmi'
+	button_icon_state = "blesscrop"
+	click_to_activate = TRUE
+	cast_range = SPELL_RANGE_GROUND
+	primary_resource_cost = 20
+	secondary_resource_cost = 20
+	charge_required = FALSE
+	cooldown_time = 30 SECONDS
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_SAME_Z
 
-/obj/effect/proc_holder/spell/targeted/blesscrop/cast(list/targets,mob/user = usr)
-	. = ..()
-	var/growed = FALSE
-	var/amount_blessed = 0
-	for(var/obj/structure/soil/soil in view(4))
-		soil.bless_soil()
-		growed = TRUE
-		amount_blessed++
-		// Blessed only up to 5 crops
-		if(amount_blessed >= 5)
+/datum/action/cooldown/spell/dendor/blesscrop/cast(atom/cast_on)
+	var/turf/target_turf = get_turf(cast_on)
+	if(!target_turf)
+		return FALSE
+
+	var/can_bless = FALSE
+
+	for(var/turf/T in range(1, target_turf))
+		for(var/obj/structure/soil/soil in T)
+			// Skip soils still strongly blessed
+			if(soil.blessed_time > 5 MINUTES)
+				continue
+
+			can_bless = TRUE
 			break
-	if(growed)
-		visible_message(span_green("[usr] blesses the nearby crops with Dendor's Favour!"))
-	return growed
+
+		if(can_bless)
+			break
+
+	if(!can_bless)
+		reset_spell_cooldown()
+		return FALSE
+
+	. = ..()
+
+	var/blessed = FALSE
+	var/amount_blessed = 0
+	var/max_blessed = 9
+
+	// 3x3 area
+	for(var/turf/T in range(1, target_turf))
+		if(amount_blessed >= max_blessed)
+			break
+
+		for(var/obj/structure/soil/soil in T)
+			if(amount_blessed >= max_blessed)
+				break
+
+			// Cannot refresh unless near expiration
+			if(soil.blessed_time > 5 MINUTES)
+				continue
+
+			soil.bless_soil()
+
+			new /obj/effect/temp_visual/dendor_bless(T)
+
+			blessed = TRUE
+			amount_blessed++
+
+	if(!blessed)
+		reset_spell_cooldown()
+		return FALSE
+		
+	owner.visible_message(span_green("[owner] calls upon Dendor's blessing, divine essence surging through the nearby soil!"), span_green("I call upon Dendor to bless the land."))
+	owner.say(pick("The Treefather commands thee, be fruitful!", "In Dendor's name, be fruitful!", "May the harvest be bountiful this yil!", "May thine growth be blessed!", "Dendor's blessings and respite, o' nature's bounty!"))
+
+	return TRUE
+
+
+/obj/effect/temp_visual/dendor_bless
+	name = "verdant blessing"
+	icon = 'icons/effects/wizard_spell_effects.dmi'
+	icon_state = "cleaning_pulse"
+	duration = 8
+	randomdir = 0
+	color = "#00ff2a"
 
 /////////////////////
 // T? - Tame Beast //

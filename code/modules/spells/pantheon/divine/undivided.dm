@@ -341,7 +341,7 @@
 		/datum/action/cooldown/spell/noc/inspiration::name					= /datum/action/cooldown/spell/noc/inspiration,
 		/datum/action/cooldown/spell/dendor/wildspeak::name					= /datum/action/cooldown/spell/dendor/wildspeak,
 		/datum/action/cooldown/spell/noc/invisibility::name					= /datum/action/cooldown/spell/noc/invisibility,
-		/obj/effect/proc_holder/spell/targeted/blesscrop::name				= /obj/effect/proc_holder/spell/targeted/blesscrop,
+		/datum/action/cooldown/spell/dendor/blesscrop::name					= /datum/action/cooldown/spell/dendor/blesscrop,
 		/obj/effect/proc_holder/spell/invoked/eora_blessing::name			= /obj/effect/proc_holder/spell/invoked/eora_blessing,
 		/datum/action/cooldown/spell/arcyne_forge/miracle::name				= /datum/action/cooldown/spell/arcyne_forge/miracle,
 	)
