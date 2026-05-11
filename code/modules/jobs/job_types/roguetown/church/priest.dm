@@ -673,8 +673,8 @@ code\modules\admin\verbs\divinewrath.dm has a variant with all the gods so keep 
 
 	var/announcement_text = "[user.real_name] has brought [target.real_name] back into the fold of the church! [target.real_name] now follows [user.patron.name]!"
 	priority_announce(announcement_text, title = "REDEMPTION", sound = 'sound/misc/bell.ogg')
-	message_admins("HERETIC CONVERSION: [user.real_name] ([user.ckey]) has converted [target.real_name] ([target.ckey]) to [user.patron.name]")
-	log_game("HERETIC CONVERSION: [user.real_name] ([user.ckey]) converted [target.real_name] ([target.ckey]) to [user.patron.name]")
+	message_admins("BISHOP CONVERSION: [ADMIN_LOOKUPFLW(user)] has converted [target.real_name] ([target.ckey]) to [user.patron.name]")
+	log_game("BISHOP CONVERSION: [user.real_name] ([user.ckey]) converted [target.real_name] ([target.ckey]) to [user.patron.name]")
 	to_chat(user, span_danger("You've converted [target.name] to follow [user.patron.name]!"))
 	to_chat(target, span_danger("You feel the weight of heresy lift from your soul as you embrace [user.patron.name]!"))
 

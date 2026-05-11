@@ -155,7 +155,7 @@
 	// Convert to PSYDON
 	target.patron = new user.patron.type()
 
-	message_admins("PSYDONIC CONVERSION: [user.real_name] ([user.ckey]) has converted [target.real_name] ([target.ckey]) to [user.patron.name]")
+	message_admins("PSYDONIC CONVERSION: [ADMIN_LOOKUPFLW(user)] has converted [target.real_name] ([target.ckey]) to [user.patron.name]")
 	log_game("PSYDONIC CONVERSION: [user.real_name] ([user.ckey]) converted [target.real_name] ([target.ckey]) to [user.patron.name]")
 	to_chat(user, span_danger("You've converted [target.name] to follow [user.patron.name]!"))
 	to_chat(target, span_danger("You feel the weight of heresy lift from your soul as you embrace [user.patron.name]!"))
