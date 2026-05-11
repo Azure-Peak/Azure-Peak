@@ -517,7 +517,7 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 		return
 	spawning = TRUE
 	update_icon()
-	addtimer(CALLBACK(src, PROC_REF(creategob)), 1 SECONDS) //Buffed up to get the immedate buffer, since these spawn in the street.
+	addtimer(CALLBACK(src, PROC_REF(creategob)), 2 SECONDS)
 
 /obj/structure/gob_portal/Destroy()
 	soundloop.stop()
