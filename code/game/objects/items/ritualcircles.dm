@@ -1581,14 +1581,6 @@
 			if(!armor_choice)
 				armor_choice = "Avantyne Full-Plate"
 
-			var/list/weapon_options = list(
-				"Avantyne Longsword" = image(icon = 'icons/roguetown/weapons/swords64.dmi', icon_state = "zizosword"),
-				"Avantyne Arming Sword and Darkshield" = image(icon = 'icons/roguetown/weapons/shields32.dmi', icon_state = "zizoshield")
-			)
-
-			var/weapon_choice = show_radial_menu(user, src, weapon_options, require_near = TRUE, tooltips = TRUE)
-			if(!weapon_choice)
-				weapon_choice = "Avantyne Longsword"
 			user.say("ZIZO! ZIZO! DAME OF PROGRESS!!")
 			if(!do_after(user, 5 SECONDS))
 				return
@@ -1607,11 +1599,11 @@
 			if(is_heretic && target != user)
 				user.apply_status_effect(/datum/status_effect/debuff/lux_exhausted)
 				target.apply_status_effect(/datum/status_effect/debuff/lux_exhausted)
-			zizoarmaments(target, helm_choice, armor_choice, weapon_choice)
+			zizoarmaments(target, helm_choice, armor_choice)
 			spawn(120)
 				icon_state = "zizo_chalky"
 
-/obj/structure/ritualcircle/zizo/proc/zizoarmaments(mob/living/carbon/human/target, helm_choice, armor_choice, weapon_choice)
+/obj/structure/ritualcircle/zizo/proc/zizoarmaments(mob/living/carbon/human/target, helm_choice, armor_choice)
 	if(!HAS_TRAIT(target, TRAIT_CABAL))
 		loc.visible_message(span_cult("THE RITE REJECTS ONE NOT OF THE CABAL"))
 		return
@@ -1643,7 +1635,6 @@
 		playsound(loc, 'sound/combat/hits/onmetal/grille (2).ogg', 50)
 		var/datum/outfit/job/roguetown/darksteelrite/ritual_outfit = new outfit_path()
 		ritual_outfit.selected_helm_path = helm_path
-		ritual_outfit.selected_weapon_choice = weapon_choice
 		target.equipOutfit(ritual_outfit)
 		tag_kit_items(target, list(
 			"armor" = target.get_item_by_slot(SLOT_ARMOR),
@@ -1681,12 +1672,7 @@
 	gloves = /obj/item/clothing/gloves/roguetown/plate/zizo/heavy
 	head = selected_helm_path
 	neck = /obj/item/clothing/neck/roguetown/bevor/zizo/heavy
-	switch(selected_weapon_choice)
-		if("Avantyne Arming Sword and Darkshield")
-			r_hand = /obj/item/rogueweapon/sword/zizo
-			l_hand = /obj/item/rogueweapon/shield/tower/metal/zizo
-		else
-			r_hand = /obj/item/rogueweapon/sword/long/zizo
+	r_hand = /obj/item/rogueweapon/sword/long/zizo
 
 	H.mind.AddSpell(new /datum/action/cooldown/spell/mending/lesser)
 
@@ -1699,6 +1685,9 @@
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/zizo
 	gloves = /obj/item/clothing/gloves/roguetown/plate/zizo
 	neck = /obj/item/clothing/neck/roguetown/bevor/zizo
+	r_hand = /obj/item/rogueweapon/sword/zizo
+	l_hand = /obj/item/rogueweapon/shield/tower/metal/zizo
+
 	H.mind.RemoveSpell(new /datum/action/cooldown/spell/mending/lesser)
 
 
@@ -1928,14 +1917,6 @@
 			var/armor_choice = show_radial_menu(user, src, armor_options, require_near = TRUE, tooltips = TRUE)
 			if(!armor_choice)
 				armor_choice = "Vicious Full-Plate"
-
-			var/list/weapon_options = list(
-				"Vicious Greataxe" = image(icon = 'icons/roguetown/weapons/axes64.dmi', icon_state = "graggargaxe"),
-				"Vicious Tomahawk and Shield" = image(icon = 'icons/roguetown/weapons/shields32.dmi', icon_state = "graggarshield"),
-			)
-			var/weapon_choice = show_radial_menu(user, src, weapon_options, require_near = TRUE, tooltips = TRUE)
-			if(!weapon_choice)
-				return
 			user.say("MOTIVE FORCE, OH VIOLENCE!!")
 			if(!do_after(user, 5 SECONDS))
 				return
@@ -1954,7 +1935,7 @@
 			if(is_heretic && target != user)
 				user.apply_status_effect(/datum/status_effect/debuff/lux_exhausted)
 				target.apply_status_effect(/datum/status_effect/debuff/lux_exhausted)
-			graggararmor(target, helm_choice, armor_choice, weapon_choice)
+			graggararmor(target, helm_choice, armor_choice)
 			spawn(120)
 				icon_state = "graggar_chalky" 
 		if("War Ritual")
@@ -1977,7 +1958,8 @@
 				to_chat(user, span_warning("The ritual fails. A noble, a member of the Inquisition or a Tennite clergy member must be in the center of the circle!"))
 			spawn(120)
 				icon_state = "graggar_chalky" 
-/obj/structure/ritualcircle/graggar/proc/graggararmor(mob/living/carbon/human/target, helm_choice, armor_choice, weapon_choice)
+
+/obj/structure/ritualcircle/graggar/proc/graggararmor(mob/living/carbon/human/target, helm_choice, armor_choice)
 	if(!HAS_TRAIT(target, TRAIT_HORDE))
 		loc.visible_message(span_cult("THE RITE REJECTS ONE WITHOUT SLAUGHTER IN THEIR HEART!!"))
 		return
@@ -2007,7 +1989,6 @@
 		playsound(loc, 'sound/combat/hits/onmetal/grille (2).ogg', 50)
 		var/datum/outfit/job/roguetown/viciousrite/ritual_outfit = new outfit_path()
 		ritual_outfit.selected_helm_path = helm_path
-		ritual_outfit.selected_weapon_choice = weapon_choice
 		target.equipOutfit(ritual_outfit)
 		tag_kit_items(target, list(
 			"armor" = target.get_item_by_slot(SLOT_ARMOR),
@@ -2068,7 +2049,6 @@
 
 /datum/outfit/job/roguetown/viciousrite
 	var/obj/item/clothing/head/roguetown/helmet/heavy/selected_helm_path = /obj/item/clothing/head/roguetown/helmet/heavy/graggar
-	var/selected_weapon_choice = "Vicious Greataxe"
 
 /datum/outfit/job/roguetown/viciousrite/pre_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	..()
@@ -2086,12 +2066,7 @@
 	head = selected_helm_path
 	neck = /obj/item/clothing/neck/roguetown/gorget/steel/graggar
 	cloak = /obj/item/clothing/cloak/graggar
-	switch(selected_weapon_choice)
-		if("Vicious Tomahawk and Shield")
-			r_hand = /obj/item/rogueweapon/stoneaxe/woodcut/steel/graggar
-			l_hand = /obj/item/rogueweapon/shield/iron/graggar
-		else
-			r_hand = /obj/item/rogueweapon/greataxe/steel/doublehead/graggar
+	r_hand = /obj/item/rogueweapon/greataxe/steel/doublehead/graggar
 
 	H.mind.RemoveSpell(new /datum/action/cooldown/spell/mending/lesser)
 
@@ -2107,12 +2082,8 @@
 	mask = /obj/item/clothing/mask/rogue/facemask/steel/graggar
 	neck = /obj/item/clothing/neck/roguetown/gorget/steel/graggar/heavy
 	cloak = /obj/item/clothing/cloak/graggar/heavy
-	switch(selected_weapon_choice)
-		if("Vicious Tomahawk and Shield")
-			r_hand = /obj/item/rogueweapon/stoneaxe/woodcut/steel/graggar
-			l_hand = /obj/item/rogueweapon/shield/iron/graggar
-		else
-			r_hand = /obj/item/rogueweapon/greataxe/steel/doublehead/graggar
+	r_hand = /obj/item/rogueweapon/stoneaxe/woodcut/steel/graggar
+	l_hand = /obj/item/rogueweapon/shield/iron/graggar
 
 	H.mind.AddSpell(new /datum/action/cooldown/spell/mending/lesser)
 
