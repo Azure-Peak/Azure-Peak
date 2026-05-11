@@ -469,7 +469,7 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 	var/law_text = GLOB.laws_of_the_land[law_index]
 	GLOB.laws_of_the_land -= law_text
 	priority_announce("[law_index]. [law_text]", "A LAW IS ABOLISHED", pick('sound/misc/new_law.ogg', 'sound/misc/new_law2.ogg'), "Captain")
-	log_game("THROAT: law removed \"[raw_message]\"")
+	log_game("THROAT: law removed \"[law_text]\"")
 	record_round_statistic(STATS_LAWS_AND_DECREES_MADE, -1)
 
 /proc/purge_laws()
