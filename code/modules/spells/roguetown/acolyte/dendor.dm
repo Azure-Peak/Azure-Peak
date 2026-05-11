@@ -143,12 +143,11 @@
 	if(!blessed)
 		reset_spell_cooldown()
 		return FALSE
-		
+
 	owner.visible_message(span_green("[owner] calls upon Dendor's blessing, divine essence surging through the nearby soil!"), span_green("I call upon Dendor to bless the land."))
 	owner.say(pick("The Treefather commands thee, be fruitful!", "In Dendor's name, be fruitful!", "May the harvest be bountiful this yil!", "May thine growth be blessed!", "Dendor's blessings and respite, o' nature's bounty!"))
 
 	return TRUE
-
 
 /obj/effect/temp_visual/dendor_bless
 	name = "verdant blessing"
@@ -157,6 +156,276 @@
 	duration = 8
 	randomdir = 0
 	color = "#00ff2a"
+
+//T0 - Wild Hunt
+
+#define DENDOR_AMBUSH_MIN 2
+#define DENDOR_AMBUSH_MAX 9
+#define WILD_HUNT_TRACK_RANGE 300
+
+/datum/action/cooldown/spell/dendor/wildhunt
+	name = "Wild Hunt"
+	desc = "Invoke Dendor's primal call. Scour the land for signs of danger, track prey through instinct alone, or roar to draw the hunt to you."
+	button_icon_state = "wildhunt"
+	sound = 'sound/magic/whiteflame.ogg'
+	primary_resource_cost = 30
+	secondary_resource_cost = 30
+	click_to_activate = FALSE
+	charge_required = TRUE
+	charge_time = 6 SECONDS
+	charge_slowdown = 3
+	cooldown_time = 2 MINUTES
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_SAME_Z
+	var/list/hunt_howl_sounds = list('sound/vo/mobs/wwolf/howl (1).ogg', 'sound/vo/mobs/wwolf/howl (2).ogg')
+	var/list/hunt_howl_sounds_far = list('sound/vo/mobs/wwolf/howldist (1).ogg', 'sound/vo/mobs/wwolf/howldist (2).ogg')
+
+/datum/action/cooldown/spell/dendor/wildhunt/cast(atom/cast_on)
+	. = ..()
+
+	var/mob/living/carbon/human/H = owner
+	if(!istype(H))
+		return FALSE
+
+	var/choice = tgui_input_list(H, "Choose an aspect of the Wild Hunt.", "Wild Hunt", list(
+		"Scour Area",
+		"Thrill of the Hunt",
+		"The Hunt is On!"
+	))
+
+	if(!choice)
+		return FALSE
+
+	switch(choice)
+
+		if("Scour Area")
+			scour_the_area(H)
+			reset_spell_cooldown()
+			return FALSE
+
+		if("Thrill of the Hunt")
+			if(!H.mind)
+				reset_spell_cooldown()
+				return FALSE
+
+			if(!length(H.mind.known_people))
+				to_chat(H, span_warning("I know no scents worth hunting."))
+				reset_spell_cooldown()
+				return FALSE
+
+			var/mob/living/target = H.mind.display_known_people(H)
+
+			if(!target)
+				reset_spell_cooldown()
+				return FALSE
+
+			H.apply_status_effect(/datum/status_effect/buff/thrill_of_the_hunt, target)
+			to_chat(H, span_red("My pulse quickens as I immerse in the thrill of the hunt..."))
+			return TRUE
+
+		if("The Hunt is On!")
+			if(begin_wild_hunt(H))
+				return TRUE
+
+			reset_spell_cooldown()
+			return FALSE
+
+	return FALSE
+
+/datum/action/cooldown/spell/dendor/wildhunt/proc/scour_the_area(mob/living/user)
+	var/area/AR = get_area(user)
+	var/datum/threat_region/TR = SSregionthreat.get_region(AR.threat_region)
+
+	if(TR)
+		to_chat(user, span_notice("This area is part of the [TR.region_name] threat region."))
+	else
+		to_chat(user, span_warning("This area lies beyond the Wild God's reach."))
+		return FALSE
+
+	if(TR.fixed_ambush)
+		to_chat(user, span_warning("The creatures here are rooted to this place."))
+		return TRUE
+
+	if(user.get_will_block_ambush())
+		to_chat(user, span_warning("This place is too well-lit for predators to gather."))
+		return TRUE
+
+	if(!user.get_possible_ambush_spawn(min_dist = DENDOR_AMBUSH_MIN, max_dist = DENDOR_AMBUSH_MAX))
+		to_chat(user, span_warning("The land nearby is too sparse for lurking creatures."))
+		return TRUE
+
+	if(TR.last_induced_ambush_time && (world.time < TR.last_induced_ambush_time + 3 MINUTES))
+		to_chat(user, span_warning("Something hunted here recently. The wilds are still unsettled."))
+		return TRUE
+
+	if(!TR.latent_ambush)
+		to_chat(user, span_notice("The woods are calm. Nothing stirs nearby."))
+		return TRUE
+
+	switch(TR.latent_ambush)
+		if(1 to 2)
+			to_chat(user, span_notice("Something small prowls nearby."))
+		if(3 to 4)
+			to_chat(user, span_warning("Several hungry things roam these lands."))
+		if(5 to 6)
+			to_chat(user, span_userdanger("The wilds teem with dangerous life."))
+		else
+			to_chat(user, span_userdanger("A great hunt waits in the dark."))
+
+	user.visible_message(span_boldwarning("[user] begins looking around with heightened senses..."))
+
+	return TRUE
+
+/datum/action/cooldown/spell/dendor/wildhunt/proc/begin_wild_hunt(mob/living/user)
+	var/area/AR = get_area(user)
+	var/datum/threat_region/TR = SSregionthreat.get_region(AR.threat_region)
+
+	if(!TR || TR.fixed_ambush)
+		to_chat(user, span_warning("The hunt cannot be called here."))
+		return FALSE
+
+	if(user.get_will_block_ambush())
+		to_chat(user, span_warning("This place is too well-lit for the hunt to answer."))
+		return FALSE
+
+	if(!user.get_possible_ambush_spawn(min_dist = DENDOR_AMBUSH_MIN, max_dist = DENDOR_AMBUSH_MAX))
+		to_chat(user, span_warning("There is nowhere for predators to emerge from here."))
+		return FALSE
+
+	if(TR.last_induced_ambush_time && (world.time < TR.last_induced_ambush_time + 3 MINUTES))
+		to_chat(user, span_warning("The land has already tasted blood recently."))
+		return FALSE
+
+	if(!TR.latent_ambush)
+		to_chat(user, span_notice("My howl fades into the distance. Nothing answers."))
+		return FALSE
+
+	user.visible_message(span_userdanger("[user] throws back their head and lets loose a primal hunting howl!"))
+
+	user.apply_status_effect(/datum/status_effect/debuff/clickcd, 5 SECONDS)
+
+	if(!do_after(user, 10 SECONDS))
+		return FALSE
+
+	user.visible_message(span_boldwarning("[user]'s howl echoes through the wilds!"))
+
+	playsound(user, pick(hunt_howl_sounds), 100, TRUE)
+
+	for(var/mob/living/player in GLOB.player_list)
+		if(!player.mind)
+			continue
+		if(player.stat == DEAD)
+			continue
+		if(isbrain(player))
+			continue
+		if(player == user)
+			continue
+		var/turf/origin_turf = get_turf(user)
+		var/player_distance = get_dist(player, origin_turf)
+		// Only hear distant echo at range
+		if(player_distance <= 7 || player_distance > 21)
+			continue
+		var/dirtext = "to the "
+		var/direction = get_dir(player, origin_turf)
+		switch(direction)
+			if(NORTH)
+				dirtext += "north"
+			if(SOUTH)
+				dirtext += "south"
+			if(EAST)
+				dirtext += "east"
+			if(WEST)
+				dirtext += "west"
+			if(NORTHWEST)
+				dirtext += "northwest"
+			if(NORTHEAST)
+				dirtext += "northeast"
+			if(SOUTHWEST)
+				dirtext += "southwest"
+			if(SOUTHEAST)
+				dirtext += "southeast"
+			else
+				dirtext = "though I cannot tell from where"
+
+		player.playsound_local(get_turf(player), pick(hunt_howl_sounds_far), 50, FALSE, pressure_affected = FALSE)
+		to_chat(player, span_warning("I hear a monstrous hunting howl somewhere [dirtext]!"))
+
+	if(user.consider_ambush(always = TRUE, ignore_cooldown = TRUE, min_dist = DENDOR_AMBUSH_MIN, max_dist = DENDOR_AMBUSH_MAX, budget_multiplier_floor = rand(3, 6)))
+		user.Immobilize(30)
+		TR.last_induced_ambush_time = world.time
+		return TRUE
+
+	return FALSE
+
+// THRILL OF THE HUNT branch
+/atom/movable/screen/alert/status_effect/buff/thrill_of_the_hunt
+	name = "Thrill of the Hunt"
+	desc = "The hunt is on! They'll never escape from me now."
+
+/datum/status_effect/buff/thrill_of_the_hunt
+	id = "thrill_of_the_hunt"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/thrill_of_the_hunt
+	duration = 5 MINUTES
+	tick_interval = 2 SECONDS
+	effectedstats = list(STATKEY_SPD = 2, STATKEY_WIL = 1)
+	var/mob/living/tracked_target
+
+/datum/status_effect/buff/thrill_of_the_hunt/on_creation(mob/living/new_owner, mob/living/target)
+	. = ..()
+	tracked_target = target
+
+/datum/status_effect/buff/thrill_of_the_hunt/on_apply()
+	ADD_TRAIT(owner, TRAIT_SLEUTH, "wild_hunt")
+	ADD_TRAIT(owner, TRAIT_AZURENATIVE, "wild_hunt")
+	ADD_TRAIT(owner, TRAIT_LONGSTRIDER, "wild_hunt")
+	ADD_TRAIT(owner, TRAIT_NITEVISION, "wild_hunt")
+	return TRUE
+
+/datum/status_effect/buff/thrill_of_the_hunt/on_remove()
+	REMOVE_TRAIT(owner, TRAIT_SLEUTH, "wild_hunt")
+	REMOVE_TRAIT(owner, TRAIT_AZURENATIVE, "wild_hunt")
+	REMOVE_TRAIT(owner, TRAIT_LONGSTRIDER, "wild_hunt")
+	REMOVE_TRAIT(owner, TRAIT_NITEVISION, "wild_hunt")
+	return ..()
+
+/datum/status_effect/buff/thrill_of_the_hunt/tick()
+	. = ..()
+
+	if(!tracked_target || QDELETED(tracked_target))
+		to_chat(owner, span_warning("The scent vanishes...?"))
+		qdel(src)
+		return
+	if(tracked_target.stat == DEAD)
+		to_chat(owner, span_notice("The prey's scent has gone cold."))
+		qdel(src)
+		return
+	if(abs(owner.z - tracked_target.z) >= 2)
+		to_chat(owner, span_warning("[tracked_target] (scent too thin)"))
+		return
+	var/dist = get_dist(owner, tracked_target)
+	if(dist > WILD_HUNT_TRACK_RANGE)
+		to_chat(owner, span_warning("[tracked_target] (scent too thin)"))
+		return
+	var/direction = dir2text(get_dir(owner, tracked_target))
+	var/distance_text
+	switch(dist)
+		if(0 to 5)
+			to_chat(owner, span_userdanger("I've found the prey."))
+			qdel(src)
+			return
+		if(6 to 15)
+			distance_text = "nearby"
+		if(16 to 40)
+			distance_text = "some distance away"
+		if(41 to 100)
+			distance_text = "far away"
+		else
+			distance_text = "very distant"
+
+	to_chat(owner, span_green("I smell [tracked_target] to the [direction] — [distance_text]."))
+
+#undef DENDOR_AMBUSH_MIN
+#undef DENDOR_AMBUSH_MAX
+#undef WILD_HUNT_TRACK_RANGE
 
 /////////////////////
 // T? - Tame Beast //

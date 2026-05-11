@@ -7,6 +7,7 @@
 	miracles = list(/datum/action/cooldown/spell/touch/orison					= CLERIC_ORI,
 					/datum/action/cooldown/spell/dendor/wildspeak				= CLERIC_T0,
 					/datum/action/cooldown/spell/dendor/blesscrop				= CLERIC_T0,
+					/datum/action/cooldown/spell/dendor/wildhunt				= CLERIC_T0,
 					/datum/action/cooldown/spell/miracle/heal 					= CLERIC_T1,
 					/datum/action/cooldown/spell/miracle/bloodmiracle			= CLERIC_T1,
 					/obj/effect/proc_holder/spell/self/wildshape				= CLERIC_T2,
