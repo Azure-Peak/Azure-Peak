@@ -1616,14 +1616,11 @@
 			if(is_heretic && target != user)
 				user.apply_status_effect(/datum/status_effect/debuff/lux_exhausted)
 				target.apply_status_effect(/datum/status_effect/debuff/lux_exhausted)
-<<<<<<< RecruitRoles
 			zizoarmaments(target, helm_choice, armor_choice, weapon_choice)
 			message_admins("RITUALS: [user.real_name] ([user.ckey]) has performed an armaments ritual on [target.real_name] ([target.ckey])")
 			log_game("RITUALS: [user.real_name] ([user.ckey]) has performed an armaments ritual on [target.real_name] ([target.ckey]), with choices [armor_choice] and [weapon_choice]")
 			//More detailed to not clutter admin logs, includes only important chestplate armor level and weapon type
-=======
 			zizoarmaments(target, helm_choice, armor_choice)
->>>>>>> main
 			spawn(120)
 				icon_state = "zizo_chalky"
 
