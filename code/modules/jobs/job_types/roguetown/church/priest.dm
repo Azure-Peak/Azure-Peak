@@ -229,7 +229,7 @@ GLOBAL_LIST_EMPTY(heretical_players)
 	total_positions = 0
 	spawn_positions = 0
 
-/mob/living/carbon/human/proc/coronate_lord()
+/mob/living/carbon/human/proc/coronate_lord(mob/living/bishop)
 	set name = "Coronate"
 	set category = "Priest"
 	if(!mind)
@@ -260,10 +260,11 @@ GLOBAL_LIST_EMPTY(heretical_players)
 				HL.job = emeritus_title
 
 		//Coronate new King (or Queen)
+		var/previousjob = HU.job //Keep their prior job for logging
 		HU.mind.assigned_role = "Grand Duke"
 		HU.job = "Grand Duke"
-		message_admins("USURPATION: [real_name] ([real_name.ckey]) has coronated [HU.real_name] ([HU.ckey]) the [HU.dispjob] as the ruler.")
-		log_game("USURPATION: [real_name] ([real_name.ckey]) has coronated [HU.real_name] ([HU.ckey]) the [HU.dispjob] as the ruler.")
+		message_admins("USURPATION: [bishop.real_name] ([bishop.ckey]) has coronated [HU.real_name] ([HU.ckey]) the [previousjob] as the ruler.")
+		log_game("USURPATION: [bishop.real_name] ([bishop.ckey]) has coronated [HU.real_name] ([HU.ckey]) the [previousjob] as the ruler.")
 		ADD_TRAIT(HU, TRAIT_DNR, TRAIT_GENERIC) // Consequences, Johnathan.
 		SSticker.set_ruler_mob(HU)
 		SSticker.regentmob = null
@@ -277,7 +278,7 @@ GLOBAL_LIST_EMPTY(heretical_players)
 		if(nomoredukes)
 			nomoredukes.total_positions = -1000 //We got what we got now.
 
-/mob/living/carbon/human/proc/churchannouncement()
+/mob/living/carbon/human/proc/churchannouncement(mob/living/bishop)
 	set name = "Announcement"
 	set category = "Priest"
 
@@ -303,7 +304,7 @@ GLOBAL_LIST_EMPTY(heretical_players)
 			var/treated_input = treat_message(sanitized_input, /datum/language/common)
 			priority_announce("[treated_input]", "The Bishop Preaches", 'sound/misc/bell.ogg', sender = src)
 			COOLDOWN_START(src, priest_announcement, PRIEST_ANNOUNCEMENT_COOLDOWN)
-			log_game("ANNOUNCEMENT: [src.real_name] ([src.ckey]) has announced [priest_announcement].")
+			log_game("ANNOUNCEMENT: [bishop.real_name] ([bishop.ckey]) has announced [priest_announcement].")
 		else
 			to_chat(src, span_warning("Your announcement was interrupted!"))
 			return FALSE
