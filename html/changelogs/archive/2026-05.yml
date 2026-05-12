@@ -407,3 +407,37 @@
   borneblood:
   - balance: Infestation (Pestra) gains additional effects vs NPCs.
   - rscadd: Added a visual indicator for when someone is crit-to-dying.
+2026-05-12:
+  Klein3:
+  - bugfix: Fixed the Vow of Aesculapius being applicable only to worshippers of the
+      Ten Undivided despite being a Pestran rite.
+  Ollanius:
+  - bugfix: Should fix the errant sprites showing up when wearing the Golden Order
+      and Silver Order Cloaks in the south-facing state.
+  - bugfix: Undivided Order Surcoats now properly render.
+  - rscadd: Adds the Toga, a new tabard that's both dyeable and adjustable (via RMB)
+      to partly expose the chest.
+  - rscadd: The Lordly Cloak, DIrebear Cloak, Blue Direbear Cloak, Wicker Cloak, Stalker
+      Cloak, Stoles, and Golden/Silver Order Cloaks can now be worn by shorter races
+      - courtesy of Yuyup's spritework.
+  - rscadd: Adds the Blessed Robe, Blessed Tabard, and Blessed Hood; black variants
+      of their Inquisitorial counterparts, intended to be worn by those who aren't
+      directly affiliated (in some way) to the Inquisition.
+  - rscadd: Adds the Silver Order Cloak, for those who adore a different hue.
+  - balance: Faction-unique tabards and garb are now Expert-tier crafting recipes,
+      instead of Journeyman-tier.
+  - balance: All Psydonic Cleric subclasses, alongside the Heretic, now receive non-Inquisitorial
+      versions of their clothing. The Heretic Spy and Otavan Repentant, owing to their
+      direct connection to the Inquisition, retain what they currently get. Cantors
+      and Missionaries in particular get the Blessed Robe instead of the Blessed Tabard.
+  - code_imp: Decapitalizes a few errant item names, and touches up the names of amulets
+      in the Devotee-virtued tab.
+  Quinalion:
+  - rscadd: Characters with the deadened virtue will no longer unintentionally scream,
+      groan, moan, or any other emote that would necessitate showing emotions.
+  Ryan180602:
+  - balance: heretic weapon is now dependent on armour choice
+  WeNeedMorePhoron:
+  - rscdel: COMMENTED OUT ARCYNE BARRAGE FUCK
+  kbitykbitykbity:
+  - rscadd: Added support for species-based vice restrictions.

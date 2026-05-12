@@ -482,3 +482,5 @@
 	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_POOR)
 	eat_effect = null
 	tastes = list("hog" = 1)
+	cooked_type = null
+	fried_type = null

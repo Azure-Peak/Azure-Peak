@@ -52,9 +52,12 @@ type CrucibleData = {
   maxCupDeposit: number;
   activeProjects: Project[];
   availableProjects: AvailableProject[];
+  personalServantProject?: AvailableProject | null;
   language?: string;
   i18nOverrides?: Record<string, string> | null;
 };
+
+type Translator = (key: string, vars?: Record<string, string | number>) => string;
 
 const FALLBACK_LANG = 'en';
 
@@ -80,9 +83,9 @@ const TRANSLATIONS: Record<string, Record<string, string>> = {
     newRituals: 'New Rituals',
     emptyActive: 'The crucible is silent. No ritual has begun.',
     mortalNote:
-      "The crucible accepts blood into the cup or into rituals already begun. New rites remain the clan's will.",
+      "The crucible accepts blood into the cup. Only the Methuselah can direct it into rituals.",
     nonLordNote:
-      'Only the Methuselah can begin new rituals. Others may fill the cup and aid rituals already in motion.',
+      'Only the Methuselah can begin or direct rituals. Other vampires may fill the cup and answer one weak servant call.',
     noRituals: 'No rituals are available.',
     direct: 'Direct',
     contribute: 'Contribute',
@@ -95,14 +98,67 @@ const TRANSLATIONS: Record<string, Record<string, string>> = {
     mechanics: 'Mechanics',
     cost: 'Cost: {n} vitae',
     start: 'Start',
+    noContributors: 'No one yet',
+    contributionDirect: 'Can direct up to {n} vitae; the cup is spent first',
+    contributionVitae: 'Can contribute up to {n} vitae',
+    contributionBlood: 'Will sacrifice {vitae} vitae and {blood} blood',
   },
 };
 
-const resolveLang = (raw: string | undefined): string => {
-  if (raw && TRANSLATIONS[raw]) {
-    return raw;
+const localizeText = (text: string, t: Translator): string => {
+  if (!text) return text;
+  return t(text);
+};
+
+const localizeContributors = (text: string, t: Translator): string => {
+  if (!text) return text;
+  if (text === 'No one yet') return t('noContributors');
+  return text;
+};
+
+const localizeContribution = (text: string, t: Translator): string => {
+  if (!text) return text;
+  let m: RegExpMatchArray | null;
+  if (
+    (m = text.match(/^Can direct up to (\d+) vitae; the cup is spent first$/))
+  ) {
+    return t('contributionDirect', { n: m[1] });
   }
-  return FALLBACK_LANG;
+  if ((m = text.match(/^Can contribute up to (\d+) vitae$/))) {
+    return t('contributionVitae', { n: m[1] });
+  }
+  if ((m = text.match(/^Will sacrifice (\d+) vitae and (\d+) blood$/))) {
+    return t('contributionBlood', { vitae: m[1], blood: m[2] });
+  }
+  return localizeText(text, t);
+};
+
+const localizeActiveProject = (p: Project, t: Translator): Project => {
+  const next: Project = { ...p };
+  next.name = localizeText(p.name, t);
+  next.description = localizeText(p.description, t);
+  next.mechanics = localizeText(p.mechanics, t);
+  next.accessText = localizeText(p.accessText, t);
+  next.contributorsText = localizeContributors(p.contributorsText, t);
+  next.contributionText = localizeContribution(p.contributionText, t);
+  return next;
+};
+
+const localizeAvailableProject = (
+  p: AvailableProject,
+  t: Translator,
+): AvailableProject => {
+  const next: AvailableProject = { ...p };
+  next.name = localizeText(p.name, t);
+  next.description = localizeText(p.description, t);
+  next.mechanics = localizeText(p.mechanics, t);
+  next.accessText = localizeText(p.accessText, t);
+  next.lockedReason = localizeText(p.lockedReason, t);
+  return next;
+};
+
+const resolveLang = (raw: string | undefined): string => {
+  return raw || FALLBACK_LANG;
 };
 
 const makeT =
@@ -126,8 +182,6 @@ const makeT =
     }
     return value;
   };
-
-type Translator = ReturnType<typeof makeT>;
 
 const formatVitae = (value: number) =>
   Math.round(value || 0).toLocaleString('en-US');
@@ -307,12 +361,34 @@ export const CrimsonCrucible = () => {
     maxCupDeposit = 0,
     activeProjects = [],
     availableProjects = [],
+    personalServantProject = null,
   } = data;
+  const isLordUser = !!isLord;
+  const isVampireUser = !!isVampire;
+  const canDeposit = !!canDepositBlood;
   const lang = resolveLang(data.language);
   const t = makeT(lang, data.i18nOverrides);
+  const localizedActiveProjects = activeProjects.map((p) =>
+    localizeActiveProject(p, t),
+  );
+  const localizedAvailableProjects = availableProjects.map((p) =>
+    localizeAvailableProject(p, t),
+  );
+  const localizedPersonalServantProject = personalServantProject
+    ? localizeAvailableProject(personalServantProject, t)
+    : null;
+  const hasLordProjects =
+    isVampireUser && isLordUser && localizedAvailableProjects.length > 0;
+  const hasPersonalServantProject =
+    isVampireUser && !!localizedPersonalServantProject;
+  const showLordEmptyState =
+    isVampireUser &&
+    isLordUser &&
+    !hasLordProjects &&
+    !hasPersonalServantProject;
   const bloodRatio = clampRatio(bloodLevel / Math.max(maxBlood, 1));
-  const roleText = isVampire
-    ? isLord
+  const roleText = isVampireUser
+    ? isLordUser
       ? t('roleLord')
       : t('roleVampire')
     : t('roleMortal');
@@ -395,10 +471,10 @@ export const CrimsonCrucible = () => {
                 fluid
                 color="red"
                 mt={0.6}
-                disabled={!canDepositBlood}
+                disabled={!canDeposit}
                 onClick={() => act('deposit_blood')}
               >
-                {isVampire ? t('pourBlood') : t('giveBlood')}
+                {isVampireUser ? t('pourBlood') : t('giveBlood')}
               </Button>
               <Box color="#b99b7c" mt={0.4} fontSize={0.9}>
                 {t('availableToPour', { n: formatVitae(maxCupDeposit) })}
@@ -407,12 +483,12 @@ export const CrimsonCrucible = () => {
           </Box>
           <Box style={contentGridStyle}>
             <Section title={t('activeRituals')} fill scrollable>
-              {activeProjects.length ? (
-                activeProjects.map((project, index) => (
+              {localizedActiveProjects.length ? (
+                localizedActiveProjects.map((project, index) => (
                   <ActiveProjectCard
                     key={project.ref}
                     index={index}
-                    isLord={isLord}
+                    isLord={isLordUser}
                     project={project}
                     onContribute={() => act('contribute', { ref: project.ref })}
                     onCancel={() => act('cancel_project', { ref: project.ref })}
@@ -424,17 +500,17 @@ export const CrimsonCrucible = () => {
               )}
             </Section>
             <Section title={t('newRituals')} fill scrollable>
-              {!isVampire ? (
+              {!isVampireUser ? (
                 <Box color="#c7a97a" italic mb={1}>
                   {t('mortalNote')}
                 </Box>
-              ) : !isLord ? (
+              ) : !isLordUser ? (
                 <Box color="#c7a97a" italic mb={1}>
                   {t('nonLordNote')}
                 </Box>
               ) : null}
-              {isVampire && isLord && availableProjects.length ? (
-                availableProjects.map((project) => (
+              {hasLordProjects &&
+                localizedAvailableProjects.map((project) => (
                   <AvailableProjectCard
                     key={project.type_path}
                     project={project}
@@ -443,8 +519,16 @@ export const CrimsonCrucible = () => {
                     }
                     t={t}
                   />
-                ))
-              ) : isVampire && isLord ? (
+                ))}
+              {hasPersonalServantProject && localizedPersonalServantProject && (
+                <AvailableProjectCard
+                  key={localizedPersonalServantProject.type_path}
+                  project={localizedPersonalServantProject}
+                  onStart={() => act('summon_weak_servant')}
+                  t={t}
+                />
+              )}
+              {showLordEmptyState ? (
                 <EmptyState text={t('noRituals')} />
               ) : null}
             </Section>
@@ -513,21 +597,21 @@ const ActiveProjectCard = (props: ActiveProjectCardProps) => {
             t={t}
           />
         </Stack.Item>
-        <Stack.Item width="128px">
-          <Button
-            fluid
-            color="red"
-            disabled={!project.canContribute}
-            onClick={onContribute}
-          >
-            {isLord ? t('direct') : t('contribute')}
-          </Button>
-          {isLord && (
+        {isLord && (
+          <Stack.Item width="128px">
+            <Button
+              fluid
+              color="red"
+              disabled={!project.canContribute}
+              onClick={onContribute}
+            >
+              {t('direct')}
+            </Button>
             <Button fluid color="bad" mt={0.5} onClick={onCancel}>
               {t('cancel')}
             </Button>
-          )}
-        </Stack.Item>
+          </Stack.Item>
+        )}
       </Stack>
       <Divider />
       <Stack>

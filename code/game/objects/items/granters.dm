@@ -220,7 +220,7 @@ UNDER NO CIRCUMSTANCE SHOULD ANY OF THE BOOKS BE GIVEN OUT INTO SPAWNERS OR TO B
 
 /obj/item/book/granter/spell/bonechill
 	name = "Scroll of Bone Chill"
-	spell = /obj/effect/proc_holder/spell/invoked/bonechill
+	spell = /datum/action/cooldown/spell/bonechill
 	spellname = "Bone Chill"
 	icon = 'icons/roguetown/items/misc.dmi'
 	icon_state = "scrolldarkred"

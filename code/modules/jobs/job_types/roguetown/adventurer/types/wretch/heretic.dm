@@ -84,13 +84,14 @@
 		wretch_select_bounty(H)
 
 	// You can convert those the church has shunned.
-	H.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/convert_heretic)
+	H.mind?.AddSpell(new /datum/action/cooldown/spell/convert_heretic)
 	H.mind?.AddSpell(new /datum/action/cooldown/spell/miracle/intervention)
 	if (istype (H.patron, /datum/patron/inhumen/zizo))
 		if(H.mind)
-			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/minion_order)
+			H.mind.AddSpell(new /datum/action/cooldown/spell/minion_order)
 			H.verbs |= /mob/living/carbon/human/proc/revelations
-			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/gravemark)
+			H.mind.AddSpell(new /datum/action/cooldown/spell/gravemark)
+			H.mind?.current.faction += "[H.name]_faction"
 		ADD_TRAIT(H, TRAIT_GRAVEROBBER, TRAIT_GENERIC)
 	mask = /obj/item/clothing/mask/rogue/facemask/steel
 	neck = /obj/item/clothing/neck/roguetown/gorget
@@ -391,10 +392,11 @@
 
 	if (istype (H.patron, /datum/patron/inhumen/zizo))
 		if(H.mind)
-			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/minion_order)
-			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/gravemark)
+			H.mind.AddSpell(new /datum/action/cooldown/spell/minion_order)
+			H.mind.AddSpell(new /datum/action/cooldown/spell/gravemark)
+			H.mind?.current.faction += "[H.name]_faction"
 		ADD_TRAIT(H, TRAIT_GRAVEROBBER, TRAIT_GENERIC)
-	H.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/convert_heretic)
+	H.mind?.AddSpell(new /datum/action/cooldown/spell/convert_heretic)
 	H.mind?.AddSpell(new /datum/action/cooldown/spell/miracle/intervention)
 
 /datum/outfit/job/roguetown/wretch/hereticspy/choose_loadout(mob/living/carbon/human/H)
@@ -476,111 +478,6 @@
 	H.equip_to_slot_or_del(new /obj/item/clothing/gloves/roguetown/fingerless_leather, SLOT_GLOVES, TRUE)
 	H.equip_to_slot_or_del(new /obj/item/clothing/shoes/roguetown/boots/leather/reinforced, SLOT_SHOES, TRUE)
 	H.equip_to_slot_or_del(new /obj/item/clothing/wrists/roguetown/bracers/leather/heavy, SLOT_WRISTS, TRUE)
-
-/obj/effect/proc_holder/spell/invoked/convert_heretic
-	name = "Convert The Downtrodden"
-	desc = "Convert an soul excommunicated, cursed, or forced onto apotasy to your cause. Requires a willing participant, and takes a long time to cast."
-	invocations = list("Show this lost sheep the righteous path.")
-	invocation_type = "whisper"
-	sound = 'sound/magic/bless.ogg'
-	devotion_cost = 100
-	recharge_time = 20 MINUTES
-	// Long to prevent combat casting and forcing popups.
-	chargetime = 10 SECONDS
-	associated_skill = /datum/skill/magic/holy
-	overlay_state = "convert_heretic"
-
-/obj/effect/proc_holder/spell/invoked/convert_heretic/cast(list/targets, mob/living/carbon/human/user)
-	if(!HAS_TRAIT(user, TRAIT_HERESIARCH))
-		to_chat(user, span_warning("You lack the knowledge for this ritual."))
-		return FALSE
-
-	var/mob/living/carbon/human/target = targets[1]
-
-	if(!ishuman(target))
-		revert_cast()
-		return FALSE
-
-	if(target.cmode)
-		revert_cast()
-		return FALSE
-
-	//This SHOULD stop most heretics from being convertible and self-curing should they somehow get cursed in the future.
-	if(HAS_TRAIT(target, TRAIT_HERESIARCH))
-		to_chat(user, span_warning("[target] is already serving the greater good."))
-		revert_cast()
-		return FALSE
-
-	if(alert(target, "[user.real_name] is trying to convert you to their patron, [user.patron.name]. Do you accept?", "Conversion Request", "Yes", "No") != "Yes")
-		to_chat(user, span_warning("[target] refused your offer of conversion."))
-		revert_cast()
-		return FALSE
-
-	var/absolvable = FALSE
-	// Check if target qualifies for absolving
-	if(HAS_TRAIT(target, TRAIT_EXCOMMUNICATED))
-		absolvable = TRUE
-
-	if(target.has_status_effect(/datum/status_effect/debuff/apostasy))
-		target.remove_status_effect(/datum/status_effect/debuff/apostasy)
-		absolvable = TRUE
-
-	// Remove from global lists
-	if(target.real_name in GLOB.apostasy_players)
-		GLOB.apostasy_players -= target.real_name
-		absolvable = TRUE
-	if(target.real_name in GLOB.excommunicated_players)
-		GLOB.excommunicated_players -= target.real_name
-		absolvable = TRUE
-
-	if(!absolvable)
-		to_chat(user, span_warning("[target] doesn't bear the church's marks of shame!"))
-		return
-
-	// Remove divine punishments
-	target.remove_status_effect(/datum/status_effect/debuff/apostasy)
-	target.remove_status_effect(/datum/status_effect/debuff/excomm)
-	target.remove_stress(/datum/stressevent/apostasy)
-	target.remove_stress(/datum/stressevent/excommunicated)
-
-	// Remove divine curses
-	for(var/datum/curse/C in target.curses)
-		target.remove_curse(C)
-
-	// Save devotion state if exists
-	var/saved_level = CLERIC_T0
-	var/saved_max_progression = CLERIC_T1
-	var/saved_devotion_gain = CLERIC_REGEN_MINOR
-
-	if(target.devotion)
-		saved_level = target.devotion.level
-		saved_devotion_gain = target.devotion.passive_devotion_gain
-		saved_max_progression = target.devotion.max_progression
-
-		// Remove all granted spells
-		if(target.patron != user.patron)
-			for(var/obj/effect/proc_holder/spell/S in target.devotion.granted_spells)
-				target.mind.RemoveSpell(S)
-
-		target.devotion.Destroy()
-
-	// Change patron
-	target.patron = new user.patron.type()
-	to_chat(target, span_userdanger("Your soul now belongs to [user.patron.name]!"))
-
-	// Grant new devotion
-	var/datum/devotion/new_devotion = new /datum/devotion(target, target.patron)
-	target.devotion = new_devotion
-	new_devotion.grant_miracles(target, saved_level, saved_devotion_gain, saved_max_progression)
-
-	// Final conversion
-	ADD_TRAIT(target, TRAIT_HERESIARCH, TRAIT_GENERIC)
-	ADD_TRAIT(target, TRAIT_EXCOMMUNICATED, TRAIT_GENERIC)
-	ADD_TRAIT(target, TRAIT_ZURCH, TRAIT_GENERIC)
-	to_chat(user, span_danger("You've converted [target.name] to [user.patron.name]!"))
-	to_chat(target, span_danger("You feel ancient powers lifting divine burdens from your soul..."))
-
-	return TRUE
 
 /mob/living/carbon/human/proc/revelations()
 	set name = "Revelations"

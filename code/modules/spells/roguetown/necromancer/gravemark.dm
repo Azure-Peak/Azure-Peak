@@ -1,19 +1,19 @@
-
-/obj/effect/proc_holder/spell/invoked/gravemark
+/datum/action/cooldown/spell/gravemark
 	name = "Gravemark"
 	desc = "Adjusts a chosen target's status, allowing you to denote them as an ally to the undead creechers under your command. </br>Marked allies \
 	will not be targeted nor attacked by any undead creechers under your command. </br>Casting the 'Gravemark' spell on them again will mark them as \
 	an enemy, causing all undead creechers under your command to become hostile against them."
-	overlay_state = "raiseskele"
-	range = 8
-	warnie = "sydwarning"
-	movement_interrupt = FALSE
-	chargedloop = null
-	antimagic_allowed = TRUE
-	recharge_time = 3 SECONDS
-	hide_charge_effect = TRUE
+	button_icon = 'icons/mob/actions/actions_cult.dmi'
+	button_icon_state = "cult_mark"
+	cast_range = 8
+	charge_required = FALSE
+	cooldown_time = 5 SECONDS
+	spell_requirements = SPELL_REQUIRES_SAME_Z
+	primary_resource_type = SPELL_COST_NONE
+	self_cast_possible = TRUE
+	zizo_spell = TRUE
 
-/obj/effect/proc_holder/spell/invoked/gravemark/cast(list/targets, mob/living/user)
+/datum/action/cooldown/spell/gravemark/cast(list/targets, mob/living/user)
 	if(!length(targets))
 		return FALSE
 
@@ -65,5 +65,5 @@
 	target.notify_faction_change()
 	return TRUE
 
-/obj/effect/proc_holder/spell/invoked/gravemark/no_sprite
-	overlay_state = ""
+/datum/action/cooldown/spell/gravemark/no_sprite
+	button_icon_state = ""

@@ -1,197 +1,278 @@
-// T0: Snuffs out fires/lights around area of the caster, greater range with higher HOLY skill
-/obj/effect/proc_holder/spell/self/zizo_snuff
-	name = "Snuff Lights"
-	desc = "Extinguish all lights in range, with your Miracles skill increasing range."
-	action_icon = 'icons/mob/actions/zizomiracles.dmi'
-	overlay_icon = 'icons/mob/actions/zizomiracles.dmi'
-	overlay_state = "snufflight"
-	releasedrain = 10
-	chargedrain = 0
-	chargetime = 0
-	chargedloop = /datum/looping_sound/invokeholy
-	invocations = list("exhales a dark grey smog, choking any lights nearby.")
-	invocation_type = "emote"
-	sound = 'sound/magic/zizo_snuff.ogg'
-	associated_skill = /datum/skill/magic/holy
-	antimagic_allowed = FALSE
-	recharge_time = 20 SECONDS
-	miracle = TRUE
-	devotion_cost = 30
-	range = 2
+/datum/action/cooldown/spell/zizo
+	background_icon = 'icons/mob/actions/zizomiracles.dmi'
+	button_icon = 'icons/mob/actions/zizomiracles.dmi'
+	spell_color = GLOW_COLOR_ZIZO
 
-/obj/effect/proc_holder/spell/self/zizo_snuff/cast(list/targets, mob/user = usr)
+	ignore_armor_penalty = TRUE
+
+	attunement_school = null
+
+	primary_resource_type = SPELL_COST_DEVOTION
+
+	secondary_resource_type = SPELL_COST_STAMINA
+
+	has_visual_effects = FALSE
+	spell_impact_intensity = SPELL_IMPACT_NONE
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC
+
+	associated_stat = null
+	associated_skill = /datum/skill/magic/holy
+	zizo_spell = TRUE
+
+	spell_tier = 0
+	point_cost = 0
+
+	required_items = list(/obj/item/clothing/neck/roguetown/psicross)
+
+// SNUFF LIGHTS (T0) - Extinguishes most light sources, and grants you a temporary Dark Vision steroid that scales from your Holy skill.
+/datum/action/cooldown/spell/zizo/snuff_lights
+	name = "Snuff Lights"
+	desc = "Extinguish all lights in range, with your Miracle skill increasing range."
+	button_icon_state = "snufflight"
+	sound = 'sound/magic/zizo_snuff.ogg'
+	associated_stat = null
+	charge_required = FALSE
+	click_to_activate = FALSE
+	cooldown_time = 20 SECONDS
+	primary_resource_cost = 30
+	secondary_resource_cost = 10
+	var/snuff_range = 2
+
+/datum/action/cooldown/spell/zizo/snuff_lights/cast(atom/cast_on)
 	. = ..()
-	if(!ishuman(user))
-		revert_cast()
+
+	if(!ishuman(owner))
 		return FALSE
-	var/checkrange = (range + user.get_skill_level(/datum/skill/magic/holy)) //+1 range per holy skill up to a potential of 8.
-	for(var/obj/O in range(checkrange, user))
+
+	var/checkrange = snuff_range + owner.get_skill_level(/datum/skill/magic/holy)
+	var/extinguished_anything = FALSE
+	var/had_nightvision = HAS_TRAIT(owner, TRAIT_NITEVISION)
+
+	for(var/obj/O in range(checkrange, owner))
+		if(O.light_range || O.light_power)
+			extinguished_anything = TRUE
+
 		O.extinguish()
-	for(var/mob/M in range(checkrange, user))
+
+	for(var/mob/M in range(checkrange, owner))
 		for(var/obj/O in M.contents)
+			if(O.light_range || O.light_power)
+				extinguished_anything = TRUE
+
 			O.extinguish()
+
+	var/skill_level = owner.get_skill_level(/datum/skill/magic/holy)
+	var/duration = (10 SECONDS) + (skill_level * 5 SECONDS)
+
+	REMOVE_TRAIT(owner, TRAIT_NITEVISION, "zizo_snuff")
+	ADD_TRAIT(owner, TRAIT_NITEVISION, "zizo_snuff")
+
+	addtimer(
+		CALLBACK(src, PROC_REF(remove_nightvision_buff), owner),
+		duration
+	)
+
+	if(extinguished_anything && !had_nightvision)
+		owner.visible_message(
+			span_warning("[owner] exhales a grayish fog that smothers nearby lights as their pupils widen unnaturally."),
+			span_notice("You exhale a gray fog that chokes out nearby lights. As darkness settles in, your pupils dilate.")
+		)
+
+	else if(!extinguished_anything && !had_nightvision)
+		owner.visible_message(
+			span_warning("[owner]'s pupils suddenly dilate into dark pools."),
+			span_notice("No lights answer your call, but your pupils still widen to drink in the darkness.")
+		)
+
 	return TRUE
 
-// T1: (fires a bone splinter at a target for brute and bleeding if you're not holding bones in your other hand, fires a significantly stronger bone lance if you are)
+/datum/action/cooldown/spell/zizo/snuff_lights/proc/remove_nightvision_buff(mob/living/user)
+	if(!user)
+		return
+	if(HAS_TRAIT(user, TRAIT_NITEVISION))
+		REMOVE_TRAIT(user, TRAIT_NITEVISION, "zizo_snuff")
 
-/obj/effect/proc_holder/spell/invoked/projectile/profane
+// PROFANE (T1) - Fires a cheap shot that has a very high chance to embed into an enemy and deals bonus integrity damage. If you have bones around you, or on your hands, you'll throw a lance that deals a lot of integrity damage. If the target is standing close to bones/piles when they are hit, those will also become Profaned and attack them.
+/datum/action/cooldown/spell/projectile/profane
 	name = "Profane"
-	desc = "Fire forth a splinter of unholy bone, tearing flesh and causing bleeding. If you hold pieces of bone in your other hand, you will coax a much stronger lance of bone into being."
-	clothes_req = FALSE
-	action_icon = 'icons/mob/actions/zizomiracles.dmi'
-	overlay_icon = 'icons/mob/actions/zizomiracles.dmi'
-	overlay_state = "profane"
-	range = 8
-	associated_skill = /datum/skill/magic/arcane
+	desc = "Fire forth a splinter of unholy bone, tearing flesh and causing bleeding. If bones are nearby—or in your hands—you may shape them into a far deadlier lance."
+	button_icon = 'icons/mob/actions/zizomiracles.dmi'
+	button_icon_state = "profane"
 	projectile_type = /obj/projectile/magic/profane
-	chargedloop = /datum/looping_sound/invokeholy
-	invocation_type = "none"
-	releasedrain = 30
-	chargedrain = 0
-	chargetime = 0
-	recharge_time = 11 SECONDS // moved cast time to cooldown
-	hide_charge_effect = TRUE // Left handed magick babe
+	primary_resource_cost = 15
+	secondary_resource_cost = 15
+	charge_required = FALSE
+	cooldown_time = 11 SECONDS
 
-/obj/effect/proc_holder/spell/invoked/projectile/profane/miracle
-	miracle = TRUE
-	devotion_cost = 15
-	associated_skill = /datum/skill/magic/holy
-
-/obj/effect/proc_holder/spell/invoked/projectile/profane/fire_projectile(mob/living/user, atom/target)
-	current_amount--
-
-	var/obj/item/held_item = user.get_active_held_item()
+/datum/action/cooldown/spell/projectile/profane/fire_projectile(atom/target)
 	var/big_cast = FALSE
-	if (istype(held_item, /obj/item/natural/bundle/bone))
-		var/obj/item/natural/bundle/bone/bonez = held_item
-		if (bonez.use(1))
-			projectile_type = /obj/projectile/magic/profane/major
+
+	for(var/obj/item/I in owner.held_items)
+		if(istype(I, /obj/item/natural/bundle/bone))
+			var/obj/item/natural/bundle/bone/B = I
+			if(B.use(1))
+				big_cast = TRUE
+				break
+
+		else if(istype(I, /obj/item/natural/bone))
+			qdel(I)
 			big_cast = TRUE
-	else if (istype(held_item, /obj/item/natural/bone))
-		qdel(held_item)
+			break
+
+	if(!big_cast)
+		for(var/obj/item/I in range(1, owner))
+			if(istype(I, /obj/item/natural/bundle/bone))
+				var/obj/item/natural/bundle/bone/B = I
+				if(B.use(1))
+					big_cast = TRUE
+					break
+
+			else if(istype(I, /obj/item/natural/bone))
+				qdel(I)
+				big_cast = TRUE
+				break
+
+	if(big_cast)
 		projectile_type = /obj/projectile/magic/profane/major
-		big_cast = TRUE
-	else if (istype(held_item, /obj/item/natural/bundle/bone))
-		var/obj/item/natural/bundle/bone/boney_bundle = held_item
-		if (boney_bundle.use(1))
-			projectile_type = /obj/projectile/magic/profane/major
-			big_cast = TRUE
 
-	var/obj/projectile/P = new projectile_type(user.loc)
-	P.firer = user
-	P.preparePixelProjectile(target, user)
-	P.fire()
+	. = ..()
 
-	if (big_cast)
-		user.visible_message(span_danger("[user] conjures and hurls a vicious lance of bone towards [target]!"), span_notice("I hurl a vicious lance of bone at [target]!")) 						//hehe. vicious lance of bone
+	if(big_cast)
+		owner.visible_message(span_danger("[owner] tears nearby bone into the air, shaping it into a vicious lance before hurling it at [target]!"), span_notice("I shape available bone into a brutal lance and hurl it at [target]!"))
 	else
-		user.visible_message(span_danger("[user] swings their arm in a wide arc, hurling a splinter of bone towards [target]!"), span_notice("I fling a shard of profaned bone at [target]!"))
-
+		owner.visible_message(span_danger("[owner] flicks their arm forward, launching a jagged bone splinter at [target]!"), span_notice("I launch a splinter of profaned bone at [target]!"))
+	
 	projectile_type = initial(projectile_type)
 
 /obj/projectile/magic/profane
 	name = "profaned bone splinter"
 	icon_state = "chronobolt"
-	damage = 20
+	damage = 25
 	damage_type = BRUTE
 	nodamage = FALSE
-	var/embed_prob = 10
+	intdamfactor = 1.5
+	var/embed_prob = 50
 
 /obj/projectile/magic/profane/major
 	name = "profaned bone lance"
-	damage = 35
-	embed_prob = 30
+	damage = 50
+	embed_prob = 75
+	intdamfactor = 3
 
 /obj/projectile/magic/profane/on_hit(atom/target, blocked)
 	. = ..()
-	if (iscarbon(target) && prob(embed_prob))
-		var/mob/living/carbon/carbon_target = target
-		var/obj/item/bodypart/victim_limb = pick(carbon_target.bodyparts)
-		var/obj/item/bone/splinter/our_splinter = new
-		victim_limb.add_embedded_object(our_splinter, FALSE, TRUE)
+	if(!iscarbon(target))
+		return
+	var/mob/living/carbon/carbon_target = target
+	// Primary embed effect
+	if(prob(embed_prob))
+		if(length(carbon_target.bodyparts))
+			var/obj/item/bodypart/victim_limb = pick(carbon_target.bodyparts)
+			if(victim_limb)
+				var/obj/item/bone/splinter/S = new
+				victim_limb.add_embedded_object(S, FALSE, TRUE)
+
+	// Nearby bones erupt toward victim
+	for(var/obj/item/I in range(3, carbon_target))
+		if(istype(I, /obj/item/natural/bundle/bone))
+			var/obj/item/natural/bundle/bone/B = I
+			qdel(B)
+			fire_secondary_profane_shard(carbon_target)
+		else if(istype(I, /obj/item/natural/bone))
+			qdel(I)
+			fire_secondary_profane_shard(carbon_target)
+
+/obj/projectile/magic/profane/proc/fire_secondary_profane_shard(mob/living/carbon/target)
+	if(!target)
+		return
+	var/turf/start = get_turf(src)
+	if(!start)
+		return
+	var/obj/projectile/magic/profane/P = new start
+	P.firer = firer
+	P.preparePixelProjectile(target, start)
+	P.fire()
 
 /obj/item/bone/splinter
 	name = "bone splinter"
-	embedding = list(
-		"embed_chance" = 100,
-		"embedded_pain_chance" = 25,
-		"embedded_fall_chance" = 5,
-	)
+	embedding = list("embed_chance" = 100, "embedded_pain_chance" = 25, "embedded_fall_chance" = 5)
 
 /obj/item/bone/splinter/dropped(mob/user, silent)
 	. = ..()
-	to_chat(user, span_danger("[src] crumbles into dust..."))
-	qdel(src)
 
-// T2: just use lesser animate undead for now
+	if(isturf(loc))
+		visible_message(span_danger("[src] crumbles into dust..."))
+		qdel(src)
 
-/obj/effect/proc_holder/spell/invoked/raise_undead_formation/miracle
-	action_icon = 'icons/mob/actions/zizomiracles.dmi'
-	overlay_icon = 'icons/mob/actions/zizomiracles.dmi'
+/obj/item/bone/splinter/forceMove(atom/newloc)
+	. = ..()
+	if(isturf(newloc))
+		visible_message(span_danger("[src] crumbles into dust..."))
+		qdel(src)
+
+// RAISE LESSER SKELETON (T2) - The new 'main' Zizo undeath-raising skill. Summon's durability scales from Miracle skill.
+/datum/action/cooldown/spell/raise_undead_formation/zizo
 	overlay_state = "skeleton_formation"
 	name = "Raise Lesser Skeleton"
 	desc = "Invoke Enochian magicka to bind loose bones into a simple skeletal thrall. Its crude physiology is held together purely by magic; unable to be incapacitated, it shall stand until it crumbles into spare bones. It is also simpler to control, so you can order it to move, guard or attack manually."
-	miracle = TRUE
-	devotion_cost = 60
+	primary_resource_type = SPELL_COST_DEVOTION
+	primary_resource_cost = 60
+	secondary_resource_cost = SPELL_COST_ENERGY
+	secondary_resource_cost = 40
+	charge_required = TRUE
+	weapon_cast_penalized = TRUE
+	charge_time = 2 SECONDS
+	charge_drain = 1
+	charge_slowdown = CHARGING_SLOWDOWN_SMALL
+	charge_sound = 'sound/magic/chargingold.ogg'
+	cooldown_time = 30 SECONDS
 	cabal_affine = TRUE
 	to_spawn = 1
-	chargetime = 2 SECONDS // back then we to_spawned 3, with a 6 second charge time. Now we only 1, for 2 seconds. Because 2 x 3 = 6.
 
-// T2: carbon spawn
-
-/obj/effect/proc_holder/spell/invoked/raise_undead_guard/miracle
-	action_icon = 'icons/mob/actions/zizomiracles.dmi'
-	overlay_icon = 'icons/mob/actions/zizomiracles.dmi'
-	overlay_state = "skeleton"
+// RAISE GREATER SKELETON (T2) - Mostly antiquated here, not available for Zizites, but they're still available for Liches/Necromancers.
+/datum/action/cooldown/spell/raise_undead_guard/zizo
 	name = "Raise Greater Skeleton"
 	desc = "Invoke Enochian magicka to bind bones into a more complex skeletal thrall. Its refined physique allows it to wield superior weapons, durability and also wear armor, however it cannot be controlled by any means, aside telling ally from foe."
-	chargetime = 3 SECONDS
-	miracle = TRUE
-	devotion_cost = 80
+	primary_resource_type = SPELL_COST_DEVOTION
+	primary_resource_cost = 75
 
-// T3: tames bio_type = undead mobs
-
-/obj/effect/proc_holder/spell/invoked/tame_undead/miracle
-	action_icon = 'icons/mob/actions/zizomiracles.dmi'
-	overlay_icon = 'icons/mob/actions/zizomiracles.dmi'
-	overlay_state = "deadite_tame"
-	miracle = TRUE
-	chargetime = 2 SECONDS // unlike the other, this has a chunky devotion cost, should be fine
-	devotion_cost = 100
+// TAME UNDEAD (T3) - I don't know why this is a T3, being just a forced Gravemark on a hostile NPC undead.
+/datum/action/cooldown/spell/tame_undead/zizo
+	primary_resource_cost = 100
 
 // T3: Rituos - Zizo's Lesser Work. A single painful ritual that grants the caster a choice:
 // Progress: Arcyne knowledge (2 minor aspects, 4 utilities). No skeletonization. -- Kunai: I made this more distinctive from Undeath, now it also gives you some traits to give a better progress vibe.
 // Unlife: Full skeletonization + MOB_UNDEAD, grants bonechill and raise_deadite directly. -- Kunai: We already have raise_deadite, so it's a moot point to give them the Necromancer version of it. Just gave them bonemend and a few more traits to give the vibe of a 'half-lich'.
 // Both paths grant undead language and TRAIT_ARCYNE. One-time use - cannot be cast again after completion.
 
-/obj/effect/proc_holder/spell/invoked/rituos
+/datum/action/cooldown/spell/zizo/rituos
 	name = "Rituos"
 	desc = "Enact one of the Lesser Work of Zizo - a single, agonizing ritual that tears open a path to power. Choose Progress to gain arcyne knowledge, or Unlife to embrace undeath."
-	clothes_req = FALSE
-	action_icon = 'icons/mob/actions/zizomiracles.dmi'
-	overlay_icon = 'icons/mob/actions/zizomiracles.dmi'
-	overlay_state = "rituos"
-	associated_skill = /datum/skill/magic/arcane
-	chargedloop = /datum/looping_sound/invokeholy
-	chargedrain = 0
-	chargetime = 5 SECONDS
-	releasedrain = 90
-	no_early_release = TRUE
-	movement_interrupt = TRUE
-	recharge_time = 5 MINUTES
-	hide_charge_effect = TRUE
+	button_icon = 'icons/mob/actions/zizomiracles.dmi'
+	button_icon_state = "rituos"
+	primary_resource_cost = 90
+	secondary_resource_cost = 90
+	charge_required = TRUE
+	weapon_cast_penalized = TRUE
+	charge_time = 5 SECONDS
+	charge_drain = 1
+	charge_slowdown = CHARGING_SLOWDOWN_SMALL
+	charge_sound = 'sound/magic/chargingold.ogg'
+	cooldown_time = 3 MINUTES
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_NO_MOVE
+	zizo_spell = TRUE
 
-/obj/effect/proc_holder/spell/invoked/rituos/miracle
-	miracle = TRUE
-	devotion_cost = 120
-	associated_skill = /datum/skill/magic/holy
-
-/obj/effect/proc_holder/spell/invoked/rituos/cast(list/targets, mob/living/carbon/human/user)
-	var/path_choice = tgui_alert(user, "What path of the Lesser Work do you seek?", "THE LESSER WORK", list("Progress", "Unlife", "Cancel"))
-	if(!path_choice || path_choice == "Cancel")
+/datum/action/cooldown/spell/rituos/cast(atom/cast_on)
+	. = ..()
+	if(!ishuman(owner))
 		return FALSE
 
-	// The chant - path-specific invocations
+	var/mob/living/carbon/human/user = owner
+	var/path_choice = tgui_alert(user, "What path of the Lesser Work do you seek?", "THE LESSER WORK", list("Progress", "Unlife", "Cancel"))
+	if(!path_choice || path_choice == "Cancel")
+		reset_spell_cooldown()
+		return FALSE
+
 	user.visible_message(span_boldwarning("[user] throws back [user.p_their()] head, arcyne energy crackling across [user.p_their()] body!"))
 
 	user.grant_language(/datum/language/undead)
@@ -243,7 +324,6 @@
 
 		if("Unlife") // combat path, your body is now carries undeath resilience
 			user.mob_biotypes |= MOB_UNDEAD
-			user.dna.species.species_traits |= NOBLOOD
 			ADD_TRAIT(user, TRAIT_NOMOOD, "[type]") // undead apathy
 			ADD_TRAIT(user, TRAIT_NOPAIN, "[type]") // you have no flesh
 			ADD_TRAIT(user, TRAIT_NOHUNGER, "[type]") // you have no stomach
@@ -265,20 +345,20 @@
 			user.update_body_parts()
 			user.adjust_skillrank(/datum/skill/magic/arcane, 3, TRUE)
 			if(user.mind)
-				user.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 0, "minor" = 2, "utilities" = 4, ward = TRUE))
-				user.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/bonechill)
-				user.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/bonemend)
+				user.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 0, "minor" = 2, "utilities" = 4))
+				user.mind.AddSpell(new /datum/action/cooldown/spell/bonechill)
+				user.mind.AddSpell(new /datum/action/cooldown/spell/bonemend)
 				grant_poke_spell(user)
 			user.visible_message(span_boldwarning("[user]'s skin and flesh burns away in necrotic flames, revealing bare bone beneath as [user.p_they()] [user.p_are()] consumed by the Lesser Work!"), span_notice("THE LESSER WORK IS DONE! My flesh is forfeit - and death itself answers my call!"))
 			to_chat(user, span_purple("You finished Rituos to perfection, you should be a full-fledged Lich now, but..."))
 			sleep(30)
 			to_chat(user, "<i>...Vestiges of mortality still cling to me...? Why?</i>")
 
-	// The Lesser Work is done - remove the spell
 	user.mind?.RemoveSpell(src)
 	qdel(src)
+	return TRUE
 
-/obj/effect/proc_holder/spell/invoked/rituos/proc/grant_poke_spell(mob/living/carbon/human/user)
+/datum/action/cooldown/spell/rituos/proc/grant_poke_spell(mob/living/carbon/human/user)
 	var/list/poke_options = list("Spitfire", "Frost Bolt", "Arc Bolt", "Greater Arcyne Bolt", "Stygian Efflorescence", "Arcyne Lance", "Lesser Gravel Blast")
 	var/poke_choice = tgui_input_list(user, "Choose your offensive cantrip.", "Arcyne Awakening", poke_options)
 	if(!poke_choice || !user.mind)

@@ -437,6 +437,36 @@
 	icon = 'icons/obj/items/donor_weapons.dmi'
 	sheathe_icon = "koruu_kukri_warden"
 
+/obj/item/rogueweapon/koruu/kukri/silver
+	name = "psydonic leachwhacker"
+	desc = "Sometimes... I still hear her voice in the darkness, when the lampterns are out. \
+	Verzeih mir, Erika."
+	icon_state = "wazia_kukri_silver"
+	icon = 'icons/obj/items/donor_weapons.dmi'
+	sheathe_icon = "wazia_kukri_silver"
+
+/obj/item/rogueweapon/koruu/longsword
+	name = "Excaliber"
+	desc = "One day...I'll craft a legendary weapon, a truly legendary sword. One that shall be known. \
+As Excaliber."
+	icon_state = "wazialong"
+	icon = 'icons/obj/items/donor_weapons_64.dmi'
+	sheathe_icon = "wazialong"
+
+/obj/item/rogueweapon/koruu/etrusca
+	name = "Colada"
+	desc = "The wounds received in battle bestow honor, they do not take it away..."
+	icon_state = "waziaetrusc"
+	icon = 'icons/obj/items/donor_weapons_64.dmi'
+	sheathe_icon = "waziaetrusc"
+
+/obj/item/rogueweapon/koruu/judgement
+	name = "A Durthurian Tale"
+	desc = "Strength Above All. To Protect What We Love."
+	icon_state = "waziajudgement"
+	icon = 'icons/obj/items/donor_weapons_64.dmi'
+	sheathe_icon = "waziajudgement"
+
 //DAKKEN12
 /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/hounskull/dakken
 	name = "armoured avantyne barbute"

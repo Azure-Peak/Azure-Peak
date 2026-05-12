@@ -1,37 +1,36 @@
-/obj/effect/proc_holder/spell/invoked/raise_undead_formation
+/datum/action/cooldown/spell/raise_undead_formation
 	name = "Raise Undead Formation"
-	desc = "Invoke forbidden magicka to summon a cohort of mindless, shambling skeletons. </br>Mindless skeletons can be given orders to guard, patrol, and attack by their \
-	summoner. </br>These skeletons are weaker than their more complex-jointed counterparts, but are harder to incapacitate."
-	clothes_req = FALSE
-	overlay_state = "animate"
-	range = 7
-	sound = list('sound/magic/magnet.ogg')
-	releasedrain = 40
-	chargetime = 6 SECONDS
-	warnie = "spellwarning"
-	no_early_release = TRUE
-	charging_slowdown = 1
-	chargedloop = /datum/looping_sound/invokegen
-	gesture_required = TRUE // Summon spell
+	desc = "Invoke forbidden magicka to summon a cohort of mindless, shambling skeletons.\nMindless skeletons can be given orders to guard, patrol, and attack by their summoner.\nThese skeletons are weaker than their more complex-jointed counterparts, but are harder to incapacitate."
+	button_icon = 'icons/mob/actions/zizomiracles.dmi'
+	button_icon_state = "skeleton_formation"
+	cast_range = 7
+	sound = 'sound/magic/magnet.ogg'
+	primary_resource_cost = 40
+	primary_resource_type = SPELL_COST_STAMINA
+	charge_required = TRUE
+	charge_time = 6 SECONDS
+	charge_slowdown = 1
 	associated_skill = /datum/skill/magic/arcane
-	recharge_time = 20 SECONDS
+	cooldown_time = 20 SECONDS
+	zizo_spell = TRUE
+	invocation_type = INVOCATION_SHOUT
+	invocations = list("Evoca skeletos!")
 	var/cabal_affine = FALSE
 	var/is_summoned = FALSE
 	var/to_spawn = 4
 	var/spawn_lifespan
-	hide_charge_effect = TRUE
 
-/obj/effect/proc_holder/spell/invoked/raise_undead_formation/cast(list/targets, mob/living/user)
-	..()
+/datum/action/cooldown/spell/raise_undead_formation/cast(atom/cast_on)
+	. = ..()
 
-	if(istype(get_area(user), /area/rogue/indoors/ravoxarena))
-		to_chat(user, span_userdanger("I reach for outer help, but something rebukes me! This challenge is only for me to overcome!"))
-		revert_cast()
+	if(istype(get_area(owner), /area/rogue/indoors/ravoxarena))
+		to_chat(owner, span_userdanger("I reach for outer help, but something rebukes me! This challenge is only for me to overcome!"))
+		reset_spell_cooldown()
 		return FALSE
 
 	var/turf/T = get_turf(targets[1])
 	if(!isopenturf(T))
-		to_chat(user, span_warning("The targeted location is blocked. My summon fails to come forth."))
+		to_chat(owner, span_warning("The targeted location is blocked. My summon fails to come forth."))
 		return FALSE
 
 	for(var/i = 1 to to_spawn)
@@ -97,8 +96,8 @@
 
 	return TRUE
 
-/obj/effect/proc_holder/spell/invoked/raise_undead_formation/necromancer
+/datum/action/cooldown/spell/raise_undead_formation/necromancer
 	cabal_affine = TRUE
 	is_summoned = TRUE
-	recharge_time = 35 SECONDS
+	cooldown_time = 35 SECONDS
 	to_spawn = 3

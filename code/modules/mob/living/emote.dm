@@ -8,6 +8,33 @@
 	key_third_person = "blushes"
 	message = "blushes."
 
+/datum/emote/living/vomit
+	key = "vomit"
+	key_third_person = "vomits"
+	message = "pukes!"
+	emote_type = EMOTE_VISIBLE
+	show_runechat = TRUE
+
+/mob/living/carbon/human/verb/emote_vomit()
+	set name = "Vomit"
+	set category = "Emotes"
+	emote("vomit", intentional = TRUE)
+
+/datum/emote/living/vomit/run_emote(mob/user, params, type_override, intentional, targetted, animal)
+	if(!iscarbon(user))
+		return FALSE
+	if(isconstruct(user))
+		return FALSE
+
+	var/mob/living/carbon/vomiter = user
+
+	if(vomiter.has_stress_event(/datum/stressevent/vomitself))
+		to_chat(vomiter, span_warning("I already puked once. It won't come out!"))
+		return FALSE
+
+	vomiter.vomit(20, FALSE, TRUE, 1, TRUE, FALSE, FALSE, TRUE)
+	return TRUE
+
 /datum/emote/living/pray
 	key = "pray"
 	key_third_person = "prays"

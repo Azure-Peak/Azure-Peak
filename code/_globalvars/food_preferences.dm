@@ -130,6 +130,7 @@ GLOBAL_LIST_EMPTY(cached_drink_flat_icons)
 		/obj/item/reagent_containers/food/snacks/crow,
 		/obj/item/reagent_containers/food/snacks/tallow,
 		/obj/item/reagent_containers/food/snacks/tallow/red,
+		/obj/item/reagent_containers/food/snacks/tallow/black,
 		/obj/item/reagent_containers/food/snacks/veg,
 		/obj/item/reagent_containers/food/snacks/butter,
 		/obj/item/reagent_containers/food/snacks/deadmouse,
