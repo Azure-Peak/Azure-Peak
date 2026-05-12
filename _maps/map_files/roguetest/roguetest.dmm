@@ -1559,6 +1559,10 @@
 	},
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors)
+"VF" = (
+/obj/structure/roguemachine/escrow,
+/turf/open/floor/rogue/tile/masonic/single,
+/area/rogue/indoors/town/vault)
 "VQ" = (
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/under/underdark/north)
@@ -3538,7 +3542,7 @@ mP
 dn
 AV
 Zu
-rN
+VF
 ua
 Go
 AX
