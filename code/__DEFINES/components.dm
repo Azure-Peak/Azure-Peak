@@ -374,6 +374,9 @@
 #define COMSIG_ITEM_WEARERCROSSED "wearer_crossed"                //called on item when crossed by something (): (/atom/movable, mob/living/crossed)
 #define COMSIG_ITEM_ATTACK_TURF "item_attack_turf"
 #define COMSIG_ITEM_GUN_PROCESS_FIRE	"item_gun_process_fire"		//called on /obj/item/gun/proc/process_fire
+#define COMSIG_BOW_PRE_DRAW "bow_pre_draw" 						// this fires before we pull the string onn a bow, empty or not, use responsibly
+#define COMSIG_BOW_PRE_DRAW_ARC "bow_pre_draw_arc"
+#define COMSIG_NO_FREE_HAND_FOR_RANGED "no_free_hand_ranged" 	// this is for when we get I need a free hand to draw [masteritem]!""
 
 // /obj/item/clothing signals
 #define COMSIG_CLOTHING_STEP_ACTION "clothing_step_action"			//from base of obj/item/clothing/shoes/proc/step_action(): ()

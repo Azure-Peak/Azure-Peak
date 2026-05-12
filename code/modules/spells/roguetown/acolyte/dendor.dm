@@ -378,6 +378,7 @@
 	ADD_TRAIT(owner, TRAIT_AZURENATIVE, "wild_hunt")
 	ADD_TRAIT(owner, TRAIT_LONGSTRIDER, "wild_hunt")
 	ADD_TRAIT(owner, TRAIT_NITEVISION, "wild_hunt")
+	ADD_TRAIT(owner, TRAIT_ZJUMP, "wild_hunt")
 	return TRUE
 
 /datum/status_effect/buff/thrill_of_the_hunt/on_remove()
@@ -385,6 +386,7 @@
 	REMOVE_TRAIT(owner, TRAIT_AZURENATIVE, "wild_hunt")
 	REMOVE_TRAIT(owner, TRAIT_LONGSTRIDER, "wild_hunt")
 	REMOVE_TRAIT(owner, TRAIT_NITEVISION, "wild_hunt")
+	REMOVE_TRAIT(owner, TRAIT_ZJUMP, "wild_hunt")
 	return ..()
 
 /datum/status_effect/buff/thrill_of_the_hunt/tick()
@@ -426,6 +428,349 @@
 #undef DENDOR_AMBUSH_MIN
 #undef DENDOR_AMBUSH_MAX
 #undef WILD_HUNT_TRACK_RANGE
+
+/datum/action/cooldown/spell/dendor/savagery
+	name = "Savagery"
+	desc = "Enter a state of primal rage for 45 seconds. Landing attacks with fists, bites, claws, daggers, or bows builds Savagery, increasing SPD and PER as momentum rises. Empty bows automatically draw arrows while the hunt endures. Reaching maximum Savagery grants additional boons. The hunt ends on stun, exhaustion, or losing your footing."	
+	fluff_desc = "For He was not called the 'God of Madmen' for little. There is clarity in savagery. There is method in this madness. His teachings ever tell you to be true to your nature, and behold, at your smallest fragment, you are no different than an animal, the same beast you hunt. He merely reminds you of so."	
+	sound = 'sound/magic/barbroar.ogg'
+	glow_intensity = 0
+	click_to_activate = FALSE
+	primary_resource_cost = 90
+	secondary_resource_cost = SPELLCOST_UTILITY_BUFF
+	charge_required = FALSE
+	cooldown_time = 5 MINUTES
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
+
+/datum/action/cooldown/spell/dendor/savagery/cast(atom/cast_on)
+	. = ..()
+
+	var/mob/living/carbon/human/H = owner
+	if(!istype(H))
+		return FALSE
+
+	H.apply_status_effect(/datum/status_effect/buff/savagery)
+
+	var/found_special = FALSE
+
+	for(var/mob/living/carbon/human/nearby in view(8, H))
+		if(nearby == H)
+			continue
+
+		if(istype(nearby.dna?.species, /datum/species/werewolf) || nearby.mind?.has_antag_datum(/datum/antagonist/werewolf))
+			found_special = TRUE
+			H.say(pick("LET THIS TRIAL BEGIN!!", "LET US DANCE, WILD MUTT!!", "I WILL BE WORTHY OF HIS SMILE!!", "ENTERTAIN ME, VOLF!!"))
+			break
+
+		if(nearby.has_status_effect(/datum/status_effect/buff/call_to_slaughter) || nearby.has_status_effect(/datum/status_effect/buff/bloodrage) || nearby.dna?.species?.id == "gnoll")
+			found_special = TRUE
+			H.say(pick("DENDOR, SHATTER MY MIND!!",	"DENDOR, DENDOR, DENDOR!!",	"I EMBODY HIS MADNESS! YOU ARE NOTHING!!"))
+			break
+
+	if(!found_special)
+		H.say(pick("COME ONNNN!!", "I'LL TEAR YOU APART!!", "RIP AND TEAR UNTIL IT IS DONE!!", "RRRAAHHHHHHHHH!!", "THE WEAK SHOULD FEAR ME!!", "I'LL RIP YOU WIDE OPEN!!", "THE HUNT BEGINS NOW!!", "STAND AND FIGHT!!", "I'M GOING TO KILL YOU!!"))
+		H.emote("rage")
+
+	return TRUE
+
+#define SAVAGERY_FILTER "savagery_outline"
+
+/atom/movable/screen/alert/status_effect/buff/savagery
+	name = "Savagery"
+	desc = "DON'T STOP, DON'T STOP, KEEP GOING! MAIM, RIP, TEAR! CRUSH! KILL!!"
+	icon_state = "buff"
+
+/datum/status_effect/buff/savagery
+	id = "savagery"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/savagery
+	duration = 45 SECONDS
+	var/next_bow_shot = 0
+	var/stacks = 0
+	var/spd_bonus = 0
+	var/per_bonus = 0
+	var/fortitude_active = FALSE
+	var/afterimage_active = FALSE
+	var/milestone_five_rewarded = FALSE
+	var/milestone_ten_rewarded = FALSE
+	var/milestone_fifteen_rewarded = FALSE
+	var/outline_colour = "#3FA34D"
+
+/datum/status_effect/buff/savagery/on_apply()
+	. = ..()
+	RegisterSignal(owner, COMSIG_MOB_ITEM_ATTACK_POST_SWINGDELAY, PROC_REF(handle_weapon_attack))
+	RegisterSignal(owner, COMSIG_HUMAN_MELEE_UNARMED_ATTACK, PROC_REF(handle_unarmed_attack))
+	RegisterSignal(owner, COMSIG_LIVING_STATUS_STUN, PROC_REF(cancel_on_incapacitation))
+	RegisterSignal(owner, COMSIG_LIVING_STATUS_KNOCKDOWN, PROC_REF(cancel_on_incapacitation))
+	RegisterSignal(owner, COMSIG_BOW_PRE_DRAW, PROC_REF(handle_bow_attack))
+	RegisterSignal(owner, COMSIG_BOW_PRE_DRAW_ARC, PROC_REF(handle_bow_attack_2))
+	ADD_TRAIT(owner, TRAIT_LONGSTRIDER, "savagery")
+	ADD_TRAIT(owner, TRAIT_NITEVISION, "savagery")
+	ADD_TRAIT(owner, TRAIT_BLOOD_RESISTANCE, "savagery")
+	owner.add_filter(SAVAGERY_FILTER, 2, list("type" = "outline", "color" = outline_colour,	"alpha" = 60, "size" = 1))
+	owner.visible_message(span_danger("[owner]'s posture hunches into a predator's stance."), span_userdanger("THE HUNT BEGINS!"))
+	owner.update_sight()
+
+/datum/status_effect/buff/savagery/on_remove()
+	. = ..()
+	UnregisterSignal(owner,	list(COMSIG_BOW_PRE_DRAW, COMSIG_BOW_PRE_DRAW_ARC, COMSIG_MOB_ITEM_ATTACK_POST_SWINGDELAY, COMSIG_HUMAN_MELEE_UNARMED_ATTACK, COMSIG_LIVING_STATUS_STUN, COMSIG_LIVING_STATUS_KNOCKDOWN))
+	REMOVE_TRAIT(owner, TRAIT_LONGSTRIDER, "savagery")
+	REMOVE_TRAIT(owner, TRAIT_NITEVISION, "savagery")
+	REMOVE_TRAIT(owner, TRAIT_BLOOD_RESISTANCE, "savagery")
+	
+	REMOVE_TRAIT(owner, TRAIT_NOPAINSTUN, "savagery")
+	REMOVE_TRAIT(owner, TRAIT_IGNOREDAMAGESLOWDOWN, "savagery")
+	REMOVE_TRAIT(owner, TRAIT_CRITICAL_RESISTANCE, "savagery")
+	REMOVE_TRAIT(owner, TRAIT_STRONGBITE, "savagery")
+	REMOVE_TRAIT(owner, TRAIT_STRONG_GRABBER, "savagery")
+	REMOVE_TRAIT(owner, TRAIT_NOLIMBDISABLE, "savagery")
+
+	owner.change_stat(STATKEY_SPD, -spd_bonus)
+	owner.change_stat(STATKEY_PER, -per_bonus)
+	spd_bonus = 0
+	per_bonus = 0
+	stacks = 0
+	fortitude_active = FALSE
+	if(afterimage_active)
+		var/datum/component/after_image/AI = owner.GetComponent(/datum/component/after_image)
+		if(AI)
+			qdel(AI)
+
+	afterimage_active = FALSE
+	milestone_five_rewarded = FALSE
+	milestone_ten_rewarded = FALSE
+	milestone_fifteen_rewarded = FALSE
+	owner.remove_filter(SAVAGERY_FILTER)
+	owner.update_sight()
+	to_chat(owner, span_warning("The beast within recedes..."))
+
+/datum/status_effect/buff/savagery/nextmove_modifier()
+	return max(1 - (stacks * ((1 - 0.6) / 20)), 0.6)
+
+/datum/status_effect/buff/savagery/proc/add_savagery_stack(amount = 1)
+	if(QDELETED(src) || !owner)
+		return
+
+	if(amount <= 0)
+		return
+
+	stacks = min(stacks + amount, 20)
+	to_chat(owner, span_userdanger("I HAVE [stacks] STACKS!"))
+
+	if(stacks >= 5 && !milestone_five_rewarded)
+		grant_milestone_boost(5)
+		owner.balloon_alert_to_viewers("Growl..", "Growl..")
+		apply_stack_bonus(1)
+
+	if(stacks >= 10 && !milestone_ten_rewarded)
+		grant_milestone_boost(10)
+		owner.balloon_alert_to_viewers("Hah.. Hah..", "Hah.. Hah..")
+		apply_stack_bonus(2)
+
+	if(stacks >= 15 && !fortitude_active)
+		grant_milestone_boost(15)
+		owner.balloon_alert_to_viewers("<font color=red>M A D N E S S !", "<font color=red>M A D N E S S !")
+		ADD_TRAIT(owner, TRAIT_NOPAINSTUN, "savagery")
+		ADD_TRAIT(owner, TRAIT_IGNOREDAMAGESLOWDOWN, "savagery")
+		ADD_TRAIT(owner, TRAIT_CRITICAL_RESISTANCE, "savagery")
+		ADD_TRAIT(owner, TRAIT_STRONGBITE, "savagery")
+		ADD_TRAIT(owner, TRAIT_STRONG_GRABBER, "savagery")
+		ADD_TRAIT(owner, TRAIT_NOLIMBDISABLE, "savagery")
+		owner.AddComponent(/datum/component/after_image)
+		afterimage_active = TRUE
+		fortitude_active = TRUE
+		to_chat(owner, span_userdanger("I GOT YOU NOW! BLEED FOR ME, PREY!!"))
+		owner.emote("rage")
+		playsound(owner, 'sound/magic/momentum_max.ogg', 100, TRUE, -1)
+
+/datum/status_effect/buff/savagery/proc/handle_weapon_attack(mob/living/target, mob/living/user, obj/item/weapon)
+	SIGNAL_HANDLER
+	if(QDELETED(src) || QDELETED(target))
+		return
+	if(!isliving(target))
+		return
+	if(istype(weapon, /obj/item/rogueweapon/huntingknife) || istype(weapon, /obj/item/rogueweapon/handclaw) || istype(weapon, /obj/item/rogueweapon/werewolf_claw))
+		INVOKE_ASYNC(src, PROC_REF(add_savagery_stack), 1)
+
+	var/mob/living/L = target
+
+	if(!L.mind && L.resting && prob(25))
+		addtimer(CALLBACK(L, TYPE_PROC_REF(/mob/living, gib)), 0)
+	
+/datum/status_effect/buff/savagery/proc/handle_unarmed_attack(mob/living/user, atom/target, damage, atom/attacked_with)
+	SIGNAL_HANDLER
+	if(QDELETED(src) || QDELETED(target))
+		return
+	if(!isliving(target))
+		return
+
+	var/mob/living/L = target
+	if(!L.mind && L.resting && prob(25))
+		addtimer(CALLBACK(L, TYPE_PROC_REF(/mob/living, gib)), 0)
+
+	var/datum/intent/current_intent = owner.used_intent
+
+	if(istype(current_intent, /datum/intent/bite))
+		INVOKE_ASYNC(src, PROC_REF(add_savagery_stack), 1)
+		return
+
+	if(!attacked_with)
+		INVOKE_ASYNC(src, PROC_REF(add_savagery_stack), 1)
+
+/datum/status_effect/buff/savagery/proc/apply_stack_bonus(stack_level)
+	switch(stack_level)
+		if(1)
+			owner.change_stat(STATKEY_SPD, 1)
+			owner.change_stat(STATKEY_PER, 1)
+			spd_bonus += 1
+			per_bonus += 1
+			to_chat(owner, span_notice("They are getting cornered..."))
+
+		if(2)
+			owner.change_stat(STATKEY_SPD, 1)
+			owner.change_stat(STATKEY_PER, 1)
+			spd_bonus += 1
+			per_bonus += 1
+			to_chat(owner, span_userdanger("Nowhere to run now...!"))
+
+/datum/status_effect/buff/savagery/proc/grant_milestone_boost(milestone)
+	if(!owner)
+		return
+
+	var/fatigue_restore = owner.max_energy * 0.1
+	owner.energy_add(fatigue_restore)
+	var/duration_extension = 0
+	switch(milestone)
+		if(5)
+			if(milestone_five_rewarded)
+				return
+			milestone_five_rewarded = TRUE
+			duration_extension = 15 SECONDS
+		if(10)
+			if(milestone_ten_rewarded)
+				return
+			milestone_ten_rewarded = TRUE
+			duration_extension = 15 SECONDS
+		if(15)
+			if(milestone_fifteen_rewarded)
+				return
+			milestone_fifteen_rewarded = TRUE
+			duration_extension = 30 SECONDS
+	if(duration_extension)
+		duration += duration_extension
+
+/datum/status_effect/buff/savagery/proc/cancel_on_incapacitation(mob/living/source, amount, updating, ignore)
+	SIGNAL_HANDLER
+	if(!amount || ignore)
+		return
+	if(!owner)
+		return
+	if(owner.stamina >= owner.max_stamina && !owner.IsKnockdown() && !owner.IsStun())
+		return
+	to_chat(owner, span_warning("NO!! THE HUNT IS RUINED..."))
+	qdel(src)
+
+/datum/status_effect/buff/savagery/proc/get_arrow_from_quiver()
+	var/mob/living/L = owner
+
+	if(!L)
+		return null
+
+	// Priority 1: directly held/carried loose arrows
+	for(var/obj/item/ammo_casing/caseless/rogue/arrow/A in L.get_equipped_items(FALSE))
+		return A
+
+	// Priority 2: search ALL equipped quivers until one has ammo
+	for(var/obj/item/quiver/Q in L.get_equipped_items(FALSE))
+		var/obj/item/ammo_casing/caseless/rogue/arrow/A = Q.pick_ammo(/obj/item/ammo_casing/caseless/rogue/arrow)
+		if(!A)
+			continue
+		Q.arrows -= A
+		Q.update_icon()
+		return A
+
+	// Priority 3: grab arrows on nearby ground (1 tile radius)
+	for(var/obj/item/ammo_casing/caseless/rogue/arrow/A in range(1, L))
+		if(A.loc == L.loc || isturf(A.loc))
+			owner.visible_message(span_warning("[owner] nimbly picks an arrow from the floor!"))
+			return A
+
+	return null
+
+/datum/status_effect/buff/savagery/proc/handle_bow_attack(datum/source, obj/item/gun/ballistic/revolver/grenadelauncher/bow/B, atom/target, params)
+	SIGNAL_HANDLER
+	var/mob/living/user = owner
+	if(user != owner)
+		return
+	if(QDELETED(B) || QDELETED(target))
+		return COMPONENT_CANCEL_ATTACK_CHAIN
+	if(world.time < next_bow_shot)
+		return COMPONENT_CANCEL_ATTACK_CHAIN
+	next_bow_shot = world.time + 5   
+	playsound(owner, 'sound/foley/nockarrow.ogg', 70, TRUE)
+	owner.visible_message(span_warning("[owner] looses an arrow with inhuman speed!"))
+	addtimer(CALLBACK(src,PROC_REF(fire_projectile_async), B, target, target, params, FALSE), 0)
+	if(prob(50))
+		INVOKE_ASYNC(src, PROC_REF(add_savagery_stack), 1)
+	return COMPONENT_CANCEL_ATTACK_CHAIN
+
+/datum/status_effect/buff/savagery/proc/handle_bow_attack_2(datum/source, obj/item/gun/ballistic/revolver/grenadelauncher/bow/B, atom/target,params)
+	SIGNAL_HANDLER
+	var/mob/living/user = owner
+	if(user != owner)
+		return
+	if(QDELETED(B) || QDELETED(target))
+		return COMPONENT_CANCEL_ATTACK_CHAIN
+	if(world.time < next_bow_shot)
+		return COMPONENT_CANCEL_ATTACK_CHAIN
+	next_bow_shot = world.time + 10
+	var/turf/target_turf = get_turf(target)
+	if(!target_turf)
+		return COMPONENT_CANCEL_ATTACK_CHAIN
+	playsound(owner, 'sound/foley/nockarrow.ogg', 70, TRUE)
+	owner.visible_message(span_warning("[owner] looses an arcing arrow with inhuman speed!"))
+	addtimer(CALLBACK(src, PROC_REF(fire_projectile_async), B, target_turf, target,	params,	TRUE), 0)
+	if(prob(26))
+		INVOKE_ASYNC(src, PROC_REF(add_savagery_stack), 1)
+	return COMPONENT_CANCEL_ATTACK_CHAIN
+
+/datum/status_effect/buff/savagery/proc/fire_projectile_async(obj/item/gun/ballistic/revolver/grenadelauncher/bow/B, atom/final_target, atom/original_click_target,	params,	arc)
+	if(QDELETED(B))
+		return
+	if(QDELETED(final_target))
+		return
+	if(QDELETED(original_click_target))
+		return
+	if(QDELETED(owner))
+		return
+	var/obj/projectile/bullet/reusable/arrow/P = new(get_turf(B))
+	if(!P)
+		return
+	P.embedchance = 100 // pin cushion! :D
+	P.speed = 0.15
+	P.firer = owner
+	P.fired_from = B
+	P.original = original_click_target
+	if(arc)
+		P.pass_flags |= PASSTABLE | PASSMOB
+	P.preparePixelProjectile(original_click_target, owner, params)
+	if(QDELETED(P))
+		return
+	if(!get_turf(P))
+		qdel(P)
+		return
+	if(isnull(P.Angle) && (isnull(P.xo) || isnull(P.yo)))
+		qdel(P)
+		return
+	var/obj/item/ammo_casing/caseless/rogue/arrow/A = get_arrow_from_quiver()
+	if(!A)
+		to_chat(owner, span_warning("No arrows left!"))
+		qdel(P)
+		return
+	qdel(A)
+	P.fire()
+	playsound(owner, 'sound/combat/Ranged/flatbow-shot-01.ogg', 90, TRUE)
+
+#undef SAVAGERY_FILTER
 
 /////////////////////
 // T? - Tame Beast //

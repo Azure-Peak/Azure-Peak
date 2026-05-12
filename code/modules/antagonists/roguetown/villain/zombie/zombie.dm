@@ -278,7 +278,7 @@
 //Add claws here if wanted.
 
 	zombie.update_body()
-	to_chat(zombie, span_narsiesmall("Hungry... so hungry... I CRAVE FLESH!"))
+	to_chat(zombie, span_boldred("Hungry... so hungry... I CRAVE FLESH!"))
 	zombie.cmode_music = 'sound/music/combat_weird.ogg'
 
 

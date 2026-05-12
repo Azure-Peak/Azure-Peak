@@ -5,7 +5,18 @@
 	chargedrain = 2
 	charging_slowdown = 3
 
-/datum/intent/shoot/bow/can_charge(atom/clicked_object)
+/datum/intent/shoot/bow/can_charge(atom/clicked_object, params)
+
+	var/obj/item/gun/ballistic/revolver/grenadelauncher/bow/B = masteritem
+
+	if(istype(B))
+		if(SEND_SIGNAL(	mastermob, COMSIG_BOW_PRE_DRAW, B, clicked_object, params) & COMPONENT_CANCEL_ATTACK_CHAIN)
+			return FALSE
+			
+	to_chat(mastermob, span_notice("=== CAN_CHARGE DEBUG ==="))
+	to_chat(mastermob, span_notice("clicked_object: [clicked_object] ([clicked_object.type])"))
+	to_chat(mastermob, span_notice("params: [params]"))
+
 	if(mastermob?.get_num_arms(FALSE) < 2 || mastermob.get_inactive_held_item())
 		to_chat(mastermob, span_warning("I need a free hand to draw [masteritem]!"))
 		return FALSE
@@ -46,7 +57,14 @@
 	chargedrain = 2
 	charging_slowdown = 3
 
-/datum/intent/arc/bow/can_charge(atom/clicked_object)
+/datum/intent/arc/bow/can_charge(atom/clicked_object, params)
+
+	var/obj/item/gun/ballistic/revolver/grenadelauncher/bow/B = masteritem
+
+	if(istype(B))
+		if(SEND_SIGNAL(	mastermob, COMSIG_BOW_PRE_DRAW_ARC, B, clicked_object, params) & COMPONENT_CANCEL_ATTACK_CHAIN)
+			return FALSE
+
 	if(mastermob?.get_num_arms(FALSE) < 2 || mastermob.get_inactive_held_item())
 		to_chat(mastermob, span_warning("I need a free hand to draw [masteritem]!"))
 		return FALSE

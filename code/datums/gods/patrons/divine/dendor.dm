@@ -10,6 +10,7 @@
 					/datum/action/cooldown/spell/dendor/wildhunt				= CLERIC_T0,
 					/datum/action/cooldown/spell/miracle/heal 					= CLERIC_T1,
 					/datum/action/cooldown/spell/miracle/bloodmiracle			= CLERIC_T1,
+					/datum/action/cooldown/spell/dendor/savagery				= CLERIC_T1,
 					/obj/effect/proc_holder/spell/self/wildshape				= CLERIC_T2,
 					/obj/effect/proc_holder/spell/targeted/conjure_glowshroom	= CLERIC_T3,
 					/obj/effect/proc_holder/spell/targeted/conjure_vines		= CLERIC_T3,

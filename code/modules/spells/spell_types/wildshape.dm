@@ -37,6 +37,10 @@
 		to_chat(user, span_warning("Your will is too broken to change form."))
 		return FALSE
 
+	if(user.has_status_effect(/datum/status_effect/buff/savagery))
+		to_chat(user, span_warning("CAN'T. CONCENTRATE. IT'S TIME... TO HUNT!!"))
+		return FALSE
+
 	if(istype(user, /mob/living/carbon/human/species/wildshape))
 		user.wildshape_untransform()
 		return FALSE
