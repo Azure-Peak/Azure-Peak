@@ -32,7 +32,7 @@
 	if((theirpower >= mypower))
 		to_chat(owner, span_warning("[target]'s mind is too powerful to sway!"))
 		return FALSE
-	if(HAS_TRAIT(target, TRAIT_NOMOOD))
+	if(HAS_TRAIT(target, TRAIT_DETACHED))
 		to_chat(owner, span_warning("[target]'s mind is a hollow void, offering no emotions for your presence to seize."))
 		return FALSE
 	return TRUE
@@ -122,7 +122,7 @@
 	cooldown_length = 60 SECONDS
 
 /datum/coven_power/presence/dread_gaze/pre_activation_checks(mob/living/target)
-	if(HAS_TRAIT(target, TRAIT_NOMOOD))
+	if(HAS_TRAIT(target, TRAIT_DETACHED))
 		to_chat(owner, span_warning("[target]'s mind is a hollow void, offering no emotions for your presence to seize."))
 		return FALSE
 	return TRUE

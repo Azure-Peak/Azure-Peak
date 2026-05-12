@@ -808,7 +808,7 @@
 					msg += "[m1] a shitfaced, slobbering wreck."
 
 			//Deadened
-			if(HAS_TRAIT(user, TRAIT_EMPATH) && HAS_TRAIT(src, TRAIT_NOMOOD))
+			if(HAS_TRAIT(user, TRAIT_EMPATH) && HAS_TRAIT(src, TRAIT_DETACHED))
 				msg += "[m1] completely hollow inside, radiating a deep, tragic silence."
 
 			//Stress

@@ -166,7 +166,7 @@
 /datum/virtue/utility/deadened
 	name = "Deadened"
 	desc = "Some terrible incident colours my past, and now, I feel nothing."
-	added_traits = list(TRAIT_NOMOOD)
+	added_traits = list(TRAIT_NOMOOD, TRAIT_DETACHED)
 
 /datum/virtue/utility/feral_appetite
 	name = "Feral Appetite"
