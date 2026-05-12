@@ -52,7 +52,7 @@
 
 /obj/effect/proc_holder/spell/invoked/resurrect/zizo
 	name = "Hollow Rebirth"
-	desc = "Revive a fallen ally while siphoning their potential and destroying some of their Lux as a toll. You gain their strength, whilst they gain a second chance.\
+	desc = "Revive a fallen subject while siphoning their potential and destroying some of their Lux as a toll. You gain their strength, whilst they gain a second chance.\
 	If they die, you will lose their stolen strength."
 	sound = 'sound/magic/slimesquish.ogg'
 	chargedloop = /datum/looping_sound/invokeascendant
