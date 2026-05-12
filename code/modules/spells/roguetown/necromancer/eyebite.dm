@@ -1,26 +1,26 @@
-/obj/effect/proc_holder/spell/invoked/eyebite
+/datum/action/cooldown/spell/eyebite
 	name = "Eyebite"
-	desc = "Manipulate the shadows within a chosen target's eye into jagged, gnashing teeth. </br>Temporarily blinds the chosen target, while moderately damaging them."
-	overlay_state = "raiseskele"
-	releasedrain = 30
-	chargetime = 15
-	range = 7
-	warnie = "sydwarning"
-	movement_interrupt = FALSE
-	chargedloop = null
+	desc = "Manipulate the shadows within a chosen target's eye into jagged, gnashing teeth. Temporarily blinds the chosen target, while moderately damaging them."
+	button_icon = 'icons/mob/actions/actions_spells.dmi'
+	button_icon_state = "blind"
+	cast_range = 7
 	sound = 'sound/items/beartrap.ogg'
+	primary_resource_cost = 30
+	primary_resource_type = SPELL_COST_STAMINA
+	charge_required = TRUE
+	charge_time = 15
 	associated_skill = /datum/skill/magic/arcane
-	gesture_required = TRUE // Offensive spell
-	antimagic_allowed = TRUE
-	recharge_time = 15 SECONDS
-	miracle = FALSE
-	hide_charge_effect = TRUE
+	cooldown_time = 15 SECONDS
+	spell_requirements = SPELL_REQUIRES_SAME_Z
+	self_cast_possible = FALSE
+	zizo_spell = TRUE
 
-/obj/effect/proc_holder/spell/invoked/eyebite/cast(list/targets, mob/living/user)
-	..()
-	if(!isliving(targets[1]))
-		return FALSE
-	var/mob/living/carbon/target = targets[1]
+/datum/action/cooldown/spell/eyebite/is_valid_target(atom/cast_on)
+	return isliving(cast_on)
+
+/datum/action/cooldown/spell/eyebite/cast(atom/cast_on)
+	. = ..()
+	var/mob/living/carbon/target = cast_on
 	target.visible_message(span_info("A loud crunching sound has come from [target]!"), span_userdanger("I feel arcane teeth biting into my eyes!"))
 	target.adjustBruteLoss(30)
 	target.blind_eyes(2)

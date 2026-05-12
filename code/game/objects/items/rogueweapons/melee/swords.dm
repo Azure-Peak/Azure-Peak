@@ -684,7 +684,7 @@
 
 /obj/item/rogueweapon/sword/long/exe/silver
 	name = "silver executioners sword"
-	desc = "A thorned executioner's sword, who's massive silver blade lays mounted atop an intricately-carved \
+	desc = "A thorned executioner's sword, whose massive silver blade lays mounted atop an intricately-carved \
 	handle. Though the barbs dig into your hands, it's said that such pricklings will only draw blood if the \
 	silvered edge falls upon the neck of the innocent."
 	icon_state = "psygsword"

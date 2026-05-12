@@ -225,6 +225,19 @@
 	req_table = TRUE
 	craftdiff = 2
 
+/datum/crafting_recipe/roguetown/survival/tarot_deck_majorarcana
+	name = "tarot deck (major arcana)"
+	result = list(/obj/item/toy/cards/deck/tarot/majorarcana)
+	reqs = list(
+		/obj/item/paper/scroll = 3,
+		/obj/item/grown/log/tree/small = 1,
+		/obj/item/ash = 1,
+		)
+	skillcraft = /datum/skill/misc/reading
+	tools = list(/obj/item/natural/feather)
+	req_table = TRUE
+	craftdiff = 2
+
 // Woodcutting recipe
 /datum/crafting_recipe/roguetown/survival/lumberjacking
 	skillcraft = /datum/skill/labor/lumberjacking

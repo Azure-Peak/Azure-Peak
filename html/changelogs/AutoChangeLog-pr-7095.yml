@@ -1,0 +1,9 @@
+author: "Ketrai"
+delete-after: True
+changes:
+  - rscadd: "Gave the Malpractioner a slightly armored variant of their plague doctor mask."
+  - qol: "Made black rot more obvious in the tooltip in how to cure it."
+  - qol: "Made rotfang tooltip more descriptive."
+  - balance: "Rotfang (malpractitioner) now doesn't apply black rot when using punch intent."
+  - balance: "Rotfang can hold more ichor."
+  - balance: "Rotfang now has heavy cut instead of regular cut."

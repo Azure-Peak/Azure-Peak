@@ -1,0 +1,4 @@
+author: "Ollanius"
+delete-after: True
+changes:
+  - rscadd: "Clerics who take the 'Crusader' oath now receive a surcoat based on their faith."

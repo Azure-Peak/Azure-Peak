@@ -35,7 +35,7 @@
 		var/obj/item/rogueweapon/tongs/T = W
 		if(hingot)
 			if(T.hingot)
-				if(hingot.currecipe && hingot.currecipe.needed_item && istype(T.hingot, hingot.currecipe.needed_item))
+				if(hingot.currecipe && hingot.currecipe.needed_item && istype(T.hingot, hingot.currecipe.needed_item) && T.hingot.can_craft_with())
 					hingot.currecipe.item_added(user)
 					if(istype(T.hingot, /obj/item/ingot))
 						var/obj/item/ingot/I = T.hingot
@@ -135,7 +135,7 @@
 					break
 		return
 
-	if(hingot && hingot.currecipe && hingot.currecipe.needed_item && istype(W, hingot.currecipe.needed_item))
+	if(hingot && hingot.currecipe && hingot.currecipe.needed_item && istype(W, hingot.currecipe.needed_item) && W.can_craft_with())
 		hingot.currecipe.item_added(user)
 		if(istype(W, /obj/item/ingot))
 			var/obj/item/ingot/I = W

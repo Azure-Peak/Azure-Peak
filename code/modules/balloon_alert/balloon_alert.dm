@@ -105,3 +105,20 @@
 		CRASH("filtered_balloon_alert called without a trait, either it's an error or use balloon_alert instead.")
 
 	balloon_alert_to_viewers(text, null, DEFAULT_MESSAGE_RANGE, candidates, x_offset, y_offset)
+
+/// Proc for creating a balloon alert that only someone with a specific skill level can see.
+/atom/proc/skill_filtered_balloon_alert(skill_path, required_level, text, x_offset, y_offset, show_self = TRUE)
+	var/list/candidates = get_hearers_in_view(DEFAULT_MESSAGE_RANGE, src, RECURSIVE_CONTENTS_CLIENT_MOBS)
+
+	if(!skill_path)
+		CRASH("skill_filtered_balloon_alert called without a skill path.")
+
+	for(var/mob/living/carbon/human/H in candidates)
+		if(!show_self && H == src)
+			candidates -= H
+			continue
+
+		if(H.get_skill_level(skill_path) < required_level)
+			candidates -= H
+
+	balloon_alert_to_viewers(text, null, DEFAULT_MESSAGE_RANGE, candidates, x_offset, y_offset)

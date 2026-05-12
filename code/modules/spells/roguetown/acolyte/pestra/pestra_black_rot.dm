@@ -46,22 +46,22 @@
 	switch(tier)
 		if(1)
 			linked_alert.name = "Black Rot (Creeping)"
-			linked_alert.desc = "A faint darkness spreads beneath my skin."
+			linked_alert.desc = "A faint darkness spreads beneath my skin. I should seek out a calyx or heartblood vials before it is too late."
 			linked_alert.icon_state = "blackrot1"
 			examine_text = "SUBJECTPRONOUN seems to be rotting alive! (Creeping)"
 		if(2)
 			linked_alert.name = "Black Rot (Festering)"
-			linked_alert.desc = "My veins run black with corruption. I will surely die if this persists."
+			linked_alert.desc = "My veins run black with corruption. I will surely die if this persists. I should seek out a calyx or heartblood vials before it is too late."
 			linked_alert.icon_state = "blackrot2"
 			examine_text = "SUBJECTPRONOUN seems to be rotting alive! (Festering)"
 		if(3)
 			linked_alert.name = "Black Rot (Boiling)"
-			linked_alert.desc = "My flesh decays and my bones ache. It feels like my skin is boiling."
+			linked_alert.desc = "My flesh decays and my bones ache. It feels like my skin is boiling. I should seek out a calyx or heartblood vials before it is too late."
 			linked_alert.icon_state = "blackrot3"
 			examine_text = "SUBJECTPRONOUN seems to be rotting alive! (Boiling)"
 		if(4)
 			linked_alert.name = "Black Rot (Necrosis)"
-			linked_alert.desc = "I am being consumed by the void. I can feel my bones creaking."
+			linked_alert.desc = "I am being consumed by the void. I can feel my bones creaking. I should seek out a calyx or heartblood vials now!!"
 			linked_alert.icon_state = "blackrot4"
 			examine_text = "SUBJECTPRONOUN seems to be rotting alive! (Necrosis)"
 
@@ -181,8 +181,8 @@
 	return ..()
 
 /atom/movable/screen/alert/status_effect/black_rot
-	name = "Black Rot"
-	desc = "A corrupting darkness spreads through my body."
+	name = "Black Rot (Creeping)"
+	desc = "A faint darkness spreads beneath my skin. I should seek out a calyx or heartblood vials before it is too late."
 	icon_state = "blackrot1"
 
 // Puke when advancing stages, woo

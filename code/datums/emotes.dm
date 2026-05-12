@@ -33,6 +33,9 @@
 	/// Whether this emote is filtered by our "hear animal noises" preference.
 	var/is_animal = FALSE
 
+	/// If true, emote will check for detached trait and not run if the user has it and the emote wasn't intentional. Used for emotes that require emotional investment to make sense, like crying or laughing.
+	var/needs_emotion = FALSE
+
 	/// For ranged targeted emotes, range of 2 is for adjacents
 	var/targetrange = 2 
 
@@ -237,8 +240,14 @@
 		else
 			// familiars get to do emotes with their weird planar being anatomy, so that they can caw and such
 			if(istype(user, /mob/living/simple_animal/pet/familiar))
-				var/datum/voicepack/pack2use = (user.gender==MALE)? /datum/voicepack/male : /datum/voicepack/female
-				return pack2use.get_sound(key)
+				var/mob/living/simple_animal/pet/familiar/fam = user
+				var/possible_sounds = fam.voice_pack.get_sound(key)
+				var/used_sound
+				if(islist(possible_sounds))
+					used_sound = pick(possible_sounds)
+				else
+					used_sound = possible_sounds
+				return used_sound
 			return user.get_sound(key)
 
 /mob/living/proc/get_sound(input)
@@ -306,6 +315,9 @@
 				return FALSE
 //			to_chat(user, span_warning("I cannot [key] while restrained!"))
 			return FALSE
+
+	if(needs_emotion && HAS_TRAIT(user, TRAIT_DETACHED) && !intentional)
+		return FALSE
 
 	if(intentional && HAS_TRAIT(user, TRAIT_EMOTEMUTE))
 		return FALSE
