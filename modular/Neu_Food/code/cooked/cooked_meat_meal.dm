@@ -16,20 +16,14 @@
 	eat_effect = /datum/status_effect/buff/mealbuff
 	drop_sound = 'sound/foley/dropsound/gen_drop.ogg'
 
-/obj/item/reagent_containers/food/snacks/rogue/peppersteak/attackby(obj/item/I, mob/living/user, params)
-	var/found_table = locate(/obj/structure/table) in (loc)
-	if(!experimental_inhand)
-		return
-	if(istype(I, /obj/item/reagent_containers/food/snacks/grown/garlick/rogue))
-		if(isturf(loc)&& (found_table))
-			playsound(get_turf(user), 'sound/foley/dropsound/gen_drop.ogg', 30, TRUE, -1)
-			if(do_after(user,3 SECONDS, target = src))
-				user.adjust_experience(/datum/skill/craft/cooking, user.STAINT * 0.8)
-				new /obj/item/reagent_containers/food/snacks/rogue/peppersteak/ducal(loc)
-				qdel(I)
-				qdel(src)
-	else
-		return ..()
+/datum/food_recipe/peppersteak_ducal
+	name = "Ducal Peppersteak"
+	base_item = /obj/item/reagent_containers/food/snacks/rogue/peppersteak
+	ingredients = list(
+		/obj/item/reagent_containers/food/snacks/grown/garlick/rogue
+	)
+	result_type = /obj/item/reagent_containers/food/snacks/rogue/peppersteak/ducal
+	time_per_step = 3 SECONDS
 
 /*	..................   Ducal steak   ................... */
 /obj/item/reagent_containers/food/snacks/rogue/peppersteak/ducal
