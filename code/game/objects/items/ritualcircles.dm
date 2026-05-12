@@ -294,7 +294,7 @@
 			var/onrune = view(1, loc)
 			var/list/folksonrune = list()
 			for(var/mob/living/carbon/human/persononrune in onrune)
-				if(HAS_TRAIT(persononrune, TRAIT_UNDIVIDED))
+				if(HAS_TRAIT(persononrune, TRAIT_ROT_EATER))
 					folksonrune += persononrune
 			var/target = input(user, "Choose a host") as null|anything in folksonrune
 			if(!target)

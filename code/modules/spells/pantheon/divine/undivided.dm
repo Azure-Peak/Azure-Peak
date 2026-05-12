@@ -199,7 +199,7 @@
 		owner.energy_add(-(energytoregen * (owner.get_skill_level(associated_skill))))
 		spelltarget.energy_add((energytoregen * (owner.get_skill_level(associated_skill))) * 2)
 		spelltarget.apply_status_effect(/datum/status_effect/buff/recuperation/other)
-		show_visible_message(spelltarget, "As [owner] intones the incantation, vibrant flames swirl around them, a dance of energy flowing towards [target].", "As [owner] intones the incantation, vibrant flames swirl around them, a dance of energy flowing towards you. You feel refreshed.")
+		show_visible_message(spelltarget, "As [owner] intones the incantation, vibrant flames swirl around them, a dance of energy flowing towards [spelltarget].", "As [owner] intones the incantation, vibrant flames swirl around them, a dance of energy flowing towards you. You feel refreshed.")
 
 /atom/movable/screen/alert/status_effect/buff/recuperation
 	name = "Recuperation"

@@ -900,11 +900,11 @@ GLOBAL_LIST_EMPTY(arenafolks) // we're just going to use a list and add to it. S
 	if(!("[user.mind.current.real_name]_faction" in user.faction))
 		user.faction |= "[user.mind.current.real_name]_faction"
 
-	if(!locate(/obj/effect/proc_holder/spell/invoked/gravemark) in user.mind?.spell_list)
-		user.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/gravemark/no_sprite)
+	if(!locate(/datum/action/cooldown/spell/gravemark) in user.mind?.spell_list) //OFF VVV
+		user.mind?.AddSpell(new /datum/action/cooldown/spell/gravemark/no_sprite)
 
-	if(!locate(/obj/effect/proc_holder/spell/invoked/minion_order/carbon) in user.mind?.spell_list) 
-		user.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/minion_order/carbon)
+	if(!locate(/datum/action/cooldown/spell/minion_order) in user.mind?.spell_list)  //SPELLGRANT IN CLASS FILE
+		user.mind?.AddSpell(new /datum/action/cooldown/spell/minion_order)
 
 	var/time = 1 MINUTES
 

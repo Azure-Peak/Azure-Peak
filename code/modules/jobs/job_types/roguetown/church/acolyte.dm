@@ -107,7 +107,7 @@
 			neck = /obj/item/clothing/neck/roguetown/psicross/dendor
 			armor = /obj/item/clothing/suit/roguetown/shirt/robe/dendor
 			H.cmode_music = 'sound/music/cmode/garrison/combat_warden.ogg'
-			shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded
+			shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded // Kunai: I think I'll give them a weak ass skin srmor later, once that PR is merged, for the nudist theme
 		if(/datum/patron/divine/necra)
 			head = /obj/item/clothing/head/roguetown/necrahood
 			neck = /obj/item/clothing/neck/roguetown/psicross/necra
@@ -116,7 +116,14 @@
 			armor = /obj/item/clothing/suit/roguetown/shirt/robe/necra
 			shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded
 			cloak = /obj/item/clothing/cloak/raincloak/mortus
-			backr = /obj/item/rogueweapon/shovel/silver
+			var/list/necra_tools = list("Silver Shovel", "Scythe")
+			var/tool_choice = input(H, "A reaper, or a digger?", "HOW WILL YOU APPEASE THE UNDERMAIDEN?") as anything in necra_tools
+			switch(tool_choice) // choose wisely... larp or effectiveness?
+				if("Silver Shovel")
+					backr = /obj/item/rogueweapon/shovel/silver
+				if("Silver Scythe") // o lawd we farmin
+					backr = /obj/item/rogueweapon/scabbard/gwstrap
+					l_hand = /obj/item/rogueweapon/scythe/silver
 		if(/datum/patron/divine/pestra)
 			neck = /obj/item/clothing/neck/roguetown/psicross/pestra
 			armor = /obj/item/clothing/suit/roguetown/shirt/robe/phys
@@ -125,12 +132,14 @@
 			pants = /obj/item/clothing/under/roguetown/trou/leather/mourning
 			cloak = /obj/item/clothing/cloak/templar/pestran
 			shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded
+			l_hand = /obj/item/storage/belt/rogue/surgery_bag
 		if(/datum/patron/divine/eora) //Eora content from Stonekeep
 			head = /obj/item/clothing/head/roguetown/eoramask
 			neck = /obj/item/clothing/neck/roguetown/psicross/eora
 			shoes = /obj/item/clothing/shoes/roguetown/sandals
 			cloak = /obj/item/clothing/cloak/templar/eoran
 			r_hand = /obj/item/rogueweapon/huntingknife/scissors
+			l_hand = /obj/item/needle/thorn
 			shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded
 			var/robes = list("Modest","Exposed")
 			var/robe_choice = input(H, "Choose your ROBES.", "TAKE UP ROBES.") as anything in robes
@@ -156,6 +165,7 @@
 			shoes = /obj/item/clothing/shoes/roguetown/boots
 			armor = /obj/item/clothing/suit/roguetown/shirt/robe/ravox
 			shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded
+			l_hand = /obj/item/rope/chain
 		if(/datum/patron/divine/xylix)
 			head = /obj/item/clothing/head/roguetown/roguehood/black
 			cloak = /obj/item/clothing/cloak/templar/xylixian
