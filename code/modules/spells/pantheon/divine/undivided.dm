@@ -63,7 +63,7 @@
 
 	secondary_resource_cost = SPELLCOST_UTILITY_BUFF
 
-	invocations = list("Zwillingslichter, leitet meinen Blick..")//(Twin lights, guide my gaze)
+	invocations = list("Zwillingslichter, leitet meinen Blick.")//(Twin lights, guide my gaze)
 	invocation_type = INVOCATION_WHISPER
 
 	charge_required = FALSE
@@ -547,7 +547,7 @@
 			target.apply_status_effect(/datum/status_effect/buff/ten_united)
 			continue
 		if(istype(target.patron, /datum/patron/old_god) || istype(target.patron, /datum/patron/inhumen)) 
-			to_chat(target, span_undivided("The divine light leaves me as abruptly as it came.."))
+			to_chat(target, span_undivided("The divine light leaves me as abruptly as it came."))
 			continue
 		if(!owner.faction_check_mob(target))
 			continue

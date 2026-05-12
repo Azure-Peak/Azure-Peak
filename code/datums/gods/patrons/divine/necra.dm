@@ -23,6 +23,12 @@
 	)
 	storyteller = /datum/storyteller/necra
 
+	titles = list(
+		"Veiled Lady",
+		"Corpse Mother",
+		"Undermaiden"
+	)
+
 // Near a grave, cross, or within the church
 /datum/patron/divine/necra/can_pray(mob/living/follower)
 	. = ..()
