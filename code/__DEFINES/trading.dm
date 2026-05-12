@@ -3,6 +3,7 @@
 #define REALM_KAZENGUN "kazengun"
 #define REALM_HAMMERHOLD "hammerhold"
 #define REALM_ETRUSCA "etrusca"
+#define REALM_GRONN "gronn"
 
 #define TRADE_SHIP_DOCK_DURATION (60 MINUTES)
 #define TRADE_SHIP_SEND_AWAY_GRACE (20 MINUTES)
