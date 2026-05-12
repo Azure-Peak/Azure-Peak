@@ -37,7 +37,7 @@
 // SNUFF LIGHTS (T0) - Extinguishes most light sources, and grants you a temporary Dark Vision steroid that scales from your Holy skill.
 /datum/action/cooldown/spell/zizo/snuff_lights
 	name = "Snuff Lights"
-	desc = "Extinguish all lights in range, with your Miracle skill increasing range."
+	desc = "Extinguish most light sources within 2 range. For 5 seconds, you will also hone your Darksight. Both effects scale up from Miracle skill."
 	button_icon_state = "snufflight"
 	sound = 'sound/magic/zizo_snuff.ogg'
 	associated_stat = null
@@ -53,10 +53,10 @@
 
 	if(!ishuman(owner))
 		return FALSE
-
+	var/mob/living/L = owner
 	var/checkrange = snuff_range + owner.get_skill_level(/datum/skill/magic/holy)
 	var/extinguished_anything = FALSE
-	var/had_nightvision = HAS_TRAIT(owner, TRAIT_NITEVISION)
+	var/had_nightvision = L.has_status_effect(/datum/status_effect/buff/snuff_lights)
 
 	for(var/obj/O in range(checkrange, owner))
 		if(O.light_power)
@@ -72,12 +72,11 @@
 			O.extinguish()
 
 	var/skill_level = owner.get_skill_level(/datum/skill/magic/holy)
-	var/duration = (10 SECONDS) + (skill_level * 5 SECONDS)
+	var/duration = (5 SECONDS) + ((1 - skill_level) * 10 SECONDS)
+	if(!extinguished_anything)
+		duration += 30 SECONDS
 
-	REMOVE_TRAIT(owner, TRAIT_NITEVISION, "zizo_snuff")
-	ADD_TRAIT(owner, TRAIT_NITEVISION, "zizo_snuff")
-
-	addtimer(CALLBACK(src, PROC_REF(remove_nightvision_buff), owner),duration)
+	L.apply_status_effect(/datum/status_effect/buff/snuff_lights, duration)
 
 	if(extinguished_anything && !had_nightvision)
 		owner.visible_message(span_purple("[owner] exhales a grayish fog that smothers nearby lights as their pupils widen unnaturally."),span_purple("You exhale a gray fog that chokes out nearby lights. As darkness settles in, your pupils dilate."))
@@ -85,13 +84,32 @@
 	else if(!extinguished_anything && !had_nightvision)
 		owner.visible_message(span_purple("[owner]'s pupils suddenly dilate into dark pools."), span_purple("No lights answer your call, but your pupils still widen to drink in the darkness."))
 
+	else
+
+		return FALSE
+
 	return TRUE
 
-/datum/action/cooldown/spell/zizo/snuff_lights/proc/remove_nightvision_buff(mob/living/user)
-	if(!user)
-		return
-	if(HAS_TRAIT(user, TRAIT_NITEVISION))
-		REMOVE_TRAIT(user, TRAIT_NITEVISION, "zizo_snuff")
+
+/atom/movable/screen/alert/status_effect/buff/snuff_lights
+	name = "True Darksight"
+	desc = "My eyes can see clearly through the darkness."
+	icon_state = "darkvision"
+
+/datum/status_effect/buff/snuff_lights
+	id = "snuff_lights"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/snuff_lights
+
+/datum/status_effect/buff/snuff_lights/on_apply(mob/living/new_owner, new_duration)
+	. = ..()
+	duration = new_duration
+	ADD_TRAIT(owner, TRAIT_NITEVISION, "snuff_lights")
+	owner.update_sight()
+
+/datum/status_effect/buff/snuff_lights/on_remove()
+	. = ..()
+	REMOVE_TRAIT(owner, TRAIT_NITEVISION, "snuff_lights")
+	owner.update_sight()
 
 ////////////////
 //T1 - PROFANE//
