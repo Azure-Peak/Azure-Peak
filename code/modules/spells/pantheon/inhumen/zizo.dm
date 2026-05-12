@@ -67,22 +67,13 @@
 	REMOVE_TRAIT(owner, TRAIT_NITEVISION, "zizo_snuff")
 	ADD_TRAIT(owner, TRAIT_NITEVISION, "zizo_snuff")
 
-	addtimer(
-		CALLBACK(src, PROC_REF(remove_nightvision_buff), owner),
-		duration
-	)
+	addtimer(CALLBACK(src, PROC_REF(remove_nightvision_buff), owner),duration)
 
 	if(extinguished_anything && !had_nightvision)
-		owner.visible_message(
-			span_warning("[owner] exhales a grayish fog that smothers nearby lights as their pupils widen unnaturally."),
-			span_notice("You exhale a gray fog that chokes out nearby lights. As darkness settles in, your pupils dilate.")
-		)
+		owner.visible_message(span_warning("[owner] exhales a grayish fog that smothers nearby lights as their pupils widen unnaturally."),span_notice("You exhale a gray fog that chokes out nearby lights. As darkness settles in, your pupils dilate."))
 
 	else if(!extinguished_anything && !had_nightvision)
-		owner.visible_message(
-			span_warning("[owner]'s pupils suddenly dilate into dark pools."),
-			span_notice("No lights answer your call, but your pupils still widen to drink in the darkness.")
-		)
+		owner.visible_message(span_warning("[owner]'s pupils suddenly dilate into dark pools."), span_notice("No lights answer your call, but your pupils still widen to drink in the darkness."))
 
 	return TRUE
 
@@ -212,7 +203,7 @@
 
 // RAISE LESSER SKELETON (T2) - The new 'main' Zizo undeath-raising skill. Summon's durability scales from Miracle skill.
 /datum/action/cooldown/spell/raise_undead_formation/zizo
-	overlay_state = "skeleton_formation"
+	button_icon_state = "skeleton_formation"
 	name = "Raise Lesser Skeleton"
 	desc = "Invoke Enochian magicka to bind loose bones into a simple skeletal thrall. Its crude physiology is held together purely by magic; unable to be incapacitated, it shall stand until it crumbles into spare bones. It is also simpler to control, so you can order it to move, guard or attack manually."
 	primary_resource_type = SPELL_COST_DEVOTION
