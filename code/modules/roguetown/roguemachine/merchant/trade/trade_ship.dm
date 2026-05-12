@@ -3,6 +3,7 @@
 	var/realm_id
 	var/ship_name
 	var/captain_name
+	var/port_of_origin = ""
 	var/ship_type
 	var/tonnage = TRADE_SHIP_DEFAULT_TONNAGE
 	var/expected_favor
@@ -29,6 +30,7 @@
 	src.tonnage = round(listed_tonnage + rand(-tonnage_swing, tonnage_swing))
 	src.ship_name = realm.generate_ship_name()
 	src.captain_name = realm.generate_captain_name()
+	src.port_of_origin = realm.generate_port_of_origin()
 	src.spawned_at = world.time
 	src.ship_id = "[world.time]_[ref(src)]"
 	src.expected_favor = round(TRADE_SHIP_EXPECTED_FAVOR * src.tonnage / TRADE_SHIP_DEFAULT_TONNAGE)
@@ -95,6 +97,7 @@
 			"pack" = "[pack_path]",
 			"name" = PA.name,
 			"qty" = qty,
+			"pack_qty" = PA.no_name_quantity ? 1 : PA.contains.len,
 			"base_cost" = PA.cost,
 		))
 

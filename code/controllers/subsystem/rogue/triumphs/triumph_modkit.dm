@@ -314,9 +314,9 @@
 /obj/item/rogueweapon/example/wodao
 	name = "wodao"
 	icon = 'icons/roguetown/weapons/swords32.dmi'
-	desc = "A slightly curved blade that has been proliferated everywhere from Naledian allspice caravans to \
-	Kazengunite diplomat-militants. While less durable compared to other arming swords, it's swift balance and unique design \
-	makes it great for unleashing precise strikes."
+	desc = "A slightly curved blade originating in the eastern realm of Lingyue, where its design was perfected over centuries of dynastic warfare. \
+	The pattern has since spread along the trade routes - adopted by Kazengunite diplomat-militants, then carried west as far as the Naledian allspice caravans. \
+	While less durable compared to other arming swords, its swift balance and unique design make it great for unleashing precise strikes."
 	icon_state = "wodao"
 	sheathe_icon = "wodao"
 

@@ -18,6 +18,13 @@
 	ship_qty_min = 1
 	ship_qty_max = 2
 
+/datum/supply_pack/rogue/hammerhold/longbow
+	name = "Yew Longbow"
+	cost = 80
+	contains = list(/obj/item/gun/ballistic/revolver/grenadelauncher/bow/longbow)
+	ship_qty_min = 1
+	ship_qty_max = 2
+
 /datum/supply_pack/rogue/hammerhold/iron_fullplate
 	name = "Hammerhold Iron Plate"
 	cost = 380

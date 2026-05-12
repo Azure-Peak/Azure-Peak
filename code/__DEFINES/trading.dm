@@ -1,9 +1,14 @@
+#define REALM_AAVNR "aavnr"
 #define REALM_GRENZELHOFT "grenzelhoft"
 #define REALM_OTAVA "otava"
 #define REALM_KAZENGUN "kazengun"
 #define REALM_HAMMERHOLD "hammerhold"
 #define REALM_ETRUSCA "etrusca"
 #define REALM_GRONN "gronn"
+#define REALM_LIRVAS "lirvas"
+#define REALM_LINGYUE "lingyue"
+#define REALM_NALEDI "naledi"
+#define REALM_RANESHEN "raneshen"
 
 #define TRADE_SHIP_DOCK_DURATION (60 MINUTES)
 #define TRADE_SHIP_SEND_AWAY_GRACE (20 MINUTES)
@@ -21,6 +26,7 @@
 #define TRADE_REALM_WEIGHT_DEFAULT 10
 #define TRADE_REALM_WEIGHT_NEIGHBOR 20
 #define TRADE_REALM_WEIGHT_DISTANT 10
+#define TRADE_REALM_WEIGHT_RARE 5
 
 #define TRADE_SHIP_BULK_LINES_MIN 1
 #define TRADE_SHIP_BULK_LINES_MAX 3

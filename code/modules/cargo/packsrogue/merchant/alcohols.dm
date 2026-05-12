@@ -184,23 +184,38 @@
 	ship_qty_min = 3
 	ship_qty_max = 6
 
-// Zhongese
+// Lingyuese
 /datum/supply_pack/rogue/alcohol/zhonghuangjiu
-	name = "Huangjiu (Zhongese Yellow Rice Wine)"
+	name = "Huangjiu (Lingyuese Yellow Rice Wine)"
 	cost = 20
 	contains = list(/obj/item/reagent_containers/glass/bottle/rogue/beer/huangjiu)
+	ship_qty_min = 6
+	ship_qty_max = 12
 
 /datum/supply_pack/rogue/alcohol/baijiu
-	name = "Baijiu (Zhongese Sorghum Liquor)"
+	name = "Baijiu (Lingyuese Sorghum Liquor)"
 	cost = 50
 	contains = list(/obj/item/reagent_containers/glass/bottle/rogue/beer/baijiu)
+	ship_qty_min = 4
+	ship_qty_max = 8
 
 /datum/supply_pack/rogue/alcohol/yaojiu
-	name = "Yaojiu (Zhongese Herbal Rice Wine)"
+	name = "Yaojiu (Lingyuese Herbal Rice Wine)"
 	cost = 150
 	contains = list(/obj/item/reagent_containers/glass/bottle/rogue/beer/yaojiu)
+	ship_qty_min = 3
+	ship_qty_max = 6
 
 /datum/supply_pack/rogue/alcohol/shejiu
-	name = "Shejiu (Zhongese Snake Wine)"
+	name = "Shejiu (Lingyuese Snake Wine)"
 	cost = 150
 	contains = list(/obj/item/reagent_containers/glass/bottle/rogue/beer/shejiu)
+	ship_qty_min = 3
+	ship_qty_max = 6
+
+/datum/supply_pack/rogue/alcohol/truewhipwine
+	name = "Divine Snake Wine"
+	cost = 250
+	contains = list(/obj/item/reagent_containers/glass/bottle/rogue/beer/truewhipwine)
+	ship_qty_min = 1
+	ship_qty_max = 2
