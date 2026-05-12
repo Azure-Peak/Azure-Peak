@@ -421,6 +421,8 @@
 	name = "meat roses"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_prime_z
 	ingredients = list(
+		/obj/item/reagent_containers/food/snacks/rogue/veg/garlick_clove,
+		/obj/item/reagent_containers/food/snacks/rogue/veg/garlick_clove,
 		/obj/item/reagent_containers/food/snacks/rogue/veg/garlick_clove
 	)
 	result_type = /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_prime_z/cooked/roses
