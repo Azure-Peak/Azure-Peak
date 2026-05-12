@@ -82,7 +82,6 @@
 		shoes = /obj/item/clothing/shoes/roguetown/boots/nobleboot
 		shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/artificer
 		backl = /obj/item/storage/backpack/rogue/backpack
-		id = /obj/item/scomstone
 		backpack_contents = list(
 			/obj/item/rogueweapon/hammer/iron = 1,
 			/obj/item/rogueweapon/tongs = 1,

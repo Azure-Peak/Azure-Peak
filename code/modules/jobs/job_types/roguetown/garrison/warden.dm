@@ -39,7 +39,6 @@
 	pants = /obj/item/clothing/under/roguetown/trou/leather
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
 	saiga_shoes = /obj/item/clothing/shoes/roguetown/horseshoes
-	id = /obj/item/scomstone/bad/garrison
 	job_bitflag = BITFLAG_GARRISON //Counts towards overall combat roles
 
 /datum/advclass/warden/warden

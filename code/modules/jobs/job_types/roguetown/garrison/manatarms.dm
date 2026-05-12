@@ -56,7 +56,6 @@
 	beltl = /obj/item/rogueweapon/mace/cudgel
 	belt = /obj/item/storage/belt/rogue/leather
 	backr = /obj/item/storage/backpack/rogue/satchel
-	id = /obj/item/scomstone/bad/garrison
 
 // Melee goon
 /datum/advclass/manorguard/footsman
