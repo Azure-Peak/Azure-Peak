@@ -1,0 +1,10 @@
+author: "Ketrai"
+delete-after: True
+changes:
+  - rscadd: "Dream meditation now spawns big dream armor repair shards."
+  - rscadd: "Dreamwalker bevor."
+  - rscadd: "Dreamwalker hauberk"
+  - rscadd: "Dreammwalker bracers"
+  - balance: "Dreamwalkers can sleep, for now."
+  - balance: "Dreamwalker armor no longer auto repairs. It now spawns shards that need to be picked up."
+  - image: "New dreamwalker gauntlets sprite."

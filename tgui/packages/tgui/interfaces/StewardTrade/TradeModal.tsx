@@ -245,6 +245,12 @@ export const TradeModal = (props: TradeModalProps) => {
           {isImport ? 'from' : 'to'} {quote?.region_name ?? request.regionId}
           {blockaded && <span style={badgeStyle(SEAL_RED)}>BLOCKADED</span>}
         </div>
+        <div style={{ ...lineStyle, justifyContent: 'center', fontSize: '12px', color: INK_SOFT, marginBottom: '4px' }}>
+          Stockpile: <span style={{ color: INK, fontWeight: 'bold', marginLeft: '4px' }}>
+            {quote ? `${quote.stockpile_amount}` : '...'}
+          </span>
+          <span style={{ color: INK_FAINT, marginLeft: '4px' }}>units on hand</span>
+        </div>
 
         <div style={stepperRowStyle}>
           <button
@@ -402,6 +408,17 @@ export const TradeModal = (props: TradeModalProps) => {
               }}
             >
               {quote ? `${quote.balance_after}m` : '...'}
+            </span>
+          </div>
+          <div style={lineStyle}>
+            <span style={lineLabelStyle}>Stockpile after</span>
+            <span
+              style={{
+                ...lineValueStyle,
+                color: isImport ? SEAL_GREEN : INK,
+              }}
+            >
+              {quote ? `${quote.stockpile_after} units` : '...'}
             </span>
           </div>
           <div

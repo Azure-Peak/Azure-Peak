@@ -6,7 +6,7 @@
 	total_positions = 1
 	spawn_positions = 1
 
-	allowed_races = RACES_SHUNNED_UP		//Nobility, no construct
+	forbidden_races = list(RACES_CONSTRUCT RACES_DESPISED)		//Nobility, no construct
 	allowed_sexes = list(MALE, FEMALE)
 	spells = list()
 	display_order = JDO_MAGICIAN

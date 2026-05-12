@@ -187,3 +187,109 @@
       cares.
   borneblood:
   - bugfix: Fixed the greenskin bug (patchwork slop, though!)
+2026-05-06:
+  Ketrai:
+  - rscadd: The ability to cook troll meat into fat by overcooking it.
+  - balance: heads from simple animals have been rebalanced for bears, trolls, and
+      boars.
+  - balance: Head value for bears, trolls reduced, boars increased to reflect danger
+      level.
+  - bugfix: Cookingtime for food is no longer hardcoded, this may affect cooking times
+      for a few rare instances.
+  - bugfix: Hunting rot component not respecting custom rot components for animals.
+  - balance: Bears now drop fat.
+  - rscadd: New Eora T1 - Eora's rest
+  Ketrai, BurpleBineapple:
+  - image: New pollaxe sprite by Ketrai.
+  - rscadd: You can attach a coloured banner to poleaxes by using a cloth.
+  Lamasmaster:
+  - balance: Miracles
+  - image: Miracle Icons
+  Quinalion:
+  - bugfix: Heretic spellblade gets normal avantyne longsword.
+  - bugfix: Avantyne garments sprite.
+  Ryan180602:
+  - bugfix: fix tgui not autoscrolling
+  - code_imp: optimise tgchat
+  - refactor: try optimise tomb generation
+  - bugfix: playtime tracker should work now
+  WeNeedMorePhoron:
+  - rscadd: Greatly lowered the frequency of the rotting process (should not meaningfully
+      affect rotting time), made non-player corpses rot at 5 minutes, skeletonize
+      at 12 and dust in 20. Simple corspe rot in 8, dust in 15 minutes.
+  - rscadd: For **HUNT** spawned animals, the rot timer is far less aggressive and
+      remains at previous level (20 minutes - 35 minutes rot - dust)
+  borneblood:
+  - bugfix: Fixes the bugfix
+2026-05-07:
+  Ollanius:
+  - bugfix: Bone shields, golden shields, and bronze shields should no longer be invisible.
+      Credit to WanderingDeviant for discovering this.
+  Rannoooo:
+  - bugfix: makes gronnic claws do slash pen, as intended.
+  - balance: iron and steel gronn claw cuts tweaked slightly to provide less focus
+      on swingdelay
+  Ryan180602:
+  - balance: Crits go through armour under 25% integrity (provided bodypart damage
+      is 90%+)
+  TheNeoGamer42:
+  - bugfix: Previously named 'mailled hauberks' have been renamed to 'mailled cuirass'
+      to better reflect what they are. The hauberk IS the maille.
+  WeNeedMorePhoron:
+  - rscadd: Donator now get +5 Loadout Points for swag.
+  - rscadd: Leyline teleportation matrix now teleports 6 instead of 5 people at once,
+      making sure that the last one in your fellowship isn't left on the Noc chair.
+  radarseas:
+  - rscdel: Bloodpool Vampires no longer use Mercenary and Wretch Licker Job classes,
+      they now have their own classes.
+  - balance: Vampire servants no longer show their Job on examination nor show up
+      on the actor's list and instead appear as wanderers.
+  - rscadd: new UI made by Patapolla, its absolutely gorgious and should make vlord
+      a lot more polished on the UI side for clans/bloodpool use.
+  - balance: Bloodpool created Vampires from Vlord now dust on death.
+  - balance: Vampire clans have been redone slightly, there's far more distinction
+      between different clans than just potencies now from traits per-Vampire to some
+      getting extra traits for their lords.
+  - rscadd: Vlord gets another confession line.
+  - balance: Thronleer no longer gets mist form, given to Children of Darkness
+  - code_imp: 3 new files for subclasses for vampyre servants.
+  - code_imp: Roguetown.dm now has (3) additional job defines for the new vampyre
+      subclasses
+  - balance: Vampire servants are now Neonite generation, alongside guards giving
+      them the ability to develop their powers and work towards deadlier potencies.
+  - bugfix: Vampire lord no longer gets excessively high weaponry skill from class
+      overlap as intended.
+  - bugfix: Vampire lord's "Ichor Fang" weapon now faces the correct direction when
+      your sprite is southward.
+  - balance: Vampire lord once again get legendary swords, they can get grab immunity/infinite
+      stamina + shock immunity too once they work hard enough for it, they also get
+      some riding skill to reduce map travel time if they steal a mount.
+  - balance: Vampire lord loadout has been changed, it now has a starting dagger,
+      more bling and a secondary pouch of gold as well as slight skill adjustments.
+  - balance: Vampire lord leveling on the lower end now costs significantly less so
+      you have more time to roleplay, while final tier full-power has gone up a little
+      bit. Armor cost has been bumped up too to avoid mass-distribution of it.
+  - balance: Vampire Lord Sun Kill is GONE as a seperate rite. Its now tied to full
+      power which is far, far. scarier. Cutting out more lights and having a different
+      omen noise. Only Astratians can hear their godess scream.
+  - qol: Vampire lord bloodpool projects now describe their effects far more clearly.
+  - qol: Graggar + Vlord helmets correctly inform you that you have a new trait that
+      lets you bite wearing a helm.
+  - bugfix: Vampire lord helmet has the correct armor values, whoops.
+  - balance: Vampire lord's armor set has been given HEAVY resistance to all kinds
+      of damage including fire + acid, with the cavet of being completely un-enchantable
+      at all and can only be summoned once.
+  - qol: most of vlord's structures have descriptions now, includes a bonus one for
+      the CURRENTLY UNUSED, Vlord blood throne that isn't mapped in. This should help
+      newer players figure out the gameplay loop.
+  - balance: non-vampires can no longer pick up the Ichor Fang, this should help vlord
+      get disarmed much less. It also cannot be enchanted, mostly because it has 55
+      force wielded and also completely loses it on resummoning it.
+  - balance: early level potencies can be learned MUCH faster, scaling is tweaked
+      a little for more higher level potencies.
+  - bugfix: Bat form not being given by default to lords. AAAAAAAAAA-
+  - bugfix: A few poorly explained traits, cicerone and a few others.
+  - bugfix: A Typo in the vlord warp gate and ..and this time something did not stare
+      back, phew.
+  - bugfix: Nosferato have undergone Pestrian medical examinations en-mass, they no
+      longer possess 2 extra non-functional eyes on their UI

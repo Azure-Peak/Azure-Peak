@@ -156,5 +156,6 @@
 	desc = "Hide with a long winter coat from animals."
 	item_type = /obj/item/natural/fur
 	trade_good_id = TRADE_GOOD_FUR
+	stockpile_amount = 10
 	importexport_amt = 5
 	stockpile_limit = 25

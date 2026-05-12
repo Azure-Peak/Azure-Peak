@@ -234,6 +234,7 @@
 			user.mob_biotypes |= MOB_UNDEAD
 			ADD_TRAIT(user, TRAIT_NOHUNGER, "[type]")
 			ADD_TRAIT(user, TRAIT_NOBREATH, "[type]")
+			ADD_TRAIT(user, TRAIT_SILVER_WEAK, "[type]")
 			for(var/obj/item/bodypart/part as anything in user.bodyparts)
 				if(istype(part, /obj/item/bodypart/head))
 					continue

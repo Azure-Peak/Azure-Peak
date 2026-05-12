@@ -135,6 +135,8 @@
 			"event_type" = E.event_type,
 			"days_left" = max(0, E.day_expires - GLOB.dayspassed),
 			"affected_goods" = E.affected_goods ? E.affected_goods.Copy() : list(),
+			"saturation_target" = E.saturation_target,
+			"saturation_progress" = E.saturation_progress,
 		))
 	data["active_events"] = events
 

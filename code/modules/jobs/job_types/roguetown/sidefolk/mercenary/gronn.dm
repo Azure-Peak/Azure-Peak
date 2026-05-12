@@ -2,7 +2,7 @@
 	name = "Gronnic Privateer"
 	tutorial = "You are one of many upstarts from Gronn, who sailed from the coastal capital of Danheim to the southern beaches of Azuria in search of a more... honest means of profit than the Sea Raiders of infamy."
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = RACES_ALL_KINDS
+	
 	outfit = /datum/outfit/job/roguetown/mercenary/gronn
 	class_select_category = CLASS_CAT_GRONN
 	category_tags = list(CTAG_MERCENARY)
@@ -130,7 +130,7 @@
 	name = "Fjall Járnklæddur"
 	tutorial = "Even within Fjall, few bear witness to the Horned Visages of the Járnklæddur; Ironclad warriors who stand against the undead armies that rise out of the 'Red Blizzard'. Those who do not have the blessing of the Iskarn Shamans within the Northern Empty oft-seek the protection of the Járnklæddur, despite their steep costs."
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = RACES_ALL_KINDS
+	
 	maximum_possible_slots = 1 //Hopefully this works.
 	outfit = /datum/outfit/job/roguetown/mercenary/gronn_heavy
 	class_select_category = CLASS_CAT_GRONN

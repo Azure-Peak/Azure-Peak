@@ -162,7 +162,7 @@
 #define WEAPON_CAST_PENALTY 0.3
 
 // Leyline teleportation matrix passenger limits
-#define TELEPORT_MAX_PASSENGERS 5
+#define TELEPORT_MAX_PASSENGERS 6
 #define TELEPORT_MAX_NONMAGES 2
 
 // Spell implement tiers and multipliers

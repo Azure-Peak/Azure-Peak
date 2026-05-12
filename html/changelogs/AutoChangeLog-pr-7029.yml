@@ -1,0 +1,9 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "You can now actively end a shortage by exporting any combination of goods up to 75% of the aggregate demand of the goods across all region, this will reset price back to normal letting the town work together to restore normalcy."
+  - rscadd: "Improved the trading modal to show the amount on stockpile"
+  - rscadd: "Essence of Wilderness demand raised from 1 to 3, it is accepted by stockpile by default now"
+  - rscadd: "Added fur to auto import list for tailor QOL. Increased stockpile amount."
+  - rscadd: "Doubled baseline demand for wood."
+  - rscadd: "Autoprice sell price now matches import price exactly."

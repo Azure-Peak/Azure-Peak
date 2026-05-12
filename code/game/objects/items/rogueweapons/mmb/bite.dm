@@ -83,7 +83,7 @@
 	next_attack_msg.Cut()
 
 	user.do_attack_animation(src, "bite")
-	playsound(user, 'sound/gore/flesh_eat_01.ogg', 100)
+	playsound(user, 'sound/gore/flesh_eat_01.ogg', vol = 50, vary = FALSE, extrarange = -2, ignore_walls = FALSE, quiet = TRUE)
 	var/nodmg = FALSE
 	var/dam2do = 10*(user.STASTR/20)
 	if(HAS_TRAIT(user, TRAIT_STRONGBITE))
@@ -112,7 +112,7 @@
 //nodmg if we don't have strongbite
 //nodmg if our teeth can't break through their armour
 	if(!nodmg)
-		playsound(src, "smallslash", 100, TRUE, -1)
+		playsound(src, "smallslash", vol = 50, vary = FALSE, extrarange = -1, ignore_walls = FALSE, quiet = TRUE)
 		if(ishuman(src) && user.mind)
 			var/mob/living/carbon/human/bite_victim = src
 			/*
@@ -250,7 +250,7 @@
 	C.next_attack_msg.Cut()
 	user.do_attack_animation(C, "bite")
 	if(C.apply_damage(damage, BRUTE, limb_grabbed, armor_block))
-		playsound(C.loc, "smallslash", 100, FALSE, -1)
+		playsound(C.loc, "smallslash", vol = 50, vary = FALSE, extrarange = -1, ignore_walls = FALSE, quiet = TRUE)
 		var/datum/wound/caused_wound = limb_grabbed.bodypart_attacked_by(BCLASS_BITE, damage, user, sublimb_grabbed, crit_message = TRUE)
 		if(user.mind && caused_wound)
 			/*

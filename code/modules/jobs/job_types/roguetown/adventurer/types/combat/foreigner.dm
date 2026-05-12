@@ -2,7 +2,7 @@
 	name = "Eastern Warrior"
 	tutorial = "A warrior hailing from the distant land of Kazengun, far across the eastern sea."
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = NON_DWARVEN_RACE_TYPES // Clothing has no dwarf sprites.
+	forbidden_races = list(RACES_SMALL) // Clothing has no dwarf sprites.
 	outfit = /datum/outfit/job/roguetown/adventurer/foreigner
 	class_select_category = CLASS_CAT_NOMAD
 	traits_applied = list(TRAIT_STEELHEARTED)
@@ -65,7 +65,7 @@
 	name = "Eastern Assassin"
 	tutorial = "The Yoruku are Kazengun agents trained in assassination, sabotage, and irregular combat. You are armed with daggers or a short sword, perfect \
 	for combat in the tight confines of castles and back alleys."
-	allowed_races = NON_DWARVEN_RACE_TYPES //Clothing has no dwarf sprites.
+	forbidden_races = list(RACES_SMALL) //Clothing has no dwarf sprites.
 	outfit = /datum/outfit/job/roguetown/adventurer/yoruku
 	subclass_languages = list(/datum/language/kazengunese)
 	cmode_music = 'sound/music/combat_kazengite.ogg'
@@ -132,7 +132,7 @@
 	tutorial = "An exile from the Holy See of Otava, accused of heresy and cast out of your homeland as penance. \
 	Some consider yours a fate worse than death; the metal alloy mask seared onto your face serving as a permanent reminder of your sins. \
 	You are a living example of what becomes of those who stand in defiance of the Otavan inquisition."
-	allowed_races = RACES_ALL_KINDS
+	
 	outfit = /datum/outfit/job/roguetown/adventurer/repentant
 	subclass_languages = list(/datum/language/otavan)
 	cmode_music = 'sound/music/cmode/adventurer/combat_outlander2.ogg'
@@ -176,7 +176,7 @@
 /datum/advclass/foreigner/refugee
 	name = "Naledi Refugee"
 	tutorial = "An asylum-seeker from the war-torn deserts of Naledi, driven north as your homeland continues to be ravaged by an endless conflict against the Djinn."
-	allowed_races = RACES_ALL_KINDS
+	
 	outfit = /datum/outfit/job/roguetown/adventurer/refugee
 	subclass_languages = list(/datum/language/celestial)
 	cmode_music = 'sound/music/warscholar.ogg'
@@ -220,7 +220,7 @@
 	name = "Ranesheni Slaver"
 	tutorial = "In parts of Psydonia, the practice of slavery is still a common sight. \
 	You hail from the Ranesheni Empire, where the market of flesh is ancient and unbroken, and your coin is earned in the trade of living souls."
-	allowed_races = RACES_ALL_KINDS
+	
 	outfit = /datum/outfit/job/roguetown/adventurer/slaver
 	subclass_languages = list(/datum/language/raneshi)
 	cmode_music = 'sound/music/combat_desertrider.ogg'
@@ -272,7 +272,7 @@
 	tutorial = "You're a simple shepherd hailing from Aavnr's Free City, taking a pilgrimage or having fled for one reason or another. You can easily fend for yourself in the wilderness, and with enough practice, fend for yourself in combat against even armoured opponents with your traditional axe."
 	extra_context = "This class is for experienced adventurers with a solid grasp on footwork and stamina management. Your weapon has special intents you can juggle through to make fights easier... Sometimes."
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = RACES_ALL_KINDS
+	
 	subclass_languages = list(/datum/language/aavnic)
 	outfit = /datum/outfit/job/roguetown/adventurer/freishepherd
 	traits_applied = list()
@@ -321,7 +321,7 @@
 	tutorial = "You're an itinerant weapons expert that was trained in a Grenzelhoftian fencing school, carrying with you your weapon, your skillset, your pride... And not much else, frankly."
 	extra_context = "This is a freeform class that's meant to evoke a similar feeling to playing a Freifechter, your equipment and skillset is limited compared to other classes - this is by design - but you start with cool weapons."
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = RACES_ALL_KINDS
+	
 	outfit = /datum/outfit/job/roguetown/adventurer/fencerguy
 	subclass_languages = list(/datum/language/grenzelhoftian)
 	cmode_music = 'sound/music/cmode/adventurer/combat_outlander2.ogg'
@@ -398,7 +398,7 @@
 	tutorial = "Gladiators from the arenas of Raneshen and Lirvas, reenactors from the curtain-dazzled courts of Otava and Grenzelhoft, and \
 	shieldbearers from the outermost reaches of Psydonia itself; all are unified in their subconscious pursuit of entertaining something greater \
 	than themselves. You are a skilled combatant from beyond Azuria, who - for one reason or another - is intimately familiar with fighting in ancient equipment."
-	allowed_races = RACES_ALL_KINDS
+	
 	outfit = /datum/outfit/job/roguetown/adventurer/bronzeclad
 	cmode_music = 'sound/music/combat_thespian.ogg'
 	maximum_possible_slots = 3 //Should be categorically rarer to see than Iron- and Steel-clad adventurers. Tickles the powerscale ala the Exorcist, albeit to a wider extent with its potential combinations.
@@ -626,11 +626,7 @@
 	extra_context = "This class is restricted to the Elf, Half-Elf, and Dark Elf species."
 	class_select_category = CLASS_CAT_RACIAL
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = list(
-		/datum/species/human/halfelf,
-		/datum/species/elf/wood,
-		/datum/species/elf/dark,
-	)
+	forbidden_races = list(RACES_BLACKOAK)
 	traits_applied = list(TRAIT_OUTDOORSMAN, TRAIT_BLACKOAK, TRAIT_DODGEEXPERT, TRAIT_WOODWALKER)
 	outfit = /datum/outfit/job/roguetown/adventurer/lesserblackoak
 	subclass_languages = list(/datum/language/oldazurian)
@@ -749,7 +745,6 @@
 	of perpetual autumnage. Unblossomed woadmaille can be splintered far easier than their \
 	springlyfed counterparts, but - consequently - becomes far lighter to maneuver with. </br>'..the \
 	winter winds will be much colder, now you're not here..'"
-	allowed_race = RACES_ALL_KINDS
 	icon = 'icons/roguetown/clothing/special/race_armor.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/race_armor.dmi'
 	icon_state = "awelfhead"
@@ -777,7 +772,6 @@
 	name = "autumneer cloak"
 	desc = "'A gentle rain falls softly on my weary eyes, as if to hide a lonely tear.. my life will be forever autumn..'"
 	icon_state = "aforestcloak"
-	allowed_race = RACES_ALL_KINDS
 	alternate_worn_layer = CLOAK_BEHIND_LAYER
 	slot_flags = ITEM_SLOT_BACK_R|ITEM_SLOT_CLOAK
 	sleeved = 'icons/roguetown/clothing/onmob/cloaks.dmi'
@@ -792,7 +786,7 @@
 	emotions of its wearer - for even the eldest of the Black Oaks can see their bark shifting \
 	back to that familiar crimson hue, whenever they're stricken with the yearning of \
 	tymes past. </br>'Like the sun through the trees you came to love me.. and like a leaf on a breeze, you blew away..'"
-	allowed_race = RACES_ALL_KINDS //Uniquely wearable among all races, as it's 'unblossomed' and appropriately malleable enough to fit on smaller bodies.
+	 //Uniquely wearable among all races, as it's 'unblossomed' and appropriately malleable enough to fit on smaller bodies.
 	icon = 'icons/roguetown/clothing/special/race_armor.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/race_armor.dmi'
 	icon_state = "awelfchest"
@@ -820,7 +814,7 @@
 	mystically preserved in a state of perpetual autumnage. Crimson vines and leaves poke out from \
 	its living joints, wicking away sweat like a sponge to water. </br>'Through autumn's golden gown \
 	we used to kick our way, you always loved this time of year..'"
-	allowed_race = RACES_ALL_KINDS
+	
 	icon = 'icons/roguetown/clothing/special/race_armor.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/race_armor.dmi'
 	icon_state = "awelfhand"
@@ -833,7 +827,7 @@
 	of perpetual autumnage. It is said that a Black Oak's armor will only fully blossom once they've \
 	earned the mantle of guardianship; to forsake one's oath to nature is to dispell the ancient songs, \
 	and to let the bark wither away. </br>'..those fallen leaves lie undisturbed now, 'cause you're not here!'"
-	allowed_race = RACES_ALL_KINDS
+	
 	icon = 'icons/roguetown/clothing/special/race_armor.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/race_armor.dmi'
 	icon_state = "awelfshoes"

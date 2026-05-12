@@ -272,9 +272,16 @@
 		<p>Economic events last [ECON_EVENT_DURATION] day(s) and are posted on the noticeboard under <b>Economic Events</b>.</p>
 
 		<ul>
-			<li><b>Shortage</b> - affected goods spike in price. One urgent standing order is posted against the afflicted region, <b>provided fewer than [STANDING_ORDERS_MAX_URGENT] urgent orders are already standing</b>. Past that cap, the shortage's price spike still happen, but no urgent order is spawned - regular standing orders keep their pool slots.</li>
+			<li><b>Shortage</b> - affected goods spike in price. One urgent standing order is posted against the afflicted region, <b>provided fewer than [STANDING_ORDERS_MAX_URGENT] urgent orders are already standing</b>. Past that cap, the shortage's price spike still happens, but no urgent order is spawned - regular standing orders keep their pool slots.</li>
 			<li><b>Oversupply</b> - affected goods drop in price.</li>
 		</ul>
+
+		<h3>Ending a Shortage Early</h3>
+		<p>A shortage does not have to run its full [ECON_EVENT_DURATION]-day course. The realm can <b>end it</b> by saturating the market. Every unit of an affected good that the Crown <b>exports</b> to a region that demands it - whether - counts toward relief.</p>
+
+		<p>The associated urgent order is unaffected by a shortage ending</p>
+
+		<p>Once cumulative deliveries cross <b>[round(ECON_EVENT_SATURATION_THRESHOLD * 100)]% of the affected goods' realm-wide daily demand</b>, the shortage ends immediately: prices snap back to normal, the urgent order (if still standing) is recalled, and SCOM announces the relief. The threshold is realm-wide and aggregate - the Crown may meet it via any mix of the affected goods, through any channel.</p>
 
 		<p>The <b>Market Scroll</b> at the Nerve Master shows live buy/sell prices for every good in every region.</p>
 		</div>

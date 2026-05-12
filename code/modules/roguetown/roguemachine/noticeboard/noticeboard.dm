@@ -266,6 +266,9 @@
 						first = FALSE
 						contents += label
 					contents += "<br>"
+				if(E.event_type == ECON_EVENT_SHORTAGE && E.saturation_target > 0)
+					var/pct = min(100, round((E.saturation_progress / E.saturation_target) * 100))
+					contents += "<font color='#5cb85c'>Relief progress:</font> [E.saturation_progress]/[E.saturation_target] units delivered ([pct]%) - the shortage ends early once this fills.<br>"
 				contents += "</div><hr>"
 	else if(current_category == "City Assembly")
 		contents += build_assembly_summary_html()

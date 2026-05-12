@@ -502,6 +502,8 @@
 	if(is_alderman_acting && SScity_assembly?.current_warrant)
 		warrant_remaining = SScity_assembly.current_warrant.trade_remaining
 		warrant_ok = SScity_assembly.can_consume_trade(total)
+	var/datum/roguestock/stockpile_entry = SSeconomy.find_stockpile_by_trade_good(good_id)
+	var/stockpile_amount = stockpile_entry?.stockpile_amount || 0
 	. = list(
 		"ok" = TRUE,
 		"reason" = "",
@@ -525,6 +527,8 @@
 		"warrant_remaining" = warrant_remaining,
 		"warrant_ok" = warrant_ok ? 1 : 0,
 		"can_afford" = can_afford ? 1 : 0,
+		"stockpile_amount" = stockpile_amount,
+		"stockpile_after" = side == "import" ? stockpile_amount + quantity : max(0, stockpile_amount - quantity),
 	)
 
 /obj/structure/roguemachine/steward/proc/handle_trade_import(mob/user, region_id, good_id, quantity)

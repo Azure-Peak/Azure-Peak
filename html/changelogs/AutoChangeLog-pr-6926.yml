@@ -1,0 +1,6 @@
+author: "SnubbyNotSorry"
+delete-after: True
+changes:
+  - rscadd: "Exorcist can now spawn with a silver katar or silver gronnic claws, sacrificing a specialised weapon skill for +1 athletics (bonus does not apply to old characters)"
+  - balance: "old exorcist now gets missing expert knifefighting and unarmed skills, in line with their other weapon skills"
+  - bugfix: "fixed silver katar (not the psydonic one) missing from the silver weapon loot table"

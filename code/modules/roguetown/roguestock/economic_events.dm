@@ -11,12 +11,22 @@ GLOBAL_LIST_EMPTY(active_economic_events)
 	var/day_started = 0
 	var/day_expires = 0
 	var/datum/weakref/urgent_order_ref
+	var/saturation_target = 0
+	var/saturation_progress = 0
+	var/relief_triggered = FALSE
 
 /datum/economic_event/proc/on_apply()
 	for(var/good_id in affected_goods)
 		var/datum/trade_good/tg = GLOB.trade_goods[good_id]
 		if(tg)
 			tg.global_price_mod *= price_mod
+	if(event_type == ECON_EVENT_SHORTAGE)
+		var/total_demand = 0
+		for(var/good_id in affected_goods)
+			for(var/region_id in GLOB.economic_regions)
+				var/datum/economic_region/region = GLOB.economic_regions[region_id]
+				total_demand += region.demands[good_id] || 0
+		saturation_target = max(1, round(total_demand * ECON_EVENT_SATURATION_THRESHOLD))
 	if(announcement)
 		scom_announce(announcement)
 
@@ -36,6 +46,32 @@ GLOBAL_LIST_EMPTY(active_economic_events)
 		if(!(D.trade_good_id in affected_goods))
 			continue
 		D.snap_auto_prices()
+
+/datum/economic_event/proc/end_with_relief()
+	if(relief_triggered)
+		return
+	relief_triggered = TRUE
+	on_expire()
+	GLOB.active_economic_events -= src
+	record_round_statistic(STATS_SHORTAGES_ENDED, 1)
+	scom_announce("<font color='#5cb85c'>RELIEF: [name] eased by relief efforts. Prices return to normal.</font>")
+
+/proc/credit_economic_event_saturation(good_id, units)
+	if(!good_id || units <= 0)
+		return
+	var/list/relieved = list()
+	for(var/datum/economic_event/E as anything in GLOB.active_economic_events)
+		if(E.event_type != ECON_EVENT_SHORTAGE)
+			continue
+		if(E.relief_triggered)
+			continue
+		if(!(good_id in E.affected_goods))
+			continue
+		E.saturation_progress += units
+		if(E.saturation_progress >= E.saturation_target)
+			relieved += E
+	for(var/datum/economic_event/E as anything in relieved)
+		E.end_with_relief()
 
 
 // ============================================================================
