@@ -15,6 +15,7 @@
 	zizo_spell = TRUE
 	invocation_type = INVOCATION_SHOUT
 	invocations = list("Evoca skeletos!")
+	var/miracle = FALSE
 	var/cabal_affine = FALSE
 	var/is_summoned = FALSE
 	var/to_spawn = 4
@@ -23,26 +24,33 @@
 /datum/action/cooldown/spell/raise_undead_formation/cast(atom/cast_on)
 	. = ..()
 
+	if(!owner)
+		return FALSE
+
 	if(istype(get_area(owner), /area/rogue/indoors/ravoxarena))
 		to_chat(owner, span_userdanger("I reach for outer help, but something rebukes me! This challenge is only for me to overcome!"))
 		reset_spell_cooldown()
 		return FALSE
 
-	var/turf/T = get_turf(targets[1])
+	var/turf/T = get_turf(cast_on)
 	if(!isopenturf(T))
 		to_chat(owner, span_warning("The targeted location is blocked. My summon fails to come forth."))
 		return FALSE
 
 	for(var/i = 1 to to_spawn)
-		if(i > 1)
-			if(user.dir == NORTH || user.dir == SOUTH)
-				T = get_step(T, prob(50) ? EAST : WEST)
-			else
-				T = get_step(T, prob(50) ? NORTH : SOUTH)
+		var/turf/spawn_turf = T
 
-		if(!isopenturf(T))
+		if(i > 1)
+			if(owner.dir == NORTH || owner.dir == SOUTH)
+				spawn_turf = get_step(T, prob(50) ? EAST : WEST)
+			else
+				spawn_turf = get_step(T, prob(50) ? NORTH : SOUTH)
+
+		if(!isopenturf(spawn_turf))
 			continue
-		new /obj/effect/temp_visual/bluespace_fissure(T)
+
+		new /obj/effect/temp_visual/bluespace_fissure(spawn_turf)
+
 		var/skeleton_roll = rand(1,100)
 		var/skeleton_type
 
@@ -52,28 +60,25 @@
 			if(21 to 30)
 				skeleton_type = /mob/living/simple_animal/hostile/rogue/skeleton/spear
 			if(31 to 60)
-//				skeleton_type = /mob/living/simple_animal/hostile/rogue/skeleton
 				skeleton_type = /mob/living/simple_animal/hostile/rogue/skeleton/guard
 			if(61 to 70)
-//				skeleton_type = /mob/living/simple_animal/hostile/rogue/skeleton/bow
 				skeleton_type = /mob/living/simple_animal/hostile/rogue/skeleton/axe
 			if(71 to 100)
 				skeleton_type = /mob/living/simple_animal/hostile/rogue/skeleton/guard
 
-		var/mob/living/simple_animal/hostile/rogue/skeleton/S = new skeleton_type(T, user, cabal_affine)
+		var/mob/living/simple_animal/hostile/rogue/skeleton/S = new skeleton_type(spawn_turf, owner, cabal_affine)
 
 		if(S && miracle)
-			var/holyLV = user.get_skill_level(/datum/skill/magic/holy)
+			var/holyLV = owner.get_skill_level(/datum/skill/magic/holy)
 			var/bonus = max(0, holyLV - 1) * 2
-
 			S.STASTR += bonus
-			S.STASPD += bonus / 2 
+			S.STASPD += bonus / 2
 			S.maxHealth += bonus * 75
 			S.health = S.maxHealth
 
 			var/aggro_range = 8
 
-			for(var/mob/living/M in view(aggro_range, 7))
+			for(var/mob/living/M in view(aggro_range, S))
 				if(M == S)
 					continue
 				if(M.stat == DEAD)
@@ -92,7 +97,7 @@
 				if(aggro)
 					aggro.add_threat_to_mob(S, 50)
 
-		apply_mob_lifespan(S, user, spawn_lifespan)
+			apply_mob_lifespan(S, owner, spawn_lifespan)
 
 	return TRUE
 

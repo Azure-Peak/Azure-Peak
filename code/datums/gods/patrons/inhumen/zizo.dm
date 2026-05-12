@@ -8,14 +8,14 @@
 					/datum/action/cooldown/spell/zizo/snuff_lights						= CLERIC_T0,
 					/datum/action/cooldown/spell/miracle/heal							= CLERIC_T1,
 					/datum/action/cooldown/spell/miracle/bloodmiracle					= CLERIC_T1,
-					/datum/action/cooldown/spell/projectile/profane/miracle 			= CLERIC_T1,
-					/datum/action/cooldown/spell/raise_undead_formation/miracle 		= CLERIC_T2,
-					/datum/action/cooldown/spell/raise_undead_guard/miracle				= CLERIC_T2,
-					/datum/action/cooldown/spell/lacrima								= CLERIC_T2,
-					/datum/action/cooldown/spell/convert_heretic						= CLERIC_T2,
-					/datum/action/cooldown/spell/tame_undead/miracle					= CLERIC_T3,
-					/datum/action/cooldown/spell/rituos/miracle 						= CLERIC_T3,
-					/obj/effect/proc_holder/spell/invoked/resurrect/zizo				= CLERIC_T4
+					/datum/action/cooldown/spell/projectile/zizo/profane				= CLERIC_T1,
+					/datum/action/cooldown/spell/raise_undead_formation/zizo	 		= CLERIC_T2,
+					/datum/action/cooldown/spell/zizo/bone_cataclysm					= CLERIC_T2,
+					/datum/action/cooldown/spell/tame_undead/zizo						= CLERIC_T3,
+					/datum/action/cooldown/spell/zizo/rituos 							= CLERIC_T3,
+					/obj/effect/proc_holder/spell/invoked/resurrect/zizo				= CLERIC_T3,
+					/datum/action/cooldown/spell/convert_heretic						= CLERIC_T4,
+					/datum/action/cooldown/spell/lacrima/zizo							= CLERIC_T4,	
 	)
 	confess_lines = list(
 		"PRAISE ZIZO!",
