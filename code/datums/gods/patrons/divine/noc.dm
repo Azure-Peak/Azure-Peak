@@ -26,6 +26,11 @@
 	traits_tier = list(TRAIT_DARKVISION = CLERIC_T1)
 	storyteller = /datum/storyteller/noc
 
+	titles = list(
+		"Nite-Scholar",
+		"Moon" // should match a bunch of variant titles like Brother Moon
+	)
+
 // In moonlight, church, cross, or ritual chalk
 /datum/patron/divine/noc/can_pray(mob/living/follower)
 	. = ..()

@@ -155,10 +155,12 @@
 		to_chat(caster, span_notice("Only living creachers can bear the blessing of [caster.patron.name]'s light."))
 		return
 
+	var/god_title = istype(caster.patron, /datum/patron/divine/undivided) ? "Ten Undivided" : "Blessed [caster.patron.name]"
+
 	if(victim != caster)
-		caster.visible_message(span_notice("[caster] reaches gently towards [victim], beads of light glimmering at [caster.p_their()] fingertips..."), span_notice("Blessed [caster.patron.name], I ask but for a light to guide the way..."))
+		caster.visible_message(span_notice("[caster] reaches gently towards [victim], beads of light glimmering at [caster.p_their()] fingertips..."), span_notice("[god_title], I ask but for a light to guide the way..."))
 	else
-		caster.visible_message(span_notice("[caster] closes [caster.p_their()] eyes and places a glowing hand upon [caster.p_their()] chest..."), span_notice("Blessed [caster.patron.name], I ask but for a light to guide the way..."))
+		caster.visible_message(span_notice("[caster] closes [caster.p_their()] eyes and places a glowing hand upon [caster.p_their()] chest..."), span_notice("[god_title], I ask but for a light to guide the way..."))
 
 	if(!do_after(caster, cast_time, target = victim))
 		return

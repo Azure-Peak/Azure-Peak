@@ -25,6 +25,14 @@
 	)
 	storyteller = /datum/storyteller/matthios
 
+	titles = list(
+		"Fyre-Thief",
+		"Fire-Thief",
+		"Thief-of-Fyre",
+		"Thief-of-Fire", // aaaaaaaa
+		"Lord" // catchall for various titles of his
+	)
+
 // When near coin of at least 100 mammon, zchurch, bad-cross, or ritual talk
 /datum/patron/inhumen/matthios/can_pray(mob/living/follower)
 	. = ..()

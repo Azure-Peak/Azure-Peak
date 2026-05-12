@@ -1,0 +1,16 @@
+author: "KatTheFox"
+delete-after: True
+changes:
+  - bugfix: "ooc encyclopedia no longer lies to you about binding rites"
+  - balance: "familiar revival no longer costs melds, instead it has to be done near a leyline"
+  - rscadd: "familiars can now lay down on a leyline to heal themselves passively"
+  - bugfix: "reagent bite no longer works on moving targets"
+  - bugfix: "familiars can read, for real this time"
+  - bugfix: "familiars can read noticeboards too why not"
+  - balance: "infernal surge radius buffed from 1 to 2"
+  - rscadd: "infernal bite replaced with fire breath"
+  - bugfix: "familiars can now emote audibly, caw and mrrp to your heart's content"
+  - rscadd: "familiars are now polyglots, they can speak most languages (no thieves cant, though)"
+  - bugfix: "elemental forge t2 now works properly"
+  - rscadd: "void drakelings now get access to t1 elemental forge upon eating an elemental"
+  - rscadd: "elemental forge t1(but not t2) can turn the familiar into a staff"
