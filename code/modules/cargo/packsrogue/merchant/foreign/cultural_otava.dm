@@ -136,14 +136,3 @@
 	ship_qty_min = 3
 	ship_qty_max = 7
 
-/datum/supply_pack/rogue/otava/pastries
-	name = "Ship-Baked Otavan Cakes"
-	cost = 45
-	contains = list(
-		/obj/item/reagent_containers/food/snacks/rogue/raisinbread,
-		/obj/item/reagent_containers/food/snacks/rogue/strawberrycake,
-		/obj/item/reagent_containers/food/snacks/rogue/cookiec,
-		/obj/item/reagent_containers/food/snacks/rogue/crabcake,
-	)
-	ship_qty_min = 2
-	ship_qty_max = 5

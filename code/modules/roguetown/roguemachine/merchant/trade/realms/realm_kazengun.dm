@@ -32,7 +32,6 @@
 		"Bijai", "Mitihara", "Tatseshira",
 	)
 	city_tag_chance = 30
-	city_tag_format = "of %CITY%"
 	cultural_goods = list()
 	bulk_supply_pool = list(
 		list("good" = TRADE_GOOD_TEA, "qty_min" = BULK_QTY_MEDIUM_MIN, "qty_max" = BULK_QTY_MEDIUM_MAX, "price_mod" = BULK_PRICE_DISCOUNT, "always" = TRUE),
@@ -74,7 +73,6 @@
 		/datum/supply_pack/rogue/kazengun/shirt_black,
 		/datum/supply_pack/rogue/kazengun/shirt_white,
 		/datum/supply_pack/rogue/kazengun/captainrobe,
-		/datum/supply_pack/rogue/kazengun/rice_shrimp,
 		/datum/supply_pack/rogue/kazengun/gorget,
 		/datum/supply_pack/rogue/kazengun/kote,
 		/datum/supply_pack/rogue/kazengun/boots,

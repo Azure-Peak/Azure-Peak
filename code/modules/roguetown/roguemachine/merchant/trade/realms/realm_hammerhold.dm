@@ -34,7 +34,6 @@
 		"the Bán", "the Mountainhomes",
 	)
 	city_tag_chance = 30
-	city_tag_format = "of %CITY%"
 	cultural_goods = list()
 	bulk_supply_pool = list(
 		list("good" = TRADE_GOOD_COPPER_ORE, "qty_min" = BULK_QTY_HUGE_MIN, "qty_max" = BULK_QTY_HUGE_MAX, "price_mod" = BULK_PRICE_DEEP_DISCOUNT, "always" = TRUE),
@@ -64,6 +63,7 @@
 		/datum/supply_pack/rogue/hammerhold/spiked_maul,
 		/datum/supply_pack/rogue/hammerhold/iron_fullplate,
 		/datum/supply_pack/rogue/hammerhold/snow_cloak,
+		/datum/supply_pack/rogue/hammerhold/ironclad_kit,
 		/datum/supply_pack/rogue/hammerhold/smoked_sausage,
 		/datum/supply_pack/rogue/hammerhold/bacon,
 		/datum/supply_pack/rogue/alcohol/voddena,

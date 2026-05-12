@@ -235,6 +235,12 @@
 	list_reagents = list(/datum/reagent/consumable/ethanol/apfelweinheim = 50)
 	desc = "A bottle with the Apfelweinheim cork-seal. A cider from the Grenzelhoftian town of Apfelweinheim. Well received for its addition of pear, alongside crisp apples."
 
+/obj/item/reagent_containers/glass/bottle/rogue/beer/limoncello
+	name = "bottle of Limoncello"
+	icon_state = "plum_wine"
+	list_reagents = list(/datum/reagent/consumable/ethanol/limoncello = 50)
+	desc = "A bottle with a golden lemon-printed cork-seal. An Etruscan distillate of sun-cured lemons and grain spirit. Sweet on the tongue, devastating to the throat."
+
 /obj/item/reagent_containers/glass/bottle/rogue/beer/rtoper
 	name = "bottle of Lirvas Cider"
 	icon_state = "ale"

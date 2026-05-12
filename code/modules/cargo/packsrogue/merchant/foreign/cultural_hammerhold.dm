@@ -32,6 +32,23 @@
 	ship_qty_min = 1
 	ship_qty_max = 3
 
+/datum/supply_pack/rogue/hammerhold/ironclad_kit
+	name = "Hammerhold Ironclad Harness"
+	no_name_quantity = TRUE
+	cost = 410
+	contains = list(
+		/obj/item/clothing/suit/roguetown/armor/gambeson,
+		/obj/item/clothing/suit/roguetown/armor/plate/full/iron,
+		/obj/item/clothing/head/roguetown/helmet/heavy/knight/iron,
+		/obj/item/clothing/neck/roguetown/chaincoif/iron,
+		/obj/item/clothing/gloves/roguetown/plate/iron,
+		/obj/item/clothing/wrists/roguetown/bracers/splint,
+		/obj/item/clothing/under/roguetown/platelegs/iron,
+		/obj/item/clothing/shoes/roguetown/boots/armor/iron,
+	)
+	ship_qty_min = 1
+	ship_qty_max = 1
+
 /datum/supply_pack/rogue/hammerhold/smoked_sausage
 	name = "Smoked Highland Sausage"
 	cost = 40

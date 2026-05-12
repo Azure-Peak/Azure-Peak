@@ -119,6 +119,13 @@
 	ship_qty_min = 6
 	ship_qty_max = 12
 
+/datum/supply_pack/rogue/alcohol/limoncello
+	name = "Etruscan Limoncello"
+	cost = 60
+	contains = list(/obj/item/reagent_containers/glass/bottle/rogue/beer/limoncello)
+	ship_qty_min = 4
+	ship_qty_max = 8
+
 /datum/supply_pack/rogue/alcohol/rtoper
 	name = "Rockhill Toper (Lirvas Cider)"
 	cost = 20

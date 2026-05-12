@@ -15,7 +15,6 @@
 	var/list/name_suffixes = list()
 	var/list/city_tags = list()
 	var/city_tag_chance = 0
-	var/city_tag_format = "of %CITY%"
 	var/list/cultural_goods = list()
 	var/list/bulk_demand_pool = list()
 	var/list/bulk_supply_pool = list()
@@ -54,11 +53,12 @@
 		else if(picked_prefix["text_male"])
 			prefix_text = picked_prefix["text_male"]
 	var/suffix_text = roll_simple_affix(name_suffixes)
-	var/city = ""
-	if(length(city_tags) && prob(city_tag_chance))
-		var/city_name = pick(city_tags)
-		city = " " + replacetext(city_tag_format, "%CITY%", city_name)
-	return "[prefix_text][base][suffix_text][city]"
+	return "[prefix_text][base][suffix_text]"
+
+/datum/foreign_realm/proc/generate_port_of_origin()
+	if(!length(city_tags) || !prob(city_tag_chance))
+		return ""
+	return pick(city_tags)
 
 /datum/foreign_realm/proc/filter_proper_names_for_prefix(list/prefix)
 	var/has_male = !!prefix["text_male"]

@@ -88,17 +88,6 @@
 	ship_qty_min = 1
 	ship_qty_max = 3
 
-/datum/supply_pack/rogue/kazengun/rice_shrimp
-	name = "Rice & Shrimp Meal"
-	cost = 35
-	contains = list(
-		/obj/item/reagent_containers/food/snacks/rogue/riceshrimp,
-		/obj/item/reagent_containers/food/snacks/rogue/riceshrimp,
-		/obj/item/reagent_containers/food/snacks/rogue/riceshrimp,
-	)
-	ship_qty_min = 2
-	ship_qty_max = 5
-
 /datum/supply_pack/rogue/kazengun/gorget
 	name = "Kazengunite Gorget"
 	cost = 35

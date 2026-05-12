@@ -28,7 +28,6 @@
 		"Hochburg", "Sterneberg", "Sankt Averial",
 	)
 	city_tag_chance = 35
-	city_tag_format = "aus %CITY%"
 	cultural_goods = list()
 	bulk_supply_pool = list(
 		list("good" = TRADE_GOOD_GRAIN, "qty_min" = BULK_QTY_HUGE_MIN, "qty_max" = BULK_QTY_HUGE_MAX, "price_mod" = BULK_PRICE_DISCOUNT, "always" = TRUE),

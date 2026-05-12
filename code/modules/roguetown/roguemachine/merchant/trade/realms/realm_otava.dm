@@ -48,7 +48,6 @@
 		"Vates", "Atagne", "Pais-Occitanie", "Lasquennes",
 	)
 	city_tag_chance = 30
-	city_tag_format = "de %CITY%"
 	cultural_goods = list()
 	bulk_supply_pool = list(
 		list("good" = TRADE_GOOD_CHEESE, "qty_min" = BULK_QTY_LARGE_MIN, "qty_max" = BULK_QTY_LARGE_MAX, "price_mod" = BULK_PRICE_DEEP_DISCOUNT, "always" = TRUE),
@@ -89,7 +88,6 @@
 		/datum/supply_pack/rogue/otava/chevalier_kit,
 		/datum/supply_pack/rogue/otava/sergent_kit,
 		/datum/supply_pack/rogue/otava/cheese,
-		/datum/supply_pack/rogue/otava/pastries,
 		/datum/supply_pack/rogue/alcohol/winevalorred,
 		/datum/supply_pack/rogue/alcohol/winevalorwhite,
 	)
