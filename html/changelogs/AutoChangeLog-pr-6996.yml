@@ -1,0 +1,6 @@
+author: "changelingonberry"
+delete-after: True
+changes:
+  - rscadd: "lamicra spell"
+  - refactor: "zizo spells to new spell system"
+  - bugfix: "necromancer spell icon states"

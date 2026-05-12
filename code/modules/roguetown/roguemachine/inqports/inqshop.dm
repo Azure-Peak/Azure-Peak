@@ -236,7 +236,7 @@
 
 /datum/inqports/articles/stamppot
 	name = "1 Tallowpot"
-	item_type = /obj/item/inqarticles/tallowpot
+	item_type = /obj/item/tallowpot
 	marquescost = 4
 
 /datum/inqports/articles/indexers
