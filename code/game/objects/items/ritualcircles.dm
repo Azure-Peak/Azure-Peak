@@ -798,6 +798,8 @@
 	if(do_after(user, 2 SECONDS) && !marked_location)
 		marked_location = get_turf(user)
 		to_chat(user, span_notice("You charge the crystal with the essence of this location."))
+		message_admins("ABYSSAL MARKER: [user.real_name] ([user.ckey]) has marked an abyssal spire for [ADMIN_VERBOSEJMP(marked_location)], which will create [rune_type]")
+		log_game("ABYSSAL MARKER: [user.real_name] ([user.ckey]) has marked an abyssal spire for [marked_location], which will create [rune_type]")
 		playsound(src, 'sound/magic/vlightning.ogg', 50, TRUE)
 	else if (marked_location)
 		user.visible_message(span_warning("[user] crushes the [src] in their hands!"))
