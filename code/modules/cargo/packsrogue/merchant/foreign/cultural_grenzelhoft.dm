@@ -154,3 +154,15 @@
 	)
 	ship_qty_min = 1
 	ship_qty_max = 3
+
+/datum/supply_pack/rogue/grenzelhoft/hardybread
+	name = "Hardy Sea Biscuit"
+	cost = 25
+	contains = list(
+		/obj/item/reagent_containers/food/snacks/rogue/crackerscooked,
+		/obj/item/reagent_containers/food/snacks/rogue/crackerscooked,
+		/obj/item/reagent_containers/food/snacks/rogue/crackerscooked,
+		/obj/item/reagent_containers/food/snacks/rogue/crackerscooked,
+	)
+	ship_qty_min = 2
+	ship_qty_max = 5

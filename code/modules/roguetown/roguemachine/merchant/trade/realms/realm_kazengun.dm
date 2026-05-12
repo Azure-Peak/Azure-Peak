@@ -48,7 +48,7 @@
 	bulk_demand_pool = list(
 		list("good" = TRADE_GOOD_CURED_LEATHER, "qty_min" = BULK_QTY_HUGE_MIN, "qty_max" = BULK_QTY_HUGE_MAX, "price_mod" = BULK_PRICE_PREMIUM, "always" = TRUE),
 		list("good" = TRADE_GOOD_CLOTH, "qty_min" = BULK_QTY_HUGE_MIN, "qty_max" = BULK_QTY_HUGE_MAX, "price_mod" = BULK_PRICE_PREMIUM, "always" = TRUE),
-		list("good" = TRADE_GOOD_SILVER_INGOT, "qty_min" = BULK_QTY_SMALL_MIN, "qty_max" = BULK_QTY_SMALL_MAX, "price_mod" = BULK_PRICE_DESPERATE, "always" = TRUE),
+		list("good" = TRADE_GOOD_GOLD_INGOT, "qty_min" = BULK_QTY_SMALL_MIN, "qty_max" = BULK_QTY_SMALL_MAX, "price_mod" = BULK_PRICE_DESPERATE, "always" = TRUE),
 		list("good" = TRADE_GOOD_CLAY, "qty_min" = BULK_QTY_LARGE_MIN, "qty_max" = BULK_QTY_LARGE_MAX, "price_mod" = BULK_PRICE_EAGER_PREMIUM, "always" = TRUE),
 		list("good" = TRADE_GOOD_FUR, "qty_min" = BULK_QTY_MEDIUM_MIN, "qty_max" = BULK_QTY_MEDIUM_MAX, "price_mod" = BULK_PRICE_EAGER_PREMIUM),
 		list("good" = TRADE_GOOD_COAL, "qty_min" = BULK_QTY_HUGE_MIN, "qty_max" = BULK_QTY_HUGE_MAX, "price_mod" = BULK_PRICE_EAGER_PREMIUM),
@@ -74,6 +74,7 @@
 		/datum/supply_pack/rogue/kazengun/shirt_black,
 		/datum/supply_pack/rogue/kazengun/shirt_white,
 		/datum/supply_pack/rogue/kazengun/captainrobe,
+		/datum/supply_pack/rogue/kazengun/rice_shrimp,
 		/datum/supply_pack/rogue/kazengun/gorget,
 		/datum/supply_pack/rogue/kazengun/kote,
 		/datum/supply_pack/rogue/kazengun/boots,

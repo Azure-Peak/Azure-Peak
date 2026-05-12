@@ -7,26 +7,36 @@
 	name = "Beer-In-A-Bottle"
 	cost = 10
 	contains = list(/obj/item/reagent_containers/glass/bottle/rogue/beer)
+	ship_qty_min = 8
+	ship_qty_max = 15
 
 /datum/supply_pack/rogue/alcohol/zagul
 	name = "Zagul Lager"
 	cost = 15
 	contains = list(/obj/item/reagent_containers/glass/bottle/rogue/beer/zagul)
+	ship_qty_min = 8
+	ship_qty_max = 15
 
 /datum/supply_pack/rogue/alcohol/blackgoat
 	name = "Blackgoat Beer"
 	cost = 20
 	contains = list(/obj/item/reagent_containers/glass/bottle/rogue/beer/blackgoat)
+	ship_qty_min = 6
+	ship_qty_max = 12
 
 /datum/supply_pack/rogue/alcohol/onin
 	name = "Ratkept Onin Cognac"
 	cost = 20
 	contains = list(/obj/item/reagent_containers/glass/bottle/rogue/beer/ratkept)
+	ship_qty_min = 6
+	ship_qty_max = 12
 
 /datum/supply_pack/rogue/alcohol/grenzelbeer
 	name = "Grenzelhoftian Hagwood Bitters"
 	cost = 25
 	contains = list(/obj/item/reagent_containers/glass/bottle/rogue/beer/hagwoodbitter)
+	ship_qty_min = 6
+	ship_qty_max = 12
 
 /datum/supply_pack/rogue/alcohol/elfbeer
 	name = "Elvish Aurorian Beer"
@@ -67,16 +77,22 @@
 	name = "Grenzelhoftian Sour Wine"
 	cost = 25
 	contains = list(/obj/item/reagent_containers/glass/bottle/rogue/wine/sourwine)
+	ship_qty_min = 6
+	ship_qty_max = 12
 
 /datum/supply_pack/rogue/alcohol/winevalorred
 	name = "Otavan Red Wine"
 	cost = 30
 	contains = list(/obj/item/reagent_containers/glass/bottle/rogue/redwine)
+	ship_qty_min = 4
+	ship_qty_max = 8
 
 /datum/supply_pack/rogue/alcohol/winevalorwhite
 	name = "Otavan White Wine"
 	cost = 35
 	contains = list(/obj/item/reagent_containers/glass/bottle/rogue/whitewine)
+	ship_qty_min = 4
+	ship_qty_max = 8
 
 /datum/supply_pack/rogue/alcohol/elfred
 	name = "Elvish Red Wine"
@@ -93,11 +109,15 @@
 	name = "Jagdtrunk Herbal Schnapps"
 	cost = 80
 	contains = list(/obj/item/reagent_containers/glass/bottle/rogue/beer/jagdtrunk)
+	ship_qty_min = 3
+	ship_qty_max = 6
 
 /datum/supply_pack/rogue/alcohol/apfelweinheim
 	name = "Apfelweinheim Cider"
 	cost = 30
 	contains = list(/obj/item/reagent_containers/glass/bottle/rogue/beer/apfelweinheim)
+	ship_qty_min = 6
+	ship_qty_max = 12
 
 /datum/supply_pack/rogue/alcohol/rtoper
 	name = "Rockhill Toper (Lirvas Cider)"
@@ -133,29 +153,29 @@
 	name = "Yamaguchi Pale (Kazengun Pale Lager)"
 	cost = 20
 	contains = list(/obj/item/reagent_containers/glass/bottle/rogue/beer/kgunlager)
-	ship_qty_min = 4
-	ship_qty_max = 8
+	ship_qty_min = 8
+	ship_qty_max = 15
 
 /datum/supply_pack/rogue/alcohol/kgunplum
 	name = "Umeshu (Kazengun Plum Wine)"
 	cost = 40
 	contains = list(/obj/item/reagent_containers/glass/bottle/rogue/beer/kgunplum)
-	ship_qty_min = 3
-	ship_qty_max = 6
+	ship_qty_min = 6
+	ship_qty_max = 12
 
 /datum/supply_pack/rogue/alcohol/kgunsake
 	name = "Junmai-ginjo"
 	cost = 150
 	contains = list(/obj/item/reagent_containers/glass/bottle/rogue/beer/kgunsake)
-	ship_qty_min = 2
-	ship_qty_max = 4
+	ship_qty_min = 3
+	ship_qty_max = 6
 
 /datum/supply_pack/rogue/alcohol/kgunshochu
 	name = "Shochu"
 	cost = 150
 	contains = list(/obj/item/reagent_containers/glass/bottle/rogue/beer/kgunshochu)
-	ship_qty_min = 2
-	ship_qty_max = 4
+	ship_qty_min = 3
+	ship_qty_max = 6
 
 // Zhongese
 /datum/supply_pack/rogue/alcohol/zhonghuangjiu
