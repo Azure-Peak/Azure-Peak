@@ -114,6 +114,11 @@
 	path = /obj/item/clothing/cloak/poncho
 	sort_category = "Cloaks"
 
+/datum/loadout_item/toga
+	name = "Toga"
+	path = /obj/item/clothing/cloak/tabard/toga
+	sort_category = "Cloaks"
+
 /datum/loadout_item/aproncook
 	name = "Apron, Cooking"
 	path = /obj/item/clothing/cloak/apron/cook
@@ -124,9 +129,14 @@
 	path = /obj/item/clothing/cloak/poncho/fancycoat
 	sort_category = "Cloaks"
 
-/datum/loadout_item/goldenordercloak
-	name = "Golden Order Cloak"
-	path = /obj/item/clothing/cloak/cape/inquisitor
+/datum/loadout_item/cloakgoldenorder
+	name = "Cloak, Golden Order"
+	path = /obj/item/clothing/cloak/cape/inquisitorgold
+	sort_category = "Cloaks"
+
+/datum/loadout_item/cloaksilverorder
+	name = "Cloak, Silver Order"
+	path = /obj/item/clothing/cloak/cape/inquisitorsilver
 	sort_category = "Cloaks"
 
 /datum/loadout_item/surcoatheavy
@@ -172,4 +182,9 @@
 /datum/loadout_item/sleevedtabard
 	name = "Tabard, Sleeved"
 	path = /obj/item/clothing/cloak/sleevedtabard
+	sort_category = "Cloaks"
+
+/datum/loadout_item/maidapron
+	name = "Maid Apron"
+	path = /obj/item/clothing/cloak/apron/waist/fancymaid
 	sort_category = "Cloaks"

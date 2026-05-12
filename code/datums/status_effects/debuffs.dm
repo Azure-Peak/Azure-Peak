@@ -265,7 +265,9 @@
 	var/turf/T = get_turf(owner)
 	new /obj/effect/temp_visual/bleed/explode(T)
 	for(var/d in GLOB.alldirs)
-		new /obj/effect/temp_visual/dir_setting/bloodsplatter(T, d)
+		var/obj/effect/temp_visual/dir_setting/bloodsplatter/splatter = new(T, d)
+		var/mob/living/L = owner
+		splatter.set_blood_color(L?.get_blood_color())
 	playsound(T, "desceration", 100, TRUE, -1)
 
 /datum/status_effect/neck_slice
@@ -776,7 +778,7 @@
 /datum/status_effect/debuff/baited
 	id = "bait"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/baited
-	duration = 20 SECONDS
+	duration = 15 SECONDS
 
 /atom/movable/screen/alert/status_effect/debuff/baited
 	name = "Baited"
@@ -791,7 +793,7 @@
 /datum/status_effect/debuff/baitcd
 	id = "baitcd"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/baitedcd
-	duration = 30 SECONDS
+	duration = BAIT_RCLICK_CD
 
 /datum/status_effect/debuff/baitcd/on_creation(mob/living/new_owner, new_dur)
 	if(new_dur)

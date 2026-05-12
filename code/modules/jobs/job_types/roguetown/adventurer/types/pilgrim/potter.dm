@@ -3,7 +3,7 @@
 	tutorial = "You are a skilled artisan in the manipulation of ceramics, \
 	and their fashioning into a multitude of different objects and valuables, including glass."
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = RACES_ALL_KINDS
+	
 	outfit = /datum/outfit/job/roguetown/adventurer/potter
 	traits_applied = list(TRAIT_HOMESTEAD_EXPERT)
 
@@ -58,4 +58,4 @@
 	if(H.mind)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/digclay)
 	if(H.mind)
-		SStreasury.give_money_account(ECONOMIC_LOWER_CLASS, H, "Savings.")
+		SStreasury.grant_savings(ECONOMIC_LOWER_CLASS, H)

@@ -6,7 +6,7 @@
 	With noble origins, you were taught by cooking masters in the secretive League of Fine Dining in exotic meals from all around the world \
 	Now you wander, free to experiment, cook exotic dishes and gourmet meals, worthy for a king"
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = RACES_ALL_KINDS
+	
 	outfit = /datum/outfit/job/roguetown/adventurer/masterchef
 	traits_applied = list(TRAIT_HOMESTEAD_EXPERT)
 

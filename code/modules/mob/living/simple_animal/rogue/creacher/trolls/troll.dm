@@ -10,6 +10,7 @@
 	faction = list(FACTION_TROLLS)
 	threat_point = THREAT_DANGEROUS
 	ambush_faction = "trolls"
+	blood_toll_bucket = STATS_KILLED_TROLLMINOTAUR
 	footstep_type = FOOTSTEP_MOB_HEAVY
 	emote_hear = null
 	emote_see = null

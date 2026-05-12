@@ -53,9 +53,10 @@
 	
 	can_sew = TRUE
 	can_cauterize = TRUE
-	severity_names = list(
-		"light" = 5,
-		"deep" = 10,
+	severity_stages = list(
+		"light" = 3,
+		"deep" = 6,
+		"severe" = 10,
 		"gnarly" = 15,
 		"lethal" = 20,
 	)
@@ -88,7 +89,7 @@
 	sew_threshold += (dam * SLASH_UPG_SEWRATE)
 	woundpain += (dam * SLASH_UPG_PAINRATE)
 	armor_check(armor, SLASH_ARMORED_BLEED_CLAMP)
-	update_name()
+	update_stage()
 	..()
 
 #undef SLASH_UPG_BLEEDRATE
@@ -206,9 +207,10 @@
 	mob_overlay = "cut"
 	can_sew = TRUE
 	can_cauterize = FALSE	//Ouch owie oof
-	severity_names = list(
-		"light" = 5,
-		"deep" = 10,
+	severity_stages = list(
+		"light" = 3,
+		"deep" = 6,
+		"severe" = 10,
 		"gnarly" = 15,
 		"lethal" = 20,
 	)
@@ -233,7 +235,7 @@
 	sew_threshold += (dam * LASHING_UPG_SEWRATE)
 	woundpain += (dam * LASHING_UPG_PAINRATE)
 	armor_check(armor, LASHING_ARMORED_BLEED_CLAMP)
-	update_name()
+	update_stage()
 	..()
 
 #undef LASHING_UPG_BLEEDRATE
@@ -255,9 +257,10 @@
 	mob_overlay = "cut"
 	can_sew = TRUE
 	can_cauterize = FALSE	//Ouch owie oof
-	severity_names = list(
-		"light" = 5,
-		"deep" = 10,
+	severity_stages = list(
+		"light" = 3,
+		"deep" = 6,
+		"severe" = 10,
 		"gnarly" = 15,
 		"lethal" = 20,
 	)
@@ -281,7 +284,7 @@
 	woundpain += (dam * PUNISH_UPG_PAINRATE)
 	passive_healing += PUNISH_UPG_SELFHEAL
 	armor_check(armor, PUNISH_ARMORED_BLEED_CLAMP)
-	update_name()
+	update_stage()
 	..()
 
 #undef PUNISH_UPG_BLEEDRATE
@@ -337,3 +340,22 @@
 	woundpain = 22
 	sewn_woundpain = 14
 	sew_threshold = 95
+
+/datum/wound/slash/boar_gore
+	name = "tusk shaped wound"
+	check_name = span_userdanger("<B>GORED</B>")
+	severity = WOUND_SEVERITY_FATAL
+	crit_message = list(
+		"%VICTIM is gored!",
+	)
+	sound_effect = 'sound/combat/crit2.ogg'
+	whp = 100
+	sewn_whp = 35
+	bleed_rate = 10
+	sewn_bleed_rate = 0.8
+	clotting_rate = 0.02
+	sewn_clotting_rate = 0.02
+	clotting_threshold = 10
+	sewn_clotting_threshold = 0.5
+	sew_threshold = 150
+	critical = TRUE

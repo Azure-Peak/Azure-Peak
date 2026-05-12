@@ -4,7 +4,7 @@
 	As very skilled cook you come with some ingredients to make food and feed the masses. \
 	cook up some cuisine with food gathered from the local flora and fauna"
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = RACES_ALL_KINDS
+	
 	outfit = /datum/outfit/job/roguetown/adventurer/cheesemaker
 	traits_applied = list(TRAIT_HOMESTEAD_EXPERT)
 
@@ -55,4 +55,4 @@
 		)
 	r_hand = /obj/item/flashlight/flare/torch
 	if(H.mind)
-		SStreasury.give_money_account(ECONOMIC_LOWER_MIDDLE_CLASS, H, "Savings.")
+		SStreasury.grant_savings(ECONOMIC_LOWER_MIDDLE_CLASS, H)

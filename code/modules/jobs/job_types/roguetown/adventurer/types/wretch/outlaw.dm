@@ -2,7 +2,7 @@
 	name = "Outlaw"
 	tutorial = "You are the person folk fear at night - use your cunning and speed to strike fast and get out with your spoils before anyone notices."
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = RACES_ALL_KINDS
+	
 	outfit = /datum/outfit/job/roguetown/wretch/outlaw
 	cmode_music = 'sound/music/cmode/antag/combat_cutpurse.ogg'
 	class_select_category = CLASS_CAT_ROGUE

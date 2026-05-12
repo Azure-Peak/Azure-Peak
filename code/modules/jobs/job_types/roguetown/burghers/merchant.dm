@@ -6,7 +6,7 @@
 	total_positions = 1
 	spawn_positions = 1
 	selection_color = JCOLOR_BURGHER
-	allowed_races = ACCEPTED_RACES
+	forbidden_races = list(RACES_DESPISED)
 	tutorial = "You were born into wealth, learning from before you could talk about the basics of mathematics. Counting coins is a simple pleasure for any person, but you've made it an art form. These people are addicted to your wares, and you are the literal beating heart of this economy: Don't let these filth-covered troglodytes ever forget that."
 
 	display_order = JDO_MERCHANT
@@ -22,6 +22,7 @@
 	is_quest_giver = TRUE
 
 	job_traits = list(TRAIT_SEEPRICES, TRAIT_CICERONE)
+	virtue_restrictions = list(/datum/virtue/utility/skilled, /datum/virtue/utility/apprentice) //Commerce role, not a craftsman.
 
 	advclass_cat_rolls = list(CTAG_MERCH = 2)
 	job_subclasses = list(
@@ -83,7 +84,7 @@
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/appraise/secular)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/takeapprentice)
 	if(H.mind)
-		SStreasury.give_money_account(ECONOMIC_RICH, H, "Savings.")
+		SStreasury.grant_savings(ECONOMIC_RICH, H)
 	backpack_contents = list(
 		/obj/item/mini_flagpole/merchant = 1,
 		// For selling

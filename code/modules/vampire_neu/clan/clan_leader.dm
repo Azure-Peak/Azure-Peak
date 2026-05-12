@@ -5,7 +5,7 @@
 	)
 	var/list/lord_traits = list()
 	var/lord_title = "Lord"
-	var/vitae_bonus = 5 // Extra vitae for lords
+	var/vitae_bonus = 500 // Extra vitae for lords
 	var/ascended = FALSE
 
 /datum/clan_leader/lord

@@ -3,11 +3,7 @@
 	name = "Black Oaken Guardian"
 	tutorial = "A shady guardian of the Black Oaks. Half mercenary band, half irregular militia fighting for control of their ancestral elven homeland of the Peaks. Thankfully, you are not here today to shed the blood of the Duke's men — unless someone pays you to..."
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = list(
-		/datum/species/human/halfelf,
-		/datum/species/elf/wood,
-		/datum/species/elf/dark,
-	)
+	forbidden_races = list(RACES_BLACKOAK)
 	outfit = /datum/outfit/job/roguetown/mercenary/blackoak
 	class_select_category = CLASS_CAT_RACIAL
 	category_tags = list(CTAG_MERCENARY)
@@ -85,11 +81,7 @@
 	name = "Black Oaken Ranger"
 	tutorial = "A shady ranger of the Black Oaks. Half mercenary band, half irregular militia fighting for control of their ancestral elven homeland of the Peaks. Thankfully, you are not here today to shed the blood of the Duke's men — unless someone pays you to..."
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = list(
-		/datum/species/human/halfelf,
-		/datum/species/elf/wood,
-		/datum/species/elf/dark,
-	)
+	forbidden_races = list(RACES_BLACKOAK)
 	outfit = /datum/outfit/job/roguetown/mercenary/blackoak_ranger
 	class_select_category = CLASS_CAT_RACIAL
 	category_tags = list(CTAG_MERCENARY)
@@ -181,11 +173,7 @@
 	name = "Black Oaken Adept"
 	tutorial = "A spellblade of the Black Oaks. Half mercenary band, half irregular militia fighting for control of their ancestral elven homeland of the Peaks. You have honed the ancient Azurean art of spellbladery - an art that is yours and your people's alone. Thankfully, you are not here today to shed the blood of the Duke's men - unless someone pays you to..."
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = list(
-		/datum/species/human/halfelf,
-		/datum/species/elf/wood,
-		/datum/species/elf/dark,
-	)
+	forbidden_races = list(RACES_BLACKOAK)
 	outfit = /datum/outfit/job/roguetown/mercenary/blackoak_adept
 	class_select_category = CLASS_CAT_RACIAL
 	category_tags = list(CTAG_MERCENARY)

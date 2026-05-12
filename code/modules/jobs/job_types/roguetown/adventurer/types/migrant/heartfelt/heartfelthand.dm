@@ -5,11 +5,12 @@
 	Travellers often warn of Heartfelt having fallen already, and words of secretive cultists isn't unheard of. \
 	Despite doubts from others, your loyalty remains steadfast as you journey to the Peaks, determined to fulfill your duties."
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = ACCEPTED_RACES
+	forbidden_races = list(RACES_DESPISED)
 	outfit = /datum/outfit/job/roguetown/heartfelt/hand
 	total_positions = 1
 	spawn_positions = 0
 	job_traits = list(TRAIT_NOBLE, TRAIT_HEARTFELT)
+	noble_income = 22
 	advclass_cat_rolls = list(CTAG_HFT_HAND)
 
 	job_subclasses = list(
@@ -171,7 +172,7 @@
 	Bound once more to serve in the wake of ruin, you climb towards the Peaks."
 	outfit = /datum/outfit/job/roguetown/heartfelt/hand/advisor
 	category_tags = list(CTAG_HFT_HAND)
-	traits_applied = list(TRAIT_ARCYNE, TRAIT_INTELLECTUAL, TRAIT_SEEPRICES_SHITTY, TRAIT_HEARTFELT)
+	traits_applied = list(TRAIT_ARCYNE, TRAIT_INTELLECTUAL, TRAIT_SEEPRICES_SHITTY, TRAIT_HEARTFELT, TRAIT_ALCHEMY_EXPERT)
 	subclass_stats = list(
 		STATKEY_INT = 3,
 		STATKEY_PER = 3,

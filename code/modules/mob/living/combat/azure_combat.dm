@@ -305,6 +305,8 @@
 
 /mob/living/carbon/human/proc/process_tempo_attack(mob/living/carbon/attacker)
 	if(iscarbon(attacker) && attacker != src && attacker.mind)
+		if(tempo_faction_flag && (tempo_faction_flag & attacker.tempo_faction_flag))
+			return
 		if(length(tempo_attackers) <= TEMPO_CAP || (REF(attacker) in tempo_attackers))	//This list auto-culls so we don't need to flood it. If you're fighting 7 dudes at the same time you've got other problems.
 			var/newtime
 			var/att_count = length(tempo_attackers)
@@ -458,6 +460,16 @@
 				return TEMPO_DODGE_LOSS_NORMAL
 		//Whether we can get binded.
 		if(TEMPO_TAG_BINDABLE)
+			if(has_status_effect(/datum/status_effect/buff/tempo_one))
+				return FALSE
+			if(has_status_effect(/datum/status_effect/buff/tempo_two))
+				return FALSE
+			if(has_status_effect(/datum/status_effect/buff/tempo_three))
+				return FALSE
+			else
+				return TRUE
+		//Whether we can lose our equipment at all when its integrity breaks.
+		if(TEMPO_TAG_EQUIPTOSS)
 			if(has_status_effect(/datum/status_effect/buff/tempo_one))
 				return FALSE
 			if(has_status_effect(/datum/status_effect/buff/tempo_two))

@@ -155,6 +155,5 @@
 	for(var/obj/item/roguecoin/coin in user.GetAllContents())
 		total += coin.get_real_price()
 	// Count bank account
-	if(user in SStreasury.bank_accounts)
-		total += SStreasury.bank_accounts[user]
+	total += SStreasury.get_balance(user)
 	return total

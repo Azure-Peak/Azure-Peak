@@ -271,6 +271,20 @@
 	smeltresult = /obj/item/ingot/steel
 	wdefense = 3
 
+/obj/item/rogueweapon/stoneaxe/woodcut/steel/graggar
+	name = "vicious tomahawk"
+	icon_state = "graggartomahawk"
+	desc = "A handaxe of greater stature, intricately decorated with the Sinistar's heraldry. Worshippers wield it to strengthen their soul's connection \
+	to the force of violence; a blessing, before they pursue the most dangerous game of all."
+	possible_item_intents = list(/datum/intent/axe/cut, /datum/intent/axe/chop, /datum/intent/axe/bash, /datum/intent/axe/thrust)
+	force = 30
+	wdefense = 5
+	smeltresult = /obj/item/ingot/component/graggar
+
+/obj/item/rogueweapon/stoneaxe/woodcut/steel/graggar/Initialize()
+	. = ..()
+	AddComponent(/datum/component/cursed_item, TRAIT_HORDE, "AXE", "RENDERED ASUNDER")
+
 /obj/item/rogueweapon/stoneaxe/woodcut/steel/decorated
 	name = "decorated axe"
 	icon_state = "nsapo"
@@ -297,7 +311,7 @@
 	damfactor = 0.8
 	demolition_mod = 1.3
 
-/datum/intent/axe/chop/long/bronze
+/datum/intent/axe/chop/long
 	reach = 2
 	damfactor = 1
 	demolition_mod = 1.5
@@ -510,7 +524,7 @@
 	force = 15
 	force_wielded = 30
 	possible_item_intents = list(/datum/intent/axe/cut, /datum/intent/axe/chop, SPEAR_BASH) //bash is for nonlethal takedowns, only targets limbs
-	gripped_intents = list(/datum/intent/axe/cut/long/bronze, /datum/intent/axe/chop/long/bronze, /datum/intent/axe/chop/heavy, /datum/intent/axe/sweep)
+	gripped_intents = list(/datum/intent/axe/cut/long/bronze, /datum/intent/axe/chop/long, /datum/intent/axe/chop/heavy, /datum/intent/axe/sweep)
 	name = "bronze greataxe"
 	desc = "A massive staff with a bronze axhead mantled onto the wood. It splits and carves from afar with lethal force; be it lumber or limbs."
 	icon_state = "bronzegreataxe"
@@ -530,6 +544,32 @@
 	humbling any foe that may assail their presence. </br>'Away with you, vile beggar!'"
 	icon_state = "steelpoleaxe"
 	max_blade_int = 300
+
+/obj/item/rogueweapon/greataxe/steel/knight/attackby(obj/item/W, mob/living/user, params)
+	..()
+	if(istype(W, /obj/item/natural/cloth) && !detail_tag)
+		var/choice = input(user, "Choose a color.", "Banner") as anything in COLOR_MAP
+		user.visible_message(span_warning("[user] adds a banner to [src]."))
+		user.transferItemToLoc(W, src, FALSE, FALSE)
+		detail_color = COLOR_MAP[choice]
+		detail_tag = "detail"
+		update_icon()
+
+
+
+/obj/item/rogueweapon/greataxe/steel/knight/update_icon()
+	cut_overlays()
+	if(get_detail_tag())
+		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))
+		pic.appearance_flags = RESET_COLOR
+		if(get_detail_color())
+			pic.color = get_detail_color()
+		add_overlay(pic)
+
+/obj/item/rogueweapon/greataxe/steel/knight/attack_self(mob/living/user)
+	. = ..()
+	update_icon()
+
 
 /obj/item/rogueweapon/greataxe/silver
 	force = 15
@@ -618,6 +658,7 @@
 	force_wielded = 40
 	max_blade_int = 270
 	gripped_intents = list(/datum/intent/axe/cut/long, /datum/intent/axe/chop/long, /datum/intent/axe/chop/heavy, /datum/intent/axe/sweep)
+	smeltresult = /obj/item/ingot/component/graggar
 
 /obj/item/rogueweapon/greataxe/steel/doublehead/graggar/Initialize()
 	. = ..()

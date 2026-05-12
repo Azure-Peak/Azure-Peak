@@ -3,19 +3,11 @@
 	name = "Underdweller"
 	tutorial = "A member of the Underdwellers, you've taken many of the deadliest contracts known to man in literal underground circles. Drow or Dwarf, you've put your differences aside for coin and adventure."
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = list(
-		/datum/species/dwarf/mountain,
-		/datum/species/dwarf/gnome,
-		/datum/species/elf/dark,
-		/datum/species/kobold,
-		/datum/species/moth,				//They are from the Underdark. source: moth.dm
-		/datum/species/goblinp,				//Might be a little weird but goblins do reside in caves, and they could use a unique merc class type.
-		/datum/species/anthromorphsmall,	//Basically all under-ground races. Perfect for cave-clearing.
-	)
+	forbidden_races = list(RACES_UNDERDARK)
 	outfit = /datum/outfit/job/roguetown/mercenary/underdweller
 	class_select_category = CLASS_CAT_RACIAL
 	category_tags = list(CTAG_MERCENARY)
-	traits_applied = list(TRAIT_MEDIUMARMOR, TRAIT_WEBWALK, TRAIT_EXPLOSIVE_SUPPLY, TRAIT_CAVEDWELLER) //No bomb expert, only supply. Axes/mining expert.
+	traits_applied = list(TRAIT_MEDIUMARMOR, TRAIT_WEBWALK, TRAIT_EXPLOSIVE_SUPPLY, TRAIT_CAVEDWELLER, TRAIT_ALCHEMY_EXPERT) //No bomb expert, only supply. Axes/mining expert.
 	subclass_stats = list(
 		STATKEY_CON = 2,
 		STATKEY_WIL = 2,
@@ -66,6 +58,8 @@
 		/obj/item/rogueweapon/scabbard/sheath = 1
 		)
 	H.merctype = 12
+	if(H.mind)
+		H.AddComponent(/datum/component/ore_sight)
 
 
 //Clothing here to avoid overcrowding the hats.dm with snowflake gear. It's just a kettle with a light.

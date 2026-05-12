@@ -6,7 +6,7 @@
 	total_positions = 1
 	spawn_positions = 1
 
-	allowed_races = RACES_SHUNNED_UP
+	forbidden_races = list(RACES_CONSTRUCT RACES_DESPISED)
 	allowed_sexes = list(MALE, FEMALE)
 	display_order = JDO_STEWARD
 	tutorial = "Coin, Coin, Coin! Oh beautiful coin: You're addicted to it, and you hold the position as the Grand Duke's personal treasurer of both coin and information. You know the power silver and gold has on a man's mortal soul, and you know just what lengths they'll go to in order to get even more. Keep your festering economy alive- for it is the only thing you can weigh any trust into anymore."
@@ -23,6 +23,7 @@
 
 	job_traits = list(TRAIT_NOBLE, TRAIT_SEEPRICES)
 	vice_restrictions = list(/datum/charflaw/mute, /datum/charflaw/unintelligible) //Needs to use the throat - sometimes
+	virtue_restrictions = list(/datum/virtue/utility/skilled, /datum/virtue/utility/apprentice) //Commerce role, not a craftsman.
 	job_subclasses = list(
 		/datum/advclass/steward
 	)
@@ -79,23 +80,17 @@
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/appraise/secular)
 	H.verbs |= /mob/living/carbon/human/proc/adjust_taxes
 	if(H.mind)
-		SStreasury.give_money_account(ECONOMIC_RICH, H, "Savings.")
+		SStreasury.grant_savings(ECONOMIC_RICH, H)
 	backpack_contents = list(
 		/obj/item/mini_flagpole/steward = 1,
+		/obj/item/clothing/ring/signet = 1,
+		/obj/item/recipe_book/treasury_primer = 1,
 	)
 
-GLOBAL_VAR_INIT(steward_tax_cooldown, -50000) // Antispam
 /mob/living/carbon/human/proc/adjust_taxes()
 	set name = "Adjust Taxes"
 	set category = "Stewardry"
 	if(stat)
 		return
-	var/lord = find_lord()
-	if(lord)
-		to_chat(src, span_warning("You cannot adjust taxes while the [SSticker.rulertype] is present in the realm. Ask your liege."))
-		return
-	if(world.time < GLOB.steward_tax_cooldown + 600 SECONDS)
-		to_chat(src, span_warning("You must wait [round((GLOB.steward_tax_cooldown + 600 SECONDS - world.time)/600, 0.1)] minutes before adjusting taxes again! Think of the realm."))
-		return FALSE
 	var/datum/taxsetter/taxsetter = new("The Diligent Steward Intervenes", "The Greedy Steward Imposes")
 	taxsetter.ui_interact(src)

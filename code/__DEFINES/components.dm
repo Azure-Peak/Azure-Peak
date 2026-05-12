@@ -446,6 +446,9 @@
 //Food
 #define COMSIG_FOOD_EATEN "food_eaten"		//from base of obj/item/reagent_containers/food/snacks/attack(): (mob/living/eater, mob/feeder)
 
+//Bed
+#define COMSIG_SLEEPING_ON_BED "sleeping_on_bed" //from base of /mob/living/carbon/proc/handle_sleep(): (mob/living/sleeper, obj/structure/bed)
+
 //Gibs
 #define COMSIG_GIBS_STREAK "gibs_streak"						// from base of /obj/effect/decal/cleanable/blood/gibs/streak(): (list/directions, list/diseases)
 
@@ -529,3 +532,5 @@
 #define  COMSIG_MOB_KICKED	"mob_kicked"	//from /datum/species/proc/kicked(mob/living/carbon/human/user, mob/living/carbon/human/target). This is for when the mob has BEEN kicked.
 #define COMSIG_STATUS_EFFECT_HAG_CURSE_CLEARED "status_effect_hag_curse_cleared" // Sent when a hag curse is cleared by the curse status effect
 #define COMSIG_SLEEPY_TIME "sleepy_time" // from /mob/living/carbon/human/update_tod(todd)
+#define COMSIG_PROJECTILE_ATTACK_EFFECT "projectile_attack_effect" //Handles the application of specific effects, like silver-based sundering, via ranged damage.
+#define COMSIG_PROJECTILE_ATTACK_EFFECT_SELF "projectile_attack_effect_self" //Ditto.

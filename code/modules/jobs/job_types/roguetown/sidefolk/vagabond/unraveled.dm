@@ -2,7 +2,7 @@
     name = "The Unraveled"
     tutorial = "Once you sought to understand the mind’s decay — now you live within it, a wandering physician bound to his own affliction."
     allowed_sexes = list(MALE, FEMALE)
-    allowed_races = RACES_SHUNNED_UP
+    forbidden_races = list(RACES_CONSTRUCT RACES_DESPISED)
     outfit = /datum/outfit/job/roguetown/vagabond/unraveled
     category_tags = list(CTAG_VAGABOND)
     traits_applied = list(TRAIT_PSYCHOSIS, TRAIT_NOSTINK)

@@ -586,6 +586,7 @@ GLOBAL_LIST_INIT(ballmer_windows_me_msg, list("Yo man, what if, we like, uh, put
 		if(isturf(loc) && !(mobility_flags & MOBILITY_STAND))
 			var/obj/structure/bed/rogue/bed = locate() in loc
 			if(bed)
+				SEND_SIGNAL(bed, COMSIG_SLEEPING_ON_BED, src)
 				sleepy_mod = bed.sleepy
 			else
 				sleepy_mod = 1

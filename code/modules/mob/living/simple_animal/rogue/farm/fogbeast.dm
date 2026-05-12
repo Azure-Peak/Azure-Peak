@@ -9,6 +9,7 @@ GLOBAL_LIST_INIT(valid_fogbeast_colors, list("White" = COLOR_WHITE, "Gray" = COL
 	icon_dead = "fogbeast_dead"
 	icon_gib = "saiga_gib"
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
+	blood_toll_bucket = STATS_KILLED_LIVESTOCK
 	emote_see = list("looks around.", "chews some leaves.", "neighs")
 	speak_chance = 1
 	turns_per_move = 5

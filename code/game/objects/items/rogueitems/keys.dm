@@ -905,6 +905,12 @@
 	icon_state = "rustkey"
 	lockid = "admin_event_door"
 
+/obj/item/roguekey/zhurch/onmap
+	name = "brass key"
+	desc = "A key made of brass."
+	icon_state = "rustkey"
+	lockid = "zhurch"
+
 //////////////
 // SIDEFOLK //
 //////////////

@@ -25,7 +25,9 @@
 		/datum/skill/craft/traps = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/medicine = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/craft/crafting = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/craft/alchemy = SKILL_LEVEL_JOURNEYMAN
+		/datum/skill/craft/alchemy = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/hunting = SKILL_LEVEL_EXPERT,
+		/datum/skill/labor/butchering = SKILL_LEVEL_APPRENTICE,
 	)
 	category_tags = list(CTAG_GNOLL)
 	cmode_music = 'sound/music/combat_graggar.ogg'
@@ -37,10 +39,11 @@
 		var/obj/item/ritechalk/chalk = new /obj/item/ritechalk(H.loc)
 		H.put_in_r_hand(chalk)
 		neck = /obj/item/storage/belt/rogue/pouch/alchemy
+		wrists = /obj/item/clothing/neck/roguetown/psicross/inhumen/graggar
 		don_pelt(H)
 		var/datum/devotion/C = new /datum/devotion(H, H.patron)
 		C.grant_miracles(H, cleric_tier = CLERIC_T4, passive_gain = CLERIC_REGEN_MINOR, start_maxed = TRUE)
-		H.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/convert_heretic)
+		H.mind?.AddSpell(new /datum/action/cooldown/spell/convert_heretic/free)
 
 /obj/item/clothing/suit/roguetown/armor/regenerating/skin/gnoll_armor/shaman
 	icon_state = "shaman"

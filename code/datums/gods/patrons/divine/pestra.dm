@@ -2,18 +2,18 @@
 	name = "Pestra"
 	domain = "Goddess of Decay, Disease and Medicine"
 	desc = "Goddess that blessed many a saint with healing hands, Pestra taught man the arts of medicine and its benefits."
-	worshippers = "The Sick, Phyicians, Apothecaries"
+	worshippers = "Physicians, Apotecharies, The Sick"
 	mob_traits = list(TRAIT_EMPATH, TRAIT_ROT_EATER)
-	miracles = list(/obj/effect/proc_holder/spell/targeted/touch/orison			= CLERIC_ORI,
+	miracles = list(/datum/action/cooldown/spell/touch/orison					= CLERIC_ORI,
 					/obj/effect/proc_holder/spell/invoked/diagnose				= CLERIC_ORI,
 					/obj/effect/proc_holder/spell/invoked/pestra_leech			= CLERIC_T0,
-					/obj/effect/proc_holder/spell/invoked/lesser_heal 			= CLERIC_T1,
-					/obj/effect/proc_holder/spell/invoked/blood_heal			= CLERIC_T1,
+					/datum/action/cooldown/spell/miracle/heal 					= CLERIC_T1,
+					/datum/action/cooldown/spell/miracle/bloodmiracle			= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/infestation			= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/pestilent_blade		= CLERIC_T2,
 					/obj/effect/proc_holder/spell/invoked/pestra_heal			= CLERIC_T2,
 					/obj/effect/proc_holder/spell/invoked/attach_bodypart		= CLERIC_T2,
-					/obj/effect/proc_holder/spell/invoked/heal					= CLERIC_T3,
+					/datum/action/cooldown/spell/miracle/fortify				= CLERIC_T3,
 					/obj/effect/proc_holder/spell/invoked/cure_rot				= CLERIC_T3,
 					/obj/effect/proc_holder/spell/invoked/resurrect/pestra		= CLERIC_T4,
 	)

@@ -71,11 +71,19 @@
 	name = "legend of the white stag"
 	desc = "An esoteric map detailed with blessed silver ink. It claims to track the movements of a Great White Stag. Only the best hunters can decipher the signs properly when examining this against an animal track."
 	target_category = /datum/hunting_category/white_stag
-	skill_chances = list(1, 1, 1, 5, 7.5, 10, 12.5)
+	skill_chances = list(1, 1, 5, 10, 14, 18, 20)
 	degradation_rate = 0.1 // 10% drop per use
 	uses_left = 3
 
 /obj/item/hunting_map/white_stag/debug
 	skill_chances = list(100, 100, 100, 100, 100, 100, 100)
-	uses_left = 99
+	uses_left = 1
 	degradation_rate = 0
+
+/obj/item/hunting_map/boars
+	name = "boar signs"
+	desc = "A simple map denoting recent areas where there have been boar attacks. It is easy to use for skilled hunters"
+	target_category = /datum/hunting_category/boars
+	skill_chances = list(20, 30, 40, 50, 70, 90, 100)
+	degradation_rate = 0
+	uses_left = 5

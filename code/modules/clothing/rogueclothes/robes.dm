@@ -41,7 +41,7 @@
 /obj/item/clothing/suit/roguetown/shirt/robe/astrata
 	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT|ITEM_SLOT_CLOAK
 	name = "sun robe"
-	desc = ""
+	desc = "Just as Her radiance rises upon each morning, so too will order reign across the kingdoms."
 	body_parts_covered = CHEST|GROIN|ARMS|LEGS|VITALS
 	icon_state = "astratarobe"
 	icon = 'icons/roguetown/clothing/armor.dmi'
@@ -56,7 +56,7 @@
 /obj/item/clothing/suit/roguetown/shirt/robe/undivided
 	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT|ITEM_SLOT_CLOAK
 	name = "undivided robe"
-	desc = ""
+	desc = "Undivided, we stand - a Pantheon of Ten, shepherding Psydonia's flock towards providence."
 	body_parts_covered = CHEST|GROIN|ARMS|LEGS|VITALS
 	icon_state = "undividedrobe"
 	icon = 'icons/roguetown/clothing/armor.dmi'
@@ -70,7 +70,7 @@
 /obj/item/clothing/suit/roguetown/shirt/robe/ravox
 	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT|ITEM_SLOT_CLOAK
 	name = "ravox robe"
-	desc = ""
+	desc = "None are above justice; none are beneath redemption."
 	body_parts_covered = CHEST|GROIN|ARMS|LEGS|VITALS
 	icon_state = "ravoxrobe"
 	icon = 'icons/roguetown/clothing/armor.dmi'
@@ -99,7 +99,7 @@
 /obj/item/clothing/suit/roguetown/shirt/robe/noc
 	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT|ITEM_SLOT_CLOAK
 	name = "moon robe"
-	desc = ""
+	desc = "Knowledge from within and without, cradled in the moonlight."
 	body_parts_covered = CHEST|GROIN|ARMS|LEGS|VITALS
 	icon_state = "nocrobe"
 	icon = 'icons/roguetown/clothing/armor.dmi'
@@ -113,7 +113,7 @@
 /obj/item/clothing/suit/roguetown/shirt/robe/necromancer
 	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT|ITEM_SLOT_CLOAK
 	name = "necromancer robes"
-	desc = ""
+	desc = "Fetch me their souls!"
 	body_parts_covered = CHEST|GROIN|ARMS|LEGS|VITALS
 	icon_state = "necromrobe"
 	icon = 'icons/roguetown/clothing/armor.dmi'
@@ -142,7 +142,7 @@
 /obj/item/clothing/suit/roguetown/shirt/robe/necra
 	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT|ITEM_SLOT_CLOAK
 	name = "mourning robe"
-	desc = ""
+	desc = "Memento mori; remember this, for you too will eventually die."
 	body_parts_covered = CHEST|GROIN|ARMS|LEGS|VITALS
 	icon_state = "necrarobe"
 	icon = 'icons/roguetown/clothing/armor.dmi'
@@ -280,7 +280,7 @@
 	icon = 'icons/roguetown/clothing/armor.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/armor.dmi'
 	icon_state = "physcoat"
-	slot_flags = ITEM_SLOT_ARMOR
+	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_CLOAK
 	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_armor.dmi'
 	boobed = TRUE
 	color = null
@@ -312,13 +312,13 @@
 	name = "open eoran robe"
 	desc = "Used by more radical followers of the Eoran Church"
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/armor.dmi'
-	body_parts_covered = null
+	body_parts_covered = null // Keyhole should show boob size and the outfit is too open to get in the way of sex
 	icon_state = "eorastraps"
 	item_state = "eorastraps"
-	flags_inv = HIDEBOOB
+	flags_inv = HIDEBOOB // This pretty much only prevents seeing underwear and or clipping if you have really big tits
 	fanatic_wear = TRUE
 
-/obj/item/clothing/suit/roguetown/shirt/robe/eora/attack_right(mob/user)
+/obj/item/clothing/suit/roguetown/shirt/robe/eora/attack_right(mob/user) // All this changes is the sprite which is okay
 	switch(fanatic_wear)
 		if(FALSE)
 			name = "open eoran robe"
@@ -327,7 +327,7 @@
 			icon_state = "eorastraps"
 			item_state = "eorastraps"
 			fanatic_wear = TRUE
-			flags_inv = HIDECROTCH
+			flags_inv = HIDEBOOB
 			to_chat(usr, span_warning("Now wearing radically!"))
 		if(TRUE)
 			name = "eoran robe"
@@ -402,7 +402,7 @@
 	color = CLOTHING_SCARLET
 
 /obj/item/clothing/suit/roguetown/shirt/robe/bared
-	name = "Bared Robe"
+	name = "bared robe"
 	desc = "A robe of basic cloth, it's chest bared open to expose what lay underneath."
 	icon_state = "openrobe"
 	item_state = "openrobe"

@@ -59,6 +59,9 @@
 /datum/mob_descriptor/face/full
 	name = "Full"
 
+/datum/mob_descriptor/face/punchable
+	name = "Punchable"
+
 /datum/mob_descriptor/face_exp
 	abstract_type = /datum/mob_descriptor/face_exp
 	suffix = "face"
@@ -101,7 +104,7 @@
 	name = "Salacious"
 
 /datum/mob_descriptor/face_exp/contemptous
-	name = "Contemptous"
+	name = "Contemptuous"
 
 /datum/mob_descriptor/face_exp/mocking
 	name = "Mocking"

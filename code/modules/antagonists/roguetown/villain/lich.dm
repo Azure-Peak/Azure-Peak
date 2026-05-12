@@ -41,6 +41,7 @@
 		TRAIT_RITUALIST,
 		TRAIT_ARCYNE,
 		TRAIT_SELF_SUSTENANCE,
+		TRAIT_ALCHEMY_EXPERT,
 		TRAIT_SILVER_WEAK
 		)
 
@@ -148,18 +149,19 @@
 
 	if(H.mind)
 		// Lich-specific spells (not from aspects)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/bonechill)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/bonechill)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/bonemend)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/raise_undead)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/raise_undead_formation)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/raise_undead_formation)
 		H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/blood_bolt())
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/diagnose/secular)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/minion_order)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/gravemark)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/minion_order)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/gravemark)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/suicidebomb)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/remotebomb)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/lich_announce)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/convert_heretic)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/tame_undead)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/convert_heretic)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/tame_undead)
 		H.mind.AddSpell(new /datum/action/cooldown/spell/raise_deadite)
 	H.ambushable = FALSE
 	H.dna.species.soundpack_m = new /datum/voicepack/other/lich()
@@ -173,6 +175,17 @@
 		QDEL_NULL(eyes)
 	eyes = new /obj/item/organ/eyes/night_vision/zombie
 	eyes.Insert(L)
+
+/datum/antagonist/lich/examine_friendorfoe(datum/antagonist/examined_datum,mob/examiner,mob/examined)
+	if(istype(examined_datum, /datum/antagonist/vampire))
+		if(!SEND_SIGNAL(examined_datum.owner, COMSIG_DISGUISE_STATUS))
+			return span_boldnotice("Another deadite.")
+	if(istype(examined_datum, /datum/antagonist/zombie))
+		return span_boldnotice("Another deadite.")
+	if(istype(examined_datum, /datum/antagonist/skeleton))
+		return span_boldnotice("Another deadite. My Ally.")
+	if(istype(examined_datum, /datum/antagonist/lich))
+		return span_boldnotice("Another Deadite.")
 
 /datum/outfit/job/roguetown/lich/post_equip(mob/living/carbon/human/H)
 	..()

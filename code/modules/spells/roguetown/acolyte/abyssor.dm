@@ -1,127 +1,12 @@
-//t1, the bends
-/obj/effect/proc_holder/spell/invoked/abyssor_bends
-	name = "Depth Bends"
-	desc = "Drains the targets stamina, unless they worship Abyssor. Also makes them dizzy and blurs their screen."
-	overlay_icon = 'icons/mob/actions/abyssormiracles.dmi'
-	action_icon = 'icons/mob/actions/abyssormiracles.dmi'
-	overlay_state = "bends"
-	releasedrain = 15
-	chargedrain = 0
-	chargetime = 0.75 SECONDS
-	range = 15
-	movement_interrupt = FALSE
-	chargedloop = null
-	sound = 'sound/foley/bubb (5).ogg'
-	invocations = list("Weight of the deep, crush!")
-	invocation_type = "shout"
-	associated_skill = /datum/skill/magic/holy
-	antimagic_allowed = TRUE
-	recharge_time = 20 SECONDS
-	miracle = TRUE
-	devotion_cost = 15
-	var/base_fatdrain = 10
+/////////////////////////////////////////////////////////////////////////////////
+// T0 - Aquatic Compulsion - Target a water tile to compel a fish towards you. //
+/////////////////////////////////////////////////////////////////////////////////
 
-/obj/effect/proc_holder/spell/invoked/abyssor_bends/cast(list/targets, mob/user = usr)
-	. = ..()
-	if(isliving(targets[1]))
-		var/mob/living/target = targets[1]
-		user.visible_message("<font color='yellow'>[user] makes a fist at [target]!</font>")
-		if(spell_guard_check(target, TRUE))
-			target.visible_message(span_warning("[target] endures the crushing pressure!"))
-			return TRUE
-		if(istype(target, /mob/living/carbon))
-			var/mob/living/carbon = target
-			if(carbon.patron?.type != /datum/patron/divine/abyssor)
-				var/fatdrain = user.get_skill_level(associated_skill) * base_fatdrain
-				carbon.stamina_add(fatdrain)
-		target.Dizzy(10)
-		target.blur_eyes(20)
-		target.emote("drown")
-		return TRUE
-	revert_cast()
-	return FALSE
-
-/obj/effect/proc_holder/spell/invoked/abyssor_undertow // t1 offbalance someone for 5 seconds if on land, on water, knock them down.
-	name = "Undertow"
-	desc = "Throws target down if they are on water, otherwise puts them off balance."
-	overlay_icon = 'icons/mob/actions/abyssormiracles.dmi'
-	action_icon = 'icons/mob/actions/abyssormiracles.dmi'
-	overlay_state = "undertow"
-	releasedrain = 15
-	chargedrain = 0
-	chargetime = 0.75 SECONDS
-	range = 15
-	movement_interrupt = FALSE
-	chargedloop = null
-	sound = 'sound/misc/undertow.ogg'
-	invocations = list("Strangling waters, pull!")
-	invocation_type = "shout"
-	associated_skill = /datum/skill/magic/holy
-	antimagic_allowed = TRUE
-	recharge_time = 20 SECONDS
-	miracle = TRUE
-	devotion_cost = 15
-
-/obj/effect/proc_holder/spell/invoked/abyssor_undertow/cast(list/targets, mob/user = usr)
-	. = ..()
-	if(isliving(targets[1]))
-		var/mob/living/target = targets[1]
-		user.visible_message("<font color='yellow'>[user] raises a hand towards [target]!</font>")
-		if(spell_guard_check(target, TRUE))
-			target.visible_message(span_warning("[target] stands firm against the undertow!"))
-			return TRUE
-		var/turf/targettile = get_turf(target)
-		if(istype(targettile, /turf/open/water))
-			target.Knockdown(10)
-		else
-			target.OffBalance(50)
-		return TRUE
-	revert_cast()
-	return FALSE
-
-
-//T0. Stands the character up, if they can stand.
-/obj/effect/proc_holder/spell/self/abyssor_wind
-	name = "Second Wind"
-	desc = "Rise if fallen, regaining some of your stamina."
-	overlay_state = "abyssor_wind"
-	releasedrain = 0
-	chargedrain = 0
-	chargetime = 0
-	sound = 'sound/magic/abyssor_splash.ogg'
-	associated_skill = /datum/skill/magic/holy
-	antimagic_allowed = FALSE
-	invocations = list("What is drowned shall rise anew!")
-	invocation_type = "shout"
-	recharge_time = 120 SECONDS
-	devotion_cost = 30
-	miracle = TRUE
-	var/stamregenmod = 5	//How many % of stamina we regain after cast, scales with holy skill.
-
-/obj/effect/proc_holder/spell/self/abyssor_wind/cast(list/targets, mob/user)
-	if(!ishuman(user))
-		revert_cast()
-		return FALSE
-	var/mob/living/carbon/human/H = user
-	if(H.IsStun() || H.IsImmobilized() || H.IsOffBalanced())
-		to_chat(user, span_warning("I am too incapacitated!"))
-		revert_cast()
-		return FALSE
-	var/msg = span_warning("[user] ")
-	if(H.resting)
-		H.set_resting(FALSE, FALSE)
-		msg += span_warning("rises and ")
-	var/regen = (stamregenmod / 100) * H.get_skill_level(associated_skill)
-	H.stamina_add(-(regen * H.max_stamina))
-	H.energy_add(regen * H.max_energy)
-	msg += span_warning("becomes invigorated!")
-	H.visible_message(msg)
-	return TRUE
-
-//T0 The Fishing
 /obj/effect/proc_holder/spell/invoked/aquatic_compulsion
 	name = "Aquatic Compulsion"
 	desc = "Compel a random fish to leap out from targeted water tile and towards you. Standing still may yield you continuously, as long as your Devotion and stamina holds. Costs will increase over time."
+	action_icon = 'icons/mob/actions/abyssormiracles.dmi'
+	overlay_icon = 'icons/mob/actions/abyssormiracles.dmi'
 	overlay_state = "aqua"
 	releasedrain = 20
 	chargedrain = 0
@@ -357,7 +242,141 @@
 	channeling = FALSE
 	return TRUE
 
-//T2, Abyssal Healing. Totally stole most of this from lesser heal.
+////////////////////////////////////////////////////////////////////
+// T0 - Second Wind - Stands the character up, if they can stand. //
+////////////////////////////////////////////////////////////////////
+
+/obj/effect/proc_holder/spell/self/abyssor_wind
+	name = "Second Wind"
+	desc = "Rise if fallen, regaining some of your stamina."
+	action_icon = 'icons/mob/actions/abyssormiracles.dmi'
+	overlay_icon = 'icons/mob/actions/abyssormiracles.dmi'
+	overlay_state = "abyssor_wind"
+	releasedrain = 0
+	chargedrain = 0
+	chargetime = 0
+	sound = 'sound/magic/abyssor_splash.ogg'
+	associated_skill = /datum/skill/magic/holy
+	antimagic_allowed = FALSE
+	invocations = list("What is drowned shall rise anew!")
+	invocation_type = "shout"
+	recharge_time = 2 MINUTES
+	devotion_cost = 30
+	miracle = TRUE
+	var/stamregenmod = 5	//How many % of stamina we regain after cast, scales with holy skill.
+
+/obj/effect/proc_holder/spell/self/abyssor_wind/cast(list/targets, mob/user)
+	if(!ishuman(user))
+		revert_cast()
+		return FALSE
+	var/mob/living/carbon/human/H = user
+	if(H.IsStun() || H.IsImmobilized() || H.IsOffBalanced())
+		to_chat(user, span_warning("I am too incapacitated!"))
+		revert_cast()
+		return FALSE
+	var/msg = span_warning("[user] ")
+	if(H.resting)
+		H.set_resting(FALSE, FALSE)
+		msg += span_warning("rises and ")
+	var/regen = (stamregenmod / 100) * H.get_skill_level(associated_skill)
+	H.stamina_add(-(regen * H.max_stamina))
+	H.energy_add(regen * H.max_energy)
+	msg += span_warning("becomes invigorated!")
+	H.visible_message(msg)
+	return TRUE
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+// T1 - Depth Bends - Drains the targets stamina, makes them dizzy and blurs their screen. //
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+/obj/effect/proc_holder/spell/invoked/abyssor_bends
+	name = "Depth Bends"
+	desc = "Drains the targets stamina, unless they worship Abyssor. Also makes them dizzy and blurs their screen."
+	overlay_icon = 'icons/mob/actions/abyssormiracles.dmi'
+	action_icon = 'icons/mob/actions/abyssormiracles.dmi'
+	overlay_state = "bends"
+	releasedrain = 15
+	chargedrain = 0
+	chargetime = 0.75 SECONDS
+	range = 7
+	movement_interrupt = FALSE
+	chargedloop = null
+	sound = 'sound/foley/bubb (5).ogg'
+	invocations = list("Weight of the deep, crush!")
+	invocation_type = "shout"
+	associated_skill = /datum/skill/magic/holy
+	antimagic_allowed = TRUE
+	recharge_time = 20 SECONDS
+	miracle = TRUE
+	devotion_cost = 15
+	var/base_fatdrain = 10
+
+/obj/effect/proc_holder/spell/invoked/abyssor_bends/cast(list/targets, mob/user = usr)
+	. = ..()
+	if(isliving(targets[1]))
+		var/mob/living/target = targets[1]
+		user.visible_message("<font color='yellow'>[user] makes a fist at [target]!</font>")
+		if(spell_guard_check(target, TRUE))
+			target.visible_message(span_warning("[target] endures the crushing pressure!"))
+			return TRUE
+		if(istype(target, /mob/living/carbon))
+			var/mob/living/carbon = target
+			if(carbon.patron?.type != /datum/patron/divine/abyssor)
+				var/fatdrain = user.get_skill_level(associated_skill) * base_fatdrain
+				carbon.stamina_add(fatdrain)
+		target.Dizzy(10)
+		target.blur_eyes(20)
+		target.emote("drown")
+		return TRUE
+	revert_cast()
+	return FALSE
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// T2 - Undertow - Throws target down if they are on water, otherwise puts them off balance. //
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+/obj/effect/proc_holder/spell/invoked/abyssor_undertow
+	name = "Undertow"
+	desc = "Throws target down if they are on water, otherwise puts them off balance."
+	overlay_icon = 'icons/mob/actions/abyssormiracles.dmi'
+	action_icon = 'icons/mob/actions/abyssormiracles.dmi'
+	overlay_state = "undertow"
+	releasedrain = 15
+	chargedrain = 0
+	chargetime = 0.75 SECONDS
+	range = 7
+	movement_interrupt = FALSE
+	chargedloop = null
+	sound = 'sound/misc/undertow.ogg'
+	invocations = list("Strangling waters, pull!")
+	invocation_type = "shout"
+	associated_skill = /datum/skill/magic/holy
+	antimagic_allowed = TRUE
+	recharge_time = 20 SECONDS
+	miracle = TRUE
+	devotion_cost = 15
+
+/obj/effect/proc_holder/spell/invoked/abyssor_undertow/cast(list/targets, mob/user = usr)
+	. = ..()
+	if(isliving(targets[1]))
+		var/mob/living/target = targets[1]
+		user.visible_message("<font color='yellow'>[user] raises a hand towards [target]!</font>")
+		if(spell_guard_check(target, TRUE))
+			target.visible_message(span_warning("[target] stands firm against the undertow!"))
+			return TRUE
+		var/turf/targettile = get_turf(target)
+		if(istype(targettile, /turf/open/water))
+			target.Knockdown(10)
+		else
+			target.OffBalance(50)
+		return TRUE
+	revert_cast()
+	return FALSE
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// T2 - Abyssal Healing - Heals target over time, more if there is water around you. Weakens if cast away from water for too long. //
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 /obj/effect/proc_holder/spell/invoked/abyssheal
 	name = "Abyssal Healing"
 	desc = "Heals target over time, more if there is water around you. Weakens if cast away from water for too long"
@@ -377,7 +396,7 @@
 	antimagic_allowed = TRUE
 	recharge_time = 10 SECONDS
 	miracle = TRUE
-	devotion_cost = 45
+	devotion_cost = 40 //Bolster is 50, Fortify 30, Miracle 10, I guess if we combined fortify + miracle then we get 40
 	var/slickness = 20
 	var/max_slickness = 20
 	var/max_slickness_greater_caster = 40
@@ -439,9 +458,11 @@
 
 	revert_cast()
 	return FALSE
-//t3 alt, land surf, i just removed it but if this idea is like better... we'll see
 
-//t3, possible t4 if I put in land surf, summon mossback
+///////////////////////////////////////////
+// T3 - Call Mossback- Self explanatory. //
+///////////////////////////////////////////
+
 /obj/effect/proc_holder/spell/invoked/call_mossback
 	name = "Call Mossback"
 	desc = "Calls a Mossback that is friendly to you and that you can command."
@@ -462,7 +483,7 @@
 	antimagic_allowed = TRUE
 	recharge_time = 10 SECONDS
 	miracle = TRUE
-	devotion_cost = 100
+	devotion_cost = 50
 	var/townercrab = TRUE //I was looking at this for three days and i am utterly stupid for not fixing it
 	var/mob/living/simple_animal/hostile/retaliate/rogue/mossback/summoned
 
@@ -470,8 +491,8 @@
 	. = ..()
 	var/turf/T = get_turf(targets[1])
 	if(isopenturf(T))
-		if(!user.mind.has_spell(/obj/effect/proc_holder/spell/invoked/minion_order))
-			user.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/minion_order)
+		if(!user.mind.has_spell(/datum/action/cooldown/spell/minion_order))
+			user.mind.AddSpell(new /datum/action/cooldown/spell/minion_order)
 		QDEL_NULL(summoned)
 		summoned = new /mob/living/simple_animal/hostile/retaliate/rogue/mossback(T, user, townercrab)
 		return TRUE
@@ -479,9 +500,15 @@
 		to_chat(user, span_warning("The targeted location is blocked. My call fails to draw a mossback."))
 		return FALSE
 
+////////////////////////////////////////////////
+// T3 - Summon Dreamfiend - Self explanatory. //
+////////////////////////////////////////////////
+
 /obj/effect/proc_holder/spell/invoked/call_dreamfiend
 	name = "Summon Dreamfiend"
 	desc = "Summons a Dreamfiend to hound your target."
+	action_icon = 'icons/mob/actions/abyssormiracles.dmi'
+	overlay_icon = 'icons/mob/actions/abyssormiracles.dmi'
 	overlay_state = "dreamfiend"
 	range = 7
 	no_early_release = TRUE
@@ -490,9 +517,9 @@
 	sound = 'sound/foley/bubb (1).ogg'
 	invocations = list("From the dream, consume!")
 	invocation_type = "shout"
-	recharge_time = 300 SECONDS
+	recharge_time = 5 MINUTES
 	miracle = TRUE
-	devotion_cost = 150
+	devotion_cost = 100
 
 	// Teleport parameters
 	var/inner_tele_radius = 1
@@ -562,10 +589,15 @@
 	F.visible_message(span_notice("A [F] manifests following after [target]... countless teeth bared with hostility!"))
 	return TRUE
 
-// No chargetime given this can be cast well in advance.
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// T3 - Summon Dreamfiend - Consumes an anglerfish to bless a target with ability to call upon Abyssal Strength. //
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 /obj/effect/proc_holder/spell/invoked/abyssal_infusion
 	name = "Abyssal Infusion"
 	desc = "Consumes an anglerfish to bless a target with ability to call upon Abyssal Strength."
+	action_icon = 'icons/mob/actions/abyssormiracles.dmi'
+	overlay_icon = 'icons/mob/actions/abyssormiracles.dmi'
 	overlay_state = "abyssal_infusion"
 	range = 7
 	no_early_release = TRUE
@@ -574,9 +606,9 @@
 	//Each dreamfiend has a different name to call!
 	invocations = list("shogg vulgt!")
 	invocation_type = "shout"
-	recharge_time = 600 SECONDS
+	recharge_time = 10 MINUTES
 	miracle = TRUE
-	devotion_cost = 300
+	devotion_cost = 150 //More in line with other T4s
 
 /obj/effect/proc_holder/spell/invoked/abyssal_infusion/cast(list/targets, mob/living/user)
 	. = ..()
@@ -622,6 +654,8 @@
 /obj/effect/proc_holder/spell/invoked/abyssal_strength
 	name = "Abyssal Strength"
 	desc = "Buffs all your stats besides fortune and lowers your perception."
+	action_icon = 'icons/mob/actions/abyssormiracles.dmi'
+	overlay_icon = 'icons/mob/actions/abyssormiracles.dmi'
 	overlay_state = "abyssal_strength1"
 	range = 0
 	ignore_los = TRUE // this should probably be a /self spell but its not
@@ -632,7 +666,7 @@
 	//Each dreamfiend has a different name to call!
 	invocations = list("shogg vulgt!")
 	invocation_type = "shout"
-	recharge_time = 750 SECONDS
+	recharge_time = 12 MINUTES
 
 	var/stage = 1
 	var/casts_in_stage = 0

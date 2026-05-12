@@ -161,9 +161,9 @@
 	var/mob/living/parent_mob
 	var/base_proc_chance = 10 // 10% base chance to apply rot
 	var/self_rot_stacks = 1
-	var/no_skill_targets_stacks = 2
-	var/low_skill_target_stacks = 3
-	var/high_skill_target_stacks = 4
+	var/no_skill_targets_stacks = 3
+	var/low_skill_target_stacks = 6
+	var/high_skill_target_stacks = 11
 	var/high_skill_level = 5
 
 /datum/component/infestation_black_rot/Initialize()
@@ -192,6 +192,10 @@
 	attempt_apply_rot(living_attacker, is_offensive = FALSE)
 
 /datum/component/infestation_black_rot/proc/attempt_apply_rot(mob/living/target, is_offensive)
+	if(parent_mob.has_status_effect(/datum/status_effect/black_rot_debility))
+		to_chat(parent_mob, span_warning("My black rot is surpressed by my immunity!"))
+		return
+
 	if(!isliving(target) || target == parent_mob)
 		return
 
@@ -218,7 +222,11 @@
 		else
 			stacks_to_apply = high_skill_target_stacks
 
-		target.apply_status_effect(/datum/status_effect/black_rot, stacks_to_apply)
+		var/datum/status_effect/black_rot/R = target.has_status_effect(/datum/status_effect/black_rot)
+		if(!R)
+			target.apply_status_effect(/datum/status_effect/black_rot, stacks_to_apply)
+		else
+			R.add_stack(stacks_to_apply)
 		target.visible_message(span_userdanger("[target] twitches as a black rot begins to spread across their body!"))
 		parent_mob.apply_status_effect(/datum/status_effect/black_rot, self_rot_stacks)
 

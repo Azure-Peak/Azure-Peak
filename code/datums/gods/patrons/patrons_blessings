@@ -221,7 +221,7 @@
 			/datum/status_effect/buff/clean_plus = "Dendor rasps: \"You wipe the rot... but it returns.\"",
 			/datum/status_effect/buff/featherfall = "Dendor chuckles: \"Fallin' leaves. Yah! You're like that. Heh.\"",
 			/datum/status_effect/buff/darkvision = "Dendor growls: \"See the dark roots..\"",
-			/datum/status_effect/buff/haste = "Dendor grumbles: \"Run fast. The wolves do.\"",
+			/datum/status_effect/buff/haste = "Dendor grumbles: \"Run fast. The volves do.\"",
 			/datum/status_effect/buff/calm = "Dendor breathes: \"Wind flows. Calming?\"",
 			/datum/status_effect/buff/barbrage = "Dendor growls: \"GRRR! It's dancing time!\""
 		),

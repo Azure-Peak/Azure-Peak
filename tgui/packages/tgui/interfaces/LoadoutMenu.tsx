@@ -38,6 +38,7 @@ type Data = {
   max_points: number;
   is_donator: boolean;
   triumph_discount: number;
+  donator_bonus: number;
   // Dynamic
   selected: SelectedItem[];
   total_cost: number;
@@ -305,6 +306,7 @@ const LoadoutDisplay = () => {
     player_triumphs,
     is_donator,
     triumph_discount,
+    donator_bonus,
   } = data;
 
   const currentCategory = activeCategory || categories[0] || '';
@@ -482,7 +484,7 @@ const LoadoutDisplay = () => {
               {!!is_donator && (
                 <Box inline bold fontSize={0.85} color="gold" mr={1.5}>
                   <Box inline mr={0.5}>&#9733;</Box>
-                  Donator - {triumph_discount} TRI free
+                  Donator - +{donator_bonus} budget, {triumph_discount} TRI free
                 </Box>
               )}
               <Box inline color="label" fontSize={0.85}>

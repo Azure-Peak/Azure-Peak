@@ -100,7 +100,7 @@
 
 /datum/loadout_item/donator/eiren3
 	name = "Donator Kit - Cinis"
-	path = /obj/item/enchantingkit/eirensabre2
+	path = /obj/item/enchantingkit/weapon/eirensabre2
 	ckeywhitelist = list("eirenxiv")
 
 /datum/loadout_item/donator/eiren4
@@ -310,6 +310,31 @@
 	ckeywhitelist = list("rivercadaver")
 
 /datum/loadout_item/donator/wyrd_cloak
-	name = "Wyrd Cloak"
+	name = "Donator Item - Wyrd Cloak"
 	path = /obj/item/clothing/suit/roguetown/armor/longcoat/wyrd_cloak
 	ckeywhitelist = list("nekosam")
+
+/datum/loadout_item/donator/dark_delight
+	name = "Donator Item - Dark Delight"
+	path = /obj/item/enchantingkit/weapon/nicksonessang
+	ckeywhitelist = list("nicksone")
+
+/datum/loadout_item/donator/koruu_silver_kukri
+	name = "Donator Kit - Psydonic Leachwhacker"
+	path = /obj/item/enchantingkit/weapon/koruu_kukri_silver
+	ckeywhitelist = list("koruu")
+
+/datum/loadout_item/donator/koruu_longsword
+	name = "Donator Kit - Excaliber"
+	path = /obj/item/enchantingkit/weapon/koruu_longsword
+	ckeywhitelist = list("koruu", "pneumothorax")
+
+/datum/loadout_item/donator/koruu_etrusc
+	name = "Donator Kit - Colada"
+	path = /obj/item/enchantingkit/weapon/koruu_etrusc
+	ckeywhitelist = list("koruu", "pneumothorax")
+
+/datum/loadout_item/donator/koruu_judgement
+	name = "Donator Kit - A Durthurian Tale"
+	path = /obj/item/enchantingkit/weapon/koruu_judgement
+	ckeywhitelist = list("koruu", "pneumothorax")
