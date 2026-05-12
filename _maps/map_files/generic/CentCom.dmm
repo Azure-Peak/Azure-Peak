@@ -757,15 +757,27 @@
 /turf/open/floor/rogue/cobble,
 /area/rogue/indoors/shelter/bog_hag)
 "dE" = (
-/obj/structure/mannequin/male/decorative/training_dummy_style,
-/obj/item/clothing/suit/roguetown/armor/plate/cuirass/aalloy,
-/obj/item/clothing/neck/roguetown/gorget/aalloy,
-/obj/item/clothing/head/roguetown/helmet/heavy/guard/aalloy,
-/obj/item/clothing/gloves/roguetown/plate/aalloy,
-/obj/item/clothing/under/roguetown/platelegs/aalloy,
+/obj/item/clothing/cloak/lordcloak/ladycloak,
+/obj/item/clothing/cloak/lordcloak,
+/obj/item/clothing/cloak/darkcloak,
+/obj/item/clothing/cloak/matron,
+/obj/item/clothing/cloak/stole/purple,
+/obj/item/clothing/cloak/stole/red,
+/obj/item/clothing/cloak/cape/blkknight,
 /obj/effect/decal/cleanable/dirt/cobweb{
-	icon_state = "cobweb2"
+	dir = 1
 	},
+/obj/item/clothing/head/roguetown/chaperon/noble/evil,
+/obj/item/clothing/suit/roguetown/shirt/robe/unholy/lich,
+/obj/structure/closet/crate/roguecloset/dark,
+/obj/item/clothing/mask/rogue/lordmask/triumph,
+/obj/item/storage/belt/rogue/leather/steel/tasset,
+/obj/item/storage/belt/rogue/leather/steel,
+/obj/item/storage/belt/rogue/leather/black,
+/obj/item/storage/belt/rogue/leather/plaquegold,
+/obj/item/storage/belt/rogue/leather,
+/obj/item/clothing/mask/rogue/facemask/steel/paalloy,
+/obj/item/clothing/head/roguetown/roguehood/unholy/lich,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/lich_start)
 "dL" = (
@@ -2001,27 +2013,10 @@
 /turf/closed/wall/mineral/rogue/decostone/mossy/red/long,
 /area/rogue/indoors/lich_start)
 "zb" = (
-/obj/item/clothing/cloak/lordcloak/ladycloak,
-/obj/item/clothing/cloak/lordcloak,
-/obj/item/clothing/cloak/darkcloak,
-/obj/item/clothing/cloak/matron,
-/obj/item/clothing/cloak/stole/purple,
-/obj/item/clothing/cloak/stole/red,
-/obj/item/clothing/cloak/cape/blkknight,
-/obj/effect/decal/cleanable/dirt/cobweb{
-	dir = 1
-	},
-/obj/item/clothing/head/roguetown/chaperon/noble/evil,
-/obj/item/clothing/suit/roguetown/shirt/robe/unholy/lich,
-/obj/structure/closet/crate/roguecloset/dark,
-/obj/item/clothing/mask/rogue/lordmask/triumph,
-/obj/item/storage/belt/rogue/leather/steel/tasset,
-/obj/item/storage/belt/rogue/leather/steel,
-/obj/item/storage/belt/rogue/leather/black,
-/obj/item/storage/belt/rogue/leather/plaquegold,
-/obj/item/storage/belt/rogue/leather,
-/obj/item/clothing/mask/rogue/facemask/steel/paalloy,
-/obj/item/clothing/head/roguetown/roguehood/unholy/lich,
+/obj/structure/closet/crate/chest/old_crate,
+/obj/item/reagent_containers/glass/bottle/rogue/healthpot,
+/obj/item/reagent_containers/glass/bottle/rogue/healthpot,
+/obj/item/reagent_containers/glass/bottle/rogue/healthpot,
 /turf/open/floor/rogue/churchbrick,
 /area/rogue/indoors/lich_start/lich_lair)
 "zl" = (
@@ -3451,13 +3446,6 @@
 "Xq" = (
 /turf/closed/mineral/rogue/bedrock,
 /area/rogue/indoors/lich_start/lich_lair)
-"Xw" = (
-/obj/item/reagent_containers/glass/bottle/rogue/healthpot,
-/obj/item/reagent_containers/glass/bottle/rogue/healthpot,
-/obj/item/reagent_containers/glass/bottle/rogue/healthpot,
-/obj/structure/closet/crate/chest/old_crate,
-/turf/open/floor/rogue/churchbrick,
-/area/rogue/indoors/lich_start/lich_lair)
 "XM" = (
 /obj/structure/fluff/psycross/zizocross/golden,
 /obj/structure/fluff/walldeco/bigpainting{
@@ -4481,7 +4469,7 @@ jF
 jF
 jF
 nj
-Xw
+st
 st
 st
 Ud
