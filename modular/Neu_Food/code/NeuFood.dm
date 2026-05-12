@@ -72,7 +72,7 @@
 	return ..()
 
 /obj/item/reagent_containers/food/snacks/rogue/proc/do_cooking_step(obj/item/I, mob/living/user)
-	if(!do_after(user, active_recipe.time_per_step, target = src))
+	if(!do_after(user, get_cooking_do_time(user, active_recipe.time_per_step), target = src))
 		return
 
 	playsound(src, 'sound/foley/dropsound/gen_drop.ogg', 30, TRUE)
@@ -98,6 +98,7 @@
 		if(!active_recipe.needs_cooking)
 			finalize_cooking()
 		else
+			to_chat(user, span_nicegreen("[name] is ready to be cooked."))
 			cooked_type = active_recipe.result_type
 			fried_type = active_recipe.result_type
 

@@ -345,3 +345,148 @@
 	icon_state = "fryvolf_garlick_cucumber"
 	tastes = list("gamey volf" = 1, "garlick" = 1, "cucumber" = 1)
 	eat_effect = /datum/status_effect/buff/mealbuff
+
+/* .............  Honey glazed venison ribs  ................ */
+/obj/item/reagent_containers/food/snacks/rogue/meat/saiga_ribs/cooked/glazed
+	name = "forest glaze"
+	desc = "A helping of venison ribs glazed to perfection in honey. The golden brown flesh is almost shiny enough for you to see your own reflection."
+	icon = 'modular/Neu_Food/icons/cooked/cooked_meat_meal.dmi'
+	icon_state = "ribs_glazed"
+	tastes = list("sweet venison" = 1, "honey" = 1)
+	faretype = FARE_FINE
+	eat_effect = /datum/status_effect/buff/mealbuff
+
+/datum/food_recipe/venison_ribs_glazed
+	name = "glazed venison ribs"
+	base_item = /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_ribs
+	ingredients = list(
+		/obj/item/reagent_containers/food/snacks/rogue/honey
+	)
+	result_type = /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_ribs/cooked/glazed
+	time_per_step = 1 SECONDS
+	needs_cooking = TRUE
+
+/* .............  Deadite saiga cube  ................ */
+/obj/item/reagent_containers/food/snacks/rogue/meat/saiga_loins_z/cooked/cubed
+	name = "carrion coulis"
+	desc = "A gelatinous, ghoulish delight fashioned from deadite saiga loins. Poke it to see it shudder and wobble."
+	icon = 'modular/Neu_Food/icons/cooked/cooked_meat_meal.dmi'
+	icon_state = "saiga_d_jelly"
+	// At last, proper supper
+	faretype = FARE_NEUTRAL
+	tastes = list("gelatin" = 1, "squishy meat" = 1)
+	eat_effect = /datum/status_effect/buff/mealbuff
+
+/datum/food_recipe/deadite_loins_cubed
+	name = "gelatinous meat cube"
+	base_item = /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_loins_z
+	ingredients = list(
+		/obj/item/natural/bone,
+		/obj/item/alch/viscera
+	)
+	result_type = /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_loins_z/cooked/cubed
+	time_per_step = 1 SECONDS
+	needs_cooking = TRUE
+
+/* .............  Deadite saiga rib crown  ................ */
+/obj/item/reagent_containers/food/snacks/rogue/meat/saiga_ribs_z/cooked/crown
+	name = "couronne de baies-noires"
+	desc = "A crown fashioned from deadite saiga rib-bones, cooked to the point most of the juicy meat has sagged to the bottom. The meat-mash is dotted with countless jackberries down below."
+	icon = 'modular/Neu_Food/icons/cooked/cooked_meat_meal.dmi'
+	icon_state = "saiga_d_ribs"
+	tastes = list("mashed meat" = 1, "jackberries" = 1)
+	eat_effect = /datum/status_effect/buff/mealbuff
+
+/datum/food_recipe/deadite_ribs_crown
+	name = "berry rib crown"
+	base_item = /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_ribs_z
+	ingredients = list(
+		/obj/item/reagent_containers/food/snacks/grown/berries/rogue
+	)
+	result_type = /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_ribs_z/cooked/crown
+	time_per_step = 1 SECONDS
+	needs_cooking = TRUE
+
+/* .............  Deadite saiga roses  ................ */
+/obj/item/reagent_containers/food/snacks/rogue/meat/saiga_prime_z/cooked/roses
+	name = "bouquet des trépassés"
+	desc = "A strange dish of prime deadite saiga meat, sliced thin and assembled to look like roses. These are typically left on graves to commemorate someone. Otavan vampires make a habit out of trying to steal these off graves, for they desire the strange flesh."
+	icon = 'modular/Neu_Food/icons/cooked/cooked_meat_meal.dmi'
+	icon_state = "saiga_d_roses"
+	tastes = list("thin sticky meat" = 1, "garlyck" = 1)
+	eat_effect = /datum/status_effect/buff/mealbuff
+	faretype = FARE_FINE
+
+/datum/food_recipe/deadite_rose
+	name = "meat roses"
+	base_item = /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_prime_z
+	ingredients = list(
+		/obj/item/reagent_containers/food/snacks/rogue/veg/garlick_clove
+	)
+	result_type = /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_prime_z/cooked/roses
+	time_per_step = 1 SECONDS
+	needs_cooking = TRUE
+
+/* .............  Deadite saiga wellington  ................ */
+/obj/item/reagent_containers/food/snacks/rogue/meat/saiga_z/cooked/meatloaf
+	name = "grave galette"
+	desc = "A patchwork amalgamation of various meats, but primarily that of the deadite saiga. It is a meatloaf, but you'd rather it didn't exist at all."
+	icon = 'modular/Neu_Food/icons/cooked/cooked_meat_meal.dmi'
+	icon_state = "d_bread6"
+	tastes = list("crumbly squishy meatloaf" = 1, "ghoul" = 1, "grout and grime" = 1)
+	// Safe to eat, not much else, though.
+	eat_effect = null
+	slices_num = 6
+	bitesize = 7
+	slice_batch = FALSE
+	rotprocess = null
+	slice_sound = TRUE
+	slice_path = /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_z/cooked/meatloaf_slice
+	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_CHUNKY)
+
+/obj/item/reagent_containers/food/snacks/rogue/meat/saiga_z/cooked/meatloaf/update_icon()
+	if(slices_num)
+		icon_state = "d_bread[slices_num]"
+	else
+		icon_state = "d_bread_slice"
+
+/obj/item/reagent_containers/food/snacks/rogue/meat/saiga_z/cooked/meatloaf/On_Consume(mob/living/eater)
+	..()
+	if(slices_num)
+		if(bitecount == 2)
+			slices_num = 5
+		if(bitecount == 3)
+			slices_num = 4
+		if(bitecount == 4)
+			slices_num = 3
+		if(bitecount == 5)
+			slices_num = 2
+		if(bitecount == 6)
+			changefood(slice_path, eater)
+
+/obj/item/reagent_containers/food/snacks/rogue/meat/saiga_z/cooked/meatloaf_slice
+	name = "galette slice"
+	icon = 'modular/Neu_Food/icons/cooked/cooked_meat_meal.dmi'
+	desc = "A singular slice of a truly vile meatloaf fashioned out of deadite saiga flesh."
+	icon_state = "d_bread_slice"
+	bitesize = 2
+	slices_num = FALSE
+	slice_path = FALSE
+	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_POOR)
+	eat_effect = null
+	tastes = list("crumbly squishy meatloaf" = 1, "ghoul" = 1, "grout and grime" = 1)
+	cooked_type = null
+	fried_type = null
+
+/datum/food_recipe/deadite_loaf
+	name = "meatloaf"
+	base_item = /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_z
+	ingredients = list(
+		/obj/item/reagent_containers/food/snacks/rogue/meat/saiga_z,
+		/obj/item/alch/viscera,
+		/obj/item/alch/viscera,
+		/obj/item/reagent_containers/food/snacks/rogue/meat
+	)
+	result_type = /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_z/cooked/meatloaf
+	time_per_step = 1 SECONDS
+	needs_cooking = TRUE

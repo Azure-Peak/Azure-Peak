@@ -9,6 +9,6 @@
 	/// Whether or not this needs to be cooked
 	var/needs_cooking = FALSE
 	/// How long it takes to add items
-	var/time_per_step = 3 SECONDS
+	var/time_per_step = 2 SECONDS
 	/// Experience per step per int
 	var/experience_per_step = 0.5
