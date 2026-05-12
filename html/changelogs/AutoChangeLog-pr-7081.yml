@@ -1,0 +1,7 @@
+author: "SpadesNeil"
+delete-after: True
+changes:
+  - rscadd: "Added more Kazengun items to Silverface/Goldface."
+  - qol: "Kazengun swords are bought with their corresponding scabbard."
+  - balance: "Hwando and scabbard are now cheaper as a package deal."
+  - refactor: "Removed unnecessary whitespace and commas on weapon listings that were only one item for sale."
