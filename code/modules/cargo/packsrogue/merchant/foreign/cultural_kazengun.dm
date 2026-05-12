@@ -87,3 +87,61 @@
 	contains = list(/obj/item/clothing/suit/roguetown/shirt/dress/captainrobe)
 	ship_qty_min = 1
 	ship_qty_max = 3
+
+/datum/supply_pack/rogue/kazengun/gorget
+	name = "Kazengunite Gorget"
+	cost = 35
+	contains = list(/obj/item/clothing/neck/roguetown/gorget/steel/kazengun)
+	ship_qty_min = 1
+	ship_qty_max = 3
+
+/datum/supply_pack/rogue/kazengun/kote
+	name = "Jjajeungna Gauntlets"
+	cost = 90
+	contains = list(/obj/item/clothing/gloves/roguetown/plate/kote)
+	ship_qty_min = 1
+	ship_qty_max = 2
+
+/datum/supply_pack/rogue/kazengun/boots
+	name = "Kazengun Reinforced Boots"
+	cost = 35
+	contains = list(/obj/item/clothing/shoes/roguetown/boots/leather/reinforced/kazengun)
+	ship_qty_min = 2
+	ship_qty_max = 4
+
+/datum/supply_pack/rogue/kazengun/trousers
+	name = "Kazengunite Gambeson Trousers"
+	cost = 30
+	contains = list(/obj/item/clothing/under/roguetown/heavy_leather_pants/kazengun)
+	ship_qty_min = 2
+	ship_qty_max = 4
+
+/datum/supply_pack/rogue/kazengun/chonin_kit
+	name = "Chonin Footman Kit"
+	no_name_quantity = TRUE
+	cost = 380
+	contains = list(
+		/obj/item/clothing/suit/roguetown/armor/gambeson,
+		/obj/item/clothing/suit/roguetown/armor/brigandine/haraate,
+		/obj/item/clothing/head/roguetown/helmet/kettle/jingasa,
+		/obj/item/clothing/neck/roguetown/gorget/steel/kazengun,
+		/obj/item/clothing/under/roguetown/heavy_leather_pants/kazengun,
+		/obj/item/clothing/shoes/roguetown/boots/leather/reinforced/kazengun,
+	)
+	ship_qty_min = 1
+	ship_qty_max = 2
+
+/datum/supply_pack/rogue/kazengun/kouken_kit
+	name = "Kouken Heavy Harness"
+	no_name_quantity = TRUE
+	cost = 800
+	contains = list(
+		/obj/item/clothing/suit/roguetown/armor/plate/full/samsibsa,
+		/obj/item/clothing/head/roguetown/helmet/heavy/kabuto,
+		/obj/item/clothing/mask/rogue/facemask/steel/kazengun/full,
+		/obj/item/clothing/neck/roguetown/gorget/steel/kazengun,
+		/obj/item/clothing/gloves/roguetown/plate/kote,
+		/obj/item/clothing/cloak/kazengun,
+	)
+	ship_qty_min = 1
+	ship_qty_max = 1
