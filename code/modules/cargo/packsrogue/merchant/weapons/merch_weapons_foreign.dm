@@ -66,7 +66,7 @@
 	contains = list(/obj/item/rogueweapon/sword/sabre/hook)
 
 /datum/supply_pack/rogue/merc_weapons/hwando
-	name = "Hwando and custom scabbard"
+	name = "Hwando and iron-lined scabbard"
 	cost = 250
 	contains = list(
 		/obj/item/rogueweapon/sword/sabre/mulyeog,
@@ -74,7 +74,7 @@
 	)
 
 /datum/supply_pack/rogue/merc_weapons/ssangsudo
-	name = "Ssangsudo and custom scabbard"
+	name = "Ssangsudo and ceremonial scabbard"
 	cost = 250
 	contains = list(
 		/obj/item/rogueweapon/sword/long/kriegmesser/ssangsudo,
@@ -82,7 +82,7 @@
 	)
 
 /datum/supply_pack/rogue/merc_weapons/kodachi
-	name = "Kodachi and custom scabbard"
+	name = "Kodachi and traditional scabbard"
 	cost = 150
 	contains = list(
 		/obj/item/rogueweapon/sword/short/kazengun,
@@ -90,7 +90,7 @@
 	)
 
 /datum/supply_pack/rogue/merc_weapons/tanto
-	name = "Tanto and custom sheathe"
+	name = "Tanto and traditional sheathe"
 	cost = 120 // This is just a reskinned sail dagger, but this one comes with a sheathe.
 	contains = list(
 		/obj/item/rogueweapon/huntingknife/idagger/steel/kazengun,

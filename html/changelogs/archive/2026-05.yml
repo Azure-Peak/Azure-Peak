@@ -441,3 +441,70 @@
   - rscdel: COMMENTED OUT ARCYNE BARRAGE FUCK
   kbitykbitykbity:
   - rscadd: Added support for species-based vice restrictions.
+2026-05-13:
+  KatTheFox:
+  - rscadd: You can now pray to gods by common titles, in addition to their name
+  - bugfix: Fixed some weirdness with Undivided patron name, and some typos
+  - bugfix: ooc encyclopedia no longer lies to you about binding rites
+  - balance: familiar revival no longer costs melds, instead it has to be done near
+      a leyline
+  - rscadd: familiars can now lay down on a leyline to heal themselves passively
+  - bugfix: reagent bite no longer works on moving targets
+  - bugfix: familiars can read, for real this time
+  - bugfix: familiars can read noticeboards too why not
+  - balance: infernal surge radius buffed from 1 to 2
+  - rscadd: infernal bite replaced with fire breath
+  - bugfix: familiars can now emote audibly, caw and mrrp to your heart's content
+  - rscadd: familiars are now polyglots, they can speak most languages (no thieves
+      cant, though)
+  - bugfix: elemental forge t2 now works properly
+  - rscadd: void drakelings now get access to t1 elemental forge upon eating an elemental
+  - rscadd: elemental forge t1(but not t2) can turn the familiar into a staff
+  Ketrai:
+  - balance: Royal puzzlebox scales less hard with intelligence to solve, now drops
+      stat rings instead.
+  - balance: Royal puzzleboxes can only yield rewards once, instead of per person.
+  - rscadd: Gave the Malpractioner a slightly armored variant of their plague doctor
+      mask.
+  - qol: Made black rot more obvious in the tooltip in how to cure it.
+  - qol: Made rotfang tooltip more descriptive.
+  - balance: Rotfang (malpractitioner) now doesn't apply black rot when using punch
+      intent.
+  - balance: Rotfang can hold more ichor.
+  - balance: Rotfang now has heavy cut instead of regular cut.
+  - bugfix: attempts to stop ham from being infinite again.
+  Ollanius:
+  - bugfix: Undivided Golden Order tabards should now properly render.
+  - rscadd: Clerics who take the 'Crusader' oath now receive a surcoat based on their
+      faith.
+  PatapoIIIa:
+  - bugfix: Little vampires has no access to Crimson Crusible
+  Ryan180602:
+  - rscadd: on demand vomit emote
+  - balance: ascendant heretic armour are not enchantable.
+  SnubbyNotSorry:
+  - balance: trauma surgery now scales its healing based on total damage for dead
+      patients, like it did for living ones
+  SpadesNeil:
+  - code_imp: Renamed the newly added Kazengun weapon selections in the Silverface
+      to make them sound cooler.
+  - rscadd: Added more Kazengun items to Silverface/Goldface.
+  - qol: Kazengun swords are bought with their corresponding scabbard.
+  - balance: Hwando and scabbard are now cheaper as a package deal.
+  - refactor: Removed unnecessary whitespace and commas on weapon listings that were
+      only one item for sale.
+  WeNeedMorePhoron:
+  - rscadd: Lower Alotheos loot pool to 14k from 20k
+  borneblood:
+  - rscadd: Acolytes Only - Necrans can start with a Silver Scythe or Silver Shovel.
+      Ravoxians start with Iron Chains. Pestrans start with a Surgery Kit. Eorans
+      gain a Needle to pair with their Scissors.
+  changelingonberry:
+  - admin: player replying is shown
+  - rscadd: lamicra spell
+  - refactor: zizo spells to new spell system
+  - bugfix: necromancer spell icon states
+  kiwedespars:
+  - rscadd: major arcana tarot deck
+  psyendrocronologicalwarfare:
+  - rscadd: you can pick underdweller origin as revenant/dullahan

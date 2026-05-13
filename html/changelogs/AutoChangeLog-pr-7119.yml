@@ -1,4 +1,0 @@
-author: "Ollanius"
-delete-after: True
-changes:
-  - bugfix: "Undivided Golden Order tabards should now properly render."
