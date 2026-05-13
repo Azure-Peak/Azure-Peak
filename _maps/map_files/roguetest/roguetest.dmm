@@ -808,6 +808,10 @@
 /obj/item/quiver/arrows,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/indoors)
+"xv" = (
+/obj/structure/roguemachine/Hoardmaster,
+/turf/open/floor/rogue/dirt/road,
+/area/rogue/outdoors)
 "xx" = (
 /obj/structure/closet/crate/coffin/vampire,
 /turf/open/floor/rogue/blocks/stonered,
@@ -1189,7 +1193,7 @@
 /area/rogue/indoors)
 "HZ" = (
 /obj/structure/roguemachine/bounty,
-/turf/open/floor/rogue/ruinedwood,
+/turf/open/floor/rogue/dirt/road,
 /area/rogue/indoors)
 "Ie" = (
 /obj/item/flashlight/flare/torch/lantern,
@@ -2707,7 +2711,7 @@ vq
 wk
 ie
 ie
-HZ
+ie
 vq
 DE
 vS
@@ -3176,7 +3180,7 @@ CK
 Yf
 hq
 rT
-rT
+xv
 rT
 rT
 rT
@@ -3424,7 +3428,7 @@ sh
 xB
 SH
 xy
-CZ
+HZ
 hV
 dE
 rT
