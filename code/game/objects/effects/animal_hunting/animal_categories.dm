@@ -100,9 +100,9 @@
 		/mob/living/simple_animal/hostile/retaliate/smallrat = 1
 	)
 	preferred_areas = list(
-		/area/rogue/outdoors/beach/forest = 50,
-		/area/rogue/outdoors/beach/forest/north = 50,
-		/area/rogue/outdoors/beach/forest/south = 50
+		/area/rogue/outdoors/beach/forest = 1000,
+		/area/rogue/outdoors/beach/forest/north = 1000,
+		/area/rogue/outdoors/beach/forest/south = 1000
 	)
 
 /datum/hunting_category/spiders
