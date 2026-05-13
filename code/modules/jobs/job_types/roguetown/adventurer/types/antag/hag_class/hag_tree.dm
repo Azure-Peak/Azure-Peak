@@ -436,6 +436,12 @@
 	desc = "This moss looks strong, tough, as if the very leaves themselves have muscles."
 	color = "#683700"
 
+/obj/item/alch/hag_moss/enchanted/sprouting
+	name = "Sprouting Moss"
+	boon_path = /datum/hag_boon/trait/bogwalker
+	desc = "Tiny offshoots bud from this moss, swaying towards anything within reach."
+	color = "#3cd300"
+
 /obj/item/alch/hag_moss/enchanted/crawling
 	name = "Crawling Moss"
 	boon_path = /datum/hag_boon/spell/spider_speak

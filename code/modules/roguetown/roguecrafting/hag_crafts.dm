@@ -46,6 +46,12 @@
 	reqs = list(/obj/item/alch/hag_moss/fury = 1, /obj/item/alch/urtica = 1)
 	craftdiff = 5
 
+/datum/crafting_recipe/roguetown/alchemy/hag/sprouting_moss
+	name = "moss sprouting"
+	result = list(/obj/item/alch/hag_moss/enchanted/sprouting = 1)
+	reqs = list(/obj/item/alch/hag_moss/mercy = 1, /obj/item/alch/matricaria = 1)
+	craftdiff = 5
+
 // Mid Rarity Recipes
 /datum/crafting_recipe/roguetown/alchemy/hag/lustrous_moss
 	name = "moss lustrous"

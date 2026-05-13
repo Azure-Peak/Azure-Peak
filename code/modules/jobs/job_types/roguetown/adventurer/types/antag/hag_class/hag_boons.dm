@@ -162,6 +162,7 @@
 		/datum/crafting_recipe/roguetown/alchemy/hag/crawling_moss,
 		/datum/crafting_recipe/roguetown/alchemy/hag/stormy_moss,
 		/datum/crafting_recipe/roguetown/alchemy/hag/corrosive_moss,
+		/datum/crafting_recipe/roguetown/alchemy/hag/sprouting_moss,
 
 		// --- Mid Rarity Mosses ---
 		/datum/crafting_recipe/roguetown/alchemy/hag/lustrous_moss,

@@ -7,10 +7,10 @@
 	traits_applied = list(TRAIT_RITUALIST, TRAIT_ALCHEMY_EXPERT,
 	 					  TRAIT_ANCIENT_HAG, TRAIT_EDIT_DESCRIPTORS,
 						  TRAIT_HOMESTEAD_EXPERT, TRAIT_SEWING_EXPERT,
-						  TRAIT_LEECHIMMUNE, TRAIT_ZOMBIE_IMMUNE,
-						  TRAIT_NOMOOD, TRAIT_UNLYCKERABLE,
-						  TRAIT_KNEESTINGER_IMMUNITY, TRAIT_DARKVISION,
-						  TRAIT_NOHUNGER, TRAIT_TECHNOPHOBE)
+						  TRAIT_ZOMBIE_IMMUNE, TRAIT_NOMOOD,
+						  TRAIT_UNLYCKERABLE, TRAIT_BOGWALKER,
+						  TRAIT_DARKVISION, TRAIT_NOHUNGER,
+						  TRAIT_TECHNOPHOBE)
 	reset_stats = TRUE
 	subclass_stats = list(
 		STATKEY_STR = -7,
@@ -67,6 +67,7 @@
 		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/alchemy/hag/crawling_moss)
 		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/alchemy/hag/stormy_moss)
 		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/alchemy/hag/corrosive_moss)
+		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/alchemy/hag/sprouting_moss)
 
 		// Mid Rarity
 		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/alchemy/hag/lustrous_moss)

@@ -24,6 +24,8 @@
 
 /mob/living/carbon/human/species/wildshape/hag
 	name = "True Hag"
+	gender = NEUTER
+	pronouns = IT_ITS
 	race = /datum/species/hag_true_form
 	footstep_type = FOOTSTEP_MOB_CLAW
 	ambushable = FALSE
@@ -64,6 +66,11 @@
 		apply_status_effect(/datum/status_effect/debuff/hag_bog_tether/wildshape)
 	//faction |= list("hag", "spiders")
 
+/mob/living/carbon/human/species/wildshape/hag/setup_human_dna()
+	. = ..()
+	src.real_name = "True Hag"
+	src.name = "True Hag"
+
 /datum/species/hag_true_form
 	name = "True Hag"
 	id = "hag_true_form"
@@ -75,9 +82,7 @@
 		TRAIT_HARDDISMEMBER,
 		TRAIT_PIERCEIMMUNE,
 		TRAIT_LONGSTRIDER,
-		TRAIT_KNEESTINGER_IMMUNITY,
-		TRAIT_LEECHIMMUNE,
-		TRAIT_AZURENATIVE
+		TRAIT_BOGWALKER
 	)
 	no_equip = list(SLOT_SHIRT, SLOT_HEAD, SLOT_WEAR_MASK, SLOT_ARMOR, SLOT_GLOVES, SLOT_SHOES, SLOT_PANTS, SLOT_CLOAK, SLOT_BELT, SLOT_BACK_R, SLOT_BACK_L, SLOT_S_STORE)
 	nojumpsuit = 1
