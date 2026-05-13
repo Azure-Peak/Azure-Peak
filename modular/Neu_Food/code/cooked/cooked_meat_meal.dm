@@ -16,15 +16,6 @@
 	eat_effect = /datum/status_effect/buff/mealbuff
 	drop_sound = 'sound/foley/dropsound/gen_drop.ogg'
 
-/datum/food_recipe/peppersteak_ducal
-	name = "Ducal Peppersteak"
-	base_item = /obj/item/reagent_containers/food/snacks/rogue/peppersteak
-	ingredients = list(
-		/obj/item/reagent_containers/food/snacks/grown/garlick/rogue
-	)
-	result_type = /obj/item/reagent_containers/food/snacks/rogue/peppersteak/ducal
-	time_per_step = 3 SECONDS
-
 /*	..................   Ducal steak   ................... */
 /obj/item/reagent_containers/food/snacks/rogue/peppersteak/ducal
 	tastes = list("steak" = 1, "pepper" = 1, "garlick" = 1)
@@ -50,22 +41,6 @@
 	eat_effect = /datum/status_effect/buff/mealbuff
 	drop_sound = 'sound/foley/dropsound/gen_drop.ogg'
 
-
-/obj/item/reagent_containers/food/snacks/rogue/onionsteak/attackby(obj/item/I, mob/living/user, params)
-	var/found_table = locate(/obj/structure/table) in (loc)
-	if(!experimental_inhand)
-		return
-	if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/preserved/carrot_baked))
-		if(isturf(loc)&& (found_table))
-			playsound(get_turf(user), 'sound/foley/dropsound/gen_drop.ogg', 30, TRUE, -1)
-			if(do_after(user,3 SECONDS, target = src))
-				user.adjust_experience(/datum/skill/craft/cooking, user.STAINT * 0.8)
-				new /obj/item/reagent_containers/food/snacks/rogue/steakcarrotonion(loc)
-				qdel(I)
-				qdel(src)
-	else
-		return ..()
-
 /*	..................   Carrot Steak   ................... */
 /obj/item/reagent_containers/food/snacks/rogue/carrotsteak
 	name = "carrot steak"
@@ -80,21 +55,6 @@
 	rotprocess = SHELFLIFE_DECENT
 	eat_effect = /datum/status_effect/buff/mealbuff
 	drop_sound = 'sound/foley/dropsound/gen_drop.ogg'
-
-/obj/item/reagent_containers/food/snacks/rogue/carrotsteak/attackby(obj/item/I, mob/living/user, params)
-	var/found_table = locate(/obj/structure/table) in (loc)
-	if(!experimental_inhand)
-		return
-	if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/preserved/onion_fried))
-		if(isturf(loc)&& (found_table))
-			playsound(get_turf(user), 'sound/foley/dropsound/gen_drop.ogg', 30, TRUE, -1)
-			if(do_after(user,3 SECONDS, target = src))
-				user.adjust_experience(/datum/skill/craft/cooking, user.STAINT * 0.8)
-				new /obj/item/reagent_containers/food/snacks/rogue/steakcarrotonion(loc)
-				qdel(I)
-				qdel(src)
-	else
-		return ..()
 
 /*	.................   Steak & carrot & onion   ................... */
 /obj/item/reagent_containers/food/snacks/rogue/steakcarrotonion
@@ -141,22 +101,6 @@
 	rotprocess = SHELFLIFE_LONG
 	eat_effect = /datum/status_effect/buff/mealbuff
 
-
-/obj/item/reagent_containers/food/snacks/rogue/wienerpotato/attackby(obj/item/I, mob/living/user, params)
-	var/found_table = locate(/obj/structure/table) in (loc)
-	if(!experimental_inhand)
-		return
-	if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/preserved/onion_fried))
-		if(isturf(loc)&& (found_table))
-			playsound(get_turf(user), 'sound/foley/dropsound/gen_drop.ogg', 30, TRUE, -1)
-			if(do_after(user,3 SECONDS, target = src))
-				add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)
-				new /obj/item/reagent_containers/food/snacks/rogue/wienerpotatonions(loc)
-				qdel(I)
-				qdel(src)
-	else
-		return ..()
-
 /*	.................   Wiener & Fried onions   ................... */
 /obj/item/reagent_containers/food/snacks/rogue/wieneronions
 	list_reagents = list(/datum/reagent/consumable/nutriment = MEAL_MEAGRE)
@@ -171,22 +115,6 @@
 	warming = 3 MINUTES
 	rotprocess = SHELFLIFE_LONG
 	eat_effect = /datum/status_effect/buff/mealbuff
-
-
-/obj/item/reagent_containers/food/snacks/rogue/wieneronions/attackby(obj/item/I, mob/living/user, params)
-	var/found_table = locate(/obj/structure/table) in (loc)
-	if(!experimental_inhand)
-		return
-	if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/preserved/potato_baked))
-		if(isturf(loc)&& (found_table))
-			playsound(get_turf(user), 'sound/foley/dropsound/gen_drop.ogg', 30, TRUE, -1)
-			if(do_after(user,3 SECONDS, target = src))
-				add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)
-				new /obj/item/reagent_containers/food/snacks/rogue/wienerpotatonions(loc)
-				qdel(I)
-				qdel(src)
-	else
-		return ..()
 
 /*	.................   Wiener & potato & onions   ................... */
 /obj/item/reagent_containers/food/snacks/rogue/wienerpotatonions
@@ -212,21 +140,6 @@
 	icon_state = "pepperchicken"
 	tastes = list("spicy birdmeat" = 1)
 	eat_effect = /datum/status_effect/buff/mealbuff
-
-/obj/item/reagent_containers/food/snacks/rogue/meat/poultry/baked/spiced/attackby(obj/item/I, mob/living/user, params)
-	var/found_table = locate(/obj/structure/table) in (loc)
-	if(!experimental_inhand)
-		return
-	if(istype(I, /obj/item/reagent_containers/food/snacks/grown/garlick/rogue))
-		if(isturf(loc)&& (found_table))
-			playsound(get_turf(user), 'sound/foley/dropsound/gen_drop.ogg', 30, TRUE, -1)
-			if(do_after(user,3 SECONDS, target = src))
-				add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT)
-				new /obj/item/reagent_containers/food/snacks/rogue/meat/poultry/baked/spiced/ducal(loc)
-				qdel(I)
-				qdel(src)
-	else
-		return ..()
 
 /*	.................  Ducal Spiced Baked Poultry  ................... */
 /obj/item/reagent_containers/food/snacks/rogue/meat/poultry/baked/spiced/ducal
@@ -294,20 +207,6 @@
 	icon_state = "frycabbit_garlick"
 	tastes = list("warm cabbit" = 1, "garlick" = 1)
 
-/obj/item/reagent_containers/food/snacks/rogue/meat/rabbit/fried/garlick/attackby(obj/item/I, mob/living/user, params)
-	var/found_table = locate(/obj/structure/table) in (loc)
-	update_cooktime(user)
-	if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/veg/cucumber_sliced))
-		if(isturf(loc)&& (found_table))
-			playsound(get_turf(user), 'sound/foley/dropsound/gen_drop.ogg', 30, TRUE, -1)
-			if(do_after(user,short_cooktime, target = src))
-				add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT * 0.5)
-				new /obj/item/reagent_containers/food/snacks/rogue/meat/rabbit/fried/garlick/cucumber(loc)
-				qdel(I)
-				qdel(src)
-	else
-		return ..()
-
 /* .............   Fried Cabbit w/ Garlick & Cucumber ................ */
 /obj/item/reagent_containers/food/snacks/rogue/meat/rabbit/fried/garlick/cucumber
 	name = "elven cabbit roast"
@@ -323,20 +222,6 @@
 	icon = 'modular/Neu_Food/icons/cooked/cooked_meat_meal.dmi'
 	icon_state = "fryvolf_garlick"
 	tastes = list("gamey volf" = 1, "garlick" = 1)
-
-/obj/item/reagent_containers/food/snacks/rogue/meat/steak/wolf/fried/garlick/attackby(obj/item/I, mob/living/user, params)
-	var/found_table = locate(/obj/structure/table) in (loc)
-	update_cooktime(user)
-	if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/veg/cucumber_sliced))
-		if(isturf(loc)&& (found_table))
-			playsound(get_turf(user), 'sound/foley/dropsound/gen_drop.ogg', 30, TRUE, -1)
-			if(do_after(user,short_cooktime, target = src))
-				add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT * 0.5)
-				new /obj/item/reagent_containers/food/snacks/rogue/meat/steak/wolf/fried/garlick/cucumber(loc)
-				qdel(I)
-				qdel(src)
-	else
-		return ..()
 
 /* .............  Garlicked Fried Volf w/ Cucumber  ................ */
 /obj/item/reagent_containers/food/snacks/rogue/meat/steak/wolf/fried/garlick/cucumber
@@ -356,16 +241,6 @@
 	faretype = FARE_FINE
 	eat_effect = /datum/status_effect/buff/mealbuff
 
-/datum/food_recipe/venison_ribs_glazed
-	name = "glazed venison ribs"
-	base_item = /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_ribs
-	ingredients = list(
-		/obj/item/reagent_containers/food/snacks/rogue/honey
-	)
-	result_type = /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_ribs/cooked/glazed
-	time_per_step = 1 SECONDS
-	needs_cooking = TRUE
-
 /* .............  Deadite saiga cube  ................ */
 /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_loins_z/cooked/cubed
 	name = "carrion coulis"
@@ -377,17 +252,6 @@
 	tastes = list("gelatin" = 1, "squishy meat" = 1)
 	eat_effect = /datum/status_effect/buff/mealbuff
 
-/datum/food_recipe/deadite_loins_cubed
-	name = "gelatinous meat cube"
-	base_item = /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_loins_z
-	ingredients = list(
-		/obj/item/natural/bone,
-		/obj/item/alch/viscera
-	)
-	result_type = /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_loins_z/cooked/cubed
-	time_per_step = 1 SECONDS
-	needs_cooking = TRUE
-
 /* .............  Deadite saiga rib crown  ................ */
 /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_ribs_z/cooked/crown
 	name = "couronne de baies-noires"
@@ -396,16 +260,6 @@
 	icon_state = "saiga_d_ribs"
 	tastes = list("mashed meat" = 1, "jackberries" = 1)
 	eat_effect = /datum/status_effect/buff/mealbuff
-
-/datum/food_recipe/deadite_ribs_crown
-	name = "berry rib crown"
-	base_item = /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_ribs_z
-	ingredients = list(
-		/obj/item/reagent_containers/food/snacks/grown/berries/rogue
-	)
-	result_type = /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_ribs_z/cooked/crown
-	time_per_step = 1 SECONDS
-	needs_cooking = TRUE
 
 /* .............  Deadite saiga roses  ................ */
 /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_prime_z/cooked/roses
@@ -416,18 +270,6 @@
 	tastes = list("thin sticky meat" = 1, "garlyck" = 1)
 	eat_effect = /datum/status_effect/buff/mealbuff
 	faretype = FARE_FINE
-
-/datum/food_recipe/deadite_rose
-	name = "meat roses"
-	base_item = /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_prime_z
-	ingredients = list(
-		/obj/item/reagent_containers/food/snacks/rogue/veg/garlick_clove,
-		/obj/item/reagent_containers/food/snacks/rogue/veg/garlick_clove,
-		/obj/item/reagent_containers/food/snacks/rogue/veg/garlick_clove
-	)
-	result_type = /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_prime_z/cooked/roses
-	time_per_step = 1 SECONDS
-	needs_cooking = TRUE
 
 /* .............  Deadite saiga wellington  ................ */
 /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_z/cooked/meatloaf
@@ -479,16 +321,3 @@
 	tastes = list("crumbly squishy meatloaf" = 1, "ghoul" = 1, "grout and grime" = 1)
 	cooked_type = null
 	fried_type = null
-
-/datum/food_recipe/deadite_loaf
-	name = "meatloaf"
-	base_item = /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_z
-	ingredients = list(
-		/obj/item/reagent_containers/food/snacks/rogue/meat/saiga_z,
-		/obj/item/alch/viscera,
-		/obj/item/alch/viscera,
-		/obj/item/reagent_containers/food/snacks/rogue/meat
-	)
-	result_type = /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_z/cooked/meatloaf
-	time_per_step = 1 SECONDS
-	needs_cooking = TRUE
