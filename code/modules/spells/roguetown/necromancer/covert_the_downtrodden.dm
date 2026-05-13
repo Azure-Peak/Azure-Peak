@@ -100,6 +100,8 @@
 	ADD_TRAIT(target, TRAIT_ZURCH, TRAIT_GENERIC)
 	to_chat(user, span_danger("You've converted [target.name] to [user.patron.name]!"))
 	to_chat(target, span_danger("You feel ancient powers lifting divine burdens from your soul..."))
+	message_admins("HERETIC CONVERSION: [ADMIN_LOOKUPFLW(user)] has converted [target.real_name] ([target.ckey]) to [user.patron.name]")
+	log_game("HERETIC CONVERSION: [user.real_name] ([user.ckey]) converted [target.real_name] ([target.ckey]) to [user.patron.name]")
 
 	return TRUE
 
