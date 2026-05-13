@@ -388,7 +388,7 @@
 			// Exact type matching for area bonus to avoid using subtypes
 			var/area_bonus = C.preferred_areas[A.type]
 			if(area_bonus)
-				weight *= (1 + (area_bonus / 100))
+				weight = max(0, weight * (1 + (area_bonus / 100)))
 
 			// Right-click preference boost
 			if(preferred_hunt && C.type == preferred_hunt.type)
