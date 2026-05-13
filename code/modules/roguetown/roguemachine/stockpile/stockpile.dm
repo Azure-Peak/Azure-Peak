@@ -204,6 +204,10 @@
 				if(message)
 					say("This is town property, it cannot be minted here.")
 				return
+			if(I.atc_sealed)
+				if(message)
+					say("This bears an Azurian Trading Company seal. The Crown does not buy back Company stock.")
+				return
 			// Steward-controlled accept toggle.
 			// - For mint_eligible goods (gems): falls through to the /bounty/treasure datum later in
 			//   the loop, so rejected gems still mint as treasure instead of bouncing back to the player.

@@ -286,6 +286,8 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	var/is_important = FALSE
 	/// Tagged on mapload-spawned items inside town areas - marks them as town property so they can't be fed to the stockpile for minting.
 	var/unmintable = FALSE
+	/// Marks goods sold by the merchant. block navigator export, stockpile minting and ship fulfillment. This means it cannot be flipped for profit
+	var/atc_sealed = FALSE
 	/// does this item/weapon circumvent two-stage death during dismemberment? (do not add this to anything but ultra rare shit)
 	var/vorpal = FALSE
 
@@ -1734,6 +1736,8 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 
 /obj/item/examine(mob/user)
 	. = ..()
+	if(atc_sealed)
+		. += span_info("This has been marked with a subtle ATC seal.")
 	if(isliving(user))
 		var/mob/living/L = user
 		if(L.STAINT < 9)

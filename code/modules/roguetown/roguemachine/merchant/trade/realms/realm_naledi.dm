@@ -59,6 +59,18 @@
 		list("good" = TRADE_GOOD_HIDE, "qty_min" = BULK_QTY_LARGE_MIN, "qty_max" = BULK_QTY_LARGE_MAX, "price_mod" = BULK_PRICE_PREMIUM),
 		list("good" = TRADE_GOOD_COAL, "qty_min" = BULK_QTY_MEDIUM_MIN, "qty_max" = BULK_QTY_MEDIUM_MAX, "price_mod" = BULK_PRICE_EAGER_PREMIUM),
 	)
+	victualling_fresh_pool = list(
+		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/meat/poultry/baked/spiced, "qty_min" = 3, "qty_max" = 6, "price" = 28),
+		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/meat/steak/wolf/fried/garlick, "qty_min" = 3, "qty_max" = 6, "price" = 26),
+		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/pepperfish, "qty_min" = 3, "qty_max" = 6, "price" = 22),
+		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/wienercabbage, "qty_min" = 4, "qty_max" = 8, "price" = 18),
+		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/frybread, "qty_min" = 5, "qty_max" = 10, "price" = 12),
+		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/preserved/eggplantstuffed, "qty_min" = 3, "qty_max" = 6, "price" = 22),
+	)
+	victualling_preserved_pool = list(
+		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/crackerscooked, "qty_min" = 8, "qty_max" = 15, "price" = 8),
+		list("typepath" = /obj/item/reagent_containers/food/snacks/roastseeds, "qty_min" = 6, "qty_max" = 12, "price" = 10),
+	)
 	cultural_stock_pool = list(
 		/datum/supply_pack/rogue/merc_weapons/shamshir,
 		/datum/supply_pack/rogue/merc_weapons/naledistaff,
@@ -72,4 +84,23 @@
 		/datum/supply_pack/rogue/naledi/glassen_decanters,
 		/datum/supply_pack/rogue/naledi/glass_statue,
 		/datum/supply_pack/rogue/naledi/gold_finery,
+	)
+	hail_lines = list(
+		"Peace upon the Company. Naledi greets the factor, in Psydon's name, with the respect owed between honest houses.",
+		"I bring glass from the Dunes, gold from Veranda, the finest coffee and tea in Psydonia. A thirst for iron that no caravan can slake.",
+		"Every time we sell you coffee and tea, the finest in Psydonia, one of your stevedores would offer us wines and drinks. Know that us in Naledi do not indulge in such spirits nor bring them to court. We follow that very strictly. Now - do you happen to have some Kazengunese plum wine on hand?",
+		"We know in Azuria you tolerate Tieflings and Goblins amongst your people, yet fight and slay them by the hundreds every dae. Do not bring them near the dock - my crew might suddenly remember their Warscholar heritage.",
+		"Do not point at my crew when you address them, factor. To do so is rude - and rudeness is how Djinn slip into a man's manners first, before all else.",
+		"Bring me no gifts of gold; we mine more than the daimyos can swallow. Bring exotic spice, ore foreign to my dunes, or do not bring me anything at all.",
+		"My weights are true under the gaze of Astrata - whom you call goddess and we call merely one of His aspects. Inspect them. Inspect them again if it pleases you.",
+		"I sailed under royal license of the Malikat Amalara herself. The seal you see at my prow is hers. Show it the respect you would show your own Duchess.",
+		"Two of my passengers travel veiled head to toe. They are Warscholars returning from the Otavan houses. Do not address them. Do not stare. They have killed more than thirty Djinn each, and the habit of vigilance does not lift at a friendly pier.",
+		"My hold smells of sand and hibiscus. I will not apologize for either. Pay fair and you may take a cup of the second before I depart.",
+		"You will hear no priests of the Ten preaching from my deck. If you wish to bring symbols of them aboard, leave them at the gangway - my crew will not pass them, and neither shall I.",
+		"My helmsman is Bilamak, sworn to the Crown, returning home after service abroad. His saber is sheathed in gilded silk; do not test him into drawing it. His blade dances faster than your eye, I promise you.",
+		"The Arisole sandstorms have closed three southern passes. My route was thirty days longer than last season. The fee should reflect the dunes' temper - not mine.",
+		"We are a welcoming people, factor. We will share bread and tea with anyone who asks honestly. But know that we do not share court with those who came here to convert us. Trade openly, drink openly, pray quietly.",
+		"A wandering Vizier-scholar rides with me, bound for your Avisa boards to study how foreign justice is recorded. She pays in knowledge, not coin. Direct her kindly when she asks, and she will write your magistrate's name well in her journals.",
+		"My grandmother saw the Otavan expedition return from the Dunes with the Pope's confession hanging from their saddles. She lived to a hundred and seven and never trusted a priest of the Ten again. I follow her in this.",
+		"A Vizier-scholar of Olindar rides with me, returning from the Otavan houses. For one zenny they will read a passage of the Treatise of Endurance and explain it for as long as you can endure listening. They have lectured for nine hours without rest at the Hierophant houses. Pace yourself.",
 	)

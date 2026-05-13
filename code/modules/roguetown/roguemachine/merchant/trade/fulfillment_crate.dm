@@ -66,17 +66,20 @@
 			var/list/lines = list()
 			for(var/list/line in ship.bulk_demands)
 				lines += list(list(
-					"good" = line["good"],
+					"good" = line["good"] || line["typepath"] || "",
 					"good_name" = line["good_name"],
 					"qty_target" = line["qty_target"],
 					"qty_fulfilled" = line["qty_fulfilled"],
 					"offered_price" = line["offered_price"],
+					"tag" = line["tag"] || "",
 				))
 			if(length(lines))
+				var/datum/foreign_realm/realm = SSmerchant_trade.get_realm(ship.realm_id)
 				manifests += list(list(
 					"ship_id" = ship.ship_id,
 					"ship_name" = ship.ship_name,
 					"realm_id" = ship.realm_id,
+					"typical_provisions" = realm ? realm.typical_provisions() : "",
 					"lines" = lines,
 				))
 	data["manifests"] = manifests
@@ -151,6 +154,24 @@
 	if(!SStreasury.has_account(user))
 		if(message)
 			say("No account found for [user]. Submit your fingers to a Meister for inspection.")
+		return
+	if(I.atc_sealed)
+		if(message)
+			to_chat(user, span_warning("[I] bears an Azurian Trading Company seal - foreign captains will not buy Company stock back."))
+		return
+	if(istype(I, /obj/item/reagent_containers/food/snacks))
+		var/obj/item/reagent_containers/food/snacks/F = I
+		if(F.eat_effect == /datum/status_effect/debuff/rotfood)
+			if(message)
+				to_chat(user, span_warning("[I] is rotten. No captain will load spoiled stores aboard."))
+			return
+	var/list/dish_match = find_dish_match(I.type)
+	if(dish_match)
+		var/datum/trade_ship/dish_ship = dish_match["ship"]
+		var/list/dish_line = dish_match["line"]
+		dish_line["qty_fulfilled"]++
+		qdel(I)
+		settle_payout(dish_line["offered_price"], user, dish_ship, dish_line["good_name"], 1, message, sound, tally)
 		return
 	if(istype(I, /obj/item/natural/bundle))
 		var/obj/item/natural/bundle/B = I
@@ -249,6 +270,21 @@
 		var/datum/trade_good/TG = GLOB.trade_goods[id]
 		if(TG.item_type == item_type)
 			return id
+	return null
+
+/obj/structure/roguemachine/ship_fulfillment/proc/find_dish_match(item_type)
+	if(!item_type)
+		return null
+	var/type_str = "[item_type]"
+	for(var/datum/trade_ship/ship in SSmerchant_trade.all_ships)
+		if(ship.dock_state != TRADE_SHIP_STATE_DOCKED)
+			continue
+		for(var/list/line in ship.bulk_demands)
+			if(line["typepath"] != type_str)
+				continue
+			if(line["qty_fulfilled"] >= line["qty_target"])
+				continue
+			return list("ship" = ship, "line" = line)
 	return null
 
 /obj/structure/roguemachine/ship_fulfillment/proc/find_demand_match(good_id)

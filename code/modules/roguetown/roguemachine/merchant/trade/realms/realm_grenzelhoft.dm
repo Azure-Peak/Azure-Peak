@@ -50,6 +50,20 @@
 		list("good" = TRADE_GOOD_LEMON, "qty_min" = BULK_QTY_MEDIUM_MIN, "qty_max" = BULK_QTY_MEDIUM_MAX, "price_mod" = BULK_PRICE_FAIR),
 		list("good" = TRADE_GOOD_COFFEE, "qty_min" = BULK_QTY_MEDIUM_MIN, "qty_max" = BULK_QTY_MEDIUM_MAX, "price_mod" = BULK_PRICE_PREMIUM),
 	)
+	victualling_fresh_pool = list(
+		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/bun_grenz, "qty_min" = 5, "qty_max" = 10, "price" = 18),
+		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/cheesebun, "qty_min" = 4, "qty_max" = 8, "price" = 16),
+		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/sandwich/salami, "qty_min" = 4, "qty_max" = 8, "price" = 22),
+		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/sandwich/cheese, "qty_min" = 4, "qty_max" = 8, "price" = 18),
+		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/friedegg/bacon, "qty_min" = 3, "qty_max" = 6, "price" = 20),
+		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/meat/fatty/roast, "qty_min" = 3, "qty_max" = 6, "price" = 28),
+		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/raisinbread, "qty_min" = 4, "qty_max" = 7, "price" = 22),
+	)
+	victualling_preserved_pool = list(
+		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/crackerscooked, "qty_min" = 8, "qty_max" = 15, "price" = 8),
+		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/meat/sausage/cooked, "qty_min" = 5, "qty_max" = 10, "price" = 14),
+		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/bread, "qty_min" = 5, "qty_max" = 10, "price" = 12),
+	)
 	cultural_stock_pool = list(
 		/datum/supply_pack/rogue/merc_weapons/grenzelstaff,
 		/datum/supply_pack/rogue/grenzelhoft/zweihander,
@@ -80,4 +94,18 @@
 		/datum/supply_pack/rogue/alcohol/blackgoat,
 		/datum/supply_pack/rogue/alcohol/zagul,
 		/datum/supply_pack/rogue/alcohol/onin,
+	)
+	hail_lines = list(
+		"Factor! Have my dues counted in silver, not promises. I sail at the first ebb whether you are ready or not.",
+		"Grain from Apfelweinheim, ingots from the foundries of New Celestia. Bring buyers, not browsers.",
+		"By the Eleven Cathedrals, my ledgers are honest. See that yours match - the See takes a dim view of cheats, and so do I.",
+		"My crew has held mass on every sunsdae of the crossing. We are devout, well-fed, and patient. Two of these three I have brought with me. The third I do not promise.",
+		"I want clay, silk, and tangerines. Send anyone who has them to the gangway. Send no one else.",
+		"The Crown's tariff is a thief in Astrata's clothing, but I have paid worse. Stamp my papers and let us be done.",
+		"A registered magos of the Celestial Academy travels in my aft cabin. His papers are in order, his stipend is paid. Do not detain him; the Emperor's Magi take it personally.",
+		"My zweihanders fetch good coin south. I do not care which lord buys them so long as he is not Hammerhold or Gronnic. Verify the purse and verify the flag.",
+		"I hold a condotta for three Condottieri companies bound for service abroad. Their pay is sealed under church wax. Do not break the seal; the chaplain watches.",
+		"A burgher of Zenitstadt rode with us this voyage and would not stop weeping and vomiting at the masthead. He has paid his fare. I make no apology for him.",
+		"You will find my prices fair and my temper short. Do not test the second to bargain the first.",
+		"I sailed with one captive raider of the Gronnic coast in chains below decks for the crossing. He is delivered to your magistrate, alive, as the compact requires. Now my real cargo - grain.",
 	)

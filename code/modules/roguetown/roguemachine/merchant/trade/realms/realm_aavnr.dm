@@ -6,7 +6,7 @@
 	ship_name_words = list(
 		"Yarlsnik", "Koprivka", "Diethelm", "Tomorzh", "Khairin",
 		"Wardenpact", "Hetman", "Saiga", "Bloodaxe", "Ironmask",
-		"Pontinate", "Astrava", "Ravox", "Zogiin", "Khaganur",
+		"Potentate", "Astrava", "Ravox", "Zogiin", "Hussar",
 	)
 	captain_first_names = list(
 		"Bjorn", "Yakiv", "Tomasz", "Lubomir", "Radek",
@@ -21,7 +21,7 @@
 		list("name" = "Koch", "tonnage" = 50, "weight" = 25),
 		list("name" = "Lodya", "tonnage" = 120, "weight" = 35),
 		list("name" = "Steppe Galley", "tonnage" = 250, "weight" = 25),
-		list("name" = "Khaganur Hulk", "tonnage" = 500, "weight" = 15),
+		list("name" = "Potentate Hulk", "tonnage" = 500, "weight" = 15),
 	)
 	name_prefixes = list(
 		list("text" = "Hetman ", "chance" = 10),
@@ -53,6 +53,19 @@
 		list("good" = TRADE_GOOD_CLOTH, "qty_min" = BULK_QTY_LARGE_MIN, "qty_max" = BULK_QTY_LARGE_MAX, "price_mod" = BULK_PRICE_FAIR),
 		list("good" = TRADE_GOOD_COFFEE, "qty_min" = BULK_QTY_SMALL_MIN, "qty_max" = BULK_QTY_SMALL_MAX, "price_mod" = BULK_PRICE_PREMIUM),
 	)
+	victualling_fresh_pool = list(
+		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/fryfish/salmon, "qty_min" = 4, "qty_max" = 8, "price" = 20),
+		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/fryfish/cod, "qty_min" = 4, "qty_max" = 8, "price" = 18),
+		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/alecod, "qty_min" = 3, "qty_max" = 6, "price" = 24),
+		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/meat/fish/fried, "qty_min" = 5, "qty_max" = 10, "price" = 14),
+		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/meat/fatty/roast, "qty_min" = 3, "qty_max" = 6, "price" = 24),
+		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/pepperlobsta, "qty_min" = 3, "qty_max" = 6, "price" = 28),
+	)
+	victualling_preserved_pool = list(
+		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/crackerscooked, "qty_min" = 8, "qty_max" = 15, "price" = 8),
+		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/meat/sausage/cooked, "qty_min" = 5, "qty_max" = 10, "price" = 14),
+		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/bread, "qty_min" = 5, "qty_max" = 10, "price" = 12),
+	)
 	cultural_stock_pool = list(
 		/datum/supply_pack/rogue/aavnr/shashka,
 		/datum/supply_pack/rogue/aavnr/recurve_bow,
@@ -66,11 +79,21 @@
 		/datum/supply_pack/rogue/aavnr/hatanga,
 		/datum/supply_pack/rogue/aavnr/steppe_scale,
 		/datum/supply_pack/rogue/aavnr/szabrista_kit,
-		/datum/supply_pack/rogue/aavnr/druzhina_kit,
+		/datum/supply_pack/rogue/aavnr/druzhina_kit, 
 		/datum/supply_pack/rogue/aavnr/freifechter_kit,
 		/datum/supply_pack/rogue/aavnr/saiga_sausage,
 		/datum/supply_pack/rogue/aavnr/coppiette,
 		/datum/supply_pack/rogue/alcohol/avarmead,
 		/datum/supply_pack/rogue/alcohol/avarrice,
 		/datum/supply_pack/rogue/alcohol/saigamilk,
+	)
+	hail_lines = list(
+		"Greetings, Factor. Hide, grain, fish and fur. Of the finest quality from the Steppes of Aavnr. Bring me silk and gemerald or do not bring me anything at all.",
+		"The Hetman of Tomorzurkh sends his regards and his demand for lemons. The second is not optional.",
+		"My crossing was peaceful. The four crossings before were not. I would speak to your Bleakisles watch about that.",
+		"Trade quickly, friend. The steppes do not wait, and neither do the wolves on my home road.",
+		"A saiga-priest of Dalainkhair is in my hold blessing the cargo. He will not come out. He has been there three days. The cargo seems content.",
+		"The saiga milk is for selling, not for drinking on duty. Tell your stevedores. I have already told mine.",
+		"The Potentate weighs heavy on the keel and heavier on my purse. Lighten one and the other follows.",
+		"A Hetman of the Steppe rides with me - he speaks with the saiga and the fogbeast both. I do not know if this means he understands them or they him. For two zennies he will whisper into a fogbeast's ear and the creature will perform tricks no other handler can coax. He insists this is sacred work, so do not laugh while he performs it. Even if it deserves laughter.",
 	)

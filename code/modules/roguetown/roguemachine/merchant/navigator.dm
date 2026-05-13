@@ -175,6 +175,10 @@
 			for(var/obj/I in T)
 				if(I.anchored || !isturf(I.loc) || istype(I, /obj/item/roguecoin)|| istype(I, /obj/structure/handcart))
 					continue
+				if(isitem(I))
+					var/obj/item/IT = I
+					if(IT.atc_sealed)
+						continue
 				var/prize = I.get_real_price() * (1 - fixed_tax)
 				if(prize >= 1)
 					play_sound=TRUE

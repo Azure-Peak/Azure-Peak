@@ -494,7 +494,9 @@
 				record_round_statistic(STATS_TAXES_EVADED, tax_amt)
 				tariff_evaded_here += tax_amt
 			for(var/pathi in PA.contains)
-				new pathi(get_turf(usr))
+				var/obj/item/spawned = new pathi(get_turf(usr))
+				if(istype(spawned))
+					spawned.atc_sealed = TRUE
 			return TRUE
 		if("hail")
 			if(!is_command_center || !(H.job in profit_id) || !SSmerchant_trade)
@@ -550,7 +552,9 @@
 				record_round_statistic(STATS_TAXES_EVADED, tax_amt)
 				tariff_evaded_here += tax_amt
 			for(var/pathi in PA.contains)
-				new pathi(get_turf(usr))
+				var/obj/item/spawned = new pathi(get_turf(usr))
+				if(istype(spawned))
+					spawned.atc_sealed = TRUE
 			return TRUE
 		if("bulk_buy")
 			if(!is_command_center || !(H.job in profit_id) || !SSmerchant_trade)
@@ -605,7 +609,9 @@
 				tariff_evaded_here += round(tariff_float)
 			var/turf/T = get_turf(src)
 			for(var/i in 1 to qty)
-				new TG.item_type(T)
+				var/obj/item/spawned = new TG.item_type(T)
+				if(istype(spawned))
+					spawned.atc_sealed = TRUE
 			playsound(loc, 'sound/misc/gold_misc.ogg', 70, FALSE, -1)
 			to_chat(H, span_notice("You buy [qty] [TG.name] from [source_ship.ship_name] for [total_cost]m[tariff_active && tariff_float > 0 ? " (incl. [round(tariff_float)]m Crown duty)" : ""]."))
 			return TRUE
@@ -614,17 +620,30 @@
 	switch(result)
 		if("ok")
 			to_chat(user, span_notice("You signal the [ship.ship_name] to make port. She is being brought in now."))
+			speak_captain_hail(ship, user)
 		if("ok_first")
 			var/datum/foreign_realm/realm = SSmerchant_trade.realms[ship.realm_id]
 			var/realm_name = realm ? realm.name : ship.realm_id
 			to_chat(user, span_notice("You signal the [ship.ship_name] to make port. She is being brought in now."))
 			to_chat(user, span_info("The captain of the [ship.ship_name] is the first of [realm_name] to make port this week. They bring fresh dispatches from [realm_name] - their markets and news are now clear to you."))
+			speak_captain_hail(ship, user)
 		if("no_hails")
 			to_chat(user, span_warning("You have no hails left to spend today."))
 		if("no_dock_spots")
 			to_chat(user, span_warning("The pier is full. Send a docked vessel away first."))
 		if("ship_gone")
 			to_chat(user, span_warning("That vessel is no longer answering hails."))
+
+/obj/structure/roguemachine/goldface/proc/speak_captain_hail(datum/trade_ship/ship, mob/user)
+	if(!ship)
+		return
+	var/datum/foreign_realm/realm = SSmerchant_trade.realms[ship.realm_id]
+	if(!realm)
+		return
+	var/line = realm.pick_hail_line()
+	if(!line)
+		return
+	say("Captain [ship.captain_name] sends their greeting: \"[line]\"")
 
 /obj/structure/roguemachine/goldface/proc/handle_send_away_result(result, mob/user)
 	switch(result)

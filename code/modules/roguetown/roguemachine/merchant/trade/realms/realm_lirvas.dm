@@ -48,6 +48,18 @@
 		list("good" = TRADE_GOOD_COFFEE, "qty_min" = BULK_QTY_MEDIUM_MIN, "qty_max" = BULK_QTY_MEDIUM_MAX, "price_mod" = BULK_PRICE_PREMIUM),
 		list("good" = TRADE_GOOD_SALT, "qty_min" = BULK_QTY_LARGE_MIN, "qty_max" = BULK_QTY_LARGE_MAX, "price_mod" = BULK_PRICE_PREMIUM),
 	)
+	victualling_fresh_pool = list(
+		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/hcake, "qty_min" = 4, "qty_max" = 8, "price" = 26),
+		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/meat/rabbit/fried/garlick/cucumber, "qty_min" = 3, "qty_max" = 6, "price" = 30),
+		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/meat/poultry/baked/spiced, "qty_min" = 3, "qty_max" = 6, "price" = 28),
+		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/pepperfish, "qty_min" = 3, "qty_max" = 6, "price" = 24),
+		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/peppersteak, "qty_min" = 3, "qty_max" = 6, "price" = 28),
+		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/menthacake, "qty_min" = 4, "qty_max" = 7, "price" = 24),
+	)
+	victualling_preserved_pool = list(
+		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/crackerscooked, "qty_min" = 8, "qty_max" = 15, "price" = 8),
+		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/raisinbread, "qty_min" = 4, "qty_max" = 8, "price" = 18),
+	)
 	cultural_stock_pool = list(
 		/datum/supply_pack/rogue/gems/amethyst,
 		/datum/supply_pack/rogue/gems/toper,
@@ -67,4 +79,15 @@
 		/datum/supply_pack/rogue/lirvas/sabre,
 		/datum/supply_pack/rogue/lirvas/tithebound_kit,
 		/datum/supply_pack/rogue/alcohol/rtoper,
+	)
+	hail_lines = list(
+		"By the Hoard and the Tithe, Factor, you have kept a faithful ledger. The scales remember.",
+		"My grain is short. My gems are not. The Inner Ring sends its compliments and its hunger.",
+		"Mammon weighs every transaction, friend. Give honest measure - or do not, and learn the cost in a quieter season.",
+		"The Vyrn drinks deep of gold these days. We bring scales, gems, and a thirst that has never known bottom. Trade.",
+		"I am Tithebound. My captain's purse is not mine; it is the Hoard's. Speak prices accordingly.",
+		"A coin dropped in Lirvas takes seven years to settle. Yours, here, will be counted in heartbeats. Try to keep up.",
+		"The figurehead of my ship is gold-leafed over an older carving. The crew swears the under-carving smiles when the lamps go out. I have stopped asking what it smiles at.",
+		"You burn coin for warmth in your hearths. We do not. Sell us your grain and you will learn why.",
+		"I bear with me a Tithecaster who weighs souls in coin. They will tell you, for the price of one gold sovereign, the exact weight your sins would fetch at the Hoard's scales upon your death. They have not been wrong yet. Most of their clients do not ask twice.",
 	)

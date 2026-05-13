@@ -19,6 +19,9 @@
 	var/list/bulk_demand_pool = list()
 	var/list/bulk_supply_pool = list()
 	var/list/cultural_stock_pool = list()
+	var/list/victualling_fresh_pool = list()
+	var/list/victualling_preserved_pool = list()
+	var/list/hail_lines = list()
 
 /datum/foreign_realm/proc/pick_ship_type()
 	if(!length(ship_types))
@@ -112,3 +115,20 @@
 	var/first = length(captain_first_names) ? pick(captain_first_names) : "Unnamed"
 	var/last = length(captain_last_names) ? pick(captain_last_names) : "Captain"
 	return "[first] [last]"
+
+/datum/foreign_realm/proc/pick_hail_line()
+	if(!length(hail_lines))
+		return null
+	return pick(hail_lines)
+
+/datum/foreign_realm/proc/typical_provisions()
+	var/list/parts = list()
+	for(var/list/entry as anything in victualling_fresh_pool)
+		var/atom/A = entry["typepath"]
+		if(A)
+			parts += initial(A.name)
+	for(var/list/entry as anything in victualling_preserved_pool)
+		var/atom/A = entry["typepath"]
+		if(A)
+			parts += initial(A.name)
+	return english_list(parts, "nothing in particular")

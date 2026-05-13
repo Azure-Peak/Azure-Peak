@@ -35,6 +35,7 @@
 	src.ship_id = "[world.time]_[ref(src)]"
 	src.expected_favor = round(TRADE_SHIP_EXPECTED_FAVOR * src.tonnage / TRADE_SHIP_DEFAULT_TONNAGE)
 	roll_bulk_lines(realm)
+	roll_victualling_lines(realm)
 	roll_cultural_stock(realm)
 
 /datum/trade_ship/proc/roll_bulk_lines(datum/foreign_realm/realm)
@@ -83,6 +84,40 @@
 		"qty_fulfilled" = 0,
 		"offered_price" = offered_price,
 	)
+
+/datum/trade_ship/proc/roll_victualling_lines(datum/foreign_realm/realm)
+	if(!realm)
+		return
+	var/n_fresh = rand(TRADE_VICTUALLING_FRESH_LINES_MIN, TRADE_VICTUALLING_FRESH_LINES_MAX)
+	bulk_demands += build_victualling_lines(realm.victualling_fresh_pool, n_fresh, TRADE_VICTUALLING_TAG_FRESH)
+	var/n_preserved = rand(TRADE_VICTUALLING_PRESERVED_LINES_MIN, TRADE_VICTUALLING_PRESERVED_LINES_MAX)
+	bulk_demands += build_victualling_lines(realm.victualling_preserved_pool, n_preserved, TRADE_VICTUALLING_TAG_PRESERVED)
+
+/datum/trade_ship/proc/build_victualling_lines(list/pool, n_lines, tag)
+	var/list/result = list()
+	if(!length(pool) || n_lines <= 0)
+		return result
+	var/list/picks = pool.Copy()
+	for(var/i in 1 to min(n_lines, length(picks)))
+		var/list/entry = pick(picks)
+		picks -= list(entry)
+		var/typepath = entry["typepath"]
+		if(!typepath)
+			continue
+		var/atom/A = typepath
+		var/name_str = entry["name"] || initial(A.name)
+		var/qty = rand(entry["qty_min"] || TRADE_VICTUALLING_QTY_PER_LINE_MIN, entry["qty_max"] || TRADE_VICTUALLING_QTY_PER_LINE_MAX)
+		var/offered_price = entry["price"] || 10
+		result += list(list(
+			"typepath" = "[typepath]",
+			"good_name" = name_str,
+			"qty_target" = qty,
+			"qty_fulfilled" = 0,
+			"offered_price" = max(1, offered_price),
+			"tag" = tag,
+		))
+	return result
+
 
 /datum/trade_ship/proc/roll_cultural_stock(datum/foreign_realm/realm)
 	cultural_stock = list()

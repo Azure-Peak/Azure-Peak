@@ -1,4 +1,5 @@
 import { useBackend } from '../backend';
+import { Window } from '../layouts';
 import {
   cardStyle,
   INK,
@@ -9,12 +10,11 @@ import {
   rulerStyle,
   SEAL_AMBER,
   SEAL_GREEN,
-  SERIF,
   sectionHeaderStyle,
+  SERIF,
   subtitleStyle,
   titleStyle,
 } from './common/parchment';
-import { Window } from '../layouts';
 
 type DemandLine = {
   good: string;
@@ -22,12 +22,14 @@ type DemandLine = {
   qty_target: number;
   qty_fulfilled: number;
   offered_price: number;
+  tag?: string;
 };
 
 type Manifest = {
   ship_id: string;
   ship_name: string;
-  nationality_id: string;
+  realm_id: string;
+  typical_provisions?: string;
   lines: DemandLine[];
 };
 
@@ -35,6 +37,29 @@ type Data = {
   manifests: Manifest[];
   middleman_cut_percent: number;
 };
+
+const TAG_VICTUALLING_FRESH = 'victualling_fresh';
+const TAG_VICTUALLING_PRESERVED = 'victualling_preserved';
+
+const SUBSECTION_LABELS: Record<string, string> = {
+  bulk: 'Bulk Trade',
+  [TAG_VICTUALLING_FRESH]: 'Victualling - Fresh',
+  [TAG_VICTUALLING_PRESERVED]: 'Victualling - Preserved',
+};
+
+const SUBSECTION_HINT: Record<string, string> = {
+  bulk: 'Realm bulk demand. Larger payouts, ship-specific.',
+  [TAG_VICTUALLING_FRESH]:
+    'Crew shore-leave provisions. Each line caps low - no dumping.',
+  [TAG_VICTUALLING_PRESERVED]:
+    'Voyage hardtack and salted stores. Each line caps low - no dumping.',
+};
+
+const SUBSECTION_ORDER = [
+  'bulk',
+  TAG_VICTUALLING_FRESH,
+  TAG_VICTUALLING_PRESERVED,
+];
 
 const LineRow = (props: { line: DemandLine; cutPercent: number }) => {
   const { line, cutPercent } = props;
@@ -86,11 +111,57 @@ const LineRow = (props: { line: DemandLine; cutPercent: number }) => {
   );
 };
 
+const Subsection = (props: {
+  tag: string;
+  lines: DemandLine[];
+  cutPercent: number;
+}) => {
+  const { tag, lines, cutPercent } = props;
+  if (lines.length === 0) return null;
+  return (
+    <div style={{ marginTop: '6px' }}>
+      <div
+        style={{
+          fontFamily: SERIF,
+          fontVariant: 'small-caps',
+          letterSpacing: '2px',
+          color: SEAL_AMBER,
+          fontStyle: 'italic',
+          fontSize: '11px',
+          marginBottom: '2px',
+        }}
+      >
+        {SUBSECTION_LABELS[tag] || tag}
+      </div>
+      <div
+        style={{
+          fontFamily: SERIF,
+          fontSize: '10px',
+          fontStyle: 'italic',
+          color: INK_FAINT,
+          marginBottom: '4px',
+        }}
+      >
+        {SUBSECTION_HINT[tag] || ''}
+      </div>
+      {lines.map((line) => (
+        <LineRow key={`${tag}|${line.good}`} line={line} cutPercent={cutPercent} />
+      ))}
+    </div>
+  );
+};
+
 const ManifestSection = (props: {
   manifest: Manifest;
   cutPercent: number;
 }) => {
   const { manifest, cutPercent } = props;
+  const grouped: Record<string, DemandLine[]> = {};
+  for (const line of manifest.lines) {
+    const key = line.tag || 'bulk';
+    if (!grouped[key]) grouped[key] = [];
+    grouped[key].push(line);
+  }
   return (
     <div style={{ marginBottom: '14px' }}>
       <div style={sectionHeaderStyle}>
@@ -104,13 +175,30 @@ const ManifestSection = (props: {
             marginLeft: '8px',
           }}
         >
-          {manifest.nationality_id}
+          {manifest.realm_id}
         </span>
       </div>
-      {manifest.lines.map((line) => (
-        <LineRow
-          key={line.good}
-          line={line}
+      {!!manifest.typical_provisions && (
+        <div
+          style={{
+            fontFamily: SERIF,
+            fontSize: '11px',
+            fontStyle: 'italic',
+            color: INK_SOFT,
+            marginTop: '2px',
+            marginBottom: '6px',
+            paddingLeft: '4px',
+            borderLeft: `2px solid ${PARCHMENT_SHADOW}`,
+          }}
+        >
+          Typical provisions: {manifest.typical_provisions}
+        </div>
+      )}
+      {SUBSECTION_ORDER.map((tag) => (
+        <Subsection
+          key={tag}
+          tag={tag}
+          lines={grouped[tag] || []}
           cutPercent={cutPercent}
         />
       ))}
@@ -123,13 +211,12 @@ export const ShipFulfillment = () => {
   const { manifests, middleman_cut_percent } = data;
 
   return (
-    <Window width={560} height={620} theme="parchment">
+    <Window width={620} height={680} theme="parchment">
       <Window.Content scrollable>
         <div style={pageStyle}>
           <div style={titleStyle}>Manifest of Bulk Demands</div>
           <div style={subtitleStyle}>
-            Drop matching goods at the crate to fulfill. The Merchant takes
-            {' '}
+            Drop matching goods at the crate to fulfill. The Merchant takes{' '}
             {middleman_cut_percent}% as middleman.
           </div>
           <div style={rulerStyle} />

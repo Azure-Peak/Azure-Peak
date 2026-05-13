@@ -45,6 +45,18 @@
 		list("good" = TRADE_GOOD_CLAY, "qty_min" = BULK_QTY_LARGE_MIN, "qty_max" = BULK_QTY_LARGE_MAX, "price_mod" = BULK_PRICE_PREMIUM),
 		list("good" = TRADE_GOOD_ENCHSCROLL_BASIC, "qty_min" = BULK_QTY_TINY_MIN, "qty_max" = BULK_QTY_TINY_MAX, "price_mod" = BULK_PRICE_EAGER_PREMIUM),
 	)
+	victualling_fresh_pool = list(
+		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/ricepork, "qty_min" = 4, "qty_max" = 8, "price" = 22),
+		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/riceporkcuc, "qty_min" = 3, "qty_max" = 6, "price" = 26),
+		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/ricebeef, "qty_min" = 3, "qty_max" = 6, "price" = 26),
+		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/riceeggcheese, "qty_min" = 4, "qty_max" = 7, "price" = 22),
+		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/fryfish/carp, "qty_min" = 3, "qty_max" = 6, "price" = 18),
+		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/meat/poultry/baked, "qty_min" = 3, "qty_max" = 6, "price" = 22),
+	)
+	victualling_preserved_pool = list(
+		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/preserved/rice_cooked, "qty_min" = 6, "qty_max" = 12, "price" = 10),
+		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/crackerscooked, "qty_min" = 8, "qty_max" = 15, "price" = 8),
+	)
 	cultural_stock_pool = list(
 		/datum/supply_pack/rogue/lingyue/wodao,
 		/datum/supply_pack/rogue/lingyue/dadao,
@@ -57,4 +69,21 @@
 		/datum/supply_pack/rogue/alcohol/shejiu,
 		/datum/supply_pack/rogue/drugs/whipwine,
 		/datum/supply_pack/rogue/alcohol/truewhipwine,
+	)
+	hail_lines = list(
+		"Greetings from the Xinyi court of Shenzhou. My manifest is sealed by the Ministry of Trade. Honor the seal and we shall conclude this with grace.",
+		"Silk, tea, and rice in lawful quantity; cinnabar and gold in lesser measure. Inspect what you must - my scribe's brushwork is honest.",
+		"By Judicious Ravox and Great Caishen, my weights are true. To insult one is to insult both - I would not advise it.",
+		"I am Shizu by examination, factor. Eight characters of literary canon and four schools of magic at the brush. Speak plainly - I have neither time nor inclination for haggling.",
+		"My ship bears the chop of the Imperial Court. Lesser seals you may see in my hold - the Huazu prefer that we acknowledge them. Acknowledge me first.",
+		"A typhoon caught us off the Asemai - the same storm that struck the islands four yils past, they say. Saidun's blindfold slips sometimes. Pay fairly for what reached you.",
+		"My cargo of enchanted scrolls is sealed beneath three locks and one charm. Buy them or do not, but do not ask to inspect them. Saidun watches.",
+		"The lucky cat at my prow is Tabaxi, not idol. She earns her wages. Do not let your priests stare too long; she earns her wages from Caishen, who is jealous of attention.",
+		"My passenger is a wandering monk of Eora's universal compassion. He pays his own passage in charity & merits, not coin. Mind him as you would any holy beggar - I do.",
+		"I bring news from the Chengtian rebellion - the heartland still burns. Trade now, factor; the next ship from Lingyue may not be Xinyi at all.",
+		"A scribe in my retinue dreamt of this very harbor before we sighted it. He named your magistrate by his given name. The Undercourt records every utterance - I would have us done quickly.",
+		"There is a passenger in white robes who pays in jade and does not eat or sleep. The crew thinks her one of Necra's many aspects. Take her coin first.",
+		"Mark me - I am Zou by lineage, and that name still means something on the mainland, even if the eastern overlords would have it otherwise. Trade with my house, not with the hand on its shoulder.",
+		"My grandfather's grandfather served Yuanzhao before the Schism. We have outlived two dynasties and an invasion. Your Duchy does not impress me.",
+		"I bring with me a masseur trained in the ancient art of medical massage. Did you know your body has twenty-four meridian points, and he can strike the twenty-fifth? For only a zenny he will show his skill with hot stones and cup, for three hours. Pay him and you will experience Saidun's heaven on Psydonia ten thousand yils early. Just remember to send him back before we undock - he has been left behind in two ports already. I would not like to turn my ship back a third time.",
 	)

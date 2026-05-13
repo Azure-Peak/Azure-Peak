@@ -50,6 +50,19 @@
 		list("good" = TRADE_GOOD_GRAIN, "qty_min" = BULK_QTY_LARGE_MIN, "qty_max" = BULK_QTY_LARGE_MAX, "price_mod" = BULK_PRICE_FAIR),
 		list("good" = TRADE_GOOD_OATS, "qty_min" = BULK_QTY_MEDIUM_MIN, "qty_max" = BULK_QTY_MEDIUM_MAX, "price_mod" = BULK_PRICE_FAIR),
 	)
+	victualling_fresh_pool = list(
+		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/hcake, "qty_min" = 4, "qty_max" = 8, "price" = 26),
+		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/meat/poultry/baked/spiced, "qty_min" = 3, "qty_max" = 6, "price" = 28),
+		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/meat/poultry/baked/spiced/ducal, "qty_min" = 3, "qty_max" = 5, "price" = 36),
+		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/garlickbass, "qty_min" = 3, "qty_max" = 6, "price" = 24),
+		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/peppersteak, "qty_min" = 3, "qty_max" = 6, "price" = 28),
+		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/menthacake, "qty_min" = 4, "qty_max" = 7, "price" = 24),
+	)
+	victualling_preserved_pool = list(
+		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/crackerscooked, "qty_min" = 8, "qty_max" = 15, "price" = 8),
+		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/raisinbread, "qty_min" = 4, "qty_max" = 8, "price" = 18),
+		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/bun_jamtallow, "qty_min" = 4, "qty_max" = 8, "price" = 16),
+	)
 	cultural_stock_pool = list(
 		/datum/supply_pack/rogue/raneshen/janissary_kit,
 		/datum/supply_pack/rogue/raneshen/desert_rider_kit,
@@ -73,4 +86,16 @@
 		/datum/supply_pack/rogue/raneshen/shalal_slippers,
 		/datum/supply_pack/rogue/raneshen/shalal_belt,
 		/datum/supply_pack/rogue/alcohol/wineraneshen,
+	)
+	hail_lines = list(
+		"In the name of the Autarch, and by leave of the Emir who stamped my charter, Raneshen greets the Factor. My hold is long-travelled; do not make it stand idle.",
+		"Silk from Chorodiaki, sugar and saffira from Mücevkabher, wine from Nshkormh, geometers' work from Vrdaqnan. One empire, four manifests; the Sheikh's clerks were patient with me.",
+		"Sit with me before we tally. In Raneshen no one trades with a stranger - we drink first, eat second, and only then count coin. Your hospitality will be remembered as long as your prices.",
+		"Hear that flute from my afterdeck? My mate is from Mücevkabher, and she will not bargain unless the bargaining keeps time. Xylix smiles on her, she says. I find she haggles harder when the song is fast.",
+		"You have fur and timber and iron, and Psydon - bless his memory - put none of these on our continent in quantity. So we sail. The arithmetic is older than either of us.",
+		"My cousin is a Sheikh of his county and reminds me of it at every supper. Yet here I am at your dock, and there he is at his table. Tell me which of us has truly seen the world.",
+		"My grandmother taught that you cannot know a person until you have spoken with them alone. So when we have finished the public price, share a cup with me below. The honest number lives there.",
+		"The Emir of Vrdaqnan sent a janissary aboard to keep the peace among my crew. He has, by dancing with two of them and drinking with the third. I will commend him in my report.",
+		"There is a dervish in the third hold who has not stopped spinning since we sighted your cape. He says Günay's blade still turns in the heavens and so must he. Pay him no mind; pay me promptly.",
+		"Aboard my ship rides a geometer of Vrdaqnan who reads palms by first light. He charges in questions, not coin - one question for one reading, no exceptions. Most who pay him leave more confused than when they boarded. He is, I'm told, very accurate.",
 	)

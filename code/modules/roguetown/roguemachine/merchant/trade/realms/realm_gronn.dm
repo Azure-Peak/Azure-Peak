@@ -32,7 +32,6 @@
 	cultural_goods = list()
 	bulk_supply_pool = list(
 		list("good" = TRADE_GOOD_IRON_ORE, "qty_min" = BULK_QTY_HUGE_MIN, "qty_max" = BULK_QTY_HUGE_MAX, "price_mod" = BULK_PRICE_DEEP_DISCOUNT, "always" = TRUE),
-		list("good" = TRADE_GOOD_IRON_INGOT, "qty_min" = BULK_QTY_LARGE_MIN, "qty_max" = BULK_QTY_LARGE_MAX, "price_mod" = BULK_PRICE_DISCOUNT, "always" = TRUE),
 		list("good" = TRADE_GOOD_HIDE, "qty_min" = BULK_QTY_HUGE_MIN, "qty_max" = BULK_QTY_HUGE_MAX, "price_mod" = BULK_PRICE_DISCOUNT, "always" = TRUE),
 		list("good" = TRADE_GOOD_MEAT, "qty_min" = BULK_QTY_LARGE_MIN, "qty_max" = BULK_QTY_LARGE_MAX, "price_mod" = BULK_PRICE_DISCOUNT),
 		list("good" = TRADE_GOOD_FUR, "qty_min" = BULK_QTY_LARGE_MIN, "qty_max" = BULK_QTY_LARGE_MAX, "price_mod" = BULK_PRICE_DISCOUNT),
@@ -50,6 +49,18 @@
 		list("good" = TRADE_GOOD_POPPY, "qty_min" = BULK_QTY_MEDIUM_MIN, "qty_max" = BULK_QTY_MEDIUM_MAX, "price_mod" = BULK_PRICE_PREMIUM),
 		list("good" = TRADE_GOOD_GRAIN, "qty_min" = BULK_QTY_LARGE_MIN, "qty_max" = BULK_QTY_LARGE_MAX, "price_mod" = BULK_PRICE_PREMIUM),
 		list("good" = TRADE_GOOD_OATS, "qty_min" = BULK_QTY_LARGE_MIN, "qty_max" = BULK_QTY_LARGE_MAX, "price_mod" = BULK_PRICE_PREMIUM),
+	)
+	victualling_fresh_pool = list(
+		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/meat/steak/bear/fried, "qty_min" = 3, "qty_max" = 6, "price" = 32),
+		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/meat/steak/wolf/fried, "qty_min" = 4, "qty_max" = 8, "price" = 24),
+		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/meat/fatty/roast, "qty_min" = 4, "qty_max" = 8, "price" = 22),
+		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/meat/steak/rat/fried, "qty_min" = 5, "qty_max" = 10, "price" = 14),
+		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/meat/rabbit/fried, "qty_min" = 4, "qty_max" = 8, "price" = 16),
+		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/meat/steak/fried, "qty_min" = 4, "qty_max" = 8, "price" = 20),
+	)
+	victualling_preserved_pool = list(
+		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/meat/sausage/cooked, "qty_min" = 6, "qty_max" = 12, "price" = 14),
+		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/meat/bacon/fried, "qty_min" = 5, "qty_max" = 10, "price" = 12),
 	)
 	cultural_stock_pool = list(
 		/datum/supply_pack/rogue/merc_weapons/beardedaxe,
@@ -75,4 +86,19 @@
 		/datum/supply_pack/rogue/gronn/gronnic_brigandine,
 		/datum/supply_pack/rogue/gronn/norsii_kit,
 		/datum/supply_pack/rogue/alcohol/gronnmead,
+	)
+	hail_lines = list(
+		"Southlander. Hide, iron, fur. Salt, coal, steel. The trade is simple. Do not complicate it.",
+		"The Fjall is two months under snow already. I wish to be home before the third.",
+		"My crew has not seen sun for a fortnight. Keep them on the pier; do not invite them inland.",
+		"I will sell my hides at a fair price. I will not sell my dogs. Three of your stevedores asked already.",
+		"Saigahold sends its finest iron. Take it with respect.",
+		"Last voyage's hold carried six of your countrymen home. They walked off freely at Volfshaven and bought drinks for my crew. This voyage carries hides. Keep your priests off my deck and we will speak prices.",
+		"These antlers will fetch a fine price south, I am told. Your priests have a particular name for the beast they came from. We do not use that name. Pay or do not, but do not preach.",
+		"An Iskarn shaman rides with us out of the snows. He speaks to none, eats nothing. Do not approach him - what he watches over does not care for southern eyes.",
+		"The clouds parted over the Fjall this season. The straits opened early. Buy quickly. When they close again, the next ship from us will not be a trader.",
+		"There is a totem under my sailcloth that is not for sale and not for your church to see. If your magistrate calls it idolatry, your magistrate has not seen real winter.",
+		"The aurora followed us south. The crew calls that a witness. Your Ten have nothing to do with it; do not bring your priests to argue otherwise.",
+		"We do not raid this season. The compact holds. Pray the next captain you meet from our shore says the same.",
+		"I bring mead enough to drown the winter. Drink it as men, not as your southern fashion of sipping it like broth.",
 	)

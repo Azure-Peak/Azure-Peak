@@ -57,6 +57,19 @@
 		list("good" = TRADE_GOOD_FIBERS, "qty_min" = BULK_QTY_HUGE_MIN, "qty_max" = BULK_QTY_HUGE_MAX, "price_mod" = BULK_PRICE_FAIR),
 		list("good" = TRADE_GOOD_GOLD_INGOT, "qty_min" = BULK_QTY_TINY_MIN, "qty_max" = BULK_QTY_TINY_MAX, "price_mod" = BULK_PRICE_EAGER_PREMIUM),
 	)
+	victualling_fresh_pool = list(
+		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/tomatoplate, "qty_min" = 4, "qty_max" = 8, "price" = 22),
+		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/meattomatoplate, "qty_min" = 3, "qty_max" = 6, "price" = 28),
+		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/fishtomatoplate, "qty_min" = 3, "qty_max" = 6, "price" = 26),
+		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/pie/cooked/crab, "qty_min" = 3, "qty_max" = 6, "price" = 28),
+		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/preserved/eggplantstuffedcheese, "qty_min" = 3, "qty_max" = 6, "price" = 22),
+		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/ccake, "qty_min" = 3, "qty_max" = 6, "price" = 26),
+	)
+	victualling_preserved_pool = list(
+		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/crackerscooked, "qty_min" = 8, "qty_max" = 15, "price" = 8),
+		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/cheesebun, "qty_min" = 5, "qty_max" = 10, "price" = 16),
+		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/applebread, "qty_min" = 4, "qty_max" = 8, "price" = 18),
+	)
 	cultural_stock_pool = list(
 		/datum/supply_pack/rogue/merc_weapons/etruscanlongsword,
 		/datum/supply_pack/rogue/merc_weapons/erapier,
@@ -79,4 +92,20 @@
 		/datum/supply_pack/rogue/alcohol/winevalorwhite,
 		/datum/supply_pack/rogue/alcohol/wineraneshen,
 		/datum/supply_pack/rogue/alcohol/beer,
+	)
+	hail_lines = list(
+		"Ah, the Azurian shore at last! Por favor, have my tariff men ready - I am not a patient man when the sun is high.",
+		"By Abissoro, we have crossed two storms to reach this pier. I trust your purse is as wide as my hold.",
+		"Greetings, signore. My wine is the best in Psydonia, and my crew has been told not to spit on your stones. See that you give them no reason.",
+		"My chaplain has held sermon every sunsdae since we cleared Porto del Re. Ravox watches over honest weights at this gangway - bear that in mind.",
+		"Gran Zafiro sends greetings under the seal of House Zaragoza. My hold sends lemons. Take both with the respect they are owed.",
+		"I sailed from the southern isle, signore - Montecarina-born, navy-trained, no smuggler. Should any Navarno cousin tell you otherwise upon making port, do not believe them.",
+		"Open the chain and have a notary at the gangway. I trade in coin, not in promises - Heathen temptations have ruined cleaner pursers than yours.",
+		"Salve. I have lemons enough to drown your fevers and salt enough to bury your dead - which would you like first?",
+		"My cousin sailed this run last spring and was paid in clipped coin. I will be weighing every piece.",
+		"A Vaquero of the Montejaral hills rides with us, returning from a contract abroad. The crown calls him outlaw. My grandfather called him kin. Treat him as the latter and we will have no quarrel.",
+		"I carry a Condottieri captain bound for sellsword work in Otavan service. His arms are stowed, his crossbow is oiled, and his pay is none of our concern until we make port.",
+		"The crossing was kind. The Factor, I am told, is less so. Let us see if both rumors hold.",
+		"A priest aboard swears the figurehead wept blood off the Bleak Coast. I have him locked in the hold. Buy quickly so I may sail before the rest of the crew gets ideas.",
+		"My second cousin Federico travels with the cargo. He is - how shall I put this - acquainted with men who can move things quietly and quickly between Porto del Re and your Goldface, when official channels prove inconvenient. His fee is modest. His memory is shorter. Ask for him by name and not by trade, signore.",
 	)

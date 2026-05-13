@@ -58,6 +58,19 @@
 		list("good" = TRADE_GOOD_SALUMOI, "qty_min" = BULK_QTY_SMALL_MIN, "qty_max" = BULK_QTY_SMALL_MAX, "price_mod" = BULK_PRICE_PREMIUM),
 		list("good" = TRADE_GOOD_OATS, "qty_min" = BULK_QTY_LARGE_MIN, "qty_max" = BULK_QTY_LARGE_MAX, "price_mod" = BULK_PRICE_PREMIUM),
 	)
+	victualling_fresh_pool = list(
+		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/friedegg/hammerhold, "qty_min" = 3, "qty_max" = 6, "price" = 26),
+		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/wienerpotatonions, "qty_min" = 3, "qty_max" = 7, "price" = 24),
+		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/meat/steak/bear/fried, "qty_min" = 3, "qty_max" = 6, "price" = 34),
+		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/preserved/potato_baked, "qty_min" = 5, "qty_max" = 10, "price" = 12),
+		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/pie/cooked/pot, "qty_min" = 4, "qty_max" = 8, "price" = 24),
+		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/sandwich/ham, "qty_min" = 4, "qty_max" = 8, "price" = 20),
+	)
+	victualling_preserved_pool = list(
+		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/crackerscooked, "qty_min" = 8, "qty_max" = 15, "price" = 8),
+		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/meat/sausage/cooked, "qty_min" = 5, "qty_max" = 10, "price" = 14),
+		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/cheesebun, "qty_min" = 4, "qty_max" = 8, "price" = 16),
+	)
 	cultural_stock_pool = list(
 		/datum/supply_pack/rogue/hammerhold/dwarven_maul,
 		/datum/supply_pack/rogue/hammerhold/spiked_maul,
@@ -72,4 +85,24 @@
 		/datum/supply_pack/rogue/alcohol/nred,
 		/datum/supply_pack/rogue/alcohol/butterhair,
 		/datum/supply_pack/rogue/alcohol/stonebeard,
+	)
+	hail_lines = list(
+		"Hail, factor. Copper from the Mountainhomes, stone from the Bán. Bring grain, bring cloth, bring cheese - or do not waste my tide.",
+		"Six months out from Norwardine. Six months, factor. Spare me your haggling and I will spare you my temper.",
+		"You would not believe what the Grenzel collectors charge on the Eisenhafen river-locks now. Highway robbery, if rivers had highways. We rounded the cape instead - it was cheaper, and that is no exaggeration.",
+		"Either the long route around the continent, or the Grenzelhoftian river tolls. Both are worse than they used to be. I picked the one without their priests at every chain.",
+		"My salt is two months past brined. My crew is three weeks past patient. Trade kindly.",
+		"We slipped a Grenzel patrol off the Eisenhafen banks two weeks past. The Imperate calls us robber-lords; here we will call ourselves traders. Let your magistrate do the same.",
+		"The hammers of Quicksilver Hold sound from this voyage's keel - hold and humen, working as one. Treat her gently at the pier.",
+		"I am told your tariff men weigh light and tax heavy. We shall see.",
+		"My helmsman is a thane's third son, finishing his ten raids before he may inherit. Do not provoke him - the Atgervi do not start fights, but they do finish them.",
+		"By PSYDON who slumbers and stirs, the wind held all the way past the Otavan capes. I will pay my chaplain a bonus and you will pay a fair price. Let it be a good day.",
+		"I bear word from a Greycoat warden of the Granite Fort: the dwarf-kings honor the old pact, the underdeep is quiet this season. Trade with us as Harlond traded with them.",
+		"Look at the gilbronze fittings of my hold and tell me my craftsmen lie. Norwardine guild-work, every plate. Worth the long crossing to bring them south.",
+		"My grandfather sailed this run before the harbor was dredged. He lost two teeth to your magistrate. I have come for the rest of his coin.",
+		"A pilgrim of the Bán rides with us. He has not spoken since Walnut Grove. The forest there has a way with quiet men - do not ask after him.",
+		"There is a tale on the Mountainhomes road - a man in Ravoxian plate, fighting alone, walking out of his own grave. The crew thinks it nonsense. I am less certain. Pay quickly and let me sail before I must think on it longer.",
+		"Three of my deckhands are bull-marked beneath the eyes - pardoned in the Hearth's tradition. They lift cargo, not coin. Mind your stevedores.",
+		"My factor at Norwardine warned me the southern markets had soured. I came anyway. Let us see who was right.",
+		"My ship carries an Atgervi veteran of forty raids, retired honorably with most of their teeth. For three zennies they will sit with you and tell stories of the Mountainhomes, the Bán, and the Brazen Bull until your spouse sends a runner to drag you home. They drink more than they eat. The price reflects this.",
 	)
