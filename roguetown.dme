@@ -3414,6 +3414,7 @@
 #include "modular\Neu_Food\code\raw\raw_veggies.dm"
 #include "modular\Neu_Food\code\recipes\cooking_recipes_base.dm"
 #include "modular\Neu_Food\code\recipes\drying_recipes.dm"
+#include "modular\Neu_Food\code\recipes\egg_recipes.dm"
 #include "modular\Neu_Food\code\recipes\meat_meal_recipes.dm"
 #include "modular\Neu_Food\code\recipes\stew_recipes.dm"
 #include "modular\piercing\carbon_defines.dm"
