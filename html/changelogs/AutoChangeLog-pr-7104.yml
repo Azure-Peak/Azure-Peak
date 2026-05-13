@@ -1,4 +1,4 @@
 author: "WeNeedMorePhoron"
 delete-after: True
 changes:
-  - rscdel: "COMMENTED OUT ARCYNE BARRAGE FUCK"
+  - rscadd: "Lower Alotheos loot pool to 14k from 20k"

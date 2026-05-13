@@ -1,0 +1,5 @@
+author: "Ketrai"
+delete-after: True
+changes:
+  - balance: "Royal puzzlebox scales less hard with intelligence to solve, now drops stat rings instead."
+  - balance: "Royal puzzleboxes can only yield rewards once, instead of per person."

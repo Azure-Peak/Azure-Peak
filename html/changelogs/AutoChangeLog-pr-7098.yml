@@ -1,4 +1,0 @@
-author: "Ollanius"
-delete-after: True
-changes:
-  - bugfix: "Should fix the errant sprites showing up when wearing the Golden Order and Silver Order Cloaks in the south-facing state."

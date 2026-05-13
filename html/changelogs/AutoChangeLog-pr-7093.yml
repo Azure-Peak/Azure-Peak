@@ -1,4 +1,0 @@
-author: "kbitykbitykbity"
-delete-after: True
-changes:
-  - rscadd: "Added support for species-based vice restrictions."

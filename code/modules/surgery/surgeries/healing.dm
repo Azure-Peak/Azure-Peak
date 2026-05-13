@@ -79,9 +79,8 @@
 	var/urhealedamt_brute = brutehealing * healing_multiplier
 	var/urhealedamt_burn = burnhealing * healing_multiplier
 	if(missinghpbonus)
-		if(target.stat != DEAD)
-			urhealedamt_brute += round((target.getBruteLoss()/ missinghpbonus),0.1)
-			urhealedamt_burn += round((target.getFireLoss()/ missinghpbonus),0.1)
+		urhealedamt_brute += round((target.getBruteLoss()/ missinghpbonus),0.1)
+		urhealedamt_burn += round((target.getFireLoss()/ missinghpbonus),0.1)
 	if(!get_location_accessible(target, target_zone))
 		urhealedamt_brute *= 0.55
 		urhealedamt_burn *= 0.55
@@ -103,7 +102,6 @@
 	if(missinghpbonus)
 		urdamageamt_brute += round((target.getBruteLoss()/(missinghpbonus*2)),0.1)
 		urdamageamt_burn += round((target.getFireLoss()/(missinghpbonus*2)),0.1)
-
 	target.take_bodypart_damage(urdamageamt_brute, urdamageamt_burn)
 	target.update_damage_hud()
 	return TRUE

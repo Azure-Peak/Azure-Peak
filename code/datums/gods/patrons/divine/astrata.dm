@@ -23,6 +23,11 @@
 		"I SERVE THE GLORY OF THE SUN!",
 	)
 	storyteller = /datum/storyteller/astrata
+	titles = list(
+		"Tyrant",
+		"Overtyrant",
+		"Sun", // should match any sort of Sun(x) title
+	)
 
 // In daylight, church, cross, or ritual chalk.
 /datum/patron/divine/astrata/can_pray(mob/living/follower)

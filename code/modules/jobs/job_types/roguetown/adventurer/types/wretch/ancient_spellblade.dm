@@ -111,7 +111,7 @@
 		H.mind.AddSpell(new /datum/action/cooldown/spell/bind_weapon)
 		H.mind.AddSpell(new /datum/action/cooldown/spell/mending)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/suicidebomb/lesser)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/bonemend)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/bonemend)
 
 	H.adjust_blindness(-3)
 	var/helmets = list(

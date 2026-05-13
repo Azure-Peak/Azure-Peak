@@ -25,6 +25,8 @@
 
 	storyteller = /datum/storyteller/malum
 
+	titles = list() // people just kinda call him malum
+
 // Near a smelter, hearth, cross, within the smithy, or within the church
 /datum/patron/divine/malum/can_pray(mob/living/follower)
 	. = ..()
