@@ -808,10 +808,6 @@
 /obj/item/quiver/arrows,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/indoors)
-"xv" = (
-/obj/item/quicksilver,
-/turf/open/floor/rogue/dirt/road,
-/area/rogue/indoors)
 "xx" = (
 /obj/structure/closet/crate/coffin/vampire,
 /turf/open/floor/rogue/blocks/stonered,
@@ -1418,6 +1414,9 @@
 /area/rogue/indoors)
 "Pr" = (
 /obj/machinery/light/rogue/firebowl/stump,
+/obj/structure/roguemachine/talkstatue/mercenary{
+	pixel_y = 32
+	},
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors)
 "Px" = (
@@ -3788,7 +3787,7 @@ AO
 AO
 zo
 yN
-xv
+CZ
 hG
 CZ
 Sf
