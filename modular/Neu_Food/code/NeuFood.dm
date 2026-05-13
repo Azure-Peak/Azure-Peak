@@ -82,7 +82,7 @@
 		H.mind.add_sleep_experience(/datum/skill/craft/cooking, H.STAINT * active_recipe.experience_per_step)
 	I.moveToNullspace() // Break references to the mob
 
-	if(current_step <= active_recipe.ingredients.len)
+	if(current_step < active_recipe.ingredients.len && !active_recipe.needs_cooking)
 		var/image/over = image(I.icon, I.icon_state)
 		over.transform = matrix() * 0.7 
 		switch(current_step)
