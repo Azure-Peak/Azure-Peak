@@ -1,0 +1,374 @@
+import { useState } from 'react';
+import { Input } from 'tgui-core/components';
+
+import {
+  badgeStyle,
+  cardStyle,
+  INK,
+  INK_FAINT,
+  INK_SOFT,
+  inkButtonStyle,
+  PARCHMENT_SHADOW,
+  SEAL_AMBER,
+  SEAL_BLUE,
+  SEAL_GREEN,
+  SEAL_RED,
+  SERIF,
+} from '../common/parchment';
+import type { ActFn, CommissionerData, Order } from './types';
+
+const starsIf = (text: string, canRead: boolean) =>
+  canRead ? text : text.replace(/[A-Za-z0-9]/g, '*');
+
+const STATUS_BADGE_COLOR: Record<string, string> = {
+  open: SEAL_BLUE,
+  claimed: SEAL_AMBER,
+  complete: SEAL_GREEN,
+};
+
+const STATUS_LABEL: Record<string, string> = {
+  open: 'OPEN',
+  claimed: 'CLAIMED',
+  complete: 'READY',
+};
+
+const OrderCard = (props: {
+  order: Order;
+  isGuildmaster: boolean;
+  act: ActFn;
+  canRead: boolean;
+}) => {
+  const { order, isGuildmaster, act, canRead } = props;
+  const fulfilled = !!order.is_fulfilled;
+  const isCommissioner = !!order.is_commissioner;
+  const isSmith = !!order.is_smith;
+  const hasProgress = order.done_count > 0 && order.done_count < order.needed_count;
+  const [rejectOpen, setRejectOpen] = useState(false);
+  const [rejectReason, setRejectReason] = useState('');
+  const canReject =
+    (order.status === 'open' && isGuildmaster) ||
+    (order.status === 'claimed' && (isSmith || isGuildmaster));
+  return (
+    <div style={{ ...cardStyle, marginBottom: '8px' }}>
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'baseline',
+          flexWrap: 'wrap',
+          gap: '6px',
+        }}
+      >
+        <span style={badgeStyle(STATUS_BADGE_COLOR[order.status] || SEAL_BLUE)}>
+          {STATUS_LABEL[order.status] || order.status.toUpperCase()}
+        </span>
+        <span style={{ color: SEAL_AMBER, fontWeight: 'bold', fontSize: '13px' }}>
+          {order.deposited}m
+        </span>
+        {!!order.expiry_label && (
+          <span
+            style={{
+              marginLeft: 'auto',
+              fontFamily: SERIF,
+              fontSize: '11px',
+              fontStyle: 'italic',
+              color: order.days_left <= 0 ? SEAL_RED : INK_SOFT,
+            }}
+          >
+            {order.expiry_label}{' '}
+            <b style={{ color: order.days_left <= 0 ? SEAL_RED : INK }}>
+              {order.days_left <= 0
+                ? 'today'
+                : `${order.days_left} day${order.days_left === 1 ? '' : 's'}`}
+            </b>
+          </span>
+        )}
+      </div>
+
+      <div
+        style={{
+          marginTop: '6px',
+          fontFamily: SERIF,
+          fontSize: '13px',
+          color: INK,
+        }}
+      >
+        {order.status !== 'open' && order.smith_name ? (
+          <>
+            <span style={{ color: INK_SOFT, fontStyle: 'italic' }}>by </span>
+            <b>{starsIf(order.smith_name, canRead)}</b>
+            <span style={{ color: INK_SOFT, fontStyle: 'italic' }}>
+              {' '}for{' '}
+            </span>
+            <b>{starsIf(order.commissioner_name, canRead)}</b>
+          </>
+        ) : (
+          <>
+            <span style={{ color: INK_SOFT, fontStyle: 'italic' }}>
+              for{' '}
+            </span>
+            <b>{starsIf(order.commissioner_name, canRead)}</b>
+          </>
+        )}
+      </div>
+
+      {!!order.note && (
+        <div
+          style={{
+            marginTop: '4px',
+            padding: '4px 8px',
+            borderLeft: `2px solid ${SEAL_AMBER}`,
+            fontFamily: SERIF,
+            fontStyle: 'italic',
+            fontSize: '12px',
+            color: INK_SOFT,
+          }}
+        >
+          &ldquo;{starsIf(order.note, canRead)}&rdquo;
+        </div>
+      )}
+
+      <div style={{ marginTop: '6px' }}>
+        {order.lines.map((line, idx) => (
+          <div
+            key={idx}
+            style={{
+              fontSize: '12px',
+              color: INK,
+              fontFamily: SERIF,
+              padding: '1px 0',
+              borderBottom: `1px dashed ${PARCHMENT_SHADOW}`,
+            }}
+          >
+            {starsIf(line.name, canRead)}{' '}
+            <span style={{ color: INK_SOFT }}>x{line.qty}</span>
+          </div>
+        ))}
+      </div>
+
+      {order.status === 'claimed' && (
+        <div style={{ marginTop: '6px' }}>
+          <div
+            style={{
+              fontSize: '11px',
+              fontVariant: 'small-caps',
+              letterSpacing: '2px',
+              color: SEAL_AMBER,
+              fontStyle: 'italic',
+            }}
+          >
+            Delivered {order.done_count} / {order.needed_count}
+          </div>
+          {order.fulfillment.map((f, idx) => (
+            <div
+              key={idx}
+              style={{
+                fontSize: '11px',
+                fontFamily: SERIF,
+                color: f.have >= f.want ? SEAL_GREEN : INK_SOFT,
+              }}
+            >
+              {starsIf(f.name, canRead)}: {f.have} / {f.want}
+            </div>
+          ))}
+        </div>
+      )}
+
+      <div
+        style={{
+          marginTop: '8px',
+          display: 'flex',
+          gap: '6px',
+          flexWrap: 'wrap',
+        }}
+      >
+        {order.status === 'open' && (
+          <button
+            type="button"
+            style={inkButtonStyle()}
+            onClick={() => act('claim_order', { ref: order.ref })}
+          >
+            Claim (Smith)
+          </button>
+        )}
+        {order.status === 'open' && isCommissioner && (
+          <button
+            type="button"
+            style={inkButtonStyle({ color: SEAL_RED })}
+            onClick={() => act('cancel_order', { ref: order.ref })}
+          >
+            Cancel &amp; Refund
+          </button>
+        )}
+        {order.status === 'claimed' && isSmith && (
+          <>
+            <button
+              type="button"
+              style={inkButtonStyle()}
+              onClick={() => act('release_order', { ref: order.ref })}
+            >
+              Release Claim
+            </button>
+            {hasProgress && (
+              <button
+                type="button"
+                style={inkButtonStyle({ color: SEAL_AMBER })}
+                onClick={() => act('settle_partial', { ref: order.ref })}
+                title="Collect pro-rata pay for delivered items (20% haircut, rest refunds to commissioner)"
+              >
+                Settle Partial
+              </button>
+            )}
+            <button
+              type="button"
+              style={inkButtonStyle({
+                color: SEAL_GREEN,
+                disabled: !fulfilled,
+              })}
+              disabled={!fulfilled}
+              onClick={() => act('complete_order', { ref: order.ref })}
+            >
+              Complete &amp; Collect Pay
+            </button>
+          </>
+        )}
+        {order.status === 'complete' && isCommissioner && (
+          <button
+            type="button"
+            style={inkButtonStyle({ color: SEAL_GREEN })}
+            onClick={() => act('collect_order', { ref: order.ref })}
+          >
+            Collect Items
+          </button>
+        )}
+        {isGuildmaster &&
+          order.status === 'claimed' &&
+          !isSmith && (
+            <button
+              type="button"
+              style={inkButtonStyle({ color: SEAL_AMBER })}
+              onClick={() => act('force_release_order', { ref: order.ref })}
+              title="Guildmaster override: release this stalled claim"
+            >
+              Force Release
+            </button>
+          )}
+        {canReject && (
+          <button
+            type="button"
+            style={inkButtonStyle({ color: SEAL_RED })}
+            onClick={() => setRejectOpen((v) => !v)}
+            title="Refuse this commission. Deposit returns to the commissioner's deposit pool."
+          >
+            Reject Order
+          </button>
+        )}
+      </div>
+
+      {rejectOpen && canReject && (
+        <div
+          style={{
+            marginTop: '8px',
+            padding: '8px',
+            border: `1px solid ${SEAL_RED}`,
+            borderRadius: '2px',
+            fontFamily: SERIF,
+          }}
+        >
+          <div
+            style={{
+              fontSize: '11px',
+              fontStyle: 'italic',
+              color: INK_SOFT,
+              marginBottom: '4px',
+            }}
+          >
+            State your reason publicly. The commissioner will be notified and
+            their deposit returned.
+          </div>
+          <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
+            <Input
+              value={rejectReason}
+              onChange={setRejectReason}
+              placeholder="Insulting wage. Take it elsewhere."
+              width="100%"
+              maxLength={180}
+            />
+            <button
+              type="button"
+              style={inkButtonStyle({ color: SEAL_RED })}
+              onClick={() => {
+                act('reject_order', {
+                  ref: order.ref,
+                  reason: rejectReason,
+                });
+                setRejectOpen(false);
+                setRejectReason('');
+              }}
+            >
+              Confirm Reject
+            </button>
+            <button
+              type="button"
+              style={inkButtonStyle()}
+              onClick={() => {
+                setRejectOpen(false);
+                setRejectReason('');
+              }}
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
+
+      {order.status === 'claimed' && isSmith && !fulfilled && (
+        <div
+          style={{
+            marginTop: '6px',
+            fontStyle: 'italic',
+            fontSize: '11px',
+            color: INK_FAINT,
+          }}
+        >
+          Strike each finished item against the machine to deposit it.
+        </div>
+      )}
+    </div>
+  );
+};
+
+export const OrdersTab = (props: {
+  data: CommissionerData;
+  act: ActFn;
+  canRead: boolean;
+}) => {
+  const { data, act, canRead } = props;
+  const isGuildmaster = !!data.is_guildmaster;
+  if (data.orders.length === 0) {
+    return (
+      <div
+        style={{
+          ...cardStyle,
+          textAlign: 'center',
+          fontStyle: 'italic',
+          color: INK_SOFT,
+        }}
+      >
+        No posted orders. Build a manifest and post a commission to begin.
+      </div>
+    );
+  }
+  return (
+    <div>
+      {data.orders.map((order) => (
+        <OrderCard
+          key={order.ref}
+          order={order}
+          isGuildmaster={isGuildmaster}
+          act={act}
+          canRead={canRead}
+        />
+      ))}
+    </div>
+  );
+};

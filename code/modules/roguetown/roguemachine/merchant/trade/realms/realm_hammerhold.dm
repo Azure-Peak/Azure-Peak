@@ -61,6 +61,7 @@
 	cultural_stock_pool = list(
 		/datum/supply_pack/rogue/hammerhold/dwarven_maul,
 		/datum/supply_pack/rogue/hammerhold/spiked_maul,
+		/datum/supply_pack/rogue/hammerhold/longbow,
 		/datum/supply_pack/rogue/hammerhold/iron_fullplate,
 		/datum/supply_pack/rogue/hammerhold/snow_cloak,
 		/datum/supply_pack/rogue/hammerhold/ironclad_kit,

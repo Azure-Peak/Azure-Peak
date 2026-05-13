@@ -53,7 +53,7 @@ const StockCard = (props: {
           {entry.name}
         </div>
         <div style={{ color: INK_SOFT, fontSize: '10px' }}>
-          x{entry.qty}
+          {entry.pack_qty > 1 ? `x${entry.pack_qty} - ` : ''}{entry.qty} in stock
         </div>
       </div>
       <div style={{ textAlign: 'right', flexShrink: 0 }}>

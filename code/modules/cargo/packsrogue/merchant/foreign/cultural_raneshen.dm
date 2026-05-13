@@ -101,7 +101,7 @@
 
 /datum/supply_pack/rogue/raneshen/recurve_bow
 	name = "Recurve Bow"
-	cost = 80
+	cost = 40
 	contains = list(/obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve)
 	ship_qty_min = 1
 	ship_qty_max = 2

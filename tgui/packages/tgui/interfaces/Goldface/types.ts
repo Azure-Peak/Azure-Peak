@@ -12,6 +12,7 @@ export type HarborShip = {
   ship_id: string;
   ship_name: string;
   captain_name: string | null;
+  port_of_origin?: string;
   realm_id: string;
   ship_type: string;
   tonnage: number;
@@ -25,6 +26,7 @@ export type CulturalStockEntry = {
   pack: string;
   name: string;
   qty: number;
+  pack_qty: number;
   base_cost: number;
   price: number;
   ship_id: string;

@@ -178,6 +178,14 @@ export const ShipRow = (props: Props) => {
               style={{ color: INK_SOFT, fontSize: '11px', fontStyle: 'italic' }}
             >
               Captain {ship.captain_name}
+              {ship.port_of_origin ? ` - sailing from ${ship.port_of_origin}` : ''}
+            </div>
+          )}
+          {!ship.captain_name && ship.port_of_origin && (
+            <div
+              style={{ color: INK_SOFT, fontSize: '11px', fontStyle: 'italic' }}
+            >
+              Sailing from {ship.port_of_origin}
             </div>
           )}
           {ship.seconds_until_departure !== undefined && (
