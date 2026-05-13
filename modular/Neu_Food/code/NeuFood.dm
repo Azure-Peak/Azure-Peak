@@ -34,15 +34,15 @@
 /obj/item/reagent_containers/food/snacks/rogue/examine(mob/user)
 	. = ..()
 	if(active_recipe && current_step <= active_recipe.ingredients.len)
-		var/obj/item/next_path = active_recipe.ingredients[current_step]
-		. += span_smallnotice("Recipe: <b>[active_recipe.name]</b>. Next step: Add [initial(next_path.name)].")
+		var/next_path = active_recipe.ingredients[current_step]
+		. += span_smallnotice("Recipe: <b>[active_recipe.name]</b>. Next step: Add [initial(next_path:name)].")
 
 	var/list/possible = SScooking.recipe_index[src.type]
 	if(possible && possible.len)
 		var/list/recipe_names = list()
 		for(var/datum/food_recipe/R in possible)
-			var/obj/item/ingredient = R.ingredients[1]
-			recipe_names += "[R.name] (starts with [initial(ingredient.name)])"
+			var/ingredient = R.ingredients[1]
+			recipe_names += "[R.name] (starts with [initial(ingredient:name)])"
 		. += span_smallnotice("This could be used to prepare: [recipe_names.Join(", ")].")
 
 	if(cooked_type)
@@ -51,6 +51,22 @@
 	if(fried_type)
 		var/obj/item/FT = fried_type
 		. += span_smallnotice("It is prepared and ready to be <b>fried</b> into [initial(FT.name)].")
+
+/obj/item/reagent_containers/food/snacks/rogue/MiddleClick(mob/user)
+	. = ..()
+
+	if(!active_recipe)
+		to_chat(user, span_warning("There is no recipe currently active on [src]."))
+		return
+
+	var/confirmation = tgui_alert(user, "Are you sure you want to reset the preparation for [active_recipe.name]?", "Reset Recipe", list("Yes", "No"))
+	if(confirmation != "Yes" || !active_recipe)
+		return
+
+	to_chat(user, span_notice("You clear the preparation progress for [active_recipe.name] from [src]."))
+	active_recipe = null
+	current_step = 1
+	cut_overlays()
 
 /obj/item/reagent_containers/food/snacks/rogue/attackby(obj/item/I, mob/living/user)
 	if(!active_recipe)
@@ -65,14 +81,27 @@
 		to_chat(user, span_warning("You need a table to prepare [src.name]."))
 		return
 
+	var/requirement = active_recipe.ingredients[current_step]
+
+	if(ispath(requirement, /datum/reagent))
+		var/amt = active_recipe.ingredients[requirement]
+		if(I.reagents && I.reagents.has_reagent(requirement, amt))
+			do_cooking_step(I, user, requirement, amt)
+			return
+		else
+			to_chat(user, span_warning("You need at least [amt] units of [initial(requirement:name)]!"))
+			return
+
 	if(current_step <= active_recipe.ingredients.len && istype(I, active_recipe.ingredients[current_step]))
 		do_cooking_step(I, user)
 		return
 
 	return ..()
 
-/obj/item/reagent_containers/food/snacks/rogue/proc/do_cooking_step(obj/item/I, mob/living/user)
+/obj/item/reagent_containers/food/snacks/rogue/proc/do_cooking_step(obj/item/I, mob/living/user, req_reagent, req_amt)
 	if(!do_after(user, get_cooking_do_time(user, active_recipe.time_per_step), target = src))
+		if(current_step == 1)
+			active_recipe = null
 		return
 
 	playsound(src, 'sound/foley/dropsound/gen_drop.ogg', 30, TRUE)
@@ -80,7 +109,15 @@
 	if(ishuman(user))
 		var/mob/living/carbon/human/H = user
 		H.mind.add_sleep_experience(/datum/skill/craft/cooking, H.STAINT * active_recipe.experience_per_step)
-	I.moveToNullspace() // Break references to the mob
+	if(req_reagent)
+		// Re-verify reagent exists after the timer
+		if(!I.reagents || !I.reagents.has_reagent(req_reagent, req_amt))
+			return
+		I.reagents.remove_reagent(req_reagent, req_amt)
+		playsound(src, 'modular/Creechers/sound/milking1.ogg', 50, TRUE)
+	else
+		playsound(src, 'sound/foley/dropsound/gen_drop.ogg', 30, TRUE)
+		I.moveToNullspace()
 
 	if(current_step < active_recipe.ingredients.len || active_recipe.needs_cooking)
 		var/image/over = image(I.icon, I.icon_state)
@@ -92,7 +129,8 @@
 			if(4) { over.pixel_x = -7; over.pixel_y = -7 }  // SW
 		add_overlay(over)
 
-	qdel(I)
+	if(!req_reagent)
+		qdel(I)
 	current_step++
 	if(current_step > active_recipe.ingredients.len)
 		if(!active_recipe.needs_cooking)
@@ -117,6 +155,7 @@
 	. += span_info("Rarer foods and drinks, or those made from more expensive recipes, can provide increased bonuses to the indulger's mood and health.")
 	. += span_info("Everyone has a favorite meal and drink to indulge in - and, conversely, a hated meal and drink that they absolutely despise. Serve them right, and their mood will greatly improve.")
 	. += span_info("Those of nobility have much higher standards, when it comes to what - and how - they eat. They prefer to eat plattered meals with proper utensils, while disliking plainer and cheaper food.")
+	. += span_info("Set a recipe on accident? middleclick the item to reset the recipe back to nothing and pick a different one.")
 
 /obj/item/reagent_containers/food/snacks/rogue/Initialize()
 	. = ..()

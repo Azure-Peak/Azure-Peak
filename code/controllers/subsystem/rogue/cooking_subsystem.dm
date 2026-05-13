@@ -19,7 +19,14 @@ SUBSYSTEM_DEF(cooking)
 /datum/controller/subsystem/cooking/proc/get_recipe(obj/item/base, obj/item/ingredient)
 	if(!recipe_index[base.type])
 		return null
+
 	for(var/datum/food_recipe/R in recipe_index[base.type])
-		if(istype(ingredient, R.ingredients[1])) // Check if this starts the recipe
+		var/first_req = R.ingredients[1]
+		if(ispath(first_req, /datum/reagent))
+			var/amt = R.ingredients[first_req]
+			if(ingredient.reagents && ingredient.reagents.has_reagent(first_req, amt))
+				return R
+		else if(istype(ingredient, first_req))
 			return R
+
 	return null
