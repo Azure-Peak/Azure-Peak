@@ -95,7 +95,7 @@
 	skill_weights = list(50, 30, 20, 15, 15, 10, 10) // Low static chance
 	bonus_animal_amount = 10
 	animals = list(
-		/mob/living/simple_animal/hostile/retaliate/rogue/saiga/undead = 10,
+		/mob/living/simple_animal/hostile/retaliate/rogue/saiga/undead = 20,
 		/mob/living/simple_animal/hostile/retaliate/rogue/wolf_undead = 10,
 		/mob/living/simple_animal/hostile/retaliate/smallrat = 1
 	)
