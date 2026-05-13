@@ -3419,6 +3419,7 @@
 #include "modular\Neu_Food\code\recipes\egg_recipes.dm"
 #include "modular\Neu_Food\code\recipes\meat_meal_recipes.dm"
 #include "modular\Neu_Food\code\recipes\pastry_recipes.dm"
+#include "modular\Neu_Food\code\recipes\rice_recipes.dm"
 #include "modular\Neu_Food\code\recipes\stew_recipes.dm"
 #include "modular\piercing\carbon_defines.dm"
 #include "modular\piercing\features.dm"
