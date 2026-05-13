@@ -252,6 +252,7 @@
 	tastes = list("gelatin" = 1, "squishy meat" = 1)
 	eat_effect = /datum/status_effect/buff/mealbuff
 	rotprocess = null
+	cooked_smell = /datum/pollutant/food/strange_meat
 
 /* .............  Deadite saiga rib crown  ................ */
 /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_ribs_z/cooked/crown
@@ -262,6 +263,7 @@
 	tastes = list("mashed meat" = 1, "jackberries" = 1)
 	eat_effect = /datum/status_effect/buff/mealbuff
 	rotprocess = null
+	cooked_smell = /datum/pollutant/food/strange_meat
 
 /* .............  Deadite saiga roses  ................ */
 /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_prime_z/cooked/roses
@@ -273,6 +275,7 @@
 	eat_effect = /datum/status_effect/buff/mealbuff
 	faretype = FARE_FINE
 	rotprocess = null
+	cooked_smell = /datum/pollutant/food/strange_meat
 
 /* .............  Deadite saiga wellington  ................ */
 /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_z/cooked/meatloaf
@@ -290,6 +293,7 @@
 	slice_sound = TRUE
 	slice_path = /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_z/cooked/meatloaf_slice
 	list_reagents = list(/datum/reagent/consumable/nutriment = SNACK_CHUNKY)
+	cooked_smell = /datum/pollutant/food/strange_meat
 
 /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_z/cooked/meatloaf/update_icon()
 	if(slices_num)
@@ -324,3 +328,4 @@
 	tastes = list("crumbly squishy meatloaf" = 1, "ghoul" = 1, "grout and grime" = 1)
 	cooked_type = null
 	fried_type = null
+	cooked_smell = /datum/pollutant/food/strange_meat
