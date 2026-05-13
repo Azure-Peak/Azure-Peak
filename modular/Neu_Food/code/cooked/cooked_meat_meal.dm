@@ -244,7 +244,7 @@
 /* .............  Deadite saiga cube  ................ */
 /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_loins_z/cooked/cubed
 	name = "carrion coulis"
-	desc = "A gelatinous, ghoulish delight fashioned from deadite saiga loins. Poke it to see it shudder and wobble."
+	desc = "A gelatinous, ghoulish delight fashioned from wyrd loins. Poke it to see it shudder and wobble."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_meat_meal.dmi'
 	icon_state = "saiga_d_jelly"
 	// At last, proper supper
@@ -256,7 +256,7 @@
 /* .............  Deadite saiga rib crown  ................ */
 /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_ribs_z/cooked/crown
 	name = "couronne de baies-noires"
-	desc = "A crown fashioned from deadite saiga rib-bones, cooked to the point most of the juicy meat has sagged to the bottom. The meat-mash is dotted with countless jackberries down below."
+	desc = "A crown fashioned from wyrd meat rib-bones, cooked to the point most of the juicy meat has sagged to the bottom. The meat-mash is dotted with countless jackberries down below."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_meat_meal.dmi'
 	icon_state = "saiga_d_ribs"
 	tastes = list("mashed meat" = 1, "jackberries" = 1)
@@ -266,7 +266,7 @@
 /* .............  Deadite saiga roses  ................ */
 /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_prime_z/cooked/roses
 	name = "bouquet des trépassés"
-	desc = "A strange dish of prime deadite saiga meat, sliced thin and assembled to look like roses. These are typically left on graves to commemorate someone. Otavan vampires make a habit out of trying to steal these off graves, for they desire the strange flesh."
+	desc = "A strange dish of prime wyrd meat, sliced thin and assembled to look like roses. These are typically left on graves to commemorate someone. Otavan vampires make a habit out of trying to steal these off graves, for they desire the strange flesh."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_meat_meal.dmi'
 	icon_state = "saiga_d_roses"
 	tastes = list("thin sticky meat" = 1, "garlyck" = 1)
@@ -277,7 +277,7 @@
 /* .............  Deadite saiga wellington  ................ */
 /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_z/cooked/meatloaf
 	name = "grave galette"
-	desc = "A patchwork amalgamation of various meats, but primarily that of the deadite saiga. It is a meatloaf, but you'd rather it didn't exist at all."
+	desc = "A patchwork amalgamation of various meats, but primarily that of wyrd meat. It is a meatloaf, but you'd rather it didn't exist at all."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_meat_meal.dmi'
 	icon_state = "d_bread6"
 	tastes = list("crumbly squishy meatloaf" = 1, "ghoul" = 1, "grout and grime" = 1)
