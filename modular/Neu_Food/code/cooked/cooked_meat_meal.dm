@@ -251,6 +251,7 @@
 	faretype = FARE_NEUTRAL
 	tastes = list("gelatin" = 1, "squishy meat" = 1)
 	eat_effect = /datum/status_effect/buff/mealbuff
+	rotprocess = null
 
 /* .............  Deadite saiga rib crown  ................ */
 /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_ribs_z/cooked/crown
@@ -260,6 +261,7 @@
 	icon_state = "saiga_d_ribs"
 	tastes = list("mashed meat" = 1, "jackberries" = 1)
 	eat_effect = /datum/status_effect/buff/mealbuff
+	rotprocess = null
 
 /* .............  Deadite saiga roses  ................ */
 /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_prime_z/cooked/roses
@@ -270,6 +272,7 @@
 	tastes = list("thin sticky meat" = 1, "garlyck" = 1)
 	eat_effect = /datum/status_effect/buff/mealbuff
 	faretype = FARE_FINE
+	rotprocess = null
 
 /* .............  Deadite saiga wellington  ................ */
 /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_z/cooked/meatloaf
