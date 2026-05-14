@@ -37,6 +37,17 @@
 	time_per_step = 1 SECONDS
 	needs_cooking = TRUE
 
+/datum/food_recipe/venison_loins_sauced
+	name = "wine glazed venison loins"
+	base_item = /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_loins
+	ingredients = list(
+		/datum/reagent/consumable/ethanol/redwine = 5,
+		/obj/item/reagent_containers/food/snacks/grown/berries/rogue
+	)
+	result_type = /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_loins/cooked/sauced
+	time_per_step = 2 SECONDS
+	needs_cooking = TRUE
+
 /datum/food_recipe/deadite_loins_cubed
 	name = "gelatinous meat cube"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_loins_z

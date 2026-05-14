@@ -241,6 +241,16 @@
 	faretype = FARE_FINE
 	eat_effect = /datum/status_effect/buff/mealbuff
 
+/* .............  Wine glazed venison loins  ................ */
+/obj/item/reagent_containers/food/snacks/rogue/meat/saiga_loins/cooked/sauced
+	name = "forest bounty"
+	desc = "Venison tenderloin cut into fine slices, covered in a mixture of berry paste and wine-glazing. The liqour seems to have caramelized into a tasty layer of glaze."
+	icon = 'modular/Neu_Food/icons/cooked/cooked_meat_meal.dmi'
+	icon_state = "loins_sauced"
+	tastes = list("tender venison" = 1, "caramelized wine" = 1, "berry paste")
+	faretype = FARE_LAVISH
+	eat_effect = /datum/status_effect/buff/mealbuff
+
 /* .............  Choice venison cut  ................ */
 /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_prime/cooked/choice
 	name = "forest trove"

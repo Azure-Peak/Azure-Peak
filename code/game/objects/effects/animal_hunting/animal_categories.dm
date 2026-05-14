@@ -99,6 +99,10 @@
 		/mob/living/simple_animal/hostile/retaliate/rogue/wolf_undead = 10,
 		/mob/living/simple_animal/hostile/retaliate/smallrat = 1
 	)
+	preferred_tracks = list(
+		/mob/living/simple_animal/hostile/retaliate/rogue/saiga/undead = "cervine",
+		/mob/living/simple_animal/hostile/retaliate/rogue/wolf_undead = "canine",
+	)
 	preferred_areas = list(
 		/area/rogue/outdoors/beach/forest = 1000,
 		/area/rogue/outdoors/beach/forest/north = 1000,
