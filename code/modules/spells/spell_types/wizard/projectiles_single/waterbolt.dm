@@ -38,7 +38,7 @@
 	nodamage = TRUE
 	alpha = 127
 	color = "#5599FF"
-	speed = 1
+	speed = MAGE_PROJ_FAST
 	hitsound = null
 	var/zone_aimed = null
 
