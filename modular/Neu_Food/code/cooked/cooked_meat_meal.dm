@@ -241,6 +241,26 @@
 	faretype = FARE_FINE
 	eat_effect = /datum/status_effect/buff/mealbuff
 
+/* .............  Choice venison cut  ................ */
+/obj/item/reagent_containers/food/snacks/rogue/meat/saiga_prime/cooked/choice
+	name = "forest trove"
+	desc = "A choice cut of venison seared to perfection with a hint of pink flesh still visible."
+	icon = 'modular/Neu_Food/icons/cooked/cooked_meat_meal.dmi'
+	icon_state = "choice_cut"
+	tastes = list("mellow venison" = 1, "garlyck" = 1, "onion" = 1)
+	faretype = FARE_LAVISH
+	eat_effect = /datum/status_effect/buff/mealbuff
+
+/obj/item/reagent_containers/food/snacks/rogue/meat/saiga_prime/cooked/choice/butter
+	name = "mellow forest trove"
+	desc = "A choice cut of venison seared to perfection with a hint of pink flesh still visible. Drowned in a good slice of butter, as if it weren't soft enough before."
+	icon = 'modular/Neu_Food/icons/cooked/cooked_meat_meal.dmi'
+	icon_state = "choice_cut_b"
+	tastes = list("mellow venison" = 1, "garlyck" = 1, "onion" = 1, "butter" = 1)
+	faretype = FARE_LAVISH
+	eat_effect = /datum/status_effect/buff/mealbuff
+	rotprocess = null
+
 /* .............  Deadite saiga cube  ................ */
 /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_loins_z/cooked/cubed
 	name = "carrion coulis"

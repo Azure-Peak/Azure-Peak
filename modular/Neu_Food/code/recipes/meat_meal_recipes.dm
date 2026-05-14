@@ -7,6 +7,26 @@
 	result_type = /obj/item/reagent_containers/food/snacks/rogue/peppersteak/ducal
 	time_per_step = 3 SECONDS
 
+/datum/food_recipe/venison_prime_choice
+	name = "Choice cut steak"
+	base_item = /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_prime
+	ingredients = list(
+		/obj/item/reagent_containers/food/snacks/rogue/veg/onion_sliced,
+		/obj/item/reagent_containers/food/snacks/rogue/veg/garlick_clove
+	)
+	result_type = /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_prime/cooked/choice
+	time_per_step = 1 SECONDS
+	needs_cooking = TRUE
+
+/datum/food_recipe/venison_prime_choice_butter
+	name = "Choice cut steak (with butter)"
+	base_item = /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_prime/cooked/choice
+	ingredients = list(
+		/obj/item/reagent_containers/food/snacks/butterslice
+	)
+	result_type = /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_prime/cooked/choice/butter
+	time_per_step = 1 SECONDS
+
 /datum/food_recipe/venison_ribs_glazed
 	name = "glazed venison ribs"
 	base_item = /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_ribs
