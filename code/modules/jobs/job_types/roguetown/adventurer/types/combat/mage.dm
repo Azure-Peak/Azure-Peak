@@ -375,7 +375,7 @@
 
 	H.cmode_music = 'sound/music/cmode/adventurer/combat_outlander3.ogg'
 
-/datum/advclass/rogue/spellthief
+/datum/advclass/mage/spellthief
 	name = "Arcyne Trickster"
 	tutorial = "You are an Arcyne Trickster, a thief and hooligan gifted in the arcyne arts."
 	outfit = /datum/outfit/job/roguetown/adventurer/spellthief
@@ -395,7 +395,7 @@
 		/datum/skill/combat/wrestling = SKILL_LEVEL_NOVICE,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/climbing = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/sneaking = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/stealing = SKILL_LEVEL_JOURNEYMAN,
