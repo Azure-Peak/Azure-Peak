@@ -51,6 +51,9 @@
 	if(fried_type)
 		var/obj/item/FT = fried_type
 		. += span_smallnotice("It is prepared and ready to be <b>fried</b> into [initial(FT.name)].")
+	if(slice_path)
+		var/obj/item/ST = slice_path
+		. += span_smallnotice("It is prepared and ready to be <b>sliced</b> into [initial(ST.name)].")
 
 /obj/item/reagent_containers/food/snacks/rogue/MiddleClick(mob/user)
 	. = ..()
