@@ -66,11 +66,6 @@
 		apply_status_effect(/datum/status_effect/debuff/hag_bog_tether/wildshape)
 	//faction |= list("hag", "spiders")
 
-/mob/living/carbon/human/species/wildshape/hag/setup_human_dna()
-	. = ..()
-	src.real_name = "True Hag"
-	src.name = "True Hag"
-
 /datum/species/hag_true_form
 	name = "True Hag"
 	id = "hag_true_form"
