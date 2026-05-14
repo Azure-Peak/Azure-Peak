@@ -9,7 +9,7 @@
 	todreq = list("dusk", "night", "dawn", "day")
 	earliest_start = 2 HOURS
 	announce_text = "The dead walk! Skeletons rise to plague the living!"
-	announce_title = "Skeleton Omen"
+	announce_title = "Skeleton Seige" //The hey there's gonna be players turning up not NPCs
 	var/last_siege = 0
 
 
@@ -20,7 +20,8 @@
 	return
 
 /datum/round_event/skellysiege/start()
-	SSmapping.add_world_trait(/datum/world_trait/skeleton_siege, rand(4 MINUTES, 8 MINUTES))
+	SSmapping.add_world_trait(/datum/world_trait/skeleton_siege, rand(8 MINUTES, 12 MINUTES)) //These guys WILL fold over, but this can happen twice in a round totaling to 24 minutes at maximal, if it somehow high-rolled.
+	//Lasts roughly up to an ingame day or slightly longer on rare occasions, these guys are genuinely abysmal, dust on death and have terrible stats and... moderately okay skills I guess.
 	for(var/mob/dead/observer/O in GLOB.player_list)
 		addtimer(CALLBACK(O, TYPE_PROC_REF(/mob/dead/observer, horde_respawn)), 1)
 	return

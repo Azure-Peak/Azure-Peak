@@ -92,7 +92,7 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark)
 /obj/effect/landmark/start/sieges
 	name = "Siege Spawnpoint"
 	icon_state = "arrow"
-	jobspawn_override = list("Goblin", "Greater Skeleton")
+	jobspawn_override = list("Goblin", "Siege Skeleton") //Add Jobs for Siege Role Spawn Spots Here
 	delete_after_roundstart = FALSE
 
 /obj/effect/landmark/start/lord
