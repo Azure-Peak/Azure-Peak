@@ -1,7 +1,7 @@
 /datum/foreign_realm/raneshen
 	id = REALM_RANESHEN
 	name = "Raneshen"
-	auto_discovered = TRUE
+	auto_discovered = FALSE
 	roll_weight = TRADE_REALM_WEIGHT_DEFAULT
 	ship_name_words = list(
 		"Thalassa", "Abyssoros", "Khimaira", "Eos", "Aetos",

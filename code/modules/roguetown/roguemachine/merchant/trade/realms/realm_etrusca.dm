@@ -1,7 +1,7 @@
 /datum/foreign_realm/etrusca
 	id = REALM_ETRUSCA
 	name = "Etrusca"
-	auto_discovered = TRUE
+	auto_discovered = FALSE
 	roll_weight = TRADE_REALM_WEIGHT_NEIGHBOR
 	ship_name_words = list(
 		"Aurelia", "Mirella", "Esperanza", "Fortuna", "Vittoria",
