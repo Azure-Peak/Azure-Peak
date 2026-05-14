@@ -151,6 +151,11 @@
 	path = /obj/item/storage/belt/rogue/leather/double
 	sort_category = "Accessories"
 
+/datum/loadout_item/knifebelt // comes empty
+	name = "Tossblade Belt"
+	path = /obj/item/storage/belt/rogue/leather/knifebelt/black
+	sort_category = "Accessories"
+
 /datum/loadout_item/psicross
 	name = "Psydonian Cross"
 	path = /obj/item/clothing/neck/roguetown/psicross

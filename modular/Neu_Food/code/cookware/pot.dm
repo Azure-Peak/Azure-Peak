@@ -204,7 +204,8 @@
 
 /obj/item/reagent_containers/glass/bucket/pot/kettle/tankard
 	name = "tankard"
-	desc = "A heftsome, iron-bottomed mug. It can be set upon a hearth to brew traditional drinks, or - for the more alcoholically-inclined - used as a pitcher of liqour."
+	desc = "A heftsome, iron-bottomed mug. It can be set upon a hearth to brew traditional drinks, or - for the more \
+	alcoholically-inclined - used as a pitcher of liqour."
 	icon = 'modular/Neu_Food/icons/cookware/unused.dmi'
 	icon_state = "stein"
 	volume = 60
@@ -214,20 +215,23 @@
 
 /obj/item/reagent_containers/glass/bucket/pot/kettle/tankard/silver
 	name = "silver tankard"
-	desc = "A regal, silver-bottomed mug with gilded marginalia. Perfect for refilling mugs-a-plenty during the chaos of an innhouse's feast, or for drowning away the sorrows of a sorrid week. It can be set upon a hearth to brew traditional drinks."
+	desc = "A regal, silver-bottomed mug with gilded marginalia. Perfect for refilling mugs-a-plenty during the chaos of an \
+	innhouse's feast, or for drowning away the sorrows of a sorrid week. It can be set upon a hearth to brew traditional drinks."
 	icon = 'modular/Neu_Food/icons/cookware/unused.dmi'
 	icon_state = "silverstein"
-	volume = 80
+	volume = 90
 	sellprice = 40
 	force = 15
 	throwforce = 20
 
 /obj/item/reagent_containers/glass/bucket/pot/kettle/tankard/blacksteel
 	name = "blacksteel tankard"
-	desc = "A mythical, blacksteel-bottomed mug with a mastercrafted handle. Fit for the bloodied knuckles of a dungeon-delving hero, or the nitestand of a drunkhearted king. It can be set upon a hearth to brew traditional drinks, or smelted within a furnace to birth an ingot of blacksteel."
+	desc = "A mythical, blacksteel-bottomed mug with a mastercrafted handle. Fit for the bloodied knuckles of a dungeon-delving \
+	hero, or the nitestand of a drunkhearted king. It can be set upon a hearth to brew traditional drinks, or smelted within a \
+	furnace to birth an ingot of blacksteel."
 	icon = 'modular/Neu_Food/icons/cookware/unused.dmi'
 	icon_state = "blacksteelstein"
-	volume = 100
+	volume = 120
 	sellprice = 100
 	force = 20
 	throwforce = 25

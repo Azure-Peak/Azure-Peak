@@ -1,0 +1,4 @@
+author: "SnubbyNotSorry"
+delete-after: True
+changes:
+  - rscadd: "Non-armoured cloaks get pockets"

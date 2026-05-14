@@ -1092,6 +1092,7 @@
 	icon_state = "quarterstaff"
 	associated_skill = /datum/skill/combat/staves
 	max_integrity = 150
+	smeltresult = /obj/item/ash
 
 /obj/item/rogueweapon/woodstaff/quarterstaff/iron
 	name = "iron quarterstaff"
@@ -1102,6 +1103,7 @@
 	icon_state = "quarterstaff_iron"
 	associated_skill = /datum/skill/combat/staves
 	max_integrity = 200
+	smeltresult = /obj/item/ingot/iron
 
 /obj/item/rogueweapon/woodstaff/quarterstaff/steel
 	name = "steel quarterstaff"
@@ -1112,6 +1114,7 @@
 	icon_state = "quarterstaff_steel"
 	associated_skill = /datum/skill/combat/staves
 	max_integrity = 200
+	smeltresult = /obj/item/ingot/steel
 
 /obj/item/rogueweapon/woodstaff/quarterstaff/silver
 	name = "silver quarterstaff"
@@ -1123,6 +1126,7 @@
 	associated_skill = /datum/skill/combat/staves
 	max_integrity = 250
 	is_silver = TRUE
+	smeltresult = /obj/item/ingot/silver
 
 /obj/item/rogueweapon/woodstaff/quarterstaff/silver/ComponentInitialize()
 	AddComponent(\
