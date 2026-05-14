@@ -297,6 +297,7 @@ GLOBAL_LIST_INIT(traits_by_type, list(
 		TRAIT_LONGSWORDSMAN,
 		TRAIT_SABRIST,
 		TRAIT_FENCERDEXTERITY,
+		TRAIT_LICHLAIR,
 		TRAIT_HONORBOUND
 	),
 	/obj/item/bodypart = list(
