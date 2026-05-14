@@ -1754,6 +1754,14 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	str = span_info(str)
 	. += str
 
+	if(smeltresult)
+		var/atom/A = smeltresult
+		. += span_info("Melts down to: <b>[capitalize(initial(A.name))]</b>.")
+	
+	if(salvage_result && salvage_amount)
+		var/atom/A = salvage_result
+		. += span_info("Can be salvaged for: <b>[salvage_amount] [capitalize(initial(A.name))]</b>.")
+
 /obj/item/proc/update_force_dynamic()
 	force_dynamic = (wielded ? force_wielded : force)
 
