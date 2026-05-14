@@ -44,30 +44,31 @@
 
 /obj/projectile/energy/waterbolt/on_hit(target)
 	..()
-	if(istype(target, /obj/machinery/light/rogue)) 	// Extinguish lit light sources (braziers, hearths, fireplaces, wall candles, etc.)
+	if(istype(target, /obj/machinery/light/rogue))
 		var/obj/machinery/light/rogue/L = target
 		if(L.on)
 			L.extinguish()
-		return BULLET_ACT_HIT
-	if(isobj(target)) 	// Extinguish burning items and structures; any obj that reaches this point is not a carbon, so always return
+	else if(isobj(target))
 		var/obj/O = target
 		if((O.resistance_flags & ON_FIRE) && O.extinguishable)
 			O.extinguish()
-		return BULLET_ACT_HIT
-	if(!iscarbon(target))
-		return BULLET_ACT_HIT
-	var/mob/living/carbon/C = target // Douse fire stacks — 10 per hit, so max stacks (20) requires two bolts
-	if(C.fire_stacks > 0)
-		C.adjust_fire_stacks(-10)
-		if(C.fire_stacks <= 0)
-			C.extinguish_mob() // also extinguishes any burning clothing/items
-	if(!ishuman(C)) // Head-aim and mood debuff logic is human-only
-		return BULLET_ACT_HIT
-	var/mob/living/carbon/human/H = C
-	// Head-aim check for mood debuff
-	if(!(zone_aimed in list(BODY_ZONE_HEAD, BODY_ZONE_PRECISE_SKULL, BODY_ZONE_PRECISE_EARS, BODY_ZONE_PRECISE_R_EYE, BODY_ZONE_PRECISE_L_EYE, BODY_ZONE_PRECISE_NOSE, BODY_ZONE_PRECISE_MOUTH)))
-		return BULLET_ACT_HIT
-	var/is_noble = H.is_noble()
-	if(is_noble)
-		H.add_stress(/datum/stressevent/water_splashed_noble)
+	if(ismob(target))
+		var/mob/living/M = target
+		if(M.fire_stacks > 0)
+			M.adjust_fire_stacks(-10)
+			if(M.fire_stacks <= 0)
+				M.extinguish_mob()
+		if(ishuman(M))
+			var/mob/living/carbon/human/H = M
+			if(zone_aimed in list(
+				BODY_ZONE_HEAD,
+				BODY_ZONE_PRECISE_SKULL,
+				BODY_ZONE_PRECISE_EARS,
+				BODY_ZONE_PRECISE_R_EYE,
+				BODY_ZONE_PRECISE_L_EYE,
+				BODY_ZONE_PRECISE_NOSE,
+				BODY_ZONE_PRECISE_MOUTH
+			))
+				if(H.is_noble())
+					H.add_stress(/datum/stressevent/water_splashed_noble)
 	return BULLET_ACT_HIT
