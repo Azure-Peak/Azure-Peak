@@ -1431,6 +1431,8 @@
 #include "code\game\objects\structures\roguetown\redstone.dm"
 #include "code\game\objects\structures\roguetown\rogueflora.dm"
 #include "code\game\objects\structures\roguetown\talkstatue.dm"
+#include "code\game\objects\structures\roguetown\talkstatue_mercenary.dm"
+#include "code\game\objects\structures\roguetown\talkstatue_tgui.dm"
 #include "code\game\objects\structures\roguetown\telescope.dm"
 #include "code\game\objects\structures\roguetown\traps.dm"
 #include "code\game\objects\weapons\axes.dm"

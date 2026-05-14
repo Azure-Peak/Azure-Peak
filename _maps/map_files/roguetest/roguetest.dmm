@@ -45,6 +45,10 @@
 "bh" = (
 /turf/open/floor/rogue/cobble,
 /area/rogue/indoors/shelter/mountains/decap)
+"bC" = (
+/obj/structure/roguemachine/talkstatue/mercenary,
+/turf/open/floor/rogue/dirt/road,
+/area/rogue/indoors)
 "bT" = (
 /obj/structure/table/wood{
 	icon_state = "longtable_mid";
@@ -3491,7 +3495,7 @@ ev
 Hb
 Zu
 rN
-CZ
+bC
 Xb
 CZ
 SE
