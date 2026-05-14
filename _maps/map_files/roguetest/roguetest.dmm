@@ -150,7 +150,7 @@
 /area/rogue/indoors)
 "dZ" = (
 /obj/structure/roguemachine/goldface/public/apothecary,
-/turf/closed/wall/mineral/rogue/stonebrick,
+/turf/open/floor/rogue/blocks/newstone/alt,
 /area/rogue/indoors)
 "eg" = (
 /obj/structure/fluff/statue/tdummy,
@@ -891,6 +891,11 @@
 /obj/item/storage/roguebag,
 /turf/open/floor/rogue/blocks/newstone/alt,
 /area/rogue/indoors/town/physician)
+"Ab" = (
+/obj/machinery/light/rogue/candle/floorcandle/pink,
+/obj/structure/roguemachine/scrapper/tailor,
+/turf/open/floor/rogue/churchbrick,
+/area/rogue/indoors/town/bath)
 "Ah" = (
 /obj/effect/decal/cobbleedge{
 	dir = 1;
@@ -930,7 +935,7 @@
 /area/rogue/indoors/cave)
 "AV" = (
 /obj/structure/roguemachine/goldface/public,
-/turf/closed/wall/mineral/rogue/stonebrick,
+/turf/open/floor/rogue/blocks/newstone/alt,
 /area/rogue/indoors)
 "AX" = (
 /turf/open/floor/rogue/grass,
@@ -1144,7 +1149,7 @@
 /area/rogue/outdoors)
 "Hb" = (
 /obj/structure/roguemachine/goldface,
-/turf/closed/wall/mineral/rogue/stonebrick,
+/turf/open/floor/rogue/blocks/newstone/alt,
 /area/rogue/indoors)
 "Hd" = (
 /obj/structure/closet/crate/chest,
@@ -1411,7 +1416,7 @@
 /area/rogue/outdoors)
 "Qe" = (
 /obj/structure/roguemachine/goldface/public/smith,
-/turf/closed/wall/mineral/rogue/stonebrick,
+/turf/open/floor/rogue/blocks/newstone/alt,
 /area/rogue/indoors)
 "Qg" = (
 /obj/structure/table/wood{
@@ -1476,6 +1481,10 @@
 "SW" = (
 /turf/closed/indestructible/rock,
 /area/rogue/indoors)
+"Tb" = (
+/obj/structure/roguemachine/scrapper/smith,
+/turf/open/floor/rogue/blocks/newstone/alt,
+/area/rogue/indoors/town/manor)
 "Tj" = (
 /obj/structure/flora/roguegrass/bush,
 /turf/open/floor/rogue/dirt/road,
@@ -3491,7 +3500,7 @@ lI
 ev
 ev
 ev
-ev
+Tb
 Hb
 Zu
 rN
@@ -3543,7 +3552,7 @@ dn
 ne
 kf
 mP
-dn
+Ab
 AV
 Zu
 VF
@@ -3700,7 +3709,7 @@ ne
 ne
 ne
 ne
-TN
+or
 Xu
 Vk
 TN
