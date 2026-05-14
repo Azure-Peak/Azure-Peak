@@ -20,6 +20,8 @@
 	. = ..()
 	var/static/list/loc_connections = list(COMSIG_ATOM_EXIT = PROC_REF(on_exit))
 	AddElement(/datum/element/connect_loc, loc_connections)
+	if(mapload)
+		resistance_flags |= INDESTRUCTIBLE
 	return
 
 /obj/structure/stairs/proc/on_exit(datum/source, atom/movable/leaving, atom/new_location)

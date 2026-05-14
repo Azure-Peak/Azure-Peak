@@ -25,7 +25,6 @@
 		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/reading = SKILL_LEVEL_MASTER,
-		/datum/skill/misc/medicine = SKILL_LEVEL_APPRENTICE, // Have to grind a bit, but can use the ZRONK chair right away
 		/datum/skill/craft/alchemy = SKILL_LEVEL_EXPERT,
 		/datum/skill/magic/arcane = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/medicine = SKILL_LEVEL_JOURNEYMAN, //For lux extractions.
@@ -59,14 +58,16 @@
 	if(H.mind)
 		backr = choose_implement(H, "greater")
 		H.set_patron(/datum/patron/inhumen/zizo)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/eyebite)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/bonechill)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/minion_order)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/gravemark)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/raise_undead_formation/necromancer)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/raise_undead_guard/necromancer)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/convert_heretic)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/tame_undead)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/eyebite)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/bonechill)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/bonemend)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/minion_order)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/gravemark)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/raise_undead_formation/necromancer)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/raise_undead_guard/necromancer)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/convert_heretic/free)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/lacrima/free)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/tame_undead)
 		H.mind.AddSpell(new /datum/action/cooldown/spell/raise_deadite)
 		wretch_select_bounty(H)
 	H.grant_language(/datum/language/undead)

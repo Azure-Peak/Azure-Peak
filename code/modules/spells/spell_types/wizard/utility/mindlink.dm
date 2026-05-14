@@ -1,5 +1,5 @@
 /datum/action/cooldown/spell/mindlink
-	button_icon = 'icons/mob/actions/roguespells.dmi'
+	button_icon = 'icons/mob/actions/mage_utilities.dmi'
 	name = "Mindlink"
 	desc = "Establish a telepathic link with an ally for three minutes. Use ,Y before a message to communicate telepathically."
 	button_icon_state = "mindlink"

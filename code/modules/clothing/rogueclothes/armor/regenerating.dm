@@ -5,6 +5,7 @@
 	desc = "Abstract parent. Contact developer if you see this."
 	icon_state = null
 	slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR
+	unenchantable = TRUE
 
 	/// Feedback messages
 	var/repairmsg_begin = "My armour begins to slowly mend its abuse.."

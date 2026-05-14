@@ -138,8 +138,8 @@
 			pic.color = get_detail_color()
 		add_overlay(pic)
 
-/obj/item/clothing/head/roguetown/helmet/heavy/undivided_ritual
-	name = "crusader greathelm"
+/obj/item/clothing/head/roguetown/helmet/heavy/undivided_alt
+	name = "templar bucket helmet"
 	desc = "A gold-plated bucket helm adorned with symbol of Astrata, beacon of hope worn during crusades. \
 	Sacrificial Hero, fear not your enemy; it is only the first tilt."
 	worn_x_dimension = 64

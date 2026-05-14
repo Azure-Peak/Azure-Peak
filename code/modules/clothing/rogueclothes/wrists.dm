@@ -396,6 +396,7 @@
 	desc = "Away with you, vile beggar!"
 	color = "#ffc960"
 	smeltresult = /obj/item/ingot/component/matthios
+	unenchantable = TRUE
 
 /obj/item/clothing/wrists/roguetown/bracers/matthios/Initialize()
 	. = ..()
@@ -412,6 +413,7 @@
 	max_integrity = ARMOR_INT_SIDE_STEEL
 	armor_class = ARMOR_CLASS_MEDIUM
 	smeltresult = /obj/item/ingot/component/zizo
+	unenchantable = TRUE
 
 /obj/item/clothing/wrists/roguetown/bracers/zizo/Initialize()
 	. = ..()
@@ -433,6 +435,7 @@
 	desc = "Oh, to plunge hands into cold water; to play a melody upon an ivory-keyed piano; to watch steam rise from boiling, twisting entrails.."
 	color = "#ddc0a7"
 	smeltresult = /obj/item/ingot/component/graggar
+	unenchantable = TRUE
 
 /obj/item/clothing/wrists/roguetown/bracers/graggar/Initialize()
 	. = ..()

@@ -1,0 +1,4 @@
+author: "SpadesNeil"
+delete-after: True
+changes:
+  - bugfix: "Leather vests are no longer classified as armor."

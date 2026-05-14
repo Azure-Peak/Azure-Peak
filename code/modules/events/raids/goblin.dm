@@ -19,7 +19,8 @@
 	. = ..()
 
 /datum/round_event/worldsiege/goblin/start()
-	SSmapping.add_world_trait(/datum/world_trait/goblin_siege, rand(4 MINUTES, 8 MINUTES))
+	SSmapping.add_world_trait(/datum/world_trait/goblin_siege, rand(12 MINUTES, 15 MINUTES))
+	//Genuinely, these guys are abysmal at fighting, its FUNNY to let a stream of them rush forth.
 	for(var/mob/dead/observer/O in GLOB.player_list)
 		addtimer(CALLBACK(O, TYPE_PROC_REF(/mob/dead/observer, horde_respawn)), 1)
 	return
