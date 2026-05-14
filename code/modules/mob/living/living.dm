@@ -2181,6 +2181,12 @@
 					found_ping(get_turf(M), client, "trap")
 			if(istype(O, /obj/structure/flora/roguegrass/maneater/real))
 				found_ping(get_turf(O), client, "trap")
+			if(istype(O, /obj/item/clothing) || istype(O, /obj/item/rogueweapon) || istype(O, /obj/item/gun))	//bows and crossbows are... guns...
+				if(!isturf(O.loc))
+					continue
+				if(get_dist(O, get_turf(src)) > (get_skill_level(/datum/skill/misc/tracking) + 1))	// From 1 to 7.
+					continue
+				found_ping_object(get_turf(O), O, client)
 			//Hearthstone port - Tracking
 		for(var/obj/effect/track/potential_track in orange(7, src)) //Can't use view because they're invisible by default.
 			if(!can_see(src, potential_track, 10))
@@ -2232,6 +2238,22 @@
 		return
 	I.mouse_opacity = MOUSE_OPACITY_TRANSPARENT
 	flick_overlay(I, list(C), 30)
+
+/proc/found_ping_object(turf/tloc, atom/A, client/C)
+	if(!A || !C || !tloc)
+		return
+	if(!A.icon_state || !A.icon)
+		return
+	var/image/I = image(icon = 'icons/effects/effects.dmi', loc = tloc, icon_state = "found_obj", layer = 18)
+	if(!I)
+		return
+	var/image/IAtom = image(icon = A.icon, loc = A, icon_state = A.icon_state, layer = 18)
+	IAtom.alpha = 155
+	IAtom.add_overlay(I)
+	IAtom.mouse_opacity = MOUSE_OPACITY_TRANSPARENT
+	IAtom.layer = 18
+	IAtom.plane = 18
+	flick_overlay(IAtom, list(C), 30)
 
 /mob/proc/look_up()
 	return

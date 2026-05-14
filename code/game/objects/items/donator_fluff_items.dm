@@ -718,3 +718,22 @@ As Excaliber."
 	<i>Take the instrument into your hands, O murderer mine. The garden is on fire, and soon the stars must go out.</i>"
 	icon = 'icons/obj/items/donor_weapons.dmi'
 	icon_state = "euthanasia"
+
+//MAGI1138
+/obj/item/clothing/cloak/magi1138
+	name = "reappropriated Xylixian Cloak"
+	desc = "A Xylixian Cloak, without all the bells and whistles."
+	icon_state = "magi_xylix"
+	item_state = "magi_xylix"
+	alternate_worn_layer = TABARD_LAYER
+	flags_inv = HIDEBOOB
+	slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_CLOAK|ITEM_SLOT_ARMOR
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+	sleeved = 'icons/clothing/onmob/donor_sleeves_armor.dmi'
+	nodismemsleeves = TRUE
+
+/obj/item/clothing/mask/rogue/spectacles/magi1138
+    name = "modified Nocshade lens-pair"
+    desc = "A pair of Otavan Nocshade Lenses with cut and polished amythortz lenses."
+    icon_state = "bglasses"

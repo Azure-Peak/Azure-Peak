@@ -1,4 +1,4 @@
 author: "changelingonberry"
 delete-after: True
 changes:
-  - admin: "player replying is shown"
+  - admin: "admins get view actors verb in ooc tab"

@@ -1,0 +1,4 @@
+author: "Ollanius"
+delete-after: True
+changes:
+  - bugfix: "Tankards now scale up in increments of +30u instead of +20u, ensuring that they can properly brew tea and coffee without being marred with a watered-down result."

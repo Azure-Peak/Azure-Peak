@@ -14,6 +14,7 @@
 					/obj/effect/proc_holder/spell/invoked/heatmetal				= CLERIC_T2,
 					/obj/effect/proc_holder/spell/invoked/hammerfall			= CLERIC_T3,
 					/obj/effect/proc_holder/spell/self/repair                   = CLERIC_T3,
+					/datum/action/cooldown/spell/malum_blessing					= CLERIC_T3,
 					/obj/effect/proc_holder/spell/invoked/craftercovenant		= CLERIC_T4,
 					/obj/effect/proc_holder/spell/invoked/resurrect/malum		= CLERIC_T4,
 	)

@@ -338,3 +338,12 @@
 	name = "Donator Kit - A Durthurian Tale"
 	path = /obj/item/enchantingkit/weapon/koruu_judgement
 	ckeywhitelist = list("koruu", "pneumothorax")
+
+/datum/loadout_item/donator/magi1138
+	name = "Donator Kit - Stolen Xylix Cloak"
+	path = /obj/item/clothing/cloak/magi1138
+	ckeywhitelist = list("magi1138")
+
+/datum/loadout_item/donator/magi1138/specs
+	name = "Donator Kit - Modified Nocshade Lens-pair"
+	path = /obj/item/clothing/mask/rogue/spectacles/magi1138
