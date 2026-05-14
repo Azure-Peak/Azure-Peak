@@ -45,6 +45,7 @@
 		"Psyaltery" = /obj/item/rogue/instrument/psyaltery,
 		"Flute" = /obj/item/rogue/instrument/flute,
 		"Drum" = /obj/item/rogue/instrument/drum,
+		"Shamisen" = /obj/item/rogue/instrument/shamisen,
 	)
 
 /datum/action/cooldown/spell/conjure_instrument/cast(list/targets, mob/living/user = usr)
