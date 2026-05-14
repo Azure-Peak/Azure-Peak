@@ -3,7 +3,7 @@
 	desc = "Shoot out a magical bolt of water that extinguishes fires from a distance."
 	button_icon = 'icons/mob/actions/roguespells.dmi'
 	button_icon_state = "frost_bolt"
-	sound = 'sound/magic/slimesquish.ogg'
+	sound = 'sound/foley/water_land1.ogg'
 	spell_color = GLOW_COLOR_ARCANE
 	glow_intensity = GLOW_INTENSITY_LOW
 
@@ -43,7 +43,6 @@
 	var/zone_aimed = null
 
 /obj/projectile/energy/waterbolt/on_hit(target)
-	playsound(get_turf(target), pick('sound/foley/water_land1.ogg', 'sound/foley/water_land2.ogg', 'sound/foley/water_land3.ogg'), 80, TRUE)
 	// Extinguish lit light sources (braziers, hearths, fireplaces, wall candles, etc.)
 	if(istype(target, /obj/machinery/light/rogue))
 		var/obj/machinery/light/rogue/L = target
