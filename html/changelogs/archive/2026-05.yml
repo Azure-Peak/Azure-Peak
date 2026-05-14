@@ -508,3 +508,8 @@
   - rscadd: major arcana tarot deck
   psyendrocronologicalwarfare:
   - rscadd: you can pick underdweller origin as revenant/dullahan
+2026-05-14:
+  Baneuus:
+  - bugfix: Deprived is now displayed properly.
+  WeNeedMorePhoron:
+  - rscadd: AI should no longer deliberately avoid Battlewardry runes
