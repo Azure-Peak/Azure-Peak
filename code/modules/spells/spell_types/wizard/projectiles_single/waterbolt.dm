@@ -33,7 +33,6 @@
 	name = "water bolt"
 	icon = 'icons/obj/magic_projectiles.dmi'
 	icon_state = "arcyne_bolt"
-	guard_deflectable = TRUE
 	damage = 0
 	nodamage = TRUE
 	alpha = 127
