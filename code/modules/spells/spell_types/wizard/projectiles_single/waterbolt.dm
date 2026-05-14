@@ -43,28 +43,25 @@
 	var/zone_aimed = null
 
 /obj/projectile/energy/waterbolt/on_hit(target)
-	// Extinguish lit light sources (braziers, hearths, fireplaces, wall candles, etc.)
-	if(istype(target, /obj/machinery/light/rogue))
+	..()
+	if(istype(target, /obj/machinery/light/rogue)) 	// Extinguish lit light sources (braziers, hearths, fireplaces, wall candles, etc.)
 		var/obj/machinery/light/rogue/L = target
 		if(L.on)
 			L.extinguish()
 		return BULLET_ACT_HIT
-	// Extinguish burning items and structures; any obj that reaches this point is not a carbon, so always return
-	if(isobj(target))
+	if(isobj(target)) 	// Extinguish burning items and structures; any obj that reaches this point is not a carbon, so always return
 		var/obj/O = target
 		if((O.resistance_flags & ON_FIRE) && O.extinguishable)
 			O.extinguish()
 		return BULLET_ACT_HIT
 	if(!iscarbon(target))
 		return BULLET_ACT_HIT
-	var/mob/living/carbon/C = target
-	// Douse fire stacks — 10 per hit, so max stacks (20) requires two bolts
+	var/mob/living/carbon/C = target // Douse fire stacks — 10 per hit, so max stacks (20) requires two bolts
 	if(C.fire_stacks > 0)
 		C.adjust_fire_stacks(-10)
 		if(C.fire_stacks <= 0)
 			C.extinguish_mob() // also extinguishes any burning clothing/items
-	// Head-aim and mood debuff logic is human-only
-	if(!ishuman(C))
+	if(!ishuman(C)) // Head-aim and mood debuff logic is human-only
 		return BULLET_ACT_HIT
 	var/mob/living/carbon/human/H = C
 	// Head-aim check for mood debuff
