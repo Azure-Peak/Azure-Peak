@@ -28,7 +28,7 @@
 
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
 
-	var/repair_percent = 0.20
+	var/repair_percent = 0.40
 	var/int_bonus = 0.00
 
 /datum/action/cooldown/spell/mending/is_valid_target(atom/cast_on)
@@ -86,6 +86,6 @@
 
 /datum/action/cooldown/spell/mending/lesser
 	name = "Lesser Mending"
-	repair_percent = 0.10
+	repair_percent = 0.15
 	cooldown_time = 30 SECONDS
 	point_cost = 1
