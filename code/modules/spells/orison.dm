@@ -104,7 +104,7 @@
 /datum/status_effect/light_buff
 	id = "orison_light_buff"
 	alert_type = /atom/movable/screen/alert/status_effect/light_buff
-	duration = 5 MINUTES
+	duration = 10 MINUTES
 	status_type = STATUS_EFFECT_REFRESH
 	examine_text = "SUBJECTPRONOUN is surrounded by an aura of gentle light."
 	var/outline_colour = "#ffffff"
