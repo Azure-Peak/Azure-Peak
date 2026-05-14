@@ -407,9 +407,9 @@
 /datum/outfit/job/roguetown/adventurer/spellthief/pre_equip(mob/living/carbon/human/H)
 	..()
 	to_chat(H, span_warning("You are an Arcyne Trickster, a thief gifted in the arcane arts."))
-	head = /obj/item/clothing/head/roguetown/roguehood/mageblue
+	head = /obj/item/clothing/head/roguetown/witchhat/mageblue
 	pants = /obj/item/clothing/under/roguetown/trou/leather
-	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/light
+	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
 	cloak = /obj/item/clothing/cloak/raincloak/mageblue
 	backl = /obj/item/storage/backpack/rogue/satchel
 	belt = /obj/item/storage/belt/rogue/leather
