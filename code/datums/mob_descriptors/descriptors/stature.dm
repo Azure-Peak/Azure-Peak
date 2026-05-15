@@ -188,3 +188,132 @@
 // basterd. specifically basterd. it is funnier this way.
 /datum/mob_descriptor/stature/basterd
 	name = "Basterd"
+
+/datum/mob_descriptor/stature/hotspur
+	name = "Hotspur"
+
+/datum/mob_descriptor/stature/pest
+	name = "Pest"
+
+/datum/mob_descriptor/stature/shrew
+	name = "Shrew"
+
+/datum/mob_descriptor/stature/tyrant
+	name = "Tyrant"
+
+/datum/mob_descriptor/stature/virago
+	name = "Virago"
+
+/datum/mob_descriptor/stature/yob
+	name = "Yob"
+
+/datum/mob_descriptor/stature/adversary
+	name = "Adversary"
+
+/datum/mob_descriptor/stature/foe
+	name = "Foe"
+
+/datum/mob_descriptor/stature/gatecrasher
+	name = "Gatecrasher"
+
+/datum/mob_descriptor/stature/idol
+	name = "Idol"
+
+/datum/mob_descriptor/stature/nemesis
+	name = "Nemesis"
+
+/datum/mob_descriptor/stature/eejit
+	name = "Eejit"
+
+/datum/mob_descriptor/stature/crone
+	name = "Crone"
+
+/datum/mob_descriptor/stature/nerdowell
+	name = "Nerdowell"
+
+/datum/mob_descriptor/stature/peon
+	name = "Peon"
+
+/datum/mob_descriptor/stature/scion
+	name = "Scion"
+
+/datum/mob_descriptor/stature/swashbuckler
+	name = "Swashbuckler"
+
+/datum/mob_descriptor/stature/harlot
+	name = "Harlot"
+
+/datum/mob_descriptor/stature/strumpet
+	name = "Strumpet"
+
+/datum/mob_descriptor/stature/hussy
+	name = "Hussy"
+
+/datum/mob_descriptor/stature/slattern
+	name = "Slattern"
+
+/datum/mob_descriptor/stature/gourmand
+	name = "Gourmand"
+
+/datum/mob_descriptor/stature/sovereign
+	name = "Sovereign"
+
+/datum/mob_descriptor/stature/savage
+	name = "Savage"
+
+/datum/mob_descriptor/stature/drifter
+	name = "Drifter"
+
+/datum/mob_descriptor/stature/fanatic
+	name = "Fanatic"
+
+/datum/mob_descriptor/stature/maniac
+	name = "Maniac"
+
+/datum/mob_descriptor/stature/provocateur
+	name = "Provocateur"
+
+/datum/mob_descriptor/stature/scavenger
+	name = "Scavenger"
+
+/datum/mob_descriptor/stature/pariah
+	name = "Pariah"
+
+/datum/mob_descriptor/stature/fugitive
+	name = "Fugitive"
+
+/datum/mob_descriptor/stature/cutpurse
+	name = "Cutpurse"
+
+/datum/mob_descriptor/stature/anarchist
+	name = "Anarchist"
+
+/datum/mob_descriptor/stature/warlord
+	name = "Warlord"
+
+/datum/mob_descriptor/stature/drunkard
+	name = "Drunkard"
+
+/datum/mob_descriptor/stature/moron
+	name = "Moron"
+
+/datum/mob_descriptor/stature/simpleton
+	name = "Simpleton"
+
+/datum/mob_descriptor/stature/bitch
+	name = "Bitch"
+
+/datum/mob_descriptor/stature/numbskull
+	name = "Numbskull"
+
+/datum/mob_descriptor/stature/gambler
+	name = "Gambler"
+
+/datum/mob_descriptor/stature/reprobate
+	name = "Reprobate"
+
+/datum/mob_descriptor/stature/spendthrift
+	name = "Spendthrift"
+
+/datum/mob_descriptor/stature/liability
+	name = "Liability"

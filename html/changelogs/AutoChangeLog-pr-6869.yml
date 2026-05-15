@@ -1,4 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - rscdel: "Removed most ranged AI loadout that can randomly spawn until fixed."

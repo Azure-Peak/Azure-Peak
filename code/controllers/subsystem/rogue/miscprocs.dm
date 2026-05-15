@@ -175,7 +175,7 @@
 		return FALSE
 
 	var/prayersesh = 0
-	visible_message("[src] kneels their head in prayer to the Gods.", "I kneel my head in prayer to [devotion.patron.name].")
+	visible_message("[src] kneels their head in prayer to the Gods.", "I kneel my head in prayer to [istype(devotion.patron, /datum/patron/divine/undivided) ? "the Ten" : devotion.patron.name].")
 	for(var/i in 1 to 50)
 		if(devotion.devotion >= devotion.max_devotion)
 			to_chat(src, span_warning("I have reached the limit of my devotion..."))
@@ -266,3 +266,21 @@
 	else
 		ADD_TRAIT(src, TRAIT_DECEIVING_MEEKNESS, TRAIT_VIRTUE)
 	to_chat(src, "I have [HAS_TRAIT(src, TRAIT_DECEIVING_MEEKNESS) ? "raised" : "lowered"] my guard around others.")
+
+
+// Not actually a virtue, but kept in the category for convenience. Miner-role only. Component handles all of the messaging and logic, this is just a wrapper, basically.
+/mob/living/carbon/human/proc/toggle_oresight()
+	set name = "Toggle (Ore Sight)"
+	set category = "Virtue"
+
+	var/datum/component/ore_sight/COS = GetComponent(/datum/component/ore_sight)
+	if(COS)
+		COS.toggle()
+
+/mob/living/carbon/human/proc/range_oresight()
+	set name = "Change Range (Ore Sight)"
+	set category = "Virtue"
+
+	var/datum/component/ore_sight/COS = GetComponent(/datum/component/ore_sight)
+	if(COS)
+		COS.change_range()

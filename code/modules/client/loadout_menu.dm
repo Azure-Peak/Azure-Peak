@@ -4,6 +4,7 @@
 #define LOADOUT_MAX_POINTS 10
 #define LOADOUT_MAX_DESC_LEN 1024
 #define LOADOUT_TRIUMPH_DISCOUNT 3 // donators get this many triumph points free in loadout
+#define LOADOUT_DONATOR_BONUS 5 // donators get this many extra loadout points
 
 /datum/loadout_menu
 	var/client/owner
@@ -64,11 +65,13 @@
 			"color_channels" = color_channels
 		))
 
+	var/donator = is_donator(user.ckey)
 	data["categories"] = categories
 	data["items"] = items
-	data["max_points"] = LOADOUT_MAX_POINTS
-	data["is_donator"] = is_donator(user.ckey)
-	data["triumph_discount"] = is_donator(user.ckey) ? LOADOUT_TRIUMPH_DISCOUNT : 0
+	data["max_points"] = LOADOUT_MAX_POINTS + (donator ? LOADOUT_DONATOR_BONUS : 0)
+	data["is_donator"] = donator
+	data["triumph_discount"] = donator ? LOADOUT_TRIUMPH_DISCOUNT : 0
+	data["donator_bonus"] = donator ? LOADOUT_DONATOR_BONUS : 0
 	return data
 
 /datum/loadout_menu/ui_data(mob/user)
@@ -125,7 +128,8 @@
 					var/datum/loadout_item/existing = GLOB.loadout_items_by_name[existing_name]
 					if(existing)
 						total_cost += existing.cost
-				if((total_cost + LI.cost) <= LOADOUT_MAX_POINTS)
+				var/max_points = LOADOUT_MAX_POINTS + (is_donator(owner?.ckey) ? LOADOUT_DONATOR_BONUS : 0)
+				if((total_cost + LI.cost) <= max_points)
 					gear_list[item_name] = list()
 			return TRUE
 
@@ -203,3 +207,4 @@
 #undef LOADOUT_MAX_POINTS
 #undef LOADOUT_MAX_DESC_LEN
 #undef LOADOUT_TRIUMPH_DISCOUNT
+#undef LOADOUT_DONATOR_BONUS

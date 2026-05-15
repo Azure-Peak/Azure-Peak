@@ -9,7 +9,6 @@
 	sewrepair = TRUE
 	armor = ARMOR_PADDED_BAD
 	blocksound = SOFTHIT
-	blade_dulling = DULLING_BASHCHOP
 	r_sleeve_status = SLEEVE_NORMAL
 	l_sleeve_status = SLEEVE_NORMAL
 	armor_class = ARMOR_CLASS_LIGHT

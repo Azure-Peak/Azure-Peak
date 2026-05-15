@@ -13,6 +13,7 @@
 	var/lit = FALSE
 	var/prob2fail = 5
 	var/PVE_damage = 160
+	var/spawn_shard = TRUE
 	grid_width = 32
 	grid_height = 64
 
@@ -77,7 +78,8 @@
 			if(SA.can_buckle) // rideable/saddleborn animals are excluded
 				continue
 			target.adjustFireLoss(PVE_damage)
-	new /obj/item/natural/glass_shard(T)
+	if(spawn_shard)
+		new /obj/item/natural/glass_shard(T)
 	explosion(T, light_impact_range = 1, flame_range = 2, smoke = TRUE, soundin = pick('sound/misc/explode/bottlebomb (1).ogg','sound/misc/explode/bottlebomb (2).ogg'))
 	return TRUE
 
@@ -133,6 +135,9 @@
 		span_notice("I finish setting up [trip]. I can extend it by one step longer.")
 	)
 	return
+
+/obj/item/bomb/noshard
+	spawn_shard = FALSE
 
 /obj/item/bomb/tripbomb
 	name = "trip bomb"

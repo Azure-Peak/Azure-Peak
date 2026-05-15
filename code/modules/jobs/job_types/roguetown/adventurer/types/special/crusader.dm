@@ -1,16 +1,16 @@
 /datum/advclass/crusader
 	name = "Crusader"
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = RACES_ALL_KINDS
+	
 	outfit = /datum/outfit/job/roguetown/adventurer/crusader
 	traits_applied = list(TRAIT_HEAVYARMOR, TRAIT_MEDIUMARMOR)
 
 	maximum_possible_slots = 1 // Disabled Role
 
-	tutorial = "The crusaders... Knights who have pledged \
+	tutorial = "The Crusaders; knights who have pledged \
 	their wealth and lands to the church, taking up the banner \
 	of one of the rival Orders dedicated to retaking the holy land. \
-	The 451st crusade is sure to be the last."
+	The 451st Crusade is sure to be the last."
 
 	category_tags = list(CTAG_DISABLED)
 	subclass_stats = list(
@@ -43,7 +43,6 @@
 
 /datum/outfit/job/roguetown/adventurer/crusader/pre_equip(mob/living/carbon/human/H)
 	..()
-	H.mind?.current.faction += "[H.name]_faction"
 	belt = /obj/item/storage/belt/rogue/leather/plaquegold
 	pants = /obj/item/clothing/under/roguetown/chainlegs
 	shoes = /obj/item/clothing/shoes/roguetown/boots/armor
@@ -126,14 +125,14 @@
 	desc = "A regal surcoat, inlined with golden threading. The stitchwork tethers it to the Golden Orders; a catch-all term for the various faith-militances that \
 	ward Psydonia from heathens, cultists, and the ever-looming threat of another calamity. This variant bares the unicruciform sigil of the Undivided and Erranteer \
 	orders."
-	icon_state = "acrusader_surcoat"
+	icon_state = "ucrusader_surcoat"
 
 /obj/item/clothing/cloak/tabard/stabard/crusader/t/undivided
 	name = "surcoat of the silver order"
 	desc = "A noble surcoat, inlined with silver threading. The stitchwork tethers it to the Silver Orders; a catch-all term for the various faith-militances that \
 	ward Psydonia from monsters, deadites, and the ever-looming threat of another calamity. This variant bares the unicruciform sigil of the Undivided and Erranteer \
 	orders."
-	icon_state = "acrusader_surcoatt2"
+	icon_state = "ucrusader_surcoatt2"
 
 /obj/item/clothing/cloak/tabard/stabard/crusader/bsteel
 	name = "surcoat of the blacksteel order"

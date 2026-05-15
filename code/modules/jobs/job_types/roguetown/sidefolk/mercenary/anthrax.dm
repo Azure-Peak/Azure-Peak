@@ -5,16 +5,14 @@
 	blades.  The matriarch has set you a task: to get to the surface and find out what is going \
 	on, and during this time you will be able to earn money, because, unfortunately, the \
 	inhabitants of the upper world refuse to accept spider paws as payment for their services."
-	allowed_races = list(
-		/datum/species/elf/dark
-	)
+	forbidden_races = list(RACES_ANTHRAX)
 	outfit = /datum/outfit/job/roguetown/mercenary/anthrax
 	class_select_category = CLASS_CAT_RACIAL
 	category_tags = list(CTAG_MERCENARY)
 
 	cmode_music = 'sound/music/combat_delf.ogg'
 
-	traits_applied = list(TRAIT_DARKVISION, TRAIT_MEDIUMARMOR, TRAIT_ANTHRAXI)
+	traits_applied = list(TRAIT_DARKVISION, TRAIT_MEDIUMARMOR, TRAIT_ANTHRAXI, TRAIT_ALCHEMY_EXPERT)
 	subclass_stats = list(
 		STATKEY_STR = 2,
 		STATKEY_CON = 2,
@@ -90,13 +88,11 @@
 	from afar or take a second sabre and weave a beautiful dance of death. All that matters is \
 	that your contract is fulfilled and your pockets heavy with mammon."
 	outfit = /datum/outfit/job/roguetown/mercenary/anthrax_assassin
-	allowed_races = list(
-		/datum/species/elf/dark
-	)
+	forbidden_races = list(RACES_ANTHRAX)
 	category_tags = list(CTAG_MERCENARY)
 	class_select_category = CLASS_CAT_RACIAL
 	cmode_music = 'sound/music/combat_delf.ogg'
-	traits_applied = list(TRAIT_DARKVISION, TRAIT_DODGEEXPERT, TRAIT_ANTHRAXI)
+	traits_applied = list(TRAIT_DARKVISION, TRAIT_DODGEEXPERT, TRAIT_ANTHRAXI, TRAIT_ALCHEMY_EXPERT)
 	subclass_stats = list(
 		STATKEY_WIL = 2,
 		STATKEY_PER = 2,

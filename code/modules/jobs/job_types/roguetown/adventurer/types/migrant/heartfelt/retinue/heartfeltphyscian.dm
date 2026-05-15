@@ -5,14 +5,14 @@
 	However, with the increase in banditry, necromancy, deadite risings, and increasing sea raider raids, there are rumors abound that Heartfelt is not what it used to be. \
 	Travellers often warn of Heartfelt having fallen already, and words of secretive cultists isn't unheard of."
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = RACES_SHUNNED_UP
+	forbidden_races = list(RACES_CONSTRUCT RACES_DESPISED)
 	outfit = /datum/outfit/job/roguetown/heartfelt/retinue/physician
 	maximum_possible_slots = 1
 	pickprob = 100
 	category_tags = list(CTAG_HFT_RETINUE)
 	class_select_category = CLASS_CAT_HFT_COURT
 
-	traits_applied = list(TRAIT_HEARTFELT, TRAIT_NOSTINK, TRAIT_EMPATH)
+	traits_applied = list(TRAIT_HEARTFELT, TRAIT_NOSTINK, TRAIT_EMPATH, TRAIT_ALCHEMY_EXPERT)
 
 	subclass_stats = list(
 		STATKEY_INT = 3,

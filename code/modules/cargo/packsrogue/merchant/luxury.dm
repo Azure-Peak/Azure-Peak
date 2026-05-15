@@ -42,7 +42,7 @@
 	contains = list(/obj/item/clothing/neck/roguetown/psicross/silver/astrata)
 
 /datum/supply_pack/rogue/luxury/silvertencross
-	name = "Silver Amulet of the Pantheon"
+	name = "Silver Amulet of Ten"
 	cost = 250
 	contains = list(/obj/item/clothing/neck/roguetown/psicross/silver/undivided)
 
@@ -52,7 +52,7 @@
 	contains = list(/obj/item/clothing/neck/roguetown/psicross/silver/necra)
 
 /datum/supply_pack/rogue/luxury/silvernoccross
-	name = "Silver Amulet of Noc"
+	name = "Blessed Amulet of Noc"
 	cost = 250
 	contains = list(/obj/item/clothing/neck/roguetown/psicross/silver/noc)
 
@@ -145,3 +145,13 @@
 	name = "Fine Parasol"
 	cost = 65
 	contains = list(/obj/item/rogueweapon/mace/parasol/noble)
+
+/datum/supply_pack/rogue/luxury/stamppot
+	name = "Tallowpot"
+	cost = 100
+	contains = list(/obj/item/tallowpot)
+
+/datum/supply_pack/rogue/luxury/stampstuff
+	name = "Lump of Blacktallow"
+	cost = 50
+	contains = list(/obj/item/reagent_containers/food/snacks/tallow/black)

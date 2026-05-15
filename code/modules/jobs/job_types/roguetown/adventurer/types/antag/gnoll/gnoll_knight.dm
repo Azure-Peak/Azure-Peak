@@ -2,7 +2,7 @@
 	name = "Gnoll Knight"
 	tutorial = "You were forged in the fires of the volcano, burn marks have long since healed, but the armor hammered against your muscle isn't so fleeting."
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = RACES_ALL_KINDS
+	
 	outfit = /datum/outfit/job/roguetown/gnoll/knight
 	category_tags = list(CTAG_GNOLL)
 	traits_applied = list(TRAIT_HEAVYARMOR) // Flavoring
@@ -22,7 +22,9 @@
 		/datum/skill/misc/athletics = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/climbing = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/tracking = SKILL_LEVEL_LEGENDARY,
-		/datum/skill/craft/crafting = SKILL_LEVEL_NOVICE
+		/datum/skill/craft/crafting = SKILL_LEVEL_NOVICE,
+		/datum/skill/misc/hunting = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/labor/butchering = SKILL_LEVEL_NOVICE,
 	)
 	cmode_music = 'sound/music/combat_graggar.ogg'
 

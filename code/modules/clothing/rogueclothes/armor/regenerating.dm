@@ -5,6 +5,7 @@
 	desc = "Abstract parent. Contact developer if you see this."
 	icon_state = null
 	slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR
+	unenchantable = TRUE
 
 	/// Feedback messages
 	var/repairmsg_begin = "My armour begins to slowly mend its abuse.."
@@ -133,7 +134,6 @@
 	l_sleeve_status = SLEEVE_NORMAL
 	armor_class = ARMOR_CLASS_LIGHT
 	blocksound = SOFTUNDERHIT
-	blade_dulling = DULLING_BASHCHOP
 	armor = ARMOR_PADDED
 
 	repairmsg_begin = "My skin begins to slowly mend its abuse.."

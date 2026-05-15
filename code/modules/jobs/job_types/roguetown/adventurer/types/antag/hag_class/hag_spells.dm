@@ -290,7 +290,7 @@
 
 /obj/effect/proc_holder/spell/invoked/mindlink/hag
 	name = "Coven Link"
-	desc = "Weave the minds of up to three others into a shared coven with yourself. All participants communicate via ,y."
+	desc = "Weave the minds of up to three others into a shared coven with yourself. All participants communicate via ,Y."
 	invocation_type = "none"
 	recharge_time = 4 MINUTES
 	cost = 12

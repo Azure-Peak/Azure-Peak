@@ -18,14 +18,14 @@ GLOBAL_LIST_EMPTY(heretical_players)
 	spawn_positions = 1
 	selection_color = JCOLOR_CHURCH
 	f_title = "Bishop"
-	allowed_races = RACES_SHUNNED_UP		//Too recent arrivals to ascend to priesthood.
+	forbidden_races = list(RACES_CONSTRUCT RACES_DESPISED)		//Too recent arrivals to ascend to priesthood.
 	allowed_patrons = ALL_DIVINE_PATRONS
 	allowed_sexes = list(MALE, FEMALE)
 	tutorial = "The Divine is all that matters in a world of the immoral. The Weeping God abandoned us, and in his stead the TEN rule over us mortals--and you will preach their wisdom to any who still heed their will. The faithless are growing in number. It is up to you to shepherd them toward a Gods-fearing future; for you are a Bishop of the Holy See."
 	whitelist_req = FALSE
 	cmode_music = 'sound/music/cmode/church/combat_astrata.ogg'
 
-	spells = list(/obj/effect/proc_holder/spell/invoked/cure_rot, /obj/effect/proc_holder/spell/self/convertrole/templar, /obj/effect/proc_holder/spell/self/convertrole/monk, /obj/effect/proc_holder/spell/invoked/projectile/divineblast, /obj/effect/proc_holder/spell/invoked/wound_heal, /obj/effect/proc_holder/spell/invoked/takeapprentice)
+	spells = list(/obj/effect/proc_holder/spell/invoked/cure_rot, /obj/effect/proc_holder/spell/self/convertrole/templar, /obj/effect/proc_holder/spell/self/convertrole/monk, /obj/effect/proc_holder/spell/invoked/projectile/divineblast, /datum/action/cooldown/spell/miracle/intervention, /obj/effect/proc_holder/spell/invoked/takeapprentice)
 	outfit = /datum/outfit/job/roguetown/priest
 	display_order = JDO_BISHOP
 	give_bank_account = TRUE
@@ -45,11 +45,11 @@ GLOBAL_LIST_EMPTY(heretical_players)
 	name = "Bishop"
 	tutorial = "The Divine is all that matters in a world of the immoral. \
 	The Weeping God abandoned us, and in his stead the TEN rule over us mortals--and you will preach their wisdom to any who still heed their will. The faithless are growing in number. \
-	It is up to you to shepherd them toward a Gods-fearing future; for you are a Bishop of the Holy See. \
-	My closest patron may have blessed me, yet my allegiance remains true in harmonizing all 10 faiths."
+	It is up to you to shepherd them toward a Gods-fearing future; for you are a Bishop of the Holy See."
 	outfit = /datum/outfit/job/roguetown/priest/basic
 	subclass_languages = list(/datum/language/grenzelhoftian)
 	category_tags = list(CTAG_BISHOP)
+	traits_applied = list(TRAIT_ALCHEMY_EXPERT)
 	subclass_stats = list(
 		STATKEY_INT = 4,
 		STATKEY_WIL = 2,
@@ -112,6 +112,8 @@ GLOBAL_LIST_EMPTY(heretical_players)
 	H.verbs |= /mob/living/carbon/human/proc/churchpriestcurse //snowflake priests button. Will not sacrifice them
 	H.verbs |= /mob/living/carbon/human/proc/churcheapostasy //punish the lamb reward the wolf
 	H.verbs |= /mob/living/carbon/human/proc/completesermon
+	H.verbs |= /mob/living/carbon/human/proc/declare_benefactor
+	H.verbs |= /mob/living/carbon/human/proc/revoke_benefactor
 	H.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/convert_heretic_priest)
 	H.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/revive)
 	if(H.mind)
@@ -691,6 +693,16 @@ code\modules\admin\verbs\divinewrath.dm has a variant with all the gods so keep 
 	return TRUE
 
 #undef PRIEST_ANNOUNCEMENT_COOLDOWN
+/mob/living/carbon/human/proc/declare_benefactor()
+	set name = "Declare Benefactor"
+	set category = "Priest"
+	perform_patronage_grant(src, TRAIT_DECLARED_BENEFACTOR, "a Benefactor of the Church", "a benefactor of the Church of Azuria", "no longer a benefactor of the Church of Azuria")
+
+/mob/living/carbon/human/proc/revoke_benefactor()
+	set name = "Revoke Benefactor"
+	set category = "Priest"
+	perform_patronage_revoke_from_list(src, TRAIT_DECLARED_BENEFACTOR, "no longer a benefactor of the Church of Azuria")
+
 #undef PRIEST_SERMON_COOLDOWN
 #undef PRIEST_APOSTASY_COOLDOWN
 #undef PRIEST_EXCOMMUNICATION_COOLDOWN

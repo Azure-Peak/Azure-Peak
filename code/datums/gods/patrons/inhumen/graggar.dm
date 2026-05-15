@@ -5,12 +5,12 @@
 	worshippers = "Prisoners, Slaves, Militants, and the Cruel"
 	mob_traits = list(TRAIT_HORDE, TRAIT_ORGAN_EATER)
 	traits_tier = list(TRAIT_NASTY_EATER = CLERIC_T1)
-	miracles = list(/obj/effect/proc_holder/spell/targeted/touch/orison					= CLERIC_ORI,
+	miracles = list(/datum/action/cooldown/spell/touch/orison							= CLERIC_ORI,
 					/obj/effect/proc_holder/spell/self/graggar_bloodrage				= CLERIC_T0,
 					/obj/effect/proc_holder/spell/self/graggar_chainbreak				= CLERIC_T0,
-					/obj/effect/proc_holder/spell/invoked/lesser_heal 					= CLERIC_T1,
-					/obj/effect/proc_holder/spell/invoked/blood_heal					= CLERIC_T1,
-					/obj/effect/proc_holder/spell/self/graggar_call_to_slaughter 		= CLERIC_T1,
+					/datum/action/cooldown/spell/miracle/heal 							= CLERIC_T1,
+					/datum/action/cooldown/spell/miracle/bloodmiracle					= CLERIC_T1,
+					/datum/action/cooldown/spell/graggar/graggar_battlecry		 		= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/projectile/graggar_blood_net 	= CLERIC_T2,
 					/obj/effect/proc_holder/spell/invoked/silence/graggar				= CLERIC_T2,
 					/obj/effect/proc_holder/spell/invoked/revel_in_slaughter 			= CLERIC_T3,
@@ -23,6 +23,11 @@
 	)
 	storyteller = /datum/storyteller/graggar
 	crafting_recipes = list(/datum/crafting_recipe/roguetown/structure/graggar_cross_stone, /datum/crafting_recipe/roguetown/structure/graggar_cross_meat)
+
+	titles = list(
+		"Sinistar",
+		"Dark Star"
+	)
 
 /datum/patron/inhumen/graggar/on_lesser_heal(
     mob/living/user,

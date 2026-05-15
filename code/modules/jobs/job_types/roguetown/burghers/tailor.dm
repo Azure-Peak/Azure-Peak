@@ -9,7 +9,7 @@
 	display_order = 6
 	min_pq = 0
 	selection_color = JCOLOR_BURGHER
-	allowed_races = ACCEPTED_RACES
+	forbidden_races = list(RACES_DESPISED)
 	display_order = JDO_TAILOR
 	job_traits = list(TRAIT_SEWING_EXPERT)
 	outfit = /datum/outfit/job/roguetown/tailor
@@ -72,7 +72,7 @@
 	if(H.mind)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/fittedclothing)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/takeapprentice)
-		SStreasury.give_money_account(ECONOMIC_UPPER_MIDDLE_CLASS, H, "Savings.") //There is a better way to do this, do I care for it - of course not.
+		SStreasury.grant_savings(ECONOMIC_UPPER_MIDDLE_CLASS, H) //There is a better way to do this, do I care for it - of course not.
 		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/sewing/tailor/naledisash)
 		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/sewing/tailor/halfrobe)
 		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/sewing/tailor/monkrobe)

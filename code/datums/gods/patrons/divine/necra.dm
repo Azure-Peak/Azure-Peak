@@ -4,17 +4,17 @@
 	desc = "Veiled Lady of the underworld, equally feared and respected by mortals. She taught mortals the inevitability of death and cares for them as they reach the afterlife."
 	worshippers = "The Dead, Mourners, Gravekeepers"
 	mob_traits = list(TRAIT_SOUL_EXAMINE, TRAIT_NOSTINK)	//No stink is generic but they deal with dead bodies so.. makes sense, I suppose?
-	miracles = list(/obj/effect/proc_holder/spell/targeted/touch/orison			= CLERIC_ORI,
-					/obj/effect/proc_holder/spell/invoked/necras_sight			= CLERIC_T0,
-					/obj/effect/proc_holder/spell/invoked/lesser_heal 			= CLERIC_T1,
-					/obj/effect/proc_holder/spell/invoked/blood_heal			= CLERIC_T1,
-					/obj/effect/proc_holder/spell/invoked/avert					= CLERIC_T1,
-					/obj/effect/proc_holder/spell/self/locate_dead 			= CLERIC_T1,
-					/obj/effect/proc_holder/spell/invoked/fog_ward				= CLERIC_T1, // Not bugged, only appears on fog rounds!
-					/obj/effect/proc_holder/spell/invoked/raise_spirits_vengeance = CLERIC_T2,
-					/datum/action/cooldown/spell/miracle/necra_consecrate		= CLERIC_T2,
-					/obj/effect/proc_holder/spell/invoked/bless_cross			= CLERIC_T3,
-					/obj/effect/proc_holder/spell/invoked/deaths_door			= CLERIC_T4
+	miracles = list(/datum/action/cooldown/spell/touch/orison						= CLERIC_ORI,
+					/obj/effect/proc_holder/spell/invoked/necras_sight				= CLERIC_T0,
+					/datum/action/cooldown/spell/miracle/heal 						= CLERIC_T1,
+					/datum/action/cooldown/spell/miracle/bloodmiracle				= CLERIC_T1,
+					/obj/effect/proc_holder/spell/invoked/avert						= CLERIC_T1,
+					/obj/effect/proc_holder/spell/self/locate_dead 					= CLERIC_T1,
+					/obj/effect/proc_holder/spell/invoked/fog_ward					= CLERIC_T1, // Not bugged, only appears on fog rounds!
+					/obj/effect/proc_holder/spell/invoked/raise_spirits_vengeance	= CLERIC_T2,
+					/datum/action/cooldown/spell/miracle/necra_consecrate			= CLERIC_T2,
+					/obj/effect/proc_holder/spell/invoked/bless_cross				= CLERIC_T3,
+					/obj/effect/proc_holder/spell/invoked/deaths_door				= CLERIC_T4
 	)
 	confess_lines = list(
 		"ALL SOULS FIND THEIR WAY TO NECRA!",
@@ -22,6 +22,12 @@
 		"I FEAR NOT DEATH, MY LADY AWAITS ME!",
 	)
 	storyteller = /datum/storyteller/necra
+
+	titles = list(
+		"Veiled Lady",
+		"Corpse Mother",
+		"Undermaiden"
+	)
 
 // Near a grave, cross, or within the church
 /datum/patron/divine/necra/can_pray(mob/living/follower)

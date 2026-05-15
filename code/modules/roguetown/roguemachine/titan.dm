@@ -163,7 +163,7 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 	switch(mode)
 		if(0)
 			if(findtext(message, "secrets of the throat"))
-				say("My commands are: Make Decree, Make Announcement, Set Taxes, Declare Outlaw, Summon Crown, Summon Key, Set Laws, Make Law, Remove Law, Purge Laws, Purge Decrees, Become Regent, Change Colors, I Ascend, Nevermind")
+				say("My commands are: Make Decree, Make Announcement, Set Taxes, Revise Charter, Declare Outlaw, Summon Crown, Summon Key, Set Laws, Make Law, Remove Law, Purge Laws, Purge Decrees, Become Regent, Change Colors, I Ascend, Nevermind")
 				playsound(src, 'sound/misc/machinelong.ogg', 100, FALSE, -1)
 			if(findtext(message, "make announcement"))
 				if(nocrown)
@@ -263,6 +263,15 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 				playsound(src, 'sound/misc/machinetalk.ogg', 100, FALSE, -1)
 				give_tax_popup(H)
 				return
+			if(findtext(message, "revise charter"))
+				if(notlord || nocrown)
+					say("You are not my master!")
+					playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
+					return
+				say("The charters of the realm lay before thee...")
+				playsound(src, 'sound/misc/machinetalk.ogg', 100, FALSE, -1)
+				give_decree_popup(H)
+				return
 			if(findtext(message, "become regent"))
 				if(nocrown)
 					say("You need the crown.")
@@ -313,7 +322,7 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 			make_decree(H, raw_message)
 			mode = 0
 		if(3)
-			declare_outlaw(H, message)
+			declare_outlaw(H, raw_message)
 			mode = 0
 		if(4)
 			if(!SScommunications.can_announce(speaker))
@@ -347,6 +356,12 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 		return
 	var/datum/laws_menu/lawmenu = new
 	lawmenu.ui_interact(user)
+
+/obj/structure/roguemachine/titan/proc/give_decree_popup(mob/living/carbon/human/user)
+	if(!Adjacent(user))
+		return
+	var/datum/decree_setter/panel = new
+	panel.ui_interact(user)
 
 /obj/structure/roguemachine/titan/proc/make_announcement(mob/living/user, raw_message)
 	if(!SScommunications.can_announce(user))
@@ -405,21 +420,32 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 	return null
 
 /proc/make_outlaw(raw_message)
+	// Strip trailing punctuation/whitespace from typed input ("Eduard." -> "Eduard")
+	raw_message = trim(raw_message)
+	while(length(raw_message))
+		var/last_char = copytext(raw_message, length(raw_message))
+		if(!(last_char in list(".", ",", "!", "?", ";", ":")))
+			break
+		raw_message = copytext(raw_message, 1, length(raw_message))
 	var/mob/living/carbon/human/found_human
-	for(var/mob/living/carbon/human/H in GLOB.player_list)
+	for(var/mob/living/carbon/human/H in GLOB.human_list)
 		if(H.real_name == raw_message)
 			found_human = H
+			break
 	if(raw_message in GLOB.outlawed_players)
 		GLOB.outlawed_players -= raw_message
 		priority_announce("[raw_message] is no longer an outlaw in [SSticker.realm_name].", "The [SSticker.rulertype] Decrees", 'sound/misc/royal_decree.ogg', "Captain")
-		if(istype(found_human) && HAS_TRAIT(found_human, TRAIT_GUARDSMAN_DISGRACED))
-			REMOVE_TRAIT(found_human, TRAIT_GUARDSMAN_DISGRACED, TRAIT_GENERIC)
-			ADD_TRAIT(found_human, TRAIT_GUARDSMAN, JOB_TRAIT)
-			found_human.remove_status_effect(/datum/status_effect/debuff/disgracedguardsman)
+		if(istype(found_human))
+			REMOVE_TRAIT(found_human, TRAIT_OUTLAW, TRAIT_GENERIC)
+			if(HAS_TRAIT(found_human, TRAIT_GUARDSMAN_DISGRACED))
+				REMOVE_TRAIT(found_human, TRAIT_GUARDSMAN_DISGRACED, TRAIT_GENERIC)
+				ADD_TRAIT(found_human, TRAIT_GUARDSMAN, JOB_TRAIT)
+				found_human.remove_status_effect(/datum/status_effect/debuff/disgracedguardsman)
 		return FALSE
 	if(!found_human)
 		return FALSE
 	GLOB.outlawed_players += raw_message
+	ADD_TRAIT(found_human, TRAIT_OUTLAW, TRAIT_GENERIC)
 	priority_announce("[raw_message] has been declared an outlaw and must be captured or slain.", "The [SSticker.rulertype] Decrees", 'sound/misc/royal_decree2.ogg', "Captain")
 	if(HAS_TRAIT(found_human, TRAIT_GUARDSMAN))
 		REMOVE_TRAIT(found_human, TRAIT_GUARDSMAN, JOB_TRAIT)

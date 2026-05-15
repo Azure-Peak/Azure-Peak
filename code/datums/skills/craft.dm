@@ -46,7 +46,7 @@
 	)
 	expert_name = "Blacksmith"
 	max_untraited_level = SKILL_LEVEL_APPRENTICE
-	trait_uncap = list(TRAIT_SMITHING_EXPERT = SKILL_LEVEL_LEGENDARY, TRAIT_SELF_SUSTENANCE = SKILL_LEVEL_JOURNEYMAN)
+	trait_uncap = list(TRAIT_SMITHING_EXPERT = SKILL_LEVEL_LEGENDARY, TRAIT_SELF_SUSTENANCE = SKILL_LEVEL_JOURNEYMAN, TRAIT_ENCHANTING_EXPERT = SKILL_LEVEL_LEGENDARY)
 
 /datum/skill/craft/smelting
 	name = "Smelting"
@@ -59,7 +59,7 @@
 	)
 	expert_name = "Smelter"
 	max_untraited_level = SKILL_LEVEL_APPRENTICE
-	trait_uncap = list(TRAIT_SMITHING_EXPERT = SKILL_LEVEL_LEGENDARY, TRAIT_SELF_SUSTENANCE = SKILL_LEVEL_JOURNEYMAN)
+	trait_uncap = list(TRAIT_SMITHING_EXPERT = SKILL_LEVEL_LEGENDARY, TRAIT_SELF_SUSTENANCE = SKILL_LEVEL_JOURNEYMAN, TRAIT_ENCHANTING_EXPERT = SKILL_LEVEL_LEGENDARY)
 
 
 /datum/skill/craft/carpentry
@@ -106,7 +106,7 @@
 	)
 	expert_name = "Engineer"
 	max_untraited_level = SKILL_LEVEL_APPRENTICE
-	trait_uncap = list(TRAIT_SMITHING_EXPERT = SKILL_LEVEL_LEGENDARY, TRAIT_SELF_SUSTENANCE = SKILL_LEVEL_JOURNEYMAN)
+	trait_uncap = list(TRAIT_SMITHING_EXPERT = SKILL_LEVEL_LEGENDARY, TRAIT_SELF_SUSTENANCE = SKILL_LEVEL_JOURNEYMAN, TRAIT_ENCHANTING_EXPERT = SKILL_LEVEL_LEGENDARY)
 
 
 /datum/skill/craft/cooking
@@ -119,8 +119,8 @@
 	)
 	expert_name = "Cook"
 	max_untraited_level = SKILL_LEVEL_APPRENTICE
-	trait_uncap = list(TRAIT_HOMESTEAD_EXPERT = SKILL_LEVEL_LEGENDARY, 
-	TRAIT_SURVIVAL_EXPERT = SKILL_LEVEL_LEGENDARY, 
+	trait_uncap = list(TRAIT_HOMESTEAD_EXPERT = SKILL_LEVEL_LEGENDARY,
+	TRAIT_SURVIVAL_EXPERT = SKILL_LEVEL_LEGENDARY,
 	TRAIT_SELF_SUSTENANCE = SKILL_LEVEL_JOURNEYMAN)
 
 /datum/skill/craft/sewing
@@ -134,7 +134,7 @@
 	max_untraited_level = SKILL_LEVEL_APPRENTICE
 	trait_uncap = list(TRAIT_SEWING_EXPERT = SKILL_LEVEL_LEGENDARY,
 	TRAIT_SURVIVAL_EXPERT = SKILL_LEVEL_JOURNEYMAN,
-	TRAIT_HOMESTEAD_EXPERT = SKILL_LEVEL_JOURNEYMAN, 
+	TRAIT_HOMESTEAD_EXPERT = SKILL_LEVEL_JOURNEYMAN,
 	TRAIT_SELF_SUSTENANCE = SKILL_LEVEL_JOURNEYMAN)
 
 /datum/skill/craft/tanning
@@ -148,7 +148,7 @@
 	max_untraited_level = SKILL_LEVEL_APPRENTICE
 	trait_uncap = list(TRAIT_SEWING_EXPERT = SKILL_LEVEL_LEGENDARY,
 	TRAIT_SURVIVAL_EXPERT = SKILL_LEVEL_LEGENDARY,
-	TRAIT_HOMESTEAD_EXPERT = SKILL_LEVEL_JOURNEYMAN,  
+	TRAIT_HOMESTEAD_EXPERT = SKILL_LEVEL_JOURNEYMAN,
 	TRAIT_SELF_SUSTENANCE = SKILL_LEVEL_JOURNEYMAN)
 
 /datum/skill/craft/ceramics
@@ -163,7 +163,7 @@
 	trait_uncap = list(TRAIT_HOMESTEAD_EXPERT = SKILL_LEVEL_LEGENDARY,
 	TRAIT_SMITHING_EXPERT = SKILL_LEVEL_LEGENDARY,
 	TRAIT_SELF_SUSTENANCE = SKILL_LEVEL_JOURNEYMAN)
-	
+
 /datum/skill/craft/alchemy
 	name = "Alchemy"
 	desc = "Determines what kind of potions you can brew and the types of transmutation and alchemy recipes you have access to"
@@ -171,7 +171,7 @@
 		"...the smell of sulfur singes your nostrils... you taste iron... the smoke clears as you stare down at the reflection in your cauldron... the Queen stares back at you... she looks like she's crying..."
 	)
 	expert_name = "Alchemist"
-	max_untraited_level = SKILL_LEVEL_JOURNEYMAN // Special, we just gate the best potions away
+	max_untraited_level = SKILL_LEVEL_NONE
 	trait_uncap = list(TRAIT_ALCHEMY_EXPERT = SKILL_LEVEL_LEGENDARY)
 
 /datum/skill/craft/alchemy/skill_level_effect(level, datum/mind/mind)

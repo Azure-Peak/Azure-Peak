@@ -35,9 +35,12 @@
 
 	controller.set_blackboard_key(hiding_location_key, hiding_target)
 
-	basic_mob.face_atom()
+	if(target == basic_mob)
+		finish_action(controller, FALSE, target_key)
+		return
+	basic_mob.face_atom(target)
 	basic_mob.a_intent = pick(basic_mob.possible_a_intents) //randomized intent
-	
+
 	if(hiding_target) //Slap it!
 		basic_mob.ClickOn(hiding_target, list())
 	else
@@ -91,12 +94,15 @@
 	if(!targetting_datum.can_attack(basic_mob, target))
 		finish_action(controller, FALSE, target_key)
 		return
+	if(target == basic_mob)
+		finish_action(controller, FALSE, target_key)
+		return
 
 	var/atom/hiding_target = targetting_datum.find_hidden_mobs(basic_mob, target) //If this is valid, theyre hidden in something!
 
 	controller.set_blackboard_key(hiding_location_key, hiding_target)
 
-	basic_mob.face_atom()
+	basic_mob.face_atom(target)
 	if(hiding_target) //Shoot it!
 		basic_mob.RangedAttack(hiding_target)
 	else

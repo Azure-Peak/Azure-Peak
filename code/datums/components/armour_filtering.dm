@@ -155,23 +155,6 @@ TRAIT UNIQUE PROCS
 			REMOVE_TRAIT(user, TRAIT_ARMOUR_DISLIKED, TRAIT_GENERIC)
 		return
 
-	if(HAS_TRAIT(user, TRAIT_IRONMAN))
-		spawn(0)
-			user.remove_status_effect(/datum/status_effect/debuff/ironman_medium)
-			user.remove_status_effect(/datum/status_effect/debuff/ironman_heavy)
-			user.remove_stress(/datum/stressevent/fleshlingdepression)
-
-			var/highest_ac = user.highest_ac_worn(FALSE)
-
-			switch(highest_ac)
-				if(ARMOR_CLASS_MEDIUM)
-					user.apply_status_effect(/datum/status_effect/debuff/ironman_medium)
-
-				if(ARMOR_CLASS_HEAVY)
-					user.apply_status_effect(/datum/status_effect/debuff/ironman_heavy)
-					user.add_stress(/datum/stressevent/fleshlingdepression)
-		return
-
 	if(HAS_TRAIT(user, TRAIT_PSYDONIAN_GRIT) && id == "ornate_plate")
 		if(positive)
 			user.apply_status_effect(/datum/status_effect/buff/psydonic_endurance)
@@ -187,6 +170,11 @@ TRAIT UNIQUE PROCS
 		if(positive)
 			user.remove_status_effect(/datum/status_effect/debuff/lost_dungeoneer_hood)
 			user.remove_stress(/datum/stressevent/dungeoneerhoodlost)
+		return
+
+	if(id == "plague_mask")
+		if(positive)
+			ADD_TRAIT(user, TRAIT_NOSTINK, "plague_resistant")
 		return
 
 	return
@@ -211,20 +199,9 @@ TRAIT UNIQUE PROCS
 			user.add_stress(/datum/stressevent/naledimasklost)
 		return
 
-	if(HAS_TRAIT(user, TRAIT_IRONMAN))
-		spawn(0)
-			user.remove_status_effect(/datum/status_effect/debuff/ironman_medium)
-			user.remove_status_effect(/datum/status_effect/debuff/ironman_heavy)
-			user.remove_stress(/datum/stressevent/fleshlingdepression)
-
-			var/highest_ac = user.highest_ac_worn(FALSE)
-
-			switch(highest_ac)
-				if(ARMOR_CLASS_MEDIUM)
-					user.apply_status_effect(/datum/status_effect/debuff/ironman_medium)
-
-				if(ARMOR_CLASS_HEAVY)
-					user.apply_status_effect(/datum/status_effect/debuff/ironman_heavy)
-					user.add_stress(/datum/stressevent/fleshlingdepression)
+	if(id == "plague_mask")
+		if(positive)
+			REMOVE_TRAIT(user, TRAIT_NOSTINK, "plague_resistant")
 		return
 
+	return

@@ -1898,7 +1898,7 @@
 			state2use = "mood_ult"
 
 		//We go down a janky list of exceptions for total overrides
-		if(HAS_TRAIT(H, TRAIT_NOMOOD))
+		if(HAS_TRAIT(H, TRAIT_DETACHED))
 			state2use = "mood_hopeless"
 		else if(H.stat == DEAD)
 			state2use = "mood_dead"

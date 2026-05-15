@@ -143,42 +143,6 @@
 /obj/item/storage/roguebag/crafted
 	sellprice = 4
 
-/datum/crafting_recipe/roguetown/survival/bait
-	name = "bait"
-	result = /obj/item/bait
-	reqs = list(
-		/obj/item/storage/roguebag = 1,
-		/obj/item/reagent_containers/food/snacks/grown/wheat = 2,
-		)
-	subtype_reqs = TRUE
-
-/datum/crafting_recipe/roguetown/survival/sbaita
-	name = "sweetbait (apple)"
-	result = /obj/item/bait/sweet
-	reqs = list(
-		/obj/item/storage/roguebag = 1,
-		/obj/item/reagent_containers/food/snacks/grown/apple = 2,
-		)
-	subtype_reqs = TRUE
-
-/datum/crafting_recipe/roguetown/survival/sbait
-	name = "sweetbait (berry)"
-	result = /obj/item/bait/sweet
-	reqs = list(
-		/obj/item/storage/roguebag = 1,
-		/obj/item/reagent_containers/food/snacks/grown/berries/rogue = 2,
-		)
-	subtype_reqs = TRUE
-
-/datum/crafting_recipe/roguetown/survival/bloodbait
-	name = "bloodbait"
-	result = /obj/item/bait/bloody
-	reqs = list(
-		/obj/item/storage/roguebag = 1,
-		/obj/item/reagent_containers/food/snacks/rogue/meat = 2,
-		)
-	subtype_reqs = TRUE
-
 /datum/crafting_recipe/roguetown/survival/pipe
 	name = "wood pipe"
 	result = /obj/item/clothing/mask/cigarette/pipe/crafted
@@ -251,6 +215,19 @@
 /datum/crafting_recipe/roguetown/survival/tarot_deck
 	name = "tarot deck"
 	result = list(/obj/item/toy/cards/deck/tarot)
+	reqs = list(
+		/obj/item/paper/scroll = 3,
+		/obj/item/grown/log/tree/small = 1,
+		/obj/item/ash = 1,
+		)
+	skillcraft = /datum/skill/misc/reading
+	tools = list(/obj/item/natural/feather)
+	req_table = TRUE
+	craftdiff = 2
+
+/datum/crafting_recipe/roguetown/survival/tarot_deck_majorarcana
+	name = "tarot deck (major arcana)"
+	result = list(/obj/item/toy/cards/deck/tarot/majorarcana)
 	reqs = list(
 		/obj/item/paper/scroll = 3,
 		/obj/item/grown/log/tree/small = 1,
@@ -425,55 +402,3 @@
 		)
 	skillcraft = /datum/skill/craft/cooking
 	craftdiff = 4
-
-/datum/crafting_recipe/roguetown/survival/cheele
-	name = "cheele"
-	result = list(
-		/obj/item/natural/worms/leech/cheele
-		)
-	reqs = list(
-		/obj/item/reagent_containers/lux = 1,
-		/obj/item/natural/worms/leech = 1,
-		)
-	skillcraft = /datum/skill/misc/medicine
-	craftdiff = SKILL_LEVEL_EXPERT
-
-/datum/crafting_recipe/roguetown/survival/purify_lux
-	name = "purify lux"
-	result = list(
-		/obj/item/heart_blood_canister,
-		/obj/item/reagent_containers/lux,
-		)
-	reqs = list(
-		/obj/item/reagent_containers/lux_impure = 1,
-		/obj/item/heart_blood_canister/filled = 1,
-		)
-	skillcraft = /datum/skill/misc/medicine
-	craftdiff = 2
-
-/datum/crafting_recipe/roguetown/survival/purify_lux_vials
-	name = "purify lux (vials)"
-	result = list(
-		/obj/item/reagent_containers/lux,
-		/obj/item/heart_blood_vial,
-		/obj/item/heart_blood_vial,
-		/obj/item/heart_blood_vial,
-		)
-	reqs = list(
-		/obj/item/reagent_containers/lux_impure = 1,
-		/obj/item/heart_blood_vial/filled = 3,
-		)
-	skillcraft = /datum/skill/misc/medicine
-	craftdiff = 2
-
-/datum/crafting_recipe/roguetown/survival/bandage
-	name = "bandages (medicine)"
-	result = list(
-		/obj/item/natural/cloth/bandage
-	)
-	reqs = list(
-		/obj/item/natural/cloth = 1,
-		/obj/item/natural/silk = 1,
-		/obj/item/ash = 1)
-	skillcraft = /datum/skill/misc/medicine
-	craftdiff = 2

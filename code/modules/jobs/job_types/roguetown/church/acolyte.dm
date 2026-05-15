@@ -6,7 +6,7 @@
 	total_positions = 6
 	spawn_positions = 6
 
-	allowed_races = ACCEPTED_RACES
+	forbidden_races = list(RACES_DESPISED)
 	allowed_patrons = ALL_DIVINE_PATRONS
 	allowed_sexes = list(MALE, FEMALE)
 	outfit = /datum/outfit/job/roguetown/monk
@@ -32,6 +32,7 @@
 	outfit = /datum/outfit/job/roguetown/monk/basic
 	subclass_languages = list(/datum/language/grenzelhoftian)
 	category_tags = list(CTAG_ACOLYTE)
+	traits_applied = list(TRAIT_ALCHEMY_EXPERT)
 	subclass_stats = list(
 		STATKEY_INT = 3,
 		STATKEY_WIL = 2,
@@ -39,8 +40,8 @@
 	)
 	age_mod = /datum/class_age_mod/acolyte
 	subclass_skills = list(
-		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/wrestling = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/combat/unarmed = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/staves = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/medicine = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/craft/alchemy = SKILL_LEVEL_APPRENTICE,
@@ -106,7 +107,7 @@
 			neck = /obj/item/clothing/neck/roguetown/psicross/dendor
 			armor = /obj/item/clothing/suit/roguetown/shirt/robe/dendor
 			H.cmode_music = 'sound/music/cmode/garrison/combat_warden.ogg'
-			shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded
+			shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded // Kunai: I think I'll give them a weak ass skin srmor later, once that PR is merged, for the nudist theme
 		if(/datum/patron/divine/necra)
 			head = /obj/item/clothing/head/roguetown/necrahood
 			neck = /obj/item/clothing/neck/roguetown/psicross/necra
@@ -115,7 +116,14 @@
 			armor = /obj/item/clothing/suit/roguetown/shirt/robe/necra
 			shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded
 			cloak = /obj/item/clothing/cloak/raincloak/mortus
-			backr = /obj/item/rogueweapon/shovel/silver
+			var/list/necra_tools = list("Silver Shovel", "Silver Scythe")
+			var/tool_choice = input(H, "A reaper, or a digger?", "HOW WILL YOU APPEASE THE UNDERMAIDEN?") as anything in necra_tools
+			switch(tool_choice) // choose wisely... larp or effectiveness?
+				if("Silver Shovel")
+					backr = /obj/item/rogueweapon/shovel/silver
+				if("Silver Scythe") // o lawd we farmin
+					backr = /obj/item/rogueweapon/scabbard/gwstrap
+					l_hand = /obj/item/rogueweapon/scythe/silver
 		if(/datum/patron/divine/pestra)
 			neck = /obj/item/clothing/neck/roguetown/psicross/pestra
 			armor = /obj/item/clothing/suit/roguetown/shirt/robe/phys
@@ -124,14 +132,22 @@
 			pants = /obj/item/clothing/under/roguetown/trou/leather/mourning
 			cloak = /obj/item/clothing/cloak/templar/pestran
 			shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded
+			l_hand = /obj/item/storage/belt/rogue/surgery_bag
 		if(/datum/patron/divine/eora) //Eora content from Stonekeep
 			head = /obj/item/clothing/head/roguetown/eoramask
 			neck = /obj/item/clothing/neck/roguetown/psicross/eora
 			shoes = /obj/item/clothing/shoes/roguetown/sandals
-			armor = /obj/item/clothing/suit/roguetown/shirt/robe/eora
 			cloak = /obj/item/clothing/cloak/templar/eoran
 			r_hand = /obj/item/rogueweapon/huntingknife/scissors
+			l_hand = /obj/item/needle/thorn
 			shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded
+			var/robes = list("Modest","Exposed")
+			var/robe_choice = input(H, "Choose your ROBES.", "TAKE UP ROBES.") as anything in robes
+			switch(robe_choice) // This feels wrong to do but I am unsure how else to do it
+				if("Modest")
+					armor = /obj/item/clothing/suit/roguetown/shirt/robe/eora
+				if("Exposed")
+					armor = /obj/item/clothing/suit/roguetown/shirt/robe/eora/alt
 		if(/datum/patron/divine/malum)
 			head = /obj/item/clothing/head/roguetown/roguehood
 			neck = /obj/item/clothing/neck/roguetown/psicross/malum
@@ -149,6 +165,7 @@
 			shoes = /obj/item/clothing/shoes/roguetown/boots
 			armor = /obj/item/clothing/suit/roguetown/shirt/robe/ravox
 			shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded
+			l_hand = /obj/item/rope/chain
 		if(/datum/patron/divine/xylix)
 			head = /obj/item/clothing/head/roguetown/roguehood/black
 			cloak = /obj/item/clothing/cloak/templar/xylixian
@@ -173,7 +190,7 @@
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T4, passive_gain = CLERIC_REGEN_MAJOR, start_maxed = TRUE)	//Starts off maxed out.
 	if(H.mind)
-		SStreasury.give_money_account(ECONOMIC_LOWER_MIDDLE_CLASS, H, "Savings.")
+		SStreasury.grant_savings(ECONOMIC_LOWER_MIDDLE_CLASS, H)
 
 /datum/outfit/job/roguetown/monk/basic/choose_loadout(mob/living/carbon/human/H)
 	. = ..()
@@ -227,4 +244,4 @@
 	if(H.patron?.type == /datum/patron/divine/xylix)  // Trickery and Inspiration - muxic and rogueish skills
 		H.adjust_skillrank(/datum/skill/misc/climbing, SKILL_LEVEL_JOURNEYMAN, TRUE)
 		H.adjust_skillrank(/datum/skill/misc/lockpicking, SKILL_LEVEL_NOVICE, TRUE)
-		H.adjust_skillrank(/datum/skill/misc/music, SKILL_LEVEL_APPRENTICE, TRUE)
+		H.adjust_skillrank_up_to(/datum/skill/misc/music, SKILL_LEVEL_EXPERT, TRUE)

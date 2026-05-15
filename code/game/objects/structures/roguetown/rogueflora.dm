@@ -203,7 +203,7 @@
 	desc = "Someone cut this tree down."
 	icon_state = "t1stump"
 	opacity = 0
-	pass_flags = LETPASSTHROW
+	pass_flags_self = LETPASSTHROW
 	max_integrity = 100
 	climbable = TRUE
 	climb_time = 0
@@ -781,18 +781,18 @@
 	climbable = FALSE
 	dir = SOUTH
 	debris = list(/obj/item/natural/fibers = 2)
-	var/list/looty = list(/obj/item/natural/shellplant/pumpkin, /obj/item/natural/fibers)
+	var/list/looty = list(/obj/item/seeds/pumpkin, /obj/item/natural/fibers)
 
 /obj/structure/flora/roguegrass/pumpkin/Initialize()
 	. = ..()
 	icon_state = "pumpkin[rand(1,2)]"
 	if(prob(78))
-		looty += /obj/item/natural/shellplant/pumpkin
+		looty += /obj/item/natural/fibers
 	if(prob(32))
-		looty += /obj/item/natural/shellplant/pumpkin
+		looty += /obj/item/seeds/pumpkin
 	if(prob(24))
 		looty += /obj/item/natural/fibers
-	if(prob(7))
+	if(prob(5))
 		looty += /obj/item/natural/shellplant/pumpkin
 	pixel_x += rand(-3,3)
 	pixel_y += rand(0,6)

@@ -340,17 +340,6 @@ Yet, not a millennium later, there came Zizo's ascension: a calamity so profound
 	<strong><span style="font-size:115%"> MISCELLANIOUS KINGDOMS, FIEFS, AND RUINS </span></strong>
 	<br><br>
 	<details>
-		<summary><strong> ROCKHILL </strong></summary>
-		<br>
-		<em>The Rogue's Town, Sister-Kingdom of Azuria</em>
-		<br><br>
-		Rockhill is the closest kingdom to Azuria, reachable within a half-day's journey on saigaback. Known for its cheap-yet-plentiful liquor and prolific pickpocketeers, the peasantry - while illiterate and Psydon-fearing - are surprisingly jovial. 
-<br><br>
-Though similar in size to Azuria, its self-contained nature means that it is more freely ruled by a king instead of a duke. Religious differences aside, Rockhill and Azuria have maintained a strong alliance for the better part of a century.
-		<br>
-	</details>
-
-	<details>
 		<summary><strong> VALORIA </strong></summary>
 		<br>
 		<em>The Republic, Cultivators of the Weeping God's Order</em>
@@ -373,28 +362,6 @@ Fried salmoncakes, jellied eels, and pints of Fjall-iced liquor keep Zyndvhartia
 	</details>
 
 	<details>
-		<summary><strong> DAFTMARSH </strong></summary>
-		<br>
-		<em>The Compact, Harnessers of Artificery</em>
-		<br><br>
-		Daftmarsh - like Hammerhold - is one of the few kingdoms that has dabbled in the oft-misunderstood techniques of artificery. It's rumored that their plumbing exceeds even Grenzelhoft's own in terms of cleanliness, and that bronze spigots can ferry water where no bucket could normally reach in a timely manner.
-<br><br>
-Standing far above the king's manor is a massive clocktower, allegedly powered by a strange crystal that had been unearthed within their copper-and-tin mines.
-		<br>
-	</details>
-
-	<details>
-		<summary><strong> KINGSFIELD </strong></summary>
-		<br>
-		<em>The Overlooker, Duchy-Adherent to Azuria</em>
-		<br><br>
-		Kingsfield, as the name implies, houses a majority of Azuria's noblemen and peasantry: hence, why the duchy's streets might seem emptier than one might imagine. The streets oft-bustle with carriages that can quickly ferry its riders to the duchy itself, for a small price. 
-<br><br>
-Tethered to a clocktower of its own is Azuria's own airship: a so-called 'skyvessel' - one of the few known to exist - that has remained suspiciously ready for a yet-announced maiden voyage.
-		<br>
-	</details>
-
-	<details>
 		<summary><strong> BLASTENGHYLL </strong></summary>
 		<br>
 		<em>The Lost, Remains of a Martyred Farmtown</em>
@@ -413,17 +380,6 @@ Though a force of Psydonic crusaders had managed to stop the ritual before its c
 		Kaizoku occupies a smaller series of isles that're at the edge of known civilization, and - if the scholars are to be believed - is an ancestral relative to the twinned-empires of Kazengun and Lingyue. It is perpetually shrouded in fog, so thick that only its well-accustomed sailors could ever hope to safely navigate through it.
 <br><br>
 Mostly known for its exportation of the fogbeast: a prized hybrid of the saiga and horse, and the favored steed of Kingsfield's stout-postured knight-commander.
-		<br>
-	</details>
-
-	<details>
-		<summary><strong> HEARTFELT </strong></summary>
-		<br>
-		<em>The Branchbearer, Kingdom of the Borderland</em>
-		<br><br>
-		A greater kingdom of mild renown, Heartfelt sits upon the Borderland - a remarkably temperate mesa that is equally distant from Azuria, Rockhill, Lyndvhar, and the Vale. Such makes it the ideal destination for the intermingling, banqueting, and negotiating of noblemen all across the inner contient.
-<br><br>
-Trouble has recently tickled its underbelly, however, with the steadying presence of misfortune and malice. Heartfelt envoys are becoming increasingly common, and can now oft-be-seen as diplomatic guests to many of the aforementioned kingdoms. Be wary, Heartfelt is considered to be a hot-bed for Ecclesiarch occultism.
 		<br>
 	</details>
 

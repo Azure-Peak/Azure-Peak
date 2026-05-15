@@ -66,8 +66,8 @@
 
 /obj/item/clothing/ring/signet/triumph
 	name = "ornate signet ring"
-	desc = "A ring of opulent gold, bearing the symbol of an aristocratic household. By dipping it in melted redtallow, it can seal writs of religious importance - a matter better known to the Inquisition, rather than the Church or Crown."
-	sellprice = 77 
+	desc = "A ring of opulent gold, bearing the symbol of an aristocratic household. It seals writs of religious importance - a matter better known to the Inquisition, rather than the Church or Crown."
+	sellprice = 77
 
 /obj/item/clothing/ring/gold/triumph
 	name = "ornate gold ring"

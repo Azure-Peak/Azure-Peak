@@ -1,21 +1,22 @@
 /datum/patron/divine/noc
 	name = "Noc"
-	domain = "God of the Moon, Night, Knowledge and Arcyne"
+	domain = "God of the Moon, Nite, Knowledge and Arcyne"
 	desc = "The Nite-Scholar, brother and rival to Astrata. His wisdom paves the way in the moonlight. Tales of esoteric magicka at the destination are sung - in the words of decaying scripts."
 	worshippers = "Wizards and Scholars"
 	mob_traits = list(TRAIT_NIGHT_OWL)
-	miracles = list(/obj/effect/proc_holder/spell/targeted/touch/orison			= CLERIC_ORI,
-					/obj/effect/proc_holder/spell/invoked/noc_sight				= CLERIC_T0,
+	miracles = list(/datum/action/cooldown/spell/touch/orison					= CLERIC_ORI,
+					/datum/action/cooldown/spell/noc/sight						= CLERIC_T0,
 					/datum/action/cooldown/spell/darkvision/miracle				= CLERIC_T0,
-					/obj/effect/proc_holder/spell/invoked/moondream             = CLERIC_T0,
-					/obj/effect/proc_holder/spell/self/wise_moon                = CLERIC_T1,
-					/obj/effect/proc_holder/spell/self/moon_light     			= CLERIC_T1,
-					/obj/effect/proc_holder/spell/invoked/lesser_heal 			= CLERIC_T1,
-					/obj/effect/proc_holder/spell/invoked/blood_heal			= CLERIC_T1,
-					/obj/effect/proc_holder/spell/invoked/invisibility/miracle	= CLERIC_T1,
-					/obj/effect/proc_holder/spell/self/blindnessorsilence		= CLERIC_T2,
-					/obj/effect/proc_holder/spell/self/noc_spell_bundle			= CLERIC_T3,
-					/obj/effect/proc_holder/spell/invoked/resurrect/noc			= CLERIC_T4,
+					/datum/action/cooldown/spell/miracle/heal 					= CLERIC_T1,
+					/datum/action/cooldown/spell/miracle/bloodmiracle			= CLERIC_T1,
+					/datum/action/cooldown/spell/noc/enlightenment              = CLERIC_T1,
+					/datum/action/cooldown/spell/noc/inspiration       		    = CLERIC_T1,
+					/datum/action/cooldown/spell/noc/invisibility				= CLERIC_T2,
+					/datum/action/cooldown/spell/noc/blindness					= CLERIC_T2,
+					/datum/action/cooldown/spell/noc/moonscorch     			= CLERIC_T3,
+					/datum/action/cooldown/spell/noc/spellpack					= CLERIC_T3,
+					/datum/action/cooldown/spell/noc/grimoire					= CLERIC_T4,
+					/obj/effect/proc_holder/spell/invoked/resurrect/noc			= CLERIC_T4
 	)
 	confess_lines = list(
 		"NOC IS NIGHT!",
@@ -24,6 +25,11 @@
 	)
 	traits_tier = list(TRAIT_DARKVISION = CLERIC_T1)
 	storyteller = /datum/storyteller/noc
+
+	titles = list(
+		"Nite-Scholar",
+		"Moon" // should match a bunch of variant titles like Brother Moon
+	)
 
 // In moonlight, church, cross, or ritual chalk
 /datum/patron/divine/noc/can_pray(mob/living/follower)

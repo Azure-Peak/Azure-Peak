@@ -8,6 +8,33 @@
 	key_third_person = "blushes"
 	message = "blushes."
 
+/datum/emote/living/vomit
+	key = "vomit"
+	key_third_person = "vomits"
+	message = "pukes!"
+	emote_type = EMOTE_VISIBLE
+	show_runechat = TRUE
+
+/mob/living/carbon/human/verb/emote_vomit()
+	set name = "Vomit"
+	set category = "Emotes"
+	emote("vomit", intentional = TRUE)
+
+/datum/emote/living/vomit/run_emote(mob/user, params, type_override, intentional, targetted, animal)
+	if(!iscarbon(user))
+		return FALSE
+	if(isconstruct(user))
+		return FALSE
+
+	var/mob/living/carbon/vomiter = user
+
+	if(vomiter.has_stress_event(/datum/stressevent/vomitself))
+		to_chat(vomiter, span_warning("I already puked once. It won't come out!"))
+		return FALSE
+
+	vomiter.vomit(20, FALSE, TRUE, 1, TRUE, FALSE, FALSE, TRUE)
+	return TRUE
+
 /datum/emote/living/pray
 	key = "pray"
 	key_third_person = "prays"
@@ -399,6 +426,7 @@
 	message_muffled = "makes a muffled groan."
 	emote_type = EMOTE_AUDIBLE
 	show_runechat = FALSE
+	needs_emotion = TRUE
 
 // Attack blip played randomly.
 /datum/emote/living/attack
@@ -700,6 +728,7 @@
 	message_muffled = "makes a muffled laugh."
 	emote_type = EMOTE_AUDIBLE
 	show_runechat = FALSE
+	needs_emotion = TRUE
 
 /datum/emote/living/laugh/can_run_emote(mob/living/user, status_check = TRUE , intentional)
 	. = ..()
@@ -778,6 +807,7 @@
 	message_muffled = "makes a muffled noise in attempt to scream!"
 	emote_type = EMOTE_AUDIBLE
 	show_runechat = FALSE
+	needs_emotion = TRUE
 
 /mob/living/carbon/human/verb/emote_scream()
 	set name = "Scream"
@@ -805,6 +835,7 @@
 	emote_type = EMOTE_AUDIBLE
 	only_forced_audio = TRUE
 	show_runechat = FALSE
+	needs_emotion = TRUE
 
 /datum/emote/living/scream/painscream/run_emote(mob/user, params, type_override, intentional)
 	. = ..()
@@ -830,6 +861,7 @@
 	emote_type = EMOTE_AUDIBLE
 	only_forced_audio = TRUE
 	show_runechat = FALSE
+	needs_emotion = TRUE
 
 /datum/emote/living/scream/agony/run_emote(mob/user, params, type_override, intentional)
 	. = ..()
@@ -847,6 +879,7 @@
 	emote_type = EMOTE_AUDIBLE
 	only_forced_audio = TRUE
 	show_runechat = FALSE
+	needs_emotion = TRUE
 
 /datum/emote/living/scream/firescream/run_emote(mob/user, params, type_override, intentional)
 	. = ..()
@@ -887,6 +920,7 @@
 	nomsg = TRUE
 	only_forced_audio = TRUE
 	show_runechat = FALSE
+	needs_emotion = TRUE
 
 /datum/emote/living/drown
 	key = "drown"
@@ -902,6 +936,7 @@
 	nomsg = TRUE
 	only_forced_audio = TRUE
 	show_runechat = FALSE
+	needs_emotion = TRUE
 
 /datum/emote/living/paincrit/run_emote(mob/user, params, type_override, intentional)
 	. = ..()
@@ -920,6 +955,7 @@
 	nomsg = TRUE
 	only_forced_audio = TRUE
 	show_runechat = FALSE
+	needs_emotion = TRUE
 
 /datum/emote/living/painmoan
 	key = "painmoan"
@@ -927,6 +963,7 @@
 	nomsg = TRUE
 	only_forced_audio = TRUE
 	show_runechat = FALSE
+	needs_emotion = TRUE
 
 /datum/emote/living/groin
 	key = "groin"
@@ -934,6 +971,7 @@
 	nomsg = TRUE
 	only_forced_audio = TRUE
 	show_runechat = FALSE
+	needs_emotion = TRUE
 
 /datum/emote/living/fatigue
 	key = "fatigue"

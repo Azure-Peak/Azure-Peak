@@ -6,7 +6,6 @@
 	density = FALSE
 	blade_dulling = DULLING_BASH
 	pixel_y = 32
-	var/stockpile_index = 1
 	var/datum/withdraw_tab/withdraw_tab = null
 
 /obj/structure/roguemachine/withdraw/get_mechanics_examine(mob/user)
@@ -20,7 +19,7 @@
 /obj/structure/roguemachine/withdraw/Initialize()
 	. = ..()
 	SSroguemachine.stock_machines += src
-	withdraw_tab = new(stockpile_index, src)
+	withdraw_tab = new(src)
 
 /obj/structure/roguemachine/withdraw/Destroy()
 	SSroguemachine.stock_machines -= src

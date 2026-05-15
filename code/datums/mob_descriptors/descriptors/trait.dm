@@ -171,3 +171,122 @@
 	name = "Rotten"
 	prefix = "%ARE% very"
 
+/datum/mob_descriptor/trait/alloyed
+	name = "Alloyed"
+	prefix = "%ARE% very"
+
+/datum/mob_descriptor/trait/hairy
+	name = "Hairy"
+	prefix = "%ARE% very"
+
+/datum/mob_descriptor/trait/ominous
+	name = "Ominous"
+	prefix = "%ARE% very"
+
+/datum/mob_descriptor/trait/baleful
+	name = "Baleful"
+	prefix = "%ARE% very"
+
+/datum/mob_descriptor/trait/putrid
+	name = "Putrid"
+	prefix = "%ARE% very"
+
+/datum/mob_descriptor/trait/sardonic
+	name = "Sardonic"
+	prefix = "%ARE% very"
+
+/datum/mob_descriptor/trait/sinister
+	name = "Sinister"
+	prefix = "%ARE% very"
+
+/datum/mob_descriptor/trait/somber
+	name = "Somber"
+	prefix = "%ARE% very"
+
+/datum/mob_descriptor/trait/tarnished
+	name = "Tarnished"
+	prefix = "%ARE% very"
+
+/datum/mob_descriptor/trait/unseemly
+	name = "Unseemly"
+	prefix = "%ARE% very"
+
+/datum/mob_descriptor/trait/sideways
+	name = "Sideways"
+	prefix = "%ARE% very"
+
+/datum/mob_descriptor/trait/depraved
+	name = "Depraved"
+	prefix = "%ARE% very"
+
+/datum/mob_descriptor/trait/jaundiced
+	name = "Jaundiced"
+	prefix = "%ARE% very"
+
+/datum/mob_descriptor/trait/rancorous
+	name = "Rancorous"
+	prefix = "%ARE% very"
+
+/datum/mob_descriptor/trait/sullen
+	name = "Sullen"
+	prefix = "%ARE% very"
+
+/datum/mob_descriptor/trait/incessant
+	name = "Incessant"
+	prefix = "%ARE% very"
+
+/datum/mob_descriptor/trait/volfish
+	name = "Volfish"
+	prefix = "%ARE% very"
+
+/datum/mob_descriptor/trait/radiant
+	name = "Radiant"
+	prefix = "%ARE% very"
+
+/datum/mob_descriptor/trait/bountiful
+	name = "Bountiful"
+	prefix = "%ARE% very"
+
+/datum/mob_descriptor/trait/trembling
+	name = "Trembling"
+	prefix = "%ARE%"
+
+/datum/mob_descriptor/trait/magnificent
+	name = "Magnificent"
+	prefix = "%ARE% very"
+
+/datum/mob_descriptor/trait/esteemed
+	name = "Esteemed"
+	prefix = "%ARE% very"
+
+/datum/mob_descriptor/trait/regal
+	name = "Regal"
+	prefix = "%ARE% very"
+
+/datum/mob_descriptor/trait/decadent
+	name = "Decadent"
+	prefix = "%ARE% very"
+
+/datum/mob_descriptor/trait/lavish
+	name = "Lavish"
+	prefix = "%ARE% very"
+
+/datum/mob_descriptor/trait/pompous
+	name = "Pompous"
+	prefix = "%ARE% very"
+
+/datum/mob_descriptor/trait/dashing
+	name = "Dashing"
+	prefix = "%ARE% very"
+
+/datum/mob_descriptor/trait/gravid
+	name = "Gravid"
+	prefix = "%ARE%"
+
+/datum/mob_descriptor/trait/fecund
+	name = "Fecund"
+	prefix = "%ARE%"
+
+/datum/mob_descriptor/trait/vainglorious
+	name = "Vainglorious"
+	prefix = "%ARE%"

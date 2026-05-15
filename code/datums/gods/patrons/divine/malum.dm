@@ -4,16 +4,17 @@
 	desc = "Opinionless god of the crafts. He teaches that great works for killing or saving are great works, either way. The well-oiled guillotine and the well-sharpened axe are tools, and there is no good and evil to their craft."
 	worshippers = "Smiths, Miners, Engineers"
 	mob_traits = list(TRAIT_FORGEBLESSED, TRAIT_BETTER_SLEEP)
-	miracles = list(/obj/effect/proc_holder/spell/targeted/touch/orison			= CLERIC_ORI,
+	miracles = list(/datum/action/cooldown/spell/touch/orison					= CLERIC_ORI,
 					/obj/effect/proc_holder/spell/invoked/restoration           = CLERIC_T0,
 					///obj/effect/proc_holder/spell/invoked/rework                = CLERIC_T1,
-					/obj/effect/proc_holder/spell/invoked/lesser_heal 			= CLERIC_T1,
-					/obj/effect/proc_holder/spell/invoked/blood_heal			= CLERIC_T1,
+					/datum/action/cooldown/spell/miracle/heal 					= CLERIC_T1,
+					/datum/action/cooldown/spell/miracle/bloodmiracle			= CLERIC_T1,
 					/datum/action/cooldown/spell/arcyne_forge/miracle			= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/vigorousexchange		= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/heatmetal				= CLERIC_T2,
 					/obj/effect/proc_holder/spell/invoked/hammerfall			= CLERIC_T3,
 					/obj/effect/proc_holder/spell/self/repair                   = CLERIC_T3,
+					/datum/action/cooldown/spell/malum_blessing					= CLERIC_T3,
 					/obj/effect/proc_holder/spell/invoked/craftercovenant		= CLERIC_T4,
 					/obj/effect/proc_holder/spell/invoked/resurrect/malum		= CLERIC_T4,
 	)
@@ -24,6 +25,8 @@
 	)
 
 	storyteller = /datum/storyteller/malum
+
+	titles = list() // people just kinda call him malum
 
 // Near a smelter, hearth, cross, within the smithy, or within the church
 /datum/patron/divine/malum/can_pray(mob/living/follower)

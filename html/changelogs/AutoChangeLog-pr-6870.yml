@@ -1,5 +1,0 @@
-author: "borneblood"
-delete-after: True
-changes:
-  - balance: "Rebalanced Malchem vials that interact with economy, Mammonite was also beefed a lil, Matthios's Hoardeyes can see from 100+, Gilded Sight is no longer ass"
-  - bugfix: "Truthsnuke (EM spawnable) should no longer destroy a single target over and over"

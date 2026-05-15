@@ -9,6 +9,7 @@
 	density = TRUE
 	damage_deflection = 25
 	climbable = TRUE
+	pass_flags_self = LETPASSTHROW
 	var/previous_material_quality = 0
 	var/advance_multiplier = 1 //Lower for auto-striking
 
@@ -34,7 +35,7 @@
 		var/obj/item/rogueweapon/tongs/T = W
 		if(hingot)
 			if(T.hingot)
-				if(hingot.currecipe && hingot.currecipe.needed_item && istype(T.hingot, hingot.currecipe.needed_item))
+				if(hingot.currecipe && hingot.currecipe.needed_item && istype(T.hingot, hingot.currecipe.needed_item) && T.hingot.can_craft_with())
 					hingot.currecipe.item_added(user)
 					if(istype(T.hingot, /obj/item/ingot))
 						var/obj/item/ingot/I = T.hingot
@@ -123,7 +124,7 @@
 					breakthrough = 1
 					hingot.currecipe.numberofbreakthroughs++
 
-				if(!hingot.currecipe.advance(user, breakthrough, advance_multiplier))
+				if(!hingot.currecipe.advance(user, breakthrough, advance_multiplier, src))
 					shake_camera(user, 1, 1)
 					playsound(src,'sound/items/bsmithfail.ogg', 100, FALSE)
 					break
@@ -134,7 +135,7 @@
 					break
 		return
 
-	if(hingot && hingot.currecipe && hingot.currecipe.needed_item && istype(W, hingot.currecipe.needed_item))
+	if(hingot && hingot.currecipe && hingot.currecipe.needed_item && istype(W, hingot.currecipe.needed_item) && W.can_craft_with())
 		hingot.currecipe.item_added(user)
 		if(istype(W, /obj/item/ingot))
 			var/obj/item/ingot/I = W
@@ -148,6 +149,10 @@
 
 	if(W.anvilrepair)
 		user.visible_message(span_info("[user] places [W] on the anvil."))
+		W.forceMove(src.loc)
+		return
+
+	if(!user.cmode)
 		W.forceMove(src.loc)
 		return
 

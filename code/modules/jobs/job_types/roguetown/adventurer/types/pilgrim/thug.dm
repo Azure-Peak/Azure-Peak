@@ -1,8 +1,11 @@
+/datum/advclass/thug
+	townie_contract_gate_exempt = TRUE
+
 /datum/advclass/thug/goon
 	name = "Goon"
 	tutorial = "You are a goon, a low-lyfe thug in a painful world - not good enough for war, not smart enough for peace. What you lack in station you make up for in daring."
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = ACCEPTED_RACES
+	forbidden_races = list(RACES_DESPISED)
 	outfit = /datum/outfit/job/roguetown/adventurer/thug/goon
 	category_tags = list(CTAG_TOWNER)
 	traits_applied = list(TRAIT_SEEPRICES_SHITTY)
@@ -75,16 +78,16 @@
 			H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, SKILL_LEVEL_APPRENTICE, TRUE)
 			r_hand = /obj/effect/spawner/lootdrop/roguetown/dungeon/weapons
 	if(H.mind)
-		SStreasury.give_money_account(ECONOMIC_LOWER_CLASS, H, "Savings.")
+		SStreasury.grant_savings(ECONOMIC_LOWER_CLASS, H)
 
 /datum/advclass/thug/wiseguy
 	name = "Wise Guy"
 	tutorial = "You're smarter than the rest, by a stone's throw - and you know better than to get up close and personal. Unlike most others, you can read."
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = RACES_SHUNNED_UP
+	forbidden_races = list(RACES_CONSTRUCT RACES_DESPISED)
 	outfit = /datum/outfit/job/roguetown/adventurer/thug/wiseguy
 	category_tags = list(CTAG_TOWNER)
-	traits_applied = list(TRAIT_SEEPRICES_SHITTY, TRAIT_CICERONE, TRAIT_NUTCRACKER)
+	traits_applied = list(TRAIT_SEEPRICES_SHITTY, TRAIT_CICERONE, TRAIT_NUTCRACKER, TRAIT_ALCHEMY_EXPERT)
 	cmode_music = 'sound/music/combat_bum.ogg'
 	maximum_possible_slots = 2 // i dont want an army of towner thugs
 	category_tags = list(CTAG_PILGRIM, CTAG_TOWNER)
@@ -147,13 +150,13 @@
 			ADD_TRAIT(H, TRAIT_LIGHT_STEP, TRAIT_GENERIC)
 			r_hand = /obj/item/lockpickring/mundane
 	if(H.mind)
-		SStreasury.give_money_account(ECONOMIC_LOWER_CLASS, H, "Savings.")
+		SStreasury.grant_savings(ECONOMIC_LOWER_CLASS, H)
 
 /datum/advclass/thug/bigman
 	name = "Big Fella"
 	tutorial = "More akin to a cabbage-fed monster than a normal person, your size and strength are your greatest weapons; though they hardly supplement what's missing of your brains."
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = RACES_SHUNNED_UP
+	forbidden_races = list(RACES_CONSTRUCT RACES_DESPISED)
 	outfit = /datum/outfit/job/roguetown/adventurer/thug/bigman
 	category_tags = list(CTAG_TOWNER)
 	traits_applied = list(TRAIT_SEEPRICES_SHITTY, TRAIT_STEELHEARTED, TRAIT_HARDDISMEMBER)

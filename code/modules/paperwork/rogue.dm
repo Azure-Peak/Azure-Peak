@@ -401,22 +401,28 @@
 		signee = user
 
 /obj/item/paper/inqslip/attacked_by(obj/item/I, mob/living/user)
-	if(istype(I, /obj/item/clothing/ring/signet))
-		var/obj/item/clothing/ring/signet/S = I
+	if(istype(I, /obj/item/clothing/ring/signet/psy))
+		var/obj/item/clothing/ring/signet/psy/S = I
 		if(waxed)
 			to_chat(user,  span_warning("It's already wax-sealed."))
 			return
-		if(S.tallowed && sealed)
+		if(S.tallowed && sealed && S.tallow_color == "red")
 			waxed = TRUE
 			update_icon()
 			S.tallowed = FALSE
 			S.update_icon()
 			playsound(src, 'sound/items/inqslip_sealed.ogg', 75, TRUE, 4)
 			marquevalue += 2
-		else if(S.tallowed && !sealed)
+		else if(S.tallowed && sealed && S.tallow_color != "red")
+			to_chat(user,  span_warning("I need to use redtallow to seal this properly."))
+		else if(S.tallowed && !sealed && S.tallow_color == "red")
 			to_chat(user,  span_warning("I need to fold the [src] first."))
 		else
 			to_chat(user,  span_warning("The ring hasn't been waxed."))
+	else if(istype(I, /obj/item/clothing/ring/signet))
+		to_chat(user, span_warning("The [src] can only be stamped with a signet ring bearing the Archbishop's symbol."))
+		return
+	..()
 
 	if(sliptype != 1)
 		if(istype(I, /obj/item/inqarticles/indexer))

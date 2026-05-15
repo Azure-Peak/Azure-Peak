@@ -1,6 +1,6 @@
 GLOBAL_LIST_EMPTY(chosen_music)
 
-GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town,/area/rogue/outdoors/town,/area/rogue/under/town)) //hey
+GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(list(/area/rogue/indoors/town, /area/rogue/outdoors/town, /area/rogue/under/town)))
 
 /area/rogue
 	name = "roguetown"
@@ -67,12 +67,25 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(/area/rogue/indoors/town
 /area/rogue/indoors/banditcamp
 	name = "Bandit Camp"
 	droning_sound = 'sound/music/area/banditcamp.ogg'
-	droning_sound_dusk = 'sound/music/area/banditcamp.ogg'
-	droning_sound_night = 'sound/music/area/banditcamp.ogg'
+	droning_sound_dusk = null
+	droning_sound_night = null
 
-/area/rogue/indoors/vampire_manor
+/area/rogue/indoors/vampire_manor //Sovlnuke with a track we didn't use previous.
+	first_time_text = "FORGOTTEN MANOR"
 	name = "Vampire Manor"
-	droning_sound = 'sound/music/area/manor2.ogg'
+	droning_sound = 'sound/music/area/sargoth.ogg'
+	droning_sound_dusk = null
+	droning_sound_night = null
+
+/area/rogue/indoors/lich_start //Quieter so our droning noise doesn't cut out the on-spawn stinger, not yet. I want this experience to be thematic
+	name = "Lich Lair"
+	droning_sound = 'sound/ambience/creepywind.ogg' //Ominiously quiet starting room, let them build up a bit.
+	droning_sound_dusk = null
+	droning_sound_night = null
+
+/area/rogue/indoors/lich_start/lich_lair //Sovlnuke with a unique track we didn't use previous I think?
+	first_time_text = "FORGOTTEN KEEP"
+	droning_sound = 'sound/music/area/morosewaters.ogg'
 
 /area/rogue/indoors/ravoxarena
 	name = "Ravox's Arena"

@@ -12,7 +12,7 @@
 
 /datum/status_effect/incapacitating/off_balanced/on_apply()
 	. = ..()
-	if(owner.has_status_effect(/datum/status_effect/balance_immune))
+	if(owner.has_status_effect(/datum/status_effect/withstand))
 		owner.remove_status_effect(/datum/status_effect/incapacitating/off_balanced)
 		return
 

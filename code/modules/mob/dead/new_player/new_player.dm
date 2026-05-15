@@ -1,6 +1,12 @@
 #define LINKIFY_READY(string, value) "<a href='byond://?src=[REF(src)];ready=[value]'>[string]</a>"
 GLOBAL_LIST_INIT(roleplay_readme, world.file2list("strings/rt/rp_prompt.txt"))
 
+/proc/build_lore_primer_content()
+	var/list/dat = list()
+	dat += GLOB.roleplay_readme
+	dat += build_regions_primer_html()
+	return dat.Join()
+
 /mob/dead/new_player
 	var/ready = 0
 	var/spawning = 0//Referenced when you want to delete the new_player later on in the code.
@@ -226,12 +232,9 @@ GLOBAL_LIST_INIT(roleplay_readme, world.file2list("strings/rt/rp_prompt.txt"))
 /mob/dead/new_player/verb/do_rp_prompt()
 	set name = "Lore Primer"
 	set category = "Memory"
-	var/list/dat = list()
-	dat += GLOB.roleplay_readme
-	if(dat)
-		var/datum/browser/popup = new(src, "Primer", "AZURE PEAK", 460, 550)
-		popup.set_content(dat.Join())
-		popup.open()
+	var/datum/browser/popup = new(src, "Primer", "AZURE PEAK", 460, 550)
+	popup.set_content(build_lore_primer_content())
+	popup.open()
 
 /proc/get_job_unavailable_error_message(retval, jobtitle)
 	switch(retval)
@@ -279,12 +282,12 @@ GLOBAL_LIST_INIT(roleplay_readme, world.file2list("strings/rt/rp_prompt.txt"))
 	if(QDELETED(src))
 		return JOB_UNAVAILABLE_GENERIC
 	if(has_world_trait(/datum/world_trait/skeleton_siege))
-		if(rank != "Greater Skeleton")
+		if(rank != "Siege Skeleton")
 			return JOB_UNAVAILABLE_GENERIC
 		else
 			return JOB_AVAILABLE
 	else
-		if(rank == "Greater Skeleton")
+		if(rank == "Siege Skeleton")
 			return JOB_UNAVAILABLE_GENERIC
 
 	if(has_world_trait(/datum/world_trait/goblin_siege))
@@ -321,7 +324,7 @@ GLOBAL_LIST_INIT(roleplay_readme, world.file2list("strings/rt/rp_prompt.txt"))
 			return JOB_UNAVAILABLE_PQ
 	#endif
 	var/datum/species/pref_species = client.prefs.pref_species
-	if(length(job.allowed_races) && !(pref_species.type in job.allowed_races))
+	if(length(job.forbidden_races) && (pref_species.type in job.forbidden_races))
 		return JOB_UNAVAILABLE_RACE
 	var/list/allowed_sexes = list()
 	if(length(job.allowed_sexes))
@@ -555,7 +558,7 @@ GLOBAL_LIST_INIT(roleplay_readme, world.file2list("strings/rt/rp_prompt.txt"))
 			dat += "<legend align='center' style='font-weight: bold; color: [cat_color]'>[cat_name]</legend>"
 
 			if(has_world_trait(/datum/world_trait/skeleton_siege))
-				dat += "<a class='job command' href='byond://?src=[REF(src)];SelectedJob=Greater Skeleton'>BECOME AN EVIL SKELETON</a>"
+				dat += "<a class='job command' href='byond://?src=[REF(src)];SelectedJob=Siege Skeleton'>BECOME AN EVIL SKELETON</a>"
 				dat += "</fieldset><br>"
 				column_counter++
 				if(column_counter > 0 && (column_counter % 3 == 0))

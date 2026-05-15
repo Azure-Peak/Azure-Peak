@@ -743,7 +743,7 @@
 
 /obj/item/clothing/suit/roguetown/shirt/dress/maid
 	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
-	name = "servant dress"
+	name = "maid dress"
 	desc = "A distinctive black dress that should be kept clean and tidy - unless you want to be disciplined."
 	body_parts_covered = CHEST|GROIN|ARMS|LEGS|VITALS
 	boobed = TRUE
@@ -757,13 +757,13 @@
 /obj/item/clothing/suit/roguetown/shirt/dress/maid/attack_right(mob/user)
 	switch(open_wear)
 		if(FALSE)
-			name = "open servant dress"
+			name = "open maid dress"
 			body_parts_covered = null
 			open_wear = TRUE
 			flags_inv = HIDEBOOB
 			to_chat(usr, span_warning("Now wearing radically!"))
 		if(TRUE)
-			name = "servant dress"
+			name = "maid dress"
 			body_parts_covered = CHEST|GROIN|ARMS|LEGS|VITALS
 			open_wear = FALSE
 			flags_inv = HIDEBOOB|HIDECROTCH
@@ -828,8 +828,9 @@
 		add_overlay(pic)
 
 /obj/item/clothing/suit/roguetown/shirt/dress/maidfancy
-	name = "maid dress"
+	name = "valorian maid dress"
 	desc = "A dress befitting the housekeeper of a lord's staff. While not as intricate as a royal's, it is indicative of the house's status."
+	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
 	body_parts_covered = CHEST|GROIN|ARMS|VITALS
 	sleeved = 'icons/roguetown/clothing/special/onmob/sleeves_maids.dmi'
 	r_sleeve_status = SLEEVE_NORMAL
@@ -841,7 +842,7 @@
 	detail_color = CLOTHING_DARK_GREY
 
 /obj/item/clothing/suit/roguetown/shirt/dress/maidservant
-	name = "servant gown"
+	name = "maid gown"
 	sleeved = 'icons/roguetown/clothing/special/onmob/sleeves_maids.dmi'
 	desc = "A dress worn by those of manors and noble staff. Commonly black, though some estates dye them to their house colors."
 	icon_state = "maidgown"
@@ -854,3 +855,32 @@
 	icon_state = "butlershirt"
 	item_state = "butlershirt"
 	sleeved = 'icons/roguetown/clothing/special/onmob/sleeves_maids.dmi'
+
+/obj/item/clothing/suit/roguetown/shirt/velvetdress
+	name = "velvet dress"
+	desc = "A garment made with embroidered velvet, both elegant and warm. Poetry made manifest in swaying fabric."
+	icon_state = "velvetdress"
+	item_state = "velvetdress"
+	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_shirts.dmi'
+
+/obj/item/clothing/suit/roguetown/shirt/nobledress
+	name = "noble's pinafore"
+	desc = "A comfortable dress adapted from simpler garments often worn by working-class women."
+	icon_state = "nobledress"
+	item_state = "nobledress"
+	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_shirts.dmi'
+	detail_tag = "_detail"
+	detail_color = CLOTHING_WHITE
+
+/obj/item/clothing/suit/roguetown/shirt/nobledress/Initialize()
+	. = ..()
+	update_icon()
+
+/obj/item/clothing/suit/roguetown/shirt/nobledress/update_icon()
+	cut_overlays()
+	if(get_detail_tag())
+		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))
+		pic.appearance_flags = RESET_COLOR
+		if(get_detail_color())
+			pic.color = get_detail_color()
+		add_overlay(pic)

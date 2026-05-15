@@ -1,0 +1,6 @@
+author: "radarseas"
+delete-after: True
+changes:
+  - rscadd: "heretic armor unsprited pieces now have a small outline to tell them, if they're on the floor/worn."
+  - balance: "dreamwalker armor cannot be enchanted anymore."
+  - bugfix: "fixed heretic armors not having descriptors for the heavy sets correctly."

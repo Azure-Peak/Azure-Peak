@@ -931,3 +931,177 @@
   borneblood:
   - balance: Self-Sustenance trait now also behaves like Failed Squire for repair
       purposes.
+2026-04-27:
+  Ketrai:
+  - balance: Increase medical EXP from sewing
+  Quinalion:
+  - bugfix: Fixed shield rendering on backs.
+  - bugfix: Corrected sleeves sprites for hauberk, haubergeon, scalemail, and coat
+      of plates.
+  - bugfix: Fixed drider spider sprites.
+  Ryan180602:
+  - code_imp: click optimisations
+  - admin: show-tip is now available to coders.
+  VanessaCoding:
+  - balance: changed the bronze right limb to be equal to the left limb
+  WeNeedMorePhoron:
+  - rscdel: Removed most ranged AI loadout that can randomly spawn until fixed.
+  - rscadd: When channeling specific spells (For now, Arcyne Ward & Conjure Aegis),
+      you cannot parry / dodge attacks
+  - rscadd: When you are feinted or baited while channeling spells, spell cast will
+      be canceled
+  - balance: Arcyne Ward now on a 2 minutes base cooldown instead of 1. costs 70 Stamina
+      upfront and 130 Energy instead of 20 (what, this was not intentional). It will
+      also grants a paired "Regenerate" spell that costs proportional amount of stamina
+      to regenerate your existing ward, and always cost 2 minutes of CD. It takes
+      6 seconds to channel still and makes you unable to parry / dodge.
+  - rscadd: Staves integrity rate raised to 150 / 200 / 250 for each tier, making
+      them a sidegrade to woodstaff (And a straight upgrade at the highest tier).
+  - rscadd: Wand option now instead gives Wand & (Wooden) Shield, and grants Apprentice
+      Shield on choice as an alternative playstyle.
+  - rscadd: Instead of empowering a staple spell, implement now refunds part of the
+      spell's stamina / energy cost over 20 seconds. It refunds 20 / 27.5 / 35% of
+      the cost as energy into your blue bar, improving your long term endurance without
+      affecting the short terms economy of a mage.
+  - rscadd: Animals should now find food and eat them properly
+  - rscadd: All farm animals but goats cannot climb over structure now.
+  - rscadd: Added a cooldown to climbing so that hopefully AI get stuck on climbing
+      over and over railing less
+  - bugfix: Probably fix AI hitting themselves
+  borneblood:
+  - balance: Rebalanced Malchem vials that interact with economy, Mammonite was also
+      beefed a lil, Matthios's Hoardeyes can see from 100+, Gilded Sight is no longer
+      ass
+  - bugfix: Truthsnuke (EM spawnable) should no longer destroy a single target over
+      and over
+  gamevoin:
+  - rscadd: Added new headwings, bird and bat-like, available to Kin, Tiefling, and
+      Aasimar. Also a new regular wing and Aasimar-only 'veil wing'.
+2026-04-28:
+  FreeStylaLT:
+  - bugfix: Fixed Bait Cooldown being set incorrectly at 30 seconds. It is now the
+      intended 20 seconds.
+  - rscadd: Having the Smithing Expert trait will now allow the user to automatically
+      scoop up the next item in a smithing recipe from their own tile, or the anvil's
+      tile.
+  - balance: Gave some Guild roles athletics that were missing it before.
+  - balance: Removed Guildmaster's ability to make Announcements.
+  - balance: Gave Guildmaster a scomstone.
+  - balance: Gave every Guild role a serfstone.
+  Ketrai:
+  - rscadd: Bramblesnout boars
+  - rscadd: New meat sprites for pork and bacon
+  Quinalion:
+  - bugfix: Reduced recent shield-on-back sprite change due to persistent misalignment.
+  VanessaCoding:
+  - balance: gave them Apprentice Smelting, Mining, Blacksmithing, Armorsmithing and
+      Weaponsmithing.
+  Vex8tion:
+  - balance: Added TRAIT_SPELLCOCKBLOCK to Lightning Bolt's status debuff
+  WeNeedMorePhoron:
+  - rscadd: All mindlinks tell you to use ,Y
+  - rscadd: You always gain the arcyne ward paired regeneration spell with gain of
+      any arcyne ward, which should hopefully fixes issues with gaining infinite regen
+      spell and most cases of jankiness
+  borneblood:
+  - bugfix: Restored a missing functionality to spellcasting.
+2026-04-29:
+  1HoneyDragon:
+  - rscadd: 'Ported two dresses from Scarlet Reach: the noble dress and the velvet
+      dress.'
+  - rscadd: Added the new dresses to the loadout menu
+  - rscadd: Added the new dresses to the crafting - sewing tab.
+  Aisu9:
+  - rscdel: Deleted Theurgist
+  - balance: mix THeurgist's stat spread in the Sage's own stat spread, they loose
+      1 con and gain 1 int
+  - balance: raise Sage's Devotion regen to the same tier as Mystic's
+  - balance: Mystic now have apprentice alchemy and alchemy expert trait so they can
+      produce strong potions with some work, move the alchemy supplies and backpack
+      from Sage's loadout to Mystic's, Sage stay at apprentice.
+  - balance: all mystic classes now enjoy novice wrestling skill, fight back the bullies
+      a little better!
+  - qol: Sage's stats is now picked after you take your offensive cantrip
+  - qol: Mystic gain blood boon back, holy skill unchanged at apprentice.
+  - qol: Holyblade, now named Luminary enjoy a  greater weapon loadout and proficiency
+      diversity
+  Drifter7371:
+  - rscadd: Gave Bwanderer a choice between starting with axes or swords.
+  - rscadd: 'Swapped a Wilpower point for Constitution for Bwanderer.
+
+      :cl:'
+  Ketrai:
+  - rscadd: Technophobe trait to stop meister use. Deprived, Hag
+  - balance: Pumpkins now mostly give seeds, rarely whole pumpkins
+  - balance: Bait bags attract mostly small game
+  - balance: Bait bags require apprentice hunting to craft
+  - balance: Hag cannot take saddleborn
+  - rscadd: You can now roast seeds over fires
+  - qol: Clarify boar wound message as something you can just sew?
+  - balance: Dreamwalker portals allow up to 5 pursuers with halved cooldown between
+      uses.
+  Ollanius:
+  - bugfix: Pewter goblets no longer cause vampyres and nitebeasts to spontaneously
+      explode upon contact.
+  - code_imp: 'Stages ore and scrap content from PR #6666. This includes the base
+      framework for avantyne wafers and thread, alongside ascendant-specific equipment
+      fragments. Unaccessable in-game.'
+  Ryan180602:
+  - rscadd: playtime tracker. admins can see another player's through PP.
+  VanessaCoding:
+  - rscadd: Chiseling and sawing now keeps going until the turf with the item you
+      targetted runs out of the item.
+  WeNeedMorePhoron:
+  - rscadd: Complex NPC AI will now smashes obstacles that is in the way between you
+      and them if they cannot find a better way to get pass
+  - rscadd: Hotspot no longer HARDBLOCK an AI from pathing, so they will path through
+      them as a last resort
+  - rscadd: Added a slight, intelligence / perception scaled delay to kicking you
+      when they are grabbed
+  - rscadd: Window being broken by mobs should no longer spam admin log if there's
+      no ckey
+  - rscadd: Ported TGstation's profiler and initialization profiler subsystem to help
+      us with future profiling efforts.
+  - rscadd: You can no longer level up alchemy without having ALCHEMY EXPERT trait
+      at all.
+  - rscadd: 'Alchemy Expert added to: Destitute Scholar, Introverted Bookworm, Nettlesome
+      Scamp, Mage Lord, Schemer, Underdweller, Desert Rider Sahir, Black Venom Pursuer
+      (both), Town Crier, Artificer, Bishop, Druid, Acolyte, Templar (Noc/Pestra),
+      Cleric (Noc), Mystic (all 4), Wiseguy, Heretic (Pestra/Noc, both), Advisor of
+      Heartfelt, Heartfelt Prior, Heartfelt Physician, Poisoner, Lich, Grenzel Envoy
+      Priest, Herbalist, Heretical Fiends'
+  - bugfix: Possibly fixed TGUI input modal crashing on long text above 2048 characters
+      on older systems or older in built browser such as Wine / Linux emulator by
+      using a feature introduced in 2015 instead of 2025.
+  babamandaa:
+  - qol: gives Depraved wretch a lil buff
+  borneblood:
+  - bugfix: shapeshift_holder has been polished, thus fixing problems with its functionality
+      with flying simple_mobs it had for a good long while now. Report any new bugs,
+      please.
+  - bugfix: more matthios maintenance (again)
+  changelingonberry:
+  - rscadd: descriptors
+  nauticall:
+  - rscadd: Added the ability for Dukes to have their own mounts.
+  saltprjak:
+  - balance: Ruma Seonjang and Gun-in weapons nerfed and buffed respectively into
+      a middle-ground. They can now be sold.
+  - balance: Ruma Sasu's iron dagger replaced with a steel tanto.
+  - balance: All Ruma now share pain resistance.
+2026-04-30:
+  1HoneyDragon:
+  - bugfix: Fixed noble's pinafore not having the correct name.
+  - balance: Lowered noble's pinafore recipe skill requirement from Expert to Journeyman.
+  WeNeedMorePhoron:
+  - rscadd: Hearth is now climbable for an AI
+  - rscadd: AI will now default to climbing before destroying an obstacle
+  - rscadd: All lights are by default, destructible instead of indestructible.
+  - rscadd: Fixes goblin having wrong faction and not attacking you
+  - rscadd: Grand Duke, Marshal, Bishop, Merchant, Bathmaster, Steward, Guildsman,
+      Guildmaster and Martyr now announce on the SCOM when they far travel so people
+      know an important role is missing.
+  borneblood:
+  - bugfix: Blood Boon no longer targets yourself.
+  zydras:
+  - image: direbear

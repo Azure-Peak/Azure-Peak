@@ -284,7 +284,8 @@
 			var/splatter_dir = dir
 			if(starting)
 				splatter_dir = get_dir(starting, target_loca)
-			new /obj/effect/temp_visual/dir_setting/bloodsplatter(target_loca, splatter_dir)
+			var/obj/effect/temp_visual/dir_setting/bloodsplatter/splatter = new(target_loca, splatter_dir)
+			splatter.set_blood_color(L.get_blood_color())
 			if(prob(33))
 				L.add_splatter_floor(target_loca)
 

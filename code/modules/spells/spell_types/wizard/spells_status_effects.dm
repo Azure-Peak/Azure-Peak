@@ -96,12 +96,14 @@
 /datum/status_effect/buff/lightningstruck/on_apply()
 	. = ..()
 	var/mob/living/target = owner
+	ADD_TRAIT(target, TRAIT_SPELLCOCKBLOCK, TRAIT_STATUS_EFFECT)
 	target.update_vision_cone()
 	target.add_movespeed_modifier(MOVESPEED_ID_LIGHTNINGSTRUCK, update=TRUE, priority=100, multiplicative_slowdown=4, movetypes=GROUND)
 
 /datum/status_effect/buff/lightningstruck/on_remove()
 	. = ..()
 	var/mob/living/target = owner
+	REMOVE_TRAIT(target, TRAIT_SPELLCOCKBLOCK, TRAIT_STATUS_EFFECT)
 	target.update_vision_cone()
 	target.remove_movespeed_modifier(MOVESPEED_ID_LIGHTNINGSTRUCK, TRUE)
 

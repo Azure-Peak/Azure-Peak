@@ -230,37 +230,20 @@
 	smeltresult = /obj/item/roguegem/diamond
 	sellprice = 270
 
+///
+
 /obj/item/clothing/ring/signet
-	name = "signet ring"
+	name = "golden signet ring"
 	icon_state = "signet"
-	desc = "A ring of opulent gold, bearing the Lord's symbol. By dipping it in melted redtallow, it can seal writs of ducal importance."
+	desc = "A ring of opulent gold, bearing the Lord's symbol. Its face is cut to seal writs of ducal importance, and a fresh bead of tallow rests in the underside."
 	sellprice = 135
 	var/tallowed = FALSE
+	var/tallow_color = "red"
 
 /obj/item/clothing/ring/signet/get_mechanics_examine(mob/user)
     . = ..()
-    . += span_info("Left click the ring on a warmed tallowpot - filled with redtallow, specifically - to prepare a stamp.")
-    . += span_info("Certain letters can be folded and stamped with a prepared ring, which proves minor financial benefits.")
-
-
-/obj/item/clothing/ring/signet/alt
-	name = "silver signet ring"
-	icon_state = "signet_alt"
-	desc = "A ring of glistening silver, bearing the Lord's symbol. By dipping it in melted redtallow, it can seal writs of ducal importance."
-	sellprice = 80
-
-/obj/item/clothing/ring/signet/silver
-	name = "blessed silver signet ring"
-	icon_state = "signet_silver"
-	desc = "A ring of blessed silver, bearing the Archbishop's symbol. By dipping it in melted redtallow, it can seal writs of religious importance."
-	sellprice = 90
-	is_silver = TRUE
-	is_lesser_silver = TRUE
-
-/obj/item/clothing/ring/signet/silver/get_mechanics_examine(mob/user)
-    . = ..()
-    . += span_info("Stamping a folded ACCUSATION or CONFESSION will increase the amount of MARQUES it'll reward, once sent through the HERMES.")
-    . += span_info("Packing an INDEXER into an ACCUSATION or CONFESSION before folding-and-stamping it will further amplify this financial bonus.")
+    . += span_info("Certain letters can be folded and stamped with the ring, which proves minor financial benefits.")
+    . += span_info("Pressed upon a quest scroll by a Steward, Clerk, or Grand Duke, the ring stamps it LEVY EXEMPT - waiving the Crown's Contract Levy on its reward.")
 
 /obj/item/clothing/ring/signet/attack_right(mob/user)
 	. = ..()
@@ -272,11 +255,38 @@
 /obj/item/clothing/ring/signet/update_icon()
 	. = ..()
 	if(tallowed)
-		icon_state = "[icon_state]_stamp"
+		icon_state = "[initial(icon_state)]_[tallow_color]_stamp"
 	else
 		icon_state = initial(icon_state)
 
-//silver rings
+/obj/item/clothing/ring/signet/silver
+	name = "silver signet ring"
+	icon_state = "signet_silver"
+	desc = "A ring of glistening silver, bearing the Lord's symbol. Its face is cut to seal writs of ducal importance, a bead of tallow nested in the underside."
+	sellprice = 80
+	is_silver = TRUE
+	is_lesser_silver = TRUE
+
+/obj/item/clothing/ring/signet/psy
+	name = "psydonian signet ring"
+	icon_state = "psysignet"
+	desc = "A ring of blessed silver, bearing the Archbishop's symbol. Its face is cut to seal writs of religious importance, a bead of tallow nested in the underside."
+	sellprice = 90
+	is_silver = TRUE
+
+/obj/item/clothing/ring/signet/psy/get_mechanics_examine(mob/user)
+    . = ..()
+    . += span_info("Stamping a folded ACCUSATION or CONFESSION will increase the amount of MARQUES it'll reward, once sent through the HERMES.")
+    . += span_info("Packing an INDEXER into an ACCUSATION or CONFESSION before folding-and-stamping it will further amplify this financial bonus.")
+
+/obj/item/clothing/ring/signet/psy/g
+	name = "psydonian golden signet ring"
+	icon_state = "psysignet_gold"
+	desc = "A ring of opulent gold, embodying the Naledian belief in Psydon's eternity. Its face is cut to seal writs of religious importance, a bead of tallow nested in the underside."
+	is_silver = FALSE
+
+///
+
 /obj/item/clothing/ring/emeralds
 	name = "silver gemerald ring"
 	desc = "A glimmering silver ring with a polished gemerald set into it."

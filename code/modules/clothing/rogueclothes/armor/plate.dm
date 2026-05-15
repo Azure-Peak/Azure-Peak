@@ -279,7 +279,7 @@
 		desc = "Forbidden knowledge, resurrected into a weightless vessel of gilbranze-and-magicka. It crackles with raw magicka; the mind, empowered."
 	else
 		desc = "Forbidden knowledge, resurrected into a weightless vessel of gilbranze-and-magicka. It crackles with arcyne vigor; the body, emboldened."
-		
+
 /obj/item/clothing/suit/roguetown/armor/plate/fluted
 	name = "fluted half-plate"
 	desc = "An ornate steel cuirass, fitted with tassets and pauldrons for additional coverage. This lightweight deviation of 'plate armor' is favored by cuirassiers all across Psydonia, alongside fledging barons who've - up until now - waged their fiercest battles upon a chamberpot." 
@@ -292,6 +292,7 @@
 	body_parts_covered = COVERAGE_ALL_BUT_HANDFEET // Less durability than proper plate, more expensive to manufacture, and accurate to the sprite.
 	armor_class = ARMOR_CLASS_HEAVY
 
+// Heretic Graggar Plate
 /obj/item/clothing/suit/roguetown/armor/plate/fluted/graggar
 	name = "vicious half-plate"
 	desc = "A fluted vessel of Graggar's hatred, stirring with the same violence that drives our world. Such an inner motive leaves the steel unchained from flesh - enslaved, no more!"
@@ -299,10 +300,34 @@
 	max_integrity = ARMOR_INT_CHEST_PLATE_STEEL // We are probably one of the best medium armor sets. At higher integ than most(heavy armor levels, pretty much. But worse resistances, we get the bonus over the other sets of being medium and being unequippable.)
 	icon_state = "graggarplate"
 	armor = ARMOR_PLATE
+	smeltresult = /obj/item/ingot/component/graggar
+	unenchantable = TRUE
 
 /obj/item/clothing/suit/roguetown/armor/plate/fluted/graggar/Initialize()
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_HORDE, "ARMOR", "RENDERED ASUNDER")
+
+// Heretic Graggar Full Plate
+/obj/item/clothing/suit/roguetown/armor/plate/full/graggar
+	name = "vicious full-plate"
+	desc = "Shorn together plate, curated from hand-crafted bones and ligaments - combined under an unholy spirit of violence. It drools with the distilled essence of worldlux; the afterbirth of ascensionism."
+	icon_state = "graggarplate_heavy"
+	max_integrity = ARMOR_INT_CHEST_PLATE_ANTAG
+	chunkcolor = "#363030"
+	material_category = ARMOR_MAT_PLATE
+	smeltresult = /obj/item/ingot/component/graggar
+	unenchantable = TRUE
+
+/obj/item/clothing/suit/roguetown/armor/plate/full/graggar/Initialize()
+	. = ..()
+	ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)
+	AddComponent(/datum/component/cursed_item, TRAIT_HORDE, "ARMOR", "RENDERED ASUNDER")
+
+/obj/item/clothing/suit/roguetown/armor/plate/full/graggar/dropped(mob/living/carbon/human/user)
+	. = ..()
+	if(QDELETED(src))
+		return
+	qdel(src)
 
 /obj/item/clothing/suit/roguetown/armor/plate/fluted/ornate
 	name = "psydonic half-plate"
@@ -424,11 +449,14 @@
 	desc = "A relic that is said to have survived the Grenzelhoft-Otavan war, refurbished and repurposed to slay the arch-enemy in the name of Psydon. <br> A fluted cuirass that has been reinforced with thick padding and an additional shoulder piece. You will endure."
 	icon_state = "ordinatorplate"	
 
+// Heretic Matthios Full Plate
 /obj/item/clothing/suit/roguetown/armor/plate/full/matthios
-	name = "gilded fullplate"
+	name = "gilded full-plate"
 	desc = "Often, you have heard that told,"
 	icon_state = "matthiosarmor"
 	max_integrity = ARMOR_INT_CHEST_PLATE_ANTAG
+	smeltresult = /obj/item/ingot/component/matthios
+	unenchantable = TRUE
 
 /obj/item/clothing/suit/roguetown/armor/plate/full/matthios/Initialize()
 	. = ..()
@@ -440,13 +468,34 @@
 		return
 	qdel(src)
 
+// Heretic Zizo Plate
+/obj/item/clothing/suit/roguetown/armor/plate/fluted/zizo
+	name = "avantyne half-plate"
+	desc = "Pauldrons lyke that of fire. The metal curves and curdles with insidious energies, attempting to reform into an angularities not meant for the layman's eyes to withstand."
+	armor_class = ARMOR_CLASS_MEDIUM
+	max_integrity = ARMOR_INT_CHEST_PLATE_STEEL
+	icon_state = "zizoplatechest_med"
+	armor = ARMOR_PLATE
+	smeltresult = /obj/item/ingot/component/zizo
+	unenchantable = TRUE
+
+/obj/item/clothing/suit/roguetown/armor/plate/fluted/zizo/Initialize()
+	. = ..()
+	AddComponent(/datum/component/cursed_item, TRAIT_CABAL, "ARMOR")
+
+/obj/item/clothing/suit/roguetown/armor/plate/fluted/zizo/dropped(mob/living/carbon/human/user)
+	return ..()
+
+// Heretic Zizo Full Plate
 /obj/item/clothing/suit/roguetown/armor/plate/full/zizo
-	name = "avantyne fullplate"
+	name = "avantyne full-plate"
 	desc = "Impossible angularities, molded into a form more comprehensible to the layman's eyes. It has been called forth from the edge of what should be known, in Her name."
 	icon_state = "zizoplate"
 	max_integrity = ARMOR_INT_CHEST_PLATE_ANTAG
 	chunkcolor = "#363030"
 	material_category = ARMOR_MAT_PLATE
+	smeltresult = /obj/item/ingot/component/zizo
+	unenchantable = TRUE
 
 /obj/item/clothing/suit/roguetown/armor/plate/full/zizo/Initialize()
 	. = ..()
@@ -458,6 +507,14 @@
 		return
 	qdel(src)
 
+/obj/item/clothing/suit/roguetown/armor/plate/fluted/avantyne
+	name = "avantyne-threaded maille"
+	desc = "Pauldrons lyke that of fire, crested atop a veil of otherworldly maille - impossibly tough, warm to the touch, and crackling with insidious energies."
+	armor_class = ARMOR_CLASS_MEDIUM
+	max_integrity = ARMOR_INT_CHEST_PLATE_STEEL
+	icon_state = "zizoplatechest_med"
+	armor = ARMOR_PLATE_BSTEEL
+	smeltresult = /obj/item/ingot/avantyne //Made from 'inert avantyne wafers', meaning that anyone can feasibly wear it.
 
 /obj/item/clothing/suit/roguetown/armor/plate/full/bikini
 	name = "full-plate corset"
@@ -495,7 +552,6 @@
 	body_parts_covered = COVERAGE_ALL_BUT_HANDFEET
 	icon_state = "heartfelt_hand"
 	item_state = "heartfelt_hand"
-
 
 /obj/item/clothing/suit/roguetown/armor/plate/otavan
 	name = "otavan half-plate"

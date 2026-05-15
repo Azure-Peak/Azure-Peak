@@ -351,7 +351,7 @@
 	action_icon = 'icons/mob/actions/pestraspells.dmi'
 	overlay_state = "infestation0"
 	releasedrain = 50
-	chargetime = 10
+	chargetime = 1 SECONDS
 	recharge_time = 20 SECONDS
 	range = 8
 	warnie = "spellwarning"
@@ -402,6 +402,8 @@
 		M.visible_message(span_warning("[M] is surrounded by a cloud of pestilent vermin!"), span_notice("You surround [M] in a cloud of pestilent vermin!"))
 		M.apply_status_effect(/datum/status_effect/buff/infestation/) //apply debuff
 		SEND_SIGNAL(src, COMSIG_INFESTATION_CHARGE_ADD, 10)
+		if(!M.mind)
+			M.visible_message(span_necrosis("The infestation contaminates [M] with a rapidly spreading disease."))
 		return TRUE
 	if(SSchimeric_tech.get_node_status("INFESTATION_ROT_SNACKS") && istype(target, /obj/item/reagent_containers/food/snacks))
 		var/obj/item/reagent_containers/food/snacks/snack = target
@@ -434,7 +436,7 @@
 		if(rotted_count <= 1)
 			snack.visible_message(span_warning("[snack] is swarmed by vermin and rapidly rots!"))
 		else
-			snack.visible_message(span_warning("some food is swarmed by vermin and rapidly rots!"))
+			snack.visible_message(span_warning("Some food is swarmed by vermin and rapidly rots!"))
 		SEND_SIGNAL(src, COMSIG_INFESTATION_CHARGE_ADD, total_charge)
 		return TRUE
 	revert_cast()
@@ -446,26 +448,82 @@
 	duration = 10 SECONDS
 	effectedstats = list(STATKEY_CON = -2)
 	var/static/mutable_appearance/rotten = mutable_appearance('icons/roguetown/mob/rotten.dmi', "rotten")
+	var/extended_duration = FALSE
+	var/next_spread = 0 // see I learned my lesson! :>
+	var/death_burst_done = FALSE
 
 /datum/status_effect/buff/infestation/on_apply()
 	. = ..()
 	var/mob/living/target = owner
+	if(owner.stat == DEAD) // infinite corpse miasma explosions are cool but not the scope here, soz!
+		qdel(src)
 	to_chat(owner, span_danger("I am suddenly surrounded by a cloud of bugs!"))
 	target.Jitter(20)
 	target.add_overlay(rotten)
 	target.update_vision_cone()
+	if(!target.mind)
+		target.change_stat(STATKEY_SPD, -5) // rot take them
+	next_spread = world.time + 5 SECONDS
 
 /datum/status_effect/buff/infestation/on_remove()
 	var/mob/living/target = owner
+	if(owner.stat == DEAD)
+		return
 	target.cut_overlay(rotten)
 	target.update_vision_cone()
+	if(!target.mind)
+		target.change_stat(STATKEY_SPD, 5) // rot take them
 	. = ..()
 
 /datum/status_effect/buff/infestation/tick()
 	var/mob/living/target = owner
-	var/mob/living/carbon/M = target
-	target.adjustToxLoss(2)
-	target.adjustBruteLoss(1)
+	var/mob/living/carbon/C = target
+	if(!extended_duration && !target.mind) // 30 seconds on npc so we don't need to worry too much about upkeep and can focus on healing friends
+		duration += 20 SECONDS
+		extended_duration = TRUE		
+	if(!target.mind) // technically speaking we're just turning the brain rot into actual body rot, rotception
+		target.adjustToxLoss(3)
+		target.adjustBruteLoss(1)
+		target.adjustOxyLoss(2)
+		if(!target.getToxLoss())
+			target.adjustBruteLoss(3)
+		if(!target.getOxyLoss())
+			target.adjustBruteLoss(2)
+
+		if(world.time >= next_spread && !(HAS_TRAIT(target,TRAIT_NOBREATH)))
+			next_spread = world.time + 5 SECONDS
+			
+			if(prob(15)) // I don't want this to be guaranteed or else it'll make pve boring
+				target.emote(pick("gag","cough","breathgasp"))
+				var/turf/open/T = get_turf(target)
+				if(istype(T))
+					T.pollute_turf(/datum/pollutant/rot, 5)
+
+				for(var/mob/living/carbon/M in range(2, target))
+					if(M == target || M.has_status_effect(/datum/status_effect/buff/infestation) || M.mind)
+						continue
+					if(!HAS_TRAIT(target,TRAIT_NOBREATH) && !target.mind)
+						M.visible_message(span_necrosis("[M] is engulfed by a cloud of pestilence!"), span_danger("The infestation spreads to me!"))
+						M.apply_status_effect(/datum/status_effect/buff/infestation)
+
+		if(target.stat == DEAD && !death_burst_done)
+			death_burst_done = TRUE
+			target.visible_message(span_userdanger("[target]'s corpse ruptures into a horrific cloud of rotting miasma!"))
+			var/turf/open/DT = get_turf(target)
+			if(istype(DT))
+				DT.pollute_turf(/datum/pollutant/rot, 15)
+
+			for(var/mob/living/carbon/M in range(5, target))
+				if(M == target)
+					continue
+				if(M.has_status_effect(/datum/status_effect/buff/infestation))
+					continue
+				if(!HAS_TRAIT(M,TRAIT_NOBREATH) && !M.mind)
+					M.visible_message(span_necrosis("[target] is contaminated by [M]!"), span_danger("The plague-ridden miasma descends upon me!"))
+					M.apply_status_effect(/datum/status_effect/buff/infestation)
+	else // i mean at least we got pestilent blade or something idk
+		target.adjustToxLoss(2)
+		target.adjustBruteLoss(1)
 	var/prompt = pick(1,2,3)
 	var/message = pick(
 		"Ticks on my skin start to engorge with blood!",
@@ -485,8 +543,8 @@
 		"Lice suck my blood!",
 		"Crickets chirp in my ears!",
 		"Earwigs crawl into my ears!")
-	if(prompt == 1 && iscarbon(M))
-		M.add_nausea(pick(10,20))
+	if(prompt == 1 && iscarbon(C))
+		C.add_nausea(pick(10,20))
 		to_chat(target, span_warning(message))
 
 /atom/movable/screen/alert/status_effect/buff/infestation

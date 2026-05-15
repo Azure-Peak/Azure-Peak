@@ -24,7 +24,6 @@
 	body_parts_covered = COVERAGE_ALL_BUT_HANDFEET
 	armor = ARMOR_LEATHER
 	blocksound = SOFTHIT
-	blade_dulling = DULLING_BASHCHOP
 	sewrepair = TRUE
 	nodismemsleeves = TRUE
 	sellprice = 20
