@@ -30,7 +30,7 @@
 	primary_resource_cost = 25
 	secondary_resource_cost = 25
 	charge_required = FALSE
-	cooldown_time = 30 SECONDS
+	cooldown_time = 15 SECONDS
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_SAME_Z
 	var/duration = 30 MINUTES
 
@@ -88,7 +88,7 @@
 	primary_resource_cost = 20
 	secondary_resource_cost = 20
 	charge_required = FALSE
-	cooldown_time = 30 SECONDS
+	cooldown_time = 15 SECONDS
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_SAME_Z
 
 /datum/action/cooldown/spell/dendor/blesscrop/cast(atom/cast_on)
@@ -878,79 +878,387 @@
 			to_chat(usr, "With Dendor's aide, you soothe [animal] of their anger.")
 	return tamed
 
-//////////////////////////////
-// T3 - Fungal Illumination //
-//////////////////////////////
+//////////////////////////////////
+// T3 - Verdant Manifestation   //
+//////////////////////////////////
 
-/obj/effect/proc_holder/spell/targeted/conjure_glowshroom
-	name = "Fungal Illumination"
-	desc = "Summons glowing mushrooms that shock people that try moving into them. Dendorites are immune."
-	range = 1
-	action_icon = 'icons/mob/actions/dendormiracles.dmi'
-	overlay_icon = 'icons/mob/actions/dendormiracles.dmi'
-	overlay_state = "blesscrop"
-	releasedrain = 30
-	recharge_time = 30 SECONDS
-	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
-	max_targets = 0
-	cast_without_targets = TRUE
-	sound = 'sound/items/dig_shovel.ogg'
-	associated_skill = /datum/skill/magic/holy
-	invocations = list("Treefather light the way.")
-	invocation_type = "whisper" //can be none, whisper, emote and shout
-	devotion_cost = 30
+/datum/action/cooldown/spell/dendor/verdant_manifestation
+	name = "Verdant Manifestation"
+	desc = "Shape the wilds into being, calling forth trees, fungi, thorns, and creeping growth; or guide seeds across fertile land, raising soil and life as long as your devotion lasts."
+	fluff_desc = "Where the Treefather's will falls, barren earth remembers. Soil rises where none stood, seeds take root at His command, and root, thorn, bark, fungus, and bloom answer as though the wild itself had chosen to awaken."
+	button_icon_state = "blesscrop"
+	charge_required = TRUE
+	charge_time = 1 SECONDS
+	cooldown_time = 10 SECONDS
+	primary_resource_cost = 40
+	secondary_resource_cost = 100
+	var/devotion_per_tile = 10 // for seed spreading
 
-/obj/effect/proc_holder/spell/targeted/conjure_glowshroom/cast(list/targets, mob/user = usr)
-	..()
-	to_chat(user, span_notice("I begin enriching the soil around me!"))
-	if(!do_after(user, 0.5 SECONDS, progress = TRUE))
-		revert_cast()
+/datum/status_effect/debuff/dendor_growing
+	id = "dendor_growing"
+	duration = 30 SECONDS
+
+/datum/action/cooldown/spell/dendor/verdant_manifestation/is_valid_target(atom/cast_on)
+	return TRUE
+
+/proc/is_valid_dendor_growth_turf(turf/T)
+	if(!T)
 		return FALSE
 
-	var/turf/T = user.loc
-	for(var/X in GLOB.cardinals)
-		var/turf/TT = get_step(T, X)
-		if(!isclosedturf(TT) && !locate(/obj/structure/glowshroom) in TT)
-			new /obj/structure/glowshroom(TT)
-	return TRUE
+	if(istype(T, /turf/open/floor/rogue/dirt))
+		return TRUE
 
+	return FALSE
 
-//////////////////////
-// T3 - Vine Sprout //
-//////////////////////
+/datum/action/cooldown/spell/dendor/verdant_manifestation/proc/get_available_seed_packet(mob/living/carbon/human/caster)
+	for(var/obj/item/seeds/S in caster.held_items)
+		if(S)
+			return S
 
-/obj/effect/proc_holder/spell/targeted/conjure_vines
-	name = "Vine Sprout"
-	desc = "Summon vines nearby."
-	action_icon = 'icons/mob/actions/dendormiracles.dmi'
-	overlay_icon = 'icons/mob/actions/dendormiracles.dmi'
-	overlay_state = "blesscrop"
-	releasedrain = 30
-	invocations = list("Treefather, bring forth vines.")
-	invocation_type = "shout"
-	devotion_cost = 30
-	range = 1
-	recharge_time = 30 SECONDS
-	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
-	max_targets = 0
-	cast_without_targets = TRUE
-	sound = 'sound/items/dig_shovel.ogg'
-	associated_skill = /datum/skill/magic/holy
-	miracle = TRUE
+	for(var/obj/item/seeds/S in range(1, caster))
+		if(S.loc && (isturf(S.loc) || S.loc == caster))
+			return S
 
-/obj/effect/proc_holder/spell/targeted/conjure_vines/cast(list/targets, mob/user = usr)
+	return null
+	
+/datum/action/cooldown/spell/dendor/verdant_manifestation/proc/propagate_seeds(mob/living/carbon/human/caster, turf/start)
+	if(!caster || !start)
+		return
+
+	var/list/frontier = list(start)
+	var/list/visited = list(start)
+	var/planted_any = FALSE
+
+	to_chat(caster, span_notice("DEBUG: Starting propagation at [start.x],[start.y],[start.z]"))
+
+	while(frontier.len)
+		if(QDELETED(caster))
+			to_chat(caster, span_warning("DEBUG: Caster deleted, stopping propagation."))
+			break
+
+		to_chat(caster, span_notice("DEBUG: Frontier size = [frontier.len]"))
+
+		var/turf/current_turf = frontier[1]
+		frontier.Cut(1, 2)
+
+		if(!current_turf)
+			to_chat(caster, span_warning("DEBUG: Current turf was null."))
+			continue
+
+		to_chat(caster, span_notice("DEBUG: Processing turf [current_turf.x],[current_turf.y],[current_turf.z]"))
+
+		if(!is_valid_dendor_growth_turf(current_turf))
+			to_chat(caster, span_warning("DEBUG: Turf invalid for growth."))
+			continue
+
+		if(isclosedturf(current_turf))
+			to_chat(caster, span_warning("DEBUG: Turf is closed."))
+			continue
+
+		var/obj/item/seeds/seed_packet = get_available_seed_packet(caster)
+
+		if(!seed_packet)
+			to_chat(caster, span_warning("DEBUG: No seeds found."))
+			break
+
+		var/old_cost = src.devotion_cost
+		src.devotion_cost = devotion_per_tile
+
+		if(!caster.devotion?.check_devotion(src))
+			src.devotion_cost = old_cost
+			to_chat(caster, span_warning("DEBUG: Failed devotion check."))
+			break
+
+		src.devotion_cost = old_cost
+
+		var/obj/structure/soil/S = locate(/obj/structure/soil) in current_turf
+
+		if(!S)
+			to_chat(caster, span_notice("DEBUG: No soil found, creating new soil."))
+			S = new /obj/structure/soil(current_turf)
+		else
+			to_chat(caster, span_notice("DEBUG: Existing soil found."))
+
+		if(S.plant)
+			to_chat(caster, span_warning("DEBUG: Soil already has a plant."))
+			continue
+
+		seed_packet.try_plant_seed(caster, S)
+
+		if(!S.plant)
+			to_chat(caster, span_warning("DEBUG: try_plant_seed ran but no plant was created."))
+			continue
+
+		to_chat(caster, span_notice("DEBUG: Successfully planted at [current_turf.x],[current_turf.y],[current_turf.z]"))
+
+		caster.devotion.update_devotion(-devotion_per_tile)
+		planted_any = TRUE
+
+		new /obj/effect/temp_visual/dendor_bless(current_turf)
+
+		caster.visible_message(
+			span_green("[caster] gestures, and new life erupts from the earth."),
+			span_green("I guide life through the soil.")
+		)
+
+		playsound(current_turf, sound, 100, FALSE)
+
+		to_chat(caster, span_notice("DEBUG: Checking adjacent cardinal tiles..."))
+
+		for(var/dir in GLOB.cardinals)
+			var/turf/T = get_step(current_turf, dir)
+
+			if(!T)
+				to_chat(caster, span_warning("DEBUG: Direction [dir] -> null turf"))
+				continue
+
+			to_chat(caster, span_notice("DEBUG: Checking [T.x],[T.y],[T.z]"))
+
+			if(T in visited)
+				to_chat(caster, span_warning("DEBUG: Already visited."))
+				continue
+
+			if(!is_valid_dendor_growth_turf(T))
+				to_chat(caster, span_warning("DEBUG: Invalid growth turf. Type: [T.type]"))
+				continue
+
+			if(isclosedturf(T))
+				to_chat(caster, span_warning("DEBUG: Turf is closed."))
+				continue
+
+			var/obj/structure/soil/TS = locate(/obj/structure/soil) in T
+
+			if(TS)
+				to_chat(caster, span_notice("DEBUG: Found soil on adjacent tile."))
+
+			if(TS && TS.plant)
+				to_chat(caster, span_warning("DEBUG: Adjacent soil already has plant."))
+				continue
+
+			to_chat(caster, span_green("DEBUG: Added [T.x],[T.y],[T.z] to frontier."))
+
+			frontier += T
+			visited += T
+
+		to_chat(caster, span_notice("DEBUG: Sleeping before next growth pulse."))
+		sleep(5)
+
+	if(planted_any)
+		to_chat(caster, span_green("The land flourishes under your command."))
+	else
+		to_chat(caster, span_warning("No life answered your call."))
+
+	to_chat(caster, span_notice("DEBUG: Propagation finished."))
+
+	caster.remove_status_effect(/datum/status_effect/debuff/dendor_growing)
+
+/datum/action/cooldown/spell/dendor/verdant_manifestation/cast(atom/cast_on)
 	. = ..()
-	var/turf/target_turf = get_step(user, user.dir)
-	var/turf/target_turf_two = get_step(target_turf, turn(user.dir, 90))
-	var/turf/target_turf_three = get_step(target_turf, turn(user.dir, -90))
-	if(!locate(/obj/structure/vine) in target_turf)
-		new /obj/structure/vine/dendor(target_turf)
-	if(!locate(/obj/structure/vine) in target_turf_two)
-		new /obj/structure/vine/dendor(target_turf_two)
-	if(!locate(/obj/structure/vine) in target_turf_three)
-		new /obj/structure/vine/dendor(target_turf_three)
+	var/mob/living/carbon/human/caster = owner
+	if(!caster)
+		return FALSE
+	var/turf/origin = get_turf(caster)
+	var/turf/start = get_turf(cast_on) || origin
+
+	if(!start)
+		reset_spell_cooldown()
+		return FALSE
+
+	var/obj/item/seeds/seed_packet = get_available_seed_packet(caster)
+
+	if(seed_packet)
+		if(caster.has_status_effect(/datum/status_effect/debuff/dendor_growing))
+			to_chat(caster, span_warning("The roots are already spreading."))
+			reset_spell_cooldown()
+			return FALSE
+
+		if(!is_valid_dendor_growth_turf(start))
+			to_chat(caster, span_warning("Life cannot take root there."))
+			reset_spell_cooldown()
+			return FALSE
+
+		if(isclosedturf(start))
+			to_chat(caster, span_warning("Something blocks the soil."))
+			reset_spell_cooldown()
+			return FALSE
+
+		caster.apply_status_effect(/datum/status_effect/debuff/dendor_growing, 30 SECONDS)
+
+		to_chat(caster, span_green("You awaken dormant life beneath the earth."))
+
+		INVOKE_ASYNC(src, PROC_REF(propagate_seeds), caster, start)
+
+		return TRUE
+
+	var/list/allowed_flora = list(
+		"bedraggled tree",
+		"sacred tree",
+		"thorn bush",
+		"mushroom cluster",
+		"corpse fungus",
+		"marrow-cap",
+		"canker stool",
+		"grieving angel",
+		"bunch of swampweed",
+		"westleach bush",
+		"reeds",
+		"screaming tree",
+		"great bush",
+		"pine tree",
+		"ancient log"
+	)
+
+	var/list/options = list(
+		"Glowshrooms",
+		"Vines",
+		"Evil Tree"
+	)
+
+	for(var/typepath in subtypesof(/obj/structure/flora))
+		if(typepath == /obj/structure/flora)
+			continue
+
+		if(typepath == /obj/structure/flora/roguetree/evil)
+			continue
+
+		var/obj/structure/flora/F = typepath
+		var/flora_name = lowertext(initial(F.name))
+
+		if(!(flora_name in allowed_flora))
+			continue
+
+		options += initial(F.name)
+
+	var/choice = tgui_input_list(
+		caster,
+		"Choose what to grow.",
+		"Verdant Manifestation",
+		options
+	)
+
+	if(!choice)
+		reset_spell_cooldown()
+		return FALSE
+
+	var/turf/target = get_turf(cast_on)
+
+	if(!target)
+		reset_spell_cooldown()
+		return FALSE
+
+	if(!is_valid_dendor_growth_turf(target))
+		to_chat(caster, span_warning("Life cannot take root there."))
+		reset_spell_cooldown()
+		return FALSE
+
+	if(isclosedturf(target))
+		to_chat(caster, span_warning("Something blocks the soil."))
+		reset_spell_cooldown()
+		return FALSE
+
+	if(choice == "Evil Tree")
+		if(locate(/obj/structure/flora/roguetree/evil) in target)
+			reset_spell_cooldown()
+			return FALSE
+
+		new /obj/structure/flora/roguetree/evil(target)
+		caster.visible_message(span_green("[caster] calls wicked roots from the earth!"))
+		playsound(origin, sound, 100, FALSE)
+		new /obj/effect/temp_visual/dendor_bless(target)
+		return TRUE
+
+	if(choice == "Glowshrooms")
+		var/spawned = FALSE
+
+		for(var/dir in GLOB.cardinals)
+			var/turf/T = get_step(origin, dir)
+
+			if(!T)
+				continue
+			if(!is_valid_dendor_growth_turf(T))
+				continue
+			if(isclosedturf(T))
+				continue
+			if(locate(/obj/structure/glowshroom) in T)
+				continue
+
+			new /obj/structure/glowshroom(T)
+			spawned = TRUE
+
+		if(!spawned)
+			reset_spell_cooldown()
+			return FALSE
+
+		caster.visible_message(span_green("[caster] calls luminous fungi from the earth!"))
+		playsound(origin, sound, 100, FALSE)
+		return TRUE
+
+	if(choice == "Vines")
+		var/turf/front = get_step(caster, caster.dir)
+
+		if(!front || !is_valid_dendor_growth_turf(front))
+			to_chat(caster, span_warning("The vines refuse this ground."))
+			reset_spell_cooldown()
+			return FALSE
+
+		var/list/spawn_tiles = list(
+			front,
+			get_step(front, turn(caster.dir, 90)),
+			get_step(front, turn(caster.dir, -90))
+		)
+
+		var/spawned = FALSE
+
+		for(var/turf/T in spawn_tiles)
+			if(!T)
+				continue
+			if(!is_valid_dendor_growth_turf(T))
+				continue
+			if(isclosedturf(T))
+				continue
+			if(locate(/obj/structure/vine) in T)
+				continue
+
+			new /obj/structure/vine/dendor(T)
+			spawned = TRUE
+
+		if(!spawned)
+			reset_spell_cooldown()
+			return FALSE
+
+		caster.visible_message(span_green("[caster] calls grasping vines from the soil!"))
+		playsound(origin, sound, 100, FALSE)
+		return TRUE
+
+	var/type_to_spawn = null
+
+	for(var/typepath in subtypesof(/obj/structure/flora))
+		if(typepath == /obj/structure/flora)
+			continue
+
+		var/obj/structure/flora/F = typepath
+
+		if(initial(F.name) == choice)
+			type_to_spawn = typepath
+			break
+
+	if(!type_to_spawn)
+		reset_spell_cooldown()
+		return FALSE
+
+	if(locate(type_to_spawn) in target)
+		to_chat(caster, span_warning("That already grows there."))
+		reset_spell_cooldown()
+		return FALSE
+
+	new type_to_spawn(target)
+
+	caster.visible_message(span_green("[caster] calls new life from the earth!"))
+	playsound(origin, sound, 100, FALSE)
+	new /obj/effect/temp_visual/dendor_bless(target)
 
 	return TRUE
+
 
 ///////////////////////////
 // T4 - Call of the Moon //

@@ -196,7 +196,7 @@
 	/// Timer ID for the auto cancel, so we can cancel it
 	var/auto_cancel_timer = null
 	
-	/// A parent variable to store devotion cost. -- Kuan's Note: This is kinda needed if we want to shift Miracles from proc_holder to spell/cooldown
+	/// A parent variable to store devotion cost for on-cast use with the old system. IMPORTANT: Do NOT use this if your spell only uses devotion on cast. For that, use primary_resource_type = SPELL_COST_DEVOTION!
 	var/devotion_cost = null
 
 /datum/action/cooldown/spell/New(Target)
