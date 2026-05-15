@@ -18,7 +18,7 @@
 	invocations = list("Reficio")
 	invocation_type = INVOCATION_SHOUT
 
-	cooldown_time = 20 SECONDS
+	cooldown_time = 15 SECONDS
 
 	associated_skill = /datum/skill/magic/arcane
 	spell_tier = 1
@@ -28,7 +28,7 @@
 
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
 
-	var/repair_percent = 0.35
+	var/repair_percent = 0.25
 	var/int_bonus = 0.00
 
 /datum/action/cooldown/spell/mending/is_valid_target(atom/cast_on)
