@@ -15,7 +15,6 @@
 	var/msg = input(src, "Send a message", "COMMAND")
 	if(!msg)
 		return
-	if(stat > CONSCIOUS)
 
 	if(src.bloodpool > 50)
 		src.adjust_bloodpool(-50)
@@ -28,7 +27,7 @@
 
 	var/message = span_narsie("<B>A message from <span style='color:#[voice_color]'>[real_name]</span>: [msg]</B>")
 
-	log_game("VAMPIRE TELEPATHY: [real_name(src)] [ckey_name(src)] used vampiric telepathy to say: [msg]")
+	log_game("VAMPIRE TELEPATHY: [(src).real_name] [(src).ckey] used vampiric telepathy to say: [msg]")
 	playsound(get_turf(src), 'sound/misc/vampirespell.ogg', 40, FALSE, pressure_affected = FALSE) //Little ping when doing it.
 	to_chat(clan?.clan_members, message)
 
