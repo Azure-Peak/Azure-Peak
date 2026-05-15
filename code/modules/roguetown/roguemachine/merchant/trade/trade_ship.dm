@@ -125,7 +125,11 @@
 		var/datum/supply_pack/PA = SSmerchant.supply_packs[pack_path]
 		if(!PA)
 			continue
-		var/qty = rand(PA.ship_qty_min, PA.ship_qty_max)
+		var/key = "[pack_path]"
+		var/list/override = realm.cultural_overrides[key]
+		var/qty_mult = override ? override["qty_mult"] : 1.0
+		var/price_mult = override ? override["price_mult"] : 1.0
+		var/qty = round(rand(PA.ship_qty_min, PA.ship_qty_max) * qty_mult)
 		if(qty <= 0)
 			continue
 		cultural_stock += list(list(
@@ -133,7 +137,7 @@
 			"name" = PA.name,
 			"qty" = qty,
 			"pack_qty" = PA.no_name_quantity ? 1 : PA.contains.len,
-			"base_cost" = PA.cost,
+			"base_cost" = round(PA.cost * price_mult),
 		))
 
 /datum/trade_ship/Destroy()

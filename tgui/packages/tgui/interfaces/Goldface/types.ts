@@ -33,6 +33,11 @@ export type CulturalStockEntry = {
   ship_name: string;
 };
 
+export type MarketCondition = {
+  name: string;
+  description: string;
+};
+
 export type HarborRealm = {
   id: string;
   name: string;
@@ -42,7 +47,7 @@ export type HarborRealm = {
   rare_buys: string[];
   basic_sells: string[];
   rare_sells: string[];
-  market_conditions?: string[];
+  market_conditions?: MarketCondition[];
 };
 
 export type HarborData = {

@@ -366,7 +366,13 @@
 			"rare_sells" = pool_good_names(R.bulk_supply_pool, FALSE),
 		)
 		if(discovered)
-			rrow["market_conditions"] = list()
+			var/list/condition_entries = list()
+			for(var/datum/realm_condition/C as anything in SSmerchant_trade.active_conditions_for(R.id))
+				condition_entries += list(list(
+					"name" = C.name,
+					"description" = C.description,
+				))
+			rrow["market_conditions"] = condition_entries
 		realms += list(rrow)
 	return list(
 		"ships_docked" = docked,

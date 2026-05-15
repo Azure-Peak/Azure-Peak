@@ -4,8 +4,8 @@
 	auto_discovered = FALSE
 	roll_weight = TRADE_REALM_WEIGHT_RARE
 	ship_name_words = list(
-		"Zarvlor", "Vyrn", "Drak", "Aurum", "Tithe",
-		"Hoard", "Mammon", "Sissean", "Coil", "Scale",
+		"Zarvlor", "Drak", "Aurum", "Mammon", "Debt",
+		"Hoard", "Indenture", "Sissean", "Coil", "Scale",
 		"Ring", "Vault", "Talon", "Wyrm", "Avarice",
 	)
 	captain_first_names = list(
@@ -14,13 +14,13 @@
 		"Zessira", "Hsalka", "Rikzira", "Solzra", "Kazinna",
 	)
 	captain_last_names = list(
-		"Goldscale", "Hoardkeeper", "Tithebound", "Coilmaster", "Ringclimber",
-		"Vyrn-Heir", "Mammonborn", "Scriphandler", "of the Inner Ring", "of Zarvlor",
+		"Goldscale", "Hoardkeeper", "Debtholder", "Coilmaster", "Ringclimber",
+		"of-Zarvlor's Ring", "Mammonborn", "Scriphandler", "of the Topmost Ring", "Drake-Sworn",
 	)
 	ship_types = list(
 		list("name" = "Tithebearer Cog", "tonnage" = 100, "weight" = 35),
 		list("name" = "Goldscale Hulk", "tonnage" = 220, "weight" = 35),
-		list("name" = "Vyrn Carrack", "tonnage" = 450, "weight" = 25),
+		list("name" = "Drake Carrack", "tonnage" = 450, "weight" = 25),
 		list("name" = "Hoardship", "tonnage" = 700, "weight" = 5),
 	)
 	city_tags = list()
@@ -83,11 +83,11 @@
 	hail_lines = list(
 		"By the Hoard and the Tithe, Factor, you have kept a faithful ledger. The scales remember.",
 		"My grain is short. My gems are not. The Inner Ring sends its compliments and its hunger.",
-		"Mammon weighs every transaction, friend. Give honest measure - or do not, and learn the cost in a quieter season.",
-		"The Vyrn drinks deep of gold these days. We bring scales, gems, and a thirst that has never known bottom. Trade.",
+		"Mammon weighs every transaction, friend, and Zarvlor remembers what Mammon weighs. Give honest measure - or do not, and learn the cost in a quieter season.",
+		"The drakes drink deep of gold these days. We bring scales, gems, and a thirst that has never known bottom. Trade.",
 		"I am Tithebound. My captain's purse is not mine; it is the Hoard's. Speak prices accordingly.",
 		"A coin dropped in Lirvas takes seven years to settle. Yours, here, will be counted in heartbeats. Try to keep up.",
-		"The figurehead of my ship is gold-leafed over an older carving. The crew swears the under-carving smiles when the lamps go out. I have stopped asking what it smiles at.",
+		"The figurehead of my ship is gold leafed over an older carving. The crew swears the under carving smiles when the lamps go out. I have stopped asking what it smiles at.",
 		"You burn coin for warmth in your hearths. We do not. Sell us your grain and you will learn why.",
-		"I bear with me a Tithecaster who weighs souls in coin. They will tell you, for the price of one gold sovereign, the exact weight your sins would fetch at the Hoard's scales upon your death. They have not been wrong yet. Most of their clients do not ask twice.",
+		"A Tithecaster of the Inner Ring rides with me, weighing souls in coin as her line has done for three generations. For one gold sovereign she will tell you the weight your sins would fetch at the Hoard's scales upon your death. She has not been wrong yet. Most of her clients do not ask twice - but those who heed her have died well, and the Hoard remembers a settled debt before it remembers any other thing.",
 	)

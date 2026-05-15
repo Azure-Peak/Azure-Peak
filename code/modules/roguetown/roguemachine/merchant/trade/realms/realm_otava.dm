@@ -117,7 +117,7 @@
 		"My helmsman served three yils with the militari-du-pais before turning to honest trade. He has the patience of a saint and the temper of a saigaback lancer - test only the first.",
 		"The Inquisition has an Office outside Kingsfield, factor. I am not of their detachment, but I am known to their Magistrate. Trade fairly; word travels back to Otava as quickly as my ship does.",
 		"I sailed past the pilgrim road from Vates to the Ranesheni dunes. Three priests boarded at Verquent, three priests disembarked at Mücevkabher. None of them spoke to me. Holy folk are like that.",
-		"For three zennies, my Routier corporal will guard your shipment from gangway to warehouse - bonded by writ, blessed by Noireau. He has put down four men in my service and not stained the writ once. Sober rates apply only before sundown.",
+		"For three zennies, my Routier-corporal will guard your shipment from gangway to warehouse, bonded by writ and blessed by the Red Priests of Noireau. He is the last of his company; the rest fell in the Pais-Occitanie wars. Engage him before he takes his pension at Verquent and his sword goes to the abbey wall, where it will not see use again.",
 		"A passenger from Pais-Occitanie has been staring at the same patch of water since we sighted your cliffs. Take them ashore quickly - I will not have them die in my cabin.",
 		"A masked Confessor sailed with me from Vallouise. I asked no questions; they paid in full and disembarked at first light without a word. I record their fare as 'goods, unspecified.' I trust you will record their passage the same.",
 	)

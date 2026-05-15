@@ -102,5 +102,5 @@
 		"We are a welcoming people, factor. We will share bread and tea with anyone who asks honestly. But know that we do not share court with those who came here to convert us. Trade openly, drink openly, pray quietly.",
 		"A wandering Vizier-scholar rides with me, bound for your Avisa boards to study how foreign justice is recorded. She pays in knowledge, not coin. Direct her kindly when she asks, and she will write your magistrate's name well in her journals.",
 		"My grandmother saw the Otavan expedition return from the Dunes with the Pope's confession hanging from their saddles. She lived to a hundred and seven and never trusted a priest of the Ten again. I follow her in this.",
-		"A Vizier-scholar of Olindar rides with me, returning from the Otavan houses. For one zenny they will read a passage of the Treatise of Endurance and explain it for as long as you can endure listening. They have lectured for nine hours without rest at the Hierophant houses. Pace yourself.",
+		"A Vizier-scholar of the Olindar houses rides with me, returning from her tutoring at the Otavan abbeys. For one zenny she will read a passage of the Treatise of Endurance and explain it for as long as you will listen. She has lectured for nine hours without rest at the Hierophant houses. Pay her and you will know why the Warscholars endure where lesser men kneel.",
 	)

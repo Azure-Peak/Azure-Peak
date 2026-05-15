@@ -97,5 +97,5 @@
 		"My grandmother taught that you cannot know a person until you have spoken with them alone. So when we have finished the public price, share a cup with me below. The honest number lives there.",
 		"The Emir of Vrdaqnan sent a janissary aboard to keep the peace among my crew. He has, by dancing with two of them and drinking with the third. I will commend him in my report.",
 		"There is a dervish in the third hold who has not stopped spinning since we sighted your cape. He says Günay's blade still turns in the heavens and so must he. Pay him no mind; pay me promptly.",
-		"Aboard my ship rides a geometer of Vrdaqnan who reads palms by first light. He charges in questions, not coin - one question for one reading, no exceptions. Most who pay him leave more confused than when they boarded. He is, I'm told, very accurate.",
+		"A geometer of the Vrdaqnan houses rides at my prow, reader of palms by the first light of Astrata. He charges in questions, not coin - one question for one reading, no exceptions. He sails to teach what he has learned before the dervish houses no longer commission his work. Bring him a true question and he will not refuse you. Bring him a flattery and he will not refuse you either, but you will not like the answer.",
 	)

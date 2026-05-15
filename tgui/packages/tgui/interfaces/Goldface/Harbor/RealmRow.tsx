@@ -10,7 +10,7 @@ import {
   SEAL_RED,
   SERIF,
 } from '../../common/parchment';
-import type { HarborRealm } from '../types';
+import type { HarborRealm, MarketCondition } from '../types';
 
 const summarize = (items: string[], cap: number) => {
   if (items.length === 0) return '—';
@@ -22,18 +22,43 @@ const Unknown = () => (
   <span style={{ color: INK_FAINT, fontStyle: 'italic' }}>UNKNOWN</span>
 );
 
+const ConditionPill = (props: { name: string }) => (
+  <span
+    style={{
+      display: 'inline-block',
+      padding: '1px 7px',
+      marginRight: '4px',
+      marginBottom: '2px',
+      border: `1px solid ${SEAL_AMBER}`,
+      borderRadius: '8px',
+      color: SEAL_AMBER,
+      fontSize: '10px',
+      fontVariant: 'small-caps',
+      letterSpacing: '0.5px',
+      fontWeight: 'bold',
+      whiteSpace: 'nowrap',
+    }}
+  >
+    {props.name}
+  </span>
+);
+
 const MarketConditionsCell = (props: { realm: HarborRealm }) => {
   const { realm } = props;
   if (!realm.discovered) return <Unknown />;
   const conditions = realm.market_conditions ?? [];
   if (conditions.length === 0) {
     return (
-      <span style={{ color: INK_SOFT, fontStyle: 'italic' }}>
-        No notable conditions
-      </span>
+      <span style={{ color: INK_SOFT, fontStyle: 'italic' }}>—</span>
     );
   }
-  return <span style={{ color: INK }}>{summarize(conditions, 2)}</span>;
+  return (
+    <div style={{ textAlign: 'right' }}>
+      {conditions.map((c: MarketCondition) => (
+        <ConditionPill key={c.name} name={c.name} />
+      ))}
+    </div>
+  );
 };
 
 const TradeListBlock = (props: {
@@ -162,16 +187,16 @@ export const RealmRow = (props: { realm: HarborRealm }) => {
             labelColor={SEAL_RED}
           />
           <div style={{ marginTop: '6px' }}>
-            <span
+            <div
               style={{
                 color: SEAL_AMBER,
                 fontStyle: 'italic',
-                marginRight: '6px',
                 fontWeight: 'bold',
+                marginBottom: '4px',
               }}
             >
               Market Conditions:
-            </span>
+            </div>
             {!realm.discovered ? (
               <Unknown />
             ) : conditions.length === 0 ? (
@@ -179,7 +204,21 @@ export const RealmRow = (props: { realm: HarborRealm }) => {
                 No notable conditions reported.
               </span>
             ) : (
-              conditions.join(', ')
+              conditions.map((c: MarketCondition) => (
+                <div key={c.name} style={{ marginBottom: '6px' }}>
+                  <ConditionPill name={c.name} />
+                  <div
+                    style={{
+                      marginTop: '2px',
+                      color: INK_SOFT,
+                      fontSize: '11px',
+                      lineHeight: '1.4',
+                    }}
+                  >
+                    {c.description}
+                  </div>
+                </div>
+              ))
             )}
           </div>
         </div>

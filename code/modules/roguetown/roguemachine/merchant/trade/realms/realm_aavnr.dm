@@ -92,8 +92,8 @@
 		"The Hetman of Tomorzurkh sends his regards and his demand for lemons. The second is not optional.",
 		"My crossing was peaceful. The four crossings before were not. I would speak to your Bleakisles watch about that.",
 		"Trade quickly, friend. The steppes do not wait, and neither do the wolves on my home road.",
-		"A saiga-priest of Dalainkhair is in my hold blessing the cargo. He will not come out. He has been there three days. The cargo seems content.",
+		"A saiga priest of Dalainkhair is in my hold blessing the cargo. He will not come out. He has been there three days. The cargo seems content.",
 		"The saiga milk is for selling, not for drinking on duty. Tell your stevedores. I have already told mine.",
 		"The Potentate weighs heavy on the keel and heavier on my purse. Lighten one and the other follows.",
-		"A Hetman of the Steppe rides with me - he speaks with the saiga and the fogbeast both. I do not know if this means he understands them or they him. For two zennies he will whisper into a fogbeast's ear and the creature will perform tricks no other handler can coax. He insists this is sacred work, so do not laugh while he performs it. Even if it deserves laughter.",
+		"A saiga-binder of the Astrava-line rides with me, last of his teaching. For two zennies he will lay hands on a fogbeast and the creature will know your name without it ever being told. He sails because his sons cannot learn what he knows, and the line will end with him on this voyage or the next. Pay him while you can.",
 	)

@@ -99,7 +99,7 @@
 		"Greetings, signore. My wine is the best in Psydonia, and my crew has been told not to spit on your stones. See that you give them no reason.",
 		"My chaplain has held sermon every sunsdae since we cleared Porto del Re. Ravox watches over honest weights at this gangway - bear that in mind.",
 		"Gran Zafiro sends greetings under the seal of House Zaragoza. My hold sends lemons. Take both with the respect they are owed.",
-		"I sailed from the southern isle, signore - Montecarina-born, navy-trained, no smuggler. Should any Navarno cousin tell you otherwise upon making port, do not believe them.",
+		"I sailed from the southern isle, signore - Montecarina born, navy trained, no smuggler. Should any Navarno cousin tell you otherwise upon making port, do not believe them.",
 		"Open the chain and have a notary at the gangway. I trade in coin, not in promises - Heathen temptations have ruined cleaner pursers than yours.",
 		"Salve. I have lemons enough to drown your fevers and salt enough to bury your dead - which would you like first?",
 		"My cousin sailed this run last spring and was paid in clipped coin. I will be weighing every piece.",

@@ -5,6 +5,8 @@
 // MULTIBAR SMELTING WAS DISABLED FOR BALANCE REASONS
 // DO NOT RE-ENABLE IT UNTIL FURTHER NOTICE
 
+
+
 /obj/machinery/light/rogue/smelter
 	icon = 'icons/roguetown/misc/forge.dmi'
 	name = "stone furnace"

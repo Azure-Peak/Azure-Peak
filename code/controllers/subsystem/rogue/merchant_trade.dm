@@ -7,6 +7,7 @@ SUBSYSTEM_DEF(merchant_trade)
 	var/list/discovered_realms = list()
 	var/list/datum/trade_ship/all_ships = list()
 	var/hails_remaining = 0
+	var/list/active_conditions = list()
 
 /datum/controller/subsystem/merchant_trade/Initialize()
 	for(var/path in subtypesof(/datum/foreign_realm))
@@ -17,10 +18,56 @@ SUBSYSTEM_DEF(merchant_trade)
 		realms[R.id] = R
 		if(R.auto_discovered)
 			discovered_realms[R.id] = TRUE
+	roll_active_conditions()
 	hails_remaining = TRADE_SHIPS_HAIL_PER_DAY
 	roll_daily_pool()
 	last_processed_day = GLOB.dayspassed
 	return ..()
+
+/datum/controller/subsystem/merchant_trade/proc/roll_active_conditions()
+	for(var/realm_id in realms)
+		active_conditions[realm_id] = list()
+	var/list/single_realm_pool = list()
+	var/list/cross_realm_pool = list()
+	for(var/path in subtypesof(/datum/realm_condition))
+		var/datum/realm_condition/C = new path
+		if(!C.id || !length(C.affected_realms))
+			qdel(C)
+			continue
+		if(C.cross_realm)
+			cross_realm_pool += C
+		else
+			single_realm_pool += C
+	for(var/datum/realm_condition/C as anything in cross_realm_pool)
+		if(!prob(40))
+			qdel(C)
+			continue
+		for(var/realm_id in C.affected_realms)
+			var/datum/foreign_realm/R = realms[realm_id]
+			if(!R)
+				continue
+			C.apply_to(R)
+			active_conditions[realm_id] += C
+	for(var/realm_id in realms)
+		if(!prob(50))
+			continue
+		var/datum/foreign_realm/R = realms[realm_id]
+		if(!R)
+			continue
+		var/list/eligible = list()
+		for(var/datum/realm_condition/C as anything in single_realm_pool)
+			if(realm_id in C.affected_realms)
+				eligible[C] = max(1, C.weight)
+		if(!length(eligible))
+			continue
+		var/datum/realm_condition/picked = pickweight(eligible)
+		if(!picked)
+			continue
+		picked.apply_to(R)
+		active_conditions[realm_id] += picked
+
+/datum/controller/subsystem/merchant_trade/proc/active_conditions_for(realm_id)
+	return active_conditions[realm_id] || list()
 
 /datum/controller/subsystem/merchant_trade/proc/daily_tick()
 	if(GLOB.dayspassed <= last_processed_day)

@@ -114,6 +114,6 @@
 		"I am told a Hangyaku of the southern fiefs walks your streets, dishonored and selling his blade. If you see him, factor, do not feed him - the dishonored eat their shame, not your bread.",
 		"My silk is from the looms of Tamiro itself, not the mainland imitations. Pay the difference; you will know it on the touch.",
 		"The tariff at home does not negotiate. Yours, I trust, has more grace. Demonstrate it.",
-		"My tea-master is from Aisataiji - trained at the foothill temples. For one zenny they will perform the Calm-as-the-Asemai ceremony, three hours, full silence, and seven different leaves from the islands. They have rejected the offers of clans richer than yours. Why they sail with me, I do not ask. Pay them before they change their mind again.",
+		"My tea master is from Aisataiji - trained at the foothill temples. For one zenny they will perform the Calm-as-the-Asemai ceremony, three hours, full silence, and seven different leaves from the islands. They have rejected the offers of clans richer than yours. Why they sail with me, I do not ask. Pay them before they change their mind again.",
 		"One question, before we trade. Who is Alotheos, and why does your people keep robbing his tomb?",
 	)
