@@ -25,7 +25,7 @@
 	liked_food = NONE
 	inherent_traits = list(
 		TRAIT_IRONMAN,
-		TRAIT_NOPAIN, 
+		TRAIT_NOPAINSTUN, 
 		TRAIT_NOHUNGER,
 		TRAIT_NOBREATH, 
 		TRAIT_TOXIMMUNE, 

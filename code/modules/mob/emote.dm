@@ -2,6 +2,45 @@
 /mob/proc/emote(act, m_type = null, message = null, intentional = FALSE, forced = FALSE, targetted = FALSE, custom_me = FALSE, animal = FALSE)
 	var/oldact = act
 	act = lowertext(act)
+
+	if(HAS_TRAIT(src, TRAIT_NOBREATH))
+		var/static/list/nobreath_blocked = list(
+			"choke",
+			"cough",
+			"snore",
+			"breathgasp",
+			"drown",
+			"sneeze"
+		)
+
+		if(act in nobreath_blocked)
+			return FALSE
+
+	if(HAS_TRAIT(src, TRAIT_IRONMAN))
+		var/static/list/ironman_blocked = list(
+			"pain",
+			"painmoan",
+			"paincrit",
+			"painscream",
+			"agony",
+			"drool"
+		)
+
+		if(act in ironman_blocked)
+			return FALSE
+
+	if(HAS_TRAIT(src, TRAIT_NOPAIN))
+		var/static/list/nopain_blocked = list(
+			"pain",
+			"painmoan",
+			"paincrit",
+			"painscream",
+			"agony",
+		)
+
+		if(act in nopain_blocked)
+			return FALSE
+
 	var/param = message
 	var/custom_param = findchar(act, " ")
 //	if(custom_param)
