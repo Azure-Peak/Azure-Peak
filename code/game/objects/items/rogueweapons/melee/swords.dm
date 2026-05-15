@@ -329,38 +329,6 @@
 	force = 28
 	force_wielded = 33
 
-/obj/item/rogueweapon/sword/long/crusader
-	name = "\"Adjudicator\""
-	desc = "A blessed longsword of Ravox, held by the devout crusaders in service to the Divine Ten against the encroaching darkness. The crossguard \
-	bears motif of the Justicar, and psalms from the Pantheon's holy tome have been meticulously carved along the blade's edge. </br>'...And upon the \
-	Lands came the DIVINE. In PSYDON's absence, so came the TRUE GODS from their rest. So were THEIR gifts spread across the breadth of the world.' </br>'...It \
-	was the Justicar's hand that stayed the blade, for He objected to the execution, and demanded that Justice overcome where Vengeance reigned.'</br>Many tales \
-	surround this mythical blade - the demise of the Dark Star and the Mad Duke are often cited as to have been result of such - with little evidence to support these claims."
-	icon_state = "seemasterblade"
-	sheathe_icon = "eclipsum"
-	force = 30
-	force_wielded = 35
-	max_blade_int = 400
-	max_integrity = 500
-	equip_delay_self = 0
-	unequip_delay_self = 0//Same as avantyne sword
-	is_silver = TRUE
-
-/obj/item/rogueweapon/sword/long/crusader/Initialize()
-	. = ..()
-	AddComponent(/datum/component/cursed_item, TRAIT_UNDIVIDED, "SWORD")
-
-/obj/item/rogueweapon/sword/long/crusader/ComponentInitialize()
-	AddComponent(\
-		/datum/component/silverbless,\
-		pre_blessed = BLESSING_TENNITE,\
-		silver_type = SILVER_TENNITE,\
-		added_force = 0,\
-		added_blade_int = 0,\
-		added_int = 0,\
-		added_def = 1,\
-	)
-
 /obj/item/rogueweapon/sword/long/ravox_spirit
 	name = "\"Adjudicator\""
 	desc = "A blessed longsword of Ravox, held by the devout crusaders in service to the Divine Ten against the encroaching darkness. The crossguard bears motif of the Justicar, and psalms from the Pantheon's holy tome have been meticulously carved along the blade's edge. </br>'...And upon the Lands came the DIVINE. In PSYDON's absence, so came the TRUE GODS from their rest. So were THEIR gifts spread across the breadth of the world.' </br>'...It was the Justicar's hand that stayed the blade, for He objected to the execution, and demanded that Justice overcome where Vengeance reigned.'</br>Many tales surround this mythical blade - the demise of the Dark Star and the Mad Duke are often cited as to have been result of such - with little evidence to support these claims."

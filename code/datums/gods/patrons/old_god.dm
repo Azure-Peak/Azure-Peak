@@ -22,6 +22,9 @@
 		"WITNESS ME, PSYDON; THE SACRIFICE MADE MANIFEST!",
 	)
 
+	titles = list(
+		"God" // people call him this for. some reason. he has a name, y'all
+	)
 
 /////////////////////////////////
 // Does God Hear Your Prayer ? //

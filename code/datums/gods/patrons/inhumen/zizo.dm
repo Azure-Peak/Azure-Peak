@@ -24,6 +24,14 @@
 	)
 	storyteller = /datum/storyteller/zizo
 
+	titles = list(
+		"Dame of Progress",
+		"Lady of Progress",
+		"Lady of Secrets",
+		"Dame of Secrets",
+		"Arch Lych"
+	)
+
 /datum/patron/inhumen/zizo/post_equip(mob/living/pious)
 	. = ..()
 	if(ishuman(pious))

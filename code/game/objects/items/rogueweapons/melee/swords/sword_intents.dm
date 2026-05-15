@@ -293,7 +293,7 @@
 
 /datum/intent/sword/chop/cleave
 	name = "cleave"
-	icon_state = "intear"
+	icon_state = "incleave"
 	attack_verb = list("cleaves", "tears through")
 	chargedrain = 1.8
 	chargetime = 12

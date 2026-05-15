@@ -1432,8 +1432,8 @@
 	name = "Rune of Deca Divinity"
 	desc = "A Holy Rune of The Undivided Pantheon"
 	icon_state = "undivided_chalky"
-	var/decarites = list("Crusader's Oath")
-
+	//var/decarites = list()
+/*
 /obj/structure/ritualcircle/undivided/attack_hand(mob/living/user)
 	if(!..())
 		return
@@ -1448,85 +1448,8 @@
 		return
 	var/riteselection = input(user, "Rituals of Deca Divinity", src) as null|anything in decarites
 	switch(riteselection) // put ur rite selection here
-		if("Crusader's Oath")
-			var/onrune = view(1, loc)
-			var/list/folksonrune = list()
-			for(var/mob/living/carbon/human/persononrune in onrune)
-				if(HAS_TRAIT(persononrune, TRAIT_UNDIVIDED))
-					folksonrune += persononrune
-			var/target = input(user, "Choose a host") as null|anything in folksonrune
-			if(!target)
-				return
-			user.say("Before your greatness, I swear an oath!!")
-			if(!do_after(user, 5 SECONDS))
-				return
-			user.say("To vanquish the horrors and evils of Psydonia!!")
-			if(!do_after(user, 5 SECONDS))
-				return
-			user.say("To protect those who cannot protect themselves!!")
-			if(!do_after(user, 5 SECONDS))
-				return
-			user.say("To be your blade of justice, torch in the eternal darkness!!")
-			if(!do_after(user, 5 SECONDS))
-				return
-			icon_state = "undivided_active"
-			user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
-			undividedarmaments(target)
-			spawn(120)
-				icon_state = "undivided_chalky"
-
-/obj/structure/ritualcircle/undivided/proc/undividedarmaments(mob/living/carbon/human/target)
-	var/undivided_cockblock = target.get_skill_level(/datum/skill/magic/holy)
-	if(!HAS_TRAIT(target, TRAIT_UNDIVIDED))
-		loc.visible_message(span_cult("THE RITE REJECTS ONE WITHOUT PURE HEART!!"))
-		return FALSE
-	if(undivided_cockblock < SKILL_LEVEL_NOVICE)//You need to actually be devoted
-		loc.visible_message(span_cult("THE RITE REJECTS ONE WITHOUT PURE HEART!!"))
-		return FALSE
-	target.Stun(120)
-	to_chat(target, span_userdanger("UNIMAGINABLE PAIN!"))
-	target.emote("Agony")
-	playsound(loc, 'sound/magic/undivided_bless.ogg', 70)
-	loc.visible_message(span_good("[target]'s form becomes entombed in Malum's finest craftsmanship."))
-	spawn(20)
-		target.apply_status_effect(/datum/status_effect/buff/guidinglight/undivided)
-		playsound(target, 'sound/magic/undivided_revenge.ogg', 90, FALSE, -1)
-		target.equipOutfit(/datum/outfit/job/roguetown/decarite)
-		tag_kit_items(target, list(
-			"head" = target.get_item_by_slot(SLOT_HEAD),
-			"cloak" = target.get_item_by_slot(SLOT_CLOAK),
-			"armor" = target.get_item_by_slot(SLOT_ARMOR),
-			"gloves" = target.get_item_by_slot(SLOT_GLOVES),
-			"belt" = target.get_item_by_slot(SLOT_BELT),
-			"beltl" = target.get_item_by_slot(SLOT_BELT_L),
-			"pants" = target.get_item_by_slot(SLOT_PANTS),
-			"shoes" = target.get_item_by_slot(SLOT_SHOES),
-			"backl" = target.get_item_by_slot(SLOT_BACK_L),
-			"backr" = target.get_item_by_slot(SLOT_BACK_R),
-		), list("head", "cloak", "armor", "gloves", "belt", "beltl", "pants", "shoes", "backl", "backr"))
-		to_chat(target, span_boldred("This is my only chance at LYFE."))
-		ADD_TRAIT(target, TRAIT_DNR, TRAIT_RITUAL)
-
-/datum/outfit/job/roguetown/decarite/pre_equip(mob/living/carbon/human/H)
-	..()
-	var/list/items = list()
-	items |= H.get_equipped_items(TRUE)
-	for(var/I in items)
-		H.dropItemToGround(I, TRUE)
-	H.drop_all_held_items()
-	head = /obj/item/clothing/head/roguetown/helmet/heavy/undivided_ritual
-	cloak = /obj/item/clothing/cloak/templar/undivided_alt
-	armor = /obj/item/clothing/suit/roguetown/armor/plate/full/holysee/ritual
-	gloves = /obj/item/clothing/gloves/roguetown/plate/holysee/ritual
-	belt = /obj/item/storage/belt/rogue/leather/steel/tasset
-	beltl = /obj/item/rogueweapon/scabbard/sword/royal
-	pants = /obj/item/clothing/under/roguetown/platelegs/holysee/ritual
-	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/holysee/ritual
-	backl = /obj/item/rogueweapon/sword/long/crusader
-	backr = /obj/item/rogueweapon/shield/tower/holysee
-
-	H.mind.AddSpell(new /datum/action/cooldown/spell/mending/lesser)
-
+		if()
+*/
 // TIME FOR THE ASCENDANT. These can be stronger. As they are pretty much antag exclusive - Iconoclast for Matthios, Lich for ZIZO. ZIZO!
 
 
