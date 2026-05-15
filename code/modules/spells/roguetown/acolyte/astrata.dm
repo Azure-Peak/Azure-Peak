@@ -710,7 +710,7 @@
 	if(!owner.cmode)
 		healing_on_tick_pyre *= 2
 		return
-	if(owner.construct)
+	if(HAS_TRAIT(owner, TRAIT_IRONMAN))
 		return
 	var/obj/effect/temp_visual/heal/H = new /obj/effect/temp_visual/heal_rogue/campfire(get_turf(owner))
 	H.color = GLOW_COLOR_ASTRATA
