@@ -10,10 +10,8 @@
 	drift                  = generator("circle", 0, 3) // Some random movement for variation
 	friction               = 0.3  // shed 30% of velocity and drift every 0.1s
 	//Weather effects, max values
-	maxSpawning           = 120
-	maxSpawning           = 40
+	maxSpawning           = 20
 	wind                   = 5
-
 
 /datum/particle_weather/fog/necra
 	weather_duration_upper = 5 HOURS
