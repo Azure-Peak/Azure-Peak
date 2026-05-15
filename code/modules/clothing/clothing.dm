@@ -271,6 +271,10 @@
 	else
 		return ..()
 
+/obj/item/clothing/OnCrafted(dirin, mob/user)
+	. = ..()
+	if(user)
+		src.AddComponent(/datum/component/crafted_item, user.real_name)
 
 /*	if(damaged_clothes && istype(W, /obj/item/stack/sheet/cloth))
 		var/obj/item/stack/sheet/cloth/C = W

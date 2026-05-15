@@ -111,6 +111,9 @@
 			. += span_info("It's been thoroughly brushed.")
 		if(4)
 			. += span_green("It's been nicely polished.")
+	var/datum/component/crafted_item/crafted_component = GetComponent(/datum/component/crafted_item)
+	if(istype(crafted_component))
+		. += "It bears the maker's mark of [crafted_component.crafter_name]."
 
 /obj/item/polishing_cream
 	icon = 'icons/roguetown/items/misc.dmi'

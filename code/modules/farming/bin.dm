@@ -208,6 +208,7 @@
 					editme.max_integrity = newmaxinteg
 					editme.obj_integrity = newinteg
 					editme.sellprice = newprice
+					editme.AddComponent(/datum/component/crafted_item, user.real_name)
 					if(istype(editme, /obj/item/lockpick))
 						editme.picklvl = newpicklvl
 					if(istype(editme, /obj/item/rogueweapon))
@@ -225,6 +226,7 @@
 			else // Just make one buddy
 				var/obj/item/IT = new crafteditem(used_turf)
 				R.handle_creation(IT)
+				IT.AddComponent(/datum/component/crafted_item, user.real_name)
 			playsound(src,pick('sound/items/quench_barrel1.ogg','sound/items/quench_barrel2.ogg'), 100, FALSE)
 			QDEL_NULL(T.hingot)
 			T.update_icon()

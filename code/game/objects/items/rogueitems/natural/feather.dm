@@ -42,7 +42,11 @@
 			if(oldname == input)
 				to_chat(user, span_notice("I changed \the [O.name] to... well... \the [O.name]."))
 			else
-				O.name = "[input] ([initial(O.name)])"
+				var/datum/component/crafted_item/crafted_component = O.GetComponent(/datum/component/crafted_item)
+				if(istype(crafted_component) && crafted_component.crafter_name == user.real_name)
+					O.name = "[input]"
+				else
+					O.name = "[input] ([initial(O.name)])"
 				to_chat(user, span_notice("\The [oldname] has been successfully been renamed to \the [input]."))
 				O.renamedByPlayer = TRUE
 
