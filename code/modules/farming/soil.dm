@@ -313,20 +313,26 @@ GLOBAL_LIST_EMPTY(soil_list)
 	update_icon()
 
 /obj/structure/soil/proc/bless_soil()
-	blessed_time = 30 MINUTES
-	// Keep soil comfortably fertile
+	blessed_time = 45 MINUTES
+
+	visible_message(span_green("[src] is bathed in sacred light!"))
+
+	// Nutrition stasis: never below sated
 	nutrition = max(nutrition, MAX_PLANT_NUTRITION * 0.5)
-	// Kill existing weeds immediately
-	adjust_weeds(-30)
+
+	// Purge weeds completely
+	if(weeds > 0)
+		visible_message(span_green("The weeds around [src] wither into dust."))
+	adjust_weeds(-MAX_PLANT_WEEDS)
+
 	// Enable visual aura
 	blessed_aura = TRUE
+
 	// Revive dead crops
 	if(plant && plant_dead)
 		plant_dead = FALSE
 		plant_health = 10
-	// Bonus growth
-	if(plant)
-		add_growth(5 MINUTES)
+		visible_message(span_green("[plant.name] stirs back to life."))
 
 	update_icon()
 
@@ -334,9 +340,13 @@ GLOBAL_LIST_EMPTY(soil_list)
 	fertilized_time = 60 MINUTES //Keeps the plant fertilized for a good while
 
 /obj/structure/soil/proc/adjust_water(adjust_amount)
+	if(adjust_amount < 0 && blessed_time > 0)
+		adjust_amount *= 2
+
 	var/pre_water = water
 	water = clamp(water + adjust_amount, 0, MAX_PLANT_WATER)
-	if (adjust_amount && pre_water != water)
+
+	if(adjust_amount && pre_water != water)
 		needs_icon_update = TRUE
 
 /obj/structure/soil/proc/adjust_nutrition(adjust_amount)
@@ -625,50 +635,63 @@ GLOBAL_LIST_EMPTY(soil_list)
 
 /obj/structure/soil/proc/process_plant_nutrition(dt)
 	var/turf/location = loc
+	// Can't grow underground unless the plant allows it
 	if(!plant.can_grow_underground && location.can_see_sky == SEE_SKY_NO)
 		return
-	// If matured and produce is ready, don't process plant nutrition
+
+	// Already fully grown and holding produce
 	if(matured && produce_ready)
 		return
 	var/drain_rate = plant.water_drain_rate
-	// If we drain water, and have no water, we can't grow
+
+	// Plants that need water can't grow dry
 	if(drain_rate > 0 && water <= 0)
 		return
 	var/growth_multiplier = 1.0
 	var/nutriment_eat_mutliplier = 1.0
-	// If soil is tilled, grow faster
+
+	// Tilled soil improves growth
 	if(tilled_time > 0)
 		growth_multiplier *= 1.6
-	// If soil is blessed or fertilized, grow faster and take up less nutriments
-	if(blessed_time > 0 || fertilized_time > 0)
+
+	// Fertilizer accelerates growth and improves nutrient efficiency
+	if(fertilized_time > 0)
 		growth_multiplier *= 2.0
 		nutriment_eat_mutliplier *= 0.4
 
+	// Blessing preserves nutrients, but does NOT accelerate growth
+	if(blessed_time > 0)
+		nutriment_eat_mutliplier *= 0.4
+
+	// Pollination boosts growth and efficiency
 	if(pollination_time > 0)
 		growth_multiplier *= 1.75
 		nutriment_eat_mutliplier *= 0.6
 
+	// World effects
 	if(has_world_trait(/datum/world_trait/dendor_fertility))
 		growth_multiplier *= 2.0
 		nutriment_eat_mutliplier *= 0.4
-
 	if(has_world_trait(/datum/world_trait/fertility))
 		growth_multiplier *= 1.5
-
 	if(has_world_trait(/datum/world_trait/dendor_drought))
 		growth_multiplier *= 0.4
-		nutriment_eat_mutliplier *= 2
-	// If there's too many weeds, they hamper the growth of the plant
+		nutriment_eat_mutliplier *= 2.0
+
+	// Weeds suppress growth
 	if(weeds >= MAX_PLANT_WEEDS * 0.3)
 		growth_multiplier *= 0.75
 	if(weeds >= MAX_PLANT_WEEDS * 0.6)
 		growth_multiplier *= 0.75
-	// If we're low on health, also grow slower
+
+	// Unhealthy plants grow slower
 	if(plant_health <= MAX_PLANT_HEALTH * 0.6)
 		growth_multiplier *= 0.75
 	if(plant_health <= MAX_PLANT_HEALTH * 0.3)
 		growth_multiplier *= 0.75
+
 	var/target_growth_time = growth_multiplier * dt
+
 	process_growth(target_growth_time)
 
 /obj/structure/soil/proc/process_growth(target_growth_time)

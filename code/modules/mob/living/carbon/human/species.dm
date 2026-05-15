@@ -1196,6 +1196,11 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 ///This proc handles punching damage. IMPORTANT: Our owner is the TARGET and not the USER in this proc. For whatever reason...
 /datum/species/proc/harm(mob/living/carbon/human/user, mob/living/carbon/human/target, datum/martial_art/attacker_style)
 	if(HAS_TRAIT(user, TRAIT_PACIFISM))
+		var/datum/status_effect/buff/wildtongue/W = user.has_status_effect(/datum/status_effect/buff/wildtongue)
+		if(W)
+			to_chat(user, span_warning("My aggression disrupts Wild Speak, ending it."))
+			qdel(W)
+			return FALSE
 		to_chat(user, span_warning("I don't want to harm [target]!"))
 		return FALSE
 	if(user.rogue_sneaking)
@@ -1537,6 +1542,11 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 //shameless copypaste
 /datum/species/proc/kicked(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	if(HAS_TRAIT(user, TRAIT_PACIFISM))
+		var/datum/status_effect/buff/wildtongue/W = user.has_status_effect(/datum/status_effect/buff/wildtongue)
+		if(W)
+			to_chat(user, span_warning("My aggression disrupts Wild Speak, ending it."))
+			qdel(W)
+			return FALSE
 		to_chat(user, span_warning("I don't want to harm [target]!"))
 		return FALSE
 	if(user.IsKnockdown())

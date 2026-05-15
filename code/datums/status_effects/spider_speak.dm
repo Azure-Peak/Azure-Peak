@@ -36,6 +36,7 @@
 /datum/status_effect/buff/wildtongue/on_apply()
 	if(!owner)
 		return FALSE
+	ADD_TRAIT(owner, TRAIT_PACIFISM, "wildspeeki") // this is only used to track violent actions, to remove this buff
 
 	// Store factions the owner already had
 	if(FACTION_PLANTS in owner.faction)
@@ -74,8 +75,6 @@
 		preexisting_factions += FACTION_BOARS
 	if(FACTION_ROGUEANIMAL in owner.faction)
 		preexisting_factions += FACTION_ROGUEANIMAL
-	if(FACTION_DEEPONE in owner.faction)
-		preexisting_factions += FACTION_DEEPONE
 	if(FACTION_FAE in owner.faction)
 		preexisting_factions += FACTION_FAE
 	if(FACTION_ELEMENTAL in owner.faction)
@@ -126,7 +125,7 @@
 /datum/status_effect/buff/wildtongue/on_remove()
 	if(!owner)
 		return FALSE
-
+	REMOVE_TRAIT(owner, TRAIT_PACIFISM, "wildspeeki")
 	if(!(FACTION_PLANTS in preexisting_factions))
 		owner.faction -= FACTION_PLANTS
 	if(!(FACTION_HORSE in preexisting_factions))

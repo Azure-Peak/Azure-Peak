@@ -124,6 +124,11 @@
 		return FALSE	
 
 	if(force && HAS_TRAIT(user, TRAIT_PACIFISM))
+		var/datum/status_effect/buff/wildtongue/W = user.has_status_effect(/datum/status_effect/buff/wildtongue)
+		if(W)
+			to_chat(user, span_warning("My aggression disrupts Wild Speak, ending it."))
+			qdel(W)
+			return FALSE
 		to_chat(user, span_warning("I don't want to harm other living beings!"))
 		return
 

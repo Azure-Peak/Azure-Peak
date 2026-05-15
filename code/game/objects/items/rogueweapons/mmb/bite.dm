@@ -60,6 +60,11 @@
 ///Initial bite on target
 /mob/living/carbon/onbite(mob/living/carbon/human/user)
 	if(HAS_TRAIT(user, TRAIT_PACIFISM))
+		var/datum/status_effect/buff/wildtongue/W = user.has_status_effect(/datum/status_effect/buff/wildtongue)
+		if(W)
+			to_chat(user, span_warning("My aggression disrupts Wild Speak, ending it."))
+			qdel(W)
+			return FALSE
 		to_chat(user, span_warning("I don't want to harm [src]!"))
 		return FALSE
 	if(!user.can_bite())
