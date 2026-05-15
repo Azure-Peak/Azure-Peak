@@ -33,6 +33,7 @@
 	var/humanity = 7
 
 	var/potence_weapon_buff = 0
+	var/last_telepathy_use = 0
 
 	/// List of covens this mob possesses
 	var/list/datum/coven/covens
