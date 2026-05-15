@@ -22,7 +22,7 @@
 	ignore_armor_penalty = TRUE
 
 	primary_resource_type = SPELL_COST_DEVOTION
-	primary_resource_cost = SPELLCOST_MIRACLE_ORISON
+	primary_resource_cost = 0 // the cost is spent when spawning the hand miracle and canceling it
 
 	secondary_resource_type = SPELL_COST_STAMINA
 	secondary_resource_cost = SPELLCOST_CANTRIP
