@@ -1,3 +1,34 @@
+/mob/living/carbon/human/proc/vampire_telepathy()
+	var/TELEPATHY_COOLDOWN = 30 SECONDS
+
+	set name = "Telepathy"
+	set category = "VAMPIRE"
+
+	if(!clan)
+		return
+
+	if(world.time < src.last_telepathy_use + TELEPATHY_COOLDOWN)
+		var/remaining = round((src.last_telepathy_use + TELEPATHY_COOLDOWN - world.time) / 10, 1)
+		to_chat(src, span_warning("You must wait [remaining] seconds before using Telepathy again!"))
+		return
+
+	var/msg = browser_input_text(src, "Send a message", "COMMAND", max_length = MAX_MESSAGE_LEN, multiline = TRUE)
+	if(!msg)
+		return
+	if(stat > CONSCIOUS)
+
+	if(src.bloodpool > 50)
+		src.adjust_bloodpool(-50)
+	else
+		to_chat(src, span_danger("I don't have enough blood to send a telepathy message!"))
+		return
+
+	// set cooldown
+	src.last_telepathy_use = world.time
+
+	var/message = span_narsie("<B>A message from <span style='color:#[voice_color]'>[real_name]</span>: <span class='span_undead'>[msg]</span></B>")
+	to_chat(clan?.clan_members, message)
+
 /mob/living/carbon/human/proc/disguise_verb()
 	set name = "Disguise"
 	set category = "VAMPIRE"
