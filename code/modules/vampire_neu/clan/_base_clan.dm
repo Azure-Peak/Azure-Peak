@@ -370,8 +370,6 @@ And it also helps for the character set panel
 	H.verbs |= /mob/living/carbon/human/proc/disguise_verb
 	H.verbs |= /mob/living/carbon/human/proc/vampire_telepathy
 
-	H.cmode_music = 'sound/music/cmode/antag/combat_thrall.ogg'
-
 	H.adjust_skillrank_up_to(/datum/skill/magic/blood, 2, TRUE)
 
 	H.AddSpell(new /obj/effect/proc_holder/spell/targeted/transfix_neu)
