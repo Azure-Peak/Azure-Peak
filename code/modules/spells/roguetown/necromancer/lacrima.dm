@@ -3,7 +3,7 @@
 /datum/action/cooldown/spell/lacrima
 	name = "Lacrima"
 	desc = "Requires an aggressive grab on a prone and living target. Begin a dark ritual that fractures their ribcage and, directly but violently, extracts their Lux."
-	fluff_desc = "A method devised by the Cabal to require minimal ritual and effort. A method of extraction that is brutish, inelegant, yet undeniably effective. Zizo does not scorn efficiency, though resorting to something so lacking in flair can feel embarrassingly unceremonious. It may score a giggle or two, especially against the ones who deserve it."
+	fluff_desc = "A method devised by the Cabal to require minimal ritual and effort. A method of extraction that is brutish, inelegant, yet undeniably effective. Zizo does not scorn efficiency, though resorting to something so lacking in flair can feel embarrassingly unceremonious. It may score a giggle or two from Her, especially against the ones who deserve it."
 	button_icon = 'icons/mob/actions/zizomiracles.dmi'
 	button_icon_state = "zizograsp"
 	charge_required = FALSE
@@ -73,16 +73,45 @@
 		return
 	if(!HAS_TRAIT(target, TRAIT_NOPAIN))
 		target.emote("agony")
-		target.add_stress(/datum/stressevent/myfuckingluxman)
 	playsound(user, 'sound/items/blackmirror_needle.ogg', 60, FALSE, 3)
 	user.visible_message(span_alert("[user] tears a glob of pulsating Lux from [target]'s heart!"))
+
+	if(HAS_TRAIT(target, TRAIT_PSYDONITE) || HAS_TRAIT(target, TRAIT_INQUISITION))
+		to_chat(target, span_purple("<b>You hear a vicious giggle echoing through your mind. The Dame of Progress is pleased.</b>"))
+		target.add_stress(/datum/stressevent/torn_lux_psydonite)
+		owner.add_stress(/datum/stressevent/dame_favor)
+
+	else if(HAS_TRAIT(target, TRAIT_NOBLE) || HAS_TRAIT(target, TRAIT_CLERGY))
+		to_chat(target, span_purple("<b>You hear a vicious giggle echoing through your mind. The Dame of Progress is pleased.</b>"))
+		target.add_stress(/datum/stressevent/torn_lux_devout)
+		owner.add_stress(/datum/stressevent/dame_favor)
+
+	else
+		target.add_stress(/datum/stressevent/torn_lux)
+
 	new /obj/item/reagent_containers/lux_impure(target.loc)
 	SEND_SIGNAL(user, COMSIG_LUX_EXTRACTED, target)
 	record_featured_stat(FEATURED_STATS_CRIMINALS, user)
 	record_round_statistic(STATS_LUX_HARVESTED)
+	record_round_statistic(STATS_TORTURES)
 	target.apply_status_effect(/datum/status_effect/debuff/devitalised)
 
-/datum/stressevent/myfuckingluxman
-	desc = span_boldred("THE ESSENCE OF MY LYFE HAS BEEN DEFILED!!")
+/datum/stressevent/torn_lux
+	desc = span_boldred("THE ESSENCE OF MY LYFE HAS BEEN RIPPED FROM ME!!")
 	stressadd = 30
+	timer = 5 MINUTES
+
+/datum/stressevent/torn_lux_psydonite
+	desc = span_boldred("PSYDON... forgive me... I feel impure. Defiled. Hollow. How could I allow this sacrilege upon your most precious gift?!")
+	stressadd = 30
+	timer = 5 MINUTES
+
+/datum/stressevent/torn_lux_devout
+	desc = span_boldred("SOMETHING IS TERRIBLY WRONG WITH ME!! It writhes beneath my skin! It claws through my thoughts! I feel my patron's fury upon me... what have they done to my Lux?!")
+	stressadd = 30
+	timer = 5 MINUTES
+
+/datum/stressevent/dame_favor
+	desc = span_purple("That laugh... this cold warmth in my hollow heart. Her voice graces me at last. She is pleased. She sees me. Ahh... such bliss. Watch me, my Dame. Watch what I become.")
+	stressadd = -10
 	timer = 5 MINUTES

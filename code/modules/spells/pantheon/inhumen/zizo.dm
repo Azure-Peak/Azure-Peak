@@ -38,14 +38,15 @@
 /datum/action/cooldown/spell/zizo/snuff_lights
 	name = "Snuff Lights"
 	desc = "Extinguish most light sources within 2 range. For 5 seconds, you will also hone your Darksight. Both effects scale up from Miracle skill."
+	fluff_desc = "Flame, light, purity... all arrogant lies of the living. Wretched falsehoods peddled by the Ten to keep mortals fearful of the dark. They are intrusions; frail comforts that convince men they are safe from what waits beyond their sight. Zizo's first revelation was simple: light is not needed to see. Truth does not shine. It festers in the dark, waiting for those willing to behold it."
 	button_icon_state = "snufflight"
-	sound = 'sound/magic/zizo_snuff.ogg'
 	associated_stat = null
 	charge_required = FALSE
 	click_to_activate = FALSE
 	cooldown_time = 20 SECONDS
 	primary_resource_cost = 30
 	secondary_resource_cost = 10
+	sound = null
 	var/snuff_range = 2
 
 /datum/action/cooldown/spell/zizo/snuff_lights/cast(atom/cast_on)
@@ -53,56 +54,66 @@
 
 	if(!ishuman(owner))
 		return FALSE
+
 	var/mob/living/L = owner
-	var/checkrange = snuff_range + owner.get_skill_level(/datum/skill/magic/holy)
+	var/skill_level = owner.get_skill_level(/datum/skill/magic/holy)
+	var/checkrange = snuff_range + skill_level
+
 	var/extinguished_anything = FALSE
-	var/had_nightvision = L.has_status_effect(/datum/status_effect/buff/snuff_lights)
+	var/had_nightvision = !!L.has_status_effect(/datum/status_effect/buff/snuff_lights)
 
 	for(var/obj/O in range(checkrange, owner))
-		if(O.light_power)
+		if(O.light_on && O.light_power > 0)
 			extinguished_anything = TRUE
-
-		O.extinguish()
+			O.extinguish()
 
 	for(var/mob/M in range(checkrange, owner))
 		for(var/obj/O in M.contents)
-			if(O.light_power)
+			if(O.light_on && O.light_power > 0)
 				extinguished_anything = TRUE
+				O.extinguish()
 
-			O.extinguish()
+	var/bonus_duration = 5 SECONDS + (skill_level * 5 SECONDS)
 
-	var/skill_level = owner.get_skill_level(/datum/skill/magic/holy)
-	var/duration = (5 SECONDS) + ((1 - skill_level) * 10 SECONDS)
 	if(!extinguished_anything)
-		duration += 30 SECONDS
+		bonus_duration += skill_level * 10 SECONDS
 
-	L.apply_status_effect(/datum/status_effect/buff/snuff_lights, duration)
+	L.apply_status_effect(/datum/status_effect/buff/snuff_lights, bonus_duration)
 
-	if(extinguished_anything && !had_nightvision)
-		owner.visible_message(span_purple("[owner] exhales a grayish fog that smothers nearby lights as their pupils widen unnaturally."),span_purple("You exhale a gray fog that chokes out nearby lights. As darkness settles in, your pupils dilate."))
-
-	else if(!extinguished_anything && !had_nightvision)
-		owner.visible_message(span_purple("[owner]'s pupils suddenly dilate into dark pools."), span_purple("No lights answer your call, but your pupils still widen to drink in the darkness."))
+	if(extinguished_anything)
+		if(!had_nightvision)
+			owner.visible_message(span_purple("[owner] exhales a grayish fog that smothers nearby lights as their pupils widen unnaturally."), span_purple("You exhale a gray fog that chokes out nearby lights. As darkness settles in, your pupils dilate."))
+			playsound(owner.loc, 'sound/magic/zizo_snuff.ogg')
+		else
+			owner.visible_message(span_purple("[owner] exhales a grayish fog that smothers nearby lights."), span_purple("You exhale a gray fog that chokes out nearby lights... Your eyes still seeing through."))
+			playsound(owner.loc, 'sound/magic/zizo_snuff.ogg')
 
 	else
-
-		return FALSE
-
+		if(!had_nightvision)
+			owner.visible_message(span_purple("[owner]'s pupils suddenly dilate in darkness..."), span_purple("No lights answer your call, but your pupils still widen to drink in the darkness."))
+		else
+			to_chat(owner, span_purple("You channel more of Her grace within your eyes, extending the duration of your sight."))
+	
 	return TRUE
 
-
 /atom/movable/screen/alert/status_effect/buff/snuff_lights
-	name = "True Darksight"
-	desc = "My eyes can see clearly through the darkness."
+	name = "Embracing Darkness"
+	desc = "My eyes can see clearly in darkness. No secrets can hide from my prying gaze."
 	icon_state = "darkvision"
 
 /datum/status_effect/buff/snuff_lights
 	id = "snuff_lights"
+	duration = 5 SECONDS
+	status_type = STATUS_EFFECT_REPLACE
 	alert_type = /atom/movable/screen/alert/status_effect/buff/snuff_lights
 
-/datum/status_effect/buff/snuff_lights/on_apply(mob/living/new_owner, new_duration)
+/datum/status_effect/buff/snuff_lights/on_creation(mob/living/new_owner, bonus_duration)
+	if(bonus_duration)
+		duration = bonus_duration
+	return ..()
+
+/datum/status_effect/buff/snuff_lights/on_apply()
 	. = ..()
-	duration = new_duration
 	ADD_TRAIT(owner, TRAIT_NITEVISION, "snuff_lights")
 	owner.update_sight()
 
@@ -118,7 +129,7 @@
 /datum/action/cooldown/spell/projectile/zizo/profane
 	name = "Profane"
 	desc = "Launch a shard of profaned bone that tears flesh and causes bleeding. Every fourth successful hit causes a violent rupture that bypasses armor and impales the target, spreading vile toxins.<br><br>If bones are nearby, they are consumed and the spell's costs are negated."
-	fluff_desc = "Bone remembers. Even when stripped, burned, or buried, it recalls the shape of life, and the cruelty that denied it rest. The Cabal does not summon the dead; it convinces what remains that it was never meant to be still. Each shard is a prayer spoken backward, each wound a lesson in obedience to Her Grand Design. There is a greater meaning behind the number 'four'."	
+	fluff_desc = "Bone remembers. Even when stripped, burned, or buried, it recalls the shape of life, and the cruelty that denied it rest. The Cabal does not summon the dead; it convinces what remains that it was never meant to be still. Each shard is a prayer spoken backward, each wound a lesson in obedience to Her Grand Design. There is a greater meaning behind the number 'four'."
 	button_icon = 'icons/mob/actions/zizomiracles.dmi'
 	button_icon_state = "profane"
 	projectile_type = /obj/projectile/magic/profane
@@ -130,35 +141,48 @@
 
 /datum/action/cooldown/spell/projectile/zizo/profane/cast(atom/cast_on)
 	var/mob/living/user = owner
+	var/original_primary = primary_resource_cost
+	var/original_secondary = secondary_resource_cost
+
 	if(consume_bones_for_refund(user, 1))
 		primary_resource_cost = 0
 		secondary_resource_cost = 0
+
 		user.visible_message(span_notice("[user] feeds bone fragments into the ritual, lessening the costs..."))
 
 	. = ..()
+
+	primary_resource_cost = original_primary
+	secondary_resource_cost = original_secondary
 
 /proc/consume_bones_for_refund(mob/living/user, amount = 1)
 	var/remaining = amount
 	for(var/obj/item/natural/bone/B in user.contents)
 		if(remaining <= 0)
 			break
+
 		qdel(B)
 		remaining--
+
 	for(var/obj/item/natural/bundle/bone/BB in user.contents)
 		if(remaining <= 0)
 			break
+
 		if(BB.amount <= 0)
 			continue
+
 		var/take = min(BB.amount, remaining)
 		BB.amount -= take
 		remaining -= take
+
 		if(BB.amount <= 0)
 			qdel(BB)
+
 	return (remaining <= 0)
 
 /obj/item/bone/splinter
 	name = "bone splinter"
-	embedding = list("embed_chance" = 100, "embedded_pain_chance" = 20, "embedded_fall_chance" = 2)
+	embedding = list("embed_chance" = 100, "embedded_pain_chance" = 20,	"embedded_fall_chance" = 2)
 
 /obj/item/bone/splinter/dropped(mob/user, silent)
 	. = ..()
@@ -170,6 +194,7 @@
 	. = ..()
 	if(isturf(newloc))
 		visible_message(span_danger("[src] crumbles into dust..."))
+		qdel(src)
 
 /obj/projectile/magic/profane
 	name = "profaned bone splinter"
@@ -189,38 +214,53 @@
 		qdel(src)
 		return
 	var/mob/living/L = target
+
 	if(L.anti_magic_check())
 		visible_message(span_warning("[src] shatters harmlessly against [target]!"))
+
 		playsound(get_turf(target), 'sound/magic/magic_nulled.ogg', 100)
 		qdel(src)
 		return BULLET_ACT_BLOCK
+
 	if(iscarbon(L))
 		var/mob/living/carbon/C = L
+
 		if(prob(embed_prob) && length(C.bodyparts))
 			var/obj/item/bodypart/limb = pick(C.bodyparts)
+
 			if(limb)
 				var/obj/item/bone/splinter/S = new
 				limb.add_embedded_object(S, FALSE, TRUE)
-		C.apply_status_effect(/datum/status_effect/debuff/profane_mark, firer)
+
+		C.apply_status_effect(/datum/status_effect/debuff/profane_mark,	firer)
+
 	qdel(src)
 
+// PROFANE MARK STACK
 /datum/status_effect/debuff/profane_mark
 	id = "profane_mark"
 	status_type = STATUS_EFFECT_REFRESH
 	duration = 15 SECONDS
-	var/stacks = 0
+	var/stacks = 1
 	var/max_stacks = 4
 	var/mob/living/original_caster
 
 /datum/status_effect/debuff/profane_mark/on_creation(mob/living/new_owner, mob/living/caster)
-	. = ..()
 	original_caster = caster
 	stacks = 1
 	return TRUE
 
 /datum/status_effect/debuff/profane_mark/on_apply()
-	. = ..()
+	owner.visible_message(span_warning("Profaned bone lodges itself inside [owner]!"),span_userdanger("I feel jagged bone bury itself in my flesh!"))
+	return TRUE
+
+/datum/status_effect/debuff/profane_mark/refresh(mob/living/caster)
+	..()
+	if(caster)
+		original_caster = caster
 	stacks++
+	owner.visible_message(span_warning("Profaned bone digs deeper into [owner]! ([stacks]/[max_stacks])"), span_userdanger("I feel profaned bone digging deeper into my flesh! ([stacks]/[max_stacks])"))
+
 	if(stacks >= max_stacks)
 		rupture()
 
@@ -228,40 +268,53 @@
 	if(!owner || owner.stat == DEAD)
 		qdel(src)
 		return
+
 	if(owner.resting && !owner.mind)
-		owner.visible_message(span_danger("[owner] is torn apart as profaned bone detonates within their body!"), span_userdanger("I am ripped apart from within!"))
+		owner.visible_message(span_danger( "[owner] is torn apart as profaned bone detonates within their body!"), span_userdanger("I am ripped apart from within!"))
 		owner.gib(TRUE, TRUE, TRUE)
 		qdel(src)
 		return
-	owner.visible_message(span_danger("Profaned bone violently erupts from [owner] and corrupt their humors!"), span_userdanger("Agony explodes through me as profaned bone tears me apart and corrupt my humors!"))
-	new /obj/effect/temp_visual/dir_setting/bloodsplatter(get_turf(owner), pick(GLOB.alldirs))
-	playsound(get_turf(owner), pick('sound/combat/fracture/fracturedry (1).ogg', 'sound/combat/fracture/fracturedry (2).ogg', 'sound/combat/fracture/fracturedry (3).ogg'), 80, TRUE)
+
+	owner.visible_message(span_danger("Profaned bone violently erupts from [owner] and corrupts their humors!"), span_userdanger("Agony explodes through me as profaned bone tears me apart and corrupts my humors!"))
+
+	new /obj/effect/temp_visual/dir_setting/bloodsplatter(get_turf(owner),pick(GLOB.alldirs))
+
+	playsound(get_turf(owner),pick('sound/combat/fracture/fracturedry (1).ogg','sound/combat/fracture/fracturedry (2).ogg','sound/combat/fracture/fracturedry (3).ogg'),80,TRUE)
+
 	var/damage_zone = BODY_ZONE_CHEST
+
 	if(isliving(original_caster))
 		var/mob/living/caster = original_caster
 		damage_zone = check_zone(caster.zone_selected)
-	owner.apply_damage(50, BRUTE, def_zone = damage_zone)
+
+	owner.apply_damage(50,BRUTE,def_zone = damage_zone)
+
 	owner.apply_status_effect(/datum/status_effect/debuff/profane_poison)
 	qdel(src)
 
+// PROFANE POISON
 /datum/status_effect/debuff/profane_poison
 	id = "profane_poison"
 	status_type = STATUS_EFFECT_REFRESH
 	duration = 10 SECONDS
 	tick_interval = 1 SECONDS
 	var/tick_damage = 2
-	var/npc = 8
+	var/npc_dmg = 8
 
 /datum/status_effect/debuff/profane_poison/tick()
 	if(!owner)
 		qdel(src)
 		return
+
 	if(owner.stat == UNCONSCIOUS || owner.stat == DEAD)
 		qdel(src)
 		return
+
 	var/damage = tick_damage
+
 	if(!owner.mind)
-		damage = npc
+		damage = npc_dmg
+
 	owner.adjustToxLoss(damage)
 	owner.adjustOxyLoss(damage * 2)
 	return
@@ -271,6 +324,7 @@
 	button_icon_state = "skeleton_formation"
 	name = "Raise Lesser Skeleton"
 	desc = "Invoke raw Enochian magicka to bind loose bones into a simple skeletal thrall. Its crude physiology is held together purely by magic; unable to be incapacitated, it shall stand until it crumbles into spare bones. It is also simpler to control, so you can order it to move, guard or attack manually."
+	fluff_desc = "The faithful of Zizo do not raise the dead, they mock life by proving how little of it is truly required. Flesh decays, thought falters, and souls flee screaming into the arms of Necra, yet bone remains obedient. Through the language of ancient Enochian words of power, scattered remains are lashed together into a parody of mortal form, animated not by purpose or memory, but by the simple joy of defying the natural order."
 	spell_color = GLOW_COLOR_ZIZO
 	primary_resource_cost = 60
 	secondary_resource_cost = 40
@@ -300,6 +354,7 @@
 /datum/action/cooldown/spell/zizo/rituos
 	name = "Rituos"
 	desc = "Enact one of the Lesser Work of Zizo - a single, agonizing ritual that tears open a path to power. Choose Progress to gain arcyne knowledge, or Unlife to embrace undeath."
+	fluff_desc = "The holiest of Zizo's Lesser Works among the Cabal. A rite of surrendering weakness and mortality to embrace your purpose in Her design. Through agony, the faithful offer either mind or flesh, allowing Zizo to strip away mortal frailty and shape them into reflections of her ascension. Some surrender thought for forbidden understanding. Others surrender flesh for the stillness of unlife. Few endure enough to become what She envisioned. When the gifts fade, the faithful are taught only one truth: they have not sacrificed enough."	
 	button_icon = 'icons/mob/actions/zizomiracles.dmi'
 	button_icon_state = "rituos"
 	charge_sound = 'sound/magic/chargingold.ogg'
