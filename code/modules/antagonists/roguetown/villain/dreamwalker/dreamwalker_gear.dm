@@ -178,6 +178,7 @@
 	icon_state = "dreamplate"
 	max_integrity = ARMOR_INT_CHEST_PLATE_ANTAG
 	item_flags = DREAM_ITEM
+	unenchantable = TRUE //Please sire, it has self-repairing plus antag-durability. YOU DO NOT NEED MORE.
 
 /obj/item/clothing/suit/roguetown/armor/plate/full/dreamwalker/Initialize()
 	. = ..()
@@ -190,6 +191,7 @@
 	icon_state = "dreamlegs"
 	armor = ARMOR_PLATE_BSTEEL
 	item_flags = DREAM_ITEM
+	unenchantable = TRUE //Please sire, it has self-repairing plus antag-durability. YOU DO NOT NEED MORE.
 
 /obj/item/clothing/under/roguetown/platelegs/dreamwalker/Initialize()
 	. = ..()
@@ -202,6 +204,7 @@
 	icon_state = "dreamboots"
 	armor = ARMOR_PLATE_BSTEEL
 	item_flags = DREAM_ITEM
+	unenchantable = TRUE //Please sire, it has self-repairing plus antag-durability. YOU DO NOT NEED MORE.
 
 /obj/item/clothing/shoes/roguetown/boots/armor/dreamwalker/Initialize()
 	. = ..()
@@ -213,6 +216,7 @@
 	icon_state = "dreamgauntlets"
 	max_integrity = ARMOR_INT_SIDE_ANTAG
 	item_flags = DREAM_ITEM
+	unenchantable = TRUE //Please sire, it has self-repairing plus antag-durability. YOU DO NOT NEED MORE.
 
 /obj/item/clothing/gloves/roguetown/plate/dreamwalker/Initialize()
 	. = ..()
@@ -224,6 +228,7 @@
 	icon_state = "dbevor"
 	max_integrity = ARMOR_INT_SIDE_ANTAG
 	item_flags = DREAM_ITEM
+	unenchantable = TRUE //Please sire, it has self-repairing plus antag-durability. YOU DO NOT NEED MORE.
 
 /obj/item/clothing/neck/roguetown/bevor/dreamwalker/Initialize()
 	. = ..()
@@ -235,6 +240,7 @@
 	desc = "Strange iridescent hauberk. It reflects light as if covered in shiny oil."
 	icon_state = "dhauberk"
 	item_flags = DREAM_ITEM
+	unenchantable = TRUE //Please sire, it has self-repairing plus antag-durability. YOU DO NOT NEED MORE.
 
 /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/dreamwalker/Initialize()
 	. = ..()
@@ -245,6 +251,7 @@
 	name = "otherworldly bracers"
 	desc = "Strange iridescent bracers. It reflects light as if covered in shiny oil."
 	item_flags = DREAM_ITEM
+	unenchantable = TRUE //Please sire, it has self-repairing plus antag-durability. YOU DO NOT NEED MORE.
 	color = "#2ba6b2"
 
 /obj/item/clothing/wrists/roguetown/bracers/dreamwalker/dreamwalker/Initialize()
@@ -258,6 +265,7 @@
 	icon_state = "dreamsquidhelm"
 	max_integrity = ARMOR_INT_HELMET_ANTAG
 	item_flags = DREAM_ITEM
+	unenchantable = TRUE //Please sire, it has self-repairing plus antag-durability. YOU DO NOT NEED MORE.
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/32x48/head.dmi'
 	block2add = null
 	worn_x_dimension = 32

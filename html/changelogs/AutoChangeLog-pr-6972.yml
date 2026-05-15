@@ -1,6 +1,0 @@
-author: "ToasterStrudes"
-delete-after: True
-changes:
-  - rscadd: "Adds FIVE new Cantrips: Fridigitation, Read Omen, Conjure Spectacles, Conjure Instrument, Transcribe, and Read Omen"
-  - rscadd: "Icon for Mindlink"
-  - refactor: "Spellsinger now gets Conjure Instrument"

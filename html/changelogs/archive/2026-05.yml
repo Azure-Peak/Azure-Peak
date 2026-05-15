@@ -513,3 +513,64 @@
   - bugfix: Deprived is now displayed properly.
   WeNeedMorePhoron:
   - rscadd: AI should no longer deliberately avoid Battlewardry runes
+2026-05-15:
+  FreeStylaLT:
+  - rscadd: Tracking now highlights objects.
+  Ketrai:
+  - rscadd: Malum T3 miracle, Malum's gift.
+  Lamasmaster:
+  - balance: Templars (and acolyte)
+  Ollanius:
+  - bugfix: Equalizes the TRI-LOADOUT prices to be 3-5-7, instead of 3-5-9. Likewise,
+      most noble garbs have received a minor price bump from 5 to 7.
+  - bugfix: Tankards now scale up in increments of +30u instead of +20u, ensuring
+      that they can properly brew tea and coffee without being marred with a watered-down
+      result.
+  Ryan180602:
+  - bugfix: make maploaded stairs unbreakable
+  - bugfix: skin armour can no longer be enchanted
+  - rscadd: donor items for magi1138
+  SnubbyNotSorry:
+  - rscadd: Non-armoured cloaks get pockets
+  SpadesNeil:
+  - bugfix: Quarterstaffs can now be smelted.
+  - bugfix: Leather vests are no longer classified as armor.
+  ToasterStrudes:
+  - rscadd: 'Adds FIVE new Cantrips: Fridigitation, Read Omen, Conjure Spectacles,
+      Conjure Instrument, Transcribe, and Read Omen'
+  - rscadd: Icon for Mindlink
+  - refactor: Spellsinger now gets Conjure Instrument
+  WeNeedMorePhoron:
+  - rscadd: Bogmen no longer have the station faction and treasure hunter now share
+      bandit faction again
+  borneblood:
+  - rscadd: Tossblade Belt (empty) and most Survival-tier Tools to Loadout menu.
+  - qol: Brooms are more dyslexia-friendly and gain bonus accuracy against garbage.
+  - bugfix: fixed an oversight with necran spawns
+  changelingonberry:
+  - admin: admins get view actors verb in ooc tab
+  plsleavemealon:
+  - rscadd: 'New subvirtue for Skilled Apprentice: Enchanter Apprentice'
+  radarseas:
+  - rscadd: Added dchat goblin slot examinations.
+  - rscadd: Added goblin name picking.
+  - rscadd: Added goblin player friendly examinations, between goblins.
+  - balance: Goblin + Dreamwalker portals now glow.
+  - balance: Goblin Portals have slightly more integrity to make them a little harder
+      to close. 200 -> 400, bring an axe to shutdown goblin portals, or explosives.
+      You can still break them through brute force by bringing several people along.
+  - balance: Most invasions/raid omens are far deadlier than before.
+  - balance: Siege skeletons now pick from 3 custom classes, they are terrible and
+      designed to die horribly but you get to aurafarm and do shennagions expendably
+      over and over before the raids simmer down.
+  - balance: Necromancer skeletons are no longer critically weak.
+  - balance: Goblin player slots have been seperated from portal NPC slots.
+  - balance: Goblin portals now summon 3 goblins + 5 players below 30 pop, they summon
+      up to 6 goblins and 10 players above 30 pop.
+  - bugfix: Portal goblins now have the correct music + patron.
+  - bugfix: Siege skeletons are less buggy, have names and properly should always
+      skeletonise like wretch-skeles guarrenting they get their proper traits.
+  - code_imp: Redone seige code, expect different skeleton kinds for seiges.
+  - admin: Goblins from portals/seiges now have an antag datum, it draws no cost from
+      storyteller.
+  - server: Seige skeles added to defines.

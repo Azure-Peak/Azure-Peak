@@ -1,4 +1,0 @@
-author: "changelingonberry"
-delete-after: True
-changes:
-  - admin: "admins get view actors verb in ooc tab"

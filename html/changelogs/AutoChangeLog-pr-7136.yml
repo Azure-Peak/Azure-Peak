@@ -1,4 +1,0 @@
-author: "Ollanius"
-delete-after: True
-changes:
-  - bugfix: "Equalizes the TRI-LOADOUT prices to be 3-5-7, instead of 3-5-9. Likewise, most noble garbs have received a minor price bump from 5 to 7."
