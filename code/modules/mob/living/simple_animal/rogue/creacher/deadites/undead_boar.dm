@@ -1,12 +1,13 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/boar/undead
 	icon = 'icons/roguetown/mob/monster/deadites/boar_undead.dmi'
 	name = "deadite bramblesnout"
-	desc = "The terrifying bramblesnout, claimed by undeath. Its viciously curved tusks are splintered but lethal, backed by a ruined mass of muscle that no longer feels pain, fatigue, or mercy.""
+	desc = "The terrifying bramblesnout, claimed by undeath. Its viciously curved tusks are splintered but lethal, backed by a ruined mass of muscle that no longer feels pain, fatigue, or mercy."
 	icon_state = "boar"
 	icon_living = "boar"
 	icon_dead = "boar_dead"
 	health = BOAR_HEALTH_UNDEAD
 	maxHealth = BOAR_HEALTH_UNDEAD
+	ai_controller = /datum/ai_controller/boar/undead
 
 	botched_butcher_results = list(
 		/obj/item/reagent_containers/food/snacks/rogue/meat_rotten = 2, 
@@ -32,13 +33,13 @@
 		/obj/item/alch/sinew = 4, 
 		/obj/item/alch/bone = 1, 
 		/obj/item/alch/viscera = 2, 
-		/obj/item/reagent_containers/food/snacks/rogue/meat/meat_rotten = 2,
+		/obj/item/reagent_containers/food/snacks/rogue/meat_rotten = 2,
 		/obj/item/natural/hide = 3,
 	)
 
 /mob/living/simple_animal/hostile/retaliate/rogue/boar/undead/Initialize()
 	. = ..()
-	AddComponent(/datum/component/deadite, 15 MINUTES, BOAR_HEALTH_UNDEAD, 300, "boar_downed")
+	AddComponent(/datum/component/deadite, 15 MINUTES, BOAR_HEALTH_UNDEAD, 300, "boar_downed", 0)
 
 /mob/living/simple_animal/hostile/retaliate/rogue/boar/undead/simple_limb_hit(zone)
 	if(!zone)

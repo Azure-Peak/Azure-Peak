@@ -9,7 +9,7 @@
 	var/icon_downed = "saiga_downed"
 	var/stored_icon_living
 
-/datum/component/deadite/Initialize(reanim_time = 15 MINUTES, leg_hp = 150, head_hp = 100, downed_state)
+/datum/component/deadite/Initialize(reanim_time = 15 MINUTES, leg_hp = 150, head_hp = 100, downed_state, inf_chance = 20)
 	if(!ismob(parent))
 		return COMPONENT_INCOMPATIBLE
 
@@ -25,7 +25,7 @@
 	REMOVE_TRAIT(L, TRAIT_SIMPLE_WOUNDS, TRAIT_GENERIC)
 	ADD_TRAIT(L, TRAIT_RIGIDMOVEMENT, TRAIT_GENERIC)
 	ADD_TRAIT(L, TRAIT_SILVER_WEAK, TRAIT_GENERIC)
-	L.AddComponent(/datum/component/infection_spreader)
+	L.AddComponent(/datum/component/infection_spreader, inf_chance)
 
 	L.mob_biotypes |= MOB_UNDEAD
 	L.faction |= list(FACTION_ZOMBIE)

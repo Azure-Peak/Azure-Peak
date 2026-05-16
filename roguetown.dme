@@ -616,6 +616,7 @@
 #include "code\datums\ai\controllers\abyssal.dm"
 #include "code\datums\ai\controllers\air_primordial.dm"
 #include "code\datums\ai\controllers\boar.dm"
+#include "code\datums\ai\controllers\boar_undead.dm"
 #include "code\datums\ai\controllers\border_reiver.dm"
 #include "code\datums\ai\controllers\deepone.dm"
 #include "code\datums\ai\controllers\direbear.dm"
