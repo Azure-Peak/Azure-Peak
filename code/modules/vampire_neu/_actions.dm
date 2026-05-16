@@ -26,8 +26,8 @@
 	src.last_telepathy_use = world.time
 
 
-	log_game("VAMPIRE TELEPATHY: [(src).real_name] ([(src).ckey]) used vampiric telepathy to say: [msg]")
-	var/message = span_narsie("<B>A message from <span style='color:#[voice_color]'>[real_name]</span>: [msg]</B>")
+	log_game("VAMPIRE TELEPATHY: [(src).real_name] ([(src).ckey]) used vampiric telepathy to say: \"[msg]\"")
+	var/message = span_narsie("<B>[span_purple("VAMPIRE")] - <span style='color:#[voice_color]'>[real_name]</span></B> says: \"[msg]\"")
 	playsound(get_turf(src), 'sound/misc/vampirespell.ogg', 40, FALSE, pressure_affected = FALSE) //Little ping when doing it.
 	to_chat(clan?.clan_members, message)
 
