@@ -506,8 +506,8 @@
 	beheld a pale horse - the name that sat upon Her was Death, and Hell followed with them.'"
 	force = 40
 	force_wielded = 55
-	possible_item_intents = list(/datum/intent/sword/cut, /datum/intent/sword/cut/rend, /datum/intent/sword/thrust, /datum/intent/sword/strike)
-	gripped_intents = list(/datum/intent/sword/cut/exe/sweep, /datum/intent/sword/chop/cleave, /datum/intent/sword/thrust, /datum/intent/sword/strike) //Antag superweapon
+	possible_item_intents = list(/datum/intent/sword/cut, /datum/intent/sword/thrust, /datum/intent/sword/cut/rend, /datum/intent/sword/strike)
+	gripped_intents = list(/datum/intent/sword/cut, /datum/intent/sword/cut/exe/sweep, /datum/intent/sword/thrust, /datum/intent/sword/chop/cleave) //Antag superweapon
 	icon_state = "vlord"
 	item_state = "vlord"
 	wbalance = WBALANCE_NORMAL
