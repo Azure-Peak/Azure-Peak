@@ -1,8 +1,9 @@
 /datum/action/cooldown/spell/conjure_spectacles
 	button_icon = 'icons/mob/actions/mage_conjure.dmi'
 	name = "Conjure Spectacles"
-	desc = "Conjure a set of Spectacles of your choice in your hand.\n\
-	The spectacles will be unsummoned should you conjure a new one or unbind the spell."
+	desc = "Conjure an illusionary set of Spectacles of your choice in your hand.\n\
+	The Spectacles will be unsummoned should you conjure a new one or unbind the spell.\n\
+	Unlike actual Spectacle varients, these won't grant special abilities/sight."
 	button_icon_state = "conjspect"
 	sound = 'sound/magic/whiteflame.ogg'
 	spell_color = GLOW_COLOR_METAL
@@ -36,8 +37,8 @@
 
 	var/list/spectacles = list(
 		"Spectacles" = /obj/item/clothing/mask/rogue/spectacles,
-		"Nocshades" = /obj/item/clothing/mask/rogue/spectacles/inq/summoned,
-		"Golden Spectacles" = /obj/item/clothing/mask/rogue/spectacles/golden/summoned,
+		"Nocshades" = /obj/item/clothing/mask/rogue/spectacles/inq_lesser_summoned,
+		"Golden Spectacles" = /obj/item/clothing/mask/rogue/spectacles/golden_lesser_summoned,
 	)
 
 /datum/action/cooldown/spell/conjure_spectacles/cast(list/targets, mob/living/user = usr)
@@ -66,16 +67,19 @@
 		qdel(src.conjured_spectacles)
 	return ..()
 
-// Nocshades summonable alternative
+//Sorry, it has to be done. No engineering/night vision for no spellcost. You could probably add crafted varients and axe this codenote though if such is done. Considering mages can make worse things than Nocshades.
 
-/obj/item/clothing/mask/rogue/spectacles/inq/summoned
+// Nocshades summonable lesser varient - with no mechanical effects
+
+/obj/item/clothing/mask/rogue/spectacles/inq_lesser_summoned
 	name = "summoned nocshade lens-pair"
 	icon_state = "bglasses"
-	desc = "An argument between the chosen of Noc and the Otavian See has raged on for years,\n\
+	desc = "An argument between the chosen of Noc and the Otavian Orthodoxy has raged on for years,\n\
 	no one truely knows who the original creator of these glasses truely was.\n\
 	But one thing is absolutely for certain, they are quite fashionable."
 		
-// Golden spectacles summonable alternative
+// Golden spectacles summonable lesser varient - with no mechanical effects
 
-/obj/item/clothing/mask/rogue/spectacles/golden/summoned
+/obj/item/clothing/mask/rogue/spectacles/golden_lesser_summoned
 		name = "summoned golden spectacles"
+		icon_state = "goggles"

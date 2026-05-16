@@ -574,3 +574,19 @@
   - admin: Goblins from portals/seiges now have an antag datum, it draws no cost from
       storyteller.
   - server: Seige skeles added to defines.
+2026-05-16:
+  BurpleBineapple:
+  - qol: The Apocrypha uses the standard order of striking intents now.
+  Ketrai:
+  - qol: hag mindlink use clarified
+  Ryan180602:
+  - bugfix: donor item fix
+  radarseas:
+  - bugfix: fixed vampires not having trait_zombie_immune
+  - balance: summoned spectacles have no more mechanical effects beyond what regular
+      spectacles do. You still look dangerously stylish as-was-intended, they remain
+      a free spell as intended.
+  - rscadd: heretic armor unsprited pieces now have a small outline to tell them,
+      if they're on the floor/worn.
+  - balance: dreamwalker armor cannot be enchanted anymore.
+  - bugfix: fixed heretic armors not having descriptors for the heavy sets correctly.
