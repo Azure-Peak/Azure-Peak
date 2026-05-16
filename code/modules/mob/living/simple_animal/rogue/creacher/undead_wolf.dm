@@ -64,13 +64,6 @@
 	can_have_ai = FALSE
 	ai_controller = /datum/ai_controller/undead/wolf
 
-/datum/component/deadite/wolf
-	leg_health = 100
-	max_leg_health = 100
-	head_health = 75
-	max_head_health = 75
-	icon_downed = "wolf_downed"
-
 /mob/living/simple_animal/hostile/retaliate/rogue/wolf_undead/AttackingTarget() //7+1d6 vs con to knock ppl down
 	. = ..()
 
@@ -94,7 +87,7 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/wolf_undead/Initialize()
 	. = ..()
 	AddComponent(/datum/component/ai_aggro_system)
-	AddComponent(/datum/component/deadite/wolf)
+	AddComponent(/datum/component/deadite, 15 MINUTES, 100, 75, "wolf_downed")
 
 /mob/living/simple_animal/hostile/retaliate/rogue/wolf_undead/get_sound(input)
 	switch(input)
