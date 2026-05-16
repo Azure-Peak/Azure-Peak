@@ -496,13 +496,13 @@
 	icon_state = "vlord"
 	item_state = "vlord"
 	wbalance = WBALANCE_NORMAL
-	alt_grips = null //It breaks the sprite directions so badly.
 	max_blade_int = 666
 	max_integrity = 9999
 	sellprice = 777
 	static_price = TRUE
 	equip_delay_self = 0
 	unequip_delay_self = 0
+	alt_grips = null //It breaks the sprite directions so badly.
 	unenchantable = TRUE //Its a 55 force, antag-only-holdable, glowing superweapon as-is. Also you would be wasting your enchantments cause it qdel's the blade anyway on recalling it.
 
 /obj/item/rogueweapon/sword/long/judgement/vlord/Initialize()
