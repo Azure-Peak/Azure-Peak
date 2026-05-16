@@ -49,14 +49,10 @@ SUBSYSTEM_DEF(treasury)
 	var/list/merchant_agents = list()
 	var/list/bathhouse_agents = list()
 	var/list/church_agents = list()
-	/// Banditry shortfall. Skimmed from Crown's Purse inflow until paid down.
 	var/banditry_debt = 0
-	/// One of TREASURY_NORMAL / IN_ARREARS / BANKRUPTCY. Mutate only via bankruptcy.dm helpers.
 	var/treasury_state = TREASURY_NORMAL
-	/// Arrears + sequestration + ATC-loan debt, skimmed against above the state-dependent floor.
 	var/treasury_debt = 0
 	var/bankruptcy_count = 0
-	/// Cooldown-free charter restores remaining after sequestration recovery.
 	var/bankruptcy_concession_picks = 0
 	var/list/bankruptcy_suspended_decree_ids = list()
 	/// TRUE once the Crown has drawn an ATC emergency loan; consumes the arrears grace so the
@@ -67,10 +63,6 @@ SUBSYSTEM_DEF(treasury)
 	var/list/noble_incomes = list()
 	var/list/decrees = list()
 	var/list/stockpile_datums = list()
-	/// good_id -> /datum/roguestock/stockpile. Populated once at Initialize from
-	/// stockpile_datums; the list is never mutated afterward, so this stays valid for
-	/// the round. Lookup callers (find_stockpile_by_trade_good) hit this map - the old
-	/// linear scan was being called ~100x per Steward UI tick.
 	var/list/stockpile_by_trade_good = list()
 	var/decree_revoke_used_day = -1
 	var/decree_restore_used_day = -1
@@ -113,6 +105,15 @@ SUBSYSTEM_DEF(treasury)
 	var/poll_projection_dirty = TRUE
 	/// Steward-settable floor. Stockpile refuses purchases when Crown's Purse would drop below this.
 	var/stockpile_purchase_floor = STOCKPILE_CROWN_PURCHASE_FLOOR_DEFAULT
+	/// A feature for the Steward to unlock once the Crown's trade volume reaches 10k
+	/// Basically help automate the import, fitting in line with my idea of active trade 
+	/// Converting to passive convenience later. Later on I might gate it through a 
+	/// Total trade volumes converting into multiple chooseable upgrades but for now
+	/// It just automatically unlock an upgrade with no real choice
+	var/royal_custom_unlocked = FALSE
+	var/royal_custom_active = FALSE
+	var/royal_custom_margin = ROYAL_CUSTOM_DEFAULT_MARGIN
+	var/royal_custom_threshold = ROYAL_CUSTOM_VOLUME_BASE
 	var/rumor_points = RUMOR_POINTS_START
 	var/list/rumor_log = list()
 	var/list/rumor_issued_today = list()
@@ -121,11 +122,9 @@ SUBSYSTEM_DEF(treasury)
 	var/fined_today_day = -1
 
 /datum/controller/subsystem/treasury/Initialize()
-	// Roundstart Crown's Purse = purchase floor + random buffer + pop-scaled seed. Pop scaling
-	// covers the payroll burden (highpop full-roster = ~600m/day) so a low-rolled purse
-	// at full garrison doesn't trigger immediate insolvency.
 	var/roundstart_pop = get_active_player_count()
 	var/seed = STOCKPILE_CROWN_PURCHASE_FLOOR_DEFAULT + rand(500, 1500) + (roundstart_pop * CROWN_PURSE_SEED_PER_PLAYER)
+	royal_custom_threshold = ROYAL_CUSTOM_VOLUME_BASE + (roundstart_pop * ROYAL_CUSTOM_VOLUME_PER_POP)
 	discretionary_fund = new("Crown's Purse", null, seed, CURRENCY_MAMMON)
 	burgher_pledge_fund = new("Burgher Pledge", null, BURGHER_PLEDGE_BASE_REFILL * BURGHER_PLEDGE_ROUNDSTART_MULTIPLIER, CURRENCY_BURGHER_PLEDGE)
 	church_fund = new("Church Fund", null, CHURCH_FUND_SEED, CURRENCY_MAMMON)
@@ -493,6 +492,7 @@ SUBSYSTEM_DEF(treasury)
 
 	mint(discretionary_fund, amt, "exported [D.name]")
 	SStreasury.total_export += amt
+	economic_output += amt
 	record_round_statistic(STATS_STOCKPILE_EXPORTS_VALUE, amt)
 	return amt
 

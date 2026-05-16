@@ -2,6 +2,15 @@ import { useState } from 'react';
 
 import { useBackend } from '../backend';
 import { Window } from '../layouts';
+import {
+  INK,
+  INK_FAINT,
+  pageStyle,
+  rulerStyle,
+  SEAL_AMBER,
+  subtitleStyle,
+  titleStyle,
+} from './common/parchment';
 import { ArrearsBanner } from './StewardTrade/ArrearsBanner';
 import { ATCLoanBanner } from './StewardTrade/ATCLoanBanner';
 import { AutoImportView } from './StewardTrade/AutoImportView';
@@ -12,17 +21,9 @@ import { MarketView } from './StewardTrade/MarketView';
 import { OrdersView } from './StewardTrade/OrdersView';
 import { PetitionView } from './StewardTrade/PetitionView';
 import { RegionsView } from './StewardTrade/RegionsView';
+import { RoyalCustomPanel } from './StewardTrade/RoyalCustomPanel';
 import { SequesteredOverlay } from './StewardTrade/SequesteredOverlay';
 import { SequestrationBanner } from './StewardTrade/SequestrationBanner';
-import {
-  INK,
-  INK_FAINT,
-  pageStyle,
-  rulerStyle,
-  SEAL_AMBER,
-  subtitleStyle,
-  titleStyle,
-} from './common/parchment';
 import { TabBar } from './StewardTrade/TabBar';
 import { TradeModal, type TradeModalRequest } from './StewardTrade/TradeModal';
 import type { Data, TabKey } from './StewardTrade/types';
@@ -144,12 +145,13 @@ export const StewardTrade = () => {
           {tab === 'auto_import' && (
             <SequesteredOverlay
               active={!!data.sequestration?.active}
-              label="Standing Imports"
+              label="Imports"
             >
               <AutoImportView data={data} />
             </SequesteredOverlay>
           )}
           {tab === 'petition' && <PetitionView data={data} />}
+          {tab === 'royal_custom' && <RoyalCustomPanel />}
         </div>
         <TradeModal
           request={tradeRequest}

@@ -467,7 +467,6 @@ export const QuestScroll = () => {
                   fontStyle: 'italic',
                   color: 'hsl(130, 45%, 28%)',
                   fontSize: '0.92em',
-                  letterSpacing: '0.5px',
                 }}
               >
                 By Royal Seal and Ducal Prerogative, the bearer of this writ is

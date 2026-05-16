@@ -199,7 +199,7 @@ export const TaxSetter = (props: any, context: any) => {
                 padding: '6px 10px',
                 textAlign: 'center',
                 fontVariant: 'small-caps',
-                letterSpacing: '1px',
+
                 fontWeight: 'bold',
                 marginBottom: '10px',
               }}

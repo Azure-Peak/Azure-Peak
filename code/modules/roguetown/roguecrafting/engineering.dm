@@ -1,6 +1,6 @@
 /datum/crafting_recipe/roguetown/engineering
 	abstract_type = /datum/crafting_recipe/roguetown/engineering
-	var/display_category = ITEM_CAT_ENG_MISC
+	display_category = ITEM_CAT_ENG_MISC
 
 /datum/crafting_recipe/roguetown/engineering/art_table
 	name = "artificer table"

@@ -31,89 +31,185 @@
 /obj/structure/roguemachine/stockpile/examine(mob/user)
 	. = ..()
 	. += span_info("Right click to sell everything in front of the stockpile.")
+	if(SStreasury.royal_custom_unlocked)
+		. += span_info(SStreasury.royal_custom_active ? "Royal Custom is in force; direct imports pay duty to the Crown." : "Royal Custom is chartered but suspended.")
+	else
+		var/v = SStreasury.economic_output || 0
+		. += span_info("Royal Custom Charter unlocks at [SStreasury.royal_custom_threshold] mammon of stockpile trade ([v] so far).")
 
-/obj/structure/roguemachine/stockpile/Topic(href, href_list)
-	. = ..()
-	if(!usr.canUseTopic(src, BE_CLOSE))
-		return
-	if(href_list["navigate"])
-		return attack_hand(usr, href_list["navigate"])
-	if(href_list["stockpilechangecat"])
-		current_category = href_list["stockpilechangecat"]
-		return attack_hand(usr, "deposit")
+/obj/structure/roguemachine/stockpile/ui_state(mob/user)
+	return GLOB.human_adjacent_state
 
-	if(withdraw_tab.perform_action(href, href_list))
-		if(href_list["remote"])
-			playsound(loc, 'sound/misc/disposalflush.ogg', 100, FALSE, -1)
-		return attack_hand(usr, "withdraw")
-
-	// If we don't get a valid option, default to returning to the directory
-	return attack_hand(usr, "directory")
-
-
-/obj/structure/roguemachine/stockpile/proc/get_directory_contents()
-	var/contents = "<center>TOWN STOCKPILE<BR>"
-	contents += "--------------<BR>"
-
-	contents += "<a href='?src=[REF(src)];navigate=withdraw'>EXTRACT</a><BR>"
-	contents += "<a href='?src=[REF(src)];navigate=deposit'>FEED</a></center><BR><BR>"
-
-	return contents
-
-/obj/structure/roguemachine/stockpile/proc/get_withdraw_contents()
-	return withdraw_tab.get_contents("EXTRACT FROM THE STOCKPILE", TRUE)
-
-/obj/structure/roguemachine/stockpile/proc/get_deposit_contents()
-	var/contents = "<center>FEED THE STOCKPILE<BR>"
-	contents += "<a href='?src=[REF(src)];navigate=directory'>(back)</a><BR>"
-	contents += "----------<BR>"
-	contents += "</center>"
-	var/selection = "Categories: "
-	for(var/category in categories)
-		if(category == current_category)
-			selection += "<b>[current_category]</b> "
-		else
-			// Force call navigate so the UI actually updates fml
-			selection += "<a href='?src=[REF(src)];stockpilechangecat=[category]'>[category]</a> "
-	contents += selection + "<BR>"
-	contents += "--------------<BR>"
-
-	for(var/datum/roguestock/bounty/R in SStreasury.stockpile_datums)
-		contents += "[R.name] - [R.payout_price][R.percent_bounty ? "%" : ""]"
-		contents += "<BR>"
-
-	contents += "<BR>"
-
-	for(var/datum/roguestock/stockpile/R in SStreasury.stockpile_datums)
-		if(R.category != current_category)
-			continue
-		R.refresh_auto_price()
-		if(!R.accept_toggle_enabled)
-			contents += "<font color='#888'>[R.name][R.get_event_tag()] - NOT ACCEPTING - ([R.stockpile_amount]/[R.stockpile_limit])</font>"
-		else
-			contents += "[R.name][R.get_event_tag()] - [R.payout_price][R.get_market_delta_tag_for("deposit")] - ([R.stockpile_amount]/[R.stockpile_limit])"
-		contents += "<BR>"
-
-	return contents
-
-/obj/structure/roguemachine/stockpile/attack_hand(mob/living/user, menu_name)
+/obj/structure/roguemachine/stockpile/attack_hand(mob/living/user)
 	. = ..()
 	if(.)
 		return
 	user.changeNext_move(CLICK_CD_INTENTCAP)
 	playsound(loc, 'sound/misc/keyboard_enter.ogg', 100, FALSE, -1)
+	ui_interact(user)
 
-	var/contents
-	if(menu_name == "withdraw")
-		contents = get_withdraw_contents()
-	else if(menu_name == "deposit")
-		contents = get_deposit_contents()
-	else
-		contents = get_directory_contents()
+/obj/structure/roguemachine/stockpile/ui_interact(mob/user, datum/tgui/ui)
+	ui = SStgui.try_update_ui(user, src, ui)
+	if(!ui)
+		ui = new(user, src, "Stockpile", name)
+		ui.open()
 
-	var/datum/browser/popup = new(user, "VENDORTHING", "", 700, 800)
-	popup.set_content(contents)
-	popup.open()
+/obj/structure/roguemachine/stockpile/ui_data(mob/user)
+	check_charter_unlock()
+	var/list/data = list()
+	data["budget"] = withdraw_tab.budget
+	data["compact"] = withdraw_tab.compact ? TRUE : FALSE
+	data["categories"] = categories
+	data["category"] = withdraw_tab.current_category
+	data["food_stipend"] = (ishuman(user) && HAS_TRAIT(user, TRAIT_FOOD_STIPEND)) ? TRUE : FALSE
+	var/treasury_balance = SStreasury.discretionary_fund?.balance || 0
+	data["treasury_floor"] = SStreasury.stockpile_purchase_floor
+	data["below_floor"] = treasury_balance < SStreasury.stockpile_purchase_floor
+	data["charter_unlocked"] = SStreasury.royal_custom_unlocked ? TRUE : FALSE
+	data["charter_active"] = SStreasury.royal_custom_active ? TRUE : FALSE
+	data["charter_margin"] = SStreasury.royal_custom_margin
+	data["charter_volume"] = SStreasury.economic_output || 0
+	data["charter_threshold"] = SStreasury.royal_custom_threshold
+
+	var/list/rows = list()
+	for(var/datum/roguestock/stockpile/R in SStreasury.stockpile_datums)
+		R.refresh_auto_price()
+		rows += list(list(
+			"ref" = "\ref[R]",
+			"name" = R.name,
+			"desc" = R.desc,
+			"category" = R.category,
+			"amount" = R.stockpile_amount,
+			"limit" = R.stockpile_limit,
+			"withdraw_price" = R.withdraw_price,
+			"deposit_price" = R.payout_price,
+			"import_price" = direct_import_price(R),
+			"withdraw_disabled" = R.withdraw_disabled ? TRUE : FALSE,
+			"accept_enabled" = R.accept_toggle_enabled ? TRUE : FALSE,
+			"event_tag" = R.get_event_label(),
+		))
+	data["stocks"] = rows
+
+	var/list/bounties = list()
+	for(var/datum/roguestock/bounty/B in SStreasury.stockpile_datums)
+		bounties += list(list(
+			"name" = B.name,
+			"payout_price" = B.payout_price,
+			"percent" = B.percent_bounty ? TRUE : FALSE,
+		))
+	data["bounties"] = bounties
+	return data
+
+/obj/structure/roguemachine/stockpile/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)
+	. = ..()
+	if(.)
+		return
+	switch(action)
+		if("withdraw")
+			var/datum/roguestock/D = locate(params["ref"]) in SStreasury.stockpile_datums
+			if(!D)
+				return TRUE
+			do_withdraw(D, usr)
+			return TRUE
+		if("set_category")
+			var/cat = params["category"]
+			if(cat == "__conditions__" || (cat in categories))
+				withdraw_tab.current_category = cat
+				current_category = cat
+			return TRUE
+		if("toggle_compact")
+			withdraw_tab.compact = !withdraw_tab.compact
+			return TRUE
+		if("refund_budget")
+			if(withdraw_tab.budget > 0)
+				budget2change(withdraw_tab.budget, usr)
+				withdraw_tab.budget = 0
+				playsound(loc, 'sound/misc/coindispense.ogg', 100, FALSE, -1)
+			return TRUE
+		if("direct_import")
+			var/datum/roguestock/D = locate(params["ref"]) in SStreasury.stockpile_datums
+			if(!D)
+				return TRUE
+			do_direct_import(D, usr)
+			return TRUE
+
+/obj/structure/roguemachine/stockpile/proc/check_charter_unlock()
+	if(SStreasury.royal_custom_unlocked)
+		return
+	var/volume = SStreasury.economic_output || 0
+	if(volume < SStreasury.royal_custom_threshold)
+		return
+	SStreasury.royal_custom_unlocked = TRUE
+	SStreasury.royal_custom_active = TRUE
+	scom_announce("The Stewardry has tallied [SStreasury.royal_custom_threshold] mammons of trade. By ancient charter, the Crown's Right of Customs in Excess is invoked - duties that once paid for the middleman's cut now flow into the Crown's purse instead. The Steward may set the rate at the Stewardry.")
+	for(var/mob/living/carbon/human/H in GLOB.human_list)
+		if(!H.client || !H.mind)
+			continue
+		if(H.mind.assigned_role == "Steward")
+			send_ooc_note("<b>Royal Custom unlocked.</b> Import surcharges at every stockpile now flow to the Crown's purse. Adjust the margin at your Trading Interface.", name = H.real_name)
+
+/obj/structure/roguemachine/stockpile/proc/direct_import_price(datum/roguestock/D)
+	if(!D)
+		return 0
+	D.refresh_auto_price()
+	var/margin = (SStreasury.royal_custom_active && SStreasury.royal_custom_unlocked) ? SStreasury.royal_custom_margin : ROYAL_CUSTOM_DEFAULT_MARGIN
+	return max(1, round(D.withdraw_price * (100 + margin) / 100))
+
+/obj/structure/roguemachine/stockpile/proc/do_direct_import(datum/roguestock/D, mob/user)
+	if(!D || !ishuman(user))
+		return
+	if(D.withdraw_disabled)
+		say("Not available.")
+		return
+	var/price = direct_import_price(D)
+	if(withdraw_tab.budget < price)
+		say("Insufficient mammon in the coinpouch.")
+		return
+	withdraw_tab.budget -= price
+	SStreasury.economic_output += price
+	record_round_statistic(STATS_STOCKPILE_DIRECT_IMPORTS, price)
+	var/chartered = SStreasury.royal_custom_active && SStreasury.royal_custom_unlocked
+	if(chartered)
+		SStreasury.mint(SStreasury.discretionary_fund, price, "Royal Custom: direct import of [D.name]")
+		record_round_statistic(STATS_STOCKPILE_REVENUE, price)
+	var/obj/item/I = new D.item_type(loc)
+	if(!user.put_in_hands(I))
+		I.forceMove(get_turf(user))
+	playsound(loc, 'sound/misc/hiss.ogg', 100, FALSE, -1)
+	var/flavor = chartered ? "Royal Custom duty paid to the Crown." : "Import surcharge consumed by transport."
+	to_chat(user, span_notice("[D.name] imported for [price]m. [flavor]"))
+
+/obj/structure/roguemachine/stockpile/proc/do_withdraw(datum/roguestock/D, mob/user)
+	D.refresh_auto_price()
+	var/total_price = D.withdraw_price
+	if(D.withdraw_disabled)
+		say("Not available.")
+		return
+	if(D.stockpile_amount <= 0)
+		say("Insufficient stock.")
+		return
+	if(total_price > withdraw_tab.budget)
+		if(ishuman(user) && HAS_TRAIT(user, TRAIT_FOOD_STIPEND))
+			if(SStreasury.burn(SStreasury.discretionary_fund, total_price, "food stipend - vomitorium"))
+				D.stockpile_amount--
+				var/obj/item/I = new D.item_type(loc)
+				to_chat(user, span_info("[src] chitters and squeaks into the treasury ratlines."))
+				if(!user.put_in_hands(I))
+					I.forceMove(get_turf(user))
+				playsound(loc, 'sound/misc/hiss.ogg', 100, FALSE, -1)
+				return
+			say("The treasury is barren. Please insert coinage.")
+			return
+		say("Insufficient mammon.")
+		return
+	D.stockpile_amount--
+	withdraw_tab.budget -= total_price
+	SStreasury.mint(SStreasury.discretionary_fund, total_price, "stockpile withdraw")
+	record_round_statistic(STATS_STOCKPILE_REVENUE, total_price)
+	var/obj/item/I = new D.item_type(loc)
+	if(!user.put_in_hands(I))
+		I.forceMove(get_turf(user))
+	playsound(loc, 'sound/misc/hiss.ogg', 100, FALSE, -1)
 
 /obj/structure/roguemachine/stockpile/proc/attemptsell(obj/item/I, mob/H, message = TRUE, sound = TRUE)
 	if(istype(I, /obj/structure/handcart)) // Handle carts specially - sell their contents, leave the empty cart

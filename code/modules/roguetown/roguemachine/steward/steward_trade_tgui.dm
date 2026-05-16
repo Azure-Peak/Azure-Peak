@@ -96,6 +96,10 @@
 	data["day"] = GLOB.dayspassed
 	data["expected_rural_revenue"] = SStreasury?.get_rural_tax_amount() || 0
 	data["expected_wage_outlay"] = SStreasury?.get_expected_wage_outlay() || 0
+	data["royal_custom_unlocked"] = SStreasury?.royal_custom_unlocked ? TRUE : FALSE
+	data["royal_custom_margin"] = SStreasury?.royal_custom_margin
+	data["royal_custom_threshold"] = SStreasury?.royal_custom_threshold
+	data["royal_custom_volume"] = SStreasury?.economic_output || 0
 
 	// Alderman-acting view: expose the warrant so the TGUI can render it prominently. Only
 	// populated when the viewer is the sitting Alderman - the Steward doesn't need a warrant
@@ -889,4 +893,11 @@ GLOBAL_LIST_INIT(steward_trade_sequestration_locked_actions, list(
 				playsound(src, 'sound/items/inqslip_sealed.ogg', 70, FALSE, -1)
 				visible_message(span_notice("[src] stamps a sealed writ. The wax bears the mark of the Azurian Trading Company."))
 			SStgui.update_uis(src)
+			return TRUE
+		if("set_royal_custom_margin")
+			if(!SStreasury.royal_custom_unlocked)
+				return TRUE
+			var/n = text2num("[params["value"]]")
+			if(isnum(n))
+				SStreasury.royal_custom_margin = clamp(round(n), 0, 500)
 			return TRUE

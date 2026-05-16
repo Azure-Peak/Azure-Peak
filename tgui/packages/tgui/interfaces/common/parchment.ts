@@ -2,8 +2,8 @@ import type { CSSProperties } from 'react';
 
 // ── Parchment palette ────────────────────────────────────────────
 export const INK = '#3a2a14';
-export const INK_SOFT = '#6b4e2a';
-export const INK_FAINT = '#8a7250';
+export const INK_SOFT = '#5a3f1f';
+export const INK_FAINT = '#7a5e3a';
 export const PARCHMENT = '#f4e7c6';
 export const PARCHMENT_DEEP = '#e6d4a3';
 export const PARCHMENT_SHADOW = '#c7a86a';
@@ -12,6 +12,8 @@ export const SEAL_RED_SOFT = '#a8433a';
 export const SEAL_GREEN = '#3b6a35';
 export const SEAL_BLUE = '#2e4a78';
 export const SEAL_AMBER = '#7a5616';
+export const BUTTON_BG = 'rgba(255,248,220,0.6)';
+export const BUTTON_HOVER_BG = 'rgba(200,170,100,0.35)';
 
 export const SERIF = '"Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif';
 
@@ -29,7 +31,6 @@ export const pageStyle: CSSProperties = {
 export const titleStyle: CSSProperties = {
   textAlign: 'center',
   fontSize: '22px',
-  letterSpacing: '4px',
   fontVariant: 'small-caps',
   fontWeight: 'bold',
   color: INK,
@@ -53,7 +54,6 @@ export const rulerStyle: CSSProperties = {
 
 export const sectionHeaderStyle: CSSProperties = {
   fontVariant: 'small-caps',
-  letterSpacing: '2px',
   fontSize: '15px',
   color: INK,
   fontWeight: 'bold',
@@ -74,7 +74,6 @@ export const tabStyle = (active: boolean): CSSProperties => ({
   fontFamily: SERIF,
   fontSize: '14px',
   fontVariant: 'small-caps',
-  letterSpacing: '2px',
   padding: '4px 18px',
   color: active ? INK : INK_FAINT,
   background: active ? 'rgba(200,170,100,0.25)' : 'transparent',
@@ -98,7 +97,6 @@ export const subTabStyle = (active: boolean): CSSProperties => ({
   fontFamily: SERIF,
   fontSize: '12px',
   fontVariant: 'small-caps',
-  letterSpacing: '1px',
   padding: '3px 10px',
   color: active ? INK : INK_FAINT,
   background: active ? 'rgba(200,170,100,0.25)' : 'transparent',
@@ -123,7 +121,6 @@ export const badgeStyle = (color: string): CSSProperties => ({
   fontFamily: SERIF,
   fontSize: '10px',
   fontVariant: 'small-caps',
-  letterSpacing: '1px',
   padding: '1px 7px',
   marginLeft: '6px',
   color: '#f7eccb',
@@ -141,17 +138,31 @@ export const inkButtonStyle = (opts: {
   return {
     fontFamily: SERIF,
     fontSize: '12px',
-    fontVariant: 'small-caps',
-    letterSpacing: '1px',
+    fontWeight: 'bold',
     padding: '2px 10px',
-    color: opts.disabled ? INK_FAINT : col,
-    background: opts.disabled ? 'transparent' : 'rgba(255,248,220,0.6)',
-    border: `1px solid ${opts.disabled ? INK_FAINT : col}`,
+    color: col,
+    background: opts.disabled ? 'transparent' : BUTTON_BG,
+    border: opts.disabled
+      ? `1px dashed ${INK_FAINT}`
+      : `1px solid ${col}`,
     borderRadius: '2px',
     cursor: opts.disabled ? 'default' : 'pointer',
-    opacity: opts.disabled ? 0.5 : 1,
+    opacity: opts.disabled ? 0.7 : 1,
+    transition: 'background-color 80ms linear',
   };
 };
+
+export const chipStyle = (color: string = INK_SOFT): CSSProperties => ({
+  display: 'inline-block',
+  fontFamily: SERIF,
+  fontSize: '12px',
+  fontWeight: 'bold',
+  padding: '1px 8px',
+  color: color,
+  background: 'transparent',
+  border: `1px dashed ${color}`,
+  borderRadius: '2px',
+});
 
 export const fieldRowStyle: CSSProperties = {
   display: 'flex',
@@ -163,7 +174,6 @@ export const fieldRowStyle: CSSProperties = {
 export const fieldLabelStyle: CSSProperties = {
   flex: '0 0 145px',
   fontVariant: 'small-caps',
-  letterSpacing: '2px',
   color: SEAL_AMBER,
   fontStyle: 'italic',
 };
@@ -194,6 +204,5 @@ export const bannerStyle = (color: string, soft: boolean = false): CSSProperties
   marginBottom: '10px',
   textAlign: 'center',
   fontVariant: 'small-caps',
-  letterSpacing: '1px',
   fontWeight: 'bold',
 });

@@ -565,6 +565,7 @@
 			data += "</div>"
 			data += "<div style='margin-bottom: 4px;'><font color='#90b34f'>Stockpile Exports: </font>[GLOB.azure_round_stats[STATS_STOCKPILE_EXPORTS_VALUE]]</div>"
 			data += "<div style='margin-bottom: 4px;'><font color='#a2b337'>Bought from Stockpile: </font>[GLOB.azure_round_stats[STATS_STOCKPILE_REVENUE]]</div>"
+			data += "<div style='margin-bottom: 4px;'><font color='#b3a437'>Direct Imports (Royal Custom): </font>[GLOB.azure_round_stats[STATS_STOCKPILE_DIRECT_IMPORTS]]</div>"
 			var/standing_order_revenue = GLOB.azure_round_stats[STATS_STANDING_ORDER_REVENUE]
 			var/orders_fulfilled = GLOB.azure_round_stats[STATS_STANDING_ORDERS_FULFILLED]
 			var/orders_expired = GLOB.azure_round_stats[STATS_STANDING_ORDERS_EXPIRED]

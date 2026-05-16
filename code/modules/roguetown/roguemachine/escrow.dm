@@ -89,24 +89,7 @@
 	var/list/keycontrol = list("crafterguild", "craftermaster")
 	var/locked = TRUE
 	var/budget = 0
-	var/list/material_prices = list(
-		/obj/item/ingot/copper = 12,
-		/obj/item/ingot/bronze = 18,
-		/obj/item/ingot/iron = 20,
-		/obj/item/ingot/steel = 30,
-		/obj/item/ingot/steelholy = 120,
-		/obj/item/ingot/blacksteel = 100,
-		/obj/item/ingot/silver = 100,
-		/obj/item/ingot/silverblessed = 200,
-		/obj/item/ingot/silverblessed/bullion = 200,
-		/obj/item/ingot/gold = 80,
-		/obj/item/ingot/lithmyc = 250,
-		/obj/item/ingot/purifiedaalloy = 500,
-		/obj/item/grown/log/tree/small = 3,
-		/obj/item/natural/wood/plank = 5,
-		/obj/item/roguegear = 8,
-		/obj/item/natural/glass = 6,
-	)
+	var/list/material_prices
 	var/percent_margin = 20
 	var/flat_margin = 0
 	var/list/orders = list()
@@ -116,8 +99,17 @@
 
 /obj/structure/roguemachine/escrow/Initialize()
 	. = ..()
+	init_material_prices()
 	rebuild_catalog()
 	update_icon()
+
+/obj/structure/roguemachine/escrow/proc/init_material_prices()
+	material_prices = list()
+	for(var/path in GLOB.material_baseline_prices)
+		var/baseline = GLOB.material_baseline_prices[path]
+		if(baseline <= 0)
+			continue
+		material_prices[path] = max(1, round(baseline * PRICING_ENGINE_COMMISSIONER_MARKUP))
 
 /obj/structure/roguemachine/escrow/Destroy()
 	orders?.Cut()
@@ -139,8 +131,8 @@
 		if(!(AR.req_bar in material_prices))
 			continue
 		catalog += AR
-	for(var/datum/crafting_recipe/roguetown/engineering/CR in GLOB.crafting_recipes)
-		if(CR.hides_from_books || !CR.name || !CR.result)
+	for(var/datum/crafting_recipe/CR in GLOB.crafting_recipes)
+		if(CR.hides_from_books || !CR.name || !CR.result || !CR.display_category)
 			continue
 		catalog += CR
 
@@ -155,9 +147,9 @@
 	if(istype(recipe, /datum/anvil_recipe))
 		var/datum/anvil_recipe/AR = recipe
 		return AR.display_category || ITEM_CAT_SMITHING_MISC
-	if(istype(recipe, /datum/crafting_recipe/roguetown/engineering))
-		var/datum/crafting_recipe/roguetown/engineering/CR = recipe
-		return CR.display_category || ITEM_CAT_ENG_MISC
+	if(istype(recipe, /datum/crafting_recipe))
+		var/datum/crafting_recipe/CR = recipe
+		return CR.display_category || ITEM_CAT_MISCELLANEOUS
 	return ITEM_CAT_SMITHING_MISC
 
 /obj/structure/roguemachine/escrow/proc/recipe_primary_ingot(datum/recipe)

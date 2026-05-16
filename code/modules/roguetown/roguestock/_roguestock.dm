@@ -134,6 +134,19 @@
 			color = "#c84"
 	return " <font color='[color]'>([sign_str]% [label])</font>"
 
+/// Returns "SHORTAGE", "GLUT", or "" - the plain event label without HTML.
+/datum/roguestock/proc/get_event_label()
+	if(!trade_good_id)
+		return ""
+	for(var/datum/economic_event/E as anything in GLOB.active_economic_events)
+		if(!(trade_good_id in E.affected_goods))
+			continue
+		if(E.event_type == ECON_EVENT_SHORTAGE)
+			return "SHORTAGE"
+		if(E.event_type == ECON_EVENT_OVERSUPPLY)
+			return "GLUT"
+	return ""
+
 /// Returns a span tag naming the active event affecting this good, or "" if none.
 /datum/roguestock/proc/get_event_tag()
 	if(!trade_good_id)

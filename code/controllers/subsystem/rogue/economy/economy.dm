@@ -774,6 +774,7 @@ SUBSYSTEM_DEF(economy)
 	if(stockpile_entry)
 		stockpile_entry.stockpile_amount += quantity
 	SStreasury.total_import += total_cost
+	SStreasury.economic_output += total_cost
 	record_round_statistic(STATS_STOCKPILE_IMPORTS_VALUE, total_cost)
 
 	if(user)
@@ -817,6 +818,7 @@ SUBSYSTEM_DEF(economy)
 	var/export_label = user ? "Manual Export" : "Auto Export"
 	SStreasury.mint(SStreasury.discretionary_fund, total_revenue, "[export_label]: [quantity] [tg.name] to [region.name][actor_suffix]")
 	SStreasury.total_export += total_revenue
+	SStreasury.economic_output += total_revenue
 
 	if(user)
 		log_game("MANUAL EXPORT by [user.ckey]: [quantity] [tg.name] to [region.name] (revenue [total_revenue]m)")
