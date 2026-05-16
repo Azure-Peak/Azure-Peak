@@ -350,7 +350,7 @@
 		if(!istype(A, /datum/antagonist/skeleton) && !istype(A, /datum/antagonist/lich))
 			continue
 		var/datum/mind/skele = A.owner
-		to_chat(skele.current, span_cult("[span_purple(user.real_name)] shrieks out their commandment: <b>\"[calltext]\"</b>"))
+		to_chat(skele.current, span_narsie("[span_purple(user.real_name)] shrieks out their commandment: <b>\"[calltext]\"</b>"))
 		skele.current.playsound_local(get_turf(A.owner), 'sound/misc/deadbell.ogg', 50, FALSE)
 
 	..()
