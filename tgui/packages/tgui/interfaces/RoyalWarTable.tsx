@@ -124,7 +124,7 @@ type Data = {
 };
 
 const BASE_WIDTH = 1180;
-const BASE_HEIGHT = 760;
+const BASE_HEIGHT = 820;
 
 const ACTION_ICONS: Record<string, string> = {
   make_announcement: 'bullhorn',
@@ -188,6 +188,7 @@ const useFitScale = () => {
       const nextScale = Math.min(
         rect.width / BASE_WIDTH,
         rect.height / BASE_HEIGHT,
+        1,
       );
       setScale(Math.max(0.1, nextScale));
     };

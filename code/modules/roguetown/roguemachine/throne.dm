@@ -1,4 +1,5 @@
 GLOBAL_VAR(king_throne)
+GLOBAL_VAR(royal_throat)
 
 /obj/structure/roguethrone
 	name = "throne of Azure Peak"
@@ -113,6 +114,23 @@ GLOBAL_VAR(king_throne)
 			return
 		active_rite.start_counter_claim(H)
 
+/obj/structure/roguethrone/attack_right(mob/user)
+	. = ..()
+	if(.)
+		return
+	if(!ishuman(user))
+		return
+	var/obj/structure/roguemachine/titan/throat = GLOB.royal_throat
+	if(!throat || QDELETED(throat))
+		for(var/obj/structure/roguemachine/titan/found_throat in world)
+			throat = found_throat
+			GLOB.royal_throat = throat
+			break
+	if(!throat)
+		to_chat(user, span_warning("The Throat of Azure Peak does not answer."))
+		return
+	throat.ui_interact(user)
+
 /obj/structure/roguethrone/examine(mob/user)
 	. = ..()
 	. += span_notice("The throne of the [SSticker.realm_type] of [SSticker.realm_name].")
@@ -130,7 +148,7 @@ GLOBAL_VAR(king_throne)
 
 /obj/structure/roguethrone/get_mechanics_examine(mob/user)
 	. = ..()
-	. += span_info("Right-click the Throat of Azure Peak to open the Royal War Table interface. Spoken commands still work.")
+	. += span_info("Right-click the throne to open the Royal War Table interface. Spoken commands at the Throat still work.")
 	. += span_info("<b>Throat Commands</b> (say these at the Throat of Azure Peak):")
 	. += span_info("'Make Announcement' - broadcast a message (requires crown)")
 	. += span_info("'Revise Charter' - revise or restore charters (requires crown, ruler only)")

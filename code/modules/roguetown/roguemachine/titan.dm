@@ -38,25 +38,21 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 /obj/structure/roguemachine/titan/Destroy()
 	lose_hearing_sensitivity()
 	set_light(0)
+	if(GLOB.royal_throat == src)
+		GLOB.royal_throat = null
 	return ..()
 
 /obj/structure/roguemachine/titan/Initialize()
 	. = ..()
 	icon_state = null
+	if(!GLOB.royal_throat)
+		GLOB.royal_throat = src
 	become_hearing_sensitive()
 //	var/mutable_appearance/eye_lights = mutable_appearance(icon, "titan-eyes")
 //	eye_lights.plane = ABOVE_LIGHTING_PLANE //glowy eyes
 //	eye_lights.layer = ABOVE_LIGHTING_LAYER
 //	add_overlay(eye_lights)
 	set_light(5)
-
-/obj/structure/roguemachine/titan/attack_right(mob/user)
-	. = ..()
-	if(.)
-		return
-	if(!ishuman(user))
-		return
-	ui_interact(user)
 
 /obj/structure/roguemachine/titan/Hear(message, atom/movable/speaker, message_language, raw_message, radio_freq, list/spans, message_mode, message)
 //	. = ..()

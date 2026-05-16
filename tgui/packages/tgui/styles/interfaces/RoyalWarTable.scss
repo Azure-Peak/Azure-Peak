@@ -29,7 +29,7 @@
   top: 50%;
   box-sizing: border-box;
   width: 1180px;
-  height: 760px;
+  height: 820px;
   display: grid;
   grid-template-rows: 94px 72px minmax(0, 1fr);
   gap: 8px;
@@ -292,7 +292,7 @@
 
 .RoyalWarTable__map {
   position: relative;
-  height: 220px;
+  height: 285px;
   min-height: 0;
   max-height: none;
   overflow: hidden;
