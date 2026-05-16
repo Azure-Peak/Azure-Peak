@@ -1,7 +1,7 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/saiga/undead
 	name = "deadite saiga"
 	desc = "A deadite saiga, its eyes glow with an eerie light."
-	icon = 'icons/mob/saiga_undead.dmi'
+	icon = 'icons/roguetown/mob/monster/deadites/saiga_undead.dmi'
 	icon_state = "saiga"
 	icon_living = "saiga"
 	icon_dead = "saiga_dead"

@@ -17,3 +17,6 @@
 
 /datum/ai_controller/undead/wolf
     movement_delay = WOLF_MOVEMENT_SPEED
+
+/datum/ai_controller/undead/fox
+	movement_delay = FOX_MOVEMENT_SPEED

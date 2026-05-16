@@ -2,7 +2,7 @@
 
 /mob/living/simple_animal/hostile/retaliate/rogue/wolf_undead
 //I'm not inhereting base wolf either because it uses cursed elements and AI.
-	icon = 'icons/mob/wolf_undead.dmi'
+	icon = 'icons/roguetown/mob/monster/deadites/wolf_undead.dmi'
 	name = "deadite volf"
 	desc = "A volf that was claimed for undeath, defiantly snarling with a hunger for fresh meat."
 	icon_state = "wolf"

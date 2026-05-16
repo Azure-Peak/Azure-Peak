@@ -35,8 +35,11 @@
 GLOBAL_LIST_INIT(animal_to_undead, list(
 	/mob/living/simple_animal/hostile/retaliate/rogue/saiga = /mob/living/simple_animal/hostile/retaliate/rogue/saiga/undead,
 	/mob/living/simple_animal/hostile/retaliate/rogue/saiga/saigabuck = /mob/living/simple_animal/hostile/retaliate/rogue/saiga/undead,
+	/mob/living/simple_animal/hostile/retaliate/rogue/saiga/game = /mob/living/simple_animal/hostile/retaliate/rogue/saiga/undead,
 	/mob/living/simple_animal/hostile/retaliate/rogue/wolf = /mob/living/simple_animal/hostile/retaliate/rogue/wolf_undead,
+	/mob/living/simple_animal/hostile/retaliate/rogue/fox = /mob/living/simple_animal/hostile/retaliate/rogue/fox/undead,
 ))
+
 #define ZOMBIE_REANIMATION_CHANCE 25
 #define ZOMBIE_REANIMATION_TIMER 15 MINUTES
 
