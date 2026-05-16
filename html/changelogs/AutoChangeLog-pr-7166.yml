@@ -1,0 +1,5 @@
+author: "Ryan180602"
+delete-after: True
+changes:
+  - bugfix: "adjust unequippability of certain heretic pieces"
+  - bugfix: "vicious jawmask covers nose/mouth only"
