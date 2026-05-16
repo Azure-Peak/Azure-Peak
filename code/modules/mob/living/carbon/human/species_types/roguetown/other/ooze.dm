@@ -21,6 +21,7 @@
 	Easy Dismember | Limb Regrowth | No Bones </span><br><br>"
 	blood_color = "#00FFFF" //Defaults to blue, but we recolor this later to match the slime person's body color.
 	origin_default = /datum/virtue/origin/racial/underdark
+	base_name = "Ooze"
 	origin = "Underdark"
 	default_color = "79F299"
 	species_traits = list(EYECOLOR,HAIR,FACEHAIR,LIPS,MUTCOLORS)
