@@ -1,4 +1,0 @@
-author: "borneblood"
-delete-after: True
-changes:
-  - rscadd: "Added a visual indicator for when someone is crit-to-dying."

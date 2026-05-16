@@ -24,6 +24,11 @@
 	storyteller = /datum/storyteller/graggar
 	crafting_recipes = list(/datum/crafting_recipe/roguetown/structure/graggar_cross_stone, /datum/crafting_recipe/roguetown/structure/graggar_cross_meat)
 
+	titles = list(
+		"Sinistar",
+		"Dark Star"
+	)
+
 /datum/patron/inhumen/graggar/on_lesser_heal(
     mob/living/user,
     mob/living/target,

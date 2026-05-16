@@ -29,6 +29,7 @@ And it also helps for the character set panel
 		TRAIT_LIMBATTACHMENT,
 		TRAIT_SILVER_WEAK,
 		TRAIT_VAMPMANSION,
+		TRAIT_ZOMBIE_IMMUNE,
 	)
 
 	var/blood_preference = BLOOD_PREFERENCE_ALL

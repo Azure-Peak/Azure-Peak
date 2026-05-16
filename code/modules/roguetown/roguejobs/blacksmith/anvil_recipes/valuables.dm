@@ -263,23 +263,29 @@
 	craftdiff = SKILL_LEVEL_EXPERT
 	created_item = /obj/item/clothing/ring/signet
 
-/datum/anvil_recipe/valuables/signetalt
+/datum/anvil_recipe/valuables/signet/silver
 	name = "Signet Ring, Silver"
 	req_bar = /obj/item/ingot/silver
 	craftdiff = SKILL_LEVEL_EXPERT
-	created_item = /obj/item/clothing/ring/signet/alt
+	created_item = /obj/item/clothing/ring/signet/silver
 
-/datum/anvil_recipe/valuables/signet/silver
-	name = "Signet Ring, Blessed Silver"
+/datum/anvil_recipe/valuables/signet/psy
+	name = "Psydonian Signet Ring, Blessed Silver"
 	craftdiff = SKILL_LEVEL_MASTER
 	req_bar = /obj/item/ingot/silverblessed
-	created_item = /obj/item/clothing/ring/signet/silver	
+	created_item = /obj/item/clothing/ring/signet/psy	
 
-/datum/anvil_recipe/valuables/signet/silver/inq
-	name = "Signet Ring, Blessed Silver"
+/datum/anvil_recipe/valuables/signet/psy/inq
+	name = "Psydonian Signet Ring, Blessed Silver"
 	craftdiff = SKILL_LEVEL_MASTER
 	req_bar = /obj/item/ingot/silverblessed/bullion
-	created_item = /obj/item/clothing/ring/signet/silver	
+	created_item = /obj/item/clothing/ring/signet/psy
+
+/datum/anvil_recipe/valuables/signet/psy/gold
+	name = "Psydonian Signet Ring, Gold"
+	craftdiff = SKILL_LEVEL_EXPERT
+	req_bar = /obj/item/ingot/gold
+	created_item = /obj/item/clothing/ring/signet/psy/g	
 
 /datum/anvil_recipe/valuables/duelring
 	name = "Duelist's Rings (x2) (+1 Rosestone Ring)"

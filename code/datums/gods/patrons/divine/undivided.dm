@@ -25,6 +25,10 @@
 	)
 	storyteller = /datum/storyteller/astrata // no unique storyteller for this one, since its so broad. No real reason to have a unique storyteller - Undivided contributes to ecah of the Ten's follower count.
 
+	titles = list(
+		"Ten" // having to put the actual word "Undivided" in your prayers is counterintuitive. they're the ten that's what people call them.
+	)
+
 /datum/patron/divine/undivided/can_pray(mob/living/follower)
 	. = ..()
 	// Undivided - More restricted, needs to be within range of a pantheon cross or the church itself.

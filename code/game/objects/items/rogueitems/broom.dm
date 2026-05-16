@@ -3,15 +3,20 @@
 	desc = "A robust-looking broom, made from a bundle of twigs. Sweep away debris, glass, blood, dirt, and time without a care in the world."
 	icon = 'icons/roguetown/weapons/tools.dmi'
 	icon_state = "broom"
-	possible_item_intents = list(/datum/intent/use)
+	possible_item_intents = list(/datum/intent/use, /datum/intent/mace/strike/wood)
 	gripped_intents = list(/datum/intent/use, /datum/intent/mace/strike/wood)
-	force = 2
-	force_wielded = 4
+	force = 10
+	force_wielded = 14
 	throwforce = 1
 	firefuel = 10 MINUTES
+	wlength = WLENGTH_LONG
+	sharpness = IS_BLUNT
 	resistance_flags = FLAMMABLE
-	slot_flags = ITEM_SLOT_BACK
+	slot_flags = ITEM_SLOT_HIP | ITEM_SLOT_BACK
+	can_parry = TRUE
+	wdefense = 4
 	walking_stick = TRUE
+	anvilrepair = /datum/skill/craft/carpentry
 	smeltresult = /obj/item/ash
 
 /obj/item/broom/getonmobprop(tag)
@@ -46,24 +51,50 @@
 		broom_fu(T, user)
 		gather_clutter(T, user)
 
+
+/obj/item/broom/attack_obj(obj/O, mob/living/user)
+	if(istype(O, /obj/structure/spider/stickyweb)) // perish, spiders
+		O.take_damage(200, BRUTE, "blunt", FALSE)
+		playsound(loc,"smashlimb", 50, FALSE)
+		return
+
+	if(do_after(user, 15, target = O))
+		user.visible_message("<span class='notice'>[user] dutifully sweeps \the [O.name].</span>", "<span class='notice'>I dutifully sweep \the [O.name].</span>")
+		playsound(user, "clothwipe", 100, TRUE)		
+		broom_fu(O, user)
+
+// Even if there's nothing mechanically dirty about the floor, you can still sweep it! Anything to look busy. // added a few more to it cause why not
+/obj/item/broom/attack_turf(turf/T, mob/living/user)
+	if(istype(T, /turf/open/lava)) // lol
+		return
+	if(istype(T, /turf/open/water))
+		return
+	if(do_after(user, 20, target = T))
+		user.visible_message("<span class='notice'>[user] dutifully sweeps \the [T.name].</span>", "<span class='notice'>I dutifully sweep \the [T.name].</span>")
+		playsound(user, 'sound/items/broom_sweep.ogg', 150, TRUE)
+		broom_fu(T, user)
+		gather_clutter(T, user)
+
 // i should make this delete squires who try to steal your butter too it'll probably be funny
 /obj/item/broom/proc/broom_fu(atom/A, mob/living/user)
 	if(!A)
 		return
-	for(var/obj/effect/decal/cleanable/dirt/C in A)
-		qdel(C)
-	for(var/obj/item/paper/crumpled/C in A)
-		qdel(C)
-	for(var/obj/item/ash/C in A)
-		qdel(C)
-	for(var/obj/item/natural/glass_shard/C in A)
-		qdel(C)
-	for(var/obj/effect/decal/cleanable/debris/woody/C in A)
-		qdel(C)
-	for(var/obj/effect/decal/cleanable/debris/stony/C in A)
-		qdel(C)
-	for(var/obj/effect/decal/cleanable/debris/glassy/C in A)
-		qdel(C)
+
+	var/turf/T = get_turf(A)
+	if(!T)
+		return
+
+	for(var/obj/O in T.contents)
+		if(O.loc != T) // think this might stop it from deleting clutter from bags? oughh...
+			continue
+
+		if(istype(O, /obj/effect/decal/cleanable/dirt) || \
+		   istype(O, /obj/item/paper/crumpled) || \
+		   istype(O, /obj/item/ash) || \
+		   istype(O, /obj/item/natural/glass_shard) || \
+		   istype(O, /obj/effect/decal/cleanable/debris) || \
+		   istype(O, /obj/effect/decal/remains/human))
+			qdel(O)
 
 /obj/item/broom/proc/gather_clutter(turf/T, mob/living/user)
 	if(!T)

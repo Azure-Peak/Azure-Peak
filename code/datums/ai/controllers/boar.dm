@@ -47,11 +47,12 @@
 		finish_action(controller, FALSE)
 		return
 
-	controller.set_blackboard_key(BB_BOAR_CHARGE_COOLDOWN, world.time + 20 SECONDS)
-	boar.visible_message("<b>[boar]</b> lowers its head and charges!")
-	playsound(boar, 'sound/vo//mobs/boar/boar_charge.ogg', 75, TRUE)
-	var/charge_dir = get_dir(boar, target)
-	boar.throw_at(target, 7, 3, boar, callback = CALLBACK(src, .proc/on_charge_end, controller, charge_dir))
+	if(do_after(boar, 0.5 SECONDS))
+		controller.set_blackboard_key(BB_BOAR_CHARGE_COOLDOWN, world.time + 20 SECONDS)
+		boar.visible_message("<b>[boar]</b> lowers its head and charges!")
+		playsound(boar, 'sound/vo//mobs/boar/boar_charge.ogg', 75, TRUE)
+		var/charge_dir = get_dir(boar, target)
+		boar.throw_at(target, 7, 2.5, boar, callback = CALLBACK(src, .proc/on_charge_end, controller, charge_dir))
 	finish_action(controller, TRUE)
 
 /datum/ai_behavior/boar_charge/proc/on_charge_end(datum/ai_controller/controller, charge_dir)
@@ -96,7 +97,7 @@
 			var/obj/item/bodypart/chest = C.get_bodypart(BODY_ZONE_CHEST)
 			if(chest)
 				chest.add_wound(/datum/wound/slash/boar_gore)
-		victim.Stun(5 SECONDS)
+		victim.Stun(2 SECONDS)
 		victim.apply_status_effect(/datum/status_effect/debuff/exposed, 10 SECONDS)
 		boar.Stun(3 SECONDS)
 		victim.adjustBruteLoss(50)

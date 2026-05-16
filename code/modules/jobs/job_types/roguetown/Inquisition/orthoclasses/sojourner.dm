@@ -88,7 +88,7 @@
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants
 	shoes = /obj/item/clothing/shoes/roguetown/boots/psydonboots
 	neck = /obj/item/clothing/neck/roguetown/psicross/g
-	id = /obj/item/clothing/ring/signet
+	id = /obj/item/clothing/ring/signet/psy
 	belt = /obj/item/storage/belt/rogue/leather/rope/dark
 	beltl = /obj/item/storage/belt/rogue/pouch/coins/mid
 	backl = /obj/item/storage/backpack/rogue/satchel/black

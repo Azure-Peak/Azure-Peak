@@ -1,40 +1,40 @@
 
-/obj/effect/proc_holder/spell/invoked/tame_undead
+/datum/action/cooldown/spell/tame_undead
 	name = "Tame Undead"
-	desc = "Oftentymes, husks and shamblers walk aimlessly - uncertain of their future. They need not look further, any longer. \
-	Requires the target to be within four tiles. Works on undead animals, too."
-	overlay_state = "raiseskele"
-	range = 4
-	warnie = "sydwarning"
-	recharge_time = 60 SECONDS
-	releasedrain = 40
-	chargetime = 5 SECONDS
-	charging_slowdown = 1
-	gesture_required = TRUE
-	chargedloop = /datum/looping_sound/invokegen
-	no_early_release = TRUE
+	desc = "Oftentymes, husks and shamblers walk aimlessly - uncertain of their future. They need not look further, any longer.\nRequires the target to be within four tiles. Works on undead animals, too."
+	button_icon = 'icons/mob/actions/zizomiracles.dmi'
+	button_icon_state = "deadite_tame"
+	cast_range = 4
+	primary_resource_cost = 40
+	primary_resource_type = SPELL_COST_STAMINA
+	cooldown_time = 60 SECONDS
+	charge_required = TRUE
+	charge_time = 5 SECONDS
+	charge_slowdown = 1
+	associated_skill = /datum/skill/magic/arcane
+	self_cast_possible = FALSE
+	zizo_spell = TRUE
 
-/obj/effect/proc_holder/spell/invoked/tame_undead/cast(list/targets, mob/living/user)
-	..()
+/datum/action/cooldown/spell/tame_undead/is_valid_target(atom/cast_on)
+	return isliving(cast_on)
 
-	if(!isliving(targets[1]))
-		revert_cast()
-		return FALSE
+/datum/action/cooldown/spell/tame_undead/cast(atom/cast_on)
+	. = ..()
 
-	var/mob/living/target = targets[1]
+	var/mob/living/target = cast_on
 
 	if(!(target.mob_biotypes & MOB_UNDEAD))
-		to_chat(user, span_warning("[target]'s soul is not Hers, yet. I cannot do anything."))
-		revert_cast()
-		return FALSE
-	
-	if(target.mind)
-		to_chat(user, span_warning("[target]'s mind resists your goadings. It will not do."))
-		revert_cast()
+		to_chat(owner, span_warning("[target]'s soul is not Hers, yet. I cannot do anything."))
+		reset_spell_cooldown()
 		return FALSE
 
-	target.faction |= list("cabal", "[user.mind.current.real_name]_faction")
-	target.visible_message(span_notice("[target] turns its head to pay heed to [user]!"))
+	if(target.mind)
+		to_chat(owner, span_warning("[target]'s mind resists your goadings. It will not do."))
+		reset_spell_cooldown()
+		return FALSE
+
+	target.faction |= list("cabal", "[owner.mind.current.real_name]_faction")
+	target.visible_message(span_notice("[target] turns its head to pay heed to [owner]!"))
 	if(!target.ai_controller)
 		target.ai_controller = /datum/ai_controller/undead
 		target.InitializeAIController()
