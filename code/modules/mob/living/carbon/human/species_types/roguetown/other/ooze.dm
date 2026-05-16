@@ -2,17 +2,24 @@
 	name = "Murkling"
 	id = "ooze"
 	desc = "<b>Murkling</b><br>\
-	A curious, 'young' species typically associated with Pestra due to their inclinations to the goddess of plague and healing.  \
-	Some say they’re older than most races in Psydonia, \
-	but they’ve only just recently evolved into something considered potentially ‘humen’. \
-	Little is known about where the Murklings come from, but their unique biology makes them dangerously adaptive. \
-	Newly-sprouting colonies have been found anywhere from the freezing mountains of Hammerhold to the desert sands of Naledi, \
-	though they are most commonly associated with the underdark - their first recorded sightings in its suffocating, lightless depths.<br>\
-	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b>+1 CON | -1 SPD<br>\
+	Few know the true origins of the Murklings. Ancient records place their beginnings deep within the cold caverns of the Underdark \
+	where primordial ooze infested tunnels and defended its spawning pits with relentless hostility. \
+	For centuries, Dark Elves and Dwarven delvers alike sealed these regions away, leaving the living mire undisturbed. \
+	Only within the last century did the ooze begin to change. \
+	What emerged were crude humanoid figures that were somehow sentient. \
+	They now stood in the shape of humens, two-legged, speaking, and curious to an unsettling degree. Once mindless sludge, they had become something new. \
+	As their spawning pools withered like parents releasing their young, the Murklings formed colonies of their own. \
+	Though hardened by the violent depths, they remain volatile and naive, struggling to understand a surface world that often sees them as monsters. \
+	True to their nature, Murklings rapidly adapt to their surroundings, their forms shifting to match the lands they inhabit. \
+	Yet this adaptability carries a curse: their bodies absorb more than shape. \
+	Dusts, spirits, and smoke can alter them beyond recovery - breeding a severe dependence, \
+	having consumed enough for their bodies to recreate and secrete the very substance that sustains them. \
+	Caught now in the struggles of surface faiths and kingdoms, Murklings search for purpose beyond their primordial mothers. \
+	Some turn to gods as they are susceptible to faith to fill the gaps their spawning pools left, and others reject them entirely. \
+	Yet all carry the memory of the deep: the silent, all-encompassing love and will from which they were born.<br> \
+	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b>+1 CON | +1 INT<br> \
 	Easy Dismember | Limb Regrowth | No Bones </span><br><br>"
 	blood_color = "#00FFFF" //Defaults to blue, but we recolor this later to match the slime person's body color.
-	base_name = "Godtouched"
-	is_subrace = TRUE
 	origin_default = /datum/virtue/origin/racial/underdark
 	origin = "Underdark"
 	default_color = "79F299"
@@ -43,7 +50,7 @@
 		OFFSET_SHIRT_F = list(0,0), OFFSET_ARMOR_F = list(0,0), OFFSET_UNDIES_F = list(0,-1), \
 		OFFSET_TAUR = list(-16,0), OFFSET_TAUR_F = list(-16,0), \
 		)
-	race_bonus = list(STAT_CONSTITUTION = 1, STAT_SPEED = -1)
+	race_bonus = list(STAT_CONSTITUTION = 1, STAT_INT = 1)
 	inherent_traits = list(
 						TRAIT_NASTY_EATER,
 						TRAIT_EASYDISMEMBER,
