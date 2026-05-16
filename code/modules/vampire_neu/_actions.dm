@@ -25,7 +25,7 @@
 	// set cooldown
 	src.last_telepathy_use = world.time
 
-	var/message = span_narsie("<B>A message from <span style='color:#[voice_color]'>[real_name]</span>: [msg]</B>")
+	var/message = span_narsie("[span_purple("TELEPATHY:")] <B><span style='color:#[voice_color]'>[real_name]</span> says: [msg]</B>")
 
 	log_game("VAMPIRE TELEPATHY: [(src).real_name] ([(src).ckey]) used vampiric telepathy to say: [msg]")
 	playsound(get_turf(src), 'sound/misc/vampirespell.ogg', 40, FALSE, pressure_affected = FALSE) //Little ping when doing it.
