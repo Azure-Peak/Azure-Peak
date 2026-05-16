@@ -1,7 +1,7 @@
 /obj/effect/proc_holder/spell/self/suicidebomb
 	name = "Calcic Outburst"
-	desc = "Explode in a wonderful blast of osseous shrapnel."
-	overlay_state = "tragedy"
+	desc = "Explode in a wonderful blast of osseous shrapnel, channeling your centuries of unholy power into the blast to take those whom would dare strike you down with you."
+	overlay_state = "hellish_rebuke" //Okay this is funny
 	chargedrain = 0
 	chargetime = 0
 	recharge_time = 10 SECONDS
@@ -10,10 +10,10 @@
 	chargedloop = /datum/looping_sound/invokegen
 	associated_skill = /datum/skill/magic/arcane
 	stat_allowed = TRUE
-	var/exp_heavy = 2
+	var/exp_heavy = 3 //Fucks people up, a LOT
 	var/exp_light = 5
 	var/exp_flash = 5
-	var/exp_fire = 0
+	var/exp_fire = 4 //You give up one whole life/entire run for this, on top of having to not die to silver during it. So we let you take people out in a blaze of glory.
 
 /obj/effect/proc_holder/spell/self/suicidebomb/cast(list/targets, mob/living/user = usr)
 	..()
@@ -29,6 +29,8 @@
 
 	user.Immobilize(5 SECONDS)
 	user.Knockdown(5 SECONDS)
+	user.Jitter(5 SECONDS) //Makes you shake + Telegraphs a bit more with a scream
+	user.emote("scream")
 
 	addtimer(CALLBACK(src, PROC_REF(skele_explode), user, user, exp_heavy, exp_light, exp_flash, exp_fire), 5 SECONDS)
 	return TRUE
@@ -57,16 +59,16 @@
 
 /obj/effect/proc_holder/spell/self/suicidebomb/lesser
 	name = "Lesser Calcic Outburst"
+	desc = "Explode in a wonderful blast of osseous shrapnel."
 	exp_heavy = 0
 	exp_light = 3
 	exp_flash = 3
 	exp_fire = 0
 
-
 /obj/effect/proc_holder/spell/invoked/remotebomb
 	name = "Shell Outburst"
 	desc = "Cause a minion to give up their lyfe for the Exarch.."
-	overlay_state = "tragedy"
+	overlay_state = "fireaura"
 	chargedrain = 0
 	range = 7
 	chargetime = 2 SECONDS

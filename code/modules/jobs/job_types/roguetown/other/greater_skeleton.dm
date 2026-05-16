@@ -21,6 +21,8 @@
 /datum/outfit/job/roguetown/greater_skeleton/pre_equip(mob/living/carbon/human/H)
 	..()
 
+	ADD_TRAIT(H, TRAIT_OUTLAW, TRAIT_GENERIC) //No miesters for skeletons, you're an undead, bloodless skeletal abomination.
+
 	H.set_patron(/datum/patron/inhumen/zizo)
 
 	H.possible_rmb_intents = list(/datum/rmb_intent/feint,\
