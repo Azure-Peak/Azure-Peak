@@ -67,12 +67,12 @@
 		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/crackerscooked, "qty_min" = 8, "qty_max" = 15, "price" = 8),
 	)
 	cultural_stock_pool = list(
-		/datum/supply_pack/rogue/merc_weapons/katana,
+		/datum/supply_pack/rogue/merc_weapons/hwando,
 		/datum/supply_pack/rogue/merc_weapons/naginata,
-		/datum/supply_pack/rogue/merc_weapons/kazengunhookblade,
-		/datum/supply_pack/rogue/merc_weapons/kazengunkodachi,
-		/datum/supply_pack/rogue/merc_weapons/kazenguntanto,
-		/datum/supply_pack/rogue/merc_weapons/kazengunscabbard,
+		/datum/supply_pack/rogue/merc_weapons/hookblade,
+		/datum/supply_pack/rogue/merc_weapons/kodachi,
+		/datum/supply_pack/rogue/merc_weapons/tanto,
+		/datum/supply_pack/rogue/merc_weapons/ssangsudo,
 		/datum/supply_pack/rogue/kazengun/kanabo,
 		/datum/supply_pack/rogue/kazengun/ssangsudo,
 		/datum/supply_pack/rogue/kazengun/samsibsa,
