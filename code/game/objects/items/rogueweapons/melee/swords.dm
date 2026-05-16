@@ -529,6 +529,7 @@
 /obj/item/rogueweapon/sword/long/judgement/vlord/pickup(mob/living/user)
 	if(!(user.mind?.has_antag_datum(/datum/antagonist/vampire))) //All vamps can pick it up. If a wretch vamp decides to larp as vander's daywalker. Man I don't care anymore, that's pure Aura.
 		to_chat(user, "<font color='red'>My hands twist unnaturally before the blade falls out of my grip.</font>")
+		visible_message(span_warning("[user] recoils as their hands twist and the [src] slips out of their grip!"))
 		user.Stun(20) //Shorter than most cursed weaponry, because you can't break it with its 9999 integ. Also why it doesn't set you on fire.
 	..()
 
