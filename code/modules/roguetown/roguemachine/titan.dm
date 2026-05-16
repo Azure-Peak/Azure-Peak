@@ -603,43 +603,6 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 			return TRUE
 	return FALSE
 
-/obj/structure/roguemachine/titan/proc/ducal_court_texts()
-	return list(
-		"window_title" = "Ducal Court",
-		"subtitle" = "Hold court from the throne of Azure Peak",
-		"sections" = list(
-			"status" = "Court Status",
-			"main" = "Court Business",
-			"tools" = "Ducal Tools",
-			"succession" = "Succession and Usurpation",
-			"desk" = "Court Scribe Desk",
-		),
-		"composer" = list(
-			"placeholder" = "Draft an announcement, decree, or new law...",
-			"publish_announcement" = "Publish Announcement",
-			"publish_decree" = "Issue Decree",
-			"publish_law" = "Add Law",
-			"law_number" = "Law #",
-			"remove_law" = "Remove Law",
-			"clear_laws" = "Clear All Laws",
-			"empty_text" = "Write text before publishing.",
-		),
-		"labels" = list(
-			"ruler" = "Current Ruler",
-			"regent" = "Regent",
-			"claimant" = "Claimant",
-			"contester" = "Contester",
-			"supporters" = "Supporters",
-			"time_remaining" = "Time Remaining",
-			"rite_status" = "Rite Status",
-			"no_regent" = "None",
-			"none" = "None",
-			"viewer" = "Your Standing",
-			"requirements" = "Requirements",
-		),
-		"rite_steps" = list("Gathering", "Contesting", "Resolution"),
-	)
-
 /obj/structure/roguemachine/titan/proc/format_ducal_court_time(seconds)
 	seconds = max(round(seconds), 0)
 	var/minutes = FLOOR(seconds / 60, 1)
@@ -962,8 +925,8 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 		to_chat(user, span_warning("You must be seated on the throne to hold court."))
 		return
 	var/show_rite_selection = rite_selection_data && (!rite_selector || rite_selector == user)
-	var/interface = show_rite_selection ? "RiteSelection" : "DucalCourt"
-	var/title = show_rite_selection ? "Rites of Succession" : "Ducal Court"
+	var/interface = show_rite_selection ? "RiteSelection" : get_tgui_interface_name(user, "DucalCourt")
+	var/title = show_rite_selection ? "Rites of Succession" : get_tgui_window_title(user, "DucalCourt", "Ducal Court")
 	if(!ui)
 		ui = SStgui.get_open_ui(user, src)
 	if(ui && ui.interface != interface)
@@ -976,7 +939,9 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 
 /obj/structure/roguemachine/titan/ui_static_data(mob/user)
 	var/list/data = ..()
-	data["texts"] = ducal_court_texts()
+	var/list/localization = get_tgui_locale_data(user)
+	data["language"] = localization["language"]
+	data["locale"] = localization["locale"]
 	return data
 
 /obj/structure/roguemachine/titan/ui_data(mob/user)

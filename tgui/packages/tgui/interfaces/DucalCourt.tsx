@@ -87,7 +87,8 @@ type RealmColors = {
 };
 
 type Data = {
-  texts: Texts;
+  language?: string;
+  locale?: string;
   realm_type: string;
   realm_colors: RealmColors;
   ruler: string | null;
@@ -100,6 +101,42 @@ type Data = {
   rite_actions: DucalAction[];
   law_count: number;
   decree_count: number;
+};
+
+const DUCAL_COURT_TEXTS: Texts = {
+  window_title: 'Ducal Court',
+  subtitle: 'Hold court from the throne of Azure Peak',
+  sections: {
+    status: 'Court Status',
+    main: 'Court Business',
+    tools: 'Ducal Tools',
+    succession: 'Succession and Usurpation',
+    desk: 'Court Scribe Desk',
+  },
+  composer: {
+    placeholder: 'Draft an announcement, decree, or new law...',
+    publish_announcement: 'Publish Announcement',
+    publish_decree: 'Issue Decree',
+    publish_law: 'Add Law',
+    law_number: 'Law #',
+    remove_law: 'Remove Law',
+    clear_laws: 'Clear All Laws',
+    empty_text: 'Write text before publishing.',
+  },
+  labels: {
+    ruler: 'Current Ruler',
+    regent: 'Regent',
+    claimant: 'Claimant',
+    contester: 'Contester',
+    supporters: 'Supporters',
+    time_remaining: 'Time Remaining',
+    rite_status: 'Rite Status',
+    no_regent: 'None',
+    none: 'None',
+    viewer: 'Your Standing',
+    requirements: 'Requirements',
+  },
+  rite_steps: ['Gathering', 'Contesting', 'Resolution'],
 };
 
 const DEFAULT_WINDOW_WIDTH = 1180;
@@ -754,12 +791,16 @@ const CourtCommands = (props: {
   );
 };
 
-export const DucalCourt = () => {
+type DucalCourtViewProps = {
+  texts: Texts;
+};
+
+export const DucalCourtView = (props: DucalCourtViewProps) => {
+  const { texts } = props;
   const { act, data } = useBackend<Data>();
   const [compact, setCompact] = useState(false);
   const [activeView, setActiveView] = useState<ViewId>('overview');
   const {
-    texts,
     realm_type,
     realm_colors,
     ruler,
@@ -903,3 +944,5 @@ export const DucalCourt = () => {
     </Window>
   );
 };
+
+export const DucalCourt = () => <DucalCourtView texts={DUCAL_COURT_TEXTS} />;
