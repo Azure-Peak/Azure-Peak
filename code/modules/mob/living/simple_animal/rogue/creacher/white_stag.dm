@@ -43,6 +43,8 @@
 	// We are not a normal wildshape.
 	untransform_on_death = FALSE
 	faction = list("White Stag")
+	icon = 'icons/mob/unique_shapeshifts/white_stag_shape.dmi'
+	icon_state = "stag"
 
 /mob/living/carbon/human/species/wildshape/white_stag/gain_inherent_skills()
 	return FALSE

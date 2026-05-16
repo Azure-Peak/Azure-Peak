@@ -345,9 +345,9 @@
 /obj/item/storage/belt/rogue/pouch/bombs
 
 /obj/item/storage/belt/rogue/pouch/bombs/PopulateContents()
-	new /obj/item/bomb(src)
-	new /obj/item/bomb(src)
-	new /obj/item/bomb(src)
+	new /obj/item/bomb/noshard(src)
+	new /obj/item/bomb/noshard(src)
+	new /obj/item/bomb/noshard(src)
 
 /obj/item/storage/belt/rogue/pouch/tailorscrap
 	name = "pouch of tailorscrap"

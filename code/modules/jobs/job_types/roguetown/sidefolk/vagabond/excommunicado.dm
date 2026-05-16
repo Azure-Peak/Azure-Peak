@@ -2,7 +2,7 @@
 	name = "Excommunicated"
 	tutorial = "The Church has found you bereft of mercy, and you walk the lands of Azuria with nothing but the tattered shreds of the faith you cling to."
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = RACES_ALL_KINDS
+	
 	outfit = /datum/outfit/job/roguetown/vagabond/excommunicated
 	category_tags = list(CTAG_VAGABOND)
 	subclass_stats = list(
@@ -19,7 +19,6 @@
 
 /datum/outfit/job/roguetown/vagabond/excommunicated/pre_equip(mob/living/carbon/human/H)
 	..()
-	H.mind?.current.faction += "[H.name]_faction"
 	if(should_wear_femme_clothes(H))
 		armor = /obj/item/clothing/suit/roguetown/shirt/rags
 	else if(should_wear_masc_clothes(H))

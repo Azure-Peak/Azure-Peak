@@ -9,7 +9,6 @@
 	total_positions = 1
 	spawn_positions = 1
 	spells = list()
-	allowed_races = ALL_RACES_TYPES
 	allowed_ages = ALL_AGES_LIST
 
 	outfit = /datum/outfit/job/roguetown/loudmouth

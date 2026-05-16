@@ -575,6 +575,7 @@
 			data += "<div style='color: #888; font-size: 85%; padding-left: 12px; margin-bottom: 4px; line-height: 1.4em; overflow-wrap: break-word; word-wrap: break-word;'>"
 			data += "[orders_fulfilled] fulfilled &bull; [orders_expired] expired &bull; [orders_petitioned] petitioned ([petition_pledge_spent]p spent)"
 			data += "</div>"
+			data += "<div style='margin-bottom: 4px;'><font color='#5cb85c'>Shortages Ended Early: </font>[GLOB.azure_round_stats[STATS_SHORTAGES_ENDED]]</div>"
 			data += "<div style='border-top: 1px solid #555; margin: 8px 0;'></div>"
 			var/total_revenue = GLOB.azure_round_stats[STATS_STARTING_TREASURY] + GLOB.azure_round_stats[STATS_RURAL_TAXES_COLLECTED] + royal_taxes_total + GLOB.azure_round_stats[STATS_FINES_INCOME] + poll_total + GLOB.azure_round_stats[STATS_STOCKPILE_EXPORTS_VALUE] + GLOB.azure_round_stats[STATS_STOCKPILE_REVENUE] + standing_order_revenue
 			data += "<div style='margin-bottom: 4px;'><font color='#23ba30'>Total Revenue: </font>[total_revenue]</div>"

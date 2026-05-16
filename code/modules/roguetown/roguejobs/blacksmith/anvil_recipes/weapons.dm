@@ -1279,6 +1279,12 @@
 	created_item = /obj/item/rogueweapon/sword/long/exe/silver
 	display_category = ITEM_CAT_WEAPONS_SWORDS
 
+/datum/anvil_recipe/weapons/silver/scythe
+	name = "Scythe, Silver (+1 Small Log)"
+	req_bar = /obj/item/ingot/silver
+	additional_items = list(/obj/item/grown/log/tree/small)
+	created_item = /obj/item/rogueweapon/scythe/silver
+
 // SHIELDS
 
 /datum/anvil_recipe/weapons/steel/kiteshield
@@ -1899,6 +1905,18 @@
 	additional_items = list(/obj/item/ingot/avantyne)
 	created_item = /obj/item/rogueweapon/sword/long/avantyne
 	display_category = ITEM_CAT_WEAPONS_SWORDS
+
+/datum/anvil_recipe/weapons/avantyne/rapier
+	name = "Rapier, Avantyne (+1 A. Wafer)"
+	req_bar = /obj/item/ingot/avantyne
+	additional_items = list(/obj/item/ingot/avantyne)
+	created_item = /obj/item/rogueweapon/sword/rapier/avantyne
+
+/datum/anvil_recipe/weapons/avantyne/billhook
+	name = "Billhook, Avantyne (+1 Small Log)"
+	req_bar = /obj/item/ingot/avantyne
+	additional_items = list(/obj/item/grown/log/tree/small)
+	created_item = /obj/item/rogueweapon/spear/billhook/avantyne
 
 /datum/anvil_recipe/weapons/avantyne/greatsword
 	name = "Greatsword, Avantyne (+2 A. Wafer)"

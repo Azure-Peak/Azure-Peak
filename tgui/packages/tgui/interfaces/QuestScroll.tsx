@@ -168,6 +168,7 @@ type WritBodyProps = {
   reward: number;
   levyRate: number;
   levyExempt: boolean;
+  guildCutRate: number;
   bearer?: string;
   issuedBy?: string;
   crimes: string[];
@@ -182,6 +183,7 @@ const WritBody = (props: WritBodyProps) => {
     reward,
     levyRate,
     levyExempt,
+    guildCutRate,
     bearer,
     issuedBy,
     crimes,
@@ -201,7 +203,7 @@ const WritBody = (props: WritBodyProps) => {
     named: data.named_target,
     ringleader: data.band_leader,
   };
-  const rewardProps = { reward, levyRate, levyExempt };
+  const rewardProps = { reward, levyRate, levyExempt, guildCutRate };
   const recoveryProps = {
     hasRecoveryAddendum,
     recoveryShipment: data.recovery_shipment,
@@ -339,6 +341,7 @@ export const QuestScroll = () => {
   const realm = data.realm_name || 'the realm';
   const levyRate = data.levy_rate ?? 0;
   const levyExempt = !!data.levy_exempt;
+  const guildCutRate = data.guild_cut_rate ?? 0;
   const rulerTitle = data.ruler_title || 'Duke';
   const reward = data.reward ?? 0;
   const bearer = data.issued_to || undefined;
@@ -409,6 +412,7 @@ export const QuestScroll = () => {
               reward={reward}
               levyRate={levyRate}
               levyExempt={levyExempt}
+              guildCutRate={guildCutRate}
               bearer={bearer}
               issuedBy={issuedBy}
               crimes={crimes}

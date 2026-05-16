@@ -1,5 +1,15 @@
-#define DEAD_TO_ZOMBIE_TIME 7 MINUTES	//Time before death -> raised as zombie (when outside of the city)	
+#define DEAD_TO_ZOMBIE_TIME 7 MINUTES	//Time before death -> raised as zombie (when outside of the city)
 										//(This isn't exact time. Extended 5 -> 7 because only takes 2-3 min in testing at 5.)
+
+#define CORPSE_ROT_START_TIME 5 MINUTES
+#define CORPSE_SKELETONIZE_TIME 12 MINUTES
+#define CORPSE_DUST_TIME 20 MINUTES
+
+#define SIMPLE_CORPSE_ROT_START 12 MINUTES
+#define SIMPLE_CORPSE_DUST_TIME 15 MINUTES
+
+#define HUNT_CORPSE_ROT_START 20 MINUTES
+#define HUNT_CORPSE_DUST_TIME 35 MINUTES
 
 /datum/component/rot
 	var/amount = 0
@@ -63,6 +73,11 @@
 			qdel(src)
 			return
 
+	// Bodies that ever belonged to a player are exempt from auto-decay/dusting.
+	var/was_player = C.mind || C.last_mind || C.ckey
+	if(was_player && !is_zombie)
+		return
+
 	var/area/A = get_area(C)
 	if (istype(A, /area/rogue/indoors/town))	//Stops rotting inside town buildings; will stop your zombification such as at church or appothocary.
 		return
@@ -86,13 +101,13 @@
 	for(var/obj/item/bodypart/B in C.bodyparts)
 		if(!B.skeletonized && B.is_organic_limb())
 			if(!B.rotted)
-				if(amount > 20 MINUTES)
+				if(amount > CORPSE_ROT_START_TIME)
 					B.rotted = TRUE
 					findonerotten = TRUE
 					shouldupdate = TRUE
 					C.apply_status_effect(/datum/status_effect/debuff/rotted_zombie)	//-8 con to rotting zombie corpse.
 			else
-				if(amount > 40 MINUTES)
+				if(amount > CORPSE_SKELETONIZE_TIME)
 					if(!is_zombie)
 						B.skeletonize()
 						if(C.dna && C.dna.species)
@@ -101,15 +116,14 @@
 						shouldupdate = TRUE
 				else
 					findonerotten = TRUE
-		if(amount > 35 MINUTES)  // Code to delete a corpse after 35 minutes if it's not a zombie and not skeletonized. Possible failsafe.
+		if(amount > CORPSE_DUST_TIME)
 			if(!is_zombie)
-				if(!C.client)	// We want to dust NPC bodies, not player bodies.
-					if(B.skeletonized)
-						dustme = TRUE
+				if(B.skeletonized)
+					dustme = TRUE
 
 	if(dustme)
 		qdel(src)
-		return C.dust(drop_items=TRUE)
+		return C.dust(drop_items=FALSE)
 
 	if(findonerotten)
 		var/turf/open/T = C.loc
@@ -127,7 +141,9 @@
 		if(findonerotten)
 			if(ishuman(C))
 				var/mob/living/carbon/human/H = C
-				H.skin_tone = "878f79" //elf ears
+				if(!H.original_skin_tone) // let's have this here just in case
+					H.original_skin_tone = H.skin_tone
+				H.skin_tone = "878f79" // dont fix what's not broken
 			if(soundloop && soundloop.stopped && !is_zombie)
 				soundloop.start()
 		C.update_body()
@@ -138,21 +154,32 @@
 		if(H.buried)
 			soundloop.stop()
 
+/datum/component/rot/simple
+	var/rot_start = SIMPLE_CORPSE_ROT_START
+	var/dust_time = SIMPLE_CORPSE_DUST_TIME
+
 /datum/component/rot/simple/process()
 	..()
 	var/mob/living/L = parent
 	if(L.stat != DEAD)
 		qdel(src)
 		return
-	if(amount > 15 MINUTES)
+	// Player-controlled (or formerly player-controlled) creatures don't auto-decay.
+	if(L.mind || L.ckey)
+		return
+	if(amount > rot_start)
 		if(soundloop && soundloop.stopped)
 			soundloop.start()
 		var/turf/open/T = get_turf(L)
 		if(istype(T))
 			T.pollute_turf(/datum/pollutant/rot, 5)
-	if(amount > 25 MINUTES)
+	if(amount > dust_time)
 		qdel(src)
 		return L.dust(drop_items=TRUE)
+
+/datum/component/rot/simple/hunt
+	rot_start = HUNT_CORPSE_ROT_START
+	dust_time = HUNT_CORPSE_DUST_TIME
 
 /datum/component/rot/gibs
 	amount = MIASMA_GIBS_MOLES
@@ -164,3 +191,10 @@
 	extra_range = 0
 
 #undef DEAD_TO_ZOMBIE_TIME
+#undef CORPSE_ROT_START_TIME
+#undef CORPSE_SKELETONIZE_TIME
+#undef CORPSE_DUST_TIME
+#undef SIMPLE_CORPSE_ROT_START
+#undef SIMPLE_CORPSE_DUST_TIME
+#undef HUNT_CORPSE_ROT_START
+#undef HUNT_CORPSE_DUST_TIME

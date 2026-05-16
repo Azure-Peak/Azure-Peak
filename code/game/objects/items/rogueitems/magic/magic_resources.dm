@@ -26,7 +26,7 @@
 	var/tier = 0 //used for determining potency for mob healing
 
 /obj/item/magic/familiar
-	resistance_flags = INDESTRUCTIBLE
+	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF
 	var/mob/living/simple_animal/pet/familiar/stored_familiar
 
 /obj/item/magic/familiar/dropped(mob/user, silent)
@@ -45,6 +45,10 @@
 	name = "Familiar Spirit"
 	icon = 'icons/roguetown/mob/familiars.dmi'
 	slot_flags = ITEM_SLOT_HIP|ITEM_SLOT_NECK|ITEM_SLOT_RING // little pendant-esque thing
+
+/obj/item/magic/familiar/familiar_spirit/Initialize()
+	. = ..()
+	src.filters += filter(type = "drop_shadow", x=0, y=0, size=1, offset = 2, color = GLOW_COLOR_ARCANE)
 
 // MELD
 /obj/item/magic/melded

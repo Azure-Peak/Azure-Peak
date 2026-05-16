@@ -437,6 +437,36 @@
 	icon = 'icons/obj/items/donor_weapons.dmi'
 	sheathe_icon = "koruu_kukri_warden"
 
+/obj/item/rogueweapon/koruu/kukri/silver
+	name = "psydonic leachwhacker"
+	desc = "Sometimes... I still hear her voice in the darkness, when the lampterns are out. \
+	Verzeih mir, Erika."
+	icon_state = "wazia_kukri_silver"
+	icon = 'icons/obj/items/donor_weapons.dmi'
+	sheathe_icon = "wazia_kukri_silver"
+
+/obj/item/rogueweapon/koruu/longsword
+	name = "Excaliber"
+	desc = "One day...I'll craft a legendary weapon, a truly legendary sword. One that shall be known. \
+As Excaliber."
+	icon_state = "wazialong"
+	icon = 'icons/obj/items/donor_weapons_64.dmi'
+	sheathe_icon = "wazialong"
+
+/obj/item/rogueweapon/koruu/etrusca
+	name = "Colada"
+	desc = "The wounds received in battle bestow honor, they do not take it away..."
+	icon_state = "waziaetrusc"
+	icon = 'icons/obj/items/donor_weapons_64.dmi'
+	sheathe_icon = "waziaetrusc"
+
+/obj/item/rogueweapon/koruu/judgement
+	name = "A Durthurian Tale"
+	desc = "Strength Above All. To Protect What We Love."
+	icon_state = "waziajudgement"
+	icon = 'icons/obj/items/donor_weapons_64.dmi'
+	sheathe_icon = "waziajudgement"
+
 //DAKKEN12
 /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/hounskull/dakken
 	name = "armoured avantyne barbute"
@@ -688,3 +718,24 @@
 	<i>Take the instrument into your hands, O murderer mine. The garden is on fire, and soon the stars must go out.</i>"
 	icon = 'icons/obj/items/donor_weapons.dmi'
 	icon_state = "euthanasia"
+
+//MAGI1138
+/obj/item/clothing/cloak/magi1138
+	name = "reappropriated Xylixian Cloak"
+	desc = "A Xylixian Cloak, without all the bells and whistles."
+	icon_state = "magi_xylix"
+	item_state = "magi_xylix"
+	alternate_worn_layer = TABARD_LAYER
+	flags_inv = HIDEBOOB
+	slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_CLOAK|ITEM_SLOT_ARMOR
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+	sleeved = 'icons/clothing/onmob/donor_sleeves_armor.dmi'
+	nodismemsleeves = TRUE
+
+/obj/item/clothing/mask/rogue/spectacles/magi1138
+	name = "modified Nocshade lens-pair"
+	desc = "A pair of Otavan Nocshade Lenses with cut and polished amythortz lenses."
+	icon_state = "magi_glasses"
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'

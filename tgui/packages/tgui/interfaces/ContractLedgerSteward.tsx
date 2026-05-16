@@ -57,11 +57,9 @@ const coin = (n: number) => `${n}m`;
 
 // Reduces a decimal (like 0.5, 0.2, 0.25) to a simple X/Y fraction via gcd on
 // percentage integers. Works cleanly for the multipliers we ship (0.75, 1.2, 1.5).
-const toSimpleFraction = (decimal: number): { num: number; denom: number } => {
-  const whole = Math.round(decimal * 100);
-  const gcd = (a: number, b: number): number => (b === 0 ? a : gcd(b, a % b));
-  const g = gcd(Math.abs(whole), 100) || 1;
-  return { num: Math.abs(whole) / g, denom: 100 / g };
+const formatMultiplierDelta = (delta: number): string => {
+  const pct = Math.round(delta * 100);
+  return `${pct}%`;
 };
 
 // Turns a region's TP multiplier into a short flavor line. Returns null for baseline
@@ -73,11 +71,9 @@ const regionRewardFlavor = (
   if (typeof mult !== 'number' || mult === 1) return null;
   if (mult > 1) {
     const descriptor = mult >= 1.4 ? 'bleak' : 'dangerous';
-    const { num, denom } = toSimpleFraction(mult - 1);
-    return `${regionName} is a ${descriptor} region - contracts from that region tend to be ${num}/${denom} more lucrative.`;
+    return `${regionName} is a ${descriptor} region - contracts from that region tend to be ${formatMultiplierDelta(mult - 1)} more lucrative.`;
   }
-  const { num, denom } = toSimpleFraction(1 - mult);
-  return `${regionName} is a settled region - contracts from that region tend to be ${num}/${denom} less lucrative.`;
+  return `${regionName} is a settled region - contracts from that region tend to be ${formatMultiplierDelta(1 - mult)} less lucrative.`;
 };
 
 const FormRow = (props: { label: string; children: ReactNode }) => (

@@ -1,6 +1,6 @@
 
 PROCESSING_SUBSYSTEM_DEF(roguerot)
 	name = "roguerot"
-	wait = 20
+	wait = 30 SECONDS
 	flags = SS_NO_INIT
 	priority = 10

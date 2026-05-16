@@ -1275,12 +1275,18 @@
 	created_item = /obj/item/clothing/head/roguetown/helmet/sallet/eoran
 	display_category = ITEM_CAT_ARMOR_HELMETS
 
-/datum/anvil_recipe/armor/holysteel/undividedhelmtemplar
-	name = "Undivided Templar's Helmet (+1 Holy Steel, +1 Cured Leather)"
+/datum/anvil_recipe/armor/holysteel/undividedtemplar_sallet
+	name = "Undivided Templar's Sallet (+1 Holy Steel, +1 Cured Leather)"
 	req_bar = /obj/item/ingot/steelholy
 	additional_items = list(/obj/item/ingot/steelholy, /obj/item/natural/hide/cured)
 	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/undivided
 	display_category = ITEM_CAT_ARMOR_HELMETS
+
+/datum/anvil_recipe/armor/holysteel/undividedtemplar_bucket
+	name = "Undivided Templar's Bucket Helmet (+1 Holy Steel, +1 Cured Leather)"
+	req_bar = /obj/item/ingot/steelholy
+	additional_items = list(/obj/item/ingot/steelholy, /obj/item/natural/hide/cured)
+	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/undivided_alt
 
 // SILVER
 

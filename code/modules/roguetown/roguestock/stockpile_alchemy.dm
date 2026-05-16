@@ -24,4 +24,3 @@
 	importexport_amt = 3
 	stockpile_limit = 5
 	category = "Alchemy"
-	accept_toggle_enabled = FALSE

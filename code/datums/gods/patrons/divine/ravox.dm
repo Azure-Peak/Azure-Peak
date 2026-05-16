@@ -1,22 +1,22 @@
 /datum/patron/divine/ravox
 	name = "Ravox"
 	domain = "God of Justice, Glory, Battle"
-	desc = "Stalwart warrior, glorious justicier; legends say he came down to the Basin to repel the vile hordes of demons with his own hands, and that he seeks warriors for his divine army among mortals."
+	desc = "Stalwart warrior, glorious justicar; legends say he came down to the Basin to repel the vile hordes of demons with his own hands, and that he seeks warriors for his divine army among mortals."
 	worshippers = "Warriors, Sellswords & those who seek Justice"
 	mob_traits = list(TRAIT_SHARPER_BLADES)
-	traits_tier = list(TRAIT_BATTLEMASTER = CLERIC_T1)
-	miracles = list(/obj/effect/proc_holder/spell/targeted/touch/orison			= CLERIC_ORI,
-					/obj/effect/proc_holder/spell/invoked/tug_of_war			= CLERIC_T0,
-					/obj/effect/proc_holder/spell/self/provocation	       		= CLERIC_T0,
-					/obj/effect/proc_holder/spell/invoked/lesser_heal 			= CLERIC_T1,
-					/obj/effect/proc_holder/spell/invoked/blood_heal			= CLERIC_T1,
-					/obj/effect/proc_holder/spell/self/divine_strike			= CLERIC_T1,
-					/obj/effect/proc_holder/spell/self/balance_immune   		= CLERIC_T2,
-					/obj/effect/proc_holder/spell/self/call_to_arms				= CLERIC_T2,
-					/obj/effect/proc_holder/spell/invoked/challenge				= CLERIC_T2,
-					/obj/effect/proc_holder/spell/invoked/persistence			= CLERIC_T3,
-					/obj/effect/proc_holder/spell/invoked/raise_warrior_spirits = CLERIC_T3,
-					/obj/effect/proc_holder/spell/invoked/resurrect/ravox		= CLERIC_T4,
+	traits_tier = list(TRAIT_BATTLEMASTER = CLERIC_T1, TRAIT_JUSTICARSIGHT = CLERIC_T3)
+	miracles = list(/datum/action/cooldown/spell/touch/orison				= CLERIC_ORI,
+					/datum/action/cooldown/spell/ravox/tug					= CLERIC_T0,
+					/datum/action/cooldown/spell/ravox/provocation	       	= CLERIC_T0,
+					/datum/action/cooldown/spell/miracle/heal 				= CLERIC_T1,
+					/datum/action/cooldown/spell/miracle/bloodmiracle		= CLERIC_T1,
+					/datum/action/cooldown/spell/ravox/strikeoraegis		= CLERIC_T1,
+					/datum/action/cooldown/spell/ravox/withstand		   	= CLERIC_T2,
+					/datum/action/cooldown/spell/ravox/challenge			= CLERIC_T2,
+					/datum/action/cooldown/spell/ravox/persistence			= CLERIC_T3,
+					/datum/action/cooldown/spell/ravox/battlecry			= CLERIC_T3,
+					/datum/action/cooldown/spell/ravox/spirits 				= CLERIC_T4,
+					/obj/effect/proc_holder/spell/invoked/resurrect/ravox	= CLERIC_T4,
 	)
 	confess_lines = list(
 		"RAVOX IS JUSTICE!",
@@ -25,6 +25,11 @@
 	)
 	storyteller = /datum/storyteller/ravox
 	COOLDOWN_DECLARE(lesser_heal_buff_cooldown)
+
+	titles = list(
+		"Justiciar",
+		"Justicar" // it is misspelled ingame enough that we should probably accept this too 
+	)
 
 // Near a knight statue, cross, or within the church
 /datum/patron/divine/ravox/can_pray(mob/living/follower)

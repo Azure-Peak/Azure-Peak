@@ -65,7 +65,6 @@
 	resistance_flags = FIRE_PROOF
 	blocksound = PLATEHIT
 	sellprice = 1
-	blade_dulling = DULLING_BASHCHOP
 	break_sound = 'sound/foley/breaksound.ogg'
 	drop_sound = 'sound/foley/dropsound/armor_drop.ogg'
 	experimental_onhip = TRUE
@@ -99,7 +98,8 @@
 /obj/item/clothing/suit/roguetown/armor/get_mechanics_examine(mob/user)
 	. = ..()
 	if(attachment_component)
-		. += span_info("Shift-right-click to open the armors's storage. This can be used to wear cosmetics over it")
+		. += span_info("Shift + RMB will open aesthetic storage, allowing the user to layer extra decorations over \the [src].")
+		. += span_info("Alt + RMB allows the user to toggle aesthetic storage (Shift + RMB) items on or off.")
 
 /obj/item/clothing/suit/roguetown/armor/ShiftRightClick(mob/user)
 	if(attachment_component)
@@ -109,6 +109,31 @@
 			return TRUE
 	return ..()
 
+/obj/item/clothing/suit/roguetown/armor/AltRightClick(mob/user)
+	if(attachment_component)
+		var/datum/component/storage/concrete/roguetown/storage_component = GetComponent(attachment_component)
+		if(storage_component && length(storage_component.item_to_grid_coordinates))
+			var/list/options = list()
+			for(var/obj/item/clothing/C in storage_component.item_to_grid_coordinates)
+				if(!C || !isclothing(C))
+					continue
+				if(C.item_flags & NOT_SHOW_IN_STORAGE)
+					options["[C.name] (Hidden)"] = C
+				else
+					options["[C.name] (Shown)"] = C
+			var/choice = input(user, "Choose clothing to layer:","Layering") as null|anything in options
+			if(choice)
+				var/clothes_to_change = options[choice]
+				if(isclothing(clothes_to_change))
+					var/obj/item/clothing/C = clothes_to_change
+					if(C.item_flags & NOT_SHOW_IN_STORAGE)
+						C.item_flags &= ~NOT_SHOW_IN_STORAGE
+					else
+						C.item_flags |= NOT_SHOW_IN_STORAGE
+					to_chat(user, span_info("[C] will be [(C.item_flags & NOT_SHOW_IN_STORAGE) ? "hidden" : "visible"] \the [src]"))
+				user.update_inv_head()
+
+
 /obj/item/clothing/suit/roguetown/armor/build_worn_icon(default_layer = 0, default_icon_file = null, isinhands = FALSE, femaleuniform = NO_FEMALE_UNIFORM, override_state = null, female = FALSE, customi = null, sleeveindex, boobed_overlay = FALSE, var/icon/clip_mask = null)
 	var/mutable_appearance/standing = ..()
 	// get attachment component and check if there's anything inside
@@ -116,6 +141,8 @@
 		var/datum/component/storage/concrete/roguetown/our_component = GetComponent(attachment_component)
 		if(our_component && length(our_component.item_to_grid_coordinates))
 			for(var/obj/item/thing as anything in our_component.item_to_grid_coordinates)
+				if(thing.item_flags & NOT_SHOW_IN_STORAGE)
+					continue
 				var/mutable_appearance/thing_appearance = thing.build_worn_icon(default_layer, default_icon_file, isinhands, femaleuniform, override_state, female, customi, sleeveindex, boobed_overlay, clip_mask)
 				thing_appearance.appearance_flags = RESET_COLOR
 				thing_appearance.pixel_x += standing.pixel_x

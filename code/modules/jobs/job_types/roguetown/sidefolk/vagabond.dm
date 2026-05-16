@@ -8,7 +8,7 @@
 	townie_contract_gate_exempt = TRUE
 
 	allowed_ages = list(AGE_ADULT, AGE_MIDDLEAGED, AGE_OLD)
-	allowed_races = RACES_ALL_KINDS
+	
 
 	outfit = null
 	outfit_female = null

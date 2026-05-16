@@ -226,6 +226,7 @@
 			switch(weapon_choice)
 				if("Spear")
 					r_hand = /obj/item/rogueweapon/spear
+					backr = /obj/item/rogueweapon/scabbard/gwstrap
 				if("Bardiche")
 					r_hand = /obj/item/rogueweapon/halberd/bardiche
 					backr = /obj/item/rogueweapon/scabbard/gwstrap

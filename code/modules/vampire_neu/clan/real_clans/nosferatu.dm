@@ -34,6 +34,9 @@
 		TRAIT_NOPAIN,
 		TRAIT_TOXIMMUNE,
 		TRAIT_STEELHEARTED,
+		TRAIT_NASTY_EATER,
+		TRAIT_ANTISCRYING, //You're not scrying the sewer abomination, sire.
+		TRAIT_UNSEEMLY, //Yeah you're horrible to look at.
 		TRAIT_NOSLEEP,
 		TRAIT_VAMPMANSION,
 		TRAIT_VAMP_DREAMS,
@@ -41,6 +44,7 @@
 		TRAIT_LIMBATTACHMENT,
 		TRAIT_KEENEARS,
 		TRAIT_SILVER_WEAK,
+		TRAIT_ZOMBIE_IMMUNE,
 	)
 	covens_to_select = 0
 
@@ -54,8 +58,6 @@
 	. = ..()
 
 	if(is_vampire)
-		var/obj/item/organ/eyes/night_vision/vampire/NV = new()
-		NV.Insert(H, TRUE, FALSE)
 		H.ventcrawler = VENTCRAWLER_ALWAYS //I don't think this does anything because we have no vents
 
 /datum/clan/nosferatu/apply_clan_components(mob/living/carbon/human/H)

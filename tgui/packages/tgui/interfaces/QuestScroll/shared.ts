@@ -32,6 +32,7 @@ export type QuestScrollData = {
   recovery_shipment?: string | null;
   reward?: number;
   levy_rate?: number;
+  guild_cut_rate?: number;
   progress_required?: number;
   progress_current?: number;
   compass_direction?: string;
