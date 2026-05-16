@@ -102,6 +102,7 @@
 		/datum/hag_boon/trait/azure_native,
 		/datum/hag_boon/trait/matthios_eyes,
 		/datum/hag_boon/trait/wood_walker,
+		/datum/hag_boon/trait/bogwalker,
 		/datum/hag_boon/trait/unbound_strength,
 		/datum/hag_boon/trait/jack_of_all_trades,
 		/datum/hag_boon/trait/expert_medicine,
