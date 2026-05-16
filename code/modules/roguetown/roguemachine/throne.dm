@@ -120,6 +120,9 @@ GLOBAL_VAR(ducal_court_throat)
 		return
 	if(!ishuman(user))
 		return
+	if(!(user in buckled_mobs))
+		to_chat(user, span_warning("You must be seated on the throne to hold court."))
+		return
 	var/obj/structure/roguemachine/titan/throat = GLOB.ducal_court_throat
 	if(!throat || QDELETED(throat))
 		for(var/obj/structure/roguemachine/titan/found_throat in world)

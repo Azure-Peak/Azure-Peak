@@ -364,17 +364,26 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 /obj/structure/roguemachine/titan/proc/give_tax_popup(mob/living/carbon/human/user)
 	if(!Adjacent(user))
 		return
+	if(!user_seated_on_throne(user))
+		to_chat(user, span_warning("You must be seated on the throne to set taxes."))
+		return
 	var/datum/taxsetter/taxsetter = new("The Generous Lord Decrees")
 	taxsetter.ui_interact(user)
 
 /obj/structure/roguemachine/titan/proc/give_law_popup(mob/living/carbon/human/user)
 	if(!Adjacent(user))
 		return
+	if(!user_seated_on_throne(user))
+		to_chat(user, span_warning("You must be seated on the throne to set laws."))
+		return
 	var/datum/laws_menu/lawmenu = new
 	lawmenu.ui_interact(user)
 
 /obj/structure/roguemachine/titan/proc/give_decree_popup(mob/living/carbon/human/user)
 	if(!Adjacent(user))
+		return
+	if(!user_seated_on_throne(user))
+		to_chat(user, span_warning("You must be seated on the throne to issue decrees."))
 		return
 	var/datum/decree_setter/panel = new
 	panel.ui_interact(user)
@@ -505,6 +514,10 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 		say("A rite of succession is already underway.")
 		playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
 		return
+	if(!user_seated_on_throne(user))
+		to_chat(user, span_warning("You must be seated on the throne to choose a rite of succession."))
+		playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
+		return
 	if(!SSticker.had_ruler)
 		say("There is no ruler to usurp.")
 		playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
@@ -596,7 +609,6 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 		"subtitle" = "Hold court from the throne of Azure Peak",
 		"sections" = list(
 			"status" = "Court Status",
-			"map" = "Ducal Demesne Map",
 			"main" = "Court Business",
 			"tools" = "Ducal Tools",
 			"succession" = "Succession and Usurpation",
@@ -626,19 +638,6 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 			"requirements" = "Requirements",
 		),
 		"rite_steps" = list("Gathering", "Contesting", "Resolution"),
-		"map_legend" = list(
-			list("label" = "Crown seat", "class_name" = "crown"),
-			list("label" = "Forest musters", "class_name" = "forest"),
-			list("label" = "Sea and basin", "class_name" = "water"),
-			list("label" = "Mountain roads", "class_name" = "mountain"),
-		),
-		"map_points" = list(
-			list("id" = "azure_peak", "label" = "Azure Peak", "x" = 58, "y" = 62, "type" = "keep"),
-			list("id" = "azure_enclave", "label" = "Azure Enclave", "x" = 29, "y" = 43, "type" = "forest"),
-			list("id" = "azure_basin", "label" = "Azure Basin", "x" = 76, "y" = 70, "type" = "water"),
-			list("id" = "plateaus", "label" = "Southern Plateaus", "x" = 52, "y" = 78, "type" = "mountain"),
-			list("id" = "western_woods", "label" = "Western Woods", "x" = 19, "y" = 57, "type" = "forest"),
-		),
 	)
 
 /obj/structure/roguemachine/titan/proc/format_ducal_court_time(seconds)
@@ -663,6 +662,10 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 /obj/structure/roguemachine/titan/proc/user_near_throne(mob/living/carbon/human/user)
 	var/obj/structure/roguethrone/throne = GLOB.king_throne
 	return throne && get_dist(user, throne) <= RITE_ASSENT_RANGE
+
+/obj/structure/roguemachine/titan/proc/user_seated_on_throne(mob/user)
+	var/obj/structure/roguethrone/throne = GLOB.king_throne
+	return throne && (user in throne.buckled_mobs)
 
 /obj/structure/roguemachine/titan/proc/ducal_court_mob_name(mob/person, fallback = null)
 	if(!person)
@@ -927,25 +930,6 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 		),
 	)
 
-/obj/structure/roguemachine/titan/proc/get_ducal_court_callouts(mob/living/carbon/human/user)
-	var/list/rite_data = get_throne_rite_data()
-	var/obj/structure/roguethrone/throne = GLOB.king_throne
-	var/rebel_progress = throne ? clamp(round((throne.rebel_leader_sit_time / REBEL_THRONE_TIME) * 100), 0, 100) : 0
-	var/list/callouts = list()
-	callouts += list(list(
-		"text" = user_has_ducal_authority(user) ? "You hold ducal authority." : "You do not hold ducal authority.",
-		"tone" = user_has_ducal_authority(user) ? "good" : "neutral",
-	))
-	callouts += list(list(
-		"text" = rite_data["active"] ? rite_data["status"] : "No active succession.",
-		"tone" = rite_data["active"] ? "warning" : "good",
-	))
-	callouts += list(list(
-		"text" = rebel_progress > 0 ? "Rebel pressure is visible at the throne." : "No rebel pressure at the throne.",
-		"tone" = rebel_progress > 0 ? "warning" : "good",
-	))
-	return callouts
-
 /obj/structure/roguemachine/titan/proc/get_ducal_court_actions(mob/living/carbon/human/user)
 	return list(
 		"main" = list(
@@ -974,6 +958,9 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 	)
 
 /obj/structure/roguemachine/titan/ui_interact(mob/user, datum/tgui/ui)
+	if(!user_seated_on_throne(user))
+		to_chat(user, span_warning("You must be seated on the throne to hold court."))
+		return
 	var/show_rite_selection = rite_selection_data && (!rite_selector || rite_selector == user)
 	var/interface = show_rite_selection ? "RiteSelection" : "DucalCourt"
 	var/title = show_rite_selection ? "Rites of Succession" : "Ducal Court"
@@ -996,7 +983,6 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 	var/list/data = ..()
 	data["rites"] = rite_selection_data
 	var/list/rite_data = get_throne_rite_data()
-	data["realm_name"] = SSticker.realm_name || "Azure Peak"
 	data["realm_type"] = SSticker.realm_type || "Realm"
 	var/mob/ruler = SSticker.rulermob
 	var/mob/regent = SSticker.regentmob
@@ -1009,7 +995,6 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 	if(!ishuman(user))
 		data["viewer_status"] = "Observer"
 		data["status_cards"] = list()
-		data["callouts"] = list()
 		data["main_actions"] = list()
 		data["tool_actions"] = list()
 		data["rite_actions"] = list()
@@ -1018,7 +1003,6 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 	var/list/actions = get_ducal_court_actions(H)
 	data["viewer_status"] = user_has_ducal_authority(H) ? "Ducal Authority" : (user_has_crown(H) ? "Crown Bearer" : "Subject")
 	data["status_cards"] = get_ducal_court_status_cards(H)
-	data["callouts"] = get_ducal_court_callouts(H)
 	data["main_actions"] = actions["main"]
 	data["tool_actions"] = actions["tools"]
 	data["rite_actions"] = actions["rites"]
@@ -1030,6 +1014,10 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 	if(!ishuman(ui.user))
 		return FALSE
 	var/mob/living/carbon/human/user = ui.user
+	if(!user_seated_on_throne(user))
+		to_chat(user, span_warning("You are no longer seated on the throne."))
+		ui.close()
+		return TRUE
 	switch(action)
 		if("choose_rite")
 			if(rite_selector && rite_selector != user)
