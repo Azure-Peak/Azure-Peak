@@ -130,6 +130,7 @@ GLOBAL_VAR(king_throne)
 
 /obj/structure/roguethrone/get_mechanics_examine(mob/user)
 	. = ..()
+	. += span_info("Right-click the Throat of Azure Peak to open the Royal War Table interface. Spoken commands still work.")
 	. += span_info("<b>Throat Commands</b> (say these at the Throat of Azure Peak):")
 	. += span_info("'Make Announcement' - broadcast a message (requires crown)")
 	. += span_info("'Revise Charter' - revise or restore charters (requires crown, ruler only)")

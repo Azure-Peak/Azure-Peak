@@ -1,0 +1,851 @@
+.RoyalWarTable {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #f4e7c6;
+}
+
+.RoyalWarTable__scaleFrame {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.RoyalWarTable__board {
+  --royal-ink: #2b2013;
+  --royal-muted: #6f5737;
+  --royal-gold: #b9852e;
+  --royal-gold-soft: rgba(185, 133, 46, 0.22);
+  --royal-blue: var(--royal-primary, #183a56);
+  --royal-standard-light: var(--royal-secondary, #ffffff);
+  --royal-red: #7b221f;
+  --royal-green: #345d37;
+  --royal-parchment: #efe1b8;
+  --royal-shadow: rgba(26, 13, 6, 0.34);
+
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  box-sizing: border-box;
+  width: 1180px;
+  height: 760px;
+  display: grid;
+  grid-template-rows: 94px 72px minmax(0, 1fr);
+  gap: 8px;
+  color: var(--royal-ink);
+  font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', Georgia, serif;
+  padding: 12px;
+  overflow: hidden;
+  transform-origin: center center;
+  background:
+    radial-gradient(circle at 18% 0%, rgba(255, 255, 255, 0.28), transparent 31%),
+    radial-gradient(circle at 85% 16%, rgba(43, 32, 19, 0.12), transparent 34%),
+    linear-gradient(rgba(47, 30, 17, 0.06), rgba(47, 30, 17, 0.06)),
+    repeating-linear-gradient(
+      35deg,
+      rgba(255, 255, 255, 0.05) 0,
+      rgba(255, 255, 255, 0.05) 2px,
+      rgba(90, 56, 21, 0.04) 2px,
+      rgba(90, 56, 21, 0.04) 5px
+    );
+}
+
+.RoyalWarTable__board *,
+.RoyalWarTable__board *::before,
+.RoyalWarTable__board *::after {
+  box-sizing: border-box;
+}
+
+.RoyalWarTable__titleRow {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  align-items: flex-start;
+  min-height: 0;
+  height: 94px;
+  padding: 12px 68px;
+  border: 2px solid rgba(62, 39, 18, 0.5);
+  background:
+    linear-gradient(90deg, rgba(24, 58, 86, 0.2), rgba(123, 34, 31, 0.08)),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.2), transparent 44%),
+    rgba(239, 225, 184, 0.62);
+  box-shadow:
+    inset 0 0 38px rgba(72, 44, 18, 0.16),
+    0 2px 5px rgba(54, 31, 12, 0.12);
+}
+
+.RoyalWarTable__titleRow::before,
+.RoyalWarTable__titleRow::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 12px;
+  background: var(--royal-standard-light);
+  opacity: 0.74;
+}
+
+.RoyalWarTable__titleRow::before {
+  left: 47px;
+}
+
+.RoyalWarTable__titleRow::after {
+  right: 47px;
+}
+
+.RoyalWarTable__standard {
+  position: absolute;
+  top: -1px;
+  display: grid;
+  place-items: start center;
+  width: 42px;
+  height: 88px;
+  padding-top: 18px;
+  color: var(--royal-standard-light);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.18), transparent 35%),
+    var(--royal-blue);
+  clip-path: polygon(0 0, 100% 0, 100% 78%, 50% 100%, 0 78%);
+  border: 1px solid rgba(43, 32, 19, 0.48);
+  box-shadow:
+    inset 0 0 16px rgba(0, 0, 0, 0.28),
+    0 2px 5px rgba(34, 19, 8, 0.22);
+  z-index: 1;
+}
+
+.RoyalWarTable__standard--left {
+  left: 12px;
+}
+
+.RoyalWarTable__standard--right {
+  right: 12px;
+  color: var(--royal-blue);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.18), transparent 35%),
+    var(--royal-standard-light);
+}
+
+.RoyalWarTable__standard .Icon {
+  filter: drop-shadow(0 1px 0 rgba(0, 0, 0, 0.5));
+}
+
+.RoyalWarTable__eyebrow,
+.RoyalWarTable__subtitle,
+.RoyalWarTable__statusLabel,
+.RoyalWarTable__statusDetail,
+.RoyalWarTable__actionDesc,
+.RoyalWarTable__badge,
+.RoyalWarTable__riteFacts b,
+.RoyalWarTable__mapLegend,
+.RoyalWarTable__rulerBlock b {
+  color: var(--royal-muted);
+}
+
+.RoyalWarTable__eyebrow {
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.RoyalWarTable__title {
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1;
+  margin: 3px 0;
+  letter-spacing: 0;
+  color: var(--royal-ink);
+}
+
+.RoyalWarTable__subtitle {
+  font-size: 13px;
+  font-style: italic;
+}
+
+.RoyalWarTable__rulerBlock {
+  display: grid;
+  grid-template-columns: auto;
+  gap: 5px;
+  min-width: 220px;
+  font-size: 12px;
+}
+
+.RoyalWarTable__rulerBlock div {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  border-bottom: 1px dashed rgba(87, 57, 28, 0.25);
+}
+
+.RoyalWarTable__rulerBlock span {
+  color: var(--royal-ink);
+  font-weight: 700;
+  text-align: right;
+}
+
+.RoyalWarTable__statusGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(205px, 1fr));
+  gap: 8px;
+  min-height: 0;
+}
+
+.RoyalWarTable__statusCard {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  gap: 9px;
+  align-items: flex-start;
+  min-height: 0;
+  padding: 7px;
+  border: 1px solid rgba(66, 42, 20, 0.45);
+  background: rgba(248, 238, 202, 0.72);
+  box-shadow: inset 0 0 18px rgba(72, 44, 18, 0.1);
+}
+
+.RoyalWarTable__statusCard::after {
+  content: '';
+  position: absolute;
+  right: -18px;
+  top: -18px;
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  background: var(--royal-blue);
+  opacity: 0.08;
+}
+
+.RoyalWarTable__statusCard--good {
+  border-color: rgba(52, 93, 55, 0.65);
+}
+
+.RoyalWarTable__statusCard--warning {
+  border-color: rgba(185, 133, 46, 0.78);
+}
+
+.RoyalWarTable__statusCard--bad {
+  border-color: rgba(123, 34, 31, 0.7);
+}
+
+.RoyalWarTable__statusIcon {
+  display: grid;
+  place-items: center;
+  flex: 0 0 28px;
+  height: 28px;
+  color: #f4e7c6;
+  background: var(--royal-blue);
+  border: 1px solid rgba(185, 133, 46, 0.74);
+  box-shadow: 0 1px 3px var(--royal-shadow);
+}
+
+.RoyalWarTable__statusCard--warning .RoyalWarTable__statusIcon {
+  background: var(--royal-gold);
+}
+
+.RoyalWarTable__statusCard--bad .RoyalWarTable__statusIcon {
+  background: var(--royal-red);
+}
+
+.RoyalWarTable__statusValue {
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.1;
+  margin: 2px 0;
+}
+
+.RoyalWarTable__statusLabel,
+.RoyalWarTable__statusDetail {
+  font-size: 11px;
+}
+
+.RoyalWarTable__layout {
+  display: grid;
+  grid-template-columns: minmax(560px, 1fr) minmax(300px, 25%);
+  gap: 10px;
+  align-items: stretch;
+  min-height: 0;
+  height: 100%;
+}
+
+.RoyalWarTable__mainColumn,
+.RoyalWarTable__sideColumn {
+  display: grid;
+  gap: 10px;
+  min-height: 0;
+}
+
+.RoyalWarTable__mainColumn {
+  grid-template-rows: auto auto minmax(0, auto);
+}
+
+.RoyalWarTable__sideColumn {
+  grid-template-rows: minmax(0, 1fr) auto;
+}
+
+.RoyalWarTable__mainColumn > .Section,
+.RoyalWarTable__sideColumn > .Section {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.RoyalWarTable__map {
+  position: relative;
+  height: 220px;
+  min-height: 0;
+  max-height: none;
+  overflow: hidden;
+  border: 2px solid rgba(60, 39, 20, 0.62);
+  background:
+    radial-gradient(circle at 71% 66%, rgba(255, 255, 255, 0.16), transparent 10%),
+    radial-gradient(circle at 20% 35%, rgba(70, 100, 56, 0.24), transparent 24%),
+    radial-gradient(circle at 57% 74%, rgba(86, 73, 55, 0.24), transparent 20%),
+    linear-gradient(135deg, #dbc795, #f2e4ba 48%, #c9aa72);
+  box-shadow:
+    inset 0 0 56px rgba(69, 40, 18, 0.3),
+    0 2px 7px rgba(45, 25, 13, 0.18);
+}
+
+.RoyalWarTable__map::before {
+  content: '';
+  position: absolute;
+  inset: 8px;
+  border: 1px solid rgba(72, 44, 18, 0.28);
+  pointer-events: none;
+  z-index: 6;
+}
+
+.RoyalWarTable__map::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      transparent 0,
+      transparent 23px,
+      rgba(72, 44, 18, 0.05) 24px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent 0,
+      transparent 23px,
+      rgba(72, 44, 18, 0.04) 24px
+    );
+  pointer-events: none;
+}
+
+.RoyalWarTable__mapSea {
+  position: absolute;
+  right: -9%;
+  top: -10%;
+  width: 42%;
+  height: 126%;
+  background:
+    linear-gradient(120deg, rgba(33, 78, 104, 0.72), rgba(50, 96, 116, 0.46)),
+    repeating-linear-gradient(
+      12deg,
+      rgba(255, 255, 255, 0.12) 0,
+      rgba(255, 255, 255, 0.12) 1px,
+      transparent 1px,
+      transparent 9px
+    );
+  clip-path: polygon(35% 0, 100% 0, 100% 100%, 12% 100%, 28% 73%, 20% 55%, 34% 35%);
+}
+
+.RoyalWarTable__mapLand {
+  position: absolute;
+  left: 7%;
+  top: 7%;
+  width: 76%;
+  height: 84%;
+  background: rgba(233, 215, 164, 0.38);
+  border: 2px solid rgba(73, 50, 26, 0.45);
+  clip-path: polygon(11% 16%, 30% 6%, 54% 12%, 76% 8%, 92% 25%, 83% 47%, 90% 70%, 71% 87%, 41% 92%, 20% 78%, 7% 55%);
+}
+
+.RoyalWarTable__mapCompass {
+  position: absolute;
+  left: 28px;
+  bottom: 26px;
+  display: grid;
+  place-items: center;
+  width: 58px;
+  height: 58px;
+  color: rgba(43, 32, 19, 0.62);
+  border: 2px solid rgba(43, 32, 19, 0.42);
+  border-radius: 50%;
+  transform: rotate(-45deg);
+  z-index: 4;
+}
+
+.RoyalWarTable__mapCompass::before,
+.RoyalWarTable__mapCompass::after {
+  content: '';
+  position: absolute;
+  background: rgba(43, 32, 19, 0.28);
+}
+
+.RoyalWarTable__mapCompass::before {
+  width: 1px;
+  height: 76px;
+}
+
+.RoyalWarTable__mapCompass::after {
+  width: 76px;
+  height: 1px;
+}
+
+.RoyalWarTable__mapToken {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  color: var(--royal-standard-light);
+  background: var(--royal-blue);
+  border: 2px solid rgba(43, 32, 19, 0.72);
+  border-radius: 50%;
+  box-shadow:
+    0 2px 7px rgba(35, 19, 8, 0.34),
+    inset 0 0 10px rgba(255, 255, 255, 0.18);
+  z-index: 4;
+}
+
+.RoyalWarTable__mapToken--crown {
+  left: 58%;
+  top: 56%;
+}
+
+.RoyalWarTable__mapToken--guard {
+  left: 31%;
+  top: 41%;
+  background: var(--royal-green);
+}
+
+.RoyalWarTable__mapToken--seal {
+  left: 76%;
+  top: 70%;
+  background: var(--royal-red);
+}
+
+.RoyalWarTable__mapRidge,
+.RoyalWarTable__mapRoad,
+.RoyalWarTable__mapRiver {
+  position: absolute;
+  pointer-events: none;
+}
+
+.RoyalWarTable__mapRidge {
+  height: 18px;
+  border-top: 3px double rgba(77, 65, 51, 0.42);
+  filter: drop-shadow(0 1px rgba(255, 245, 210, 0.5));
+}
+
+.RoyalWarTable__mapRidge--north {
+  left: 31%;
+  top: 21%;
+  width: 34%;
+  transform: rotate(-7deg);
+}
+
+.RoyalWarTable__mapRidge--south {
+  left: 38%;
+  top: 73%;
+  width: 25%;
+  transform: rotate(9deg);
+}
+
+.RoyalWarTable__mapRoad {
+  border-top: 2px dashed rgba(96, 55, 21, 0.58);
+}
+
+.RoyalWarTable__mapRoad--main {
+  left: 24%;
+  top: 60%;
+  width: 45%;
+  transform: rotate(11deg);
+}
+
+.RoyalWarTable__mapRoad--west {
+  left: 24%;
+  top: 49%;
+  width: 31%;
+  transform: rotate(-15deg);
+}
+
+.RoyalWarTable__mapRiver {
+  left: 35%;
+  top: 18%;
+  width: 2px;
+  height: 58%;
+  background: rgba(38, 90, 120, 0.55);
+  transform: rotate(-18deg);
+  box-shadow: 8px 20px 0 rgba(38, 90, 120, 0.28);
+}
+
+.RoyalWarTable__mapPoint {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  max-width: 116px;
+  color: var(--royal-ink);
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  text-shadow: 0 1px rgba(255, 244, 205, 0.9);
+  z-index: 5;
+}
+
+.RoyalWarTable__mapPoint::before {
+  content: '';
+  display: block;
+  width: 13px;
+  height: 13px;
+  border: 2px solid #412813;
+  background: var(--royal-gold);
+  box-shadow: 0 1px 3px rgba(42, 22, 10, 0.38);
+  transform: rotate(45deg);
+}
+
+.RoyalWarTable__mapPoint--keep::before {
+  background: var(--royal-red);
+}
+
+.RoyalWarTable__mapPoint--forest::before {
+  background: var(--royal-green);
+}
+
+.RoyalWarTable__mapPoint--water::before {
+  background: #2d6887;
+}
+
+.RoyalWarTable__mapPoint--mountain::before {
+  background: #786c59;
+}
+
+.RoyalWarTable__mapTitle {
+  position: absolute;
+  left: 16px;
+  top: 12px;
+  font-size: 18px;
+  font-weight: 700;
+  color: rgba(43, 32, 19, 0.72);
+  text-transform: uppercase;
+}
+
+.RoyalWarTable__mapCallouts {
+  position: absolute;
+  right: 12px;
+  top: 12px;
+  display: grid;
+  gap: 6px;
+  width: min(310px, 42%);
+  z-index: 5;
+}
+
+.RoyalWarTable__callout {
+  padding: 5px 8px;
+  border-left: 3px solid var(--royal-blue);
+  background: rgba(250, 241, 208, 0.82);
+  box-shadow: 0 1px 4px rgba(45, 25, 13, 0.16);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.RoyalWarTable__callout--good {
+  border-color: var(--royal-green);
+}
+
+.RoyalWarTable__callout--warning {
+  border-color: var(--royal-gold);
+}
+
+.RoyalWarTable__callout--bad {
+  border-color: var(--royal-red);
+}
+
+.RoyalWarTable__mapLegend {
+  position: absolute;
+  left: 12px;
+  bottom: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  max-width: 72%;
+  padding: 5px 7px;
+  background: rgba(250, 241, 208, 0.74);
+  border: 1px solid rgba(73, 50, 26, 0.32);
+  font-size: 10px;
+  z-index: 7;
+}
+
+.RoyalWarTable__legendKey {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin-right: 4px;
+  border: 1px solid rgba(50, 31, 14, 0.55);
+}
+
+.RoyalWarTable__legendKey--crown {
+  background: var(--royal-red);
+}
+
+.RoyalWarTable__legendKey--forest {
+  background: var(--royal-green);
+}
+
+.RoyalWarTable__legendKey--water {
+  background: #2d6887;
+}
+
+.RoyalWarTable__legendKey--mountain {
+  background: #786c59;
+}
+
+.RoyalWarTable__actionGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 6px;
+}
+
+.RoyalWarTable__toolGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.RoyalWarTable__action {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  min-height: 58px;
+  padding: 8px 32px 8px 8px;
+  color: var(--royal-ink);
+  border: 2px solid rgba(71, 44, 21, 0.42);
+  background:
+    radial-gradient(circle at 92% 84%, rgba(123, 34, 31, 0.18), transparent 15%),
+    linear-gradient(180deg, rgba(255, 248, 221, 0.9), rgba(224, 196, 127, 0.52)),
+    var(--royal-parchment);
+  box-shadow:
+    inset 0 0 18px rgba(72, 44, 18, 0.11),
+    0 1px 2px rgba(50, 29, 12, 0.14);
+  text-align: left;
+}
+
+.RoyalWarTable__actionPin {
+  position: absolute;
+  left: 50%;
+  top: 5px;
+  width: 9px;
+  height: 9px;
+  background: var(--royal-gold);
+  border: 1px solid rgba(43, 32, 19, 0.62);
+  border-radius: 50%;
+  box-shadow: 0 1px 2px rgba(38, 20, 8, 0.32);
+  transform: translateX(-50%);
+}
+
+.RoyalWarTable__actionSeal {
+  position: absolute;
+  right: 10px;
+  bottom: 9px;
+  width: 22px;
+  height: 22px;
+  background:
+    radial-gradient(circle at 35% 32%, rgba(255, 255, 255, 0.22), transparent 23%),
+    var(--royal-blue);
+  border: 2px solid var(--royal-standard-light);
+  border-radius: 50%;
+  box-shadow:
+    0 1px 3px rgba(42, 22, 10, 0.28),
+    0 0 0 1px rgba(43, 32, 19, 0.35);
+}
+
+.RoyalWarTable__action:hover:not(:disabled) {
+  border-color: var(--royal-gold);
+  box-shadow:
+    inset 0 0 20px rgba(185, 133, 46, 0.18),
+    0 1px 4px rgba(70, 38, 14, 0.2);
+}
+
+.RoyalWarTable__action:disabled {
+  opacity: 0.54;
+  filter: saturate(0.75);
+}
+
+.RoyalWarTable__action > .Button__content {
+  display: flex;
+  width: 100%;
+  gap: 8px;
+  align-items: flex-start;
+}
+
+.RoyalWarTable__action--compact {
+  min-height: 42px;
+}
+
+.RoyalWarTable__action--compact .RoyalWarTable__badges {
+  display: none;
+}
+
+.RoyalWarTable__actionIcon {
+  display: grid;
+  place-items: center;
+  flex: 0 0 31px;
+  height: 31px;
+  color: #f4e7c6;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.16), transparent),
+    var(--royal-blue);
+  border: 1px solid var(--royal-gold);
+}
+
+.RoyalWarTable__actionTitle,
+.RoyalWarTable__actionDesc,
+.RoyalWarTable__badges {
+  display: block;
+}
+
+.RoyalWarTable__actionTitle {
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 1.1;
+}
+
+.RoyalWarTable__actionDesc {
+  margin-top: 2px;
+  font-size: 9px;
+  white-space: normal;
+}
+
+.RoyalWarTable__badges {
+  margin-top: 5px;
+}
+
+.RoyalWarTable__badge {
+  display: inline-block;
+  margin: 0 4px 3px 0;
+  padding: 1px 5px;
+  border: 1px solid rgba(111, 87, 55, 0.45);
+  background: rgba(255, 251, 232, 0.58);
+  font-size: 8px;
+  text-transform: uppercase;
+}
+
+.RoyalWarTable__riteName {
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+
+.RoyalWarTable__stepper {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4px;
+  margin-bottom: 6px;
+}
+
+.RoyalWarTable__step {
+  display: grid;
+  place-items: center;
+  gap: 3px;
+  min-height: 36px;
+  padding: 3px;
+  border: 1px solid rgba(111, 87, 55, 0.34);
+  color: var(--royal-muted);
+  background: rgba(248, 238, 202, 0.44);
+  font-size: 10px;
+  text-transform: uppercase;
+}
+
+.RoyalWarTable__step span {
+  display: grid;
+  place-items: center;
+  width: 18px;
+  height: 18px;
+  color: #f7e9c0;
+  background: #766348;
+  border-radius: 50%;
+  font-weight: 700;
+}
+
+.RoyalWarTable__step--active {
+  border-color: var(--royal-gold);
+  color: var(--royal-ink);
+  background: var(--royal-gold-soft);
+}
+
+.RoyalWarTable__step--active span {
+  background: var(--royal-red);
+}
+
+.RoyalWarTable__riteFacts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+  margin-bottom: 6px;
+}
+
+.RoyalWarTable__riteFacts div {
+  display: grid;
+  gap: 1px;
+  padding: 4px;
+  background: rgba(255, 248, 221, 0.55);
+  border: 1px solid rgba(111, 87, 55, 0.25);
+}
+
+.RoyalWarTable__riteFacts b {
+  font-size: 9px;
+  text-transform: uppercase;
+}
+
+.RoyalWarTable__riteFacts span {
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.RoyalWarTable__riteStatus {
+  padding: 5px 7px;
+  border-left: 3px solid var(--royal-gold);
+  background: rgba(255, 248, 221, 0.62);
+  font-size: 10px;
+}
+
+.RoyalWarTable__riteActionGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.RoyalWarTable__desk {
+  display: grid;
+  gap: 8px;
+}
+
+.RoyalWarTable__deskFooter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.RoyalWarTable__deskButtons,
+.RoyalWarTable__lawTools {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+
+.RoyalWarTable__lawTools span {
+  color: var(--royal-muted);
+  font-size: 11px;
+  text-transform: uppercase;
+}
