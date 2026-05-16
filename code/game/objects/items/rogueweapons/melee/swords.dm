@@ -496,6 +496,7 @@
 	icon_state = "vlord"
 	item_state = "vlord"
 	wbalance = WBALANCE_NORMAL
+	alt_grips = null //It breaks the sprite directions so badly.
 	max_blade_int = 666
 	max_integrity = 9999
 	sellprice = 777
