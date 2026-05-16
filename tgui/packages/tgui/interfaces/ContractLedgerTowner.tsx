@@ -163,7 +163,6 @@ export const TownerPostingPanel = () => {
     marginTop: 12,
     marginBottom: 6,
     fontWeight: 'bold',
-    letterSpacing: '0.05em',
     opacity: 0.85,
   };
   const blurbStyle: React.CSSProperties = {

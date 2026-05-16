@@ -6,6 +6,7 @@ import {
   fieldRowStyle,
   fieldValueStyle,
   INK_FAINT,
+  INK_SOFT,
   inkButtonStyle,
   sectionHeaderStyle,
 } from '../common/parchment';
@@ -64,7 +65,7 @@ export const PollTaxTab = ({ data, act }: TabProps) => {
       </div>
 
       {!!tax.exempt && (
-        <div style={{ color: INK_FAINT, fontStyle: 'italic', marginTop: 8 }}>
+        <div style={{ color: INK_SOFT, marginTop: 8 }}>
           You owe nothing. There is nothing to advance.
         </div>
       )}

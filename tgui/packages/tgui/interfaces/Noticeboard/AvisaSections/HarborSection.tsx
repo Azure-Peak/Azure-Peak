@@ -19,7 +19,6 @@ const orderGridStyle: React.CSSProperties = {
 
 const fieldLabelStyle: React.CSSProperties = {
   fontVariant: 'small-caps',
-  letterSpacing: '2px',
   color: SEAL_AMBER,
   fontStyle: 'italic',
   fontSize: '12px',
@@ -121,8 +120,7 @@ const HarborDemandCard = ({ demand }: { demand: HarborDemand }) => (
           style={{
             marginTop: 4,
             color: INK_SOFT,
-            fontStyle: 'italic',
-            fontSize: '11px',
+            fontSize: '12px',
           }}
         >
           Inquire with the Merchant for terms.
@@ -133,8 +131,7 @@ const HarborDemandCard = ({ demand }: { demand: HarborDemand }) => (
       style={{
         marginTop: 8,
         color: INK_FAINT,
-        fontStyle: 'italic',
-        fontSize: '11px',
+        fontSize: '12px',
       }}
     >
       Deposit goods at the Fulfillment Crate to settle the vessel&apos;s
@@ -150,7 +147,6 @@ export const HarborSection = ({ data }: { data: NoticeboardData }) => {
       <div
         style={{
           color: INK_FAINT,
-          fontStyle: 'italic',
           textAlign: 'center',
           padding: '24px 0',
         }}

@@ -137,14 +137,12 @@ const rowLabelStyle: CSSProperties = {
   minWidth: '110px',
   color: INK,
   fontVariant: 'small-caps',
-  letterSpacing: '1px',
   fontWeight: 'bold',
 };
 
 const rowHintStyle: CSSProperties = {
-  color: INK_FAINT,
-  fontStyle: 'italic',
-  fontSize: '11px',
+  color: INK_SOFT,
+  fontSize: '12px',
   flexBasis: '100%',
   paddingLeft: '118px',
   marginTop: '2px',
@@ -154,7 +152,6 @@ const previewStyle: CSSProperties = {
   color: INK_SOFT,
   fontSize: '11px',
   fontVariant: 'small-caps',
-  letterSpacing: '1px',
   flexBasis: '100%',
   paddingLeft: '118px',
   marginTop: '2px',
@@ -166,7 +163,6 @@ const headerBarStyle: CSSProperties = {
   alignItems: 'baseline',
   color: INK_SOFT,
   fontVariant: 'small-caps',
-  letterSpacing: '1px',
   fontSize: '12px',
   marginBottom: '4px',
 };
@@ -178,7 +174,6 @@ const quorumBannerStyle = (quorate: boolean): CSSProperties => ({
   padding: '4px 10px',
   marginBottom: '10px',
   fontVariant: 'small-caps',
-  letterSpacing: '1px',
   fontWeight: 'bold',
   fontSize: '12px',
   textAlign: 'center',
@@ -228,9 +223,8 @@ const candidateJobStyle: CSSProperties = {
 };
 
 const candidatePledgeStyle: CSSProperties = {
-  color: INK_FAINT,
-  fontStyle: 'italic',
-  fontSize: '11px',
+  color: INK_SOFT,
+  fontSize: '12px',
   flexBasis: '100%',
   paddingLeft: '28px',
 };
@@ -390,7 +384,6 @@ const AldermanStrip = (props: {
       <div
         style={{
           fontVariant: 'small-caps',
-          letterSpacing: '2px',
           color: SEAL_AMBER,
           fontWeight: 'bold',
           marginBottom: '4px',
@@ -474,7 +467,7 @@ const ElectionRow = (props: ElectionRowProps) => {
       <span style={rowLabelStyle}>Alderman</span>
       <div style={{ flex: 1, minWidth: 0 }}>
         {data.candidates.length === 0 && (
-          <div style={{ color: INK_FAINT, fontStyle: 'italic' }}>
+          <div style={{ color: INK_SOFT }}>
             No one has stood yet.
           </div>
         )}
@@ -761,7 +754,7 @@ const YaeNayRow = (props: YaeNayProps) => {
 const HistoryBlock = (props: { history: HistoryEntry[] }) => {
   if (props.history.length === 0) {
     return (
-      <div style={{ color: INK_FAINT, fontStyle: 'italic', marginTop: '6px' }}>
+      <div style={{ color: INK_SOFT, marginTop: '6px' }}>
         No sessions have yet been written into the record.
       </div>
     );

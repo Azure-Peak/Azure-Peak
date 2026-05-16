@@ -11,7 +11,6 @@ const EmptyCard = (props: { children: React.ReactNode }) => (
     style={{
       ...cardStyle,
       textAlign: 'center',
-      fontStyle: 'italic',
       color: INK_FAINT,
       fontSize: '12px',
     }}

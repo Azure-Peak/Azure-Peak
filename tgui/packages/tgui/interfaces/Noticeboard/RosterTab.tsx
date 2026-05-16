@@ -28,7 +28,6 @@ export const RosterTab = ({ data }: TabProps) => {
           ...titleStyle,
           fontSize: '20px',
           marginTop: 6,
-          letterSpacing: '6px',
         }}
       >
         {/* TODO: flavor */}
@@ -73,10 +72,9 @@ export const RosterTab = ({ data }: TabProps) => {
       <div
         style={{
           color: INK_FAINT,
-          fontStyle: 'italic',
           textAlign: 'center',
           padding: '12px 0 4px 0',
-          fontSize: '11px',
+          fontSize: '12px',
         }}
       >
         {/* TODO: flavor */}
@@ -178,7 +176,6 @@ const EmptyMessage = ({ text }: { text: string }) => (
   <div
     style={{
       color: INK_FAINT,
-      fontStyle: 'italic',
       textAlign: 'center',
       padding: '24px 0',
     }}

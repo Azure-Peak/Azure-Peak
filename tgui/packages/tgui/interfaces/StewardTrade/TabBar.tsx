@@ -17,7 +17,6 @@ const tabStyle = (active: boolean) => ({
   fontFamily: SERIF,
   fontSize: '14px',
   fontVariant: 'small-caps' as const,
-  letterSpacing: '1px',
   padding: '2px 8px',
   color: active ? INK : INK_FAINT,
   background: active ? 'rgba(200,170,100,0.25)' : 'transparent',

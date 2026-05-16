@@ -25,7 +25,6 @@ export const MammonRow = (props: Props) => {
           flex: '0 0 auto',
           fontFamily: SERIF,
           fontVariant: 'small-caps',
-          letterSpacing: '2px',
           color: SEAL_AMBER,
           fontStyle: 'italic',
           marginRight: '12px',

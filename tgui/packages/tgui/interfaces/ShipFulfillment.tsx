@@ -124,7 +124,6 @@ const Subsection = (props: {
         style={{
           fontFamily: SERIF,
           fontVariant: 'small-caps',
-          letterSpacing: '2px',
           color: SEAL_AMBER,
           fontStyle: 'italic',
           fontSize: '11px',
@@ -170,7 +169,6 @@ const ManifestSection = (props: {
           style={{
             color: SEAL_AMBER,
             fontVariant: 'small-caps',
-            letterSpacing: '1px',
             fontSize: '11px',
             marginLeft: '8px',
           }}
@@ -225,7 +223,6 @@ export const ShipFulfillment = () => {
               style={{
                 ...cardStyle,
                 textAlign: 'center',
-                fontStyle: 'italic',
                 color: INK_SOFT,
               }}
             >

@@ -224,7 +224,6 @@ const MercTab = (props: { data: Data; act: ActFn }) => {
           style={{
             ...cardStyle,
             textAlign: 'center',
-            fontStyle: 'italic',
             color: INK_SOFT,
           }}
         >
@@ -260,10 +259,9 @@ const AdventurerTab = (props: { data: Data; act: ActFn }) => {
       <div
         style={{
           ...subtitleStyle,
-          fontSize: '11px',
+          fontSize: '12px',
           marginBottom: '8px',
-          fontStyle: 'italic',
-          color: INK_FAINT,
+          color: INK_SOFT,
         }}
       >
         Adventurers post here when seeking work. Anyone may send them a single
@@ -288,7 +286,6 @@ const AdventurerTab = (props: { data: Data; act: ActFn }) => {
           style={{
             ...cardStyle,
             textAlign: 'center',
-            fontStyle: 'italic',
             color: INK_SOFT,
           }}
         >
@@ -346,10 +343,9 @@ const WretchTab = (props: { data: Data; act: ActFn }) => {
       <div
         style={{
           ...subtitleStyle,
-          fontSize: '11px',
+          fontSize: '12px',
           marginBottom: '8px',
-          fontStyle: 'italic',
-          color: INK_FAINT,
+          color: INK_SOFT,
         }}
       >
         This roster is visible only to wretches and the bathhouse staff. The
@@ -377,7 +373,6 @@ const WretchTab = (props: { data: Data; act: ActFn }) => {
           style={{
             ...cardStyle,
             textAlign: 'center',
-            fontStyle: 'italic',
             color: INK_SOFT,
           }}
         >

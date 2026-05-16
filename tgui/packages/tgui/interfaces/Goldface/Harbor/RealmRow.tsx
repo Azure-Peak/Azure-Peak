@@ -34,7 +34,6 @@ const ConditionPill = (props: { name: string }) => (
       color: SEAL_AMBER,
       fontSize: '10px',
       fontVariant: 'small-caps',
-      letterSpacing: '0.5px',
       fontWeight: 'bold',
       whiteSpace: 'nowrap',
     }}
@@ -118,7 +117,6 @@ export const RealmRow = (props: { realm: HarborRealm }) => {
             style={{
               color: SEAL_AMBER,
               fontVariant: 'small-caps',
-              letterSpacing: '1px',
               fontSize: '13px',
               fontWeight: 'bold',
             }}
@@ -200,7 +198,7 @@ export const RealmRow = (props: { realm: HarborRealm }) => {
             {!realm.discovered ? (
               <Unknown />
             ) : conditions.length === 0 ? (
-              <span style={{ color: INK_SOFT, fontStyle: 'italic' }}>
+              <span style={{ color: INK_SOFT }}>
                 No notable conditions reported.
               </span>
             ) : (

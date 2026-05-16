@@ -53,7 +53,7 @@ export const FundView = ({
         <BathhouseOrdinanceSection data={data} act={act} />
       )}
       {!!view_only && (
-        <div style={{ color: INK_FAINT, fontStyle: 'italic', marginTop: 8 }}>
+        <div style={{ color: INK_FAINT, marginTop: 8 }}>
           {'You may view this institution\'s coffers, but not act upon them.'}
         </div>
       )}

@@ -446,7 +446,6 @@ const ActiveStrip = (props: {
           <span
             style={{
               marginLeft: '10px',
-              fontStyle: 'italic',
               fontSize: '0.85em',
               color: fellowshipBonus > 0 ? '#2a6b2a' : '#7a6a4a',
               fontWeight: 'normal',

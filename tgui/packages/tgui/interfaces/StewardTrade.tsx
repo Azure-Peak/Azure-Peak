@@ -94,7 +94,6 @@ export const StewardTrade = () => {
               <div
                 style={{
                   fontVariant: 'small-caps',
-                  letterSpacing: '2px',
                   color: SEAL_AMBER,
                   fontWeight: 'bold',
                   marginBottom: '2px',
@@ -109,7 +108,7 @@ export const StewardTrade = () => {
                 </span>{' '}
                 of {warrant.trade_cap}m remaining today
               </div>
-              <div style={{ color: INK_FAINT, fontSize: '11px', fontStyle: 'italic' }}>
+              <div style={{ color: INK_FAINT, fontSize: '12px' }}>
                 Trades beyond the warrant are refused. Crown&apos;s Purse still pays the coin.
               </div>
             </div>

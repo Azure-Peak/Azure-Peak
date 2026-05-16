@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import {
   cardStyle,
-  INK_FAINT,
+  INK_SOFT,
   tabBarStyle,
   tabStyle,
 } from '../common/parchment';
@@ -20,7 +20,7 @@ export const InstitutionalTab = ({ data, act }: TabProps) => {
   if (!accessibleFunds.length) {
     return (
       <div style={cardStyle}>
-        <div style={{ color: INK_FAINT, fontStyle: 'italic' }}>
+        <div style={{ color: INK_SOFT }}>
           You hold no institutional authority.
         </div>
       </div>

@@ -5,7 +5,6 @@ import {
   badgeStyle,
   cardStyle,
   INK,
-  INK_FAINT,
   INK_SOFT,
   inkButtonStyle,
   PARCHMENT_SHADOW,
@@ -151,7 +150,6 @@ const OrderCard = (props: {
             style={{
               fontSize: '11px',
               fontVariant: 'small-caps',
-              letterSpacing: '2px',
               color: SEAL_AMBER,
               fontStyle: 'italic',
             }}
@@ -277,7 +275,6 @@ const OrderCard = (props: {
           <div
             style={{
               fontSize: '11px',
-              fontStyle: 'italic',
               color: INK_SOFT,
               marginBottom: '4px',
             }}
@@ -325,9 +322,8 @@ const OrderCard = (props: {
         <div
           style={{
             marginTop: '6px',
-            fontStyle: 'italic',
             fontSize: '11px',
-            color: INK_FAINT,
+            color: INK_SOFT,
           }}
         >
           Strike each finished item against the machine to deposit it.
@@ -350,7 +346,6 @@ export const OrdersTab = (props: {
         style={{
           ...cardStyle,
           textAlign: 'center',
-          fontStyle: 'italic',
           color: INK_SOFT,
         }}
       >

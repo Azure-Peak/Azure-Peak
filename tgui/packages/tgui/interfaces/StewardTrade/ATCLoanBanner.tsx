@@ -28,14 +28,12 @@ export const ATCLoanBanner = (props: { atc_loan: AtcLoanState }) => {
         padding: '10px 14px',
         textAlign: 'left',
         fontVariant: 'normal',
-        letterSpacing: '0',
       }}
     >
       <div
         style={{
           fontSize: '15px',
           fontWeight: 'bold',
-          letterSpacing: '3px',
           fontVariant: 'small-caps',
           marginBottom: '4px',
           color: accent,
@@ -43,7 +41,7 @@ export const ATCLoanBanner = (props: { atc_loan: AtcLoanState }) => {
       >
         Azurian Trading Company - Company Clerk's Bench
       </div>
-      <div style={{ fontStyle: 'italic', color: INK, marginBottom: '6px' }}>
+      <div style={{ color: INK, marginBottom: '6px' }}>
         {atc_loan.available ? (
           <>
             The clerk receives applications for emergency loan of{' '}
@@ -62,7 +60,6 @@ export const ATCLoanBanner = (props: { atc_loan: AtcLoanState }) => {
         <div
           style={{
             color: '#a8433a',
-            fontStyle: 'italic',
             fontSize: '12px',
             marginBottom: '6px',
           }}

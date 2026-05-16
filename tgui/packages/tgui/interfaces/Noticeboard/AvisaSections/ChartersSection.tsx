@@ -112,7 +112,6 @@ const EmptyMessage = ({ text }: { text: string }) => (
   <div
     style={{
       color: INK_FAINT,
-      fontStyle: 'italic',
       textAlign: 'center',
       padding: '24px 0',
     }}

@@ -551,7 +551,6 @@ export const EconomicPanel = () => {
                                   color: '#c0392b',
                                   fontVariant: 'small-caps',
                                   fontWeight: 'bold',
-                                  letterSpacing: '1px',
                                 }}
                               >
                                 suspended

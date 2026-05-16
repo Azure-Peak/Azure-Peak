@@ -67,7 +67,6 @@ const cardHeaderStyle: React.CSSProperties = {
 
 const cardTitleStyle: React.CSSProperties = {
   fontVariant: 'small-caps',
-  letterSpacing: '2px',
   fontSize: '15px',
   fontWeight: 'bold',
   color: INK,
@@ -109,8 +108,7 @@ const flavorBodyStyle: React.CSSProperties = {
 
 const proclamationNoteStyle: React.CSSProperties = {
   textAlign: 'center',
-  fontStyle: 'italic',
-  fontSize: '11px',
+  fontSize: '12px',
   color: SEAL_AMBER,
   margin: '4px 0 8px',
 };
@@ -278,8 +276,7 @@ export const DecreeSetter = () => {
             <div
               style={{
                 textAlign: 'center',
-                fontStyle: 'italic',
-                color: INK_FAINT,
+                color: INK_SOFT,
                 padding: '20px',
               }}
             >

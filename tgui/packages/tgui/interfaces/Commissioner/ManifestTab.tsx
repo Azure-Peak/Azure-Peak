@@ -5,7 +5,6 @@ import {
   cardStyle,
   fieldRowStyle,
   INK,
-  INK_FAINT,
   INK_SOFT,
   inkButtonStyle,
   PARCHMENT_SHADOW,
@@ -39,7 +38,6 @@ export const ManifestTab = (props: {
           style={{
             ...cardStyle,
             textAlign: 'center',
-            fontStyle: 'italic',
             color: INK_SOFT,
           }}
         >
@@ -175,7 +173,6 @@ export const ManifestTab = (props: {
             flex: 1,
             fontFamily: SERIF,
             fontVariant: 'small-caps',
-            letterSpacing: '2px',
             color: SEAL_AMBER,
             fontStyle: 'italic',
           }}
@@ -199,7 +196,6 @@ export const ManifestTab = (props: {
             flex: 1,
             fontFamily: SERIF,
             fontVariant: 'small-caps',
-            letterSpacing: '2px',
             color: SEAL_AMBER,
             fontStyle: 'italic',
           }}
@@ -223,7 +219,6 @@ export const ManifestTab = (props: {
           style={{
             marginTop: '8px',
             textAlign: 'center',
-            fontStyle: 'italic',
             fontSize: '12px',
             color: SEAL_RED,
           }}
@@ -292,9 +287,8 @@ export const ManifestTab = (props: {
         style={{
           marginTop: '10px',
           textAlign: 'center',
-          fontStyle: 'italic',
-          fontSize: '11px',
-          color: INK_FAINT,
+          fontSize: '12px',
+          color: INK_SOFT,
         }}
       >
         Insert coins into the machine to build your deposit. Posting locks the

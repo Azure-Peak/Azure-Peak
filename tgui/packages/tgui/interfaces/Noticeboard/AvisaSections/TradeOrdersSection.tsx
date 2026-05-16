@@ -129,7 +129,6 @@ const OrderCard = ({ order }: { order: TradeOrder }) => {
         <div
           style={{
             color: INK,
-            fontStyle: 'italic',
             fontSize: '12px',
             marginTop: 6,
             whiteSpace: 'pre-wrap',
@@ -184,7 +183,6 @@ const OrderCard = ({ order }: { order: TradeOrder }) => {
 
 const fieldLabelStyle: React.CSSProperties = {
   fontVariant: 'small-caps',
-  letterSpacing: '2px',
   color: SEAL_AMBER,
   fontStyle: 'italic',
   fontSize: '12px',
@@ -194,7 +192,6 @@ const EmptyMessage = ({ text }: { text: string }) => (
   <div
     style={{
       color: INK_FAINT,
-      fontStyle: 'italic',
       textAlign: 'center',
       padding: '24px 0',
     }}
@@ -211,7 +208,6 @@ const HelpPanel = () => (
       background: 'rgba(255,248,220,0.45)',
       border: `1px solid ${INK_FAINT}`,
       color: INK_SOFT,
-      fontStyle: 'italic',
       fontSize: '12px',
       lineHeight: 1.5,
     }}

@@ -212,7 +212,6 @@ export const ShipRow = (props: Props) => {
             style={{
               color: SEAL_AMBER,
               fontVariant: 'small-caps',
-              letterSpacing: '1px',
             }}
           >
             {ship.realm_id}

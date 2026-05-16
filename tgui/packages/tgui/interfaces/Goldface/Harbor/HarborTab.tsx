@@ -29,7 +29,6 @@ const BudgetPair = (props: { label: string; value: React.ReactNode }) => (
       style={{
         fontFamily: SERIF,
         fontVariant: 'small-caps',
-        letterSpacing: '2px',
         color: SEAL_AMBER,
         fontStyle: 'italic',
         fontSize: '11px',
@@ -89,7 +88,6 @@ export const HarborTab = (props: {
           style={{
             ...cardStyle,
             textAlign: 'center',
-            fontStyle: 'italic',
             color: INK_SOFT,
           }}
         >

@@ -26,7 +26,7 @@ export const OrdersView = (props: { data: Data }) => {
         Active Standing Orders ({count}/{order_pool_cap})
       </div>
       {count === 0 ? (
-        <div style={{ textAlign: 'center', fontStyle: 'italic', color: INK_SOFT }}>
+        <div style={{ textAlign: 'center', color: INK_SOFT }}>
           No active orders. Check back tomorrow.
         </div>
       ) : (
@@ -73,7 +73,6 @@ export const OrdersView = (props: { data: Data }) => {
                   style={{
                     color: INK_SOFT,
                     fontSize: '12px',
-                    fontStyle: 'italic',
                     marginBottom: '4px',
                   }}
                 >

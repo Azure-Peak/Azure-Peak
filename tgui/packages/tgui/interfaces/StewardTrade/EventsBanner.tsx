@@ -33,7 +33,7 @@ export const EventsBanner = (props: { events: EconomicEvent[] }) => {
             <span style={{ color: INK_FAINT, marginLeft: '8px' }}>
               ({e.days_left}d left)
             </span>
-            <div style={{ fontStyle: 'italic', color: INK_SOFT, fontSize: '12px' }}>
+            <div style={{ color: INK_SOFT, fontSize: '12px' }}>
               {e.description}
             </div>
           </div>

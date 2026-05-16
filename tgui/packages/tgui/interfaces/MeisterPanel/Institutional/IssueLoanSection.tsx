@@ -45,7 +45,7 @@ export const IssueLoanSection = ({
     <>
       <div style={sectionHeaderStyle}>Draft a Loan</div>
       {pastWindow && (
-        <div style={{ color: INK_FAINT, fontStyle: 'italic', marginBottom: 8 }}>
+        <div style={{ color: INK_FAINT, marginBottom: 8 }}>
           New loans may not be drawn after day {data.max_issuance_day}.
         </div>
       )}
@@ -69,7 +69,6 @@ export const IssueLoanSection = ({
           <div
             style={{
               color: SEAL_AMBER,
-              fontStyle: 'italic',
               textAlign: 'center',
               marginBottom: 10,
             }}

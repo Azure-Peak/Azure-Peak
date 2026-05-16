@@ -24,7 +24,6 @@ const headerCellStyle: React.CSSProperties = {
   textAlign: 'left',
   padding: '4px 8px 6px 8px',
   fontVariant: 'small-caps',
-  letterSpacing: '2px',
   color: SEAL_AMBER,
   fontStyle: 'italic',
   borderBottom: `1px solid ${INK_FAINT}`,
@@ -109,7 +108,6 @@ const RegionRow = ({ region }: { region: ScoutRegion }) => {
             color: region.danger_color,
             fontWeight: 'bold',
             fontVariant: 'small-caps',
-            letterSpacing: '1px',
           }}
         >
           {region.danger_level}
@@ -178,7 +176,6 @@ const EmptyMessage = ({ text }: { text: string }) => (
   <div
     style={{
       color: INK_FAINT,
-      fontStyle: 'italic',
       textAlign: 'center',
       padding: '24px 0',
     }}
@@ -195,7 +192,6 @@ const HelpPanel = () => (
       background: 'rgba(255,248,220,0.45)',
       border: `1px solid ${INK_FAINT}`,
       color: INK_SOFT,
-      fontStyle: 'italic',
       fontSize: '12px',
       lineHeight: 1.5,
     }}

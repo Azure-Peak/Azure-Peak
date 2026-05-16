@@ -199,7 +199,7 @@ export const MarketView = (props: { data: Data; onTrade: OnTrade }) => {
         </div>
       </div>
       {market_rows.length === 0 ? (
-        <div style={{ textAlign: 'center', fontStyle: 'italic', color: INK_SOFT }}>
+        <div style={{ textAlign: 'center', color: INK_SOFT }}>
           No goods accepted at present.
         </div>
       ) : (
@@ -618,7 +618,6 @@ const stripValueButtonStyle: React.CSSProperties = {
 const flagPillStyle = (active: boolean): React.CSSProperties => ({
   fontSize: '9px',
   fontVariant: 'small-caps',
-  letterSpacing: '1px',
   padding: '0 4px',
   border: `1px solid ${active ? SEAL_GREEN : INK_FAINT}`,
   color: active ? SEAL_GREEN : INK_FAINT,

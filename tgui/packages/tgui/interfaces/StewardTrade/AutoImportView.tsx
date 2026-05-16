@@ -72,7 +72,7 @@ export const AutoImportView = (props: { data: Data }) => {
               &middot; Goods on standing import:{' '}
               <span style={{ fontWeight: 'bold' }}>{activeCount}</span>
             </div>
-            <div style={{ fontSize: '11px', color: INK_FAINT, fontStyle: 'italic' }}>
+            <div style={{ fontSize: '12px', color: INK_SOFT }}>
               Tops up each good by {batch_size} units every 6 minutes when stock is
               below {floor_target}, skipping when a unit would cost more than{' '}
               {max_price_mult}x its base price.

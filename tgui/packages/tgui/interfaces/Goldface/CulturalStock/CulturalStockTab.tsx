@@ -127,7 +127,6 @@ const ShipSection = (props: {
           style={{
             color: INK_SOFT,
             fontSize: '11px',
-            letterSpacing: 'normal',
             textTransform: 'none',
             fontVariant: 'normal',
             fontWeight: 'normal',
@@ -170,7 +169,6 @@ export const CulturalStockTab = (props: Props) => {
           style={{
             ...cardStyle,
             textAlign: 'center',
-            fontStyle: 'italic',
             color: INK_SOFT,
             marginTop: '12px',
           }}
@@ -203,8 +201,7 @@ export const CulturalStockTab = (props: Props) => {
         style={{
           textAlign: 'center',
           color: INK_SOFT,
-          fontStyle: 'italic',
-          fontSize: '11px',
+          fontSize: '12px',
           marginBottom: '8px',
         }}
       >

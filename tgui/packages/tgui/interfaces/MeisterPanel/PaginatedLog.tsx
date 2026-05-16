@@ -42,7 +42,7 @@ export const PaginatedLog = ({
 
   if (!entries.length) {
     return (
-      <div style={{ color: INK_FAINT, fontStyle: 'italic', fontSize: '11px' }}>
+      <div style={{ color: INK_FAINT, fontSize: '12px' }}>
         {emptyMessage}
       </div>
     );

@@ -42,7 +42,6 @@ const railHeaderStyle = {
   fontFamily: SERIF,
   fontSize: '11px',
   fontVariant: 'small-caps' as const,
-  letterSpacing: '2px',
   color: SEAL_AMBER,
   fontStyle: 'italic' as const,
   marginBottom: '4px',
@@ -56,7 +55,6 @@ const railRowStyle = (active: boolean, indent = false) => ({
   fontFamily: SERIF,
   fontSize: '11px',
   fontVariant: 'small-caps' as const,
-  letterSpacing: '1px',
   padding: indent ? '2px 8px 2px 20px' : '3px 8px',
   color: active ? INK : INK_FAINT,
   background: active ? 'rgba(200,170,100,0.25)' : 'transparent',
@@ -247,7 +245,6 @@ export const BrowseTab = (props: {
             style={{
               ...cardStyle,
               textAlign: 'center',
-              fontStyle: 'italic',
               color: INK_SOFT,
             }}
           >

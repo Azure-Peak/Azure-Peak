@@ -4,6 +4,7 @@ import {
   fieldRowStyle,
   fieldValueStyle,
   INK_FAINT,
+  INK_SOFT,
   sectionHeaderStyle,
 } from '../common/parchment';
 import { PaginatedLog } from './PaginatedLog';
@@ -17,7 +18,7 @@ export const LedgerTab = ({ data }: TabProps) => {
     <div style={cardStyle}>
       <div style={sectionHeaderStyle}>My Debts</div>
       {!personal && (
-        <div style={{ color: INK_FAINT, fontStyle: 'italic' }}>
+        <div style={{ color: INK_SOFT }}>
           You owe no debts.
         </div>
       )}
@@ -48,7 +49,7 @@ export const LedgerTab = ({ data }: TabProps) => {
 
       <div style={sectionHeaderStyle}>Institutional Ledger</div>
       {!institutional.length && (
-        <div style={{ color: INK_FAINT, fontStyle: 'italic' }}>
+        <div style={{ color: INK_SOFT }}>
           No active loans on the institutions you hold authority over.
         </div>
       )}

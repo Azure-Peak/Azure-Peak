@@ -80,7 +80,6 @@ export const AvisaTab = ({ data, act }: TabProps) => {
           ...titleStyle,
           fontSize: '20px',
           marginTop: 6,
-          letterSpacing: '6px',
         }}
       >
         The Azurian Avisa
@@ -131,7 +130,6 @@ const AssemblySection = ({ act }: { act: TabProps['act'] }) => (
     <div
       style={{
         color: INK_FAINT,
-        fontStyle: 'italic',
         fontSize: '12px',
         marginBottom: 12,
       }}

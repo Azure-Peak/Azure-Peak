@@ -33,7 +33,6 @@ const MarginRow = (props: {
           flex: '0 0 160px',
           fontFamily: SERIF,
           fontVariant: 'small-caps',
-          letterSpacing: '2px',
           color: SEAL_AMBER,
           fontStyle: 'italic',
         }}
@@ -154,7 +153,6 @@ export const ConfigPanel = (props: {
             style={{
               fontFamily: SERIF,
               fontVariant: 'small-caps',
-              letterSpacing: '2px',
               color: SEAL_AMBER,
               fontStyle: 'italic',
               fontSize: '12px',
@@ -208,9 +206,8 @@ export const ConfigPanel = (props: {
       <div
         style={{
           marginTop: '4px',
-          fontStyle: 'italic',
-          fontSize: '11px',
-          color: INK_FAINT,
+          fontSize: '12px',
+          color: INK_SOFT,
           marginBottom: '6px',
         }}
       >

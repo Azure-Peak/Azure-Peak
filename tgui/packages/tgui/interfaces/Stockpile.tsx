@@ -81,7 +81,6 @@ const CharterChip = (props: { data: Data }) => {
     <span
       style={{
         fontVariant: 'small-caps',
-        letterSpacing: '1px',
         color,
         fontWeight: 'bold',
         fontSize: '11px',
@@ -154,9 +153,8 @@ const StockRowView = (props: {
         {!compact && row.desc && (
           <span
             style={{
-              fontStyle: 'italic',
               color: INK_SOFT,
-              fontSize: '11px',
+              fontSize: '12px',
               marginLeft: '6px',
             }}
           >

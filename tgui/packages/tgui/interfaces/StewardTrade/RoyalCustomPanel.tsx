@@ -5,7 +5,6 @@ import { useBackend } from '../../backend';
 import {
   cardStyle,
   INK,
-  INK_FAINT,
   INK_SOFT,
   inkButtonStyle,
   SEAL_AMBER,
@@ -38,9 +37,8 @@ export const RoyalCustomPanel = () => {
         <span
           style={{
             fontVariant: 'small-caps',
-            letterSpacing: '2px',
             color: SEAL_AMBER,
-            fontStyle: 'italic',
+            fontWeight: 'bold',
           }}
         >
           Royal Custom Charter
@@ -98,9 +96,8 @@ export const RoyalCustomPanel = () => {
       </div>
       <div
         style={{
-          color: INK_FAINT,
-          fontStyle: 'italic',
-          fontSize: '11px',
+          color: INK_SOFT,
+          fontSize: '12px',
           marginTop: '4px',
         }}
       >

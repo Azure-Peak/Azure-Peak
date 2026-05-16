@@ -79,7 +79,6 @@ const EventCard = ({ event }: { event: EconomicEvent }) => {
         <div
           style={{
             color: INK,
-            fontStyle: 'italic',
             fontSize: '12px',
             marginTop: 6,
             whiteSpace: 'pre-wrap',
@@ -94,7 +93,6 @@ const EventCard = ({ event }: { event: EconomicEvent }) => {
           <span
             style={{
               fontVariant: 'small-caps',
-              letterSpacing: '1px',
               color: INK_SOFT,
               fontStyle: 'italic',
               marginRight: 6,
@@ -113,7 +111,6 @@ const EmptyMessage = ({ text }: { text: string }) => (
   <div
     style={{
       color: INK_FAINT,
-      fontStyle: 'italic',
       textAlign: 'center',
       padding: '24px 0',
     }}

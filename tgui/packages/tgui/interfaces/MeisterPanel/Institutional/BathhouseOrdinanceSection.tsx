@@ -77,7 +77,6 @@ export const BathhouseOrdinanceSection = ({
           <div
             style={{
               color: SEAL_AMBER,
-              fontStyle: 'italic',
               marginTop: 6,
               fontSize: '12px',
               lineHeight: 1.4,
@@ -152,7 +151,6 @@ export const BathhouseOrdinanceSection = ({
         <div
           style={{
             color: INK_FAINT,
-            fontStyle: 'italic',
             marginBottom: 8,
             fontSize: '12px',
           }}

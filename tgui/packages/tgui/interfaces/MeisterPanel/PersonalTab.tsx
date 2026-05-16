@@ -6,6 +6,7 @@ import {
   fieldRowStyle,
   fieldValueStyle,
   INK_FAINT,
+  INK_SOFT,
   inkButtonStyle,
   SEAL_AMBER,
   sectionHeaderStyle,
@@ -109,7 +110,7 @@ export const PersonalTab = ({ data, act }: TabProps) => {
 
       <div style={sectionHeaderStyle}>Active Loan</div>
       {!loan && (
-        <div style={{ color: INK_FAINT, fontStyle: 'italic' }}>
+        <div style={{ color: INK_SOFT }}>
           No outstanding loan on your record.
         </div>
       )}

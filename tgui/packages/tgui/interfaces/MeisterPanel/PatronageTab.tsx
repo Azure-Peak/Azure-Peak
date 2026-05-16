@@ -5,7 +5,7 @@ import {
   fieldLabelStyle,
   fieldRowStyle,
   fieldValueStyle,
-  INK_FAINT,
+  INK_SOFT,
   inkButtonStyle,
   SEAL_AMBER,
   sectionHeaderStyle,
@@ -29,7 +29,7 @@ export const PatronageTab = ({ data, act }: TabProps) => {
   if (!fundsWithPatronage.length) {
     return (
       <div style={cardStyle}>
-        <div style={{ color: INK_FAINT, fontStyle: 'italic' }}>
+        <div style={{ color: INK_SOFT }}>
           You hold no patronage authority.
         </div>
       </div>
@@ -90,7 +90,7 @@ const RosterView = ({
         </div>
       </div>
       {full && (
-        <div style={{ color: SEAL_AMBER, fontStyle: 'italic', marginBottom: 8 }}>
+        <div style={{ color: SEAL_AMBER, marginBottom: 8 }}>
           The roster is full. Revoke an existing patron before drafting a new
           writ.
         </div>

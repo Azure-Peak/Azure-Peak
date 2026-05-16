@@ -125,7 +125,6 @@ export const sacralPlea: CSSProperties = {
 
 export const caputLupinum: CSSProperties = {
   fontWeight: 'bold',
-  letterSpacing: '1.5px',
 };
 
 export const sealLine: CSSProperties = {
@@ -179,7 +178,6 @@ export const failedStamp: CSSProperties = {
 
 export const titleHint: CSSProperties = {
   fontSize: '0.78em',
-  letterSpacing: '4px',
   textAlign: 'center',
   color: 'hsl(28, 52%, 30%)',
   marginBottom: '18px',

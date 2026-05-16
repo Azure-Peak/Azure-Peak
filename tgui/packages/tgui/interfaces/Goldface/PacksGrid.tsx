@@ -20,7 +20,6 @@ const HintCard = (props: { children: React.ReactNode }) => (
     style={{
       ...cardStyle,
       textAlign: 'center',
-      fontStyle: 'italic',
       color: INK_SOFT,
     }}
   >
@@ -87,8 +86,7 @@ export const PacksGrid = (props: Props) => {
             marginTop: '8px',
             textAlign: 'center',
             fontFamily: SERIF,
-            fontSize: '11px',
-            fontStyle: 'italic',
+            fontSize: '12px',
             color: INK_SOFT,
           }}
         >

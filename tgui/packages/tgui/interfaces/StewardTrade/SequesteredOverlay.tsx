@@ -36,7 +36,6 @@ export const SequesteredOverlay = (props: {
           padding: '8px 24px',
           fontSize: '32px',
           fontWeight: 'bold',
-          letterSpacing: '6px',
           fontVariant: 'small-caps',
           background: 'rgba(244,231,198,0.85)',
           textAlign: 'center',
@@ -49,7 +48,6 @@ export const SequesteredOverlay = (props: {
           style={{
             fontSize: '11px',
             fontWeight: 'normal',
-            letterSpacing: '1px',
             fontStyle: 'italic',
             marginTop: '2px',
             color: SEAL_RED,

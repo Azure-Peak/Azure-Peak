@@ -68,7 +68,6 @@ export const Commissioner = () => {
             <span
               style={{
                 marginLeft: 'auto',
-                fontStyle: 'italic',
                 fontSize: '11px',
                 color: INK_SOFT,
               }}

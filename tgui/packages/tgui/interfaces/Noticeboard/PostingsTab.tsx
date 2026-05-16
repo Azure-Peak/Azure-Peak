@@ -106,7 +106,6 @@ const EmptyMessage = ({ text }: { text: string }) => (
   <div
     style={{
       color: INK_FAINT,
-      fontStyle: 'italic',
       textAlign: 'center',
       padding: '12px 0',
     }}
@@ -165,7 +164,6 @@ const PostingCard = ({
             fontStyle: 'italic',
             fontSize: '11px',
             fontVariant: 'small-caps',
-            letterSpacing: '1px',
             marginTop: '2px',
           }}
         >
@@ -370,7 +368,6 @@ const PostingForm = ({
         <div
           style={{
             color: SEAL_AMBER,
-            fontStyle: 'italic',
             fontSize: '12px',
             marginTop: 6,
           }}
@@ -383,7 +380,6 @@ const PostingForm = ({
         <div
           style={{
             color: SEAL_AMBER,
-            fontStyle: 'italic',
             fontSize: '12px',
             marginTop: 6,
           }}
@@ -421,7 +417,6 @@ const PostingForm = ({
 
 const fieldLabel = {
   fontVariant: 'small-caps' as const,
-  letterSpacing: '2px',
   color: SEAL_AMBER,
   fontStyle: 'italic' as const,
   fontSize: '12px',

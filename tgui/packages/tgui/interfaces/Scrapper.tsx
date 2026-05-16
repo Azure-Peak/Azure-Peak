@@ -236,9 +236,8 @@ export const Scrapper = () => {
             {isKeyholder && (
               <div
                 style={{
-                  fontSize: '11px',
-                  fontStyle: 'italic',
-                  color: INK_FAINT,
+                  fontSize: '12px',
+                  color: INK_SOFT,
                   flex: 1,
                   textAlign: 'right',
                 }}
@@ -274,7 +273,6 @@ export const Scrapper = () => {
               style={{
                 ...cardStyle,
                 textAlign: 'center',
-                fontStyle: 'italic',
                 color: INK_SOFT,
               }}
             >

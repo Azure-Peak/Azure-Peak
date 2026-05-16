@@ -87,7 +87,6 @@ const RegionCard = (props: { region: RegionRow; data: Data }) => {
           {description && (
             <div
               style={{
-                fontStyle: 'italic',
                 color: INK_SOFT,
                 fontSize: '12px',
                 margin: '6px 0 4px 16px',
@@ -212,7 +211,6 @@ const FlowColumn = (props: {
               fontVariant: 'small-caps',
               color: INK_FAINT,
               fontSize: '10px',
-              letterSpacing: '0.5px',
             }}
           >
             {label}

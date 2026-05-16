@@ -19,7 +19,6 @@ const HeaderStrip = () => (
       fontFamily: SERIF,
       fontSize: '10px',
       fontVariant: 'small-caps',
-      letterSpacing: '2px',
       color: INK_SOFT,
     }}
   >
@@ -40,7 +39,6 @@ export const RealmsView = (props: { realms: HarborRealm[] }) => {
         style={{
           ...cardStyle,
           textAlign: 'center',
-          fontStyle: 'italic',
           color: INK_SOFT,
         }}
       >

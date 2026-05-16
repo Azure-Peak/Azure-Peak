@@ -25,7 +25,6 @@ const sealBannerStyle: React.CSSProperties = {
 
 const sealCaptionStyle: React.CSSProperties = {
   fontVariant: 'small-caps',
-  letterSpacing: '2px',
   fontSize: '0.72em',
   color: 'hsl(28, 50%, 25%)',
   fontWeight: 'bold',
