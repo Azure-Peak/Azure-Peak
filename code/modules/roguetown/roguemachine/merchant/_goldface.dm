@@ -101,9 +101,7 @@
 
 /obj/structure/roguemachine/goldface/public/examine()
 	. = ..()
-	. += "<span class='info'>A public version of the GOLDFACE. The guild charges a hefty fee for its usage. When locked, can be used to browse the inventory a merchant has.</span>"
-	. += "<span class='info'>An agreement between the Guild of Craft and the Merchant's Guild mandates that certain protected goods are sold in a separate vendor that can be locked by the guildmembers.</span>"
-	. += "<span class='info'>The vendor can be locked by a key. The merchant make no profit whatsoever from the public vendor as the guild charges an exorbitant markup for automated handling.</span>"
+	. += "<span class='info'>A public version of the GOLDFACE. The company charges a hefty fee for its usage. Per agreement, it cannot be locked by anyone.</span>"
 
 /obj/structure/roguemachine/goldface/public/smith
 	name = "Smithy's SILVERFACE"
@@ -119,10 +117,6 @@
 	)
 	categories_gamer = list()
 
-/obj/structure/roguemachine/goldface/public/smith/examine()
-	. = ..()
-	. += span_info("This can be locked by a guild's key")
-
 /obj/structure/roguemachine/goldface/public/tailor
 	name = "Tailor's SILVERFACE"
 	lockid = "tailor"
@@ -134,10 +128,6 @@
 	)
 	categories_gamer = list()
 
-/obj/structure/roguemachine/goldface/public/tailor/examine()
-	. = ..()
-	. += span_info("This can be locked by a tailor's key")
-
 /obj/structure/roguemachine/goldface/public/apothecary
 	name = "Apothecary's SILVERFACE"
 	lockid = "apothecary"
@@ -146,10 +136,6 @@
 		"Potions",
 	)
 	categories_gamer = list()
-
-/obj/structure/roguemachine/goldface/public/apothecary/examine()
-	. = ..()
-	. += span_info("This can be locked by a physician's key")
 
 /obj/structure/roguemachine/goldface/public/wretch_cat
 	name = "Vile Vheslie"
@@ -210,23 +196,33 @@
 /obj/structure/roguemachine/goldface/attackby(obj/item/P, mob/user, params)
 	if(istype(P, /obj/item/roguekey))
 		var/obj/item/roguekey/K = P
-		if(K.lockid == lockid || istype(K, /obj/item/roguekey/lord) || istype(K, /obj/item/roguekey/skeleton))
+		if(is_public)
+			to_chat(user, span_warning("This is a public vendor. Keys won't work here."))
+			return
+		if(K.lockid == lockid || istype(K, /obj/item/roguekey/skeleton))
 			locked = !locked
 			playsound(loc, 'sound/misc/gold_misc.ogg', 100, FALSE, -1)
 			update_icon()
-			return attack_hand(user)
+			if(locked)
+				SStgui.close_uis(src)
+			return
 		else
 			to_chat(user, span_warning("Wrong key."))
 			return
 	else if(istype(P, /obj/item/storage/keyring))
 		var/right_key = FALSE
 		for(var/obj/item/roguekey/KE in P.contents)
-			if(KE.lockid == lockid || istype(KE, /obj/item/roguekey/lord) || istype(KE, /obj/item/roguekey/skeleton))
+			if(KE.lockid == lockid || istype(KE, /obj/item/roguekey/skeleton))
+				if(is_public)
+					to_chat(user, span_warning("This is a public vendor. Keys won't work here."))
+					return
 				right_key = TRUE
 				locked = !locked
 				playsound(loc, 'sound/misc/gold_misc.ogg', 100, FALSE, -1)
 				update_icon()
-				return attack_hand(user)
+				if(locked)
+					SStgui.close_uis(src)
+				return
 		if(!right_key)
 			to_chat(user, span_warning("Wrong key."))
 			return
@@ -247,6 +243,9 @@
 
 /obj/structure/roguemachine/goldface/ui_interact(mob/user, datum/tgui/ui)
 	if(!ishuman(user))
+		return
+	if(locked)
+		to_chat(user, span_warning("It's locked. Of course."))
 		return
 	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
@@ -324,7 +323,7 @@
 	data["packs"] = packs_data
 	data["total_matches"] = total_matches
 	data["is_command_center"] = is_command_center ? TRUE : FALSE
-	if(is_command_center && SSmerchant_trade)
+	if(is_command_center && SSmerchant_trade && !locked)
 		data["harbor"] = build_harbor_data()
 	return data
 
@@ -520,7 +519,7 @@
 			handle_send_away_result(result, usr)
 			return TRUE
 		if("cultural_buy")
-			if(!SSmerchant_trade)
+			if(!is_command_center || !SSmerchant_trade)
 				return TRUE
 			var/path = text2path(params["pack"])
 			if(!ispath(path, /datum/supply_pack))
