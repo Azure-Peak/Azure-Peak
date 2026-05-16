@@ -16,8 +16,8 @@
 	if(!msg)
 		return
 
-	if(src.bloodpool > 50)
-		src.adjust_bloodpool(-50)
+	if(src.bloodpool > 80)
+		src.adjust_bloodpool(-80)
 	else
 		to_chat(src, span_danger("I don't have enough blood to send a telepathy message!"))
 		return
