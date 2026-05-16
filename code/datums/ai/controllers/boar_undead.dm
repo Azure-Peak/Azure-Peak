@@ -2,7 +2,7 @@
 #define BB_BOAR_CHARGE_ATTEMPTS "boar_charge_attempts"
 
 /datum/ai_controller/boar/undead
-	movement_delay = BOAR_MOVEMENT_SPEED
+	movement_delay = BOAR_UNDEAD_MOVEMENT_SPEED
 	ai_movement = /datum/ai_movement/hybrid_pathing
 	idle_behavior = /datum/idle_behavior/idle_random_walk
 
@@ -37,7 +37,7 @@
 
 		boar.visible_message(span_danger("The impact violently splinters [hit_flora], spraying sharp wooden thorns everywhere!"))
 		playsound(T, 'sound/combat/Ranged/flatbow-shot-01.ogg', 100, TRUE)
-		var/projectiles = rand(4, 6)
+		var/projectiles = rand(4, 9)
 		var/base_angle_step = 360 / projectiles 
 		for(var/i in 1 to projectiles)
 			var/angle = (i * base_angle_step) + rand(-15, 15)

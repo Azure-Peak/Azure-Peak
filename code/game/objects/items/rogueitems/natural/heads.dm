@@ -80,12 +80,19 @@
 	sellprice = 20
 
 /obj/item/natural/head/boar
-	name = "boar head"
-	desc = "The head of a terrifying brambleboar."
+	name = "bramblesnout head"
+	desc = "The head of a terrifying bramblesnout."
 	icon_state = "boarhead"
 	layer = 3.1
 	// More than other animals that drop a significant amount. Boars are harder to kill and more dangerous.
 	sellprice = 45
+
+/obj/item/natural/head/boar/undead
+	name = "deadite bramblesnout head"
+	desc = "The head of a terrifying bramblesnout claimed by undeath."
+	icon_state = "boarhead_undead"
+	layer = 3.1
+	sellprice = 110
 
 /obj/item/natural/head/troll
 	name = "troll head"

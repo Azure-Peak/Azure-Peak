@@ -9,6 +9,7 @@
 	maxHealth = BOAR_HEALTH_UNDEAD
 	ai_controller = /datum/ai_controller/boar/undead
 
+	head_butcher = /obj/item/natural/head/boar/undead
 	botched_butcher_results = list(
 		/obj/item/reagent_containers/food/snacks/rogue/meat_rotten = 2, 
 		/obj/item/alch/sinew = 2, 
