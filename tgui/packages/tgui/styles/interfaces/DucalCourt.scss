@@ -1,43 +1,32 @@
-.RoyalWarTable {
+.DucalCourt {
   width: 100%;
   height: 100%;
   overflow: hidden;
   background: #f4e7c6;
 }
 
-.RoyalWarTable__scaleFrame {
-  position: relative;
+.DucalCourt__board {
+  --ducal-ink: #2b2013;
+  --ducal-muted: #6f5737;
+  --ducal-gold: #b9852e;
+  --ducal-gold-soft: rgba(185, 133, 46, 0.22);
+  --ducal-blue: var(--ducal-primary, #183a56);
+  --ducal-standard-light: var(--ducal-secondary, #ffffff);
+  --ducal-red: #7b221f;
+  --ducal-green: #345d37;
+  --ducal-parchment: #efe1b8;
+  --ducal-shadow: rgba(26, 13, 6, 0.34);
+
+  box-sizing: border-box;
   width: 100%;
   height: 100%;
-  overflow: hidden;
-}
-
-.RoyalWarTable__board {
-  --royal-ink: #2b2013;
-  --royal-muted: #6f5737;
-  --royal-gold: #b9852e;
-  --royal-gold-soft: rgba(185, 133, 46, 0.22);
-  --royal-blue: var(--royal-primary, #183a56);
-  --royal-standard-light: var(--royal-secondary, #ffffff);
-  --royal-red: #7b221f;
-  --royal-green: #345d37;
-  --royal-parchment: #efe1b8;
-  --royal-shadow: rgba(26, 13, 6, 0.34);
-
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  box-sizing: border-box;
-  width: 1180px;
-  height: 820px;
   display: grid;
-  grid-template-rows: 94px 72px minmax(0, 1fr);
+  grid-template-rows: clamp(90px, 11vh, 118px) clamp(72px, 9vh, 96px) minmax(0, 1fr);
   gap: 8px;
-  color: var(--royal-ink);
+  color: var(--ducal-ink);
   font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', Georgia, serif;
   padding: 12px;
   overflow: hidden;
-  transform-origin: center center;
   background:
     radial-gradient(circle at 18% 0%, rgba(255, 255, 255, 0.28), transparent 31%),
     radial-gradient(circle at 85% 16%, rgba(43, 32, 19, 0.12), transparent 34%),
@@ -51,13 +40,13 @@
     );
 }
 
-.RoyalWarTable__board *,
-.RoyalWarTable__board *::before,
-.RoyalWarTable__board *::after {
+.DucalCourt__board *,
+.DucalCourt__board *::before,
+.DucalCourt__board *::after {
   box-sizing: border-box;
 }
 
-.RoyalWarTable__titleRow {
+.DucalCourt__titleRow {
   position: relative;
   overflow: hidden;
   display: flex;
@@ -65,7 +54,7 @@
   gap: 18px;
   align-items: flex-start;
   min-height: 0;
-  height: 94px;
+  height: 100%;
   padding: 12px 68px;
   border: 2px solid rgba(62, 39, 18, 0.5);
   background:
@@ -77,37 +66,37 @@
     0 2px 5px rgba(54, 31, 12, 0.12);
 }
 
-.RoyalWarTable__titleRow::before,
-.RoyalWarTable__titleRow::after {
+.DucalCourt__titleRow::before,
+.DucalCourt__titleRow::after {
   content: '';
   position: absolute;
   top: 0;
   bottom: 0;
   width: 12px;
-  background: var(--royal-standard-light);
+  background: var(--ducal-standard-light);
   opacity: 0.74;
 }
 
-.RoyalWarTable__titleRow::before {
+.DucalCourt__titleRow::before {
   left: 47px;
 }
 
-.RoyalWarTable__titleRow::after {
+.DucalCourt__titleRow::after {
   right: 47px;
 }
 
-.RoyalWarTable__standard {
+.DucalCourt__standard {
   position: absolute;
   top: -1px;
   display: grid;
   place-items: start center;
   width: 42px;
-  height: 88px;
+  height: calc(100% - 4px);
   padding-top: 18px;
-  color: var(--royal-standard-light);
+  color: var(--ducal-standard-light);
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.18), transparent 35%),
-    var(--royal-blue);
+    var(--ducal-blue);
   clip-path: polygon(0 0, 100% 0, 100% 78%, 50% 100%, 0 78%);
   border: 1px solid rgba(43, 32, 19, 0.48);
   box-shadow:
@@ -116,55 +105,55 @@
   z-index: 1;
 }
 
-.RoyalWarTable__standard--left {
+.DucalCourt__standard--left {
   left: 12px;
 }
 
-.RoyalWarTable__standard--right {
+.DucalCourt__standard--right {
   right: 12px;
-  color: var(--royal-blue);
+  color: var(--ducal-blue);
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.18), transparent 35%),
-    var(--royal-standard-light);
+    var(--ducal-standard-light);
 }
 
-.RoyalWarTable__standard .Icon {
+.DucalCourt__standard .Icon {
   filter: drop-shadow(0 1px 0 rgba(0, 0, 0, 0.5));
 }
 
-.RoyalWarTable__eyebrow,
-.RoyalWarTable__subtitle,
-.RoyalWarTable__statusLabel,
-.RoyalWarTable__statusDetail,
-.RoyalWarTable__actionDesc,
-.RoyalWarTable__badge,
-.RoyalWarTable__riteFacts b,
-.RoyalWarTable__mapLegend,
-.RoyalWarTable__rulerBlock b {
-  color: var(--royal-muted);
+.DucalCourt__eyebrow,
+.DucalCourt__subtitle,
+.DucalCourt__statusLabel,
+.DucalCourt__statusDetail,
+.DucalCourt__actionDesc,
+.DucalCourt__badge,
+.DucalCourt__riteFacts b,
+.DucalCourt__mapLegend,
+.DucalCourt__rulerBlock b {
+  color: var(--ducal-muted);
 }
 
-.RoyalWarTable__eyebrow {
+.DucalCourt__eyebrow {
   font-size: 11px;
   letter-spacing: 2px;
   text-transform: uppercase;
 }
 
-.RoyalWarTable__title {
+.DucalCourt__title {
   font-size: 28px;
   font-weight: 700;
   line-height: 1;
   margin: 3px 0;
   letter-spacing: 0;
-  color: var(--royal-ink);
+  color: var(--ducal-ink);
 }
 
-.RoyalWarTable__subtitle {
+.DucalCourt__subtitle {
   font-size: 13px;
   font-style: italic;
 }
 
-.RoyalWarTable__rulerBlock {
+.DucalCourt__rulerBlock {
   display: grid;
   grid-template-columns: auto;
   gap: 5px;
@@ -172,27 +161,27 @@
   font-size: 12px;
 }
 
-.RoyalWarTable__rulerBlock div {
+.DucalCourt__rulerBlock div {
   display: flex;
   justify-content: space-between;
   gap: 14px;
   border-bottom: 1px dashed rgba(87, 57, 28, 0.25);
 }
 
-.RoyalWarTable__rulerBlock span {
-  color: var(--royal-ink);
+.DucalCourt__rulerBlock span {
+  color: var(--ducal-ink);
   font-weight: 700;
   text-align: right;
 }
 
-.RoyalWarTable__statusGrid {
+.DucalCourt__statusGrid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(205px, 1fr));
   gap: 8px;
   min-height: 0;
 }
 
-.RoyalWarTable__statusCard {
+.DucalCourt__statusCard {
   position: relative;
   overflow: hidden;
   display: flex;
@@ -205,7 +194,7 @@
   box-shadow: inset 0 0 18px rgba(72, 44, 18, 0.1);
 }
 
-.RoyalWarTable__statusCard::after {
+.DucalCourt__statusCard::after {
   content: '';
   position: absolute;
   right: -18px;
@@ -213,86 +202,86 @@
   width: 68px;
   height: 68px;
   border-radius: 50%;
-  background: var(--royal-blue);
+  background: var(--ducal-blue);
   opacity: 0.08;
 }
 
-.RoyalWarTable__statusCard--good {
+.DucalCourt__statusCard--good {
   border-color: rgba(52, 93, 55, 0.65);
 }
 
-.RoyalWarTable__statusCard--warning {
+.DucalCourt__statusCard--warning {
   border-color: rgba(185, 133, 46, 0.78);
 }
 
-.RoyalWarTable__statusCard--bad {
+.DucalCourt__statusCard--bad {
   border-color: rgba(123, 34, 31, 0.7);
 }
 
-.RoyalWarTable__statusIcon {
+.DucalCourt__statusIcon {
   display: grid;
   place-items: center;
   flex: 0 0 28px;
   height: 28px;
   color: #f4e7c6;
-  background: var(--royal-blue);
+  background: var(--ducal-blue);
   border: 1px solid rgba(185, 133, 46, 0.74);
-  box-shadow: 0 1px 3px var(--royal-shadow);
+  box-shadow: 0 1px 3px var(--ducal-shadow);
 }
 
-.RoyalWarTable__statusCard--warning .RoyalWarTable__statusIcon {
-  background: var(--royal-gold);
+.DucalCourt__statusCard--warning .DucalCourt__statusIcon {
+  background: var(--ducal-gold);
 }
 
-.RoyalWarTable__statusCard--bad .RoyalWarTable__statusIcon {
-  background: var(--royal-red);
+.DucalCourt__statusCard--bad .DucalCourt__statusIcon {
+  background: var(--ducal-red);
 }
 
-.RoyalWarTable__statusValue {
+.DucalCourt__statusValue {
   font-size: 15px;
   font-weight: 700;
   line-height: 1.1;
   margin: 2px 0;
 }
 
-.RoyalWarTable__statusLabel,
-.RoyalWarTable__statusDetail {
+.DucalCourt__statusLabel,
+.DucalCourt__statusDetail {
   font-size: 11px;
 }
 
-.RoyalWarTable__layout {
+.DucalCourt__layout {
   display: grid;
-  grid-template-columns: minmax(560px, 1fr) minmax(300px, 25%);
+  grid-template-columns: minmax(0, 1fr) minmax(270px, 24%);
   gap: 10px;
   align-items: stretch;
   min-height: 0;
   height: 100%;
 }
 
-.RoyalWarTable__mainColumn,
-.RoyalWarTable__sideColumn {
+.DucalCourt__mainColumn,
+.DucalCourt__sideColumn {
   display: grid;
   gap: 10px;
   min-height: 0;
 }
 
-.RoyalWarTable__mainColumn {
-  grid-template-rows: auto auto minmax(0, auto);
+.DucalCourt__mainColumn {
+  grid-template-rows: minmax(0, 1fr) auto auto;
 }
 
-.RoyalWarTable__sideColumn {
+.DucalCourt__sideColumn {
   grid-template-rows: minmax(0, 1fr) auto;
 }
 
-.RoyalWarTable__mainColumn > .Section,
-.RoyalWarTable__sideColumn > .Section {
+.DucalCourt__mainColumn > .Section,
+.DucalCourt__sideColumn > .Section {
   min-height: 0;
   overflow: hidden;
 }
 
-.RoyalWarTable__map {
+.DucalCourt__map {
   position: relative;
-  height: 285px;
+  height: clamp(230px, 34vh, 430px);
   min-height: 0;
   max-height: none;
   overflow: hidden;
@@ -307,7 +296,7 @@
     0 2px 7px rgba(45, 25, 13, 0.18);
 }
 
-.RoyalWarTable__map::before {
+.DucalCourt__map::before {
   content: '';
   position: absolute;
   inset: 8px;
@@ -316,7 +305,7 @@
   z-index: 6;
 }
 
-.RoyalWarTable__map::after {
+.DucalCourt__map::after {
   content: '';
   position: absolute;
   inset: 0;
@@ -336,7 +325,7 @@
   pointer-events: none;
 }
 
-.RoyalWarTable__mapSea {
+.DucalCourt__mapSea {
   position: absolute;
   right: -9%;
   top: -10%;
@@ -354,7 +343,7 @@
   clip-path: polygon(35% 0, 100% 0, 100% 100%, 12% 100%, 28% 73%, 20% 55%, 34% 35%);
 }
 
-.RoyalWarTable__mapLand {
+.DucalCourt__mapLand {
   position: absolute;
   left: 7%;
   top: 7%;
@@ -365,7 +354,7 @@
   clip-path: polygon(11% 16%, 30% 6%, 54% 12%, 76% 8%, 92% 25%, 83% 47%, 90% 70%, 71% 87%, 41% 92%, 20% 78%, 7% 55%);
 }
 
-.RoyalWarTable__mapCompass {
+.DucalCourt__mapCompass {
   position: absolute;
   left: 28px;
   bottom: 26px;
@@ -380,31 +369,31 @@
   z-index: 4;
 }
 
-.RoyalWarTable__mapCompass::before,
-.RoyalWarTable__mapCompass::after {
+.DucalCourt__mapCompass::before,
+.DucalCourt__mapCompass::after {
   content: '';
   position: absolute;
   background: rgba(43, 32, 19, 0.28);
 }
 
-.RoyalWarTable__mapCompass::before {
+.DucalCourt__mapCompass::before {
   width: 1px;
   height: 76px;
 }
 
-.RoyalWarTable__mapCompass::after {
+.DucalCourt__mapCompass::after {
   width: 76px;
   height: 1px;
 }
 
-.RoyalWarTable__mapToken {
+.DucalCourt__mapToken {
   position: absolute;
   display: grid;
   place-items: center;
   width: 34px;
   height: 34px;
-  color: var(--royal-standard-light);
-  background: var(--royal-blue);
+  color: var(--ducal-standard-light);
+  background: var(--ducal-blue);
   border: 2px solid rgba(43, 32, 19, 0.72);
   border-radius: 50%;
   box-shadow:
@@ -413,69 +402,69 @@
   z-index: 4;
 }
 
-.RoyalWarTable__mapToken--crown {
+.DucalCourt__mapToken--crown {
   left: 58%;
   top: 56%;
 }
 
-.RoyalWarTable__mapToken--guard {
+.DucalCourt__mapToken--guard {
   left: 31%;
   top: 41%;
-  background: var(--royal-green);
+  background: var(--ducal-green);
 }
 
-.RoyalWarTable__mapToken--seal {
+.DucalCourt__mapToken--seal {
   left: 76%;
   top: 70%;
-  background: var(--royal-red);
+  background: var(--ducal-red);
 }
 
-.RoyalWarTable__mapRidge,
-.RoyalWarTable__mapRoad,
-.RoyalWarTable__mapRiver {
+.DucalCourt__mapRidge,
+.DucalCourt__mapRoad,
+.DucalCourt__mapRiver {
   position: absolute;
   pointer-events: none;
 }
 
-.RoyalWarTable__mapRidge {
+.DucalCourt__mapRidge {
   height: 18px;
   border-top: 3px double rgba(77, 65, 51, 0.42);
   filter: drop-shadow(0 1px rgba(255, 245, 210, 0.5));
 }
 
-.RoyalWarTable__mapRidge--north {
+.DucalCourt__mapRidge--north {
   left: 31%;
   top: 21%;
   width: 34%;
   transform: rotate(-7deg);
 }
 
-.RoyalWarTable__mapRidge--south {
+.DucalCourt__mapRidge--south {
   left: 38%;
   top: 73%;
   width: 25%;
   transform: rotate(9deg);
 }
 
-.RoyalWarTable__mapRoad {
+.DucalCourt__mapRoad {
   border-top: 2px dashed rgba(96, 55, 21, 0.58);
 }
 
-.RoyalWarTable__mapRoad--main {
+.DucalCourt__mapRoad--main {
   left: 24%;
   top: 60%;
   width: 45%;
   transform: rotate(11deg);
 }
 
-.RoyalWarTable__mapRoad--west {
+.DucalCourt__mapRoad--west {
   left: 24%;
   top: 49%;
   width: 31%;
   transform: rotate(-15deg);
 }
 
-.RoyalWarTable__mapRiver {
+.DucalCourt__mapRiver {
   left: 35%;
   top: 18%;
   width: 2px;
@@ -485,14 +474,14 @@
   box-shadow: 8px 20px 0 rgba(38, 90, 120, 0.28);
 }
 
-.RoyalWarTable__mapPoint {
+.DucalCourt__mapPoint {
   position: absolute;
   transform: translate(-50%, -50%);
   display: flex;
   align-items: center;
   gap: 4px;
   max-width: 116px;
-  color: var(--royal-ink);
+  color: var(--ducal-ink);
   font-size: 10px;
   font-weight: 700;
   text-transform: uppercase;
@@ -500,34 +489,34 @@
   z-index: 5;
 }
 
-.RoyalWarTable__mapPoint::before {
+.DucalCourt__mapPoint::before {
   content: '';
   display: block;
   width: 13px;
   height: 13px;
   border: 2px solid #412813;
-  background: var(--royal-gold);
+  background: var(--ducal-gold);
   box-shadow: 0 1px 3px rgba(42, 22, 10, 0.38);
   transform: rotate(45deg);
 }
 
-.RoyalWarTable__mapPoint--keep::before {
-  background: var(--royal-red);
+.DucalCourt__mapPoint--keep::before {
+  background: var(--ducal-red);
 }
 
-.RoyalWarTable__mapPoint--forest::before {
-  background: var(--royal-green);
+.DucalCourt__mapPoint--forest::before {
+  background: var(--ducal-green);
 }
 
-.RoyalWarTable__mapPoint--water::before {
+.DucalCourt__mapPoint--water::before {
   background: #2d6887;
 }
 
-.RoyalWarTable__mapPoint--mountain::before {
+.DucalCourt__mapPoint--mountain::before {
   background: #786c59;
 }
 
-.RoyalWarTable__mapTitle {
+.DucalCourt__mapTitle {
   position: absolute;
   left: 16px;
   top: 12px;
@@ -537,7 +526,7 @@
   text-transform: uppercase;
 }
 
-.RoyalWarTable__mapCallouts {
+.DucalCourt__mapCallouts {
   position: absolute;
   right: 12px;
   top: 12px;
@@ -547,28 +536,28 @@
   z-index: 5;
 }
 
-.RoyalWarTable__callout {
+.DucalCourt__callout {
   padding: 5px 8px;
-  border-left: 3px solid var(--royal-blue);
+  border-left: 3px solid var(--ducal-blue);
   background: rgba(250, 241, 208, 0.82);
   box-shadow: 0 1px 4px rgba(45, 25, 13, 0.16);
   font-size: 11px;
   font-weight: 700;
 }
 
-.RoyalWarTable__callout--good {
-  border-color: var(--royal-green);
+.DucalCourt__callout--good {
+  border-color: var(--ducal-green);
 }
 
-.RoyalWarTable__callout--warning {
-  border-color: var(--royal-gold);
+.DucalCourt__callout--warning {
+  border-color: var(--ducal-gold);
 }
 
-.RoyalWarTable__callout--bad {
-  border-color: var(--royal-red);
+.DucalCourt__callout--bad {
+  border-color: var(--ducal-red);
 }
 
-.RoyalWarTable__mapLegend {
+.DucalCourt__mapLegend {
   position: absolute;
   left: 12px;
   bottom: 10px;
@@ -583,7 +572,7 @@
   z-index: 7;
 }
 
-.RoyalWarTable__legendKey {
+.DucalCourt__legendKey {
   display: inline-block;
   width: 8px;
   height: 8px;
@@ -591,66 +580,66 @@
   border: 1px solid rgba(50, 31, 14, 0.55);
 }
 
-.RoyalWarTable__legendKey--crown {
-  background: var(--royal-red);
+.DucalCourt__legendKey--crown {
+  background: var(--ducal-red);
 }
 
-.RoyalWarTable__legendKey--forest {
-  background: var(--royal-green);
+.DucalCourt__legendKey--forest {
+  background: var(--ducal-green);
 }
 
-.RoyalWarTable__legendKey--water {
+.DucalCourt__legendKey--water {
   background: #2d6887;
 }
 
-.RoyalWarTable__legendKey--mountain {
+.DucalCourt__legendKey--mountain {
   background: #786c59;
 }
 
-.RoyalWarTable__actionGrid {
+.DucalCourt__actionGrid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 6px;
 }
 
-.RoyalWarTable__toolGrid {
+.DucalCourt__toolGrid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 6px;
 }
 
-.RoyalWarTable__action {
+.DucalCourt__action {
   position: relative;
   overflow: hidden;
   width: 100%;
   min-height: 58px;
   padding: 8px 32px 8px 8px;
-  color: var(--royal-ink);
+  color: var(--ducal-ink);
   border: 2px solid rgba(71, 44, 21, 0.42);
   background:
     radial-gradient(circle at 92% 84%, rgba(123, 34, 31, 0.18), transparent 15%),
     linear-gradient(180deg, rgba(255, 248, 221, 0.9), rgba(224, 196, 127, 0.52)),
-    var(--royal-parchment);
+    var(--ducal-parchment);
   box-shadow:
     inset 0 0 18px rgba(72, 44, 18, 0.11),
     0 1px 2px rgba(50, 29, 12, 0.14);
   text-align: left;
 }
 
-.RoyalWarTable__actionPin {
+.DucalCourt__actionPin {
   position: absolute;
   left: 50%;
   top: 5px;
   width: 9px;
   height: 9px;
-  background: var(--royal-gold);
+  background: var(--ducal-gold);
   border: 1px solid rgba(43, 32, 19, 0.62);
   border-radius: 50%;
   box-shadow: 0 1px 2px rgba(38, 20, 8, 0.32);
   transform: translateX(-50%);
 }
 
-.RoyalWarTable__actionSeal {
+.DucalCourt__actionSeal {
   position: absolute;
   right: 10px;
   bottom: 9px;
@@ -658,42 +647,42 @@
   height: 22px;
   background:
     radial-gradient(circle at 35% 32%, rgba(255, 255, 255, 0.22), transparent 23%),
-    var(--royal-blue);
-  border: 2px solid var(--royal-standard-light);
+    var(--ducal-blue);
+  border: 2px solid var(--ducal-standard-light);
   border-radius: 50%;
   box-shadow:
     0 1px 3px rgba(42, 22, 10, 0.28),
     0 0 0 1px rgba(43, 32, 19, 0.35);
 }
 
-.RoyalWarTable__action:hover:not(:disabled) {
-  border-color: var(--royal-gold);
+.DucalCourt__action:hover:not(:disabled) {
+  border-color: var(--ducal-gold);
   box-shadow:
     inset 0 0 20px rgba(185, 133, 46, 0.18),
     0 1px 4px rgba(70, 38, 14, 0.2);
 }
 
-.RoyalWarTable__action:disabled {
+.DucalCourt__action:disabled {
   opacity: 0.54;
   filter: saturate(0.75);
 }
 
-.RoyalWarTable__action > .Button__content {
+.DucalCourt__action > .Button__content {
   display: flex;
   width: 100%;
   gap: 8px;
   align-items: flex-start;
 }
 
-.RoyalWarTable__action--compact {
+.DucalCourt__action--compact {
   min-height: 42px;
 }
 
-.RoyalWarTable__action--compact .RoyalWarTable__badges {
+.DucalCourt__action--compact .DucalCourt__badges {
   display: none;
 }
 
-.RoyalWarTable__actionIcon {
+.DucalCourt__actionIcon {
   display: grid;
   place-items: center;
   flex: 0 0 31px;
@@ -701,33 +690,33 @@
   color: #f4e7c6;
   background:
     linear-gradient(145deg, rgba(255, 255, 255, 0.16), transparent),
-    var(--royal-blue);
-  border: 1px solid var(--royal-gold);
+    var(--ducal-blue);
+  border: 1px solid var(--ducal-gold);
 }
 
-.RoyalWarTable__actionTitle,
-.RoyalWarTable__actionDesc,
-.RoyalWarTable__badges {
+.DucalCourt__actionTitle,
+.DucalCourt__actionDesc,
+.DucalCourt__badges {
   display: block;
 }
 
-.RoyalWarTable__actionTitle {
+.DucalCourt__actionTitle {
   font-weight: 700;
   font-size: 12px;
   line-height: 1.1;
 }
 
-.RoyalWarTable__actionDesc {
+.DucalCourt__actionDesc {
   margin-top: 2px;
   font-size: 9px;
   white-space: normal;
 }
 
-.RoyalWarTable__badges {
+.DucalCourt__badges {
   margin-top: 5px;
 }
 
-.RoyalWarTable__badge {
+.DucalCourt__badge {
   display: inline-block;
   margin: 0 4px 3px 0;
   padding: 1px 5px;
@@ -737,33 +726,33 @@
   text-transform: uppercase;
 }
 
-.RoyalWarTable__riteName {
+.DucalCourt__riteName {
   font-size: 13px;
   font-weight: 700;
   margin-bottom: 5px;
 }
 
-.RoyalWarTable__stepper {
+.DucalCourt__stepper {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 4px;
   margin-bottom: 6px;
 }
 
-.RoyalWarTable__step {
+.DucalCourt__step {
   display: grid;
   place-items: center;
   gap: 3px;
   min-height: 36px;
   padding: 3px;
   border: 1px solid rgba(111, 87, 55, 0.34);
-  color: var(--royal-muted);
+  color: var(--ducal-muted);
   background: rgba(248, 238, 202, 0.44);
   font-size: 10px;
   text-transform: uppercase;
 }
 
-.RoyalWarTable__step span {
+.DucalCourt__step span {
   display: grid;
   place-items: center;
   width: 18px;
@@ -774,24 +763,24 @@
   font-weight: 700;
 }
 
-.RoyalWarTable__step--active {
-  border-color: var(--royal-gold);
-  color: var(--royal-ink);
-  background: var(--royal-gold-soft);
+.DucalCourt__step--active {
+  border-color: var(--ducal-gold);
+  color: var(--ducal-ink);
+  background: var(--ducal-gold-soft);
 }
 
-.RoyalWarTable__step--active span {
-  background: var(--royal-red);
+.DucalCourt__step--active span {
+  background: var(--ducal-red);
 }
 
-.RoyalWarTable__riteFacts {
+.DucalCourt__riteFacts {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 4px;
   margin-bottom: 6px;
 }
 
-.RoyalWarTable__riteFacts div {
+.DucalCourt__riteFacts div {
   display: grid;
   gap: 1px;
   padding: 4px;
@@ -799,36 +788,36 @@
   border: 1px solid rgba(111, 87, 55, 0.25);
 }
 
-.RoyalWarTable__riteFacts b {
+.DucalCourt__riteFacts b {
   font-size: 9px;
   text-transform: uppercase;
 }
 
-.RoyalWarTable__riteFacts span {
+.DucalCourt__riteFacts span {
   font-size: 11px;
   font-weight: 700;
 }
 
-.RoyalWarTable__riteStatus {
+.DucalCourt__riteStatus {
   padding: 5px 7px;
-  border-left: 3px solid var(--royal-gold);
+  border-left: 3px solid var(--ducal-gold);
   background: rgba(255, 248, 221, 0.62);
   font-size: 10px;
 }
 
-.RoyalWarTable__riteActionGrid {
+.DucalCourt__riteActionGrid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 6px;
   margin-top: 6px;
 }
 
-.RoyalWarTable__desk {
+.DucalCourt__desk {
   display: grid;
   gap: 8px;
 }
 
-.RoyalWarTable__deskFooter {
+.DucalCourt__deskFooter {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
@@ -836,16 +825,16 @@
   justify-content: space-between;
 }
 
-.RoyalWarTable__deskButtons,
-.RoyalWarTable__lawTools {
+.DucalCourt__deskButtons,
+.DucalCourt__lawTools {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: 6px;
 }
 
-.RoyalWarTable__lawTools span {
-  color: var(--royal-muted);
+.DucalCourt__lawTools span {
+  color: var(--ducal-muted);
   font-size: 11px;
   text-transform: uppercase;
 }

@@ -1,5 +1,5 @@
 GLOBAL_VAR(king_throne)
-GLOBAL_VAR(royal_throat)
+GLOBAL_VAR(ducal_court_throat)
 
 /obj/structure/roguethrone
 	name = "throne of Azure Peak"
@@ -120,11 +120,11 @@ GLOBAL_VAR(royal_throat)
 		return
 	if(!ishuman(user))
 		return
-	var/obj/structure/roguemachine/titan/throat = GLOB.royal_throat
+	var/obj/structure/roguemachine/titan/throat = GLOB.ducal_court_throat
 	if(!throat || QDELETED(throat))
 		for(var/obj/structure/roguemachine/titan/found_throat in world)
 			throat = found_throat
-			GLOB.royal_throat = throat
+			GLOB.ducal_court_throat = throat
 			break
 	if(!throat)
 		to_chat(user, span_warning("The Throat of Azure Peak does not answer."))
@@ -148,11 +148,11 @@ GLOBAL_VAR(royal_throat)
 
 /obj/structure/roguethrone/get_mechanics_examine(mob/user)
 	. = ..()
-	. += span_info("Right-click the throne to open the Royal War Table interface. Spoken commands at the Throat still work.")
+	. += span_info("Right-click the throne to open the Ducal Court interface. Spoken commands at the Throat still work.")
 	. += span_info("<b>Throat Commands</b> (say these at the Throat of Azure Peak):")
 	. += span_info("'Make Announcement' - broadcast a message (requires crown)")
 	. += span_info("'Revise Charter' - revise or restore charters (requires crown, ruler only)")
-	. += span_info("'Make Decree' - issue a royal decree (requires crown, ruler only)")
+	. += span_info("'Make Decree' - issue a ducal decree (requires crown, ruler only)")
 	. += span_info("'Purge Decrees' - remove all decrees (requires crown, ruler only)")
 	. += span_info("'Set Laws' - set the laws of the land (requires crown, ruler only)")
 	. += span_info("'Make Law' - create a new law (requires crown, ruler only)")
@@ -162,7 +162,7 @@ GLOBAL_VAR(royal_throat)
 	. += span_info("'Set Taxes' - set the tax rate (requires crown, ruler only)")
 	. += span_info("'Change Colors' - change the duchy's colors (requires crown, ruler only)")
 	. += span_info("'Become Regent' - claim regency when ruler is absent (requires crown, noble blood, regency position)")
-	. += span_info("'Summon Crown' / 'Summon Key' - retrieve royal items")
+	. += span_info("'Summon Crown' / 'Summon Key' - retrieve ducal items")
 	. += span_info("<b>Rites of Succession</b> (say at the Throat or near the Throne):")
 	. += span_info("'I Ascend' - invoke a rite of succession at the Throat")
 	. += span_info("'I Assent' - support an active claim near the throne during the gathering phase")

@@ -38,15 +38,15 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 /obj/structure/roguemachine/titan/Destroy()
 	lose_hearing_sensitivity()
 	set_light(0)
-	if(GLOB.royal_throat == src)
-		GLOB.royal_throat = null
+	if(GLOB.ducal_court_throat == src)
+		GLOB.ducal_court_throat = null
 	return ..()
 
 /obj/structure/roguemachine/titan/Initialize()
 	. = ..()
 	icon_state = null
-	if(!GLOB.royal_throat)
-		GLOB.royal_throat = src
+	if(!GLOB.ducal_court_throat)
+		GLOB.ducal_court_throat = src
 	become_hearing_sensitive()
 //	var/mutable_appearance/eye_lights = mutable_appearance(icon, "titan-eyes")
 //	eye_lights.plane = ABOVE_LIGHTING_PLANE //glowy eyes
@@ -590,20 +590,20 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 			return TRUE
 	return FALSE
 
-/obj/structure/roguemachine/titan/proc/royal_texts()
+/obj/structure/roguemachine/titan/proc/ducal_court_texts()
 	return list(
-		"window_title" = "Royal War Table",
-		"subtitle" = "Command the realm from the Throat of Azure Peak",
+		"window_title" = "Ducal Court",
+		"subtitle" = "Hold court from the throne of Azure Peak",
 		"sections" = list(
-			"status" = "Realm Status",
-			"map" = "Azuria War Map",
-			"main" = "Main Actions",
-			"tools" = "Royal Tools",
+			"status" = "Court Status",
+			"map" = "Ducal Demesne Map",
+			"main" = "Court Business",
+			"tools" = "Ducal Tools",
 			"succession" = "Succession and Usurpation",
-			"desk" = "Royal Desk",
+			"desk" = "Court Scribe Desk",
 		),
 		"composer" = list(
-			"placeholder" = "Write an announcement, decree, or new law...",
+			"placeholder" = "Draft an announcement, decree, or new law...",
 			"publish_announcement" = "Publish Announcement",
 			"publish_decree" = "Issue Decree",
 			"publish_law" = "Add Law",
@@ -641,7 +641,7 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 		),
 	)
 
-/obj/structure/roguemachine/titan/proc/format_royal_time(seconds)
+/obj/structure/roguemachine/titan/proc/format_ducal_court_time(seconds)
 	seconds = max(round(seconds), 0)
 	var/minutes = FLOOR(seconds / 60, 1)
 	var/remaining_seconds = seconds % 60
@@ -652,7 +652,7 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 /obj/structure/roguemachine/titan/proc/user_has_crown(mob/living/carbon/human/user)
 	return istype(user?.head, /obj/item/clothing/head/roguetown/crown/serpcrown)
 
-/obj/structure/roguemachine/titan/proc/user_has_royal_authority(mob/living/carbon/human/user)
+/obj/structure/roguemachine/titan/proc/user_has_ducal_authority(mob/living/carbon/human/user)
 	return SSticker.rulermob == user || SSticker.regentmob == user
 
 /obj/structure/roguemachine/titan/proc/user_has_lord_job(mob/living/carbon/human/user)
@@ -664,24 +664,24 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 	var/obj/structure/roguethrone/throne = GLOB.king_throne
 	return throne && get_dist(user, throne) <= RITE_ASSENT_RANGE
 
-/obj/structure/roguemachine/titan/proc/royal_mob_name(mob/person, fallback = null)
+/obj/structure/roguemachine/titan/proc/ducal_court_mob_name(mob/person, fallback = null)
 	if(!person)
 		return fallback
 	return person.real_name || person.name || fallback
 
-/obj/structure/roguemachine/titan/proc/get_royal_colors()
+/obj/structure/roguemachine/titan/proc/get_ducal_court_colors()
 	return list(
 		"primary" = GLOB.lordprimary || "#007fff",
 		"secondary" = GLOB.lordsecondary || "#ffffff",
 		"fallback" = !(GLOB.lordprimary && GLOB.lordsecondary),
 	)
 
-/obj/structure/roguemachine/titan/proc/royal_action_blocker(mob/living/carbon/human/user, action)
+/obj/structure/roguemachine/titan/proc/ducal_court_action_blocker(mob/living/carbon/human/user, action)
 	if(!istype(user))
-		return "Only a living subject may use the royal table."
+		return "Only a living subject may use the ducal court."
 
 	var/has_crown = user_has_crown(user)
-	var/has_authority = user_has_royal_authority(user)
+	var/has_authority = user_has_ducal_authority(user)
 	var/can_announce = SScommunications.can_announce(user)
 	var/obj/structure/roguethrone/throne = GLOB.king_throne
 	var/datum/usurpation_rite/rite = throne?.active_rite
@@ -697,7 +697,7 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 			if(!has_crown)
 				return "Requires the crown."
 			if(world.time < GLOB.last_crown_announcement_time + 2 MINUTES)
-				return "Another royal announcement is not ready yet."
+				return "Another ducal announcement is not ready yet."
 			if(!can_announce)
 				return "The Throat is still gathering strength."
 			return null
@@ -784,18 +784,18 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 			if(SSticker.regentmob == user)
 				return "You are already the regent."
 			return null
-	return "Unknown royal action."
+	return "Unknown ducal court action."
 
-/obj/structure/roguemachine/titan/proc/reject_royal_action(mob/living/carbon/human/user, action)
-	var/reason = royal_action_blocker(user, action)
+/obj/structure/roguemachine/titan/proc/reject_ducal_court_action(mob/living/carbon/human/user, action)
+	var/reason = ducal_court_action_blocker(user, action)
 	if(!reason)
 		return FALSE
 	to_chat(user, span_warning(reason))
 	playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
 	return TRUE
 
-/obj/structure/roguemachine/titan/proc/royal_action_data(mob/living/carbon/human/user, id, label, desc, list/requirements)
-	var/blocker = royal_action_blocker(user, id)
+/obj/structure/roguemachine/titan/proc/ducal_court_action_data(mob/living/carbon/human/user, id, label, desc, list/requirements)
+	var/blocker = ducal_court_action_blocker(user, id)
 	return list(
 		"id" = id,
 		"label" = label,
@@ -805,7 +805,7 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 		"disabled_reason" = blocker,
 	)
 
-/obj/structure/roguemachine/titan/proc/get_royal_text_param(list/params, key = "text", max_len = MAX_MESSAGE_LEN)
+/obj/structure/roguemachine/titan/proc/get_ducal_court_text_param(list/params, key = "text", max_len = MAX_MESSAGE_LEN)
 	var/text = params[key]
 	if(!istext(text))
 		return null
@@ -814,7 +814,7 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 		return null
 	return copytext(text, 1, max_len + 1)
 
-/obj/structure/roguemachine/titan/proc/get_royal_prompt_text(mob/living/carbon/human/user, message, title)
+/obj/structure/roguemachine/titan/proc/get_ducal_court_prompt_text(mob/living/carbon/human/user, message, title)
 	var/text = tgui_input_text(user, message, title, max_length = MAX_MESSAGE_LEN, multiline = TRUE, bigmodal = TRUE)
 	if(!text)
 		return null
@@ -847,15 +847,15 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 		if(RITE_STAGE_GATHERING)
 			stage = "gathering"
 			stage_label = "Gathering"
-			time_remaining = format_royal_time(max(round((RITE_GATHERING_DURATION - (world.time - rite.started_at)) / (1 SECONDS)), 0))
+			time_remaining = format_ducal_court_time(max(round((RITE_GATHERING_DURATION - (world.time - rite.started_at)) / (1 SECONDS)), 0))
 		if(RITE_STAGE_CONTESTING)
 			stage = "contesting"
 			stage_label = rite.contester ? "Contesting - Paused" : "Contesting"
 			if(rite.contester)
-				time_remaining = format_royal_time(round(rite.contest_time_remaining / (1 SECONDS)))
+				time_remaining = format_ducal_court_time(round(rite.contest_time_remaining / (1 SECONDS)))
 			else
 				var/elapsed = world.time - rite.contest_started_at
-				time_remaining = format_royal_time(max(round((rite.contest_time_remaining - elapsed) / (1 SECONDS)), 0))
+				time_remaining = format_ducal_court_time(max(round((rite.contest_time_remaining - elapsed) / (1 SECONDS)), 0))
 		if(RITE_STAGE_COMPLETE)
 			stage = "resolution"
 			stage_label = "Resolution"
@@ -871,7 +871,7 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 	rite_data["time_remaining"] = time_remaining
 	return rite_data
 
-/obj/structure/roguemachine/titan/proc/get_royal_status_cards(mob/living/carbon/human/user)
+/obj/structure/roguemachine/titan/proc/get_ducal_court_status_cards(mob/living/carbon/human/user)
 	var/obj/structure/roguethrone/throne = GLOB.king_throne
 	var/occupied = length(throne?.buckled_mobs)
 	var/mob/occupant = occupied ? throne.buckled_mobs[1] : null
@@ -894,14 +894,14 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 			"id" = "throne_status",
 			"label" = "Throne Status",
 			"value" = occupied ? "Occupied" : "Empty",
-			"detail" = occupied ? royal_mob_name(occupant, "Unknown occupant") : "No one is seated.",
+			"detail" = occupied ? ducal_court_mob_name(occupant, "Unknown occupant") : "No one is seated.",
 			"tone" = occupied ? "good" : "neutral",
 		),
 		list(
 			"id" = "crown_required",
 			"label" = "Crown Authority",
 			"value" = user_has_crown(user) ? "Crown Worn" : "Crown Missing",
-			"detail" = user_has_crown(user) ? "Royal commands are unlocked by the crown." : "Most commands require the crown.",
+			"detail" = user_has_crown(user) ? "Ducal commands are unlocked by the crown." : "Most commands require the crown.",
 			"tone" = user_has_crown(user) ? "good" : "bad",
 		),
 		list(
@@ -921,20 +921,20 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 		list(
 			"id" = "current_ruler",
 			"label" = "Current Ruler",
-			"value" = royal_mob_name(ruler, "None"),
-			"detail" = regent ? "Regent: [royal_mob_name(regent)]" : "No active regent.",
+			"value" = ducal_court_mob_name(ruler, "None"),
+			"detail" = regent ? "Regent: [ducal_court_mob_name(regent)]" : "No active regent.",
 			"tone" = ruler ? "good" : "warning",
 		),
 	)
 
-/obj/structure/roguemachine/titan/proc/get_royal_callouts(mob/living/carbon/human/user)
+/obj/structure/roguemachine/titan/proc/get_ducal_court_callouts(mob/living/carbon/human/user)
 	var/list/rite_data = get_throne_rite_data()
 	var/obj/structure/roguethrone/throne = GLOB.king_throne
 	var/rebel_progress = throne ? clamp(round((throne.rebel_leader_sit_time / REBEL_THRONE_TIME) * 100), 0, 100) : 0
 	var/list/callouts = list()
 	callouts += list(list(
-		"text" = user_has_royal_authority(user) ? "You hold royal authority." : "You do not hold royal authority.",
-		"tone" = user_has_royal_authority(user) ? "good" : "neutral",
+		"text" = user_has_ducal_authority(user) ? "You hold ducal authority." : "You do not hold ducal authority.",
+		"tone" = user_has_ducal_authority(user) ? "good" : "neutral",
 	))
 	callouts += list(list(
 		"text" = rite_data["active"] ? rite_data["status"] : "No active succession.",
@@ -946,37 +946,37 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 	))
 	return callouts
 
-/obj/structure/roguemachine/titan/proc/get_royal_actions(mob/living/carbon/human/user)
+/obj/structure/roguemachine/titan/proc/get_ducal_court_actions(mob/living/carbon/human/user)
 	return list(
 		"main" = list(
-			royal_action_data(user, "make_announcement", "Make Announcement", "Broadcast a realm-wide message.", list("Crown", "Broadcast Ready")),
-			royal_action_data(user, "revise_charter", "Revise Charter", "Open the charter ledger.", list("Crown", "Ruler/Regent")),
-			royal_action_data(user, "issue_decree", "Issue Decree", "Proclaim a royal decree.", list("Crown", "Ruler/Regent", "Broadcast Ready")),
-			royal_action_data(user, "set_laws", "Set Laws", "Rewrite the laws of the land.", list("Crown", "Ruler/Regent", "Broadcast Ready")),
-			royal_action_data(user, "set_taxes", "Set Taxes", "Adjust levies and poll taxes.", list("Crown", "Ruler/Regent")),
-			royal_action_data(user, "declare_outlaw", "Declare Outlaw", "Outlaw or pardon a named subject.", list("Crown", "Ruling Office", "Broadcast Ready")),
+			ducal_court_action_data(user, "make_announcement", "Make Announcement", "Broadcast a realm-wide message.", list("Crown", "Broadcast Ready")),
+			ducal_court_action_data(user, "revise_charter", "Revise Charter", "Open the charter ledger.", list("Crown", "Ruler/Regent")),
+			ducal_court_action_data(user, "issue_decree", "Issue Decree", "Proclaim a ducal decree.", list("Crown", "Ruler/Regent", "Broadcast Ready")),
+			ducal_court_action_data(user, "set_laws", "Set Laws", "Rewrite the laws of the land.", list("Crown", "Ruler/Regent", "Broadcast Ready")),
+			ducal_court_action_data(user, "set_taxes", "Set Taxes", "Adjust levies and poll taxes.", list("Crown", "Ruler/Regent")),
+			ducal_court_action_data(user, "declare_outlaw", "Declare Outlaw", "Outlaw or pardon a named subject.", list("Crown", "Ruling Office", "Broadcast Ready")),
 		),
 		"tools" = list(
-			royal_action_data(user, "change_colors", "Change Colors", "Change the realm colors.", list("Crown", "Ruler/Regent")),
-			royal_action_data(user, "summon_crown", "Summon Crown", "Retrieve the crown if law permits.", list("Throat")),
-			royal_action_data(user, "summon_key", "Summon Key", "Retrieve the lord's key.", list("Crown")),
-			royal_action_data(user, "restore_charter", "Restore Charter", "Open charters to restore suspended writs.", list("Crown", "Ruler/Regent")),
-			royal_action_data(user, "purge_laws", "Purge Laws", "Remove every current law.", list("Crown", "Ruler/Regent", "Broadcast Ready")),
-			royal_action_data(user, "purge_decrees", "Purge Decrees", "Remove every decree.", list("Crown", "Ruler/Regent", "Broadcast Ready")),
-			royal_action_data(user, "become_regent", "Become Regent", "Claim regency when the ruler is absent.", list("Crown", "Noble Blood", "Regency Office")),
+			ducal_court_action_data(user, "change_colors", "Change Colors", "Change the ducal colors.", list("Crown", "Ruler/Regent")),
+			ducal_court_action_data(user, "summon_crown", "Summon Crown", "Retrieve the crown if law permits.", list("Throat")),
+			ducal_court_action_data(user, "summon_key", "Summon Key", "Retrieve the ducal key.", list("Crown")),
+			ducal_court_action_data(user, "restore_charter", "Restore Charter", "Open charters to restore suspended writs.", list("Crown", "Ruler/Regent")),
+			ducal_court_action_data(user, "purge_laws", "Purge Laws", "Remove every current law.", list("Crown", "Ruler/Regent", "Broadcast Ready")),
+			ducal_court_action_data(user, "purge_decrees", "Purge Decrees", "Remove every decree.", list("Crown", "Ruler/Regent", "Broadcast Ready")),
+			ducal_court_action_data(user, "become_regent", "Become Regent", "Claim regency when the ruler is absent.", list("Crown", "Noble Blood", "Regency Office")),
 		),
 		"rites" = list(
-			royal_action_data(user, "ascend", "I Ascend", "Invoke a rite of succession.", list("Eligible Rite")),
-			royal_action_data(user, "assent", "I Assent", "Support an active claim near the throne.", list("Active Gathering", "Near Throne")),
-			royal_action_data(user, "abdicate", "I Abdicate", "Yield the throne and skip to contestation.", list("Ruler/Regent", "Near Throne")),
-			royal_action_data(user, "stop_ascent", "Stop Ascent", "Sit on the throne to halt succession.", list("Contesting", "Seated")),
+			ducal_court_action_data(user, "ascend", "I Ascend", "Invoke a rite of succession.", list("Eligible Rite")),
+			ducal_court_action_data(user, "assent", "I Assent", "Support an active claim near the throne.", list("Active Gathering", "Near Throne")),
+			ducal_court_action_data(user, "abdicate", "I Abdicate", "Yield the throne and skip to contestation.", list("Ruler/Regent", "Near Throne")),
+			ducal_court_action_data(user, "stop_ascent", "Stop Ascent", "Sit on the throne to halt succession.", list("Contesting", "Seated")),
 		),
 	)
 
 /obj/structure/roguemachine/titan/ui_interact(mob/user, datum/tgui/ui)
 	var/show_rite_selection = rite_selection_data && (!rite_selector || rite_selector == user)
-	var/interface = show_rite_selection ? "RiteSelection" : "RoyalWarTable"
-	var/title = show_rite_selection ? "Rites of Succession" : "Royal War Table"
+	var/interface = show_rite_selection ? "RiteSelection" : "DucalCourt"
+	var/title = show_rite_selection ? "Rites of Succession" : "Ducal Court"
 	if(!ui)
 		ui = SStgui.get_open_ui(user, src)
 	if(ui && ui.interface != interface)
@@ -989,7 +989,7 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 
 /obj/structure/roguemachine/titan/ui_static_data(mob/user)
 	var/list/data = ..()
-	data["texts"] = royal_texts()
+	data["texts"] = ducal_court_texts()
 	return data
 
 /obj/structure/roguemachine/titan/ui_data(mob/user)
@@ -1000,9 +1000,9 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 	data["realm_type"] = SSticker.realm_type || "Realm"
 	var/mob/ruler = SSticker.rulermob
 	var/mob/regent = SSticker.regentmob
-	data["ruler"] = royal_mob_name(ruler)
-	data["regent"] = royal_mob_name(regent)
-	data["realm_colors"] = get_royal_colors()
+	data["ruler"] = ducal_court_mob_name(ruler)
+	data["regent"] = ducal_court_mob_name(regent)
+	data["realm_colors"] = get_ducal_court_colors()
 	data["rite"] = rite_data
 	data["law_count"] = length(GLOB.laws_of_the_land)
 	data["decree_count"] = length(GLOB.lord_decrees)
@@ -1015,10 +1015,10 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 		data["rite_actions"] = list()
 		return data
 	var/mob/living/carbon/human/H = user
-	var/list/actions = get_royal_actions(H)
-	data["viewer_status"] = user_has_royal_authority(H) ? "Royal Authority" : (user_has_crown(H) ? "Crown Bearer" : "Subject")
-	data["status_cards"] = get_royal_status_cards(H)
-	data["callouts"] = get_royal_callouts(H)
+	var/list/actions = get_ducal_court_actions(H)
+	data["viewer_status"] = user_has_ducal_authority(H) ? "Ducal Authority" : (user_has_crown(H) ? "Crown Bearer" : "Subject")
+	data["status_cards"] = get_ducal_court_status_cards(H)
+	data["callouts"] = get_ducal_court_callouts(H)
 	data["main_actions"] = actions["main"]
 	data["tool_actions"] = actions["tools"]
 	data["rite_actions"] = actions["rites"]
@@ -1041,49 +1041,49 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 			on_rite_chosen(user, type_path)
 			return TRUE
 		if("make_announcement")
-			if(reject_royal_action(user, "make_announcement"))
+			if(reject_ducal_court_action(user, "make_announcement"))
 				return TRUE
-			var/text = get_royal_prompt_text(user, "What shall be announced to the realm?", "Make Announcement")
-			if(text && !reject_royal_action(user, "make_announcement"))
+			var/text = get_ducal_court_prompt_text(user, "What shall be announced to the realm?", "Make Announcement")
+			if(text && !reject_ducal_court_action(user, "make_announcement"))
 				make_announcement(user, text)
 			return TRUE
 		if("publish_announcement")
-			if(reject_royal_action(user, "make_announcement"))
+			if(reject_ducal_court_action(user, "make_announcement"))
 				return TRUE
-			var/text = get_royal_text_param(params)
+			var/text = get_ducal_court_text_param(params)
 			if(text)
 				make_announcement(user, text)
 			return TRUE
 		if("issue_decree")
-			if(reject_royal_action(user, "issue_decree"))
+			if(reject_ducal_court_action(user, "issue_decree"))
 				return TRUE
-			var/text = get_royal_prompt_text(user, "What decree shall be issued?", "Issue Decree")
-			if(text && !reject_royal_action(user, "issue_decree"))
+			var/text = get_ducal_court_prompt_text(user, "What decree shall be issued?", "Issue Decree")
+			if(text && !reject_ducal_court_action(user, "issue_decree"))
 				make_decree(user, text)
 			return TRUE
 		if("publish_decree")
-			if(reject_royal_action(user, "issue_decree"))
+			if(reject_ducal_court_action(user, "issue_decree"))
 				return TRUE
-			var/text = get_royal_text_param(params)
+			var/text = get_ducal_court_text_param(params)
 			if(text)
 				make_decree(user, text)
 			return TRUE
 		if("make_law")
-			if(reject_royal_action(user, "make_law"))
+			if(reject_ducal_court_action(user, "make_law"))
 				return TRUE
-			var/text = get_royal_prompt_text(user, "What law shall be added?", "Make Law")
-			if(text && !reject_royal_action(user, "make_law"))
+			var/text = get_ducal_court_prompt_text(user, "What law shall be added?", "Make Law")
+			if(text && !reject_ducal_court_action(user, "make_law"))
 				make_law(text)
 			return TRUE
 		if("publish_law")
-			if(reject_royal_action(user, "make_law"))
+			if(reject_ducal_court_action(user, "make_law"))
 				return TRUE
-			var/text = get_royal_text_param(params, "text", 500)
+			var/text = get_ducal_court_text_param(params, "text", 500)
 			if(text)
 				make_law(text)
 			return TRUE
 		if("remove_law")
-			if(reject_royal_action(user, "make_law"))
+			if(reject_ducal_court_action(user, "make_law"))
 				return TRUE
 			var/law_number = params["law_number"]
 			if(!isnum(law_number))
@@ -1095,29 +1095,29 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 			remove_law(law_number)
 			return TRUE
 		if("revise_charter", "restore_charter")
-			if(reject_royal_action(user, action))
+			if(reject_ducal_court_action(user, action))
 				return TRUE
 			give_decree_popup(user)
 			return TRUE
 		if("set_laws")
-			if(reject_royal_action(user, "set_laws"))
+			if(reject_ducal_court_action(user, "set_laws"))
 				return TRUE
 			give_law_popup(user)
 			return TRUE
 		if("set_taxes")
-			if(reject_royal_action(user, "set_taxes"))
+			if(reject_ducal_court_action(user, "set_taxes"))
 				return TRUE
 			give_tax_popup(user)
 			return TRUE
 		if("declare_outlaw")
-			if(reject_royal_action(user, "declare_outlaw"))
+			if(reject_ducal_court_action(user, "declare_outlaw"))
 				return TRUE
-			var/text = get_royal_prompt_text(user, "Who should be outlawed or pardoned?", "Declare Outlaw")
-			if(text && !reject_royal_action(user, "declare_outlaw"))
+			var/text = get_ducal_court_prompt_text(user, "Who should be outlawed or pardoned?", "Declare Outlaw")
+			if(text && !reject_ducal_court_action(user, "declare_outlaw"))
 				declare_outlaw(user, text)
 			return TRUE
 		if("change_colors")
-			if(reject_royal_action(user, "change_colors"))
+			if(reject_ducal_court_action(user, "change_colors"))
 				return TRUE
 			user.lord_color_choice()
 			return TRUE
@@ -1125,31 +1125,31 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 			try_summon_crown(user)
 			return TRUE
 		if("summon_key")
-			if(reject_royal_action(user, "summon_key"))
+			if(reject_ducal_court_action(user, "summon_key"))
 				return TRUE
 			try_summon_key(user)
 			return TRUE
 		if("purge_laws")
-			if(reject_royal_action(user, "purge_laws"))
+			if(reject_ducal_court_action(user, "purge_laws"))
 				return TRUE
 			var/confirm = tgui_alert(user, "Purge every law of the land?", "Purge Laws", list("Purge", "Cancel"))
-			if(confirm == "Purge" && !reject_royal_action(user, "purge_laws"))
+			if(confirm == "Purge" && !reject_ducal_court_action(user, "purge_laws"))
 				purge_laws()
 			return TRUE
 		if("purge_decrees")
-			if(reject_royal_action(user, "purge_decrees"))
+			if(reject_ducal_court_action(user, "purge_decrees"))
 				return TRUE
 			var/confirm = tgui_alert(user, "Purge every decree of the realm?", "Purge Decrees", list("Purge", "Cancel"))
-			if(confirm == "Purge" && !reject_royal_action(user, "purge_decrees"))
+			if(confirm == "Purge" && !reject_ducal_court_action(user, "purge_decrees"))
 				purge_decrees()
 			return TRUE
 		if("ascend")
-			if(reject_royal_action(user, "ascend"))
+			if(reject_ducal_court_action(user, "ascend"))
 				return TRUE
 			start_ascension(user)
 			return TRUE
 		if("assent")
-			if(reject_royal_action(user, "assent"))
+			if(reject_ducal_court_action(user, "assent"))
 				return TRUE
 			var/obj/structure/roguethrone/assent_throne = GLOB.king_throne
 			var/datum/usurpation_rite/assent_rite = assent_throne ? assent_throne.active_rite : null
@@ -1157,7 +1157,7 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 				assent_rite.try_assent(user)
 			return TRUE
 		if("abdicate")
-			if(reject_royal_action(user, "abdicate"))
+			if(reject_ducal_court_action(user, "abdicate"))
 				return TRUE
 			var/obj/structure/roguethrone/abdicate_throne = GLOB.king_throne
 			var/datum/usurpation_rite/abdicate_rite = abdicate_throne ? abdicate_throne.active_rite : null
@@ -1165,7 +1165,7 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 				abdicate_rite.try_abdication(user)
 			return TRUE
 		if("stop_ascent")
-			if(reject_royal_action(user, "stop_ascent"))
+			if(reject_ducal_court_action(user, "stop_ascent"))
 				return TRUE
 			var/obj/structure/roguethrone/stop_throne = GLOB.king_throne
 			var/datum/usurpation_rite/stop_rite = stop_throne ? stop_throne.active_rite : null
@@ -1173,7 +1173,7 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 				stop_rite.start_counter_claim(user)
 			return TRUE
 		if("become_regent")
-			if(reject_royal_action(user, "become_regent"))
+			if(reject_ducal_court_action(user, "become_regent"))
 				return TRUE
 			become_regent(user)
 			return TRUE

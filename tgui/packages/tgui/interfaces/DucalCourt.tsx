@@ -1,4 +1,4 @@
-import { type CSSProperties, useEffect, useRef, useState } from 'react';
+import { type CSSProperties, useEffect, useState } from 'react';
 import {
   Box,
   Button,
@@ -21,7 +21,7 @@ type StatusCard = {
   tone: StatusTone;
 };
 
-type RoyalAction = {
+type DucalAction = {
   id: string;
   label: string;
   desc: string;
@@ -116,15 +116,16 @@ type Data = {
   status_cards: StatusCard[];
   callouts: Callout[];
   rite: RiteData;
-  main_actions: RoyalAction[];
-  tool_actions: RoyalAction[];
-  rite_actions: RoyalAction[];
+  main_actions: DucalAction[];
+  tool_actions: DucalAction[];
+  rite_actions: DucalAction[];
   law_count: number;
   decree_count: number;
 };
 
-const BASE_WIDTH = 1180;
-const BASE_HEIGHT = 820;
+const MIN_WINDOW_WIDTH = 640;
+const MIN_WINDOW_HEIGHT = 520;
+const WINDOW_MARGIN = 28;
 
 const ACTION_ICONS: Record<string, string> = {
   make_announcement: 'bullhorn',
@@ -161,59 +162,45 @@ const getStageIndex = (stage: RiteData['stage']) => {
   return -1;
 };
 
-const actionById = (actions: RoyalAction[], id: string) =>
+const actionById = (actions: DucalAction[], id: string) =>
   actions.find((action) => action.id === id);
 
 const buildRealmStyle = (colors: RealmColors | undefined) =>
   ({
-    '--royal-primary': colors?.primary || '#007fff',
-    '--royal-secondary': colors?.secondary || '#ffffff',
+    '--ducal-primary': colors?.primary || '#007fff',
+    '--ducal-secondary': colors?.secondary || '#ffffff',
   }) as CSSProperties;
 
-const useFitScale = () => {
-  const frameRef = useRef<HTMLDivElement>(null);
-  const [scale, setScale] = useState(1);
+const getDucalWindowSize = () => {
+  const screenWidth = window.screen?.availWidth || window.innerWidth || 1280;
+  const screenHeight = window.screen?.availHeight || window.innerHeight || 900;
+
+  return {
+    width: Math.max(MIN_WINDOW_WIDTH, screenWidth - WINDOW_MARGIN),
+    height: Math.max(MIN_WINDOW_HEIGHT, screenHeight - WINDOW_MARGIN),
+  };
+};
+
+const useDucalWindowSize = () => {
+  const [size, setSize] = useState(getDucalWindowSize);
 
   useEffect(() => {
-    const frame = frameRef.current;
-    if (!frame) {
-      return;
-    }
+    const updateSize = () => setSize(getDucalWindowSize());
 
-    const updateScale = () => {
-      const rect = frame.getBoundingClientRect();
-      if (!rect.width || !rect.height) {
-        return;
-      }
-      const nextScale = Math.min(
-        rect.width / BASE_WIDTH,
-        rect.height / BASE_HEIGHT,
-        1,
-      );
-      setScale(Math.max(0.1, nextScale));
-    };
-
-    updateScale();
-    const resizeObserver =
-      typeof ResizeObserver !== 'undefined'
-        ? new ResizeObserver(updateScale)
-        : null;
-    resizeObserver?.observe(frame);
-    window.addEventListener('resize', updateScale);
+    window.addEventListener('resize', updateSize);
 
     return () => {
-      resizeObserver?.disconnect();
-      window.removeEventListener('resize', updateScale);
+      window.removeEventListener('resize', updateSize);
     };
   }, []);
 
-  return { frameRef, scale };
+  return size;
 };
 
 const ActionCard = (props: {
-  action: RoyalAction;
+  action: DucalAction;
   compact?: boolean;
-  onClick: (action: RoyalAction) => void;
+  onClick: (action: DucalAction) => void;
 }) => {
   const { action, compact, onClick } = props;
   const tooltip = action.enabled ? action.desc : action.disabled_reason;
@@ -221,49 +208,49 @@ const ActionCard = (props: {
   return (
     <Button
       className={
-        'RoyalWarTable__action' +
-        (compact ? ' RoyalWarTable__action--compact' : '')
+        'DucalCourt__action' +
+        (compact ? ' DucalCourt__action--compact' : '')
       }
       disabled={!action.enabled}
       tooltip={tooltip || undefined}
       onClick={() => action.enabled && onClick(action)}
     >
-      <span className="RoyalWarTable__actionPin" />
-      <span className="RoyalWarTable__actionIcon">
+      <span className="DucalCourt__actionPin" />
+      <span className="DucalCourt__actionIcon">
         <Icon name={ACTION_ICONS[action.id] || 'circle'} />
       </span>
-      <span className="RoyalWarTable__actionBody">
-        <span className="RoyalWarTable__actionTitle">{action.label}</span>
+      <span className="DucalCourt__actionBody">
+        <span className="DucalCourt__actionTitle">{action.label}</span>
         {!compact && (
-          <span className="RoyalWarTable__actionDesc">{action.desc}</span>
+          <span className="DucalCourt__actionDesc">{action.desc}</span>
         )}
-        <span className="RoyalWarTable__badges">
+        <span className="DucalCourt__badges">
           {action.requirements.map((requirement) => (
-            <span className="RoyalWarTable__badge" key={requirement}>
+            <span className="DucalCourt__badge" key={requirement}>
               {requirement}
             </span>
           ))}
         </span>
       </span>
-      <span className="RoyalWarTable__actionSeal" />
+      <span className="DucalCourt__actionSeal" />
     </Button>
   );
 };
 
 const StatusGrid = (props: { cards: StatusCard[] }) => (
-  <div className="RoyalWarTable__statusGrid">
+  <div className="DucalCourt__statusGrid">
     {props.cards.map((card) => (
       <div
         key={card.id}
-        className={`RoyalWarTable__statusCard RoyalWarTable__statusCard--${card.tone}`}
+        className={`DucalCourt__statusCard DucalCourt__statusCard--${card.tone}`}
       >
-        <div className="RoyalWarTable__statusIcon">
+        <div className="DucalCourt__statusIcon">
           <Icon name={STATUS_ICONS[card.id] || 'circle'} />
         </div>
-        <div className="RoyalWarTable__statusBody">
-          <div className="RoyalWarTable__statusLabel">{card.label}</div>
-          <div className="RoyalWarTable__statusValue">{card.value}</div>
-          <div className="RoyalWarTable__statusDetail">{card.detail}</div>
+        <div className="DucalCourt__statusBody">
+          <div className="DucalCourt__statusLabel">{card.label}</div>
+          <div className="DucalCourt__statusValue">{card.value}</div>
+          <div className="DucalCourt__statusDetail">{card.detail}</div>
         </div>
       </div>
     ))}
@@ -279,50 +266,50 @@ const WarMap = (props: {
 
   return (
     <Section title={texts.sections.map}>
-      <div className="RoyalWarTable__map">
-        <div className="RoyalWarTable__mapSea" />
-        <div className="RoyalWarTable__mapLand" />
-        <div className="RoyalWarTable__mapCompass">
+      <div className="DucalCourt__map">
+        <div className="DucalCourt__mapSea" />
+        <div className="DucalCourt__mapLand" />
+        <div className="DucalCourt__mapCompass">
           <Icon name="location-arrow" />
         </div>
-        <div className="RoyalWarTable__mapToken RoyalWarTable__mapToken--crown">
+        <div className="DucalCourt__mapToken DucalCourt__mapToken--crown">
           <Icon name="crown" />
         </div>
-        <div className="RoyalWarTable__mapToken RoyalWarTable__mapToken--guard">
+        <div className="DucalCourt__mapToken DucalCourt__mapToken--guard">
           <Icon name="shield-alt" />
         </div>
-        <div className="RoyalWarTable__mapToken RoyalWarTable__mapToken--seal">
+        <div className="DucalCourt__mapToken DucalCourt__mapToken--seal">
           <Icon name="certificate" />
         </div>
-        <div className="RoyalWarTable__mapRidge RoyalWarTable__mapRidge--north" />
-        <div className="RoyalWarTable__mapRidge RoyalWarTable__mapRidge--south" />
-        <div className="RoyalWarTable__mapRoad RoyalWarTable__mapRoad--main" />
-        <div className="RoyalWarTable__mapRoad RoyalWarTable__mapRoad--west" />
-        <div className="RoyalWarTable__mapRiver" />
+        <div className="DucalCourt__mapRidge DucalCourt__mapRidge--north" />
+        <div className="DucalCourt__mapRidge DucalCourt__mapRidge--south" />
+        <div className="DucalCourt__mapRoad DucalCourt__mapRoad--main" />
+        <div className="DucalCourt__mapRoad DucalCourt__mapRoad--west" />
+        <div className="DucalCourt__mapRiver" />
         {texts.map_points.map((point) => (
           <div
             key={point.id}
-            className={`RoyalWarTable__mapPoint RoyalWarTable__mapPoint--${point.type}`}
+            className={`DucalCourt__mapPoint DucalCourt__mapPoint--${point.type}`}
             style={{ left: `${point.x}%`, top: `${point.y}%` }}
           >
             <span>{point.label}</span>
           </div>
         ))}
-        <div className="RoyalWarTable__mapTitle">{realmName}</div>
-        <div className="RoyalWarTable__mapCallouts">
+        <div className="DucalCourt__mapTitle">{realmName}</div>
+        <div className="DucalCourt__mapCallouts">
           {callouts.map((callout) => (
             <div
               key={callout.text}
-              className={`RoyalWarTable__callout RoyalWarTable__callout--${callout.tone}`}
+              className={`DucalCourt__callout DucalCourt__callout--${callout.tone}`}
             >
               {callout.text}
             </div>
           ))}
         </div>
-        <div className="RoyalWarTable__mapLegend">
+        <div className="DucalCourt__mapLegend">
           {texts.map_legend.map((entry) => (
             <span key={entry.label}>
-              <i className={`RoyalWarTable__legendKey RoyalWarTable__legendKey--${entry.class_name}`} />
+              <i className={`DucalCourt__legendKey DucalCourt__legendKey--${entry.class_name}`} />
               {entry.label}
             </span>
           ))}
@@ -335,22 +322,22 @@ const WarMap = (props: {
 const SuccessionPanel = (props: {
   texts: Texts;
   rite: RiteData;
-  actions: RoyalAction[];
-  onAction: (action: RoyalAction) => void;
+  actions: DucalAction[];
+  onAction: (action: DucalAction) => void;
 }) => {
   const { texts, rite, actions, onAction } = props;
   const activeStep = getStageIndex(rite.stage);
 
   return (
     <Section title={texts.sections.succession}>
-      <div className="RoyalWarTable__riteName">{rite.name}</div>
-      <div className="RoyalWarTable__stepper">
+      <div className="DucalCourt__riteName">{rite.name}</div>
+      <div className="DucalCourt__stepper">
         {texts.rite_steps.map((step, index) => (
           <div
             key={step}
             className={
-              'RoyalWarTable__step' +
-              (index <= activeStep ? ' RoyalWarTable__step--active' : '')
+              'DucalCourt__step' +
+              (index <= activeStep ? ' DucalCourt__step--active' : '')
             }
           >
             <span>{index + 1}</span>
@@ -358,7 +345,7 @@ const SuccessionPanel = (props: {
           </div>
         ))}
       </div>
-      <div className="RoyalWarTable__riteFacts">
+      <div className="DucalCourt__riteFacts">
         <div>
           <b>{texts.labels.claimant}</b>
           <span>{rite.claimant || texts.labels.none}</span>
@@ -376,8 +363,8 @@ const SuccessionPanel = (props: {
           <span>{rite.time_remaining || texts.labels.none}</span>
         </div>
       </div>
-      <Box className="RoyalWarTable__riteStatus">{rite.status}</Box>
-      <div className="RoyalWarTable__riteActionGrid">
+      <Box className="DucalCourt__riteStatus">{rite.status}</Box>
+      <div className="DucalCourt__riteActionGrid">
         {actions.map((action) => (
           <ActionCard
             key={action.id}
@@ -391,9 +378,9 @@ const SuccessionPanel = (props: {
   );
 };
 
-const RoyalDesk = (props: {
+const DucalDesk = (props: {
   texts: Texts;
-  actions: RoyalAction[];
+  actions: DucalAction[];
   lawCount: number;
 }) => {
   const { act } = useBackend<Data>();
@@ -411,7 +398,7 @@ const RoyalDesk = (props: {
 
   return (
     <Section title={texts.sections.desk}>
-      <div className="RoyalWarTable__desk">
+      <div className="DucalCourt__desk">
         <TextArea
           fluid
           height="46px"
@@ -421,8 +408,8 @@ const RoyalDesk = (props: {
           onChange={(value: string) => setText(value)}
           dontUseTabForIndent
         />
-        <div className="RoyalWarTable__deskFooter">
-          <div className="RoyalWarTable__deskButtons">
+        <div className="DucalCourt__deskFooter">
+          <div className="DucalCourt__deskButtons">
             <Button
               icon="bullhorn"
               disabled={!announcement?.enabled || !canUseText}
@@ -450,7 +437,7 @@ const RoyalDesk = (props: {
               {texts.composer.publish_law}
             </Button>
           </div>
-          <div className="RoyalWarTable__lawTools">
+          <div className="DucalCourt__lawTools">
             <span>{texts.composer.law_number}</span>
             <NumberInput
               minValue={1}
@@ -483,7 +470,7 @@ const RoyalDesk = (props: {
   );
 };
 
-export const RoyalWarTable = () => {
+export const DucalCourt = () => {
   const { act, data } = useBackend<Data>();
   const {
     texts,
@@ -502,99 +489,93 @@ export const RoyalWarTable = () => {
     law_count = 0,
   } = data;
 
-  const handleAction = (action: RoyalAction) => act(action.id);
-  const { frameRef, scale } = useFitScale();
+  const handleAction = (action: DucalAction) => act(action.id);
+  const windowSize = useDucalWindowSize();
   const realmStyle = buildRealmStyle(realm_colors);
-  const boardStyle = {
-    ...realmStyle,
-    transform: `translate(-50%, -50%) scale(${scale})`,
-  } as CSSProperties;
 
   return (
     <Window
-      width={BASE_WIDTH}
-      height={BASE_HEIGHT + 32}
+      width={windowSize.width}
+      height={windowSize.height}
       title={texts.window_title}
       theme="parchment"
     >
-      <Window.Content fitted className="RoyalWarTable">
-        <div className="RoyalWarTable__scaleFrame" ref={frameRef}>
-          <div className="RoyalWarTable__board" style={boardStyle}>
-            <div className="RoyalWarTable__titleRow">
-              <div className="RoyalWarTable__standard RoyalWarTable__standard--left">
-                <Icon name="crown" />
-              </div>
-              <div className="RoyalWarTable__standard RoyalWarTable__standard--right">
-                <Icon name="chess-rook" />
+      <Window.Content fitted className="DucalCourt">
+        <div className="DucalCourt__board" style={realmStyle}>
+          <div className="DucalCourt__titleRow">
+            <div className="DucalCourt__standard DucalCourt__standard--left">
+              <Icon name="crown" />
+            </div>
+            <div className="DucalCourt__standard DucalCourt__standard--right">
+              <Icon name="chess-rook" />
+            </div>
+            <div>
+              <div className="DucalCourt__eyebrow">{realm_type}</div>
+              <div className="DucalCourt__title">{texts.window_title}</div>
+              <div className="DucalCourt__subtitle">{texts.subtitle}</div>
+            </div>
+            <div className="DucalCourt__rulerBlock">
+              <div>
+                <b>{texts.labels.ruler}</b>
+                <span>{ruler || texts.labels.none}</span>
               </div>
               <div>
-                <div className="RoyalWarTable__eyebrow">{realm_type}</div>
-                <div className="RoyalWarTable__title">{texts.window_title}</div>
-                <div className="RoyalWarTable__subtitle">{texts.subtitle}</div>
+                <b>{texts.labels.regent}</b>
+                <span>{regent || texts.labels.no_regent}</span>
               </div>
-              <div className="RoyalWarTable__rulerBlock">
-                <div>
-                  <b>{texts.labels.ruler}</b>
-                  <span>{ruler || texts.labels.none}</span>
-                </div>
-                <div>
-                  <b>{texts.labels.regent}</b>
-                  <span>{regent || texts.labels.no_regent}</span>
-                </div>
-                <div>
-                  <b>{texts.labels.viewer}</b>
-                  <span>{viewer_status}</span>
-                </div>
+              <div>
+                <b>{texts.labels.viewer}</b>
+                <span>{viewer_status}</span>
               </div>
             </div>
+          </div>
 
-            <StatusGrid cards={status_cards} />
+          <StatusGrid cards={status_cards} />
 
-            <div className="RoyalWarTable__layout">
-              <div className="RoyalWarTable__mainColumn">
-                <WarMap
-                  texts={texts}
-                  callouts={callouts}
-                  realmName={realm_name}
-                />
-                <Section title={texts.sections.main}>
-                  <div className="RoyalWarTable__actionGrid">
-                    {main_actions.map((action) => (
-                      <ActionCard
-                        key={action.id}
-                        action={action}
-                        onClick={handleAction}
-                      />
-                    ))}
-                  </div>
-                </Section>
-                <RoyalDesk
-                  texts={texts}
-                  actions={main_actions}
-                  lawCount={law_count}
-                />
-              </div>
+          <div className="DucalCourt__layout">
+            <div className="DucalCourt__mainColumn">
+              <WarMap
+                texts={texts}
+                callouts={callouts}
+                realmName={realm_name}
+              />
+              <Section title={texts.sections.main}>
+                <div className="DucalCourt__actionGrid">
+                  {main_actions.map((action) => (
+                    <ActionCard
+                      key={action.id}
+                      action={action}
+                      onClick={handleAction}
+                    />
+                  ))}
+                </div>
+              </Section>
+              <DucalDesk
+                texts={texts}
+                actions={main_actions}
+                lawCount={law_count}
+              />
+            </div>
 
-              <div className="RoyalWarTable__sideColumn">
-                <SuccessionPanel
-                  texts={texts}
-                  rite={rite}
-                  actions={rite_actions}
-                  onAction={handleAction}
-                />
-                <Section title={texts.sections.tools}>
-                  <div className="RoyalWarTable__toolGrid">
-                    {tool_actions.map((action) => (
-                      <ActionCard
-                        key={action.id}
-                        action={action}
-                        compact
-                        onClick={handleAction}
-                      />
-                    ))}
-                  </div>
-                </Section>
-              </div>
+            <div className="DucalCourt__sideColumn">
+              <SuccessionPanel
+                texts={texts}
+                rite={rite}
+                actions={rite_actions}
+                onAction={handleAction}
+              />
+              <Section title={texts.sections.tools}>
+                <div className="DucalCourt__toolGrid">
+                  {tool_actions.map((action) => (
+                    <ActionCard
+                      key={action.id}
+                      action={action}
+                      compact
+                      onClick={handleAction}
+                    />
+                  ))}
+                </div>
+              </Section>
             </div>
           </div>
         </div>
