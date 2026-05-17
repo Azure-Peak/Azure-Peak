@@ -76,6 +76,7 @@
 
 #define STOCKPILE_AUTO_LIMIT_DAYS 2
 #define STOCKPILE_LIMIT_MIN 5
+#define STOCKPILE_LIMIT_MAX 40
 
 // Buying the same import = escalating price
 #define CROWN_IMPORT_ELASTICITY 0.1
@@ -90,7 +91,8 @@
 #define ECON_EVENT_NARRATIVE "narrative"
 #define ECON_EVENT_TARGET_COUNT 5
 #define ECON_EVENT_ROUNDSTART_COUNT 3
-#define ECON_EVENT_SATURATION_THRESHOLD 0.75
+#define ECON_EVENT_SATURATION_MULT 0.5
+#define ECON_EVENT_REROLL_COOLDOWN_DAYS 7
 
 // Temp consequences for bnaditry
 #define BANDITRY_DRAIN_DANGEROUS_FLAT 40

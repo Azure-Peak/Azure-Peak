@@ -24,7 +24,7 @@ SUBSYSTEM_DEF(treasury)
 	priority = FIRE_PRIORITY_WATER_LEVEL
 	var/list/tax_rates = list(
 		TAX_CATEGORY_CONTRACT_LEVY = 0.20,
-		TAX_CATEGORY_HEADEATER_LEVY = 0.20,
+		TAX_CATEGORY_HEADEATER_LEVY = 0.40,
 		TAX_CATEGORY_IMPORT_TARIFF = 0.15,
 		TAX_CATEGORY_EXPORT_DUTY = 0.15,
 		TAX_CATEGORY_FINE = 1.0,
@@ -163,7 +163,7 @@ SUBSYSTEM_DEF(treasury)
 		if(total_demand <= 0)
 			D.stockpile_limit = max(STOCKPILE_LIMIT_MIN, D.stockpile_limit)
 			continue
-		D.stockpile_limit = max(STOCKPILE_LIMIT_MIN, ceil(total_demand * pop_mult * STOCKPILE_AUTO_LIMIT_DAYS))
+		D.stockpile_limit = clamp(ceil(total_demand * pop_mult * STOCKPILE_AUTO_LIMIT_DAYS), STOCKPILE_LIMIT_MIN, STOCKPILE_LIMIT_MAX)
 		D.automatic_limit = TRUE
 
 /datum/controller/subsystem/treasury/fire(resumed = 0)

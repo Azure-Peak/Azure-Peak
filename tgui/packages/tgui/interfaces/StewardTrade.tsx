@@ -119,7 +119,7 @@ export const StewardTrade = () => {
           <ATCLoanBanner atc_loan={data.atc_loan} />
           <BlockadeBanner regions={data.blockaded_regions} />
           <BanditryBanner projection={data.banditry_projection} />
-          <EventsBanner events={data.active_events} />
+          <EventsBanner events={data.active_events} goodCatalog={data.good_catalog} />
 
           <TabBar tab={tab} onSwitch={setTab} />
           <hr style={rulerStyle} />

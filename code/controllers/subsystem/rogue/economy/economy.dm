@@ -8,6 +8,7 @@ SUBSYSTEM_DEF(economy)
 	var/list/daily_report_diff = null
 	var/last_petition_day = -1
 	var/petitions_today = 0
+	var/list/event_path_cooldowns = list()
 
 
 /datum/controller/subsystem/economy/proc/get_effective_player_count()
@@ -285,6 +286,9 @@ SUBSYSTEM_DEF(economy)
 			continue  // abstract
 		if(initial(probe.event_type) == ECON_EVENT_NARRATIVE)
 			continue  // narrative events don't roll in v1
+		var/cooled_until = event_path_cooldowns[path]
+		if(cooled_until && GLOB.dayspassed < cooled_until)
+			continue
 		var/datum/economic_event/tentative = new path()
 		var/clash = FALSE
 		for(var/active in GLOB.active_economic_events)
@@ -397,6 +401,7 @@ SUBSYSTEM_DEF(economy)
 	for(var/datum/economic_event/E as anything in expired)
 		E.on_expire()
 		GLOB.active_economic_events -= E
+		event_path_cooldowns[E.type] = GLOB.dayspassed + ECON_EVENT_REROLL_COOLDOWN_DAYS
 		record_round_statistic(STATS_ECON_EVENTS_EXPIRED, 1)
 		if(daily_report_diff)
 			var/list/ended = daily_report_diff["events_expired"]

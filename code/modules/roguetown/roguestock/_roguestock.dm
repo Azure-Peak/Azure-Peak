@@ -138,6 +138,25 @@
 			return "GLUT"
 	return ""
 
+/datum/roguestock/proc/get_shortage_progress()
+	if(!trade_good_id)
+		return null
+	for(var/datum/economic_event/E as anything in GLOB.active_economic_events)
+		if(E.event_type != ECON_EVENT_SHORTAGE)
+			continue
+		if(!(trade_good_id in E.affected_goods))
+			continue
+		var/list/good_names = list()
+		for(var/good_id in E.affected_goods)
+			var/datum/trade_good/tg = GLOB.trade_goods[good_id]
+			good_names += (tg && tg.name) ? tg.name : good_id
+		return list(
+			"progress" = E.saturation_progress,
+			"target" = E.saturation_target,
+			"affected" = jointext(good_names, ", "),
+		)
+	return null
+
 /// Returns a span tag naming the active event affecting this good, or "" if none.
 /datum/roguestock/proc/get_event_tag()
 	if(!trade_good_id)

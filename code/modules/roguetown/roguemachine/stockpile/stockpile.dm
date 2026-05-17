@@ -74,6 +74,10 @@
 	var/list/rows = list()
 	for(var/datum/roguestock/stockpile/R in SStreasury.stockpile_datums)
 		R.refresh_auto_price()
+		var/list/shortage = R.get_shortage_progress()
+		var/export_unit_price = 0
+		if(R.importexport_amt > 0)
+			export_unit_price = round(R.get_export_price() / R.importexport_amt)
 		rows += list(list(
 			"ref" = "\ref[R]",
 			"name" = R.name,
@@ -83,10 +87,14 @@
 			"limit" = R.stockpile_limit,
 			"withdraw_price" = R.withdraw_price,
 			"deposit_price" = R.payout_price,
+			"export_price" = export_unit_price,
 			"import_price" = direct_import_price(R),
 			"withdraw_disabled" = R.withdraw_disabled ? TRUE : FALSE,
 			"accept_enabled" = R.accept_toggle_enabled ? TRUE : FALSE,
 			"event_tag" = R.get_event_label(),
+			"shortage_progress" = shortage ? shortage["progress"] : 0,
+			"shortage_target" = shortage ? shortage["target"] : 0,
+			"shortage_affected" = shortage ? shortage["affected"] : "",
 		))
 	data["stocks"] = rows
 
@@ -147,6 +155,22 @@
 			continue
 		if(H.mind.assigned_role == "Steward")
 			send_ooc_note("<b>Royal Custom unlocked.</b> Import surcharges at every stockpile now flow to the Crown's purse. Adjust the margin at your Trading Interface.", name = H.real_name)
+
+/obj/structure/roguemachine/stockpile/proc/try_auto_export_units(datum/roguestock/D, units)
+	if(!D || !D.trade_good_id || units <= 0)
+		return 0
+	if(D.stockpile_amount < units)
+		return 0
+	var/list/best = SSeconomy.get_best_export_region(D.trade_good_id)
+	if(!best || !best["region_id"])
+		return 0
+	var/datum/economic_region/region = GLOB.economic_regions[best["region_id"]]
+	if(!region)
+		return 0
+	var/remaining = region.demands_today[D.trade_good_id] || 0
+	if(remaining < units)
+		return 0
+	return SSeconomy.manual_export(null, best["region_id"], D.trade_good_id, units)
 
 /obj/structure/roguemachine/stockpile/proc/direct_import_price(datum/roguestock/D)
 	if(!D)
@@ -273,22 +297,28 @@
 					if(message)
 						say("The Crown's ledger is thin. No purchases today.")
 					return
-				if(R.stockpile_amount >= R.stockpile_limit)
-					if(message)
-						say("The Crown's [R.name] stockpile is full. Take it elsewhere.")
-					return
 				var/bundle_amt = B.amount
+				var/full_on_arrival = (R.stockpile_amount >= R.stockpile_limit)
 				R.stockpile_amount += bundle_amt
+				var/auto_exported = FALSE
+				if(full_on_arrival)
+					if(try_auto_export_units(R, bundle_amt) <= 0)
+						R.stockpile_amount -= bundle_amt
+						if(message)
+							say("The Crown's [R.name] stockpile is full and region demands can absorb your load. Try smaller bundles or take it elsewhere.")
+						return
+					auto_exported = TRUE
 				if(message == TRUE)
 					stock_announce("[bundle_amt] units of [R.name] has been stockpiled.")
 				qdel(B)
 				if(sound == TRUE)
 					playsound(loc, 'sound/misc/hiss.ogg', 100, FALSE, -1)
 				R.refresh_auto_price()
-				var/per_unit = R.payout_price
-				var/amt = per_unit * bundle_amt
+				var/amt = R.payout_price * bundle_amt
 				SStreasury.economic_output += amt
 				SStreasury.give_money_account(amt, H, "+[amt] from [R.name] bounty")
+				if(auto_exported && message)
+					say("Crown's [R.name] stockpile is full - shipped abroad on your behalf.")
 				record_round_statistic(STATS_STOCKPILE_EXPANSES, amt)
 				return
 			continue
@@ -336,15 +366,22 @@
 						playsound(loc, 'sound/misc/disposalflush.ogg', 100, FALSE, -1)
 					say("[tg_overflow.name] overflow - minted to Crown's Purse.")
 					return
-			if(!R.mint_item && R.stockpile_amount >= R.stockpile_limit)
-				if(message)
-					say("The Crown's [R.name] stockpile is full. Take it elsewhere.")
-				return
+			var/auto_exported = FALSE
+			var/full_on_arrival = (!R.mint_item && R.stockpile_amount >= R.stockpile_limit)
+			if(full_on_arrival)
+				R.stockpile_amount += 1
+				if(try_auto_export_units(R, 1) <= 0)
+					R.stockpile_amount -= 1
+					if(message)
+						say("The Crown's [R.name] stockpile is full and no region demands can absorb your load. Try smaller bundles or take it elsewhere.")
+					return
+				auto_exported = TRUE
 			R.refresh_auto_price()
 			var/amt = R.get_payout_price(I)
 			var/true_value = I.get_real_price()
 			if(!R.mint_item)
-				R.stockpile_amount += 1 //stacked logs need to check for multiple
+				if(!full_on_arrival)
+					R.stockpile_amount += 1
 				qdel(I)
 				if(message == TRUE)
 					stock_announce("[R.name] has been stockpiled.")
@@ -356,14 +393,16 @@
 				SStreasury.mint(SStreasury.discretionary_fund, mint_amt, "Minting - [I.name]")
 				record_round_statistic(STATS_MINTED_TREASURE_GROSS, mint_amt)
 				record_round_statistic(STATS_MINTED_TREASURE_NET, max(0, mint_amt - amt))
-				qdel(I) // Eaten to be minted!
+				qdel(I)
 				if(sound == TRUE)
 					playsound(loc, 'sound/misc/hiss.ogg', 100, FALSE, -1)
 					playsound(loc, 'sound/misc/disposalflush.ogg', 100, FALSE, -1)
 			if(amt)
 				SStreasury.economic_output += true_value
 				SStreasury.give_money_account(amt, H, "+[amt] from [R.name] bounty")
-			record_round_statistic(STATS_STOCKPILE_EXPANSES, amt) // Unlike deposit, a treasure minting is equal to both expending and profiting at the same time
+				if(auto_exported && message)
+					say("Crown's [R.name] stockpile is full - shipped abroad on your behalf.")
+			record_round_statistic(STATS_STOCKPILE_EXPANSES, amt)
 			record_round_statistic(STATS_STOCKPILE_REVENUE, true_value)
 			return
 

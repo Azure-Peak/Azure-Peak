@@ -281,7 +281,7 @@
 
 		<p>The associated urgent order is unaffected by a shortage ending</p>
 
-		<p>Once cumulative deliveries cross <b>[round(ECON_EVENT_SATURATION_THRESHOLD * 100)]% of the affected goods' realm-wide daily demand</b>, the shortage ends immediately: prices snap back to normal, the urgent order (if still standing) is recalled, and SCOM announces the relief. The threshold is realm-wide and aggregate - the Crown may meet it via any mix of the affected goods, through any channel.</p>
+		<p>Once cumulative deliveries cross <b>[round(ECON_EVENT_SATURATION_MULT * 100)]% of the average stockpile limit across the affected goods</b>, the shortage ends immediately: prices snap back to normal, the urgent order (if still standing) is recalled, and SCOM announces the relief. The target is realm-wide and aggregate - the Crown may meet it via any mix of the affected goods, through any channel.</p>
 
 		<p>The <b>Market Scroll</b> at the Nerve Master shows live buy/sell prices for every good in every region.</p>
 		</div>

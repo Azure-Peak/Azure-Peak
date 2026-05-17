@@ -32,10 +32,14 @@ type StockRow = {
   limit: number;
   withdraw_price: number;
   deposit_price: number;
+  export_price: number;
   import_price: number;
   withdraw_disabled: BooleanLike;
   accept_enabled: BooleanLike;
   event_tag: string;
+  shortage_progress: number;
+  shortage_target: number;
+  shortage_affected: string;
 };
 
 type Bounty = {
@@ -134,8 +138,18 @@ const StockRowView = (props: {
               border: `1px solid ${row.event_tag === 'GLUT' ? SEAL_GREEN : SEAL_RED}`,
               borderRadius: '2px',
             }}
+            title={
+              row.event_tag === 'SHORTAGE' && row.shortage_target > 0
+                ? `Export or sell ${row.shortage_target - row.shortage_progress} more units to end the shortage. Any of these count: ${row.shortage_affected}.`
+                : undefined
+            }
           >
             {row.event_tag}
+            {row.event_tag === 'SHORTAGE' && row.shortage_target > 0 && (
+              <span style={{ marginLeft: '4px', fontWeight: 'normal' }}>
+                ({row.shortage_progress} / {row.shortage_target})
+              </span>
+            )}
           </span>
         )}
         {!row.accept_enabled && (
@@ -178,7 +192,11 @@ const StockRowView = (props: {
             textAlign: 'center',
             boxSizing: 'border-box',
           }}
-          title="Deposit price - drop matching goods at the machine to sell."
+          title={
+            row.export_price > 0
+              ? `Deposit price ${row.deposit_price}m. When the stockpile is full, the Crown exports your deposit to local regions (export rate ${row.export_price}m per unit, kept by the Crown).`
+              : 'Deposit price - drop matching goods at the machine to sell.'
+          }
         >
           Sell {row.deposit_price}m
         </span>

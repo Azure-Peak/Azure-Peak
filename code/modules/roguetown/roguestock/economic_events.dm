@@ -21,12 +21,15 @@ GLOBAL_LIST_EMPTY(active_economic_events)
 		if(tg)
 			tg.global_price_mod *= price_mod
 	if(event_type == ECON_EVENT_SHORTAGE)
-		var/total_demand = 0
+		var/limit_sum = 0
+		var/limit_count = 0
 		for(var/good_id in affected_goods)
-			for(var/region_id in GLOB.economic_regions)
-				var/datum/economic_region/region = GLOB.economic_regions[region_id]
-				total_demand += region.demands[good_id] || 0
-		saturation_target = max(1, round(total_demand * ECON_EVENT_SATURATION_THRESHOLD))
+			var/datum/roguestock/D = SStreasury.stockpile_by_trade_good[good_id]
+			if(!D || D.stockpile_limit <= 0)
+				continue
+			limit_sum += D.stockpile_limit
+			limit_count++
+		saturation_target = limit_count > 0 ? max(1, round(limit_sum * ECON_EVENT_SATURATION_MULT / limit_count)) : 1
 	if(announcement)
 		scom_announce(announcement)
 
@@ -53,6 +56,8 @@ GLOBAL_LIST_EMPTY(active_economic_events)
 	relief_triggered = TRUE
 	on_expire()
 	GLOB.active_economic_events -= src
+	if(SSeconomy)
+		SSeconomy.event_path_cooldowns[type] = GLOB.dayspassed + ECON_EVENT_REROLL_COOLDOWN_DAYS
 	record_round_statistic(STATS_SHORTAGES_ENDED, 1)
 	scom_announce("<font color='#5cb85c'>RELIEF: [name] eased by relief efforts. Prices return to normal.</font>")
 
@@ -194,7 +199,7 @@ GLOBAL_LIST_EMPTY(active_economic_events)
 
 /datum/economic_event/murrain
 	name = "CATTLE MURRAIN"
-	description = "A wasting sickness has swept the herds of the Kingsfield pastures. Meat and dairy turn scarce."
+	description = "A wasting sickness has swept the herds of the Kingsfield pastures. Meat, dairy, and cured sausage turn scarce."
 	announcement = "<font color='#c44'>CATTLE MURRAIN: Herds sicken across the pastures. Meat, dairy, and cured sausage all grow dear.</font>"
 	affected_goods = list(TRADE_GOOD_MEAT, TRADE_GOOD_BUTTER, TRADE_GOOD_CHEESE, TRADE_GOOD_SAUSAGE)
 	price_mod = 4.5
@@ -235,7 +240,7 @@ GLOBAL_LIST_EMPTY(active_economic_events)
 /datum/economic_event/orchard_locusts
 	name = "ORCHARD LOCUSTS"
 	description = "A swarm has stripped the Rockhill orchards bare. What little remains is sold at ransom."
-	announcement = "<font color='#c44'>ORCHARD LOCUSTS: The orchards stripped bare. Apples and berries grow costly.</font>"
+	announcement = "<font color='#c44'>ORCHARD LOCUSTS: The orchards stripped bare. Apples, pears, and berries grow costly.</font>"
 	affected_goods = list(TRADE_GOOD_APPLE, TRADE_GOOD_PEAR, TRADE_GOOD_JACKSBERRY)
 	price_mod = 4.25
 	event_type = ECON_EVENT_SHORTAGE
@@ -263,7 +268,7 @@ GLOBAL_LIST_EMPTY(active_economic_events)
 
 /datum/economic_event/foreign_pig_iron_glut
 	name = "FOREIGN PIG-IRON GLUT"
-	description = "A foreign crown has dumped its surplus ore on the open market. Wagons of pig-iron and copper roll in below cost."
+	description = "A foreign crown has dumped its surplus ore on the open market. Wagons of pig-iron, copper, and tin roll in below cost."
 	announcement = "<font color='#5cb85c'>FOREIGN PIG-IRON GLUT: Foreign ore floods the yards. Daftsmarch miners grumble; smiths stockpile cheap.</font>"
 	affected_goods = list(TRADE_GOOD_IRON_ORE, TRADE_GOOD_COPPER_ORE, TRADE_GOOD_TIN_ORE)
 	price_mod = 0.6
@@ -279,8 +284,8 @@ GLOBAL_LIST_EMPTY(active_economic_events)
 
 /datum/economic_event/cloth_fair
 	name = "CLOTH FAIR"
-	description = "The seasonal cloth fair has flooded the markets with bolts of fabric at cut-rate prices."
-	announcement = "<font color='#5cb85c'>CLOTH FAIR: Bolts of fabric flood the markets. Tailors rejoice.</font>"
+	description = "The seasonal cloth fair has flooded the markets with raw fibers and bolts of fabric at cut-rate prices."
+	announcement = "<font color='#5cb85c'>CLOTH FAIR: Raw fibers and bolts of fabric flood the markets. Tailors rejoice.</font>"
 	affected_goods = list(TRADE_GOOD_CLOTH, TRADE_GOOD_FIBERS)
 	price_mod = 0.6
 	event_type = ECON_EVENT_OVERSUPPLY
