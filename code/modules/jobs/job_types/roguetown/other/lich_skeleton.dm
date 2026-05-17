@@ -236,7 +236,7 @@ LICH SKELETONS
 
 	head = /obj/item/clothing/head/roguetown/helmet/heavy/guard/paalloy
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/paalloy
-	pants = /obj/item/clothing/under/roguetown/chainlegs/kilt/paalloy
+	pants = /obj/item/clothing/under/roguetown/chainlegs/kilt/paalloy //Intended as non-plate, stands out from knights this way.
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/paalloy
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/paalloy
 	neck = /obj/item/clothing/neck/roguetown/gorget/paalloy
@@ -319,7 +319,7 @@ LICH SKELETONS
 	tutorial = "Simple. Obedient. Like an ant in a colony. Toil, fortify, smelt and labor to the tune of your master's whims. After all; what good is an army if it hasn't a sword-nor-shield to wield?"
 	outfit = /datum/outfit/job/roguetown/greater_skeleton/lich/sapper
 	subclass_mage_aspects = list("mastery" = FALSE, "major" = 0, "minor" = 1, "utilities" = 4, "locked_aspects" = list(/datum/magic_aspect/artifice), "ward" = FALSE)
-	//Summon rocks, prestigitate and summon tools as-needed. Gets no ward nor offensive potental, beyond I guess magician's brick.
+	//Summon rocks, prestigitate and summon tools as-needed. Gets no ward for protecting themselves.
 
 	category_tags = list(CTAG_LSKELETON)
 
@@ -334,8 +334,6 @@ LICH SKELETONS
 	H.STAPER = 9
 
 	//No medium armor because avantyne half-plate exists and we don't want legionarrie ++
-	ADD_TRAIT(H, TRAIT_MASTER_CARPENTER, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_MASTER_MASON, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_HOMESTEAD_EXPERT, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_SMITHING_EXPERT, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_TRAINED_SMITH, TRAIT_GENERIC)
@@ -347,12 +345,12 @@ LICH SKELETONS
 	H.adjust_skillrank(/datum/skill/combat/unarmed, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/athletics, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/knives, 1, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/climbing, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/misc/climbing, 3, TRUE)
 
 	H.adjust_skillrank(/datum/skill/misc/reading, 1, TRUE) //Just give them a little extra for utility.
 	H.adjust_skillrank(/datum/skill/magic/arcane, 2, TRUE) //For making traps mostly, since they need it for crafting amythortz, remove if the recipes change.
 	H.adjust_skillrank(/datum/skill/craft/alchemy, 2, TRUE) //For the alchemy mortar + pestle for explosives, remove once the recipe changes.
-	H.adjust_skillrank(/datum/skill/craft/carpentry, 4, TRUE)
+	H.adjust_skillrank(/datum/skill/craft/carpentry, 5, TRUE) //Good for planks, build fast.
 	H.adjust_skillrank(/datum/skill/craft/masonry, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/craft/crafting, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/craft/sewing, 4, TRUE)
@@ -363,7 +361,7 @@ LICH SKELETONS
 	H.adjust_skillrank(/datum/skill/craft/smelting, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/craft/engineering, 4, TRUE) //Artificer construction specialist, keep higher
 	H.adjust_skillrank(/datum/skill/labor/mining, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/labor/lumberjacking, 6, TRUE) //Get up a deathfort, very fast by maximal yields.
+	H.adjust_skillrank(/datum/skill/labor/lumberjacking, 6, TRUE) //Get up a deathfort, very fast by maximal yields from logs.
 
 	head = /obj/item/clothing/head/roguetown/helmet/kettle/minershelm
 	mask = /obj/item/clothing/mask/rogue/spectacles/golden //Structure inspection
@@ -388,7 +386,7 @@ LICH SKELETONS
 	beltl = /obj/item/rogueweapon/pick/paalloy
 
 	H.adjust_blindness(-3)
-	var/tabards = list("Black Cloak + Greathood", "Black Jupon", "Black Tabard")
+	var/tabards = list("Black Cloak", "Black Jupon", "Black Tabard")
 	var/tabard_choice = input(H, "Choose your CLOAK.", "BARE YOUR MASTER'S HERALDRY.") as anything in tabards
 	H.set_blindness(0)
 	switch(tabard_choice)
@@ -396,9 +394,8 @@ LICH SKELETONS
 			cloak = /obj/item/clothing/cloak/tabard/stabard/surcoat/lich
 		if("Black Tabard")
 			cloak = /obj/item/clothing/cloak/tabard/lich
-		if("Black Cloak + Greathood")
+		if("Black Cloak") //No hood because spectacles.
 			cloak = /obj/item/clothing/cloak/half/lich
-			mask = /obj/item/clothing/cloak/tabard/stabard/guardhood/lich
 
 	H.energy = H.max_energy
 
@@ -480,8 +477,8 @@ LICH SKELETONS
 
 	H.energy = H.max_energy
 
-//Stronger sidegrade of the Bulwark. Fully armored with high Intelligence and Perception for baiting and riposting, but extremely low Speed and complete inability to sprint at all. Crack open the armor, overwhelm and they're dead meat.
-//They lack the easily ability to escape fights, they're tough and will tire you very fast. They have good armor off-the-bat. They're sturdy and difficult to tire but archers/mages/swarms of people will hardcounter them in open ground.
+//Stronger sidegrade of the Bulwark. Fully armored juggetnaut with high Intelligence and Perception for baiting and riposting, but extremely low Speed and complete inability to sprint at all. Crack open the armor, overwhelm and they're dead meat.
+//They lack the easily ability to escape fights including no climbing skill, they're tough and will tire you very fast. They have good armor off-the-bat. They're sturdy and difficult to tire but archers/mages/swarms of people will hardcounter them in open ground.
 /datum/advclass/greater_skeleton/lich/bulwarkrare
 	name = "Venerated Death Knight"
 	tutorial = "Swerve, parry, riposte. The wetness along your mortal wound has dried centuries ago, yet your wit remains unsullied in the slightest. Bring your master's chivalry to the battlefield, through both plate-and-blade."
@@ -511,7 +508,7 @@ LICH SKELETONS
 	H.adjust_skillrank(/datum/skill/combat/unarmed, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/knives, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/athletics, 5, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/climbing, 1, TRUE) //Again, their flaw is inability to escape.
+	//Again, their flaw is inability to escape, no climbing here.
 
 	H.adjust_skillrank(/datum/skill/craft/carpentry, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/craft/masonry, 2, TRUE)
@@ -562,7 +559,7 @@ LICH SKELETONS
 // Medium armor, high INT, same chant/spells as regular spellblade. No miracles.
 /datum/advclass/greater_skeleton/lich/spellblade
 	name = "Venerated Azurcaephan"
-	tutorial = "Swerve, parry, cast. Your bones have dried, and your flesh have withered. But your wits, and the flow of the arcyne remains untamed. Fuse steel and sorcery, let the legends of the Azurcaephan be known again. Azurea, reborn in arcyne fyre! No! Tarichea! Tarichea! Tarichea! Long may she live! Long may she reign! Tarichea forevermore! My blade undulled, my chant unbroken, my wits untarnished!"
+	tutorial = "Swerve, parry, cast. Your bones have dried, and your flesh have withered. But your wits, and the flow of the arcyne remains untamed. Fuse gilbranze and sorcery, let the legends of the Azurcaephan be known again. Azurea, reborn in arcyne fyre! No! Tarichea! Tarichea! Tarichea! Long may she live! Long may she reign! Tarichea forevermore! My blade undulled, my chant unbroken, my wits untarnished!"
 	outfit = /datum/outfit/job/roguetown/greater_skeleton/lich/spellblade
 	maximum_possible_slots = 1
 	category_tags = list(CTAG_LSKELETON)
@@ -581,12 +578,12 @@ LICH SKELETONS
 /datum/outfit/job/roguetown/greater_skeleton/lich/spellblade/pre_equip(mob/living/carbon/human/H)
 	..()
 
-	H.STASTR = 8
+	H.STASTR = 9
 	H.STASPD = 8
 	H.STACON = 10 //Nessessary to keep up with wretches (1 slot only)
 	H.STAWIL = 12
 	H.STAINT = 14
-	H.STAPER = 11
+	H.STAPER = 12
 
 	ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_ARCYNE, TRAIT_GENERIC)
@@ -596,7 +593,7 @@ LICH SKELETONS
 	H.adjust_skillrank(/datum/skill/combat/unarmed, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/athletics, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/climbing, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/magic/arcane, 2, TRUE)
+	H.adjust_skillrank(/datum/skill/magic/arcane, 3, TRUE) //A true Azurcaephan, they know their stuff.
 
 	H.adjust_skillrank(/datum/skill/craft/carpentry, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/craft/masonry, 2, TRUE)
@@ -604,6 +601,7 @@ LICH SKELETONS
 	H.adjust_skillrank(/datum/skill/craft/sewing, 2, TRUE)
 
 	head = /obj/item/clothing/head/roguetown/helmet/heavy/paalloy
+	mask = /obj/item/clothing/head/roguetown/roguehood/shalal/hijab/lich //Stands out
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/paalloy
 	pants = /obj/item/clothing/under/roguetown/chainlegs/kilt/paalloy
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/studded
@@ -739,7 +737,6 @@ LICH SKELETONS
 /obj/item/clothing/under/roguetown/trou/artipants/lich
 	name = "decrepit sapper trousers"
 	desc = "A set of trousers of leathers and roughspun fabric from beyond your lyfetime, donned by those who are condemned to toil forevermore."
-	color = "#d6bbbb"
 
 /obj/item/clothing/suit/roguetown/shirt/undershirt/artificer/lich
 	name = "decrepit sapper shirt"

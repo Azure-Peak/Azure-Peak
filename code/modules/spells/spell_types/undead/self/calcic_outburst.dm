@@ -10,6 +10,7 @@
 	chargedloop = /datum/looping_sound/invokegen
 	associated_skill = /datum/skill/magic/arcane
 	stat_allowed = TRUE
+	var/exp_devastation = 0 //Used for sappers
 	var/exp_heavy = 3 //Fucks people up, a LOT
 	var/exp_light = 5
 	var/exp_flash = 5
@@ -32,10 +33,10 @@
 	user.Jitter(5 SECONDS) //Makes you shake + Telegraphs a bit more with a scream
 	user.emote("scream")
 
-	addtimer(CALLBACK(src, PROC_REF(skele_explode), user, user, exp_heavy, exp_light, exp_flash, exp_fire), 5 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(skele_explode), user, user, exp_devastation, exp_heavy, exp_light, exp_flash, exp_fire), 5 SECONDS)
 	return TRUE
 
-/obj/effect/proc_holder/spell/proc/skele_explode(mob/living/user, mob/living/target = user, exp_heavy, exp_light, exp_flash, exp_fire)
+/obj/effect/proc_holder/spell/proc/skele_explode(mob/living/user, mob/living/target = user, exp_devastation, exp_heavy, exp_light, exp_flash, exp_fire)
 	var/datum/antagonist/lich/lich_antag
 
 	if(user.mind.has_antag_datum(/datum/antagonist/lich))
@@ -50,7 +51,7 @@
 		span_danger("[target] begins to shake violently, a blindingly bright light beginning to emanate from them!")
 	)
 
-	explosion((user == target) ? get_turf(user) : get_turf(target), 1, exp_heavy, exp_light, exp_flash, 0, flame_range = exp_fire, soundin = 'sound/misc/explode/incendiary (1).ogg')
+	explosion((user == target) ? get_turf(user) : get_turf(target), 1, exp_devastation, exp_heavy, exp_light, exp_flash, 0, flame_range = exp_fire, soundin = 'sound/misc/explode/incendiary (1).ogg')
 	if(lich_antag && user.stat != DEAD && lich_antag.consume_phylactery(0) && user == target) // Use phylactery at 0 timer. Die if none.
 		return TRUE
 
@@ -60,10 +61,20 @@
 /obj/effect/proc_holder/spell/self/suicidebomb/lesser
 	name = "Lesser Calcic Outburst"
 	desc = "Explode in a wonderful blast of osseous shrapnel."
+	exp_devastation = 0
 	exp_heavy = 0
 	exp_light = 3
 	exp_flash = 3
 	exp_fire = 0
+
+/obj/effect/proc_holder/spell/self/suicidebomb/sapper
+	name = "Sapper Calcic Outburst"
+	desc = "Explode in a specially prepared wonderful arcayne blast of osseous shrapnel, designed to topple walls and tear through buildings."
+	exp_devastation = 2
+	exp_heavy = 2
+	exp_light = 3
+	exp_flash = 4
+	exp_fire = 1
 
 /obj/effect/proc_holder/spell/invoked/remotebomb
 	name = "Shell Outburst"
@@ -111,5 +122,7 @@
 
 	target.Immobilize(5 SECONDS)
 	target.Knockdown(5 SECONDS)
+	user.Jitter(5 SECONDS) //Makes you shake + Telegraphs a bit more with a scream
+	user.emote("scream")
 
-	addtimer(CALLBACK(src, PROC_REF(skele_explode), user, target, exp_heavy, exp_light, exp_flash, exp_fire), 5 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(skele_explode), user, target, exp_devastation, exp_heavy, exp_light, exp_flash, exp_fire), 5 SECONDS)
