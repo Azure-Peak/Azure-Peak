@@ -300,8 +300,8 @@
 
 /datum/special_intent/terrorhog_onslaught
 	name = "Phantom Onslaught"
-	desc = "The Terrorhog vanishes into shadows, summoning spectral phantoms to ambush nearby prey."
-	cooldown = 5 SECONDS
+	desc = "The Terrorhog summons phantoms to knock down nearby targets, possibly goring them if they are downed."
+	cooldown = 45 SECONDS
 	requires_wielding = FALSE
 	use_clickloc = FALSE
 	respect_adjacency = FALSE
@@ -309,18 +309,17 @@
 	stamcost = 40
 	var/dam = 40
 	var/duration_of_special = 4 SECONDS
-	var/stagger_delay = 0.3 SECONDS
+	var/stagger_delay = 0.5 SECONDS
 	tile_coordinates = list(list(0, 0))
 	pre_icon_state = null
 	post_icon_state = null
 
 /datum/special_intent/terrorhog_onslaught/process_attack()
-	SHOULD_CALL_PARENT(FALSE) // Fully bypass the strict tile-by-tile grid pipeline
+	SHOULD_CALL_PARENT(FALSE) 
 
 	if(!isliving(howner) || howner.stat == DEAD)
 		return FALSE
 
-	// DEBUG: Verify the capability successfully started tracking the user
 	to_chat(howner, span_notice("[src.name] invoked by [howner]. Scanning..."))
 
 	howner.visible_message(span_danger("[howner] stomps the ground furiously as phantoms dive out of the shadows!"))
@@ -341,40 +340,52 @@
 			continue
 		valid_targets += L
 
-	// DEBUG: Inform how many valid tracking targets were logged
 	to_chat(howner, span_notice("Targets found within range: [valid_targets.len]"))
-
-	var/ambushes_launched = 0
-	var/list/spawned_phantom_turfs = list()
-
-	while(valid_targets.len && ambushes_launched < 5)
-		var/mob/living/victim = pick(valid_targets)
-		valid_targets -= victim
-		
-		var/turf/victim_turf = get_turf(victim)
-		var/turf/spawn_turf = null
-		var/list/potential_spots = orange(3, victim_turf) - orange(2, victim_turf)
-		var/list/filtered_spots = list()
-		
-		for(var/turf/T in potential_spots)
-			if(T.density || (T in spawned_phantom_turfs))
-				continue
-			filtered_spots += T
-		if(filtered_spots.len)
-			spawn_turf = pick(filtered_spots)
-
-		if(!spawn_turf)
-			continue
-
-		spawned_phantom_turfs += spawn_turf
-		ambushes_launched++
-
-		// DEBUG: Confirm a phantom is physically spawning on a coordinate
-		to_chat(howner, span_notice("Launching phantom #[ambushes_launched] targeting [victim.name] at coordinates: ([spawn_turf.x], [spawn_turf.y])"))
-
-		new /obj/projectile/bullet/terrorhog_phantom(spawn_turf, victim, howner, dam)
-
 	apply_cooldown()
+
+	if(!valid_targets.len)
+		return TRUE
+
+	// Spin up an asynchronous thread block so we can sleep without locking up the server/user input
+	spawn(0)
+		var/ambushes_launched = 0
+		var/list/spawned_phantom_turfs = list()
+
+		while(valid_targets.len && ambushes_launched < 5)
+			if(!howner || howner.stat == DEAD)
+				break
+
+			var/mob/living/victim = pick(valid_targets)
+
+			// If anyone were to comment this out, the same guy could get nerded.
+			valid_targets -= victim 
+
+			var/turf/victim_turf = get_turf(victim)
+			if(!victim_turf)
+				continue
+			var/turf/spawn_turf = null
+			var/list/potential_spots = orange(3, victim_turf) - orange(2, victim_turf)
+			var/list/filtered_spots = list()
+
+			for(var/turf/T in potential_spots)
+				if(T.density || (T in spawned_phantom_turfs))
+					continue
+				filtered_spots += T
+
+			if(filtered_spots.len)
+				spawn_turf = pick(filtered_spots)
+
+			if(!spawn_turf)
+				continue
+
+			spawned_phantom_turfs += spawn_turf
+			ambushes_launched++
+
+			to_chat(howner, span_notice("Launching phantom #[ambushes_launched] targeting [victim.name] at coordinates: ([spawn_turf.x], [spawn_turf.y])"))
+
+			new /obj/projectile/bullet/terrorhog_phantom(spawn_turf, victim, howner, dam)
+			sleep(stagger_delay)
+
 	return TRUE
 
 /obj/projectile/bullet/terrorhog_phantom
@@ -382,17 +393,14 @@
 	desc = "A terrifying, spectral image of a charging boar!"
 	icon = 'icons/mob/unique_shapeshifts/boar_shape.dmi'
 	icon_state = "boar"
-	
-	// Aesthetic treatments matching your original look
+
 	color = "#777777"
 	alpha = 220
 	pixel_x = -16
-	
-	// Projectile tracking properties
-	//hits_pieces = FALSE       // Don't clip on dropped items/structures mid-flight
+
 	var/damage_value = 40
 	var/mob/living/master_hog
-	speed = 1.2
+	speed = 1.5
 
 /obj/projectile/bullet/terrorhog_phantom/Initialize(mapload, mob/living/target, mob/living/boss_source, base_damage)
 	. = ..()
@@ -402,9 +410,8 @@
 	master_hog = boss_source
 	firer = boss_source
 	damage_value = base_damage
-	def_zone = BODY_ZONE_CHEST // Set default hit zone for wounds
+	def_zone = BODY_ZONE_CHEST
 
-	// Snapping direction cleanly to the dominant 4-way cardinal vector
 	var/raw_dir = get_dir(src, target)
 	if(raw_dir & (NORTH|SOUTH))
 		raw_dir &= (NORTH|SOUTH)
@@ -412,11 +419,10 @@
 		raw_dir &= (EAST|WEST)
 	src.dir = raw_dir
 
-	// Replicating your 0.6-second telegraph window before unleashing the projectile move engine
 	playsound(src, 'sound/vo/mobs/boar/boar_charge.ogg', 50, TRUE)
 	
 	var/turf/destination = get_turf(target)
-	addtimer(CALLBACK(src, PROC_REF(start_phantom_drive), destination), 0.6 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(start_phantom_drive), destination), 0.8 SECONDS)
 
 /obj/projectile/bullet/terrorhog_phantom/proc/start_phantom_drive(turf/destination)
 	if(QDELETED(src) || !destination)
@@ -426,10 +432,7 @@
 	var/firing_angle = Get_Angle(src, destination)
 	fire(firing_angle)
 
-// Override the projectile landing/impact event hook
 /obj/projectile/bullet/terrorhog_phantom/on_hit(atom/target, blocked)
-	// We completely bypass traditional single-target projectile damage 
-	// because we want to execute our custom area shockwave payload instead.
 	explode_payload()
 	return BULLET_ACT_HIT
 
@@ -439,8 +442,7 @@
 		qdel(src)
 		return
 
-	// Replicate visual sweeps on all 8 adjacent tiles perfectly
-	var/list/affected_turfs = orange(1, landing_zone)
+	var/list/affected_turfs = range(1, landing_zone)
 	for(var/turf/T in affected_turfs)
 		var/obj/effect/temp_visual/special_intent/fx = new(T, 0.5 SECONDS)
 		fx.icon = 'icons/effects/effects.dmi'
@@ -462,8 +464,9 @@
 			if(shared_faction)
 				continue
 
+			// Gore only if a target is downed and hit by a shockwave
+			// You can dodge the projectiles by ducking, but it is risky!
 			if(!(L.mobility_flags & MOBILITY_STAND))
-				// CRITICAL PRONE GORE CONVERSIONS
 				L.visible_message(span_userdanger("[src] ruthlessly gores [L]!"))
 				if(iscarbon(L))
 					var/mob/living/carbon/C = L

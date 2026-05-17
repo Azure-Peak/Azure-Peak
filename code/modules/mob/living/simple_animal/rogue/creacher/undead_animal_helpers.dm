@@ -40,6 +40,7 @@ GLOBAL_LIST_INIT(animal_to_undead, list(
 	/mob/living/simple_animal/hostile/retaliate/rogue/wolf = /mob/living/simple_animal/hostile/retaliate/rogue/wolf_undead,
 	/mob/living/simple_animal/hostile/retaliate/rogue/fox = /mob/living/simple_animal/hostile/retaliate/rogue/fox/undead,
 	/mob/living/simple_animal/hostile/retaliate/rogue/boar = /mob/living/simple_animal/hostile/retaliate/rogue/boar/undead,
+	/mob/living/simple_animal/hostile/retaliate/rogue/boar/undead = /mob/living/carbon/human/species/wildshape/terrorhog,
 ))
 
 #define ZOMBIE_REANIMATION_CHANCE 25

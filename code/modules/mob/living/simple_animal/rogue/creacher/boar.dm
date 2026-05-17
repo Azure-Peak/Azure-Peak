@@ -153,7 +153,7 @@
 	penfactor = PEN_HEAVY
 	blade_class = BCLASS_STAB
 
-/mob/living/simple_animal/hostile/retaliate/rogue/fox/death()
+/mob/living/simple_animal/hostile/retaliate/rogue/boar/death()
 	. = ..()
 	if(!QDELETED(src))
 		src.AddComponent(/datum/component/deadite_animal_reanimation)
