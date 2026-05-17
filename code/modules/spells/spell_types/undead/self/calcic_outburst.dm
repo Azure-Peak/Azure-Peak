@@ -10,11 +10,11 @@
 	chargedloop = /datum/looping_sound/invokegen
 	associated_skill = /datum/skill/magic/arcane
 	stat_allowed = TRUE
-	var/exp_devastation = 0 //Used for sappers
+	var/exp_devastation = 0 //Used for sappers to destroy walls
 	var/exp_heavy = 3 //Fucks people up, a LOT
 	var/exp_light = 5
 	var/exp_flash = 5
-	var/exp_fire = 4 //You give up one whole life/entire run for this, on top of having to not die to silver during it. So we let you take people out in a blaze of glory.
+	var/exp_fire = 4
 
 /obj/effect/proc_holder/spell/self/suicidebomb/cast(list/targets, mob/living/user = usr)
 	..()
@@ -91,6 +91,7 @@
 	chargedloop = /datum/looping_sound/invokegen
 	associated_skill = /datum/skill/magic/arcane
 	stat_allowed = TRUE
+	var/exp_devastation = 0 //Used for sappers
 	var/exp_heavy = 1
 	var/exp_light = 3
 	var/exp_flash = 3
