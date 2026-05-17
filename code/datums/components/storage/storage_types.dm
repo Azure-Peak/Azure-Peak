@@ -27,6 +27,7 @@
 	/obj/item/needle,
 	/obj/item/natural/worms/leech,
 	/obj/item/reagent_containers/lux,
+	/obj/item/reagent_containers/lux_impure,
 	/obj/item/natural/bundle/cloth/bandage,
 	/obj/item/natural/cloth))
 

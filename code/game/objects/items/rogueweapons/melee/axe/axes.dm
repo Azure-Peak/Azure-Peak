@@ -280,6 +280,7 @@
 	force = 30
 	wdefense = 5
 	smeltresult = /obj/item/ingot/component/graggar
+	special = /datum/special_intent/axe_swing/graggarite
 
 /obj/item/rogueweapon/stoneaxe/woodcut/steel/graggar/Initialize()
 	. = ..()

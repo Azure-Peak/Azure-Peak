@@ -1,0 +1,4 @@
+author: "SomeDeviant"
+delete-after: True
+changes:
+  - bugfix: "fixed stress-face being able to use all of its emotional damage states"

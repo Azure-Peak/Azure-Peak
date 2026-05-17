@@ -166,7 +166,10 @@
 						remove_status_effect(/datum/status_effect/debuff/bleedingworse)
 
 			if(blood_volume <= BLOOD_VOLUME_BAD)
-				adjustOxyLoss(blood_volume <= BLOOD_VOLUME_SURVIVE ? 3 : 1)
+				var/oxy_amt = blood_volume <= BLOOD_VOLUME_SURVIVE ? 3 : 1
+				if(!client)
+					oxy_amt *= 3
+				adjustOxyLoss(oxy_amt)
 				if(world.time >= last_gasp)
 					last_gasp = world.time + rand(3 SECONDS, 9 SECONDS)
 					if(ishuman(src))

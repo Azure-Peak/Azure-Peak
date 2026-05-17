@@ -277,6 +277,7 @@ And it also helps for the character set panel
 		qdel(disguise_comp)
 
 	vampire.verbs -= /mob/living/carbon/human/proc/disguise_verb
+	vampire.verbs -= /mob/living/carbon/human/proc/vampire_telepathy
 
 
 	// Restore normal eyes
@@ -367,8 +368,7 @@ And it also helps for the character set panel
 
 /datum/clan/proc/setup_vampire_abilities(mob/living/carbon/human/H)
 	H.verbs |= /mob/living/carbon/human/proc/disguise_verb
-
-	H.cmode_music = 'sound/music/cmode/antag/combat_thrall.ogg'
+	H.verbs |= /mob/living/carbon/human/proc/vampire_telepathy
 
 	H.adjust_skillrank_up_to(/datum/skill/magic/blood, 2, TRUE)
 

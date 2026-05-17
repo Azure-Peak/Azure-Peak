@@ -1,0 +1,7 @@
+author: "Ketrai"
+delete-after: True
+changes:
+  - rscadd: "Added a new dish for saiga ribs"
+  - rscadd: "Added 4 new dishes for deadite saiga meat"
+  - refactor: "adds a refactored food slapcrafting method"
+  - qol: "Food now previews what it can be cooked into when examined (not all foods supported, but the majority)"
