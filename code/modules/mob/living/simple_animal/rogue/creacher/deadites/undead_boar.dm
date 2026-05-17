@@ -121,7 +121,8 @@
 	STACON = 20
 	STAPER = 11
 	STAWIL = 16
-	STAINT = 4
+	// Minimum int needed to use specials
+	STAINT = 8
 	STALUC = 10
 
 	adjust_skillrank(/datum/skill/combat/unarmed, 5, TRUE)
@@ -243,7 +244,7 @@
 	. = ..()
 	if(!ishuman(owner))
 		return FALSE
-	owner.add_movespeed_modifier(MOVESPEED_ID_BLOOD_FRENZY, update=TRUE, priority=15, multiplicative_slowdown=-2)
+	owner.add_movespeed_modifier(MOVESPEED_ID_BLOOD_FRENZY, update=TRUE, priority=15, multiplicative_slowdown=-1)
 
 /datum/status_effect/buff/blood_frenzy/tick()
 	var/obj/effect/temp_visual/heal/E = new /obj/effect/temp_visual/heal_rogue(get_turf(owner))
@@ -301,7 +302,7 @@
 /datum/special_intent/terrorhog_onslaught
 	name = "Phantom Onslaught"
 	desc = "The Terrorhog summons phantoms to knock down nearby targets, possibly goring them if they are downed."
-	cooldown = 45 SECONDS
+	cooldown = 35 SECONDS
 	requires_wielding = FALSE
 	use_clickloc = FALSE
 	respect_adjacency = FALSE
@@ -478,7 +479,6 @@
 				L.adjustBruteLoss(50)
 				playsound(L, 'sound/combat/crit.ogg', 75, TRUE)
 			else
-				// STANDARD STANDING SHOCKWAVE CONSEQUENCE
 				L.visible_message("<span class='warning'>The shockwave from [src]'s impact knocks [L] off their feet!</span>")
 				L.Knockdown(3 SECONDS)
 				L.apply_status_effect(/datum/status_effect/debuff/dazed)
