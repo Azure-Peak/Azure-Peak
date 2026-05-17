@@ -32,10 +32,10 @@
 	user.Jitter(5 SECONDS) //Makes you shake + Telegraphs a bit more with a scream
 	user.emote("scream")
 
-	addtimer(CALLBACK(src, PROC_REF(skele_explode), user, user, exp_devastation, exp_heavy, exp_light, exp_flash, exp_fire), 5 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(skele_explode), user, user, exp_heavy, exp_light, exp_flash, exp_fire), 5 SECONDS)
 	return TRUE
 
-/obj/effect/proc_holder/spell/proc/skele_explode(mob/living/user, mob/living/target = user, exp_devastation, exp_heavy, exp_light, exp_flash, exp_fire)
+/obj/effect/proc_holder/spell/proc/skele_explode(mob/living/user, mob/living/target = user, exp_heavy, exp_light, exp_flash, exp_fire)
 	var/datum/antagonist/lich/lich_antag
 
 	if(user.mind.has_antag_datum(/datum/antagonist/lich))
@@ -50,7 +50,7 @@
 		span_danger("[target] begins to shake violently, a blindingly bright light beginning to emanate from them!")
 	)
 
-	explosion((user == target) ? get_turf(user) : get_turf(target), 1, exp_devastation, exp_heavy, exp_light, exp_flash, 0, flame_range = exp_fire, soundin = 'sound/misc/explode/incendiary (1).ogg')
+	explosion((user == target) ? get_turf(user) : get_turf(target), 1, exp_heavy, exp_light, exp_flash, 0, flame_range = exp_fire, soundin = 'sound/misc/explode/incendiary (1).ogg')
 	if(lich_antag && user.stat != DEAD && lich_antag.consume_phylactery(0) && user == target) // Use phylactery at 0 timer. Die if none.
 		return TRUE
 
