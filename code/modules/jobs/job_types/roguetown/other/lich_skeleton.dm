@@ -18,7 +18,7 @@ LICH SKELETONS
 	REMOVE_TRAIT(H, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_LICHLAIR, TRAIT_GENERIC) //Ability to leave/enter the lich's lair without being softlocked inside.
 
-// Melee goon w/ javelins/one use net on picks. All-rounder.
+// Melee goon w/ sidearm picks like javs/sling/knife/single use net. All-rounder.
 /datum/advclass/greater_skeleton/lich/legionnaire
 	name = "Ancient Legionnaire"
 	tutorial = "A veteran lineman - oh, how far you've fallen. Your old King is dead, yet your vigil has not yet ended. Bring the fight to those who'd dare to impede your master's rule, with shield-and-sword alike."
@@ -112,7 +112,7 @@ LICH SKELETONS
 			cloak = /obj/item/clothing/cloak/tabard/lich
 		if("Black Cloak + Greathood")
 			cloak = /obj/item/clothing/cloak/half/lich
-			mask = /obj/item/clothing/cloak/tabard/stabard/guardhood/lich
+			mask = /obj/item/clothing/cloak/tabard/stabard/hoodlich
 
 	H.energy = H.max_energy
 
@@ -206,7 +206,7 @@ LICH SKELETONS
 			cloak = /obj/item/clothing/cloak/tabard/lich
 		if("Black Cloak + Greathood")
 			cloak = /obj/item/clothing/cloak/half/lich
-			mask = /obj/item/clothing/cloak/tabard/stabard/guardhood/lich
+			mask = /obj/item/clothing/cloak/tabard/stabard/hoodlich
 
 	H.energy = H.max_energy
 
@@ -320,7 +320,7 @@ LICH SKELETONS
 			cloak = /obj/item/clothing/cloak/tabard/lich
 		if("Black Cloak + Greathood")
 			cloak = /obj/item/clothing/cloak/half/lich
-			mask = /obj/item/clothing/cloak/tabard/stabard/guardhood/lich
+			mask = /obj/item/clothing/cloak/tabard/stabard/hoodlich
 
 	H.energy = H.max_energy
 
@@ -489,7 +489,7 @@ LICH SKELETONS
 			cloak = /obj/item/clothing/cloak/tabard/stabard/surcoat/lich
 		if("Black Cloak + Greathood")
 			cloak = /obj/item/clothing/cloak/half/lich
-			mask = /obj/item/clothing/cloak/tabard/stabard/guardhood/lich
+			mask = /obj/item/clothing/cloak/tabard/stabard/hoodlich
 
 	H.energy = H.max_energy
 
@@ -779,10 +779,15 @@ LICH SKELETONS
 	desc = "Roughspun fabrics from beyond your lyfetime, donned by those who fear what they've truly become."
 	color = CLOTHING_BLACK
 
-/obj/item/clothing/cloak/tabard/stabard/guardhood/lich
+/obj/item/clothing/cloak/tabard/stabard/hoodlich
 	name = "decrepit greathood"
 	desc = "Roughspun fabrics from beyond your lyfetime, donned by those who have reaped what they've sown."
 	color = CLOTHING_BLACK
+	detail_color = CLOTHING_BLACK
+	detail_tag = "_spl"
+	icon_state = "guard_hood" // The same as the guard hood however to break it from using the lords colors it has been given its own item path
+	item_state = "guard_hood"
+	body_parts_covered = CHEST
 
 /obj/item/rogueweapon/greatsword/grenz/flamberge/aalloy
 	name = "decrepit flamberge"
