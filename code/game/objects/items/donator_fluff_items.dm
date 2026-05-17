@@ -734,6 +734,8 @@ As Excaliber."
 	nodismemsleeves = TRUE
 
 /obj/item/clothing/mask/rogue/spectacles/magi1138
-    name = "modified Nocshade lens-pair"
-    desc = "A pair of Otavan Nocshade Lenses with cut and polished amythortz lenses."
-    icon_state = "bglasses"
+	name = "modified Nocshade lens-pair"
+	desc = "A pair of Otavan Nocshade Lenses with cut and polished amythortz lenses."
+	icon_state = "magi_glasses"
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'

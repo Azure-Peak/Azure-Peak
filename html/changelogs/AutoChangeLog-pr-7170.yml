@@ -1,0 +1,17 @@
+author: "radarseas"
+delete-after: True
+changes:
+  - rscadd: "re-added legacy telepathy, with credit to Vanderlin for porting it back over. It costs 80 per use with a 30 second cooldown"
+  - rscadd: "vampire lord has its A MONSTER! examine back, rejoice sovl enjoyers"
+  - balance: "vlord sword no-longer can use alt-grips. They looked really bad with the directions on the sword."
+  - balance: "victims now have more vitae 3000 -> 5000"
+  - balance: "torpor heal is doubled, from 5 burn/brute to 10 burn/brute."
+  - balance: "being converted into a vampire stuns you for 20 less seconds"
+  - balance: "conversion/refusal 500 -> 1000 vitae"
+  - balance: "re-tuned up the ichor fang, it now gets a different set of intents that make it feel far-more unique."
+  - bugfix: "fixed vlord not getting their intended combat-music"
+  - bugfix: "some voicepacks having silent generic emotes."
+  - bugfix: "vlord sword has a visible message to others dropping the blade, as-intended."
+  - code_imp: "adjusted vampire core more"
+  - code_imp: "tampered with lich commands to re-adjust the text a bit + log it."
+  - admin: "Vampire Telepathy + Lich Commands are logged now."

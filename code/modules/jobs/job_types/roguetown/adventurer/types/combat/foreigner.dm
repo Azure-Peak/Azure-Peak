@@ -137,6 +137,7 @@
 	subclass_languages = list(/datum/language/otavan)
 	cmode_music = 'sound/music/cmode/adventurer/combat_outlander2.ogg'
 	category_tags = list(CTAG_ADVENTURER, CTAG_COURTAGENT)
+	forbidden_races = list()
 	traits_applied = list(TRAIT_STEELHEARTED, TRAIT_NOPAINSTUN)
 	subclass_stats = list(
 		STATKEY_CON = 3,
@@ -181,6 +182,7 @@
 	subclass_languages = list(/datum/language/celestial)
 	cmode_music = 'sound/music/warscholar.ogg'
 	traits_applied = list(TRAIT_STEELHEARTED, TRAIT_DODGEEXPERT)
+	forbidden_races = list()
 	subclass_stats = list(
 		STATKEY_SPD = 2,
 		STATKEY_PER = 1,
@@ -223,6 +225,7 @@
 	
 	outfit = /datum/outfit/job/roguetown/adventurer/slaver
 	subclass_languages = list(/datum/language/raneshi)
+	forbidden_races = list()
 	cmode_music = 'sound/music/combat_desertrider.ogg'
 	traits_applied = list(TRAIT_STEELHEARTED, TRAIT_MEDIUMARMOR)
 	subclass_stats = list(
@@ -274,6 +277,7 @@
 	allowed_sexes = list(MALE, FEMALE)
 	
 	subclass_languages = list(/datum/language/aavnic)
+	forbidden_races = list()
 	outfit = /datum/outfit/job/roguetown/adventurer/freishepherd
 	traits_applied = list()
 	cmode_music = 'sound/music/frei_shepherd.ogg'
@@ -324,6 +328,7 @@
 	
 	outfit = /datum/outfit/job/roguetown/adventurer/fencerguy
 	subclass_languages = list(/datum/language/grenzelhoftian)
+	forbidden_races = list()
 	cmode_music = 'sound/music/cmode/adventurer/combat_outlander2.ogg'
 	traits_applied = list(TRAIT_INTELLECTUAL, TRAIT_FENCERDEXTERITY)
 	subclass_stats = list(
@@ -403,6 +408,7 @@
 	cmode_music = 'sound/music/combat_thespian.ogg'
 	maximum_possible_slots = 3 //Should be categorically rarer to see than Iron- and Steel-clad adventurers. Tickles the powerscale ala the Exorcist, albeit to a wider extent with its potential combinations.
 	traits_applied = list(TRAIT_STEELHEARTED, TRAIT_BLOOD_RESISTANCE)
+	forbidden_races = list()
 	subclass_stats = list(
 		STATKEY_STR = 1, //Abbreviated to +1/+3/+2/-2 for short. Seven statpoints weighed against a two- (or rather, four-) point penalty in Speed. This is intentional, as the Thespian has a lot of room to stretch their proverbial wings. 
 		STATKEY_WIL = 3, 

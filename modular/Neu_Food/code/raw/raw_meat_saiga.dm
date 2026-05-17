@@ -46,7 +46,8 @@
 	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_z/cooked
 	fried_type = /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_z/cooked
 	ingredient_size = 4
-	rotprocess = SHELFLIFE_LONG
+	// Already rotten.
+	rotprocess = null
 	eat_effect = /datum/status_effect/debuff/rotfood
 
 /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_ribs_z
@@ -57,7 +58,7 @@
 	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_ribs_z/cooked
 	fried_type = /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_ribs_z/cooked
 	ingredient_size = 4
-	rotprocess = SHELFLIFE_LONG
+	rotprocess = null
 	eat_effect = /datum/status_effect/debuff/rotfood
 
 /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_loins_z
@@ -68,7 +69,7 @@
 	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_loins_z/cooked
 	fried_type = /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_loins_z/cooked
 	ingredient_size = 4
-	rotprocess = SHELFLIFE_LONG
+	rotprocess = null
 	eat_effect = /datum/status_effect/debuff/rotfood
 
 /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_prime_z
@@ -79,7 +80,7 @@
 	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_prime_z/cooked
 	fried_type = /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_prime_z/cooked
 	ingredient_size = 4
-	rotprocess = SHELFLIFE_LONG
+	rotprocess = null
 	eat_effect = /datum/status_effect/debuff/rotfood
 
 /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_w

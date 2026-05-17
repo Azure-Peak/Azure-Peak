@@ -1,0 +1,6 @@
+author: "BICLOGAN"
+delete-after: True
+changes:
+  - rscadd: "Reimagined Barber Surgeon starting clothes and backpack items."
+  - rscadd: "Leather Boots and Leather Gloves as loadout items"
+  - bugfix: "Plague mask not being craftable, despite being in the code"

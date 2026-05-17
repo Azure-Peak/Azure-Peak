@@ -1,0 +1,5 @@
+author: "Rannoooo"
+delete-after: True
+changes:
+  - bugfix: "fixes ordinators not getting otavais"
+  - bugfix: "inspectors are forced otavan"

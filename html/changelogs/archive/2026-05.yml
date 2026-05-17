@@ -574,3 +574,42 @@
   - admin: Goblins from portals/seiges now have an antag datum, it draws no cost from
       storyteller.
   - server: Seige skeles added to defines.
+2026-05-16:
+  BurpleBineapple:
+  - qol: The Apocrypha uses the standard order of striking intents now.
+  Ketrai:
+  - qol: hag mindlink use clarified
+  Ryan180602:
+  - bugfix: donor item fix
+  radarseas:
+  - bugfix: fixed vampires not having trait_zombie_immune
+  - balance: summoned spectacles have no more mechanical effects beyond what regular
+      spectacles do. You still look dangerously stylish as-was-intended, they remain
+      a free spell as intended.
+  - rscadd: heretic armor unsprited pieces now have a small outline to tell them,
+      if they're on the floor/worn.
+  - balance: dreamwalker armor cannot be enchanted anymore.
+  - bugfix: fixed heretic armors not having descriptors for the heavy sets correctly.
+2026-05-17:
+  BICLOGAN:
+  - qol: Mortar and pestle are 1x1 items.
+  - qol: Impure lux can be stored in surgery bags.
+  - balance: Rot cure potion needs heartblood vials for craft instead of gold dust
+  - bugfix: Proper dram usage for water to wine transmute
+  Ketrai:
+  - bugfix: cure deadite rot surgery now correctly only works when targeting chest.
+  - bugfix: cure black rot surgery now correctly only works when targeting chest.
+  Ollanius:
+  - bugfix: Fixes up some minor incongruencies in the time-changing tips.
+  Ryan180602:
+  - balance: grag hand-axe special (the regular axe special) does not require wielding.
+  - bugfix: adjust unequippability of certain heretic pieces
+  - bugfix: vicious jawmask covers nose/mouth only
+  VanessaCoding:
+  - qol: More Veteran loadout options.
+  WeNeedMorePhoron:
+  - rscadd: NPC now bleeds out 3x faster after losing sufficient amount of blood.
+  borneblood:
+  - bugfix: Holstered Greatswords are no longer upside-down.
+  kbitykbitykbity:
+  - bugfix: Fixed small races being barred from every nomad adventurer class.
