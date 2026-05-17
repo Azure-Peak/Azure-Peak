@@ -768,11 +768,15 @@ LICH SKELETONS
 	name = "decrepit jupon"
 	desc = "Roughspun fabrics from beyond your lyfetime, donned by those who are condemned to march forevermore."
 	color = CLOTHING_BLACK
+	detail_tag = "_quad"
+	detail_color = CLOTHING_BURLAP
 
 /obj/item/clothing/cloak/tabard/lich
 	name = "decrepit tabard"
 	desc = "Roughspun fabrics from beyond your lyfetime, donned by those who once knew of chivalry's allure."
 	color = CLOTHING_BLACK
+	detail_tag = "_quad"
+	detail_color = CLOTHING_BURLAP
 
 /obj/item/clothing/cloak/half/lich
 	name = "decrepit cloak"
@@ -783,7 +787,7 @@ LICH SKELETONS
 	name = "decrepit greathood"
 	desc = "Roughspun fabrics from beyond your lyfetime, donned by those who have reaped what they've sown."
 	color = CLOTHING_BLACK
-	detail_color = CLOTHING_BLACK
+	detail_color = CLOTHING_BURLAP
 	detail_tag = "_spl"
 	icon_state = "guard_hood" // The same as the guard hood however to break it from using the lords colors it has been given its own item path
 	item_state = "guard_hood"
