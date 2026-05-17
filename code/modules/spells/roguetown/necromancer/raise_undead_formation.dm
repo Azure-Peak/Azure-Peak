@@ -68,36 +68,41 @@
 
 		var/mob/living/simple_animal/hostile/rogue/skeleton/S = new skeleton_type(spawn_turf, owner, cabal_affine)
 
-		if(S && miracle)
+		if(!S)
+			continue
+
+		if(miracle)
 			var/holyLV = owner.get_skill_level(/datum/skill/magic/holy)
 			var/bonus = max(0, holyLV - 1) * 2
+
 			S.STASTR += bonus
-			S.STASPD += bonus / 2
-			S.maxHealth += bonus * 75
+			S.STASPD += round(bonus / 2)
+			S.maxHealth += bonus * 50
 			S.health = S.maxHealth
 
-			var/aggro_range = 8
+		var/aggro_range = 8
 
-			for(var/mob/living/M in view(aggro_range, S))
-				if(M == S)
-					continue
-				if(M.stat == DEAD)
-					continue
-				if(M.mind)
-					continue
-				if(!M.ai_controller)
-					continue
-				if(M.faction_check_mob(S))
-					continue
+		for(var/mob/living/M in view(aggro_range, S))
+			if(M == S)
+				continue
+			if(M.stat == DEAD)
+				continue
+			if(M.mind)
+				continue
+			if(!M.ai_controller)
+				continue
+			if(M.faction_check_mob(S))
+				continue
 
-				M.ai_controller.set_blackboard_key(BB_BASIC_MOB_CURRENT_TARGET, S)
-				M.ai_controller.set_blackboard_key(BB_HIGHEST_THREAT_MOB, S)
+			M.ai_controller.set_blackboard_key(BB_BASIC_MOB_CURRENT_TARGET, S)
+			M.ai_controller.set_blackboard_key(BB_HIGHEST_THREAT_MOB, S)
 
-				var/datum/component/ai_aggro_system/aggro = M.GetComponent(/datum/component/ai_aggro_system)
-				if(aggro)
-					aggro.add_threat_to_mob(S, 50)
+			var/datum/component/ai_aggro_system/aggro = M.GetComponent(/datum/component/ai_aggro_system)
+			
+			if(aggro)
+				aggro.add_threat_to_mob(S, 50)
 
-			apply_mob_lifespan(S, owner, spawn_lifespan)
+		apply_mob_lifespan(S, owner, spawn_lifespan)
 
 	return TRUE
 

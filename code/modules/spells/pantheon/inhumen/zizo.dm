@@ -125,199 +125,281 @@
 ////////////////
 //T1 - PROFANE//
 ////////////////
-// Fires a cheap and weak shot that if you manage to hit 4 times in the brief gap of 3 seconds consecutively, it pops, inflicting a light poison and some damage. Bones around will null the cost.
 /datum/action/cooldown/spell/projectile/zizo/profane
 	name = "Profane"
-	desc = "Launch a shard of profaned bone that tears flesh and causes bleeding. Every fourth successful hit causes a violent rupture that bypasses armor and impales the target, spreading vile toxins.<br><br>If bones are nearby, they are consumed and the spell's costs are negated."
-	fluff_desc = "Bone remembers. Even when stripped, burned, or buried, it recalls the shape of life, and the cruelty that denied it rest. The Cabal does not summon the dead; it convinces what remains that it was never meant to be still. Each shard is a prayer spoken backward, each wound a lesson in obedience to Her Grand Design. There is a greater meaning behind the number 'four'."
+	desc = "Launch a cursed bone shard that can lodge into victims, poisoning them while embedded. More embedded shards increase the damage (max. 7 DMG). Bones in your hand (or around) may be consumed to empower the projectile, causing it to fracture into nearby enemies and embed regardless."
+	fluff_desc = "Bone remembers agony. Marrow stores screams long after flesh rots away. The faithful of Zizo drive sharpened remains into living bodies so suffering may continue long after impact. When fed fresh remains, the rite grows unstable, bursting apart to spread Her blessed cruelty further."
 	button_icon = 'icons/mob/actions/zizomiracles.dmi'
 	button_icon_state = "profane"
 	projectile_type = /obj/projectile/magic/profane
 	cast_range = SPELL_RANGE_PROJECTILE
-	primary_resource_cost = 10
-	secondary_resource_cost = 10
+	primary_resource_cost = 15
+	secondary_resource_cost = 15
 	charge_required = FALSE
-	cooldown_time = 7 SECONDS
+	cooldown_time = 20 SECONDS
 
 /datum/action/cooldown/spell/projectile/zizo/profane/cast(atom/cast_on)
 	var/mob/living/user = owner
 	var/original_primary = primary_resource_cost
 	var/original_secondary = secondary_resource_cost
+	var/original_projectile = projectile_type
 
-	if(consume_bones_for_refund(user, 1))
+	if(consume_bones_for_profane(user, 1))
 		primary_resource_cost = 0
 		secondary_resource_cost = 0
-
-		user.visible_message(span_notice("[user] feeds bone fragments into the ritual, lessening the costs..."))
-
+		projectile_type = /obj/projectile/magic/profane/enhanced
+		user.visible_message(span_purple("Lingering bones crumble around [user]."), span_purple("Lingering bones enhance your Divine evocation."))
+	
 	. = ..()
-
+	projectile_type = original_projectile
 	primary_resource_cost = original_primary
 	secondary_resource_cost = original_secondary
 
-/proc/consume_bones_for_refund(mob/living/user, amount = 1)
+/proc/consume_bones_for_profane(mob/living/user, amount = 1)
 	var/remaining = amount
-	for(var/obj/item/natural/bone/B in user.contents)
+
+	for(var/turf/T in range(1, user))
 		if(remaining <= 0)
 			break
 
-		qdel(B)
-		remaining--
+		for(var/obj/item/natural/bone/B in T.contents)
+			if(remaining <= 0)
+				break
 
-	for(var/obj/item/natural/bundle/bone/BB in user.contents)
-		if(remaining <= 0)
-			break
+			new /obj/item/ash(T)
+			qdel(B)
+			remaining--
 
-		if(BB.amount <= 0)
-			continue
+		for(var/obj/item/natural/bundle/bone/BB in T.contents)
+			if(remaining <= 0)
+				break
 
-		var/take = min(BB.amount, remaining)
-		BB.amount -= take
-		remaining -= take
+			if(BB.amount <= 0)
+				continue
 
-		if(BB.amount <= 0)
-			qdel(BB)
+			var/take = min(BB.amount, remaining)
+			BB.amount -= take
+			remaining -= take
+			new /obj/item/ash(T)
 
-	return (remaining <= 0)
+			if(BB.amount <= 0)
+				qdel(BB)
 
-/obj/item/bone/splinter
-	name = "bone splinter"
-	embedding = list("embed_chance" = 100, "embedded_pain_chance" = 20,	"embedded_fall_chance" = 2)
+	if(remaining > 0)
+		for(var/obj/item/natural/bone/B in user.contents)
+			if(remaining <= 0)
+				break
 
-/obj/item/bone/splinter/dropped(mob/user, silent)
-	. = ..()
-	if(isturf(loc))
-		visible_message(span_danger("[src] crumbles into dust..."))
-		qdel(src)
+			qdel(B)
+			remaining--
 
-/obj/item/bone/splinter/forceMove(atom/newloc)
-	. = ..()
-	if(isturf(newloc))
-		visible_message(span_danger("[src] crumbles into dust..."))
-		qdel(src)
+		for(var/obj/item/natural/bundle/bone/BB in user.contents)
+			if(remaining <= 0)
+				break
 
-/obj/projectile/magic/profane
-	name = "profaned bone splinter"
+			if(BB.amount <= 0)
+				continue
+
+			var/take = min(BB.amount, remaining)
+			BB.amount -= take
+			remaining -= take
+
+			if(BB.amount <= 0)
+				qdel(BB)
+
+	return remaining <= 0
+
+/obj/item/bone/profane_splinter
+	name = "profaned splinter"
+	desc = "A jagged shard of bone pulsing with malignant energy."
+	icon = 'icons/obj/projectiles.dmi'
 	icon_state = "chronobolt"
-	damage = 20
-	damage_type = BRUTE
-	nodamage = FALSE
-	intdamfactor = 1.6
-	range = SPELL_RANGE_PROJECTILE
-	speed = MAGE_PROJ_FAST
-	accuracy = 40
-	var/embed_prob = 50
+	embedding = list("embed_chance" = 100, "embedded_fall_chance" = 0, "embedded_ignore_throwspeed_threshold" = TRUE)
 
-/obj/projectile/magic/profane/on_hit(atom/target, blocked)
+/obj/item/bone/profane_splinter/Exited(atom/movable/gone, direction)
 	. = ..()
-	if(!isliving(target))
-		qdel(src)
+	if(!is_embedded)
+		crumble()
+
+/obj/item/bone/profane_splinter/dropped(mob/user)
+	. = ..()
+	crumble()
+
+/obj/item/bone/profane_splinter/proc/crumble()
+	if(QDELETED(src))
 		return
-	var/mob/living/L = target
-
-	if(L.anti_magic_check())
-		visible_message(span_warning("[src] shatters harmlessly against [target]!"))
-
-		playsound(get_turf(target), 'sound/magic/magic_nulled.ogg', 100)
-		qdel(src)
-		return BULLET_ACT_BLOCK
-
-	if(iscarbon(L))
-		var/mob/living/carbon/C = L
-
-		if(prob(embed_prob) && length(C.bodyparts))
-			var/obj/item/bodypart/limb = pick(C.bodyparts)
-
-			if(limb)
-				var/obj/item/bone/splinter/S = new
-				limb.add_embedded_object(S, FALSE, TRUE)
-
-		C.apply_status_effect(/datum/status_effect/debuff/profane_mark,	firer)
-
+	visible_message(span_purple("[src] crumbles into foul gray dust."), span_purple("The profaned splinter disintegrates in your hands."))
+	new /obj/item/ash(get_turf(src))
 	qdel(src)
 
-// PROFANE MARK STACK
-/datum/status_effect/debuff/profane_mark
-	id = "profane_mark"
-	status_type = STATUS_EFFECT_REFRESH
-	duration = 15 SECONDS
-	var/stacks = 1
-	var/max_stacks = 4
-	var/mob/living/original_caster
+/obj/item/bone/profane_splinter/on_embed(obj/item/bodypart/bp)
+	. = ..()
+	if(bp?.owner)
+		var/mob/living/L = bp.owner
+		L.apply_status_effect(/datum/status_effect/debuff/profane_poison)
+		L.visible_message(span_purple("A cursed splinter buries itself deeper into [L]'s flesh!"), span_purple("The shard buries itself deep inside me!"))
 
-/datum/status_effect/debuff/profane_mark/on_creation(mob/living/new_owner, mob/living/caster)
-	original_caster = caster
-	stacks = 1
-	return TRUE
-
-/datum/status_effect/debuff/profane_mark/on_apply()
-	owner.visible_message(span_warning("Profaned bone lodges itself inside [owner]!"),span_userdanger("I feel jagged bone bury itself in my flesh!"))
-	return TRUE
-
-/datum/status_effect/debuff/profane_mark/refresh(mob/living/caster)
-	..()
-	if(caster)
-		original_caster = caster
-	stacks++
-	owner.visible_message(span_warning("Profaned bone digs deeper into [owner]! ([stacks]/[max_stacks])"), span_userdanger("I feel profaned bone digging deeper into my flesh! ([stacks]/[max_stacks])"))
-
-	if(stacks >= max_stacks)
-		rupture()
-
-/datum/status_effect/debuff/profane_mark/proc/rupture()
-	if(!owner || owner.stat == DEAD)
-		qdel(src)
-		return
-
-	if(owner.resting && !owner.mind)
-		owner.visible_message(span_danger( "[owner] is torn apart as profaned bone detonates within their body!"), span_userdanger("I am ripped apart from within!"))
-		owner.gib(TRUE, TRUE, TRUE)
-		qdel(src)
-		return
-
-	owner.visible_message(span_danger("Profaned bone violently erupts from [owner] and corrupts their humors!"), span_userdanger("Agony explodes through me as profaned bone tears me apart and corrupts my humors!"))
-
-	new /obj/effect/temp_visual/dir_setting/bloodsplatter(get_turf(owner),pick(GLOB.alldirs))
-
-	playsound(get_turf(owner),pick('sound/combat/fracture/fracturedry (1).ogg','sound/combat/fracture/fracturedry (2).ogg','sound/combat/fracture/fracturedry (3).ogg'),80,TRUE)
-
-	var/damage_zone = BODY_ZONE_CHEST
-
-	if(isliving(original_caster))
-		var/mob/living/caster = original_caster
-		damage_zone = check_zone(caster.zone_selected)
-
-	owner.apply_damage(50,BRUTE,def_zone = damage_zone)
-
-	owner.apply_status_effect(/datum/status_effect/debuff/profane_poison)
-	qdel(src)
-
-// PROFANE POISON
 /datum/status_effect/debuff/profane_poison
 	id = "profane_poison"
-	status_type = STATUS_EFFECT_REFRESH
-	duration = 10 SECONDS
-	tick_interval = 1 SECONDS
-	var/tick_damage = 2
-	var/npc_dmg = 8
+	status_type = STATUS_EFFECT_UNIQUE
+	duration = INFINITY
+	tick_interval = 3 SECONDS
+	var/poison_hardcap = 7
 
 /datum/status_effect/debuff/profane_poison/tick()
 	if(!owner)
 		qdel(src)
 		return
 
-	if(owner.stat == UNCONSCIOUS || owner.stat == DEAD)
+	if(owner.stat == DEAD)
 		qdel(src)
 		return
 
-	var/damage = tick_damage
+	if(!iscarbon(owner))
+		if(owner.stat == CONSCIOUS)
+			owner.adjustToxLoss(6)
+		return
 
-	if(!owner.mind)
-		damage = npc_dmg
+	var/mob/living/carbon/C = owner
+	var/splinter_count = 0
 
-	owner.adjustToxLoss(damage)
-	owner.adjustOxyLoss(damage * 2)
-	return
+	for(var/obj/item/bodypart/BP in C.bodyparts)
+		if(!BP.embedded_objects)
+			continue
+
+		for(var/obj/item/I in BP.embedded_objects)
+			if(istype(I, /obj/item/bone/profane_splinter))
+				splinter_count++
+
+	if(splinter_count <= 0)
+		C.visible_message(span_notice("The profane corruption fades from [C] as the final splinter is removed."), span_notice("The profane corruption fades as the final splinter is removed."))
+		qdel(src)
+		return
+
+	if(C.stat != CONSCIOUS)
+		return
+
+	var/tox_damage = min(1 + splinter_count, poison_hardcap)
+	C.adjustToxLoss(tox_damage)
+
+	if(prob(min(splinter_count * 5, 50)))
+		C.emote("pain")
+
+/obj/projectile/magic/profane
+	name = "profaned bone shard"
+	icon = 'icons/obj/projectiles.dmi'
+	icon_state = "chronobolt"
+	damage = 15
+	damage_type = BRUTE
+	nodamage = FALSE
+	range = SPELL_RANGE_PROJECTILE
+	speed = MAGE_PROJ_FAST
+	accuracy = 40
+	var/embed_chance = 35
+
+/obj/projectile/magic/profane/on_hit(atom/target, blocked)
+	. = ..()
+
+	if(!isliving(target))
+		qdel(src)
+		return
+
+	var/mob/living/L = target
+
+	if(L.anti_magic_check())
+		visible_message(span_warning("[src] shatters harmlessly against [target]!"))
+		playsound(get_turf(target), 'sound/magic/magic_nulled.ogg', 100)
+		qdel(src)
+		return BULLET_ACT_BLOCK
+
+	try_embed_target(L)
+	qdel(src)
+
+/obj/projectile/magic/profane/proc/try_embed_target(mob/living/L)
+	if(!prob(embed_chance))
+		return
+
+	if(iscarbon(L))
+		var/mob/living/carbon/C = L
+
+		if(!length(C.bodyparts))
+			return
+
+		var/obj/item/bodypart/limb = pick(C.bodyparts)
+		if(!limb)
+			return
+
+		var/obj/item/bone/profane_splinter/S = new
+		limb.add_embedded_object(S, FALSE, TRUE, TRUE)
+		if(!L.has_status_effect(/datum/status_effect/debuff/profane_poison))
+			L.visible_message(span_purple("[L] is pierced by cursed fragments as necrotic energy spreads through their body!"), span_purple("Profane energy spreads through my body!"))
+			L.apply_status_effect(/datum/status_effect/debuff/profane_poison)
+			playsound(get_turf(L),pick('sound/combat/fracture/fracturedry (1).ogg','sound/combat/fracture/fracturedry (2).ogg','sound/combat/fracture/fracturedry (3).ogg'),80,TRUE)
+		return
+
+	if(istype(L, /mob/living/simple_animal))
+		if(!L.has_status_effect(/datum/status_effect/debuff/profane_poison))
+			L.apply_status_effect(/datum/status_effect/debuff/profane_poison)
+			L.visible_message(span_purple("[L] is pierced by cursed fragments as necrotic energy spreads through their body!"), span_purple("Profane energy spreads through my body!"))
+			playsound(get_turf(L),pick('sound/combat/fracture/fracturedry (1).ogg','sound/combat/fracture/fracturedry (2).ogg','sound/combat/fracture/fracturedry (3).ogg'),80,TRUE)
+
+/obj/projectile/magic/profane/enhanced
+	name = "empowered profane shard"
+	damage = 20
+	embed_chance = 100
+
+/obj/projectile/magic/profane/enhanced/on_hit(atom/target, blocked)
+	if(!isliving(target))
+		qdel(src)
+		return
+
+	var/mob/living/main_target = target
+
+	if(main_target.anti_magic_check())
+		visible_message(span_warning("[src] shatters harmlessly against [target]!"))
+		playsound(get_turf(target), 'sound/magic/magic_nulled.ogg', 100)
+		qdel(src)
+		return BULLET_ACT_BLOCK
+
+	try_embed_target(main_target)
+
+	main_target.visible_message(span_purple("[main_target] is struck as the shard fractures outward violently!"),span_purple("The shard explodes into a storm of splinters!"))
+
+	var/mob/living/caster = firer
+	var/faction_tag
+
+	if(caster)
+		faction_tag = "[caster.real_name]_faction"
+
+	if(!main_target || QDELETED(main_target))
+		qdel(src)
+		return
+
+	for(var/mob/living/L in view(5, main_target))
+		if(QDELETED(L))
+			continue
+
+		if(L == main_target)
+			continue
+
+		if(L == caster)
+			continue
+
+		if(faction_tag)
+			if(L.mind?.current)
+				if(faction_tag in L.mind.current.faction)
+					continue
+			else
+				if(faction_tag in L.faction)
+					continue
+
+		main_target.Beam(L, icon_state = "chronobolt", icon = 'icons/obj/projectiles.dmi', time = 5, maxdistance = 20)
+		L.visible_message(span_purple("Bone splinters erupt toward [L]!"),span_purple("Jagged bone splinters fly toward me!"))
+		playsound(get_turf(L),pick('sound/combat/fracture/fracturedry (1).ogg','sound/combat/fracture/fracturedry (2).ogg','sound/combat/fracture/fracturedry (3).ogg'),80,TRUE)
+		playsound(get_turf(L),'sound/combat/hits/bladed/genstab (1).ogg',50,TRUE)
+		try_embed_target(L)
+
+	qdel(src)
 
 // RAISE LESSER SKELETON (T2) - The new 'main' Zizo undeath-raising skill. Summon's durability scales from Miracle skill.
 /datum/action/cooldown/spell/raise_undead_formation/zizo
@@ -336,6 +418,7 @@
 	charge_sound = 'sound/magic/chargingold.ogg'
 	cooldown_time = 30 SECONDS
 	cabal_affine = TRUE
+	miracle = TRUE
 	to_spawn = 1
 	invocation_type = null
 	invocations = null
@@ -557,6 +640,13 @@
 			addtimer(CALLBACK(src, PROC_REF(despawn_skeleton), S, caster, B), rand(2 SECONDS, 3 SECONDS))
 
 		return TRUE
+
+/obj/item/bone/splinter
+	name = "bone splinter"
+	desc = "A jagged shard of shattered bone."
+	icon = 'icons/obj/projectiles.dmi'
+	icon_state = "chronobolt"
+	embedding = list("embed_chance" = 100, "embedded_pain_chance" = 45, "embedded_fall_chance" = 0, "embedded_bloodloss" = 0, "embedded_ignore_throwspeed_threshold" = TRUE)
 
 /datum/action/cooldown/spell/zizo/bone_cataclysm/proc/explode_skeleton(mob/living/S, mob/living/caster, datum/beam/B)
 	if(B)
