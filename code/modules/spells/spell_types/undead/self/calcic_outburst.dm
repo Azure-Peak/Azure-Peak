@@ -42,6 +42,8 @@
 		lich_antag = user.mind.has_antag_datum(/datum/antagonist/lich)
 
 	if(user != target && !user.mind)
+		exp_fire -= 0
+		exp_heavy -= 0
 		exp_light -= 2
 		exp_flash -= 2
 
