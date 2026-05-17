@@ -18,7 +18,7 @@ LICH SKELETONS
 	REMOVE_TRAIT(H, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_LICHLAIR, TRAIT_GENERIC) //Ability to leave/enter the lich's lair without being softlocked inside.
 
-// Melee goon w/ javelins. All-rounder.
+// Melee goon w/ javelins/one use net on picks. All-rounder.
 /datum/advclass/greater_skeleton/lich/legionnaire
 	name = "Ancient Legionnaire"
 	tutorial = "A veteran lineman - oh, how far you've fallen. Your old King is dead, yet your vigil has not yet ended. Bring the fight to those who'd dare to impede your master's rule, with shield-and-sword alike."
@@ -64,7 +64,6 @@ LICH SKELETONS
 
 	backr = /obj/item/rogueweapon/shield/bronze/paalloy
 	backl = /obj/item/storage/backpack/rogue/satchel
-	beltl = /obj/item/quiver/javelin/paalloy
 
 	backpack_contents = list(
 		/obj/item/natural/feather = 1, //For your helm
@@ -91,6 +90,19 @@ LICH SKELETONS
 		if("Flail")
 			beltr = /obj/item/rogueweapon/flail/sflail/paflail
 			H.adjust_skillrank(/datum/skill/combat/whipsflails, 1, TRUE)
+	var/legionnairesidearm = list("A Javelin's Bag", "A Throwing Net", "A Sling With Decrepit Pellets", "An Ancient Dagger")
+	var/legionnairesidearm_choice = input(H, "Choose your SYDEARM.", "RAGE AGAINST THE LYVING.") as anything in legionnairesidearm
+	switch(legionnairesidearm_choice)
+		if("A Javelin's Bag")
+			beltl = /obj/item/quiver/javelin/paalloy
+		if("A Throwing Net")
+			beltl = /obj/item/net
+		if("A Sling With Decrepit Pellets")
+			H.adjust_skillrank_up_to(/datum/skill/combat/slings, 2, TRUE) //Only apprentice, enough to be annoying
+			l_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/sling
+			beltl = /obj/item/quiver/sling/aalloy //Decrepit vs ballistaires, weak but good for harrassment
+		if("An Ancient Dagger")
+			beltl = /obj/item/rogueweapon/huntingknife/idagger/steel/padagger
 	var/tabards = list("Black Jupon", "Black Tabard", "Black Cloak + Greathood")
 	var/tabard_choice = input(H, "Choose your CLOAK.", "BARE YOUR MASTER'S HERALDRY.") as anything in tabards
 	switch(tabard_choice)
