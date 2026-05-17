@@ -1,0 +1,5 @@
+author: "FreeStylaLT"
+delete-after: True
+changes:
+  - balance: "Skin Armor now resets its regen timer on every defense."
+  - balance: "Gnoll skin armor now costs blue to regenerate."

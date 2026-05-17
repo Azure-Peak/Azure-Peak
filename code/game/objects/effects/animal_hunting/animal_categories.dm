@@ -95,14 +95,18 @@
 	skill_weights = list(50, 30, 20, 15, 15, 10, 10) // Low static chance
 	bonus_animal_amount = 10
 	animals = list(
-		/mob/living/simple_animal/hostile/retaliate/rogue/saiga/undead = 10,
+		/mob/living/simple_animal/hostile/retaliate/rogue/saiga/undead = 20,
 		/mob/living/simple_animal/hostile/retaliate/rogue/wolf_undead = 10,
 		/mob/living/simple_animal/hostile/retaliate/smallrat = 1
 	)
+	preferred_tracks = list(
+		/mob/living/simple_animal/hostile/retaliate/rogue/saiga/undead = "cervine",
+		/mob/living/simple_animal/hostile/retaliate/rogue/wolf_undead = "canine",
+	)
 	preferred_areas = list(
-		/area/rogue/outdoors/beach/forest = 50,
-		/area/rogue/outdoors/beach/forest/north = 50,
-		/area/rogue/outdoors/beach/forest/south = 50
+		/area/rogue/outdoors/beach/forest = 1000,
+		/area/rogue/outdoors/beach/forest/north = 1000,
+		/area/rogue/outdoors/beach/forest/south = 1000
 	)
 
 /datum/hunting_category/spiders

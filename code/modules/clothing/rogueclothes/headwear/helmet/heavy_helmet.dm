@@ -1059,6 +1059,28 @@
 	REMOVE_TRAIT(user, TRAIT_BITERHELM, TRAIT_GENERIC)
 	to_chat(user, span_red("..and like that, the bascinet's visor goes dormant once more - a strange pressure, relieved from your jaw."))
 
+/obj/item/clothing/head/roguetown/helmet/heavy/dwarven
+	name = "grudgebearer dwarven helm"
+	desc = "A hardy dwarven helmet. It lets one's dwarvenly beard to poke out."
+	body_parts_covered = HEAD|MOUTH|NOSE|EYES|EARS|NECK	//This specifically omits hair so you could hang your beard out of the helm
+	armor = ARMOR_PLATE
+	allowed_race = list(/datum/species/dwarf, /datum/species/dwarf/mountain)
+	icon = 'icons/roguetown/clothing/special/race_armor.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/race_armor.dmi'
+	icon_state = "dwarfhead"
+	item_state = "dwarfhead"
+	bloody_icon = 'icons/effects/blood64.dmi'
+	smeltresult = /obj/item/ingot/steel
+	experimental_inhand = FALSE
+	experimental_onhip = FALSE
+
+/obj/item/clothing/head/roguetown/helmet/heavy/dwarven/smith
+	name = "grudgebearer smith helm"
+	desc = "A hardy dwarven helmet. It lets one's dwarvenly beard to poke out. \
+	This one is intended for the smiths of the clan. No less protective. All the more stylish."
+	icon_state = "dsmithhead"
+	item_state = "dsmithhead"
+
 /obj/item/clothing/head/roguetown/helmet/heavy/elven_helm
 	name = "woad elven helm"
 	desc = "A helm of thickly woven trunk, kept alive by ancient song and shaped to guard both face and spirit. Living fibers tighten and shift with each movement, as if the forest itself resists every blow struck against it. It is not merely worn - it watches alongside its bearer."

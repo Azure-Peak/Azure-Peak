@@ -590,3 +590,26 @@
       if they're on the floor/worn.
   - balance: dreamwalker armor cannot be enchanted anymore.
   - bugfix: fixed heretic armors not having descriptors for the heavy sets correctly.
+2026-05-17:
+  BICLOGAN:
+  - qol: Mortar and pestle are 1x1 items.
+  - qol: Impure lux can be stored in surgery bags.
+  - balance: Rot cure potion needs heartblood vials for craft instead of gold dust
+  - bugfix: Proper dram usage for water to wine transmute
+  Ketrai:
+  - bugfix: cure deadite rot surgery now correctly only works when targeting chest.
+  - bugfix: cure black rot surgery now correctly only works when targeting chest.
+  Ollanius:
+  - bugfix: Fixes up some minor incongruencies in the time-changing tips.
+  Ryan180602:
+  - balance: grag hand-axe special (the regular axe special) does not require wielding.
+  - bugfix: adjust unequippability of certain heretic pieces
+  - bugfix: vicious jawmask covers nose/mouth only
+  VanessaCoding:
+  - qol: More Veteran loadout options.
+  WeNeedMorePhoron:
+  - rscadd: NPC now bleeds out 3x faster after losing sufficient amount of blood.
+  borneblood:
+  - bugfix: Holstered Greatswords are no longer upside-down.
+  kbitykbitykbity:
+  - bugfix: Fixed small races being barred from every nomad adventurer class.
