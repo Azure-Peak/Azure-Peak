@@ -107,7 +107,7 @@
 		span_danger("[user] begins to shake and convulse violently, slowly beginning to glow in a violently blinding light that emanates from them!")
 	)
 
-	explosion((user) get_turf(user), 3, 3, 4, 4, flame_range = 3, soundin = 'sound/misc/explode/incendiary (1).ogg') //This will destroy walls and probably delimb people without armor on top of them.
+	explosion((user) get_turf(user), 4, 4, 4, 4, flame_range = 3, soundin = 'sound/misc/explode/incendiary (1).ogg') //This will destroy walls and absolutely FUCK UP people nearby.
 
 	user.gib()
 	return TRUE
