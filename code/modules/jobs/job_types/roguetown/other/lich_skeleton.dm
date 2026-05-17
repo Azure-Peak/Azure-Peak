@@ -385,6 +385,10 @@ LICH SKELETONS
 	beltr = /obj/item/rogueweapon/stoneaxe/woodcut/steel/paaxe
 	beltl = /obj/item/rogueweapon/pick/paalloy
 
+	// Hack for order and ensuring they always get their sapper varient of blowing up
+	H.mind.RemoveSpell(/obj/effect/proc_holder/spell/self/suicidebomb/lesser)
+	H.mind.AddSpell(/obj/effect/proc_holder/spell/self/suicidebomb/sapper)
+
 	H.adjust_blindness(-3)
 	var/tabards = list("Black Cloak", "Black Jupon", "Black Tabard")
 	var/tabard_choice = input(H, "Choose your CLOAK.", "BARE YOUR MASTER'S HERALDRY.") as anything in tabards
