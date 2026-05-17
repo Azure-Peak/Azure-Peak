@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - refactor: "Optimized AI target finding by around 15% and cut down frequency of scan by 50%. Report odd behaviors. Otherwise should save us a little CPU."
