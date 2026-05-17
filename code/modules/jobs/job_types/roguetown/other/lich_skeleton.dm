@@ -163,8 +163,8 @@ LICH SKELETONS
 	backl = /obj/item/storage/backpack/rogue/satchel
 
 	backpack_contents = list(
-		/obj/item/storage/belt/rogue/pouch/coins/aalloy = 1, //Hilarious
-		/obj/item/ammo_casing/caseless/rogue/heavy_bolt = 1
+		/obj/item/natural/cloth = 1, //For your helm
+		/obj/item/storage/belt/rogue/pouch/coins/aalloy = 1 //Hilarious
 	)
 	H.adjust_blindness(-3)
 	var/weapons = list("Bow & 20 Arrows", "Bow & 20 Broadheads", "Longbow & 20 Arrows", "Longbow & 20 Broadheads", "Crossbow & 16 Bolts", "Sling")
@@ -188,11 +188,9 @@ LICH SKELETONS
 			beltl = /obj/item/quiver/broadhead_aalloy
 			H.adjust_skillrank(/datum/skill/combat/bows, 1, TRUE)
 		if("Crossbow & 16 Bolts")
-			l_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
+			l_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/aalloy
 			beltl = /obj/item/quiver/bolt/paalloy
 			H.adjust_skillrank(/datum/skill/combat/crossbows, 1, TRUE)
-			if(prob(30))
-				r_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/heavy/paalloy
 		if("Sling")
 			l_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/sling
 			beltl = /obj/item/quiver/sling/paalloy
@@ -468,6 +466,7 @@ LICH SKELETONS
 	beltl = /obj/item/quiver/bolt/heavy/paalloy
 
 	backpack_contents = list(
+		/obj/item/natural/cloth = 1, //For your helm
 		/obj/item/storage/belt/rogue/pouch/coins/aalloy = 1 //Hilarious
 	)
 
@@ -629,6 +628,7 @@ LICH SKELETONS
 	backl = /obj/item/storage/backpack/rogue/satchel
 
 	backpack_contents = list(
+		/obj/item/natural/feather = 1, //For your helm
 		/obj/item/storage/belt/rogue/pouch/coins/aalloy = 1 //Hilarious
 	)
 
