@@ -313,13 +313,11 @@ LICH SKELETONS
 	H.energy = H.max_energy
 
 // Fragile Non-Combat crafter/demolishing artificer goon with a seige-use cavet. Worse weapons + very little armor but does base-building. Fortnite.
-// Has a unique extra varient calcic outburst choice that destroys walls and does more damage on exploding, on top of their regular varient. 
+// Has a unique extra varient calcic outburst choice that destroys walls and does more damage on exploding which takes 8 seconds to prime, on top of their regular varient. 
 /datum/advclass/greater_skeleton/lich/sapper
 	name = "Ancient 'Broken Bone' Sapper"
-	tutorial = "Simple. Obedient. Like an ant in a colony. Toil, fortify, smelt and labor to the tune of your master's whims. After all; what good is an army if it hasn't a sword-nor-shield to wield?"
+	tutorial = "Simple. Obedient. Like an ant in a colony. Toil, fortify, smelt, labor and destroy to the tune of your master's whims. After all; what good is an army if it hasn't a sword-nor-shield to wield?"
 	outfit = /datum/outfit/job/roguetown/greater_skeleton/lich/sapper
-	subclass_mage_aspects = list("mastery" = FALSE, "major" = 0, "minor" = 1, "utilities" = 4, "locked_aspects" = list(/datum/magic_aspect/artifice), "ward" = FALSE)
-	//Summon rocks, prestigitate and summon tools as-needed. Gets no ward for protecting themselves.
 
 	category_tags = list(CTAG_LSKELETON)
 
@@ -338,6 +336,12 @@ LICH SKELETONS
 	ADD_TRAIT(H, TRAIT_SMITHING_EXPERT, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_TRAINED_SMITH, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_ARCYNE, TRAIT_GENERIC)
+
+	H.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 0, "minor" = 0, "utilities" = 4))
+	//For summoning rocks or whatever, or utility like mending/mindlink
+
+	// Sapper-exclusive self-exploding spell
+	H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/sapperbomb)
 
 	H.adjust_skillrank(/datum/skill/combat/swords, 1, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/axes, 3, TRUE)
@@ -384,15 +388,6 @@ LICH SKELETONS
 
 	beltr = /obj/item/rogueweapon/stoneaxe/woodcut/steel/paaxe
 	beltl = /obj/item/rogueweapon/pick/paalloy
-
-	// Hack for order and ensuring they always get their sapper varient of blowing up
-	H.mind.RemoveSpell(/obj/effect/proc_holder/spell/self/suicidebomb/lesser)
-	H.mind.AddSpell(/obj/effect/proc_holder/spell/self/suicidebomb/sapper)
-	// Reorder undead eyes action to the end
-	var/obj/item/organ/eyes/existing_eyes = H.getorganslot(ORGAN_SLOT_EYES)
-	if(existing_eyes)
-		existing_eyes.Remove(H, TRUE)
-		existing_eyes.Insert(H)
 
 	H.adjust_blindness(-3)
 	var/tabards = list("Black Cloak", "Black Jupon", "Black Tabard")
@@ -846,7 +841,7 @@ LICH SKELETONS
 
 /obj/item/rogueweapon/shield/bronze/aalloy
 	name = "decrepit hoplon shield"
-	desc = "A near-paradoxal thin-yet-somehow-intact shield of fraying bronze, impossibly remaining barely intact; yet in spite of this, a mere press of the thumb alone will bend a dent into it irreversably."
+	desc = "A near-paradoxally thin-yet-somehow-intact shield of fraying bronze, impossibly remaining barely intact; yet in spite of this, a mere press of the thumb alone will bend a dent into it irreversably."
 	icon_state = "ancientlegionshield"
 	force = 10
 	throwforce = 8 // Its basically a chunk of crumbling metal

@@ -1,7 +1,7 @@
 /obj/effect/proc_holder/spell/self/suicidebomb
 	name = "Calcic Outburst"
 	desc = "Explode in a wonderful blast of osseous shrapnel, channeling your centuries of unholy power into the blast to take those whom would dare strike you down with you."
-	overlay_state = "hellish_rebuke" //Okay this is funny
+	overlay_state = "calcic_outburst" //Okay this is funny
 	chargedrain = 0
 	chargetime = 0
 	recharge_time = 10 SECONDS
@@ -65,17 +65,56 @@
 	exp_flash = 3
 	exp_fire = 0
 
-/obj/effect/proc_holder/spell/self/suicidebomb/sapper
-	name = "Sapper Calcic Outburst"
-	desc = "Explode in a specially prepared wonderful arcayne blast of osseous shrapnel, designed to topple walls and tear through buildings."
-	exp_heavy = 2
-	exp_light = 3
-	exp_flash = 3
-	exp_fire = 2
+/obj/effect/proc_holder/spell/self/sapperbomb
+	name = "Calcic Obliteration"
+	desc = "Explode in a wonderful arcayne blast of osseous shrapnel, specially prepared to tear down the walls and buildings that would halt the advance of your fellow legionnaries. \
+	takes more time to explode compared to regular calic outburst, cannot be triggered manually by your Exarch."
+	overlay_state = "firewalk"
+	chargedrain = 0
+	chargetime = 0
+	recharge_time = 10 SECONDS
+	sound = 'sound/magic/swap.ogg'
+	warnie = "spellwarning"
+	chargedloop = /datum/looping_sound/invokegen
+	associated_skill = /datum/skill/magic/arcane
+	stat_allowed = TRUE
+
+/obj/effect/proc_holder/spell/self/sapperbomb/cast(list/targets, mob/living/user = usr)
+	..()
+	if(!user)
+		revert_cast()
+		return FALSE
+	if(user.stat == DEAD)
+		revert_cast()
+		return FALSE
+	if(alert(user, "Do you wish to sacrifice this vessel in a specialised powerful explosion?", "ELDRITCH SAPPER BLAST", "Yes", "No") == "No")
+		revert_cast()
+		return FALSE
+
+	user.Immobilize(8 SECONDS)
+	user.Knockdown(8 SECONDS)
+	user.Jitter(8 SECONDS) //Makes you shake + Telegraphs a bit more with a scream
+	user.emote("scream")
+
+	addtimer(CALLBACK(src, PROC_REF(sapper_explode), user), 8 SECONDS)
+	return TRUE
+
+/obj/effect/proc_holder/spell/proc/sapper_explode(mob/living/user)
+
+
+	playsound(get_turf(user), 'sound/magic/soulshot.ogg', 100) //Unique que a sapper has popped off
+	user.visible_message(
+		span_danger("[user] begins to shake and convulse violently, slowly beginning to glow in a violent bright light that emanates from them!")
+	)
+
+	explosion((user) get_turf(user), 3, 3, 4, 4, flame_range = 3, soundin = 'sound/misc/explode/incendiary (1).ogg')
+
+	user.gib()
+	return TRUE
 
 /obj/effect/proc_holder/spell/invoked/remotebomb
 	name = "Shell Outburst"
-	desc = "Cause a minion to give up their lyfe for the Exarch.."
+	desc = "Cause a minion to give up their lyfe for the Exarch. This will only trigger regular lesser calcic outbursts."
 	overlay_state = "fireaura"
 	chargedrain = 0
 	range = 7
