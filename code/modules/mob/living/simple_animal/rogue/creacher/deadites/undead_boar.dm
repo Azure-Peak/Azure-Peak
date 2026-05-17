@@ -395,7 +395,7 @@
 
 	var/damage_value = 40
 	var/mob/living/master_hog
-	speed = 1.5
+	speed = 2
 
 /obj/projectile/bullet/terrorhog_phantom/Initialize(mapload, mob/living/target, mob/living/boss_source, base_damage)
 	. = ..()
