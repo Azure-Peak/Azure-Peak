@@ -213,6 +213,8 @@
 			"can_partial" = can_partial,
 			"partial_pct" = partial_pct,
 			"partial_payout_preview" = partial_payout_preview,
+			"pair_id" = O.pair_id,
+			"pair_label" = O.pair_label,
 		))
 	data["active_orders"] = orders
 

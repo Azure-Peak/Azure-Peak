@@ -703,6 +703,10 @@
 /obj/item/rogueweapon/sword/sabre,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/indoors)
+"um" = (
+/obj/item/roguemachine/navigator,
+/turf/open/floor/rogue/blocks/newstone/alt,
+/area/rogue/indoors/town/manor)
 "us" = (
 /obj/structure/fluff/railing/border{
 	dir = 4
@@ -777,6 +781,7 @@
 /turf/open/floor/rogue/tile/harem,
 /area/rogue/indoors)
 "wE" = (
+/obj/structure/roguemachine/headeater,
 /turf/open/floor/rogue/carpet/lord/right,
 /area/rogue/indoors/town/manor)
 "wQ" = (
@@ -863,6 +868,10 @@
 "yK" = (
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/outdoors)
+"yL" = (
+/obj/item/roguemachine/navigator/smuggler,
+/turf/open/floor/rogue/blocks/newstone/alt,
+/area/rogue/indoors/town/manor)
 "yN" = (
 /obj/structure/table/wood{
 	icon_state = "longtable_mid";
@@ -2924,7 +2933,7 @@ bW
 rk
 "}
 (24,1,1) = {"
-ev
+yL
 ev
 ev
 ev
@@ -3132,7 +3141,7 @@ bW
 rk
 "}
 (28,1,1) = {"
-ev
+um
 ev
 ev
 ev

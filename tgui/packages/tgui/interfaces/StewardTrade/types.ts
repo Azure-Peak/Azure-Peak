@@ -45,6 +45,8 @@ export type Order = {
   can_partial: BooleanLike;
   partial_pct: number;
   partial_payout_preview: number;
+  pair_id: string | null;
+  pair_label: string | null;
 };
 
 export type EconomicEvent = {

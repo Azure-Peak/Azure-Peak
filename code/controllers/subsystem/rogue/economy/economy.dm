@@ -49,36 +49,36 @@ SUBSYSTEM_DEF(economy)
 			/datum/standing_order/demand_equipment_armor_heavy,
 			/datum/standing_order/demand_equipment_armor_light,
 			/datum/standing_order/demand_birthday_gift,
-			/datum/standing_order/demand_great_feast,
+			/datum/standing_order/demand_great_feast_proteins,
 			/datum/standing_order/demand_frontier_gear,
 			/datum/standing_order/demand_court_finery,
 			/datum/standing_order/demand_fine_joinery,
 			/datum/standing_order/demand_artificery,
 			/datum/standing_order/demand_jewelry,
 			/datum/standing_order/demand_artificed_panoply,
-			/datum/standing_order/demand_tournament_supply,
+			/datum/standing_order/demand_tournament_arms,
 			/datum/standing_order/demand_arcane_commission,
 		),
 		TRADE_REGION_ROSAWOOD = list(
-			/datum/standing_order/demand_construction,
+			/datum/standing_order/demand_construction_bulk,
 			/datum/standing_order/demand_exotic,
 			/datum/standing_order/demand_birthday_gift,
 			/datum/standing_order/demand_fine_joinery,
 		),
 		TRADE_REGION_ROCKHILL = list(
 			/datum/standing_order/demand_orchard,
-			/datum/standing_order/demand_construction,
+			/datum/standing_order/demand_construction_bulk,
 			/datum/standing_order/demand_birthday_gift,
-			/datum/standing_order/demand_great_feast,
+			/datum/standing_order/demand_great_feast_proteins,
 			/datum/standing_order/demand_court_finery,
 			/datum/standing_order/demand_fine_joinery,
 			/datum/standing_order/demand_jewelry,
-			/datum/standing_order/demand_tournament_supply,
+			/datum/standing_order/demand_tournament_arms,
 			/datum/standing_order/demand_trophy_heads,
 			/datum/standing_order/demand_arcane_commission,
 		),
 		TRADE_REGION_DAFTSMARCH = list(
-			/datum/standing_order/demand_construction,
+			/datum/standing_order/demand_construction_bulk,
 			/datum/standing_order/demand_smithing,
 			/datum/standing_order/demand_victualling_mines,
 			/datum/standing_order/demand_birthday_gift,
@@ -87,7 +87,7 @@ SUBSYSTEM_DEF(economy)
 		),
 		TRADE_REGION_BLACKHOLT = list(
 			/datum/standing_order/demand_exotic,
-			/datum/standing_order/demand_construction,
+			/datum/standing_order/demand_construction_bulk,
 			/datum/standing_order/demand_alchemical,
 			/datum/standing_order/demand_alchemical_warband,
 			/datum/standing_order/demand_birthday_gift,
@@ -95,7 +95,7 @@ SUBSYSTEM_DEF(economy)
 		),
 		TRADE_REGION_SALTWICK = list(
 			/datum/standing_order/demand_fishery,
-			/datum/standing_order/demand_construction,
+			/datum/standing_order/demand_construction_bulk,
 			/datum/standing_order/demand_salt,
 			/datum/standing_order/demand_victualling_fleet,
 		),
@@ -103,28 +103,28 @@ SUBSYSTEM_DEF(economy)
 			/datum/standing_order/demand_rations,
 			/datum/standing_order/demand_armaments,
 			/datum/standing_order/demand_fishery,
-			/datum/standing_order/demand_construction,
+			/datum/standing_order/demand_construction_bulk,
 			/datum/standing_order/demand_victualling_garrison,
 			/datum/standing_order/demand_alchemical,
 			/datum/standing_order/demand_equipment_armaments,
 			/datum/standing_order/demand_equipment_armor_heavy,
 			/datum/standing_order/demand_equipment_armor_light,
 			/datum/standing_order/demand_birthday_gift,
-			/datum/standing_order/demand_great_feast,
+			/datum/standing_order/demand_great_feast_proteins,
 			/datum/standing_order/demand_frontier_gear,
 			/datum/standing_order/demand_prosthetic_run,
 		),
 		TRADE_REGION_NORTHFORT = list(
 			/datum/standing_order/demand_rations,
 			/datum/standing_order/demand_armaments,
-			/datum/standing_order/demand_construction,
+			/datum/standing_order/demand_construction_bulk,
 			/datum/standing_order/demand_victualling_garrison,
 			/datum/standing_order/demand_alchemical,
 			/datum/standing_order/demand_alchemical_warband,
 			/datum/standing_order/demand_equipment_armaments,
 			/datum/standing_order/demand_equipment_armor_heavy,
 			/datum/standing_order/demand_equipment_armor_light,
-			/datum/standing_order/demand_great_feast,
+			/datum/standing_order/demand_great_feast_proteins,
 			/datum/standing_order/demand_frontier_gear,
 			/datum/standing_order/demand_artificery,
 			/datum/standing_order/demand_prosthetic_run,
@@ -142,14 +142,14 @@ SUBSYSTEM_DEF(economy)
 			/datum/standing_order/demand_equipment_armor_heavy,
 			/datum/standing_order/demand_equipment_armor_light,
 			/datum/standing_order/demand_birthday_gift,
-			/datum/standing_order/demand_great_feast,
+			/datum/standing_order/demand_great_feast_proteins,
 			/datum/standing_order/demand_frontier_gear,
 			/datum/standing_order/demand_court_finery,
 			/datum/standing_order/demand_fine_joinery,
 			/datum/standing_order/demand_jewelry,
 			/datum/standing_order/demand_prosthetic_run,
 			/datum/standing_order/demand_artificed_panoply,
-			/datum/standing_order/demand_tournament_supply,
+			/datum/standing_order/demand_tournament_arms,
 			/datum/standing_order/demand_trophy_heads,
 			/datum/standing_order/demand_arcane_commission,
 		),
@@ -233,9 +233,15 @@ SUBSYSTEM_DEF(economy)
 				if(!length(region.possible_standing_order_types))
 					continue
 				var/active_count = 0
+				var/list/seen_pairs = list()
 				for(var/datum/standing_order/O as anything in GLOB.standing_order_pool)
-					if(O.region_id == region_id)
-						active_count++
+					if(O.region_id != region_id)
+						continue
+					if(O.pair_id)
+						if(seen_pairs[O.pair_id])
+							continue
+						seen_pairs[O.pair_id] = TRUE
+					active_count++
 				if(active_count < STANDING_ORDERS_MAX_PER_REGION)
 					eligible_ids += region_id
 			if(!length(eligible_ids))
@@ -243,7 +249,11 @@ SUBSYSTEM_DEF(economy)
 			var/chosen_region_id = pick(eligible_ids)
 			var/datum/economic_region/region = GLOB.economic_regions[chosen_region_id]
 			var/template = pickweight(region.possible_standing_order_types)
-			instantiate_standing_order(template, region, order_size_mult)
+			var/datum/standing_order/probe = template
+			if(initial(probe.pair_sibling_type))
+				instantiate_standing_order_pair(template, initial(probe.pair_sibling_type), region, order_size_mult)
+			else
+				instantiate_standing_order(template, region, order_size_mult)
 
 	var/list/by_region = daily_report_diff["regular_orders_by_region"]
 	if(length(by_region))
@@ -480,6 +490,21 @@ SUBSYSTEM_DEF(economy)
 			var/list/by_region = daily_report_diff["regular_orders_by_region"]
 			by_region[region.name] = (by_region[region.name] || 0) + 1
 	return O
+
+/datum/controller/subsystem/economy/proc/instantiate_standing_order_pair(template_a, template_b, datum/economic_region/region, order_size_mult, petitioned = FALSE)
+	var/datum/standing_order/A = instantiate_standing_order(template_a, region, order_size_mult, petitioned)
+	if(!A)
+		return null
+	var/datum/standing_order/B = instantiate_standing_order(template_b, region, order_size_mult, petitioned)
+	if(!B)
+		GLOB.standing_order_pool -= A
+		qdel(A)
+		return null
+	var/pid = "pair_[GLOB.dayspassed]_[world.time]_[rand(1, 99999)]"
+	A.pair_id = pid
+	B.pair_id = pid
+	B.day_expires = A.day_expires
+	return A
 
 
 /datum/controller/subsystem/economy/proc/fulfill_order(mob/user, datum/standing_order/order, partial = FALSE)
