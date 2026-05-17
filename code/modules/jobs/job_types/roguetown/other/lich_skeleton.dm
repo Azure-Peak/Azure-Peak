@@ -313,7 +313,7 @@ LICH SKELETONS
 	H.energy = H.max_energy
 
 // Fragile Non-Combat crafter/demolishing artificer goon with a seige-use cavet. Worse weapons + very little armor but does base-building. Fortnite.
-// Has a unique extra varient calcic outburst choice that destroys walls and does more damage on exploding which takes 8 seconds to prime, on top of their regular varient. 
+// Has a unique extra varient calcic outburst choice that destroys walls and does a huge amount of damage on exploding but takes 8 seconds to prime, on top of their regular varient. 
 /datum/advclass/greater_skeleton/lich/sapper
 	name = "Ancient 'Broken Bone' Sapper"
 	tutorial = "Simple. Obedient. Like an ant in a colony. Toil, fortify, smelt, labor and destroy to the tune of your master's whims. After all; what good is an army if it hasn't a sword-nor-shield to wield?"
@@ -381,7 +381,7 @@ LICH SKELETONS
 		/obj/item/rogueweapon/tongs/paalloy = 1,
 		/obj/item/rogueweapon/hammer/wood = 1,
 		/obj/item/storage/belt/rogue/pouch/coins/aalloy = 1, //Hilarious
-		/obj/item/rogueweapon/chisel/bronze = 1,
+		/obj/item/rogueweapon/chisel = 1, //avoiding a dupe glitch I have no idea how to fix atm
 		/obj/item/rogueweapon/handsaw/bronze = 1,
 		/obj/item/dye_brush = 1
 	)

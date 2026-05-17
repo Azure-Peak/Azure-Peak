@@ -96,7 +96,7 @@
 	user.Jitter(8 SECONDS) //Makes you shake + Telegraphs a bit more with a scream
 	user.emote("scream")
 
-	addtimer(CALLBACK(src, PROC_REF(sapper_explode), user), 8 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(sapper_explode), user), 8 SECONDS) //A bit of reaction time, this explosion is absolutely horrifying to be inside of and will fuck you up.
 	return TRUE
 
 /obj/effect/proc_holder/spell/proc/sapper_explode(mob/living/user)
@@ -104,10 +104,10 @@
 
 	playsound(get_turf(user), 'sound/magic/soulshot.ogg', 100) //Unique que a sapper has popped off
 	user.visible_message(
-		span_danger("[user] begins to shake and convulse violently, slowly beginning to glow in a violent bright light that emanates from them!")
+		span_danger("[user] begins to shake and convulse violently, slowly beginning to glow in a violently blinding light that emanates from them!")
 	)
 
-	explosion((user) get_turf(user), 3, 3, 4, 4, flame_range = 3, soundin = 'sound/misc/explode/incendiary (1).ogg')
+	explosion((user) get_turf(user), 3, 3, 4, 4, flame_range = 2, soundin = 'sound/misc/explode/incendiary (1).ogg') //This will destroy walls and probably delimb people.
 
 	user.gib()
 	return TRUE
