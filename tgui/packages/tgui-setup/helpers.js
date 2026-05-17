@@ -1,12 +1,11 @@
-/* eslint-disable */
-
 (function () {
   // Utility functions
-  const hasOwn = Object.prototype.hasOwnProperty;
-  const assign = function (target) {
-    for (let i = 1; i < arguments.length; i++) {
-      const source = arguments[i];
-      for (const key in source) {
+  var hasOwn = Object.prototype.hasOwnProperty;
+
+  var assign = function (target) {
+    for (var i = 1; i < arguments.length; i++) {
+      var source = arguments[i];
+      for (var key in source) {
         if (hasOwn.call(source, key)) {
           target[key] = source[key];
         }
@@ -14,9 +13,10 @@
     }
     return target;
   };
-  const parseMetaTag = function (name) {
-    const content = document.getElementById(name).getAttribute('content');
-    if (content === `[${name}]`) {
+
+  var parseMetaTag = function (name) {
+    var content = document.getElementById(name).getAttribute('content');
+    if (content === '[' + name + ']') {
       return null;
     }
     return content;
@@ -25,7 +25,7 @@
   // BYOND API object
   // ------------------------------------------------------
 
-  const Byond = (window.Byond = {});
+  var Byond = (window.Byond = {});
 
   // Expose inlined metadata
   Byond.windowId = parseMetaTag('tgui:windowId');
@@ -34,27 +34,20 @@
   // Backwards compatibility
   window.__windowId__ = Byond.windowId;
 
-  // Trident engine version
-  Byond.TRIDENT = (function () {
-    const groups = navigator.userAgent.match(/Trident\/(\d+).+?;/i);
-    const majorVersion = groups && groups[1];
-    return majorVersion ? parseInt(majorVersion, 10) : null;
-  })();
-
   // Blink engine version
   Byond.BLINK = (function () {
-    const groups = navigator.userAgent.match(/Chrome\/(\d+)\./);
-    const majorVersion = groups && groups[1];
+    var groups = navigator.userAgent.match(/Chrome\/(\d+)\./);
+    var majorVersion = groups && groups[1];
     return majorVersion ? parseInt(majorVersion, 10) : null;
   })();
 
   // Basic checks to detect whether this page runs in BYOND
-  const isByond =
-    (Byond.TRIDENT !== null || Byond.BLINK !== null || window.cef_to_byond) &&
+  var isByond =
+    (Byond.BLINK !== null || window.cef_to_byond) &&
     location.hostname === '127.0.0.1' &&
     location.search !== '?external';
-  // As of BYOND 515 the path doesn't seem to include tmp dir anymore if you're trying to open tgui in external browser and looking why it doesn't work
-  // && location.pathname.indexOf('/tmp') === 0
+  //As of BYOND 515 the path doesn't seem to include tmp dir anymore if you're trying to open tgui in external browser and looking why it doesn't work
+  //&& location.pathname.indexOf('/tmp') === 0
 
   // Version constants
   Byond.IS_BYOND = isByond;
@@ -66,7 +59,7 @@
   Byond.__callbacks__ = [];
 
   // Reviver for BYOND JSON
-  const byondJsonReviver = function (key, value) {
+  var byondJsonReviver = function (key, value) {
     if (typeof value === 'object' && value !== null && value.__number__) {
       return parseFloat(value.__number__);
     }
@@ -81,37 +74,37 @@
       return;
     }
     // Build the URL
-    let url = `${path || ''}?`;
-    let i = 0;
+    var url = (path || '') + '?';
+    var i = 0;
     if (params) {
-      for (const key in params) {
+      for (var key in params) {
         if (hasOwn.call(params, key)) {
           if (i++ > 0) {
             url += '&';
           }
-          let value = params[key];
+          var value = params[key];
           if (value === null || value === undefined) {
             value = '';
           }
-          url += `${encodeURIComponent(key)}=${encodeURIComponent(value)}`;
+          url += encodeURIComponent(key) + '=' + encodeURIComponent(value);
         }
       }
     }
 
     // If we're a Chromium client, just use the fancy method
     if (window.cef_to_byond) {
-      cef_to_byond(`byond://${url}`);
+      cef_to_byond('byond://' + url);
       return;
     }
 
     // Perform a standard call via location.href
     if (url.length < 2048) {
-      location.href = `byond://${url}`;
+      location.href = 'byond://' + url;
       return;
     }
     // Send an HTTP request to DreamSeeker's HTTP server.
     // Allows sending much bigger payloads.
-    const xhr = new XMLHttpRequest();
+    var xhr = new XMLHttpRequest();
     xhr.open('GET', url);
     xhr.send();
   };
@@ -120,14 +113,14 @@
     if (!window.Promise) {
       throw new Error('Async calls require API level of ES2015 or later.');
     }
-    const index = Byond.__callbacks__.length;
-    const promise = new window.Promise((resolve) => {
+    var index = Byond.__callbacks__.length;
+    var promise = new window.Promise(function (resolve) {
       Byond.__callbacks__.push(resolve);
     });
     Byond.call(
       path,
       assign({}, params, {
-        callback: `Byond.__callbacks__[${index}]`,
+        callback: 'Byond.__callbacks__[' + index + ']',
       })
     );
     return promise;
@@ -147,14 +140,14 @@
     if (id === null) {
       id = '';
     }
-    const isArray = propName instanceof Array;
-    const isSpecific = propName && propName !== '*' && !isArray;
-    let promise = Byond.callAsync('winget', {
+    var isArray = propName instanceof Array;
+    var isSpecific = propName && propName !== '*' && !isArray;
+    var promise = Byond.callAsync('winget', {
       id: id,
       property: (isArray && propName.join(',')) || propName || '*',
     });
     if (isSpecific) {
-      promise = promise.then((props) => {
+      promise = promise.then(function (props) {
         return props[propName];
       });
     }
@@ -167,7 +160,7 @@
     } else if (typeof id === 'object') {
       return Byond.call('winset', id);
     }
-    const props = {};
+    var props = {};
     if (typeof propName === 'string') {
       props[propName] = propValue;
     } else {
@@ -181,49 +174,17 @@
     try {
       return JSON.parse(json, byondJsonReviver);
     } catch (err) {
-      throw new Error(`JSON parsing error: ${err?.message}`);
+      throw new Error('JSON parsing error: ' + (err && err.message));
     }
   };
 
-  const MAX_PACKET_SIZE = 1024;
-
   Byond.sendMessage = function (type, payload) {
-    let message =
+    var message =
       typeof type === 'string' ? { type: type, payload: payload } : type;
     // JSON-encode the payload
-
     if (message.payload !== null && message.payload !== undefined) {
       message.payload = JSON.stringify(message.payload);
-
-      if (!Byond.TRIDENT && message.payload.length > MAX_PACKET_SIZE && type !== "payloadChunk") {
-        const chunks = [];
-
-        for (
-          let i = 0, charsLength = message.payload.length;
-          i < charsLength;
-          i += MAX_PACKET_SIZE
-        ) {
-          chunks.push(message.payload.substring(i, i + MAX_PACKET_SIZE));
-        }
-
-        for (let i = 0; i < chunks.length; i++) {
-          const to_send = chunks[i];
-
-          message = {
-            type: type,
-            packet: to_send,
-            packetId: i + 1,
-            totalPackets: chunks.length,
-            tgui: 1,
-            window_id: Byond.windowId,
-          };
-          Byond.topic(message);
-        }
-
-        return;
-      }
     }
-
     // Append an identifying header
     assign(message, {
       tgui: 1,
@@ -243,7 +204,7 @@
   };
 
   Byond.subscribeTo = function (type, listener) {
-    const _listener = function (_type, payload) {
+    var _listener = function (_type, payload) {
       if (_type === type) {
         listener(payload);
       }
@@ -255,52 +216,59 @@
   // Asset loaders
   // ------------------------------------------------------
 
-  const RETRY_ATTEMPTS = 5;
-  const RETRY_WAIT_INITIAL = 500;
-  const RETRY_WAIT_INCREMENT = 500;
+  var RETRY_ATTEMPTS = 5;
+  var RETRY_WAIT_INITIAL = 500;
+  var RETRY_WAIT_INCREMENT = 500;
 
-  const loadedAssetByUrl = {};
+  var loadedAssetByUrl = {};
 
-  const isStyleSheetLoaded = function (node, url) {
-    const styleSheet = node.sheet;
+  var isStyleSheetLoaded = function (node, url) {
+    var styleSheet = node.sheet;
     if (styleSheet) {
       return styleSheet.rules.length > 0;
     }
     return false;
   };
 
-  const injectNode = function (node) {
+  var injectNode = function (node) {
     if (!document.body) {
-      setTimeout(() => {
+      setTimeout(function () {
         injectNode(node);
       });
       return;
     }
-    const refs = document.body.childNodes;
-    const ref = refs[refs.length - 1];
+    var refs = document.body.childNodes;
+    var ref = refs[refs.length - 1];
     ref.parentNode.insertBefore(node, ref.nextSibling);
   };
 
-  const loadAsset = function (options) {
-    const url = options.url;
-    const type = options.type;
-    const sync = options.sync;
-    const attempt = options.attempt || 0;
+  var loadAsset = function (options) {
+    var url = options.url;
+    var type = options.type;
+    var sync = options.sync;
+    var attempt = options.attempt || 0;
     if (loadedAssetByUrl[url]) {
       return;
     }
     loadedAssetByUrl[url] = options;
     // Generic retry function
-    const retry = function () {
+    var retry = function () {
       if (attempt >= RETRY_ATTEMPTS) {
-        let errorMessage = `Error: Failed to load the asset '${url}' after several attempts.`;
+        var errorMessage =
+          'Error: Failed to load the asset ' +
+          "'" +
+          url +
+          "' after several attempts.";
         if (type === 'css') {
-          errorMessage += `\nStylesheet was either not found, or you're trying to load an empty stylesheet that has no CSS rules in it.`;
+          errorMessage +=
+            +'\nStylesheet was either not found, ' +
+            "or you're trying to load an empty stylesheet " +
+            'that has no CSS rules in it.';
         }
         throw new Error(errorMessage);
       }
       setTimeout(
-        () => {
+        function () {
           loadedAssetByUrl[url] = null;
           options.attempt += 1;
           loadAsset(options);
@@ -310,7 +278,7 @@
     };
     // JS specific code
     if (type === 'js') {
-      let node = document.createElement('script');
+      var node = document.createElement('script');
       node.type = 'text/javascript';
       node.crossOrigin = 'anonymous';
       node.src = url;
@@ -330,7 +298,7 @@
     }
     // CSS specific code
     if (type === 'css') {
-      let node = document.createElement('link');
+      var node = document.createElement('link');
       node.type = 'text/css';
       node.rel = 'stylesheet';
       node.crossOrigin = 'anonymous';
@@ -340,7 +308,7 @@
       if (!sync) {
         node.media = 'only x';
       }
-      const removeNodeAndRetry = function () {
+      var removeNodeAndRetry = function () {
         node.parentNode.removeChild(node);
         node = null;
         retry();
@@ -378,10 +346,10 @@
     if (window.navigator.msSaveBlob) {
       window.navigator.msSaveBlob(blob, filename);
     } else if (window.showSaveFilePicker) {
-      const accept = {};
+      var accept = {};
       accept[blob.type] = [ext];
 
-      const opts = {
+      var opts = {
         suggestedName: filename,
         types: [
           {
@@ -415,17 +383,20 @@
 window.onerror = function (msg, url, line, col, error) {
   window.onerror.errorCount = (window.onerror.errorCount || 0) + 1;
   // Proper stacktrace
-  let stack = error && error.stack;
+  var stack = error && error.stack;
   // Ghetto stacktrace
   if (!stack) {
-    stack = `${msg}\n   at ${url}:${line}${col ? `:${col}` : ''}`;
+    stack = msg + '\n   at ' + url + ':' + line;
+    if (col) {
+      stack += ':' + col;
+    }
   }
   // Augment the stack
   stack = window.__augmentStack__(stack, error);
   // Print error to the page
   if (Byond.strictMode) {
-    const errorRoot = document.getElementById('FatalError');
-    const errorStack = document.getElementById('FatalError__stack');
+    var errorRoot = document.getElementById('FatalError');
+    var errorStack = document.getElementById('FatalError__stack');
     if (errorRoot) {
       errorRoot.className = 'FatalError FatalError--visible';
       if (window.onerror.__stack__) {
@@ -433,11 +404,11 @@ window.onerror = function (msg, url, line, col, error) {
       } else {
         window.onerror.__stack__ = stack;
       }
-      const textProp = 'textContent';
+      var textProp = 'textContent';
       errorStack[textProp] = window.onerror.__stack__;
     }
     // Set window geometry
-    const setFatalErrorGeometry = function () {
+    var setFatalErrorGeometry = function () {
       Byond.winset(Byond.windowId, {
         titlebar: true,
         'is-visible': true,
@@ -472,11 +443,11 @@ window.onerror = function (msg, url, line, col, error) {
 
 // Catch unhandled promise rejections
 window.onunhandledrejection = function (e) {
-  let msg = 'UnhandledRejection';
+  var msg = 'UnhandledRejection';
   if (e.reason) {
     msg += ': ' + (e.reason.message || e.reason.description || e.reason);
     if (e.reason.stack) {
-      e.reason.stack = `UnhandledRejection: ${e.reason.stack}`;
+      e.reason.stack = 'UnhandledRejection: ' + e.reason.stack;
     }
   }
   window.onerror(msg, null, null, null, e.reason);
@@ -484,7 +455,7 @@ window.onunhandledrejection = function (e) {
 
 // Helper for augmenting stack traces on fatal errors
 window.__augmentStack__ = function (stack, error) {
-  return `${stack}\nUser Agent: ${navigator.userAgent}`;
+  return stack + '\nUser Agent: ' + navigator.userAgent;
 };
 
 // Incoming message handling
@@ -498,10 +469,10 @@ window.update = function (rawMessage) {
     return;
   }
   // Parse the message
-  const message = Byond.parseJson(rawMessage);
+  var message = Byond.parseJson(rawMessage);
   // Notify listeners
-  const listeners = window.update.listeners;
-  for (let i = 0; i < listeners.length; i++) {
+  var listeners = window.update.listeners;
+  for (var i = 0; i < listeners.length; i++) {
     listeners[i](message.type, message.payload);
   }
 };
@@ -515,23 +486,23 @@ window.update.flushQueue = function (listener) {
   if (window.update.queueActive) {
     window.update.queueActive = false;
     if (window.setTimeout) {
-      window.setTimeout(() => {
+      window.setTimeout(function () {
         window.update.queue = [];
       }, 0);
     }
   }
   // Process queued messages on provided listener
-  const queue = window.update.queue;
-  for (let i = 0; i < queue.length; i++) {
-    const message = Byond.parseJson(queue[i]);
+  var queue = window.update.queue;
+  for (var i = 0; i < queue.length; i++) {
+    var message = Byond.parseJson(queue[i]);
     listener(message.type, message.payload);
   }
 };
 
 window.replaceHtml = function (inline_html) {
-  const children = document.body.childNodes;
+  var children = document.body.childNodes;
 
-  for (let i = 0; i < children.length; i++) {
+  for (var i = 0; i < children.length; i++) {
     if (children[i].nodeValue == ' tgui:inline-html-start ') {
       while (children[i].nodeValue != ' tgui:inline-html-end ') {
         children[i].remove();
@@ -542,6 +513,8 @@ window.replaceHtml = function (inline_html) {
 
   document.body.insertAdjacentHTML(
     'afterbegin',
-    `<!-- tgui:inline-html-start -->${inline_html}<!-- tgui:inline-html-end -->`
+    '<!-- tgui:inline-html-start -->' +
+      inline_html +
+      '<!-- tgui:inline-html-end -->'
   );
 };
