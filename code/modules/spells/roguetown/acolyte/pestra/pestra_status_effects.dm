@@ -47,7 +47,7 @@
 	return ..()
 
 /datum/status_effect/buff/divine_rebirth_healing/tick()
-	if(HAS_TRAIT(human, TRAIT_IRONMAN))
+	if(HAS_TRAIT(owner, TRAIT_IRONMAN))
 		return
 	var/time_progress = (duration - time_left) / duration
 	time_left -= tick_interval

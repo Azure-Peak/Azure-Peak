@@ -136,11 +136,28 @@
 				break
 		if(!found_intent)
 			return FALSE
-	if(skill_used && skill_min && (user.get_skill_level(skill_used) < skill_min))
-		if(visible_required_skill)
-			to_chat(user, span_warning("I'm not skilled enough to do this!"))
-		return FALSE
-	return TRUE
+
+	if(HAS_TRAIT(target, TRAIT_IRONMAN))
+		if(user.get_skill_level(/datum/skill/craft/engineering) < SKILL_LEVEL_JOURNEYMAN)
+			to_chat(user, span_warning("I am not savvy enough in engineering to do this!"))
+			return FALSE
+
+		var/obj/item/held_item = user.get_active_held_item()
+
+		if(!istype(held_item, /obj/item/rogueweapon/tongs) && !istype(held_item, /obj/item/rogueweapon/surgery/cautery) && !istype(held_item, /obj/item/contraption/linker))
+			to_chat(user, span_warning("I need proper tools to operate on [target] (wrench, or cautery, or tongs)!"))
+			return FALSE
+
+		if(!do_after(user, 20 SECONDS, target = target))
+			to_chat(user, span_warning("I can't focus!"))
+			return FALSE			
+		return TRUE
+	else
+		if(skill_used && skill_min && (user.get_skill_level(skill_used) < skill_min))
+			if(visible_required_skill)
+				to_chat(user, span_warning("I'm not skilled enough to do this!"))
+			return FALSE
+		return TRUE
 
 /datum/surgery_step/proc/validate_target(mob/user, mob/living/target, target_zone, datum/intent/intent)
 	SHOULD_CALL_PARENT(TRUE)
