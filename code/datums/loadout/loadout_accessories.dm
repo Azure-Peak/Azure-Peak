@@ -29,6 +29,11 @@
 	path = /obj/item/clothing/gloves/roguetown/bandages
 	sort_category = "Accessories"
 
+/datum/loadout_item/leathergloves
+	name = "Leather Gloves"
+	path = /obj/item/clothing/gloves/roguetown/leather
+	sort_category = "Accessories"
+
 /datum/loadout_item/silkbelt
 	name = "Giltsilk Belt"
 	path = /obj/item/storage/belt/rogue/leather/silkbelt

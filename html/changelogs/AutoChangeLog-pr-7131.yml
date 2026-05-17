@@ -1,0 +1,13 @@
+author: "Quinalion"
+delete-after: True
+changes:
+  - rscadd: "Ported Dwarven Shield and Dwarven Warpick from Scarlet Reach."
+  - rscadd: "Grudgebearer Smith now wears steel bracers."
+  - rscadd: "Added a proper Grudgebearer loadout to ensure correct weapon selection on spawn."
+  - image: "Reflavoured all Grudgebearer mercenary armor to match the palette.."
+  - balance: "Grudgebearer Soldier has expanded selectable weapons; selecting certain weapons grants Expert-tier skill with that weapon."
+  - balance: "Lowered Grudgebearer Soldier's base weapon skills to Journeyman-tier."
+  - balance: "Grudgebearer Smith Weaponsmith skill increased to Journeyman-tier."
+  - balance: "Grudgebearer Soldier Weaponsmith skill increased to Apprentice-tier."
+  - bugfix: "Added missing intent icon for Perforating Strike."
+  - rscdel: "Removed Tracking skill from Grudgebearer Soldier."

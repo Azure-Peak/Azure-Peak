@@ -1,4 +1,9 @@
 //SHOES
+/datum/loadout_item/leatherboots
+	name = "Leather Boots"
+	path = /obj/item/clothing/shoes/roguetown/boots/leather
+	sort_category = "Shoes"
+
 /datum/loadout_item/darkboots
 	name = "Dark Boots"
 	path = /obj/item/clothing/shoes/roguetown/boots

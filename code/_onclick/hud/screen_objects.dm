@@ -1874,7 +1874,7 @@
 				state2use = "stress"
 			if(5 to 14)
 				state2use = "stress2"
-			if(5 to 24)
+			if(15 to 24)
 				state2use = "stress3"
 			if(25 to 999)
 				state2use = "stress4"
