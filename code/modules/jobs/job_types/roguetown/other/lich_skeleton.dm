@@ -326,7 +326,7 @@ LICH SKELETONS
 
 	H.STASTR = 10
 	H.STASPD = 10
-	H.STACON = 5 //Lowest con, there's a reasoning, trust me.
+	H.STACON = 5 //Low con so you can kill them quickly since they're literally wall-leveling bombs.
 	H.STAWIL = 10
 	H.STAINT = 6
 	H.STAPER = 9
