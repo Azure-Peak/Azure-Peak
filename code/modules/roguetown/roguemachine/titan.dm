@@ -630,6 +630,11 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 	var/obj/structure/roguethrone/throne = GLOB.king_throne
 	return throne && (user in throne.buckled_mobs)
 
+// TODO: Replace live autoupdate with event-driven partial TGUI updates. TGUI
+// shallow-merges top-level data keys, so rebel progress can send only
+// status_cards, rite countdown/stage changes can send only rite plus rite_actions,
+// and announcement cooldown expiry can schedule one delayed update. Keep this
+// here so idle Ducal Court windows stay quiet without losing live state changes.
 /obj/structure/roguemachine/titan/proc/ducal_court_needs_live_updates(mob/user)
 	if(rite_selection_data)
 		return TRUE
