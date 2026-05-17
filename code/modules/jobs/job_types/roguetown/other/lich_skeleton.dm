@@ -388,6 +388,11 @@ LICH SKELETONS
 	// Hack for order and ensuring they always get their sapper varient of blowing up
 	H.mind.RemoveSpell(/obj/effect/proc_holder/spell/self/suicidebomb/lesser)
 	H.mind.AddSpell(/obj/effect/proc_holder/spell/self/suicidebomb/sapper)
+	// Reorder undead eyes action to the end
+	var/obj/item/organ/eyes/existing_eyes = H.getorganslot(ORGAN_SLOT_EYES)
+	if(existing_eyes)
+		existing_eyes.Remove(H, TRUE)
+		existing_eyes.Insert(H)
 
 	H.adjust_blindness(-3)
 	var/tabards = list("Black Cloak", "Black Jupon", "Black Tabard")
