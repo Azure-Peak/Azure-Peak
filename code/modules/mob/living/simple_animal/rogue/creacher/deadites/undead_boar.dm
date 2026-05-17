@@ -321,8 +321,6 @@
 	if(!isliving(howner) || howner.stat == DEAD)
 		return FALSE
 
-	to_chat(howner, span_notice("[src.name] invoked by [howner]. Scanning..."))
-
 	howner.visible_message(span_danger("[howner] stomps the ground furiously as phantoms dive out of the shadows!"))
 	playsound(howner, 'modular/Creechers/sound/pighangry.ogg', 100, TRUE)
 	howner.Immobilize(duration_of_special)
@@ -341,13 +339,11 @@
 			continue
 		valid_targets += L
 
-	to_chat(howner, span_notice("Targets found within range: [valid_targets.len]"))
 	apply_cooldown()
 
 	if(!valid_targets.len)
 		return TRUE
 
-	// Spin up an asynchronous thread block so we can sleep without locking up the server/user input
 	spawn(0)
 		var/ambushes_launched = 0
 		var/list/spawned_phantom_turfs = list()
@@ -381,8 +377,6 @@
 
 			spawned_phantom_turfs += spawn_turf
 			ambushes_launched++
-
-			to_chat(howner, span_notice("Launching phantom #[ambushes_launched] targeting [victim.name] at coordinates: ([spawn_turf.x], [spawn_turf.y])"))
 
 			new /obj/projectile/bullet/terrorhog_phantom(spawn_turf, victim, howner, dam)
 			sleep(stagger_delay)

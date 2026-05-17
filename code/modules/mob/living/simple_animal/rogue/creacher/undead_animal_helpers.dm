@@ -44,7 +44,8 @@ GLOBAL_LIST_INIT(animal_to_undead, list(
 ))
 
 #define ZOMBIE_REANIMATION_CHANCE 25
-#define ZOMBIE_REANIMATION_TIMER 15 MINUTES
+#define REANIMATION_TELL_TIME 12 SECONDS
+#define ZOMBIE_REANIMATION_TIMER (15 MINUTES - REANIMATION_TELL_TIME)
 
 /datum/component/deadite_animal_reanimation
 	var/reanimation_timer
@@ -61,14 +62,35 @@ GLOBAL_LIST_INIT(animal_to_undead, list(
 		return
 
 	//KEEP IN MIND. IF YOU EDIT THIS TIMER TO BE LONGER THAN THE ROT COMPONENT, YOU WILL BREAK THIS.
-	reanimation_timer = addtimer(CALLBACK(src, PROC_REF(reanimate)), get_reanimation_time(), TIMER_STOPPABLE)
+	reanimation_timer = addtimer(CALLBACK(src, PROC_REF(start_twitching)), get_reanimation_time(), TIMER_STOPPABLE)
 
-/datum/component/deadite_animal_reanimation/proc/reanimate()
+/datum/component/deadite_animal_reanimation/proc/start_twitching()
 	var/mob/living/simple_animal/mob = parent
 	if(!prob(get_reanimation_chance()) || QDELETED(mob) || mob.stat != DEAD)
 		UnregisterFromParent()
+		qdel(src)
 		return
 
+	mob.visible_message(span_warning("The corpse of [mob] begins to twitch violently, its muscles snapping abnormally!"))
+	playsound(mob, 'sound/combat/fracture/fracturewet (1).ogg', 100, TRUE)
+	var/orig_x = mob.pixel_x
+	var/orig_y = mob.pixel_y
+	animate(mob, pixel_x = orig_x + 2, pixel_y = orig_y - 1, time = 1, loop = -1)
+	animate(pixel_x = orig_x - 2, pixel_y = orig_y + 2, time = 1)
+	animate(pixel_x = orig_x + 1, pixel_y = orig_y + 1, time = 1)
+	animate(pixel_x = orig_x - 1, pixel_y = orig_y - 2, time = 1)
+	animate(pixel_x = orig_x,     pixel_y = orig_y,     time = 1)
+
+	reanimation_timer = addtimer(CALLBACK(src, PROC_REF(reanimate)), REANIMATION_TELL_TIME, TIMER_STOPPABLE)
+
+/datum/component/deadite_animal_reanimation/proc/reanimate()
+	var/mob/living/simple_animal/mob = parent
+	if(QDELETED(mob) || mob.stat != DEAD)
+		UnregisterFromParent()
+		return
+
+	playsound(mob, 'sound/combat/fracture/fracturewet (2).ogg', 100, TRUE)
+	animate(mob)
 	var/undead_type = GLOB.animal_to_undead[mob.type]
 	new undead_type(mob.loc)
 	mob.visible_message(span_danger("[mob] walks again... As a terrifying deadite!"))
@@ -87,3 +109,4 @@ GLOBAL_LIST_INIT(animal_to_undead, list(
 
 #undef ZOMBIE_REANIMATION_CHANCE
 #undef ZOMBIE_REANIMATION_TIMER
+#undef REANIMATION_TELL_TIME

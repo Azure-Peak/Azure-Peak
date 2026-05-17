@@ -66,12 +66,12 @@
 	desc = "A lethal, jagged piece of shattered wood flying at blinding speeds."
 	icon = 'icons/roguetown/weapons/ranged/arrow_proj.dmi'
 	icon_state = "thorn"
-	damage = 80
+	damage = 60
 	embedchance = 0
 	armor_penetration = PEN_BSTEEL
 	woundclass = BCLASS_PIERCE
 	damage_type = BRUTE
-	speed = 0.8
+	speed = 1.3
 
 #undef BB_BOAR_CHARGE_COOLDOWN
 #undef BB_BOAR_CHARGE_ATTEMPTS
