@@ -789,6 +789,7 @@ LICH SKELETONS
 	color = CLOTHING_BLACK
 	detail_color = CLOTHING_BURLAP
 	detail_tag = "_spl"
+	slot_flags = ITEM_SLOT_HEAD|ITEM_SLOT_NECK|ITEM_SLOT_MASK|ITEM_SLOT_CLOAK
 	icon_state = "guard_hood" // The same as the guard hood however to break it from using the lords colors it has been given its own item path
 	item_state = "guard_hood"
 	body_parts_covered = CHEST
