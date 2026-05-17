@@ -630,6 +630,20 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 	var/obj/structure/roguethrone/throne = GLOB.king_throne
 	return throne && (user in throne.buckled_mobs)
 
+/obj/structure/roguemachine/titan/proc/ducal_court_needs_live_updates(mob/user)
+	if(rite_selection_data)
+		return TRUE
+	var/obj/structure/roguethrone/throne = GLOB.king_throne
+	if(throne?.active_rite)
+		return TRUE
+	if(throne?.rebel_leader_sit_time > 0 && throne.rebel_leader_sit_time < REBEL_THRONE_TIME)
+		return TRUE
+	if(world.time < GLOB.last_crown_announcement_time + 2 MINUTES)
+		return TRUE
+	if(isliving(user) && !SScommunications.can_announce(user))
+		return TRUE
+	return FALSE
+
 /obj/structure/roguemachine/titan/proc/ducal_court_mob_name(mob/person, fallback = null)
 	if(!person)
 		return fallback
@@ -927,6 +941,8 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 	var/show_rite_selection = rite_selection_data && (!rite_selector || rite_selector == user)
 	var/interface = show_rite_selection ? "RiteSelection" : get_tgui_interface_name(user, "DucalCourt")
 	var/title = show_rite_selection ? "Rites of Succession" : get_tgui_window_title(user, "DucalCourt", "Ducal Court")
+	var/needs_live_updates = ducal_court_needs_live_updates(user)
+	var/opened_new_ui = FALSE
 	if(!ui)
 		ui = SStgui.get_open_ui(user, src)
 	if(ui && ui.interface != interface)
@@ -935,6 +951,9 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
 		ui = new(user, src, interface, title)
+		opened_new_ui = TRUE
+	ui.set_autoupdate(needs_live_updates)
+	if(opened_new_ui)
 		ui.open()
 
 /obj/structure/roguemachine/titan/ui_static_data(mob/user)
