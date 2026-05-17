@@ -764,6 +764,21 @@
   color: var(--ducal-gold);
 }
 
+.DucalCourt__voiceCommand,
+.DucalCourt__voiceDesc {
+  display: block;
+}
+
+.DucalCourt__voiceCommand {
+  color: #f5d87a;
+  font-weight: 700;
+}
+
+.DucalCourt__voiceDesc {
+  color: #cdbb88;
+  font-size: 11px;
+}
+
 .DucalCourt__compactBody {
   display: grid;
   grid-template-rows: auto auto;

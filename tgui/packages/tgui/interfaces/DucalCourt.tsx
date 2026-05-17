@@ -44,7 +44,18 @@ type RiteData = {
   time_remaining: string | null;
 };
 
-type Texts = {
+type ActionText = {
+  label: string;
+  desc: string;
+};
+
+type StatusCardText = {
+  label: string;
+  values?: Record<string, string>;
+  details?: Record<string, string>;
+};
+
+export type DucalCourtTexts = {
   window_title: string;
   subtitle: string;
   sections: {
@@ -53,6 +64,15 @@ type Texts = {
     tools: string;
     succession: string;
     desk: string;
+    overview: string;
+    commands: string;
+    public_writs: string;
+    governance: string;
+    law_tools: string;
+    decree_tools: string;
+    law_decree_tools: string;
+    quick_tools: string;
+    voice_commands: string;
   };
   composer: {
     placeholder: string;
@@ -62,6 +82,7 @@ type Texts = {
     law_number: string;
     remove_law: string;
     clear_laws: string;
+    clear_decrees: string;
     empty_text: string;
   };
   labels: {
@@ -76,8 +97,25 @@ type Texts = {
     none: string;
     viewer: string;
     requirements: string;
+    charter_ledger: string;
+    laws: string;
+    decrees: string;
   };
+  compact: {
+    collapse_tooltip: string;
+    restore_tooltip: string;
+    restore_button: string;
+  };
+  viewer_statuses: Record<string, string>;
+  views: Record<ViewId, ActionText>;
+  actions: Record<string, ActionText>;
+  requirements: Record<string, string>;
+  disabled_reasons: Record<string, string>;
+  status_cards: Record<string, StatusCardText>;
+  rite_names: Record<string, string>;
+  rite_statuses: Record<string, string>;
   rite_steps: string[];
+  voice_command_descriptions: Record<string, string>;
 };
 
 type RealmColors = {
@@ -103,7 +141,7 @@ type Data = {
   decree_count: number;
 };
 
-const DUCAL_COURT_TEXTS: Texts = {
+export const DUCAL_COURT_TEXTS: DucalCourtTexts = {
   window_title: 'Ducal Court',
   subtitle: 'Hold court from the throne of Azure Peak',
   sections: {
@@ -112,6 +150,15 @@ const DUCAL_COURT_TEXTS: Texts = {
     tools: 'Ducal Tools',
     succession: 'Succession and Usurpation',
     desk: 'Court Scribe Desk',
+    overview: 'Court Overview',
+    commands: 'Ducal Commands',
+    public_writs: 'Public Writs',
+    governance: 'Governance',
+    law_tools: 'Law Tools',
+    decree_tools: 'Decree Tools',
+    law_decree_tools: 'Law and Decree Tools',
+    quick_tools: 'Quick Tools',
+    voice_commands: 'Voice Commands',
   },
   composer: {
     placeholder: 'Draft an announcement, decree, or new law...',
@@ -121,6 +168,7 @@ const DUCAL_COURT_TEXTS: Texts = {
     law_number: 'Law #',
     remove_law: 'Remove Law',
     clear_laws: 'Clear All Laws',
+    clear_decrees: 'Clear Decrees',
     empty_text: 'Write text before publishing.',
   },
   labels: {
@@ -135,8 +183,270 @@ const DUCAL_COURT_TEXTS: Texts = {
     none: 'None',
     viewer: 'Your Standing',
     requirements: 'Requirements',
+    charter_ledger: 'Charter Ledger',
+    laws: 'laws',
+    decrees: 'decrees',
+  },
+  compact: {
+    collapse_tooltip: 'Collapse to a compact court summary.',
+    restore_tooltip:
+      'Restore the full court layout with navigation and command panels.',
+    restore_button: 'Restore Court',
+  },
+  viewer_statuses: {
+    'Ducal Authority': 'Ducal Authority',
+    'Crown Bearer': 'Crown Bearer',
+    Subject: 'Subject',
+    Observer: 'Observer',
+  },
+  views: {
+    overview: {
+      label: 'Overview',
+      desc: 'Show the current court state without opening any command tools.',
+    },
+    commands: {
+      label: 'Ducal Commands',
+      desc: 'Open public writs, governance commands, and law/decree tools.',
+    },
+    succession: {
+      label: 'Succession',
+      desc: 'Review the active rite, claimants, supporters, and succession actions.',
+    },
+    laws: {
+      label: 'Laws',
+      desc: 'Open the Set Laws menu directly.',
+    },
+  },
+  actions: {
+    make_announcement: {
+      label: 'Make Announcement',
+      desc: 'Broadcast a realm-wide message.',
+    },
+    revise_charter: {
+      label: 'Revise Charter',
+      desc: 'Open the charter ledger.',
+    },
+    issue_decree: {
+      label: 'Issue Decree',
+      desc: 'Proclaim a ducal decree.',
+    },
+    set_laws: {
+      label: 'Set Laws',
+      desc: 'Rewrite the laws of the land.',
+    },
+    set_taxes: {
+      label: 'Set Taxes',
+      desc: 'Adjust levies and poll taxes.',
+    },
+    declare_outlaw: {
+      label: 'Declare Outlaw',
+      desc: 'Outlaw or pardon a named subject.',
+    },
+    change_colors: {
+      label: 'Change Colors',
+      desc: 'Change the ducal colors.',
+    },
+    summon_crown: {
+      label: 'Summon Crown',
+      desc: 'Retrieve the crown if law permits.',
+    },
+    summon_key: {
+      label: 'Summon Key',
+      desc: 'Retrieve the ducal key.',
+    },
+    restore_charter: {
+      label: 'Restore Charter',
+      desc: 'Open charters to restore suspended writs.',
+    },
+    purge_laws: {
+      label: 'Purge Laws',
+      desc: 'Remove every current law.',
+    },
+    purge_decrees: {
+      label: 'Purge Decrees',
+      desc: 'Remove every decree.',
+    },
+    become_regent: {
+      label: 'Become Regent',
+      desc: 'Claim regency when the ruler is absent.',
+    },
+    ascend: {
+      label: 'I Ascend',
+      desc: 'Invoke a rite of succession.',
+    },
+    assent: {
+      label: 'I Assent',
+      desc: 'Support an active claim near the throne.',
+    },
+    abdicate: {
+      label: 'I Abdicate',
+      desc: 'Yield the throne and skip to contestation.',
+    },
+    stop_ascent: {
+      label: 'Stop Ascent',
+      desc: 'Sit on the throne to halt succession.',
+    },
+  },
+  requirements: {
+    Crown: 'Crown',
+    'Broadcast Ready': 'Broadcast Ready',
+    'Ruler/Regent': 'Ruler/Regent',
+    'Ruling Office': 'Ruling Office',
+    Throat: 'Throat',
+    'Noble Blood': 'Noble Blood',
+    'Regency Office': 'Regency Office',
+    'Eligible Rite': 'Eligible Rite',
+    'Active Gathering': 'Active Gathering',
+    'Near Throne': 'Near Throne',
+    Contesting: 'Contesting',
+    Seated: 'Seated',
+  },
+  disabled_reasons: {
+    'Only a living subject may use the ducal court.':
+      'Only a living subject may use the ducal court.',
+    'Requires the crown.': 'Requires the crown.',
+    'Another ducal announcement is not ready yet.':
+      'Another ducal announcement is not ready yet.',
+    'The Throat is still gathering strength.':
+      'The Throat is still gathering strength.',
+    'Ruler or regent only.': 'Ruler or regent only.',
+    'Declaring an outlaw currently requires the ruling office.':
+      'Declaring an outlaw currently requires the ruling office.',
+    'There is no throne to claim.': 'There is no throne to claim.',
+    'A rite of succession is already underway.':
+      'A rite of succession is already underway.',
+    'There is no ruler to usurp.': 'There is no ruler to usurp.',
+    'You already hold the throne.': 'You already hold the throne.',
+    "The realm's fate is already sealed.":
+      "The realm's fate is already sealed.",
+    'No rites of succession are available to you.':
+      'No rites of succession are available to you.',
+    'No active succession needs assent.':
+      'No active succession needs assent.',
+    'Assent is only accepted during gathering.':
+      'Assent is only accepted during gathering.',
+    'Stand near the throne to assent.': 'Stand near the throne to assent.',
+    'No active claim can receive abdication.':
+      'No active claim can receive abdication.',
+    'The rite is already being contested.':
+      'The rite is already being contested.',
+    'Only the ruler or regent may abdicate.':
+      'Only the ruler or regent may abdicate.',
+    'Stand near the throne to abdicate.':
+      'Stand near the throne to abdicate.',
+    'No active ascent can be halted.': 'No active ascent can be halted.',
+    'Stop Ascent is used during contesting.':
+      'Stop Ascent is used during contesting.',
+    'Someone is already contesting from the throne.':
+      'Someone is already contesting from the throne.',
+    'Sit on the throne to halt succession.':
+      'Sit on the throne to halt succession.',
+    'The true lord is already present in the realm.':
+      'The true lord is already present in the realm.',
+    'Requires noble blood.': 'Requires noble blood.',
+    'Your office cannot bear the Crown as regent.':
+      'Your office cannot bear the Crown as regent.',
+    'A regent has already been declared today.':
+      'A regent has already been declared today.',
+    'You are already the regent.': 'You are already the regent.',
+    'Unknown ducal court action.': 'Unknown ducal court action.',
+  },
+  status_cards: {
+    throne_status: {
+      label: 'Throne Status',
+      values: {
+        Occupied: 'Occupied',
+        Empty: 'Empty',
+      },
+      details: {
+        'No one is seated.': 'No one is seated.',
+      },
+    },
+    crown_required: {
+      label: 'Crown Authority',
+      values: {
+        'Crown Worn': 'Crown Worn',
+        'Crown Missing': 'Crown Missing',
+      },
+      details: {
+        'Ducal commands are unlocked by the crown.':
+          'Ducal commands are unlocked by the crown.',
+        'Most commands require the crown.': 'Most commands require the crown.',
+      },
+    },
+    active_rite: {
+      label: 'Active Rite',
+      values: {
+        None: 'None',
+        Gathering: 'Gathering',
+        Contesting: 'Contesting',
+        'Contesting - Paused': 'Contesting - Paused',
+        Resolution: 'Resolution',
+      },
+      details: {
+        None: 'None',
+      },
+    },
+    realm_stability: {
+      label: 'Realm Stability',
+      values: {
+        Stable: 'Stable',
+        'Claim Gathering': 'Claim Gathering',
+        Contested: 'Contested',
+        'Rebel Victory Ready': 'Rebel Victory Ready',
+        'Rebel Pressure': 'Rebel Pressure',
+      },
+      details: {
+        'Rebel pressure: {progress}': 'Rebel pressure: {progress}',
+      },
+    },
+    current_ruler: {
+      label: 'Current Ruler',
+      values: {
+        None: 'None',
+      },
+      details: {
+        'No active regent.': 'No active regent.',
+        'Regent: {name}': 'Regent: {name}',
+      },
+    },
+  },
+  rite_names: {
+    None: 'None',
+    'Usurpation Rite': 'Usurpation Rite',
+    'Rite of Solar Succession': 'Rite of Solar Succession',
+    'Rite of Lunar Ascension': 'Rite of Lunar Ascension',
+    'Rite of Martial Supercession': 'Rite of Martial Supercession',
+    'Rite of Golden Accord': 'Rite of Golden Accord',
+    'Rite of Sacred Supercession': 'Rite of Sacred Supercession',
+    'Rite of Progressive Dominion': 'Rite of Progressive Dominion',
+    'Rite of Popular Acclaim': 'Rite of Popular Acclaim',
+    'Rite of Psydonian Tribunal': 'Rite of Psydonian Tribunal',
+  },
+  rite_statuses: {
+    'No active succession.': 'No active succession.',
+    'A claim is active.': 'A claim is active.',
   },
   rite_steps: ['Gathering', 'Contesting', 'Resolution'],
+  voice_command_descriptions: {
+    'Make Announcement': 'Broadcast a realm-wide message.',
+    'Revise Charter': 'Open the charter ledger.',
+    'Make Decree': 'Proclaim a ducal decree.',
+    'Purge Decrees': 'Remove every decree.',
+    'Set Laws': 'Open the full law editor.',
+    'Make Law': 'Add one law by spoken command.',
+    'Remove Law (number)': 'Remove a specific numbered law.',
+    'Purge Laws': 'Remove every current law.',
+    'Declare Outlaw': 'Outlaw or pardon a named subject.',
+    'Set Taxes': 'Adjust levies and poll taxes.',
+    'Change Colors': "Change the duchy's colors.",
+    'Become Regent': 'Claim regency when the ruler is absent.',
+    'Summon Crown / Summon Key': 'Retrieve the ducal items.',
+    'I Ascend': 'Invoke a rite of succession.',
+    'I Assent': 'Support an active claim near the throne.',
+    'I Abdicate': 'Yield the throne and skip to contestation.',
+    'Stop Ascent': 'Sit on the throne to halt succession.',
+  },
 };
 
 const DEFAULT_WINDOW_WIDTH = 1180;
@@ -161,33 +471,23 @@ const COURT_WRIT_ACTIONS = ['make_announcement'];
 
 const VIEW_ITEMS: Array<{
   id: ViewId;
-  label: string;
   icon: string;
-  desc: string;
 }> = [
   {
     id: 'overview',
-    label: 'Overview',
     icon: 'chess-rook',
-    desc: 'Show the current court state without opening any command tools.',
   },
   {
     id: 'commands',
-    label: 'Ducal Commands',
     icon: 'crown',
-    desc: 'Open public writs, governance commands, and law/decree tools.',
   },
   {
     id: 'succession',
-    label: 'Succession',
     icon: 'hourglass-half',
-    desc: 'Review the active rite, claimants, supporters, and succession actions.',
   },
   {
     id: 'laws',
-    label: 'Laws',
     icon: 'balance-scale',
-    desc: 'Open the Set Laws menu directly.',
   },
 ];
 
@@ -254,6 +554,87 @@ const actionsById = (actions: DucalAction[], ids: string[]) =>
     .map((id) => actionById(actions, id))
     .filter((action): action is DucalAction => !!action);
 
+const translateKnown = (
+  map: Record<string, string> | undefined,
+  value?: string | null,
+) => {
+  if (!value) {
+    return value;
+  }
+  return map?.[value] || value;
+};
+
+const translatePattern = (
+  map: Record<string, string> | undefined,
+  value?: string | null,
+) => {
+  if (!value) {
+    return value;
+  }
+  const direct = map?.[value];
+  if (direct) {
+    return direct;
+  }
+  const rebelPressure = value.match(/^Rebel pressure: (.+)$/);
+  if (rebelPressure && map?.['Rebel pressure: {progress}']) {
+    return map['Rebel pressure: {progress}'].replace(
+      '{progress}',
+      rebelPressure[1],
+    );
+  }
+  const regent = value.match(/^Regent: (.+)$/);
+  if (regent && map?.['Regent: {name}']) {
+    return map['Regent: {name}'].replace('{name}', regent[1]);
+  }
+  return value;
+};
+
+const getActionText = (texts: DucalCourtTexts, action?: DucalAction | null) => {
+  if (!action) {
+    return null;
+  }
+  return {
+    label: texts.actions[action.id]?.label || action.label,
+    desc: texts.actions[action.id]?.desc || action.desc,
+    disabledReason: translateKnown(
+      texts.disabled_reasons,
+      action.disabled_reason,
+    ),
+  };
+};
+
+const getRequirementText = (texts: DucalCourtTexts, requirement: string) =>
+  texts.requirements[requirement] || requirement;
+
+const getStatusCardText = (texts: DucalCourtTexts, card: StatusCard) => {
+  const cardTexts = texts.status_cards[card.id];
+  const detail =
+    card.id === 'active_rite'
+      ? translateKnown(texts.rite_names, card.detail)
+      : translatePattern(cardTexts?.details, card.detail);
+  return {
+    label: cardTexts?.label || card.label,
+    value: translateKnown(cardTexts?.values, card.value) || card.value,
+    detail: detail || card.detail,
+  };
+};
+
+const getRiteName = (texts: DucalCourtTexts, name?: string | null) =>
+  translateKnown(texts.rite_names, name) || texts.labels.none;
+
+const getRiteStatus = (texts: DucalCourtTexts, status?: string | null) =>
+  translateKnown(texts.rite_statuses, status) || status || texts.labels.none;
+
+const getViewerStatus = (texts: DucalCourtTexts, status?: string | null) =>
+  translateKnown(texts.viewer_statuses, status) || texts.labels.none;
+
+const getVoiceCommandDescription = (
+  texts: DucalCourtTexts,
+  command: string,
+) =>
+  texts.voice_command_descriptions[command] ||
+  DUCAL_COURT_TEXTS.voice_command_descriptions[command];
+
 const buildRealmStyle = (colors: RealmColors | undefined) =>
   ({
     '--ducal-primary': colors?.primary || '#007fff',
@@ -292,15 +673,17 @@ const TooltipFrame = (props: {
 };
 
 const ActionCard = (props: {
+  texts: DucalCourtTexts;
   action: DucalAction;
   compact?: boolean;
   onClick: (action: DucalAction) => void;
 }) => {
-  const { action, compact, onClick } = props;
-  const tooltip = action.enabled ? action.desc : action.disabled_reason;
+  const { texts, action, compact, onClick } = props;
+  const actionText = getActionText(texts, action)!;
+  const tooltip = action.enabled ? actionText.desc : actionText.disabledReason;
 
   return (
-    <TooltipFrame content={tooltip || action.desc}>
+    <TooltipFrame content={tooltip || actionText.desc}>
       <Button
         className={
           'DucalCourt__action' +
@@ -313,14 +696,14 @@ const ActionCard = (props: {
           <Icon name={ACTION_ICONS[action.id] || 'circle'} />
         </span>
         <span className="DucalCourt__actionBody">
-          <span className="DucalCourt__actionTitle">{action.label}</span>
+          <span className="DucalCourt__actionTitle">{actionText.label}</span>
           {!compact && (
-            <span className="DucalCourt__actionDesc">{action.desc}</span>
+            <span className="DucalCourt__actionDesc">{actionText.desc}</span>
           )}
           <span className="DucalCourt__badges">
             {action.requirements.map((requirement) => (
               <span className="DucalCourt__badge" key={requirement}>
-                {requirement}
+                {getRequirementText(texts, requirement)}
               </span>
             ))}
           </span>
@@ -330,28 +713,35 @@ const ActionCard = (props: {
   );
 };
 
-const StatusGrid = (props: { cards: StatusCard[] }) => (
+const StatusGrid = (props: {
+  texts: DucalCourtTexts;
+  cards: StatusCard[];
+}) => (
   <div className="DucalCourt__statusGrid">
-    {props.cards.map((card) => (
-      <div
-        key={card.id}
-        className={`DucalCourt__statusCard DucalCourt__statusCard--${card.tone}`}
-      >
-        <div className="DucalCourt__statusIcon">
-          <Icon name={STATUS_ICONS[card.id] || 'circle'} />
+    {props.cards.map((card) => {
+      const cardText = getStatusCardText(props.texts, card);
+
+      return (
+        <div
+          key={card.id}
+          className={`DucalCourt__statusCard DucalCourt__statusCard--${card.tone}`}
+        >
+          <div className="DucalCourt__statusIcon">
+            <Icon name={STATUS_ICONS[card.id] || 'circle'} />
+          </div>
+          <div className="DucalCourt__statusBody">
+            <div className="DucalCourt__statusLabel">{cardText.label}</div>
+            <div className="DucalCourt__statusValue">{cardText.value}</div>
+            <div className="DucalCourt__statusDetail">{cardText.detail}</div>
+          </div>
         </div>
-        <div className="DucalCourt__statusBody">
-          <div className="DucalCourt__statusLabel">{card.label}</div>
-          <div className="DucalCourt__statusValue">{card.value}</div>
-          <div className="DucalCourt__statusDetail">{card.detail}</div>
-        </div>
-      </div>
-    ))}
+      );
+    })}
   </div>
 );
 
 const SuccessionPanel = (props: {
-  texts: Texts;
+  texts: DucalCourtTexts;
   rite: RiteData;
   actions: DucalAction[];
   onAction: (action: DucalAction) => void;
@@ -361,7 +751,7 @@ const SuccessionPanel = (props: {
 
   return (
     <Section title={texts.sections.succession}>
-      <div className="DucalCourt__riteName">{rite.name}</div>
+      <div className="DucalCourt__riteName">{getRiteName(texts, rite.name)}</div>
       <div className="DucalCourt__stepper">
         {texts.rite_steps.map((step, index) => (
           <div
@@ -394,11 +784,14 @@ const SuccessionPanel = (props: {
           <span>{rite.time_remaining || texts.labels.none}</span>
         </div>
       </div>
-      <Box className="DucalCourt__riteStatus">{rite.status}</Box>
+      <Box className="DucalCourt__riteStatus">
+        {getRiteStatus(texts, rite.status)}
+      </Box>
       <div className="DucalCourt__riteActionGrid">
         {actions.map((action) => (
           <ActionCard
             key={action.id}
+            texts={texts}
             action={action}
             compact
             onClick={onAction}
@@ -410,12 +803,13 @@ const SuccessionPanel = (props: {
 };
 
 const ActionGroup = (props: {
+  texts: DucalCourtTexts;
   title: string;
   actions: DucalAction[];
   compact?: boolean;
   onAction: (action: DucalAction) => void;
 }) => {
-  const { title, actions, compact, onAction } = props;
+  const { texts, title, actions, compact, onAction } = props;
 
   if (!actions.length) {
     return null;
@@ -432,6 +826,7 @@ const ActionGroup = (props: {
         {actions.map((action) => (
           <ActionCard
             key={action.id}
+            texts={texts}
             action={action}
             compact={compact}
             onClick={onAction}
@@ -443,7 +838,7 @@ const ActionGroup = (props: {
 };
 
 const DucalDesk = (props: {
-  texts: Texts;
+  texts: DucalCourtTexts;
   actions: DucalAction[];
   lawCount: number;
   mode?: 'all' | 'commands' | 'laws' | 'decrees';
@@ -458,6 +853,11 @@ const DucalDesk = (props: {
   const law = actionById(actions, 'set_laws');
   const purgeLaws = actionById(actions, 'purge_laws') || law;
   const purgeDecrees = actionById(actions, 'purge_decrees');
+  const announcementText = getActionText(texts, announcement);
+  const decreeText = getActionText(texts, decree);
+  const lawText = getActionText(texts, law);
+  const purgeLawsText = getActionText(texts, purgeLaws);
+  const purgeDecreesText = getActionText(texts, purgeDecrees);
   const canUseText = trimmed.length > 0;
   const showAnnouncements = mode === 'all';
   const showDecrees = mode !== 'laws';
@@ -465,16 +865,16 @@ const DucalDesk = (props: {
   const showPurgeDecrees = mode === 'commands' || mode === 'decrees';
 
   const textTooltip = canUseText ? undefined : texts.composer.empty_text;
-  const lawBlocked = law?.disabled_reason || undefined;
-  const purgeLawBlocked = purgeLaws?.disabled_reason || lawBlocked;
-  const purgeDecreeBlocked = purgeDecrees?.disabled_reason || undefined;
+  const lawBlocked = lawText?.disabledReason || undefined;
+  const purgeLawBlocked = purgeLawsText?.disabledReason || lawBlocked;
+  const purgeDecreeBlocked = purgeDecreesText?.disabledReason || undefined;
   const sectionTitle =
     mode === 'laws'
-      ? 'Law Tools'
+      ? texts.sections.law_tools
       : mode === 'decrees'
-        ? 'Decree Tools'
+        ? texts.sections.decree_tools
         : mode === 'commands'
-          ? 'Law and Decree Tools'
+          ? texts.sections.law_decree_tools
           : texts.sections.desk;
 
   return (
@@ -495,7 +895,9 @@ const DucalDesk = (props: {
               <TooltipFrame
                 inline
                 content={
-                  announcement?.disabled_reason || textTooltip || announcement?.desc
+                  announcementText?.disabledReason ||
+                  textTooltip ||
+                  announcementText?.desc
                 }
               >
                 <Button
@@ -510,7 +912,9 @@ const DucalDesk = (props: {
             {showDecrees && (
               <TooltipFrame
                 inline
-                content={decree?.disabled_reason || textTooltip || decree?.desc}
+                content={
+                  decreeText?.disabledReason || textTooltip || decreeText?.desc
+                }
               >
                 <Button
                   icon="scroll"
@@ -524,7 +928,7 @@ const DucalDesk = (props: {
             {showLaws && (
               <TooltipFrame
                 inline
-                content={lawBlocked || textTooltip || law?.desc}
+                content={lawBlocked || textTooltip || lawText?.desc}
               >
                 <Button
                   icon="balance-scale"
@@ -538,7 +942,7 @@ const DucalDesk = (props: {
             {showPurgeDecrees && (
               <TooltipFrame
                 inline
-                content={purgeDecreeBlocked || purgeDecrees?.desc}
+                content={purgeDecreeBlocked || purgeDecreesText?.desc}
               >
                 <Button
                   icon="eraser"
@@ -546,7 +950,7 @@ const DucalDesk = (props: {
                   disabled={!purgeDecrees?.enabled}
                   onClick={() => act('purge_decrees')}
                 >
-                  Clear Decrees
+                  {texts.composer.clear_decrees}
                 </Button>
               </TooltipFrame>
             )}
@@ -561,7 +965,7 @@ const DucalDesk = (props: {
                 step={1}
                 onChange={(value: number) => setLawNumber(value)}
               />
-              <TooltipFrame inline content={lawBlocked || law?.desc}>
+              <TooltipFrame inline content={lawBlocked || lawText?.desc}>
                 <Button
                   icon="times"
                   disabled={!law?.enabled || lawCount < 1}
@@ -570,7 +974,7 @@ const DucalDesk = (props: {
                   {texts.composer.remove_law}
                 </Button>
               </TooltipFrame>
-              <TooltipFrame inline content={purgeLawBlocked || purgeLaws?.desc}>
+              <TooltipFrame inline content={purgeLawBlocked || purgeLawsText?.desc}>
                 <Button
                   icon="trash"
                   color="bad"
@@ -589,7 +993,7 @@ const DucalDesk = (props: {
 };
 
 const CompactCourt = (props: {
-  texts: Texts;
+  texts: DucalCourtTexts;
   rite: RiteData;
   statusCards: StatusCard[];
   onRestore: () => void;
@@ -606,20 +1010,22 @@ const CompactCourt = (props: {
 
   return (
     <div className="DucalCourt__compactBody">
-      <StatusGrid cards={compactCards} />
+      <StatusGrid texts={texts} cards={compactCards} />
       <div className="DucalCourt__compactSummary">
         <div>
           <b>{texts.labels.rite_status}</b>
-          <span>{rite.name}</span>
+          <span>{getRiteName(texts, rite.name)}</span>
         </div>
         <div>
           <b>{texts.labels.time_remaining}</b>
           <span>{rite.time_remaining || texts.labels.none}</span>
         </div>
-        <Box className="DucalCourt__riteStatus">{rite.status}</Box>
-        <TooltipFrame content="Restore the full court layout with navigation and command panels.">
+        <Box className="DucalCourt__riteStatus">
+          {getRiteStatus(texts, rite.status)}
+        </Box>
+        <TooltipFrame content={texts.compact.restore_tooltip}>
           <Button icon="expand" onClick={onRestore}>
-            Restore Court
+            {texts.compact.restore_button}
           </Button>
         </TooltipFrame>
       </div>
@@ -628,7 +1034,7 @@ const CompactCourt = (props: {
 };
 
 const OverviewPanel = (props: {
-  texts: Texts;
+  texts: DucalCourtTexts;
   rite: RiteData;
   lawCount: number;
   decreeCount: number;
@@ -636,11 +1042,11 @@ const OverviewPanel = (props: {
   const { texts, rite, lawCount, decreeCount } = props;
 
   return (
-    <Section title="Court Overview">
+    <Section title={texts.sections.overview}>
       <div className="DucalCourt__overviewFacts">
         <div className="DucalCourt__overviewFact">
           <b>{texts.labels.rite_status}</b>
-          <span>{rite.name}</span>
+          <span>{getRiteName(texts, rite.name)}</span>
         </div>
         <div className="DucalCourt__overviewFact">
           <b>{texts.labels.claimant}</b>
@@ -659,24 +1065,29 @@ const OverviewPanel = (props: {
           <span>{rite.time_remaining || texts.labels.none}</span>
         </div>
         <div className="DucalCourt__overviewFact">
-          <b>Charter Ledger</b>
+          <b>{texts.labels.charter_ledger}</b>
           <span>
-            {lawCount} laws / {decreeCount} decrees
+            {lawCount} {texts.labels.laws} / {decreeCount}{' '}
+            {texts.labels.decrees}
           </span>
         </div>
       </div>
-      <Box className="DucalCourt__riteStatus">{rite.status}</Box>
+      <Box className="DucalCourt__riteStatus">
+        {getRiteStatus(texts, rite.status)}
+      </Box>
     </Section>
   );
 };
 
 const LeftRail = (props: {
+  texts: DucalCourtTexts;
   activeView: ViewId;
   lawAction?: DucalAction;
   onAction: (action: DucalAction) => void;
   onView: (view: ViewId) => void;
 }) => {
-  const { activeView, lawAction, onAction, onView } = props;
+  const { texts, activeView, lawAction, onAction, onView } = props;
+  const lawActionText = getActionText(texts, lawAction);
 
   return (
     <aside className="DucalCourt__leftRail">
@@ -685,10 +1096,11 @@ const LeftRail = (props: {
       </div>
       <nav className="DucalCourt__nav">
         {VIEW_ITEMS.map((item) => {
+          const viewText = texts.views[item.id];
           const opensSetLaws = item.id === 'laws';
           const tooltip = opensSetLaws
-            ? lawAction?.disabled_reason || lawAction?.desc || item.desc
-            : item.desc;
+            ? lawActionText?.disabledReason || lawActionText?.desc || viewText.desc
+            : viewText.desc;
 
           return (
             <TooltipFrame key={item.id} content={tooltip}>
@@ -707,7 +1119,7 @@ const LeftRail = (props: {
                     : onView(item.id)
                 }
               >
-                {item.label}
+                {viewText.label}
               </Button>
             </TooltipFrame>
           );
@@ -718,18 +1130,20 @@ const LeftRail = (props: {
 };
 
 const RightRail = (props: {
+  texts: DucalCourtTexts;
   tools: DucalAction[];
   onAction: (action: DucalAction) => void;
 }) => {
-  const { tools, onAction } = props;
+  const { texts, tools, onAction } = props;
 
   return (
     <aside className="DucalCourt__rightRail">
-      <Section title="Quick Tools">
+      <Section title={texts.sections.quick_tools}>
         <div className="DucalCourt__quickTools">
           {tools.map((action) => (
             <ActionCard
               key={action.id}
+              texts={texts}
               action={action}
               compact
               onClick={onAction}
@@ -737,10 +1151,15 @@ const RightRail = (props: {
           ))}
         </div>
       </Section>
-      <Section title="Voice Commands">
+      <Section title={texts.sections.voice_commands}>
         <ul className="DucalCourt__voiceList">
           {VOICE_COMMANDS.map((command) => (
-            <li key={command}>{command}</li>
+            <li key={command}>
+              <span className="DucalCourt__voiceCommand">{command}</span>
+              <span className="DucalCourt__voiceDesc">
+                {getVoiceCommandDescription(texts, command)}
+              </span>
+            </li>
           ))}
         </ul>
       </Section>
@@ -749,7 +1168,7 @@ const RightRail = (props: {
 };
 
 const CourtCommands = (props: {
-  texts: Texts;
+  texts: DucalCourtTexts;
   deskActions: DucalAction[];
   writActions: DucalAction[];
   governanceActions: DucalAction[];
@@ -767,15 +1186,17 @@ const CourtCommands = (props: {
 
   return (
     <>
-      <Section title="Ducal Commands">
+      <Section title={texts.sections.commands}>
         <div className="DucalCourt__actionGroups">
           <ActionGroup
-            title="Public Writs"
+            texts={texts}
+            title={texts.sections.public_writs}
             actions={writActions}
             onAction={onAction}
           />
           <ActionGroup
-            title="Governance"
+            texts={texts}
+            title={texts.sections.governance}
             actions={governanceActions}
             onAction={onAction}
           />
@@ -792,7 +1213,7 @@ const CourtCommands = (props: {
 };
 
 type DucalCourtViewProps = {
-  texts: Texts;
+  texts: DucalCourtTexts;
 };
 
 export const DucalCourtView = (props: DucalCourtViewProps) => {
@@ -865,9 +1286,7 @@ export const DucalCourtView = (props: DucalCourtViewProps) => {
       color="transparent"
       icon={compact ? 'expand' : 'window-minimize-o'}
       tooltip={
-        compact
-          ? 'Restore the court window.'
-          : 'Collapse to a compact court summary.'
+        compact ? texts.compact.restore_tooltip : texts.compact.collapse_tooltip
       }
       tooltipPosition="bottom"
       onClick={() => setCompact(!compact)}
@@ -910,7 +1329,7 @@ export const DucalCourtView = (props: DucalCourtViewProps) => {
               </div>
               <div>
                 <b>{texts.labels.viewer}</b>
-                <span>{viewer_status}</span>
+                <span>{getViewerStatus(texts, viewer_status)}</span>
               </div>
             </div>
           </div>
@@ -925,18 +1344,23 @@ export const DucalCourtView = (props: DucalCourtViewProps) => {
           ) : (
             <div className="DucalCourt__courtShell">
               <LeftRail
+                texts={texts}
                 activeView={activeView}
                 lawAction={setLawsAction}
                 onAction={handleAction}
                 onView={setActiveView}
               />
               <main className="DucalCourt__centerPanel">
-                <StatusGrid cards={status_cards} />
+                <StatusGrid texts={texts} cards={status_cards} />
                 <div className="DucalCourt__contentStack">
                   {activeContent}
                 </div>
               </main>
-              <RightRail tools={quickToolActions} onAction={handleAction} />
+              <RightRail
+                texts={texts}
+                tools={quickToolActions}
+                onAction={handleAction}
+              />
             </div>
           )}
         </div>
