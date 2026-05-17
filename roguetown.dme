@@ -2457,6 +2457,7 @@
 #include "code\modules\mob\living\carbon\human\voicepacks\male\warrior.dm"
 #include "code\modules\mob\living\carbon\human\voicepacks\male\wizard.dm"
 #include "code\modules\mob\living\carbon\human\voicepacks\male\zeth.dm"
+#include "code\modules\mob\living\carbon\human\voicepacks\other\boar.dm"
 #include "code\modules\mob\living\carbon\human\voicepacks\other\gnoll.dm"
 #include "code\modules\mob\living\carbon\human\voicepacks\other\goblin.dm"
 #include "code\modules\mob\living\carbon\human\voicepacks\other\hag_voice.dm"

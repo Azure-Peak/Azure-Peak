@@ -94,6 +94,13 @@
 	layer = 3.1
 	sellprice = 110
 
+/obj/item/natural/head/terrorhog
+	name = "terrorhog head"
+	desc = "An abomination, simply put. Thankfully, it is dead."
+	icon_state = "boarhead_terror"
+	layer = 3.1
+	sellprice = 225
+
 /obj/item/natural/head/troll
 	name = "troll head"
 	desc = "The head of a giant troll."
