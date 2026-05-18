@@ -3,6 +3,7 @@
 	name = "Etrusca"
 	auto_discovered = FALSE
 	roll_weight = TRADE_REALM_WEIGHT_NEIGHBOR
+	demanded_categories = list(ITEM_CAT_WEAPONS_SWORDS, ITEM_CAT_ARMOR_CHESTPIECES, ITEM_CAT_RAW_MATERIAL_MINERAL, ITEM_CAT_GARMENT_LUXURY, ITEM_CAT_VALUABLES_HOLY, ITEM_CAT_DECORATION, ITEM_CAT_POTTERY, ITEM_CAT_VALUABLES_RINGS, ITEM_CAT_INSTRUMENT)
 	ship_name_words = list(
 		"Aurelia", "Mirella", "Esperanza", "Fortuna", "Vittoria",
 		"Stella", "Corona", "Leone", "Tormenta", "Onore",

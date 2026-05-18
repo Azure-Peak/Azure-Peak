@@ -3,6 +3,7 @@
 	name = "Grenzelhoft"
 	auto_discovered = TRUE
 	roll_weight = TRADE_REALM_WEIGHT_NEIGHBOR
+	demanded_categories = list(ITEM_CAT_REAGENT_ARCANE, ITEM_CAT_BOOK_WRIT, ITEM_CAT_FOODSTUFF_FRESH, ITEM_CAT_GARMENT_LUXURY, ITEM_CAT_ARCYNE_GEARS, ITEM_CAT_POTION)
 	ship_name_words = list(
 		"Eisernen", "Sturm", "Adler", "Wolf", "Drache",
 		"Schwert", "Bruder", "Krone", "Burg", "Wappen",

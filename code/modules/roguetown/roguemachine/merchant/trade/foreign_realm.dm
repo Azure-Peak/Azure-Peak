@@ -19,6 +19,7 @@
 	var/list/bulk_demand_pool = list()
 	var/list/bulk_supply_pool = list()
 	var/list/cultural_stock_pool = list()
+	var/list/demanded_categories = list()
 	var/list/cultural_overrides = list()
 	var/list/victualling_fresh_pool = list()
 	var/list/victualling_preserved_pool = list()

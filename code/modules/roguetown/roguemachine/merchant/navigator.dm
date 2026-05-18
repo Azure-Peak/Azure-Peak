@@ -207,7 +207,7 @@
 					continue
 				if(isitem(I))
 					var/obj/item/IT = I
-					if(IT.atc_sealed)
+					if(IT.atc_sealed || IT.unmintable)
 						continue
 				var/prize = I.get_real_price() * (1 - fixed_tax)
 				if(prize >= 1)

@@ -3,6 +3,7 @@
 	name = "Aavnr"
 	auto_discovered = TRUE
 	roll_weight = TRADE_REALM_WEIGHT_NEIGHBOR
+	demanded_categories = list(ITEM_CAT_WEAPONS_SWORDS, ITEM_CAT_ARMOR_CHESTPIECES, ITEM_CAT_GARMENT_FINE, ITEM_CAT_GARMENT_LUXURY, ITEM_CAT_RAW_MATERIAL_MINERAL, ITEM_CAT_BOOK_WRIT, ITEM_CAT_ARMOR_BARDING, ITEM_CAT_ARMOR_BELTS, ITEM_CAT_TOOLS_FIELD)
 	ship_name_words = list(
 		"Yarlsnik", "Koprivka", "Diethelm", "Tomorzh", "Khairin",
 		"Wardenpact", "Hetman", "Saiga", "Bloodaxe", "Ironmask",

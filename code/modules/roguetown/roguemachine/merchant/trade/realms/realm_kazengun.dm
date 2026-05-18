@@ -3,6 +3,7 @@
 	name = "Kazengun"
 	auto_discovered = FALSE
 	roll_weight = TRADE_REALM_WEIGHT_DISTANT
+	demanded_categories = list(ITEM_CAT_WEAPONS_SWORDS, ITEM_CAT_WEAPONS_AXES, ITEM_CAT_BEVERAGE, ITEM_CAT_GARMENT_LUXURY, ITEM_CAT_FOODSTUFF_PRESERVED, ITEM_CAT_WEAPONS_DAGGERS, ITEM_CAT_WEAPONS_POLEARMS, ITEM_CAT_INSTRUMENT, ITEM_CAT_POTTERY)
 	single_word_base = TRUE
 	ship_name_words = list(
 		"Tsuru", "Hayabusa", "Akatsuki", "Tsuki", "Ame",

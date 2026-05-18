@@ -153,11 +153,16 @@
 	docked_at = world.time
 	dock_expires_at = world.time + TRADE_SHIP_DOCK_DURATION
 	dock_expiry_timer_id = addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(trade_ship_expire_dock), src), TRADE_SHIP_DOCK_DURATION, TIMER_STOPPABLE)
+	if(SSmerchant_trade)
+		var/datum/foreign_realm/realm = SSmerchant_trade.realms[realm_id]
+		SSmerchant_trade.add_ship_demand_for_realm(realm)
 	return TRUE
 
 /proc/trade_ship_expire_dock(datum/trade_ship/ship)
 	if(!ship || ship.dock_state != TRADE_SHIP_STATE_DOCKED)
 		return
 	if(SSmerchant_trade)
+		var/datum/foreign_realm/realm = SSmerchant_trade.realms[ship.realm_id]
+		SSmerchant_trade.remove_ship_demand_for_realm(realm)
 		SSmerchant_trade.all_ships -= ship
 	qdel(ship)

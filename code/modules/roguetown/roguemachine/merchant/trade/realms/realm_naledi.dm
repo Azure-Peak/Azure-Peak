@@ -3,6 +3,7 @@
 	name = "Naledi"
 	auto_discovered = FALSE
 	roll_weight = TRADE_REALM_WEIGHT_DISTANT
+	demanded_categories = list(ITEM_CAT_WEAPONS_SWORDS, ITEM_CAT_ARMOR_CHESTPIECES, ITEM_CAT_FOODSTUFF_FRESH, ITEM_CAT_BEVERAGE, ITEM_CAT_RAW_MATERIAL_MINERAL, ITEM_CAT_GARMENT_LUXURY, ITEM_CAT_WEAPONS_SHIELDS, ITEM_CAT_ARMOR_LEGS, ITEM_CAT_ARMOR_BOOTS, ITEM_CAT_ARMOR_BARDING)
 	ship_name_words = list(
 		"Psydon", "Bilomari", "Veralun", "Olindar", "Veranda",
 		"Repentance", "Mercy", "Vigil", "Pilgrim", "Endurance",

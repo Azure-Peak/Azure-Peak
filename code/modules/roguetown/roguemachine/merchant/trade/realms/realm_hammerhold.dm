@@ -3,6 +3,7 @@
 	name = "Hammerhold"
 	auto_discovered = FALSE
 	roll_weight = TRADE_REALM_WEIGHT_DISTANT
+	demanded_categories = list(ITEM_CAT_FOODSTUFF_FRESH, ITEM_CAT_GARMENT_COMMON, ITEM_CAT_GARMENT_LUXURY, ITEM_CAT_RAW_MATERIAL_ORGANIC, ITEM_CAT_BEVERAGE, ITEM_CAT_ARMOR_BOOTS, ITEM_CAT_ARMOR_GLOVES, ITEM_CAT_ARMOR_LEGS, ITEM_CAT_ARMOR_LIGHT, ITEM_CAT_TOOLS_FIELD)
 	ship_name_words = list(
 		"Æthel", "Beorht", "Hammer", "Anvil", "Grim",
 		"Wulf", "Stan", "Hild", "Mæst",

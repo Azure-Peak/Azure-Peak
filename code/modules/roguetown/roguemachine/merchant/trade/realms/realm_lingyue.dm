@@ -3,6 +3,7 @@
 	name = "Lingyue"
 	auto_discovered = FALSE
 	roll_weight = TRADE_REALM_WEIGHT_DISTANT
+	demanded_categories = list(ITEM_CAT_WEAPONS_SWORDS, ITEM_CAT_ARMOR_CHESTPIECES, ITEM_CAT_RAW_MATERIAL_MINERAL, ITEM_CAT_BEVERAGE, ITEM_CAT_GARMENT_LUXURY, ITEM_CAT_POTION, ITEM_CAT_ARCYNE_GEARS, ITEM_CAT_ARMOR_GLOVES, ITEM_CAT_INSTRUMENT)
 	ship_name_words = list(
 		"Tianxia", "Fenghuang", "Qilin", "Longwang", "Yuanzhao",
 		"Jinqi", "Lingfeng", "Yunhai", "Shanhe", "Chunqiu",

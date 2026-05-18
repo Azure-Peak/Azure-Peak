@@ -186,6 +186,23 @@ GLOBAL_DATUM_INIT(economic_panel, /datum/economic_panel, new)
 			))
 		foreign_trade["ships"] = ships_data
 	foreign_trade["realms"] = realms_data
+	var/list/market_pools_data = list()
+	if(SSmerchant_trade)
+		for(var/cat in SSmerchant_trade.pool_capacity)
+			var/cap = SSmerchant_trade.pool_capacity[cat]
+			var/consumed = SSmerchant_trade.pool_consumed[cat] || 0
+			var/demand = SSmerchant_trade.pending_ship_demand[cat] || 0
+			market_pools_data += list(list(
+				"category" = cat,
+				"capacity" = cap,
+				"consumed" = consumed,
+				"saturation_pct" = cap > 0 ? round((consumed / cap) * 100) : 0,
+				"pending_demand" = demand,
+				"demand_pct" = cap > 0 ? round((demand / cap) * 100) : 0,
+				"demand_mult" = SSmerchant_trade.get_demand_multiplier(cat),
+			))
+	foreign_trade["market_pools"] = market_pools_data
+	foreign_trade["market_pop_snapshot"] = SSmerchant_trade ? SSmerchant_trade.pool_pop_snapshot : 0
 	data["foreign_trade"] = foreign_trade
 
 	// Aggregation tallies the full ledger so cap-exceeding history still shows up in the

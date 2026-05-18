@@ -88,6 +88,26 @@
 #define MATERIAL_PLANK_FROM_WOOD 1.5
 #define MATERIAL_ROGUEGEAR_FROM_STEEL 1.0
 
+// ----- ATC WAREHOUSE MARKET POOLS -----
+// Pool capacity in mammon per category. Capacity scales sublinearly with player population.
+#define MARKET_POOL_TIER_LOOT 1000
+#define MARKET_POOL_TIER_MID 500
+#define MARKET_POOL_TIER_STANDARD 250
+
+#define MARKET_POOL_JITTER_LOW 0.7
+#define MARKET_POOL_JITTER_HIGH 1.3
+
+#define MARKET_POOL_POP_REFERENCE 15 // Base number before scaling starts
+#define MARKET_POOL_POP_SCALE 0.005 // I set this to be 0.5% per player, which means that
+// for lowpop server / crafter heavy server there's generous pools, whereas highpop 
+// must relies on merchant active management
+
+#define MARKET_POOL_RESNAPSHOT_INTERVAL (15 MINUTES)
+
+#define MARKET_DEMAND_PER_SHIP_FRACTION 0.5
+#define MARKET_DEMAND_MAX_POOL_MULT 2.0
+#define MARKET_DEMAND_PAYOUT_MAX_MULT 1.5
+
 // ----- ALCHEMICAL INGREDIENT PRICING -----
 #define SELLPRICE_HERB_COMMON 4
 #define SELLPRICE_HERB_UNCOMMON 6

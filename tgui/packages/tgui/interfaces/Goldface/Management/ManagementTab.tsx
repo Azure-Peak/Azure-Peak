@@ -103,7 +103,7 @@ const AuditCard = (props: { harbor: HarborData }) => {
   const { harbor } = props;
   return (
     <div style={{ ...cardStyle, marginTop: '8px' }}>
-      <div style={sectionHeaderStyle}>Round Audit</div>
+      <div style={sectionHeaderStyle}>Week Audit</div>
       <div
         style={{
           display: 'grid',
