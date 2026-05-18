@@ -3,7 +3,7 @@
 	if(href_list["check_hb"] && (observer_privilege || usr.canUseTopic(src, BE_CLOSE, NO_DEXTERITY)))
 		if(!observer_privilege)
 			usr.visible_message(span_info("[usr] tries to hear [src]'s heartbeat."))
-			if(!do_after(usr, 30, needhand = TRUE, target = src))
+			if(!do_after(usr, 2 SECONDS, needhand = TRUE, target = src))
 				return
 		var/list/following_my_heart = check_heartbeat(usr)
 		if(following_my_heart)
@@ -29,7 +29,7 @@
 			message += "<span class='deadsay'>[p_they(TRUE)] commited suicide... Nothing can be done..."
 		if(HAS_TRAIT(src, TRAIT_DNR))
 			message += "<span class='deadsay'>[p_their(TRUE)] heart will never beat again...</span>"
-		if(isobserver(user) || HAS_TRAIT(user, TRAIT_SOUL_EXAMINE) || (user.get_skill_level(/datum/skill/misc/medicine) >= SKILL_LEVEL_MASTER))
+		if(isobserver(user) || HAS_TRAIT(user, TRAIT_SOUL_EXAMINE) || HAS_TRAIT(user, TRAIT_ZIZOSIGHT) || (user.get_skill_level(/datum/skill/misc/medicine) >= SKILL_LEVEL_MASTER))
 			if(!key && !get_ghost(FALSE, TRUE))
 				message += span_deadsay("[p_their(TRUE)] soul has departed...")
 			else

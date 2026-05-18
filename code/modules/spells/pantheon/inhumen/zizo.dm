@@ -43,7 +43,7 @@
 	associated_stat = null
 	charge_required = FALSE
 	click_to_activate = FALSE
-	cooldown_time = 20 SECONDS
+	cooldown_time = 40 SECONDS
 	primary_resource_cost = 30
 	secondary_resource_cost = 10
 	sound = null
@@ -64,14 +64,16 @@
 
 	for(var/obj/O in range(checkrange, owner))
 		if(O.light_on && O.light_power > 0)
-			extinguished_anything = TRUE
-			O.extinguish()
+			if(O.resistance_flags & ON_FIRE)
+				O.extinguish()
+				extinguished_anything = TRUE
 
 	for(var/mob/M in range(checkrange, owner))
 		for(var/obj/O in M.contents)
 			if(O.light_on && O.light_power > 0)
-				extinguished_anything = TRUE
-				O.extinguish()
+				if(O.resistance_flags & ON_FIRE)
+					O.extinguish()
+					extinguished_anything = TRUE
 
 	var/bonus_duration = 5 SECONDS + (skill_level * 5 SECONDS)
 
@@ -520,6 +522,7 @@
 			ADD_TRAIT(user, TRAIT_NOPAIN, "[type]") // you have no flesh
 			ADD_TRAIT(user, TRAIT_NOHUNGER, "[type]") // you have no stomach
 			ADD_TRAIT(user, TRAIT_NOBREATH, "[type]") // you have no lungs
+			ADD_TRAIT(user, TRAIT_TOXIMMUNE, "[type]") // just in case NOBLOOD is not enough
 			ADD_TRAIT(user, TRAIT_BLOODLOSS_IMMUNE, "[type]") // just in case NOBLOOD is not enough
 			ADD_TRAIT(user, TRAIT_LIMBATTACHMENT, "[type]") // cause old Rituos let you recreate your skeleton limbs, but since this one deletes the spell after use, this is the best way to make it level
 			ADD_TRAIT(user, TRAIT_ZOMBIE_IMMUNE, "[type]") // cause it makes no sense

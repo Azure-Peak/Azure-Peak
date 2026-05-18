@@ -60,10 +60,10 @@
 	overlay_icon = 'icons/mob/actions/zizomiracles.dmi'
 	overlay_state = "revival"
 	action_icon_state = "revival"
+	recharge_time = 5 MINUTES // halved compared to others
 	action_icon = 'icons/mob/actions/zizomiracles.dmi'
-	// Zizo's condition requires the target's Lux to be intact, it will inflict devitalized (greater), and if the body already is devitalized, skeletonizing one of their limbs.
+	// We apply zizo's revival differently from this point onward
 	zizo = TRUE
-	// We apply zizo's debuff differently
 	debuff_type = null
 	required_structure = /obj/structure/fluff/psycross/zizocross
 
@@ -512,15 +512,9 @@
 				target.apply_status_effect(/datum/status_effect/debuff/zizo_temp_undeath)
 				to_chat(target, span_userdanger("You feel your rekindled Lux torn from within, leaving you hollowed as undeath threatens to gnaw at your fading soul."))
 			else
-				for(var/obj/item/bodypart/part as anything in user.bodyparts)
-					if(istype(part, /obj/item/bodypart/head) || istype(part, /obj/item/bodypart/chest))
-						continue
-					part.skeletonize(FALSE)
-				user.update_body_parts()
 				playsound(user.loc, 'sound/misc/smelter_sound.ogg', 50, FALSE)
-
 				to_chat(target, span_userdanger("Your fading Lux collapses inward far too soon. Flesh sloughs from bone as undeath tightens its grip upon you."))
-				target.apply_status_effect(/datum/status_effect/debuff/zizo_temp_undeath)
+				target.apply_status_effect(/datum/status_effect/debuff/devitalised)
 
 		to_chat(user, span_nicegreen("You wrench the victim's rekindled Lux into yourself, leaving them hollowed and starving for life."))
 
@@ -554,6 +548,8 @@
 	. = ..()
 	var/mob/living/carbon/human/H = owner
 	if(!istype(H))
+		return
+	if(H.stat == DEAD)
 		return
 	var/very_hongry = pick("HUNGRY...", "Hungry...", "Hungry! Hungry!",	"I NEED TO EAT!", "I'm STARVING!!", "Need to eat... anything... I'll eat anything. I'm so hungry.")
 	if(H.nutrition >= NUTRITION_LEVEL_FED)
@@ -601,14 +597,22 @@
 	return ..()
 
 /datum/status_effect/buff/zizo_tithe/on_remove()
-	UnregisterSignal(victim, COMSIG_LIVING_DEATH)
+	if(victim)
+		UnregisterSignal(victim, COMSIG_LIVING_DEATH)
 	. = ..()
 
 /datum/status_effect/buff/zizo_tithe/proc/cancel_early()
 	SIGNAL_HANDLER
 
-	var/mob/living/carbon/human/H = owner
-	H.remove_status_effect(/datum/status_effect/buff/zizo_tithe)
+	var/mob/living/carbon/human/caster = owner
+	var/mob/living/carbon/human/target = victim
+
+	if(caster)
+		caster.remove_status_effect(/datum/status_effect/buff/zizo_tithe)
+
+	if(target)
+		target.remove_status_effect(/datum/status_effect/debuff/zizo_drain)
+		target.remove_status_effect(/datum/status_effect/debuff/zizo_temp_undeath)
 
 // THE DRAIN - Victim
 /datum/status_effect/debuff/zizo_drain
