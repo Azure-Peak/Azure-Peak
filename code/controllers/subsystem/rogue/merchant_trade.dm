@@ -15,6 +15,9 @@ SUBSYSTEM_DEF(merchant_trade)
 	var/list/pool_consumed = list()
 	var/list/pending_ship_demand = list()
 	var/list/pending_ship_demand_satisfied = list()
+	var/list/bm_pool_capacity = list()
+	var/list/bm_pool_consumed = list()
+	var/list/pool_theme_jitters = list()
 	var/pool_pop_snapshot = 0
 	var/resnapshot_timer_id
 
@@ -45,11 +48,21 @@ SUBSYSTEM_DEF(merchant_trade)
 	pool_consumed = list()
 	pending_ship_demand = list()
 	pending_ship_demand_satisfied = list()
+	bm_pool_capacity = list()
+	bm_pool_consumed = list()
+	pool_theme_jitters = roll_market_theme_jitters()
+	var/dispatch = build_market_theme_dispatch(pool_theme_jitters)
+	if(dispatch)
+		scom_announce(dispatch)
 	for(var/cat in all_market_pool_categories())
-		pool_capacity[cat] = compute_market_pool_capacity(cat, pool_pop_snapshot)
+		var/cap = compute_market_pool_capacity(cat, pool_pop_snapshot, pool_theme_jitters)
+		pool_capacity[cat] = cap
 		pool_consumed[cat] = 0
 		pending_ship_demand[cat] = 0
 		pending_ship_demand_satisfied[cat] = 0
+		var/bm_cap = round(cap * MARKET_BM_POOL_FRACTION)
+		bm_pool_capacity[cat] = bm_cap
+		bm_pool_consumed[cat] = 0
 	schedule_pool_resnapshot()
 
 /datum/controller/subsystem/merchant_trade/proc/schedule_pool_resnapshot()
@@ -62,10 +75,32 @@ SUBSYSTEM_DEF(merchant_trade)
 	if(new_pop > pool_pop_snapshot)
 		pool_pop_snapshot = new_pop
 		for(var/cat in all_market_pool_categories())
-			var/new_cap = compute_market_pool_capacity(cat, pool_pop_snapshot)
+			var/new_cap = compute_market_pool_capacity(cat, pool_pop_snapshot, pool_theme_jitters)
 			if(new_cap > pool_capacity[cat])
 				pool_capacity[cat] = new_cap
+			var/new_bm_cap = round(new_cap * MARKET_BM_POOL_FRACTION)
+			if(new_bm_cap > bm_pool_capacity[cat])
+				bm_pool_capacity[cat] = new_bm_cap
 	schedule_pool_resnapshot()
+
+/datum/controller/subsystem/merchant_trade/proc/regen_bm_saturation_daily()
+	for(var/cat in bm_pool_capacity)
+		var/bm_cap = bm_pool_capacity[cat]
+		if(bm_cap <= 0)
+			continue
+		var/regen = round(bm_cap * MARKET_BM_DAILY_SATURATION_REGEN)
+		bm_pool_consumed[cat] = max(0, (bm_pool_consumed[cat] || 0) - regen)
+
+/datum/controller/subsystem/merchant_trade/proc/get_bm_saturation_factor(category)
+	var/cap = bm_pool_capacity[category] || 0
+	if(cap <= 0)
+		return 1.0
+	var/consumed = bm_pool_consumed[category] || 0
+	return consumed >= cap ? 0 : 1.0
+
+
+/datum/controller/subsystem/merchant_trade/proc/get_bm_demand_multiplier(category)
+	return 1.0
 
 /datum/controller/subsystem/merchant_trade/proc/add_ship_demand_for_realm(datum/foreign_realm/realm)
 	if(!realm || !length(realm.demanded_categories))
@@ -77,6 +112,8 @@ SUBSYSTEM_DEF(merchant_trade)
 		var/per_ship = round(cap * MARKET_DEMAND_PER_SHIP_FRACTION)
 		var/hard_cap = round(cap * MARKET_DEMAND_MAX_POOL_MULT)
 		pending_ship_demand[cat] = min(hard_cap, (pending_ship_demand[cat] || 0) + per_ship)
+		var/drain = round(cap * MARKET_DEMAND_SHIP_SATURATION_DRAIN)
+		pool_consumed[cat] = max(0, (pool_consumed[cat] || 0) - drain)
 
 /datum/controller/subsystem/merchant_trade/proc/remove_ship_demand_for_realm(datum/foreign_realm/realm)
 	if(!realm || !length(realm.demanded_categories))
@@ -103,7 +140,7 @@ SUBSYSTEM_DEF(merchant_trade)
 	if(cap <= 0)
 		return 1.0
 	var/consumed = pool_consumed[category] || 0
-	return max(0, 1 - (consumed / cap))
+	return consumed >= cap ? 0 : 1.0
 
 /datum/controller/subsystem/merchant_trade/proc/roll_active_conditions()
 	for(var/realm_id in realms)
@@ -157,6 +194,7 @@ SUBSYSTEM_DEF(merchant_trade)
 	hails_remaining = TRADE_SHIPS_HAIL_PER_DAY
 	expire_undocked_ships()
 	roll_daily_pool()
+	regen_bm_saturation_daily()
 
 /datum/controller/subsystem/merchant_trade/proc/roll_daily_pool()
 	var/list/weighted = list()

@@ -6,6 +6,24 @@
 			return MARKET_POOL_TIER_MID
 	return MARKET_POOL_TIER_STANDARD
 
+/proc/get_market_theme_for_category(category)
+	switch(category)
+		if(ITEM_CAT_ARMOR_HELMETS, ITEM_CAT_ARMOR_CHESTPIECES, ITEM_CAT_ARMOR_LEGS, ITEM_CAT_ARMOR_NECK, ITEM_CAT_ARMOR_BOOTS, ITEM_CAT_ARMOR_GLOVES, ITEM_CAT_ARMOR_MASKS, ITEM_CAT_ARMOR_BRACERS, ITEM_CAT_ARMOR_BELTS, ITEM_CAT_ARMOR_BARDING, ITEM_CAT_ARMOR_LIGHT, ITEM_CAT_WEAPONS_SWORDS, ITEM_CAT_WEAPONS_DAGGERS, ITEM_CAT_WEAPONS_AXES, ITEM_CAT_WEAPONS_POLEARMS, ITEM_CAT_WEAPONS_MACES, ITEM_CAT_WEAPONS_FLAILS, ITEM_CAT_WEAPONS_SHIELDS, ITEM_CAT_WEAPONS_AMMO)
+			return MARKET_THEME_WARGEAR
+		if(ITEM_CAT_REAGENT_ALCHEMICAL, ITEM_CAT_REAGENT_ARCANE, ITEM_CAT_ARCYNE_GEARS, ITEM_CAT_POTION, ITEM_CAT_BOOK_WRIT)
+			return MARKET_THEME_ARCYNE
+		if(ITEM_CAT_GARMENT_COMMON, ITEM_CAT_GARMENT_FINE, ITEM_CAT_GARMENT_LUXURY)
+			return MARKET_THEME_GARMENTS
+		if(ITEM_CAT_FOODSTUFF_FRESH, ITEM_CAT_FOODSTUFF_PRESERVED, ITEM_CAT_BEVERAGE)
+			return MARKET_THEME_FOODSTUFFS
+		if(ITEM_CAT_VALUABLES_RINGS, ITEM_CAT_VALUABLES_HOLY, ITEM_CAT_DECORATION, ITEM_CAT_TROPHY, ITEM_CAT_INSTRUMENT, ITEM_CAT_POTTERY)
+			return MARKET_THEME_LOOT
+		if(ITEM_CAT_RAW_MATERIAL_MINERAL, ITEM_CAT_RAW_MATERIAL_ORGANIC, ITEM_CAT_SALVAGE, ITEM_CAT_LIVESTOCK, ITEM_CAT_COMPONENTS, ITEM_CAT_SMITHING_MISC)
+			return MARKET_THEME_RAWS
+		if(ITEM_CAT_ENG_MACHINERY, ITEM_CAT_ENG_CONSTRUCTION, ITEM_CAT_ENG_COMBAT, ITEM_CAT_ENG_TRIGGERS, ITEM_CAT_ENG_MISC, ITEM_CAT_TOOLS_COOKWARE, ITEM_CAT_TOOLS_FIELD, ITEM_CAT_TOOLS_WORKSHOP, ITEM_CAT_TOOLS_SUNDRIES, ITEM_CAT_TOOLS_ROGUE)
+			return MARKET_THEME_ENGINEERING
+	return MARKET_THEME_MISC
+
 /proc/all_market_pool_categories()
 	return list(
 		ITEM_CAT_ARMOR_HELMETS, ITEM_CAT_ARMOR_CHESTPIECES, ITEM_CAT_ARMOR_LEGS,
@@ -30,11 +48,57 @@
 		ITEM_CAT_REAGENT_ALCHEMICAL, ITEM_CAT_REAGENT_ARCANE, ITEM_CAT_ARCYNE_GEARS,
 	)
 
-/proc/compute_market_pool_capacity(category, pop_count)
+/proc/compute_market_pool_capacity(category, pop_count, list/theme_jitters)
 	var/baseline = get_market_pool_tier_for_category(category)
 	var/pop_mult = 1 + MARKET_POOL_POP_SCALE * max(0, pop_count - MARKET_POOL_POP_REFERENCE)
-	var/jitter = MARKET_POOL_JITTER_LOW + rand() * (MARKET_POOL_JITTER_HIGH - MARKET_POOL_JITTER_LOW)
+	var/theme = get_market_theme_for_category(category)
+	var/jitter = theme_jitters ? (theme_jitters[theme] || 1.0) : (MARKET_POOL_JITTER_LOW + rand() * (MARKET_POOL_JITTER_HIGH - MARKET_POOL_JITTER_LOW))
 	return round(baseline * pop_mult * jitter)
+
+/proc/roll_market_theme_jitters()
+	var/list/themes = list(MARKET_THEME_WARGEAR, MARKET_THEME_ARCYNE, MARKET_THEME_GARMENTS, MARKET_THEME_FOODSTUFFS, MARKET_THEME_LOOT, MARKET_THEME_RAWS, MARKET_THEME_ENGINEERING, MARKET_THEME_MISC)
+	var/list/out = list()
+	for(var/theme in themes)
+		out[theme] = MARKET_POOL_JITTER_LOW + rand() * (MARKET_POOL_JITTER_HIGH - MARKET_POOL_JITTER_LOW)
+	return out
 
 /proc/compute_pop_count_for_pools()
 	return length(GLOB.clients)
+
+/proc/market_theme_label(theme)
+	switch(theme)
+		if(MARKET_THEME_WARGEAR)
+			return "Wargear"
+		if(MARKET_THEME_ARCYNE)
+			return "Arcyne Goods"
+		if(MARKET_THEME_GARMENTS)
+			return "Garments"
+		if(MARKET_THEME_FOODSTUFFS)
+			return "Foodstuffs"
+		if(MARKET_THEME_LOOT)
+			return "Luxuries"
+		if(MARKET_THEME_RAWS)
+			return "Raw Stock"
+		if(MARKET_THEME_ENGINEERING)
+			return "Engineered Wares"
+	return "Sundries"
+
+/proc/build_market_theme_dispatch(list/theme_jitters)
+	if(!length(theme_jitters))
+		return ""
+	var/list/glut = list()
+	var/list/scarce = list()
+	for(var/theme in theme_jitters)
+		var/j = theme_jitters[theme]
+		if(j >= MARKET_THEME_HIGH_JITTER)
+			scarce += market_theme_label(theme)
+		else if(j <= MARKET_THEME_LOW_JITTER)
+			glut += market_theme_label(theme)
+	var/list/parts = list()
+	if(length(scarce))
+		parts += "Scarce: [english_list(scarce)]"
+	if(length(glut))
+		parts += "In Glut: [english_list(glut)]"
+	if(!length(parts))
+		return "Markets steady across the board."
+	return "This week: [jointext(parts, "; ")]."

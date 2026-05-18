@@ -107,6 +107,23 @@
 #define MARKET_DEMAND_PER_SHIP_FRACTION 0.5
 #define MARKET_DEMAND_MAX_POOL_MULT 2.0
 #define MARKET_DEMAND_PAYOUT_MAX_MULT 1.5
+#define MARKET_DEMAND_SHIP_SATURATION_DRAIN 0.50
+
+#define MARKET_THEME_WARGEAR "wargear"
+#define MARKET_THEME_ARCYNE "arcyne"
+#define MARKET_THEME_GARMENTS "garments"
+#define MARKET_THEME_FOODSTUFFS "foodstuffs"
+#define MARKET_THEME_LOOT "loot"
+#define MARKET_THEME_RAWS "raws"
+#define MARKET_THEME_ENGINEERING "engineering"
+#define MARKET_THEME_MISC "misc"
+
+#define MARKET_THEME_HIGH_JITTER 1.15
+#define MARKET_THEME_LOW_JITTER 0.85
+
+// Smuggler Navigator pool. Half the size of Real, no demand layer, saturation regenerates daily.
+#define MARKET_BM_POOL_FRACTION 0.5
+#define MARKET_BM_DAILY_SATURATION_REGEN 0.25
 
 // ----- ALCHEMICAL INGREDIENT PRICING -----
 #define SELLPRICE_HERB_COMMON 4

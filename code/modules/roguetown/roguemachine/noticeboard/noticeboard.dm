@@ -94,6 +94,7 @@
 	data["charters"] = build_charters()
 	data["economic_events"] = build_economic_events()
 	data["mercenary_roster"] = build_mercenary_roster()
+	data["market_data"] = build_market_data()
 	if(!ishuman(user))
 		data["postings"] = list()
 		data["can_post_listing"] = FALSE
@@ -298,6 +299,37 @@
 			if("Do not Disturb")
 				data["dnd"] += list(entry)
 				data["dnd_count"]++
+	return data
+
+/obj/structure/roguemachine/noticeboard/proc/build_market_data()
+	var/list/data = list(
+		"categories" = list(),
+		"pop_snapshot" = 0,
+		"category_count" = 0,
+	)
+	if(!SSmerchant_trade)
+		return data
+	data["pop_snapshot"] = SSmerchant_trade.pool_pop_snapshot
+	var/list/rows = list()
+	for(var/cat in SSmerchant_trade.pool_capacity)
+		var/cap = SSmerchant_trade.pool_capacity[cat] || 0
+		var/consumed = SSmerchant_trade.pool_consumed[cat] || 0
+		var/fill_ratio = cap > 0 ? min(1, consumed / cap) : 0
+		var/refused = SSmerchant_trade.get_saturation_factor(cat) <= 0
+		var/demand_mult = SSmerchant_trade.get_demand_multiplier(cat)
+		var/pending = SSmerchant_trade.pending_ship_demand[cat] || 0
+		rows += list(list(
+			"category" = cat,
+			"capacity" = cap,
+			"consumed" = consumed,
+			"fill_ratio" = fill_ratio,
+			"refused" = refused,
+			"demand_mult" = demand_mult,
+			"pending_ship_demand" = pending,
+		))
+	data["categories"] = rows
+	data["category_count"] = length(rows)
+	data["theme_dispatch"] = build_market_theme_dispatch(SSmerchant_trade.pool_theme_jitters)
 	return data
 
 /obj/structure/roguemachine/noticeboard/proc/serialize_posting(datum/noticeboard_posting/P, mob/living/carbon/human/viewer, viewer_is_authority)

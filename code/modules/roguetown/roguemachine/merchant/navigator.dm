@@ -54,7 +54,7 @@
 	name = "battered navigator"
 	desc = "A crudely repaired navigator bolted to the hull of a leaky boat. It stinks of brine and contraband."
 	motto = "NAVIGA??R - - ████ ██████ █████████ - FREEDOM OF TRANSACTION.."
-	fixed_tax = 0.7
+	fixed_tax = 0.5
 	pay_taxes = FALSE
 	pay_merchant_share = FALSE
 
@@ -68,7 +68,7 @@
 /obj/item/roguemachine/navigator/smuggler/examine(mob/user)
 	. = ..()
 	. += span_notice("The rates here are disastrous. Having a facilitator from the bathhouse nearby might improve them to 100%.")
-	if(fixed_tax <= 0.5)
+	if(fixed_tax <= 0)
 		. += span_notice("A facilitator is present. Current handler's fee: [fixed_tax * 100]%.")
 	else
 		. += span_warning("No facilitator present. Current handler's fee: [fixed_tax * 100]%.")
@@ -76,15 +76,49 @@
 /obj/item/roguemachine/navigator/smuggler/process()
 	if(!anchored)
 		return TRUE
-	// Only check bathhouse staff proximity on export tick, not every SSroguemachine fire
 	if(world.time > next_airlift)
 		var/bath_nearby = FALSE
 		for(var/mob/living/carbon/human/H in range(7, src))
 			if(H.stat != DEAD && (H.job in GLOB.bathhouse_positions))
 				bath_nearby = TRUE
 				break
-		fixed_tax = bath_nearby ? 0.0 : 0.7
+		fixed_tax = bath_nearby ? 0.0 : 0.5
 	return ..()
+
+/obj/item/roguemachine/navigator/proc/get_market_saturation(category)
+	if(!SSmerchant_trade || !category)
+		return 1
+	return SSmerchant_trade.get_saturation_factor(category)
+
+/obj/item/roguemachine/navigator/proc/get_market_demand(category)
+	if(!SSmerchant_trade || !category)
+		return 1
+	return SSmerchant_trade.get_demand_multiplier(category)
+
+/obj/item/roguemachine/navigator/proc/credit_pool(category, base_price)
+	if(!SSmerchant_trade || !category || base_price <= 0)
+		return
+	SSmerchant_trade.pool_consumed[category] = (SSmerchant_trade.pool_consumed[category] || 0) + base_price
+	var/demand = SSmerchant_trade.pending_ship_demand[category] || 0
+	var/drain = min(demand, base_price)
+	if(drain > 0)
+		SSmerchant_trade.pending_ship_demand[category] = demand - drain
+		SSmerchant_trade.pending_ship_demand_satisfied[category] = (SSmerchant_trade.pending_ship_demand_satisfied[category] || 0) + drain
+
+/obj/item/roguemachine/navigator/smuggler/get_market_saturation(category)
+	if(!SSmerchant_trade || !category)
+		return 1
+	return SSmerchant_trade.get_bm_saturation_factor(category)
+
+/obj/item/roguemachine/navigator/smuggler/get_market_demand(category)
+	if(!SSmerchant_trade || !category)
+		return 1
+	return SSmerchant_trade.get_bm_demand_multiplier(category)
+
+/obj/item/roguemachine/navigator/smuggler/credit_pool(category, base_price)
+	if(!SSmerchant_trade || !category || base_price <= 0)
+		return
+	SSmerchant_trade.bm_pool_consumed[category] = (SSmerchant_trade.bm_pool_consumed[category] || 0) + base_price
 
 /obj/structure/roguemachine/balloon_pad
 	name = ""
@@ -99,66 +133,142 @@
 	if(!anchored)
 		return ..()
 	user.changeNext_move(CLICK_CD_INTENTCAP)
-
-	var/contents
-
-	contents += "<center>[motto]<BR>"
-	contents += "--------------<BR>"
-	if(fixed_tax > 0)
-		contents += "HANDLER'S FEE: [fixed_tax * 100] %<BR>"
-	contents += "Next Balloon: [time2text((next_airlift - world.time), "mm:ss")]<BR>"
-
-	var/duty_rate = SStreasury.get_tax_rate(TAX_CATEGORY_EXPORT_DUTY)
-	var/levy_rate = SSmerchant_trade ? SSmerchant_trade.merchant_levy_percent : 0
-	var/merchant_only = FALSE
-	if(ishuman(user))
-		var/mob/living/carbon/human/H = user
-		merchant_only = (H.job in profit_id)
-	contents += "Crown Export Duty: <b>[round(duty_rate * 100)]%</b>"
-	if(merchant_only && !pay_taxes)
-		contents += " <font color='#c84'><b>(DODGING)</b></font>"
-	contents += "<br>"
-	contents += "Merchant's Levy: <b>[levy_rate]%</b>"
-	if(merchant_only && !pay_merchant_share)
-		contents += " <font color='#c84'><b>(WAIVED)</b></font>"
-	contents += "<br>"
-	if(merchant_only)
-		contents += "<font color='#8a8'>Crown paid: [duty_collected_here]m</font> &middot; <font color='#c84'>Crown evaded: [duty_evaded_here]m</font><br>"
-		contents += "<font color='#8a8'>Levy paid: [levy_collected_here]m</font><br>"
-	contents += "</center><BR>"
-
-	if(!user.can_read(src, TRUE))
-		contents = stars(contents)
-	var/datum/browser/popup = new(user, "VENDORTHING", "", 370, 300)
-	popup.set_content(contents)
-	popup.open()
+	ui_interact(user)
 
 /obj/item/roguemachine/navigator/attack_right(mob/user)
-	if(!anchored || !ishuman(user))
+	if(!anchored)
 		return ..()
-	var/mob/living/carbon/human/H = user
+	ui_interact(user)
+
+/obj/item/roguemachine/navigator/ui_state(mob/user)
+	return GLOB.human_adjacent_state
+
+/obj/item/roguemachine/navigator/ui_interact(mob/user, datum/tgui/ui)
+	ui = SStgui.try_update_ui(user, src, ui)
+	if(!ui)
+		ui = new(user, src, "Navigator")
+		ui.open()
+
+/obj/item/roguemachine/navigator/ui_data(mob/user)
+	return build_navigator_data(user)
+
+/obj/item/roguemachine/navigator/proc/build_navigator_data(mob/user)
+	var/list/data = list()
+	data["motto"] = motto
+	var/remaining = max(0, next_airlift - world.time)
+	data["next_airlift_seconds"] = round(remaining / 10)
+	data["handler_fee_percent"] = round(fixed_tax * 100)
+	data["duty_rate"] = SStreasury ? SStreasury.get_tax_rate(TAX_CATEGORY_EXPORT_DUTY) : 0
+	data["pay_taxes"] = pay_taxes
+	data["levy_rate"] = SSmerchant_trade ? SSmerchant_trade.merchant_levy_percent : 0
+	data["pay_merchant_share"] = pay_merchant_share
+	data["duty_collected_here"] = duty_collected_here
+	data["duty_evaded_here"] = duty_evaded_here
+	data["levy_collected_here"] = levy_collected_here
+	var/is_prop = FALSE
+	if(ishuman(user))
+		var/mob/living/carbon/human/H = user
+		is_prop = (H.job in profit_id)
+	data["is_proprietor"] = is_prop
+	data["is_smuggler"] = FALSE
+	data["facilitator_present"] = FALSE
+	data["is_readable"] = user ? user.can_read(src, TRUE) : TRUE
+	data["market_data"] = build_navigator_market_data()
+	return data
+
+/obj/item/roguemachine/navigator/proc/build_navigator_market_data()
+	var/list/data = list(
+		"categories" = list(),
+		"pop_snapshot" = 0,
+		"category_count" = 0,
+	)
+	if(!SSmerchant_trade)
+		return data
+	data["pop_snapshot"] = SSmerchant_trade.pool_pop_snapshot
+	var/list/rows = list()
+	for(var/cat in SSmerchant_trade.pool_capacity)
+		var/cap = SSmerchant_trade.pool_capacity[cat] || 0
+		var/consumed = SSmerchant_trade.pool_consumed[cat] || 0
+		var/fill_ratio = cap > 0 ? min(1, consumed / cap) : 0
+		var/refused = SSmerchant_trade.get_saturation_factor(cat) <= 0
+		var/demand_mult = SSmerchant_trade.get_demand_multiplier(cat)
+		var/pending = SSmerchant_trade.pending_ship_demand[cat] || 0
+		rows += list(list(
+			"category" = cat,
+			"capacity" = cap,
+			"consumed" = consumed,
+			"fill_ratio" = fill_ratio,
+			"refused" = refused,
+			"demand_mult" = demand_mult,
+			"pending_ship_demand" = pending,
+		))
+	data["categories"] = rows
+	data["category_count"] = length(rows)
+	data["theme_dispatch"] = build_market_theme_dispatch(SSmerchant_trade.pool_theme_jitters)
+	return data
+
+/obj/item/roguemachine/navigator/smuggler/build_navigator_data(mob/user)
+	var/list/data = ..()
+	data["is_smuggler"] = TRUE
+	data["duty_rate"] = 0
+	data["pay_taxes"] = FALSE
+	data["duty_collected_here"] = 0
+	data["duty_evaded_here"] = 0
+	data["facilitator_present"] = (fixed_tax <= 0)
+	data["market_data"] = build_navigator_market_data()
+	return data
+
+/obj/item/roguemachine/navigator/smuggler/build_navigator_market_data()
+	var/list/data = list(
+		"categories" = list(),
+		"pop_snapshot" = 0,
+		"category_count" = 0,
+	)
+	if(!SSmerchant_trade)
+		return data
+	data["pop_snapshot"] = SSmerchant_trade.pool_pop_snapshot
+	var/list/rows = list()
+	for(var/cat in SSmerchant_trade.bm_pool_capacity)
+		var/cap = SSmerchant_trade.bm_pool_capacity[cat] || 0
+		var/consumed = SSmerchant_trade.bm_pool_consumed[cat] || 0
+		var/fill_ratio = cap > 0 ? min(1, consumed / cap) : 0
+		var/refused = SSmerchant_trade.get_bm_saturation_factor(cat) <= 0
+		rows += list(list(
+			"category" = cat,
+			"capacity" = cap,
+			"consumed" = consumed,
+			"fill_ratio" = fill_ratio,
+			"refused" = refused,
+			"demand_mult" = 1.0,
+			"pending_ship_demand" = 0,
+		))
+	data["categories"] = rows
+	data["category_count"] = length(rows)
+	return data
+
+/obj/item/roguemachine/navigator/ui_act(action, list/params)
+	. = ..()
+	if(.)
+		return
+	var/mob/living/carbon/human/H = usr
+	if(!istype(H))
+		return TRUE
+	if(!H.canUseTopic(src, BE_CLOSE))
+		return TRUE
 	if(!(H.job in profit_id))
 		to_chat(H, span_warning("Only a Merchant may tamper with the Navigator's toll."))
-		return
-	if(!H.canUseTopic(src, BE_CLOSE))
-		return
-	var/list/options = list()
-	options += (pay_taxes ? "Stop paying Crown duty" : "Resume paying Crown duty")
-	options += (pay_merchant_share ? "Waive Merchant's levy" : "Resume Merchant's levy")
-	var/select = input(H, "Adjust the Navigator's toll clasp.", "Navigator") as null|anything in options
-	if(!select || !H.canUseTopic(src, BE_CLOSE))
-		return
-	switch(select)
-		if("Stop paying Crown duty")
-			pay_taxes = FALSE
-		if("Resume paying Crown duty")
-			pay_taxes = TRUE
-		if("Waive Merchant's levy")
-			pay_merchant_share = FALSE
-		if("Resume Merchant's levy")
-			pay_merchant_share = TRUE
-	to_chat(H, span_notice("The Navigator's toll clasp clicks. Crown duty: <b>[pay_taxes ? "PAYING" : "DODGING"]</b>. Merchant's levy: <b>[pay_merchant_share ? "COLLECTING" : "WAIVED"]</b>."))
-	playsound(loc, 'sound/misc/gold_misc.ogg', 80, FALSE, -1)
+		return TRUE
+	switch(action)
+		if("toggle_duty")
+			pay_taxes = !pay_taxes
+			to_chat(H, span_notice("The Navigator's toll clasp clicks. Crown duty: <b>[pay_taxes ? "PAYING" : "DODGING"]</b>."))
+			playsound(loc, 'sound/misc/gold_misc.ogg', 80, FALSE, -1)
+			return TRUE
+		if("toggle_levy")
+			pay_merchant_share = !pay_merchant_share
+			to_chat(H, span_notice("The Navigator's toll clasp clicks. Merchant's levy: <b>[pay_merchant_share ? "COLLECTING" : "WAIVED"]</b>."))
+			playsound(loc, 'sound/misc/gold_misc.ogg', 80, FALSE, -1)
+			return TRUE
 
 /obj/item/roguemachine/navigator/update_icon()
 	if(!anchored)
@@ -194,6 +304,9 @@
 	if(world.time > next_airlift)
 		next_airlift = world.time + export_time
 		var/play_sound = FALSE
+		var/refused_announced = FALSE
+		var/list/penalty_categories = list()
+		var/list/boost_categories = list()
 		for(var/D in GLOB.alldirs)
 			var/budgie = 0
 			var/turf/T = get_step(src, D)
@@ -209,12 +322,26 @@
 					var/obj/item/IT = I
 					if(IT.atc_sealed || IT.unmintable)
 						continue
-				var/prize = I.get_real_price() * (1 - fixed_tax)
+				var/base_price = I.get_real_price()
+				var/category = GLOB.derived_categories ? GLOB.derived_categories[I.type] : null
+				var/saturation_mult = get_market_saturation(category)
+				var/demand_mult = get_market_demand(category)
+				var/prize = round(base_price * saturation_mult * demand_mult * (1 - fixed_tax))
 				if(prize >= 1)
 					play_sound=TRUE
 					budgie += prize
+					credit_pool(category, base_price)
 					I.visible_message(span_warning("[I] is sucked into the air!"))
+					if(category)
+						if(saturation_mult < 0.6 && !(category in penalty_categories))
+							penalty_categories += category
+						if(demand_mult > 1.15 && !(category in boost_categories))
+							boost_categories += category
 					qdel(I)
+				else if(base_price > 0)
+					if(!refused_announced)
+						refused_announced = TRUE
+						I.visible_message(span_warning("[I] is refused by the balloon - the market is choked."))
 			budgie = round(budgie)
 			record_round_statistic(STATS_TRADE_VALUE_EXPORTED, budgie)
 			if(budgie > 0)
@@ -222,6 +349,10 @@
 				settle_export(budgie)
 		if(play_sound)
 			playsound(src.loc, 'sound/misc/hiss.ogg', 100, FALSE, -1)
+		if(length(penalty_categories))
+			visible_message(span_warning("The balloon reports a glut - prices on [english_list(penalty_categories)] have been cut short."))
+		if(length(boost_categories))
+			visible_message(span_notice("The balloon reports eager buyers - prices on [english_list(boost_categories)] were lifted higher."))
 
 /// Parallel-bites payout. Crown duty and Merchant levy both come off gross; the levy is
 /// itself subject to Crown income duty so the producer's tax base doesn't shrink because

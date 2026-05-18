@@ -96,6 +96,23 @@ export type MercenaryEntry = {
   message: string;
 };
 
+export type MarketCategory = {
+  category: string;
+  capacity: number;
+  consumed: number;
+  fill_ratio: number;
+  refused: boolean;
+  demand_mult: number;
+  pending_ship_demand: number;
+};
+
+export type MarketData = {
+  categories: MarketCategory[];
+  pop_snapshot: number;
+  category_count: number;
+  theme_dispatch?: string;
+};
+
 export type MercenaryRoster = {
   available: MercenaryEntry[];
   contracted: MercenaryEntry[];
@@ -114,6 +131,7 @@ export type NoticeboardData = {
   charters: Charter[];
   economic_events: EconomicEvent[];
   mercenary_roster: MercenaryRoster;
+  market_data: MarketData;
   can_post_listing: boolean;
   can_authority_remove: boolean;
   user_real_name: string;
