@@ -165,11 +165,22 @@
 				L.adjustBruteLoss(75)
 				playsound(L, 'sound/combat/tf2crit.ogg', 90, TRUE)
 				if(iscarbon(L))
+					var/limbs_broken_this_hit = 0
+					var/arm_broken_this_hit = FALSE
 					var/mob/living/carbon/C = L
 					for(var/obj/item/bodypart/BP in C.bodyparts)
+						if(limbs_broken_this_hit >= 2)
+							break
 						if((BP.body_zone in shatter_zones) && !BP.has_wound(/datum/wound/fracture))
-							if(prob(5))
+							var/is_arm = (BP.body_zone == BODY_ZONE_L_ARM || BP.body_zone == BODY_ZONE_R_ARM)
+							// I'm not that evil, okay?
+							if(is_arm && arm_broken_this_hit)
+								continue
+							if(prob(10))
 								BP.add_wound(/datum/wound/fracture/no_bleed)
+								limbs_broken_this_hit++
+								if(is_arm)
+									arm_broken_this_hit = TRUE
 			if(istype(T, /turf/closed))
 				T.ex_act(EXPLODE_HEAVY)
 			for(var/obj/structure/S in T)
