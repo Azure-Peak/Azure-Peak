@@ -32,6 +32,15 @@
 	. += span_info("Most gemstomes are extremely valuable, and are chiefly used to create bejeweled rings and weaponry.")
 	. += span_info("Certain gemstones can be carved into ornate treasures, cutlery, and armor with the right skills and tools.")
 
+/obj/item/roguegem/attack(mob/living/M, mob/user)
+	if(!user.cmode)
+		if(try_construct_consume(src, M, user))
+			return
+	else
+		return ..()
+		
+	return ..()
+
 /obj/item/roguegem/green
 	name = "gemerald"
 	icon_state = "emerald_cut"
