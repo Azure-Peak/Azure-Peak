@@ -63696,9 +63696,6 @@
 /area/rogue/indoors/town/manor)
 "mGE" = (
 /obj/structure/roguewindow,
-/obj/structure/bars/passage/shutter{
-	redstone_id = "trader_shutter"
-	},
 /turf/closed/basic,
 /area/rogue/indoors/town/shop)
 "mGL" = (
