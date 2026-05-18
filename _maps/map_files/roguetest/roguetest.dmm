@@ -182,6 +182,7 @@
 "fm" = (
 /obj/structure/roguemachine/mail/l,
 /obj/machinery/light/rogue/candle,
+/obj/item/roguemachine/mastermail,
 /turf/open/floor/rogue/tile/masonic/single,
 /area/rogue/indoors/town/manor)
 "fo" = (
@@ -328,6 +329,7 @@
 /turf/open/floor/rogue/blocks/stonered/tiny,
 /area/rogue/indoors)
 "lm" = (
+/obj/item/roguemachine/mastermail,
 /turf/closed/wall/mineral/rogue/decostone/cand,
 /area/rogue/indoors/town/manor)
 "ly" = (
@@ -3254,7 +3256,7 @@ ev
 ev
 ev
 Il
-OI
+ev
 PK
 Du
 MT

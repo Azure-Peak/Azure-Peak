@@ -9337,6 +9337,9 @@
 /obj/machinery/light/rogue/candle/off/r,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/shelter/woods)
+"bVq" = (
+/turf/closed/wall/mineral/rogue/decostone,
+/area/rogue/under/underdark)
 "bVu" = (
 /obj/structure/floordoor/gatehatch/inner{
 	redstone_id = "gatelava"
@@ -9653,6 +9656,10 @@
 /obj/machinery/light/rogue/firebowl/church,
 /turf/open/floor/rogue/ruinedwood,
 /area/rogue/outdoors/mountains)
+"bZL" = (
+/obj/structure/roguemachine/mail,
+/turf/open/floor/rogue/naturalstone,
+/area/rogue/under/underdark)
 "bZM" = (
 /obj/structure/fluff/railing/border/east,
 /turf/open/floor/rogue/ruinedwood/turned,
@@ -23980,6 +23987,12 @@
 "eUH" = (
 /turf/closed/wall/mineral/rogue/roofwall/outercorner,
 /area/rogue/indoors/town/shop)
+"eUK" = (
+/obj/structure/roguemachine/mail{
+	mailtag = "Abandoned Coastal Inn"
+	},
+/turf/open/floor/rogue/naturalstone,
+/area/rogue/under/cave)
 "eUM" = (
 /obj/structure/fluff/railing/border,
 /obj/structure/fluff/railing/border/east,
@@ -44629,6 +44642,14 @@
 /obj/structure/flora/roguegrass/water/reeds,
 /turf/open/floor/rogue/grassred,
 /area/rogue/outdoors/mountains)
+"iZd" = (
+/obj/effect/decal/cobbleedge{
+	dir = 1;
+	icon_state = "borderfall"
+	},
+/obj/structure/roguemachine/mail,
+/turf/open/floor/rogue/grass,
+/area/rogue/outdoors/rtfield)
 "iZg" = (
 /obj/effect/decal/cobbleedge{
 	dir = 5
@@ -80298,6 +80319,12 @@
 /obj/machinery/light/rogue/candle,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/outdoors/beach)
+"pVN" = (
+/obj/structure/roguemachine/mail{
+	mailtag = "Abandoned Coastal Inn"
+	},
+/turf/open/floor/rogue/dirt,
+/area/rogue/outdoors/rtfield)
 "pVO" = (
 /obj/effect/decal/cobbleedge{
 	dir = 5
@@ -81072,6 +81099,12 @@
 /obj/effect/landmark/chest_or_mimic/locked_or_trapped,
 /turf/open/floor/rogue/metal/barograte,
 /area/rogue/under/underdark/north)
+"qdA" = (
+/obj/structure/roguemachine/mail{
+	mailtag = "Abandoned Coastal Inn"
+	},
+/turf/open/floor/rogue/dirt,
+/area/rogue/outdoors/beach/forest/south)
 "qdC" = (
 /obj/machinery/light/rogue/candle/blue/l,
 /turf/open/floor/rogue/cobble,
@@ -82686,6 +82719,13 @@
 /obj/structure/fluff/railing/corner/north_east,
 /turf/open/floor/rogue/cobble,
 /area/rogue/outdoors/beach)
+"qtD" = (
+/obj/structure/flora/roguegrass,
+/obj/structure/roguemachine/mail{
+	mailtag = "Abandoned Coastal Inn"
+	},
+/turf/open/floor/rogue/grass,
+/area/rogue/outdoors/rtfield)
 "qtG" = (
 /obj/structure/rack/rogue/shelf/biggest,
 /turf/open/floor/rogue/ruinedwood,
@@ -97861,6 +97901,12 @@
 /obj/item/reagent_containers/glass/cup/ceramic,
 /turf/open/floor/rogue/ruinedwood/herringbone,
 /area/rogue/indoors/inq/office)
+"ttw" = (
+/obj/structure/roguemachine/mail{
+	mailtag = "Abandoned Coastal Inn"
+	},
+/turf/closed/wall/mineral/rogue/decostone/end/north,
+/area/rogue/indoors/shelter)
 "ttB" = (
 /obj/structure/fluff/railing/wood,
 /turf/open/floor/rogue/ruinedwood/herringbone,
@@ -115086,6 +115132,10 @@
 	},
 /turf/open/floor/rogue/cobble,
 /area/rogue/outdoors/mountains/decap/stepbelow)
+"wOd" = (
+/obj/structure/roguemachine/noticeboard,
+/turf/open/floor/rogue/dirt,
+/area/rogue/outdoors/beach/forest/south)
 "wOj" = (
 /obj/structure/fluff/railing/corner/south_east,
 /obj/structure/fluff/railing/corner/south_west,
@@ -135705,8 +135755,8 @@ mnN
 mnN
 mnN
 sPj
-eMP
-sPj
+bVq
+bZL
 sPj
 nOh
 nOh
@@ -136157,7 +136207,7 @@ mnN
 mnN
 mnN
 sPj
-sPj
+eMP
 sPj
 sPj
 nOh
@@ -309336,7 +309386,7 @@ apU
 etk
 rCv
 uJd
-mdU
+iZd
 asY
 wiC
 fVo
@@ -329468,7 +329518,7 @@ bCD
 nST
 llr
 kuf
-eKy
+ttw
 auC
 sfX
 kwO
@@ -383083,7 +383133,7 @@ qwK
 qwK
 qwK
 eGx
-quW
+qtD
 bsL
 asY
 asY
@@ -398811,7 +398861,7 @@ qwK
 qwK
 qwK
 qwK
-cOC
+pVN
 rZO
 rZO
 bsL
@@ -430330,7 +430380,7 @@ ujm
 ujm
 ujm
 ujm
-eTa
+qdA
 eTa
 aCH
 eTa
@@ -430781,7 +430831,7 @@ qPv
 ujm
 ujm
 eTa
-eTa
+wOd
 eTa
 aCH
 eTa
@@ -522994,7 +523044,7 @@ ifF
 wHi
 oyf
 oyf
-toJ
+eUK
 htN
 htN
 htN
