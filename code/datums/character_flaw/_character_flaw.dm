@@ -41,12 +41,13 @@ GLOBAL_LIST_INIT(averse_factions, list(
 	"Courtiers & Nobility" = (COURTIERS | NOBLEMEN | COUNCILLOR),
 	"Inquisition" = INQUISITION,
 	"Burghers" = BURGHERS,
+	"Azurian Trading Company" = ATC,
 	"Retinue" = RETINUE,
 	"Garrison" = GARRISON,
 	"Churchmen" = CHURCHMEN,
 	"Peasants" = PEASANTS,
 	"Wanderers" = WANDERERS,
-	"Everyone" = (COURTIERS | NOBLEMEN | INQUISITION | BURGHERS | RETINUE | GARRISON | CHURCHMEN | PEASANTS | WANDERERS | SIDEFOLK | ANTAGONIST | COUNCILLOR)
+	"Everyone" = (COURTIERS | NOBLEMEN | INQUISITION | BURGHERS | ATC | RETINUE | GARRISON | CHURCHMEN | PEASANTS | WANDERERS | SIDEFOLK | ANTAGONIST | COUNCILLOR)
 ))
 
 /datum/charflaw

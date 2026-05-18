@@ -66,7 +66,7 @@
 		"Weapons (Foreign)",
 	)
 	var/is_public = FALSE // Whether it is a public access vendor.
-	var/extra_fee = 0 // Extra Guild Fees on purchases. Meant to make publicface very unprofitable.
+	var/extra_fee = 0 // Public-tier Porters/Gnomes margin tacked onto base price. Meant to make publicface very unprofitable until Gnomes are unlocked and the margin flows to the Merchant Fund.
 	/// Running tally of Crown import tariff actually collected via this specific machine.
 	var/tariff_collected_here = 0
 	/// Running tally of Crown import tariff that WOULD have been owed but was dodged

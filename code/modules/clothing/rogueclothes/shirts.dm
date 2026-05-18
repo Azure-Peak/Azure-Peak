@@ -732,7 +732,7 @@
 /obj/item/clothing/suit/roguetown/shirt/dress/captainrobe
 	slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR
 	name = "foreign robes"
-	desc = "Flower-styled robes. The Merchant Guild says that this is from the southern Kazengite region."
+	desc = "Flower-styled robes. The Azurian Trading Company's factor swears they came up the harbor from the southern Kazeungese region."
 	icon = 'icons/roguetown/clothing/armor.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/armor.dmi'
 	icon_state = "eastsuit4"

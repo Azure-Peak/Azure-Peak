@@ -393,7 +393,7 @@ SUBSYSTEM_DEF(treasury)
 		account = get_account(recipient)
 	if(!account)
 		return FALSE
-	var/source = recipient.job == "Merchant" ? "The Guild" : "Noble Estate"
+	var/source = recipient.job == "Merchant" ? "Azurian Trading Company" : "Noble Estate"
 	var/payout = is_starter ? amount + ESTATE_STARTER_BONUS : amount
 	if(!mint(account, payout, source))
 		return FALSE
@@ -708,7 +708,7 @@ SUBSYSTEM_DEF(treasury)
 		return POLL_TAX_CAT_ADVENTURER
 	if(H.job == "Mercenary")
 		return POLL_TAX_CAT_MERCENARY
-	if((H.job in GLOB.peasant_positions) || (H.job in GLOB.sidefolk_positions))
+	if((H.job in GLOB.peasant_positions) || (H.job in GLOB.sidefolk_positions) || (H.job == "Shophand"))
 		return POLL_TAX_CAT_PEASANT
 	return null
 
