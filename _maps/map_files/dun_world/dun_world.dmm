@@ -98250,7 +98250,7 @@
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors/town)
 "twQ" = (
-/obj/structure/roguemachine/drugmachine{
+/obj/structure/roguemachine/bathvend/public{
 	density = 0;
 	pixel_y = 32
 	},

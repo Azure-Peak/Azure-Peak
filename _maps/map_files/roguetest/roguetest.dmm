@@ -1645,7 +1645,7 @@
 /turf/open/floor/rogue/tile/harem,
 /area/rogue/indoors)
 "Xb" = (
-/obj/structure/roguemachine/drugmachine,
+/obj/structure/roguemachine/bathvend/public,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/indoors)
 "Xs" = (
