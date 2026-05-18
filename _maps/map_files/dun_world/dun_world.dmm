@@ -74992,6 +74992,10 @@
 /area/rogue/under/cave/dungeon1/gethsmane/inner)
 "oRq" = (
 /obj/machinery/light/rogue/torchholder/r,
+/obj/structure/closet/crate/chest/crate,
+/obj/item/natural/bundle/bone/full,
+/obj/item/natural/bundle/bone/full,
+/obj/item/skull,
 /turf/open/floor/rogue/cobble,
 /area/rogue/indoors/town/church/basement)
 "oRx" = (

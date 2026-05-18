@@ -83,10 +83,11 @@
 						else if(istype(candidate, needed_item))
 							obj_to_use = candidate
 							break
-					user.visible_message(span_warning("[user] strikes the bar, inserting a [needed_item_text] into the recipe!"))
-					source.attackby(obj_to_use, user)	//We grab the first one we find.
-					auto_success = TRUE
-					playsound(source, 'sound/items/bsmithadvance.ogg', 100, TRUE)
+					if(obj_to_use)
+						user.visible_message(span_warning("[user] strikes the bar, inserting a [needed_item_text] into the recipe!"))
+						source.attackby(obj_to_use, user)	//We grab the first one we find.
+						auto_success = TRUE
+						playsound(source, 'sound/items/bsmithadvance.ogg', 100, TRUE)
 		if(!auto_success)
 			to_chat(user, span_info("Now it's time to add a [needed_item_text]."))
 			user.visible_message(span_warning("[user] strikes the bar!"))

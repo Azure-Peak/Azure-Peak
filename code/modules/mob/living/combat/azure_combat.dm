@@ -490,7 +490,7 @@
 		return
 	if(has_status_effect(/datum/status_effect/debuff/bindcd))
 		return
-	if(check_bind(check_bind_subzone(zone_selected), user.zone_selected) || (!user.mind && (check_zone(zone_selected) == check_zone(user.zone_selected))) || (vuln_exception && zone_selected != BODY_ZONE_CHEST))
+	if(check_bind(check_bind_subzone(zone_selected), user.zone_selected) || (!user.mind && (check_zone(zone_selected) == check_zone(user.zone_selected))))
 		var/chance = 100	//Only here so chest vs chest has a smaller chance to trigger a bind.
 		if(zone_selected == user.zone_selected && zone_selected == BODY_ZONE_CHEST)
 			chance = 3

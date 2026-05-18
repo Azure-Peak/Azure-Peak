@@ -452,6 +452,7 @@ As Excaliber."
 	icon_state = "wazialong"
 	icon = 'icons/obj/items/donor_weapons_64.dmi'
 	sheathe_icon = "wazialong"
+	bigboy = TRUE
 
 /obj/item/rogueweapon/koruu/etrusca
 	name = "Colada"
@@ -459,6 +460,7 @@ As Excaliber."
 	icon_state = "waziaetrusc"
 	icon = 'icons/obj/items/donor_weapons_64.dmi'
 	sheathe_icon = "waziaetrusc"
+	bigboy = TRUE
 
 /obj/item/rogueweapon/koruu/judgement
 	name = "A Durthurian Tale"
@@ -466,6 +468,7 @@ As Excaliber."
 	icon_state = "waziajudgement"
 	icon = 'icons/obj/items/donor_weapons_64.dmi'
 	sheathe_icon = "waziajudgement"
+	bigboy = TRUE
 
 //DAKKEN12
 /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/hounskull/dakken
