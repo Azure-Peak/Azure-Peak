@@ -16,7 +16,6 @@ import { SearchBar } from './Brassface/SearchBar';
 import { SecretsPanel } from './Brassface/SecretsPanel';
 import type { BrassfaceData } from './Brassface/types';
 import { starsIfIlliterate } from './Brassface/util';
-import { WashingPanel } from './Brassface/WashingPanel';
 
 const LockedView = (props: { motto: string; canRead: boolean }) => (
   <div style={pageStyle}>
@@ -42,7 +41,6 @@ export const Brassface = () => {
   const locked = !!data.locked;
   const isProprietor = !!data.is_proprietor;
   const inSearchMode = !!data.search_mode;
-  const isWashing = !!data.is_washing && !!data.washing;
 
   if (locked && !isPublic) {
     return (
@@ -73,13 +71,6 @@ export const Brassface = () => {
           <MammonRow budget={data.budget} act={act} />
           {isProprietor && !isPublic && (
             <SecretsPanel dodging={!!data.dodging} act={act} />
-          )}
-          {isWashing && data.washing && (
-            <WashingPanel
-              washing={data.washing}
-              budget={data.budget}
-              act={act}
-            />
           )}
           <div style={subTabBarStyle}>
             {data.categories.map((cat) => (

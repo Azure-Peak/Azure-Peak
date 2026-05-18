@@ -1,8 +1,3 @@
-#define ESCROW_OPEN_EXPIRY_DAYS 3
-#define ESCROW_CLAIM_EXPIRY_DAYS 1
-#define ESCROW_PARTIAL_HAIRCUT_PERCENT 20
-#define ESCROW_DURABILITY_FLOOR 0.8
-
 /datum/escrow_order
 	var/commissioner_ckey
 	var/commissioner_name

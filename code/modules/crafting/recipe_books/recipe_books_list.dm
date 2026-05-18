@@ -230,4 +230,4 @@
 	base_icon_state = "basic_book"
 	can_spawn = FALSE
 	wiki_only = TRUE
-	types = list(/datum/book_entry/treasury)
+	types = list(/datum/book_entry/treasury_general, /datum/book_entry/treasury_realm, /datum/book_entry/treasury_merchant, /datum/book_entry/treasury_underground)

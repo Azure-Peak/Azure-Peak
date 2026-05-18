@@ -1,9 +1,5 @@
 #define UPGRADE_NOTAX		(1<<0)
-#define WASHING_25			(1<<1)
-#define WASHING_50			(1<<2)
-
-#define WASHING_25_COST 30
-#define WASHING_50_COST 105
+#define PURITY_PUBLIC_MARGIN 0.5
 
 /obj/structure/roguemachine/bathvend
 	name = "BRASSFACE"
@@ -23,11 +19,12 @@
 	var/static/search_result_cap = 30
 	var/lockid = "nightman"
 	var/motto = "BRASSFACE - Sweet Dreams for Cheap."
-	/// Truth-line whispered only to proprietors and Baothans on examine; rendered in pink.
 	var/seedy_addendum = "Sweet, sweet, addiction. Love in the veins, comfort in my heart."
 	/// Public variants ignore lock state and can be used by anyone.
 	var/is_public = FALSE
-	/// Jobs allowed to see Secrets/washing panels and toggle proprietor-only state.
+	/// Public-tier margin tacked onto base price. Captured to bathhouse_fund on purchase.
+	var/extra_fee = 0
+	/// Jobs allowed to see Secrets panel and toggle proprietor-only state.
 	var/list/profit_id = list("Bathmaster", "Bathhouse Attendant")
 	/// Running tally of Crown import tariff actually collected via this specific machine.
 	var/tariff_collected_here = 0
@@ -74,7 +71,7 @@
 /// both route through here so a mid-session edict rate change can never desync the
 /// quoted price from the charged price.
 /obj/structure/roguemachine/bathvend/proc/compute_pack_price(datum/supply_pack/PA)
-	var/cost = PA.cost
+	var/cost = PA.cost + PA.cost * extra_fee
 	if(!(upgrade_flags & UPGRADE_NOTAX))
 		cost += compute_pack_tax(PA)
 	return round(cost)
@@ -83,7 +80,7 @@
 	return round(SStreasury.get_tax_rate(TAX_CATEGORY_IMPORT_TARIFF) * PA.cost)
 
 /obj/structure/roguemachine/bathvend/proc/serialize_pack(datum/supply_pack/PA, tariff_active)
-	var/base = PA.cost
+	var/base = round(PA.cost + PA.cost * extra_fee)
 	var/tariff = tariff_active ? compute_pack_tax(PA) : 0
 	return list(
 		"ref" = "[PA.type]",
@@ -240,15 +237,7 @@
 			packs_data += list(serialize_pack(PA, tariff_active))
 	data["packs"] = packs_data
 	data["total_matches"] = total_matches
-
-	data["is_washing"] = FALSE
-	data["washing"] = null
-	build_extra_data(data, H, is_proprietor)
 	return data
-
-/// Hook for subtypes (PURITY) to inject washing/extra state into the TGUI payload.
-/obj/structure/roguemachine/bathvend/proc/build_extra_data(list/data, mob/living/carbon/human/H, is_proprietor)
-	return
 
 /obj/structure/roguemachine/bathvend/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)
 	. = ..()
@@ -281,8 +270,6 @@
 			return handle_buy(H, params)
 		if("secrets")
 			return handle_secrets(H, params)
-		if("washing")
-			return handle_washing(H, params)
 
 /obj/structure/roguemachine/bathvend/proc/handle_buy(mob/living/carbon/human/H, list/params)
 	var/path = text2path(params["ref"])
@@ -341,10 +328,6 @@
 			return TRUE
 	return TRUE
 
-/obj/structure/roguemachine/bathvend/proc/handle_washing(mob/living/carbon/human/H, list/params)
-	// Base bathvend (BRASSFACE) has no washing; the PURITY/public subtype overrides.
-	return TRUE
-
 /obj/structure/roguemachine/bathvend/obj_break(damage_flag)
 	..()
 	var/turf/T = get_turf(src)
@@ -368,12 +351,12 @@
 	motto = "PURITY - Solace for the Lonely and Weary."
 	profit_id = list("Bathmaster")
 	seedy_addendum = "You want to destroy your life."
+	extra_fee = PURITY_PUBLIC_MARGIN
 	categories = list(
 		"Drugs",
 		"Smokes",
 		"Cosmetics",
 	)
-	var/secret_budget = 0
 	var/recent_payments = 0
 	var/last_payout = 0
 
@@ -398,15 +381,12 @@
 		return
 	if(world.time < last_payout + rand(6 MINUTES, 8 MINUTES))
 		return
-	var/amt = recent_payments * 0.10
-	if(upgrade_flags & WASHING_50)
-		amt = recent_payments * 0.50
-	else if(upgrade_flags & WASHING_25)
-		amt = recent_payments * 0.25
+	var/amt = round(recent_payments * extra_fee)
 	recent_payments = 0
 	last_payout = world.time
-	secret_budget += amt
-	send_ooc_note("<b>Income from PURITY:</b> [amt]", job = "Bathmaster")
+	if(amt > 0)
+		SStreasury.mint(SStreasury.bathhouse_fund, amt, "PURITY margin")
+	send_ooc_note("<b>Income from PURITY (deposited to Bathhouse Fund):</b> [amt]", job = "Bathmaster")
 
 /obj/structure/roguemachine/bathvend/public/obj_break(damage_flag)
 	..()
@@ -419,77 +399,9 @@
 	recent_payments += PA.cost
 	record_round_statistic(STATS_PURITY_VALUE_SPENT, cost)
 
-/obj/structure/roguemachine/bathvend/public/build_extra_data(list/data, mob/living/carbon/human/H, is_proprietor)
-	if(!is_proprietor)
-		return
-	var/cut_tier = 0
-	if(upgrade_flags & WASHING_50)
-		cut_tier = 2
-	else if(upgrade_flags & WASHING_25)
-		cut_tier = 1
-	data["is_washing"] = TRUE
-	data["washing"] = list(
-		"recent_payments" = recent_payments,
-		"secret_budget" = secret_budget,
-		"cut_tier" = cut_tier,
-		"tier_a_cost" = WASHING_25_COST,
-		"tier_b_cost" = WASHING_50_COST,
-	)
-
-/obj/structure/roguemachine/bathvend/public/handle_washing(mob/living/carbon/human/H, list/params)
-	if(!(H.job in profit_id))
-		return TRUE
-	var/option = "[params["option"]]"
-	switch(option)
-		if("withdraw_bank")
-			if(secret_budget < 1)
-				say("There is no mammon to move, Master.")
-				return TRUE
-			if(!SStreasury.generate_money_account(floor(secret_budget), H))
-				say("I could not put your cut in your account, Master. My apologies.")
-				return TRUE
-			secret_budget = 0
-			playsound(loc, 'sound/misc/beep.ogg', 100, FALSE, -1)
-			return TRUE
-		if("withdraw_direct")
-			if(secret_budget < 1)
-				say("There is no mammon to move, Master.")
-				return TRUE
-			budget2change(floor(secret_budget), H)
-			secret_budget = 0
-			playsound(loc, 'sound/misc/beep.ogg', 100, FALSE, -1)
-			return TRUE
-		if("unlock_25")
-			if(upgrade_flags & WASHING_25)
-				return TRUE
-			if(budget < WASHING_25_COST)
-				say("Ask again when you're serious.")
-				playsound(src, 'sound/misc/machinetalk.ogg', 100, FALSE, -1)
-				return TRUE
-			budget -= WASHING_25_COST
-			upgrade_flags |= WASHING_25
-			playsound(loc, 'sound/misc/beep.ogg', 100, FALSE, -1)
-			return TRUE
-		if("unlock_50")
-			if(upgrade_flags & WASHING_50)
-				return TRUE
-			if(!(upgrade_flags & WASHING_25))
-				return TRUE
-			if(budget < WASHING_50_COST)
-				say("Ask again when you're serious.")
-				playsound(src, 'sound/misc/machinetalk.ogg', 100, FALSE, -1)
-				return TRUE
-			budget -= WASHING_50_COST
-			upgrade_flags |= WASHING_50
-			playsound(loc, 'sound/misc/beep.ogg', 100, FALSE, -1)
-			return TRUE
-	return TRUE
 
 #undef UPGRADE_NOTAX
-#undef WASHING_25
-#undef WASHING_50
-#undef WASHING_25_COST
-#undef WASHING_50_COST
+#undef PURITY_PUBLIC_MARGIN
 
 SUBSYSTEM_DEF(BMtreasury)
 	name = "BMtreasury"

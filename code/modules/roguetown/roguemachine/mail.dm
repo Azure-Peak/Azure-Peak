@@ -1,5 +1,3 @@
-#define HERMES_FREE_COOLDOWN (5 MINUTES)
-
 /obj/structure/roguemachine/mail
 	name = "HERMES"
 	desc = "Carrier zads have fallen severely out of fashion ever since the advent of this hydropneumatic mail system. The first letter every 5 minutes is free; thereafter, feed it coinage."

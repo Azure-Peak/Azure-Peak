@@ -21,7 +21,7 @@
 	ship_types = list(
 		list("name" = "Koch", "tonnage" = 50, "weight" = 25),
 		list("name" = "Lodya", "tonnage" = 120, "weight" = 35),
-		list("name" = "Steppe Galley", "tonnage" = 250, "weight" = 25),
+		list("name" = "Aavnic Galley", "tonnage" = 250, "weight" = 25),
 		list("name" = "Potentate Hulk", "tonnage" = 500, "weight" = 15),
 	)
 	name_prefixes = list(

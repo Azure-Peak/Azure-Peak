@@ -1,5 +1,3 @@
-#define SCRAPPER_BARK_INTERVAL (60 SECONDS)
-
 /obj/structure/roguemachine/scrapper
 	name = "scrapper"
 	desc = "A brass-trimmed contraption with a hopper above and an iron strongbox beneath. Bring rag-and-bone and broken stock; the scrapper weighs the offer and pays in coin. The proprietor sets the rate."

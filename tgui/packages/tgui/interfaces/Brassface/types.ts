@@ -11,14 +11,6 @@ export type VendingPack = {
   contraband: BooleanLike;
 };
 
-export type WashingData = {
-  recent_payments: number;
-  secret_budget: number;
-  cut_tier: number;
-  tier_a_cost: number;
-  tier_b_cost: number;
-};
-
 export type BrassfaceData = {
   motto: string;
   budget: number;
@@ -41,8 +33,6 @@ export type BrassfaceData = {
   result_cap: number;
   total_matches: number;
   packs: VendingPack[];
-  is_washing: BooleanLike;
-  washing: WashingData | null;
 };
 
 export type ActFn = (action: string, params?: Record<string, unknown>) => void;
