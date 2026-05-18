@@ -392,7 +392,16 @@
 	if(!O)
 		return 0
 
-	return O.equip(src, visualsOnly)
+	. = O.equip(src, visualsOnly)
+	if(!visualsOnly)
+		if(!client && !mind)
+			taints_loot_on_death = TRUE
+		if(taints_loot_on_death)
+			flag_worn_as_looted()
+
+/mob/living/carbon/human/proc/flag_worn_as_looted()
+	for(var/obj/item/I in get_equipped_items(TRUE) + held_items)
+		I.mark_as_looted()
 
 
 //delete all equipment without dropping anything

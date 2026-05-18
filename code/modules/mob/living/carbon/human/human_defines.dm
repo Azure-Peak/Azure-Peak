@@ -11,6 +11,7 @@
 	can_buckle = TRUE
 	buckle_lying = FALSE
 	mob_biotypes = MOB_ORGANIC|MOB_HUMANOID
+	var/taints_loot_on_death = FALSE
 
 	ambushable = 1
 

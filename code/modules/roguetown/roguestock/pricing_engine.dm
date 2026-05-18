@@ -5,57 +5,57 @@ GLOBAL_LIST_EMPTY(item_cat_markups)
 
 /proc/init_item_cat_markups()
 	GLOB.item_cat_markups = list(
-		ITEM_CAT_ARMOR_HELMETS = 2.0,
-		ITEM_CAT_ARMOR_CHESTPIECES = 2.0,
-		ITEM_CAT_ARMOR_LEGS = 2.0,
-		ITEM_CAT_ARMOR_NECK = 2.0,
-		ITEM_CAT_ARMOR_BOOTS = 2.0,
-		ITEM_CAT_ARMOR_GLOVES = 2.0,
-		ITEM_CAT_ARMOR_MASKS = 2.0,
-		ITEM_CAT_ARMOR_BRACERS = 2.0,
-		ITEM_CAT_ARMOR_BELTS = 2.0,
-		ITEM_CAT_ARMOR_BARDING = 2.0,
-		ITEM_CAT_WEAPONS_SWORDS = 2.0,
-		ITEM_CAT_WEAPONS_DAGGERS = 2.0,
-		ITEM_CAT_WEAPONS_AXES = 2.0,
-		ITEM_CAT_WEAPONS_POLEARMS = 2.0,
-		ITEM_CAT_WEAPONS_MACES = 2.0,
-		ITEM_CAT_WEAPONS_FLAILS = 2.0,
-		ITEM_CAT_WEAPONS_SHIELDS = 2.0,
-		ITEM_CAT_WEAPONS_AMMO = 2.0,
-		ITEM_CAT_TOOLS_COOKWARE = 2.0,
-		ITEM_CAT_TOOLS_FIELD = 2.0,
-		ITEM_CAT_TOOLS_WORKSHOP = 2.0,
-		ITEM_CAT_TOOLS_SUNDRIES = 2.0,
-		ITEM_CAT_TOOLS_ROGUE = 2.0,
-		ITEM_CAT_VALUABLES_RINGS = 2.0,
-		ITEM_CAT_VALUABLES_HOLY = 2.0,
-		ITEM_CAT_DECORATION = 2.0,
-		ITEM_CAT_POTTERY = 2.0,
-		ITEM_CAT_COMPONENTS = 2.0,
-		ITEM_CAT_SMITHING_MISC = 2.0,
-		ITEM_CAT_ENG_MACHINERY = 2.0,
-		ITEM_CAT_ENG_CONSTRUCTION = 2.0,
-		ITEM_CAT_ENG_COMBAT = 2.0,
-		ITEM_CAT_ENG_TRIGGERS = 2.0,
-		ITEM_CAT_ENG_MISC = 2.0,
-		ITEM_CAT_GARMENT_COMMON = 2.0,
-		ITEM_CAT_GARMENT_FINE = 2.0,
-		ITEM_CAT_GARMENT_LUXURY = 2.0,
-		ITEM_CAT_FOODSTUFF_FRESH = 2.0,
-		ITEM_CAT_FOODSTUFF_PRESERVED = 2.0,
-		ITEM_CAT_POTION = 2.0,
-		ITEM_CAT_BEVERAGE = 2.0,
-		ITEM_CAT_BOOK_WRIT = 2.0,
-		ITEM_CAT_INSTRUMENT = 2.0,
-		ITEM_CAT_TROPHY = 2.0,
-		ITEM_CAT_RAW_MATERIAL_MINERAL = 1.0,
-		ITEM_CAT_RAW_MATERIAL_ORGANIC = 1.0,
-		ITEM_CAT_REAGENT_ALCHEMICAL = 1.0,
-		ITEM_CAT_REAGENT_ARCANE = 1.0,
-		ITEM_CAT_SALVAGE = 1.0,
-		ITEM_CAT_LIVESTOCK = 1.0,
-		ITEM_CAT_MISCELLANEOUS = 1.0,
+		ITEM_CAT_ARMOR_HELMETS = MARKUP_ARMOR_HELMETS,
+		ITEM_CAT_ARMOR_CHESTPIECES = MARKUP_ARMOR_CHESTPIECES,
+		ITEM_CAT_ARMOR_LEGS = MARKUP_ARMOR_LEGS,
+		ITEM_CAT_ARMOR_NECK = MARKUP_ARMOR_NECK,
+		ITEM_CAT_ARMOR_BOOTS = MARKUP_ARMOR_BOOTS,
+		ITEM_CAT_ARMOR_GLOVES = MARKUP_ARMOR_GLOVES,
+		ITEM_CAT_ARMOR_MASKS = MARKUP_ARMOR_MASKS,
+		ITEM_CAT_ARMOR_BRACERS = MARKUP_ARMOR_BRACERS,
+		ITEM_CAT_ARMOR_BELTS = MARKUP_ARMOR_BELTS,
+		ITEM_CAT_ARMOR_BARDING = MARKUP_ARMOR_BARDING,
+		ITEM_CAT_WEAPONS_SWORDS = MARKUP_WEAPONS_SWORDS,
+		ITEM_CAT_WEAPONS_DAGGERS = MARKUP_WEAPONS_DAGGERS,
+		ITEM_CAT_WEAPONS_AXES = MARKUP_WEAPONS_AXES,
+		ITEM_CAT_WEAPONS_POLEARMS = MARKUP_WEAPONS_POLEARMS,
+		ITEM_CAT_WEAPONS_MACES = MARKUP_WEAPONS_MACES,
+		ITEM_CAT_WEAPONS_FLAILS = MARKUP_WEAPONS_FLAILS,
+		ITEM_CAT_WEAPONS_SHIELDS = MARKUP_WEAPONS_SHIELDS,
+		ITEM_CAT_WEAPONS_AMMO = MARKUP_WEAPONS_AMMO,
+		ITEM_CAT_TOOLS_COOKWARE = MARKUP_TOOLS_COOKWARE,
+		ITEM_CAT_TOOLS_FIELD = MARKUP_TOOLS_FIELD,
+		ITEM_CAT_TOOLS_WORKSHOP = MARKUP_TOOLS_WORKSHOP,
+		ITEM_CAT_TOOLS_SUNDRIES = MARKUP_TOOLS_SUNDRIES,
+		ITEM_CAT_TOOLS_ROGUE = MARKUP_TOOLS_ROGUE,
+		ITEM_CAT_VALUABLES_RINGS = MARKUP_VALUABLES_RINGS,
+		ITEM_CAT_VALUABLES_HOLY = MARKUP_VALUABLES_HOLY,
+		ITEM_CAT_DECORATION = MARKUP_DECORATION,
+		ITEM_CAT_POTTERY = MARKUP_POTTERY,
+		ITEM_CAT_COMPONENTS = MARKUP_COMPONENTS,
+		ITEM_CAT_SMITHING_MISC = MARKUP_SMITHING_MISC,
+		ITEM_CAT_ENG_MACHINERY = MARKUP_ENG_MACHINERY,
+		ITEM_CAT_ENG_CONSTRUCTION = MARKUP_ENG_CONSTRUCTION,
+		ITEM_CAT_ENG_COMBAT = MARKUP_ENG_COMBAT,
+		ITEM_CAT_ENG_TRIGGERS = MARKUP_ENG_TRIGGERS,
+		ITEM_CAT_ENG_MISC = MARKUP_ENG_MISC,
+		ITEM_CAT_GARMENT_COMMON = MARKUP_GARMENT_COMMON,
+		ITEM_CAT_GARMENT_FINE = MARKUP_GARMENT_FINE,
+		ITEM_CAT_GARMENT_LUXURY = MARKUP_GARMENT_LUXURY,
+		ITEM_CAT_FOODSTUFF_FRESH = MARKUP_FOODSTUFF_FRESH,
+		ITEM_CAT_FOODSTUFF_PRESERVED = MARKUP_FOODSTUFF_PRESERVED,
+		ITEM_CAT_POTION = MARKUP_POTION,
+		ITEM_CAT_BEVERAGE = MARKUP_BEVERAGE,
+		ITEM_CAT_BOOK_WRIT = MARKUP_BOOK_WRIT,
+		ITEM_CAT_INSTRUMENT = MARKUP_INSTRUMENT,
+		ITEM_CAT_TROPHY = MARKUP_TROPHY,
+		ITEM_CAT_RAW_MATERIAL_MINERAL = MARKUP_RAW_MATERIAL_MINERAL,
+		ITEM_CAT_RAW_MATERIAL_ORGANIC = MARKUP_RAW_MATERIAL_ORGANIC,
+		ITEM_CAT_REAGENT_ALCHEMICAL = MARKUP_REAGENT_ALCHEMICAL,
+		ITEM_CAT_REAGENT_ARCANE = MARKUP_REAGENT_ARCANE,
+		ITEM_CAT_SALVAGE = MARKUP_SALVAGE,
+		ITEM_CAT_LIVESTOCK = MARKUP_LIVESTOCK,
+		ITEM_CAT_MISCELLANEOUS = MARKUP_MISCELLANEOUS,
 	)
 
 /proc/init_material_baseline_prices()
@@ -73,46 +73,61 @@ GLOBAL_LIST_EMPTY(item_cat_markups)
 	GLOB.material_baseline_prices[/obj/item/ingot/steel] = SELLPRICE_STEEL_INGOT
 	GLOB.material_baseline_prices[/obj/item/ingot/gold] = SELLPRICE_GOLD_INGOT
 	GLOB.material_baseline_prices[/obj/item/ingot/silver] = SELLPRICE_SILVER_INGOT
-	GLOB.material_baseline_prices[/obj/item/ingot/bronze] = round(SELLPRICE_COPPER_INGOT + SELLPRICE_TIN_INGOT * 0.5)
-	GLOB.material_baseline_prices[/obj/item/ingot/silverblessed] = round(SELLPRICE_SILVER_INGOT * 2)
-	GLOB.material_baseline_prices[/obj/item/ingot/silverblessed/bullion] = round(SELLPRICE_SILVER_INGOT * 2)
-	GLOB.material_baseline_prices[/obj/item/ingot/steelholy] = round(SELLPRICE_STEEL_INGOT * 4)
-	GLOB.material_baseline_prices[/obj/item/ingot/blacksteel] = round(SELLPRICE_STEEL_INGOT * 4)
-	GLOB.material_baseline_prices[/obj/item/ingot/lithmyc] = round(SELLPRICE_STEEL_INGOT * 12)
-	GLOB.material_baseline_prices[/obj/item/ingot/purifiedaalloy] = round(SELLPRICE_STEEL_INGOT * 20)
-	GLOB.material_baseline_prices[/obj/item/ingot/aalloy] = round(SELLPRICE_IRON_INGOT * 0.5)
+	GLOB.material_baseline_prices[/obj/item/ingot/bronze] = round(SELLPRICE_COPPER_INGOT * INGOT_BRONZE_FROM_COPPER + SELLPRICE_TIN_INGOT * INGOT_BRONZE_FROM_TIN)
+	GLOB.material_baseline_prices[/obj/item/ingot/silverblessed] = round(SELLPRICE_SILVER_INGOT * INGOT_SILVERBLESSED_MULT)
+	GLOB.material_baseline_prices[/obj/item/ingot/silverblessed/bullion] = round(SELLPRICE_SILVER_INGOT * INGOT_SILVERBLESSED_MULT)
+	GLOB.material_baseline_prices[/obj/item/ingot/steelholy] = round(SELLPRICE_STEEL_INGOT * INGOT_STEELHOLY_MULT)
+	GLOB.material_baseline_prices[/obj/item/ingot/blacksteel] = round(SELLPRICE_STEEL_INGOT * INGOT_BLACKSTEEL_MULT)
+	GLOB.material_baseline_prices[/obj/item/ingot/lithmyc] = round(SELLPRICE_STEEL_INGOT * INGOT_LITHMYC_MULT)
+	GLOB.material_baseline_prices[/obj/item/ingot/purifiedaalloy] = round(SELLPRICE_STEEL_INGOT * INGOT_PURIFIEDAALLOY_MULT)
+	GLOB.material_baseline_prices[/obj/item/ingot/aalloy] = round(SELLPRICE_IRON_INGOT * INGOT_AALLOY_MULT)
+	GLOB.material_baseline_prices[/obj/item/ingot/drow] = round(SELLPRICE_STEEL_INGOT * INGOT_DROW_MULT)
 	GLOB.material_baseline_prices[/obj/item/grown/log/tree/small] = SELLPRICE_WOOD
-	GLOB.material_baseline_prices[/obj/item/natural/wood/plank] = round(SELLPRICE_WOOD * 1.5)
+	GLOB.material_baseline_prices[/obj/item/natural/wood/plank] = round(SELLPRICE_WOOD * MATERIAL_PLANK_FROM_WOOD)
 	GLOB.material_baseline_prices[/obj/item/natural/glass] = SELLPRICE_GLASS_BATCH
-	GLOB.material_baseline_prices[/obj/item/roguegear] = round(SELLPRICE_STEEL_INGOT * 1.0)
+	GLOB.material_baseline_prices[/obj/item/roguegear] = round(SELLPRICE_STEEL_INGOT * MATERIAL_ROGUEGEAR_FROM_STEEL)
 
 /proc/init_derived_sellprices()
 	GLOB.derived_sellprices = list()
 	GLOB.derived_categories = list()
 	var/list/trade_good_lookup = list()
+	var/list/sticky_trade_goods = list()
 	for(var/id in GLOB.trade_goods)
 		var/datum/trade_good/TG = GLOB.trade_goods[id]
 		if(!TG.item_type)
 			continue
 		trade_good_lookup[TG.item_type] = TG
-	var/max_passes = 6
-	for(var/pass in 1 to max_passes)
-		var/passed = derived_pass(null, null)
-		if(!passed)
-			break
-	var/list/missing_materials = list()
-	var/list/audit_lines = list()
-	audit_lines += "kind\tname\toutput\tcategory\tcategory_missing\tmaterial_cost\tderived_price\tmissing_reqs"
-	derived_pass(audit_lines, missing_materials)
-	fdel("data/pricing_engine_audit.txt")
-	text2file(jointext(audit_lines, "\n"), "data/pricing_engine_audit.txt")
-	dump_trade_good_audit(trade_good_lookup)
-	for(var/typepath in trade_good_lookup)
-		if(!GLOB.derived_sellprices[typepath])
-			var/datum/trade_good/TG = trade_good_lookup[typepath]
+		if(!TG.derive_price)
+			sticky_trade_goods[TG.item_type] = TG
 			if(TG.base_price > 0)
-				GLOB.derived_sellprices[typepath] = TG.base_price
-	log_world("Pricing engine: derived [length(GLOB.derived_sellprices)] prices, [length(missing_materials)] unique missing materials. Audit at data/pricing_engine_audit.txt, trade audit at data/pricing_engine_trade_audit.txt.")
+				GLOB.derived_sellprices[TG.item_type] = TG.base_price
+	var/list/missing_materials = list()
+	var/list/audit_lines
+#ifdef PRICING_ENGINE_DUMP_AUDITS
+	audit_lines = list()
+	audit_lines += csv_row(list("kind", "name", "output", "category", "category_missing", "material_cost", "derived_price", "missing_reqs"))
+#endif
+	derived_pass(audit_lines, missing_materials, sticky_trade_goods)
+	for(var/typepath in trade_good_lookup)
+		var/datum/trade_good/TG = trade_good_lookup[typepath]
+		if(!TG.derive_price)
+			continue
+		var/derived = GLOB.derived_sellprices[typepath]
+		if(derived && derived > 0)
+			TG.base_price = derived
+			TG.low_price = round(derived * 0.6)
+			TG.high_price = derived * 2
+#ifdef PRICING_ENGINE_DUMP_AUDITS
+	fdel("pricing_engine_audit.csv")
+	text2file(jointext(audit_lines, "\n"), "pricing_engine_audit.csv")
+	dump_trade_good_audit(trade_good_lookup)
+	dump_baseline_audit()
+	dump_category_audit()
+	dump_hardcode_override_audit()
+	log_world("Pricing engine: derived [length(GLOB.derived_sellprices)] prices, [length(missing_materials)] unique missing materials. Audits at pricing_engine_*.csv (project root).")
+#else
+	log_world("Pricing engine: derived [length(GLOB.derived_sellprices)] prices, [length(missing_materials)] unique missing materials. (audit dumps disabled)")
+#endif
 
 /proc/dump_trade_good_audit(list/trade_good_lookup)
 	var/list/rows = list()
@@ -125,19 +140,163 @@ GLOBAL_LIST_EMPTY(item_cat_markups)
 		rows += list(list("name" = TG.name, "id" = TG.id, "typepath" = "[typepath]", "old" = old_price, "new" = new_price, "delta" = delta, "delta_pct" = delta_pct, "behavior" = TG.behavior, "category" = TG.category))
 	sortTim(rows, GLOBAL_PROC_REF(cmp_trade_audit_row_by_delta_pct))
 	var/list/audit_lines = list()
-	audit_lines += "name\tid\ttypepath\tbehavior\tcategory\told_base_price\tnew_derived_price\tdelta\tdelta_pct"
+	audit_lines += csv_row(list("name", "id", "typepath", "behavior", "category", "old_base_price", "new_derived_price", "delta", "delta_pct"))
 	for(var/list/row in rows)
-		audit_lines += "[row["name"]]\t[row["id"]]\t[row["typepath"]]\t[row["behavior"]]\t[row["category"]]\t[row["old"]]\t[row["new"]]\t[row["delta"]]\t[row["delta_pct"]]%"
-	fdel("data/pricing_engine_trade_audit.txt")
-	text2file(jointext(audit_lines, "\n"), "data/pricing_engine_trade_audit.txt")
+		audit_lines += csv_row(list(row["name"], row["id"], row["typepath"], row["behavior"], row["category"], row["old"], row["new"], row["delta"], "[row["delta_pct"]]%"))
+	fdel("pricing_engine_trade_audit.csv")
+	text2file(jointext(audit_lines, "\n"), "pricing_engine_trade_audit.csv")
 
 /proc/cmp_trade_audit_row_by_delta_pct(list/a, list/b)
 	return abs(b["delta_pct"]) - abs(a["delta_pct"])
 
-/proc/derived_pass(list/audit_lines, list/missing_materials)
+/proc/dump_baseline_audit()
+	var/list/lines = list()
+	lines += csv_row(list("section", "name", "price_or_value", "extra"))
+	var/list/baseline_rows = list()
+	for(var/path in GLOB.material_baseline_prices)
+		baseline_rows += list(list("path" = "[path]", "price" = GLOB.material_baseline_prices[path]))
+	sortTim(baseline_rows, GLOBAL_PROC_REF(cmp_baseline_row_by_price_desc))
+	for(var/list/row in baseline_rows)
+		lines += csv_row(list("baseline", row["path"], row["price"], ""))
+	var/list/baseline_consumers = list()
+	for(var/path in GLOB.material_baseline_prices)
+		baseline_consumers["[path]"] = list()
+	for(var/datum/anvil_recipe/AR as anything in GLOB.anvil_recipes)
+		if(AR.hides_from_books || !AR.created_item || !AR.req_bar)
+			continue
+		var/derived = GLOB.derived_sellprices[AR.created_item]
+		if(!derived)
+			continue
+		var/key = "[AR.req_bar]"
+		if(key in baseline_consumers)
+			baseline_consumers[key] += list(list("name" = AR.name, "out" = "[AR.created_item]", "price" = derived))
+		if(islist(AR.additional_items))
+			for(var/path in AR.additional_items)
+				var/k2 = "[path]"
+				if(k2 in baseline_consumers)
+					baseline_consumers[k2] += list(list("name" = AR.name, "out" = "[AR.created_item]", "price" = derived))
+	for(var/datum/crafting_recipe/CR as anything in GLOB.crafting_recipes)
+		if(CR.hides_from_books)
+			continue
+		var/result_path = pick_recipe_result(CR)
+		if(!result_path)
+			continue
+		var/derived = GLOB.derived_sellprices[result_path]
+		if(!derived)
+			continue
+		if(islist(CR.reqs))
+			for(var/path in CR.reqs)
+				var/key = "[path]"
+				if(key in baseline_consumers)
+					baseline_consumers[key] += list(list("name" = CR.name, "out" = "[result_path]", "price" = derived))
+	for(var/list/row in baseline_rows)
+		var/path_str = row["path"]
+		var/list/consumers = baseline_consumers[path_str]
+		if(!length(consumers))
+			continue
+		sortTim(consumers, GLOBAL_PROC_REF(cmp_consumer_row_by_price_desc))
+		var/shown = 0
+		for(var/list/c in consumers)
+			lines += csv_row(list("consumer_of:[path_str]", c["name"], c["price"], c["out"]))
+			shown++
+			if(shown >= 10)
+				break
+	var/list/ingot_paths = list(
+		"copper" = /obj/item/ingot/copper,
+		"tin" = /obj/item/ingot/tin,
+		"bronze" = /obj/item/ingot/bronze,
+		"iron" = /obj/item/ingot/iron,
+		"steel" = /obj/item/ingot/steel,
+		"blacksteel" = /obj/item/ingot/blacksteel,
+		"steelholy" = /obj/item/ingot/steelholy,
+		"silver" = /obj/item/ingot/silver,
+		"silverblessed" = /obj/item/ingot/silverblessed,
+		"gold" = /obj/item/ingot/gold,
+		"lithmyc" = /obj/item/ingot/lithmyc,
+		"purifiedaalloy" = /obj/item/ingot/purifiedaalloy,
+		"aalloy" = /obj/item/ingot/aalloy,
+	)
+	for(var/name in ingot_paths)
+		var/p = ingot_paths[name]
+		lines += csv_row(list("ingot_tier", name, GLOB.material_baseline_prices[p] || 0, ""))
+	var/list/ore_ingot_pairs = list(
+		"iron" = list("ore" = /obj/item/rogueore/iron, "ingot" = /obj/item/ingot/iron),
+		"copper" = list("ore" = /obj/item/rogueore/copper, "ingot" = /obj/item/ingot/copper),
+		"tin" = list("ore" = /obj/item/rogueore/tin, "ingot" = /obj/item/ingot/tin),
+		"gold" = list("ore" = /obj/item/rogueore/gold, "ingot" = /obj/item/ingot/gold),
+		"silver" = list("ore" = /obj/item/rogueore/silver, "ingot" = /obj/item/ingot/silver),
+	)
+	for(var/name in ore_ingot_pairs)
+		var/list/pair = ore_ingot_pairs[name]
+		var/ore_price = GLOB.material_baseline_prices[pair["ore"]] || 0
+		var/ingot_price = GLOB.material_baseline_prices[pair["ingot"]] || 0
+		var/ratio_str = ore_price > 0 ? "[ingot_price / ore_price]x" : "n/a"
+		lines += csv_row(list("smelt_ratio", name, "[ore_price]ore_[ingot_price]ingot", ratio_str))
+	fdel("pricing_engine_baseline_audit.csv")
+	text2file(jointext(lines, "\n"), "pricing_engine_baseline_audit.csv")
+
+/proc/cmp_baseline_row_by_price_desc(list/a, list/b)
+	return b["price"] - a["price"]
+
+/proc/cmp_consumer_row_by_price_desc(list/a, list/b)
+	return b["price"] - a["price"]
+
+/proc/dump_hardcode_override_audit()
+	var/list/rows = list()
+	for(var/typepath in GLOB.derived_sellprices)
+		var/obj/item/I = typepath
+		if(!ispath(typepath, /obj/item))
+			continue
+		var/hardcoded = initial(I.sellprice)
+		if(!hardcoded || hardcoded <= 0)
+			continue
+		var/derived = GLOB.derived_sellprices[typepath]
+		if(!derived || derived <= 0)
+			continue
+		if(hardcoded == derived)
+			continue
+		var/delta = derived - hardcoded
+		var/delta_pct = hardcoded > 0 ? round((delta / hardcoded) * 100) : 9999
+		rows += list(list("path" = "[typepath]", "name" = initial(I.name), "hardcoded" = hardcoded, "derived" = derived, "delta" = delta, "delta_pct" = delta_pct))
+	sortTim(rows, GLOBAL_PROC_REF(cmp_override_row_by_delta_pct))
+	var/list/lines = list()
+	lines += csv_row(list("typepath", "name", "hardcoded_sellprice", "engine_derived_price", "delta", "delta_pct"))
+	for(var/list/row in rows)
+		lines += csv_row(list(row["path"], row["name"], row["hardcoded"], row["derived"], row["delta"], "[row["delta_pct"]]%"))
+	fdel("pricing_engine_hardcode_overrides.csv")
+	text2file(jointext(lines, "\n"), "pricing_engine_hardcode_overrides.csv")
+
+/proc/cmp_override_row_by_delta_pct(list/a, list/b)
+	return abs(b["delta_pct"]) - abs(a["delta_pct"])
+
+/proc/dump_category_audit()
+	var/list/by_category = list()
+	for(var/typepath in GLOB.derived_sellprices)
+		var/cat = GLOB.derived_categories[typepath] || "(uncategorized)"
+		if(!by_category[cat])
+			by_category[cat] = list()
+		by_category[cat] += list(list("path" = "[typepath]", "price" = GLOB.derived_sellprices[typepath]))
+	var/list/cat_names = list()
+	for(var/cat in by_category)
+		cat_names += cat
+	sortList(cat_names)
+	var/list/lines = list()
+	lines += csv_row(list("category", "typepath", "price", "looted_price"))
+	for(var/cat in cat_names)
+		var/list/rows = by_category[cat]
+		sortTim(rows, GLOBAL_PROC_REF(cmp_consumer_row_by_price_desc))
+		for(var/list/row in rows)
+			var/looted_price = max(1, round(row["price"] * LOOTED_SELL_MULT))
+			lines += csv_row(list(cat, row["path"], row["price"], looted_price))
+	fdel("pricing_engine_category_audit.csv")
+	text2file(jointext(lines, "\n"), "pricing_engine_category_audit.csv")
+
+/proc/derived_pass(list/audit_lines, list/missing_materials, list/trade_good_lookup)
 	var/new_derivations = 0
 	for(var/datum/anvil_recipe/AR as anything in GLOB.anvil_recipes)
 		if(AR.hides_from_books || !AR.created_item || !AR.req_bar)
+			continue
+		if(trade_good_lookup && trade_good_lookup[AR.created_item])
 			continue
 		var/category = AR.display_category
 		var/cat_missing = FALSE
@@ -145,18 +304,20 @@ GLOBAL_LIST_EMPTY(item_cat_markups)
 			category = ITEM_CAT_SMITHING_MISC
 			cat_missing = TRUE
 		var/list/local_missing = list()
-		var/material_cost = recipe_material_cost_for(AR.req_bar, local_missing)
+		var/list/breakdown = list()
+		var/material_cost = build_input_breakdown(AR.req_bar, 1, local_missing, breakdown)
 		if(islist(AR.additional_items))
 			for(var/path in AR.additional_items)
-				material_cost += recipe_material_cost_for(path, local_missing)
+				material_cost += build_input_breakdown(path, 1, local_missing, breakdown)
 		if(missing_materials)
 			for(var/m in local_missing)
 				if(!(m in missing_materials))
 					missing_materials += m
 		var/yield = max(1, AR.createditem_num)
 		var/derived = derive_price_from_cost(material_cost, category, yield)
+		var/markup = GLOB.item_cat_markups[category] || PRICING_ENGINE_DEFAULT_MARKUP
 		if(audit_lines)
-			audit_lines += "anvil\t[AR.name]\t[AR.created_item]\t[category]\t[cat_missing ? "MISSING" : ""]\t[material_cost]\t[derived]\t[length(local_missing) ? jointext(local_missing, ",") : ""]"
+			audit_lines += csv_row(list("anvil", AR.name, "[AR.created_item]", category, cat_missing ? "MISSING" : "", "[material_cost]", "[markup]", "[yield]", "[derived]", jointext(breakdown, " + "), jointext(local_missing, ",")))
 		if(derived <= 0)
 			continue
 		if(register_derived_price(AR.created_item, derived, category))
@@ -167,6 +328,8 @@ GLOBAL_LIST_EMPTY(item_cat_markups)
 		var/result_path = pick_recipe_result(CR)
 		if(!result_path)
 			continue
+		if(trade_good_lookup && trade_good_lookup[result_path])
+			continue
 		var/category = CR.display_category
 		var/cat_missing = FALSE
 		if(!category)
@@ -174,24 +337,47 @@ GLOBAL_LIST_EMPTY(item_cat_markups)
 			cat_missing = TRUE
 		var/material_cost = 0
 		var/list/local_missing = list()
+		var/list/breakdown = list()
 		if(islist(CR.reqs))
 			for(var/path in CR.reqs)
 				var/qty = CR.reqs[path]
 				if(!isnum(qty))
 					qty = 1
-				material_cost += recipe_material_cost_for(path, local_missing) * qty
+				material_cost += build_input_breakdown(path, qty, local_missing, breakdown)
 		if(missing_materials)
 			for(var/m in local_missing)
 				if(!(m in missing_materials))
 					missing_materials += m
 		var/derived = derive_price_from_cost(material_cost, category, 1)
+		var/markup = GLOB.item_cat_markups[category] || PRICING_ENGINE_DEFAULT_MARKUP
 		if(audit_lines)
-			audit_lines += "crafting\t[CR.name]\t[result_path]\t[category]\t[cat_missing ? "MISSING" : ""]\t[material_cost]\t[derived]\t[length(local_missing) ? jointext(local_missing, ",") : ""]"
+			audit_lines += csv_row(list("crafting", CR.name, "[result_path]", category, cat_missing ? "MISSING" : "", "[material_cost]", "[markup]", "1", "[derived]", jointext(breakdown, " + "), jointext(local_missing, ",")))
 		if(derived <= 0)
 			continue
 		if(register_derived_price(result_path, derived, category))
 			new_derivations++
 	return new_derivations
+
+/proc/build_input_breakdown(path, qty, list/missing_materials_log, list/breakdown)
+	var/unit_cost = recipe_material_cost_for(path, missing_materials_log)
+	var/atom/A = path
+	var/short_name = initial(A.name) || "[path]"
+	if(unit_cost <= 0)
+		breakdown += "[short_name]×[qty] (UNPRICED)"
+		return 0
+	var/total = unit_cost * qty
+	breakdown += "[short_name]×[qty] @[unit_cost]m = [total]m"
+	return total
+
+/proc/csv_row(list/cells)
+	var/list/escaped = list()
+	for(var/cell in cells)
+		var/s = "[cell]"
+		if(findtext(s, ",") || findtext(s, "\"") || findtext(s, "\n"))
+			s = replacetext(s, "\"", "\"\"")
+			s = "\"[s]\""
+		escaped += s
+	return jointext(escaped, ",")
 
 /proc/recipe_material_cost_for(path, list/missing_materials_log)
 	if(!path)
@@ -199,15 +385,9 @@ GLOBAL_LIST_EMPTY(item_cat_markups)
 	var/cost = GLOB.material_baseline_prices[path]
 	if(cost)
 		return cost
-	cost = GLOB.derived_sellprices[path]
-	if(cost)
-		return cost
 	for(var/known_path in GLOB.material_baseline_prices)
 		if(ispath(path, known_path))
 			return GLOB.material_baseline_prices[known_path]
-	for(var/known_path in GLOB.derived_sellprices)
-		if(ispath(path, known_path))
-			return GLOB.derived_sellprices[known_path]
 	if(missing_materials_log && !("[path]" in missing_materials_log))
 		missing_materials_log += "[path]"
 	return 0
@@ -261,7 +441,7 @@ GLOBAL_LIST_EMPTY(item_cat_markups)
 	var/list/parts = list()
 	var/list/source_files = list(
 		"code/modules/roguetown/roguestock/pricing_engine.dm",
-		"code/__DEFINES/pricing_engine.dm",
+		"code/__DEFINES/pricing_defines.dm",
 		"code/__DEFINES/item_categories.dm",
 		"code/__DEFINES/trade_goods.dm",
 	)
@@ -312,6 +492,21 @@ GLOBAL_LIST_EMPTY(item_cat_markups)
 			reqs = jointext(sortList(sorted_reqs), ",")
 		recipe_keys += "c:[result_path]|[reqs]|[CR.display_category]"
 	parts += "recipes:[jointext(sortList(recipe_keys), "|")]"
+	var/list/sellprice_keys = list()
+	for(var/datum/anvil_recipe/AR as anything in GLOB.anvil_recipes)
+		if(AR.hides_from_books || !AR.created_item)
+			continue
+		var/obj/item/I = AR.created_item
+		sellprice_keys += "[AR.created_item]=[initial(I.sellprice)]"
+	for(var/datum/crafting_recipe/CR as anything in GLOB.crafting_recipes)
+		if(CR.hides_from_books)
+			continue
+		var/result_path = pick_recipe_result(CR)
+		if(!result_path)
+			continue
+		var/obj/item/I2 = result_path
+		sellprice_keys += "[result_path]=[initial(I2.sellprice)]"
+	parts += "itemprices:[jointext(sortList(sellprice_keys), "|")]"
 	return md5(jointext(parts, "\n"))
 
 /proc/load_pricing_cache(fingerprint)

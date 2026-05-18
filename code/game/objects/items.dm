@@ -1767,6 +1767,18 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 		var/atom/A = salvage_result
 		. += span_info("Can be salvaged for: <b>[salvage_amount] [capitalize(initial(A.name))]</b>.")
 
+/obj/item/proc/mark_as_looted()
+	if(looted)
+		return
+	looted = TRUE
+	name = "well-worn [name]"
+
+/obj/item/proc/unmark_as_looted()
+	if(!looted)
+		return
+	looted = FALSE
+	name = replacetext(name, "well-worn ", "")
+
 /obj/item/proc/update_force_dynamic()
 	force_dynamic = (wielded ? force_wielded : force)
 
