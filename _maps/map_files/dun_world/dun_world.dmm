@@ -7433,6 +7433,10 @@
 	pixel_x = -10;
 	pixel_y = 13
 	},
+/obj/structure/roguemachine/talkstatue{
+	pixel_x = 10;
+	pixel_y = 12
+	},
 /turf/open/floor/rogue/churchbrick,
 /area/rogue/indoors/town/bath)
 "bBC" = (
