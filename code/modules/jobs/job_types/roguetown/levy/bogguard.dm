@@ -15,7 +15,7 @@
 	forbidden_races = list(RACES_DESPISED)
 	allowed_ages = list(AGE_ADULT, AGE_MIDDLEAGED, AGE_OLD)
 	tutorial = "When the bailiff came to your household it was the worst dae of your lyfe, dragging you away into service to the Crown with nothing more but whatever household object you managed to piece together into a weapon. \
-				Safeguard your home from the terrors beyond the gates of the bog and those foolish enough to venture further into the terrorbog. You answer to the bogmaster, the smartest idiot out of all of you."
+				Safeguard your home from the terrors within bog and those foolish enough to venture further into the terrorbog. You answer to the bogmaster, the smartest idiot out of all of you."
 	display_order = JDO_BOGGUARD
 	selection_color = JCOLOR_LEVY
 	whitelist_req = TRUE
