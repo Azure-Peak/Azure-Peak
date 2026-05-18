@@ -691,6 +691,10 @@
 			else
 				if(faction_tag in M.faction)
 					continue
+			if(M.resting || M.stat == DEAD && !M.mind) // to finish off NPCs in a cooler way
+				M.gib(TRUE, TRUE, TRUE, FALSE)
+			if(!M.mind)
+				M.Stun(50)
 			M.set_resting(TRUE, TRUE)
 			to_chat(M, span_danger("The blast hurls you backwards!"))
 		var/atom/throwtarget = get_edge_target_turf(T, get_dir(T, get_step_away(AM, T)))
@@ -736,8 +740,6 @@
 		C.apply_status_effect(/datum/status_effect/debuff/clickcd, 8 SECONDS)
 		C.apply_status_effect(/datum/status_effect/debuff/exposed, 8 SECONDS)
 		to_chat(C, span_userdanger("Bone splinters bury themselves deep into your flesh!"))
-		if(C.resting || C.stat == DEAD && !C.mind) // to finish off NPCs in a cooler way
-			C.gib(TRUE, TRUE, TRUE, FALSE)
 	new /obj/effect/decal/remains/human(T)
 	qdel(S)
 
