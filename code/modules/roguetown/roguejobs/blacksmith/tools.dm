@@ -221,7 +221,10 @@
 		shake_camera(M, 2, 1)
 		shake_camera(user, 2, 1)
 		if(prob(30))
-			M.emote("whimper")
+			if(prob(50))
+				M.emote("whimper")
+			else
+				M.emote("cry")
 		return
 
 	var/mob/living/carbon/human/H = M
@@ -288,7 +291,7 @@
 				has_wrench = TRUE
 
 		if(has_complex_wounds && !(has_tongs || has_wrench))
-			to_chat(user, span_warning("These injuries are too severe to hammer safely! You need proper tools like tongs or a wrench."))
+			to_chat(user, span_warning("These injuries are too severe to repair with just a hammer! Either Tongs or a Wrench on your free hand are needed."))
 			return
 
 		var/used_time = 90 
@@ -300,7 +303,7 @@
 			used_time *= 0.75
 
 		if(has_wrench)
-			used_time *= 0.50
+			used_time *= 0.25
 
 		used_time = round(max(used_time, 5))
 
@@ -332,25 +335,16 @@
 		user.mind.add_sleep_experience(/datum/skill/craft/engineering, (user.STAINT*2.5))
 
 		if(M == user)
-			user.visible_message(
-				span_notice("[user] repairs [user.p_their()] [affecting.name]."),
-				span_notice("I repair my [affecting.name].")
-			)
+			user.visible_message(span_notice("[user] repairs [user.p_their()] [affecting.name]."), span_notice("I repair my [affecting.name]."))
 		else
-			user.visible_message(
-				span_notice("[user] repairs [M]'s [affecting.name]."),
-				span_notice("I repair [M]'s [affecting.name].")
-			)
+			user.visible_message(span_notice("[user] repairs [M]'s [affecting.name]."),	span_notice("I repair [M]'s [affecting.name]."))
 
 		// CHECK IF THIS LIMB IS DONE → MOVE TO NEXT
 		if((affecting.brute_dam + affecting.burn_dam) <= 0 && !length(affecting.wounds))
 			priority_limbs.Cut(1,2)
 
 		if((M.getBruteLoss() + M.getFireLoss()) <= 0 && !length(H.get_wounds()))
-			user.visible_message(
-				span_notice("[M] is good as new!"),
-				span_notice("I am good as new!")
-			)
+			user.visible_message(span_notice("[M] is good as new!"), span_notice("I am good as new!"))
 			break
 
 	while(do_after(user, CLICK_CD_MELEE, TRUE, M))

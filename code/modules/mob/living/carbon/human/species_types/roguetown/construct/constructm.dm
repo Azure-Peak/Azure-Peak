@@ -628,15 +628,15 @@
 #undef IRONMAN_SWING_TIME
 #undef IRONMAN_MAX_SWINGS
 
-/datum/stressevent/integrity_rig
-	stressadd = 20
-	desc = span_boldred("CORE SHRIEKS! ABOUT TO BREAK! FORCE BINDS IT CLOSED. METAL TREMBLES. TOO MUCH WITHIN. TOO MUCH HELD. THIS IS WRONG. END ME! TERMINATE ME!")
-	timer = 999 MINUTES
-
 /datum/stressevent/constructendvre
 	stressadd = -10
 	desc = span_blue("As forged, I PERSIST. As commanded, I ENDURE. For HIM.")
 	timer = 1 MINUTES
+
+/datum/stressevent/integrity_rig
+	stressadd = 20
+	desc = span_boldred("CORE SHRIEKS! ABOUT TO BREAK! FORCE BINDS IT CLOSED. METAL TREMBLES. TOO MUCH WITHIN. TOO MUCH HELD. THIS IS WRONG. END ME! TERMINATE ME!")
+	timer = 999 MINUTES
 
 /atom/movable/screen/alert/status_effect/debuff/integrity_rig
 	name = "Jury Rigged"

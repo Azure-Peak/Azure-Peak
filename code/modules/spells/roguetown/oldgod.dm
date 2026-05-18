@@ -140,9 +140,6 @@
 
 	secondary_resource_cost = SPELLCOST_MIRACLE_MINOR
 
-	invocation_type = INVOCATION_MESSAGE
-	invocations = list(span_blue("quietly recites an orison, invoking the warmth of a dying light."))
-
 	charge_required = FALSE
 	cooldown_time = 30 SECONDS
 
@@ -160,6 +157,15 @@
 		var/pp = 0
 		var/damtotal = brute + burn
 		var/zcross_trigger = FALSE
+
+		if(H.cmode)
+			if(H != target)
+				H.say(pick("ENDURE!!","COME ON!!","HANG ON!!")) // because I miss this! :(
+			else
+				H.visible_message(span_blue("[H] quietly recites an orison, invoking the warmth of a dying light."))
+		else
+			H.visible_message(span_blue("[H] quietly recites an orison, invoking the warmth of a dying light."))
+
 		if(H.patron?.undead_hater && (target.mob_biotypes & MOB_UNDEAD)) // YOU ARE NO LONGER MORTAL. NO LONGER OF HIM. PSYDON WEEPS.
 			// We do nothing to avoid meta checking for undead
 			target.visible_message(span_info("A strange stirring feeling pours from [target]!"), span_info("Sentimental thoughts drive away my pain..."))		
@@ -582,101 +588,132 @@
 	devotion_cost = 80
 
 /obj/effect/proc_holder/spell/invoked/psydonlux_tamper/cast(list/targets, mob/living/user)
+
 	if(!ishuman(targets[1]))
-		to_chat(user, span_warning("Their Lux doesn't need to be purified."))
+		to_chat(user, span_warning("Their Lux cannot be interacted with."))
 		revert_cast()
 		return FALSE
 
 	var/mob/living/carbon/human/H = targets[1]
-	
+
 	if(H == user)
-		to_chat(user, span_warning("My own Lux maintains purity."))
+		to_chat(user, span_warning("I cannot interact with my own Lux."))
+		revert_cast()
+		return FALSE
+
+	if(!H.key && !H.get_ghost(FALSE, TRUE))
+		to_chat(user, span_warning("[H] is irreversibly gone... There's nothing we can do to bring them back anymore!"))
+		user.emote("cry")
 		revert_cast()
 		return FALSE
 
 	if(H.stat == DEAD)
-		to_chat(user, span_warning("[H]'s Lux is gone. I can't do anything, anymore."))
+		to_chat(user, span_warning("[H]'s Lux is extinguished... What can I do?!"))
 		user.emote("cry")
 		revert_cast()
-		return FALSE	
-	
-	// Transfer wounds.
-	if(ishuman(H) && ishuman(user))
-		var/mob/living/carbon/human/C_target = H
-		var/mob/living/carbon/human/C_caster = user
-		var/list/datum/wound/tw_List = C_target.get_wounds()
+		return FALSE
 
-		if(!tw_List.len)
-			revert_cast()
-			return FALSE
+	if(!ishuman(user))
+		revert_cast()
+		return FALSE
 
-		var/list/BPs_to_check = list()
+	var/mob/living/carbon/human/C_target = H
+	var/mob/living/carbon/human/C_caster = user
+	var/list/tw_List = C_target.get_wounds()
 
-		//Transfer wounds from each bodypart.
-		for(var/datum/wound/targetwound in tw_List)
-			if (istype(targetwound, /datum/wound/dismemberment))
-				continue				
-			if (istype(targetwound, /datum/wound/facial))
-				continue					
-			if (istype(targetwound, /datum/wound/fracture/head))
-				continue				
-			if (istype(targetwound, /datum/wound/fracture/neck))
-				continue
-			if (istype(targetwound, /datum/wound/cbt/permanent))
-				continue			
-			var/obj/item/bodypart/c_BP = C_caster.get_bodypart(targetwound.bodypart_owner.body_zone)
-			if(c_BP)
-				var/datum/wound/newwound = c_BP.add_wound(targetwound.type)
-				if(newwound)	// We transferred it successfully.
-					targetwound.copy_to(newwound)
-				else
-					c_BP.receive_damage(targetwound.whp)
-					if(!(c_BP in BPs_to_check))
-						LAZYADD(BPs_to_check, c_BP)
+	if(!tw_List.len && H.blood_volume >= BLOOD_VOLUME_NORMAL)
+		revert_cast()
+		return FALSE
 
-				if((HAS_TRAIT(C_caster, TRAIT_NOPAIN) || HAS_TRAIT(C_caster, TRAIT_NOPAINSTUN)) && HAS_TRAIT(C_caster, TRAIT_BLOODLOSS_IMMUNE))
-					if(!(c_BP in BPs_to_check))
-						c_BP.receive_damage(targetwound.whp)
-						LAZYADD(BPs_to_check, c_BP) // This, in essence, checks whether we're a quirky caster that does not bleed (IE constructs).
-				var/obj/item/bodypart/t_BP = C_target.get_bodypart(targetwound.bodypart_owner.body_zone)
-				if(t_BP)
-					t_BP.remove_wound(targetwound.type)
+	var/list/BPs_to_check = list()
 
-		if(length(BPs_to_check))
-			var/stuntime = 0
-			for(var/obj/item/bodypart/c_BP in BPs_to_check)
-				if(c_BP.get_damage() >= c_BP.max_damage)	// We're some snowflake-ahh Absolver that does not accept regular wounds
-					if(istype(c_BP, /obj/item/bodypart/head) || !c_BP.dismember(skip_checks = TRUE) )	// Our limb can't fall off (or we don't want it to)
-						stuntime += 5 SECONDS
-			if(stuntime)
-				C_caster.Knockdown(stuntime)
-				C_caster.apply_status_effect(/datum/status_effect/debuff/exposed, stuntime)
-				C_caster.emote("pain")
+	// WOUND TRANSFER
+	for(var/datum/wound/targetwound in tw_List)
+		if(istype(targetwound, /datum/wound/dismemberment))
+			continue
+		if(istype(targetwound, /datum/wound/facial))
+			continue
+		if(istype(targetwound, /datum/wound/fracture/head))
+			continue
+		if(istype(targetwound, /datum/wound/fracture/neck))
+			continue
+		if(istype(targetwound, /datum/wound/cbt/permanent))
+			continue
+		if(!targetwound.bodypart_owner)
+			continue
 
+		var/obj/item/bodypart/c_BP = C_caster.get_bodypart(targetwound.bodypart_owner.body_zone)
+		if(!c_BP)
+			continue
 
-	// Transfer blood
+		var/wound_type = translate_wound_for_target(targetwound, C_caster)
+		var/datum/wound/newwound = c_BP.add_wound(wound_type)
+
+		if(newwound)
+			targetwound.copy_to(newwound)
+		else
+			c_BP.receive_damage(targetwound.whp)
+
+			if(!(c_BP in BPs_to_check))
+				LAZYADD(BPs_to_check, c_BP)
+
+		if((HAS_TRAIT(C_caster, TRAIT_NOPAIN) || HAS_TRAIT(C_caster, TRAIT_NOPAINSTUN)) && HAS_TRAIT(C_caster, TRAIT_BLOODLOSS_IMMUNE))
+			if(!(c_BP in BPs_to_check))
+				c_BP.receive_damage(targetwound.whp)
+				LAZYADD(BPs_to_check, c_BP)
+
+		var/obj/item/bodypart/t_BP = C_target.get_bodypart(targetwound.bodypart_owner.body_zone)
+
+		if(t_BP)
+			t_BP.remove_wound(targetwound.type)
+
+	if(length(BPs_to_check))
+		var/stuntime = 0
+
+		for(var/obj/item/bodypart/c_BP in BPs_to_check)
+
+			if(c_BP.get_damage() >= c_BP.max_damage)
+
+				if(istype(c_BP, /obj/item/bodypart/head) || !c_BP.dismember(skip_checks = TRUE))
+					stuntime += 5 SECONDS
+
+		if(stuntime)
+			C_caster.Knockdown(stuntime)
+			C_caster.apply_status_effect(/datum/status_effect/debuff/exposed, stuntime)
+			C_caster.emote("pain")
+
+	// BLOOD TRANSFER
 	var/blood_transfer = 0
-	if(H.blood_volume < BLOOD_VOLUME_NORMAL)
-		blood_transfer = BLOOD_VOLUME_NORMAL - H.blood_volume
+	var/mob/living/carbon/human/loosah = user
+	if(!(NOBLOOD in loosah.dna?.species?.species_traits))
+		if(H.blood_volume < BLOOD_VOLUME_NORMAL)
+			blood_transfer = BLOOD_VOLUME_NORMAL - H.blood_volume
+			H.blood_volume = BLOOD_VOLUME_NORMAL
+			loosah.blood_volume -= blood_transfer
+			to_chat(loosah, span_warning("You feel your blood drain into [H]!"))
+			to_chat(H, span_notice("You feel your blood replenish!"))
+	else
+		user.adjustFireLoss(BLOOD_VOLUME_NORMAL/4)
 		H.blood_volume = BLOOD_VOLUME_NORMAL
-		user.blood_volume -= blood_transfer
-		to_chat(user, span_warning("You feel your blood drain into [H]!"))
-		to_chat(H, span_notice("You feel your blood replenish!"))
+		to_chat(user, span_warning("You feel your Lux sear into [H]!"))
+		to_chat(H, span_notice("You feel your blood miraculously replenish!"))
 
-	// Visual effects
+	// VISUALS
 	user.visible_message(span_danger("[user] purifies [H]'s wounds!"))
+
 	playsound(get_turf(user), 'sound/magic/psydonbleeds.ogg', 50, TRUE)
-	
-	new /obj/effect/temp_visual/psyheal_rogue(get_turf(H), "#487e97") 
-	new /obj/effect/temp_visual/psyheal_rogue(get_turf(H), "#487e97") 
-	new /obj/effect/temp_visual/psyheal_rogue(get_turf(H), "#487e97") 
-	new /obj/effect/temp_visual/psyheal_rogue(get_turf(user), "#487e97") 
-	new /obj/effect/temp_visual/psyheal_rogue(get_turf(user), "#487e97") 
-	new /obj/effect/temp_visual/psyheal_rogue(get_turf(user), "#487e97") 
-	
-	// Notify the user and target
+
+	new /obj/effect/temp_visual/psyheal_rogue(get_turf(H), "#487e97")
+	new /obj/effect/temp_visual/psyheal_rogue(get_turf(H), "#487e97")
+	new /obj/effect/temp_visual/psyheal_rogue(get_turf(H), "#487e97")
+
+	new /obj/effect/temp_visual/psyheal_rogue(get_turf(user), "#487e97")
+	new /obj/effect/temp_visual/psyheal_rogue(get_turf(user), "#487e97")
+	new /obj/effect/temp_visual/psyheal_rogue(get_turf(user), "#487e97")
+
 	to_chat(user, span_notice("You purify their Lux with the merging of theirs and your own, for a mote."))
-	to_chat(H, span_info("You feel a strange stirring sensation pour over your Lux, stealing your wounds."))
+	to_chat(H, span_info("You feel a gentle stirring sensation pour over your Lux, stealing your wounds."))
+
 	return TRUE
 
 //
@@ -708,88 +745,158 @@
 		to_chat(user, span_warning("ABSOLUTION is for those who walk in HIS image!"))
 		revert_cast()
 		return FALSE
-	
-	var/mob/living/carbon/human/H = targets[1]
-	
-	if(H == user)
-		to_chat(user, span_warning("You cannot ABSOLVE yourself!"))
+
+	if(!ishuman(user))
 		revert_cast()
 		return FALSE
-	
-	// Special case for dead targets
+
+	var/mob/living/carbon/human/H = targets[1]
+	var/mob/living/carbon/human/C = user
+
+	if(H == C)
+		to_chat(C, span_warning("You cannot ABSOLVE yourself!"))
+		revert_cast()
+		return FALSE
+
+	// REVIVE PATH
 	if(H.stat >= DEAD)
-		if(!H.check_revive(user))
+		if(!H.key && !H.get_ghost(FALSE, TRUE))
+			to_chat(user, span_warning("[H] is irreversibly gone... There's nothing we can do to bring them back anymore!"))
+			user.emote("cry")
 			revert_cast()
 			return FALSE
-		if(alert(user, "REACH OUT AND PULL?", "THERE'S NO LUX IN THERE", "YES", "NO") != "YES")	
+		if(!H.check_revive(C))
 			revert_cast()
 			return FALSE
-		to_chat(user, span_warning("You attempt to revive [H] by ABSOLVING them!"))
-		// Dramatic effect
-		user.visible_message(span_danger("[user] grabs [H] by the wrists, attempting to ABSOLVE them!"))
-		if(alert(H, "They want to ABSOLVE you. Will you let them?", "ABSOLUTION", "I'll allow it", "I refuse") != "I'll allow it")
-			H.visible_message(span_notice("Nothing happens."))
+		if(alert(C,"REACH OUT AND PULL?","THERE'S NO LUX IN THERE","YES","NO") != "YES")
+			revert_cast()
 			return FALSE
-		// Create visual effects
+		C.visible_message(span_danger("[C] grabs [H] by the wrists, attempting to ABSOLVE them!"))
+		if(alert(H,"They want to ABSOLVE you. Will you let them?","ABSOLUTION","I'll allow it","I refuse") != "I'll allow it")
+			return FALSE
 		H.apply_status_effect(/datum/status_effect/buff/psyvived)
-		// Kill the caster
-		user.say("MY LYFE FOR YOURS! LYVE, AS DOES HE!", forced = TRUE, language = /datum/language/common)
-		user.death()
-		// Revive the target
-		H.revive(full_heal = TRUE, admin_revive = FALSE)
+		C.say("MY LYFE FOR YOURS! LYVE, AS DOES HE!", forced=TRUE, language=/datum/language/common)
+		C.death()
+		H.revive(full_heal=TRUE, admin_revive=FALSE)
 		H.adjustOxyLoss(-H.getOxyLoss())
-		H.grab_ghost(force = TRUE) // even suicides
+		H.grab_ghost(force=TRUE)
 		H.emote("breathgasp")
 		H.Jitter(100)
 		H.update_body()
 		record_round_statistic(STATS_LUX_REVIVALS)
 		ADD_TRAIT(H, TRAIT_IWASREVIVED, "[type]")
 		H.apply_status_effect(/datum/status_effect/buff/psyvived)
-		user.apply_status_effect(/datum/status_effect/buff/psyvived)
-		H.visible_message(span_notice("[H] is ABSOLVED!"), span_green("I awake from the void."))		
+		C.apply_status_effect(/datum/status_effect/buff/psyvived)
+		H.visible_message(span_notice("[H] is ABSOLVED!"))
 		H.mind.remove_antag_datum(/datum/antagonist/zombie)
-		H.remove_status_effect(/datum/status_effect/debuff/rotted_zombie)	//Removes the rotted-zombie debuff if they have it - Failsafe for it.
-		H.apply_status_effect(/datum/status_effect/debuff/revived)	//Temp debuff on revive, your stats get hit temporarily. Doubly so if having rotted.
+		H.remove_status_effect(/datum/status_effect/debuff/rotted_zombie)
+		H.apply_status_effect(/datum/status_effect/debuff/revived)
 		return TRUE
 
-	// Transfer afflictions from the target to the caster
+	// LIMB TRANSFER
+	var/list/zones = list(BODY_ZONE_L_ARM, BODY_ZONE_R_ARM, BODY_ZONE_L_LEG, BODY_ZONE_R_LEG)
 
-	// Transfer damage
+	for(var/zone in zones)
+		var/obj/item/bodypart/tBP = H.get_bodypart(zone)
+
+		if(!tBP)
+			H.regenerate_limb(zone)
+			var/obj/item/bodypart/cBP = C.get_bodypart(zone)
+			if(cBP)
+				cBP.dismember()
+				if(HAS_TRAIT(H, TRAIT_IRONMAN)) // im just assuming constructs can't use any other limbs than their own, so instead of delimbing, eat an integrity
+					var/obj/item/bodypart/daChest = H.get_bodypart(BODY_ZONE_CHEST)
+					daChest.add_wound(/datum/wound/integrity/chest)
+				else
+					qdel(cBP)
+
+	// WOUND TRANSFER
+	var/list/wounds = H.get_wounds()
+
+	for(var/datum/wound/W in wounds)
+		if(!W.bodypart_owner)
+			continue
+		var/obj/item/bodypart/cBP = C.get_bodypart(W.bodypart_owner.body_zone)
+		if(!cBP)
+			continue
+		var/new_type = translate_wound_for_target(W, C)
+		var/datum/wound/newW = cBP.add_wound(new_type)
+		if(newW)
+			W.copy_to(newW)
+		else
+			cBP.receive_damage(W.whp)
+		var/obj/item/bodypart/tBP = H.get_bodypart(W.bodypart_owner.body_zone)
+		if(tBP)
+			tBP.remove_wound(W.type)
+
+	// DAMAGE TRANSFER
 	var/brute_transfer = H.getBruteLoss()
 	var/burn_transfer = H.getFireLoss()
 	var/tox_transfer = H.getToxLoss()
 	var/oxy_transfer = H.getOxyLoss()
 	var/clone_transfer = H.getCloneLoss()
-	
-	// Heal the target
+
 	H.adjustBruteLoss(-brute_transfer)
 	H.adjustFireLoss(-burn_transfer)
 	H.adjustToxLoss(-tox_transfer)
 	H.adjustOxyLoss(-oxy_transfer)
 	H.adjustCloneLoss(-clone_transfer)
-	
-	// Apply damage to the caster
-	user.adjustBruteLoss(brute_transfer)
-	user.adjustFireLoss(burn_transfer)
-	user.adjustToxLoss(tox_transfer)
-	user.adjustOxyLoss(oxy_transfer)
-	user.adjustCloneLoss(clone_transfer)
 
-	// Visual effects
-	user.visible_message(span_danger("[user] absolves [H]'s suffering!"))
-	new /obj/effect/temp_visual/psyheal_rogue(get_turf(H), "#aa1717") 
-	new /obj/effect/temp_visual/psyheal_rogue(get_turf(H), "#aa1717") 
-	new /obj/effect/temp_visual/psyheal_rogue(get_turf(H), "#aa1717") 
+	C.adjustBruteLoss(brute_transfer)
+	C.adjustFireLoss(burn_transfer)
+	C.adjustToxLoss(tox_transfer)
+	C.adjustOxyLoss(oxy_transfer)
+	C.adjustCloneLoss(clone_transfer)
 
-	new /obj/effect/temp_visual/psyheal_rogue(get_turf(user), "#aa1717") 
-	new /obj/effect/temp_visual/psyheal_rogue(get_turf(user), "#aa1717") 
-	new /obj/effect/temp_visual/psyheal_rogue(get_turf(user), "#aa1717") 
-	
-	// Notify the user and target
-	to_chat(user, span_warning("You absolve [H] of their injuries!"))
-	to_chat(H, span_notice("[user] absolves you of your injuries!"))
-	
+	// BLOOD LOSS TRANSFER
+	var/blood_needed = max(0, BLOOD_VOLUME_NORMAL - H.blood_volume)
+	if(blood_needed)
+		if(NOBLOOD in C.dna?.species?.species_traits)
+			H.blood_volume = BLOOD_VOLUME_NORMAL
+			C.adjustFireLoss(round(blood_needed / 8))
+		else
+			if(C.blood_volume > BLOOD_VOLUME_BAD)
+				var/available_blood = C.blood_volume - BLOOD_VOLUME_BAD
+				var/transferred = min(blood_needed, available_blood)
+				if(transferred > 0)
+					H.blood_volume += transferred
+					C.blood_volume -= transferred
+
+	// VISUALS
+	C.visible_message(span_danger("[C] absolves [H]'s suffering!"))
+
+	new /obj/effect/temp_visual/psyheal_rogue(get_turf(H), "#aa1717")
+	new /obj/effect/temp_visual/psyheal_rogue(get_turf(H), "#aa1717")
+	new /obj/effect/temp_visual/psyheal_rogue(get_turf(H), "#aa1717")
+
+	new /obj/effect/temp_visual/psyheal_rogue(get_turf(C), "#aa1717")
+	new /obj/effect/temp_visual/psyheal_rogue(get_turf(C), "#aa1717")
+	new /obj/effect/temp_visual/psyheal_rogue(get_turf(C), "#aa1717")
+
+	to_chat(C, span_warning("You take [H]'s suffering upon yourself!"))
+	to_chat(H, span_notice("[C] absolves you of your injuries!"))
+
 	return TRUE
+
+/proc/translate_wound_for_target(datum/wound/W, mob/living/carbon/human/recipient)
+	if(!W || !recipient)
+		return null
+	var/is_construct = HAS_TRAIT(recipient, TRAIT_IRONMAN)
+	switch(W.type)
+		if(/datum/wound/artery)
+			return is_construct ? /datum/wound/integrity : W.type
+		if(/datum/wound/artery/chest)
+			return is_construct ? /datum/wound/integrity/chest : W.type
+		if(/datum/wound/artery/neck)
+			return is_construct ? /datum/wound/integrity/neck : W.type
+		if(/datum/wound/integrity)
+			return is_construct ? W.type : /datum/wound/artery
+		if(/datum/wound/integrity/chest)
+			return is_construct ? W.type : /datum/wound/artery/chest
+		if(/datum/wound/integrity/neck)
+			return is_construct ? W.type : /datum/wound/artery/neck
+
+	return W.type
 
 // UNUSED DIALOGUE: PRAYER, RESPITE, PERSIST
 // ("#..our father above, hallowed be thy name..","#..thy kingdom come, thy will be done..","#..I fear no evil, for thou art with me..")
