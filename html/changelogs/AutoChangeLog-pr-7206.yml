@@ -1,0 +1,4 @@
+author: "Ketrai"
+delete-after: True
+changes:
+  - balance: "Hunting bag exp down, group hunting exp up."
