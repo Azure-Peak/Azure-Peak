@@ -1069,6 +1069,8 @@
 			log_adminsay(log_text)
 		if(LOG_OWNERSHIP)
 			log_game(log_text)
+		if(LOG_CRAFT)
+			log_game(log_text)
 		if(LOG_GAME)
 			log_game(log_text)
 		if(LOG_MECHA)

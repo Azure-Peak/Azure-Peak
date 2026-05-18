@@ -33,27 +33,37 @@
 
 /datum/outfit/job/roguetown/adventurer/doctor/pre_equip(mob/living/carbon/human/H)
 	..()
-	mask = /obj/item/clothing/mask/rogue/spectacles
-	head = /obj/item/clothing/head/roguetown/nightman
+	mask = /obj/item/clothing/head/roguetown/roguehood
+	head = /obj/item/clothing/head/roguetown/armingcap{
+		name = "barber's cap"
+		color = COLOR_WHITE;
+		desc = "A modest cloth cap that keeps the hair and sweat away"
+	}
 	neck = /obj/item/storage/belt/rogue/pouch/coins/mid /// they are a fine dressed doctor. no one else gonna pay em. psycross removed since it was a hold over for secular
-	armor = /obj/item/clothing/suit/roguetown/shirt/robe/physician
-	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/puritan
+	armor = /obj/item/clothing/suit/roguetown/armor/leather/vest{
+		color = CLOTHING_BROWN
+	}
+	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/formal
 	belt = /obj/item/storage/belt/rogue/leather
-	beltl = /obj/item/storage/belt/rogue/surgery_bag/full
-	beltr = /obj/item/rogueweapon/huntingknife/chefknife/cleaver /// proper self defense an tree aquiring
+	beltl = /obj/item/rogueweapon/huntingknife/chefknife/cleaver
+	beltr = /obj/item/storage/belt/rogue/surgery_bag/full
 	pants = /obj/item/clothing/under/roguetown/trou
-	shoes = /obj/item/clothing/shoes/roguetown/simpleshoes
+	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
 	backl = /obj/item/storage/backpack/rogue/backpack
 	backpack_contents = list(
+						/obj/item/clothing/cloak/apron/cook{
+							name = "barber's apron";
+							desc = "An apron meant to keep the hands clean of blood, as well as tools"
+							} = 1,							
+						/obj/item/folding_alchcauldron_stored = 1,	
+						/obj/item/rogueweapon/huntingknife/scissors/steel = 1,						
+						/obj/item/flashlight/flare/torch/lantern = 1,
 						/obj/item/natural/worms/leech/cheele = 1,
-						/obj/item/natural/cloth = 2,
-						/obj/item/flashlight/flare/torch = 1,
-						/obj/item/rogueweapon/huntingknife/scissors/steel = 1,
-						/obj/item/hair_dye_cream = 3,
+						/obj/item/recipe_book/alchemy = 1,
 						/obj/item/heart_blood_canister/filled = 2,
-						/obj/item/bait/leech = 4,
-						/obj/item/folding_alchcauldron_stored = 1,
-						/obj/item/recipe_book/alchemy = 1
+						/obj/item/bait/leech = 2,
+						/obj/item/hair_dye_cream = 2,
+						/obj/item/clothing/suit/roguetown/shirt/robe/physician = 1,
 						)
 	if(H.mind)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/diagnose/secular)
