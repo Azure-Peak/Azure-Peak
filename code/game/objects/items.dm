@@ -1739,6 +1739,8 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 
 /obj/item/examine(mob/user)
 	. = ..()
+	if(looted)
+		. += span_info(LOOTED_EXAMINE_DESC)
 	if(atc_sealed)
 		. += span_info("This has been marked with a subtle ATC seal.")
 	if(isliving(user))

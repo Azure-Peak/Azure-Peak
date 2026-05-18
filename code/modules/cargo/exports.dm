@@ -28,6 +28,7 @@ Credit dupes that require a lot of manual work shouldn't be removed, unless they
 /atom/movable
 	var/sellprice = 0 //sanitize this somewhere so it cant be decimals
 	var/static_price = FALSE
+	var/looted = FALSE
 
 /atom/movable/proc/randomize_price()
 	if(sellprice)
@@ -44,6 +45,8 @@ Credit dupes that require a lot of manual work shouldn't be removed, unless they
 		if(derived)
 			sellprice = derived
 			randomize_price()
+	if(looted)
+		return max(1, round(sellprice * LOOTED_SELL_MULT))
 	return sellprice
 
 // For appraisal purposes only - calculates total value including contents
@@ -89,9 +92,10 @@ Credit dupes that require a lot of manual work shouldn't be removed, unless they
 //				sold = E.sell_object(thing, report, dry_run, allowed_categories , apply_elastic)
 //				report.exported_atoms += " [thing.name]"
 //				break
-		if(thing.get_real_price() > 0)
-			newbudget += thing.sellprice
-			report.total_value[thing] += thing.sellprice
+		var/real_price = thing.get_real_price()
+		if(real_price > 0)
+			newbudget += real_price
+			report.total_value[thing] += real_price
 			report.total_amount[thing] += 1
 			report.exported_atoms += " [thing.name]"
 			sold = TRUE
