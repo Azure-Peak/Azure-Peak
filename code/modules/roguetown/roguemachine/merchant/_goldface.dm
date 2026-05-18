@@ -162,8 +162,13 @@
 	. = ..()
 	update_icon()
 
+/obj/structure/roguemachine/goldface/proc/get_effective_fee()
+	if(is_public && SSmerchant_trade?.gnome_automation_unlocked)
+		return SSmerchant_trade.silverface_margin_percent / 100
+	return extra_fee
+
 /obj/structure/roguemachine/goldface/proc/compute_pack_price(datum/supply_pack/PA)
-	var/cost = PA.cost + PA.cost * extra_fee
+	var/cost = PA.cost + PA.cost * get_effective_fee()
 	if(!(upgrade_flags & UPGRADE_NOTAX) && !bypass_tax)
 		cost += compute_pack_tax(PA)
 	return round(cost)
@@ -172,7 +177,7 @@
 	return round(SStreasury.get_tax_rate(TAX_CATEGORY_IMPORT_TARIFF) * PA.cost)
 
 /obj/structure/roguemachine/goldface/proc/serialize_pack(datum/supply_pack/PA, tariff_active)
-	var/base = round(PA.cost + PA.cost * extra_fee)
+	var/base = round(PA.cost + PA.cost * get_effective_fee())
 	var/tariff = tariff_active ? compute_pack_tax(PA) : 0
 	return list(
 		"ref" = "[PA.type]",
@@ -278,6 +283,10 @@
 	data["tariff_paid"] = tariff_collected_here
 	data["tariff_evaded"] = tariff_evaded_here
 	data["dodging"] = dodging ? TRUE : FALSE
+	if(is_public)
+		var/effective_pct = round(get_effective_fee() * 100)
+		data["public_margin_pct"] = effective_pct
+		data["public_margin_label"] = SSmerchant_trade?.gnome_automation_unlocked ? "Gnomes' Margin" : "Porters' Margin"
 	var/list/all_cats = list()
 	for(var/c in categories)
 		all_cats += c
@@ -340,11 +349,15 @@
 			"realm_id" = ship.realm_id,
 			"ship_type" = ship.ship_type,
 			"tonnage" = ship.tonnage,
+			"tonnage_mult" = ship.tonnage_scale_mult(),
+			"expected_favor" = ship.expected_favor,
+			"favor_earned" = ship.favor_earned,
 		)
 		if(is_docked)
 			var/seconds_left = max(0, round((ship.dock_expires_at - world.time) / 10))
 			row["seconds_until_departure"] = seconds_left
-			row["can_send_away"] = (world.time >= ship.docked_at + TRADE_SHIP_SEND_AWAY_GRACE) ? TRUE : FALSE
+			var/honored = ship.expected_favor > 0 && ship.favor_earned >= ship.expected_favor
+			row["can_send_away"] = (honored || world.time >= ship.docked_at + TRADE_SHIP_SEND_AWAY_GRACE) ? TRUE : FALSE
 			row["bulk_demands"] = ship.bulk_demands.Copy()
 			row["bulk_supplies"] = ship.bulk_supplies.Copy()
 			docked += list(row)
@@ -386,6 +399,45 @@
 		"merchant_levy_cap" = TRADE_MERCHANT_LEVY_CAP_PERCENT,
 		"merchant_levy_collected" = SSmerchant_trade.merchant_levy_collected,
 		"merchant_levy_taxed" = SSmerchant_trade.merchant_levy_taxed,
+		"favor" = build_favor_data(),
+		"ledger" = build_ledger_data(),
+	)
+
+/obj/structure/roguemachine/goldface/proc/build_ledger_data()
+	var/list/fund_log = list()
+	for(var/list/entry as anything in SSmerchant_trade.merchant_fund_log)
+		fund_log += list(entry.Copy())
+	return list(
+		"merchant_fund_balance" = SStreasury.merchant_fund ? SStreasury.merchant_fund.balance : 0,
+		"levy_collected" = SSmerchant_trade.merchant_levy_collected,
+		"levy_taxed" = SSmerchant_trade.merchant_levy_taxed,
+		"gnome_margin_collected" = SSmerchant_trade.gnome_margin_collected,
+		"silverface_margin_percent" = SSmerchant_trade.silverface_margin_percent,
+		"fund_log" = fund_log,
+	)
+
+/obj/structure/roguemachine/goldface/proc/build_favor_data()
+	var/list/ledger = list()
+	for(var/list/entry as anything in SSmerchant_trade.favor_ledger)
+		ledger += list(entry.Copy())
+	return list(
+		"current" = SSmerchant_trade.merchant_favor,
+		"high_water" = SSmerchant_trade.merchant_favor_high,
+		"triumph_bonus" = SSmerchant_trade.favor_triumph_bonus(),
+		"triumph_cap" = FAVOR_TRIUMPH_BONUS_CAP,
+		"bracket_floor" = SSmerchant_trade.favor_current_bracket_floor(),
+		"bracket_next" = SSmerchant_trade.favor_next_bracket(),
+		"ledger" = ledger,
+		"gnome_cost" = GNOME_AUTOMATION_FAVOR,
+		"gnome_unlocked" = SSmerchant_trade.gnome_automation_unlocked,
+		"pier_cost" = ADDITIONAL_PIER_FAVOR,
+		"pier_rented" = SSmerchant_trade.extra_pier_rented,
+		"brackets" = list(FAVOR_TRIUMPH_BRACKET_1, FAVOR_TRIUMPH_BRACKET_2, FAVOR_TRIUMPH_BRACKET_3, FAVOR_TRIUMPH_BRACKET_4, FAVOR_TRIUMPH_BRACKET_5, FAVOR_TRIUMPH_BRACKET_6),
+		"from_sendoffs" = SSmerchant_trade.favor_from_sendoffs,
+		"from_navigator" = SSmerchant_trade.favor_from_navigator,
+		"from_goldface" = SSmerchant_trade.favor_from_goldface,
+		"from_silverface" = SSmerchant_trade.favor_from_silverface,
+		"penalties" = SSmerchant_trade.favor_penalties,
 	)
 
 /obj/structure/roguemachine/goldface/proc/pool_good_names(list/pool, want_always)
@@ -402,6 +454,8 @@
 
 /obj/structure/roguemachine/goldface/proc/build_cultural_stock_data()
 	var/list/result = list()
+	var/tariff_active = !(upgrade_flags & UPGRADE_NOTAX) && !bypass_tax
+	var/tariff_rate = SStreasury.get_tax_rate(TAX_CATEGORY_IMPORT_TARIFF)
 	for(var/datum/trade_ship/ship in SSmerchant_trade.all_ships)
 		if(ship.dock_state != TRADE_SHIP_STATE_DOCKED)
 			continue
@@ -409,13 +463,16 @@
 			if(entry["qty"] <= 0)
 				continue
 			var/discounted = round(entry["base_cost"] * (100 - TRADE_CULTURAL_SHIP_DISCOUNT_PERCENT) / 100)
+			var/tariff = tariff_active ? round(tariff_rate * discounted) : 0
 			result += list(list(
 				"pack" = entry["pack"],
 				"name" = entry["name"],
 				"qty" = entry["qty"],
 				"pack_qty" = entry["pack_qty"],
 				"base_cost" = entry["base_cost"],
-				"price" = discounted,
+				"price_base" = discounted,
+				"price_tariff" = tariff,
+				"price" = discounted + tariff,
 				"ship_id" = ship.ship_id,
 				"ship_name" = ship.ship_name,
 			))
@@ -502,6 +559,19 @@
 			else
 				record_round_statistic(STATS_TAXES_EVADED, tax_amt)
 				tariff_evaded_here += tax_amt
+			if(is_public && SSmerchant_trade?.gnome_automation_unlocked)
+				var/margin = round(PA.cost * get_effective_fee())
+				if(margin > 0)
+					SStreasury.mint(SStreasury.merchant_fund, margin, "Company Gnomes margin ([src.name])")
+					SSmerchant_trade.gnome_margin_collected += margin
+					SSmerchant_trade.log_fund_movement("Gnomes margin ([src.name])", margin)
+			if(cost > 0 && SSmerchant_trade)
+				var/passive = round(cost * FAVOR_PASSIVE_TRADE_FRACTION)
+				SSmerchant_trade.adjust_merchant_favor(passive)
+				if(is_public)
+					SSmerchant_trade.favor_from_silverface += passive
+				else
+					SSmerchant_trade.favor_from_goldface += passive
 			for(var/pathi in PA.contains)
 				var/obj/item/spawned = new pathi(get_turf(usr))
 				if(istype(spawned))
@@ -564,6 +634,10 @@
 				var/obj/item/spawned = new pathi(get_turf(usr))
 				if(istype(spawned))
 					spawned.atc_sealed = TRUE
+			source_ship.favor_earned += discounted_base
+			var/tariff_active_cultural = !(upgrade_flags & UPGRADE_NOTAX) && !bypass_tax
+			to_chat(H, span_notice("You buy [PA.name] from [source_ship.ship_name] for [total_cost]m[tariff_active_cultural && tax_amt > 0 ? " (incl. [tax_amt]m Crown duty)" : ""]."))
+			playsound(loc, 'sound/misc/gold_misc.ogg', 70, FALSE, -1)
 			return TRUE
 		if("bulk_buy")
 			if(!is_command_center || !(H.job in profit_id) || !SSmerchant_trade)
@@ -621,6 +695,7 @@
 				var/obj/item/spawned = new TG.item_type(T)
 				if(istype(spawned))
 					spawned.atc_sealed = TRUE
+			source_ship.favor_earned += gross
 			playsound(loc, 'sound/misc/gold_misc.ogg', 70, FALSE, -1)
 			to_chat(H, span_notice("You buy [qty] [TG.name] from [source_ship.ship_name] for [total_cost]m[tariff_active && tariff_float > 0 ? " (incl. [round(tariff_float)]m Crown duty)" : ""]."))
 			return TRUE
@@ -633,6 +708,47 @@
 			var/applied = SSmerchant_trade.set_merchant_levy(requested)
 			to_chat(H, span_notice("Merchant's levy set to <b>[applied]%</b>."))
 			playsound(loc, 'sound/misc/gold_misc.ogg', 70, FALSE, -1)
+			return TRUE
+		if("set_gnome_margin")
+			if(!is_command_center || !(H.job in profit_id) || !SSmerchant_trade)
+				return TRUE
+			if(!SSmerchant_trade.gnome_automation_unlocked)
+				to_chat(H, span_warning("The Company Gnomes have not been called in yet."))
+				return TRUE
+			var/requested = text2num(params["percent"])
+			if(isnull(requested))
+				return TRUE
+			var/applied = SSmerchant_trade.set_silverface_margin(requested)
+			to_chat(H, span_notice("Silverface margin set to <b>[applied]%</b>. The Gnomes adjust their pricing accordingly."))
+			playsound(loc, 'sound/misc/gold_misc.ogg', 70, FALSE, -1)
+			return TRUE
+		if("unlock_gnomes")
+			if(!is_command_center || !(H.job in profit_id) || !SSmerchant_trade)
+				return TRUE
+			if(SSmerchant_trade.gnome_automation_unlocked)
+				to_chat(H, span_warning("The Company Gnomes are already on the books."))
+				return TRUE
+			if(SSmerchant_trade.merchant_favor < GNOME_AUTOMATION_FAVOR)
+				to_chat(H, span_warning("Not enough favor with the Company to call in the gnomes."))
+				return TRUE
+			if(SSmerchant_trade.unlock_gnome_automation())
+				scom_announce("The Azurian Trading Company has dispatched a gnomish crew to staff the public stalls.")
+				to_chat(H, span_notice("The Company Gnomes are now staffing every Silverface. Their margin flows to your fund."))
+				playsound(loc, 'sound/misc/gold_misc.ogg', 70, FALSE, -1)
+			return TRUE
+		if("rent_pier")
+			if(!is_command_center || !(H.job in profit_id) || !SSmerchant_trade)
+				return TRUE
+			if(SSmerchant_trade.extra_pier_rented)
+				to_chat(H, span_warning("The extra pier is already paid up for the week."))
+				return TRUE
+			if(SSmerchant_trade.merchant_favor < ADDITIONAL_PIER_FAVOR)
+				to_chat(H, span_warning("Not enough favor with the Company to lean on the dockmaster."))
+				return TRUE
+			if(SSmerchant_trade.rent_extra_pier())
+				scom_announce("Word travels along the wharf - the fishermen's pier has been let to the Azurian Trading Company for the week.")
+				to_chat(H, span_notice("The extra pier is yours. The harbor can now hold one more vessel at a time."))
+				playsound(loc, 'sound/misc/gold_misc.ogg', 70, FALSE, -1)
 			return TRUE
 
 /obj/structure/roguemachine/goldface/proc/handle_hail_result(result, datum/trade_ship/ship, mob/user)

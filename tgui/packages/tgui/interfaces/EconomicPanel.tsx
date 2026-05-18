@@ -330,6 +330,7 @@ export const EconomicPanel = () => {
   };
   const [mintAmount, setMintAmount] = useState(100);
   const [burnAmount, setBurnAmount] = useState(100);
+  const [favorAmount, setFavorAmount] = useState(500);
   const [bulkAdvanceDays, setBulkAdvanceDays] = useState(1);
   const [playerAdvanceDays, setPlayerAdvanceDays] = useState(1);
   const [playerMintAmount, setPlayerMintAmount] = useState(50);
@@ -1154,6 +1155,42 @@ export const EconomicPanel = () => {
                     onClick={() => act('burn_discretionary', { amount: burnAmount })}
                   >
                     Burn
+                  </Button.Confirm>
+                </Stack.Item>
+              </Stack>
+            </Section>
+          </Stack.Item>
+
+          )}
+
+          {tab === 'dashboard' && (
+          <Stack.Item>
+            <Section title="Merchant Favor (testing)">
+              <Stack align="center">
+                <Stack.Item>Amount:</Stack.Item>
+                <Stack.Item>
+                  <NumberInput
+                    step={100}
+                    minValue={1}
+                    maxValue={100000}
+                    value={favorAmount}
+                    onChange={(v: number) => setFavorAmount(v)}
+                  />
+                </Stack.Item>
+                <Stack.Item>
+                  <Button.Confirm
+                    color="good"
+                    onClick={() => act('adjust_merchant_favor', { amount: favorAmount })}
+                  >
+                    Grant
+                  </Button.Confirm>
+                </Stack.Item>
+                <Stack.Item>
+                  <Button.Confirm
+                    color="bad"
+                    onClick={() => act('adjust_merchant_favor', { amount: -favorAmount })}
+                  >
+                    Revoke
                   </Button.Confirm>
                 </Stack.Item>
               </Stack>

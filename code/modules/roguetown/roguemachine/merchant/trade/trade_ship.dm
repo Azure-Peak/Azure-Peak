@@ -33,16 +33,20 @@
 	src.port_of_origin = realm.generate_port_of_origin()
 	src.spawned_at = world.time
 	src.ship_id = "[world.time]_[ref(src)]"
-	src.expected_favor = round(TRADE_SHIP_EXPECTED_FAVOR * src.tonnage / TRADE_SHIP_DEFAULT_TONNAGE)
+	src.expected_favor = round(TRADE_SHIP_EXPECTED_FAVOR * tonnage_scale_mult())
 	roll_bulk_lines(realm)
 	roll_victualling_lines(realm)
 	roll_cultural_stock(realm)
 
-/datum/trade_ship/proc/roll_bulk_lines(datum/foreign_realm/realm)
-	bulk_demands = roll_bulk_pool(realm.bulk_demand_pool)
-	bulk_supplies = roll_bulk_pool(realm.bulk_supply_pool)
+/datum/trade_ship/proc/tonnage_scale_mult()
+	var/raw = 1.0 + (tonnage - TRADE_SHIP_DEFAULT_TONNAGE) / TRADE_SHIP_TONNAGE_SCALE_SPAN
+	return clamp(raw, 1.0, TRADE_SHIP_TONNAGE_SCALE_CAP)
 
-/datum/trade_ship/proc/roll_bulk_pool(list/pool)
+/datum/trade_ship/proc/roll_bulk_lines(datum/foreign_realm/realm)
+	bulk_demands = roll_bulk_pool(realm.bulk_demand_pool, FALSE)
+	bulk_supplies = roll_bulk_pool(realm.bulk_supply_pool, TRUE)
+
+/datum/trade_ship/proc/roll_bulk_pool(list/pool, is_supply)
 	var/list/result = list()
 	if(!length(pool))
 		return result
@@ -54,7 +58,7 @@
 		else
 			rare_entries += list(entry)
 	for(var/list/entry as anything in always_entries)
-		var/list/line = build_bulk_line(entry)
+		var/list/line = build_bulk_line(entry, is_supply)
 		if(line)
 			result += list(line)
 	if(length(rare_entries))
@@ -65,22 +69,23 @@
 				break
 			var/list/entry = pick(picks)
 			picks -= list(entry)
-			var/list/line = build_bulk_line(entry)
+			var/list/line = build_bulk_line(entry, is_supply)
 			if(line)
 				result += list(line)
 	return result
 
-/datum/trade_ship/proc/build_bulk_line(list/entry)
+/datum/trade_ship/proc/build_bulk_line(list/entry, is_supply)
 	var/datum/trade_good/TG = GLOB.trade_goods[entry["good"]]
 	if(!TG)
 		return null
-	var/qty = rand(entry["qty_min"], entry["qty_max"])
+	var/qty_mult = tonnage_scale_mult() * (is_supply ? TRADE_SHIP_SUPPLY_QTY_FRACTION : 1.0)
+	var/qty = round(rand(entry["qty_min"], entry["qty_max"]) * qty_mult)
 	var/jitter = 0.9 + (rand() * 0.2)
 	var/offered_price = round(TG.base_price * entry["price_mod"] * jitter)
 	return list(
 		"good" = entry["good"],
 		"good_name" = TG.name,
-		"qty_target" = qty,
+		"qty_target" = max(1, qty),
 		"qty_fulfilled" = 0,
 		"offered_price" = offered_price,
 	)
@@ -106,12 +111,12 @@
 			continue
 		var/atom/A = typepath
 		var/name_str = entry["name"] || initial(A.name)
-		var/qty = rand(entry["qty_min"] || TRADE_VICTUALLING_QTY_PER_LINE_MIN, entry["qty_max"] || TRADE_VICTUALLING_QTY_PER_LINE_MAX)
+		var/qty = round(rand(entry["qty_min"] || TRADE_VICTUALLING_QTY_PER_LINE_MIN, entry["qty_max"] || TRADE_VICTUALLING_QTY_PER_LINE_MAX) * tonnage_scale_mult())
 		var/offered_price = entry["price"] || 10
 		result += list(list(
 			"typepath" = "[typepath]",
 			"good_name" = name_str,
-			"qty_target" = qty,
+			"qty_target" = max(1, qty),
 			"qty_fulfilled" = 0,
 			"offered_price" = max(1, offered_price),
 			"tag" = tag,

@@ -1,6 +1,7 @@
 import {
   INK_FAINT,
   rulerStyle,
+  SEAL_AMBER,
   SEAL_GREEN,
   SEAL_RED,
   SERIF,
@@ -17,6 +18,8 @@ type Props = {
   tariffEvaded: number;
   isProprietor: boolean;
   dodging: boolean;
+  publicMarginPct?: number;
+  publicMarginLabel?: string;
 };
 
 export const TariffHeader = (props: Props) => {
@@ -28,6 +31,8 @@ export const TariffHeader = (props: Props) => {
     tariffEvaded,
     isProprietor,
     dodging,
+    publicMarginPct,
+    publicMarginLabel,
   } = props;
   return (
     <>
@@ -37,6 +42,11 @@ export const TariffHeader = (props: Props) => {
         {isProprietor && dodging && (
           <span style={{ color: SEAL_RED, marginLeft: '8px' }}>
             <b>(TAX DODGING)</b>
+          </span>
+        )}
+        {publicMarginPct !== undefined && (
+          <span style={{ color: SEAL_AMBER, marginLeft: '8px' }}>
+            · {publicMarginLabel || 'Public Margin'}: <b>+{publicMarginPct}%</b>
           </span>
         )}
       </div>

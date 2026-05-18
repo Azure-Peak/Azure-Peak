@@ -5,12 +5,13 @@ import { Window } from '../layouts';
 import { tabBarStyle, tabStyle } from './common/parchment';
 import { CulturalStockTab } from './Goldface/CulturalStock/CulturalStockTab';
 import { HarborTab } from './Goldface/Harbor/HarborTab';
+import { LedgerTab } from './Goldface/Ledger/LedgerTab';
 import { MammonRow } from './Goldface/MammonRow';
 import { ManagementTab } from './Goldface/Management/ManagementTab';
 import type { VendingData } from './Goldface/types';
 import { VendingPanel } from './Goldface/VendingPanel';
 
-type GoldfaceTab = 'goods' | 'cultural' | 'harbor' | 'management';
+type GoldfaceTab = 'goods' | 'cultural' | 'harbor' | 'management' | 'ledger';
 
 export const Goldface = () => {
   const { act, data } = useBackend<VendingData>();
@@ -49,7 +50,8 @@ export const Goldface = () => {
   if (
     (activeTab === 'harbor' ||
       activeTab === 'cultural' ||
-      activeTab === 'management') &&
+      activeTab === 'management' ||
+      activeTab === 'ledger') &&
     !canSeeMerchantTabs
   )
     activeTab = 'goods';
@@ -88,6 +90,14 @@ export const Goldface = () => {
               Management
             </div>
           )}
+          {canSeeMerchantTabs && (
+            <div
+              style={tabStyle(activeTab === 'ledger')}
+              onClick={() => setTab('ledger')}
+            >
+              Ledger
+            </div>
+          )}
         </div>
         {mammonBar}
         {activeTab === 'goods' && <VendingPanel data={data} act={act} />}
@@ -103,6 +113,9 @@ export const Goldface = () => {
         )}
         {activeTab === 'management' && canSeeMerchantTabs && (
           <ManagementTab harbor={data.harbor} act={act} />
+        )}
+        {activeTab === 'ledger' && canSeeMerchantTabs && (
+          <LedgerTab harbor={data.harbor} />
         )}
       </Window.Content>
     </Window>

@@ -63,6 +63,11 @@ const StockCard = (props: {
             color: cantAfford ? INK_FAINT : INK,
             fontWeight: 'bold',
           }}
+          title={
+            entry.price_tariff > 0
+              ? `${entry.price_base}m + ${entry.price_tariff}m Crown duty`
+              : undefined
+          }
         >
           {entry.price}m
         </div>

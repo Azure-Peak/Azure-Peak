@@ -53,6 +53,8 @@ export const VendingPanel = (props: { data: VendingData; act: ActFn }) => {
         tariffEvaded={data.tariff_evaded}
         isProprietor={isProprietor}
         dodging={!!data.dodging}
+        publicMarginPct={data.public_margin_pct}
+        publicMarginLabel={data.public_margin_label}
       />
       <div style={subTabBarStyle}>
         {data.categories.map((cat) => (

@@ -348,6 +348,15 @@ GLOBAL_DATUM_INIT(economic_panel, /datum/economic_panel, new)
 			SStreasury.burn(SStreasury.discretionary_fund, amt, "Lost in Transit")
 			admin_log_fiscal("burned [amt]m from Crown's Purse", "Burn Crown's Purse")
 			return TRUE
+		if("adjust_merchant_favor")
+			if(!SSmerchant_trade)
+				return TRUE
+			var/amt = text2num(params["amount"])
+			if(!isnum(amt) || amt == 0)
+				return TRUE
+			SSmerchant_trade.adjust_merchant_favor(amt)
+			admin_log_fiscal("adjusted Merchant favor by [amt] (now [SSmerchant_trade.merchant_favor], high [SSmerchant_trade.merchant_favor_high])", "Adjust Merchant Favor")
+			return TRUE
 		if("toggle_charter")
 			var/datum/decree/D = SStreasury.get_decree(params["decree_id"])
 			if(!D)

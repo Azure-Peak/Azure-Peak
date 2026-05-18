@@ -4,6 +4,7 @@
 	auto_discovered = TRUE
 	roll_weight = TRADE_REALM_WEIGHT_NEIGHBOR
 	demanded_categories = list(ITEM_CAT_RAW_MATERIAL_MINERAL, ITEM_CAT_RAW_MATERIAL_ORGANIC, ITEM_CAT_BEVERAGE, ITEM_CAT_GARMENT_LUXURY, ITEM_CAT_REAGENT_ALCHEMICAL, ITEM_CAT_ARMOR_LEGS, ITEM_CAT_ARMOR_BRACERS, ITEM_CAT_INSTRUMENT, ITEM_CAT_DECORATION)
+	single_word_base = TRUE
 	ship_name_words = list(
 		"Belle", "Coeur", "Lis", "Rose", "Etoile",
 		"Faucon", "Lion", "Couronne", "Dame", "Chevalier",

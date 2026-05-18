@@ -141,6 +141,7 @@
 				C.mob.playsound_local(C.mob, 'sound/music/roundend_mirthful.ogg', 100, FALSE) //Hildegard Von Blingin and Whitney Avalon's transformative cover of 'Manchild' by Sabrina Carpenter, circa 2026.
 		if(isliving(C.mob) && C.ckey)
 			key_list += C.ckey
+	var/favor_bonus = SSmerchant_trade ? SSmerchant_trade.favor_triumph_bonus() : 0
 	for(var/mob/living/carbon/human/H in GLOB.player_list)
 		if(H.stat != DEAD)
 			if(H.get_triumphs() < 0)
@@ -151,6 +152,9 @@
 				if(job && job.round_contrib_points)
 					to_chat(H, "\n<font color='purple'><b>[job.round_contrib_points]</b> ROUND CONTRIBUTOR POINTS AWARDED. Thank you for playing!</font>")
 					add_roundpoints(job.round_contrib_points, H.ckey)
+		if(favor_bonus > 0 && H.ckey && H.job && (H.job == "Merchant" || H.job == "Shophand"))
+			H.adjust_triumphs(favor_bonus)
+			to_chat(H, "\n<font color='purple'><b>+[favor_bonus] TRIUMPHS</b> awarded for trade volume earned with the Azurian Trading Company.</font>")
 	add_roundplayed(key_list)
 
 	update_god_rankings()

@@ -691,6 +691,14 @@
 			var/merchant_levy_taxed_total = SSmerchant_trade ? SSmerchant_trade.merchant_levy_taxed : 0
 			data += "<div style='margin-bottom: 4px;'><font color='#caa64a'>Merchant's Levy Collected: </font>[merchant_levy_collected_total]</div>"
 			data += "<div style='margin-bottom: 4px;'><font color='#9a7b2e'>Crown Duty on Levy: </font>[merchant_levy_taxed_total]</div>"
+			if(SSmerchant_trade)
+				data += "<div style='margin-bottom: 4px;'><font color='#b89a4a'>Favor - Ship Send-offs: </font>[SSmerchant_trade.favor_from_sendoffs]</div>"
+				data += "<div style='margin-bottom: 4px;'><font color='#b89a4a'>Favor - Navigator Trade: </font>[SSmerchant_trade.favor_from_navigator]</div>"
+				data += "<div style='margin-bottom: 4px;'><font color='#b89a4a'>Favor - Goldface Imports: </font>[SSmerchant_trade.favor_from_goldface]</div>"
+				data += "<div style='margin-bottom: 4px;'><font color='#b89a4a'>Favor - Silverface Imports: </font>[SSmerchant_trade.favor_from_silverface]</div>"
+				data += "<div style='margin-bottom: 4px;'><font color='#c0a060'>Company Gnomes Margin: </font>[SSmerchant_trade.gnome_margin_collected]</div>"
+				data += "<div style='margin-bottom: 4px;'><font color='#a85040'>Favor - Dishonor Penalties: </font>[SSmerchant_trade.favor_penalties]</div>"
+				data += "<div style='margin-bottom: 4px;'><font color='#caa64a'>Favor - Lifetime Peak: </font>[SSmerchant_trade.merchant_favor_high]</div>"
 			data += "<div style='margin-bottom: 4px;'><font color='#c0b283'>GOLDFACE Imports: </font>[GLOB.azure_round_stats[STATS_GOLDFACE_VALUE_SPENT]]</div>"
 			data += "<div style='margin-bottom: 4px;'><font color='#c0c0c0'>SILVERFACE Imports: </font>[GLOB.azure_round_stats[STATS_SILVERFACE_VALUE_SPENT]]</div>"
 			data += "<div style='margin-bottom: 4px;'><font color='#b87333'>COPPERFACE Imports: </font>[GLOB.azure_round_stats[STATS_COPPERFACE_VALUE_SPENT]]</div>"

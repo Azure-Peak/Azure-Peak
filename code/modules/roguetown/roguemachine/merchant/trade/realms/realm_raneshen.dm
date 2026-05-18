@@ -4,6 +4,7 @@
 	auto_discovered = FALSE
 	roll_weight = TRADE_REALM_WEIGHT_DEFAULT
 	demanded_categories = list(ITEM_CAT_RAW_MATERIAL_MINERAL, ITEM_CAT_WEAPONS_SWORDS, ITEM_CAT_FOODSTUFF_PRESERVED, ITEM_CAT_GARMENT_LUXURY, ITEM_CAT_VALUABLES_HOLY, ITEM_CAT_ARMOR_BOOTS, ITEM_CAT_INSTRUMENT, ITEM_CAT_DECORATION, ITEM_CAT_WEAPONS_POLEARMS)
+	single_word_base = TRUE
 	ship_name_words = list(
 		"Thalassa", "Abyssoros", "Khimaira", "Eos", "Aetos",
 		"Astrateios", "Anemos", "Galene", "Drakon", "Pelagos",

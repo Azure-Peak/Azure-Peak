@@ -20,11 +20,39 @@ SUBSYSTEM_DEF(merchant_trade)
 	var/list/pool_theme_jitters = list()
 	var/pool_pop_snapshot = 0
 	var/resnapshot_timer_id
+	var/merchant_favor = 0
+	var/merchant_favor_high = 0
+	var/favor_from_sendoffs = 0
+	var/favor_from_navigator = 0
+	var/favor_from_goldface = 0
+	var/favor_from_silverface = 0
+	var/favor_penalties = 0
+	var/gnome_margin_collected = 0
+	var/silverface_margin_percent = 50
+	var/list/merchant_fund_log = list()
+	var/list/favor_ledger = list()
+	var/gnome_automation_unlocked = FALSE
+	var/extra_pier_rented = FALSE
 
 /datum/controller/subsystem/merchant_trade/proc/set_merchant_levy(new_percent)
 	new_percent = clamp(round(new_percent), 0, TRADE_MERCHANT_LEVY_CAP_PERCENT)
 	merchant_levy_percent = new_percent
 	return merchant_levy_percent
+
+/datum/controller/subsystem/merchant_trade/proc/set_silverface_margin(new_percent)
+	new_percent = clamp(round(new_percent), 0, 100)
+	silverface_margin_percent = new_percent
+	return silverface_margin_percent
+
+/datum/controller/subsystem/merchant_trade/proc/log_fund_movement(source, amount)
+	if(amount == 0)
+		return
+	merchant_fund_log.Insert(1, list(list(
+		"source" = source,
+		"amount" = amount,
+	)))
+	if(length(merchant_fund_log) > 12)
+		merchant_fund_log.Cut(13)
 
 /datum/controller/subsystem/merchant_trade/Initialize()
 	for(var/path in subtypesof(/datum/foreign_realm))
@@ -243,7 +271,7 @@ SUBSYSTEM_DEF(merchant_trade)
 	return docked
 
 /datum/controller/subsystem/merchant_trade/proc/get_dock_spots_max()
-	return TRADE_SHIP_DOCK_SPOTS_BASE
+	return min(TRADE_SHIP_DOCK_SPOTS_MAX, TRADE_SHIP_DOCK_SPOTS_BASE + (extra_pier_rented ? 1 : 0))
 
 /datum/controller/subsystem/merchant_trade/proc/find_ship_by_id(ship_id)
 	for(var/datum/trade_ship/ship in all_ships)
@@ -286,13 +314,128 @@ SUBSYSTEM_DEF(merchant_trade)
 		return "ship_gone"
 	if(ship.dock_state != TRADE_SHIP_STATE_DOCKED)
 		return "ship_gone"
-	if(world.time < ship.docked_at + TRADE_SHIP_SEND_AWAY_GRACE)
+	var/honored = ship.expected_favor > 0 && ship.favor_earned >= ship.expected_favor
+	if(!honored && world.time < ship.docked_at + TRADE_SHIP_SEND_AWAY_GRACE)
 		return "early"
 	var/datum/foreign_realm/realm = realms[ship.realm_id]
+	resolve_ship_favor(ship, realm)
 	remove_ship_demand_for_realm(realm)
 	all_ships -= ship
 	qdel(ship)
 	return "ok"
+
+/datum/controller/subsystem/merchant_trade/proc/resolve_ship_favor(datum/trade_ship/ship, datum/foreign_realm/realm)
+	if(!ship)
+		return
+	var/expected = max(1, ship.expected_favor)
+	var/ratio = ship.favor_earned / expected
+	var/outcome
+	var/awarded = 0
+	var/refunded = FALSE
+	if(ratio >= FAVOR_SEND_CLEAN_THRESHOLD)
+		outcome = FAVOR_OUTCOME_HONORED
+		awarded = round(ship.favor_earned * FAVOR_SEND_CLEAN_MULT)
+		if(hails_remaining < TRADE_SHIPS_HAIL_PER_DAY)
+			hails_remaining++
+			refunded = TRUE
+	else if(ratio >= FAVOR_SEND_PARTIAL_THRESHOLD)
+		outcome = FAVOR_OUTCOME_PARTIAL
+		awarded = round(ship.favor_earned * FAVOR_SEND_PARTIAL_MULT)
+	else
+		outcome = FAVOR_OUTCOME_DISHONORED
+		awarded = -round(FAVOR_SEND_FAILURE_PENALTY * ship.tonnage_scale_mult())
+	adjust_merchant_favor(awarded)
+	if(awarded >= 0)
+		favor_from_sendoffs += awarded
+	else
+		favor_penalties += -awarded
+	favor_ledger.Insert(1, list(list(
+		"realm_label" = realm ? realm.name : ship.realm_id,
+		"ship_name" = ship.ship_name,
+		"outcome" = outcome,
+		"earned" = ship.favor_earned,
+		"expected" = ship.expected_favor,
+		"awarded" = awarded,
+		"refunded_hail" = refunded,
+	)))
+	if(length(favor_ledger) > 8)
+		favor_ledger.Cut(9)
+
+/datum/controller/subsystem/merchant_trade/proc/adjust_merchant_favor(amt)
+	merchant_favor = max(0, merchant_favor + amt)
+	if(merchant_favor > merchant_favor_high)
+		merchant_favor_high = merchant_favor
+	return merchant_favor
+
+/datum/controller/subsystem/merchant_trade/proc/spend_merchant_favor(amt)
+	if(amt <= 0 || merchant_favor < amt)
+		return FALSE
+	merchant_favor -= amt
+	return TRUE
+
+/datum/controller/subsystem/merchant_trade/proc/unlock_gnome_automation()
+	if(gnome_automation_unlocked)
+		return FALSE
+	if(!spend_merchant_favor(GNOME_AUTOMATION_FAVOR))
+		return FALSE
+	gnome_automation_unlocked = TRUE
+	return TRUE
+
+/datum/controller/subsystem/merchant_trade/proc/rent_extra_pier()
+	if(extra_pier_rented)
+		return FALSE
+	if(!spend_merchant_favor(ADDITIONAL_PIER_FAVOR))
+		return FALSE
+	extra_pier_rented = TRUE
+	return TRUE
+
+/datum/controller/subsystem/merchant_trade/proc/favor_triumph_bonus()
+	var/high = merchant_favor_high
+	if(high >= FAVOR_TRIUMPH_BRACKET_6)
+		return 6
+	if(high >= FAVOR_TRIUMPH_BRACKET_5)
+		return 5
+	if(high >= FAVOR_TRIUMPH_BRACKET_4)
+		return 4
+	if(high >= FAVOR_TRIUMPH_BRACKET_3)
+		return 3
+	if(high >= FAVOR_TRIUMPH_BRACKET_2)
+		return 2
+	if(high >= FAVOR_TRIUMPH_BRACKET_1)
+		return 1
+	return 0
+
+/datum/controller/subsystem/merchant_trade/proc/favor_next_bracket()
+	var/high = merchant_favor_high
+	if(high < FAVOR_TRIUMPH_BRACKET_1)
+		return FAVOR_TRIUMPH_BRACKET_1
+	if(high < FAVOR_TRIUMPH_BRACKET_2)
+		return FAVOR_TRIUMPH_BRACKET_2
+	if(high < FAVOR_TRIUMPH_BRACKET_3)
+		return FAVOR_TRIUMPH_BRACKET_3
+	if(high < FAVOR_TRIUMPH_BRACKET_4)
+		return FAVOR_TRIUMPH_BRACKET_4
+	if(high < FAVOR_TRIUMPH_BRACKET_5)
+		return FAVOR_TRIUMPH_BRACKET_5
+	if(high < FAVOR_TRIUMPH_BRACKET_6)
+		return FAVOR_TRIUMPH_BRACKET_6
+	return 0
+
+/datum/controller/subsystem/merchant_trade/proc/favor_current_bracket_floor()
+	var/high = merchant_favor_high
+	if(high >= FAVOR_TRIUMPH_BRACKET_6)
+		return FAVOR_TRIUMPH_BRACKET_6
+	if(high >= FAVOR_TRIUMPH_BRACKET_5)
+		return FAVOR_TRIUMPH_BRACKET_5
+	if(high >= FAVOR_TRIUMPH_BRACKET_4)
+		return FAVOR_TRIUMPH_BRACKET_4
+	if(high >= FAVOR_TRIUMPH_BRACKET_3)
+		return FAVOR_TRIUMPH_BRACKET_3
+	if(high >= FAVOR_TRIUMPH_BRACKET_2)
+		return FAVOR_TRIUMPH_BRACKET_2
+	if(high >= FAVOR_TRIUMPH_BRACKET_1)
+		return FAVOR_TRIUMPH_BRACKET_1
+	return 0
 
 /datum/controller/subsystem/merchant_trade/proc/announce_dock(datum/trade_ship/ship)
 	var/datum/foreign_realm/realm = realms[ship.realm_id]

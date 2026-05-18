@@ -16,6 +16,9 @@ export type HarborShip = {
   realm_id: string;
   ship_type: string;
   tonnage: number;
+  tonnage_mult: number;
+  expected_favor: number;
+  favor_earned: number;
   seconds_until_departure?: number;
   can_send_away?: BooleanLike;
   bulk_demands?: BulkLine[];
@@ -28,6 +31,8 @@ export type CulturalStockEntry = {
   qty: number;
   pack_qty: number;
   base_cost: number;
+  price_base: number;
+  price_tariff: number;
   price: number;
   ship_id: string;
   ship_name: string;
@@ -63,6 +68,52 @@ export type HarborData = {
   merchant_levy_cap: number;
   merchant_levy_collected: number;
   merchant_levy_taxed: number;
+  favor: FavorData;
+  ledger: LedgerData;
+};
+
+export type FundLogEntry = {
+  source: string;
+  amount: number;
+};
+
+export type LedgerData = {
+  merchant_fund_balance: number;
+  levy_collected: number;
+  levy_taxed: number;
+  gnome_margin_collected: number;
+  silverface_margin_percent: number;
+  fund_log: FundLogEntry[];
+};
+
+export type FavorLedgerEntry = {
+  realm_label: string;
+  ship_name: string;
+  outcome: 'honored' | 'partial' | 'dishonored';
+  earned: number;
+  expected: number;
+  awarded: number;
+  refunded_hail: BooleanLike;
+};
+
+export type FavorData = {
+  current: number;
+  high_water: number;
+  triumph_bonus: number;
+  triumph_cap: number;
+  bracket_floor: number;
+  bracket_next: number;
+  ledger: FavorLedgerEntry[];
+  gnome_cost: number;
+  gnome_unlocked: BooleanLike;
+  pier_cost: number;
+  pier_rented: BooleanLike;
+  brackets: number[];
+  from_sendoffs: number;
+  from_navigator: number;
+  from_goldface: number;
+  from_silverface: number;
+  penalties: number;
 };
 
 export type VendingPack = {
@@ -86,6 +137,8 @@ export type VendingData = {
   tariff_paid: number;
   tariff_evaded: number;
   dodging: BooleanLike;
+  public_margin_pct?: number;
+  public_margin_label?: string;
   categories: string[];
   current_category: string;
   search: string;

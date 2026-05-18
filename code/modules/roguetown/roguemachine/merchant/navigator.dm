@@ -14,6 +14,8 @@
 	w_class = WEIGHT_CLASS_GIGANTIC
 	/// A fixed tax on all items sold through the balloon that overrides queens tax. Used for blackmarket
 	var/fixed_tax = 0
+	var/grants_passive_favor = TRUE
+	var/accepts_unmintable = FALSE
 	/// Motto displayed at the top of the vendor interface
 	var/motto = "NAVIGATOR - Your goods, airborne."
 	/// When TRUE, Crown export duty is collected on seller gross AND on the Merchant's levy.
@@ -57,6 +59,8 @@
 	fixed_tax = 0.5
 	pay_taxes = FALSE
 	pay_merchant_share = FALSE
+	grants_passive_favor = FALSE
+	accepts_unmintable = TRUE
 
 /obj/item/roguemachine/navigator/private
 	name = "private navigator"
@@ -68,6 +72,7 @@
 /obj/item/roguemachine/navigator/smuggler/examine(mob/user)
 	. = ..()
 	. += span_notice("The rates here are disastrous. Having a facilitator from the bathhouse nearby might improve them to 100%.")
+	. += span_notice("The handler asks no questions about provenance. Goods the legitimate market refuses to mint move through here all the same.")
 	if(fixed_tax <= 0)
 		. += span_notice("A facilitator is present. Current handler's fee: [fixed_tax * 100]%.")
 	else
@@ -320,7 +325,9 @@
 					continue
 				if(isitem(I))
 					var/obj/item/IT = I
-					if(IT.atc_sealed || IT.unmintable)
+					if(IT.atc_sealed)
+						continue
+					if(IT.unmintable && !accepts_unmintable)
 						continue
 				var/base_price = I.get_real_price()
 				var/category = GLOB.derived_categories ? GLOB.derived_categories[I.type] : null
@@ -393,6 +400,11 @@
 		levy_collected_here += merchant_net
 		if(SSmerchant_trade)
 			SSmerchant_trade.merchant_levy_collected += merchant_net
+			SSmerchant_trade.log_fund_movement("Navigator levy ([src.name])", merchant_net)
+	if(gross > 0 && SSmerchant_trade && grants_passive_favor)
+		var/passive = round(gross * FAVOR_PASSIVE_TRADE_FRACTION)
+		SSmerchant_trade.adjust_merchant_favor(passive)
+		SSmerchant_trade.favor_from_navigator += passive
 	var/turf/producer_turf = get_turf(src)
 	if(producer_net > 0)
 		budget2change(producer_net, custom_turf = producer_turf)

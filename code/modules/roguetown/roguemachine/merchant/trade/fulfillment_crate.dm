@@ -247,6 +247,7 @@
 		levy_remitted = SStreasury.mint_fractional(SStreasury.merchant_fund, merchant_net_float, "Merchant's levy: [qty] [good_name] -> [ship.ship_name]")
 		if(SSmerchant_trade)
 			SSmerchant_trade.merchant_levy_collected += levy_remitted
+			SSmerchant_trade.log_fund_movement("Fulfillment levy ([ship.ship_name])", levy_remitted)
 	var/producer_payout = gross - duty_remitted - round(levy_float)
 	if(producer_payout < 0)
 		producer_payout = 0

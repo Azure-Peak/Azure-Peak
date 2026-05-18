@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { NumberInput } from 'tgui-core/components';
 
 import {
   INK,
@@ -109,14 +108,27 @@ const SupplyLineRow = (props: {
         <span style={{ color: INK_FAINT, fontStyle: 'italic' }}>sold out</span>
       ) : (
         <>
-          <NumberInput
-            value={safeQty}
-            minValue={1}
-            maxValue={remaining}
+          <input
+            type="number"
+            min={1}
+            max={remaining}
             step={1}
-            stepPixelSize={4}
-            width="44px"
-            onChange={(v: number) => setQty(v)}
+            value={safeQty}
+            onChange={(e) => {
+              const next = Number(e.target.value);
+              if (!Number.isNaN(next)) setQty(next);
+            }}
+            style={{
+              width: '52px',
+              fontFamily: SERIF,
+              fontSize: '12px',
+              color: INK,
+              background: 'rgba(255,248,220,0.6)',
+              border: `1px solid ${INK_FAINT}`,
+              borderRadius: '2px',
+              padding: '1px 4px',
+              textAlign: 'right',
+            }}
           />
           <button
             type="button"
@@ -216,9 +228,23 @@ export const ShipRow = (props: Props) => {
           >
             {ship.realm_id}
           </div>
-          <div>
+          <div
+            title={`Tonnage scales goods on offer and expected favor. 100t baseline = 1.00x, 800t galleon caps at 2.00x. This vessel: ${ship.tonnage_mult.toFixed(2)}x.`}
+          >
             {ship.ship_type} &middot; {ship.tonnage}t
+            {ship.tonnage_mult > 1.0 && (
+              <span style={{ color: SEAL_AMBER, fontWeight: 'bold' }}>
+                {' '}({ship.tonnage_mult.toFixed(2)}x)
+              </span>
+            )}
           </div>
+          {ship.expected_favor > 0 && (
+            <div title={`Send-off favor: Honored at 100% of target gives you the full delivered value as favor plus a refunded hail. Partial at 50% gives you half delivered value as favor. Below 50% is Dishonored and costs ${Math.round(250 * ship.tonnage_mult)}m favor for this vessel.`}>
+              <span style={{ color: SEAL_AMBER }}>
+                Favor: {ship.favor_earned}m / {ship.expected_favor}m
+              </span>
+            </div>
+          )}
         </div>
         {onHail && (
           <div style={{ flexShrink: 0 }}>
