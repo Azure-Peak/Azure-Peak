@@ -23,6 +23,7 @@
 	liked_food = NONE
 	inherent_traits = list(
 		TRAIT_IRONMAN,
+		TRAIT_IGNOREDAMAGESLOWDOWN,
 		TRAIT_NOHUNGER,
 		TRAIT_NOBREATH, 
 		TRAIT_TOXIMMUNE, 
@@ -492,10 +493,8 @@
 		span_warning("I wind back my arm, preparing to demolish [src]...")
 	)
 
-	ADD_TRAIT(user, TRAIT_NOPAIN, "deconstructconstruct")
 
 	if(!do_after(user, IRONMAN_STARTUP_TIME, TRUE, src, TRUE, null, TRUE))
-		REMOVE_TRAIT(user, TRAIT_NOPAIN, "deconstructconstruct")
 		return
 
 	var/swings = 0
@@ -509,7 +508,6 @@
 			user.adjustFireLoss(50)
 			new /obj/effect/particle_effect/thick_steam(get_turf(user))
 			playsound(user, 'sound/items/steamrelease.ogg', 100, FALSE, -1)
-			REMOVE_TRAIT(user, TRAIT_NOPAIN, "deconstructconstruct")
 			break
 
 		l_arm = user.get_bodypart(BODY_ZONE_L_ARM)
@@ -536,16 +534,13 @@
 
 			playsound(user.loc, 'sound/foley/breaksound.ogg', 100, FALSE, -1)
 			shake_camera(user, 2, 1)
-			REMOVE_TRAIT(user, TRAIT_NOPAIN, "deconstructconstruct")
 			break
 
 		if(!do_after(user, IRONMAN_SWING_TIME, TRUE, src))
-			REMOVE_TRAIT(user, TRAIT_NOPAIN, "deconstructconstruct")
 			break
 
 		if(QDELETED(src) || !density)
 			playsound(user.loc, 'sound/foley/smash_rock.ogg', rand(60,100), TRUE)
-			REMOVE_TRAIT(user, TRAIT_NOPAIN, "deconstructconstruct")
 			break
 
 		var/list/usable_arms = list()
