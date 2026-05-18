@@ -123,7 +123,7 @@
 #include "code\__DEFINES\pollution.dm"
 #include "code\__DEFINES\power.dm"
 #include "code\__DEFINES\preferences.dm"
-#include "code\__DEFINES\pricing_engine.dm"
+#include "code\__DEFINES\pricing_defines.dm"
 #include "code\__DEFINES\procpath.dm"
 #include "code\__DEFINES\profile.dm"
 #include "code\__DEFINES\qdel.dm"

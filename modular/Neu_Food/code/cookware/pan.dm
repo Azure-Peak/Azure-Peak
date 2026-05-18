@@ -57,5 +57,4 @@
 	desc = "Psydonia's greatest mystery isn't the meaning of lyfe, but how these pans are able to perfectly fry a nite's meal without needing even a single drop of oil."
 	icon_state = "bronzepan"
 	throwforce = 30 //We both know why.
-	sellprice = 15
 	max_integrity = 200

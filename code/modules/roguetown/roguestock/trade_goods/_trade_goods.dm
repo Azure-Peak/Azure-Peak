@@ -14,6 +14,7 @@
 	/// that should all count as the same shipment - e.g. enchantment scrolls.
 	var/accept_subtypes = FALSE
 	var/global_price_mod = 1.0
+	var/derive_price = FALSE
 	var/mint_eligible = FALSE
 	var/crown_accepts = TRUE
 	// Potion-only: alchemical orders match any reagent container holding at least

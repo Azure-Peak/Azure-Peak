@@ -334,7 +334,6 @@
 	skillcraft = /datum/skill/craft/carpentry
 
 /obj/item/chair/rogue/crafted
-	sellprice = 6
 
 /datum/crafting_recipe/roguetown/structure/parkbenchleft
 	name = "park bench (left)"
@@ -619,7 +618,6 @@
 //---------
 
 /obj/item/chair/rogue/fancy/crafted
-	sellprice = 12
 
 /datum/crafting_recipe/roguetown/structure/stool
 	name = "wooden stool"
@@ -631,7 +629,6 @@
 	verbage = "constructs"
 
 /obj/item/chair/stool/bar/rogue/crafted
-	sellprice = 6
 
 /datum/crafting_recipe/roguetown/structure/anvil
 	name = "anvil"

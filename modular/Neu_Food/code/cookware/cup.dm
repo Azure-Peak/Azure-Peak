@@ -13,7 +13,6 @@
 	experimental_inhand = TRUE
 	volume = 25
 	obj_flags = CAN_BE_HIT
-	sellprice = 1
 	drinksounds = list('sound/items/drink_cup (1).ogg','sound/items/drink_cup (2).ogg','sound/items/drink_cup (3).ogg','sound/items/drink_cup (4).ogg','sound/items/drink_cup (5).ogg')
 	fillsounds = list('sound/items/fillcup.ogg')
 	anvilrepair = /datum/skill/craft/blacksmithing
@@ -157,7 +156,6 @@
 	name = "goblet"
 	desc = "A steel goblet, its surface adorned with intricate carvings."
 	icon_state = "steel"
-	sellprice = 10
 	force = 10
 	throwforce = 15
 
@@ -183,7 +181,6 @@
 	name = "bronze mug"
 	desc = "Froth spills over the rim, and a clinking amongst other tankards causes its fizzling tithe to splash across the table. Oh, such a nite of revelry!"
 	icon_state = "bronzemug"
-	sellprice = 8
 	force = 7
 	throwforce = 13
 
@@ -191,7 +188,6 @@
 	name = "bronze goblet"
 	desc = "Drink deeply, my champion."
 	icon_state = "bronzegoblet"
-	sellprice = 10
 	force = 13
 	throwforce = 17
 
@@ -199,7 +195,6 @@
 	name = "silver goblet"
 	desc = "A silver goblet, its surface adorned with intricate carvings and runes."
 	icon_state = "silver"
-	sellprice = 30
 	last_used = 0
 	is_silver = TRUE
 	is_lesser_silver = TRUE
@@ -227,7 +222,6 @@
 	name = "golden goblet"
 	desc = "Adorned with gemstones, this goblet radiates opulence and grandeur."
 	icon_state = "golden"
-	sellprice = 50
 	force = 10
 	throwforce = 15
 

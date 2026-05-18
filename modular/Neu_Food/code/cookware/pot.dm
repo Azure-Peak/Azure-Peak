@@ -209,7 +209,6 @@
 	icon = 'modular/Neu_Food/icons/cookware/unused.dmi'
 	icon_state = "stein"
 	volume = 60
-	sellprice = 10
 	force = 10
 	throwforce = 15
 
@@ -220,7 +219,6 @@
 	icon = 'modular/Neu_Food/icons/cookware/unused.dmi'
 	icon_state = "silverstein"
 	volume = 90
-	sellprice = 40
 	force = 15
 	throwforce = 20
 

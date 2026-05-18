@@ -259,7 +259,6 @@
 	max_integrity = 50
 	anvilrepair = null //Ceremonial. This should break comedically easily, but still have just enough toughness to work with a few strikes.
 	minstr = 11
-	sellprice = 300
 	smeltresult = /obj/item/ingot/gold
 	unenchantable = TRUE
 
@@ -740,7 +739,6 @@
 	desc = "Flowers, silk, and gold caress this carved-and-spiked log; a honored totem who's roots trace back to the daes before Syon's impact. Myths speak of ancient elve-and-humen alike, wielding such bronzen bludgeons against the Archdevil's rampaging hordes."
 	icon_state = "bronzeclubdec"
 	smeltresult = /obj/item/ingot/gold
-	sellprice = 100
 	wdefense = 5
 	max_integrity = 250
 

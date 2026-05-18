@@ -43,13 +43,11 @@
 	name = "bronze ring"
 	desc = "A ring of bronzen resiliance."
 	icon_state = "ring_b"
-	sellprice = 22
 
 /obj/item/clothing/ring/silver
 	name = "silver ring"
 	desc = "A ring of silvered glimmerance."
 	icon_state = "ring_s"
-	sellprice = 33
 	is_silver = TRUE
 	is_lesser_silver = TRUE
 
@@ -63,7 +61,6 @@
 	name = "gold ring"
 	desc = "A ring of golden beauty."
 	icon_state = "ring_g"
-	sellprice = 45
 
 /obj/item/clothing/ring/blacksteel
 	name = "blacksteel ring"
@@ -193,42 +190,36 @@
 	icon_state = "g_ring_emerald"
 	desc = "A beautiful golden ring with a polished gemerald set into it."
 	smeltresult = /obj/item/roguegem/green
-	sellprice = 195
 
 /obj/item/clothing/ring/ruby
 	name = "rontz ring"
 	icon_state = "g_ring_ruby"
 	desc = "A beautiful golden ring with a polished rontz set into it."
 	smeltresult = /obj/item/roguegem/ruby
-	sellprice = 255
 
 /obj/item/clothing/ring/topaz
 	name = "toper ring"
 	icon_state = "g_ring_topaz"
 	desc = "A beautiful golden ring with a polished toper set into it."
 	smeltresult = /obj/item/roguegem/yellow
-	sellprice = 180
 
 /obj/item/clothing/ring/quartz
 	name = "blortz ring"
 	icon_state = "g_ring_quartz"
 	desc = "A beautiful golden ring with a polished blortz set into it."
 	smeltresult = /obj/item/roguegem/blue
-	sellprice = 245
 
 /obj/item/clothing/ring/sapphire
 	name = "saffira ring"
 	icon_state = "g_ring_sapphire"
 	desc = "A beautiful golden ring with a polished saffira set into it."
 	smeltresult = /obj/item/roguegem/violet
-	sellprice = 200
 
 /obj/item/clothing/ring/diamond
 	name = "dorpel ring"
 	icon_state = "g_ring_diamond"
 	desc = "A beautiful golden ring with a polished dorpel set into it."
 	smeltresult = /obj/item/roguegem/diamond
-	sellprice = 270
 
 ///
 
@@ -292,7 +283,6 @@
 	desc = "A glimmering silver ring with a polished gemerald set into it."
 	icon_state = "s_ring_emerald"
 	smeltresult = /obj/item/roguegem/green
-	sellprice = 155
 	is_silver = TRUE
 	is_lesser_silver = TRUE
 
@@ -301,7 +291,6 @@
 	desc = "A glimmering silver ring with a polished rontz set into it."
 	icon_state = "s_ring_ruby"
 	smeltresult = /obj/item/roguegem/ruby
-	sellprice = 215
 	is_silver = TRUE
 	is_lesser_silver = TRUE
 
@@ -310,7 +299,6 @@
 	desc = "A glimmering silver ring with a polished toper set into it."
 	icon_state = "s_ring_topaz"
 	smeltresult = /obj/item/roguegem/yellow
-	sellprice = 140
 	is_silver = TRUE
 	is_lesser_silver = TRUE
 
@@ -319,7 +307,6 @@
 	desc = "A glimmering silver ring with a polished blortz set into it."
 	icon_state = "s_ring_quartz"
 	smeltresult = /obj/item/roguegem/blue
-	sellprice = 205
 	is_silver = TRUE
 	is_lesser_silver = TRUE
 
@@ -328,7 +315,6 @@
 	desc = "A glimmering silver ring with a polished saffira set into it."
 	icon_state = "s_ring_sapphire"
 	smeltresult = /obj/item/roguegem/violet
-	sellprice = 160
 	is_silver = TRUE
 	is_lesser_silver = TRUE
 
@@ -337,7 +323,6 @@
 	desc = "A glimmering silver ring with a polished dorpel set into it."
 	icon_state = "s_ring_diamond"
 	smeltresult = /obj/item/roguegem/diamond
-	sellprice = 230
 	is_silver = TRUE
 	is_lesser_silver = TRUE
 
@@ -345,7 +330,6 @@
 	name = "duelist's ring"
 	desc = "Born out of duelists desire for theatrics, this ring denotes a proposal — an honorable duel, with stakes set ahigh.\nIf both duelists wear this ring, successful baits will off balance them, and clashing disarms will never be unlikely.\n<i>'You shall know his name. You shall know his purpose. You shall die.'</i>"
 	icon_state = "ring_duel"
-	sellprice = 10
 
 /////////////////////////
 // Wedding Rings/Bands //
@@ -357,7 +341,7 @@
 	name = "silver weddingband"
 	desc = "A glimmering weddingband of silver, ornately decorated with the engravings of a lover's name."
 	icon_state = "s_ring_wedding"
-	sellprice = 3	//You don't get to smelt this down or sell it. No free mams for a loadout item.
+	sellprice = 3
 	var/choicename = FALSE
 	var/choicedesc = FALSE
 	is_silver = FALSE //Love wins.

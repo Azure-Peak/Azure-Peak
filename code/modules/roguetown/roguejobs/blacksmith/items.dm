@@ -36,7 +36,6 @@
 	desc = "A statue made of pure, shimmering silver!"
 	icon_state = "sstatue1"
 	smeltresult = /obj/item/ingot/silver
-	sellprice = 90
 
 /obj/item/roguestatue/silver/Initialize()
 	. = ..()
@@ -47,7 +46,6 @@
 	desc = "An unyielding statue of resilient steel."
 	icon_state = "ststatue1"
 	smeltresult = /obj/item/ingot/steel
-	sellprice = 40
 
 /obj/item/roguestatue/steel/Initialize()
 	. = ..()
@@ -70,7 +68,6 @@
 	desc = "A statue of sculpted bronze, forged in the visage of an ancient hero."
 	icon_state = "bronzestatue1"
 	smeltresult = /obj/item/ingot/bronze
-	sellprice = 30
 
 /obj/item/roguestatue/bronze/Initialize()
 	. = ..()

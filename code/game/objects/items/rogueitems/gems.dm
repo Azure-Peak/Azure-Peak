@@ -10,7 +10,6 @@
 	slot_flags = ITEM_SLOT_MOUTH
 	dropshrink = 0.4
 	drop_sound = 'sound/items/gem.ogg'
-	sellprice = 1
 	static_price = FALSE
 	resistance_flags = FIRE_PROOF
 

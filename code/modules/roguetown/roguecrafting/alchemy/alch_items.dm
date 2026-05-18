@@ -12,7 +12,6 @@
 	experimental_onhip = TRUE
 	experimental_inhand = TRUE
 	grid_height = 32 // Takes 1x1 area
-	sellprice = 1
 
 // Shitty copy paste override until bottle code refactored
 /obj/item/reagent_containers/glass/bottle/alchemical/update_icon(dont_fill=FALSE)

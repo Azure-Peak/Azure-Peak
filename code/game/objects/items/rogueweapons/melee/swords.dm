@@ -34,7 +34,6 @@
 	anvilrepair = /datum/skill/craft/weaponsmithing
 	smeltresult = /obj/item/ingot/steel
 	minstr = 7
-	sellprice = 30
 	wdefense = 4
 	grid_width = 32
 	grid_height = 64
@@ -60,7 +59,6 @@
 	minstr = 6
 	smeltresult = /obj/item/ingot/iron
 	max_integrity = 100
-	sellprice = 10
 	sheathe_icon = "isword"
 
 /obj/item/rogueweapon/sword/bronze
@@ -101,7 +99,6 @@
 	name = "decorated arming sword"
 	desc = "A valuable ornate arming sword made for the purpose of ceremonial fashion, with a fine leather grip and a carefully engraved golden crossguard."
 	icon_state = "decsword1"
-	sellprice = 140
 
 /obj/item/rogueweapon/sword/decorated/Initialize()
 	. = ..()
@@ -135,7 +132,6 @@
 	smeltresult = null
 	minstr = 4
 	wdefense = 4
-	sellprice = 10
 
 /obj/item/rogueweapon/sword/zizo
 	name = "avantyne arming sword"
@@ -908,7 +904,6 @@
 	wdefense = 3
 	smeltresult = /obj/item/ingot/iron
 	max_integrity = 100
-	sellprice = 10
 
 /obj/item/rogueweapon/sword/short/ashort
 	name = "decrepit short sword"
@@ -978,7 +973,6 @@
 	sheathe_icon = "decgladius"
 	max_integrity = 300
 	smeltresult = /obj/item/ingot/gold
-	sellprice = 100
 	wdefense = 5
 
 /obj/item/rogueweapon/sword/sabre/bronzekhopesh
@@ -1110,7 +1104,6 @@
 	w_class = WEIGHT_CLASS_NORMAL
 	smeltresult = /obj/item/ingot/iron
 	max_integrity = 100
-	sellprice = 10
 
 /obj/item/rogueweapon/sword/short/messer/iron/virtue
 	name = "iron dueling messer"
@@ -1193,7 +1186,6 @@
 /obj/item/rogueweapon/sword/sabre/dec
 	icon_state = "decsaber"
 	sheathe_icon = "decsaber"
-	sellprice = 140
 
 /obj/item/rogueweapon/sword/saber/iron
 	name = "iron saber"
@@ -1202,7 +1194,6 @@
 	smeltresult = /obj/item/ingot/iron
 	max_integrity = 100
 	icon_state = "isaber"
-	sellprice = 10
 
 /obj/item/rogueweapon/sword/sabre/steppesman
 	name = "aavnic shashka"
@@ -1490,7 +1481,6 @@
 	obverse reads, \"YE NOT GUILTY\"."
 	icon_state = "decrapier"
 	sheathe_icon = "decrapier"
-	sellprice = 140
 
 /obj/item/rogueweapon/sword/rapier/silver
 	name = "silver rapier"
@@ -1703,7 +1693,6 @@
 	smeltresult = /obj/item/ingot/gold
 	smelt_bar_num = 1
 	wdefense = 5
-	sellprice = 150
 	is_silver = TRUE
 
 /obj/item/rogueweapon/sword/silver/decorated/ComponentInitialize()
@@ -1950,7 +1939,6 @@
 	desc = "A valuable ornate longsword made for the purpose of ceremonial fashion, with a fine leather grip and a carefully engraved golden crossguard. \
 	Its blade bears twin inscriptions on either side. One reads, \"THY KINGDOM COME\" while the obverse reads, \"THY WILL BE DONE\"."
 	icon_state = "declongsword"
-	sellprice = 140
 
 // kazengite content
 // Stronger offense less defense sword meant to be paired w/ scabbard for parrying

@@ -115,7 +115,6 @@ What it does:
 	name = "bronze platter"
 	desc = "A shined bronze platter that hasn't lost its charm, even after a thousand yils."
 	icon_state = "platter_bronze"
-	sellprice = 15
 
 /obj/item/cooking/platter/copper
 	name = "copper platter"
@@ -123,7 +122,6 @@ What it does:
 	icon_state = "platter_copper"
 	resistance_flags = FIRE_PROOF
 	drop_sound = 'sound/foley/dropsound/armor_drop.ogg'
-	sellprice = 5
 
 /obj/item/cooking/platter/pewter
 	name = "pewter platter"
@@ -131,13 +129,11 @@ What it does:
 	icon_state = "platter_tin"
 	resistance_flags = FIRE_PROOF
 	drop_sound = 'sound/foley/dropsound/armor_drop.ogg'
-	sellprice = 10
 
 /obj/item/cooking/platter/silver
 	name = "silver platter"
 	desc = "A fancy silver plate often used by the nobility as a symbol of class."
 	icon_state = "platter_silver"
-	sellprice = 30
 	is_silver = TRUE
 	is_lesser_silver = TRUE
 
@@ -147,7 +143,6 @@ What it does:
 	icon_state = "platter_gold"
 	resistance_flags = FIRE_PROOF
 	drop_sound = 'sound/foley/dropsound/armor_drop.ogg'
-	sellprice = 25
 
 /obj/item/cooking/platter/carved
 	name = "carved platter"
