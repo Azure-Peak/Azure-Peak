@@ -160,3 +160,54 @@
 		<div>
 		<p><b>SCRAPPER / RAG PICKER:</b> A convenient machine that starts off with a 50m budget. To be salvager can dump in items that is demanded by the rag picker or scrapper and then receive mammons for their efforts immediately. After the initial budget is depleted, new mammons must be deposited for it to keep paying out. The associated roles can set prices, enable materials, and dump out the materials for them to salvage or resell manually.</p>
 	"}
+
+/datum/book_entry/treasury_merchant/harbor_mechanics
+	name = "06. Ships, Hails, and the Warehouses"
+
+/datum/book_entry/treasury_merchant/harbor_mechanics/inner_book_html(mob/user)
+	return {"
+		<div>
+		<p><b>HARBOR MECHANICS:</b> The Merchant hails ship, manage sell and purchases from them, accumulate flavor and send them off.</p>
+
+		<h3>Hailing</h3>
+		<ul>
+			<li>You have [TRADE_SHIPS_HAIL_PER_DAY] hails per day. A hail brings one ship from the pool to dock.</li>
+			<li>The first hail from a given realm reveals that realm's market conditions for the week. Grenzelhoft, Otava and Aavnr start revealed.</li>
+			<li>If a ship is sent away Honored, the spent hail is refunded - so a Merchant with stock to back it up can chain hails.</li>
+			<li>A ship's tonnage determines its expected favor target and the amount of goods it can carry. It scales non-linearly from 100t to 800t.</li>
+			<li>Docked ships can be sent away after [TRADE_SHIP_SEND_AWAY_GRACE / 600] minutes, or immediately if Honored.</li>
+		</ul>
+
+		<h3>Demand multipliers</h3>
+		<ul>
+			<li>Each realm wants specific categories. A docked ship raises demand on those categories - the Navigator pays above base for goods in them.</li>
+			<li>Capped at 1.5x payout. Two ships wanting the same category stack toward the cap, not past it.</li>
+			<li>Demand evaporates when the ship leaves. A category paying 1.5x while a ship is in port pays 1.0x once it's gone.</li>
+		</ul>
+
+		<h3>Saturation</h3>
+		<ul>
+			<li>Each category has a mammon denominated warehouse pool. Goods sold through the Navigator fill the pool. Capacity is rerolled at roundstart and pop-scaled with each player giving 0.5% additional capacity.</li>
+			<li>A ship docking for a category drains 50% of that category's saturation, opening room for more sales while it's in port.</li>
+			<li>A full warehouse refuses further intake. The Navigator sends the goods back with a \"market is choked\" message.</li>
+			<li>The Black Market runs in parallel. Half capacity, flat prices (no demand mechanic), but regenerates 25% saturation per day automatically.</li>
+		</ul>
+
+		<h3>Send Off outcomes</h3>
+		<ul>
+			<li>Every ship docks with an expected favor target scaled by tonnage. Small coaster = small target, large galleon = large target.</li>
+			<li><b>HONORED</b> (>=100% of target): Full delivered value banked as Favor, hail refunded.</li>
+			<li><b>PARTIAL</b> (>=50%): Half delivered value banked as Favor. No hail refund.</li>
+			<li><b>DISHONORED</b> (<50%): Flat Favor penalty, scaled by tonnage.</li>
+		</ul>
+
+		<h3>What the Merchant has to decide</h3>
+		<ul>
+			<li>Two hails a day, many ships in the pool. You can't hail them all - pick the ones you can actually fulfill.</li>
+			<li>Balance between making a profit by arbitrage from their supplies, cultural stocks in demand by mercenaries and LARPer, and what the town produces.</li>
+			<li>Small ships are easily Honored - low target, low reward, hail comes back. Large ships brings more goods with bigger Favor payout but it is much harder to hit the target alone.</li>
+			<li>Hailing a ship you can't supply costs you both the hail and the Favor (Dishonor penalty). Better to leave them in the pool.</li>
+			<li>Producers can fill the bulk demand crates. Your Favor income depends on whether they show up.</li>
+		</ul>
+		</div>
+	"}
