@@ -41,6 +41,12 @@
 	grid_height = 32
 	sellprice = 10
 
+/obj/item/natural/head/volf/undead
+	name = "deadite volf head"
+	desc = "At last, the barking and snarling has ceased."
+	icon_state = "deadwolfhead"
+	sellprice = 30
+
 /obj/item/natural/head/goat
 	name = "goat head"
 	desc = "The head of a simple goat."
@@ -57,6 +63,12 @@
 	grid_height = 32
 	sellprice = 6
 
+/obj/item/natural/head/fox/undead
+	name = "deadite venard head"
+	desc = "Punished for desiring the taste of flesh a little too eagerly."
+	icon_state = "deadfoxhead"
+	sellprice = 20
+
 /obj/item/natural/head/saiga
 	name = "saiga head"
 	desc = "The head of a proud saiga."
@@ -64,6 +76,12 @@
 	layer = 3.1
 	grid_height = 32
 	sellprice = 12
+
+/obj/item/natural/head/saiga/undead
+	name = "deadite saiga head"
+	desc = "It wasn't easy to put down, now it finally rests motionless in your hands."
+	icon_state = "deadsaigahead"
+	sellprice = 40
 
 /obj/item/natural/head/direbear
 	name = "direbear head"
@@ -125,6 +143,7 @@
 
 /obj/item/natural/head/troll/undead
 	name = "deadite troll head"
+	desc = "Mightier in undeath, now just a smelly memento."
 	icon_state = "deadtrollhead"
 	sellprice = 80
 

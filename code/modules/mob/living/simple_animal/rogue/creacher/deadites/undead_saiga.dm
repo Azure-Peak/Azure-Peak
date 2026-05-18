@@ -25,6 +25,7 @@
 	attack_sound = list('sound/vo/mobs/saiga/attack (1).ogg','sound/vo/mobs/saiga/attack (2).ogg')
 	pixel_x = -8
 
+	head_butcher = /obj/item/natural/head/saiga/undead
 	botched_butcher_results = list(
 		/obj/item/reagent_containers/food/snacks/rogue/meat/saiga_z = 1,
 		/obj/item/natural/bone = 4,

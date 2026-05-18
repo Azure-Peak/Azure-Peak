@@ -17,6 +17,7 @@
 	see_in_dark = 6
 	move_to_delay = 3
 	base_intents = list(/datum/intent/simple/bite/volf)
+	head_butcher = /obj/item/natural/head/volf/undead
 	botched_butcher_results = list(/obj/item/alch/viscera = 1, /obj/item/alch/sinew = 1, /obj/item/natural/bone = 2)
 	butcher_results = list(/obj/item/natural/hide = 1,
 						/obj/item/alch/sinew = 1,

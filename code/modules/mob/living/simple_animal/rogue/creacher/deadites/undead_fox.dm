@@ -8,6 +8,7 @@
 	health = FOX_HEALTH_UNDEAD
 	maxHealth = FOX_HEALTH_UNDEAD
 	ai_controller = /datum/ai_controller/undead/fox
+	head_butcher = /obj/item/natural/head/fox/undead
 	botched_butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat_rotten = 1, /obj/item/alch/viscera = 1, /obj/item/natural/bone = 3)
 	butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat_rotten = 2,
 						/obj/item/natural/hide = 1,
