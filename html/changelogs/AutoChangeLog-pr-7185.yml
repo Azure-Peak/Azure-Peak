@@ -1,4 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - refactor: "Optimized preview icon in the character creator by up to 80% (Around 50% on live). Report odd behaviors, especially with tauric character, species swap."

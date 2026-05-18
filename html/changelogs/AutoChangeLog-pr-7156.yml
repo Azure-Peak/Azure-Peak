@@ -1,4 +1,0 @@
-author: "FreeStylaLT"
-delete-after: True
-changes:
-  - refactor: "Added a Game Settings toggle for opting out of Storyteller events. (God's Chosen)"
