@@ -29,6 +29,8 @@
 	for(var/mob/living/carbon/human/H in GLOB.player_list)
 		if(!istype(H) || H.stat == DEAD || !H.client || !istype(H.patron, /datum/patron/divine/xylix) || H.is_noble())
 			continue
+		if(!H.client.prefs || H.client.prefs?.no_storyteller_events)
+			continue
 		if(locate(/datum/action/cooldown/spell/projectile/vicious_mockery) in H.mind.spell_list)
 			valid_targets += H
 

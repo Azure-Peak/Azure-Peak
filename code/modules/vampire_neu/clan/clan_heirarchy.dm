@@ -182,6 +182,7 @@
 	// Send the command
 	to_chat(user, "<span class='notice'>You telepathically command [target.real_name]: \"[command]\"</span>")
 	to_chat(target, "<span class='userdanger'><b>[user.real_name] commands you telepathically:</b> \"[command]\"</span>")
+	log_game("VAMPIRE TELEPATHY: [user.real_name] [user.ckey] used vampiric telepathy to command [target.real_name] [target.ckey]: [command]")
 
 	// Play sound to target
 	//playsound(target, 'sound/magic/whisper.ogg', 30, TRUE)
@@ -319,6 +320,7 @@
 
 	// Send to all subordinates
 	to_chat(user, "<span class='notice'>You send a mass command to [length(valid_targets)] subordinate(s): \"[command]\"</span>")
+	log_game("VAMPIRE TELEPATHY: [user.real_name] [user.ckey] used vampiric telepathy to command all subordinates: [command] [valid_targets]")
 
 	for(var/mob/living/carbon/human/target in valid_targets)
 		to_chat(target, "<span class='userdanger'><b>[user.real_name] commands all subordinates:</b> \"[command]\"</span>")

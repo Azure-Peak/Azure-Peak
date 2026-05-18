@@ -448,6 +448,11 @@
 	swingdelay = 12
 	max_intent_damage = 9999
 
+/datum/intent/pick/heavy //Slightly faster swing delay AKA easier to use.
+	name = "heavy pick"
+	icon_state = "inpick"
+	swingdelay = 8
+
 /datum/intent/drill
 	name = "drill"
 	icon_state = "inpick"

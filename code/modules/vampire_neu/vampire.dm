@@ -98,15 +98,19 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 
 		switch(generation)
 			if(GENERATION_METHUSELAH)
+				vampdude?.cmode_music = 'sound/music/cmode/combat_ready_to_die.ogg' //LISTEN TO ME WHETHER YOU WANT TO HEAR IT OR NOT, YOU WEREN'T EVEN BORN WHEN THIS HAPPENED
 				vampdude?.adjust_skillrank_up_to(/datum/skill/magic/blood, 6, TRUE)
 				max_thralls = 69
 			if(GENERATION_ANCILLAE)
+				vampdude?.cmode_music = 'sound/music/cmode/antag/combat_thrall.ogg'
 				vampdude?.adjust_skillrank_up_to(/datum/skill/magic/blood, 5, TRUE)
 				max_thralls = 3
 			if(GENERATION_NEONATE)
+				vampdude?.cmode_music = 'sound/music/cmode/antag/combat_thrall.ogg'
 				vampdude?.adjust_skillrank_up_to(/datum/skill/magic/blood, 4, TRUE) // Licker Wretch
 				max_thralls = 1
 			if(GENERATION_THINBLOOD)
+				vampdude?.cmode_music = 'sound/music/cmode/antag/combat_thrall.ogg'
 				vampdude?.adjust_skillrank_up_to(/datum/skill/magic/blood, 3, TRUE) // You are not even an antagonist
 				max_thralls = 0
 			else
