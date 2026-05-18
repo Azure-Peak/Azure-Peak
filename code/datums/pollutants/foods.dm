@@ -231,3 +231,11 @@
 /datum/pollutant/food/muffin
 	name = "fresh baked muffins"
 	scent = "fresh baked muffins"
+
+/datum/pollutant/food/strange_meat
+	name = "strangely delicious meat"
+	scent = "strangely delicious meat"
+
+/datum/pollutant/food/rotten_meat
+	name = "rotten flesh"
+	scent = "rotten flesh"

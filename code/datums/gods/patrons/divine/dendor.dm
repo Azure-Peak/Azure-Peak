@@ -22,6 +22,10 @@
 		"I ANSWER THE CALL OF THE WILD!",
 	)
 	storyteller = /datum/storyteller/dendor
+	titles = list(
+		"Treefather",
+		"Tree-Father"
+	)
 
 // In grove, bog, cross, or ritual chalk 
 // Yes, he is NOT calling the master cus he's unique. Whole bog is his prayer zone. Druids exist for a reason instead of in the church.

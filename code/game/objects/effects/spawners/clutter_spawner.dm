@@ -167,3 +167,15 @@
 		/obj/item/clothing/neck/roguetown/psicross/malum/secret = 1,
 		/obj/item/clothing/neck/roguetown/psicross/weeping = 1,
 	) //'Stat_' and 'Psicross_' rings at '2' or below provide statbuffs, and should be kept rare. Move to a seperate drop table if they become too common. Likeliest find is from high-end dungeons and mimics.
+
+/obj/effect/spawner/lootdrop/puzzlebox_rings
+    name = "royal puzzlebox ring spawner"
+    lootcount = 2
+    loot = list(
+        /obj/item/clothing/ring/statgemerald = 20,   // Swiftness
+        /obj/item/clothing/ring/statonyx = 20,      // Vitality
+        /obj/item/clothing/ring/statamythortz = 20, // Wisdom
+        /obj/item/clothing/ring/statrontz = 20,     // Courage
+        /obj/item/clothing/ring/dragon_ring = 10,   // Dragonstone
+        /obj/item/clothing/ring/statdorpel = 5      // Omnipotence
+    )

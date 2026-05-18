@@ -77,7 +77,8 @@
 	cdmid.screen_loc = "WEST-3:0,SOUTH+7"
 	static_inventory += cdmid
 
-	
+	reads = new /atom/movable/screen/read
+	reads.hud = src
 
 	build_hand_slots()
 

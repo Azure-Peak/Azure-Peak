@@ -85,7 +85,7 @@
 
 /mob/living/carbon/human/species/human/northern/bog_deserters
 	ai_controller = /datum/ai_controller/human_npc
-	faction = list(FACTION_BANDITS, FACTION_STATION)
+	faction = list(FACTION_BANDITS)
 	ambushable = FALSE
 	cmode = 1
 	setparrytime = 30

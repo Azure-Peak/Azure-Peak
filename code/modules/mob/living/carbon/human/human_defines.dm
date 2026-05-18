@@ -217,6 +217,3 @@
 
 	/// Guarded Virtue (TRAIT_DECEIVING_MEEKNESS) exclusive variable for filtering out our descriptors from examine.
 	var/show_descriptors = TRUE
-
-	/// This is for highlighting marks in track.dm
-	var/mob/living/current_mark

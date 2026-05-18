@@ -696,6 +696,9 @@ SPECIALS START HERE
 	playsound(T, sfx, 100, TRUE)
 	..()
 
+/datum/special_intent/axe_swing/graggarite
+	requires_wielding = FALSE
+
 #undef AXE_SWING_GRID_DEFAULT
 #undef AXE_SWING_GRID_MIRROR
 

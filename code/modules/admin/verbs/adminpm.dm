@@ -112,9 +112,14 @@
 
 		//get message text, limit it's length.and clean/escape html
 		if(!msg)
+			var/datum/admin_help/sender_ticket = !holder ? current_ticket : null
+			if(sender_ticket)
+				message_admins("[key_name_admin(src)] has started replying to their admin help.")
 			msg = input(src,"Message:", "Private message to [recipient.holder?.fakekey ? "an Administrator" : key_name(recipient, 0, 0)].") as message|null
 			msg = trim(msg)
 			if(!msg)
+				if(sender_ticket)
+					message_admins("[key_name_admin(src)] has cancelled their reply to their admin help.")
 				return
 
 			if(prefs.muted & MUTE_ADMINHELP)

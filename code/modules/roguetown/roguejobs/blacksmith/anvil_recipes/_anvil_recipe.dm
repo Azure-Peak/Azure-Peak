@@ -58,6 +58,11 @@
 				for(var/atom/O in conts)
 					if(!isturf(O.loc) || (!istype(O, needed_item) && !istype(O, /obj/item/natural/bundle)))	// We don't want to use the ingot we are actively hammering, which would be in the Anvil's contents.
 						LAZYREMOVE(conts, O)
+						continue
+					if(isitem(O))
+						var/obj/item/IO = O
+						if(!IO.can_craft_with())
+							LAZYREMOVE(conts, O)
 				if(length(conts))
 					var/obj_to_use
 					for(var/candidate in conts)
@@ -78,10 +83,11 @@
 						else if(istype(candidate, needed_item))
 							obj_to_use = candidate
 							break
-					user.visible_message(span_warning("[user] strikes the bar, inserting a [needed_item_text] into the recipe!"))
-					source.attackby(obj_to_use, user)	//We grab the first one we find.
-					auto_success = TRUE
-					playsound(source, 'sound/items/bsmithadvance.ogg', 100, TRUE)
+					if(obj_to_use)
+						user.visible_message(span_warning("[user] strikes the bar, inserting a [needed_item_text] into the recipe!"))
+						source.attackby(obj_to_use, user)	//We grab the first one we find.
+						auto_success = TRUE
+						playsound(source, 'sound/items/bsmithadvance.ogg', 100, TRUE)
 		if(!auto_success)
 			to_chat(user, span_info("Now it's time to add a [needed_item_text]."))
 			user.visible_message(span_warning("[user] strikes the bar!"))

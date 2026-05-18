@@ -1036,10 +1036,12 @@
 	desc = "The world is yours, as they say - yet, why doth the Gods still led us astray?"
 	color = "#ffc960"
 	smeltresult = /obj/item/ingot/component/matthios
+	unenchantable = TRUE
 
 /obj/item/clothing/neck/roguetown/chaincoif/chainmantle/matthios/Initialize()
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_FREEMAN, "ARMOR")
+	add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = "#fff385", "alpha" = 120, "size" = 1)) //IS THIS TRVE?
 
 //
 
@@ -1051,10 +1053,16 @@
 	material_category = ARMOR_MAT_PLATE
 	armor_class = ARMOR_CLASS_MEDIUM
 	smeltresult = /obj/item/ingot/component/zizo
+	unenchantable = TRUE
 
 /obj/item/clothing/neck/roguetown/bevor/zizo/Initialize()
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_CABAL, "ARMOR")
+	add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = "#5f1515", "alpha" = 120, "size" = 1)) //Cursed look.
+
+/obj/item/clothing/neck/roguetown/bevor/zizo/heavy
+	name = "fused avantyne bevor"
+	desc = "An avantyne neckguard fused into the flesh of the neck, akin to a second skin, yet impossible to remove. The sacred leyline of sinew and spirit protected from severance."
 
 /obj/item/clothing/neck/roguetown/bevor/zizo/heavy/Initialize()
 	. = ..()
@@ -1073,20 +1081,13 @@
 	desc = "Curled plate, cradling the neck. Once, they were chains - now, they've allowed you to break free."
 	color = "#ddc0a7"
 	smeltresult = /obj/item/ingot/component/graggar
+	unenchantable = TRUE
 
 /obj/item/clothing/neck/roguetown/gorget/steel/graggar/Initialize()
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_HORDE, "ARMOR", "RENDERED ASUNDER")
+	add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = "#1a146e", "alpha" = 120, "size" = 1)) //Cursed look.
 
-/obj/item/clothing/neck/roguetown/gorget/steel/graggar/heavy/Initialize()
-	. = ..()
-	ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)
-
-/obj/item/clothing/neck/roguetown/gorget/steel/graggar/heavy/dropped(mob/living/carbon/human/user)
-	. = ..()
-	if(QDELETED(src))
-		return
-	qdel(src)
 
 //
 

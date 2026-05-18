@@ -9,6 +9,8 @@ GLOBAL_LIST_EMPTY(prayers)
 /datum/patron
 	/// Name of the god
 	var/name
+	/// Common titles of the god - used for prayers
+	var/list/titles = list()
 	/// Domain of the god, such as earth, fire, water, murder etc
 	var/domain = "Bad coding practices"
 	/// Description of the god
@@ -109,8 +111,10 @@ GLOBAL_LIST_EMPTY(prayers)
     GLOB.prayers |= prayer
     record_round_statistic(STATS_PRAYERS_MADE)
 
-    if(findtext(prayer, name))
-        reward_prayer(follower)
+    for(var/title in (follower.patron.titles + patron_name))
+        if(findtext(prayer, title))
+            reward_prayer(follower)
+            return . 
 
 /// The follower has somehow offended the patron and is now being punished.
 /datum/patron/proc/punish_prayer(mob/living/follower)

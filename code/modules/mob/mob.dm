@@ -1113,9 +1113,15 @@ GLOBAL_VAR_INIT(mobids, 1)
 		if(!("[REF(target)]" in faction_src))
 			faction_target -= "[REF(target)]" //same thing here.
 		return faction_check(faction_src, faction_target, TRUE)
-	var/list/faction2use = target.faction.Copy()
-	faction2use += target.name
-	return faction_check(faction, faction2use, FALSE)
+	// Avoid lit allocations by scanning factions directly for better perf.
+	var/list/their_faction = target.faction
+	var/their_name = target.name
+	for(var/f in faction)
+		if(f == their_name)
+			return TRUE
+		if(f in their_faction)
+			return TRUE
+	return FALSE
 /*
  * Compare two lists of factions, returning true if any match
  *

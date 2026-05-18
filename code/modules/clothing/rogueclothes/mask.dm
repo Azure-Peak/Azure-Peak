@@ -428,6 +428,8 @@
 	desc = "Shattered jaws, chipped teeth, sunken metal - fit for a skull of the same. It snarls in mimicry of the Sinistar's visage."
 	icon_state = "graggarplatemask_heavy"
 	block2add = null
+	body_parts_covered = MOUTH|NOSE
+	flags_inv = HIDEFACE|HIDESNOUT
 
 /obj/item/clothing/mask/rogue/facemask/steel/graggar/ComponentInitialize()
 	AddComponent(/datum/component/cursed_item, TRAIT_HORDE, "ARMOR", "RENDERED ASUNDER")

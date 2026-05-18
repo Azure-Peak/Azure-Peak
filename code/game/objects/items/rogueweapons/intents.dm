@@ -448,6 +448,11 @@
 	swingdelay = 12
 	max_intent_damage = 9999
 
+/datum/intent/pick/heavy //Slightly faster swing delay AKA easier to use.
+	name = "heavy pick"
+	icon_state = "inpick"
+	swingdelay = 8
+
 /datum/intent/drill
 	name = "drill"
 	icon_state = "inpick"
@@ -661,10 +666,10 @@
 	if(ismob(target))
 		var/mob/M = target
 		var/list/targetl = list(target)
-		user.visible_message(span_green("[user] beckons [M] to come closer."), span_green("I beckon [M] to come closer."), ignored_mobs = targetl)
+		user.visible_message(span_yellow("[user] beckons [M] to come closer."), span_yellow("I beckon [M] to come closer."), ignored_mobs = targetl)
 		if(M.client)
 			if(M.can_see_cone(user))
-				to_chat(M, span_green("[user] beckons me to come closer."))
+				to_chat(M, span_yellow("[user] beckons me to come closer."))
 		else
 			M.beckoned(user)
 	return
