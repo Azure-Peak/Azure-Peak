@@ -330,6 +330,10 @@
 "lm" = (
 /turf/closed/wall/mineral/rogue/decostone/cand,
 /area/rogue/indoors/town/manor)
+"ly" = (
+/obj/item/roguemachine/navigator/private,
+/turf/open/floor/rogue/blocks/newstone/alt,
+/area/rogue/indoors/town/manor)
 "lI" = (
 /obj/structure/roguemachine/vaultbank/innkeeper,
 /turf/open/floor/rogue/blocks/newstone/alt,
@@ -3144,7 +3148,7 @@ rk
 um
 ev
 ev
-ev
+ly
 ev
 AO
 TN
