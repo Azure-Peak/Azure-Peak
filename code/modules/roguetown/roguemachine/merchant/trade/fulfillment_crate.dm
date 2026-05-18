@@ -83,7 +83,7 @@
 					"lines" = lines,
 				))
 	data["manifests"] = manifests
-	data["middleman_cut_percent"] = TRADE_MERCHANT_MIDDLEMAN_CUT_PERCENT
+	data["middleman_cut_percent"] = SSmerchant_trade ? SSmerchant_trade.merchant_levy_percent : TRADE_MERCHANT_LEVY_DEFAULT_PERCENT
 	return data
 
 /obj/structure/roguemachine/ship_fulfillment/attackby(obj/item/P, mob/user, params)
@@ -222,20 +222,34 @@
 /obj/structure/roguemachine/ship_fulfillment/proc/settle_payout(gross, mob/user, datum/trade_ship/ship, good_name, qty, message, sound, list/tally)
 	if(gross <= 0)
 		return
-	var/duty_float = gross * SStreasury.get_tax_rate(TAX_CATEGORY_EXPORT_DUTY)
-	var/after_duty_float = gross - duty_float
-	var/cut_float = after_duty_float * TRADE_MERCHANT_MIDDLEMAN_CUT_PERCENT / 100
+	var/duty_rate = SStreasury.get_tax_rate(TAX_CATEGORY_EXPORT_DUTY)
+	var/levy_pct = SSmerchant_trade ? SSmerchant_trade.merchant_levy_percent : 0
+	var/levy_float = gross * levy_pct / 100
+	var/duty_on_gross_float = gross * duty_rate
+	var/duty_on_levy_float = levy_float * duty_rate
 	var/duty_remitted = 0
-	var/cut_remitted = 0
-	if(duty_float > 0)
-		duty_remitted = SStreasury.mint_fractional(SStreasury.discretionary_fund, duty_float, "[TAX_CATEGORY_EXPORT_DUTY] (ship fulfillment)")
+	var/levy_tax_remitted = 0
+	var/levy_remitted = 0
+	if(duty_on_gross_float > 0)
+		duty_remitted = SStreasury.mint_fractional(SStreasury.discretionary_fund, duty_on_gross_float, "[TAX_CATEGORY_EXPORT_DUTY] (ship fulfillment)")
 		SStreasury.apply_concordat_tithe(gross, TAX_CATEGORY_EXPORT_DUTY, "ship fulfillment")
-		if(duty_remitted > 0)
-			record_round_statistic(STATS_TAXES_COLLECTED, duty_remitted)
-			record_round_statistic(STATS_REVENUE_EXPORT_DUTY, duty_remitted)
-	if(cut_float > 0)
-		cut_remitted = SStreasury.mint_fractional(SStreasury.merchant_fund, cut_float, "Middleman cut: [qty] [good_name] -> [ship.ship_name]")
-	var/producer_payout = gross - duty_remitted - cut_remitted
+	if(duty_on_levy_float > 0)
+		levy_tax_remitted = SStreasury.mint_fractional(SStreasury.discretionary_fund, duty_on_levy_float, "[TAX_CATEGORY_EXPORT_DUTY] (levy income, ship fulfillment)")
+		SStreasury.apply_concordat_tithe(levy_float, TAX_CATEGORY_EXPORT_DUTY, "levy income (ship fulfillment)")
+	var/total_duty = duty_remitted + levy_tax_remitted
+	if(total_duty > 0)
+		record_round_statistic(STATS_TAXES_COLLECTED, total_duty)
+		record_round_statistic(STATS_REVENUE_EXPORT_DUTY, total_duty)
+		if(SSmerchant_trade)
+			SSmerchant_trade.merchant_levy_taxed += levy_tax_remitted
+	var/merchant_net_float = levy_float - duty_on_levy_float
+	if(merchant_net_float > 0)
+		levy_remitted = SStreasury.mint_fractional(SStreasury.merchant_fund, merchant_net_float, "Merchant's levy: [qty] [good_name] -> [ship.ship_name]")
+		if(SSmerchant_trade)
+			SSmerchant_trade.merchant_levy_collected += levy_remitted
+	var/producer_payout = gross - duty_remitted - round(levy_float)
+	if(producer_payout < 0)
+		producer_payout = 0
 	record_round_statistic(STATS_TRADE_VALUE_EXPORTED, gross)
 	ship.favor_earned += gross
 	if(sound)
@@ -243,8 +257,8 @@
 	if(tally)
 		tally["total_producer"] += producer_payout
 		tally["total_gross"] += gross
-		tally["total_duty"] += duty_remitted
-		tally["total_cut"] += cut_remitted
+		tally["total_duty"] += total_duty
+		tally["total_cut"] += levy_remitted
 		var/key = "[ship.ship_id]|[good_name]"
 		var/list/info = tally["lines"][key]
 		if(info)
@@ -252,7 +266,7 @@
 		else
 			tally["lines"][key] = list("qty" = qty, "good_name" = good_name, "ship_name" = ship.ship_name)
 		return
-	var/breakdown = "[qty] [good_name] for [ship.ship_name]: gross [gross]m, Crown [duty_remitted]m, Merchant [cut_remitted]m"
+	var/breakdown = "[qty] [good_name] for [ship.ship_name]: gross [gross]m, Crown [total_duty]m, Merchant [levy_remitted]m"
 	if(producer_payout > 0)
 		SStreasury.give_money_account(producer_payout, user, breakdown)
 

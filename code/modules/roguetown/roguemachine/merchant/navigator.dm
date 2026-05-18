@@ -16,15 +16,18 @@
 	var/fixed_tax = 0
 	/// Motto displayed at the top of the vendor interface
 	var/motto = "NAVIGATOR - Your goods, airborne."
-	/// When TRUE, the Crown's export duty is not collected on this navigator's payouts.
-	/// Toggled by the Merchant via right-click; evaded duties are still tallied for audit.
-	var/bypass_export_duty = FALSE
-	/// Jobs whose members may right-click to toggle the tax-dodge.
+	/// When TRUE, Crown export duty is collected on seller gross AND on the Merchant's levy.
+	var/pay_taxes = TRUE
+	/// When TRUE, the Merchant's levy is collected from seller gross.
+	var/pay_merchant_share = TRUE
+	/// Jobs whose members may right-click to inspect dodge tallies.
 	var/list/profit_id = list("Merchant", "Shophand")
 	/// Running tally of Crown export duty actually collected via this specific navigator.
 	var/duty_collected_here = 0
 	/// Running tally of duty owed but dodged. Only shown to Merchant/Shophand.
 	var/duty_evaded_here = 0
+	/// Running tally of Merchant levy actually collected via this specific navigator.
+	var/levy_collected_here = 0
 
 /obj/item/roguemachine/navigator/examine()
 	. = ..()
@@ -44,7 +47,7 @@
 	if(ishuman(user))
 		var/mob/living/carbon/human/H = user
 		if(H.job in profit_id)
-			. += span_info("<b>Right-click</b> as [english_list(profit_id)] to toggle the export-duty dodge. Currently: <b>[bypass_export_duty ? "TAX DODGING" : "PAYING"]</b>.")
+			. += span_info("Crown duty: <b>[pay_taxes ? "PAYING" : "DODGING"]</b>. Merchant's levy: <b>[pay_merchant_share ? "COLLECTING" : "WAIVED"]</b>.")
 
 // 70% taxation and rip off to encourage people to risk it with merchant / others
 /obj/item/roguemachine/navigator/smuggler
@@ -52,6 +55,15 @@
 	desc = "A crudely repaired navigator bolted to the hull of a leaky boat. It stinks of brine and contraband."
 	motto = "NAVIGA??R - - ████ ██████ █████████ - FREEDOM OF TRANSACTION.."
 	fixed_tax = 0.7
+	pay_taxes = FALSE
+	pay_merchant_share = FALSE
+
+/obj/item/roguemachine/navigator/private
+	name = "private navigator"
+	desc = "A navigator kept under the Merchant's own roof."
+	motto = "NAVIGATOR - Proprietor's berth."
+	pay_taxes = TRUE
+	pay_merchant_share = FALSE
 
 /obj/item/roguemachine/navigator/smuggler/examine(mob/user)
 	. = ..()
@@ -96,19 +108,23 @@
 		contents += "HANDLER'S FEE: [fixed_tax * 100] %<BR>"
 	contents += "Next Balloon: [time2text((next_airlift - world.time), "mm:ss")]<BR>"
 
-	// Export duty summary. The rate is public (it's a published law). The paid/evaded
-	// tallies and the TAX DODGING banner are Merchant/Shophand only.
 	var/duty_rate = SStreasury.get_tax_rate(TAX_CATEGORY_EXPORT_DUTY)
+	var/levy_rate = SSmerchant_trade ? SSmerchant_trade.merchant_levy_percent : 0
 	var/merchant_only = FALSE
 	if(ishuman(user))
 		var/mob/living/carbon/human/H = user
 		merchant_only = (H.job in profit_id)
 	contents += "Crown Export Duty: <b>[round(duty_rate * 100)]%</b>"
-	if(merchant_only && bypass_export_duty)
-		contents += " <font color='#c84'><b>(TAX DODGING)</b></font>"
+	if(merchant_only && !pay_taxes)
+		contents += " <font color='#c84'><b>(DODGING)</b></font>"
+	contents += "<br>"
+	contents += "Merchant's Levy: <b>[levy_rate]%</b>"
+	if(merchant_only && !pay_merchant_share)
+		contents += " <font color='#c84'><b>(WAIVED)</b></font>"
 	contents += "<br>"
 	if(merchant_only)
-		contents += "<font color='#8a8'>Paid: [duty_collected_here]m</font> &middot; <font color='#c84'>Evaded: [duty_evaded_here]m</font><br>"
+		contents += "<font color='#8a8'>Crown paid: [duty_collected_here]m</font> &middot; <font color='#c84'>Crown evaded: [duty_evaded_here]m</font><br>"
+		contents += "<font color='#8a8'>Levy paid: [levy_collected_here]m</font><br>"
 	contents += "</center><BR>"
 
 	if(!user.can_read(src, TRUE))
@@ -126,8 +142,22 @@
 		return
 	if(!H.canUseTopic(src, BE_CLOSE))
 		return
-	bypass_export_duty = !bypass_export_duty
-	to_chat(H, span_notice("The Navigator's toll clasp clicks. Export duty: <b>[bypass_export_duty ? "TAX DODGING" : "PAYING"]</b>."))
+	var/list/options = list()
+	options += (pay_taxes ? "Stop paying Crown duty" : "Resume paying Crown duty")
+	options += (pay_merchant_share ? "Waive Merchant's levy" : "Resume Merchant's levy")
+	var/select = input(H, "Adjust the Navigator's toll clasp.", "Navigator") as null|anything in options
+	if(!select || !H.canUseTopic(src, BE_CLOSE))
+		return
+	switch(select)
+		if("Stop paying Crown duty")
+			pay_taxes = FALSE
+		if("Resume paying Crown duty")
+			pay_taxes = TRUE
+		if("Waive Merchant's levy")
+			pay_merchant_share = FALSE
+		if("Resume Merchant's levy")
+			pay_merchant_share = TRUE
+	to_chat(H, span_notice("The Navigator's toll clasp clicks. Crown duty: <b>[pay_taxes ? "PAYING" : "DODGING"]</b>. Merchant's levy: <b>[pay_merchant_share ? "COLLECTING" : "WAIVED"]</b>."))
 	playsound(loc, 'sound/misc/gold_misc.ogg', 80, FALSE, -1)
 
 /obj/item/roguemachine/navigator/update_icon()
@@ -188,37 +218,60 @@
 			budgie = round(budgie)
 			record_round_statistic(STATS_TRADE_VALUE_EXPORTED, budgie)
 			if(budgie > 0)
-				play_sound=TRUE
-				var/duty_amt = apply_export_duty(budgie)
-				var/net_payout = budgie - duty_amt
-				var/turf/budget_turf = get_turf(src)
-				if(net_payout > 0)
-					budget2change(net_payout, custom_turf = budget_turf)
-				budgie = 0
+				play_sound = TRUE
+				settle_export(budgie)
 		if(play_sound)
 			playsound(src.loc, 'sound/misc/hiss.ogg', 100, FALSE, -1)
 
-/// Crown's export duty on legitimate trade. Overridden on smuggler navigator (off-ledger).
-/// Respects the Merchant's right-click bypass: the duty is still computed for the evaded-tax
-/// audit tally but not actually collected, and the Merchant keeps the full payout.
-/obj/item/roguemachine/navigator/proc/apply_export_duty(amount)
-	var/rate = SStreasury.get_tax_rate(TAX_CATEGORY_EXPORT_DUTY)
-	var/duty = round(amount * rate)
-	if(duty <= 0)
-		return 0
-	if(bypass_export_duty)
-		record_round_statistic(STATS_TAXES_EVADED, duty)
-		duty_evaded_here += duty
-		return 0
-	SStreasury.mint(SStreasury.discretionary_fund, duty, "[TAX_CATEGORY_EXPORT_DUTY] ([src.name])")
-	SStreasury.apply_concordat_tithe(amount, TAX_CATEGORY_EXPORT_DUTY, "[src.name]")
-	record_round_statistic(STATS_TAXES_COLLECTED, duty)
-	record_round_statistic(STATS_REVENUE_EXPORT_DUTY, duty)
-	duty_collected_here += duty
-	return duty
-
-/obj/item/roguemachine/navigator/smuggler/apply_export_duty(amount)
-	return 0
+/// Parallel-bites payout. Crown duty and Merchant levy both come off gross; the levy is
+/// itself subject to Crown income duty so the producer's tax base doesn't shrink because
+/// the Merchant exists. Producer net drops on src tile, levy drops on the tile facing src.dir.
+/obj/item/roguemachine/navigator/proc/settle_export(gross)
+	var/duty_rate = SStreasury.get_tax_rate(TAX_CATEGORY_EXPORT_DUTY)
+	var/levy_pct = SSmerchant_trade ? SSmerchant_trade.merchant_levy_percent : 0
+	var/levy = pay_merchant_share ? round(gross * levy_pct / 100) : 0
+	var/duty_on_gross = round(gross * duty_rate)
+	var/duty_on_levy = round(levy * duty_rate)
+	var/total_duty = duty_on_gross + duty_on_levy
+	var/producer_net = gross - duty_on_gross - levy
+	if(producer_net < 0)
+		producer_net = 0
+	var/merchant_net = levy - duty_on_levy
+	if(merchant_net < 0)
+		merchant_net = 0
+	if(pay_taxes)
+		if(duty_on_gross > 0)
+			SStreasury.mint(SStreasury.discretionary_fund, duty_on_gross, "[TAX_CATEGORY_EXPORT_DUTY] ([src.name])")
+			SStreasury.apply_concordat_tithe(gross, TAX_CATEGORY_EXPORT_DUTY, "[src.name]")
+		if(duty_on_levy > 0)
+			SStreasury.mint(SStreasury.discretionary_fund, duty_on_levy, "[TAX_CATEGORY_EXPORT_DUTY] (levy income, [src.name])")
+			SStreasury.apply_concordat_tithe(levy, TAX_CATEGORY_EXPORT_DUTY, "levy income ([src.name])")
+		if(total_duty > 0)
+			record_round_statistic(STATS_TAXES_COLLECTED, total_duty)
+			record_round_statistic(STATS_REVENUE_EXPORT_DUTY, total_duty)
+			duty_collected_here += total_duty
+			if(SSmerchant_trade)
+				SSmerchant_trade.merchant_levy_taxed += duty_on_levy
+	else
+		if(total_duty > 0)
+			record_round_statistic(STATS_TAXES_EVADED, total_duty)
+			duty_evaded_here += total_duty
+		merchant_net = levy
+	if(merchant_net > 0)
+		SStreasury.mint(SStreasury.merchant_fund, merchant_net, "Merchant's levy ([src.name])")
+		levy_collected_here += merchant_net
+		if(SSmerchant_trade)
+			SSmerchant_trade.merchant_levy_collected += merchant_net
+	var/turf/producer_turf = get_turf(src)
+	if(producer_net > 0)
+		budget2change(producer_net, custom_turf = producer_turf)
+	var/list/parts = list("[gross] gross")
+	if(levy > 0)
+		parts += "[levy] merchant"
+	if(total_duty > 0)
+		parts += "[total_duty] taxed"
+	parts += "[producer_net] net"
+	visible_message(span_info("[src] chimes: \"[parts.Join(", ")].\""))
 
 #undef EXPORT_TIME
 #undef EXPORT_TIME_TESTING

@@ -382,6 +382,10 @@
 		"dock_spots_used" = length(docked),
 		"dock_spots_max" = SSmerchant_trade.get_dock_spots_max(),
 		"cultural_stock" = build_cultural_stock_data(),
+		"merchant_levy_percent" = SSmerchant_trade.merchant_levy_percent,
+		"merchant_levy_cap" = TRADE_MERCHANT_LEVY_CAP_PERCENT,
+		"merchant_levy_collected" = SSmerchant_trade.merchant_levy_collected,
+		"merchant_levy_taxed" = SSmerchant_trade.merchant_levy_taxed,
 	)
 
 /obj/structure/roguemachine/goldface/proc/pool_good_names(list/pool, want_always)
@@ -619,6 +623,16 @@
 					spawned.atc_sealed = TRUE
 			playsound(loc, 'sound/misc/gold_misc.ogg', 70, FALSE, -1)
 			to_chat(H, span_notice("You buy [qty] [TG.name] from [source_ship.ship_name] for [total_cost]m[tariff_active && tariff_float > 0 ? " (incl. [round(tariff_float)]m Crown duty)" : ""]."))
+			return TRUE
+		if("set_levy")
+			if(!is_command_center || !(H.job in profit_id) || !SSmerchant_trade)
+				return TRUE
+			var/requested = text2num(params["percent"])
+			if(isnull(requested))
+				return TRUE
+			var/applied = SSmerchant_trade.set_merchant_levy(requested)
+			to_chat(H, span_notice("Merchant's levy set to <b>[applied]%</b>."))
+			playsound(loc, 'sound/misc/gold_misc.ogg', 70, FALSE, -1)
 			return TRUE
 
 /obj/structure/roguemachine/goldface/proc/handle_hail_result(result, datum/trade_ship/ship, mob/user)

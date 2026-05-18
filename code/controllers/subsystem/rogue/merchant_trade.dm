@@ -8,6 +8,14 @@ SUBSYSTEM_DEF(merchant_trade)
 	var/list/datum/trade_ship/all_ships = list()
 	var/hails_remaining = 0
 	var/list/active_conditions = list()
+	var/merchant_levy_percent = TRADE_MERCHANT_LEVY_DEFAULT_PERCENT
+	var/merchant_levy_collected = 0
+	var/merchant_levy_taxed = 0
+
+/datum/controller/subsystem/merchant_trade/proc/set_merchant_levy(new_percent)
+	new_percent = clamp(round(new_percent), 0, TRADE_MERCHANT_LEVY_CAP_PERCENT)
+	merchant_levy_percent = new_percent
+	return merchant_levy_percent
 
 /datum/controller/subsystem/merchant_trade/Initialize()
 	for(var/path in subtypesof(/datum/foreign_realm))

@@ -59,6 +59,10 @@ export type HarborData = {
   dock_spots_used: number;
   dock_spots_max: number;
   cultural_stock: CulturalStockEntry[];
+  merchant_levy_percent: number;
+  merchant_levy_cap: number;
+  merchant_levy_collected: number;
+  merchant_levy_taxed: number;
 };
 
 export type VendingPack = {

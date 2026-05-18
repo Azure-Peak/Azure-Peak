@@ -687,6 +687,10 @@
 			data += "<td style='width: 50%; vertical-align: top; padding-left: 20px; word-wrap: break-word;'>"
 			data += "<div style='margin-bottom: 4px;'><font color='#db9a59'>Trade Value Exported: </font>[GLOB.azure_round_stats[STATS_TRADE_VALUE_EXPORTED]]</div>"
 			data += "<div style='margin-bottom: 4px;'><font color='#dfbf57'>Trade Value Imported: </font>[GLOB.azure_round_stats[STATS_TRADE_VALUE_IMPORTED]]</div>"
+			var/merchant_levy_collected_total = SSmerchant_trade ? SSmerchant_trade.merchant_levy_collected : 0
+			var/merchant_levy_taxed_total = SSmerchant_trade ? SSmerchant_trade.merchant_levy_taxed : 0
+			data += "<div style='margin-bottom: 4px;'><font color='#caa64a'>Merchant's Levy Collected: </font>[merchant_levy_collected_total]</div>"
+			data += "<div style='margin-bottom: 4px;'><font color='#9a7b2e'>Crown Duty on Levy: </font>[merchant_levy_taxed_total]</div>"
 			data += "<div style='margin-bottom: 4px;'><font color='#c0b283'>GOLDFACE Imports: </font>[GLOB.azure_round_stats[STATS_GOLDFACE_VALUE_SPENT]]</div>"
 			data += "<div style='margin-bottom: 4px;'><font color='#c0c0c0'>SILVERFACE Imports: </font>[GLOB.azure_round_stats[STATS_SILVERFACE_VALUE_SPENT]]</div>"
 			data += "<div style='margin-bottom: 4px;'><font color='#b87333'>COPPERFACE Imports: </font>[GLOB.azure_round_stats[STATS_COPPERFACE_VALUE_SPENT]]</div>"
