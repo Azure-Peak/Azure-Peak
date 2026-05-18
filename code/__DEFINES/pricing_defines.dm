@@ -20,6 +20,7 @@
 #define MARKUP_ARMOR_BRACERS 1.5
 #define MARKUP_ARMOR_BELTS 1.5
 #define MARKUP_ARMOR_BARDING 1.5
+#define MARKUP_ARMOR_LIGHT 2.0 // Slightly higher than metallic armor so tailor can make some decent money
 
 #define MARKUP_WEAPONS_SWORDS 1.5
 #define MARKUP_WEAPONS_DAGGERS 1.5
@@ -69,6 +70,7 @@
 #define MARKUP_RAW_MATERIAL_ORGANIC 1.0
 #define MARKUP_REAGENT_ALCHEMICAL 1.0
 #define MARKUP_REAGENT_ARCANE 1.0
+#define MARKUP_ARCYNE_GEARS 1.0
 #define MARKUP_SALVAGE 1.0
 #define MARKUP_LIVESTOCK 1.0
 #define MARKUP_MISCELLANEOUS 1.0

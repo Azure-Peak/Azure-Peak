@@ -1,5 +1,6 @@
 /datum/crafting_recipe/roguetown/hunting
 	abstract_type = /datum/crafting_recipe/roguetown/hunting/
+	display_category = ITEM_CAT_TOOLS_FIELD
 	skillcraft = /datum/skill/misc/hunting
 
 /datum/crafting_recipe/roguetown/hunting/bait

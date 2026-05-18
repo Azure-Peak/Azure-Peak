@@ -1,5 +1,6 @@
 /datum/crafting_recipe/roguetown/gemcarving
 	abstract_type = /datum/crafting_recipe/roguetown/gemcarving
+	display_category = ITEM_CAT_VALUABLES_RINGS
 	skillcraft = /datum/skill/craft/masonry
 	category = "Gem Carving"
 

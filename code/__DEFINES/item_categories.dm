@@ -8,6 +8,7 @@
 #define ITEM_CAT_ARMOR_BRACERS "Armor (Bracers)"
 #define ITEM_CAT_ARMOR_BELTS "Armor (Belts)"
 #define ITEM_CAT_ARMOR_BARDING "Armor (Barding)"
+#define ITEM_CAT_ARMOR_LIGHT "Armor (Light & Cloth)"
 
 #define ITEM_CAT_WEAPONS_SWORDS "Weapons (Swords)"
 #define ITEM_CAT_WEAPONS_DAGGERS "Weapons (Daggers & Knives)"
@@ -61,5 +62,6 @@
 
 #define ITEM_CAT_REAGENT_ALCHEMICAL "Reagents (Alchemical)"
 #define ITEM_CAT_REAGENT_ARCANE "Reagents (Arcane)"
+#define ITEM_CAT_ARCYNE_GEARS "Arcyne Gears & Implements"
 
 #define ITEM_CAT_MISCELLANEOUS "Miscellaneous"
