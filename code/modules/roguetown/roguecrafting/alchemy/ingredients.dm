@@ -78,6 +78,7 @@
 /obj/item/alch/waterdust
 	name = "water essentia"
 	icon_state = "water_runedust"
+	sellprice = 2
 	major_pot = /datum/alch_cauldron_recipe/int_potion
 	med_pot = /datum/alch_cauldron_recipe/big_mana_potion
 	minor_pot = /datum/alch_cauldron_recipe/per_potion
@@ -85,6 +86,7 @@
 /obj/item/alch/bonemeal
 	name = "bone meal"
 	icon_state = "bonemeal"
+	sellprice = 2
 	major_pot = /datum/alch_cauldron_recipe/mana_potion
 	med_pot = /datum/alch_cauldron_recipe/per_potion
 	minor_pot = /datum/alch_cauldron_recipe/antidote
@@ -92,6 +94,7 @@
 /obj/item/alch/seeddust
 	name = "seed dust"
 	icon_state = "seeddust"
+	sellprice = 2
 	major_pot = /datum/alch_cauldron_recipe/big_stamina_potion
 	med_pot = /datum/alch_cauldron_recipe/stamina_potion
 	minor_pot = /datum/alch_cauldron_recipe/strong_antidote
@@ -99,6 +102,7 @@
 /obj/item/alch/runedust
 	name = "raw essentia"
 	icon_state = "runedust"
+	sellprice = SELLPRICE_ARCANE_DUST_MID
 	major_pot = /datum/alch_cauldron_recipe/int_potion
 	med_pot = /datum/alch_cauldron_recipe/big_mana_potion
 	minor_pot = /datum/alch_cauldron_recipe/per_potion
@@ -106,6 +110,7 @@
 /obj/item/alch/coaldust
 	name = "coal dust"
 	icon_state = "coaldust"
+	sellprice = 1
 	major_pot = /datum/alch_cauldron_recipe/antidote
 	med_pot = /datum/alch_cauldron_recipe/end_potion
 	minor_pot = /datum/alch_cauldron_recipe/str_potion
@@ -113,6 +118,7 @@
 /obj/item/alch/silverdust
 	name = "silver dust"
 	icon_state = "silverdust"
+	sellprice = 20
 	major_pot = /datum/alch_cauldron_recipe/strong_antidote
 	med_pot = /datum/alch_cauldron_recipe/antidote
 	minor_pot = /datum/alch_cauldron_recipe/big_health_potion
@@ -120,6 +126,7 @@
 /obj/item/alch/magicdust
 	name = "pure essentia"
 	icon_state = "magic_runedust"
+	sellprice = SELLPRICE_ARCANE_DUST_HIGH
 	major_pot = /datum/alch_cauldron_recipe/big_mana_potion
 	med_pot = /datum/alch_cauldron_recipe/end_potion
 	minor_pot = /datum/alch_cauldron_recipe/con_potion
@@ -127,6 +134,7 @@
 /obj/item/alch/firedust
 	name = "fire essentia"
 	icon_state = "fire_runedust"
+	sellprice = SELLPRICE_ARCANE_DUST_LOW
 	major_pot = /datum/alch_cauldron_recipe/str_potion
 	med_pot = /datum/alch_cauldron_recipe/con_potion
 	minor_pot = /datum/alch_cauldron_recipe/fire_potion
@@ -135,6 +143,7 @@
 	name = "sinew"
 	desc = "The sinew of an animal, pulled out of said animal. Has some alchemical uses."
 	icon_state = "sinew"
+	sellprice = SELLPRICE_SINEW
 	dropshrink = 0.9
 	major_pot = /datum/alch_cauldron_recipe/stam_poison
 	med_pot = /datum/alch_cauldron_recipe/end_potion
@@ -147,6 +156,7 @@
 /obj/item/alch/irondust
 	name = "iron dust"
 	icon_state = "irondust"
+	sellprice = 3
 	major_pot = /datum/alch_cauldron_recipe/end_potion
 	med_pot = /datum/alch_cauldron_recipe/con_potion
 	minor_pot = /datum/alch_cauldron_recipe/str_potion
@@ -154,6 +164,7 @@
 /obj/item/alch/airdust
 	name = "air essentia"
 	icon_state = "air_runedust"
+	sellprice = SELLPRICE_ARCANE_DUST_LOW
 	major_pot = /datum/alch_cauldron_recipe/spd_potion
 	med_pot = /datum/alch_cauldron_recipe/stamina_potion
 	minor_pot = /datum/alch_cauldron_recipe/int_potion
@@ -161,6 +172,7 @@
 /obj/item/alch/swampdust
 	name = "swampweed dust"
 	icon_state = "swampdust"
+	sellprice = 3
 	major_pot = /datum/alch_cauldron_recipe/berrypoison
 	med_pot = /datum/alch_cauldron_recipe/big_stam_poison
 	minor_pot = /datum/alch_cauldron_recipe/end_potion
@@ -168,6 +180,7 @@
 /obj/item/alch/tobaccodust
 	name = "westleach dust"
 	icon_state = "tobaccodust"
+	sellprice = 4
 	major_pot = /datum/alch_cauldron_recipe/per_potion
 	med_pot = /datum/alch_cauldron_recipe/stamina_potion
 	minor_pot = /datum/alch_cauldron_recipe/spd_potion
@@ -175,6 +188,7 @@
 /obj/item/alch/earthdust
 	name = "earth essentia"
 	icon_state = "earth_runedust"
+	sellprice = 1
 	major_pot = /datum/alch_cauldron_recipe/con_potion
 	med_pot = /datum/alch_cauldron_recipe/end_potion
 	minor_pot = /datum/alch_cauldron_recipe/str_potion
@@ -183,6 +197,7 @@
 	name = "tail bone"
 	icon_state = "bone"
 	desc = "The only bone in creachers with alchemical properties."
+	sellprice = SELLPRICE_BONE
 	force = 7
 	throwforce = 5
 	w_class = WEIGHT_CLASS_SMALL
@@ -201,6 +216,7 @@
 	name = "troll horn"
 	icon_state = "horn"
 	desc = "The horn of a bog troll."
+	sellprice = SELLPRICE_HORN
 	force = 7
 	throwforce = 5
 	w_class = WEIGHT_CLASS_NORMAL
@@ -218,6 +234,7 @@
 /obj/item/alch/golddust
 	name = "gold dust"
 	icon_state = "golddust"
+	sellprice = 15
 
 	major_pot = /datum/alch_cauldron_recipe/big_mana_potion
 	med_pot = /datum/alch_cauldron_recipe/con_potion
@@ -226,6 +243,7 @@
 /obj/item/alch/feaudust
 	name = "feau dust"
 	icon_state = "feaudust"
+	sellprice = SELLPRICE_ARCANE_DUST_MID
 
 	major_pot = /datum/alch_cauldron_recipe/spd_potion
 	med_pot = /datum/alch_cauldron_recipe/big_mana_potion
@@ -235,6 +253,7 @@
 	name = "alchemical ozium"
 	desc = "Alchemical processing has left it unfit for consumption."
 	icon_state = "darkredpowder"
+	sellprice = 8
 
 	major_pot = /datum/alch_cauldron_recipe/big_stamina_potion
 	med_pot = /datum/alch_cauldron_recipe/lck_potion
@@ -244,6 +263,7 @@
 	name = "sui dust"
 	desc = "A long mix of herbs resulting in a special dust. For you. Use it while held."
 	icon_state = "transisdust"
+	sellprice = 12
 
 /obj/item/alch/transisdust/attack_self(mob/living/user)
 	..()
@@ -274,6 +294,7 @@
 	name = "purified salts"
 	desc = "Salts that have been finely sifted to enchance their healing properties and to bolster its connection to the arcyne."
 	icon_state = "puresalt"
+	sellprice = 8
 
 	major_pot = /datum/alch_cauldron_recipe/antidote
 	med_pot = /datum/alch_cauldron_recipe/strong_antidote
@@ -283,6 +304,7 @@
 	name = "mineral dusts"
 	desc = "Elements of gems ground and sifted of impurities to help draw out its useful alchemical minerals."
 	icon_state = "mineraldust"
+	sellprice = 1
 
 	major_pot = /datum/alch_cauldron_recipe/doompoison
 	med_pot = /datum/alch_cauldron_recipe/big_mana_potion
@@ -292,6 +314,7 @@
 	name = "infernal dust"
 	desc = "The remains of an abyssal tether to this plane, banished or slain. Best handled with gloves."
 	icon_state = "infernaldust"
+	sellprice = SELLPRICE_ARCANE_DUST_HIGH
 
 	major_pot = /datum/alch_cauldron_recipe/fire_potion
 	med_pot = /datum/alch_cauldron_recipe/big_stam_poison
@@ -301,6 +324,7 @@
 	name = "solar dust"
 	desc = "A pinch of Astrata worked into radiant matter. Looking at it hurts your eyes."
 	icon_state = "solardust"
+	sellprice = SELLPRICE_ARCANE_DUST_MID
 
 	major_pot = /datum/alch_cauldron_recipe/fire_potion
 	med_pot = /datum/alch_cauldron_recipe/int_potion
@@ -311,6 +335,7 @@
 	desc = "Berries ground and dried into a soft, fragrant powder. It'd probably \
 	make you sneeze if you accidentally inhaled any."
 	icon_state = "berrypowder"
+	sellprice = 2
 
 	major_pot = /datum/alch_cauldron_recipe/berrypoison
 	med_pot = /datum/alch_cauldron_recipe/mana_potion
@@ -321,6 +346,7 @@
 /obj/item/alch/atropa
 	name = "atropa"
 	icon_state = "atropa"
+	sellprice = SELLPRICE_HERB_RARE
 
 	major_pot = /datum/alch_cauldron_recipe/doompoison
 	med_pot = /datum/alch_cauldron_recipe/berrypoison
@@ -329,6 +355,7 @@
 /obj/item/alch/matricaria
 	name = "matricaria"
 	icon_state = "matricaria"
+	sellprice = SELLPRICE_HERB_COMMON
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/head_items.dmi'
 	slot_flags = ITEM_SLOT_HEAD|ITEM_SLOT_MASK
 	body_parts_covered = NONE
@@ -342,6 +369,7 @@
 /obj/item/alch/symphitum
 	name = "symphitum"
 	icon_state = "symphitum"
+	sellprice = SELLPRICE_HERB_UNCOMMON
 
 	major_pot = /datum/alch_cauldron_recipe/health_potion
 	med_pot = /datum/alch_cauldron_recipe/stam_poison
@@ -350,6 +378,7 @@
 /obj/item/alch/taraxacum
 	name = "taraxacum"
 	icon_state = "taraxacum"
+	sellprice = SELLPRICE_HERB_COMMON
 
 	major_pot = /datum/alch_cauldron_recipe/stam_poison
 	med_pot = /datum/alch_cauldron_recipe/health_potion
@@ -358,6 +387,7 @@
 /obj/item/alch/euphrasia
 	name = "euphrasia"
 	icon_state = "euphrasia"
+	sellprice = SELLPRICE_HERB_UNCOMMON
 
 	major_pot = /datum/alch_cauldron_recipe/spd_potion
 	med_pot = /datum/alch_cauldron_recipe/stam_poison
@@ -366,6 +396,7 @@
 /obj/item/alch/paris
 	name = "paris"
 	icon_state = "paris"
+	sellprice = SELLPRICE_HERB_UNCOMMON
 
 	major_pot = /datum/alch_cauldron_recipe/big_stam_poison
 	med_pot = /datum/alch_cauldron_recipe/berrypoison
@@ -387,6 +418,7 @@
 /obj/item/alch/mentha
 	name = "mentha"
 	icon_state = "mentha"
+	sellprice = SELLPRICE_HERB_COMMON
 
 	major_pot = /datum/alch_cauldron_recipe/per_potion
 	med_pot = /datum/alch_cauldron_recipe/int_potion
@@ -395,6 +427,7 @@
 /obj/item/alch/urtica
 	name = "urtica"
 	icon_state = "urtica"
+	sellprice = SELLPRICE_HERB_COMMON
 
 	major_pot = /datum/alch_cauldron_recipe/health_potion
 	med_pot = /datum/alch_cauldron_recipe/spd_potion
@@ -403,6 +436,7 @@
 /obj/item/alch/salvia
 	name = "salvia"
 	icon_state = "salvia"
+	sellprice = SELLPRICE_HERB_COMMON
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/head_items.dmi'
 	slot_flags = ITEM_SLOT_HEAD|ITEM_SLOT_MASK
 	body_parts_covered = NONE
@@ -416,6 +450,7 @@
 /obj/item/alch/hypericum
 	name = "hypericum"
 	icon_state = "hypericum"
+	sellprice = SELLPRICE_HERB_COMMON
 
 	major_pot = /datum/alch_cauldron_recipe/stamina_potion
 	med_pot = /datum/alch_cauldron_recipe/big_mana_potion
@@ -424,6 +459,7 @@
 /obj/item/alch/benedictus
 	name = "benedictus"
 	icon_state = "benedictus"
+	sellprice = SELLPRICE_HERB_UNCOMMON
 
 	major_pot = /datum/alch_cauldron_recipe/big_stamina_potion
 	med_pot = /datum/alch_cauldron_recipe/stamina_potion
@@ -432,6 +468,7 @@
 /obj/item/alch/valeriana
 	name = "valeriana"
 	icon_state = "valeriana"
+	sellprice = SELLPRICE_HERB_COMMON
 
 	major_pot = /datum/alch_cauldron_recipe/health_potion
 	med_pot = /datum/alch_cauldron_recipe/spd_potion
@@ -440,6 +477,7 @@
 /obj/item/alch/artemisia
 	name = "artemisia"
 	icon_state = "artemisia"
+	sellprice = SELLPRICE_HERB_COMMON
 
 	major_pot = /datum/alch_cauldron_recipe/lck_potion
 	med_pot = /datum/alch_cauldron_recipe/spd_potion
@@ -448,6 +486,7 @@
 /obj/item/alch/manabloompowder
 	name = "manabloom powder"
 	icon_state = "bluepowder"
+	sellprice = SELLPRICE_ARCANE_DUST_HIGH
 
 	major_pot = /datum/alch_cauldron_recipe/mana_potion
 	med_pot = /datum/alch_cauldron_recipe/int_potion
@@ -458,6 +497,7 @@
 	icon_state = "rosa"
 	item_state = "rosa"
 	desc = "It is said that these were white - until Graggar bled on its fields."
+	sellprice = SELLPRICE_HERB_COMMON
 	icon = 'icons/roguetown/misc/alchemy.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/head_items.dmi'
 	slot_flags = ITEM_SLOT_HEAD|ITEM_SLOT_MASK|ITEM_SLOT_MOUTH
