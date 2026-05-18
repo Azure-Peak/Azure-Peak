@@ -170,7 +170,8 @@
 	canparry = TRUE
 	miss_text = "swings its massive head wildly!"
 	miss_sound = "bluntswoosh"
-	swingdelay = 0.4 SECONDS
+	swingdelay = 0.7 SECONDS
+	cleave = /datum/cleave_pattern/frontal_t
 
 /obj/item/rogueweapon/terrorhog_tusks
 	name = "bone blade"
