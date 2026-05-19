@@ -1,0 +1,745 @@
+/proc/get_resident_manuscript_ui_language(mob/user)
+	return user?.client?.get_preferred_ui_language() || DEFAULT_PREFERRED_UI_LANGUAGE
+
+/proc/give_roundstart_manuscript(mob/living/carbon/human/recipient, manuscript_type)
+	if(!ishuman(recipient) || !recipient.mind)
+		return FALSE
+	if(!ispath(manuscript_type, /obj/item/book/granter/resident_manuscript))
+		return FALSE
+	if(!recipient.mind.special_items)
+		recipient.mind.special_items = list()
+	for(var/existing_key in recipient.mind.special_items)
+		var/existing_path = recipient.mind.special_items[existing_key]
+		if(ispath(existing_path, /obj/item/book/granter/resident_manuscript))
+			return FALSE
+	recipient.mind.special_items[RESIDENT_MANUSCRIPT_SPECIAL_ITEM_NAME] = manuscript_type
+	return TRUE
+
+/proc/grant_roundstart_resident_manuscript(mob/living/carbon/human/recipient, manuscript_type = /obj/item/book/granter/resident_manuscript/roundstart)
+	if(!ishuman(recipient) || !recipient.mind)
+		return FALSE
+	if(!HAS_TRAIT(recipient, TRAIT_RESIDENT))
+		return FALSE
+	return give_roundstart_manuscript(recipient, manuscript_type)
+
+/proc/grant_roundstart_faction_manuscript(mob/living/carbon/human/recipient)
+	var/manuscript_type = get_default_manuscript_type_for_job(recipient)
+	if(!manuscript_type)
+		return FALSE
+	return give_roundstart_manuscript(recipient, manuscript_type)
+
+/proc/resident_manuscript_defect_keys()
+	return list(
+		"ink_blot",
+		"seal_smudge",
+		"owner_wobble",
+		"ragged_edge",
+		"uncertain_hand",
+		"stale_smell",
+		"misaligned_initial",
+		"fresh_pricking",
+		"cut_gilding",
+		"rethreaded_cord",
+		"reheated_wax",
+		"blue_halo",
+		"corrected_date",
+		"heretical_marginalia",
+	)
+
+/proc/resident_manuscript_validation_note_keys()
+	return list(
+		"steady_seals",
+		"proper_ruling",
+		"matched_hand",
+		"deep_wax",
+		"proper_rite",
+	)
+
+/obj/item/book/granter/resident_manuscript
+	name = "Resident Manuscript"
+	desc = "A fine ivory manuscript confirming lawful residence under the Crown."
+	icon = 'icons/roguetown/items/misc.dmi'
+	icon_state = "contractsigned"
+	oneuse = FALSE
+	w_class = WEIGHT_CLASS_SMALL
+	grid_width = 32
+	grid_height = 32
+	drop_sound = 'sound/foley/dropsound/paper_drop.ogg'
+	pickup_sound = 'sound/blank.ogg'
+	pages_to_mastery = 0
+	var/document_profile_id = "resident"
+	var/tmp/datum/resident_document_profile/document_profile
+	var/owner_character_key
+	var/owner_name
+	var/owner_age
+	var/owner_status_key = RESIDENT_MANUSCRIPT_STATUS_COMMONER
+	var/expiry_date
+	var/issued_place
+	var/is_bound = FALSE
+	var/is_fake = FALSE
+	var/authority_validated = FALSE
+	var/auto_stamp_seals = TRUE
+	var/auto_bind_on_equip = TRUE
+	var/requires_feather_to_bind = FALSE
+	var/expiry_year_bonus_min = 0
+	var/expiry_year_bonus_max = 0
+	var/list/seals
+	var/list/defect_note_keys
+	var/list/detection_attempts
+	var/list/detection_results
+	var/list/detection_note_keys
+
+/obj/item/book/granter/resident_manuscript/Initialize()
+	. = ..()
+	document_profile = get_resident_document_profile(document_profile_id)
+	if(document_profile?.display_name)
+		name = document_profile.display_name
+	issued_place = SSticker?.realm_name || "Azure Peak"
+	expiry_date = compute_expiry_date()
+	initialize_seals()
+	defect_note_keys = list()
+	detection_attempts = list()
+	detection_results = list()
+	detection_note_keys = list()
+	if(auto_stamp_seals && is_bound)
+		stamp_default_seals()
+
+/obj/item/book/granter/resident_manuscript/proc/get_profile_seal_keys()
+	if(document_profile && document_profile.allowed_seals)
+		return document_profile.allowed_seals
+	return list()
+
+/obj/item/book/granter/resident_manuscript/proc/initialize_seals()
+	seals = list()
+	for(var/seal_key in get_profile_seal_keys())
+		seals[seal_key] = null
+
+/obj/item/book/granter/resident_manuscript/proc/compute_expiry_date()
+	var/round_id = text2num(GLOB.round_id) || 0
+	var/days_since_epoch = (round_id * CALENDAR_DAYS_IN_WEEK) + (GLOB.dayspassed - 1)
+	if(GLOB.date_override_enabled)
+		days_since_epoch += GLOB.date_override_offset
+	var/day_of_year = MODULUS(days_since_epoch, CALENDAR_DAYS_IN_YEAR) + 1
+	var/current_month = FLOOR((day_of_year - 1) / CALENDAR_DAYS_IN_MONTH, 1) + 1
+	var/current_day = MODULUS((day_of_year - 1), CALENDAR_DAYS_IN_MONTH) + 1
+	var/new_day = current_day + rand(10, 20)
+	var/new_month = current_month
+	var/new_year = CALENDAR_EPOCH_YEAR
+	while(new_day > CALENDAR_DAYS_IN_MONTH)
+		new_day -= CALENDAR_DAYS_IN_MONTH
+		new_month += 1
+	if(new_month > CALENDAR_MONTHS_PER_YEAR)
+		new_year += FLOOR((new_month - 1) / CALENDAR_MONTHS_PER_YEAR, 1)
+		new_month = ((new_month - 1) % CALENDAR_MONTHS_PER_YEAR) + 1
+	if(expiry_year_bonus_max > 0)
+		new_year += rand(expiry_year_bonus_min, expiry_year_bonus_max)
+	return "[new_day] [get_month_number_to_text(new_month)] [new_year]"
+
+/obj/item/book/granter/resident_manuscript/proc/get_detection_character_key(mob/living/carbon/human/user)
+	if(!ishuman(user))
+		return null
+	if(user.mobid)
+		return "[user.mobid]"
+	return user.real_name || user.name
+
+/obj/item/book/granter/resident_manuscript/proc/status_key_for(mob/living/carbon/human/target)
+	if(HAS_TRAIT(target, TRAIT_NOBLE))
+		return RESIDENT_MANUSCRIPT_STATUS_NOBLE
+	return RESIDENT_MANUSCRIPT_STATUS_COMMONER
+
+/obj/item/book/granter/resident_manuscript/proc/bind_to_holder(mob/living/carbon/human/target)
+	if(is_bound || !ishuman(target))
+		return FALSE
+	owner_character_key = get_detection_character_key(target)
+	owner_name = target.real_name
+	owner_age = target.age
+	owner_status_key = status_key_for(target)
+	is_bound = TRUE
+	name = "Resident Manuscript"
+	icon_state = "contractsigned"
+	if(auto_stamp_seals)
+		stamp_default_seals()
+	else
+		handle_post_bind_low_level_seal()
+	return TRUE
+
+/obj/item/book/granter/resident_manuscript/proc/handle_post_bind_low_level_seal()
+	if(is_fake)
+		return
+	if(document_profile_id != "commoner")
+		return
+	if(seals?["elder"])
+		return
+	stamp_seal("elder", null, FALSE)
+
+/obj/item/book/granter/resident_manuscript/proc/is_owner_viewer(mob/living/carbon/human/user)
+	if(!ishuman(user))
+		return FALSE
+	var/detection_key = get_detection_character_key(user)
+	if(owner_character_key && detection_key && detection_key == owner_character_key)
+		return TRUE
+	if(is_fake && owner_name)
+		var/real_name = user.real_name || ""
+		var/user_name = user.name || ""
+		if(owner_name == real_name || owner_name == user_name || owner_name == html_encode(real_name) || owner_name == html_encode(user_name))
+			return TRUE
+	return FALSE
+
+/obj/item/book/granter/resident_manuscript/proc/sanitize_manuscript_field(value, max_length, fallback)
+	var/text_value = ""
+	if(!isnull(value))
+		text_value = "[value]"
+	text_value = trim(html_encode(text_value), PREVENT_CHARACTER_TRIM_LOSS(max_length))
+	return length(text_value) ? text_value : fallback
+
+/obj/item/book/granter/resident_manuscript/proc/normalize_status_key(value)
+	if(value == RESIDENT_MANUSCRIPT_STATUS_NOBLE)
+		return RESIDENT_MANUSCRIPT_STATUS_NOBLE
+	return RESIDENT_MANUSCRIPT_STATUS_COMMONER
+
+/obj/item/book/granter/resident_manuscript/proc/normalize_age_key(value)
+	if(value == AGE_MIDDLEAGED)
+		return AGE_MIDDLEAGED
+	if(value == AGE_OLD)
+		return AGE_OLD
+	return AGE_ADULT
+
+/obj/item/book/granter/resident_manuscript/proc/get_seal_rule(seal_key)
+	var/rule_type = get_resident_manuscript_seal_rules()[seal_key]
+	if(!rule_type)
+		return null
+	return new rule_type
+
+/obj/item/book/granter/resident_manuscript/proc/get_seal_key_for_user(mob/living/carbon/human/user)
+	if(!ishuman(user))
+		return null
+	for(var/seal_key in get_profile_seal_keys())
+		var/datum/resident_manuscript_seal_rule/rule = get_seal_rule(seal_key)
+		if(!rule)
+			continue
+		var/can_stamp = rule.can_stamp(user) && rule.can_apply_to_status(owner_status_key)
+		qdel(rule)
+		if(can_stamp)
+			return seal_key
+	return null
+
+/obj/item/book/granter/resident_manuscript/proc/get_seal_priority(seal_key)
+	var/datum/resident_manuscript_seal_rule/rule = get_seal_rule(seal_key)
+	if(!rule)
+		return 0
+	var/priority = rule.priority
+	qdel(rule)
+	return priority
+
+/obj/item/book/granter/resident_manuscript/proc/can_apply_seal_to_status(seal_key, status_key)
+	var/datum/resident_manuscript_seal_rule/rule = get_seal_rule(seal_key)
+	if(!rule)
+		return FALSE
+	var/result = rule.can_apply_to_status(status_key)
+	qdel(rule)
+	return result
+
+/obj/item/book/granter/resident_manuscript/proc/get_sorted_seal_keys()
+	var/list/profile_keys = get_profile_seal_keys()
+	if(!LAZYLEN(profile_keys))
+		return list()
+	var/list/keys_with_priority = list()
+	for(var/seal_key in profile_keys)
+		keys_with_priority[seal_key] = get_seal_priority(seal_key)
+	sortTim(keys_with_priority, GLOBAL_PROC_REF(cmp_numeric_asc), TRUE)
+	var/list/sorted = list()
+	for(var/seal_key in keys_with_priority)
+		sorted += seal_key
+	return sorted
+
+/obj/item/book/granter/resident_manuscript/proc/get_dominant_seal_key()
+	if(!seals)
+		return null
+	var/best
+	var/best_priority = -1
+	for(var/seal_key in seals)
+		var/list/entry = seals[seal_key]
+		if(!entry || entry["suspicious"])
+			continue
+		var/p = get_seal_priority(seal_key)
+		if(p > best_priority)
+			best = seal_key
+			best_priority = p
+	return best
+
+/obj/item/book/granter/resident_manuscript/proc/stamp_seal(seal_key, mob/living/carbon/human/stamper, suspicious = FALSE)
+	if(!seals || !(seal_key in seals) || seals[seal_key])
+		return FALSE
+	var/datum/resident_manuscript_seal_rule/rule = get_seal_rule(seal_key)
+	if(!rule)
+		return FALSE
+	seals[seal_key] = list(
+		"stamper" = suspicious ? null : (rule.stamper || rule.title || rule.key),
+		"time" = world.time,
+		"suspicious" = suspicious,
+	)
+	qdel(rule)
+	return TRUE
+
+/obj/item/book/granter/resident_manuscript/proc/stamp_default_seals()
+	if(!document_profile)
+		return
+	for(var/seal_key in document_profile.get_default_seal_keys(owner_status_key))
+		if(!seals[seal_key])
+			stamp_seal(seal_key, null, FALSE)
+
+/obj/item/book/granter/resident_manuscript/proc/generate_fake_seals()
+	var/list/available_seals = list()
+	for(var/seal_key in get_profile_seal_keys())
+		available_seals += seal_key
+		if(prob(70))
+			stamp_seal(seal_key, null, TRUE)
+	if(!has_any_seal() && length(available_seals))
+		stamp_seal(pick(available_seals), null, TRUE)
+
+/obj/item/book/granter/resident_manuscript/proc/has_any_seal()
+	if(!seals)
+		return FALSE
+	for(var/seal_key in seals)
+		if(seals[seal_key])
+			return TRUE
+	return FALSE
+
+/obj/item/book/granter/resident_manuscript/proc/seal_entry(seal_key, mob/user, dominant_key)
+	var/datum/resident_manuscript_seal_rule/rule = get_seal_rule(seal_key)
+	if(!rule)
+		return null
+	var/list/entry = seals?[seal_key]
+	var/is_dominant = dominant_key && dominant_key == seal_key
+	var/dominant_priority = dominant_key ? get_seal_priority(dominant_key) : 0
+	var/is_replaced = dominant_key && rule.priority < dominant_priority
+	var/is_visible = entry && !is_replaced
+	var/list/result = list(
+		"key" = seal_key,
+		"label" = rule.title || rule.key,
+		"stamped" = entry ? TRUE : FALSE,
+		"stamper" = entry ? entry["stamper"] : "",
+		"visible" = is_visible ? TRUE : FALSE,
+		"suspicious" = entry ? entry["suspicious"] : FALSE,
+		"priority" = rule.priority,
+		"dominant" = is_dominant ? TRUE : FALSE,
+	)
+	qdel(rule)
+	return result
+
+/obj/item/book/granter/resident_manuscript/proc/get_seals_for_ui(mob/user)
+	var/dominant_key = get_dominant_seal_key()
+	var/list/result = list()
+	for(var/seal_key in get_sorted_seal_keys())
+		var/list/entry = seal_entry(seal_key, user, dominant_key)
+		if(entry)
+			result += list(entry)
+	return result
+
+/obj/item/book/granter/resident_manuscript/proc/generate_defect_note_keys()
+	var/list/available_defects = resident_manuscript_defect_keys()
+	var/list/generated_defects = list()
+	var/defect_count = rand(RESIDENT_MANUSCRIPT_MIN_DEFECTS, RESIDENT_MANUSCRIPT_MAX_DEFECTS)
+	while(length(generated_defects) < defect_count && length(available_defects))
+		var/selected_defect = pick(available_defects)
+		generated_defects += selected_defect
+		available_defects -= selected_defect
+	return generated_defects
+
+/obj/item/book/granter/resident_manuscript/proc/ensure_defect_note_keys()
+	if(length(defect_note_keys) >= RESIDENT_MANUSCRIPT_MIN_DEFECTS)
+		return
+	defect_note_keys = generate_defect_note_keys()
+
+/obj/item/book/granter/resident_manuscript/proc/can_edit_fake_manuscript(mob/living/carbon/human/user)
+	return ishuman(user) && is_fake && !is_bound
+
+/obj/item/book/granter/resident_manuscript/proc/can_bind_from_ui(mob/living/carbon/human/user)
+	return ishuman(user) && !is_bound && !is_fake && !requires_feather_to_bind
+
+/obj/item/book/granter/resident_manuscript/proc/can_stamp_manuscript(mob/living/carbon/human/user)
+	if(!ishuman(user) || !is_bound)
+		return FALSE
+	var/seal_key = get_seal_key_for_user(user)
+	if(seal_key && !seals?[seal_key])
+		return TRUE
+	return FALSE
+
+/obj/item/book/granter/resident_manuscript/proc/is_barred_from_residence(mob/living/carbon/human/user)
+	if(!ishuman(user))
+		return TRUE
+	if(HAS_TRAIT(user, TRAIT_OUTLAW) || HAS_TRAIT(user, TRAIT_HERESIARCH) || HAS_TRAIT(user, TRAIT_EXCOMMUNICATED))
+		return TRUE
+	if((user.name in GLOB.outlawed_players) || (user.real_name in GLOB.outlawed_players))
+		return TRUE
+	if((user.name in GLOB.excommunicated_players) || (user.real_name in GLOB.excommunicated_players))
+		return TRUE
+	return FALSE
+
+/obj/item/book/granter/resident_manuscript/proc/can_claim_residence(mob/living/carbon/human/user)
+	if(!ishuman(user) || !owner_character_key || is_fake)
+		return FALSE
+	if(!document_profile?.grants_residence_claim)
+		return FALSE
+	if(get_detection_character_key(user) != owner_character_key)
+		return FALSE
+	if(HAS_TRAIT(user, TRAIT_RESIDENT) || is_barred_from_residence(user))
+		return FALSE
+	var/needs_seal = TRUE
+	if(!document_profile.requires_seal_for_claim)
+		needs_seal = FALSE
+	if(needs_seal && !has_any_seal())
+		return FALSE
+	return TRUE
+
+/obj/item/book/granter/resident_manuscript/proc/is_ruling_authority(mob/living/carbon/human/user)
+	if(!ishuman(user))
+		return FALSE
+	var/datum/job/job = SSjob.GetJob(user.mind?.assigned_role)
+	return istype(job, /datum/job/roguetown/lord) || istype(job, /datum/job/roguetown/hand)
+
+/obj/item/book/granter/resident_manuscript/proc/can_inspect_manuscript(mob/living/carbon/human/user)
+	if(!ishuman(user) || !is_bound || is_owner_viewer(user))
+		return FALSE
+	var/detection_key = get_detection_character_key(user)
+	if(!detection_key || LAZYACCESS(detection_attempts, detection_key))
+		return FALSE
+	if(authority_validated && !is_ruling_authority(user))
+		return FALSE
+	return TRUE
+
+/obj/item/book/granter/resident_manuscript/proc/save_fake_manuscript(mob/living/carbon/human/user, list/params)
+	if(!can_edit_fake_manuscript(user))
+		return FALSE
+	if(!params)
+		params = list()
+	owner_character_key = null
+	owner_name = sanitize_manuscript_field(params["owner_name"], MAX_NAME_LEN, "Unknown")
+	owner_age = normalize_age_key(params["owner_age"])
+	owner_status_key = normalize_status_key(params["owner_status_key"])
+	is_bound = TRUE
+	name = "Resident Manuscript"
+	icon_state = "contractsigned"
+	authority_validated = FALSE
+	detection_attempts = list()
+	detection_results = list()
+	detection_note_keys = list()
+	playsound(user, 'sound/items/write.ogg', 40, TRUE, -2)
+	to_chat(user, span_notice("You complete the suspicious manuscript."))
+	return TRUE
+
+/obj/item/book/granter/resident_manuscript/proc/claim_residence(mob/living/carbon/human/user)
+	if(!can_claim_residence(user))
+		return FALSE
+	ADD_TRAIT(user, TRAIT_RESIDENT, TRAIT_GENERIC)
+	to_chat(user, span_notice("The seals are sufficient proof: you are recognized as a resident of these lands."))
+	return TRUE
+
+/obj/item/book/granter/resident_manuscript/proc/handle_stamp(mob/living/carbon/human/user)
+	if(!can_stamp_manuscript(user))
+		return FALSE
+	var/seal_key = get_seal_key_for_user(user)
+	if(!stamp_seal(seal_key, user, FALSE))
+		return FALSE
+	playsound(user, 'sound/items/write.ogg', 50, TRUE, -2)
+	to_chat(user, span_notice("You press your seal into the manuscript."))
+	return TRUE
+
+/obj/item/book/granter/resident_manuscript/proc/log_detection_attempt(mob/living/carbon/human/user, result)
+	var/log_ckey = user.ckey || user.key || "no ckey"
+	var/character_name = user.real_name || user.name || "Unknown"
+	var/scroll_owner_name = owner_name || "Unbound"
+	log_game("RESIDENT MANUSCRIPT: inspect document=[REF(src)] inspector_ckey=[log_ckey] inspector_name=[character_name] result=[result] scroll_owner=[scroll_owner_name]")
+
+/obj/item/book/granter/resident_manuscript/proc/handle_detection(mob/living/carbon/human/user)
+	if(!can_inspect_manuscript(user))
+		return FALSE
+	var/detection_key = get_detection_character_key(user)
+	LAZYSET(detection_attempts, detection_key, TRUE)
+	var/result = RESIDENT_MANUSCRIPT_VERIFICATION_UNKNOWN
+	var/chance = 5
+	chance += max(user.get_true_stat(STATKEY_INT) - 10, 0) * 4
+	chance += max(user.get_true_stat(STATKEY_PER) - 10, 0) * 3
+	chance += user.get_skill_level(/datum/skill/misc/reading) * 10
+	if(HAS_TRAIT(user, TRAIT_INTELLECTUAL))
+		chance += 15
+	if(is_ruling_authority(user))
+		chance += 20
+	if(prob(clamp(chance, 5, 95)))
+		if(is_fake)
+			ensure_defect_note_keys()
+			result = RESIDENT_MANUSCRIPT_VERIFICATION_FAKE
+		else
+			result = RESIDENT_MANUSCRIPT_VERIFICATION_REAL
+	else if(!is_fake)
+		result = RESIDENT_MANUSCRIPT_VERIFICATION_REAL
+	else if(is_ruling_authority(user))
+		authority_validated = TRUE
+	LAZYSET(detection_results, detection_key, result)
+	log_detection_attempt(user, result)
+	if(result == RESIDENT_MANUSCRIPT_VERIFICATION_FAKE)
+		to_chat(user, span_warning("You detect signs of forgery in the manuscript."))
+	else
+		var/note_key = pick(resident_manuscript_validation_note_keys())
+		LAZYSET(detection_note_keys, detection_key, note_key)
+	return TRUE
+
+/obj/item/book/granter/resident_manuscript/examine(mob/user)
+	. = ..()
+	if(is_bound && owner_name)
+		. += span_info("The manuscript is issued to [owner_name].")
+	else
+		. += span_info("The manuscript is not yet bound to an owner.")
+
+/obj/item/book/granter/resident_manuscript/attack_self(mob/living/user)
+	ui_interact(user)
+
+/obj/item/book/granter/resident_manuscript/equipped(mob/living/user, slot)
+	. = ..()
+	if(!auto_bind_on_equip || is_bound || !ishuman(user))
+		return
+	bind_to_holder(user)
+
+/obj/item/book/granter/resident_manuscript/attackby(obj/item/I, mob/living/user, params)
+	if(istype(I, /obj/item/natural/feather) && ishuman(user))
+		if(handle_feather_use(user))
+			return
+	return ..()
+
+/obj/item/book/granter/resident_manuscript/proc/handle_feather_use(mob/living/carbon/human/user)
+	if(!is_bound)
+		if(is_fake)
+			ui_interact(user)
+			return TRUE
+		if(bind_to_holder(user))
+			to_chat(user, span_notice("You fill the manuscript and bind it to your name."))
+			playsound(user, 'sound/items/write.ogg', 40, TRUE, -2)
+			return TRUE
+	if(handle_stamp(user))
+		return TRUE
+	to_chat(user, span_warning("You cannot add anything proper to this manuscript."))
+	return TRUE
+
+/obj/item/book/granter/resident_manuscript/ui_state(mob/user)
+	return GLOB.hands_state
+
+/obj/item/book/granter/resident_manuscript/ui_interact(mob/user, datum/tgui/ui)
+	ui = SStgui.try_update_ui(user, src, ui)
+	if(!ui)
+		ui = new(user, src, "ResidentManuscript", "Resident Manuscript")
+		ui.open()
+
+/obj/item/book/granter/resident_manuscript/ui_static_data(mob/user)
+	var/list/data = list()
+	data["language"] = get_resident_manuscript_ui_language(user)
+	return data
+
+/obj/item/book/granter/resident_manuscript/ui_data(mob/user)
+	var/list/data = list()
+	var/mob/living/carbon/human/human_user
+	if(ishuman(user))
+		human_user = user
+	var/detection_key = human_user ? get_detection_character_key(human_user) : null
+	var/is_owner_viewing = human_user ? is_owner_viewer(human_user) : FALSE
+	var/can_edit_fake = human_user ? can_edit_fake_manuscript(human_user) : FALSE
+	var/seal_key = human_user ? get_seal_key_for_user(human_user) : null
+	var/can_stamp = FALSE
+	if(human_user && is_bound && seal_key && !seals?[seal_key])
+		can_stamp = TRUE
+	var/can_inspect = human_user ? can_inspect_manuscript(human_user) : FALSE
+	var/can_claim = human_user ? can_claim_residence(human_user) : FALSE
+	var/can_bind = human_user ? can_bind_from_ui(human_user) : FALSE
+	var/list/verification = list(
+		"done" = FALSE,
+		"result" = RESIDENT_MANUSCRIPT_VERIFICATION_NONE,
+		"note_key" = null,
+		"defect_note_key" = null,
+		"defect_note_keys" = list(),
+	)
+	if(detection_key && LAZYACCESS(detection_attempts, detection_key))
+		var/result = LAZYACCESS(detection_results, detection_key) || RESIDENT_MANUSCRIPT_VERIFICATION_UNKNOWN
+		verification["done"] = TRUE
+		verification["result"] = result
+		if(result == RESIDENT_MANUSCRIPT_VERIFICATION_FAKE)
+			verification["defect_note_keys"] = defect_note_keys || list()
+			verification["defect_note_key"] = length(defect_note_keys) ? defect_note_keys[1] : null
+		else
+			verification["note_key"] = LAZYACCESS(detection_note_keys, detection_key)
+	data["owner"] = list(
+		"name" = owner_name,
+		"age" = owner_age,
+		"status" = owner_status_key,
+		"status_key" = owner_status_key,
+	)
+	data["issued_place"] = issued_place
+	data["expiry_date"] = expiry_date
+	data["is_bound"] = is_bound
+	data["is_fake"] = is_fake
+	data["is_blank"] = requires_feather_to_bind && !is_bound
+	data["is_owner"] = is_owner_viewing
+	data["profile"] = list(
+		"id" = document_profile?.id || "resident",
+		"paper_color" = document_profile?.paper_color,
+		"ink_color" = document_profile?.ink_color,
+		"accent_color" = document_profile?.accent_color,
+		"seal_color" = document_profile?.seal_color,
+	)
+	var/sorted_seals = get_seals_for_ui(user)
+	var/list/dominant_entry
+	for(var/list/entry as anything in sorted_seals)
+		if(entry["dominant"])
+			dominant_entry = entry
+			break
+	data["seals"] = sorted_seals
+	data["dominant_seal"] = dominant_entry
+	data["verification"] = verification
+	data["permissions"] = list(
+		"can_edit" = can_edit_fake,
+		"can_stamp" = can_stamp,
+		"can_inspect" = can_inspect,
+		"can_claim" = can_claim,
+		"can_bind" = can_bind,
+		"stamp_key" = seal_key,
+	)
+	return data
+
+/obj/item/book/granter/resident_manuscript/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)
+	. = ..()
+	if(.)
+		return
+	if(!ishuman(usr))
+		return FALSE
+	var/mob/living/carbon/human/human_user = usr
+	switch(action)
+		if("save_fake")
+			return save_fake_manuscript(human_user, params)
+		if("inspect")
+			return handle_detection(human_user)
+		if("stamp")
+			return handle_stamp(human_user)
+		if("claim_residence")
+			return claim_residence(human_user)
+		if("bind")
+			return bind_to_holder(human_user)
+	return FALSE
+
+/obj/item/book/granter/resident_manuscript/blank
+	name = "Blank Resident Manuscript"
+	desc = "A blank resident manuscript. Fill it with a feather, then bring it to the proper authorities for seals."
+	icon_state = "contractunsigned"
+	auto_stamp_seals = FALSE
+	auto_bind_on_equip = FALSE
+	requires_feather_to_bind = TRUE
+
+/obj/item/book/granter/resident_manuscript/fake
+	name = "Suspicious Resident Manuscript"
+	desc = "A resident manuscript whose provenance is best left unmentioned."
+	auto_stamp_seals = FALSE
+	auto_bind_on_equip = FALSE
+	is_fake = TRUE
+
+/obj/item/book/granter/resident_manuscript/fake/Initialize()
+	. = ..()
+	generate_fake_seals()
+	if(prob(RESIDENT_MANUSCRIPT_FAKE_DEFECT_CHANCE))
+		ensure_defect_note_keys()
+
+/obj/item/book/granter/resident_manuscript/roundstart
+	expiry_year_bonus_min = 5
+	expiry_year_bonus_max = 10
+
+/obj/item/book/granter/resident_manuscript/guards
+	desc = "A garrison soldier writ, naming the bearer as Crown steel on Azurian stone."
+	document_profile_id = "guards"
+
+/obj/item/book/granter/resident_manuscript/blank/guards
+	desc = "A blank garrison soldier writ. Fill it with a feather, then bring it to the proper authorities for seals."
+	document_profile_id = "guards"
+
+/obj/item/book/granter/resident_manuscript/fake/guards
+	desc = "A garrison soldier writ whose provenance is best left unmentioned."
+	document_profile_id = "guards"
+
+/obj/item/book/granter/resident_manuscript/church
+	desc = "An ecclesiastical writ of the Tenfold Church, recognizing the bearer as a faithful child of the faith."
+	document_profile_id = "church"
+
+/obj/item/book/granter/resident_manuscript/blank/church
+	desc = "A blank ecclesiastical writ. Fill it with a feather, then bring it for the bishop's seal."
+	document_profile_id = "church"
+
+/obj/item/book/granter/resident_manuscript/fake/church
+	desc = "An ecclesiastical writ whose provenance is best left unmentioned."
+	document_profile_id = "church"
+
+/obj/item/book/granter/resident_manuscript/craftsmen
+	desc = "An artisan guild charter, recognizing the bearer's standing among the city's masterly estate."
+	document_profile_id = "craftsmen"
+
+/obj/item/book/granter/resident_manuscript/blank/craftsmen
+	desc = "A blank artisan guild charter. Fill it with a feather, then bring it to the proper authorities for seals."
+	document_profile_id = "craftsmen"
+
+/obj/item/book/granter/resident_manuscript/fake/craftsmen
+	desc = "A guild charter whose provenance is best left unmentioned."
+	document_profile_id = "craftsmen"
+
+/obj/item/book/granter/resident_manuscript/commoner
+	desc = "A creased commoner manuscript on cheap rag paper, good only for plain standing."
+	document_profile_id = "commoner"
+
+/obj/item/book/granter/resident_manuscript/blank/commoner
+	desc = "A cheap blank commoner manuscript, thin enough to fold and rough enough to blot."
+	document_profile_id = "commoner"
+
+/obj/item/book/granter/resident_manuscript/fake/commoner
+	desc = "A stained commoner manuscript with poor paper and suspiciously fresh ink."
+	document_profile_id = "commoner"
+
+/obj/item/book/granter/resident_manuscript/mercenary
+	desc = "A purple mercenary contract, recognizing the bearer as a free blade of standing."
+	document_profile_id = "mercenary"
+
+/obj/item/book/granter/resident_manuscript/blank/mercenary
+	desc = "A blank mercenary contract. Fill it with a feather, then bring it to the proper authorities for seals."
+	document_profile_id = "mercenary"
+
+/obj/item/book/granter/resident_manuscript/fake/mercenary
+	desc = "A mercenary contract whose provenance is best left unmentioned."
+	document_profile_id = "mercenary"
+
+/obj/item/book/granter/resident_manuscript/otava
+	desc = "A silver-gold edict of the Otavan inquisition, empowering the bearer in matters of truth and faith."
+	document_profile_id = "otava"
+
+/obj/item/book/granter/resident_manuscript/blank/otava
+	desc = "A blank Otavan edict. Fill it with a feather, then bring it for the inquisitor's seal."
+	document_profile_id = "otava"
+
+/obj/item/book/granter/resident_manuscript/fake/otava
+	desc = "An Otavan edict whose provenance is best left unmentioned."
+	document_profile_id = "otava"
+
+/obj/item/book/granter/resident_manuscript/merchant
+	desc = "A Merchant Shop charter, recognizing the bearer's standing in trade and contract."
+	document_profile_id = "merchant"
+
+/obj/item/book/granter/resident_manuscript/blank/merchant
+	desc = "A blank Merchant Shop charter. Fill it with a feather, then bring it for the master's seal."
+	document_profile_id = "merchant"
+
+/obj/item/book/granter/resident_manuscript/fake/merchant
+	desc = "A Merchant Shop charter whose provenance is best left unmentioned."
+	document_profile_id = "merchant"
+
+/obj/item/book/granter/resident_manuscript/mages
+	desc = "A Mage's Guild patent, recognizing the bearer as a licensed practitioner under the Duchy."
+	document_profile_id = "mages"
+
+/obj/item/book/granter/resident_manuscript/blank/mages
+	desc = "A blank Mage's Guild patent. Fill it with a feather, then bring it for the Court Magician's seal."
+	document_profile_id = "mages"
+
+/obj/item/book/granter/resident_manuscript/fake/mages
+	desc = "A Mage's Guild patent whose provenance is best left unmentioned."
+	document_profile_id = "mages"

@@ -2596,6 +2596,7 @@
 #include "code\modules\paperwork\paper.dm"
 #include "code\modules\paperwork\paper_premade.dm"
 #include "code\modules\paperwork\resident_document_profiles.dm"
+#include "code\modules\paperwork\resident_manuscript.dm"
 #include "code\modules\paperwork\rogue.dm"
 #include "code\modules\paperwork\tallowpot.dm"
 #include "code\modules\paperwork\papers\scrap.dm"
