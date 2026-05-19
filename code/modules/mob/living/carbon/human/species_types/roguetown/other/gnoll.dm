@@ -76,10 +76,11 @@
 /datum/species/gnoll/on_species_gain(mob/living/carbon/C, datum/species/old_species)
 	. = ..()
 	RegisterSignal(C, COMSIG_MOB_SAY, PROC_REF(handle_speech))
+	RegisterSignal(C, COMSIG_MOB_EQUIPPED_ITEM, PROC_REF(handle_equip_weapon))
 	C.icon_state = "firepelt"
 	C.base_pixel_x = -8
 	C.pixel_x = -8
-	C.base_pixel_y = -4
+	C.pixel_y = -4
 	C.pixel_y = -4
 
 /datum/species/gnoll/update_damage_overlays(mob/living/carbon/human/H)
@@ -116,3 +117,14 @@
 
 /datum/species/gnoll/random_name(gender,unique,lastname)
 	return "VEREWOLF"
+
+/datum/species/gnoll/proc/handle_equip_weapon(mob/living/carbon/human/H, obj/item/source, slot)
+	if(source.associated_skill != /datum/skill/combat/unarmed)
+		return
+	if(istype(source, /obj/item/rogueweapon/werewolf_claw/gnoll))
+		return
+
+	H.visible_message(span_danger("You drop [source] in disgust. Graggar has already given you the greatest tools of destruction."))
+	H.dropItemToGround(source, TRUE, silent = TRUE)
+	return
+
