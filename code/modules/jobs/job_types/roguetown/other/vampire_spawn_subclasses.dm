@@ -71,7 +71,7 @@
 	H.verbs |= /mob/proc/haltyell_exhausting //Knight gets to halt people
 	H.dna.species.soundpack_m = new /datum/voicepack/male/knight() //Aura
 
-	cloak = /obj/item/clothing/cloak/tabard/vampknight
+	cloak = /obj/item/clothing/cloak/tabard/vamp
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk
 	pants = /obj/item/clothing/under/roguetown/chainlegs
 	neck = /obj/item/clothing/neck/roguetown/bevor
@@ -313,5 +313,8 @@
 /obj/item/clothing/head/roguetown/roguehood/shalal/hijab/vampire_noble
 	color = "#883030"
 
-/obj/item/clothing/cloak/tabard/vampknight
-	color = CLOTHING_BLACK
+/obj/item/clothing/cloak/tabard/vamp
+	desc = "A checkered pattern of white fabrics and red silks, inlined seamlessly with silks befit for one under a lord with true opulance, not any mere dull-blooded or otherwise, branded with a crest of a forgotten empire."
+	color = CLOTHING_WHITE
+	detail_tag = "_quad"
+	detail_color = CLOTHING_RED

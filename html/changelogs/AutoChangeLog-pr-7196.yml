@@ -1,0 +1,4 @@
+author: "string-thing"
+delete-after: True
+changes:
+  - balance: "increased the range of restoration to be in line with the current standard for heals"

@@ -183,6 +183,7 @@
 					return
 				var/bundle_amt = B.amount
 				R.stockpile_amount += bundle_amt
+				SStreasury.dirty_market_view()
 				if(message == TRUE)
 					stock_announce("[bundle_amt] units of [R.name] has been stockpiled.")
 				qdel(B)
@@ -245,6 +246,7 @@
 			var/true_value = I.get_real_price()
 			if(!R.mint_item)
 				R.stockpile_amount += 1 //stacked logs need to check for multiple
+				SStreasury.dirty_market_view()
 				qdel(I)
 				if(message == TRUE)
 					stock_announce("[R.name] has been stockpiled.")

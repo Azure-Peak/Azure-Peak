@@ -742,3 +742,13 @@ As Excaliber."
 	icon_state = "magi_glasses"
 	icon = 'icons/clothing/donor_clothes.dmi'
 	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+
+/obj/item/clothing/suit/roguetown/shirt/dress/willmbrink
+	name = "padded dress"
+	desc = "A padded, sleeved dress. The padding looks far more for fluff, than to act as armour, however."
+	slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR
+	icon_state = "willmbrink_dress"
+	sleevetype = "willmbrink_dress"
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+	sleeved = 'icons/clothing/onmob/donor_sleeves_armor.dmi'
