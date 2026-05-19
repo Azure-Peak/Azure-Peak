@@ -13435,6 +13435,7 @@
 /obj/machinery/light/rogue/candle{
 	pixel_y = -32
 	},
+/obj/structure/fluff/railing/border/west,
 /turf/open/transparent/openspace,
 /area/rogue/indoors/town/shop)
 "cMq" = (
@@ -14024,7 +14025,6 @@
 /area/rogue/indoors/town)
 "cSM" = (
 /obj/structure/mineral_door/wood/donjon{
-	dir = 1;
 	locked = 1;
 	lockid = "shop"
 	},
@@ -26166,7 +26166,9 @@
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/cave/skeletoncrypt)
 "foa" = (
-/obj/structure/roguemachine/mail,
+/obj/structure/roguemachine/mail{
+	mailtag = Merchant
+	},
 /obj/structure/roguemachine/scomm/r{
 	scom_tag = "Manor - Council Quarters"
 	},
@@ -42223,14 +42225,6 @@
 	},
 /turf/open/floor/rogue/dirt,
 /area/rogue/under/cave/taricheamanor)
-"iwZ" = (
-/obj/structure/roguemachine/mail/r{
-	mailtag = "Merchant";
-	pixel_x = 0;
-	pixel_y = -30
-	},
-/turf/open/floor/rogue/ruinedwood/herringbone,
-/area/rogue/indoors/town/shop)
 "ixa" = (
 /obj/structure/roguemachine/scomm/r{
 	scom_tag = "Manor - Heir's Apartment - I"
@@ -51577,7 +51571,6 @@
 /turf/open/floor/rogue/woodturned,
 /area/rogue/outdoors/beach/north)
 "knX" = (
-/obj/structure/roguemachine/vendor/mobile,
 /obj/structure/rack/rogue/shelf,
 /obj/item/roguekey/custom{
 	pixel_y = 32;
@@ -55675,7 +55668,9 @@
 /turf/open/floor/carpet/red,
 /area/rogue/under/cave/taricheamanor)
 "lbW" = (
-/obj/structure/roguemachine/mail,
+/obj/structure/roguemachine/mail{
+	mailtag = Merchant
+	},
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/underdark)
 "lbY" = (
@@ -58789,12 +58784,6 @@
 /obj/structure/bed/rogue/shit,
 /turf/open/floor/rogue/tile/brownbrick,
 /area/rogue/under/town/sewer)
-"lEy" = (
-/obj/machinery/light/rogue/candle{
-	pixel_y = -32
-	},
-/turf/open/floor/rogue/ruinedwood/herringbone,
-/area/rogue/indoors/town/shop)
 "lEG" = (
 /obj/structure/fluff/walldeco/psybanner/red{
 	pixel_x = -32
@@ -62076,9 +62065,19 @@
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/indoors/cave)
 "mlO" = (
-/obj/structure/handcart{
-	dir = 8
-	},
+/obj/structure/closet/crate/chest/crate,
+/obj/item/reagent_containers/glass/bottle/rogue/manapot,
+/obj/item/reagent_containers/glass/bottle/rogue/manapot,
+/obj/item/reagent_containers/glass/bottle/rogue/manapot,
+/obj/item/reagent_containers/glass/bottle/rogue/manapot,
+/obj/item/reagent_containers/glass/bottle/rogue/manapot,
+/obj/item/reagent_containers/glass/bottle/rogue/manapot,
+/obj/item/reagent_containers/glass/bottle/rogue/healthpot,
+/obj/item/reagent_containers/glass/bottle/rogue/healthpot,
+/obj/item/reagent_containers/glass/bottle/rogue/healthpot,
+/obj/item/reagent_containers/glass/bottle/rogue/healthpot,
+/obj/item/reagent_containers/glass/bottle/rogue/healthpot,
+/obj/item/reagent_containers/glass/bottle/rogue/healthpot,
 /turf/open/floor/rogue/ruinedwood/herringbone,
 /area/rogue/indoors/town/shop)
 "mlP" = (
@@ -64325,6 +64324,10 @@
 /mob/living/carbon/human/species/goblin/npc/ambush/sea,
 /turf/open/floor/rogue/dirt,
 /area/rogue/indoors/cave)
+"mKJ" = (
+/obj/structure/roguemachine/vendor/mobile,
+/turf/open/floor/rogue/ruinedwood/herringbone,
+/area/rogue/indoors/town/shop)
 "mKK" = (
 /obj/structure/stairs{
 	dir = 4
@@ -87566,14 +87569,16 @@
 /turf/open/floor/carpet/royalblack,
 /area/rogue/indoors/town/dwarfin)
 "rqs" = (
-/obj/structure/fluff/railing/border/east,
-/obj/structure/flora/roguegrass,
-/obj/structure/flora/roguegrass/herb/matricaria,
 /obj/effect/decal/cobbleedge{
 	dir = 1;
 	icon_state = "borderfall"
 	},
-/turf/open/floor/rogue/grass,
+/obj/structure/mineral_door/wood/donjon{
+	dir = 1;
+	locked = 1;
+	lockid = "shop"
+	},
+/turf/open/floor/rogue/ruinedwood/herringbone,
 /area/rogue/outdoors/town)
 "rqy" = (
 /obj/structure/flora/roguegrass/water/reeds,
@@ -94206,8 +94211,11 @@
 /turf/open/floor/rogue/dirt,
 /area/rogue/under/cave/scarymaze)
 "sHR" = (
-/obj/machinery/light/rogue/candle,
-/obj/structure/roguemachine/vendor/mobile,
+/obj/structure/roguemachine/mail{
+	mailtag = Merchant;
+	pixel_x = 1;
+	pixel_y = 34
+	},
 /turf/open/floor/rogue/ruinedwood/herringbone,
 /area/rogue/indoors/town/shop)
 "sHV" = (
@@ -99285,7 +99293,9 @@
 	dir = 1;
 	icon_state = "borderfall"
 	},
-/obj/structure/roguemachine/mail,
+/obj/structure/roguemachine/mail{
+	mailtag = Merchant
+	},
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors/rtfield)
 "tHc" = (
@@ -103020,22 +103030,10 @@
 /turf/open/floor/rogue/churchbrick,
 /area/rogue/outdoors/exposed/bath/vault)
 "utL" = (
-/obj/structure/closet/crate/chest/crate,
-/obj/item/reagent_containers/glass/bottle/rogue/healthpot,
-/obj/item/reagent_containers/glass/bottle/rogue/healthpot,
-/obj/item/reagent_containers/glass/bottle/rogue/healthpot,
-/obj/item/reagent_containers/glass/bottle/rogue/healthpot,
-/obj/item/reagent_containers/glass/bottle/rogue/healthpot,
-/obj/item/reagent_containers/glass/bottle/rogue/healthpot,
-/obj/item/reagent_containers/glass/bottle/rogue/manapot,
-/obj/item/reagent_containers/glass/bottle/rogue/manapot,
-/obj/item/reagent_containers/glass/bottle/rogue/manapot,
-/obj/item/reagent_containers/glass/bottle/rogue/manapot,
-/obj/item/reagent_containers/glass/bottle/rogue/manapot,
-/obj/item/reagent_containers/glass/bottle/rogue/manapot,
 /obj/machinery/light/rogue/candle{
 	pixel_y = -32
 	},
+/obj/structure/roguemachine/vendor/mobile,
 /turf/open/floor/rogue/ruinedwood/herringbone,
 /area/rogue/indoors/town/shop)
 "utM" = (
@@ -119779,12 +119777,12 @@
 /turf/open/floor/rogue/woodturned,
 /area/rogue/under/underdark/south)
 "xMt" = (
-/obj/structure/mineral_door/wood/donjon{
-	dir = 1;
-	locked = 1;
-	lockid = "shop"
+/obj/structure/handcart{
+	dir = 8;
+	pixel_x = -2;
+	pixel_y = 1
 	},
-/turf/open/floor/rogue/concrete,
+/turf/open/floor/rogue/ruinedwood/herringbone,
 /area/rogue/indoors/town/shop)
 "xMy" = (
 /obj/structure/table/wood/poor,
@@ -282484,9 +282482,9 @@ hxo
 oti
 cSM
 gca
-iwZ
-mPk
-mPk
+gca
+mKJ
+eZd
 sns
 qfA
 pPI
@@ -282936,8 +282934,8 @@ lbG
 oti
 mPk
 knX
-lEy
-eZd
+gca
+gca
 rqs
 mcz
 qfA
@@ -283390,7 +283388,7 @@ mPk
 xQb
 gca
 xMt
-jTP
+fFC
 qfA
 eHg
 rfn
