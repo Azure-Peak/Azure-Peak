@@ -1747,7 +1747,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	if(unmintable)
 		seals += "town-property stamp"
 	if(length(seals))
-		. += span_info("Marked with [english_list(seals)] - the stockpile and navigator will not take it.")
+		. += span_info("Marked with [english_list(seals)] - the stockpile minter and navigator will not take it.")
 	if(isliving(user))
 		var/mob/living/L = user
 		if(L.STAINT < 9)
