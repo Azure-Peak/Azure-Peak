@@ -74902,10 +74902,10 @@
 /turf/open/transparent/openspace,
 /area/rogue/outdoors/mountains)
 "oQw" = (
-/obj/structure/fluff/walldeco/wantedposter,
 /obj/effect/decal/edge{
 	color = "#3f3f3f"
 	},
+/obj/structure/roguemachine/headeater,
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/outdoors/town)
 "oQx" = (
@@ -86880,10 +86880,6 @@
 /obj/effect/decal/cleanable/blood/gibs/old,
 /turf/open/floor/rogue/churchbrick,
 /area/rogue/under/cave/orcdungeon)
-"riX" = (
-/obj/structure/roguemachine/headeater,
-/turf/closed/wall/mineral/rogue/wooddark,
-/area/rogue/indoors/town/steward)
 "riZ" = (
 /obj/structure/fluff/railing/wood/west,
 /turf/open/floor/rogue/woodturned,
@@ -87135,6 +87131,13 @@
 "rlV" = (
 /turf/closed/wall/mineral/rogue/wooddark/horizontal,
 /area/rogue/indoors/shelter/woods)
+"rlX" = (
+/obj/effect/decal/edge{
+	color = "#3f3f3f"
+	},
+/obj/structure/fluff/walldeco/wantedposter,
+/turf/open/floor/rogue/cobble/mossy,
+/area/rogue/outdoors/town)
 "rma" = (
 /obj/structure/table/wood/poor,
 /obj/item/natural/hide/cured{
@@ -278403,7 +278406,7 @@ oWi
 rbf
 fJF
 rKJ
-riX
+iyM
 oQw
 exD
 xii
@@ -279760,7 +279763,7 @@ hau
 hau
 kgf
 iyM
-lgD
+rlX
 exD
 mfC
 rkI
