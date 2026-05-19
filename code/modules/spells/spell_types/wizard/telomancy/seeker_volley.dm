@@ -35,8 +35,6 @@
 
 /datum/action/cooldown/spell/projectile/seeker_volley/ready_projectile(obj/projectile/to_fire, atom/target, mob/user, iteration)
 	. = ..()
-	if(!.)
-		return FALSE
 	if(istype(to_fire, /obj/projectile/magic/seeker_orb))
 		var/obj/projectile/magic/seeker_orb/orb = to_fire
 		orb.set_homing_target(target)

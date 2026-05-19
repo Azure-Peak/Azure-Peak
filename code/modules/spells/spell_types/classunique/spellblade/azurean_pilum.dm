@@ -67,9 +67,7 @@
 	. = ..()
 
 /datum/action/cooldown/spell/projectile/azurean_pilum/ready_projectile(obj/projectile/to_fire, atom/target, mob/user, iteration)
-	. = ..()
-	if(!.)
-		return FALSE
+	..()
 	to_fire.damage = cached_damage
 
 /obj/projectile/energy/azurean_pilum

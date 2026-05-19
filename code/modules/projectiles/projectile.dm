@@ -773,9 +773,6 @@
 	var/turf/curloc = get_turf(source)
 	var/turf/targloc = get_turf(target)
 	var/turf/start_loc = curloc
-	if(!curloc || (!targloc && !params))
-		qdel(src)
-		return FALSE
 
 	if(targloc && curloc)
 		target_z = targloc.z

@@ -44,8 +44,6 @@
 
 /datum/action/cooldown/spell/projectile/stygian_efflorescence/ready_projectile(obj/projectile/to_fire, atom/target, mob/user, iteration)
 	. = ..()
-	if(!.)
-		return FALSE
 	var/base_angle = to_fire.Angle
 	if(isnull(base_angle))
 		base_angle = Get_Angle(user, target)

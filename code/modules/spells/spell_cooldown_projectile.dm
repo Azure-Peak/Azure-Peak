@@ -48,17 +48,13 @@
 	for(var/i in 1 to projectiles_per_fire)
 		var/active_type = (arc_mode && projectile_type_arc) ? projectile_type_arc : projectile_type
 		var/obj/projectile/to_fire = new active_type(owner.loc)
-		if(!ready_projectile(to_fire, target, owner, i))
-			qdel(to_fire)
-			continue
+		ready_projectile(to_fire, target, owner, i)
 		to_fire.fire()
 	return TRUE
 
 /// Configure the projectile before firing. Override for spell-specific setup (e.g., spread angles).
 /// iteration is the 1-indexed projectile number within this volley.
 /datum/action/cooldown/spell/projectile/proc/ready_projectile(obj/projectile/to_fire, atom/target, mob/user, iteration)
-	if(!to_fire || !user)
-		return FALSE
 	to_fire.firer = user
 	to_fire.fired_from = get_turf(user)
 	to_fire.def_zone = user.zone_selected
@@ -81,12 +77,10 @@
 		var/obj/item/rogueweapon/best_implement = get_held_implement(user)
 		best_implement?.attune_implement(spell_color, attunement_school)
 
-	if(!to_fire.preparePixelProjectile(target, user))
-		return FALSE
+	to_fire.preparePixelProjectile(target, user)
 
 	// Register hit signal so the spell knows when the projectile connects
 	RegisterSignal(to_fire, COMSIG_PROJECTILE_SELF_ON_HIT, PROC_REF(on_cast_hit))
-	return TRUE
 
 /// Signal handler for when our projectile hits something.
 /datum/action/cooldown/spell/projectile/proc/on_cast_hit(atom/source, mob/firer, atom/hit, angle)

@@ -94,9 +94,7 @@
 	. = ..()
 
 /datum/action/cooldown/spell/projectile/blade_storm/ready_projectile(obj/projectile/to_fire, atom/target, mob/user, iteration)
-	. = ..()
-	if(!.)
-		return FALSE
+	..()
 	var/obj/projectile/magic/blade_storm/P = to_fire
 	if(istype(P))
 		P.aoe_cuts = cached_aoe_cuts

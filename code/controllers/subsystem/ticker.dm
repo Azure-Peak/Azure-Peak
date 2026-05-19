@@ -810,7 +810,7 @@ SUBSYSTEM_DEF(ticker)
 
 	for(var/turf/open/water/W in world)
 		W.water_reagent = /datum/reagent/blood
-		W.water_color = "#C80000"
+		W.water_color = BLOOD_COLOR_RED
 		W.mapped = FALSE
 		W.update_icon()
 		CHECK_TICK

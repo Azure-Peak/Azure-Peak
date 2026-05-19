@@ -69,9 +69,7 @@
 	. = ..()
 
 /datum/action/cooldown/spell/projectile/kastvyl/ready_projectile(obj/projectile/to_fire, atom/target, mob/user, iteration)
-	. = ..()
-	if(!.)
-		return FALSE
+	..()
 	to_fire.damage = cached_damage
 	var/obj/projectile/energy/kastvyl/K = to_fire
 	if(istype(K))
