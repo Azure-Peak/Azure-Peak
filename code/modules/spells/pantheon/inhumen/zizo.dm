@@ -59,43 +59,17 @@
 	var/skill_level = owner.get_skill_level(/datum/skill/magic/holy)
 	var/checkrange = snuff_range + skill_level
 
-	var/extinguished_anything = FALSE
-	var/had_nightvision = !!L.has_status_effect(/datum/status_effect/buff/snuff_lights)
-
 	for(var/obj/O in range(checkrange, owner))
-		if(O.light_on && O.light_power > 0)
-			if(O.resistance_flags & ON_FIRE)
-				O.extinguish()
-				extinguished_anything = TRUE
+		O.extinguish()
 
 	for(var/mob/M in range(checkrange, owner))
 		for(var/obj/O in M.contents)
-			if(O.light_on && O.light_power > 0)
-				if(O.resistance_flags & ON_FIRE)
-					O.extinguish()
-					extinguished_anything = TRUE
+			O.extinguish()
 
-	var/bonus_duration = 5 SECONDS + (skill_level * 5 SECONDS)
-
-	if(!extinguished_anything)
-		bonus_duration += skill_level * 10 SECONDS
-
+	var/bonus_duration = 10 SECONDS + ((max(skill_level - 1, 0)) * 30 SECONDS)
 	L.apply_status_effect(/datum/status_effect/buff/snuff_lights, bonus_duration)
-
-	if(extinguished_anything)
-		if(!had_nightvision)
-			owner.visible_message(span_purple("[owner] exhales a grayish fog that smothers nearby lights as their pupils widen unnaturally."), span_purple("You exhale a gray fog that chokes out nearby lights. As darkness settles in, your pupils dilate."))
-			playsound(owner.loc, 'sound/magic/zizo_snuff.ogg')
-		else
-			owner.visible_message(span_purple("[owner] exhales a grayish fog that smothers nearby lights."), span_purple("You exhale a gray fog that chokes out nearby lights... Your eyes still seeing through."))
-			playsound(owner.loc, 'sound/magic/zizo_snuff.ogg')
-
-	else
-		if(!had_nightvision)
-			owner.visible_message(span_purple("[owner]'s pupils suddenly dilate in darkness..."), span_purple("No lights answer your call, but your pupils still widen to drink in the darkness."))
-		else
-			to_chat(owner, span_purple("You channel more of Her grace within your eyes, extending the duration of your sight."))
-	
+	owner.visible_message(span_purple("[owner] exhales a cold fog that smothers nearby lights."))
+	playsound(owner.loc, 'sound/magic/zizo_snuff.ogg')
 	return TRUE
 
 /atom/movable/screen/alert/status_effect/buff/snuff_lights
@@ -138,7 +112,7 @@
 	primary_resource_cost = 15
 	secondary_resource_cost = 15
 	charge_required = FALSE
-	cooldown_time = 20 SECONDS
+	cooldown_time = 30 SECONDS
 
 /datum/action/cooldown/spell/projectile/zizo/profane/cast(atom/cast_on)
 	var/mob/living/user = owner
@@ -218,6 +192,14 @@
 	icon_state = "chronobolt"
 	embedding = list("embed_chance" = 100, "embedded_fall_chance" = 0, "embedded_ignore_throwspeed_threshold" = TRUE)
 
+/obj/item/bone/profane_splinter/Initialize()
+	. = ..()
+	spawn(1)
+		if(QDELETED(src))
+			return
+		if(!is_embedded)
+			crumble()
+
 /obj/item/bone/profane_splinter/Exited(atom/movable/gone, direction)
 	. = ..()
 	if(!is_embedded)
@@ -227,10 +209,17 @@
 	. = ..()
 	crumble()
 
+/obj/item/bone/profane_splinter/Moved()
+	. = ..()
+	if(QDELETED(src))
+		return
+	if(!is_embedded)
+		crumble()
+
 /obj/item/bone/profane_splinter/proc/crumble()
 	if(QDELETED(src))
 		return
-	visible_message(span_purple("[src] crumbles into foul gray dust."), span_purple("The profaned splinter disintegrates in your hands."))
+	visible_message(span_purple("[src] crumbles into dust..."), span_purple("[src] crumbles into dust..."))
 	new /obj/item/ash(get_turf(src))
 	qdel(src)
 
@@ -259,7 +248,7 @@
 
 	if(!iscarbon(owner))
 		if(owner.stat == CONSCIOUS)
-			owner.adjustToxLoss(6)
+			owner.adjustToxLoss(7)
 		return
 
 	var/mob/living/carbon/C = owner
@@ -283,9 +272,12 @@
 
 	var/tox_damage = min(1 + splinter_count, poison_hardcap)
 	C.adjustToxLoss(tox_damage)
+	if(!C.mind && prob(50))
+		C.adjustToxLoss(tox_damage)
 
-	if(prob(min(splinter_count * 5, 50)))
+	if(prob(min(splinter_count * 2, 50)))
 		C.emote("pain")
+		C.Immobilize(15)
 
 /obj/projectile/magic/profane
 	name = "profaned bone shard"
@@ -334,7 +326,6 @@
 		var/obj/item/bone/profane_splinter/S = new
 		limb.add_embedded_object(S, FALSE, TRUE, TRUE)
 		if(!L.has_status_effect(/datum/status_effect/debuff/profane_poison))
-			L.visible_message(span_purple("[L] is pierced by cursed fragments as necrotic energy spreads through their body!"), span_purple("Profane energy spreads through my body!"))
 			L.apply_status_effect(/datum/status_effect/debuff/profane_poison)
 			playsound(get_turf(L),pick('sound/combat/fracture/fracturedry (1).ogg','sound/combat/fracture/fracturedry (2).ogg','sound/combat/fracture/fracturedry (3).ogg'),80,TRUE)
 		return
@@ -342,7 +333,6 @@
 	if(istype(L, /mob/living/simple_animal))
 		if(!L.has_status_effect(/datum/status_effect/debuff/profane_poison))
 			L.apply_status_effect(/datum/status_effect/debuff/profane_poison)
-			L.visible_message(span_purple("[L] is pierced by cursed fragments as necrotic energy spreads through their body!"), span_purple("Profane energy spreads through my body!"))
 			playsound(get_turf(L),pick('sound/combat/fracture/fracturedry (1).ogg','sound/combat/fracture/fracturedry (2).ogg','sound/combat/fracture/fracturedry (3).ogg'),80,TRUE)
 
 /obj/projectile/magic/profane/enhanced
@@ -381,6 +371,12 @@
 		if(QDELETED(L))
 			continue
 
+		if(L.stat == DEAD)
+			continue
+
+		if(L.resting)
+			continue
+
 		if(L == main_target)
 			continue
 
@@ -396,7 +392,6 @@
 					continue
 
 		main_target.Beam(L, icon_state = "chronobolt", icon = 'icons/obj/projectiles.dmi', time = 5, maxdistance = 20)
-		L.visible_message(span_purple("Bone splinters erupt toward [L]!"),span_purple("Jagged bone splinters fly toward me!"))
 		playsound(get_turf(L),pick('sound/combat/fracture/fracturedry (1).ogg','sound/combat/fracture/fracturedry (2).ogg','sound/combat/fracture/fracturedry (3).ogg'),80,TRUE)
 		playsound(get_turf(L),'sound/combat/hits/bladed/genstab (1).ogg',50,TRUE)
 		try_embed_target(L)
@@ -691,7 +686,7 @@
 			else
 				if(faction_tag in M.faction)
 					continue
-			if(M.resting || M.stat == DEAD && !M.mind) // to finish off NPCs in a cooler way
+			if(!M.mind && M.resting && M.stat != CONSCIOUS) // to finish off NPCs in a cooler way
 				M.gib(TRUE, TRUE, TRUE, FALSE)
 			if(!M.mind)
 				M.Stun(50)
