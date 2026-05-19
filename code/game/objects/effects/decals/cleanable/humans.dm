@@ -25,6 +25,7 @@
 	desc = ""
 	icon = 'icons/effects/blood.dmi'
 	icon_state = "floor1"
+	color = BLOOD_COLOR_RED
 	random_icon_states = list("floor1", "floor2", "floor3", "floor4", "floor5", "floor6")
 	blood_state = BLOOD_STATE_HUMAN
 	bloodiness = BLOOD_AMOUNT_PER_DECAL
@@ -33,14 +34,15 @@
 	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
 	appearance_flags = NO_CLIENT_COLOR
 	var/blood_timer
-	var/blood_color
+	var/blood_color = BLOOD_COLOR_RED
 
 /obj/effect/decal/cleanable/blood/proc/set_blood_color(new_blood_color)
-	blood_color = new_blood_color
-	icon = initial(icon)
-	color = blood_color || initial(color)
+	blood_color = new_blood_color || BLOOD_COLOR_RED
+	color = blood_color
 
-/obj/effect/decal/cleanable/blood/Initialize(mapload)
+/obj/effect/decal/cleanable/blood/Initialize(mapload, color)
+	if(color)
+		set_blood_color(color)
 	. = ..()
 	GLOB.weather_act_upon_list += src
 	if(. == INITIALIZE_HINT_QDEL)
@@ -55,7 +57,9 @@
 		return
 	name = "dry [initial(name)]"
 	icon = initial(icon)
-	color = "#967c69"
+	var/list/RGB = ReadRGB(blood_color)
+	if(RGB)
+		color = rgb(RGB[1] * 0.5, RGB[2] * 0.5, RGB[3] * 0.5)
 	bloodiness = 0
 
 /obj/effect/decal/cleanable/blood/replace_decal(obj/effect/decal/cleanable/C)
@@ -95,17 +99,19 @@
 	var/drips = 1
 
 /obj/effect/decal/cleanable/blood/splatter/replace_decal(obj/effect/decal/cleanable/C) // Returns true if we should give up in favor of the pre-existing decal
-	if(..())
-		var/obj/effect/decal/cleanable/blood/splatter/P = C
-		P.drips++
-		if(P.drips > 2)
-			var/turf/T = loc
-			if(istype(T))
-				var/obj/effect/decal/cleanable/blood/B = new(T)
-				B.set_blood_color(P.blood_color)
-				qdel(P)
+	if(!..())
+		return
+	var/obj/effect/decal/cleanable/blood/splatter/P = C
+	P.drips++
+	if(P.drips <= 2)
 		return TRUE
-
+	var/turf/T = loc
+	if(!istype(T))
+		return TRUE
+	var/obj/effect/decal/cleanable/blood/B = new(T)
+	B.set_blood_color(P.blood_color)
+	qdel(P)
+	return TRUE
 
 /obj/effect/decal/cleanable/blood/tracks
 	icon_state = "tracks"
@@ -123,6 +129,7 @@
 	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
 	appearance_flags = NO_CLIENT_COLOR
 	var/blood_timer
+	var/blood_color = BLOOD_COLOR_RED
 
 /obj/effect/decal/cleanable/trail_holder/Initialize(mapload)
 	. = ..()
@@ -146,7 +153,9 @@
 	if(QDELETED(src))
 		return
 	name = "dry [initial(name)]"
-	color = "#967c69"
+	var/list/RGB = ReadRGB(blood_color)
+	if(RGB)
+		color = rgb(RGB[1] * 0.5, RGB[2] * 0.5, RGB[3] * 0.5)
 	alpha = 100
 	bloodiness = 0
 
@@ -156,7 +165,6 @@
 /obj/effect/decal/cleanable/blood/gibs
 	name = "gibs"
 	desc = ""
-	icon = 'icons/effects/blood.dmi'
 	icon_state = "gib1"
 	layer = LOW_OBJ_LAYER
 	random_icon_states = list("gib1", "gib2", "gib3", "gib4", "gib5", "gib6")
@@ -178,7 +186,7 @@
 	for(var/i in 0 to rand(1,3))
 		sleep(2)
 		if(i > 0)
-			new /obj/effect/decal/cleanable/blood/splatter(loc, diseases)
+			new /obj/effect/decal/cleanable/blood/splatter(loc, blood_color)
 		if(!step_to(src, get_step(src, direction), 0))
 			break
 
@@ -284,7 +292,6 @@
 			icon_state = "pool2"
 		if(1 to 50)
 			icon_state = "pool1"
-	set_blood_color(blood_color)
 
 /obj/effect/decal/cleanable/blood/puddle/replace_decal(obj/effect/decal/cleanable/C) // Returns true if we should give up in favor of the pre-existing decal
 	if(..())
@@ -363,9 +370,16 @@
 				exited_dirs |= H.dir
 				update_icon()
 
-
 /obj/effect/decal/cleanable/blood/footprints/update_icon()
 	cut_overlays()
+
+	var/overlay_color = null
+	var/turf/T = loc
+	if(istype(T))
+		for(var/obj/effect/decal/cleanable/blood/puddle/P in T)
+			if(P.blood_color)
+				overlay_color = P.blood_color
+			break
 
 	for(var/Ddir in GLOB.cardinals)
 		if(entered_dirs & Ddir)
@@ -373,12 +387,16 @@
 			if(!bloodstep_overlay)
 				GLOB.bloody_footprints_cache["entered-[blood_state]-[Ddir]"] = bloodstep_overlay = image(icon, "[blood_state]1", dir = Ddir)
 			bloodstep_overlay.alpha = alpha
+			if(overlay_color)
+				bloodstep_overlay.color = overlay_color
 			add_overlay(bloodstep_overlay)
 		if(exited_dirs & Ddir)
 			var/image/bloodstep_overlay = GLOB.bloody_footprints_cache["exited-[blood_state]-[Ddir]"]
 			if(!bloodstep_overlay)
 				GLOB.bloody_footprints_cache["exited-[blood_state]-[Ddir]"] = bloodstep_overlay = image(icon, "[blood_state]2", dir = Ddir)
 			bloodstep_overlay.alpha = alpha
+			if(overlay_color)
+				bloodstep_overlay.color = overlay_color
 			add_overlay(bloodstep_overlay)
 
 //	alpha = BLOODY_FOOTPRINT_BASE_ALPHA+bloodiness
