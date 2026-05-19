@@ -3735,6 +3735,7 @@
 /area/rogue/indoors/town)
 "aOO" = (
 /obj/machinery/light/rogue/candle/floorcandle/alt/pink,
+/obj/item/clothing/ring/turq,
 /turf/open/floor/rogue/churchbrick,
 /area/rogue/outdoors/exposed/bath/vault)
 "aOP" = (
@@ -58688,6 +58689,7 @@
 	pixel_x = -8;
 	pixel_y = 6
 	},
+/obj/item/clothing/ring/opal,
 /turf/open/floor/rogue/churchbrick,
 /area/rogue/outdoors/exposed/bath/vault)
 "lDP" = (
@@ -79470,6 +79472,7 @@
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/shelter/mountains/decap)
 "pLs" = (
+/obj/item/clothing/ring/rose,
 /turf/open/floor/rogue/churchbrick,
 /area/rogue/outdoors/exposed/bath/vault)
 "pLu" = (
@@ -82807,6 +82810,10 @@
 /obj/structure/rack/rogue/shelf/biggest,
 /turf/open/floor/rogue/ruinedwood,
 /area/rogue/under/town/basement)
+"qtM" = (
+/obj/item/clothing/ring/jade,
+/turf/open/floor/rogue/churchbrick,
+/area/rogue/outdoors/exposed/bath/vault)
 "qtO" = (
 /obj/structure/curtain/red,
 /turf/open/floor/rogue/concrete,
@@ -115559,6 +115566,7 @@
 /area/rogue/outdoors/town)
 "wSO" = (
 /obj/machinery/light/rogue/candle/floorcandle/pink,
+/obj/item/clothing/ring/onyxa,
 /turf/open/floor/rogue/churchbrick,
 /area/rogue/outdoors/exposed/bath/vault)
 "wSP" = (
@@ -153598,7 +153606,7 @@ ylh
 ltb
 sIr
 tuc
-pLs
+qtM
 ccd
 pLs
 tjV
