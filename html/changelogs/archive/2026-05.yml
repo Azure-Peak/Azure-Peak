@@ -676,3 +676,37 @@
   - code_imp: adjusted vampire core more
   - code_imp: tampered with lich commands to re-adjust the text a bit + log it.
   - admin: Vampire Telepathy + Lich Commands are logged now.
+2026-05-19:
+  FreeStylaLT:
+  - bugfix: Fixed Voyeur vice not displaying its examine text correctly.
+  - bugfix: Binds triggering incorrectly on vuln hits. They now follow the same targeting
+      requirements as regular hit binds.
+  - bugfix: Fixed skin armor not having its regeneration disrupted by attacks properly.
+  Ketrai:
+  - balance: Hunting bag exp down, group hunting exp up.
+  Lamasmaster:
+  - bugfix: Graggar Warcry
+  Quinalion:
+  - image: Zizo miracles resprite.
+  Ryan180602:
+  - rscadd: graghereticaxe special
+  - rscadd: donor item
+  WeNeedMorePhoron:
+  - bugfix: Probably fixed an issue with preview icons being janky
+  - rscadd: Optimized the Steward UI. Report any oddities or invalidated data.
+  radarseas:
+  - rscadd: Vampire varient surcoats, hoods and cloaks.
+  - refactor: refactored vampknight tabard to just vamp, all vampire surcoats are
+      now just /vamp
+  - rscadd: added Two Extra crafting window recipes,
+  - rscdel: my literal remaining sanity, looking at what isn't logged.
+  - bugfix: fixed some platforms not making noise when crafted,
+  - refactor: roguewindow/stone -> roguewindow/stone_"whatever varient here" for the
+      recipes of crafting.
+  - admin: added crafting logging for walls/platforms/stairs.
+  - server: new logs for CRAFT, they are under game.log
+  sakke03:
+  - bugfix: Baotha's blessing no longer gives permanent overdose immunity
+  string-thing:
+  - balance: increased the range of restoration to be in line with the current standard
+      for heals

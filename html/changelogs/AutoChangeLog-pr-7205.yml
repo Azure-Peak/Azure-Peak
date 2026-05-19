@@ -1,4 +1,0 @@
-author: "FreeStylaLT"
-delete-after: True
-changes:
-  - bugfix: "Binds triggering incorrectly on vuln hits. They now follow the same targeting requirements as regular hit binds."
