@@ -1,9 +1,0 @@
-author: "radarseas"
-delete-after: True
-changes:
-  - rscadd: "added Two Extra crafting window recipes,"
-  - rscdel: "my literal remaining sanity, looking at what isn't logged."
-  - bugfix: "fixed some platforms not making noise when crafted,"
-  - refactor: "roguewindow/stone -> roguewindow/stone_\"whatever varient here\" for the recipes of crafting."
-  - admin: "added crafting logging for walls/platforms/stairs."
-  - server: "new logs for CRAFT, they are under game.log"

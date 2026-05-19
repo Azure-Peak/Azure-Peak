@@ -1,5 +1,0 @@
-author: "radarseas"
-delete-after: True
-changes:
-  - rscadd: "Vampire varient surcoats, hoods and cloaks."
-  - refactor: "refactored vampknight tabard to just vamp, all vampire surcoats are now just /vamp"
