@@ -376,6 +376,7 @@
 			"rare_buys" = pool_good_names(R.bulk_demand_pool, FALSE),
 			"basic_sells" = pool_good_names(R.bulk_supply_pool, TRUE),
 			"rare_sells" = pool_good_names(R.bulk_supply_pool, FALSE),
+			"demanded_categories" = R.demanded_categories ? R.demanded_categories.Copy() : list(),
 		)
 		if(discovered)
 			var/list/condition_entries = list()
@@ -383,6 +384,7 @@
 				condition_entries += list(list(
 					"name" = C.name,
 					"description" = C.description,
+					"tone" = C.tone,
 				))
 			rrow["market_conditions"] = condition_entries
 		realms += list(rrow)
@@ -401,7 +403,39 @@
 		"merchant_levy_taxed" = SSmerchant_trade.merchant_levy_taxed,
 		"favor" = build_favor_data(),
 		"ledger" = build_ledger_data(),
+		"market_data" = build_goldface_market_data(),
 	)
+
+/obj/structure/roguemachine/goldface/proc/build_goldface_market_data()
+	var/list/data = list(
+		"categories" = list(),
+		"pop_snapshot" = 0,
+		"category_count" = 0,
+	)
+	if(!SSmerchant_trade)
+		return data
+	data["pop_snapshot"] = SSmerchant_trade.pool_pop_snapshot
+	var/list/rows = list()
+	for(var/cat in SSmerchant_trade.pool_capacity)
+		var/cap = SSmerchant_trade.pool_capacity[cat] || 0
+		var/consumed = SSmerchant_trade.pool_consumed[cat] || 0
+		var/fill_ratio = cap > 0 ? min(1, consumed / cap) : 0
+		var/refused = SSmerchant_trade.get_saturation_factor(cat) <= 0
+		var/demand_mult = SSmerchant_trade.get_demand_multiplier(cat)
+		var/pending = SSmerchant_trade.pending_ship_demand[cat] || 0
+		rows += list(list(
+			"category" = cat,
+			"capacity" = cap,
+			"consumed" = consumed,
+			"fill_ratio" = fill_ratio,
+			"refused" = refused,
+			"demand_mult" = demand_mult,
+			"pending_ship_demand" = pending,
+		))
+	data["categories"] = rows
+	data["category_count"] = length(rows)
+	data["theme_dispatch"] = build_market_theme_dispatch(SSmerchant_trade.pool_theme_jitters)
+	return data
 
 /obj/structure/roguemachine/goldface/proc/build_ledger_data()
 	var/list/fund_log = list()

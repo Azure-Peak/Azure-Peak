@@ -12,29 +12,57 @@ import {
 } from '../../common/parchment';
 import type { HarborRealm, MarketCondition } from '../types';
 
-const summarize = (items: string[], cap: number) => {
-  if (items.length === 0) return '—';
-  if (items.length <= cap) return items.join(', ');
-  return `${items.slice(0, cap).join(', ')}, +${items.length - cap} more`;
-};
-
 const Unknown = () => (
   <span style={{ color: INK_FAINT, fontStyle: 'italic' }}>UNKNOWN</span>
 );
 
-const ConditionPill = (props: { name: string }) => (
+const toneToColor = (tone?: string) => {
+  switch (tone) {
+    case 'good':
+      return SEAL_GREEN;
+    case 'bad':
+      return SEAL_RED;
+    default:
+      return SEAL_AMBER;
+  }
+};
+
+const ConditionPill = (props: { condition: MarketCondition }) => {
+  const color = toneToColor(props.condition.tone);
+  return (
+    <span
+      title={props.condition.description}
+      style={{
+        display: 'inline-block',
+        padding: '1px 7px',
+        marginRight: '4px',
+        marginBottom: '2px',
+        border: `1px solid ${color}`,
+        borderRadius: '8px',
+        color: color,
+        fontSize: '10px',
+        fontVariant: 'small-caps',
+        fontWeight: 'bold',
+        whiteSpace: 'nowrap',
+      }}
+    >
+      {props.condition.name}
+    </span>
+  );
+};
+
+const CategoryPill = (props: { name: string }) => (
   <span
     style={{
       display: 'inline-block',
-      padding: '1px 7px',
-      marginRight: '4px',
+      padding: '0px 5px',
+      marginRight: '3px',
       marginBottom: '2px',
-      border: `1px solid ${SEAL_AMBER}`,
-      borderRadius: '8px',
-      color: SEAL_AMBER,
+      border: `1px solid ${INK_FAINT}`,
+      borderRadius: '3px',
+      color: INK,
+      background: 'rgba(255,248,220,0.5)',
       fontSize: '10px',
-      fontVariant: 'small-caps',
-      fontWeight: 'bold',
       whiteSpace: 'nowrap',
     }}
   >
@@ -42,55 +70,52 @@ const ConditionPill = (props: { name: string }) => (
   </span>
 );
 
-const MarketConditionsCell = (props: { realm: HarborRealm }) => {
-  const { realm } = props;
-  if (!realm.discovered) return <Unknown />;
-  const conditions = realm.market_conditions ?? [];
-  if (conditions.length === 0) {
-    return (
-      <span style={{ color: INK_SOFT, fontStyle: 'italic' }}>—</span>
-    );
-  }
+const GoodPill = (props: { name: string; rare: boolean; color: string }) => {
+  const { name, rare, color } = props;
   return (
-    <div style={{ textAlign: 'right' }}>
-      {conditions.map((c: MarketCondition) => (
-        <ConditionPill key={c.name} name={c.name} />
-      ))}
-    </div>
+    <span
+      title={rare ? 'Sometimes' : 'Always'}
+      style={{
+        display: 'inline-block',
+        padding: '0px 5px',
+        marginRight: '3px',
+        marginBottom: '2px',
+        border: `1px ${rare ? 'dashed' : 'solid'} ${color}`,
+        borderRadius: '3px',
+        color: color,
+        background: rare ? 'transparent' : 'rgba(255,248,220,0.5)',
+        fontSize: '10px',
+        whiteSpace: 'nowrap',
+        opacity: rare ? 0.85 : 1,
+      }}
+    >
+      {name}
+    </span>
   );
 };
 
-const TradeListBlock = (props: {
-  label: string;
-  items: string[];
-  labelColor: string;
-}) => {
-  const { label, items, labelColor } = props;
-  return (
-    <div style={{ marginBottom: '4px' }}>
-      <span
-        style={{
-          color: labelColor,
-          fontStyle: 'italic',
-          marginRight: '6px',
-          fontWeight: 'bold',
-        }}
-      >
-        {label}:
-      </span>
-      {items.length === 0 ? (
-        <span style={{ color: INK_FAINT, fontStyle: 'italic' }}>none</span>
-      ) : (
-        items.join(', ')
-      )}
-    </div>
-  );
-};
+const RowLabel = (props: { children: React.ReactNode; color: string }) => (
+  <span
+    style={{
+      color: props.color,
+      fontStyle: 'italic',
+      fontSize: '10px',
+      fontVariant: 'small-caps',
+      fontWeight: 'bold',
+      marginRight: '6px',
+    }}
+  >
+    {props.children}
+  </span>
+);
+
+export const REALM_GRID_COLUMNS = '14px 150px minmax(0, 1fr)';
 
 export const RealmRow = (props: { realm: HarborRealm }) => {
   const { realm } = props;
   const [expanded, setExpanded] = useState(false);
   const conditions = realm.market_conditions ?? [];
+  const isUnknown = !realm.discovered;
 
   return (
     <div
@@ -101,59 +126,125 @@ export const RealmRow = (props: { realm: HarborRealm }) => {
     >
       <div
         style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '12px',
-          padding: '6px 8px',
+          display: 'grid',
+          gridTemplateColumns: REALM_GRID_COLUMNS,
+          alignItems: 'start',
+          columnGap: '8px',
+          padding: '6px',
           cursor: 'pointer',
+          fontSize: '11px',
         }}
         onClick={() => setExpanded((e) => !e)}
       >
-        <div style={{ flex: '0 0 16px', color: INK_SOFT, fontSize: '11px' }}>
+        <div
+          style={{
+            color: INK_SOFT,
+            fontSize: '11px',
+            paddingTop: '2px',
+          }}
+        >
           {expanded ? '▾' : '▸'}
         </div>
-        <div style={{ flex: '0 0 130px' }}>
+
+        {/* Left column: realm name + conditions stacked */}
+        <div style={{ minWidth: 0 }}>
           <div
             style={{
               color: SEAL_AMBER,
               fontVariant: 'small-caps',
               fontSize: '13px',
               fontWeight: 'bold',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              whiteSpace: 'nowrap',
+              marginBottom: '3px',
             }}
           >
             {realm.name}
           </div>
-        </div>
-        <div
-          style={{
-            flex: 1,
-            fontSize: '11px',
-            color: INK,
-          }}
-        >
-          <div>
-            <span style={{ color: SEAL_GREEN, fontWeight: 'bold' }}>Buys</span>
-            {' '}
-            <span style={{ color: INK_SOFT }}>
-              {summarize(realm.basic_buys, 3)}
-            </span>
-          </div>
-          <div>
-            <span style={{ color: SEAL_RED, fontWeight: 'bold' }}>Sells</span>
-            {' '}
-            <span style={{ color: INK_SOFT }}>
-              {summarize(realm.basic_sells, 3)}
-            </span>
+          <div style={{ lineHeight: '1.5' }}>
+            {isUnknown ? (
+              <Unknown />
+            ) : conditions.length === 0 ? (
+              <span
+                style={{
+                  color: INK_SOFT,
+                  fontStyle: 'italic',
+                  fontSize: '10px',
+                }}
+              >
+                no conditions
+              </span>
+            ) : (
+              conditions.map((c) => (
+                <ConditionPill key={c.name} condition={c} />
+              ))
+            )}
           </div>
         </div>
-        <div
-          style={{
-            flex: '0 0 180px',
-            textAlign: 'right',
-            fontSize: '12px',
-          }}
-        >
-          <MarketConditionsCell realm={realm} />
+
+        {/* Right column: demand row, buys row, sells row */}
+        <div style={{ minWidth: 0 }}>
+          <div style={{ lineHeight: '1.5', marginBottom: '3px' }}>
+            <RowLabel color={SEAL_AMBER}>Demand</RowLabel>
+            {realm.demanded_categories.length === 0 ? (
+              <span style={{ color: INK_FAINT, fontStyle: 'italic' }}>—</span>
+            ) : (
+              realm.demanded_categories.map((cat) => (
+                <CategoryPill key={cat} name={cat} />
+              ))
+            )}
+          </div>
+          <div style={{ lineHeight: '1.5', marginBottom: '3px' }}>
+            <RowLabel color={SEAL_GREEN}>Buys</RowLabel>
+            {realm.basic_buys.length + realm.rare_buys.length === 0 ? (
+              <span style={{ color: INK_FAINT, fontStyle: 'italic' }}>none</span>
+            ) : (
+              <>
+                {realm.basic_buys.map((g) => (
+                  <GoodPill
+                    key={`b-${g}`}
+                    name={g}
+                    rare={false}
+                    color={SEAL_GREEN}
+                  />
+                ))}
+                {realm.rare_buys.map((g) => (
+                  <GoodPill
+                    key={`br-${g}`}
+                    name={g}
+                    rare={true}
+                    color={SEAL_GREEN}
+                  />
+                ))}
+              </>
+            )}
+          </div>
+          <div style={{ lineHeight: '1.5' }}>
+            <RowLabel color={SEAL_RED}>Sells</RowLabel>
+            {realm.basic_sells.length + realm.rare_sells.length === 0 ? (
+              <span style={{ color: INK_FAINT, fontStyle: 'italic' }}>none</span>
+            ) : (
+              <>
+                {realm.basic_sells.map((g) => (
+                  <GoodPill
+                    key={`s-${g}`}
+                    name={g}
+                    rare={false}
+                    color={SEAL_RED}
+                  />
+                ))}
+                {realm.rare_sells.map((g) => (
+                  <GoodPill
+                    key={`sr-${g}`}
+                    name={g}
+                    rare={true}
+                    color={SEAL_RED}
+                  />
+                ))}
+              </>
+            )}
+          </div>
         </div>
       </div>
       {expanded && (
@@ -162,49 +253,24 @@ export const RealmRow = (props: { realm: HarborRealm }) => {
             padding: '6px 8px 10px 36px',
             fontSize: '12px',
             color: INK,
+            background: 'rgba(255,248,220,0.3)',
           }}
         >
-          <TradeListBlock
-            label="Always Buys"
-            items={realm.basic_buys}
-            labelColor={SEAL_GREEN}
-          />
-          <TradeListBlock
-            label="Sometimes Buys"
-            items={realm.rare_buys}
-            labelColor={SEAL_GREEN}
-          />
-          <TradeListBlock
-            label="Always Sells"
-            items={realm.basic_sells}
-            labelColor={SEAL_RED}
-          />
-          <TradeListBlock
-            label="Sometimes Sells"
-            items={realm.rare_sells}
-            labelColor={SEAL_RED}
-          />
-          <div style={{ marginTop: '6px' }}>
-            <div
-              style={{
-                color: SEAL_AMBER,
-                fontStyle: 'italic',
-                fontWeight: 'bold',
-                marginBottom: '4px',
-              }}
-            >
-              Market Conditions:
-            </div>
-            {!realm.discovered ? (
-              <Unknown />
-            ) : conditions.length === 0 ? (
-              <span style={{ color: INK_SOFT }}>
-                No notable conditions reported.
-              </span>
-            ) : (
-              conditions.map((c: MarketCondition) => (
+          {!isUnknown && conditions.length > 0 && (
+            <div style={{ marginBottom: '8px' }}>
+              <div
+                style={{
+                  color: SEAL_AMBER,
+                  fontStyle: 'italic',
+                  fontWeight: 'bold',
+                  marginBottom: '4px',
+                }}
+              >
+                Market Conditions:
+              </div>
+              {conditions.map((c) => (
                 <div key={c.name} style={{ marginBottom: '6px' }}>
-                  <ConditionPill name={c.name} />
+                  <ConditionPill condition={c} />
                   <div
                     style={{
                       marginTop: '2px',
@@ -216,9 +282,9 @@ export const RealmRow = (props: { realm: HarborRealm }) => {
                     {c.description}
                   </div>
                 </div>
-              ))
-            )}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
       )}
     </div>

@@ -1,5 +1,7 @@
 import type { BooleanLike } from 'tgui-core/react';
 
+import type { MarketData } from '../Noticeboard/types';
+
 export type BulkLine = {
   good: string;
   good_name: string;
@@ -41,6 +43,7 @@ export type CulturalStockEntry = {
 export type MarketCondition = {
   name: string;
   description: string;
+  tone?: 'good' | 'bad' | 'neutral';
 };
 
 export type HarborRealm = {
@@ -52,6 +55,7 @@ export type HarborRealm = {
   rare_buys: string[];
   basic_sells: string[];
   rare_sells: string[];
+  demanded_categories: string[];
   market_conditions?: MarketCondition[];
 };
 
@@ -70,6 +74,7 @@ export type HarborData = {
   merchant_levy_taxed: number;
   favor: FavorData;
   ledger: LedgerData;
+  market_data: MarketData;
 };
 
 export type FundLogEntry = {

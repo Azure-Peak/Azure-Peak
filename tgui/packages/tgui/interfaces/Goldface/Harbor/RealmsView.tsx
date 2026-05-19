@@ -6,15 +6,16 @@ import {
   SERIF,
 } from '../../common/parchment';
 import type { HarborRealm } from '../types';
-import { RealmRow } from './RealmRow';
+import { REALM_GRID_COLUMNS, RealmRow } from './RealmRow';
 
 const HeaderStrip = () => (
   <div
     style={{
-      display: 'flex',
-      alignItems: 'center',
-      gap: '12px',
-      padding: '4px 8px',
+      display: 'grid',
+      gridTemplateColumns: REALM_GRID_COLUMNS,
+      alignItems: 'baseline',
+      columnGap: '8px',
+      padding: '4px 6px',
       borderBottom: `1px solid ${INK_FAINT}`,
       fontFamily: SERIF,
       fontSize: '10px',
@@ -22,12 +23,9 @@ const HeaderStrip = () => (
       color: INK_SOFT,
     }}
   >
-    <div style={{ flex: '0 0 16px' }}>&nbsp;</div>
-    <div style={{ flex: '0 0 130px' }}>Realm</div>
-    <div style={{ flex: 1 }}>Typical Trade</div>
-    <div style={{ flex: '0 0 180px', textAlign: 'right' }}>
-      Market Conditions
-    </div>
+    <div>&nbsp;</div>
+    <div>Realm / Conditions</div>
+    <div>Demand / Buys / Sells</div>
   </div>
 );
 

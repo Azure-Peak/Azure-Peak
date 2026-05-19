@@ -9,6 +9,7 @@
 	var/list/demand_modifiers = list()
 	var/list/cultural_modifiers = list()
 	var/list/per_realm_modifiers = list()
+	var/tone = "neutral"
 
 /datum/realm_condition/proc/apply_to(datum/foreign_realm/R)
 	if(!R)
