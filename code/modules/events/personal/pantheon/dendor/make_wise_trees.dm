@@ -37,6 +37,8 @@
 			continue
 		if(locate(/obj/effect/proc_holder/spell/invoked/transform_tree) in human_mob.mind.spell_list)
 			continue
+		if(!human_mob.client.prefs || human_mob.client.prefs?.no_storyteller_events)
+			continue
 		valid_targets += human_mob
 
 	if(!valid_targets.len)

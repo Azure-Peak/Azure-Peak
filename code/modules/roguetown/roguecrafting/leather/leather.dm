@@ -220,7 +220,7 @@
 	craftdiff = 1
 	always_availible = TRUE
 
-/datum/crafting_recipe/roguetown/leather/doctormask
+/datum/crafting_recipe/roguetown/leather/doctormaskphys
 	name = "head physician's mask"
 	display_category = ITEM_CAT_ARMOR_MASKS
 	result = /obj/item/clothing/mask/rogue/courtphysician
