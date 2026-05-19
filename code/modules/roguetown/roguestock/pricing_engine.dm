@@ -103,6 +103,22 @@ GLOBAL_LIST_EMPTY(item_cat_markups)
 			sticky_trade_goods[TG.item_type] = TG
 			if(TG.base_price > 0)
 				GLOB.derived_sellprices[TG.item_type] = TG.base_price
+		if(TG.display_category)
+			for(var/subtype in typesof(TG.item_type))
+				GLOB.derived_categories[subtype] = TG.display_category
+	// Abstract trade_good subtypes (no id, not registered in GLOB.trade_goods) may still declare
+	// a display_category to tag a whole item_type subtree. Useful for non-crafted item families
+	// like fish where many subtypes share a category but only some are individually traded.
+	for(var/path in subtypesof(/datum/trade_good))
+		var/datum/trade_good/proto = path
+		var/proto_id = initial(proto.id)
+		var/proto_cat = initial(proto.display_category)
+		var/proto_type = initial(proto.item_type)
+		if(proto_id || !proto_cat || !proto_type)
+			continue
+		for(var/subtype in typesof(proto_type))
+			if(!GLOB.derived_categories[subtype])
+				GLOB.derived_categories[subtype] = proto_cat
 	var/list/missing_materials = list()
 	var/list/audit_lines
 #ifdef PRICING_ENGINE_DUMP_AUDITS

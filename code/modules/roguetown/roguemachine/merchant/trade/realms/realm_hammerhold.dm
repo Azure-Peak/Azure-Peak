@@ -3,7 +3,7 @@
 	name = "Hammerhold"
 	auto_discovered = FALSE
 	roll_weight = TRADE_REALM_WEIGHT_DISTANT
-	demanded_categories = list(ITEM_CAT_FOODSTUFF_FRESH, ITEM_CAT_GARMENT_COMMON, ITEM_CAT_GARMENT_LUXURY, ITEM_CAT_RAW_MATERIAL_ORGANIC, ITEM_CAT_BEVERAGE, ITEM_CAT_ARMOR_BOOTS, ITEM_CAT_ARMOR_GLOVES, ITEM_CAT_ARMOR_LEGS, ITEM_CAT_ARMOR_LIGHT, ITEM_CAT_TOOLS_FIELD)
+	demanded_categories = list(ITEM_CAT_FOODSTUFF_FRESH, ITEM_CAT_GARMENT_COMMON, ITEM_CAT_GARMENT_LUXURY, ITEM_CAT_RAW_MATERIAL_ORGANIC, ITEM_CAT_BEVERAGE, ITEM_CAT_ARMOR_BOOTS, ITEM_CAT_ARMOR_GLOVES, ITEM_CAT_ARMOR_LEGS, ITEM_CAT_ARMOR_LIGHT, ITEM_CAT_TOOLS_FIELD, ITEM_CAT_SEAFOOD)
 	single_word_base = TRUE
 	ship_name_words = list(
 		"Æthel", "Beorht", "Hammer", "Anvil", "Grim",
@@ -107,4 +107,5 @@
 		"Three of my deckhands are bull-marked beneath the eyes - pardoned in the Hearth's tradition. They lift cargo, not coin. Mind your stevedores.",
 		"My factor at Norwardine warned me the southern markets had soured. I came anyway. Let us see who was right.",
 		"My ship carries an old Atgervi veteran, his last voyage before the abbey takes his sword. For three zennies he will sit with you and tell the true account of the Brazen Bull, the Greycoat war, and the night the gates of Granite Fort first opened to humen. He drinks more than he eats. Pay him and listen well - in Norwardine the songs live in the men who sing them, and there are not many old men left who remember the early daes.",
+		"Factor! Give me the biggest barrel of sturgeon and caviar I have ever seen! I shall trade the finest armor of gilbranze and steel! True dwarven crafts from Hammerhold. It will even take three siegebolts to the chest for your trouble. It is marked and proofed, you can even see the dent and a seal of the craftsman on the inside. And for your troubles, I shall give you four bottles of our finest voddena and ingots. My Hold hungers for the finest southern delicacies. Please deliver them unto me with haste. I'd like a taste before we set sail."
 	)

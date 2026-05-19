@@ -3,7 +3,7 @@
 	name = "Lingyue"
 	auto_discovered = FALSE
 	roll_weight = TRADE_REALM_WEIGHT_DISTANT
-	demanded_categories = list(ITEM_CAT_WEAPONS_SWORDS, ITEM_CAT_ARMOR_CHESTPIECES, ITEM_CAT_RAW_MATERIAL_MINERAL, ITEM_CAT_BEVERAGE, ITEM_CAT_GARMENT_LUXURY, ITEM_CAT_POTION, ITEM_CAT_ARCYNE_GEARS, ITEM_CAT_ARMOR_GLOVES, ITEM_CAT_INSTRUMENT)
+	demanded_categories = list(ITEM_CAT_WEAPONS_SWORDS, ITEM_CAT_ARMOR_CHESTPIECES, ITEM_CAT_RAW_MATERIAL_MINERAL, ITEM_CAT_BEVERAGE, ITEM_CAT_GARMENT_LUXURY, ITEM_CAT_POTION, ITEM_CAT_ARCYNE_GEARS, ITEM_CAT_ARMOR_GLOVES, ITEM_CAT_INSTRUMENT, ITEM_CAT_SEAFOOD)
 	single_word_base = TRUE
 	ship_name_words = list(
 		"Tianxia", "Fenghuang", "Qilin", "Longwang", "Yuanzhao",
@@ -89,4 +89,5 @@
 		"Mark me - I am Zou by lineage, and that name still means something on the mainland, even if the eastern overlords would have it otherwise. Trade with my house, not with the hand on its shoulder.",
 		"My grandfather's grandfather served Yuanzhao before the Schism. We have outlived two dynasties and an invasion. Your Duchy does not impress me.",
 		"I bring with me a masseur trained in the ancient art of medical massage. Did you know your body has twenty-four meridian points, and he can strike the twenty-fifth? For only a zenny he will show his skill with hot stones and cup, for three hours. Pay him and you will experience Saidun's heaven on Psydonia ten thousand yils early. Just remember to send him back before we undock - he has been left behind in two ports already. I would not like to turn my ship back a third time.",
+		"Ah! Azurian fishes and crabs! Legendary, I know at least twenty housewives and househusbands who would kill for a taste of them. I have a runic chest from Shenzhou to preserve them for the journey home. Now, excuse me, I would like, uhhh, ...three salmon of twenty catty, and - oh, oh, before I forget - one salmon of forty-five catty, the prettiest one, the one you were saving, yes that one, for Magistrate Chan, who counts cargo with his eyes and his eyes, you understand, can be occupied. And one crab. The biggest crab. Sixty catty, claws bound but not too tightly, Ms. Wen likes a little fight in them, she has prepared a tank. A tank, friend. The woman has prepared a tank. And - wait, wait - six smaller crabs, ten catty each, for the housewives who only think they want the big one, because none of them have a tank, none of them, I have asked. Also ice. Do you have ice? The runic chest is good but ice is better, ice is insurance, and Magistrate Chan's salmon must arrive looking like it leaped fresh out of the river."
 	)

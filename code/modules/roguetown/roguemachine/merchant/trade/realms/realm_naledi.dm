@@ -3,7 +3,7 @@
 	name = "Naledi"
 	auto_discovered = FALSE
 	roll_weight = TRADE_REALM_WEIGHT_DISTANT
-	demanded_categories = list(ITEM_CAT_WEAPONS_SWORDS, ITEM_CAT_ARMOR_CHESTPIECES, ITEM_CAT_FOODSTUFF_FRESH, ITEM_CAT_BEVERAGE, ITEM_CAT_RAW_MATERIAL_MINERAL, ITEM_CAT_GARMENT_LUXURY, ITEM_CAT_WEAPONS_SHIELDS, ITEM_CAT_ARMOR_LEGS, ITEM_CAT_ARMOR_BOOTS, ITEM_CAT_ARMOR_BARDING)
+	demanded_categories = list(ITEM_CAT_WEAPONS_SWORDS, ITEM_CAT_ARMOR_CHESTPIECES, ITEM_CAT_FOODSTUFF_FRESH, ITEM_CAT_BEVERAGE, ITEM_CAT_RAW_MATERIAL_MINERAL, ITEM_CAT_GARMENT_LUXURY, ITEM_CAT_WEAPONS_SHIELDS, ITEM_CAT_ARMOR_LEGS, ITEM_CAT_ARMOR_BOOTS, ITEM_CAT_ARMOR_BARDING, ITEM_CAT_SEAFOOD)
 	ship_name_words = list(
 		"Psydon", "Bilomari", "Veralun", "Olindar", "Veranda",
 		"Repentance", "Mercy", "Vigil", "Pilgrim", "Endurance",
@@ -106,4 +106,6 @@
 		"A wandering Vizier-scholar rides with me, bound for your Avisa boards to study how foreign justice is recorded. She pays in knowledge, not coin. Direct her kindly when she asks, and she will write your magistrate's name well in her journals.",
 		"My grandmother saw the Otavan expedition return from the Dunes with the Pope's confession hanging from their saddles. She lived to a hundred and seven and never trusted a priest of the Ten again. I follow her in this.",
 		"A Vizier-scholar of the Olindar houses rides with me, returning from her tutoring at the Otavan abbeys. For one zenny she will read a passage of the Treatise of Endurance and explain it for as long as you will listen. She has lectured for nine hours without rest at the Hierophant houses. Pay her and you will know why the Warscholars endure where lesser men kneel.",
+		"The Dunes are beautiful two months past now. It is beautiful, and our architecture are most impressive. I would invite you on a trip, and then make a hefty profit by selling you the services of Warscholars to escort you from the Djinn of the sand. What say you, Factor? Do you want to see the Dunes with your own eyes?"
+		"Olindar is holding another conclave of the Warscholars. And us Naledi knows to partake moderately in joys and pleasures of the world, as is right under the gaze of Psydon. So, give me the finest of your wines, the most succulent of your shrimps, lobsters and crabs from the sea, and a platter of your best cheeses. Spices? Do not bother, ours are the best in the world, I have some in the hold for you."
 	)

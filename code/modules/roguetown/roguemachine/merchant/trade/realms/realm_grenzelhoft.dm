@@ -3,7 +3,7 @@
 	name = "Grenzelhoft"
 	auto_discovered = TRUE
 	roll_weight = TRADE_REALM_WEIGHT_NEIGHBOR
-	demanded_categories = list(ITEM_CAT_REAGENT_ARCANE, ITEM_CAT_BOOK_WRIT, ITEM_CAT_FOODSTUFF_FRESH, ITEM_CAT_GARMENT_LUXURY, ITEM_CAT_ARCYNE_GEARS, ITEM_CAT_POTION)
+	demanded_categories = list(ITEM_CAT_REAGENT_ARCANE, ITEM_CAT_BOOK_WRIT, ITEM_CAT_FOODSTUFF_FRESH, ITEM_CAT_GARMENT_LUXURY, ITEM_CAT_ARCYNE_GEARS, ITEM_CAT_POTION, ITEM_CAT_SEAFOOD)
 	ship_name_words = list(
 		"Eisernen", "Sturm", "Adler", "Wolf", "Drache",
 		"Schwert", "Bruder", "Krone", "Burg", "Wappen",
@@ -109,4 +109,5 @@
 		"A burgher of Zenitstadt rode with us this voyage and would not stop weeping and vomiting at the masthead. He has paid his fare. I make no apology for him.",
 		"You will find my prices fair and my temper short. Do not test the second to bargain the first.",
 		"I sailed with one captive raider of the Gronnic coast in chains below decks for the crossing. He is delivered to your magistrate, alive, as the compact requires. Now my real cargo - grain.",
+		"Give me smoked eels by the barrel. Unjellied, please, that thing is an abomination upon humenity. I've heard the Celestial Academy's students have gotten tired of eating salmon everydaes. So eels from your river would be a nice change of pace."	
 	)

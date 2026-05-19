@@ -3,7 +3,7 @@
 	name = "Otava"
 	auto_discovered = TRUE
 	roll_weight = TRADE_REALM_WEIGHT_NEIGHBOR
-	demanded_categories = list(ITEM_CAT_RAW_MATERIAL_MINERAL, ITEM_CAT_RAW_MATERIAL_ORGANIC, ITEM_CAT_BEVERAGE, ITEM_CAT_GARMENT_LUXURY, ITEM_CAT_REAGENT_ALCHEMICAL, ITEM_CAT_ARMOR_LEGS, ITEM_CAT_ARMOR_BRACERS, ITEM_CAT_INSTRUMENT, ITEM_CAT_DECORATION)
+	demanded_categories = list(ITEM_CAT_RAW_MATERIAL_MINERAL, ITEM_CAT_RAW_MATERIAL_ORGANIC, ITEM_CAT_BEVERAGE, ITEM_CAT_GARMENT_LUXURY, ITEM_CAT_REAGENT_ALCHEMICAL, ITEM_CAT_ARMOR_LEGS, ITEM_CAT_ARMOR_BRACERS, ITEM_CAT_INSTRUMENT, ITEM_CAT_DECORATION, ITEM_CAT_SEAFOOD)
 	single_word_base = TRUE
 	ship_name_words = list(
 		"Belle", "Coeur", "Lis", "Rose", "Etoile",
@@ -124,4 +124,5 @@
 		"For three zennies, my Routier-corporal will guard your shipment from gangway to warehouse, bonded by writ and blessed by the Red Priests of Noireau. He is the last of his company; the rest fell in the Pais-Occitanie wars. Engage him before he takes his pension at Verquent and his sword goes to the abbey wall, where it will not see use again.",
 		"A passenger from Pais-Occitanie has been staring at the same patch of water since we sighted your cliffs. Take them ashore quickly - I will not have them die in my cabin.",
 		"A masked Confessor sailed with me from Vallouise. I asked no questions; they paid in full and disembarked at first light without a word. I record their fare as 'goods, unspecified.' I trust you will record their passage the same.",
+		"Sole in white wine for the Inquisition and the Royalty of Otava. Do not haggle, Factor."
 	)

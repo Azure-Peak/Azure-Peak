@@ -3,7 +3,7 @@
 	name = "Gronn"
 	auto_discovered = FALSE
 	roll_weight = TRADE_REALM_WEIGHT_DISTANT
-	demanded_categories = list(ITEM_CAT_WEAPONS_SWORDS, ITEM_CAT_WEAPONS_AXES, ITEM_CAT_WEAPONS_MACES, ITEM_CAT_ARMOR_CHESTPIECES, ITEM_CAT_ARMOR_HELMETS, ITEM_CAT_FOODSTUFF_PRESERVED, ITEM_CAT_WEAPONS_AMMO, ITEM_CAT_WEAPONS_FLAILS, ITEM_CAT_ARMOR_BRACERS, ITEM_CAT_TROPHY, ITEM_CAT_ARMOR_BELTS, ITEM_CAT_ARMOR_LIGHT)
+	demanded_categories = list(ITEM_CAT_WEAPONS_SWORDS, ITEM_CAT_WEAPONS_AXES, ITEM_CAT_WEAPONS_MACES, ITEM_CAT_ARMOR_CHESTPIECES, ITEM_CAT_ARMOR_HELMETS, ITEM_CAT_FOODSTUFF_PRESERVED, ITEM_CAT_WEAPONS_AMMO, ITEM_CAT_WEAPONS_FLAILS, ITEM_CAT_ARMOR_BRACERS, ITEM_CAT_TROPHY, ITEM_CAT_ARMOR_BELTS, ITEM_CAT_ARMOR_LIGHT, ITEM_CAT_SEAFOOD)
 	ship_name_words = list(
 		"Fjord", "Iskarn", "Volf", "Beorn", "Ravn",
 		"Skuld", "Storm", "Aurora", "Glacier", "Ulfr",
@@ -102,4 +102,5 @@
 		"The aurora followed us south. The crew calls that a witness. Your Ten have nothing to do with it; do not bring your priests to argue otherwise.",
 		"We do not raid this season. The compact holds. Pray the next captain you meet from our shore says the same.",
 		"I bring mead enough to drown the winter. Drink it as men, not as your southern fashion of sipping it like broth.",
+		"My people dream of plaice in butter, herbed with mentha. You people call it Saint Dendor's Salmon, an Otavais dish I heard. Sell me the southern butter, the mentha, and the plaices in ice. We pays well"
 	)

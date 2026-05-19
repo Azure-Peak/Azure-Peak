@@ -3,7 +3,7 @@
 	name = "Aavnr"
 	auto_discovered = TRUE
 	roll_weight = TRADE_REALM_WEIGHT_NEIGHBOR
-	demanded_categories = list(ITEM_CAT_WEAPONS_SWORDS, ITEM_CAT_ARMOR_CHESTPIECES, ITEM_CAT_GARMENT_FINE, ITEM_CAT_GARMENT_LUXURY, ITEM_CAT_RAW_MATERIAL_MINERAL, ITEM_CAT_BOOK_WRIT, ITEM_CAT_ARMOR_BARDING, ITEM_CAT_ARMOR_BELTS, ITEM_CAT_TOOLS_FIELD)
+	demanded_categories = list(ITEM_CAT_WEAPONS_SWORDS, ITEM_CAT_ARMOR_CHESTPIECES, ITEM_CAT_GARMENT_FINE, ITEM_CAT_GARMENT_LUXURY, ITEM_CAT_RAW_MATERIAL_MINERAL, ITEM_CAT_BOOK_WRIT, ITEM_CAT_ARMOR_BARDING, ITEM_CAT_ARMOR_BELTS, ITEM_CAT_TOOLS_FIELD, ITEM_CAT_SEAFOOD)
 	ship_name_words = list(
 		"Yarlsnik", "Koprivka", "Diethelm", "Tomorzh", "Khairin",
 		"Wardenpact", "Hetman", "Saiga", "Bloodaxe", "Ironmask",
@@ -97,4 +97,5 @@
 		"The saiga milk is for selling, not for drinking on duty. Tell your stevedores. I have already told mine.",
 		"The Potentate weighs heavy on the keel and heavier on my purse. Lighten one and the other follows.",
 		"A saiga-binder of the Astrava-line rides with me, last of his teaching. For two zennies he will lay hands on a fogbeast and the creature will know your name without it ever being told. He sails because his sons cannot learn what he knows, and the line will end with him on this voyage or the next. Pay him while you can.",
+		"Pickled herrings for the sons and daughters of the steppes. Mare's milk and saiga sausage are great, but our warriors do like to have something foreign to chew on on their march."
 	)

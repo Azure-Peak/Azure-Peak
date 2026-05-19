@@ -46,6 +46,7 @@
 
 #define ITEM_CAT_FOODSTUFF_FRESH "Foodstuffs (Fresh)"
 #define ITEM_CAT_FOODSTUFF_PRESERVED "Foodstuffs (Preserved)"
+#define ITEM_CAT_SEAFOOD "Seafood"
 
 #define ITEM_CAT_POTION "Potions"
 #define ITEM_CAT_BEVERAGE "Beverages"
