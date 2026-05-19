@@ -1,0 +1,4 @@
+author: "SpadesNeil"
+delete-after: True
+changes:
+  - rscdel: "Removes \"Emperor of Flame\" from shamisen"

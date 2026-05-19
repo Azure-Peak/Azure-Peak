@@ -696,6 +696,8 @@
 		for(var/adv in job_subclasses)
 			var/datum/advclass/advpath = adv
 			var/datum/advclass/subclass = SSrole_class_handler.get_advclass_by_name(initial(advpath.name))
+			if(!subclass)
+				continue
 			if(subclass.maximum_possible_slots != -1)
 				dat += "[subclass.name] — <b>"
 				if(subclass.total_slots_occupied >= subclass.maximum_possible_slots)
@@ -720,6 +722,8 @@
 			var/advdat = ""
 			var/datum/advclass/subclasspath = adv
 			var/datum/advclass/subclass = SSrole_class_handler.get_advclass_by_name(initial(subclasspath.name))
+			if(!subclass)
+				continue
 			var/found_issue = FALSE
 			if(length(subclass.virtue_limits))
 				for(var/virtuetype in subclass.virtue_limits)
@@ -766,6 +770,8 @@
 	for(var/adv in job_subclasses)
 		var/datum/advclass/subclasspath = adv
 		var/datum/advclass/subclass = SSrole_class_handler.get_advclass_by_name(initial(subclasspath.name))
+		if(!subclass)
+			continue
 		if(length(subclass.virtue_limits))
 			for(var/virtuetype in subclass.virtue_limits)
 				if(istype(player.prefs.virtue, virtuetype) || istype(player.prefs.virtuetwo, virtuetype))

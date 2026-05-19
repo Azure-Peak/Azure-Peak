@@ -122,8 +122,6 @@ GLOBAL_LIST_INIT(drowraider_aggro, world.file2list("strings/rt/drowaggrolines.tx
 	else
 		real_name = pick(world.file2list("strings/rt/names/elf/elfdm.txt"))
 
-	faction += "spider_lowers"
-
 	update_hair()
 	update_body()
 

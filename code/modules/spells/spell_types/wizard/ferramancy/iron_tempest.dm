@@ -47,6 +47,8 @@
 
 /datum/action/cooldown/spell/projectile/iron_tempest/ready_projectile(obj/projectile/to_fire, atom/target, mob/user, iteration)
 	. = ..()
+	if(!.)
+		return FALSE
 	var/obj/projectile/magic/iron_tempest_seed/seed = to_fire
 	if(istype(seed))
 		seed.spell_ref = src

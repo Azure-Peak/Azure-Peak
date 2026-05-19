@@ -1,0 +1,6 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Removed the shared SPIDERS_LOWER faction from drow raider, which resulted in anthraxi sharing a faction with drow, thus making them free kills for anthraxi. Because I hear about Anthraxi just farming drow quests and that pisses me off"
+  - rscadd: "Aragn now have a backup melee tree which is no longer blocked by the cocoon tree, so they are actually a threat instead of chasing you longingly"
+  - rscadd: "Fixed aggro on spider cocooning so that they no longer chase someone they cannot aggro onto"
