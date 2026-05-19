@@ -74,6 +74,8 @@
 	cultural_stock_pool = list(
 		/datum/supply_pack/rogue/gems/coral,
 		/datum/supply_pack/rogue/gems/rose,
+		/datum/supply_pack/rogue/food/sugar,
+		/datum/supply_pack/rogue/food/chocolate,
 		/datum/supply_pack/rogue/merc_weapons/etruscanlongsword,
 		/datum/supply_pack/rogue/merc_weapons/erapier,
 		/datum/supply_pack/rogue/merc_weapons/navaja,

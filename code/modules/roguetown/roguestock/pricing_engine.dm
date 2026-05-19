@@ -103,22 +103,7 @@ GLOBAL_LIST_EMPTY(item_cat_markups)
 			sticky_trade_goods[TG.item_type] = TG
 			if(TG.base_price > 0)
 				GLOB.derived_sellprices[TG.item_type] = TG.base_price
-		if(TG.display_category)
-			for(var/subtype in typesof(TG.item_type))
-				GLOB.derived_categories[subtype] = TG.display_category
-	// Abstract trade_good subtypes (no id, not registered in GLOB.trade_goods) may still declare
-	// a display_category to tag a whole item_type subtree. Useful for non-crafted item families
-	// like fish where many subtypes share a category but only some are individually traded.
-	for(var/path in subtypesof(/datum/trade_good))
-		var/datum/trade_good/proto = path
-		var/proto_id = initial(proto.id)
-		var/proto_cat = initial(proto.display_category)
-		var/proto_type = initial(proto.item_type)
-		if(proto_id || !proto_cat || !proto_type)
-			continue
-		for(var/subtype in typesof(proto_type))
-			if(!GLOB.derived_categories[subtype])
-				GLOB.derived_categories[subtype] = proto_cat
+	apply_trade_good_categories()
 	var/list/missing_materials = list()
 	var/list/audit_lines
 #ifdef PRICING_ENGINE_DUMP_AUDITS
@@ -447,6 +432,7 @@ GLOBAL_LIST_EMPTY(item_cat_markups)
 	var/t_fingerprint = world.timeofday
 	if(load_pricing_cache(fingerprint))
 		var/t_loaded = world.timeofday
+		apply_trade_good_categories()
 		log_world("Pricing engine: loaded [length(GLOB.derived_sellprices)] cached prices. [(t_baseline - t_start) * 100]ms baseline + [(t_fingerprint - t_baseline) * 100]ms fingerprint + [(t_loaded - t_fingerprint) * 100]ms cache load = [(t_loaded - t_start) * 100]ms total.")
 		return
 	init_derived_sellprices()
@@ -454,6 +440,24 @@ GLOBAL_LIST_EMPTY(item_cat_markups)
 	save_pricing_cache(fingerprint)
 	var/t_saved = world.timeofday
 	log_world("Pricing engine: full walk. [(t_baseline - t_start) * 100]ms baseline + [(t_fingerprint - t_baseline) * 100]ms fingerprint + [(t_derived - t_fingerprint) * 100]ms walk + [(t_saved - t_derived) * 100]ms cache save = [(t_saved - t_start) * 100]ms total.")
+
+/proc/apply_trade_good_categories()
+	for(var/id in GLOB.trade_goods)
+		var/datum/trade_good/TG = GLOB.trade_goods[id]
+		if(!TG.item_type || !TG.display_category)
+			continue
+		for(var/subtype in typesof(TG.item_type))
+			GLOB.derived_categories[subtype] = TG.display_category
+	for(var/path in subtypesof(/datum/trade_good))
+		var/datum/trade_good/proto = path
+		var/proto_id = initial(proto.id)
+		var/proto_cat = initial(proto.display_category)
+		var/proto_type = initial(proto.item_type)
+		if(proto_id || !proto_cat || !proto_type)
+			continue
+		for(var/subtype in typesof(proto_type))
+			if(!GLOB.derived_categories[subtype])
+				GLOB.derived_categories[subtype] = proto_cat
 
 /proc/pricing_engine_fingerprint()
 	var/list/parts = list()

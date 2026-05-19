@@ -68,6 +68,10 @@
 	cultural_stock_pool = list(
 		/datum/supply_pack/rogue/gems/amber,
 		/datum/supply_pack/rogue/gems/coral,
+		/datum/supply_pack/rogue/food/pepper,
+		/datum/supply_pack/rogue/luxury/spice,
+		/datum/supply_pack/rogue/food/chocolate,
+		/datum/supply_pack/rogue/food/sugar,
 		/datum/supply_pack/rogue/raneshen/janissary_kit,
 		/datum/supply_pack/rogue/raneshen/desert_rider_kit,
 		/datum/supply_pack/rogue/raneshen/megarmach_coat,
@@ -102,4 +106,5 @@
 		"The Emir of Vrdaqnan sent a janissary aboard to keep the peace among my crew. He has, by dancing with two of them and drinking with the third. I will commend him in my report.",
 		"There is a dervish in the third hold who has not stopped spinning since we sighted your cape. He says Günay's blade still turns in the heavens and so must he. Pay him no mind; pay me promptly.",
 		"A geometer of the Vrdaqnan houses rides at my prow, reader of palms by the first light of Astrata. He charges in questions, not coin - one question for one reading, no exceptions. He sails to teach what he has learned before the dervish houses no longer commission his work. Bring him a true question and he will not refuse you. Bring him a flattery and he will not refuse you either, but you will not like the answer.",
+		"Salt cured mackeral and herring for the long caravan trip to land, chests of ice-bound fishes of all varieties. The Sheikhs of the interior have never seen the sea. My partner will bring it to them."
 	)

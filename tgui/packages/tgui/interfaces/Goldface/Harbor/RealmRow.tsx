@@ -256,6 +256,25 @@ export const RealmRow = (props: { realm: HarborRealm }) => {
             background: 'rgba(255,248,220,0.3)',
           }}
         >
+          {realm.cultural_pack_names.length > 0 && (
+            <div style={{ marginBottom: '8px' }}>
+              <div
+                style={{
+                  color: SEAL_AMBER,
+                  fontStyle: 'italic',
+                  fontWeight: 'bold',
+                  marginBottom: '4px',
+                }}
+              >
+                Cultural Stock:
+              </div>
+              <div style={{ lineHeight: '1.6' }}>
+                {realm.cultural_pack_names.map((p) => (
+                  <CategoryPill key={p} name={p} />
+                ))}
+              </div>
+            </div>
+          )}
           {!isUnknown && conditions.length > 0 && (
             <div style={{ marginBottom: '8px' }}>
               <div

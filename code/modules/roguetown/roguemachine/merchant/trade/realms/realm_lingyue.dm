@@ -61,6 +61,8 @@
 	)
 	cultural_stock_pool = list(
 		/datum/supply_pack/rogue/gems/jade,
+		/datum/supply_pack/rogue/food/pepper,
+		/datum/supply_pack/rogue/food/sugar,
 		/datum/supply_pack/rogue/lingyue/wodao,
 		/datum/supply_pack/rogue/lingyue/dadao,
 		/datum/supply_pack/rogue/lingyue/greatdadao,

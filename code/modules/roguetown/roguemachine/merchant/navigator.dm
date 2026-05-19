@@ -330,7 +330,7 @@
 					if(IT.unmintable && !accepts_unmintable)
 						continue
 				var/base_price = I.get_real_price()
-				var/category = GLOB.derived_categories ? GLOB.derived_categories[I.type] : null
+				var/category = (GLOB.derived_categories && GLOB.derived_categories[I.type]) || ITEM_CAT_MISCELLANEOUS
 				var/saturation_mult = get_market_saturation(category)
 				var/demand_mult = get_market_demand(category)
 				var/prize = round(base_price * saturation_mult * demand_mult * (1 - fixed_tax))

@@ -64,6 +64,7 @@
 		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/meat/bacon/fried, "qty_min" = 5, "qty_max" = 10, "price" = 12),
 	)
 	cultural_stock_pool = list(
+		/datum/supply_pack/rogue/food/honey,
 		/datum/supply_pack/rogue/merc_weapons/beardedaxe,
 		/datum/supply_pack/rogue/merc_weapons/handclaw_iron,
 		/datum/supply_pack/rogue/merc_weapons/handclaw_steel,

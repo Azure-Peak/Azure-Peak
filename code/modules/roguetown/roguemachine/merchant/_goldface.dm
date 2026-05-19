@@ -372,6 +372,7 @@
 			"name" = R.name,
 			"discovered" = discovered ? TRUE : FALSE,
 			"cultural_goods" = R.cultural_goods ? R.cultural_goods.Copy() : list(),
+			"cultural_pack_names" = cultural_pack_names(R.cultural_stock_pool),
 			"basic_buys" = pool_good_names(R.bulk_demand_pool, TRUE),
 			"rare_buys" = pool_good_names(R.bulk_demand_pool, FALSE),
 			"basic_sells" = pool_good_names(R.bulk_supply_pool, TRUE),
@@ -473,6 +474,16 @@
 		"from_silverface" = SSmerchant_trade.favor_from_silverface,
 		"penalties" = SSmerchant_trade.favor_penalties,
 	)
+
+/obj/structure/roguemachine/goldface/proc/cultural_pack_names(list/pack_paths)
+	var/list/result = list()
+	if(!length(pack_paths))
+		return result
+	for(var/path in pack_paths)
+		var/datum/supply_pack/PA = SSmerchant.supply_packs[path]
+		if(PA)
+			result += PA.name
+	return result
 
 /obj/structure/roguemachine/goldface/proc/pool_good_names(list/pool, want_always)
 	var/list/result = list()

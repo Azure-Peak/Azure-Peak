@@ -89,6 +89,7 @@
 	cultural_stock_pool = list(
 		/datum/supply_pack/rogue/gems/amber,
 		/datum/supply_pack/rogue/gems/rose,
+		/datum/supply_pack/rogue/food/rosa,
 		/datum/supply_pack/rogue/otava/morningstar,
 		/datum/supply_pack/rogue/otava/lance,
 		/datum/supply_pack/rogue/otava/flamberge,

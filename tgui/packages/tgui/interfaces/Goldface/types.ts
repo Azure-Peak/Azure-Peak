@@ -51,6 +51,7 @@ export type HarborRealm = {
   name: string;
   discovered: BooleanLike;
   cultural_goods: string[];
+  cultural_pack_names: string[];
   basic_buys: string[];
   rare_buys: string[];
   basic_sells: string[];
