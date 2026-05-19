@@ -13,6 +13,7 @@
 	outfit = /datum/outfit/job/roguetown/steward
 	give_bank_account = TRUE
 	noble_income = 16
+	quest_claim_barred = TRUE
 	min_pq = 3 //Please don't give the vault keys to somebody that's going to lock themselves in on accident
 	max_pq = null
 	round_contrib_points = 3

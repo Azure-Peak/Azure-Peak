@@ -101,6 +101,17 @@ SUBSYSTEM_DEF(treasury)
 	var/poll_projection_dirty = TRUE
 	/// Steward-settable floor. Stockpile refuses purchases when Crown's Purse would drop below this.
 	var/stockpile_purchase_floor = STOCKPILE_CROWN_PURCHASE_FLOOR_DEFAULT
+	/// Per-tick stewardry UI market view cache. Holds the full market_rows table
+	/// (per-good stock + sorted region price lists), region_rows table, and the
+	/// total_arbitrage_potential scalar. Invalidated by any mutator that affects
+	/// stockpile state, region today-pace, or blockade flag. Initial state is
+	/// dirty so first read builds.
+	var/list/cached_market_rows = null
+	var/list/cached_region_rows = null
+	var/cached_total_arbitrage_potential = 0
+	var/market_view_dirty = TRUE
+	var/list/cached_auto_import_data = null
+	var/auto_import_view_dirty = TRUE
 	var/rumor_points = RUMOR_POINTS_START
 	var/list/rumor_log = list()
 	var/list/rumor_issued_today = list()
@@ -176,15 +187,30 @@ SUBSYSTEM_DEF(treasury)
 /datum/controller/subsystem/treasury/proc/get_rural_tax_amount()
 	return RURAL_TAX
 
+// Mark the cached stewardry market / region / arbitrage
+// View as needing rebuild on next read.
+/datum/controller/subsystem/treasury/proc/dirty_market_view()
+	market_view_dirty = TRUE
+	auto_import_view_dirty = TRUE
+
+/datum/controller/subsystem/treasury/proc/dirty_auto_import_view()
+	auto_import_view_dirty = TRUE
+
 /datum/controller/subsystem/treasury/proc/get_expected_wage_outlay()
 	if(!steward_machine || !steward_machine.daily_payments)
 		return 0
+	var/list/payments = steward_machine.daily_payments
 	var/total = 0
-	for(var/job_name in steward_machine.daily_payments)
-		var/payment_amount = steward_machine.daily_payments[job_name]
-		for(var/mob/living/carbon/human/H in GLOB.human_list)
-			if(H.job == job_name && !HAS_TRAIT(H, TRAIT_WAGES_SUSPENDED))
-				total += payment_amount
+	for(var/mob/living/owner as anything in bank_accounts)
+		if(!owner)
+			continue
+		var/payment_amount = payments[owner.job]
+		if(!payment_amount)
+			continue
+		var/datum/fund/account = bank_accounts[owner]
+		if(!account || account.wages_suspended)
+			continue
+		total += payment_amount
 	return total
 
 /datum/controller/subsystem/treasury/proc/get_account(target)
@@ -424,14 +450,18 @@ SUBSYSTEM_DEF(treasury)
 				SSeconomy.daily_tick()
 			return
 
-	for(var/job_name in steward_machine.daily_payments)
-		var/payment_amount = steward_machine.daily_payments[job_name]
-		for(var/mob/living/carbon/human/H in GLOB.human_list)
-			if(H.job == job_name)
-				if(HAS_TRAIT(H, TRAIT_WAGES_SUSPENDED))
-					continue
-				if(give_money_account(payment_amount, H, "Daily Wage"))
-					record_round_statistic(STATS_WAGES_PAID, payment_amount)
+	var/list/payments = steward_machine.daily_payments
+	for(var/mob/living/owner as anything in bank_accounts)
+		if(!owner)
+			continue
+		var/payment_amount = payments[owner.job]
+		if(!payment_amount)
+			continue
+		var/datum/fund/account = bank_accounts[owner]
+		if(!account || account.wages_suspended)
+			continue
+		if(give_money_account(payment_amount, owner, "Daily Wage"))
+			record_round_statistic(STATS_WAGES_PAID, payment_amount)
 
 	if(SSeconomy)
 		SSeconomy.daily_tick()
@@ -474,6 +504,7 @@ SUBSYSTEM_DEF(treasury)
 		return FALSE
 	var/amt = D.get_export_price()
 	D.stockpile_amount -= D.importexport_amt
+	dirty_market_view()
 
 	mint(discretionary_fund, amt, "exported [D.name]")
 	SStreasury.total_export += amt
