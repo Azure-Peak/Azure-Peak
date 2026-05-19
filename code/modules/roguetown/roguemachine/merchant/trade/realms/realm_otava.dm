@@ -87,6 +87,8 @@
 		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/breadslice/toast, "qty_min" = 6, "qty_max" = 12, "price" = 10),
 	)
 	cultural_stock_pool = list(
+		/datum/supply_pack/rogue/gems/amber,
+		/datum/supply_pack/rogue/gems/rose,
 		/datum/supply_pack/rogue/otava/morningstar,
 		/datum/supply_pack/rogue/otava/lance,
 		/datum/supply_pack/rogue/otava/flamberge,

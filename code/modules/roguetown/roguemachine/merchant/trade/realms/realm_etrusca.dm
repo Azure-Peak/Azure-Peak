@@ -72,6 +72,8 @@
 		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/applebread, "qty_min" = 4, "qty_max" = 8, "price" = 18),
 	)
 	cultural_stock_pool = list(
+		/datum/supply_pack/rogue/gems/coral,
+		/datum/supply_pack/rogue/gems/rose,
 		/datum/supply_pack/rogue/merc_weapons/etruscanlongsword,
 		/datum/supply_pack/rogue/merc_weapons/erapier,
 		/datum/supply_pack/rogue/merc_weapons/navaja,

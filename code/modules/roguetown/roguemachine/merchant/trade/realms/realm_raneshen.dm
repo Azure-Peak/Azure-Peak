@@ -66,6 +66,8 @@
 		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/bun_jamtallow, "qty_min" = 4, "qty_max" = 8, "price" = 16),
 	)
 	cultural_stock_pool = list(
+		/datum/supply_pack/rogue/gems/amber,
+		/datum/supply_pack/rogue/gems/coral,
 		/datum/supply_pack/rogue/raneshen/janissary_kit,
 		/datum/supply_pack/rogue/raneshen/desert_rider_kit,
 		/datum/supply_pack/rogue/raneshen/megarmach_coat,

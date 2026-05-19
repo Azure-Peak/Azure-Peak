@@ -68,6 +68,7 @@
 		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/crackerscooked, "qty_min" = 8, "qty_max" = 15, "price" = 8),
 	)
 	cultural_stock_pool = list(
+		/datum/supply_pack/rogue/gems/jade,
 		/datum/supply_pack/rogue/merc_weapons/hwando,
 		/datum/supply_pack/rogue/merc_weapons/naginata,
 		/datum/supply_pack/rogue/merc_weapons/hookblade,

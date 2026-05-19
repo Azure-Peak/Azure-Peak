@@ -73,6 +73,8 @@
 		list("typepath" = /obj/item/reagent_containers/food/snacks/roastseeds, "qty_min" = 6, "qty_max" = 12, "price" = 10),
 	)
 	cultural_stock_pool = list(
+		/datum/supply_pack/rogue/gems/turq,
+		/datum/supply_pack/rogue/gems/amethyst,
 		/datum/supply_pack/rogue/merc_weapons/shamshir,
 		/datum/supply_pack/rogue/merc_weapons/naledistaff,
 		/datum/supply_pack/rogue/steel_weapons/katar,
