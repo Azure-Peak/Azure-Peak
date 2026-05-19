@@ -89,9 +89,9 @@
 				continue
 			if(M.mind)
 				continue
-			if(!M.ai_controller)
-				continue
 			if(M.faction_check_mob(S))
+				continue
+			if(M.faction_check_mob(owner))
 				continue
 
 			M.ai_controller.set_blackboard_key(BB_BASIC_MOB_CURRENT_TARGET, S)
@@ -100,7 +100,7 @@
 			var/datum/component/ai_aggro_system/aggro = M.GetComponent(/datum/component/ai_aggro_system)
 			
 			if(aggro)
-				aggro.add_threat_to_mob(S, 50)
+				aggro.add_threat_to_mob(S, 100)
 
 		apply_mob_lifespan(S, owner, spawn_lifespan)
 

@@ -46,7 +46,7 @@
 	cooldown_time = 40 SECONDS
 	primary_resource_cost = 30
 	secondary_resource_cost = 10
-	sound = null
+	sound = 'sound/magic/zizo_snuff.ogg'
 	var/snuff_range = 2
 
 /datum/action/cooldown/spell/zizo/snuff_lights/cast(atom/cast_on)
@@ -69,7 +69,6 @@
 	var/bonus_duration = 10 SECONDS + ((max(skill_level - 1, 0)) * 30 SECONDS)
 	L.apply_status_effect(/datum/status_effect/buff/snuff_lights, bonus_duration)
 	owner.visible_message(span_purple("[owner] exhales a cold fog that smothers nearby lights."))
-	playsound(owner.loc, 'sound/magic/zizo_snuff.ogg')
 	return TRUE
 
 /atom/movable/screen/alert/status_effect/buff/snuff_lights
