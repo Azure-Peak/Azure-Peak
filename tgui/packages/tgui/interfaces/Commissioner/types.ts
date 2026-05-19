@@ -1,11 +1,17 @@
 import type { BooleanLike } from 'tgui-core/react';
 
+export type RecipeMaterial = {
+  name: string;
+  qty: number;
+};
+
 export type CatalogEntry = {
   ref: string;
   name: string;
   category: string;
   price: number;
   ingot: string;
+  materials: RecipeMaterial[];
 };
 
 export type ManifestLine = {
@@ -37,6 +43,7 @@ export type Order = {
   deposited: number;
   status: OrderStatus;
   lines: OrderLine[];
+  materials: RecipeMaterial[];
   fulfillment: OrderFulfillment[];
   done_count: number;
   needed_count: number;

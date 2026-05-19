@@ -48,94 +48,91 @@ const OrderCard = (props: {
     (order.status === 'open' && isGuildmaster) ||
     (order.status === 'claimed' && (isSmith || isGuildmaster));
   return (
-    <div style={{ ...cardStyle, marginBottom: '8px' }}>
+    <div style={{ ...cardStyle, padding: '6px 8px', marginBottom: 0 }}>
       <div
         style={{
           display: 'flex',
           alignItems: 'baseline',
           flexWrap: 'wrap',
-          gap: '6px',
+          gap: '4px',
         }}
       >
         <span style={badgeStyle(STATUS_BADGE_COLOR[order.status] || SEAL_BLUE)}>
           {STATUS_LABEL[order.status] || order.status.toUpperCase()}
         </span>
-        <span style={{ color: SEAL_AMBER, fontWeight: 'bold', fontSize: '13px' }}>
+        <span style={{ color: SEAL_AMBER, fontWeight: 'bold', fontSize: '12px' }}>
           {order.deposited}m
+        </span>
+        <span
+          style={{
+            fontFamily: SERIF,
+            fontSize: '11px',
+            color: INK,
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap',
+            flex: 1,
+            minWidth: 0,
+          }}
+        >
+          <span style={{ color: INK_SOFT, fontStyle: 'italic' }}>for </span>
+          <b>{starsIf(order.commissioner_name, canRead)}</b>
+          {order.status !== 'open' && order.smith_name && (
+            <>
+              <span style={{ color: INK_SOFT, fontStyle: 'italic' }}> by </span>
+              <b>{starsIf(order.smith_name, canRead)}</b>
+            </>
+          )}
         </span>
         {!!order.expiry_label && (
           <span
             style={{
-              marginLeft: 'auto',
               fontFamily: SERIF,
-              fontSize: '11px',
+              fontSize: '10px',
               fontStyle: 'italic',
               color: order.days_left <= 0 ? SEAL_RED : INK_SOFT,
             }}
           >
-            {order.expiry_label}{' '}
             <b style={{ color: order.days_left <= 0 ? SEAL_RED : INK }}>
               {order.days_left <= 0
                 ? 'today'
-                : `${order.days_left} day${order.days_left === 1 ? '' : 's'}`}
+                : `${order.days_left}d`}
             </b>
           </span>
-        )}
-      </div>
-
-      <div
-        style={{
-          marginTop: '6px',
-          fontFamily: SERIF,
-          fontSize: '13px',
-          color: INK,
-        }}
-      >
-        {order.status !== 'open' && order.smith_name ? (
-          <>
-            <span style={{ color: INK_SOFT, fontStyle: 'italic' }}>by </span>
-            <b>{starsIf(order.smith_name, canRead)}</b>
-            <span style={{ color: INK_SOFT, fontStyle: 'italic' }}>
-              {' '}for{' '}
-            </span>
-            <b>{starsIf(order.commissioner_name, canRead)}</b>
-          </>
-        ) : (
-          <>
-            <span style={{ color: INK_SOFT, fontStyle: 'italic' }}>
-              for{' '}
-            </span>
-            <b>{starsIf(order.commissioner_name, canRead)}</b>
-          </>
         )}
       </div>
 
       {!!order.note && (
         <div
           style={{
-            marginTop: '4px',
-            padding: '4px 8px',
+            marginTop: '3px',
+            padding: '2px 6px',
             borderLeft: `2px solid ${SEAL_AMBER}`,
             fontFamily: SERIF,
             fontStyle: 'italic',
-            fontSize: '12px',
+            fontSize: '11px',
             color: INK_SOFT,
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
           }}
         >
           &ldquo;{starsIf(order.note, canRead)}&rdquo;
         </div>
       )}
 
-      <div style={{ marginTop: '6px' }}>
+      <div style={{ marginTop: '3px' }}>
         {order.lines.map((line, idx) => (
           <div
             key={idx}
             style={{
-              fontSize: '12px',
+              fontSize: '11px',
               color: INK,
               fontFamily: SERIF,
-              padding: '1px 0',
+              padding: '0px',
               borderBottom: `1px dashed ${PARCHMENT_SHADOW}`,
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              whiteSpace: 'nowrap',
             }}
           >
             {starsIf(line.name, canRead)}{' '}
@@ -144,11 +141,28 @@ const OrderCard = (props: {
         ))}
       </div>
 
+      {canRead && order.materials.length > 0 && (
+        <div
+          style={{
+            marginTop: '3px',
+            fontSize: '10px',
+            fontFamily: SERIF,
+            fontStyle: 'italic',
+            color: INK_SOFT,
+          }}
+        >
+          <span style={{ fontVariant: 'small-caps', color: SEAL_AMBER }}>
+            needs:{' '}
+          </span>
+          {order.materials.map((m) => `${m.qty} ${m.name}`).join(' · ')}
+        </div>
+      )}
+
       {order.status === 'claimed' && (
-        <div style={{ marginTop: '6px' }}>
+        <div style={{ marginTop: '3px' }}>
           <div
             style={{
-              fontSize: '11px',
+              fontSize: '10px',
               fontVariant: 'small-caps',
               color: SEAL_AMBER,
               fontStyle: 'italic',
@@ -160,7 +174,7 @@ const OrderCard = (props: {
             <div
               key={idx}
               style={{
-                fontSize: '11px',
+                fontSize: '10px',
                 fontFamily: SERIF,
                 color: f.have >= f.want ? SEAL_GREEN : INK_SOFT,
               }}
@@ -173,9 +187,9 @@ const OrderCard = (props: {
 
       <div
         style={{
-          marginTop: '8px',
+          marginTop: '4px',
           display: 'flex',
-          gap: '6px',
+          gap: '4px',
           flexWrap: 'wrap',
         }}
       >
@@ -354,7 +368,13 @@ export const OrdersTab = (props: {
     );
   }
   return (
-    <div>
+    <div
+      style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
+        gap: '6px',
+      }}
+    >
       {data.orders.map((order) => (
         <OrderCard
           key={order.ref}
