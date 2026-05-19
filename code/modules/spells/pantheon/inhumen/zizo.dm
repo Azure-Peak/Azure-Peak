@@ -103,8 +103,8 @@
 ////////////////
 /datum/action/cooldown/spell/projectile/zizo/profane
 	name = "Profane"
-	desc = "Launch a cursed bone shard that can lodge into victims, poisoning them while embedded. More embedded shards increase the damage (max. 7 DMG). Bones in your hand (or around) may be consumed to empower the projectile, causing it to fracture into nearby enemies and embed regardless."
-	fluff_desc = "Bone remembers agony. Marrow stores screams long after flesh rots away. The faithful of Zizo drive sharpened remains into living bodies so suffering may continue long after impact. When fed fresh remains, the rite grows unstable, bursting apart to spread Her blessed cruelty further."
+	desc = "Launch a cursed bone shard that can lodge into victims, slowly poisoning them while embedded. More embedded shards increase the damage (max. 7 DMG over time, 2x vs NPCs). Four bones in your hand (or around) may be consumed to empower the projectile, causing it to fracture into nearby non-Gravemarked enemies and embed regardless."
+	fluff_desc = "An early Cabal sacrament: bone, profaned through Zizo's teachings, proved a willing conduit for Avantyne's anti-life qualities. Splinters touched by Her grace 'bless' the living with lingering agony. Fed exactly 'four' fresh bones, the rite grows unstable, scattering its sacred cruelty to ones who do not bear your mark. Why this occurs is still never fully understood."
 	button_icon = 'icons/mob/actions/zizomiracles.dmi'
 	button_icon_state = "profane"
 	projectile_type = /obj/projectile/magic/profane
@@ -120,28 +120,26 @@
 	var/original_secondary = secondary_resource_cost
 	var/original_projectile = projectile_type
 
-	if(consume_bones_for_profane(user, 1))
+	if(consume_bones_for_profane(user, 4))
 		primary_resource_cost = 0
 		secondary_resource_cost = 0
 		projectile_type = /obj/projectile/magic/profane/enhanced
-		user.visible_message(span_purple("Lingering bones crumble around [user]."), span_purple("Lingering bones enhance your Divine evocation."))
+		user.visible_message(span_purple("Lingering bones crumble around [user]'s hand..."), span_purple("Lingering bones enhance your Divine evocation. Blessed four!"))
 	
 	. = ..()
 	projectile_type = original_projectile
 	primary_resource_cost = original_primary
 	secondary_resource_cost = original_secondary
 
-/proc/consume_bones_for_profane(mob/living/user, amount = 1)
+/proc/consume_bones_for_profane(mob/living/user, amount = 4)
 	var/remaining = amount
 
 	for(var/turf/T in range(1, user))
 		if(remaining <= 0)
 			break
-
 		for(var/obj/item/natural/bone/B in T.contents)
 			if(remaining <= 0)
 				break
-
 			new /obj/item/ash(T)
 			qdel(B)
 			remaining--
@@ -149,38 +147,37 @@
 		for(var/obj/item/natural/bundle/bone/BB in T.contents)
 			if(remaining <= 0)
 				break
-
-			if(BB.amount <= 0)
+			if(QDELETED(BB) || BB.amount <= 0)
 				continue
-
 			var/take = min(BB.amount, remaining)
 			BB.amount -= take
 			remaining -= take
 			new /obj/item/ash(T)
-
 			if(BB.amount <= 0)
+				qdel(BB)
+			else if(BB.amount == 1)
+				new /obj/item/natural/bone(get_turf(BB))
 				qdel(BB)
 
 	if(remaining > 0)
 		for(var/obj/item/natural/bone/B in user.contents)
 			if(remaining <= 0)
 				break
-
 			qdel(B)
 			remaining--
 
 		for(var/obj/item/natural/bundle/bone/BB in user.contents)
 			if(remaining <= 0)
 				break
-
-			if(BB.amount <= 0)
+			if(QDELETED(BB) || BB.amount <= 0)
 				continue
-
 			var/take = min(BB.amount, remaining)
 			BB.amount -= take
 			remaining -= take
-
 			if(BB.amount <= 0)
+				qdel(BB)
+			else if(BB.amount == 1)
+				new /obj/item/natural/bone(user.loc)
 				qdel(BB)
 
 	return remaining <= 0
@@ -400,7 +397,7 @@
 
 // RAISE LESSER SKELETON (T2) - The new 'main' Zizo undeath-raising skill. Summon's durability scales from Miracle skill.
 /datum/action/cooldown/spell/raise_undead_formation/zizo
-	button_icon_state = "skeleton_formation"
+	button_icon_state = "skeleton"
 	name = "Raise Lesser Skeleton"
 	desc = "Invoke raw Enochian magicka to bind loose bones into a simple skeletal thrall. Its crude physiology is held together purely by magic; unable to be incapacitated, it shall stand until it crumbles into spare bones. It is also simpler to control, so you can order it to move, guard or attack manually."
 	fluff_desc = "The faithful of Zizo do not raise the dead, they mock life by proving how little of it is truly required. Flesh decays, thought falters, and souls flee screaming into the arms of Necra, yet bone remains obedient. Through the language of ancient Enochian words of power, scattered remains are lashed together into a parody of mortal form, animated not by purpose or memory, but by the simple joy of defying the natural order."
@@ -714,10 +711,10 @@
 		switch(dist)
 			if(0,1)
 				min_splinters = 3
-				max_splinters = 6
-			if(2)
-				min_splinters = 2
 				max_splinters = 4
+			if(2)
+				min_splinters = 1
+				max_splinters = 3
 			if(3)
 				min_splinters = 1
 				max_splinters = 2
@@ -733,7 +730,7 @@
 			var/obj/item/bone/splinter/P = new
 			limb.add_embedded_object(P, FALSE, TRUE)
 		C.apply_status_effect(/datum/status_effect/debuff/clickcd, 8 SECONDS)
-		C.apply_status_effect(/datum/status_effect/debuff/exposed, 8 SECONDS)
+		C.apply_status_effect(/datum/status_effect/debuff/exposed, 10 SECONDS)
 		to_chat(C, span_userdanger("Bone splinters bury themselves deep into your flesh!"))
 	new /obj/effect/decal/remains/human(T)
 	qdel(S)
