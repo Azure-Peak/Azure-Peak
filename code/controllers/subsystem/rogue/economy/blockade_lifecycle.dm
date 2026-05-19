@@ -49,6 +49,7 @@
 	B.day_started = GLOB.dayspassed
 	GLOB.active_blockades += B
 	ER.is_region_blockaded = TRUE
+	SStreasury.dirty_market_view()
 	record_round_statistic(STATS_BLOCKADES_FIRED, 1)
 	if(daily_report_diff)
 		var/list/fired = daily_report_diff["blockades_fired"]
@@ -64,6 +65,7 @@
 	if(ER)
 		ER.is_region_blockaded = FALSE
 		ER.day_last_cleared = GLOB.dayspassed
+		SStreasury.dirty_market_view()
 	GLOB.active_blockades -= B
 	if(reason == "cleared")
 		record_round_statistic(STATS_BLOCKADES_CLEARED, 1)

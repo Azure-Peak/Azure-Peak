@@ -171,7 +171,15 @@
 				dna.features = pref_load.features.Copy()
 				dna.body_markings = deepCopyList(pref_load.body_markings)
 				dna.real_name = pref_load.real_name
+				dna.species.regenerate_organs(src, dna.species, pref_load = pref_load)
+				remove_all_bodypart_features()
+				for(var/bodypart_feature_type in dna.species.bodypart_features)
+					var/datum/bodypart_feature/feature = new bodypart_feature_type()
+					if(!dna.species.is_bodypart_feature_slot_allowed(src, feature.feature_slot))
+						continue
+					add_bodypart_feature(feature)
 				pref_load.apply_customizers_to_character(src)
+				pref_load.apply_descriptors(src)
 				if(ishuman(src))
 					apply_markings_to_body_parts(dna.body_markings, src)
 			return

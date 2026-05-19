@@ -308,6 +308,7 @@
 							say("The Crown's [R.name] stockpile is full and region demands can absorb your load. Try smaller bundles or take it elsewhere.")
 						return
 					auto_exported = TRUE
+				SStreasury.dirty_market_view()
 				if(message == TRUE)
 					stock_announce("[bundle_amt] units of [R.name] has been stockpiled.")
 				qdel(B)
@@ -382,6 +383,8 @@
 			if(!R.mint_item)
 				if(!full_on_arrival)
 					R.stockpile_amount += 1
+				R.stockpile_amount += 1 //stacked logs need to check for multiple
+				SStreasury.dirty_market_view()
 				qdel(I)
 				if(message == TRUE)
 					stock_announce("[R.name] has been stockpiled.")

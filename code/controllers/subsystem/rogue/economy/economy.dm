@@ -9,6 +9,8 @@ SUBSYSTEM_DEF(economy)
 	var/last_petition_day = -1
 	var/petitions_today = 0
 	var/list/event_path_cooldowns = list()
+	var/list/goods_with_producers = list()
+	var/list/goods_with_demand = list()
 
 
 /datum/controller/subsystem/economy/proc/get_effective_player_count()
@@ -18,6 +20,14 @@ SUBSYSTEM_DEF(economy)
 
 /datum/controller/subsystem/economy/Initialize()
 	populate_standing_order_templates()
+	for(var/region_id in GLOB.economic_regions)
+		var/datum/economic_region/region = GLOB.economic_regions[region_id]
+		for(var/good_id in region.produces)
+			if(region.produces[good_id])
+				goods_with_producers[good_id] = TRUE
+		for(var/good_id in region.demands)
+			if(region.demands[good_id])
+				goods_with_demand[good_id] = TRUE
 	daily_report_diff = list(
 		"day" = GLOB.dayspassed,
 		"events_fired" = list(),
@@ -200,6 +210,7 @@ SUBSYSTEM_DEF(economy)
 			region.produces_today[good_id] = max(1, round(region.produces[good_id] * pop_mult))
 		for(var/good_id in region.demands)
 			region.demands_today[good_id] = max(1, round(region.demands[good_id] * pop_mult))
+	SStreasury.dirty_market_view()
 
 	var/list/expired = list()
 	for(var/datum/standing_order/O as anything in GLOB.standing_order_pool)
@@ -704,6 +715,7 @@ SUBSYSTEM_DEF(economy)
 		if(stockpile_entry)
 			stockpile_entry.stockpile_amount -= delivered
 		credit_economic_event_saturation(good_id, delivered)
+	SStreasury.dirty_market_view()
 
 /datum/controller/subsystem/economy/proc/preview_partial_fulfillment(datum/standing_order/order)
 	var/list/equip_goods = list()
@@ -807,6 +819,7 @@ SUBSYSTEM_DEF(economy)
 		stockpile_entry.stockpile_amount += quantity
 	SStreasury.total_import += total_cost
 	SStreasury.economic_output += total_cost
+	SStreasury.dirty_market_view()
 	record_round_statistic(STATS_STOCKPILE_IMPORTS_VALUE, total_cost)
 
 	if(user)
@@ -848,7 +861,9 @@ SUBSYSTEM_DEF(economy)
 	region.demands_today[good_id] = max(0, demands_today - quantity)
 	var/actor_suffix = user ? " by [user.real_name]" : ""
 	var/export_label = user ? "Manual Export" : "Auto Export"
+	SStreasury.dirty_market_view()
 	SStreasury.mint(SStreasury.discretionary_fund, total_revenue, "[export_label]: [quantity] [tg.name] to [region.name][actor_suffix]")
+	SStreasury.mint(SStreasury.discretionary_fund, total_revenue, "Manual Export: [quantity] [tg.name] to [region.name]")
 	SStreasury.total_export += total_revenue
 	SStreasury.economic_output += total_revenue
 	credit_economic_event_saturation(good_id, quantity)

@@ -76,6 +76,7 @@
 			if (user && HAS_TRAIT(user, TRAIT_FOOD_STIPEND))
 				if (SStreasury.burn(SStreasury.discretionary_fund, total_price, "food stipend - vomitorium"))
 					D.stockpile_amount--
+					SStreasury.dirty_market_view()
 					var/obj/item/I = new D.item_type(parent_structure.loc)
 					to_chat(user, span_info("[parent_structure] chitters and squeaks into the treasury ratlines."))
 					if(!user.put_in_hands(I))
@@ -87,6 +88,7 @@
 				parent_structure.say("Insufficient mammon.")
 		else
 			D.stockpile_amount--
+			SStreasury.dirty_market_view()
 			budget -= total_price
 			SStreasury.mint(SStreasury.discretionary_fund, total_price, "stockpile withdraw")
 			record_round_statistic(STATS_STOCKPILE_REVENUE, total_price)
