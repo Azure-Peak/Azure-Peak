@@ -127,7 +127,8 @@
 	var/remainder = total - whole
 	var/contributors = length(to_fund.pending_micro)
 	for(var/list/entry as anything in to_fund.pending_micro)
-		var/datum/fund/source = entry["source"]?.resolve()
+		var/datum/weakref/source_ref = entry["source"]
+		var/datum/fund/source = source_ref?.resolve()
 		log_fund_entry(new /datum/treasury_entry("micro", source, to_fund, entry["amount"], entry["reason"]))
 	to_fund.pending_micro = list()
 	if(remainder > 0)
