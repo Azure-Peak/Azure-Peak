@@ -12,7 +12,7 @@
 	blocksound = SOFTHIT
 	blade_dulling = DULLING_BASHCHOP
 	sewrepair = FALSE
-	max_integrity = 475
+	max_integrity = 250
 	item_flags = DROPDEL
 
 	auto_repair_mode = TRUE
@@ -63,15 +63,16 @@
 			return
 
 	to_chat(src, span_warning("I feed on succulent flesh. I feel reinvigorated."))
-	return src.reagents.add_reagent(/datum/reagent/medicine/healthpot, healing_amount)
+	src.reagents.add_reagent(/datum/reagent/medicine/healthpot, healing_amount)
+	src.energy_add(5) // If we want Gnolls to lose energy from repairing their skin armor we really need to compensate by giving them some way to recover energy.
 
 /datum/intent/simple/werewolf/gnoll
 
 /obj/item/rogueweapon/werewolf_claw/gnoll
 	name = "Gnoll Claw"
-	// We are smarter, we can use our solid, steel-like claws to defend ourselves.
-	wdefense = 5
-	force = 30
+	wbalance = WBALANCE_NORMAL
+	wdefense = 4
+	force = 25 // Reduced for the generic version. Most subclasses should override this with their own version. Every point of STR adds 2.5 force.
 	possible_item_intents = list(/datum/intent/simple/gnoll_cut, /datum/intent/simple/werewolf/gnoll, /datum/intent/mace/smash/werewolf/gnoll, /datum/intent/mace/strike/gnoll)
 
 /obj/item/rogueweapon/werewolf_claw/gnoll/right
@@ -101,7 +102,7 @@
 	name = "thrash"
 	desc = "A powerful, smash of lycan muscle that deals normal damage but can throw a standing opponent back and slow them down, based on your strength. Ineffective below 10 strength. Slowdown & Knockback scales to your Strength up to 15 (1 - 5 tiles). Cannot be used consecutively more than every 5 seconds on the same target. Prone targets halve the knockback distance."
 	icon_state = "insmash"
-	maxrange = 5
+	maxrange = 2 // Lets try to keep Shamans from STR maxing and throwing people off cliffs, but still let them rage a bit.
 	chargetime = 1
 	penfactor = PEN_NONE
 

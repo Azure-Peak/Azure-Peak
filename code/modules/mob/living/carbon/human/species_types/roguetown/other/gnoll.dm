@@ -2,12 +2,6 @@
 	race = /datum/species/gnoll
 	footstep_type = FOOTSTEP_MOB_HEAVY
 
-/mob/living/carbon/human/species/gnoll/updatehealth()
-	..()
-
-	remove_movespeed_modifier(MOVESPEED_ID_DAMAGE_SLOWDOWN)
-	remove_movespeed_modifier(MOVESPEED_ID_DAMAGE_SLOWDOWN_FLYING)
-
 /mob/living/carbon/human/species/gnoll/male
 	gender = MALE
 
@@ -21,6 +15,7 @@
 	custom_base_icon = "firepelt"
 	species_traits = list(NO_UNDERWEAR, NO_ORGAN_FEATURES, NO_BODYPART_FEATURES)
 	inherent_traits = list(
+		TRAIT_NOPAINSTUN, // They get slowed like crazy when they start taking damage without this. Let's keep our bloodlusted gnoll friends fighting to the end. Otherwise they keep being incentiviced to run away before armor break which sucks.
 		TRAIT_LONGSTRIDER,
 		TRAIT_IGNORESLOWDOWN,
 		TRAIT_IGNOREDAMAGESLOWDOWN,
@@ -36,7 +31,6 @@
 		TRAIT_STEELHEARTED,
 		TRAIT_BASHDOORS,
 		TRAIT_STRONGBITE,
-		TRAIT_GNARLYDIGITS,
 		TRAIT_NUDIST,
 		TRAIT_HERESIARCH, //Just because I'm putting their spawns here, that's all.
 		TRAIT_ZURCH,
@@ -44,7 +38,7 @@
 		TRAIT_MASTERFUL_HUNTER
 	)
 	inherent_biotypes = MOB_HUMANOID
-	no_equip = list(SLOT_SHIRT, SLOT_HEAD, SLOT_WEAR_MASK, SLOT_ARMOR, SLOT_GLOVES, SLOT_SHOES, SLOT_PANTS, SLOT_CLOAK, SLOT_BELT, SLOT_BACK_R, SLOT_BACK_L, SLOT_S_STORE)
+	no_equip = list(SLOT_SHIRT, SLOT_HEAD, SLOT_WEAR_MASK, SLOT_ARMOR, SLOT_GLOVES, SLOT_SHOES, SLOT_PANTS, SLOT_CLOAK, SLOT_BELT, SLOT_BACK_R, SLOT_S_STORE)
 	nojumpsuit = 1
 	sexes = 1
 	offset_features = list(OFFSET_HANDS = list(0,2), OFFSET_HANDS_F = list(0,2))

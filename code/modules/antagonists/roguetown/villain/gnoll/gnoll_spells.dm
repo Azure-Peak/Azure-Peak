@@ -6,6 +6,22 @@
 	name = "Gnoll Claws"
 	claw_type = /obj/item/rogueweapon/werewolf_claw/gnoll
 
+/obj/effect/proc_holder/spell/self/claws/gnoll/shaman
+	name = "Shaman Claws"
+	claw_type = /obj/item/rogueweapon/werewolf_claw/gnoll/shaman
+
+/obj/effect/proc_holder/spell/self/claws/gnoll/berseker
+	name = "Berserker Claws"
+	claw_type = /obj/item/rogueweapon/werewolf_claw/gnoll/berserker
+
+/obj/effect/proc_holder/spell/self/claws/gnoll/knight
+	name = "Sturdy Claws"
+	claw_type = /obj/item/rogueweapon/werewolf_claw/gnoll/knight
+
+/obj/effect/proc_holder/spell/self/claws/gnoll/templar
+	name = "Divine Claws"
+	claw_type = /obj/item/rogueweapon/werewolf_claw/gnoll/templar
+
 /obj/effect/proc_holder/spell/self/howl/gnoll
 	howl_sounds = list('sound/vo/mobs/gnoll/yeen_howl.ogg')
 	howl_sounds_far = list('sound/vo/mobs/hyena/gnoll_distant.ogg')

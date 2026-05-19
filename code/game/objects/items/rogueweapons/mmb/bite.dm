@@ -126,8 +126,7 @@
 					if(prob(30))
 						user.werewolf_feed(bite_victim, 10)
 			if(istype(user.dna.species, /datum/species/gnoll))
-				if(prob(30))
-					user.gnoll_feed(bite_victim, 10)
+				user.gnoll_feed(bite_victim, 10) // Removed the RNG. Reward Gnolls for biting people.
 			/*
 				ZOMBIE INFECTION VIA BITE
 			*/
@@ -252,13 +251,16 @@
 	if(C.apply_damage(damage, BRUTE, limb_grabbed, armor_block))
 		playsound(C.loc, "smallslash", vol = 50, vary = FALSE, extrarange = -1, ignore_walls = FALSE, quiet = TRUE)
 		var/datum/wound/caused_wound = limb_grabbed.bodypart_attacked_by(BCLASS_BITE, damage, user, sublimb_grabbed, crit_message = TRUE)
-		if(user.mind && caused_wound)
+		if(user.mind && caused_wound && armor_block <= damage) // These effects triggered even if the target took no damage. RIP.
 			/*
 				WEREWOLF CHEW.
 			*/
 			if(istype(user.dna.species, /datum/species/werewolf))
 				if(prob(30))
 					user.werewolf_feed(C)
+
+			if(istype(user.dna.species, /datum/species/gnoll))
+				user.gnoll_feed(grabbed, 10) // Removed the RNG. Reward Gnolls for biting people.
 
 			/*
 				ZOMBIE CHEW. ZOMBIFICATION

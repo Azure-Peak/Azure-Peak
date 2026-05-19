@@ -74,7 +74,7 @@
 		H.icon_state = "[pelt_choice]"
 		H.dna?.species?.custom_base_icon = "[pelt_choice]"
 		H.regenerate_icons()
-		H.AddSpell(new /obj/effect/proc_holder/spell/self/claws/gnoll)
+		// H.AddSpell(new /obj/effect/proc_holder/spell/self/claws/gnoll)
 		H.AddSpell(new /obj/effect/proc_holder/spell/self/howl/gnoll)
 		H.AddComponent(/datum/component/gnoll_combat_tracker)
 
