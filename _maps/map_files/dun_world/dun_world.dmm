@@ -2339,6 +2339,10 @@
 	},
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/under/cave/his_vault)
+"azi" = (
+/obj/structure/roguemachine/escrow,
+/turf/closed/wall/mineral/rogue/stone,
+/area/rogue/indoors/town/dwarfin)
 "azl" = (
 /obj/structure/mannequin,
 /obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron,
@@ -2568,9 +2572,6 @@
 /area/rogue/under/cave/his_vault/four)
 "aCt" = (
 /obj/structure/table/wood/long_table/mid/alt,
-/obj/machinery/light/rogue/candle{
-	pixel_y = -32
-	},
 /obj/item/candle/gold/lit{
 	pixel_y = 6
 	},
@@ -23301,6 +23302,7 @@
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/outdoors/mountains/decap/gunduzirak)
 "eMe" = (
+/obj/structure/roguemachine/atm,
 /turf/closed/wall/mineral/rogue/stone/window,
 /area/rogue/indoors/town/dwarfin)
 "eMi" = (
@@ -31107,7 +31109,6 @@
 /turf/open/floor/rogue/grassyel,
 /area/rogue/indoors/town/church/chapel)
 "god" = (
-/obj/structure/roguewindow,
 /obj/structure/mineral_door/wood/fancywood,
 /obj/structure/bars/passage/shutter{
 	redstone_id = "trader_shutter"
@@ -42053,10 +42054,6 @@
 	},
 /turf/open/floor/rogue/churchmarble,
 /area/rogue/under/cave/scarymaze)
-"ivC" = (
-/obj/structure/roguemachine/atm,
-/turf/open/floor/rogue/herringbone,
-/area/rogue/indoors/town/dwarfin)
 "ivE" = (
 /obj/effect/decal/cobbleedge{
 	dir = 10;
@@ -54843,6 +54840,10 @@
 	dir = 4
 	},
 /area/rogue/under/cave/dungeon1/gethsmane)
+"kUF" = (
+/obj/structure/roguemachine/scrapper/smith,
+/turf/closed/wall/mineral/rogue/stone,
+/area/rogue/indoors/town/dwarfin)
 "kUG" = (
 /turf/open/floor/carpet/red,
 /area/rogue/indoors/town/tavern)
@@ -102752,6 +102753,10 @@
 "uqV" = (
 /turf/open/floor/rogue/grasscold,
 /area/rogue/outdoors/exposed/magiciantower)
+"uqW" = (
+/obj/structure/roguemachine/scrapper/tailor,
+/turf/closed/wall/mineral/rogue/decowood/vert,
+/area/rogue/indoors/town)
 "urc" = (
 /obj/structure/bed/rogue/bedroll{
 	dir = 1
@@ -274334,7 +274339,7 @@ exD
 exD
 lJF
 sgL
-vUD
+uqW
 mub
 nyl
 cMj
@@ -277923,7 +277928,7 @@ jkl
 ycd
 smL
 smL
-smL
+kUF
 wWa
 wWa
 wWa
@@ -280640,8 +280645,8 @@ whs
 vGa
 vGa
 aCt
-smL
-ivC
+azi
+cbR
 cbR
 amN
 oCF
