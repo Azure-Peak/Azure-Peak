@@ -9,7 +9,7 @@
 export const IMPL_HUB_STORAGE = 1;
 export const IMPL_IFRAME_INDEXED_DB = 2;
 
-const KEY_NAME = 'ochre';
+const KEY_NAME = 'azure';
 type StorageImplementation =
   | typeof IMPL_HUB_STORAGE
   | typeof IMPL_IFRAME_INDEXED_DB;

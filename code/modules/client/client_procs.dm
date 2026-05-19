@@ -279,7 +279,7 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 	GLOB.clients += src
 	GLOB.directory[ckey] = src
 
-	winset(src, null, "browser-options=find,refresh") // OV Add: correct browser options
+	winset(src, null, "browser-options=find,refresh")
 
 	initialize_commandbar_spy()
 

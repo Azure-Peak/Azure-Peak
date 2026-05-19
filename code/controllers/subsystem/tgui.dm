@@ -16,7 +16,7 @@ SUBSYSTEM_DEF(tgui)
 	flags = SS_NO_INIT
 	priority = FIRE_PRIORITY_TGUI
 	runlevels = RUNLEVEL_LOBBY | RUNLEVELS_DEFAULT
-	init_order = INIT_ORDER_TGUI // OV Edit: Must wait for assets
+	init_order = INIT_ORDER_TGUI
 
 	/// A list of UIs scheduled to process
 	var/list/current_run = list()
@@ -40,7 +40,6 @@ SUBSYSTEM_DEF(tgui)
 
 	basehtml = replacetextEx(basehtml, "<!-- tgui:nt-copyright -->", "")
 
-// OV Add Start: Storage CDN/Iframe
 /datum/controller/subsystem/tgui/OnConfigLoad()
 	var/storage_iframe = CONFIG_GET(string/storage_cdn_iframe)
 
@@ -59,7 +58,6 @@ SUBSYSTEM_DEF(tgui)
 		return
 
 	basehtml = replacetextEx(basehtml, "\[tgui:storagecdn]", storage_iframe)
-// OV Add End
 
 /datum/controller/subsystem/tgui/Shutdown()
 	close_all_uis()
