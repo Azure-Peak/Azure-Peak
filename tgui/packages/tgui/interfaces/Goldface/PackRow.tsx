@@ -22,73 +22,75 @@ type Props = {
 export const PackRow = (props: Props) => {
   const { pack, budget, canRead, showCategory, browseOnly, act } = props;
   const cantAfford = budget < pack.price;
+  const hasTariff = pack.price_tariff > 0;
+  const priceTitle = hasTariff
+    ? `${pack.price_base}m + ${pack.price_tariff}m tariff = ${pack.price}m`
+    : `${pack.price}m`;
   return (
     <div
       style={{
         display: 'flex',
-        alignItems: 'flex-start',
-        gap: '8px',
-        padding: '6px 8px',
+        alignItems: 'center',
+        gap: '6px',
+        padding: '4px 6px',
         borderBottom: `1px dashed ${PARCHMENT_SHADOW}`,
         fontFamily: SERIF,
+        lineHeight: 1.3,
       }}
     >
-      <div style={{ flex: 1, minWidth: 0 }}>
-        <div
-          style={{
-            fontSize: '13px',
-            color: INK,
-            overflow: 'hidden',
-            textOverflow: 'ellipsis',
-          }}
-        >
-          {starsIfIlliterate(pack.name, canRead)}
-          {pack.qty > 1 && (
-            <span
-              style={{
-                color: INK_SOFT,
-                marginLeft: '4px',
-                fontSize: '11px',
-              }}
-            >
-              x{pack.qty}
-            </span>
-          )}
-        </div>
-        {showCategory && (
-          <div
+      <div
+        style={{
+          flex: 1,
+          minWidth: 0,
+          fontSize: '13px',
+          fontWeight: 'bold',
+          color: INK,
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+          whiteSpace: 'nowrap',
+        }}
+        title={showCategory ? `${pack.name} - ${pack.category}` : pack.name}
+      >
+        {pack.qty > 1 && (
+          <span
             style={{
-              fontSize: '10px',
-              fontStyle: 'italic',
               color: INK_SOFT,
+              marginRight: '4px',
+              fontSize: '12px',
+              fontWeight: 'bold',
             }}
           >
-            {pack.category}
-          </div>
+            x{pack.qty}
+          </span>
         )}
+        {starsIfIlliterate(pack.name, canRead)}
       </div>
-      <div style={{ textAlign: 'right', flexShrink: 0 }}>
-        <div
-          style={{
-            fontSize: '13px',
-            color: cantAfford ? INK_FAINT : INK,
-            fontWeight: 'bold',
-          }}
-        >
-          {pack.price}m
-        </div>
-        {pack.price_tariff > 0 && (
-          <div
+      <div
+        style={{
+          fontSize: '13px',
+          color: cantAfford ? INK_FAINT : INK,
+          fontWeight: 'bold',
+          flexShrink: 0,
+          whiteSpace: 'nowrap',
+        }}
+        title={priceTitle}
+      >
+        {pack.price}
+        {hasTariff && (
+          <span
             style={{
-              fontSize: '10px',
-              fontStyle: 'italic',
               color: SEAL_AMBER,
-              whiteSpace: 'nowrap',
+              fontWeight: 'bold',
+              fontSize: '12px',
+              marginLeft: '2px',
             }}
           >
-            +{pack.price_tariff}m tariff
-          </div>
+            +{pack.price_tariff}
+          </span>
         )}
+        <span style={{ color: INK_SOFT, fontSize: '11px', fontWeight: 'bold' }}>
+          m
+        </span>
       </div>
       <div style={{ flexShrink: 0 }}>
         {browseOnly ? (
@@ -104,9 +106,14 @@ export const PackRow = (props: Props) => {
         ) : (
           <button
             type="button"
-            style={inkButtonStyle({ disabled: cantAfford })}
+            style={{
+              ...inkButtonStyle({ disabled: cantAfford }),
+              padding: '1px 7px',
+              fontSize: '12px',
+            }}
             disabled={cantAfford}
             onClick={() => act('buy', { ref: pack.ref })}
+            title={`Buy ${pack.name} for ${pack.price}m`}
           >
             Buy
           </button>

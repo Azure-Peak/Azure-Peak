@@ -63,7 +63,7 @@ export const PacksGrid = (props: Props) => {
     <>
       <div
         style={{
-          columnCount: 2,
+          columnCount: 4,
           columnGap: '12px',
         }}
       >
