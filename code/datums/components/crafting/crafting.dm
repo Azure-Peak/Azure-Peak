@@ -174,8 +174,6 @@
 	record_featured_stat(FEATURED_STATS_CRAFTERS, user)
 	record_round_statistic(STATS_CRAFTED_ITEMS)
 	record_featured_object_stat(FEATURED_STATS_CRAFTED_ITEMS, name)
-	if(istype(src, /obj/item/rogueore/gold))
-		record_round_statistic(STATS_GOLD_TRANSMUTED)
 	return
 
 /obj/item/OnCrafted(dirin)
@@ -321,6 +319,10 @@
 								X.add_fingerprint(user)
 								if(R.loud)
 									X.loud_message("Construction sounds can be heard")
+									if(R.adminlog)
+										log_craft("[user.real_name], ([user.ckey]) has built [X] at [AREACOORD(X)]") //We log this too
+								if(R.adminlog)
+									log_craft("[user.real_name], ([user.ckey]) has built [X] at [AREACOORD(X)]")
 						else
 							var/atom/movable/I = new R.result (T)
 							I.CheckParts(parts, R)

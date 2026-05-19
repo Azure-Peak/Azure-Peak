@@ -114,7 +114,7 @@
 //HEAVY ARMOR//
 
 /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/heavy
-	name = "mailled hauberk"
+	name = "mailled cuirass"
 	desc = "A maille-aketon of steel, comfortably fitted beneath a matching cuirass. Best paired with a padded arming jacket and a lovely goblet of wine, sourced straight from the Duke's private reserves."
 	slot_flags = ITEM_SLOT_ARMOR
 	icon_state = "cuirasshauberk"
@@ -123,7 +123,7 @@
 	max_integrity = ARMOR_INT_CHEST_PLATE_STEELLIGHT // To note, this is about 450 INT, or +150 over regular hauberk and -50 under regular plate.
 
 /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/iron/heavy
-	name = "iron mailled hauberk"
+	name = "iron mailled cuirass"
 	desc = "A maille-aketon of iron, snuggly fitted beneath a matching cuirass. Best paired with a gambeson and a mug of chilled ale, or - as is the case with most levymen and adventurers - last nite's rags."
 	slot_flags = ITEM_SLOT_ARMOR
 	icon_state = "icuirasshauberk"
@@ -132,14 +132,14 @@
 	max_integrity = ARMOR_INT_CHEST_PLATE_IRONLIGHT // Roughly 325 INT. +150 over regular hauberk, and -50 under regular plate.
 
 /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/aalloy/heavy
-	name = "decrepit hauberk"
+	name = "decrepit mailled cuirass"
 	desc = "Frayed bronze rings and rotting leather, woven together to form a sleeved maille-atekon; one that's been uncomfortably tucked beneath a matching cuirass. Such are the last remains of those who've dared to march against the undying legions, be it yils or centuries prior."
 	icon_state = "ancientcuirasshauberk"
 	item_state = "ancientcuirasshauberk"
 	max_integrity = ARMOR_INT_CHEST_PLATE_DECREPITLIGHT // 200 INT.
 
 /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/paalloy/heavy
-	name = "ancient hauberk"
+	name = "ancient mailled cuirass"
 	desc = "Polished gilbranze rings and silk, woven together to form a sleeved maille-atekon; one that's been uncomfortably tucked beneath a matching cuirass. It eminates an unfamiliar sensation, rarely seen amongst rot-and-undeath - elegance. In the worlds to come, do you suppose Her death knights would bare such a mantle?"
 	icon_state = "ancientcuirasshauberk"
 	item_state = "ancientcuirasshauberk"
@@ -149,7 +149,7 @@
 	slot_flags = ITEM_SLOT_ARMOR
 	armor_class = ARMOR_CLASS_HEAVY
 	armor = ARMOR_PLATE
-	name = "psydonic hauberk"
+	name = "psydonic mailled cuirass"
 	desc = "A beautiful steel cuirass, decorated with blessed silver fluting and worn atop thick chainmaille. While it falters against arrows and bolts, these interlinked layers are superb at warding off the blows of inhumen claws and axes. </br>‎  </br>'..the knowledge of evil, and the burden of carrying Psydonia's hope upon thine shoulders..'"
 	icon_state = "ornatehauberk"
 	item_state = "ornatehauberk"
@@ -222,23 +222,43 @@
 	name = "gilded hauberk"
 	desc = "All that glimmers is gold; yet only shining stars shalt break the mold.."
 	color = "#ffc960"
+	smeltresult = /obj/item/ingot/component/matthios
+	unenchantable = TRUE
 
 /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/matthios/Initialize()
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_FREEMAN, "ARMOR")
+	add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = "#fff385", "alpha" = 120, "size" = 1)) //IS THIS TRVE?
 
 //
 
 /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/zizo
 	name = "avantyne hauberk"
-	desc = "The rings crackle with unkempt magicka, yearning to enamor the enlightened with avantynic might."
+	desc = "The rings crackle softly with avantynic power, yet this lighter weave can still be taken off without being lost to the rite."
 	color = "#c1b18d"
 	chunkcolor = "#363030"
 	material_category = ARMOR_MAT_CHAINMAIL
+	smeltresult = /obj/item/ingot/component/zizo
+	unenchantable = TRUE
 
 /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/zizo/Initialize()
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_CABAL, "ARMOR")
+	add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = "#5f1515", "alpha" = 120, "size" = 1)) //Cursed look.
+
+/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/zizo/heavy
+	name = "fused avantyne hauberk"
+	desc = "The rings crackle softly with avantynic power, yet its fused firmly lyke a second skin. There is no going back, there is only forward in her name."
+
+/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/zizo/heavy/Initialize(mapload)
+	. = ..()
+	ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)
+
+/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/zizo/heavy/dropped(mob/living/carbon/human/user)
+	. = ..()
+	if(QDELETED(src))
+		return
+	qdel(src)
 
 //
 
@@ -246,7 +266,12 @@
 	name = "vicious hauberk"
 	desc = "The blessing of a Martyr is nothing, when put before the Sinistar's rage."
 	color = "#ddc0a7"
+	smeltresult = /obj/item/ingot/component/graggar
+	unenchantable = TRUE
 
 /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/graggar/Initialize()
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_HORDE, "ARMOR", "RENDERED ASUNDER")
+
+
+//

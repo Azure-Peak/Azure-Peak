@@ -1,0 +1,4 @@
+author: "kbitykbitykbity"
+delete-after: True
+changes:
+  - rscadd: "Added portable peddlers to the game, can be crafted with engineering skill."

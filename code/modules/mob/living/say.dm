@@ -248,9 +248,7 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 
 	// autopunctuation
 	if(!client?.prefs?.no_autopunctuate)
-		var/ending = copytext(message, length(message), (length(message) + 1))
-		if(ending && !GLOB.correct_punctuation[ending])
-			message += "."
+		message = autopunct_bare(message)
 
 	if(D.flags & SIGNLANG)
 		send_speech_sign(message, message_range, src, bubble_type, spans, language, message_mode, original_message)

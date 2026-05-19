@@ -529,6 +529,8 @@ GLOBAL_LIST_INIT(find_and_set_interested_atoms, typecacheof(list(/obj/item, /mob
 	controller.set_blackboard_key(BB_FIND_TARGETS_FIELD(type), detection_field)
 
 /datum/ai_behavior/find_and_set/proc/new_turf_found(turf/found, datum/ai_controller/controller)
+	if(QDELETED(controller) || QDELETED(controller.pawn))
+		return FALSE
 	var/valid_found = FALSE
 	var/atom/pawn = controller.pawn
 	for(var/maybe_item as anything in found)
@@ -553,12 +555,14 @@ GLOBAL_LIST_INIT(find_and_set_interested_atoms, typecacheof(list(/obj/item, /mob
 	controller.modify_cooldown(src, world.time)
 
 /datum/ai_behavior/find_and_set/proc/new_atoms_found(list/atom/movable/found, datum/ai_controller/controller)
+	if(QDELETED(controller) || QDELETED(controller.pawn))
+		return FALSE
 	var/atom/pawn = controller.pawn
 	var/list/accepted_items = list()
 
 	// Get the stored parameters from the field
 	var/datum/proximity_monitor/advanced/ai_find_tracking/field = controller.blackboard[BB_FIND_TARGETS_FIELD(type)]
-	if(!field)
+	if(QDELETED(field) || field.target_controller != controller)
 		return FALSE
 
 	for(var/maybe_item as anything in found)
@@ -590,6 +594,8 @@ GLOBAL_LIST_INIT(find_and_set_interested_atoms, typecacheof(list(/obj/item, /mob
 
 /datum/ai_behavior/find_and_set/finish_action(datum/ai_controller/controller, succeeded, ...)
 	. = ..()
+	if(QDELETED(controller))
+		return
 	if(succeeded)
 		var/datum/proximity_monitor/field = controller.blackboard[BB_FIND_TARGETS_FIELD(type)]
 		qdel(field) // autoclears so it's fine
@@ -616,18 +622,27 @@ GLOBAL_LIST_INIT(find_and_set_interested_atoms, typecacheof(list(/obj/item, /mob
 
 /datum/proximity_monitor/advanced/ai_find_tracking/setup_field_turf(turf/target)
 	. = ..()
+	if(QDELETED(parent_behavior) || QDELETED(target_controller) || QDELETED(target_controller.pawn))
+		qdel(src)
+		return
 	parent_behavior.new_turf_found(target, target_controller)
 
 /datum/proximity_monitor/advanced/ai_find_tracking/field_edge_crossed(atom/movable/movable, turf/location, direction)
 	. = ..()
+	if(QDELETED(parent_behavior) || QDELETED(target_controller) || QDELETED(target_controller.pawn))
+		qdel(src)
+		return
 	parent_behavior.new_atoms_found(list(movable), target_controller)
 
 /datum/proximity_monitor/advanced/ai_find_tracking/field_turf_crossed(atom/movable/movable, turf/location)
 	. = ..()
+	if(QDELETED(parent_behavior) || QDELETED(target_controller) || QDELETED(target_controller.pawn))
+		qdel(src)
+		return
 	parent_behavior.new_atoms_found(list(movable), target_controller)
 
 /datum/proximity_monitor/advanced/ai_find_tracking/Destroy()
-	if(target_controller)
+	if(!QDELETED(target_controller) && !QDELETED(parent_behavior))
 		target_controller.clear_blackboard_key(BB_FIND_TARGETS_FIELD(parent_behavior.type))
 	parent_behavior = null
 	target_controller = null

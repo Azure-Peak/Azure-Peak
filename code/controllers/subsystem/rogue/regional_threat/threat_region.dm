@@ -10,6 +10,9 @@
 	var/last_induced_ambush_time = 0 // Time between now and the previous ambush triggered by horn
 	var/list/faction_weights = list()
 	var/tp_budget_multiplier = 1.0
+	/// Multiplier on the threat-scaled bonus paid to retrieval/courier quests.
+	/// Independent of tp_budget_multiplier so reward and combat scaling tune separately.
+	var/delivery_reward_multiplier = 1.0
 	// Ambush budget percent - uses the higher one for safer region so that they can still spawn some relevant ambushes without needing to adjust the max_ambush downward
 	var/ambush_budget_pct = AMBUSH_BUDGET_PCT_REGULAR
 	/// Quest types this region will host. Default is everything; set per region to restrict (e.g. a dangerous region that won't host trivial kill-easy quests).
@@ -17,7 +20,7 @@
 	var/kill_target_floor = 2
 	var/evergreen_target = 0
 
-/datum/threat_region/New(_region_name, _latent_ambush, _min_ambush, _max_ambush, _fixed_ambush, _lowpop_tick, _highpop_tick, _ambush_budget_pct = AMBUSH_BUDGET_PCT_REGULAR, _faction_weights, _tp_budget_multiplier = 1.0, _allowed_quest_types, _kill_target_floor = 2, _evergreen_target = 0)
+/datum/threat_region/New(_region_name, _latent_ambush, _min_ambush, _max_ambush, _fixed_ambush, _lowpop_tick, _highpop_tick, _ambush_budget_pct = AMBUSH_BUDGET_PCT_REGULAR, _faction_weights, _tp_budget_multiplier = 1.0, _allowed_quest_types, _kill_target_floor = 2, _evergreen_target = 0, _delivery_reward_multiplier = 1.0)
 	region_name = _region_name
 	latent_ambush = _latent_ambush
 	min_ambush = _min_ambush
@@ -28,6 +31,7 @@
 	if(_faction_weights)
 		faction_weights = _faction_weights
 	tp_budget_multiplier = _tp_budget_multiplier
+	delivery_reward_multiplier = _delivery_reward_multiplier
 	ambush_budget_pct = _ambush_budget_pct
 	if(_allowed_quest_types)
 		allowed_quest_types = _allowed_quest_types

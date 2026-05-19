@@ -22,6 +22,7 @@
 	skill_min = SKILL_LEVEL_EXPERT
 	preop_sound = 'sound/surgery/scalpel1.ogg'
 	success_sound = 'sound/surgery/scalpel2.ogg'
+	possible_locs = list(BODY_ZONE_CHEST)
 
 /datum/surgery_step/extract_black_rose_residue/preop(mob/user, mob/living/target, target_zone, obj/item/tool, datum/intent/intent)
 	display_results(user, target, span_userdanger("I carefully attempt to cut out the black ooze from [target]'s flesh..."),
@@ -41,7 +42,7 @@
 	damage -= (medskill * 6)
 	damage = max(0, damage)
 	target.adjustBruteLoss(damage)
-	if(target.remove_status_effect(/datum/status_effect/black_rot) || target.remove_status_effect(/datum/status_effect/black_rot_debility))
+	if(target.remove_status_effect(/datum/status_effect/black_rot))
 		display_results(user, target, span_notice("The black rot corruption recedes."),
 			"[user] finishes purifying the area. The black coloration recedes from [target]'s flesh.",
 			"[user] uses the [tool] to cauterize and purify [target]'s chest.")

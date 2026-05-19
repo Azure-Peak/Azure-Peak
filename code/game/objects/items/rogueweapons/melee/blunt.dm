@@ -904,10 +904,10 @@
 	else
 		src.minstr = 18
 	..()
-	
+
 //Dwarvish mauls. Unobtanium outside of Grudgebearer. Do not change that.
 /obj/item/rogueweapon/mace/maul/steel
-	name = "dwarvish maul"
+	name = "dwarven maul"
 	desc = "An incredibly heavy, oversized hammer. The owner is not compensating, for this maul will do the speaking. \
 	This one has been well balanced, allowing for a weaker wielder to make use of it."
 	icon_state = "dwarfhammer"

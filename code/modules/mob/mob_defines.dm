@@ -243,6 +243,7 @@
 	var/datum/hSB/sandbox = null
 
 	var/bloody_hands = 0
+	var/bloody_hands_color
 
 	var/datum/focus //What receives our keyboard inputs. src by default
 

@@ -2,7 +2,7 @@
 	name = "Sorcerer"
 	tutorial = "You are a learned mage and a scholar, having spent your life studying the arcane and its ways."
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = RACES_ALL_KINDS
+
 	outfit = /datum/outfit/job/roguetown/adventurer/mage
 	class_select_category = CLASS_CAT_MAGE
 	category_tags = list(CTAG_ADVENTURER, CTAG_COURTAGENT)
@@ -150,7 +150,7 @@
 
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat
 	backr = /obj/item/rogueweapon/shield/wood
-	
+
 	switch(subclass_selected)
 		if("blade")
 			var/weapons = list("Longsword", "Rapier", "Sabre", "Iron Arming Sword", "Shortsword", "Hwando", "Steel Dagger")
@@ -169,7 +169,15 @@
 					r_hand = /obj/item/rogueweapon/sword/short
 				if("Hwando")
 					r_hand = /obj/item/rogueweapon/sword/sabre/mulyeog
+					shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/eastshirt1
 					armor = /obj/item/clothing/suit/roguetown/armor/basiceast
+					wrists = null
+					gloves = /obj/item/clothing/gloves/roguetown/eastgloves1
+					neck = null
+					pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/eastpants1
+					head = /obj/item/clothing/head/roguetown/mentorhat
+					backr = null
+					beltr = /obj/item/rogueweapon/scabbard/sword/kazengun
 				if("Steel Dagger")
 					beltr = /obj/item/rogueweapon/huntingknife/idagger/steel
 			if(weapon_choice == "Steel Dagger")
@@ -188,6 +196,9 @@
 					r_hand = /obj/item/rogueweapon/spear/naginata
 					backr = /obj/item/rogueweapon/scabbard/gwstrap
 					armor = /obj/item/clothing/suit/roguetown/armor/basiceast
+					gloves = /obj/item/clothing/gloves/roguetown/eastgloves1
+					pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/eastpants1
+					head = /obj/item/clothing/head/roguetown/mentorhat
 			H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_JOURNEYMAN, TRUE)
 		if("macebearer")
 			var/mace_weapons = list("Mace", "Warhammer", "Goedendag", "Iron Axe", "Greataxe")
@@ -261,6 +272,7 @@
 	if(H.mind)
 		H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/vicious_mockery)
 		H.mind.AddSpell(new /datum/action/cooldown/spell/arcyne_forge)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/conjure_instrument)
 		var/list/poke_options = list("Spitfire", "Frost Bolt", "Arc Bolt", "Greater Arcyne Bolt", "Stygian Efflorescence", "Arcyne Lance", "Lesser Gravel Blast")
 		var/poke_choice = input(H, "Choose your offensive cantrip.", "Arcyne Training") as anything in poke_options
 		switch(poke_choice)
@@ -282,29 +294,6 @@
 	switch(H.patron?.type)
 		if(/datum/patron/inhumen/zizo)
 			H.cmode_music = 'sound/music/combat_heretic.ogg'
-	if(H.mind)
-		var/weapons = list("Harp","Lute","Accordion","Guitar","Hurdy-Gurdy","Viola","Vocal Talisman", "Psyaltery", "Flute")
-		var/weapon_choice = tgui_input_list(H, "Choose your instrument.", "TAKE UP ARMS", weapons)
-		H.set_blindness(0)
-		switch(weapon_choice)
-			if("Harp")
-				backr = /obj/item/rogue/instrument/harp
-			if("Lute")
-				backr = /obj/item/rogue/instrument/lute
-			if("Accordion")
-				backr = /obj/item/rogue/instrument/accord
-			if("Guitar")
-				backr = /obj/item/rogue/instrument/guitar
-			if("Hurdy-Gurdy")
-				backr = /obj/item/rogue/instrument/hurdygurdy
-			if("Viola")
-				backr = /obj/item/rogue/instrument/viola
-			if("Vocal Talisman")
-				backr = /obj/item/rogue/instrument/vocals
-			if("Psyaltery")
-				backr = /obj/item/rogue/instrument/psyaltery
-			if("Flute")
-				backr = /obj/item/rogue/instrument/flute
 
 /datum/advclass/mage/spellfist
 	name = "Spellfist"

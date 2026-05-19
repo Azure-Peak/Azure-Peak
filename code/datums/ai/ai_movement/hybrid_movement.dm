@@ -182,19 +182,34 @@
 					// Step will fail if we can't move in that direction and allow us to climb.
 					var/move_dir = get_dir(movable_pawn, next_step)
 					if(!step(movable_pawn, move_dir, controller.movement_delay) && controller.can_climb_structures && world.time >= controller.next_climb_time)
-						var/obj/structure/climb_target
-						for(var/obj/structure/O in next_step)
-							if(O.climbable)
-								climb_target = O
+						// climbable/climb_structure are declared on /obj/structure and /obj/machinery separately, so iterate both.
+						var/obj/structure/struct_target
+						var/obj/machinery/mach_target
+						for(var/obj/structure/S in next_step)
+							if(S.climbable)
+								struct_target = S
 								break
-						if(!climb_target)
-							for(var/obj/structure/O in current_turf)
-								if(O.climbable)
-									climb_target = O
+						if(!struct_target)
+							for(var/obj/machinery/M in next_step)
+								if(M.climbable)
+									mach_target = M
 									break
-						if(climb_target)
+						if(!struct_target && !mach_target)
+							for(var/obj/structure/S in current_turf)
+								if(S.climbable)
+									struct_target = S
+									break
+						if(!struct_target && !mach_target)
+							for(var/obj/machinery/M in current_turf)
+								if(M.climbable)
+									mach_target = M
+									break
+						if(struct_target)
 							controller.next_climb_time = world.time + controller.climb_interval
-							climb_target.climb_structure(movable_pawn)
+							struct_target.climb_structure(movable_pawn)
+						else if(mach_target)
+							controller.next_climb_time = world.time + controller.climb_interval
+							mach_target.climb_structure(movable_pawn)
 
 				// Check if target has moved significantly from the end of our path
 				if(last_turf != get_turf(controller.current_movement_target))

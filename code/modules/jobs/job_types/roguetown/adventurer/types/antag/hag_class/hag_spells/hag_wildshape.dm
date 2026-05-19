@@ -32,6 +32,11 @@
 	wildshape_icon_state = "hag"
 	pixel_x = -16
 
+/mob/living/carbon/human/species/wildshape/hag/after_creation()
+	..()
+	real_name = "Mirebeast"
+	name = real_name
+
 /obj/item/clothing/suit/roguetown/armor/skin_armor/hag_skin
 	slot_flags = null
 	name = "hag's skin"
@@ -105,6 +110,7 @@
 	possible_shapes = list(
 		/mob/living/carbon/human/species/wildshape/hag
 	)
+	disallowed_equipment_type = list(/obj/item/rogueweapon)
 
 /obj/effect/proc_holder/spell/self/wildshape/hag_true_form/cast(list/targets, mob/living/carbon/human/user = usr)
 	if(!COOLDOWN_FINISHED(user, hag_transform_lockout))

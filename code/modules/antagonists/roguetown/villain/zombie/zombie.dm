@@ -79,6 +79,8 @@
 		return span_boldnotice("Another deadite. [fellow_zombie.has_turned ? "My ally." : span_warning("Hasn't turned yet.")]")
 	if(istype(examined_datum, /datum/antagonist/skeleton))
 		return span_boldnotice("Another deadite.")
+	if(istype(examined_datum, /datum/antagonist/lich))
+		return span_boldnotice("Another deadite.")
 
 //Housekeeping/saving variables from pre-zombie
 

@@ -9,6 +9,7 @@
 	faction = list(FACTION_SPIDER_LOWERS)
 	threat_point = THREAT_DANGEROUS
 	ambush_faction = "underdark"
+	blood_toll_bucket = STATS_KILLED_GREATER_BEASTS
 	gender = MALE
 	icon_state = "drider"
 	icon_living = "drider"

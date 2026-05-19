@@ -6,6 +6,7 @@
 	icon_living = "honeys"
 	icon_dead = "honeys-dead"
 	gender = MALE
+	blood_toll_bucket = STATS_KILLED_GREATER_BEASTS
 	speak_chance = 1
 	turns_per_move = 3
 	see_in_dark = 6
@@ -81,7 +82,7 @@
 	if(prob(33))
 		gender = FEMALE
 	update_icon()
-	ai_controller.set_blackboard_key(BB_BASIC_FOODS, food_type)
+	ai_controller.set_blackboard_key(BB_BASIC_FOODS, typecacheof(food_type))
 	ADD_TRAIT(src, TRAIT_KNEESTINGER_IMMUNITY, INNATE_TRAIT)
 
 

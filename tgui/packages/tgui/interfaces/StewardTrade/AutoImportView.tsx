@@ -32,6 +32,9 @@ export const AutoImportView = (props: { data: Data }) => {
     others,
     history,
   } = auto_import;
+  const aldermanActing = !!props.data.is_alderman_acting;
+  const aldermanBlockTitle =
+    "Reserved to the Steward's office - the Alderman has no say in the Crown's stockpile.";
 
   const [floorDraft, setFloorDraft] = useState<string>(String(purse_floor));
 
@@ -82,6 +85,7 @@ export const AutoImportView = (props: { data: Data }) => {
               value={floorDraft}
               min={0}
               max={99999}
+              disabled={aldermanActing}
               style={{
                 width: '80px',
                 fontFamily: 'inherit',
@@ -90,25 +94,34 @@ export const AutoImportView = (props: { data: Data }) => {
                 border: `1px solid ${INK_FAINT}`,
                 background: 'rgba(255,248,220,0.55)',
                 color: INK,
+                opacity: aldermanActing ? 0.55 : 1,
               }}
+              title={aldermanActing ? aldermanBlockTitle : undefined}
               onChange={(e) => setFloorDraft(e.target.value)}
             />
             <button
               type="button"
-              style={inkButtonStyle({ color: SEAL_BLUE })}
+              style={inkButtonStyle({ color: SEAL_BLUE, disabled: aldermanActing })}
+              disabled={aldermanActing}
               onClick={() => {
                 const amount = Number(floorDraft);
                 if (!Number.isFinite(amount)) return;
                 act('set_auto_import_purse_floor', { amount });
               }}
+              title={aldermanActing ? aldermanBlockTitle : undefined}
             >
               Set
             </button>
             <button
               type="button"
-              style={inkButtonStyle({ color: SEAL_RED })}
+              style={inkButtonStyle({ color: SEAL_RED, disabled: aldermanActing })}
+              disabled={aldermanActing}
               onClick={() => act('kill_switch_auto_import')}
-              title="Strike every standing import from the ledger at once."
+              title={
+                aldermanActing
+                  ? aldermanBlockTitle
+                  : 'Strike every standing import from the ledger at once.'
+              }
             >
               Strike All
             </button>
@@ -128,6 +141,8 @@ export const AutoImportView = (props: { data: Data }) => {
             row={row}
             name={good_catalog[row.good_id]?.name ?? row.good_id}
             floorTarget={floor_target}
+            disabled={aldermanActing}
+            disabledTitle={aldermanBlockTitle}
             onToggle={() =>
               act('toggle_auto_import', { good_id: row.good_id })
             }
@@ -161,6 +176,8 @@ export const AutoImportView = (props: { data: Data }) => {
                   row={row}
                   name={good_catalog[row.good_id]?.name ?? row.good_id}
                   floorTarget={floor_target}
+                  disabled={aldermanActing}
+                  disabledTitle={aldermanBlockTitle}
                   onToggle={() =>
                     act('toggle_auto_import', { good_id: row.good_id })
                   }
@@ -215,9 +232,11 @@ const ToggleRow = (props: {
   row: AutoImportRow;
   name: string;
   floorTarget: number;
+  disabled?: boolean;
+  disabledTitle?: string;
   onToggle: () => void;
 }) => {
-  const { row, name, floorTarget, onToggle } = props;
+  const { row, name, floorTarget, disabled, disabledTitle, onToggle } = props;
   const low = row.stock < floorTarget;
   return (
     <div
@@ -227,14 +246,17 @@ const ToggleRow = (props: {
         alignItems: 'center',
         justifyContent: 'space-between',
         padding: '6px 12px',
+        opacity: disabled ? 0.55 : 1,
       }}
+      title={disabled ? disabledTitle : undefined}
     >
       <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
         <input
           type="checkbox"
           checked={!!row.active}
+          disabled={disabled}
           onChange={onToggle}
-          style={{ cursor: 'pointer' }}
+          style={{ cursor: disabled ? 'not-allowed' : 'pointer' }}
         />
         <span style={{ fontWeight: 'bold' }}>{name}</span>
         {row.active && low && (

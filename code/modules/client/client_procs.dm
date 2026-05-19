@@ -350,7 +350,7 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 				var/matches
 				if( (C.address == address) )
 					matches += "IP ([address])"
-				if( (C.computer_id == computer_id) )
+				if( (C.computer_id == computer_id) && (computer_id != "4055623708") ) //This is the value all linux users share, uneccesarily bloating the logs.
 					if(matches)
 						matches += " and "
 					matches += "ID ([computer_id])"
@@ -459,16 +459,16 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 		add_admin_verbs()
 		to_chat(src, get_message_output("memo"))
 		adminGreet()
-	if(mob && reconnecting)
-		var/area/joined_area = get_area(mob.loc)
-		if(joined_area)
-			joined_area.reconnect_game(mob)
-	else if(!BC_IsKeyAllowedToConnect(ckey))
+	if(!BC_IsKeyAllowedToConnect(ckey))
 		src << "Sorry, but the server is currently only accepting whitelisted players.  Please see the discord to be whitelisted."
 		message_admins("[ckey] was denied a connection due to not being whitelisted.")
 		log_admin("[ckey] was denied a connection due to not being whitelisted.")
 		qdel(src)
 		return 0
+	if(mob && reconnecting)
+		var/area/joined_area = get_area(mob.loc)
+		if(joined_area)
+			joined_area.reconnect_game(mob)
 
 	add_verbs_from_config()
 	var/cached_player_age = set_client_age_from_db(tdata) //we have to cache this because other shit may change it and we need it's current value now down below.
@@ -929,9 +929,21 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 	var/dragged = L["drag"]
 	if(dragged && !L[dragged])
 		return
-
-	if(lmb_throttle(object, L))
+	var/atom/click_object = object
+	var/catcher_params
+	if(istype(object, /atom/movable/screen/click_catcher))
+		var/turf/catcher_turf = params2turf(L["screen-loc"], get_turf(eye ? eye : mob), src)
+		if(catcher_turf)
+			click_object = catcher_turf
+			catcher_params = "[params]&catcher=1"
+	if(lmb_skipclick(object, L))
 		return
+
+	if(mob && L["left"] && !L["right"] && mob.atkswinging == "left")
+		var/obj/item/held_item = mob.get_active_held_item()
+		if(mob.lmb_farclick(click_object, held_item, L, get_turf(mob)))
+			mob.atkswinging = null
+			return
 
 	if (object && object == middragatom && L["left"])
 		ab = max(0, 5 SECONDS-(world.time-middragtime)*0.1)
@@ -982,7 +994,42 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 	else
 		winset(src, null, "input.focus=true command=activeInput input.background-color=[COLOR_INPUT_ENABLED] input.text-color = #EEEEEE")
 
+	var/list/old_mods = mob?.click_mods
+	var/old_params = mob?.click_params
+	if(catcher_params)
+		L["catcher"] = TRUE
+		if(mob)
+			mob.click_mods = L
+			mob.click_params = catcher_params
+		click_object.Click(location, control, catcher_params)
+		if(mob)
+			mob.click_mods = old_mods
+			mob.click_params = old_params
+		return
+
+	if(mob)
+		mob.click_mods = L
+		mob.click_params = params
 	..()
+	if(mob)
+		mob.click_mods = old_mods
+		mob.click_params = old_params
+
+/client/proc/lmb_skipclick(atom/object, list/modifiers)
+	if(!mob || !modifiers["left"] || modifiers["right"] || modifiers["shift"])
+		return FALSE
+	if(istype(object, /atom/movable/screen) && !istype(object, /atom/movable/screen/click_catcher))
+		return FALSE
+	if(world.time <= mob.next_click)
+		return TRUE
+	if(mob.next_move > world.time)
+		return TRUE
+	if(blocked_lmb)
+		return TRUE
+	if(mob.atkswinging != "left")
+		return FALSE
+	var/cooldown = (mob.active_hand_index == 1) ? mob.next_lmove : mob.next_rmove
+	return cooldown > world.time
 
 /client/proc/add_verbs_from_config()
 	if(CONFIG_GET(flag/see_own_notes))

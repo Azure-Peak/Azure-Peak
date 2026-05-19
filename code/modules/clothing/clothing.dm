@@ -1,9 +1,9 @@
 /obj/item/clothing
 	name = "clothing"
 	resistance_flags = FLAMMABLE
-	obj_flags = CAN_BE_HIT | UNIQUE_RENAME
+	obj_flags = CAN_BE_HIT | UNIQUE_RENAME | CLAMP_BREAK
 	break_sound = 'sound/foley/cloth_rip.ogg'
-	blade_dulling = DULLING_CUT
+	blade_dulling = FALSE
 	max_integrity = 200
 	integrity_failure = ARMOR_INTEG_FAILURE
 	drop_sound = 'sound/foley/dropsound/cloth_drop.ogg'
@@ -49,14 +49,18 @@
 	var/dynamic_fhair_suffix = ""//mask > head for facial hair
 	edelay_type = 0
 	var/list/allowed_sex = list(MALE,FEMALE)
+
 	var/list/allowed_race = CLOTHED_RACES_TYPES
 	var/immune_to_genderswap = FALSE
 	var/armor_class = ARMOR_CLASS_NONE
+
+	var/blood_color = null
 
 	sellprice = 1
 	var/naledicolor = FALSE
 	var/chunkcolor = "#5e5e5e"
 	var/material_category = ARMOR_MAT_LEATHER
+	var/throw_on_break = FALSE
 
 /obj/item
 	var/blocking_behavior
@@ -358,6 +362,27 @@
 		. += how_cool_are_your_threads.Join()
 */
 
+/obj/item/clothing/proc/get_flung_off()
+	if(ishuman(loc))
+		var/mob/living/carbon/human/H = loc
+		if(!H.get_tempo_bonus(TEMPO_TAG_EQUIPTOSS))
+			return
+		var/max_range = (H.mind ? 2 : 3)
+		var/throwprob = (H.mind ? 8 : 80) + ((10 - H.STALUC))	// More FOR we have the less likely it is to happen.
+		if(!prob(throwprob))
+			return
+		if(H.dropItemToGround(src, silent = TRUE))
+			H.update_fov_angles()
+			if(material_category == ARMOR_MAT_PLATE || material_category == ARMOR_MAT_CHAINMAIL)
+				do_sparks(2, TRUE, get_turf(H))
+			var/turnangle = (prob(10) ? 180 : prob(50) ? 270 : 90)
+			var/turndir = turn(H.dir, turnangle)
+			var/dist = rand(1, max_range)
+			var/current_turf = get_turf(H)
+			var/target_turf = get_ranged_target_turf(current_turf, turndir, dist)
+			playsound(get_turf(H), 'sound/misc/obj_toss.ogg', 100, TRUE)
+			throw_at(target_turf, dist, 6, H, FALSE)
+
 /obj/item/clothing/obj_break(damage_flag)
 	original_armor = armor
 	var/list/armorlist = armor.getList()
@@ -365,6 +390,8 @@
 		if(armorlist[x] > 0)
 			armorlist[x] = 0
 	..()
+	if(throw_on_break && !HAS_TRAIT(src, TRAIT_NODROP))
+		get_flung_off()
 
 /obj/item/clothing/obj_fix(mob/user, full_repair = TRUE)
 	..()

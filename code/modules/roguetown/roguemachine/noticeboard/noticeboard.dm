@@ -97,14 +97,14 @@
 
 	return attack_hand(usr)
 
-/obj/structure/roguemachine/noticeboard/attack_hand(mob/living/carbon/human/user)
-	if(!ishuman(user))
-		return
+/obj/structure/roguemachine/noticeboard/attack_hand(mob/living/user)
+	var/can_addremove = ishuman(user)
+	var/mob/living/carbon/human/human_user = user
 	var/can_remove = FALSE
 	var/can_premium = FALSE
-	if(user.job in list("Man at Arms","Inquisitor", "Knight", "Sergeant", "Orthodoxist", "Absolver", "Marshal", "Hand", "Grand Duke")) //why was KC here but not marshal ?
+	if(can_addremove && (human_user.job in list("Man at Arms","Inquisitor", "Knight", "Sergeant", "Orthodoxist", "Absolver", "Marshal", "Hand", "Grand Duke"))) //why was KC here but not marshal ?
 		can_remove = TRUE
-	if(user.job in list("Bathmaster","Merchant", "Innkeeper", "Steward", "Court Magician", "Town Crier", "Keeper", "Grand Duke"))
+	if(can_addremove && (human_user.job in list("Bathmaster","Merchant", "Innkeeper", "Steward", "Court Magician", "Town Crier", "Keeper", "Grand Duke")))
 		can_premium = TRUE
 	var/contents
 	contents += "<center>NOTICEBOARD<BR>"
@@ -120,14 +120,15 @@
 			selection += "<a href='?src=[REF(src)];changecategory=[category]'>[category]</a> "
 	contents += selection + "<BR>"
 	if(current_category in list("Postings", "Premium Postings"))
-		contents += "<a href='?src=[REF(src)];makepost=1'>Make a Posting</a>"
-		if(can_premium)
-			contents += " | <a href='?src=[REF(src)];premiumpost=1'>Make a Premium Posting</a><br>"
-		else
-			contents += "<br>"
-		contents += "<a href='?src=[REF(src)];removepost=1'>Remove my Posting</a><br>"
-		if(can_remove)
-			contents += "<a href='?src=[REF(src)];authorityremovepost=1'>Authority: Remove a Posting</a>"
+		if(can_addremove)
+			contents += "<a href='?src=[REF(src)];makepost=1'>Make a Posting</a>"
+			if(can_premium)
+				contents += " | <a href='?src=[REF(src)];premiumpost=1'>Make a Premium Posting</a><br>"
+			else
+				contents += "<br>"
+			contents += "<a href='?src=[REF(src)];removepost=1'>Remove my Posting</a><br>"
+			if(can_remove)
+				contents += "<a href='?src=[REF(src)];authorityremovepost=1'>Authority: Remove a Posting</a>"
 		var/board_empty = TRUE
 		switch(current_category)
 			if("Postings")
@@ -219,7 +220,7 @@
 		if(!orders_shown)
 			contents += "<br><span class='notice'>No standing orders currently posted. Check back later.</span>"
 		else
-			contents += "<div style='margin-top:8px'><i>Speak with the Steward or Clerk at the Nerve Master to fulfill a stockpile order. WAREHOUSE-tagged orders require finished goods to be left at the dock manifest for Crown collection.</i></div>"
+			contents += "<div style='margin-top:8px'><i>Speak with the Steward or Clerk at the Nerve Master to fulfill a stockpile order. WAREHOUSE-tagged orders require finished goods to be left at the dock manifest for Crown collection. Orders can be settled short once at least [round(STANDING_ORDER_PARTIAL_THRESHOLD * 100)]% by value is on hand, paid at [round(STANDING_ORDER_PARTIAL_PAYOUT_MULT * 100)]% of the delivered share - the rest is forfeit.</i></div>"
 	else if(current_category == "Blockades")
 		contents += "<h2>Regional Blockades</h2>"
 		contents += "<hr></center>"
@@ -266,6 +267,9 @@
 						first = FALSE
 						contents += label
 					contents += "<br>"
+				if(E.event_type == ECON_EVENT_SHORTAGE && E.saturation_target > 0)
+					var/pct = min(100, round((E.saturation_progress / E.saturation_target) * 100))
+					contents += "<font color='#5cb85c'>Relief progress:</font> [E.saturation_progress]/[E.saturation_target] units delivered ([pct]%) - the shortage ends early once this fills.<br>"
 				contents += "</div><hr>"
 	else if(current_category == "City Assembly")
 		contents += build_assembly_summary_html()

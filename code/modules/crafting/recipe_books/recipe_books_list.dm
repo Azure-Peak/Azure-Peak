@@ -65,7 +65,9 @@
 		/datum/crafting_recipe/roguetown/turfs/reinforcedwindow/openclose,
 		/datum/crafting_recipe/roguetown/turfs/roguewindow,
 		/datum/crafting_recipe/roguetown/turfs/roguewindow/dynamic,
-		/datum/crafting_recipe/roguetown/turfs/roguewindow/stone,
+		/datum/crafting_recipe/roguetown/turfs/roguewindow/stone_astrata,
+		/datum/crafting_recipe/roguetown/turfs/roguewindow/stone_psydon,
+		/datum/crafting_recipe/roguetown/turfs/roguewindow/stone_zizo,
 
 		/datum/crafting_recipe/roguetown/turfs/stone,
 		/datum/crafting_recipe/roguetown/turfs/stone/cobblerock,

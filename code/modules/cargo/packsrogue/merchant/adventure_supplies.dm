@@ -31,7 +31,7 @@
 	contains = list(/obj/item/rogueweapon/woodstaff)
 
 /datum/supply_pack/rogue/adventure_supplies/lamptern
-	name = "Lamptern"
+	name = "Iron Lamptern"
 	cost = 15
 	contains = list(/obj/item/flashlight/flare/torch/lantern)
 
@@ -41,12 +41,12 @@
 	contains = list(/obj/item/folding_table_stored)
 
 /datum/supply_pack/rogue/adventure_supplies/folding_alchstation
-	name = "alchemical station kit"
+	name = "Alchemical Station Kit"
 	cost = 45
 	contains = list(/obj/item/folding_alchstation_stored)
 
 /datum/supply_pack/rogue/adventure_supplies/folding_alchcauldron
-	name = "folding cauldron"
+	name = "Folding Cauldron"
 	cost = 45
 	contains = list(/obj/item/folding_alchcauldron_stored)
 
@@ -63,7 +63,7 @@
 					/obj/item/needle)
 
 /datum/supply_pack/rogue/adventure_supplies/rationpaper
-	name = "Ration Papers"
+	name = "Ration Wrapping Paper"
 	cost = 20
 	contains = list(
 					/obj/item/ration,

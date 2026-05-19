@@ -4,19 +4,18 @@
 	desc = "The Tyrant of the Ten, sister and rival to Noc - and the eldest of them all. Her radiance keeps the evils at bay during the dae'. Nite', however, is a different tale."
 	worshippers = "The Noble Hearted, Zealots and Farmers"
 	mob_traits = list(TRAIT_APRICITY)
-	miracles = list(/obj/effect/proc_holder/spell/targeted/touch/orison			= CLERIC_ORI,
-					/obj/effect/proc_holder/spell/invoked/ignition				= CLERIC_T0,
-					/obj/effect/proc_holder/spell/self/astrata_gaze				= CLERIC_T0,
-					/obj/effect/proc_holder/spell/self/astrata_fireresist       = CLERIC_T1,
-					/obj/effect/proc_holder/spell/invoked/lesser_heal 			= CLERIC_T1,
-					/obj/effect/proc_holder/spell/invoked/blood_heal			= CLERIC_T1,
-					/obj/effect/proc_holder/spell/invoked/projectile/sacred_flame	= CLERIC_T1,
-					/obj/effect/proc_holder/spell/self/astrata_sword			= CLERIC_T1,
-					/obj/effect/proc_holder/spell/invoked/astrataspark          = CLERIC_T2,
-					/obj/effect/proc_holder/spell/invoked/heal/astrata			= CLERIC_T2,
-					/obj/effect/proc_holder/spell/invoked/revive				= CLERIC_T3,
-					/obj/effect/proc_holder/spell/invoked/immolation			= CLERIC_T4,
-					/obj/effect/proc_holder/spell/invoked/sunstrike 			= CLERIC_T4,
+	miracles = list(/datum/action/cooldown/spell/touch/orison				= CLERIC_ORI,
+					/datum/action/cooldown/spell/astrata/ignition			= CLERIC_T0,
+					/datum/action/cooldown/spell/astrata/astrata_gaze		= CLERIC_T0,
+					/datum/action/cooldown/spell/miracle/heal		 		= CLERIC_T1,
+					/datum/action/cooldown/spell/miracle/bloodmiracle		= CLERIC_T1,
+					/datum/action/cooldown/spell/projectile/sacred_flame	= CLERIC_T1,
+					/datum/action/cooldown/spell/astrata/bladeorfist		= CLERIC_T2,
+					/datum/action/cooldown/spell/miracle/fortify/astrata	= CLERIC_T2,
+					/datum/action/cooldown/spell/astrata/miracle_pyre    	= CLERIC_T3,
+					/datum/action/cooldown/spell/astrata/firecloak		    = CLERIC_T3,
+					/obj/effect/proc_holder/spell/invoked/revive			= CLERIC_T3,
+					/obj/effect/proc_holder/spell/invoked/immolation		= CLERIC_T4,
 	)
 	confess_lines = list(
 		"ASTRATA IS MY LIGHT!",
@@ -24,6 +23,11 @@
 		"I SERVE THE GLORY OF THE SUN!",
 	)
 	storyteller = /datum/storyteller/astrata
+	titles = list(
+		"Tyrant",
+		"Overtyrant",
+		"Sun", // should match any sort of Sun(x) title
+	)
 
 // In daylight, church, cross, or ritual chalk.
 /datum/patron/divine/astrata/can_pray(mob/living/follower)

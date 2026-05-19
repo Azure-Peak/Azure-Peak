@@ -68,6 +68,7 @@
 	var/charge_start_timeofday = 0
 	var/last_cooldown_warn = 0
 	var/charge_was_blocked_by_cooldown = FALSE
+	var/blocked_lmb = FALSE
 
 /atom
 	var/blockscharging = FALSE
@@ -78,8 +79,12 @@
 /client/MouseDown(object, location, control, params)
 	charge_was_blocked_by_cooldown = FALSE
 	var/list/modifiers = params2list(params)
-	if(lmb_throttle(object, modifiers))
-		return
+	var/lmb_blocked = FALSE
+
+	if(modifiers["left"])
+		lmb_blocked = lmb_noface(object, modifiers)
+		if(!lmb_blocked && (!modifiers["shift"] || mob.BehindAtom(object, mob.dir)))
+			mob.face_atom(object, location, control, params)
 
 	if(mob.incapacitated())
 		return
@@ -95,6 +100,9 @@
 
 	// New spell system intercepted this click — skip old cursor/intent handling
 	if(signal_result & COMPONENT_CLIENT_MOUSEDOWN_INTERCEPT)
+		return
+
+	if(lmb_blocked)
 		return
 
 	tcompare = object
@@ -183,13 +191,13 @@
 
 /client/proc/handle_left_click(atom/object, location, control, params, list/modifiers)
 	var/cooldown = (mob.active_hand_index == 1) ? mob.next_lmove : mob.next_rmove
-	if(cooldown > world.time)
-		charge_was_blocked_by_cooldown = TRUE
+
+	if(modifiers["right"])
 		return
 
-	if(!modifiers["shift"] || mob.BehindAtom(object, mob.dir))
-		mob.face_atom(object, location, control, params)
-	if(modifiers["right"])
+	if(cooldown > world.time)
+		charge_was_blocked_by_cooldown = TRUE
+		blocked_lmb = TRUE
 		return
 
 	mob.atkswinging = "left"
@@ -198,6 +206,20 @@
 		updateprogbar(object)
 	else
 		mouse_pointer_icon = 'icons/effects/mousemice/human_attack.dmi'
+
+/client/proc/lmb_noface(atom/object, list/modifiers)
+	if(!modifiers["left"])
+		return FALSE
+	if(blocked_lmb)
+		return TRUE
+	if(modifiers["right"])
+		return FALSE
+	var/cooldown = (mob.active_hand_index == 1) ? mob.next_lmove : mob.next_rmove
+	if(cooldown > world.time)
+		charge_was_blocked_by_cooldown = TRUE
+		blocked_lmb = TRUE
+		return TRUE
+	return FALSE
 
 /mob
 	var/datum/intent/curplaying
@@ -208,8 +230,8 @@
 
 /client/MouseUp(object, location, control, params)
 	var/list/modifiers = params2list(params)
-	if(lmb_throttle(object, modifiers, no_swing = TRUE))
-		return
+	if(modifiers["left"])
+		blocked_lmb = FALSE
 
 	if(SEND_SIGNAL(src, COMSIG_CLIENT_MOUSEUP, object, location, control, params) & COMPONENT_CLIENT_MOUSEUP_INTERCEPT)
 		click_intercept_time = world.time
@@ -395,10 +417,12 @@
 			middragtime = 0
 			middragatom = null
 
-	if(mob.buckled)
-		mob.buckled.face_atom(over_object, over_location, over_control, params)
-	else
-		mob.face_atom(over_object, over_location, over_control, params)
+	var/block_lmb_facing = lmb_noface(over_object, L)
+	if(!block_lmb_facing)
+		if(mob.buckled)
+			mob.buckled.face_atom(over_object, over_location, over_control, params)
+		else
+			mob.face_atom(over_object, over_location, over_control, params)
 
 	mouseParams = params
 	mouseLocation = over_location

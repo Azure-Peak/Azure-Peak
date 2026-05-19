@@ -5,6 +5,7 @@
 	icon_state = "mossback"
 	icon_living = "mossback"
 	icon_dead = "mossback_dead"
+	blood_toll_bucket = STATS_KILLED_GREATER_BEASTS
 	speak_emote = list("clicks")
 	emote_hear = list("clicks.")
 	emote_see = list("clacks.")
@@ -57,7 +58,7 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/mossback/Initialize(mapload, mob/user, townercrab = FALSE)
 	. = ..()
 	AddComponent(/datum/component/ai_aggro_system)
-	ai_controller.set_blackboard_key(BB_BASIC_FOODS, food_type)
+	ai_controller.set_blackboard_key(BB_BASIC_FOODS, typecacheof(food_type))
 	if(user)
 		summoner = user.mind.current.real_name
 		if (townercrab)

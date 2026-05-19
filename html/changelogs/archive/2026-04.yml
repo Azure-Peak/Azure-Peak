@@ -1089,3 +1089,19 @@
       a middle-ground. They can now be sold.
   - balance: Ruma Sasu's iron dagger replaced with a steel tanto.
   - balance: All Ruma now share pain resistance.
+2026-04-30:
+  1HoneyDragon:
+  - bugfix: Fixed noble's pinafore not having the correct name.
+  - balance: Lowered noble's pinafore recipe skill requirement from Expert to Journeyman.
+  WeNeedMorePhoron:
+  - rscadd: Hearth is now climbable for an AI
+  - rscadd: AI will now default to climbing before destroying an obstacle
+  - rscadd: All lights are by default, destructible instead of indestructible.
+  - rscadd: Fixes goblin having wrong faction and not attacking you
+  - rscadd: Grand Duke, Marshal, Bishop, Merchant, Bathmaster, Steward, Guildsman,
+      Guildmaster and Martyr now announce on the SCOM when they far travel so people
+      know an important role is missing.
+  borneblood:
+  - bugfix: Blood Boon no longer targets yourself.
+  zydras:
+  - image: direbear

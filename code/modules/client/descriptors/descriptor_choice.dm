@@ -26,6 +26,7 @@
 		/datum/mob_descriptor/face/chubby,
 		/datum/mob_descriptor/face/mousy,
 		/datum/mob_descriptor/face/full,
+		/datum/mob_descriptor/face/punchable,
 	)
 
 /datum/descriptor_choice/face_exp
@@ -171,6 +172,32 @@
 		/datum/mob_descriptor/stature/peon,
 		/datum/mob_descriptor/stature/scion,
 		/datum/mob_descriptor/stature/swashbuckler,
+		/datum/mob_descriptor/stature/harlot,
+		/datum/mob_descriptor/stature/strumpet,
+		/datum/mob_descriptor/stature/hussy,
+		/datum/mob_descriptor/stature/slattern,
+		/datum/mob_descriptor/stature/gourmand,
+		/datum/mob_descriptor/stature/sovereign,
+		/datum/mob_descriptor/stature/savage,
+		/datum/mob_descriptor/stature/drifter,
+		/datum/mob_descriptor/stature/fanatic,
+		/datum/mob_descriptor/stature/maniac,
+		/datum/mob_descriptor/stature/provocateur,
+		/datum/mob_descriptor/stature/scavenger,
+		/datum/mob_descriptor/stature/pariah,
+		/datum/mob_descriptor/stature/fugitive,
+		/datum/mob_descriptor/stature/cutpurse,
+		/datum/mob_descriptor/stature/anarchist,
+		/datum/mob_descriptor/stature/warlord,
+		/datum/mob_descriptor/stature/drunkard,
+		/datum/mob_descriptor/stature/moron,
+		/datum/mob_descriptor/stature/simpleton,
+		/datum/mob_descriptor/stature/bitch,
+		/datum/mob_descriptor/stature/numbskull,
+		/datum/mob_descriptor/stature/gambler,
+		/datum/mob_descriptor/stature/reprobate,
+		/datum/mob_descriptor/stature/spendthrift,
+		/datum/mob_descriptor/stature/liability,
 	)
 
 /datum/descriptor_choice/voice
@@ -229,6 +256,9 @@
 		/datum/mob_descriptor/skin/dusky,
 		/datum/mob_descriptor/skin/irritated,
 		/datum/mob_descriptor/skin/ashen,
+		/datum/mob_descriptor/skin/pale,
+		/datum/mob_descriptor/skin/ravaged,
+		/datum/mob_descriptor/skin/ghoulish,
 	)
 
 /datum/descriptor_choice/scales
@@ -352,6 +382,19 @@
 		/datum/mob_descriptor/trait/sullen,
 		/datum/mob_descriptor/trait/incessant,
 		/datum/mob_descriptor/trait/volfish,
+		/datum/mob_descriptor/trait/radiant,
+		/datum/mob_descriptor/trait/bountiful,
+		/datum/mob_descriptor/trait/trembling,
+		/datum/mob_descriptor/trait/magnificent,
+		/datum/mob_descriptor/trait/esteemed,
+		/datum/mob_descriptor/trait/regal,
+		/datum/mob_descriptor/trait/decadent,
+		/datum/mob_descriptor/trait/lavish,
+		/datum/mob_descriptor/trait/pompous,
+		/datum/mob_descriptor/trait/dashing,
+		/datum/mob_descriptor/trait/gravid,
+		/datum/mob_descriptor/trait/fecund,
+		/datum/mob_descriptor/trait/vainglorious,
 	)
 
 /datum/descriptor_choice/skin_all

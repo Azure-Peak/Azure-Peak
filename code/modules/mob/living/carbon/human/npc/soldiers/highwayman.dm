@@ -6,6 +6,7 @@ GLOBAL_LIST_INIT(highwayman_aggro, world.file2list("strings/rt/highwaymanaggroli
 	ambushable = FALSE
 	dodgetime = 30
 	d_intent = INTENT_PARRY
+	blood_toll_bucket = STATS_KILLED_HIGHWAYMEN
 
 /mob/living/carbon/human/species/human/northern/highwayman/ambush
 	threat_point = THREAT_MODERATE
@@ -84,8 +85,9 @@ GLOBAL_LIST_INIT(highwayman_aggro, world.file2list("strings/rt/highwaymanaggroli
 		l_hand = /obj/item/rogueweapon/shield/wood
 	if(prob(10))
 		l_hand = /obj/item/rogueweapon/shield/buckler/palloy
-	if(prob(15))
-		neck = /obj/item/storage/belt/rogue/pouch/bombs
+	if(prob(10))
+		belt = /obj/item/storage/belt/rogue/leather/knifebelt/iron
+		H.adjust_skillrank(/datum/skill/combat/knives, 2, TRUE)
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
 	if(prob(30))
 		neck = /obj/item/clothing/neck/roguetown/leather

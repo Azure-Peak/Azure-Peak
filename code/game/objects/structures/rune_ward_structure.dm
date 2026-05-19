@@ -12,7 +12,6 @@
 	alpha = 180
 	layer = TURF_LAYER + 0.1
 	max_integrity = 300
-	ai_path_weight = 8
 
 	var/datum/weakref/owner_ref
 	var/datum/weakref/spell_ref

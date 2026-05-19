@@ -92,6 +92,10 @@
 		departing_mob.visible_message("<span class='notice'>[user] safely sends [departing_mob] away./span>")
 	else
 		departing_mob.visible_message("<span class='notice'>[departing_mob == user ? "Out of their own volition, " : "Ushered by [user], "][departing_mob] leaves [SSticker.realm_name].</span>")
+	if(departing_mob.job in ANNOUNCE_ON_FAR_TRAVEL_ROLES)
+		var/datum/job/announce_job = SSjob.GetJob(departing_mob.job)
+		var/announce_title = announce_job ? announce_job.get_informed_title(departing_mob) : departing_mob.job
+		scom_announce("[departing_mob.real_name] the [announce_title] has left the vicinity of [SSticker.realm_name].")
 	if(departing_mob.has_embedded_objects())
 		var/list/embeds = departing_mob.get_embedded_objects()
 		for(var/thing in embeds)

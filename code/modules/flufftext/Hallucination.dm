@@ -1287,5 +1287,5 @@ GLOBAL_LIST_INIT(hallucination_list, list(
 	victim.energy_add(-2)
 
 	qdel(src)
- 
+
 #undef HAL_LINES_FILE

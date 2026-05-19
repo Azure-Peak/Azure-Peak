@@ -26,6 +26,9 @@
 	data += "<a href='byond://?src=[REF(src)];viewchronicle=1;chronicletab=Villains' style='display: inline-block; width: 100px; padding: 6px 10px; margin: 0 5px; background: linear-gradient(to bottom, #3a1a1a, #1a0a0a); border: 1px solid #5a3a3a; border-bottom: 2px solid #8a6a6a; color: #d4b4b4; font-weight: bold; text-decoration: none; border-radius: 2px; font-size: 0.8em; box-shadow: 0 1px 3px rgba(0,0,0,0.5);'>VILLAINS</a>"
 	data += "<a href='byond://?src=[REF(src)];viewchronicle=1;chronicletab=Outlaws' style='display: inline-block; width: 100px; padding: 6px 10px; margin: 0 5px; background: linear-gradient(to bottom, #5a3a0a, #3a1a0a); border: 1px solid #7a5a2a; border-bottom: 2px solid #aa8a5a; color: #ffd494; font-weight: bold; text-decoration: none; border-radius: 2px; font-size: 0.8em; box-shadow: 0 1px 3px rgba(0,0,0,0.5);'>OUTLAWS</a>"
 	data += "</div>"
+	data += "<div style='width: 100%; text-align: center; margin: 18px 0 15px 0;'>"
+	data += "<a href='byond://?src=[REF(src)];viewchronicle=1;chronicletab=Blood Toll' style='display: inline-block; width: 140px; padding: 7px 12px; margin: 0 5px; background: linear-gradient(to bottom, #8a1010, #3a0606); border: 1px solid #c43030; border-bottom: 2px solid #ff5a5a; color: #ffe0e0; font-weight: bold; text-decoration: none; border-radius: 2px; font-size: 0.85em; letter-spacing: 0.08em; box-shadow: 0 1px 4px rgba(180,30,30,0.4);'>BLOOD TOLL</a>"
+	data += "</div>"
 
 	// Content
 	data += "<div style='margin: 35px;'>"
@@ -248,6 +251,9 @@
 	data += "<a href='byond://?src=[REF(src)];viewchronicle=1;chronicletab=Heroes' style='display: inline-block; width: 100px; padding: 6px 10px; margin: 0 5px; background: linear-gradient(to bottom, #3a4a5a, #1a1b2a); border: 1px solid #6a7b8a; border-bottom: 2px solid #8f9caa; color: #c0c0d0; font-weight: bold; text-decoration: none; border-radius: 2px; font-size: 0.8em; box-shadow: 0 1px 3px rgba(0,0,0,0.5);'>HEROES</a>"
 	data += "<a href='byond://?src=[REF(src)];viewchronicle=1;chronicletab=Villains' style='display: inline-block; width: 100px; padding: 6px 10px; margin: 0 5px; background: linear-gradient(to bottom, #3a1a1a, #1a0a0a); border: 1px solid #5a3a3a; border-bottom: 2px solid #8a6a6a; color: #d4b4b4; font-weight: bold; text-decoration: none; border-radius: 2px; font-size: 0.8em; box-shadow: 0 1px 3px rgba(0,0,0,0.5);'>VILLAINS</a>"
 	data += "<a href='byond://?src=[REF(src)];viewchronicle=1;chronicletab=Outlaws' style='display: inline-block; width: 100px; padding: 6px 10px; margin: 0 5px; background: linear-gradient(to bottom, #5a3a0a, #3a1a0a); border: 1px solid #7a5a2a; border-bottom: 2px solid #aa8a5a; color: #ffd494; font-weight: bold; text-decoration: none; border-radius: 2px; font-size: 0.8em; box-shadow: 0 1px 3px rgba(0,0,0,0.5);'>OUTLAWS</a>"
+	data += "</div>"
+	data += "<div style='width: 100%; text-align: center; margin: 18px 0 15px 0;'>"
+	data += "<a href='byond://?src=[REF(src)];viewchronicle=1;chronicletab=Blood Toll' style='display: inline-block; width: 140px; padding: 7px 12px; margin: 0 5px; background: linear-gradient(to bottom, #8a1010, #3a0606); border: 1px solid #c43030; border-bottom: 2px solid #ff5a5a; color: #ffe0e0; font-weight: bold; text-decoration: none; border-radius: 2px; font-size: 0.85em; letter-spacing: 0.08em; box-shadow: 0 1px 4px rgba(180,30,30,0.4);'>BLOOD TOLL</a>"
 	data += "</div>"
 
 	// Content
@@ -568,6 +574,7 @@
 			data += "<div style='color: #888; font-size: 85%; padding-left: 12px; margin-bottom: 4px; line-height: 1.4em; overflow-wrap: break-word; word-wrap: break-word;'>"
 			data += "[orders_fulfilled] fulfilled &bull; [orders_expired] expired &bull; [orders_petitioned] petitioned ([petition_pledge_spent]p spent)"
 			data += "</div>"
+			data += "<div style='margin-bottom: 4px;'><font color='#5cb85c'>Shortages Ended Early: </font>[GLOB.azure_round_stats[STATS_SHORTAGES_ENDED]]</div>"
 			data += "<div style='border-top: 1px solid #555; margin: 8px 0;'></div>"
 			var/total_revenue = GLOB.azure_round_stats[STATS_STARTING_TREASURY] + GLOB.azure_round_stats[STATS_RURAL_TAXES_COLLECTED] + royal_taxes_total + GLOB.azure_round_stats[STATS_FINES_INCOME] + poll_total + GLOB.azure_round_stats[STATS_STOCKPILE_EXPORTS_VALUE] + GLOB.azure_round_stats[STATS_STOCKPILE_REVENUE] + standing_order_revenue
 			data += "<div style='margin-bottom: 4px;'><font color='#23ba30'>Total Revenue: </font>[total_revenue]</div>"
@@ -1049,6 +1056,9 @@
 					"}
 
 				data += "</div>"
+
+		if("Blood Toll")
+			data += render_blood_toll_chronicle()
 	data += "</div>"
 
 	src.mob << browse(null, "window=vanderlin_influences")
@@ -1085,6 +1095,9 @@
 	data += "<a href='byond://?src=[REF(src)];viewchronicle=1;chronicletab=Heroes' style='display: inline-block; width: 100px; padding: 6px 10px; margin: 0 5px; background: linear-gradient(to bottom, #3a4a5a, #1a1b2a); border: 1px solid #6a7b8a; border-bottom: 2px solid #8f9caa; color: #c0c0d0; font-weight: bold; text-decoration: none; border-radius: 2px; font-size: 0.8em; box-shadow: 0 1px 3px rgba(0,0,0,0.5);'>HEROES</a>"
 	data += "<a href='byond://?src=[REF(src)];viewchronicle=1;chronicletab=Villains' style='display: inline-block; width: 100px; padding: 6px 10px; margin: 0 5px; background: linear-gradient(to bottom, #3a1a1a, #1a0a0a); border: 1px solid #5a3a3a; border-bottom: 2px solid #8a6a6a; color: #d4b4b4; font-weight: bold; text-decoration: none; border-radius: 2px; font-size: 0.8em; box-shadow: 0 1px 3px rgba(0,0,0,0.5);'>VILLAINS</a>"
 	data += "<a href='byond://?src=[REF(src)];viewchronicle=1;chronicletab=Outlaws' style='display: inline-block; width: 100px; padding: 6px 10px; margin: 0 5px; background: linear-gradient(to bottom, #5a3a0a, #3a1a0a); border: 1px solid #7a5a2a; border-bottom: 2px solid #aa8a5a; color: #ffd494; font-weight: bold; text-decoration: none; border-radius: 2px; font-size: 0.8em; box-shadow: 0 1px 3px rgba(0,0,0,0.5);'>OUTLAWS</a>"
+	data += "</div>"
+	data += "<div style='width: 100%; text-align: center; margin: 18px 0 15px 0;'>"
+	data += "<a href='byond://?src=[REF(src)];viewchronicle=1;chronicletab=Blood Toll' style='display: inline-block; width: 140px; padding: 7px 12px; margin: 0 5px; background: linear-gradient(to bottom, #8a1010, #3a0606); border: 1px solid #c43030; border-bottom: 2px solid #ff5a5a; color: #ffe0e0; font-weight: bold; text-decoration: none; border-radius: 2px; font-size: 0.85em; letter-spacing: 0.08em; box-shadow: 0 1px 4px rgba(180,30,30,0.4);'>BLOOD TOLL</a>"
 	data += "</div>"
 
 	// Content

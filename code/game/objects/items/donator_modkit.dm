@@ -200,7 +200,7 @@
 	target_items = list(/obj/item/rogueweapon/sword/sabre)
 	result_item = /obj/item/rogueweapon/example/eiren_sabre
 
-/obj/item/enchantingkit/eirensabre2
+/obj/item/enchantingkit/weapon/eirensabre2
 	name = "'Cinis' morphing elixir"
 	target_items = list(/obj/item/rogueweapon/sword/saber)
 	result_item = /obj/item/rogueweapon/example/eiren_sabre_alt
@@ -436,3 +436,40 @@
 	)
 	result_item = /obj/item/rogueweapon/example/euthanasia
 
+/obj/item/enchantingkit/weapon/nicksonessang
+	name = "'Dark Delight' morphing elixir"
+	target_items = list(/obj/item/rogueweapon/sword/long/kriegmesser/ssangsudo)
+	result_item = /obj/item/rogueweapon/example/ssangsudo_long
+
+//more koruu stuff below
+/obj/item/enchantingkit/weapon/koruu_kukri_silver
+	name = "'Psydonic Leachwhacker' morphing elixir"
+	target_items = list(
+		/obj/item/rogueweapon/huntingknife/idagger/silver/psydagger
+	)
+	result_item = /obj/item/rogueweapon/koruu/kukri/silver
+
+/obj/item/enchantingkit/weapon/koruu_longsword
+	name = "'Excaliber' morphing elixir"
+	target_items = list(
+		/obj/item/rogueweapon/sword/long,
+		/obj/item/rogueweapon/sword/long/dec,
+		/obj/item/rogueweapon/sword/long/etruscan)
+	result_item = /obj/item/rogueweapon/koruu/longsword
+
+/obj/item/enchantingkit/weapon/koruu_etrusc
+	name = "'Colada' morphing elixir"
+	target_items = list(
+		/obj/item/rogueweapon/sword/long,
+		/obj/item/rogueweapon/sword/long/dec,
+		/obj/item/rogueweapon/sword/long/etruscan)
+	result_item = /obj/item/rogueweapon/koruu/etrusca
+
+/obj/item/enchantingkit/weapon/koruu_judgement
+	name = "'A Durthurian Tale' morphing elixir"
+	target_items = list(
+		/obj/item/rogueweapon/sword/long,
+		/obj/item/rogueweapon/sword/long/dec,
+		/obj/item/rogueweapon/sword/long/etruscan,
+		/obj/item/rogueweapon/sword/long/judgement)
+	result_item = /obj/item/rogueweapon/koruu/judgement

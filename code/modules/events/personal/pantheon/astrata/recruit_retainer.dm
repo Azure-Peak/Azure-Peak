@@ -39,6 +39,9 @@
 		if(locate(/obj/effect/proc_holder/spell/self/convertrole) in human_mob.mind.spell_list)
 			continue
 
+		if(!human_mob.client.prefs || human_mob.client.prefs?.no_storyteller_events)
+			continue
+
 		if(istype(human_mob.mind?.assigned_role, /datum/job/roguetown/councillor) ||  human_mob.job == "Noble")
 			minor_nobles += human_mob
 		else

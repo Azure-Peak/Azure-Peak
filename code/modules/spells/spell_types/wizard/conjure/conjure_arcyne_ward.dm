@@ -293,7 +293,10 @@
 		return FALSE
 	H.say(parent_spell.regen_invocation, forced = "spell", language = /datum/language/common)
 	to_chat(H, span_notice("My ward shimmers, fully restored."))
-	ward.obj_integrity = ward.max_integrity
+	if(ward.obj_broken)
+		ward.obj_fix(H, full_repair = TRUE)
+	else
+		ward.obj_integrity = ward.max_integrity
 	return TRUE
 
 /datum/action/cooldown/spell/regenerate_arcyne_ward/dragonhide

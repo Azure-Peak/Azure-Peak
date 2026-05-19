@@ -59,6 +59,14 @@
 	color_keys = 3
 	color_key_names = list("Ears", "Inner", "Tips")
 
+
+/datum/sprite_accessory/ears/big/bunny_floppy
+	name = "Bunny Ears (Droopy)"
+	icon_state = "bunny_floppy"
+	color_keys = 3
+	color_key_names = list("Ears", "Inner", "Tips")
+	relevant_layers = list(BODY_BEHIND_LAYER, BODY_FRONT_LAYER, BODY_ADJ_LAYER)
+
 /datum/sprite_accessory/ears/cat_big
 	name = "Cat, Big"
 	icon_state = "catbig"
@@ -166,6 +174,34 @@
 /datum/sprite_accessory/ears/big/rabbit_large
 	name = "Rabbit Ears (Large)"
 	icon_state = "rabbit_large"
+	color_keys = 3
+	color_key_names = list("Ears", "Inner", "Tips")
+	relevant_layers = list(BODY_ADJ_LAYER)
+
+/datum/sprite_accessory/ears/big/rabbit_medium
+	name = "Rabbit Ears (Medium)"
+	icon_state = "rabbit_medium"
+	color_keys = 3
+	color_key_names = list("Ears", "Inner", "Tips")
+	relevant_layers = list(BODY_ADJ_LAYER)
+
+/datum/sprite_accessory/ears/big/rabbit_small
+	name = "Rabbit Ears (Small)"
+	icon_state = "rabbit_small"
+	color_keys = 3
+	color_key_names = list("Ears", "Inner", "Tips")
+	relevant_layers = list(BODY_ADJ_LAYER)
+
+/datum/sprite_accessory/ears/big/rabbit_floppy
+	name = "Rabbit Ears (Floppy)"
+	icon_state = "rabbit_floppy"
+	color_keys = 3
+	color_key_names = list("Ears", "Inner", "Tips")
+	relevant_layers = list(BODY_ADJ_LAYER)
+
+/datum/sprite_accessory/ears/big/rabbit_floppyalt
+	name = "Rabbit Ears (Floppy R.)"
+	icon_state = "rabbit_floppy_flip"
 	color_keys = 3
 	color_key_names = list("Ears", "Inner", "Tips")
 	relevant_layers = list(BODY_ADJ_LAYER)

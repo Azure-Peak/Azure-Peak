@@ -493,7 +493,7 @@
 	faction = "Station"
 	tutorial = "Martyrs are hand-picked among the most devout of the Holy See. They are given one of the See's cherished relics to protect the Church, and to inspire hope and lead by example of grace, kindness and vicious intolerance to any who do not share the belief of the Ten. They have sworn an Oath in the sight of the gods, and will fulfill it to the bitter end."
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = RACES_SHUNNED_UP
+	forbidden_races = list(RACES_CONSTRUCT RACES_DESPISED)
 	allowed_patrons = list(/datum/patron/divine/undivided)
 	outfit = /datum/outfit/job/roguetown/martyr
 	min_pq = 10 //Cus it's a Martyr of the Ten. Get it.
@@ -682,7 +682,7 @@
 			H.ignite_mob()
 		return FALSE
 	to_chat(user, span_warning("A painful jolt across your entire body sends you to the ground. You cannot touch [src]]."))
-	H.emote("groan")
+	H.emote("groan", forced = TRUE)
 	H.Stun(10)
 	return FALSE
 
@@ -788,7 +788,7 @@
 			H.ignite_mob()
 		return FALSE
 	to_chat(user, span_warning("A painful jolt across your entire body sends you to the ground. You cannot touch [src]]."))
-	H.emote("groan")
+	H.emote("groan", forced = TRUE)
 	H.Stun(10)
 	return FALSE
 /obj/item/rogueweapon/greataxe/steel/doublehead/martyr/Destroy()
@@ -877,7 +877,7 @@
 			H.ignite_mob()
 		return FALSE
 	to_chat(user, span_warning("A painful jolt across your entire body sends you to the ground. You cannot touch [src]]."))
-	H.emote("groan")
+	H.emote("groan", forced = TRUE)
 	H.Stun(10)
 	return FALSE
 
@@ -968,7 +968,7 @@
 			H.ignite_mob()
 		return FALSE
 	to_chat(user, span_warning("A painful jolt across your entire body sends you to the ground. You cannot touch [src]]."))
-	H.emote("groan")
+	H.emote("groan", forced = TRUE)
 	H.Stun(10)
 	return FALSE
 
@@ -1030,7 +1030,7 @@
 			H.ignite_mob()
 		return FALSE
 	to_chat(user, span_warning("A painful jolt across your entire body sends you to the ground. You cannot touch [src]]."))
-	H.emote("groan")
+	H.emote("groan", forced = TRUE)
 	H.Stun(10)
 	return FALSE
 
@@ -1072,7 +1072,7 @@
 			H.ignite_mob()
 		return FALSE
 	to_chat(user, span_warning("A painful jolt across your entire body sends you to the ground. You cannot touch [src]]."))
-	H.emote("groan")
+	H.emote("groan", forced = TRUE)
 	H.Stun(10)
 	return FALSE
 
@@ -1115,7 +1115,7 @@
 			H.ignite_mob()
 		return FALSE
 	to_chat(user, span_warning("A painful jolt across your entire body sends you to the ground. You cannot touch [src]]."))
-	H.emote("groan")
+	H.emote("groan", forced = TRUE)
 	H.Stun(10)
 	return FALSE
 
@@ -1157,7 +1157,7 @@
 			H.ignite_mob()
 		return FALSE
 	to_chat(user, span_warning("A painful jolt across your entire body sends you to the ground. You cannot touch [src]]."))
-	H.emote("groan")
+	H.emote("groan", forced = TRUE)
 	H.Stun(10)
 	return FALSE
 
@@ -1203,7 +1203,7 @@
 			H.ignite_mob()
 		return FALSE
 	to_chat(user, span_warning("A painful jolt across your entire body sends you to the ground. You cannot touch [src]]."))
-	H.emote("groan")
+	H.emote("groan", forced = TRUE)
 	H.Stun(10)
 	return FALSE
 
@@ -1246,89 +1246,3 @@
 #undef STATE_SAFE
 #undef STATE_MARTYR
 #undef STATE_MARTYRULT
-
-
-///////////////////////////////////
-// Versions for UNDIVIDED ritual //
-///////////////////////////////////
-
-///////////
-// PLATE //
-///////////
-
-/obj/item/clothing/suit/roguetown/armor/plate/full/holysee/ritual
-	name = "crusader silver plate"
-
-/obj/item/clothing/suit/roguetown/armor/plate/full/holysee/ritual/mob_can_equip(mob/living/M, mob/living/equipper, slot, disable_warning = FALSE, bypass_equip_delay_self = FALSE)
-	return TRUE
-
-/obj/item/clothing/suit/roguetown/armor/plate/full/holysee/ritual/Initialize()
-	. = ..()
-	ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)
-
-/obj/item/clothing/suit/roguetown/armor/plate/full/holysee/ritual/dropped(mob/living/carbon/human/user)
-	. = ..()
-	if(QDELETED(src))
-		return
-	qdel(src)
-
-////////////
-// GLOVES //
-////////////
-
-/obj/item/clothing/gloves/roguetown/plate/holysee/ritual
-	name = "crusader silver plate gauntlets"
-
-/obj/item/clothing/gloves/roguetown/plate/holysee/ritual/mob_can_equip(mob/living/M, mob/living/equipper, slot, disable_warning = FALSE, bypass_equip_delay_self = FALSE)
-	return TRUE
-
-/obj/item/clothing/gloves/roguetown/plate/holysee/ritual/Initialize()
-	. = ..()
-	ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)
-
-/obj/item/clothing/gloves/roguetown/plate/holysee/ritual/dropped(mob/living/carbon/human/user)
-	. = ..()
-	if(QDELETED(src))
-		return
-	qdel(src)
-
-///////////
-// PANTS //
-///////////
-
-/obj/item/clothing/under/roguetown/platelegs/holysee/ritual
-	name = "crusader silver chausses"
-
-/obj/item/clothing/under/roguetown/platelegs/holysee/ritual/mob_can_equip(mob/living/M, mob/living/equipper, slot, disable_warning = FALSE, bypass_equip_delay_self = FALSE)
-	return TRUE
-
-/obj/item/clothing/under/roguetown/platelegs/holysee/ritual/Initialize()
-	. = ..()
-	ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)
-
-/obj/item/clothing/under/roguetown/platelegs/holysee/ritual/dropped(mob/living/carbon/human/user)
-	. = ..()
-	if(QDELETED(src))
-		return
-	qdel(src)
-
-///////////
-// BOOTS //
-///////////
-
-/obj/item/clothing/shoes/roguetown/boots/armor/holysee/ritual
-	name = "crusader silver plated boots"
-
-/obj/item/clothing/shoes/roguetown/boots/armor/holysee/ritual/mob_can_equip(mob/living/M, mob/living/equipper, slot, disable_warning = FALSE, bypass_equip_delay_self = FALSE)
-	return TRUE
-
-/obj/item/clothing/shoes/roguetown/boots/armor/holysee/ritual/Initialize()
-	. = ..()
-	ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)
-
-/obj/item/clothing/shoes/roguetown/boots/armor/holysee/ritual/dropped(mob/living/carbon/human/user)
-	. = ..()
-	if(QDELETED(src))
-		return
-	qdel(src)
-

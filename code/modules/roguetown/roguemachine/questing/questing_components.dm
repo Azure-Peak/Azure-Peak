@@ -110,9 +110,11 @@
 	else if(isitem(parent))
 		var/obj/item/I = parent
 		I.remove_filter(outline_filter_id)
-		// Only delete the item if it's part of an incomplete fetch or courier quest
-		if(Q && !Q.complete && ((Q.quest_type == QUEST_RETRIEVAL && istype(I, Q.target_item_type)) || (Q.quest_type == QUEST_COURIER && istype(I, Q.target_delivery_item))))
-			qdel(I)
+		if(Q && !Q.complete)
+			if(Q.quest_type == QUEST_RETRIEVAL && Q.target_item_type && istype(I, Q.target_item_type))
+				qdel(I)
+			else if(Q.quest_type == QUEST_COURIER && Q.target_delivery_item && istype(I, Q.target_delivery_item))
+				qdel(I)
 	qdel(src)
 
 // ==================== SPECIALIZED COMPONENT SUBTYPES ====================
@@ -144,8 +146,10 @@
 	if(!Q || Q.complete)
 		return
 	var/datum/quest/kill/KQ = Q
-	if(istype(KQ) && !KQ.kills_count_progress)
-		return
+	if(istype(KQ))
+		KQ.on_guardian_killed()
+		if(!KQ.kills_count_progress)
+			return
 	Q.progress_current++
 	Q.on_progress_update()
 

@@ -82,13 +82,13 @@
 	name = "halfsword thrust"
 	icon_state = "inimpale"
 	clickcd = CLICK_CD_CHARGED
-	penfactor = PEN_HEAVY
+	penfactor = PEN_MEDIUM
 	damfactor = 0.8
-	swingdelay_type = SWINGDELAY_PENALTY
-	swingdelay = 0.7 SECONDS
+	swingdelay = 0.5 SECONDS
 
 /datum/intent/sword/thrust/long/halfsword/jab
 	name = "jab"
+	icon_state = "instab"
 	attack_verb = list("jabs")
 	penfactor = PEN_LIGHT
 	damfactor = 0.8
@@ -127,16 +127,16 @@
 	icon_state = "incut"
 	swingdelay_type = SWINGDELAY_PENALTY
 	swingdelay = 1 SECONDS
-	damfactor = 1.7
+	damfactor = 1.3
 
 /datum/intent/sword/strike/cancel
 	name = "sluggish blunted swing"
 	icon_state = "inchop"
 	swingdelay_type = SWINGDELAY_CANCEL
 	swingdelay = 1 SECONDS
-	damfactor = 3
 	canparry = FALSE
 	candodge = FALSE
+	damfactor = 1.3
 
 // Freifechter Longsword intents //
 /datum/intent/sword/cut/master
@@ -293,7 +293,7 @@
 
 /datum/intent/sword/chop/cleave
 	name = "cleave"
-	icon_state = "intear"
+	icon_state = "incleave"
 	attack_verb = list("cleaves", "tears through")
 	chargedrain = 1.8
 	chargetime = 12

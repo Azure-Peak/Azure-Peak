@@ -1,6 +1,6 @@
 /obj/effect/proc_holder/spell/self/howl
 	name = "Howl"
-	desc = "Howl to the moon to communicate with my fellow wolves. Do beware, those versed in beasttongue may be listening."
+	desc = "Howl to the moon to communicate with my fellow volves. Do beware, those versed in beasttongue may be listening."
 	overlay_state = "howl"
 	antimagic_allowed = TRUE
 	recharge_time = 600 //1 minute

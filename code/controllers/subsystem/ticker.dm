@@ -798,24 +798,25 @@ SUBSYSTEM_DEF(ticker)
 /datum/controller/subsystem/ticker/proc/on_sunsteal()
 	GLOB.todoverride = "night"
 	settod()
-	priority_announce("The Sun is torn from the sky!", "Terrible Omen", 'sound/misc/astratascream.ogg')
+	priority_announce("The Sun is torn from the sky, the world is bleeding!", "Terrible Omen", 'sound/music/wolfintro.ogg') //THE WORLD IS DYING, YOU SHOULD BE SCARED
 	addomen(OMEN_SUNSTEAL)
 	SSParticleWeather.run_weather(/datum/particle_weather/fog/blood, TRUE)
 	for(var/mob/living/carbon/human/astrater as anything in GLOB.human_list)
 		if(!istype(astrater.patron, /datum/patron/divine/astrata))
 			continue
 		to_chat(astrater, span_userdanger("You feel the pain of [astrater.patron]!"))
+		astrater.playsound_local(get_turf(astrater), 'sound/misc/astratascream.ogg', 60, FALSE, pressure_affected = FALSE) //Only Astratians can hear their godess scream in agony.
 		astrater.emote("painscream", intentional = FALSE)
 
 	for(var/turf/open/water/W in world)
 		W.water_reagent = /datum/reagent/blood
-		W.water_color = "#C80000"
+		W.water_color = BLOOD_COLOR_RED
 		W.mapped = FALSE
 		W.update_icon()
 		CHECK_TICK
 
 	for(var/obj/machinery/light/light in GLOB.machines)
-		if(prob(40))
+		if(prob(70)) //Almost every light on the server, pitch blackness
 			light.extinguish()
 		else
 			light.flicker(rand(2, 5))
@@ -846,10 +847,11 @@ SUBSYSTEM_DEF(ticker)
 				if(isfloorturf(_T))
 					new /mob/living/carbon/human/species/skeleton/npc(_T)
 
-/// Returns universe state to normal after the sunstealer has been slain
+/// Returns universe state to normal (minus the water) after the sunstealer has been slain, some neat flavor to show its finally over.
 /datum/controller/subsystem/ticker/proc/on_sunstealer_death()
 	GLOB.todoverride = null
 	sunstolen = FALSE
+	priority_announce("The air remains unnaturally cold as a wounded sun rises once more.", "A long night comes to an end", 'sound/misc/otavanlament.ogg') //THE WORLD IS TORN OPEN, THE ROT TO SEE. WHY DO YOU STILL ENDURE?
 	settod()
 	SSParticleWeather.run_weather(/datum/particle_weather/rain_gentle, TRUE)
 

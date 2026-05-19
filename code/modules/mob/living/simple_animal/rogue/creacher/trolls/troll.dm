@@ -10,6 +10,7 @@
 	faction = list(FACTION_TROLLS)
 	threat_point = THREAT_DANGEROUS
 	ambush_faction = "trolls"
+	blood_toll_bucket = STATS_KILLED_TROLLMINOTAUR
 	footstep_type = FOOTSTEP_MOB_HEAVY
 	emote_hear = null
 	emote_see = null
@@ -87,7 +88,7 @@
 	AddComponent(/datum/component/ai_aggro_system)
 	if(critvuln)
 		ADD_TRAIT(src, TRAIT_CRITICAL_WEAKNESS, TRAIT_GENERIC)
-	ai_controller.set_blackboard_key(BB_BASIC_FOODS, food_type)
+	ai_controller.set_blackboard_key(BB_BASIC_FOODS, typecacheof(food_type))
 
 /mob/living/simple_animal/hostile/retaliate/rogue/troll/death(gibbed)
 	..()

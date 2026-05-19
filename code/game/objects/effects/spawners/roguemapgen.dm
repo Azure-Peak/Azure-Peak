@@ -141,7 +141,7 @@
 	loot = list(
 		/obj/item/reagent_containers/glass/bottle/alchemical/strpot = 10,
 		/obj/item/reagent_containers/glass/bottle/alchemical/perpot = 10,
-		/obj/item/reagent_containers/glass/bottle/alchemical/endpot = 10,
+		/obj/item/reagent_containers/glass/bottle/alchemical/willpot = 10,
 		/obj/item/reagent_containers/glass/bottle/alchemical/conpot = 10,
 		/obj/item/reagent_containers/glass/bottle/alchemical/intpot = 10,
 		/obj/item/reagent_containers/glass/bottle/alchemical/spdpot = 10,

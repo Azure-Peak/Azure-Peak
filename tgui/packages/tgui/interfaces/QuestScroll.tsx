@@ -10,6 +10,7 @@ import {
   BlockadeTimer,
   Marginalia,
   ProgressLine,
+  RetrievalProgressLine,
   WhisperLine,
 } from './QuestScroll/Marginalia';
 import { RecoveryWrit } from './QuestScroll/RecoveryWrit';
@@ -44,6 +45,7 @@ type WritBodyProps = {
   reward: number;
   levyRate: number;
   levyExempt: boolean;
+  guildCutRate: number;
   bearer?: string;
   issuedBy?: string;
   crimes: string[];
@@ -58,6 +60,7 @@ const WritBody = (props: WritBodyProps) => {
     reward,
     levyRate,
     levyExempt,
+    guildCutRate,
     bearer,
     issuedBy,
     crimes,
@@ -77,7 +80,7 @@ const WritBody = (props: WritBodyProps) => {
     named: data.named_target,
     ringleader: data.band_leader,
   };
-  const rewardProps = { reward, levyRate, levyExempt };
+  const rewardProps = { reward, levyRate, levyExempt, guildCutRate };
   const recoveryProps = {
     hasRecoveryAddendum,
     recoveryShipment: data.recovery_shipment,
@@ -205,6 +208,7 @@ export const QuestScroll = () => {
   const realm = data.realm_name || 'the realm';
   const levyRate = data.levy_rate ?? 0;
   const levyExempt = !!data.levy_exempt;
+  const guildCutRate = data.guild_cut_rate ?? 0;
   const rulerTitle = data.ruler_title || 'Duke';
   const reward = data.reward ?? 0;
   const bearer = data.issued_to || undefined;
@@ -218,8 +222,14 @@ export const QuestScroll = () => {
   const hasWhisper = !!data.compass_direction;
   const hasBlockadeTimer =
     !!data.blockade_timer_label && (data.blockade_timer_seconds ?? 0) > 0;
+  const hasHuntTimer =
+    !!data.hunt_timer_label && (data.hunt_timer_seconds ?? 0) > 0;
   const hasMarginalia =
-    hasWhisper || showProgress || hasBlockadeTimer || !!data.blockade_armed;
+    hasWhisper ||
+    showProgress ||
+    hasBlockadeTimer ||
+    hasHuntTimer ||
+    !!data.blockade_armed;
   const hasSealBanners = !!(data.is_defense || data.levy_exempt);
 
   const isOutlawry =
@@ -244,6 +254,7 @@ export const QuestScroll = () => {
               reward={reward}
               levyRate={levyRate}
               levyExempt={levyExempt}
+              guildCutRate={guildCutRate}
               bearer={bearer}
               issuedBy={issuedBy}
               crimes={crimes}
@@ -259,17 +270,34 @@ export const QuestScroll = () => {
                   zHint={data.z_hint}
                 />
               )}
-              {showProgress && (
-                <ProgressLine
-                  done={data.progress_current ?? 0}
-                  total={data.progress_required ?? 1}
-                  noun={data.faction_progress_noun || 'foes'}
-                />
-              )}
+              {showProgress &&
+                (data.writ_type === WRIT_TYPE_RECOVERY ? (
+                  <RetrievalProgressLine
+                    done={data.progress_current ?? 0}
+                    total={data.progress_required ?? 1}
+                    noun={
+                      data.fetch_item
+                        ? `${data.fetch_item}s`
+                        : 'goods of the realm'
+                    }
+                  />
+                ) : (
+                  <ProgressLine
+                    done={data.progress_current ?? 0}
+                    total={data.progress_required ?? 1}
+                    noun={data.faction_progress_noun || 'foes'}
+                  />
+                ))}
               {hasBlockadeTimer && (
                 <BlockadeTimer
                   label={data.blockade_timer_label || ''}
                   seconds={data.blockade_timer_seconds ?? 0}
+                />
+              )}
+              {hasHuntTimer && (
+                <BlockadeTimer
+                  label={data.hunt_timer_label || ''}
+                  seconds={data.hunt_timer_seconds ?? 0}
                 />
               )}
               {!!data.blockade_armed && !data.blockade_timer_label && (
@@ -338,6 +366,20 @@ export const QuestScroll = () => {
             >
               {!!data.is_defense && <SealBannerView seal={COMMISSION_SEAL} />}
               {!!data.levy_exempt && <SealBannerView seal={EXEMPT_SEAL} />}
+            </div>
+          )}
+
+          {!!data.target_region && (
+            <div
+              style={{
+                textAlign: 'center',
+                fontStyle: 'italic',
+                fontSize: '0.88em',
+                color: 'hsl(30, 35%, 40%)',
+                marginTop: '14px',
+              }}
+            >
+              The matter lies within {data.target_region}.
             </div>
           )}
         </div>

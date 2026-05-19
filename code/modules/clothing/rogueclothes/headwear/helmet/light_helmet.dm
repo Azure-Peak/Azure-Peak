@@ -1,6 +1,8 @@
 /obj/item/clothing/head/roguetown/armingcap
 	name = "arming cap"
 	desc = "A modest arming cap. It will stop a light blow."
+	icon = 'icons/roguetown/clothing/head.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/head.dmi' //Overrides slot icon behavior
 	icon_state = "armingcap"
 	item_state = "armingcap"
 	sleevetype = null

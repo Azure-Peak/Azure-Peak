@@ -136,15 +136,22 @@ GLOBAL_DATUM_INIT(economic_panel, /datum/economic_panel, new)
 	var/list/daily_payroll = list()
 	var/payroll_total = 0
 	if(SStreasury.steward_machine && SStreasury.steward_machine.daily_payments)
-		for(var/job_name in SStreasury.steward_machine.daily_payments)
-			var/amount = SStreasury.steward_machine.daily_payments[job_name]
-			var/headcount = 0
-			var/suspended_count = 0
-			for(var/mob/living/carbon/human/H in GLOB.human_list)
-				if(H.job == job_name)
-					headcount++
-					if(HAS_TRAIT(H, TRAIT_WAGES_SUSPENDED))
-						suspended_count++
+		var/list/payments = SStreasury.steward_machine.daily_payments
+		var/list/head_by_job = list()
+		var/list/suspended_by_job = list()
+		for(var/mob/living/o as anything in SStreasury.bank_accounts)
+			if(!o || !payments[o.job])
+				continue
+			var/datum/fund/acct = SStreasury.bank_accounts[o]
+			if(!acct)
+				continue
+			head_by_job[o.job] = (head_by_job[o.job] || 0) + 1
+			if(acct.wages_suspended)
+				suspended_by_job[o.job] = (suspended_by_job[o.job] || 0) + 1
+		for(var/job_name in payments)
+			var/amount = payments[job_name]
+			var/headcount = head_by_job[job_name] || 0
+			var/suspended_count = suspended_by_job[job_name] || 0
 			daily_payroll += list(list(
 				"job" = job_name,
 				"amount" = amount,
@@ -210,15 +217,21 @@ GLOBAL_DATUM_INIT(economic_panel, /datum/economic_panel, new)
 			return TRUE
 		if("advance_day")
 			GLOB.dayspassed++
-			// Run the full dawn cadence so testing matches in-game timing: poll tax, loans,
-			// pledge, estate incomes, then payroll (which itself triggers SSeconomy.daily_tick).
-			// Payroll runs last because it's the call that may transition the solvency state.
+			// Run the full dawn cadence so testing matches in-game timing: rural tax, poll tax,
+			// loans, pledge, estate incomes, then payroll (which itself triggers SSeconomy.daily_tick).
+			// Rural mints first so it's in the pool when payroll checks solvency. Payroll runs last
+			// because it's the call that may transition the solvency state.
+			SStreasury.tick_rural_tax()
 			SStreasury.tick_poll_tax()
 			SStreasury.tick_loans()
 			SStreasury.tick_burgher_pledge()
 			SStreasury.distribute_estate_incomes()
 			SStreasury.distribute_daily_payments()
 			admin_log_fiscal("advanced the day to [GLOB.dayspassed] (full daily tick)", "Advance Day")
+			return TRUE
+		if("fire_rural_tick")
+			SStreasury.tick_rural_tax()
+			admin_log_fiscal("fired tick_rural_tax", "Fire Rural Tick")
 			return TRUE
 		if("fire_poll_tick")
 			SStreasury.tick_poll_tax()
@@ -279,14 +292,14 @@ GLOBAL_DATUM_INIT(economic_panel, /datum/economic_panel, new)
 			var/amt = text2num(params["amount"])
 			if(!isnum(amt) || amt <= 0)
 				return TRUE
-			SStreasury.mint(SStreasury.discretionary_fund, amt, "admin mint by [key_name(usr)]")
+			SStreasury.mint(SStreasury.discretionary_fund, amt, "Divine Intervention")
 			admin_log_fiscal("minted [amt]m into Crown's Purse", "Mint Crown's Purse")
 			return TRUE
 		if("burn_discretionary")
 			var/amt = text2num(params["amount"])
 			if(!isnum(amt) || amt <= 0)
 				return TRUE
-			SStreasury.burn(SStreasury.discretionary_fund, amt, "admin burn by [key_name(usr)]")
+			SStreasury.burn(SStreasury.discretionary_fund, amt, "Lost in Transit")
 			admin_log_fiscal("burned [amt]m from Crown's Purse", "Burn Crown's Purse")
 			return TRUE
 		if("toggle_charter")
@@ -345,7 +358,7 @@ GLOBAL_DATUM_INIT(economic_panel, /datum/economic_panel, new)
 			var/datum/fund/account = SStreasury.get_account(target)
 			if(!account)
 				return TRUE
-			SStreasury.mint(account, amt, "admin mint by [key_name(usr)]")
+			SStreasury.mint(account, amt, "Divine Intervention")
 			admin_log_fiscal("minted [amt]m to [key_name(target)]", "Mint to Account")
 			return TRUE
 		if("player_burn_account")
@@ -358,7 +371,7 @@ GLOBAL_DATUM_INIT(economic_panel, /datum/economic_panel, new)
 			var/datum/fund/account = SStreasury.get_account(target)
 			if(!account)
 				return TRUE
-			SStreasury.burn(account, amt, "admin burn by [key_name(usr)]")
+			SStreasury.burn(account, amt, "Lost in Transit")
 			admin_log_fiscal("burned [amt]m from [key_name(target)]", "Burn from Account")
 			return TRUE
 		if("player_fire_indebted")
@@ -459,13 +472,7 @@ GLOBAL_DATUM_INIT(economic_panel, /datum/economic_panel, new)
 			if(SStreasury.treasury_state != TREASURY_NORMAL)
 				to_chat(usr, span_warning("Treasury is not currently solvent."))
 				return TRUE
-			var/projected = 0
-			if(SStreasury.steward_machine)
-				for(var/job_name in SStreasury.steward_machine.daily_payments)
-					var/payment = SStreasury.steward_machine.daily_payments[job_name]
-					for(var/mob/living/carbon/human/H in GLOB.human_list)
-						if(H.job == job_name && !HAS_TRAIT(H, TRAIT_WAGES_SUSPENDED))
-							projected += payment
+			var/projected = SStreasury.get_expected_wage_outlay()
 			SStreasury.enter_arrears(projected)
 			admin_log_fiscal("force-triggered Crown arrears", "Force Arrears")
 			return TRUE

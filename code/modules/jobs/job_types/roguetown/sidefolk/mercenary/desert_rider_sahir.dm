@@ -2,7 +2,7 @@
 	name = "Desert Rider Sahir"
 	tutorial = "You're a Sahir - a wisened Magi from the desert of Raneshen. You have spent your lyfe studying the arcyne arts, and also knows of of the way of the sword - a necessity when one happens upon monstrsities that are resilient to magyck in the desert."
 	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = RACES_ALL_KINDS
+	
 	outfit = /datum/outfit/job/roguetown/mercenary/desert_rider_sahir
 	class_select_category = CLASS_CAT_RANESHENI
 	category_tags = list(CTAG_MERCENARY)

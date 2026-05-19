@@ -40,6 +40,9 @@ export type Order = {
   can_fulfill: BooleanLike;
   shortfall_text: string;
   petitioned: BooleanLike;
+  can_partial: BooleanLike;
+  partial_pct: number;
+  partial_payout_preview: number;
 };
 
 export type EconomicEvent = {
@@ -48,6 +51,8 @@ export type EconomicEvent = {
   event_type: string; // ECON_EVENT_SHORTAGE | ECON_EVENT_OVERSUPPLY
   days_left: number;
   affected_goods: string[];
+  saturation_target: number;
+  saturation_progress: number;
 };
 
 export type BanditryProjection = {
@@ -151,6 +156,8 @@ export type TradeQuote = {
   warrant_remaining: number;
   warrant_ok: BooleanLike;
   can_afford: BooleanLike;
+  stockpile_amount: number;
+  stockpile_after: number;
 };
 
 export type PetitionCategory = {
@@ -192,6 +199,8 @@ export type AtcLoanState = {
 export type Data = StaticData & {
   treasury: number;
   day: number;
+  expected_rural_revenue: number;
+  expected_wage_outlay: number;
   blockaded_regions: string[];
   banditry_projection: BanditryProjection;
   active_events: EconomicEvent[];

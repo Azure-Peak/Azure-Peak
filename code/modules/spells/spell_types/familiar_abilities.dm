@@ -43,7 +43,7 @@
 		return FALSE
 
 	var/user_z = user.z
-	var/obj/item/magic/familiar_vestige/vestige = fam.loc
+	var/obj/item/magic/familiar/familiar_vestige/vestige = fam.loc
 	if(!istype(vestige))
 		to_chat(user, span_warning("The familiar is not within their vestige. This should not happen!"))
 	var/dist = get_dist(user, vestige)
@@ -123,20 +123,22 @@
 		return FALSE
 	if(isturf(user.loc))
 		// we're on the ground somewhere, so we should become orb
-		var/obj/item/magic/familiar_spirit/spirit = new /obj/item/magic/familiar_spirit(user.loc)
+		var/obj/item/magic/familiar/familiar_spirit/spirit = new /obj/item/magic/familiar/familiar_spirit(user.loc)
 		spirit.icon = user.icon
 		spirit.icon_state = user.icon_living
 		spirit.name = user.name
 		spirit.desc = "A small orb, containing the spirit of [user.name]."
-		user.loc = spirit
+		user.forceMove(spirit)
+		user.status_flags |= GODMODE
 		return TRUE
 	else
 		if(user.health<=0) // you shouldn't be able to cast this while dead, but just in case
 			return FALSE
-		var/obj/item/magic/familiar_spirit/spirit = user.loc
+		var/obj/item/magic/familiar/familiar_spirit/spirit = user.loc
 		if(!istype(spirit)) // we might be inside another item like warden tools
 			return FALSE
-		user.loc = get_turf(user)
+		user.forceMove(get_turf(user))
+		user.status_flags &= ~GODMODE
 		qdel(spirit)
 		return TRUE
 
@@ -195,7 +197,7 @@
 			span_notice("You gently bite the top of [targets[1]], filling it with your alchemical cocktail...")
 		)
 		// we're not biting a mob, so we can loop for convenience 
-		while(do_mob(user, targets, 1 SECONDS) && user.reagents.trans_to(targets[1], 5, transfered_by = user))
+		while(do_after(user, 1 SECONDS, FALSE, target) && user.reagents.trans_to(targets[1], 5, transfered_by = user))
 			user.visible_message(
 				span_notice("[user.name] fills [targets[1]] with more of [user.p_their()] alchemical cocktail..."),
 				span_notice("You fill [targets[1]] with more of your alchemical cocktail...")
@@ -211,7 +213,7 @@
 		span_notice("You attempt to bite [living_target.name]...")
 	)
 	// same do_after time and transfer amount as just walking up with a bottle and feeding them
-	if(do_mob(user, living_target, time = 5 SECONDS) && user.reagents.trans_to(living_target, 5, transfered_by = user))
+	if(do_mob(user, living_target, time = 5 SECONDS, double_progress = TRUE, can_move = FALSE) && user.reagents.trans_to(living_target, 5, transfered_by = user))
 		user.visible_message(
 			span_notice("[user.name] bites [living_target.name], delivering a dose of an alchemical cocktail!"),
 			span_notice("You bite [living_target.name], delivering a dose of your alchemical cocktail!")
@@ -244,17 +246,25 @@
 		return FALSE
 	target.fire_act(1,10) // shouldn't be oppressive by any means it's 1 stack every 10 seconds
 
+/obj/effect/proc_holder/spell/invoked/matthios_firebreath/infernal
+	name = "Hellfyre Wave"
+	desc = "Manifest your flames in a wave in front of you, burning down all in your path."
+	miracle = FALSE
+	devotion_cost = 0 // not a miracle
+	recharge_time = 30 SECONDS // on par with other familiar abilities. from inround testing this really is not strong enough to warrant a 2 min cd
+
 /obj/effect/proc_holder/spell/self/infernal_surge
 	name = "Infernal Surge"
 	desc = "Let loose the flame of the hells in a small radius around you."
 	recharge_time = 15 SECONDS
 	overlay_icon = 'icons/mob/actions/mage_pyromancy.dmi'
 	overlay_icon_state = "fire_curtain"
+	chargetime = 1 SECONDS
 
 /obj/effect/proc_holder/spell/self/infernal_surge/cast(list/targets, mob/user)
 	. = ..()
 	var/turf/center = user.loc
-	for(var/turf/T in range(1, center)) // 2  turned out to be too much lol
+	for(var/turf/T in range(2, center))
 		new /obj/effect/hotspot(T, null, null, 10)
 		new /obj/effect/temp_visual/fire(T)
 
@@ -263,10 +273,107 @@
 	fluff_desc = ""
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_SAME_Z
 
+/obj/item/rogueweapon/woodstaff/implement/greater/elemental
+	name = "Staff of the Binder"
+	desc = "A mage's staff crowned with the spirit-gem of a familiar. The gem captures excess energy dissipated into the air when a spell is cast, giving a generous share of it back to the wielder."
+	icon_state = "sapphirestaff"
+
 /datum/action/cooldown/spell/arcyne_forge/elemental
 	name = "Earthen Forge"
 	desc = "Shape your earthen form into a tool or weapon. Shaped items have halved durability. When the item breaks, you will revert to your original form. Cast again to manually revert."
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_SAME_Z
+	conjure_options = list(
+		// Staff
+		"Staff of the Binder" = /obj/item/rogueweapon/woodstaff/implement/greater/elemental,
+		// Weapons
+		"Short Sword" = /obj/item/rogueweapon/sword/short/iron,
+		"Hunting Sword" = /obj/item/rogueweapon/sword/short/messer/iron,
+		"Arming Sword" = /obj/item/rogueweapon/sword/iron,
+		"Cudgel" = /obj/item/rogueweapon/mace/cudgel,
+		"Warhammer" = /obj/item/rogueweapon/mace/warhammer,
+		"Dagger" = /obj/item/rogueweapon/huntingknife/idagger,
+		"Flail" = /obj/item/rogueweapon/flail,
+		"Whip" = /obj/item/rogueweapon/whip,
+		"Wooden Shield" = /obj/item/rogueweapon/shield/wood,
+		// Tools
+		"Axe" = /obj/item/rogueweapon/stoneaxe/woodcut,
+		"Pickaxe" = /obj/item/rogueweapon/pick,
+		"Hoe" = /obj/item/rogueweapon/hoe,
+		"Thresher" = /obj/item/rogueweapon/thresher,
+		"Sickle" = /obj/item/rogueweapon/sickle,
+		"Pitchfork" = /obj/item/rogueweapon/pitchfork,
+		"Tongs" = /obj/item/rogueweapon/tongs,
+		"Hammer" = /obj/item/rogueweapon/hammer/iron,
+		"Shovel" = /obj/item/rogueweapon/shovel,
+		"Handsaw" = /obj/item/rogueweapon/handsaw,
+		"Scissors" = /obj/item/rogueweapon/huntingknife/scissors,
+		"Fishing Rod" = /obj/item/fishingrod,
+		"Frying Pan" = /obj/item/cooking/pan,
+		"Pot" = /obj/item/reagent_containers/glass/bucket/pot,
+		"Bowl" = /obj/item/reagent_containers/glass/bowl,
+		"Fork" = /obj/item/kitchen/fork/iron,
+		"Spoon" = /obj/item/kitchen/spoon/iron,
+		"Needle" = /obj/item/needle
+	)
+	cooldown_time = 30 SECONDS
+	charge_required = FALSE
+
+/datum/action/cooldown/spell/arcyne_forge/elemental/cast(atom/cast_on)
+	. = ..()
+	var/mob/living/simple_animal/pet/familiar/H = owner
+	if(!istype(H))
+		return FALSE
+
+	// We're an item. Stop being an item.
+	if(conjured_item && !QDELETED(conjured_item))
+		revert()
+		return FALSE // we don't want to add a cooldown for this case
+	else if (!isturf(H.loc))
+		return FALSE // no casting this from the orb
+
+	var/choice = tgui_input_list(H, "Choose what to conjure", "Earthen Forge", conjure_options)
+	if(!choice)
+		return FALSE
+
+	var/item_path = conjure_options[choice]
+	var/obj/item/R = new item_path(H.drop_location())
+
+	// Halve durability
+	R.max_integrity = round(R.max_integrity * 0.5)
+	R.obj_integrity = R.max_integrity
+	owner.status_flags |= GODMODE
+	// Mark as conjured — no salvage, no smelting
+	R.smeltresult = null
+	R.salvage_result = null
+	R.fiber_salvage = FALSE
+
+	// Conjured glow
+	R.AddComponent(/datum/component/conjured_item, GLOW_COLOR_EARTHEN)
+	RegisterSignal(R, COMSIG_ITEM_BROKEN, PROC_REF(revert))
+	RegisterSignal(R, COMSIG_ITEM_DROPPED, PROC_REF(revert_perspective))
+	H.forceMove(R)
+	conjured_item = R
+	return TRUE
+
+/datum/action/cooldown/spell/arcyne_forge/elemental/proc/revert_perspective()
+	owner.reset_perspective()
+
+/datum/action/cooldown/spell/arcyne_forge/elemental/proc/revert()
+	if(conjured_item)
+		owner.forceMove(get_turf(owner))
+		owner.status_flags &= ~GODMODE
+		QDEL_NULL(conjured_item)
+
+/datum/action/cooldown/spell/arcyne_forge/elemental/void // lmao
+	name = "Void Forge"
+	desc = "Shape your ever-malleable form into a tool or weapon. Shaped items have halved durability. When the item breaks, you will revert to your original form. Cast again to manually revert."
+
+/datum/action/cooldown/spell/arcyne_forge/elementalt2
+	name = "Greater Earthen Shaping"
+	desc = "Shape a weapon or tool of your choice out of raw earth. Conjured items have halved durability.\n\
+	Only one conjured item can exist at a time - conjuring a new one destroys the old."
+	cooldown_time = 5 MINUTES
+	charge_required = TRUE
 	conjure_options = list(
 		// Weapons
 		"Short Sword" = /obj/item/rogueweapon/sword/short/iron,
@@ -296,56 +403,13 @@
 		"Bowl" = /obj/item/reagent_containers/glass/bowl,
 		"Fork" = /obj/item/kitchen/fork/iron,
 		"Spoon" = /obj/item/kitchen/spoon/iron,
-		"Needle" = /obj/item/needle/thorn
+		"Needle" = /obj/item/needle
 	)
+	cooldown_time = 30 SECONDS
+	charge_required = FALSE
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_SAME_Z
 
-/datum/action/cooldown/spell/arcyne_forge/elemental/cast(atom/cast_on)
-	. = ..()
-	var/mob/living/simple_animal/pet/familiar/elemental/H = owner
-	if(!istype(H))
-		return FALSE
-
-	// We're an item. Stop being an item.
-	if(conjured_item && !QDELETED(conjured_item))
-		H.loc = get_turf(H)
-		QDEL_NULL(conjured_item)
-		return FALSE // we don't want to add a cooldown for this case
-
-	var/choice = tgui_input_list(H, "Choose what to conjure", "Earthen Forge", conjure_options)
-	if(!choice)
-		return FALSE
-
-	var/item_path = conjure_options[choice]
-	var/obj/item/R = new item_path(H.drop_location())
-
-	// Halve durability
-	R.max_integrity = round(R.max_integrity * 0.5)
-	R.obj_integrity = R.max_integrity
-
-	// Mark as conjured — no salvage, no smelting
-	R.smeltresult = null
-	R.salvage_result = null
-	R.fiber_salvage = FALSE
-
-	// Conjured glow
-	R.AddComponent(/datum/component/conjured_item, GLOW_COLOR_EARTHEN)
-	RegisterSignal(R, COMSIG_ITEM_BROKEN, PROC_REF(revert))
-	H.loc = R
-	conjured_item = R
-	return TRUE
-
-/datum/action/cooldown/spell/arcyne_forge/elemental/proc/revert()
-	if(conjured_item)
-		owner.loc = get_turf(owner)
-		QDEL_NULL(conjured_item)
-
-/datum/action/cooldown/spell/arcyne_forge/elemental/t2
-	name = "Greater Earthen Shaping"
-	desc = "Shape a weapon or tool of your choice out of raw earth. Conjured items have halved durability.\n\
-	Only one conjured item can exist at a time - conjuring a new one destroys the old."
-
-
-/datum/action/cooldown/spell/arcyne_forge/elemental/t2/cast(atom/cast_on)
+/datum/action/cooldown/spell/arcyne_forge/elementalt2/cast(atom/cast_on)
 	. = ..()
 	var/mob/living/simple_animal/pet/familiar/elemental/H = owner
 	if(!istype(H))

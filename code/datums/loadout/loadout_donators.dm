@@ -100,7 +100,7 @@
 
 /datum/loadout_item/donator/eiren3
 	name = "Donator Kit - Cinis"
-	path = /obj/item/enchantingkit/eirensabre2
+	path = /obj/item/enchantingkit/weapon/eirensabre2
 	ckeywhitelist = list("eirenxiv")
 
 /datum/loadout_item/donator/eiren4
@@ -151,6 +151,10 @@
 /datum/loadout_item/donator/willmbrink/sleeves
 	name = "Donator Item - Royal Sleeves"
 	path = /obj/item/clothing/wrists/roguetown/royalsleeves
+
+/datum/loadout_item/donator/willmbrink/padded_dress
+	name = "Donator Item - Padded Dress"
+	path = /obj/item/clothing/suit/roguetown/shirt/dress/willmbrink
 
 /datum/loadout_item/donator/dasfox
 	name = "Donator Kit - Archaic Ceremonial Valkyrhelm"
@@ -310,6 +314,40 @@
 	ckeywhitelist = list("rivercadaver")
 
 /datum/loadout_item/donator/wyrd_cloak
-	name = "Wyrd Cloak"
+	name = "Donator Item - Wyrd Cloak"
 	path = /obj/item/clothing/suit/roguetown/armor/longcoat/wyrd_cloak
 	ckeywhitelist = list("nekosam")
+
+/datum/loadout_item/donator/dark_delight
+	name = "Donator Item - Dark Delight"
+	path = /obj/item/enchantingkit/weapon/nicksonessang
+	ckeywhitelist = list("nicksone")
+
+/datum/loadout_item/donator/koruu_silver_kukri
+	name = "Donator Kit - Psydonic Leachwhacker"
+	path = /obj/item/enchantingkit/weapon/koruu_kukri_silver
+	ckeywhitelist = list("koruu")
+
+/datum/loadout_item/donator/koruu_longsword
+	name = "Donator Kit - Excaliber"
+	path = /obj/item/enchantingkit/weapon/koruu_longsword
+	ckeywhitelist = list("koruu", "pneumothorax")
+
+/datum/loadout_item/donator/koruu_etrusc
+	name = "Donator Kit - Colada"
+	path = /obj/item/enchantingkit/weapon/koruu_etrusc
+	ckeywhitelist = list("koruu", "pneumothorax")
+
+/datum/loadout_item/donator/koruu_judgement
+	name = "Donator Kit - A Durthurian Tale"
+	path = /obj/item/enchantingkit/weapon/koruu_judgement
+	ckeywhitelist = list("koruu", "pneumothorax")
+
+/datum/loadout_item/donator/magi1138
+	name = "Donator Kit - Stolen Xylix Cloak"
+	path = /obj/item/clothing/cloak/magi1138
+	ckeywhitelist = list("magi1138")
+
+/datum/loadout_item/donator/magi1138/specs
+	name = "Donator Kit - Modified Nocshade Lens-pair"
+	path = /obj/item/clothing/mask/rogue/spectacles/magi1138

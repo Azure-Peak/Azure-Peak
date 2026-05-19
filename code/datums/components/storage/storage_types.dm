@@ -27,6 +27,7 @@
 	/obj/item/needle,
 	/obj/item/natural/worms/leech,
 	/obj/item/reagent_containers/lux,
+	/obj/item/reagent_containers/lux_impure,
 	/obj/item/natural/bundle/cloth/bandage,
 	/obj/item/natural/cloth))
 
@@ -231,42 +232,7 @@
 
 /datum/component/storage/concrete/grid/orestore/New(datum/P, ...)
 	. = ..()
-	set_holdable(
-		typecacheof(list(/obj/item/rogueore,
-						 /obj/item/rogueore/gold,
-						 /obj/item/rogueore/silver,
-						 /obj/item/rogueore/iron,
-						 /obj/item/rogueore/copper,
-						 /obj/item/rogueore/tin,
-						 /obj/item/rogueore/coal,
-						 /obj/item/rogueore/coal/charcoal,
-						 /obj/item/rogueore/cinnabar,
-						 /obj/item/ingot,
-						 /obj/item/ingot/gold,
-						 /obj/item/ingot/iron,
-						 /obj/item/ingot/copper,
-						 /obj/item/ingot/tin,
-						 /obj/item/ingot/bronze,
-						 /obj/item/ingot/silver,
-						 /obj/item/ingot/steel,
-						 /obj/item/ingot/blacksteel,
-						 /obj/item/ingot/steelholy,
-						 /obj/item/ingot/silverblessed,
-						 /obj/item/ingot/aalloy,
-						 /obj/item/ingot/purifiedaalloy,
-						 /obj/item/ingot/aaslag,
-						 /obj/item/roguegem,
-						 /obj/item/roguegem/green,
-						 /obj/item/roguegem/blue,
-						 /obj/item/roguegem/yellow,
-						 /obj/item/roguegem/violet,
-						 /obj/item/roguegem/ruby,
-						 /obj/item/roguegem/diamond,
-						 /obj/item/roguegem/amethyst,
-						 /obj/item/riddleofsteel,
-						 /obj/item/pearl,
-						 /obj/item/pearl/blue)
-	))
+	set_holdable(list(/obj/item/rogueore, /obj/item/ingot, /obj/item/roguegem, /obj/item/riddleofsteel, /obj/item/pearl))
 
 /datum/component/storage/concrete/grid/orestore/bronze
 	screen_max_rows = 10

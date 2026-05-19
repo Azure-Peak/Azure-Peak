@@ -76,8 +76,10 @@ GLOBAL_LIST_INIT(primordial_wounds, init_primordial_wounds())
 	var/bypass_bloody_wound_check = FALSE
 	/// Some wounds make no sense on a dismembered limb and need to go
 	var/qdel_on_droplimb = FALSE
-	/// Severity names, assoc list.
-	var/list/severity_names = list()
+	/// Severity names, assoc list with severity stages. Make sure this list has at least !!5!! entries.
+	var/list/severity_stages = list()
+	/// What do we use for our severity type? Default is bleed rate (usually up to 20 -- artery equi.)
+	var/severity_type = SEVERITY_TYPE_BLEED
 	/// Whether miracles heal it.
 	var/healable_by_miracles = TRUE
 
@@ -94,6 +96,11 @@ GLOBAL_LIST_INIT(primordial_wounds, init_primordial_wounds())
 	. = ..()
 	return QDEL_HINT_IWILLGC
 
+/datum/wound/New()
+	. = ..()
+	if(length(severity_stages) && length(severity_stages) < 5)
+		CRASH("[src] wound datum detected with severity stage list at less than 5. This will break severity scaling.")
+
 /// Description of this wound returned to the player when a bodypart is examined and such
 /datum/wound/proc/get_visible_name(mob/user)
 	if(!name)
@@ -108,6 +115,22 @@ GLOBAL_LIST_INIT(primordial_wounds, init_primordial_wounds())
 /// Description of this wound returned to the player when the bodypart is checked with check_for_injuries()
 /datum/wound/proc/get_check_name(mob/user)
 	return check_name
+
+/// 1:1 transfer from src to arg datum.
+/datum/wound/proc/copy_to(datum/wound/newwound, ratio = 1)
+	if(!newwound)
+		return FALSE
+	if(ratio < 0)
+		return FALSE
+	newwound.whp = whp
+	newwound.severity = severity
+	newwound.bleed_rate = bleed_rate
+	newwound.sew_threshold = sew_threshold
+	newwound.name = name
+	newwound.woundpain = woundpain
+	newwound.clotting_rate = clotting_rate
+	newwound.passive_healing = passive_healing
+	newwound.healable_by_miracles = healable_by_miracles
 
 /// Crit message that should be appended when this wound is applied in combat
 /datum/wound/proc/get_crit_message(mob/living/affected, obj/item/bodypart/affected_bodypart)
@@ -400,16 +423,27 @@ GLOBAL_LIST_INIT(primordial_wounds, init_primordial_wounds())
 	SHOULD_CALL_PARENT(TRUE)	//Don't skip this if you're making new dynamic wounds.
 	return
 
-/datum/wound/proc/update_name()
+/datum/wound/proc/update_stage()
 	var/newname
 	var/oldname = name
-	if(length(severity_names))
-		for(var/sevname in severity_names)
-			if(!bleed_rate) //if it's a hematoma, use whp for naming
-				if(severity_names[sevname] <= whp)
-					newname = sevname
-			else if(severity_names[sevname] <= bleed_rate)
+	if(length(severity_stages))
+		var/checkval
+		var/severityval
+		switch(severity_type)
+			if(SEVERITY_TYPE_BLEED)
+				checkval = bleed_rate
+			if(SEVERITY_TYPE_WHP)
+				checkval = whp
+		for(var/sevname in severity_stages)
+			if(severity_stages[sevname] <= checkval)
 				newname = sevname
+		for(var/i in 1 to length(severity_stages))
+			if(severity_stages[i] == newname)
+				severityval = i
+		severityval = clamp(severityval, 0, 5)
+		if(severityval)
+			severity = severityval
+		
 	name = "[newname  ? "[newname] " : ""][initial(name)]"	//[adjective] [name], aka, "gnarly slash" or "slash"
 	if(name != oldname)
 		owner.visible_message(span_red("The [oldname] on [owner]'s [lowertext(bodyzone2readablezone(bodypart_to_zone(bodypart_owner)))] gets worse!"))
@@ -433,6 +467,7 @@ GLOBAL_LIST_INIT(primordial_wounds, init_primordial_wounds())
 					playsound(owner, 'sound/combat/armored_wound.ogg', 100, TRUE)
 					owner.visible_message(span_crit("The wound tears open from [bodypart_owner.owner]'s <b>[bodyzone2readablezone(bodypart_to_zone(bodypart_owner))]</b>, the armor won't let it go any further!"))
 					is_armor_maxed = TRUE
+
 
 #define CLOT_THRESHOLD_INCREASE_PER_HIT 0.1	//This raises the MINIMUM bleed the wound can clot to.
 #define CLOT_DECREASE_PER_HIT 0.05	//This reduces the amount of clotting the wound has.

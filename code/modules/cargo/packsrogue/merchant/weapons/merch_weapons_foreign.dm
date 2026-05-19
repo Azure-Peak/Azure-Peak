@@ -1,4 +1,5 @@
-// Special Mercenary Weapons, at exorbitant prices
+// Special Mercenary Weapons, at exorbitant prices.
+// I just wish someone explained how to price these.
 /datum/supply_pack/rogue/merc_weapons
 	group = "Weapons (Foreign)"
 	crate_name = "merchant guild's crate"
@@ -15,7 +16,7 @@
 	contains = list(/obj/item/rogueweapon/huntingknife/idagger/steel/parrying/vaquero)
 
 /datum/supply_pack/rogue/merc_weapons/erapier
-	name = "Etruscan Rapier"
+	name = "Cup-Hilt Rapier"
 	cost = 120
 	contains = list(/obj/item/rogueweapon/sword/rapier/vaquero)
 
@@ -59,30 +60,42 @@
 	cost = 140
 	contains = list(/obj/item/rogueweapon/spear/naginata)
 
-/datum/supply_pack/rogue/merc_weapons/katana
-	name = "Kazengun Hwando"
-	cost = 120
-	contains = list(/obj/item/rogueweapon/sword/sabre/mulyeog)
-
-/datum/supply_pack/rogue/merc_weapons/kazengunhookblade
-	name = "Kazengun Hook Sword"
+/datum/supply_pack/rogue/merc_weapons/hookblade
+	name = "Hook Sword"
 	cost = 150
 	contains = list(/obj/item/rogueweapon/sword/sabre/hook)
 
-/datum/supply_pack/rogue/merc_weapons/kazengunkodachi
-	name = "Kazengun Kodachi"
-	cost = 120
-	contains = list(/obj/item/rogueweapon/sword/short/kazengun)
-
-/datum/supply_pack/rogue/merc_weapons/kazenguntanto
-	name = "Kazengun Tanto"
-	cost = 80
-	contains = list(/obj/item/rogueweapon/huntingknife/idagger/steel/kazengun)
-
-/datum/supply_pack/rogue/merc_weapons/kazengunscabbard
-	name = "Kazengun Scabbard"
+/datum/supply_pack/rogue/merc_weapons/hwando
+	name = "Hwando and iron-lined scabbard"
 	cost = 250
-	contains = list(/obj/item/rogueweapon/scabbard/sword/kazengun)
+	contains = list(
+		/obj/item/rogueweapon/sword/sabre/mulyeog,
+		/obj/item/rogueweapon/scabbard/sword/kazengun
+	)
+
+/datum/supply_pack/rogue/merc_weapons/ssangsudo
+	name = "Ssangsudo and ceremonial scabbard"
+	cost = 250
+	contains = list(
+		/obj/item/rogueweapon/sword/long/kriegmesser/ssangsudo,
+		/obj/item/rogueweapon/scabbard/sword/kazengun/noparry
+	)
+
+/datum/supply_pack/rogue/merc_weapons/kodachi
+	name = "Kodachi and traditional scabbard"
+	cost = 150
+	contains = list(
+		/obj/item/rogueweapon/sword/short/kazengun,
+		/obj/item/rogueweapon/scabbard/sword/kazengun/kodachi
+	)
+
+/datum/supply_pack/rogue/merc_weapons/tanto
+	name = "Tanto and traditional sheathe"
+	cost = 120 // This is just a reskinned sail dagger, but this one comes with a sheathe.
+	contains = list(
+		/obj/item/rogueweapon/huntingknife/idagger/steel/kazengun,
+		/obj/item/rogueweapon/scabbard/sheath/kazengun
+	)
 
 /datum/supply_pack/rogue/merc_weapons/beardedaxe
 	name = "Bearded Axe"
@@ -90,11 +103,11 @@
 	contains = list(/obj/item/rogueweapon/stoneaxe/woodcut/steel/atgervi)
 
 /datum/supply_pack/rogue/merc_weapons/handclaw_iron
-	name = "Gronnic Iron Claw"
+	name = "Iron Claw"
 	cost = 150
 	contains = list(/obj/item/rogueweapon/handclaw)
 
 /datum/supply_pack/rogue/merc_weapons/handclaw_steel
-	name = "Gronnic Steel Claw"
+	name = "Steel Claw"
 	cost = 200
 	contains = list(/obj/item/rogueweapon/handclaw/steel)

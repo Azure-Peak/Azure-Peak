@@ -12,6 +12,7 @@
 		"I AM THE LAND!",
 		"I AM THE FIRSTBORNE OF KAINE!",
 		"I AM THE INHERITOR!",
+		"I WILL NOT BE FORGOTTEN!",
 	)
 	show_in_roundend = TRUE
 	var/ascended = FALSE
@@ -23,6 +24,8 @@
 /datum/antagonist/vampire/lord/on_gain()
 	. = ..()
 	addtimer(CALLBACK(owner.current, TYPE_PROC_REF(/mob/living/carbon/human, choose_name_popup), "[name]"), 5 SECONDS)
+
+	greet()
 
 	owner.unknow_all_people()
 	for(var/datum/mind/MF in get_minds())
@@ -40,40 +43,47 @@
 	for(var/S in MOBSTATS)
 		H.change_stat(S, 2)
 	H.forceMove(pick(GLOB.vlord_starts))
-	ADD_TRAIT(H, TRAIT_DUSTABLE, TRAIT_GENERIC) //They are ancient and have a great risk. Maybe add a quest to reclaim their power?
+	ADD_TRAIT(H, TRAIT_DUSTABLE, TRAIT_GENERIC) //They are ancient walking calamities, no take backs.
 	ADD_TRAIT(H, TRAIT_HEAVYARMOR, TRAIT_GENERIC) //Brute-forced method to ensure that Vampire Lords, no matter what, receive their most important traits.
 	ADD_TRAIT(H, TRAIT_INFINITE_ENERGY, TRAIT_GENERIC) //Playing it safe, with the assumption that Vampire Lords already inherit any traits given to regular Vampires.
 	ADD_TRAIT(H, TRAIT_STRENGTH_UNCAPPED, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_BITERHELM, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_STRONGBITE, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_NOBLE, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)
+	ADD_TRAIT(H, TRAIT_SELF_SUSTENANCE, TRAIT_GENERIC) //Heavy-Antag Role, lets you repair your armor with tools + level to journeyman.
+	ADD_TRAIT(H, TRAIT_NOMOOD, TRAIT_GENERIC) //Stops you getting moodnuked and dropping your weapon non-stop. I didn't want to have to give them this off-the-bat but after seeing this happen, yeaaaah.
 
 /datum/antagonist/vampire/lord/greet()
 	to_chat(owner.current, span_userdanger("I am ancient. I am the Land. And I am now awoken to trespassers upon my domain."))
+	to_chat(owner.current, span_boldwarning("I should check my immedate surroundings, from the bloodstained stone I can recall my Ichor fang at will should I lose it again and from the Crimson Crucible I can begin my various projects of collective sacrifice of vitae between myself and my servants to reclaim my long-lost power and kingdom."))
+	owner.current.playsound_local(get_turf(owner.current), 'sound/villain/dreamer_warning.ogg', 80, FALSE, pressure_affected = FALSE) //Extra bit of AURA
 	. = ..()
 
 /datum/outfit/job/vamplord/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.adjust_skillrank_up_to(/datum/skill/magic/blood, 6, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/swords, 5, TRUE) //Reduced from Legendary-tier, as Halford's new Blood Magic system compensates a lot for this.
-	H.adjust_skillrank(/datum/skill/combat/wrestling, 5, TRUE) //Equalized all combat skills to be Master-tier, otherwise,
-	H.adjust_skillrank(/datum/skill/combat/unarmed, 5, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/knives, 5, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/axes, 5, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/maces, 5, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/polearms, 5, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/whipsflails, 5, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/reading, 5, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/climbing, 5, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/athletics, 5, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/swords, 6, TRUE) //Returned to Legendary-tier, but its the only weapon you get at this level, since Halford's new Blood Magic system compensates a lot for this.
+	H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, 5, TRUE) //Equalized all combat skills to be Master-tier, otherwise. Unless you somehow get legendary via-other means. You used to just get legendary in everything cause this added to your class, not skill upto'd.
+	H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, 5, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/knives, 5, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/axes, 5, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/maces, 5, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/polearms, 5, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, 5, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/misc/riding, 4, TRUE) //Journeyman, lets them at least travel like a noble lord.
+	H.adjust_skillrank_up_to(/datum/skill/misc/reading, 5, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/misc/climbing, 5, TRUE)
+	H.adjust_skillrank_up_to(/datum/skill/misc/athletics, 6, TRUE) //Who said Progress can't have gains?
+
 	pants = /obj/item/clothing/under/roguetown/tights/puritan
 	shirt = /obj/item/clothing/suit/roguetown/shirt/vampire
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass
+	wrists = /obj/item/clothing/wrists/roguetown/bracers
 	gloves = /obj/item/clothing/gloves/roguetown/chain
 	belt = /obj/item/storage/belt/rogue/leather/plaquegold
-	beltr = /obj/item/storage/belt/rogue/pouch/coins/veryrich
-	beltl = /obj/item/roguekey/vampire
+	id = /obj/item/clothing/ring/rubybs //Blacksteel and Rontz, fits a lorde, very well.
+	beltr = /obj/item/storage/belt/rogue/pouch/coins/veryrich //Intended they have two now.
+	beltl = /obj/item/rogueweapon/scabbard/sheath/royal
 	head = /obj/item/clothing/head/roguetown/vampire
 	neck = /obj/item/clothing/neck/roguetown/chaincoif
 	cloak = /obj/item/clothing/cloak/cape/puritan
@@ -81,6 +91,12 @@
 	backl = /obj/item/storage/backpack/rogue/satchel/black
 	l_hand = /obj/item/rogueweapon/sword/long/judgement/vlord
 	H.ambushable = FALSE
+	backpack_contents = list(
+		/obj/item/storage/belt/rogue/pouch/coins/veryrich = 1, //Intended they have two now, its a bad solution but it means they don't become poorer than an adv/miner towner midgame as easily as before.
+		/obj/item/rope/chain = 1, //Needed so you can actually sire people, beforehand you had to get rope every round. This speeds things up.
+		/obj/item/rogueweapon/huntingknife/idagger/steel = 1,
+		/obj/item/roguekey/vampire = 1 //Softlock protection, otherwise I'd have removed it. You still spawn in a room with keys anyway soo...
+		)
 /*------VERBS-----*/
 
 // NEW VERBS
@@ -172,6 +188,10 @@
 	smeltresult = /obj/item/ingot/draconic //Closest - and most valuable - analogue to obsidian.
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 
+/obj/item/clothing/head/roguetown/vampire/Initialize()
+  ..()
+  add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_VAMPIRIC, "alpha" = 180, "size" = 1)) //AURAFARMING BUFF
+
 ////////BROKEN////////
 /obj/item/clothing/suit/roguetown/armor/chainmail/iron/vampire
 	name = "old ancient ceremonial vestments" //Currently invisible, due to the lack of an object sprite. Reinstate once someone adds a 'vunder' icon to the shirt.dmi.
@@ -187,6 +207,11 @@
 	max_integrity = ARMOR_INT_CHEST_PLATE_ANTAG
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 	smeltresult = /obj/item/ingot/purifiedaalloy
+	unenchantable = TRUE //Its pretty much near-perfect protection, you do not need this.
+
+/obj/item/clothing/suit/roguetown/armor/chainmail/iron/vampire/Initialize()
+  ..()
+  add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_VAMPIRIC, "alpha" = 180, "size" = 1)) //Enchanted look.
 
 ////////VAMPYRELORD-EXCLUSIVE ARMORSET////////
 /obj/item/clothing/suit/roguetown/armor/plate/vampire
@@ -206,6 +231,11 @@
 	equip_delay_self = 40
 	armor_class = ARMOR_CLASS_HEAVY
 	resistance_flags = FIRE_PROOF | ACID_PROOF
+	unenchantable = TRUE //Its pretty much near-perfect protection, you do not need this.
+
+/obj/item/clothing/suit/roguetown/armor/plate/vampire/Initialize()
+  ..()
+  add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_VAMPIRIC, "alpha" = 180, "size" = 1)) //Enchanted look.
 
 /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/paalloy/vampire
 	name = "ancient ceremonial vestments"
@@ -215,6 +245,11 @@
 	max_integrity = ARMOR_INT_CHEST_PLATE_ANTAG
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 	smeltresult = /obj/item/ingot/purifiedaalloy
+	unenchantable = TRUE //Its pretty much near-perfect protection, you do not need this.
+
+/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/paalloy/vampire/Initialize()
+  ..()
+  add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_VAMPIRIC, "alpha" = 180, "size" = 1)) //Enchanted look.
 
 /obj/item/clothing/under/roguetown/platelegs/vampire
 	name = "ancient ceremonial plate greaves"
@@ -230,6 +265,11 @@
 	anvilrepair = /datum/skill/craft/armorsmithing
 	smeltresult = /obj/item/ingot/purifiedaalloy
 	resistance_flags = FIRE_PROOF | ACID_PROOF
+	unenchantable = TRUE //Its pretty much near-perfect protection, you do not need this.
+
+/obj/item/clothing/under/roguetown/platelegs/vampire/Initialize()
+  ..()
+  add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_VAMPIRIC, "alpha" = 180, "size" = 1)) //Enchanted look.
 
 /obj/item/clothing/shoes/roguetown/boots/armor/vampire
 	name = "ancient ceremonial sabatons"
@@ -244,6 +284,11 @@
 	armor = ARMOR_VAMP
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 	smeltresult = /obj/item/ingot/purifiedaalloy
+	unenchantable = TRUE //Its pretty much near-perfect protection, you do not need this.
+
+/obj/item/clothing/shoes/roguetown/boots/armor/vampire/Initialize()
+  ..()
+  add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_VAMPIRIC, "alpha" = 180, "size" = 1)) //Enchanted look.
 
 /obj/item/clothing/gloves/roguetown/chain/vampire
 	name = "ancient ceremonial gauntlets"
@@ -255,6 +300,12 @@
 	smeltresult = /obj/item/ingot/purifiedaalloy
 	body_parts_inherent = FULL_BODY
 	max_integrity = ARMOR_INT_SIDE_ANTAG
+	unenchantable = TRUE //Its pretty much near-perfect protection, you do not need this.
+	throw_on_break = FALSE //We only get one set
+
+/obj/item/clothing/gloves/roguetown/chain/vampire/Initialize()
+  ..()
+  add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_VAMPIRIC, "alpha" = 180, "size" = 1)) //Enchanted look.
 
 /obj/item/clothing/wrists/roguetown/bracers/paalloy/vampire
 	name = "ancient ceremonial bracers"
@@ -263,6 +314,12 @@
 	smeltresult = /obj/item/ingot/purifiedaalloy
 	armor = ARMOR_VAMP
 	max_integrity = ARMOR_INT_SIDE_ANTAG
+	unenchantable = TRUE //Its pretty much near-perfect protection, you do not need this.
+	throw_on_break = FALSE //We only get one set
+
+/obj/item/clothing/wrists/roguetown/bracers/paalloy/vampire/Initialize()
+  ..()
+  add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_VAMPIRIC, "alpha" = 180, "size" = 1)) //Enchanted look.
 
 /obj/item/clothing/neck/roguetown/gorget/paalloy/vampire
 	name = "ancient ceremonial gorget"
@@ -271,18 +328,31 @@
 	smeltresult = /obj/item/ingot/purifiedaalloy
 	armor = ARMOR_VAMP
 	max_integrity = ARMOR_INT_SIDE_ANTAG
+	unenchantable = TRUE //Its pretty much near-perfect protection, you do not need this.
+	throw_on_break = FALSE //We only get one set
+
+/obj/item/clothing/neck/roguetown/gorget/paalloy/vampire/Initialize()
+  ..()
+  add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_VAMPIRIC, "alpha" = 180, "size" = 1)) //Enchanted look.
 
 /obj/item/clothing/head/roguetown/helmet/heavy/vampire
 	name = "ancient ceremonial sayovard"
 	desc = "A grand bascinet of enchanted gilbranze. They erased you from history, they destroyed your kingdom, and they plucked at its remains like vultures-to-carrion. Yet now, they cower in fear of your second coming; for they know that even the Pantheon cannot stop what is coming. </br>Send word - the end is nigh."
 	icon_state = "vhelmet"
 	max_integrity = ARMOR_INT_HELMET_ANTAG
+	armor = ARMOR_VAMP
 	body_parts_inherent = FULL_BODY
 	block2add = FOV_BEHIND
 	stack_fovs = FALSE
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 	smeltresult = /obj/item/ingot/purifiedaalloy
 	var/active_item = FALSE
+	unenchantable = TRUE //Its pretty much near-perfect protection, you do not need this.
+	throw_on_break = FALSE //We only get one set
+
+/obj/item/clothing/head/roguetown/helmet/heavy/vampire/Initialize()
+  ..()
+  add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_VAMPIRIC, "alpha" = 180, "size" = 1)) //Enchanted look.
 
 /obj/item/clothing/head/roguetown/helmet/heavy/vampire/equipped(mob/living/user, slot)
 	. = ..()
@@ -291,6 +361,7 @@
 	if(slot == SLOT_HEAD)
 		active_item = TRUE
 		ADD_TRAIT(user, TRAIT_BITERHELM, TRAIT_GENERIC)
+		to_chat(user, span_red("The bascinet's visor chitters, and your jaw tightens with symbiotic intent.."))
 
 /obj/item/clothing/head/roguetown/helmet/heavy/vampire/dropped(mob/living/user)
 	..()
@@ -298,3 +369,4 @@
 		return
 	active_item = FALSE
 	REMOVE_TRAIT(user, TRAIT_BITERHELM, TRAIT_GENERIC)
+	to_chat(user, span_red("..and like that, the bascinet's visor goes dormant once more - a strange pressure, relieved from your jaw."))
