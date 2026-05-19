@@ -17,7 +17,7 @@
 	)
 	subclass_skills = list(
 		/datum/skill/magic/holy = SKILL_LEVEL_JOURNEYMAN,
-		
+
 		/datum/skill/combat/unarmed = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/wrestling = SKILL_LEVEL_EXPERT,
 		
@@ -41,7 +41,7 @@
 		wrists = /obj/item/clothing/neck/roguetown/psicross/inhumen/graggar
 		don_pelt(H)
 		var/datum/devotion/C = new /datum/devotion(H, H.patron)
-		C.grant_miracles(H, cleric_tier = CLERIC_T2, passive_gain = CLERIC_REGEN_MAJOR, start_maxed = TRUE)
+		C.grant_miracles(H, cleric_tier = CLERIC_T2, passive_gain = CLERIC_REGEN_MAJOR, start_maxed = FALSE)
 		H.mind?.AddSpell(new /datum/action/cooldown/spell/convert_heretic/free)
 		H.mind?.AddSpell(new /obj/effect/proc_holder/spell/self/claws/gnoll/templar)
 
