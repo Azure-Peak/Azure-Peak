@@ -360,7 +360,7 @@
 				SStreasury.economic_output += amt
 				SStreasury.give_money_account(amt, H, "+[amt] from [R.name] bounty")
 				if(auto_exported && message)
-					say("Crown's [R.name] stockpile is full - shipped abroad on your behalf.")
+					say("Crown's [R.name] stockpile is full - shipped regionally on your behalf.")
 				record_round_statistic(STATS_STOCKPILE_EXPANSES, amt)
 				return
 			continue
@@ -445,7 +445,7 @@
 				SStreasury.economic_output += true_value
 				SStreasury.give_money_account(amt, H, "+[amt] from [R.name] bounty")
 				if(auto_exported && message)
-					say("Crown's [R.name] stockpile is full - shipped abroad on your behalf.")
+					say("Crown's [R.name] stockpile is full - shipped regionally on your behalf.")
 			record_round_statistic(STATS_STOCKPILE_EXPANSES, amt)
 			record_round_statistic(STATS_STOCKPILE_REVENUE, true_value)
 			return
