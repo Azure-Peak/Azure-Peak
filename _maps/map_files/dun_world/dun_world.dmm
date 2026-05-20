@@ -5838,10 +5838,6 @@
 /obj/effect/decal/cleanable/blood/drip,
 /turf/open/floor/rogue/churchmarble,
 /area/rogue/under/cave/scarymaze)
-"bkB" = (
-/obj/structure/roguewindow,
-/turf/closed/basic,
-/area/rogue/indoors/town/shop)
 "bkD" = (
 /obj/item/natural/stone,
 /turf/open/floor/rogue/cobble,
@@ -11687,9 +11683,6 @@
 /area/rogue/under/town/basement)
 "ctO" = (
 /obj/structure/roguewindow,
-/obj/structure/bars/passage/shutter{
-	redstone_id = "trader_shutter"
-	},
 /turf/closed/wall/mineral/rogue/wooddark,
 /area/rogue/indoors/town/shop)
 "ctR" = (
@@ -31103,9 +31096,6 @@
 /area/rogue/indoors/town/church/chapel)
 "god" = (
 /obj/structure/mineral_door/wood/fancywood,
-/obj/structure/bars/passage/shutter{
-	redstone_id = "trader_shutter"
-	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/shop)
 "gog" = (
@@ -56558,13 +56548,6 @@
 /obj/structure/fluff/railing/corner,
 /turf/open/floor/rogue/carpet/lord/center,
 /area/rogue/indoors/town/manor)
-"llx" = (
-/obj/structure/roguewindow,
-/obj/structure/bars/passage/shutter{
-	redstone_id = "trader_stock_shutter"
-	},
-/turf/open/floor/rogue/concrete,
-/area/rogue/indoors/town/shop)
 "lly" = (
 /obj/machinery/light/rogue/firebowl/standing/blue,
 /turf/open/floor/rogue/volcanic,
@@ -280215,8 +280198,8 @@ mUJ
 exD
 uCs
 mPk
-bkB
-bkB
+dHL
+dHL
 qME
 mPk
 xBe
@@ -281118,7 +281101,7 @@ mze
 sAU
 exD
 lJF
-llx
+dHL
 bms
 toI
 oti
@@ -281570,7 +281553,7 @@ rKJ
 ieQ
 exD
 lJF
-rgz
+dHL
 oti
 oti
 oti
@@ -282474,7 +282457,7 @@ rKJ
 ukL
 exD
 lJF
-rgz
+dHL
 oti
 hxo
 oti
