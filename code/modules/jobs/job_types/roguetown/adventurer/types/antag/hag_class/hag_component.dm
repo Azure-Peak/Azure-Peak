@@ -365,7 +365,7 @@
 /datum/component/hag_curio_tracker/proc/handle_death(mob/living/carbon/L)
 	SIGNAL_HANDLER
 
-	L.visible_message(span_boldnotice("The corpse of [L.name] starts to dissolve into the soil"))
+	L.visible_message(span_boldnotice("The corpse of [L.name] starts to dissolve into the soil."))
 	addtimer(CALLBACK(src, PROC_REF(move_hag), L), 10 SECONDS)
 
 /datum/component/hag_curio_tracker/proc/move_hag(mob/living/L)
