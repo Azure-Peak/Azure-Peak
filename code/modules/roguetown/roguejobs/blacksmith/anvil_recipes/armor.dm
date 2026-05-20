@@ -99,24 +99,25 @@
 /datum/anvil_recipe/armor/aalloy/barbute
 	name = "Barbute, Decrepit (+1 Alloy)"
 	req_bar = /obj/item/ingot/aalloy
+	additional_items = list(/obj/item/ingot/aalloy)
 	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/aalloy
 	display_category = ITEM_CAT_ARMOR_HELMETS
 
 /datum/anvil_recipe/armor/paalloy/barbute
-	name = "Barbute, Decrepit (+1 Alloy)"
+	name = "Barbute, Ancient (+1 Purified Alloy)"
 	req_bar = /obj/item/ingot/purifiedaalloy
 	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/paalloy
 	display_category = ITEM_CAT_ARMOR_HELMETS
-	additional_items = list(/obj/item/ingot/aalloy)
+	additional_items = list(/obj/item/ingot/purifiedaalloy)
 
 /datum/anvil_recipe/armor/aalloy/savoyard
-	name = "Savoyard, Decrepit (+1 Alloy)"
+	name = "Savoyard, Decrepit"
 	req_bar = /obj/item/ingot/aalloy
 	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/guard/aalloy
 	display_category = ITEM_CAT_ARMOR_HELMETS
 
 /datum/anvil_recipe/armor/aalloy/bascinet
-	name = "Bascinet, Decrepit (+1 Alloy)"
+	name = "Bascinet, Decrepit"
 	req_bar = /obj/item/ingot/aalloy
 	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/knight/aalloy
 	display_category = ITEM_CAT_ARMOR_HELMETS
@@ -336,7 +337,7 @@
 	display_category = ITEM_CAT_ARMOR_HELMETS
 
 /datum/anvil_recipe/armor/bronze/protector
-	name = "Heart Protector, Bronze (+1 Cured Leather)"
+	name = "Heart Protector, Bronze (+1 Bronze, +1 Cured Leather)"
 	req_bar = /obj/item/ingot/bronze
 	additional_items = list(/obj/item/ingot/bronze, /obj/item/natural/hide/cured)
 	created_item = /obj/item/clothing/suit/roguetown/armor/plate/bronze/light
@@ -350,7 +351,7 @@
 	display_category = ITEM_CAT_ARMOR_CHESTPIECES
 
 /datum/anvil_recipe/armor/bronze/halfplate
-	name = "Panoply Assembly, Halved, Bronze (+2 Bronze, +1 Cured Leather, +1 Fur)"
+	name = "Panoply Assembly, Halved, Bronze (+3 Bronze, +1 Cured Leather, +1 Fur)"
 	req_bar = /obj/item/ingot/bronze
 	additional_items = list(/obj/item/ingot/bronze, /obj/item/ingot/bronze, /obj/item/ingot/bronze, /obj/item/natural/hide/cured, /obj/item/natural/fur)
 	created_item = /obj/item/clothing/suit/roguetown/armor/plate/full/bronze/alt
@@ -430,20 +431,6 @@
 	created_item = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/iron
 	display_category = ITEM_CAT_ARMOR_CHESTPIECES
 
-/datum/anvil_recipe/armor/iron/knightarmet
-	name = "Helmet, Armet, Knight, Iron (+1 Iron)"
-	req_bar = /obj/item/ingot/iron
-	additional_items = list(/obj/item/ingot/iron)
-	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/knight/iron
-	display_category = ITEM_CAT_ARMOR_HELMETS
-
-/datum/anvil_recipe/armor/iron/knighthelmet
-	name = "Helmet, Knight, Iron (+1 Iron)"
-	req_bar = /obj/item/ingot/iron
-	additional_items = list(/obj/item/ingot/iron)
-	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/knight/old/iron
-	display_category = ITEM_CAT_ARMOR_HELMETS
-
 /datum/anvil_recipe/armor/iron/knightarmetgreatplume
 	name = "Helmet, Greatplumed Armet, Knight, Iron (+1 Iron)"
 	req_bar = /obj/item/ingot/iron
@@ -451,22 +438,8 @@
 	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/knight/iron/greatplume
 	display_category = ITEM_CAT_ARMOR_HELMETS
 
-/datum/anvil_recipe/armor/iron/bucket
-	name = "Helmet, Bucket, Iron (+1 Iron)"
-	req_bar = /obj/item/ingot/iron
-	additional_items = list(/obj/item/ingot/iron)
-	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/bucket/iron
-	display_category = ITEM_CAT_ARMOR_HELMETS
-
-/datum/anvil_recipe/armor/iron/helmethorned
-	name = "Helmet, Horned, Iron"
-	req_bar = /obj/item/ingot/iron
-	created_item = /obj/item/clothing/head/roguetown/helmet/horned
-	display_category = ITEM_CAT_ARMOR_HELMETS
-	craftdiff = 2
-
 /datum/anvil_recipe/armor/iron/headcage
-	name = "Headcage, Iron"
+	name = "Headcage, Iron (+2 Iron)"
 	req_bar = /obj/item/ingot/iron
 	additional_items = list(/obj/item/ingot/iron, /obj/item/ingot/iron)
 	created_item = /obj/item/clothing/head/roguetown/helmet/headcage
@@ -1326,13 +1299,13 @@
 	display_category = ITEM_CAT_ARMOR_HELMETS
 
 /datum/anvil_recipe/armor/blessedsilver/helmsallpsy
-	name = "Psydonic Sallet (+1 Blessed Silver)"
+	name = "Psydonic Sallet"
 	req_bar = /obj/item/ingot/silverblessed
 	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/psysallet
 	display_category = ITEM_CAT_ARMOR_HELMETS
 
 /datum/anvil_recipe/armor/blessedsilver/helmbucketpsy
-	name = "Psydonic Bucket Helm (+1 Blessed Silver)"
+	name = "Psydonic Bucket Helm"
 	req_bar = /obj/item/ingot/silverblessed
 	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/psybucket
 	display_category = ITEM_CAT_ARMOR_HELMETS
@@ -1387,13 +1360,13 @@
 	display_category = ITEM_CAT_ARMOR_HELMETS
 
 /datum/anvil_recipe/armor/blessedsilver/helmsallpsy/inq
-	name = "Psydonic Sallet (+1 Blessed Silver)"
+	name = "Psydonic Sallet"
 	req_bar = /obj/item/ingot/silverblessed/bullion
 	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/psysallet
 	display_category = ITEM_CAT_ARMOR_HELMETS
 
 /datum/anvil_recipe/armor/blessedsilver/helmbucketpsy/inq
-	name = "Psydonic Bucket Helm (+1 Blessed Silver)"
+	name = "Psydonic Bucket Helm"
 	req_bar = /obj/item/ingot/silverblessed/bullion
 	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/psybucket
 	display_category = ITEM_CAT_ARMOR_HELMETS

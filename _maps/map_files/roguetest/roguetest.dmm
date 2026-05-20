@@ -200,6 +200,10 @@
 "hq" = (
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/indoors/town/magician)
+"hE" = (
+/obj/structure/roguemachine/escrow/tailor,
+/turf/open/floor/rogue/dirt/road,
+/area/rogue/indoors)
 "hG" = (
 /obj/structure/table/wood{
 	icon_state = "longtable_mid";
@@ -3624,7 +3628,7 @@ dZ
 Zu
 Ue
 xt
-CZ
+hE
 AX
 xY
 CZ
