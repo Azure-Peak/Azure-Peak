@@ -93,10 +93,19 @@ NECRO SKELETONS
 	H.STAWIL = rand(10,11)
 	H.STAINT = rand(1,3)
 
+	shirt = prob(50) ? /obj/item/clothing/suit/roguetown/shirt/undershirt/vagrant : /obj/item/clothing/suit/roguetown/shirt/undershirt/vagrant/l
 	belt = /obj/item/storage/belt/rogue/leather
 	backl = /obj/item/storage/backpack/rogue/satchel
-	r_hand = prob(50) ? /obj/item/rogueweapon/sword : /obj/item/rogueweapon/stoneaxe/woodcut
-	l_hand = /obj/item/rogueweapon/shield/wood
+	backr = /obj/item/rogueweapon/shield/wood
+
+	H.adjust_blindness(-3)
+	var/weapon_choice = input(H, "Choose your weapon.", "WHAT WILL YOU CARRY?") as anything in list("Sword", "Axe")
+	H.set_blindness(0)
+	switch(weapon_choice)
+		if("Sword")
+			r_hand = /obj/item/rogueweapon/sword
+		if("Axe")
+			r_hand = /obj/item/rogueweapon/stoneaxe/woodcut
 
 	H.energy = H.max_energy
 
@@ -130,14 +139,21 @@ NECRO SKELETONS
 	H.STAINT = rand(4,6)
 	H.STAPER = prob(2) ? 18 : rand(13,15)
 
+	shirt = prob(50) ? /obj/item/clothing/suit/roguetown/shirt/undershirt/vagrant : /obj/item/clothing/suit/roguetown/shirt/undershirt/vagrant/l
+	belt = /obj/item/storage/belt/rogue/leather
 	backl = /obj/item/storage/backpack/rogue/satchel
 	beltr = /obj/item/rogueweapon/huntingknife/idagger
-	if(prob(50))
-		l_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/short
-		beltl = /obj/item/quiver/arrows
-	else
-		l_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/sling
-		beltl = /obj/item/quiver/sling/iron
+
+	H.adjust_blindness(-3)
+	var/weapon_choice = input(H, "Choose your weapon.", "WHAT WILL YOU CARRY?") as anything in list("Bow", "Sling")
+	H.set_blindness(0)
+	switch(weapon_choice)
+		if("Bow")
+			l_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/short
+			beltl = /obj/item/quiver/arrows
+		if("Sling")
+			l_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/sling
+			beltl = /obj/item/quiver/sling/iron
 
 	H.energy = H.max_energy
 
@@ -173,6 +189,8 @@ NECRO SKELETONS
 	H.STAINT = prob(2) ? 18 : rand(4,6)
 	H.STAPER = rand(6,8)
 
+	shirt = prob(50) ? /obj/item/clothing/suit/roguetown/shirt/undershirt/vagrant : /obj/item/clothing/suit/roguetown/shirt/undershirt/vagrant/l
+	belt = /obj/item/storage/belt/rogue/leather
 	backl = /obj/item/storage/backpack/rogue/satchel
 	beltr = /obj/item/rogueweapon/stoneaxe/woodcut
 	beltl = /obj/item/rogueweapon/pick
