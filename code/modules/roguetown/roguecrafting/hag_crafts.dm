@@ -9,14 +9,14 @@
 	craftdiff = 6
 
 /datum/crafting_recipe/roguetown/alchemy/hag/synth_shiny
-	name = "strange golden varnish"
+	name = "strange golden catalyst"
 	category = "Hag"
 	result = list(/obj/item/hag_catalyst/synth_base/gilded = 1)
 	reqs = list(/obj/item/alch/hag_moss/pride = 1, /obj/item/alch/calendula = 1, /obj/item/alch/hypericum = 1, /obj/item/alch/salvia = 1)
 	craftdiff = 6
 
 /datum/crafting_recipe/roguetown/alchemy/hag/synth_base
-	name = "strange cataltyst"
+	name = "strange catalyst"
 	category = "Hag"
 	result = list(/obj/item/hag_catalyst/synth_base = 1)
 	reqs = list(/obj/item/alch/hag_moss/mercy = 1, /obj/item/alch/calendula = 1, /obj/item/alch/matricaria = 1, /obj/item/alch/urtica = 1)
