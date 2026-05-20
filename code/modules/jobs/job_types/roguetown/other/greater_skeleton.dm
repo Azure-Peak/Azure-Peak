@@ -61,9 +61,12 @@ NECRO SKELETONS
 	pants = /obj/item/clothing/under/roguetown/chainlegs/iron
 	head = /obj/item/clothing/head/roguetown/helmet/leather
 	shoes = /obj/item/clothing/shoes/roguetown/boots
-	shirt = prob(50) ? /obj/item/clothing/suit/roguetown/shirt/undershirt/vagrant : /obj/item/clothing/suit/roguetown/shirt/undershirt/vagrant/l
 	belt = /obj/item/storage/belt/rogue/leather
 	backl = /obj/item/storage/backpack/rogue/satchel
+
+/datum/outfit/job/roguetown/greater_skeleton/necro/pre_equip(mob/living/carbon/human/H)
+	..()
+	shirt = prob(50) ? /obj/item/clothing/suit/roguetown/shirt/undershirt/vagrant : /obj/item/clothing/suit/roguetown/shirt/undershirt/vagrant/l
 
 // Melee fighter with a shield. Holds the line.
 /datum/advclass/greater_skeleton/necro/legionnaire
