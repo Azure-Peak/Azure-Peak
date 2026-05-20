@@ -53,7 +53,7 @@
 	if(H.mind)
 		H.verbs |= /mob/living/carbon/human/proc/commune_with_roots
 		H.ambushable = FALSE
-		H.faction |= list("hag", "spiders")
+		H.faction |= list(FACTION_HAG, FACTION_SPIDERS, FACTION_TROLLS)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/wildshape/hag_true_form)
 		H.set_patron(/datum/patron/mossmother)
 		H.AddComponent(/datum/component/hag_curio_tracker)
