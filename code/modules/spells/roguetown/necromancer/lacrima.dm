@@ -3,6 +3,7 @@
 /datum/action/cooldown/spell/lacrima
 	name = "Lacrima"
 	desc = "Requires an aggressive grab on a floored, living victim. Plunge your hand into their chest, shattering their ribs and will alike to forcefully tear the lux from their body."
+	background_icon = 'icons/mob/actions/zizomiracles.dmi'
 	button_icon = 'icons/mob/actions/zizomiracles.dmi'
 	button_icon_state = "zizograsp"
 	charge_required = FALSE

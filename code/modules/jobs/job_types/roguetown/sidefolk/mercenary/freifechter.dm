@@ -54,7 +54,7 @@
 	shirt = /obj/item/clothing/suit/roguetown/shirt/freifechter
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/otavan/generic
 	shoes = /obj/item/clothing/shoes/roguetown/grenzelhoft/freifechter
-	gloves = /obj/item/clothing/gloves/roguetown/angle/grenzelgloves/freifechter
+	gloves = /obj/item/clothing/gloves/roguetown/angle/freifechter
 	backr = /obj/item/storage/backpack/rogue/satchel/short
 	neck = /obj/item/clothing/neck/roguetown/psicross/reform
 	backpack_contents = list(
@@ -117,7 +117,7 @@
 	shirt = /obj/item/clothing/suit/roguetown/shirt/freifechter
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/otavan/generic
 	shoes = /obj/item/clothing/shoes/roguetown/grenzelhoft/freifechter
-	gloves = /obj/item/clothing/gloves/roguetown/angle/grenzelgloves/freifechter
+	gloves = /obj/item/clothing/gloves/roguetown/angle/freifechter
 	backr = /obj/item/storage/backpack/rogue/satchel/short
 	neck = /obj/item/clothing/neck/roguetown/psicross/reform
 	backpack_contents = list(
@@ -174,7 +174,7 @@
 	shirt = /obj/item/clothing/suit/roguetown/shirt/freifechter
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/otavan/generic
 	shoes = /obj/item/clothing/shoes/roguetown/grenzelhoft/freifechter
-	gloves = /obj/item/clothing/gloves/roguetown/angle/grenzelgloves/freifechter
+	gloves = /obj/item/clothing/gloves/roguetown/angle/freifechter
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/jackchain	//Obsessed with arms-hands. Keeping them protected on-spawn.
 	backr = /obj/item/storage/backpack/rogue/satchel/short
 	neck = /obj/item/clothing/neck/roguetown/psicross/reform

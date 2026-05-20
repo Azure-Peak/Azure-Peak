@@ -710,3 +710,41 @@
   string-thing:
   - balance: increased the range of restoration to be in line with the current standard
       for heals
+2026-05-20:
+  Quinalion:
+  - image: Added missing icon for sallet detail.
+  - bugfix: Fixed velvet and noble dress paths; they now correctly cover the groin
+      area.
+  - bugfix: Fixed bronze handlantern lighting.
+  - bugfix: Fixed hauberk brigandine sleeves.
+  - bugfix: Fixed fencing gloves path, so they display correctly when facing east/west.
+  - bugfix: Fixed missing background icon for Zizo's miracles.
+  Ryan180602:
+  - bugfix: blood colour for species specific blood colour
+  - bugfix: donor item
+  SpadesNeil:
+  - rscdel: Removes "Emperor of Flame" from shamisen
+  - refactor: Alphabetizes the .dme
+  WeNeedMorePhoron:
+  - rscadd: Removed the shared SPIDERS_LOWER faction from drow raider, which resulted
+      in anthraxi sharing a faction with drow, thus making them free kills for anthraxi.
+      Because I hear about Anthraxi just farming drow quests and that pisses me off
+  - rscadd: Aragn now have a backup melee tree which is no longer blocked by the cocoon
+      tree, so they are actually a threat instead of chasing you longingly
+  - rscadd: Fixed aggro on spider cocooning so that they no longer chase someone they
+      cannot aggro onto
+  - bugfix: Removed every single runtime fixes from the runtimes fix pack after discovered
+      it drove typecacheof to the highest performance eating individual proc with
+      30s of overtime and 150s of total cpu time out of 1701 total on a mid pop.
+  - bugfix: Fixed an erroneously untested runtime fixes that I presumed was tested
+      and pulled in. This is my bad. Spells Projectiles should work again.
+  changelingonberry:
+  - admin: dont log linux machine id user
+  kbitykbitykbity:
+  - rscadd: Added portable peddlers to the game, can be crafted with engineering skill.
+  - rscadd: Added Bunny Ears (Droopy) sprite.
+  plsleavemealon:
+  - rscadd: Kazengunese/lingyue spellblades now get a proper eastern loadout when
+      choosing eastern weapons.
+  zeroisthebiggay:
+  - rscadd: makes arcyne potential grant a level of literacy
