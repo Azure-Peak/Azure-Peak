@@ -2570,13 +2570,6 @@
 "aCs" = (
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cave/his_vault/four)
-"aCt" = (
-/obj/structure/table/wood/long_table/mid/alt,
-/obj/item/candle/gold/lit{
-	pixel_y = 6
-	},
-/turf/open/floor/rogue/blocks,
-/area/rogue/indoors/town/dwarfin)
 "aCu" = (
 /obj/machinery/light/rogue/torchholder/c{
 	dir = 1
@@ -66286,12 +66279,15 @@
 /turf/open/floor/rogue/woodturned,
 /area/rogue/indoors/town)
 "nhR" = (
-/obj/item/flint,
+/obj/item/flint{
+	pixel_x = -5;
+	pixel_y = 9
+	},
 /obj/item/reagent_containers/glass/bucket{
-	pixel_x = -6;
+	pixel_x = 7;
 	pixel_y = 15
 	},
-/obj/structure/table/wood/long_table/right,
+/obj/structure/table/wood,
 /turf/open/floor/rogue/blocks,
 /area/rogue/indoors/town/dwarfin)
 "nhS" = (
@@ -71921,6 +71917,11 @@
 	},
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors/exposed/town/keep)
+"ooJ" = (
+/obj/structure/fluff/railing/border/east,
+/obj/structure/fluff/grindwheel,
+/turf/open/floor/rogue/wood,
+/area/rogue/indoors/town/dwarfin)
 "ooL" = (
 /obj/structure/fluff/railing/corner/south_west,
 /obj/structure/fluff/railing/corner/south_east,
@@ -98234,8 +98235,12 @@
 /turf/open/floor/rogue/churchmarble,
 /area/rogue/under/cave/scarymaze)
 "twy" = (
-/obj/structure/table/wood/long_table,
 /obj/item/mini_flagpole/blacksmith,
+/obj/structure/table/wood,
+/obj/item/candle/gold/lit{
+	pixel_x = 0;
+	pixel_y = 8
+	},
 /turf/open/floor/rogue/blocks,
 /area/rogue/indoors/town/dwarfin)
 "twG" = (
@@ -104038,7 +104043,7 @@
 /obj/machinery/light/rogue/torchholder/r,
 /obj/structure/fluff/wallclock,
 /obj/structure/fluff/grindwheel,
-/turf/open/floor/rogue/blocks,
+/turf/open/floor/rogue/hexstone,
 /area/rogue/indoors/town/dwarfin)
 "uDL" = (
 /obj/structure/roguemachine/noticeboard,
@@ -117809,8 +117814,7 @@
 "xrQ" = (
 /obj/structure/roguemachine/withdraw,
 /obj/machinery/light/rogue/torchholder/l,
-/obj/structure/fluff/grindwheel,
-/turf/open/floor/rogue/blocks,
+/turf/open/floor/rogue/hexstone,
 /area/rogue/indoors/town/dwarfin)
 "xrV" = (
 /obj/structure/rack/rogue/shelf/biggest,
@@ -279732,7 +279736,7 @@ kOl
 kOl
 smL
 dgH
-jIA
+ooJ
 cWv
 vGa
 shR
@@ -280639,7 +280643,7 @@ dMb
 whs
 vGa
 vGa
-aCt
+vGa
 azi
 cbR
 cbR
