@@ -87,10 +87,13 @@
 		..()
 		return
 	var/the_time = world.time
-	var/design = input(user, "Select a design.","Tabard Design") as null|anything in list("None", "Symbol", "Split", "Quadrants", "Boxes", "Diamonds")
+	var/design = input(user, "Select a design.","Tabard Design") as null|anything in list("No changes!", "None", "Symbol", "Split", "Quadrants", "Boxes", "Diamonds")
 	if(!design)
 		return
 	if(world.time > (the_time + 30 SECONDS))
+		return
+	if(design == "No changes!")
+		custom_design = TRUE
 		return
 	var/symbol_chosen = FALSE
 	if(design == "Symbol")
