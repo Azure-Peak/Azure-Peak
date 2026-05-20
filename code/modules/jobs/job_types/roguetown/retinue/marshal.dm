@@ -14,7 +14,6 @@
 				While you preside over the knights and men-at-arms, much of your work happens behind a desk, deferring to the Sergeant-at-Arms to make sure your will is carried out in the field."
 	whitelist_req = FALSE
 
-	spells = list(/obj/effect/proc_holder/spell/self/convertrole/guard) // /obj/effect/proc_holder/spell/self/convertrole/bog
 	outfit = /datum/outfit/job/roguetown/marshal
 
 	give_bank_account = TRUE
@@ -50,6 +49,7 @@
 		/obj/item/signal_horn = 1,
 		/obj/item/reagent_containers/glass/bottle/rogue/healthpot = 1,
 		)
+	H.verbs |= /mob/living/carbon/human/proc/recruit_guard_verb
 	H.verbs |= /mob/proc/haltyell
 	H.verbs |= list(/mob/living/carbon/human/proc/request_outlaw, /mob/living/carbon/human/proc/request_law, /mob/living/carbon/human/proc/request_law_removal, /mob/living/carbon/human/proc/request_purge)
 	if(H.mind)

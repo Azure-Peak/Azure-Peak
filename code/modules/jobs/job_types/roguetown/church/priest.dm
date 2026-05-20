@@ -25,7 +25,7 @@ GLOBAL_LIST_EMPTY(heretical_players)
 	whitelist_req = FALSE
 	cmode_music = 'sound/music/cmode/church/combat_astrata.ogg'
 
-	spells = list(/obj/effect/proc_holder/spell/invoked/cure_rot, /obj/effect/proc_holder/spell/self/convertrole/templar, /obj/effect/proc_holder/spell/self/convertrole/monk, /obj/effect/proc_holder/spell/invoked/projectile/divineblast, /datum/action/cooldown/spell/miracle/intervention, /obj/effect/proc_holder/spell/invoked/takeapprentice)
+	spells = list(/obj/effect/proc_holder/spell/invoked/cure_rot, /obj/effect/proc_holder/spell/invoked/projectile/divineblast, /datum/action/cooldown/spell/miracle/intervention, /obj/effect/proc_holder/spell/invoked/takeapprentice)
 	outfit = /datum/outfit/job/roguetown/priest
 	display_order = JDO_BISHOP
 	give_bank_account = TRUE
@@ -114,6 +114,8 @@ GLOBAL_LIST_EMPTY(heretical_players)
 	H.verbs |= /mob/living/carbon/human/proc/completesermon
 	H.verbs |= /mob/living/carbon/human/proc/declare_benefactor
 	H.verbs |= /mob/living/carbon/human/proc/revoke_benefactor
+	H.verbs |= /mob/living/carbon/human/proc/recruittemplar
+	H.verbs |= /mob/living/carbon/human/proc/recruitacolyte
 	H.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/convert_heretic_priest)
 	H.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/revive)
 	if(H.mind)
@@ -304,24 +306,6 @@ GLOBAL_LIST_EMPTY(heretical_players)
 		else
 			to_chat(src, span_warning("Your announcement was interrupted!"))
 			return FALSE
-
-/obj/effect/proc_holder/spell/self/convertrole/templar
-	name = "Recruit Templar"
-	new_role = "Templar"
-	overlay_state = "recruit_templar"
-	recruitment_faction = "Templars"
-	recruitment_message = "Serve the ten, %RECRUIT!"
-	accept_message = "FOR THE TEN!"
-	refuse_message = "I refuse."
-
-/obj/effect/proc_holder/spell/self/convertrole/monk
-	name = "Recruit Acolyte"
-	new_role = "Acolyte"
-	overlay_state = "recruit_acolyte"
-	recruitment_faction = "Church"
-	recruitment_message = "Serve the ten, %RECRUIT!"
-	accept_message = "FOR THE TEN!"
-	refuse_message = "I refuse."
 
 /mob/living/carbon/human/proc/completesermon()
 	set name = "Sermon"
@@ -702,6 +686,98 @@ code\modules\admin\verbs\divinewrath.dm has a variant with all the gods so keep 
 	set name = "Revoke Benefactor"
 	set category = "Priest"
 	perform_patronage_revoke_from_list(src, TRAIT_DECLARED_BENEFACTOR, "no longer a benefactor of the Church of Azuria")
+
+/mob/living/carbon/human/proc/recruittemplar()
+	set name = "Recruit Templar"
+	set category = "Priest"
+
+	if(stat)
+		return
+
+	var/list/candidates = list()
+
+	for(var/mob/living/carbon/human/H in viewers(1, src))
+		if(H == src)
+			continue
+		if(!H.mind)
+			continue
+		candidates[H.real_name] = H
+
+	if(!length(candidates))
+		to_chat(src, span_warning("Nobody is close enough to recruit."))
+		return
+
+	var/choice = input(src, "Recruit whom?", "Recruit Templar") as null|anything in candidates
+	if(!choice)
+		return
+
+	var/mob/living/carbon/human/target = candidates[choice]
+
+	var/accepted = alert(
+		target,
+		"[src.real_name] wishes you to serve the Ten as a Templar.",
+		"Templar Recruitment",
+		"Accept",
+		"Refuse"
+	)
+
+	if(accepted != "Accept")
+		to_chat(src, span_warning("[target.real_name] refuses."))
+		return
+
+	target.mind.assigned_role = "Templar"
+
+	to_chat(target, span_notice("FOR THE TEN!"))
+	to_chat(src, span_notice("[target.real_name] joins the Templars."))
+
+	log_game("[key_name(src)] recruited [key_name(target)] as Templar.")
+	message_admins("[ADMIN_LOOKUPFLW(src)] recruited [ADMIN_LOOKUPFLW(target)] as Templar.")
+
+/mob/living/carbon/human/proc/recruitacolyte()
+	set name = "Recruit Acolyte"
+	set category = "Priest"
+
+	if(stat)
+		return
+
+	var/list/candidates = list()
+
+	for(var/mob/living/carbon/human/H in viewers(1, src))
+		if(H == src)
+			continue
+		if(!H.mind)
+			continue
+		candidates[H.real_name] = H
+
+	if(!length(candidates))
+		to_chat(src, span_warning("Nobody is close enough to recruit."))
+		return
+
+	var/choice = input(src, "Recruit whom?", "Recruit Acolyte") as null|anything in candidates
+	if(!choice)
+		return
+
+	var/mob/living/carbon/human/target = candidates[choice]
+
+	var/accepted = alert(
+		target,
+		"[src.real_name] wishes you to serve the Ten as an Acolyte.",
+		"Acolyte Recruitment",
+		"Accept",
+		"Refuse"
+	)
+
+	if(accepted != "Accept")
+		to_chat(src, span_warning("[target.real_name] refuses."))
+		return
+
+	target.mind.assigned_role = "Acolyte"
+
+	to_chat(target, span_notice("FOR THE TEN!"))
+	to_chat(src, span_notice("[target.real_name] joins the Church."))
+
+	log_game("[key_name(src)] recruited [key_name(target)] as Acolyte.")
+	message_admins("[ADMIN_LOOKUPFLW(src)] recruited [ADMIN_LOOKUPFLW(target)] as Acolyte.")
 
 #undef PRIEST_SERMON_COOLDOWN
 #undef PRIEST_APOSTASY_COOLDOWN

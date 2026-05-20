@@ -84,7 +84,7 @@
 		)
 	id = /obj/item/scomstone
 	if(H.mind)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/convertrole/heartfelt)
+		H.verbs += /mob/living/carbon/human/proc/recruitheartfelt
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/heartfelt/retreat)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/heartfelt/bolster)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/heartfelt/charge)
@@ -157,7 +157,7 @@
 	)
 	id = /obj/item/scomstone
 	if(H.mind)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/convertrole/heartfelt)
+		H.verbs += /mob/living/carbon/human/proc/recruitheartfelt
 		H.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 1, "minor" = 1, "utilities" = 4, "ward" = TRUE))
 	if(H.age == AGE_OLD)
 		H.adjust_skillrank(/datum/skill/magic/arcane, 1, TRUE)
@@ -239,7 +239,7 @@
 		)
 	id = /obj/item/scomstone
 	if(H.mind)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/convertrole/heartfelt)
+		H.verbs += /mob/living/carbon/human/proc/recruitheartfelt
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/heartfelt/retreat)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/heartfelt/bolster)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/heartfelt/charge)
@@ -264,31 +264,6 @@
 
 
 // Spells + Orders (Orders are ONLY For HFT Lord job and the Hand Marshal Subclass)
-
-/obj/effect/proc_holder/spell/self/convertrole/heartfelt
-	name = "Recruit Retinue"
-	new_role = "Heartfelt Retinue"
-	overlay_state = "recruit_brother"
-	recruitment_faction = "Heartfelt"
-	recruitment_message = "Join in the service of Heartfelt, %RECRUIT!"
-	accept_message = "For Heartfelt!"
-	refuse_message = "I refuse."
-
-/obj/effect/proc_holder/spell/self/convertrole/heartfelt/convert(mob/living/carbon/human/recruit, mob/living/carbon/human/recruiter)
-	if(HAS_TRAIT(recruit, TRAIT_HEARTFELT))
-		to_chat(recruiter, span_warning("They're already part of our cause!"))
-		return FALSE
-	if(HAS_TRAIT(recruit, TRAIT_GUARDSMAN))
-		to_chat(recruiter, span_warning("They're already part of the Peak's guard! They can't join our cause!"))
-		return FALSE
-	if(HAS_TRAIT(recruit, TRAIT_INQUISITION))
-		to_chat(recruiter, span_warning("Their loyalty is to Psydon alone! They can't join our cause!"))
-		return FALSE
-	//If you're reading this, please refactor this once we have TRAIT_CLERGY thanks
-	if(HAS_TRAIT(recruit, TRAIT_CLERGY))
-		to_chat(recruiter, span_warning("Clergy cannot join our cause! Their loyalty is to the Ten!"))
-		return FALSE
-	..()
 
 /obj/effect/proc_holder/spell/invoked/order/heartfelt/proc/can_order(mob/living/target, mob/living/user)
 	if(target == user)
@@ -489,7 +464,7 @@
 
 /mob/living/carbon/human/mind/proc/setordersheartfelt()
     set name = "Rehearse Orders"
-    set category = "Voice of Command"
+    set category = "Heartfelt"
 
     #define ORDER_INPUT(varname, prompt) \
         mind.varname = input("Send a message.", prompt) as text|null; \
@@ -501,3 +476,52 @@
     ORDER_INPUT(onfeettext, "Stand proud for Heartfelt!!")
 
     #undef ORDER_INPUT
+
+
+/mob/living/carbon/human/proc/recruitheartfelt()
+	set name = "Recruit Retinue"
+	set category = "Heartfelt"
+
+	var/list/choices = list()
+
+	for(var/mob/living/carbon/human/H in view(1, src))
+		if(H == src)
+			continue
+		choices += H
+
+	if(!length(choices))
+		to_chat(src, span_warning("Nobody nearby to recruit."))
+		return
+
+	var/mob/living/carbon/human/recruit = input(src, "Recruit who?", "Recruit Retinue") as null|anything in choices
+
+	if(!recruit)
+		return
+
+	if(HAS_TRAIT(recruit, TRAIT_HEARTFELT))
+		to_chat(src, span_warning("They're already part of our cause!"))
+		return
+
+	if(HAS_TRAIT(recruit, TRAIT_GUARDSMAN))
+		to_chat(src, span_warning("They're already part of the Peak's guard! They can't join our cause!"))
+		return
+
+	if(HAS_TRAIT(recruit, TRAIT_INQUISITION))
+		to_chat(src, span_warning("Their loyalty is to Psydon alone! They can't join our cause!"))
+		return
+
+	if(HAS_TRAIT(recruit, TRAIT_CLERGY))
+		to_chat(src, span_warning("Clergy cannot join our cause! Their loyalty is to the Ten!"))
+		return
+
+	var/choice = alert(recruit, "Join in the service of Heartfelt, [recruit.real_name]?", "Recruitment", "Accept", "Refuse")
+
+	if(choice != "Accept")
+		to_chat(src, span_warning("[recruit] refused."))
+		return
+
+	ADD_TRAIT(recruit, TRAIT_HEARTFELT, TRAIT_GENERIC)
+	recruit.job = "Heartfelt Retinue"
+
+	to_chat(recruit, span_green("For Heartfelt!"))
+	to_chat(src, span_green("[recruit] joins Heartfelt!"))

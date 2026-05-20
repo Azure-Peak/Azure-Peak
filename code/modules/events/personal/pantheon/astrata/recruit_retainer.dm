@@ -15,12 +15,16 @@
 	for(var/mob/living/carbon/human/H in GLOB.player_list)
 		if(!istype(H) || H.stat == DEAD || !H.client)
 			continue
+
 		if(!H.patron || !istype(H.patron, /datum/patron/divine/astrata))
 			continue
+
 		if(!H.is_noble() || (H.mind?.assigned_role in GLOB.church_positions))
 			continue
-		if(locate(/obj/effect/proc_holder/spell/self/convertrole) in H.mind.spell_list)
+
+		if(/mob/living/carbon/human/proc/recruit_retainer_verb in H.verbs)
 			continue
+
 		return TRUE
 
 	return FALSE
@@ -32,17 +36,20 @@
 	for(var/mob/living/carbon/human/human_mob in GLOB.player_list)
 		if(!istype(human_mob) || human_mob.stat == DEAD || !human_mob.client)
 			continue
+
 		if(!human_mob.patron || !istype(human_mob.patron, /datum/patron/divine/astrata))
 			continue
+
 		if(!human_mob.is_noble() || (human_mob.mind?.assigned_role in GLOB.church_positions))
 			continue
-		if(locate(/obj/effect/proc_holder/spell/self/convertrole) in human_mob.mind.spell_list)
+
+		if(/mob/living/carbon/human/proc/recruit_retainer_verb in human_mob.verbs)
 			continue
 
 		if(!human_mob.client.prefs || human_mob.client.prefs?.no_storyteller_events)
 			continue
 
-		if(istype(human_mob.mind?.assigned_role, /datum/job/roguetown/councillor) ||  human_mob.job == "Noble")
+		if(istype(human_mob.mind?.assigned_role, /datum/job/roguetown/councillor) || human_mob.job == "Noble")
 			minor_nobles += human_mob
 		else
 			valid_targets += human_mob
@@ -54,13 +61,15 @@
 		return
 
 	var/mob/living/carbon/human/noble = pick(valid_targets)
-	noble.mind.AddSpell(new /obj/effect/proc_holder/spell/self/convertrole/retainer)
+
+	noble.verbs |= /mob/living/carbon/human/proc/recruit_retainer_verb
 
 	var/datum/objective/retainer/new_objective = new(owner = noble.mind)
 	noble.mind.add_personal_objective(new_objective)
 
 	to_chat(noble, span_userdanger("YOU ARE GOD'S CHOSEN!"))
 	to_chat(noble, span_notice("Astrata wants you to demonstrate your ability to lead as a proper noble! Recruit at least one retainer to serve you!"))
+
 	noble.playsound_local(noble, 'sound/magic/bless.ogg', 100)
 
 	noble.mind.announce_personal_objectives()

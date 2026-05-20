@@ -148,7 +148,7 @@
 	H.change_stat(STATKEY_SPD, -1) // 11 weighted
 	if(H.mind)
 		H.mind.AddSpell(new /datum/action/cooldown/spell/mindlink)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/convertrole/zizosquire)
+		H.verbs |= /mob/living/carbon/human/proc/recruit_zizo_squire_verb
 
 	H.dna.species.soundpack_m = new /datum/voicepack/male/knight()
 	ADD_TRAIT(H, TRAIT_NOBLE, TRAIT_GENERIC)
@@ -158,46 +158,84 @@
 	H.cmode_music = 'sound/music/combat_heretic.ogg'
 	wretch_select_bounty(H)
 
-/obj/effect/proc_holder/spell/self/convertrole/zizosquire
-	name = "Recruit Squire"
-	new_role = "Retainer"
-	overlay_state = "recruit_guard"
-	recruitment_faction = "Retainers"
-	recruitment_message = "Join my service as a retainer, %RECRUIT!"
-	accept_message = "I pledge my service to you!"
-	refuse_message = "I must decline your offer."
+/mob/living/carbon/human/proc/recruit_zizo_squire_verb()
+	set name = "Recruit Squire"
+	set category = "Dark Knight"
 
-/obj/effect/proc_holder/spell/self/convertrole/zizosquire/can_convert(mob/living/carbon/human/recruit)
+	var/list/candidates = list()
+
+	for(var/mob/living/carbon/human/H in (get_hearers_in_view(3, src) - src))
+		if(QDELETED(H))
+			continue
+
+		if(!H.mind)
+			continue
+
+		if(!(locate(/datum/antagonist/zizo_knight/squire) in H.mind.antag_datums))
+			continue
+
+		candidates[H.name] = H
+
+	if(!length(candidates))
+		to_chat(src, span_warning("There are no eligible squires nearby."))
+		return FALSE
+
+	var/inputty = input(src, "Select a squire.", "Recruit Squire") as null|anything in candidates
+
+	if(!inputty)
+		return FALSE
+
+	var/mob/living/carbon/human/recruit = candidates[inputty]
+
 	if(QDELETED(recruit))
 		return FALSE
-	if(!(locate(/datum/antagonist/zizo_knight/squire) in recruit?.mind?.antag_datums))
-		return FALSE
-	return TRUE
 
-/obj/effect/proc_holder/spell/self/convertrole/zizosquire/convert(mob/living/carbon/human/recruit, mob/living/carbon/human/recruiter)
-	if(QDELETED(recruit) || QDELETED(recruiter))
+	if(!(recruit in get_hearers_in_view(3, src)))
 		return FALSE
 
-	var/datum/antagonist/zizo_knight/zk_antag = locate(/datum/antagonist/zizo_knight) in recruiter.mind?.antag_datums
+	say(replacetext("Join my service as a retainer, %RECRUIT!", "%RECRUIT", "[recruit]"))
+
+	var/choice = alert(
+		recruit,
+		"Do you wish to become a retainer?",
+		"Retainers Recruitment",
+		"Yes",
+		"No"
+	)
+
+	if(QDELETED(src) || QDELETED(recruit))
+		return FALSE
+
+	if(choice != "Yes")
+		recruit.say("I must decline your offer.")
+		return FALSE
+
+	recruit.say("I pledge my service to you!")
+
+	var/datum/antagonist/zizo_knight/zk_antag = locate(/datum/antagonist/zizo_knight) in mind?.antag_datums
 	var/datum/antagonist/zizo_knight/squire/zs_antag = locate(/datum/antagonist/zizo_knight/squire) in recruit.mind?.antag_datums
 
-	var/datum/objective/dark_itinerant/zizotrain = new /datum/objective/dark_itinerant(null, recruiter.mind)
+	if(!zk_antag || !zs_antag)
+		return FALSE
+
+	var/datum/objective/dark_itinerant/zizotrain = new /datum/objective/dark_itinerant(null, mind)
 	var/datum/objective/dark_itinerant/zizoserve = new /datum/objective/dark_itinerant/squire(null, recruit.mind)
 
 	zizotrain.target = recruit.mind
 	zizotrain.explanation_text = "Train your squire [recruit.real_name] in the field. Show them the ropes. Ensure they survive."
 	zk_antag.objectives += zizotrain
-	zizoserve.target = recruiter.mind
-	zizoserve.explanation_text =  "Serve faithfully to your knight [recruiter.real_name], heed their commands and help them."
+
+	zizoserve.target = mind
+	zizoserve.explanation_text = "Serve faithfully to your knight [real_name], heed their commands and help them."
 	zs_antag.objectives += zizoserve
+
 	recruit.mind.announce_objectives()
-	recruiter.mind.announce_objectives()
+	mind.announce_objectives()
 
-	. = ..()
-	if(!.)
-		return FALSE
-
-	qdel(src)
+	recruit.job = "Retainer of [real_name]"
+	SEND_SIGNAL(SSdcs, COMSIG_GLOB_ROLE_CONVERTED, src, recruit, recruit.job)
+	src.verbs -= /mob/living/carbon/human/proc/recruit_zizo_squire_verb
+	return TRUE
 
 /datum/objective/dark_itinerant
 	name = "Train your squire"

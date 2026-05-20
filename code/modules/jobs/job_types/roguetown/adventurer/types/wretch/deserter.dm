@@ -51,7 +51,7 @@
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/takeaim)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/hold)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/onfeet)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/convertrole/brotherhood)
+		H.verbs |= list(/mob/living/carbon/human/mind/proc/recruitbrotherhood)
 
 		var/weapons = list(
 			"Estoc",
@@ -231,7 +231,7 @@
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/takeaim)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/hold)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/onfeet)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/convertrole/brotherhood)
+		H.verbs |= list(/mob/living/carbon/human/mind/proc/recruitbrotherhood)
 		var/helmets = list(
 			"Pigface Bascinet" 		= /obj/item/clothing/head/roguetown/helmet/bascinet/pigface,
 			"Hounskull Bascinet"	= /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/hounskull,
@@ -268,42 +268,50 @@
 
 	backpack_contents = list(/obj/item/natural/cloth = 1, /obj/item/rogueweapon/huntingknife/idagger/steel/special = 1, /obj/item/rope/chain = 1, /obj/item/storage/belt/rogue/pouch/coins/poor = 1, /obj/item/flashlight/flare/torch/lantern/prelit = 1, /obj/item/rogueweapon/scabbard/sheath = 1)
 
-/obj/effect/proc_holder/spell/self/convertrole/brotherhood
-	name = "Recruit Brotherhood Militia"
-	new_role = "Brother"
-	overlay_state = "recruit_brotherhood"
-	recruitment_faction = "Brother"
-	recruitment_message = "We're in this together now, %RECRUIT!"
-	accept_message = "For the Brotherhood!"
-	refuse_message = "I refuse."
+/mob/living/carbon/human/mind/proc/recruitbrotherhood()
+	set name = "Recruit Brotherhood Militia"
+	set category = "Voice of Command"
 
-/obj/effect/proc_holder/spell/self/convertrole/brotherhood/cast(list/targets,mob/user = usr)
-	. = ..()
 	var/list/recruitment = list()
-	for(var/mob/living/carbon/human/recruit in (get_hearers_in_view(recruitment_range, user) - user))
-		//not allowed
-		if(!can_convert(recruit))
+
+	for(var/mob/living/carbon/human/recruit in (get_hearers_in_view(7, src) - src))
+		if(HAS_TRAIT(recruit, TRAIT_GUARDSMAN))
 			continue
+		if(HAS_TRAIT(recruit, TRAIT_CLERGY))
+			continue
+		if(recruit.job == "Brother")
+			continue
+
 		recruitment[recruit.name] = recruit
+
 	if(!length(recruitment))
-		to_chat(user, span_warning("There are no potential recruits in range."))
+		to_chat(src, span_warning("There are no potential recruits in range."))
 		return
-	var/inputty = input(user, "Select a potential recruit!", "[name]") as anything in recruitment
-	if(inputty)
-		var/mob/living/carbon/human/recruit = recruitment[inputty]
-		if(!QDELETED(recruit) && (recruit in get_hearers_in_view(recruitment_range, user)))
-			INVOKE_ASYNC(src, PROC_REF(convert), recruit, user)
-		else
-			to_chat(user, span_warning("Recruitment failed!"))
-	else
-		to_chat(user, span_warning("Recruitment cancelled."))
 
+	var/inputty = input(src, "Select a potential recruit!", "Recruit Brotherhood") as anything in recruitment
 
-/obj/effect/proc_holder/spell/self/convertrole/brother
-	name = "Recruit Brother"
-	new_role = "Brother"
-	overlay_state = "recruit_brother"
-	recruitment_faction = "Brother"
-	recruitment_message = "We're in this together now, %RECRUIT!"
-	accept_message = "All for one and one for all!"
-	refuse_message = "I refuse."
+	if(!inputty)
+		to_chat(src, span_warning("Recruitment cancelled."))
+		return
+
+	var/mob/living/carbon/human/recruit = recruitment[inputty]
+
+	if(QDELETED(recruit) || !(recruit in get_hearers_in_view(7, src)))
+		to_chat(src, span_warning("Recruitment failed!"))
+		return
+
+	var/choice = alert(
+		recruit,
+		"We're in this together now, [recruit.real_name]!",
+		"Recruitment",
+		"For the Brotherhood!",
+		"I refuse."
+	)
+
+	if(choice != "For the Brotherhood!")
+		return
+
+	recruit.job = "Brother"
+
+	to_chat(src, span_green("[recruit.real_name] joins the Brotherhood!"))
+	to_chat(recruit, span_green("All for one and one for all!"))

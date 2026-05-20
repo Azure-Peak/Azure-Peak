@@ -58,6 +58,7 @@
 	tutorial = "You're a somebody, someone important. It only makes sense you want to make a name for yourself, to gain your own glory so people see how great you really are beyond your bloodline. Plus, if you're beloved by the people for your exploits you'll be chosen! Probably. Shame you're as useful and talented as a squire, despite your delusions to the contrary."
 	outfit = /datum/outfit/job/roguetown/heir/daring
 	category_tags = list(CTAG_HEIR)
+	traits_applied = list(TRAIT_DODGEEXPERT, TRAIT_SQUIRE_REPAIR)
 	subclass_stats = list(
 		STATKEY_STR = 1,
 		STATKEY_PER = 1,
@@ -94,6 +95,7 @@
 	beltr = /obj/item/storage/keyring/heir
 	neck = /obj/item/storage/belt/rogue/pouch/coins/rich
 	backr = /obj/item/storage/backpack/rogue/satchel
+	id = /obj/item/scomstone/garrison
 	if(H.mind)
 		SStreasury.grant_savings(ECONOMIC_RICH, H)
 
@@ -117,16 +119,16 @@
 	name = "Introverted Bookworm"
 	tutorial = "Despite your standing, sociability is not your strong suit, and you have kept mostly to yourself and your books. This hardly makes you a favourite among the lords and ladies of the court, and an exit from your room is often met with amusement from nobility and servants alike. But maybe... just maybe, some of your reading interests may be bearing fruit."
 	outfit = /datum/outfit/job/roguetown/heir/bookworm
-	traits_applied = list(TRAIT_ARCYNE, TRAIT_ALCHEMY_EXPERT)
+	traits_applied = list(TRAIT_ARCYNE, TRAIT_ALCHEMY_EXPERT, TRAIT_CICERONE)
 	category_tags = list(CTAG_HEIR)
 	subclass_stats = list(
-		STATKEY_STR = -1,
-		STATKEY_INT = 2,
+		STATKEY_STR = -2,
+		STATKEY_INT = 3,
 		STATKEY_SPD = 1,
 		STATKEY_CON = -1,
 		STATKEY_LCK = 1,
 	)
-	subclass_mage_aspects = list("mastery" = FALSE, "major" = 0, "minor" = 2, "utilities" = 4)
+	subclass_mage_aspects = list("mastery" = FALSE, "major" = 0, "minor" = 1, "utilities" = 6)
 	subclass_skills = list(
 		/datum/skill/misc/reading = SKILL_LEVEL_MASTER,
 		/datum/skill/magic/arcane = SKILL_LEVEL_NOVICE,
@@ -154,19 +156,33 @@
 	neck = /obj/item/storage/belt/rogue/pouch/coins/rich
 	if(H.mind)
 		SStreasury.grant_savings(ECONOMIC_RICH, H)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/heir_spell_bundle)
+		grant_poke_spell_prince(H)
 	backpack_contents = list(
 		/obj/item/handmirror = 1,
 		/obj/item/book/spellbook = 1,
 		/obj/item/chalk = 1,
 	)
 
+/proc/grant_poke_spell_prince(mob/living/carbon/human/user)
+	var/list/poke_options = list("Spitfire", "Frost Bolt", "Arc Bolt", "Gravel Blast")
+	var/poke_choice = tgui_input_list(user, "Choose your offensive cantrip.", "Arcyne Awakening", poke_options)
+	if(!poke_choice || !user.mind)
+		return
+	switch(poke_choice)
+		if("Spitfire")
+			user.mind.AddSpell(new /datum/action/cooldown/spell/projectile/spitfire)
+		if("Frost Bolt")
+			user.mind.AddSpell(new /datum/action/cooldown/spell/projectile/frost_bolt)
+		if("Arc Bolt")
+			user.mind.AddSpell(new /datum/action/cooldown/spell/projectile/arc_bolt)
+		if("Gravel Blast")
+			user.mind.AddSpell(new /datum/action/cooldown/spell/projectile/gravel_blast/lesser)
 
 /datum/advclass/heir/aristocrat
 	name = "Sheltered Aristocrat"
 	tutorial = "Life has been kind to you; you've an entire keep at your disposal, servants to wait on you, and a whole retinue of guards to guard you. You've nothing to prove; just live the good life and you'll be a lord someday, too. A lack of ambition translates into a lacking skillset beyond schooling, though, and your breaks from boredom consist of being a damsel or court gossip."
 	outfit = /datum/outfit/job/roguetown/heir/aristocrat
-	traits_applied = list(TRAIT_SEEPRICES_SHITTY, TRAIT_GOODLOVER)
+	traits_applied = list(TRAIT_SEEPRICES_SHITTY, TRAIT_GOODLOVER, TRAIT_FOOD_STIPEND, TRAIT_KEENEARS)
 	category_tags = list(CTAG_HEIR)
 	subclass_stats = list(
 		STATKEY_PER = 2,
@@ -221,7 +237,7 @@
 	name = "Inbred wastrel"
 	tutorial = "Your bloodline ensures Psydon smiles upon you by divine right, the blessing of nobility... until you were born, anyway. You are a child forsaken, and even though your body boils as you go about your day, your spine creaks, and your drooling form needs to be waited on tirelessly you are still considered more important then the peasant that keeps the town fed and warm. Remind them of that fact when your lungs are particularly pus free."
 	outfit = /datum/outfit/job/roguetown/heir/inbred
-	traits_applied = list(TRAIT_CRITICAL_WEAKNESS, TRAIT_NORUN, TRAIT_GOODLOVER)
+	traits_applied = list(TRAIT_CRITICAL_WEAKNESS, TRAIT_NORUN, TRAIT_GOODLOVER, TRAIT_JACKOFALLTRADES, TRAIT_SELF_SUSTENANCE)
 	category_tags = list(CTAG_HEIR)
 	//They already can't run, no need to do speed and torture their move speed.
 	subclass_stats = list(
@@ -265,7 +281,7 @@
 	name = "Nettlesome Scamp"
 	tutorial = "The stories told to you by your bedside of valiant rogues and thieves with hearts of gold saving the worlds. The misunderstood hero. The clammor of Knights, the dull books of the arcyne and the wise never interested you. So you donned the cloak, and with your plump figure learned the arts of stealth. Surely the populace will be forgiving of your antics."
 	outfit = /datum/outfit/job/roguetown/heir/scamp
-	traits_applied = list(TRAIT_SEEPRICES_SHITTY, TRAIT_ALCHEMY_EXPERT)
+	traits_applied = list(TRAIT_SILENT_LOCKPICK, TRAIT_SLEUTH, TRAIT_LIGHT_STEP)
 	category_tags = list(CTAG_HEIR)
 	//Not standard weighted. Not intended to be considering the stat ceilings. -F
 	subclass_stats = list(

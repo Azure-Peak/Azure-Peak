@@ -86,8 +86,8 @@
 		/obj/item/paper/scroll = 1,
 		)
 	if(H.mind)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/convertrole/heartfelt)
-		H.verbs |= list(/mob/living/carbon/human/mind/proc/setordersheartfelt)
+		H.verbs += /mob/living/carbon/human/proc/recruitheartfelt
+		H.verbs += /mob/living/carbon/human/mind/proc/setordersheartfelt
 
 	var/helmet = list("Etruscan Bascinet","Volf Plate Helmet","Beak Helmet","Visored Sallet",)
 	var/helmet_choice = input("Choose your Helm.", "TAKE UP HELMS") as anything in helmet
@@ -160,8 +160,8 @@
 	mask = /obj/item/clothing/mask/rogue/spectacles/golden
 	id = /obj/item/scomstone
 	if(H.mind)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/convertrole/heartfelt)
-
+		H.verbs += /mob/living/carbon/human/proc/recruitheartfelt
+		H.verbs += /mob/living/carbon/human/mind/proc/setordersheartfelt
 /***************************************************************/
 // ADVISOR - MAGE CLASS //
 /***************************************************************/
@@ -222,7 +222,8 @@
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/studded
 	pants = /obj/item/clothing/under/roguetown/tights/black
 	if(H.mind)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/convertrole/heartfelt)
+		H.verbs += /mob/living/carbon/human/proc/recruitheartfelt
+		H.verbs += /mob/living/carbon/human/mind/proc/setordersheartfelt
 
 	if(H.age == AGE_OLD)
 		H.change_stat("speed", -1)

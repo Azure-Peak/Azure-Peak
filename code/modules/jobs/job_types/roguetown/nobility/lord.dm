@@ -14,13 +14,6 @@ GLOBAL_LIST_EMPTY(lord_titles)
 	allowed_sexes = list(MALE, FEMALE)
 	advclass_cat_rolls = list(CTAG_LORD = 20)
 
-	spells = list(
-		/obj/effect/proc_holder/spell/self/grant_title,
-		/obj/effect/proc_holder/spell/self/convertrole/servant,
-		/obj/effect/proc_holder/spell/self/convertrole/guard,
-		/obj/effect/proc_holder/spell/self/grant_nobility,
-		/obj/effect/proc_holder/spell/self/convertrole/bog
-	)
 	outfit = /datum/outfit/job/roguetown/lord
 	visuals_only_outfit = /datum/outfit/job/roguetown/lord/visuals
 
@@ -50,6 +43,13 @@ GLOBAL_LIST_EMPTY(lord_titles)
 /datum/job/roguetown/lord/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
 	. = ..()
 	if(L)
+
+		L.verbs |= /mob/living/carbon/human/proc/grant_title_verb
+		L.verbs |= /mob/living/carbon/human/proc/grant_nobility_verb
+		L.verbs |= /mob/living/carbon/human/proc/recruit_guard_verb
+		L.verbs |= /mob/living/carbon/human/proc/recruit_servant_verb
+		L.verbs |= /mob/living/carbon/human/proc/recruit_warden_verb
+
 		var/list/chopped_name = splittext(L.real_name, " ")
 		if(length(chopped_name) > 1)
 			chopped_name -= chopped_name[1]
@@ -333,231 +333,226 @@ GLOBAL_LIST_EMPTY(lord_titles)
 		family_guy.fully_replace_character_name(family_guy.real_name, family_guy.real_name + " " + GLOB.lordsurname)
 	return family_guy.real_name
 
-/obj/effect/proc_holder/spell/self/grant_title
-	name = "Grant Title"
-	desc = "Grant someone a title of honor... Or shame."
-	overlay_state = "recruit_titlegrant"
-	antimagic_allowed = TRUE
-	recharge_time = 100
-	/// Maximum range for title granting
-	var/title_range = 3
-	/// Maximum length for the title
-	var/title_length = 42
+/mob/living/carbon/human/proc/grant_title_verb()
+	set name = "Grant Title"
+	set category = "Noble"
 
-/obj/effect/proc_holder/spell/self/grant_title/cast(list/targets, mob/user = usr)
-	. = ..()
-	var/granted_title = input(user, "What title do you wish to grant?", "[name]") as null|text
-	granted_title = reject_bad_text(granted_title, title_length)
-	if(!granted_title)
-		return
-	var/list/recruitment = list()
-	for(var/mob/living/carbon/human/village_idiot in (get_hearers_in_view(title_range, user) - user))
-		//not allowed
-		if(!can_title(village_idiot))
+	noble_grant_title(src)
+
+
+
+/mob/living/carbon/human/proc/grant_nobility_verb()
+	set name = "Grant Nobility"
+	set category = "Noble"
+
+	noble_grant_nobility(src)
+
+
+
+/mob/living/carbon/human/proc/recruit_guard_verb()
+	set name = "Recruit Guardsman"
+	set category = "Noble"
+
+	noble_convert_role(
+		src,
+		"Watchman",
+		"Watchman",
+		"Will you serve as a town guard, %RECRUIT?",
+		"FOR THE CROWN!",
+		"I refuse.",
+		3,
+		PROC_REF(noble_guard_post)
+	)
+
+
+
+/proc/noble_guard_post(mob/living/carbon/human/recruit,mob/living/carbon/human/user)
+	recruit.verbs |= /mob/proc/haltyell
+
+
+
+/mob/living/carbon/human/proc/recruit_servant_verb()
+	set name = "Recruit Servant"
+	set category = "Noble"
+
+	noble_convert_role(
+		src,
+		"Servant",
+		"Servants",
+		"Will you serve the crown, %RECRUIT?",
+		"FOR THE KICHEN!",
+		"I refuse."
+	)
+
+
+
+/mob/living/carbon/human/proc/recruit_warden_verb()
+	set name = "Recruit Warden"
+	set category = "Noble"
+
+	noble_convert_role(
+		src,
+		"Warden",
+		"Bog Guard",
+		"Will you serve the Wardens, %RECRUIT?",
+		"FOR THE GROVE!",
+		"I refuse."
+	)
+
+
+
+/proc/noble_get_candidates(mob/living/carbon/human/user, range = 3, mode = "convert")
+	var/list/candidates = list()
+
+	for(var/mob/living/carbon/human/H in (get_hearers_in_view(range, user) - user))
+		if(QDELETED(H))
 			continue
-		recruitment[village_idiot.name] = village_idiot
-	if(!length(recruitment))
-		to_chat(user, span_warning("There are no potential honoraries in range."))
-		return
-	var/inputty = input(user, "Select an honorary!", "[name]") as anything in recruitment
-	if(inputty)
-		var/mob/living/carbon/human/recruit = recruitment[inputty]
-		if(!QDELETED(recruit) && (recruit in get_hearers_in_view(title_range, user)))
-			INVOKE_ASYNC(src, PROC_REF(village_idiotify), recruit, user, granted_title)
-		else
-			to_chat(user, span_warning("Honorific failed!"))
-	else
-		to_chat(user, span_warning("Honorific cancelled."))
 
-/obj/effect/proc_holder/spell/self/grant_title/proc/can_title(mob/living/carbon/human/recruit)
-	//wtf
+		if(!H.mind)
+			continue
+
+		if(!H.get_face_name(null))
+			continue
+
+		switch(mode)
+			if("convert")
+				if(!(H.job in GLOB.peasant_positions) && \
+					!(H.job in GLOB.burgher_positions) && \
+					!(H.job in GLOB.wanderer_positions))
+					continue
+
+			if("nobility")
+				if(HAS_TRAIT(H, TRAIT_DEFILED_NOBLE))
+					continue
+
+		candidates[H.name] = H
+
+	return candidates
+
+
+
+/proc/noble_convert_role(mob/living/carbon/human/user, new_role, faction_name, prompt_text, accept_text, refuse_text, range = 3, post_success = null)
+	var/list/candidates = noble_get_candidates(user, range, "convert")
+
+	if(!length(candidates))
+		to_chat(user, span_warning("There are no potential recruits in range."))
+		return FALSE
+
+	var/inputty = input(user, "Select a recruit.", faction_name) as null|anything in candidates
+
+	if(!inputty)
+		return FALSE
+
+	var/mob/living/carbon/human/recruit = candidates[inputty]
+
 	if(QDELETED(recruit))
 		return FALSE
-	//need a mind
-	if(!recruit.mind)
+
+	if(!(recruit in get_hearers_in_view(range, user)))
 		return FALSE
-	//need to see their damn face
-	if(!recruit.get_face_name(null))
+
+	user.say(replacetext(prompt_text,"%RECRUIT","[recruit]"))
+
+	var/choice = alert(
+		recruit,
+		"Do you wish to become a [new_role]?",
+		"[faction_name] Recruitment",
+		"Yes",
+		"No"
+	)
+
+	if(QDELETED(user) || QDELETED(recruit))
 		return FALSE
+
+	if(!(user in get_hearers_in_view(range,recruit)))
+		return FALSE
+
+	if(choice != "Yes")
+		if(refuse_text)
+			recruit.say(refuse_text)
+		return FALSE
+
+	if(accept_text)
+		recruit.say(accept_text)
+
+	recruit.job = new_role
+
+	if(post_success)
+		call(post_success)(recruit,user)
+
+	SEND_SIGNAL(SSdcs, COMSIG_GLOB_ROLE_CONVERTED, user, recruit, new_role)
+
 	return TRUE
 
-/obj/effect/proc_holder/spell/self/grant_title/proc/village_idiotify(mob/living/carbon/human/recruit, mob/living/carbon/human/recruiter, granted_title)
-	if(QDELETED(recruit) || QDELETED(recruiter) || !granted_title)
+
+
+/proc/noble_grant_title(
+	mob/living/carbon/human/user,
+	range = 3,
+	title_length = 42
+)
+	var/granted_title = input(user,"What title?","Grant Title") as null|text
+
+	granted_title = reject_bad_text(granted_title,title_length)
+
+	if(!granted_title)
 		return FALSE
+
+	var/list/candidates = noble_get_candidates(user, range)
+
+	if(!length(candidates))
+		return FALSE
+
+	var/inputty = input(user,"Select honorary.") as anything in candidates
+
+	if(!inputty)
+		return FALSE
+
+	var/mob/living/carbon/human/recruit = candidates[inputty]
+
 	if(GLOB.lord_titles[recruit.real_name])
-		recruiter.say("I HEREBY STRIP YOU, [uppertext(recruit.name)], OF THE TITLE OF [uppertext(GLOB.lord_titles[recruit.real_name])]!")
+		user.say("I HEREBY STRIP YOU, [uppertext(recruit.name)], OF THE TITLE OF [uppertext(GLOB.lord_titles[recruit.real_name])]!")
 		GLOB.lord_titles -= recruit.real_name
-		return FALSE
-	recruiter.say("I HEREBY GRANT YOU, [uppertext(recruit.name)], THE TITLE OF [uppertext(granted_title)]!")
+		return TRUE
+
+	user.say("I HEREBY GRANT YOU, [uppertext(recruit.name)], THE TITLE OF [uppertext(granted_title)]!")
+
 	GLOB.lord_titles[recruit.real_name] = granted_title
 	return TRUE
 
-/obj/effect/proc_holder/spell/self/grant_nobility
-	name = "Grant Nobility"
-	desc = "Make someone a noble, or strip them of their nobility."
-	overlay_state = "recruit_titlegrant"
-	antimagic_allowed = TRUE
-	recharge_time = 100
-	/// Maximum range for nobility granting
-	var/nobility_range = 3
 
-/obj/effect/proc_holder/spell/self/grant_nobility/cast(list/targets, mob/user = usr)
-	. = ..()
-	var/list/recruitment = list()
-	for(var/mob/living/carbon/human/village_idiot in (get_hearers_in_view(nobility_range, user) - user))
-		//not allowed
-		if(!can_nobility(village_idiot))
-			continue
-		recruitment[village_idiot.name] = village_idiot
-	if(!length(recruitment))
-		to_chat(user, span_warning("There are no potential honoraries in range."))
-		return
-	var/inputty = input(user, "Select an honorary!", "[name]") as anything in recruitment
-	if(inputty)
-		var/mob/living/carbon/human/recruit = recruitment[inputty]
-		if(!QDELETED(recruit) && (recruit in get_hearers_in_view(nobility_range, user)))
-			INVOKE_ASYNC(src, PROC_REF(grant_nobility), recruit, user)
-		else
-			to_chat(user, span_warning("Honorific failed!"))
-	else
-		to_chat(user, span_warning("Honorific cancelled."))
 
-/obj/effect/proc_holder/spell/self/grant_nobility/proc/can_nobility(mob/living/carbon/human/recruit)
-	//wtf
-	if(QDELETED(recruit))
-		return FALSE
-	//need a mind
-	if(!recruit.mind)
-		return FALSE
-	//need to see their damn face
-	if(!recruit.get_face_name(null))
-		return FALSE
-	if(HAS_TRAIT(recruit, TRAIT_DEFILED_NOBLE)) // Their lux was tainted by evil matthios rite. They are utterly fucked.
-		return FALSE
-	return TRUE
-
-/obj/effect/proc_holder/spell/self/grant_nobility/proc/grant_nobility(mob/living/carbon/human/recruit, mob/living/carbon/human/recruiter)
-	if(QDELETED(recruit) || QDELETED(recruiter))
-		return FALSE
-	if(HAS_TRAIT(recruit, TRAIT_NOBLE))
-		if(!(recruit.job in GLOB.foreign_positions))
-			recruiter.say("I HEREBY STRIP YOU, [uppertext(recruit.name)], OF NOBILITY!!")
-			REMOVE_TRAIT(recruit, TRAIT_NOBLE, TRAIT_GENERIC)
-			REMOVE_TRAIT(recruit, TRAIT_NOBLE, TRAIT_VIRTUE)
-			return FALSE
-		else
-			to_chat(recruiter, span_warning("Their nobility is not mine to strip!"))
-			return FALSE
-	recruiter.say("I HEREBY GRANT YOU, [uppertext(recruit.name)], NOBILITY!")
-	ADD_TRAIT(recruit, TRAIT_NOBLE, TRAIT_GENERIC)
-	return TRUE
-
-/obj/effect/proc_holder/spell/self/convertrole
-	name = "Recruit Beggar"
-	desc = "Recruit someone to your cause."
-	overlay_state = "recruit_bog"
-	antimagic_allowed = TRUE
-	recharge_time = 100
-	/// Role given if recruitment is accepted
-	var/new_role = "Beggar"
-	/// Faction shown to the user in the recruitment prompt
-	var/recruitment_faction = "Beggars"
-	/// Message the recruiter gives
-	var/recruitment_message = "Serve the beggars, %RECRUIT!"
-	/// Range to search for potential recruits
-	var/recruitment_range = 3
-	/// Say message when the recruit accepts
-	var/accept_message = "I will serve!"
-	/// Say message when the recruit refuses
-	var/refuse_message = "I refuse."
-	ignore_los = 1 // this needs to ignore normal "range", it looks like
+/proc/noble_grant_nobility(
+	mob/living/carbon/human/user,
 	range = 3
+)
+	var/list/candidates = noble_get_candidates(user, range, "nobility")
 
-/obj/effect/proc_holder/spell/self/convertrole/cast(list/targets,mob/user = usr)
-	. = ..()
-	var/list/recruitment = list()
-	for(var/mob/living/carbon/human/recruit in (get_hearers_in_view(recruitment_range, user) - user))
-		//not allowed
-		if(!can_convert(recruit))
-			continue
-		recruitment[recruit.name] = recruit
-	if(!length(recruitment))
-		to_chat(user, span_warning("There are no potential recruits in range."))
-		return
-	var/inputty = input(user, "Select a potential recruit!", "[name]") as anything in recruitment
-	if(inputty)
-		var/mob/living/carbon/human/recruit = recruitment[inputty]
-		if(!QDELETED(recruit) && (recruit in get_hearers_in_view(recruitment_range, user)))
-			INVOKE_ASYNC(src, PROC_REF(convert), recruit, user)
-		else
-			to_chat(user, span_warning("Recruitment failed!"))
-	else
-		to_chat(user, span_warning("Recruitment cancelled."))
+	if(!length(candidates))
+		return FALSE
 
-/obj/effect/proc_holder/spell/self/convertrole/proc/can_convert(mob/living/carbon/human/recruit)
-	//wtf
-	if(QDELETED(recruit))
+	var/inputty = input(user,"Select target.") as anything in candidates
+
+	if(!inputty)
 		return FALSE
-	//need a mind
-	if(!recruit.mind)
+
+	var/mob/living/carbon/human/recruit = candidates[inputty]
+
+	if(HAS_TRAIT(recruit,TRAIT_NOBLE))
+
+		if(!(recruit.job in GLOB.foreign_positions))
+			user.say("I HEREBY STRIP YOU, [uppertext(recruit.name)], OF NOBILITY!")
+
+			REMOVE_TRAIT(recruit,TRAIT_NOBLE,TRAIT_GENERIC)
+			REMOVE_TRAIT(recruit,TRAIT_NOBLE,TRAIT_VIRTUE)
+
+			return TRUE
+
+		to_chat(user,span_warning("Their nobility is not mine to strip!"))
 		return FALSE
-	//only migrants and peasants
-	if(!(recruit.job in GLOB.peasant_positions) && \
-		!(recruit.job in GLOB.burgher_positions) && \
-		!(recruit.job in GLOB.wanderer_positions))
-		return FALSE
-	//need to see their damn face
-	if(!recruit.get_face_name(null))
-		return FALSE
+
+	user.say("I HEREBY GRANT YOU, [uppertext(recruit.name)], NOBILITY!")
+
+	ADD_TRAIT(recruit,TRAIT_NOBLE,TRAIT_GENERIC)
+
 	return TRUE
-
-/obj/effect/proc_holder/spell/self/convertrole/proc/convert(mob/living/carbon/human/recruit, mob/living/carbon/human/recruiter)
-	if(QDELETED(recruit) || QDELETED(recruiter))
-		return FALSE
-	recruiter.say(replacetext(recruitment_message, "%RECRUIT", "[recruit]"), forced = "[name]")
-	var/prompt = alert(recruit, "Do you wish to become a [new_role]?", "[recruitment_faction] Recruitment", "Yes", "No")
-	if(QDELETED(recruit) || QDELETED(recruiter) || !(recruiter in get_hearers_in_view(recruitment_range, recruit)))
-		return FALSE
-	if(prompt != "Yes")
-		if(refuse_message)
-			recruit.say(refuse_message, forced = "[name]")
-		return FALSE
-	if(accept_message)
-		recruit.say(accept_message, forced = "[name]")
-	if(new_role)
-		recruit.job = new_role
-		SEND_SIGNAL(SSdcs, COMSIG_GLOB_ROLE_CONVERTED, recruiter, recruit, new_role)
-	return TRUE
-
-/obj/effect/proc_holder/spell/self/convertrole/guard
-	name = "Recruit Guardsmen"
-	new_role = "Watchman"
-	overlay_state = "recruit_guard"
-	recruitment_faction = "Watchman"
-	recruitment_message = "Serve the town guard, %RECRUIT!"
-	accept_message = "FOR THE CROWN!"
-	refuse_message = "I refuse."
-
-/obj/effect/proc_holder/spell/self/convertrole/guard/convert(mob/living/carbon/human/recruit, mob/living/carbon/human/recruiter)
-	. = ..()
-	if(!.)
-		return
-	recruit.verbs |= /mob/proc/haltyell
-
-/obj/effect/proc_holder/spell/self/convertrole/servant
-	name = "Recruit Servant"
-	new_role = "Servant"
-	overlay_state = "recruit_servant"
-	recruitment_faction = "Servants"
-	recruitment_message = "Serve the crown, %RECRUIT!"
-	accept_message = "FOR THE CROWN!"
-	refuse_message = "I refuse."
-	recharge_time = 100
-
-/obj/effect/proc_holder/spell/self/convertrole/bog
-	name = "Recruit Warden"
-	new_role = "Warden"
-	recruitment_faction = "Bog Guard"
-	recruitment_message = "Serve the Wardens, %RECRUIT!"
-	accept_message = "FOR THE GROVE!"
-	refuse_message = "I refuse."

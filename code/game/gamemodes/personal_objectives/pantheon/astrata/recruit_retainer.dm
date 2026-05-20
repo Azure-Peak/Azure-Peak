@@ -15,10 +15,15 @@
 
 /datum/objective/retainer/proc/on_retainer_recruited(datum/source, mob/living/carbon/human/recruiter, mob/living/carbon/human/recruit, new_role)
 	SIGNAL_HANDLER
-	if(recruiter != owner.current || new_role != "Retainer of [recruiter.real_name]")
+
+	if(recruiter != owner.current)
+		return
+
+	if(new_role != "Retainer of [recruiter.real_name]")
 		return
 
 	retainers_recruited++
+
 	if(retainers_recruited >= 1 && !completed)
 		complete_objective()
 
@@ -32,22 +37,10 @@
 /datum/objective/retainer/update_explanation_text()
 	explanation_text = "Recruit atleast one retainer to serve you and to demonstrate your ability to lead to Astrata."
 
-/obj/effect/proc_holder/spell/self/convertrole/retainer
-	name = "Recruit Retainer"
-	new_role = "Retainer"
-	overlay_state = "recruit_guard"
-	recruitment_faction = "Retainers"
-	recruitment_message = "Join my service as a retainer, %RECRUIT!"
-	accept_message = "I pledge my service to you!"
-	refuse_message = "I must decline your offer."
 
 
-/obj/effect/proc_holder/spell/self/convertrole/retainer/convert(mob/living/carbon/human/recruit, mob/living/carbon/human/recruiter)
-	if(QDELETED(recruit) || QDELETED(recruiter))
-		return FALSE
+/mob/living/carbon/human/proc/recruit_retainer_verb()
+	set name = "Recruit Retainer"
+	set category = "Cleric"
 
-	new_role = "Retainer of [recruiter.real_name]"
-
-	. = ..()
-	if(!.)
-		return FALSE
+	noble_convert_role(src, "Retainer of [src.real_name]", "Retainers", "Join my service as a retainer, %RECRUIT!", "I pledge my service to you!", "I must decline your offer.")

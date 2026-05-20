@@ -39,7 +39,7 @@
 	job_bitflag = BITFLAG_ROYALTY
 
 /datum/outfit/job/roguetown/hand/pre_equip(mob/living/carbon/human/H)
-	H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/convertrole/agent)
+	H.verbs |= /datum/job/roguetown/hand/proc/recruit_agent
 	H.verbs |= /datum/job/roguetown/hand/proc/remember_agents
 
 /datum/job/roguetown/hand/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
@@ -241,19 +241,59 @@
 		to_chat(usr, span_greentext(name))
 	return
 
-/obj/effect/proc_holder/spell/self/convertrole/agent
-	name = "Recruit Agent"
-	new_role = "Court Agent"//They get shown as adventurers either way.
-	overlay_state = "recruit_servant"
-	recruitment_faction = "Agents"
-	recruitment_message = "Serve the crown, %RECRUIT."
-	accept_message = "For the crown."//We no longer shout because we aren't stupid
-	refuse_message = "I refuse."
-	recharge_time = 100
+/datum/job/roguetown/hand/proc/recruit_agent()
+	set name = "Recruit Agent"
+	set category = "Voice of Command"
 
-/obj/effect/proc_holder/spell/self/convertrole/agent/convert(mob/living/carbon/human/recruit, mob/living/carbon/human/recruiter)
-	. = ..()
-	if(!.)
+	if(!usr)
 		return
-	GLOB.court_agents += recruit.real_name
+
+	var/mob/living/carbon/human/recruiter = usr
+
+	if(recruiter.stat)
+		return
+
+	var/list/candidates = list()
+
+	for(var/mob/living/carbon/human/H in viewers(1, recruiter))
+		if(H == recruiter)
+			continue
+		if(!H.mind)
+			continue
+
+		candidates[H.real_name] = H
+
+	if(!length(candidates))
+		to_chat(recruiter, span_warning("Nobody is close enough to recruit."))
+		return
+
+	var/choice = input(recruiter, "Recruit whom?", "Recruit Agent") as null|anything in candidates
+	if(!choice)
+		return
+
+	var/mob/living/carbon/human/recruit = candidates[choice]
+
+	var/accepted = alert(
+		recruit,
+		"Serve the crown, [recruit.real_name].",
+		"Agent Recruitment",
+		"For the crown.",
+		"I refuse."
+	)
+
+	if(accepted != "For the crown.")
+		to_chat(recruiter, span_warning("[recruit.real_name] refuses."))
+		return
+
+	recruit.mind.assigned_role = "Court Agent"
+
+	if(!(recruit.real_name in GLOB.court_agents))
+		GLOB.court_agents += recruit.real_name
+
 	recruit.verbs |= /datum/job/roguetown/adventurer/courtagent/proc/remember_employer
+
+	to_chat(recruit, span_notice("You now serve the crown."))
+	to_chat(recruiter, span_notice("[recruit.real_name] joins your network."))
+
+	message_admins("[ADMIN_LOOKUPFLW(recruiter)] recruited [ADMIN_LOOKUPFLW(recruit)] as Court Agent.")
+	log_game("[key_name(recruiter)] recruited [key_name(recruit)] as Court Agent.")
