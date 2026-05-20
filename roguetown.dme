@@ -71,6 +71,7 @@
 #include "code\__DEFINES\footsteps.dm"
 #include "code\__DEFINES\forensics.dm"
 #include "code\__DEFINES\gnoll.dm"
+#include "code\__DEFINES\head_bounties.dm"
 #include "code\__DEFINES\hud.dm"
 #include "code\__DEFINES\important_recursive_contents.dm"
 #include "code\__DEFINES\industrial_lifts.dm"

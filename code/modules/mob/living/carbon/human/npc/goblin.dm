@@ -240,7 +240,7 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 		if(headdy)
 			headdy.icon = 'icons/roguetown/mob/monster/goblins.dmi'
 			headdy.icon_state = "[src.dna.species.id]_head"
-			headdy.sellprice = 20
+			headdy.sellprice = HEAD_BOUNTY_GOBLIN
 	src.grant_language(/datum/language/orcish)
 	var/obj/item/organ/eyes/eyes = src.getorganslot(ORGAN_SLOT_EYES)
 	if(eyes)

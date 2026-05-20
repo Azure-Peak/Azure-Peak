@@ -12,6 +12,7 @@
 /obj/structure/roguemachine/headeater/examine()
 	. = ..()
 	. += span_info("Left-click to deposit a head into the machine, and right-click to deposit all heads in front of the machine.")
+	. += span_smallnotice("Crown's Headeater Levy: [round(SStreasury.get_tax_rate(TAX_CATEGORY_HEADEATER_LEVY) * 100)]%")
 
 /obj/structure/roguemachine/headeater/attackby(obj/item/H, mob/user, params)
 	. = ..()
@@ -48,10 +49,14 @@
 		return
 	if(sellprice <= 0)
 		return
-	if(!supress_message)
-		to_chat(user, span_danger("the [src] consumes [H], crediting your account [sellprice] mammons!"))
 	if(paynow)
-		payout(user, sellprice)
+		var/net = payout(user, sellprice)
+		if(!supress_message)
+			var/levy = sellprice - net
+			if(levy > 0)
+				to_chat(user, span_danger("the [src] consumes [H], crediting [net] mammons to your account, less [levy] mammon to the Crown's Levy."))
+			else
+				to_chat(user, span_danger("the [src] consumes [H], crediting [sellprice] mammons to your account."))
 	else
 		topay += sellprice
 	qdel(H)
