@@ -53,6 +53,7 @@
 				new_origin = pick(/datum/virtue/origin/grenzelhoft, /datum/virtue/origin/otava, /datum/virtue/origin/etrusca)
 			change_origin(H, new_origin, "Royal line")
 
+/// Gameplay idea: Go be a shitty squire and annoy the Garrison with your illusions of grandeur.
 /datum/advclass/heir/daring
 	name = "Daring Twit"
 	tutorial = "You're a somebody, someone important. It only makes sense you want to make a name for yourself, to gain your own glory so people see how great you really are beyond your bloodline. Plus, if you're beloved by the people for your exploits you'll be chosen! Probably. Shame you're as useful and talented as a squire, despite your delusions to the contrary."
@@ -95,16 +96,18 @@
 	beltr = /obj/item/storage/keyring/heir
 	neck = /obj/item/storage/belt/rogue/pouch/coins/rich
 	backr = /obj/item/storage/backpack/rogue/satchel
-	id = /obj/item/scomstone/garrison
+	id = /obj/item/scomstone/bad/garrison
 	if(H.mind)
 		SStreasury.grant_savings(ECONOMIC_RICH, H)
+		H.mind?.AddSpell(new /datum/action/cooldown/spell/obnoxious_taunt)
 
 /datum/outfit/job/roguetown/heir/daring/choose_loadout(mob/living/carbon/human/H)
 	. = ..()
 	var/weapons = list( // All decorated/gilded weapons, rich pompous ass that you are.
 	"Sabre",
 	"Rapier",
-	"Arming Sword"
+	"Arming Sword",
+	"Longsword",
 	)
 	var/weapon_choice = input(H, "Choose your weapon.", "ARMS TO INVITE ENVY") as anything in weapons
 	switch(weapon_choice)
@@ -114,7 +117,10 @@
 			H.put_in_hands(new /obj/item/rogueweapon/sword/rapier/dec)
 		if("Arming Sword")
 			H.put_in_hands(new /obj/item/rogueweapon/sword/decorated)
+		if("Longsword")
+			H.put_in_hands(new /obj/item/rogueweapon/sword/long)
 
+/// Gameplay idea: Get a meatshield and engage into Mage Gameplay Loop.
 /datum/advclass/heir/bookworm
 	name = "Introverted Bookworm"
 	tutorial = "Despite your standing, sociability is not your strong suit, and you have kept mostly to yourself and your books. This hardly makes you a favourite among the lords and ladies of the court, and an exit from your room is often met with amusement from nobility and servants alike. But maybe... just maybe, some of your reading interests may be bearing fruit."
@@ -178,11 +184,12 @@
 		if("Gravel Blast")
 			user.mind.AddSpell(new /datum/action/cooldown/spell/projectile/gravel_blast/lesser)
 
+/// Gameplay idea: Be inside the Keep and promote roleplay/intrigue. Or go out there and flaunt your ability to withdraw things for free.
 /datum/advclass/heir/aristocrat
 	name = "Sheltered Aristocrat"
 	tutorial = "Life has been kind to you; you've an entire keep at your disposal, servants to wait on you, and a whole retinue of guards to guard you. You've nothing to prove; just live the good life and you'll be a lord someday, too. A lack of ambition translates into a lacking skillset beyond schooling, though, and your breaks from boredom consist of being a damsel or court gossip."
 	outfit = /datum/outfit/job/roguetown/heir/aristocrat
-	traits_applied = list(TRAIT_SEEPRICES_SHITTY, TRAIT_GOODLOVER, TRAIT_FOOD_STIPEND, TRAIT_KEENEARS)
+	traits_applied = list(TRAIT_SEEPRICES_SHITTY, TRAIT_GOODLOVER, TRAIT_EMPATH, TRAIT_FOOD_STIPEND, TRAIT_KEENEARS)
 	category_tags = list(CTAG_HEIR)
 	subclass_stats = list(
 		STATKEY_PER = 2,
@@ -205,6 +212,7 @@
 		/datum/skill/craft/cooking = SKILL_LEVEL_NOVICE,
 		/datum/skill/craft/sewing = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/hunting = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/music = SKILL_LEVEL_MASTER,
 	)
 
 /datum/outfit/job/roguetown/heir/aristocrat/pre_equip(mob/living/carbon/human/H)
@@ -232,12 +240,36 @@
 	)
 	if(H.mind)
 		SStreasury.grant_savings(ECONOMIC_RICH, H)
+		H.mind?.AddSpell(new /datum/action/cooldown/spell/obnoxious_taunt)
+		var/instruments = list("Harp","Lute","Accordion","Guitar","Hurdy-Gurdy","Viola","Vocal Talisman", "Psyaltery", "Flute")
+		var/instrument_choice = tgui_input_list(H, "Choose your instrument.", "TAKE UP ARMS", instruments)
+		switch(instrument_choice)
+			if("Harp")
+				backr = /obj/item/rogue/instrument/harp
+			if("Lute")
+				backr = /obj/item/rogue/instrument/lute
+			if("Accordion")
+				backr = /obj/item/rogue/instrument/accord
+			if("Guitar")
+				backr = /obj/item/rogue/instrument/guitar
+			if("Hurdy-Gurdy")
+				backr = /obj/item/rogue/instrument/hurdygurdy
+			if("Viola")
+				backr = /obj/item/rogue/instrument/viola
+			if("Vocal Talisman")
+				backr = /obj/item/rogue/instrument/vocals
+			if("Psyaltery")
+				backr = /obj/item/rogue/instrument/psyaltery
+			if("Flute")
+				backr = /obj/item/rogue/instrument/flute
 
+
+/// Gameplay idea: Giving your hardcore challenge the potential to be godly useful if you can stomach the awful stats.
 /datum/advclass/heir/inbred
 	name = "Inbred wastrel"
 	tutorial = "Your bloodline ensures Psydon smiles upon you by divine right, the blessing of nobility... until you were born, anyway. You are a child forsaken, and even though your body boils as you go about your day, your spine creaks, and your drooling form needs to be waited on tirelessly you are still considered more important then the peasant that keeps the town fed and warm. Remind them of that fact when your lungs are particularly pus free."
 	outfit = /datum/outfit/job/roguetown/heir/inbred
-	traits_applied = list(TRAIT_CRITICAL_WEAKNESS, TRAIT_NORUN, TRAIT_GOODLOVER, TRAIT_JACKOFALLTRADES, TRAIT_SELF_SUSTENANCE)
+	traits_applied = list(TRAIT_CRITICAL_WEAKNESS, TRAIT_NORUN, TRAIT_GOODLOVER, TRAIT_TOXIMMUNE, TRAIT_JACKOFALLTRADES, TRAIT_SELF_SUSTENANCE)
 	category_tags = list(CTAG_HEIR)
 	//They already can't run, no need to do speed and torture their move speed.
 	subclass_stats = list(
@@ -277,6 +309,7 @@
 	if(H.mind)
 		SStreasury.grant_savings(ECONOMIC_RICH, H)
 
+/// Gameplay idea: Be the Hand's best friend with your superior lockpicking skills, or just go cause problems on purpose.
 /datum/advclass/heir/scamp
 	name = "Nettlesome Scamp"
 	tutorial = "The stories told to you by your bedside of valiant rogues and thieves with hearts of gold saving the worlds. The misunderstood hero. The clammor of Knights, the dull books of the arcyne and the wise never interested you. So you donned the cloak, and with your plump figure learned the arts of stealth. Surely the populace will be forgiving of your antics."
@@ -289,9 +322,9 @@
 	STATKEY_CON = -3,
 	STATKEY_SPD = 4,
 	STATKEY_PER = 2,
-	STATKEY_INT = 2,
+	STATKEY_INT = 1,
 	STATKEY_WIL = 1,
-	STATKEY_LCK = 1,
+	STATKEY_LCK = 2,
 	)
 	subclass_skills = list(
 		/datum/skill/misc/sneaking = SKILL_LEVEL_MASTER,
@@ -306,7 +339,7 @@
 		/datum/skill/misc/riding = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/craft/crafting = SKILL_LEVEL_APPRENTICE,
 	)
-	adv_stat_ceiling = list(STAT_STRENGTH = 8, STAT_CONSTITUTION = 8, STAT_SPEED = 15)	//don't get caught
+	adv_stat_ceiling = list(STAT_STRENGTH = 8, STAT_CONSTITUTION = 8, STAT_SPEED = 16)	//don't get caught
 
 /datum/outfit/job/roguetown/heir/scamp/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -330,12 +363,9 @@
 	if(H.mind)
 		SStreasury.grant_savings(ECONOMIC_RICH, H)
 
-
-
 /mob/living/carbon/human/proc/declarechampion()
 	set name = "Declare Champion"
 	set category = "Noble"
-
 
 	if(stat)
 		return
