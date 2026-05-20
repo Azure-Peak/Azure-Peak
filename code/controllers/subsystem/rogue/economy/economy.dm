@@ -468,6 +468,22 @@ SUBSYSTEM_DEF(economy)
 		unit_mult = 1 + STANDING_ORDER_BASE_BONUS
 	return CEILING(unit_price * unit_mult, 1)
 
+/datum/controller/subsystem/economy/proc/compute_equipment_delivered_value(datum/standing_order/order, list/equip_avail)
+	var/total = 0
+	for(var/good_id in equip_avail)
+		var/list/entry = equip_avail[good_id]
+		var/unit_payout = compute_good_unit_payout(order, good_id)
+		var/list/payload = entry["payload"]
+		var/delivered = entry["delivered_units"]
+		var/counted = 0
+		for(var/obj/item/I as anything in payload)
+			if(counted >= delivered)
+				break
+			var/qmult = I.has_item_quality ? ITEM_QUALITY_MULT(I.item_quality) : ITEM_QUALITY_MULT_STANDARD
+			total += CEILING(unit_payout * qmult, 1)
+			counted++
+	return total
+
 /datum/controller/subsystem/economy/proc/compute_order_payout(datum/standing_order/order, datum/economic_region/region)
 	var/total = 0
 	for(var/good_id in order.required_items)
@@ -552,7 +568,9 @@ SUBSYSTEM_DEF(economy)
 	var/missing_count = 0
 	var/list/missing_labels = list()
 	var/delivered_pretax = 0
-	for(var/list/avail_set in list(equip_avail, potion_avail, stock_avail))
+	var/equip_delivered_value = compute_equipment_delivered_value(order, equip_avail)
+	delivered_pretax += equip_delivered_value
+	for(var/list/avail_set in list(potion_avail, stock_avail))
 		for(var/good_id in avail_set)
 			var/list/entry = avail_set[good_id]
 			delivered_pretax += compute_good_unit_payout(order, good_id) * entry["delivered_units"]
@@ -560,12 +578,25 @@ SUBSYSTEM_DEF(economy)
 				missing_count++
 				var/datum/trade_good/tg = GLOB.trade_goods[good_id]
 				missing_labels += tg ? tg.name : good_id
+	for(var/good_id in equip_avail)
+		var/list/entry = equip_avail[good_id]
+		if(!entry["satisfied"])
+			missing_count++
+			var/datum/trade_good/tg = GLOB.trade_goods[good_id]
+			missing_labels += tg ? tg.name : good_id
 
 	if(!missing_count)
 		consume_equipment_payload(equip_avail)
 		consume_potion_payload(potion_avail)
 		consume_stockpile_payload(stock_avail)
-		var/full_payout = order.total_payout
+		var/canonical_equip_value = 0
+		for(var/good_id in equip_avail)
+			var/list/entry = equip_avail[good_id]
+			canonical_equip_value += compute_good_unit_payout(order, good_id) * entry["delivered_units"]
+		var/quality_delta = equip_delivered_value - canonical_equip_value
+		if(order.petitioned)
+			quality_delta = round(quality_delta * PETITION_TAX_MULT)
+		var/full_payout = max(0, round(order.total_payout + quality_delta))
 		SStreasury.mint(SStreasury.discretionary_fund, full_payout, "Standing Order: [order.name]")
 		record_round_statistic(STATS_STANDING_ORDER_REVENUE, full_payout)
 		record_round_statistic(STATS_STANDING_ORDERS_FULFILLED, 1)
@@ -573,8 +604,12 @@ SUBSYSTEM_DEF(economy)
 		GLOB.standing_order_pool -= order
 		if(user)
 			to_chat(user, span_notice("Order Fulfilled: [full_payout]m paid to the Crown's Purse."))
-			log_game("STANDING ORDER FULFILLED by [user.ckey]: [order.name] (+[full_payout]m)")
-		return list("status" = "full", "payout" = full_payout)
+			if(quality_delta > 0)
+				to_chat(user, span_green("Quality bonus: +[quality_delta]m for above-standard goods."))
+			else if(quality_delta < 0)
+				to_chat(user, span_warning("Quality penalty: [quality_delta]m for shoddy goods."))
+			log_game("STANDING ORDER FULFILLED by [user.ckey]: [order.name] (+[full_payout]m, quality_delta=[quality_delta]m)")
+		return list("status" = "full", "payout" = full_payout, "quality_delta" = quality_delta)
 
 	var/delivered_value = order.petitioned ? round(delivered_pretax * PETITION_TAX_MULT) : delivered_pretax
 	var/total_value = order.total_payout
@@ -589,6 +624,14 @@ SUBSYSTEM_DEF(economy)
 		return STANDING_ORDER_FULFILL_NEEDS_PARTIAL_PROMPT
 
 	var/payout = round(delivered_value * STANDING_ORDER_PARTIAL_PAYOUT_MULT)
+	var/canonical_equip_value_partial = 0
+	for(var/good_id in equip_avail)
+		var/list/entry = equip_avail[good_id]
+		canonical_equip_value_partial += compute_good_unit_payout(order, good_id) * entry["delivered_units"]
+	var/quality_delta_partial = equip_delivered_value - canonical_equip_value_partial
+	if(order.petitioned)
+		quality_delta_partial = round(quality_delta_partial * PETITION_TAX_MULT)
+	quality_delta_partial = round(quality_delta_partial * STANDING_ORDER_PARTIAL_PAYOUT_MULT)
 	consume_equipment_payload(equip_avail)
 	consume_potion_payload(potion_avail)
 	consume_stockpile_payload(stock_avail)
@@ -599,8 +642,12 @@ SUBSYSTEM_DEF(economy)
 	GLOB.standing_order_pool -= order
 	if(user)
 		to_chat(user, span_notice("Order Settled (Partial): [round(coverage * 100)]% coverage, [payout]m paid to the Crown's Purse ([round(STANDING_ORDER_PARTIAL_PAYOUT_MULT * 100)]% of the delivered share)."))
-		log_game("STANDING ORDER PARTIAL FULFILLED by [user.ckey]: [order.name] (+[payout]m, [round(coverage * 100)]% coverage)")
-	return list("status" = "partial", "payout" = payout, "coverage_pct" = round(coverage * 100))
+		if(quality_delta_partial > 0)
+			to_chat(user, span_green("Quality bonus: +[quality_delta_partial]m for above-standard goods."))
+		else if(quality_delta_partial < 0)
+			to_chat(user, span_warning("Quality penalty: [quality_delta_partial]m for shoddy goods."))
+		log_game("STANDING ORDER PARTIAL FULFILLED by [user.ckey]: [order.name] (+[payout]m, [round(coverage * 100)]% coverage, quality_delta=[quality_delta_partial]m)")
+	return list("status" = "partial", "payout" = payout, "coverage_pct" = round(coverage * 100), "quality_delta" = quality_delta_partial)
 
 /datum/controller/subsystem/economy/proc/scan_equipment_availability(datum/standing_order/order, list/goods)
 	var/list/out = list()
@@ -737,7 +784,8 @@ SUBSYSTEM_DEF(economy)
 
 	var/delivered_pretax = 0
 	var/list/missing_labels = list()
-	for(var/list/avail_set in list(equip_avail, potion_avail, stock_avail))
+	delivered_pretax += compute_equipment_delivered_value(order, equip_avail)
+	for(var/list/avail_set in list(potion_avail, stock_avail))
 		for(var/good_id in avail_set)
 			var/list/entry = avail_set[good_id]
 			delivered_pretax += compute_good_unit_payout(order, good_id) * entry["delivered_units"]
@@ -745,6 +793,12 @@ SUBSYSTEM_DEF(economy)
 				var/datum/trade_good/tg = GLOB.trade_goods[good_id]
 				var/short_units = entry["need_units"] - entry["delivered_units"]
 				missing_labels += "[short_units] [tg ? tg.name : good_id]"
+	for(var/good_id in equip_avail)
+		var/list/entry = equip_avail[good_id]
+		if(!entry["satisfied"])
+			var/datum/trade_good/tg = GLOB.trade_goods[good_id]
+			var/short_units = entry["need_units"] - entry["delivered_units"]
+			missing_labels += "[short_units] [tg ? tg.name : good_id]"
 	var/delivered_value = order.petitioned ? round(delivered_pretax * PETITION_TAX_MULT) : delivered_pretax
 	var/total_value = order.total_payout
 	var/coverage = total_value > 0 ? (delivered_value / total_value) : 0

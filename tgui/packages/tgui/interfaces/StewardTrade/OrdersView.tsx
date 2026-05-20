@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
+
 import { useBackend } from '../../backend';
-import type { Data, Order } from './types';
 import {
   badgeStyle,
   cardStyle,
@@ -14,8 +14,22 @@ import {
   SEAL_RED_SOFT,
   sectionHeaderStyle,
 } from '../common/parchment';
+import type { Data, Order } from './types';
 
 const PAIR_ACCENT = '#7a5a2f';
+
+const QUALITY_TIER_TOOLTIP = [
+  'Quality multipliers vs. canonical price:',
+  '  scavenged 25%',
+  '  ruined 20%',
+  '  awful 35%',
+  '  crude 65%',
+  '  rough 85%',
+  '  (standard) 100%',
+  '  fine 110%',
+  '  flawless 120%',
+  '  masterwork 135%',
+].join('\n');
 
 export const OrdersView = (props: { data: Data }) => {
   const { act } = useBackend<Data>();
@@ -167,6 +181,20 @@ const OrderCard = (props: CardProps) => {
           );
         })}
       </div>
+      {!!o.has_warehouse && (
+        <div
+          style={{
+            marginTop: '4px',
+            color: INK_FAINT,
+            fontSize: '11px',
+            fontStyle: 'italic',
+            cursor: 'help',
+          }}
+          title={QUALITY_TIER_TOOLTIP}
+        >
+          Warehouse goods pay -80% to +35% based on the quality of submitted items.
+        </div>
+      )}
       <div style={{ marginTop: '8px' }}>
         <FulfillButton
           order={o}

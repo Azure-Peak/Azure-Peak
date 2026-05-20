@@ -7,7 +7,7 @@
 // Toggle on CSV dump for pricing engine audit. Use this to help find out the reasons for odd auto pricing.
 // #define PRICING_ENGINE_DUMP_AUDITS
 
-#define LOOTED_SELL_MULT 0.25
+#define LOOTED_SELL_MULT ITEM_QUALITY_MULT_LOOTED
 #define LOOTED_EXAMINE_DESC "It is well-worn and unmistakably second-hand."
 
 #define MARKUP_ARMOR_HELMETS 1.5

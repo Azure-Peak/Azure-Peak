@@ -170,42 +170,34 @@
 	skill_quality = floor((skill_quality/num_of_materials)/1500)+material_quality
 	// Finally, the more hits the thing required, the less quality it will be, to prevent low level smiths from dishing good stuff
 	skill_quality -= floor(numberofhits * 0.25)
-	var/modifier // Multiplier which will determine quality of final product depending on final skill_quality calculation
+	var/tier
 	switch(skill_quality)
 		if(BLACKSMITH_LEVEL_MIN to BLACKSMITH_LEVEL_SPOIL)
-			I.name = "ruined [I.name]"
-			modifier = 0.3
+			tier = ITEM_QUALITY_RUINED
 		if(BLACKSMITH_LEVEL_AWFUL)
-			I.name = "awful [I.name]"
-			modifier = 0.5
+			tier = ITEM_QUALITY_AWFUL
 		if(BLACKSMITH_LEVEL_CRUDE)
-			I.name = "crude [I.name]"
-			modifier = 0.8
+			tier = ITEM_QUALITY_CRUDE
 		if(BLACKSMITH_LEVEL_ROUGH)
-			I.name = "rough [I.name]"
-			modifier = 0.9
+			tier = ITEM_QUALITY_ROUGH
 		if(BLACKSMITH_LEVEL_COMPETENT)
-			modifier = 1
+			tier = ITEM_QUALITY_STANDARD
 		if(BLACKSMITH_LEVEL_FINE)
-			I.name = "fine [I.name]"
-			modifier = 1.1
+			tier = ITEM_QUALITY_FINE
 		if(BLACKSMITH_LEVEL_FLAWLESS)
-			I.name = "flawless [I.name]"
-			modifier = 1.2
+			tier = ITEM_QUALITY_FLAWLESS
 		if(BLACKSMITH_LEVEL_LEGENDARY to BLACKSMITH_LEVEL_MAX)
-			I.name = "masterwork [I.name]"
-			modifier = 1.3
-			I.polished = 4
-			I.AddComponent(/datum/component/metal_glint)
-			record_round_statistic(STATS_MASTERWORKS_FORGED)
-
-	if(!modifier) // Sanity.
+			tier = ITEM_QUALITY_MASTERWORK
+	if(tier == null)
 		return
 
-	I.sellprice *= modifier
+	I.has_item_quality = TRUE
+	I.apply_quality(null, null, 0, tier)
+	if(tier == ITEM_QUALITY_MASTERWORK)
+		record_round_statistic(STATS_MASTERWORKS_FORGED)
 	if(istype(I, /obj/item/lockpick))
 		var/obj/item/lockpick/L = I
-		L.picklvl = modifier
+		L.picklvl = ITEM_QUALITY_MULT(tier)
 
 /datum/anvil_recipe/proc/show_menu(mob/user)
 	user << browse(generate_html(user),"window=new_recipe;size=500x810")

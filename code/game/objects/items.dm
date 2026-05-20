@@ -185,6 +185,9 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	/// %-age of our raw damage that is dealt to armor or weapon on hit / parry / clip.
 	var/intdamage_factor = 1
 
+	/obj/item/var/item_quality = ITEM_QUALITY_STANDARD
+	/obj/item/var/has_item_quality = FALSE
+
 	var/sleeved = null
 	var/sleevetype = null
 	var/nodismemsleeves = FALSE
@@ -1772,17 +1775,115 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 		var/atom/A = salvage_result
 		. += span_info("Can be salvaged for: <b>[salvage_amount] [capitalize(initial(A.name))]</b>.")
 
+/obj/item/proc/apply_quality(mob/crafter, skill_path, craftdiff = 0, forced_tier = null)
+	var/tier
+	if(forced_tier != null)
+		tier = forced_tier
+	else
+		var/skill_level = 0
+		if(crafter && skill_path)
+			skill_level = crafter.get_skill_level(skill_path)
+		var/diff_gap = max(0, craftdiff - skill_level)
+		var/roll = rand(1, 100)
+		if(diff_gap >= 3)
+			tier = ITEM_QUALITY_RUINED
+		else if(diff_gap == 2)
+			tier = (roll <= 70) ? ITEM_QUALITY_RUINED : ITEM_QUALITY_AWFUL
+		else if(diff_gap == 1)
+			if(roll <= 50)
+				tier = ITEM_QUALITY_AWFUL
+			else if(roll <= 85)
+				tier = ITEM_QUALITY_CRUDE
+			else
+				tier = ITEM_QUALITY_ROUGH
+		else
+			switch(skill_level)
+				if(SKILL_LEVEL_NONE, SKILL_LEVEL_NOVICE)
+					if(roll <= 35)
+						tier = ITEM_QUALITY_CRUDE
+					else if(roll <= 80)
+						tier = ITEM_QUALITY_ROUGH
+					else
+						tier = ITEM_QUALITY_STANDARD
+				if(SKILL_LEVEL_APPRENTICE)
+					if(roll <= 25)
+						tier = ITEM_QUALITY_ROUGH
+					else if(roll <= 80)
+						tier = ITEM_QUALITY_STANDARD
+					else
+						tier = ITEM_QUALITY_FINE
+				if(SKILL_LEVEL_JOURNEYMAN)
+					if(roll <= 65)
+						tier = ITEM_QUALITY_STANDARD
+					else if(roll <= 95)
+						tier = ITEM_QUALITY_FINE
+					else
+						tier = ITEM_QUALITY_FLAWLESS
+				if(SKILL_LEVEL_EXPERT)
+					if(roll <= 40)
+						tier = ITEM_QUALITY_STANDARD
+					else if(roll <= 75)
+						tier = ITEM_QUALITY_FINE
+					else if(roll <= 95)
+						tier = ITEM_QUALITY_FLAWLESS
+					else
+						tier = ITEM_QUALITY_MASTERWORK
+				if(SKILL_LEVEL_MASTER)
+					if(roll <= 20)
+						tier = ITEM_QUALITY_STANDARD
+					else if(roll <= 50)
+						tier = ITEM_QUALITY_FINE
+					else if(roll <= 80)
+						tier = ITEM_QUALITY_FLAWLESS
+					else
+						tier = ITEM_QUALITY_MASTERWORK
+				else
+					if(roll <= 25)
+						tier = ITEM_QUALITY_FINE
+					else if(roll <= 55)
+						tier = ITEM_QUALITY_FLAWLESS
+					else
+						tier = ITEM_QUALITY_MASTERWORK
+	item_quality = tier
+	var/prefix
+	switch(tier)
+		if(ITEM_QUALITY_LOOTED)
+			prefix = ITEM_QUALITY_PREFIX_LOOTED
+		if(ITEM_QUALITY_RUINED)
+			prefix = ITEM_QUALITY_PREFIX_RUINED
+		if(ITEM_QUALITY_AWFUL)
+			prefix = ITEM_QUALITY_PREFIX_AWFUL
+		if(ITEM_QUALITY_CRUDE)
+			prefix = ITEM_QUALITY_PREFIX_CRUDE
+		if(ITEM_QUALITY_ROUGH)
+			prefix = ITEM_QUALITY_PREFIX_ROUGH
+		if(ITEM_QUALITY_FINE)
+			prefix = ITEM_QUALITY_PREFIX_FINE
+		if(ITEM_QUALITY_FLAWLESS)
+			prefix = ITEM_QUALITY_PREFIX_FLAWLESS
+		if(ITEM_QUALITY_MASTERWORK)
+			prefix = ITEM_QUALITY_PREFIX_MASTERWORK
+	if(prefix)
+		name = "[prefix] [name]"
+	sellprice = max(1, round(sellprice * ITEM_QUALITY_MULT(tier)))
+	if(tier == ITEM_QUALITY_MASTERWORK)
+		polished = 4
+		AddComponent(/datum/component/metal_glint)
+	return tier
+
 /obj/item/proc/mark_as_looted()
 	if(looted)
 		return
 	looted = TRUE
-	name = "well-worn [name]"
+	item_quality = ITEM_QUALITY_LOOTED
+	name = "[ITEM_QUALITY_PREFIX_LOOTED] [name]"
 
 /obj/item/proc/unmark_as_looted()
 	if(!looted)
 		return
 	looted = FALSE
-	name = replacetext(name, "well-worn ", "")
+	item_quality = ITEM_QUALITY_STANDARD
+	name = replacetext(name, "[ITEM_QUALITY_PREFIX_LOOTED] ", "")
 
 /obj/item/proc/update_force_dynamic()
 	force_dynamic = (wielded ? force_wielded : force)

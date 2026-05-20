@@ -75,7 +75,7 @@
 
 /datum/skill/craft/masonry
 	name = "Masonry"
-	desc = "Determines whether you can craft various stone items, gems and repair them."
+	desc = "Determines whether you can craft various stone items, gems and repair them. Higher skill yields higher quality output: Expert guarantees standard or better on recipes you can attempt, while Master and Legendary regularly produce flawless or masterwork pieces worth more."
 	dreams = list(
 		"...a fortress. Impenetrable. Everlasting. Brick by brick. Layer by layer. Stone upon stone. This is your magnum opus. This is the way of creation...",
 		"...'3, 4 and 5 lead to the corner of 90.' your master, a wizened old elf adrift in the void, shows you how their mason's square indicates straight and strange corners alike..."
@@ -125,7 +125,7 @@
 
 /datum/skill/craft/sewing
 	name = "Sewing"
-	desc = "Determines whether you can craft various sewing-related items and repair them."
+	desc = "Determines whether you can craft various sewing-related items and repair them. Higher skill yields higher quality output: Expert guarantees standard or better on recipes you can attempt, while Master and Legendary regularly produce flawless or masterwork pieces worth more."
 	dreams = list(
 		"...as the years go by, the mantra becomes increasingly oppressive. Stitch, sew, cut ties, stitch, sew, thread the needle twice...",
 		"...you turn over the fabric, and within the two layers of the gown, you hide a secret stitched into the gown, your initials, hidden within. A forbidden mark in some cultures... you never liked the bride much..."
@@ -139,7 +139,7 @@
 
 /datum/skill/craft/tanning
 	name = "Skincrafting"
-	desc = "Determines whether you can craft or repair various leather items. Reduces the work time on the tanning rack and improves minimum yield per hide by 1 per skill level. Also increases chance of getting an essence of wilderness from tanning hide."
+	desc = "Determines whether you can craft or repair various leather items. Reduces the work time on the tanning rack and improves minimum yield per hide by 1 per skill level. Also increases chance of getting an essence of wilderness from tanning hide. Higher skill yields higher quality output: Expert guarantees standard or better on recipes you can attempt, while Master and Legendary regularly produce flawless or masterwork pieces worth more."
 	dreams = list(
 		"...your knife scrapes away at skin, flesh and fat, cleaning up the piece of hide so that it may be made into a wonderful cloak for the lord...",
 		"...the hunter, their voice as rough as bark and their skin weathered like grain lets out a hearty laugh as he shows you his stitching..."
@@ -153,7 +153,7 @@
 
 /datum/skill/craft/ceramics
 	name = "Pottery"
-	desc = "Handles crafting and making of clay into vases and other fine-craft works."
+	desc = "Handles crafting and making of clay into vases and other fine-craft works. Higher skill yields higher quality output: Expert guarantees standard or better on recipes you can attempt, while Master and Legendary regularly produce flawless or masterwork pieces worth more."
 	dreams = list(
 		"...the wheel spins, and spins.. yet you watch as a work of art grows from its center...",
 		"...a slab of clay is molded into a beautiful statue. A testiment to Malum's blessings, and Xylix's insperation. A pure work of beauty..."

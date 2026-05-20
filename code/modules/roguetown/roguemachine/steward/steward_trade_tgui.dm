@@ -559,14 +559,26 @@ GLOBAL_LIST_INIT(steward_trade_sequestration_locked_actions, list(
 					if(confirm == "Yes")
 						var/list/partial_result = SSeconomy.fulfill_order(usr, O, TRUE)
 						if(islist(partial_result) && partial_result["status"] == "partial")
-							scom_announce("Standing Order settled (partial): [O.name] (+[partial_result["payout"]]m).")
+							var/pq_delta = partial_result["quality_delta"]
+							var/pq_suffix = ""
+							if(pq_delta > 0)
+								pq_suffix = " (quality bonus: +[pq_delta]m)"
+							else if(pq_delta < 0)
+								pq_suffix = " (quality penalty: [pq_delta]m)"
+							scom_announce("Standing Order settled (partial): [O.name] (+[partial_result["payout"]]m)[pq_suffix].")
 							playsound(src, 'sound/misc/coindispense.ogg', 60, FALSE, -1)
 						else
 							COOLDOWN_START(src, fulfill_retry_cooldown, STANDING_ORDER_FULFILL_RETRY_COOLDOWN)
 					SStgui.update_uis(src)
 					return TRUE
 				if(islist(result) && result["status"] == "full")
-					scom_announce("Standing Order fulfilled: [O.name] (+[result["payout"]]m).")
+					var/q_delta = result["quality_delta"]
+					var/q_suffix = ""
+					if(q_delta > 0)
+						q_suffix = " (quality bonus: +[q_delta]m)"
+					else if(q_delta < 0)
+						q_suffix = " (quality penalty: [q_delta]m)"
+					scom_announce("Standing Order fulfilled: [O.name] (+[result["payout"]]m)[q_suffix].")
 					playsound(src, 'sound/misc/coindispense.ogg', 60, FALSE, -1)
 				else
 					COOLDOWN_START(src, fulfill_retry_cooldown, STANDING_ORDER_FULFILL_RETRY_COOLDOWN)
