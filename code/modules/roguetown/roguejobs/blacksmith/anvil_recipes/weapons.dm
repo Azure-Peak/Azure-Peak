@@ -194,18 +194,18 @@
 	additional_items = list(/obj/item/ingot/purifiedaalloy, /obj/item/ingot/purifiedaalloy)
 
 /datum/anvil_recipe/weapons/aalloy/bardiche
-	name = "Bardiche, Decrepit (+1 Small Log, +1 Alloy)"
+	name = "Bardiche, Decrepit (+1 Alloy, +1 Small Log)"
 	req_bar = /obj/item/ingot/aalloy
 	created_item = /obj/item/rogueweapon/halberd/bardiche/aalloy
 	display_category = ITEM_CAT_WEAPONS_POLEARMS
-	additional_items = list(/obj/item/ingot/iron, /obj/item/grown/log/tree/small)
+	additional_items = list(/obj/item/ingot/aalloy, /obj/item/grown/log/tree/small)
 
 /datum/anvil_recipe/weapons/paalloy/bardiche
-	name = "Bardiche, Ancient (+1 Small Log, +1 Purified Alloy)"
+	name = "Bardiche, Ancient (+1 Purified Alloy, +1 Small Log)"
 	req_bar = /obj/item/ingot/purifiedaalloy
 	created_item = /obj/item/rogueweapon/halberd/bardiche/paalloy
 	display_category = ITEM_CAT_WEAPONS_POLEARMS
-	additional_items = list(/obj/item/ingot/iron, /obj/item/grown/log/tree/small)
+	additional_items = list(/obj/item/ingot/purifiedaalloy, /obj/item/grown/log/tree/small)
 
 /datum/anvil_recipe/weapons/aalloy/grandmace
 	name = "Grand Mace, Decrepit (+1 Alloy, +1 Small Log)"
@@ -787,7 +787,7 @@
 	display_category = ITEM_CAT_WEAPONS_SWORDS
 
 /datum/anvil_recipe/weapons/steel/broadsword
-	name = "Broadsword, Steel (+1 Iron, 1 Small Log)"
+	name = "Broadsword, Steel (+1 Steel, +1 Small Log)"
 	req_bar = /obj/item/ingot/steel
 	additional_items = list(/obj/item/ingot/steel, /obj/item/grown/log/tree/small)
 	created_item = /obj/item/rogueweapon/sword/long/broadsword/steel
@@ -1491,7 +1491,7 @@
 	i_type = "Ammo"
 
 /datum/anvil_recipe/weapons/bronze/arrows
-	name = "Hastequilled Arrows, Bronze (+3 Stick) (x10)"
+	name = "Hastequilled Arrows, Bronze (+2 Stick) (x10)"
 	req_bar = /obj/item/ingot/bronze
 	additional_items = list(/obj/item/grown/log/tree/stick, /obj/item/grown/log/tree/stick)
 	created_item = /obj/item/ammo_casing/caseless/rogue/arrow/bronze

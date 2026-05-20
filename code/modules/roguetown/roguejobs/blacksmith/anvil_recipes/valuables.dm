@@ -586,9 +586,9 @@
 	craftdiff = SKILL_LEVEL_EXPERT
 
 /datum/anvil_recipe/valuables/gold/bigurns
-	name = "Large Urn, Golden (+ Gold Bar)"
+	name = "Large Urn, Golden (+1 Gold)"
 	req_bar = /obj/item/ingot/gold
-	additional_items = (/obj/item/ingot/gold)
+	additional_items = list(/obj/item/ingot/gold)
 	created_item = /obj/item/forgeable/gold/bigurn
 	display_category = ITEM_CAT_DECORATION
 	craftdiff = SKILL_LEVEL_EXPERT
@@ -731,9 +731,9 @@
 	craftdiff = SKILL_LEVEL_JOURNEYMAN
 
 /datum/anvil_recipe/valuables/silver/bigurns
-	name = "Large Urn, Silver (+ silver Bar)"
+	name = "Large Urn, Silver (+1 Silver)"
 	req_bar = /obj/item/ingot/silver
-	additional_items = (/obj/item/ingot/silver)
+	additional_items = list(/obj/item/ingot/silver)
 	created_item = /obj/item/forgeable/silver/bigurn
 	display_category = ITEM_CAT_DECORATION
 	craftdiff = SKILL_LEVEL_JOURNEYMAN
@@ -876,9 +876,9 @@
 	craftdiff = SKILL_LEVEL_JOURNEYMAN
 
 /datum/anvil_recipe/valuables/bronze/bigurns
-	name = "Large Urn, Bronze (+ Bronze Bar)"
+	name = "Large Urn, Bronze (+1 Bronze)"
 	req_bar = /obj/item/ingot/bronze
-	additional_items = (/obj/item/ingot/bronze)
+	additional_items = list(/obj/item/ingot/bronze)
 	created_item = /obj/item/forgeable/bronze/bigurn
 	display_category = ITEM_CAT_DECORATION
 	craftdiff = SKILL_LEVEL_JOURNEYMAN
