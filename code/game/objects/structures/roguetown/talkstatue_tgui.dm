@@ -199,11 +199,22 @@
 		return J.title
 	return "[r]"
 
+/obj/structure/roguemachine/talkstatue/mercenary/proc/role_matches(mob/M, target)
+	if(role_title(M) == target)
+		return TRUE
+	if(!ishuman(M))
+		return FALSE
+	var/mob/living/carbon/human/H = M
+	if(!H.migrant_type)
+		return FALSE
+	var/datum/migrant_role/role = MIGRANT_ROLE(H.migrant_type)
+	return role?.role_category == target
+
 /obj/structure/roguemachine/talkstatue/mercenary/ui_data(mob/user)
 	var/list/data = list()
 	var/user_role = ishuman(user) ? role_title(user) : ""
-	var/is_merc = user_role == "Mercenary"
-	var/is_adv = user_role == "Adventurer"
+	var/is_merc = ishuman(user) && role_matches(user, "Mercenary")
+	var/is_adv = ishuman(user) && role_matches(user, "Adventurer")
 	var/is_wretch = user_role == "Wretch"
 	var/is_bathhouse = (user_role == "Bathmaster") || (user_role == "Bathhouse Attendant")
 	data["is_merc"] = is_merc ? TRUE : FALSE
@@ -253,8 +264,8 @@
 		to_chat(H, span_warning("I need to be closer to the statue."))
 		return
 	var/user_role = role_title(H)
-	var/is_merc = user_role == "Mercenary"
-	var/is_adv = user_role == "Adventurer"
+	var/is_merc = role_matches(H, "Mercenary")
+	var/is_adv = role_matches(H, "Adventurer")
 	var/is_wretch = user_role == "Wretch"
 	var/is_bathhouse = (user_role == "Bathmaster") || (user_role == "Bathhouse Attendant")
 	switch(action)
