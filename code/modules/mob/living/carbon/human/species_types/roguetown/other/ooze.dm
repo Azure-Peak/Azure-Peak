@@ -25,7 +25,7 @@
 	origin = "Underdark"
 	default_color = "79F299"
 	species_traits = list(EYECOLOR,HAIR,FACEHAIR,LIPS,MUTCOLORS)
-	restricted_virtues = list(/datum/virtue/utility/feral_appetite)
+	restricted_virtues = list(/datum/virtue/utility/feral_appetite, /datum/virtue/utility/noble)
 	default_features = MANDATORY_FEATURE_LIST
 	use_skintones = FALSE
 	possible_ages = ALL_AGES_LIST
