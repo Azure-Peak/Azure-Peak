@@ -856,14 +856,14 @@
 	item_state = "butlershirt"
 	sleeved = 'icons/roguetown/clothing/special/onmob/sleeves_maids.dmi'
 
-/obj/item/clothing/suit/roguetown/shirt/velvetdress
+/obj/item/clothing/suit/roguetown/shirt/dress/velvetdress
 	name = "velvet dress"
 	desc = "A garment made with embroidered velvet, both elegant and warm. Poetry made manifest in swaying fabric."
 	icon_state = "velvetdress"
 	item_state = "velvetdress"
 	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_shirts.dmi'
 
-/obj/item/clothing/suit/roguetown/shirt/nobledress
+/obj/item/clothing/suit/roguetown/shirt/dress/nobledress
 	name = "noble's pinafore"
 	desc = "A comfortable dress adapted from simpler garments often worn by working-class women."
 	icon_state = "nobledress"
@@ -872,11 +872,11 @@
 	detail_tag = "_detail"
 	detail_color = CLOTHING_WHITE
 
-/obj/item/clothing/suit/roguetown/shirt/nobledress/Initialize()
+/obj/item/clothing/suit/roguetown/shirt/dress/nobledress/Initialize()
 	. = ..()
 	update_icon()
 
-/obj/item/clothing/suit/roguetown/shirt/nobledress/update_icon()
+/obj/item/clothing/suit/roguetown/shirt/dress/nobledress/update_icon()
 	cut_overlays()
 	if(get_detail_tag())
 		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))

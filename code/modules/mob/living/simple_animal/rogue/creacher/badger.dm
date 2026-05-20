@@ -73,7 +73,7 @@
 	AddElement(/datum/element/ai_flee_while_injured, 0.75, 0.4)
 	gender = pick(MALE, FEMALE)
 	update_icon()
-	ai_controller.set_blackboard_key(BB_BASIC_FOODS, typecacheof(food_type))
+	ai_controller.set_blackboard_key(BB_BASIC_FOODS, food_type)
 
 /obj/effect/decal/remains/badger
 	name = "remains"

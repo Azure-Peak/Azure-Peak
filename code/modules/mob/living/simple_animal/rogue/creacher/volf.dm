@@ -112,7 +112,7 @@
 	if(prob(33))
 		gender = FEMALE
 	update_icon()
-	ai_controller.set_blackboard_key(BB_BASIC_FOODS, typecacheof(food_type))
+	ai_controller.set_blackboard_key(BB_BASIC_FOODS, food_type)
 	var/color = pick("brown", "black", "white")
 	icon_state = "volf_[color]"
 	icon_living = "volf_[color]"

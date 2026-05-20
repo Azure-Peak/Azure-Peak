@@ -1,4 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - bugfix: "Fixed an erroneously untested runtime fixes that I presumed was tested and pulled in. This is my bad. Spells Projectiles should work again."

@@ -2,6 +2,7 @@
 /datum/action/cooldown/spell/zizo_snuff
 	name = "Snuff Lights"
 	desc = "Extinguish all lights in range, with your Miracles skill increasing range."
+	background_icon = 'icons/mob/actions/zizomiracles.dmi'
 	button_icon = 'icons/mob/actions/zizomiracles.dmi'
 	button_icon_state = "snufflight"
 	invocations = list("exhales a dark grey smog, choking any lights nearby.")
@@ -37,6 +38,7 @@
 /datum/action/cooldown/spell/projectile/profane
 	name = "Profane"
 	desc = "Fire forth a splinter of unholy bone, tearing flesh and causing bleeding. If you hold pieces of bone in your other hand, you will coax a much stronger lance of bone into being."
+	background_icon = 'icons/mob/actions/zizomiracles.dmi'
 	button_icon = 'icons/mob/actions/zizomiracles.dmi'
 	button_icon_state = "profane"
 	cast_range = 8
@@ -116,6 +118,7 @@
 // T2: just use lesser animate undead for now
 
 /datum/action/cooldown/spell/raise_undead_formation/miracle
+	background_icon = 'icons/mob/actions/zizomiracles.dmi'
 	primary_resource_type = SPELL_COST_DEVOTION
 	primary_resource_cost = 75
 	cabal_affine = TRUE
@@ -124,6 +127,7 @@
 // T2: carbon spawn
 
 /datum/action/cooldown/spell/raise_undead_guard/miracle
+	background_icon = 'icons/mob/actions/zizomiracles.dmi'
 	name = "Raise Deadite"
 	desc = "Raises a singular, weak deadite."
 	primary_resource_type = SPELL_COST_DEVOTION
@@ -132,6 +136,7 @@
 // T3: tames bio_type = undead mobs
 
 /datum/action/cooldown/spell/tame_undead/miracle
+	background_icon = 'icons/mob/actions/zizomiracles.dmi'
 	primary_resource_type = SPELL_COST_DEVOTION
 	primary_resource_cost = 100
 
@@ -143,6 +148,7 @@
 /datum/action/cooldown/spell/rituos
 	name = "Rituos"
 	desc = "Enact one of the Lesser Work of Zizo - a single, agonizing ritual that tears open a path to power. Choose Progress to gain arcyne knowledge, or Unlife to embrace undeath."
+	background_icon = 'icons/mob/actions/zizomiracles.dmi'
 	button_icon = 'icons/mob/actions/zizomiracles.dmi'
 	button_icon_state = "rituos"
 	associated_skill = /datum/skill/magic/arcane

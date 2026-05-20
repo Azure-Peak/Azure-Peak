@@ -69,12 +69,6 @@
 	qdel(src)
 
 /datum/component/connect_range/proc/update_signals(atom/target, atom/old_loc)
-	if(QDELETED(parent))
-		unregister_signals(old_loc, null)
-		turfs = list()
-		qdel(src)
-		return
-
 	var/turf/current_turf = get_turf(target)
 	if(isnull(current_turf))
 		unregister_signals(old_loc, turfs)
@@ -97,30 +91,26 @@
 	var/list/old_turfs = turfs
 	turfs = RANGE_TURFS(range, current_turf)
 	unregister_signals(old_loc, old_turfs - turfs)
-	if(QDELETED(parent))
-		qdel(src)
-		return
 	for(var/turf/target_turf as anything in turfs - old_turfs)
 		for(var/signal in connections)
 			parent.RegisterSignal(target_turf, signal, connections[signal])
 
 /datum/component/connect_range/proc/unregister_signals(atom/location, list/remove_from)
-	if(!isnull(location) && (works_in_containers || isturf(location)) && ismovable(location))
+	//The location is null or is a container and the component shouldn't have register signals on it
+	if(isnull(location) || (!works_in_containers && !isturf(location)))
+		return
+
+	if(ismovable(location))
 		for(var/atom/movable/target as anything in (get_nested_locs(location) + location))
 			UnregisterSignal(target, COMSIG_MOVABLE_MOVED)
 
 	if(!length(remove_from))
 		return
-
-	if(QDELETED(parent))
+	if(!length(remove_from))
 		return
 	for(var/turf/target_turf as anything in remove_from)
 		parent.UnregisterSignal(target_turf, connections)
 
 /datum/component/connect_range/proc/on_moved(atom/movable/movable, atom/old_loc)
 	SIGNAL_HANDLER
-	if(QDELETED(parent))
-		turfs = list()
-		qdel(src)
-		return
 	update_signals(movable, old_loc)

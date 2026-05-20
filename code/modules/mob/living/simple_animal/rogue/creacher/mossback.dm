@@ -58,7 +58,7 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/mossback/Initialize(mapload, mob/user, townercrab = FALSE)
 	. = ..()
 	AddComponent(/datum/component/ai_aggro_system)
-	ai_controller.set_blackboard_key(BB_BASIC_FOODS, typecacheof(food_type))
+	ai_controller.set_blackboard_key(BB_BASIC_FOODS, food_type)
 	if(user)
 		summoner = user.mind.current.real_name
 		if (townercrab)

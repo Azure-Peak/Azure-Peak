@@ -3,25 +3,6 @@
 	var/vision_range = 9
 	var/food_key = BB_BASIC_MOB_FOOD_TARGET
 
-/datum/ai_planning_subtree/proc/get_basic_food_typecache(datum/ai_controller/controller)
-	if(QDELETED(controller) || QDELETED(controller.pawn))
-		return null
-
-	var/list/food_types = controller.blackboard[BB_BASIC_FOODS]
-	if(!length(food_types) && istype(controller.pawn, /mob/living/simple_animal))
-		var/mob/living/simple_animal/simple_pawn = controller.pawn
-		food_types = simple_pawn.food_type
-
-	if(!length(food_types))
-		return null
-
-	var/list/food_typecache = ispath(food_types[1]) ? typecacheof(food_types) : food_types
-	if(!length(food_typecache))
-		return null
-
-	controller.set_blackboard_key(BB_BASIC_FOODS, food_typecache)
-	return food_typecache
-
 /datum/ai_planning_subtree/find_food/SelectBehaviors(datum/ai_controller/controller, seconds_per_tick)
 	. = ..()
 	var/atom/target = controller.blackboard[food_key]
@@ -29,11 +10,7 @@
 		// Busy with something
 		return
 
-	var/list/food_typecache = get_basic_food_typecache(controller)
-	if(!length(food_typecache))
-		return
-
-	controller.queue_behavior(/datum/ai_behavior/find_and_set/in_list, food_key, food_typecache, vision_range)
+	controller.queue_behavior(/datum/ai_behavior/find_and_set/in_list, food_key, controller.blackboard[BB_BASIC_FOODS], vision_range)
 
 
 /datum/ai_planning_subtree/find_dead_bodies
@@ -53,7 +30,7 @@
 		// Busy with something
 		return
 
-	controller.queue_behavior(behavior, corpse_key, /mob/living, vision_range)
+	controller.queue_behavior(behavior, corpse_key, controller.blackboard[BB_BASIC_FOODS], vision_range)
 
 /datum/ai_planning_subtree/find_dead_bodies/mole
 	vision_range = 7
