@@ -26167,7 +26167,7 @@
 /area/rogue/under/cave/skeletoncrypt)
 "foa" = (
 /obj/structure/roguemachine/mail{
-	mailtag = Merchant
+	mailtag = "Merchant"
 	},
 /obj/structure/roguemachine/scomm/r{
 	scom_tag = "Manor - Council Quarters"
