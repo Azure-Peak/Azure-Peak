@@ -11,7 +11,7 @@
 	max_integrity = 0
 	anchored = TRUE
 	layer = BELOW_OBJ_LAYER
-	var/locked = TRUE
+	var/locked = FALSE
 	var/budget = 0
 	var/upgrade_flags
 	var/current_cat = ""
