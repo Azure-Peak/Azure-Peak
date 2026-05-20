@@ -466,6 +466,9 @@
 	if(!density)
 		return
 
+	if(user.get_active_held_item() || user.get_inactive_held_item())
+		return
+
 	var/obj/item/bodypart/l_arm = user.get_bodypart(BODY_ZONE_L_ARM)
 	var/obj/item/bodypart/r_arm = user.get_bodypart(BODY_ZONE_R_ARM)
 
@@ -566,6 +569,9 @@
 				damage_to_deal *= 10
 
 			if(!isnull(T.turf_integrity))
+				var/min_damage = max(1, round(initial(T.turf_integrity) * 0.02))
+				damage_to_deal = max(damage_to_deal, min_damage)
+
 				T.turf_integrity -= damage_to_deal
 
 				if(T.turf_integrity <= 0)
@@ -577,23 +583,28 @@
 
 			if(istype(O, /obj/structure/flora/newtree))
 				var/obj/structure/flora/newtree/TR = O
-				TR.take_damage(damage_to_deal * 6, BRUTE, "blunt", FALSE)
+				var/min_damage = round(TR.max_integrity * 0.02)
+				TR.take_damage(max(damage_to_deal * 6, min_damage), BRUTE, "blunt", FALSE)
 
 			else if(istype(O, /obj/structure/flora/roguetree))
 				var/obj/structure/flora/roguetree/RT = O
-				RT.take_damage(damage_to_deal * 6, BRUTE, "blunt", FALSE)
+				var/min_damage = round(RT.max_integrity * 0.02)
+				RT.take_damage(max(damage_to_deal * 6, min_damage), BRUTE, "blunt", FALSE)
 
 			else if(istype(O, /obj/structure/roguewindow))
 				var/obj/structure/roguewindow/RW = O
-				RW.take_damage(damage_to_deal, BRUTE, "blunt", FALSE)
+				var/min_damage = round(RW.max_integrity * 0.02)
+				RW.take_damage(max(damage_to_deal, min_damage), BRUTE, "blunt", FALSE)
 
 			else if(istype(O, /obj/structure/mineral_door))
 				var/obj/structure/mineral_door/MD = O
-				MD.take_damage(damage_to_deal, BRUTE, "blunt", FALSE)
+				var/min_damage = round(MD.max_integrity * 0.02)
+				MD.take_damage(max(damage_to_deal, min_damage), BRUTE, "blunt", FALSE)
 
 			else if(istype(O, /obj/structure/closet))
 				var/obj/structure/closet/CL = O
-				CL.take_damage(damage_to_deal, BRUTE, "blunt", FALSE)
+				var/min_damage = round(CL.max_integrity * 0.02)
+				CL.take_damage(max(damage_to_deal, min_damage), BRUTE, "blunt", FALSE)
 
 			else if(!isnull(O.obj_integrity))
 				O.obj_integrity -= damage_to_deal
