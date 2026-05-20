@@ -81,18 +81,34 @@ const MaterialRow = (props: {
 }) => {
   const { material, act } = props;
   const [draft, setDraft] = useState(material.price);
+  const enabled = !!material.enabled;
   return (
     <div
       style={{
         display: 'flex',
         alignItems: 'center',
-        gap: '8px',
-        padding: '4px 8px',
+        gap: '6px',
+        padding: '3px 6px',
         borderBottom: `1px dashed ${PARCHMENT_SHADOW}`,
         fontFamily: SERIF,
+        opacity: enabled ? 1 : 0.5,
       }}
     >
-      <div style={{ flex: 1, color: INK, fontSize: '13px' }}>
+      <input
+        type="checkbox"
+        checked={enabled}
+        title={enabled ? 'Disable this material' : 'Enable this material'}
+        onChange={() => act('toggle_material', { path: material.path })}
+        style={{ cursor: 'pointer' }}
+      />
+      <div
+        style={{
+          flex: 1,
+          color: INK,
+          fontSize: '13px',
+          textTransform: 'capitalize',
+        }}
+      >
         {material.name}
       </div>
       <div
@@ -103,7 +119,7 @@ const MaterialRow = (props: {
           fontStyle: 'italic',
         }}
       >
-        Current: {material.price}m
+        {material.price}m
       </div>
       <NumberInput
         value={draft}
@@ -201,7 +217,7 @@ export const ConfigPanel = (props: {
       />
 
       <div style={{ ...sectionHeaderStyle, marginTop: '16px' }}>
-        Material Prices
+        Material Prices & Acceptance
       </div>
       <div
         style={{
@@ -212,11 +228,80 @@ export const ConfigPanel = (props: {
         }}
       >
         Per unit. Recipe price = (material cost) × (1 + percent margin / 100) +
-        flat margin.
+        flat margin. The checkbox gates only the recipe's PRIMARY material -
+        recipes whose main ingredient is disabled drop out of the catalog;
+        secondary ingredients still apply at the listed price.
       </div>
-      {data.materials.map((m) => (
-        <MaterialRow key={m.path} material={m} act={act} />
-      ))}
+      <MaterialColumns materials={data.materials} act={act} />
+    </>
+  );
+};
+
+const MaterialColumns = (props: {
+  materials: MaterialEntry[];
+  act: ActFn;
+}) => {
+  const { materials, act } = props;
+  const priority = materials.filter((m) => !!m.priority);
+  const other = materials.filter((m) => !m.priority);
+  return (
+    <>
+      {priority.length > 0 && (
+        <>
+          <div
+            style={{
+              fontFamily: SERIF,
+              fontVariant: 'small-caps',
+              color: SEAL_AMBER,
+              fontSize: '11px',
+              fontStyle: 'italic',
+              marginTop: '6px',
+              marginBottom: '2px',
+            }}
+          >
+            Priority Materials
+          </div>
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
+              columnGap: '12px',
+            }}
+          >
+            {priority.map((m) => (
+              <MaterialRow key={m.path} material={m} act={act} />
+            ))}
+          </div>
+        </>
+      )}
+      {other.length > 0 && (
+        <>
+          <div
+            style={{
+              fontFamily: SERIF,
+              fontVariant: 'small-caps',
+              color: INK_SOFT,
+              fontSize: '11px',
+              fontStyle: 'italic',
+              marginTop: '10px',
+              marginBottom: '2px',
+            }}
+          >
+            Other Materials
+          </div>
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
+              columnGap: '12px',
+            }}
+          >
+            {other.map((m) => (
+              <MaterialRow key={m.path} material={m} act={act} />
+            ))}
+          </div>
+        </>
+      )}
     </>
   );
 };

@@ -89,6 +89,31 @@
 	var/list/manifests = list()
 	var/list/manifest_deposits = list()
 	var/list/catalog
+	var/list/cached_catalog_data
+	var/list/cached_categories
+	var/list/cached_ingots
+	var/catalog_view_dirty = TRUE
+	var/list/priority_material_types = list(
+		/obj/item/ingot,
+		/obj/item/natural/hide,
+		/obj/item/grown/log,
+		/obj/item/natural/wood,
+		/obj/item/roguegear,
+	)
+	var/list/excluded_materials = list(
+		/obj/item/ingot/aalloy,
+		/obj/item/ingot/drow,
+	)
+	var/list/default_disabled_materials = list(
+		/obj/item/ingot/blacksteel,
+		/obj/item/ingot/silver,
+		/obj/item/ingot/silverblessed,
+		/obj/item/ingot/silverblessed/bullion,
+		/obj/item/ingot/steelholy,
+		/obj/item/ingot/lithmyc,
+		/obj/item/ingot/purifiedaalloy,
+	)
+	var/list/disabled_materials = list()
 	var/list/allowed_categories = list(
 		ITEM_CAT_ARMOR_HELMETS,
 		ITEM_CAT_ARMOR_CHESTPIECES,
@@ -128,8 +153,19 @@
 /obj/structure/roguemachine/escrow/Initialize()
 	. = ..()
 	init_material_prices()
+	disabled_materials = default_disabled_materials?.Copy() || list()
 	rebuild_catalog()
 	update_icon()
+
+/obj/structure/roguemachine/escrow/proc/toggle_material_enabled(path)
+	if(!path || (path in excluded_materials))
+		return FALSE
+	if(path in disabled_materials)
+		disabled_materials -= path
+	else
+		disabled_materials += path
+	rebuild_catalog()
+	return TRUE
 
 /obj/structure/roguemachine/escrow/proc/init_material_prices()
 	material_prices = list()
@@ -161,13 +197,116 @@
 			continue
 		if(!anvil_allowed && !(AR.display_category in allowed_categories))
 			continue
+		if(recipe_uses_excluded_material(AR))
+			continue
+		if(AR.req_bar in disabled_materials)
+			continue
 		catalog += AR
 	for(var/datum/crafting_recipe/CR in GLOB.crafting_recipes)
 		if(CR.hides_from_books || !CR.name || !CR.result || !CR.display_category)
 			continue
 		if(length(allowed_categories) && !(CR.display_category in allowed_categories))
 			continue
+		if(!recipe_has_only_raw_materials(CR))
+			continue
+		if(recipe_uses_excluded_material(CR))
+			continue
+		if(crafting_primary_req(CR) in disabled_materials)
+			continue
 		catalog += CR
+	prune_unused_material_prices()
+	dirty_catalog_view()
+
+/obj/structure/roguemachine/escrow/proc/crafting_primary_req(datum/crafting_recipe/CR)
+	if(!islist(CR.reqs) || !length(CR.reqs))
+		return null
+	var/best_path
+	var/best_qty = 0
+	for(var/path in CR.reqs)
+		var/qty = CR.reqs[path]
+		if(qty > best_qty)
+			best_qty = qty
+			best_path = path
+	return best_path
+
+/obj/structure/roguemachine/escrow/proc/recipe_uses_excluded_material(datum/recipe)
+	if(!length(excluded_materials))
+		return FALSE
+	if(istype(recipe, /datum/anvil_recipe))
+		var/datum/anvil_recipe/AR = recipe
+		if(AR.req_bar in excluded_materials)
+			return TRUE
+		if(islist(AR.additional_items))
+			for(var/path in AR.additional_items)
+				if(path in excluded_materials)
+					return TRUE
+	else if(istype(recipe, /datum/crafting_recipe))
+		var/datum/crafting_recipe/CR = recipe
+		if(islist(CR.reqs))
+			for(var/path in CR.reqs)
+				if(path in excluded_materials)
+					return TRUE
+	return FALSE
+
+/obj/structure/roguemachine/escrow/proc/recipe_has_only_raw_materials(datum/crafting_recipe/CR)
+	if(!islist(CR.reqs) || !length(CR.reqs))
+		return FALSE
+	for(var/path in CR.reqs)
+		if(!(path in GLOB.material_baseline_prices))
+			return FALSE
+	return TRUE
+
+/obj/structure/roguemachine/escrow/proc/prune_unused_material_prices()
+	var/list/used = list()
+	for(var/datum/R in catalog)
+		if(istype(R, /datum/anvil_recipe))
+			var/datum/anvil_recipe/AR = R
+			if(AR.req_bar)
+				used[AR.req_bar] = TRUE
+			if(islist(AR.additional_items))
+				for(var/path in AR.additional_items)
+					used[path] = TRUE
+		else if(istype(R, /datum/crafting_recipe))
+			var/datum/crafting_recipe/CR = R
+			if(islist(CR.reqs))
+				for(var/path in CR.reqs)
+					used[path] = TRUE
+	for(var/path in material_prices.Copy())
+		if(path in disabled_materials)
+			continue
+		if(!(path in used))
+			material_prices -= path
+
+/obj/structure/roguemachine/escrow/proc/dirty_catalog_view()
+	catalog_view_dirty = TRUE
+
+/obj/structure/roguemachine/escrow/proc/rebuild_catalog_view()
+	var/list/catalog_data = list()
+	var/list/cats = list()
+	var/list/ingots = list()
+	for(var/datum/R in catalog)
+		var/cat = recipe_category(R)
+		if(!(cat in cats))
+			cats += cat
+		var/primary_ingot = recipe_primary_ingot(R)
+		var/ingot_name = ""
+		if(primary_ingot)
+			var/atom/AP = primary_ingot
+			ingot_name = initial(AP.name)
+			if(!(ingot_name in ingots))
+				ingots += ingot_name
+		catalog_data += list(list(
+			"ref" = "\ref[R]",
+			"name" = recipe_name(R),
+			"category" = cat,
+			"price" = recipe_price(R),
+			"ingot" = ingot_name,
+			"materials" = recipe_materials(R),
+		))
+	cached_catalog_data = catalog_data
+	cached_categories = cats
+	cached_ingots = ingots
+	catalog_view_dirty = FALSE
 
 /obj/structure/roguemachine/escrow/proc/recipe_name(datum/recipe)
 	if(istype(recipe, /datum/anvil_recipe))
@@ -411,31 +550,11 @@
 	data["percent_margin"] = percent_margin
 	data["flat_margin"] = flat_margin
 
-	var/list/catalog_data = list()
-	var/list/cats = list()
-	var/list/ingots = list()
-	for(var/datum/R in catalog)
-		var/cat = recipe_category(R)
-		if(!(cat in cats))
-			cats += cat
-		var/primary_ingot = recipe_primary_ingot(R)
-		var/ingot_name = ""
-		if(primary_ingot)
-			var/atom/AP = primary_ingot
-			ingot_name = initial(AP.name)
-			if(!(ingot_name in ingots))
-				ingots += ingot_name
-		catalog_data += list(list(
-			"ref" = "\ref[R]",
-			"name" = recipe_name(R),
-			"category" = cat,
-			"price" = recipe_price(R),
-			"ingot" = ingot_name,
-			"materials" = recipe_materials(R),
-		))
-	data["catalog"] = catalog_data
-	data["categories"] = cats
-	data["ingots"] = ingots
+	if(catalog_view_dirty || isnull(cached_catalog_data))
+		rebuild_catalog_view()
+	data["catalog"] = cached_catalog_data
+	data["categories"] = cached_categories
+	data["ingots"] = cached_ingots
 
 	var/list/manifest_data = list()
 	var/list/cart = user_key ? manifests[user_key] : null
@@ -527,9 +646,17 @@
 			"path" = "[path]",
 			"name" = initial(A.name),
 			"price" = material_prices[path],
+			"priority" = is_priority_material(path) ? TRUE : FALSE,
+			"enabled" = (path in disabled_materials) ? FALSE : TRUE,
 		))
 	data["materials"] = materials_data
 	return data
+
+/obj/structure/roguemachine/escrow/proc/is_priority_material(path)
+	for(var/parent in priority_material_types)
+		if(ispath(path, parent))
+			return TRUE
+	return FALSE
 
 /obj/structure/roguemachine/escrow/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)
 	. = ..()
@@ -543,17 +670,25 @@
 				var/n = text2num(params["value"])
 				if(isnum(n))
 					percent_margin = clamp(round(n), 0, 500)
+					dirty_catalog_view()
 				return TRUE
 			if("set_flat_margin")
 				var/n = text2num(params["value"])
 				if(isnum(n))
 					flat_margin = max(0, round(n))
+					dirty_catalog_view()
 				return TRUE
 			if("set_material_price")
 				var/path = text2path(params["path"])
 				var/n = text2num(params["value"])
 				if(path && (path in material_prices) && isnum(n))
 					material_prices[path] = max(0, round(n))
+					dirty_catalog_view()
+				return TRUE
+			if("toggle_material")
+				var/path = text2path(params["path"])
+				if(path)
+					toggle_material_enabled(path)
 				return TRUE
 			if("toggle_lock")
 				toggle_lock(usr)
@@ -837,6 +972,13 @@
 		ITEM_CAT_GARMENT_FINE,
 		ITEM_CAT_GARMENT_LUXURY,
 		ITEM_CAT_ARMOR_LIGHT,
+	)
+	priority_material_types = list(
+		/obj/item/natural/hide,
+		/obj/item/natural/silk,
+		/obj/item/natural/cloth,
+		/obj/item/natural/fibers,
+		/obj/item/natural/fur,
 	)
 
 /obj/structure/roguemachine/escrow/tailor/get_mechanics_examine(mob/user)

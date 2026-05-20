@@ -59,6 +59,8 @@ export type MaterialEntry = {
   path: string;
   name: string;
   price: number;
+  priority: BooleanLike;
+  enabled: BooleanLike;
 };
 
 export type CommissionerData = {
