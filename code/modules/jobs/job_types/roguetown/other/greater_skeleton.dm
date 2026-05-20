@@ -150,7 +150,7 @@ NECRO SKELETONS
 	category_tags = list(CTAG_NSKELETON)
 	subclass_skills = list(
 		/datum/skill/combat/axes = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/misc/athletics = SKILL_LEVEL_APPRENTICE
+		/datum/skill/misc/athletics = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/climbing = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/craft/carpentry = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/craft/masonry = SKILL_LEVEL_JOURNEYMAN,
