@@ -83,12 +83,47 @@
 	var/locked = TRUE
 	var/budget = 0
 	var/list/material_prices
-	var/percent_margin = 20
-	var/flat_margin = 0
+	var/percent_margin = 70
+	var/flat_margin = 5
 	var/list/orders = list()
 	var/list/manifests = list()
 	var/list/manifest_deposits = list()
 	var/list/catalog
+	var/list/allowed_categories = list(
+		ITEM_CAT_ARMOR_HELMETS,
+		ITEM_CAT_ARMOR_CHESTPIECES,
+		ITEM_CAT_ARMOR_LEGS,
+		ITEM_CAT_ARMOR_NECK,
+		ITEM_CAT_ARMOR_BOOTS,
+		ITEM_CAT_ARMOR_GLOVES,
+		ITEM_CAT_ARMOR_MASKS,
+		ITEM_CAT_ARMOR_BRACERS,
+		ITEM_CAT_ARMOR_BELTS,
+		ITEM_CAT_ARMOR_BARDING,
+		ITEM_CAT_ARMOR_LIGHT,
+		ITEM_CAT_WEAPONS_SWORDS,
+		ITEM_CAT_WEAPONS_DAGGERS,
+		ITEM_CAT_WEAPONS_AXES,
+		ITEM_CAT_WEAPONS_POLEARMS,
+		ITEM_CAT_WEAPONS_MACES,
+		ITEM_CAT_WEAPONS_FLAILS,
+		ITEM_CAT_WEAPONS_SHIELDS,
+		ITEM_CAT_WEAPONS_AMMO,
+		ITEM_CAT_TOOLS_COOKWARE,
+		ITEM_CAT_TOOLS_FIELD,
+		ITEM_CAT_TOOLS_WORKSHOP,
+		ITEM_CAT_TOOLS_SUNDRIES,
+		ITEM_CAT_TOOLS_ROGUE,
+		ITEM_CAT_VALUABLES_RINGS,
+		ITEM_CAT_VALUABLES_HOLY,
+		ITEM_CAT_COMPONENTS,
+		ITEM_CAT_SMITHING_MISC,
+		ITEM_CAT_ENG_MACHINERY,
+		ITEM_CAT_ENG_CONSTRUCTION,
+		ITEM_CAT_ENG_COMBAT,
+		ITEM_CAT_ENG_TRIGGERS,
+		ITEM_CAT_ENG_MISC,
+	)
 
 /obj/structure/roguemachine/escrow/Initialize()
 	. = ..()
@@ -118,14 +153,19 @@
 
 /obj/structure/roguemachine/escrow/proc/rebuild_catalog()
 	catalog = list()
+	var/anvil_allowed = !length(allowed_categories) || (ITEM_CAT_SMITHING_MISC in allowed_categories)
 	for(var/datum/anvil_recipe/AR in GLOB.anvil_recipes)
 		if(AR.hides_from_books || !AR.name || !AR.created_item || !AR.req_bar)
 			continue
 		if(!(AR.req_bar in material_prices))
 			continue
+		if(!anvil_allowed && !(AR.display_category in allowed_categories))
+			continue
 		catalog += AR
 	for(var/datum/crafting_recipe/CR in GLOB.crafting_recipes)
 		if(CR.hides_from_books || !CR.name || !CR.result || !CR.display_category)
+			continue
+		if(length(allowed_categories) && !(CR.display_category in allowed_categories))
 			continue
 		catalog += CR
 
@@ -787,3 +827,18 @@
 		set_light(1, 1, 1, l_color = "#f1c94b")
 	else
 		set_light(0)
+
+/obj/structure/roguemachine/escrow/tailor
+	name = "TAILORING COMMISSIONER"
+	desc = "A brass-plated commission board for the weavers' and tailors' guild. Coin held in escrow until the work is delivered."
+	keycontrol = list("tailor", "crafterguild", "craftermaster")
+	allowed_categories = list(
+		ITEM_CAT_GARMENT_COMMON,
+		ITEM_CAT_GARMENT_FINE,
+		ITEM_CAT_GARMENT_LUXURY,
+		ITEM_CAT_ARMOR_LIGHT,
+	)
+
+/obj/structure/roguemachine/escrow/tailor/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("This commissioner accepts tailoring and garment work only.")
