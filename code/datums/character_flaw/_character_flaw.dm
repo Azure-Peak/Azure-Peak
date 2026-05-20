@@ -668,11 +668,12 @@ GLOBAL_LIST_INIT(averse_factions, list(
 	addtimer(CALLBACK(src, PROC_REF(setup_self), alimony), 5 SECONDS)
 
 /datum/charflaw/indebted/proc/setup_self(mob/living/carbon/human/user)
-	if(user.mind)
-		if(!SStreasury.has_account(user))
-			SStreasury.create_bank_account(user, minimum)
-			is_active = TRUE
-			next_alimony = world.time + interval
+	if(!user?.mind)
+		return
+	if(!SStreasury.has_account(user))
+		SStreasury.create_bank_account(user, minimum)
+	is_active = TRUE
+	next_alimony = world.time + interval
 
 /datum/charflaw/indebted/flaw_on_life(mob/user)
 	. = ..()

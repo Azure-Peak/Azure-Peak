@@ -275,6 +275,12 @@ GLOBAL_DATUM_INIT(economic_panel, /datum/economic_panel, new)
 			SStreasury.tick_burgher_pledge()
 			SStreasury.distribute_estate_incomes()
 			SStreasury.distribute_daily_payments()
+			for(var/mob/living/carbon/human/H in GLOB.human_list)
+				var/datum/charflaw/indebted/I = locate(/datum/charflaw/indebted) in H.charflaws
+				if(!I || !I.is_active)
+					continue
+				I.next_alimony = 0
+				I.calculate_childsupport(H)
 			admin_log_fiscal("advanced the day to [GLOB.dayspassed] (full daily tick)", "Advance Day")
 			return TRUE
 		if("fire_rural_tick")
