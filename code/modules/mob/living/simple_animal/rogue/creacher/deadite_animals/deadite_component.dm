@@ -33,7 +33,7 @@
 
 	// We only need to listen to damage!
 	RegisterSignal(L, COMSIG_MOB_APPLY_DAMGE, .proc/on_apply_damage)
-	//RegisterSignal(L, COMSIG_PARENT_QDELETING, .proc/handle_early_cleanup)
+	RegisterSignal(L, COMSIG_PARENT_QDELETING, .proc/handle_early_cleanup)
 
 /datum/component/deadite/Destroy()
 	if(reanim_timer_id)
@@ -45,9 +45,9 @@
 
 /datum/component/deadite/proc/handle_early_cleanup(datum/source)
 	SIGNAL_HANDLER
-	if(reanimation_timer)
-		deltimer(reanimation_timer)
-		reanimation_timer = null
+	if(reanim_timer_id)
+		deltimer(reanim_timer_id)
+		reanim_timer_id = null
 	qdel(src)
 
 /datum/component/deadite/proc/on_apply_damage(mob/living/simple_animal/L, damage, damagetype, def_zone, blocked, forced)

@@ -10,14 +10,7 @@
 		return COMPONENT_INCOMPATIBLE
 	infection_chance = inf_chance
 	RegisterSignal(parent, COMSIG_LIVING_DEATH, .proc/handle_early_cleanup)
-
-/datum/component/infection_spreader/RegisterWithParent()
-	. = ..()
 	RegisterSignal(parent, COMSIG_MOB_AFTERATTACK_SUCCESS, PROC_REF(on_bite))
-
-/datum/component/infection_spreader/UnregisterFromParent()
-	. = ..()
-	UnregisterSignal(parent, COMSIG_MOB_AFTERATTACK_SUCCESS)
 
 /datum/component/infection_spreader/proc/handle_early_cleanup(datum/source)
 	SIGNAL_HANDLER
@@ -71,6 +64,11 @@ GLOBAL_LIST_INIT(animal_to_undead, list(
 
 	//KEEP IN MIND. IF YOU EDIT THIS TIMER TO BE LONGER THAN THE ROT COMPONENT, YOU WILL BREAK THIS.
 	reanimation_timer = addtimer(CALLBACK(src, PROC_REF(start_twitching)), get_reanimation_time(), TIMER_STOPPABLE)
+
+/datum/component/deadite_animal_reanimation/Destroy()
+	if(reanimation_timer)
+		deltimer(reanimation_timer)
+	return ..()
 
 /datum/component/deadite_animal_reanimation/proc/get_undead_type(mob_type)
 	var/current_mob_type = mob_type
