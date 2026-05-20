@@ -149,3 +149,27 @@
 	. = ..()
 	blood_color = C.dna.features["mcolor"]
 	blood_color = "#[blood_color]"
+
+/datum/species/ooze/random_name(gender,unique,lastname)
+
+	var/randname
+	if(unique)
+		if(gender == MALE)
+			for(var/i in 1 to 10)
+				randname = pick( world.file2list("strings/rt/names/other/oozem.txt") )
+				if(!findname(randname))
+					break
+		if(gender == FEMALE)
+			for(var/i in 1 to 10)
+				randname = pick( world.file2list("strings/rt/names/other/oozef.txt") )
+				if(!findname(randname))
+					break
+	else
+		if(gender == MALE)
+			randname = pick( world.file2list("strings/rt/names/other/oozem.txt") )
+		if(gender == FEMALE)
+			randname = pick( world.file2list("strings/rt/names/other/ooze/f.txt") )
+	return randname
+
+/datum/species/ooze/random_surname()
+	return
