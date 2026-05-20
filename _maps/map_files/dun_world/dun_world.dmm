@@ -94208,7 +94208,7 @@
 /area/rogue/under/cave/scarymaze)
 "sHR" = (
 /obj/structure/roguemachine/mail{
-	mailtag = Merchant;
+	mailtag = "Merchant";
 	pixel_x = 1;
 	pixel_y = 34
 	},
