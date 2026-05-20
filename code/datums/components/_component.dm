@@ -53,6 +53,9 @@
 		stack_trace("Incompatible [type] assigned to a [parent.type]! args: [json_encode(arguments)]")
 		qdel(src, TRUE, TRUE)
 		return
+	if(Initialize(arglist(arguments)) == COMPONENT_INCOMPATIBLE_SILENT)
+		qdel(src, TRUE, TRUE)
+		return
 
 	_JoinParent(parent)
 

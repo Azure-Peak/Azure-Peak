@@ -8,6 +8,7 @@
 	var/max_head_health = 100
 	var/icon_downed = "saiga_downed"
 	var/stored_icon_living
+	var/reanim_timer_id
 
 /datum/component/deadite/Initialize(reanim_time = 15 MINUTES, leg_hp = 150, head_hp = 100, downed_state, inf_chance = 20)
 	if(!ismob(parent))
@@ -32,6 +33,22 @@
 
 	// We only need to listen to damage!
 	RegisterSignal(L, COMSIG_MOB_APPLY_DAMGE, .proc/on_apply_damage)
+	//RegisterSignal(L, COMSIG_PARENT_QDELETING, .proc/handle_early_cleanup)
+
+/datum/component/deadite/Destroy()
+	if(reanim_timer_id)
+		deltimer(reanim_timer_id)
+		reanim_timer_id = null
+	var/mob/living/L = parent
+	L.faction -= list(FACTION_ZOMBIE)
+	return ..()
+
+/datum/component/deadite/proc/handle_early_cleanup(datum/source)
+	SIGNAL_HANDLER
+	if(reanimation_timer)
+		deltimer(reanimation_timer)
+		reanimation_timer = null
+	qdel(src)
 
 /datum/component/deadite/proc/on_apply_damage(mob/living/simple_animal/L, damage, damagetype, def_zone, blocked, forced)
 	SIGNAL_HANDLER
@@ -46,6 +63,11 @@
 				head_health = 0
 				L.visible_message(span_danger("[L] has their head smashed to pulp!"))
 				L.death() // Mechanically die now
+				UnregisterSignal(COMSIG_MOB_APPLY_DAMGE)
+				if(reanim_timer_id)
+					deltimer(reanim_timer_id)
+					reanim_timer_id = null
+				qdel(src)
 		return
 
 	// If we're not in our downed state, we get crippled, but don't die. Leaving us alive means we get back up eventually.
@@ -69,7 +91,7 @@
 		L.adjustBruteLoss(-L.maxHealth)
 		L.update_icon()
 
-		addtimer(CALLBACK(src, .proc/reanimation), reanimation_timer)
+		reanim_timer_id = addtimer(CALLBACK(src, .proc/reanimation), reanimation_timer, flags = TIMER_STOPPABLE)
 		return
 
 	// hit in the legs? Our legs might break, slowing us down significantly

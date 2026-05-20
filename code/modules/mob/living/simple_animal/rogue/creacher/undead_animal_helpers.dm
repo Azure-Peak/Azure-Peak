@@ -9,6 +9,7 @@
 	if(!istype(parent, /mob/living))
 		return COMPONENT_INCOMPATIBLE
 	infection_chance = inf_chance
+	RegisterSignal(parent, COMSIG_LIVING_DEATH, .proc/handle_early_cleanup)
 
 /datum/component/infection_spreader/RegisterWithParent()
 	. = ..()
@@ -17,6 +18,10 @@
 /datum/component/infection_spreader/UnregisterFromParent()
 	. = ..()
 	UnregisterSignal(parent, COMSIG_MOB_AFTERATTACK_SUCCESS)
+
+/datum/component/infection_spreader/proc/handle_early_cleanup(datum/source)
+	SIGNAL_HANDLER
+	qdel(src)
 
 /datum/component/infection_spreader/proc/on_bite(mob/living/source, mob/living/target)
 	SIGNAL_HANDLER
@@ -60,13 +65,23 @@ GLOBAL_LIST_INIT(animal_to_undead, list(
 		return COMPONENT_INCOMPATIBLE
 
 	var/mob/living/simple_animal/mob = parent
-	if(mob.stat != DEAD || !GLOB.animal_to_undead[mob.type])
-		//unregister here not to throw runtimes in intended cases.
-		UnregisterFromParent()
-		return
+	if(mob.stat != DEAD || !get_undead_type(mob.type))
+		// Not an error, we don't want this logged.
+		return COMPONENT_INCOMPATIBLE_SILENT
 
 	//KEEP IN MIND. IF YOU EDIT THIS TIMER TO BE LONGER THAN THE ROT COMPONENT, YOU WILL BREAK THIS.
 	reanimation_timer = addtimer(CALLBACK(src, PROC_REF(start_twitching)), get_reanimation_time(), TIMER_STOPPABLE)
+
+/datum/component/deadite_animal_reanimation/proc/get_undead_type(mob_type)
+	var/current_mob_type = mob_type
+	while(mob_type && mob_type != /mob/living/simple_animal)
+		if(GLOB.animal_to_undead[mob_type])
+			var/target_undead = GLOB.animal_to_undead[mob_type]
+			if(target_undead == current_mob_type || current_mob_type == mob_type && target_undead == current_mob_type)
+				return null
+			return target_undead
+		mob_type = type2parent(mob_type)
+	return null
 
 /datum/component/deadite_animal_reanimation/proc/start_twitching()
 	var/mob/living/simple_animal/mob = parent

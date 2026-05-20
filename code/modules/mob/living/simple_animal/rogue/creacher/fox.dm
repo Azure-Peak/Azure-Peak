@@ -179,7 +179,7 @@
 		if("cidle")
 			return pick('sound/vo/mobs/vw/bark (1).ogg','sound/vo/mobs/vw/bark (2).ogg','sound/vo/mobs/vw/bark (3).ogg','sound/vo/mobs/vw/bark (4).ogg','sound/vo/mobs/vw/bark (5).ogg','sound/vo/mobs/vw/bark (6).ogg','sound/vo/mobs/vw/bark (7).ogg')
 
-/mob/living/simple_animal/hostile/retaliate/rogue/fox/death()
+/mob/living/simple_animal/hostile/retaliate/rogue/fox/death(gibbed)
 	. = ..()
-	if(!QDELETED(src))
+	if(!QDELETED(src) && !gibbed)
 		src.AddComponent(/datum/component/deadite_animal_reanimation)

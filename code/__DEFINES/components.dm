@@ -12,6 +12,8 @@
 #define COMPONENT_INCOMPATIBLE 1
 /// Returned in PostTransfer to prevent transfer, similar to `COMPONENT_INCOMPATIBLE`
 #define COMPONENT_NOTRANSFER 2
+/// Same as component_incompatible, but silent for intended cases.
+#define COMPONENT_INCOMPATIBLE_SILENT 3
 
 /// Return value to cancel attaching
 #define ELEMENT_INCOMPATIBLE 1
