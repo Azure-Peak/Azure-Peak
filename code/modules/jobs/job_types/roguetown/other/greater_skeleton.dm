@@ -77,18 +77,21 @@ NECRO SKELETONS
 		/datum/skill/misc/climbing = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/craft/carpentry = SKILL_LEVEL_NOVICE,
 		/datum/skill/craft/crafting = SKILL_LEVEL_NOVICE,
+		/datum/skill/craft/masonry = SKILL_LEVEL_NOVICE,
+		/datum/skill/craft/sewing = SKILL_LEVEL_NOVICE,
+
 	)
 	traits_applied = list(TRAIT_MEDIUMARMOR, TRAIT_SILVER_WEAK)
 
 /datum/outfit/job/roguetown/greater_skeleton/necro/legionnaire/pre_equip(mob/living/carbon/human/H)
 	..()
 
-	H.STASTR = prob(2) ? 18 : rand(12,14)
-	H.STAPER = rand(10,12)
-	H.STASPD = rand(8,10)
-	H.STACON = rand(9,11)
-	H.STAWIL = rand(12,15)
-	H.STAINT = 1
+	H.STASTR = prob(2) ? 18 : rand(11,12)
+	H.STAPER = rand(9,11)
+	H.STASPD = rand(7,8)
+	H.STACON = rand(7,9)
+	H.STAWIL = rand(10,11)
+	H.STAINT = rand(1,3)
 
 	belt = /obj/item/storage/belt/rogue/leather
 	backl = /obj/item/storage/backpack/rogue/satchel
@@ -108,10 +111,12 @@ NECRO SKELETONS
 		/datum/skill/combat/bows = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/slings = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/knives = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/athletics = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/craft/crafting = SKILL_LEVEL_NOVICE,
 		/datum/skill/craft/carpentry = SKILL_LEVEL_NOVICE,
+		/datum/skill/craft/masonry = SKILL_LEVEL_NOVICE,
+		/datum/skill/craft/sewing = SKILL_LEVEL_NOVICE,
 	)
 	traits_applied = list(TRAIT_SILVER_WEAK)
 
