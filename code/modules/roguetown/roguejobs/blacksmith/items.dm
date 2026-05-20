@@ -98,6 +98,21 @@
 
 /obj/item/var/polished = FALSE
 /obj/item/var/polish_bonus = 0
+/obj/item/var/glazed = FALSE
+/obj/item/var/glaze_bonus_pct = 0
+
+/obj/item/get_mechanics_examine(mob/user)
+	. = ..()
+	if(glaze_bonus_pct > 0)
+		if(glazed)
+			. += span_info("Glazed in a dyebin - its value is increased by [glaze_bonus_pct]%.")
+		else
+			. += span_info("Can be glazed in a dyebin to increase its value by [glaze_bonus_pct]%.")
+
+/obj/item/get_real_price()
+	. = ..()
+	if(glazed && glaze_bonus_pct > 0)
+		. = max(1, round(. * (1 + glaze_bonus_pct / 100)))
 
 /obj/item/examine(mob/user)
 	. = ..()

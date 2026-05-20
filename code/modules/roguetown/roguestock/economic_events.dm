@@ -271,6 +271,14 @@ GLOBAL_LIST_EMPTY(active_economic_events)
 	price_mod = 5.25
 	event_type = ECON_EVENT_SHORTAGE
 
+/datum/economic_event/clay_pit_collapse
+	name = "CLAY PIT COLLAPSE"
+	description = "The Blackholt clay pits have caved in, swallowing wagons and diggers alike. Potters are turned away empty-handed."
+	announcement = "<font color='#c44'>CLAY PIT COLLAPSE: Blackholt's clay pits cave in. Potters and brickmakers cry out for stock.</font>"
+	affected_goods = list(TRADE_GOOD_CLAY)
+	price_mod = 3.0
+	event_type = ECON_EVENT_SHORTAGE
+
 
 // ============================================================================
 // OVERSUPPLIES - additional

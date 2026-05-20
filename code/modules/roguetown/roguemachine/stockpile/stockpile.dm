@@ -173,11 +173,24 @@
 	return SSeconomy.manual_export(null, best["region_id"], D.trade_good_id, units)
 
 /obj/structure/roguemachine/stockpile/proc/direct_import_price(datum/roguestock/D)
-	if(!D)
+	if(!D || !D.trade_good_id)
 		return 0
-	D.refresh_auto_price()
+	var/list/best = SSeconomy.get_best_import_region(D.trade_good_id)
+	if(!best || !best["region_id"])
+		return 0
+	var/datum/economic_region/region = GLOB.economic_regions[best["region_id"]]
+	if(!region)
+		return 0
+	var/daily_pace = region.produces[D.trade_good_id] || 0
+	if(daily_pace <= 0)
+		return 0
+	var/produces_today = region.produces_today[D.trade_good_id] || 0
+	if(produces_today <= 0)
+		return 0
+	var/starting_index = max(0, daily_pace - produces_today)
+	var/unit_cost = SSeconomy.compute_import_unit_price(D.trade_good_id, region, starting_index + 1)
 	var/margin = (SStreasury.royal_custom_active && SStreasury.royal_custom_unlocked) ? SStreasury.royal_custom_margin : ROYAL_CUSTOM_DEFAULT_MARGIN
-	return max(1, round(D.withdraw_price * (100 + margin) / 100))
+	return max(1, round(unit_cost * (100 + margin) / 100))
 
 /obj/structure/roguemachine/stockpile/proc/do_direct_import(datum/roguestock/D, mob/user)
 	if(!D || !ishuman(user))
@@ -185,23 +198,51 @@
 	if(D.withdraw_disabled)
 		say("Not available.")
 		return
-	var/price = direct_import_price(D)
+	if(!D.trade_good_id)
+		say("Not available.")
+		return
+	var/list/best = SSeconomy.get_best_import_region(D.trade_good_id)
+	if(!best || !best["region_id"])
+		say("No region currently supplies [D.name].")
+		return
+	var/datum/economic_region/region = GLOB.economic_regions[best["region_id"]]
+	if(!region)
+		say("No region currently supplies [D.name].")
+		return
+	var/daily_pace = region.produces[D.trade_good_id] || 0
+	var/produces_today = region.produces_today[D.trade_good_id] || 0
+	if(daily_pace <= 0 || produces_today <= 0)
+		say("[region.name] has no [D.name] left to ship today.")
+		return
+	var/starting_index = max(0, daily_pace - produces_today)
+	var/unit_cost = SSeconomy.compute_import_unit_price(D.trade_good_id, region, starting_index + 1)
+	var/margin = (SStreasury.royal_custom_active && SStreasury.royal_custom_unlocked) ? SStreasury.royal_custom_margin : ROYAL_CUSTOM_DEFAULT_MARGIN
+	var/price = max(1, round(unit_cost * (100 + margin) / 100))
+	var/surcharge = max(0, price - unit_cost)
 	if(withdraw_tab.budget < price)
 		say("Insufficient mammon in the coinpouch.")
 		return
+	if(SStreasury.discretionary_fund.balance < unit_cost)
+		say("The Crown's Purse cannot front the import cost.")
+		return
+	var/spent = SSeconomy.manual_import(user, region.region_id, D.trade_good_id, 1)
+	if(!spent)
+		return
+	D.stockpile_amount = max(0, D.stockpile_amount - 1)
 	withdraw_tab.budget -= price
-	SStreasury.economic_output += price
+	SStreasury.mint(SStreasury.discretionary_fund, unit_cost, "Direct import reimbursement: [D.name] from [region.name]")
+	SStreasury.economic_output += surcharge
 	record_round_statistic(STATS_STOCKPILE_DIRECT_IMPORTS, price)
 	var/chartered = SStreasury.royal_custom_active && SStreasury.royal_custom_unlocked
-	if(chartered)
-		SStreasury.mint(SStreasury.discretionary_fund, price, "Royal Custom: direct import of [D.name]")
-		record_round_statistic(STATS_STOCKPILE_REVENUE, price)
+	if(chartered && surcharge > 0)
+		SStreasury.mint(SStreasury.discretionary_fund, surcharge, "Royal Custom: direct import of [D.name]")
+		record_round_statistic(STATS_STOCKPILE_REVENUE, surcharge)
 	var/obj/item/I = new D.item_type(loc)
 	if(!user.put_in_hands(I))
 		I.forceMove(get_turf(user))
 	playsound(loc, 'sound/misc/hiss.ogg', 100, FALSE, -1)
 	var/flavor = chartered ? "Royal Custom duty paid to the Crown." : "Import surcharge consumed by transport."
-	to_chat(user, span_notice("[D.name] imported for [price]m. [flavor]"))
+	to_chat(user, span_notice("[D.name] imported from [region.name] for [price]m. [flavor]"))
 
 /obj/structure/roguemachine/stockpile/proc/do_withdraw(datum/roguestock/D, mob/user)
 	D.refresh_auto_price()

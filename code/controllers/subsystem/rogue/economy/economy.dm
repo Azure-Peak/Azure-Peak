@@ -460,12 +460,13 @@ SUBSYSTEM_DEF(economy)
 	var/datum/trade_good/tg = GLOB.trade_goods[good_id]
 	if(!tg)
 		return 0
+	var/unit_price = (tg.item_type && GLOB.derived_sellprices[tg.item_type]) || tg.base_price
 	var/unit_mult
 	if(istype(order, /datum/standing_order/urgent))
 		unit_mult = max(1.0, tg.global_price_mod)
 	else
 		unit_mult = 1 + STANDING_ORDER_BASE_BONUS
-	return CEILING(tg.base_price * unit_mult, 1)
+	return CEILING(unit_price * unit_mult, 1)
 
 /datum/controller/subsystem/economy/proc/compute_order_payout(datum/standing_order/order, datum/economic_region/region)
 	var/total = 0
@@ -813,7 +814,7 @@ SUBSYSTEM_DEF(economy)
 	var/actor_suffix = user ? " by [user.real_name]" : ""
 	var/import_label = user ? "Manual Import" : "Auto Import"
 	SStreasury.burn(SStreasury.discretionary_fund, total_cost, "[import_label]: [quantity] [tg.name] from [region.name][actor_suffix]")
-	region.produces_today[good_id] = max(0, produces_today - quantity)
+	region.produces_today[good_id] = produces_today - quantity
 	var/datum/roguestock/stockpile_entry = find_stockpile_by_trade_good(good_id)
 	if(stockpile_entry)
 		stockpile_entry.stockpile_amount += quantity
@@ -858,7 +859,7 @@ SUBSYSTEM_DEF(economy)
 		total_revenue += compute_export_unit_price(good_id, region, starting_index + i)
 
 	stockpile_entry.stockpile_amount -= quantity
-	region.demands_today[good_id] = max(0, demands_today - quantity)
+	region.demands_today[good_id] = demands_today - quantity
 	var/actor_suffix = user ? " by [user.real_name]" : ""
 	var/export_label = user ? "Manual Export" : "Auto Export"
 	SStreasury.dirty_market_view()

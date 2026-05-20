@@ -366,7 +366,7 @@
 			produces += list(list(
 				"good_id" = good_id,
 				"total" = region.produces[good_id],
-				"today" = region.produces_today[good_id] || 0,
+				"today" = max(0, region.produces_today[good_id] || 0),
 			))
 		var/list/demands = list()
 		for(var/good_id in region.demands)
@@ -375,7 +375,7 @@
 			demands += list(list(
 				"good_id" = good_id,
 				"total" = region.demands[good_id],
-				"today" = region.demands_today[good_id] || 0,
+				"today" = max(0, region.demands_today[good_id] || 0),
 			))
 		region_rows += list(list(
 			"region_id" = region_id,
@@ -402,7 +402,7 @@
 		out += list(list(
 			"region_id" = rid,
 			"unit_price" = price,
-			"capacity_today" = today,
+			"capacity_today" = max(0, today),
 			"capacity_total" = pace,
 			"is_blockaded" = r.is_region_blockaded ? TRUE : FALSE,
 		))
@@ -427,7 +427,7 @@
 		out += list(list(
 			"region_id" = rid,
 			"unit_price" = price,
-			"capacity_today" = today,
+			"capacity_today" = max(0, today),
 			"capacity_total" = pace,
 			"is_blockaded" = r.is_region_blockaded ? TRUE : FALSE,
 		))

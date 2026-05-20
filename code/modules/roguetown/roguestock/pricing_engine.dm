@@ -359,6 +359,11 @@ GLOBAL_LIST_EMPTY(item_cat_markups)
 			continue
 		if(register_derived_price(result_path, derived, category))
 			new_derivations++
+		if(ispath(result_path, /obj/item/natural/clay))
+			var/obj/item/natural/clay/raw_proto = result_path
+			var/cooked_path = initial(raw_proto.cooked_type)
+			if(cooked_path && register_derived_price(cooked_path, derived, category))
+				new_derivations++
 	return new_derivations
 
 /proc/build_input_breakdown(path, qty, list/missing_materials_log, list/breakdown)

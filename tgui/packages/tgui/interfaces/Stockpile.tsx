@@ -108,7 +108,9 @@ const StockRowView = (props: {
     row.amount > 0 &&
     (row.withdraw_price <= data.budget || !!data.food_stipend);
   const canImport =
-    !row.withdraw_disabled && row.import_price <= data.budget;
+    !row.withdraw_disabled &&
+    row.import_price > 0 &&
+    row.import_price <= data.budget;
   return (
     <div
       style={{
@@ -224,12 +226,14 @@ const StockRowView = (props: {
           disabled={!canImport}
           onClick={() => act('direct_import', { ref: row.ref })}
           title={
-            data.charter_active
-              ? 'Import directly. Pays duty to the Crown.'
-              : 'Import directly. The surcharge covers transport.'
+            row.import_price <= 0
+              ? 'No region has supply of this good today.'
+              : data.charter_active
+                ? 'Import directly. Pays duty to the Crown.'
+                : 'Import directly. The surcharge covers transport.'
           }
         >
-          Import {row.import_price}m
+          {row.import_price > 0 ? `Import ${row.import_price}m` : 'NO SUPPLY'}
         </button>
       </div>
     </div>

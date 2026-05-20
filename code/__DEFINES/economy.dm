@@ -79,7 +79,7 @@
 #define STOCKPILE_LIMIT_MAX 40
 
 // Buying the same import = escalating price
-#define CROWN_IMPORT_ELASTICITY 0.1
+#define CROWN_IMPORT_ELASTICITY 0.25
 
 #define REGION_POP_SCALE_PER_PLAYER 0.025
 #define REGION_POP_SCALE_MAX 3.0
