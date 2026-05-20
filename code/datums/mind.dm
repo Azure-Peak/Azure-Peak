@@ -865,6 +865,12 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 	// New action-based spell system
 	if(istype(spell_or_action, /datum/action/cooldown/spell))
 		var/datum/action/cooldown/spell/new_spell = spell_or_action
+
+		// check exclusivity
+		for(var/datum/action/cooldown/spell/S in spell_list)
+			if(S.exclusive_group && S.exclusive_group == new_spell.exclusive_group)
+				return // already have one of this group
+
 		for(var/datum/action/cooldown/spell/present in spell_list)
 			if(present.name == new_spell.name && present.type == new_spell.type)
 				return

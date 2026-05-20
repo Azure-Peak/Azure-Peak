@@ -513,3 +513,8 @@
 	timer = 2 MINUTES
 	stressadd = 3
 	desc = span_red("I long for the shelter of wall and roofs. The sun and moon are too bright for me to bear!")
+
+/datum/stressevent/water_splashed_noble
+	timer = 30 SECONDS
+	stressadd = 2
+	desc = span_red("The nerve! Water in my face? This indignity is intolerable.")

@@ -1212,9 +1212,14 @@
 		to_chat(user, span_warning("This one has pledged themselves whole to Necra. They are Hers."))
 		return
 	if(target.mob_biotypes & MOB_UNDEAD) //positive energy harms the undead
-		target.visible_message(span_danger("[target] is unmade by divine magic! The Toll is accepted, and [target] is dragged to ever-death!"), span_userdanger("I'm unmade by divine magic!"))
-		target.gib()
-		return
+		if(alert(user, "[target]'s body rattles and seizes under the divine force. This will likely unmake them permanently. Continue?", "Divine Revival", "PURGE THE UNCLEAN!", "Stop") != "PURGE THE UNCLEAN!")
+			to_chat(user, span_notice("You halt the rite before the divine force can fully take hold."))
+			return FALSE
+		target.visible_message(span_danger("[target] is unmade by divine magic!"), span_userdanger("Holy power tears my undead form apart!"))
+		playsound(target.loc, 'sound/magic/churn.ogg', 100, TRUE)
+		target.dust()
+		return TRUE
+
 	if(alert(target, "A Toll is being offered for your soul, BREAK FREE?", "Revival", "I need to wake up", "Don't let me go") != "I need to wake up")
 		target.visible_message(span_notice("Nothing happens. They are not being let go."))
 		return
@@ -1597,6 +1602,7 @@
 	neck = /obj/item/clothing/neck/roguetown/bevor/zizo
 	r_hand = /obj/item/rogueweapon/sword/long/zizo
 
+	H.mind.RemoveSpell(/datum/action/cooldown/spell/mending) // brute forcing this one, hope this works ryon!
 	H.mind.AddSpell(new /datum/action/cooldown/spell/mending/lesser)
 
 /datum/outfit/job/roguetown/darksteelrite/medium/pre_equip(mob/living/carbon/human/H, visualsOnly = FALSE)

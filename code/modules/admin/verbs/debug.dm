@@ -1360,12 +1360,16 @@ GLOBAL_LIST_EMPTY(loadout_selected_advclasses)
 		if (I.hard_deletes)
 			dellog += "<li>Total Hard Deletes [I.hard_deletes]</li>"
 			dellog += "<li>Time Spent Hard Deleting: [I.hard_delete_time]ms</li>"
+			dellog += "<li>Highest Time Spent Hard Deleting: [I.hard_delete_max]ms</li>"
 		if (I.slept_destroy)
 			dellog += "<li>Sleeps: [I.slept_destroy]</li>"
 		if (I.no_respect_force)
 			dellog += "<li>Ignored force: [I.no_respect_force]</li>"
 		if (I.no_hint)
 			dellog += "<li>No hint: [I.no_hint]</li>"
+		if(LAZYLEN(I.extra_details))
+			var/details = I.extra_details.Join("</li><li>")
+			dellog += "<li>Extra Info: <ul><li>[details]</li></ul>"
 		dellog += "</ul></li>"
 
 	dellog += "</ol>"
