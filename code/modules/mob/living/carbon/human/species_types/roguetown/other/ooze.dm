@@ -168,7 +168,7 @@
 		if(gender == MALE)
 			randname = pick( world.file2list("strings/rt/names/other/oozem.txt") )
 		if(gender == FEMALE)
-			randname = pick( world.file2list("strings/rt/names/other/ooze/f.txt") )
+			randname = pick( world.file2list("strings/rt/names/other/oozef.txt") )
 	return randname
 
 /datum/species/ooze/random_surname()
