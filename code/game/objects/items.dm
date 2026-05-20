@@ -185,8 +185,8 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	/// %-age of our raw damage that is dealt to armor or weapon on hit / parry / clip.
 	var/intdamage_factor = 1
 
-	/obj/item/var/item_quality = ITEM_QUALITY_STANDARD
-	/obj/item/var/has_item_quality = FALSE
+	var/item_quality = ITEM_QUALITY_STANDARD
+	var/has_item_quality = FALSE
 
 	var/sleeved = null
 	var/sleevetype = null
