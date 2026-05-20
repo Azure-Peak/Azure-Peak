@@ -26166,9 +26166,7 @@
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/cave/skeletoncrypt)
 "foa" = (
-/obj/structure/roguemachine/mail{
-	mailtag = "Merchant"
-	},
+/obj/structure/roguemachine/mail,
 /obj/structure/roguemachine/scomm/r{
 	scom_tag = "Manor - Council Quarters"
 	},
@@ -55668,9 +55666,7 @@
 /turf/open/floor/carpet/red,
 /area/rogue/under/cave/taricheamanor)
 "lbW" = (
-/obj/structure/roguemachine/mail{
-	mailtag = "Merchant"
-	},
+/obj/structure/roguemachine/mail,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/underdark)
 "lbY" = (
@@ -94212,7 +94208,7 @@
 /area/rogue/under/cave/scarymaze)
 "sHR" = (
 /obj/structure/roguemachine/mail{
-	mailtag = "Merchant";
+	mailtag = Merchant;
 	pixel_x = 1;
 	pixel_y = 34
 	},
@@ -99293,9 +99289,7 @@
 	dir = 1;
 	icon_state = "borderfall"
 	},
-/obj/structure/roguemachine/mail{
-	mailtag = Merchant
-	},
+/obj/structure/roguemachine/mail,
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors/rtfield)
 "tHc" = (
