@@ -55669,7 +55669,7 @@
 /area/rogue/under/cave/taricheamanor)
 "lbW" = (
 /obj/structure/roguemachine/mail{
-	mailtag = Merchant
+	mailtag = "Merchant"
 	},
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/underdark)
@@ -94212,7 +94212,7 @@
 /area/rogue/under/cave/scarymaze)
 "sHR" = (
 /obj/structure/roguemachine/mail{
-	mailtag = Merchant;
+	mailtag = "Merchant";
 	pixel_x = 1;
 	pixel_y = 34
 	},
