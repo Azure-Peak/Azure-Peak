@@ -251,9 +251,11 @@
 	switch(action)
 		if("changecat")
 			var/cat = "[params["category"]]"
-			if(cat in categories)
+			if(cat == "")
+				current_cat = ""
+			else if(cat in categories)
 				current_cat = cat
-			search_query = ""
+				search_query = ""
 			return TRUE
 		if("set_search")
 			search_query = "[params["search"]]"

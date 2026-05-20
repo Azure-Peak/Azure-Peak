@@ -1,6 +1,14 @@
 import { useState } from 'react';
 
 import {
+  compactButtonStyle,
+  denseRowStyle,
+  ellipsisCellStyle,
+  FONT_BODY,
+  FONT_HEAD,
+  FONT_LEAD,
+  FONT_SMALL,
+  FONT_TITLE,
   INK,
   INK_FAINT,
   INK_SOFT,
@@ -21,6 +29,35 @@ const formatDuration = (totalSeconds: number) => {
   return `${minutes} minutes`;
 };
 
+const SMALL_WORDS = new Set([
+  'a',
+  'an',
+  'and',
+  'as',
+  'at',
+  'but',
+  'by',
+  'for',
+  'in',
+  'of',
+  'on',
+  'or',
+  'the',
+  'to',
+  'with',
+]);
+
+const titleCase = (s: string) =>
+  s
+    .split(' ')
+    .map((word, i) => {
+      if (!word) return word;
+      const lower = word.toLowerCase();
+      if (i > 0 && SMALL_WORDS.has(lower)) return lower;
+      return lower.charAt(0).toUpperCase() + lower.slice(1);
+    })
+    .join(' ');
+
 type Props = {
   ship: HarborShip;
   budget: number;
@@ -37,22 +74,18 @@ const DemandLineRow = (props: { line: BulkLine }) => {
   return (
     <div
       style={{
-        display: 'flex',
+        ...denseRowStyle,
         alignItems: 'baseline',
-        gap: '8px',
         padding: '2px 0',
-        fontSize: '11px',
-        color: INK,
+        borderBottom: 'none',
+        fontSize: FONT_BODY,
+        color: SEAL_GREEN,
       }}
+      title={`Buying ${line.qty_target} ${titleCase(line.good_name)} at ${line.offered_price}m each (${line.qty_fulfilled} delivered so far)`}
     >
-      <span style={{ flex: '0 0 70px', color: SEAL_GREEN, fontWeight: 'bold' }}>
-        Buying
-      </span>
-      <span style={{ flex: 1 }}>
-        {line.good_name} &times;{line.qty_target}
-      </span>
+      <span style={ellipsisCellStyle}>{titleCase(line.good_name)}</span>
       <span style={{ flex: '0 0 auto', color: INK_SOFT }}>
-        {line.qty_fulfilled} / {line.qty_target}
+        {line.qty_fulfilled}/{line.qty_target}
       </span>
       <span
         style={{
@@ -61,7 +94,7 @@ const DemandLineRow = (props: { line: BulkLine }) => {
           fontWeight: 'bold',
         }}
       >
-        {line.offered_price}m ea
+        {line.offered_price}m
       </span>
     </div>
   );
@@ -84,28 +117,24 @@ const SupplyLineRow = (props: {
   return (
     <div
       style={{
-        display: 'flex',
+        ...denseRowStyle,
         alignItems: 'baseline',
-        gap: '8px',
         padding: '2px 0',
-        fontSize: '11px',
-        color: INK,
+        borderBottom: 'none',
+        fontSize: FONT_BODY,
+        color: SEAL_RED,
       }}
+      title={`Selling ${titleCase(line.good_name)} at ${line.offered_price}m each (${line.qty_fulfilled} of ${line.qty_target} sold)`}
     >
-      <span style={{ flex: '0 0 70px', color: SEAL_RED, fontWeight: 'bold' }}>
-        Selling
-      </span>
-      <span style={{ flex: 1 }}>
-        {line.good_name} &times;{line.qty_target}
-      </span>
+      <span style={ellipsisCellStyle}>{titleCase(line.good_name)}</span>
       <span style={{ flex: '0 0 auto', color: INK_SOFT }}>
-        {line.qty_fulfilled} / {line.qty_target}
+        {line.qty_fulfilled}/{line.qty_target}
       </span>
       <span style={{ flex: '0 0 auto', color: SEAL_AMBER, fontWeight: 'bold' }}>
-        {line.offered_price}m ea
+        {line.offered_price}m
       </span>
       {soldOut ? (
-        <span style={{ color: INK_FAINT, fontStyle: 'italic' }}>sold out</span>
+        <span style={{ color: INK_FAINT, fontStyle: 'italic' }}>sold</span>
       ) : (
         <>
           <input
@@ -119,20 +148,20 @@ const SupplyLineRow = (props: {
               if (!Number.isNaN(next)) setQty(next);
             }}
             style={{
-              width: '52px',
+              width: '42px',
               fontFamily: SERIF,
-              fontSize: '12px',
+              fontSize: FONT_BODY,
               color: INK,
               background: 'rgba(255,248,220,0.6)',
               border: `1px solid ${INK_FAINT}`,
               borderRadius: '2px',
-              padding: '1px 4px',
+              padding: '1px 3px',
               textAlign: 'right',
             }}
           />
           <button
             type="button"
-            style={inkButtonStyle({ disabled: cantAfford })}
+            style={compactButtonStyle({ disabled: cantAfford })}
             disabled={cantAfford}
             title={
               cantAfford
@@ -184,30 +213,22 @@ export const ShipRow = (props: Props) => {
         }}
       >
         <div style={{ flex: 1, minWidth: 0 }}>
-          <div style={{ color: INK, fontWeight: 'bold' }}>{ship.ship_name}</div>
+          <div style={{ color: INK, fontWeight: 'bold', fontSize: FONT_TITLE }}>
+            {ship.ship_name}
+          </div>
           {ship.captain_name && (
-            <div
-              style={{ color: INK_SOFT, fontSize: '11px', fontStyle: 'italic' }}
-            >
+            <div style={{ color: INK_SOFT, fontSize: FONT_BODY }}>
               Captain {ship.captain_name}
               {ship.port_of_origin ? ` - sailing from ${ship.port_of_origin}` : ''}
             </div>
           )}
           {!ship.captain_name && ship.port_of_origin && (
-            <div
-              style={{ color: INK_SOFT, fontSize: '11px', fontStyle: 'italic' }}
-            >
+            <div style={{ color: INK_SOFT, fontSize: FONT_BODY }}>
               Sailing from {ship.port_of_origin}
             </div>
           )}
           {ship.seconds_until_departure !== undefined && (
-            <div
-              style={{
-                color: SEAL_AMBER,
-                fontSize: '11px',
-                fontStyle: 'italic',
-              }}
-            >
+            <div style={{ color: SEAL_AMBER, fontSize: FONT_LEAD }}>
               Departs in {formatDuration(ship.seconds_until_departure)}
             </div>
           )}
@@ -217,32 +238,30 @@ export const ShipRow = (props: Props) => {
             flex: '0 0 auto',
             textAlign: 'right',
             color: INK_SOFT,
-            fontSize: '11px',
+            fontSize: FONT_LEAD,
+            lineHeight: 1.3,
           }}
         >
           <div
-            style={{
-              color: SEAL_AMBER,
-              fontVariant: 'small-caps',
-            }}
-          >
-            {ship.realm_id}
-          </div>
-          <div
             title={`Tonnage scales goods on offer and expected favor. 100t baseline = 1.00x, 800t galleon caps at 2.00x. This vessel: ${ship.tonnage_mult.toFixed(2)}x.`}
           >
+            <span style={{ color: SEAL_AMBER, fontVariant: 'small-caps' }}>
+              {ship.realm_id}
+            </span>
+            <span style={{ color: INK_FAINT }}> &middot; </span>
             {ship.ship_type} &middot; {ship.tonnage}t
             {ship.tonnage_mult > 1.0 && (
-              <span style={{ color: SEAL_AMBER, fontWeight: 'bold' }}>
+              <span style={{ color: SEAL_AMBER }}>
                 {' '}({ship.tonnage_mult.toFixed(2)}x)
               </span>
             )}
           </div>
           {ship.expected_favor > 0 && (
-            <div title={`Send-off favor: Honored at 100% of target gives you the full delivered value as favor plus a refunded hail. Partial at 50% gives you half delivered value as favor. Below 50% is Dishonored and costs ${Math.round(250 * ship.tonnage_mult)}m favor for this vessel.`}>
-              <span style={{ color: SEAL_AMBER }}>
-                Favor: {ship.favor_earned}m / {ship.expected_favor}m
-              </span>
+            <div
+              style={{ color: SEAL_AMBER }}
+              title={`Send-off favor: Honored at 100% of target gives you the full delivered value as favor plus a refunded hail. Partial at 50% gives you half delivered value as favor. Below 50% is Dishonored and costs ${Math.round(250 * ship.tonnage_mult)}m favor for this vessel.`}
+            >
+              Favor: {ship.favor_earned}m / {ship.expected_favor}m
             </div>
           )}
         </div>
@@ -281,22 +300,71 @@ export const ShipRow = (props: Props) => {
         <div
           style={{
             marginTop: '4px',
-            paddingLeft: '6px',
-            borderLeft: `2px solid ${PARCHMENT_SHADOW}`,
+            display: 'grid',
+            gridTemplateColumns: '1fr 1fr',
+            gap: '0 16px',
           }}
         >
-          {ship.bulk_demands?.map((line) => (
-            <DemandLineRow key={`d-${line.good}`} line={line} />
-          ))}
-          {ship.bulk_supplies?.map((line) => (
-            <SupplyLineRow
-              key={`s-${line.good}`}
-              line={line}
-              shipId={ship.ship_id}
-              budget={budget}
-              act={act}
-            />
-          ))}
+          <div
+            style={{
+              paddingLeft: '6px',
+              borderLeft: `2px solid ${SEAL_GREEN}`,
+            }}
+          >
+            <div
+              style={{
+                color: SEAL_GREEN,
+                fontWeight: 'bold',
+                fontSize: FONT_HEAD,
+                fontVariant: 'small-caps',
+                marginBottom: '3px',
+              }}
+            >
+              Buying
+            </div>
+            {ship.bulk_demands?.length ? (
+              ship.bulk_demands.map((line) => (
+                <DemandLineRow key={`d-${line.good}`} line={line} />
+              ))
+            ) : (
+              <div style={{ color: INK_FAINT, fontSize: FONT_SMALL, fontStyle: 'italic' }}>
+                Nothing wanted.
+              </div>
+            )}
+          </div>
+          <div
+            style={{
+              paddingLeft: '6px',
+              borderLeft: `2px solid ${SEAL_RED}`,
+            }}
+          >
+            <div
+              style={{
+                color: SEAL_RED,
+                fontWeight: 'bold',
+                fontSize: FONT_HEAD,
+                fontVariant: 'small-caps',
+                marginBottom: '3px',
+              }}
+            >
+              Selling
+            </div>
+            {ship.bulk_supplies?.length ? (
+              ship.bulk_supplies.map((line) => (
+                <SupplyLineRow
+                  key={`s-${line.good}`}
+                  line={line}
+                  shipId={ship.ship_id}
+                  budget={budget}
+                  act={act}
+                />
+              ))
+            ) : (
+              <div style={{ color: INK_FAINT, fontSize: FONT_SMALL, fontStyle: 'italic' }}>
+                Nothing on offer.
+              </div>
+            )}
+          </div>
         </div>
       )}
     </div>

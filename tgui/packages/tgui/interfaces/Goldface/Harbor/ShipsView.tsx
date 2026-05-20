@@ -72,7 +72,13 @@ export const ShipsView = (props: Props) => {
           No vessels on the horizon. The dawn brings new arrivals.
         </EmptyCard>
       ) : (
-        <div>
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: '1fr 1fr',
+            gap: '0 12px',
+          }}
+        >
           {pool.map((s) => (
             <ShipRow
               key={s.ship_id}

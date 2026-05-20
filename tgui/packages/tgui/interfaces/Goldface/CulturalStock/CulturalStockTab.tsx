@@ -2,15 +2,17 @@ import { useState } from 'react';
 
 import {
   cardStyle,
+  compactButtonStyle,
+  denseRowStyle,
+  ellipsisCellStyle,
+  FONT_LEAD,
+  FONT_SMALL,
+  FONT_TITLE,
   INK,
-  INK_FAINT,
   INK_SOFT,
-  inkButtonStyle,
   pageStyle,
-  PARCHMENT_SHADOW,
-  SEAL_AMBER,
+  PriceTag,
   sectionHeaderStyle,
-  SERIF,
   titleStyle,
 } from '../../common/parchment';
 import type { ActFn, CulturalStockEntry } from '../types';
@@ -28,64 +30,52 @@ const StockCard = (props: {
 }) => {
   const { entry, budget, act } = props;
   const cantAfford = budget < entry.price;
+  const hasTariff = entry.price_tariff > 0;
+  const priceTitle = hasTariff
+    ? `${entry.price_base}m + ${entry.price_tariff}m Crown duty = ${entry.price}m (was ${entry.base_cost}m)`
+    : `${entry.price}m (was ${entry.base_cost}m)`;
   return (
-    <div
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        gap: '8px',
-        padding: '4px 8px',
-        borderBottom: `1px dashed ${PARCHMENT_SHADOW}`,
-        fontFamily: SERIF,
-      }}
-    >
-      <div style={{ flex: 1, minWidth: 0 }}>
-        <div
+    <div style={denseRowStyle}>
+      <div
+        style={{
+          ...ellipsisCellStyle,
+          color: INK,
+          fontSize: FONT_TITLE,
+        }}
+        title={`${entry.name} - ${entry.qty} in stock`}
+      >
+        {entry.pack_qty > 1 && (
+          <span
+            style={{
+              color: INK_SOFT,
+              marginRight: '4px',
+              fontSize: FONT_LEAD,
+            }}
+          >
+            x{entry.pack_qty}
+          </span>
+        )}
+        {entry.name}
+        <span
           style={{
-            color: INK,
-            fontWeight: 'bold',
-            fontSize: '12px',
-            overflow: 'hidden',
-            textOverflow: 'ellipsis',
-            whiteSpace: 'nowrap',
+            color: INK_SOFT,
+            marginLeft: '6px',
+            fontSize: FONT_SMALL,
           }}
         >
-          {entry.name}
-        </div>
-        <div style={{ color: INK_SOFT, fontSize: '10px' }}>
-          {entry.pack_qty > 1 ? `x${entry.pack_qty} - ` : ''}{entry.qty} in stock
-        </div>
+          ({entry.qty})
+        </span>
       </div>
-      <div style={{ textAlign: 'right', flexShrink: 0 }}>
-        <div
-          style={{
-            fontSize: '12px',
-            color: cantAfford ? INK_FAINT : INK,
-            fontWeight: 'bold',
-          }}
-          title={
-            entry.price_tariff > 0
-              ? `${entry.price_base}m + ${entry.price_tariff}m Crown duty`
-              : undefined
-          }
-        >
-          {entry.price}m
-        </div>
-        <div
-          style={{
-            fontSize: '9px',
-            color: SEAL_AMBER,
-            fontStyle: 'italic',
-            textDecoration: 'line-through',
-          }}
-        >
-          {entry.base_cost}m
-        </div>
-      </div>
+      <PriceTag
+        price={entry.price}
+        tariff={entry.price_tariff}
+        cantAfford={cantAfford}
+        title={priceTitle}
+      />
       <div style={{ flexShrink: 0 }}>
         <button
           type="button"
-          style={inkButtonStyle({ disabled: cantAfford })}
+          style={compactButtonStyle({ disabled: cantAfford })}
           disabled={cantAfford}
           onClick={() =>
             act('cultural_buy', {
@@ -93,6 +83,7 @@ const StockCard = (props: {
               ship_id: entry.ship_id,
             })
           }
+          title={`Buy ${entry.name} for ${entry.price}m`}
         >
           Buy
         </button>
@@ -145,7 +136,7 @@ const ShipSection = (props: {
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: '1fr 1fr',
+            gridTemplateColumns: '1fr 1fr 1fr',
             gap: '0 12px',
           }}
         >

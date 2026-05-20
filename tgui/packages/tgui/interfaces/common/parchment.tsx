@@ -1,5 +1,15 @@
 import type { CSSProperties } from 'react';
 
+// ── Font scale ───────────────────────────────────────────────────
+// Use these constants rather than raw px values. Bumping body text
+// site-wide is then a one-line change here.
+export const FONT_TINY = '10px';
+export const FONT_SMALL = '11px';
+export const FONT_BODY = '12px';
+export const FONT_LEAD = '13px';
+export const FONT_TITLE = '14px';
+export const FONT_HEAD = '15px';
+
 // ── Parchment palette ────────────────────────────────────────────
 export const INK = '#3a2a14';
 export const INK_SOFT = '#5a3f1f';
@@ -206,3 +216,77 @@ export const bannerStyle = (color: string, soft: boolean = false): CSSProperties
   fontVariant: 'small-caps',
   fontWeight: 'bold',
 });
+
+// ── Dense list primitives ────────────────────────────────────────
+// Shared scaffold for compact "name … price [Buy]" rows used by
+// PackRow, StockCard, ShipRow bulk lines, etc. Pass alignItems
+// 'baseline' for text-only rows; defaults to 'center' for rows
+// containing inputs/buttons.
+export const denseRowStyle: CSSProperties = {
+  display: 'flex',
+  alignItems: 'center',
+  gap: '6px',
+  padding: '4px 6px',
+  borderBottom: `1px dashed ${PARCHMENT_SHADOW}`,
+  fontFamily: SERIF,
+  lineHeight: 1.3,
+};
+
+// The truncating name cell used inside a dense row. Combine with
+// fontSize / fontWeight / color on the consumer side.
+export const ellipsisCellStyle: CSSProperties = {
+  flex: 1,
+  minWidth: 0,
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  whiteSpace: 'nowrap',
+};
+
+// Tighter Buy/Send button variant for dense rows.
+export const compactButtonStyle = (opts: {
+  color?: string;
+  disabled?: boolean;
+} = {}): CSSProperties => ({
+  ...inkButtonStyle(opts),
+  padding: '1px 7px',
+  fontSize: FONT_LEAD,
+});
+
+// ── PriceTag ─────────────────────────────────────────────────────
+// {price}{+tariff?}{m} triplet used by every "buy this for N mammon"
+// row. Bold price (faints when unaffordable), amber bold tariff
+// suffix, soft 'm' unit. Pass `title` for the hover breakdown.
+export const PriceTag = (props: {
+  price: number;
+  tariff?: number;
+  cantAfford?: boolean;
+  title?: string;
+}) => {
+  const { price, tariff, cantAfford, title } = props;
+  const hasTariff = !!tariff && tariff > 0;
+  return (
+    <div
+      style={{
+        fontSize: FONT_LEAD,
+        color: cantAfford ? INK_FAINT : INK,
+        flexShrink: 0,
+        whiteSpace: 'nowrap',
+      }}
+      title={title}
+    >
+      {price}
+      {hasTariff && (
+        <span
+          style={{
+            color: SEAL_AMBER,
+            fontSize: FONT_BODY,
+            marginLeft: '2px',
+          }}
+        >
+          +{tariff}
+        </span>
+      )}
+      <span style={{ color: INK_SOFT, fontSize: FONT_SMALL }}>m</span>
+    </div>
+  );
+};

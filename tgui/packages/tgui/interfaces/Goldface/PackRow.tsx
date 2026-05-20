@@ -1,11 +1,14 @@
 import {
+  compactButtonStyle,
+  denseRowStyle,
+  ellipsisCellStyle,
+  FONT_LEAD,
+  FONT_SMALL,
+  FONT_TITLE,
   INK,
   INK_FAINT,
   INK_SOFT,
-  inkButtonStyle,
-  PARCHMENT_SHADOW,
-  SEAL_AMBER,
-  SERIF,
+  PriceTag,
 } from '../common/parchment';
 import type { ActFn, VendingPack } from './types';
 import { starsIfIlliterate } from './util';
@@ -27,27 +30,12 @@ export const PackRow = (props: Props) => {
     ? `${pack.price_base}m + ${pack.price_tariff}m tariff = ${pack.price}m`
     : `${pack.price}m`;
   return (
-    <div
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        gap: '6px',
-        padding: '4px 6px',
-        borderBottom: `1px dashed ${PARCHMENT_SHADOW}`,
-        fontFamily: SERIF,
-        lineHeight: 1.3,
-      }}
-    >
+    <div style={denseRowStyle}>
       <div
         style={{
-          flex: 1,
-          minWidth: 0,
-          fontSize: '13px',
-          fontWeight: 'bold',
+          ...ellipsisCellStyle,
+          fontSize: FONT_TITLE,
           color: INK,
-          overflow: 'hidden',
-          textOverflow: 'ellipsis',
-          whiteSpace: 'nowrap',
         }}
         title={showCategory ? `${pack.name} - ${pack.category}` : pack.name}
       >
@@ -56,8 +44,7 @@ export const PackRow = (props: Props) => {
             style={{
               color: INK_SOFT,
               marginRight: '4px',
-              fontSize: '12px',
-              fontWeight: 'bold',
+              fontSize: FONT_LEAD,
             }}
           >
             x{pack.qty}
@@ -65,40 +52,19 @@ export const PackRow = (props: Props) => {
         )}
         {starsIfIlliterate(pack.name, canRead)}
       </div>
-      <div
-        style={{
-          fontSize: '13px',
-          color: cantAfford ? INK_FAINT : INK,
-          fontWeight: 'bold',
-          flexShrink: 0,
-          whiteSpace: 'nowrap',
-        }}
+      <PriceTag
+        price={pack.price}
+        tariff={pack.price_tariff}
+        cantAfford={cantAfford}
         title={priceTitle}
-      >
-        {pack.price}
-        {hasTariff && (
-          <span
-            style={{
-              color: SEAL_AMBER,
-              fontWeight: 'bold',
-              fontSize: '12px',
-              marginLeft: '2px',
-            }}
-          >
-            +{pack.price_tariff}
-          </span>
-        )}
-        <span style={{ color: INK_SOFT, fontSize: '11px', fontWeight: 'bold' }}>
-          m
-        </span>
-      </div>
+      />
       <div style={{ flexShrink: 0 }}>
         {browseOnly ? (
           <span
             style={{
               fontStyle: 'italic',
               color: INK_FAINT,
-              fontSize: '10px',
+              fontSize: FONT_SMALL,
             }}
           >
             browse
@@ -106,11 +72,7 @@ export const PackRow = (props: Props) => {
         ) : (
           <button
             type="button"
-            style={{
-              ...inkButtonStyle({ disabled: cantAfford }),
-              padding: '1px 7px',
-              fontSize: '12px',
-            }}
+            style={compactButtonStyle({ disabled: cantAfford })}
             disabled={cantAfford}
             onClick={() => act('buy', { ref: pack.ref })}
             title={`Buy ${pack.name} for ${pack.price}m`}

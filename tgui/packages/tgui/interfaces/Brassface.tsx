@@ -1,5 +1,12 @@
 import { useBackend } from '../backend';
 import { Window } from '../layouts';
+import { Header } from './Brassface/Header';
+import { MammonRow } from './Brassface/MammonRow';
+import { PacksGrid } from './Brassface/PacksGrid';
+import { SearchBar } from './Brassface/SearchBar';
+import { SecretsPanel } from './Brassface/SecretsPanel';
+import type { BrassfaceData } from './Brassface/types';
+import { starsIfIlliterate } from './Brassface/util';
 import {
   cardStyle,
   INK_SOFT,
@@ -9,13 +16,6 @@ import {
   subTabStyle,
   titleStyle,
 } from './common/parchment';
-import { Header } from './Brassface/Header';
-import { MammonRow } from './Brassface/MammonRow';
-import { PacksGrid } from './Brassface/PacksGrid';
-import { SearchBar } from './Brassface/SearchBar';
-import { SecretsPanel } from './Brassface/SecretsPanel';
-import type { BrassfaceData } from './Brassface/types';
-import { starsIfIlliterate } from './Brassface/util';
 
 const LockedView = (props: { motto: string; canRead: boolean }) => (
   <div style={pageStyle}>
@@ -73,16 +73,36 @@ export const Brassface = () => {
             <SecretsPanel dodging={!!data.dodging} act={act} />
           )}
           <div style={subTabBarStyle}>
-            {data.categories.map((cat) => (
+            {data.categories.map((cat) => {
+              const isActive = data.current_category === cat;
+              return (
+                <button
+                  type="button"
+                  key={cat}
+                  style={subTabStyle(isActive)}
+                  onClick={() =>
+                    act('changecat', { category: isActive ? '' : cat })
+                  }
+                  title={
+                    isActive
+                      ? `Click again to clear the category filter`
+                      : `Browse ${cat}`
+                  }
+                >
+                  {cat}
+                </button>
+              );
+            })}
+            {!!data.current_category && (
               <button
                 type="button"
-                key={cat}
-                style={subTabStyle(data.current_category === cat)}
-                onClick={() => act('changecat', { category: cat })}
+                style={subTabStyle(false)}
+                onClick={() => act('changecat', { category: '' })}
+                title="Clear category filter (keeps any active search)"
               >
-                {cat}
+                × Clear
               </button>
-            ))}
+            )}
           </div>
           <SearchBar serverSearch={data.search} act={act} />
           <PacksGrid

@@ -535,11 +535,14 @@
 	switch(action)
 		if("changecat")
 			var/cat = "[params["category"]]"
-			if(cat in categories)
+			if(cat == "")
+				current_cat = ""
+			else if(cat in categories)
 				current_cat = cat
+				search_query = ""
 			else if(cat in categories_gamer)
 				current_cat = cat
-			search_query = ""
+				search_query = ""
 			return TRUE
 		if("set_search")
 			search_query = "[params["search"]]"
@@ -594,6 +597,7 @@
 			budget -= cost
 			record_round_statistic(value_record_key, cost)
 			record_round_statistic(STATS_TRADE_VALUE_IMPORTED, cost)
+			playsound(loc, 'sound/misc/gold_misc.ogg', 70, FALSE, -1)
 			if(!(upgrade_flags & UPGRADE_NOTAX) && !bypass_tax)
 				SStreasury.mint(SStreasury.discretionary_fund, tax_amt, "[TAX_CATEGORY_IMPORT_TARIFF] ([src.name])")
 				SStreasury.apply_concordat_tithe(cost, TAX_CATEGORY_IMPORT_TARIFF, "[src.name]")

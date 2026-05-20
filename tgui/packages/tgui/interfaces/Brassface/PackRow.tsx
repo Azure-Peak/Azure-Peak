@@ -1,12 +1,15 @@
 import {
+  compactButtonStyle,
+  denseRowStyle,
+  ellipsisCellStyle,
+  FONT_LEAD,
+  FONT_SMALL,
+  FONT_TINY,
+  FONT_TITLE,
   INK,
-  INK_FAINT,
   INK_SOFT,
-  inkButtonStyle,
-  PARCHMENT_SHADOW,
-  SEAL_AMBER,
+  PriceTag,
   SEAL_RED,
-  SERIF,
 } from '../common/parchment';
 import type { ActFn, VendingPack } from './types';
 import { starsIfIlliterate } from './util';
@@ -22,97 +25,76 @@ type Props = {
 export const PackRow = (props: Props) => {
   const { pack, budget, canRead, showCategory, act } = props;
   const cantAfford = budget < pack.price;
+  const hasTariff = pack.price_tariff > 0;
+  const priceTitle = hasTariff
+    ? `${pack.price_base}m + ${pack.price_tariff}m duty = ${pack.price}m`
+    : `${pack.price}m`;
   return (
-    <div
-      style={{
-        display: 'flex',
-        alignItems: 'flex-start',
-        gap: '8px',
-        padding: '6px 8px',
-        borderBottom: `1px dashed ${PARCHMENT_SHADOW}`,
-        fontFamily: SERIF,
-      }}
-    >
-      <div style={{ flex: 1, minWidth: 0 }}>
-        <div
-          style={{
-            fontSize: '13px',
-            color: INK,
-            overflow: 'hidden',
-            textOverflow: 'ellipsis',
-          }}
-        >
-          {starsIfIlliterate(pack.name, canRead)}
-          {pack.qty > 1 && (
-            <span
-              style={{
-                color: INK_SOFT,
-                marginLeft: '4px',
-                fontSize: '11px',
-              }}
-            >
-              x{pack.qty}
-            </span>
-          )}
-          {!!pack.contraband && (
-            <span
-              style={{
-                marginLeft: '6px',
-                fontSize: '9px',
-                fontVariant: 'small-caps',
-                fontWeight: 'bold',
-                color: SEAL_RED,
-                border: `1px solid ${SEAL_RED}`,
-                padding: '0 4px',
-                borderRadius: '2px',
-                verticalAlign: 'middle',
-              }}
-            >
-              contraband
-            </span>
-          )}
-        </div>
-        {showCategory && (
-          <div
+    <div style={denseRowStyle}>
+      <div
+        style={{
+          ...ellipsisCellStyle,
+          fontSize: FONT_TITLE,
+          color: INK,
+        }}
+        title={showCategory ? `${pack.name} - ${pack.category}` : pack.name}
+      >
+        {pack.qty > 1 && (
+          <span
             style={{
-              fontSize: '10px',
+              color: INK_SOFT,
+              marginRight: '4px',
+              fontSize: FONT_LEAD,
+            }}
+          >
+            x{pack.qty}
+          </span>
+        )}
+        {starsIfIlliterate(pack.name, canRead)}
+        {!!pack.contraband && (
+          <span
+            style={{
+              marginLeft: '6px',
+              fontSize: FONT_TINY,
+              fontVariant: 'small-caps',
+              fontWeight: 'bold',
+              color: SEAL_RED,
+              border: `1px solid ${SEAL_RED}`,
+              padding: '0 4px',
+              borderRadius: '2px',
+              verticalAlign: 'middle',
+            }}
+          >
+            contraband
+          </span>
+        )}
+        {showCategory && (
+          <span
+            style={{
+              fontSize: FONT_SMALL,
               fontStyle: 'italic',
               color: INK_SOFT,
+              fontWeight: 'normal',
+              marginLeft: '6px',
             }}
           >
             {pack.category}
-          </div>
+          </span>
         )}
       </div>
-      <div style={{ textAlign: 'right', flexShrink: 0 }}>
-        <div
-          style={{
-            fontSize: '13px',
-            color: cantAfford ? INK_FAINT : INK,
-            fontWeight: 'bold',
-          }}
-        >
-          {pack.price}m
-        </div>
-        {pack.price_tariff > 0 && (
-          <div
-            style={{
-              fontSize: '10px',
-              fontStyle: 'italic',
-              color: SEAL_AMBER,
-              whiteSpace: 'nowrap',
-            }}
-          >
-            +{pack.price_tariff}m duty
-          </div>
-        )}
-      </div>
+      <PriceTag
+        price={pack.price}
+        tariff={pack.price_tariff}
+        cantAfford={cantAfford}
+        title={priceTitle}
+      />
       <div style={{ flexShrink: 0 }}>
         <button
           type="button"
-          style={inkButtonStyle({ disabled: cantAfford })}
+          style={compactButtonStyle({ disabled: cantAfford })}
           disabled={cantAfford}
           onClick={() => act('buy', { ref: pack.ref })}
+          title={`Buy ${pack.name} for ${pack.price}m`}
         >
           Buy
         </button>
