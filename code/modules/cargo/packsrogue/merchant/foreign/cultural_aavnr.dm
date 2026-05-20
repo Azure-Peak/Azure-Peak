@@ -133,7 +133,7 @@
 		/obj/item/clothing/suit/roguetown/armor/leather/heavy/freifechter,
 		/obj/item/clothing/under/roguetown/heavy_leather_pants/otavan/generic,
 		/obj/item/clothing/shoes/roguetown/grenzelhoft/freifechter,
-		/obj/item/clothing/gloves/roguetown/angle/grenzelgloves/freifechter,
+		/obj/item/clothing/gloves/roguetown/angle/freifechter,
 		/obj/item/clothing/wrists/roguetown/bracers/jackchain,
 		/obj/item/clothing/neck/roguetown/psicross/reform,
 		/obj/item/rogueweapon/sword/sabre/freifechter,
