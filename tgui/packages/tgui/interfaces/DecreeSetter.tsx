@@ -15,6 +15,7 @@ import {
   SEAL_AMBER,
   SEAL_GREEN,
   SEAL_RED,
+  SERIF,
   subtitleStyle,
   tabBarStyle,
   tabStyle,
@@ -102,7 +103,7 @@ const flavorBodyStyle: React.CSSProperties = {
   whiteSpace: 'pre-wrap',
   borderTop: `1px dashed ${INK_FAINT}`,
   paddingTop: '6px',
-  fontFamily: '"Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif',
+  fontFamily: SERIF,
   lineHeight: 1.55,
 };
 

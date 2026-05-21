@@ -43,7 +43,6 @@ const promptMultiplier = (label: string): number | null => {
   return n;
 };
 
-// ── Market view ──────────────────────────────────────────────────
 export const MarketView = (props: { data: Data; onTrade: OnTrade }) => {
   const { act } = useBackend<Data>();
   const {
@@ -63,7 +62,6 @@ export const MarketView = (props: { data: Data; onTrade: OnTrade }) => {
   );
   const [expanded, setExpanded] = useState<Set<string>>(new Set());
 
-  // If the selected category disappears (e.g. good toggled off mid-session), fall back.
   const activeGroup =
     groups.find((g) => g.category === activeCategory) ?? groups[0];
 
@@ -410,7 +408,6 @@ export const MarketView = (props: { data: Data; onTrade: OnTrade }) => {
   );
 };
 
-// ── Per-side block (buy or sell) ─────────────────────────────────
 const SideBlock = (props: {
   side: Side;
   label: string;
@@ -495,7 +492,6 @@ const SideBlock = (props: {
   );
 };
 
-// ── One region line (used for primary + expanded entries) ────────
 const RegionRow = (props: {
   side: Side;
   color: string;
@@ -580,7 +576,6 @@ const chevronStyle = {
   borderRadius: '2px',
 };
 
-// ── Stockpile management strip (Steward-only controls; visible to Alderman) ──
 const stripStyle: React.CSSProperties = {
   display: 'flex',
   flexWrap: 'wrap',

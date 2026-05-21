@@ -19,21 +19,17 @@ export const Noticeboard = () => {
   const { data, act } = useBackend<NoticeboardData>();
   const [tab, setTab] = useState<TabKey>('postings');
 
-  // TODO: flavor (window title)
   return (
     <Window title="Noticeboard" width={1000} height={760} theme="parchment">
       <Window.Content scrollable>
         <div style={pageStyle}>
-          {/* TODO: flavor */}
           <div style={titleStyle}>The Notice Board</div>
-          {/* TODO: flavor */}
           <div style={subtitleStyle}>
             of {data.realm_name || 'the realm'} &middot; postings of the realm and her commons
           </div>
           <hr style={rulerStyle} />
 
           <div style={tabBarStyle}>
-            {/* TODO: flavor (tab labels) */}
             <div
               style={tabStyle(tab === 'postings')}
               onClick={() => setTab('postings')}

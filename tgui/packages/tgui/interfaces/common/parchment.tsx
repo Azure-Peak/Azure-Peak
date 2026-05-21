@@ -1,8 +1,5 @@
 import type { CSSProperties } from 'react';
 
-// ── Font scale ───────────────────────────────────────────────────
-// Use these constants rather than raw px values. Bumping body text
-// site-wide is then a one-line change here.
 export const FONT_TINY = '10px';
 export const FONT_SMALL = '11px';
 export const FONT_BODY = '12px';
@@ -10,24 +7,21 @@ export const FONT_LEAD = '13px';
 export const FONT_TITLE = '14px';
 export const FONT_HEAD = '15px';
 
-// ── Parchment palette ────────────────────────────────────────────
-export const INK = '#3a2a14';
-export const INK_SOFT = '#5a3f1f';
-export const INK_FAINT = '#7a5e3a';
-export const PARCHMENT = '#f4e7c6';
-export const PARCHMENT_DEEP = '#e6d4a3';
-export const PARCHMENT_SHADOW = '#c7a86a';
-export const SEAL_RED = '#8b2020';
-export const SEAL_RED_SOFT = '#a8433a';
-export const SEAL_GREEN = '#3b6a35';
-export const SEAL_BLUE = '#2e4a78';
-export const SEAL_AMBER = '#7a5616';
-export const BUTTON_BG = 'rgba(255,248,220,0.6)';
-export const BUTTON_HOVER_BG = 'rgba(200,170,100,0.35)';
+export const INK = 'var(--p-ink)';
+export const INK_SOFT = 'var(--p-ink-soft)';
+export const INK_FAINT = 'var(--p-ink-faint)';
+export const PARCHMENT = 'var(--p-bg)';
+export const PARCHMENT_DEEP = 'var(--p-bg-deep)';
+export const PARCHMENT_SHADOW = 'var(--p-bg-shadow)';
+export const SEAL_RED = 'var(--p-seal-red)';
+export const SEAL_RED_SOFT = 'var(--p-seal-red-soft)';
+export const SEAL_GREEN = 'var(--p-seal-green)';
+export const SEAL_BLUE = 'var(--p-seal-blue)';
+export const SEAL_AMBER = 'var(--p-seal-amber)';
+export const BUTTON_BG = 'var(--p-button-bg)';
 
 export const SERIF = '"Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif';
 
-// ── Shared styles ────────────────────────────────────────────────
 export const pageStyle: CSSProperties = {
   position: 'relative',
   minHeight: '100%',
@@ -86,15 +80,13 @@ export const tabStyle = (active: boolean): CSSProperties => ({
   fontVariant: 'small-caps',
   padding: '4px 18px',
   color: active ? INK : INK_FAINT,
-  background: active ? 'rgba(200,170,100,0.25)' : 'transparent',
+  background: active ? 'var(--p-tab-active-bg)' : 'transparent',
   border: `1px solid ${active ? INK_SOFT : 'transparent'}`,
   borderRadius: '2px',
   cursor: 'pointer',
   fontWeight: active ? 'bold' : 'normal',
 });
 
-// Sub-category tab row. Many categories at once — wraps to multiple rows rather than
-// overflowing horizontally. Smaller per-tab padding than primary tabs.
 export const subTabBarStyle: CSSProperties = {
   display: 'flex',
   flexWrap: 'wrap',
@@ -109,7 +101,7 @@ export const subTabStyle = (active: boolean): CSSProperties => ({
   fontVariant: 'small-caps',
   padding: '3px 10px',
   color: active ? INK : INK_FAINT,
-  background: active ? 'rgba(200,170,100,0.25)' : 'transparent',
+  background: active ? 'var(--p-tab-active-bg)' : 'transparent',
   border: `1px solid ${active ? INK_SOFT : INK_FAINT}`,
   borderRadius: '2px',
   cursor: 'pointer',
@@ -118,12 +110,12 @@ export const subTabStyle = (active: boolean): CSSProperties => ({
 });
 
 export const cardStyle: CSSProperties = {
-  background: 'rgba(255,248,220,0.45)',
+  background: 'var(--p-card-bg)',
   border: `1px solid ${INK_FAINT}`,
   borderRadius: '2px',
   padding: '8px 12px',
   marginBottom: '10px',
-  boxShadow: '1px 1px 4px rgba(80,50,10,0.12)',
+  boxShadow: '1px 1px 4px var(--p-card-shadow)',
 };
 
 export const badgeStyle = (color: string): CSSProperties => ({
@@ -133,7 +125,7 @@ export const badgeStyle = (color: string): CSSProperties => ({
   fontVariant: 'small-caps',
   padding: '1px 7px',
   marginLeft: '6px',
-  color: '#f7eccb',
+  color: 'var(--p-badge-text)',
   background: color,
   border: `1px solid ${color}`,
   borderRadius: '2px',
@@ -162,18 +154,6 @@ export const inkButtonStyle = (opts: {
   };
 };
 
-export const chipStyle = (color: string = INK_SOFT): CSSProperties => ({
-  display: 'inline-block',
-  fontFamily: SERIF,
-  fontSize: '12px',
-  fontWeight: 'bold',
-  padding: '1px 8px',
-  color: color,
-  background: 'transparent',
-  border: `1px dashed ${color}`,
-  borderRadius: '2px',
-});
-
 export const fieldRowStyle: CSSProperties = {
   display: 'flex',
   padding: '5px 0',
@@ -195,19 +175,10 @@ export const fieldValueStyle: CSSProperties = {
   fontSize: '14px',
 };
 
-export const framedShellStyle: CSSProperties = {
-  position: 'relative',
-  padding: '24px 28px',
-  border: `3px double ${SEAL_AMBER}`,
-  outline: `1px solid ${PARCHMENT_SHADOW}`,
-  outlineOffset: '-6px',
-  boxShadow: `inset 0 0 100px rgba(122, 86, 22, 0.22), inset 0 0 6px ${SEAL_AMBER}`,
-};
-
 export const bannerStyle = (color: string, soft: boolean = false): CSSProperties => ({
   background: soft
-    ? 'rgba(180,60,40,0.12)'
-    : 'rgba(180,60,40,0.18)',
+    ? 'var(--p-banner-bg-soft)'
+    : 'var(--p-banner-bg)',
   border: `1px solid ${color}`,
   color: color,
   padding: '6px 12px',
@@ -217,11 +188,6 @@ export const bannerStyle = (color: string, soft: boolean = false): CSSProperties
   fontWeight: 'bold',
 });
 
-// ── Dense list primitives ────────────────────────────────────────
-// Shared scaffold for compact "name … price [Buy]" rows used by
-// PackRow, StockCard, ShipRow bulk lines, etc. Pass alignItems
-// 'baseline' for text-only rows; defaults to 'center' for rows
-// containing inputs/buttons.
 export const denseRowStyle: CSSProperties = {
   display: 'flex',
   alignItems: 'center',
@@ -232,8 +198,6 @@ export const denseRowStyle: CSSProperties = {
   lineHeight: 1.3,
 };
 
-// The truncating name cell used inside a dense row. Combine with
-// fontSize / fontWeight / color on the consumer side.
 export const ellipsisCellStyle: CSSProperties = {
   flex: 1,
   minWidth: 0,
@@ -242,7 +206,6 @@ export const ellipsisCellStyle: CSSProperties = {
   whiteSpace: 'nowrap',
 };
 
-// Tighter Buy/Send button variant for dense rows.
 export const compactButtonStyle = (opts: {
   color?: string;
   disabled?: boolean;
@@ -252,10 +215,6 @@ export const compactButtonStyle = (opts: {
   fontSize: FONT_LEAD,
 });
 
-// ── PriceTag ─────────────────────────────────────────────────────
-// {price}{+tariff?}{m} triplet used by every "buy this for N mammon"
-// row. Bold price (faints when unaffordable), amber bold tariff
-// suffix, soft 'm' unit. Pass `title` for the hover breakdown.
 export const PriceTag = (props: {
   price: number;
   tariff?: number;

@@ -1,6 +1,6 @@
 import {
   fieldRowStyle,
-  INK,
+  fieldValueStyle,
   inkButtonStyle,
   SEAL_AMBER,
   SERIF,
@@ -28,17 +28,7 @@ export const MammonRow = (props: Props) => {
       >
         Mammon Loaded
       </div>
-      <div
-        style={{
-          flex: 1,
-          fontFamily: SERIF,
-          fontSize: '14px',
-          color: INK,
-          fontWeight: 'bold',
-        }}
-      >
-        {budget}m
-      </div>
+      <div style={{ ...fieldValueStyle, fontWeight: 'bold' }}>{budget}m</div>
       <button
         type="button"
         style={inkButtonStyle({ disabled: budget <= 0 })}

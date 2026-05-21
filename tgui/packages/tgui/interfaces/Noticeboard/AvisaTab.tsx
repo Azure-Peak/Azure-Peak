@@ -33,7 +33,6 @@ type SectionMeta = {
   blurb: string;
 };
 
-// TODO: flavor (every entry's `label` and `blurb`)
 const SECTIONS: SectionMeta[] = [
   {
     key: 'charters',
@@ -82,7 +81,6 @@ export const AvisaTab = ({ data, act }: TabProps) => {
 
   return (
     <>
-      {/* TODO: flavor */}
       <div
         style={{
           ...titleStyle,
@@ -92,7 +90,6 @@ export const AvisaTab = ({ data, act }: TabProps) => {
       >
         The Azurian Avisa
       </div>
-      {/* TODO: flavor */}
       <div style={subtitleStyle}>
         Tidings, edicts, and trade of the realm
       </div>
@@ -135,7 +132,6 @@ export const AvisaTab = ({ data, act }: TabProps) => {
 
 const AssemblySection = ({ act }: { act: TabProps['act'] }) => (
   <div style={{ padding: '12px 0', textAlign: 'center' }}>
-    {/* TODO: flavor */}
     <div
       style={{
         color: INK_FAINT,
@@ -150,7 +146,6 @@ const AssemblySection = ({ act }: { act: TabProps['act'] }) => (
       style={inkButtonStyle({})}
       onClick={() => act('open_assembly')}
     >
-      {/* TODO: flavor */}
       Open the Assembly
     </button>
   </div>

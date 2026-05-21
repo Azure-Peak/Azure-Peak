@@ -8,6 +8,7 @@ import {
   inkButtonStyle,
   rulerStyle,
   SEAL_AMBER,
+  SEAL_RED,
   sectionHeaderStyle,
   SERIF,
 } from '../common/parchment';
@@ -48,7 +49,6 @@ export const PostingsTab = ({ data, act }: TabProps) => {
             style={inkButtonStyle({})}
             onClick={() => setShowForm(true)}
           >
-            {/* TODO: flavor */}
             Make a Posting
           </button>
         ) : (
@@ -57,7 +57,6 @@ export const PostingsTab = ({ data, act }: TabProps) => {
             style={inkButtonStyle({})}
             onClick={() => setShowForm(false)}
           >
-            {/* TODO: flavor */}
             Hide Form
           </button>
         )}
@@ -71,10 +70,8 @@ export const PostingsTab = ({ data, act }: TabProps) => {
         />
       )}
 
-      {/* TODO: flavor */}
       <div style={sectionHeaderStyle}>Standing Listings</div>
       {listings.length === 0 ? (
-        // TODO: flavor
         <EmptyMessage text="No standing listings have been pinned." />
       ) : (
         <div style={postingGridStyle}>
@@ -86,10 +83,8 @@ export const PostingsTab = ({ data, act }: TabProps) => {
 
       <hr style={rulerStyle} />
 
-      {/* TODO: flavor */}
       <div style={sectionHeaderStyle}>Notices</div>
       {notices.length === 0 ? (
-        // TODO: flavor
         <EmptyMessage text="No notices on the board. The wind stirs the empty parchments." />
       ) : (
         <div style={postingGridStyle}>
@@ -167,7 +162,6 @@ const PostingCard = ({
             marginTop: '2px',
           }}
         >
-          {/* TODO: flavor */}
           Standing Listing
         </div>
       )}
@@ -209,7 +203,6 @@ const PostingCard = ({
                 marginLeft: '6px',
               }}
             >
-              {/* TODO: flavor */}
               (unattested, yet)
             </span>
           )}
@@ -220,7 +213,6 @@ const PostingCard = ({
             style={inkButtonStyle({})}
             onClick={() => act('remove_post', { posting_id: posting.posting_id })}
           >
-            {/* TODO: flavor */}
             Take Down
           </button>
         )}
@@ -232,7 +224,6 @@ const PostingCard = ({
               act('authority_remove_post', { posting_id: posting.posting_id })
             }
           >
-            {/* TODO: flavor */}
             Remove (Authority)
           </button>
         )}
@@ -268,7 +259,6 @@ const PostingForm = ({
       return;
     }
     if (willReplaceListing) {
-      // TODO: flavor (confirm prompt)
       const ok = confirm(
         'You already have a Standing Listing posted. Posting a new one will replace it. Proceed?',
       );
@@ -294,12 +284,10 @@ const PostingForm = ({
         borderColor: INK_SOFT,
       }}
     >
-      {/* TODO: flavor */}
       <div style={sectionHeaderStyle}>Pin a Posting</div>
 
       {!!data.can_post_listing && (
         <div style={{ marginBottom: 10 }}>
-          {/* TODO: flavor */}
           <div style={fieldLabel}>Kind of posting</div>
           <div style={{ display: 'flex', gap: 8, marginTop: 4 }}>
             <button
@@ -314,7 +302,6 @@ const PostingForm = ({
               }}
               onClick={() => setTier(POSTING_TIER_NOTICE)}
             >
-              {/* TODO: flavor */}
               Notice (expires in 30m)
             </button>
             <button
@@ -329,14 +316,12 @@ const PostingForm = ({
               }}
               onClick={() => setTier(POSTING_TIER_LISTING)}
             >
-              {/* TODO: flavor */}
               Standing Listing (no expiry)
             </button>
           </div>
         </div>
       )}
 
-      {/* TODO: flavor (every FormField label below) */}
       <FormField
         label="Title"
         value={title}
@@ -372,7 +357,6 @@ const PostingForm = ({
             marginTop: 6,
           }}
         >
-          {/* TODO: flavor */}
           You have a Notice already posted. Pinning this will take it down.
         </div>
       )}
@@ -384,7 +368,6 @@ const PostingForm = ({
             marginTop: 6,
           }}
         >
-          {/* TODO: flavor */}
           You have a Standing Listing already posted. Pinning this will take it down.
         </div>
       )}
@@ -398,7 +381,6 @@ const PostingForm = ({
         }}
       >
         <button type="button" style={inkButtonStyle({})} onClick={onClose}>
-          {/* TODO: flavor */}
           Cancel
         </button>
         <button
@@ -407,7 +389,6 @@ const PostingForm = ({
           disabled={!valid}
           onClick={onPost}
         >
-          {/* TODO: flavor */}
           Pin Posting
         </button>
       </div>
@@ -444,13 +425,12 @@ const FormField = ({
         <div style={{ ...fieldLabel, flex: 1 }}>
           {label}
           {optional && (
-            // TODO: flavor
             <span style={{ color: INK_FAINT, marginLeft: 4 }}>(optional)</span>
           )}
         </div>
         <div
           style={{
-            color: overLimit ? '#8b2020' : INK_FAINT,
+            color: overLimit ? SEAL_RED : INK_FAINT,
             fontSize: '11px',
           }}
         >

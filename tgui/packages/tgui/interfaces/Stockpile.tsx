@@ -4,7 +4,6 @@ import { useBackend } from '../backend';
 import { Window } from '../layouts';
 import {
   cardStyle,
-  chipStyle,
   INK,
   INK_FAINT,
   INK_SOFT,
@@ -189,7 +188,15 @@ const StockRowView = (props: {
       >
         <span
           style={{
-            ...chipStyle(SEAL_AMBER),
+            display: 'inline-block',
+            fontFamily: SERIF,
+            fontSize: '12px',
+            fontWeight: 'bold',
+            padding: '1px 8px',
+            color: SEAL_AMBER,
+            background: 'transparent',
+            border: `1px dashed ${SEAL_AMBER}`,
+            borderRadius: '2px',
             width: '90px',
             textAlign: 'center',
             boxSizing: 'border-box',

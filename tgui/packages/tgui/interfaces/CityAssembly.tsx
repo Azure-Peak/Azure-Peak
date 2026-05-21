@@ -122,8 +122,6 @@ const formatCountdown = (seconds: number): string => {
   return `${m}m ${s.toString().padStart(2, '0')}s`;
 };
 
-// ─ Compact ballot styles ────────────────────────────────────────────
-
 const ballotRowStyle: CSSProperties = {
   display: 'flex',
   alignItems: 'baseline',
@@ -335,8 +333,6 @@ export const CityAssembly = () => {
             disabled={!canVote}
           />
 
-          {/* Poll Tax disabled pending anti-dodge design. */}
-
           {hasAlderman ? (
             <>
               <YaeNayRow
@@ -370,8 +366,6 @@ export const CityAssembly = () => {
     </Window>
   );
 };
-
-// ─ Alderman-only status strip ───────────────────────────────────────
 
 const AldermanStrip = (props: {
   warrant: Warrant;
@@ -431,8 +425,6 @@ const AldermanStrip = (props: {
     </div>
   );
 };
-
-// ─ Election ballot row ──────────────────────────────────────────────
 
 type ElectionRowProps = {
   data: Data;
@@ -599,8 +591,6 @@ const ElectionRow = (props: ElectionRowProps) => {
   );
 };
 
-// ─ Bracket ballot row ───────────────────────────────────────────────
-
 type BracketRowProps = {
   label: string;
   hint: string;
@@ -682,8 +672,6 @@ const BracketRow = (props: BracketRowProps) => {
   );
 };
 
-// ─ YAE/NAY ballot row (recall, censure) ─────────────────────────────
-
 type YaeNayProps = {
   label: string;
   hint: string;
@@ -748,8 +736,6 @@ const YaeNayRow = (props: YaeNayProps) => {
     </div>
   );
 };
-
-// ─ History (collapsed by default) ───────────────────────────────────
 
 const HistoryBlock = (props: { history: HistoryEntry[] }) => {
   if (props.history.length === 0) {

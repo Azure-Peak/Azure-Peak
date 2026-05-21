@@ -1,7 +1,13 @@
 import type { CSSProperties } from 'react';
 import { useState } from 'react';
 
-import { INK, INK_FAINT, inkButtonStyle } from '../common/parchment';
+import {
+  INK,
+  INK_FAINT,
+  inkButtonStyle,
+  SEAL_GREEN,
+  SEAL_RED,
+} from '../common/parchment';
 import { type LogEntry } from './types';
 
 const PAGE_SIZE = 20;
@@ -60,7 +66,7 @@ export const PaginatedLog = ({
         const isIn = entry.direction === 'in';
         const isOut = entry.direction === 'out';
         const sign = isIn ? '+' : isOut ? '-' : '';
-        const color = isIn ? '#3b6a35' : isOut ? '#8b2020' : INK_FAINT;
+        const color = isIn ? SEAL_GREEN : isOut ? SEAL_RED : INK_FAINT;
         const preposition = isIn ? 'from' : isOut ? 'to' : '';
         return (
           <div key={start + i} style={logRowStyle}>

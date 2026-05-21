@@ -21,7 +21,6 @@ export const EventsSection = ({ data }: { data: NoticeboardData }) => {
   const events = data.economic_events ?? [];
   if (events.length === 0) {
     return (
-      // TODO: flavor
       <EmptyMessage text="The realm's trade is calm. No events disturb the markets." />
     );
   }
@@ -47,10 +46,8 @@ const EventCard = ({ event }: { event: EconomicEvent }) => {
         }}
       >
         {isShortage ? (
-          // TODO: flavor
           <span style={badgeStyle(SEAL_RED)}>SHORTAGE</span>
         ) : (
-          // TODO: flavor
           <span style={badgeStyle(SEAL_GREEN)}>GLUT</span>
         )}
         <span
@@ -71,7 +68,6 @@ const EventCard = ({ event }: { event: EconomicEvent }) => {
             marginLeft: 'auto',
           }}
         >
-          {/* TODO: flavor */}
           settles in {event.days_left}d
         </span>
       </div>
@@ -89,7 +85,6 @@ const EventCard = ({ event }: { event: EconomicEvent }) => {
       )}
       {event.affected_goods.length > 0 && (
         <div style={{ marginTop: 6, fontSize: '12px', color: INK }}>
-          {/* TODO: flavor */}
           <span
             style={{
               fontVariant: 'small-caps',

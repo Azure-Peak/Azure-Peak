@@ -62,26 +62,20 @@ export const ScoutsSection = ({ data }: { data: NoticeboardData }) => {
           }}
           onClick={() => setHelpOpen((v) => !v)}
         >
-          {/* TODO: flavor */}
           {helpOpen ? 'Hide About Scout Reports' : 'About Scout Reports'}
         </button>
         {helpOpen && <HelpPanel />}
       </div>
 
       {regions.length === 0 ? (
-        // TODO: flavor
         <EmptyMessage text="The wardens have sent no word from the wilds." />
       ) : (
         <table style={tableStyle}>
           <thead>
             <tr>
-              {/* TODO: flavor */}
               <th style={headerCellStyle}>Region</th>
-              {/* TODO: flavor */}
               <th style={headerCellWithDivider}>Danger</th>
-              {/* TODO: flavor */}
               <th style={headerCellWithDivider}>Blockade</th>
-              {/* TODO: flavor */}
               <th style={headerCellWithDivider}>Wardens' Word</th>
             </tr>
           </thead>
@@ -133,13 +127,11 @@ const RegionRow = ({ region }: { region: ScoutRegion }) => {
                   fontWeight: 'normal',
                 }}
               >
-                {/* TODO: flavor */}
                 {region.blockade_days_active}d
               </span>
             </div>
             {!!region.blockade_writ_out ? (
               <div style={{ marginTop: 3 }}>
-                {/* TODO: flavor */}
                 <span style={badgeStyle(SEAL_AMBER)}>WRIT OUT</span>
               </div>
             ) : (
@@ -151,7 +143,6 @@ const RegionRow = ({ region }: { region: ScoutRegion }) => {
                   fontSize: '11px',
                 }}
               >
-                {/* TODO: flavor */}
                 Awaiting writ
               </div>
             )}
@@ -165,8 +156,7 @@ const RegionRow = ({ region }: { region: ScoutRegion }) => {
       >
         {region.ic_descriptions.length > 0
           ? region.ic_descriptions.join('; ')
-          : // TODO: flavor
-            '- the wardens have nothing to add -'}
+          : '- the wardens have nothing to add -'}
       </td>
     </tr>
   );
@@ -196,25 +186,21 @@ const HelpPanel = () => (
       lineHeight: 1.5,
     }}
   >
-    {/* TODO: flavor */}
     <p style={{ margin: '0 0 6px 0' }}>
       Scouts rate how dangerous a region is from <b>Safe</b> to <b>Low</b> to{' '}
       <b>Moderate</b> to <b>Dangerous</b> to <b>Bleak</b>.
     </p>
-    {/* TODO: flavor */}
     <p style={{ margin: '0 0 6px 0' }}>
       A safe region is unlikely to spawn ambushes from common creechurs and
       brigands. A low-threat region may yield lone foes. Only Azure Basin,
       Azure Grove, and the Terrorbog can be rendered fully safe; regions not
       listed are beyond the wardens' charge and remain dangerous.
     </p>
-    {/* TODO: flavor */}
     <p style={{ margin: '0 0 6px 0' }}>
       Danger is reduced by luring villains and creechurs and killing them when
       they ambush. Traveling in groups draws larger ambushes; each additional
       companion contributes less per head than a lone traveler would.
     </p>
-    {/* TODO: flavor */}
     <p style={{ margin: 0 }}>
       A warden's signal horn provokes a sizeable fight matched to the region's
       danger - the surest way to tame it. Bandits and creechurs trickle back in

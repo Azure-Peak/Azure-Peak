@@ -2,9 +2,6 @@ import type { ReactNode } from 'react';
 
 import { SEAL_RED } from '../common/parchment';
 
-/// Wrapper that paints a SEQUESTERED stamp across its children when `active`,
-/// dims them, and blocks pointer events so accidental clicks don't fire even
-/// though the backend already gates the action handlers.
 export const SequesteredOverlay = (props: {
   active: boolean;
   label: string;

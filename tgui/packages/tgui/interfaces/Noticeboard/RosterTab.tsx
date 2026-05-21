@@ -30,17 +30,14 @@ export const RosterTab = ({ data }: TabProps) => {
           marginTop: 6,
         }}
       >
-        {/* TODO: flavor */}
         Mercenary Roster
       </div>
       <div style={subtitleStyle}>
-        {/* TODO: flavor */}
         The names and detailings of those registered to the Mercenary Guild
       </div>
       <hr style={rulerStyle} />
 
       {!roster || total === 0 ? (
-        // TODO: flavor
         <EmptyMessage text="No mercenaries have registered yet." />
       ) : (
         <>
@@ -77,7 +74,6 @@ export const RosterTab = ({ data }: TabProps) => {
           fontSize: '12px',
         }}
       >
-        {/* TODO: flavor */}
         Visit the Mercenary Statue for further contact.
       </div>
     </>
@@ -99,21 +95,17 @@ const SummaryLine = ({
       padding: '4px 0 12px 0',
     }}
   >
-    {/* TODO: flavor */}
     Total: <b>{total}</b>
     <span style={{ color: INK_FAINT }}> &middot; </span>
     <span style={{ color: SEAL_GREEN }}>
-      {/* TODO: flavor */}
       Available: {roster.available_count}
     </span>
     <span style={{ color: INK_FAINT }}> &middot; </span>
     <span style={{ color: SEAL_AMBER }}>
-      {/* TODO: flavor */}
       Contracted: {roster.contracted_count}
     </span>
     <span style={{ color: INK_FAINT }}> &middot; </span>
     <span style={{ color: SEAL_RED }}>
-      {/* TODO: flavor */}
       DND: {roster.dnd_count}
     </span>
   </div>

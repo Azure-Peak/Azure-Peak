@@ -7,6 +7,8 @@ import {
   INK_FAINT,
   inkButtonStyle,
   SEAL_AMBER,
+  SEAL_GREEN,
+  SEAL_RED,
   sectionHeaderStyle,
 } from '../../common/parchment';
 import { type TabProps } from '../types';
@@ -42,11 +44,11 @@ export const BathhouseOrdinanceSection = ({
         <div style={fieldLabelStyle}>Status</div>
         <div style={fieldValueStyle}>
           {active ? (
-            <span style={{ color: '#3b6a35', fontWeight: 'bold' }}>
+            <span style={{ color: SEAL_GREEN, fontWeight: 'bold' }}>
               IN FORCE
             </span>
           ) : (
-            <span style={{ color: '#8b2020', fontWeight: 'bold' }}>
+            <span style={{ color: SEAL_RED, fontWeight: 'bold' }}>
               BROKEN
             </span>
           )}

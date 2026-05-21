@@ -5,6 +5,7 @@ import {
   fieldValueStyle,
   INK_FAINT,
   INK_SOFT,
+  SEAL_RED,
   sectionHeaderStyle,
 } from '../common/parchment';
 import { PaginatedLog } from './PaginatedLog';
@@ -32,7 +33,7 @@ export const LedgerTab = ({ data }: TabProps) => {
               <span
                 style={{
                   marginLeft: 8,
-                  color: '#8b2020',
+                  color: SEAL_RED,
                   fontWeight: 'bold',
                 }}
               >
@@ -71,7 +72,7 @@ export const LedgerTab = ({ data }: TabProps) => {
               <span
                 style={{
                   marginLeft: 8,
-                  color: '#8b2020',
+                  color: SEAL_RED,
                   fontWeight: 'bold',
                 }}
               >

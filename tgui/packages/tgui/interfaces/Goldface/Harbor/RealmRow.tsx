@@ -146,7 +146,6 @@ export const RealmRow = (props: { realm: HarborRealm }) => {
           {expanded ? '▾' : '▸'}
         </div>
 
-        {/* Left column: realm name + conditions stacked */}
         <div style={{ minWidth: 0 }}>
           <div
             style={{
@@ -183,7 +182,6 @@ export const RealmRow = (props: { realm: HarborRealm }) => {
           </div>
         </div>
 
-        {/* Right column: demand row, buys row, sells row */}
         <div style={{ minWidth: 0 }}>
           <div style={{ lineHeight: '1.5', marginBottom: '3px' }}>
             <RowLabel color={SEAL_AMBER}>Demand</RowLabel>

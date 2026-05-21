@@ -58,14 +58,12 @@ export const TradeOrdersSection = ({ data }: { data: NoticeboardData }) => {
           }}
           onClick={() => setHelpOpen((v) => !v)}
         >
-          {/* TODO: flavor */}
           {helpOpen ? 'Hide About Trade Orders' : 'About Trade Orders'}
         </button>
         {helpOpen && <HelpPanel />}
       </div>
 
       {orders.length === 0 ? (
-        // TODO: flavor
         <EmptyMessage text="No standing orders posted. Check back later." />
       ) : (
         <div style={orderGridStyle}>
@@ -81,23 +79,18 @@ const OrderCard = ({ order }: { order: TradeOrder }) => {
     <div style={{ ...cardStyle, marginBottom: 0, minHeight: 280 }}>
       <div style={{ display: 'flex', alignItems: 'baseline', flexWrap: 'wrap' }}>
         {!!order.urgent && (
-          // TODO: flavor
           <span style={badgeStyle(SEAL_RED)}>URGENT</span>
         )}
         {!!order.blockaded && (
-          // TODO: flavor
           <span style={badgeStyle(SEAL_RED)}>BLOCKADED</span>
         )}
         {!!order.warehouse && (
-          // TODO: flavor
           <span style={badgeStyle(SEAL_BLUE)}>WAREHOUSE</span>
         )}
         {!!order.stockpile && (
-          // TODO: flavor
           <span style={badgeStyle(SEAL_GREEN)}>STOCKPILE</span>
         )}
         {!!order.petitioned && (
-          // TODO: flavor
           <span style={badgeStyle(PETITION_PURPLE)}>STEWARD&apos;S PETITION</span>
         )}
       </div>
@@ -121,7 +114,6 @@ const OrderCard = ({ order }: { order: TradeOrder }) => {
           marginTop: 2,
         }}
       >
-        {/* TODO: flavor (region prefix wording) */}
         {order.region_label} &middot; {order.days_left}d remaining
       </div>
 
@@ -139,11 +131,9 @@ const OrderCard = ({ order }: { order: TradeOrder }) => {
       )}
 
       <div style={{ marginTop: 8 }}>
-        {/* TODO: flavor */}
         <div style={fieldLabelStyle}>Required</div>
         <div style={{ marginTop: 2, color: INK }}>
           {order.requirements.length === 0 ? (
-            // TODO: flavor
             <span style={{ color: INK_FAINT, fontStyle: 'italic' }}>
               - nothing on record -
             </span>
@@ -164,7 +154,6 @@ const OrderCard = ({ order }: { order: TradeOrder }) => {
         }}
       >
         <span style={fieldLabelStyle}>
-          {/* TODO: flavor */}
           Payout
         </span>
         <span
@@ -212,24 +201,20 @@ const HelpPanel = () => (
       lineHeight: 1.5,
     }}
   >
-    {/* TODO: flavor */}
     <p style={{ margin: '0 0 6px 0' }}>
       Standing orders are demands posted by the realm&apos;s stockpiles and
       merchants. Speak with the Steward or Clerk at the Nerve Master to fulfill
       a stockpile order.
     </p>
-    {/* TODO: flavor */}
     <p style={{ margin: '0 0 6px 0' }}>
       <b>WAREHOUSE</b>-tagged orders require finished goods to be left at the
-      export machine for collection. Goods that belongs in the stockpile should 
-      still be delivered to the stockpile. 
+      export machine for collection. Goods that belongs in the stockpile should
+      still be delivered to the stockpile.
     </p>
-    {/* TODO: flavor */}
     <p style={{ margin: '0 0 6px 0' }}>
       Orders may be settled short once at least 50% by value is on hand, paid
       at 85% of the delivered share - the rest is forfeit.
     </p>
-    {/* TODO: flavor */}
     <p style={{ margin: 0 }}>
       <b>BLOCKADED</b> regions cannot be reached by trade caravans until the
       blockade is lifted; <b>STEWARD&apos;S PETITION</b> orders were directly

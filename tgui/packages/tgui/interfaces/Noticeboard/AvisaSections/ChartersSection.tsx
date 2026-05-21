@@ -14,7 +14,6 @@ import { type Charter, type NoticeboardData } from '../types';
 
 export const ChartersSection = ({ data }: { data: NoticeboardData }) => {
   const charters = (data.charters ?? []).slice().sort((a, b) => {
-    // Active first, then alphabetical
     if (!!a.active !== !!b.active) {
       return a.active ? -1 : 1;
     }
@@ -22,7 +21,6 @@ export const ChartersSection = ({ data }: { data: NoticeboardData }) => {
   });
   if (charters.length === 0) {
     return (
-      // TODO: flavor
       <EmptyMessage text="No charters of the realm have been put to seal." />
     );
   }
@@ -79,15 +77,12 @@ const CharterRow = ({ charter }: { charter: Charter }) => {
               fontWeight: 'normal',
             }}
           >
-            {/* TODO: flavor */}
             of {charter.year}
           </span>
         </span>
         {!!charter.active ? (
-          // TODO: flavor
           <span style={badgeStyle(SEAL_GREEN)}>IN FORCE</span>
         ) : (
-          // TODO: flavor
           <span style={badgeStyle(SEAL_RED)}>SUSPENDED</span>
         )}
       </div>

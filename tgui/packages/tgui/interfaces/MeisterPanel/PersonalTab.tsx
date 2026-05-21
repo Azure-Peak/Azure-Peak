@@ -9,6 +9,7 @@ import {
   INK_SOFT,
   inkButtonStyle,
   SEAL_AMBER,
+  SEAL_RED,
   sectionHeaderStyle,
 } from '../common/parchment';
 import { type TabProps } from './types';
@@ -131,7 +132,7 @@ export const PersonalTab = ({ data, act }: TabProps) => {
             <div style={fieldLabelStyle}>Status</div>
             <div style={fieldValueStyle}>
               {loan.defaulted ? (
-                <span style={{ color: '#8b2020', fontWeight: 'bold' }}>
+                <span style={{ color: SEAL_RED, fontWeight: 'bold' }}>
                   DEFAULTED on day {loan.due_on_day}
                 </span>
               ) : (
