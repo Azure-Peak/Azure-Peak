@@ -10,7 +10,7 @@
 	if(H.age == target_age)
 		if(length(stat_mods))
 			for(var/stat in stat_mods)
-				H.change_stat(stat, stat_mods[stat])
+				H.change_stat(stat_mods[stat])
 		if(length(skill_mods))
 			for(var/S in skill_mods)
 				var/datum/skill/skill = S
@@ -33,9 +33,8 @@
 	str += "<font color ='#7a4d0a'>If the Character is <font color ='#b3d6df'>[target_age]</font>, they will get these additional bonuses:</font>"
 	if(length(stat_mods))
 		for(var/stat in stat_mods)
-			var/val = stat_mods[stat]
-			str += "<br>[capitalize(stat)]: <b>[val < 0 ? "<font color = '#cf2a2a'>-" : "<font color = '#91cf68'>+ "]\Roman[abs(val)]</font></b>"
-		str += "<font color ='#7a4d0a'><br>-----</font>"
+			str += "<br>[capitalize(stat)]: <b>[stat_mods[stat] < 0 ? "<font color = '#cf2a2a'>" : "<font color = '#91cf68'>"]\Roman[stat_mods[stat]]</font></b>"
+			str += "<font color ='#7a4d0a'><br>-----</font>"
 	if(length(skill_mods))
 		for(var/S in skill_mods)
 			var/datum/skill/skill = S
