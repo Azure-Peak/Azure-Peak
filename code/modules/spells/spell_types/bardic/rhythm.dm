@@ -146,9 +146,7 @@
 				if(H.inspiration.allegro_counter >= 5)
 					H.inspiration.allegro_counter = 0
 					H.energy_add(25)
-					to_chat(H, span_notice("The crowd roars! You feel a surge of energy."))
-					H.balloon_alert_to_viewers("<font color='#ffdd44'>Allegro!</font>")
-					playsound(H, 'sound/magic/inspire_02.ogg', 50, TRUE)
+					INVOKE_ASYNC(src, PROC_REF(allegro_feedback), H)
 
 /// Rhythm window expired without hitting
 /datum/action/cooldown/spell/rhythm/proc/rhythm_fizzle()
@@ -159,6 +157,12 @@
 	UnregisterSignal(owner, COMSIG_MOB_ITEM_ATTACK_POST_SWINGDELAY)
 	owner.remove_filter(RHYTHM_FILTER)
 	to_chat(owner, span_warning("I failed to strike in time. My song unheard."))
+
+/// Blocking feedback deferred out of SIGNAL_HANDLER via INVOKE_ASYNC
+/datum/action/cooldown/spell/rhythm/proc/allegro_feedback(mob/living/carbon/human/H)
+	to_chat(H, span_notice("The crowd roars! You feel a surge of energy."))
+	H.balloon_alert_to_viewers("<font color='#ffdd44'>Allegro!</font>")
+	playsound(H, 'sound/magic/inspire_02.ogg', 50, TRUE)
 
 /// Override in subtypes to apply the rhythm's effect
 /datum/action/cooldown/spell/rhythm/proc/apply_rhythm(mob/living/target, mob/living/user)
