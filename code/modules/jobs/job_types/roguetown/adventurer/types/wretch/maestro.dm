@@ -1,6 +1,6 @@
 /datum/advclass/wretch/maestro
 	name = "Maestro"
-	tutorial = "You were renowned all over Psydonia for your song and merriment, until you seduced the wrong dragon or made too many jokes on a nobles expense. Whatever happened, you now play melancholic or manic songs for the dregs of society. Lyve your best lyfe and lyve to tell the tale."
+	tutorial = "You were renowned all over Psydonia for your song and merriment until you seduced the wrong dragon or made too many jokes at a noble's expense. Whatever happened, you now play melancholic or manic songs for the dregs of society. Lyve your best lyfe and lyve to tell the tale."
 	allowed_sexes = list(MALE, FEMALE)
 
 	outfit              = /datum/outfit/job/roguetown/wretch/maestro
