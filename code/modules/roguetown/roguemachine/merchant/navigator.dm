@@ -379,10 +379,10 @@
 	var/duty_on_gross = round(gross * duty_rate)
 	var/duty_on_levy = round(levy * duty_rate)
 	var/total_duty = duty_on_gross + duty_on_levy
-	var/producer_net = gross - duty_on_gross - levy
+	var/producer_net = gross - levy - (pay_taxes ? duty_on_gross : 0)
 	if(producer_net < 0)
 		producer_net = 0
-	var/merchant_net = levy - duty_on_levy
+	var/merchant_net = levy - (pay_taxes ? duty_on_levy : 0)
 	if(merchant_net < 0)
 		merchant_net = 0
 	if(pay_taxes)
@@ -402,7 +402,6 @@
 		if(total_duty > 0)
 			record_round_statistic(STATS_TAXES_EVADED, total_duty)
 			duty_evaded_here += total_duty
-		merchant_net = levy
 	if(merchant_net > 0)
 		SStreasury.mint(SStreasury.merchant_fund, merchant_net, "Merchant's levy ([src.name])")
 		levy_collected_here += merchant_net
