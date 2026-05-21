@@ -65,6 +65,8 @@
 			if(H.mind)
 				H.mind.i_know_person(hag_mob.mind)
 			found_any = TRUE
+			to_chat(H, span_boldnotice("A familiar rhythm pulses in the roots... [hag_mob.real_name] is walking the lands this week."))
+			to_chat(hag_mob, span_boldnotice("A familiar rhythm pulses in the roots... [H.real_name] is walking the lands this week."))
 	if(found_any)
 		to_chat(hag_mob, span_boldnotice("As your eyes adjust to the emerald gloom, the threads of the Mossmother's older puppets become visible to you..."))
 
