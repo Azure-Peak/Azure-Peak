@@ -44,6 +44,8 @@
 
 	if(L in GLOB.active_hags)
 		return
+	
+	GLOB.bogged_players += L.real_name
 
 	if(recent_intruders[L] && recent_intruders[L] > world.time)
 		return
@@ -51,6 +53,20 @@
 	recent_intruders[L] = world.time + 1 MINUTES
 	for(var/mob/living/H in GLOB.active_hags)
 		to_chat(H, span_boldwarning("The roots of your sanctum shiver... a soul named [L.name] has stepped within [src.name]."))
+
+/area/rogue/outdoors/bog/Exited(atom/movable/AM)
+	. = ..()
+	if(!GLOB.active_hags.len)
+		return
+
+	var/mob/living/L = AM
+	if(!istype(L) || !L.client || L.stat == DEAD)
+		return
+
+	if(L in GLOB.active_hags)
+		return
+
+	GLOB.bogged_players -= L.real_name
 
 /area/rogue/indoors/shelter/bog
 	icon_state = "bog"
@@ -109,9 +125,25 @@
 	if(L in GLOB.active_hags)
 		return
 
+	GLOB.bogged_players += L.real_name
+	
 	if(recent_intruders[L] && recent_intruders[L] > world.time)
 		return
 
 	recent_intruders[L] = world.time + 1 MINUTES
 	for(var/mob/living/H in GLOB.active_hags)
 		to_chat(H, span_boldwarning("The roots of your sanctum shiver... a soul has stepped within [src.name]."))
+
+/area/rogue/indoors/shelter/bog_hag/Exited(atom/movable/AM)
+	. = ..()
+	if(!GLOB.active_hags.len)
+		return
+
+	var/mob/living/L = AM
+	if(!istype(L) || !L.client || L.stat == DEAD)
+		return
+
+	if(L in GLOB.active_hags)
+		return
+
+	GLOB.bogged_players -= L.real_name

@@ -1986,6 +1986,7 @@
 #include "code\modules\jobs\job_types\roguetown\adventurer\types\antag\hag_class\hag_spells\hag_verbs.dm"
 #include "code\modules\jobs\job_types\roguetown\adventurer\types\antag\hag_class\hag_spells\hag_wildshape.dm"
 #include "code\modules\jobs\job_types\roguetown\adventurer\types\antag\hag_class\hag_structures\hag_heart.dm"
+#include "code\modules\jobs\job_types\roguetown\adventurer\types\antag\hag_class\hag_structures\hag_mirror.dm"
 #include "code\modules\jobs\job_types\roguetown\adventurer\types\antag\hag_class\hag_structures\hag_turfs.dm"
 #include "code\modules\jobs\job_types\roguetown\adventurer\types\antag\hag_class\hag_structures\hag_ward.dm"
 #include "code\modules\jobs\job_types\roguetown\adventurer\types\combat\cleric.dm"

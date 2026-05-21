@@ -1323,6 +1323,12 @@ Inquisitorial armory down here
 	icon_state = "scryingeye"
 	timeout = 8 SECONDS
 
+/atom/movable/screen/alert/hagscry
+	name = "THE ROOTS OBSERVE"
+	desc = "I SEE YOU."
+	icon_state = "scryingeye"
+	timeout = 8 SECONDS
+
 /atom/movable/screen/alert/blackmirror
 	name = "BLACK EYE"
 	desc = "LOOK AT ME. I SEE YOU."

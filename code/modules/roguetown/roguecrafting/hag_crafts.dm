@@ -128,3 +128,9 @@
 	result = list(/obj/item/reagent_containers/lux/moss = 1)
 	reqs = list(/obj/item/leechtick_bloated = 2)
 	craftdiff = 6
+
+/datum/crafting_recipe/roguetown/alchemy/hag/wyrd_mirror
+	name = "wyrd mirror"
+	result = list(/obj/item/handmirror/hag = 1)
+	reqs = list(/obj/item/handmirror = 1, /obj/item/alch/hag_moss/envy = 1)
+	craftdiff = 6
