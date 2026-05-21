@@ -27,6 +27,9 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 	var/mode = 0
 	var/list/rite_selection_data
 	var/mob/living/carbon/human/rite_selector
+	var/list/usurpation_rite_options_cache
+	var/mob/living/carbon/human/usurpation_rite_options_cache_user
+	var/usurpation_rite_options_cache_expires = 0
 
 /obj/structure/roguemachine/titan/obj_break(damage_flag)
 	..()
@@ -65,9 +68,7 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 	if(!ishuman(speaker))
 		return
 	var/mob/living/carbon/human/H = speaker
-	var/nocrown
-	if(!istype(H.head, /obj/item/clothing/head/roguetown/crown/serpcrown))
-		nocrown = TRUE
+	var/nocrown = !user_has_crown(H)
 	var/notlord = TRUE
 	if(SSticker.rulermob == H || SSticker.regentmob == H)
 		notlord = FALSE
@@ -324,42 +325,38 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 	summon_crown()
 	return TRUE
 
+/obj/structure/roguemachine/titan/proc/announce_key_summoned()
+	say("The key is summoned!")
+	playsound(src, 'sound/misc/machinetalk.ogg', 100, FALSE, -1)
+	playsound(src, 'sound/misc/hiss.ogg', 100, FALSE, -1)
+
+/obj/structure/roguemachine/titan/proc/create_ducal_key()
+	new /obj/item/roguekey/lord(src.loc)
+	announce_key_summoned()
+
 /obj/structure/roguemachine/titan/proc/try_summon_key(mob/living/carbon/human/user)
-	if(!istype(user.head, /obj/item/clothing/head/roguetown/crown/serpcrown))
+	if(!user_has_crown(user))
 		say("You need the crown.")
 		playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
 		return FALSE
-	if(!SSroguemachine.key)
-		new /obj/item/roguekey/lord(src.loc)
-		say("The key is summoned!")
-		playsound(src, 'sound/misc/machinetalk.ogg', 100, FALSE, -1)
-		playsound(src, 'sound/misc/hiss.ogg', 100, FALSE, -1)
+	var/obj/item/roguekey/lord/I = SSroguemachine.key
+	if(!I)
+		create_ducal_key()
 		return TRUE
-	if(SSroguemachine.key)
-		var/obj/item/roguekey/lord/I = SSroguemachine.key
-		if(!I)
-			I = new /obj/item/roguekey/lord(src.loc)
-		if(I && !ismob(I.loc))
-			I.anti_stall()
-			I = new /obj/item/roguekey/lord(src.loc)
-			say("The key is summoned!")
+	if(!ismob(I.loc))
+		I.anti_stall()
+		create_ducal_key()
+		return TRUE
+	if(ishuman(I.loc))
+		var/mob/living/carbon/human/HC = I.loc
+		if(HC.stat != DEAD)
+			say("[HC.real_name] holds the key!")
 			playsound(src, 'sound/misc/machinetalk.ogg', 100, FALSE, -1)
-			playsound(src, 'sound/misc/hiss.ogg', 100, FALSE, -1)
-			return TRUE
-		if(ishuman(I.loc))
-			var/mob/living/carbon/human/HC = I.loc
-			if(HC.stat != DEAD)
-				say("[HC.real_name] holds the key!")
-				playsound(src, 'sound/misc/machinetalk.ogg', 100, FALSE, -1)
-				return FALSE
-			else
-				HC.dropItemToGround(I, TRUE) // If you're dead, forcedrop it, then move it.
-		I.forceMove(src.loc)
-		say("The key is summoned!")
-		playsound(src, 'sound/misc/machinetalk.ogg', 100, FALSE, -1)
-		playsound(src, 'sound/misc/hiss.ogg', 100, FALSE, -1)
-		return TRUE
-	return FALSE
+			return FALSE
+		HC.dropItemToGround(I, TRUE) // If you're dead, forcedrop it, then move it.
+	I.forceMove(src.loc)
+	announce_key_summoned()
+	return TRUE
 
 /obj/structure/roguemachine/titan/proc/give_tax_popup(mob/living/carbon/human/user)
 	if(!Adjacent(user))
@@ -479,11 +476,15 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 	return TRUE
 
 /proc/make_law(raw_message)
+	if(!islist(GLOB.laws_of_the_land))
+		GLOB.laws_of_the_land = list()
 	GLOB.laws_of_the_land += raw_message
 	priority_announce("[length(GLOB.laws_of_the_land)]. [raw_message]", "A LAW IS DECLARED", pick('sound/misc/new_law.ogg', 'sound/misc/new_law2.ogg'), "Captain")
 	record_round_statistic(STATS_LAWS_AND_DECREES_MADE)
 
 /proc/remove_law(law_index)
+	if(!islist(GLOB.laws_of_the_land) || law_index < 1 || law_index > length(GLOB.laws_of_the_land))
+		return
 	if(!GLOB.laws_of_the_land[law_index])
 		return
 	var/law_text = GLOB.laws_of_the_land[law_index]
@@ -536,28 +537,14 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 	// 	playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
 	// 	return
 
-	var/list/all_rites = list()
-	var/any_eligible = FALSE
-	for(var/rite_type in get_usurpation_rite_types())
-		var/datum/usurpation_rite/temp = new rite_type()
-		var/can_use = temp.can_invoke(user)
-		if(can_use)
-			any_eligible = TRUE
-		all_rites += list(list(
-			"name" = temp.name,
-			"desc" = temp.desc,
-			"explanation" = temp.explanation,
-			"type_path" = "[rite_type]",
-			"eligible" = can_use,
-		))
-		qdel(temp)
+	var/list/rite_options = get_usurpation_rite_options(user, FALSE)
 
-	if(!any_eligible)
+	if(!rite_options["any_eligible"])
 		say("No rites of succession are available to you.")
 		playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
 		return
 
-	rite_selection_data = all_rites
+	rite_selection_data = rite_options["rites"]
 	rite_selector = user
 	ui_interact(user)
 
@@ -565,6 +552,10 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 	rite_selection_data = null
 	rite_selector = null
 
+	if(!is_valid_usurpation_rite_type(rite_type_path))
+		say("That rite is not recognized.")
+		playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
+		return
 	if(QDELETED(user) || user.stat != CONSCIOUS)
 		return
 	var/obj/structure/roguethrone/throne = GLOB.king_throne
@@ -594,14 +585,53 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 	)
 	return available_rites
 
-/obj/structure/roguemachine/titan/proc/has_available_usurpation_rite(mob/living/carbon/human/user)
+/obj/structure/roguemachine/titan/proc/is_valid_usurpation_rite_type(rite_type_path)
+	return rite_type_path in get_usurpation_rite_types()
+
+// Read-only rite prototypes keep the UI eligibility check from allocating datums every refresh.
+/obj/structure/roguemachine/titan/proc/get_usurpation_rite_prototypes()
+	var/static/list/rite_prototypes
+	if(!rite_prototypes)
+		rite_prototypes = list()
+		for(var/rite_type in get_usurpation_rite_types())
+			rite_prototypes[rite_type] = new rite_type()
+	return rite_prototypes
+
+/obj/structure/roguemachine/titan/proc/get_usurpation_rite_options(mob/living/carbon/human/user, use_cache = TRUE)
+	if(use_cache && usurpation_rite_options_cache && usurpation_rite_options_cache_user == user && world.time < usurpation_rite_options_cache_expires)
+		return usurpation_rite_options_cache
+
+	var/list/all_rites = list()
+	var/any_eligible = FALSE
+	var/list/rite_prototypes = get_usurpation_rite_prototypes()
 	for(var/rite_type in get_usurpation_rite_types())
-		var/datum/usurpation_rite/temp = new rite_type()
-		var/can_use = temp.can_invoke(user)
-		qdel(temp)
+		var/datum/usurpation_rite/rite_prototype = rite_prototypes[rite_type]
+		if(!rite_prototype)
+			continue
+		var/can_use = rite_prototype.can_invoke(user)
 		if(can_use)
-			return TRUE
-	return FALSE
+			any_eligible = TRUE
+		all_rites += list(list(
+			"name" = rite_prototype.name,
+			"desc" = rite_prototype.desc,
+			"explanation" = rite_prototype.explanation,
+			"type_path" = "[rite_type]",
+			"eligible" = can_use,
+		))
+
+	var/list/options = list(
+		"rites" = all_rites,
+		"any_eligible" = any_eligible,
+	)
+	if(use_cache)
+		usurpation_rite_options_cache = options
+		usurpation_rite_options_cache_user = user
+		usurpation_rite_options_cache_expires = world.time + 1 SECONDS
+	return options
+
+/obj/structure/roguemachine/titan/proc/has_available_usurpation_rite(mob/living/carbon/human/user)
+	var/list/rite_options = get_usurpation_rite_options(user)
+	return rite_options["any_eligible"]
 
 /obj/structure/roguemachine/titan/proc/format_ducal_court_time(seconds)
 	seconds = max(round(seconds), 0)
@@ -979,8 +1009,8 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 	data["regent"] = ducal_court_mob_name(regent)
 	data["realm_colors"] = get_ducal_court_colors()
 	data["rite"] = rite_data
-	data["law_count"] = length(GLOB.laws_of_the_land)
-	data["decree_count"] = length(GLOB.lord_decrees)
+	data["law_count"] = islist(GLOB.laws_of_the_land) ? length(GLOB.laws_of_the_land) : 0
+	data["decree_count"] = islist(GLOB.lord_decrees) ? length(GLOB.lord_decrees) : 0
 	if(!ishuman(user))
 		data["viewer_status"] = "Observer"
 		data["status_cards"] = list()
@@ -1011,8 +1041,14 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 		if("choose_rite")
 			if(rite_selector && rite_selector != user)
 				return TRUE
-			var/type_path = text2path(params["type_path"])
+			var/type_path_text = params["type_path"]
+			if(!istext(type_path_text))
+				return TRUE
+			var/type_path = text2path(type_path_text)
 			if(!type_path)
+				return TRUE
+			if(!is_valid_usurpation_rite_type(type_path))
+				to_chat(user, span_warning("That rite is not available."))
 				return TRUE
 			ui.close()
 			on_rite_chosen(user, type_path)
@@ -1063,10 +1099,15 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 			if(reject_ducal_court_action(user, "make_law"))
 				return TRUE
 			var/law_number = params["law_number"]
+			if(istext(law_number))
+				law_number = text2num(law_number)
+			else if(!isnum(law_number))
+				law_number = null
 			if(!isnum(law_number))
-				law_number = text2num("[law_number]")
+				to_chat(user, span_warning("No law exists at that number."))
+				return TRUE
 			law_number = round(law_number)
-			if(law_number < 1 || law_number > length(GLOB.laws_of_the_land))
+			if(!islist(GLOB.laws_of_the_land) || law_number < 1 || law_number > length(GLOB.laws_of_the_land))
 				to_chat(user, span_warning("No law exists at that number."))
 				return TRUE
 			remove_law(law_number)

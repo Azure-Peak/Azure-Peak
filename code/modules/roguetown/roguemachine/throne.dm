@@ -125,11 +125,6 @@ GLOBAL_VAR(ducal_court_throat)
 		return
 	var/obj/structure/roguemachine/titan/throat = GLOB.ducal_court_throat
 	if(!throat || QDELETED(throat))
-		for(var/obj/structure/roguemachine/titan/found_throat in world)
-			throat = found_throat
-			GLOB.ducal_court_throat = throat
-			break
-	if(!throat)
 		to_chat(user, span_warning("The Throat of Azure Peak does not answer."))
 		return
 	throat.ui_interact(user)
