@@ -438,13 +438,19 @@ GLOBAL_LIST_EMPTY(item_cat_markups)
 	if(load_pricing_cache(fingerprint))
 		var/t_loaded = world.timeofday
 		apply_trade_good_categories()
+		rebuild_crafting_recipe_display_cache()
 		log_world("Pricing engine: loaded [length(GLOB.derived_sellprices)] cached prices. [(t_baseline - t_start) * 100]ms baseline + [(t_fingerprint - t_baseline) * 100]ms fingerprint + [(t_loaded - t_fingerprint) * 100]ms cache load = [(t_loaded - t_start) * 100]ms total.")
 		return
 	init_derived_sellprices()
 	var/t_derived = world.timeofday
 	save_pricing_cache(fingerprint)
+	rebuild_crafting_recipe_display_cache()
 	var/t_saved = world.timeofday
 	log_world("Pricing engine: full walk. [(t_baseline - t_start) * 100]ms baseline + [(t_fingerprint - t_baseline) * 100]ms fingerprint + [(t_derived - t_fingerprint) * 100]ms walk + [(t_saved - t_derived) * 100]ms cache save = [(t_saved - t_start) * 100]ms total.")
+
+/proc/rebuild_crafting_recipe_display_cache()
+	for(var/datum/crafting_recipe/R as anything in GLOB.crafting_recipes)
+		R.build_display_cache()
 
 /proc/apply_trade_good_categories()
 	for(var/id in GLOB.trade_goods)

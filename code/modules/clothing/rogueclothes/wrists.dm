@@ -344,49 +344,41 @@
 	name = "jade bracelets"
 	desc = "A set of bracelets carved out of jade."
 	icon_state = "br_jade"
-	sellprice = 65
 
 /obj/item/clothing/wrists/roguetown/gem/turqbracelet
 	name = "cerulite bracelets"
 	desc = "A set of bracelets carved out of cerulite."
 	icon_state = "br_turq"
-	sellprice = 90
 
 /obj/item/clothing/wrists/roguetown/gem/onyxabracelet
 	name = "onyxa bracelets"
 	desc = "A set of bracelets carved out of onyxa."
 	icon_state = "br_onyxa"
-	sellprice = 45
 
 /obj/item/clothing/wrists/roguetown/gem/coralbracelet
 	name = "heartstone bracelets"
 	desc = "A set of bracelets carved out of heartstone."
 	icon_state = "br_coral"
-	sellprice = 75
 
 /obj/item/clothing/wrists/roguetown/gem/amberbracelet
 	name = "amber bracelets"
 	desc = "A set of bracelets carved out of amber."
 	icon_state = "br_amber"
-	sellprice = 65
 
 /obj/item/clothing/wrists/roguetown/gem/shellbracelet
 	name = "shell bracelets"
 	desc = "A set of bracelets carved out of shell."
 	icon_state = "br_shell"
-	sellprice = 25
 
 /obj/item/clothing/wrists/roguetown/gem/rosebracelet
 	name = "rosestone bracelets"
 	desc = "A set of bracelets carved out of rosestone."
 	icon_state = "br_rose"
-	sellprice = 30
 
 /obj/item/clothing/wrists/roguetown/gem/opalbracelet
 	name = "opal bracelets"
 	desc = "A set of bracelets carved out of opal."
 	icon_state = "br_opal"
-	sellprice = 95
 //
 
 /obj/item/clothing/wrists/roguetown/bracers/matthios

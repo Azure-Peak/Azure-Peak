@@ -3,6 +3,7 @@
 /obj/item/rogueweapon
 	name = ""
 	desc = ""
+	has_item_quality = TRUE
 	icon_state = "sabre"
 	item_state = "sabre"
 	lefthand_file = 'icons/mob/inhands/weapons/swords_lefthand.dmi'

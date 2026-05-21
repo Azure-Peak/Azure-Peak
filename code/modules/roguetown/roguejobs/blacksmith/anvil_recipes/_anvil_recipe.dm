@@ -192,7 +192,7 @@
 		return
 
 	I.has_item_quality = TRUE
-	I.apply_quality(null, null, 0, tier)
+	I.apply_quality(null, null, tier)
 	if(tier == ITEM_QUALITY_MASTERWORK)
 		record_round_statistic(STATS_MASTERWORKS_FORGED)
 	if(istype(I, /obj/item/lockpick))

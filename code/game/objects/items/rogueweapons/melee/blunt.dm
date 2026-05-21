@@ -408,7 +408,6 @@
 	icon_state = "rungu_shell"
 
 	max_integrity = 75
-	sellprice = 35
 
 /obj/item/rogueweapon/mace/cudgel/psy
 	name = "psydonic flanged mace"

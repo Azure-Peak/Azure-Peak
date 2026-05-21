@@ -148,7 +148,6 @@
 	icon_state = "wooden"
 	drop_sound = 'sound/foley/dropsound/wooden_drop.ogg'
 	anvilrepair = null
-	sellprice = 0
 	force = 5
 	throwforce = 10
 
@@ -164,7 +163,6 @@
 	desc = "Frayed bronze, coiled into a cup. Here, adventurers of centuries-past would laugh and legendize; but now, nothing but empty chairs and empty tables remain."
 	color = "#bb9696"
 	icon_state = "amug"
-	sellprice = 5
 	force = 5
 	throwforce = 10
 
@@ -173,7 +171,6 @@
 	desc = "Frayed bronze, coiled into a hooked vessel. To think that this was once a nobleman's goblet; yet, it has endured far longer than their now-withered bloodline."
 	color = "#bb9696"
 	icon_state = "agoblet"
-	sellprice = 10
 	force = 10
 	throwforce = 15
 
@@ -212,7 +209,6 @@
 	name = "silver cup"
 	desc = "A silver cup, its surface adorned with intricate carvings and runes."
 	icon_state = "scup"
-	sellprice = 20
 	is_silver = TRUE
 	is_lesser_silver = TRUE
 	force = 5
@@ -229,7 +225,6 @@
 	name = "golden cup"
 	desc = "Adorned with gemstones, this cup glimmers with lesser opulence and grandeur."
 	icon_state = "gcup"
-	sellprice = 40
 	force = 5
 	throwforce = 10
 
@@ -237,7 +232,6 @@
 	name = "golden goblet"
 	desc = "Adorned with gemstones, this goblet radiates opulence and grandeur."
 	icon_state = "golden"
-	sellprice = 50
 	list_reagents = list(/datum/reagent/toxin/killersice = 1, /datum/reagent/consumable/ethanol/elfred = 20)
 	force = 10
 	throwforce = 15
@@ -254,7 +248,6 @@
 	desc = "A tea cup made out of ceramic. Used to serve tea."
 	dropshrink = 0.7
 	icon_state = "cup"
-	sellprice = 10
 	force = 5
 	throwforce = 10
 
@@ -278,7 +271,6 @@
 	name = "fancy teacup"
 	desc = "A fancy tea cup made out of ceramic. Used to serve tea."
 	icon_state = "cup_fancy"
-	sellprice = 12
 	force = 5
 	throwforce = 10
 
@@ -287,118 +279,102 @@
 	desc = "You shouldn't be seeing this."
 	dropshrink = 1
 	icon_state = "agoblet"
-	sellprice = 0
 	force = 7
 	throwforce = 12
+	has_item_quality = TRUE
 
 /obj/item/reagent_containers/glass/cup/carved/jade
 	name = "jade cup"
 	desc = "A simple cup carved out of jade."
 	dropshrink = 1
 	icon_state = "cup_jade"
-	sellprice = 55
 
 /obj/item/reagent_containers/glass/cup/carved/turq
 	name = "cerulite cup"
 	desc = "A simple cup carved out of cerulite."
 	dropshrink = 1
 	icon_state = "cup_turq"
-	sellprice = 80
 
 /obj/item/reagent_containers/glass/cup/carved/amber
 	name = "amber cup"
 	desc = "A simple cup carved out of amber."
 	dropshrink = 1
 	icon_state = "cup_amber"
-	sellprice = 55
 
 /obj/item/reagent_containers/glass/cup/carved/coral
 	name = "heartstone cup"
 	desc = "A simple cup carved out of heartstone."
 	dropshrink = 1
 	icon_state = "cup_coral"
-	sellprice = 65
 
 /obj/item/reagent_containers/glass/cup/carved/onyxa
 	name = "onyxa cup"
 	desc = "A simple cup carved out of onyxa."
 	dropshrink = 1
 	icon_state = "cup_onyxa"
-	sellprice = 35
 
 /obj/item/reagent_containers/glass/cup/carved/shell
 	name = "shell cup"
 	desc = "A simple cup carved out of shell."
 	dropshrink = 1
 	icon_state = "cup_shell"
-	sellprice = 15
 
 /obj/item/reagent_containers/glass/cup/carved/opal
 	name = "opal cup"
 	desc = "A simple cup carved out of opal."
 	dropshrink = 1
 	icon_state = "cup_opal"
-	sellprice = 85
 
 /obj/item/reagent_containers/glass/cup/carved/rose
 	name = "rosestone cup"
 	desc = "A simple cup carved out of rosestone."
 	dropshrink = 1
 	icon_state = "cup_rose"
-	sellprice = 20
 
 /obj/item/reagent_containers/glass/cup/carved/jadefancy
 	name = "fancy jade cup"
 	desc = "A fancy cup carved out of jade."
 	dropshrink = 1
 	icon_state = "fancycup_jade"
-	sellprice = 65
 
 /obj/item/reagent_containers/glass/cup/carved/turqfancy
 	name = "fancy cerulite cup"
 	desc = "A fancy cup carved out of cerulite."
 	dropshrink = 1
 	icon_state = "fancycup_turq"
-	sellprice = 90
 
 /obj/item/reagent_containers/glass/cup/carved/opalfancy
 	name = "fancy opal cup"
 	desc = "A fancy cup carved out of opal."
 	dropshrink = 1
 	icon_state = "fancycup_opal"
-	sellprice = 95
 
 /obj/item/reagent_containers/glass/cup/carved/coralfancy
 	name = "fancy heartstone cup"
 	desc = "A fancy cup carved out of heartstone."
 	dropshrink = 1
 	icon_state = "fancycup_coral"
-	sellprice = 75
 
 /obj/item/reagent_containers/glass/cup/carved/amberfancy
 	name = "fancy amber cup"
 	desc = "A fancy cup carved out of amber."
 	dropshrink = 1
 	icon_state = "fancycup_amber"
-	sellprice = 65
 
 /obj/item/reagent_containers/glass/cup/carved/shellfancy
 	name = "fancy shell cup"
 	desc = "A fancy cup carved out of shell."
 	dropshrink = 1
 	icon_state = "fancycup_shell"
-	sellprice = 25
 
 /obj/item/reagent_containers/glass/cup/carved/rosefancy
 	name = "fancy rosestone cup"
 	desc = "A fancy cup carved out of rosestone."
 	dropshrink = 1
 	icon_state = "fancycup_rose"
-	sellprice = 30
 
 /obj/item/reagent_containers/glass/cup/carved/onyxafancy
 	name = "fancy onyxa cup"
 	desc = "A fancy cup carved out of onyxa."
 	dropshrink = 1
 	icon_state = "fancycup_onyxa"
-	sellprice = 45

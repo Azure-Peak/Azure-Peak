@@ -1,5 +1,3 @@
-
-
 /obj/item/clothing/ring
 	name = "ring"
 	desc = "The only one to rule them all."
@@ -72,49 +70,41 @@
 	name = "jade ring"
 	desc = "A ring of emeraldesque wisdom."
 	icon_state = "ring_jade"
-	sellprice = 60
 
 /obj/item/clothing/ring/coral
 	name = "heartstone ring"
 	desc = "A ring of aeotal fortitude."
 	icon_state = "ring_coral"
-	sellprice = 70
 
 /obj/item/clothing/ring/onyxa
 	name = "onyxa ring"
 	desc = "A ring of obsidianic mystique."
 	icon_state = "ring_onyxa"
-	sellprice = 40
 
 /obj/item/clothing/ring/shell
 	name = "shell ring"
 	desc = "A ring of pearled surprise."
 	icon_state = "ring_shell"
-	sellprice = 20
 
 /obj/item/clothing/ring/amber
 	name = "amber ring"
 	desc = "A ring of sunglossed wonder."
 	icon_state = "ring_amber"
-	sellprice = 20
 
 /obj/item/clothing/ring/turq
 	name = "cerulite ring"
 	desc = "A ring of aquatic fascination."
 	icon_state = "ring_turq"
-	sellprice = 85
 
 /obj/item/clothing/ring/rose
 	name = "rosestone ring"
 	desc = "A ring of chiseled love."
 	icon_state = "ring_rose"
-	sellprice = 25
 
 /obj/item/clothing/ring/opal
 	name = "opal ring"
 	desc = "A ring of evershifting hues."
 	icon_state = "ring_opal"
-	sellprice = 90
 
 /obj/item/clothing/ring/active
 	var/active = FALSE
