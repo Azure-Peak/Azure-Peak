@@ -9,7 +9,11 @@
 	class_select_category = CLASS_CAT_ROGUE
 	category_tags       = list(CTAG_WRETCH)
 	traits_applied      = list(TRAIT_DODGEEXPERT, TRAIT_GOODLOVER, TRAIT_INSPIRING_MUSICIAN)
-	extra_context       = "All paths gain Allegro: every 5th landed rhythm restores energy. Busker gains Empath, Deceiving Meekness, and Light Step, with Expert Sneaking, Stealing, Lockpicking, Climbing, and Knives (Parrying Knife). Cacophonist gains a bonus rhythm pick (3 total) and song slot (5 total), with Expert Swords and Whips & Flails (Alloy-tipped whip & Arming Sword). Boomwhacker gains Expert Pugilist and +1 Strength, with Expert Unarmed and Wrestling (Knuckle dusters). Cipher gains one Minor Arcane aspect, five Utility points, and one offensive cantrip of choice."
+	extra_context       = "All paths gain Allegro: every 5th landed rhythm restores energy.<br>\
+						  Busker gains Empath, Deceiving Meekness, and Light Step, with Expert Sneaking, Stealing, Lockpicking, Climbing, and Knives (Parrying Knife).<br>\
+						  Cacophonist gains a bonus rhythm pick (3 total) and song slot (5 total), with Expert Swords and Whips & Flails (Alloy-tipped whip & Arming Sword).<br>\
+						  Boomwhacker gains Expert Pugilist and +1 Strength, with Expert Unarmed and Wrestling (Knuckle dusters).<br>\
+						  Cipher gains one Minor Arcane aspect, five Utility points, and one offensive cantrip of choice."
 	subclass_stats = list(
 		STATKEY_INT = 1,
 		STATKEY_WIL = 2,

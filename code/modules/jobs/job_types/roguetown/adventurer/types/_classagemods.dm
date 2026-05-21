@@ -70,8 +70,8 @@
 		/datum/skill/misc/music = SKILL_LEVEL_LEGENDARY,
 	)
 	stat_mods = list(
-		STATKEY_FOR = 1,
-		STATKEY_END = 1,
+		STATKEY_LCK = 1,
+		STATKEY_WIL = 1,
 	)
 
 /datum/class_age_mod/wretch/rogue_mage
