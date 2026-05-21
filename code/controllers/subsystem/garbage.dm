@@ -39,6 +39,7 @@ SUBSYSTEM_DEF(garbage)
 
 	var/highest_del_time = 0
 	var/highest_del_tickusage = 0
+	var/highest_del_type_string = ""
 
 	var/list/pass_counts
 	var/list/fail_counts
@@ -85,6 +86,9 @@ SUBSYSTEM_DEF(garbage)
 	//Adds the del() log to the qdel log file
 	var/list/dellog = list()
 
+	if(highest_del_type_string)
+		dellog += "Highest hard-delete this round: [highest_del_tickusage] ticks ([highest_del_type_string])"
+
 	//sort by how long it's wasted hard deleting
 	sortTim(items, cmp=/proc/cmp_qdel_item_time, associative = TRUE)
 	for(var/path in items)
@@ -97,12 +101,15 @@ SUBSYSTEM_DEF(garbage)
 		if (I.hard_deletes)
 			dellog += "\tTotal Hard Deletes [I.hard_deletes]"
 			dellog += "\tTime Spent Hard Deleting: [I.hard_delete_time]ms"
+			dellog += "\tHighest Time Spent Hard Deleting: [I.hard_delete_max]ms"
 		if (I.slept_destroy)
 			dellog += "\tSleeps: [I.slept_destroy]"
 		if (I.no_respect_force)
 			dellog += "\tIgnored force: [I.no_respect_force] times"
 		if (I.no_hint)
 			dellog += "\tNo hint: [I.no_hint] times"
+		if(LAZYLEN(I.extra_details))
+			dellog += "\tExtra Info:\n\t\t- [I.extra_details.Join("\n\t\t- ")]"
 	log_qdel(dellog.Join("\n"))
 
 /datum/controller/subsystem/garbage/fire()
@@ -188,6 +195,9 @@ SUBSYSTEM_DEF(garbage)
 				#endif
 				var/type = D.type
 				var/datum/qdel_item/I = items[type]
+				var/detail = D.dump_harddel_info()
+				if(detail)
+					LAZYADD(I.extra_details, detail)
 				#ifdef TESTING
 				log_world("## TESTING: GC: -- \ref[D] | [type] was unable to be GC'd --")
 				for(var/c in GLOB.admins) //Using here would fill the logs with ADMIN_VV garbage
@@ -238,19 +248,23 @@ SUBSYSTEM_DEF(garbage)
 	++totaldels
 	var/type = D.type
 	var/refID = "\ref[D]"
+	var/datum/qdel_item/I = items[type]
+	var/detail = D.dump_harddel_info()
+	if(detail)
+		LAZYADD(I.extra_details, detail)
 
 	del(D)
 
 	tick = (TICK_USAGE-tick+((world.time-ticktime)/world.tick_lag*100))
 
-	var/datum/qdel_item/I = items[type]
-
 	I.hard_deletes++
 	I.hard_delete_time += TICK_DELTA_TO_MS(tick)
-
-
+	if(TICK_DELTA_TO_MS(tick) > I.hard_delete_max)
+		I.hard_delete_max = TICK_DELTA_TO_MS(tick)
 	if (tick > highest_del_tickusage)
 		highest_del_tickusage = tick
+		highest_del_type_string = "[type]"
+	
 	time = world.timeofday - time
 	if (!time && TICK_DELTA_TO_MS(tick) > 1)
 		time = TICK_DELTA_TO_MS(tick)/100
@@ -274,9 +288,11 @@ SUBSYSTEM_DEF(garbage)
 	var/failures = 0		//Times it was queued for soft deletion but failed to soft delete.
 	var/hard_deletes = 0 	//Different from failures because it also includes QDEL_HINT_HARDDEL deletions
 	var/hard_delete_time = 0//Total amount of milliseconds spent hard deleting this type.
+	var/hard_delete_max = 0	//Highest time spent hard_deleting this in ms.
 	var/no_respect_force = 0//Number of times it's not respected force=TRUE
 	var/no_hint = 0			//Number of times it's not even bother to give a qdel hint
 	var/slept_destroy = 0	//Number of times it's slept in its destroy
+	var/list/extra_details	//Lazylist of string metadata about the deleted objects
 
 /datum/qdel_item/New(mytype)
 	name = "[mytype]"

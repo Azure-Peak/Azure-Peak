@@ -275,11 +275,14 @@
 	return FALSE
 
 /// Returns the highest AC worn, or held in hands.
-/mob/living/carbon/human/proc/highest_ac_worn(check_hands)
+/mob/living/carbon/human/proc/highest_ac_worn(check_hands, check_helmet = TRUE)
 	var/list/slots = list(wear_armor, wear_pants, wear_wrists, wear_shirt, gloves, head, shoes, wear_neck, wear_mask, wear_ring)
+	if(!check_helmet)
+		slots.Remove(head)
 	for(var/slot in slots)
 		if(isnull(slot) || !istype(slot, /obj/item/clothing))
 			slots.Remove(slot)
+
 	
 	var/highest_ac = ARMOR_CLASS_NONE
 

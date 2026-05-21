@@ -1337,7 +1337,7 @@ tile_coordinates = list(list(1,1), list(-1,1), list(-1,-1), list(1,-1),list(0,0)
 	var/obj/item/rogueweapon/stoneaxe/battle/ice/W = iparent
 	active_timer = addtimer(CALLBACK(src, PROC_REF(effect_expire)), 20 SECONDS, TIMER_STOPPABLE)
 	W.icon_state = "iceaxeactive"
-	W.toggle_state = "iceaxeactive"
+	W.override_state = "iceaxeactive"
 	W.inactive_intents = W.possible_item_intents
 	W.inactive_gripped_intents = W.gripped_intents
 	W.possible_item_intents = W.active_intents
@@ -1350,7 +1350,7 @@ tile_coordinates = list(list(1,1), list(-1,1), list(-1,-1), list(1,-1),list(0,0)
 	howner.visible_message(span_warning("The ice covering [iparent]'s blade thaws out!"))
 	var/obj/item/rogueweapon/stoneaxe/battle/ice/W = iparent
 	W.icon_state = "iceaxe"
-	W.toggle_state = null
+	W.override_state = null
 	W.possible_item_intents = W.inactive_intents
 	W.gripped_intents = W.inactive_gripped_intents
 	howner.update_a_intents()

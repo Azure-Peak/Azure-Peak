@@ -15,6 +15,7 @@
 	zizo_spell = TRUE
 	invocation_type = INVOCATION_SHOUT
 	invocations = list("Evoca skeletos!")
+	var/miracle = FALSE
 	var/cabal_affine = FALSE
 	var/is_summoned = FALSE
 	var/to_spawn = 4
@@ -22,6 +23,9 @@
 
 /datum/action/cooldown/spell/raise_undead_formation/cast(atom/cast_on)
 	. = ..()
+
+	if(!owner)
+		return FALSE
 
 	if(istype(get_area(owner), /area/rogue/indoors/ravoxarena))
 		to_chat(owner, span_userdanger("I reach for outer help, but something rebukes me! This challenge is only for me to overcome!"))
@@ -34,39 +38,72 @@
 		return FALSE
 
 	for(var/i = 1 to to_spawn)
-		if(i > to_spawn)
-			i = 1
+		var/turf/spawn_turf = T
 
 		if(i > 1)
 			if(owner.dir == NORTH || owner.dir == SOUTH)
-				if(prob(50))
-					T = get_step(T, EAST)
-				else
-					T = get_step(T, WEST)
+				spawn_turf = get_step(T, prob(50) ? EAST : WEST)
 			else
-				if(prob(50))
-					T = get_step(T, NORTH)
-				else
-					T = get_step(T, SOUTH)
+				spawn_turf = get_step(T, prob(50) ? NORTH : SOUTH)
 
-		if(!isopenturf(T))
+		if(!isopenturf(spawn_turf))
 			continue
 
-		new /obj/effect/temp_visual/bluespace_fissure(T)
-		var/skeleton_roll = rand(1, 100)
-		var/mob/living/skeletonnew
+		new /obj/effect/temp_visual/bluespace_fissure(spawn_turf)
+
+		var/skeleton_roll = rand(1,100)
+		var/skeleton_type
+
 		switch(skeleton_roll)
 			if(1 to 20)
-				skeletonnew = new /mob/living/simple_animal/hostile/rogue/skeleton/axe(T, owner, cabal_affine)
-			if(21 to 40)
-				skeletonnew = new /mob/living/simple_animal/hostile/rogue/skeleton/spear(T, owner, cabal_affine)
-			if(41 to 60)
-				skeletonnew = new /mob/living/simple_animal/hostile/rogue/skeleton/guard(T, owner, cabal_affine)
-			if(61 to 80)
-				skeletonnew = new /mob/living/simple_animal/hostile/rogue/skeleton/bow(T, owner, cabal_affine)
-			if(81 to 100)
-				skeletonnew = new /mob/living/simple_animal/hostile/rogue/skeleton(T, owner, cabal_affine)
-		apply_mob_lifespan(skeletonnew, owner, spawn_lifespan)
+				skeleton_type = /mob/living/simple_animal/hostile/rogue/skeleton/axe
+			if(21 to 30)
+				skeleton_type = /mob/living/simple_animal/hostile/rogue/skeleton/spear
+			if(31 to 60)
+				skeleton_type = /mob/living/simple_animal/hostile/rogue/skeleton/guard
+			if(61 to 70)
+				skeleton_type = /mob/living/simple_animal/hostile/rogue/skeleton/axe
+			if(71 to 100)
+				skeleton_type = /mob/living/simple_animal/hostile/rogue/skeleton/guard
+
+		var/mob/living/simple_animal/hostile/rogue/skeleton/S = new skeleton_type(spawn_turf, owner, cabal_affine)
+
+		if(!S)
+			continue
+
+		if(miracle)
+			var/holyLV = owner.get_skill_level(/datum/skill/magic/holy)
+			var/bonus = max(0, holyLV - 1) * 2
+
+			S.STASTR += bonus
+			S.STASPD += round(bonus / 2)
+			S.maxHealth += bonus * 50
+			S.health = S.maxHealth
+
+		var/aggro_range = 8
+
+		for(var/mob/living/M in view(aggro_range, S))
+			if(M == S)
+				continue
+			if(M.stat == DEAD)
+				continue
+			if(M.mind)
+				continue
+			if(M.faction_check_mob(S))
+				continue
+			if(M.faction_check_mob(owner))
+				continue
+
+			M.ai_controller.set_blackboard_key(BB_BASIC_MOB_CURRENT_TARGET, S)
+			M.ai_controller.set_blackboard_key(BB_HIGHEST_THREAT_MOB, S)
+
+			var/datum/component/ai_aggro_system/aggro = M.GetComponent(/datum/component/ai_aggro_system)
+			
+			if(aggro)
+				aggro.add_threat_to_mob(S, 100)
+
+		apply_mob_lifespan(S, owner, spawn_lifespan)
+
 	return TRUE
 
 /datum/action/cooldown/spell/raise_undead_formation/necromancer

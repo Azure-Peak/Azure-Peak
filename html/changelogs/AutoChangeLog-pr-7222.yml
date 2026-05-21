@@ -1,0 +1,5 @@
+author: "changelingonberry"
+delete-after: True
+changes:
+  - rscadd: "Dust runner examine for fellow thieves, Matthiosites, and bathhouse workers"
+  - rscadd: "Thieves cant for dust runner virtue"

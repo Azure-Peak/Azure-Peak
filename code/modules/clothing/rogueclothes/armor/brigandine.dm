@@ -161,6 +161,8 @@
 	detail_tag = "_detail"
 	color = "#FFFFFF"
 	detail_color = "#FFFFFF"
+	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_armor.dmi'
+	sleeved_detail = TRUE
 	var/picked = FALSE
 
 /obj/item/clothing/suit/roguetown/armor/brigandine/haraate/attack_right(mob/user)

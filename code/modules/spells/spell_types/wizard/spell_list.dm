@@ -21,6 +21,7 @@ GLOBAL_LIST_INIT(utility_spells, (list(
 		/datum/action/cooldown/spell/nondetection,
 		/datum/action/cooldown/spell/projectile/lesser_fetch,
 		/datum/action/cooldown/spell/projectile/lesser_repel,
+		/datum/action/cooldown/spell/projectile/waterbolt,
 		/datum/action/cooldown/spell/readomen,
 		/datum/action/cooldown/spell/touch/rune_ward,
 		/datum/action/cooldown/spell/transcribe,

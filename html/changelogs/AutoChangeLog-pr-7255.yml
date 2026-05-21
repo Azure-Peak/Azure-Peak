@@ -1,0 +1,4 @@
+author: "saltprjak"
+delete-after: True
+changes:
+  - rscadd: "Added bandolier option to loadout, under Miscellaneous."

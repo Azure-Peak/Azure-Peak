@@ -49,9 +49,12 @@
 	var/dynamic_fhair_suffix = ""//mask > head for facial hair
 	edelay_type = 0
 	var/list/allowed_sex = list(MALE,FEMALE)
+
 	var/list/allowed_race = CLOTHED_RACES_TYPES
 	var/immune_to_genderswap = FALSE
 	var/armor_class = ARMOR_CLASS_NONE
+
+	var/blood_color = null
 
 	sellprice = 1
 	var/naledicolor = FALSE
