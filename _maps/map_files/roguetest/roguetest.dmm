@@ -200,6 +200,24 @@
 "hq" = (
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/indoors/town/magician)
+"hs" = (
+/obj/item/natural/bundle/cloth/roll,
+/obj/item/natural/bundle/cloth/roll,
+/obj/item/natural/bundle/cloth/roll,
+/obj/item/natural/bundle/cloth/roll,
+/obj/item/natural/bundle/cloth/roll,
+/obj/item/natural/bundle/cloth/roll,
+/obj/item/natural/bundle/cloth/roll,
+/obj/item/natural/bundle/cloth/roll,
+/obj/item/natural/bundle/cloth/roll,
+/obj/item/natural/bundle/cloth/roll,
+/obj/item/natural/bundle/cloth/roll,
+/obj/item/natural/bundle/cloth/roll,
+/obj/item/natural/bundle/cloth/roll,
+/obj/item/natural/bundle/cloth/roll,
+/obj/item/natural/bundle/cloth/roll,
+/turf/open/floor/rogue/blocks/newstone/alt,
+/area/rogue/indoors/town/physician)
 "hE" = (
 /obj/structure/roguemachine/escrow/tailor,
 /turf/open/floor/rogue/dirt/road,
@@ -868,6 +886,19 @@
 /obj/item/clothing/gloves/roguetown/plate,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/indoors)
+"yw" = (
+/obj/item/natural/bundle/fibers/full,
+/obj/item/natural/bundle/fibers/full,
+/obj/item/natural/bundle/fibers/full,
+/obj/item/natural/bundle/fibers/full,
+/obj/item/natural/bundle/fibers/full,
+/obj/item/natural/bundle/fibers/full,
+/obj/item/natural/bundle/fibers/full,
+/obj/item/natural/bundle/fibers/full,
+/obj/item/natural/bundle/fibers/full,
+/obj/item/needle,
+/turf/open/floor/rogue/blocks/newstone/alt,
+/area/rogue/indoors/town/physician)
 "yF" = (
 /turf/closed/mineral/rogue/bedrock,
 /area/rogue/indoors/shelter/mountains/decap)
@@ -1118,6 +1149,42 @@
 /obj/structure/composter/halffull,
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors)
+"ES" = (
+/obj/item/natural/fur,
+/obj/item/natural/fur,
+/obj/item/natural/fur,
+/obj/item/natural/fur,
+/obj/item/natural/fur,
+/obj/item/natural/fur,
+/obj/item/natural/fur,
+/obj/item/natural/fur,
+/obj/item/natural/fur,
+/obj/item/natural/fur,
+/obj/item/natural/fur,
+/obj/item/natural/fur,
+/obj/item/natural/fur,
+/obj/item/natural/fur,
+/obj/item/natural/fur,
+/obj/item/natural/fur,
+/obj/item/natural/bundle/curred_hide,
+/obj/item/natural/bundle/curred_hide,
+/obj/item/natural/bundle/curred_hide,
+/obj/item/natural/bundle/curred_hide,
+/obj/item/natural/bundle/curred_hide,
+/obj/item/natural/bundle/curred_hide,
+/obj/item/natural/bundle/curred_hide,
+/obj/item/natural/bundle/curred_hide,
+/obj/item/natural/bundle/curred_hide,
+/obj/item/natural/bundle/curred_hide,
+/obj/item/natural/bundle/curred_hide,
+/obj/item/natural/bundle/curred_hide,
+/obj/item/natural/bundle/curred_hide,
+/obj/item/natural/bundle/curred_hide,
+/obj/item/natural/bundle/curred_hide,
+/obj/item/natural/bundle/curred_hide,
+/obj/item/rogueweapon/huntingknife,
+/turf/open/floor/rogue/blocks/newstone/alt,
+/area/rogue/indoors/town/physician)
 "Fi" = (
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/outdoors/rtfield)
@@ -1468,6 +1535,10 @@
 /obj/item/rogueweapon/stoneaxe,
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors)
+"Sc" = (
+/obj/machinery/gear_painter,
+/turf/open/floor/rogue/dirt/road,
+/area/rogue/indoors)
 "Sf" = (
 /obj/structure/table/wood{
 	icon_state = "longtable_mid";
@@ -1555,6 +1626,21 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/goatmale,
 /turf/open/floor/rogue/hay,
 /area/rogue/indoors)
+"UV" = (
+/obj/item/roguegem/jade,
+/obj/item/roguegem/jade,
+/obj/item/roguegem/jade,
+/obj/item/roguegem/jade,
+/obj/item/roguegem/jade,
+/obj/item/roguegem/jade,
+/obj/item/roguegem/jade,
+/obj/item/roguegem/jade,
+/obj/item/roguegem/jade,
+/obj/item/roguegem/jade,
+/obj/item/roguegem/jade,
+/obj/item/roguegem/jade,
+/turf/open/floor/rogue/dirt/road,
+/area/rogue/outdoors)
 "UX" = (
 /obj/item/natural/worms/leech,
 /obj/item/natural/worms/leech{
@@ -1572,6 +1658,10 @@
 /obj/structure/table/wood/poker,
 /turf/open/floor/rogue/tile/masonic/single,
 /area/rogue/indoors)
+"Vm" = (
+/obj/item/rogueweapon/huntingknife,
+/turf/open/floor/rogue/dirt/road,
+/area/rogue/outdoors)
 "Vt" = (
 /obj/item/rogueweapon/tongs,
 /obj/item/rogueweapon/hammer/steel,
@@ -2702,7 +2792,7 @@ GG
 GG
 ce
 vq
-wk
+ie
 ie
 ie
 ie
@@ -2756,7 +2846,7 @@ ce
 vq
 Nr
 ie
-ie
+wk
 Gm
 vq
 vq
@@ -2900,8 +2990,8 @@ zo
 qQ
 bc
 bc
-bc
-bc
+yw
+ES
 sJ
 yK
 Vv
@@ -2952,7 +3042,7 @@ zo
 XU
 bc
 bc
-bc
+hs
 Rz
 sJ
 yK
@@ -3270,8 +3360,8 @@ xy
 yK
 yK
 yK
-rT
-rT
+UV
+Vm
 rT
 rT
 rT
@@ -3422,7 +3512,7 @@ sh
 xB
 xy
 xy
-CZ
+Sc
 CZ
 dE
 rT
