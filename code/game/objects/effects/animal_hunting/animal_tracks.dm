@@ -164,7 +164,7 @@
 
 	if(uncover_trail(user))
 		to_chat(user, span_nicegreen("The trail continues further ahead!"))
-		distribute_party_exp(3)
+		distribute_party_exp(6)
 		track_revealed = TRUE
 		fade_and_die(user)
 		//qdel(src)
@@ -232,12 +232,13 @@
 				// Spawn Animal if depth reached
 				if(trail_depth >= max_trail_depth)
 					to_chat(user, span_boldwarning("You see your quarry in the distance faintly!"))
-					distribute_party_exp(35)
 					var/mob/living/L = target_animal_type
 					var/chosen_rot = initial(L.rot_type) ? /datum/component/rot/simple/hunt : null
 					new /obj/effect/temp_visual/hunting_phantom(T, target_animal_type, chosen_rot)
-					if(spawn_group_bonus_animals(T, target_animal_type))
+					var/bonus_spawned = spawn_group_bonus_animals(T, target_animal_type)
+					if(bonus_spawned)
 						visible_message(span_boldwarning("There seems to be a herd in the distance!"))
+					distribute_party_exp(35 + (15 * bonus_spawned))
 					return TRUE
 
 				//Spawn the NEXT hidden mound
@@ -317,9 +318,9 @@
 		var/hunting_exp_modifier = max(1 + ((L.STAINT - 10) / 10), 0.1)
 		var/final_amount = base_amount
 
-		// If they aren't the leader, they get half
+		// If they aren't the leader, they get less
 		if(L != leader)
-			final_amount *= 0.5
+			final_amount *= 0.7
 		L.mind.add_sleep_experience(/datum/skill/misc/hunting, final_amount * hunting_exp_modifier)
 
 /obj/effect/hunting_track/proc/reveal_track(turf/target_turf)
@@ -453,9 +454,6 @@
 			var/chosen_rot = initial(example_mob.rot_type) ? /datum/component/rot/simple/hunt : null
 			new /obj/effect/temp_visual/hunting_phantom(spawn_turf, bonus_type, chosen_rot)
 			spawned_count++
-
-	if(spawned_count)
-		distribute_party_exp(10 * spawned_count)
 	return spawned_count
 
 /obj/effect/hunting_track/proc/clear_party_images()

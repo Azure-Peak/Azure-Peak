@@ -142,6 +142,7 @@ GLOBAL_LIST_EMPTY(last_words)
 //		addtimer(CALLBACK(client, PROC_REF(ghostize), 1, src), 150)
 		add_client_colour(/datum/client_colour/monochrome)
 		client.verbs.Add(GLOB.ghost_verbs)
+		client.update_browserpanel()
 		if(last_words)
 			GLOB.last_words |= last_words
 

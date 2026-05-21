@@ -111,6 +111,9 @@
 	if(is_storyteller_soft_antag_blocked())
 		result["final_slots"] = 0
 		return result
+	if(SSgamemode.current_storyteller?.preferred_gnoll_mode == GNOLL_SCALING_NONE)
+		result["final_slots"] = 0
+		return result
 	var/slots = 1
 	if(SSgnoll_scaling)
 		switch(SSgnoll_scaling.get_gnoll_scaling())
