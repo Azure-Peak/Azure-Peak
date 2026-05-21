@@ -86757,7 +86757,7 @@
 	lockid = "merchant";
 	name = "Workshop"
 	},
-/turf/closed/basic,
+/turf/open/floor/rogue/blocks/green,
 /area/rogue/under/town/sewer)
 "rhD" = (
 /obj/structure/spider/stickyweb,
