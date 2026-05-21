@@ -82,15 +82,15 @@ SUBSYSTEM_DEF(merchant_trade)
 	var/dispatch = build_market_theme_dispatch(pool_theme_jitters)
 	if(dispatch)
 		scom_announce(dispatch)
-	for(var/cat in all_market_pool_categories())
-		var/cap = compute_market_pool_capacity(cat, pool_pop_snapshot, pool_theme_jitters)
-		pool_capacity[cat] = cap
-		pool_consumed[cat] = 0
-		pending_ship_demand[cat] = 0
-		pending_ship_demand_satisfied[cat] = 0
+	for(var/bucket in all_navigator_buckets())
+		var/cap = compute_navigator_bucket_capacity(bucket, pool_pop_snapshot, pool_theme_jitters)
+		pool_capacity[bucket] = cap
+		pool_consumed[bucket] = 0
+		pending_ship_demand[bucket] = 0
+		pending_ship_demand_satisfied[bucket] = 0
 		var/bm_cap = round(cap * MARKET_BM_POOL_FRACTION)
-		bm_pool_capacity[cat] = bm_cap
-		bm_pool_consumed[cat] = 0
+		bm_pool_capacity[bucket] = bm_cap
+		bm_pool_consumed[bucket] = 0
 	schedule_pool_resnapshot()
 
 /datum/controller/subsystem/merchant_trade/proc/schedule_pool_resnapshot()
@@ -102,13 +102,13 @@ SUBSYSTEM_DEF(merchant_trade)
 	var/new_pop = compute_pop_count_for_pools()
 	if(new_pop > pool_pop_snapshot)
 		pool_pop_snapshot = new_pop
-		for(var/cat in all_market_pool_categories())
-			var/new_cap = compute_market_pool_capacity(cat, pool_pop_snapshot, pool_theme_jitters)
-			if(new_cap > pool_capacity[cat])
-				pool_capacity[cat] = new_cap
+		for(var/bucket in all_navigator_buckets())
+			var/new_cap = compute_navigator_bucket_capacity(bucket, pool_pop_snapshot, pool_theme_jitters)
+			if(new_cap > pool_capacity[bucket])
+				pool_capacity[bucket] = new_cap
 			var/new_bm_cap = round(new_cap * MARKET_BM_POOL_FRACTION)
-			if(new_bm_cap > bm_pool_capacity[cat])
-				bm_pool_capacity[cat] = new_bm_cap
+			if(new_bm_cap > bm_pool_capacity[bucket])
+				bm_pool_capacity[bucket] = new_bm_cap
 	schedule_pool_resnapshot()
 
 /datum/controller/subsystem/merchant_trade/proc/regen_bm_saturation_daily()
@@ -133,26 +133,36 @@ SUBSYSTEM_DEF(merchant_trade)
 /datum/controller/subsystem/merchant_trade/proc/add_ship_demand_for_realm(datum/foreign_realm/realm)
 	if(!realm || !length(realm.demanded_categories))
 		return
+	var/list/buckets_seen = list()
 	for(var/cat in realm.demanded_categories)
-		var/cap = pool_capacity[cat] || 0
+		var/bucket = (cat in all_navigator_buckets()) ? cat : get_navigator_bucket_for_category(cat)
+		if(!bucket || (bucket in buckets_seen))
+			continue
+		buckets_seen += bucket
+		var/cap = pool_capacity[bucket] || 0
 		if(cap <= 0)
 			continue
 		var/per_ship = round(cap * MARKET_DEMAND_PER_SHIP_FRACTION)
 		var/hard_cap = round(cap * MARKET_DEMAND_MAX_POOL_MULT)
-		pending_ship_demand[cat] = min(hard_cap, (pending_ship_demand[cat] || 0) + per_ship)
+		pending_ship_demand[bucket] = min(hard_cap, (pending_ship_demand[bucket] || 0) + per_ship)
 		var/drain = round(cap * MARKET_DEMAND_SHIP_SATURATION_DRAIN)
-		pool_consumed[cat] = max(0, (pool_consumed[cat] || 0) - drain)
+		pool_consumed[bucket] = max(0, (pool_consumed[bucket] || 0) - drain)
 
 /datum/controller/subsystem/merchant_trade/proc/remove_ship_demand_for_realm(datum/foreign_realm/realm)
 	if(!realm || !length(realm.demanded_categories))
 		return
+	var/list/buckets_seen = list()
 	for(var/cat in realm.demanded_categories)
-		var/cap = pool_capacity[cat] || 0
+		var/bucket = (cat in all_navigator_buckets()) ? cat : get_navigator_bucket_for_category(cat)
+		if(!bucket || (bucket in buckets_seen))
+			continue
+		buckets_seen += bucket
+		var/cap = pool_capacity[bucket] || 0
 		if(cap <= 0)
 			continue
 		var/per_ship = round(cap * MARKET_DEMAND_PER_SHIP_FRACTION)
-		var/new_val = (pending_ship_demand[cat] || 0) - per_ship
-		pending_ship_demand[cat] = max(0, new_val)
+		var/new_val = (pending_ship_demand[bucket] || 0) - per_ship
+		pending_ship_demand[bucket] = max(0, new_val)
 
 /datum/controller/subsystem/merchant_trade/proc/get_demand_multiplier(category)
 	var/cap = pool_capacity[category] || 0

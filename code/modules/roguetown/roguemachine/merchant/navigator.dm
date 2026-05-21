@@ -332,19 +332,26 @@
 						continue
 				var/base_price = I.get_real_price()
 				var/category = (GLOB.derived_categories && GLOB.derived_categories[I.type]) || ITEM_CAT_MISCELLANEOUS
-				var/saturation_mult = get_market_saturation(category)
-				var/demand_mult = get_market_demand(category)
+				var/bucket = get_navigator_bucket_for_category(category)
+				var/refusal_msg = get_navigator_refusal_message(bucket)
+				if(refusal_msg)
+					if(!refused_announced)
+						refused_announced = TRUE
+						I.visible_message(span_warning(refusal_msg))
+					continue
+				var/saturation_mult = get_market_saturation(bucket)
+				var/demand_mult = get_market_demand(bucket)
 				var/prize = round(base_price * saturation_mult * demand_mult * (1 - fixed_tax))
 				if(prize >= 1)
 					play_sound=TRUE
 					budgie += prize
-					credit_pool(category, base_price)
+					credit_pool(bucket, base_price)
 					I.visible_message(span_warning("[I] is sucked into the air!"))
-					if(category)
-						if(saturation_mult < 0.6 && !(category in penalty_categories))
-							penalty_categories += category
-						if(demand_mult > 1.15 && !(category in boost_categories))
-							boost_categories += category
+					if(bucket)
+						if(saturation_mult < 0.6 && !(bucket in penalty_categories))
+							penalty_categories += bucket
+						if(demand_mult > 1.15 && !(bucket in boost_categories))
+							boost_categories += bucket
 					qdel(I)
 				else if(base_price > 0)
 					if(!refused_announced)
