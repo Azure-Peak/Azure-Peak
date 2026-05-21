@@ -152,6 +152,10 @@
 	name = "Donator Item - Royal Sleeves"
 	path = /obj/item/clothing/wrists/roguetown/royalsleeves
 
+/datum/loadout_item/donator/willmbrink/padded_dress
+	name = "Donator Item - Padded Dress"
+	path = /obj/item/clothing/suit/roguetown/shirt/dress/willmbrink
+
 /datum/loadout_item/donator/dasfox
 	name = "Donator Kit - Archaic Ceremonial Valkyrhelm"
 	path = /obj/item/enchantingkit/dasfox_helm
@@ -318,3 +322,47 @@
 	name = "Donator Item - Dark Delight"
 	path = /obj/item/enchantingkit/weapon/nicksonessang
 	ckeywhitelist = list("nicksone")
+
+/datum/loadout_item/donator/koruu_silver_kukri
+	name = "Donator Kit - Psydonic Leachwhacker"
+	path = /obj/item/enchantingkit/weapon/koruu_kukri_silver
+	ckeywhitelist = list("koruu", "pepperoniplayboy")
+
+/datum/loadout_item/donator/koruu_longsword
+	name = "Donator Kit - Excaliber"
+	path = /obj/item/enchantingkit/weapon/koruu_longsword
+	ckeywhitelist = list("koruu", "pneumothorax")
+
+/datum/loadout_item/donator/koruu_etrusc
+	name = "Donator Kit - Colada"
+	path = /obj/item/enchantingkit/weapon/koruu_etrusc
+	ckeywhitelist = list("koruu", "pneumothorax")
+
+/datum/loadout_item/donator/koruu_judgement
+	name = "Donator Kit - A Durthurian Tale"
+	path = /obj/item/enchantingkit/weapon/koruu_judgement
+	ckeywhitelist = list("koruu", "pneumothorax")
+
+/datum/loadout_item/donator/magi1138
+	name = "Donator Kit - Stolen Xylix Cloak"
+	path = /obj/item/clothing/cloak/magi1138
+	ckeywhitelist = list("magi1138")
+
+/datum/loadout_item/donator/magi1138/specs
+	name = "Donator Kit - Modified Nocshade Lens-pair"
+	path = /obj/item/clothing/mask/rogue/spectacles/magi1138
+
+/datum/loadout_item/donator/nero_sword
+	name = "Donator Kit - Sylvan Longsword"
+	path = /obj/item/enchantingkit/weapon/nero_lsword
+	ckeywhitelist = list("nerocavalier","yeeteryieter","irlcatgirl","wickedcybs","spartanbobby","eirenxiv","freestylalt","lagomorphica")
+
+/datum/loadout_item/donator/nero_dagger
+	name = "Donator Kit - Sylvan Dagger"
+	path = /obj/item/enchantingkit/weapon/nero_dagger
+	ckeywhitelist = list("nerocavalier","yeeteryieter","irlcatgirl","wickedcybs","spartanbobby","eirenxiv","freestylalt","lagomorphica")
+
+/datum/loadout_item/donator/nero_sabre
+	name = "Donator Kit - Sylvan Sabre"
+	path = /obj/item/enchantingkit/weapon/nero_sabre
+	ckeywhitelist = list("nerocavalier","yeeteryieter","irlcatgirl","wickedcybs","spartanbobby","eirenxiv","freestylalt","lagomorphica")

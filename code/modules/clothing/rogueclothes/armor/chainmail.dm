@@ -223,10 +223,12 @@
 	desc = "All that glimmers is gold; yet only shining stars shalt break the mold.."
 	color = "#ffc960"
 	smeltresult = /obj/item/ingot/component/matthios
+	unenchantable = TRUE
 
 /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/matthios/Initialize()
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_FREEMAN, "ARMOR")
+	add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = "#fff385", "alpha" = 120, "size" = 1)) //IS THIS TRVE?
 
 //
 
@@ -237,10 +239,16 @@
 	chunkcolor = "#363030"
 	material_category = ARMOR_MAT_CHAINMAIL
 	smeltresult = /obj/item/ingot/component/zizo
+	unenchantable = TRUE
 
 /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/zizo/Initialize()
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_CABAL, "ARMOR")
+	add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = "#5f1515", "alpha" = 120, "size" = 1)) //Cursed look.
+
+/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/zizo/heavy
+	name = "fused avantyne hauberk"
+	desc = "The rings crackle softly with avantynic power, yet its fused firmly lyke a second skin. There is no going back, there is only forward in her name."
 
 /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/zizo/heavy/Initialize(mapload)
 	. = ..()
@@ -259,17 +267,11 @@
 	desc = "The blessing of a Martyr is nothing, when put before the Sinistar's rage."
 	color = "#ddc0a7"
 	smeltresult = /obj/item/ingot/component/graggar
+	unenchantable = TRUE
 
 /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/graggar/Initialize()
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_HORDE, "ARMOR", "RENDERED ASUNDER")
 
-/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/graggar/heavy/Initialize()
-	. = ..()
-	ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)
 
-/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/graggar/heavy/dropped(mob/living/carbon/human/user)
-	. = ..()
-	if(QDELETED(src))
-		return
-	qdel(src)
+//

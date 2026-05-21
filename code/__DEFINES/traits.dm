@@ -19,6 +19,7 @@
 #define TRAIT_DEFILED_NOBLE "Drained Noble Blood"
 #define TRAIT_EMPATH "Empath"
 #define TRAIT_EXPLOSIVE_SUPPLY "Explosive Supply"
+#define TRAIT_DRUG_SUPPLY "Drug Supply"
 #define TRAIT_BOMBER_EXPERT "Explosive Specialist"
 #define TRAIT_BREADY "Battleready"
 #define TRAIT_ARMOUR_LIKED "Fitting Armour"
@@ -96,7 +97,6 @@
 #define TRAIT_PERMAMUTE "Permanent Mute"
 #define TRAIT_EXCOMMUNICATED "Excommunicated"
 #define TRAIT_HERESIARCH "Forbidden Knowledge"
-#define TRAIT_ZURCH 	"Hidden Domiciles" //allows entry to ascendant church
 #define TRAIT_DREAMWALKER "Dreamwalker"
 #define TRAIT_JACKOFALLTRADES "Jack of All Trades"	//Reduces skill up cost
 #define TRAIT_SIMPLESPEECH "Simple Speech" // Can only say the 1000 most common English-language words; other words get modified
@@ -104,7 +104,6 @@
 #define TRAIT_ROYALSERVANT "Household Insight" // Let's you see the royals liked/hated food/drink
 #define TRAIT_MOUNTABLE "Mount" //riding
 #define TRAIT_GOODWRITER "Great Writer"
-#define TRAIT_WAGES_SUSPENDED "Wages Suspended" //Stops nerve master daily pay for this guy
 #define TRAIT_NODEF "Recklessness"
 #define TRAIT_EMPOWERED_UNARMED "Empowered Unarmed" // Temporary trait — next unarmed attack bypasses defense
 #define TRAIT_DODGE_NO_MOVE "Dodge No Move" // Dodge rolls still happen but the mob doesn't physically move
@@ -177,6 +176,7 @@
 #define TRAIT_HORDE "Anointed" //Graggarites also recognize each other
 #define TRAIT_DEPRAVED "Fallen" //Baothans also recognize each other
 #define TRAIT_MATTHIOS_EYES	"Eyes of Matthios" //Examine to see the most expensive item someone has (Replaces shitty-appraisal)
+#define TRAIT_DUSTRUNNER "Dust Runner" //Dust runners recognize each other, and are known to bathhouse workers and matthiosites
 
 //ASCENDANT GOD CURSES
 
@@ -185,16 +185,21 @@
 #define TRAIT_CURSE_MATTHIOS "Curse of Matthios" //lck nuke and clumsy
 #define TRAIT_CURSE_BAOTHA "Curse of Baotha" //nudist
 
+//Travel Zone Traits
+#define TRAIT_BANDITCAMP "banditcamp" //Access to the bandit camp on the wretchcoast Z level
+#define TRAIT_VAMPMANSION "vampiremansion" //Access to the vampire manor on the wretchcoast Z level
+#define TRAIT_LICHLAIR "lichlair" //Access to the lich's lair on the CentCom Z level.
+#define TRAIT_ZURCH 	"Hidden Domiciles" //allows entry to ascendant church
+
 // Generic
 #define TRAIT_BASHDOORS "Door Basher"
 #define TRAIT_NOMOOD "Moodless"
+#define TRAIT_DETACHED "Detached"
 #define TRAIT_BAD_MOOD "Bad Mood"
 #define TRAIT_NIGHT_OWL "Night Owl"
 #define TRAIT_BEAUTIFUL "Beautiful"
 #define TRAIT_BEAUTIFUL_UNCANNY "Eerie Beauty"
 #define TRAIT_SIMPLE_WOUNDS "simple_wounds"
-#define TRAIT_BANDITCAMP "banditcamp"
-#define TRAIT_VAMPMANSION "vampiremansion"
 #define TRAIT_CAVEDWELLER "Cave Dweller"
 #define TRAIT_VAMP_DREAMS "vamp_dreams"
 #define TRAIT_LIMPDICK "Limp Dick"
@@ -295,6 +300,7 @@
 #define TRAIT_SELF_SUSTENANCE "Self-Sustenance" // Unlocks all gated crafting skills to Jman. Wretches & Antags only.
 #define TRAIT_MASTERFUL_HUNTER "Masterful Hunter" // Hunting is a specialty skill, this trait should only be granted to select classes.
 #define TRAIT_EXPERT_HUNTER "Expert Hunter" // Ditto, but this one lets you go up to expert instead of legendary
+#define TRAIT_ENCHANTING_EXPERT "Expert Enchanter" //Engineering, Smelting, Blacksmithing, used for enchanting virtue
 
 
 //item and enchantment traits should go under here as new ones get added
@@ -351,6 +357,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_DEFILED_NOBLE = span_blue("I'm of noble blood but... Something feels off!"),
 	TRAIT_EMPATH = span_info("I can notice when people are in pain."),
 	TRAIT_EXPLOSIVE_SUPPLY = span_info("I have very good friends! I get explosives on my HERMES every day."),
+	TRAIT_DRUG_SUPPLY = span_info("The Guild keeps me supplied. I get a fresh drug delivery from HERMES each day."),
 	TRAIT_BREADY = span_info("Defensive stance does not passively fatigue me. I regain energy slowly over time."),
 	TRAIT_ARMOUR_LIKED = span_greentext("I'm wearing something more suited to my style."),
 	TRAIT_ARMOUR_DISLIKED = span_warning("I'm wearing something that burdens me."),
@@ -403,7 +410,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_LIMPDICK = span_crit("My soldier refuses to rise to attention! Curses!"),
 	TRAIT_SEEDKNOW = span_info("I know which seeds grow which crops."),
 	TRAIT_PERFECT_TRACKER = span_info("I am a master at pursuing those I hunt. I can discern every last detail within a spotted track, and any attempts to hide said-tracks will fail to deceive me."),//Hearthstone port.
-	TRAIT_ZIZOSIGHT = span_info("Zizo blesses my eyes to be unburdened by the night."), //Hearthstone change.
+	TRAIT_ZIZOSIGHT = span_info("Zizo blesses my eyes to be unburdened by the night. I can also somewhat judge if a corpse can be reanimated or not."), //Hearthstone change.
 	TRAIT_CIVILIZEDBARBARIAN = span_info("My rigorous training in the martial arts has turned me into a living weapon. No limb is out of reach for my fists and feet, and my unarmed strikes are now stronger (+4 Unarmed Damage). My parrying with bracers, knuckles, or bandages is significantly more effective."),
 	TRAIT_COMICSANS = span_sans("I am cursed with a odd voice."),
 	TRAIT_SQUIRE_REPAIR = span_info("Trained at my Master's side, I can restore any kind of gears with time and polish them until they gleam like new."),
@@ -476,6 +483,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_ARREARS = span_smallred("I am behind on my poll tax. The Stewardry keeps the tally; the garrison may mark my destitution."),
 	TRAIT_LIGHT_STEP = span_info("My steps are light and swift. I make less noise while sneaking and wearing armor, and can sneak much quicker."),
 	TRAIT_NOMOOD = span_info("I feel no sorrow, no joy, and no stress."),
+	TRAIT_DETACHED = span_info("Nothing could move me. Any emotion I show is a facade."),
 	TRAIT_AZURENATIVE = span_info("I've grown up and lived all my lyfe in these lands. I can only trigger ambushes if I sprint through them."),
 	TRAIT_SLEUTH = span_info("I can spot my tracked Mark's trail without needing to approach it, and can spot them at a distance. I can track more frequently, and the act is not impaired by movement. I can examine tracks right away."),
 	TRAIT_HARDSHELL = span_info("The bulk of this armor prevents me from parrying effectively, but I can still move out of the way."),
@@ -521,6 +529,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_SELF_SUSTENANCE = span_greentext("Yils of experience running from the law and living off the land have made me a jack of all trades. All crafting and labor skills can progress to Journeyman levels. I am also quite savvy at repairing damaged equipment."),
 	TRAIT_MASTERFUL_HUNTER = span_greentext("To hunt well, is to know the land. I have an advantage in becoming a masterful hunter here, for I know about the various watering holes, the feeding grounds, which thickets are bent by animal flanks."),
 	TRAIT_EXPERT_HUNTER = span_greentext("To hunt well, is to know the land. I have an advantage in becoming a expert hunter here, for I know about the various watering holes, the feeding grounds, which thickets are bent by animal flanks."),
+	TRAIT_ENCHANTING_EXPERT = span_greentext("I'm experienced with the arts of enchanting, with my skills in the arcyne craft Blacksmithing, Engineering, and Smelting can progress to Legendary levels."),
 	TRAIT_SILVER_WEAK = span_warning("Silver is the greatest threat to my lyfe. Blows from silver weapons will set me alight, inhibit my ability to regenerate, and - if blessed - can outright destroy my vessel."),
 	TRAIT_PALLID = span_warning("I was once a creature of the night. The open sky fills me with unease, but my eyes pierce the darkness and my lungs need no air."),
 	TRAIT_COMBAT_AWARE = span_notice("My honed senses and intuition allow me to spot notable things in the midst of battle with ease."),
@@ -537,7 +546,6 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_ROYALSERVANT = span_greentext("I've been serving the royal family for long enough to know their exotic tastes."),
 	TRAIT_MOUNTABLE = span_notice("I've been trained to carry other people's burdens."),
 	TRAIT_GOODWRITER = span_notice("I'm proficient at writing. Any skillbooks made by me will allow the reader to learn the subject more quickly."),
-	TRAIT_WAGES_SUSPENDED = span_warning("The Stewardry has halted my daily wages!"),
 	TRAIT_DUSTABLE = span_warning("If I die that is for the end for me, I will turn to dust."),
 	TRAIT_SECONDLIFE = span_warning("I may be granted another chance upon death, but who knows where I'll end up..."),
 	TRAIT_QUICKSILVERRESISTANT = span_warning("Quick silver won't work to cure me..."),
@@ -556,6 +564,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_ROOT_WALKER = span_info("After offering lux, I can now travel along heartroot trees."),
 	TRAIT_WHITE_STAG = span_info("The power of the white stag lives on inside of me!"),
 	TRAIT_EDIT_DESCRIPTORS = span_info("I can change my appearance at a magic mirror in a thorough manner."),
+	TRAIT_DUSTRUNNER = span_info("I run dust for the Thieves' Guild. Those in the trade know how to spot one of their own."),
 ))
 
 // trait accessor defines

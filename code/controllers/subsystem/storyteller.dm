@@ -880,8 +880,6 @@ SUBSYSTEM_DEF(gamemode)
 		misc += "Masquerade can roll with 2 roundstart slots"
 	if(storyteller_type == /datum/storyteller/graggar)
 		misc += "Gnolls and assassins open at 3 slots"
-	if(storyteller_type == /datum/storyteller/abyssor)
-		misc += "Adds 2 roundstart dreamwalkers"
 	if(story_hardequal(storyteller_type))
 		misc += "Hard antags roll at equal chance"
 	if(story_hardonly(storyteller_type))
@@ -1008,7 +1006,7 @@ SUBSYSTEM_DEF(gamemode)
 	switch(storyteller_type)
 		if(/datum/storyteller/psydon)
 			return STORYTELLER_ANTAG_VILLAIN | STORYTELLER_ANTAG_ROUNDSTART | STORYTELLER_ANTAG_SOFT
-		if(/datum/storyteller/eora)
+		if(/datum/storyteller/eora, /datum/storyteller/astrata, /datum/storyteller/ravox)
 			return STORYTELLER_ANTAG_VILLAIN | STORYTELLER_ANTAG_ROUNDSTART
 	return STORYTELLER_ANTAG_NONE
 
@@ -1031,25 +1029,16 @@ SUBSYSTEM_DEF(gamemode)
 /datum/controller/subsystem/gamemode/proc/story_guarantee_flags(storyteller_type)
 	if(!ispath(storyteller_type, /datum/storyteller))
 		return STORYTELLER_FAVOR_NONE
-	var/flags = STORYTELLER_FAVOR_NONE
 	switch(storyteller_type)
-		if(/datum/storyteller/psydon)
-			return STORYTELLER_FAVOR_NONE
-		if(/datum/storyteller/graggar)
-			flags |= STORYTELLER_FAVOR_GNOLL | STORYTELLER_FAVOR_ASSASSIN
-		if(/datum/storyteller/matthios)
-			flags |= STORYTELLER_FAVOR_BANDIT
-		if(/datum/storyteller/astrata)
-			flags |= STORYTELLER_FAVOR_MASQUERADE
 		if(/datum/storyteller/zizo)
-			flags |= STORYTELLER_FAVOR_LICH
+			return STORYTELLER_FAVOR_LICH
 		if(/datum/storyteller/baotha)
-			flags |= STORYTELLER_FAVOR_VAMPIRE_LORD
-		if(/datum/storyteller/abyssor)
-			flags |= STORYTELLER_FAVOR_DREAMWALKER
-		if(/datum/storyteller/dendor)
-			flags |= STORYTELLER_FAVOR_WEREWOLF
-	return flags
+			return STORYTELLER_FAVOR_VAMPIRE_LORD
+		if(/datum/storyteller/graggar)
+			return STORYTELLER_FAVOR_GNOLL | STORYTELLER_FAVOR_ASSASSIN
+		if(/datum/storyteller/matthios)
+			return STORYTELLER_FAVOR_BANDIT
+	return STORYTELLER_FAVOR_NONE
 
 /datum/controller/subsystem/gamemode/proc/story_favor_flags(storyteller_type)
 	if(!ispath(storyteller_type, /datum/storyteller))
@@ -1063,6 +1052,20 @@ SUBSYSTEM_DEF(gamemode)
 			return STORYTELLER_FAVOR_LICH
 		if(/datum/storyteller/xylix)
 			return STORYTELLER_FAVOR_HARD_ANTAGS
+		if(/datum/storyteller/astrata)
+			return STORYTELLER_FAVOR_MASQUERADE
+		if(/datum/storyteller/abyssor)
+			return STORYTELLER_FAVOR_DREAMWALKER
+		if(/datum/storyteller/dendor)
+			return STORYTELLER_FAVOR_WEREWOLF
+		if(/datum/storyteller/zizo)
+			return STORYTELLER_FAVOR_LICH
+		if(/datum/storyteller/baotha)
+			return STORYTELLER_FAVOR_VAMPIRE_LORD
+		if(/datum/storyteller/graggar)
+			return STORYTELLER_FAVOR_GNOLL | STORYTELLER_FAVOR_ASSASSIN
+		if(/datum/storyteller/matthios)
+			return STORYTELLER_FAVOR_BANDIT
 	return STORYTELLER_FAVOR_NONE
 
 /datum/controller/subsystem/gamemode/proc/story_hardonly(storyteller_type)
@@ -1083,11 +1086,6 @@ SUBSYSTEM_DEF(gamemode)
 	return storyteller_type in list(/datum/storyteller/pestra, /datum/storyteller/malum)
 
 /datum/controller/subsystem/gamemode/proc/story_bonus_flags(storyteller_type)
-	if(!ispath(storyteller_type, /datum/storyteller))
-		return STORYTELLER_FAVOR_NONE
-	switch(storyteller_type)
-		if(/datum/storyteller/abyssor)
-			return STORYTELLER_FAVOR_DREAMWALKER
 	return STORYTELLER_FAVOR_NONE
 
 /datum/controller/subsystem/gamemode/proc/story_policy_type(roundstart = FALSE, storyteller_type = null)
@@ -1201,7 +1199,8 @@ SUBSYSTEM_DEF(gamemode)
 		return 0
 	var/is_hard_roundstart = event.roundstart && (event.storyteller_antag_flags & STORYTELLER_ANTAG_VILLAIN)
 	if(is_hard_roundstart && story_hardonly(storyteller_type))
-		if(!event.storyteller_guarantee_flags || !storyteller_guarantees_antag(event.storyteller_guarantee_flags, storyteller_type, TRUE))
+		// Themed gods only spawn their favored hard antag at roundstart (legacy guarantee gate, now driven by favor flags).
+		if(!event.storyteller_guarantee_flags || !storyteller_favors_antag(event.storyteller_guarantee_flags, storyteller_type, TRUE))
 			return 0
 	if(is_hard_roundstart && story_hardequal(storyteller_type))
 		return 10
@@ -1224,8 +1223,8 @@ SUBSYSTEM_DEF(gamemode)
 		return "blocked by storyteller hard-antag policy"
 	var/is_hard_roundstart = event.roundstart && (event.storyteller_antag_flags & STORYTELLER_ANTAG_VILLAIN)
 	if(is_hard_roundstart && story_hardonly(storyteller_type))
-		if(!event.storyteller_guarantee_flags || !storyteller_guarantees_antag(event.storyteller_guarantee_flags, storyteller_type, TRUE))
-			return "not storyteller-guaranteed hard antag"
+		if(!event.storyteller_guarantee_flags || !storyteller_favors_antag(event.storyteller_guarantee_flags, storyteller_type, TRUE))
+			return "not storyteller-favored hard antag"
 	return "effective weight 0"
 
 /datum/controller/subsystem/gamemode/proc/story_combat_pop()
@@ -1479,31 +1478,7 @@ SUBSYSTEM_DEF(gamemode)
 		send_to_playing_players(span_notice("[current_storyteller.welcome_text]"))
 
 /datum/controller/subsystem/gamemode/proc/apply_storyteller_bonus_roundstart_antags()
-	var/storyteller_type = story_policy_type(TRUE)
-	if(storyteller_type != /datum/storyteller/abyssor)
-		return
-	var/datum/round_event_control/antagonist/solo/dreamwalker/source_event
-	for(var/datum/round_event_control/antagonist/solo/dreamwalker/event as anything in event_pools?[EVENT_TRACK_CHARACTER_INJECTION])
-		source_event = event
-		break
-	if(!source_event)
-		return
-	var/list/candidates = source_event.get_candidates()
-	if(!length(candidates))
-		return
-	var/picks = min(2, length(candidates))
-	var/applied = 0
-	for(var/i in 1 to picks)
-		var/mob/living/carbon/human/picked = pick_n_take(candidates)
-		if(!picked?.mind || picked.mind.has_antag_datum(/datum/antagonist/dreamwalker))
-			continue
-		picked.mind.add_antag_datum(/datum/antagonist/dreamwalker)
-		applied++
-	if(!applied)
-		return
-	var/message = "STORYTELLER: Applied Abyssor bonus dreamwalker roundstart picks ([applied])."
-	message_admins(message)
-	log_storyteller(message)
+	return
 
 /// Panel containing information, variables and controls about the gamemode and scheduled event
 /datum/controller/subsystem/gamemode/proc/admin_panel(mob/user)
@@ -1548,8 +1523,9 @@ SUBSYSTEM_DEF(gamemode)
 	dat += "<BR><b>--- Job Scaling ---</b>"
 	var/list/wretch_scaling = calculate_wretch_scaling()
 	var/datum/job/wretch_job = SSjob.GetJob("Wretch")
-	dat += "<BR>Wretch Slots: [wretch_job?.current_positions]/[wretch_job?.total_positions] — T1: [wretch_scaling["tier1_slots"]]/10, T2: +[wretch_scaling["tier2_extra"]] / 5 = [wretch_scaling["final_slots"]] final"
-	dat += "<BR>&nbsp;&nbsp;Garrison: [wretch_scaling["garrison"]], Holy Warriors: [wretch_scaling["holy_warrior"]], Acolytes: [wretch_scaling["acolyte"]] (half weight), Combat Total: [wretch_scaling["combat_total"]] (need > 10 for T2)"
+	var/wretch_cap = wretch_scaling["cap"] || 10
+	dat += "<BR>Wretch Slots: [wretch_job?.current_positions]/[wretch_job?.total_positions] - T1: [wretch_scaling["tier1_slots"]]/[wretch_cap], T2: +[wretch_scaling["tier2_extra"]] / 5 = [wretch_scaling["final_slots"]] final (cap [wretch_cap])"
+	dat += "<BR>&nbsp;&nbsp;Garrison: [wretch_scaling["garrison"]], Holy Warriors: [wretch_scaling["holy_warrior"]], Acolytes: [wretch_scaling["acolyte"]] (half weight), Combat Total: [wretch_scaling["combat_total"]] (T2 inactive while cap <= 10)"
 	if(wretch_scaling["major_antag_active"])
 		dat += "<BR>&nbsp;&nbsp;<font color='red'>MAJOR ANTAG ACTIVE (VL/LICH) — Tier 2 locked, max 10</font>"
 

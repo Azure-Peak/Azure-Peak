@@ -145,3 +145,13 @@
 	name = "Fine Parasol"
 	cost = 65
 	contains = list(/obj/item/rogueweapon/mace/parasol/noble)
+
+/datum/supply_pack/rogue/luxury/stamppot
+	name = "Tallowpot"
+	cost = 100
+	contains = list(/obj/item/tallowpot)
+
+/datum/supply_pack/rogue/luxury/stampstuff
+	name = "Lump of Blacktallow"
+	cost = 50
+	contains = list(/obj/item/reagent_containers/food/snacks/tallow/black)

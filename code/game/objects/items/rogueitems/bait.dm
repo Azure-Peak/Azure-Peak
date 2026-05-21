@@ -150,3 +150,7 @@
 	attracted_types = list(/obj/item/leechtick = 43,
 							/mob/living/simple_animal/hostile/retaliate/rogue/direbear = 5,
 							/mob/living/simple_animal/hostile/retaliate/rogue/troll/bog = 2)
+
+/obj/item/bait/leech/perfect
+	desc = "Bait that will attract a little Pestran friend. Seems expertly crafted"
+	attracted_types = list(/obj/item/leechtick = 1)

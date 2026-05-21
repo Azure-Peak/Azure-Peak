@@ -9,6 +9,7 @@
 	can_sew = FALSE
 	can_cauterize = FALSE
 	passive_healing = 0.5
+	severity_type = SEVERITY_TYPE_WHP
 
 	werewolf_infection_probability = 0
 
@@ -49,11 +50,12 @@
 	can_sew = FALSE
 	can_cauterize = FALSE
 	passive_healing = 0.5
-	severity_names = list(
+	severity_stages = list(
 		"minor" = 20,
 		"moderate" = 60,
-		"big" = 120,
-		"massive" = 180
+		"big" = 100,
+		"massive" = 140,
+		"immense" = 180,
 	)
 
 //Bruise Omniwounds
@@ -67,7 +69,7 @@
 	whp += (dam * BRUISE_UPG_WHPRATE)
 	woundpain += (dam * BRUISE_UPG_PAINRATE)
 	passive_healing += BRUISE_UPG_SELFHEAL
-	update_name()
+	update_stage()
 	..()
 
 #undef BRUISE_UPG_WHPRATE

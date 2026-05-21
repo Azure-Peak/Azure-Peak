@@ -38,19 +38,19 @@
 
 /datum/pollutant/food/cookies_chocolate
 	name = "freshly baked chocolate cookies"
-	name = "freshly baked chocolate cookies"
+	scent = "freshly baked chocolate cookies"
 
 /datum/pollutant/food/cookies_caramel
 	name = "freshly baked caramelized cookies"
-	name = "freshly baked caramelized cookies"
+	scent = "freshly baked caramelized cookies"
 
 /datum/pollutant/food/cookies_dragee
 	name = "freshly baked herbal cookies"
-	name = "freshly baked herbal cookies"
+	scent = "freshly baked herbal cookies"
 
 /datum/pollutant/food/cookies_raisins
 	name = "freshly baked raisined cookies"
-	name = "freshly baked raisined cookies"
+	scent = "freshly baked raisined cookies"
 
 /datum/pollutant/food/bread
 	name = "fresh baked bread"
@@ -231,3 +231,11 @@
 /datum/pollutant/food/muffin
 	name = "fresh baked muffins"
 	scent = "fresh baked muffins"
+
+/datum/pollutant/food/strange_meat
+	name = "strangely delicious meat"
+	scent = "strangely delicious meat"
+
+/datum/pollutant/food/rotten_meat
+	name = "rotten flesh"
+	scent = "rotten flesh"

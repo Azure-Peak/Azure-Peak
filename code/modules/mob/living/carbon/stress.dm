@@ -216,6 +216,15 @@ GLOBAL_LIST_INIT(stress_messages, world.file2list("strings/rt/stress_messages.tx
 	stress_freakout()
 
 /mob/living/carbon/proc/stress_freakout()
+	var/determination = src.STAWIL * 4
+	if(HAS_TRAIT(src, TRAIT_NOMOOD))
+		return
+	if(HAS_TRAIT(src, TRAIT_STEELHEARTED) || HAS_TRAIT(src, TRAIT_PSYDONIAN_GRIT) && prob(determination))
+		if(HAS_TRAIT(src, TRAIT_PSYDONIAN_GRIT))
+			to_chat(src, span_boldred("--PRAY!! WEEP!! ENDURE!!"))
+		else
+			to_chat(src, span_boldred("Deep breaths, deep breaths... I can handle this."))
+		return
 	to_chat(src, span_boldred("I PANIC!!!"))
 	Stun(2 SECONDS)
 	blur_eyes(2)

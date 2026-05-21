@@ -18,6 +18,7 @@
 	auto_repair_mode = TRUE
 	relative_repair_interval = 15 SECONDS
 	interrupt_damount = 15
+	blue_to_integ_ratio = 0.6
 
 // Scaling: No storyteller slot caps or solo event. Gnoll slots come from:
 //  - The Gnoll job's gnollslot_update() (storyteller-driven job slot scaling)

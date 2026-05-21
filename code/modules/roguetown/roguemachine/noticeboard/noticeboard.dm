@@ -97,14 +97,14 @@
 
 	return attack_hand(usr)
 
-/obj/structure/roguemachine/noticeboard/attack_hand(mob/living/carbon/human/user)
-	if(!ishuman(user))
-		return
+/obj/structure/roguemachine/noticeboard/attack_hand(mob/living/user)
+	var/can_addremove = ishuman(user)
+	var/mob/living/carbon/human/human_user = user
 	var/can_remove = FALSE
 	var/can_premium = FALSE
-	if(user.job in list("Man at Arms","Inquisitor", "Knight", "Sergeant", "Orthodoxist", "Absolver", "Marshal", "Hand", "Grand Duke")) //why was KC here but not marshal ?
+	if(can_addremove && (human_user.job in list("Man at Arms","Inquisitor", "Knight", "Sergeant", "Orthodoxist", "Absolver", "Marshal", "Hand", "Grand Duke"))) //why was KC here but not marshal ?
 		can_remove = TRUE
-	if(user.job in list("Bathmaster","Merchant", "Innkeeper", "Steward", "Court Magician", "Town Crier", "Keeper", "Grand Duke"))
+	if(can_addremove && (human_user.job in list("Bathmaster","Merchant", "Innkeeper", "Steward", "Court Magician", "Town Crier", "Keeper", "Grand Duke")))
 		can_premium = TRUE
 	var/contents
 	contents += "<center>NOTICEBOARD<BR>"
@@ -120,14 +120,15 @@
 			selection += "<a href='?src=[REF(src)];changecategory=[category]'>[category]</a> "
 	contents += selection + "<BR>"
 	if(current_category in list("Postings", "Premium Postings"))
-		contents += "<a href='?src=[REF(src)];makepost=1'>Make a Posting</a>"
-		if(can_premium)
-			contents += " | <a href='?src=[REF(src)];premiumpost=1'>Make a Premium Posting</a><br>"
-		else
-			contents += "<br>"
-		contents += "<a href='?src=[REF(src)];removepost=1'>Remove my Posting</a><br>"
-		if(can_remove)
-			contents += "<a href='?src=[REF(src)];authorityremovepost=1'>Authority: Remove a Posting</a>"
+		if(can_addremove)
+			contents += "<a href='?src=[REF(src)];makepost=1'>Make a Posting</a>"
+			if(can_premium)
+				contents += " | <a href='?src=[REF(src)];premiumpost=1'>Make a Premium Posting</a><br>"
+			else
+				contents += "<br>"
+			contents += "<a href='?src=[REF(src)];removepost=1'>Remove my Posting</a><br>"
+			if(can_remove)
+				contents += "<a href='?src=[REF(src)];authorityremovepost=1'>Authority: Remove a Posting</a>"
 		var/board_empty = TRUE
 		switch(current_category)
 			if("Postings")

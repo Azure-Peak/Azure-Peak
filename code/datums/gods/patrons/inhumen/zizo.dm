@@ -5,15 +5,17 @@
 	worshippers = "Necromancers, Researchers, Warlocks, and the Undead"
 	mob_traits = list(TRAIT_CABAL, TRAIT_ZIZOSIGHT)
 	miracles = list(/datum/action/cooldown/spell/touch/orison							= CLERIC_ORI,
-					/obj/effect/proc_holder/spell/self/zizo_snuff						= CLERIC_T0,
-					/datum/action/cooldown/spell/miracle/heal 							= CLERIC_T1,
+					/datum/action/cooldown/spell/zizo/snuff_lights						= CLERIC_T0,
+					/datum/action/cooldown/spell/miracle/heal							= CLERIC_T1,
 					/datum/action/cooldown/spell/miracle/bloodmiracle					= CLERIC_T1,
-					/obj/effect/proc_holder/spell/invoked/projectile/profane/miracle 	= CLERIC_T1,
-					/obj/effect/proc_holder/spell/invoked/raise_undead_formation/miracle= CLERIC_T2,
-					/obj/effect/proc_holder/spell/invoked/raise_undead_guard/miracle	= CLERIC_T2,
-					/obj/effect/proc_holder/spell/invoked/tame_undead/miracle			= CLERIC_T3,
-					/obj/effect/proc_holder/spell/invoked/rituos/miracle 				= CLERIC_T3,
-					/obj/effect/proc_holder/spell/invoked/resurrect/zizo				= CLERIC_T4
+					/datum/action/cooldown/spell/projectile/zizo/profane				= CLERIC_T1,
+					/datum/action/cooldown/spell/raise_undead_formation/zizo	 		= CLERIC_T2,
+					/datum/action/cooldown/spell/zizo/bone_cataclysm					= CLERIC_T2,
+					/datum/action/cooldown/spell/tame_undead/zizo						= CLERIC_T3,
+					/datum/action/cooldown/spell/zizo/rituos 							= CLERIC_T3,
+					/obj/effect/proc_holder/spell/invoked/resurrect/zizo				= CLERIC_T3,
+					/datum/action/cooldown/spell/convert_heretic						= CLERIC_T4,
+					/datum/action/cooldown/spell/lacrima/zizo							= CLERIC_T4,	
 	)
 	confess_lines = list(
 		"PRAISE ZIZO!",
@@ -21,6 +23,14 @@
 		"ZIZO IS QUEEN!",
 	)
 	storyteller = /datum/storyteller/zizo
+
+	titles = list(
+		"Dame of Progress",
+		"Lady of Progress",
+		"Lady of Secrets",
+		"Dame of Secrets",
+		"Arch Lych"
+	)
 
 /datum/patron/inhumen/zizo/post_equip(mob/living/pious)
 	. = ..()
@@ -39,7 +49,7 @@
 	// Allows prayer near EEEVIL psycross
 	for(var/obj/structure/fluff/psycross/zizocross/cross in view(4, get_turf(follower)))
 		if(cross.divine == TRUE)
-			to_chat(follower, span_danger("That acсursed cross interupts my prayers!"))
+			to_chat(follower, span_danger("That accursed cross interrupts my prayers!"))
 			return FALSE
 		return TRUE
 	// Allows prayer near a grave.

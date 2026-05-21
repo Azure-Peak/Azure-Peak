@@ -696,6 +696,9 @@ SPECIALS START HERE
 	playsound(T, sfx, 100, TRUE)
 	..()
 
+/datum/special_intent/axe_swing/graggarite
+	requires_wielding = FALSE
+
 #undef AXE_SWING_GRID_DEFAULT
 #undef AXE_SWING_GRID_MIRROR
 
@@ -782,7 +785,7 @@ SPECIALS START HERE
 /datum/special_intent/greatsword_swing/apply_hit(turf/T)
 	for(var/mob/living/L in get_hearers_in_view(0, T))
 		if(L != howner)
-	
+
 			L.Slowdown(slow_dur)
 			if(L.mobility_flags & MOBILITY_STAND)
 				var/hitdmg = dam
@@ -800,6 +803,77 @@ SPECIALS START HERE
 
 #undef GAREN_WAVE1
 #undef GAREN_WAVE2
+
+#define VICIOUS_WAVE1 0.4 SECONDS
+#define VICIOUS_WAVE2 0.8 SECONDS
+#define VICIOUS_WAVE3 1.2 SECONDS
+
+/datum/special_intent/vicious_swipe
+	name = "Vicious Swing"
+	desc = "A swing of your blade, in all quadrants. The last two swings expose."
+	tile_coordinates = list(
+		list(-1,0), list(0,0), list(1,0), // front arc
+		list(-1,-2, VICIOUS_WAVE1), list(-1,-1, VICIOUS_WAVE1), list(-1,0, VICIOUS_WAVE1), // left arc
+		list(-1,-2, VICIOUS_WAVE2), list(0,-2, VICIOUS_WAVE2), list(1,-2, VICIOUS_WAVE2), // south arc
+		list(1,-2, VICIOUS_WAVE3), list(1,-1, VICIOUS_WAVE3), list(1,0, VICIOUS_WAVE3) // right arc
+	)
+	respect_dir = TRUE
+	delay = 0.7 SECONDS
+	cooldown = 20 SECONDS
+	requires_wielding = TRUE
+	stamcost = 30
+	pre_icon_state = "trap"
+	post_icon_state = "sweep_fx"
+	sfx_pre_delay = 'sound/combat/wooshes/bladed/wooshlarge (2).ogg'
+	sfx_post_delay = 'sound/combat/sp_axe_swing1.ogg'
+
+	var/dam = 60
+	var/slow_dur = 2
+	var/hitcount = 0
+	var/self_debuffed = FALSE
+	var/self_immob = 2.5 SECONDS
+	var/self_clickcd = 3 SECONDS
+	var/self_vuln = 3 SECONDS
+
+/datum/special_intent/vicious_swipe/post_delay(list/turfs)
+	. = ..()
+	playsound(howner, 'sound/combat/wooshes/bladed/wooshlarge (3).ogg', 100, TRUE)
+
+/datum/special_intent/vicious_swipe/apply_hit(turf/T)
+	for(var/mob/living/L in get_hearers_in_view(0, T))
+		if(L != howner)
+
+			L.Slowdown(slow_dur)
+			if(L.mobility_flags & MOBILITY_STAND)
+				var/hitdmg = dam
+				switch(hitcount)
+					if(2)
+						hitdmg *= 1.5
+					if(3)
+						hitdmg *= 2
+						L.apply_status_effect(/datum/status_effect/debuff/exposed, 3 SECONDS)
+					if(4)
+						hitdmg *= 2.5
+				apply_generic_weapon_damage(L, hitdmg, "slash", BODY_ZONE_CHEST, bclass = BCLASS_CUT)
+				if(hitcount == 4)	//Last hit deals a bit of extra damage to integrity only + exposes.
+					apply_generic_weapon_damage(L, (dam * 0.8), "slash", BODY_ZONE_CHEST, bclass = BCLASS_CUT, no_pen = TRUE)
+					L.apply_status_effect(/datum/status_effect/debuff/exposed, 3 SECONDS)
+			var/sfx = 'sound/combat/sp_gsword_hit.ogg'
+			playsound(T, sfx, 100, TRUE)
+	..()
+
+/datum/special_intent/vicious_swipe/_process_grid(list/turfs, newdelay)
+	if(!self_debuffed)
+		howner.Immobilize(self_immob) //we're committing
+		howner.apply_status_effect(/datum/status_effect/debuff/vulnerable, self_vuln)
+		howner.apply_status_effect(/datum/status_effect/debuff/clickcd, self_clickcd)
+		self_debuffed = TRUE
+	hitcount++
+	. = ..()
+
+#undef VICIOUS_WAVE1
+#undef VICIOUS_WAVE2
+#undef VICIOUS_WAVE3
 
 /datum/special_intent/limbguard
 	name = "Limb Guard"
@@ -1263,7 +1337,7 @@ tile_coordinates = list(list(1,1), list(-1,1), list(-1,-1), list(1,-1),list(0,0)
 	var/obj/item/rogueweapon/stoneaxe/battle/ice/W = iparent
 	active_timer = addtimer(CALLBACK(src, PROC_REF(effect_expire)), 20 SECONDS, TIMER_STOPPABLE)
 	W.icon_state = "iceaxeactive"
-	W.toggle_state = "iceaxeactive"
+	W.override_state = "iceaxeactive"
 	W.inactive_intents = W.possible_item_intents
 	W.inactive_gripped_intents = W.gripped_intents
 	W.possible_item_intents = W.active_intents
@@ -1276,7 +1350,7 @@ tile_coordinates = list(list(1,1), list(-1,1), list(-1,-1), list(1,-1),list(0,0)
 	howner.visible_message(span_warning("The ice covering [iparent]'s blade thaws out!"))
 	var/obj/item/rogueweapon/stoneaxe/battle/ice/W = iparent
 	W.icon_state = "iceaxe"
-	W.toggle_state = null
+	W.override_state = null
 	W.possible_item_intents = W.inactive_intents
 	W.gripped_intents = W.inactive_gripped_intents
 	howner.update_a_intents()

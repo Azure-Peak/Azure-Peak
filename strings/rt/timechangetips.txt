@@ -1,6 +1,6 @@
 The Holy Ecclesial is a splinter of the Holy See, formed during the great schism. They worship the Four Ascendants as true divinity.
 PSYDON yet lives. PSYDON yet ENDURES.
-Dae is far less dangerous than Night; Astrata’s gaze is far more searing to all forms of evils in a direct burn.
+Dae is far less dangerous than Nite; Astrata’s gaze is far more searing to all forms of evils in a direct burn.
 The Ten are less responsive to prayer than the Ascendant. The Holy See claims that this is a test of faith.
 I can jump further by getting a running start. Mind the overshoot.
 The world flooded for a thousand daes before Abyssor was finally put to rest. Some say he will one dae stir from his slumber; his sleep must endure.
@@ -75,7 +75,7 @@ Working yourself to death is considered an act worthy of veneration for Malumite
 It's a good idea to bandage and suture arterial wounds as soon as possible. Death happens slowly, and then all at once.
 Gripping bleeding bodyparts makes them bleed slower. The harder you grip, the less you bleed.
 The Sovereignty of Otava is a lush wet country home to the best stoneworkers on Psydonia. The gigantic towers of the Grand Cathedral in the capital stand as the seat of the Otavan Inquisition.
-A traditional Psydonic greeting or farewell is 'Purity afloat.' The psycross is often held over the chest during this ritual.
+A traditional Psydonic greeting or farewell is 'purity afloat.' The psycross is often held over the chest during this ritual.
 Blacksteel is a pale imitation of the Zizo-blessed Darksteel, which is gifted to Her followers in Her benevolence.
 Blacksteel is a blessed alloy of pure silver and steel. Its recipe was stolen by Zizite heretics and perverted into Darksteel.
 The Gronn Highlands are a mountainous region known for its jagged peaks and terrible blizzards. It is home to a hardy, brutal people who struggle to survive against the land, building fortified stone villages that cling to cliffsides. 
@@ -114,7 +114,7 @@ The pauper never had much, but his worship for Abyssor led the faithful to mend 
 To trust an Abyssorite is to believe in Xylix. Since the first communion, his followers frequently fall to madness.
 The winds tell tales of Astratan devout turning flesh to flame and flame to blades. Beware her fury.
 Shal'ghur is a city only known by this name, denoted affectionately by creatures that dwell in Abyssor's dream. The shades of winding streets full of the damned reflected in his realm. A cautionary tale on the dangers of dream incursions.
-The mast buckles, as the ship is led through treacherous waters by Abyssorite under Astrata's gaze. Sleeping eyes giving way for the faithful of Noc, who continue their toil at night.
+The mast buckles, as the ship is led through treacherous waters by Abyssorite under Astrata's gaze. Sleeping eyes giving way for the faithful of Noc, who continue their toil at nite.
 To dream is to commune with Abyssor. Coffee is a sin, but a bit of Camomille tea never goes amiss.
 The righteous cult of Abyssor seeks to keep the old one asleep. His Sentinels and Acolytes often find employ within cities and the Holy See. it is immessurably expensive to scrawl down so many glimpses of dreams, yet the faithful do not care that most of it is gibberish.
 Heretical Abyssorites are despised by many, even their own ilk often think twice of associating with them. Whether it's fear of the destruction wrought by a waking Abyssor, or to condemn the time wasted by their attempts.
@@ -148,7 +148,7 @@ Bandages soak up a limited amount of blood. Get stitching quick, or die snow whi
 I SEE THE DREADED GEM-EATER. HIS METAL MITTS HOLD MY HIDDEN STASH OF SAFFIRA. ONE BY ONE, HE POPS THEM INTO HIS MOUTH...
 WHY IS IT WRITTEN SAIGA AND NOT PSYGA?
 YIELDING slows your bleeding and prevents your assailant from decapitating you, though you will struggle to attack in return.
-Crops can be dug up with spades. Hoes allow for instant removal of weeds. Compost, nightsoil, and bones can be combined by farmers into the legendary "fertilizer".
+Crops can be dug up with spades. Hoes allow for instant removal of weeds. Compost, nitesoil, and bones can be combined by farmers into the legendary "fertilizer".
 Sleeves can be torn for cloth. They can also be rolled up, if you care for the aesthetic.
 With enough STRENGTH, locked doors can be kicked open. You may not bust it down on the first go, keep trying!
 SAKURA LEAVES FALLING IS A SIGN OF EORA'S GROWING POWER. IF I SEE THEM, I SHOULD EXPECT PEACE...
@@ -161,7 +161,7 @@ The cult of Matthios, the thief-of-fire, idolizes greed as a virtue. While often
 Eating the fyritus flower will prevent one from being infected by werewolves.
 Pestran witchcovens developed the art of potion-making in ancient times. Modern alchemy bears little resemblance to its oldest forms, but the stereotype of the wart-nosed witch remains, for better or worse.
 The famous Raneshi 'desert riders' are among the most skilled swordsmen in the world. They'd all kill their own mother for a piece of coin.
-Presdigitation is often known as the apprentice's friend, as it helps remove char and soot before the Magos notices.
+Prestidigitation is often known as the apprentice's friend, as it helps remove char and soot before the Magos notices.
 'Mageburn' is the colloquial name for injury from backfiring spells, such as fireballs at close range. The surest sign of a new apprentice is burn marks on the hands and face.
 The ideal number for an adventuring party is a band of five. This tradition dates back nearly a century- to the band of five heroes that overthrew the Mad Duke.
 The fortress of Gundu'zirak was once dedicated to the production of golems and dolls. Its ruins lie under Mount Decapitation, along with the other hundred horrors there.
@@ -176,7 +176,7 @@ The Necran symbol is a jawless skull. A smiling skull is used to represent ZIZO.
 Many Necrans seek to come closer to the threshhold between lyfe and death. Some emulate the silence of the grave, and take vows never to speak.
 In antiquity, it is said mortals could once travel to the Underworld to speak with the departed- since the ascension of ZIZO, it is now the dead who cross to menace the living.
 Undeath takes many forms. Wraiths and spectres haunt the steppes of Aavnr, will-o'-the-wisps feed on the unlucky travellers of Grenzelhoft, and in distant Naledi, ghuls and mummies drain blood with a touch.
-The people of Naledi believe that face coverings and bright colors ward off nightcreatures and bodystealers, like the fabled alghul and djinn. Gold, silk, and ceruleabaster decorate their robes and trinkets.
+The people of Naledi believe that face coverings and bright colors ward off nitecreechers and bodystealers, like the fabled alghul and djinn. Gold, silk, and ceruleabaster decorate their robes and trinkets.
 The divinatory astrologists of Naledi are unmatched throughout Psydonia. Naledi believe deeply in prophecies and fortune-telling in the stars, and a starless sky often inspires terror.
 The pomegranate is the sacred fruit of Eora.
 Zenitstadt is the second largest city in Grenzelhoft, and home to their famous fencing guilds. Most Grenzel mercenaries hail from here, and almost all of them have something unpleasant to say about it.
@@ -198,13 +198,13 @@ Aasimar cannot die of old age. Sometimes, however, they simply give up, and turn
 Everything these tips tell you is made up.
 Everything these tips tell you is completely true.
 You should move to Kingsfield. It's better there.
-Every yil, Heartfelt hosts a grand banquet for the nobility of Azuria, Rockhill, and Lyndvhar to attend. The Holy Psydonic Inquisition is credited with thwarting an attempted bombing of its palace, during the previous yil's feast.
+Every yil, Heartfelt hosts a grand banquet for the nobility of Azuria, Rockhill, and Zyndvhartia to attend. The Holy Psydonic Inquisition is credited with thwarting an attempted bombing of its palace, during the previous yil's feast.
 They say that Heartfelt has fallen to a horde of the living dead, or-.. no, wait, wasn't that the Rudmarsch?
 Adonai, my God, why hath you forsaken me?!
 BEFORE THE FINAL BLOW WAS STRUCK, I TORE OPEN A PORTAL IN TYME AND FLUNG PSYDON INTO THE DAES-TO-COME; WHERE MY SIN IS LAW! NOW.. THE LOWLY FOOL SEEKS TO RETURN TO THE PAST, AND UNDO THE EVIL THAT IS VHESLYN!
 Blastpowder was originally created by Hammerhold's wisest dwarve-alchemists to 'spice up' bubbleless ale. All it took was an errant spark - and the cellar's subsequent obliteration - to reveal an alternative use.
 Glimmering slag and gold have two things in common; they're both useless on their own, and they both thrumb with latent magicka. Perhaps alloying them together, two-to-two, could offer something new?
-What's the difference between a longsword, broadsword, and bastard sword? One's for a noble, another's for a knight, and the last one's for whatever they make after a night of drunken revelry.
+What's the difference between a longsword, broadsword, and bastard sword? One's for a noble, another's for a knight, and the last one's for whatever they make after a nite of drunken revelry.
 Bronze tools, weapons, and armor tend to be sharper and sturdier than their iron-wrought counterparts. The trickier part is forging the alloy; but, perhaps fashioning a smelter out of stone, charcoal, copper and tin could do the trick.
 Bronze is cherished by the worshippers of Ravox; the first alloy gifted to Psydonia, hewn into plate-and-blade by Man to bring justice unto the wicked. His most ardent paladins oft-forsake steel longswords, in favor of bronze flamberges.
 They'll tell you that the first alloy known to Psydonia was bronze, but they'd be lying.

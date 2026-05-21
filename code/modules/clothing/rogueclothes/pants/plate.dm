@@ -61,20 +61,12 @@
 	max_integrity = ARMOR_INT_LEG_STEEL_PLATE // Good good resistances, but less crit resist than the other ascendant armors. In trade, we can take off our pants to repair, and they are medium rather than heavy.
 	armor_class = ARMOR_CLASS_MEDIUM
 	smeltresult = /obj/item/ingot/component/graggar
+	unenchantable = TRUE
 
 /obj/item/clothing/under/roguetown/platelegs/graggar/Initialize()
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_HORDE, "ARMOR", "RENDERED ASUNDER")
 
-/obj/item/clothing/under/roguetown/platelegs/graggar/heavy/Initialize()
-	. = ..()
-	ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)
-
-/obj/item/clothing/under/roguetown/platelegs/graggar/heavy/dropped(mob/living/carbon/human/user)
-	. = ..()
-	if(QDELETED(src))
-		return
-	qdel(src)
 
 /obj/item/clothing/under/roguetown/platelegs/matthios
 	max_integrity = ARMOR_INT_LEG_ANTAG
@@ -83,6 +75,7 @@
 	icon_state = "matthioslegs"
 	armor = ARMOR_PLATE_BSTEEL
 	smeltresult = /obj/item/ingot/component/matthios
+	unenchantable = TRUE
 
 /obj/item/clothing/under/roguetown/platelegs/matthios/Initialize()
 	. = ..()
@@ -105,6 +98,7 @@
 	armor = ARMOR_PLATE_BSTEEL
 	armor_class = ARMOR_CLASS_MEDIUM
 	smeltresult = /obj/item/ingot/component/zizo
+	unenchantable = TRUE
 
 /obj/item/clothing/under/roguetown/platelegs/zizo/heavy
 	name = "avantyne garments"

@@ -37,7 +37,7 @@
 
 /datum/outfit/job/roguetown/wretch/plaguebearer/pre_equip(mob/living/carbon/human/H)
 	head = /obj/item/clothing/head/roguetown/physician
-	mask = /obj/item/clothing/mask/rogue/physician
+	mask = /obj/item/clothing/mask/rogue/physician/plaguebearer
 	neck = /obj/item/clothing/neck/roguetown/chaincoif 
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants
 	cloak = /obj/item/clothing/suit/roguetown/shirt/robe/physician
@@ -75,3 +75,12 @@
 		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/alchemy/unique/ichor)
 		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/alchemy/unique/ichor_big)
 		wretch_select_bounty(H)
+
+/obj/item/clothing/mask/rogue/physician/plaguebearer
+	desc = "What better laboratory than the blood-soaked battlefield? This one seems to be uniquely armored."
+	armor = ARMOR_PLATE
+	// Less than an actual steel mask.
+	max_integrity = 160
+	// Consistency with other masks.
+	body_parts_covered = FACE
+	blocksound = PLATEHIT

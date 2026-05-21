@@ -91,7 +91,7 @@
 		log_admin("[admin] adjusted [key]'s PQ by [amt] for reason: [reason]")
 
 /client/proc/check_pq()
-	set category = "-Special Verbs-"
+	set category = "SPECIAL VERBS"
 	set name = "PQ - Check"
 	if(!holder)
 		return
@@ -151,7 +151,7 @@
 	popup.open()
 
 /client/proc/adjust_pq()
-	set category = "-Special Verbs-"
+	set category = "SPECIAL VERBS"
 	set name = "PQ - Adjust"
 	if(!holder)
 		return

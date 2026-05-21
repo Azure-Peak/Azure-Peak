@@ -6,6 +6,8 @@
 	max_integrity = 220
 	wdefense = 5
 	special = /datum/special_intent/rot_ring
+	// Identical to dagger except it uses the heavier cut to help build rot.
+	possible_item_intents = list(/datum/intent/dagger/thrust, /datum/intent/dagger/cut/heavy, /datum/intent/dagger/thrust/pick, /datum/intent/dagger/sucker_punch)
 
 /obj/item/rogueweapon/huntingknife/idagger/steel/rotfang/Initialize()
 	. = ..()
@@ -21,7 +23,8 @@
 	dupe_mode = COMPONENT_DUPE_UNIQUE
 	var/obj/item/parent_weapon
 	var/charges = 0
-	var/max_charges = 100
+	var/max_charges = 200
+	var/charges_to_restore = 110
 
 /datum/component/ichor_stained/Initialize()
 	if(!isitem(parent))
@@ -34,7 +37,7 @@
 
 /datum/component/ichor_stained/proc/on_examine(datum/source, mob/user, list/examine_list)
 	if(charges > 0)
-		examine_list += span_notice("It is coated in [charges] layers of thick, viscous ichor.")
+		examine_list += span_notice("It is coated in [charges]/[max_charges] layers of thick, viscous ichor.")
 		examine_list += span_notice("Black rot scales up to 100 stacks.")
 		if(parent_weapon.possible_item_intents && length(parent_weapon.possible_item_intents))
 			examine_list += span_notice("Careful strikes will apply the following rot stacks:")
@@ -44,11 +47,15 @@
 				var/intent_name = initial(I_path:name)
 				var/intent_cd = initial(I_path:clickcd)
 				var/intent_delay = initial(I_path:swingdelay)
+				var/intent_can_dodge = initial(I_path:candodge)
+				var/intent_can_parry = initial(I_path:canparry)
 				var/predicted_rot = 5
 				if(intent_cd > CLICK_CD_QUICK)
-					predicted_rot += 3
+					predicted_rot += 2
 				if(intent_delay > 5)
-					predicted_rot += 3
+					predicted_rot += 4
+				if(!intent_can_dodge || !intent_can_parry)
+					predicted_rot = 0
 				examine_list += span_info(" - <b>[uppertext(intent_name)]</b>: [predicted_rot] stacks")
 
 /datum/component/ichor_stained/proc/check_dip(obj/item/source, atom/_target, mob/living/attacker, params)
@@ -68,7 +75,7 @@
 
 /datum/component/ichor_stained/proc/start_dipping(obj/item/_target, mob/living/attacker, params)
 	if(do_after(attacker, 0.4 SECONDS, target = _target))
-		charges = max_charges
+		charges = min(max_charges, charges + charges_to_restore)
 		update_visuals(attacker)
 		to_chat(attacker, span_nicegreen("You coat the blade in a fresh layer of ichor."))
 		qdel(_target)
@@ -85,16 +92,23 @@
 	if(I)
 		// If the intent is slower/heavier than the standard quick stab
 		if(I.clickcd > CLICK_CD_QUICK)
-			rot_to_apply += 3
+			rot_to_apply += 2
 
 		// If the swing delay is significant (0.5s or 5 deciseconds)
 		if(I.swingdelay > 5) 
-			rot_to_apply += 3
+			rot_to_apply += 4
 
-	apply_black_rot(target, rot_to_apply)
+		if(!I.canparry || !I.candodge)
+			rot_to_apply = 0
 
-	charges -= rot_to_apply
-	to_chat(user, span_warning("you apply black ichor to [target]!"))
+	if(rot_to_apply)
+		var/datum/status_effect/buff/rot_cleansing/cleanse = target.has_status_effect(/datum/status_effect/buff/rot_cleansing)
+		if(cleanse)
+			cleanse.reduce_cleansing_cap(12)
+		apply_black_rot(target, rot_to_apply)
+		charges -= rot_to_apply
+		to_chat(user, span_warning("you apply black ichor to [target]!"))
+
 	if(charges <= 0)
 		remove_visuals(user)
 		to_chat(user, span_warning("The last of the ichor rubs off onto [target]!"))

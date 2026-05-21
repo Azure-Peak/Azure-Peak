@@ -27,6 +27,11 @@
 	traits_tier = list(TRAIT_CRACKHEAD = CLERIC_T1)
 	crafting_recipes = list(/datum/crafting_recipe/roguetown/structure/baotha_cross_stone, /datum/crafting_recipe/roguetown/structure/baotha_cross_meat)
 
+	titles = list(
+		"Lady of Heartbreak",
+		"Scarlet Lady"
+	)
+
 /datum/patron/inhumen/baotha/can_pray(mob/living/follower)
 	. = ..()
 	// Allows prayer in the Zzzzzzzurch(!)

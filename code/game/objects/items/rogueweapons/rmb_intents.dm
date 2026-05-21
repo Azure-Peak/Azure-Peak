@@ -64,7 +64,7 @@
 		if(guaranteed_fail)
 			to_chat(HU, span_danger("It didn't work! [HT.p_their(TRUE)] footing returned!"))
 			to_chat(HT, span_notice("I fooled [HU.p_them()]! I've regained my footing!"))
-			HU.emote("groan")
+			HU.emote("groan", forced = TRUE)
 			HU.stamina_add(HU.max_stamina * 0.2)
 			HT.bait_stacks = 0
 			return

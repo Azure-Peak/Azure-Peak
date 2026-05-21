@@ -41,6 +41,7 @@
 		patron.on_loss(src)
 	patron = new_patron
 	new_patron.on_gain(src)
+	client?.update_mobstatpanel()
 	return TRUE
 
 
@@ -272,6 +273,7 @@
 				newamt--
 				BUFLUC++
 			STALUC = newamt
+	client?.update_mobstatpanel()
 
 /// Calculates a luck value in the range [1, 400] (calculated as STALUC^2), then maps the result linearly to the given range
 /// min must be >= 0, max must be <= 100, and min must be <= max

@@ -121,7 +121,7 @@
 	name = "rot cure potion"
 	category = "Table"
 	result = list(/obj/item/reagent_containers/glass/bottle/alchemical/rogue/rotcure = 1)
-	reqs = list(/obj/item/reagent_containers/glass/bottle/alchemical = 1, /obj/item/reagent_containers/food/snacks/grown/rogue/fyritius = 1, /obj/item/alch/golddust = 1, /obj/item/alch/viscera = 2)
+	reqs = list(/obj/item/reagent_containers/glass/bottle/alchemical = 1, /obj/item/reagent_containers/food/snacks/grown/rogue/fyritius = 1, /obj/item/heart_blood_vial/filled = 2, /obj/item/alch/viscera = 2)
 	craftdiff = 5	//Master-level
 
 /datum/crafting_recipe/roguetown/alchemy/paralytic_venom
@@ -186,7 +186,7 @@
 	name = "water to wine"
 	category = "Transmutation"
 	result = list(/obj/item/reagent_containers/glass/bottle/rogue/wine = 1)
-	reqs = list(/obj/item/reagent_containers/glass/bottle = 1, /datum/reagent/water = 48)
+	reqs = list(/obj/item/reagent_containers/glass/bottle = 1, /datum/reagent/water = 50)
 	craftdiff = 3 //WHO THE FUCK THOUGHT SETTING THIS AT 2 WAS A GOOD IDEA? MAKE IT MAKE SENSE.
 	verbage_simple = "transmute"
 

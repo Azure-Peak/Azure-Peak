@@ -49,7 +49,7 @@
 	. = ..()
 	switch(slot)
 		if(SLOT_RING)
-			fakename = "silver signet ring"
+			fakename = "psydonian signet ring"
 			name = fakename
 	return TRUE
 

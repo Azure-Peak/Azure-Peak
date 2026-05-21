@@ -1,3 +1,8 @@
+#define TIER_1_TRESHOLD 1
+#define TIER_2_TRESHOLD 33
+#define TIER_3_TRESHOLD 66
+#define TIER_4_TRESHOLD 94
+
 /datum/status_effect/black_rot
 	id = "black_rot"
 	alert_type = /atom/movable/screen/alert/status_effect/black_rot
@@ -46,22 +51,22 @@
 	switch(tier)
 		if(1)
 			linked_alert.name = "Black Rot (Creeping)"
-			linked_alert.desc = "A faint darkness spreads beneath my skin."
+			linked_alert.desc = "A faint darkness spreads beneath my skin. I should seek out a calyx or heartblood vials before it is too late."
 			linked_alert.icon_state = "blackrot1"
 			examine_text = "SUBJECTPRONOUN seems to be rotting alive! (Creeping)"
 		if(2)
 			linked_alert.name = "Black Rot (Festering)"
-			linked_alert.desc = "My veins run black with corruption. I will surely die if this persists."
+			linked_alert.desc = "My veins run black with corruption. I will surely die if this persists. I should seek out a calyx or heartblood vials before it is too late."
 			linked_alert.icon_state = "blackrot2"
 			examine_text = "SUBJECTPRONOUN seems to be rotting alive! (Festering)"
 		if(3)
 			linked_alert.name = "Black Rot (Boiling)"
-			linked_alert.desc = "My flesh decays and my bones ache. It feels like my skin is boiling."
+			linked_alert.desc = "My flesh decays and my bones ache. It feels like my skin is boiling. I should seek out a calyx or heartblood vials before it is too late."
 			linked_alert.icon_state = "blackrot3"
 			examine_text = "SUBJECTPRONOUN seems to be rotting alive! (Boiling)"
 		if(4)
 			linked_alert.name = "Black Rot (Necrosis)"
-			linked_alert.desc = "I am being consumed by the void. I can feel my bones creaking."
+			linked_alert.desc = "I am being consumed by the void. I can feel my bones creaking. I should seek out a calyx or heartblood vials now!!"
 			linked_alert.icon_state = "blackrot4"
 			examine_text = "SUBJECTPRONOUN seems to be rotting alive! (Necrosis)"
 
@@ -136,13 +141,13 @@
 
 /datum/status_effect/black_rot/proc/check_thresholds()
 	var/new_tier = 0
-	if(stacks >= 100)
+	if(stacks >= TIER_4_TRESHOLD)
 		new_tier = 4
-	else if(stacks >= 66)
+	else if(stacks >= TIER_3_TRESHOLD)
 		new_tier = 3
-	else if(stacks >= 33)
+	else if(stacks >= TIER_2_TRESHOLD)
 		new_tier = 2
-	else if(stacks >= 1)
+	else if(stacks >= TIER_1_TRESHOLD)
 		new_tier = 1
 
 	// If their tier hasn't changed, do nothing.
@@ -181,8 +186,8 @@
 	return ..()
 
 /atom/movable/screen/alert/status_effect/black_rot
-	name = "Black Rot"
-	desc = "A corrupting darkness spreads through my body."
+	name = "Black Rot (Creeping)"
+	desc = "A faint darkness spreads beneath my skin. I should seek out a calyx or heartblood vials before it is too late."
 	icon_state = "blackrot1"
 
 // Puke when advancing stages, woo
@@ -234,3 +239,8 @@
 	if(possible_turfs.len)
 		return pick(possible_turfs)
 	return owner_turf
+
+#undef TIER_1_TRESHOLD
+#undef TIER_2_TRESHOLD
+#undef TIER_3_TRESHOLD
+#undef TIER_4_TRESHOLD

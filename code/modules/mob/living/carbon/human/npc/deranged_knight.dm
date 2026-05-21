@@ -189,7 +189,7 @@ GLOBAL_LIST_INIT(hedgeknight_aggro, world.file2list("strings/rt/hedgeknightaggro
 
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/full/zizo
 	pants = /obj/item/clothing/under/roguetown/platelegs/zizo/heavy
-	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/zizo/heavy
+	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/zizo
 	wrists = /obj/item/clothing/wrists/roguetown/bracers
 	gloves = /obj/item/clothing/gloves/roguetown/plate/zizo/heavy
 	head = /obj/item/clothing/head/roguetown/helmet/heavy/zizo

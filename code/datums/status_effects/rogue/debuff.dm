@@ -349,9 +349,22 @@
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/ritesexpended
 	duration = 30 MINUTES
 
+/datum/status_effect/debuff/ritesexpended/heretic
+	duration = 2 HOURS
+
+/datum/status_effect/debuff/lux_exhausted
+	id = "lux_exhausted"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/lux_exhausted
+	effectedstats = list(STATKEY_STR = -2, STATKEY_WIL = -2, STATKEY_LCK = -2)
+	duration = 2 HOURS
+
 /atom/movable/screen/alert/status_effect/debuff/ritesexpended
 	name = "Rites Complete"
 	desc = "It will take time before I can next perform a rite."
+
+/atom/movable/screen/alert/status_effect/debuff/lux_exhausted
+	name = "Lux Exhausted"
+	desc = "My lux is spent, leaving body and will diminished."
 
 /datum/status_effect/debuff/ritesexpended_heavy
 	id = "ritesexpended_heavy"
@@ -1059,3 +1072,44 @@
 	desc = "Our weapons binded! That conniving sod knew right where I was aiming! I can't benefit from a weapon bind!"
 	icon = 'icons/mob/combat_debuffs.dmi'
 	icon_state = "weapon_bind_debuff"
+
+/datum/status_effect/debuff/knockout
+	id = "knockout"
+	effectedstats = null
+	alert_type = null
+	duration = 12 SECONDS
+	var/time = 0
+
+/datum/status_effect/debuff/knockout/tick()
+	time += 1
+	switch(time)
+		if(3)
+			if(prob(50)) //You don't always know...
+				var/msg = pick("I feel sleepy...", "I feel relaxed.", "My eyes feel a little heavy.")
+				to_chat(owner, span_warn(msg))
+
+		if(5)
+			if(prob(50))
+				owner.Slowdown(20)
+			else
+				owner.Slowdown(10)
+		if(8)
+			if(iscarbon(owner))
+				var/mob/living/carbon/C = owner
+				var/msg = pick("yawn", "cough", "clearthroat")
+				C.emote(msg, forced = TRUE)
+		if(12)
+			// it's possible that stacking effects delay this.
+			// If we hit 12 regardless we end
+			Destroy()
+
+/datum/status_effect/debuff/knockout/on_remove()
+	if(iscarbon(owner))
+		var/mob/living/carbon/C = owner
+		if(C.IsSleeping()) //No need to add more it's already pretty long.
+			return ..()
+		C.SetSleeping(20 SECONDS)
+	..()
+
+/atom/movable/screen/alert/status_effect/debuff/knockout
+	name = "Drowsy"
