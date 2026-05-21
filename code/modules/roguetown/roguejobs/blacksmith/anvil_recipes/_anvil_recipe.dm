@@ -20,6 +20,7 @@
 	var/bar_health = 100 // Current material bar health, reduced by failures. At 0 HP it is deleted.
 	var/numberofhits = 0 // Increased every time you hit the bar, the more you have to hit the bar the less quality of the product.
 	var/numberofbreakthroughs = 0 // How many good hits we got on the metal, advances recipes 50% faster, reduces number of hits total, and restores bar_health
+	var/smith_skill_level = 0 // Highest skill level of any smith who landed a hit on this bar. Used to clamp final tier.
 	var/datum/parent
 	// Whether this recipe will be hidden from recipe books
 	var/hides_from_books = FALSE
@@ -41,6 +42,8 @@
 	var/moveup = 1
 	var/proab = 0 // Probability to not spoil the bar
 	var/skill_level	= user.get_skill_level(appro_skill)
+	if(skill_level > smith_skill_level)
+		smith_skill_level = skill_level
 	if(progress >= max_progress)
 		to_chat(user, span_info("It's ready."))
 		user.visible_message(span_warning("[user] strikes the bar!"))
@@ -170,6 +173,34 @@
 	skill_quality = floor((skill_quality/num_of_materials)/1500)+material_quality
 	// Finally, the more hits the thing required, the less quality it will be, to prevent low level smiths from dishing good stuff
 	skill_quality -= floor(numberofhits * 0.25)
+	// Floor/cap the tier based on the highest smith skill that hit the bar.
+	// Mirrors the generic apply_quality bands: Journeyman = Standard only,
+	// Expert+ guarantees Fine or above, low skill cannot luck into bonuses.
+	var/skill_floor
+	var/skill_ceiling
+	switch(smith_skill_level)
+		if(SKILL_LEVEL_NONE)
+			skill_floor = BLACKSMITH_LEVEL_MIN
+			skill_ceiling = BLACKSMITH_LEVEL_CRUDE
+		if(SKILL_LEVEL_NOVICE)
+			skill_floor = BLACKSMITH_LEVEL_MIN
+			skill_ceiling = BLACKSMITH_LEVEL_ROUGH
+		if(SKILL_LEVEL_APPRENTICE)
+			skill_floor = BLACKSMITH_LEVEL_CRUDE
+			skill_ceiling = BLACKSMITH_LEVEL_COMPETENT
+		if(SKILL_LEVEL_JOURNEYMAN)
+			skill_floor = BLACKSMITH_LEVEL_COMPETENT
+			skill_ceiling = BLACKSMITH_LEVEL_COMPETENT
+		if(SKILL_LEVEL_EXPERT)
+			skill_floor = BLACKSMITH_LEVEL_FINE
+			skill_ceiling = BLACKSMITH_LEVEL_FLAWLESS
+		if(SKILL_LEVEL_MASTER)
+			skill_floor = BLACKSMITH_LEVEL_FLAWLESS
+			skill_ceiling = BLACKSMITH_LEVEL_LEGENDARY
+		else
+			skill_floor = BLACKSMITH_LEVEL_LEGENDARY
+			skill_ceiling = BLACKSMITH_LEVEL_MAX
+	skill_quality = clamp(skill_quality, skill_floor, skill_ceiling)
 	var/tier
 	switch(skill_quality)
 		if(BLACKSMITH_LEVEL_MIN to BLACKSMITH_LEVEL_SPOIL)

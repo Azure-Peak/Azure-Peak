@@ -1786,48 +1786,37 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 		var/roll = rand(1, 100)
 		switch(skill_level)
 			if(SKILL_LEVEL_NONE, SKILL_LEVEL_NOVICE)
-				if(roll <= 35)
+				if(roll <= 60)
 					tier = ITEM_QUALITY_CRUDE
-				else if(roll <= 80)
+				else if(roll <= 95)
 					tier = ITEM_QUALITY_ROUGH
 				else
 					tier = ITEM_QUALITY_STANDARD
 			if(SKILL_LEVEL_APPRENTICE)
-				if(roll <= 25)
-					tier = ITEM_QUALITY_ROUGH
-				else if(roll <= 80)
-					tier = ITEM_QUALITY_STANDARD
-				else
-					tier = ITEM_QUALITY_FINE
-			if(SKILL_LEVEL_JOURNEYMAN)
-				if(roll <= 65)
-					tier = ITEM_QUALITY_STANDARD
-				else if(roll <= 95)
-					tier = ITEM_QUALITY_FINE
-				else
-					tier = ITEM_QUALITY_FLAWLESS
-			if(SKILL_LEVEL_EXPERT)
-				if(roll <= 40)
-					tier = ITEM_QUALITY_STANDARD
+				if(roll <= 20)
+					tier = ITEM_QUALITY_CRUDE
 				else if(roll <= 75)
+					tier = ITEM_QUALITY_ROUGH
+				else
+					tier = ITEM_QUALITY_STANDARD
+			if(SKILL_LEVEL_JOURNEYMAN)
+				tier = ITEM_QUALITY_STANDARD
+			if(SKILL_LEVEL_EXPERT)
+				if(roll <= 70)
 					tier = ITEM_QUALITY_FINE
 				else if(roll <= 95)
 					tier = ITEM_QUALITY_FLAWLESS
 				else
 					tier = ITEM_QUALITY_MASTERWORK
 			if(SKILL_LEVEL_MASTER)
-				if(roll <= 20)
-					tier = ITEM_QUALITY_STANDARD
-				else if(roll <= 50)
+				if(roll <= 30)
 					tier = ITEM_QUALITY_FINE
 				else if(roll <= 80)
 					tier = ITEM_QUALITY_FLAWLESS
 				else
 					tier = ITEM_QUALITY_MASTERWORK
 			else
-				if(roll <= 25)
-					tier = ITEM_QUALITY_FINE
-				else if(roll <= 55)
+				if(roll <= 40)
 					tier = ITEM_QUALITY_FLAWLESS
 				else
 					tier = ITEM_QUALITY_MASTERWORK
