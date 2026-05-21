@@ -7893,12 +7893,6 @@
 /obj/machinery/light/rogue/torchholder/l,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/indoors/town/dwarfin)
-"bGA" = (
-/obj/structure/roguemachine/scomm{
-	scom_tag = "Tailor's Shop - Exterior"
-	},
-/turf/open/floor/rogue/cobblerock,
-/area/rogue/outdoors/town)
 "bGC" = (
 /obj/structure/mineral_door/wood/window,
 /turf/open/floor/rogue/ruinedwood,
@@ -10455,6 +10449,9 @@
 /obj/effect/decal/edge{
 	color = "#3f3f3f";
 	dir = 4
+	},
+/obj/structure/roguemachine/scomm/l{
+	scom_tag = "Tailor's Shop - Exterior"
 	},
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors/town)
@@ -35712,10 +35709,6 @@
 /obj/structure/flora/newtree,
 /turf/open/floor/rogue/grasscold,
 /area/rogue/outdoors/woods/north)
-"hld" = (
-/obj/structure/roguemachine/goldface/public/tailor,
-/turf/closed/wall/mineral/rogue/wooddark,
-/area/rogue/indoors/town)
 "hle" = (
 /obj/structure/closet/crate/chest/old_crate,
 /obj/structure/rack/rogue/shelf,
@@ -91820,10 +91813,6 @@
 /obj/structure/closet/crate/chest/wicker,
 /turf/open/floor/rogue/cobble,
 /area/rogue/indoors/town/garrison)
-"skC" = (
-/obj/structure/roguemachine/noticeboard,
-/turf/open/floor/rogue/hexstone,
-/area/rogue/indoors/town/dwarfin)
 "skI" = (
 /obj/item/roguecoin/copper,
 /turf/open/floor/rogue/cobble,
@@ -107984,6 +107973,10 @@
 /obj/structure/flora/roguegrass/thorn_bush,
 /turf/open/floor/rogue/dirt,
 /area/rogue/outdoors/beach/forest/north)
+"vsx" = (
+/obj/structure/roguemachine/goldface/public/tailor,
+/turf/closed/wall/mineral/rogue/decowood/vert,
+/area/rogue/indoors/town)
 "vsy" = (
 /obj/structure/standingbell{
 	name = "servantry service bell";
@@ -110040,6 +110033,10 @@
 /obj/machinery/light/rogue/firebowl/off,
 /turf/open/floor/rogue/dirt,
 /area/rogue/outdoors/rtfield)
+"vOh" = (
+/obj/structure/roguemachine/escrow/tailor,
+/turf/closed/wall/mineral/rogue/decowood/vert,
+/area/rogue/indoors/town)
 "vOi" = (
 /obj/machinery/light/rogue/oven/south,
 /turf/open/floor/rogue/tile,
@@ -166717,7 +166714,7 @@ vGa
 sPW
 vGa
 vGa
-skC
+vGa
 smL
 cqm
 pAi
@@ -272519,7 +272516,7 @@ xJe
 dra
 dra
 trx
-uBc
+vsx
 pWT
 teY
 sns
@@ -274773,14 +274770,14 @@ exD
 exD
 lJF
 sns
-hld
+cDX
 uBc
 bKS
 gvo
 gvo
-gvo
+vOh
 cDX
-bGA
+exD
 wRJ
 pxc
 pGb
