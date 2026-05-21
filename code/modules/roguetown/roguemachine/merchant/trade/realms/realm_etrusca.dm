@@ -59,23 +59,23 @@
 		list("good" = TRADE_GOOD_GOLD_INGOT, "qty_min" = BULK_QTY_TINY_MIN, "qty_max" = BULK_QTY_TINY_MAX, "price_mod" = BULK_PRICE_EAGER_PREMIUM),
 	)
 	victualling_fresh_pool = list(
-		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/tomatoplate, "qty_min" = 4, "qty_max" = 8, "price" = 22),
-		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/meattomatoplate, "qty_min" = 3, "qty_max" = 6, "price" = 28),
-		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/fishtomatoplate, "qty_min" = 3, "qty_max" = 6, "price" = 26),
-		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/pie/cooked/crab, "qty_min" = 3, "qty_max" = 6, "price" = 28),
-		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/preserved/eggplantstuffedcheese, "qty_min" = 3, "qty_max" = 6, "price" = 22),
-		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/ccake, "qty_min" = 3, "qty_max" = 6, "price" = 26),
+		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/tomatoplate, "qty_min" = VICTUALLING_QTY_MEDIUM_MIN, "qty_max" = VICTUALLING_QTY_MEDIUM_MAX, "price" = VICTUALLING_PRICE_FISH),
+		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/meattomatoplate, "qty_min" = VICTUALLING_QTY_SMALL_MIN, "qty_max" = VICTUALLING_QTY_SMALL_MAX, "price" = VICTUALLING_PRICE_LUXURY),
+		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/fishtomatoplate, "qty_min" = VICTUALLING_QTY_SMALL_MIN, "qty_max" = VICTUALLING_QTY_SMALL_MAX, "price" = VICTUALLING_PRICE_LUXURY),
+		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/pie/cooked/crab, "qty_min" = VICTUALLING_QTY_SMALL_MIN, "qty_max" = VICTUALLING_QTY_SMALL_MAX, "price" = VICTUALLING_PRICE_LUXURY),
+		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/preserved/eggplantstuffedcheese, "qty_min" = VICTUALLING_QTY_SMALL_MIN, "qty_max" = VICTUALLING_QTY_SMALL_MAX, "price" = VICTUALLING_PRICE_FISH),
+		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/ccake, "qty_min" = VICTUALLING_QTY_SMALL_MIN, "qty_max" = VICTUALLING_QTY_SMALL_MAX, "price" = VICTUALLING_PRICE_LUXURY),
 	)
 	victualling_preserved_pool = list(
-		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/crackerscooked, "qty_min" = 8, "qty_max" = 15, "price" = 8),
-		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/cheesebun, "qty_min" = 5, "qty_max" = 10, "price" = 16),
-		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/applebread, "qty_min" = 4, "qty_max" = 8, "price" = 18),
+		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/crackerscooked, "qty_min" = VICTUALLING_QTY_HUGE_MIN, "qty_max" = VICTUALLING_QTY_HUGE_MAX, "price" = VICTUALLING_PRICE_HARDTACK),
+		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/cheesebun, "qty_min" = VICTUALLING_QTY_LARGE_MIN, "qty_max" = VICTUALLING_QTY_LARGE_MAX, "price" = VICTUALLING_PRICE_SIMPLE),
+		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/applebread, "qty_min" = VICTUALLING_QTY_MEDIUM_MIN, "qty_max" = VICTUALLING_QTY_MEDIUM_MAX, "price" = VICTUALLING_PRICE_FISH),
 	)
 	victualling_alcohol_pool = list(
-		list("recipe" = /datum/brewing_recipe/beer, "qty_min" = 6, "qty_max" = 10),
-		list("recipe" = /datum/brewing_recipe/brandy/plum, "qty_min" = 3, "qty_max" = 6),
-		list("recipe" = /datum/brewing_recipe/brandy, "qty_min" = 3, "qty_max" = 6),
-		list("recipe" = /datum/brewing_recipe/rum, "qty_min" = 2, "qty_max" = 5),
+		list("recipe" = /datum/brewing_recipe/beer, "qty_min" = VICTUALLING_QTY_LARGE_MIN, "qty_max" = VICTUALLING_QTY_LARGE_MAX),
+		list("recipe" = /datum/brewing_recipe/brandy/plum, "qty_min" = VICTUALLING_QTY_SMALL_MIN, "qty_max" = VICTUALLING_QTY_SMALL_MAX),
+		list("recipe" = /datum/brewing_recipe/brandy, "qty_min" = VICTUALLING_QTY_SMALL_MIN, "qty_max" = VICTUALLING_QTY_SMALL_MAX),
+		list("recipe" = /datum/brewing_recipe/rum, "qty_min" = VICTUALLING_QTY_SMALL_MIN, "qty_max" = VICTUALLING_QTY_SMALL_MAX),
 	)
 	cultural_stock_pool = list(
 		/datum/supply_pack/rogue/gems/coral,

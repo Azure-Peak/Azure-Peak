@@ -66,6 +66,13 @@ const SUBSECTION_ORDER = [
   TAG_VICTUALLING_ALCOHOL,
 ];
 
+const SUBSECTION_GROUP: Record<string, 'goods' | 'food' | 'alcohol'> = {
+  bulk: 'goods',
+  [TAG_VICTUALLING_FRESH]: 'food',
+  [TAG_VICTUALLING_PRESERVED]: 'food',
+  [TAG_VICTUALLING_ALCOHOL]: 'alcohol',
+};
+
 const LineRow = (props: { line: DemandLine; cutPercent: number }) => {
   const { line, cutPercent } = props;
   const remaining = Math.max(0, line.qty_target - line.qty_fulfilled);
@@ -197,14 +204,34 @@ const ManifestSection = (props: {
           Typical provisions: {manifest.typical_provisions}
         </div>
       )}
-      {SUBSECTION_ORDER.map((tag) => (
-        <Subsection
-          key={tag}
-          tag={tag}
-          lines={grouped[tag] || []}
-          cutPercent={cutPercent}
-        />
-      ))}
+      {(() => {
+        const renderable = SUBSECTION_ORDER.filter(
+          (tag) => (grouped[tag] || []).length > 0,
+        );
+        let lastGroup: string | null = null;
+        return renderable.map((tag) => {
+          const group = SUBSECTION_GROUP[tag];
+          const insertDivider = lastGroup !== null && group !== lastGroup;
+          lastGroup = group;
+          return (
+            <div key={tag}>
+              {insertDivider && (
+                <div
+                  style={{
+                    margin: '8px 0 4px',
+                    borderTop: `1px solid ${PARCHMENT_SHADOW}`,
+                  }}
+                />
+              )}
+              <Subsection
+                tag={tag}
+                lines={grouped[tag] || []}
+                cutPercent={cutPercent}
+              />
+            </div>
+          );
+        });
+      })()}
     </div>
   );
 };
