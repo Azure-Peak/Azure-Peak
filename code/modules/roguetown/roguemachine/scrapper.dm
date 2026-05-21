@@ -346,7 +346,7 @@
 		/obj/item/natural/hide/cured = 3,
 		/obj/item/natural/fur = 10,
 	)
-	var/list/defaults_on = list(/obj/item/natural/hide, /obj/item/natural/hide/cured, /obj/item/natural/fur, /obj/item/natural/cloth)
+	var/list/defaults_on = list(/obj/item/natural/hide, /obj/item/natural/fur)
 	material_caps[/obj/item/natural/fibers] = 10
 	material_caps[/obj/item/natural/cloth] = 10
 	material_caps[/obj/item/natural/silk] = 10
