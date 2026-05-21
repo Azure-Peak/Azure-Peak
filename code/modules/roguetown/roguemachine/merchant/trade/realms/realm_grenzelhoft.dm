@@ -3,7 +3,7 @@
 	name = "Grenzelhoft"
 	auto_discovered = TRUE
 	roll_weight = TRADE_REALM_WEIGHT_NEIGHBOR
-	demanded_categories = list(ITEM_CAT_REAGENT_ARCANE, ITEM_CAT_BOOK_WRIT, ITEM_CAT_FOODSTUFF_FRESH, ITEM_CAT_GARMENT_LUXURY, ITEM_CAT_ARCYNE_GEARS, ITEM_CAT_POTION, ITEM_CAT_SEAFOOD)
+	demanded_categories = list(NAVIGATOR_BUCKET_POTIONS_REAGENTS, NAVIGATOR_BUCKET_BOOKS, NAVIGATOR_BUCKET_GARMENTS, NAVIGATOR_BUCKET_SEAFOOD)
 	ship_name_words = list(
 		"Eisernen", "Sturm", "Adler", "Wolf", "Drache",
 		"Schwert", "Bruder", "Krone", "Burg", "Wappen",
@@ -64,6 +64,12 @@
 		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/crackerscooked, "qty_min" = 8, "qty_max" = 15, "price" = 8),
 		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/meat/sausage/cooked, "qty_min" = 5, "qty_max" = 10, "price" = 14),
 		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/bread, "qty_min" = 5, "qty_max" = 10, "price" = 12),
+	)
+	victualling_alcohol_pool = list(
+		list("recipe" = /datum/brewing_recipe/beer, "qty_min" = 2, "qty_max" = 4),
+		list("recipe" = /datum/brewing_recipe/jack_wine, "qty_min" = 5, "qty_max" = 8),
+		list("recipe" = /datum/brewing_recipe/cider, "qty_min" = 4, "qty_max" = 7),
+		list("recipe" = /datum/brewing_recipe/aqua_vitae, "qty_min" = 3, "qty_max" = 6),
 	)
 	cultural_stock_pool = list(
 		/datum/supply_pack/rogue/merc_weapons/grenzelstaff,

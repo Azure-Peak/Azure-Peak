@@ -3,7 +3,7 @@
 	name = "Otava"
 	auto_discovered = TRUE
 	roll_weight = TRADE_REALM_WEIGHT_NEIGHBOR
-	demanded_categories = list(ITEM_CAT_RAW_MATERIAL_MINERAL, ITEM_CAT_RAW_MATERIAL_ORGANIC, ITEM_CAT_BEVERAGE, ITEM_CAT_GARMENT_LUXURY, ITEM_CAT_REAGENT_ALCHEMICAL, ITEM_CAT_ARMOR_LEGS, ITEM_CAT_ARMOR_BRACERS, ITEM_CAT_INSTRUMENT, ITEM_CAT_DECORATION, ITEM_CAT_SEAFOOD)
+	demanded_categories = list(NAVIGATOR_BUCKET_BEVERAGE, NAVIGATOR_BUCKET_GARMENTS, NAVIGATOR_BUCKET_POTIONS_REAGENTS, NAVIGATOR_BUCKET_ARMOR, NAVIGATOR_BUCKET_INSTRUMENTS, NAVIGATOR_BUCKET_VALUABLES, NAVIGATOR_BUCKET_SEAFOOD)
 	single_word_base = TRUE
 	ship_name_words = list(
 		"Belle", "Coeur", "Lis", "Rose", "Etoile",
@@ -85,6 +85,12 @@
 		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/crackerscooked, "qty_min" = 8, "qty_max" = 15, "price" = 8),
 		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/bun_raston, "qty_min" = 4, "qty_max" = 8, "price" = 16),
 		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/breadslice/toast, "qty_min" = 6, "qty_max" = 12, "price" = 10),
+	)
+	victualling_alcohol_pool = list(
+		list("recipe" = /datum/brewing_recipe/jack_wine, "qty_min" = 1, "qty_max" = 3),
+		list("recipe" = /datum/brewing_recipe/cider, "qty_min" = 5, "qty_max" = 8),
+		list("recipe" = /datum/brewing_recipe/aqua_vitae, "qty_min" = 4, "qty_max" = 7),
+		list("recipe" = /datum/brewing_recipe/brandy/pear, "qty_min" = 3, "qty_max" = 5),
 	)
 	cultural_stock_pool = list(
 		/datum/supply_pack/rogue/gems/amber,

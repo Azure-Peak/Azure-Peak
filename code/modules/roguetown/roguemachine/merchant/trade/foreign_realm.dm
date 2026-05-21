@@ -23,6 +23,7 @@
 	var/list/cultural_overrides = list()
 	var/list/victualling_fresh_pool = list()
 	var/list/victualling_preserved_pool = list()
+	var/list/victualling_alcohol_pool = list()
 	var/list/hail_lines = list()
 
 /datum/foreign_realm/proc/pick_ship_type()
@@ -133,4 +134,8 @@
 		var/atom/A = entry["typepath"]
 		if(A)
 			parts += initial(A.name)
+	for(var/list/entry as anything in victualling_alcohol_pool)
+		var/datum/brewing_recipe/recipe = entry["recipe"]
+		if(recipe)
+			parts += initial(recipe.bottle_name)
 	return english_list(parts, "nothing in particular")

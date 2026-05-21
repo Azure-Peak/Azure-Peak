@@ -3,7 +3,7 @@
 	name = "Lingyue"
 	auto_discovered = FALSE
 	roll_weight = TRADE_REALM_WEIGHT_DISTANT
-	demanded_categories = list(ITEM_CAT_WEAPONS_SWORDS, ITEM_CAT_ARMOR_CHESTPIECES, ITEM_CAT_RAW_MATERIAL_MINERAL, ITEM_CAT_BEVERAGE, ITEM_CAT_GARMENT_LUXURY, ITEM_CAT_POTION, ITEM_CAT_ARCYNE_GEARS, ITEM_CAT_ARMOR_GLOVES, ITEM_CAT_INSTRUMENT, ITEM_CAT_SEAFOOD)
+	demanded_categories = list(NAVIGATOR_BUCKET_WEAPONS, NAVIGATOR_BUCKET_ARMOR, NAVIGATOR_BUCKET_BEVERAGE, NAVIGATOR_BUCKET_GARMENTS, NAVIGATOR_BUCKET_POTIONS_REAGENTS, NAVIGATOR_BUCKET_INSTRUMENTS, NAVIGATOR_BUCKET_SEAFOOD)
 	single_word_base = TRUE
 	ship_name_words = list(
 		"Tianxia", "Fenghuang", "Qilin", "Longwang", "Yuanzhao",
@@ -58,6 +58,13 @@
 	victualling_preserved_pool = list(
 		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/preserved/rice_cooked, "qty_min" = 6, "qty_max" = 12, "price" = 10),
 		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/crackerscooked, "qty_min" = 8, "qty_max" = 15, "price" = 8),
+	)
+	victualling_alcohol_pool = list(
+		list("recipe" = /datum/brewing_recipe/plum_wine, "qty_min" = 1, "qty_max" = 2),
+		list("recipe" = /datum/brewing_recipe/liquor/ricespirit, "qty_min" = 1, "qty_max" = 2),
+		list("recipe" = /datum/brewing_recipe/whipwine, "qty_min" = 2, "qty_max" = 4),
+		list("recipe" = /datum/brewing_recipe/tangerine_wine, "qty_min" = 4, "qty_max" = 6),
+		list("recipe" = /datum/brewing_recipe/rum, "qty_min" = 2, "qty_max" = 4),
 	)
 	cultural_stock_pool = list(
 		/datum/supply_pack/rogue/gems/jade,

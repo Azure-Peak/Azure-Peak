@@ -3,7 +3,7 @@
 	name = "Hammerhold"
 	auto_discovered = FALSE
 	roll_weight = TRADE_REALM_WEIGHT_DISTANT
-	demanded_categories = list(ITEM_CAT_FOODSTUFF_FRESH, ITEM_CAT_GARMENT_COMMON, ITEM_CAT_GARMENT_LUXURY, ITEM_CAT_RAW_MATERIAL_ORGANIC, ITEM_CAT_BEVERAGE, ITEM_CAT_ARMOR_BOOTS, ITEM_CAT_ARMOR_GLOVES, ITEM_CAT_ARMOR_LEGS, ITEM_CAT_ARMOR_LIGHT, ITEM_CAT_TOOLS_FIELD, ITEM_CAT_SEAFOOD)
+	demanded_categories = list(NAVIGATOR_BUCKET_GARMENTS, NAVIGATOR_BUCKET_BEVERAGE, NAVIGATOR_BUCKET_ARMOR, NAVIGATOR_BUCKET_SEAFOOD)
 	single_word_base = TRUE
 	ship_name_words = list(
 		"Æthel", "Beorht", "Hammer", "Anvil", "Grim",
@@ -72,6 +72,13 @@
 		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/crackerscooked, "qty_min" = 8, "qty_max" = 15, "price" = 8),
 		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/meat/sausage/cooked, "qty_min" = 5, "qty_max" = 10, "price" = 14),
 		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/cheesebun, "qty_min" = 4, "qty_max" = 8, "price" = 16),
+	)
+	victualling_alcohol_pool = list(
+		list("recipe" = /datum/brewing_recipe/beer, "qty_min" = 6, "qty_max" = 10),
+		list("recipe" = /datum/brewing_recipe/beer/oat, "qty_min" = 4, "qty_max" = 8),
+		list("recipe" = /datum/brewing_recipe/mead, "qty_min" = 5, "qty_max" = 8),
+		list("recipe" = /datum/brewing_recipe/cider, "qty_min" = 4, "qty_max" = 7),
+		list("recipe" = /datum/brewing_recipe/voddena, "qty_min" = 1, "qty_max" = 2),
 	)
 	cultural_stock_pool = list(
 		/datum/supply_pack/rogue/hammerhold/dwarven_maul,

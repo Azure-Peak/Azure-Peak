@@ -3,7 +3,7 @@
 	name = "Raneshen"
 	auto_discovered = FALSE
 	roll_weight = TRADE_REALM_WEIGHT_DEFAULT
-	demanded_categories = list(ITEM_CAT_RAW_MATERIAL_MINERAL, ITEM_CAT_WEAPONS_SWORDS, ITEM_CAT_FOODSTUFF_PRESERVED, ITEM_CAT_GARMENT_LUXURY, ITEM_CAT_VALUABLES_HOLY, ITEM_CAT_ARMOR_BOOTS, ITEM_CAT_INSTRUMENT, ITEM_CAT_DECORATION, ITEM_CAT_WEAPONS_POLEARMS, ITEM_CAT_SEAFOOD)
+	demanded_categories = list(NAVIGATOR_BUCKET_WEAPONS, NAVIGATOR_BUCKET_GARMENTS, NAVIGATOR_BUCKET_VALUABLES, NAVIGATOR_BUCKET_ARMOR, NAVIGATOR_BUCKET_INSTRUMENTS, NAVIGATOR_BUCKET_SEAFOOD)
 	single_word_base = TRUE
 	ship_name_words = list(
 		"Thalassa", "Abyssoros", "Khimaira", "Eos", "Aetos",
@@ -64,6 +64,13 @@
 		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/crackerscooked, "qty_min" = 8, "qty_max" = 15, "price" = 8),
 		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/raisinbread, "qty_min" = 4, "qty_max" = 8, "price" = 18),
 		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/bun_jamtallow, "qty_min" = 4, "qty_max" = 8, "price" = 16),
+	)
+	victualling_alcohol_pool = list(
+		list("recipe" = /datum/brewing_recipe/winespiced, "qty_min" = 1, "qty_max" = 3),
+		list("recipe" = /datum/brewing_recipe/mead, "qty_min" = 4, "qty_max" = 7),
+		list("recipe" = /datum/brewing_recipe/liquor, "qty_min" = 4, "qty_max" = 6),
+		list("recipe" = /datum/brewing_recipe/aqua_vitae, "qty_min" = 4, "qty_max" = 6),
+		list("recipe" = /datum/brewing_recipe/limoncello, "qty_min" = 2, "qty_max" = 4),
 	)
 	cultural_stock_pool = list(
 		/datum/supply_pack/rogue/gems/amber,

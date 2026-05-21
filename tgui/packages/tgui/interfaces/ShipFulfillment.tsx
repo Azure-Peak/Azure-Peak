@@ -40,11 +40,13 @@ type Data = {
 
 const TAG_VICTUALLING_FRESH = 'victualling_fresh';
 const TAG_VICTUALLING_PRESERVED = 'victualling_preserved';
+const TAG_VICTUALLING_ALCOHOL = 'victualling_alcohol';
 
 const SUBSECTION_LABELS: Record<string, string> = {
   bulk: 'Bulk Trade',
   [TAG_VICTUALLING_FRESH]: 'Victualling - Fresh',
   [TAG_VICTUALLING_PRESERVED]: 'Victualling - Preserved',
+  [TAG_VICTUALLING_ALCOHOL]: 'Victualling - Alcohol',
 };
 
 const SUBSECTION_HINT: Record<string, string> = {
@@ -53,12 +55,15 @@ const SUBSECTION_HINT: Record<string, string> = {
     'Crew shore-leave provisions. Each line caps low - no dumping.',
   [TAG_VICTUALLING_PRESERVED]:
     'Voyage hardtack and salted stores. Each line caps low - no dumping.',
+  [TAG_VICTUALLING_ALCOHOL]:
+    'Sealed brewer bottles only. Uncorked stock is refused.',
 };
 
 const SUBSECTION_ORDER = [
   'bulk',
   TAG_VICTUALLING_FRESH,
   TAG_VICTUALLING_PRESERVED,
+  TAG_VICTUALLING_ALCOHOL,
 ];
 
 const LineRow = (props: { line: DemandLine; cutPercent: number }) => {

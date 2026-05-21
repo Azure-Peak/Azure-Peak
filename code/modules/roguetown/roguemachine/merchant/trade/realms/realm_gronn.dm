@@ -3,7 +3,7 @@
 	name = "Gronn"
 	auto_discovered = FALSE
 	roll_weight = TRADE_REALM_WEIGHT_DISTANT
-	demanded_categories = list(ITEM_CAT_WEAPONS_SWORDS, ITEM_CAT_WEAPONS_AXES, ITEM_CAT_WEAPONS_MACES, ITEM_CAT_ARMOR_CHESTPIECES, ITEM_CAT_ARMOR_HELMETS, ITEM_CAT_FOODSTUFF_PRESERVED, ITEM_CAT_WEAPONS_AMMO, ITEM_CAT_WEAPONS_FLAILS, ITEM_CAT_ARMOR_BRACERS, ITEM_CAT_TROPHY, ITEM_CAT_ARMOR_BELTS, ITEM_CAT_ARMOR_LIGHT, ITEM_CAT_SEAFOOD)
+	demanded_categories = list(NAVIGATOR_BUCKET_WEAPONS, NAVIGATOR_BUCKET_ARMOR, NAVIGATOR_BUCKET_VALUABLES, NAVIGATOR_BUCKET_SEAFOOD)
 	ship_name_words = list(
 		"Fjord", "Iskarn", "Volf", "Beorn", "Ravn",
 		"Skuld", "Storm", "Aurora", "Glacier", "Ulfr",
@@ -62,6 +62,12 @@
 	victualling_preserved_pool = list(
 		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/meat/sausage/cooked, "qty_min" = 6, "qty_max" = 12, "price" = 14),
 		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/meat/bacon/fried, "qty_min" = 5, "qty_max" = 10, "price" = 12),
+	)
+	victualling_alcohol_pool = list(
+		list("recipe" = /datum/brewing_recipe/mead, "qty_min" = 10, "qty_max" = 18),
+		list("recipe" = /datum/brewing_recipe/spidermead, "qty_min" = 4, "qty_max" = 8),
+		list("recipe" = /datum/brewing_recipe/voddena, "qty_min" = 3, "qty_max" = 6),
+		list("recipe" = /datum/brewing_recipe/fermentedcrab, "qty_min" = 2, "qty_max" = 4),
 	)
 	cultural_stock_pool = list(
 		/datum/supply_pack/rogue/food/honey,

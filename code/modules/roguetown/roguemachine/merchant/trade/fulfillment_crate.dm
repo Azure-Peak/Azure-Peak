@@ -167,8 +167,14 @@
 			return
 	var/list/dish_match = find_dish_match(I.type)
 	if(dish_match)
-		var/datum/trade_ship/dish_ship = dish_match["ship"]
 		var/list/dish_line = dish_match["line"]
+		if(dish_line["tag"] == TRADE_VICTUALLING_TAG_ALCOHOL)
+			var/obj/item/reagent_containers/glass/bottle/brewing_bottle/B = I
+			if(!istype(B) || !B.sealed)
+				if(message)
+					to_chat(user, span_warning("[I] has been broken open - the captain only buys sealed bottles."))
+				return
+		var/datum/trade_ship/dish_ship = dish_match["ship"]
 		dish_line["qty_fulfilled"]++
 		qdel(I)
 		settle_payout(dish_line["offered_price"], user, dish_ship, dish_line["good_name"], 1, message, sound, tally)

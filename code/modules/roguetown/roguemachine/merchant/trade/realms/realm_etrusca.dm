@@ -3,7 +3,7 @@
 	name = "Etrusca"
 	auto_discovered = FALSE
 	roll_weight = TRADE_REALM_WEIGHT_NEIGHBOR
-	demanded_categories = list(ITEM_CAT_WEAPONS_SWORDS, ITEM_CAT_ARMOR_CHESTPIECES, ITEM_CAT_RAW_MATERIAL_MINERAL, ITEM_CAT_GARMENT_LUXURY, ITEM_CAT_VALUABLES_HOLY, ITEM_CAT_DECORATION, ITEM_CAT_POTTERY, ITEM_CAT_VALUABLES_RINGS, ITEM_CAT_INSTRUMENT)
+	demanded_categories = list(NAVIGATOR_BUCKET_WEAPONS, NAVIGATOR_BUCKET_ARMOR, NAVIGATOR_BUCKET_GARMENTS, NAVIGATOR_BUCKET_VALUABLES, NAVIGATOR_BUCKET_INSTRUMENTS)
 	ship_name_words = list(
 		"Aurelia", "Mirella", "Esperanza", "Fortuna", "Vittoria",
 		"Stella", "Corona", "Leone", "Tormenta", "Onore",
@@ -70,6 +70,12 @@
 		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/crackerscooked, "qty_min" = 8, "qty_max" = 15, "price" = 8),
 		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/cheesebun, "qty_min" = 5, "qty_max" = 10, "price" = 16),
 		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/applebread, "qty_min" = 4, "qty_max" = 8, "price" = 18),
+	)
+	victualling_alcohol_pool = list(
+		list("recipe" = /datum/brewing_recipe/beer, "qty_min" = 6, "qty_max" = 10),
+		list("recipe" = /datum/brewing_recipe/brandy/plum, "qty_min" = 3, "qty_max" = 6),
+		list("recipe" = /datum/brewing_recipe/brandy, "qty_min" = 3, "qty_max" = 6),
+		list("recipe" = /datum/brewing_recipe/rum, "qty_min" = 2, "qty_max" = 5),
 	)
 	cultural_stock_pool = list(
 		/datum/supply_pack/rogue/gems/coral,
