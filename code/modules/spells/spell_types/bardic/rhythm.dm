@@ -140,6 +140,15 @@
 				H.balloon_alert_to_viewers("<font color = '#44bb44'>Crescendo ready!</font>")
 			else
 				H.balloon_alert_to_viewers("Crescendo [tracker.greater_stacks]/[CRESCENDO_STACKS]")
+			// Allegro: every 5th rhythm proc restores energy (Maestro - Wretch Bard only)
+			if(H.inspiration.allegro_enabled)
+				H.inspiration.allegro_counter++
+				if(H.inspiration.allegro_counter >= 5)
+					H.inspiration.allegro_counter = 0
+					H.energy_add(25)
+					to_chat(H, span_notice("The crowd roars! You feel a surge of energy."))
+					H.balloon_alert_to_viewers("<font color='#ffdd44'>Allegro!</font>")
+					playsound(H, 'sound/magic/inspire_02.ogg', 50, TRUE)
 
 /// Rhythm window expired without hitting
 /datum/action/cooldown/spell/rhythm/proc/rhythm_fizzle()

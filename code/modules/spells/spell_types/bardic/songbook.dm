@@ -173,7 +173,7 @@ GLOBAL_LIST_INIT(learnable_songs, list(
 			for(var/datum/action/cooldown/spell/rhythm/existing in owner.mind.spell_list)
 				if(existing.type == rhythm_path)
 					return TRUE
-			var/max_picks = owner.inspiration.level >= BARD_T2 ? RHYTHM_PICKS_T2 : RHYTHM_PICKS_T1
+			var/max_picks = (owner.inspiration.level >= BARD_T2 ? RHYTHM_PICKS_T2 : RHYTHM_PICKS_T1) + owner.inspiration.bonus_rhythm_picks
 			var/existing_count = 0
 			for(var/datum/action/cooldown/spell/rhythm/R in owner.mind.spell_list)
 				existing_count++

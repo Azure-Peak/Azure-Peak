@@ -2055,6 +2055,7 @@
 #include "code\modules\jobs\job_types\roguetown\adventurer\types\wretch\heretic_spellblade.dm"
 #include "code\modules\jobs\job_types\roguetown\adventurer\types\wretch\heretic_spellfist.dm"
 #include "code\modules\jobs\job_types\roguetown\adventurer\types\wretch\licker.dm"
+#include "code\modules\jobs\job_types\roguetown\adventurer\types\wretch\maestro.dm"
 #include "code\modules\jobs\job_types\roguetown\adventurer\types\wretch\mistwalker.dm"
 #include "code\modules\jobs\job_types\roguetown\adventurer\types\wretch\munitioneer.dm"
 #include "code\modules\jobs\job_types\roguetown\adventurer\types\wretch\necromancer.dm"
