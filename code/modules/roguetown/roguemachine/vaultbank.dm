@@ -450,6 +450,9 @@
 /obj/structure/roguemachine/vaultbank/proc/get_patron_cap()
 	return 0
 
+/obj/structure/roguemachine/vaultbank/proc/get_patron_explanation()
+	return ""
+
 /obj/structure/roguemachine/vaultbank/proc/draft_patronage_writ(mob/living/carbon/human/user)
 	if(!istype(user))
 		return
@@ -675,6 +678,9 @@
 /obj/structure/roguemachine/vaultbank/church/get_patron_cap()
 	return PATRON_CAP_CHURCH
 
+/obj/structure/roguemachine/vaultbank/church/get_patron_explanation()
+	return "Granting a person the status of Benefactor of the Church places them under the Clergy's roll for the Crown's taxmen, which in most circumstances means complete immunity. They are likewise permitted to read the names of those who owe debt to the Church. - Ser Yohan d'Azur"
+
 /obj/structure/roguemachine/vaultbank/church/can_withdraw(mob/user, amount)
 	if(!can_issue_loan(user))
 		return FALSE
@@ -724,6 +730,9 @@
 /obj/structure/roguemachine/vaultbank/merchant/get_patron_cap()
 	return PATRON_CAP_MERCHANT
 
+/obj/structure/roguemachine/vaultbank/merchant/get_patron_explanation()
+	return "Granting a person the status of Agent of the Azurian Trading Company confers Burgher standing upon them, lowering their tax class and shielding them from the worst abuses of the Crown's taxmen. They may also read the names of those who owe debt to the Company. Go forth, in Malum's name, and let them collect what is rightfully owed. - Ser Yohan d'Azur"
+
 /obj/structure/roguemachine/vaultbank/merchant/enforce_placement()
 	return
 
@@ -760,6 +769,9 @@
 
 /obj/structure/roguemachine/vaultbank/bathhouse/get_patron_cap()
 	return PATRON_CAP_BATHHOUSE
+
+/obj/structure/roguemachine/vaultbank/bathhouse/get_patron_explanation()
+	return "Granting a person the status of Agent of the Bathhouse permits them passage through the secret tunnel, by way of vigorous stretching and suppleness supplementation. The smugglers of the northeastern coast will likewise know them by name and offer better prices for their goods. They may also see who owes debt to the Bathhouse.\n\nYou may be tempted to extend this status to the wretched and the outlawed. It is a powerful option, and will indebt them to you as they sell off their disorderly gains for no small sum of mammons - but should they ever be spotted bearing the mark of the Bathhouse, Church and Crown alike may condemn you for collaborating with them. A lawed intermediary is, as a rule, the safer option. - Ser Yohan d'Azur"
 
 /obj/structure/roguemachine/vaultbank/bathhouse/enforce_placement()
 	return

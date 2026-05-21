@@ -84,7 +84,8 @@
 	if(world.time > next_airlift)
 		var/bath_nearby = FALSE
 		for(var/mob/living/carbon/human/H in range(7, src))
-			if(H.stat != DEAD && (H.job in GLOB.bathhouse_positions))
+			var/is_bath_person = (H.job in GLOB.bathhouse_positions) || HAS_TRAIT(H, TRAIT_AGENT_BATHHOUSE)
+			if(H.stat != DEAD && is_bath_person)
 				bath_nearby = TRUE
 				break
 		fixed_tax = bath_nearby ? 0.0 : 0.5

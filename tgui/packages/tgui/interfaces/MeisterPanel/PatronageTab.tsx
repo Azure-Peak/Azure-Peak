@@ -83,6 +83,19 @@ const RosterView = ({
   return (
     <>
       <div style={sectionHeaderStyle}>{rosterStatic.label}</div>
+      {!!rosterStatic.explanation && (
+        <div
+          style={{
+            color: INK_SOFT,
+            fontStyle: 'italic',
+            whiteSpace: 'pre-wrap',
+            marginBottom: 10,
+            lineHeight: 1.4,
+          }}
+        >
+          {rosterStatic.explanation}
+        </div>
+      )}
       <div style={fieldRowStyle}>
         <div style={fieldLabelStyle}>Roster</div>
         <div style={fieldValueStyle}>

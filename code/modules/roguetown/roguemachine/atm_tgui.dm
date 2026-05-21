@@ -74,6 +74,7 @@
 				"label" = V.get_patron_label(),
 				"cap" = V.get_patron_cap(),
 				"can_manage" = V.can_issue_loan(user) ? TRUE : FALSE,
+				"explanation" = V.get_patron_explanation(),
 			)
 	data["funds"] = funds
 	data["patron_rosters_static"] = patron_rosters_static
