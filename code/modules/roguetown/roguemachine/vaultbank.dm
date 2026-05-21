@@ -406,7 +406,7 @@
 	else
 		. += span_warning("This jawbank is unbound to any treasury. Notify staff.")
 	. += span_info("Only [get_authority_label()] may withdraw or draft writs of loan from this jawbank.")
-	. += span_info("Strike it with any weapon to throttle coins loose - heavier strikes are louder and more reliable. The whole realm hears the chime when coin spills.")
+	. += span_info("Strike it with any weapon to throttle coins loose - heavier strikes are louder and more reliable. When coin spills, the clattering will be loud.")
 
 /obj/structure/roguemachine/vaultbank/proc/get_authority_label()
 	return "the Steward, Clerk, Grand Duke, or Regent"
