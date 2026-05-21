@@ -109,6 +109,17 @@
 		popup.open()
 		return
 
+	// Message the hag
+	if(href_list["action"] == "message")
+		var/input = input(usr, "WHAT DO YOU SAY?", "THE ROOTS HEAR ALL") as text|null
+		if(!input)
+			return
+		if(!usr.key)
+			return
+		to_chat(usr, span_info("The roots shudder softly, carrying your message away..."))
+		for(var/mob/living/H in GLOB.active_hags)
+			to_chat(H, span_notice("You hear [usr.real_name]'s voice faintly through the roots... \"[input]\""))
+		return
 	// Actual Harvesting
 	if(href_list["harvest"])
 		var/path = text2path(href_list["harvest"])
@@ -168,6 +179,8 @@
 		contents += "<a href='?src=[REF(src)];action=travel'>[span_boldnotice("Walk the Roots")]</a><BR>"
 	else if (HAS_TRAIT(user, TRAIT_ROOT_WALKER))
 		contents += "<a href='?src=[REF(src)];action=travel'>[span_boldnotice("Walk the Roots")]</a><BR>"
+	if(HAS_TRAIT(user, TRAIT_FEYTOUCHED) && length(GLOB.active_hags))
+		contents += "<a href='?src=[REF(src)];action=message'>[span_boldnotice("Whisper to the Roots")]</a><BR>"
 	contents += "</center>"
 	var/datum/browser/popup = new(user, "mossmother", "The Mossmother", 300, 300)
 	popup.set_content(contents)
