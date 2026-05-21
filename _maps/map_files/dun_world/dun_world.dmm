@@ -62234,7 +62234,7 @@
 /area/rogue/indoors/town)
 "mnF" = (
 /obj/structure/roguemachine/mail{
-	mailtag = "Abandoned Coastal Inn"
+	mailtag = "Entrance to Mount Decapitation"
 	},
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cave)
@@ -87581,7 +87581,7 @@
 "rqX" = (
 /obj/structure/flora/roguegrass,
 /obj/structure/roguemachine/mail{
-	mailtag = "Abandoned Coastal Inn"
+	mailtag = "Entrance to Terrorbog"
 	},
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors/rtfield)
@@ -94066,7 +94066,7 @@
 /area/rogue/indoors/shelter/woods)
 "sGQ" = (
 /obj/structure/roguemachine/mail{
-	mailtag = "Abandoned Coastal Inn"
+	mailtag = "Azurean Coast / Entrance to Alotheos"
 	},
 /turf/open/floor/rogue/dirt,
 /area/rogue/outdoors/beach/forest/south)
@@ -101547,7 +101547,7 @@
 /area/rogue/outdoors/bog/north)
 "ueO" = (
 /obj/structure/roguemachine/mail{
-	mailtag = "Abandoned Coastal Inn"
+	mailtag = "East Entrance to Terrorbog"
 	},
 /turf/open/floor/rogue/dirt,
 /area/rogue/outdoors/rtfield)
