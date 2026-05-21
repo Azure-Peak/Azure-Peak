@@ -33,7 +33,7 @@
 
 	// We only need to listen to damage!
 	RegisterSignal(L, COMSIG_MOB_APPLY_DAMGE, .proc/on_apply_damage)
-	RegisterSignal(L, COMSIG_PARENT_QDELETING, .proc/handle_early_cleanup)
+	//RegisterSignal(L, COMSIG_PARENT_QDELETING, .proc/handle_early_cleanup)
 
 /datum/component/deadite/Destroy()
 	if(reanim_timer_id)
