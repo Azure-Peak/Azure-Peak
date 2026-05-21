@@ -34,7 +34,7 @@
 	if(length(stat_mods))
 		for(var/stat in stat_mods)
 			str += "<br>[capitalize(stat)]: <b>[stat_mods[stat] < 0 ? "<font color = '#cf2a2a'>" : "<font color = '#91cf68'>"]\Roman[stat_mods[stat]]</font></b>"
-			str += "<font color ='#7a4d0a'><br>-----</font>"
+		str += "<font color ='#7a4d0a'><br>-----</font>"
 	if(length(skill_mods))
 		for(var/S in skill_mods)
 			var/datum/skill/skill = S
