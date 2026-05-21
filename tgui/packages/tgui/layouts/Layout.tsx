@@ -10,6 +10,8 @@ import { addScrollableNode, removeScrollableNode } from 'tgui-core/events';
 import { classes } from 'tgui-core/react';
 import { computeBoxClassName, computeBoxProps } from 'tgui-core/ui';
 
+import { useBackend } from '../backend';
+
 type BoxProps = React.ComponentProps<typeof Box>;
 
 type Props = Partial<{
@@ -17,10 +19,20 @@ type Props = Partial<{
 }> &
   BoxProps;
 
+const PARCHMENT_VARIANTS: Record<string, (cfg: any) => string> = {
+  parchment: (cfg) =>
+    cfg?.window?.parchment_skin === 'leatherbound'
+      ? 'parchment-leatherbound'
+      : 'parchment',
+};
+
 export function Layout(props: Props) {
   const { className, theme = 'azure_default', children, ...rest } = props;
+  const { config } = useBackend();
 
-  const themeClass = `theme-${theme}`;
+  const resolveVariant = PARCHMENT_VARIANTS[theme];
+  const resolvedTheme = resolveVariant ? resolveVariant(config) : theme;
+  const themeClass = `theme-${resolvedTheme}`;
   
   useEffect(() => {
     document.documentElement.className = themeClass;

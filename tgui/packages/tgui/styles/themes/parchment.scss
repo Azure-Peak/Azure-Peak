@@ -22,6 +22,25 @@
     'link-hover':      #b42a24,
   ), '../assets/azure_default/topbar_red.svg');
 
+  --p-bg: #f4e7c6;
+  --p-bg-deep: #e6d4a3;
+  --p-bg-shadow: #c7a86a;
+  --p-ink: #3a2a14;
+  --p-ink-soft: #5a3f1f;
+  --p-ink-faint: #7a5e3a;
+  --p-seal-red: #8b2020;
+  --p-seal-red-soft: #a8433a;
+  --p-seal-green: #3b6a35;
+  --p-seal-blue: #2e4a78;
+  --p-seal-amber: #7a5616;
+  --p-button-bg: rgba(255, 248, 220, 0.6);
+  --p-tab-active-bg: rgba(200, 170, 100, 0.25);
+  --p-card-bg: rgba(255, 248, 220, 0.45);
+  --p-card-shadow: rgba(80, 50, 10, 0.12);
+  --p-banner-bg: rgba(180, 60, 40, 0.18);
+  --p-banner-bg-soft: rgba(180, 60, 40, 0.12);
+  --p-badge-text: #f7eccb;
+
   &, .Window, .Layout, .Layout__content, .Window__rest, .Window__content,
   .Window__contentPadding {
     background: #f4e7c6 !important;
