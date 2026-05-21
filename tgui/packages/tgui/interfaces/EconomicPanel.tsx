@@ -19,7 +19,8 @@ type EconomicPanelTab =
   | 'assembly'
   | 'internal'
   | 'foreign'
-  | 'ledger';
+  | 'ledger'
+  | 'debug';
 
 const TAB_LABELS: Record<EconomicPanelTab, string> = {
   dashboard: 'Dashboard',
@@ -30,6 +31,7 @@ const TAB_LABELS: Record<EconomicPanelTab, string> = {
   internal: 'Internal',
   foreign: 'Foreign',
   ledger: 'Ledger',
+  debug: 'Debug',
 };
 
 const TAB_ORDER: EconomicPanelTab[] = [
@@ -41,11 +43,13 @@ const TAB_ORDER: EconomicPanelTab[] = [
   'internal',
   'foreign',
   'ledger',
+  'debug',
 ];
 import type { BooleanLike } from 'tgui-core/react';
 
 import { useBackend } from '../backend';
 import { Window } from '../layouts';
+import { type DebugCounts, DebugView } from './EconomicPanel/DebugView';
 import { type ForeignTrade, ForeignTradeView } from './EconomicPanel/ForeignTradeView';
 
 type Dashboard = {
@@ -191,6 +195,7 @@ type Data = {
   ledger_full_minted: number;
   ledger_full_burned: number;
   foreign_trade: ForeignTrade;
+  debug: DebugCounts;
 };
 
 const STATUS_LABELS: Record<string, string> = {
@@ -239,6 +244,7 @@ export const EconomicPanel = () => {
     ledger_full_minted,
     ledger_full_burned,
     foreign_trade,
+    debug,
   } = data;
 
   const [tab, setTab] = useState<EconomicPanelTab>('dashboard');
@@ -841,6 +847,12 @@ export const EconomicPanel = () => {
             </Section>
           </Stack.Item>
 
+          )}
+
+          {tab === 'debug' && (
+          <Stack.Item>
+            <DebugView debug={debug} act={act} />
+          </Stack.Item>
           )}
 
           {tab === 'solvency' && (

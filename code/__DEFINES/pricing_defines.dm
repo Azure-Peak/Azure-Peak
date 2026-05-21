@@ -3,6 +3,7 @@
 #define PRICING_ENGINE_DEFAULT_MARKUP 1.2
 #define PRICING_ENGINE_COMMISSIONER_MARKUP 1
 #define PRICING_ENGINE_MIN_DERIVED_PRICE 1
+#define PRICING_ENGINE_FOOD_RECIPE_MAX_PASSES 6
 
 // Toggle on CSV dump for pricing engine audit. Use this to help find out the reasons for odd auto pricing.
 // #define PRICING_ENGINE_DUMP_AUDITS

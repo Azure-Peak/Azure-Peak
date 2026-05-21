@@ -89,7 +89,7 @@ GLOBAL_LIST_EMPTY(item_cat_markups)
 	GLOB.material_baseline_prices[/obj/item/natural/glass] = SELLPRICE_GLASS_BATCH
 	GLOB.material_baseline_prices[/obj/item/roguegear] = round(SELLPRICE_STEEL_INGOT * MATERIAL_ROGUEGEAR_FROM_STEEL)
 
-/proc/init_derived_sellprices()
+/proc/init_derived_sellprices(force_audits = FALSE)
 	GLOB.derived_sellprices = list()
 	GLOB.derived_categories = list()
 	var/list/trade_good_lookup = list()
@@ -106,10 +106,13 @@ GLOBAL_LIST_EMPTY(item_cat_markups)
 	apply_trade_good_categories()
 	var/list/missing_materials = list()
 	var/list/audit_lines
+	var/dump_audits = force_audits
 #ifdef PRICING_ENGINE_DUMP_AUDITS
-	audit_lines = list()
-	audit_lines += csv_row(list("kind", "name", "output", "category", "category_missing", "material_cost", "derived_price", "missing_reqs"))
+	dump_audits = TRUE
 #endif
+	if(dump_audits)
+		audit_lines = list()
+		audit_lines += csv_row(list("kind", "name", "output", "category", "category_missing", "material_cost", "derived_price", "missing_reqs"))
 	derived_pass(audit_lines, missing_materials, sticky_trade_goods)
 	for(var/typepath in trade_good_lookup)
 		var/datum/trade_good/TG = trade_good_lookup[typepath]
@@ -120,17 +123,37 @@ GLOBAL_LIST_EMPTY(item_cat_markups)
 			TG.base_price = derived
 			TG.low_price = round(derived * 0.6)
 			TG.high_price = derived * 2
-#ifdef PRICING_ENGINE_DUMP_AUDITS
-	fdel("pricing_engine_audit.csv")
-	text2file(jointext(audit_lines, "\n"), "pricing_engine_audit.csv")
-	dump_trade_good_audit(trade_good_lookup)
-	dump_baseline_audit()
-	dump_category_audit()
-	dump_hardcode_override_audit()
-	log_world("Pricing engine: derived [length(GLOB.derived_sellprices)] prices, [length(missing_materials)] unique missing materials. Audits at pricing_engine_*.csv (project root).")
-#else
-	log_world("Pricing engine: derived [length(GLOB.derived_sellprices)] prices, [length(missing_materials)] unique missing materials. (audit dumps disabled)")
-#endif
+	if(dump_audits)
+		fdel("pricing_engine_audit.csv")
+		text2file(jointext(audit_lines, "\n"), "pricing_engine_audit.csv")
+		dump_trade_good_audit(trade_good_lookup)
+		dump_baseline_audit()
+		dump_category_audit()
+		dump_hardcode_override_audit()
+		dump_uncategorized_items_audit()
+		log_world("Pricing engine: derived [length(GLOB.derived_sellprices)] prices, [length(missing_materials)] unique missing materials. Audits at pricing_engine_*.csv (project root).")
+	else
+		log_world("Pricing engine: derived [length(GLOB.derived_sellprices)] prices, [length(missing_materials)] unique missing materials. (audit dumps disabled)")
+
+/proc/run_pricing_audits_runtime()
+	init_derived_sellprices(force_audits = TRUE)
+	rebuild_crafting_recipe_display_cache()
+
+/proc/dump_uncategorized_items_audit()
+	var/list/rows = list()
+	rows += csv_row(list("typepath", "name", "sellprice", "parent"))
+	var/uncategorized = 0
+	var/total = 0
+	for(var/obj/item/path as anything in subtypesof(/obj/item))
+		total++
+		if(GLOB.derived_categories && GLOB.derived_categories[path])
+			continue
+		uncategorized++
+		var/parent_str = "[type2parent(path)]"
+		rows += csv_row(list("[path]", initial(path.name), initial(path.sellprice), parent_str))
+	fdel("pricing_engine_uncategorized_audit.csv")
+	text2file(jointext(rows, "\n"), "pricing_engine_uncategorized_audit.csv")
+	log_world("Pricing engine: [uncategorized] / [total] item subtypes are uncategorized -> pricing_engine_uncategorized_audit.csv")
 
 /proc/dump_trade_good_audit(list/trade_good_lookup)
 	var/list/rows = list()
@@ -364,7 +387,54 @@ GLOBAL_LIST_EMPTY(item_cat_markups)
 			var/cooked_path = initial(raw_proto.cooked_type)
 			if(cooked_path && register_derived_price(cooked_path, derived, category))
 				new_derivations++
+	new_derivations += food_recipe_derive_pass(audit_lines, missing_materials, trade_good_lookup)
 	return new_derivations
+
+/proc/food_recipe_derive_pass(list/audit_lines, list/missing_materials, list/trade_good_lookup)
+	var/total_new = 0
+	var/list/recipe_paths = subtypesof(/datum/food_recipe)
+	for(var/iteration in 1 to PRICING_ENGINE_FOOD_RECIPE_MAX_PASSES)
+		var/this_pass = 0
+		for(var/datum/food_recipe/recipe_path as anything in recipe_paths)
+			var/base = initial(recipe_path.base_item)
+			var/result_path = initial(recipe_path.result_type)
+			if(!base || !result_path)
+				continue
+			if(trade_good_lookup && trade_good_lookup[result_path])
+				continue
+			if(GLOB.derived_sellprices[result_path])
+				continue
+			var/category = initial(recipe_path.display_category) || ITEM_CAT_FOODSTUFF_FRESH
+			var/list/local_missing = list()
+			var/list/breakdown = list()
+			var/material_cost = build_input_breakdown(base, 1, local_missing, breakdown)
+			var/list/ingredient_list = initial(recipe_path.ingredients)
+			if(islist(ingredient_list))
+				for(var/path in ingredient_list)
+					if(ispath(path, /datum/reagent))
+						continue
+					material_cost += build_input_breakdown(path, 1, local_missing, breakdown)
+			if(missing_materials)
+				for(var/m in local_missing)
+					if(!(m in missing_materials))
+						missing_materials += m
+			var/derived = derive_price_from_cost(material_cost, category, 1)
+			var/markup = GLOB.item_cat_markups[category] || PRICING_ENGINE_DEFAULT_MARKUP
+			if(audit_lines)
+				audit_lines += csv_row(list("food[iteration]", initial(recipe_path.name), "[result_path]", category, "", "[material_cost]", "[markup]", "1", "[derived]", jointext(breakdown, " + "), jointext(local_missing, ",")))
+			if(derived <= 0)
+				continue
+			if(register_derived_price(result_path, derived, category))
+				this_pass++
+				if(ispath(result_path, /obj/item/reagent_containers/food/snacks))
+					var/obj/item/reagent_containers/food/snacks/result_proto = result_path
+					var/cooked_path = initial(result_proto.cooked_type)
+					if(cooked_path && register_derived_price(cooked_path, derived, category))
+						this_pass++
+		total_new += this_pass
+		if(!this_pass)
+			break
+	return total_new
 
 /proc/build_input_breakdown(path, qty, list/missing_materials_log, list/breakdown)
 	var/unit_cost = recipe_material_cost_for(path, missing_materials_log)
@@ -477,6 +547,7 @@ GLOBAL_LIST_EMPTY(item_cat_markups)
 		"code/__DEFINES/pricing_defines.dm",
 		"code/__DEFINES/item_categories.dm",
 		"code/__DEFINES/trade_goods.dm",
+		"code/controllers/subsystem/rogue/cooking/cooking_recipes.dm",
 	)
 	for(var/path in source_files)
 		var/hash = rustg_hash_file(RUSTG_HASH_MD5, path)
@@ -524,6 +595,19 @@ GLOBAL_LIST_EMPTY(item_cat_markups)
 				sorted_reqs += "[p]=[CR.reqs[p]]"
 			reqs = jointext(sortList(sorted_reqs), ",")
 		recipe_keys += "c:[result_path]|[reqs]|[CR.display_category]"
+	for(var/datum/food_recipe/FR as anything in subtypesof(/datum/food_recipe))
+		var/base = initial(FR.base_item)
+		var/result_path = initial(FR.result_type)
+		if(!base || !result_path)
+			continue
+		var/ingr = ""
+		var/list/ingredient_list = initial(FR.ingredients)
+		if(islist(ingredient_list))
+			var/list/sorted_ingr = list()
+			for(var/p in ingredient_list)
+				sorted_ingr += "[p]"
+			ingr = jointext(sortList(sorted_ingr), ",")
+		recipe_keys += "f:[result_path]|[base]|[ingr]|[initial(FR.display_category)]"
 	parts += "recipes:[jointext(sortList(recipe_keys), "|")]"
 	var/list/sellprice_keys = list()
 	for(var/datum/anvil_recipe/AR as anything in GLOB.anvil_recipes)

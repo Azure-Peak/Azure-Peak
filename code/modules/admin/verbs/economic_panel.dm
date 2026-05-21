@@ -15,6 +15,19 @@ GLOBAL_DATUM_INIT(economic_panel, /datum/economic_panel, new)
 	var/filter_status = "all"
 	var/filter_search = ""
 	var/selected_ref
+	var/cached_uncategorized_count = -1
+	var/cached_total_item_count = -1
+
+/datum/economic_panel/proc/refresh_uncategorized_cache()
+	var/uncat = 0
+	var/total = 0
+	for(var/obj/item/path as anything in subtypesof(/obj/item))
+		total++
+		if(GLOB.derived_categories && GLOB.derived_categories[path])
+			continue
+		uncat++
+	cached_uncategorized_count = uncat
+	cached_total_item_count = total
 
 /datum/economic_panel/ui_state(mob/user)
 	if(user.client && check_rights_for(user.client, R_ADMIN|R_DEBUG))
@@ -245,6 +258,13 @@ GLOBAL_DATUM_INIT(economic_panel, /datum/economic_panel, new)
 			full_burned += E.amount
 	data["ledger_full_minted"] = full_minted
 	data["ledger_full_burned"] = full_burned
+
+	var/list/debug_data = list()
+	debug_data["derived_price_count"] = length(GLOB.derived_sellprices)
+	debug_data["categorized_count"] = length(GLOB.derived_categories)
+	debug_data["uncategorized_item_count"] = cached_uncategorized_count
+	debug_data["total_item_count"] = cached_total_item_count
+	data["debug"] = debug_data
 
 	return data
 
@@ -641,6 +661,78 @@ GLOBAL_DATUM_INIT(economic_panel, /datum/economic_panel, new)
 				SStreasury.poll_tax_advance_days[target] = (SStreasury.poll_tax_advance_days[target] || 0) + days
 				count++
 			admin_log_fiscal("bulk-added [days] advance days to [count] players", "Bulk Add Advance")
+			return TRUE
+		if("dump_pricing_audits")
+			run_pricing_audits_runtime()
+			refresh_uncategorized_cache()
+			admin_log_fiscal("re-ran pricing engine with audit dumps (CSVs at project root)", "Dump Pricing Audits")
+			to_chat(usr, span_notice("Pricing audit CSVs written to project root (pricing_engine_*.csv)."))
+			return TRUE
+		if("dump_uncategorized_items")
+			dump_uncategorized_items_audit()
+			refresh_uncategorized_cache()
+			admin_log_fiscal("dumped uncategorized item audit (project root)", "Dump Uncategorized")
+			to_chat(usr, span_notice("Wrote pricing_engine_uncategorized_audit.csv."))
+			return TRUE
+		if("refresh_debug_counts")
+			refresh_uncategorized_cache()
+			return TRUE
+		if("spawn_atoms_from_paste")
+			if(!check_rights_for(usr.client, R_SPAWN))
+				to_chat(usr, span_warning("You need +SPAWN permissions for this."))
+				return TRUE
+			var/raw = params["paste"]
+			if(!raw)
+				return TRUE
+			var/turf/T = get_turf(usr)
+			if(!T)
+				return TRUE
+			var/list/lines = splittext(raw, "\n")
+			var/spawned = 0
+			var/skipped = 0
+			for(var/line in lines)
+				var/trimmed = trim(line)
+				if(!length(trimmed))
+					continue
+				var/list/parts = splittext(trimmed, ":")
+				var/path_text = trim(parts[1])
+				var/amount = 1
+				if(parts.len > 1)
+					amount = CLAMP(text2num(parts[2]), 1, ADMIN_SPAWN_CAP)
+				var/chosen = pick_closest_path(path_text)
+				if(!chosen || !ispath(chosen, /atom))
+					skipped++
+					continue
+				for(var/i in 1 to amount)
+					var/atom/A = new chosen(T)
+					A.flags_1 |= ADMIN_SPAWNED_1
+					spawned++
+			admin_log_fiscal("paste-spawned [spawned] atoms ([skipped] lines skipped)", "Spawn From Paste")
+			return TRUE
+		if("spawn_all_subtypes")
+			if(!check_rights_for(usr.client, R_SPAWN))
+				to_chat(usr, span_warning("You need +SPAWN permissions for this."))
+				return TRUE
+			var/path_text = params["parent_path"]
+			if(!path_text)
+				return TRUE
+			var/parent_path = text2path(path_text)
+			if(!parent_path || !ispath(parent_path))
+				to_chat(usr, span_warning("Not a valid typepath: [path_text]"))
+				return TRUE
+			var/turf/T = get_turf(usr)
+			if(!T)
+				return TRUE
+			var/list/subs = subtypesof(parent_path)
+			if(!length(subs))
+				to_chat(usr, span_warning("No subtypes of [parent_path]."))
+				return TRUE
+			var/spawned = 0
+			for(var/atom/sub as anything in subs)
+				var/atom/A = new sub(T)
+				A.flags_1 |= ADMIN_SPAWNED_1
+				spawned++
+			admin_log_fiscal("spawned [spawned] subtypes of [parent_path]", "Spawn All Subtypes")
 			return TRUE
 
 /proc/admin_log_fiscal(detail, tally_label)
