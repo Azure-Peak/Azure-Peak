@@ -254,26 +254,36 @@
 			qdel(O)
 			needs_new_legs = TRUE
 
-	if(needs_new_legs)
-		var/obj/item/bodypart/N
-		N = new /obj/item/bodypart/l_leg
-		N.attach_limb(src)
+	// Short circuit the check for new legs and
+	// icon regeneration when you are not a taur
+	// Which is the majority of characters
+	if(!needs_new_legs)
+		return
 
-		N = new /obj/item/bodypart/r_leg
-		N.attach_limb(src)
+	var/obj/item/bodypart/N
+	N = new /obj/item/bodypart/l_leg
+	N.attach_limb(src)
+
+	N = new /obj/item/bodypart/r_leg
+	N.attach_limb(src)
 
 	// make sure we unapply our clipmasks
 	regenerate_icons()
 	set_resting(FALSE)
 
 /mob/living/carbon/proc/Taurize(taur_type = /obj/item/bodypart/taur/horse, color = "#ffffff")
+	// Same taur part short circuit to save on taurize cost because it occupies up to 8 - 9 ms out of a 20 ms call of preview
+	var/obj/item/bodypart/taur/existing = get_taur_tail()
+	if(existing && existing.type == taur_type && existing.taur_color == color)
+		return
+
 	for(var/X in bodyparts)
 		var/obj/item/bodypart/O = X
 		// drop taur tails too
 		if(O.body_part == LEG_LEFT || O.body_part == LEG_RIGHT || O.body_zone == BODY_ZONE_TAUR)
 			O.drop_limb(1)
 			qdel(O)
-	
+
 	var/obj/item/bodypart/taur/T = new taur_type()
 	T.taur_color = color
 	T.attach_limb(src)

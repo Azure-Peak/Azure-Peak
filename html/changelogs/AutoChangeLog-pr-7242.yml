@@ -1,0 +1,6 @@
+author: "Ketrai"
+delete-after: True
+changes:
+  - rscadd: "Chance to receive two herbs when picking herbs based on farming or alchemy skill, whichever is better."
+  - qol: "shucking wheat by hand now scans nearby tiles for more wheat to shuck."
+  - balance: "woodwalker no longer guarantees two herbs per plant, it is random now."

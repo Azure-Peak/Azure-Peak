@@ -43,6 +43,19 @@
 	craftdiff = 4
 	ignoredensity = TRUE
 
+/datum/crafting_recipe/roguetown/engineering/peddlercart
+	name = "peddler cart"
+	category = "Machines"
+	result = /obj/structure/roguemachine/vendor/mobile
+	reqs = list(
+		/obj/item/grown/log/tree/small = 1,
+		/obj/item/ingot/iron = 1,
+		/obj/item/natural/glass = 1,
+		/obj/item/roguegear = 2,
+	)
+	craftdiff = 4
+	skillcraft = /datum/skill/craft/engineering
+
 /datum/crafting_recipe/roguetown/engineering/lever
 	name = "lever"
 	category = "Triggers"

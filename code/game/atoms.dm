@@ -609,9 +609,26 @@
 	var/list/blood_dna = M.get_blood_dna_list()
 	if(!blood_dna)
 		return FALSE
+	var/source_color = M.get_blood_color() || BLOOD_COLOR_RED
+	if(ismob(src))
+		var/mob/recipient = src
+		recipient.bloody_hands_color = source_color
 	. = add_blood_DNA(blood_dna)
+	if(ismob(src))
+		var/mob/recipient = src
+		recipient.bloody_hands_color = source_color
+		if(ishuman(recipient))
+			var/mob/living/carbon/human/H = recipient
+			if(H.bloody_hands && !H.gloves)
+				H.update_inv_gloves()
+			if(H.shoes)
+				var/obj/item/clothing/shoes/S = H.shoes
+				if(istype(S))
+					var/datum/component/decal/blood/shoe_blood = S.GetComponent(/datum/component/decal/blood)
+					shoe_blood?.set_blood_color(source_color)
+					H.update_inv_shoes()
 	var/datum/component/decal/blood/B = GetComponent(/datum/component/decal/blood)
-	B?.set_blood_color(M.get_blood_color())
+	B?.set_blood_color(source_color)
 
 ///Called when gravity returns after floating I think
 /atom/proc/handle_fall()
@@ -1068,6 +1085,8 @@
 		if(LOG_ASAY)
 			log_adminsay(log_text)
 		if(LOG_OWNERSHIP)
+			log_game(log_text)
+		if(LOG_CRAFT)
 			log_game(log_text)
 		if(LOG_GAME)
 			log_game(log_text)

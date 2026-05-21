@@ -458,7 +458,7 @@
 		else
 			target.visible_message(span_notice("[user] feeds [target] some heartblood."), span_notice("[user] feeds you some heartblood."))
 		if(rot)
-			rot.remove_stack(67)
+			target.apply_status_effect(/datum/status_effect/buff/rot_cleansing, 67, 1)
 		target.apply_status_effect(/datum/status_effect/buff/invigoration, 10 SECONDS, 25, 15)
 		qdel(src)
 		return TRUE
@@ -474,7 +474,7 @@
 		else
 			target.visible_message(span_notice("[user] feeds [target] some heartblood."), span_notice("[user] feeds you some heartblood."))
 		if(rot)
-			rot.remove_stack(34)
+			target.apply_status_effect(/datum/status_effect/buff/rot_cleansing, 34, 1)
 		target.apply_status_effect(/datum/status_effect/buff/invigoration, 20 SECONDS, 25, 15)
 		qdel(src)
 		return TRUE

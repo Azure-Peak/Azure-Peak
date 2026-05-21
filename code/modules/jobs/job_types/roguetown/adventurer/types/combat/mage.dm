@@ -2,7 +2,7 @@
 	name = "Sorcerer"
 	tutorial = "You are a learned mage and a scholar, having spent your life studying the arcane and its ways."
 	allowed_sexes = list(MALE, FEMALE)
-	
+
 	outfit = /datum/outfit/job/roguetown/adventurer/mage
 	class_select_category = CLASS_CAT_MAGE
 	category_tags = list(CTAG_ADVENTURER, CTAG_COURTAGENT)
@@ -150,7 +150,7 @@
 
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat
 	backr = /obj/item/rogueweapon/shield/wood
-	
+
 	switch(subclass_selected)
 		if("blade")
 			var/weapons = list("Longsword", "Rapier", "Sabre", "Iron Arming Sword", "Shortsword", "Hwando", "Steel Dagger")
@@ -169,7 +169,15 @@
 					r_hand = /obj/item/rogueweapon/sword/short
 				if("Hwando")
 					r_hand = /obj/item/rogueweapon/sword/sabre/mulyeog
+					shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/eastshirt1
 					armor = /obj/item/clothing/suit/roguetown/armor/basiceast
+					wrists = null
+					gloves = /obj/item/clothing/gloves/roguetown/eastgloves1
+					neck = null
+					pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/eastpants1
+					head = /obj/item/clothing/head/roguetown/mentorhat
+					backr = null
+					beltr = /obj/item/rogueweapon/scabbard/sword/kazengun
 				if("Steel Dagger")
 					beltr = /obj/item/rogueweapon/huntingknife/idagger/steel
 			if(weapon_choice == "Steel Dagger")
@@ -188,6 +196,9 @@
 					r_hand = /obj/item/rogueweapon/spear/naginata
 					backr = /obj/item/rogueweapon/scabbard/gwstrap
 					armor = /obj/item/clothing/suit/roguetown/armor/basiceast
+					gloves = /obj/item/clothing/gloves/roguetown/eastgloves1
+					pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/eastpants1
+					head = /obj/item/clothing/head/roguetown/mentorhat
 			H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_JOURNEYMAN, TRUE)
 		if("macebearer")
 			var/mace_weapons = list("Mace", "Warhammer", "Goedendag", "Iron Axe", "Greataxe")
@@ -261,8 +272,7 @@
 	if(H.mind)
 		H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/vicious_mockery)
 		H.mind.AddSpell(new /datum/action/cooldown/spell/arcyne_forge)
-		H.mind.AddSpell(new /datum/action/cooldown/spell/conjure_instrument)
-		var/list/poke_options = list("Spitfire", "Frost Bolt", "Arc Bolt", "Greater Arcyne Bolt", "Stygian Efflorescence", "Arcyne Lance", "Lesser Gravel Blast")
+		var/list/poke_options = list("Spitfire", "Frost Bolt", "Arc Bolt", "Greater Arcyne Bolt", "Stygian Efflorescence", "Arcyne Lance", "Lesser Gravel Blast", "Lesser Soulshot")
 		var/poke_choice = input(H, "Choose your offensive cantrip.", "Arcyne Training") as anything in poke_options
 		switch(poke_choice)
 			if("Spitfire")
@@ -279,6 +289,8 @@
 				H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/arcyne_lance)
 			if("Lesser Gravel Blast")
 				H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/gravel_blast/lesser)
+			if("Lesser Soulshot")
+				H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/soulshot/lesser)
 	H.cmode_music = 'sound/music/cmode/adventurer/combat_outlander3.ogg'
 	switch(H.patron?.type)
 		if(/datum/patron/inhumen/zizo)
@@ -374,3 +386,51 @@
 			H.put_in_hands(new /obj/item/clothing/gloves/roguetown/knuckles/bronze(H))
 
 	H.cmode_music = 'sound/music/cmode/adventurer/combat_outlander3.ogg'
+
+/datum/advclass/mage/spellthief
+	name = "Arcyne Trickster"
+	tutorial = "You are an Arcyne Trickster, a thief and hooligan gifted in the arcyne arts."
+	outfit = /datum/outfit/job/roguetown/adventurer/spellthief
+	subclass_languages = list(/datum/language/thievescant)
+	cmode_music = 'sound/music/cmode/antag/combat_cutpurse.ogg'
+	traits_applied = list(TRAIT_ARCYNE)
+	subclass_mage_aspects = list("mastery" = FALSE, "major" = 0, "minor" = 2, "utilities" = 6)
+	subclass_stats = list(
+		STATKEY_INT = 2,
+		STATKEY_SPD = 2,
+		STATKEY_WIL = 1,
+	)
+	subclass_skills = list(
+		/datum/skill/misc/tracking = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/knives = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/combat/wrestling = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/combat/unarmed = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/climbing = SKILL_LEVEL_EXPERT,
+		/datum/skill/misc/reading = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/sneaking = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/stealing = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/lockpicking = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/craft/traps = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/magic/arcane = SKILL_LEVEL_APPRENTICE,
+	)
+
+/datum/outfit/job/roguetown/adventurer/spellthief/pre_equip(mob/living/carbon/human/H)
+	..()
+	to_chat(H, span_warning("You are an Arcyne Trickster, a thief and hooligan gifted in the arcyne arts."))
+	head = /obj/item/clothing/head/roguetown/witchhat/mageblue
+	pants = /obj/item/clothing/under/roguetown/trou/leather
+	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
+	cloak = /obj/item/clothing/cloak/raincloak/mageblue
+	backl = /obj/item/storage/backpack/rogue/satchel
+	belt = /obj/item/storage/belt/rogue/leather
+	shoes = /obj/item/clothing/shoes/roguetown/boots
+	neck = /obj/item/storage/belt/rogue/pouch/coins/poor
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
+	beltl = /obj/item/rogueweapon/scabbard/sheath
+	beltr = /obj/item/rogueweapon/huntingknife/idagger/steel
+	backpack_contents = list(/obj/item/flashlight/flare/torch = 1, /obj/item/chalk = 1, /obj/item/book/spellbook = 1)
+	if(H.mind)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/lesser_knock)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/waterbolt)

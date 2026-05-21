@@ -176,10 +176,15 @@
 
 	var/townie_contract_gate_exempt = FALSE
 
-/// Either flag exempts. Job-level is "this whole job has no town rotation" (Adventurer,
-/// Mercenary, Vagabond, Court Agent). Advclass-level is "this specific subclass deserves
-/// the exemption within an otherwise non-exempt job" (Hunter / Witch / Levy / Thug under
-/// Pilgrim). Pilgrim/Blacksmith etc. land at FALSE on both sides.
+	///
+	var/quest_claim_barred = FALSE
+
+/proc/is_quest_claim_barred(mob/user)
+	if(!user?.mind)
+		return FALSE
+	var/datum/job/J = user.job ? SSjob.GetJob(user.job) : null
+	return J?.quest_claim_barred ? TRUE : FALSE
+
 /proc/is_townie_contract_gate_exempt(mob/user)
 	if(!user?.mind)
 		return FALSE

@@ -1,0 +1,4 @@
+author: "SpringSkipper"
+delete-after: True
+changes:
+  - bugfix: "giltsilk belt now covers privates"

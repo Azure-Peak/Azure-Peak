@@ -16051,6 +16051,7 @@
 	dir = 8;
 	pixel_y = 4
 	},
+/obj/machinery/light/rogue/candle/r,
 /turf/open/floor/rogue/tile/brownbrick,
 /area/rogue/indoors/town/shop)
 "doV" = (
@@ -27183,8 +27184,17 @@
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors/rtfield)
 "fyq" = (
-/obj/machinery/light/rogue/candle,
 /obj/structure/fluff/railing/border,
+/obj/structure/roguemachine/vendor/mobile,
+/obj/item/roguekey/custom{
+	pixel_y = 32;
+	pixel_x = -6
+	},
+/obj/structure/rack/rogue/shelf,
+/obj/item/roguekey/custom{
+	pixel_y = 32;
+	pixel_x = 6
+	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/shop)
 "fyu" = (
@@ -65965,6 +65975,7 @@
 /area/rogue/indoors/town/garrison)
 "neO" = (
 /obj/structure/fluff/railing/border/north,
+/obj/structure/roguemachine/vendor/mobile,
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/shop)
 "neU" = (
@@ -74992,6 +75003,10 @@
 /area/rogue/under/cave/dungeon1/gethsmane/inner)
 "oRq" = (
 /obj/machinery/light/rogue/torchholder/r,
+/obj/structure/closet/crate/chest/crate,
+/obj/item/natural/bundle/bone/full,
+/obj/item/natural/bundle/bone/full,
+/obj/item/skull,
 /turf/open/floor/rogue/cobble,
 /area/rogue/indoors/town/church/basement)
 "oRx" = (
@@ -81660,10 +81675,6 @@
 	},
 /turf/open/floor/rogue/tile,
 /area/rogue/indoors/town/pestra_sanctum)
-"qia" = (
-/obj/effect/decal/cobbleedge,
-/turf/closed/wall/mineral/rogue/wooddark,
-/area/rogue/indoors/town/shop)
 "qid" = (
 /obj/structure/mineral_door/bars{
 	locked = 1;
@@ -111513,7 +111524,7 @@
 /area/rogue/under/cave/dungeon1/gethsmane/inner)
 "wej" = (
 /obj/machinery/light/rogue/candle,
-/turf/closed/wall/mineral/rogue/wooddark,
+/turf/open/floor/rogue/ruinedwood/herringbone,
 /area/rogue/indoors/town/shop)
 "wel" = (
 /obj/structure/stairs,
@@ -281005,7 +281016,7 @@ mze
 sAU
 exD
 lJF
-mPk
+llx
 arI
 arI
 arI
@@ -282813,7 +282824,7 @@ rKJ
 qpp
 exD
 xii
-llx
+mPk
 fyq
 doT
 neO
@@ -283265,12 +283276,12 @@ els
 sAU
 exD
 cVe
-qia
+mPk
+mPk
 eZd
 mPk
 mPk
 wej
-gca
 gca
 xMt
 jTP
