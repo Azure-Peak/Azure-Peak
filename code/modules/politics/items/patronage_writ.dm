@@ -52,7 +52,6 @@
 	user.visible_message(span_notice("[user] signs the roll."), \
 		span_notice("I'm an agent of [faction_label]."))
 	playsound(get_turf(user), 'sound/misc/gold_license.ogg', 60, FALSE, -1)
-	scom_announce(redemption_announcement(user))
 	log_admin("PATRONAGE GRANTED: [key_name(user)] enrolled as [granted_trait].")
 	qdel(src)
 
@@ -73,9 +72,6 @@
 /obj/item/patronage_writ/charter/grants_residency()
 	return TRUE
 
-/obj/item/patronage_writ/charter/redemption_announcement(mob/living/carbon/human/user)
-	return "[user.real_name] is chartered to the Azurian Trading Company."
-
 /obj/item/patronage_writ/token
 	name = "Token of the Bathhouse"
 	desc = "A sealed token of the Bathhouse. Claim it for agency."
@@ -84,9 +80,6 @@
 
 /obj/item/patronage_writ/token/get_roster()
 	return SStreasury?.bathhouse_agents
-
-/obj/item/patronage_writ/token/redemption_announcement(mob/living/carbon/human/user)
-	return "[user.real_name] is an agent of the Bathhouse."
 
 /obj/item/patronage_writ/benefactor
 	name = "Letter of Benefaction"
@@ -97,6 +90,3 @@
 
 /obj/item/patronage_writ/benefactor/get_roster()
 	return SStreasury?.church_agents
-
-/obj/item/patronage_writ/benefactor/redemption_announcement(mob/living/carbon/human/user)
-	return "[user.real_name] is named a Benefactor of the Church of Azuria."
