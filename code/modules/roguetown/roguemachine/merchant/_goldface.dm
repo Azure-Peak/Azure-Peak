@@ -378,8 +378,6 @@
 			"basic_sells" = pool_good_names(R.bulk_supply_pool, TRUE),
 			"rare_sells" = pool_good_names(R.bulk_supply_pool, FALSE),
 			"demanded_categories" = R.demanded_categories ? R.demanded_categories.Copy() : list(),
-			"favored_food" = R.favored_food_summary(),
-			"favored_alcohol" = R.favored_alcohol_summary(),
 		)
 		if(discovered)
 			var/list/condition_entries = list()

@@ -68,6 +68,52 @@ type Props = {
   onSendAway?: () => void;
 };
 
+type DemandGroup = 'goods' | 'food' | 'drinks';
+
+const DEMAND_GROUP_ORDER: DemandGroup[] = ['goods', 'food', 'drinks'];
+
+const DEMAND_GROUP_LABEL: Record<DemandGroup, string> = {
+  goods: 'Goods',
+  food: 'Food',
+  drinks: 'Drinks',
+};
+
+const tagToDemandGroup = (tag?: string): DemandGroup => {
+  if (tag === 'victualling_drinks') {
+    return 'drinks';
+  }
+  if (tag === 'victualling_fresh' || tag === 'victualling_preserved') {
+    return 'food';
+  }
+  return 'goods';
+};
+
+const DemandGroupDivider = (props: { label: string }) => (
+  <div
+    style={{
+      display: 'flex',
+      alignItems: 'center',
+      gap: '6px',
+      margin: '6px 0 2px',
+    }}
+  >
+    <div style={{ flex: 1, borderTop: `1px dashed ${PARCHMENT_SHADOW}` }} />
+    <span
+      style={{
+        color: SEAL_AMBER,
+        fontFamily: SERIF,
+        fontVariant: 'small-caps',
+        fontWeight: 'bold',
+        fontSize: FONT_SMALL,
+        letterSpacing: '1px',
+      }}
+    >
+      {props.label}
+    </span>
+    <div style={{ flex: 1, borderTop: `1px dashed ${PARCHMENT_SHADOW}` }} />
+  </div>
+);
+
 const DemandLineRow = (props: { line: BulkLine }) => {
   const { line } = props;
   const done = line.qty_fulfilled >= line.qty_target;
@@ -323,9 +369,29 @@ export const ShipRow = (props: Props) => {
               Buying
             </div>
             {ship.bulk_demands?.length ? (
-              ship.bulk_demands.map((line) => (
-                <DemandLineRow key={`d-${line.good}`} line={line} />
-              ))
+              (() => {
+                const grouped: Record<DemandGroup, BulkLine[]> = {
+                  goods: [],
+                  food: [],
+                  drinks: [],
+                };
+                for (const line of ship.bulk_demands) {
+                  grouped[tagToDemandGroup(line.tag)].push(line);
+                }
+                return DEMAND_GROUP_ORDER.filter(
+                  (g) => grouped[g].length > 0,
+                ).map((g) => (
+                  <div key={g}>
+                    <DemandGroupDivider label={DEMAND_GROUP_LABEL[g]} />
+                    {grouped[g].map((line, i) => (
+                      <DemandLineRow
+                        key={`d-${g}-${line.good || line.good_name}-${i}`}
+                        line={line}
+                      />
+                    ))}
+                  </div>
+                ));
+              })()
             ) : (
               <div style={{ color: INK_FAINT, fontSize: FONT_SMALL, fontStyle: 'italic' }}>
                 Nothing wanted.

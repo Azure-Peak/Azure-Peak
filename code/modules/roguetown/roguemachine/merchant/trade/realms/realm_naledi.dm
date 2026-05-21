@@ -72,12 +72,11 @@
 		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/crackerscooked, "qty_min" = VICTUALLING_QTY_HUGE_MIN, "qty_max" = VICTUALLING_QTY_HUGE_MAX, "price" = VICTUALLING_PRICE_HARDTACK),
 		list("typepath" = /obj/item/reagent_containers/food/snacks/roastseeds, "qty_min" = VICTUALLING_QTY_LARGE_MIN, "qty_max" = VICTUALLING_QTY_LARGE_MAX, "price" = VICTUALLING_PRICE_BREAD),
 	)
-	victualling_alcohol_pool = list(
-		list("recipe" = /datum/brewing_recipe/aqua_vitae, "qty_min" = VICTUALLING_QTY_MEDIUM_MIN, "qty_max" = VICTUALLING_QTY_MEDIUM_MAX),
-		list("recipe" = /datum/brewing_recipe/liquor, "qty_min" = VICTUALLING_QTY_MEDIUM_MIN, "qty_max" = VICTUALLING_QTY_MEDIUM_MAX),
+	victualling_drinks_pool = list(
 		list("recipe" = /datum/brewing_recipe/tangerine_wine, "qty_min" = VICTUALLING_QTY_SMALL_MIN, "qty_max" = VICTUALLING_QTY_SMALL_MAX),
-		list("recipe" = /datum/brewing_recipe/rum, "qty_min" = VICTUALLING_QTY_SMALL_MIN, "qty_max" = VICTUALLING_QTY_SMALL_MAX),
-		list("recipe" = /datum/brewing_recipe/mead, "qty_min" = VICTUALLING_QTY_TINY_MIN, "qty_max" = VICTUALLING_QTY_TINY_MAX),
+		list("recipe" = /datum/brewing_recipe/golden_calendula_tea, "qty_min" = VICTUALLING_QTY_MEDIUM_MIN, "qty_max" = VICTUALLING_QTY_MEDIUM_MAX),
+		list("recipe" = /datum/brewing_recipe/soothing_valerian_tea, "qty_min" = VICTUALLING_QTY_SMALL_MIN, "qty_max" = VICTUALLING_QTY_SMALL_MAX),
+		list("recipe" = /datum/brewing_recipe/fermentedcrab, "qty_min" = VICTUALLING_QTY_TINY_MIN, "qty_max" = VICTUALLING_QTY_TINY_MAX),
 	)
 	cultural_stock_pool = list(
 		/datum/supply_pack/rogue/gems/turq,

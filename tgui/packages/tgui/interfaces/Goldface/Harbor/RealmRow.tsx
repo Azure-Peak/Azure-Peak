@@ -10,12 +10,7 @@ import {
   SEAL_RED,
   SERIF,
 } from '../../common/parchment';
-import type {
-  FavoredAlcoholEntry,
-  FavoredFoodEntry,
-  HarborRealm,
-  MarketCondition,
-} from '../types';
+import type { HarborRealm, MarketCondition } from '../types';
 
 const Unknown = () => (
   <span style={{ color: INK_FAINT, fontStyle: 'italic' }}>UNKNOWN</span>
@@ -95,37 +90,6 @@ const GoodPill = (props: { name: string; rare: boolean; color: string }) => {
       }}
     >
       {name}
-    </span>
-  );
-};
-
-const ProvisionPill = (props: {
-  name: string;
-  tier: string;
-  price: number;
-  color: string;
-}) => {
-  const { name, tier, price, color } = props;
-  return (
-    <span
-      title={`${tier} order - ${price}m each`}
-      style={{
-        display: 'inline-block',
-        padding: '0px 5px',
-        marginRight: '3px',
-        marginBottom: '2px',
-        border: `1px solid ${color}`,
-        borderRadius: '3px',
-        color: color,
-        background: 'rgba(255,248,220,0.5)',
-        fontSize: '10px',
-        whiteSpace: 'nowrap',
-      }}
-    >
-      {name}{' '}
-      <span style={{ color: INK_FAINT, fontStyle: 'italic' }}>
-        ({tier})
-      </span>
     </span>
   );
 };
@@ -247,7 +211,7 @@ export const RealmRow = (props: { realm: HarborRealm }) => {
                   <GoodPill
                     key={`br-${g}`}
                     name={g}
-                    rare={true}
+                    rare
                     color={SEAL_GREEN}
                   />
                 ))}
@@ -272,7 +236,7 @@ export const RealmRow = (props: { realm: HarborRealm }) => {
                   <GoodPill
                     key={`sr-${g}`}
                     name={g}
-                    rare={true}
+                    rare
                     color={SEAL_RED}
                   />
                 ))}
@@ -290,58 +254,6 @@ export const RealmRow = (props: { realm: HarborRealm }) => {
             background: 'rgba(255,248,220,0.3)',
           }}
         >
-          {(realm.favored_food?.length ?? 0) > 0 && (
-            <div style={{ marginBottom: '8px' }}>
-              <div
-                style={{
-                  color: SEAL_GREEN,
-                  fontStyle: 'italic',
-                  fontWeight: 'bold',
-                  marginBottom: '4px',
-                }}
-              >
-                Favored Food:
-              </div>
-              <div style={{ lineHeight: '1.6' }}>
-                {realm.favored_food.map((entry: FavoredFoodEntry) => (
-                  <ProvisionPill
-                    key={`f-${entry.name}`}
-                    name={entry.name}
-                    tier={entry.qty_tier}
-                    price={entry.price}
-                    color={
-                      entry.kind === 'preserved' ? INK_SOFT : SEAL_GREEN
-                    }
-                  />
-                ))}
-              </div>
-            </div>
-          )}
-          {(realm.favored_alcohol?.length ?? 0) > 0 && (
-            <div style={{ marginBottom: '8px' }}>
-              <div
-                style={{
-                  color: SEAL_AMBER,
-                  fontStyle: 'italic',
-                  fontWeight: 'bold',
-                  marginBottom: '4px',
-                }}
-              >
-                Favored Alcohol:
-              </div>
-              <div style={{ lineHeight: '1.6' }}>
-                {realm.favored_alcohol.map((entry: FavoredAlcoholEntry) => (
-                  <ProvisionPill
-                    key={`a-${entry.name}`}
-                    name={entry.name}
-                    tier={entry.qty_tier}
-                    price={entry.price}
-                    color={SEAL_AMBER}
-                  />
-                ))}
-              </div>
-            </div>
-          )}
           {realm.cultural_pack_names.length > 0 && (
             <div style={{ marginBottom: '8px' }}>
               <div

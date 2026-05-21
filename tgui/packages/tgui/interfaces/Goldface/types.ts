@@ -8,6 +8,7 @@ export type BulkLine = {
   qty_target: number;
   qty_fulfilled: number;
   offered_price: number;
+  tag?: string;
 };
 
 export type HarborShip = {
@@ -46,23 +47,6 @@ export type MarketCondition = {
   tone?: 'good' | 'bad' | 'neutral';
 };
 
-export type FavoredFoodEntry = {
-  name: string;
-  qty_tier: string;
-  qty_min: number;
-  qty_max: number;
-  price: number;
-  kind: 'fresh' | 'preserved';
-};
-
-export type FavoredAlcoholEntry = {
-  name: string;
-  qty_tier: string;
-  qty_min: number;
-  qty_max: number;
-  price: number;
-};
-
 export type HarborRealm = {
   id: string;
   name: string;
@@ -74,8 +58,6 @@ export type HarborRealm = {
   basic_sells: string[];
   rare_sells: string[];
   demanded_categories: string[];
-  favored_food: FavoredFoodEntry[];
-  favored_alcohol: FavoredAlcoholEntry[];
   market_conditions?: MarketCondition[];
 };
 

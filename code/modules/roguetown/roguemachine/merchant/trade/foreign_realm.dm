@@ -23,7 +23,7 @@
 	var/list/cultural_overrides = list()
 	var/list/victualling_fresh_pool = list()
 	var/list/victualling_preserved_pool = list()
-	var/list/victualling_alcohol_pool = list()
+	var/list/victualling_drinks_pool = list()
 	var/list/hail_lines = list()
 
 /datum/foreign_realm/proc/pick_ship_type()
@@ -134,68 +134,9 @@
 		var/atom/A = entry["typepath"]
 		if(A)
 			parts += initial(A.name)
-	for(var/list/entry as anything in victualling_alcohol_pool)
+	for(var/list/entry as anything in victualling_drinks_pool)
 		var/datum/brewing_recipe/recipe = entry["recipe"]
 		if(recipe)
 			parts += initial(recipe.bottle_name)
 	return english_list(parts, "nothing in particular")
 
-/proc/victualling_qty_tier_label(qmin, qmax)
-	if(qmin == VICTUALLING_QTY_TINY_MIN && qmax == VICTUALLING_QTY_TINY_MAX)
-		return VICTUALLING_QTY_TIER_TINY
-	if(qmin == VICTUALLING_QTY_SMALL_MIN && qmax == VICTUALLING_QTY_SMALL_MAX)
-		return VICTUALLING_QTY_TIER_SMALL
-	if(qmin == VICTUALLING_QTY_MEDIUM_MIN && qmax == VICTUALLING_QTY_MEDIUM_MAX)
-		return VICTUALLING_QTY_TIER_MEDIUM
-	if(qmin == VICTUALLING_QTY_LARGE_MIN && qmax == VICTUALLING_QTY_LARGE_MAX)
-		return VICTUALLING_QTY_TIER_LARGE
-	if(qmin == VICTUALLING_QTY_HUGE_MIN && qmax == VICTUALLING_QTY_HUGE_MAX)
-		return VICTUALLING_QTY_TIER_HUGE
-	return "[qmin]-[qmax]"
-
-/datum/foreign_realm/proc/favored_food_summary()
-	var/list/out = list()
-	for(var/list/entry as anything in victualling_fresh_pool)
-		var/atom/A = entry["typepath"]
-		if(!A)
-			continue
-		out += list(list(
-			"name" = initial(A.name),
-			"qty_tier" = victualling_qty_tier_label(entry["qty_min"], entry["qty_max"]),
-			"qty_min" = entry["qty_min"],
-			"qty_max" = entry["qty_max"],
-			"price" = entry["price"],
-			"kind" = "fresh",
-		))
-	for(var/list/entry as anything in victualling_preserved_pool)
-		var/atom/A = entry["typepath"]
-		if(!A)
-			continue
-		out += list(list(
-			"name" = initial(A.name),
-			"qty_tier" = victualling_qty_tier_label(entry["qty_min"], entry["qty_max"]),
-			"qty_min" = entry["qty_min"],
-			"qty_max" = entry["qty_max"],
-			"price" = entry["price"],
-			"kind" = "preserved",
-		))
-	return out
-
-/datum/foreign_realm/proc/favored_alcohol_summary()
-	var/list/out = list()
-	for(var/list/entry as anything in victualling_alcohol_pool)
-		var/datum/brewing_recipe/recipe = entry["recipe"]
-		if(!recipe)
-			continue
-		var/brewed_amount = max(1, initial(recipe.brewed_amount))
-		var/per_bottle_base = round(initial(recipe.sell_value) / brewed_amount)
-		var/price_mod = entry["price_mod"] || 1.0
-		var/offered_price = max(1, round(per_bottle_base * TRADE_ALCOHOL_EXPORT_MARKUP * price_mod))
-		out += list(list(
-			"name" = initial(recipe.bottle_name),
-			"qty_tier" = victualling_qty_tier_label(entry["qty_min"], entry["qty_max"]),
-			"qty_min" = entry["qty_min"],
-			"qty_max" = entry["qty_max"],
-			"price" = offered_price,
-		))
-	return out

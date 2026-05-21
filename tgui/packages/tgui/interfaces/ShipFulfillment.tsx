@@ -40,13 +40,13 @@ type Data = {
 
 const TAG_VICTUALLING_FRESH = 'victualling_fresh';
 const TAG_VICTUALLING_PRESERVED = 'victualling_preserved';
-const TAG_VICTUALLING_ALCOHOL = 'victualling_alcohol';
+const TAG_VICTUALLING_DRINKS = 'victualling_drinks';
 
 const SUBSECTION_LABELS: Record<string, string> = {
   bulk: 'Bulk Trade',
   [TAG_VICTUALLING_FRESH]: 'Victualling - Fresh',
   [TAG_VICTUALLING_PRESERVED]: 'Victualling - Preserved',
-  [TAG_VICTUALLING_ALCOHOL]: 'Victualling - Alcohol',
+  [TAG_VICTUALLING_DRINKS]: 'Victualling - Drinks',
 };
 
 const SUBSECTION_HINT: Record<string, string> = {
@@ -55,7 +55,7 @@ const SUBSECTION_HINT: Record<string, string> = {
     'Crew shore-leave provisions. Each line caps low - no dumping.',
   [TAG_VICTUALLING_PRESERVED]:
     'Voyage hardtack and salted stores. Each line caps low - no dumping.',
-  [TAG_VICTUALLING_ALCOHOL]:
+  [TAG_VICTUALLING_DRINKS]:
     'Sealed brewer bottles only. Uncorked stock is refused.',
 };
 
@@ -63,15 +63,47 @@ const SUBSECTION_ORDER = [
   'bulk',
   TAG_VICTUALLING_FRESH,
   TAG_VICTUALLING_PRESERVED,
-  TAG_VICTUALLING_ALCOHOL,
+  TAG_VICTUALLING_DRINKS,
 ];
 
-const SUBSECTION_GROUP: Record<string, 'goods' | 'food' | 'alcohol'> = {
+const SUBSECTION_GROUP: Record<string, 'goods' | 'food' | 'drinks'> = {
   bulk: 'goods',
   [TAG_VICTUALLING_FRESH]: 'food',
   [TAG_VICTUALLING_PRESERVED]: 'food',
-  [TAG_VICTUALLING_ALCOHOL]: 'alcohol',
+  [TAG_VICTUALLING_DRINKS]: 'drinks',
 };
+
+const GROUP_LABEL: Record<'goods' | 'food' | 'drinks', string> = {
+  goods: 'Goods',
+  food: 'Food',
+  drinks: 'Drinks',
+};
+
+const GroupDivider = (props: { label: string }) => (
+  <div
+    style={{
+      display: 'flex',
+      alignItems: 'center',
+      gap: '8px',
+      margin: '10px 0 4px',
+    }}
+  >
+    <div style={{ flex: 1, borderTop: `1px dashed ${PARCHMENT_SHADOW}` }} />
+    <span
+      style={{
+        color: SEAL_AMBER,
+        fontFamily: SERIF,
+        fontVariant: 'small-caps',
+        fontWeight: 'bold',
+        fontSize: '12px',
+        letterSpacing: '2px',
+      }}
+    >
+      {props.label}
+    </span>
+    <div style={{ flex: 1, borderTop: `1px dashed ${PARCHMENT_SHADOW}` }} />
+  </div>
+);
 
 const LineRow = (props: { line: DemandLine; cutPercent: number }) => {
   const { line, cutPercent } = props;
@@ -208,21 +240,14 @@ const ManifestSection = (props: {
         const renderable = SUBSECTION_ORDER.filter(
           (tag) => (grouped[tag] || []).length > 0,
         );
-        let lastGroup: string | null = null;
+        let lastGroup: 'goods' | 'food' | 'drinks' | null = null;
         return renderable.map((tag) => {
           const group = SUBSECTION_GROUP[tag];
-          const insertDivider = lastGroup !== null && group !== lastGroup;
+          const insertDivider = group !== lastGroup;
           lastGroup = group;
           return (
             <div key={tag}>
-              {insertDivider && (
-                <div
-                  style={{
-                    margin: '8px 0 4px',
-                    borderTop: `1px solid ${PARCHMENT_SHADOW}`,
-                  }}
-                />
-              )}
+              {insertDivider && <GroupDivider label={GROUP_LABEL[group]} />}
               <Subsection
                 tag={tag}
                 lines={grouped[tag] || []}

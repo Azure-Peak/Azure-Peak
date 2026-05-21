@@ -61,8 +61,7 @@ export const Goldface = () => {
       activeTab === 'management' ||
       activeTab === 'ledger') &&
     !canSeeMerchantTabs
-  )
-    activeTab = 'goods';
+  ) activeTab = 'goods';
 
   return (
     <Window width={1100} height={800} theme="parchment">

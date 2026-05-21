@@ -59,7 +59,7 @@
 		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/preserved/rice_cooked, "qty_min" = VICTUALLING_QTY_LARGE_MIN, "qty_max" = VICTUALLING_QTY_LARGE_MAX, "price" = VICTUALLING_PRICE_BREAD),
 		list("typepath" = /obj/item/reagent_containers/food/snacks/rogue/crackerscooked, "qty_min" = VICTUALLING_QTY_HUGE_MIN, "qty_max" = VICTUALLING_QTY_HUGE_MAX, "price" = VICTUALLING_PRICE_HARDTACK),
 	)
-	victualling_alcohol_pool = list(
+	victualling_drinks_pool = list(
 		list("recipe" = /datum/brewing_recipe/plum_wine, "qty_min" = VICTUALLING_QTY_TINY_MIN, "qty_max" = VICTUALLING_QTY_TINY_MAX),
 		list("recipe" = /datum/brewing_recipe/liquor/ricespirit, "qty_min" = VICTUALLING_QTY_TINY_MIN, "qty_max" = VICTUALLING_QTY_TINY_MAX),
 		list("recipe" = /datum/brewing_recipe/whipwine, "qty_min" = VICTUALLING_QTY_SMALL_MIN, "qty_max" = VICTUALLING_QTY_SMALL_MAX),

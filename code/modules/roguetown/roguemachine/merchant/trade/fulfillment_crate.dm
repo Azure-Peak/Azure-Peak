@@ -168,7 +168,7 @@
 	var/list/dish_match = find_dish_match(I.type)
 	if(dish_match)
 		var/list/dish_line = dish_match["line"]
-		if(dish_line["tag"] == TRADE_VICTUALLING_TAG_ALCOHOL)
+		if(dish_line["tag"] == TRADE_VICTUALLING_TAG_DRINKS)
 			var/obj/item/reagent_containers/glass/bottle/brewing_bottle/B = I
 			if(!istype(B) || !B.sealed)
 				if(message)

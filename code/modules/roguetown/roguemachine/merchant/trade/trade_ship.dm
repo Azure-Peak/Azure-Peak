@@ -97,8 +97,8 @@
 	bulk_demands += build_victualling_lines(realm.victualling_fresh_pool, n_fresh, TRADE_VICTUALLING_TAG_FRESH)
 	var/n_preserved = rand(TRADE_VICTUALLING_PRESERVED_LINES_MIN, TRADE_VICTUALLING_PRESERVED_LINES_MAX)
 	bulk_demands += build_victualling_lines(realm.victualling_preserved_pool, n_preserved, TRADE_VICTUALLING_TAG_PRESERVED)
-	var/n_alcohol = rand(TRADE_VICTUALLING_ALCOHOL_LINES_MIN, TRADE_VICTUALLING_ALCOHOL_LINES_MAX)
-	bulk_demands += build_alcohol_lines(realm.victualling_alcohol_pool, n_alcohol)
+	var/n_drinks = rand(TRADE_VICTUALLING_DRINKS_LINES_MIN, TRADE_VICTUALLING_DRINKS_LINES_MAX)
+	bulk_demands += build_drinks_lines(realm.victualling_drinks_pool, n_drinks)
 
 /datum/trade_ship/proc/build_victualling_lines(list/pool, n_lines, tag)
 	var/list/result = list()
@@ -126,7 +126,7 @@
 	return result
 
 
-/datum/trade_ship/proc/build_alcohol_lines(list/pool, n_lines)
+/datum/trade_ship/proc/build_drinks_lines(list/pool, n_lines)
 	var/list/result = list()
 	if(!length(pool) || n_lines <= 0)
 		return result
@@ -143,7 +143,7 @@
 		var/brewed_amount = max(1, initial(recipe.brewed_amount))
 		var/per_bottle_base = round(initial(recipe.sell_value) / brewed_amount)
 		var/price_mod = entry["price_mod"] || 1.0
-		var/offered_price = max(1, round(per_bottle_base * TRADE_ALCOHOL_EXPORT_MARKUP * price_mod))
+		var/offered_price = max(1, round(per_bottle_base * TRADE_DRINKS_EXPORT_MARKUP * price_mod))
 		var/qty = round(rand(entry["qty_min"] || TRADE_VICTUALLING_QTY_PER_LINE_MIN, entry["qty_max"] || TRADE_VICTUALLING_QTY_PER_LINE_MAX) * tonnage_scale_mult())
 		result += list(list(
 			"typepath" = "[typepath]",
@@ -151,7 +151,7 @@
 			"qty_target" = max(1, qty),
 			"qty_fulfilled" = 0,
 			"offered_price" = offered_price,
-			"tag" = TRADE_VICTUALLING_TAG_ALCOHOL,
+			"tag" = TRADE_VICTUALLING_TAG_DRINKS,
 		))
 	return result
 
